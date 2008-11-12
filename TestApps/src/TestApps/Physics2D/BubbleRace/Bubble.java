@@ -14,6 +14,7 @@ import bfg.world.surface.*;
  */
 public class Bubble extends FrictionRobot implements Steppable, ForceGenerator
 {	
+	
 	public Effector e1;
 	public Effector e2;
 	
