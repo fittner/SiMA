@@ -1,0 +1,80 @@
+
+Info um Mason & Co zu installieren:
+
+History:
+
+- 2008-11-10 ... Initial File (Clemens)
+- 
+
+
+
+
+
+1. Aufbau Filesystem:
+
+SVN Rep wird auf ein Verzeichnis auf der Platte gelegt.
+zB C:\Work\SVN\ARS (ARS ist das SVN Root für die Development Dateien!)
+dann mit "subst S: C:\Work\SVN\" LW S: erstellen
+
+damit sollte S: so aussehen...   S:\ARS\PA\BFG30...
+
+
+2. Aufbau Projekte:
+
+S:\ARS\PA\BFG30 ... ist der Eclipse Workspace, der alle Projekte enthällt
+
+S:\ARS\PA\BFG30\BFG ... ist das Development Verzeichnis des BubbleFamilyGames
+
+S:\ARS\PA\BFG30\ExtTools ...Externe Tools wie StateChart-Editor, etc
+
+S:\ARS\PA\BFG30\TestApps ... Spielwiese für Mason-Begeisterte
+
+S:\ARS\PA\BFG30\Mason ... ist das Mason Development Verz.
+--> derzeit Version v13
+
+S:\ARS\PA\BFG30\Mason\lib ... enthällt alle optionalen libraries (siehe Mason einrichten)
+
+
+4. Mason Projekt einrichten:
+
+Link zu einem guten SetUp für Mason in Eclipse Dokument: 
+http://www.swarm.org/images/1/10/How-to_set_up_%26_use_Eclipse_with_Mason.pdf
+
+Nachdem das Mason Projekt richtig angelegt ist, die externen libs als external JARs in Eclipse hinzufügen:
+
+Files von der MASOn HP: http://cs.gmu.edu/~eclab/projects/mason/
+-jcommon-1.0.0.jar
+-jfreechart-1.0.1.jar
+-itext-1.2.jar
+-jmf.jar
+
+Files der Java 3D 1.5.1 API (wenn es nicht geht, dann einfach die Java3D API installieren von der SUN HP)
+-j3dcore.jar
+-j3dutils.jar
+-vecmath.jar
+
+
+5. Mason Physics einrichten:
+
+von Mason HP runterladen
+in Verzeichnisstruktur importieren (wie zB im Mason Setup Dokument gezeigt)
+
+Mason Projekt als Referenz hinzufügen
+
+
+6. BFG einrichten
+
+Mason Projekt als Referenz hinzufügen
+MasonPhysics2D Projekt als Referenz hinzufügen
+
+
+7. Vorgehensweise bei Änderungen in MASON & MASONPhysics2D
+
+es gibt 2 Projekte:
+ARSMason
+ARSMasonPhysics2D
+
+diese sind derzeit leer, dort sollen Änderungen der Mason Engine vorgenommen werden wenn Bedarf besteht.
+
+
+---EOL---
