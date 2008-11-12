@@ -4,7 +4,7 @@ Info um Mason & Co zu installieren:
 History:
 
 - 2008-11-10 ... Initial File (Clemens)
-- 
+- 2008-12-10 ... Umgebung einrichten & Subversive Infos hinzugekommen
 
 
 
@@ -75,6 +75,26 @@ ARSMason
 ARSMasonPhysics2D
 
 diese sind derzeit leer, dort sollen Änderungen der Mason Engine vorgenommen werden wenn Bedarf besteht.
+
+
+8. Umgebung einrichten:
+
+Eclipse starten:
+
+Workspace directory = S:\ARS\PA\BFG30
+
+- Subversive installieren:
+
+Subversive installation instructions:
+http://www.eclipse.org/subversive/documentation/gettingStarted/aboutSubversive/install.php
+
+Link zu connectors
+http://www.polarion.org/projects/subversive/download/eclipse/2.0/update-site/
+
+
+SVN Link:
+svn+ssh://vesta.ict.tuwien.ac.at/home/prj/ARS/SVNRoot/SVNRepository/ARS/PA
+
 
 
 ---EOL---
