@@ -88,6 +88,8 @@ Workspace directory = S:\ARS\PA\BFG30
 Subversive installation instructions:
 http://www.eclipse.org/subversive/documentation/gettingStarted/aboutSubversive/install.php
 
+Nur der "Subversive SVN Team Provider" wird gebraucht.
+
 Link zu connectors
 http://www.polarion.org/projects/subversive/download/eclipse/2.0/update-site/
 
