@@ -28,6 +28,7 @@ public class BubbleRaceWithUI extends GUIState
 	ContinuousPortrayal2D entityPortrayal = new ContinuousPortrayal2D();
 	FastValueGridPortrayal2D surfacePortrayal = new FastValueGridPortrayal2D(true);
 	
+	// S:\ARS\PA\BFG30\TestApps\src\TestApps\Physics2D\BubbleRace\BubbleRaceWorld.xml
 	public static void main(String[] args)
 	{
 		BubbleRaceWithUI simBubbleRace = new BubbleRaceWithUI();
