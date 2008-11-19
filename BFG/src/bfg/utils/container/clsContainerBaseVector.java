@@ -3,7 +3,7 @@
 //
 
 // Belongs to package
-package pkgToolsContainer;
+package bfg.utils.container;
 
 // Imports
 import java.util.Vector;

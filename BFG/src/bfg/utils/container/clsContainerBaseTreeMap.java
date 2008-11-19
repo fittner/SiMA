@@ -3,10 +3,10 @@
 //
 
 // Belongs to package
-package pkgToolsContainer;
+package bfg.utils.container;
 
 // Imports
-import pkgTools.clsMutableInteger;
+import bfg.utils.datatypes.clsMutableInteger;
 import java.util.TreeMap;
 import java.util.Set;
 import java.util.Iterator;
