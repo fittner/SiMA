@@ -3,10 +3,12 @@ Info um Mason & Co zu installieren:
 
 History:
 
-- 2008-11-10 ... Initial File (Clemens)
-- 2008-12-10 ... Umgebung einrichten & Subversive Infos hinzugekommen
+- 2008-11-13 ... Punkt 8 überarbeitet (CM)
+- 2008-11-11 ... Umgebung einrichten & Subversive Infos hinzugekommen (CM)
+- 2008-11-10 ... Initial File (CM)
 
 
+ACHTUNG: für Entwickler die sich alles aus dem Repository holen, beginnt es erst bei Punkt 8.
 
 
 
