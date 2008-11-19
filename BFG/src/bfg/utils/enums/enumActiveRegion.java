@@ -3,10 +3,9 @@
 //
 
 // Belongs to package
-package pkgEnum;
+package bfg.utils.enums;
 
 // Imports
-import com.xj.anylogic.*;
 
 // Class definition
 public class enumActiveRegion extends enumClass {

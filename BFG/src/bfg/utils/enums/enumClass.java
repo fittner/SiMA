@@ -3,10 +3,10 @@
 //
 
 // Belongs to package
-package pkgEnum;
+package bfg.utils.enums;
 
 // Imports
-import pkgTools.clsCloneable;
+import bfg.utils.datatypes.clsCloneable;
 
 /**
  *

@@ -1,6 +1,6 @@
 // File enumGUIElement.java
 // Belongs to package
-package pkgEnum;
+package bfg.utils.enums;
 
 // Imports
 
