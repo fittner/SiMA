@@ -3,11 +3,10 @@
 //
 
 // Belongs to package
-package pkgTools;
+package bfg.utils.datatypes;
 
 // Imports
 import java.awt.Color;
-import java.io.Serializable;
 
 /**
  *
@@ -18,7 +17,7 @@ import java.io.Serializable;
  * $Date: 2007-05-31 10:56:07 +0200 (Do, 31 Mai 2007) $: Date of last commit
  *
  */
-public class clsId implements Serializable, java.lang.Comparable {
+public class clsId implements java.lang.Comparable {
   public int mnTeamId;
   public int mnEntityId;
 

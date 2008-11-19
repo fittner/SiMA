@@ -3,10 +3,9 @@
 //
 
 // Belongs to package
-package pkgTools;
+package bfg.utils.datatypes;
 
 // Imports
-import java.io.Serializable;
 
 /**
  *
@@ -17,7 +16,7 @@ import java.io.Serializable;
  * $Date: 2007-05-31 10:56:07 +0200 (Do, 31 Mai 2007) $: Date of last commit
  *
  */
-abstract class clsValueFuzzy extends clsCloneable implements Serializable {
+abstract class clsValueFuzzy extends clsCloneable {
   float mrMinValue = 0;
   float mrMaxValue = 0;
   float mrSigma = 0;
@@ -129,8 +128,8 @@ abstract class clsValueFuzzy extends clsCloneable implements Serializable {
   }
 
 
-  public pkgTools.cls0to1 getCongruence(clsValueFuzzy poOther) {
-    pkgTools.cls0to1 oResult = new pkgTools.cls0to1(0.0f);
+  public cls0to1 getCongruence(clsValueFuzzy poOther) {
+    cls0to1 oResult = new cls0to1(0.0f);
 
     if ( getLowerBound() > poOther.getUpperBound() ) {
       // other is completely smaller than me

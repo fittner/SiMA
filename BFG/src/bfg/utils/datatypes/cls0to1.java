@@ -3,10 +3,9 @@
 //
 
 // Belongs to package
-package pkgTools;
+package bfg.utils.datatypes;
 
 // Imports
-import java.io.Serializable;
 
 /**
  *
@@ -17,7 +16,7 @@ import java.io.Serializable;
  * $Date: 2008-03-11 12:33:01 +0100 (Di, 11 Mär 2008) $: Date of last commit
  *
  */
-public class cls0to1 extends clsCloneable implements Serializable {
+public class cls0to1 extends clsCloneable {
   float mrValue = 0;
   float mrMinValue = 0;
   float mrMaxValue = 1;

@@ -3,10 +3,9 @@
 //
 
 // Belongs to package
-package pkgTools;
+package bfg.utils.datatypes;
 
 // Imports
-import java.io.Serializable;
 
 /**
  *
@@ -17,7 +16,7 @@ import java.io.Serializable;
  * $Date: 2007-05-31 10:56:07 +0200 (Do, 31 Mai 2007) $: Date of last commit
  *
  */
-public class clsValueLinear extends clsValueFuzzy implements Serializable {
+public class clsValueLinear extends clsValueFuzzy {
 
   public clsValueLinear(float prValue, float prMinValue, float prMaxValue, float prSigma) {
     super(-prMinValue, prMaxValue, prSigma);
@@ -38,8 +37,6 @@ public class clsValueLinear extends clsValueFuzzy implements Serializable {
   public float getValue() {
     return mrValue;
   }
-
-
 
   public float setValue(float prValue) {
     if (prValue < mrMinValue) {
