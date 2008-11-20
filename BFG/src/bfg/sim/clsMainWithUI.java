@@ -22,8 +22,8 @@ public class clsMainWithUI extends GUIState{
 	/** window to hold Display2D
 	 */
 	public JFrame moDisplayFrame;
-	/**
-	 * 
+	/** responsible for drawing fields and letting the user manipulate 
+	 * objects stored within them 
 	 */
 	ContinuousPortrayal2D moBFGArena = new ContinuousPortrayal2D();
 	
@@ -43,13 +43,15 @@ public class clsMainWithUI extends GUIState{
 		
 		super.init(oController);
 		
-		moDisplay = new Display2D(600,600,this,1);
+		moDisplay = new Display2D(600,600,this,1); //TODO make me konfiguierbar
 		moDisplay.setClipping(false);
 		
 		moDisplayFrame = moDisplay.createFrame();
 		moDisplayFrame.setTitle("BFG V3.0 Display");
 		
 		oController.registerFrame(moDisplayFrame);
+		// specify the backdrop color  -- what gets painted behind the displays
+		moDisplay.setBackdrop(Color.black); //TODO make me konfigurierbar
 		moDisplayFrame.setVisible(true);
 		moDisplay.attach(moBFGArena, "Arena");
 	}
@@ -80,8 +82,11 @@ public class clsMainWithUI extends GUIState{
 		
 		//TODO insert portrayal definition here
 		
+		
+		
+		
 		moDisplay.reset();
-		moDisplay.setBackdrop(Color.white);
+		
 		// redraw the display
 		moDisplay.repaint();
 	}
