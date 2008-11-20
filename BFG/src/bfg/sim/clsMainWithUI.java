@@ -15,13 +15,11 @@ import java.awt.Color;
  */
 public class clsMainWithUI extends GUIState{
 
-	/**
-	 * GUI widget which holds some number of field portrayals, 
+	/** GUI widget which holds some number of field portrayals, 
 	 * usually layered on top of one another
 	 */
 	public Display2D moDisplay;
-	/**
-	 * window to hold Display2D
+	/** window to hold Display2D
 	 */
 	public JFrame moDisplayFrame;
 	/**
@@ -36,8 +34,7 @@ public class clsMainWithUI extends GUIState{
 	public clsMainWithUI() { super(new clsMain( System.currentTimeMillis())); }
 	public clsMainWithUI(SimState oState) { super(oState); }
 	
-	/**
-	 * returns the title bar of the console
+	/** returns the title bar of the console
 	 * @return String
 	 */
 	public static String getName() { return "... BFG V3.0 ..."; } 
@@ -80,6 +77,9 @@ public class clsMainWithUI extends GUIState{
 	 * preparation for being stepped each timestep 
 	 */
 	public void setupPortrayals(){
+		
+		//TODO insert portrayal definition here
+		
 		moDisplay.reset();
 		moDisplay.setBackdrop(Color.white);
 		// redraw the display
