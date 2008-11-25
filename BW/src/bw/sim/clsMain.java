@@ -4,8 +4,13 @@ import sim.engine.*;
 
 
 /**
- * @author muchitsch
  * Main function for simulation
+ * @author muchitsch
+ * 
+ * SVN:
+ * $Rev::                 $: Revision of last commit
+ * $Author::              $: Author of last commit
+ * $Date::                $: Date of last commit
  */
 public class clsMain extends SimState{
 
