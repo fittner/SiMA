@@ -1,13 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
 	<classpathentry kind="src" path="src"/>
+	<classpathentry kind="lib" path="S:/ARS/PA/BWv1/Mason/lib"/>
+	<classpathentry kind="lib" path="S:/ARS/PA/BWv1/Mason/lib/vecmath.jar"/>
+	<classpathentry kind="lib" path="S:/ARS/PA/BWv1/Mason/lib/itext-1.2.jar"/>
+	<classpathentry kind="lib" path="S:/ARS/PA/BWv1/Mason/lib/j3dcore.jar"/>
+	<classpathentry kind="lib" path="S:/ARS/PA/BWv1/Mason/lib/j3dutils.jar"/>
+	<classpathentry kind="lib" path="S:/ARS/PA/BWv1/Mason/lib/jcommon-1.0.0.jar"/>
+	<classpathentry kind="lib" path="S:/ARS/PA/BWv1/Mason/lib/jfreechart-1.0.1.jar"/>
+	<classpathentry kind="lib" path="S:/ARS/PA/BWv1/Mason/lib/jmf.jar"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
-	<classpathentry kind="lib" path="S:/ARS/PA/BFG30/Mason/lib/vecmath.jar"/>
-	<classpathentry kind="lib" path="S:/ARS/PA/BFG30/Mason/lib/itext-1.2.jar"/>
-	<classpathentry kind="lib" path="S:/ARS/PA/BFG30/Mason/lib/j3dcore.jar"/>
-	<classpathentry kind="lib" path="S:/ARS/PA/BFG30/Mason/lib/j3dutils.jar"/>
-	<classpathentry kind="lib" path="S:/ARS/PA/BFG30/Mason/lib/jcommon-1.0.0.jar"/>
-	<classpathentry kind="lib" path="S:/ARS/PA/BFG30/Mason/lib/jfreechart-1.0.1.jar"/>
-	<classpathentry kind="lib" path="S:/ARS/PA/BFG30/Mason/lib/jmf.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
