@@ -1,4 +1,4 @@
-package bfg.sim;
+package bw.sim;
 
 import sim.engine.*;
 
