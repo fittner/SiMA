@@ -3,7 +3,7 @@
 //
 
 // Belongs to package
-package bfg.utils.datatypes;
+package bw.utils.datatypes;
 
 // Imports
 import java.awt.Color;

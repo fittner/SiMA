@@ -25,7 +25,7 @@ public class clsMainWithUI extends GUIState{
 	/** responsible for drawing fields and letting the user manipulate 
 	 * objects stored within them 
 	 */
-	ContinuousPortrayal2D moBFGArena = new ContinuousPortrayal2D();
+	ContinuousPortrayal2D mobwArena = new ContinuousPortrayal2D();
 	
 	public static void main(String[] args){
 		Console oConsole = new Console(new clsMainWithUI());
@@ -37,7 +37,7 @@ public class clsMainWithUI extends GUIState{
 	/** returns the title bar of the console
 	 * @return String
 	 */
-	public static String getName() { return "... BFG V3.0 ..."; } 
+	public static String getName() { return "... bw V3.0 ..."; } 
 
 	public void init(Controller oController){
 		
@@ -47,13 +47,13 @@ public class clsMainWithUI extends GUIState{
 		moDisplay.setClipping(false);
 		
 		moDisplayFrame = moDisplay.createFrame();
-		moDisplayFrame.setTitle("BFG V3.0 Display");
+		moDisplayFrame.setTitle("bw V3.0 Display");
 		
 		oController.registerFrame(moDisplayFrame);
 		// specify the backdrop color  -- what gets painted behind the displays
 		moDisplay.setBackdrop(Color.black); //TODO make me konfigurierbar
 		moDisplayFrame.setVisible(true);
-		moDisplay.attach(moBFGArena, "Arena");
+		moDisplay.attach(mobwArena, "Arena");
 	}
 	
 	public void quit(){

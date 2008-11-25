@@ -1,4 +1,4 @@
-package bfg.world.surface;
+package bw.world.surface;
 
 import sim.physics2D.PhysicsState;
 import sim.physics2D.physicalObject.MobileObject2D;

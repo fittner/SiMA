@@ -3,7 +3,7 @@
 //
 
 // Belongs to package
-package bfg.utils.enums;
+package bw.utils.enums;
 
 // Imports
 

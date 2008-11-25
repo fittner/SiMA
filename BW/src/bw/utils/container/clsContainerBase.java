@@ -3,10 +3,10 @@
 //
 
 // Belongs to package
-package bfg.utils.container;
+package bw.utils.container;
 
 // Imports
-import bfg.utils.datatypes.clsCloneable;
+import bw.utils.datatypes.clsCloneable;
 
 /**
  *

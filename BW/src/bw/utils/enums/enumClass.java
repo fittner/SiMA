@@ -3,10 +3,10 @@
 //
 
 // Belongs to package
-package bfg.utils.enums;
+package bw.utils.enums;
 
 // Imports
-import bfg.utils.datatypes.clsCloneable;
+import bw.utils.datatypes.clsCloneable;
 
 /**
  *

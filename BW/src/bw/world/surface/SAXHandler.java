@@ -1,4 +1,4 @@
-package bfg.world.surface;
+package bw.world.surface;
 
 
 import org.xml.sax.Attributes;
@@ -17,7 +17,7 @@ import sim.field.grid.IntGrid2D;
 
 	<annotation>
 		<documentation>
-			This document defines a schema for the surface of a BFG world.
+			This document defines a schema for the surface of a bw world.
 		</documentation>
 	</annotation>
 
