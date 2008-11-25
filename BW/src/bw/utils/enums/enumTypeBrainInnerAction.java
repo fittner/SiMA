@@ -13,9 +13,9 @@ package bw.utils.enums;
  * neuro-psychoanalytically inspired perception and decision making). 
  * These actions are mainly to release hormones.
  *
- * $Revision: 1063 $:  Revision of last commit
- * $Author: riediger $: Author of last commit
- * $Date: 2008-05-30 16:58:27 +0200 (Fr, 30 Mai 2008) $: Date of last commit
+ * $Revision$:  Revision of last commit
+ * $Author$: Author of last commit
+ * $Date$: Date of last commit
  *
  */
 public class enumTypeBrainInnerAction extends enumClass {

@@ -12,6 +12,10 @@ import java.awt.Color;
 /**
  * @author muchitsch
  * Main function for Simulation, UI part
+ * 
+ * $Rev::                      $: Revision of last commit
+ * $Author::                   $: Author of last commit
+ * $Date::                     $: Date of last commit
  */
 public class clsMainWithUI extends GUIState{
 

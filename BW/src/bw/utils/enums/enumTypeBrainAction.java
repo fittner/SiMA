@@ -12,9 +12,9 @@ package bw.utils.enums;
  * Represents the external actions performed by the brain. 
  * (aka neuro-psychoanalytically inspired perception and decision making).
  *
- * $Revision: 811 $:  Revision of last commit
- * $Author: deutsch $: Author of last commit
- * $Date: 2007-08-28 15:36:37 +0200 (Di, 28 Aug 2007) $: Date of last commit
+ * $Revision$:  Revision of last commit
+ * $Author$: Author of last commit
+ * $Date$: Date of last commit
  *
  */
 public class enumTypeBrainAction extends enumClass {

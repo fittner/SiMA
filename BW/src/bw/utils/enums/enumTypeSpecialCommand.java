@@ -11,9 +11,9 @@ package bw.utils.enums;
  *
  * This is the class description ...
  *
- * $Revision: 811 $:  Revision of last commit
- * $Author: deutsch $: Author of last commit
- * $Date: 2007-08-28 15:36:37 +0200 (Di, 28 Aug 2007) $: Date of last commit
+ * $Revision$:  Revision of last commit
+ * $Author$: Author of last commit
+ * $Date$: Date of last commit
  *
  */
 public class enumTypeSpecialCommand extends enumClass {

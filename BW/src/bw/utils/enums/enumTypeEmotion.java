@@ -11,9 +11,9 @@ package bw.utils.enums;
  *
  * This is the class description ...
  *
- * $Revision: 688 $:  Revision of last commit
- * $Author: deutsch $: Author of last commit
- * $Date: 2007-07-12 15:51:25 +0200 (Do, 12 Jul 2007) $: Date of last commit
+ * $Revision$:  Revision of last commit
+ * $Author$: Author of last commit
+ * $Date$: Date of last commit
  *
  */
 public class enumTypeEmotion extends enumClass {

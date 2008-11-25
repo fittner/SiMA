@@ -11,9 +11,9 @@ package bw.utils.enums;
  *
  * This is the class description ...
  *
- * $Revision: 955 $:  Revision of last commit
- * $Author: gartner $: Author of last commit
- * $Date: 2008-03-11 12:32:22 +0100 (Di, 11 Mär 2008) $: Date of last commit
+ * $Revision$:  Revision of last commit
+ * $Author$: Author of last commit
+ * $Date$: Date of last commit
  *
  */
 public class enumTypeLevelHealthState extends enumClass {

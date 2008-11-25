@@ -11,9 +11,9 @@ package bw.utils.enums;
  *
  * This is the class description ...
  *
- * $Revision: 838 $:  Revision of last commit
- * $Author: deutsch $: Author of last commit
- * $Date: 2007-08-29 20:07:19 +0200 (Mi, 29 Aug 2007) $: Date of last commit
+ * $Revision$:  Revision of last commit
+ * $Author$: Author of last commit
+ * $Date$: Date of last commit
  *
  */
 public class enumTypeDrive extends enumClass {
