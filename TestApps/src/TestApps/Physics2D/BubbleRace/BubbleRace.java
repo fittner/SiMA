@@ -12,7 +12,7 @@ import sim.physics2D.PhysicsEngine2D;
 import sim.physics2D.constraint.PinJoint;
 import sim.physics2D.util.Double2D;
 
-import bfg.world.surface.*;
+import bw.world.surface.*;
 
 /**
  * This class was adopted from the physicsTutorial3 class from the physics engine

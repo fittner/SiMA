@@ -4,6 +4,6 @@
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/Mason"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/MasonPhysics2D"/>
-	<classpathentry combineaccessrules="false" kind="src" path="/BFG"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/BW"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

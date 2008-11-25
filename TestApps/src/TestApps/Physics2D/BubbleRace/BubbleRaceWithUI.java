@@ -4,7 +4,7 @@ import java.io.File;
 
 import javax.swing.JFrame;
 
-import bfg.world.surface.*;
+import bw.world.surface.*;
 
 import sim.display.Console;
 import sim.display.Controller;

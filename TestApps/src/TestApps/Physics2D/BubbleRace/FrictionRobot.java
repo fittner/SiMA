@@ -5,7 +5,7 @@ import sim.physics2D.util.Double2D;
 import sim.util.matrix.*;
 import sim.physics2D.physicalObject.*;
 
-import bfg.world.surface.*;
+import bw.world.surface.*;
 
 /**
  * This class has been copied from the Robot class from the physics package except that it now extends the MobileAgent2D class instead of MobileObject2D

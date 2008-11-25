@@ -5,7 +5,7 @@ import sim.engine.*;
 import sim.physics2D.forceGenerator.ForceGenerator;
 import sim.physics2D.util.*;
 
-import bfg.world.surface.*;
+import bw.world.surface.*;
 
 /**
  * This class was adopted from the Bot class from the physics engine
