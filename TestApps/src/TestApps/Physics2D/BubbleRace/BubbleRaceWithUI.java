@@ -14,6 +14,7 @@ import sim.engine.SimState;
 import sim.portrayal.continuous.ContinuousPortrayal2D;
 import sim.portrayal.grid.FastValueGridPortrayal2D;
 
+
 /**
  * This class was adopted from the physicsTutorial3withUI class from the physics engine
  * @author kohlhauser
