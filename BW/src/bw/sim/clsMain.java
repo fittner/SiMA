@@ -11,6 +11,8 @@ import sim.engine.*;
  * $Rev::                 $: Revision of last commit
  * $Author::              $: Author of last commit
  * $Date::                $: Date of last commit
+ * $LastChangedRevision::$
+ * $Revision::$
  */
 public class clsMain extends SimState{
 
