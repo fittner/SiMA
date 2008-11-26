@@ -70,7 +70,7 @@ public class clsBWMainWithUI extends GUIState{
 		
 		poController.registerFrame(moDisplayFrame);
 		// specify the backdrop color  -- what gets painted behind the displays
-		moDisplay.setBackdrop(Color.black); //TODO make me konfigurierbar
+		moDisplay.setBackdrop(Color.white); //TODO make me konfigurierbar
 		moDisplayFrame.setVisible(true);
 		moDisplay.attach(mobwArena, "Arena");
 		
@@ -102,10 +102,9 @@ public class clsBWMainWithUI extends GUIState{
 	 * preparation for being stepped each timestep 
 	 */
 	public void setupPortrayals(){
-		
-		//TODO insert portrayal definitions here, best in a method of world generation...
-		
-		
+				
+		// tell the portrayals what to portray and how to portray them
+		mobwArena.setField(((clsBWMain)state).moFieldEnvironment);
 		
 		
 		moDisplay.reset();
