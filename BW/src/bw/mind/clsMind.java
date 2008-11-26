@@ -8,7 +8,8 @@
 package bw.mind;
 
 /**
- * TODO insert Description
+ * Base class for every further specializations of the mind 
+ * (rule, simple, classic, psy).
  * 
  * @author langr
  * 
