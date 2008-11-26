@@ -16,7 +16,7 @@ import org.junit.Test;
  * @author deutsch
  *
  */
-public class tstContentColumn_general {
+public class tstContentColumn {
 
 	/**
 	 * @throws java.lang.Exception
