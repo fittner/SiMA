@@ -15,6 +15,10 @@ import sim.portrayal.*;
 import sim.portrayal.simple.*;
 import sim.portrayal.continuous.*;
 import java.awt.Color;
+import java.awt.Container;
+import java.awt.Dimension;
+
+import org.jfree.chart.ChartPanel;
 
 /**
  * Main function for Simulation, UI part
@@ -31,10 +35,14 @@ public class clsMainWithUI extends GUIState{
 	/** window to hold Display2D
 	 */
 	public JFrame moDisplayFrame;
+	public JFrame moChartFrame;
 	/** responsible for drawing fields and letting the user manipulate 
 	 * objects stored within them 
 	 */
 	ContinuousPortrayal2D mobwArena = new ContinuousPortrayal2D();
+	public clsCharts moCharts;
+	
+	
 	
 	public static void main(String[] args){
 		Console oConsole = new Console(new clsMainWithUI());
@@ -63,6 +71,10 @@ public class clsMainWithUI extends GUIState{
 		moDisplay.setBackdrop(Color.black); //TODO make me konfigurierbar
 		moDisplayFrame.setVisible(true);
 		moDisplay.attach(mobwArena, "Arena");
+		
+		if ( ((clsMain)state).mbChart_display) {
+	        addChartPanel(oController,(clsMain)state);
+		}
 	}
 	
 	public void quit(){
@@ -111,4 +123,40 @@ public class clsMainWithUI extends GUIState{
 	    return oInspector;
     }
 	
-}//end class
+	void addChartPanel( Controller oController, clsMain model ) {
+		
+		// TODO add charts
+		moCharts = new clsCharts(model);
+		ChartPanel moTestPanel = null;
+		
+		//TODO create charts
+		if (true) { // abfrage ob wir das chart haben wollen, zb config
+			moTestPanel = new ChartPanel(moCharts.createTestChart());
+        }
+		
+		// create the chart frame
+        moChartFrame = new JFrame();
+        moChartFrame.setResizable(true);
+        Container moContentpanel = moChartFrame.getContentPane();
+        moContentpanel.setLayout(new BoxLayout(moContentpanel, BoxLayout.Y_AXIS));
+	    
+        
+        
+        //TODO add charts to panel
+        if (moTestPanel!=null) {
+        	moContentpanel.add(moTestPanel);
+        	moContentpanel.add(Box.createRigidArea(new Dimension(0, 6)));
+        }
+          
+        
+        
+        moChartFrame.setTitle("Live Bubble Statistics");
+        moChartFrame.pack();
+        // register the chartFrame so it appears in the "Display" list
+        oController.registerFrame(moChartFrame);
+        // make the frame visible
+        moChartFrame.setVisible(true);
+        
+    }
+	
+}
