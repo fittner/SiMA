@@ -5,7 +5,7 @@
  * $Author::                   $: Author of last commit
  * $Date::                     $: Date of last commit
  */
-package bw.sim.loadObject;
+package bw.sim.bwgenerator;
 /**
  * The object loader handles the registration of new objects in the physics engine 
  * 
