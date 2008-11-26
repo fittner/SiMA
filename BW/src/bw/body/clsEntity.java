@@ -16,13 +16,17 @@ package bw.body;
  */
 public class clsEntity {
 
+	@SuppressWarnings("unused")
+	private sim.physics2D.physicalObject.PhysicalObject2D moSimulatorEntity = null;
+	
 	public boolean registerEntity(
 			//PhysicsEngine2D objPE, Continuous2D fieldEnvironment
 			) throws Exception {
 	
+		boolean retVal = true;
 		
 		
-		return true; //aus protest!
+		return retVal;
 	}
 	
 }
