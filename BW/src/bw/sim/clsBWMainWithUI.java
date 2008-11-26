@@ -17,7 +17,6 @@ import sim.portrayal.continuous.*;
 import java.awt.Color;
 import java.awt.Container;
 import java.awt.Dimension;
-
 import org.jfree.chart.ChartPanel;
 
 /**

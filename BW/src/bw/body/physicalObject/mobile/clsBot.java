@@ -19,6 +19,8 @@ import sim.util.Bag;
 import bw.body.physicalObject.effector.clsBotHands;
 import bw.body.physicalObject.stationary.*;
 import bw.sim.*;
+import org.jfree.chart.JFreeChart;
+import org.jfree.data.xy.XYSeries;
 
 /* Mason test robot implementation. 
 * 
@@ -112,6 +114,8 @@ public class clsBot extends sim.robot2D.Robot implements Steppable, ForceGenerat
             if (currentCan == null)
                 botState = RETURNINGHOME;
             }
+        
+        
         }
 
     public void addForce()
