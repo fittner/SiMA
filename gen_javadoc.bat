@@ -1,3 +1,4 @@
+
 "C:\Program Files\Java\jdk1.6.0_05\bin"\javadoc ^
 	-d W:\javadoc ^
 	-sourcepath S:\ARS\PA\BWv1\BW\src ^
@@ -10,3 +11,5 @@
         -private 
 
 @REM	-d "\\jupiter\ars.ict.tuwien.ac.at\apache\javadoc" ^
+@REM unfortunately, javadoc for windows sanitzes the path name and replaces  \\ with \ -> samba resouce
+@REM is not accessible
