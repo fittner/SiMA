@@ -16,7 +16,9 @@ package bw.body;
  */
 public class clsEntity {
 
-	public boolean registerEntity(PhysicsEngine2D objPE, Continuous2D fieldEnvironment) throws Exception {
+	public boolean registerEntity(
+			//PhysicsEngine2D objPE, Continuous2D fieldEnvironment
+			) throws Exception {
 	
 		
 		
