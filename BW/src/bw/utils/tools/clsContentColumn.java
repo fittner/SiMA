@@ -17,7 +17,7 @@ package bw.utils.tools;
 public abstract class clsContentColumn {
 
 	/**
-	 * TODO insert Description
+	 * TODO (deutsch) - insert description
 	 *
 	 */
 	public void Test() {
