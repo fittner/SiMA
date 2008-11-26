@@ -8,7 +8,7 @@
 package bw.body.physicalObject;
 
 /**
- * TODO (langr) - insert description 
+ * Interface to direct the agent: accelerate, decelerate, rotate, jump, stop, ... 
  * 
  * @author langr
  * 

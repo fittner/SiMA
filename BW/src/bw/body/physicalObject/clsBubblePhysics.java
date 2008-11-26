@@ -8,7 +8,8 @@
 package bw.body.physicalObject;
 
 /**
- * TODO (langr) - insert description 
+ * Mason representative (physics+renderOnScreen) for an bubble. 
+ * Can be moved by using the motion-interface, communicating with the MASON framework 
  * 
  * @author langr
  * 

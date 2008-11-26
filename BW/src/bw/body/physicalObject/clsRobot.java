@@ -8,7 +8,9 @@
 package bw.body.physicalObject;
 
 /**
- * TODO (langr) - insert description 
+ * Mason representative (physics+renderOnScreen) for a robot (e.g. Tehseen's one). 
+ * Can be moved by using the motion-interface, communicating with the MASON framework 
+ 
  * 
  * @author langr
  * 
