@@ -34,8 +34,8 @@ public class clsBWMain extends SimState{
 
     public Continuous2D moFieldEnvironment;
 	
-	public clsBWMain(long seed){
-		super(seed);
+	public clsBWMain(long prSeed){
+		super(prSeed);
 	}
 
 	
@@ -47,11 +47,11 @@ public class clsBWMain extends SimState{
 	/**
 	 * The one and only Main
 	 *
-	 * @param args
+	 * @param poArgs
 	 */
-	public static void main(String[] args)
+	public static void main(String[] poArgs)
 	{
-		doLoop(clsBWMain.class, args);
+		doLoop(clsBWMain.class, poArgs);
 		System.exit(0);
 	}
 

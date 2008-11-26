@@ -46,21 +46,21 @@ public class clsBWMainWithUI extends GUIState{
 	public clsCharts moCharts;
 	
 	
-	public static void main(String[] args){
+	public static void main(String[] poArgs){
 		Console oConsole = new Console(new clsBWMainWithUI());
 		oConsole.setVisible(true);
 	}
 	public clsBWMainWithUI() { super(new clsBWMain( System.currentTimeMillis())); }
-	public clsBWMainWithUI(SimState oState) { super(oState); }
+	public clsBWMainWithUI(SimState poState) { super(poState); }
 	
 	/** returns the title bar of the console
 	 * @return String
 	 */
 	public static String getName() { return "... bw V3.0 ..."; } 
 
-	public void init(Controller oController){
+	public void init(Controller poController){
 		
-		super.init(oController);
+		super.init(poController);
 		
 		moDisplay = new Display2D(600,600,this,1); //TODO make me konfiguierbar
 		moDisplay.setClipping(false);
@@ -68,14 +68,14 @@ public class clsBWMainWithUI extends GUIState{
 		moDisplayFrame = moDisplay.createFrame();
 		moDisplayFrame.setTitle("bw V3.0 Display");
 		
-		oController.registerFrame(moDisplayFrame);
+		poController.registerFrame(moDisplayFrame);
 		// specify the backdrop color  -- what gets painted behind the displays
 		moDisplay.setBackdrop(Color.black); //TODO make me konfigurierbar
 		moDisplayFrame.setVisible(true);
 		moDisplay.attach(mobwArena, "Arena");
 		
 		if ( ((clsBWMain)state).mbChartDisplay) {
-	        addChartPanel(oController,(clsBWMain)state);
+	        addChartPanel(poController,(clsBWMain)state);
 		}
 	}
 	
@@ -92,8 +92,8 @@ public class clsBWMainWithUI extends GUIState{
 		setupPortrayals();
 	}
 	
-	public void load(SimState oState){
-		super.load(oState);
+	public void load(SimState poState){
+		super.load(poState);
 		setupPortrayals();
 	}
 	
@@ -126,22 +126,22 @@ public class clsBWMainWithUI extends GUIState{
     }
 	
 	/**
-	 * Adds the seperate Charting Panel if option is set to true in startup.
+	 * Adds the seperate charting panel if option is set to true in startup.
 	 * Creates the panel, adds the charts.
 	 * When Changes in clsCharts are done, you have to add some lines here too!
 	 *
-	 * @param oController
-	 * @param model
+	 * @param poController
+	 * @param poMainModelClass
 	 */
-	public void addChartPanel( Controller oController, clsBWMain model ) {
+	public void addChartPanel( Controller poController, clsBWMain poMainModelClass ) {
 		
 		// add all charts from clsCharts
-		moCharts = new clsCharts(model);
-		ChartPanel moTestPanel = null;
+		moCharts = new clsCharts(poMainModelClass);
+		ChartPanel oTestPanel = null;
 		
 		//create charts
 		if (true) { // TODO clemens: do we want to ad this chart? maybe read from config file? for testing.. always yes
-			moTestPanel = new ChartPanel(moCharts.createTestChart());
+			oTestPanel = new ChartPanel(moCharts.createTestChart());
         }
 		
 		// create the chart frame
@@ -153,8 +153,8 @@ public class clsBWMainWithUI extends GUIState{
         
         
         //add charts to panel
-        if (moTestPanel!=null) {
-        	moContentpanel.add(moTestPanel);
+        if (oTestPanel!=null) {
+        	moContentpanel.add(oTestPanel);
         	moContentpanel.add(Box.createRigidArea(new Dimension(0, 6)));
         }
           
@@ -163,7 +163,7 @@ public class clsBWMainWithUI extends GUIState{
         moChartFrame.setTitle("Live Bubble Statistics");
         moChartFrame.pack();
         // register the chartFrame so it appears in the "Display" list
-        oController.registerFrame(moChartFrame);
+        poController.registerFrame(moChartFrame);
         // make the frame visible
         moChartFrame.setVisible(true);
    }
