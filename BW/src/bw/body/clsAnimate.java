@@ -8,7 +8,7 @@
 package bw.body;
 
 /**
- * TODO (langr) - insert description 
+ * Animates represents living objects that can e.g. move, grow, think.
  * 
  * @author langr
  * 

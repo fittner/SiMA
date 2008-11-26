@@ -27,7 +27,6 @@ public class clsEntity {
 	
 		boolean retVal = true;
 		
-		
 		return retVal;
 	}
 	

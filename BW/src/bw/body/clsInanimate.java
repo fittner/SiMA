@@ -8,7 +8,7 @@
 package bw.body;
 
 /**
- * TODO (langr) - insert description 
+ * Inanimates represent dead objects (cannot grow, move, ...)
  * 
  * @author langr
  * 
