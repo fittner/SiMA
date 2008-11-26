@@ -1,3 +1,11 @@
+/**
+ * @author muchitsch
+ * 
+ * $Rev::                      $: Revision of last commit
+ * $Author::                   $: Author of last commit
+ * $Date::                     $: Date of last commit
+ */
+
 package bw.sim;
 
 import sim.display.*;
@@ -8,14 +16,11 @@ import sim.portrayal.simple.*;
 import sim.portrayal.continuous.*;
 import java.awt.Color;
 
-
 /**
- * @author muchitsch
  * Main function for Simulation, UI part
  * 
- * $Rev::                      $: Revision of last commit
- * $Author::                   $: Author of last commit
- * $Date::                     $: Date of last commit
+ * @author muchitsch
+ * 
  */
 public class clsMainWithUI extends GUIState{
 
@@ -84,7 +89,7 @@ public class clsMainWithUI extends GUIState{
 	 */
 	public void setupPortrayals(){
 		
-		//TODO insert portrayal definition here
+		//TODO insert portrayal definitions here, best in a method of world generation...
 		
 		
 		
