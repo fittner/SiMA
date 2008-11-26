@@ -8,8 +8,10 @@
 package bw.body;
 
 /**
- * Entity contains basic physical values PLUS includes helper to register the object in the 
- * MASON physics engine 
+ * Entity contains basic physical values.
+ * TODO: Includes helper to register the object in the MASON physics engine?
+ * 
+ * sub-classes: clsAnimate, clsInanimate
  * 
  * @author langr
  * 

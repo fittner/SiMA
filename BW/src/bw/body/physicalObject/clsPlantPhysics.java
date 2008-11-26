@@ -8,7 +8,7 @@
 package bw.body.physicalObject;
 
 /**
- * TODO (langr) - insert description 
+ * Mason representative (physics+renderOnScreen) for a plant.  
  * 
  * @author langr
  * 

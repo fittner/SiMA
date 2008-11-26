@@ -8,7 +8,7 @@
 package bw.body.physicalObject;
 
 /**
- * Mason representative (physics+renderOnScreen) for an bubble. 
+ * Mason representative (physics+renderOnScreen) for a bubble. 
  * Can be moved by using the motion-interface, communicating with the MASON framework 
  * 
  * @author langr
