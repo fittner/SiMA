@@ -32,7 +32,7 @@ public class clsCan extends MobileObject2D implements Steppable
         {
         Double2D position = this.getPosition();
         clsBWMain simRobots = (clsBWMain)state;
-        simRobots.fieldEnvironment.setObjectLocation(this, new sim.util.Double2D(position.x, position.y));
+        simRobots.moFieldEnvironment.setObjectLocation(this, new sim.util.Double2D(position.x, position.y));
         }
     }
 

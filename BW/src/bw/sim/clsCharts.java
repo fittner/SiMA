@@ -24,7 +24,8 @@ import org.jfree.data.xy.IntervalXYDataset;
 import org.jfree.data.xy.XYSeriesCollection;
 
 /**
- * TODO insert Description
+ * Class for all JFreeChart definitions. Here all special charting needs are nested.
+ * To add another Chart you have to add the chart definition here and also add some code in clsBWMainWithUI.addChartPanel()
  * 
  * @author muchitsch
  * 
@@ -34,19 +35,25 @@ import org.jfree.data.xy.XYSeriesCollection;
 
 public class clsCharts{
 	
-	clsBWMain moModel;
+	private clsBWMain moModel;
   
-	clsCharts (clsBWMain poModel){
+	public clsCharts (clsBWMain poModel){
 		moModel = poModel;
 	}
 	
 	
-	JFreeChart createTestChart() {
+	/**
+	 * Test method for chart generation
+	 *
+	 * @return JFreeChart
+	 */
+	public JFreeChart createTestChart() {
+		
 	       JFreeChart chart = ChartFactory.createXYLineChart(
 	               "Trading and Population over Time",
 	               "Time",
 	               "Level",
-	               	moModel.agents_series_coll,
+	               	moModel.moAgents_series_coll,
 	                PlotOrientation.VERTICAL,
 	                true,
 	                true,

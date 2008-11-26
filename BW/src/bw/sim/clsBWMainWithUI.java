@@ -40,8 +40,10 @@ public class clsBWMainWithUI extends GUIState{
 	 * objects stored within them 
 	 */
 	ContinuousPortrayal2D mobwArena = new ContinuousPortrayal2D();
+	/**
+	 * holds all charts if charting is activated in startup
+	 */
 	public clsCharts moCharts;
-	
 	
 	
 	public static void main(String[] args){
@@ -72,7 +74,7 @@ public class clsBWMainWithUI extends GUIState{
 		moDisplayFrame.setVisible(true);
 		moDisplay.attach(mobwArena, "Arena");
 		
-		if ( ((clsBWMain)state).mbChart_display) {
+		if ( ((clsBWMain)state).mbChartDisplay) {
 	        addChartPanel(oController,(clsBWMain)state);
 		}
 	}
@@ -123,14 +125,22 @@ public class clsBWMainWithUI extends GUIState{
 	    return oInspector;
     }
 	
-	void addChartPanel( Controller oController, clsBWMain model ) {
+	/**
+	 * Adds the seperate Charting Panel if option is set to true in startup.
+	 * Creates the panel, adds the charts.
+	 * When Changes in clsCharts are done, you have to add some lines here too!
+	 *
+	 * @param oController
+	 * @param model
+	 */
+	public void addChartPanel( Controller oController, clsBWMain model ) {
 		
-		// TODO add charts
+		// add all charts from clsCharts
 		moCharts = new clsCharts(model);
 		ChartPanel moTestPanel = null;
 		
-		//TODO create charts
-		if (true) { // abfrage ob wir das chart haben wollen, zb config
+		//create charts
+		if (true) { // TODO clemens: do we want to ad this chart? maybe read from config file? for testing.. always yes
 			moTestPanel = new ChartPanel(moCharts.createTestChart());
         }
 		
@@ -142,21 +152,20 @@ public class clsBWMainWithUI extends GUIState{
 	    
         
         
-        //TODO add charts to panel
+        //add charts to panel
         if (moTestPanel!=null) {
         	moContentpanel.add(moTestPanel);
         	moContentpanel.add(Box.createRigidArea(new Dimension(0, 6)));
         }
           
         
-        
+        // register frame and show the window
         moChartFrame.setTitle("Live Bubble Statistics");
         moChartFrame.pack();
         // register the chartFrame so it appears in the "Display" list
         oController.registerFrame(moChartFrame);
         // make the frame visible
         moChartFrame.setVisible(true);
-        
-    }
+   }
 	
 }

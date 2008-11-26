@@ -24,12 +24,15 @@ import sim.field.continuous.*;
  */
 public class clsBWMain extends SimState{
 
-	public boolean mbChart_display = false;
+	/**
+	 * activates/shows the charting panel
+	 */
+	public boolean mbChartDisplay = false; //TODO clemens: deactivated for now, has to set by config.xml later! 
 	public JFreeChart  moTestChart;
-	public XYSeries agents_series = new XYSeries("Agents");
-	public XYSeriesCollection agents_series_coll = new XYSeriesCollection(agents_series);
+	public XYSeries moAgents_series = new XYSeries("Agents"); //TODO clemens name passt nicht, muss erst schauen wofür das genau ist!
+	public XYSeriesCollection moAgents_series_coll = new XYSeriesCollection(moAgents_series); //TODO clemens
 
-    public Continuous2D fieldEnvironment;
+    public Continuous2D moFieldEnvironment;
 	
 	public clsBWMain(long seed){
 		super(seed);
