@@ -1,14 +1,26 @@
 /**
+ * @author deutsch
  * 
+ * $Rev::                      $: Revision of last commit
+ * $Author::                   $: Author of last commit
+ * $Date::                     $: Date of last commit
  */
 package bw.utils.tools;
 
 /**
- * @author muchitsch
- * Rosi hat auch geholfen!!! Gans viel!!
+ * TODO insert Description
+ * 
+ * @author deutsch
+ * 
  */
-public class clsContentColumn {
 
-	
-	
+public abstract class clsContentColumn {
+
+	/**
+	 * TODO insert Description
+	 *
+	 */
+	public void Test() {
+		
+	}
 }
