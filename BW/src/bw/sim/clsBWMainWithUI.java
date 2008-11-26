@@ -26,7 +26,7 @@ import org.jfree.chart.ChartPanel;
  * @author muchitsch
  * 
  */
-public class clsMainWithUI extends GUIState{
+public class clsBWMainWithUI extends GUIState{
 
 	/** GUI widget which holds some number of field portrayals, 
 	 * usually layered on top of one another
@@ -45,11 +45,11 @@ public class clsMainWithUI extends GUIState{
 	
 	
 	public static void main(String[] args){
-		Console oConsole = new Console(new clsMainWithUI());
+		Console oConsole = new Console(new clsBWMainWithUI());
 		oConsole.setVisible(true);
 	}
-	public clsMainWithUI() { super(new clsMain( System.currentTimeMillis())); }
-	public clsMainWithUI(SimState oState) { super(oState); }
+	public clsBWMainWithUI() { super(new clsBWMain( System.currentTimeMillis())); }
+	public clsBWMainWithUI(SimState oState) { super(oState); }
 	
 	/** returns the title bar of the console
 	 * @return String
@@ -72,8 +72,8 @@ public class clsMainWithUI extends GUIState{
 		moDisplayFrame.setVisible(true);
 		moDisplay.attach(mobwArena, "Arena");
 		
-		if ( ((clsMain)state).mbChart_display) {
-	        addChartPanel(oController,(clsMain)state);
+		if ( ((clsBWMain)state).mbChart_display) {
+	        addChartPanel(oController,(clsBWMain)state);
 		}
 	}
 	
@@ -123,7 +123,7 @@ public class clsMainWithUI extends GUIState{
 	    return oInspector;
     }
 	
-	void addChartPanel( Controller oController, clsMain model ) {
+	void addChartPanel( Controller oController, clsBWMain model ) {
 		
 		// TODO add charts
 		moCharts = new clsCharts(model);

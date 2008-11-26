@@ -35,9 +35,9 @@ import org.jfree.data.xy.XYSeriesCollection;
 
 public class clsCharts{
 	
-	clsMain moModel;
+	clsBWMain moModel;
   
-	clsCharts (clsMain poModel){
+	clsCharts (clsBWMain poModel){
 		moModel = poModel;
 	}
 	

@@ -15,20 +15,23 @@ import org.jfree.data.xy.XYSeriesCollection;
 
 import sim.display.SimApplet;
 import sim.engine.*;
+import sim.field.continuous.*;
 
 /**
  * Main function for simulation
  * @author muchitsch
  * 
  */
-public class clsMain extends SimState{
+public class clsBWMain extends SimState{
 
 	public boolean mbChart_display = false;
 	public JFreeChart  moTestChart;
 	public XYSeries agents_series = new XYSeries("Agents");
 	public XYSeriesCollection agents_series_coll = new XYSeriesCollection(agents_series);
 
-	public clsMain(long seed){
+    public Continuous2D fieldEnvironment;
+	
+	public clsBWMain(long seed){
 		super(seed);
 	}
 
@@ -45,7 +48,7 @@ public class clsMain extends SimState{
 	 */
 	public static void main(String[] args)
 	{
-		doLoop(clsMain.class, args);
+		doLoop(clsBWMain.class, args);
 		System.exit(0);
 	}
 

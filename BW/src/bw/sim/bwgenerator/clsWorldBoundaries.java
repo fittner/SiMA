@@ -5,14 +5,14 @@
  * $Author::                   $: Author of last commit
  * $Date::                     $: Date of last commit
  */
-package bw.body.physicalObject;
+package bw.sim.bwgenerator;
 
 /**
- * Mason representative (physics+renderOnScreen) for a wall.  
+ * TODO (langr) - insert description 
  * 
  * @author langr
  * 
  */
-public class clsWallPhysics extends sim.physics2D.physicalObject.StationaryObject2D {
+public class clsWorldBoundaries {
 
 }
