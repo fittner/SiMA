@@ -26,6 +26,11 @@ public class clsMain extends SimState{
 		super.start();
 	}
 	
+	/**
+	 * The one and only Main
+	 *
+	 * @param args
+	 */
 	public static void main(String[] args)
 	{
 		doLoop(clsMain.class, args);
