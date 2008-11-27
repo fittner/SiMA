@@ -1,3 +1,15 @@
+/**
+ * @author deutsch
+ * 
+ * Copied from the old bubble family game
+ * 
+ * CHKME keep this file?
+ * 
+ * $Rev::                      $: Revision of last commit
+ * $Author::                   $: Author of last commit
+ * $Date::                     $: Date of last commit
+ */
+
 // File enumTypeComplexEmotion.java
 // August 03, 2006
 //
