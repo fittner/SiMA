@@ -4,7 +4,8 @@
  * Copied from the old bubble family game
  * 
  * CHKME keep this file?
- * 
+ * @deprecated taken from old BFG
+ *
  * $Rev::                      $: Revision of last commit
  * $Author::                   $: Author of last commit
  * $Date::                     $: Date of last commit
