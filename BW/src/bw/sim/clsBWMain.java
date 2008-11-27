@@ -26,10 +26,12 @@ import sim.field.continuous.*;
  */
 public class clsBWMain extends SimState{
 	
+	
 	/**
 	 * activates/shows the charting panel
+	 * TODO clemens: deactivated for now, has to set by config.xml later! 
 	 */
-	public boolean mbChartDisplay = false; //TODO clemens: deactivated for now, has to set by config.xml later! 
+	public boolean mbChartDisplay = false; 
 	public JFreeChart  moTestChart;
 	public XYSeries moTestSeries = new XYSeries("Agents"); //TODO clemens name passt nicht, muss erst schauen wofür das genau ist!
 	public XYSeriesCollection moAgents_series_coll = new XYSeriesCollection(moTestSeries); //TODO clemens
@@ -42,27 +44,28 @@ public class clsBWMain extends SimState{
     public Continuous2D moGameGridField;
 
     //dimensions of the playground
-    public double xMin = 0;
-    public double xMax = 100;
-    public double yMin = 0;
-    public double yMax = 100;
+    public double mnXMin = 0;
+    public double mnXMax = 100;
+    public double mnYMin = 0;
+    public double mnYMax = 100;
     
-    
-	public clsBWMain(long seed){
-		this(seed, 200, 200);
+    //CTOR
+	public clsBWMain(long pnSeed){
+		this(pnSeed, 200, 200);
 	}
 	
-    public clsBWMain(long seed, int width, int height) {
-    	super(new MersenneTwisterFast(seed), new Schedule());
-	    xMax = width; 
-	    yMax = height;
+	//CTOR
+    public clsBWMain(long pnSeed, int pnWidth, int pnHeight) {
+    	super(new MersenneTwisterFast(pnSeed), new Schedule());
+	    mnXMax = pnWidth; 
+	    mnYMax = pnHeight;
 	    //createGrids(); CHKME warum wolltest du das hier RooL? ist in der start() Methode eh gut aufgehoben!
     }
 	
     
     void createGrids()
     {       
-    	moGameGridField = new Continuous2D(25, (xMax - xMin), (yMax - yMin));
+    	moGameGridField = new Continuous2D(25, (mnXMax - mnXMin), (mnYMax - mnYMin));
     }
 
     /**
@@ -80,7 +83,7 @@ public class clsBWMain extends SimState{
 		
 		//add world and agents
 		clsWorldBoundaries.loadWorldBoundaries(moGameGridField, objPE);
-		clsAgentLoader.loadAgents(moGameGridField, objPE, this, xMin, xMax, yMin, yMax);
+		clsAgentLoader.loadAgents(moGameGridField, objPE, this, mnXMin, mnXMax, mnYMin, mnYMax);
 		
 		//clear the charts
 		moTestSeries.clear(); //TODO Clemens for charting

@@ -27,52 +27,55 @@ import org.jfree.chart.ChartPanel;
  */
 public class clsBWMainWithUI extends GUIState{
 
-	/** GUI widget which holds some number of field portrayals, 
-	 * usually layered on top of one another
-	 */
+	/** GUI widget which holds some number of field portrayals and frames, 
+	 * usually layered on top of one another */
 	public Display2D moDisplay;
-	/** window to hold Display2D
-	 */
-	public JFrame moDisplayFrame;
+	/** window to hold Main Display2D panel */
+	public JFrame moDisplayGamegridFrame;
+	/** window to hold charting panel */
 	public JFrame moChartFrame;
 	/** responsible for drawing fields and letting the user manipulate 
-	 * objects stored within them 
-	 */
+	 * objects stored within them */
 	ContinuousPortrayal2D moGameGridPortrayal = new ContinuousPortrayal2D();
-	/**
-	 * holds all charts if charting is activated in startup
-	 */
-	public clsCharts moCharts;
+	/** holds all charts if charting is activated in startup */
+	public clsCharts moCharts = null;
 	
 	
 	public static void main(String[] poArgs){
+		//console is an elaborate GUI Controller. This is the standard way of starting the UI.
 		Console oConsole = new Console(new clsBWMainWithUI());
 		oConsole.setVisible(true);
 	}
+	
+	//CTORs
 	public clsBWMainWithUI() { super(new clsBWMain( System.currentTimeMillis())); }
 	public clsBWMainWithUI(SimState poState) { super(poState); }
 	
 	/** returns the title bar of the console
 	 * @return String
 	 */
-	public static String getName() { return "... bw V3.0 ..."; } 
+	public static String getName() { return "... BW V3.0 ..."; } 
 
+	
+	
 	public void init(Controller poController){
 		
 		super.init(poController);
 		
 		moDisplay = new Display2D(600,600,this,1); //TODO make me konfiguierbar
-		moDisplay.setClipping(false);
+		moDisplay.setClipping(false); //we’d like to see objects outside the width & height box
 		
-		moDisplayFrame = moDisplay.createFrame();
-		moDisplayFrame.setTitle("bw V3.0 Display");
+		//let the display generate a frame for you
+		moDisplayGamegridFrame = moDisplay.createFrame();
+		moDisplayGamegridFrame.setTitle("BW V3.0 GameGrid");
+		poController.registerFrame(moDisplayGamegridFrame); //register the JFrame with the Console to include it in the Console’s list
 		
-		poController.registerFrame(moDisplayFrame);
 		// specify the backdrop color  -- what gets painted behind the displays
 		moDisplay.setBackdrop(Color.white); //TODO make me konfigurierbar
-		moDisplayFrame.setVisible(true);
-		moDisplay.attach(moGameGridPortrayal, "Arena");
+		moDisplayGamegridFrame.setVisible(true);
+		moDisplay.attach(moGameGridPortrayal, "BW GameGrid"); //attach the Portrayal to the Display2D to display it 
 		
+		//add the charting panel
 		if ( ((clsBWMain)state).mbChartDisplay) {
 	        addChartPanel(poController,(clsBWMain)state);
 		}
@@ -80,9 +83,16 @@ public class clsBWMainWithUI extends GUIState{
 	
 	public void quit(){
 		super.quit();
-		if (moDisplayFrame!=null) 
-			moDisplayFrame.dispose();
-		moDisplayFrame = null;
+		//remove game grid
+		if (moDisplayGamegridFrame!=null) 
+			moDisplayGamegridFrame.dispose();
+		moDisplayGamegridFrame = null;
+		
+		//remove charting
+		if (moChartFrame!=null) 
+			moChartFrame.dispose();
+		moChartFrame = null;
+		
 		moDisplay = null;
 	}
 	
@@ -102,9 +112,8 @@ public class clsBWMainWithUI extends GUIState{
 	 */
 	public void setupPortrayals(){
 				
-		// tell the portrayals what to portray and how to portray them
+		// tell the portrayals what to portray and how to portray them = connection between field and portrayal
 		moGameGridPortrayal.setField(((clsBWMain)state).moGameGridField);
-		
 		
 		moDisplay.reset();
 		
