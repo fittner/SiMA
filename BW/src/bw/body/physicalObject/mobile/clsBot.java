@@ -88,12 +88,12 @@ public class clsBot extends sim.robot2D.Robot implements Steppable, ForceGenerat
         {
         Double2D position = this.getPosition();
         clsBWMain simRobots = (clsBWMain)state;
-        simRobots.moFieldEnvironment.setObjectLocation(this, new sim.util.Double2D(position.x, position.y));
+        simRobots.moGameGridField.setObjectLocation(this, new sim.util.Double2D(position.x, position.y));
         
         // Find a can
         if (botState == SEARCHING)
             {
-            Bag objs = simRobots.moFieldEnvironment.allObjects;
+            Bag objs = simRobots.moGameGridField.allObjects;
             objs.shuffle(state.random);
             for (int i = 0; i < objs.numObjs; i++)
                 {

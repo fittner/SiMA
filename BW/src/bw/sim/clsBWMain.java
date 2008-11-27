@@ -8,16 +8,12 @@
 package bw.sim;
 
 import javax.swing.JOptionPane;
-
 import org.jfree.chart.JFreeChart;
 import org.jfree.data.xy.XYSeries;
 import org.jfree.data.xy.XYSeriesCollection;
-
 import bw.sim.bwgenerator.clsAgentLoader;
 import bw.sim.bwgenerator.clsWorldBoundaries;
-
 import ec.util.*;
-
 import sim.physics2D.*;
 import sim.display.SimApplet;
 import sim.engine.*;
@@ -29,7 +25,7 @@ import sim.field.continuous.*;
  * 
  */
 public class clsBWMain extends SimState{
-
+	
 	/**
 	 * activates/shows the charting panel
 	 */
@@ -38,8 +34,20 @@ public class clsBWMain extends SimState{
 	public XYSeries moTestSeries = new XYSeries("Agents"); //TODO clemens name passt nicht, muss erst schauen wofür das genau ist!
 	public XYSeriesCollection moAgents_series_coll = new XYSeriesCollection(moTestSeries); //TODO clemens
 
-    public Continuous2D moFieldEnvironment;
-	
+	/**
+	 * Continuous2D is a Field: a representation of space. In particular, Continuous2D 
+	 * represents continuous 2-dimensional space it is actually infinite: the width 
+	 * and height are just for GUI guidelines (starting size of the window). 
+	 */
+    public Continuous2D moGameGridField;
+
+    //dimensions of the playground
+    public double xMin = 0;
+    public double xMax = 100;
+    public double yMin = 0;
+    public double yMax = 100;
+    
+    
 	public clsBWMain(long seed){
 		this(seed, 200, 200);
 	}
@@ -48,34 +56,38 @@ public class clsBWMain extends SimState{
     	super(new MersenneTwisterFast(seed), new Schedule());
 	    xMax = width; 
 	    yMax = height;
-	    createGrids();
+	    //createGrids(); CHKME warum wolltest du das hier RooL? ist in der start() Methode eh gut aufgehoben!
     }
 	
-	//dimensions of the playground
-    public double xMin = 0;
-    public double xMax = 100;
-    public double yMin = 0;
-    public double yMax = 100;
+    
     void createGrids()
     {       
-    	moFieldEnvironment = new Continuous2D(25, (xMax - xMin), (yMax - yMin));
+    	moGameGridField = new Continuous2D(25, (xMax - xMin), (yMax - yMin));
     }
 
-	
+    /**
+	 * start is the method called when the simulation starts but before any agents have been pulsed.
+	 */
 	public void start()
 	{
 		super.start();
+		
 		createGrids();
 		
 		PhysicsEngine2D objPE = new PhysicsEngine2D();
 		
-		//creating and registring objects
+		//creating and registring objects...
 		
-		clsWorldBoundaries.loadWorldBoundaries(moFieldEnvironment, objPE);
-		clsAgentLoader.loadAgents(moFieldEnvironment, objPE, this, xMin, xMax, yMin, yMax);
+		//add world and agents
+		clsWorldBoundaries.loadWorldBoundaries(moGameGridField, objPE);
+		clsAgentLoader.loadAgents(moGameGridField, objPE, this, xMin, xMax, yMin, yMax);
 		
-		moTestSeries.clear(); //TODO Clemens
+		//clear the charts
+		moTestSeries.clear(); //TODO Clemens for charting
 		
+		//TODO clemens: add charts/statistics to schedule here
+		
+		//schedules a steppable to be repeatedly stepped, forever, once per unit timestep
 		schedule.scheduleRepeating(objPE);
 	}
 	

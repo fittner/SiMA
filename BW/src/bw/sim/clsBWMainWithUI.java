@@ -38,7 +38,7 @@ public class clsBWMainWithUI extends GUIState{
 	/** responsible for drawing fields and letting the user manipulate 
 	 * objects stored within them 
 	 */
-	ContinuousPortrayal2D mobwArena = new ContinuousPortrayal2D();
+	ContinuousPortrayal2D moGameGridPortrayal = new ContinuousPortrayal2D();
 	/**
 	 * holds all charts if charting is activated in startup
 	 */
@@ -71,7 +71,7 @@ public class clsBWMainWithUI extends GUIState{
 		// specify the backdrop color  -- what gets painted behind the displays
 		moDisplay.setBackdrop(Color.white); //TODO make me konfigurierbar
 		moDisplayFrame.setVisible(true);
-		moDisplay.attach(mobwArena, "Arena");
+		moDisplay.attach(moGameGridPortrayal, "Arena");
 		
 		if ( ((clsBWMain)state).mbChartDisplay) {
 	        addChartPanel(poController,(clsBWMain)state);
@@ -103,7 +103,7 @@ public class clsBWMainWithUI extends GUIState{
 	public void setupPortrayals(){
 				
 		// tell the portrayals what to portray and how to portray them
-		mobwArena.setField(((clsBWMain)state).moFieldEnvironment);
+		moGameGridPortrayal.setField(((clsBWMain)state).moGameGridField);
 		
 		
 		moDisplay.reset();
