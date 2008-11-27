@@ -27,11 +27,11 @@ import sim.field.continuous.*;
 public class clsBWMain extends SimState{
 	
 	
-	/**
-	 * activates/shows the charting panel
-	 * TODO clemens: deactivated for now, has to set by config.xml later! 
-	 */
+	/** activates/shows the charting panel
+	 * TODO clemens: deactivated for now, has to set by config.xml later! */
 	public boolean mbChartDisplay = false; 
+	
+
 	public JFreeChart  moTestChart;
 	public XYSeries moTestSeries = new XYSeries("Agents"); //TODO clemens name passt nicht, muss erst schauen wofür das genau ist!
 	public XYSeriesCollection moAgents_series_coll = new XYSeriesCollection(moTestSeries); //TODO clemens
@@ -39,8 +39,7 @@ public class clsBWMain extends SimState{
 	/**
 	 * Continuous2D is a Field: a representation of space. In particular, Continuous2D 
 	 * represents continuous 2-dimensional space it is actually infinite: the width 
-	 * and height are just for GUI guidelines (starting size of the window). 
-	 */
+	 * and height are just for GUI guidelines (starting size of the window). */
     public Continuous2D moGameGridField;
 
     //dimensions of the playground
@@ -48,6 +47,12 @@ public class clsBWMain extends SimState{
     public double mnXMax = 100;
     public double mnYMin = 0;
     public double mnYMax = 100;
+    
+    /**activates/shows the charting panel
+	 * @return the mbChartDisplay */
+	public boolean getmbChartDisplay() {
+		return mbChartDisplay;
+	}
     
     //CTOR
 	public clsBWMain(long pnSeed){

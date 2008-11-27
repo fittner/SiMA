@@ -42,7 +42,9 @@ public class clsBot extends sim.robot2D.Robot implements Steppable, ForceGenerat
         
     private int botState;
         
-    private final int HAVECAN = 1;
+    
+
+	private final int HAVECAN = 1;
     private final int APPROACHINGCAN = 2;
     private final int RELEASINGCAN = 3;
     private final int RETURNINGHOME = 4;
@@ -55,6 +57,13 @@ public class clsBot extends sim.robot2D.Robot implements Steppable, ForceGenerat
     
     public int getId() {
 		return mnId;
+	}
+    
+    /**
+	 * @return the botState
+	 */
+	public int getBotState() {
+		return botState;
 	}
 
 	public void setId(int mnId) {
