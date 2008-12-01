@@ -8,7 +8,7 @@
 package bw;
 
 /**
- * TODO (deutsch) - insert description 
+ * Test suite for all bw.sim classes
  * 
  * @author deutsch
  * 
@@ -20,9 +20,11 @@ import org.junit.runner.RunWith;
 @RunWith(Suite.class)
 @SuiteClasses( {
 	
-//	bw.sim.???.class,
+	bw.sim.tstBWMain.class,
 })
 
 public class tssSim {
 
 }
+
+
