@@ -132,6 +132,9 @@ public class clsBWMainWithUI extends GUIState{
 	    return oInspector;
     }
 	
+	
+	
+	
 	/**
 	 * Adds the seperate charting panel if option is set to true in startup.
 	 * Creates the panel, adds the charts.
