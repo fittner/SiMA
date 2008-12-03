@@ -29,6 +29,17 @@ public class clsContentColumn {
 	 */
 	private int mnContent = 0;
 	
+	/**
+	 * mnPrecision says how many decimal positions the internal fixed width value has. this property is maybe needed by
+	 * derived specializations. the value has to be 0 or larger.  
+	 */
+	private int mnPrecision = 0;
+	
+	/**
+	 * the resulting precision multiplicator. values are 1, 10, 100, etc.
+	 */
+	private int mnPrecisionMultiplicator = 1;
+	
 	
 	
 	/**
@@ -41,17 +52,37 @@ public class clsContentColumn {
 	/**
 	 * Constructor which takes mnContent and mnMaxContent as params. Performs checkValue.
 	 * 
-	 * @param mnContent
-	 * @param mnMaxContent
+	 * @param pnContent
+	 * @param pnMaxContent
 	 */
-	public clsContentColumn(int mnContent, int mnMaxContent) {
+	public clsContentColumn(int pnContent, int pnMaxContent) {
 		super();
-		this.mnContent = mnContent;
-		this.mnMaxContent = mnMaxContent;
+		
+		this.setMaxContent( pnMaxContent );
+		this.setContent( pnContent );
 		
 		this.checkMaxValue();
 		this.checkValue();		
-	}
+	}	
+	
+	/**
+	 * Constructor which takes mnContent, mnMaxContent, and mnPrecision as params. Performs checkValue.
+	 * 
+	 * @param pnContent
+	 * @param pnMaxContent
+	 * @param pnPrecision
+	 */
+	public clsContentColumn(int pnContent, int pnMaxContent, int pnPrecision) {
+		super();
+		
+		this.setPrecision( pnPrecision );
+		
+		this.setMaxContent( pnMaxContent );
+		this.setContent( pnContent );
+		
+		this.checkMaxValue();
+		this.checkValue();	
+	}	
 
 	/**
 	 * checkValue makes sure, that mnContent always fulfills 0 <= mgContent <= mnMaxContent. If
@@ -86,11 +117,7 @@ public class clsContentColumn {
 	 * @return the resulting content after checkValue has been executed
 	 */
 	public int increase(int pnContent) {
-		this.mnContent += pnContent;
-		
-		this.checkValue();
-		
-		return this.mnContent;
+		return this.setContent( this.getContent() + pnContent );
 	}
 	
 	/**
@@ -100,11 +127,7 @@ public class clsContentColumn {
 	 * @return the resulting content after checkValue has been executed
 	 */
 	public int decrease(int pnContent) {
-		this.mnContent -= pnContent;
-		
-		this.checkValue();
-		
-		return this.mnContent;
+		return this.setContent( this.getContent() - pnContent );
 	}
 
 	/**
@@ -113,21 +136,25 @@ public class clsContentColumn {
 	 * @return the mnContent
 	 */
 	public int getContent() {
-		return this.mnContent;
+		if (this.mnPrecision == 0) {
+			return this.mnContent;
+		} else {
+			return (int)(this.mnContent / this.mnPrecisionMultiplicator);
+		}
 	}
 
 	/**
 	 * Setter function for mnContent
 	 * 
-	 * @param mnContent the mnContent to set
+	 * @param pnContent the mnContent to set
 	 * @return the resulting content after checkValue has been executed
 	 */
-	public int setContent(int mnContent) {
-		this.mnContent = mnContent;
+	public int setContent(int pnContent) {
+		this.mnContent = pnContent * this.mnPrecisionMultiplicator;
 		
 		this.checkValue();
 		
-		return this.mnContent;
+		return this.getContent();
 	}
 
 	/**
@@ -136,23 +163,71 @@ public class clsContentColumn {
 	 * @return the mnMaxContent
 	 */
 	public int getMaxContent() {
-		return mnMaxContent;
+		if (this.mnPrecision == 0) {		
+			return mnMaxContent;
+		} else {
+			return (int)(this.mnMaxContent / this.mnPrecisionMultiplicator);
+		}
 	}
 
 	/**
 	 * Setter function for mnMaxContent
 	 * 
-	 * @param mnMaxContent the mnMaxContent to set
+	 * @param pnMaxContent the mnMaxContent to set
 	 * @return the resulting content after checkValue has been executed
 	 */
-	public int setMaxContent(int mnMaxContent) {
-		this.mnMaxContent = mnMaxContent;	
+	public int setMaxContent(int pnMaxContent) {
+		this.mnMaxContent = pnMaxContent * this.mnPrecisionMultiplicator;	
 		
 		this.checkMaxValue();
 		this.checkValue();
 		
-		return this.mnContent;
+		return this.getMaxContent();
 	}
 	
+	/**
+	 * sets the precision multiplicator according to the current value of mnPrecision
+	 *
+	 */
+	private void setPrecisionMultiplicator() {
+		this.mnPrecisionMultiplicator = (int) Math.pow(10, this.mnPrecision);
+	}
+	
+	/**
+	 * Getter function for mnPrecision
+	 * 
+	 * @return the mnPrecision
+	 */
+	public int getPrecision() {
+		return this.mnPrecision;
+	}
+
+	/**
+	 * Setter function for mnPrecision. updates mnContent and mnMaxContent to fit the new precision
+	 * 
+	 * @param pnPrecision the mnPrecision to set
+	 */
+	public void setPrecision(int pnPrecision) {
+		//store old value of precision multiplicator - used to update the values.
+		int oldPrecisionMultiplicator = this.mnPrecisionMultiplicator;
+
+		if (pnPrecision < 0) {
+			this.mnPrecision = 0;
+		}
+				
+		this.mnPrecision = pnPrecision;
+		this.setPrecisionMultiplicator();
+		
+		// update the values of content and maxcontent to the new precision
+		this.mnContent *= this.mnPrecisionMultiplicator;
+		this.mnMaxContent *= this.mnPrecisionMultiplicator;
+		
+		this.mnContent = this.mnContent / oldPrecisionMultiplicator;
+		this.mnMaxContent = this.mnMaxContent / oldPrecisionMultiplicator;
+		
+		// check if everything is still in range - should be fine
+		this.checkMaxValue();
+		this.checkValue();
+	}	
 	
 }
