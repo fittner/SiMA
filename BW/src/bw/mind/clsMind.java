@@ -15,5 +15,5 @@ package bw.mind;
  * 
  */
 public class clsMind {
- public int i;
+
 }
