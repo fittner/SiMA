@@ -1,6 +1,7 @@
 package bw;
 
 
+
 /**
  * Entity contains basic physical values.
  * TODO: Includes helper to register the object in the MASON physics engine?
