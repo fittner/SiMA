@@ -27,7 +27,7 @@ public class clsMotionPlatform implements itMotion{
 	{
 		moRobotBase = poRobotBase;
 		
-		moRobotBase.setVelocity(vel);
+		//moRobotBase.setVelocity(vel);
 		moRobotBase.setCoefficientOfFriction(.2);
 		moRobotBase.setCoefficientOfStaticFriction(0);
 		moRobotBase.setCoefficientOfRestitution(1);
