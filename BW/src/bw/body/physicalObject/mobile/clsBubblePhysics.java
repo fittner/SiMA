@@ -14,6 +14,6 @@ package bw.body.physicalObject.mobile;
  * @author langr
  * 
  */
-public class clsBubblePhysics extends sim.physics2D.physicalObject.MobileObject2D implements itMotion{
+public class clsBubblePhysics extends sim.physics2D.physicalObject.MobileObject2D {
 
 }

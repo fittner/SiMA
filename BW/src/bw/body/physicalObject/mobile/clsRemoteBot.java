@@ -7,28 +7,29 @@
  */
 package bw.body.physicalObject.mobile;
 
-import java.awt.*;
+import java.awt.Color;
 
-import sim.physics2D.constraint.*;
-
-import sim.engine.*;
-import sim.physics2D.physicalObject.*;
+import sim.engine.SimState;
+import sim.engine.Steppable;
+import sim.physics2D.constraint.ConstraintEngine;
+import sim.physics2D.constraint.PinJoint;
 import sim.physics2D.forceGenerator.ForceGenerator;
-import sim.physics2D.util.*;
+import sim.physics2D.physicalObject.PhysicalObject2D;
+import sim.physics2D.util.Angle;
+import sim.physics2D.util.Double2D;
 import sim.portrayal.DrawInfo2D;
 import sim.util.Bag;
 import bw.body.physicalObject.effector.clsBotHands;
-import bw.body.physicalObject.stationary.*;
-import bw.sim.*;
-import org.jfree.chart.JFreeChart;
-import org.jfree.data.xy.XYSeries;
+import bw.body.physicalObject.stationary.clsCan;
+import bw.sim.clsBWMain;
 
-/* Mason test robot implementation. 
-* 
-* @author langr
-* 
-*/
-public class clsBot extends ARSsim.robot2D.clsRobot implements Steppable, ForceGenerator
+/**
+ * TODO (langr) - insert description 
+ * 
+ * @author langr
+ * 
+ */
+public class clsRemoteBot extends ARSsim.robot2D.clsRobot implements Steppable, ForceGenerator
     {
 	private clsMotionPlatform moMotion;
 	
@@ -129,7 +130,9 @@ public class clsBot extends ARSsim.robot2D.clsRobot implements Steppable, ForceG
 
     public void addForce()
         {
-                
+        
+    	//add remote control here!
+    	
         switch (botState)
             {
             case HAVECAN:

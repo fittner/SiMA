@@ -17,6 +17,6 @@ package bw.body.physicalObject.mobile;
  * @author langr
  * 
  */
-public class clsRobot extends sim.robot2D.Robot implements itMotion {
+public class clsRobot extends sim.robot2D.Robot {
 
 }
