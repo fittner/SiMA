@@ -15,6 +15,7 @@ import sim.engine.*;
 import sim.physics2D.physicalObject.*;
 import sim.physics2D.forceGenerator.ForceGenerator;
 import sim.physics2D.util.*;
+import sim.portrayal.DrawInfo2D;
 import sim.util.Bag;
 import bw.body.physicalObject.effector.clsBotHands;
 import bw.body.physicalObject.stationary.*;
@@ -65,6 +66,7 @@ public class clsBot extends sim.robot2D.Robot implements Steppable, ForceGenerat
 	public int getBotState() {
 		return botState;
 	}
+	public Object domBotState() { return new String[] { "HAVECAN", "APPROACHINGCAN", "RELEASINGCAN", "RETURNINGHOME", "SEARCHING" }; }
 
 	public void setId(int mnId) {
 		this.mnId = mnId;
@@ -226,4 +228,11 @@ public class clsBot extends sim.robot2D.Robot implements Steppable, ForceGenerat
         else
             return 1; // regular collision
         }
+    
+    public boolean hitObject(Object object, DrawInfo2D range)
+	    {
+    		//TODO Clemens, hier gehört mehr rein als nur true!
+	    	return true; // (insert location algorithm and intersection here)
+	    } 
+    
     }
