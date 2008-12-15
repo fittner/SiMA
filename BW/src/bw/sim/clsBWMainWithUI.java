@@ -19,6 +19,9 @@ import java.awt.Container;
 import java.awt.Dimension;
 import org.jfree.chart.ChartPanel;
 
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
+
 /**
  * Main function for Simulation, UI part
  * 
@@ -56,7 +59,48 @@ public class clsBWMainWithUI extends GUIState{
 	 */
 	public static String getName() { return "... BW V3.0 ..."; } 
 
-	
+    KeyListener listener = new KeyListener() {
+        public void keyPressed(KeyEvent e) {
+          dumpInfo("Pressed", e);
+        }
+
+        public void keyReleased(KeyEvent e) {
+          dumpInfo("Released", e);
+        }
+
+        public void keyTyped(KeyEvent e) {
+          dumpInfo("Typed", e);
+        }
+
+        private void dumpInfo(String s, KeyEvent e) {
+          System.out.println(s);
+          int code = e.getKeyCode();
+          System.out.println("\tCode: " + KeyEvent.getKeyText(code));
+          System.out.println("\tChar: " + e.getKeyChar());
+          int mods = e.getModifiersEx();
+          System.out.println("\tMods: "
+              + KeyEvent.getModifiersExText(mods));
+          System.out.println("\tLocation: "
+              + location(e.getKeyLocation()));
+          System.out.println("\tAction? " + e.isActionKey());
+        }
+
+        private String location(int location) {
+          switch (location) {
+          case KeyEvent.KEY_LOCATION_LEFT:
+            return "Left";
+          case KeyEvent.KEY_LOCATION_RIGHT:
+            return "Right";
+          case KeyEvent.KEY_LOCATION_NUMPAD:
+            return "NumPad";
+          case KeyEvent.KEY_LOCATION_STANDARD:
+            return "Standard";
+          case KeyEvent.KEY_LOCATION_UNKNOWN:
+          default:
+            return "Unknown";
+          }
+        }
+      };
 	
 	public void init(Controller poController){
 		
@@ -68,6 +112,7 @@ public class clsBWMainWithUI extends GUIState{
 		//let the display generate a frame for you
 		moDisplayGamegridFrame = moDisplay.createFrame();
 		moDisplayGamegridFrame.setTitle("BW V3.0 GameGrid");
+		moDisplayGamegridFrame.addKeyListener(listener);
 		poController.registerFrame(moDisplayGamegridFrame); //register the JFrame with the Console to include it in the Console’s list
 		
 		// specify the backdrop color  -- what gets painted behind the displays
