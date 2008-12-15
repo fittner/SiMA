@@ -72,7 +72,7 @@ public class clsRemoteBot extends ARSsim.robot2D.clsRobot implements Steppable, 
 		this.mnId = mnId;
 	}
 
-	public clsBot(Double2D pos, Double2D vel, int pnId)
+	public void clsBot(Double2D pos, Double2D vel, int pnId)
         {
 		moMotion = new clsMotionPlatform(this);
 		
