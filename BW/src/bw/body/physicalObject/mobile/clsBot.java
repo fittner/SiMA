@@ -28,7 +28,7 @@ import org.jfree.data.xy.XYSeries;
 * @author langr
 * 
 */
-public class clsBot extends sim.robot2D.Robot implements Steppable, ForceGenerator
+public class clsBot extends ARSsim.robot2D.clsRobot implements Steppable, ForceGenerator
     {
     clsCan currentCan;
     private PinJoint pj;
