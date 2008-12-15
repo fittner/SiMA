@@ -107,6 +107,12 @@ public class clsAgentLoader {
            //fa = new FixedAngle();
            //fa.AddPhysicalObject(effector);
            //fa.AddPhysicalObject(bot);
+           
+         //VISION AREA Init + Register
+           bw.body.io.clsSensorVision visArea; 
+           visArea = new bw.body.io.clsSensorVision(bot.getPosition(),new Double2D(0, 0), poObjPE, bot);
+           poFieldEnvironment.setObjectLocation(visArea.getVisionObj(), new sim.util.Double2D(bot.getPosition().x, bot.getPosition().y));
+           poSimState.schedule.scheduleRepeating(visArea.getVisionObj());           
                
            poObjPE.register(pj);
            //objPE.register(fa);
