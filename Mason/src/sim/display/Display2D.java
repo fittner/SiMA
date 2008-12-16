@@ -1201,6 +1201,56 @@ public class Display2D extends JComponent implements Steppable
         simulation.controller.setInspectors(inspectors,names);
         }
 
+    //FIXME - Roland: This has to be done in the BW-Project!!!!
+    // No changes are allowed here!
+    KeyListener listener = new KeyListener() {
+        public void keyPressed(KeyEvent e) {
+          dumpInfo("Pressed", e);
+          clsKeyListener.setKeyPressed(e.getKeyCode());
+        }
+
+        public void keyReleased(KeyEvent e) {
+          dumpInfo("Released", e);
+          clsKeyListener.setKeyPressed(0);
+        }
+
+        public void keyTyped(KeyEvent e) {
+          dumpInfo("Typed", e);
+        }
+
+        private void dumpInfo(String s, KeyEvent e) {
+          System.out.println(s);
+          
+          int code = e.getKeyCode();
+          
+          System.out.println("\tcode" + code);
+          System.out.println("\tCode: " + KeyEvent.getKeyText(code));
+          System.out.println("\tChar: " + e.getKeyChar());
+          int mods = e.getModifiersEx();
+          System.out.println("\tMods: "
+              + KeyEvent.getModifiersExText(mods));
+          System.out.println("\tLocation: "
+              + location(e.getKeyLocation()));
+          System.out.println("\tAction? " + e.isActionKey());
+        }
+
+        private String location(int location) {
+        	switch (location) {
+          case KeyEvent.KEY_LOCATION_LEFT:
+            return "Left";
+          case KeyEvent.KEY_LOCATION_RIGHT:
+            return "Right";
+          case KeyEvent.KEY_LOCATION_NUMPAD:
+            return "NumPad";
+          case KeyEvent.KEY_LOCATION_STANDARD:
+            return "Standard";
+          case KeyEvent.KEY_LOCATION_UNKNOWN:
+          default:
+            return "Unknown";
+          }
+        }
+      };
+    
     /** Creates a frame holding the Display2D.  This is the best method to create the frame,
         rather than making a frame and putting the Display2D in it.  If you prefer the latter,
         then you need to handle two things.  First, when the frame is disposed, you need to
@@ -1233,6 +1283,15 @@ public class Display2D extends JComponent implements Steppable
         frame.getContentPane().add(this,BorderLayout.CENTER);
         
         frame.setTitle(GUIState.getName(simulation.getClass()) + " Display");
+        
+		//frame.addKeyListener(listener);
+        
+        Container contentPane = frame.getContentPane();
+        
+	    JTextField text = new JTextField();
+	    text.addKeyListener(listener);
+	    contentPane.add(text, BorderLayout.NORTH);
+		
         frame.pack();
         return frame;
         }
