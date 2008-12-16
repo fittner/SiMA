@@ -17,7 +17,7 @@ import sim.physics2D.util.Angle;
  */
 public interface itMotion {
 
-     void faceTowards(Angle relativeAngle);
+     void faceTowards(Angle angularForce);
 	 void moveForward(double speed);
 	 void stop();
 	 void backup();
