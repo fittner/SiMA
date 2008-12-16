@@ -43,7 +43,7 @@ public class clsStone extends clsImagePortrayal{
 			
 			double nScale = 0;
 			String nImagePath = null;
-			//TODO Clemens rel PATH
+			//TODO Clemens rel PATH!!!
 			switch (pnStoneType)
             {
             case STONE_S:

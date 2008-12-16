@@ -7,6 +7,8 @@
  */
 package bw.sim.bwgenerator;
 
+import java.awt.Color;
+
 import sim.field.continuous.Continuous2D;
 import sim.physics2D.PhysicsEngine2D;
 import sim.physics2D.util.*;
@@ -49,25 +51,36 @@ public class clsWorldBoundaries {
         poObjPE.register(wall);	
         
         //testing tha stones
+        //ohne setobjectLocation wir nichts angezeigt!
         pos = new Double2D(170,50);
         clsStone stone = new clsStone( 1 , new sim.util.Double2D(pos.x, pos.y), poFieldEnvironment);
-        // poObjPE.register(stone);	
+        clsInvisibleWallPhysics invwall = new clsInvisibleWallPhysics(pos, 10, 10);
+        //poFieldEnvironment.setObjectLocation(invwall, new sim.util.Double2D(pos.x, pos.y));
+        poObjPE.register(invwall);	
         
-        pos = new Double2D(160,40);
+        pos = new Double2D(100,80);
         stone = new clsStone( 1 , new sim.util.Double2D(pos.x, pos.y), poFieldEnvironment);
-        // poObjPE.register(stone);	
+        invwall = new clsInvisibleWallPhysics(pos, 10, 10);
+        //poFieldEnvironment.setObjectLocation(invwall, new sim.util.Double2D(pos.x, pos.y));
+        poObjPE.register(invwall);	
         
         pos = new Double2D(100,160);
         stone = new clsStone( 2 , new sim.util.Double2D(pos.x, pos.y), poFieldEnvironment);
-        // poObjPE.register(stone);	
+        invwall = new clsInvisibleWallPhysics(pos, 20, 20);
+        //poFieldEnvironment.setObjectLocation(invwall, new sim.util.Double2D(pos.x, pos.y));
+        poObjPE.register(invwall);		
         
         pos = new Double2D(25,110);
         stone = new clsStone( 3 , new sim.util.Double2D(pos.x, pos.y), poFieldEnvironment);
-        // poObjPE.register(stone);	
-        
-        pos = new Double2D(30,55);
+        invwall = new clsInvisibleWallPhysics(pos, 25, 25);
+        //poFieldEnvironment.setObjectLocation(invwall, new sim.util.Double2D(pos.x, pos.y));
+        poObjPE.register(invwall);	
+                
+        pos = new Double2D(30,20);
         stone = new clsStone( 4 , new sim.util.Double2D(pos.x, pos.y), poFieldEnvironment);
-        // poObjPE.register(stone);	
+        invwall = new clsInvisibleWallPhysics(pos, 50, 30);
+        //poFieldEnvironment.setObjectLocation(invwall, new sim.util.Double2D(pos.x, pos.y));
+        poObjPE.register(invwall);		
         
 	}
 	

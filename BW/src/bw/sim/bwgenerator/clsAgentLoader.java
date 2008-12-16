@@ -109,6 +109,9 @@ public class clsAgentLoader {
            //fa.AddPhysicalObject(effector);
            //fa.AddPhysicalObject(bot);
            
+           
+         
+           
          //VISION AREA Init + Register
            bw.body.io.clsSensorVision visArea; 
            visArea = new bw.body.io.clsSensorVision(bot.getPosition(),new Double2D(0, 0), poObjPE, bot);
@@ -117,6 +120,57 @@ public class clsAgentLoader {
                
            poObjPE.register(pj);
            //objPE.register(fa);
+           
+           
+         //feet FIXME Clemens nur für magic tuesday!!! gehört in klasse ausgelagert
+			pos = new Double2D(x - 9, y + 6);
+			effector = new clsBotHands(pos, new Double2D(0, 0), 2, Color.gray);
+			poObjPE.register(effector);
+			poFieldEnvironment.setObjectLocation(effector, new sim.util.Double2D(pos.x, pos.y));
+			poSimState.schedule.scheduleRepeating(effector);
+			//bot.e3 = effector;
+			
+			poObjPE.setNoCollisions(bot, effector);
+
+			pj = new PinJoint(pos, effector, bot);	
+			poObjPE.register(pj);
+			
+			pos = new Double2D(x - 9, y - 6);
+			effector = new clsBotHands(pos, new Double2D(0, 0), 2, Color.gray);
+			poObjPE.register(effector);
+			poFieldEnvironment.setObjectLocation(effector, new sim.util.Double2D(pos.x, pos.y));
+			poSimState.schedule.scheduleRepeating(effector);
+			//bot.e4 = effector;
+			
+			poObjPE.setNoCollisions(bot, effector);
+
+			pj = new PinJoint(pos, effector, bot);	
+			poObjPE.register(pj);
+			
+			pos = new Double2D(x, y - 11);
+			effector = new clsBotHands(pos, new Double2D(0, 0), 2, Color.gray);
+			poObjPE.register(effector);
+			poFieldEnvironment.setObjectLocation(effector, new sim.util.Double2D(pos.x, pos.y));
+			poSimState.schedule.scheduleRepeating(effector);
+			//bot.e5 = effector;
+			
+			poObjPE.setNoCollisions(bot, effector);
+
+			pj = new PinJoint(pos, effector, bot);	
+			poObjPE.register(pj);
+			
+			pos = new Double2D(x, y + 11);
+			effector = new clsBotHands(pos, new Double2D(0, 0), 2, Color.gray);
+			poObjPE.register(effector);
+			poFieldEnvironment.setObjectLocation(effector, new sim.util.Double2D(pos.x, pos.y));
+			poSimState.schedule.scheduleRepeating(effector);
+			//bot.e6 = effector;
+			
+			poObjPE.setNoCollisions(bot, effector);
+
+			pj = new PinJoint(pos, effector, bot);	
+			poObjPE.register(pj);
+			//end feet
            }
 	}
 	
