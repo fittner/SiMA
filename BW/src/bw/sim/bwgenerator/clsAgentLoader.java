@@ -30,6 +30,7 @@ public class clsAgentLoader {
 		//FIXME (langr) for test cases only --> refactor!
 		loadCans(poFieldEnvironment, poObjPE, poSimState, 30, xMin, xMax, yMin, yMax);
 		loadBots(poFieldEnvironment, poObjPE, poSimState, 2, xMin, xMax, yMin, yMax);
+		loadRemoteBots(poFieldEnvironment, poObjPE, poSimState, 2, xMin, xMax, yMin, yMax);
 	}
 	
 	public static void loadCans(Continuous2D poFieldEnvironment, PhysicsEngine2D poObjPE, SimState poSimState, int pnNumCans, double xMin, double xMax, double yMin, double yMax){
@@ -117,6 +118,69 @@ public class clsAgentLoader {
            poObjPE.register(pj);
            //objPE.register(fa);
            }
-		
 	}
+	
+	public static void loadRemoteBots(Continuous2D poFieldEnvironment, PhysicsEngine2D poObjPE, SimState poSimState, int pnNumBots, double xMin, double xMax, double yMin, double yMax){
+		
+		clsRemoteBot bot = null;
+		   Double2D pos;
+		
+	       for (int i = 0; i < 1; i++)
+        {
+        double x = Math.max(Math.min(poSimState.random.nextDouble() * xMax, xMax - 20), 20);
+        double y = Math.max(Math.min(poSimState.random.nextDouble() * yMax, yMax - 20), 50);
+                    
+        pos = new Double2D(x, y);
+        bot = new clsRemoteBot(pos, new Double2D(0, 0),i);
+        poObjPE.register(bot);
+        poFieldEnvironment.setObjectLocation(bot, new sim.util.Double2D(pos.x, pos.y));
+        poSimState.schedule.scheduleRepeating(bot);
+                    
+                    
+        //FixedAngle fa = new FixedAngle();
+        //NoPerpMotion npm = new NoPerpMotion();
+                    
+        clsBotHands effector;
+                    
+        pos = new Double2D(x + 12, y + 6);
+        effector = new clsBotHands(pos, new Double2D(0, 0), 1, Color.gray);
+        poObjPE.register(effector);
+        poFieldEnvironment.setObjectLocation(effector, new sim.util.Double2D(pos.x, pos.y));
+        poSimState.schedule.scheduleRepeating(effector);
+        bot.e1 = effector;
+                    
+        poObjPE.setNoCollisions(bot, effector);
+        //objPE.setNoCollisions(bot, landscape);
+                    
+        //fa.AddPhysicalObject(effector);
+        //npm.AddPhysicalObject(bot);
+                    
+        PinJoint pj = new PinJoint(pos, effector, bot);
+        //fa.AddPhysicalObject(bot);
+            
+        poObjPE.register(pj);
+        //objPE.register(fa);
+        //objPE.register(npm);
+                    
+        pos = new Double2D(x + 12, y - 6);
+        effector = new clsBotHands(pos, new Double2D(0, 0), 1, Color.gray);
+        poObjPE.register(effector);
+        poFieldEnvironment.setObjectLocation(effector, new sim.util.Double2D(pos.x, pos.y));
+        poSimState.schedule.scheduleRepeating(effector);
+        bot.e2 = effector;
+                    
+        poObjPE.setNoCollisions(bot, effector);
+                    
+        pj = new PinJoint(pos, effector, bot);
+        //fa = new FixedAngle();
+        //fa.AddPhysicalObject(effector);
+        //fa.AddPhysicalObject(bot);
+        
+            
+        poObjPE.register(pj);
+        //objPE.register(fa);
+        }
+		
+	}	
+	
 }

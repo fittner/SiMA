@@ -23,6 +23,8 @@ import bw.body.physicalObject.effector.clsBotHands;
 import bw.body.physicalObject.stationary.clsCan;
 import bw.sim.clsBWMain;
 
+import sim.display.clsKeyListener;
+
 /**
  * TODO (langr) - insert description 
  * 
@@ -133,73 +135,32 @@ public class clsRemoteBot extends ARSsim.robot2D.clsRobot implements Steppable, 
         
     	//add remote control here!
     	
-        switch (botState)
-            {
-            case HAVECAN:
-            	if( mnId%2==0 )
-            	{
-	            	if (this.getPosition().y <= 40)
-	                    {
-	                    if (this.getVelocity().length() > 0.01 || this.getAngularVelocity() > 0.01)
-	                        this.stop();
-	                    else
-	                        {
-	                        objCE.unRegisterForceConstraint(pj);                            
-	                        botState = RELEASINGCAN;
-	                        objCE.removeNoCollisions(this, currentCan);
-	                        objCE.removeNoCollisions(e1, currentCan);
-	                        objCE.removeNoCollisions(e2, currentCan);
-	                        currentCan.visible = true;
-	                        }
-	                    }
-	                else
-	                    this.goTo(new Double2D(this.getPosition().x, 40));
-            	}
-            	else
-            	{
-            	if (this.getPosition().y >= 160)
-                {
-	                if (this.getVelocity().length() > 0.01 || this.getAngularVelocity() > 0.01)
-	                    this.stop();
-	                else
-	                    {
-	                    objCE.unRegisterForceConstraint(pj);                            
-	                    botState = RELEASINGCAN;
-	                    objCE.removeNoCollisions(this, currentCan);
-	                    objCE.removeNoCollisions(e1, currentCan);
-	                    objCE.removeNoCollisions(e2, currentCan);
-	                    currentCan.visible = true;
-	                    }
-	                }
-		            else
-		                this.goTo(new Double2D(this.getPosition().x, 160));
-            	}
-                break;
-            case RELEASINGCAN:
-                // back out of can home
-                if (this.getPosition().subtract(currentCan.getPosition()).length() <= 30)
-                    backup();
-                else
-                    botState = SEARCHING;
-                break;
-            case APPROACHINGCAN:
-                if (currentCan.visible)
-                    this.goTo(currentCan.getPosition());
-                else
-                    botState = SEARCHING;
-                break;
-            case RETURNINGHOME:
-                if (this.getPosition().subtract(botHome).length() <= 30)
-                    {
-                    if (this.getOrientation().radians != 0)
-                        this.faceTowards(new Angle(0));
-                    else
-                        stop();
-                    }
-                else
-                    this.goTo(botHome);
-                break;  
-            }
+    	switch( clsKeyListener.getKeyPressed() )
+    	{
+    	case 38: //up
+    		moMotion.moveForward(4.00);
+    		break;
+    	case 40: //down
+    		moMotion.backup();
+    		break;
+    	case 37: //left
+    		moMotion.faceTowards(new Angle(-1));
+    		break;
+    	case 39: //right
+    		moMotion.faceTowards(new Angle(1));
+    		break;
+    	case 65: //'A'
+    		break;
+    	case 83: //'S'
+            objCE.unRegisterForceConstraint(pj);                            
+            botState = RELEASINGCAN;
+            objCE.removeNoCollisions(this, currentCan);
+            objCE.removeNoCollisions(e1, currentCan);
+            objCE.removeNoCollisions(e2, currentCan);
+            currentCan.visible = true;
+    		break;
+    	}
+
         }
         
     public int handleCollision(PhysicalObject2D other, Double2D colPoint)
