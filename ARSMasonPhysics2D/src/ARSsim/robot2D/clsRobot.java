@@ -31,7 +31,8 @@ public class clsRobot extends Robot
         
     public void moveForward(double speed)
         {
-    	super.moveForward(speed);
+        this.addForce((new Double2D(speed, 0)).rotate(this.getOrientation().radians));
+    	//super.moveForward(speed);
         }
         
     public void goTo(Double2D globalDestination)
