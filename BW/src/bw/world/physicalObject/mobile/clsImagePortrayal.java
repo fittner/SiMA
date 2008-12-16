@@ -11,6 +11,7 @@ import java.awt.Image;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.net.URL;
 
 import javax.imageio.ImageIO;
 
@@ -51,6 +52,9 @@ public class clsImagePortrayal extends ImagePortrayal2D{
 	 * @param poFieldEnvironment
 	 */
 	public void PlaceImage(String  psImagePath, double pnScale, Double2D poPosImage, Continuous2D poFieldEnvironment){
+		
+		URL url = getClass().getClassLoader().getResource("/resources/images/rock1.jpg");
+
 		
 		File oFile = new File( psImagePath ); 
 		

@@ -47,7 +47,7 @@ public class clsStone extends clsImagePortrayal{
 			switch (pnStoneType)
             {
             case STONE_S:
-            	nImagePath = "c:/temp/rock1.jpg";
+            	nImagePath = "/images/rock1.jpg";
             	nScale = 10;
             	break;
             case STONE_M:
