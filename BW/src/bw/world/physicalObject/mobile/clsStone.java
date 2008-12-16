@@ -43,27 +43,27 @@ public class clsStone extends clsImagePortrayal{
 			
 			double nScale = 0;
 			String nImagePath = null;
-			
+			//TODO Clemens rel PATH
 			switch (pnStoneType)
             {
             case STONE_S:
-            	nImagePath = "/images/rock1.jpg";
+            	nImagePath = "S:/ARS/PA/BWv1/BW/src/resources/images/rock1.jpg";
             	nScale = 10;
             	break;
             case STONE_M:
-            	nImagePath = "C:/temp/rock2.jpg";
+            	nImagePath = "S:/ARS/PA/BWv1/BW/src/resources/images/rock2.jpg";
             	nScale = 20;
             	break;
             case STONE_L:
-            	nImagePath = "C:/temp/rock3.jpg";
+            	nImagePath = "S:/ARS/PA/BWv1/BW/src/resources/images/rock3.jpg";
             	nScale = 25;
             	break;
             case STONE_XL:
-            	nImagePath = "C:/temp/rock4.jpg";
+            	nImagePath = "S:/ARS/PA/BWv1/BW/src/resources/images/rock4.jpg";
             	nScale = 30;
             	break;
             default:
-            	nImagePath = "c:/temp/rock1.jpg";
+            	nImagePath = "S:/ARS/PA/BWv1/BW/src/resources/images/rock1.jpg";
         		nScale = 10;
         		break;
             }

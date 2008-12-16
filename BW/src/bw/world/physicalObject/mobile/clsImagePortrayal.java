@@ -53,7 +53,8 @@ public class clsImagePortrayal extends ImagePortrayal2D{
 	 */
 	public void PlaceImage(String  psImagePath, double pnScale, Double2D poPosImage, Continuous2D poFieldEnvironment){
 		
-		URL url = getClass().getClassLoader().getResource("/resources/images/rock1.jpg");
+		//TODO Clemens loar rel path!
+		//URL url = getClass().getClassLoader().getResource("/../resources/images/rock1.jpg");
 
 		
 		File oFile = new File( psImagePath ); 
