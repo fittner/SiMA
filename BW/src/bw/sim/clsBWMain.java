@@ -87,7 +87,7 @@ public class clsBWMain extends SimState{
 		//creating and registring objects...
 		
 		//add world and agents
-		clsWorldBoundaries.loadWorldBoundaries(moGameGridField, objPE);
+		clsWorldBoundaries.loadWorldBoundaries(moGameGridField, objPE, this);
 		clsAgentLoader.loadAgents(moGameGridField, objPE, this, mnXMin, mnXMax, mnYMin, mnYMax);
 		
 		//clear the charts
