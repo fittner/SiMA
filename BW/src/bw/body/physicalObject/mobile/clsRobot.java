@@ -19,4 +19,6 @@ package bw.body.physicalObject.mobile;
  */
 public class clsRobot extends sim.robot2D.Robot {
 
+	public int mnNumberOfEyes = 0;
+	
 }
