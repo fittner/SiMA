@@ -6,8 +6,8 @@
 	<classpathentry combineaccessrules="false" kind="src" path="/Mason"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/MasonPhysics2D"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.junit.JUNIT_CONTAINER/4"/>
-	<classpathentry kind="lib" path="S:/ARS/PA/BWv1/BW/lib/jfreechart-1.0.11.jar"/>
-	<classpathentry kind="lib" path="S:/ARS/PA/BWv1/BW/lib/jcommon-1.0.14.jar"/>
+	<classpathentry kind="lib" path="lib/jcommon-1.0.14.jar"/>
+	<classpathentry kind="lib" path="lib/jfreechart-1.0.11.jar"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/ARSMasonPhysics2D"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
