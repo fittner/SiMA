@@ -8,6 +8,8 @@
 package bw.body;
 
 import java.util.HashMap;
+import java.util.Iterator;
+import java.util.LinkedList;
 import bw.utils.datatypes.clsMutableInteger;
 
 /**
@@ -61,5 +63,20 @@ public class clsInternalEnergyConsumption {
 	}
 	public clsMutableInteger getValue(Integer poKey)  {
 		return (clsMutableInteger)moList.get(poKey);
+	}
+	
+	public int getSum() {
+		int nSum = 0;
+		
+		LinkedList<clsMutableInteger> oList = (LinkedList<clsMutableInteger>) moList.values();
+		
+		Iterator<clsMutableInteger> i = oList.iterator();
+		
+		while (i.hasNext()) {
+			clsMutableInteger oValue = (clsMutableInteger)i.next();
+			nSum += oValue.intValue();
+		}
+		
+		return nSum;
 	}
 }
