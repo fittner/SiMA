@@ -14,9 +14,15 @@ import java.io.IOException;
 
 import javax.imageio.ImageIO;
 
+
+/**
+ * @author muchitsch
+ *  IMPORTANT: DO NOT USE THIS CLASS! major performance issue! TODO Clemens
+ */
 public abstract class clsImagePolygon extends Polygon{
 
-	 public void draw(Object object, Graphics2D graphics, DrawInfo2D info)
+	
+	public void draw(Object object, Graphics2D graphics, DrawInfo2D info)
      {
      graphics.setPaint(paint);
 
@@ -29,8 +35,8 @@ public abstract class clsImagePolygon extends Polygon{
      //graphics.fillPolygon(Polygon.getRow(0, rottedMat),Polygon.getRow(1, rottedMat), this.vertices.n);
      
      
-     String nImagePath = "S:/ARS/PA/BWv1/BW/src/resources/images/rock2.jpg";
- 	 double nScale = 20;
+     String nImagePath = "S:/ARS/PA/BWv1/BW/src/resources/images/ball.jpg";
+ 	 double nScale = 5;
  	File oFile = new File( nImagePath ); 
 	
 	BufferedImage oImage = null;
@@ -43,7 +49,7 @@ public abstract class clsImagePolygon extends Polygon{
 		e.printStackTrace();
 	}
 	BufferedImageOp op = null;
-     graphics.drawImage(oImage, op, 55, 55);
+     graphics.drawImage(oImage, op, (int)info.draw.x, (int)info.draw.y);
      //graphics.fillPolygon(Polygon.getRow(0, rottedMat),Polygon.getRow(1, rottedMat), this.vertices.n);
      }
 
