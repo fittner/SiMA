@@ -28,6 +28,10 @@ public class clsInternalEnergyConsumption {
 		moList = new HashMap<Integer, clsMutableInteger>();	
 	}
 	
+	public HashMap<Integer, clsMutableInteger> getList() {
+		return moList;
+	}
+	
 	public void setValue(int pnKey, int pnValue) {
 	  Integer oKey = new Integer(pnKey);
 	  
