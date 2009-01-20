@@ -13,6 +13,8 @@ package bw.utils.tools;
  * capacity, it can be filled or emptied. the minimum amount it 
  * can hold is 0. no negative values are allowed.
  * 
+ * TODO refactor this class into two - a datatype and a contentcolumn - the datatype could be used for e.g. internal energy consumption
+ * 
  * @author deutsch
  * 
  */
