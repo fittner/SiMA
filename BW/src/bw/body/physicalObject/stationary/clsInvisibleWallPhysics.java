@@ -28,5 +28,6 @@ public class clsInvisibleWallPhysics extends StationaryObject2D
         this.setCoefficientOfRestitution(1);
         this.setPose(pos, new Angle(0));
         this.setShape(new sim.physics2D.shape.Rectangle(width, height, Color.cyan));
+        //this.setShape(new sim.physics2D.shape.Circle(width, Color.cyan)); // besser? radius müsste berechnet werden, oder quadr bilder!
         } 
     }
