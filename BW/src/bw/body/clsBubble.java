@@ -10,7 +10,7 @@ package bw.body;
 import bw.*;
 
 /**
- * TODO (langr) - insert description 
+ * Host of the BW body and brain
  * 
  * @author langr
  * 
@@ -22,8 +22,8 @@ public class clsBubble extends clsAnimate{
 	 */
 	public clsBubble() {
 		super();
+		
 	}
-
 	
 	
 }

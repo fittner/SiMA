@@ -7,12 +7,14 @@
  */
 package bw.body;
 
+import bw.*;
+
 /**
  * TODO (langr) - insert description 
  * 
  * @author langr
  * 
  */
-public class clsAnimal {
+public class clsAnimal extends clsAnimate{
 
 }

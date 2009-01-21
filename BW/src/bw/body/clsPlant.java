@@ -7,12 +7,14 @@
  */
 package bw.body;
 
+import bw.*;
+
 /**
  * TODO (langr) - insert description 
  * 
  * @author langr
  * 
  */
-public class clsPlant {
+public class clsPlant extends clsAnimate{
 
 }

@@ -26,6 +26,7 @@ public class clsAnimate extends clsEntity {
 	}
 	
 	
-	clsAgentBody moAgentBody = new clsAgentBody(); // the instance of a body
+	public clsAgentBody moAgentBody = new clsAgentBody(); // the instance of a body
+
 
 }
