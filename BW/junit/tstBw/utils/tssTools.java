@@ -6,7 +6,7 @@
  * $Date::                     $: Date of last commit
  */
 
-package bw.utils;
+package tstBw.utils;
 
 import org.junit.runners.Suite;
 import org.junit.runners.Suite.SuiteClasses;
@@ -15,7 +15,7 @@ import org.junit.runner.RunWith;
 @RunWith(Suite.class)
 @SuiteClasses( {
 	
-	bw.utils.tools.tstContentColumn.class,
+	tstBw.utils.tools.tstContentColumn.class,
 })
 public class tssTools {
 

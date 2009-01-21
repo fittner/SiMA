@@ -1,11 +1,11 @@
 /**
  * 
  */
-package bw.utils.tools;
+package tstBw.utils.tools;
 
 
 import static org.junit.Assert.*;
-
+import bw.utils.tools.clsContentColumn;
 
 import org.junit.Test;
 

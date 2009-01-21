@@ -5,7 +5,7 @@
  * $Author::                   $: Author of last commit
  * $Date::                     $: Date of last commit
  */
-package bw;
+package tstBw;
 
 /**
  * TODO (deutsch) - insert description 
@@ -21,7 +21,7 @@ import org.junit.runner.RunWith;
 @RunWith(Suite.class)
 @SuiteClasses( {
 	
-	bw.utils.tssTools.class,
+	tstBw.utils.tssTools.class,
 })
 
 public class tssUtils {

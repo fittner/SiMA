@@ -19,9 +19,9 @@ import org.junit.runner.RunWith;
 @RunWith(Suite.class)
 @SuiteClasses( {
 	
-	bw.tssBody.class,
-	bw.tssSim.class,
-	bw.tssUtils.class,
+	tstBw.tssBody.class,
+	tstBw.tssSim.class,
+	tstBw.tssUtils.class,
 })
 
 public class tssBW {

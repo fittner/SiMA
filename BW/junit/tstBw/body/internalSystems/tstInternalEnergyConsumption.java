@@ -5,7 +5,7 @@
  * $Author::                   $: Author of last commit
  * $Date::                     $: Date of last commit
  */
-package bw.body.internalSystems;
+package tstBw.body.internalSystems;
 
 import static org.junit.Assert.*;
 

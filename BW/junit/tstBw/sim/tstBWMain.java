@@ -5,7 +5,7 @@
  * $Author::                   $: Author of last commit
  * $Date::                     $: Date of last commit
  */
-package bw.sim;
+package tstBw.sim;
 
 import static org.junit.Assert.*;
 

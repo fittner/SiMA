@@ -5,7 +5,7 @@
  * $Author::                   $: Author of last commit
  * $Date::                     $: Date of last commit
  */
-package bw;
+package tstBw;
 
 /**
  * Test suite for all bw.sim classes
@@ -20,7 +20,7 @@ import org.junit.runner.RunWith;
 @RunWith(Suite.class)
 @SuiteClasses( {
 	
-	bw.sim.tstBWMain.class,
+	tstBw.sim.tstBWMain.class,
 })
 
 public class tssSim {
