@@ -17,4 +17,13 @@ package bw.body;
  */
 public class clsAgentBody {
 
+	
+	private clsInternalEnergyConsumption moInternalEnergyConsumptionList = new clsInternalEnergyConsumption(); // list of all the bodies energy consumers
+
+	/**
+	 * @return the moInternalEnergyConsumption
+	 */
+	public clsInternalEnergyConsumption getInternalEnergyConsumptionList() {
+		return moInternalEnergyConsumptionList;
+	}
 }
