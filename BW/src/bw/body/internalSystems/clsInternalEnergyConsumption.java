@@ -9,7 +9,7 @@ package bw.body.internalSystems;
 
 import java.util.HashMap;
 import java.util.Iterator;
-import bw.utils.datatypes.clsMutableInteger;
+import bw.utils.datatypes.clsMutableFloat;
 
 /**
  * The class energy consumption maintains a list where all active objects of the agent 
@@ -24,17 +24,17 @@ import bw.utils.datatypes.clsMutableInteger;
  * 
  */
 public class clsInternalEnergyConsumption {
-	private HashMap<Integer, clsMutableInteger> moList; // this list stores all registered values.
-	int mnSum; 											// stores the sum of all values within moList.
+	private HashMap<Integer, clsMutableFloat> moList; // this list stores all registered values.
+	float mrSum; 											// stores the sum of all values within moList.
 	boolean mnDirtyFlag; 								// set to true if moList has been changed.
 	
 	/**
 	 * This constructor initializes moList with an empty HashMap, mnDirtyFlag is set to true, and mnSum is set to 0.
 	 */
 	public clsInternalEnergyConsumption() {
-		moList = new HashMap<Integer, clsMutableInteger>();
+		moList = new HashMap<Integer, clsMutableFloat>();
 		mnDirtyFlag = true;
-		mnSum = 0;
+		mrSum = 0.0f;
 	}
 	
 	
@@ -45,22 +45,22 @@ public class clsInternalEnergyConsumption {
 	 *
 	 * @return moList clone
 	 */
-	public HashMap<Integer, clsMutableInteger> getList() {
-		return (HashMap<Integer, clsMutableInteger>) moList.clone();
+	public HashMap<Integer, clsMutableFloat> getList() {
+		return (HashMap<Integer, clsMutableFloat>) moList.clone();
 	}
 	
 	/**
 	 * Adds or updates the value pnValue of key pnKey. If no entry for pnKey is found, a new one is generated.
 	 * If pnKey exists, the object is updated to the value of pnKey. As HashMap accepts keys as objects only, pnKey is
-	 * converted into an object of type Integer and setValue(Integer poKey, int pnValue) is called.
+	 * converted into an object of type Integer and setValue(Integer poKey, float prValue) is called.
 	 *
 	 * @param pnKey - the key 
-	 * @param pnValue - the value
+	 * @param prValue - the value
 	 */
-	public void setValue(int pnKey, int pnValue) {
+	public void setValue(int pnKey, float prValue) {
 	  Integer oKey = new Integer(pnKey);
 	  
-	  this.setValue(oKey, pnValue);
+	  this.setValue(oKey, prValue);
 	}
 
 	/**
@@ -79,17 +79,17 @@ public class clsInternalEnergyConsumption {
 	 * @param poKey - the key
 	 * @param pnValue - the value
 	 */
-	public void setValue(Integer poKey, int pnValue) {
+	public void setValue(Integer poKey, float prValue) {
 		mnDirtyFlag = true;
 		
-		clsMutableInteger oValue;
+		clsMutableFloat oValue;
 		
 		if (this.keyExists(poKey)) {
-			oValue = (clsMutableInteger)moList.get(poKey);
-			oValue.set(pnValue);
+			oValue = (clsMutableFloat)moList.get(poKey);
+			oValue.set(prValue);
 		 
 		} else {
-			oValue = new clsMutableInteger(pnValue);
+			oValue = new clsMutableFloat(prValue);
 			moList.put(poKey, oValue);
 		}
 		
@@ -126,7 +126,7 @@ public class clsInternalEnergyConsumption {
 	 * @param pnKey - the key
 	 * @return the value as a clsMutableInteger object
 	 */
-	public clsMutableInteger getValue(int pnKey) {
+	public clsMutableFloat getValue(int pnKey) {
 		return this.getValue(new Integer(pnKey));
 	}
 	
@@ -136,8 +136,8 @@ public class clsInternalEnergyConsumption {
 	 * @param poKey - the key
 	 * @return the value as a clsMutableInteger object
 	 */
-	public clsMutableInteger getValue(Integer poKey)  {
-		return (clsMutableInteger)moList.get(poKey);
+	public clsMutableFloat getValue(Integer poKey)  {
+		return (clsMutableFloat)moList.get(poKey);
 	}
 	
 	/**
@@ -146,23 +146,23 @@ public class clsInternalEnergyConsumption {
 	 *
 	 * @return the sum of all stored values.
 	 */
-	public int getSum() {
-		int nSum = 0;
+	public float getSum() {
+		float rSum = 0;
 		
 		if (mnDirtyFlag) {
 			Iterator<Integer> i = moList.keySet().iterator();
 			
 			while (i.hasNext()) {
-				clsMutableInteger oValue = moList.get(i.next());
-				nSum += oValue.intValue();
+				clsMutableFloat oValue = moList.get(i.next());
+				rSum += oValue.floatValue();
 			}
 			
 			mnDirtyFlag = false;
-			mnSum = nSum;
+			mrSum = rSum;
 		} else {
-			nSum = mnSum;
+			rSum = mrSum;
 		}
 		
-		return nSum;
+		return rSum;
 	}
 }

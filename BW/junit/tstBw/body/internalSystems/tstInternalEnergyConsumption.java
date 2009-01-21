@@ -14,7 +14,7 @@ import java.util.HashMap;
 import org.junit.Test;
 
 import bw.body.internalSystems.clsInternalEnergyConsumption;
-import bw.utils.datatypes.clsMutableInteger;
+import bw.utils.datatypes.clsMutableFloat;
 
 /**
  * TODO (deutsch) - insert description 
@@ -43,21 +43,21 @@ public class tstInternalEnergyConsumption {
 	public void testGetList() {
 		clsInternalEnergyConsumption moIEC = new clsInternalEnergyConsumption();
 	
-		moIEC.setValue(1, 1);
-		moIEC.setValue(2, 2);
-		moIEC.setValue(3, 3);
-		moIEC.setValue(4, 4);
-		moIEC.setValue(5, 5);
+		moIEC.setValue(1, 1.0f);
+		moIEC.setValue(2, 2.0f);
+		moIEC.setValue(3, 3.0f);
+		moIEC.setValue(4, 4.0f);
+		moIEC.setValue(5, 5.0f);
 		
-		HashMap<Integer, clsMutableInteger> moTemp = moIEC.getList();
+		HashMap<Integer, clsMutableFloat> moTemp = moIEC.getList();
 		
 		assertNotNull(moTemp);
 		
-		assertSame(moTemp.size(), 5);
+		assertEquals(moTemp.size(), 5.0f, 0.00001f);
 
-		moIEC.setValue(6, 6);
+		moIEC.setValue(6, 6.0f);
 		
-		assertSame(moTemp.size(), 5);
+		assertEquals(moTemp.size(), 5.0f, 0.00001f);
 	}
 	
 
@@ -68,19 +68,19 @@ public class tstInternalEnergyConsumption {
 	public void testSetValueIntInt() {
 		clsInternalEnergyConsumption moIEC = new clsInternalEnergyConsumption();
 		
-		moIEC.setValue(1,2);
+		moIEC.setValue(1,2.0f);
 		
-		clsMutableInteger oTemp;
+		clsMutableFloat oTemp;
 		
 		oTemp = moIEC.getValue(1);	
 		assertNotNull(oTemp);
-		assertSame(oTemp.intValue(), 2);
+		assertEquals(oTemp.floatValue(), 2.0f, 0.00001f);
 		
-		moIEC.setValue(1,3);
+		moIEC.setValue(1,3.0f);
 
 		oTemp = moIEC.getValue(1);	
 		assertNotNull(oTemp);
-		assertSame(oTemp.intValue(), 3);
+		assertEquals(oTemp.floatValue(), 3.0f, 0.00001f);
 	}
 
 	/**
@@ -90,23 +90,23 @@ public class tstInternalEnergyConsumption {
 	public void testHasChanged() {
 		clsInternalEnergyConsumption moIEC = new clsInternalEnergyConsumption();
 
-		int nTemp;
+		float rTemp;
 
 		assertTrue(moIEC.hasChanged());
 		
-		nTemp = moIEC.getSum();
+		rTemp = moIEC.getSum();
 		
-		assertSame(nTemp, 0);
+		assertEquals(rTemp, 0.0f, 0.00001f);
 		
 		assertFalse(moIEC.hasChanged());
 		
-		moIEC.setValue(1,2);
+		moIEC.setValue(1,2.0f);
 
 		assertTrue(moIEC.hasChanged());
 		
-		nTemp = moIEC.getSum();
+		rTemp = moIEC.getSum();
 		
-		assertSame(nTemp, 2);
+		assertEquals(rTemp, 2.0f, 0.00001f);
 	}
 
 	/**
@@ -118,19 +118,19 @@ public class tstInternalEnergyConsumption {
 		
 		Integer oKey = new Integer(1);
 		
-		moIEC.setValue(oKey,2);
+		moIEC.setValue(oKey,2.0f);
 		
-		clsMutableInteger oTemp;
+		clsMutableFloat oTemp;
 		
 		oTemp = moIEC.getValue(oKey);
 		assertNotNull(oTemp);
-		assertSame(oTemp.intValue(), 2);
+		assertEquals(oTemp.floatValue(), 2.0f, 0.00001f);
 		
-		moIEC.setValue(oKey,3);
+		moIEC.setValue(oKey,3.0f);
 
 		oTemp = moIEC.getValue(oKey);	
 		assertNotNull(oTemp);
-		assertSame(oTemp.intValue(), 3);		
+		assertEquals(oTemp.floatValue(), 3.0f, 0.00001f);		
 	}
 
 	/**
@@ -142,7 +142,7 @@ public class tstInternalEnergyConsumption {
 
 		assertFalse(moIEC.keyExists(0));
 		
-		moIEC.setValue(0, 1);
+		moIEC.setValue(0, 1.0f);
 		
 		assertTrue(moIEC.keyExists(0));
 	}
@@ -158,7 +158,7 @@ public class tstInternalEnergyConsumption {
 		
 		assertFalse(moIEC.keyExists(oKey));
 		
-		moIEC.setValue(oKey, 1);
+		moIEC.setValue(oKey, 1.0f);
 		
 		assertTrue(moIEC.keyExists(oKey));
 	}
@@ -172,11 +172,11 @@ public class tstInternalEnergyConsumption {
 
 		assertNull(moIEC.getValue(1));
 		
-		moIEC.setValue(1, 2);
+		moIEC.setValue(1, 2.0f);
 		
 		assertNotNull(moIEC.getValue(1));
 		
-		assertSame(moIEC.getValue(1).intValue(), 2);
+		assertEquals(moIEC.getValue(1).floatValue(), 2.0f, 0.00001f);
 	}
 
 	/**
@@ -190,11 +190,11 @@ public class tstInternalEnergyConsumption {
 		
 		assertNull(moIEC.getValue(oKey));
 		
-		moIEC.setValue(oKey, 2);
+		moIEC.setValue(oKey, 2.0f);
 		
 		assertNotNull(moIEC.getValue(oKey));		
 		
-		assertSame(moIEC.getValue(oKey).intValue(), 2);
+		assertEquals(moIEC.getValue(oKey).floatValue(), 2.0f, 0.00001f);
 	}
 
 	/**
@@ -204,19 +204,19 @@ public class tstInternalEnergyConsumption {
 	public void testGetSum() {
 		clsInternalEnergyConsumption moIEC = new clsInternalEnergyConsumption();
 
-		assertSame(moIEC.getSum(), 0);
+		assertEquals(moIEC.getSum(), 0.0f, 0.00001f);
 		
-		moIEC.setValue(1, 1);
-		moIEC.setValue(2, 2);
-		moIEC.setValue(3, 3);
-		moIEC.setValue(4, 4);
-		moIEC.setValue(5, 5);
+		moIEC.setValue(1, 1.0f);
+		moIEC.setValue(2, 2.0f);
+		moIEC.setValue(3, 3.0f);
+		moIEC.setValue(4, 4.0f);
+		moIEC.setValue(5, 5.0f);
 		
-		assertSame(moIEC.getSum(), 15);
+		assertEquals(moIEC.getSum(), 15.0f, 0.00001f);
 		
-		moIEC.setValue(5, 0);
+		moIEC.setValue(5, 0.0f);
 		
-		assertSame(moIEC.getSum(), 10);
+		assertEquals(moIEC.getSum(), 10.0f, 0.00001f);
 	}
 
 }

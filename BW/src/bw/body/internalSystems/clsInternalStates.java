@@ -70,6 +70,8 @@ public class clsInternalStates {
 	
 	public void step() {
 		randomFillIEC();
+		
+		moStomachSystem.step();
 	}
 
 }
