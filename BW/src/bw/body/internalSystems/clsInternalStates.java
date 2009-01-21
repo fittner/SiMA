@@ -11,6 +11,7 @@ import java.util.Random;
 
 /**
  * TODO (deutsch) - insert description 
+ * TODO clean class from test/debug functions
  * 
  * @author deutsch
  * 
@@ -24,6 +25,9 @@ public class clsInternalStates {
 	private clsInternalEnergyConsumption moInternalEnergyConsumption; // list of all the bodies energy consumers
 	
 	
+	/**
+	 * 
+	 */
 	public clsInternalStates() {
 		moMessengerSystem = new clsMessengerSystem();
 		moTemperatureSystem = new clsTemperatureSystem();
@@ -34,6 +38,7 @@ public class clsInternalStates {
 		
    	   //testing the energy consumption
    	   randomFillIEC();
+   	   setupStomach();
 
 	}
 
@@ -62,14 +67,50 @@ public class clsInternalStates {
 	}
 	
 	/**
+	 * TODO (deutsch) - insert description
+	 *
+	 */
+	private void setupStomach() {
+		for (int i=0; i<10; i++) {
+			moStomachSystem.addNutritionType(i);
+		}
+		
+		moStomachSystem.addEnergy(10.0f);
+	}
+	
+	/**
+	 * TODO (deutsch) - insert description
+	 * TODO remove this again
+	 *
+	 */
+	private void randomFEEDAGENT() {
+		Random rand = new Random();
+		
+		if (rand.nextInt(100)>95) {
+			moStomachSystem.addEnergy( rand.nextFloat() );
+		}
+		
+		for (int i=0; i<10; i++) {
+			if (rand.nextInt(100)>95) {
+				moStomachSystem.addNutrition(i, rand.nextFloat() * 0.1f );
+			}
+		}
+	}
+	
+	/**
 	 * @return the moInternalEnergyConsumption
 	 */
 	public clsInternalEnergyConsumption getInternalEnergyConsumption() {
 		return moInternalEnergyConsumption;
 	}
 	
+	/**
+	 * TODO (deutsch) - insert description
+	 *
+	 */
 	public void step() {
 		randomFillIEC();
+		randomFEEDAGENT();
 		
 		moStomachSystem.step();
 		

@@ -256,6 +256,13 @@ public class tstStomachSystem {
 		
 		assertEquals(oSS.getEnergy(), 2.5f, 0.000001f);
 		
+		oSS.withdrawEnergy(2.5f);
+		assertEquals(oSS.getEnergy(), 0.0f, 0.000001f);
+		oSS.addEnergy(3.33f);
+		assertEquals(oSS.getEnergy(), 3.33f, 0.000001f);
+		oSS.withdrawEnergy(3.33f);
+		assertEquals(oSS.getEnergy(), 0.0f, 0.000001f);
+		
 	}
 
 }
