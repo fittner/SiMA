@@ -13,6 +13,7 @@ import java.util.HashMap;
 
 import org.junit.Test;
 
+import bw.body.interalSystems.clsInternalEnergyConsumption;
 import bw.utils.datatypes.clsMutableInteger;
 
 /**
@@ -26,7 +27,7 @@ public class tstInternalEnergyConsumption {
 
 
 	/**
-	 * Test method for {@link bw.body.clsInternalEnergyConsumption#clsInternalEnergyConsumption()}.
+	 * Test method for {@link bw.body.interalSystems.clsInternalEnergyConsumption#clsInternalEnergyConsumption()}.
 	 */
 	@Test
 	public void testClsInternalEnergyConsumption() {
@@ -36,7 +37,7 @@ public class tstInternalEnergyConsumption {
 	}
 
 	/**
-	 * Test method for {@link bw.body.clsInternalEnergyConsumption#getList()}.
+	 * Test method for {@link bw.body.interalSystems.clsInternalEnergyConsumption#getList()}.
 	 */
 	@Test
 	public void testGetList() {
@@ -61,7 +62,7 @@ public class tstInternalEnergyConsumption {
 	
 
 	/**
-	 * Test method for {@link bw.body.clsInternalEnergyConsumption#setValue(int, int)}.
+	 * Test method for {@link bw.body.interalSystems.clsInternalEnergyConsumption#setValue(int, int)}.
 	 */
 	@Test
 	public void testSetValueIntInt() {
@@ -83,7 +84,7 @@ public class tstInternalEnergyConsumption {
 	}
 
 	/**
-	 * Test method for {@link bw.body.clsInternalEnergyConsumption#hasChanged()}.
+	 * Test method for {@link bw.body.interalSystems.clsInternalEnergyConsumption#hasChanged()}.
 	 */
 	@Test
 	public void testHasChanged() {
@@ -109,7 +110,7 @@ public class tstInternalEnergyConsumption {
 	}
 
 	/**
-	 * Test method for {@link bw.body.clsInternalEnergyConsumption#setValue(java.lang.Integer, int)}.
+	 * Test method for {@link bw.body.interalSystems.clsInternalEnergyConsumption#setValue(java.lang.Integer, int)}.
 	 */
 	@Test
 	public void testSetValueIntegerInt() {
@@ -133,7 +134,7 @@ public class tstInternalEnergyConsumption {
 	}
 
 	/**
-	 * Test method for {@link bw.body.clsInternalEnergyConsumption#keyExists(int)}.
+	 * Test method for {@link bw.body.interalSystems.clsInternalEnergyConsumption#keyExists(int)}.
 	 */
 	@Test
 	public void testKeyExistsInt() {
@@ -147,7 +148,7 @@ public class tstInternalEnergyConsumption {
 	}
 
 	/**
-	 * Test method for {@link bw.body.clsInternalEnergyConsumption#keyExists(java.lang.Integer)}.
+	 * Test method for {@link bw.body.interalSystems.clsInternalEnergyConsumption#keyExists(java.lang.Integer)}.
 	 */
 	@Test
 	public void testKeyExistsInteger() {
@@ -163,7 +164,7 @@ public class tstInternalEnergyConsumption {
 	}
 
 	/**
-	 * Test method for {@link bw.body.clsInternalEnergyConsumption#getValue(int)}.
+	 * Test method for {@link bw.body.interalSystems.clsInternalEnergyConsumption#getValue(int)}.
 	 */
 	@Test
 	public void testGetValueInt() {
@@ -179,7 +180,7 @@ public class tstInternalEnergyConsumption {
 	}
 
 	/**
-	 * Test method for {@link bw.body.clsInternalEnergyConsumption#getValue(java.lang.Integer)}.
+	 * Test method for {@link bw.body.interalSystems.clsInternalEnergyConsumption#getValue(java.lang.Integer)}.
 	 */
 	@Test
 	public void testGetValueInteger() {
@@ -197,7 +198,7 @@ public class tstInternalEnergyConsumption {
 	}
 
 	/**
-	 * Test method for {@link bw.body.clsInternalEnergyConsumption#getSum()}.
+	 * Test method for {@link bw.body.interalSystems.clsInternalEnergyConsumption#getSum()}.
 	 */
 	@Test
 	public void testGetSum() {

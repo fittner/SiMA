@@ -7,6 +7,8 @@
  */
 package bw.body;
 
+import bw.body.interalSystems.clsInternalEnergyConsumption;
+
 /**
  * The agent body is the basic container for each entity the body needs: 
  * int./ext. I/O's,  flesh, int. states, biosys., brain 

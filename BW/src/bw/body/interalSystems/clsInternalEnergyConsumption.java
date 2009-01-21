@@ -5,11 +5,10 @@
  * $Author::                   $: Author of last commit
  * $Date::                     $: Date of last commit
  */
-package bw.body;
+package bw.body.interalSystems;
 
 import java.util.HashMap;
 import java.util.Iterator;
-import java.util.LinkedList;
 import bw.utils.datatypes.clsMutableInteger;
 
 /**
@@ -17,6 +16,9 @@ import bw.utils.datatypes.clsMutableInteger;
  * can register and update their current energy consumption. this value remains until 
  * the object updates the value. at the end of each round, the total of all values is 
  * calculated and subtracted from the energy.
+ * 
+ * TODO exchange clsMutableInteger by a mutable fixed width value
+ * TODO enable the possibility to add consumption of a specific nutrition 
  * 
  * @author deutsch
  * 
