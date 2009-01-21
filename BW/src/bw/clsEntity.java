@@ -1,6 +1,11 @@
+/**
+ * @author langr
+ * 
+ * $Rev::                      $: Revision of last commit
+ * $Author::                   $: Author of last commit
+ * $Date::                     $: Date of last commit
+ */
 package bw;
-
-
 
 /**
  * Entity contains basic physical values.

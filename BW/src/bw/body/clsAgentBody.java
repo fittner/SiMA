@@ -27,5 +27,18 @@ public class clsAgentBody {
 	 */
 	public clsInternalEnergyConsumption getInternalEnergyConsumptionList() {
 		return moInternalEnergyConsumptionList;
+
 	}
+
+	/**
+	 * CTOR
+	 */
+	public clsAgentBody() {
+		super();
+		
+		//testing the energy consumption
+		moInternalEnergyConsumptionList.setValue(1, 27);
+	}
+	
+	
 }
