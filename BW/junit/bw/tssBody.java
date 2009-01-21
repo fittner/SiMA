@@ -21,7 +21,7 @@ import org.junit.runner.RunWith;
 @RunWith(Suite.class)
 @SuiteClasses( {
 	
-	bw.body.tstInternalEnergyConsumption.class,
+	bw.body.internalSystems.tstInternalEnergyConsumption.class,
 	//bw.body.???.class,
 })
 
