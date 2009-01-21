@@ -16,6 +16,7 @@ import org.junit.runner.RunWith;
 @SuiteClasses( {
 	
 	tstBw.utils.tools.tstContentColumn.class,
+	tstBw.utils.tools.tstFillLevel.class,
 })
 public class tssTools {
 

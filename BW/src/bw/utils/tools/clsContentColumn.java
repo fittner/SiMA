@@ -50,9 +50,6 @@ public class clsContentColumn {
 		
 		this.setMaxContent( prMaxContent );
 		this.setContent( prContent );
-		
-		this.checkValue();
-		this.checkMaxValue();
 	}	
 
 	/**
