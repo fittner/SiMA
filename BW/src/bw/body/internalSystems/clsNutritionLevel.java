@@ -11,6 +11,8 @@ import bw.utils.tools.clsFillLevel;
 
 /**
  * TODO (deutsch) - insert description 
+ * TODO maybe its better not to implement clsNutritionLevel as a subclass of clsFillLevel. another
+ * approach would be to encapsulates clsFilleLevel and only allow access to the necessary functions 
  * 
  * @author deutsch
  * 
@@ -60,17 +62,8 @@ public class clsNutritionLevel extends clsFillLevel {
 	/**
 	 * TODO (deutsch) - insert description
 	 *
-	 * @param prDecreaseBy
-	 */
-	public void decreaseLevel(float prDecreaseBy) {
-		this.decrease(prDecreaseBy);
-	}
-
-	/**
-	 * TODO (deutsch) - insert description
-	 *
 	 */
 	public void step() {
-		this.decreaseLevel(mrDecreasePerStep);
+		this.decrease(mrDecreasePerStep);
 	}
 }

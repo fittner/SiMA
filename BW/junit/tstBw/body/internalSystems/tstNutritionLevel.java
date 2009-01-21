@@ -59,20 +59,6 @@ public class tstNutritionLevel {
 	}
 
 	/**
-	 * Test method for {@link bw.body.internalSystems.clsNutritionLevel#decreaseLevel(float)}.
-	 */
-	@Test
-	public void testDecreaseLevel() {
-		clsNutritionLevel oNL = new clsNutritionLevel(1.0f, 3.0f, 0.5f, 1.5f, 0.01f);
-		assertEquals(oNL.getContent(), 1.0f, 0.00001f);
-		
-		oNL.decreaseLevel(0.5f);
-		
-		assertEquals(oNL.getContent(), 0.5f, 0.00001f);
-
-	}
-
-	/**
 	 * Test method for {@link bw.body.internalSystems.clsNutritionLevel#step()}.
 	 */
 	@Test
