@@ -5,7 +5,8 @@
  * $Author::                   $: Author of last commit
  * $Date::                     $: Date of last commit
  */
-package tstBw;
+package tstBw.body;
+
 
 /**
  * TODO (deutsch) - insert description 
@@ -21,10 +22,11 @@ import org.junit.runner.RunWith;
 @RunWith(Suite.class)
 @SuiteClasses( {
 	
-	tstBw.body.tssInternalSystems.class,
+	tstBw.body.internalSystems.tstInternalEnergyConsumption.class,
+	tstBw.body.internalSystems.tstNutritionLevel.class,
 	//bw.body.???.class,
 })
 
-public class tssBody {
+public class tssInternalSystems {
 
 }

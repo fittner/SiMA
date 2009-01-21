@@ -29,7 +29,7 @@ public class tstFillLevel {
 		assertNotNull(oFill);
 
 		assertEquals(oFill.getMaxContent(), java.lang.Float.MAX_VALUE);
-		assertEquals(oFill.getContent(), 0.0f);
+		assertEquals(oFill.getContent(), 0.0f, 0.00001f);
 	}
 
 	/**
@@ -40,10 +40,10 @@ public class tstFillLevel {
 		clsFillLevel oFill = new clsFillLevel(1.5f, 3.0f);
 		assertNotNull(oFill);
 		
-		assertEquals(oFill.getMaxContent(), 3.0f);
-		assertEquals(oFill.getContent(), 1.5f);
-		assertEquals(oFill.getLowerBound(), 1.0f);
-		assertEquals(oFill.getUpperBound(), 2.0f);
+		assertEquals(oFill.getMaxContent(), 3.0f, 0.00001f);
+		assertEquals(oFill.getContent(), 1.5f, 0.00001f);
+		assertEquals(oFill.getLowerBound(), 1.0f, 0.00001f);
+		assertEquals(oFill.getUpperBound(), 2.0f, 0.00001f);
 	}
 
 	/**
@@ -69,32 +69,32 @@ public class tstFillLevel {
 		assertNotNull(oFill);
 
 		oFill.setBounds(1.1f, 2.1f);
-		assertEquals(oFill.getLowerBound(), 1.1f);
-		assertEquals(oFill.getUpperBound(), 2.1f);
+		assertEquals(oFill.getLowerBound(), 1.1f, 0.00001f);
+		assertEquals(oFill.getUpperBound(), 2.1f, 0.00001f);
 		
 		oFill.setBounds(-1.1f, 2.1f);
-		assertEquals(oFill.getLowerBound(), 0.0f);
-		assertEquals(oFill.getUpperBound(), 2.1f);
+		assertEquals(oFill.getLowerBound(), 0.0f, 0.00001f);
+		assertEquals(oFill.getUpperBound(), 2.1f, 0.00001f);
 
 		oFill.setBounds(1.1f, 5.1f);
-		assertEquals(oFill.getLowerBound(), 1.1f);
-		assertEquals(oFill.getUpperBound(), 3.0f);
+		assertEquals(oFill.getLowerBound(), 1.1f, 0.00001f);
+		assertEquals(oFill.getUpperBound(), 3.0f, 0.00001f);
 		
 		oFill.setBounds(-1.1f, -0.1f);
-		assertEquals(oFill.getLowerBound(), 0.0f);
-		assertEquals(oFill.getUpperBound(), 0.0f);
+		assertEquals(oFill.getLowerBound(), 0.0f, 0.00001f);
+		assertEquals(oFill.getUpperBound(), 0.0f, 0.00001f);
 		
 		oFill.setBounds(1.1f, 0.1f);
-		assertEquals(oFill.getLowerBound(), 1.1f);
-		assertEquals(oFill.getUpperBound(), 1.1f);
+		assertEquals(oFill.getLowerBound(), 1.1f, 0.00001f);
+		assertEquals(oFill.getUpperBound(), 1.1f, 0.00001f);
 		
 		oFill.setBounds(2.5f, 2.1f);
-		assertEquals(oFill.getLowerBound(), 2.1f);
-		assertEquals(oFill.getUpperBound(), 2.1f);
+		assertEquals(oFill.getLowerBound(), 2.5f, 0.00001f);
+		assertEquals(oFill.getUpperBound(), 2.5f, 0.00001f);
 		
 		oFill.setBounds(5.1f, 5.1f);
-		assertEquals(oFill.getLowerBound(), 3.0f);
-		assertEquals(oFill.getUpperBound(), 3.0f);
+		assertEquals(oFill.getLowerBound(), 3.0f, 0.00001f);
+		assertEquals(oFill.getUpperBound(), 3.0f, 0.00001f);
 	}
 
 	/**
@@ -132,7 +132,7 @@ public class tstFillLevel {
 	public void testGetLowerBound() {
 		clsFillLevel oFill = new clsFillLevel(1.5f, 3.0f);
 		
-		assertEquals(oFill.getLowerBound(), 1.0f);
+		assertEquals(oFill.getLowerBound(), 1.0f, 0.00001f);
 	}
 
 	/**
@@ -142,21 +142,21 @@ public class tstFillLevel {
 	public void testSetLowerBound() {
 		clsFillLevel oFill = new clsFillLevel(1.5f, 3.0f, 1.0f, 2.0f);
 		
-		assertEquals(oFill.getLowerBound(), 1.0f);
-		assertEquals(oFill.getUpperBound(), 2.0f);
+		assertEquals(oFill.getLowerBound(), 1.0f, 0.00001f);
+		assertEquals(oFill.getUpperBound(), 2.0f, 0.00001f);
 		
 		oFill.setLowerBound(0.5f);
-		assertEquals(oFill.getLowerBound(), 0.5f);
+		assertEquals(oFill.getLowerBound(), 0.5f, 0.00001f);
 		
 		oFill.setLowerBound(-0.5f);
-		assertEquals(oFill.getLowerBound(), 0.0f);
+		assertEquals(oFill.getLowerBound(), 0.0f, 0.00001f);
 		
 		oFill.setLowerBound(5.0f);
-		assertEquals(oFill.getLowerBound(), 3.0f);
-		assertEquals(oFill.getUpperBound(), 3.0f);
+		assertEquals(oFill.getLowerBound(), 3.0f, 0.00001f);
+		assertEquals(oFill.getUpperBound(), 3.0f, 0.00001f);
 		
 		oFill.setLowerBound(2.5f);
-		assertEquals(oFill.getLowerBound(), 2.0f);		
+		assertEquals(oFill.getLowerBound(), 2.5f, 0.00001f);		
 
 	}
 
@@ -167,7 +167,7 @@ public class tstFillLevel {
 	public void testGetUpperBound() {
 		clsFillLevel oFill = new clsFillLevel(1.5f, 3.0f);
 		
-		assertEquals(oFill.getUpperBound(), 2.0f);
+		assertEquals(oFill.getUpperBound(), 2.0f, 0.00001f);
 	}
 
 	/**
@@ -177,21 +177,21 @@ public class tstFillLevel {
 	public void testSetUpperBound() {
 		clsFillLevel oFill = new clsFillLevel(1.5f, 3.0f, 1.0f, 2.0f);
 		
-		assertEquals(oFill.getLowerBound(), 1.0f);
-		assertEquals(oFill.getUpperBound(), 2.0f);
+		assertEquals(oFill.getLowerBound(), 1.0f, 0.00001f);
+		assertEquals(oFill.getUpperBound(), 2.0f, 0.00001f);
 		
 		oFill.setUpperBound(1.5f);
-		assertEquals(oFill.getUpperBound(), 1.5f);
+		assertEquals(oFill.getUpperBound(), 1.5f, 0.00001f);
 		
 		oFill.setUpperBound(-0.5f);
-		assertEquals(oFill.getUpperBound(), 0.0f);
+		assertEquals(oFill.getUpperBound(), 0.0f, 0.00001f);
 		
 		oFill.setUpperBound(0.5f);
-		assertEquals(oFill.getLowerBound(), 0.5f);
-		assertEquals(oFill.getUpperBound(), 0.5f);		
+		assertEquals(oFill.getLowerBound(), 0.0f, 0.00001f);
+		assertEquals(oFill.getUpperBound(), 0.5f, 0.00001f);		
 		
 		oFill.setUpperBound(5.0f);
-		assertEquals(oFill.getUpperBound(), 3.0f);	
+		assertEquals(oFill.getUpperBound(), 3.0f, 0.00001f);	
 	}
 
 }

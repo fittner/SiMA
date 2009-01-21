@@ -35,11 +35,11 @@ public class tstContentColumn {
 		clsContentColumn oColumn = new clsContentColumn(nContent, nMaxContent);
 		
 		assertFalse(oColumn.getContent() < 0.0f);
-		assertTrue(oColumn.getContent() ==  nContent);
+		assertEquals(oColumn.getContent(), nContent, 0.00001f);
 		assertFalse(oColumn.getContent() > oColumn.getMaxContent());
 		
 		assertFalse(oColumn.getMaxContent() < 0.0f);
-		assertTrue(oColumn.getMaxContent() == nMaxContent);
+		assertEquals(oColumn.getMaxContent(), nMaxContent, 0.00001f);
 		assertFalse(oColumn.getMaxContent() > java.lang.Float.MAX_VALUE);		
 	}
 	
@@ -51,11 +51,11 @@ public class tstContentColumn {
 		clsContentColumn oColumn = new clsContentColumn(nContent, nMaxContent);
 		
 		assertFalse(oColumn.getContent() < 0.0f);
-		assertTrue(oColumn.getContent() ==  nContent);
+		assertEquals(oColumn.getContent(), nContent, 0.00001f);
 		assertFalse(oColumn.getContent() > oColumn.getMaxContent());
 		
 		assertFalse(oColumn.getMaxContent() < 0.0f);
-		assertTrue(oColumn.getMaxContent() == nMaxContent);
+		assertEquals(oColumn.getMaxContent(), nMaxContent, 0.00001f);
 		assertFalse(oColumn.getMaxContent() > java.lang.Float.MAX_VALUE);		
 	}	
 	
@@ -69,23 +69,23 @@ public class tstContentColumn {
 		
 		oColumn.setContent(-1.0f);
 		assertFalse(oColumn.getContent() < 0.0f);
-		assertTrue(oColumn.getContent() == 0.0f);
+		assertEquals(oColumn.getContent(), 0.0f, 0.00001f);
 		assertFalse(oColumn.getContent() > nMaxContent);		
 		
 		oColumn.setContent(nMaxContent + 1.0f);
 		assertFalse(oColumn.getContent() < 0.0f);
-		assertTrue(oColumn.getContent() == nMaxContent);	
+		assertEquals(oColumn.getContent(), nMaxContent, 0.00001f);	
 		assertFalse(oColumn.getContent() > nMaxContent);	
 		
 		nContent = 75.0f;
 		oColumn.setContent(nContent);
 		assertFalse(oColumn.getContent() < 0.0f);
-		assertTrue(oColumn.getContent() == nContent);
+		assertEquals(oColumn.getContent(), nContent, 0.00001f);
 		assertFalse(oColumn.getContent() > nMaxContent);
 		
 		oColumn.setMaxContent(-1.0f);
 		assertFalse(oColumn.getMaxContent() < 0.0f);
-		assertTrue(oColumn.getMaxContent() == 0.0f);	
+		assertEquals(oColumn.getMaxContent(), 0.0f, 0.00001f);	
 		assertFalse(oColumn.getContent() > oColumn.getMaxContent());
 		assertFalse(oColumn.getMaxContent() > java.lang.Float.MAX_VALUE);
 
@@ -99,9 +99,9 @@ public class tstContentColumn {
 		clsContentColumn oColumn = new clsContentColumn(nContent, nMaxContent);
 
 		oColumn.decrease(5);
-		assertTrue(oColumn.getContent() == nContent-5.0f);		
+		assertEquals(oColumn.getContent(), nContent-5.0f, 0.00001f);		
 		oColumn.increase(5);
-		assertTrue(oColumn.getContent() == nContent);		
+		assertEquals(oColumn.getContent(), nContent, 0.00001f);		
 	}
 }
 

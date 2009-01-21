@@ -28,7 +28,7 @@ public class clsNutritionLevel extends clsFillLevel {
 	public clsNutritionLevel(float prContent, float prMaxContent, float prLowerBound, float prUpperBound, float prDecreasePerStep) {
 		super(prContent, prMaxContent, prLowerBound, prUpperBound);
 		
-		setDecreasePerStep(mrDecreasePerStep);
+		setDecreasePerStep(prDecreasePerStep);
 	}
 
 	/**
