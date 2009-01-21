@@ -7,12 +7,23 @@
  */
 package bw.body;
 
+import bw.*;
+
 /**
  * TODO (langr) - insert description 
  * 
  * @author langr
  * 
  */
-public class clsBubble {
+public class clsBubble extends clsAnimate{
 
+	/**
+	 *  CTOR
+	 */
+	public clsBubble() {
+		super();
+	}
+
+	
+	
 }

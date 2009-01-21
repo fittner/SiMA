@@ -7,6 +7,8 @@
  */
 package bw;
 
+import bw.body.*;
+
 
 /**
  * Animates represents living objects that can e.g. move, grow, think.
@@ -15,5 +17,15 @@ package bw;
  * 
  */
 public class clsAnimate extends clsEntity {
+
+	/**
+	 *  CTOR
+	 */
+	public clsAnimate() {
+		super();
+	}
+	
+	
+	clsAgentBody moAgentBody = new clsAgentBody(); // the instance of a body
 
 }
