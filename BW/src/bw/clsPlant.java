@@ -5,10 +5,9 @@
  * $Author::                   $: Author of last commit
  * $Date::                     $: Date of last commit
  */
-package bw.body;
+package bw;
 
 import tstBw.*;
-import bw.clsAnimate;
 
 /**
  * TODO (langr) - insert description 

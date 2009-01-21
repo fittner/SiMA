@@ -5,22 +5,30 @@
  * $Author::                   $: Author of last commit
  * $Date::                     $: Date of last commit
  */
-package bw.body;
+package bw;
 
 import tstBw.*;
-import bw.clsAnimate;
 
 /**
- * TODO (langr) - insert description 
+ * Host of the BW body and brain
  * 
  * @author langr
  * 
  */
-public class clsAnimal extends clsAnimate{
+public class clsBubble extends clsAnimate {
 
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = 3232421713639035079L;
+	private static final long serialVersionUID = -329155160020488088L;
 
+	/**
+	 *  CTOR
+	 */
+	public clsBubble() {
+		super();
+		
+	}
+	
+	
 }

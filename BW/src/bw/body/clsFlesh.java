@@ -5,7 +5,7 @@
  * $Author::                   $: Author of last commit
  * $Date::                     $: Date of last commit
  */
-package bw.body.internalSystems;
+package bw.body;
 
 /**
  * TODO (deutsch) - insert description 
@@ -13,6 +13,6 @@ package bw.body.internalSystems;
  * @author deutsch
  * 
  */
-public class clsBioSystem {
+public class clsFlesh {
 
 }
