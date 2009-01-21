@@ -58,6 +58,13 @@ public class tstInternalEnergyConsumption {
 		moIEC.setValue(6, 6.0f);
 		
 		assertEquals(moTemp.size(), 5.0f, 0.00001f);
+		
+		HashMap<Integer, clsMutableFloat> moTemp2 = moIEC.getList();
+		
+		assertNotNull(moTemp2);
+		
+		assertNotSame(moTemp, moTemp2);
+
 	}
 	
 

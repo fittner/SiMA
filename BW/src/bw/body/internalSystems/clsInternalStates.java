@@ -72,6 +72,8 @@ public class clsInternalStates {
 		randomFillIEC();
 		
 		moStomachSystem.step();
+		
+		moStomachSystem.withdrawEnergy( moInternalEnergyConsumption.getSum() );
 	}
 
 }

@@ -26,7 +26,7 @@ public class clsStomachSystem {
 	private float mrDefaultContent = 0.0f; //pseudo const for init purposes
 	private float mrDefaultLowerBorder = 0.5f; //pseudo const for init purposes
 	private float mrDefaultUpperBorder = 2.5f; //pseudo const for init purposes
-	private float mrDefaultDecreasePerStep = 0.01f; //pseudo const for init purposes
+	private float mrDefaultDecreasePerStep = 0.1f; //pseudo const for init purposes
 	private float mrDefaultFraction = 1.0f; //pseudo const for init purposes
 	
 	/**
@@ -36,6 +36,7 @@ public class clsStomachSystem {
 		super();
 		
 		moNutritions = new HashMap<Integer, clsNutritionLevel>();
+		moFractions = new HashMap<Integer, Float>();
 		updateFractionSum();
 		updateEnergy();
 	}
@@ -54,8 +55,22 @@ public class clsStomachSystem {
 		}
 		
 		updateFractionSum();
+		updateEnergy();		
 	}
 	
+	public void removeNutritionType(Integer poId) {
+		if (moNutritions.containsKey(poId)) {
+			moNutritions.remove(poId);
+		}
+		
+		updateFractionSum();
+		updateEnergy();
+	}
+	
+	/**
+	 * TODO (deutsch) - insert description
+	 *
+	 */
 	private void updateFractionSum() {
 		mrFractionSum = 0.0f;
 		
@@ -72,7 +87,7 @@ public class clsStomachSystem {
 	 * @param poId
 	 * @return
 	 */
-	public clsNutritionLevel getNutrition(Integer poId) {
+	public clsNutritionLevel getNutritionLevel(Integer poId) {
 		return moNutritions.get(poId);
 	}
 	
@@ -83,12 +98,12 @@ public class clsStomachSystem {
 	 * @param prAmount
 	 */
 	public void addNutrition(Integer poId, float prAmount) {
-		clsNutritionLevel oNL = this.getNutrition(poId);
+		clsNutritionLevel oNL = this.getNutritionLevel(poId);
 		
 		if (oNL != null) {
 			oNL.increase(prAmount);
 		}
-		
+		this.updateEnergy();		
 	}
 	
 	/**
@@ -98,12 +113,12 @@ public class clsStomachSystem {
 	 * @param prAmount
 	 */
 	public void withdrawNutrition(Integer poId, float prAmount) {
-		clsNutritionLevel oNL = this.getNutrition(poId);
+		clsNutritionLevel oNL = this.getNutritionLevel(poId);
 		
 		if (oNL != null) {
 			oNL.decrease(prAmount);
 		}
-		
+		this.updateEnergy();		
 	}	
 	
 	/**
@@ -126,6 +141,7 @@ public class clsStomachSystem {
 			oNL.increase(rFraction * rAmountFraction);
 		}
 				
+		this.updateEnergy();
 	}
 	
 	/**
@@ -150,6 +166,7 @@ public class clsStomachSystem {
 			rWithdrawn += oNL.decrease(rFraction * rAmountFraction);
 		}		
 		
+		this.updateEnergy();		
 		return rWithdrawn / prAmount;
 	}
 	

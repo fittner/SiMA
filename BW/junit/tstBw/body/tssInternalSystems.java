@@ -24,6 +24,7 @@ import org.junit.runner.RunWith;
 	
 	tstBw.body.internalSystems.tstInternalEnergyConsumption.class,
 	tstBw.body.internalSystems.tstNutritionLevel.class,
+	tstBw.body.internalSystems.tstStomachSystem.class,
 	//bw.body.???.class,
 })
 
