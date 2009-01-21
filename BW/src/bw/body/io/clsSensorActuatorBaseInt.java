@@ -13,6 +13,6 @@ package bw.body.io;
  * @author zeilinger
  * 
  */
-public class clsSensorActuatorBaseInt {
+public class clsSensorActuatorBaseInt extends clsSensorActuatorBase{
 
 }
