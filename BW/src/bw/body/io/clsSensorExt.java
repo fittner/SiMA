@@ -13,6 +13,7 @@ package bw.body.io;
  * @author zeilinger
  * 
  */
-public class clsSensorExt {
+public class clsSensorExt extends clsSensorActuatorBaseExt{
 
+	
 }
