@@ -16,4 +16,9 @@ package bw;
  */
 public class clsInanimate extends clsEntity {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 8003531210919357291L;
+
 }

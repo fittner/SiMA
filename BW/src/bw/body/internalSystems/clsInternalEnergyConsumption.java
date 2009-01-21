@@ -5,7 +5,7 @@
  * $Author::                   $: Author of last commit
  * $Date::                     $: Date of last commit
  */
-package bw.body.interalSystems;
+package bw.body.internalSystems;
 
 import java.util.HashMap;
 import java.util.Iterator;

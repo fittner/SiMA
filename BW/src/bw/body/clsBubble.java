@@ -7,7 +7,8 @@
  */
 package bw.body;
 
-import bw.*;
+import tstBw.*;
+import bw.clsAnimate;
 
 /**
  * Host of the BW body and brain
@@ -16,6 +17,11 @@ import bw.*;
  * 
  */
 public class clsBubble extends clsAnimate {
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -329155160020488088L;
 
 	/**
 	 *  CTOR

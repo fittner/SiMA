@@ -17,9 +17,11 @@ import sim.physics2D.forceGenerator.ForceGenerator;
 import sim.physics2D.util.*;
 import sim.portrayal.DrawInfo2D;
 import sim.util.Bag;
+import tstBw.sim.*;
 import bw.body.physicalObject.effector.clsBotHands;
 import bw.body.physicalObject.stationary.*;
-import bw.sim.*;
+import bw.sim.clsBWMain;
+
 import org.jfree.chart.JFreeChart;
 import org.jfree.data.xy.XYSeries;
 

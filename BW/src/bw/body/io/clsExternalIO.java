@@ -18,13 +18,15 @@ import java.util.ArrayList;
 public class clsExternalIO {
 
 	
-	private ArrayList<clsSensorExt> moSensorExternal = new ArrayList<clsSensorExt>();
-	private ArrayList<clsActuatorExt> moActuatorExternal = new ArrayList<clsActuatorExt>();
+	private ArrayList<clsSensorExt> moSensorExternal;
+	private ArrayList<clsActuatorExt> moActuatorExternal;
 	
-	/**
+/**
 	 * 
 	 */
 	public clsExternalIO() {
+		moSensorExternal = new ArrayList<clsSensorExt>();
+		moActuatorExternal = new ArrayList<clsActuatorExt>();
 		
 		moSensorExternal.add(new clsSensorAcceleration());
 		

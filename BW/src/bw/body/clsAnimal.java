@@ -7,7 +7,8 @@
  */
 package bw.body;
 
-import bw.*;
+import tstBw.*;
+import bw.clsAnimate;
 
 /**
  * TODO (langr) - insert description 
@@ -16,5 +17,10 @@ import bw.*;
  * 
  */
 public class clsAnimal extends clsAnimate{
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 3232421713639035079L;
 
 }

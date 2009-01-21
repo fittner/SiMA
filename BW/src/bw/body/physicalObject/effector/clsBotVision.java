@@ -12,7 +12,7 @@ import java.awt.*;
 import ARSsim.physics2D.shape.CircleBorder;
 import bw.body.io.*; 
 import bw.body.physicalObject.mobile.*;
-import bw.sim.*; 
+import bw.sim.clsBWMain;
 
 import sim.engine.*;
 import sim.physics2D.PhysicsEngine2D;
@@ -23,6 +23,7 @@ import sim.physics2D.util.Double2D;
 import sim.physics2D.shape.*;
 import sim.portrayal.DrawInfo2D;
 import sim.util.*;
+import tstBw.sim.*;
 
 /**
  * TODO (zeilinger) - insert description 

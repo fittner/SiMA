@@ -11,7 +11,8 @@ import java.awt.*;
 import sim.engine.*;
 import sim.physics2D.physicalObject.*;
 import sim.physics2D.util.*;
-import bw.sim.*;
+import tstBw.sim.*;
+import bw.sim.clsBWMain;
 
 public class clsCan extends MobileObject2D implements Steppable
     {

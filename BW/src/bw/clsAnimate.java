@@ -7,7 +7,9 @@
  */
 package bw;
 
-import bw.body.*;
+import sim.engine.SimState;
+import tstBw.body.*;
+import bw.body.clsAgentBody;
 
 
 /**
@@ -17,16 +19,26 @@ import bw.body.*;
  * 
  */
 public class clsAnimate extends clsEntity {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -1734482865454985954L;
+	
+	public clsAgentBody moAgentBody; // the instance of a body
 
 	/**
 	 *  CTOR
 	 */
 	public clsAnimate() {
 		super();
+		
+		 moAgentBody = new clsAgentBody();
 	}
 	
 	
-	public clsAgentBody moAgentBody = new clsAgentBody(); // the instance of a body
 
-
+	public void step(SimState state) {
+		// TODO Auto-generated method stub
+		moAgentBody.step();
+	}
 }
