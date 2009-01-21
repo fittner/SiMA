@@ -15,7 +15,7 @@ import bw.*;
  * @author langr
  * 
  */
-public class clsBubble extends clsAnimate{
+public class clsBubble extends clsAnimate {
 
 	/**
 	 *  CTOR

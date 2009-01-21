@@ -13,10 +13,12 @@ package bw;
  * 
  * sub-classes: clsAnimate, clsInanimate
  * 
+ * extends our clsRobot which is a agent class for mason connection
+ * 
  * @author langr
  * 
  */
-public class clsEntity {
+public class clsEntity extends ARSsim.robot2D.clsRobot {
 
 	@SuppressWarnings("unused")
 	private sim.physics2D.physicalObject.PhysicalObject2D moSimulatorEntity = null;
