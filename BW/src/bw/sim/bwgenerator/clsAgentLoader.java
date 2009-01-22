@@ -14,6 +14,7 @@ import sim.physics2D.constraint.*;
 import sim.physics2D.PhysicsEngine2D;
 import sim.physics2D.util.*;
 
+import bw.*;
 import bw.body.physicalObject.effector.clsBotHands;
 import bw.body.physicalObject.mobile.*;
 import bw.body.physicalObject.stationary.*;
@@ -31,6 +32,7 @@ public class clsAgentLoader {
 		loadCans(poFieldEnvironment, poObjPE, poSimState, 30, xMin, xMax, yMin, yMax);
 		loadBots(poFieldEnvironment, poObjPE, poSimState, 2, xMin, xMax, yMin, yMax);
 		loadRemoteBots(poFieldEnvironment, poObjPE, poSimState, 2, xMin, xMax, yMin, yMax);
+		loadBubbles(poFieldEnvironment, poObjPE, poSimState, 1, xMin, xMax, yMin, yMax);
 	}
 	
 	public static void loadCans(Continuous2D poFieldEnvironment, PhysicsEngine2D poObjPE, SimState poSimState, int pnNumCans, double xMin, double xMax, double yMin, double yMax){
@@ -40,17 +42,53 @@ public class clsAgentLoader {
 		 
         for (int i = 0; i < pnNumCans; i++)
         {
-        double x = Math.max(Math.min(poSimState.random.nextDouble() * xMax, xMax - 10), 10);
-        double y = Math.max(Math.min(poSimState.random.nextDouble() * yMax, yMax - 10), 60);
-                    
-        pos = new Double2D(x, y);
-                    
-        can = new clsCan(pos, new Double2D(0, 0));
-        poFieldEnvironment.setObjectLocation(can, new sim.util.Double2D(pos.x, pos.y));
-        poObjPE.register(can);
-        poSimState.schedule.scheduleRepeating(can);
+	        double x = Math.max(Math.min(poSimState.random.nextDouble() * xMax, xMax - 10), 10);
+	        double y = Math.max(Math.min(poSimState.random.nextDouble() * yMax, yMax - 10), 60);
+	                    
+	        pos = new Double2D(x, y);
+	                    
+	        can = new clsCan(pos, new Double2D(0, 0));
+	        poFieldEnvironment.setObjectLocation(can, new sim.util.Double2D(pos.x, pos.y));
+	        poObjPE.register(can);
+	        poSimState.schedule.scheduleRepeating(can);
         }
 		
+	}
+	
+	/**
+	 * loading of the Bubbles, everything loads here from mason to physics to ARS
+	 * 
+	 *
+	 * @param poFieldEnvironment - is the Continous2D field, the game grid
+	 * @param poObjPE - is the physics engine instance where all physical things have to be added
+	 * @param poSimState - is the top level instance of mason
+	 * @param pnNumAgents - is the number of bubbles to create
+	 * @param xMin - are the dimensions of the playground/game grid
+	 * @param xMax
+	 * @param yMin
+	 * @param yMax
+	 */
+	public static void loadBubbles(Continuous2D poFieldEnvironment, PhysicsEngine2D poObjPE, SimState poSimState, int pnNumAgents, double xMin, double xMax, double yMin, double yMax){
+		
+		clsBubble bubble = null;
+		Double2D startingPosition;
+		
+		 for (int i = 0; i < pnNumAgents; i++)
+         {
+			 //create a starting position near center
+	         double xStartPos = Math.max(Math.min(poSimState.random.nextDouble() * xMax, xMax - 20), 20);
+	         double yStartPos = Math.max(Math.min(poSimState.random.nextDouble() * yMax, yMax - 20), 50);
+	         startingPosition = new Double2D(xStartPos, yStartPos);
+	         
+	         //create the Bubble and add it to mason and physics list
+	         bubble = new clsBubble(startingPosition, new Double2D(0, 0),i);
+	         poObjPE.register(bubble);
+	         poFieldEnvironment.setObjectLocation(bubble, new sim.util.Double2D(startingPosition.x, startingPosition.y));
+	         poSimState.schedule.scheduleRepeating(bubble);
+	         
+	         
+	         
+         }
 	}
 	
 	public static void loadBots(Continuous2D poFieldEnvironment, PhysicsEngine2D poObjPE, SimState poSimState, int pnNumBots, double xMin, double xMax, double yMin, double yMax){

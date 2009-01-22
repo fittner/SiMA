@@ -9,6 +9,7 @@ package bw;
 
 import sim.engine.SimState;
 import sim.engine.Steppable;
+import sim.physics2D.constraint.ConstraintEngine;
 
 /**
  * Entity contains basic physical values.
@@ -31,6 +32,15 @@ public class clsEntity extends ARSsim.robot2D.clsRobot implements Steppable {
 	@SuppressWarnings("unused")
 	private sim.physics2D.physicalObject.PhysicalObject2D moSimulatorEntity = null;
 	
+	private ConstraintEngine moPhysicsConstraintEngine; //object for the physical world representation
+	
+	
+	public ConstraintEngine getPhysicsConstraintEngine() { return moPhysicsConstraintEngine;}
+	public void setPhysicsConstraintEngine(	ConstraintEngine poPhysicsConstraintEngine) {
+		this.moPhysicsConstraintEngine = poPhysicsConstraintEngine;
+	}
+
+
 	public boolean registerEntity(
 			//PhysicsEngine2D objPE, Continuous2D fieldEnvironment
 			) throws Exception {

@@ -22,3 +22,5 @@ public class clsRobot extends sim.robot2D.Robot {
 	public int mnNumberOfEyes = 0;
 	
 }
+
+//  FIXME all:  wird die noch gebraucht? weil es gibt die gleiche Klasse auch in ARSMasonPhysics2D
