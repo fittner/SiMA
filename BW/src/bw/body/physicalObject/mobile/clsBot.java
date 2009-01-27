@@ -17,11 +17,9 @@ import sim.physics2D.forceGenerator.ForceGenerator;
 import sim.physics2D.util.*;
 import sim.portrayal.DrawInfo2D;
 import sim.util.Bag;
-import tstBw.sim.*;
 import bw.body.physicalObject.effector.clsBotHands;
 import bw.body.physicalObject.stationary.*;
-import bw.sim.clsBWMain;
-
+import bw.sim.*;
 import org.jfree.chart.JFreeChart;
 import org.jfree.data.xy.XYSeries;
 
@@ -209,7 +207,7 @@ public class clsBot extends ARSsim.robot2D.clsRobot implements Steppable, ForceG
                 
         // Make sure the object is a can and that it is (roughly) between
         // the effectors
-        if (other instanceof clsCan && botState == APPROACHINGCAN
+        if (other instanceof clsCan && botState == APPROACHINGCAN  && other == currentCan
             && (colAngle.radians < Math.PI / 8 || colAngle.radians > (Math.PI * 2 - Math.PI / 8)))
             {
             // Create a fixed joint directly at the center of the can
