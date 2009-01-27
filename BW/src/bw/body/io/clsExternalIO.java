@@ -22,8 +22,8 @@ import bw.body.itfStep;
 public class clsExternalIO implements itfStep {
 
 	
-	private ArrayList<clsSensorExt> moSensorExternal;
-	private ArrayList<clsActuatorExt> moActuatorExternal;
+	public ArrayList<clsSensorExt> moSensorExternal;
+	public ArrayList<clsActuatorExt> moActuatorExternal;
 	
 	public clsAgentBody moBody;
 	public clsEntity moEntity;
