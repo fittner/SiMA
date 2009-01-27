@@ -7,6 +7,7 @@
  */
 package bw;
 
+import sim.physics2D.util.Double2D;
 import tstBw.*;
 
 /**
@@ -16,6 +17,17 @@ import tstBw.*;
  * 
  */
 public class clsAnimal extends clsAnimate{
+
+	/**
+	 * @param poStartingPosition
+	 * @param poStartingVelocity
+	 * @param pnId
+	 */
+	public clsAnimal(Double2D poStartingPosition, Double2D poStartingVelocity,
+			int pnId) {
+		super(poStartingPosition, poStartingVelocity, pnId);
+		// TODO Auto-generated constructor stub
+	}
 
 	/**
 	 * 
