@@ -32,7 +32,7 @@ public class clsAnimate extends clsEntity {
 	public clsAnimate() {
 		super();
 		
-		 moAgentBody = new clsAgentBody();
+		 moAgentBody = new clsAgentBody(this);
 	}
 	
 	
