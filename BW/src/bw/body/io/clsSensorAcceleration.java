@@ -7,6 +7,7 @@
  */
 package bw.body.io;
 
+import sim.physics2D.util.Double2D;
 import bw.clsEntity;
 
 /**
@@ -17,6 +18,10 @@ import bw.clsEntity;
  */
 public class clsSensorAcceleration extends clsSensorExt{
 
+	
+	private Double2D moCurrentVelocity;
+	private double moCurrentAngularVelocity; 
+	
 	/**
 	 * @return the AccelerationVector
 	 */
@@ -30,9 +35,13 @@ public class clsSensorAcceleration extends clsSensorExt{
 	public void setAcceleration(int poAcceleration) {
 	}
 	
+	/* (non-Javadoc)
+	 * Updates the sensor data values by fetching the info from the physics engine entity 
+	 */
 	public void updateSensorData(clsEntity poEntity) {
-		// TODO Auto-generated method stub
-		
+
+		moCurrentVelocity = poEntity.getVelocity();
+		moCurrentAngularVelocity = poEntity.getAngularVelocity();
 	}
 	
 }

@@ -43,13 +43,15 @@ public class clsExternalIO implements itfStep {
 		
 	}
 
-/* (non-Javadoc)
- * @see bw.body.itfStep#step()
- */
-@Override
-public void step() {
-	
-	//moSensorExternal.updateSensorData(moEntity);
-}
+	/* (non-Javadoc)
+	 * @see bw.body.itfStep#step()
+	 */
+	@Override
+	public void step() {
+		
+		for (clsSensorExt sensor : moSensorExternal) {
+			sensor.updateSensorData(moEntity);
+		}
+	}
 
 }

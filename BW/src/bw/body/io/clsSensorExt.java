@@ -22,7 +22,8 @@ public class clsSensorExt extends clsSensorActuatorBaseExt implements itfSensorU
 	 */
 	@Override
 	public void updateSensorData(clsEntity poEntity) {
-		// TODO Auto-generated method stub
+		// Auto-generated method stub
+		// --> implement it in the corresponding sensor class!!!
 		
 	}
 }
