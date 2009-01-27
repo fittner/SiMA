@@ -8,6 +8,7 @@
 package bw;
 
 import java.awt.Color;
+import java.util.HashMap;
 
 import sim.engine.SimState;
 import sim.engine.Steppable;
@@ -16,8 +17,10 @@ import sim.physics2D.forceGenerator.ForceGenerator;
 import sim.physics2D.util.Angle;
 import sim.physics2D.util.Double2D;
 import sim.portrayal.DrawInfo2D;
+import bw.body.itfStep;
 import bw.body.physicalObject.mobile.clsMotionPlatform;
 import bw.sim.clsBWMain;
+import bw.utils.datatypes.clsMutableFloat;
 
 //import tstBw.*;
 
@@ -40,6 +43,8 @@ public class clsBubble extends clsAnimate implements Steppable, ForceGenerator{
 	
 	public float getInternalEnergyConsuptionSUM() {	return super.moAgentBody.moInternalStates.getInternalEnergyConsumption().getSum();	} 
 	
+	//just testing (cm)
+	public HashMap<Integer, clsMutableFloat> getInternalEnergyConsumption() {	return moAgentBody.moInternalStates.getInternalEnergyConsumption().getList();	} 
 	
 	/**
 	 *  CTOR
@@ -90,7 +95,10 @@ public class clsBubble extends clsAnimate implements Steppable, ForceGenerator{
 	    clsBWMain simRobots = (clsBWMain)state;
 	    simRobots.moGameGridField.setObjectLocation(this, new sim.util.Double2D(position.x, position.y));
 	    
+	    moAgentBody.step();
+	    
 	  
     }
+
 
 }
