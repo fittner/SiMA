@@ -38,6 +38,7 @@ public class clsBubble extends clsAnimate implements Steppable, ForceGenerator{
 	public void setId(int pnId) {	this.mnId = pnId;	}
 	public int getId() {	return mnId;	} 
 	
+	public float getInternalEnergyConsuptionSUM() {	return super.moAgentBody.moInternalStates.getInternalEnergyConsumption().getSum();	} 
 	
 	
 	/**
@@ -88,6 +89,8 @@ public class clsBubble extends clsAnimate implements Steppable, ForceGenerator{
 	    Double2D position = this.getPosition();
 	    clsBWMain simRobots = (clsBWMain)state;
 	    simRobots.moGameGridField.setObjectLocation(this, new sim.util.Double2D(position.x, position.y));
+	    
+	  
     }
 
 }
