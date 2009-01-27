@@ -9,6 +9,7 @@ package bw.body;
 
 
 import bw.body.internalSystems.clsInternalStates;
+import bw.body.intraBodySystems.clsIntraBodySystem;
 import bw.body.clsBrain;
 
 /**
@@ -21,24 +22,19 @@ import bw.body.clsBrain;
  */
 public class clsAgentBody {
     private clsFlesh moFlesh;
-    private clsBioSystem moBioSystem;
     private clsBrain moBrain;
     private clsInternalStates moInternalStates;
-    private clsGrowthSystem moGrowthSystem;
+    private clsIntraBodySystem moIntraBodySystem;
 	
 	/**
 	 * CTOR
 	 */
 	public clsAgentBody() {
   	   moFlesh = new clsFlesh();
-  	   moBioSystem = new clsBioSystem();
   	   moBrain = new clsBrain();
 	   moInternalStates = new clsInternalStates();
-	   moGrowthSystem = new clsGrowthSystem();
+	   moIntraBodySystem = new clsIntraBodySystem();
 	}
-	
-
-
 	
 	/**
 	 * TODO (deutsch) - insert description
@@ -46,5 +42,6 @@ public class clsAgentBody {
 	 */
 	public void step() {
 		moInternalStates.step();
+		moIntraBodySystem.step();
 	}
 }

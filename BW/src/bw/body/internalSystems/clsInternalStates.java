@@ -113,6 +113,9 @@ public class clsInternalStates {
 		randomFEEDAGENT();
 		
 		moStomachSystem.step();
+		moStaminaSystem.step();
+		moHealthSystem.step();
+		moTemperatureSystem.step();
 		
 		moStomachSystem.withdrawEnergy( moInternalEnergyConsumption.getSum() );
 	}

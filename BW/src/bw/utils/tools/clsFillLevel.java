@@ -17,6 +17,7 @@ public class clsFillLevel extends clsContentColumn {
 
 	private float mrLowerBound;
 	private float mrUpperBound;
+	private float mrChange;
 	
 	/**
 	 * 
@@ -25,6 +26,7 @@ public class clsFillLevel extends clsContentColumn {
 		super();
 		mrLowerBound = this.getMaxContent() / 3.0f;
 		mrUpperBound = mrLowerBound * 2.0f;
+		mrChange = 0.0f;
 		
 		checkBounds();		
 	}
@@ -38,6 +40,21 @@ public class clsFillLevel extends clsContentColumn {
 		
 		mrLowerBound = this.getMaxContent() / 3.0f;
 		mrUpperBound = mrLowerBound * 2.0f;	
+		mrChange = 0.0f;
+		
+		checkBounds();
+	}
+	
+	/**
+	 * @param prContent
+	 * @param prMaxContent
+	 */
+	public clsFillLevel(float prContent, float prMaxContent, float prChange) {
+		super(prContent, prMaxContent);
+		
+		mrLowerBound = this.getMaxContent() / 3.0f;
+		mrUpperBound = mrLowerBound * 2.0f;	
+		mrChange = prChange;
 		
 		checkBounds();
 	}
@@ -48,12 +65,36 @@ public class clsFillLevel extends clsContentColumn {
 	 * @param prLowerBound
 	 * @param prUpperBound
 	 */
-	public clsFillLevel(float prContent, float prMaxContent, float prLowerBound, float prUpperBound) {
+	public clsFillLevel(float prContent, float prMaxContent, float prChange, float prLowerBound, float prUpperBound) {
 		super(prContent, prMaxContent);
-		
+		mrChange = prChange;		
 		setBounds(prLowerBound, prUpperBound);
 	}	
 	
+	
+	
+	/**
+	 * @return the mrChange
+	 */
+	public float getChange() {
+		return mrChange;
+	}
+
+	/**
+	 * @param mrChange the mrChange to set
+	 */
+	public void setChange(float mrChange) {
+		this.mrChange = mrChange;
+	}
+	
+	/**
+	 * TODO (deutsch) - insert description
+	 *
+	 */
+	public void update() {
+		change(mrChange);
+	}
+
 	/**
 	 * TODO (deutsch) - insert description
 	 *

@@ -89,6 +89,16 @@ public class clsContentColumn {
 	}
 	
 	/**
+	 * Alias for increase(prContent) 
+	 *
+	 * @param prContent how much should be added
+	 * @return the resulting content after checkValue has been executed
+	 */
+	public float change(float prContent) {
+		return increase( prContent );	
+	}
+	
+	/**
 	 * Lowers the current value of the column by prContent
 	 *
 	 * @param prContent how much should be removed

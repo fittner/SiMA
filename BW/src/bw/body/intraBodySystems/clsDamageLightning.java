@@ -5,7 +5,7 @@
  * $Author::                   $: Author of last commit
  * $Date::                     $: Date of last commit
  */
-package bw.body;
+package bw.body.intraBodySystems;
 
 /**
  * TODO (deutsch) - insert description 
@@ -13,6 +13,13 @@ package bw.body;
  * @author deutsch
  * 
  */
-public class clsGrowthSystem {
+public class clsDamageLightning implements itfIntraBodySystemModule {
 
+    /**
+     * TODO (deutsch) - insert description
+     *
+     */
+    public void step() {
+    	
+    }
 }

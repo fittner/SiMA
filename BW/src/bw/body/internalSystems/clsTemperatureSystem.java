@@ -7,6 +7,8 @@
  */
 package bw.body.internalSystems;
 
+import bw.utils.tools.clsFillLevel;
+
 /**
  * TODO (deutsch) - insert description 
  * 
@@ -14,5 +16,29 @@ package bw.body.internalSystems;
  * 
  */
 public class clsTemperatureSystem {
-
+	private clsFillLevel moTemperature;
+	
+	public clsTemperatureSystem() {
+		moTemperature = new clsFillLevel(1.0f, 2.0f, 0.00f);
+	}
+	
+	public void cool(float prCooledBy) {
+		moTemperature.decrease(prCooledBy);
+	}
+	
+	public void heat(float prHeatedBy) {
+		moTemperature.increase(prHeatedBy);
+	}
+	
+	public float getRecoveryRate() {
+		return moTemperature.getChange();
+	}
+	
+	public void setRecoveryRate(float prRecoveryRate) {	
+		moTemperature.setChange(prRecoveryRate);
+	}
+	
+	public void step() {
+		moTemperature.update();
+	}
 }

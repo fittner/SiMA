@@ -18,8 +18,6 @@ import bw.utils.tools.clsFillLevel;
  * 
  */
 public class clsNutritionLevel extends clsFillLevel {
-	private float mrDecreasePerStep;
-	
 	/**
 	 * @param prContent
 	 * @param prMaxContent
@@ -28,7 +26,7 @@ public class clsNutritionLevel extends clsFillLevel {
 	 * @param prDecreasePerStep
 	 */
 	public clsNutritionLevel(float prContent, float prMaxContent, float prLowerBound, float prUpperBound, float prDecreasePerStep) {
-		super(prContent, prMaxContent, prLowerBound, prUpperBound);
+		super(prContent, prMaxContent, -prDecreasePerStep, prLowerBound, prUpperBound);
 		
 		setDecreasePerStep(prDecreasePerStep);
 	}
@@ -37,14 +35,14 @@ public class clsNutritionLevel extends clsFillLevel {
 	 * @return the mrDecreasePerStep
 	 */
 	public float getDecreasePerStep() {
-		return mrDecreasePerStep;
+		return -getChange();
 	}
 
 	/**
 	 * @param mrDecreasePerStep the mrDecreasePerStep to set
 	 */
 	public void setDecreasePerStep(float prDecreasePerStep) {
-		mrDecreasePerStep = prDecreasePerStep;
+		setChange(-prDecreasePerStep);
 		
 		checkDecreasePerStep();
 	}
@@ -54,8 +52,8 @@ public class clsNutritionLevel extends clsFillLevel {
 	 *
 	 */
 	private void checkDecreasePerStep() {
-		if (mrDecreasePerStep < 0.0f) {
-			mrDecreasePerStep = 0.0f;
+		if (getChange() > 0.0f) {
+			setChange( 0.0f );
 		} 
 	}
 	
@@ -64,6 +62,6 @@ public class clsNutritionLevel extends clsFillLevel {
 	 *
 	 */
 	public void step() {
-		this.decrease(mrDecreasePerStep);
+		this.update();
 	}
 }

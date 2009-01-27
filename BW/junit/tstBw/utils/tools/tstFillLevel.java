@@ -30,6 +30,7 @@ public class tstFillLevel {
 
 		assertEquals(oFill.getMaxContent(), java.lang.Float.MAX_VALUE);
 		assertEquals(oFill.getContent(), 0.0f, 0.00001f);
+		assertEquals(oFill.getChange(), 0.0f, 0.00001f);
 	}
 
 	/**
@@ -44,20 +45,37 @@ public class tstFillLevel {
 		assertEquals(oFill.getContent(), 1.5f, 0.00001f);
 		assertEquals(oFill.getLowerBound(), 1.0f, 0.00001f);
 		assertEquals(oFill.getUpperBound(), 2.0f, 0.00001f);
+		assertEquals(oFill.getChange(), 0.0f, 0.00001f);
 	}
 
+	/**
+	 * Test method for {@link bw.utils.tools.clsFillLevel#clsFillLevel(float, float, float)}.
+	 */
+	@Test
+	public void testClsFillLevelFloatFloatFloat() {
+		clsFillLevel oFill = new clsFillLevel(1.5f, 3.0f, 0.1f);
+		assertNotNull(oFill);
+		
+		assertEquals(oFill.getMaxContent(), 3.0f, 0.00001f);
+		assertEquals(oFill.getContent(), 1.5f, 0.00001f);
+		assertEquals(oFill.getLowerBound(), 1.0f, 0.00001f);
+		assertEquals(oFill.getUpperBound(), 2.0f, 0.00001f);
+		assertEquals(oFill.getChange(), 0.1f, 0.00001f);
+	}
+	
 	/**
 	 * Test method for {@link bw.utils.tools.clsFillLevel#clsFillLevel(float, float, float, float)}.
 	 */
 	@Test
 	public void testClsFillLevelFloatFloatFloatFloat() {
-		clsFillLevel oFill = new clsFillLevel(1.5f, 3.0f, 1.0f, 2.0f);
+		clsFillLevel oFill = new clsFillLevel(1.5f, 3.0f, 0.1f, 1.0f, 2.0f);
 		assertNotNull(oFill);
 
-		assertEquals(oFill.getMaxContent(), 3.0f);
-		assertEquals(oFill.getContent(), 1.5f);
-		assertEquals(oFill.getLowerBound(), 1.0f);
-		assertEquals(oFill.getUpperBound(), 2.0f);		
+		assertEquals(oFill.getMaxContent(), 3.0f, 0.00001f);
+		assertEquals(oFill.getContent(), 1.5f, 0.00001f);
+		assertEquals(oFill.getLowerBound(), 1.0f, 0.00001f);
+		assertEquals(oFill.getUpperBound(), 2.0f, 0.00001f);
+		assertEquals(oFill.getChange(), 0.1f, 0.00001f);
 	}
 
 	/**
@@ -140,7 +158,7 @@ public class tstFillLevel {
 	 */
 	@Test
 	public void testSetLowerBound() {
-		clsFillLevel oFill = new clsFillLevel(1.5f, 3.0f, 1.0f, 2.0f);
+		clsFillLevel oFill = new clsFillLevel(1.5f, 3.0f, 0.0f, 1.0f, 2.0f);
 		
 		assertEquals(oFill.getLowerBound(), 1.0f, 0.00001f);
 		assertEquals(oFill.getUpperBound(), 2.0f, 0.00001f);
@@ -175,7 +193,7 @@ public class tstFillLevel {
 	 */
 	@Test
 	public void testSetUpperBound() {
-		clsFillLevel oFill = new clsFillLevel(1.5f, 3.0f, 1.0f, 2.0f);
+		clsFillLevel oFill = new clsFillLevel(1.5f, 3.0f, 0.0f, 1.0f, 2.0f);
 		
 		assertEquals(oFill.getLowerBound(), 1.0f, 0.00001f);
 		assertEquals(oFill.getUpperBound(), 2.0f, 0.00001f);
@@ -193,5 +211,63 @@ public class tstFillLevel {
 		oFill.setUpperBound(5.0f);
 		assertEquals(oFill.getUpperBound(), 3.0f, 0.00001f);	
 	}
+	
+	/**
+	 * Test method for {@link bw.utils.tools.clsFillLevel#setChange(float}. 
+	 */
+	@Test
+	public void testSetChange() {
+		clsFillLevel oFill = new clsFillLevel(1.5f, 3.0f, 1.1f);
+		
+		assertEquals(oFill.getChange(), 1.1f, 0.00001f);
+		
+		oFill.setChange(-1.3f);
+		assertEquals(oFill.getChange(), -1.3f, 0.00001f);
+
+	}
+	
+	/**
+	 * Test method for {@link bw.utils.tools.clsFillLevel#getChange(}. 
+	 */
+	@Test
+	public void testGetChange() {
+		clsFillLevel oFill = new clsFillLevel(1.5f, 3.0f, 1.1f);
+		
+		assertEquals(oFill.getChange(), 1.1f, 0.00001f);
+		
+	}
+	
+	/**
+	 * Test method for {@link bw.utils.tools.clsFillLevel#update(}. 
+	 */
+	@Test
+	public void testUpdate() {
+		clsFillLevel oFill = new clsFillLevel(1.5f, 3.0f, 0.5f);
+		assertEquals(oFill.getContent(), 1.5f, 0.00001f);
+		assertEquals(oFill.getMaxContent(), 3.0f, 0.00001f);
+		assertEquals(oFill.getChange(), 0.5f, 0.00001f);	
+		
+		oFill.update();
+		assertEquals(oFill.getContent(), 2.0f, 0.00001f);
+		
+		oFill.update();
+		oFill.update();
+		oFill.update();
+		assertEquals(oFill.getContent(), 3.0f, 0.00001f);
+		
+		oFill.setChange(-0.25f);
+		oFill.update();
+		oFill.update();
+		oFill.update();
+		oFill.update();
+		assertEquals(oFill.getContent(), 2.0f, 0.00001f);
+		
+		oFill.setChange(-0.98f);
+		oFill.update();
+		oFill.update();
+		oFill.update();
+		assertEquals(oFill.getContent(), 0.0f, 0.00001f);
+	}
+		
 
 }
