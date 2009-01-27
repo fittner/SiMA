@@ -20,12 +20,26 @@ public class clsSensorAcceleration extends clsSensorExt{
 
 	
 	private Double2D moCurrentVelocity;
+	/**
+	 * @return the moCurrentVelocity
+	 */
+	public Double2D getCurrentVelocity() {
+		return moCurrentVelocity;
+	}
+
+	/**
+	 * @return the moCurrentAngularVelocity
+	 */
+	public double getMoCurrentAngularVelocity() {
+		return moCurrentAngularVelocity;
+	}
+
 	private double moCurrentAngularVelocity; 
 	
 	/**
 	 * @return the AccelerationVector
 	 */
-	public int getAcceleration() {
+	public double getCurrentAngularVelocity() {
 		return 1;
 	}
 
