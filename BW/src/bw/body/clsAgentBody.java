@@ -21,10 +21,10 @@ import bw.body.clsBrain;
  * 
  */
 public class clsAgentBody {
-    private clsFlesh moFlesh;
-    private clsBrain moBrain;
-    private clsInternalStates moInternalStates;
-    private clsIntraBodySystem moIntraBodySystem;
+    public clsFlesh moFlesh;
+    public clsBrain moBrain;
+    public clsInternalStates moInternalStates;
+    public clsIntraBodySystem moIntraBodySystem;
 	
 	/**
 	 * CTOR
