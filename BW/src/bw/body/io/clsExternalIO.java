@@ -9,13 +9,15 @@ package bw.body.io;
 
 import java.util.ArrayList;
 
+import bw.body.itfStep;
+
 /**
  * TODO (langr) - insert description 
  * 
  * @author langr
  * 
  */
-public class clsExternalIO {
+public class clsExternalIO implements itfStep {
 
 	
 	private ArrayList<clsSensorExt> moSensorExternal;
@@ -31,5 +33,14 @@ public class clsExternalIO {
 		moSensorExternal.add(new clsSensorAcceleration());
 		
 	}
+
+/* (non-Javadoc)
+ * @see bw.body.itfStep#step()
+ */
+@Override
+public void step() {
+	// TODO Auto-generated method stub
+	
+}
 
 }
