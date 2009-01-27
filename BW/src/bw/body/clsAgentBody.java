@@ -8,6 +8,7 @@
 package bw.body;
 
 
+import bw.body.internalSystems.clsFlesh;
 import bw.body.internalSystems.clsInternalStates;
 import bw.body.intraBodySystems.clsIntraBodySystem;
 import bw.body.clsBrain;
@@ -21,7 +22,6 @@ import bw.body.clsBrain;
  * 
  */
 public class clsAgentBody {
-    public clsFlesh moFlesh;
     public clsBrain moBrain;
     public clsInternalStates moInternalStates;
     public clsIntraBodySystem moIntraBodySystem;
@@ -30,7 +30,6 @@ public class clsAgentBody {
 	 * CTOR
 	 */
 	public clsAgentBody() {
-  	   moFlesh = new clsFlesh();
   	   moBrain = new clsBrain();
 	   moInternalStates = new clsInternalStates();
 	   moIntraBodySystem = new clsIntraBodySystem();

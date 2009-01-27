@@ -7,6 +7,7 @@
  */
 package bw.body.internalSystems;
 
+import bw.body.itfStep;
 import bw.utils.tools.clsFillLevel;
 
 /**
@@ -17,7 +18,7 @@ import bw.utils.tools.clsFillLevel;
  * @author deutsch
  * 
  */
-public class clsNutritionLevel extends clsFillLevel {
+public class clsNutritionLevel extends clsFillLevel implements itfStep {
 	/**
 	 * @param prContent
 	 * @param prMaxContent

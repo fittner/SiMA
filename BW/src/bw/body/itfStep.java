@@ -13,6 +13,6 @@ package bw.body;
  * @author deutsch
  * 
  */
-public class clsFlesh {
-
+public interface itfStep {
+	public void step();
 }

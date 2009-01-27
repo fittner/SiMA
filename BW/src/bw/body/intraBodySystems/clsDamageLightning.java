@@ -7,13 +7,15 @@
  */
 package bw.body.intraBodySystems;
 
+import bw.body.itfStep;
+
 /**
  * TODO (deutsch) - insert description 
  * 
  * @author deutsch
  * 
  */
-public class clsDamageLightning implements itfIntraBodySystemModule {
+public class clsDamageLightning implements itfStep {
 
     /**
      * TODO (deutsch) - insert description

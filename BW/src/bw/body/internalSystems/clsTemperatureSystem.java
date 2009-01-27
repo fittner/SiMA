@@ -7,6 +7,7 @@
  */
 package bw.body.internalSystems;
 
+import bw.body.itfStep;
 import bw.utils.tools.clsFillLevel;
 
 /**
@@ -15,7 +16,7 @@ import bw.utils.tools.clsFillLevel;
  * @author deutsch
  * 
  */
-public class clsTemperatureSystem {
+public class clsTemperatureSystem implements itfStep {
 	private clsFillLevel moTemperature;
 	
 	public clsTemperatureSystem() {

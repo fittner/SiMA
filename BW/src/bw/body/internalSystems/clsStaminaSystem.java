@@ -7,6 +7,7 @@
  */
 package bw.body.internalSystems;
 
+import bw.body.itfStep;
 import bw.utils.tools.clsFillLevel;
 
 /**
@@ -15,7 +16,7 @@ import bw.utils.tools.clsFillLevel;
  * @author deutsch
  * 
  */
-public class clsStaminaSystem {
+public class clsStaminaSystem implements itfStep {
 	private clsFillLevel moStamina;
 	
 	public clsStaminaSystem() {

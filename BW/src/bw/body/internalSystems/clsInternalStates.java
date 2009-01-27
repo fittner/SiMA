@@ -9,6 +9,8 @@ package bw.body.internalSystems;
 
 import java.util.Random;
 
+import bw.body.itfStep;
+
 /**
  * TODO (deutsch) - insert description 
  * TODO clean class from test/debug functions
@@ -16,19 +18,21 @@ import java.util.Random;
  * @author deutsch
  * 
  */
-public class clsInternalStates {
-	private clsMessengerSystem moMessengerSystem;
-	private clsTemperatureSystem moTemperatureSystem;
-	private clsHealthSystem moHealthSystem;
-	private clsStaminaSystem moStaminaSystem;
-	private clsStomachSystem moStomachSystem;
-	private clsInternalEnergyConsumption moInternalEnergyConsumption; // list of all the bodies energy consumers
+public class clsInternalStates implements itfStep {
+    public clsFlesh moFlesh;
+    public clsMessengerSystem moMessengerSystem;
+    public clsTemperatureSystem moTemperatureSystem;
+    public clsHealthSystem moHealthSystem;
+    public clsStaminaSystem moStaminaSystem;
+    public clsStomachSystem moStomachSystem;
+    public clsInternalEnergyConsumption moInternalEnergyConsumption; // list of all the bodies energy consumers
 	
 	
 	/**
 	 * 
 	 */
 	public clsInternalStates() {
+  	    moFlesh = new clsFlesh();
 		moMessengerSystem = new clsMessengerSystem();
 		moTemperatureSystem = new clsTemperatureSystem();
 		moHealthSystem = new clsHealthSystem();

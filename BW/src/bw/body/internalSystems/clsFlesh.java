@@ -5,7 +5,7 @@
  * $Author::                   $: Author of last commit
  * $Date::                     $: Date of last commit
  */
-package bw.body.intraBodySystems;
+package bw.body.internalSystems;
 
 /**
  * TODO (deutsch) - insert description 
@@ -13,6 +13,6 @@ package bw.body.intraBodySystems;
  * @author deutsch
  * 
  */
-public interface itfIntraBodySystemModule {
-	public void step();
+public class clsFlesh {
+
 }

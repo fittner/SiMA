@@ -10,13 +10,15 @@ package bw.body.internalSystems;
 import java.util.HashMap;
 import java.util.Iterator;
 
+import bw.body.itfStep;
+
 /**
  * TODO (deutsch) - insert description 
  * 
  * @author deutsch
  * 
  */
-public class clsStomachSystem {
+public class clsStomachSystem implements itfStep {
 	private HashMap<Integer, clsNutritionLevel> moNutritions;
 	private HashMap<Integer, Float> moFractions;
 	private float mrFractionSum;

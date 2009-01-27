@@ -9,6 +9,8 @@ package bw.body.internalSystems;
 
 import java.util.HashMap;
 import java.util.Iterator;
+
+import bw.body.itfStep;
 import bw.utils.datatypes.clsMutableFloat;
 
 /**
@@ -23,7 +25,7 @@ import bw.utils.datatypes.clsMutableFloat;
  * @author deutsch
  * 
  */
-public class clsInternalEnergyConsumption {
+public class clsInternalEnergyConsumption implements itfStep {
 	private HashMap<Integer, clsMutableFloat> moList; // this list stores all registered values.
 	float mrSum; 											// stores the sum of all values within moList.
 	boolean mnDirtyFlag; 								// set to true if moList has been changed.
@@ -164,5 +166,12 @@ public class clsInternalEnergyConsumption {
 		}
 		
 		return rSum;
+	}
+	
+	/* (non-Javadoc)
+	 * @see bw.body.itfStep#step()
+	 */
+	public void step() {
+		
 	}
 }
