@@ -9,6 +9,7 @@ package bw.body.io;
 
 import java.util.ArrayList;
 
+import bw.clsEntity;
 import bw.body.clsAgentBody;
 import bw.body.itfStep;
 
@@ -24,14 +25,15 @@ public class clsExternalIO implements itfStep {
 	private ArrayList<clsSensorExt> moSensorExternal;
 	private ArrayList<clsActuatorExt> moActuatorExternal;
 	
-	public clsAgentBody moBody = null;
+	public clsAgentBody moBody;
+	public clsEntity moEntity;
 	
 /**
 	 * 
 	 */
-	public clsExternalIO(clsAgentBody poBody) {
-		//the agents body
-		moBody = poBody;
+	public clsExternalIO(clsEntity poEntity, clsAgentBody poBody) {
+		moBody = poBody; 	 //the agents body
+		moEntity = poEntity; //the entity for physics engine access
 		
 		moSensorExternal = new ArrayList<clsSensorExt>();
 		moActuatorExternal = new ArrayList<clsActuatorExt>();
