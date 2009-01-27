@@ -39,10 +39,11 @@ public class clsBubble extends clsAnimate {
 	public float getInternalEnergyConsuptionSUM() {	return super.moAgentBody.getInternalStates().getInternalEnergyConsumption().getSum();	} 
 	
 	//just testing (cm)
-	public HashMap<Integer, clsMutableFloat> getInternalEnergyConsumption() {	return moAgentBody.getInternalStates().getInternalEnergyConsumption().getList();	}
+	public Object[] getInternalEnergyConsumption() {	return moAgentBody.getInternalStates().getInternalEnergyConsumption().getList().values().toArray();	}
 	
 	//public HashMap<Integer, clsMutableFloat> getStomach() {	return moAgentBody.moInternalStates.moStomachSystem..getInternalEnergyConsumption().getList();	} 
 	
+	public Object[] getSensorExternal() { return moAgentBody.getExternalIO().moSensorExternal.toArray();}
 	
 
 	public clsBubble(Double2D poStartingPosition, Double2D poStartingVelocity,  int pnId)
