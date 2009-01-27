@@ -7,6 +7,8 @@
  */
 package bw.body.io;
 
+import bw.clsEntity;
+
 /**
  * TODO (langr) - insert description 
  * 
@@ -26,6 +28,11 @@ public class clsSensorAcceleration extends clsSensorExt{
 	 * @param mnAcceleration the mnAcceleration to set
 	 */
 	public void setAcceleration(int poAcceleration) {
+	}
+	
+	public void updateSensorData(clsEntity poEntity) {
+		// TODO Auto-generated method stub
+		
 	}
 	
 }

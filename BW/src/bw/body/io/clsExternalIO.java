@@ -38,6 +38,7 @@ public class clsExternalIO implements itfStep {
 		moSensorExternal = new ArrayList<clsSensorExt>();
 		moActuatorExternal = new ArrayList<clsActuatorExt>();
 		
+		//initialization of sensors
 		moSensorExternal.add(new clsSensorAcceleration());
 		
 	}
@@ -47,8 +48,8 @@ public class clsExternalIO implements itfStep {
  */
 @Override
 public void step() {
-	// TODO Auto-generated method stub
 	
+	//moSensorExternal.updateSensorData(moEntity);
 }
 
 }
