@@ -8,7 +8,8 @@
 package bw.utils.tools;
 
 /**
- * TODO (deutsch) - insert description 
+ * Extends the content column by two concepts: 1. dividing the column into three parts (low, normal, high);  
+ * 2. it allows to predefine a value (mrChange) which will be added to the content each call of update()
  * 
  * @author deutsch
  * 
@@ -20,7 +21,7 @@ public class clsFillLevel extends clsContentColumn {
 	private float mrChange;
 	
 	/**
-	 * 
+	 * The column (0.0 to mrMaxContent) is divided into three equal parts. mrChange is set to 0.0f
 	 */
 	public clsFillLevel() {
 		super();
@@ -32,8 +33,10 @@ public class clsFillLevel extends clsContentColumn {
 	}
 	
 	/**
-	 * @param prContent
-	 * @param prMaxContent
+	 * The column (0.0 to mrMaxContent) is divided into three equal parts. mrChange is set to 0.0f
+	 * 
+	 * @param prContent the mrContent to set
+	 * @param prMaxContent the mrMaxContent to set
 	 */
 	public clsFillLevel(float prContent, float prMaxContent) {
 		super(prContent, prMaxContent);
@@ -46,8 +49,11 @@ public class clsFillLevel extends clsContentColumn {
 	}
 	
 	/**
-	 * @param prContent
-	 * @param prMaxContent
+	 * The column (0.0 to mrMaxContent) is divided into three equal parts.
+	 * 
+	 * @param prContent the mrContent to set
+	 * @param prMaxContent the mrMaxContent to set
+	 * @param prChange  the mrChange to set
 	 */
 	public clsFillLevel(float prContent, float prMaxContent, float prChange) {
 		super(prContent, prMaxContent);
@@ -60,10 +66,11 @@ public class clsFillLevel extends clsContentColumn {
 	}
 	
 	/**
-	 * @param prContent
-	 * @param prMaxContent
-	 * @param prLowerBound
-	 * @param prUpperBound
+	 * @param prContent the mrContent to set
+	 * @param prMaxContent the mrMaxContent to set
+	 * @param prChange  the mrChange to set
+	 * @param prLowerBound the mrLowerBound to set
+	 * @param prUpperBound the mrUpperBound to set
 	 */
 	public clsFillLevel(float prContent, float prMaxContent, float prChange, float prLowerBound, float prUpperBound) {
 		super(prContent, prMaxContent);
@@ -86,20 +93,23 @@ public class clsFillLevel extends clsContentColumn {
 	public void setChange(float mrChange) {
 		this.mrChange = mrChange;
 	}
-	
+
 	/**
-	 * TODO (deutsch) - insert description
-	 *
+	 * Applies the mrChange value to mrContent. See also {@link clsContentColumn#change(float)}
+	 * 
+	 * @see clsContentColumn.change(float)
 	 */
 	public void update() {
 		change(mrChange);
 	}
 
 	/**
-	 * TODO (deutsch) - insert description
+	 * Sets the lower and the upper bound and performs validation checks ({@link #checkBounds()}).
+	 * 
+	 * @see checkBounds 
 	 *
-	 * @param prLowerBound
-	 * @param prUpperBound
+	 * @param prLowerBound the mrLowerBound to set
+	 * @param prUpperBound the mrLowerBound to set
 	 */
 	public void setBounds(float prLowerBound, float prUpperBound) {
 		mrLowerBound = prLowerBound;
@@ -109,18 +119,18 @@ public class clsFillLevel extends clsContentColumn {
 	}
 	
 	/**
-	 * TODO (deutsch) - insert description
+	 * Checks if the content is within the lower part  (mrContent < mrLowerBound)
 	 *
-	 * @return
+	 * @return true if mrContent is within the lower part
 	 */
 	public boolean isLow() {
 		return (this.getContent() < mrLowerBound);
 	}
 	
 	/**
-	 * TODO (deutsch) - insert description
+	 * Checks if the content is within the upper part  (mrContent > mrUpperBound)
 	 *
-	 * @return
+	 * @return true if mrContent is within the upper part
 	 */
 	public boolean isHigh() {
 		return (this.getContent() > mrUpperBound);
@@ -134,8 +144,7 @@ public class clsFillLevel extends clsContentColumn {
 	}
 
 	/**
-	 * Sets the lower bound which can be checked using isLow(). If the set value is higher than the upper bound 
-	 * value - the latter one is changed to the new value. e.g. upper: 3, new lower: 4 => new upper: 4
+	 * Sets the lower bound which can be checked using {@link #isLow()}.
 	 * 
 	 * @param mrLowerBound the mrLowerBound to set
 	 */
@@ -155,8 +164,7 @@ public class clsFillLevel extends clsContentColumn {
 	}
 
 	/**
- 	 * Sets the upper bound which can be checked using isHigh(). If the set value is lower than the lower bound 
-	 * value - the latter one is changed to the new value. e.g. lower: 1, new upper: 0.5 => new lower: 0.5
+ 	 * Sets the upper bound which can be checked using {@link #isHigh()}. 
 	 * 
 	 * @param mrUpperBound the mrUpperBound to set
 	 */
@@ -169,7 +177,9 @@ public class clsFillLevel extends clsContentColumn {
 	}
 	
 	/**
-	 * TODO (deutsch) - insert description
+	 * Checks the lower bound value for validity. If necessary the bounds are corrected automatically. If the 
+	 * set value is higher than the upper bound value - the latter one is changed to the new value. 
+	 * e.g. upper: 3, new lower: 4 => new upper: 4
 	 *
 	 */
 	private void checkLowerBound() {
@@ -185,7 +195,9 @@ public class clsFillLevel extends clsContentColumn {
 	}
 	
 	/**
-	 * TODO (deutsch) - insert description
+	 * Checks the upper bound value for validity. If necessary the bounds are corrected automatically. If the 
+	 * set value is lower than the lower bound value - the latter one is changed to the new value. 
+	 * e.g. lower: 1, new upper: 0.5 => new lower: 0.5
 	 *
 	 */
 	private void checkUpperBound() {
@@ -201,9 +213,9 @@ public class clsFillLevel extends clsContentColumn {
 	}
 
 	/**
-	 * TODO (deutsch) - insert description
-	 * TODO optimize function
-	 *
+	 * Checks if the lower and the upper bound are valid. 
+	 * First it calls {@link #checkLowerBound()}, afterwards {@link #checkUpperBound()}. 
+	 * 
 	 */
 	private void checkBounds() {
 		checkLowerBound();

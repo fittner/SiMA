@@ -5,15 +5,13 @@
  * $Author::                   $: Author of last commit
  * $Date::                     $: Date of last commit
  */
-package bw.body.internalSystems;
+package bw.utils.tools;
 
 import bw.body.itfStep;
-import bw.utils.tools.clsFillLevel;
 
 /**
- * TODO (deutsch) - insert description 
- * TODO maybe its better not to implement clsNutritionLevel as a subclass of clsFillLevel. another
- * approach would be to encapsulates clsFilleLevel and only allow access to the necessary functions 
+ * A nutrition level is a special case of a fill level. By implementing the itfStep interface and guaranteeing,
+ * that each step, the currently stored amount is decreased or left unchanged it provides the needs for the stomach.
  * 
  * @author deutsch
  * 
@@ -49,7 +47,7 @@ public class clsNutritionLevel extends clsFillLevel implements itfStep {
 	}
 	
 	/**
-	 * TODO (deutsch) - insert description
+	 * Guarantees that mrChange is always zero or lower
 	 *
 	 */
 	private void checkDecreasePerStep() {
@@ -58,9 +56,8 @@ public class clsNutritionLevel extends clsFillLevel implements itfStep {
 		} 
 	}
 	
-	/**
-	 * TODO (deutsch) - insert description
-	 *
+	/* (non-Javadoc)
+	 * @see bw.body.itfStep#step()
 	 */
 	public void step() {
 		this.update();

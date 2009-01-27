@@ -16,7 +16,9 @@ import org.junit.runner.RunWith;
 @SuiteClasses( {
 	
 	tstBw.utils.tools.tstContentColumn.class,
+	tstBw.utils.tools.tstNutritionLevel.class,	
 	tstBw.utils.tools.tstFillLevel.class,
+	tstBw.utils.tools.tstFood.class,
 })
 public class tssTools {
 

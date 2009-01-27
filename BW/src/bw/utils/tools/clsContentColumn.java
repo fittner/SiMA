@@ -13,8 +13,6 @@ package bw.utils.tools;
  * capacity, it can be filled or emptied. the minimum amount it 
  * can hold is 0. no negative values are allowed.
  * 
- * TODO use float instead of fixed comma
- * 
  * @author deutsch
  * 
  */

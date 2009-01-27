@@ -12,6 +12,7 @@ import java.util.Iterator;
 
 import bw.body.itfStep;
 import bw.utils.datatypes.clsMutableFloat;
+import bw.utils.tools.clsNutritionLevel;
 
 /**
  * TODO (deutsch) - insert description 

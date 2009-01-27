@@ -5,10 +5,10 @@
  * $Author::                   $: Author of last commit
  * $Date::                     $: Date of last commit
  */
-package tstBw.body.internalSystems;
+package tstBw.utils.tools;
 
 import static org.junit.Assert.*;
-import bw.body.internalSystems.clsNutritionLevel;
+import bw.utils.tools.clsNutritionLevel;
 
 import org.junit.Test;
 
@@ -21,7 +21,7 @@ import org.junit.Test;
 public class tstNutritionLevel {
 
 	/**
-	 * Test method for {@link bw.body.internalSystems.clsNutritionLevel#clsNutritionLevel(float, float, float, float, float)}.
+	 * Test method for {@link bw.utils.tools.clsNutritionLevel#clsNutritionLevel(float, float, float, float, float)}.
 	 */
 	@Test
 	public void testClsNutritionLevel() {
@@ -37,7 +37,7 @@ public class tstNutritionLevel {
 	}
 
 	/**
-	 * Test method for {@link bw.body.internalSystems.clsNutritionLevel#getDecreasePerStep()}.
+	 * Test method for {@link bw.utils.tools.clsNutritionLevel#getDecreasePerStep()}.
 	 */
 	@Test
 	public void testGetDecreasePerStep() {
@@ -47,7 +47,7 @@ public class tstNutritionLevel {
 	}
 
 	/**
-	 * Test method for {@link bw.body.internalSystems.clsNutritionLevel#setDecreasePerStep(float)}.
+	 * Test method for {@link bw.utils.tools.clsNutritionLevel#setDecreasePerStep(float)}.
 	 */
 	@Test
 	public void testSetDecreasePerStep() {
@@ -59,7 +59,7 @@ public class tstNutritionLevel {
 	}
 
 	/**
-	 * Test method for {@link bw.body.internalSystems.clsNutritionLevel#step()}.
+	 * Test method for {@link bw.utils.tools.clsNutritionLevel#step()}.
 	 */
 	@Test
 	public void testStep() {
