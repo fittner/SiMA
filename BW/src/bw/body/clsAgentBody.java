@@ -24,7 +24,7 @@ import bw.body.io.clsInternalIO;
  * @author langr
  * 
  */
-public class clsAgentBody {
+public class clsAgentBody implements itfStep {
 	private clsBrain moBrain;
     private clsInternalSystem moInternalStates;
     private clsIntraBodySystem moIntraBodySystem;
@@ -97,9 +97,8 @@ public class clsAgentBody {
 	}
 
 
-	/**
-	 * TODO (deutsch) - insert description
-	 *
+	/* (non-Javadoc)
+	 * @see bw.body.itfStep#step()
 	 */
 	public void step() {
 		moInternalStates.step();
@@ -107,5 +106,7 @@ public class clsAgentBody {
 		moExternalIO.step();
 		moInternalIO.step();
 		moInterBodyWorldSystem.step();
+		
+		moBrain.step();
 	}
 }

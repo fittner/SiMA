@@ -24,6 +24,8 @@ package bw.utils.datatypes;
  *
  * This is the class description ...
  *
+ * @deprecated
+ * 
  * Das ist in Wirklichkeit eine Abbildung! Gesettet wird mrValue (original),  
  * gegettet wird mrInternalValue (abgebildet). Die Abbildungsfunktion ist 
  * im Bereich [-1/2,+1/2] linear, außerhalb irgendeine das Wachstum begrenzende

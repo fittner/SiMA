@@ -25,6 +25,8 @@ import bw.utils.datatypes.clsCloneable;
  *
  * Abstract base class for all enum classes. Gurantees that the static methods getString and getInteger are declared.
  *
+ * @deprecated
+ *
  * $Revision$:  Revision of last commit
  * $Author$: Author of last commit
  * $Date$: Date of last commit

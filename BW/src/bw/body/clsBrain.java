@@ -14,6 +14,15 @@ package bw.body;
  * @author langr
  * 
  */
-public class clsBrain {
+public class clsBrain implements itfStep {
+
+	/* (non-Javadoc)
+	 * @see bw.body.itfStep#step()
+	 */
+	@Override
+	public void step() {
+		// TODO Auto-generated method stub
+		
+	}
 	
 }

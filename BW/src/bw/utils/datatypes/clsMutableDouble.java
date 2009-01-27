@@ -50,6 +50,13 @@ public class clsMutableDouble extends clsCloneable {
     public void add(double prValue) {
       m_value+=prValue;
     }
+    
+    public void div(double prValue) {
+    	m_value /= prValue;
+    }
+    public void mult(double prValue) {
+    	m_value *= prValue;
+    }    
     public void set(double prValue) {
       m_value = prValue;
     }

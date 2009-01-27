@@ -28,6 +28,8 @@ import java.util.Iterator;
  *
  * This is the class description ...
  *
+ * @deprecated
+ * 
  * $Revision$:  Revision of last commit
  * $Author$: Author of last commit
  * $Date$: Date of last commit

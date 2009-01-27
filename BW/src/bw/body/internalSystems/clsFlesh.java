@@ -7,12 +7,14 @@
  */
 package bw.body.internalSystems;
 
+import bw.utils.tools.clsFood;
+
 /**
  * TODO (deutsch) - insert description 
  * 
  * @author deutsch
  * 
  */
-public class clsFlesh {
+public class clsFlesh extends clsFood {
 
 }

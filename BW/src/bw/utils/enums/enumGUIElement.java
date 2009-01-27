@@ -21,7 +21,9 @@ package bw.utils.enums;
  *
  * Represents the possible basic actions of an entity.
  *
- * $Revision$:  Revision of last commit
+ * @deprecated
+ *
+ $Revision$:  Revision of last commit
  * $Author$: Author of last commit
  * $Date$: Date of last commit
  *

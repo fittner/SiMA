@@ -26,6 +26,8 @@ package bw.utils.enums;
  * neuro-psychoanalytically inspired perception and decision making). 
  * These actions are mainly to release hormones.
  *
+ * @deprecated
+ * 
  * $Revision$:  Revision of last commit
  * $Author$: Author of last commit
  * $Date$: Date of last commit

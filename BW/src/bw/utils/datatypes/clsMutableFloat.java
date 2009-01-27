@@ -50,6 +50,13 @@ public class clsMutableFloat  extends clsCloneable {
     public void add(float prValue) {
       m_value+=prValue;
     }
+    
+    public void div(float prValue) {
+    	m_value /= prValue;
+    }
+    public void mult(float prValue) {
+    	m_value *= prValue;
+    }
     public void set(float prValue) {
       m_value = prValue;
     }

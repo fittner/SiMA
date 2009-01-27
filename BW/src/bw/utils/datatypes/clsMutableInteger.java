@@ -57,6 +57,14 @@ public class clsMutableInteger extends clsCloneable {
     public int add(int pnValue) {
       return m_value+=pnValue;
     }
+    
+    public void div(int pnValue) {
+    	m_value /= pnValue;
+    }
+    public void mult(int pnValue) {
+    	m_value *= pnValue;
+    }
+    
     public int set(int pnValue) {
       return m_value = pnValue;
     }

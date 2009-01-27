@@ -25,6 +25,8 @@ package bw.utils.enums;
  * Represents the external actions performed by the brain. 
  * (aka neuro-psychoanalytically inspired perception and decision making).
  *
+ * @deprecated
+ * 
  * $Revision$:  Revision of last commit
  * $Author$: Author of last commit
  * $Date$: Date of last commit

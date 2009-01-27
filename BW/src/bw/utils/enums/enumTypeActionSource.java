@@ -21,6 +21,10 @@ package bw.utils.enums;
 // Imports
 
 // Class definition
+/**
+ *  @deprecated
+ * 
+ */
 public class enumTypeActionSource extends enumClass {
   public final static int TACTIONSOURCE_UNDEFINED    = -1;
 

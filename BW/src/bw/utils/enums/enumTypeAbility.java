@@ -16,6 +16,10 @@ package bw.utils.enums;
 
 // Imports
 
+/**
+ *  @deprecated
+ * 
+ */
 public class enumTypeAbility extends enumClass {
   public final static int TABILITY_UNDEFINED    = -1;
   public final static int TABILITY_ANY          = -2;

@@ -21,6 +21,10 @@ package bw.utils.enums;
 // Imports
 
 // Class definition
+/**
+ * @deprecated
+ * 
+ */
 public class enumActiveRegion extends enumClass {
 
   public final static int TACTREG_UNDEFINED = -1;

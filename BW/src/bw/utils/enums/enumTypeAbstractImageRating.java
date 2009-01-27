@@ -24,6 +24,8 @@ package bw.utils.enums;
  *
  * Represents the match value of a template image with the currently perceived situation.
  *
+ * @deprecated
+ * 
  * $Revision$:  Revision of last commit
  * $Author$: Author of last commit
  * $Date$: Date of last commit
