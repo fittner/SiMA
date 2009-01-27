@@ -9,7 +9,8 @@ package bw.body;
 
 
 import bw.clsEntity;
-import bw.body.internalSystems.clsInternalStates;
+import bw.body.interBodyWorldSystems.clsInterBodyWorldSystem;
+import bw.body.internalSystems.clsInternalSystem;
 import bw.body.intraBodySystems.clsIntraBodySystem;
 import bw.body.clsBrain;
 import bw.body.io.clsExternalIO;
@@ -24,23 +25,78 @@ import bw.body.io.clsInternalIO;
  * 
  */
 public class clsAgentBody {
-    public clsBrain moBrain;
-    public clsInternalStates moInternalStates;
-    public clsIntraBodySystem moIntraBodySystem;
-    public clsExternalIO moExternalIO;
-    public clsInternalIO moInternalIO;
+	private clsBrain moBrain;
+    private clsInternalSystem moInternalStates;
+    private clsIntraBodySystem moIntraBodySystem;
+    private clsInterBodyWorldSystem moInterBodyWorldSystem;
+    private clsExternalIO moExternalIO;
+    private clsInternalIO moInternalIO;
     
 	/**
 	 * CTOR
 	 */
 	public clsAgentBody(clsEntity poEntity) {
   	   moBrain = new clsBrain();
-	   moInternalStates = new clsInternalStates();
+	   moInternalStates = new clsInternalSystem();
 	   moIntraBodySystem = new clsIntraBodySystem();
 	   moExternalIO = new clsExternalIO(poEntity, this);
 	   moInternalIO = new clsInternalIO(this);
+	   moInterBodyWorldSystem = new clsInterBodyWorldSystem();
 	}
 	
+	
+	
+	/**
+	 * @return the moBrain
+	 */
+	public clsBrain getBrain() {
+		return moBrain;
+	}
+
+
+
+	/**
+	 * @return the moInternalStates
+	 */
+	public clsInternalSystem getInternalStates() {
+		return moInternalStates;
+	}
+
+
+
+	/**
+	 * @return the moIntraBodySystem
+	 */
+	public clsIntraBodySystem getIntraBodySystem() {
+		return moIntraBodySystem;
+	}
+
+
+
+	/**
+	 * @return the moExternalIO
+	 */
+	public clsExternalIO getExternalIO() {
+		return moExternalIO;
+	}
+
+
+
+	/**
+	 * @return the moInternalIO
+	 */
+	public clsInternalIO getInternalIO() {
+		return moInternalIO;
+	}
+
+	/**
+	 * @return the moInterBodyWorldSystem
+	 */
+	public clsInterBodyWorldSystem getInterBodyWorldSystem() {
+		return moInterBodyWorldSystem;
+	}
+
+
 	/**
 	 * TODO (deutsch) - insert description
 	 *
@@ -50,5 +106,6 @@ public class clsAgentBody {
 		moIntraBodySystem.step();
 		moExternalIO.step();
 		moInternalIO.step();
+		moInterBodyWorldSystem.step();
 	}
 }

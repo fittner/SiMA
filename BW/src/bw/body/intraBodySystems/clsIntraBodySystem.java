@@ -31,7 +31,63 @@ public class clsIntraBodySystem {
 	   moDamageTemperature = new clsDamageTemperature();
     }
     
+    
+    
     /**
+	 * @return the moBioSystem
+	 */
+	public clsBodyColor getBioSystem() {
+		return moBioSystem;
+	}
+
+
+
+	/**
+	 * @return the moGrowthSystem
+	 */
+	public clsGrowth getGrowthSystem() {
+		return moGrowthSystem;
+	}
+
+
+
+	/**
+	 * @return the moDamageBump
+	 */
+	public clsDamageBump getDamageBump() {
+		return moDamageBump;
+	}
+
+
+
+	/**
+	 * @return the moDamageLightning
+	 */
+	public clsDamageLightning getDamageLightning() {
+		return moDamageLightning;
+	}
+
+
+
+	/**
+	 * @return the moDamageNutrition
+	 */
+	public clsDamageNutrition getDamageNutrition() {
+		return moDamageNutrition;
+	}
+
+
+
+	/**
+	 * @return the moDamageTemperature
+	 */
+	public clsDamageTemperature getDamageTemperature() {
+		return moDamageTemperature;
+	}
+
+
+
+	/**
      * TODO (deutsch) - insert description
      *
      */

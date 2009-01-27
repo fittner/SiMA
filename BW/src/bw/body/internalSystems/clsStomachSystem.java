@@ -11,6 +11,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 
 import bw.body.itfStep;
+import bw.utils.datatypes.clsMutableFloat;
 
 /**
  * TODO (deutsch) - insert description 
@@ -41,6 +42,17 @@ public class clsStomachSystem implements itfStep {
 		moFractions = new HashMap<Integer, Float>();
 		updateFractionSum();
 		updateEnergy();
+	}
+	
+	/**
+	 * returns a clone of the complete list of stored values
+	 * 
+	 * TODO Type safety: Unchecked cast from Object to HashMap<Integer,clsMutableInteger>
+	 *
+	 * @return moList clone
+	 */
+	public HashMap<Integer, clsNutritionLevel> getList() {
+		return (HashMap<Integer, clsNutritionLevel>) moNutritions.clone();
 	}
 	
 	/**

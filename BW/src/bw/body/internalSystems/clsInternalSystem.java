@@ -18,20 +18,20 @@ import bw.body.itfStep;
  * @author deutsch
  * 
  */
-public class clsInternalStates implements itfStep {
-    public clsFlesh moFlesh;
-    public clsMessengerSystem moMessengerSystem;
-    public clsTemperatureSystem moTemperatureSystem;
-    public clsHealthSystem moHealthSystem;
-    public clsStaminaSystem moStaminaSystem;
-    public clsStomachSystem moStomachSystem;
-    public clsInternalEnergyConsumption moInternalEnergyConsumption; // list of all the bodies energy consumers
+public class clsInternalSystem implements itfStep {
+    private clsFlesh moFlesh;
+    private clsMessengerSystem moMessengerSystem;
+    private clsTemperatureSystem moTemperatureSystem;
+    private clsHealthSystem moHealthSystem;
+    private clsStaminaSystem moStaminaSystem;
+    private clsStomachSystem moStomachSystem;
+    private clsInternalEnergyConsumption moInternalEnergyConsumption; // list of all the bodies energy consumers
 	
 	
 	/**
 	 * 
 	 */
-	public clsInternalStates() {
+	public clsInternalSystem() {
   	    moFlesh = new clsFlesh();
 		moMessengerSystem = new clsMessengerSystem();
 		moTemperatureSystem = new clsTemperatureSystem();
@@ -44,6 +44,54 @@ public class clsInternalStates implements itfStep {
    	   randomFillIEC();
    	   setupStomach();
 
+	}
+
+	
+	/**
+	 * @return the moFlesh
+	 */
+	public clsFlesh getFlesh() {
+		return moFlesh;
+	}
+
+
+	/**
+	 * @return the moMessengerSystem
+	 */
+	public clsMessengerSystem getMessengerSystem() {
+		return moMessengerSystem;
+	}
+
+
+	/**
+	 * @return the moTemperatureSystem
+	 */
+	public clsTemperatureSystem getTemperatureSystem() {
+		return moTemperatureSystem;
+	}
+
+
+	/**
+	 * @return the moHealthSystem
+	 */
+	public clsHealthSystem getHealthSystem() {
+		return moHealthSystem;
+	}
+
+
+	/**
+	 * @return the moStaminaSystem
+	 */
+	public clsStaminaSystem getStaminaSystem() {
+		return moStaminaSystem;
+	}
+
+
+	/**
+	 * @return the moStomachSystem
+	 */
+	public clsStomachSystem getStomachSystem() {
+		return moStomachSystem;
 	}
 
 	/**

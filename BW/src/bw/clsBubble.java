@@ -41,10 +41,10 @@ public class clsBubble extends clsAnimate implements Steppable, ForceGenerator{
 	public void setId(int pnId) {	this.mnId = pnId;	}
 	public int getId() {	return mnId;	} 
 	
-	public float getInternalEnergyConsuptionSUM() {	return super.moAgentBody.moInternalStates.getInternalEnergyConsumption().getSum();	} 
+	public float getInternalEnergyConsuptionSUM() {	return super.moAgentBody.getInternalStates().getInternalEnergyConsumption().getSum();	} 
 	
 	//just testing (cm)
-	public HashMap<Integer, clsMutableFloat> getInternalEnergyConsumption() {	return moAgentBody.moInternalStates.getInternalEnergyConsumption().getList();	} 
+	public HashMap<Integer, clsMutableFloat> getInternalEnergyConsumption() {	return moAgentBody.getInternalStates().getInternalEnergyConsumption().getList();	} 
 	
 	/**
 	 *  CTOR
