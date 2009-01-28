@@ -39,10 +39,13 @@ public class clsAnimate extends clsEntity implements Steppable, ForceGenerator{
 	public void setId(int pnId) {		this.mnId = pnId;	}
 
 	public clsAgentBody moAgentBody; // the instance of a body
-	private clsMotionPlatform moMotionPlatform;
+	private clsMotionPlatform moMotionPlatform; //motion platform for user steering
 
+	
 	/**
-	 * 
+	 * @param poStartingPosition
+	 * @param poStartingVelocity
+	 * @param pnId
 	 */
 	public clsAnimate(Double2D poStartingPosition, Double2D poStartingVelocity,  int pnId) {
 		super();
@@ -53,8 +56,8 @@ public class clsAnimate extends clsEntity implements Steppable, ForceGenerator{
 	 	this.setPose(poStartingPosition, new Angle(0));
 	    this.setVelocity(poStartingVelocity);
 	    
-	    //standard for Animate... override in your class
-	    this.setShape(new sim.physics2D.shape.Circle(10, Color.GREEN), 300); //FIXME clemens: replace this with a seperate class, or at least with a mehtod
+	    //standard for Animate... override in your class!
+	    this.setShape(new sim.physics2D.shape.Circle(10, Color.CYAN), 300); //FIXME clemens: replace this with a seperate class, or at least with a mehtod
      
 	    this.setCoefficientOfFriction(.5);
         this.setCoefficientOfStaticFriction(0);
@@ -65,6 +68,9 @@ public class clsAnimate extends clsEntity implements Steppable, ForceGenerator{
 	
 	
 
+	/* (non-Javadoc)
+	 * @see bw.clsEntity#step(sim.engine.SimState)
+	 */
 	public void step(SimState state) {
 		// TODO Auto-generated method stub
 		
@@ -86,6 +92,9 @@ public class clsAnimate extends clsEntity implements Steppable, ForceGenerator{
 		
 	}
 	
+	/* (non-Javadoc)
+	 * @see sim.portrayal.SimplePortrayal2D#hitObject(java.lang.Object, sim.portrayal.DrawInfo2D)
+	 */
 	public boolean hitObject(Object object, DrawInfo2D range)
     {
 		//TODO Clemens, we could add some fancy hittestting here

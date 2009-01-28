@@ -32,10 +32,8 @@ import bw.utils.datatypes.clsMutableFloat;
  */
 public class clsBubble extends clsAnimate {
 
-	
+	//members...
 	private static final long serialVersionUID = -329155160020488088L;
-
-
 	public float getInternalEnergyConsuptionSUM() {	return super.moAgentBody.getInternalStates().getInternalEnergyConsumption().getSum();	} 
 	
 	//just testing (cm)
@@ -46,13 +44,29 @@ public class clsBubble extends clsAnimate {
 	public Object[] getSensorExternal() { return moAgentBody.getExternalIO().moSensorExternal.toArray();}
 	
 
+	/**
+	 * @param poStartingPosition
+	 * @param poStartingVelocity
+	 * @param pnId
+	 */
 	public clsBubble(Double2D poStartingPosition, Double2D poStartingVelocity,  int pnId)
     {
 		super(poStartingVelocity, poStartingVelocity, pnId);
 		
+		setShape();
+		
+		//set the starting values
 		this.setPose(poStartingPosition, new Angle(0));
 	    this.setVelocity(poStartingVelocity);
     } 
+	
+	/**
+	 * Set the shape for Mason representation
+	 *
+	 */
+	private void setShape(){
+		this.setShape(new sim.physics2D.shape.Circle(10, Color.GREEN), 300);
+	}
 
 	
 	/* (non-Javadoc)
@@ -61,9 +75,12 @@ public class clsBubble extends clsAnimate {
 	@Override
 	public void addForce() {
 		// TODO Auto-generated method stub
-		
 	}
 	
+	
+	/* (non-Javadoc)
+	 * @see bw.clsAnimate#step(sim.engine.SimState)
+	 */
 	public void step(SimState state)
     {
 		super.step(state);
