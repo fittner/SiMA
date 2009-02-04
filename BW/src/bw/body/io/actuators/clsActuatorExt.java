@@ -1,18 +1,18 @@
 /**
- * @author zeilinger
+ * @author langr
  * 
  * $Rev::                      $: Revision of last commit
  * $Author::                   $: Author of last commit
  * $Date::                     $: Date of last commit
  */
-package bw.body.io;
+package bw.body.io.actuators;
 
 /**
- * TODO (zeilinger) - insert description 
+ * TODO (langr) - insert description 
  * 
- * @author zeilinger
+ * @author langr
  * 
  */
-public class clsSensorAcoustic {
+public class clsActuatorExt {
 
 }

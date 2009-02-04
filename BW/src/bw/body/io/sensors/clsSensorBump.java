@@ -5,7 +5,7 @@
  * $Author::                   $: Author of last commit
  * $Date::                     $: Date of last commit
  */
-package bw.body.io;
+package bw.body.io.sensors;
 
 /**
  * TODO (zia) - insert description 

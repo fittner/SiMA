@@ -5,7 +5,7 @@
  * $Author::                   $: Author of last commit
  * $Date::                     $: Date of last commit
  */
-package bw.body.io;
+package bw.body.io.sensors;
 
 import sim.physics2D.util.Double2D;
 import bw.clsEntity;

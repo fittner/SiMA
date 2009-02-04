@@ -5,7 +5,7 @@
  * $Author::                   $: Author of last commit
  * $Date::                     $: Date of last commit
  */
-package bw.body.io;
+package bw.body.io.sensors;
 
 /**
  * TODO (zeilinger) - insert description 
@@ -13,6 +13,6 @@ package bw.body.io;
  * @author zeilinger
  * 
  */
-public class clsSensorTactile {
+public class clsSensorAcoustic {
 
 }

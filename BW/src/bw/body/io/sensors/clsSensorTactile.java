@@ -1,18 +1,18 @@
 /**
- * @author langr
+ * @author zeilinger
  * 
  * $Rev::                      $: Revision of last commit
  * $Author::                   $: Author of last commit
  * $Date::                     $: Date of last commit
  */
-package bw.body.io;
+package bw.body.io.sensors;
 
 /**
- * TODO (langr) - insert description 
+ * TODO (zeilinger) - insert description 
  * 
- * @author langr
+ * @author zeilinger
  * 
  */
-public class clsActuatorExt {
+public class clsSensorTactile {
 
 }
