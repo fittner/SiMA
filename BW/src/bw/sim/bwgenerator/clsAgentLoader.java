@@ -151,8 +151,8 @@ public class clsAgentLoader {
          
            
          //VISION AREA Init + Register
-           bw.body.io.sensors.clsSensorVision visArea; 
-           visArea = new bw.body.io.sensors.clsSensorVision(bot.getPosition(),new Double2D(0, 0), poObjPE, bot);
+           bw.body.io.sensors.external.clsSensorVision visArea; 
+           visArea = new bw.body.io.sensors.external.clsSensorVision(bot.getPosition(),new Double2D(0, 0), poObjPE, bot);
            poFieldEnvironment.setObjectLocation(visArea.getVisionObj(), new sim.util.Double2D(bot.getPosition().x, bot.getPosition().y));
            poSimState.schedule.scheduleRepeating(visArea.getVisionObj());           
                

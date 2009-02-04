@@ -5,10 +5,11 @@
  * $Author::                   $: Author of last commit
  * $Date::                     $: Date of last commit
  */
-package bw.body.io.sensors;
+package bw.body.io.sensors.external;
 
 import bw.clsEntity;
 import bw.body.io.clsSensorActuatorBaseExt;
+import bw.body.io.sensors.itfSensorUpdate;
 
 /**
  * TODO (zeilinger) - insert description 

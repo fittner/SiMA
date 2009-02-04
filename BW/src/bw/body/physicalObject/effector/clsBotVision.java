@@ -11,7 +11,7 @@ import java.awt.*;
 
 import ARSsim.physics2D.shape.CircleBorder;
 import bw.body.io.*; 
-import bw.body.io.sensors.clsSensorVision;
+import bw.body.io.sensors.external.clsSensorVision;
 import bw.body.physicalObject.mobile.*;
 import bw.sim.clsBWMain;
 

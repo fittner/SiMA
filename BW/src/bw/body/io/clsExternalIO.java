@@ -12,9 +12,9 @@ import java.util.ArrayList;
 import bw.clsEntity;
 import bw.body.clsAgentBody;
 import bw.body.itfStep;
-import bw.body.io.actuators.clsActuatorExt;
-import bw.body.io.sensors.clsSensorAcceleration;
-import bw.body.io.sensors.clsSensorExt;
+import bw.body.io.actuators.external.clsActuatorExt;
+import bw.body.io.sensors.external.clsSensorAcceleration;
+import bw.body.io.sensors.external.clsSensorExt;
 
 /**
  * TODO (langr) - insert description 

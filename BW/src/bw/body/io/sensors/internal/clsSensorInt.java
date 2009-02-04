@@ -5,7 +5,7 @@
  * $Author::                   $: Author of last commit
  * $Date::                     $: Date of last commit
  */
-package bw.body.io.sensors;
+package bw.body.io.sensors.internal;
 
 import bw.body.io.clsSensorActuatorBaseExt;
 

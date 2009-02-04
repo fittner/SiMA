@@ -1,18 +1,18 @@
 /**
- * @author zeilinger
+ * @author zia
  * 
  * $Rev::                      $: Revision of last commit
  * $Author::                   $: Author of last commit
  * $Date::                     $: Date of last commit
  */
-package bw.body.io.sensors;
+package bw.body.io.sensors.external;
 
 /**
- * TODO (zeilinger) - insert description 
+ * TODO (zia) - insert description 
  * 
- * @author zeilinger
+ * @author zia
  * 
  */
-public class clsSensorOlfactoric {
+public class clsSensorBump {
 
 }

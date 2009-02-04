@@ -1,18 +1,18 @@
 /**
- * @author langr
+ * @author deutsch
  * 
  * $Rev::                      $: Revision of last commit
  * $Author::                   $: Author of last commit
  * $Date::                     $: Date of last commit
  */
-package bw.body.io.actuators;
+package bw;
 
 /**
- * TODO (langr) - insert description 
+ * TODO (deutsch) - insert description 
  * 
- * @author langr
+ * @author deutsch
  * 
  */
-public class clsActuatorExt {
+public class clsStationary extends clsInanimate {
 
 }

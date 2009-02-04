@@ -8,7 +8,6 @@
 package bw;
 
 import sim.physics2D.util.Double2D;
-import tstBw.*;
 
 /**
  * TODO (langr) - insert description 
