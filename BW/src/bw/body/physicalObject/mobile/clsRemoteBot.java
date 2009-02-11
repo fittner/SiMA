@@ -49,10 +49,7 @@ public class clsRemoteBot extends ARSsim.robot2D.clsRobot implements Steppable, 
         
     private final int HAVECAN = 1;
     private final int APPROACHINGCAN = 2;
-    private final int RELEASINGCAN = 3;
-    private final int RETURNINGHOME = 4;
-    private final int SEARCHING = 5;
-        
+    
     public clsBotHands e1;
     public clsBotHands e2;
     
@@ -91,7 +88,7 @@ public class clsRemoteBot extends ARSsim.robot2D.clsRobot implements Steppable, 
         canHome = new Double2D(50, 50);
         botHome = pos;
                 
-        botState = SEARCHING;
+        botState = APPROACHINGCAN;
                 
         objCE = ConstraintEngine.getInstance();
         } 
@@ -102,31 +99,7 @@ public class clsRemoteBot extends ARSsim.robot2D.clsRobot implements Steppable, 
         clsBWMain simRobots = (clsBWMain)state;
         simRobots.moGameGridField.setObjectLocation(this, new sim.util.Double2D(position.x, position.y));
         
-        // Find a can
-        if (botState == SEARCHING)
-            {
-            Bag objs = simRobots.moGameGridField.allObjects;
-            objs.shuffle(state.random);
-            for (int i = 0; i < objs.numObjs; i++)
-                {
-                if (objs.objs[i] instanceof clsCan)
-                    {
-                    currentCan = (clsCan)objs.objs[i];
-                    if ( currentCan.visible) //currentCan.getPosition().y > 50 &&
-                        { 
-                        botState = APPROACHINGCAN;      
-                        break;
-                        }
-                    else
-                        currentCan = null; // can is already home or has been picked
-                    // up by another bot
-                    }
-                }
-                        
-            if (currentCan == null)
-                botState = RETURNINGHOME;
-            }
-        
+             
         
         }
 
@@ -152,12 +125,15 @@ public class clsRemoteBot extends ARSsim.robot2D.clsRobot implements Steppable, 
     	case 65: //'A'
     		break;
     	case 83: //'S'
-            objCE.unRegisterForceConstraint(pj);                            
-            botState = RELEASINGCAN;
-            objCE.removeNoCollisions(this, currentCan);
-            objCE.removeNoCollisions(e1, currentCan);
-            objCE.removeNoCollisions(e2, currentCan);
-            currentCan.visible = true;
+            if(botState==HAVECAN)
+            {
+	    		objCE.unRegisterForceConstraint(pj);                            
+	            botState = APPROACHINGCAN;
+	            objCE.removeNoCollisions(this, currentCan);
+	            objCE.removeNoCollisions(e1, currentCan);
+	            objCE.removeNoCollisions(e2, currentCan);
+	            currentCan.visible = true;
+            }
     		break;
     	}
 
@@ -175,7 +151,8 @@ public class clsRemoteBot extends ARSsim.robot2D.clsRobot implements Steppable, 
             && (colAngle.radians < Math.PI / 8 || colAngle.radians > (Math.PI * 2 - Math.PI / 8)))
             {
             // Create a fixed joint directly at the center of the can
-            pj = new PinJoint(other.getPosition(), this, other);
+        	currentCan = (clsCan)other; 
+        	pj = new PinJoint(other.getPosition(), this, other);
             objCE.registerForceConstraint(pj);
                         
             botState = HAVECAN;
