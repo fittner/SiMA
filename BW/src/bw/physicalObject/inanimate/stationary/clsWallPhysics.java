@@ -5,9 +5,11 @@
  * $Author::                   $: Author of last commit
  * $Date::                     $: Date of last commit
  */
-package bw.body.physicalObject.stationary;
+package bw.physicalObject.inanimate.stationary;
 
 import java.awt.*;
+
+import ARSsim.portrayal.simple.clsImagePortrayal;
 import sim.physics2D.physicalObject.*;
 import sim.physics2D.util.*;
 
@@ -19,15 +21,16 @@ import sim.physics2D.util.*;
  * @author langr
  * 
  */
-public class clsInvisibleWallPhysics extends StationaryObject2D
+public class clsWallPhysics extends StationaryObject2D
     {
     public double radius;
     
-    public clsInvisibleWallPhysics(Double2D pos, int width, int height)
+    public clsWallPhysics(Double2D pos, int width, int height)
         {
         this.setCoefficientOfRestitution(1);
         this.setPose(pos, new Angle(0));
-        this.setShape(new sim.physics2D.shape.Rectangle(width, height, Color.cyan));
-        //this.setShape(new sim.physics2D.shape.Circle(width, Color.cyan)); // besser? radius müsste berechnet werden, oder quadr bilder!
+        this.setShape(new sim.physics2D.shape.Rectangle(width, height, Color.white));
+        
+       
         } 
     }

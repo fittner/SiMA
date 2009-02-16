@@ -5,7 +5,9 @@
  * $Author::                   $: Author of last commit
  * $Date::                     $: Date of last commit
  */
-package bw;
+package bw.physicalObject.inanimate;
+
+import bw.clsEntity;
 
 
 /**

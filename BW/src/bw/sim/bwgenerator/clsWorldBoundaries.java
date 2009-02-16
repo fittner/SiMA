@@ -13,8 +13,10 @@ import sim.engine.SimState;
 import sim.field.continuous.Continuous2D;
 import sim.physics2D.PhysicsEngine2D;
 import sim.physics2D.util.*;
+import ARSsim.portrayal.simple.clsImagePortrayal;
 import bw.body.physicalObject.stationary.*;
-import bw.world.physicalObject.mobile.clsImagePortrayal;
+import bw.physicalObject.inanimate.stationary.clsInvisibleWallPhysics;
+import bw.physicalObject.inanimate.stationary.clsWallPhysics;
 import bw.world.physicalObject.mobile.clsStone;
 
 /**

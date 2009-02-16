@@ -5,7 +5,7 @@
  * $Author::                   $: Author of last commit
  * $Date::                     $: Date of last commit
  */
-package bw;
+package bw.physicalObject.animate;
 
 import java.awt.Color;
 
@@ -17,6 +17,7 @@ import sim.physics2D.util.Angle;
 import sim.physics2D.util.Double2D;
 import sim.portrayal.DrawInfo2D;
 import tstBw.body.*;
+import bw.clsEntity;
 import bw.body.clsAgentBody;
 import bw.body.physicalObject.mobile.clsMotionPlatform;
 import bw.sim.clsBWMain;

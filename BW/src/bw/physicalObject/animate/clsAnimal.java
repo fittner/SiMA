@@ -5,9 +5,10 @@
  * $Author::                   $: Author of last commit
  * $Date::                     $: Date of last commit
  */
-package bw;
+package bw.physicalObject.animate;
 
 import sim.physics2D.util.Double2D;
+import tstBw.*;
 
 /**
  * TODO (langr) - insert description 
@@ -15,14 +16,14 @@ import sim.physics2D.util.Double2D;
  * @author langr
  * 
  */
-public class clsPlant extends clsAnimate{
+public class clsAnimal extends clsAnimate{
 
 	/**
 	 * @param poStartingPosition
 	 * @param poStartingVelocity
 	 * @param pnId
 	 */
-	public clsPlant(Double2D poStartingPosition, Double2D poStartingVelocity,
+	public clsAnimal(Double2D poStartingPosition, Double2D poStartingVelocity,
 			int pnId) {
 		super(poStartingPosition, poStartingVelocity, pnId);
 		// TODO Auto-generated constructor stub
@@ -31,6 +32,6 @@ public class clsPlant extends clsAnimate{
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = 7055381541963741660L;
+	private static final long serialVersionUID = 3232421713639035079L;
 
 }

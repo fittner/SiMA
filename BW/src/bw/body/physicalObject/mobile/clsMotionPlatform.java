@@ -7,6 +7,7 @@
  */
 package bw.body.physicalObject.mobile;
 
+import bw.physicalObject.itMotion;
 import sim.physics2D.util.Angle;
 
 /**

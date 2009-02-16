@@ -5,7 +5,7 @@
  * $Author::                   $: Author of last commit
  * $Date::                     $: Date of last commit
  */
-package bw.body.physicalObject.mobile;
+package bw.physicalObject.animate;
 
 import java.awt.*;
 
@@ -17,8 +17,10 @@ import sim.physics2D.forceGenerator.ForceGenerator;
 import sim.physics2D.util.*;
 import sim.portrayal.DrawInfo2D;
 import sim.util.Bag;
-import bw.body.physicalObject.effector.clsBotHands;
+import bw.body.physicalObject.mobile.clsMotionPlatform;
 import bw.body.physicalObject.stationary.*;
+import bw.physicalObject.entityParts.clsBotHands;
+import bw.physicalObject.inanimate.mobile.clsCan;
 import bw.sim.*;
 import org.jfree.chart.JFreeChart;
 import org.jfree.data.xy.XYSeries;

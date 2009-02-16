@@ -5,7 +5,7 @@
  * $Author::                   $: Author of last commit
  * $Date::                     $: Date of last commit
  */
-package bw.body.physicalObject.mobile;
+package bw.physicalObject.animate;
 
 import java.awt.Color;
 
@@ -19,8 +19,9 @@ import sim.physics2D.util.Angle;
 import sim.physics2D.util.Double2D;
 import sim.portrayal.DrawInfo2D;
 import sim.util.Bag;
-import bw.body.physicalObject.effector.clsBotHands;
-import bw.body.physicalObject.stationary.clsCan;
+import bw.body.physicalObject.mobile.clsMotionPlatform;
+import bw.physicalObject.entityParts.clsBotHands;
+import bw.physicalObject.inanimate.mobile.clsCan;
 import bw.sim.clsBWMain;
 
 import sim.display.clsKeyListener;

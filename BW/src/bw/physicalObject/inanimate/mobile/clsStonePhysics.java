@@ -5,7 +5,7 @@
  * $Author::                   $: Author of last commit
  * $Date::                     $: Date of last commit
  */
-package bw.body.physicalObject.stationary;
+package bw.physicalObject.inanimate.mobile;
 
 import java.awt.Color;
 

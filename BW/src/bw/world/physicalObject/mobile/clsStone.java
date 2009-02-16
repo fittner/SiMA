@@ -13,6 +13,8 @@ import java.io.File;
 import java.io.IOException;
 
 import javax.imageio.ImageIO;
+
+import ARSsim.portrayal.simple.clsImagePortrayal;
 import sim.util.Double2D;
 import sim.field.continuous.Continuous2D;
 
@@ -23,7 +25,7 @@ import sim.field.continuous.Continuous2D;
  * @author muchitsch
  * 
  */
-public class clsStone extends clsImagePortrayal{
+public class clsStone extends ARSsim.portrayal.simple.clsImagePortrayal{
 
 
 	public final int STONE_S = 1;

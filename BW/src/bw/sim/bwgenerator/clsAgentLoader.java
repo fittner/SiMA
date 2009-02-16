@@ -15,9 +15,13 @@ import sim.physics2D.PhysicsEngine2D;
 import sim.physics2D.util.*;
 
 import bw.*;
-import bw.body.physicalObject.effector.clsBotHands;
 import bw.body.physicalObject.mobile.*;
 import bw.body.physicalObject.stationary.*;
+import bw.physicalObject.animate.clsBot;
+import bw.physicalObject.animate.clsBubble;
+import bw.physicalObject.animate.clsRemoteBot;
+import bw.physicalObject.entityParts.clsBotHands;
+import bw.physicalObject.inanimate.mobile.clsCan;
 
 /**
  * Helper class to load every agent and register to mason-physics2D 

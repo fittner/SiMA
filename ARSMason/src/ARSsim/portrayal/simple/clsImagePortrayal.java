@@ -5,7 +5,7 @@
  * $Author::                   $: Author of last commit
  * $Date::                     $: Date of last commit
  */
-package bw.world.physicalObject.mobile;
+package ARSsim.portrayal.simple;
 
 import java.awt.Image;
 import java.awt.image.BufferedImage;

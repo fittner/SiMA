@@ -13,6 +13,8 @@ import sim.util.*;
 
 import bw.body.physicalObject.effector.*;
 import bw.body.physicalObject.mobile.*;
+import bw.physicalObject.animate.clsBot;
+import bw.physicalObject.entityParts.clsBotVision;
 /**
  * TODO (zeilinger) - insert description 
  * 

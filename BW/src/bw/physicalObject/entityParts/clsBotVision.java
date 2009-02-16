@@ -5,7 +5,7 @@
  * $Author::                   $: Author of last commit
  * $Date::                     $: Date of last commit
  */
-package bw.body.physicalObject.effector;
+package bw.physicalObject.entityParts;
 
 import java.awt.*;
 
@@ -13,6 +13,7 @@ import ARSsim.physics2D.shape.CircleBorder;
 import bw.body.io.*; 
 import bw.body.io.sensors.external.clsSensorVision;
 import bw.body.physicalObject.mobile.*;
+import bw.physicalObject.animate.clsBot;
 import bw.sim.clsBWMain;
 
 import sim.engine.*;
