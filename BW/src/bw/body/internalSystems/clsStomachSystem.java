@@ -187,6 +187,7 @@ public class clsStomachSystem implements itfStep {
 	public float withdrawEnergy(float prAmount) {
 		float rWithdrawn = 0.0f;
 		float rAmountFraction = prAmount / this.mrFractionSum;
+		boolean mnNutritionsInssufficient = false;
 		
 		Iterator<Integer> i = moNutritions.keySet().iterator();
 		

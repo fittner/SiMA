@@ -25,8 +25,10 @@ public class clsNutritionLevel extends clsFillLevel implements itfStep {
 	 * @param prLowerBound
 	 * @param prUpperBound
 	 * @param prDecreasePerStep
+	 * @throws ContentColumnMinContentUnderrun 
+	 * @throws ContentColumnMaxContentExceeded 
 	 */
-	public clsNutritionLevel(float prContent, float prMaxContent, float prLowerBound, float prUpperBound, float prDecreasePerStep) throws bw.exceptions.ContentColumnMaxContentExceeded, bw.exceptions.ContentColumnMinContentUnderrun {
+	public clsNutritionLevel(float prContent, float prMaxContent, float prLowerBound, float prUpperBound, float prDecreasePerStep) throws ContentColumnMaxContentExceeded, ContentColumnMinContentUnderrun {
 		super(prContent, prMaxContent, -prDecreasePerStep, prLowerBound, prUpperBound);
 		
 		setDecreasePerStep(prDecreasePerStep);
@@ -62,15 +64,10 @@ public class clsNutritionLevel extends clsFillLevel implements itfStep {
 	 * @see bw.body.itfStep#step()
 	 */
 	public void step() {
-		
 		try {
 			this.update();
 		} catch (ContentColumnMaxContentExceeded e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
 		} catch (ContentColumnMinContentUnderrun e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
 		}
 	}
 }

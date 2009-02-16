@@ -7,6 +7,9 @@
  */
 package bw.body.intraBodySystems;
 
+import bw.body.interBodyWorldSystems.clsDamageBump;
+import bw.body.interBodyWorldSystems.clsDamageLightning;
+
 /**
  * TODO (deutsch) - insert description 
  * 

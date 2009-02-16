@@ -5,7 +5,7 @@
  * $Author::                   $: Author of last commit
  * $Date::                     $: Date of last commit
  */
-package bw.body.intraBodySystems;
+package bw.body.interBodyWorldSystems;
 
 import bw.body.itfStep;
 
@@ -15,7 +15,7 @@ import bw.body.itfStep;
  * @author deutsch
  * 
  */
-public class clsDamageLightning implements itfStep {
+public class clsDamageBump implements itfStep {
 
     /**
      * TODO (deutsch) - insert description
