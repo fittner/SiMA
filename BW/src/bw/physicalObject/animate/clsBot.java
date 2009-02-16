@@ -18,7 +18,7 @@ import sim.physics2D.util.*;
 import sim.portrayal.DrawInfo2D;
 import sim.util.Bag;
 import bw.body.physicalObject.mobile.clsMotionPlatform;
-import bw.body.physicalObject.stationary.*;
+import bw.physicalObject.inanimate.stationary.*;
 import bw.physicalObject.entityParts.clsBotHands;
 import bw.physicalObject.inanimate.mobile.clsCan;
 import bw.sim.*;

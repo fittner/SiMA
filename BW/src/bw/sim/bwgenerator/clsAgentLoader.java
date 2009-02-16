@@ -16,7 +16,7 @@ import sim.physics2D.util.*;
 
 import bw.*;
 import bw.body.physicalObject.mobile.*;
-import bw.body.physicalObject.stationary.*;
+import bw.physicalObject.inanimate.stationary.*;
 import bw.physicalObject.animate.clsBot;
 import bw.physicalObject.animate.clsBubble;
 import bw.physicalObject.animate.clsRemoteBot;

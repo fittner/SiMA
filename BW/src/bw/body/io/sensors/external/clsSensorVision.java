@@ -11,7 +11,7 @@ import sim.physics2D.PhysicsEngine2D;
 import sim.physics2D.util.Double2D;
 import sim.util.*;
 
-import bw.body.physicalObject.effector.*;
+import bw.physicalObject.entityParts.*;
 import bw.body.physicalObject.mobile.*;
 import bw.physicalObject.animate.clsBot;
 import bw.physicalObject.entityParts.clsBotVision;
