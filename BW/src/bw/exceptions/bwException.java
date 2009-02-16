@@ -13,6 +13,11 @@ package bw.exceptions;
  * @author deutsch
  * 
  */
-public class bwException {
+public class bwException extends java.lang.Exception {
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 4685866893825315322L;
 
 }
