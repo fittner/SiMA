@@ -19,6 +19,15 @@ import bw.clsEntity;
 public class clsSensorAcceleration extends clsSensorExt{
 
 	
+	/**
+	 * constructor takes the entity stored as a local reference 
+	 */
+	public clsSensorAcceleration(clsEntity poEntity) {
+		super();
+		setEntity(poEntity);
+		// TODO Auto-generated constructor stub
+	}
+
 	private Double2D moCurrentVelocity;
 	/**
 	 * @return the moCurrentVelocity
@@ -27,20 +36,22 @@ public class clsSensorAcceleration extends clsSensorExt{
 		return moCurrentVelocity;
 	}
 
-	/**
-	 * @return the moCurrentAngularVelocity
-	 */
-	public double getMoCurrentAngularVelocity() {
-		return moCurrentAngularVelocity;
-	}
-
 	private double moCurrentAngularVelocity; 
 	
 	/**
 	 * @return the AccelerationVector
 	 */
 	public double getCurrentAngularVelocity() {
-		return 1;
+		return moCurrentAngularVelocity;
+	}
+	
+	private clsEntity moEntity;
+
+	/**
+	 * @param moEntity the moEntity to set
+	 */
+	public void setEntity(clsEntity poEntity) {
+		this.moEntity = poEntity;
 	}
 
 	/**
@@ -52,10 +63,10 @@ public class clsSensorAcceleration extends clsSensorExt{
 	/* (non-Javadoc)
 	 * Updates the sensor data values by fetching the info from the physics engine entity 
 	 */
-	public void updateSensorData(clsEntity poEntity) {
+	public void updateSensorData() {
 
-		moCurrentVelocity = poEntity.getVelocity();
-		moCurrentAngularVelocity = poEntity.getAngularVelocity();
+		moCurrentVelocity = moEntity.getVelocity();
+		moCurrentAngularVelocity = moEntity.getAngularVelocity();
 	}
 	
 }

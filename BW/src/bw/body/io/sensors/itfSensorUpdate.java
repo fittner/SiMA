@@ -17,6 +17,6 @@ import bw.clsEntity;
  */
 public interface itfSensorUpdate {
 
-	void updateSensorData(clsEntity poEntity);
+	void updateSensorData();
 	
 }
