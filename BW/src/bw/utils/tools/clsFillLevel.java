@@ -38,7 +38,7 @@ public class clsFillLevel extends clsContentColumn {
 	 * @param prContent the mrContent to set
 	 * @param prMaxContent the mrMaxContent to set
 	 */
-	public clsFillLevel(float prContent, float prMaxContent) {
+	public clsFillLevel(float prContent, float prMaxContent) throws bw.exceptions.ContentColumnMaxContentExceeded, bw.exceptions.ContentColumnMinContentUnderrun {
 		super(prContent, prMaxContent);
 		
 		mrLowerBound = this.getMaxContent() / 3.0f;
@@ -55,7 +55,7 @@ public class clsFillLevel extends clsContentColumn {
 	 * @param prMaxContent the mrMaxContent to set
 	 * @param prChange  the mrChange to set
 	 */
-	public clsFillLevel(float prContent, float prMaxContent, float prChange) {
+	public clsFillLevel(float prContent, float prMaxContent, float prChange) throws bw.exceptions.ContentColumnMaxContentExceeded, bw.exceptions.ContentColumnMinContentUnderrun {
 		super(prContent, prMaxContent);
 		
 		mrLowerBound = this.getMaxContent() / 3.0f;
@@ -72,7 +72,7 @@ public class clsFillLevel extends clsContentColumn {
 	 * @param prLowerBound the mrLowerBound to set
 	 * @param prUpperBound the mrUpperBound to set
 	 */
-	public clsFillLevel(float prContent, float prMaxContent, float prChange, float prLowerBound, float prUpperBound) {
+	public clsFillLevel(float prContent, float prMaxContent, float prChange, float prLowerBound, float prUpperBound) throws bw.exceptions.ContentColumnMaxContentExceeded, bw.exceptions.ContentColumnMinContentUnderrun {
 		super(prContent, prMaxContent);
 		mrChange = prChange;		
 		setBounds(prLowerBound, prUpperBound);
@@ -99,7 +99,7 @@ public class clsFillLevel extends clsContentColumn {
 	 * 
 	 * @see clsContentColumn.change(float)
 	 */
-	public void update() {
+	public void update() throws bw.exceptions.ContentColumnMaxContentExceeded, bw.exceptions.ContentColumnMinContentUnderrun {
 		change(mrChange);
 	}
 

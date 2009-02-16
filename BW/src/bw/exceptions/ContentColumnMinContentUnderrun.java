@@ -8,13 +8,16 @@
 package bw.exceptions;
 
 /**
- * general abstract exception class for the bubble world. possible container for logging purposes ... 
+ * TODO (deutsch) - insert description 
  * 
  * @author deutsch
  * 
  */
-@SuppressWarnings("serial")
-public abstract class bwException extends java.lang.Exception {
+public class ContentColumnMinContentUnderrun extends bwException {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -4490875970083958938L;
 
 }

@@ -11,6 +11,8 @@ import java.util.HashMap;
 import java.util.Iterator;
 
 import bw.body.itfStep;
+import bw.exceptions.ContentColumnMaxContentExceeded;
+import bw.exceptions.ContentColumnMinContentUnderrun;
 import bw.utils.datatypes.clsMutableFloat;
 import bw.utils.tools.clsNutritionLevel;
 
@@ -63,10 +65,15 @@ public class clsStomachSystem implements itfStep {
 	 */
 	public void addNutritionType(Integer poId) {
 		if (!(moNutritions.containsKey(poId))) {
-			clsNutritionLevel oNL = new clsNutritionLevel(mrDefaultContent, mrDefaultMaxLevel, mrDefaultLowerBorder, 
-					mrDefaultUpperBorder, mrDefaultDecreasePerStep);
-			moNutritions.put(poId, oNL);
-			moFractions.put(poId, new Float(mrDefaultFraction));
+			try {
+				clsNutritionLevel oNL = new clsNutritionLevel(mrDefaultContent, mrDefaultMaxLevel, mrDefaultLowerBorder, 
+						mrDefaultUpperBorder, mrDefaultDecreasePerStep);
+
+				moNutritions.put(poId, oNL);
+				moFractions.put(poId, new Float(mrDefaultFraction));
+			} catch (ContentColumnMaxContentExceeded e) {
+			} catch (ContentColumnMinContentUnderrun e) {
+			}			
 		}
 		
 		updateFractionSum();
@@ -116,7 +123,11 @@ public class clsStomachSystem implements itfStep {
 		clsNutritionLevel oNL = this.getNutritionLevel(poId);
 		
 		if (oNL != null) {
-			oNL.increase(prAmount);
+			try {
+				oNL.increase(prAmount);
+			} catch (ContentColumnMaxContentExceeded e) {
+			} catch (ContentColumnMinContentUnderrun e) {
+			}
 		}
 		this.updateEnergy();		
 	}
@@ -131,7 +142,11 @@ public class clsStomachSystem implements itfStep {
 		clsNutritionLevel oNL = this.getNutritionLevel(poId);
 		
 		if (oNL != null) {
-			oNL.decrease(prAmount);
+			try {
+				oNL.decrease(prAmount);
+			} catch (ContentColumnMaxContentExceeded e) {
+			} catch (ContentColumnMinContentUnderrun e) {
+			}
 		}
 		this.updateEnergy();		
 	}	
@@ -153,7 +168,11 @@ public class clsStomachSystem implements itfStep {
 			
 			float rFraction = moFractions.get(oKey).floatValue();
 			
-			oNL.increase(rFraction * rAmountFraction);
+			try {
+				oNL.increase(rFraction * rAmountFraction);
+			} catch (ContentColumnMaxContentExceeded e) {
+			} catch (ContentColumnMinContentUnderrun e) {
+			}
 		}
 				
 		this.updateEnergy();
@@ -178,7 +197,11 @@ public class clsStomachSystem implements itfStep {
 			
 			float rFraction = moFractions.get(oKey).floatValue();
 			
-			rWithdrawn += oNL.decrease(rFraction * rAmountFraction);
+			try {
+				rWithdrawn += oNL.decrease(rFraction * rAmountFraction);
+			} catch (ContentColumnMaxContentExceeded e) {
+			} catch (ContentColumnMinContentUnderrun e) {
+			}
 		}		
 		
 		this.updateEnergy();		

@@ -8,6 +8,8 @@
 package bw.body.internalSystems;
 
 import bw.body.itfStep;
+import bw.exceptions.ContentColumnMaxContentExceeded;
+import bw.exceptions.ContentColumnMinContentUnderrun;
 import bw.utils.tools.clsFillLevel;
 
 /**
@@ -20,15 +22,29 @@ public class clsStaminaSystem implements itfStep {
 	private clsFillLevel moStamina;
 	
 	public clsStaminaSystem() {
-		moStamina = new clsFillLevel(1.0f, 1.0f, 0.05f);
+		moStamina = null;
+		
+		try {
+			moStamina = new clsFillLevel(1.0f, 1.0f, 0.05f);
+		} catch (ContentColumnMaxContentExceeded e) {
+		} catch (ContentColumnMinContentUnderrun e) {
+		}
 	}
 	
 	public void consumeStamina(float prStaminaConsumed) {
-		moStamina.decrease(prStaminaConsumed);
+		try {
+			moStamina.decrease(prStaminaConsumed);
+		} catch (ContentColumnMaxContentExceeded e) {
+		} catch (ContentColumnMinContentUnderrun e) {
+		}
 	}
 	
 	public void regainStamina(float prStaminaRegained) {
-		moStamina.increase(prStaminaRegained);
+		try {
+			moStamina.increase(prStaminaRegained);
+		} catch (ContentColumnMaxContentExceeded e) {
+		} catch (ContentColumnMinContentUnderrun e) {
+		}
 	}
 	
 	public float getRecoveryRate() {
@@ -44,7 +60,11 @@ public class clsStaminaSystem implements itfStep {
 	}
 	
 	public void step() {
-		moStamina.update();
+		try {
+			moStamina.update();
+		} catch (ContentColumnMaxContentExceeded e) {
+		} catch (ContentColumnMinContentUnderrun e) {
+		}
 	}
 
 }

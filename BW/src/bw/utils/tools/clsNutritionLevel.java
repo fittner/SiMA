@@ -8,6 +8,8 @@
 package bw.utils.tools;
 
 import bw.body.itfStep;
+import bw.exceptions.ContentColumnMaxContentExceeded;
+import bw.exceptions.ContentColumnMinContentUnderrun;
 
 /**
  * A nutrition level is a special case of a fill level. By implementing the itfStep interface and guaranteeing,
@@ -24,7 +26,7 @@ public class clsNutritionLevel extends clsFillLevel implements itfStep {
 	 * @param prUpperBound
 	 * @param prDecreasePerStep
 	 */
-	public clsNutritionLevel(float prContent, float prMaxContent, float prLowerBound, float prUpperBound, float prDecreasePerStep) {
+	public clsNutritionLevel(float prContent, float prMaxContent, float prLowerBound, float prUpperBound, float prDecreasePerStep) throws bw.exceptions.ContentColumnMaxContentExceeded, bw.exceptions.ContentColumnMinContentUnderrun {
 		super(prContent, prMaxContent, -prDecreasePerStep, prLowerBound, prUpperBound);
 		
 		setDecreasePerStep(prDecreasePerStep);
@@ -60,6 +62,15 @@ public class clsNutritionLevel extends clsFillLevel implements itfStep {
 	 * @see bw.body.itfStep#step()
 	 */
 	public void step() {
-		this.update();
+		
+		try {
+			this.update();
+		} catch (ContentColumnMaxContentExceeded e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (ContentColumnMinContentUnderrun e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 }

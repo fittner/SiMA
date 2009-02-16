@@ -8,6 +8,8 @@
 package tstBw.utils.tools;
 
 import static org.junit.Assert.*;
+import bw.exceptions.ContentColumnMaxContentExceeded;
+import bw.exceptions.ContentColumnMinContentUnderrun;
 import bw.utils.tools.clsNutritionLevel;
 
 import org.junit.Test;
@@ -25,7 +27,17 @@ public class tstNutritionLevel {
 	 */
 	@Test
 	public void testClsNutritionLevel() {
-		clsNutritionLevel oNL = new clsNutritionLevel(1.0f, 3.0f, 0.5f, 1.5f, 0.5f);
+		clsNutritionLevel oNL = null;
+		
+		try {
+			oNL = new clsNutritionLevel(1.0f, 3.0f, 0.5f, 1.5f, 0.5f);
+		} catch (ContentColumnMaxContentExceeded e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (ContentColumnMinContentUnderrun e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		
 		assertNotNull(oNL);
 		assertEquals(oNL.getContent(), 1.0f, 0.00001f);
@@ -41,7 +53,17 @@ public class tstNutritionLevel {
 	 */
 	@Test
 	public void testGetDecreasePerStep() {
-		clsNutritionLevel oNL = new clsNutritionLevel(1.0f, 3.0f, 0.5f, 1.5f, 0.01f);
+		clsNutritionLevel oNL = null;
+		
+		try {
+			oNL = new clsNutritionLevel(1.0f, 3.0f, 0.5f, 1.5f, 0.01f);
+		} catch (ContentColumnMaxContentExceeded e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (ContentColumnMinContentUnderrun e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		assertEquals(oNL.getDecreasePerStep(), 0.01f, 0.00001f);
 
 	}
@@ -51,7 +73,16 @@ public class tstNutritionLevel {
 	 */
 	@Test
 	public void testSetDecreasePerStep() {
-		clsNutritionLevel oNL = new clsNutritionLevel(1.0f, 3.0f, 0.5f, 1.5f, 0.01f);
+		clsNutritionLevel oNL = null;
+		try {
+			oNL = new clsNutritionLevel(1.0f, 3.0f, 0.5f, 1.5f, 0.01f);
+		} catch (ContentColumnMaxContentExceeded e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (ContentColumnMinContentUnderrun e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		assertEquals(oNL.getDecreasePerStep(), 0.01f, 0.00001f);
 
 		oNL.setDecreasePerStep(0.1f);
@@ -63,7 +94,16 @@ public class tstNutritionLevel {
 	 */
 	@Test
 	public void testStep() {
-		clsNutritionLevel oNL = new clsNutritionLevel(1.0f, 3.0f, 0.5f, 1.5f, 0.01f);
+		clsNutritionLevel oNL = null;
+		try {
+			oNL = new clsNutritionLevel(1.0f, 3.0f, 0.5f, 1.5f, 0.01f);
+		} catch (ContentColumnMaxContentExceeded e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (ContentColumnMinContentUnderrun e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		assertEquals(oNL.getDecreasePerStep(), 0.01f, 0.00001f);
 		assertEquals(oNL.getContent(), 1.0f, 0.00001f);
 		

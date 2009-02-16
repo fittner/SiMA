@@ -8,6 +8,8 @@
 package bw.body.internalSystems;
 
 import bw.body.itfStep;
+import bw.exceptions.ContentColumnMaxContentExceeded;
+import bw.exceptions.ContentColumnMinContentUnderrun;
 import bw.utils.tools.clsFillLevel;
 
 /**
@@ -20,15 +22,27 @@ public class clsTemperatureSystem implements itfStep {
 	private clsFillLevel moTemperature;
 	
 	public clsTemperatureSystem() {
-		moTemperature = new clsFillLevel(1.0f, 2.0f, 0.00f);
+		try {
+			moTemperature = new clsFillLevel(1.0f, 2.0f, 0.00f);
+		} catch (ContentColumnMaxContentExceeded e) {
+		} catch (ContentColumnMinContentUnderrun e) {
+		}
 	}
 	
 	public void cool(float prCooledBy) {
-		moTemperature.decrease(prCooledBy);
+		try {
+			moTemperature.decrease(prCooledBy);
+		} catch (ContentColumnMaxContentExceeded e) {
+		} catch (ContentColumnMinContentUnderrun e) {
+		}
 	}
 	
 	public void heat(float prHeatedBy) {
-		moTemperature.increase(prHeatedBy);
+		try {		
+			moTemperature.increase(prHeatedBy);
+		} catch (ContentColumnMaxContentExceeded e) {
+		} catch (ContentColumnMinContentUnderrun e) {
+		}
 	}
 	
 	public float getRecoveryRate() {
@@ -40,6 +54,11 @@ public class clsTemperatureSystem implements itfStep {
 	}
 	
 	public void step() {
-		moTemperature.update();
+		try {		
+			moTemperature.update();		
+		} catch (ContentColumnMaxContentExceeded e) {
+		} catch (ContentColumnMinContentUnderrun e) {
+		}
+			
 	}
 }
