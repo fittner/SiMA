@@ -19,7 +19,7 @@ import sim.portrayal.DrawInfo2D;
 import tstBw.body.*;
 import bw.clsEntity;
 import bw.body.clsAgentBody;
-import bw.body.physicalObject.mobile.clsMotionPlatform;
+import ARSsim.robot2D.clsMotionPlatform;
 import bw.sim.clsBWMain;
 
 
@@ -51,7 +51,7 @@ public class clsAnimate extends clsEntity implements Steppable, ForceGenerator{
 	public clsAnimate(Double2D poStartingPosition, Double2D poStartingVelocity,  int pnId) {
 		super();
 		
-		moMotionPlatform = new clsMotionPlatform(this);
+		moMotionPlatform = new clsMotionPlatform();
 		moAgentBody = new clsAgentBody(this);
 		
 	 	this.setPose(poStartingPosition, new Angle(0));

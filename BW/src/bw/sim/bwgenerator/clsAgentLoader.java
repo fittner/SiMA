@@ -14,9 +14,6 @@ import sim.physics2D.constraint.*;
 import sim.physics2D.PhysicsEngine2D;
 import sim.physics2D.util.*;
 
-import bw.*;
-import bw.body.physicalObject.mobile.*;
-import bw.physicalObject.inanimate.stationary.*;
 import bw.physicalObject.animate.clsBot;
 import bw.physicalObject.animate.clsBubble;
 import bw.physicalObject.animate.clsRemoteBot;
@@ -89,9 +86,6 @@ public class clsAgentLoader {
 	         poObjPE.register(bubble);
 	         poFieldEnvironment.setObjectLocation(bubble, new sim.util.Double2D(startingPosition.x, startingPosition.y));
 	         poSimState.schedule.scheduleRepeating(bubble);
-	         
-	         
-	         
          }
 	}
 	

@@ -18,7 +18,7 @@ import sim.physics2D.util.Angle;
 import sim.physics2D.util.Double2D;
 import sim.portrayal.DrawInfo2D;
 import bw.body.itfStep;
-import bw.body.physicalObject.mobile.clsMotionPlatform;
+import ARSsim.robot2D.clsMotionPlatform;
 import bw.sim.clsBWMain;
 import bw.utils.datatypes.clsMutableFloat;
 

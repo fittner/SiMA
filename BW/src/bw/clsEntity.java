@@ -22,7 +22,7 @@ import sim.physics2D.constraint.ConstraintEngine;
  * @author langr
  * 
  */
-public class clsEntity extends ARSsim.robot2D.clsRobot implements Steppable {
+public class clsEntity extends ARSsim.robot2D.clsMotionPlatform implements Steppable {
 
 	/**
 	 * 

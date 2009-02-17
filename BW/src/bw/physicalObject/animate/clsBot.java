@@ -17,20 +17,17 @@ import sim.physics2D.forceGenerator.ForceGenerator;
 import sim.physics2D.util.*;
 import sim.portrayal.DrawInfo2D;
 import sim.util.Bag;
-import bw.body.physicalObject.mobile.clsMotionPlatform;
-import bw.physicalObject.inanimate.stationary.*;
+import ARSsim.robot2D.clsMotionPlatform;
 import bw.physicalObject.entityParts.clsBotHands;
 import bw.physicalObject.inanimate.mobile.clsCan;
 import bw.sim.*;
-import org.jfree.chart.JFreeChart;
-import org.jfree.data.xy.XYSeries;
 
 /* Mason test robot implementation. 
 * 
 * @author langr
 * 
 */
-public class clsBot extends ARSsim.robot2D.clsRobot implements Steppable, ForceGenerator
+public class clsBot extends ARSsim.robot2D.clsMotionPlatform implements Steppable, ForceGenerator
     {
 	private clsMotionPlatform moMotion;
 	
@@ -75,7 +72,7 @@ public class clsBot extends ARSsim.robot2D.clsRobot implements Steppable, ForceG
 
 	public clsBot(Double2D pos, Double2D vel, int pnId)
         {
-		moMotion = new clsMotionPlatform(this);
+		moMotion = new clsMotionPlatform();
 		
         // vary the mass with the size
     	this.mnId = pnId;

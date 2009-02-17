@@ -18,8 +18,7 @@ import sim.physics2D.physicalObject.PhysicalObject2D;
 import sim.physics2D.util.Angle;
 import sim.physics2D.util.Double2D;
 import sim.portrayal.DrawInfo2D;
-import sim.util.Bag;
-import bw.body.physicalObject.mobile.clsMotionPlatform;
+import ARSsim.robot2D.clsMotionPlatform;
 import bw.physicalObject.entityParts.clsBotHands;
 import bw.physicalObject.inanimate.mobile.clsCan;
 import bw.sim.clsBWMain;
@@ -32,7 +31,7 @@ import sim.display.clsKeyListener;
  * @author langr
  * 
  */
-public class clsRemoteBot extends ARSsim.robot2D.clsRobot implements Steppable, ForceGenerator
+public class clsRemoteBot extends ARSsim.robot2D.clsMotionPlatform implements Steppable, ForceGenerator
     {
 	private clsMotionPlatform moMotion;
 	
@@ -74,7 +73,7 @@ public class clsRemoteBot extends ARSsim.robot2D.clsRobot implements Steppable, 
 
 	public clsRemoteBot(Double2D pos, Double2D vel, int pnId)
         {
-		moMotion = new clsMotionPlatform(this);
+		moMotion = new clsMotionPlatform();
 		
         // vary the mass with the size
     	this.mnId = pnId;
@@ -118,10 +117,10 @@ public class clsRemoteBot extends ARSsim.robot2D.clsRobot implements Steppable, 
     		moMotion.backup();
     		break;
     	case 37: //left
-    		moMotion.faceTowards(new Angle(-1));
+    		moMotion.faceTowardsRelative(new Angle(-1));
     		break;
     	case 39: //right
-    		moMotion.faceTowards(new Angle(1));
+    		moMotion.faceTowardsRelative(new Angle(1));
     		break;
     	case 65: //'A'
     		break;
