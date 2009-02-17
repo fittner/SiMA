@@ -7,7 +7,9 @@
  */
 package bw.physicalObject.inanimate.stationary;
 
+import bw.clsEntity;
 import bw.physicalObject.inanimate.clsInanimate;
+
 
 /**
  * TODO (deutsch) - insert description 
@@ -15,6 +17,7 @@ import bw.physicalObject.inanimate.clsInanimate;
  * @author deutsch
  * 
  */
-public class clsStationary extends clsInanimate {
+public class clsStationary extends clsEntity {
 
+		
 }

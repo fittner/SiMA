@@ -15,6 +15,7 @@ import sim.engine.SimState;
 import sim.engine.Steppable;
 import sim.physics2D.util.Angle;
 import sim.physics2D.util.Double2D;
+import ARSsim.physics2D.physicalObject.clsMobileObject2D;
 
 /**
  * Mason representative (physics+renderOnScreen) for a stone.  
@@ -22,7 +23,7 @@ import sim.physics2D.util.Double2D;
  * @author muchitsch
  * 
  */
-public class clsStone extends sim.physics2D.physicalObject.MobileObject2D implements Steppable{
+public class clsStone extends ARSsim.physics2D.physicalObject.clsMobileObject2D implements Steppable{
 
 	public boolean visible;
 	

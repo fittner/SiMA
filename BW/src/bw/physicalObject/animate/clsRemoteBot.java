@@ -18,10 +18,12 @@ import sim.physics2D.physicalObject.PhysicalObject2D;
 import sim.physics2D.util.Angle;
 import sim.physics2D.util.Double2D;
 import sim.portrayal.DrawInfo2D;
+import ARSsim.physics2D.physicalObject.clsMobileObject2D;
 import ARSsim.robot2D.clsMotionPlatform;
 import bw.physicalObject.entityParts.clsBotHands;
 import bw.physicalObject.inanimate.mobile.clsCan;
 import bw.sim.clsBWMain;
+
 
 import sim.display.clsKeyListener;
 
@@ -31,7 +33,7 @@ import sim.display.clsKeyListener;
  * @author langr
  * 
  */
-public class clsRemoteBot extends ARSsim.robot2D.clsMotionPlatform implements Steppable, ForceGenerator
+public class clsRemoteBot extends clsAnimate implements Steppable, ForceGenerator
     {
 	private clsMotionPlatform moMotion;
 	
@@ -73,15 +75,18 @@ public class clsRemoteBot extends ARSsim.robot2D.clsMotionPlatform implements St
 
 	public clsRemoteBot(Double2D pos, Double2D vel, int pnId)
         {
-		moMotion = new clsMotionPlatform();
+		super(pos, vel, pnId);
+		
+		clsMobileObject2D oMobile = getMobile();
+		moMotion = new clsMotionPlatform(oMobile);
 		
         // vary the mass with the size
     	this.mnId = pnId;
-        this.setPose(pos, new Angle(0));
-        this.setVelocity(vel);
-        this.setShape(new sim.physics2D.shape.Circle(10, Color.gray), 300);
+    	oMobile.setPose(pos, new Angle(0));
+    	oMobile.setVelocity(vel);
+    	oMobile.setShape(new sim.physics2D.shape.Circle(10, Color.gray), 300);
                 
-        this.normalForce = this.getMass();
+        this.normalForce = oMobile.getMass();
                 
         currentCan = null;
                 
@@ -95,12 +100,9 @@ public class clsRemoteBot extends ARSsim.robot2D.clsMotionPlatform implements St
  
     public void step(SimState state)
         {
-        Double2D position = this.getPosition();
+        Double2D position = getMobile().getPosition();
         clsBWMain simRobots = (clsBWMain)state;
         simRobots.moGameGridField.setObjectLocation(this, new sim.util.Double2D(position.x, position.y));
-        
-             
-        
         }
 
     public void addForce()
@@ -129,7 +131,7 @@ public class clsRemoteBot extends ARSsim.robot2D.clsMotionPlatform implements St
             {
 	    		objCE.unRegisterForceConstraint(pj);                            
 	            botState = APPROACHINGCAN;
-	            objCE.removeNoCollisions(this, currentCan);
+	            objCE.removeNoCollisions(getMobile(), currentCan);
 	            objCE.removeNoCollisions(e1, currentCan);
 	            objCE.removeNoCollisions(e2, currentCan);
 	            currentCan.visible = true;
@@ -141,9 +143,9 @@ public class clsRemoteBot extends ARSsim.robot2D.clsMotionPlatform implements St
         
     public int handleCollision(PhysicalObject2D other, Double2D colPoint)
         {
-        Double2D globalPointPos = this.getPosition().add(colPoint);
-        Double2D localPointPos = this.localFromGlobal(globalPointPos);
-        Angle colAngle = this.getAngle(localPointPos);
+        Double2D globalPointPos = getMobile().getPosition().add(colPoint);
+        Double2D localPointPos = moMotion.localFromGlobal(globalPointPos);
+        Angle colAngle = moMotion.getAngle(localPointPos);
                 
         // Make sure the object is a can and that it is (roughly) between
         // the effectors
@@ -152,12 +154,12 @@ public class clsRemoteBot extends ARSsim.robot2D.clsMotionPlatform implements St
             {
             // Create a fixed joint directly at the center of the can
         	currentCan = (clsCan)other; 
-        	pj = new PinJoint(other.getPosition(), this, other);
+        	pj = new PinJoint(other.getPosition(), getMobile(), other);
             objCE.registerForceConstraint(pj);
                         
             botState = HAVECAN;
                         
-            objCE.setNoCollisions(this, other);
+            objCE.setNoCollisions(getMobile(), other);
             objCE.setNoCollisions(e1, other);
             objCE.setNoCollisions(e2, other);
                         

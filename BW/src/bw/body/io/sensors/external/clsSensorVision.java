@@ -11,11 +11,8 @@ import sim.physics2D.PhysicsEngine2D;
 import sim.physics2D.util.Double2D;
 import sim.util.*;
 
-import ARSsim.robot2D.clsMotionPlatform;
-import bw.physicalObject.entityParts.*;
-import bw.body.physicalObject.mobile.*;
-import bw.physicalObject.animate.clsBot;
-import bw.physicalObject.entityParts.clsBotVision;
+import bw.physicalObject.entityParts.clsAnimateVision;
+import bw.physicalObject.animate.clsAnimate;
 /**
  * TODO (zeilinger) - insert description 
  * 
@@ -26,25 +23,25 @@ public class clsSensorVision extends clsSensorExt
 {
 	private Double2D moPos; 
 	private Double2D moVel;
-	private clsMotionPlatform moRobot;
-	private clsBotVision moVisionArea;
+	private clsAnimate moAnimate;
+	private clsAnimateVision moVisionArea;
 	private Bag meCollidingObj;
 		
-	public clsSensorVision(Double2D poPos, Double2D poVel, PhysicsEngine2D poPE, clsMotionPlatform poRobot)
+	public clsSensorVision(Double2D poPos, Double2D poVel, PhysicsEngine2D poPE, clsAnimate poAnimate)
 	{
 		meCollidingObj = new Bag();
 				
 		moPos = poPos; 
 		moVel = poVel;
-		moRobot = poRobot; 
+		moAnimate = poAnimate; 
 		
-		moVisionArea = new clsBotVision(moPos, moVel);
-		moVisionArea.loadVision(poPE, moRobot); 
+		moVisionArea = new clsAnimateVision(moPos, moVel);
+		moVisionArea.loadVision(poPE, moAnimate); 
 		
 		this.setCollidingObj(); 
 	}
 	
-	public clsBotVision getVisionObj()
+	public clsAnimateVision getVisionObj()
 	{
 		return moVisionArea; 
 	}

@@ -10,11 +10,8 @@ package bw.physicalObject.entityParts;
 import java.awt.*;
 
 import ARSsim.physics2D.shape.CircleBorder;
-import bw.body.io.*; 
-import bw.body.io.sensors.external.clsSensorVision;
-import bw.body.physicalObject.mobile.*;
-import bw.physicalObject.animate.clsBot;
 import bw.sim.clsBWMain;
+import bw.physicalObject.animate.clsAnimate;
 
 import sim.engine.*;
 import sim.physics2D.PhysicsEngine2D;
@@ -22,10 +19,8 @@ import sim.physics2D.constraint.PinJoint;
 import sim.physics2D.physicalObject.*;
 import sim.physics2D.util.*;
 import sim.physics2D.util.Double2D;
-import sim.physics2D.shape.*;
 import sim.portrayal.DrawInfo2D;
 import sim.util.*;
-import tstBw.sim.*;
 
 /**
  * TODO (zeilinger) - insert description 
@@ -34,7 +29,7 @@ import tstBw.sim.*;
  * 
  */
 
-public class clsBotVision extends MobileObject2D implements Steppable{
+public class clsAnimateVision extends MobileObject2D implements Steppable{
 
 	private final static double MASS = 0.0001;
 	private final static double FRICTION = 0;
@@ -46,9 +41,9 @@ public class clsBotVision extends MobileObject2D implements Steppable{
 	//private Bag mePerceiveObj = new Bag();
 	private Paint moColor;
 	private CircleBorder moShape;
-	private ARSsim.robot2D.clsMotionPlatform moTaggedBot;
+	private clsAnimate moTaggedAnimate;
 	
-	public clsBotVision(Double2D pos, Double2D vel)
+	public clsAnimateVision(Double2D pos, Double2D vel)
     {    	
 	 meCollidingObj = new Bag();
 	 moColor = Color.yellow;
@@ -63,14 +58,14 @@ public class clsBotVision extends MobileObject2D implements Steppable{
      this.setCoefficientOfRestitution(RESTITUTION);
     }
 
-	public void loadVision(PhysicsEngine2D poPE, ARSsim.robot2D.clsMotionPlatform poRobot)
+	public void loadVision(PhysicsEngine2D poPE, clsAnimate poRobot)
 	{
-		moTaggedBot = poRobot; 
+		moTaggedAnimate = poRobot; 
 		
 		PinJoint oPj;	
-		oPj = new PinJoint(moTaggedBot.getPosition(), this, moTaggedBot);
+		oPj = new PinJoint(moTaggedAnimate.getMobile().getPosition(), this, moTaggedAnimate.getMobile());
 		
-		poPE.setNoCollisions(this, moTaggedBot);
+		poPE.setNoCollisions(this, moTaggedAnimate.getMobile());
 		poPE.register(this);
 		poPE.register(oPj);
 	}
@@ -85,7 +80,7 @@ public class clsBotVision extends MobileObject2D implements Steppable{
 	
 	public void step(SimState state)
 	{
-		  this.setPose(moTaggedBot.getPosition(), moTaggedBot.getOrientation());
+		  this.setPose(moTaggedAnimate.getMobile().getPosition(), moTaggedAnimate.getMobile().getOrientation());
 		  clsBWMain simRobots = (clsBWMain)state;
 	      simRobots.moGameGridField.setObjectLocation(this, new sim.util.Double2D(this.getPosition().x, this.getPosition().y));
 	      meCollidingObj.clear(); 

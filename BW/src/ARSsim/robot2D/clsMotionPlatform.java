@@ -4,15 +4,19 @@ import sim.physics2D.physicalObject.MobileObject2D;
 import sim.util.matrix.DenseMatrix;
 import sim.physics2D.util.*;
 
-public class clsMotionPlatform extends MobileObject2D
-    {
+public class clsMotionPlatform
+   {
+	private MobileObject2D moMobile;
+	
     private double P_angle;
     private double D_angle;
         
     private double P_pos;
     private double D_pos;
-    public clsMotionPlatform()
+    public clsMotionPlatform(MobileObject2D poMobile)
         {
+    	moMobile = poMobile;
+    	
         P_angle = 10;
         D_angle = 500;
                 
@@ -24,12 +28,12 @@ public class clsMotionPlatform extends MobileObject2D
     
     private void initPhysicalBehavior() 
     {
-		setCoefficientOfFriction(.2);
-		setCoefficientOfStaticFriction(0);
-		setCoefficientOfRestitution(1);
+    	moMobile.setCoefficientOfFriction(.2);
+    	moMobile.setCoefficientOfStaticFriction(0);
+    	moMobile.setCoefficientOfRestitution(1);
     }
         
-    protected Double2D localFromGlobal(Double2D globalCoordinate)
+    public Double2D localFromGlobal(Double2D globalCoordinate)
         {
         // x0 = R'x1 - R'T
         DenseMatrix global = new sim.util.matrix.DenseMatrix(2, 1);
@@ -37,10 +41,10 @@ public class clsMotionPlatform extends MobileObject2D
         global.vals[1][0] = globalCoordinate.y;
                 
         DenseMatrix T = new sim.util.matrix.DenseMatrix(2, 1);
-        T.vals[0][0] = this.getPosition().x;
-        T.vals[1][0] = this.getPosition().y;
+        T.vals[0][0] = moMobile.getPosition().x;
+        T.vals[1][0] = moMobile.getPosition().y;
                 
-        double theta = this.getOrientation().radians;
+        double theta = moMobile.getOrientation().radians;
         double[][] arR = {{ Math.cos(theta), -Math.sin(theta) },
                               { Math.sin(theta), Math.cos(theta) }};
                 
@@ -49,16 +53,16 @@ public class clsMotionPlatform extends MobileObject2D
         return new Double2D(local.vals[0][0], local.vals[1][0]);
         }
         
-    protected Double2D globalFromLocal(Double2D localCoordinate)
+    public Double2D globalFromLocal(Double2D localCoordinate)
         {
         // x1 = Rx0 + T
-        Double2D rotated = localCoordinate.rotate(this.getOrientation().radians);
-        return rotated.add(this.getPosition());
+        Double2D rotated = localCoordinate.rotate(moMobile.getOrientation().radians);
+        return rotated.add(moMobile.getPosition());
         }
         
     /** Gives the angle of the vector (i.e. vector (1, 1) gives PI / 4)
      */
-    protected Angle getAngle(Double2D vector)
+    public Angle getAngle(Double2D vector)
         {
         // Get the angle  
         Angle theta;
@@ -86,35 +90,35 @@ public class clsMotionPlatform extends MobileObject2D
      */
     public void faceTowardsRelative(Angle relativeAngle)
     {
-    	faceTowards(relativeAngle.add( getOrientation() ) );
+    	faceTowards(relativeAngle.add( moMobile.getOrientation() ) );
     }
     
-    protected void faceTowards(Angle globalAngle)
+    public void faceTowards(Angle globalAngle)
         {
-        double angularVel = this.getAngularVelocity();
-        double angularError = globalAngle.add(new Angle(-this.getOrientation().radians)).radians;
+        double angularVel = moMobile.getAngularVelocity();
+        double angularError = globalAngle.add(new Angle(-moMobile.getOrientation().radians)).radians;
         if (angularError >= Math.PI)
             angularError = -(Angle.twoPI - angularError);
         double toAdd = P_angle * angularError - D_angle * angularVel;
-        this.addTorque(toAdd);
+        moMobile.addTorque(toAdd);
         }
         
     public void moveForward(double speed)
         {
-        if (this.getVelocity().length() < speed - .5)
-            this.addForce((new Double2D(1, 0)).rotate(this.getOrientation().radians));
-        else if (this.getVelocity().length() > speed + .5)
-            this.addForce((new Double2D(-1, 0)).rotate(this.getOrientation().radians));
+        if (moMobile.getVelocity().length() < speed - .5)
+        	moMobile.addForce((new Double2D(1, 0)).rotate(moMobile.getOrientation().radians));
+        else if (moMobile.getVelocity().length() > speed + .5)
+        	moMobile.addForce((new Double2D(-1, 0)).rotate(moMobile.getOrientation().radians));
                 
         }
         
-    protected void goTo(Double2D globalDestination)
+    public void goTo(Double2D globalDestination)
         {
         // First, get the destination in local coordinates
         Double2D localDestination = localFromGlobal(globalDestination);
 
         Angle localAngle = getAngle(localDestination);
-        double angularVel = this.getAngularVelocity();
+        double angularVel = moMobile.getAngularVelocity();
         double angularError;
                 
         // Turn towards the target
@@ -124,39 +128,39 @@ public class clsMotionPlatform extends MobileObject2D
             angularError = -(Angle.twoPI - localAngle.radians);
                 
         double toAdd = P_angle * angularError - D_angle * angularVel;
-        this.addTorque(toAdd);
+        moMobile.addTorque(toAdd);
                 
         // approach the target
         if (Math.abs(angularError) < Math.PI / 15)
             {
             if (localDestination.length() < 20)
-                this.addForce((new Double2D(4, 0)).rotate(this.getOrientation().radians));
+            	moMobile.addForce((new Double2D(4, 0)).rotate(moMobile.getOrientation().radians));
             else
                 {
-                double scale = P_pos * localDestination.length() - D_pos * this.getVelocity().length();
-                Double2D force = (new Double2D(1, 0)).rotate(this.getOrientation().radians).scalarMult(scale); 
-                this.addForce(force);
+                double scale = P_pos * localDestination.length() - D_pos * moMobile.getVelocity().length();
+                Double2D force = (new Double2D(1, 0)).rotate(moMobile.getOrientation().radians).scalarMult(scale); 
+                moMobile.addForce(force);
                 }
             }
         else
             {
             // otherwise, hit the breaks
-            this.addForce(this.getVelocity().rotate(Math.PI).scalarMult(10));
+        	moMobile.addForce(moMobile.getVelocity().rotate(Math.PI).scalarMult(10));
             }
         }
         
     public void stop()
         {
-        double angularVel = this.getAngularVelocity();
-        Double2D vel = this.getVelocity();
+        double angularVel = moMobile.getAngularVelocity();
+        Double2D vel = moMobile.getVelocity();
                 
-        this.addForce(vel.rotate(Math.PI).scalarMult(10));
-        this.addTorque(-angularVel * 200);
+        moMobile.addForce(vel.rotate(Math.PI).scalarMult(10));
+        moMobile.addTorque(-angularVel * 200);
         }
         
     public void backup()
         {
-        Double2D backward = new Double2D(4, 0).rotate(this.getOrientation().add(Math.PI).radians);
-        this.addForce(backward);
+        Double2D backward = new Double2D(4, 0).rotate(moMobile.getOrientation().add(Math.PI).radians);
+        moMobile.addForce(backward);
         }
     }

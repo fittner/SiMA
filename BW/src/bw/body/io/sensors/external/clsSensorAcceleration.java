@@ -65,8 +65,9 @@ public class clsSensorAcceleration extends clsSensorExt{
 	 */
 	public void updateSensorData() {
 
-		moCurrentVelocity = moEntity.getVelocity();
-		moCurrentAngularVelocity = moEntity.getAngularVelocity();
+		//TODO: RL --> entity braucht die Mobile object 2D
+		// moCurrentVelocity = moEntity.getVelocity();
+		// moCurrentAngularVelocity = moEntity.getAngularVelocity();
 	}
 	
 }

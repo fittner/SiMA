@@ -18,6 +18,7 @@ import sim.physics2D.util.Angle;
 import sim.physics2D.util.Double2D;
 import sim.portrayal.DrawInfo2D;
 import bw.body.itfStep;
+import ARSsim.physics2D.physicalObject.clsMobileObject2D;
 import ARSsim.robot2D.clsMotionPlatform;
 import bw.sim.clsBWMain;
 import bw.utils.datatypes.clsMutableFloat;
@@ -56,8 +57,9 @@ public class clsBubble extends clsAnimate {
 		setShape();
 		
 		//set the starting values
-		this.setPose(poStartingPosition, new Angle(0));
-	    this.setVelocity(poStartingVelocity);
+		clsMobileObject2D oMobile = getMobile();
+		oMobile.setPose(poStartingPosition, new Angle(0));
+		oMobile.setVelocity(poStartingVelocity);
     } 
 	
 	/**
@@ -65,7 +67,7 @@ public class clsBubble extends clsAnimate {
 	 *
 	 */
 	private void setShape(){
-		this.setShape(new sim.physics2D.shape.Circle(10, Color.GREEN), 300);
+		getMobile().setShape(new sim.physics2D.shape.Circle(10, Color.GREEN), 300);
 	}
 
 	

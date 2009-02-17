@@ -7,6 +7,8 @@
  */
 package bw.physicalObject.inanimate.mobile;
 
+import ARSsim.physics2D.physicalObject.clsMobileObject2D;
+import bw.clsEntity;
 import bw.physicalObject.inanimate.clsInanimate;
 
 /**
@@ -15,6 +17,28 @@ import bw.physicalObject.inanimate.clsInanimate;
  * @author deutsch
  * 
  */
-public class clsMobile extends clsInanimate {
+public class clsMobile extends clsEntity {
 
+	private clsMobileObject2D moMobile;
+
+	/**
+	 * @return the moMobile
+	 */
+	public clsMobileObject2D getMobile() {
+		return moMobile;
+	}
+
+	
+	/**
+	 * 
+	 */
+	public clsMobile() {
+		super();
+		
+		moMobile = new clsMobileObject2D();
+		//TODO: register irgendwie
+	}
+
+	
+	
 }

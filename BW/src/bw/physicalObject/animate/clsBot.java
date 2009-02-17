@@ -17,6 +17,7 @@ import sim.physics2D.forceGenerator.ForceGenerator;
 import sim.physics2D.util.*;
 import sim.portrayal.DrawInfo2D;
 import sim.util.Bag;
+import ARSsim.physics2D.physicalObject.clsMobileObject2D;
 import ARSsim.robot2D.clsMotionPlatform;
 import bw.physicalObject.entityParts.clsBotHands;
 import bw.physicalObject.inanimate.mobile.clsCan;
@@ -27,7 +28,7 @@ import bw.sim.*;
 * @author langr
 * 
 */
-public class clsBot extends ARSsim.robot2D.clsMotionPlatform implements Steppable, ForceGenerator
+public class clsBot extends clsAnimate implements Steppable, ForceGenerator
     {
 	private clsMotionPlatform moMotion;
 	
@@ -72,15 +73,19 @@ public class clsBot extends ARSsim.robot2D.clsMotionPlatform implements Steppabl
 
 	public clsBot(Double2D pos, Double2D vel, int pnId)
         {
-		moMotion = new clsMotionPlatform();
+		super(pos, vel, pnId);
+		
+		MobileObject2D oMobile = getMobile();
+		
+		moMotion = new clsMotionPlatform(oMobile);
 		
         // vary the mass with the size
-    	this.mnId = pnId;
-        this.setPose(pos, new Angle(0));
-        this.setVelocity(vel);
-        this.setShape(new sim.physics2D.shape.Circle(10, Color.gray), 300);
+		this.mnId = pnId;
+		oMobile.setPose(pos, new Angle(0));
+        oMobile.setVelocity(vel);
+        oMobile.setShape(new sim.physics2D.shape.Circle(10, Color.gray), 300);
                 
-        this.normalForce = this.getMass();
+        this.normalForce = oMobile.getMass();
                 
         currentCan = null;
                 
@@ -94,7 +99,7 @@ public class clsBot extends ARSsim.robot2D.clsMotionPlatform implements Steppabl
  
     public void step(SimState state)
         {
-        Double2D position = this.getPosition();
+        Double2D position = getMobile().getPosition();
         clsBWMain simRobots = (clsBWMain)state;
         simRobots.moGameGridField.setObjectLocation(this, new sim.util.Double2D(position.x, position.y));
         
@@ -128,81 +133,84 @@ public class clsBot extends ARSsim.robot2D.clsMotionPlatform implements Steppabl
 
     public void addForce()
         {
-                
+        
+    	clsMobileObject2D oMobile = getMobile();  
+    	
         switch (botState)
             {
             case HAVECAN:
             	if( mnId%2==0 )
             	{
-	            	if (this.getPosition().y <= 40)
+	            	if (oMobile.getPosition().y <= 40)
 	                    {
-	                    if (this.getVelocity().length() > 0.01 || this.getAngularVelocity() > 0.01)
-	                        this.stop();
+	                    if (oMobile.getVelocity().length() > 0.01 || oMobile.getAngularVelocity() > 0.01)
+	                    	moMotion.stop();
 	                    else
 	                        {
 	                        objCE.unRegisterForceConstraint(pj);                            
 	                        botState = RELEASINGCAN;
-	                        objCE.removeNoCollisions(this, currentCan);
+	                        objCE.removeNoCollisions(oMobile, currentCan);
 	                        objCE.removeNoCollisions(e1, currentCan);
 	                        objCE.removeNoCollisions(e2, currentCan);
 	                        currentCan.visible = true;
 	                        }
 	                    }
 	                else
-	                    this.goTo(new Double2D(this.getPosition().x, 40));
+	                	moMotion.goTo(new Double2D(oMobile.getPosition().x, 40));
             	}
             	else
             	{
-            	if (this.getPosition().y >= 160)
+            	if (oMobile.getPosition().y >= 160)
                 {
-	                if (this.getVelocity().length() > 0.01 || this.getAngularVelocity() > 0.01)
-	                    this.stop();
+	                if (oMobile.getVelocity().length() > 0.01 || oMobile.getAngularVelocity() > 0.01)
+	                	moMotion.stop();
 	                else
 	                    {
 	                    objCE.unRegisterForceConstraint(pj);                            
 	                    botState = RELEASINGCAN;
-	                    objCE.removeNoCollisions(this, currentCan);
+	                    objCE.removeNoCollisions(oMobile, currentCan);
 	                    objCE.removeNoCollisions(e1, currentCan);
 	                    objCE.removeNoCollisions(e2, currentCan);
 	                    currentCan.visible = true;
 	                    }
 	                }
 		            else
-		                this.goTo(new Double2D(this.getPosition().x, 160));
+		            	moMotion.goTo(new Double2D(oMobile.getPosition().x, 160));
             	}
                 break;
             case RELEASINGCAN:
                 // back out of can home
-                if (this.getPosition().subtract(currentCan.getPosition()).length() <= 30)
-                    backup();
+                if (oMobile.getPosition().subtract(currentCan.getPosition()).length() <= 30)
+                	moMotion.backup();
                 else
                     botState = SEARCHING;
                 break;
             case APPROACHINGCAN:
                 if (currentCan.visible)
-                    this.goTo(currentCan.getPosition());
+                	moMotion.goTo(currentCan.getPosition());
                 else
                     botState = SEARCHING;
                 break;
             case RETURNINGHOME:
-                if (this.getPosition().subtract(botHome).length() <= 30)
+                if (oMobile.getPosition().subtract(botHome).length() <= 30)
                     {
-                    if (this.getOrientation().radians != 0)
-                        this.faceTowards(new Angle(0));
+                    if (oMobile.getOrientation().radians != 0)
+                    	moMotion.faceTowards(new Angle(0));
                     else
-                        stop();
+                    	moMotion.stop();
                     }
                 else
-                    this.goTo(botHome);
+                	moMotion.goTo(botHome);
                 break;  
             }
         }
         
     public int handleCollision(PhysicalObject2D other, Double2D colPoint)
         {
-        Double2D globalPointPos = this.getPosition().add(colPoint);
-        Double2D localPointPos = this.localFromGlobal(globalPointPos);
-        Angle colAngle = this.getAngle(localPointPos);
+    	clsMobileObject2D oMobile = getMobile();  
+        Double2D globalPointPos = oMobile.getPosition().add(colPoint);
+        Double2D localPointPos = moMotion.localFromGlobal(globalPointPos);
+        Angle colAngle = moMotion.getAngle(localPointPos);
                 
         // Make sure the object is a can and that it is (roughly) between
         // the effectors
@@ -210,12 +218,12 @@ public class clsBot extends ARSsim.robot2D.clsMotionPlatform implements Steppabl
             && (colAngle.radians < Math.PI / 8 || colAngle.radians > (Math.PI * 2 - Math.PI / 8)))
             {
             // Create a fixed joint directly at the center of the can
-            pj = new PinJoint(other.getPosition(), this, other);
+            pj = new PinJoint(other.getPosition(), oMobile, other);
             objCE.registerForceConstraint(pj);
                         
             botState = HAVECAN;
                         
-            objCE.setNoCollisions(this, other);
+            objCE.setNoCollisions(oMobile, other);
             objCE.setNoCollisions(e1, other);
             objCE.setNoCollisions(e2, other);
                         

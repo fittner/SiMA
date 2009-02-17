@@ -20,6 +20,8 @@ import bw.physicalObject.animate.clsRemoteBot;
 import bw.physicalObject.entityParts.clsBotHands;
 import bw.physicalObject.inanimate.mobile.clsCan;
 
+import bw.physicalObject.animate.*;
+
 /**
  * Helper class to load every agent and register to mason-physics2D 
  * @author langr
@@ -118,13 +120,13 @@ public class clsAgentLoader {
            poSimState.schedule.scheduleRepeating(effector);
            bot.e1 = effector;
                        
-           poObjPE.setNoCollisions(bot, effector);
+           poObjPE.setNoCollisions(bot.getMobile(), effector);
            //objPE.setNoCollisions(bot, landscape);
                        
            //fa.AddPhysicalObject(effector);
            //npm.AddPhysicalObject(bot);
                        
-           PinJoint pj = new PinJoint(pos, effector, bot);
+           PinJoint pj = new PinJoint(pos, effector, bot.getMobile());
            //fa.AddPhysicalObject(bot);
                
            poObjPE.register(pj);
@@ -138,9 +140,9 @@ public class clsAgentLoader {
            poSimState.schedule.scheduleRepeating(effector);
            bot.e2 = effector;
                        
-           poObjPE.setNoCollisions(bot, effector);
+           poObjPE.setNoCollisions(bot.getMobile(), effector);
                        
-           pj = new PinJoint(pos, effector, bot);
+           pj = new PinJoint(pos, effector, bot.getMobile());
            //fa = new FixedAngle();
            //fa.AddPhysicalObject(effector);
            //fa.AddPhysicalObject(bot);
@@ -150,8 +152,8 @@ public class clsAgentLoader {
            
          //VISION AREA Init + Register
            bw.body.io.sensors.external.clsSensorVision visArea; 
-           visArea = new bw.body.io.sensors.external.clsSensorVision(bot.getPosition(),new Double2D(0, 0), poObjPE, bot);
-           poFieldEnvironment.setObjectLocation(visArea.getVisionObj(), new sim.util.Double2D(bot.getPosition().x, bot.getPosition().y));
+           visArea = new bw.body.io.sensors.external.clsSensorVision(bot.getMobile().getPosition(),new Double2D(0, 0), poObjPE, (clsAnimate)bot);
+           poFieldEnvironment.setObjectLocation(visArea.getVisionObj(), new sim.util.Double2D(bot.getMobile().getPosition().x, bot.getMobile().getPosition().y));
            poSimState.schedule.scheduleRepeating(visArea.getVisionObj());           
                
            poObjPE.register(pj);
@@ -166,9 +168,9 @@ public class clsAgentLoader {
 			poSimState.schedule.scheduleRepeating(effector);
 			//bot.e3 = effector;
 			
-			poObjPE.setNoCollisions(bot, effector);
+			poObjPE.setNoCollisions(bot.getMobile(), effector);
 
-			pj = new PinJoint(pos, effector, bot);	
+			pj = new PinJoint(pos, effector, bot.getMobile());	
 			poObjPE.register(pj);
 			
 			pos = new Double2D(x - 9, y - 6);
@@ -178,9 +180,9 @@ public class clsAgentLoader {
 			poSimState.schedule.scheduleRepeating(effector);
 			//bot.e4 = effector;
 			
-			poObjPE.setNoCollisions(bot, effector);
+			poObjPE.setNoCollisions(bot.getMobile(), effector);
 
-			pj = new PinJoint(pos, effector, bot);	
+			pj = new PinJoint(pos, effector, bot.getMobile());	
 			poObjPE.register(pj);
 			
 			pos = new Double2D(x, y - 11);
@@ -190,9 +192,9 @@ public class clsAgentLoader {
 			poSimState.schedule.scheduleRepeating(effector);
 			//bot.e5 = effector;
 			
-			poObjPE.setNoCollisions(bot, effector);
+			poObjPE.setNoCollisions(bot.getMobile(), effector);
 
-			pj = new PinJoint(pos, effector, bot);	
+			pj = new PinJoint(pos, effector, bot.getMobile());	
 			poObjPE.register(pj);
 			
 			pos = new Double2D(x, y + 11);
@@ -202,9 +204,9 @@ public class clsAgentLoader {
 			poSimState.schedule.scheduleRepeating(effector);
 			//bot.e6 = effector;
 			
-			poObjPE.setNoCollisions(bot, effector);
+			poObjPE.setNoCollisions(bot.getMobile(), effector);
 
-			pj = new PinJoint(pos, effector, bot);	
+			pj = new PinJoint(pos, effector, bot.getMobile());	
 			poObjPE.register(pj);
 			//end feet
            }
@@ -222,7 +224,7 @@ public class clsAgentLoader {
                     
         pos = new Double2D(x, y);
         bot = new clsRemoteBot(pos, new Double2D(0, 0),i);
-        poObjPE.register(bot);
+        poObjPE.register(bot.getMobile());
         poFieldEnvironment.setObjectLocation(bot, new sim.util.Double2D(pos.x, pos.y));
         poSimState.schedule.scheduleRepeating(bot);
                     
@@ -239,13 +241,13 @@ public class clsAgentLoader {
         poSimState.schedule.scheduleRepeating(effector);
         bot.e1 = effector;
                     
-        poObjPE.setNoCollisions(bot, effector);
+        poObjPE.setNoCollisions(bot.getMobile(), effector);
         //objPE.setNoCollisions(bot, landscape);
                     
         //fa.AddPhysicalObject(effector);
         //npm.AddPhysicalObject(bot);
                     
-        PinJoint pj = new PinJoint(pos, effector, bot);
+        PinJoint pj = new PinJoint(pos, effector, bot.getMobile());
         //fa.AddPhysicalObject(bot);
             
         poObjPE.register(pj);
@@ -259,9 +261,9 @@ public class clsAgentLoader {
         poSimState.schedule.scheduleRepeating(effector);
         bot.e2 = effector;
                     
-        poObjPE.setNoCollisions(bot, effector);
+        poObjPE.setNoCollisions(bot.getMobile(), effector);
                     
-        pj = new PinJoint(pos, effector, bot);
+        pj = new PinJoint(pos, effector, bot.getMobile());
         //fa = new FixedAngle();
         //fa.AddPhysicalObject(effector);
         //fa.AddPhysicalObject(bot);

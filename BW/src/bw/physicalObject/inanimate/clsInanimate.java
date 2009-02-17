@@ -8,6 +8,7 @@
 package bw.physicalObject.inanimate;
 
 import bw.clsEntity;
+import bw.physicalObject.inanimate.mobile.clsMobile;
 
 
 /**
@@ -16,7 +17,7 @@ import bw.clsEntity;
  * @author langr
  * 
  */
-public class clsInanimate extends clsEntity {
+public class clsInanimate extends clsMobile {
 
 	/**
 	 * 
