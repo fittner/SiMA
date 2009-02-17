@@ -11,6 +11,7 @@ import sim.physics2D.PhysicsEngine2D;
 import sim.physics2D.util.Double2D;
 import sim.util.*;
 
+import ARSsim.robot2D.clsMotionPlatform;
 import bw.physicalObject.entityParts.*;
 import bw.body.physicalObject.mobile.*;
 import bw.physicalObject.animate.clsBot;
@@ -25,11 +26,11 @@ public class clsSensorVision extends clsSensorExt
 {
 	private Double2D moPos; 
 	private Double2D moVel;
-	private clsBot moRobot;
+	private clsMotionPlatform moRobot;
 	private clsBotVision moVisionArea;
 	private Bag meCollidingObj;
 		
-	public clsSensorVision(Double2D poPos, Double2D poVel, PhysicsEngine2D poPE, clsBot poRobot)
+	public clsSensorVision(Double2D poPos, Double2D poVel, PhysicsEngine2D poPE, clsMotionPlatform poRobot)
 	{
 		meCollidingObj = new Bag();
 				
