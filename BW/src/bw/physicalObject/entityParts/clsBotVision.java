@@ -36,24 +36,20 @@ import tstBw.sim.*;
 
 public class clsBotVision extends MobileObject2D implements Steppable{
 
-	private final static int STEPNUMB = 20; 
 	private final static double MASS = 0.0001;
 	private final static double FRICTION = 0;
 	private final static double RESTITUTION = 0;
 	
 	private double mnRadius = 50;
-	private int mnctr = 0; 
-	
-	private Bag meCollidingObj = new Bag();
+		
+	private Bag meCollidingObj;
 	//private Bag mePerceiveObj = new Bag();
 	private Paint moColor;
 	private CircleBorder moShape;
-	private clsSensorVision moSenVision; 
 	private clsBot moTaggedBot;
 	
 	public clsBotVision(Double2D pos, Double2D vel)
     {    	
-	 mnRadius = 50;
 	 meCollidingObj = new Bag();
 	 moColor = Color.yellow;
 	 moShape = new CircleBorder(mnRadius, moColor);
@@ -94,14 +90,8 @@ public class clsBotVision extends MobileObject2D implements Steppable{
 		  this.setPose(moTaggedBot.getPosition(), moTaggedBot.getOrientation());
 		  clsBWMain simRobots = (clsBWMain)state;
 	      simRobots.moGameGridField.setObjectLocation(this, new sim.util.Double2D(this.getPosition().x, this.getPosition().y));
-	     
-	      if(mnctr%STEPNUMB==0)
-	      {
-	    	  //for(int ctr=0; ctr<meCollidingObj.size(); ctr++)
-	    	  //	  System.out.println("Object "+this.getIndex()+" " + meCollidingObj.get(ctr).toString());
-	    	  meCollidingObj.clear(); 
-	    	  mnctr=0;
-	      }else { mnctr++;}          
+	      meCollidingObj.clear(); 
+	          
 	}
 	    
 	public Bag getCollidingObj()
