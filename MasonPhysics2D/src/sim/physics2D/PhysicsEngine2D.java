@@ -65,7 +65,9 @@ public class PhysicsEngine2D implements Steppable
                 }
             }
         objCE.addCollisionResponses(collidingList);
-                
+        
+        //ARS_EXTENSION
+        this.forwardContact(objCDE.getContacts()); 
         // Handle resting contacts and other forces/constraints
         physicsState.saveLastState(); 
         objODE.solve(1);
@@ -109,4 +111,18 @@ public class PhysicsEngine2D implements Steppable
         if (obj instanceof ImpulseConstraint)
             objCE.unRegisterImpulseConstraint((ImpulseConstraint)obj);
         }
+    
+    /** ARS_EXTENSION Forwards Contact-List
+     */
+	public void forwardContact(Bag poCL)
+	    {
+			for(int i=0; i<poCL.size(); i++)
+			{
+				CollisionPair pair = (CollisionPair)poCL.objs[i];
+                
+	            pair.c1.receiveContact(pair.c2, pair.getColPoint1());
+	            pair.c2.receiveContact(pair.c1, pair.getColPoint2());
+			}
+	    }
+    
     }
