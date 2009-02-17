@@ -10,6 +10,7 @@ package bw.body.internalSystems;
 import java.util.Random;
 
 import bw.body.itfStep;
+import bw.exceptions.FoodAlreadyNormalized;
 import bw.exceptions.NoSuchNutritionType;
 
 /**
@@ -44,10 +45,32 @@ public class clsInternalSystem implements itfStep {
    	   //testing the energy consumption
    	   randomFillIEC();
    	   setupStomach();
+   	   setupFlesh();
 
 	}
 
 	
+	
+	/**
+	 * TODO (deutsch) - insert description
+	 *
+	 */
+	private void setupFlesh() {
+		try {
+			moFlesh.addNutritionFraction(1, 0.3f);
+			moFlesh.addNutritionFraction(2, 0.1f);
+			moFlesh.addNutritionFraction(3, 0.2f);
+			moFlesh.addNutritionFraction(4, 1.3f);
+			moFlesh.addNutritionFraction(5, 0.9f);
+			moFlesh.finalize();
+		} catch (FoodAlreadyNormalized e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+
+
+
 	/**
 	 * @return the moFlesh
 	 */
@@ -148,13 +171,7 @@ public class clsInternalSystem implements itfStep {
 				try {
 					moStomachSystem.addNutrition(i, rand.nextFloat() * 0.1f );
 				} catch (NoSuchNutritionType e) {
-					moStomachSystem.addNutritionType(i);
-					try {
-						moStomachSystem.addNutrition(i, rand.nextFloat() * 0.1f );
-					} catch (NoSuchNutritionType e1) {
-						// TODO Auto-generated catch block
-						e1.printStackTrace();
-					}
+					// ignore exception
 				}
 			}
 		}

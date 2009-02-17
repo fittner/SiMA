@@ -11,6 +11,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 
 import bw.exceptions.FoodAlreadyNormalized;
+import bw.exceptions.FoodAmountBelowZero;
 import bw.exceptions.FoodNotFinalized;
 import bw.utils.datatypes.clsMutableFloat;
 
@@ -41,12 +42,15 @@ public class clsFood {
 	 * set the weight of the food piece (0.0 <= x < FLOATMAX).
 	 *
 	 * @param prAmount
+	 * @throws bw.exceptions.FoodAmountBelowZero 
 	 */
-	public void setAmount(float prAmount) {
+	public void setAmount(float prAmount) throws bw.exceptions.FoodAmountBelowZero {
 		mrAmount = prAmount;
 		
 		if (mrAmount < 0.0f) {
 			mrAmount = 0.0f;
+			
+			throw new bw.exceptions.FoodAmountBelowZero();
 		}
 	}
 	
