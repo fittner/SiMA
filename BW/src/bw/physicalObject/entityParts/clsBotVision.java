@@ -46,7 +46,7 @@ public class clsBotVision extends MobileObject2D implements Steppable{
 	//private Bag mePerceiveObj = new Bag();
 	private Paint moColor;
 	private CircleBorder moShape;
-	private clsBot moTaggedBot;
+	private ARSsim.robot2D.clsRobot moTaggedBot;
 	
 	public clsBotVision(Double2D pos, Double2D vel)
     {    	
@@ -63,7 +63,7 @@ public class clsBotVision extends MobileObject2D implements Steppable{
      this.setCoefficientOfRestitution(RESTITUTION);
     }
 
-	public void loadVision(PhysicsEngine2D poPE, clsBot poRobot)
+	public void loadVision(PhysicsEngine2D poPE, ARSsim.robot2D.clsRobot poRobot)
 	{
 		moTaggedBot = poRobot; 
 		
@@ -71,8 +71,6 @@ public class clsBotVision extends MobileObject2D implements Steppable{
 		oPj = new PinJoint(moTaggedBot.getPosition(), this, moTaggedBot);
 		
 		poPE.setNoCollisions(this, moTaggedBot);
-		poPE.setNoCollisions(this, moTaggedBot.e1);
-		poPE.setNoCollisions(this, moTaggedBot.e2);
 		poPE.register(this);
 		poPE.register(oPj);
 	}
