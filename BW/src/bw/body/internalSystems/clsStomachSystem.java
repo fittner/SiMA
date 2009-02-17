@@ -13,7 +13,7 @@ import java.util.Iterator;
 import bw.body.itfStep;
 import bw.exceptions.ContentColumnMaxContentExceeded;
 import bw.exceptions.ContentColumnMinContentUnderrun;
-import bw.utils.datatypes.clsMutableFloat;
+import bw.exceptions.NoSuchNutritionType;
 import bw.utils.tools.clsNutritionLevel;
 
 /**
@@ -55,7 +55,7 @@ public class clsStomachSystem implements itfStep {
 	 * @return moList clone
 	 */
 	public HashMap<Integer, clsNutritionLevel> getList() {
-		return (HashMap<Integer, clsNutritionLevel>) moNutritions.clone();
+		return new HashMap<Integer, clsNutritionLevel>(moNutritions);
 	}
 	
 	/**
@@ -112,24 +112,43 @@ public class clsStomachSystem implements itfStep {
 	public clsNutritionLevel getNutritionLevel(Integer poId) {
 		return moNutritions.get(poId);
 	}
-	
+
 	/**
 	 * TODO (deutsch) - insert description
 	 *
 	 * @param poId
 	 * @param prAmount
+	 * @return
+	 * @throws bw.exceptions.NoSuchNutritionType 
 	 */
-	public void addNutrition(Integer poId, float prAmount) {
+	public float addNutrition(Integer poId, float prAmount) throws bw.exceptions.NoSuchNutritionType {
+		float rResult = 0;
+
 		clsNutritionLevel oNL = this.getNutritionLevel(poId);
+		
+		if (oNL == null) {
+			throw new bw.exceptions.NoSuchNutritionType();
+		}
+		
+		float rNutritionLevel = oNL.getContent();
+		float rNutritionLevelUpdate = rNutritionLevel;
 		
 		if (oNL != null) {
 			try {
-				oNL.increase(prAmount);
+				rNutritionLevelUpdate = oNL.increase(prAmount);
 			} catch (ContentColumnMaxContentExceeded e) {
 			} catch (ContentColumnMinContentUnderrun e) {
 			}
 		}
-		this.updateEnergy();		
+		this.updateEnergy();	
+		
+		try {
+			rResult = (rNutritionLevelUpdate - rNutritionLevel) / prAmount;
+		} catch (java.lang.ArithmeticException e) {
+			rResult = 0.0f;
+		}
+		
+		return rResult;
 	}
 	
 	/**
@@ -137,9 +156,20 @@ public class clsStomachSystem implements itfStep {
 	 *
 	 * @param poId
 	 * @param prAmount
+	 * @return
+	 * @throws bw.exceptions.NoSuchNutritionType 
 	 */
-	public void withdrawNutrition(Integer poId, float prAmount) {
+	public float withdrawNutrition(Integer poId, float prAmount) throws bw.exceptions.NoSuchNutritionType {
+		float rResult = 0;
+		
 		clsNutritionLevel oNL = this.getNutritionLevel(poId);
+		
+		if (oNL == null) {
+			throw new bw.exceptions.NoSuchNutritionType();
+		}
+		
+		float rNutritionLevel = oNL.getContent();
+		float rNutritionLevelUpdate = rNutritionLevel;
 		
 		if (oNL != null) {
 			try {
@@ -148,16 +178,27 @@ public class clsStomachSystem implements itfStep {
 			} catch (ContentColumnMinContentUnderrun e) {
 			}
 		}
-		this.updateEnergy();		
+		this.updateEnergy();
+		
+		try {
+			rResult = (rNutritionLevelUpdate - rNutritionLevel) / prAmount;
+		} catch (java.lang.ArithmeticException e) {
+			rResult = 0.0f;
+		}
+		
+		return rResult;		
 	}	
 	
 	/**
 	 * TODO (deutsch) - insert description
 	 *
 	 * @param prAmount
+	 * @return
 	 */
-	public void addEnergy(float prAmount) {
+	public clsChangeEnergyResult addEnergy(float prAmount) {
 		float rAmountFraction = prAmount / this.mrFractionSum;
+		clsChangeEnergyResult oResult = new clsChangeEnergyResult();
+		float rEnergyLevel = this.getEnergy();
 
 		Iterator<Integer> i = moNutritions.keySet().iterator();
 		
@@ -167,15 +208,41 @@ public class clsStomachSystem implements itfStep {
 			clsNutritionLevel oNL = moNutritions.get(oKey);
 			
 			float rFraction = moFractions.get(oKey).floatValue();
+			float rContent = oNL.getContent();
+			float rFractionPercentage = 0.0f;
 			
 			try {
 				oNL.increase(rFraction * rAmountFraction);
+				rFractionPercentage = 1.0f;
+				
 			} catch (ContentColumnMaxContentExceeded e) {
+				try {
+					rFractionPercentage = (oNL.getMaxContent() - rContent) / prAmount;
+				} catch (java.lang.ArithmeticException ee) {				
+				}					
+			
 			} catch (ContentColumnMinContentUnderrun e) {
+				try {
+					rFractionPercentage = rContent / prAmount;
+				} catch (java.lang.ArithmeticException ee) {				
+				}					
+				
 			}
+			
+			oResult.addFraction(oKey, new Float( rFractionPercentage ));
+			
 		}
 				
 		this.updateEnergy();
+		
+		float rEnergyLevelUpdate = this.getEnergy();
+		
+		try {
+			oResult.setTotalPercentage( (rEnergyLevelUpdate-rEnergyLevel) / prAmount );
+		} catch (java.lang.ArithmeticException e) {
+		}
+		
+		return oResult;
 	}
 	
 	/**
@@ -184,10 +251,10 @@ public class clsStomachSystem implements itfStep {
 	 * @param prAmount
 	 * @return
 	 */
-	public float withdrawEnergy(float prAmount) {
-		float rWithdrawn = 0.0f;
+	public clsChangeEnergyResult withdrawEnergy(float prAmount) {		
 		float rAmountFraction = prAmount / this.mrFractionSum;
-		boolean mnNutritionsInssufficient = false;
+		clsChangeEnergyResult oResult = new clsChangeEnergyResult();
+		float rEnergyLevel = this.getEnergy();
 		
 		Iterator<Integer> i = moNutritions.keySet().iterator();
 		
@@ -196,17 +263,42 @@ public class clsStomachSystem implements itfStep {
 			
 			clsNutritionLevel oNL = moNutritions.get(oKey);
 			
-			float rFraction = moFractions.get(oKey).floatValue();
-			
+			float rFraction = moFractions.get(oKey).floatValue();			
+			float rContent = oNL.getContent();
+			float rFractionPercentage = 0.0f;
+
 			try {
-				rWithdrawn += oNL.decrease(rFraction * rAmountFraction);
+				oNL.decrease(rFraction * rAmountFraction);
+				rFractionPercentage = 1.0f;
+				
 			} catch (ContentColumnMaxContentExceeded e) {
+				try {
+					rFractionPercentage = (oNL.getMaxContent() - rContent) / prAmount;
+				} catch (java.lang.ArithmeticException ee) {				
+				}					
+			
 			} catch (ContentColumnMinContentUnderrun e) {
+				try {
+					rFractionPercentage = rContent / prAmount;
+				} catch (java.lang.ArithmeticException ee) {				
+				}					
+				
 			}
+			
+			oResult.addFraction(oKey, new Float( rFractionPercentage ));
+			
 		}		
 		
-		this.updateEnergy();		
-		return rWithdrawn / prAmount;
+		this.updateEnergy();	
+		
+		float rEnergyLevelUpdate = this.getEnergy();
+		
+		try {
+			oResult.setTotalPercentage( (rEnergyLevelUpdate-rEnergyLevel) / prAmount );
+		} catch (java.lang.ArithmeticException e) {
+		}
+		
+		return oResult;
 	}
 	
 	/**

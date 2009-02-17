@@ -10,6 +10,8 @@ package bw.utils.tools;
 import java.util.HashMap;
 import java.util.Iterator;
 
+import bw.exceptions.FoodAlreadyNormalized;
+import bw.exceptions.FoodNotFinalized;
 import bw.utils.datatypes.clsMutableFloat;
 
 /**
@@ -24,7 +26,7 @@ import bw.utils.datatypes.clsMutableFloat;
 public class clsFood {
 	private HashMap<Integer, clsMutableFloat> moComposition;
 	private float mrAmount;
-	private boolean mnDirtyFlag;
+	private boolean mnFinalized;
 	
 	/**
 	 * 
@@ -32,7 +34,7 @@ public class clsFood {
 	public clsFood() {
 		moComposition = new HashMap<Integer, clsMutableFloat>();
 		mrAmount = 0.0f;
-		mnDirtyFlag = false;
+		mnFinalized = false;
 	}
 	
 	/**
@@ -62,8 +64,9 @@ public class clsFood {
 	 *
 	 * @param pnNutritionId
 	 * @return mrAmount * mrNutritionFraction
+	 * @throws FoodNotFinalized 
 	 */
-	public float getNutritionAmount(int pnNutritionId) {
+	public float getNutritionAmount(int pnNutritionId) throws FoodNotFinalized {
 		return getNutritionAmount(new Integer(pnNutritionId));
 	}
 	
@@ -72,10 +75,18 @@ public class clsFood {
 	 * 
 	 * @param poNutritionId
 	 * @return mrAmount * mrNutritionFraction
+	 * @throws FoodNotFinalized 
 	 */
-	public float getNutritionAmount(Integer poNutritionId) {
-		normalizeFractions();
-		return mrAmount * moComposition.get(poNutritionId).floatValue();
+	public float getNutritionAmount(Integer poNutritionId) throws bw.exceptions.FoodNotFinalized {
+		if (!mnFinalized) {
+			throw new bw.exceptions.FoodNotFinalized();
+		}
+		
+		float rValue = moComposition.get(poNutritionId).floatValue();
+		float rTemp = mrAmount * rValue;
+		return rTemp;
+		
+//		return mrAmount * moComposition.get(poNutritionId).floatValue();
 	}
 	
 	/**
@@ -83,9 +94,13 @@ public class clsFood {
 	 * total weights of all nutritions within this type of food.
 	 *
 	 * @return the HashMap<Integer, clsMutableFloat>
+	 * @throws bw.exceptions.FoodNotFinalized
 	 */
-	public HashMap<Integer, clsMutableFloat> getNutritonAmounts() {
-		normalizeFractions();
+	public HashMap<Integer, clsMutableFloat> getNutritionAmounts() throws bw.exceptions.FoodNotFinalized {
+		if (!mnFinalized) {
+			throw new bw.exceptions.FoodNotFinalized();
+		}
+		
 		HashMap<Integer, clsMutableFloat> oComposition = new HashMap<Integer, clsMutableFloat>();
 		
 		Iterator<Integer> i =  moComposition.keySet().iterator();
@@ -103,34 +118,42 @@ public class clsFood {
 	 * of both pieces are added and afterwards normalized. The weights are simply added.
 	 *
 	 * @param poFood
+	 * @throws FoodNotFinalized 
+	 * @throws FoodAlreadyNormalized 
 	 */
-	public void addFood(clsFood poFood) {
-		HashMap<Integer, clsMutableFloat> moOther = poFood.getNutritonAmounts();
-		HashMap<Integer, clsMutableFloat> moThis = this.getNutritonAmounts();
+	public void addFood(clsFood poFood) throws FoodNotFinalized, FoodAlreadyNormalized {
+		float rAmount = this.getAmount() + poFood.getAmount();
 		
-		Iterator<Integer> i =  moOther.keySet().iterator();
+		HashMap<Integer, clsMutableFloat> oSetA = poFood.getNutritionAmounts();
+		HashMap<Integer, clsMutableFloat> oSetB = this.getNutritionAmounts();
+		
+		//look for each entry of setA if there is a matching entry in setB. if yes, add value of setB to setA
+		Iterator<Integer> i = oSetA.keySet().iterator();
 		while (i.hasNext()) {
-			Integer oKey = (Integer) i.next();
-			clsMutableFloat oOtherFraction = moOther.get(oKey);
-
-			clsMutableFloat oFraction = null;
+			Integer oKey = i.next();
+			clsMutableFloat oValue = oSetA.get(oKey);
 			
-			if (moThis.containsKey(oKey)) {
-				oFraction = moThis.get(oKey);
-			} else {
-				oFraction = new clsMutableFloat(0.0f);
+			if (oSetB.containsKey(oKey)) {
+				oValue.add( oSetB.get(oKey) );
 			}
-			
-			oFraction.add(oOtherFraction.floatValue());
-			
-			moThis.put(oKey, oFraction);
 		}
 		
-		moComposition = moThis;
-	
-		normalizeFractions();
+		//add all entries from setB which have not corresponding entry in setA to setA
+		Iterator<Integer> j = oSetB.keySet().iterator();
+		while (j.hasNext()) {
+			Integer oKey = j.next();
+			
+			if (!oSetA.containsKey(oKey)) {
+				clsMutableFloat oValue = oSetB.get(oKey);
+				oSetA.put(oKey, oValue);
+			}
+		}
 		
-		mrAmount += poFood.mrAmount;		
+		//reset this food
+		this.mnFinalized = false;
+		this.mrAmount = rAmount;
+		this.moComposition = new HashMap<Integer, clsMutableFloat>(oSetA);
+		this.finalize();
 	}
 	
 	/**
@@ -140,7 +163,7 @@ public class clsFood {
 	 * @param pnId
 	 * @param prFraction
 	 */
-	public void addNutritionFraction(int pnNurtritionId, float prFraction) {
+	public void addNutritionFraction(int pnNurtritionId, float prFraction) throws bw.exceptions.FoodAlreadyNormalized {
 		addNutritionFraction(new Integer(pnNurtritionId), new clsMutableFloat(prFraction));
 	}
 	
@@ -151,41 +174,46 @@ public class clsFood {
 	 * @param poId
 	 * @param poFraction
 	 */
-	public void addNutritionFraction(Integer poNutritionId, clsMutableFloat poFraction) {
+	public void addNutritionFraction(Integer poNutritionId, clsMutableFloat poFraction) throws bw.exceptions.FoodAlreadyNormalized {
+		if (mnFinalized) {
+			throw new bw.exceptions.FoodAlreadyNormalized();
+		}
+		
 		if (poFraction.floatValue() < 0.0f) {
 			poFraction.set(0.0f);
 		}
 		
-		mnDirtyFlag = true;
-		
 		moComposition.put(poNutritionId, poFraction);
-		
-		normalizeFractions();
 	}
 	
 	/**
 	 * Normalize all fractions to a total sum of 1.0f
 	 *
 	 */
-	private void normalizeFractions() {
-		if (mnDirtyFlag) {			
-			float rFractionSum = 0.0f;
-			Iterator<Integer> i =  moComposition.keySet().iterator();
-			
-			while (i.hasNext()) {
-				rFractionSum += moComposition.get(i.next()).floatValue();
-			}
-			
-			float rInvFSum = 1.0f/rFractionSum;
-			
-			i = moComposition.keySet().iterator();
-			while (i.hasNext()) {
-				clsMutableFloat oFraction = moComposition.get(i.next());
-				oFraction.mult(rInvFSum);
-			}
+	private void normalizeFractions() throws bw.exceptions.FoodAlreadyNormalized {
+		if (mnFinalized) {
+			throw new bw.exceptions.FoodAlreadyNormalized();
 		}
 		
-		mnDirtyFlag = false;
+		float rFractionSum = 0.0f;
+		Iterator<Integer> i =  moComposition.keySet().iterator();
+			
+		while (i.hasNext()) {
+			rFractionSum += moComposition.get(i.next()).floatValue();
+		}
+			
+		float rInvFSum = 1.0f/rFractionSum;
+			
+		i = moComposition.keySet().iterator();
+		while (i.hasNext()) {
+			clsMutableFloat oFraction = moComposition.get(i.next());
+			oFraction.mult(rInvFSum);
+		}
+	}
+	
+	public void finalize() throws bw.exceptions.FoodAlreadyNormalized {
+		normalizeFractions();
+		mnFinalized = true;
 	}
 
 }

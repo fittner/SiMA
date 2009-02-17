@@ -48,7 +48,7 @@ public class clsInternalEnergyConsumption implements itfStep {
 	 * @return moList clone
 	 */
 	public HashMap<Integer, clsMutableFloat> getList() {
-		return (HashMap<Integer, clsMutableFloat>) moList.clone();
+		return new HashMap<Integer, clsMutableFloat>(moList);
 	}
 	
 	/**

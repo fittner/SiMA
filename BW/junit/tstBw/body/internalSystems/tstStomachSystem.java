@@ -10,6 +10,8 @@ package tstBw.body.internalSystems;
 import static org.junit.Assert.*;
 
 import bw.body.internalSystems.clsStomachSystem;
+import bw.exceptions.NoSuchNutritionType;
+
 import org.junit.Test;
 
 /**
@@ -89,13 +91,22 @@ public class tstStomachSystem {
 		assertEquals(oSS.getNutritionLevel(2).getContent(), 0.0f, 0.000001f);
 		assertEquals(oSS.getNutritionLevel(3).getContent(), 0.0f, 0.000001f);
 		
-		oSS.addNutrition(2, 1.0f);
+		try {
+			oSS.addNutrition(2, 1.0f);
+		} catch (NoSuchNutritionType e) {
+			fail("NoSuchNutritionType");
+		}
 		
 		assertEquals(oSS.getNutritionLevel(1).getContent(), 0.0f, 0.000001f);
 		assertEquals(oSS.getNutritionLevel(2).getContent(), 1.0f, 0.000001f);
 		assertEquals(oSS.getNutritionLevel(3).getContent(), 0.0f, 0.000001f);
 		
-		oSS.addNutrition(4, 2.0f);
+		try {
+			oSS.addNutrition(4, 2.0f);
+			fail("NoSuchNutritionType exception not thrown");
+		} catch (NoSuchNutritionType e) {
+			//expected exception
+		}
 		
 		assertEquals(oSS.getNutritionLevel(1).getContent(), 0.0f, 0.000001f);
 		assertEquals(oSS.getNutritionLevel(2).getContent(), 1.0f, 0.000001f);
@@ -112,27 +123,45 @@ public class tstStomachSystem {
 		oSS.addNutritionType(2);
 		oSS.addNutritionType(3);
 		
-		oSS.addNutrition(1, 1.0f);
-		oSS.addNutrition(2, 1.0f);
-		oSS.addNutrition(3, 1.0f);
+		try {
+			oSS.addNutrition(1, 1.0f);
+			oSS.addNutrition(2, 1.0f);
+			oSS.addNutrition(3, 1.0f);			
+		} catch (NoSuchNutritionType e) {
+			fail("NoSuchNutritionType");
+		}
+
 			
 		assertEquals(oSS.getNutritionLevel(1).getContent(), 1.0f, 0.000001f);
 		assertEquals(oSS.getNutritionLevel(2).getContent(), 1.0f, 0.000001f);
 		assertEquals(oSS.getNutritionLevel(3).getContent(), 1.0f, 0.000001f);
 		
-		oSS.withdrawNutrition(2, 0.5f);
+		try {
+			oSS.withdrawNutrition(2, 0.5f);
+		} catch (NoSuchNutritionType e) {
+			fail("NoSuchNutritionType");
+		}
 		
 		assertEquals(oSS.getNutritionLevel(1).getContent(), 1.0f, 0.000001f);
 		assertEquals(oSS.getNutritionLevel(2).getContent(), 0.5f, 0.000001f);
 		assertEquals(oSS.getNutritionLevel(3).getContent(), 1.0f, 0.000001f);
 
-		oSS.withdrawNutrition(4, 0.25f);
+		try {
+			oSS.withdrawNutrition(4, 0.25f);
+			fail("NoSuchNutritionType");			
+		} catch (NoSuchNutritionType e) {
+			//expected exception
+		}
 		
 		assertEquals(oSS.getNutritionLevel(1).getContent(), 1.0f, 0.000001f);
 		assertEquals(oSS.getNutritionLevel(2).getContent(), 0.5f, 0.000001f);
 		assertEquals(oSS.getNutritionLevel(3).getContent(), 1.0f, 0.000001f);
 		
-		oSS.withdrawNutrition(1, 1.5f);
+		try {
+			oSS.withdrawNutrition(1, 1.5f);
+		} catch (NoSuchNutritionType e) {
+			fail("NoSuchNutritionType");
+		}
 		
 		assertEquals(oSS.getNutritionLevel(1).getContent(), 0.0f, 0.000001f);
 		assertEquals(oSS.getNutritionLevel(2).getContent(), 0.5f, 0.000001f);
@@ -155,7 +184,11 @@ public class tstStomachSystem {
 		assertEquals(oSS.getNutritionLevel(2).getContent(), 1.0f, 0.000001f);
 		assertEquals(oSS.getNutritionLevel(3).getContent(), 1.0f, 0.000001f);
 		
-		oSS.withdrawNutrition(2, 0.5f);
+		try {
+			oSS.withdrawNutrition(2, 0.5f);
+		} catch (NoSuchNutritionType e) {
+			fail("NoSuchNutritionType");
+		}
 		oSS.addEnergy(0.6f);
 
 		assertEquals(oSS.getNutritionLevel(1).getContent(), 1.2f, 0.000001f);
@@ -174,9 +207,14 @@ public class tstStomachSystem {
 		oSS.addNutritionType(2);
 		oSS.addNutritionType(3);
 		
-		oSS.addNutrition(1, 1.0f);
-		oSS.addNutrition(2, 1.0f);
-		oSS.addNutrition(3, 1.0f);
+		try {
+			oSS.addNutrition(1, 1.0f);
+			oSS.addNutrition(2, 1.0f);
+			oSS.addNutrition(3, 1.0f);			
+		} catch (NoSuchNutritionType e) {
+			fail("NoSuchNutritionType");
+		}
+
 			
 		assertEquals(oSS.getNutritionLevel(1).getContent(), 1.0f, 0.000001f);
 		assertEquals(oSS.getNutritionLevel(2).getContent(), 1.0f, 0.000001f);
@@ -188,7 +226,11 @@ public class tstStomachSystem {
 		assertEquals(oSS.getNutritionLevel(2).getContent(), 0.8f, 0.000001f);
 		assertEquals(oSS.getNutritionLevel(3).getContent(), 0.8f, 0.000001f);
 		
-		oSS.addNutrition(2, 0.2f);
+		try {
+			oSS.addNutrition(2, 0.2f);
+		} catch (NoSuchNutritionType e) {
+			fail("NoSuchNutritionType");
+		}
 		oSS.withdrawEnergy(0.3f);
 		
 		assertEquals(oSS.getNutritionLevel(1).getContent(), 0.7f, 0.000001f);
@@ -218,7 +260,11 @@ public class tstStomachSystem {
 		assertEquals(oSS.getNutritionLevel(2).getContent(), 0.9f, 0.000001f);
 		assertEquals(oSS.getNutritionLevel(3).getContent(), 0.9f, 0.000001f);
 
-		oSS.addNutrition(2, 0.1f);
+		try {
+			oSS.addNutrition(2, 0.1f);
+		} catch (NoSuchNutritionType e) {
+			fail("NoSuchNutritionType");
+		}
 		
 		oSS.step();
 		oSS.step();

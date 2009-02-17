@@ -10,6 +10,7 @@ package bw.body.internalSystems;
 import java.util.Random;
 
 import bw.body.itfStep;
+import bw.exceptions.NoSuchNutritionType;
 
 /**
  * TODO (deutsch) - insert description 
@@ -144,7 +145,17 @@ public class clsInternalSystem implements itfStep {
 		
 		for (int i=0; i<10; i++) {
 			if (rand.nextInt(100)>95) {
-				moStomachSystem.addNutrition(i, rand.nextFloat() * 0.1f );
+				try {
+					moStomachSystem.addNutrition(i, rand.nextFloat() * 0.1f );
+				} catch (NoSuchNutritionType e) {
+					moStomachSystem.addNutritionType(i);
+					try {
+						moStomachSystem.addNutrition(i, rand.nextFloat() * 0.1f );
+					} catch (NoSuchNutritionType e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
+				}
 			}
 		}
 	}

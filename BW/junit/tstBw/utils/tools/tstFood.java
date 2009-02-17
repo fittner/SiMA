@@ -11,10 +11,11 @@ import static org.junit.Assert.*;
 
 import java.util.HashMap;
 
-import org.junit.Test;
-
+import bw.exceptions.FoodAlreadyNormalized;
+import bw.exceptions.FoodNotFinalized;
 import bw.utils.datatypes.clsMutableFloat;
 import bw.utils.tools.clsFood;
+import org.junit.Test;
 
 /**
  * TODO (deutsch) - insert description 
@@ -25,11 +26,66 @@ import bw.utils.tools.clsFood;
 public class tstFood {
 
 	/**
+	 * Test method for {@link bw.utils.tools.clsFood#finalize()}.
+	 */
+	@Test
+	public void testFinalize() {
+		clsFood oFood = null;
+		
+		oFood = new clsFood();
+		
+		try {
+			@SuppressWarnings("unused")
+			float rTemp = oFood.getNutritionAmount(1);
+			fail("Food not finalised, but exception FoodNotFinalized not thrown.");
+		} catch (FoodNotFinalized e1) {
+			//thrown exception expected 
+		}
+		
+		try {
+			oFood.addNutritionFraction(1, 1.0f);
+		} catch (FoodAlreadyNormalized e) {
+			fail("FoodAlreadyNormalized");
+		}
+		
+		try {
+			@SuppressWarnings("unused")
+			float rTemp = oFood.getNutritionAmount(1);
+			fail("Food not finalised, but exception FoodNotFinalized not thrown.");
+		} catch (FoodNotFinalized e1) {
+			//thrown exception expected 
+		}
+		
+		try {
+			oFood.finalize();
+		} catch (FoodAlreadyNormalized e) {
+			fail("Food not finalised, but exception FoodAlreadyNormalized is thrown.");
+		}
+		
+		try {
+			@SuppressWarnings("unused")
+			float rTemp = oFood.getNutritionAmount(1);
+		} catch (FoodNotFinalized e1) {
+			fail("Food finalised, but exception FoodNotFinalized still thrown.");
+		}		
+		
+		try {
+			oFood.finalize();
+			fail("Food finalised, but exception FoodAlreadyNormalized is not thrown.");
+		} catch (FoodAlreadyNormalized e) {
+			//thrown exception expected 
+		}
+		
+	}
+
+	/**
 	 * Test method for {@link bw.utils.tools.clsFood#clsFood()}.
 	 */
 	@Test
 	public void testClsFood() {
-		clsFood oFood = new clsFood();
+		clsFood oFood = null;
+		
+		oFood = new clsFood();
 		
 		assertNotNull(oFood);
 	}
@@ -39,29 +95,12 @@ public class tstFood {
 	 */
 	@Test
 	public void testSetAmount() {
-		clsFood oFood = new clsFood();
-		assertEquals(oFood.getAmount(), 0.0f, 0.00001f);
-		oFood.setAmount(1.0f);
-		assertEquals(oFood.getAmount(), 1.0f, 0.00001f);
-		oFood.setAmount(2.0f);
-		assertEquals(oFood.getAmount(), 2.0f, 0.00001f);
+		clsFood oFood = null;
 		
-		oFood.addNutritionFraction(1, 2.0f);
-		oFood.addNutritionFraction(2, 1.0f);
-		oFood.setAmount(3.0f);				
-		assertEquals(oFood.getNutritionAmount(1), 2.0f, 0.000001f);
-		oFood.setAmount(6.0f);		
-		assertEquals(oFood.getNutritionAmount(1), 4.0f, 0.000001f);
-		
-	}
-
-	/**
-	 * Test method for {@link bw.utils.tools.clsFood#getAmount()}.
-	 */
-	@Test
-	public void testGetAmount() {
-		clsFood oFood = new clsFood();
+		oFood = new clsFood();
 		assertEquals(oFood.getAmount(), 0.0f, 0.00001f);
+		oFood.setAmount(2.5f);
+		assertEquals(oFood.getAmount(), 2.5f, 0.00001f);
 	}
 
 	/**
@@ -69,11 +108,28 @@ public class tstFood {
 	 */
 	@Test
 	public void testGetNutritionAmountInt() {
-		clsFood oFood = new clsFood();
-		oFood.setAmount(1.5f);
-		oFood.addNutritionFraction(1, 2.0f);
-		oFood.addNutritionFraction(2, 1.0f);
-		assertEquals(oFood.getNutritionAmount(1), 1.0f, 0.000001f);
+		clsFood oFood = null;
+		
+		oFood = new clsFood();
+		oFood.setAmount(1.0f);
+
+		try {
+			oFood.addNutritionFraction(1, 1.0f);
+			oFood.addNutritionFraction(2, 2.0f);
+		} catch (FoodAlreadyNormalized e) {
+		}
+		
+		try {
+			oFood.finalize();
+		} catch (FoodAlreadyNormalized e) {
+		}
+		
+		try {
+			assertEquals(oFood.getNutritionAmount(1), 0.3333f, 0.01f);
+			assertEquals(oFood.getNutritionAmount(2), 0.6666f, 0.01f);
+		} catch (FoodNotFinalized e) {
+			// TODO Auto-generated catch block
+		}
 	}
 
 	/**
@@ -81,28 +137,64 @@ public class tstFood {
 	 */
 	@Test
 	public void testGetNutritionAmountInteger() {
-		clsFood oFood = new clsFood();
-		oFood.setAmount(1.5f);
-		oFood.addNutritionFraction(new Integer(1), new Float(2.0f));
-		oFood.addNutritionFraction(new Integer(2), new Float(1.0f));
-		assertEquals(oFood.getNutritionAmount(new Integer(1)), 1.0f, 0.000001f);
+		clsFood oFood = null;
+		
+		oFood = new clsFood();
+		oFood.setAmount(1.0f);
+
+		try {
+			oFood.addNutritionFraction(new Integer(1), 1.0f);
+			oFood.addNutritionFraction(new Integer(2), 2.0f);
+		} catch (FoodAlreadyNormalized e) {
+		}
+		
+		try {
+			oFood.finalize();
+		} catch (FoodAlreadyNormalized e) {
+		}
+		
+		try {
+			assertEquals(oFood.getNutritionAmount(new Integer(1)), 0.3333f, 0.01f);
+			assertEquals(oFood.getNutritionAmount(new Integer(2)), 0.6666f, 0.01f);
+		} catch (FoodNotFinalized e) {
+			// TODO Auto-generated catch block
+		}
 	}
 
 	/**
-	 * Test method for {@link bw.utils.tools.clsFood#getNutritonAmounts()}.
+	 * Test method for {@link bw.utils.tools.clsFood#getNutritionAmounts()}.
 	 */
 	@Test
-	public void testGetNutritonAmounts() {
-		clsFood oFood = new clsFood();
-		oFood.setAmount(1.0f);
-		oFood.addNutritionFraction(1, 2.0f);
-		oFood.addNutritionFraction(2, 1.5f);		
-		oFood.addNutritionFraction(3, 1.0f);		
-		oFood.addNutritionFraction(4, 0.5f);
+	public void testGetNutritionAmounts() {
+		clsFood oFood = null;
 		
-		HashMap<Integer, clsMutableFloat> oTemp = oFood.getNutritonAmounts();
-		assertNotNull(oTemp);
-		assertEquals(oTemp.get(new Integer(2)).floatValue(), 0.3f, 0.000001f);
+		oFood = new clsFood();
+		oFood.setAmount(1.0f);
+
+		try {
+			oFood.addNutritionFraction(new Integer(1), 1.0f);
+			oFood.addNutritionFraction(new Integer(2), 2.0f);
+		} catch (FoodAlreadyNormalized e) {
+		}
+		
+		try {
+			oFood.finalize();
+		} catch (FoodAlreadyNormalized e) {
+		}
+		
+		HashMap<java.lang.Integer,clsMutableFloat> oMap = null;
+		
+		try {
+			oMap = oFood.getNutritionAmounts();
+		} catch (FoodNotFinalized e) {
+			fail("Food not finalised");
+		}
+		
+		assertTrue(oMap.containsKey(new Integer(1)));
+		assertTrue(oMap.containsKey(new Integer(2)));
+		assertFalse(oMap.containsKey(new Integer(0)));
+		assertEquals(oMap.size(), 2);
+		
 	}
 
 	/**
@@ -110,52 +202,65 @@ public class tstFood {
 	 */
 	@Test
 	public void testAddFood() {
-		clsFood oFood = new clsFood();
+		clsFood oFood = null;
+		
+		oFood = new clsFood();
 		oFood.setAmount(1.0f);
-		oFood.addNutritionFraction(1, 2.0f);
-		oFood.addNutritionFraction(2, 1.5f);		
-		oFood.addNutritionFraction(3, 1.0f);		
-		oFood.addNutritionFraction(4, 0.5f);	
+
+		try {
+			oFood.addNutritionFraction(new Integer(1), 1.0f);
+			oFood.addNutritionFraction(new Integer(2), 2.0f);
+		} catch (FoodAlreadyNormalized e) {
+			fail("FoodAlreadyNormalized");
+		}
 		
-		clsFood oFood2 = new clsFood();
-		oFood2.setAmount(2.0f);
-		oFood2.addNutritionFraction(1, 1.0f);
-		oFood2.addNutritionFraction(5, 1.0f);
+		try {
+			oFood.finalize();
+			assertEquals(oFood.getNutritionAmount(1), 0.33f, 0.01f);		
+			assertEquals(oFood.getNutritionAmount(2), 0.66f, 0.01f);	
+		} catch (FoodAlreadyNormalized e) {
+			fail("FoodAlreadyNormalized");
+		} catch (FoodNotFinalized e) {
+			fail("FoodNotFinalized");			
+		}
 		
-		oFood.addFood(oFood2);
-		assertEquals(oFood.getAmount(), 3.0f);
-		assertEquals(oFood.getNutritionAmount(1), 4.0f, 0.000001f);
-		assertEquals(oFood.getNutritionAmount(2), 1.5f, 0.000001f);
-		assertEquals(oFood.getNutritionAmount(3), 1.0f, 0.000001f);
-		assertEquals(oFood.getNutritionAmount(4), 0.5f, 0.000001f);
-		assertEquals(oFood.getNutritionAmount(5), 2.0f, 0.000001f);
+		clsFood oFood2 = null;
+		
+		oFood2 = new clsFood();
+		oFood2.setAmount(1.5f);
+
+		try {
+			oFood2.addNutritionFraction(new Integer(2), 2.0f);
+			oFood2.addNutritionFraction(new Integer(3), 1.0f);
+			oFood2.finalize();			
+			assertEquals(oFood2.getNutritionAmount(2), 1.0f, 0.01f);		
+			assertEquals(oFood2.getNutritionAmount(3), 0.5f, 0.01f);				
+		} catch (FoodAlreadyNormalized e) {
+			fail("FoodAlreadyNormalized");
+		} catch (FoodNotFinalized e) {
+			fail("FoodNotFinalized");			
+		}
+		
+		try {
+			oFood.addFood(oFood2);
+		} catch (FoodNotFinalized e) {
+			fail("FoodNotFinalized");
+		} catch (FoodAlreadyNormalized e) {
+			fail("FoodAlreadyNormalized");			
+		}
+		
+		try {
+			assertEquals(oFood.getAmount(), 2.5f, 0.00001f);
+			assertEquals(oFood.getNutritionAmount(1), 0.3333f, 0.01f);		
+			assertEquals(oFood.getNutritionAmount(2), 1.6666f, 0.01f);		
+			assertEquals(oFood.getNutritionAmount(3), 0.5f, 0.000001f);
+			
+			
+		} catch (FoodNotFinalized e) {
+			fail("FoodNotFinalized");
+		}
 	}
 
-	/**
-	 * Test method for {@link bw.utils.tools.clsFood#addNutritionFraction(int, float)}.
-	 */
-	@Test
-	public void testAddNutritionFractionIntFloat() {
-		clsFood oFood = new clsFood();
-		oFood.setAmount(1.0f);
-		oFood.addNutritionFraction(1, 2.0f);
-		oFood.addNutritionFraction(2, 1.5f);		
-		oFood.addNutritionFraction(3, 1.0f);		
-		oFood.addNutritionFraction(4, 0.5f);		
-		assertEquals(oFood.getNutritionAmount(2), 0.3f, 0.000001f);
-		oFood.addNutritionFraction(2, 0.5f);		
-		assertEquals(oFood.getNutritionAmount(2), 0.125f, 0.000001f);
-		
-	}
 
-	/**
-	 * Test method for {@link bw.utils.tools.clsFood#addNutritionFraction(java.lang.Integer, bw.utils.datatypes.clsMutableFloat)}.
-	 */
-	@Test
-	public void testAddNutritionFractionIntegerClsMutableFloat() {
-		clsFood oFood = new clsFood();
-		oFood.addNutritionFraction(new Integer(1), new clsMutableFloat(1.10f));
-		assertEquals(oFood.getNutritionAmount(1), 1.10f, 0.000001f);
-	}
 
 }
