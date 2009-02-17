@@ -3,12 +3,14 @@ package test;
 public class PrimativeCast {
 
     private int loopCount =  java.lang.Integer.MAX_VALUE / 2;
-    private int testCount = 10;
+    private int testCount = 1;
     
     long ci = 0;
     long cs = 0;
     long cis = 0;
     long csi = 0;
+    long cfd = 0;
+    long cdf = 0;
 
     long ab = 0;
     long as = 0;
@@ -44,6 +46,8 @@ public class PrimativeCast {
             cs += shortControl();
             cis += castIntToShort();
             csi += castShortToInt();
+            cfd += castFloatToDouble();
+            cdf += castDoubleToFloat();
             
             ab += addBytes();
             as += addShorts();
@@ -73,11 +77,14 @@ public class PrimativeCast {
         cs /= testCount;
         cis /= testCount;
         csi /= testCount;
+        cdf /= testCount;
+        cfd /= testCount;
         
         System.out.println("int to int (control): " + ci);
         System.out.println("short to short (control): " + cs);
         System.out.println("int to short (simple cast): " + cis);
-        System.out.println("short to int (simple automatic cast): " + csi);
+        System.out.println("float to double (simple automatic cast): " + cfd);
+        System.out.println("double to float (simple cast): " + cdf);
         
         System.out.println( "--------------------------------" );
         
@@ -192,7 +199,37 @@ public class PrimativeCast {
        
         return duration;
     }
+    
+    private int castFloatToDouble() {
+        float testInt = 0;
+       
+        long start = System.currentTimeMillis();
+        for (int i = 0, n = loopCount; i < n; i++) {
+            double result = testInt;
+            testInt++;
+            result++;
+        }
+        long end = System.currentTimeMillis();
+        int duration = (int)(end - start);
+       
+        return duration;
+    }    
    
+    private int castDoubleToFloat() {
+    	double testInt = 0;
+       
+        long start = System.currentTimeMillis();
+        for (int i = 0, n = loopCount; i < n; i++) {
+        	float result = (float)testInt;
+            testInt++;
+            result++;
+        }
+        long end = System.currentTimeMillis();
+        int duration = (int)(end - start);
+       
+        return duration;
+    } 
+    
     private int addBytes() {
         byte test = 0;
        
