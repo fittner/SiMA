@@ -12,6 +12,7 @@ import static org.junit.Assert.*;
 import java.util.HashMap;
 
 import bw.exceptions.FoodAlreadyNormalized;
+import bw.exceptions.FoodAmountBelowZero;
 import bw.exceptions.FoodNotFinalized;
 import bw.utils.datatypes.clsMutableFloat;
 import bw.utils.tools.clsFood;
@@ -99,7 +100,12 @@ public class tstFood {
 		
 		oFood = new clsFood();
 		assertEquals(oFood.getAmount(), 0.0f, 0.00001f);
-		oFood.setAmount(2.5f);
+		try {
+			oFood.setAmount(2.5f);
+		} catch (FoodAmountBelowZero e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		assertEquals(oFood.getAmount(), 2.5f, 0.00001f);
 	}
 
@@ -111,7 +117,12 @@ public class tstFood {
 		clsFood oFood = null;
 		
 		oFood = new clsFood();
-		oFood.setAmount(1.0f);
+		try {
+			oFood.setAmount(1.0f);
+		} catch (FoodAmountBelowZero e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
 
 		try {
 			oFood.addNutritionFraction(1, 1.0f);
@@ -140,7 +151,12 @@ public class tstFood {
 		clsFood oFood = null;
 		
 		oFood = new clsFood();
-		oFood.setAmount(1.0f);
+		try {
+			oFood.setAmount(1.0f);
+		} catch (FoodAmountBelowZero e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
 
 		try {
 			oFood.addNutritionFraction(new Integer(1), 1.0f);
@@ -169,7 +185,12 @@ public class tstFood {
 		clsFood oFood = null;
 		
 		oFood = new clsFood();
-		oFood.setAmount(1.0f);
+		try {
+			oFood.setAmount(1.0f);
+		} catch (FoodAmountBelowZero e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
 
 		try {
 			oFood.addNutritionFraction(new Integer(1), 1.0f);
@@ -205,7 +226,12 @@ public class tstFood {
 		clsFood oFood = null;
 		
 		oFood = new clsFood();
-		oFood.setAmount(1.0f);
+		try {
+			oFood.setAmount(1.0f);
+		} catch (FoodAmountBelowZero e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
 
 		try {
 			oFood.addNutritionFraction(new Integer(1), 1.0f);
@@ -227,7 +253,12 @@ public class tstFood {
 		clsFood oFood2 = null;
 		
 		oFood2 = new clsFood();
-		oFood2.setAmount(1.5f);
+		try {
+			oFood2.setAmount(1.5f);
+		} catch (FoodAmountBelowZero e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
 
 		try {
 			oFood2.addNutritionFraction(new Integer(2), 2.0f);
