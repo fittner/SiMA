@@ -12,7 +12,7 @@ import org.jfree.chart.JFreeChart;
 import org.jfree.data.xy.XYSeries;
 import org.jfree.data.xy.XYSeriesCollection;
 import bw.sim.bwgenerator.clsAgentLoader;
-import bw.sim.bwgenerator.clsObjectLoader;
+import bw.sim.bwgenerator.clsEntityLoader;
 import bw.sim.bwgenerator.clsWorldBoundaries;
 import ec.util.*;
 import sim.physics2D.*;
@@ -104,9 +104,9 @@ public class clsBWMain extends SimState{
 		//add walls
 		clsWorldBoundaries.loadWorldBoundaries(moGameGridField, objPE, this);
 		//add inimate objects
-		clsObjectLoader.loadInanimate(moGameGridField, objPE, this);
+		clsEntityLoader.loadInanimate(moGameGridField, objPE, this);
 		//add animate
-		clsObjectLoader.loadAnimate(moGameGridField, objPE, this);
+		clsEntityLoader.loadAnimate(moGameGridField, objPE, this);
 		
 		clsAgentLoader.loadAgents(moGameGridField, objPE, this, mnXMin, mnXMax, mnYMin, mnYMax);
 	}

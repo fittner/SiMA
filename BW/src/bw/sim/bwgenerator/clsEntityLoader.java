@@ -20,7 +20,7 @@ import sim.physics2D.util.Double2D;
  * @author muchitsch
  * 
  */
-public class clsObjectLoader {
+public class clsEntityLoader {
 	
 	public static void loadInanimate(Continuous2D poFieldEnvironment, PhysicsEngine2D poObjPE, SimState poSimState){
 		Double2D moPos;
@@ -31,26 +31,6 @@ public class clsObjectLoader {
 //        clsInvisibleWallPhysics wall1 = new clsInvisibleWallPhysics(moPos, 20, 20);
 //        //poFieldEnvironment.setObjectLocation(wall1, new sim.util.Double2D(pos.x, pos.y));
 //        poObjPE.register(wall1);	
-//        
-//        moPos = new Double2D(155,50);
-//        stone = new clsStone( 1 , new sim.util.Double2D(moPos.x, moPos.y), poFieldEnvironment);
-//        wall1 = new clsInvisibleWallPhysics(moPos, 10, 10);
-//        poObjPE.register(wall1);
-//        
-//        moPos = new Double2D(95,60);
-//        stone = new clsStone( 1 , new sim.util.Double2D(moPos.x, moPos.y), poFieldEnvironment);
-//        wall1 = new clsInvisibleWallPhysics(moPos, 10, 10);
-//        poObjPE.register(wall1);
-//        
-//        moPos = new Double2D(185,180);
-//        stone = new clsStone( 1 , new sim.util.Double2D(moPos.x, moPos.y), poFieldEnvironment);
-//        wall1 = new clsInvisibleWallPhysics(moPos, 10, 10);
-//        poObjPE.register(wall1);
-//        
-//        moPos = new Double2D(32,170);
-//        stone = new clsStone( 4 , new sim.util.Double2D(moPos.x, moPos.y), poFieldEnvironment);
-//        wall1 = new clsInvisibleWallPhysics(moPos, 50, 30);
-//        poObjPE.register(wall1);
         
         //stones v2.0
       moPos = new Double2D(50,50);
@@ -58,7 +38,6 @@ public class clsObjectLoader {
       poFieldEnvironment.setObjectLocation(pstone, new sim.util.Double2D(moPos.x, moPos.y));
       poObjPE.register(pstone);
       poSimState.schedule.scheduleRepeating(pstone);
-
 	}
 	
 	
