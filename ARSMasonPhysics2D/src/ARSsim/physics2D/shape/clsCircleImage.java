@@ -16,13 +16,13 @@ import javax.imageio.ImageIO;
  * @author muchitsch
  *  
  */
-public class CircleImage extends Circle
+public class clsCircleImage extends Circle
     {
     
 	double mrRadius; 
 	BufferedImage moImage = null;
 		
-	public CircleImage(double prRadius, Paint poPaint )
+	public clsCircleImage(double prRadius, Paint poPaint )
     {
 		super(prRadius, poPaint);
 		this.mrRadius = prRadius; 
