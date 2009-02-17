@@ -53,7 +53,23 @@ class Collision2D
                 
         return collidingList;
         }
-        
+    
+    /** ARS_EXTENSION Loop through the ActiveList and perform exact collision detection on the
+     * object pairs. If collisions are found, add collision responses.
+     */
+    Bag getContact(HashSet activeList)
+    {
+    	Bag oB = new Bag(); 
+    	
+    	Iterator activeItr = activeList.iterator();
+        while(activeItr.hasNext())
+            {
+            CollisionPair pair = (CollisionPair)activeItr.next();
+            if (!pair.noCollision && !constraintEngine.testNoCollisions(pair.c1, pair.c2))
+                oB.add(pair);  
+            }
+        return oB;    	
+    }
     ////////////////////////////////////////////////////
     // NARROW PHASE TESTING
     ////////////////////////////////////////////////////

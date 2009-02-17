@@ -25,6 +25,12 @@ public class CollisionDetectionEngine
         objBPCollision.testCollisions();
         return objCollision.testCollisions(objBPCollision.getActiveList());
         }
+    /**ARS_Extension Returns a list of the pairs of objects currently colliding.
+     */
+    public Bag getContacts()
+    {
+       return objCollision.getContact(objBPCollision.getActiveList());
+    }
         
     /** Registers an object with the collision detection engine.
      */
