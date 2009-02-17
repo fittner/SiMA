@@ -28,13 +28,11 @@ public class clsSensorVision extends clsSensorExt
 	private clsBot moRobot;
 	private clsBotVision moVisionArea;
 	private Bag meCollidingObj;
-	private Bag mePerceiveObj;
-	
+		
 	public clsSensorVision(Double2D poPos, Double2D poVel, PhysicsEngine2D poPE, clsBot poRobot)
 	{
 		meCollidingObj = new Bag();
-		mePerceiveObj = new Bag();
-		
+				
 		moPos = poPos; 
 		moVel = poVel;
 		moRobot = poRobot; 
