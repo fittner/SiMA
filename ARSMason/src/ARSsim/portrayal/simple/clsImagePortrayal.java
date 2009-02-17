@@ -22,16 +22,14 @@ import sim.util.Double2D;
 
 
 /**
- * TODO (muchitsch) - insert description 
- * 
+ * A special Version of the Mason ImgagePortrayal class, that can load a image 
+ * file from a filepath. for more Information see Masons sim.portrayal.simple.ImagePortrayal2D
+ * no physics here! just imgae display
  * @author muchitsch
  * 
  */
 public class clsImagePortrayal extends ImagePortrayal2D{
 
-//	double mnScale = 0;
-//	Double2D moPosImage = null;
-//	String msImagePath = null;
 	
 	/**
 	 * @param image
@@ -44,16 +42,18 @@ public class clsImagePortrayal extends ImagePortrayal2D{
 	
 	
 	/**
-	 * TODO (muchitsch) - insert description
+	 * Use this function to place a image on the environment.
+	 * for more Information see Masons sim.portrayal.simple.ImagePortrayal2D
+	 * !catches image loading exceptions, and displays them in console!
 	 *
-	 * @param psImagePath
+	 * @param psImagePath full absolute filepath
 	 * @param pnScale
 	 * @param poPosImage
 	 * @param poFieldEnvironment
 	 */
-	public void PlaceImage(String  psImagePath, double pnScale, Double2D poPosImage, Continuous2D poFieldEnvironment){
+	public static void PlaceImage(String  psImagePath, double pnScale, Double2D poPosImage, Continuous2D poFieldEnvironment){
 		
-		//TODO Clemens loar rel path!
+		//TODO Clemens load rel path?
 		//URL url = getClass().getClassLoader().getResource("/../resources/images/rock1.jpg");
 
 		
@@ -72,11 +72,6 @@ public class clsImagePortrayal extends ImagePortrayal2D{
 		sim.portrayal.simple.ImagePortrayal2D oImagePort = new sim.portrayal.simple.ImagePortrayal2D(oImage, pnScale);
 
 		poFieldEnvironment.setObjectLocation(oImagePort, new sim.util.Double2D(poPosImage.x, poPosImage.y));
-		
 	}
-
-	
-	
-	
 
 }

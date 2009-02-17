@@ -1,5 +1,5 @@
 /**
- * @author langr
+ * @author muchitsch
  * 
  * $Rev::                      $: Revision of last commit
  * $Author::                   $: Author of last commit
@@ -19,15 +19,15 @@ import sim.physics2D.util.Double2D;
 /**
  * Mason representative (physics+renderOnScreen) for a stone.  
  * 
- * @author langr
+ * @author muchitsch
  * 
  */
-public class clsStonePhysics extends sim.physics2D.physicalObject.MobileObject2D implements Steppable{
+public class clsStone extends sim.physics2D.physicalObject.MobileObject2D implements Steppable{
 
 	public boolean visible;
 	
 	
-	public clsStonePhysics(Double2D poPos, double pnRadius, double pnMass)
+	public clsStone(Double2D poPos, double pnRadius, double pnMass)
     {
 		this.setPose(poPos, new Angle(0));
         this.setVelocity( new Double2D() );
@@ -36,10 +36,10 @@ public class clsStonePhysics extends sim.physics2D.physicalObject.MobileObject2D
         this.setCoefficientOfRestitution(1);
         visible = true;
 
-	    this.setShape(new sim.physics2D.shape.Circle(pnRadius, Color.darkGray), pnMass);
+	    //this.setShape(new sim.physics2D.shape.Circle(pnRadius, Color.darkGray), pnMass);
 	    
 	    //show a image? getting very slow! but maybe we need it sometimes
-	    //this.setShape(new ARSsim.physics2D.shape.CircleImage(pnRadius, Color.darkGray), pnMass);
+	    this.setShape(new ARSsim.physics2D.shape.CircleImage(pnRadius, Color.darkGray), pnMass);
     } 
 	
 	 public void step(SimState state)

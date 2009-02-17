@@ -29,6 +29,11 @@ public class clsEntity extends ARSsim.robot2D.clsRobot implements Steppable {
 	 */
 	private static final long serialVersionUID = 2640414297770154233L;
 	
+	private boolean useSimplePortrayal = true;
+	
+
+
+
 	@SuppressWarnings("unused")
 	private sim.physics2D.physicalObject.PhysicalObject2D moSimulatorEntity = null;
 	

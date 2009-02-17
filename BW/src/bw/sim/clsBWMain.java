@@ -12,6 +12,7 @@ import org.jfree.chart.JFreeChart;
 import org.jfree.data.xy.XYSeries;
 import org.jfree.data.xy.XYSeriesCollection;
 import bw.sim.bwgenerator.clsAgentLoader;
+import bw.sim.bwgenerator.clsObjectLoader;
 import bw.sim.bwgenerator.clsWorldBoundaries;
 import ec.util.*;
 import sim.physics2D.*;
@@ -30,8 +31,6 @@ public class clsBWMain extends SimState{
 	/** activates/shows the charting panel
 	 * TODO clemens: deactivated for now, has to set by config.xml later! */
 	public boolean mbChartDisplay = false; 
-	
-
 	public JFreeChart  moTestChart;
 	public XYSeries moTestSeries = new XYSeries("Agents"); //TODO clemens name passt nicht, muss erst schauen wofür das genau ist!
 	public XYSeriesCollection moAgents_series_coll = new XYSeriesCollection(moTestSeries); //TODO clemens
@@ -48,18 +47,18 @@ public class clsBWMain extends SimState{
     public double mnYMin = 0;
     public double mnYMax = 100;
     
-    /**activates/shows the charting panel
+    /**activates/shows the charting panel, default is false
 	 * @return the mbChartDisplay */
 	public boolean getmbChartDisplay() {
 		return mbChartDisplay;
 	}
     
-    //CTOR
+
 	public clsBWMain(long pnSeed){
 		this(pnSeed, 200, 200);
 	}
 	
-	//CTOR
+
     public clsBWMain(long pnSeed, int pnWidth, int pnHeight) {
     	super(new MersenneTwisterFast(pnSeed), new Schedule());
 	    mnXMax = pnWidth; 
@@ -85,19 +84,34 @@ public class clsBWMain extends SimState{
 		PhysicsEngine2D objPE = new PhysicsEngine2D();
 		
 		//creating and registring objects...
-		
-		//add world and agents
-		clsWorldBoundaries.loadWorldBoundaries(moGameGridField, objPE, this);
-		clsAgentLoader.loadAgents(moGameGridField, objPE, this, mnXMin, mnXMax, mnYMin, mnYMax);
+		loadObjects(objPE);
 		
 		//clear the charts
 		moTestSeries.clear(); //TODO Clemens for charting
-		
 		//TODO clemens: add charts/statistics to schedule here
 		
 		//schedules a steppable to be repeatedly stepped, forever, once per unit timestep
 		schedule.scheduleRepeating(objPE);
 	}
+
+	/**
+	 * Method for loading all objects into the mason world.
+	 * could be extended to a xml loading?
+	 *
+	 * @param objPE
+	 */
+	private void loadObjects(PhysicsEngine2D objPE) {
+		//add walls
+		clsWorldBoundaries.loadWorldBoundaries(moGameGridField, objPE, this);
+		//add inimate objects
+		clsObjectLoader.loadInanimate(moGameGridField, objPE, this);
+		//add animate
+		clsObjectLoader.loadAnimate(moGameGridField, objPE, this);
+		
+		clsAgentLoader.loadAgents(moGameGridField, objPE, this, mnXMin, mnXMax, mnYMin, mnYMax);
+	}
+	
+	
 	
 	/**
 	 * The one and only Main

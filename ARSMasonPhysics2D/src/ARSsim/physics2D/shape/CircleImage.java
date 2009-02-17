@@ -11,53 +11,56 @@ import java.io.IOException;
 import javax.imageio.ImageIO;
 
 /**
+ * Extension of the Physics Engine circle, showing a image instead
+ * 
  * @author muchitsch
- *  IMPORTANT: DO NOT USE THIS CLASS! major performance issue! TODO Clemens: rewrite!
+ *  
  */
 public class CircleImage extends Circle
     {
     
-	double radius; 
+	double mrRadius; 
+	BufferedImage moImage = null;
 		
-	public CircleImage(double radius, Paint paint)
+	public CircleImage(double prRadius, Paint poPaint )
     {
-		super(radius, paint);
-		this.radius = radius; 
-		//this.paint = paint;
+		super(prRadius, poPaint);
+		this.mrRadius = prRadius; 
+
+		
+        String nImagePath = "S:/ARS/PA/BWv1/BW/src/resources/images/rock1.jpg";
+    	double nScale = 5;
+    	File oFile = new File( nImagePath ); 
+   	
+    	//BufferedImage moImage = null;
+	   	try
+	   	{
+	   		moImage = ImageIO.read( oFile );
+	   	} catch (IOException e)
+	   	{
+	   		// TODO Auto-generated catch block
+	   		e.printStackTrace();
+	   	}
     }
         
     
     /** Display the circle */
     public void draw(Object object, Graphics2D graphics, DrawInfo2D info)
         {
-        final double width = info.draw.width * radius * 2;
-        final double height = info.draw.height  * radius * 2;
+        final double width = info.draw.width * mrRadius * 2;
+        final double height = info.draw.height  * mrRadius * 2;
 
         graphics.setPaint(paint);
-        // we are doing a simple draw, so we ignore the info.clip
+
         final int x = (int)(info.draw.x - width / 2.0);
         final int y = (int)(info.draw.y - height / 2.0);
         final int w = (int)(width);
         final int h = (int)(height);
 
-        // draw centered on the origin
-        //graphics.drawArc(x,y,w, h, 0,360);
-        
-        String nImagePath = "S:/ARS/PA/BWv1/BW/src/resources/images/ball.jpg";
-    	 double nScale = 5;
-    	File oFile = new File( nImagePath ); 
-   	
-	   	BufferedImage oImage = null;
-	   	try
-	   	{
-	   		oImage = ImageIO.read( oFile );
-	   	} catch (IOException e)
-	   	{
-	   		// TODO Auto-generated catch block
-	   		e.printStackTrace();
-	   	}
+        graphics.fillOval(x,y,w,h);
+
 	   	BufferedImageOp op = null;
-        graphics.drawImage(oImage, op, x, y);
+        graphics.drawImage(moImage, op, x, y);
         }
    
     }
