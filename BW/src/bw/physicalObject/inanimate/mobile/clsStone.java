@@ -39,7 +39,7 @@ public class clsStone extends sim.physics2D.physicalObject.MobileObject2D implem
 	    //this.setShape(new sim.physics2D.shape.Circle(pnRadius, Color.darkGray), pnMass);
 	    
 	    //show a image? getting very slow! but maybe we need it sometimes
-	    this.setShape(new ARSsim.physics2D.shape.CircleImage(pnRadius, Color.darkGray), pnMass);
+	    this.setShape(new ARSsim.physics2D.shape.clsCircleImage(pnRadius, Color.darkGray), pnMass);
     } 
 	
 	 public void step(SimState state)
