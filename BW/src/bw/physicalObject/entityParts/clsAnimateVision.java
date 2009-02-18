@@ -24,7 +24,10 @@ import sim.portrayal.DrawInfo2D;
 import sim.util.*;
 
 /**
- * TODO (zeilinger) - insert description 
+ *  This class defines the the physical object for the vision sensor. It 
+ *  extends the Mobile2D object.
+ *  clsSensorVision defines the functionalities of the vision 
+ *  sensor, while clsAnimateVision defines the physical object. 
  * 
  * @author zeilinger
  * 
@@ -36,7 +39,7 @@ public class clsAnimateVision extends MobileObject2D implements Steppable{
 	private final static double FRICTION = 0;
 	private final static double RESTITUTION = 0;
 	
-	private double mnRadius = 50;
+	private double mnRadius;
 		
 	private Bag meCollidingObj;
 	private Bag meVisionObj;
@@ -44,15 +47,16 @@ public class clsAnimateVision extends MobileObject2D implements Steppable{
 	private CircleBorder moShape;
 	private clsAnimate moTaggedAnimate;
 	
-	public clsAnimateVision(Double2D pos, Double2D vel)
+	public clsAnimateVision(Double2D poPos, Double2D poVel, double pnRad)
     {    	
 	 meCollidingObj = new Bag();
 	 meVisionObj = new Bag();
 	 moColor = Color.yellow;
 	 moShape = new CircleBorder(mnRadius, moColor);
-				
-	 this.setVelocity(vel);
-     this.setPose(pos, new Angle(0));
+	 mnRadius = pnRad; 
+	 
+	 this.setVelocity(poVel);
+     this.setPose(poPos, new Angle(0));
      this.setShape(moShape, mnRadius * mnRadius * Math.PI);
 
      this.setMass(MASS); 
@@ -82,8 +86,7 @@ public class clsAnimateVision extends MobileObject2D implements Steppable{
 		  this.setPose(moTaggedAnimate.getMobile().getPosition(), moTaggedAnimate.getMobile().getOrientation());
 		  clsBWMain simRobots = (clsBWMain)state;
 	      simRobots.moGameGridField.setObjectLocation(this, new sim.util.Double2D(this.getPosition().x, this.getPosition().y));
-	      
-	      meCollidingObj.clear();
+	      meCollidingObj.clear(); 
 	}
 	    
 	//--------------------------------------------------------------------------------------------------
@@ -133,7 +136,7 @@ public class clsAnimateVision extends MobileObject2D implements Steppable{
 	/** receives all objects, the physical object is colliding with - objects 
 	 * which are moving away from the   
 	*/     
-	public void receiveContact(PhysicalObject2D other, Double2D colPoint)
+	public void addContact(PhysicalObject2D other, Double2D colPoint)
 	{
 		meCollidingObj.add(other);		
 	}	
