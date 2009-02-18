@@ -25,7 +25,10 @@ public class CollisionDetectionEngine
         objBPCollision.testCollisions();
         return objCollision.testCollisions(objBPCollision.getActiveList());
         }
-    /**ARS_Extension Returns a list of the pairs of objects currently colliding.
+    /**
+     * TODO (zeilinger)
+     * ARS_Extension 
+     * Returns a list of the pairs of objects currently colliding.
      */
     public Bag getContacts()
     {

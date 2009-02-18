@@ -54,8 +54,12 @@ class Collision2D
         return collidingList;
         }
     
-    /** ARS_EXTENSION Loop through the ActiveList and perform exact collision detection on the
-     * object pairs. If collisions are found, add collision responses.
+    /** 
+     * TODO (zeilinger)
+     * ARS_EXTENSION 
+     * This extension is introduced as the object ActiveList is required by the 
+     * PhysicalObject Vision. Loop through the ActiveList and returns a Bag object 
+     * the PhysicalObject gets in contact with.
      */
     Bag getContact(HashSet activeList)
     {
