@@ -8,6 +8,7 @@
 package bw.physicalObject.entityParts;
 
 import java.awt.*;
+import java.util.Iterator;
 
 import ARSsim.physics2D.shape.CircleBorder;
 import bw.sim.clsBWMain;
@@ -38,7 +39,7 @@ public class clsAnimateVision extends MobileObject2D implements Steppable{
 	private double mnRadius = 50;
 		
 	private Bag meCollidingObj;
-	//private Bag mePerceiveObj = new Bag();
+	private Bag meVisionObj;
 	private Paint moColor;
 	private CircleBorder moShape;
 	private clsAnimate moTaggedAnimate;
@@ -46,6 +47,7 @@ public class clsAnimateVision extends MobileObject2D implements Steppable{
 	public clsAnimateVision(Double2D pos, Double2D vel)
     {    	
 	 meCollidingObj = new Bag();
+	 meVisionObj = new Bag();
 	 moColor = Color.yellow;
 	 moShape = new CircleBorder(mnRadius, moColor);
 				
@@ -62,19 +64,16 @@ public class clsAnimateVision extends MobileObject2D implements Steppable{
 	{
 		moTaggedAnimate = poRobot; 
 		
-		PinJoint oPj;	
-		oPj = new PinJoint(moTaggedAnimate.getMobile().getPosition(), this, moTaggedAnimate.getMobile());
+		PinJoint oPJ;	
+		oPJ = new PinJoint(moTaggedAnimate.getMobile().getPosition(), this, moTaggedAnimate.getMobile());
 		
 		poPE.setNoCollisions(this, moTaggedAnimate.getMobile());
 		poPE.register(this);
-		poPE.register(oPj);
+		poPE.register(oPJ);
 	}
 	
 	public int handleCollision(PhysicalObject2D other, Double2D colPoint)
 	{
-		if(!meCollidingObj.contains(other))
-	   	   meCollidingObj.add(other);
-	 
 		return 0; // Vis collision
 	}
 	
@@ -83,18 +82,24 @@ public class clsAnimateVision extends MobileObject2D implements Steppable{
 		  this.setPose(moTaggedAnimate.getMobile().getPosition(), moTaggedAnimate.getMobile().getOrientation());
 		  clsBWMain simRobots = (clsBWMain)state;
 	      simRobots.moGameGridField.setObjectLocation(this, new sim.util.Double2D(this.getPosition().x, this.getPosition().y));
-	      meCollidingObj.clear(); 
-	          
+	      
+	      meCollidingObj.clear();
 	}
 	    
+	//--------------------------------------------------------------------------------------------------
+	// local set and get methods
+	//-------------------------------------------------------------------------------------------------
+	
 	public Bag getCollidingObj()
 	{
 		return meCollidingObj; 
 	}
 	
-	//--------------------------------------------------------------------------------------------------
-	// local set and get methods
-	//-------------------------------------------------------------------------------------------------
+	public Bag getVisionObj()
+	{
+		return meVisionObj; 
+	}
+	
 	public double getSize()
 	{
 		return mnRadius;
@@ -121,5 +126,16 @@ public class clsAnimateVision extends MobileObject2D implements Steppable{
     	return true; // (insert location algorithm and intersection here)
     }
 	
+	//--------------------------------------------------------------------------------------------------
+	// Methods from PhysicalObject2D which have to be overwritten
+	//-------------------------------------------------------------------------------------------------
+	
+	/** receives all objects, the physical object is colliding with - objects 
+	 * which are moving away from the   
+	*/     
+	public void receiveContact(PhysicalObject2D other, Double2D colPoint)
+	{
+		meCollidingObj.add(other);		
+	}	
 }
 
