@@ -13,23 +13,22 @@ package bw.exceptions;
  * @author deutsch
  * 
  */
-public class ContentColumnMaxContentExceeded extends bwException {
+public class ValueNotWithinRange extends bwException {
+	private static final long serialVersionUID = -7714328851195940069L;
 
+	private float mrMinValue;
 	private float mrValue;
 	private float mrMaxValue;
-
-	public ContentColumnMaxContentExceeded(float prValue, float prMaxValue) {
+	
+	public ValueNotWithinRange(float prMinValue, float prValue, float prMaxValue) {
+		super();
+		
+		mrMinValue = prMinValue;
 		mrValue = prValue;
 		mrMaxValue = prMaxValue;
 	}
 	
 	public String toString() {
-		return ("ContentColumnMaxContentExceeded: value "+mrValue+" exceeds max value "+mrMaxValue+" -> value set to max value.\n")+super.toString();
+		return ("ValueNotWithinRange: violation of "+mrMinValue+" <= "+mrValue+" <= "+mrMaxValue+"\n")+super.toString();
 	}
-
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = -1966099641504460937L;
-
 }

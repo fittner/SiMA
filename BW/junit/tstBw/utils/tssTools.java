@@ -19,6 +19,7 @@ import org.junit.runner.RunWith;
 	tstBw.utils.tools.tstNutritionLevel.class,	
 	tstBw.utils.tools.tstFillLevel.class,
 	tstBw.utils.tools.tstFood.class,
+	tstBw.utils.tools.tstDecayColumn.class,
 })
 public class tssTools {
 

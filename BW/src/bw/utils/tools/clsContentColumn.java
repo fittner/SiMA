@@ -56,12 +56,14 @@ public class clsContentColumn {
 	 * whenever mrContent has changed.
 	 */
 	private void checkValue() throws bw.exceptions.ContentColumnMaxContentExceeded, bw.exceptions.ContentColumnMinContentUnderrun {
+		float rTempContent = mrContent;
+		
 		if (this.mrContent < 0.0f) {
 			this.mrContent = 0.0f;
-			throw new bw.exceptions.ContentColumnMinContentUnderrun();
+			throw new bw.exceptions.ContentColumnMinContentUnderrun(rTempContent, 0.0f);
 		} else if (this.mrContent > this.mrMaxContent) {
 			this.mrContent = this.mrMaxContent;
-			throw new bw.exceptions.ContentColumnMaxContentExceeded();
+			throw new bw.exceptions.ContentColumnMaxContentExceeded(rTempContent, mrMaxContent);
 		}
 	}
 	

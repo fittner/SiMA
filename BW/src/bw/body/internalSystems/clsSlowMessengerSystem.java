@@ -15,7 +15,7 @@ import bw.body.itfStep;
  * @author deutsch
  * 
  */
-public class clsMessengerSystem implements itfStep {
+public class clsSlowMessengerSystem implements itfStep {
 
 	/* (non-Javadoc)
 	 * @see bw.body.itfStep#step()

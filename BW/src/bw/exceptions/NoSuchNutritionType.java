@@ -15,6 +15,16 @@ package bw.exceptions;
  */
 public class NoSuchNutritionType extends bwException {
 
+	private int mnNutritionType;
+	
+	public NoSuchNutritionType(int pnNutritionType) {
+		mnNutritionType = pnNutritionType;
+	}
+	
+	public String toString() {
+		return ("NoSuchNutritionType: nutrition of type "+mnNutritionType+" is unkown.\n")+super.toString();
+	}
+
 	/**
 	 * 
 	 */

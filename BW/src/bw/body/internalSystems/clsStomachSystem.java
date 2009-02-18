@@ -13,7 +13,6 @@ import java.util.Iterator;
 import bw.body.itfStep;
 import bw.exceptions.ContentColumnMaxContentExceeded;
 import bw.exceptions.ContentColumnMinContentUnderrun;
-import bw.exceptions.NoSuchNutritionType;
 import bw.utils.tools.clsNutritionLevel;
 
 /**
@@ -127,7 +126,7 @@ public class clsStomachSystem implements itfStep {
 		clsNutritionLevel oNL = this.getNutritionLevel(poId);
 		
 		if (oNL == null) {
-			throw new bw.exceptions.NoSuchNutritionType();
+			throw new bw.exceptions.NoSuchNutritionType(poId);
 		}
 		
 		float rNutritionLevel = oNL.getContent();
@@ -165,7 +164,7 @@ public class clsStomachSystem implements itfStep {
 		clsNutritionLevel oNL = this.getNutritionLevel(poId);
 		
 		if (oNL == null) {
-			throw new bw.exceptions.NoSuchNutritionType();
+			throw new bw.exceptions.NoSuchNutritionType(poId);
 		}
 		
 		float rNutritionLevel = oNL.getContent();

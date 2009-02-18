@@ -15,6 +15,16 @@ package bw.exceptions;
  */
 public class NutritionEmpty extends bwException {
 
+	private int mnNutritionType;
+	
+	public NutritionEmpty(int pnNutritionType) {
+		mnNutritionType = pnNutritionType;
+	}
+	
+	public String toString() {
+		return ("NutritionEmpty: nutrition of type "+mnNutritionType+" is empty.\n")+super.toString();
+	}
+	
 	/**
 	 * 
 	 */

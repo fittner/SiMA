@@ -15,6 +15,11 @@ package bw.exceptions;
  */
 public class FoodNotFinalized extends bwException {
 
+
+	public String toString() {
+		return ("FoodNotFinalized: food object has not been finalized after setup.\n")+super.toString();
+	}
+
 	/**
 	 * 
 	 */

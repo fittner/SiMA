@@ -22,7 +22,7 @@ import bw.exceptions.NoSuchNutritionType;
  */
 public class clsInternalSystem implements itfStep {
     private clsFlesh moFlesh;
-    private clsMessengerSystem moMessengerSystem;
+    private clsSlowMessengerSystem moMessengerSystem;
     private clsTemperatureSystem moTemperatureSystem;
     private clsHealthSystem moHealthSystem;
     private clsStaminaSystem moStaminaSystem;
@@ -35,7 +35,7 @@ public class clsInternalSystem implements itfStep {
 	 */
 	public clsInternalSystem() {
   	    moFlesh = new clsFlesh();
-		moMessengerSystem = new clsMessengerSystem();
+		moMessengerSystem = new clsSlowMessengerSystem();
 		moTemperatureSystem = new clsTemperatureSystem();
 		moHealthSystem = new clsHealthSystem();
 		moStaminaSystem = new clsStaminaSystem();
@@ -82,7 +82,7 @@ public class clsInternalSystem implements itfStep {
 	/**
 	 * @return the moMessengerSystem
 	 */
-	public clsMessengerSystem getMessengerSystem() {
+	public clsSlowMessengerSystem getMessengerSystem() {
 		return moMessengerSystem;
 	}
 

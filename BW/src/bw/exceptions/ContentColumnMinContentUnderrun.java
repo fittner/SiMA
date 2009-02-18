@@ -15,6 +15,17 @@ package bw.exceptions;
  */
 public class ContentColumnMinContentUnderrun extends bwException {
 
+	private float mrValue;
+	private float mrMinValue;
+
+	public ContentColumnMinContentUnderrun(float prValue, float prMinValue) {
+		mrValue = prValue;
+		mrMinValue = prMinValue;
+	}
+	
+	public String toString() {
+		return ("ContentColumnMaxContentExceeded: value "+mrValue+" is below min value "+mrMinValue+" -> value set to min value.\n")+super.toString();
+	}
 	/**
 	 * 
 	 */
