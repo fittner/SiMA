@@ -43,6 +43,8 @@ public class clsStone extends clsInanimate implements Steppable{
 	    this.getMobile().setShape(new ARSsim.physics2D.shape.clsCircleImage(pnRadius, Color.darkGray, oImageURL), pnMass);
     } 
 	
+	
+	
 	 public void step(SimState state)
      {
 	     Double2D position = getMobile().getPosition();
