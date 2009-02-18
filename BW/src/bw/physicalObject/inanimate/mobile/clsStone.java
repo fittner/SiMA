@@ -8,6 +8,7 @@
 package bw.physicalObject.inanimate.mobile;
 
 import java.awt.Color;
+import java.io.IOException;
 
 import bw.physicalObject.eEntityType;
 import bw.physicalObject.inanimate.clsInanimate;
@@ -31,10 +32,15 @@ public class clsStone extends clsInanimate implements Steppable{
 	public boolean visible;
 	
 	
-	public clsStone(Double2D poPos, double pnRadius, double pnMass)
+	public clsStone(Double2D poPos, double pnRadius, double pnMass) throws IOException
     {
 		super(poPos, pnRadius, pnMass);
         visible = true;
+
+      
+        java.net.URL oImageURL = getClass().getResource("images/rock1.jpg");
+        
+	    this.getMobile().setShape(new ARSsim.physics2D.shape.clsCircleImage(pnRadius, Color.darkGray, oImageURL), pnMass);
     } 
 	
 	 public void step(SimState state)
