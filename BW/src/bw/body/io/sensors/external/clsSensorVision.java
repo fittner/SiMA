@@ -44,39 +44,57 @@ public class clsSensorVision extends clsSensorExt
 		
 		moVisionArea = new clsAnimateVision(poPos, moVel, mnVisRange);
 		moVisionArea.loadVision(poPE, moAnimate); 
-		
-		this.setCollidingObj(); 
 	}
 	
 	private void calcViewObj()
 	{
-		double nDeg;  
+		double nOrientation;  
 		PhysicalObject2D oPhObj;  
-		
-		Iterator itr = meCollidingObj.iterator();
 		meViewObj.clear(); 
 		
+		Iterator itr = meCollidingObj.iterator();
 		while(itr.hasNext())
 		{
 			oPhObj = (PhysicalObject2D)itr.next(); 
-			nDeg = Math.atan(((oPhObj.getPosition()).y - moVisionArea.getPosition().y)/
-					             ((oPhObj.getPosition()).x - moVisionArea.getPosition().x));
-			if(nDeg <= moVisionArea.getOrientation().radians + mnViewDegree/2 ||
-			       nDeg >= moVisionArea.getOrientation().radians + mnViewDegree/2)
+			nOrientation = this.getRelPos(oPhObj.getPosition());
+			
+			if(this.getInView(nOrientation))
 			{
-				meViewObj.add(oPhObj); 
+				this.setViewObj(oPhObj); 
 			}
 		}
 	}
 	
-	private void setCollidingObj()
+	public double getRelPos(Double2D poPos)
 	{
-		meCollidingObj = moVisionArea.getCollidingObj(); 
+		double nOrientation;
+		nOrientation = Math.atan((poPos.y - moVisionArea.getPosition().y)/
+	             				 (poPos.x - moVisionArea.getPosition().x));
+		return nOrientation; 
 	}
 	
+	public boolean getInView(double pnOrientation)
+	{
+		if(pnOrientation <= moVisionArea.getOrientation().radians + mnViewDegree/2 ||
+				pnOrientation >= moVisionArea.getOrientation().radians + mnViewDegree/2)
+		{
+			return true;  
+		}
+		return false; 
+	}
+	public void setViewObj(PhysicalObject2D pPhObj)
+	{
+		meViewObj.add(pPhObj);
+	}
+	
+	public void setVel(Double2D poVel)
+	{
+		moVel=poVel; 
+	}
+		
 	public Bag getViewObj()
 	{
-		this.setCollidingObj(); 
+		meCollidingObj = moVisionArea.getCollidingObj();
 		this.calcViewObj(); 
 		return meViewObj; 
 	}
@@ -89,5 +107,10 @@ public class clsSensorVision extends clsSensorExt
 	public clsAnimateVision getVisionObj()
 	{
 		return moVisionArea; 
+	}
+	
+	public void setMeCollidingObj(Bag peCollidingObj)
+	{
+		meCollidingObj = peCollidingObj; 
 	}
 }
