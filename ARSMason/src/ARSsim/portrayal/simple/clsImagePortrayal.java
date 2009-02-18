@@ -69,6 +69,7 @@ public class clsImagePortrayal extends ImagePortrayal2D{
 			e.printStackTrace();
 		}
 		
+		
 		sim.portrayal.simple.ImagePortrayal2D oImagePort = new sim.portrayal.simple.ImagePortrayal2D(oImage, pnScale);
 
 		poFieldEnvironment.setObjectLocation(oImagePort, new sim.util.Double2D(poPosImage.x, poPosImage.y));

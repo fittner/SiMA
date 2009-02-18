@@ -25,21 +25,15 @@ public class clsEntityLoader {
 	public static void loadInanimate(Continuous2D poFieldEnvironment, PhysicsEngine2D poObjPE, SimState poSimState){
 		Double2D moPos;
 		
-		// für Demo Steine anzeigen die Physikalisch sind
-//        moPos = new Double2D(175,100);
-//        clsStone stone = new clsStone( 2 , new sim.util.Double2D(moPos.x, moPos.y), poFieldEnvironment);
-//        clsInvisibleWallPhysics wall1 = new clsInvisibleWallPhysics(moPos, 20, 20);
-//        //poFieldEnvironment.setObjectLocation(wall1, new sim.util.Double2D(pos.x, pos.y));
-//        poObjPE.register(wall1);	
+
         
-        //stones v2.0
-/* @TODO - clemens muss da noch ran ...		
+        //load 1 stone	
       moPos = new Double2D(50,50);
       clsStone pstone = new clsStone(moPos, 30, 20);
-      poFieldEnvironment.setObjectLocation(pstone, new sim.util.Double2D(moPos.x, moPos.y));
-      poObjPE.register(pstone);
-      poSimState.schedule.scheduleRepeating(pstone);
-*/      
+      poFieldEnvironment.setObjectLocation(pstone.getMobile(), new sim.util.Double2D(moPos.x, moPos.y));
+      poObjPE.register(pstone.getMobile());
+      poSimState.schedule.scheduleRepeating(pstone.getMobile());
+      
 	}
 	
 	

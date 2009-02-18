@@ -92,7 +92,7 @@ public class clsCircleImage extends Circle
 	 * @param poImageURL
 	 * @throws IOException
 	 */
-	public clsCircleImage(double prRadius, Paint poDefautColor, java.net.URL poImageURL  ) throws IOException
+	public clsCircleImage(double prRadius, Paint poDefautColor, java.net.URL poImageURL  ) 
     {
 		super(prRadius, poDefautColor);
 		
@@ -101,7 +101,12 @@ public class clsCircleImage extends Circle
 		
 		this.mrRadius = prRadius; 
 	
-		moImage = ImageIO.read(poImageURL);
+		try {
+			moImage = ImageIO.read(poImageURL);
+		} catch (IOException e) {
+			e.printStackTrace();
+			throw new NullPointerException("Image URL could not be loaded, file not found in file");
+		}
 		
     }
         

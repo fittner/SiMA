@@ -14,6 +14,7 @@ import sim.physics2D.util.Double2D;
 import bw.clsEntity;
 import bw.physicalObject.eEntityType;
 import bw.physicalObject.inanimate.mobile.clsMobile;
+import bw.sim.clsBWMain;
 
 /**
  * Our representative of the mason physics class
@@ -57,6 +58,11 @@ public class clsMobileObject2D extends sim.physics2D.physicalObject.MobileObject
 		resetStepInfo();
 		moEntity.sensing();
 		moEntity.thinking();
+		
+		//with these 3 physics work!
+		Double2D position = this.getPosition();
+	    clsBWMain oMainSim = (clsBWMain)state;
+	    oMainSim.moGameGridField.setObjectLocation(this, new sim.util.Double2D(position.x, position.y));
 		
 	}
 	public void resetStepInfo()

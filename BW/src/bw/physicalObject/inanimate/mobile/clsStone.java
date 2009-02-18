@@ -27,12 +27,12 @@ import ARSsim.physics2D.physicalObject.clsMobileObject2D;
  * @author muchitsch
  * 
  */
-public class clsStone extends clsInanimate implements Steppable{
+public class clsStone extends clsInanimate {
 
 	public boolean visible;
 	
 	
-	public clsStone(Double2D poPos, double pnRadius, double pnMass) throws IOException
+	public clsStone(Double2D poPos, double pnRadius, double pnMass)
     {
 		super(poPos, pnRadius, pnMass);
         visible = true;
@@ -40,25 +40,23 @@ public class clsStone extends clsInanimate implements Steppable{
       
         java.net.URL oImageURL = getClass().getResource("images/rock1.jpg");
         
-	    this.getMobile().setShape(new ARSsim.physics2D.shape.clsCircleImage(pnRadius, Color.darkGray, oImageURL), pnMass);
+        String nImagePath = "S:/ARS/PA/BWv1/BW/src/resources/images/rock1.jpg";
+        
+	    //this.getMobile().setShape(new ARSsim.physics2D.shape.clsCircleImage(pnRadius, Color.darkGray, oImageURL), pnMass);
+        
+        this.getMobile().setShape(new ARSsim.physics2D.shape.clsCircleImage(pnRadius, Color.darkGray, nImagePath), pnMass);
     } 
 	
 	
 	
-	 public void step(SimState state)
-     {
-	     Double2D position = getMobile().getPosition();
-	     clsBWMain oMainSim = (clsBWMain)state;
-	     oMainSim.moGameGridField.setObjectLocation(getMobile(), new sim.util.Double2D(position.x, position.y));
-     }
+//	 public void step(SimState state)
+//     {
+//	     Double2D position = getMobile().getPosition();
+//	     clsBWMain oMainSim = (clsBWMain)state;
+//	     oMainSim.moGameGridField.setObjectLocation(getMobile(), new sim.util.Double2D(position.x, position.y));
+//     }
 
-	/* (non-Javadoc)
-	 * @see bw.clsEntity#getEntityType()
-	 */
-	@Override
-	public eEntityType getEntityType() {
-		return eEntityType.STONE;
-	}
+
 
 	/* (non-Javadoc)
 	 * @see bw.clsEntity#execution()
@@ -69,6 +67,8 @@ public class clsStone extends clsInanimate implements Steppable{
 		
 	}
 
+
+
 	/* (non-Javadoc)
 	 * @see bw.clsEntity#sensing()
 	 */
@@ -77,6 +77,8 @@ public class clsStone extends clsInanimate implements Steppable{
 		// TODO Auto-generated method stub
 		
 	}
+
+
 
 	/* (non-Javadoc)
 	 * @see bw.clsEntity#setEntityType()
@@ -87,6 +89,8 @@ public class clsStone extends clsInanimate implements Steppable{
 		
 	}
 
+
+
 	/* (non-Javadoc)
 	 * @see bw.clsEntity#thinking()
 	 */
@@ -95,4 +99,5 @@ public class clsStone extends clsInanimate implements Steppable{
 		// TODO Auto-generated method stub
 		
 	}
+
 }
