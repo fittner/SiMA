@@ -17,7 +17,7 @@ import sim.util.*;
 import bw.physicalObject.entityParts.clsAnimateVision;
 import bw.physicalObject.animate.clsAnimate;
 /**
- * TODO (zeilinger) - insert description 
+ * TODO (zeilinger) - This class defines the Vision object   
  * 
  * @author zeilinger
  * 
@@ -31,13 +31,12 @@ public class clsSensorVision extends clsSensorExt
 	private Bag meCollidingObj;
 	private Bag meViewObj;
 		
-	public clsSensorVision(Double2D poPos, Double2D poVel, PhysicsEngine2D poPE, clsAnimate poAnimate)
+	public clsSensorVision(Double2D poPos, Double2D poVel, PhysicsEngine2D poPE)
 	{
 		mnViewRange = Math.PI;
 		meCollidingObj = new Bag();
 		meViewObj = new Bag(); 
 		moVel = poVel;
-		moAnimate = poAnimate; 
 		moVisionArea = new clsAnimateVision(poPos, moVel);
 		moVisionArea.loadVision(poPE, moAnimate); 
 		
