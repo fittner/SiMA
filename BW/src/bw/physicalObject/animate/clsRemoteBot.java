@@ -34,7 +34,7 @@ import sim.display.clsKeyListener;
  * @author langr
  * 
  */
-public class clsRemoteBot extends clsAnimate implements Steppable, ForceGenerator
+public class clsRemoteBot extends clsAnimate implements Steppable
     {
 	private clsMotionPlatform moMotion;
 	
@@ -214,14 +214,5 @@ public class clsRemoteBot extends clsAnimate implements Steppable, ForceGenerato
 		// TODO Auto-generated method stub
 		
 	}
-
-	/* (non-Javadoc)
-	 * @see sim.physics2D.forceGenerator.ForceGenerator#addForce()
-	 */
-	@Override
-	public void addForce() {
-		// TODO Auto-generated method stub
-		
-	} 
     
     }
