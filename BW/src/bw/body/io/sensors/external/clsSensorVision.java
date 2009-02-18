@@ -46,7 +46,6 @@ public class clsSensorVision extends clsSensorExt
 	
 	private void calcViewObj()
 	{
-		Double2D oPosObj;
 		double nDeg;  
 		PhysicalObject2D oPhObj;  
 		
@@ -56,11 +55,10 @@ public class clsSensorVision extends clsSensorExt
 		while(itr.hasNext())
 		{
 			oPhObj = (PhysicalObject2D)itr.next(); 
-			oPosObj = (oPhObj).getPosition();
-			nDeg = Math.atan((oPosObj.y - moVisionArea.getPosition().y)/
-					         (oPosObj.x - moVisionArea.getPosition().x));
+			nDeg = Math.atan(((oPhObj.getPosition()).y - moVisionArea.getPosition().y)/
+					             ((oPhObj.getPosition()).x - moVisionArea.getPosition().x));
 			if(nDeg <= moVisionArea.getOrientation().radians + mnViewRange/2 ||
-			   nDeg >= moVisionArea.getOrientation().radians + mnViewRange/2)
+			       nDeg >= moVisionArea.getOrientation().radians + mnViewRange/2)
 			{
 				meViewObj.add(oPhObj); 
 			}
