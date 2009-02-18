@@ -55,7 +55,7 @@ public class clsImagePortrayal extends ImagePortrayal2D{
 		
 		//TODO Clemens load rel path?
 		//URL url = getClass().getClassLoader().getResource("/../resources/images/rock1.jpg");
-
+  
 		
 		File oFile = new File( psImagePath ); 
 		
