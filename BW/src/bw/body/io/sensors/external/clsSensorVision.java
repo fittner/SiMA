@@ -67,11 +67,6 @@ public class clsSensorVision extends clsSensorExt
 		}
 	}
 	
-	public clsAnimateVision getVisionObj()
-	{
-		return moVisionArea; 
-	}
-	
 	private void setCollidingObj()
 	{
 		meCollidingObj = moVisionArea.getCollidingObj(); 
@@ -87,5 +82,10 @@ public class clsSensorVision extends clsSensorExt
 	public Bag getCollidingObj()
 	{
 		return meCollidingObj; 
+	}
+	
+	public clsAnimateVision getVisionObj()
+	{
+		return moVisionArea; 
 	}
 }
