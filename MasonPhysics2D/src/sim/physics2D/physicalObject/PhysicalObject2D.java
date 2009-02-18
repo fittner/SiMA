@@ -105,7 +105,14 @@ abstract public class PhysicalObject2D extends SimplePortrayal2D
         return 1; //regular collision
         }
     
-         
+    /** 
+     * TODO (zeilinger)
+     * This extension is introduced as the object ActiveList is required by the 
+     * PhysicalObject Vision.Provides a default implementation for the function used by the collision 
+     * detection engine to notify an object when it has collided with another object.
+     * - without BroadPhaseCollision2D
+     */
+    public void receiveContact(PhysicalObject2D other, Double2D colPoint){};     
     /////////////////////////////////////////////////////
     // Abstract functions used by collision detection
     /////////////////////////////////////////////////////
@@ -114,10 +121,5 @@ abstract public class PhysicalObject2D extends SimplePortrayal2D
     abstract public void restorePose();
     abstract public double getMassInverse();
     abstract public double getMassMomentOfInertiaInverse();
-    
-    /** Provides a default implementation for the function used by the collision 
-     * detection engine to notify an object when it has collided with another object.
-     * - without BroadPhaseCollision2D
-     */
-    public void receiveContact(PhysicalObject2D other, Double2D colPoint){};
+        
     }
