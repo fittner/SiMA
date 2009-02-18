@@ -7,7 +7,10 @@
  */
 package bw.body.io.sensors.external;
 
+import java.util.Iterator;
+
 import sim.physics2D.PhysicsEngine2D;
+import sim.physics2D.physicalObject.PhysicalObject2D;
 import sim.physics2D.util.Double2D;
 import sim.util.*;
 
@@ -21,24 +24,47 @@ import bw.physicalObject.animate.clsAnimate;
  */
 public class clsSensorVision extends clsSensorExt
 {
-	private Double2D moPos; 
+	private double mnViewRange; 
 	private Double2D moVel;
 	private clsAnimate moAnimate;
 	private clsAnimateVision moVisionArea;
 	private Bag meCollidingObj;
+	private Bag meViewObj;
 		
 	public clsSensorVision(Double2D poPos, Double2D poVel, PhysicsEngine2D poPE, clsAnimate poAnimate)
 	{
+		mnViewRange = Math.PI;
 		meCollidingObj = new Bag();
-				
-		moPos = poPos; 
+		meViewObj = new Bag(); 
 		moVel = poVel;
 		moAnimate = poAnimate; 
-		
-		moVisionArea = new clsAnimateVision(moPos, moVel);
+		moVisionArea = new clsAnimateVision(poPos, moVel);
 		moVisionArea.loadVision(poPE, moAnimate); 
 		
 		this.setCollidingObj(); 
+	}
+	
+	private void calcViewObj()
+	{
+		Double2D oPosObj;
+		double nDeg;  
+		PhysicalObject2D oPhObj;  
+		
+		Iterator itr = meCollidingObj.iterator();
+		meViewObj.clear(); 
+		
+		while(itr.hasNext())
+		{
+			oPhObj = (PhysicalObject2D)itr.next(); 
+			oPosObj = (oPhObj).getPosition();
+			nDeg = Math.atan((oPosObj.y - moVisionArea.getPosition().y)/
+					         (oPosObj.x - moVisionArea.getPosition().x));
+			if(nDeg <= moVisionArea.getOrientation().radians + mnViewRange/2 ||
+			   nDeg >= moVisionArea.getOrientation().radians + mnViewRange/2)
+			{
+				meViewObj.add(oPhObj); 
+			}
+		}
 	}
 	
 	public clsAnimateVision getVisionObj()
@@ -46,19 +72,20 @@ public class clsSensorVision extends clsSensorExt
 		return moVisionArea; 
 	}
 	
-	public void setCollidingObj()
+	private void setCollidingObj()
 	{
 		meCollidingObj = moVisionArea.getCollidingObj(); 
 	}
 	
-	public Bag getPerceiveObj()
+	public Bag getViewObj()
 	{
-		this.calcPerceiveObj(); 
-		return meCollidingObj; 
+		this.setCollidingObj(); 
+		this.calcViewObj(); 
+		return meViewObj; 
 	}
 	
-	private void calcPerceiveObj()
+	public Bag getCollidingObj()
 	{
-		//toDo
+		return meCollidingObj; 
 	}
 }
