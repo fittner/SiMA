@@ -120,8 +120,8 @@ public class PhysicsEngine2D implements Steppable
 			{
 				CollisionPair pair = (CollisionPair)poCL.objs[i];
                 
-	            pair.c1.receiveContact(pair.c2, pair.getColPoint1());
-	            pair.c2.receiveContact(pair.c1, pair.getColPoint2());
+	            pair.c1.addContact(pair.c2, pair.getColPoint1());
+	            pair.c2.addContact(pair.c1, pair.getColPoint2());
 			}
 	    }
     
