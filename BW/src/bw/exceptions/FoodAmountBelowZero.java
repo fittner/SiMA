@@ -17,7 +17,7 @@ public class FoodAmountBelowZero extends bwException {
 
 	
 	public String toString() {
-		return ("FoodAmountBelowZero\n")+super.toString();
+		return ("FoodAmountBelowZero\n");
 	}
 
 	/**

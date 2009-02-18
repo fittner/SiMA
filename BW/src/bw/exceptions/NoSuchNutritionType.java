@@ -22,7 +22,7 @@ public class NoSuchNutritionType extends bwException {
 	}
 	
 	public String toString() {
-		return ("NoSuchNutritionType: nutrition of type "+mnNutritionType+" is unkown.\n")+super.toString();
+		return ("NoSuchNutritionType: nutrition of type "+mnNutritionType+" is unkown.\n");
 	}
 
 	/**

@@ -29,6 +29,6 @@ public class ValueNotWithinRange extends bwException {
 	}
 	
 	public String toString() {
-		return ("ValueNotWithinRange: violation of "+mrMinValue+" <= "+mrValue+" <= "+mrMaxValue+"\n")+super.toString();
+		return ("ValueNotWithinRange: violation of "+mrMinValue+" <= "+mrValue+" <= "+mrMaxValue+"\n");
 	}
 }

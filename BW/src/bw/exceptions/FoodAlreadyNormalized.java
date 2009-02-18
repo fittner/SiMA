@@ -16,7 +16,7 @@ package bw.exceptions;
 public class FoodAlreadyNormalized extends bwException {
 
 	public String toString() {
-		return ("FoodAlreadyNormalized\n")+super.toString();
+		return ("FoodAlreadyNormalized\n");
 	}
 
 	/**

@@ -24,7 +24,7 @@ public class ContentColumnMaxContentExceeded extends bwException {
 	}
 	
 	public String toString() {
-		return ("ContentColumnMaxContentExceeded: value "+mrValue+" exceeds max value "+mrMaxValue+" -> value set to max value.\n")+super.toString();
+		return ("ContentColumnMaxContentExceeded: value "+mrValue+" exceeds max value "+mrMaxValue+" -> value set to max value.\n");
 	}
 
 	/**

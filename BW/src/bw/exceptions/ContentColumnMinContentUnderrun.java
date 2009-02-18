@@ -24,7 +24,7 @@ public class ContentColumnMinContentUnderrun extends bwException {
 	}
 	
 	public String toString() {
-		return ("ContentColumnMaxContentExceeded: value "+mrValue+" is below min value "+mrMinValue+" -> value set to min value.\n")+super.toString();
+		return ("ContentColumnMaxContentExceeded: value "+mrValue+" is below min value "+mrMinValue+" -> value set to min value.\n");
 	}
 	/**
 	 * 

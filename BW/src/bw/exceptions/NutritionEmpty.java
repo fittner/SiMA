@@ -22,7 +22,7 @@ public class NutritionEmpty extends bwException {
 	}
 	
 	public String toString() {
-		return ("NutritionEmpty: nutrition of type "+mnNutritionType+" is empty.\n")+super.toString();
+		return ("NutritionEmpty: nutrition of type "+mnNutritionType+" is empty.\n");
 	}
 	
 	/**
