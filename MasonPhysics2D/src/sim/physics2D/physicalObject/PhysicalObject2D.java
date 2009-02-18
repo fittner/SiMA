@@ -112,7 +112,7 @@ abstract public class PhysicalObject2D extends SimplePortrayal2D
      * detection engine to notify an object when it has collided with another object.
      * - without BroadPhaseCollision2D
      */
-    public void receiveContact(PhysicalObject2D other, Double2D colPoint){};     
+    public void addContact(PhysicalObject2D other, Double2D colPoint){};     
     /////////////////////////////////////////////////////
     // Abstract functions used by collision detection
     /////////////////////////////////////////////////////
