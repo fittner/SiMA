@@ -7,6 +7,7 @@
  */
 package bw.physicalObject.animate;
 
+import bw.physicalObject.eEntityType;
 import sim.physics2D.util.Double2D;
 
 /**
@@ -32,5 +33,49 @@ public class clsPlant extends clsAnimate{
 	 * 
 	 */
 	private static final long serialVersionUID = 7055381541963741660L;
+
+	/* (non-Javadoc)
+	 * @see bw.clsEntity#getEntityType()
+	 */
+	@Override
+	public eEntityType getEntityType() {
+		return eEntityType.PLANT;
+	}
+
+	/* (non-Javadoc)
+	 * @see bw.clsEntity#execution()
+	 */
+	@Override
+	public void execution() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	/* (non-Javadoc)
+	 * @see bw.clsEntity#sensing()
+	 */
+	@Override
+	public void sensing() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	/* (non-Javadoc)
+	 * @see bw.clsEntity#setEntityType()
+	 */
+	@Override
+	protected void setEntityType() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	/* (non-Javadoc)
+	 * @see bw.clsEntity#thinking()
+	 */
+	@Override
+	public void thinking() {
+		// TODO Auto-generated method stub
+		
+	}
 
 }

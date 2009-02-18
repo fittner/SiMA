@@ -20,6 +20,7 @@ import sim.physics2D.util.Double2D;
 import sim.portrayal.DrawInfo2D;
 import ARSsim.physics2D.physicalObject.clsMobileObject2D;
 import ARSsim.robot2D.clsMotionPlatform;
+import bw.physicalObject.eEntityType;
 import bw.physicalObject.entityParts.clsBotHands;
 import bw.physicalObject.inanimate.mobile.clsCan;
 import bw.sim.clsBWMain;
@@ -105,7 +106,7 @@ public class clsRemoteBot extends clsAnimate implements Steppable, ForceGenerato
         simRobots.moGameGridField.setObjectLocation(this, new sim.util.Double2D(position.x, position.y));
         }
 
-    public void addForce()
+ /*   public void addForceEntity()
         {
         
     	//add remote control here!
@@ -131,17 +132,17 @@ public class clsRemoteBot extends clsAnimate implements Steppable, ForceGenerato
             {
 	    		objCE.unRegisterForceConstraint(pj);                            
 	            botState = APPROACHINGCAN;
-	            objCE.removeNoCollisions(getMobile(), currentCan);
-	            objCE.removeNoCollisions(e1, currentCan);
-	            objCE.removeNoCollisions(e2, currentCan);
+	            objCE.removeNoCollisions(getMobile(), currentCan.getMobile());
+	            objCE.removeNoCollisions(e1, currentCan.getMobile());
+	            objCE.removeNoCollisions(e2, currentCan.getMobile());
 	            currentCan.visible = true;
             }
     		break;
     	}
 
         }
-        
-    public int handleCollision(PhysicalObject2D other, Double2D colPoint)
+*/        
+/*    public int handleCollision(PhysicalObject2D other, Double2D colPoint)
         {
         Double2D globalPointPos = getMobile().getPosition().add(colPoint);
         Double2D localPointPos = moMotion.localFromGlobal(globalPointPos);
@@ -149,11 +150,10 @@ public class clsRemoteBot extends clsAnimate implements Steppable, ForceGenerato
                 
         // Make sure the object is a can and that it is (roughly) between
         // the effectors
-        if (other instanceof clsCan && botState == APPROACHINGCAN
+        if (((clsMobileObject2D)other).getEntity().isEntityType(eEntityType.CAN) && botState == APPROACHINGCAN
             && (colAngle.radians < Math.PI / 8 || colAngle.radians > (Math.PI * 2 - Math.PI / 8)))
             {
             // Create a fixed joint directly at the center of the can
-        	currentCan = (clsCan)other; 
         	pj = new PinJoint(other.getPosition(), getMobile(), other);
             objCE.registerForceConstraint(pj);
                         
@@ -169,11 +169,59 @@ public class clsRemoteBot extends clsAnimate implements Steppable, ForceGenerato
         else
             return 1; // regular collision
         }
-    
-    public boolean hitObject(Object object, DrawInfo2D range)
-	    {
-    		//TODO Clemens, hier gehört mehr rein als nur true!
-	    	return true; // (insert location algorithm and intersection here)
-	    } 
+ */   
+
+    /* (non-Javadoc)
+	 * @see bw.clsEntity#getEntityType()
+	 */
+	@Override
+	public eEntityType getEntityType() {
+		return eEntityType.REMOTEBOT;
+	}
+
+	/* (non-Javadoc)
+	 * @see bw.clsEntity#execution()
+	 */
+	@Override
+	public void execution() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	/* (non-Javadoc)
+	 * @see bw.clsEntity#sensing()
+	 */
+	@Override
+	public void sensing() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	/* (non-Javadoc)
+	 * @see bw.clsEntity#setEntityType()
+	 */
+	@Override
+	protected void setEntityType() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	/* (non-Javadoc)
+	 * @see bw.clsEntity#thinking()
+	 */
+	@Override
+	public void thinking() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	/* (non-Javadoc)
+	 * @see sim.physics2D.forceGenerator.ForceGenerator#addForce()
+	 */
+	@Override
+	public void addForce() {
+		// TODO Auto-generated method stub
+		
+	} 
     
     }

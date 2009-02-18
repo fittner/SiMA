@@ -19,6 +19,7 @@ import sim.portrayal.DrawInfo2D;
 import sim.util.Bag;
 import ARSsim.physics2D.physicalObject.clsMobileObject2D;
 import ARSsim.robot2D.clsMotionPlatform;
+import bw.physicalObject.eEntityType;
 import bw.physicalObject.entityParts.clsBotHands;
 import bw.physicalObject.inanimate.mobile.clsCan;
 import bw.sim.*;
@@ -28,9 +29,9 @@ import bw.sim.*;
 * @author langr
 * 
 */
-public class clsBot extends clsAnimate implements Steppable, ForceGenerator
+public class clsBot //extends clsAnimate implements Steppable, ForceGenerator
     {
-	private clsMotionPlatform moMotion;
+/*	private clsMotionPlatform moMotion;
 	
     clsCan currentCan;
     private PinJoint pj;
@@ -59,9 +60,7 @@ public class clsBot extends clsAnimate implements Steppable, ForceGenerator
 		return mnId;
 	}
     
-    /**
-	 * @return the botState
-	 */
+
 	public int getBotState() {
 		return botState;
 	}
@@ -97,11 +96,147 @@ public class clsBot extends clsAnimate implements Steppable, ForceGenerator
         objCE = ConstraintEngine.getInstance();
         } 
  
-    public void step(SimState state)
+     public void addForceEntity()
         {
-        Double2D position = getMobile().getPosition();
+        
+    	clsMobileObject2D oMobile = getMobile();  
+    	
+        switch (botState)
+            {
+            case HAVECAN:
+            	if( mnId%2==0 )
+            	{
+	            	if (oMobile.getPosition().y <= 40)
+	                    {
+	                    if (oMobile.getVelocity().length() > 0.01 || oMobile.getAngularVelocity() > 0.01)
+	                    	moMotion.stop();
+	                    else
+	                        {
+	                        clsMobileObject2D oCanMobile = null;
+	                        oCanMobile = currentCan.getMobile();
+
+	                        objCE.unRegisterForceConstraint(pj);                            
+	                        botState = RELEASINGCAN;
+	                        objCE.removeNoCollisions(oMobile, oCanMobile);
+	                        objCE.removeNoCollisions(e1, oCanMobile);
+	                        objCE.removeNoCollisions(e2, oCanMobile);
+	                        currentCan.visible = true;
+	                        }
+	                    }
+	                else
+	                	moMotion.goTo(new Double2D(oMobile.getPosition().x, 40));
+            	}
+            	else
+            	{
+            	if (oMobile.getPosition().y >= 160)
+                {
+	                if (oMobile.getVelocity().length() > 0.01 || oMobile.getAngularVelocity() > 0.01)
+	                	moMotion.stop();
+	                else
+	                    {
+                        clsMobileObject2D oCanMobile = null;
+                        oCanMobile = currentCan.getMobile();
+                        
+	                    objCE.unRegisterForceConstraint(pj);                            
+	                    botState = RELEASINGCAN;
+	                    objCE.removeNoCollisions(oMobile, oCanMobile);
+	                    objCE.removeNoCollisions(e1, oCanMobile);
+	                    objCE.removeNoCollisions(e2, oCanMobile);
+	                    currentCan.visible = true;
+	                    }
+	                }
+		            else
+		            	moMotion.goTo(new Double2D(oMobile.getPosition().x, 160));
+            	}
+                break;
+            case RELEASINGCAN:
+                // back out of can home
+                if (oMobile.getPosition().subtract(currentCan.getMobile().getPosition()).length() <= 30)
+                	moMotion.backup();
+                else
+                    botState = SEARCHING;
+                break;
+            case APPROACHINGCAN:
+                if (currentCan.visible)
+                	moMotion.goTo(currentCan.getMobile().getPosition());
+                else
+                    botState = SEARCHING;
+                break;
+            case RETURNINGHOME:
+                if (oMobile.getPosition().subtract(botHome).length() <= 30)
+                    {
+                    if (oMobile.getOrientation().radians != 0)
+                    	moMotion.faceTowards(new Angle(0));
+                    else
+                    	moMotion.stop();
+                    }
+                else
+                	moMotion.goTo(botHome);
+                break;  
+            }
+        }
+        
+   public int handleCollision(PhysicalObject2D other, Double2D colPoint)
+        {
+    	clsMobileObject2D oMobile = getMobile();  
+        Double2D globalPointPos = oMobile.getPosition().add(colPoint);
+        Double2D localPointPos = moMotion.localFromGlobal(globalPointPos);
+        Angle colAngle = moMotion.getAngle(localPointPos);
+                
+        // Make sure the object is a can and that it is (roughly) between
+        // the effectors
+        if (((clsMobileObject2D)other).isEntityType(eEntityType.CAN) && botState == APPROACHINGCAN  && other == currentCan.getMobile()
+            && (colAngle.radians < Math.PI / 8 || colAngle.radians > (Math.PI * 2 - Math.PI / 8)))
+            {
+            // Create a fixed joint directly at the center of the can
+            pj = new PinJoint(other.getPosition(), oMobile, other);
+            objCE.registerForceConstraint(pj);
+                        
+            botState = HAVECAN;
+                        
+            objCE.setNoCollisions(oMobile, other);
+            objCE.setNoCollisions(e1, other);
+            objCE.setNoCollisions(e2, other);
+                        
+            currentCan.visible = false;
+            return 2; // sticky collision
+            }
+        else
+            return 1; // regular collision
+        }
+
+    
+    public boolean hitObject(Object object, DrawInfo2D range)
+	    {
+    		//TODO Clemens, hier gehört mehr rein als nur true!
+	    	return true; // (insert location algorithm and intersection here)
+	    }
+
+
+	@Override
+	protected void setEntityType() {
+		meEntityType = eEntityType.BOT;
+	}
+
+
+	@Override
+	public void addForce() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void sensing() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void thinking() {
+		
+       Double2D position = getMobile().getPosition();
         clsBWMain simRobots = (clsBWMain)state;
-        simRobots.moGameGridField.setObjectLocation(this, new sim.util.Double2D(position.x, position.y));
+        simRobots.moGameGridField.setObjectLocation(this.getMobile(), new sim.util.Double2D(position.x, position.y));
         
         // Find a can
         if (botState == SEARCHING)
@@ -127,117 +262,12 @@ public class clsBot extends clsAnimate implements Steppable, ForceGenerator
             if (currentCan == null)
                 botState = RETURNINGHOME;
             }
-        
-        
-        }
+	}
 
-    public void addForce()
-        {
-        
-    	clsMobileObject2D oMobile = getMobile();  
-    	
-        switch (botState)
-            {
-            case HAVECAN:
-            	if( mnId%2==0 )
-            	{
-	            	if (oMobile.getPosition().y <= 40)
-	                    {
-	                    if (oMobile.getVelocity().length() > 0.01 || oMobile.getAngularVelocity() > 0.01)
-	                    	moMotion.stop();
-	                    else
-	                        {
-	                        objCE.unRegisterForceConstraint(pj);                            
-	                        botState = RELEASINGCAN;
-	                        objCE.removeNoCollisions(oMobile, currentCan);
-	                        objCE.removeNoCollisions(e1, currentCan);
-	                        objCE.removeNoCollisions(e2, currentCan);
-	                        currentCan.visible = true;
-	                        }
-	                    }
-	                else
-	                	moMotion.goTo(new Double2D(oMobile.getPosition().x, 40));
-            	}
-            	else
-            	{
-            	if (oMobile.getPosition().y >= 160)
-                {
-	                if (oMobile.getVelocity().length() > 0.01 || oMobile.getAngularVelocity() > 0.01)
-	                	moMotion.stop();
-	                else
-	                    {
-	                    objCE.unRegisterForceConstraint(pj);                            
-	                    botState = RELEASINGCAN;
-	                    objCE.removeNoCollisions(oMobile, currentCan);
-	                    objCE.removeNoCollisions(e1, currentCan);
-	                    objCE.removeNoCollisions(e2, currentCan);
-	                    currentCan.visible = true;
-	                    }
-	                }
-		            else
-		            	moMotion.goTo(new Double2D(oMobile.getPosition().x, 160));
-            	}
-                break;
-            case RELEASINGCAN:
-                // back out of can home
-                if (oMobile.getPosition().subtract(currentCan.getPosition()).length() <= 30)
-                	moMotion.backup();
-                else
-                    botState = SEARCHING;
-                break;
-            case APPROACHINGCAN:
-                if (currentCan.visible)
-                	moMotion.goTo(currentCan.getPosition());
-                else
-                    botState = SEARCHING;
-                break;
-            case RETURNINGHOME:
-                if (oMobile.getPosition().subtract(botHome).length() <= 30)
-                    {
-                    if (oMobile.getOrientation().radians != 0)
-                    	moMotion.faceTowards(new Angle(0));
-                    else
-                    	moMotion.stop();
-                    }
-                else
-                	moMotion.goTo(botHome);
-                break;  
-            }
-        }
-        
-    public int handleCollision(PhysicalObject2D other, Double2D colPoint)
-        {
-    	clsMobileObject2D oMobile = getMobile();  
-        Double2D globalPointPos = oMobile.getPosition().add(colPoint);
-        Double2D localPointPos = moMotion.localFromGlobal(globalPointPos);
-        Angle colAngle = moMotion.getAngle(localPointPos);
-                
-        // Make sure the object is a can and that it is (roughly) between
-        // the effectors
-        if (other instanceof clsCan && botState == APPROACHINGCAN  && other == currentCan
-            && (colAngle.radians < Math.PI / 8 || colAngle.radians > (Math.PI * 2 - Math.PI / 8)))
-            {
-            // Create a fixed joint directly at the center of the can
-            pj = new PinJoint(other.getPosition(), oMobile, other);
-            objCE.registerForceConstraint(pj);
-                        
-            botState = HAVECAN;
-                        
-            objCE.setNoCollisions(oMobile, other);
-            objCE.setNoCollisions(e1, other);
-            objCE.setNoCollisions(e2, other);
-                        
-            currentCan.visible = false;
-            return 2; // sticky collision
-            }
-        else
-            return 1; // regular collision
-        }
-    
-    public boolean hitObject(Object object, DrawInfo2D range)
-	    {
-    		//TODO Clemens, hier gehört mehr rein als nur true!
-	    	return true; // (insert location algorithm and intersection here)
-	    } 
-    
-    }
+	@Override
+	public void execution() {
+		// TODO Auto-generated method stub
+		
+	}
+*/
+}

@@ -20,6 +20,7 @@ import sim.portrayal.DrawInfo2D;
 import bw.body.itfStep;
 import ARSsim.physics2D.physicalObject.clsMobileObject2D;
 import ARSsim.robot2D.clsMotionPlatform;
+import bw.physicalObject.eEntityType;
 import bw.sim.clsBWMain;
 import bw.utils.datatypes.clsMutableFloat;
 
@@ -70,23 +71,50 @@ public class clsBubble extends clsAnimate {
 		getMobile().setShape(new sim.physics2D.shape.Circle(10, Color.GREEN), 300);
 	}
 
-	
 	/* (non-Javadoc)
-	 * @see sim.physics2D.forceGenerator.ForceGenerator#addForce()
+	 * @see bw.clsEntity#getEntityType()
 	 */
 	@Override
-	public void addForce() {
-		// TODO Auto-generated method stub
+	public eEntityType getEntityType() {
+		return eEntityType.BUBBLE;
 	}
-	
-	
+
 	/* (non-Javadoc)
-	 * @see bw.clsAnimate#step(sim.engine.SimState)
+	 * @see bw.clsEntity#execution()
 	 */
-	public void step(SimState state)
-    {
-		super.step(state);
-    }
+	@Override
+	public void execution() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	/* (non-Javadoc)
+	 * @see bw.clsEntity#sensing()
+	 */
+	@Override
+	public void sensing() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	/* (non-Javadoc)
+	 * @see bw.clsEntity#setEntityType()
+	 */
+	@Override
+	protected void setEntityType() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	/* (non-Javadoc)
+	 * @see bw.clsEntity#thinking()
+	 */
+	@Override
+	public void thinking() {
+		// TODO Auto-generated method stub
+		
+	}
+
 
 
 }

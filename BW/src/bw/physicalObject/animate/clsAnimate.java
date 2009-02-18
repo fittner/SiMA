@@ -31,7 +31,7 @@ import bw.sim.clsBWMain;
  * @author langr
  * 
  */
-public class clsAnimate extends clsMobile implements Steppable, ForceGenerator{
+public abstract class clsAnimate extends clsMobile implements Steppable{
 	/**
 	 * 
 	 */
@@ -70,7 +70,7 @@ public class clsAnimate extends clsMobile implements Steppable, ForceGenerator{
 		oMobile.setCoefficientOfStaticFriction(0);
 		oMobile.setCoefficientOfRestitution(1);
 	            
-		setPhysicsConstraintEngine(ConstraintEngine.getInstance());
+		//setPhysicsConstraintEngine(ConstraintEngine.getInstance());
 	}
 	
 	/* (non-Javadoc)
@@ -86,24 +86,5 @@ public class clsAnimate extends clsMobile implements Steppable, ForceGenerator{
 	    
 	    moAgentBody.step();
 	}
-	
-	
-	/* (non-Javadoc)
-	 * @see sim.physics2D.forceGenerator.ForceGenerator#addForce()
-	 */
-	@Override
-	public void addForce() {
-		// TODO Auto-generated method stub
-		
-	}
-	
-	/* (non-Javadoc)
-	 * @see sim.portrayal.SimplePortrayal2D#hitObject(java.lang.Object, sim.portrayal.DrawInfo2D)
-	 */
-	public boolean hitObject(Object object, DrawInfo2D range)
-    {
-		//TODO Clemens, we could add some fancy hittestting here
-    	return true; // (insert location algorithm and intersection here)
-    }
 	
 }

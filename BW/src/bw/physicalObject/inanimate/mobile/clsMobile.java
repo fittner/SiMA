@@ -17,7 +17,7 @@ import bw.physicalObject.inanimate.clsInanimate;
  * @author deutsch
  * 
  */
-public class clsMobile extends clsEntity {
+public abstract class clsMobile extends clsEntity {
 
 	private clsMobileObject2D moMobile;
 
@@ -35,7 +35,7 @@ public class clsMobile extends clsEntity {
 	public clsMobile() {
 		super();
 		
-		moMobile = new clsMobileObject2D();
+		moMobile = new clsMobileObject2D(this);
 		//TODO: register irgendwie
 	}
 

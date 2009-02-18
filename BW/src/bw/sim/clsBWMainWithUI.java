@@ -161,7 +161,7 @@ public class clsBWMainWithUI extends GUIState{
 		moGameGridPortrayal.setField(((clsBWMain)state).moGameGridField);
 		
 		moDisplay.reset();
-		
+//		
 		// redraw the display
 		moDisplay.repaint();
 	}

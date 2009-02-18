@@ -33,11 +33,13 @@ public class clsEntityLoader {
 //        poObjPE.register(wall1);	
         
         //stones v2.0
+/* @TODO - clemens muss da noch ran ...		
       moPos = new Double2D(50,50);
       clsStone pstone = new clsStone(moPos, 30, 20);
       poFieldEnvironment.setObjectLocation(pstone, new sim.util.Double2D(moPos.x, moPos.y));
       poObjPE.register(pstone);
       poSimState.schedule.scheduleRepeating(pstone);
+*/      
 	}
 	
 	

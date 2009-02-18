@@ -7,9 +7,8 @@
  */
 package bw;
 
-import sim.engine.SimState;
-import sim.engine.Steppable;
-import sim.physics2D.constraint.ConstraintEngine;
+import bw.physicalObject.eEntityType;
+
 
 /**
  * Entity contains basic physical values.
@@ -22,44 +21,41 @@ import sim.physics2D.constraint.ConstraintEngine;
  * @author langr
  * 
  */
-public class clsEntity implements Steppable {
+/**
+ * TODO (langr) - insert description 
+ * 
+ * @author langr
+ * 
+ */
+public abstract class clsEntity {
 
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 2640414297770154233L;
+	private boolean useSimplePortrayal;
 	
-	private boolean useSimplePortrayal = true;
-	
-	@SuppressWarnings("unused")
-	private sim.physics2D.physicalObject.PhysicalObject2D moSimulatorEntity = null;
-	
-	private ConstraintEngine moPhysicsConstraintEngine; //object for the physical world representation
-	
-	
-	public ConstraintEngine getPhysicsConstraintEngine() { 
-		return moPhysicsConstraintEngine;
-	}
-	
-	public void setPhysicsConstraintEngine(	ConstraintEngine poPhysicsConstraintEngine) {
-		this.moPhysicsConstraintEngine = poPhysicsConstraintEngine;
+	public clsEntity() {
+		setEntityType();
+		useSimplePortrayal = true;
 	}
 
-	public boolean registerEntity(
-			//PhysicsEngine2D objPE, Continuous2D fieldEnvironment
-			) throws Exception {
+	protected eEntityType meEntityType;
 	
-		boolean retVal = true;
+	protected abstract void setEntityType();
+	
+	public eEntityType getEntityType() {
+		return meEntityType;
+	}
+	public boolean isEntityType(eEntityType peType)
+	{
+		boolean retVal = false;
 		
+		if(peType == getEntityType()) {
+			retVal = true;
+		}
+
 		return retVal;
 	}
+	
+	public abstract void sensing();
+	public abstract void thinking();
+	public abstract void execution();
 
-	/* (non-Javadoc)
-	 * @see sim.engine.Steppable#step(sim.engine.SimState)
-	 */
-	@Override
-	public void step(SimState state) {
-		// TODO Auto-generated method stub
-		
-	}
 }

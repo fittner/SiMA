@@ -17,7 +17,6 @@ import bw.physicalObject.inanimate.clsInanimate;
  * @author deutsch
  * 
  */
-public class clsStationary extends clsEntity {
+public abstract class clsStationary extends clsEntity {
 
-		
 }

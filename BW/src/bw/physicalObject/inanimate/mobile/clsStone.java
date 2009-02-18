@@ -9,10 +9,13 @@ package bw.physicalObject.inanimate.mobile;
 
 import java.awt.Color;
 
+import bw.physicalObject.eEntityType;
+import bw.physicalObject.inanimate.clsInanimate;
 import bw.sim.clsBWMain;
 
 import sim.engine.SimState;
 import sim.engine.Steppable;
+import sim.physics2D.physicalObject.MobileObject2D;
 import sim.physics2D.util.Angle;
 import sim.physics2D.util.Double2D;
 import ARSsim.physics2D.physicalObject.clsMobileObject2D;
@@ -23,30 +26,65 @@ import ARSsim.physics2D.physicalObject.clsMobileObject2D;
  * @author muchitsch
  * 
  */
-public class clsStone extends ARSsim.physics2D.physicalObject.clsMobileObject2D implements Steppable{
+public class clsStone extends clsInanimate implements Steppable{
 
 	public boolean visible;
 	
 	
 	public clsStone(Double2D poPos, double pnRadius, double pnMass)
     {
-		this.setPose(poPos, new Angle(0));
-        this.setVelocity( new Double2D() );
-        this.setCoefficientOfFriction(.5);
-        this.setCoefficientOfStaticFriction(0);
-        this.setCoefficientOfRestitution(1);
+		super(poPos, pnRadius, pnMass);
         visible = true;
-
-	    //this.setShape(new sim.physics2D.shape.Circle(pnRadius, Color.darkGray), pnMass);
-	    
-	    //show a image? getting very slow! but maybe we need it sometimes
-	    this.setShape(new ARSsim.physics2D.shape.clsCircleImage(pnRadius, Color.darkGray), pnMass);
     } 
 	
 	 public void step(SimState state)
      {
-	     Double2D position = this.getPosition();
+	     Double2D position = getMobile().getPosition();
 	     clsBWMain oMainSim = (clsBWMain)state;
-	     oMainSim.moGameGridField.setObjectLocation(this, new sim.util.Double2D(position.x, position.y));
+	     oMainSim.moGameGridField.setObjectLocation(getMobile(), new sim.util.Double2D(position.x, position.y));
      }
+
+	/* (non-Javadoc)
+	 * @see bw.clsEntity#getEntityType()
+	 */
+	@Override
+	public eEntityType getEntityType() {
+		return eEntityType.STONE;
+	}
+
+	/* (non-Javadoc)
+	 * @see bw.clsEntity#execution()
+	 */
+	@Override
+	public void execution() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	/* (non-Javadoc)
+	 * @see bw.clsEntity#sensing()
+	 */
+	@Override
+	public void sensing() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	/* (non-Javadoc)
+	 * @see bw.clsEntity#setEntityType()
+	 */
+	@Override
+	protected void setEntityType() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	/* (non-Javadoc)
+	 * @see bw.clsEntity#thinking()
+	 */
+	@Override
+	public void thinking() {
+		// TODO Auto-generated method stub
+		
+	}
 }
