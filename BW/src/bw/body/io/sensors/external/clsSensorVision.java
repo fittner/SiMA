@@ -17,14 +17,17 @@ import sim.util.*;
 import bw.physicalObject.entityParts.clsAnimateVision;
 import bw.physicalObject.animate.clsAnimate;
 /**
- * TODO (zeilinger) - This class defines the Vision object   
+ * TODO (zeilinger) - This class defines the Vision object which is tagged to an animate 
+ *                    object. clsSensorVision defines the functionalities of the vision 
+ *                    sensor, while clsAnimateVision defines the physical object.     
  * 
  * @author zeilinger
  * 
  */
 public class clsSensorVision extends clsSensorExt
 {
-	private double mnViewRange; 
+	private double mnViewDegree;
+	private double mnVisRange; 
 	private Double2D moVel;
 	private clsAnimate moAnimate;
 	private clsAnimateVision moVisionArea;
@@ -33,11 +36,13 @@ public class clsSensorVision extends clsSensorExt
 		
 	public clsSensorVision(Double2D poPos, Double2D poVel, PhysicsEngine2D poPE)
 	{
-		mnViewRange = Math.PI;
+		mnViewDegree = Math.PI;
 		meCollidingObj = new Bag();
 		meViewObj = new Bag(); 
 		moVel = poVel;
-		moVisionArea = new clsAnimateVision(poPos, moVel);
+		mnVisRange = 50; 
+		
+		moVisionArea = new clsAnimateVision(poPos, moVel, mnVisRange);
 		moVisionArea.loadVision(poPE, moAnimate); 
 		
 		this.setCollidingObj(); 
@@ -56,8 +61,8 @@ public class clsSensorVision extends clsSensorExt
 			oPhObj = (PhysicalObject2D)itr.next(); 
 			nDeg = Math.atan(((oPhObj.getPosition()).y - moVisionArea.getPosition().y)/
 					             ((oPhObj.getPosition()).x - moVisionArea.getPosition().x));
-			if(nDeg <= moVisionArea.getOrientation().radians + mnViewRange/2 ||
-			       nDeg >= moVisionArea.getOrientation().radians + mnViewRange/2)
+			if(nDeg <= moVisionArea.getOrientation().radians + mnViewDegree/2 ||
+			       nDeg >= moVisionArea.getOrientation().radians + mnViewDegree/2)
 			{
 				meViewObj.add(oPhObj); 
 			}
