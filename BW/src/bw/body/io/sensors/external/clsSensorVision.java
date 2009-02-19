@@ -10,6 +10,7 @@ package bw.body.io.sensors.external;
 import java.util.Iterator;
 
 import sim.physics2D.PhysicsEngine2D;
+import sim.physics2D.physicalObject.MobileObject2D;
 import sim.physics2D.physicalObject.PhysicalObject2D;
 import sim.physics2D.util.Double2D;
 import sim.util.*;
@@ -29,12 +30,11 @@ public class clsSensorVision extends clsSensorExt
 	private double mnViewDegree;
 	private double mnVisRange; 
 	private Double2D moVel;
-	private clsAnimate moAnimate;
 	private clsAnimateVision moVisionArea;
 	private Bag meCollidingObj;
 	private Bag meViewObj;
 		
-	public clsSensorVision(Double2D poPos, Double2D poVel, PhysicsEngine2D poPE)
+	public clsSensorVision(Double2D poPos, Double2D poVel)
 	{
 		mnViewDegree = Math.PI;
 		meCollidingObj = new Bag();
@@ -43,7 +43,7 @@ public class clsSensorVision extends clsSensorExt
 		mnVisRange = 50; 
 		
 		moVisionArea = new clsAnimateVision(poPos, moVel, mnVisRange);
-		moVisionArea.loadVision(poPE, moAnimate); 
+	
 	}
 	
 	private void calcViewObj()
@@ -68,8 +68,13 @@ public class clsSensorVision extends clsSensorExt
 	public double getRelPos(Double2D poPos)
 	{
 		double nOrientation;
-		nOrientation = Math.atan((poPos.y - moVisionArea.getPosition().y)/
-	             				 (poPos.x - moVisionArea.getPosition().x));
+		double nDivX = poPos.x - moVisionArea.getPosition().x;
+		double nDivY = poPos.y - moVisionArea.getPosition().y;
+		nOrientation = Math.atan2(nDivY, nDivX);
+		
+		if(nOrientation < 0)
+			nOrientation = 2*Math.PI+nOrientation; 
+		
 		return nOrientation; 
 	}
 	
@@ -82,6 +87,7 @@ public class clsSensorVision extends clsSensorExt
 		}
 		return false; 
 	}
+	
 	public void setViewObj(PhysicalObject2D pPhObj)
 	{
 		meViewObj.add(pPhObj);
@@ -104,7 +110,7 @@ public class clsSensorVision extends clsSensorExt
 		return meCollidingObj; 
 	}
 	
-	public clsAnimateVision getVisionObj()
+	public clsAnimateVision getPhysObj()
 	{
 		return moVisionArea; 
 	}
@@ -113,4 +119,5 @@ public class clsSensorVision extends clsSensorExt
 	{
 		meCollidingObj = peCollidingObj; 
 	}
+	
 }
