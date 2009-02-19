@@ -29,20 +29,18 @@ public class clsSensorVision extends clsSensorExt
 {
 	private double mnViewDegree;
 	private double mnVisRange; 
-	private Double2D moVel;
 	private clsEntityVision moVisionArea;
 	private Bag meCollidingObj;
 	private Bag meViewObj;
 		
-	public clsSensorVision(Double2D poPos, Double2D poVel)
+	public clsSensorVision(Double2D poPos)
 	{
 		mnViewDegree = Math.PI;
 		meCollidingObj = new Bag();
 		meViewObj = new Bag(); 
-		moVel = poVel;
 		mnVisRange = 50; 
 		
-		moVisionArea = new clsEntityVision(poPos, moVel, mnVisRange);
+		moVisionArea = new clsEntityVision(poPos, mnVisRange);
 	
 	}
 	
@@ -93,11 +91,6 @@ public class clsSensorVision extends clsSensorExt
 		meViewObj.add(pPhObj);
 	}
 	
-	public void setVel(Double2D poVel)
-	{
-		moVel=poVel; 
-	}
-		
 	public Bag getViewObj()
 	{
 		meCollidingObj = moVisionArea.getCollidingObj();
