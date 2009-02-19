@@ -12,6 +12,7 @@ import bw.actionresponses.clsEntityActionResponses;
 import bw.body.io.clsBaseIO;
 import bw.exceptions.*;
 import bw.utils.enums.eBodyParts;
+import bw.utils.tools.clsFood;
 
 /**
  *  implementation of a actuator for eating
@@ -90,17 +91,15 @@ public class clsActuatorEat extends clsActuatorExt {
 		clsEntityActionResponses oEntityActionResponse = moEntity.getEntityActionResponses();
 		
 		try{
-
 			//when we eat, we need more energy
 			registerEnergyConsumption(mrDefaultEnergyConsuptionValue + 3.5f); //TODO clemens: change 50 to the real value
 			
 			float rWeight = 27;
 			
-			oEntityActionResponse.actionEatResponse(rWeight);
+			clsFood oReturnedFood = oEntityActionResponse.actionEatResponse(rWeight);
 			
-			//testing the exception
-			throw(new EntityNotEatable(oEatenEntity.getEntityType()) );
-			
+			if(oReturnedFood == null)
+				throw(new EntityNotEatable(oEatenEntity.getEntityType()) );
 			
 		}catch(EntityNotEatable ex){
 			
