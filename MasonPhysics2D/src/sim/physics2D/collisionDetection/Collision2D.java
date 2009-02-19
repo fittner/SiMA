@@ -55,7 +55,7 @@ class Collision2D
         }
     
     /** 
-     * TODO (zeilinger)
+     * (zeilinger)
      * ARS_EXTENSION 
      * This extension is introduced as the object ActiveList is required by the 
      * PhysicalObject Vision. Loop through the ActiveList and returns a Bag object 
