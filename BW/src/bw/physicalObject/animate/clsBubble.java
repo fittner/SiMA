@@ -17,6 +17,7 @@ import sim.physics2D.forceGenerator.ForceGenerator;
 import sim.physics2D.util.Angle;
 import sim.physics2D.util.Double2D;
 import sim.portrayal.DrawInfo2D;
+import bw.actionresponses.clsBubbleResponses;
 import bw.body.itfStep;
 import ARSsim.physics2D.physicalObject.clsMobileObject2D;
 import ARSsim.robot2D.clsMotionPlatform;
@@ -54,6 +55,8 @@ public class clsBubble extends clsAnimate {
 	public clsBubble(Double2D poStartingPosition, Double2D poStartingVelocity,  int pnId)
     {
 		super(poStartingVelocity, poStartingVelocity, pnId);
+		
+		this.setEntityActionResponse(new clsBubbleResponses());
 		
 		setShape();
 		

@@ -9,6 +9,8 @@ package bw;
 
 import sim.physics2D.physicalObject.PhysicalObject2D;
 import ARSsim.physics2D.physicalObject.itfSetupFunctions;
+import bw.actionresponses.clsDefaultEntityActionResponse;
+import bw.actionresponses.clsEntityActionResponses;
 import bw.utils.enums.eEntityType;
 
 
@@ -32,12 +34,18 @@ import bw.utils.enums.eEntityType;
 public abstract class clsEntity {
 	
 	protected PhysicalObject2D moPhysicalObject2D = null;
+	private clsEntityActionResponses moEntityActionResponses;
 
 	private boolean useSimplePortrayal;
 	
 	public clsEntity() {
 		setEntityType();
 		useSimplePortrayal = true;
+		setEntityActionResponse(new clsDefaultEntityActionResponse());
+	}
+	
+	protected void setEntityActionResponse(clsEntityActionResponses poResponse) {
+		setEntityActionResponses(poResponse);
 	}
 
 	protected eEntityType meEntityType;
@@ -65,5 +73,19 @@ public abstract class clsEntity {
 	public abstract void sensing();
 	public abstract void thinking();
 	public abstract void execution();
+
+	/**
+	 * @param moEntityActionResponses the moEntityActionResponses to set
+	 */
+	public void setEntityActionResponses(clsEntityActionResponses poEntityActionResponses) {
+		this.moEntityActionResponses = poEntityActionResponses;
+	}
+
+	/**
+	 * @return the moEntityActionResponses
+	 */
+	public clsEntityActionResponses getEntityActionResponses() {
+		return moEntityActionResponses;
+	}
 
 }

@@ -8,6 +8,7 @@
 package bw.body.io.actuators.external;
 
 import bw.clsEntity;
+import bw.actionresponses.clsEntityActionResponses;
 import bw.body.io.clsBaseIO;
 import bw.exceptions.*;
 import bw.utils.enums.eBodyParts;
@@ -81,17 +82,21 @@ public class clsActuatorEat extends clsActuatorExt {
 	 * Method for eating, takes a clsEntity in, and tries to chew it. Exception catched if not eatable.
 	 *
 	 * @param poEntity
+	 * @throws EntityActionResponseNotImplemented 
 	 */
-	public void eat(clsEntity poEntity){
+	public void eat(clsEntity poEatenEntity) throws EntityActionResponseNotImplemented{
 		
-		clsEntity oEatenEntity = null;
+		clsEntity oEatenEntity = poEatenEntity;
+		clsEntityActionResponses oEntityActionResponse = moEntity.getEntityActionResponses();
 		
 		try{
-			
-			//eat entity
-			
+
 			//when we eat, we need more energy
 			registerEnergyConsumption(mrDefaultEnergyConsuptionValue + 3.5f); //TODO clemens: change 50 to the real value
+			
+			float rWeight = 27;
+			
+			oEntityActionResponse.actionEatResponse(rWeight);
 			
 			//testing the exception
 			throw(new EntityNotEatable(oEatenEntity.getEntityType()) );
