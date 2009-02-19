@@ -15,7 +15,7 @@ import sim.physics2D.physicalObject.PhysicalObject2D;
 import sim.physics2D.util.Double2D;
 import sim.util.*;
 
-import bw.physicalObject.entityParts.clsAnimateVision;
+import bw.physicalObject.entityParts.clsEntityVision;
 import bw.physicalObject.animate.clsAnimate;
 /**
  * TODO (zeilinger) - This class defines the Vision object which is tagged to an animate 
@@ -30,7 +30,7 @@ public class clsSensorVision extends clsSensorExt
 	private double mnViewDegree;
 	private double mnVisRange; 
 	private Double2D moVel;
-	private clsAnimateVision moVisionArea;
+	private clsEntityVision moVisionArea;
 	private Bag meCollidingObj;
 	private Bag meViewObj;
 		
@@ -110,7 +110,7 @@ public class clsSensorVision extends clsSensorExt
 		return meCollidingObj; 
 	}
 	
-	public clsAnimateVision getPhysObj()
+	public clsEntityVision getPhysObj()
 	{
 		return moVisionArea; 
 	}
