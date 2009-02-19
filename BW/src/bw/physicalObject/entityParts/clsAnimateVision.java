@@ -35,6 +35,10 @@ import sim.util.*;
 
 public class clsAnimateVision extends MobileObject2D implements Steppable{
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private final static double MASS = 0.0001;
 	private final static double FRICTION = 0;
 	private final static double RESTITUTION = 0;
@@ -45,48 +49,36 @@ public class clsAnimateVision extends MobileObject2D implements Steppable{
 	private Bag meVisionObj;
 	private Paint moColor;
 	private CircleBorder moShape;
-	private clsAnimate moTaggedAnimate;
-	
+		
 	public clsAnimateVision(Double2D poPos, Double2D poVel, double pnRad)
     {    	
 	 meCollidingObj = new Bag();
 	 meVisionObj = new Bag();
 	 moColor = Color.yellow;
-	 moShape = new CircleBorder(mnRadius, moColor);
 	 mnRadius = pnRad; 
+	 moShape = new CircleBorder(mnRadius, moColor);
 	 
 	 this.setVelocity(poVel);
      this.setPose(poPos, new Angle(0));
-     this.setShape(moShape, mnRadius * mnRadius * Math.PI);
+     this.setShape(moShape, MASS);
 
-     this.setMass(MASS); 
+     //this.setMass(MASS); 
      this.setCoefficientOfFriction(FRICTION);
      this.setCoefficientOfRestitution(RESTITUTION);
     }
 
-	public void loadVision(PhysicsEngine2D poPE, clsAnimate poRobot)
-	{
-		moTaggedAnimate = poRobot; 
-		
-		PinJoint oPJ;	
-		oPJ = new PinJoint(moTaggedAnimate.getMobile().getPosition(), this, moTaggedAnimate.getMobile());
-		
-		poPE.setNoCollisions(this, moTaggedAnimate.getMobile());
-		poPE.register(this);
-		poPE.register(oPJ);
-	}
 	
 	public int handleCollision(PhysicalObject2D other, Double2D colPoint)
 	{
+		meCollidingObj.add(other);
 		return 0; // Vis collision
 	}
 	
 	public void step(SimState state)
 	{
-		  this.setPose(moTaggedAnimate.getMobile().getPosition(), moTaggedAnimate.getMobile().getOrientation());
-		  clsBWMain simRobots = (clsBWMain)state;
-	      simRobots.moGameGridField.setObjectLocation(this, new sim.util.Double2D(this.getPosition().x, this.getPosition().y));
+		  ((clsBWMain)state).moGameGridField.setObjectLocation(this, new sim.util.Double2D(this.getPosition().x, this.getPosition().y));
 	      meCollidingObj.clear(); 
+	      meVisionObj.clear();
 	}
 	    
 	//--------------------------------------------------------------------------------------------------
@@ -138,7 +130,7 @@ public class clsAnimateVision extends MobileObject2D implements Steppable{
 	*/     
 	public void addContact(PhysicalObject2D other, Double2D colPoint)
 	{
-		meCollidingObj.add(other);		
+		meVisionObj.add(other);		
 	}	
 }
 
