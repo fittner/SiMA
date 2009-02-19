@@ -16,12 +16,19 @@ import bw.body.itfStep;
  * 
  */
 public class clsInterBodyWorldSystem implements itfStep {
+	private clsConsumeFood moConsumeFood;
+	
+	private static final int mnDefaultGarbageNutritionType = 1; 
 
 	/**
 	 * 
 	 */
 	public clsInterBodyWorldSystem() {
-		
+		moConsumeFood = new clsConsumeFood(mnDefaultGarbageNutritionType);
+	}
+	
+	public clsConsumeFood getConsumeFood() {
+		return moConsumeFood;
 	}
 	
 	/* (non-Javadoc)
