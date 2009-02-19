@@ -14,7 +14,7 @@ import ARSsim.physics2D.shape.CircleBorder;
 import bw.clsEntity;
 import bw.sim.clsBWMain;
 import bw.body.clsAgentBody;
-import bw.factories.clsSingletonPhysicsEngineGetter;
+import bw.factories.clsSingletonMasonGetter;
 import bw.physicalObject.animate.clsAnimate;
 import bw.physicalObject.inanimate.mobile.clsMobile;
 

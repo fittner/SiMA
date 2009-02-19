@@ -17,7 +17,7 @@ import sim.util.*;
 
 import bw.clsEntity;
 import bw.body.io.clsBaseIO;
-import bw.factories.clsSingletonPhysicsEngineGetter;
+import bw.factories.clsSingletonMasonGetter;
 import bw.physicalObject.entityParts.clsEntityPartVision;
 import bw.physicalObject.inanimate.mobile.clsMobile;
 import bw.utils.enums.eBodyParts;
@@ -65,7 +65,7 @@ public class clsSensorVision extends clsSensorExt
 	 * @param poEntity
 	 */
 	private void regVisionObj(clsEntity poEntity)	{
-		PhysicsEngine2D oPhyEn2D = clsSingletonPhysicsEngineGetter.getPhysicsEngine2D();
+		PhysicsEngine2D oPhyEn2D = clsSingletonMasonGetter.getPhysicsEngine2D();
 	
 		oPhyEn2D.register(moVisionArea);
 		PinJoint mPJ = new PinJoint(((clsMobile)poEntity).getMobile().getPosition(), moVisionArea,((clsMobile)poEntity).getMobile());

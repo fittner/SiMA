@@ -8,6 +8,7 @@
 package bw;
 
 import sim.physics2D.physicalObject.PhysicalObject2D;
+import ARSsim.physics2D.physicalObject.itfSetupFunctions;
 import bw.utils.enums.eEntityType;
 
 
@@ -55,6 +56,10 @@ public abstract class clsEntity {
 		}
 
 		return retVal;
+	}
+	
+	public void setPosition(sim.util.Double2D poPos) {
+		((itfSetupFunctions)moPhysicalObject2D).setPosition(poPos);
 	}
 	
 	public abstract void sensing();

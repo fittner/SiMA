@@ -36,6 +36,10 @@ public abstract class clsMobile extends clsEntity {
 		//TODO: register irgendwie
 	}
 
+	public void setPosition(){
+	
+		
+	}
 	
 	
 }

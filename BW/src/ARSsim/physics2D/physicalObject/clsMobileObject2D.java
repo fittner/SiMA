@@ -7,6 +7,7 @@ import java.util.ArrayList;
 
 import sim.engine.SimState;
 import sim.engine.Steppable;
+import sim.field.continuous.Continuous2D;
 import sim.physics2D.forceGenerator.ForceGenerator;
 import sim.physics2D.physicalObject.PhysicalObject2D;
 import sim.physics2D.util.Angle;
@@ -15,6 +16,7 @@ import ARSsim.robot2D.clsBrainAction;
 import ARSsim.robot2D.clsMotionAction;
 import ARSsim.robot2D.clsMotionPlatform;
 import bw.clsEntity;
+import bw.factories.clsSingletonMasonGetter;
 import bw.sim.clsBWMain;
 import bw.utils.enums.eActionCommandType;
 
@@ -24,7 +26,7 @@ import bw.utils.enums.eActionCommandType;
  * @author muchitsch
  *
  */
-public class clsMobileObject2D extends sim.physics2D.physicalObject.MobileObject2D implements Steppable, ForceGenerator, itfGetEntity {
+public class clsMobileObject2D extends sim.physics2D.physicalObject.MobileObject2D implements Steppable, ForceGenerator, itfGetEntity, itfSetupFunctions {
 
 	/**
 	 * 
@@ -41,8 +43,15 @@ public class clsMobileObject2D extends sim.physics2D.physicalObject.MobileObject
 		moEntity = poEntity;
 		moMotionPlatform = new clsMotionPlatform(this);
 		moCollisionList = new ArrayList<clsCollidingObject>();
+		
+        //poObjPE.register(this);
+        
+        //poSimState.schedule.scheduleRepeating(this);
 	}
 	
+	public void setPosition(sim.util.Double2D poPosition) {
+		clsSingletonMasonGetter.getFieldEnvironment().setObjectLocation(this, poPosition);
+	}
 	
 	/**
 	 * TODO (muchitsch) - insert description

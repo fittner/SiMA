@@ -12,7 +12,7 @@ import org.jfree.chart.JFreeChart;
 import org.jfree.data.xy.XYSeries;
 import org.jfree.data.xy.XYSeriesCollection;
 
-import bw.factories.clsSingletonPhysicsEngineGetter;
+import bw.factories.clsSingletonMasonGetter;
 import bw.sim.bwgenerator.clsAgentLoader;
 import bw.sim.bwgenerator.clsEntityLoader;
 import bw.sim.bwgenerator.clsWorldBoundaries;
@@ -83,9 +83,9 @@ public class clsBWMain extends SimState{
 		
 		createGrids();
 		
-		clsSingletonPhysicsEngineGetter.setPhysicsEngine2D(new PhysicsEngine2D());
+		clsSingletonMasonGetter.setPhysicsEngine2D(new PhysicsEngine2D());
 		
-		PhysicsEngine2D objPE = clsSingletonPhysicsEngineGetter.getPhysicsEngine2D();
+		PhysicsEngine2D objPE = clsSingletonMasonGetter.getPhysicsEngine2D();
 		
 		//creating and registring objects...
 		loadObjects(objPE);

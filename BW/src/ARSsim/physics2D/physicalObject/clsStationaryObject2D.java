@@ -4,6 +4,7 @@
 package ARSsim.physics2D.physicalObject;
 
 import bw.clsEntity;
+import bw.factories.clsSingletonMasonGetter;
 
 /**
  * Our representative of the mason physics class
@@ -11,7 +12,7 @@ import bw.clsEntity;
  * @author muchitsch
  *
  */
-public class clsStationaryObject2D extends sim.physics2D.physicalObject.StationaryObject2D implements itfGetEntity {
+public class clsStationaryObject2D extends sim.physics2D.physicalObject.StationaryObject2D implements itfGetEntity, itfSetupFunctions {
 	
 	/**
 	 * 
@@ -34,5 +35,9 @@ public class clsStationaryObject2D extends sim.physics2D.physicalObject.Stationa
 		// TODO Auto-generated method stub
 		return moEntity;
 	}	
+	
+	public void setPosition(sim.util.Double2D poPosition) {
+		clsSingletonMasonGetter.getFieldEnvironment().setObjectLocation(this, poPosition);
+	}
 		
 }

@@ -8,6 +8,7 @@
 package bw.physicalObject.animate;
 
 import java.awt.Color;
+import java.util.ArrayList;
 
 import sim.engine.SimState;
 import sim.engine.Steppable;
@@ -19,10 +20,14 @@ import sim.physics2D.util.Angle;
 import sim.physics2D.util.Double2D;
 import sim.portrayal.DrawInfo2D;
 import ARSsim.physics2D.physicalObject.clsMobileObject2D;
+import ARSsim.robot2D.clsBrainAction;
+import ARSsim.robot2D.clsMotionAction;
 import ARSsim.robot2D.clsMotionPlatform;
 import bw.physicalObject.entityParts.clsBotHands;
 import bw.physicalObject.inanimate.mobile.clsCan;
 import bw.sim.clsBWMain;
+import bw.utils.enums.eActionCommandMotion;
+import bw.utils.enums.eActionCommandType;
 import bw.utils.enums.eEntityType;
 
 
@@ -34,10 +39,8 @@ import sim.display.clsKeyListener;
  * @author langr
  * 
  */
-public class clsRemoteBot extends clsAnimate implements Steppable
+public class clsRemoteBot extends clsAnimate
     {
-	private clsMotionPlatform moMotion;
-	
     clsCan currentCan;
     private PinJoint pj;
     private Double2D canHome;
@@ -78,16 +81,13 @@ public class clsRemoteBot extends clsAnimate implements Steppable
         {
 		super(pos, vel, pnId);
 		
-		clsMobileObject2D oMobile = getMobile();
-		moMotion = new clsMotionPlatform(oMobile);
-		
         // vary the mass with the size
     	this.mnId = pnId;
-    	oMobile.setPose(pos, new Angle(0));
-    	oMobile.setVelocity(vel);
-    	oMobile.setShape(new sim.physics2D.shape.Circle(10, Color.gray), 300);
+    	getMobile().setPose(pos, new Angle(0));
+    	getMobile().setVelocity(vel);
+    	getMobile().setShape(new sim.physics2D.shape.Circle(10, Color.gray), 300);
                 
-        this.normalForce = oMobile.getMass();
+        this.normalForce = getMobile().getMass();
                 
         currentCan = null;
                 
@@ -99,13 +99,6 @@ public class clsRemoteBot extends clsAnimate implements Steppable
         objCE = ConstraintEngine.getInstance();
         } 
  
-    public void step(SimState state)
-        {
-        Double2D position = getMobile().getPosition();
-        clsBWMain simRobots = (clsBWMain)state;
-        simRobots.moGameGridField.setObjectLocation(this, new sim.util.Double2D(position.x, position.y));
-        }
-
  /*   public void addForceEntity()
         {
         
@@ -171,20 +164,43 @@ public class clsRemoteBot extends clsAnimate implements Steppable
         }
  */   
 
-    /* (non-Javadoc)
-	 * @see bw.clsEntity#getEntityType()
-	 */
-	@Override
-	public eEntityType getEntityType() {
-		return eEntityType.REMOTEBOT;
-	}
-
 	/* (non-Javadoc)
 	 * @see bw.clsEntity#execution()
 	 */
 	@Override
 	public void execution() {
 		// TODO Auto-generated method stub
+		
+		ArrayList<clsBrainAction> oActionList = new ArrayList<clsBrainAction>();
+		
+	   	switch( clsKeyListener.getKeyPressed() )
+    	{
+    	case 38: //up
+    		oActionList.add(new clsMotionAction(eActionCommandType.MOTION, eActionCommandMotion.MOVE_FORWARD) );
+    		break;
+    	case 40: //down
+    		oActionList.add(new clsMotionAction(eActionCommandType.MOTION, eActionCommandMotion.MOVE_BACKWARD) );
+    		break;
+    	case 37: //rotate_left
+    		oActionList.add(new clsMotionAction(eActionCommandType.MOTION, eActionCommandMotion.ROTATE_LEFT) );
+    		break;
+    	case 39: //rotate_right
+    		oActionList.add(new clsMotionAction(eActionCommandType.MOTION, eActionCommandMotion.ROTATE_RIGHT) );
+    		break;
+    	case 65: //'A'
+    		break;
+    	case 83: //'S'
+//            if(botState==HAVECAN)
+//            {
+//	    		objCE.unRegisterForceConstraint(pj);                            
+//	            botState = APPROACHINGCAN;
+//	            objCE.removeNoCollisions(getMobile(), currentCan.getMobile());
+//	            objCE.removeNoCollisions(e1, currentCan.getMobile());
+//	            objCE.removeNoCollisions(e2, currentCan.getMobile());
+//	            currentCan.visible = true;
+//            }
+    		break;
+    	}
 		
 	}
 
@@ -202,8 +218,7 @@ public class clsRemoteBot extends clsAnimate implements Steppable
 	 */
 	@Override
 	protected void setEntityType() {
-		// TODO Auto-generated method stub
-		
+		meEntityType = eEntityType.REMOTEBOT;
 	}
 
 	/* (non-Javadoc)

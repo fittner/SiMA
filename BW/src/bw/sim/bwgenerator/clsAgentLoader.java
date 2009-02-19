@@ -34,10 +34,10 @@ public class clsAgentLoader {
 	public static void loadAgents(Continuous2D poFieldEnvironment, PhysicsEngine2D poObjPE, SimState poSimState, double xMin, double xMax, double yMin, double yMax){
 		
 		//FIXME (langr) for test cases only --> refactor!
-		loadCans(poFieldEnvironment, poObjPE, poSimState, 3, xMin, xMax, yMin, yMax);
+//		loadCans(poFieldEnvironment, poObjPE, poSimState, 3, xMin, xMax, yMin, yMax);
 //		loadBots(poFieldEnvironment, poObjPE, poSimState, 2, xMin, xMax, yMin, yMax);
 		loadRemoteBots(poFieldEnvironment, poObjPE, poSimState, 2, xMin, xMax, yMin, yMax);
-		loadBubbles(poFieldEnvironment, poObjPE, poSimState, 1, xMin, xMax, yMin, yMax);
+//		loadBubbles(poFieldEnvironment, poObjPE, poSimState, 1, xMin, xMax, yMin, yMax);
 	}
 	
 	public static void loadCans(Continuous2D poFieldEnvironment, PhysicsEngine2D poObjPE, SimState poSimState, int pnNumCans, double xMin, double xMax, double yMin, double yMax){
@@ -236,10 +236,7 @@ public class clsAgentLoader {
                     
         pos = new Double2D(x, y);
         bot = new clsRemoteBot(pos, new Double2D(0, 0),i);
-        poObjPE.register(bot.getMobile());
-        poFieldEnvironment.setObjectLocation(bot.getMobile(), new sim.util.Double2D(pos.x, pos.y));
-        poSimState.schedule.scheduleRepeating(bot);
-                    
+        bot.getMobile().setPosition(new sim.util.Double2D(pos.x, pos.y));
                     
         //FixedAngle fa = new FixedAngle();
         //NoPerpMotion npm = new NoPerpMotion();
