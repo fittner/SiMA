@@ -7,8 +7,9 @@
  */
 package bw.physicalObject.inanimate.stationary;
 
+import ARSsim.physics2D.physicalObject.clsStationaryObject2D;
 import bw.clsEntity;
-import bw.physicalObject.inanimate.clsInanimate;
+
 
 
 /**
@@ -19,4 +20,21 @@ import bw.physicalObject.inanimate.clsInanimate;
  */
 public abstract class clsStationary extends clsEntity {
 
+	/**
+	 * @return the moMobile
+	 */
+	public clsStationaryObject2D getMobile() {
+		return (clsStationaryObject2D)moPhysicalObject2D;
+	}
+
+	
+	/**
+	 * 
+	 */
+	public clsStationary() {
+		super();
+		
+		moPhysicalObject2D = new clsStationaryObject2D(this);
+		//TODO: register irgendwie
+	}
 }

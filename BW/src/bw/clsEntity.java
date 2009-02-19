@@ -7,6 +7,7 @@
  */
 package bw;
 
+import sim.physics2D.physicalObject.PhysicalObject2D;
 import bw.physicalObject.eEntityType;
 
 
@@ -28,6 +29,8 @@ import bw.physicalObject.eEntityType;
  * 
  */
 public abstract class clsEntity {
+	
+	protected PhysicalObject2D moPhysicalObject2D = null;
 
 	private boolean useSimplePortrayal;
 	

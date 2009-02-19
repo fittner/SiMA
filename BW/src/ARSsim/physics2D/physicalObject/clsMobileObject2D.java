@@ -4,7 +4,6 @@
 package ARSsim.physics2D.physicalObject;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import sim.engine.SimState;
 import sim.engine.Steppable;
@@ -12,8 +11,6 @@ import sim.physics2D.forceGenerator.ForceGenerator;
 import sim.physics2D.physicalObject.PhysicalObject2D;
 import sim.physics2D.util.Double2D;
 import bw.clsEntity;
-import bw.physicalObject.eEntityType;
-import bw.physicalObject.inanimate.mobile.clsMobile;
 import bw.sim.clsBWMain;
 
 /**
