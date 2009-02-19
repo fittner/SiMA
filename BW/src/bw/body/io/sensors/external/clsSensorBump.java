@@ -7,10 +7,14 @@
  */
 package bw.body.io.sensors.external;
 
+import java.util.ArrayList;
+import ARSsim.physics2D.physicalObject.clsCollidingObject;
+import ARSsim.physics2D.physicalObject.clsMobileObject2D;
 import bw.clsEntity;
+import bw.physicalObject.animate.clsAnimate;
 
 /**
- * TODO (muchitsch) - insert description 
+ * implementation of a vision sensor, returns the <clsCollidingObject> list of the actual bumped objects
  * 
  * @author muchitsch
  * 
@@ -18,7 +22,9 @@ import bw.clsEntity;
 public class clsSensorBump extends clsSensorExt{
 
 	private clsEntity moEntity;
-	
+	private ArrayList<clsCollidingObject> moCollisionList;
+
+
 	/**
 	 * constructor takes the entity stored as a local reference 
 	 */
@@ -26,6 +32,14 @@ public class clsSensorBump extends clsSensorExt{
 		super();
 		setEntity(poEntity);
 		// TODO Auto-generated constructor stub
+	}
+	
+	/**
+	 * returns the collision list of the actual bumped objects
+	 * @return the moCollisionList
+	 */
+	public ArrayList<clsCollidingObject> getMoCollisionList() {
+		return moCollisionList;
 	}
 	
 	/**
@@ -42,8 +56,8 @@ public class clsSensorBump extends clsSensorExt{
 	 */
 	@Override
 	public void updateSensorData() {
-		// TODO Auto-generated method stub
-		
+		clsMobileObject2D oMobile = ((clsAnimate)moEntity).getMobile();
+		moCollisionList = oMobile.moCollisionList;
 	}
 	
 	
