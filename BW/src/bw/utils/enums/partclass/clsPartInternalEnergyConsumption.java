@@ -15,14 +15,15 @@ import bw.utils.enums.eBodyParts;
  * @author deutsch
  * 
  */
-public class clsPartStomach extends clsPartInternalSystems {
+public class clsPartInternalEnergyConsumption extends clsPartInternalSystems {
 
 	/* (non-Javadoc)
 	 * @see bw.utils.enums.partclass.clsBasePart#setName()
 	 */
 	@Override
 	protected void setName() {
-		moName = "Stomach";
+		moName = "Internal Energy Consumption";
+
 	}
 
 	/* (non-Javadoc)
@@ -30,8 +31,7 @@ public class clsPartStomach extends clsPartInternalSystems {
 	 */
 	@Override
 	protected void setPartId() {
-		mePartId = eBodyParts.INTSYS_STOMACH_SYSTEM;
-		
+		mePartId = eBodyParts.INTSYS_INTERNAL_ENERGY_CONSUMPTION;
 	}
 
 }

@@ -13,6 +13,8 @@ package bw.utils.enums.partclass;
  * @author deutsch
  * 
  */
-public abstract class clsPartSensor extends clsBasePart {
+public abstract class clsPartInternalSystems extends clsBasePart {
+
+
 
 }
