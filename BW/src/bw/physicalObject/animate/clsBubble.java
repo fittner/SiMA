@@ -8,6 +8,7 @@
 package bw.physicalObject.animate;
 
 import java.awt.Color;
+import java.util.ArrayList;
 import java.util.HashMap;
 
 import sim.engine.SimState;
@@ -20,6 +21,7 @@ import sim.portrayal.DrawInfo2D;
 import bw.actionresponses.clsBubbleResponses;
 import bw.body.itfStep;
 import ARSsim.physics2D.physicalObject.clsMobileObject2D;
+import ARSsim.robot2D.clsBrainAction;
 import ARSsim.robot2D.clsMotionPlatform;
 import bw.sim.clsBWMain;
 import bw.utils.datatypes.clsMutableFloat;
@@ -82,14 +84,6 @@ public class clsBubble extends clsAnimate {
 		return eEntityType.BUBBLE;
 	}
 
-	/* (non-Javadoc)
-	 * @see bw.clsEntity#execution()
-	 */
-	@Override
-	public void execution() {
-		// TODO Auto-generated method stub
-		
-	}
 
 	/* (non-Javadoc)
 	 * @see bw.clsEntity#sensing()
@@ -114,6 +108,15 @@ public class clsBubble extends clsAnimate {
 	 */
 	@Override
 	public void thinking() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	/* (non-Javadoc)
+	 * @see bw.clsEntity#execution(java.util.ArrayList)
+	 */
+	@Override
+	public void execution(ArrayList<clsBrainAction> poActionList) {
 		// TODO Auto-generated method stub
 		
 	}

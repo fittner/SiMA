@@ -9,6 +9,7 @@ import sim.engine.SimState;
 import sim.engine.Steppable;
 import sim.physics2D.forceGenerator.ForceGenerator;
 import sim.physics2D.physicalObject.PhysicalObject2D;
+import sim.physics2D.shape.Shape;
 import sim.physics2D.util.Angle;
 import sim.physics2D.util.Double2D;
 import ARSsim.robot2D.clsBrainAction;
@@ -44,14 +45,20 @@ public class clsMobileObject2D extends sim.physics2D.physicalObject.MobileObject
 		moCollisionList = new ArrayList<clsCollidingObject>();
 	}
 
-	public void doRegisterMason()
+	public void setPosition(sim.util.Double2D poPosition) {
+		clsSingletonMasonGetter.getFieldEnvironment().setObjectLocation(this, poPosition);
+	}
+	
+	public void setCoefficients(double poFriction, double poStaticFriction, double poRestitution) {
+		setCoefficientOfFriction(poFriction);
+		setCoefficientOfStaticFriction(poStaticFriction);
+		setCoefficientOfRestitution(poRestitution);
+	}
+	
+	public void finalizeSetup()
 	{
 		clsSingletonMasonGetter.getPhysicsEngine2D().register(this);
 		clsSingletonMasonGetter.getSimState().schedule.scheduleRepeating(this);		
-	}
-	
-	public void setPosition(sim.util.Double2D poPosition) {
-		clsSingletonMasonGetter.getFieldEnvironment().setObjectLocation(this, poPosition);
 	}
 	
 	/**
@@ -92,7 +99,7 @@ public class clsMobileObject2D extends sim.physics2D.physicalObject.MobileObject
 		
 		ArrayList<clsBrainAction> oActionList = new ArrayList<clsBrainAction>();
 		
-		moEntity.execution();
+		moEntity.execution(oActionList);
 		// TODO: (langr) --> moEntity.execution(oActionList);
 		try
 		{
@@ -180,5 +187,4 @@ public class clsMobileObject2D extends sim.physics2D.physicalObject.MobileObject
     			break;
     	}
     }
-    
 }

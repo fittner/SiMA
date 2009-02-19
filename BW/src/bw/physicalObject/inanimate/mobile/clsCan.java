@@ -8,9 +8,12 @@
 package bw.physicalObject.inanimate.mobile;
 
 import java.awt.*;
+import java.util.ArrayList;
+
 import sim.engine.*;
 import sim.physics2D.util.*;
 import ARSsim.physics2D.physicalObject.clsMobileObject2D;
+import ARSsim.robot2D.clsBrainAction;
 import bw.physicalObject.inanimate.clsInanimate;
 import bw.sim.clsBWMain;
 import bw.utils.enums.eEntityType;
@@ -50,15 +53,6 @@ public class clsCan extends clsInanimate
 	}
 
 	/* (non-Javadoc)
-	 * @see bw.clsEntity#execution()
-	 */
-	@Override
-	public void execution() {
-		// TODO Auto-generated method stub
-		
-	}
-
-	/* (non-Javadoc)
 	 * @see bw.clsEntity#sensing()
 	 */
 	@Override
@@ -81,6 +75,14 @@ public class clsCan extends clsInanimate
 	 */
 	@Override
 	public void thinking() {
+		// TODO Auto-generated method stub
+		
+	}
+	/* (non-Javadoc)
+	 * @see bw.clsEntity#execution(java.util.ArrayList)
+	 */
+	@Override
+	public void execution(ArrayList<clsBrainAction> poActionList) {
 		// TODO Auto-generated method stub
 		
 	}

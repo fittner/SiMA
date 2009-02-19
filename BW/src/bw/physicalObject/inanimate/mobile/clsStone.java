@@ -9,6 +9,7 @@ package bw.physicalObject.inanimate.mobile;
 
 import java.awt.Color;
 import java.io.IOException;
+import java.util.ArrayList;
 
 import bw.physicalObject.inanimate.clsInanimate;
 import bw.sim.clsBWMain;
@@ -20,6 +21,7 @@ import sim.physics2D.physicalObject.MobileObject2D;
 import sim.physics2D.util.Angle;
 import sim.physics2D.util.Double2D;
 import ARSsim.physics2D.physicalObject.clsMobileObject2D;
+import ARSsim.robot2D.clsBrainAction;
 
 /**
  * Mason representative (physics+renderOnScreen) for a stone.  
@@ -56,19 +58,6 @@ public class clsStone extends clsInanimate {
 //	     oMainSim.moGameGridField.setObjectLocation(getMobile(), new sim.util.Double2D(position.x, position.y));
 //     }
 
-
-
-	/* (non-Javadoc)
-	 * @see bw.clsEntity#execution()
-	 */
-	@Override
-	public void execution() {
-		// TODO Auto-generated method stub
-		
-	}
-
-
-
 	/* (non-Javadoc)
 	 * @see bw.clsEntity#sensing()
 	 */
@@ -96,6 +85,17 @@ public class clsStone extends clsInanimate {
 	 */
 	@Override
 	public void thinking() {
+		// TODO Auto-generated method stub
+		
+	}
+
+
+
+	/* (non-Javadoc)
+	 * @see bw.clsEntity#execution(java.util.ArrayList)
+	 */
+	@Override
+	public void execution(ArrayList<clsBrainAction> poActionList) {
 		// TODO Auto-generated method stub
 		
 	}

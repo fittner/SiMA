@@ -83,10 +83,6 @@ public class clsRemoteBot extends clsAnimate
 		
         // vary the mass with the size
     	this.mnId = pnId;
-    	getMobile().setPose(pos, new Angle(0));
-    	getMobile().setVelocity(vel);
-    	getMobile().setShape(new sim.physics2D.shape.Circle(10, Color.gray), 300);
-                
         this.normalForce = getMobile().getMass();
                 
         currentCan = null;
@@ -168,24 +164,22 @@ public class clsRemoteBot extends clsAnimate
 	 * @see bw.clsEntity#execution()
 	 */
 	@Override
-	public void execution() {
+	public void execution(ArrayList<clsBrainAction> poActionList) {
 		// TODO Auto-generated method stub
-		
-		ArrayList<clsBrainAction> oActionList = new ArrayList<clsBrainAction>();
 		
 	   	switch( clsKeyListener.getKeyPressed() )
     	{
     	case 38: //up
-    		oActionList.add(new clsMotionAction(eActionCommandType.MOTION, eActionCommandMotion.MOVE_FORWARD) );
+    		poActionList.add(new clsMotionAction(eActionCommandType.MOTION, eActionCommandMotion.MOVE_FORWARD) );
     		break;
     	case 40: //down
-    		oActionList.add(new clsMotionAction(eActionCommandType.MOTION, eActionCommandMotion.MOVE_BACKWARD) );
+    		poActionList.add(new clsMotionAction(eActionCommandType.MOTION, eActionCommandMotion.MOVE_BACKWARD) );
     		break;
     	case 37: //rotate_left
-    		oActionList.add(new clsMotionAction(eActionCommandType.MOTION, eActionCommandMotion.ROTATE_LEFT) );
+    		poActionList.add(new clsMotionAction(eActionCommandType.MOTION, eActionCommandMotion.ROTATE_LEFT) );
     		break;
     	case 39: //rotate_right
-    		oActionList.add(new clsMotionAction(eActionCommandType.MOTION, eActionCommandMotion.ROTATE_RIGHT) );
+    		poActionList.add(new clsMotionAction(eActionCommandType.MOTION, eActionCommandMotion.ROTATE_RIGHT) );
     		break;
     	case 65: //'A'
     		break;

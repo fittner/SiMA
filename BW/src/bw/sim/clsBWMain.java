@@ -68,10 +68,10 @@ public class clsBWMain extends SimState{
 	    //createGrids(); CHKME warum wolltest du das hier RooL? ist in der start() Methode eh gut aufgehoben!
     }
 	
-    
     void createGrids()
     {       
-    	moGameGridField = new Continuous2D(25, (mnXMax - mnXMin), (mnYMax - mnYMin));
+    	clsSingletonMasonGetter.setFieldEnvironment(new Continuous2D(25, (mnXMax - mnXMin), (mnYMax - mnYMin)));
+    	moGameGridField = clsSingletonMasonGetter.getFieldEnvironment();
     }
 
     /**
@@ -83,6 +83,7 @@ public class clsBWMain extends SimState{
 		
 		createGrids();
 		
+		clsSingletonMasonGetter.setSimState(this);
 		clsSingletonMasonGetter.setPhysicsEngine2D(new PhysicsEngine2D());
 		
 		PhysicsEngine2D objPE = clsSingletonMasonGetter.getPhysicsEngine2D();

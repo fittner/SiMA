@@ -7,6 +7,9 @@
  */
 package bw.physicalObject.animate;
 
+import java.util.ArrayList;
+
+import ARSsim.robot2D.clsBrainAction;
 import bw.utils.enums.eEntityType;
 import sim.physics2D.util.Double2D;
 import tstBw.*;
@@ -45,15 +48,6 @@ public class clsAnimal extends clsAnimate{
 	}
 
 	/* (non-Javadoc)
-	 * @see bw.clsEntity#execution()
-	 */
-	@Override
-	public void execution() {
-		// TODO Auto-generated method stub
-		
-	}
-
-	/* (non-Javadoc)
 	 * @see bw.clsEntity#sensing()
 	 */
 	@Override
@@ -76,6 +70,15 @@ public class clsAnimal extends clsAnimate{
 	 */
 	@Override
 	public void thinking() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	/* (non-Javadoc)
+	 * @see bw.clsEntity#execution(java.util.ArrayList)
+	 */
+	@Override
+	public void execution(ArrayList<clsBrainAction> poActionList) {
 		// TODO Auto-generated method stub
 		
 	}

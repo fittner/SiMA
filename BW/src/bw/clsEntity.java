@@ -7,8 +7,12 @@
  */
 package bw;
 
+import java.util.ArrayList;
+
 import sim.physics2D.physicalObject.PhysicalObject2D;
+import sim.physics2D.shape.Shape;
 import ARSsim.physics2D.physicalObject.itfSetupFunctions;
+import ARSsim.robot2D.clsBrainAction;
 import bw.actionresponses.clsDefaultEntityActionResponse;
 import bw.actionresponses.clsEntityActionResponses;
 import bw.utils.enums.eEntityType;
@@ -70,9 +74,21 @@ public abstract class clsEntity {
 		((itfSetupFunctions)moPhysicalObject2D).setPosition(poPos);
 	}
 	
+	public void setShape(Shape poShape, double poMass) {
+		((itfSetupFunctions)moPhysicalObject2D).setShape(poShape, poMass);
+	}
+	
+	public void setCoefficients(double poFriction, double poStaticFriction, double poRestitution) {
+		((itfSetupFunctions)moPhysicalObject2D).setCoefficients(poFriction, poStaticFriction, poRestitution);
+	}
+	
+	public void finalizeSetup() {
+		((itfSetupFunctions)moPhysicalObject2D).finalizeSetup();
+	}
+	
 	public abstract void sensing();
 	public abstract void thinking();
-	public abstract void execution();
+	public abstract void execution(ArrayList<clsBrainAction> poActionList);
 
 	/**
 	 * @param moEntityActionResponses the moEntityActionResponses to set

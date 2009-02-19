@@ -51,26 +51,11 @@ public abstract class clsAnimate extends clsMobile implements Steppable{
 	 * @param pnId
 	 */
 	public clsAnimate(Double2D poStartingPosition, Double2D poStartingVelocity,  int pnId) {
-		super();
+		super(poStartingPosition, poStartingVelocity, new sim.physics2D.shape.Circle(10, Color.CYAN), 300);
 		
 		MobileObject2D oMobile = getMobile();
-		
 		moMotionPlatform = new clsMotionPlatform(oMobile);
 		moAgentBody = new clsAgentBody(this);
-		
-		
-		
-		oMobile.setPose(poStartingPosition, new Angle(0));
-		oMobile.setVelocity(poStartingVelocity);
-	    
-	    //standard for Animate... override in your class!
-		oMobile.setShape(new sim.physics2D.shape.Circle(10, Color.CYAN), 300); //FIXME clemens: replace this with a seperate class, or at least with a mehtod
-     
-		oMobile.setCoefficientOfFriction(.5);
-		oMobile.setCoefficientOfStaticFriction(0);
-		oMobile.setCoefficientOfRestitution(1);
-	            
-		//setPhysicsConstraintEngine(ConstraintEngine.getInstance());
 	}
 	
 	/* (non-Javadoc)
