@@ -9,6 +9,7 @@ package bw.body.io.actuators.external;
 
 import bw.clsEntity;
 import bw.body.io.clsBaseIO;
+import bw.exceptions.*;
 import bw.utils.enums.eBodyParts;
 
 /**
@@ -20,6 +21,7 @@ import bw.utils.enums.eBodyParts;
 public class clsActuatorEat extends clsActuatorExt {
 
 	private clsEntity moEntity;
+	private float mrEnergyConsuptionValue = 5;
 
 	/**
 	 * @param poEntity 
@@ -29,8 +31,8 @@ public class clsActuatorEat extends clsActuatorExt {
 		super(poBaseIO);
 		setEntity(poEntity);
 		
-		//this registeres a static energy consuption
-		registerEnergyConsumption(5); //TODO register the real value, 
+		//this registers a static energy consumption
+		registerEnergyConsumption(mrEnergyConsuptionValue);
 	}
 	
 	/**
@@ -62,6 +64,7 @@ public class clsActuatorEat extends clsActuatorExt {
 	@Override
 	public void updateActuatorData() {
 		
+		
 		//is there something present?
 		// can i put it in?
 		//eat/bite object
@@ -72,11 +75,37 @@ public class clsActuatorEat extends clsActuatorExt {
 	}
 	
 	
+	/**
+	 * Method for eating, takes a clsEntity in, and tries to chew it. Exception catched if not eatable.
+	 *
+	 * @param poEntity
+	 */
 	public void eat(clsEntity poEntity){
 		
-		//try
-		//eat entity 
-		//catch(ex EntityNotEatable)
+		clsEntity oEatenEntity = null;
+		
+		try{
+			
+			//eat entity
+			
+			//when we eat, we need more energy
+			registerEnergyConsumption(mrEnergyConsuptionValue+50); //TODO clemens: change 50 to the real value
+			
+			//testing the exception
+			throw(new EntityNotEatable(oEatenEntity.getEntityType()) );
+			
+			
+		}catch(EntityNotEatable ex){
+			
+		}
+		finally{
+			//register default value again
+			registerEnergyConsumption(mrEnergyConsuptionValue);
+		}
+	
+		
+		
+		
 	
 		
 	}

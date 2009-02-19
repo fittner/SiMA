@@ -7,6 +7,8 @@
  */
 package bw.exceptions;
 
+import bw.utils.enums.eEntityType;
+
 /**
  * TODO (muchitsch) - insert description 
  * 
@@ -16,13 +18,13 @@ package bw.exceptions;
 public class EntityNotEatable extends bwException {
 
 	private static final long serialVersionUID = 4667881354723355802L;
-	private int mnEntityId;
+	private eEntityType eEntityType;
 
 	/**
 	 * 
 	 */
-	public EntityNotEatable(int pnEntityId) {
-		mnEntityId = pnEntityId;
+	public EntityNotEatable(eEntityType peEntityType) {
+		eEntityType = peEntityType;
 	}
 
 	/* (non-Javadoc)
@@ -30,7 +32,7 @@ public class EntityNotEatable extends bwException {
 	 */
 	@Override
 	public String toString() {
-		return ("EntityNotEatable: Entity with id "+mnEntityId+" can not be eaten.");
+		return ("EntityNotEatable: Entity with type "+eEntityType+" can not be eaten.");
 	}
 
 }
