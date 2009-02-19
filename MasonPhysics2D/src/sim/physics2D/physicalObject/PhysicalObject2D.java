@@ -106,7 +106,7 @@ abstract public class PhysicalObject2D extends SimplePortrayal2D
         }
     
     /** 
-     * TODO (zeilinger)
+     * ARS_Extension (zeilinger)
      * This extension is introduced as the object ActiveList is required by the 
      * PhysicalObject Vision.Provides a default implementation for the function used by the collision 
      * detection engine to notify an object when it has collided with another object.
