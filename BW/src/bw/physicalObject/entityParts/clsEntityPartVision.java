@@ -54,8 +54,7 @@ public class clsEntityPartVision extends MobileObject2D implements Steppable{
 	private Paint moColor;
 	private CircleBorder moShape;
 			
-	public clsEntityPartVision(clsEntity poEntity,  double pnRad)
-    {    	
+	public clsEntityPartVision(clsEntity poEntity,  double pnRad) {    	
 	 mnRadius = pnRad; 
 
 	 meCollidingObj = new Bag();
@@ -69,14 +68,12 @@ public class clsEntityPartVision extends MobileObject2D implements Steppable{
 	}
 	
 		
-	public int handleCollision(PhysicalObject2D other, Double2D colPoint)
-	{
+	public int handleCollision(PhysicalObject2D other, Double2D colPoint){
 		meCollidingObj.add(other);
 		return 0; // Vis collision
 	}
 	
-	public void step(SimState state)
-	{
+	public void step(SimState state){
 		  ((clsBWMain)state).moGameGridField.setObjectLocation(this, new sim.util.Double2D(this.getPosition().x, this.getPosition().y));
 	      meCollidingObj.clear(); 
 	      meVisionObj.clear();
@@ -86,23 +83,19 @@ public class clsEntityPartVision extends MobileObject2D implements Steppable{
 	// local set and get methods
 	//-------------------------------------------------------------------------------------------------
 	
-	public Bag getCollidingObj()
-	{
+	public Bag getCollidingObj(){
 		return meCollidingObj; 
 	}
 	
-	public Bag getVisionObj()
-	{
+	public Bag getVisionObj(){
 		return meVisionObj; 
 	}
 	
-	public double getSize()
-	{
+	public double getSize(){
 		return mnRadius;
 	}
 	
-	public void setSize(double pnRadius)
-	{
+	public void setSize(double pnRadius){
 		this.mnRadius = pnRadius;
 	}
 	
@@ -116,8 +109,7 @@ public class clsEntityPartVision extends MobileObject2D implements Steppable{
 	public void addFrictionForce()
 	{        }
 	
-	public boolean hitObject(Object object, DrawInfo2D range)
-    {
+	public boolean hitObject(Object object, DrawInfo2D range)   {
 		//TODO Clemens, hier gehört mehr rein als nur true!
     	return true; // (insert location algorithm and intersection here)
     }
@@ -129,8 +121,7 @@ public class clsEntityPartVision extends MobileObject2D implements Steppable{
 	/** receives all objects, the physical object is colliding with - objects 
 	 * which are moving away from the   
 	*/     
-	public void addContact(PhysicalObject2D other, Double2D colPoint)
-	{
+	public void addContact(PhysicalObject2D other, Double2D colPoint){
 		meVisionObj.add(other);		
 	}	
 }
