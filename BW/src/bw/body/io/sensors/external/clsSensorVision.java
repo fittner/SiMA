@@ -85,7 +85,7 @@ public class clsSensorVision extends clsSensorExt
 		PhysicalObject2D oPhObj;  
 		
 		meViewObj.clear(); 
-		meCollidingObj = moVisionArea.getCollidingObj();
+		meCollidingObj = moVisionArea.getMeCollidingObj();
 		Iterator itr = meCollidingObj.iterator();
 		
 		while(itr.hasNext()){
