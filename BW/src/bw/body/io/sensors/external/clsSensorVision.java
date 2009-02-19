@@ -9,6 +9,8 @@ package bw.body.io.sensors.external;
 
 import java.util.Iterator;
 
+import sim.engine.SimState;
+import sim.field.continuous.Continuous2D;
 import sim.physics2D.PhysicsEngine2D;
 import sim.physics2D.constraint.PinJoint;
 import sim.physics2D.physicalObject.PhysicalObject2D;
@@ -60,15 +62,20 @@ public class clsSensorVision extends clsSensorExt
 	 * @param poEntity
 	 */
 	private void regVisionObj(clsEntity poEntity)	{
+		Double2D oEntityPos = ((clsMobile)poEntity).getMobile().getPosition(); 
+		
 		PhysicsEngine2D oPhyEn2D = clsSingletonMasonGetter.getPhysicsEngine2D();
+		Continuous2D oFieldEnvironment = clsSingletonMasonGetter.getFieldEnvironment();
+		SimState oSimState = clsSingletonMasonGetter.getSimState();
 		
 		try
 		{
 			oPhyEn2D.register(moVisionArea);
-			PinJoint mPJ = new PinJoint(((clsMobile)poEntity).getMobile().getPosition(), moVisionArea,((clsMobile)poEntity).getMobile());
+			oPhyEn2D.setNoCollisions(((clsMobile)poEntity).getMobile(), moVisionArea);
+			PinJoint mPJ = new PinJoint(oEntityPos, moVisionArea,((clsMobile)poEntity).getMobile());
 			oPhyEn2D.register(mPJ); 
-//	           poFieldEnvironment.setObjectLocation(visArea.getVisionObj(), new sim.util.Double2D(bot.getMobile().getPosition().x, bot.getMobile().getPosition().y));
-//	           poSimState.schedule.scheduleRepeating(visArea.getVisionObj());
+			oFieldEnvironment.setObjectLocation(moVisionArea, new sim.util.Double2D(oEntityPos.x, oEntityPos.y));
+	        oSimState.schedule.scheduleRepeating(moVisionArea);
 		}
 		catch( Exception ex )
 		{
@@ -84,17 +91,20 @@ public class clsSensorVision extends clsSensorExt
 		double nOrientation;  
 		PhysicalObject2D oPhObj;  
 		
-		meViewObj.clear(); 
-		meCollidingObj = moVisionArea.getMeCollidingObj();
-		Iterator itr = meCollidingObj.iterator();
+		meCollidingObj = moVisionArea.getMeUnsortedObj();
 		
-		while(itr.hasNext()){
-			oPhObj = (PhysicalObject2D)itr.next(); 
-			nOrientation = this.getRelPos(oPhObj.getPosition());
-			
-			if(this.getInView(nOrientation)){
-				this.setViewObj(oPhObj); 
-			}
+		if(meCollidingObj.size()>0)
+		 {
+			Iterator itr = meCollidingObj.iterator();
+		    			
+			while(itr.hasNext()){
+				oPhObj = (PhysicalObject2D)itr.next(); 
+				nOrientation = this.getRelPos(oPhObj.getPosition());
+				
+				if(this.getInView(nOrientation)){
+					this.setViewObj(oPhObj); 
+				}
+		 }
 		}
 	}
 	
