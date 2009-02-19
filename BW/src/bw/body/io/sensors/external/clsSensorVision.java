@@ -42,7 +42,7 @@ public class clsSensorVision extends clsSensorExt
 		moVel = poVel;
 		mnVisRange = 50; 
 		
-		moVisionArea = new clsAnimateVision(poPos, moVel, mnVisRange);
+		moVisionArea = new clsEntityVision(poPos, moVel, mnVisRange);
 	
 	}
 	
