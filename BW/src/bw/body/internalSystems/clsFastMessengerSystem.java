@@ -25,8 +25,7 @@ public class clsFastMessengerSystem {
 	
 	private ArrayList<clsFastMessengerEntry> moMessages;
 	
-	private HashMap<clsBasePart, clsFastMessengerEntry> moSourceList;
-	private HashMap<clsBasePart, clsFastMessengerEntry> moTargetList;
+	private HashMap<clsBasePart, ArrayList<clsFastMessengerEntry>> moTargetList;
 	
 	/**
 	 * 
@@ -35,8 +34,7 @@ public class clsFastMessengerSystem {
 		moSourceTargetMappings = new HashMap<clsBasePart, ArrayList<clsBasePart>>();
 		moTargetSourceMappings = new HashMap<clsBasePart, ArrayList<clsBasePart>>();		
 		moMessages = new ArrayList<clsFastMessengerEntry>();
-		moSourceList = new HashMap<clsBasePart, clsFastMessengerEntry>();
-		moTargetList = new HashMap<clsBasePart, clsFastMessengerEntry>();
+		moTargetList = new HashMap<clsBasePart, ArrayList<clsFastMessengerEntry>>();
 	}
 	
 	/**
@@ -96,28 +94,86 @@ public class clsFastMessengerSystem {
 	 */
 	public void clear() {
 		moMessages.clear();
-		moSourceList.clear();
 		moTargetList.clear();
 	}
 
+	/**
+	 * TODO (deutsch) - insert description
+	 *
+	 * @param poSource
+	 * @return
+	 */
 	public ArrayList<clsBasePart> getTargets(clsBasePart poSource) {
 		return copyArray(moSourceTargetMappings.get(poSource));
 	}
 	
+	/**
+	 * TODO (deutsch) - insert description
+	 *
+	 * @param poTarget
+	 * @return
+	 */
+	public ArrayList<clsBasePart> getSources(clsBasePart poTarget) {
+		return copyArray(moTargetSourceMappings.get(poTarget));
+	}
+	
+	/**
+	 * TODO (deutsch) - insert description
+	 *
+	 * @param poArray
+	 * @return
+	 */
 	private ArrayList<clsBasePart> copyArray(ArrayList<clsBasePart> poArray) {
-		ArrayList<clsBasePart> oResult = null;
+		ArrayList<clsBasePart> oResult = new ArrayList<clsBasePart>();
 		
 		Iterator<clsBasePart> i = poArray.iterator();
 		while (i.hasNext()) {
-			clsBasePart oEntry = i.next();
-			if (oEntry != null) {
-		//		clsBasePart oCopy = new clsBasePart(oEntry);
-				oResult.add(oEntry);
-			}
+			oResult.add(i.next().clone());
 		}
-		
-		
 		
 		return oResult;		
 	}
+
+	/**
+	 * TODO (deutsch) - insert description
+	 *
+	 * @param poTarget
+	 * @return
+	 */
+	public ArrayList<clsFastMessengerEntry> getMessagesForTarget(clsBasePart poTarget) {
+		return  moTargetList.get(poTarget);
+	}
+	
+	/**
+	 * TODO (deutsch) - insert description
+	 *
+	 * @param poSource
+	 * @param poTarget
+	 * @param prIntensity
+	 */
+	public void addMessage(clsBasePart poSource, clsBasePart poTarget, float prIntensity) {
+		addMessage(new clsFastMessengerEntry(poSource, poTarget, prIntensity));
+	}
+	
+	/**
+	 * TODO (deutsch) - insert description
+	 *
+	 * @param poMessage
+	 */
+	public void addMessage(clsFastMessengerEntry poMessage) {
+		moMessages.add(poMessage);
+		
+		clsBasePart oTarget = poMessage.getTarget();
+		ArrayList<clsFastMessengerEntry> oList = moTargetList.get(oTarget);
+		
+		if (oList == null) {
+			oList = new ArrayList<clsFastMessengerEntry>();
+			oList.add(poMessage);
+			moTargetList.put(oTarget, oList);
+		} else {
+			oList.add(poMessage);
+		}
+	}
+
+	
 }

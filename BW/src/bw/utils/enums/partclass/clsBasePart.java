@@ -7,7 +7,6 @@
  */
 package bw.utils.enums.partclass;
 
-import bw.factories.clsSingletonUniqueIdGenerator;
 import bw.utils.enums.eBodyParts;
 
 /**
@@ -16,7 +15,7 @@ import bw.utils.enums.eBodyParts;
  * @author deutsch
  * 
  */
-public abstract class clsBasePart {
+public abstract class clsBasePart implements Cloneable {
 	protected eBodyParts mePartId;
 	protected String moName;
 	
@@ -41,6 +40,33 @@ public abstract class clsBasePart {
 	 */
 	public String getName() {
 		return moName;
+	}
+	
+
+	/* (non-Javadoc)
+	 * @see java.lang.Object#clone()
+	 */
+	public clsBasePart clone() {
+		clsBasePart oResult = null;
+		try {
+			oResult = (clsBasePart) super.clone();
+		} catch (CloneNotSupportedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+			
+		return oResult;
+	}
+	
+	
+	/**
+	 * TODO (deutsch) - insert description
+	 *
+	 * @param arg0
+	 * @return
+	 */
+	public boolean equals(clsBasePart arg0) {
+		return (arg0.mePartId == this.mePartId);
 	}
 
 }
