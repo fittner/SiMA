@@ -36,6 +36,15 @@ public class clsSensorBump extends clsSensorExt{
 	private void setEntity(clsEntity poEntity) {
 		this.moEntity = poEntity;
 	}
+
+	/* (non-Javadoc)
+	 * @see bw.body.io.sensors.external.clsSensorExt#updateSensorData()
+	 */
+	@Override
+	public void updateSensorData() {
+		// TODO Auto-generated method stub
+		
+	}
 	
 	
 
