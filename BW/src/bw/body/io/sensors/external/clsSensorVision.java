@@ -51,6 +51,11 @@ public class clsSensorVision extends clsSensorExt
 		this.regVisionObj(poEntity);
 	}
 	
+	/**
+	 * TODO (zeilinger) - insert description
+	 *
+	 * @param poEntity
+	 */
 	private void regVisionObj(clsEntity poEntity)	{
 		PhysicsEngine2D oPhyEn2D = clsSingletonPhysicsEngineGetter.getPhysicsEngine2D();
 	
@@ -61,8 +66,11 @@ public class clsSensorVision extends clsSensorExt
 //           poSimState.schedule.scheduleRepeating(visArea.getVisionObj());           
 //               
     }
-/** TODO (zeilinger) - calculated which are within the entity vision field     
-	 */ 	
+
+	/**
+	 * TODO (zeilinger) - calculated which are within the entity vision field  
+	 *
+	 */
 	private void calcViewObj(){
 		double nOrientation;  
 		PhysicalObject2D oPhObj;  
@@ -81,8 +89,13 @@ public class clsSensorVision extends clsSensorExt
 		}
 	}
 	
-/** TODO (zeilinger) - returns the angle of the relative position
- * to the perceived object      
+
+	/**
+	 * TODO (zeilinger) - returns the angle of the relative position
+	 * to the perceived objectn
+	 *
+	 * @param poPos
+	 * @return nOrientation 
 	 */
 	public double getRelPos(Double2D poPos)
 	{
@@ -97,6 +110,13 @@ public class clsSensorVision extends clsSensorExt
 		return nOrientation; 
 	}
 	
+	/**
+	 * TODO (zeilinger) - Tests if an object is within an agent's field of
+	 * view
+	 *
+	 * @param pnOrientation
+	 * @return boolean
+	 */
 	public boolean getInView(double pnOrientation)
 	{
 		if(pnOrientation <= moVisionArea.getOrientation().radians + mnViewDegree/2 ||
@@ -116,22 +136,47 @@ public class clsSensorVision extends clsSensorExt
 		this.calcViewObj();
 	}
 	
+	/**
+	 * TODO (zeilinger) - insert description
+	 *
+	 * @param pPhObj
+	 */
 	public void setViewObj(PhysicalObject2D pPhObj)	{
 		meViewObj.add(pPhObj);
 	}
 	
+	/**
+	 * TODO (zeilinger) - insert description
+	 *
+	 * @return
+	 */
 	public Bag getCollidingObj()	{
 		return meCollidingObj; 
 	}
 	
+	/**
+	 * TODO (zeilinger) - insert description
+	 *
+	 * @return
+	 */
 	public clsEntityPartVision getPhysObj()	{
 		return moVisionArea; 
 	}
 	
+	/**
+	 * TODO (zeilinger) - insert description
+	 *
+	 * @param peCollidingObj
+	 */
 	public void setMeCollidingObj(Bag peCollidingObj)	{
 		meCollidingObj = peCollidingObj; 
 	}
 	
+	/**
+	 * TODO (zeilinger) - insert description
+	 *
+	 * @param pnVisRange
+	 */
 	public void setVisionRange(double pnVisRange)	{
 		mnVisRange = pnVisRange; 
 	}
