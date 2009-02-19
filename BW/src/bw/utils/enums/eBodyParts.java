@@ -39,6 +39,7 @@ public enum eBodyParts {
 	//actuators
 	ACTUATOR_EXT,
 	ACTUATOR_INT,
+	ACTUATOR_EXT_EAT,
 	
 	//limbs
 	TENTACLE,

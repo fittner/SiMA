@@ -11,7 +11,7 @@ import java.util.ArrayList;
 
 import bw.clsEntity;
 import bw.body.clsAgentBody;
-import bw.body.io.actuators.external.clsActuatorExt;
+import bw.body.io.actuators.external.*;
 import bw.body.io.sensors.external.*;
 
 /**
@@ -44,6 +44,10 @@ public class clsExternalIO extends clsBaseIO {
 		//initialization of sensors
 		moSensorExternal.add(new clsSensorAcceleration(moEntity, this));
 		moSensorExternal.add(new clsSensorBump(moEntity, this));
+		
+		//initialization of actuators
+		moActuatorExternal.add(new clsActuatorEat(moEntity, this));
+		
 		
 	}
 
