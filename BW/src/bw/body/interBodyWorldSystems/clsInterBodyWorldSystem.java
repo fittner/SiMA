@@ -8,6 +8,7 @@
 package bw.body.interBodyWorldSystems;
 
 import bw.body.itfStep;
+import bw.body.internalSystems.clsInternalSystem;
 
 /**
  * TODO (deutsch) - insert description 
@@ -23,8 +24,8 @@ public class clsInterBodyWorldSystem implements itfStep {
 	/**
 	 * 
 	 */
-	public clsInterBodyWorldSystem() {
-		moConsumeFood = new clsConsumeFood(mnDefaultGarbageNutritionType);
+	public clsInterBodyWorldSystem(clsInternalSystem poInternalSystem) {
+		moConsumeFood = new clsConsumeFood(mnDefaultGarbageNutritionType, poInternalSystem.getStomachSystem());
 	}
 	
 	public clsConsumeFood getConsumeFood() {
