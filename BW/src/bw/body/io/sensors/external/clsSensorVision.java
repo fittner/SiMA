@@ -91,7 +91,7 @@ public class clsSensorVision extends clsSensorExt
 		double nOrientation;  
 		PhysicalObject2D oPhObj;  
 		
-		meCollidingObj = moVisionArea.getMeUnsortedObj();
+		meCollidingObj = moVisionArea.getMeUnFilteredObj();
 		
 		if(meCollidingObj.size()>0)
 		 {

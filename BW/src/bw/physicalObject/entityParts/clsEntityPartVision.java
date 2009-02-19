@@ -39,8 +39,8 @@ public class clsEntityPartVision extends MobileObject2D implements Steppable{
 	
 	private double mnRadius;
 		
-	private Bag meSortedObj;
-	private Bag meUnsortedObj;
+	private Bag meFilteredObj;
+	private Bag meUnFilteredObj;
 	private Paint moColor;
 	private CircleBorder moShape;
 			
@@ -51,8 +51,8 @@ public class clsEntityPartVision extends MobileObject2D implements Steppable{
 	public clsEntityPartVision(clsEntity poEntity,  double pnRad) {    	
 	 mnRadius = pnRad; 
 
-	 meSortedObj = new Bag();
-	 meUnsortedObj = new Bag();
+	 meFilteredObj = new Bag();
+	 meUnFilteredObj = new Bag();
 	 moColor = Color.yellow;
 	 moShape = new CircleBorder(mnRadius, moColor);
 	 
@@ -72,7 +72,7 @@ public class clsEntityPartVision extends MobileObject2D implements Steppable{
 	 * @see sim.physics2D.physicalObject.PhysicalObject2D#handleCollision(sim.physics2D.physicalObject.PhysicalObject2D, sim.physics2D.util.Double2D)
 	 */
 	public int handleCollision(PhysicalObject2D other, Double2D colPoint){
-		meSortedObj.add(other);
+		meFilteredObj.add(other);
 		return 0; // Vis collision
 	}
 	
@@ -81,8 +81,8 @@ public class clsEntityPartVision extends MobileObject2D implements Steppable{
 	 */
 	public void step(SimState state){
 		  ((clsBWMain)state).moGameGridField.setObjectLocation(this, new sim.util.Double2D(this.getPosition().x, this.getPosition().y));
-		  meSortedObj.clear(); 
-	      meUnsortedObj.clear();
+		  meFilteredObj.clear(); 
+	      meUnFilteredObj.clear();
 	}
 	    
 	//--------------------------------------------------------------------------------------------------
@@ -109,32 +109,32 @@ public class clsEntityPartVision extends MobileObject2D implements Steppable{
 	/**
 	 * @return the meCollidingObj
 	 */
-	public Bag getMeSortedObj() {
-		return meSortedObj;
+	public Bag getMeFilteredObj() {
+		return meFilteredObj;
 	}
 
 
 	/**
 	 * @param meCollidingObj the meCollidingObj to set
 	 */
-	public void setMeSortedObj(Bag meCollidingObj) {
-		this.meSortedObj = meCollidingObj;
+	public void setMeFilteredObj(Bag meCollidingObj) {
+		this.meFilteredObj = meCollidingObj;
 	}
 
 
 	/**
 	 * @return the meVisionObj
 	 */
-	public Bag getMeUnsortedObj() {
-		return meUnsortedObj;
+	public Bag getMeUnFilteredObj() {
+		return meUnFilteredObj;
 	}
 
 
 	/**
 	 * @param meVisionObj the meVisionObj to set
 	 */
-	public void setMeUnsortedObj(Bag meVisionObj) {
-		this.meUnsortedObj = meVisionObj;
+	public void setMeUnFilteredObj(Bag meVisionObj) {
+		this.meUnFilteredObj = meVisionObj;
 	}
 
 
@@ -202,7 +202,7 @@ public class clsEntityPartVision extends MobileObject2D implements Steppable{
 	 * @see sim.physics2D.physicalObject.PhysicalObject2D#addContact(sim.physics2D.physicalObject.PhysicalObject2D, sim.physics2D.util.Double2D)
 	 */
 	public void addContact(PhysicalObject2D other, Double2D colPoint){
-		meUnsortedObj.add(other);		
+		meUnFilteredObj.add(other);		
 	}	
 }
 
