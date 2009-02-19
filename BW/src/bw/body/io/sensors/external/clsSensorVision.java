@@ -11,20 +11,17 @@ import java.util.Iterator;
 
 import sim.physics2D.PhysicsEngine2D;
 import sim.physics2D.constraint.PinJoint;
-import sim.physics2D.physicalObject.MobileObject2D;
 import sim.physics2D.physicalObject.PhysicalObject2D;
-import sim.physics2D.util.Angle;
 import sim.physics2D.util.Double2D;
 import sim.util.*;
 
 import bw.clsEntity;
-import bw.body.clsAgentBody;
 import bw.body.io.clsBaseIO;
 import bw.factories.clsSingletonPhysicsEngineGetter;
 import bw.physicalObject.entityParts.clsEntityPartVision;
 import bw.physicalObject.inanimate.mobile.clsMobile;
-import bw.physicalObject.animate.clsAnimate;
 import bw.utils.enums.eBodyParts;
+
 /**
  * TODO (zeilinger) - This class defines the Vision object which is tagged to an animate 
  *                    object. clsSensorVision defines the functionalities of the vision 
@@ -41,6 +38,17 @@ public class clsSensorVision extends clsSensorExt
 	private Bag meCollidingObj;
 	private Bag meViewObj;
 		
+	/**
+	 * @param poBaseIO
+	 */
+	public clsSensorVision(clsBaseIO poBaseIO){
+		super(poBaseIO);
+	}
+	
+	/**
+	 * @param poEntity
+	 * @param poBaseIO
+	 */
 	public clsSensorVision(clsEntity poEntity, clsBaseIO poBaseIO)	{
 		super(poBaseIO);
 		mnViewDegree = Math.PI;
@@ -145,24 +153,7 @@ public class clsSensorVision extends clsSensorExt
 		meViewObj.add(pPhObj);
 	}
 	
-	/**
-	 * TODO (zeilinger) - insert description
-	 *
-	 * @return
-	 */
-	public Bag getCollidingObj()	{
-		return meCollidingObj; 
-	}
-	
-	/**
-	 * TODO (zeilinger) - insert description
-	 *
-	 * @return
-	 */
-	public clsEntityPartVision getPhysObj()	{
-		return moVisionArea; 
-	}
-	
+		
 	/**
 	 * TODO (zeilinger) - insert description
 	 *
@@ -197,6 +188,69 @@ public class clsSensorVision extends clsSensorExt
 	protected void setName() {
 		// TODO Auto-generated method stub
 		moName = "ext. Sensor Vision";
+	}
+	
+	/**
+	 * @return the mnViewDegree
+	 */
+	public double getMnViewDegree() {
+		return mnViewDegree;
+	}
+
+	/**
+	 * @param mnViewDegree the mnViewDegree to set
+	 */
+	public void setMnViewDegree(double mnViewDegree) {
+		this.mnViewDegree = mnViewDegree;
+	}
+
+	/**
+	 * @return the mnVisRange
+	 */
+	public double getMnVisRange() {
+		return mnVisRange;
+	}
+
+	/**
+	 * @param mnVisRange the mnVisRange to set
+	 */
+	public void setMnVisRange(double mnVisRange) {
+		this.mnVisRange = mnVisRange;
+	}
+
+	/**
+	 * @return the moVisionArea
+	 */
+	public clsEntityPartVision getMoVisionArea() {
+		return moVisionArea;
+	}
+
+	/**
+	 * @param moVisionArea the moVisionArea to set
+	 */
+	public void setMoVisionArea(clsEntityPartVision moVisionArea) {
+		this.moVisionArea = moVisionArea;
+	}
+
+	/**
+	 * @return the meViewObj
+	 */
+	public Bag getMeViewObj() {
+		return meViewObj;
+	}
+
+	/**
+	 * @param meViewObj the meViewObj to set
+	 */
+	public void setMeViewObj(Bag meViewObj) {
+		this.meViewObj = meViewObj;
+	}
+
+	/**
+	 * @return the meCollidingObj
+	 */
+	public Bag getMeCollidingObj() {
+		return meCollidingObj;
 	}
 	
 	//VISION AREA Init + Register
