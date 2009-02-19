@@ -41,8 +41,7 @@ public class clsSensorVision extends clsSensorExt
 	private Bag meCollidingObj;
 	private Bag meViewObj;
 		
-	public clsSensorVision(clsEntity poEntity, clsBaseIO poBaseIO)
-	{
+	public clsSensorVision(clsEntity poEntity, clsBaseIO poBaseIO)	{
 		super(poBaseIO);
 		mnViewDegree = Math.PI;
 		meCollidingObj = new Bag();
@@ -52,8 +51,7 @@ public class clsSensorVision extends clsSensorExt
 		this.regVisionObj(poEntity);
 	}
 	
-	private void regVisionObj(clsEntity poEntity)
-	{
+	private void regVisionObj(clsEntity poEntity)	{
 		PhysicsEngine2D oPhyEn2D = clsSingletonPhysicsEngineGetter.getPhysicsEngine2D();
 	
 		oPhyEn2D.register(moVisionArea);
@@ -65,8 +63,7 @@ public class clsSensorVision extends clsSensorExt
     }
 /** TODO (zeilinger) - calculated which are within the entity vision field     
 	 */ 	
-	private void calcViewObj()
-	{
+	private void calcViewObj(){
 		double nOrientation;  
 		PhysicalObject2D oPhObj;  
 		
@@ -74,13 +71,11 @@ public class clsSensorVision extends clsSensorExt
 		meCollidingObj = moVisionArea.getCollidingObj();
 		Iterator itr = meCollidingObj.iterator();
 		
-		while(itr.hasNext())
-		{
+		while(itr.hasNext()){
 			oPhObj = (PhysicalObject2D)itr.next(); 
 			nOrientation = this.getRelPos(oPhObj.getPosition());
 			
-			if(this.getInView(nOrientation))
-			{
+			if(this.getInView(nOrientation)){
 				this.setViewObj(oPhObj); 
 			}
 		}
@@ -121,28 +116,23 @@ public class clsSensorVision extends clsSensorExt
 		this.calcViewObj();
 	}
 	
-	public void setViewObj(PhysicalObject2D pPhObj)
-	{
+	public void setViewObj(PhysicalObject2D pPhObj)	{
 		meViewObj.add(pPhObj);
 	}
 	
-	public Bag getCollidingObj()
-	{
+	public Bag getCollidingObj()	{
 		return meCollidingObj; 
 	}
 	
-	public clsEntityPartVision getPhysObj()
-	{
+	public clsEntityPartVision getPhysObj()	{
 		return moVisionArea; 
 	}
 	
-	public void setMeCollidingObj(Bag peCollidingObj)
-	{
+	public void setMeCollidingObj(Bag peCollidingObj)	{
 		meCollidingObj = peCollidingObj; 
 	}
 	
-	public void setVisionRange(double pnVisRange)
-	{
+	public void setVisionRange(double pnVisRange)	{
 		mnVisRange = pnVisRange; 
 	}
 
