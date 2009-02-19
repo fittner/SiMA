@@ -54,6 +54,10 @@ public class clsEntityPartVision extends MobileObject2D implements Steppable{
 	private Paint moColor;
 	private CircleBorder moShape;
 			
+	/**
+	 * @param poEntity
+	 * @param pnRad
+	 */
 	public clsEntityPartVision(clsEntity poEntity,  double pnRad) {    	
 	 mnRadius = pnRad; 
 
@@ -68,11 +72,17 @@ public class clsEntityPartVision extends MobileObject2D implements Steppable{
 	}
 	
 		
+	/* (non-Javadoc)
+	 * @see sim.physics2D.physicalObject.PhysicalObject2D#handleCollision(sim.physics2D.physicalObject.PhysicalObject2D, sim.physics2D.util.Double2D)
+	 */
 	public int handleCollision(PhysicalObject2D other, Double2D colPoint){
 		meCollidingObj.add(other);
 		return 0; // Vis collision
 	}
 	
+	/* (non-Javadoc)
+	 * @see sim.engine.Steppable#step(sim.engine.SimState)
+	 */
 	public void step(SimState state){
 		  ((clsBWMain)state).moGameGridField.setObjectLocation(this, new sim.util.Double2D(this.getPosition().x, this.getPosition().y));
 	      meCollidingObj.clear(); 
@@ -83,18 +93,38 @@ public class clsEntityPartVision extends MobileObject2D implements Steppable{
 	// local set and get methods
 	//-------------------------------------------------------------------------------------------------
 	
+	/**
+	 * TODO (zeilinger) - insert description
+	 *
+	 * @return
+	 */
 	public Bag getCollidingObj(){
 		return meCollidingObj; 
 	}
 	
+	/**
+	 * TODO (zeilinger) - insert description
+	 *
+	 * @return
+	 */
 	public Bag getVisionObj(){
 		return meVisionObj; 
 	}
 	
+	/**
+	 * TODO (zeilinger) - insert description
+	 *
+	 * @return
+	 */
 	public double getSize(){
 		return mnRadius;
 	}
 	
+	/**
+	 * TODO (zeilinger) - insert description
+	 *
+	 * @param pnRadius
+	 */
 	public void setSize(double pnRadius){
 		this.mnRadius = pnRadius;
 	}
@@ -106,9 +136,15 @@ public class clsEntityPartVision extends MobileObject2D implements Steppable{
 	/** Calculates and adds the static and dynamic friction forces on the object
 	 * based on the coefficients of friction. 
 	 */
+	/* (non-Javadoc)
+	 * @see sim.physics2D.physicalObject.MobileObject2D#addFrictionForce()
+	 */
 	public void addFrictionForce()
 	{        }
 	
+	/* (non-Javadoc)
+	 * @see sim.portrayal.SimplePortrayal2D#hitObject(java.lang.Object, sim.portrayal.DrawInfo2D)
+	 */
 	public boolean hitObject(Object object, DrawInfo2D range)   {
 		//TODO Clemens, hier gehört mehr rein als nur true!
     	return true; // (insert location algorithm and intersection here)
@@ -121,6 +157,9 @@ public class clsEntityPartVision extends MobileObject2D implements Steppable{
 	/** receives all objects, the physical object is colliding with - objects 
 	 * which are moving away from the   
 	*/     
+	/* (non-Javadoc)
+	 * @see sim.physics2D.physicalObject.PhysicalObject2D#addContact(sim.physics2D.physicalObject.PhysicalObject2D, sim.physics2D.util.Double2D)
+	 */
 	public void addContact(PhysicalObject2D other, Double2D colPoint){
 		meVisionObj.add(other);		
 	}	
