@@ -112,7 +112,7 @@ public class PhysicsEngine2D implements Steppable
             objCE.unRegisterImpulseConstraint((ImpulseConstraint)obj);
         }
     
-    /** ARS_EXTENSION Forwards Contact-List
+    /**  ARS_EXTENSION Forwards Contact-List
      */
 	public void forwardContact(Bag poCL)
 	    {
