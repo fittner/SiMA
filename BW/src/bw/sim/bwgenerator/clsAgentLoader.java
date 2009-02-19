@@ -34,41 +34,13 @@ public class clsAgentLoader {
 	public static void loadAgents(Continuous2D poFieldEnvironment, PhysicsEngine2D poObjPE, SimState poSimState, double xMin, double xMax, double yMin, double yMax){
 		
 		//FIXME (langr) for test cases only --> refactor!
-//		loadCans(poFieldEnvironment, poObjPE, poSimState, 3, xMin, xMax, yMin, yMax);
+
 //		loadBots(poFieldEnvironment, poObjPE, poSimState, 2, xMin, xMax, yMin, yMax);
 		loadRemoteBots(poFieldEnvironment, poObjPE, poSimState, 2, xMin, xMax, yMin, yMax);
-//		loadBubbles(poFieldEnvironment, poObjPE, poSimState, 1, xMin, xMax, yMin, yMax);
+		loadBubbles(poFieldEnvironment, poObjPE, poSimState, 1, xMin, xMax, yMin, yMax);
 	}
 	
-	public static void loadCans(Continuous2D poFieldEnvironment, PhysicsEngine2D poObjPE, SimState poSimState, int pnNumCans, double xMin, double xMax, double yMin, double yMax){
-		
-		clsCan can = null;
-		Double2D pos;
-		 
-        for (int i = 0; i < pnNumCans; i++)
-        {
-	        double x = Math.max(Math.min(poSimState.random.nextDouble() * xMax, xMax - 10), 10);
-	        double y = Math.max(Math.min(poSimState.random.nextDouble() * yMax, yMax - 10), 60);
-	                    
-	        pos = new Double2D(x, y);
-	                    
-	        can = new clsCan(pos, new Double2D(0, 0), i);
-	        
-	        clsMobileObject2D oMobile = can.getMobile();
-//	        clsMobileObject2D oMobile = new clsMobileObject2D(null);
-//	    	oMobile.setPose(pos, new Angle(0));
-//	    	oMobile.setVelocity(new Double2D(0, 0));
-//	    	oMobile.setShape(new sim.physics2D.shape.Circle(2, Color.blue), 80);
-//	    	oMobile.setCoefficientOfFriction(.5);
-//	    	oMobile.setCoefficientOfStaticFriction(0);
-//	    	oMobile.setCoefficientOfRestitution(1);	        
-        
-	        poFieldEnvironment.setObjectLocation(oMobile, new sim.util.Double2D(pos.x, pos.y));
-	        poObjPE.register(oMobile);
-	        poSimState.schedule.scheduleRepeating(oMobile);
-        }
-		
-	}
+	
 	
 	/**
 	 * loading of the Bubbles, everything loads here from mason to physics to ARS
@@ -97,9 +69,9 @@ public class clsAgentLoader {
 	         
 	         //create the Bubble and add it to mason and physics list
 	         bubble = new clsBubble(startingPosition, new Double2D(0, 0),i);
-	         poObjPE.register(bubble.getMobile());
-	         poFieldEnvironment.setObjectLocation(bubble.getMobile(), new sim.util.Double2D(startingPosition.x, startingPosition.y));
-	         poSimState.schedule.scheduleRepeating(bubble);
+//	         poObjPE.register(bubble.getMobile());
+//	         poFieldEnvironment.setObjectLocation(bubble.getMobile(), new sim.util.Double2D(startingPosition.x, startingPosition.y));
+//	         poSimState.schedule.scheduleRepeating(bubble);
          }
 	}
 	

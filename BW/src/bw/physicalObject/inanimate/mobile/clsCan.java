@@ -22,8 +22,9 @@ public class clsCan extends clsInanimate
     {
     public boolean visible;
     public clsCan(Double2D pos, Double2D vel, int pnId) {
-    	super(pos, vel, pnId);
+    	super(pos, vel,new sim.physics2D.shape.Circle(2, Color.blue), pnId);
 
+    	//FIXME... folgendes wird woanders gemacht, weg?
     	clsMobileObject2D oMobile = getMobile();
     	oMobile.setPose(pos, new Angle(0));
     	oMobile.setVelocity(vel);

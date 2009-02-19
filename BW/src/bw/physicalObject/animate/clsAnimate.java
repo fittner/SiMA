@@ -14,6 +14,7 @@ import sim.engine.Steppable;
 import sim.physics2D.constraint.ConstraintEngine;
 import sim.physics2D.forceGenerator.ForceGenerator;
 import sim.physics2D.physicalObject.MobileObject2D;
+import sim.physics2D.shape.Shape;
 import sim.physics2D.util.Angle;
 import sim.physics2D.util.Double2D;
 import sim.portrayal.DrawInfo2D;
@@ -50,8 +51,8 @@ public abstract class clsAnimate extends clsMobile implements Steppable{
 	 * @param poStartingVelocity
 	 * @param pnId
 	 */
-	public clsAnimate(Double2D poStartingPosition, Double2D poStartingVelocity,  int pnId) {
-		super(poStartingPosition, poStartingVelocity, new sim.physics2D.shape.Circle(10, Color.CYAN), 300);
+	public clsAnimate(Double2D poStartingPosition, Double2D poStartingVelocity, Shape poShape, int pnId) {
+		super(poStartingPosition, poStartingVelocity, poShape, 300);
 		
 		MobileObject2D oMobile = getMobile();
 		moMotionPlatform = new clsMotionPlatform(oMobile);

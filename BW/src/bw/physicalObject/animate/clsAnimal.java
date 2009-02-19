@@ -7,6 +7,7 @@
  */
 package bw.physicalObject.animate;
 
+import java.awt.Color;
 import java.util.ArrayList;
 
 import ARSsim.robot2D.clsBrainAction;
@@ -29,7 +30,7 @@ public class clsAnimal extends clsAnimate{
 	 */
 	public clsAnimal(Double2D poStartingPosition, Double2D poStartingVelocity,
 			int pnId) {
-		super(poStartingPosition, poStartingVelocity, pnId);
+		super(poStartingPosition, poStartingVelocity, new sim.physics2D.shape.Circle(10, Color.CYAN), pnId);
 		// TODO Auto-generated constructor stub
 	}
 

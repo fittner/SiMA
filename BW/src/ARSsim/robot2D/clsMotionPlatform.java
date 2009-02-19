@@ -106,9 +106,9 @@ public class clsMotionPlatform
     public void moveForward(double speed)
         {
         if (moMobile.getVelocity().length() < speed - .5)
-        	moMobile.addForce((new Double2D(1, 0)).rotate(moMobile.getOrientation().radians));
+        	moMobile.addForce((new Double2D(speed, 0)).rotate(moMobile.getOrientation().radians));
         else if (moMobile.getVelocity().length() > speed + .5)
-        	moMobile.addForce((new Double2D(-1, 0)).rotate(moMobile.getOrientation().radians));
+        	moMobile.addForce((new Double2D(-speed, 0)).rotate(moMobile.getOrientation().radians));
                 
         }
         

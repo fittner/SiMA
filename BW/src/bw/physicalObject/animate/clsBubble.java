@@ -56,7 +56,7 @@ public class clsBubble extends clsAnimate {
 	 */
 	public clsBubble(Double2D poStartingPosition, Double2D poStartingVelocity,  int pnId)
     {
-		super(poStartingVelocity, poStartingVelocity, pnId);
+		super(poStartingVelocity, poStartingVelocity, new sim.physics2D.shape.Circle(10, Color.CYAN), pnId);
 		
 		this.setEntityActionResponse(new clsBubbleResponses());
 		

@@ -12,6 +12,7 @@ import sim.physics2D.physicalObject.PhysicalObject2D;
 import sim.physics2D.shape.Shape;
 import sim.physics2D.util.Angle;
 import sim.physics2D.util.Double2D;
+import sim.portrayal.DrawInfo2D;
 import ARSsim.robot2D.clsBrainAction;
 import ARSsim.robot2D.clsMotionAction;
 import ARSsim.robot2D.clsMotionPlatform;
@@ -110,6 +111,11 @@ public class clsMobileObject2D extends sim.physics2D.physicalObject.MobileObject
 			System.out.println(ex.getMessage());
 		}
 	}
+	
+    public boolean hitObject(Object object, DrawInfo2D range)
+    {
+    	return true;
+    }
 
     public int handleCollision(PhysicalObject2D other, Double2D colPoint)
     {
@@ -146,6 +152,8 @@ public class clsMobileObject2D extends sim.physics2D.physicalObject.MobileObject
     		}
     	}
     }
+    
+    
     
     public void dispatchMotion(clsBrainAction poCmd) throws Exception
     {
