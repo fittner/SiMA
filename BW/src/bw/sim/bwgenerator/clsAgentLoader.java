@@ -236,7 +236,7 @@ public class clsAgentLoader {
                     
         pos = new Double2D(x, y);
         bot = new clsRemoteBot(pos, new Double2D(0, 0),i);
-        bot.getMobile().setPosition(new sim.util.Double2D(pos.x, pos.y));
+       
                     
         //FixedAngle fa = new FixedAngle();
         //NoPerpMotion npm = new NoPerpMotion();
