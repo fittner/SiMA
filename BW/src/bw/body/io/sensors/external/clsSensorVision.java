@@ -38,12 +38,6 @@ public class clsSensorVision extends clsSensorExt
 	private Bag meCollidingObj;
 	private Bag meViewObj;
 		
-	/**
-	 * @param poBaseIO
-	 */
-	public clsSensorVision(clsBaseIO poBaseIO){
-		super(poBaseIO);
-	}
 	
 	/**
 	 * @param poEntity
@@ -52,9 +46,10 @@ public class clsSensorVision extends clsSensorExt
 	public clsSensorVision(clsEntity poEntity, clsBaseIO poBaseIO)	{
 		super(poBaseIO);
 		mnViewDegree = Math.PI;
+		mnVisRange = 50; 
+		
 		meCollidingObj = new Bag();
 		meViewObj = new Bag(); 
-		mnVisRange = 50; 
 		moVisionArea = new clsEntityPartVision(poEntity, mnVisRange);
 		this.regVisionObj(poEntity);
 	}
@@ -66,13 +61,19 @@ public class clsSensorVision extends clsSensorExt
 	 */
 	private void regVisionObj(clsEntity poEntity)	{
 		PhysicsEngine2D oPhyEn2D = clsSingletonMasonGetter.getPhysicsEngine2D();
-	
-		oPhyEn2D.register(moVisionArea);
-		PinJoint mPJ = new PinJoint(((clsMobile)poEntity).getMobile().getPosition(), moVisionArea,((clsMobile)poEntity).getMobile());
-		oPhyEn2D.register(mPJ); 
-//           poFieldEnvironment.setObjectLocation(visArea.getVisionObj(), new sim.util.Double2D(bot.getMobile().getPosition().x, bot.getMobile().getPosition().y));
-//           poSimState.schedule.scheduleRepeating(visArea.getVisionObj());           
-//               
+		
+		try
+		{
+			oPhyEn2D.register(moVisionArea);
+			PinJoint mPJ = new PinJoint(((clsMobile)poEntity).getMobile().getPosition(), moVisionArea,((clsMobile)poEntity).getMobile());
+			oPhyEn2D.register(mPJ); 
+//	           poFieldEnvironment.setObjectLocation(visArea.getVisionObj(), new sim.util.Double2D(bot.getMobile().getPosition().x, bot.getMobile().getPosition().y));
+//	           poSimState.schedule.scheduleRepeating(visArea.getVisionObj());
+		}
+		catch( Exception ex )
+		{
+			System.out.println(ex.getMessage());
+		}
     }
 
 	/**
@@ -97,7 +98,6 @@ public class clsSensorVision extends clsSensorExt
 		}
 	}
 	
-
 	/**
 	 * TODO (zeilinger) - returns the angle of the relative position
 	 * to the perceived objectn
@@ -127,8 +127,20 @@ public class clsSensorVision extends clsSensorExt
 	 */
 	public boolean getInView(double pnOrientation)
 	{
-		if(pnOrientation <= moVisionArea.getOrientation().radians + mnViewDegree/2 ||
-				pnOrientation >= moVisionArea.getOrientation().radians + mnViewDegree/2)
+		double nEntityOrientation = moVisionArea.getOrientation().radians;
+		double nMinBorder; 
+		double nMaxBorder; 
+		
+		nMinBorder = nEntityOrientation -  mnViewDegree/2; 
+		nMaxBorder = nEntityOrientation +  mnViewDegree/2; 
+		
+		if(nMaxBorder>2*Math.PI)
+			nMaxBorder-=2*Math.PI; 
+		if(nMinBorder<0)
+			nMinBorder+=2*Math.PI; 
+		
+		if(pnOrientation <= nMaxBorder ||
+				pnOrientation >= nMinBorder)
 		{
 			return true;  
 		}
@@ -153,7 +165,6 @@ public class clsSensorVision extends clsSensorExt
 		meViewObj.add(pPhObj);
 	}
 	
-		
 	/**
 	 * TODO (zeilinger) - insert description
 	 *
