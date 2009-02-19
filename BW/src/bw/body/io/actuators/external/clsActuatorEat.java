@@ -21,7 +21,8 @@ import bw.utils.enums.eBodyParts;
 public class clsActuatorEat extends clsActuatorExt {
 
 	private clsEntity moEntity;
-	private float mrEnergyConsuptionValue = 5;
+	private float mrDefaultEnergyConsuptionValue = 1.0f;  //pseudo const for init purposes
+
 
 	/**
 	 * @param poEntity 
@@ -29,10 +30,11 @@ public class clsActuatorEat extends clsActuatorExt {
 	 */
 	public clsActuatorEat(clsEntity poEntity, clsBaseIO poBaseIO) {
 		super(poBaseIO);
+		
 		setEntity(poEntity);
 		
-		//this registers a static energy consumption
-		registerEnergyConsumption(mrEnergyConsuptionValue);
+		//this registers a default energy consumption
+		registerEnergyConsumption(mrDefaultEnergyConsuptionValue);
 	}
 	
 	/**
@@ -89,7 +91,7 @@ public class clsActuatorEat extends clsActuatorExt {
 			//eat entity
 			
 			//when we eat, we need more energy
-			registerEnergyConsumption(mrEnergyConsuptionValue+50); //TODO clemens: change 50 to the real value
+			registerEnergyConsumption(mrDefaultEnergyConsuptionValue + 3.5f); //TODO clemens: change 50 to the real value
 			
 			//testing the exception
 			throw(new EntityNotEatable(oEatenEntity.getEntityType()) );
@@ -100,7 +102,7 @@ public class clsActuatorEat extends clsActuatorExt {
 		}
 		finally{
 			//register default value again
-			registerEnergyConsumption(mrEnergyConsuptionValue);
+			registerEnergyConsumption(mrDefaultEnergyConsuptionValue);
 		}
 	
 		

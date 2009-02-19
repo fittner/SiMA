@@ -16,8 +16,7 @@ import bw.utils.tools.clsFood;
  * @author deutsch
  * 
  */
-public class clsEntityActionResponses {
-	public clsFood actionEatResponse() throws EntityActionResponseNotImplemented {
-		throw new bw.exceptions.EntityActionResponseNotImplemented();
-	}
+public abstract class clsEntityActionResponses {
+	
+	public abstract clsFood actionEatResponse(float prWeight) throws EntityActionResponseNotImplemented;
 }

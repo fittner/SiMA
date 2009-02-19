@@ -17,7 +17,8 @@ import bw.utils.tools.clsFood;
  * 
  */
 public class clsBubbleResponses extends clsEntityActionResponses {
-	public clsFood actionEatResponse() throws EntityActionResponseNotImplemented {
+	
+	public clsFood actionEatResponse(float prWeight) throws EntityActionResponseNotImplemented {
 		throw new bw.exceptions.EntityActionResponseNotImplemented();
 	}
 }
