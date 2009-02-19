@@ -11,7 +11,7 @@ import bw.body.io.clsBaseIO;
 
 /**
  * Vision of lists of objects in front of mouth for eating
- * 
+ * TODO crate a eat vision based on hemos one
  * @author muchitsch
  * 
  */
