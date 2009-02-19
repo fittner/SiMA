@@ -108,7 +108,7 @@ public class clsBWMain extends SimState{
 		//add walls
 		clsWorldBoundaries.loadWorldBoundaries(moGameGridField, objPE, this);
 		//add inimate objects
-		clsEntityLoader.loadInanimate(moGameGridField, objPE, this);
+		//clsEntityLoader.loadInanimate(moGameGridField, objPE, this);
 		//add animate
 		clsEntityLoader.loadAnimate(moGameGridField, objPE, this);
 		

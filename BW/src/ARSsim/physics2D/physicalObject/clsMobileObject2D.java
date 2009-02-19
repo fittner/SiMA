@@ -42,9 +42,12 @@ public class clsMobileObject2D extends sim.physics2D.physicalObject.MobileObject
 		moEntity = poEntity;
 		moMotionPlatform = new clsMotionPlatform(this);
 		moCollisionList = new ArrayList<clsCollidingObject>();
-		
+	}
+
+	public void doRegisterMason()
+	{
 		clsSingletonMasonGetter.getPhysicsEngine2D().register(this);
-		clsSingletonMasonGetter.getSimState().schedule.scheduleRepeating(this);
+		clsSingletonMasonGetter.getSimState().schedule.scheduleRepeating(this);		
 	}
 	
 	public void setPosition(sim.util.Double2D poPosition) {

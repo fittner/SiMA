@@ -34,6 +34,7 @@ public abstract class clsMobile extends clsEntity {
 		
 		moPhysicalObject2D = new clsMobileObject2D(this);
 		//TODO: register irgendwie
+		getMobile().doRegisterMason();
 	}
 
 	public void setPosition(){
