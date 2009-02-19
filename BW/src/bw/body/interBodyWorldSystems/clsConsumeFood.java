@@ -22,7 +22,7 @@ public class clsConsumeFood {
 		mnGarbageNutritionType = pnGarbageNutritionType;
 	}
 	
-	public void eat(clsFood poFood) {
+	public void digest(clsFood poFood) {
 		
 	}
 
