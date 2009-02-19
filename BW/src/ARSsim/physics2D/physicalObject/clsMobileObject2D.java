@@ -7,7 +7,6 @@ import java.util.ArrayList;
 
 import sim.engine.SimState;
 import sim.engine.Steppable;
-import sim.field.continuous.Continuous2D;
 import sim.physics2D.forceGenerator.ForceGenerator;
 import sim.physics2D.physicalObject.PhysicalObject2D;
 import sim.physics2D.util.Angle;
@@ -44,9 +43,8 @@ public class clsMobileObject2D extends sim.physics2D.physicalObject.MobileObject
 		moMotionPlatform = new clsMotionPlatform(this);
 		moCollisionList = new ArrayList<clsCollidingObject>();
 		
-        //poObjPE.register(this);
-        
-        //poSimState.schedule.scheduleRepeating(this);
+		clsSingletonMasonGetter.getPhysicsEngine2D().register(this);
+		clsSingletonMasonGetter.getSimState().schedule.scheduleRepeating(this);
 	}
 	
 	public void setPosition(sim.util.Double2D poPosition) {
