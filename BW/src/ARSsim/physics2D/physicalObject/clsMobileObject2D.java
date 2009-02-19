@@ -24,7 +24,7 @@ import bw.utils.enums.eActionCommandType;
  * @author muchitsch
  *
  */
-public class clsMobileObject2D extends sim.physics2D.physicalObject.MobileObject2D implements Steppable, ForceGenerator{
+public class clsMobileObject2D extends sim.physics2D.physicalObject.MobileObject2D implements Steppable, ForceGenerator, itfGetEntity {
 
 	/**
 	 * 

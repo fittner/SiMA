@@ -11,7 +11,7 @@ import bw.clsEntity;
  * @author muchitsch
  *
  */
-public class clsStationaryObject2D extends sim.physics2D.physicalObject.StationaryObject2D{
+public class clsStationaryObject2D extends sim.physics2D.physicalObject.StationaryObject2D implements itfGetEntity {
 	
 	/**
 	 * 

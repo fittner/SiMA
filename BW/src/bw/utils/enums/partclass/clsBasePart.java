@@ -17,18 +17,12 @@ import bw.utils.enums.eBodyParts;
  * 
  */
 public abstract class clsBasePart {
-	private static final long mnUniqueId = clsSingletonUniqueIdGenerator.getUniqueId();
-	
 	protected eBodyParts mePartId;
 	protected String moName;
 	
 	public clsBasePart() {
 		setName();
 		setPartId();
-	}
-
-	public final long getUniqueId() {
-		return mnUniqueId;
 	}
 
 	protected abstract void setPartId();
