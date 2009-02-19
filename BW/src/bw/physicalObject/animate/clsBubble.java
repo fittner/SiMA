@@ -36,10 +36,10 @@ public class clsBubble extends clsAnimate {
 
 	//members...
 	private static final long serialVersionUID = -329155160020488088L;
-	public float getInternalEnergyConsuptionSUM() {	return super.moAgentBody.getInternalStates().getInternalEnergyConsumption().getSum();	} 
+	public float getInternalEnergyConsuptionSUM() {	return super.moAgentBody.getInternalSystem().getInternalEnergyConsumption().getSum();	} 
 	
 	//just testing (cm)
-	public Object[] getInternalEnergyConsumption() {	return moAgentBody.getInternalStates().getInternalEnergyConsumption().getList().values().toArray();	}
+	public Object[] getInternalEnergyConsumption() {	return moAgentBody.getInternalSystem().getInternalEnergyConsumption().getList().values().toArray();	}
 	
 	//public HashMap<Integer, clsMutableFloat> getStomach() {	return moAgentBody.moInternalStates.moStomachSystem..getInternalEnergyConsumption().getList();	} 
 	
