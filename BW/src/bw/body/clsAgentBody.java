@@ -26,7 +26,7 @@ import bw.body.io.clsInternalIO;
  */
 public class clsAgentBody implements itfStep {
 	private clsBrain moBrain;
-    private clsInternalSystem moInternalStates;
+    private clsInternalSystem moInternalSystem;
     private clsIntraBodySystem moIntraBodySystem;
     private clsInterBodyWorldSystem moInterBodyWorldSystem;
     private clsExternalIO moExternalIO;
@@ -37,7 +37,7 @@ public class clsAgentBody implements itfStep {
 	 */
 	public clsAgentBody(clsEntity poEntity) {
   	   moBrain = new clsBrain();
-	   moInternalStates = new clsInternalSystem();
+	   moInternalSystem = new clsInternalSystem();
 	   moIntraBodySystem = new clsIntraBodySystem();
 	   moExternalIO = new clsExternalIO(poEntity, this);
 	   moInternalIO = new clsInternalIO(this);
@@ -58,8 +58,8 @@ public class clsAgentBody implements itfStep {
 	/**
 	 * @return the moInternalStates
 	 */
-	public clsInternalSystem getInternalStates() {
-		return moInternalStates;
+	public clsInternalSystem getInternalSystem() {
+		return moInternalSystem;
 	}
 
 
@@ -101,7 +101,7 @@ public class clsAgentBody implements itfStep {
 	 * @see bw.body.itfStep#step()
 	 */
 	public void step() {
-		moInternalStates.step();
+		moInternalSystem.step();
 		moIntraBodySystem.step();
 		moExternalIO.step();
 		moInternalIO.step();

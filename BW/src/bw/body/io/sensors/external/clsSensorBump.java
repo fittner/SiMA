@@ -11,7 +11,9 @@ import java.util.ArrayList;
 import ARSsim.physics2D.physicalObject.clsCollidingObject;
 import ARSsim.physics2D.physicalObject.clsMobileObject2D;
 import bw.clsEntity;
+import bw.body.io.clsBaseIO;
 import bw.physicalObject.animate.clsAnimate;
+import bw.utils.enums.eBodyParts;
 
 /**
  * implementation of a vision sensor, returns the <clsCollidingObject> list of the actual bumped objects
@@ -19,7 +21,7 @@ import bw.physicalObject.animate.clsAnimate;
  * @author muchitsch
  * 
  */
-public class clsSensorBump extends clsSensorExt{
+public class clsSensorBump extends clsSensorExt {
 
 	private clsEntity moEntity;
 	private ArrayList<clsCollidingObject> moCollisionList;
@@ -28,8 +30,8 @@ public class clsSensorBump extends clsSensorExt{
 	/**
 	 * constructor takes the entity stored as a local reference 
 	 */
-	public clsSensorBump(clsEntity poEntity) {
-		super();
+	public clsSensorBump(clsEntity poEntity, clsBaseIO poBaseIO) {
+		super(poBaseIO);
 		setEntity(poEntity);
 		// TODO Auto-generated constructor stub
 	}
@@ -59,6 +61,25 @@ public class clsSensorBump extends clsSensorExt{
 		clsMobileObject2D oMobile = ((clsAnimate)moEntity).getMobile();
 		moCollisionList = oMobile.moCollisionList;
 	}
+
+	/* (non-Javadoc)
+	 * @see bw.body.io.clsSensorActuatorBase#setBodyPartId()
+	 */
+	@Override
+	protected void setBodyPartId() {
+		mePartId = eBodyParts.SENSOR_EXT_TACTILE_BUMP;
+		
+	}
+
+	/* (non-Javadoc)
+	 * @see bw.body.io.clsSensorActuatorBase#setName()
+	 */
+	@Override
+	protected void setName() {
+		moName = "ext. Bumpsensor";
+		
+	}
+
 	
 	
 

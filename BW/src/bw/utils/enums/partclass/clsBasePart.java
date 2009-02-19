@@ -17,7 +17,7 @@ import bw.utils.enums.eBodyParts;
  * 
  */
 public abstract class clsBasePart {
-	private static long mnUniqueId = clsSingletonUniqueIdGenerator.getUniqueId();
+	private static final long mnUniqueId = clsSingletonUniqueIdGenerator.getUniqueId();
 	
 	protected eBodyParts mePartId;
 	protected String moName;

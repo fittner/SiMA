@@ -7,12 +7,50 @@
  */
 package bw.body.io.sensors.external;
 
+import bw.body.io.clsBaseIO;
+import bw.utils.enums.eBodyParts;
+
 /**
  * TODO (zeilinger) - insert description 
  * 
  * @author zeilinger
  * 
  */
-public class clsSensorOlfactoric {
+public class clsSensorOlfactoric extends clsSensorExt {
+
+	/**
+	 * @param poBaseIO
+	 */
+	public clsSensorOlfactoric(clsBaseIO poBaseIO) {
+		super(poBaseIO);
+		// TODO Auto-generated constructor stub
+	}
+
+	/* (non-Javadoc)
+	 * @see bw.body.io.clsSensorActuatorBase#setBodyPartId()
+	 */
+	@Override
+	protected void setBodyPartId() {
+		mePartId = eBodyParts.SENSOR_EXT_OLFACTORIC;
+		
+	}
+
+	/* (non-Javadoc)
+	 * @see bw.body.io.clsSensorActuatorBase#setName()
+	 */
+	@Override
+	protected void setName() {
+		moName = "ext. Sensor Olfactoric";
+		
+	}
+
+	/* (non-Javadoc)
+	 * @see bw.body.io.sensors.itfSensorUpdate#updateSensorData()
+	 */
+	@Override
+	public void updateSensorData() {
+		// TODO Auto-generated method stub
+		
+	}
 
 }

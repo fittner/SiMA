@@ -8,6 +8,8 @@
 package bw.body.io;
 
 import bw.body.itfStep;
+import bw.factories.clsSingletonUniqueIdGenerator;
+import bw.utils.enums.eBodyParts;
 
 
 
@@ -17,14 +19,42 @@ import bw.body.itfStep;
  * @author muchitsch
  * 
  */
-public class clsSensorActuatorBase implements itfStep {
-
-	/* (non-Javadoc)
-	 * @see bw.body.itfStep#step()
-	 */
-	@Override
-	public void step() {
-		//do nothing
+public abstract class clsSensorActuatorBase {
+	private static final int mnUniqueId = clsSingletonUniqueIdGenerator.getUniqueId();
+	protected eBodyParts mePartId;
+	protected String moName;
+	
+	private clsBaseIO moBaseIO;
+	
+	public clsSensorActuatorBase(clsBaseIO poBaseIO) {
+		moBaseIO = poBaseIO;
+		setBodyPartId();
+		setName();
 	}
 
+	protected abstract void setBodyPartId();
+	protected abstract void setName();
+	
+	protected void registerEnergyConsumption(float prValue) {
+		moBaseIO.registerEnergyConsumption(mnUniqueId, prValue);
+	}
+
+	public String getName() {
+		return moName;
+	}
+
+
+	/**
+	 * @return the mnUniqueId
+	 */
+	public long getUniqueId() {
+		return mnUniqueId;
+	}
+
+	/**
+	 * @return the mePartId
+	 */
+	public eBodyParts getBodyPartId() {
+		return mePartId;
+	}	
 }

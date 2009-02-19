@@ -8,7 +8,6 @@
 package bw.body.io;
 
 import bw.body.clsAgentBody;
-import bw.body.itfStep;
 
 /**
  * TODO (deutsch) - insert description 
@@ -16,11 +15,13 @@ import bw.body.itfStep;
  * @author deutsch
  * 
  */
-public class clsInternalIO extends clsBaseIO implements itfStep {
+public class clsInternalIO extends clsBaseIO{
 
 	public clsAgentBody moBody;
 	
 	public clsInternalIO(clsAgentBody poBody) {
+		super(poBody.getInternalSystem().getInternalEnergyConsumption());
+
 		moBody = poBody;
 	}
 	

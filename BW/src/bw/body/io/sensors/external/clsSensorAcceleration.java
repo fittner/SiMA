@@ -9,6 +9,8 @@ package bw.body.io.sensors.external;
 
 import sim.physics2D.util.Double2D;
 import bw.clsEntity;
+import bw.body.io.clsBaseIO;
+import bw.utils.enums.eBodyParts;
 
 /**
  * TODO (langr) - insert description 
@@ -18,12 +20,13 @@ import bw.clsEntity;
  */
 public class clsSensorAcceleration extends clsSensorExt{
 
+	private clsEntity moEntity;
 	
 	/**
 	 * constructor takes the entity stored as a local reference 
 	 */
-	public clsSensorAcceleration(clsEntity poEntity) {
-		super();
+	public clsSensorAcceleration(clsEntity poEntity, clsBaseIO poBaseIO) {
+		super(poBaseIO);
 		setEntity(poEntity);
 		// TODO Auto-generated constructor stub
 	}
@@ -45,13 +48,11 @@ public class clsSensorAcceleration extends clsSensorExt{
 		return moCurrentAngularVelocity;
 	}
 	
-	private clsEntity moEntity;
-
 	/**
 	 * @param moEntity the moEntity to set
 	 */
 	public void setEntity(clsEntity poEntity) {
-		this.moEntity = poEntity;
+		moEntity = poEntity;
 	}
 
 	/**
@@ -69,5 +70,23 @@ public class clsSensorAcceleration extends clsSensorExt{
 		// moCurrentVelocity = moEntity.getVelocity();
 		// moCurrentAngularVelocity = moEntity.getAngularVelocity();
 	}
+
+	/* (non-Javadoc)
+	 * @see bw.body.io.clsSensorActuatorBase#setBodyPartId()
+	 */
+	@Override
+	protected void setBodyPartId() {
+		mePartId = eBodyParts.SENSOR_EXT_ACCELERATION;
+	}
+
+	/* (non-Javadoc)
+	 * @see bw.body.io.clsSensorActuatorBase#setName()
+	 */
+	@Override
+	protected void setName() {
+		moName = "ext. Sensor Acceleration";
+		
+	}
+
 	
 }

@@ -13,6 +13,14 @@ package bw.body.io;
  * @author zeilinger
  * 
  */
-public class clsSensorActuatorBaseInt extends clsSensorActuatorBase{
+public abstract class clsSensorActuatorBaseInt extends clsSensorActuatorBase{
+
+	/**
+	 * @param poBaseIO
+	 */
+	public clsSensorActuatorBaseInt(clsBaseIO poBaseIO) {
+		super(poBaseIO);
+		// TODO Auto-generated constructor stub
+	}
 
 }

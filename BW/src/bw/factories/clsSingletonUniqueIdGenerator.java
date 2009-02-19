@@ -22,7 +22,7 @@ public class clsSingletonUniqueIdGenerator {
     /**
      * 
      */
-    private long mnCounter = 0;
+    private int mnCounter = 0;
  
     /**
      * 
@@ -46,7 +46,7 @@ public class clsSingletonUniqueIdGenerator {
 	 *
 	 * @return
 	 */
-	public static long getUniqueId() {
+	public static int getUniqueId() {
 		return clsSingletonUniqueIdGenerator.getInstance().mnCounter++;
 	}
 }

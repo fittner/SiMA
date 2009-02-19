@@ -11,7 +11,6 @@ import java.util.ArrayList;
 
 import bw.clsEntity;
 import bw.body.clsAgentBody;
-import bw.body.itfStep;
 import bw.body.io.actuators.external.clsActuatorExt;
 import bw.body.io.sensors.external.*;
 
@@ -21,7 +20,7 @@ import bw.body.io.sensors.external.*;
  * @author langr
  * 
  */
-public class clsExternalIO extends clsBaseIO implements itfStep {
+public class clsExternalIO extends clsBaseIO {
 
 	
 	public ArrayList<clsSensorExt> moSensorExternal;
@@ -34,6 +33,8 @@ public class clsExternalIO extends clsBaseIO implements itfStep {
 	 * 
 	 */
 	public clsExternalIO(clsEntity poEntity, clsAgentBody poBody) {
+		super(poBody.getInternalSystem().getInternalEnergyConsumption());
+		
 		moBody = poBody; 	 //the agents body
 		moEntity = poEntity; //the entity for physics engine access
 		
@@ -41,8 +42,8 @@ public class clsExternalIO extends clsBaseIO implements itfStep {
 		moActuatorExternal = new ArrayList<clsActuatorExt>();
 		
 		//initialization of sensors
-		moSensorExternal.add(new clsSensorAcceleration(moEntity));
-		moSensorExternal.add(new clsSensorBump(moEntity));
+		moSensorExternal.add(new clsSensorAcceleration(moEntity, this));
+		moSensorExternal.add(new clsSensorBump(moEntity, this));
 		
 	}
 

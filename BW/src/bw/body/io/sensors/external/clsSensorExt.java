@@ -7,7 +7,7 @@
  */
 package bw.body.io.sensors.external;
 
-import bw.clsEntity;
+import bw.body.io.clsBaseIO;
 import bw.body.io.clsSensorActuatorBaseExt;
 import bw.body.io.sensors.itfSensorUpdate;
 
@@ -19,9 +19,12 @@ import bw.body.io.sensors.itfSensorUpdate;
  */
 public abstract class clsSensorExt extends clsSensorActuatorBaseExt implements itfSensorUpdate {
 
-	/* (non-Javadoc)
-	 * @see bw.body.io.itfSensorUpdate#updateSensorData(bw.clsEntity)
+	/**
+	 * @param poBaseIO
 	 */
-	@Override
-	public abstract void updateSensorData();
+	public clsSensorExt(clsBaseIO poBaseIO) {
+		super(poBaseIO);
+		// TODO Auto-generated constructor stub
+	}
+
 }

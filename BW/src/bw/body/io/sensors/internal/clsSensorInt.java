@@ -7,7 +7,9 @@
  */
 package bw.body.io.sensors.internal;
 
-import bw.body.io.clsSensorActuatorBaseExt;
+import bw.body.io.clsBaseIO;
+import bw.body.io.clsSensorActuatorBaseInt;
+import bw.body.io.sensors.itfSensorUpdate;
 
 /**
  * TODO (zeilinger) - insert description 
@@ -15,6 +17,14 @@ import bw.body.io.clsSensorActuatorBaseExt;
  * @author zeilinger
  * 
  */
-public class clsSensorInt extends clsSensorActuatorBaseExt {
+public abstract class clsSensorInt extends clsSensorActuatorBaseInt implements itfSensorUpdate {
+
+	/**
+	 * @param poBaseIO
+	 */
+	public clsSensorInt(clsBaseIO poBaseIO) {
+		super(poBaseIO);
+		// TODO Auto-generated constructor stub
+	}
 
 }
