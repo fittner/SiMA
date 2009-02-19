@@ -33,7 +33,10 @@ public class clsSensorBump extends clsSensorExt {
 	public clsSensorBump(clsEntity poEntity, clsBaseIO poBaseIO) {
 		super(poBaseIO);
 		setEntity(poEntity);
-		// TODO Auto-generated constructor stub
+		
+		//this registeres a static energy consuption
+		registerEnergyConsumption(5); //TODO register the real value, 
+
 	}
 	
 	/**
