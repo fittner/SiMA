@@ -39,8 +39,8 @@ public class clsEntityPartVision extends MobileObject2D implements Steppable{
 	
 	private double mnRadius;
 		
-	private Bag meCollidingObj;
-	private Bag meVisionObj;
+	private Bag meSortedObj;
+	private Bag meUnsortedObj;
 	private Paint moColor;
 	private CircleBorder moShape;
 			
@@ -51,8 +51,8 @@ public class clsEntityPartVision extends MobileObject2D implements Steppable{
 	public clsEntityPartVision(clsEntity poEntity,  double pnRad) {    	
 	 mnRadius = pnRad; 
 
-	 meCollidingObj = new Bag();
-	 meVisionObj = new Bag();
+	 meSortedObj = new Bag();
+	 meUnsortedObj = new Bag();
 	 moColor = Color.yellow;
 	 moShape = new CircleBorder(mnRadius, moColor);
 	 
@@ -61,7 +61,7 @@ public class clsEntityPartVision extends MobileObject2D implements Steppable{
 			 this.setShape(moShape, MASS); 
 			 this.setCoefficientOfFriction(FRICTION);
 			 this.setCoefficientOfRestitution(RESTITUTION);
-		}catch( Exception ex )
+		}catch(Exception ex)
 		{
 			System.out.println(ex.getMessage());
 		}
@@ -72,7 +72,7 @@ public class clsEntityPartVision extends MobileObject2D implements Steppable{
 	 * @see sim.physics2D.physicalObject.PhysicalObject2D#handleCollision(sim.physics2D.physicalObject.PhysicalObject2D, sim.physics2D.util.Double2D)
 	 */
 	public int handleCollision(PhysicalObject2D other, Double2D colPoint){
-		meCollidingObj.add(other);
+		meSortedObj.add(other);
 		return 0; // Vis collision
 	}
 	
@@ -81,8 +81,8 @@ public class clsEntityPartVision extends MobileObject2D implements Steppable{
 	 */
 	public void step(SimState state){
 		  ((clsBWMain)state).moGameGridField.setObjectLocation(this, new sim.util.Double2D(this.getPosition().x, this.getPosition().y));
-	      meCollidingObj.clear(); 
-	      meVisionObj.clear();
+		  meSortedObj.clear(); 
+	      meUnsortedObj.clear();
 	}
 	    
 	//--------------------------------------------------------------------------------------------------
@@ -109,32 +109,32 @@ public class clsEntityPartVision extends MobileObject2D implements Steppable{
 	/**
 	 * @return the meCollidingObj
 	 */
-	public Bag getMeCollidingObj() {
-		return meCollidingObj;
+	public Bag getMeSortedObj() {
+		return meSortedObj;
 	}
 
 
 	/**
 	 * @param meCollidingObj the meCollidingObj to set
 	 */
-	public void setMeCollidingObj(Bag meCollidingObj) {
-		this.meCollidingObj = meCollidingObj;
+	public void setMeSortedObj(Bag meCollidingObj) {
+		this.meSortedObj = meCollidingObj;
 	}
 
 
 	/**
 	 * @return the meVisionObj
 	 */
-	public Bag getMeVisionObj() {
-		return meVisionObj;
+	public Bag getMeUnsortedObj() {
+		return meUnsortedObj;
 	}
 
 
 	/**
 	 * @param meVisionObj the meVisionObj to set
 	 */
-	public void setMeVisionObj(Bag meVisionObj) {
-		this.meVisionObj = meVisionObj;
+	public void setMeUnsortedObj(Bag meVisionObj) {
+		this.meUnsortedObj = meVisionObj;
 	}
 
 
@@ -168,8 +168,7 @@ public class clsEntityPartVision extends MobileObject2D implements Steppable{
 	public void setMoShape(CircleBorder moShape) {
 		this.moShape = moShape;
 	}
-
-
+	
 	
 	//--------------------------------------------------------------------------------------------------
 	// Methods from Mobile2D which have to be overwritten
@@ -203,7 +202,7 @@ public class clsEntityPartVision extends MobileObject2D implements Steppable{
 	 * @see sim.physics2D.physicalObject.PhysicalObject2D#addContact(sim.physics2D.physicalObject.PhysicalObject2D, sim.physics2D.util.Double2D)
 	 */
 	public void addContact(PhysicalObject2D other, Double2D colPoint){
-		meVisionObj.add(other);		
+		meUnsortedObj.add(other);		
 	}	
 }
 
