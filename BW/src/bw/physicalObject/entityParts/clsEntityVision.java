@@ -50,7 +50,7 @@ public class clsEntityVision extends MobileObject2D implements Steppable{
 	private Paint moColor;
 	private CircleBorder moShape;
 		
-	public clsEntityVision(Double2D poPos, Double2D poVel, double pnRad)
+	public clsEntityVision(Double2D poPos,  double pnRad)
     {    	
 	 meCollidingObj = new Bag();
 	 meVisionObj = new Bag();
@@ -58,8 +58,7 @@ public class clsEntityVision extends MobileObject2D implements Steppable{
 	 mnRadius = pnRad; 
 	 moShape = new CircleBorder(mnRadius, moColor);
 	 
-	 this.setVelocity(poVel);
-     this.setPose(poPos, new Angle(0));
+	 this.setPose(poPos, new Angle(0));
      this.setShape(moShape, MASS);
 
      //this.setMass(MASS); 
