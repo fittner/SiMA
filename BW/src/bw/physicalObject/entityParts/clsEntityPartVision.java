@@ -63,9 +63,15 @@ public class clsEntityPartVision extends MobileObject2D implements Steppable{
 	 moColor = Color.yellow;
 	 moShape = new CircleBorder(mnRadius, moColor);
 	 
-	 this.setShape(moShape, MASS); 
-	 this.setCoefficientOfFriction(FRICTION);
-	 this.setCoefficientOfRestitution(RESTITUTION);
+		try
+		{
+		 this.setShape(moShape, MASS); 
+		 this.setCoefficientOfFriction(FRICTION);
+		 this.setCoefficientOfRestitution(RESTITUTION);
+		}catch( Exception ex )
+		{
+			System.out.println(ex.getMessage());
+		}
 	}
 	
 		
@@ -97,15 +103,6 @@ public class clsEntityPartVision extends MobileObject2D implements Steppable{
 	 */
 	public Bag getCollidingObj(){
 		return meCollidingObj; 
-	}
-	
-	/**
-	 * TODO (zeilinger) - insert description
-	 *
-	 * @return
-	 */
-	public Bag getVisionObj(){
-		return meVisionObj; 
 	}
 	
 	/**
