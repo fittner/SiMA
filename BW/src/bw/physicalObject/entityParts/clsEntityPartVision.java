@@ -8,19 +8,12 @@
 package bw.physicalObject.entityParts;
 
 import java.awt.*;
-import java.util.Iterator;
 
 import ARSsim.physics2D.shape.CircleBorder;
 import bw.clsEntity;
 import bw.sim.clsBWMain;
-import bw.body.clsAgentBody;
-import bw.factories.clsSingletonMasonGetter;
-import bw.physicalObject.animate.clsAnimate;
-import bw.physicalObject.inanimate.mobile.clsMobile;
 
 import sim.engine.*;
-import sim.physics2D.PhysicsEngine2D;
-import sim.physics2D.constraint.PinJoint;
 import sim.physics2D.physicalObject.*;
 import sim.physics2D.util.*;
 import sim.physics2D.util.Double2D;
@@ -96,32 +89,87 @@ public class clsEntityPartVision extends MobileObject2D implements Steppable{
 	// local set and get methods
 	//-------------------------------------------------------------------------------------------------
 	
-	/**
-	 * TODO (zeilinger) - insert description
-	 *
-	 * @return
-	 */
-	public Bag getCollidingObj(){
-		return meCollidingObj; 
-	}
 	
 	/**
-	 * TODO (zeilinger) - insert description
-	 *
-	 * @return
+	 * @return the mnRadius
 	 */
-	public double getSize(){
+	public double getMnRadius() {
 		return mnRadius;
 	}
-	
+
+
 	/**
-	 * TODO (zeilinger) - insert description
-	 *
-	 * @param pnRadius
+	 * @param mnRadius the mnRadius to set
 	 */
-	public void setSize(double pnRadius){
-		this.mnRadius = pnRadius;
+	public void setMnRadius(double mnRadius) {
+		this.mnRadius = mnRadius;
 	}
+
+
+	/**
+	 * @return the meCollidingObj
+	 */
+	public Bag getMeCollidingObj() {
+		return meCollidingObj;
+	}
+
+
+	/**
+	 * @param meCollidingObj the meCollidingObj to set
+	 */
+	public void setMeCollidingObj(Bag meCollidingObj) {
+		this.meCollidingObj = meCollidingObj;
+	}
+
+
+	/**
+	 * @return the meVisionObj
+	 */
+	public Bag getMeVisionObj() {
+		return meVisionObj;
+	}
+
+
+	/**
+	 * @param meVisionObj the meVisionObj to set
+	 */
+	public void setMeVisionObj(Bag meVisionObj) {
+		this.meVisionObj = meVisionObj;
+	}
+
+
+	/**
+	 * @return the moColor
+	 */
+	public Paint getMoColor() {
+		return moColor;
+	}
+
+
+	/**
+	 * @param moColor the moColor to set
+	 */
+	public void setMoColor(Paint moColor) {
+		this.moColor = moColor;
+	}
+
+
+	/**
+	 * @return the moShape
+	 */
+	public CircleBorder getMoShape() {
+		return moShape;
+	}
+
+
+	/**
+	 * @param moShape the moShape to set
+	 */
+	public void setMoShape(CircleBorder moShape) {
+		this.moShape = moShape;
+	}
+
+
 	
 	//--------------------------------------------------------------------------------------------------
 	// Methods from Mobile2D which have to be overwritten
