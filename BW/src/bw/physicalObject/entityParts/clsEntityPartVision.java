@@ -58,9 +58,9 @@ public class clsEntityPartVision extends MobileObject2D implements Steppable{
 	 
 		try
 		{
-		 this.setShape(moShape, MASS); 
-		 this.setCoefficientOfFriction(FRICTION);
-		 this.setCoefficientOfRestitution(RESTITUTION);
+			 this.setShape(moShape, MASS); 
+			 this.setCoefficientOfFriction(FRICTION);
+			 this.setCoefficientOfRestitution(RESTITUTION);
 		}catch( Exception ex )
 		{
 			System.out.println(ex.getMessage());
