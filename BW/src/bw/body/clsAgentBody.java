@@ -37,11 +37,13 @@ public class clsAgentBody implements itfStep {
 	 */
 	public clsAgentBody(clsEntity poEntity) {
   	   moBrain = new clsBrain();
+  	   
 	   moInternalSystem = new clsInternalSystem();
-	   moIntraBodySystem = new clsIntraBodySystem();
+	   moIntraBodySystem = new clsIntraBodySystem(moInternalSystem);
+	   moInterBodyWorldSystem = new clsInterBodyWorldSystem(moInternalSystem);
+	   
 	   moExternalIO = new clsExternalIO(poEntity, this);
 	   moInternalIO = new clsInternalIO(this);
-	   moInterBodyWorldSystem = new clsInterBodyWorldSystem(moInternalSystem);
 	}
 	
 	

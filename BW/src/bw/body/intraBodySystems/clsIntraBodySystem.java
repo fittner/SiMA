@@ -7,8 +7,7 @@
  */
 package bw.body.intraBodySystems;
 
-import bw.body.interBodyWorldSystems.clsDamageBump;
-import bw.body.interBodyWorldSystems.clsDamageLightning;
+import bw.body.internalSystems.clsInternalSystem;
 
 /**
  * TODO (deutsch) - insert description 
@@ -19,18 +18,13 @@ import bw.body.interBodyWorldSystems.clsDamageLightning;
 public class clsIntraBodySystem {
     private clsBodyColor moBioSystem;
     private clsGrowth moGrowthSystem;
-    private clsDamageBump moDamageBump;
-    private clsDamageLightning moDamageLightning;
     private clsDamageNutrition moDamageNutrition;
     private clsDamageTemperature moDamageTemperature;
 
-    public clsIntraBodySystem() {
+    public clsIntraBodySystem(clsInternalSystem poInternalSystem) {
    	   moBioSystem = new clsBodyColor();
 	   moGrowthSystem = new clsGrowth();  
-	   
-	   moDamageBump = new clsDamageBump();
-	   moDamageLightning = new clsDamageLightning();
-	   moDamageNutrition = new clsDamageNutrition();
+	   moDamageNutrition = new clsDamageNutrition(poInternalSystem);
 	   moDamageTemperature = new clsDamageTemperature();
     }
     
@@ -51,25 +45,6 @@ public class clsIntraBodySystem {
 	public clsGrowth getGrowthSystem() {
 		return moGrowthSystem;
 	}
-
-
-
-	/**
-	 * @return the moDamageBump
-	 */
-	public clsDamageBump getDamageBump() {
-		return moDamageBump;
-	}
-
-
-
-	/**
-	 * @return the moDamageLightning
-	 */
-	public clsDamageLightning getDamageLightning() {
-		return moDamageLightning;
-	}
-
 
 
 	/**
@@ -97,10 +72,7 @@ public class clsIntraBodySystem {
     public void step() {
     	moBioSystem.step();
     	moGrowthSystem.step();
- 
-    	moDamageBump.step();
-    	moDamageLightning.step();
-    	moDamageNutrition.step();
+     	moDamageNutrition.step();
     	moDamageTemperature.step();
     }
 }

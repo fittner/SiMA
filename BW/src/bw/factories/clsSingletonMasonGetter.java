@@ -19,32 +19,53 @@ import sim.physics2D.PhysicsEngine2D;
  */
 public class clsSingletonMasonGetter {
     /**
+     * TODO (deutsch) - insert description 
      * 
+     * @author deutsch
+     * 19.02.2009, 18:45:16
      */
     private static clsSingletonMasonGetter instance = null;
     
     /**
+     * TODO (deutsch) - insert description 
      * 
+     * @author deutsch
+     * 19.02.2009, 18:45:18
      */
     private PhysicsEngine2D moPhysicsEngine2D = null;
 
     /**
+     * TODO (deutsch) - insert description 
      * 
+     * @author deutsch
+     * 19.02.2009, 18:45:20
      */
     private Continuous2D moFieldEnvironment = null;
     
     /**
+     * TODO (deutsch) - insert description 
      * 
+     * @author deutsch
+     * 19.02.2009, 18:45:06
      */
     private SimState moSimState = null;
     
+
     /**
+     * TODO (deutsch) - insert description 
      * 
+     * @author deutsch
+     * 19.02.2009, 18:45:26
+     *
      */
     private clsSingletonMasonGetter() {}
 
+
     /**
      * TODO (deutsch) - insert description
+     *
+     * @author deutsch
+     * 19.02.2009, 18:45:31
      *
      * @return
      */
@@ -58,6 +79,9 @@ public class clsSingletonMasonGetter {
 	/**
 	 * TODO (deutsch) - insert description
 	 *
+	 * @author deutsch
+	 * 19.02.2009, 18:45:36
+	 *
 	 * @param poPhysicsEngine2D
 	 */
 	public static void setPhysicsEngine2D(PhysicsEngine2D poPhysicsEngine2D) {
@@ -66,6 +90,9 @@ public class clsSingletonMasonGetter {
 
 	/**
 	 * TODO (deutsch) - insert description
+	 *
+	 * @author deutsch
+	 * 19.02.2009, 18:45:40
 	 *
 	 * @return
 	 */
@@ -76,7 +103,10 @@ public class clsSingletonMasonGetter {
 	/**
 	 * TODO (deutsch) - insert description
 	 *
-	 * @param poPhysicsEngine2D
+	 * @author deutsch
+	 * 19.02.2009, 18:45:45
+	 *
+	 * @param poFieldEnvironment
 	 */
 	public static void setFieldEnvironment(Continuous2D poFieldEnvironment) {
 		clsSingletonMasonGetter.getInstance().moFieldEnvironment = poFieldEnvironment;
@@ -84,6 +114,9 @@ public class clsSingletonMasonGetter {
 
 	/**
 	 * TODO (deutsch) - insert description
+	 *
+	 * @author deutsch
+	 * 19.02.2009, 18:45:49
 	 *
 	 * @return
 	 */
@@ -94,7 +127,10 @@ public class clsSingletonMasonGetter {
 	/**
 	 * TODO (deutsch) - insert description
 	 *
-	 * @param poPhysicsEngine2D
+	 * @author deutsch
+	 * 19.02.2009, 18:45:56
+	 *
+	 * @param poSimState
 	 */
 	public static void setSimState(SimState poSimState) {
 		clsSingletonMasonGetter.getInstance().moSimState = poSimState;
@@ -102,6 +138,9 @@ public class clsSingletonMasonGetter {
 
 	/**
 	 * TODO (deutsch) - insert description
+	 *
+	 * @author deutsch
+	 * 19.02.2009, 18:46:01
 	 *
 	 * @return
 	 */
