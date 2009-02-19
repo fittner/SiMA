@@ -7,12 +7,38 @@
  */
 package bw.body.io.sensors.external;
 
+import bw.clsEntity;
+
 /**
- * TODO (zia) - insert description 
+ * TODO (muchitsch) - insert description 
  * 
- * @author zia
+ * @author muchitsch
  * 
  */
-public class clsSensorBump {
+public class clsSensorBump extends clsSensorExt{
 
+	private clsEntity moEntity;
+	
+	/**
+	 * constructor takes the entity stored as a local reference 
+	 */
+	public clsSensorBump(clsEntity poEntity) {
+		super();
+		setEntity(poEntity);
+		// TODO Auto-generated constructor stub
+	}
+	
+	/**
+	 * TODO (muchitsch) - insert description
+	 *
+	 * @param poEntity
+	 */
+	private void setEntity(clsEntity poEntity) {
+		this.moEntity = poEntity;
+	}
+	
+	
+
+	
+	
 }

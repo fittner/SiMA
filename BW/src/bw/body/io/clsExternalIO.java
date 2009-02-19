@@ -13,8 +13,7 @@ import bw.clsEntity;
 import bw.body.clsAgentBody;
 import bw.body.itfStep;
 import bw.body.io.actuators.external.clsActuatorExt;
-import bw.body.io.sensors.external.clsSensorAcceleration;
-import bw.body.io.sensors.external.clsSensorExt;
+import bw.body.io.sensors.external.*;
 
 /**
  * TODO (langr) - insert description 
@@ -43,6 +42,7 @@ public class clsExternalIO implements itfStep {
 		
 		//initialization of sensors
 		moSensorExternal.add(new clsSensorAcceleration(moEntity));
+		moSensorExternal.add(new clsSensorBump(moEntity));
 		
 	}
 
