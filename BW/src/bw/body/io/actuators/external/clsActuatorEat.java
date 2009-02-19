@@ -7,10 +7,11 @@
  */
 package bw.body.io.actuators.external;
 
-import bw.clsEntity;
+
 import bw.actionresponses.clsEntityActionResponses;
 import bw.body.io.clsBaseIO;
 import bw.exceptions.*;
+import bw.physicalObject.animate.clsAnimate;
 import bw.utils.enums.eBodyParts;
 import bw.utils.tools.clsFood;
 
@@ -22,7 +23,7 @@ import bw.utils.tools.clsFood;
  */
 public class clsActuatorEat extends clsActuatorExt {
 
-	private clsEntity moEntity;
+	private clsAnimate moAnimate;
 	private float mrDefaultEnergyConsuptionValue = 1.0f;  //pseudo const for init purposes
 
 
@@ -30,10 +31,10 @@ public class clsActuatorEat extends clsActuatorExt {
 	 * @param poEntity 
 	 * @param poBaseIO
 	 */
-	public clsActuatorEat(clsEntity poEntity, clsBaseIO poBaseIO) {
+	public clsActuatorEat(clsAnimate poAnimate, clsBaseIO poBaseIO) {
 		super(poBaseIO);
 		
-		setEntity(poEntity);
+		setAnimate(poAnimate);
 		
 		//this registers a default energy consumption
 		registerEnergyConsumption(mrDefaultEnergyConsuptionValue);
@@ -42,8 +43,8 @@ public class clsActuatorEat extends clsActuatorExt {
 	/**
 	 * @param poEntity the Entity to set
 	 */
-	public void setEntity(clsEntity poEntity) {
-		this.moEntity = poEntity;
+	public void setAnimate(clsAnimate poEntity) {
+		this.moAnimate = poEntity;
 	}
 
 	/* (non-Javadoc)
@@ -68,16 +69,16 @@ public class clsActuatorEat extends clsActuatorExt {
 	@Override
 	public void updateActuatorData() {
 		
-		
-		//is there something present?
-		// can i put it in?
-		//eat/bite object
-		//food = XYZ.withdrawFood()
-		//internal system.addFood(food)
+		try {
+			eatAction();
+		} catch (EntityActionResponseNotImplemented e) {
+			// TODO clemens
+			e.printStackTrace();
+		}
 		
 
 	}
-	
+
 	
 	/**
 	 * Method for eating, takes a clsEntity in, and tries to chew it. Exception catched if not eatable.
@@ -85,34 +86,35 @@ public class clsActuatorEat extends clsActuatorExt {
 	 * @param poEntity
 	 * @throws EntityActionResponseNotImplemented 
 	 */
-	public void eat(clsEntity poEatenEntity) throws EntityActionResponseNotImplemented{
+	public void eatAction() throws EntityActionResponseNotImplemented{
 		
-		clsEntity oEatenEntity = poEatenEntity;
-		clsEntityActionResponses oEntityActionResponse = moEntity.getEntityActionResponses();
+		clsAnimate oViewedAnimate = null;
+		clsEntityActionResponses oEntityActionResponse = moAnimate.getEntityActionResponses();
 		
 		try{
+			
+			//read what EatSensor sees in front of him and give it to eat action, exception if more then 1?
+			//...clsAnimate oViewedAnimate = clsEatAction.View();
+			
 			//when we eat, we need more energy
 			registerEnergyConsumption(mrDefaultEnergyConsuptionValue + 3.5f); //TODO clemens: change 50 to the real value
 			
-			float rWeight = 27;
+			float rWeight = 27; //größe des Bissen
+			clsFood oReturnedFood = oEntityActionResponse.actionEatResponse(rWeight); //Apfel gibt mir einen Bisset food retour
 			
-			clsFood oReturnedFood = oEntityActionResponse.actionEatResponse(rWeight);
+			moAnimate.moAgentBody.getInterBodyWorldSystem().getConsumeFood().digest(oReturnedFood); // food an Body zur weiterverarbeitung geben
 			
 			if(oReturnedFood == null)
-				throw(new EntityNotEatable(oEatenEntity.getEntityType()) );
+				throw(new EntityNotEatable(oViewedAnimate.getEntityType()) );
 			
 		}catch(EntityNotEatable ex){
-			
+			ex.printStackTrace();
+			//TODO clemens
 		}
 		finally{
 			//register default value again
 			registerEnergyConsumption(mrDefaultEnergyConsuptionValue);
 		}
-	
-		
-		
-		
-	
 		
 	}
 

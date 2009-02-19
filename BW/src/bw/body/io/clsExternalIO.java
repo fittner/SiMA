@@ -13,6 +13,7 @@ import bw.clsEntity;
 import bw.body.clsAgentBody;
 import bw.body.io.actuators.external.*;
 import bw.body.io.sensors.external.*;
+import bw.physicalObject.animate.clsAnimate;
 
 /**
  * TODO (langr) - insert description 
@@ -26,7 +27,6 @@ public class clsExternalIO extends clsBaseIO {
 	public ArrayList<clsSensorExt> moSensorExternal;
 	public ArrayList<clsActuatorExt> moActuatorExternal;
 	
-	public clsAgentBody moBody;
 	public clsEntity moEntity;
 	
 /**
@@ -35,7 +35,6 @@ public class clsExternalIO extends clsBaseIO {
 	public clsExternalIO(clsEntity poEntity, clsAgentBody poBody) {
 		super(poBody.getInternalSystem().getInternalEnergyConsumption());
 		
-		moBody = poBody; 	 //the agents body
 		moEntity = poEntity; //the entity for physics engine access
 		
 		moSensorExternal = new ArrayList<clsSensorExt>();
@@ -47,7 +46,7 @@ public class clsExternalIO extends clsBaseIO {
 		moSensorExternal.add(new clsSensorVision(moEntity, this));
 		
 		//initialization of actuators
-		moActuatorExternal.add(new clsActuatorEat(moEntity, this));
+		moActuatorExternal.add(new clsActuatorEat((clsAnimate)moEntity, this));
 		
 		
 	}
