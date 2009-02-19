@@ -10,12 +10,18 @@ package bw.body.io.sensors.external;
 import java.util.Iterator;
 
 import sim.physics2D.PhysicsEngine2D;
+import sim.physics2D.constraint.PinJoint;
 import sim.physics2D.physicalObject.MobileObject2D;
 import sim.physics2D.physicalObject.PhysicalObject2D;
+import sim.physics2D.util.Angle;
 import sim.physics2D.util.Double2D;
 import sim.util.*;
 
-import bw.physicalObject.entityParts.clsEntityVision;
+import bw.clsEntity;
+import bw.body.clsAgentBody;
+import bw.factories.clsSingletonPhysicsEngineGetter;
+import bw.physicalObject.entityParts.clsEntityPartVision;
+import bw.physicalObject.inanimate.mobile.clsMobile;
 import bw.physicalObject.animate.clsAnimate;
 /**
  * TODO (zeilinger) - This class defines the Vision object which is tagged to an animate 
@@ -29,20 +35,31 @@ public class clsSensorVision extends clsSensorExt
 {
 	private double mnViewDegree;
 	private double mnVisRange; 
-	private clsEntityVision moVisionArea;
+	private clsEntityPartVision moVisionArea;
 	private Bag meCollidingObj;
 	private Bag meViewObj;
 		
-	public clsSensorVision(Double2D poPos)
+	public clsSensorVision(clsEntity poEntity)
 	{
 		mnViewDegree = Math.PI;
 		meCollidingObj = new Bag();
 		meViewObj = new Bag(); 
 		mnVisRange = 50; 
-		
-		moVisionArea = new clsEntityVision(poPos, mnVisRange);
-	
+		moVisionArea = new clsEntityPartVision(poEntity, mnVisRange);
+		this.regVisionObj(poEntity);
 	}
+	
+	private void regVisionObj(clsEntity poEntity)
+	{
+		PhysicsEngine2D oPhyEn2D = clsSingletonPhysicsEngineGetter.getPhysicsEngine2D();
+	
+		oPhyEn2D.register(moVisionArea);
+		PinJoint mPJ = new PinJoint(((clsMobile)poEntity).getMobile().getPosition(), moVisionArea,((clsMobile)poEntity).getMobile());
+		oPhyEn2D.register(mPJ); 
+//           poFieldEnvironment.setObjectLocation(visArea.getVisionObj(), new sim.util.Double2D(bot.getMobile().getPosition().x, bot.getMobile().getPosition().y));
+//           poSimState.schedule.scheduleRepeating(visArea.getVisionObj());           
+//               
+    }
 	
 	private void calcViewObj()
 	{
@@ -103,7 +120,7 @@ public class clsSensorVision extends clsSensorExt
 		return meCollidingObj; 
 	}
 	
-	public clsEntityVision getPhysObj()
+	public clsEntityPartVision getPhysObj()
 	{
 		return moVisionArea; 
 	}
@@ -112,5 +129,19 @@ public class clsSensorVision extends clsSensorExt
 	{
 		meCollidingObj = peCollidingObj; 
 	}
+	
+	public void setVisionRange(double pnVisRange)
+	{
+		mnVisRange = pnVisRange; 
+	}
+	
+	//VISION AREA Init + Register
+//  bw.body.io.sensors.external.clsSensorVision visArea; 
+//  visArea = new bw.body.io.sensors.external.clsSensorVision(bot.getMobile().getPosition(),new Double2D(0, 0), poObjPE, (clsAnimate)bot);
+//  poFieldEnvironment.setObjectLocation(visArea.getVisionObj(), new sim.util.Double2D(bot.getMobile().getPosition().x, bot.getMobile().getPosition().y));
+//  poSimState.schedule.scheduleRepeating(visArea.getVisionObj());           
+//      
+//  poObjPE.register(pj);
+//  //objPE.register(fa);
 	
 }
