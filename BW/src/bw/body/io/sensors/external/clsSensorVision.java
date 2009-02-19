@@ -60,14 +60,17 @@ public class clsSensorVision extends clsSensorExt
 //           poSimState.schedule.scheduleRepeating(visArea.getVisionObj());           
 //               
     }
-	
+/** TODO (zeilinger) - calculated which are within the entity vision field     
+	 */ 	
 	private void calcViewObj()
 	{
 		double nOrientation;  
 		PhysicalObject2D oPhObj;  
-		meViewObj.clear(); 
 		
+		meViewObj.clear(); 
+		meCollidingObj = moVisionArea.getCollidingObj();
 		Iterator itr = meCollidingObj.iterator();
+		
 		while(itr.hasNext())
 		{
 			oPhObj = (PhysicalObject2D)itr.next(); 
@@ -80,6 +83,9 @@ public class clsSensorVision extends clsSensorExt
 		}
 	}
 	
+/** TODO (zeilinger) - returns the angle of the relative position
+ * to the perceived object      
+	 */
 	public double getRelPos(Double2D poPos)
 	{
 		double nOrientation;
@@ -103,16 +109,18 @@ public class clsSensorVision extends clsSensorExt
 		return false; 
 	}
 	
+	/* (non-Javadoc)
+	 * Updates the sensor data values by fetching the info from the physics engine entity 
+	 */
+	public void updateSensorData() {
+
+		//TODO: HZ --> update meViewObj + meCollidingObj
+		this.calcViewObj();
+	}
+	
 	public void setViewObj(PhysicalObject2D pPhObj)
 	{
 		meViewObj.add(pPhObj);
-	}
-	
-	public Bag getViewObj()
-	{
-		meCollidingObj = moVisionArea.getCollidingObj();
-		this.calcViewObj(); 
-		return meViewObj; 
 	}
 	
 	public Bag getCollidingObj()
