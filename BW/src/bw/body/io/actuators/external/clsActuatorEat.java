@@ -63,11 +63,22 @@ public class clsActuatorEat extends clsActuatorExt {
 	public void updateActuatorData() {
 		
 		//is there something present?
+		// can i put it in?
 		//eat/bite object
 		//food = XYZ.withdrawFood()
 		//internal system.addFood(food)
 		
 
+	}
+	
+	
+	public void eat(clsEntity poEntity){
+		
+		//try
+		//eat entity 
+		//catch(ex EntityNotEatable)
+	
+		
 	}
 
 }
