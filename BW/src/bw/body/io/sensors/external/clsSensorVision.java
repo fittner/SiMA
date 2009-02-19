@@ -19,10 +19,12 @@ import sim.util.*;
 
 import bw.clsEntity;
 import bw.body.clsAgentBody;
+import bw.body.io.clsBaseIO;
 import bw.factories.clsSingletonPhysicsEngineGetter;
 import bw.physicalObject.entityParts.clsEntityPartVision;
 import bw.physicalObject.inanimate.mobile.clsMobile;
 import bw.physicalObject.animate.clsAnimate;
+import bw.utils.enums.eBodyParts;
 /**
  * TODO (zeilinger) - This class defines the Vision object which is tagged to an animate 
  *                    object. clsSensorVision defines the functionalities of the vision 
@@ -39,8 +41,9 @@ public class clsSensorVision extends clsSensorExt
 	private Bag meCollidingObj;
 	private Bag meViewObj;
 		
-	public clsSensorVision(clsEntity poEntity)
+	public clsSensorVision(clsEntity poEntity, clsBaseIO poBaseIO)
 	{
+		super(poBaseIO);
 		mnViewDegree = Math.PI;
 		meCollidingObj = new Bag();
 		meViewObj = new Bag(); 
@@ -141,6 +144,24 @@ public class clsSensorVision extends clsSensorExt
 	public void setVisionRange(double pnVisRange)
 	{
 		mnVisRange = pnVisRange; 
+	}
+
+	/* (non-Javadoc)
+	 * @see bw.body.io.clsSensorActuatorBase#setBodyPartId()
+	 */
+	@Override
+	protected void setBodyPartId() {
+		// TODO Auto-generated method stub
+		mePartId = eBodyParts.SENSOR_EXT_VISION;
+	}
+
+	/* (non-Javadoc)
+	 * @see bw.body.io.clsSensorActuatorBase#setName()
+	 */
+	@Override
+	protected void setName() {
+		// TODO Auto-generated method stub
+		moName = "ext. Sensor Vision";
 	}
 	
 	//VISION AREA Init + Register
