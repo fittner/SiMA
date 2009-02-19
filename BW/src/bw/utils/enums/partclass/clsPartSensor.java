@@ -5,10 +5,7 @@
  * $Author::                   $: Author of last commit
  * $Date::                     $: Date of last commit
  */
-package bw.body.io;
-
-import bw.body.clsAgentBody;
-import bw.body.itfStep;
+package bw.utils.enums.partclass;
 
 /**
  * TODO (deutsch) - insert description 
@@ -16,19 +13,22 @@ import bw.body.itfStep;
  * @author deutsch
  * 
  */
-public class clsInternalIO extends clsBaseIO implements itfStep {
+public class clsPartSensor extends clsBasePart {
 
-	public clsAgentBody moBody;
-	
-	public clsInternalIO(clsAgentBody poBody) {
-		moBody = poBody;
-	}
-	
 	/* (non-Javadoc)
-	 * @see bw.body.itfStep#step()
+	 * @see bw.utils.enums.partclass.clsBasePart#setName()
 	 */
 	@Override
-	public void step() {
+	protected void setName() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	/* (non-Javadoc)
+	 * @see bw.utils.enums.partclass.clsBasePart#setPartId()
+	 */
+	@Override
+	protected void setPartId() {
 		// TODO Auto-generated method stub
 		
 	}

@@ -10,9 +10,9 @@ package bw.physicalObject.inanimate.mobile;
 import java.awt.Color;
 import java.io.IOException;
 
-import bw.physicalObject.eEntityType;
 import bw.physicalObject.inanimate.clsInanimate;
 import bw.sim.clsBWMain;
+import bw.utils.enums.eEntityType;
 
 import sim.engine.SimState;
 import sim.engine.Steppable;

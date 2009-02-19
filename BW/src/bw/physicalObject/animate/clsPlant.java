@@ -7,7 +7,7 @@
  */
 package bw.physicalObject.animate;
 
-import bw.physicalObject.eEntityType;
+import bw.utils.enums.eEntityType;
 import sim.physics2D.util.Double2D;
 
 /**

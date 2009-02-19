@@ -20,9 +20,9 @@ import sim.portrayal.DrawInfo2D;
 import bw.body.itfStep;
 import ARSsim.physics2D.physicalObject.clsMobileObject2D;
 import ARSsim.robot2D.clsMotionPlatform;
-import bw.physicalObject.eEntityType;
 import bw.sim.clsBWMain;
 import bw.utils.datatypes.clsMutableFloat;
+import bw.utils.enums.eEntityType;
 
 //import tstBw.*;
 

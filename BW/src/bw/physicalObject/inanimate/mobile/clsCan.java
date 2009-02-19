@@ -11,9 +11,9 @@ import java.awt.*;
 import sim.engine.*;
 import sim.physics2D.util.*;
 import ARSsim.physics2D.physicalObject.clsMobileObject2D;
-import bw.physicalObject.eEntityType;
 import bw.physicalObject.inanimate.clsInanimate;
 import bw.sim.clsBWMain;
+import bw.utils.enums.eEntityType;
 
 public class clsCan extends clsInanimate
     {

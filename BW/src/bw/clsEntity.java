@@ -8,7 +8,7 @@
 package bw;
 
 import sim.physics2D.physicalObject.PhysicalObject2D;
-import bw.physicalObject.eEntityType;
+import bw.utils.enums.eEntityType;
 
 
 /**

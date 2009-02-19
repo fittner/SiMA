@@ -21,7 +21,7 @@ import bw.body.io.sensors.external.*;
  * @author langr
  * 
  */
-public class clsExternalIO implements itfStep {
+public class clsExternalIO extends clsBaseIO implements itfStep {
 
 	
 	public ArrayList<clsSensorExt> moSensorExternal;

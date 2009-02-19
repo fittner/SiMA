@@ -19,10 +19,10 @@ import sim.portrayal.DrawInfo2D;
 import sim.util.Bag;
 import ARSsim.physics2D.physicalObject.clsMobileObject2D;
 import ARSsim.robot2D.clsMotionPlatform;
-import bw.physicalObject.eEntityType;
 import bw.physicalObject.entityParts.clsBotHands;
 import bw.physicalObject.inanimate.mobile.clsCan;
 import bw.sim.*;
+import bw.utils.enums.eEntityType;
 
 /* Mason test robot implementation. 
 * 
