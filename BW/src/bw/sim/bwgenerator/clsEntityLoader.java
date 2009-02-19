@@ -36,10 +36,10 @@ public class clsEntityLoader {
         
        //load 1 stone	
       oPos = new Double2D(50,50);
-      clsStone pstone = new clsStone(oPos, 17, 20);
-      poFieldEnvironment.setObjectLocation(pstone.getMobile(), new sim.util.Double2D(oPos.x, oPos.y));
-      poObjPE.register(pstone.getMobile());
-      poSimState.schedule.scheduleRepeating(pstone.getMobile());
+      clsStone pstone = new clsStone(oPos, new Double2D(0, 0), 17, 20, 1);
+      //poFieldEnvironment.setObjectLocation(pstone.getMobile(), new sim.util.Double2D(oPos.x, oPos.y));
+      //poObjPE.register(pstone.getMobile());
+      //poSimState.schedule.scheduleRepeating(pstone.getMobile());
       
 	}
 	

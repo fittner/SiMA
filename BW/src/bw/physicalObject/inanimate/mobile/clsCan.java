@@ -21,8 +21,8 @@ import bw.utils.enums.eEntityType;
 public class clsCan extends clsInanimate
     {
     public boolean visible;
-    public clsCan(Double2D pos, Double2D vel) {
-    	super();
+    public clsCan(Double2D pos, Double2D vel, int pnId) {
+    	super(pos, vel, pnId);
 
     	clsMobileObject2D oMobile = getMobile();
     	oMobile.setPose(pos, new Angle(0));

@@ -34,9 +34,9 @@ public class clsStone extends clsInanimate {
 	public boolean visible;
 	
 	
-	public clsStone(Double2D poPos, double pnRadius, double pnMass)
+	public clsStone(Double2D poPos, Double2D poStartingVelocity, double pnRadius, double pnMass, int pnId)
     {
-		super(poPos, pnRadius, pnMass);
+		super(poPos, poStartingVelocity, pnId);
         visible = true;
 
       
@@ -49,14 +49,6 @@ public class clsStone extends clsInanimate {
         this.getMobile().setShape(new ARSsim.physics2D.shape.clsCircleImage(pnRadius, Color.darkGray, nImagePath), pnMass);
     } 
 	
-	
-	
-//	 public void step(SimState state)
-//     {
-//	     Double2D position = getMobile().getPosition();
-//	     clsBWMain oMainSim = (clsBWMain)state;
-//	     oMainSim.moGameGridField.setObjectLocation(getMobile(), new sim.util.Double2D(position.x, position.y));
-//     }
 
 	/* (non-Javadoc)
 	 * @see bw.clsEntity#sensing()

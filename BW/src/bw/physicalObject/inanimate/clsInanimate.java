@@ -12,7 +12,9 @@ import java.awt.Color;
 import sim.physics2D.physicalObject.MobileObject2D;
 import sim.physics2D.util.Angle;
 import sim.physics2D.util.Double2D;
+import ARSsim.robot2D.clsMotionPlatform;
 import bw.clsEntity;
+import bw.body.clsAgentBody;
 import bw.physicalObject.inanimate.mobile.clsMobile;
 
 
@@ -28,20 +30,29 @@ public abstract class clsInanimate extends clsMobile {
 	 * 
 	 */
 	private static final long serialVersionUID = 8003531210919357291L;
+	private int mnId;
+	
+	public int getId() {	return mnId;	}
+	public void setId(int pnId) {		this.mnId = pnId;	}
+	
 
 	/**
-	 * empty constructor, Use for instances that does not use the default implementation 
+	 * @param poStartingPosition
+	 * @param poStartingVelocity
+	 * @param pnId
 	 */
-	public clsInanimate()
-	{
-		super();
+	public clsInanimate(Double2D poStartingPosition, Double2D poStartingVelocity,  int pnId) {
+		super(poStartingPosition, poStartingVelocity, new sim.physics2D.shape.Circle(10, Color.ORANGE), 300);
+		
+		//MobileObject2D oMobile = getMobile();
 	}
 	
-	public clsInanimate(Double2D poPos, double pnRadius, double pnMass)
-    {
-		super();
-		initDefault(poPos, pnRadius, pnMass);
-    } 
+	
+//	public clsInanimate(Double2D poPos, double pnRadius, double pnMass)
+//    {
+//		super();
+//		initDefault(poPos, pnRadius, pnMass);
+//    } 
 	
 	/**
 	 * TODO (langr) - standard inanimate deinition

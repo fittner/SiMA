@@ -52,7 +52,7 @@ public class clsAgentLoader {
 	                    
 	        pos = new Double2D(x, y);
 	                    
-	        can = new clsCan(pos, new Double2D(0, 0));
+	        can = new clsCan(pos, new Double2D(0, 0), i);
 	        
 	        clsMobileObject2D oMobile = can.getMobile();
 //	        clsMobileObject2D oMobile = new clsMobileObject2D(null);

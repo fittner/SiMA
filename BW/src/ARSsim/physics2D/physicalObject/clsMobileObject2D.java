@@ -117,7 +117,7 @@ public class clsMobileObject2D extends sim.physics2D.physicalObject.MobileObject
     	
     	//return 1; // regular collision
     	//return 2; // sticky collision
-    	return 0; //happy guessing!
+    	return 1; //happy guessing!
 	}
     
     // ******************************   ******************************************
