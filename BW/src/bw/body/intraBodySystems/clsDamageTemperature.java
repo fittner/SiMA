@@ -24,7 +24,7 @@ import bw.utils.enums.partclass.clsPartDamageTemperature;
 public class clsDamageTemperature implements itfStep {
 
 	private float mrDefaultHealthPenalty = 0.1f;
-	private float mrPainThreshold = 0.5f;
+	private float mrDefaultPainThreshold = 0.5f;
 	
 	private clsTemperatureSystem moTemperatureSystem;
 	private clsHealthSystem moHealthSystem;
@@ -77,7 +77,7 @@ public class clsDamageTemperature implements itfStep {
 	 * @param prPenaltySum
 	 */
 	private void pain(float prPenaltySum) {
-		if (prPenaltySum > mrPainThreshold) {
+		if (prPenaltySum > mrDefaultPainThreshold) {
 			moFastMessengerSystem.addMessage(new clsPartDamageTemperature(), new clsPartBrain(), prPenaltySum);
 		}
 	}

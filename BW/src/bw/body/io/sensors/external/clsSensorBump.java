@@ -14,6 +14,7 @@ import bw.clsEntity;
 import bw.body.io.clsBaseIO;
 import bw.physicalObject.animate.clsAnimate;
 import bw.utils.enums.eBodyParts;
+import bw.utils.enums.partclass.clsPartSensorBump;
 
 /**
  * implementation of a vision sensor, returns the <clsCollidingObject> list of the actual bumped objects
@@ -26,6 +27,7 @@ public class clsSensorBump extends clsSensorExt {
 	private clsEntity moEntity;
 	private boolean mnBumped;
 	public ArrayList<clsCollidingObject> moCollisionList; 
+	private clsPartSensorBump moPartSensorBump;
 
 	/**
 	 * constructor takes the entity stored as a local reference 
@@ -39,6 +41,7 @@ public class clsSensorBump extends clsSensorExt {
 		//this registeres a static energy consuption
 		registerEnergyConsumption(5); //TODO register the real value, 
 
+		moPartSensorBump = new clsPartSensorBump();
 	}
 	
 	/**
@@ -62,6 +65,12 @@ public class clsSensorBump extends clsSensorExt {
 		}
 		else {
 			mnBumped = true;
+		}
+		
+		if (mnBumped) {
+			// TODO calculate true force
+			float rForce = 1.0f;
+			((clsAnimate)moEntity).getAgentBody().getInterBodyWorldSystem().getDamageBump().bumped(moPartSensorBump, rForce);
 		}
 	}
 

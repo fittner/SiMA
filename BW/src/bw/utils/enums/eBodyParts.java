@@ -29,6 +29,10 @@ public enum eBodyParts {
 	INTRA_DAMAGE_NUTRITION,
 	INTRA_DAMAGE_TEMPERATURE,
 	
+	//interbodyworldsystems
+	INTER_DAMAGE_BUMP,
+	INTER_DAMAGE_LIGHTNING,
+	
 	//sensors
 	SENSOR_EXT,
 	SENSOR_INT,

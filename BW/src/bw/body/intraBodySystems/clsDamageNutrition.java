@@ -28,7 +28,7 @@ import bw.utils.tools.clsNutritionLevel;
 public class clsDamageNutrition implements itfStep {
 	
 	private float mrDefaultHealthPenalty = 0.1f;
-	private float mrPainThreshold = 0.5f;
+	private float mrDefaultPainThreshold = 0.5f;
 
 	private clsStomachSystem moStomachSystem;
 	private clsHealthSystem moHealthSystem;
@@ -96,7 +96,7 @@ public class clsDamageNutrition implements itfStep {
 	 * @param prPenaltySum
 	 */
 	private void pain(float prPenaltySum) {
-		if (prPenaltySum > mrPainThreshold) {
+		if (prPenaltySum > mrDefaultPainThreshold) {
 			moFastMessengerSystem.addMessage(new clsPartDamageNutrition(), new clsPartBrain(), prPenaltySum);
 		}
 	}
