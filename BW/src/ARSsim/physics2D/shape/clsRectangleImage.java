@@ -20,56 +20,32 @@ import bw.exceptions.bwException;
  * @author muchitsch
  *  
  */
-public class clsCircleImage extends Circle
+public class clsRectangleImage extends sim.physics2D.shape.Rectangle
     {
 	
     
-	double mrRadius; 
+	double mrWidth;
+	double mrHeight;
+	
 	BufferedImage moImage = null;
 	public boolean mbShowSimple = false;
 		
-	/**
-	 * creates a circular physical object with the given range and displays a image instead.
-	 * Users need to know what radius the image has!
-	 * @param prRadius
-	 * @param poPaint
-	 */
-//	public clsCircleImage(double prRadius, Paint poPaint )
-//    {
-//		super(prRadius, poPaint);
-//		this.mrRadius = prRadius; 
-//
-//		
-//        String nImagePath = "S:/ARS/PA/BWv1/BW/src/resources/images/rock1.jpg";
-//    	double nScale = 5;
-//    	File oFile = new File( nImagePath ); 
-//   	
-//    	//BufferedImage moImage = null;
-//	   	try
-//	   	{
-//	   		moImage = ImageIO.read( oFile );
-//	   	} catch (IOException e)
-//	   	{
-//	   		// TODO Auto-generated catch block
-//	   		e.printStackTrace();
-//	   		throw new NullPointerException("Image URL could not be loaded, file not found in file");
-//	   	}
-//    }
 	
 	/**
-	 * creates a circular physical object with the given range and displays a image instead.
+	 * creates a rectangular physical object with the given range and displays a image instead.
 	 * Users need to know what radius the image has!
 	 * 
 	 * @param prRadius
 	 * @param poPaint
 	 * @param psImageFilePath
 	 */
-	public clsCircleImage(double prRadius, Paint poPaint , String psImageFilePath)
+	public clsRectangleImage(double prWidth, double prHeight, Paint poDefautColor , String psImageFilePath)
     {
-		super(prRadius, poPaint);
-		this.mrRadius = prRadius; 
+		super(prWidth, prHeight, poDefautColor);
+		this.mrWidth = prWidth; 
+		this.mrWidth = prHeight;
        
-    	File oFile = new File( psImageFilePath ); 
+    	File oFile = new File( psImageFilePath );
 
 	   	try
 	   	{
@@ -92,14 +68,15 @@ public class clsCircleImage extends Circle
 	 * @param poImageURL
 	 * @throws IOException
 	 */
-	public clsCircleImage(double prRadius, Paint poDefautColor, java.net.URL poImageURL  ) 
+	public clsRectangleImage(double prWidth, double prHeight, Paint poDefautColor, java.net.URL poImageURL  ) 
     {
-		super(prRadius, poDefautColor);
+		super(prWidth, prHeight, poDefautColor);
+		this.mrWidth = prWidth; 
+		this.mrWidth = prHeight;
 		
 		if(poImageURL == null)
 			throw new NullPointerException("Image URL could not be loaded, file not found in ressource");
 		
-		this.mrRadius = prRadius; 
 	
 		try {
 			moImage = ImageIO.read(poImageURL);
@@ -109,13 +86,12 @@ public class clsCircleImage extends Circle
 		}
 		
     }
-        
-    
+	 
     /** Display the circle + image */
     public void draw(Object object, Graphics2D graphics, DrawInfo2D info)
         {
-        final double width = info.draw.width * mrRadius * 2;
-        final double height = info.draw.height  * mrRadius * 2;
+        final double width = info.draw.width * mrWidth;
+        final double height = info.draw.height * mrWidth;
         
         int imageWidth = moImage.getWidth();
         int imageHeight = moImage.getHeight();
@@ -123,19 +99,21 @@ public class clsCircleImage extends Circle
 
         graphics.setPaint(paint);
 
-        final int x = (int)(info.draw.x - width / 2.0);
-        final int y = (int)(info.draw.y - height / 2.0);
-        final int w = (int)(width);
-        final int h = (int)(height);
+//        final int x = (int)info.draw.x ;
+//        final int y = (int)info.draw.y ;
+        final int x = (int)(info.draw.x) ;
+        final int y = (int)(info.draw.y);
+        final int w = (int)( info.draw.width);
+        final int h = (int)( info.draw.width);
 
         //displays the physical circle
-        graphics.fillArc(x, y, w, h, 0, 360); //fillOval(x,y,w,h);
+        graphics.fillRect(x, y, w, h);
 
-        if (!mbShowSimple)
-	        {
-			   	BufferedImageOp op = null;
-		        graphics.drawImage(moImage, op, x , y );
-	        }
+//        if (!mbShowSimple)
+//	        {
+//			   	BufferedImageOp op = null;
+//		        graphics.drawImage(moImage, op, x , y );
+//	        }
         }
    
     }

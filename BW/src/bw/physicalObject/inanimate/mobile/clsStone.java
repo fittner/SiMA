@@ -35,6 +35,18 @@ public class clsStone extends clsInanimate {
 	
 	
 	
+	/**
+	 * create this to get a stone
+	 * 
+	 * @author muchitsch
+	 * 20.02.2009, 10:51:15
+	 *
+	 * @param poPosition
+	 * @param poStartingVelocity
+	 * @param pnRadius
+	 * @param pnMass
+	 * @param pnId
+	 */
 	public clsStone(Double2D poPosition, Double2D poStartingVelocity, double pnRadius, double pnMass, int pnId)
     {
 		super(pnId);
@@ -56,7 +68,10 @@ public class clsStone extends clsInanimate {
         String nImagePath = "S:/ARS/PA/BWv1/BW/src/resources/images/rock1.jpg";
 		
 		setShape(new ARSsim.physics2D.shape.clsCircleImage(pnRadius, Color.darkGray, nImagePath), pnMass);
-		setCoefficients(.5, 0, 1); //default coefficients
+		
+		//setShape(new ARSsim.physics2D.shape.clsRectangleImage(89, 89, Color.ORANGE, nImagePath), pnMass);
+		
+		setCoefficients(.2, 0, 1); //default coefficients
 		
 		oMobile.finalizeSetup();
     } 
