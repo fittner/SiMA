@@ -24,8 +24,8 @@ import bw.utils.enums.eBodyParts;
 public class clsSensorBump extends clsSensorExt {
 
 	private clsEntity moEntity;
-	private ArrayList<clsCollidingObject> moCollisionList;
-
+	private boolean mnBumped;
+	public ArrayList<clsCollidingObject> moCollisionList; 
 
 	/**
 	 * constructor takes the entity stored as a local reference 
@@ -33,18 +33,12 @@ public class clsSensorBump extends clsSensorExt {
 	public clsSensorBump(clsEntity poEntity, clsBaseIO poBaseIO) {
 		super(poBaseIO);
 		setEntity(poEntity);
+
+		setBumped(false);
 		
 		//this registeres a static energy consuption
 		registerEnergyConsumption(5); //TODO register the real value, 
 
-	}
-	
-	/**
-	 * returns the collision list of the actual bumped objects
-	 * @return the moCollisionList
-	 */
-	public ArrayList<clsCollidingObject> getMoCollisionList() {
-		return moCollisionList;
 	}
 	
 	/**
@@ -63,6 +57,12 @@ public class clsSensorBump extends clsSensorExt {
 	public void updateSensorData() {
 		clsMobileObject2D oMobile = ((clsAnimate)moEntity).getMobile();
 		moCollisionList = oMobile.moCollisionList;
+		if(moCollisionList.isEmpty()) {
+			mnBumped = false;
+		}
+		else {
+			mnBumped = true;
+		}
 	}
 
 	/* (non-Javadoc)
@@ -83,6 +83,32 @@ public class clsSensorBump extends clsSensorExt {
 		
 	}
 
+	/**
+	 * @author langr
+	 * 20.02.2009, 13:09:07
+	 * 
+	 * @param mnBumped the mnBumped to set
+	 */
+	public void setBumped(boolean mnBumped) {
+		this.mnBumped = mnBumped;
+	}
+
+	/**
+	 * @author langr
+	 * returns true when collision with other object(s)	 * 
+	 * @return the mnBumped
+	 */
+	public boolean isBumped() {
+		return mnBumped;
+	}
+
+	/**
+	 * returns the collision list of the actual bumped objects
+	 * @return the moCollisionList
+	 */
+	public ArrayList<clsCollidingObject> getMoCollisionList() {
+		return moCollisionList;
+	}
 	
 	
 
