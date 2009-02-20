@@ -36,9 +36,9 @@ public class clsEntityLoader {
 		
 		//load inanimate entitieshere
 		
-		loadCans(poFieldEnvironment, poObjPE, poSimState, 3);
+		//loadCans(poFieldEnvironment, poObjPE, poSimState, 3);
 		
-		loadStones(poFieldEnvironment, poObjPE, poSimState, 2);
+		//loadStones(poFieldEnvironment, poObjPE, poSimState, 2);
 
 	}
 	

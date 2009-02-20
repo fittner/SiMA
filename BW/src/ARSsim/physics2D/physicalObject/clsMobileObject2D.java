@@ -18,6 +18,7 @@ import ARSsim.robot2D.clsMotionAction;
 import ARSsim.robot2D.clsMotionPlatform;
 import bw.clsEntity;
 import bw.factories.clsSingletonMasonGetter;
+import bw.physicalObject.entityParts.clsEntityPartVision;
 import bw.sim.clsBWMain;
 import bw.utils.enums.eActionCommandType;
 
@@ -119,7 +120,12 @@ public class clsMobileObject2D extends sim.physics2D.physicalObject.MobileObject
 
     public int handleCollision(PhysicalObject2D other, Double2D colPoint)
     {
-    	moCollisionList.add(new clsCollidingObject(other, colPoint));
+    	if(!(other instanceof clsEntityPartVision)) {
+    		
+        	moCollisionList.add(new clsCollidingObject(other, colPoint));
+   		
+    	}
+    	
     	
     	//return 1; // regular collision
     	//return 2; // sticky collision
