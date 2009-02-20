@@ -11,6 +11,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 
+import bw.body.itfStep;
 import bw.utils.enums.partclass.clsBasePart;
 
 /**
@@ -19,7 +20,7 @@ import bw.utils.enums.partclass.clsBasePart;
  * @author deutsch
  * 
  */
-public class clsFastMessengerSystem {
+public class clsFastMessengerSystem implements itfStep {
 	private HashMap<clsBasePart, ArrayList<clsBasePart>> moSourceTargetMappings;
 	private HashMap<clsBasePart, ArrayList<clsBasePart>> moTargetSourceMappings;
 	
@@ -173,6 +174,19 @@ public class clsFastMessengerSystem {
 		} else {
 			oList.add(poMessage);
 		}
+	}
+
+	/* (non-Javadoc)
+	 *
+	 * @author deutsch
+	 * 20.02.2009, 11:51:42
+	 * 
+	 * @see bw.body.itfStep#step()
+	 */
+	@Override
+	public void step() {
+		// TODO Auto-generated method stub
+		
 	}
 
 	

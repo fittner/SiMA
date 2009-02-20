@@ -25,7 +25,7 @@ public class clsIntraBodySystem {
    	   moBioSystem = new clsBodyColor();
 	   moGrowthSystem = new clsGrowth();  
 	   moDamageNutrition = new clsDamageNutrition(poInternalSystem);
-	   moDamageTemperature = new clsDamageTemperature();
+	   moDamageTemperature = new clsDamageTemperature(poInternalSystem);
     }
     
     

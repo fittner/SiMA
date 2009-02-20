@@ -25,6 +25,10 @@ public enum eBodyParts {
 	INTSYS_STOMACH_SYSTEM,
 	INTSYS_TEMPERATURE_SYSTEM,
 	
+	//intrabodysysems
+	INTRA_DAMAGE_NUTRITION,
+	INTRA_DAMAGE_TEMPERATURE,
+	
 	//sensors
 	SENSOR_EXT,
 	SENSOR_INT,
@@ -45,4 +49,6 @@ public enum eBodyParts {
 	TENTACLE,
 	TENTACLE_LEFT,
 
+	//brain
+	BRAIN,
 }

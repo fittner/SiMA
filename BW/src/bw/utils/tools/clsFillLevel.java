@@ -134,7 +134,52 @@ public class clsFillLevel extends clsContentColumn {
 	 */
 	public boolean isHigh() {
 		return (this.getContent() > mrUpperBound);
-	}	
+	}
+	
+	/**
+	 * TODO (deutsch) - insert description
+	 * TODO (deutsch) - addTestCase
+	 *
+	 * @author deutsch
+	 * 20.02.2009, 11:08:28
+	 *
+	 * @return
+	 */
+	public float percentageLow() {
+		float rPercentage = 0.0f;
+		
+		if (isLow()) {
+			float rRange = getLowerBound();
+			float rValue = rRange - getContent();
+			
+			rPercentage = rValue / rRange;
+			
+		}
+		
+		return rPercentage;
+	}
+	
+	/**
+	 * TODO (deutsch) - insert description
+	 * TODO (deutsch) - addTestCase
+	 * 
+	 * @author deutsch
+	 * 20.02.2009, 11:08:30
+	 *
+	 * @return
+	 */
+	public float percentageHigh() {
+		float rPercentage = 0.0f;
+		
+		if (isHigh()) {
+			float rRange = getMaxContent() - getUpperBound();
+			float rValue = getMaxContent() - getContent();
+				
+			rPercentage = rValue / rRange;
+		}
+		
+		return rPercentage;
+	}
 	
 	/**
 	 * @return the mrLowerBound
