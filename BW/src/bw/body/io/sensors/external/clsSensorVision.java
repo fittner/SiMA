@@ -14,6 +14,7 @@ import sim.field.continuous.Continuous2D;
 import sim.physics2D.PhysicsEngine2D;
 import sim.physics2D.constraint.PinJoint;
 import sim.physics2D.physicalObject.PhysicalObject2D;
+import sim.physics2D.util.Angle;
 import sim.physics2D.util.Double2D;
 import sim.util.*;
 
@@ -40,7 +41,6 @@ public class clsSensorVision extends clsSensorExt
 	private Bag meCollidingObj;
 	private Bag meViewObj;
 		
-	
 	/**
 	 * @param poEntity
 	 * @param poBaseIO
@@ -63,6 +63,7 @@ public class clsSensorVision extends clsSensorExt
 	 */
 	private void regVisionObj(clsEntity poEntity)	{
 		Double2D oEntityPos = ((clsMobile)poEntity).getMobile().getPosition(); 
+		Angle oEntityOrientation = ((clsMobile)poEntity).getMobile().getOrientation(); 
 		
 		PhysicsEngine2D oPhyEn2D = clsSingletonMasonGetter.getPhysicsEngine2D();
 		Continuous2D oFieldEnvironment = clsSingletonMasonGetter.getFieldEnvironment();
@@ -70,10 +71,9 @@ public class clsSensorVision extends clsSensorExt
 		
 		try
 		{
+			moVisionArea.setPose(oEntityPos, oEntityOrientation);
 			oPhyEn2D.register(moVisionArea);
-			oPhyEn2D.setNoCollisions(((clsMobile)poEntity).getMobile(), moVisionArea);
-			PinJoint mPJ = new PinJoint(oEntityPos, moVisionArea,((clsMobile)poEntity).getMobile());
-			oPhyEn2D.register(mPJ); 
+			oPhyEn2D.setNoCollisions(moVisionArea,((clsMobile)poEntity).getMobile());
 			oFieldEnvironment.setObjectLocation(moVisionArea, new sim.util.Double2D(oEntityPos.x, oEntityPos.y));
 	        oSimState.schedule.scheduleRepeating(moVisionArea);
 		}
@@ -90,13 +90,13 @@ public class clsSensorVision extends clsSensorExt
 	private void calcViewObj(){
 		double nOrientation;  
 		PhysicalObject2D oPhObj;  
-		
+				
 		meCollidingObj = moVisionArea.getMeUnFilteredObj();
-		
+				
 		if(meCollidingObj.size()>0)
 		 {
 			Iterator itr = meCollidingObj.iterator();
-		    			
+			
 			while(itr.hasNext()){
 				oPhObj = (PhysicalObject2D)itr.next(); 
 				nOrientation = this.getRelPos(oPhObj.getPosition());
@@ -104,7 +104,7 @@ public class clsSensorVision extends clsSensorExt
 				if(this.getInView(nOrientation)){
 					this.setViewObj(oPhObj); 
 				}
-		 }
+		  }
 		}
 	}
 	
@@ -161,9 +161,10 @@ public class clsSensorVision extends clsSensorExt
 	 * Updates the sensor data values by fetching the info from the physics engine entity 
 	 */
 	public void updateSensorData() {
-
 		//TODO: HZ --> update meViewObj + meCollidingObj
+		meViewObj.clear(); 
 		this.calcViewObj();
+		moVisionArea.setMeVisionObj(meViewObj);
 	}
 	
 	/**
@@ -221,8 +222,8 @@ public class clsSensorVision extends clsSensorExt
 	/**
 	 * @param mnViewDegree the mnViewDegree to set
 	 */
-	public void setMnViewDegree(double mnViewDegree) {
-		this.mnViewDegree = mnViewDegree;
+	public void setMnViewDegree(double pnViewDegree) {
+		this.mnViewDegree = pnViewDegree;
 	}
 
 	/**
@@ -235,8 +236,8 @@ public class clsSensorVision extends clsSensorExt
 	/**
 	 * @param mnVisRange the mnVisRange to set
 	 */
-	public void setMnVisRange(double mnVisRange) {
-		this.mnVisRange = mnVisRange;
+	public void setMnVisRange(double pnVisRange) {
+		this.mnVisRange = pnVisRange;
 	}
 
 	/**
@@ -249,8 +250,8 @@ public class clsSensorVision extends clsSensorExt
 	/**
 	 * @param moVisionArea the moVisionArea to set
 	 */
-	public void setMoVisionArea(clsEntityPartVision moVisionArea) {
-		this.moVisionArea = moVisionArea;
+	public void setMoVisionArea(clsEntityPartVision poVisionArea) {
+		this.moVisionArea = poVisionArea;
 	}
 
 	/**
@@ -263,8 +264,8 @@ public class clsSensorVision extends clsSensorExt
 	/**
 	 * @param meViewObj the meViewObj to set
 	 */
-	public void setMeViewObj(Bag meViewObj) {
-		this.meViewObj = meViewObj;
+	public void setMeViewObj(Bag peViewObj) {
+		this.meViewObj = peViewObj;
 	}
 
 	/**
