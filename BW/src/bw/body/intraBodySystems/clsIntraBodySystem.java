@@ -72,7 +72,7 @@ public class clsIntraBodySystem {
     public void step() {
     	moBioSystem.step();
     	moGrowthSystem.step();
-     	moDamageNutrition.step();
-    	moDamageTemperature.step();
+//     	moDamageNutrition.step();
+//    	moDamageTemperature.step();
     }
 }

@@ -31,7 +31,7 @@ public class clsStomachSystem implements itfStep {
 	private float mrDefaultContent = 0.0f; //pseudo const for init purposes
 	private float mrDefaultLowerBorder = 0.5f; //pseudo const for init purposes
 	private float mrDefaultUpperBorder = 2.5f; //pseudo const for init purposes
-	private float mrDefaultDecreasePerStep = 0.1f; //pseudo const for init purposes
+	private float mrDefaultDecreasePerStep = 0.0001f; //pseudo const for init purposes
 	private float mrDefaultFraction = 1.0f; //pseudo const for init purposes
 	
 	/**

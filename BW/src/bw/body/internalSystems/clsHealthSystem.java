@@ -21,12 +21,17 @@ import bw.utils.tools.clsFillLevel;
 public class clsHealthSystem implements itfStep {
 	private clsFillLevel moHealth;
 	boolean mnIsAlive;
+	private float mrDefaultIsDeadThreshold = 0.001f;
+	
+	private float mrDefaultContent = 10.0f;
+	private float mrDefaultMaxContent = 10.0f;
+	private float mrDefaultSelfHealingRate = 0.05f;
 	
 	public clsHealthSystem() {
 		moHealth = null;
 		
 		try {
-			moHealth = new clsFillLevel(1.0f, 1.0f, 0.05f);
+			moHealth = new clsFillLevel(mrDefaultContent, mrDefaultMaxContent, mrDefaultSelfHealingRate);
 		} catch (ContentColumnMaxContentExceeded e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -43,8 +48,8 @@ public class clsHealthSystem implements itfStep {
 			moHealth.decrease(prHealthRemoved);
 		} catch (ContentColumnMaxContentExceeded e) {
 		} catch (ContentColumnMinContentUnderrun e) {
-			mnIsAlive = false;
 		}
+		updateIsAlive();
 	}
 	
 	public void heal(float prHealthRegained) {
@@ -52,8 +57,8 @@ public class clsHealthSystem implements itfStep {
 			moHealth.increase(prHealthRegained);
 		} catch (ContentColumnMaxContentExceeded e) {
 		} catch (ContentColumnMinContentUnderrun e) {
-			mnIsAlive = false;			
 		}
+		updateIsAlive();
 	}
 	
 	public float getRecoveryRate() {
@@ -68,12 +73,19 @@ public class clsHealthSystem implements itfStep {
 		moHealth.setChange(prRecoveryRate);
 	}
 	
+	private void updateIsAlive() {
+		if (moHealth.getContent()<mrDefaultIsDeadThreshold) {
+			mnIsAlive = false;
+		}
+	}
+	
 	public void step() {
 		try {
 			moHealth.update();
 		} catch (ContentColumnMaxContentExceeded e) {
 		} catch (ContentColumnMinContentUnderrun e) {
-			mnIsAlive = false;			
 		}
+		
+		updateIsAlive();
 	}
 }
