@@ -11,6 +11,7 @@ import java.awt.*;
 
 import ARSsim.physics2D.shape.CircleBorder;
 import bw.clsEntity;
+import bw.physicalObject.inanimate.mobile.clsMobile;
 import bw.sim.clsBWMain;
 
 import sim.engine.*;
@@ -41,8 +42,10 @@ public class clsEntityPartVision extends MobileObject2D implements Steppable{
 		
 	private Bag meFilteredObj;
 	private Bag meUnFilteredObj;
+	private Bag meVisionObj; 
 	private Paint moColor;
 	private CircleBorder moShape;
+	private clsEntity moEntity;
 			
 	/**
 	 * @param poEntity
@@ -53,8 +56,10 @@ public class clsEntityPartVision extends MobileObject2D implements Steppable{
 
 	 meFilteredObj = new Bag();
 	 meUnFilteredObj = new Bag();
+	 meVisionObj = new Bag(); 
 	 moColor = Color.yellow;
 	 moShape = new CircleBorder(mnRadius, moColor);
+	 moEntity = poEntity; 
 	 
 		try
 		{
@@ -80,7 +85,11 @@ public class clsEntityPartVision extends MobileObject2D implements Steppable{
 	 * @see sim.engine.Steppable#step(sim.engine.SimState)
 	 */
 	public void step(SimState state){
-		  ((clsBWMain)state).moGameGridField.setObjectLocation(this, new sim.util.Double2D(this.getPosition().x, this.getPosition().y));
+		 Double2D oEntityPos = ((clsMobile)moEntity).getMobile().getPosition();
+		 Angle oEntityOrientation = ((clsMobile)moEntity).getMobile().getOrientation();
+		 
+		 this.setPose(oEntityPos, oEntityOrientation);
+		  ((clsBWMain)state).moGameGridField.setObjectLocation(this, new sim.util.Double2D(oEntityPos.x, oEntityPos.y));
 		  meFilteredObj.clear(); 
 	      meUnFilteredObj.clear();
 	}
@@ -101,8 +110,8 @@ public class clsEntityPartVision extends MobileObject2D implements Steppable{
 	/**
 	 * @param mnRadius the mnRadius to set
 	 */
-	public void setMnRadius(double mnRadius) {
-		this.mnRadius = mnRadius;
+	public void setMnRadius(double pnRadius) {
+		this.mnRadius = pnRadius;
 	}
 
 
@@ -117,8 +126,8 @@ public class clsEntityPartVision extends MobileObject2D implements Steppable{
 	/**
 	 * @param meCollidingObj the meCollidingObj to set
 	 */
-	public void setMeFilteredObj(Bag meCollidingObj) {
-		this.meFilteredObj = meCollidingObj;
+	public void setMeFilteredObj(Bag peFilteredObj) {
+		this.meFilteredObj = peFilteredObj;
 	}
 
 
@@ -133,8 +142,8 @@ public class clsEntityPartVision extends MobileObject2D implements Steppable{
 	/**
 	 * @param meVisionObj the meVisionObj to set
 	 */
-	public void setMeUnFilteredObj(Bag meVisionObj) {
-		this.meUnFilteredObj = meVisionObj;
+	public void setMeUnFilteredObj(Bag peUnFilteredObj) {
+		this.meUnFilteredObj = peUnFilteredObj;
 	}
 
 
@@ -149,8 +158,8 @@ public class clsEntityPartVision extends MobileObject2D implements Steppable{
 	/**
 	 * @param moColor the moColor to set
 	 */
-	public void setMoColor(Paint moColor) {
-		this.moColor = moColor;
+	public void setMoColor(Paint poColor) {
+		this.moColor = poColor;
 	}
 
 
@@ -165,8 +174,28 @@ public class clsEntityPartVision extends MobileObject2D implements Steppable{
 	/**
 	 * @param moShape the moShape to set
 	 */
-	public void setMoShape(CircleBorder moShape) {
-		this.moShape = moShape;
+	public void setMoShape(CircleBorder poShape) {
+		this.moShape = poShape;
+	}
+	/**
+	 * @author zeilinger
+	 * 20.02.2009, 12:53:18
+	 * 
+	 * @return the meVisionObj
+	 */
+	public Bag getMeVisionObj() {
+		return meVisionObj;
+	}
+
+
+	/**
+	 * @author zeilinger
+	 * 20.02.2009, 12:53:18
+	 * 
+	 * @param meVisionObj the meVisionObj to set
+	 */
+	public void setMeVisionObj(Bag peVisionObj) {
+		this.meVisionObj = peVisionObj;
 	}
 	
 	
