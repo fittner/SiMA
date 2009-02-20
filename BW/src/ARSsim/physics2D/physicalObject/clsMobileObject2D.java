@@ -81,7 +81,7 @@ public class clsMobileObject2D extends sim.physics2D.physicalObject.MobileObject
 		moEntity.sensing();
 		moEntity.thinking();
 		
-		//with these 3 physics work!
+		//with these 3, physics work!
 		Double2D position = this.getPosition();
 	    clsBWMain oMainSim = (clsBWMain)state;
 	    oMainSim.moGameGridField.setObjectLocation(this, new sim.util.Double2D(position.x, position.y));
@@ -151,6 +151,8 @@ public class clsMobileObject2D extends sim.physics2D.physicalObject.MobileObject
     			break;
     		}
     	}
+    	
+    	
     }
     
     

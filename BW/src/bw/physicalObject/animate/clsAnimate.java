@@ -32,7 +32,7 @@ import bw.sim.clsBWMain;
  * @author langr
  * 
  */
-public abstract class clsAnimate extends clsMobile implements Steppable{
+public abstract class clsAnimate extends clsMobile{
 	/**
 	 * 
 	 */
@@ -59,18 +59,18 @@ public abstract class clsAnimate extends clsMobile implements Steppable{
 		moAgentBody = new clsAgentBody(this);
 	}
 	
-	/* (non-Javadoc)
-	 * @see bw.clsEntity#step(sim.engine.SimState)
+	
+	/**
+	 * @author langr
+	 * 20.02.2009, 11:40:14
+	 * 
+	 * @return the moAgentBody
 	 */
-	public void step(SimState state) {
-		// TODO Auto-generated method stub
-		
-		//minimum to act on physical actions!
-	    Double2D position = getMobile().getPosition();
-	    clsBWMain simRobots = (clsBWMain)state;
-	    simRobots.moGameGridField.setObjectLocation(this, new sim.util.Double2D(position.x, position.y));
-	    
-	    moAgentBody.step();
+	public clsAgentBody getAgentBody() {
+		return moAgentBody;
 	}
 	
+	public void sensing() {
+		getAgentBody().step();
+	}
 }

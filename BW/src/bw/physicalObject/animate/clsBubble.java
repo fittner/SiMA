@@ -90,8 +90,7 @@ public class clsBubble extends clsAnimate {
 	 */
 	@Override
 	public void sensing() {
-		// TODO Auto-generated method stub
-		
+		super.sensing();
 	}
 
 	/* (non-Javadoc)
