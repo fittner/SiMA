@@ -8,6 +8,7 @@
 package bw.physicalObject.entityParts;
 
 import java.awt.*;
+import java.util.HashMap;
 
 import ARSsim.physics2D.shape.CircleBorder;
 import bw.clsEntity;
@@ -42,7 +43,7 @@ public class clsEntityPartVision extends MobileObject2D implements Steppable{
 		
 	private Bag meFilteredObj;
 	private Bag meUnFilteredObj;
-	private Bag meVisionObj; 
+	private HashMap<Integer, PhysicalObject2D> meVisionObj; 
 	private Paint moColor;
 	private CircleBorder moShape;
 	private clsEntity moEntity;
@@ -56,7 +57,7 @@ public class clsEntityPartVision extends MobileObject2D implements Steppable{
 
 	 meFilteredObj = new Bag();
 	 meUnFilteredObj = new Bag();
-	 meVisionObj = new Bag(); 
+	 meVisionObj = new HashMap<Integer, PhysicalObject2D>(); 
 	 moColor = Color.yellow;
 	 moShape = new CircleBorder(mnRadius, moColor);
 	 moEntity = poEntity; 
@@ -71,8 +72,7 @@ public class clsEntityPartVision extends MobileObject2D implements Steppable{
 			System.out.println(ex.getMessage());
 		}
 	}
-	
-		
+			
 	/* (non-Javadoc)
 	 * @see sim.physics2D.physicalObject.PhysicalObject2D#handleCollision(sim.physics2D.physicalObject.PhysicalObject2D, sim.physics2D.util.Double2D)
 	 */
@@ -88,12 +88,24 @@ public class clsEntityPartVision extends MobileObject2D implements Steppable{
 		 Double2D oEntityPos = ((clsMobile)moEntity).getMobile().getPosition();
 		 Angle oEntityOrientation = ((clsMobile)moEntity).getMobile().getOrientation();
 		 
-		 this.setPose(oEntityPos, oEntityOrientation);
+	     this.setPose(oEntityPos, oEntityOrientation);
 		  ((clsBWMain)state).moGameGridField.setObjectLocation(this, new sim.util.Double2D(oEntityPos.x, oEntityPos.y));
-		  meFilteredObj.clear(); 
-	      meUnFilteredObj.clear();
+		 this.clearLists(); 
 	}
-	    
+	
+	/**
+	 * TODO (zeilinger) - insert description
+	 *
+	 * @author zeilinger
+	 * 21.02.2009, 12:13:53
+	 *
+	 */
+	public void clearLists()
+	{
+		 meFilteredObj.clear(); 
+	     meUnFilteredObj.clear();
+	}
+	
 	//--------------------------------------------------------------------------------------------------
 	// local set and get methods
 	//-------------------------------------------------------------------------------------------------
@@ -144,7 +156,7 @@ public class clsEntityPartVision extends MobileObject2D implements Steppable{
 	 */
 	public void setMeUnFilteredObj(Bag peUnFilteredObj) {
 		this.meUnFilteredObj = peUnFilteredObj;
-	}
+    }
 
 
 	/**
@@ -183,7 +195,7 @@ public class clsEntityPartVision extends MobileObject2D implements Steppable{
 	 * 
 	 * @return the meVisionObj
 	 */
-	public Bag getMeVisionObj() {
+	public HashMap<Integer, PhysicalObject2D> getMeVisionObj() {
 		return meVisionObj;
 	}
 
@@ -194,7 +206,7 @@ public class clsEntityPartVision extends MobileObject2D implements Steppable{
 	 * 
 	 * @param meVisionObj the meVisionObj to set
 	 */
-	public void setMeVisionObj(Bag peVisionObj) {
+	public void setMeVisionObj(HashMap<Integer, PhysicalObject2D> peVisionObj) {
 		this.meVisionObj = peVisionObj;
 	}
 	
