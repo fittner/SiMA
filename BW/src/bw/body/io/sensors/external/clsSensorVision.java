@@ -7,12 +7,12 @@
  */
 package bw.body.io.sensors.external;
 
+import java.util.HashMap;
 import java.util.Iterator;
 
 import sim.engine.SimState;
 import sim.field.continuous.Continuous2D;
 import sim.physics2D.PhysicsEngine2D;
-import sim.physics2D.constraint.PinJoint;
 import sim.physics2D.physicalObject.PhysicalObject2D;
 import sim.physics2D.util.Angle;
 import sim.physics2D.util.Double2D;
@@ -39,7 +39,7 @@ public class clsSensorVision extends clsSensorExt
 	private double mnVisRange; 
 	private clsEntityPartVision moVisionArea;
 	private Bag meCollidingObj;
-	private Bag meViewObj;
+	private HashMap<Integer, PhysicalObject2D> meViewObj;
 		
 	/**
 	 * @param poEntity
@@ -51,7 +51,7 @@ public class clsSensorVision extends clsSensorExt
 		mnVisRange = 50; 
 		
 		meCollidingObj = new Bag();
-		meViewObj = new Bag(); 
+		meViewObj = new HashMap<Integer, PhysicalObject2D>(); 
 		moVisionArea = new clsEntityPartVision(poEntity, mnVisRange);
 		this.regVisionObj(poEntity);
 	}
@@ -92,20 +92,21 @@ public class clsSensorVision extends clsSensorExt
 		PhysicalObject2D oPhObj;  
 				
 		meCollidingObj = moVisionArea.getMeUnFilteredObj();
-				
+	
 		if(meCollidingObj.size()>0)
 		 {
-			Iterator itr = meCollidingObj.iterator();
+			meViewObj.clear(); 
+			Iterator<PhysicalObject2D> itr = meCollidingObj.iterator();
 			
 			while(itr.hasNext()){
 				oPhObj = (PhysicalObject2D)itr.next(); 
 				nOrientation = this.getRelPos(oPhObj.getPosition());
 				
-				if(this.getInView(nOrientation)){
-					this.setViewObj(oPhObj); 
+				if(!meViewObj.containsKey(oPhObj.getIndex()) && this.getInView(nOrientation)){
+					this.addViewObj(oPhObj); 
 				}
-		  }
-		}
+		     }
+		 }
 	}
 	
 	/**
@@ -162,7 +163,6 @@ public class clsSensorVision extends clsSensorExt
 	 */
 	public void updateSensorData() {
 		//TODO: HZ --> update meViewObj + meCollidingObj
-		meViewObj.clear(); 
 		this.calcViewObj();
 		moVisionArea.setMeVisionObj(meViewObj);
 	}
@@ -172,8 +172,8 @@ public class clsSensorVision extends clsSensorExt
 	 *
 	 * @param pPhObj
 	 */
-	public void setViewObj(PhysicalObject2D pPhObj)	{
-		meViewObj.add(pPhObj);
+	public void addViewObj(PhysicalObject2D pPhObj)	{
+		meViewObj.put(pPhObj.getIndex(),pPhObj);
 	}
 	
 	/**
@@ -241,47 +241,11 @@ public class clsSensorVision extends clsSensorExt
 	}
 
 	/**
-	 * @return the moVisionArea
-	 */
-	public clsEntityPartVision getMoVisionArea() {
-		return moVisionArea;
-	}
-
-	/**
-	 * @param moVisionArea the moVisionArea to set
-	 */
-	public void setMoVisionArea(clsEntityPartVision poVisionArea) {
-		this.moVisionArea = poVisionArea;
-	}
-
-	/**
 	 * @return the meViewObj
 	 */
-	public Bag getMeViewObj() {
+	public HashMap<Integer, PhysicalObject2D> getMeViewObj() {
 		return meViewObj;
 	}
 
-	/**
-	 * @param meViewObj the meViewObj to set
-	 */
-	public void setMeViewObj(Bag peViewObj) {
-		this.meViewObj = peViewObj;
-	}
-
-	/**
-	 * @return the meCollidingObj
-	 */
-	public Bag getMeCollidingObj() {
-		return meCollidingObj;
-	}
-	
-	//VISION AREA Init + Register
-//  bw.body.io.sensors.external.clsSensorVision visArea; 
-//  visArea = new bw.body.io.sensors.external.clsSensorVision(bot.getMobile().getPosition(),new Double2D(0, 0), poObjPE, (clsAnimate)bot);
-//  poFieldEnvironment.setObjectLocation(visArea.getVisionObj(), new sim.util.Double2D(bot.getMobile().getPosition().x, bot.getMobile().getPosition().y));
-//  poSimState.schedule.scheduleRepeating(visArea.getVisionObj());           
-//      
-//  poObjPE.register(pj);
-//  //objPE.register(fa);
 	
 }
