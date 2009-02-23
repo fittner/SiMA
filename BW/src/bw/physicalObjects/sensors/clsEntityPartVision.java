@@ -7,20 +7,23 @@
  */
 package bw.physicalObjects.sensors;
 
-import java.awt.*;
+import java.awt.Color;
+import java.awt.Paint;
 import java.util.HashMap;
+
+import sim.engine.SimState;
+import sim.engine.Steppable;
+import sim.physics2D.physicalObject.MobileObject2D;
+import sim.physics2D.physicalObject.PhysicalObject2D;
+import sim.physics2D.util.Angle;
+import sim.physics2D.util.Double2D;
+import sim.portrayal.DrawInfo2D;
+import sim.util.Bag;
 
 import ARSsim.physics2D.shape.clsCircleBorder;
 import bw.clsEntity;
 import bw.entities.clsMobile;
 import bw.sim.clsBWMain;
-
-import sim.engine.*;
-import sim.physics2D.physicalObject.*;
-import sim.physics2D.util.*;
-import sim.physics2D.util.Double2D;
-import sim.portrayal.DrawInfo2D;
-import sim.util.*;
 
 /**
  *  This class defines the the physical object for the vision sensor. It 
@@ -80,7 +83,7 @@ public class clsEntityPartVision extends MobileObject2D implements Steppable{
 		meFilteredObj.add(other);
 		return 0; // Vis collision
 	}
-	
+		
 	/* (non-Javadoc)
 	 * @see sim.engine.Steppable#step(sim.engine.SimState)
 	 */
