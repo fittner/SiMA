@@ -53,7 +53,7 @@ public class clsStone extends clsInanimate {
 		visible = true;
 		
 		
-		// doing the initialize stuff myself
+		// doing the initialize stuff myself so i can set the shape myself
 		
 		clsMobileObject2D oMobile = getMobile();
 		moPhysicalObject2D = oMobile;
