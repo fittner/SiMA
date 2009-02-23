@@ -12,7 +12,7 @@ import java.io.IOException;
 
 import javax.imageio.ImageIO;
 
-import bw.exceptions.bwException;
+import bw.exceptions.exException;
 
 /**
  * Extension of the Physics Engine circle, showing a image instead

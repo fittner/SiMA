@@ -13,21 +13,21 @@ package bw.exceptions;
  * @author deutsch
  * 
  */
-public class NoSuchNutritionType extends bwException {
+public class exNutritionEmpty extends exException {
 
 	private int mnNutritionType;
 	
-	public NoSuchNutritionType(int pnNutritionType) {
+	public exNutritionEmpty(int pnNutritionType) {
 		mnNutritionType = pnNutritionType;
 	}
 	
 	public String toString() {
-		return ("NoSuchNutritionType: nutrition of type "+mnNutritionType+" is unkown.\n");
+		return ("NutritionEmpty: nutrition of type "+mnNutritionType+" is empty.\n");
 	}
-
+	
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = -4182037712570041652L;
+	private static final long serialVersionUID = -6935786612345528631L;
 
 }

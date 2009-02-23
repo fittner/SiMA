@@ -11,9 +11,9 @@ import static org.junit.Assert.*;
 
 import org.junit.Test;
 
-import bw.exceptions.ContentColumnMaxContentExceeded;
-import bw.exceptions.ContentColumnMinContentUnderrun;
-import bw.exceptions.ValueNotWithinRange;
+import bw.exceptions.exContentColumnMaxContentExceeded;
+import bw.exceptions.exContentColumnMinContentUnderrun;
+import bw.exceptions.exValueNotWithinRange;
 import bw.utils.tools.clsDecayColumn;
 
 /**
@@ -33,11 +33,11 @@ public class tstDecayColumn {
 		
 		try {
 			oDC = new clsDecayColumn();
-		} catch (ContentColumnMaxContentExceeded e) {
+		} catch (exContentColumnMaxContentExceeded e) {
 			fail(e.toString());
-		} catch (ContentColumnMinContentUnderrun e) {
+		} catch (exContentColumnMinContentUnderrun e) {
 			fail(e.toString());
-		} catch (ValueNotWithinRange e) {
+		} catch (exValueNotWithinRange e) {
 			fail(e.toString());
 		}
 		
@@ -59,11 +59,11 @@ public class tstDecayColumn {
 		
 		try {
 			oDC = new clsDecayColumn(0.2f, 0.02f);
-		} catch (ContentColumnMaxContentExceeded e) {
+		} catch (exContentColumnMaxContentExceeded e) {
 			fail(e.toString());
-		} catch (ContentColumnMinContentUnderrun e) {
+		} catch (exContentColumnMinContentUnderrun e) {
 			fail(e.toString());
-		} catch (ValueNotWithinRange e) {
+		} catch (exValueNotWithinRange e) {
 			fail(e.toString());
 		}
 		
@@ -85,11 +85,11 @@ public class tstDecayColumn {
 		
 		try {
 			oDC = new clsDecayColumn(1.0f, 2.0f, 0.2f, 0.02f);
-		} catch (ContentColumnMaxContentExceeded e) {
+		} catch (exContentColumnMaxContentExceeded e) {
 			fail(e.toString());
-		} catch (ContentColumnMinContentUnderrun e) {
+		} catch (exContentColumnMinContentUnderrun e) {
 			fail(e.toString());
-		} catch (ValueNotWithinRange e) {
+		} catch (exValueNotWithinRange e) {
 			fail(e.toString());
 		}
 		
@@ -111,9 +111,9 @@ public class tstDecayColumn {
 		
 		try {
 			oDC = new clsDecayColumn();
-		} catch (ContentColumnMaxContentExceeded e) {
-		} catch (ContentColumnMinContentUnderrun e) {
-		} catch (ValueNotWithinRange e) {
+		} catch (exContentColumnMaxContentExceeded e) {
+		} catch (exContentColumnMinContentUnderrun e) {
+		} catch (exValueNotWithinRange e) {
 		}
 		
 		assertEquals(oDC.getIncreaseRate(), 0.1f, 0.0000001f);
@@ -121,7 +121,7 @@ public class tstDecayColumn {
 		
 		try {
 			oDC.setIncreaseRate(0.5f);
-		} catch (ValueNotWithinRange e) {
+		} catch (exValueNotWithinRange e) {
 			fail(e.toString());
 		}
 		
@@ -129,7 +129,7 @@ public class tstDecayColumn {
 		
 		try {
 			oDC.setIncreaseRate(1.0f);
-		} catch (ValueNotWithinRange e) {
+		} catch (exValueNotWithinRange e) {
 			fail(e.toString());
 		}
 		
@@ -138,7 +138,7 @@ public class tstDecayColumn {
 		try {
 			oDC.setIncreaseRate(1.5f);
 			fail("ValueNotWithinRange not thrown!");
-		} catch (ValueNotWithinRange e) {
+		} catch (exValueNotWithinRange e) {
 			//this exception is expected!!
 		}
 		
@@ -147,7 +147,7 @@ public class tstDecayColumn {
 		try {
 			oDC.setIncreaseRate(-1.5f);
 			fail("ValueNotWithinRange not thrown!");
-		} catch (ValueNotWithinRange e) {
+		} catch (exValueNotWithinRange e) {
 			//this exception is expected!!
 		}
 		
@@ -163,9 +163,9 @@ public class tstDecayColumn {
 		
 		try {
 			oDC = new clsDecayColumn();
-		} catch (ContentColumnMaxContentExceeded e) {
-		} catch (ContentColumnMinContentUnderrun e) {
-		} catch (ValueNotWithinRange e) {
+		} catch (exContentColumnMaxContentExceeded e) {
+		} catch (exContentColumnMinContentUnderrun e) {
+		} catch (exValueNotWithinRange e) {
 		}
 		
 		assertEquals(oDC.getDecayRate(), 0.01f, 0.0000001f);
@@ -173,7 +173,7 @@ public class tstDecayColumn {
 		
 		try {
 			oDC.setDecayRate(0.5f);
-		} catch (ValueNotWithinRange e) {
+		} catch (exValueNotWithinRange e) {
 			fail(e.toString());
 		}
 		
@@ -181,7 +181,7 @@ public class tstDecayColumn {
 		
 		try {
 			oDC.setDecayRate(1.0f);
-		} catch (ValueNotWithinRange e) {
+		} catch (exValueNotWithinRange e) {
 			fail(e.toString());
 		}
 		
@@ -190,7 +190,7 @@ public class tstDecayColumn {
 		try {
 			oDC.setDecayRate(1.5f);
 			fail("ValueNotWithinRange not thrown!");
-		} catch (ValueNotWithinRange e) {
+		} catch (exValueNotWithinRange e) {
 			//this exception is expected!!
 		}
 		
@@ -199,7 +199,7 @@ public class tstDecayColumn {
 		try {
 			oDC.setDecayRate(-1.5f);
 			fail("ValueNotWithinRange not thrown!");
-		} catch (ValueNotWithinRange e) {
+		} catch (exValueNotWithinRange e) {
 			//this exception is expected!!
 		}
 		
@@ -215,9 +215,9 @@ public class tstDecayColumn {
 		
 		try {
 			oDC = new clsDecayColumn();
-		} catch (ContentColumnMaxContentExceeded e) {
-		} catch (ContentColumnMinContentUnderrun e) {
-		} catch (ValueNotWithinRange e) {
+		} catch (exContentColumnMaxContentExceeded e) {
+		} catch (exContentColumnMinContentUnderrun e) {
+		} catch (exValueNotWithinRange e) {
 		}
 		
 		assertEquals(oDC.getInjectionValue(), 0.0f, 0.0000001f);
@@ -225,7 +225,7 @@ public class tstDecayColumn {
 		
 		try {
 			oDC.inject(0.1f);
-		} catch (ValueNotWithinRange e) {
+		} catch (exValueNotWithinRange e) {
 			fail(e.toString());
 		}
 
@@ -233,7 +233,7 @@ public class tstDecayColumn {
 		
 		try {
 			oDC.inject(0.1f);
-		} catch (ValueNotWithinRange e) {
+		} catch (exValueNotWithinRange e) {
 			fail(e.toString());
 		}		
 		
@@ -242,7 +242,7 @@ public class tstDecayColumn {
 		try {
 			oDC.inject(1.1f);
 			fail("ValueNotWithinRange not thrown!");			
-		} catch (ValueNotWithinRange e) {
+		} catch (exValueNotWithinRange e) {
 			// expected exception
 		}		
 		
@@ -251,7 +251,7 @@ public class tstDecayColumn {
 		try {
 			oDC.inject(0.9f);
 			fail("ValueNotWithinRange not thrown!");			
-		} catch (ValueNotWithinRange e) {
+		} catch (exValueNotWithinRange e) {
 			// expected exception
 		}		
 		
@@ -260,7 +260,7 @@ public class tstDecayColumn {
 		try {
 			oDC.inject(-0.1f);
 			fail("ValueNotWithinRange not thrown!");			
-		} catch (ValueNotWithinRange e) {
+		} catch (exValueNotWithinRange e) {
 			// expected exception
 		}		
 		
@@ -276,9 +276,9 @@ public class tstDecayColumn {
 		
 		try {
 			oDC = new clsDecayColumn();
-		} catch (ContentColumnMaxContentExceeded e) {
-		} catch (ContentColumnMinContentUnderrun e) {
-		} catch (ValueNotWithinRange e) {
+		} catch (exContentColumnMaxContentExceeded e) {
+		} catch (exContentColumnMinContentUnderrun e) {
+		} catch (exValueNotWithinRange e) {
 		}
 		
 		assertEquals(oDC.getInjectionValue(), 0.0f, 0.0000001f);
@@ -286,7 +286,7 @@ public class tstDecayColumn {
 		
 		try {
 			oDC.setInjectionValue(0.5f);
-		} catch (ValueNotWithinRange e) {
+		} catch (exValueNotWithinRange e) {
 			fail(e.toString());
 		}
 		
@@ -294,7 +294,7 @@ public class tstDecayColumn {
 		
 		try {
 			oDC.setInjectionValue(1.0f);
-		} catch (ValueNotWithinRange e) {
+		} catch (exValueNotWithinRange e) {
 			fail(e.toString());
 		}
 		
@@ -303,7 +303,7 @@ public class tstDecayColumn {
 		try {
 			oDC.setInjectionValue(1.5f);
 			fail("ValueNotWithinRange not thrown!");
-		} catch (ValueNotWithinRange e) {
+		} catch (exValueNotWithinRange e) {
 			//this exception is expected!!
 		}
 		
@@ -312,7 +312,7 @@ public class tstDecayColumn {
 		try {
 			oDC.setInjectionValue(-1.5f);
 			fail("ValueNotWithinRange not thrown!");
-		} catch (ValueNotWithinRange e) {
+		} catch (exValueNotWithinRange e) {
 			//this exception is expected!!
 		}
 		
@@ -329,9 +329,9 @@ public class tstDecayColumn {
 		
 		try {
 			oDC = new clsDecayColumn(0.5f, 1.0f, 0.2f, 0.1f);
-		} catch (ContentColumnMaxContentExceeded e) {
-		} catch (ContentColumnMinContentUnderrun e) {
-		} catch (ValueNotWithinRange e) {
+		} catch (exContentColumnMaxContentExceeded e) {
+		} catch (exContentColumnMinContentUnderrun e) {
+		} catch (exValueNotWithinRange e) {
 		}
 		
 		oDC.update();	
@@ -343,13 +343,13 @@ public class tstDecayColumn {
 		
 		try {
 			oDC.setContent(0.0f);
-		} catch (ContentColumnMaxContentExceeded e) {
-		} catch (ContentColumnMinContentUnderrun e) {
+		} catch (exContentColumnMaxContentExceeded e) {
+		} catch (exContentColumnMinContentUnderrun e) {
 		}
 		
 		try {
 			oDC.inject(0.5f);
-		} catch (ValueNotWithinRange e) {
+		} catch (exValueNotWithinRange e) {
 		}
 		
 		oDC.update();
@@ -364,7 +364,7 @@ public class tstDecayColumn {
 		assertFalse(oDC.isZero());
 		try {
 			oDC.setZeroDelta(0.01f);
-		} catch (ValueNotWithinRange e1) {
+		} catch (exValueNotWithinRange e1) {
 		}
 		
 		for (int i=0; i<30; i++) {
@@ -377,7 +377,7 @@ public class tstDecayColumn {
 		
 		try {
 			oDC.inject(0.01f);
-		} catch (ValueNotWithinRange e) {
+		} catch (exValueNotWithinRange e) {
 		}
 		
 		assertFalse(oDC.isZero());		
@@ -385,14 +385,14 @@ public class tstDecayColumn {
 		try {
 			oDC.setZeroDelta(-0.01f);
 			fail("ValueNotWithinRange not thrown");
-		} catch (ValueNotWithinRange e) {
+		} catch (exValueNotWithinRange e) {
 			//expected exception
 		}
 		
 		try {
 			oDC.setZeroDelta(0.11f);
 			fail("ValueNotWithinRange not thrown");
-		} catch (ValueNotWithinRange e) {
+		} catch (exValueNotWithinRange e) {
 			//expected exception
 		}		
 	}

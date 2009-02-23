@@ -7,7 +7,7 @@
  */
 package bw.actionresponses;
 
-import bw.exceptions.EntityActionResponseNotImplemented;
+import bw.exceptions.exEntityActionResponseNotImplemented;
 import bw.utils.tools.clsFood;
 
 /**
@@ -18,5 +18,5 @@ import bw.utils.tools.clsFood;
  */
 public abstract class clsEntityActionResponses {
 	
-	public abstract clsFood actionEatResponse(float prWeight) throws EntityActionResponseNotImplemented;
+	public abstract clsFood actionEatResponse(float prWeight) throws exEntityActionResponseNotImplemented;
 }

@@ -10,9 +10,9 @@ package bw.utils.tools;
 import java.util.HashMap;
 import java.util.Iterator;
 
-import bw.exceptions.FoodAlreadyNormalized;
-import bw.exceptions.FoodAmountBelowZero;
-import bw.exceptions.FoodNotFinalized;
+import bw.exceptions.exFoodAlreadyNormalized;
+import bw.exceptions.exFoodAmountBelowZero;
+import bw.exceptions.exFoodNotFinalized;
 import bw.utils.datatypes.clsMutableFloat;
 
 /**
@@ -42,15 +42,15 @@ public class clsFood {
 	 * set the weight of the food piece (0.0 <= x < FLOATMAX).
 	 *
 	 * @param prAmount
-	 * @throws bw.exceptions.FoodAmountBelowZero 
+	 * @throws bw.exceptions.exFoodAmountBelowZero 
 	 */
-	public void setAmount(float prAmount) throws bw.exceptions.FoodAmountBelowZero {
+	public void setAmount(float prAmount) throws bw.exceptions.exFoodAmountBelowZero {
 		mrAmount = prAmount;
 		
 		if (mrAmount < 0.0f) {
 			mrAmount = 0.0f;
 			
-			throw new bw.exceptions.FoodAmountBelowZero();
+			throw new bw.exceptions.exFoodAmountBelowZero();
 		}
 	}
 	
@@ -68,9 +68,9 @@ public class clsFood {
 	 *
 	 * @param pnNutritionId
 	 * @return mrAmount * mrNutritionFraction
-	 * @throws FoodNotFinalized 
+	 * @throws exFoodNotFinalized 
 	 */
-	public float getNutritionAmount(int pnNutritionId) throws FoodNotFinalized {
+	public float getNutritionAmount(int pnNutritionId) throws exFoodNotFinalized {
 		return getNutritionAmount(new Integer(pnNutritionId));
 	}
 	
@@ -79,11 +79,11 @@ public class clsFood {
 	 * 
 	 * @param poNutritionId
 	 * @return mrAmount * mrNutritionFraction
-	 * @throws FoodNotFinalized 
+	 * @throws exFoodNotFinalized 
 	 */
-	public float getNutritionAmount(Integer poNutritionId) throws bw.exceptions.FoodNotFinalized {
+	public float getNutritionAmount(Integer poNutritionId) throws bw.exceptions.exFoodNotFinalized {
 		if (!mnFinalized) {
-			throw new bw.exceptions.FoodNotFinalized();
+			throw new bw.exceptions.exFoodNotFinalized();
 		}
 		
 		float rValue = moComposition.get(poNutritionId).floatValue();
@@ -98,11 +98,11 @@ public class clsFood {
 	 * total weights of all nutritions within this type of food.
 	 *
 	 * @return the HashMap<Integer, clsMutableFloat>
-	 * @throws bw.exceptions.FoodNotFinalized
+	 * @throws bw.exceptions.exFoodNotFinalized
 	 */
-	public HashMap<Integer, clsMutableFloat> getNutritionAmounts() throws bw.exceptions.FoodNotFinalized {
+	public HashMap<Integer, clsMutableFloat> getNutritionAmounts() throws bw.exceptions.exFoodNotFinalized {
 		if (!mnFinalized) {
-			throw new bw.exceptions.FoodNotFinalized();
+			throw new bw.exceptions.exFoodNotFinalized();
 		}
 		
 		HashMap<Integer, clsMutableFloat> oComposition = new HashMap<Integer, clsMutableFloat>();
@@ -122,10 +122,10 @@ public class clsFood {
 	 * of both pieces are added and afterwards normalized. The weights are simply added.
 	 *
 	 * @param poFood
-	 * @throws FoodNotFinalized 
-	 * @throws FoodAlreadyNormalized 
+	 * @throws exFoodNotFinalized 
+	 * @throws exFoodAlreadyNormalized 
 	 */
-	public void addFood(clsFood poFood) throws FoodNotFinalized, FoodAlreadyNormalized {
+	public void addFood(clsFood poFood) throws exFoodNotFinalized, exFoodAlreadyNormalized {
 		float rAmount = this.getAmount() + poFood.getAmount();
 		
 		HashMap<Integer, clsMutableFloat> oSetA = poFood.getNutritionAmounts();
@@ -167,7 +167,7 @@ public class clsFood {
 	 * @param pnId
 	 * @param prFraction
 	 */
-	public void addNutritionFraction(int pnNurtritionId, float prFraction) throws bw.exceptions.FoodAlreadyNormalized {
+	public void addNutritionFraction(int pnNurtritionId, float prFraction) throws bw.exceptions.exFoodAlreadyNormalized {
 		addNutritionFraction(new Integer(pnNurtritionId), new clsMutableFloat(prFraction));
 	}
 	
@@ -178,9 +178,9 @@ public class clsFood {
 	 * @param poId
 	 * @param poFraction
 	 */
-	public void addNutritionFraction(Integer poNutritionId, clsMutableFloat poFraction) throws bw.exceptions.FoodAlreadyNormalized {
+	public void addNutritionFraction(Integer poNutritionId, clsMutableFloat poFraction) throws bw.exceptions.exFoodAlreadyNormalized {
 		if (mnFinalized) {
-			throw new bw.exceptions.FoodAlreadyNormalized();
+			throw new bw.exceptions.exFoodAlreadyNormalized();
 		}
 		
 		if (poFraction.floatValue() < 0.0f) {
@@ -194,9 +194,9 @@ public class clsFood {
 	 * Normalize all fractions to a total sum of 1.0f
 	 *
 	 */
-	private void normalizeFractions() throws bw.exceptions.FoodAlreadyNormalized {
+	private void normalizeFractions() throws bw.exceptions.exFoodAlreadyNormalized {
 		if (mnFinalized) {
-			throw new bw.exceptions.FoodAlreadyNormalized();
+			throw new bw.exceptions.exFoodAlreadyNormalized();
 		}
 		
 		float rFractionSum = 0.0f;
@@ -215,7 +215,7 @@ public class clsFood {
 		}
 	}
 	
-	public void finalize() throws bw.exceptions.FoodAlreadyNormalized {
+	public void finalize() throws bw.exceptions.exFoodAlreadyNormalized {
 		normalizeFractions();
 		mnFinalized = true;
 	}

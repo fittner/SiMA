@@ -7,7 +7,7 @@
  */
 package bw.actionresponses;
 
-import bw.exceptions.EntityActionResponseNotImplemented;
+import bw.exceptions.exEntityActionResponseNotImplemented;
 import bw.utils.tools.clsFood;
 
 /**
@@ -23,8 +23,8 @@ public class clsDefaultEntityActionResponse extends clsEntityActionResponses {
 	 */
 	@Override
 	public clsFood actionEatResponse(float prWeight)
-			throws EntityActionResponseNotImplemented {
-		throw new bw.exceptions.EntityActionResponseNotImplemented();
+			throws exEntityActionResponseNotImplemented {
+		throw new bw.exceptions.exEntityActionResponseNotImplemented();
 	}
 
 }

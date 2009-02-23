@@ -8,8 +8,8 @@
 package bw.body.internalSystems;
 
 import bw.body.itfStep;
-import bw.exceptions.ContentColumnMaxContentExceeded;
-import bw.exceptions.ContentColumnMinContentUnderrun;
+import bw.exceptions.exContentColumnMaxContentExceeded;
+import bw.exceptions.exContentColumnMinContentUnderrun;
 import bw.utils.tools.clsFillLevel;
 
 /**
@@ -26,24 +26,24 @@ public class clsStaminaSystem implements itfStep {
 		
 		try {
 			moStamina = new clsFillLevel(1.0f, 1.0f, 0.05f);
-		} catch (ContentColumnMaxContentExceeded e) {
-		} catch (ContentColumnMinContentUnderrun e) {
+		} catch (exContentColumnMaxContentExceeded e) {
+		} catch (exContentColumnMinContentUnderrun e) {
 		}
 	}
 	
 	public void consumeStamina(float prStaminaConsumed) {
 		try {
 			moStamina.decrease(prStaminaConsumed);
-		} catch (ContentColumnMaxContentExceeded e) {
-		} catch (ContentColumnMinContentUnderrun e) {
+		} catch (exContentColumnMaxContentExceeded e) {
+		} catch (exContentColumnMinContentUnderrun e) {
 		}
 	}
 	
 	public void regainStamina(float prStaminaRegained) {
 		try {
 			moStamina.increase(prStaminaRegained);
-		} catch (ContentColumnMaxContentExceeded e) {
-		} catch (ContentColumnMinContentUnderrun e) {
+		} catch (exContentColumnMaxContentExceeded e) {
+		} catch (exContentColumnMinContentUnderrun e) {
 		}
 	}
 	
@@ -62,8 +62,8 @@ public class clsStaminaSystem implements itfStep {
 	public void step() {
 		try {
 			moStamina.update();
-		} catch (ContentColumnMaxContentExceeded e) {
-		} catch (ContentColumnMinContentUnderrun e) {
+		} catch (exContentColumnMaxContentExceeded e) {
+		} catch (exContentColumnMinContentUnderrun e) {
 		}
 	}
 

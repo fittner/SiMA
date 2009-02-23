@@ -14,11 +14,11 @@ import java.util.HashMap;
 import org.junit.Test;
 
 import bw.body.internalSystems.clsSlowMessengerSystem;
-import bw.exceptions.ContentColumnMaxContentExceeded;
-import bw.exceptions.ContentColumnMinContentUnderrun;
-import bw.exceptions.SlowMessengerAlreadyExists;
-import bw.exceptions.SlowMessengerDoesNotExist;
-import bw.exceptions.ValueNotWithinRange;
+import bw.exceptions.exContentColumnMaxContentExceeded;
+import bw.exceptions.exContentColumnMinContentUnderrun;
+import bw.exceptions.exSlowMessengerAlreadyExists;
+import bw.exceptions.exSlowMessengerDoesNotExist;
+import bw.exceptions.exValueNotWithinRange;
 import bw.utils.tools.clsDecayColumn;
 
 /**
@@ -49,25 +49,25 @@ public class tstSlowMessengerSystem {
 		
 		try {
 			oDC = oSMS.addSlowMessenger(1);
-		} catch (SlowMessengerAlreadyExists e) {
+		} catch (exSlowMessengerAlreadyExists e) {
 			fail("SlowMessengerAlreadyExists");
-		} catch (ContentColumnMaxContentExceeded e) {
+		} catch (exContentColumnMaxContentExceeded e) {
 			fail("ContentColumnMaxContentExceeded");
-		} catch (ContentColumnMinContentUnderrun e) {
+		} catch (exContentColumnMinContentUnderrun e) {
 			fail("ContentColumnMinContentUnderrun");
-		} catch (ValueNotWithinRange e) {
+		} catch (exValueNotWithinRange e) {
 			fail("ValueNotWithinRange");
 		}
 		
 		try {
 			oDC = oSMS.addSlowMessenger(new Integer(2));
-		} catch (SlowMessengerAlreadyExists e) {
+		} catch (exSlowMessengerAlreadyExists e) {
 			fail("SlowMessengerAlreadyExists");
-		} catch (ContentColumnMaxContentExceeded e) {
+		} catch (exContentColumnMaxContentExceeded e) {
 			fail("ContentColumnMaxContentExceeded");
-		} catch (ContentColumnMinContentUnderrun e) {
+		} catch (exContentColumnMinContentUnderrun e) {
 			fail("ContentColumnMinContentUnderrun");
-		} catch (ValueNotWithinRange e) {
+		} catch (exValueNotWithinRange e) {
 			fail("ValueNotWithinRange");
 		}
 		
@@ -79,13 +79,13 @@ public class tstSlowMessengerSystem {
 		try {
 			oDC = oSMS.addSlowMessenger(1);
 			fail("SlowMessengerAlreadyExists not thrown");
-		} catch (SlowMessengerAlreadyExists e) {
+		} catch (exSlowMessengerAlreadyExists e) {
 			//expected exception			
-		} catch (ContentColumnMaxContentExceeded e) {
+		} catch (exContentColumnMaxContentExceeded e) {
 			fail("ContentColumnMaxContentExceeded");
-		} catch (ContentColumnMinContentUnderrun e) {
+		} catch (exContentColumnMinContentUnderrun e) {
 			fail("ContentColumnMinContentUnderrun");
-		} catch (ValueNotWithinRange e) {
+		} catch (exValueNotWithinRange e) {
 			fail("ValueNotWithinRange");
 		}
 	}
@@ -102,10 +102,10 @@ public class tstSlowMessengerSystem {
 			oSMS.addSlowMessenger(1);
 			oSMS.addSlowMessenger(2);
 			oSMS.addSlowMessenger(3);
-		} catch (SlowMessengerAlreadyExists e) {
-		} catch (ContentColumnMaxContentExceeded e) {
-		} catch (ContentColumnMinContentUnderrun e) {
-		} catch (ValueNotWithinRange e) {
+		} catch (exSlowMessengerAlreadyExists e) {
+		} catch (exContentColumnMaxContentExceeded e) {
+		} catch (exContentColumnMinContentUnderrun e) {
+		} catch (exValueNotWithinRange e) {
 		}
 		
 		HashMap<Integer, clsDecayColumn> oMap = oSMS.getSlowMessengers();
@@ -124,10 +124,10 @@ public class tstSlowMessengerSystem {
 			oSMS.addSlowMessenger(1);
 			oSMS.addSlowMessenger(2);
 			oSMS.addSlowMessenger(3);
-		} catch (SlowMessengerAlreadyExists e) {
-		} catch (ContentColumnMaxContentExceeded e) {
-		} catch (ContentColumnMinContentUnderrun e) {
-		} catch (ValueNotWithinRange e) {
+		} catch (exSlowMessengerAlreadyExists e) {
+		} catch (exContentColumnMaxContentExceeded e) {
+		} catch (exContentColumnMinContentUnderrun e) {
+		} catch (exValueNotWithinRange e) {
 		}
 		
 		assertTrue(oSMS.existsSlowMessenger(1));
@@ -143,17 +143,17 @@ public class tstSlowMessengerSystem {
 		clsSlowMessengerSystem oSMS = new clsSlowMessengerSystem();
 		try {
 			oSMS.addSlowMessenger(1);
-		} catch (SlowMessengerAlreadyExists e) {
-		} catch (ContentColumnMaxContentExceeded e) {
-		} catch (ContentColumnMinContentUnderrun e) {
-		} catch (ValueNotWithinRange e) {
+		} catch (exSlowMessengerAlreadyExists e) {
+		} catch (exContentColumnMaxContentExceeded e) {
+		} catch (exContentColumnMinContentUnderrun e) {
+		} catch (exValueNotWithinRange e) {
 		}
 		
 		try {
 			oSMS.inject(1, 0.5f);
-		} catch (SlowMessengerDoesNotExist e) {
+		} catch (exSlowMessengerDoesNotExist e) {
 			fail("SlowMessengerDoesNotExist");
-		} catch (ValueNotWithinRange e) {
+		} catch (exValueNotWithinRange e) {
 			fail("ValueNotWithinRange");
 		}
 		
@@ -169,14 +169,14 @@ public class tstSlowMessengerSystem {
 		
 		try {
 			assertEquals(oSMS.getMessengerValue(1), 0.27f, 0.001f);
-		} catch (SlowMessengerDoesNotExist e) {
+		} catch (exSlowMessengerDoesNotExist e) {
 			fail("SlowMessengerDoesNotExist");
 		}
 		
 		try {
 			assertEquals(oSMS.getMessengerValue(2), 0.5f, 0.000001f);
 			fail("SlowMessengerDoesNotExist not thrown");
-		} catch (SlowMessengerDoesNotExist e) {
+		} catch (exSlowMessengerDoesNotExist e) {
 			//expected exception
 		}
 	}

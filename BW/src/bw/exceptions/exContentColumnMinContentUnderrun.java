@@ -13,12 +13,12 @@ package bw.exceptions;
  * @author deutsch
  * 
  */
-public class ContentColumnMinContentUnderrun extends bwException {
+public class exContentColumnMinContentUnderrun extends exException {
 
 	private float mrValue;
 	private float mrMinValue;
 
-	public ContentColumnMinContentUnderrun(float prValue, float prMinValue) {
+	public exContentColumnMinContentUnderrun(float prValue, float prMinValue) {
 		mrValue = prValue;
 		mrMinValue = prMinValue;
 	}

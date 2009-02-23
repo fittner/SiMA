@@ -10,7 +10,7 @@ package tstBw.body.internalSystems;
 import static org.junit.Assert.*;
 
 import bw.body.internalSystems.clsStomachSystem;
-import bw.exceptions.NoSuchNutritionType;
+import bw.exceptions.exNoSuchNutritionType;
 
 import org.junit.Test;
 
@@ -93,7 +93,7 @@ public class tstStomachSystem {
 		
 		try {
 			oSS.addNutrition(2, 1.0f);
-		} catch (NoSuchNutritionType e) {
+		} catch (exNoSuchNutritionType e) {
 			fail("NoSuchNutritionType");
 		}
 		
@@ -104,7 +104,7 @@ public class tstStomachSystem {
 		try {
 			oSS.addNutrition(4, 2.0f);
 			fail("NoSuchNutritionType exception not thrown");
-		} catch (NoSuchNutritionType e) {
+		} catch (exNoSuchNutritionType e) {
 			//expected exception
 		}
 		
@@ -127,7 +127,7 @@ public class tstStomachSystem {
 			oSS.addNutrition(1, 1.0f);
 			oSS.addNutrition(2, 1.0f);
 			oSS.addNutrition(3, 1.0f);			
-		} catch (NoSuchNutritionType e) {
+		} catch (exNoSuchNutritionType e) {
 			fail("NoSuchNutritionType");
 		}
 
@@ -138,7 +138,7 @@ public class tstStomachSystem {
 		
 		try {
 			oSS.withdrawNutrition(2, 0.5f);
-		} catch (NoSuchNutritionType e) {
+		} catch (exNoSuchNutritionType e) {
 			fail("NoSuchNutritionType");
 		}
 		
@@ -149,7 +149,7 @@ public class tstStomachSystem {
 		try {
 			oSS.withdrawNutrition(4, 0.25f);
 			fail("NoSuchNutritionType");			
-		} catch (NoSuchNutritionType e) {
+		} catch (exNoSuchNutritionType e) {
 			//expected exception
 		}
 		
@@ -159,7 +159,7 @@ public class tstStomachSystem {
 		
 		try {
 			oSS.withdrawNutrition(1, 1.5f);
-		} catch (NoSuchNutritionType e) {
+		} catch (exNoSuchNutritionType e) {
 			fail("NoSuchNutritionType");
 		}
 		
@@ -186,7 +186,7 @@ public class tstStomachSystem {
 		
 		try {
 			oSS.withdrawNutrition(2, 0.5f);
-		} catch (NoSuchNutritionType e) {
+		} catch (exNoSuchNutritionType e) {
 			fail("NoSuchNutritionType");
 		}
 		oSS.addEnergy(0.6f);
@@ -211,7 +211,7 @@ public class tstStomachSystem {
 			oSS.addNutrition(1, 1.0f);
 			oSS.addNutrition(2, 1.0f);
 			oSS.addNutrition(3, 1.0f);			
-		} catch (NoSuchNutritionType e) {
+		} catch (exNoSuchNutritionType e) {
 			fail("NoSuchNutritionType");
 		}
 
@@ -228,7 +228,7 @@ public class tstStomachSystem {
 		
 		try {
 			oSS.addNutrition(2, 0.2f);
-		} catch (NoSuchNutritionType e) {
+		} catch (exNoSuchNutritionType e) {
 			fail("NoSuchNutritionType");
 		}
 		oSS.withdrawEnergy(0.3f);
@@ -262,7 +262,7 @@ public class tstStomachSystem {
 
 		try {
 			oSS.addNutrition(2, 0.1f);
-		} catch (NoSuchNutritionType e) {
+		} catch (exNoSuchNutritionType e) {
 			fail("NoSuchNutritionType");
 		}
 		

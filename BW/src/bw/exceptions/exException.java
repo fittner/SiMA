@@ -14,7 +14,7 @@ package bw.exceptions;
  * 
  */
 @SuppressWarnings("serial")
-public abstract class bwException extends java.lang.Exception {
+public abstract class exException extends java.lang.Exception {
 
 	public abstract String toString();
 

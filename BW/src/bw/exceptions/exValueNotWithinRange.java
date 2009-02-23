@@ -13,14 +13,14 @@ package bw.exceptions;
  * @author deutsch
  * 
  */
-public class ValueNotWithinRange extends bwException {
+public class exValueNotWithinRange extends exException {
 	private static final long serialVersionUID = -7714328851195940069L;
 
 	private float mrMinValue;
 	private float mrValue;
 	private float mrMaxValue;
 	
-	public ValueNotWithinRange(float prMinValue, float prValue, float prMaxValue) {
+	public exValueNotWithinRange(float prMinValue, float prValue, float prMaxValue) {
 		super();
 		
 		mrMinValue = prMinValue;

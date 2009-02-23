@@ -12,8 +12,8 @@ import java.util.HashMap;
 import java.util.Iterator;
 
 import bw.body.internalSystems.clsStomachSystem;
-import bw.exceptions.FoodNotFinalized;
-import bw.exceptions.NoSuchNutritionType;
+import bw.exceptions.exFoodNotFinalized;
+import bw.exceptions.exNoSuchNutritionType;
 import bw.utils.datatypes.clsMutableFloat;
 import bw.utils.tools.clsFood;
 
@@ -46,7 +46,7 @@ public class clsConsumeFood {
 		
 		try {
 			oNutritions = poFood.getNutritionAmounts();
-		} catch (FoodNotFinalized e) {
+		} catch (exFoodNotFinalized e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
@@ -59,10 +59,10 @@ public class clsConsumeFood {
 			
 			try {
 				moStomachSystem.addNutrition(oNutritionType, oAmount.floatValue());
-			} catch (NoSuchNutritionType e) {
+			} catch (exNoSuchNutritionType e) {
 				try {
 					moStomachSystem.addNutrition(moGarbageNutritionType, oAmount.floatValue());
-				} catch (NoSuchNutritionType e1) {
+				} catch (exNoSuchNutritionType e1) {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
 				}

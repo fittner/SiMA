@@ -11,11 +11,11 @@ import java.util.HashMap;
 import java.util.Iterator;
 
 import bw.body.itfStep;
-import bw.exceptions.ContentColumnMaxContentExceeded;
-import bw.exceptions.ContentColumnMinContentUnderrun;
-import bw.exceptions.SlowMessengerAlreadyExists;
-import bw.exceptions.SlowMessengerDoesNotExist;
-import bw.exceptions.ValueNotWithinRange;
+import bw.exceptions.exContentColumnMaxContentExceeded;
+import bw.exceptions.exContentColumnMinContentUnderrun;
+import bw.exceptions.exSlowMessengerAlreadyExists;
+import bw.exceptions.exSlowMessengerDoesNotExist;
+import bw.exceptions.exValueNotWithinRange;
 import bw.utils.tools.clsDecayColumn;
 
 /**
@@ -46,12 +46,12 @@ public class clsSlowMessengerSystem implements itfStep {
 	 *
 	 * @param pnMessengerId
 	 * @return
-	 * @throws SlowMessengerAlreadyExists
-	 * @throws ContentColumnMaxContentExceeded
-	 * @throws ContentColumnMinContentUnderrun
-	 * @throws ValueNotWithinRange
+	 * @throws exSlowMessengerAlreadyExists
+	 * @throws exContentColumnMaxContentExceeded
+	 * @throws exContentColumnMinContentUnderrun
+	 * @throws exValueNotWithinRange
 	 */
-	public clsDecayColumn addSlowMessenger(int pnMessengerId) throws SlowMessengerAlreadyExists, ContentColumnMaxContentExceeded, ContentColumnMinContentUnderrun, ValueNotWithinRange {
+	public clsDecayColumn addSlowMessenger(int pnMessengerId) throws exSlowMessengerAlreadyExists, exContentColumnMaxContentExceeded, exContentColumnMinContentUnderrun, exValueNotWithinRange {
 		return addSlowMessenger(new Integer(pnMessengerId));
 	}
 	
@@ -60,14 +60,14 @@ public class clsSlowMessengerSystem implements itfStep {
 	 *
 	 * @param poMessengerId
 	 * @return
-	 * @throws SlowMessengerAlreadyExists
-	 * @throws ContentColumnMaxContentExceeded
-	 * @throws ContentColumnMinContentUnderrun
-	 * @throws ValueNotWithinRange
+	 * @throws exSlowMessengerAlreadyExists
+	 * @throws exContentColumnMaxContentExceeded
+	 * @throws exContentColumnMinContentUnderrun
+	 * @throws exValueNotWithinRange
 	 */
-	public clsDecayColumn addSlowMessenger(Integer poMessengerId) throws SlowMessengerAlreadyExists, ContentColumnMaxContentExceeded, ContentColumnMinContentUnderrun, ValueNotWithinRange {
+	public clsDecayColumn addSlowMessenger(Integer poMessengerId) throws exSlowMessengerAlreadyExists, exContentColumnMaxContentExceeded, exContentColumnMinContentUnderrun, exValueNotWithinRange {
 		if (moSlowMessengerContainer.containsKey(poMessengerId)) {
-			throw new bw.exceptions.SlowMessengerAlreadyExists(poMessengerId);
+			throw new bw.exceptions.exSlowMessengerAlreadyExists(poMessengerId);
 		}
 		
 		clsDecayColumn oSlowMessenger = new clsDecayColumn(mrDefaultContent, mrDefaultMaxContent, mrDefaultIncreaseRate, mrDefaultDecayRate);
@@ -111,9 +111,9 @@ public class clsSlowMessengerSystem implements itfStep {
 	 *
 	 * @param pnMessengerId
 	 * @return
-	 * @throws SlowMessengerDoesNotExist
+	 * @throws exSlowMessengerDoesNotExist
 	 */
-	public float getMessengerValue(int pnMessengerId) throws SlowMessengerDoesNotExist {
+	public float getMessengerValue(int pnMessengerId) throws exSlowMessengerDoesNotExist {
 		return getMessengerValue(new Integer(pnMessengerId));
 	}
 	
@@ -122,11 +122,11 @@ public class clsSlowMessengerSystem implements itfStep {
 	 *
 	 * @param poMessengerId
 	 * @return
-	 * @throws SlowMessengerDoesNotExist
+	 * @throws exSlowMessengerDoesNotExist
 	 */
-	public float getMessengerValue(Integer poMessengerId) throws SlowMessengerDoesNotExist {
+	public float getMessengerValue(Integer poMessengerId) throws exSlowMessengerDoesNotExist {
 		if (!moSlowMessengerContainer.containsKey(poMessengerId)) {
-			throw new bw.exceptions.SlowMessengerDoesNotExist(poMessengerId);
+			throw new bw.exceptions.exSlowMessengerDoesNotExist(poMessengerId);
 		}		
 		
 		return moSlowMessengerContainer.get(poMessengerId).getContent();
@@ -137,10 +137,10 @@ public class clsSlowMessengerSystem implements itfStep {
 	 *
 	 * @param pnMessengerId
 	 * @param prAmount
-	 * @throws SlowMessengerDoesNotExist
-	 * @throws ValueNotWithinRange
+	 * @throws exSlowMessengerDoesNotExist
+	 * @throws exValueNotWithinRange
 	 */
-	public void inject(int pnMessengerId, float prAmount) throws SlowMessengerDoesNotExist, ValueNotWithinRange {		
+	public void inject(int pnMessengerId, float prAmount) throws exSlowMessengerDoesNotExist, exValueNotWithinRange {		
 		inject(new Integer(pnMessengerId), prAmount);
 	}
 	
@@ -149,12 +149,12 @@ public class clsSlowMessengerSystem implements itfStep {
 	 *
 	 * @param poMessengerId
 	 * @param prAmount
-	 * @throws SlowMessengerDoesNotExist
-	 * @throws ValueNotWithinRange
+	 * @throws exSlowMessengerDoesNotExist
+	 * @throws exValueNotWithinRange
 	 */
-	public void inject(Integer poMessengerId, float prAmount) throws SlowMessengerDoesNotExist, ValueNotWithinRange {		
+	public void inject(Integer poMessengerId, float prAmount) throws exSlowMessengerDoesNotExist, exValueNotWithinRange {		
 		if (!moSlowMessengerContainer.containsKey(poMessengerId)) {
-			throw new bw.exceptions.SlowMessengerDoesNotExist(poMessengerId);
+			throw new bw.exceptions.exSlowMessengerDoesNotExist(poMessengerId);
 		}
 		
 		clsDecayColumn oSlowMessenger = moSlowMessengerContainer.get(poMessengerId);

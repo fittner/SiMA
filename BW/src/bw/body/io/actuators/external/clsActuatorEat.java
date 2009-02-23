@@ -71,7 +71,7 @@ public class clsActuatorEat extends clsActuatorExt {
 		
 		try {
 			eatAction();
-		} catch (EntityActionResponseNotImplemented e) {
+		} catch (exEntityActionResponseNotImplemented e) {
 			// TODO clemens
 			e.printStackTrace();
 		}
@@ -84,9 +84,9 @@ public class clsActuatorEat extends clsActuatorExt {
 	 * Method for eating, takes a clsEntity in, and tries to chew it. Exception catched if not eatable.
 	 *
 	 * @param poEntity
-	 * @throws EntityActionResponseNotImplemented 
+	 * @throws exEntityActionResponseNotImplemented 
 	 */
-	public void eatAction() throws EntityActionResponseNotImplemented{
+	public void eatAction() throws exEntityActionResponseNotImplemented{
 		
 		clsAnimate oViewedAnimate = null;
 		clsEntityActionResponses oEntityActionResponse = moAnimate.getEntityActionResponses();
@@ -105,9 +105,9 @@ public class clsActuatorEat extends clsActuatorExt {
 			moAnimate.moAgentBody.getInterBodyWorldSystem().getConsumeFood().digest(oReturnedFood); // food an Body zur weiterverarbeitung geben
 			
 			if(oReturnedFood == null)
-				throw(new EntityNotEatable(oViewedAnimate.getEntityType()) );
+				throw(new exEntityNotEatable(oViewedAnimate.getEntityType()) );
 			
-		}catch(EntityNotEatable ex){
+		}catch(exEntityNotEatable ex){
 			ex.printStackTrace();
 			//TODO clemens
 		}

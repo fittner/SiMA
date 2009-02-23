@@ -11,9 +11,9 @@ import static org.junit.Assert.*;
 
 import java.util.HashMap;
 
-import bw.exceptions.FoodAlreadyNormalized;
-import bw.exceptions.FoodAmountBelowZero;
-import bw.exceptions.FoodNotFinalized;
+import bw.exceptions.exFoodAlreadyNormalized;
+import bw.exceptions.exFoodAmountBelowZero;
+import bw.exceptions.exFoodNotFinalized;
 import bw.utils.datatypes.clsMutableFloat;
 import bw.utils.tools.clsFood;
 import org.junit.Test;
@@ -39,13 +39,13 @@ public class tstFood {
 			@SuppressWarnings("unused")
 			float rTemp = oFood.getNutritionAmount(1);
 			fail("Food not finalised, but exception FoodNotFinalized not thrown.");
-		} catch (FoodNotFinalized e1) {
+		} catch (exFoodNotFinalized e1) {
 			//thrown exception expected 
 		}
 		
 		try {
 			oFood.addNutritionFraction(1, 1.0f);
-		} catch (FoodAlreadyNormalized e) {
+		} catch (exFoodAlreadyNormalized e) {
 			fail("FoodAlreadyNormalized");
 		}
 		
@@ -53,27 +53,27 @@ public class tstFood {
 			@SuppressWarnings("unused")
 			float rTemp = oFood.getNutritionAmount(1);
 			fail("Food not finalised, but exception FoodNotFinalized not thrown.");
-		} catch (FoodNotFinalized e1) {
+		} catch (exFoodNotFinalized e1) {
 			//thrown exception expected 
 		}
 		
 		try {
 			oFood.finalize();
-		} catch (FoodAlreadyNormalized e) {
+		} catch (exFoodAlreadyNormalized e) {
 			fail("Food not finalised, but exception FoodAlreadyNormalized is thrown.");
 		}
 		
 		try {
 			@SuppressWarnings("unused")
 			float rTemp = oFood.getNutritionAmount(1);
-		} catch (FoodNotFinalized e1) {
+		} catch (exFoodNotFinalized e1) {
 			fail("Food finalised, but exception FoodNotFinalized still thrown.");
 		}		
 		
 		try {
 			oFood.finalize();
 			fail("Food finalised, but exception FoodAlreadyNormalized is not thrown.");
-		} catch (FoodAlreadyNormalized e) {
+		} catch (exFoodAlreadyNormalized e) {
 			//thrown exception expected 
 		}
 		
@@ -102,7 +102,7 @@ public class tstFood {
 		assertEquals(oFood.getAmount(), 0.0f, 0.00001f);
 		try {
 			oFood.setAmount(2.5f);
-		} catch (FoodAmountBelowZero e) {
+		} catch (exFoodAmountBelowZero e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
@@ -119,7 +119,7 @@ public class tstFood {
 		oFood = new clsFood();
 		try {
 			oFood.setAmount(1.0f);
-		} catch (FoodAmountBelowZero e1) {
+		} catch (exFoodAmountBelowZero e1) {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
@@ -127,18 +127,18 @@ public class tstFood {
 		try {
 			oFood.addNutritionFraction(1, 1.0f);
 			oFood.addNutritionFraction(2, 2.0f);
-		} catch (FoodAlreadyNormalized e) {
+		} catch (exFoodAlreadyNormalized e) {
 		}
 		
 		try {
 			oFood.finalize();
-		} catch (FoodAlreadyNormalized e) {
+		} catch (exFoodAlreadyNormalized e) {
 		}
 		
 		try {
 			assertEquals(oFood.getNutritionAmount(1), 0.3333f, 0.01f);
 			assertEquals(oFood.getNutritionAmount(2), 0.6666f, 0.01f);
-		} catch (FoodNotFinalized e) {
+		} catch (exFoodNotFinalized e) {
 			// TODO Auto-generated catch block
 		}
 	}
@@ -153,7 +153,7 @@ public class tstFood {
 		oFood = new clsFood();
 		try {
 			oFood.setAmount(1.0f);
-		} catch (FoodAmountBelowZero e1) {
+		} catch (exFoodAmountBelowZero e1) {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
@@ -161,18 +161,18 @@ public class tstFood {
 		try {
 			oFood.addNutritionFraction(new Integer(1), 1.0f);
 			oFood.addNutritionFraction(new Integer(2), 2.0f);
-		} catch (FoodAlreadyNormalized e) {
+		} catch (exFoodAlreadyNormalized e) {
 		}
 		
 		try {
 			oFood.finalize();
-		} catch (FoodAlreadyNormalized e) {
+		} catch (exFoodAlreadyNormalized e) {
 		}
 		
 		try {
 			assertEquals(oFood.getNutritionAmount(new Integer(1)), 0.3333f, 0.01f);
 			assertEquals(oFood.getNutritionAmount(new Integer(2)), 0.6666f, 0.01f);
-		} catch (FoodNotFinalized e) {
+		} catch (exFoodNotFinalized e) {
 			// TODO Auto-generated catch block
 		}
 	}
@@ -187,7 +187,7 @@ public class tstFood {
 		oFood = new clsFood();
 		try {
 			oFood.setAmount(1.0f);
-		} catch (FoodAmountBelowZero e1) {
+		} catch (exFoodAmountBelowZero e1) {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
@@ -195,19 +195,19 @@ public class tstFood {
 		try {
 			oFood.addNutritionFraction(new Integer(1), 1.0f);
 			oFood.addNutritionFraction(new Integer(2), 2.0f);
-		} catch (FoodAlreadyNormalized e) {
+		} catch (exFoodAlreadyNormalized e) {
 		}
 		
 		try {
 			oFood.finalize();
-		} catch (FoodAlreadyNormalized e) {
+		} catch (exFoodAlreadyNormalized e) {
 		}
 		
 		HashMap<java.lang.Integer,clsMutableFloat> oMap = null;
 		
 		try {
 			oMap = oFood.getNutritionAmounts();
-		} catch (FoodNotFinalized e) {
+		} catch (exFoodNotFinalized e) {
 			fail("Food not finalised");
 		}
 		
@@ -228,7 +228,7 @@ public class tstFood {
 		oFood = new clsFood();
 		try {
 			oFood.setAmount(1.0f);
-		} catch (FoodAmountBelowZero e1) {
+		} catch (exFoodAmountBelowZero e1) {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
@@ -236,7 +236,7 @@ public class tstFood {
 		try {
 			oFood.addNutritionFraction(new Integer(1), 1.0f);
 			oFood.addNutritionFraction(new Integer(2), 2.0f);
-		} catch (FoodAlreadyNormalized e) {
+		} catch (exFoodAlreadyNormalized e) {
 			fail("FoodAlreadyNormalized");
 		}
 		
@@ -244,9 +244,9 @@ public class tstFood {
 			oFood.finalize();
 			assertEquals(oFood.getNutritionAmount(1), 0.33f, 0.01f);		
 			assertEquals(oFood.getNutritionAmount(2), 0.66f, 0.01f);	
-		} catch (FoodAlreadyNormalized e) {
+		} catch (exFoodAlreadyNormalized e) {
 			fail("FoodAlreadyNormalized");
-		} catch (FoodNotFinalized e) {
+		} catch (exFoodNotFinalized e) {
 			fail("FoodNotFinalized");			
 		}
 		
@@ -255,7 +255,7 @@ public class tstFood {
 		oFood2 = new clsFood();
 		try {
 			oFood2.setAmount(1.5f);
-		} catch (FoodAmountBelowZero e1) {
+		} catch (exFoodAmountBelowZero e1) {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
@@ -266,17 +266,17 @@ public class tstFood {
 			oFood2.finalize();			
 			assertEquals(oFood2.getNutritionAmount(2), 1.0f, 0.01f);		
 			assertEquals(oFood2.getNutritionAmount(3), 0.5f, 0.01f);				
-		} catch (FoodAlreadyNormalized e) {
+		} catch (exFoodAlreadyNormalized e) {
 			fail("FoodAlreadyNormalized");
-		} catch (FoodNotFinalized e) {
+		} catch (exFoodNotFinalized e) {
 			fail("FoodNotFinalized");			
 		}
 		
 		try {
 			oFood.addFood(oFood2);
-		} catch (FoodNotFinalized e) {
+		} catch (exFoodNotFinalized e) {
 			fail("FoodNotFinalized");
-		} catch (FoodAlreadyNormalized e) {
+		} catch (exFoodAlreadyNormalized e) {
 			fail("FoodAlreadyNormalized");			
 		}
 		
@@ -287,7 +287,7 @@ public class tstFood {
 			assertEquals(oFood.getNutritionAmount(3), 0.5f, 0.000001f);
 			
 			
-		} catch (FoodNotFinalized e) {
+		} catch (exFoodNotFinalized e) {
 			fail("FoodNotFinalized");
 		}
 	}

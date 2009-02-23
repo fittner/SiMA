@@ -8,8 +8,8 @@
 package bw.body.internalSystems;
 
 import bw.body.itfStep;
-import bw.exceptions.ContentColumnMaxContentExceeded;
-import bw.exceptions.ContentColumnMinContentUnderrun;
+import bw.exceptions.exContentColumnMaxContentExceeded;
+import bw.exceptions.exContentColumnMinContentUnderrun;
 import bw.utils.tools.clsFillLevel;
 
 /**
@@ -32,10 +32,10 @@ public class clsHealthSystem implements itfStep {
 		
 		try {
 			moHealth = new clsFillLevel(mrDefaultContent, mrDefaultMaxContent, mrDefaultSelfHealingRate);
-		} catch (ContentColumnMaxContentExceeded e) {
+		} catch (exContentColumnMaxContentExceeded e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		} catch (ContentColumnMinContentUnderrun e) {
+		} catch (exContentColumnMinContentUnderrun e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
@@ -46,8 +46,8 @@ public class clsHealthSystem implements itfStep {
 	public void hurt(float prHealthRemoved) {
 		try {
 			moHealth.decrease(prHealthRemoved);
-		} catch (ContentColumnMaxContentExceeded e) {
-		} catch (ContentColumnMinContentUnderrun e) {
+		} catch (exContentColumnMaxContentExceeded e) {
+		} catch (exContentColumnMinContentUnderrun e) {
 		}
 		updateIsAlive();
 	}
@@ -55,8 +55,8 @@ public class clsHealthSystem implements itfStep {
 	public void heal(float prHealthRegained) {
 		try {
 			moHealth.increase(prHealthRegained);
-		} catch (ContentColumnMaxContentExceeded e) {
-		} catch (ContentColumnMinContentUnderrun e) {
+		} catch (exContentColumnMaxContentExceeded e) {
+		} catch (exContentColumnMinContentUnderrun e) {
 		}
 		updateIsAlive();
 	}
@@ -82,8 +82,8 @@ public class clsHealthSystem implements itfStep {
 	public void step() {
 		try {
 			moHealth.update();
-		} catch (ContentColumnMaxContentExceeded e) {
-		} catch (ContentColumnMinContentUnderrun e) {
+		} catch (exContentColumnMaxContentExceeded e) {
+		} catch (exContentColumnMinContentUnderrun e) {
 		}
 		
 		updateIsAlive();

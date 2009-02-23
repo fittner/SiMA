@@ -13,7 +13,7 @@ package bw.exceptions;
  * @author deutsch
  * 
  */
-public class FoodAlreadyNormalized extends bwException {
+public class exFoodAlreadyNormalized extends exException {
 
 	public String toString() {
 		return ("FoodAlreadyNormalized\n");

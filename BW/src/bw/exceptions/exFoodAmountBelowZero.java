@@ -13,21 +13,16 @@ package bw.exceptions;
  * @author deutsch
  * 
  */
-public class NutritionEmpty extends bwException {
+public class exFoodAmountBelowZero extends exException {
 
-	private int mnNutritionType;
-	
-	public NutritionEmpty(int pnNutritionType) {
-		mnNutritionType = pnNutritionType;
-	}
 	
 	public String toString() {
-		return ("NutritionEmpty: nutrition of type "+mnNutritionType+" is empty.\n");
+		return ("FoodAmountBelowZero\n");
 	}
-	
+
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = -6935786612345528631L;
+	private static final long serialVersionUID = -7788291810120561668L;
 
 }

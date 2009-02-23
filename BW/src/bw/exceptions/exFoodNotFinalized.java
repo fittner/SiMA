@@ -13,7 +13,7 @@ package bw.exceptions;
  * @author deutsch
  * 
  */
-public class FoodNotFinalized extends bwException {
+public class exFoodNotFinalized extends exException {
 
 
 	public String toString() {

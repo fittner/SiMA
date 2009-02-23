@@ -13,12 +13,12 @@ package bw.exceptions;
  * @author deutsch
  * 
  */
-public class ContentColumnMaxContentExceeded extends bwException {
+public class exContentColumnMaxContentExceeded extends exException {
 
 	private float mrValue;
 	private float mrMaxValue;
 
-	public ContentColumnMaxContentExceeded(float prValue, float prMaxValue) {
+	public exContentColumnMaxContentExceeded(float prValue, float prMaxValue) {
 		mrValue = prValue;
 		mrMaxValue = prMaxValue;
 	}

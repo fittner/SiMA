@@ -10,8 +10,8 @@ package bw.body.internalSystems;
 import java.util.Random;
 
 import bw.body.itfStep;
-import bw.exceptions.FoodAlreadyNormalized;
-import bw.exceptions.NoSuchNutritionType;
+import bw.exceptions.exFoodAlreadyNormalized;
+import bw.exceptions.exNoSuchNutritionType;
 
 /**
  * TODO (deutsch) - insert description 
@@ -65,7 +65,7 @@ public class clsInternalSystem implements itfStep {
 			moFlesh.addNutritionFraction(4, 1.3f);
 			moFlesh.addNutritionFraction(5, 0.9f);
 			moFlesh.finalize();
-		} catch (FoodAlreadyNormalized e) {
+		} catch (exFoodAlreadyNormalized e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
@@ -178,7 +178,7 @@ public class clsInternalSystem implements itfStep {
 			if (rand.nextInt(100)>95) {
 				try {
 					moStomachSystem.addNutrition(i, rand.nextFloat() * 0.1f );
-				} catch (NoSuchNutritionType e) {
+				} catch (exNoSuchNutritionType e) {
 					// ignore exception
 				}
 			}

@@ -13,25 +13,20 @@ package bw.exceptions;
  * @author deutsch
  * 
  */
-public class SlowMessengerAlreadyExists extends bwException {
+public class exEntityActionResponseNotImplemented extends exException {
 
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = -8188633263734083524L;
+	private static final long serialVersionUID = -7216814922097666406L;
 
-	private int mnSlowMessengerId;
-	
-	public SlowMessengerAlreadyExists(int pnSlowMessengerId) {
-		mnSlowMessengerId = pnSlowMessengerId;
-	}
-	
 	/* (non-Javadoc)
 	 * @see bw.exceptions.bwException#toString()
 	 */
 	@Override
 	public String toString() {
-		return ("SlowMessengerAlreadyExists: slow messenger with id "+mnSlowMessengerId+" already in system.");
+		// TODO Auto-generated method stub
+		return "EntityActionResponseNotImplemented";
 	}
 
 }

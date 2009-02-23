@@ -8,8 +8,8 @@
 package tstBw.utils.tools;
 
 import static org.junit.Assert.*;
-import bw.exceptions.ContentColumnMaxContentExceeded;
-import bw.exceptions.ContentColumnMinContentUnderrun;
+import bw.exceptions.exContentColumnMaxContentExceeded;
+import bw.exceptions.exContentColumnMinContentUnderrun;
 import bw.utils.tools.clsNutritionLevel;
 
 import org.junit.Test;
@@ -31,10 +31,10 @@ public class tstNutritionLevel {
 		
 		try {
 			oNL = new clsNutritionLevel(1.0f, 3.0f, 0.5f, 1.5f, 0.5f);
-		} catch (ContentColumnMaxContentExceeded e) {
+		} catch (exContentColumnMaxContentExceeded e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		} catch (ContentColumnMinContentUnderrun e) {
+		} catch (exContentColumnMinContentUnderrun e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
@@ -57,10 +57,10 @@ public class tstNutritionLevel {
 		
 		try {
 			oNL = new clsNutritionLevel(1.0f, 3.0f, 0.5f, 1.5f, 0.01f);
-		} catch (ContentColumnMaxContentExceeded e) {
+		} catch (exContentColumnMaxContentExceeded e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		} catch (ContentColumnMinContentUnderrun e) {
+		} catch (exContentColumnMinContentUnderrun e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
@@ -76,10 +76,10 @@ public class tstNutritionLevel {
 		clsNutritionLevel oNL = null;
 		try {
 			oNL = new clsNutritionLevel(1.0f, 3.0f, 0.5f, 1.5f, 0.01f);
-		} catch (ContentColumnMaxContentExceeded e) {
+		} catch (exContentColumnMaxContentExceeded e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		} catch (ContentColumnMinContentUnderrun e) {
+		} catch (exContentColumnMinContentUnderrun e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
@@ -97,10 +97,10 @@ public class tstNutritionLevel {
 		clsNutritionLevel oNL = null;
 		try {
 			oNL = new clsNutritionLevel(1.0f, 3.0f, 0.5f, 1.5f, 0.01f);
-		} catch (ContentColumnMaxContentExceeded e) {
+		} catch (exContentColumnMaxContentExceeded e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		} catch (ContentColumnMinContentUnderrun e) {
+		} catch (exContentColumnMinContentUnderrun e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}

@@ -43,7 +43,7 @@ public class clsContentColumn {
 	 * @param prContent
 	 * @param prMaxContent
 	 */
-	public clsContentColumn(float prContent, float prMaxContent) throws bw.exceptions.ContentColumnMaxContentExceeded, bw.exceptions.ContentColumnMinContentUnderrun  {
+	public clsContentColumn(float prContent, float prMaxContent) throws bw.exceptions.exContentColumnMaxContentExceeded, bw.exceptions.exContentColumnMinContentUnderrun  {
 		super();
 		
 		this.setMaxContent( prMaxContent );
@@ -55,15 +55,15 @@ public class clsContentColumn {
 	 * this condition is not met, the value of mrContent is adapted to fulfill it. Should be executed
 	 * whenever mrContent has changed.
 	 */
-	private void checkValue() throws bw.exceptions.ContentColumnMaxContentExceeded, bw.exceptions.ContentColumnMinContentUnderrun {
+	private void checkValue() throws bw.exceptions.exContentColumnMaxContentExceeded, bw.exceptions.exContentColumnMinContentUnderrun {
 		float rTempContent = mrContent;
 		
 		if (this.mrContent < 0.0f) {
 			this.mrContent = 0.0f;
-			throw new bw.exceptions.ContentColumnMinContentUnderrun(rTempContent, 0.0f);
+			throw new bw.exceptions.exContentColumnMinContentUnderrun(rTempContent, 0.0f);
 		} else if (this.mrContent > this.mrMaxContent) {
 			this.mrContent = this.mrMaxContent;
-			throw new bw.exceptions.ContentColumnMaxContentExceeded(rTempContent, mrMaxContent);
+			throw new bw.exceptions.exContentColumnMaxContentExceeded(rTempContent, mrMaxContent);
 		}
 	}
 	
@@ -86,7 +86,7 @@ public class clsContentColumn {
 	 * @param prContent how much should be added
 	 * @return the resulting content after checkValue has been executed
 	 */
-	public float increase(float prContent) throws bw.exceptions.ContentColumnMaxContentExceeded, bw.exceptions.ContentColumnMinContentUnderrun  {
+	public float increase(float prContent) throws bw.exceptions.exContentColumnMaxContentExceeded, bw.exceptions.exContentColumnMinContentUnderrun  {
 		return this.setContent( this.getContent() + prContent );
 	}
 	
@@ -96,7 +96,7 @@ public class clsContentColumn {
 	 * @param prContent how much should be added
 	 * @return the resulting content after checkValue has been executed
 	 */
-	public float change(float prContent) throws bw.exceptions.ContentColumnMaxContentExceeded, bw.exceptions.ContentColumnMinContentUnderrun  {
+	public float change(float prContent) throws bw.exceptions.exContentColumnMaxContentExceeded, bw.exceptions.exContentColumnMinContentUnderrun  {
 		return increase( prContent );	
 	}
 	
@@ -106,7 +106,7 @@ public class clsContentColumn {
 	 * @param prContent how much should be removed
 	 * @return the resulting content after checkValue has been executed
 	 */
-	public float decrease(float prContent) throws bw.exceptions.ContentColumnMaxContentExceeded, bw.exceptions.ContentColumnMinContentUnderrun  {
+	public float decrease(float prContent) throws bw.exceptions.exContentColumnMaxContentExceeded, bw.exceptions.exContentColumnMinContentUnderrun  {
 		return this.setContent( this.getContent() - prContent );
 	}
 
@@ -125,7 +125,7 @@ public class clsContentColumn {
 	 * @param pnContent the mrContent to set
 	 * @return the resulting content after checkValue has been executed
 	 */
-	public float setContent(float prContent) throws bw.exceptions.ContentColumnMaxContentExceeded, bw.exceptions.ContentColumnMinContentUnderrun  {
+	public float setContent(float prContent) throws bw.exceptions.exContentColumnMaxContentExceeded, bw.exceptions.exContentColumnMinContentUnderrun  {
 		this.mrContent = prContent;
 		
 		this.checkValue();
@@ -148,7 +148,7 @@ public class clsContentColumn {
 	 * @param prMaxContent the mrMaxContent to set
 	 * @return the resulting content after checkValue has been executed
 	 */
-	public float setMaxContent(float prMaxContent) throws bw.exceptions.ContentColumnMaxContentExceeded, bw.exceptions.ContentColumnMinContentUnderrun  {
+	public float setMaxContent(float prMaxContent) throws bw.exceptions.exContentColumnMaxContentExceeded, bw.exceptions.exContentColumnMinContentUnderrun  {
 		this.mrMaxContent = prMaxContent;	
 		
 		this.checkMaxValue();

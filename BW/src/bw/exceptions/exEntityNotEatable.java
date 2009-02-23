@@ -15,7 +15,7 @@ import bw.utils.enums.eEntityType;
  * @author muchitsch
  * 
  */
-public class EntityNotEatable extends bwException {
+public class exEntityNotEatable extends exException {
 
 	private static final long serialVersionUID = 4667881354723355802L;
 	private eEntityType eEntityType;
@@ -23,7 +23,7 @@ public class EntityNotEatable extends bwException {
 	/**
 	 * 
 	 */
-	public EntityNotEatable(eEntityType peEntityType) {
+	public exEntityNotEatable(eEntityType peEntityType) {
 		eEntityType = peEntityType;
 	}
 

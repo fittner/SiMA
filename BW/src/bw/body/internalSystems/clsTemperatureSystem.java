@@ -8,8 +8,8 @@
 package bw.body.internalSystems;
 
 import bw.body.itfStep;
-import bw.exceptions.ContentColumnMaxContentExceeded;
-import bw.exceptions.ContentColumnMinContentUnderrun;
+import bw.exceptions.exContentColumnMaxContentExceeded;
+import bw.exceptions.exContentColumnMinContentUnderrun;
 import bw.utils.tools.clsFillLevel;
 
 /**
@@ -32,8 +32,8 @@ public class clsTemperatureSystem implements itfStep {
 	public clsTemperatureSystem() {
 		try {
 			moTemperature = new clsFillLevel(mrDefaultContent, mrDefaultMaxContent, mrDefaultChange, mrDefaultLowerBound, mrDefaultUpperBound);
-		} catch (ContentColumnMaxContentExceeded e) {
-		} catch (ContentColumnMinContentUnderrun e) {
+		} catch (exContentColumnMaxContentExceeded e) {
+		} catch (exContentColumnMinContentUnderrun e) {
 		}
 		
 		mrSelfRegulationAdaption = 0.01f;
@@ -42,16 +42,16 @@ public class clsTemperatureSystem implements itfStep {
 	public void cool(float prCooledBy) {
 		try {
 			moTemperature.decrease(prCooledBy);
-		} catch (ContentColumnMaxContentExceeded e) {
-		} catch (ContentColumnMinContentUnderrun e) {
+		} catch (exContentColumnMaxContentExceeded e) {
+		} catch (exContentColumnMinContentUnderrun e) {
 		}
 	}
 	
 	public void heat(float prHeatedBy) {
 		try {		
 			moTemperature.increase(prHeatedBy);
-		} catch (ContentColumnMaxContentExceeded e) {
-		} catch (ContentColumnMinContentUnderrun e) {
+		} catch (exContentColumnMaxContentExceeded e) {
+		} catch (exContentColumnMinContentUnderrun e) {
 		}
 	}
 	
@@ -86,8 +86,8 @@ public class clsTemperatureSystem implements itfStep {
 		
 		try {		
 			moTemperature.update();		
-		} catch (ContentColumnMaxContentExceeded e) {
-		} catch (ContentColumnMinContentUnderrun e) {
+		} catch (exContentColumnMaxContentExceeded e) {
+		} catch (exContentColumnMinContentUnderrun e) {
 		}
 			
 	}

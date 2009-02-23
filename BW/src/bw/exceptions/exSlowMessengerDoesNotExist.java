@@ -13,7 +13,7 @@ package bw.exceptions;
  * @author deutsch
  * 
  */
-public class SlowMessengerDoesNotExist extends bwException {
+public class exSlowMessengerDoesNotExist extends exException {
 
 	/**
 	 * 
@@ -22,7 +22,7 @@ public class SlowMessengerDoesNotExist extends bwException {
 
 	private int mnSlowMessengerId;
 	
-	public SlowMessengerDoesNotExist(int pnSlowMessengerId) {
+	public exSlowMessengerDoesNotExist(int pnSlowMessengerId) {
 		mnSlowMessengerId = pnSlowMessengerId;
 	}	
 	

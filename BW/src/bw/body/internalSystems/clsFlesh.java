@@ -7,7 +7,7 @@
  */
 package bw.body.internalSystems;
 
-import bw.exceptions.FoodAmountBelowZero;
+import bw.exceptions.exFoodAmountBelowZero;
 import bw.utils.tools.clsFood;
 import java.lang.Math;
 
@@ -27,7 +27,7 @@ public class clsFlesh extends clsFood {
 	public void grow(float prWeight) {
 		try {
 			setAmount(getAmount() + Math.abs(prWeight));
-		} catch (FoodAmountBelowZero e) {
+		} catch (exFoodAmountBelowZero e) {
 			//can not happen
 		}
 	}
@@ -36,9 +36,9 @@ public class clsFlesh extends clsFood {
 	 * TODO (deutsch) - insert description
 	 *
 	 * @param prWeight
-	 * @throws FoodAmountBelowZero
+	 * @throws exFoodAmountBelowZero
 	 */
-	public void reduce(float prWeight) throws FoodAmountBelowZero {
+	public void reduce(float prWeight) throws exFoodAmountBelowZero {
 		setAmount(getAmount() - Math.abs(prWeight));
 	}	
 }

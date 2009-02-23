@@ -11,8 +11,8 @@ import java.util.HashMap;
 import java.util.Iterator;
 
 import bw.body.itfStep;
-import bw.exceptions.ContentColumnMaxContentExceeded;
-import bw.exceptions.ContentColumnMinContentUnderrun;
+import bw.exceptions.exContentColumnMaxContentExceeded;
+import bw.exceptions.exContentColumnMinContentUnderrun;
 import bw.utils.tools.clsNutritionLevel;
 
 /**
@@ -70,8 +70,8 @@ public class clsStomachSystem implements itfStep {
 
 				moNutritions.put(poId, oNL);
 				moFractions.put(poId, new Float(mrDefaultFraction));
-			} catch (ContentColumnMaxContentExceeded e) {
-			} catch (ContentColumnMinContentUnderrun e) {
+			} catch (exContentColumnMaxContentExceeded e) {
+			} catch (exContentColumnMinContentUnderrun e) {
 			}			
 		}
 		
@@ -118,15 +118,15 @@ public class clsStomachSystem implements itfStep {
 	 * @param poId
 	 * @param prAmount
 	 * @return
-	 * @throws bw.exceptions.NoSuchNutritionType 
+	 * @throws bw.exceptions.exNoSuchNutritionType 
 	 */
-	public float addNutrition(Integer poId, float prAmount) throws bw.exceptions.NoSuchNutritionType {
+	public float addNutrition(Integer poId, float prAmount) throws bw.exceptions.exNoSuchNutritionType {
 		float rResult = 0;
 
 		clsNutritionLevel oNL = this.getNutritionLevel(poId);
 		
 		if (oNL == null) {
-			throw new bw.exceptions.NoSuchNutritionType(poId);
+			throw new bw.exceptions.exNoSuchNutritionType(poId);
 		}
 		
 		float rNutritionLevel = oNL.getContent();
@@ -135,8 +135,8 @@ public class clsStomachSystem implements itfStep {
 		if (oNL != null) {
 			try {
 				rNutritionLevelUpdate = oNL.increase(prAmount);
-			} catch (ContentColumnMaxContentExceeded e) {
-			} catch (ContentColumnMinContentUnderrun e) {
+			} catch (exContentColumnMaxContentExceeded e) {
+			} catch (exContentColumnMinContentUnderrun e) {
 			}
 		}
 		this.updateEnergy();	
@@ -156,15 +156,15 @@ public class clsStomachSystem implements itfStep {
 	 * @param poId
 	 * @param prAmount
 	 * @return
-	 * @throws bw.exceptions.NoSuchNutritionType 
+	 * @throws bw.exceptions.exNoSuchNutritionType 
 	 */
-	public float withdrawNutrition(Integer poId, float prAmount) throws bw.exceptions.NoSuchNutritionType {
+	public float withdrawNutrition(Integer poId, float prAmount) throws bw.exceptions.exNoSuchNutritionType {
 		float rResult = 0;
 		
 		clsNutritionLevel oNL = this.getNutritionLevel(poId);
 		
 		if (oNL == null) {
-			throw new bw.exceptions.NoSuchNutritionType(poId);
+			throw new bw.exceptions.exNoSuchNutritionType(poId);
 		}
 		
 		float rNutritionLevel = oNL.getContent();
@@ -173,8 +173,8 @@ public class clsStomachSystem implements itfStep {
 		if (oNL != null) {
 			try {
 				oNL.decrease(prAmount);
-			} catch (ContentColumnMaxContentExceeded e) {
-			} catch (ContentColumnMinContentUnderrun e) {
+			} catch (exContentColumnMaxContentExceeded e) {
+			} catch (exContentColumnMinContentUnderrun e) {
 			}
 		}
 		this.updateEnergy();
@@ -214,13 +214,13 @@ public class clsStomachSystem implements itfStep {
 				oNL.increase(rFraction * rAmountFraction);
 				rFractionPercentage = 1.0f;
 				
-			} catch (ContentColumnMaxContentExceeded e) {
+			} catch (exContentColumnMaxContentExceeded e) {
 				try {
 					rFractionPercentage = (oNL.getMaxContent() - rContent) / prAmount;
 				} catch (java.lang.ArithmeticException ee) {				
 				}					
 			
-			} catch (ContentColumnMinContentUnderrun e) {
+			} catch (exContentColumnMinContentUnderrun e) {
 				try {
 					rFractionPercentage = rContent / prAmount;
 				} catch (java.lang.ArithmeticException ee) {				
@@ -270,13 +270,13 @@ public class clsStomachSystem implements itfStep {
 				oNL.decrease(rFraction * rAmountFraction);
 				rFractionPercentage = 1.0f;
 				
-			} catch (ContentColumnMaxContentExceeded e) {
+			} catch (exContentColumnMaxContentExceeded e) {
 				try {
 					rFractionPercentage = (oNL.getMaxContent() - rContent) / prAmount;
 				} catch (java.lang.ArithmeticException ee) {				
 				}					
 			
-			} catch (ContentColumnMinContentUnderrun e) {
+			} catch (exContentColumnMinContentUnderrun e) {
 				try {
 					rFractionPercentage = rContent / prAmount;
 				} catch (java.lang.ArithmeticException ee) {				
