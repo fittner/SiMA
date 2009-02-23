@@ -15,6 +15,7 @@ import sim.physics2D.PhysicsEngine2D;
 import sim.physics2D.util.*;
 import ARSsim.portrayal.simple.clsImagePortrayal;
 import bw.entities.clsStone;
+import bw.entities.clsWall;
 import bw.physicalObject.inanimate.stationary.*;
 
 /**

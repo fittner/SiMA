@@ -19,7 +19,7 @@ import sim.portrayal.DrawInfo2D;
 import sim.util.Bag;
 import ARSsim.motionplatform.clsMotionPlatform;
 import ARSsim.physics2D.physicalObject.clsMobileObject2D;
-import bw.physicalObject.entityParts.clsBotHands;
+import bw.physicalObjects.bodyparts.clsBotHands;
 import bw.sim.*;
 import bw.utils.enums.eEntityType;
 

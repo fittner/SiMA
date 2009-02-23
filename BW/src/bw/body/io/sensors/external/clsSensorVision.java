@@ -22,7 +22,7 @@ import bw.clsEntity;
 import bw.body.io.clsBaseIO;
 import bw.entities.clsMobile;
 import bw.factories.clsSingletonMasonGetter;
-import bw.physicalObject.entityParts.clsEntityPartVision;
+import bw.physicalObjects.sensors.clsEntityPartVision;
 import bw.utils.enums.eBodyParts;
 
 /**

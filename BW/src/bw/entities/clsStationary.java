@@ -5,7 +5,7 @@
  * $Author::                   $: Author of last commit
  * $Date::                     $: Date of last commit
  */
-package bw.physicalObject.inanimate.stationary;
+package bw.entities;
 
 import ARSsim.physics2D.physicalObject.clsStationaryObject2D;
 import bw.clsEntity;

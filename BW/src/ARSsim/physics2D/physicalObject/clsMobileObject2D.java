@@ -18,7 +18,7 @@ import bw.clsEntity;
 import bw.body.motionplatform.clsBrainAction;
 import bw.body.motionplatform.clsMotionAction;
 import bw.factories.clsSingletonMasonGetter;
-import bw.physicalObject.entityParts.clsEntityPartVision;
+import bw.physicalObjects.sensors.clsEntityPartVision;
 import bw.sim.clsBWMain;
 import bw.utils.enums.eActionCommandType;
 

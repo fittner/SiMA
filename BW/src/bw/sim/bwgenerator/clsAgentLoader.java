@@ -20,9 +20,9 @@ import bw.entities.clsBot;
 import bw.entities.clsBubble;
 import bw.entities.clsCan;
 import bw.entities.clsRemoteBot;
-import bw.physicalObject.entityParts.clsBotHands;
 
 import bw.physicalObject.animate.*;
+import bw.physicalObjects.bodyparts.clsBotHands;
 
 /**
  * Helper class to load every agent and register to mason-physics2D 

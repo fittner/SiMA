@@ -13,7 +13,7 @@ import java.util.ArrayList;
 import sim.physics2D.util.Double2D;
 import bw.body.motionplatform.clsBrainAction;
 import bw.body.motionplatform.clsMotionAction;
-import bw.physicalObject.entityParts.clsBotHands;
+import bw.physicalObjects.bodyparts.clsBotHands;
 import bw.utils.enums.eActionCommandMotion;
 import bw.utils.enums.eActionCommandType;
 import bw.utils.enums.eEntityType;

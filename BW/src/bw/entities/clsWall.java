@@ -5,7 +5,7 @@
  * $Author::                   $: Author of last commit
  * $Date::                     $: Date of last commit
  */
-package bw.physicalObject.inanimate.stationary;
+package bw.entities;
 
 import java.awt.*;
 import java.util.ArrayList;

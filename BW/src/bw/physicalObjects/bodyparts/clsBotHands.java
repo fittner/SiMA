@@ -5,7 +5,7 @@
  * $Author::                   $: Author of last commit
  * $Date::                     $: Date of last commit
  */
-package bw.physicalObject.entityParts;
+package bw.physicalObjects.bodyparts;
 
 import java.awt.*;
 import sim.engine.*;

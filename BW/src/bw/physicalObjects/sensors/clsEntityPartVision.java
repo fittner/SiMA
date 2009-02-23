@@ -5,7 +5,7 @@
  * $Author::                   $: Author of last commit
  * $Date::                     $: Date of last commit
  */
-package bw.physicalObject.entityParts;
+package bw.physicalObjects.sensors;
 
 import java.awt.*;
 import java.util.HashMap;
