@@ -16,7 +16,7 @@ import sim.physics2D.PhysicsEngine2D;
 import sim.physics2D.physicalObject.PhysicalObject2D;
 import sim.physics2D.util.Angle;
 import sim.physics2D.util.Double2D;
-import sim.util.*;
+import sim.util.Bag;
 
 import bw.clsEntity;
 import bw.body.io.clsBaseIO;
