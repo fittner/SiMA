@@ -5,7 +5,7 @@
  * $Author::                   $: Author of last commit
  * $Date::                     $: Date of last commit
  */
-package bw.body.brain;
+package bw.body.motionplatform;
 
 import bw.utils.enums.eActionCommandType;
 

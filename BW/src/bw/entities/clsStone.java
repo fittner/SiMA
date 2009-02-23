@@ -5,14 +5,13 @@
  * $Author::                   $: Author of last commit
  * $Date::                     $: Date of last commit
  */
-package bw.physicalObject.inanimate.mobile;
+package bw.entities;
 
 import java.awt.Color;
 import java.io.IOException;
 import java.util.ArrayList;
 
 import bw.body.motionplatform.clsBrainAction;
-import bw.physicalObject.inanimate.clsInanimate;
 import bw.sim.clsBWMain;
 import bw.utils.enums.eEntityType;
 

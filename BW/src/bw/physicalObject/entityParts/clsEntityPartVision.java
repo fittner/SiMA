@@ -12,7 +12,7 @@ import java.util.HashMap;
 
 import ARSsim.physics2D.shape.clsCircleBorder;
 import bw.clsEntity;
-import bw.physicalObject.inanimate.mobile.clsMobile;
+import bw.entities.clsMobile;
 import bw.sim.clsBWMain;
 
 import sim.engine.*;

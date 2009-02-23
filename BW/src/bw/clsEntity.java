@@ -14,7 +14,7 @@ import sim.physics2D.shape.Shape;
 import ARSsim.physics2D.physicalObject.itfSetupFunctions;
 import bw.actionresponses.clsDefaultEntityActionResponse;
 import bw.actionresponses.clsEntityActionResponses;
-import bw.body.brain.clsBrainAction;
+import bw.body.motionplatform.clsBrainAction;
 import bw.utils.enums.eEntityType;
 
 

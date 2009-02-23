@@ -16,11 +16,11 @@ import sim.physics2D.PhysicsEngine2D;
 import sim.physics2D.util.*;
 
 import ARSsim.physics2D.physicalObject.clsMobileObject2D;
-import bw.physicalObject.animate.clsBot;
-import bw.physicalObject.animate.clsBubble;
-import bw.physicalObject.animate.clsRemoteBot;
+import bw.entities.clsBot;
+import bw.entities.clsBubble;
+import bw.entities.clsCan;
+import bw.entities.clsRemoteBot;
 import bw.physicalObject.entityParts.clsBotHands;
-import bw.physicalObject.inanimate.mobile.clsCan;
 
 import bw.physicalObject.animate.*;
 

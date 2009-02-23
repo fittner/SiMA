@@ -5,7 +5,7 @@
  * $Author::                   $: Author of last commit
  * $Date::                     $: Date of last commit
  */
-package bw.physicalObject.animate;
+package bw.entities;
 
 import java.awt.Color;
 import java.util.ArrayList;
@@ -13,7 +13,6 @@ import java.util.ArrayList;
 import bw.body.motionplatform.clsBrainAction;
 import bw.utils.enums.eEntityType;
 import sim.physics2D.util.Double2D;
-import tstBw.*;
 
 /**
  * TODO (langr) - insert description 
@@ -21,14 +20,14 @@ import tstBw.*;
  * @author langr
  * 
  */
-public class clsAnimal extends clsAnimate{
+public class clsPlant extends clsAnimate{
 
 	/**
 	 * @param poStartingPosition
 	 * @param poStartingVelocity
 	 * @param pnId
 	 */
-	public clsAnimal(Double2D poStartingPosition, Double2D poStartingVelocity,
+	public clsPlant(Double2D poStartingPosition, Double2D poStartingVelocity,
 			int pnId) {
 		super(poStartingPosition, poStartingVelocity, new sim.physics2D.shape.Circle(10, Color.CYAN), pnId);
 		// TODO Auto-generated constructor stub
@@ -37,15 +36,14 @@ public class clsAnimal extends clsAnimate{
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = 3232421713639035079L;
+	private static final long serialVersionUID = 7055381541963741660L;
 
 	/* (non-Javadoc)
 	 * @see bw.clsEntity#getEntityType()
 	 */
 	@Override
 	public eEntityType getEntityType() {
-		// TODO Auto-generated method stub
-		return eEntityType.ANIMAL;
+		return eEntityType.PLANT;
 	}
 
 	/* (non-Javadoc)
@@ -83,4 +81,5 @@ public class clsAnimal extends clsAnimate{
 		// TODO Auto-generated method stub
 		
 	}
+
 }

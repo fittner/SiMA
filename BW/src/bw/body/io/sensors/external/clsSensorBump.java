@@ -12,7 +12,7 @@ import ARSsim.physics2D.physicalObject.clsCollidingObject;
 import ARSsim.physics2D.physicalObject.clsMobileObject2D;
 import bw.clsEntity;
 import bw.body.io.clsBaseIO;
-import bw.physicalObject.animate.clsAnimate;
+import bw.entities.clsAnimate;
 import bw.utils.enums.eBodyParts;
 import bw.utils.enums.partclass.clsPartSensorBump;
 

@@ -8,8 +8,8 @@
 package bw.sim.bwgenerator;
 
 import ARSsim.physics2D.physicalObject.clsMobileObject2D;
-import bw.physicalObject.inanimate.mobile.clsCan;
-import bw.physicalObject.inanimate.mobile.clsStone;
+import bw.entities.clsCan;
+import bw.entities.clsStone;
 import sim.engine.SimState;
 import sim.field.continuous.Continuous2D;
 import sim.physics2D.PhysicsEngine2D;

@@ -12,7 +12,7 @@ import java.util.Iterator;
 
 import ARSsim.physics2D.shape.clsCircleBorder;
 import bw.sim.clsBWMain;
-import bw.physicalObject.animate.clsAnimate;
+import bw.entities.clsAnimate;
 
 import sim.engine.*;
 import sim.physics2D.PhysicsEngine2D;

@@ -5,10 +5,9 @@
  * $Author::                   $: Author of last commit
  * $Date::                     $: Date of last commit
  */
-package ARSsim.motionplatform;
+package bw.body.motionplatform;
 
 import sim.physics2D.util.Angle;
-import bw.body.brain.clsBrainAction;
 import bw.utils.enums.eActionCommandMotion;
 import bw.utils.enums.eActionCommandType;
 

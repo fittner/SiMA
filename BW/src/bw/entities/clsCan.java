@@ -5,7 +5,7 @@
  * $Author::                   $: Author of last commit
  * $Date::                     $: Date of last commit
  */
-package bw.physicalObject.inanimate.mobile;
+package bw.entities;
 
 import java.awt.*;
 import java.util.ArrayList;
@@ -14,7 +14,6 @@ import sim.engine.*;
 import sim.physics2D.util.*;
 import ARSsim.physics2D.physicalObject.clsMobileObject2D;
 import bw.body.motionplatform.clsBrainAction;
-import bw.physicalObject.inanimate.clsInanimate;
 import bw.sim.clsBWMain;
 import bw.utils.enums.eEntityType;
 

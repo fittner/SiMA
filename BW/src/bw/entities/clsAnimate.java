@@ -5,7 +5,7 @@
  * $Author::                   $: Author of last commit
  * $Date::                     $: Date of last commit
  */
-package bw.physicalObject.animate;
+package bw.entities;
 
 import java.awt.Color;
 
@@ -22,7 +22,6 @@ import tstBw.body.*;
 import bw.clsEntity;
 import bw.body.clsAgentBody;
 import ARSsim.motionplatform.clsMotionPlatform;
-import bw.physicalObject.inanimate.mobile.clsMobile;
 import bw.sim.clsBWMain;
 
 

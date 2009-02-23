@@ -20,9 +20,9 @@ import sim.util.*;
 
 import bw.clsEntity;
 import bw.body.io.clsBaseIO;
+import bw.entities.clsMobile;
 import bw.factories.clsSingletonMasonGetter;
 import bw.physicalObject.entityParts.clsEntityPartVision;
-import bw.physicalObject.inanimate.mobile.clsMobile;
 import bw.utils.enums.eBodyParts;
 
 /**

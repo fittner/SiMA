@@ -5,7 +5,7 @@
  * $Author::                   $: Author of last commit
  * $Date::                     $: Date of last commit
  */
-package bw.physicalObject.animate;
+package bw.entities;
 
 import java.awt.Color;
 import java.util.ArrayList;

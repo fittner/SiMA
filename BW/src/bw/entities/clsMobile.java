@@ -5,7 +5,7 @@
  * $Author::                   $: Author of last commit
  * $Date::                     $: Date of last commit
  */
-package bw.physicalObject.inanimate.mobile;
+package bw.entities;
 
 import sim.physics2D.shape.Shape;
 import sim.physics2D.util.Angle;

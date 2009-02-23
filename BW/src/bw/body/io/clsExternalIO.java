@@ -13,7 +13,7 @@ import bw.clsEntity;
 import bw.body.clsAgentBody;
 import bw.body.io.actuators.external.*;
 import bw.body.io.sensors.external.*;
-import bw.physicalObject.animate.clsAnimate;
+import bw.entities.clsAnimate;
 
 /**
  * TODO (langr) - insert description 

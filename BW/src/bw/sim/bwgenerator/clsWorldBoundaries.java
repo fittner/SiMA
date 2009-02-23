@@ -14,7 +14,7 @@ import sim.field.continuous.Continuous2D;
 import sim.physics2D.PhysicsEngine2D;
 import sim.physics2D.util.*;
 import ARSsim.portrayal.simple.clsImagePortrayal;
-import bw.physicalObject.inanimate.mobile.clsStone;
+import bw.entities.clsStone;
 import bw.physicalObject.inanimate.stationary.*;
 
 /**
@@ -27,18 +27,22 @@ public class clsWorldBoundaries {
 
 	public static void loadWorldBoundaries(Continuous2D poFieldEnvironment, PhysicsEngine2D poObjPE, SimState poSimState){
 		Double2D moPos;
-		clsWallPhysics moWall;
+		clsWall moWall;
 		
         // HORIZ
         moPos = new Double2D(100,0);
-        moWall = new clsWallPhysics(moPos, 193, 6);
+        
+        /*
+         * FIXME: CLEMENS - REIMPLEMENT PLEASE!!!!
+        moWall = new clsWall(moPos, 193, 6);
         //poFieldEnvironment.setObjectLocation(wall, new sim.util.Double2D(pos.x, pos.y));
         poObjPE.register(moWall);
         clsImagePortrayal imgPortrayal = new clsImagePortrayal();
         imgPortrayal.PlaceImage("S:/ARS/PA/BWv1/BW/src/resources/images/wall1.jpg", 8, new sim.util.Double2D(moPos.x, moPos.y), poFieldEnvironment);
  
+         	
         moPos = new Double2D(100,200);
-        moWall = new clsWallPhysics(moPos, 193, 6);
+        moWall = new clsWall(moPos, 193, 6);
         //poFieldEnvironment.setObjectLocation(wall, new sim.util.Double2D(pos.x, pos.y));
         poObjPE.register(moWall);
         imgPortrayal = new clsImagePortrayal();
@@ -46,19 +50,19 @@ public class clsWorldBoundaries {
                 
         // VERT
         moPos = new Double2D(0,100);
-        moWall = new clsWallPhysics(moPos, 6, 200);
+        moWall = new clsWall(moPos, 6, 200);
         //poFieldEnvironment.setObjectLocation(wall, new sim.util.Double2D(pos.x, pos.y));
         poObjPE.register(moWall);
         imgPortrayal = new clsImagePortrayal();
         imgPortrayal.PlaceImage("S:/ARS/PA/BWv1/BW/src/resources/images/wall2.jpg", 8, new sim.util.Double2D(moPos.x, moPos.y), poFieldEnvironment);
         
         moPos = new Double2D(200,100);
-        moWall = new clsWallPhysics(moPos, 6, 200);
+        moWall = new clsWall(moPos, 6, 200);
         //poFieldEnvironment.setObjectLocation(wall, new sim.util.Double2D(pos.x, pos.y));
         poObjPE.register(moWall);	
         imgPortrayal = new clsImagePortrayal();
         imgPortrayal.PlaceImage("S:/ARS/PA/BWv1/BW/src/resources/images/wall2.jpg", 8, new sim.util.Double2D(moPos.x, moPos.y), poFieldEnvironment);
-    
+    */
 	}
 	
 }

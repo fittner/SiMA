@@ -14,8 +14,8 @@ import sim.physics2D.util.Angle;
 import sim.physics2D.util.Double2D;
 import bw.clsEntity;
 import bw.body.io.clsBaseIO;
+import bw.entities.clsMobile;
 import bw.factories.clsSingletonMasonGetter;
-import bw.physicalObject.inanimate.mobile.clsMobile;
 import bw.utils.enums.eBodyParts;
 
 /**

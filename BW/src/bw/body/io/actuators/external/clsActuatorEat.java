@@ -10,8 +10,8 @@ package bw.body.io.actuators.external;
 
 import bw.actionresponses.clsEntityActionResponses;
 import bw.body.io.clsBaseIO;
+import bw.entities.clsAnimate;
 import bw.exceptions.*;
-import bw.physicalObject.animate.clsAnimate;
 import bw.utils.enums.eBodyParts;
 import bw.utils.tools.clsFood;
 
