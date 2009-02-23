@@ -20,7 +20,7 @@ import sim.physics2D.util.Double2D;
 import sim.portrayal.DrawInfo2D;
 import bw.actionresponses.clsBubbleResponses;
 import bw.body.itfStep;
-import bw.body.brain.clsBrainAction;
+import bw.body.motionplatform.clsBrainAction;
 import ARSsim.motionplatform.clsMotionPlatform;
 import ARSsim.physics2D.physicalObject.clsMobileObject2D;
 import bw.sim.clsBWMain;

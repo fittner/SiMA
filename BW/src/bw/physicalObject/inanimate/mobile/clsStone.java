@@ -11,7 +11,7 @@ import java.awt.Color;
 import java.io.IOException;
 import java.util.ArrayList;
 
-import bw.body.brain.clsBrainAction;
+import bw.body.motionplatform.clsBrainAction;
 import bw.physicalObject.inanimate.clsInanimate;
 import bw.sim.clsBWMain;
 import bw.utils.enums.eEntityType;

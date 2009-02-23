@@ -10,7 +10,7 @@ package bw.physicalObject.animate;
 import java.awt.Color;
 import java.util.ArrayList;
 
-import bw.body.brain.clsBrainAction;
+import bw.body.motionplatform.clsBrainAction;
 import bw.utils.enums.eEntityType;
 import sim.physics2D.util.Double2D;
 
