@@ -19,6 +19,8 @@ import java.awt.Container;
 import java.awt.Dimension;
 import org.jfree.chart.ChartPanel;
 
+import bw.utils.visualization.clsCharts;
+
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
