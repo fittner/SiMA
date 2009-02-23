@@ -21,7 +21,7 @@ import bw.entities.clsBubble;
 import bw.entities.clsCan;
 import bw.entities.clsRemoteBot;
 
-import bw.physicalObject.animate.*;
+
 import bw.physicalObjects.bodyparts.clsBotHands;
 
 /**

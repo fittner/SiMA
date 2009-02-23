@@ -16,7 +16,7 @@ import sim.physics2D.util.*;
 import ARSsim.portrayal.simple.clsImagePortrayal;
 import bw.entities.clsStone;
 import bw.entities.clsWall;
-import bw.physicalObject.inanimate.stationary.*;
+
 
 /**
  * Helper class to load the boundaries of the playground (walls for collisionhandler) 
