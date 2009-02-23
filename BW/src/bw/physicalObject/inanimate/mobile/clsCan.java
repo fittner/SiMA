@@ -13,7 +13,7 @@ import java.util.ArrayList;
 import sim.engine.*;
 import sim.physics2D.util.*;
 import ARSsim.physics2D.physicalObject.clsMobileObject2D;
-import ARSsim.robot2D.clsBrainAction;
+import bw.body.brain.clsBrainAction;
 import bw.physicalObject.inanimate.clsInanimate;
 import bw.sim.clsBWMain;
 import bw.utils.enums.eEntityType;

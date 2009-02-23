@@ -1,18 +1,14 @@
 package ARSsim.physics2D.shape;
 
-import sim.physics2D.shape.Circle;
 import sim.portrayal.*;
-import sun.java2d.pipe.NullPipe;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
-import java.awt.image.BufferedImageOp;
 import java.io.File;
 import java.io.IOException;
 
 import javax.imageio.ImageIO;
 
-import bw.exceptions.bwException;
 
 /**
  * Extension of the Physics Engine circle, showing a image instead

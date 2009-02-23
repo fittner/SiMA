@@ -5,7 +5,9 @@
  * $Author::                   $: Author of last commit
  * $Date::                     $: Date of last commit
  */
-package bw.body;
+package bw.body.brain;
+
+import bw.body.itfStep;
 
 /**
  * The brain is the container for the mind and has a direct connection to external and internal IO.

@@ -5,7 +5,7 @@
  * $Author::                   $: Author of last commit
  * $Date::                     $: Date of last commit
  */
-package ARSsim.robot2D;
+package bw.body.brain;
 
 import bw.utils.enums.eActionCommandType;
 

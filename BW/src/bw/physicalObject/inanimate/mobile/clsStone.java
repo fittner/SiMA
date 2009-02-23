@@ -11,6 +11,7 @@ import java.awt.Color;
 import java.io.IOException;
 import java.util.ArrayList;
 
+import bw.body.brain.clsBrainAction;
 import bw.physicalObject.inanimate.clsInanimate;
 import bw.sim.clsBWMain;
 import bw.utils.enums.eEntityType;
@@ -21,7 +22,6 @@ import sim.physics2D.physicalObject.MobileObject2D;
 import sim.physics2D.util.Angle;
 import sim.physics2D.util.Double2D;
 import ARSsim.physics2D.physicalObject.clsMobileObject2D;
-import ARSsim.robot2D.clsBrainAction;
 
 /**
  * Mason representative (physics+renderOnScreen) for a stone.  

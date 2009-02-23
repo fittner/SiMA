@@ -7,12 +7,12 @@ import java.awt.*;
 /** The Circle class is used by a circular physical object to store the attributes
  * of its appearance and size
  */
-public class CircleBorder extends Circle
+public class clsCircleBorder extends Circle
     {
     
 	double radius; 
 		
-	public CircleBorder(double radius, Paint paint)
+	public clsCircleBorder(double radius, Paint paint)
     {
 		super(radius, paint);
 		this.radius = radius; 

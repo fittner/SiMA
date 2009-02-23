@@ -12,7 +12,7 @@ import java.awt.Color;
 import sim.physics2D.physicalObject.MobileObject2D;
 import sim.physics2D.util.Angle;
 import sim.physics2D.util.Double2D;
-import ARSsim.robot2D.clsMotionPlatform;
+import ARSsim.motionplatform.clsMotionPlatform;
 import bw.clsEntity;
 import bw.body.clsAgentBody;
 import bw.physicalObject.inanimate.mobile.clsMobile;

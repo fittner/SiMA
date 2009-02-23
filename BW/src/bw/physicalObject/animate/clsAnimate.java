@@ -21,7 +21,7 @@ import sim.portrayal.DrawInfo2D;
 import tstBw.body.*;
 import bw.clsEntity;
 import bw.body.clsAgentBody;
-import ARSsim.robot2D.clsMotionPlatform;
+import ARSsim.motionplatform.clsMotionPlatform;
 import bw.physicalObject.inanimate.mobile.clsMobile;
 import bw.sim.clsBWMain;
 

@@ -10,7 +10,7 @@ package bw.physicalObject.entityParts;
 import java.awt.*;
 import java.util.Iterator;
 
-import ARSsim.physics2D.shape.CircleBorder;
+import ARSsim.physics2D.shape.clsCircleBorder;
 import bw.sim.clsBWMain;
 import bw.physicalObject.animate.clsAnimate;
 
@@ -48,7 +48,7 @@ public class clsEntityVision extends MobileObject2D implements Steppable{
 	private Bag meCollidingObj;
 	private Bag meVisionObj;
 	private Paint moColor;
-	private CircleBorder moShape;
+	private clsCircleBorder moShape;
 		
 	public clsEntityVision(Double2D poPos,  double pnRad)
     {    	
@@ -56,7 +56,7 @@ public class clsEntityVision extends MobileObject2D implements Steppable{
 	 meVisionObj = new Bag();
 	 moColor = Color.yellow;
 	 mnRadius = pnRad; 
-	 moShape = new CircleBorder(mnRadius, moColor);
+	 moShape = new clsCircleBorder(mnRadius, moColor);
 	 
 	 this.setPose(poPos, new Angle(0));
      this.setShape(moShape, MASS);

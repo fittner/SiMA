@@ -10,7 +10,7 @@ package bw.physicalObject.entityParts;
 import java.awt.*;
 import java.util.HashMap;
 
-import ARSsim.physics2D.shape.CircleBorder;
+import ARSsim.physics2D.shape.clsCircleBorder;
 import bw.clsEntity;
 import bw.physicalObject.inanimate.mobile.clsMobile;
 import bw.sim.clsBWMain;
@@ -45,7 +45,7 @@ public class clsEntityPartVision extends MobileObject2D implements Steppable{
 	private Bag meUnFilteredObj;
 	private HashMap<Integer, PhysicalObject2D> meVisionObj; 
 	private Paint moColor;
-	private CircleBorder moShape;
+	private clsCircleBorder moShape;
 	private clsEntity moEntity;
 			
 	/**
@@ -59,7 +59,7 @@ public class clsEntityPartVision extends MobileObject2D implements Steppable{
 	 meUnFilteredObj = new Bag();
 	 meVisionObj = new HashMap<Integer, PhysicalObject2D>(); 
 	 moColor = Color.yellow;
-	 moShape = new CircleBorder(mnRadius, moColor);
+	 moShape = new clsCircleBorder(mnRadius, moColor);
 	 moEntity = poEntity; 
 	 
 		try
@@ -178,7 +178,7 @@ public class clsEntityPartVision extends MobileObject2D implements Steppable{
 	/**
 	 * @return the moShape
 	 */
-	public CircleBorder getMoShape() {
+	public clsCircleBorder getMoShape() {
 		return moShape;
 	}
 
@@ -186,7 +186,7 @@ public class clsEntityPartVision extends MobileObject2D implements Steppable{
 	/**
 	 * @param moShape the moShape to set
 	 */
-	public void setMoShape(CircleBorder poShape) {
+	public void setMoShape(clsCircleBorder poShape) {
 		this.moShape = poShape;
 	}
 	/**

@@ -9,10 +9,10 @@ package bw.body;
 
 
 import bw.clsEntity;
+import bw.body.brain.clsBrain;
 import bw.body.interBodyWorldSystems.clsInterBodyWorldSystem;
 import bw.body.internalSystems.clsInternalSystem;
 import bw.body.intraBodySystems.clsIntraBodySystem;
-import bw.body.clsBrain;
 import bw.body.io.clsExternalIO;
 import bw.body.io.clsInternalIO;
 

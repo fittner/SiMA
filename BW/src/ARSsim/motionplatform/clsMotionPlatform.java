@@ -1,4 +1,4 @@
-package ARSsim.robot2D;
+package ARSsim.motionplatform;
 
 import sim.physics2D.physicalObject.MobileObject2D;
 import sim.util.matrix.DenseMatrix;

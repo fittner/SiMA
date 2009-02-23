@@ -12,9 +12,9 @@ import java.util.ArrayList;
 import sim.physics2D.physicalObject.PhysicalObject2D;
 import sim.physics2D.shape.Shape;
 import ARSsim.physics2D.physicalObject.itfSetupFunctions;
-import ARSsim.robot2D.clsBrainAction;
 import bw.actionresponses.clsDefaultEntityActionResponse;
 import bw.actionresponses.clsEntityActionResponses;
+import bw.body.brain.clsBrainAction;
 import bw.utils.enums.eEntityType;
 
 
