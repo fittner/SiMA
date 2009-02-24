@@ -58,7 +58,7 @@ public class clsStationaryObject2D extends sim.physics2D.physicalObject.Stationa
 	@Override
 	public void setShape(Shape poShape, double poMass) {
 		// TODO Why is there no setShape - corresponding to clsMobileObject2D. Adopt it!
-		
+		this.setShape(poShape);
 	}
 
 	/* (non-Javadoc)

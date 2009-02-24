@@ -8,16 +8,10 @@
 package bw.entities;
 
 import java.awt.Color;
-import java.io.IOException;
 import java.util.ArrayList;
 
 import bw.body.motionplatform.clsBrainAction;
-import bw.sim.clsBWMain;
-import bw.utils.enums.eEntityType;
 
-import sim.engine.SimState;
-import sim.engine.Steppable;
-import sim.physics2D.physicalObject.MobileObject2D;
 import sim.physics2D.util.Angle;
 import sim.physics2D.util.Double2D;
 import ARSsim.physics2D.physicalObject.clsMobileObject2D;

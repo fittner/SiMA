@@ -33,37 +33,34 @@ public class clsWorldBoundaries {
         // HORIZ
         moPos = new Double2D(100,0);
         
-        /*
-         * FIXME: CLEMENS - REIMPLEMENT PLEASE!!!!
-        moWall = new clsWall(moPos, 193, 6);
+        moWall = new clsWall(moPos, 193, 6, 1);
         //poFieldEnvironment.setObjectLocation(wall, new sim.util.Double2D(pos.x, pos.y));
-        poObjPE.register(moWall);
+        //poObjPE.register(moWall);
         clsImagePortrayal imgPortrayal = new clsImagePortrayal();
         imgPortrayal.PlaceImage("S:/ARS/PA/BWv1/BW/src/resources/images/wall1.jpg", 8, new sim.util.Double2D(moPos.x, moPos.y), poFieldEnvironment);
  
          	
         moPos = new Double2D(100,200);
-        moWall = new clsWall(moPos, 193, 6);
+        moWall = new clsWall(moPos, 193, 6, 2);
         //poFieldEnvironment.setObjectLocation(wall, new sim.util.Double2D(pos.x, pos.y));
-        poObjPE.register(moWall);
+        //poObjPE.register(moWall);
         imgPortrayal = new clsImagePortrayal();
         imgPortrayal.PlaceImage("S:/ARS/PA/BWv1/BW/src/resources/images/wall1.jpg", 8, new sim.util.Double2D(moPos.x, moPos.y), poFieldEnvironment);
                 
         // VERT
         moPos = new Double2D(0,100);
-        moWall = new clsWall(moPos, 6, 200);
+        moWall = new clsWall(moPos, 6, 200, 3);
         //poFieldEnvironment.setObjectLocation(wall, new sim.util.Double2D(pos.x, pos.y));
-        poObjPE.register(moWall);
+        //poObjPE.register(moWall);
         imgPortrayal = new clsImagePortrayal();
         imgPortrayal.PlaceImage("S:/ARS/PA/BWv1/BW/src/resources/images/wall2.jpg", 8, new sim.util.Double2D(moPos.x, moPos.y), poFieldEnvironment);
         
         moPos = new Double2D(200,100);
-        moWall = new clsWall(moPos, 6, 200);
+        moWall = new clsWall(moPos, 6, 200, 4);
         //poFieldEnvironment.setObjectLocation(wall, new sim.util.Double2D(pos.x, pos.y));
-        poObjPE.register(moWall);	
+        //poObjPE.register(moWall);	
         imgPortrayal = new clsImagePortrayal();
         imgPortrayal.PlaceImage("S:/ARS/PA/BWv1/BW/src/resources/images/wall2.jpg", 8, new sim.util.Double2D(moPos.x, moPos.y), poFieldEnvironment);
-    */
 	}
 	
 }

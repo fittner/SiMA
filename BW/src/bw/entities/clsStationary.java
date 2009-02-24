@@ -22,10 +22,9 @@ public abstract class clsStationary extends clsEntity {
 	/**
 	 * @return the moMobile
 	 */
-	public clsStationaryObject2D getMobile() {
+	public clsStationaryObject2D getStationary() {
 		return (clsStationaryObject2D)moPhysicalObject2D;
 	}
-
 	
 	/**
 	 * 
