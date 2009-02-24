@@ -4,7 +4,7 @@
 package ARSsim.physics2D.physicalObject;
 
 import sim.physics2D.shape.Shape;
-import bw.clsEntity;
+import bw.entities.clsEntity;
 import bw.factories.clsSingletonMasonGetter;
 
 /**

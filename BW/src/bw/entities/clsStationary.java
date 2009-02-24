@@ -8,7 +8,6 @@
 package bw.entities;
 
 import ARSsim.physics2D.physicalObject.clsStationaryObject2D;
-import bw.clsEntity;
 
 
 

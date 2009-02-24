@@ -8,8 +8,8 @@
 package bw.body.io.sensors.external;
 
 import sim.physics2D.util.Double2D;
-import bw.clsEntity;
 import bw.body.io.clsBaseIO;
+import bw.entities.clsEntity;
 import bw.utils.enums.eBodyParts;
 
 /**

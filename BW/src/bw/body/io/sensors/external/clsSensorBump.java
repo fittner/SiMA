@@ -10,9 +10,9 @@ package bw.body.io.sensors.external;
 import java.util.ArrayList;
 import ARSsim.physics2D.physicalObject.clsCollidingObject;
 import ARSsim.physics2D.physicalObject.clsMobileObject2D;
-import bw.clsEntity;
 import bw.body.io.clsBaseIO;
 import bw.entities.clsAnimate;
+import bw.entities.clsEntity;
 import bw.utils.enums.eBodyParts;
 import bw.utils.enums.partclass.clsPartSensorBump;
 

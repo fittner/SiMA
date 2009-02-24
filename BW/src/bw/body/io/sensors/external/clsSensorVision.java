@@ -18,8 +18,8 @@ import sim.physics2D.util.Angle;
 import sim.physics2D.util.Double2D;
 import sim.util.Bag;
 
-import bw.clsEntity;
 import bw.body.io.clsBaseIO;
+import bw.entities.clsEntity;
 import bw.entities.clsMobile;
 import bw.factories.clsSingletonMasonGetter;
 import bw.physicalObjects.sensors.clsEntityPartVision;

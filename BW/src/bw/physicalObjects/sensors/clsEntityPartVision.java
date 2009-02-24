@@ -21,7 +21,7 @@ import sim.portrayal.DrawInfo2D;
 import sim.util.Bag;
 
 import ARSsim.physics2D.shape.clsCircleBorder;
-import bw.clsEntity;
+import bw.entities.clsEntity;
 import bw.entities.clsMobile;
 import bw.sim.clsBWMain;
 

@@ -19,7 +19,6 @@ import sim.physics2D.util.Angle;
 import sim.physics2D.util.Double2D;
 import sim.portrayal.DrawInfo2D;
 import tstBw.body.*;
-import bw.clsEntity;
 import bw.body.clsAgentBody;
 import ARSsim.motionplatform.clsMotionPlatform;
 import bw.sim.clsBWMain;

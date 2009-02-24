@@ -9,11 +9,11 @@ package bw.body.io;
 
 import java.util.ArrayList;
 
-import bw.clsEntity;
 import bw.body.clsAgentBody;
 import bw.body.io.actuators.external.*;
 import bw.body.io.sensors.external.*;
 import bw.entities.clsAnimate;
+import bw.entities.clsEntity;
 
 /**
  * TODO (langr) - insert description 
