@@ -30,15 +30,11 @@ import bw.utils.enums.eActionCommandType;
  */
 public class clsMobileObject2D extends sim.physics2D.physicalObject.MobileObject2D implements Steppable, ForceGenerator, itfGetEntity, itfSetupFunctions {
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = -7732669244848952049L;
 	
 	private clsEntity moEntity;
 	public clsMotionPlatform moMotionPlatform;
 	public ArrayList<clsCollidingObject> moCollisionList;
-	
 	
 	public clsMobileObject2D(clsEntity poEntity)
 	{
@@ -47,20 +43,56 @@ public class clsMobileObject2D extends sim.physics2D.physicalObject.MobileObject
 		moCollisionList = new ArrayList<clsCollidingObject>();
 	}
 
+	/* (non-Javadoc)
+	 *
+	 * sets the position of the mobile object in the masons field-environment 
+	 *
+	 * @author langr
+	 * 25.02.2009, 13:38:18
+	 * 
+	 * @see ARSsim.physics2D.physicalObject.itfSetupFunctions#setPosition(sim.util.Double2D)
+	 */
 	public void setPosition(sim.util.Double2D poPosition) {
 		clsSingletonMasonGetter.getFieldEnvironment().setObjectLocation(this, poPosition);
 	}
 	
+	/* (non-Javadoc)
+	 *
+	 * sets the physical frictions of the object
+	 * 
+	 * friction = friction of the object with the background surface. 0 is no friction
+	 * staticFriction = static friction of the object with the background surface. 0 is no static friction
+	 * restitution = elasticity of an object - determines how much momentum is conserved when objects collide
+	 *
+	 * @author langr
+	 * 25.02.2009, 14:15:20
+	 * 
+	 * @see ARSsim.physics2D.physicalObject.itfSetupFunctions#setCoefficients(double, double, double)
+	 */
 	public void setCoefficients(double poFriction, double poStaticFriction, double poRestitution) {
 		setCoefficientOfFriction(poFriction);
 		setCoefficientOfStaticFriction(poStaticFriction);
 		setCoefficientOfRestitution(poRestitution);
 	}
 	
+	/* (non-Javadoc)
+	 *
+	 * This function registers mason's PhysicalObject2D in the
+	 * - mason physics engine
+	 * - mason framework to call the step-method
+	 * 
+	 * It is MANDATORY to call this function from outside (a clsMobile-Instance) after 
+	 * initializing with the itfSetupFunctions.
+	 *
+	 * @author langr
+	 * 25.02.2009, 14:22:58
+	 * 
+	 * @see ARSsim.physics2D.physicalObject.itfSetupFunctions#finalizeSetup()
+	 */
 	public void finalizeSetup()
 	{
 		clsSingletonMasonGetter.getPhysicsEngine2D().register(this);
-		clsSingletonMasonGetter.getSimState().schedule.scheduleRepeating(this);		
+		clsSingletonMasonGetter.getSimState().schedule.scheduleRepeating(this);
 	}
 	
 	/**
@@ -74,6 +106,16 @@ public class clsMobileObject2D extends sim.physics2D.physicalObject.MobileObject
 	}
 	
 	/* (non-Javadoc)
+	 * 
+	 * The step function, called by the mason framework for each registered object starts the 
+	 * perception and thinking cycle of the ARS-Entity with the calls:
+	 * - sensing
+	 * - thinking
+	 * 
+	 * The cycle is completed in the addForce, where the 
+	 * -execution
+	 * of the entity is called 
+	 * 
 	 * @see sim.engine.Steppable#step(sim.engine.SimState)
 	 */
 	@Override
@@ -88,14 +130,29 @@ public class clsMobileObject2D extends sim.physics2D.physicalObject.MobileObject
 	    
 	    // FIXME: clemens + roland - resetStepInfo should be called at the beginning of this function!
 		resetStepInfo();
-
 	}
+	
+	
+	/**
+	 * TODO (langr) - insert description
+	 *
+	 * local variables are reseted here
+	 *
+	 * @author langr
+	 * 25.02.2009, 14:51:43
+	 *
+	 */
 	public void resetStepInfo()
 	{
 		moCollisionList.clear();
 	}
 	
 	/* (non-Javadoc)
+	 * 
+	 * The cycle (sensing-thinking-executing) is completed here, where the 
+	 * -execution
+	 * of the entity is called
+	 * 
 	 * @see sim.physics2D.forceGenerator.ForceGenerator#addForce()
 	 */
 	@Override
@@ -116,6 +173,15 @@ public class clsMobileObject2D extends sim.physics2D.physicalObject.MobileObject
 		}
 	}
 	
+    /* (non-Javadoc)
+     *
+     * supports message handling for the mouse-doubleclick / inspectors
+     *
+     * @author langr
+     * 25.02.2009, 14:54:30
+     * 
+     * @see sim.portrayal.SimplePortrayal2D#hitObject(java.lang.Object, sim.portrayal.DrawInfo2D)
+     */
     public boolean hitObject(Object object, DrawInfo2D range)
     {
     	return true;
@@ -128,11 +194,11 @@ public class clsMobileObject2D extends sim.physics2D.physicalObject.MobileObject
         	moCollisionList.add(new clsCollidingObject(other, colPoint));
    		
     	}
-    	
-    	
-    	//return 1; // regular collision
+    	   	
     	//return 2; // sticky collision
-    	return 1; //happy guessing!
+    	//return 1; // regular collision
+    	//return 0; //happy guessing!
+    	return 1; 
 	}
     
     // ******************************   ******************************************
@@ -163,8 +229,6 @@ public class clsMobileObject2D extends sim.physics2D.physicalObject.MobileObject
     	
     	
     }
-    
-    
     
     public void dispatchMotion(clsBrainAction poCmd) throws Exception
     {
