@@ -57,7 +57,7 @@ public class clsCharts{
 		            //"% Population",                                          // the label for the X axis
 		            "Agent State",
 		            // % Wealththe label for the Y axis
-		            new XYSeriesCollection(moModel.moTestSeries),              // the dataset for the chart
+		            new XYSeriesCollection(moModel.getMoTestSeries()),              // the dataset for the chart
 		            PlotOrientation.VERTICAL,                             // the orientation of the chart
 		            true,                                                 // a flag specifying whether or not a legend is required
 		            true,                                                 // a flag specifying whether or not tooltips should be generated

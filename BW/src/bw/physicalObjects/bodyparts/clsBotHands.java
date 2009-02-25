@@ -12,6 +12,7 @@ import sim.engine.*;
 import sim.physics2D.physicalObject.*;
 import sim.physics2D.util.*;
 import tstBw.sim.*;
+import bw.factories.clsSingletonMasonGetter;
 import bw.sim.clsBWMain;
 
 /* Mason test implementation of Effectors. 
@@ -36,7 +37,6 @@ public class clsBotHands extends MobileObject2D implements Steppable
     public void step(SimState state)
         {
         Double2D position = this.getPosition();
-        clsBWMain simRobots = (clsBWMain)state;
-        simRobots.moGameGridField.setObjectLocation(this, new sim.util.Double2D(position.x, position.y));
+        clsSingletonMasonGetter.getFieldEnvironment().setObjectLocation(this, new sim.util.Double2D(position.x, position.y));
         }
     }

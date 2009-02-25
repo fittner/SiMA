@@ -23,6 +23,7 @@ import sim.util.Bag;
 import ARSsim.physics2D.shape.clsCircleBorder;
 import bw.entities.clsEntity;
 import bw.entities.clsMobile;
+import bw.factories.clsSingletonMasonGetter;
 import bw.sim.clsBWMain;
 
 /**
@@ -92,7 +93,7 @@ public class clsEntityPartVision extends MobileObject2D implements Steppable{
 		 Angle oEntityOrientation = ((clsMobile)moEntity).getMobile().getOrientation();
 		 
 	     this.setPose(oEntityPos, oEntityOrientation);
-		  ((clsBWMain)state).moGameGridField.setObjectLocation(this, new sim.util.Double2D(oEntityPos.x, oEntityPos.y));
+	     clsSingletonMasonGetter.getFieldEnvironment().setObjectLocation(this, new sim.util.Double2D(oEntityPos.x, oEntityPos.y));
 		 this.clearLists(); 
 	}
 	

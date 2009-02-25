@@ -19,6 +19,7 @@ import java.awt.Container;
 import java.awt.Dimension;
 import org.jfree.chart.ChartPanel;
 
+import bw.factories.clsSingletonMasonGetter;
 import bw.utils.visualization.clsCharts;
 
 import java.awt.event.KeyEvent;
@@ -34,27 +35,26 @@ public class clsBWMainWithUI extends GUIState{
 
 	/** GUI widget which holds some number of field portrayals and frames, 
 	 * usually layered on top of one another */
-	public Display2D moDisplay;
+	private Display2D moDisplay;
 	/** window to hold Main Display2D panel */
-	public JFrame moDisplayGamegridFrame;
+	private JFrame moDisplayGamegridFrame;
 	/** window to hold charting panel */
-	public JFrame moChartFrame;
+	private JFrame moChartFrame;
 	/** responsible for drawing fields and letting the user manipulate 
 	 * objects stored within them */
-	ContinuousPortrayal2D moGameGridPortrayal = new ContinuousPortrayal2D();
+	private ContinuousPortrayal2D moGameGridPortrayal = new ContinuousPortrayal2D();
 	/** holds all charts if charting is activated in startup */
-	public clsCharts moCharts = null;
+	private clsCharts moCharts = null;
 	
+	//CTORs
+	public clsBWMainWithUI() { super(new clsBWMain( System.currentTimeMillis())); }
+	public clsBWMainWithUI(SimState poState) { super(poState); }	
 	
 	public static void main(String[] poArgs){
 		//console is an elaborate GUI Controller. This is the standard way of starting the UI.
 		Console oConsole = new Console(new clsBWMainWithUI());
 		oConsole.setVisible(true);
 	}
-	
-	//CTORs
-	public clsBWMainWithUI() { super(new clsBWMain( System.currentTimeMillis())); }
-	public clsBWMainWithUI(SimState poState) { super(poState); }
 	
 	/** returns the title bar of the console
 	 * @return String
@@ -123,7 +123,7 @@ public class clsBWMainWithUI extends GUIState{
 		moDisplay.attach(moGameGridPortrayal, "BW GameGrid"); //attach the Portrayal to the Display2D to display it 
 		
 		//add the charting panel
-		if ( ((clsBWMain)state).mbChartDisplay) {
+		if ( ((clsBWMain)state).getmbChartDisplay()) {
 	        addChartPanel(poController,(clsBWMain)state);
 		}
 	}
@@ -160,7 +160,7 @@ public class clsBWMainWithUI extends GUIState{
 	public void setupPortrayals(){
 				
 		// tell the portrayals what to portray and how to portray them = connection between field and portrayal
-		moGameGridPortrayal.setField(((clsBWMain)state).moGameGridField);
+		moGameGridPortrayal.setField(clsSingletonMasonGetter.getFieldEnvironment());
 		
 		moDisplay.reset();
 //		

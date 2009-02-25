@@ -5,7 +5,7 @@
  * $Author::                   $: Author of last commit
  * $Date::                     $: Date of last commit
  */
-package bw.sim.bwgenerator;
+package bw.sim.creation.simpleLoader;
 
 import java.awt.Color;
 

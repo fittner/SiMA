@@ -126,7 +126,7 @@ public class clsMobileObject2D extends sim.physics2D.physicalObject.MobileObject
 		//with these 3, physics work!
 		Double2D position = this.getPosition();
 	    clsBWMain oMainSim = (clsBWMain)state;
-	    oMainSim.moGameGridField.setObjectLocation(this, new sim.util.Double2D(position.x, position.y));
+	    clsSingletonMasonGetter.getFieldEnvironment().setObjectLocation(this, new sim.util.Double2D(position.x, position.y));
 	    
 	    // FIXME: clemens + roland - resetStepInfo should be called at the beginning of this function!
 		resetStepInfo();
