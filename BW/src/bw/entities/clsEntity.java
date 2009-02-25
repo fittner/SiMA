@@ -125,8 +125,8 @@ public abstract class clsEntity {
 	}
 	
 	/**
-	 * the entities cycle for preception-deliberation-action
-	 * must be 
+	 * the entities cycle for perception-deliberation-action
+	 * MUST implement these functions
 	 *
 	 * @author langr
 	 * 25.02.2009, 15:12:12
