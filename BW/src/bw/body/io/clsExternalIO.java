@@ -45,6 +45,8 @@ public class clsExternalIO extends clsBaseIO {
 		moSensorExternal.add(new clsSensorBump(moEntity, this));
 		moSensorExternal.add(new clsSensorVision(moEntity, this));
 		
+		moSensorExternal.add(new clsSensorEatVision(moEntity, this));
+		
 		//initialization of actuators
 		moActuatorExternal.add(new clsActuatorEat((clsAnimate)moEntity, this));
 		
