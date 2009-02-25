@@ -43,13 +43,13 @@ public class clsStone extends clsInanimate {
 	 */
 	public clsStone(Double2D poPosition, Double2D poStartingVelocity, double pnRadius, double pnMass, int pnId)
     {
-		super(pnId);
+		super(poPosition, poStartingVelocity, new ARSsim.physics2D.shape.clsCircleImage(pnRadius, Color.darkGray, "S:/ARS/PA/BWv1/BW/src/resources/images/rock1.jpg"), pnMass, pnId);
 		visible = true;
-		
+		// FIXME refactor!
 		
 		// doing the initialize stuff myself so i can set the shape myself
 		
-		clsMobileObject2D oMobile = getMobile();
+		clsMobileObject2D oMobile = getMobileObject2D();
 		moPhysicalObject2D = oMobile;
 		
 		oMobile.setPose(poPosition, new Angle(0));
@@ -67,7 +67,7 @@ public class clsStone extends clsInanimate {
 		
 		setCoefficients(.2, 0, 1); //default coefficients
 		
-		oMobile.finalizeSetup();
+	//	oMobile.finalizeSetup();
     } 
 	
 

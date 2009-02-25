@@ -10,21 +10,19 @@ package bw.entities;
 import java.awt.*;
 import java.util.ArrayList;
 
-import sim.engine.*;
 import sim.physics2D.util.*;
 import ARSsim.physics2D.physicalObject.clsMobileObject2D;
 import bw.body.motionplatform.clsBrainAction;
-import bw.sim.clsBWMain;
 import bw.utils.enums.eEntityType;
 
 public class clsCan extends clsInanimate
     {
     public boolean visible;
     public clsCan(Double2D pos, Double2D vel, int pnId) {
-    	super(pos, vel,new sim.physics2D.shape.Circle(2, Color.blue), pnId);
+    	super(pos, vel,new sim.physics2D.shape.Circle(2, Color.blue), 80, pnId);
 
     	//FIXME... folgendes wird woanders gemacht, weg?
-    	clsMobileObject2D oMobile = getMobile();
+    	clsMobileObject2D oMobile = getMobileObject2D();
     	oMobile.setPose(pos, new Angle(0));
     	oMobile.setVelocity(vel);
     	oMobile.setShape(new sim.physics2D.shape.Circle(2, Color.blue), 80);

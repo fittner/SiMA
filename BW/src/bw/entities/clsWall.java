@@ -13,7 +13,6 @@ import java.util.ArrayList;
 import sim.physics2D.util.Angle;
 import sim.physics2D.util.Double2D;
 
-import ARSsim.physics2D.physicalObject.clsMobileObject2D;
 import ARSsim.physics2D.physicalObject.clsStationaryObject2D;
 import bw.body.motionplatform.clsBrainAction;
 
@@ -36,7 +35,7 @@ public class clsWall extends clsStationary
 		
 		// doing the initialize stuff myself so i can set the shape myself
 		
-		clsStationaryObject2D oStat = getStationary();
+		clsStationaryObject2D oStat = getStationaryObject2D();
 		moPhysicalObject2D = oStat;
 		
 		oStat.setPose(poPosition, new Angle(0));

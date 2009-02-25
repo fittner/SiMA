@@ -7,13 +7,8 @@
  */
 package bw.entities;
 
-import java.awt.Color;
-
-import sim.physics2D.physicalObject.MobileObject2D;
-import sim.physics2D.util.Angle;
+import sim.physics2D.shape.Shape;
 import sim.physics2D.util.Double2D;
-import ARSsim.motionplatform.clsMotionPlatform;
-import bw.body.clsAgentBody;
 
 
 /**
@@ -25,31 +20,22 @@ import bw.body.clsAgentBody;
 public abstract class clsInanimate extends clsMobile {
 
 	/**
+	 * TODO (deutsch) - insert description 
 	 * 
-	 */
-	private static final long serialVersionUID = 8003531210919357291L;
-	private int mnId;
-	
-	public int getId() {	return mnId;	}
-	public void setId(int pnId) {		this.mnId = pnId;	}
-	
-	/**
-	 * Whe u use this constructor use caution!!!!
-	 * u need to implement the things from clsMobileObject2D yourself
-	 */
-	public clsInanimate(int pnId){
-		super();
-		mnId = pnId;
-	}
-
-	/**
-	 * @param poStartingPosition
-	 * @param poStartingVelocity
+	 * @author deutsch
+	 * 25.02.2009, 17:27:06
+	 *
+	 * @param pos
+	 * @param vel
+	 * @param circle
 	 * @param pnId
 	 */
-	public clsInanimate(Double2D poStartingPosition, Double2D poStartingVelocity, sim.physics2D.shape.Shape poShape,  int pnId) {
-		super(poStartingPosition, poStartingVelocity, poShape, 300);
-
+	public clsInanimate(Double2D poStartingPosition, Double2D poStartingVelocity, Shape poShape, double poMass, int pnId) {
+		super(poStartingPosition, poStartingVelocity, poShape, poMass, pnId);
+		// TODO Auto-generated constructor stub
 	}
+
+
+
 	
 }

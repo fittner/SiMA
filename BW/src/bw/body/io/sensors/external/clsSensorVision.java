@@ -62,8 +62,8 @@ public class clsSensorVision extends clsSensorExt
 	 * @param poEntity
 	 */
 	private void regVisionObj(clsEntity poEntity)	{
-		Double2D oEntityPos = ((clsMobile)poEntity).getMobile().getPosition(); 
-		Angle oEntityOrientation = ((clsMobile)poEntity).getMobile().getOrientation(); 
+		Double2D oEntityPos = ((clsMobile)poEntity).getMobileObject2D().getPosition(); 
+		Angle oEntityOrientation = ((clsMobile)poEntity).getMobileObject2D().getOrientation(); 
 		
 		PhysicsEngine2D oPhyEn2D = clsSingletonMasonGetter.getPhysicsEngine2D();
 		Continuous2D oFieldEnvironment = clsSingletonMasonGetter.getFieldEnvironment();
@@ -73,7 +73,7 @@ public class clsSensorVision extends clsSensorExt
 		{
 			moVisionArea.setPose(oEntityPos, oEntityOrientation);
 			oPhyEn2D.register(moVisionArea);
-			oPhyEn2D.setNoCollisions(moVisionArea,((clsMobile)poEntity).getMobile());
+			oPhyEn2D.setNoCollisions(moVisionArea,((clsMobile)poEntity).getMobileObject2D());
 			oFieldEnvironment.setObjectLocation(moVisionArea, new sim.util.Double2D(oEntityPos.x, oEntityPos.y));
 	        oSimState.schedule.scheduleRepeating(moVisionArea);
 		}

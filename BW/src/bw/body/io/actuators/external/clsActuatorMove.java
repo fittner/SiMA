@@ -131,10 +131,10 @@ public class clsActuatorMove extends clsActuatorExt implements itfActuatorUpdate
     	switch( oMotion.getMotionType() )
     	{
     	case MOVE_FORWARD:
-    		((clsMobile)moEntity).getMobile().moMotionPlatform.moveForward(4.0);
+    		((clsMobile)moEntity).getMobileObject2D().moMotionPlatform.moveForward(4.0);
     		break;
     	case MOVE_BACKWARD:
-    		((clsMobile)moEntity).getMobile().moMotionPlatform.backup();
+    		((clsMobile)moEntity).getMobileObject2D().moMotionPlatform.backup();
     		break;
     	case MOVE_DIRECTION:
     		throw new Exception("clsMobileObject2D:dispatchMotion - MOVE_DIRECTION not yet implemented");
@@ -146,13 +146,13 @@ public class clsActuatorMove extends clsActuatorExt implements itfActuatorUpdate
     		throw new Exception("clsMobileObject2D:dispatchMotion - MOVE_RIGHT not yet implemented");
     		//break;
     	case ROTATE_LEFT:
-    		((clsMobile)moEntity).getMobile().moMotionPlatform.faceTowardsRelative(new Angle(-1));
+    		((clsMobile)moEntity).getMobileObject2D().moMotionPlatform.faceTowardsRelative(new Angle(-1));
     		break;
     	case ROTATE_RIGHT:
-    		((clsMobile)moEntity).getMobile().moMotionPlatform.faceTowardsRelative(new Angle(1));
+    		((clsMobile)moEntity).getMobileObject2D().moMotionPlatform.faceTowardsRelative(new Angle(1));
     		break;
     	case RUN_FORWARD:
-    		((clsMobile)moEntity).getMobile().moMotionPlatform.moveForward(12.0);
+    		((clsMobile)moEntity).getMobileObject2D().moMotionPlatform.moveForward(12.0);
     		break;
     	case JUMP:
     		throw new Exception("clsMobileObject2D:dispatchMotion - JUMP not yet implemented");

@@ -7,6 +7,7 @@
  */
 package bw.entities;
 
+import sim.physics2D.util.Double2D;
 import ARSsim.physics2D.physicalObject.clsStationaryObject2D;
 
 
@@ -19,13 +20,7 @@ import ARSsim.physics2D.physicalObject.clsStationaryObject2D;
  */
 public abstract class clsStationary extends clsEntity {
 
-	/**
-	 * @return the moMobile
-	 */
-	public clsStationaryObject2D getStationary() {
-		return (clsStationaryObject2D)moPhysicalObject2D;
-	}
-	
+
 	/**
 	 * 
 	 */
@@ -35,4 +30,16 @@ public abstract class clsStationary extends clsEntity {
 		moPhysicalObject2D = new clsStationaryObject2D(this);
 		//TODO: register irgendwie
 	}
+	
+	/**
+	 * @return the moMobile
+	 */
+	public clsStationaryObject2D getStationaryObject2D() {
+		return (clsStationaryObject2D)moPhysicalObject2D;
+	}
+	
+	
+	public Double2D getPosition() {
+		return getStationaryObject2D().getPosition();
+	}	
 }

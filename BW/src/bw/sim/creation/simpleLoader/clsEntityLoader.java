@@ -14,7 +14,6 @@ import sim.engine.SimState;
 import sim.field.continuous.Continuous2D;
 import sim.physics2D.PhysicsEngine2D;
 import sim.physics2D.util.Double2D;
-import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 /**
  * The object loader handles the registration of new animate & inanimate objects in the physics engine 
@@ -79,13 +78,16 @@ public class clsEntityLoader {
 public static void loadCans(Continuous2D poFieldEnvironment, PhysicsEngine2D poObjPE, SimState poSimState, int pnNumCans){
 		
 		Double2D pos;
+		double xMin = 0;
 		double xMax = poFieldEnvironment.getHeight();
+		double yMin = 0;
 		double yMax = poFieldEnvironment.getWidth();
 		 
         for (int i = 0; i < pnNumCans; i++)
         {
 	        double x = Math.max(Math.min(poSimState.random.nextDouble() * xMax, xMax - 10), 10);
 	        double y = Math.max(Math.min(poSimState.random.nextDouble() * yMax, yMax - 10), 60);
+	                    
 	        pos = new Double2D(x, y);
 	        clsCan can = new clsCan(pos, new Double2D(0, 0), i);
         }

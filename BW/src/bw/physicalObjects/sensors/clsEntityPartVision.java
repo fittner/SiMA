@@ -89,8 +89,8 @@ public class clsEntityPartVision extends MobileObject2D implements Steppable{
 	 * @see sim.engine.Steppable#step(sim.engine.SimState)
 	 */
 	public void step(SimState state){
-		 Double2D oEntityPos = ((clsMobile)moEntity).getMobile().getPosition();
-		 Angle oEntityOrientation = ((clsMobile)moEntity).getMobile().getOrientation();
+		 Double2D oEntityPos = ((clsMobile)moEntity).getMobileObject2D().getPosition();
+		 Angle oEntityOrientation = ((clsMobile)moEntity).getMobileObject2D().getOrientation();
 		 
 	     this.setPose(oEntityPos, oEntityOrientation);
 	     clsSingletonMasonGetter.getFieldEnvironment().setObjectLocation(this, new sim.util.Double2D(oEntityPos.x, oEntityPos.y));

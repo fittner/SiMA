@@ -15,10 +15,7 @@ import sim.physics2D.constraint.*;
 import sim.physics2D.PhysicsEngine2D;
 import sim.physics2D.util.*;
 
-import ARSsim.physics2D.physicalObject.clsMobileObject2D;
-import bw.entities.clsBot;
 import bw.entities.clsBubble;
-import bw.entities.clsCan;
 import bw.entities.clsRemoteBot;
 
 
@@ -101,13 +98,13 @@ public class clsAgentLoader {
         poSimState.schedule.scheduleRepeating(effector);
         bot.e1 = effector;
                     
-        poObjPE.setNoCollisions(bot.getMobile(), effector);
+        poObjPE.setNoCollisions(bot.getMobileObject2D(), effector);
         //objPE.setNoCollisions(bot, landscape);
                     
         //fa.AddPhysicalObject(effector);
         //npm.AddPhysicalObject(bot);
                     
-        PinJoint pj = new PinJoint(pos, effector, bot.getMobile());
+        PinJoint pj = new PinJoint(pos, effector, bot.getMobileObject2D());
         //fa.AddPhysicalObject(bot);
             
         poObjPE.register(pj);
@@ -121,9 +118,9 @@ public class clsAgentLoader {
         poSimState.schedule.scheduleRepeating(effector);
         bot.e2 = effector;
                     
-        poObjPE.setNoCollisions(bot.getMobile(), effector);
+        poObjPE.setNoCollisions(bot.getMobileObject2D(), effector);
                     
-        pj = new PinJoint(pos, effector, bot.getMobile());
+        pj = new PinJoint(pos, effector, bot.getMobileObject2D());
         //fa = new FixedAngle();
         //fa.AddPhysicalObject(effector);
         //fa.AddPhysicalObject(bot);

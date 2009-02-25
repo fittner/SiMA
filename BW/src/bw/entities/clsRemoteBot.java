@@ -41,7 +41,7 @@ public class clsRemoteBot extends clsAnimate
     
 	public clsRemoteBot(Double2D pos, Double2D vel, int pnId)
     {
-	super(pos, vel, new sim.physics2D.shape.Circle(10, Color.CYAN), pnId);
+	super(pos, vel, new sim.physics2D.shape.Circle(10, Color.CYAN), 300, pnId);
 	
     // vary the mass with the size
 	this.mnId = pnId;

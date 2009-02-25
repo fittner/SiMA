@@ -13,7 +13,7 @@ import java.util.ArrayList;
 import bw.body.motionplatform.clsBrainAction;
 import bw.utils.enums.eEntityType;
 import sim.physics2D.util.Double2D;
-import tstBw.*;
+
 
 /**
  * Preliminary simple moving entities with the 'ability' to be eaten.
@@ -33,9 +33,8 @@ public class clsAnimal extends clsAnimate{
 	 * @param poStartingVelocity
 	 * @param pnId
 	 */
-	public clsAnimal(Double2D poStartingPosition, Double2D poStartingVelocity,
-			int pnId) {
-		super(poStartingPosition, poStartingVelocity, new sim.physics2D.shape.Circle(10, Color.CYAN), pnId);
+	public clsAnimal(Double2D poStartingPosition, Double2D poStartingVelocity, int pnId) {
+		super(poStartingPosition, poStartingVelocity, new sim.physics2D.shape.Circle(10, Color.CYAN), 300.0, pnId);
 		// TODO Auto-generated constructor stub
 	}
 

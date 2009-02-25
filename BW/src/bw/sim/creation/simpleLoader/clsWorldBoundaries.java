@@ -7,14 +7,11 @@
  */
 package bw.sim.creation.simpleLoader;
 
-import java.awt.Color;
-
 import sim.engine.SimState;
 import sim.field.continuous.Continuous2D;
 import sim.physics2D.PhysicsEngine2D;
 import sim.physics2D.util.*;
 import ARSsim.portrayal.simple.clsImagePortrayal;
-import bw.entities.clsStone;
 import bw.entities.clsWall;
 
 

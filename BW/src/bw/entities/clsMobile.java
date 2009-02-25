@@ -19,13 +19,6 @@ import ARSsim.physics2D.physicalObject.clsMobileObject2D;
  * 
  */
 public abstract class clsMobile extends clsEntity {
-
-	/**
-	 * @return the moMobile
-	 */
-	public clsMobileObject2D getMobile() {
-		return (clsMobileObject2D)moPhysicalObject2D;
-	}
 	
 	/**
 	 * if you use this constructor, you have to call getMobile().finalizeSetup() manually!
@@ -35,7 +28,7 @@ public abstract class clsMobile extends clsEntity {
 		moPhysicalObject2D = new clsMobileObject2D(this);
 	}
 	
-	public clsMobile(Double2D poPosition, Double2D poStartingVelocity, Shape poShape, double poMass) {
+	public clsMobile(Double2D poPosition, Double2D poStartingVelocity, Shape poShape, double poMass, int pnId) {
 		super();
 		clsMobileObject2D oMobile = new clsMobileObject2D(this);
 		moPhysicalObject2D = oMobile;
@@ -48,5 +41,23 @@ public abstract class clsMobile extends clsEntity {
 		setCoefficients(.5, 0, 1); //default coefficients
 		
 		oMobile.finalizeSetup();
+		
+		setId(pnId);
+	}
+	
+
+	/**
+	 * @return the moMobile
+	 */
+	public clsMobileObject2D getMobileObject2D() {
+		return (clsMobileObject2D)moPhysicalObject2D;
+	}
+	
+	public Double2D getPosition() {
+		return getMobileObject2D().getPosition();
+	}
+	
+	public Double2D getVelocity() {
+		return getMobileObject2D().getVelocity();
 	}
 }

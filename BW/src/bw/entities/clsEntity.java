@@ -8,7 +8,6 @@
 package bw.entities;
 
 import java.util.ArrayList;
-
 import sim.physics2D.physicalObject.PhysicalObject2D;
 import sim.physics2D.shape.Shape;
 import ARSsim.physics2D.physicalObject.itfSetupFunctions;
@@ -16,7 +15,7 @@ import bw.actionresponses.clsDefaultEntityActionResponse;
 import bw.actionresponses.clsEntityActionResponses;
 import bw.body.motionplatform.clsBrainAction;
 import bw.utils.enums.eEntityType;
-
+import sim.physics2D.util.Double2D;
 
 /**
  * Entity is the baseclass of any object in the BubbleWorld.
@@ -41,22 +40,30 @@ import bw.utils.enums.eEntityType;
  */
 public abstract class clsEntity {
 	
-	protected PhysicalObject2D moPhysicalObject2D = null;
+	protected PhysicalObject2D moPhysicalObject2D;
 	private clsEntityActionResponses moEntityActionResponses;
+	
+	private Shape moShape;
+	private float mrMass;
 
-	private boolean useSimplePortrayal;
+	protected eEntityType meEntityType;
+	
+	private int mnId;
+	
 	
 	public clsEntity() {
 		setEntityType();
-		useSimplePortrayal = true;
+		moPhysicalObject2D = null;
 		setEntityActionResponse(new clsDefaultEntityActionResponse());
+		moShape = null;
+		mrMass = 0.0f;
 	}
 	
 	protected void setEntityActionResponse(clsEntityActionResponses poResponse) {
 		setEntityActionResponses(poResponse);
 	}
 
-	protected eEntityType meEntityType;
+
 	
 	protected abstract void setEntityType();
 	
@@ -151,4 +158,48 @@ public abstract class clsEntity {
 		return moEntityActionResponses;
 	}
 
+	/**
+	 * @author deutsch
+	 * 25.02.2009, 15:43:54
+	 * 
+	 * @param moShape the moShape to set
+	 */
+	public void setShape(Shape moShape) {
+		this.moShape = moShape;
+	}
+
+	/**
+	 * @author deutsch
+	 * 25.02.2009, 15:43:54
+	 * 
+	 * @return the moShape
+	 */
+	public Shape getShape() {
+		return moShape;
+	}
+
+	/**
+	 * @author deutsch
+	 * 25.02.2009, 16:21:36
+	 * 
+	 * @param mrMass the mrMass to set
+	 */
+	public void setMass(float mrMass) {
+		this.mrMass = mrMass;
+	}
+
+	/**
+	 * @author deutsch
+	 * 25.02.2009, 16:21:36
+	 * 
+	 * @return the mrMass
+	 */
+	public float getMass() {
+		return mrMass;
+	}
+	
+	public abstract Double2D getPosition();
+	
+	public int getId() {	return mnId;	}
+	public void setId(int pnId) {		this.mnId = pnId;	}
 }

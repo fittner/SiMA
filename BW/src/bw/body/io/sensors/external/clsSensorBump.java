@@ -58,7 +58,7 @@ public class clsSensorBump extends clsSensorExt {
 	 */
 	@Override
 	public void updateSensorData() {
-		clsMobileObject2D oMobile = ((clsAnimate)moEntity).getMobile();
+		clsMobileObject2D oMobile = ((clsAnimate)moEntity).getMobileObject2D();
 		moCollisionList = oMobile.moCollisionList;
 		if(moCollisionList.isEmpty()) {
 			mnBumped = false;
