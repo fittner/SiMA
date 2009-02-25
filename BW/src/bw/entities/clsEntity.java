@@ -19,13 +19,17 @@ import bw.utils.enums.eEntityType;
 
 
 /**
- * Entity contains basic physical values.
- * TODO: Includes helper to register the object in the MASON physics engine?
+ * Entity is the baseclass of any object in the BubbleWorld.
+ * With the containing PhysicalObject2D it holds the reference to the physical-object within the 
+ * mason-framework.
  * 
- * sub-classes: clsAnimate, clsInanimate
+ *  It supports the automatic redirection of functions for e.g positioning, shape, ... towards the
+ *  real physical object in the simulator, that implements the itfSetupFunctions.
+ *  
+ *  This interface has to be implemented in clsMobileObject2D and clsStaticObject2D
  * 
- * extends our clsRobot which is a agent class for mason connection
- * 
+ * sub-classes: clsMobile, clsStatic
+ *  
  * @author langr
  * 
  */

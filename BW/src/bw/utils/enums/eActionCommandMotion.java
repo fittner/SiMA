@@ -8,7 +8,7 @@
 package bw.utils.enums;
 
 /**
- * TODO (langr) - insert description 
+ * Brain action command types for motion 
  * 
  * @author langr
  * 

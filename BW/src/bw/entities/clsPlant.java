@@ -15,7 +15,11 @@ import bw.utils.enums.eEntityType;
 import sim.physics2D.util.Double2D;
 
 /**
- * TODO (langr) - insert description 
+ * An instance of the mobile object clsAnimate that can:
+ * - grow
+ * - be harvest
+ * - withdrawn
+ * - be eaten  
  * 
  * @author langr
  * 

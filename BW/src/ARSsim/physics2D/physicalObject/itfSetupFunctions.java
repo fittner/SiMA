@@ -10,7 +10,11 @@ package ARSsim.physics2D.physicalObject;
 import sim.physics2D.shape.Shape;
 
 /**
- * TODO (langr) - insert description 
+ * These interface contains the necessary functions to place the clsMobile- 
+ * or clsStaticObject2D contained by the clsEntity in the environment. 
+ * 
+ * Since the clsEntity only contains the base class of both (=physicalObject2D)
+ * the implemented interface enables a direct access of these functions  anyway.
  * 
  * @author langr
  * 

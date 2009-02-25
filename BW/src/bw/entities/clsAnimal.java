@@ -16,7 +16,12 @@ import sim.physics2D.util.Double2D;
 import tstBw.*;
 
 /**
- * TODO (langr) - insert description 
+ * Preliminary simple moving entities with the 'ability' to be eaten.
+ * TODO (langr) - update the following sentence
+ * The clsAgentBody shall contain an instance of clsFlesh that can be eaten
+ *
+ * Other instances of clsAnimals shall be able to eat other agents to act
+ * as a threat. Classification into herbivores and carnivores
  * 
  * @author langr
  * 

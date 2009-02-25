@@ -22,7 +22,10 @@ import bw.utils.enums.eEntityType;
 import sim.display.clsKeyListener;
 
 /**
- * TODO (langr) - insert description 
+ * Sample implementation of a clsAnimate, having sensors and actuators 
+ * (therefore the cycle sensing and executing implemented). The thinking
+ * is in this instance out-sourced to the human user directing the entity 
+ * across defined keys on her/his keyboard
  * 
  * @author langr
  * 

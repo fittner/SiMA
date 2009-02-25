@@ -10,8 +10,11 @@ package bw.body.motionplatform;
 import bw.utils.enums.eActionCommandType;
 
 /**
- * TODO (langr) - insert description 
- * 
+ * Base class for all brain actions 
+ * e.g. 
+ * clsMotionAction ... movement
+ * cls@@@          ... @@@
+ *  
  * @author langr
  * 
  */

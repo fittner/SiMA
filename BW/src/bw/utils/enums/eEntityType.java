@@ -8,7 +8,7 @@
 package bw.utils.enums;
 
 /**
- * TODO (langr) - insert description 
+ * entity types to get the current type (acc. to instanceof) of a clsEntity  
  * 
  * @author langr
  * 

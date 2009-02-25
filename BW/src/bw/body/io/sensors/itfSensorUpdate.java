@@ -8,7 +8,9 @@
 package bw.body.io.sensors;
 
 /**
- * TODO (langr) - insert description 
+ * Guarantees the implementation of updateSensorData for all
+ * subclasses of clsSensorExt and clsSensorInt.
+ * After that, the clsEntity-ies logic can access the valid data.
  * 
  * @author langr
  * 

@@ -12,7 +12,9 @@ import bw.utils.enums.eActionCommandMotion;
 import bw.utils.enums.eActionCommandType;
 
 /**
- * TODO (langr) - insert description 
+ * message class to send a motion action from the brains thinking-cycle
+ * to the body's execution-cycle and therefore (in case of physical 
+ * changes) further to the clsMobileObject2D and the physics...
  * 
  * @author langr
  * 

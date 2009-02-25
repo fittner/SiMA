@@ -13,7 +13,9 @@ import bw.entities.clsEntity;
 import bw.utils.enums.eBodyParts;
 
 /**
- * TODO (langr) - insert description 
+ * use this sensor to get the current forces affecting the owner
+ * CurrentVelocity - directing to vector er
+ * AngularVelocity - directing to vector ephi (polar coordinates)
  * 
  * @author langr
  * 
@@ -33,7 +35,7 @@ public class clsSensorAcceleration extends clsSensorExt{
 
 	private Double2D moCurrentVelocity;
 	/**
-	 * @return the moCurrentVelocity
+	 * @return the moCurrentVelocity - directing to vector er
 	 */
 	public Double2D getCurrentVelocity() {
 		return moCurrentVelocity;
@@ -42,7 +44,7 @@ public class clsSensorAcceleration extends clsSensorExt{
 	private double moCurrentAngularVelocity; 
 	
 	/**
-	 * @return the AccelerationVector
+	 * @return the AccelerationVector - directing to vector ephi (polar coordinates)
 	 */
 	public double getCurrentAngularVelocity() {
 		return moCurrentAngularVelocity;
@@ -86,7 +88,5 @@ public class clsSensorAcceleration extends clsSensorExt{
 	protected void setName() {
 		moName = "ext. Sensor Acceleration";
 		
-	}
-
-	
+	}	
 }

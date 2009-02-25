@@ -12,7 +12,9 @@ import bw.body.io.clsSensorActuatorBaseExt;
 import bw.body.io.actuators.itfActuatorUpdate;
 
 /**
- * TODO (langr) - insert description 
+ * Baseclass of all external actuators
+ * Forces the subclasses to implement itfActuatorUpdate that 
+ * is automatically called in the sensor-cycle of the entity    
  * 
  * @author langr
  * 

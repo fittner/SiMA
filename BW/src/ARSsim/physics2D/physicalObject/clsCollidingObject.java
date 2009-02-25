@@ -11,7 +11,8 @@ import sim.physics2D.physicalObject.PhysicalObject2D;
 import sim.physics2D.util.Double2D;
 
 /**
- * TODO (langr) - insert description 
+ * Used in the handleCollision method of clsMobileObject2D
+ * to provide a list of colliding objects for eg the AccelerationSensor 
  * 
  * @author langr
  * 
