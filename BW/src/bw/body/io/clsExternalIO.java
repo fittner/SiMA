@@ -12,6 +12,7 @@ import java.util.ArrayList;
 import bw.body.clsAgentBody;
 import bw.body.io.actuators.external.*;
 import bw.body.io.sensors.external.*;
+import bw.body.motionplatform.clsBrainAction;
 import bw.entities.clsAnimate;
 import bw.entities.clsEntity;
 
@@ -68,6 +69,8 @@ public class clsExternalIO extends clsBaseIO {
 
 	/* (non-Javadoc)
 	 *
+	 * each sensor has to be updated to guarantee valid data for the next cycle 'processing'
+	 *
 	 * @author langr
 	 * 25.02.2009, 16:50:36
 	 * 
@@ -82,14 +85,19 @@ public class clsExternalIO extends clsBaseIO {
 	
 	/* (non-Javadoc)
 	 *
+	 * each actuator must execute the commands originated from the processing-cycle within the 'brain',
+	 * within the 'mind'
+	 *
 	 * @author langr
 	 * 25.02.2009, 16:50:36
 	 * 
 	 * @see bw.body.itfStepExecution#stepExecution()
 	 */
 	@Override
-	public void stepExecution() {
-		// TODO Auto-generated method stub
+	public void stepExecution(ArrayList<clsBrainAction> poActionList) {
+		for (clsActuatorExt actuator : moActuatorExternal) {
+			actuator.updateActuatorData(poActionList);
+		}
 		
 	}
 

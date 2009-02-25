@@ -8,6 +8,10 @@
  */
 package bw.body;
 
+import java.util.ArrayList;
+
+import bw.body.motionplatform.clsBrainAction;
+
 /**
  * 4th call in the overall body cycle (complete cycle see itfStep)
  * Executes the action commands (from thinking) within the entities actuators  
@@ -18,6 +22,6 @@ package bw.body;
  */
 public interface itfStepExecution extends itfStep {
 
-	public void stepExecution();
+	public void stepExecution(ArrayList<clsBrainAction> poActionList);
 	
 }

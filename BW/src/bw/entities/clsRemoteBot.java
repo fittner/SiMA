@@ -65,7 +65,36 @@ public class clsRemoteBot extends clsAnimate
 	 */
 	@Override
 	public void execution(ArrayList<clsBrainAction> poActionList) {
-		// TODO Auto-generated method stub
+		super.execution(poActionList);
+	}
+
+	/* (non-Javadoc)
+	 * @see bw.clsEntity#sensing()
+	 */
+	@Override
+	public void sensing() {
+		super.sensing();		
+	}
+
+	/* (non-Javadoc)
+	 * @see bw.clsEntity#setEntityType()
+	 */
+	@Override
+	protected void setEntityType() {
+		meEntityType = eEntityType.REMOTEBOT;
+	}
+
+	/* (non-Javadoc)
+	 *
+	 * @author langr
+	 * 25.02.2009, 17:36:09
+	 * 
+	 * @see bw.entities.clsEntity#processing(java.util.ArrayList)
+	 */
+	@Override
+	public void processing(ArrayList<clsBrainAction> poActionList) {
+		
+		//the processing is taken over by the user via keyboard
 		
 	   	switch( clsKeyListener.getKeyPressed() )
     	{
@@ -95,32 +124,19 @@ public class clsRemoteBot extends clsAnimate
 //            }
     		break;
     	}
-		
 	}
 
 	/* (non-Javadoc)
-	 * @see bw.clsEntity#sensing()
+	 *
+	 * @author langr
+	 * 25.02.2009, 17:36:09
+	 * 
+	 * @see bw.entities.clsEntity#updateInternalState()
 	 */
 	@Override
-	public void sensing() {
-		super.sensing();		
-	}
-
-	/* (non-Javadoc)
-	 * @see bw.clsEntity#setEntityType()
-	 */
-	@Override
-	protected void setEntityType() {
-		meEntityType = eEntityType.REMOTEBOT;
-	}
-
-	/* (non-Javadoc)
-	 * @see bw.clsEntity#thinking()
-	 */
-	@Override
-	public void thinking() {
+	public void updateInternalState() {
 		// TODO Auto-generated method stub
 		
 	}
-    
-    }
+
+}

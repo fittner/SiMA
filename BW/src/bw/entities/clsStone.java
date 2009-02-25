@@ -92,23 +92,39 @@ public class clsStone extends clsInanimate {
 	}
 
 
-
-	/* (non-Javadoc)
-	 * @see bw.clsEntity#thinking()
-	 */
-	@Override
-	public void thinking() {
-		// TODO Auto-generated method stub
-		
-	}
-
-
-
 	/* (non-Javadoc)
 	 * @see bw.clsEntity#execution(java.util.ArrayList)
 	 */
 	@Override
 	public void execution(ArrayList<clsBrainAction> poActionList) {
+		// TODO Auto-generated method stub
+		
+	}
+
+
+	/* (non-Javadoc)
+	 *
+	 * @author langr
+	 * 25.02.2009, 17:37:10
+	 * 
+	 * @see bw.entities.clsEntity#processing(java.util.ArrayList)
+	 */
+	@Override
+	public void processing(ArrayList<clsBrainAction> poActionList) {
+		// TODO Auto-generated method stub
+		
+	}
+
+
+	/* (non-Javadoc)
+	 *
+	 * @author langr
+	 * 25.02.2009, 17:37:10
+	 * 
+	 * @see bw.entities.clsEntity#updateInternalState()
+	 */
+	@Override
+	public void updateInternalState() {
 		// TODO Auto-generated method stub
 		
 	}

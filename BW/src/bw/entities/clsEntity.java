@@ -132,8 +132,9 @@ public abstract class clsEntity {
 	 * 25.02.2009, 15:12:12
 	 *
 	 */
+	public abstract void updateInternalState();
 	public abstract void sensing();
-	public abstract void thinking();
+	public abstract void processing(ArrayList<clsBrainAction> poActionList);
 	public abstract void execution(ArrayList<clsBrainAction> poActionList);
 
 	/**

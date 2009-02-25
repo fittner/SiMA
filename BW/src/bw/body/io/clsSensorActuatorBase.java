@@ -59,4 +59,16 @@ public abstract class clsSensorActuatorBase {
 	public eBodyParts getBodyPartId() {
 		return mePartId;
 	}	
+	
+	/**
+	 * needed for access from actuator-classes to the PhysicalObject2D via the clsEntity
+	 * 
+	 * @author langr
+	 * 25.02.2009, 17:45:01
+	 * 
+	 * @return the moBaseIO
+	 */
+	public clsBaseIO getBaseIO() {
+		return moBaseIO;
+	}
 }

@@ -7,7 +7,10 @@
  */
 package bw.body.io;
 
+import java.util.ArrayList;
+
 import bw.body.clsAgentBody;
+import bw.body.motionplatform.clsBrainAction;
 
 /**
  * TODO (deutsch) - insert description 
@@ -46,7 +49,7 @@ public class clsInternalIO extends clsBaseIO{
 	 * @see bw.body.itfStepExecution#stepExecution()
 	 */
 	@Override
-	public void stepExecution() {
+	public void stepExecution(ArrayList<clsBrainAction> poActionList) {
 		// TODO Auto-generated method stub
 		
 	}

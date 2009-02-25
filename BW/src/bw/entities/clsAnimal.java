@@ -72,19 +72,36 @@ public class clsAnimal extends clsAnimate{
 	}
 
 	/* (non-Javadoc)
-	 * @see bw.clsEntity#thinking()
+	 * @see bw.clsEntity#execution(java.util.ArrayList)
 	 */
 	@Override
-	public void thinking() {
+	public void execution(ArrayList<clsBrainAction> poActionList) {
 		// TODO Auto-generated method stub
 		
 	}
 
 	/* (non-Javadoc)
-	 * @see bw.clsEntity#execution(java.util.ArrayList)
+	 *
+	 * @author langr
+	 * 25.02.2009, 17:31:48
+	 * 
+	 * @see bw.entities.clsEntity#processing(java.util.ArrayList)
 	 */
 	@Override
-	public void execution(ArrayList<clsBrainAction> poActionList) {
+	public void processing(ArrayList<clsBrainAction> poActionList) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	/* (non-Javadoc)
+	 *
+	 * @author langr
+	 * 25.02.2009, 17:31:48
+	 * 
+	 * @see bw.entities.clsEntity#updateInternalState()
+	 */
+	@Override
+	public void updateInternalState() {
 		// TODO Auto-generated method stub
 		
 	}

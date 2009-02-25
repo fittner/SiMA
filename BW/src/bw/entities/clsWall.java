@@ -108,16 +108,31 @@ public class clsWall extends clsStationary
 		
 	}
 
+
+
 	/* (non-Javadoc)
 	 *
-	 * @author deutsch
-	 * 23.02.2009, 15:35:16
+	 * @author langr
+	 * 25.02.2009, 17:37:37
 	 * 
-	 * @see bw.clsEntity#thinking()
+	 * @see bw.entities.clsEntity#processing(java.util.ArrayList)
 	 */
 	@Override
-	public void thinking() {
+	public void processing(ArrayList<clsBrainAction> poActionList) {
 		// TODO Auto-generated method stub
 		
-	} 
-    }
+	}
+
+	/* (non-Javadoc)
+	 *
+	 * @author langr
+	 * 25.02.2009, 17:37:37
+	 * 
+	 * @see bw.entities.clsEntity#updateInternalState()
+	 */
+	@Override
+	public void updateInternalState() {
+		// TODO Auto-generated method stub
+		
+	}
+}

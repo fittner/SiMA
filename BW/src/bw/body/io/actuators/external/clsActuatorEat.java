@@ -8,8 +8,11 @@
 package bw.body.io.actuators.external;
 
 
+import java.util.ArrayList;
+
 import bw.actionresponses.clsEntityActionResponses;
 import bw.body.io.clsBaseIO;
+import bw.body.motionplatform.clsBrainAction;
 import bw.entities.clsAnimate;
 import bw.exceptions.*;
 import bw.utils.enums.eBodyParts;
@@ -67,7 +70,7 @@ public class clsActuatorEat extends clsActuatorExt {
 	 * @see bw.body.io.actuators.itfActuatorUpdate#updateActuatorData()
 	 */
 	@Override
-	public void updateActuatorData() {
+	public void updateActuatorData(ArrayList<clsBrainAction> poActionList) {
 		
 		try {
 			eatAction();

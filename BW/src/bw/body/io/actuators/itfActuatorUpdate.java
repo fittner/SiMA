@@ -7,6 +7,10 @@
  */
 package bw.body.io.actuators;
 
+import java.util.ArrayList;
+
+import bw.body.motionplatform.clsBrainAction;
+
 /**
  * TODO (deutsch) - insert description 
  * 
@@ -15,6 +19,6 @@ package bw.body.io.actuators;
  */
 public interface itfActuatorUpdate {
 
-	void updateActuatorData();
+	void updateActuatorData(ArrayList<clsBrainAction> poActionList);
 	
 }

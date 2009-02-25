@@ -8,6 +8,7 @@
 package bw.entities;
 
 import java.awt.Color;
+import java.util.ArrayList;
 
 import sim.engine.SimState;
 import sim.engine.Steppable;
@@ -20,6 +21,7 @@ import sim.physics2D.util.Double2D;
 import sim.portrayal.DrawInfo2D;
 import tstBw.body.*;
 import bw.body.clsAgentBody;
+import bw.body.motionplatform.clsBrainAction;
 import ARSsim.motionplatform.clsMotionPlatform;
 import bw.sim.clsBWMain;
 
@@ -72,7 +74,7 @@ public abstract class clsAnimate extends clsMobile{
 		getAgentBody().stepSensing();
 	}
 	
-	public void execution() {
-		getAgentBody().stepExecution();
+	public void execution(ArrayList<clsBrainAction> poActionList) {
+		getAgentBody().stepExecution(poActionList);
 	}
 }
