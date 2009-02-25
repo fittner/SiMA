@@ -69,6 +69,10 @@ public abstract class clsAnimate extends clsMobile{
 	}
 	
 	public void sensing() {
-		getAgentBody().step();
+		getAgentBody().stepSensing();
+	}
+	
+	public void execution() {
+		getAgentBody().stepExecution();
 	}
 }

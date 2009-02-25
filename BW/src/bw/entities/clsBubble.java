@@ -116,8 +116,7 @@ public class clsBubble extends clsAnimate {
 	 */
 	@Override
 	public void execution(ArrayList<clsBrainAction> poActionList) {
-		// TODO Auto-generated method stub
-		
+		super.execution();
 	}
 
 

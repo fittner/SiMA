@@ -8,6 +8,7 @@
 package bw.body.intraBodySystems;
 
 import bw.body.itfStep;
+import bw.body.itfStepUpdateInternalState;
 
 /**
  * TODO (deutsch) - insert description 
@@ -15,12 +16,12 @@ import bw.body.itfStep;
  * @author deutsch
  * 
  */
-public class clsBodyColor implements itfStep {
+public class clsBodyColor implements itfStepUpdateInternalState {
     /**
      * TODO (deutsch) - insert description
      *
      */
-    public void step() {
+    public void stepUpdateInternalState() {
     	
     }
 }

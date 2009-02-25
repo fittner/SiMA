@@ -8,6 +8,7 @@
 package bw.body.brain;
 
 import bw.body.itfStep;
+import bw.body.itfStepProcessing;
 
 /**
  * The brain is the container for the mind and has a direct connection to external and internal IO.
@@ -16,13 +17,13 @@ import bw.body.itfStep;
  * @author langr
  * 
  */
-public class clsBrain implements itfStep {
+public class clsBrain implements itfStepProcessing {
 
 	/* (non-Javadoc)
 	 * @see bw.body.itfStep#step()
 	 */
 	@Override
-	public void step() {
+	public void stepProcessing() {
 		// TODO Auto-generated method stub
 		
 	}

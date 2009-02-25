@@ -67,14 +67,31 @@ public class clsExternalIO extends clsBaseIO {
 	}
 
 	/* (non-Javadoc)
-	 * @see bw.body.itfStep#step()
+	 *
+	 * @author langr
+	 * 25.02.2009, 16:50:36
+	 * 
+	 * @see bw.body.itfStepSensing#stepSensing()
 	 */
 	@Override
-	public void step() {
-		
+	public void stepSensing() {
 		for (clsSensorExt sensor : moSensorExternal) {
 			sensor.updateSensorData();
 		}
 	}
+	
+	/* (non-Javadoc)
+	 *
+	 * @author langr
+	 * 25.02.2009, 16:50:36
+	 * 
+	 * @see bw.body.itfStepExecution#stepExecution()
+	 */
+	@Override
+	public void stepExecution() {
+		// TODO Auto-generated method stub
+		
+	}
+
 
 }

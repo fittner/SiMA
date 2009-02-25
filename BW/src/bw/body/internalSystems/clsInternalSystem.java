@@ -10,6 +10,7 @@ package bw.body.internalSystems;
 import java.util.Random;
 
 import bw.body.itfStep;
+import bw.body.itfStepUpdateInternalState;
 import bw.exceptions.exFoodAlreadyNormalized;
 import bw.exceptions.exNoSuchNutritionType;
 
@@ -20,7 +21,7 @@ import bw.exceptions.exNoSuchNutritionType;
  * @author deutsch
  * 
  */
-public class clsInternalSystem implements itfStep {
+public class clsInternalSystem implements itfStepUpdateInternalState {
     private clsFlesh moFlesh;
     private clsSlowMessengerSystem moSlowMessengerSystem;
     private clsFastMessengerSystem moFastMessengerSystem;
@@ -196,18 +197,21 @@ public class clsInternalSystem implements itfStep {
 	 * TODO (deutsch) - insert description
 	 *
 	 */
-	public void step() {
+	public void stepUpdateInternalState() {
 		randomFillIEC();
 		randomFEEDAGENT();
 		
-		moStomachSystem.step();
-		moStaminaSystem.step();
-		moHealthSystem.step();
-		moTemperatureSystem.step();
-		moSlowMessengerSystem.step();
-		moFastMessengerSystem.step();
+		moStomachSystem.stepUpdateInternalState();
+		moStaminaSystem.stepUpdateInternalState();
+		moHealthSystem.stepUpdateInternalState();
+		moTemperatureSystem.stepUpdateInternalState();
+		moSlowMessengerSystem.stepUpdateInternalState();
+		moFastMessengerSystem.stepUpdateInternalState();
 		
 		moStomachSystem.withdrawEnergy( moInternalEnergyConsumption.getSum() );
 	}
 
+	public void stepExecution() {
+	}
+	
 }

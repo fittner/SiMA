@@ -12,6 +12,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 
 import bw.body.itfStep;
+import bw.body.itfStepUpdateInternalState;
 import bw.utils.enums.partclass.clsBasePart;
 
 /**
@@ -20,7 +21,7 @@ import bw.utils.enums.partclass.clsBasePart;
  * @author deutsch
  * 
  */
-public class clsFastMessengerSystem implements itfStep {
+public class clsFastMessengerSystem implements itfStepUpdateInternalState {
 	private HashMap<clsBasePart, ArrayList<clsBasePart>> moSourceTargetMappings;
 	private HashMap<clsBasePart, ArrayList<clsBasePart>> moTargetSourceMappings;
 	
@@ -184,7 +185,7 @@ public class clsFastMessengerSystem implements itfStep {
 	 * @see bw.body.itfStep#step()
 	 */
 	@Override
-	public void step() {
+	public void stepUpdateInternalState() {
 		// TODO Auto-generated method stub
 		
 	}

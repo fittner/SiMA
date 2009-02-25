@@ -8,6 +8,7 @@
 package bw.body.interBodyWorldSystems;
 
 import bw.body.itfStep;
+import bw.body.itfStepUpdateInternalState;
 import bw.body.internalSystems.clsInternalSystem;
 
 /**
@@ -16,7 +17,7 @@ import bw.body.internalSystems.clsInternalSystem;
  * @author deutsch
  * 
  */
-public class clsInterBodyWorldSystem implements itfStep {
+public class clsInterBodyWorldSystem implements itfStepUpdateInternalState {
 	private clsConsumeFood moConsumeFood;
 	private clsDamageBump moDamageBump;
 	private clsDamageLightning moDamageLightning;
@@ -48,7 +49,7 @@ public class clsInterBodyWorldSystem implements itfStep {
 	 * @see bw.body.itfStep#step()
 	 */
 	@Override
-	public void step() {
+	public void stepUpdateInternalState() {
 		// TODO Auto-generated method stub
 		
 	}

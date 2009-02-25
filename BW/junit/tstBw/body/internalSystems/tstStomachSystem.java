@@ -254,7 +254,7 @@ public class tstStomachSystem {
 		assertEquals(oSS.getNutritionLevel(2).getContent(), 1.0f, 0.000001f);
 		assertEquals(oSS.getNutritionLevel(3).getContent(), 1.0f, 0.000001f);
 	
-		oSS.step();
+		oSS.stepUpdateInternalState();
 		
 		assertEquals(oSS.getNutritionLevel(1).getContent(), 0.9f, 0.000001f);
 		assertEquals(oSS.getNutritionLevel(2).getContent(), 0.9f, 0.000001f);
@@ -266,10 +266,10 @@ public class tstStomachSystem {
 			fail("NoSuchNutritionType");
 		}
 		
-		oSS.step();
-		oSS.step();
-		oSS.step();
-		oSS.step();
+		oSS.stepUpdateInternalState();
+		oSS.stepUpdateInternalState();
+		oSS.stepUpdateInternalState();
+		oSS.stepUpdateInternalState();
 		
 		assertEquals(oSS.getNutritionLevel(1).getContent(), 0.5f, 0.000001f);
 		assertEquals(oSS.getNutritionLevel(2).getContent(), 0.6f, 0.000001f);

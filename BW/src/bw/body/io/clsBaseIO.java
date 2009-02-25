@@ -8,6 +8,8 @@
 package bw.body.io;
 
 import bw.body.itfStep;
+import bw.body.itfStepExecution;
+import bw.body.itfStepSensing;
 import bw.body.internalSystems.clsInternalEnergyConsumption;
 
 /**
@@ -16,7 +18,7 @@ import bw.body.internalSystems.clsInternalEnergyConsumption;
  * @author deutsch
  * 
  */
-public abstract class clsBaseIO implements itfStep  {
+public abstract class clsBaseIO implements itfStepSensing, itfStepExecution  {
 	private clsInternalEnergyConsumption moInternalEnergyConsumption;
 	
 	public clsBaseIO(clsInternalEnergyConsumption poInternalEnergyConsumption) {
@@ -26,10 +28,4 @@ public abstract class clsBaseIO implements itfStep  {
 	public void registerEnergyConsumption(int pnId, float prValue) {
 		moInternalEnergyConsumption.setValue(pnId, prValue);
 	}
-	
-	/* (non-Javadoc)
-	 * @see bw.body.itfStep#step()
-	 */
-	@Override
-	public abstract void step();
 }

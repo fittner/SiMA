@@ -8,15 +8,19 @@
 package bw.body;
 
 /**
- * This interface defines which functions objects which are to be called each simulation step have to implement.
+ * simulation cycle within the body defined by the derivated interfaces
  * 
- * @author deutsch
+ * 1. itfStepUpdateInternalState
+ * 
+ * 2. itfStepSensing
+ * 
+ * 3. itfStepProcessing
+ * 
+ * 4. itfStepExecution
+ * 
+ * @author langr
+ * 25.02.2009, 16:04:59
  * 
  */
-public interface itfStep {
-	/**
-	 * This function should be called by the class owner each simulation step.
-	 *
-	 */
-	public void step();
+public abstract interface itfStep {
 }

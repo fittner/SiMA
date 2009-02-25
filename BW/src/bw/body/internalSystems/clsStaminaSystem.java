@@ -8,6 +8,7 @@
 package bw.body.internalSystems;
 
 import bw.body.itfStep;
+import bw.body.itfStepUpdateInternalState;
 import bw.exceptions.exContentColumnMaxContentExceeded;
 import bw.exceptions.exContentColumnMinContentUnderrun;
 import bw.utils.tools.clsFillLevel;
@@ -18,7 +19,7 @@ import bw.utils.tools.clsFillLevel;
  * @author deutsch
  * 
  */
-public class clsStaminaSystem implements itfStep {
+public class clsStaminaSystem implements itfStepUpdateInternalState {
 	private clsFillLevel moStamina;
 	
 	public clsStaminaSystem() {
@@ -59,7 +60,7 @@ public class clsStaminaSystem implements itfStep {
 		moStamina.setChange(prRecoveryRate);
 	}
 	
-	public void step() {
+	public void stepUpdateInternalState() {
 		try {
 			moStamina.update();
 		} catch (exContentColumnMaxContentExceeded e) {

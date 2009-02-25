@@ -11,6 +11,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 
 import bw.body.itfStep;
+import bw.body.itfStepUpdateInternalState;
 import bw.exceptions.exContentColumnMaxContentExceeded;
 import bw.exceptions.exContentColumnMinContentUnderrun;
 import bw.utils.tools.clsNutritionLevel;
@@ -21,7 +22,7 @@ import bw.utils.tools.clsNutritionLevel;
  * @author deutsch
  * 
  */
-public class clsStomachSystem implements itfStep {
+public class clsStomachSystem implements itfStepUpdateInternalState {
 	private HashMap<Integer, clsNutritionLevel> moNutritions;
 	private HashMap<Integer, Float> moFractions;
 	private float mrFractionSum;
@@ -304,7 +305,7 @@ public class clsStomachSystem implements itfStep {
 	 * TODO (deutsch) - insert description
 	 *
 	 */
-	public void step() {
+	public void stepUpdateInternalState() {
 		Iterator<Integer> i = moNutritions.keySet().iterator();
 		
 		while (i.hasNext()) {

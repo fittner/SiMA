@@ -7,6 +7,7 @@
  */
 package bw.body.intraBodySystems;
 
+import bw.body.itfStepUpdateInternalState;
 import bw.body.internalSystems.clsInternalSystem;
 
 /**
@@ -15,7 +16,7 @@ import bw.body.internalSystems.clsInternalSystem;
  * @author deutsch
  * 
  */
-public class clsIntraBodySystem {
+public class clsIntraBodySystem implements itfStepUpdateInternalState{
     private clsBodyColor moBioSystem;
     private clsGrowth moGrowthSystem;
     private clsDamageNutrition moDamageNutrition;
@@ -69,10 +70,10 @@ public class clsIntraBodySystem {
      * TODO (deutsch) - insert description
      *
      */
-    public void step() {
-    	moBioSystem.step();
-    	moGrowthSystem.step();
-//     	moDamageNutrition.step();
-//    	moDamageTemperature.step();
+    public void stepUpdateInternalState() {
+    	moBioSystem.stepUpdateInternalState();
+    	moGrowthSystem.stepUpdateInternalState();
+//     	moDamageNutrition.stepUpdateInternalState();
+//    	moDamageTemperature.stepUpdateInternalState();
     }
 }

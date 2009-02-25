@@ -8,6 +8,7 @@
 package bw.body.internalSystems;
 
 import bw.body.itfStep;
+import bw.body.itfStepUpdateInternalState;
 import bw.exceptions.exContentColumnMaxContentExceeded;
 import bw.exceptions.exContentColumnMinContentUnderrun;
 import bw.utils.tools.clsFillLevel;
@@ -18,7 +19,7 @@ import bw.utils.tools.clsFillLevel;
  * @author deutsch
  * 
  */
-public class clsHealthSystem implements itfStep {
+public class clsHealthSystem implements itfStepUpdateInternalState {
 	private clsFillLevel moHealth;
 	boolean mnIsAlive;
 	private float mrDefaultIsDeadThreshold = 0.001f;
@@ -79,7 +80,7 @@ public class clsHealthSystem implements itfStep {
 		}
 	}
 	
-	public void step() {
+	public void stepUpdateInternalState() {
 		try {
 			moHealth.update();
 		} catch (exContentColumnMaxContentExceeded e) {

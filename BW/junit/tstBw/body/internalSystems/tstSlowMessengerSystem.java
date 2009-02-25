@@ -157,14 +157,14 @@ public class tstSlowMessengerSystem {
 			fail("ValueNotWithinRange");
 		}
 		
-		oSMS.step();
-		oSMS.step();
-		oSMS.step();
-		oSMS.step();
-		oSMS.step();
-		oSMS.step();
-		oSMS.step();
-		oSMS.step();
+		oSMS.stepUpdateInternalState();
+		oSMS.stepUpdateInternalState();
+		oSMS.stepUpdateInternalState();
+		oSMS.stepUpdateInternalState();
+		oSMS.stepUpdateInternalState();
+		oSMS.stepUpdateInternalState();
+		oSMS.stepUpdateInternalState();
+		oSMS.stepUpdateInternalState();
 		
 		
 		try {

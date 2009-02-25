@@ -24,7 +24,7 @@ import bw.entities.clsEntity;
  * @author langr
  * 
  */
-public class clsAgentBody implements itfStep {
+public class clsAgentBody implements itfStepSensing, itfStepUpdateInternalState, itfStepProcessing, itfStepExecution {
 	private clsBrain moBrain;
     private clsInternalSystem moInternalSystem;
     private clsIntraBodySystem moIntraBodySystem;
@@ -99,16 +99,53 @@ public class clsAgentBody implements itfStep {
 	}
 
 
-	/* (non-Javadoc)
-	 * @see bw.body.itfStep#step()
+	/**
+	 * TODO (langr) - insert description
+	 *
+	 * @author langr
+	 * 25.02.2009, 16:01:54
+	 *
 	 */
-	public void step() {
-		moInternalSystem.step();
-		moIntraBodySystem.step();
-		moExternalIO.step();
-		moInternalIO.step();
-		moInterBodyWorldSystem.step();
-		
-		moBrain.step();
+	public void stepUpdateInternalState() {
+		moInternalSystem.stepUpdateInternalState(); //call first!
+		moIntraBodySystem.stepUpdateInternalState();
+		moInterBodyWorldSystem.stepUpdateInternalState();
 	}
+	
+	/* (non-Javadoc)
+	 *
+	 * @author langr
+	 * 25.02.2009, 16:01:56
+	 * 
+	 * @see bw.body.itfStep#stepSensing()
+	 */
+	public void stepSensing() {
+		moExternalIO.stepSensing();
+		moInternalIO.stepSensing();
+	}
+	
+	/**
+	 * TODO (langr) - insert description
+	 *
+	 * @author langr
+	 * 25.02.2009, 16:02:00
+	 *
+	 */
+	public void stepProcessing(){
+		moBrain.stepProcessing();
+	}
+	
+	/* (non-Javadoc)
+	 *
+	 * @author langr
+	 * 25.02.2009, 16:02:05
+	 * 
+	 * @see bw.body.itfStep#stepExecution()
+	 */
+	public void stepExecution() {
+		moExternalIO.stepExecution();
+		moInternalIO.stepExecution();
+	}
+
+	
 }

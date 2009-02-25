@@ -11,6 +11,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 
 import bw.body.itfStep;
+import bw.body.itfStepUpdateInternalState;
 import bw.exceptions.exContentColumnMaxContentExceeded;
 import bw.exceptions.exContentColumnMinContentUnderrun;
 import bw.exceptions.exSlowMessengerAlreadyExists;
@@ -24,7 +25,7 @@ import bw.utils.tools.clsDecayColumn;
  * @author deutsch
  * 
  */
-public class clsSlowMessengerSystem implements itfStep {
+public class clsSlowMessengerSystem implements itfStepUpdateInternalState {
 	private HashMap<Integer, clsDecayColumn> moSlowMessengerContainer;
 
 	private float mrDefaultContent = 0.0f;
@@ -165,7 +166,7 @@ public class clsSlowMessengerSystem implements itfStep {
 	/* (non-Javadoc)
 	 * @see bw.body.itfStep#step()
 	 */
-	public void step() {
+	public void stepUpdateInternalState() {
 		Iterator<Integer> i = moSlowMessengerContainer.keySet().iterator();
 		
 		while(i.hasNext()) {

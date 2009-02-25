@@ -24,14 +24,31 @@ public class clsInternalIO extends clsBaseIO{
 
 		moBody = poBody;
 	}
-	
+
 	/* (non-Javadoc)
-	 * @see bw.body.itfStep#step()
+	 *
+	 * @author langr
+	 * 25.02.2009, 16:51:12
+	 * 
+	 * @see bw.body.itfStepSensing#stepSensing()
 	 */
 	@Override
-	public void step() {
+	public void stepSensing() {
 		// TODO Auto-generated method stub
 		
 	}
 
+	/* (non-Javadoc)
+	 *
+	 * @author langr
+	 * 25.02.2009, 16:51:12
+	 * 
+	 * @see bw.body.itfStepExecution#stepExecution()
+	 */
+	@Override
+	public void stepExecution() {
+		// TODO Auto-generated method stub
+		
+	}
+	
 }

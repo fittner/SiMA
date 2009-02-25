@@ -8,6 +8,7 @@
 package bw.body.internalSystems;
 
 import bw.body.itfStep;
+import bw.body.itfStepUpdateInternalState;
 import bw.exceptions.exContentColumnMaxContentExceeded;
 import bw.exceptions.exContentColumnMinContentUnderrun;
 import bw.utils.tools.clsFillLevel;
@@ -18,7 +19,7 @@ import bw.utils.tools.clsFillLevel;
  * @author deutsch
  * 
  */
-public class clsTemperatureSystem implements itfStep {
+public class clsTemperatureSystem implements itfStepUpdateInternalState {
 	private clsFillLevel moTemperature;
 	
 	private float mrDefaultContent = 1.0f;
@@ -81,7 +82,7 @@ public class clsTemperatureSystem implements itfStep {
 		return moTemperature.percentageHigh();
 	}
 	
-	public void step() {
+	public void stepUpdateInternalState() {
 		setChange();
 		
 		try {		
