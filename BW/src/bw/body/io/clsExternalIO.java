@@ -63,6 +63,7 @@ public class clsExternalIO extends clsBaseIO {
 		
 		//initialization of actuators
 		moActuatorExternal.add(new clsActuatorEat((clsAnimate)moEntity, this));
+		moActuatorExternal.add(new clsActuatorMove(moEntity, this));
 		
 		
 	}

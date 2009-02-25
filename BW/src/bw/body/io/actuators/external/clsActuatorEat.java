@@ -72,12 +72,12 @@ public class clsActuatorEat extends clsActuatorExt {
 	@Override
 	public void updateActuatorData(ArrayList<clsBrainAction> poActionList) {
 		
-		try {
-			eatAction();
-		} catch (exEntityActionResponseNotImplemented e) {
-			// TODO clemens
-			e.printStackTrace();
-		}
+//		try {
+//			eatAction();
+//		} catch (exEntityActionResponseNotImplemented e) {
+//			// TODO clemens
+//			e.printStackTrace();
+//		}
 		
 
 	}

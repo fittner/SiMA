@@ -13,7 +13,6 @@ import java.util.ArrayList;
 import sim.physics2D.util.Angle;
 
 import bw.body.io.clsBaseIO;
-import bw.body.io.clsSensorActuatorBaseExt;
 import bw.body.io.actuators.itfActuatorUpdate;
 import bw.body.motionplatform.clsBrainAction;
 import bw.body.motionplatform.clsMotionAction;
@@ -28,7 +27,7 @@ import bw.utils.enums.eActionCommandType;
  * 25.02.2009, 17:40:16
  * 
  */
-public class clsActuatorMove extends clsSensorActuatorBaseExt implements itfActuatorUpdate {
+public class clsActuatorMove extends clsActuatorExt implements itfActuatorUpdate {
 
 	private clsEntity moEntity;
 	
