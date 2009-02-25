@@ -17,8 +17,9 @@ import sim.physics2D.util.Double2D;
 import ARSsim.physics2D.physicalObject.clsMobileObject2D;
 
 /**
- * Mason representative (physics+renderOnScreen) for a stone.  
+ * Mason representative (physics+renderOnScreen) for a stone. 
  * 
+ * FIXME clemens die Steine kann man an den Ecken aus dem Grid rausschieben???
  * @author muchitsch
  * 
  */
