@@ -78,34 +78,16 @@ public class clsEntityLoader {
 	
 public static void loadCans(Continuous2D poFieldEnvironment, PhysicsEngine2D poObjPE, SimState poSimState, int pnNumCans){
 		
-		clsCan can = null;
 		Double2D pos;
-		double xMin = 0;
 		double xMax = poFieldEnvironment.getHeight();
-		double yMin = 0;
 		double yMax = poFieldEnvironment.getWidth();
 		 
         for (int i = 0; i < pnNumCans; i++)
         {
 	        double x = Math.max(Math.min(poSimState.random.nextDouble() * xMax, xMax - 10), 10);
 	        double y = Math.max(Math.min(poSimState.random.nextDouble() * yMax, yMax - 10), 60);
-	                    
 	        pos = new Double2D(x, y);
-	                    
-	        can = new clsCan(pos, new Double2D(0, 0), i);
-	        
-	        clsMobileObject2D oMobile = can.getMobile();
-//	        clsMobileObject2D oMobile = new clsMobileObject2D(null);
-//	    	oMobile.setPose(pos, new Angle(0));
-//	    	oMobile.setVelocity(new Double2D(0, 0));
-//	    	oMobile.setShape(new sim.physics2D.shape.Circle(2, Color.blue), 80);
-//	    	oMobile.setCoefficientOfFriction(.5);
-//	    	oMobile.setCoefficientOfStaticFriction(0);
-//	    	oMobile.setCoefficientOfRestitution(1);	        
-        
-//	        poFieldEnvironment.setObjectLocation(oMobile, new sim.util.Double2D(pos.x, pos.y));
-//	        poObjPE.register(oMobile);
-//	        poSimState.schedule.scheduleRepeating(oMobile);
+	        clsCan can = new clsCan(pos, new Double2D(0, 0), i);
         }
 		
 	}

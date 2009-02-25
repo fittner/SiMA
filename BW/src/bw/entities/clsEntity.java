@@ -74,22 +74,64 @@ public abstract class clsEntity {
 		return retVal;
 	}
 	
+	/**
+	 * see implementation clsMobileObject2D
+	 *
+	 * @author langr
+	 * 25.02.2009, 15:11:19
+	 *
+	 * @param poPos
+	 */
 	public void setPosition(sim.util.Double2D poPos) {
 		((itfSetupFunctions)moPhysicalObject2D).setPosition(poPos);
 	}
 	
+	/**
+	 * see implementation clsMobileObject2D
+	 *
+	 * @author langr
+	 * 25.02.2009, 15:11:45
+	 *
+	 * @param poShape
+	 * @param poMass
+	 */
 	public void setShape(Shape poShape, double poMass) {
 		((itfSetupFunctions)moPhysicalObject2D).setShape(poShape, poMass);
 	}
 	
+	/**
+	 * see implementation clsMobileObject2D
+	 *
+	 * @author langr
+	 * 25.02.2009, 15:11:50
+	 *
+	 * @param poFriction
+	 * @param poStaticFriction
+	 * @param poRestitution
+	 */
 	public void setCoefficients(double poFriction, double poStaticFriction, double poRestitution) {
 		((itfSetupFunctions)moPhysicalObject2D).setCoefficients(poFriction, poStaticFriction, poRestitution);
 	}
 	
+	/**
+	 * see implementation clsMobileObject2D
+	 *
+	 * @author langr
+	 * 25.02.2009, 15:11:56
+	 *
+	 */
 	public void finalizeSetup() {
 		((itfSetupFunctions)moPhysicalObject2D).finalizeSetup();
 	}
 	
+	/**
+	 * the entities cycle for preception-deliberation-action
+	 * must be 
+	 *
+	 * @author langr
+	 * 25.02.2009, 15:12:12
+	 *
+	 */
 	public abstract void sensing();
 	public abstract void thinking();
 	public abstract void execution(ArrayList<clsBrainAction> poActionList);
