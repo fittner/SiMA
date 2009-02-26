@@ -13,10 +13,12 @@ import java.util.Iterator;
 import sim.engine.SimState;
 import sim.field.continuous.Continuous2D;
 import sim.physics2D.PhysicsEngine2D;
+import sim.physics2D.constraint.PinJoint;
 import sim.physics2D.physicalObject.PhysicalObject2D;
 import sim.physics2D.util.Angle;
 import sim.physics2D.util.Double2D;
 
+import ARSsim.physics2D.physicalObject.clsMobileObject2D;
 import bw.body.io.clsBaseIO;
 import bw.entities.clsEntity;
 import bw.entities.clsMobile;
@@ -124,6 +126,10 @@ public class clsSensorVision extends clsSensorExt
 			oPhyEn2D.setNoCollisions(moVisionArea,((clsMobile)poEntity).getMobileObject2D());
 			oFieldEnvironment.setObjectLocation(moVisionArea, new sim.util.Double2D(oEntityPos.x, oEntityPos.y));
 	        oSimState.schedule.scheduleRepeating(moVisionArea);
+	        
+	      //todo
+	        PinJoint pj = new PinJoint(oEntityPos, moVisionArea, (clsMobileObject2D)(((clsMobile)poEntity).getMobileObject2D()));
+	        oPhyEn2D.register(pj);
 		}
 		catch( Exception ex )
 		{
