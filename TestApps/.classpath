@@ -5,5 +5,6 @@
 	<classpathentry combineaccessrules="false" kind="src" path="/Mason"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/MasonPhysics2D"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/BW"/>
+	<classpathentry kind="lib" path="C:/Documents and Settings/zia/Desktop/treetable_eval/docs/java/jtree.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
