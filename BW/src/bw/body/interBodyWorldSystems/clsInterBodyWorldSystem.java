@@ -7,7 +7,6 @@
  */
 package bw.body.interBodyWorldSystems;
 
-import bw.body.itfStep;
 import bw.body.itfStepUpdateInternalState;
 import bw.body.internalSystems.clsInternalSystem;
 

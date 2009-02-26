@@ -7,7 +7,6 @@
  */
 package bw.body.internalSystems;
 
-import bw.body.itfStep;
 import bw.body.itfStepUpdateInternalState;
 import bw.exceptions.exContentColumnMaxContentExceeded;
 import bw.exceptions.exContentColumnMinContentUnderrun;

@@ -13,7 +13,6 @@ import bw.body.internalSystems.clsHealthSystem;
 import bw.body.internalSystems.clsInternalSystem;
 import bw.utils.enums.partclass.clsPartBrain;
 import bw.utils.enums.partclass.clsPartDamageBump;
-import bw.utils.enums.partclass.clsPartDamageNutrition;
 import bw.utils.enums.partclass.clsPartSensorBump;
 
 /**

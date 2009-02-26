@@ -10,8 +10,6 @@ package bw.body.internalSystems;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
-
-import bw.body.itfStep;
 import bw.body.itfStepUpdateInternalState;
 import bw.utils.enums.partclass.clsBasePart;
 

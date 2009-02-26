@@ -7,7 +7,6 @@
  */
 package bw.sim.creation.simpleLoader;
 
-import sim.physics2D.util.Angle;
 import ARSsim.physics2D.util.clsPose;
 import bw.entities.clsBubble;
 import bw.entities.clsRemoteBot;

@@ -9,8 +9,6 @@ package bw.entities;
 
 import java.awt.Color;
 import java.util.ArrayList;
-
-import sim.physics2D.shape.Circle;
 import bw.body.motionplatform.clsBrainAction;
 import bw.utils.enums.eEntityType;
 import ARSsim.physics2D.util.clsPose;

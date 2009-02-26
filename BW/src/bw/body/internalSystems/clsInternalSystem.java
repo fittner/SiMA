@@ -8,8 +8,6 @@
 package bw.body.internalSystems;
 
 import java.util.Random;
-
-import bw.body.itfStep;
 import bw.body.itfStepUpdateInternalState;
 import bw.exceptions.exFoodAlreadyNormalized;
 import bw.exceptions.exNoSuchNutritionType;

@@ -9,8 +9,6 @@ package bw.body.internalSystems;
 
 import java.util.HashMap;
 import java.util.Iterator;
-
-import bw.body.itfStep;
 import bw.body.itfStepUpdateInternalState;
 import bw.exceptions.exContentColumnMaxContentExceeded;
 import bw.exceptions.exContentColumnMinContentUnderrun;

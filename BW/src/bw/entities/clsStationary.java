@@ -8,11 +8,8 @@
 package bw.entities;
 
 import java.util.ArrayList;
-
 import sim.physics2D.shape.Shape;
-
 import bw.body.motionplatform.clsBrainAction;
-import ARSsim.physics2D.physicalObject.clsMobileObject2D;
 import ARSsim.physics2D.physicalObject.clsStationaryObject2D;
 import ARSsim.physics2D.util.clsPose;
 
