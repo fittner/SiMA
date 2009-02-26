@@ -180,7 +180,12 @@ public abstract class clsEntity {
 	 * @param poMass
 	 */
 	public void setShape(Shape poShape, double poMass) {
-		((itfSetupFunctions)moPhysicalObject2D).setShape(poShape, poMass);
+		
+		//so we can set the shape null in constructor, for ex Stone //TODO (muchitsch) //TODO (langr)
+		if( poShape != null ) {
+			((itfSetupFunctions)moPhysicalObject2D).setShape(poShape, poMass);
+		}
+		
 	}
 	
 	/**

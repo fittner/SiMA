@@ -20,7 +20,12 @@ public class clsCan extends clsInanimate {
 	private static Color moDefaultColor = Color.blue;	
     
     public clsCan(int pnId, clsPose poStartingPose, sim.physics2D.util.Double2D poStartingVelocity) {
-		super(pnId, poStartingPose, poStartingVelocity, new sim.physics2D.shape.Circle(clsCan.mrDefaultRadius, clsCan.moDefaultColor), clsCan.mrDefaultWeight);
+		super(pnId, 
+				poStartingPose, 
+				poStartingVelocity, 
+				new sim.physics2D.shape.Circle(clsCan.mrDefaultRadius, clsCan.moDefaultColor),
+				clsCan.mrDefaultWeight
+				);
 
     }
 

@@ -31,7 +31,7 @@ public class clsStone extends clsInanimate {
     {
 //		super(pnId, poPose, poStartingVelocity, new ARSsim.physics2D.shape.clsCircleImage(prRadius, clsStone.moDefaultColor, clsStone.moImagePath), prRadius * clsStone.mrDefaultRadiusToMassConversion);
 		//todo muchitsch ... hier wird eine default shape übergeben, nicht null, sonst krachts
-		super(pnId, poPose, poStartingVelocity, new Circle(75, moDefaultColor), prRadius * clsStone.mrDefaultRadiusToMassConversion);
+		super(pnId, poPose, poStartingVelocity, null, prRadius * clsStone.mrDefaultRadiusToMassConversion);
 		
 		double rMass = prRadius * clsStone.mrDefaultRadiusToMassConversion;
 		

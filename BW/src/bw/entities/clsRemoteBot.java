@@ -77,6 +77,7 @@ public class clsRemoteBot extends clsAnimate  {
 	 *
 	 */
 	private void addBotHands() {
+		//FIXME hands are only added correctly if - and only if - direction of bot is 0 ...
 		Angle oDirection = new Angle(getMobileObject2D().getOrientation().radians); //TODO add getDirection to clsEntity
 		getMobileObject2D().setPose(getPosition(), new Angle(0));
 		

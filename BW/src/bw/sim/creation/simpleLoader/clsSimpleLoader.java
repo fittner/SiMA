@@ -47,8 +47,8 @@ public class clsSimpleLoader extends clsLoader {
 	@Override
 	public void loadObjects() {
 		clsWorldBoundaries.loadWorldBoundaries();
-		clsEntityLoader.loadInanimate(5, 2);	
-		clsAgentLoader.loadAgents(1, 2);		
+		clsEntityLoader.loadInanimate(1, 2);	
+		clsAgentLoader.loadAgents(1, 2);
 	}
 
 

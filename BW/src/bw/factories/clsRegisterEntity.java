@@ -52,7 +52,7 @@ public final class clsRegisterEntity {
 	}
 	
 	public static void registerEntity(clsMobile poEntity) {
-		registerMobileObject2D(poEntity.getMobileObject2D());
+		registerMobileObject2D((clsMobileObject2D)poEntity.getMobileObject2D());
 		poEntity.setRegistered(true);
 	}
 	

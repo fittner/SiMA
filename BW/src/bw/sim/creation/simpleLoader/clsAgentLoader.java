@@ -7,6 +7,7 @@
  */
 package bw.sim.creation.simpleLoader;
 
+import sim.physics2D.util.Angle;
 import ARSsim.physics2D.util.clsPose;
 import bw.entities.clsBubble;
 import bw.entities.clsRemoteBot;
@@ -34,8 +35,16 @@ public class clsAgentLoader {
          }
 	}
 	
+	/**
+	 * remote control is only implemented for one remoteBot
+	 *
+	 * @author muchitsch
+	 * 26.02.2009, 14:34:24
+	 *
+	 * @param pnNumBots
+	 */
 	public static void loadRemoteBots(int pnNumBots) {
-		for (int i = 0; i < 1; i++) {
+		for (int i = 0; i < pnNumBots; i++) {
 	        clsPose oStartPose = clsLoader.generateRandomPose();
  			clsRemoteBot oBot = new clsRemoteBot(i, oStartPose, new sim.physics2D.util.Double2D(0, 0));
 			clsRegisterEntity.registerEntity(oBot);

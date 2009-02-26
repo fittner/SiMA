@@ -122,14 +122,14 @@ public class clsSensorVision extends clsSensorExt
 		try
 		{
 			moVisionArea.setPose(oEntityPos, poVisionOrientation);
+			
+			oFieldEnvironment.setObjectLocation(moVisionArea, new sim.util.Double2D(oEntityPos.x, oEntityPos.y));
 			oPhyEn2D.register(moVisionArea);
 			oPhyEn2D.setNoCollisions(moVisionArea,((clsMobile)poEntity).getMobileObject2D());
-			oFieldEnvironment.setObjectLocation(moVisionArea, new sim.util.Double2D(oEntityPos.x, oEntityPos.y));
-	        oSimState.schedule.scheduleRepeating(moVisionArea);
-	        
+	        oSimState.schedule.scheduleRepeating(moVisionArea);     
 	      //todo
-	        PinJoint pj = new PinJoint(oEntityPos, moVisionArea, (clsMobileObject2D)(((clsMobile)poEntity).getMobileObject2D()));
-	        oPhyEn2D.register(pj);
+//	        PinJoint pj = new PinJoint(oEntityPos, moVisionArea, (clsMobileObject2D)(((clsMobile)poEntity).getMobileObject2D()));
+//	        oPhyEn2D.register(pj);
 		}
 		catch( Exception ex )
 		{

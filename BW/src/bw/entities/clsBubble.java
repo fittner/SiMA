@@ -27,7 +27,7 @@ public class clsBubble extends clsAnimate {
 
 	private static double mrDefaultWeight = 300.0f;
 	private static double mrDefaultRadius = 10.0f;
-	private static Color moDefaultColor = Color.GREEN;
+	private static Color moDefaultColor = Color.green;
 
 
 	/**
@@ -42,7 +42,12 @@ public class clsBubble extends clsAnimate {
 	 */
 	public clsBubble(int pnId, clsPose poStartingPose, sim.physics2D.util.Double2D poStartingVelocity)
     {
-		super(pnId, poStartingPose, poStartingVelocity, new sim.physics2D.shape.Circle(clsBubble.mrDefaultRadius, clsBubble.moDefaultColor), clsBubble.mrDefaultWeight);
+		super(pnId, 
+				poStartingPose, 
+				poStartingVelocity, 
+				new sim.physics2D.shape.Circle(clsBubble.mrDefaultRadius, clsBubble.moDefaultColor), 
+				clsBubble.mrDefaultWeight
+				);
 		
 		this.setEntityActionResponse(new clsBubbleResponses());
     } 

@@ -35,7 +35,7 @@ public class clsBotHands extends MobileObject2D implements Steppable
         this.setVelocity(vel);
         this.setPose(pos, new Angle(0));
 
-        this.setShape(new sim.physics2D.shape.Circle(radius, paint), radius * radius * Math.PI);
+        this.setShape(new sim.physics2D.shape.Circle(radius, paint), 0.1);
 
         this.setCoefficientOfFriction(0);
         this.setCoefficientOfRestitution(1);
