@@ -41,6 +41,8 @@ public class clsEntityLoader {
 		for (int i = 0; i < pnNumStones; i++)
         {
 			clsPose oStartPose = clsLoader.generateRandomPose();
+			
+			//FIXME warum ist der Radius random? wenn ein Bild drüber ist, dann muss der Radius dem Bild entsprechen!
 			double rRadius = clsSingletonMasonGetter.getSimState().random.nextDouble() * 30.0 + 10.0;
 	        
 		    clsStone oStone = new clsStone(i, oStartPose, new sim.physics2D.util.Double2D(0, 0), rRadius);

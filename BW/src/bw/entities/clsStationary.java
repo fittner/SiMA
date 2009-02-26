@@ -34,7 +34,7 @@ public abstract class clsStationary extends clsEntity {
 	}
 	
 	protected void initPhysicalObject2D(clsPose poPose, sim.physics2D.util.Double2D poStartingVelocity, Shape poShape, double prMass) {
-		moPhysicalObject2D = new clsMobileObject2D(this);
+		moPhysicalObject2D = new clsStationaryObject2D(this);
 		
 		setPose(poPose);
 		setShape(poShape, prMass);

@@ -9,6 +9,8 @@ package bw.entities;
 
 import java.awt.Color;
 import java.util.ArrayList;
+
+import sim.physics2D.shape.Circle;
 import bw.body.motionplatform.clsBrainAction;
 import bw.utils.enums.eEntityType;
 import ARSsim.physics2D.util.clsPose;
@@ -28,7 +30,8 @@ public class clsStone extends clsInanimate {
 	public clsStone(int pnId, clsPose poPose, sim.physics2D.util.Double2D poStartingVelocity, double prRadius)
     {
 //		super(pnId, poPose, poStartingVelocity, new ARSsim.physics2D.shape.clsCircleImage(prRadius, clsStone.moDefaultColor, clsStone.moImagePath), prRadius * clsStone.mrDefaultRadiusToMassConversion);
-		super(pnId, poPose, poStartingVelocity, null, prRadius * clsStone.mrDefaultRadiusToMassConversion);
+		//todo muchitsch ... hier wird eine default shape übergeben, nicht null, sonst krachts
+		super(pnId, poPose, poStartingVelocity, new Circle(75, moDefaultColor), prRadius * clsStone.mrDefaultRadiusToMassConversion);
 		
 		double rMass = prRadius * clsStone.mrDefaultRadiusToMassConversion;
 		
