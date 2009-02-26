@@ -7,16 +7,11 @@
  */
 package ARSsim.portrayal.simple;
 
-import java.awt.Image;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
-import java.net.URL;
-
 import javax.imageio.ImageIO;
-
 import sim.field.continuous.Continuous2D;
-
 import sim.portrayal.simple.ImagePortrayal2D;
 import sim.util.Double2D;
 
@@ -31,6 +26,12 @@ import sim.util.Double2D;
 public class clsImagePortrayal extends ImagePortrayal2D{
 
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -7515804757462033545L;
+
+
 	/**
 	 * @param image
 	 * @param scale
