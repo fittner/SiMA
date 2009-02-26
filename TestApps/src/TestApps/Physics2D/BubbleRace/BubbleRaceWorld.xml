@@ -1,6 +1,6 @@
 <?xml version="1.0" ?>
 <world width="225" height="300">
-	<defaultSurface defaultValue="0"/>
+	<defaultSurface defaultValue="0"></defaultSurface>
 	<surfaceArea startX="75" startY="0" endX="150" endY="300" surface="2"/>
 	<surfaceArea startX="150" startY="0" endX="225" endY="300" surface="4"/>
 <surfaceArea startX="0" startY="100" endX="225" endY="120" surface="3"/>
