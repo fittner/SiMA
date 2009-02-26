@@ -91,8 +91,27 @@ public class clsSensorVision extends clsSensorExt
 	 * @param poEntity
 	 */
 	private void regVisionObj(clsEntity poEntity)	{
-		Double2D oEntityPos = ((clsMobile)poEntity).getMobileObject2D().getPosition(); 
 		Angle oEntityOrientation = ((clsMobile)poEntity).getMobileObject2D().getOrientation(); 
+		regVisionObjWithParams(poEntity, null, oEntityOrientation);
+    }
+	
+	/**
+	 * Extension of the default method, with parameters
+	 *
+	 * @author muchitsch
+	 * 25.02.2009, 13:36:24
+	 *
+	 * @param poEntity
+	 * @param poOffsetVisionArea - how much is the center of the vision shiftet? NULL if no offset
+	 * @param poVisionOrientation
+	 */
+	private void regVisionObjWithParams(clsEntity poEntity, Double2D poOffsetVisionArea, Angle poVisionOrientation)	{
+		
+		Double2D oEntityPos = ((clsMobile)poEntity).getMobileObject2D().getPosition(); 
+		
+		//if we have a offset, change the center point.
+		if(poOffsetVisionArea != null)
+			oEntityPos = oEntityPos.add(poOffsetVisionArea);
 		
 		PhysicsEngine2D oPhyEn2D = clsSingletonMasonGetter.getPhysicsEngine2D();
 		Continuous2D oFieldEnvironment = clsSingletonMasonGetter.getFieldEnvironment();
@@ -100,7 +119,7 @@ public class clsSensorVision extends clsSensorExt
 		
 		try
 		{
-			moVisionArea.setPose(oEntityPos, oEntityOrientation);
+			moVisionArea.setPose(oEntityPos, poVisionOrientation);
 			oPhyEn2D.register(moVisionArea);
 			oPhyEn2D.setNoCollisions(moVisionArea,((clsMobile)poEntity).getMobileObject2D());
 			oFieldEnvironment.setObjectLocation(moVisionArea, new sim.util.Double2D(oEntityPos.x, oEntityPos.y));
@@ -110,7 +129,8 @@ public class clsSensorVision extends clsSensorExt
 		{
 			System.out.println(ex.getMessage());
 		}
-    }
+	}
+
 
 	/**
 	 * TODO (zeilinger) - calculated which are within the entity vision field  
