@@ -10,7 +10,7 @@ package bw.exceptions;
 import bw.utils.enums.eEntityType;
 
 /**
- * TODO (muchitsch) - insert description 
+ * Exceptions used by sensors and actuators, for Information if a object is eatable poisned etc.
  * 
  * @author muchitsch
  * 

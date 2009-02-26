@@ -64,7 +64,7 @@ public class tstBWMain {
 	 */
 	@Test
 	public void testClsBWMainLong() {
-		fail("Not yet implemented"); // TODO
+		fail("Not yet implemented"); // TODO cm
 	}
 
 	/**
@@ -72,7 +72,7 @@ public class tstBWMain {
 	 */
 	@Test
 	public void testClsBWMainLongIntInt() {
-		fail("Not yet implemented"); // TODO
+		fail("Not yet implemented"); // TODO cm
 	}
 
 }

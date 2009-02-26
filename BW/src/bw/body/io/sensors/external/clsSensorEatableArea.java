@@ -11,9 +11,10 @@ package bw.body.io.sensors.external;
 import sim.physics2D.util.Double2D;
 import bw.body.io.clsBaseIO;
 import bw.entities.clsEntity;
+import bw.utils.enums.eBodyParts;
 
 /**
- * TODO (muchitsch) - insert description 
+ * A sensor to define what is directly in front of your mouth the area where you can eat something
  * 
  * @author muchitsch
  * 26.02.2009, 10:21:40
@@ -22,7 +23,7 @@ import bw.entities.clsEntity;
 public class clsSensorEatableArea extends clsSensorExt {
 
 	/**
-	 * TODO (muchitsch) - insert description 
+	 * A sensor to define what is directly in front of your mouth the area where you can eat something
 	 * 
 	 * @author muchitsch
 	 * 26.02.2009, 10:21:40
@@ -45,7 +46,7 @@ public class clsSensorEatableArea extends clsSensorExt {
 	 */
 	@Override
 	protected void setBodyPartId() {
-		// TODO Auto-generated method stub
+		mePartId = eBodyParts.SENSOR_EXT_VISION_EATABLE_AREA;
 
 	}
 
@@ -58,7 +59,7 @@ public class clsSensorEatableArea extends clsSensorExt {
 	 */
 	@Override
 	protected void setName() {
-		// TODO Auto-generated method stub
+		moName = "ext. Sensor Vision Eatable Area";
 
 	}
 
@@ -71,7 +72,7 @@ public class clsSensorEatableArea extends clsSensorExt {
 	 */
 	@Override
 	public void updateSensorData() {
-		// TODO Auto-generated method stub
+		// TODO  clemens can be donne by heimos base?
 
 	}
 
