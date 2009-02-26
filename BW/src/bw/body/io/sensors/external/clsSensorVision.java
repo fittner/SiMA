@@ -16,7 +16,6 @@ import sim.physics2D.PhysicsEngine2D;
 import sim.physics2D.physicalObject.PhysicalObject2D;
 import sim.physics2D.util.Angle;
 import sim.physics2D.util.Double2D;
-import sim.util.Bag;
 
 import bw.body.io.clsBaseIO;
 import bw.entities.clsEntity;
@@ -35,11 +34,12 @@ import bw.utils.enums.eBodyParts;
  */
 public class clsSensorVision extends clsSensorExt
 {
-	private double mnViewDegree;
+	private double mnViewRad;
 	private double mnVisRange; 
 	private clsEntityPartVision moVisionArea;
-	private Bag meCollidingObj;
+	private HashMap<Integer, PhysicalObject2D> meCollidingObj;
 	private HashMap<Integer, PhysicalObject2D> meViewObj;
+	private HashMap<Integer, Double2D> meCollisionPoint;
 		
 	/**
 	 * @param poEntity
@@ -47,11 +47,12 @@ public class clsSensorVision extends clsSensorExt
 	 */
 	public clsSensorVision(clsEntity poEntity, clsBaseIO poBaseIO)	{
 		super(poBaseIO);
-		mnViewDegree = Math.PI;
+		mnViewRad = Math.PI;
 		mnVisRange = 50; 
 		
-		meCollidingObj = new Bag();
+		meCollidingObj = new HashMap<Integer, PhysicalObject2D>();
 		meViewObj = new HashMap<Integer, PhysicalObject2D>(); 
+		meCollisionPoint = new HashMap<Integer, Double2D>(); 
 		moVisionArea = new clsEntityPartVision(poEntity, mnVisRange);
 		this.regVisionObj(poEntity);
 	}
@@ -92,20 +93,24 @@ public class clsSensorVision extends clsSensorExt
 		PhysicalObject2D oPhObj;  
 				
 		meCollidingObj = moVisionArea.getMeUnFilteredObj();
+		meCollisionPoint = moVisionArea.getMeCollisionPoint(); 
 	
 		if(meCollidingObj.size()>0)
 		 {
 			meViewObj.clear(); 
-			Iterator<PhysicalObject2D> itr = meCollidingObj.iterator();
-			
-			while(itr.hasNext()){
-				oPhObj = (PhysicalObject2D)itr.next(); 
-				nOrientation = this.getRelPos(oPhObj.getPosition());
-				
-				if(!meViewObj.containsKey(oPhObj.getIndex()) && this.getInView(nOrientation)){
-					this.addViewObj(oPhObj); 
-				}
-		     }
+			try{			
+				Iterator<PhysicalObject2D> itr = meCollidingObj.values().iterator(); 			
+				while(itr.hasNext())
+				{
+					oPhObj = itr.next(); 
+					nOrientation = this.getRelPos(meCollisionPoint.get(oPhObj.getIndex()));
+					
+					if(!meViewObj.containsKey(oPhObj.getIndex()) && this.getInView(nOrientation)){
+						this.addViewObj(oPhObj); 
+					}
+			     }
+			}catch(Exception ex)
+			{System.out.println(ex.getMessage());}
 		 }
 	}
 	
@@ -116,12 +121,11 @@ public class clsSensorVision extends clsSensorExt
 	 * @param poPos
 	 * @return nOrientation 
 	 */
-	public double getRelPos(Double2D poPos)
-	{
+	public double getRelPos(Double2D poColPos)
+	{   
 		double nOrientation;
-		double nDivX = poPos.x - moVisionArea.getPosition().x;
-		double nDivY = poPos.y - moVisionArea.getPosition().y;
-		nOrientation = Math.atan2(nDivY, nDivX);
+		
+		nOrientation = Math.atan2(poColPos.y, poColPos.x);
 		
 		if(nOrientation < 0)
 			nOrientation = 2*Math.PI+nOrientation; 
@@ -142,20 +146,51 @@ public class clsSensorVision extends clsSensorExt
 		double nMinBorder; 
 		double nMaxBorder; 
 		
-		nMinBorder = nEntityOrientation -  mnViewDegree/2; 
-		nMaxBorder = nEntityOrientation +  mnViewDegree/2; 
+		nEntityOrientation = this.normRad(nEntityOrientation);
+		nMinBorder = nEntityOrientation -  mnViewRad/2; 
+		nMaxBorder = nEntityOrientation +  mnViewRad/2; 
 		
 		if(nMaxBorder>2*Math.PI)
 			nMaxBorder-=2*Math.PI; 
 		if(nMinBorder<0)
 			nMinBorder+=2*Math.PI; 
 		
-		if(pnOrientation <= nMaxBorder ||
+		if(nMaxBorder > nMinBorder && 
+				pnOrientation <= nMaxBorder &&
 				pnOrientation >= nMinBorder)
 		{
 			return true;  
 		}
+		else if (nMaxBorder < nMinBorder && 
+				(pnOrientation <= nMaxBorder || 
+				pnOrientation >= nMinBorder))
+		{
+			
+			return true; 
+		}
 		return false; 
+	}
+	
+	/**
+	 * TODO (zeilinger) - insert description
+	 *
+	 * @author zeilinger
+	 * 25.02.2009, 16:22:39
+	 *
+	 * @param pnOrientation
+	 * @return
+	 */
+	public double normRad(double pnOrientation)
+	{
+		double newVal =  pnOrientation; 
+		double twoPI = 2* Math.PI; 
+		
+		while(newVal > twoPI)
+	            newVal -= twoPI;
+	                
+	    while(newVal < 0)
+	            newVal += twoPI;
+	  return newVal;  
 	}
 	
 	/* (non-Javadoc)
@@ -181,7 +216,7 @@ public class clsSensorVision extends clsSensorExt
 	 *
 	 * @param peCollidingObj
 	 */
-	public void setMeCollidingObj(Bag peCollidingObj)	{
+	public void setMeCollidingObj(HashMap<Integer, PhysicalObject2D> peCollidingObj)	{
 		meCollidingObj = peCollidingObj; 
 	}
 	
@@ -212,20 +247,7 @@ public class clsSensorVision extends clsSensorExt
 		moName = "ext. Sensor Vision";
 	}
 	
-	/**
-	 * @return the mnViewDegree
-	 */
-	public double getMnViewDegree() {
-		return mnViewDegree;
-	}
-
-	/**
-	 * @param mnViewDegree the mnViewDegree to set
-	 */
-	public void setMnViewDegree(double pnViewDegree) {
-		this.mnViewDegree = pnViewDegree;
-	}
-
+	
 	/**
 	 * @return the mnVisRange
 	 */
