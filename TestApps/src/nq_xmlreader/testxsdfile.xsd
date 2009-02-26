@@ -15,6 +15,37 @@
    </xs:element>
 
    
+  <xs:element name="Stone" maxOccurs="unbounded">
+    <xs:complexType>
+      <xs:all>
+       <xs:element name="posX" type="xs:string"/>
+       <xs:element name="posY" type="xs:integer"/>
+      </xs:all>
+    </xs:complexType>
+   </xs:element>
+
+
+   <xs:element name="Can" maxOccurs="unbounded">
+    <xs:complexType>
+      <xs:all>
+       <xs:element name="posX" type="xs:string"/>
+       <xs:element name="posY" type="xs:integer"/>
+      </xs:all>
+    </xs:complexType>
+   </xs:element>
+
+
+
+   <xs:element name="Remotebot" maxOccurs="1">
+    <xs:complexType>
+      <xs:all>
+       <xs:element name="posX" type="xs:string"/>
+       <xs:element name="posY" type="xs:integer"/>
+      </xs:all>
+    </xs:complexType>
+   </xs:element>
+
+
   </xs:sequence>  
  </xs:complexType>
 </xs:element>
