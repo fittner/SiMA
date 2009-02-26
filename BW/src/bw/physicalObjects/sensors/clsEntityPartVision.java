@@ -18,7 +18,6 @@ import sim.physics2D.physicalObject.PhysicalObject2D;
 import sim.physics2D.util.Angle;
 import sim.physics2D.util.Double2D;
 import sim.portrayal.DrawInfo2D;
-import sim.util.Bag;
 
 import ARSsim.physics2D.shape.clsCircleBorder;
 import bw.entities.clsEntity;
@@ -45,9 +44,10 @@ public class clsEntityPartVision extends MobileObject2D implements Steppable{
 	
 	private double mnRadius;
 		
-	private Bag meFilteredObj;
-	private Bag meUnFilteredObj;
+	private HashMap<Integer, PhysicalObject2D> meFilteredObj;
+	private HashMap<Integer, PhysicalObject2D> meUnFilteredObj;
 	private HashMap<Integer, PhysicalObject2D> meVisionObj; 
+	private HashMap<Integer, Double2D> meCollisionPoint; 
 	private Paint moColor;
 	private clsCircleBorder moShape;
 	private clsEntity moEntity;
@@ -59,9 +59,10 @@ public class clsEntityPartVision extends MobileObject2D implements Steppable{
 	public clsEntityPartVision(clsEntity poEntity,  double pnRad) {    	
 	 mnRadius = pnRad; 
 
-	 meFilteredObj = new Bag();
-	 meUnFilteredObj = new Bag();
+	 meFilteredObj = new HashMap<Integer, PhysicalObject2D>();
+	 meUnFilteredObj = new HashMap<Integer, PhysicalObject2D>();
 	 meVisionObj = new HashMap<Integer, PhysicalObject2D>(); 
+	 meCollisionPoint = new HashMap<Integer, Double2D>(); 
 	 moColor = Color.yellow;
 	 moShape = new clsCircleBorder(mnRadius, moColor);
 	 moEntity = poEntity; 
@@ -81,7 +82,7 @@ public class clsEntityPartVision extends MobileObject2D implements Steppable{
 	 * @see sim.physics2D.physicalObject.PhysicalObject2D#handleCollision(sim.physics2D.physicalObject.PhysicalObject2D, sim.physics2D.util.Double2D)
 	 */
 	public int handleCollision(PhysicalObject2D other, Double2D colPoint){
-		meFilteredObj.add(other);
+		meFilteredObj.put(other.getIndex(), other);
 		return 0; // Vis collision
 	}
 		
@@ -134,7 +135,7 @@ public class clsEntityPartVision extends MobileObject2D implements Steppable{
 	/**
 	 * @return the meCollidingObj
 	 */
-	public Bag getMeFilteredObj() {
+	public HashMap<Integer, PhysicalObject2D> getMeFilteredObj() {
 		return meFilteredObj;
 	}
 
@@ -142,7 +143,7 @@ public class clsEntityPartVision extends MobileObject2D implements Steppable{
 	/**
 	 * @param meCollidingObj the meCollidingObj to set
 	 */
-	public void setMeFilteredObj(Bag peFilteredObj) {
+	public void setMeFilteredObj(HashMap<Integer, PhysicalObject2D> peFilteredObj) {
 		this.meFilteredObj = peFilteredObj;
 	}
 
@@ -150,7 +151,7 @@ public class clsEntityPartVision extends MobileObject2D implements Steppable{
 	/**
 	 * @return the meVisionObj
 	 */
-	public Bag getMeUnFilteredObj() {
+	public HashMap<Integer, PhysicalObject2D> getMeUnFilteredObj() {
 		return meUnFilteredObj;
 	}
 
@@ -158,7 +159,7 @@ public class clsEntityPartVision extends MobileObject2D implements Steppable{
 	/**
 	 * @param meVisionObj the meVisionObj to set
 	 */
-	public void setMeUnFilteredObj(Bag peUnFilteredObj) {
+	public void setMeUnFilteredObj(HashMap<Integer, PhysicalObject2D> peUnFilteredObj) {
 		this.meUnFilteredObj = peUnFilteredObj;
     }
 
@@ -214,11 +215,30 @@ public class clsEntityPartVision extends MobileObject2D implements Steppable{
 		this.meVisionObj = peVisionObj;
 	}
 	
-	
+    
+	/**
+	 * @author zeilinger
+	 * 25.02.2009, 17:05:50
+	 * 
+	 * @return the meCollisionPoint
+	 */
+	public HashMap<Integer, Double2D> getMeCollisionPoint() {
+		return meCollisionPoint;
+	}
+
+	/**
+	 * @author zeilinger
+	 * 25.02.2009, 17:05:50
+	 * 
+	 * @param meCollisionPoint the meCollisionPoint to set
+	 */
+	public void setMeCollisionPoint(HashMap<Integer, Double2D> meCollisionPoint) {
+		this.meCollisionPoint = meCollisionPoint;
+	}
+
 	//--------------------------------------------------------------------------------------------------
 	// Methods from Mobile2D which have to be overwritten
 	//-------------------------------------------------------------------------------------------------
-	      
 	/** Calculates and adds the static and dynamic friction forces on the object
 	 * based on the coefficients of friction. 
 	 */
@@ -247,7 +267,11 @@ public class clsEntityPartVision extends MobileObject2D implements Steppable{
 	 * @see sim.physics2D.physicalObject.PhysicalObject2D#addContact(sim.physics2D.physicalObject.PhysicalObject2D, sim.physics2D.util.Double2D)
 	 */
 	public void addContact(PhysicalObject2D other, Double2D colPoint){
-		meUnFilteredObj.add(other);		
+		if (colPoint != null)
+		{
+			meUnFilteredObj.put(other.getIndex(), other);
+			meCollisionPoint.put(other.getIndex(), colPoint);
+		}				
 	}	
 }
 
