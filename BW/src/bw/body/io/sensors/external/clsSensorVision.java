@@ -58,6 +58,34 @@ public class clsSensorVision extends clsSensorExt
 	}
 	
 	/**
+	 * special constructor with all the parameters for the vision area
+	 * 
+	 * @author muchitsch
+	 * 26.02.2009, 11:21:50
+	 *
+	 * @param poEntity
+	 * @param poBaseIO
+	 * @param pnViewDegree
+	 * @param pnVisRange
+	 * @param poOffsetVisionArea
+	 * @param poVisionOrientation
+	 */
+	public clsSensorVision(clsEntity poEntity, clsBaseIO poBaseIO, double pnViewDegree, double pnVisRange, Double2D poOffsetVisionArea, Angle poVisionOrientation)	{
+		super(poBaseIO);
+		mnViewRad = pnViewDegree;
+		mnVisRange = pnVisRange; 
+		
+		meCollidingObj = new HashMap<Integer, PhysicalObject2D>();
+		meViewObj = new HashMap<Integer, PhysicalObject2D>(); 
+		meCollisionPoint = new HashMap<Integer, Double2D>(); 
+		moVisionArea = new clsEntityPartVision(poEntity, mnVisRange);
+		
+		//moVisionArea.setCenterOffset(poOffsetVisionArea);
+		//this.regVisionObjWithParams(poEntity, poOffsetVisionArea, poVisionOrientation);
+		this.regVisionObj(poEntity);
+	}
+	
+	/**
 	 * TODO (zeilinger) - insert description
 	 *
 	 * @param poEntity
