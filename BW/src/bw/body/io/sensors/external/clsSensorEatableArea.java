@@ -35,6 +35,7 @@ public class clsSensorEatableArea extends clsSensorExt {
 	public clsSensorEatableArea(clsEntity poEntity, clsBaseIO poBaseIO, Double2D poCenterOffset ) {
 		super(poBaseIO);
 		// TODO Auto-generated constructor stub
+
 	}
 
 	/* (non-Javadoc)
