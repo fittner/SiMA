@@ -16,6 +16,7 @@ import sim.engine.SimState;
 
 import bw.sim.creation.clsLoader;
 import bw.sim.creation.simpleLoader.clsSimpleLoader;
+import bw.sim.creation.simpleXMLLoader.clsSimpleXMLLoader;
 
 /**
  * Main function for simulation
@@ -71,7 +72,8 @@ public class clsBWMain extends SimState{
 	{
 		super.start();
 		//creating and registering objects...
-		clsLoader oLoader = new clsSimpleLoader(this, 200, 200);
+//		clsLoader oLoader = new clsSimpleLoader(this, 200, 200);
+		clsLoader oLoader = new clsSimpleXMLLoader(this, 200, 200);
 		oLoader.loadObjects();
 		
 		//clear the charts
