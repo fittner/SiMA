@@ -9,6 +9,8 @@ package bw.body.io;
 
 import java.util.ArrayList;
 
+import sim.physics2D.util.Double2D;
+
 import bw.body.clsAgentBody;
 import bw.body.io.actuators.external.*;
 import bw.body.io.sensors.external.*;
@@ -59,7 +61,7 @@ public class clsExternalIO extends clsBaseIO {
 		moSensorExternal.add(new clsSensorBump(moEntity, this));
 		moSensorExternal.add(new clsSensorVision(moEntity, this));
 		
-		moSensorExternal.add(new clsSensorEatVision(moEntity, this));
+		moSensorExternal.add(new clsSensorEatableArea(moEntity, this, new Double2D(20,0) ));
 		
 		//initialization of actuators
 		moActuatorExternal.add(new clsActuatorEat((clsAnimate)moEntity, this));
