@@ -11,16 +11,9 @@ import java.awt.Color;
 import org.jfree.chart.JFreeChart;
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.plot.XYPlot;
-import org.jfree.chart.plot.CombinedDomainXYPlot;
 import org.jfree.chart.plot.PlotOrientation;
 import org.jfree.chart.renderer.xy.XYItemRenderer;
-import org.jfree.chart.renderer.xy.XYBarRenderer;
-import org.jfree.chart.renderer.xy.DefaultXYItemRenderer;
-import org.jfree.chart.renderer.xy.StandardXYItemRenderer;
-import org.jfree.chart.axis.NumberAxis;
-import org.jfree.chart.axis.AxisLocation;
 import org.jfree.chart.axis.ValueAxis;
-import org.jfree.data.xy.IntervalXYDataset;
 import org.jfree.data.xy.XYSeriesCollection;
 
 import bw.sim.clsBWMain;

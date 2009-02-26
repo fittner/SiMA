@@ -8,21 +8,13 @@
 package bw.entities;
 
 
-import java.awt.Color;
 import java.util.ArrayList;
 
-import sim.engine.SimState;
-import sim.engine.Steppable;
-import sim.physics2D.constraint.ConstraintEngine;
-import sim.physics2D.forceGenerator.ForceGenerator;
-import sim.physics2D.physicalObject.MobileObject2D;
 import sim.physics2D.shape.Shape;
-import sim.physics2D.util.Double2D;
+import ARSsim.physics2D.util.clsPose;
 import bw.body.clsAgentBody;
 
 import bw.body.motionplatform.clsBrainAction;
-import ARSsim.motionplatform.clsMotionPlatform;
-import bw.sim.clsBWMain;
 
 
 /**
@@ -40,8 +32,8 @@ public abstract class clsAnimate extends clsMobile{
 	 * @param poStartingVelocity
 	 * @param pnId
 	 */
-	public clsAnimate(Double2D poStartingPosition, Double2D poStartingVelocity, Shape poShape, double poMass, int pnId) {
-		super(poStartingPosition, poStartingVelocity, poShape, poMass, pnId);
+	public clsAnimate(int pnId, clsPose poPose, sim.physics2D.util.Double2D poStartingVelocity, Shape poShape, double poMass) {
+		super(pnId, poPose, poStartingVelocity, poShape, poMass);
 		
 		moAgentBody = new clsAgentBody(this);
 	}

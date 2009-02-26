@@ -7,23 +7,15 @@
  */
 package bw.sim;
 
-import org.jfree.chart.JFreeChart;
 import org.jfree.data.xy.XYSeries;
-import org.jfree.data.xy.XYSeriesCollection;
 
 import ec.util.MersenneTwisterFast;
 
 import sim.engine.Schedule;
 import sim.engine.SimState;
-import sim.field.continuous.Continuous2D;
-import sim.physics2D.PhysicsEngine2D;
 
-import bw.factories.clsSingletonMasonGetter;
 import bw.sim.creation.clsLoader;
-import bw.sim.creation.simpleLoader.clsAgentLoader;
-import bw.sim.creation.simpleLoader.clsEntityLoader;
 import bw.sim.creation.simpleLoader.clsSimpleLoader;
-import bw.sim.creation.simpleLoader.clsWorldBoundaries;
 
 /**
  * Main function for simulation

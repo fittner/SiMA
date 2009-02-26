@@ -7,12 +7,11 @@
  */
 package bw.sim.creation.simpleLoader;
 
-import sim.engine.SimState;
-import sim.field.continuous.Continuous2D;
-import sim.physics2D.PhysicsEngine2D;
-import sim.physics2D.util.*;
+import ARSsim.physics2D.util.clsPose;
 import ARSsim.portrayal.simple.clsImagePortrayal;
 import bw.entities.clsWall;
+import bw.factories.clsRegisterEntity;
+import bw.factories.clsSingletonMasonGetter;
 
 
 /**
@@ -23,41 +22,32 @@ import bw.entities.clsWall;
  */
 public class clsWorldBoundaries {
 
-	public static void loadWorldBoundaries(Continuous2D poFieldEnvironment, PhysicsEngine2D poObjPE, SimState poSimState){
-		Double2D moPos;
-		clsWall moWall;
+	public static void loadWorldBoundaries(){
+		clsPose oPose;
+		clsWall oWall;
 		
         // HORIZ
-        moPos = new Double2D(100,0);
-        
-        moWall = new clsWall(moPos, 193, 6, 1);
-        //poFieldEnvironment.setObjectLocation(wall, new sim.util.Double2D(pos.x, pos.y));
-        //poObjPE.register(moWall);
-        clsImagePortrayal imgPortrayal = new clsImagePortrayal();
-        imgPortrayal.PlaceImage("S:/ARS/PA/BWv1/BW/src/resources/images/wall1.jpg", 8, new sim.util.Double2D(moPos.x, moPos.y), poFieldEnvironment);
+		oPose = new clsPose(100, 0, 0);
+        oWall = new clsWall(1, oPose, 193, 6);
+        clsRegisterEntity.registerEntity(oWall);
+        clsImagePortrayal.PlaceImage("S:/ARS/PA/BWv1/BW/src/resources/images/wall1.jpg", 8, new sim.util.Double2D(oPose.getPosition().x, oPose.getPosition().y), clsSingletonMasonGetter.getFieldEnvironment());
  
          	
-        moPos = new Double2D(100,200);
-        moWall = new clsWall(moPos, 193, 6, 2);
-        //poFieldEnvironment.setObjectLocation(wall, new sim.util.Double2D(pos.x, pos.y));
-        //poObjPE.register(moWall);
-        imgPortrayal = new clsImagePortrayal();
-        imgPortrayal.PlaceImage("S:/ARS/PA/BWv1/BW/src/resources/images/wall1.jpg", 8, new sim.util.Double2D(moPos.x, moPos.y), poFieldEnvironment);
+        oPose = new clsPose(100, 200, 0);
+        oWall = new clsWall(2, oPose, 193, 6);
+        clsRegisterEntity.registerEntity(oWall);
+        clsImagePortrayal.PlaceImage("S:/ARS/PA/BWv1/BW/src/resources/images/wall1.jpg", 8, new sim.util.Double2D(oPose.getPosition().x, oPose.getPosition().y), clsSingletonMasonGetter.getFieldEnvironment());
                 
         // VERT
-        moPos = new Double2D(0,100);
-        moWall = new clsWall(moPos, 6, 200, 3);
-        //poFieldEnvironment.setObjectLocation(wall, new sim.util.Double2D(pos.x, pos.y));
-        //poObjPE.register(moWall);
-        imgPortrayal = new clsImagePortrayal();
-        imgPortrayal.PlaceImage("S:/ARS/PA/BWv1/BW/src/resources/images/wall2.jpg", 8, new sim.util.Double2D(moPos.x, moPos.y), poFieldEnvironment);
+        oPose = new clsPose(0, 100, 0);
+        oWall = new clsWall(3, oPose, 6, 200);
+        clsRegisterEntity.registerEntity(oWall);
+        clsImagePortrayal.PlaceImage("S:/ARS/PA/BWv1/BW/src/resources/images/wall2.jpg", 8, new sim.util.Double2D(oPose.getPosition().x, oPose.getPosition().y), clsSingletonMasonGetter.getFieldEnvironment());
         
-        moPos = new Double2D(200,100);
-        moWall = new clsWall(moPos, 6, 200, 4);
-        //poFieldEnvironment.setObjectLocation(wall, new sim.util.Double2D(pos.x, pos.y));
-        //poObjPE.register(moWall);	
-        imgPortrayal = new clsImagePortrayal();
-        imgPortrayal.PlaceImage("S:/ARS/PA/BWv1/BW/src/resources/images/wall2.jpg", 8, new sim.util.Double2D(moPos.x, moPos.y), poFieldEnvironment);
+        oPose = new clsPose(200, 100, 0);
+        oWall = new clsWall(4, oPose, 6, 200);
+        clsRegisterEntity.registerEntity(oWall);
+        clsImagePortrayal.PlaceImage("S:/ARS/PA/BWv1/BW/src/resources/images/wall2.jpg", 8, new sim.util.Double2D(oPose.getPosition().x, oPose.getPosition().y), clsSingletonMasonGetter.getFieldEnvironment());
 	}
 	
 }

@@ -9,8 +9,6 @@
 package bw.sim.creation.simpleLoader;
 
 import sim.engine.SimState;
-import sim.physics2D.PhysicsEngine2D;
-import bw.factories.clsSingletonMasonGetter;
 import bw.sim.creation.clsLoader;
 
 
@@ -48,15 +46,10 @@ public class clsSimpleLoader extends clsLoader {
 	 */
 	@Override
 	public void loadObjects() {
-		PhysicsEngine2D objPE = clsSingletonMasonGetter.getPhysicsEngine2D();
-		//add walls
-		clsWorldBoundaries.loadWorldBoundaries(clsSingletonMasonGetter.getFieldEnvironment(), objPE, clsSingletonMasonGetter.getSimState());
-		//add inimate objects
-		clsEntityLoader.loadInanimate(clsSingletonMasonGetter.getFieldEnvironment(), objPE, clsSingletonMasonGetter.getSimState());
-		//add animate
-		clsEntityLoader.loadAnimate(clsSingletonMasonGetter.getFieldEnvironment(), objPE, clsSingletonMasonGetter.getSimState());
-		
-		clsAgentLoader.loadAgents(clsSingletonMasonGetter.getFieldEnvironment(), objPE, clsSingletonMasonGetter.getSimState());		
+		clsWorldBoundaries.loadWorldBoundaries();
+		clsEntityLoader.loadInanimate(5, 2);	
+		clsAgentLoader.loadAgents(1, 2);		
 	}
+
 
 }

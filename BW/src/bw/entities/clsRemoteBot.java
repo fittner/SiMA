@@ -10,16 +10,15 @@ package bw.entities;
 import java.awt.Color;
 import java.util.ArrayList;
 
-import sim.physics2D.util.Double2D;
+import ARSsim.physics2D.util.clsPose;
 import bw.body.motionplatform.clsBrainAction;
 import bw.body.motionplatform.clsMotionAction;
 import bw.physicalObjects.bodyparts.clsBotHands;
 import bw.utils.enums.eActionCommandMotion;
 import bw.utils.enums.eActionCommandType;
 import bw.utils.enums.eEntityType;
-
-
 import sim.display.clsKeyListener;
+import sim.physics2D.util.Angle;
 
 /**
  * Sample implementation of a clsAnimate, having sensors and actuators 
@@ -30,36 +29,78 @@ import sim.display.clsKeyListener;
  * @author langr
  * 
  */
-public class clsRemoteBot extends clsAnimate
-    {
-    clsCan currentCan;
-    
-    public clsBotHands e1;
-    public clsBotHands e2;
-    
-    public int mnId;
-    
-	public clsRemoteBot(Double2D pos, Double2D vel, int pnId)
-    {
-	super(pos, vel, new sim.physics2D.shape.Circle(10, Color.CYAN), 300, pnId);
+public class clsRemoteBot extends clsAnimate  {
+    private clsBotHands moBotHand1;
+    private clsBotHands moBotHand2;
+   
+	private static double mrDefaultWeight = 300.0f;
+	private static double mrDefaultRadius = 10.0f;
+	private static Color moDefaultColor = Color.CYAN;
+	private static Color moDefaultHandColor = Color.gray;
+
+
+	/**
+	 * TODO (deutsch) - insert description 
+	 * 
+	 * @author deutsch
+	 * 26.02.2009, 11:29:23
+	 *
+	 * @param pnId
+	 * @param poStartingPose
+	 * @param poStartingVelocity
+	 */
+	public clsRemoteBot(int pnId, clsPose poStartingPose, sim.physics2D.util.Double2D poStartingVelocity) {
+		super(pnId, poStartingPose, poStartingVelocity, new sim.physics2D.shape.Circle(clsRemoteBot.mrDefaultRadius, clsRemoteBot.moDefaultColor), clsRemoteBot.mrDefaultWeight);
+		
+		addBotHands();
+    }
 	
-    // vary the mass with the size
-	this.mnId = pnId;
-            
-    currentCan = null;
-            
-    }     
-    
-    public int getId() {
-		return mnId;
+	private clsBotHands addHand(double offsetX, double offsetY) {
+        double x = getPosition().x;
+        double y = getPosition().y;
+        sim.physics2D.util.Double2D oPos;
+                    
+        oPos = new sim.physics2D.util.Double2D(x + offsetX, y + offsetY);
+        
+        clsBotHands oHand = new clsBotHands(oPos, new sim.physics2D.util.Double2D(0, 0), 1, moDefaultHandColor);
+        
+        return oHand;
+	}
+	
+	/**
+	 * To be called AFTER clsRemoteBot has been initialized and registered to mason 
+	 * 
+	 * TODO (deutsch) - insert description
+	 *
+	 * @author deutsch
+	 * 26.02.2009, 11:38:59
+	 *
+	 */
+	private void addBotHands() {
+		Angle oDirection = new Angle(getMobileObject2D().getOrientation().radians); //TODO add getDirection to clsEntity
+		getMobileObject2D().setPose(getPosition(), new Angle(0));
+		
+		moBotHand1 = addHand(12, 6);
+		moBotHand2 = addHand(12, -6);
+
+		getMobileObject2D().setPose(getPosition(), oDirection);
+	}
+	
+	public clsBotHands getBotHand1() {
+		return moBotHand1;
+	}
+	public clsBotHands getBotHand2() {
+		return moBotHand2;
 	}
 
-	public Object domBotState() { return new String[] { "HAVECAN", "APPROACHINGCAN", "RELEASINGCAN", "RETURNINGHOME", "SEARCHING" }; }
-
-	public void setId(int mnId) {
-		this.mnId = mnId;
+	/* (non-Javadoc)
+	 * @see bw.clsEntity#setEntityType()
+	 */
+	@Override
+	protected void setEntityType() {
+		meEntityType = eEntityType.REMOTEBOT;
 	}
-
+	
 	/* (non-Javadoc)
 	 * @see bw.clsEntity#execution()
 	 */
@@ -74,14 +115,6 @@ public class clsRemoteBot extends clsAnimate
 	@Override
 	public void sensing() {
 		super.sensing();		
-	}
-
-	/* (non-Javadoc)
-	 * @see bw.clsEntity#setEntityType()
-	 */
-	@Override
-	protected void setEntityType() {
-		meEntityType = eEntityType.REMOTEBOT;
 	}
 
 	/* (non-Javadoc)

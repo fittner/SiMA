@@ -7,6 +7,7 @@
  */
 package ARSsim.physics2D.physicalObject;
 
+import ARSsim.physics2D.util.clsPose;
 import sim.physics2D.shape.Shape;
 
 /**
@@ -20,13 +21,9 @@ import sim.physics2D.shape.Shape;
  * 
  */
 public interface itfSetupFunctions {
-	public void setPosition(sim.util.Double2D pos);
+	public void setPose(clsPose poPose);
 	public void setShape(Shape poShape, double poMass);
 	public void setCoefficients(double poFriction, double poStaticFriction, double poRestitution);
 	
-	/**
-	 * mandatory for a valid Physics2D-object
-	 *
-	 */
-	public void finalizeSetup();
+	public clsPose getPose();
 }

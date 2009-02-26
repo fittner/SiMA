@@ -23,7 +23,6 @@ import ARSsim.physics2D.shape.clsCircleBorder;
 import bw.entities.clsEntity;
 import bw.entities.clsMobile;
 import bw.factories.clsSingletonMasonGetter;
-import bw.sim.clsBWMain;
 
 /**
  *  This class defines the the physical object for the vision sensor. It 
@@ -81,7 +80,7 @@ public class clsEntityPartVision extends MobileObject2D implements Steppable{
 	/* (non-Javadoc)
 	 * @see sim.physics2D.physicalObject.PhysicalObject2D#handleCollision(sim.physics2D.physicalObject.PhysicalObject2D, sim.physics2D.util.Double2D)
 	 */
-	public int handleCollision(PhysicalObject2D other, Double2D colPoint){
+	public int handleCollision(PhysicalObject2D other, sim.physics2D.util.Double2D colPoint){
 		meFilteredObj.put(other.getIndex(), other);
 		return 0; // Vis collision
 	}
@@ -90,7 +89,7 @@ public class clsEntityPartVision extends MobileObject2D implements Steppable{
 	 * @see sim.engine.Steppable#step(sim.engine.SimState)
 	 */
 	public void step(SimState state){
-		 Double2D oEntityPos = ((clsMobile)moEntity).getMobileObject2D().getPosition();
+		sim.physics2D.util.Double2D oEntityPos = ((clsMobile)moEntity).getMobileObject2D().getPosition();
 		 Angle oEntityOrientation = ((clsMobile)moEntity).getMobileObject2D().getOrientation();
 		 
 	     this.setPose(oEntityPos, oEntityOrientation);
@@ -266,7 +265,8 @@ public class clsEntityPartVision extends MobileObject2D implements Steppable{
 	/* (non-Javadoc)
 	 * @see sim.physics2D.physicalObject.PhysicalObject2D#addContact(sim.physics2D.physicalObject.PhysicalObject2D, sim.physics2D.util.Double2D)
 	 */
-	public void addContact(PhysicalObject2D other, Double2D colPoint){
+	public void addContact(PhysicalObject2D other, sim.physics2D.util.Double2D colPoint){
+		//FIXME colPoint not used
 		if (colPoint != null)
 		{
 			meUnFilteredObj.put(other.getIndex(), other);

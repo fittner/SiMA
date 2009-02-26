@@ -10,9 +10,9 @@ package bw.entities;
 import java.awt.Color;
 import java.util.ArrayList;
 
+import ARSsim.physics2D.util.clsPose;
 import bw.body.motionplatform.clsBrainAction;
 import bw.utils.enums.eEntityType;
-import sim.physics2D.util.Double2D;
 
 /**
  * An instance of the mobile object clsAnimate that can:
@@ -26,28 +26,22 @@ import sim.physics2D.util.Double2D;
  */
 public class clsPlant extends clsAnimate{
 
-	/**
-	 * @param poStartingPosition
-	 * @param poStartingVelocity
-	 * @param pnId
-	 */
-	public clsPlant(Double2D poStartingPosition, Double2D poStartingVelocity,
-			int pnId) {
-		super(poStartingPosition, poStartingVelocity, new sim.physics2D.shape.Circle(10, Color.CYAN), 300.0, pnId);
-		// TODO Auto-generated constructor stub
-	}
+	private static double mrDefaultWeight = 300.0f;
+	private static double mrDefaultRadius = 10.0f;
+	private static Color moDefaultColor = Color.ORANGE;	
+    
+    public clsPlant(int pnId, clsPose poStartingPose, sim.physics2D.util.Double2D poStartingVelocity) {
+		super(pnId, poStartingPose, poStartingVelocity, new sim.physics2D.shape.Circle(clsPlant.mrDefaultRadius, clsPlant.moDefaultColor), clsPlant.mrDefaultWeight);
 
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 7055381541963741660L;
+    }
 
 	/* (non-Javadoc)
-	 * @see bw.clsEntity#getEntityType()
+	 * @see bw.clsEntity#setEntityType()
 	 */
 	@Override
-	public eEntityType getEntityType() {
-		return eEntityType.PLANT;
+	protected void setEntityType() {
+		meEntityType =  eEntityType.PLANT;
+		
 	}
 
 	/* (non-Javadoc)
@@ -55,15 +49,6 @@ public class clsPlant extends clsAnimate{
 	 */
 	@Override
 	public void sensing() {
-		// TODO Auto-generated method stub
-		
-	}
-
-	/* (non-Javadoc)
-	 * @see bw.clsEntity#setEntityType()
-	 */
-	@Override
-	protected void setEntityType() {
 		// TODO Auto-generated method stub
 		
 	}

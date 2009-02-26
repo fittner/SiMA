@@ -11,11 +11,11 @@ import java.util.ArrayList;
 import sim.physics2D.physicalObject.PhysicalObject2D;
 import sim.physics2D.shape.Shape;
 import ARSsim.physics2D.physicalObject.itfSetupFunctions;
+import ARSsim.physics2D.util.clsPose;
 import bw.actionresponses.clsDefaultEntityActionResponse;
 import bw.actionresponses.clsEntityActionResponses;
 import bw.body.motionplatform.clsBrainAction;
 import bw.utils.enums.eEntityType;
-import sim.physics2D.util.Double2D;
 
 /**
  * Entity is the baseclass of any object in the BubbleWorld.
@@ -42,34 +42,111 @@ public abstract class clsEntity {
 	
 	protected PhysicalObject2D moPhysicalObject2D;
 	private clsEntityActionResponses moEntityActionResponses;
-	
 	private Shape moShape;
 	private float mrMass;
-
 	protected eEntityType meEntityType;
-	
 	private int mnId;
+	private boolean mnRegistered;
 	
-	
-	public clsEntity() {
+	/**
+	 * TODO (deutsch) - insert description 
+	 * 
+	 * @author deutsch
+	 * 26.02.2009, 11:15:36
+	 *
+	 * @param pnId
+	 */
+	public clsEntity(int pnId) {
+		setId(pnId);
+		
 		setEntityType();
-		moPhysicalObject2D = null;
+		
 		setEntityActionResponse(new clsDefaultEntityActionResponse());
+
+		moPhysicalObject2D = null;
 		moShape = null;
 		mrMass = 0.0f;
-	}
+		setRegistered(false);
+	}	
 	
+	/**
+	 * the entities cycle for perception-deliberation-action
+	 * MUST implement these functions
+	 *
+	 * @author langr
+	 * 25.02.2009, 15:12:12
+	 *
+	 */
+	public abstract void updateInternalState();
+	public abstract void sensing();
+	public abstract void processing(ArrayList<clsBrainAction> poActionList);
+	public abstract void execution(ArrayList<clsBrainAction> poActionList);
+	
+	/**
+	 * TODO (deutsch) - insert description
+	 *
+	 * @author deutsch
+	 * 26.02.2009, 11:16:51
+	 *
+	 * @return
+	 */
+	public abstract sim.physics2D.util.Double2D getPosition();
+	
+	/**
+	 * TODO (deutsch) - insert description
+	 *
+	 * @author deutsch
+	 * 26.02.2009, 11:15:33
+	 *
+	 * @param poPose
+	 * @param poStartingVelocity
+	 * @param poShape
+	 * @param poMass
+	 */
+	protected abstract void initPhysicalObject2D(clsPose poPose, sim.physics2D.util.Double2D poStartingVelocity, Shape poShape, double poMass);
+	
+	/**
+	 * TODO (deutsch) - insert description
+	 *
+	 * @author deutsch
+	 * 26.02.2009, 11:15:30
+	 *
+	 */
+	protected abstract void setEntityType();
+
+	/**
+	 * TODO (deutsch) - insert description
+	 *
+	 * @author deutsch
+	 * 26.02.2009, 11:15:27
+	 *
+	 * @param poResponse
+	 */
 	protected void setEntityActionResponse(clsEntityActionResponses poResponse) {
 		setEntityActionResponses(poResponse);
 	}
-
-
 	
-	protected abstract void setEntityType();
-	
+	/**
+	 * TODO (deutsch) - insert description
+	 *
+	 * @author deutsch
+	 * 26.02.2009, 11:15:25
+	 *
+	 * @return
+	 */
 	public eEntityType getEntityType() {
 		return meEntityType;
 	}
+	
+	/**
+	 * TODO (deutsch) - insert description
+	 *
+	 * @author deutsch
+	 * 26.02.2009, 11:15:22
+	 *
+	 * @param peType
+	 * @return
+	 */
 	public boolean isEntityType(eEntityType peType)
 	{
 		boolean retVal = false;
@@ -89,8 +166,8 @@ public abstract class clsEntity {
 	 *
 	 * @param poPos
 	 */
-	public void setPosition(sim.util.Double2D poPos) {
-		((itfSetupFunctions)moPhysicalObject2D).setPosition(poPos);
+	public void setPose(clsPose poPose) {
+		((itfSetupFunctions)moPhysicalObject2D).setPose(poPose);
 	}
 	
 	/**
@@ -120,29 +197,7 @@ public abstract class clsEntity {
 		((itfSetupFunctions)moPhysicalObject2D).setCoefficients(poFriction, poStaticFriction, poRestitution);
 	}
 	
-	/**
-	 * see implementation clsMobileObject2D
-	 *
-	 * @author langr
-	 * 25.02.2009, 15:11:56
-	 *
-	 */
-	public void finalizeSetup() {
-		((itfSetupFunctions)moPhysicalObject2D).finalizeSetup();
-	}
-	
-	/**
-	 * the entities cycle for perception-deliberation-action
-	 * MUST implement these functions
-	 *
-	 * @author langr
-	 * 25.02.2009, 15:12:12
-	 *
-	 */
-	public abstract void updateInternalState();
-	public abstract void sensing();
-	public abstract void processing(ArrayList<clsBrainAction> poActionList);
-	public abstract void execution(ArrayList<clsBrainAction> poActionList);
+
 
 	/**
 	 * @param moEntityActionResponses the moEntityActionResponses to set
@@ -198,8 +253,47 @@ public abstract class clsEntity {
 		return mrMass;
 	}
 	
-	public abstract Double2D getPosition();
+	/**
+	 * TODO (deutsch) - insert description
+	 *
+	 * @author deutsch
+	 * 26.02.2009, 11:16:38
+	 *
+	 * @return
+	 */
+	public int getId() {	
+		return mnId;	
+	}
 	
-	public int getId() {	return mnId;	}
-	public void setId(int pnId) {		this.mnId = pnId;	}
+	/**
+	 * TODO (deutsch) - insert description
+	 *
+	 * @author deutsch
+	 * 26.02.2009, 11:16:36
+	 *
+	 * @param pnId
+	 */
+	public void setId(int pnId) {		
+		this.mnId = pnId;	
+	}
+
+	/**
+	 * @author deutsch
+	 * 26.02.2009, 11:42:42
+	 * 
+	 * @param mnRegistered the mnRegistered to set
+	 */
+	public void setRegistered(boolean mnRegistered) {
+		this.mnRegistered = mnRegistered;
+	}
+
+	/**
+	 * @author deutsch
+	 * 26.02.2009, 11:42:42
+	 * 
+	 * @return the mnRegistered
+	 */
+	public boolean isRegistered() {
+		return mnRegistered;
+	}
 }

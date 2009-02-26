@@ -12,7 +12,6 @@ import sim.display.*;
 import sim.engine.*;
 import javax.swing.*;
 import sim.portrayal.*;
-import sim.portrayal.simple.*;
 import sim.portrayal.continuous.*;
 import java.awt.Color;
 import java.awt.Container;

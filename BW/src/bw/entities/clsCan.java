@@ -7,47 +7,30 @@
  */
 package bw.entities;
 
-import java.awt.*;
+import java.awt.Color;
 import java.util.ArrayList;
 
-import sim.physics2D.util.*;
-import ARSsim.physics2D.physicalObject.clsMobileObject2D;
+import ARSsim.physics2D.util.clsPose;
 import bw.body.motionplatform.clsBrainAction;
 import bw.utils.enums.eEntityType;
 
-public class clsCan extends clsInanimate
-    {
-    public boolean visible;
-    public clsCan(Double2D pos, Double2D vel, int pnId) {
-    	super(pos, vel,new sim.physics2D.shape.Circle(2, Color.blue), 80, pnId);
-
-    	//FIXME... folgendes wird woanders gemacht, weg?
-    	clsMobileObject2D oMobile = getMobileObject2D();
-    	oMobile.setPose(pos, new Angle(0));
-    	oMobile.setVelocity(vel);
-    	oMobile.setShape(new sim.physics2D.shape.Circle(2, Color.blue), 80);
-    	oMobile.setCoefficientOfFriction(.5);
-    	oMobile.setCoefficientOfStaticFriction(0);
-    	oMobile.setCoefficientOfRestitution(1);
-        visible = true;
-    }
-    /* 
-    public void step(SimState state) {
-    	
-    	clsMobileObject2D oMobile = getMobile();
-        Double2D position = oMobile.getPosition();
-        clsBWMain simRobots = (clsBWMain)state;
-        simRobots.moGameGridField.setObjectLocation(oMobile, new sim.util.Double2D(position.x, position.y));
-        
-    }
-*/
+public class clsCan extends clsInanimate {
+	private static double mrDefaultWeight = 80.0f;
+	private static double mrDefaultRadius = 2.0f;
+	private static Color moDefaultColor = Color.blue;	
     
+    public clsCan(int pnId, clsPose poStartingPose, sim.physics2D.util.Double2D poStartingVelocity) {
+		super(pnId, poStartingPose, poStartingVelocity, new sim.physics2D.shape.Circle(clsCan.mrDefaultRadius, clsCan.moDefaultColor), clsCan.mrDefaultWeight);
+
+    }
+
 	/* (non-Javadoc)
-	 * @see bw.clsEntity#getEntityType()
+	 * @see bw.clsEntity#setEntityType()
 	 */
 	@Override
-	public eEntityType getEntityType() {
-		return eEntityType.CAN;
+	protected void setEntityType() {
+		meEntityType = eEntityType.CAN;
+		
 	}
 
 	/* (non-Javadoc)
@@ -55,15 +38,6 @@ public class clsCan extends clsInanimate
 	 */
 	@Override
 	public void sensing() {
-		// TODO Auto-generated method stub
-		
-	}
-
-	/* (non-Javadoc)
-	 * @see bw.clsEntity#setEntityType()
-	 */
-	@Override
-	protected void setEntityType() {
 		// TODO Auto-generated method stub
 		
 	}

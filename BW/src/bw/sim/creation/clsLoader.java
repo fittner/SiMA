@@ -8,6 +8,7 @@
  */
 package bw.sim.creation;
 
+import ARSsim.physics2D.util.clsPose;
 import bw.factories.clsSingletonMasonGetter;
 import sim.engine.SimState;
 import sim.field.continuous.Continuous2D;
@@ -49,4 +50,15 @@ public abstract class clsLoader {
     	
     	clsSingletonMasonGetter.setFieldEnvironment(new Continuous2D(25, pnWidth, pnHeight));
     }	
+    
+	public static clsPose generateRandomPose() {
+		double xMax = clsSingletonMasonGetter.getFieldEnvironment().getWidth();
+		double yMax = clsSingletonMasonGetter.getFieldEnvironment().getHeight();
+		
+        double xStartPos = Math.max(Math.min(clsSingletonMasonGetter.getSimState().random.nextDouble() * xMax, xMax - 20), 20);
+        double yStartPos = Math.max(Math.min(clsSingletonMasonGetter.getSimState().random.nextDouble() * yMax, yMax - 20), 50);
+        double rAngle = clsSingletonMasonGetter.getSimState().random.nextDouble() * Math.PI;
+        
+        return new clsPose(xStartPos, yStartPos, rAngle);		
+	}    
 }

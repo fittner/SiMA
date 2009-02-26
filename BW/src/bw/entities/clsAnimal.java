@@ -10,6 +10,7 @@ package bw.entities;
 import java.awt.Color;
 import java.util.ArrayList;
 
+import ARSsim.physics2D.util.clsPose;
 import bw.body.motionplatform.clsBrainAction;
 import bw.utils.enums.eEntityType;
 import sim.physics2D.util.Double2D;
@@ -27,30 +28,31 @@ import sim.physics2D.util.Double2D;
  * 
  */
 public class clsAnimal extends clsAnimate{
+	private static double mrDefaultWeight = 300.0f;
+	private static double mrDefaultRadius = 10.0f;
+	private static Color moDefaultColor = Color.BLUE;
 
 	/**
 	 * @param poStartingPosition
 	 * @param poStartingVelocity
 	 * @param pnId
 	 */
-	public clsAnimal(Double2D poStartingPosition, Double2D poStartingVelocity, int pnId) {
-		super(poStartingPosition, poStartingVelocity, new sim.physics2D.shape.Circle(10, Color.CYAN), 300.0, pnId);
+	public clsAnimal(int pnId, clsPose poPose, Double2D poStartingVelocity) {
+		super(pnId, poPose, poStartingVelocity, new sim.physics2D.shape.Circle(clsAnimal.mrDefaultRadius, clsAnimal.moDefaultColor), clsAnimal.mrDefaultWeight);
 		// TODO Auto-generated constructor stub
 	}
 
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 3232421713639035079L;
 
 	/* (non-Javadoc)
-	 * @see bw.clsEntity#getEntityType()
+	 * @see bw.clsEntity#setEntityType()
 	 */
 	@Override
-	public eEntityType getEntityType() {
+	protected void setEntityType() {
 		// TODO Auto-generated method stub
-		return eEntityType.ANIMAL;
+		meEntityType = eEntityType.ANIMAL;
+		
 	}
+	
 
 	/* (non-Javadoc)
 	 * @see bw.clsEntity#sensing()
@@ -59,16 +61,7 @@ public class clsAnimal extends clsAnimate{
 	public void sensing() {
 		// TODO Auto-generated method stub
 		
-	}
-
-	/* (non-Javadoc)
-	 * @see bw.clsEntity#setEntityType()
-	 */
-	@Override
-	protected void setEntityType() {
-		// TODO Auto-generated method stub
-		
-	}
+	}	
 
 	/* (non-Javadoc)
 	 * @see bw.clsEntity#execution(java.util.ArrayList)

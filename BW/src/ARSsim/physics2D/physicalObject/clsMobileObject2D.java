@@ -9,18 +9,13 @@ import sim.engine.SimState;
 import sim.engine.Steppable;
 import sim.physics2D.forceGenerator.ForceGenerator;
 import sim.physics2D.physicalObject.PhysicalObject2D;
-import sim.physics2D.shape.Shape;
-import sim.physics2D.util.Angle;
-import sim.physics2D.util.Double2D;
 import sim.portrayal.DrawInfo2D;
 import ARSsim.motionplatform.clsMotionPlatform;
+import ARSsim.physics2D.util.clsPose;
 import bw.body.motionplatform.clsBrainAction;
-import bw.body.motionplatform.clsMotionAction;
 import bw.entities.clsEntity;
 import bw.factories.clsSingletonMasonGetter;
 import bw.physicalObjects.sensors.clsEntityPartVision;
-import bw.sim.clsBWMain;
-import bw.utils.enums.eActionCommandType;
 
 /**
  * Our representative of the mason physics class
@@ -54,8 +49,20 @@ public class clsMobileObject2D extends sim.physics2D.physicalObject.MobileObject
 	 * 
 	 * @see ARSsim.physics2D.physicalObject.itfSetupFunctions#setPosition(sim.util.Double2D)
 	 */
-	public void setPosition(sim.util.Double2D poPosition) {
-		clsSingletonMasonGetter.getFieldEnvironment().setObjectLocation(this, poPosition);
+	public void setPose(clsPose poPose) {
+		clsSingletonMasonGetter.getFieldEnvironment().setObjectLocation( this, new sim.util.Double2D(poPose.getPosition().getX(), poPose.getPosition().getY()) );
+		setPose(poPose.getPosition(), poPose.getAngle());
+	}
+	
+	/* (non-Javadoc)
+	 *
+	 * @author deutsch
+	 * 26.02.2009, 12:00:49
+	 * 
+	 * @see ARSsim.physics2D.physicalObject.itfSetupFunctions#getPose()
+	 */
+	public clsPose getPose() {
+		return new clsPose(this.getPosition(), this.getOrientation());
 	}
 	
 	/* (non-Javadoc)
@@ -77,26 +84,7 @@ public class clsMobileObject2D extends sim.physics2D.physicalObject.MobileObject
 		setCoefficientOfRestitution(poRestitution);
 	}
 	
-	/* (non-Javadoc)
-	 *
-	 * This function registers mason's PhysicalObject2D in the
-	 * - mason physics engine
-	 * - mason framework to call the step-method
-	 * 
-	 * It is MANDATORY to call this function from outside (a clsMobile-Instance) after 
-	 * initializing with the itfSetupFunctions.
-	 *
-	 * @author langr
-	 * 25.02.2009, 14:22:58
-	 * 
-	 * @see ARSsim.physics2D.physicalObject.itfSetupFunctions#finalizeSetup()
-	 */
-	public void finalizeSetup()
-	{
-		clsSingletonMasonGetter.getPhysicsEngine2D().register(this);
-		clsSingletonMasonGetter.getSimState().schedule.scheduleRepeating(this);
-	}
-	
+
 	/**
 	 * TODO (muchitsch) - insert description
 	 *
@@ -130,9 +118,8 @@ public class clsMobileObject2D extends sim.physics2D.physicalObject.MobileObject
 		moActionList.clear();
 		moEntity.processing(moActionList);
 		
-		//with these 3, physics work!
-		Double2D position = this.getPosition();
-	    clsBWMain oMainSim = (clsBWMain)state;
+		//with these 2, physics work!
+		sim.physics2D.util.Double2D position = this.getPosition();
 	    clsSingletonMasonGetter.getFieldEnvironment().setObjectLocation(this, new sim.util.Double2D(position.x, position.y));
 	    
 	    // FIXME: clemens + roland - resetStepInfo should be called at the beginning of this function!
@@ -181,7 +168,7 @@ public class clsMobileObject2D extends sim.physics2D.physicalObject.MobileObject
     	return true;
     }
 
-    public int handleCollision(PhysicalObject2D other, Double2D colPoint)
+    public int handleCollision(PhysicalObject2D other, sim.physics2D.util.Double2D colPoint)
     {
     	if(!(other instanceof clsEntityPartVision)) {
     		

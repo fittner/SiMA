@@ -7,6 +7,7 @@
  */
 package bw.entities;
 
+import ARSsim.physics2D.util.clsPose;
 import sim.physics2D.shape.Shape;
 import sim.physics2D.util.Double2D;
 
@@ -30,9 +31,8 @@ public abstract class clsInanimate extends clsMobile {
 	 * @param circle
 	 * @param pnId
 	 */
-	public clsInanimate(Double2D poStartingPosition, Double2D poStartingVelocity, Shape poShape, double poMass, int pnId) {
-		super(poStartingPosition, poStartingVelocity, poShape, poMass, pnId);
-		// TODO Auto-generated constructor stub
+	public clsInanimate(int pnId, clsPose poStartingPose, Double2D poStartingVelocity, Shape poShape, double poMass) {
+		super(pnId, poStartingPose, poStartingVelocity, poShape, poMass);
 	}
 
 

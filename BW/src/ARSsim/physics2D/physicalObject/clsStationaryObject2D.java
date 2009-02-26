@@ -4,6 +4,7 @@
 package ARSsim.physics2D.physicalObject;
 
 import sim.physics2D.shape.Shape;
+import ARSsim.physics2D.util.clsPose;
 import bw.entities.clsEntity;
 import bw.factories.clsSingletonMasonGetter;
 
@@ -37,19 +38,19 @@ public class clsStationaryObject2D extends sim.physics2D.physicalObject.Stationa
 		return moEntity;
 	}	
 	
-	public void setPosition(sim.util.Double2D poPosition) {
-		clsSingletonMasonGetter.getFieldEnvironment().setObjectLocation(this, poPosition);
+	public void setPose(clsPose poPose) {
+		clsSingletonMasonGetter.getFieldEnvironment().setObjectLocation( this, new sim.util.Double2D(poPose.getPosition().getX(), poPose.getPosition().getY()) );
+		setPose(poPose.getPosition(), poPose.getAngle());
 	}
-
 	/* (non-Javadoc)
-	 * @see ARSsim.physics2D.physicalObject.itfSetupFunctions#finalizeSetup()
+	 *
+	 * @author deutsch
+	 * 26.02.2009, 12:00:49
+	 * 
+	 * @see ARSsim.physics2D.physicalObject.itfSetupFunctions#getPose()
 	 */
-	@Override
-	public void finalizeSetup() {
-		clsSingletonMasonGetter.getPhysicsEngine2D().register(this);
-		
-		// TODO: check if there is no need to register the steppable... 
-		//clsSingletonMasonGetter.getSimState().schedule.scheduleRepeating(this);			
+	public clsPose getPose() {
+		return new clsPose(this.getPosition(), this.getOrientation());
 	}
 
 	/* (non-Javadoc)

@@ -7,13 +7,13 @@
  */
 package bw.sim.creation.simpleLoader;
 
-import ARSsim.physics2D.physicalObject.clsMobileObject2D;
+import ARSsim.physics2D.util.clsPose;
 import bw.entities.clsCan;
 import bw.entities.clsStone;
-import sim.engine.SimState;
-import sim.field.continuous.Continuous2D;
-import sim.physics2D.PhysicsEngine2D;
-import sim.physics2D.util.Double2D;
+import bw.factories.clsRegisterEntity;
+import bw.factories.clsSingletonMasonGetter;
+import bw.sim.creation.clsLoader;
+
 
 /**
  * The object loader handles the registration of new animate & inanimate objects in the physics engine 
@@ -30,66 +30,32 @@ public class clsEntityLoader {
 	 * @param poObjPE
 	 * @param poSimState
 	 */
-	public static void loadInanimate(Continuous2D poFieldEnvironment, PhysicsEngine2D poObjPE, SimState poSimState){
-		
-		
+	public static void loadInanimate(int pnNumCans, int pnNumStones){
 		//load inanimate entitieshere
-		
-		loadCans(poFieldEnvironment, poObjPE, poSimState, 3);
-		
-		loadStones(poFieldEnvironment, poObjPE, poSimState, 2);
+		loadCans(pnNumCans);
+		loadStones(pnNumStones);
 
 	}
 	
-	
-	/**
-	 * Use this method to create all animate objects in the world
-	 *
-	 * @param poFieldEnvironment
-	 * @param poObjPE
-	 * @param poSimState
-	 */
-	public static void loadAnimate(Continuous2D poFieldEnvironment, PhysicsEngine2D poObjPE, SimState poSimState){
-		Double2D oPos;
-		
-		
-		
-		//load animate here
-	}
-	
-	public static void loadStones(Continuous2D poFieldEnvironment, PhysicsEngine2D poObjPE, SimState poSimState, int pnNumStones){
-		
-		Double2D oPos;
-		double xMax = poFieldEnvironment.getHeight();
-		double yMax = poFieldEnvironment.getWidth();
-		
+	public static void loadStones(int pnNumStones){
 		for (int i = 0; i < pnNumStones; i++)
         {
-			double x = Math.max(Math.min(poSimState.random.nextDouble() * xMax, xMax - 10), 10);
-	        double y = Math.max(Math.min(poSimState.random.nextDouble() * yMax, yMax - 10), 60);
-	                    
-	        oPos = new Double2D(x, y);
+			clsPose oStartPose = clsLoader.generateRandomPose();
+			double rRadius = clsSingletonMasonGetter.getSimState().random.nextDouble() * 30.0 + 10.0;
 	        
-		    clsStone pstone = new clsStone(oPos, new Double2D(0, 0), 17, 20, i);
+		    clsStone oStone = new clsStone(i, oStartPose, new sim.physics2D.util.Double2D(0, 0), rRadius);
+		    clsRegisterEntity.registerEntity(oStone);
         }
 	}
 	
 	
-public static void loadCans(Continuous2D poFieldEnvironment, PhysicsEngine2D poObjPE, SimState poSimState, int pnNumCans){
-		
-		Double2D pos;
-		double xMin = 0;
-		double xMax = poFieldEnvironment.getHeight();
-		double yMin = 0;
-		double yMax = poFieldEnvironment.getWidth();
-		 
+	public static void loadCans(int pnNumCans){
         for (int i = 0; i < pnNumCans; i++)
         {
-	        double x = Math.max(Math.min(poSimState.random.nextDouble() * xMax, xMax - 10), 10);
-	        double y = Math.max(Math.min(poSimState.random.nextDouble() * yMax, yMax - 10), 60);
-	                    
-	        pos = new Double2D(x, y);
-	        clsCan can = new clsCan(pos, new Double2D(0, 0), i);
+        	clsPose oStartPose = clsLoader.generateRandomPose();
+	        clsCan oCan = new clsCan(i, oStartPose, new sim.physics2D.util.Double2D(0, 0));
+	        
+	        clsRegisterEntity.registerEntity(oCan);
         }
 		
 	}

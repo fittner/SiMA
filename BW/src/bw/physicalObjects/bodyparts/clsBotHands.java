@@ -7,13 +7,12 @@
  */
 package bw.physicalObjects.bodyparts;
 
-import java.awt.*;
-import sim.engine.*;
-import sim.physics2D.physicalObject.*;
-import sim.physics2D.util.*;
-import tstBw.sim.*;
+import java.awt.Paint;
+import sim.engine.SimState;
+import sim.engine.Steppable;
+import sim.physics2D.physicalObject.MobileObject2D;
+import sim.physics2D.util.Angle;
 import bw.factories.clsSingletonMasonGetter;
-import bw.sim.clsBWMain;
 
 /* Mason test implementation of Effectors. 
 * 
@@ -22,8 +21,16 @@ import bw.sim.clsBWMain;
 */
 public class clsBotHands extends MobileObject2D implements Steppable
     {
-    // public double radius;
-    public clsBotHands(Double2D pos, Double2D vel, double radius, Paint paint)
+    /**
+	 * TODO (deutsch) - insert description 
+	 * 
+	 * @author deutsch
+	 * 26.02.2009, 12:36:11
+	 */
+	private static final long serialVersionUID = 4933590799776946075L;
+
+	// public double radius;
+    public clsBotHands(sim.physics2D.util.Double2D pos, sim.physics2D.util.Double2D vel, double radius, Paint paint)
         {
         this.setVelocity(vel);
         this.setPose(pos, new Angle(0));
@@ -36,7 +43,7 @@ public class clsBotHands extends MobileObject2D implements Steppable
  
     public void step(SimState state)
         {
-        Double2D position = this.getPosition();
+    	sim.physics2D.util.Double2D position = this.getPosition();
         clsSingletonMasonGetter.getFieldEnvironment().setObjectLocation(this, new sim.util.Double2D(position.x, position.y));
         }
     }
