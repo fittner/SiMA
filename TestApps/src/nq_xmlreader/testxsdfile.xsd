@@ -1,52 +1,93 @@
 <?xml version="1.0" encoding="ISO-8859-1" ?>
 <xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema">
 
-<xs:element name="BubbleWorld">
+<xs:element name="BubbleWorld" >
  <xs:complexType>
-  <xs:sequence>
+   <xs:sequence>
    
-   <xs:element name="Bubble" maxOccurs="unbounded">
-    <xs:complexType>
-      <xs:all>
-       <xs:element name="posX" type="xs:string"/>
-       <xs:element name="posY" type="xs:integer"/>
-      </xs:all>
-    </xs:complexType>
-   </xs:element>
+     <xs:element name="MobileItems">
+       <xs:complexType>
+       <xs:sequence>
+
+          <xs:element name="Bubble" minOccurs="0" maxOccurs="unbounded">
+            <xs:complexType>
+            <xs:all>
+                <xs:element name="posX" type="xs:integer"/>
+                <xs:element name="posY" type="xs:integer"/>
+                <xs:element name="size" type="xs:float"/>
+                <xs:element name="height" type="xs:float"/>
+                <xs:element name="weight" type="xs:float"/>
+                <xs:element name="direction" type="xs:float"/>
+            </xs:all>
+            </xs:complexType>
+          </xs:element>
 
    
-  <xs:element name="Stone" maxOccurs="unbounded">
-    <xs:complexType>
-      <xs:all>
-       <xs:element name="posX" type="xs:string"/>
-       <xs:element name="posY" type="xs:integer"/>
-      </xs:all>
-    </xs:complexType>
-   </xs:element>
+           <xs:element name="Stone" minOccurs="0" maxOccurs="unbounded">
+             <xs:complexType>
+             <xs:all>
+                <xs:element name="posX" type="xs:integer"/>
+                <xs:element name="posY" type="xs:integer"/>
+                <xs:element name="size" type="xs:float"/>
+                <xs:element name="height" type="xs:float"/>
+                <xs:element name="weight" type="xs:float"/>
+                <xs:element name="color" type="xs:string"/>
+             </xs:all>
+             </xs:complexType>
+           </xs:element>
 
 
-   <xs:element name="Can" maxOccurs="unbounded">
-    <xs:complexType>
-      <xs:all>
-       <xs:element name="posX" type="xs:string"/>
-       <xs:element name="posY" type="xs:integer"/>
-      </xs:all>
-    </xs:complexType>
-   </xs:element>
+           <xs:element name="Can" minOccurs="0" maxOccurs="unbounded">
+              <xs:complexType>
+              <xs:all>
+                 <xs:element name="posX" type="xs:integer"/>
+                 <xs:element name="posY" type="xs:integer"/>
+              </xs:all>
+              </xs:complexType>
+           </xs:element>
 
 
 
-   <xs:element name="Remotebot" maxOccurs="1">
-    <xs:complexType>
-      <xs:all>
-       <xs:element name="posX" type="xs:string"/>
-       <xs:element name="posY" type="xs:integer"/>
-      </xs:all>
-    </xs:complexType>
-   </xs:element>
+           <xs:element name="RemoteButton" minOccurs="0" maxOccurs="1">
+              <xs:complexType>
+              <xs:all>
+                 <xs:element name="posX" type="xs:integer"/>
+                 <xs:element name="posY" type="xs:integer"/>
+              </xs:all>
+              </xs:complexType>
+           </xs:element>
 
 
-  </xs:sequence>  
+        </xs:sequence>  
+        </xs:complexType>
+     </xs:element>  
+
+
+     <xs:element name="StationaryItems">
+       <xs:complexType>
+       <xs:sequence>
+
+          <xs:element name="Wall" minOccurs="0" maxOccurs="unbounded">
+            <xs:complexType>
+            <xs:all>
+                <xs:element name="posX" type="xs:integer"/>
+                <xs:element name="posY" type="xs:integer"/>
+                <xs:element name="height" type="xs:float"/>
+                <xs:element name="direction" type="xs:float"/>
+            </xs:all>
+            </xs:complexType>
+          </xs:element>
+
+        </xs:sequence>  
+        </xs:complexType>
+      </xs:element>
+   
+      
+
+        
+  </xs:sequence> 
+  <xs:attribute name="WindowHeight" type="xs:float" fixed="???"/>
+  <xs:attribute name="WindowWidth" type="xs:float" fixed="???"/>
  </xs:complexType>
 </xs:element>
 
