@@ -1,10 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
 	<classpathentry kind="src" path="src"/>
-	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/BW"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/Mason"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/MasonPhysics2D"/>
-	<classpathentry combineaccessrules="false" kind="src" path="/BW"/>
-	<classpathentry kind="lib" path="C:/Documents and Settings/zia/Desktop/treetable_eval/docs/java/jtree.jar"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/jre1.6.0_07"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
