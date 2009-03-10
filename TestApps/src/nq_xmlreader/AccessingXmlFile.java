@@ -1,4 +1,4 @@
-package nq_xmlreader;
+// package nq_xmlreader;
 
 import java.io.File;
 import javax.xml.parsers.DocumentBuilder;
@@ -10,7 +10,8 @@ public class AccessingXmlFile {
 	public static void main(String argv[]) {
 
 		NodeList node = null;
-    	String fileName = "S:\\ARS\\PA\\BWv1\\TestApps\\src\\nq_xmlreader\\testxmlfile.xml";
+    	// String fileName = "S:\\ARS\\PA\\BWv1\\TestApps\\src\\nq_xmlreader\\testxmlfile.xml";
+		String fileName = "C:\\TestProject\\testxmlfile.xml";
 
     try {
     		File file = new File(fileName);

@@ -12,12 +12,12 @@
           <xs:element name="Bubble" minOccurs="0" maxOccurs="unbounded">
             <xs:complexType>
             <xs:all>
-                <xs:element name="posX" type="xs:integer"/>
-                <xs:element name="posY" type="xs:integer"/>
-                <xs:element name="size" type="xs:float"/>
-                <xs:element name="height" type="xs:float"/>
-                <xs:element name="weight" type="xs:float"/>
-                <xs:element name="direction" type="xs:float"/>
+                <xs:element name="PosX" type="xs:integer"/>
+                <xs:element name="PosY" type="xs:integer"/>
+                <xs:element name="Size" type="xs:float"/>
+                <xs:element name="Height" type="xs:float"/>
+                <xs:element name="Weight" type="xs:float"/>
+                <xs:element name="Direction" type="xs:float"/>
             </xs:all>
             </xs:complexType>
           </xs:element>
@@ -26,12 +26,12 @@
            <xs:element name="Stone" minOccurs="0" maxOccurs="unbounded">
              <xs:complexType>
              <xs:all>
-                <xs:element name="posX" type="xs:integer"/>
-                <xs:element name="posY" type="xs:integer"/>
-                <xs:element name="size" type="xs:float"/>
-                <xs:element name="height" type="xs:float"/>
-                <xs:element name="weight" type="xs:float"/>
-                <xs:element name="color" type="xs:string"/>
+                <xs:element name="PosX" type="xs:integer"/>
+                <xs:element name="PosY" type="xs:integer"/>
+                <xs:element name="Size" type="xs:float"/>
+                <xs:element name="Height" type="xs:float"/>
+                <xs:element name="Weight" type="xs:float"/>
+                <xs:element name="Color" type="xs:string"/>
              </xs:all>
              </xs:complexType>
            </xs:element>
@@ -40,8 +40,8 @@
            <xs:element name="Can" minOccurs="0" maxOccurs="unbounded">
               <xs:complexType>
               <xs:all>
-                 <xs:element name="posX" type="xs:integer"/>
-                 <xs:element name="posY" type="xs:integer"/>
+                 <xs:element name="PosX" type="xs:integer"/>
+                 <xs:element name="PosY" type="xs:integer"/>
               </xs:all>
               </xs:complexType>
            </xs:element>
@@ -51,8 +51,8 @@
            <xs:element name="RemoteButton" minOccurs="0" maxOccurs="1">
               <xs:complexType>
               <xs:all>
-                 <xs:element name="posX" type="xs:integer"/>
-                 <xs:element name="posY" type="xs:integer"/>
+                 <xs:element name="PosX" type="xs:integer"/>
+                 <xs:element name="PosY" type="xs:integer"/>
               </xs:all>
               </xs:complexType>
            </xs:element>
@@ -70,10 +70,10 @@
           <xs:element name="Wall" minOccurs="0" maxOccurs="unbounded">
             <xs:complexType>
             <xs:all>
-                <xs:element name="posX" type="xs:integer"/>
-                <xs:element name="posY" type="xs:integer"/>
-                <xs:element name="height" type="xs:float"/>
-                <xs:element name="direction" type="xs:float"/>
+                <xs:element name="PosX" type="xs:integer"/>
+                <xs:element name="PosY" type="xs:integer"/>
+                <xs:element name="Height" type="xs:float"/>
+                <xs:element name="Direction" type="xs:float"/>
             </xs:all>
             </xs:complexType>
           </xs:element>
