@@ -33,7 +33,9 @@ public class clsSimpleLoader extends clsLoader {
 	 * @param pnHeight
 	 */
 	public clsSimpleLoader(SimState poSimState, int pnWidth, int pnHeight) {
-		super(poSimState, pnWidth, pnHeight);
+		super(poSimState);
+		
+		createGrids(pnWidth, pnHeight);
 		// TODO Auto-generated constructor stub
 	}
 

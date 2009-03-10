@@ -29,8 +29,8 @@ public class clsSimpleXMLLoader extends clsLoader {
 	 * @param pnWidth
 	 * @param pnHeight
 	 */
-	public clsSimpleXMLLoader(SimState poSimState, int pnWidth, int pnHeight) {
-		super(poSimState, pnWidth, pnHeight);
+	public clsSimpleXMLLoader(SimState poSimState) {
+		super(poSimState);
 		// TODO Auto-generated constructor stub
 	}
 
@@ -44,6 +44,8 @@ public class clsSimpleXMLLoader extends clsLoader {
 	@Override
 	public void loadObjects() {
 		// TODO Auto-generated method stub
+		
+		//FIXME before creating any other object, call createGrid(pnWidth, pnHeight);
 
 	}
 

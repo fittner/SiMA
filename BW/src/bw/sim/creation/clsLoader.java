@@ -23,9 +23,7 @@ import sim.physics2D.PhysicsEngine2D;
  */
 public abstract class clsLoader {
 	
-    public clsLoader(SimState poSimState, int pnWidth, int pnHeight) {
-    	createGrids(pnWidth, pnHeight);
-    	
+    public clsLoader(SimState poSimState) {
     	createPhysicsEngine2D();
     	
 		clsSingletonMasonGetter.setSimState(poSimState);
@@ -41,7 +39,7 @@ public abstract class clsLoader {
 		clsSingletonMasonGetter.setPhysicsEngine2D(new PhysicsEngine2D());
 	}
 
-    private void createGrids(int pnWidth, int pnHeight)
+    protected void createGrids(int pnWidth, int pnHeight)
     {
     	/**
     	 * Continuous2D is a Field: a representation of space. In particular, Continuous2D 
