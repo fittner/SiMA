@@ -15,5 +15,11 @@ package bw.utils.enums;
  */
 public enum eActionCommandType {
 	UNDEFINED,
-	MOTION
+	MOTION,
+	
+	// temp values - to be deleted
+	STOPMOTION,
+	ATTACK,
+	EXPLORE,
+	EAT,
 }

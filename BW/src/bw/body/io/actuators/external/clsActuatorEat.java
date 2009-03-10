@@ -103,6 +103,7 @@ public class clsActuatorEat extends clsActuatorExt {
 			registerEnergyConsumption(mrDefaultEnergyConsuptionValue + 3.5f); //TODO clemens: change 50 to the real value
 			
 			float rWeight = 27; //größe des Bissen
+			//FIXME - eating yourself is not an option ... oEntityActionResponse references to your own body!!!
 			clsFood oReturnedFood = oEntityActionResponse.actionEatResponse(rWeight); //Apfel gibt mir einen Bisset food retour
 			
 			moAnimate.moAgentBody.getInterBodyWorldSystem().getConsumeFood().digest(oReturnedFood); // food an Body zur weiterverarbeitung geben
