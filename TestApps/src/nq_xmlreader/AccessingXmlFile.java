@@ -10,8 +10,10 @@ public class AccessingXmlFile {
 	public static void main(String argv[]) {
 
 		NodeList node = null;
-    	// String fileName = "S:\\ARS\\PA\\BWv1\\TestApps\\src\\nq_xmlreader\\testxmlfile.xml";
-		String fileName = "C:\\TestProject\\testxmlfile.xml";
+
+    	        String fileName = "S:\\ARS\\PA\\BWv1\\TestApps\\src\\nq_xmlreader\\testxmlfile.xml";
+
+		// String fileName = "C:\\TestProject\\testxmlfile.xml";
 
     try {
     		File file = new File(fileName);
