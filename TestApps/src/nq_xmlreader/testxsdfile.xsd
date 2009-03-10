@@ -1,94 +1,91 @@
-<?xml version="1.0" encoding="ISO-8859-1" ?>
-<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema">
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema">
 
-<xs:element name="BubbleWorld" >
- <xs:complexType>
-   <xs:sequence>
+<xsd:element name="BubbleWorld" >
+ <xsd:complexType>
+   <xsd:sequence>
    
-     <xs:element name="MobileItems">
-       <xs:complexType>
-       <xs:sequence>
+     <xsd:element name="MobileItems">
+       <xsd:complexType>
+       <xsd:sequence>
 
-          <xs:element name="Bubble" minOccurs="0" maxOccurs="unbounded">
-            <xs:complexType>
-            <xs:all>
-                <xs:element name="PosX" type="xs:integer"/>
-                <xs:element name="PosY" type="xs:integer"/>
-                <xs:element name="Size" type="xs:float"/>
-                <xs:element name="Height" type="xs:float"/>
-                <xs:element name="Weight" type="xs:float"/>
-                <xs:element name="Direction" type="xs:float"/>
-            </xs:all>
-            </xs:complexType>
-          </xs:element>
+          <xsd:element name="Bubble" minOccurs="0" maxOccurs="unbounded">
+            <xsd:complexType>
+            <xsd:all>
+                <xsd:element name="PosX" type="xsd:integer"/>
+                <xsd:element name="PosY" type="xsd:integer"/>
+                <xsd:element name="Size" type="xsd:float"/>
+                <xsd:element name="Height" type="xsd:float"/>
+                <xsd:element name="Weight" type="xsd:float"/>
+                <xsd:element name="Direction" type="xsd:float"/>
+            </xsd:all>
+            </xsd:complexType>
+          </xsd:element>
 
    
-           <xs:element name="Stone" minOccurs="0" maxOccurs="unbounded">
-             <xs:complexType>
-             <xs:all>
-                <xs:element name="PosX" type="xs:integer"/>
-                <xs:element name="PosY" type="xs:integer"/>
-                <xs:element name="Size" type="xs:float"/>
-                <xs:element name="Height" type="xs:float"/>
-                <xs:element name="Weight" type="xs:float"/>
-                <xs:element name="Color" type="xs:string"/>
-             </xs:all>
-             </xs:complexType>
-           </xs:element>
+           <xsd:element name="Stone" minOccurs="0" maxOccurs="unbounded">
+             <xsd:complexType>
+             <xsd:all>
+                <xsd:element name="PosX" type="xsd:integer"/>
+                <xsd:element name="PosY" type="xsd:integer"/>
+                <xsd:element name="Size" type="xsd:float"/>
+                <xsd:element name="Height" type="xsd:float"/>
+                <xsd:element name="Weight" type="xsd:float"/>
+                <xsd:element name="Color" type="xsd:string"/>
+             </xsd:all>
+             </xsd:complexType>
+           </xsd:element>
 
 
-           <xs:element name="Can" minOccurs="0" maxOccurs="unbounded">
-              <xs:complexType>
-              <xs:all>
-                 <xs:element name="PosX" type="xs:integer"/>
-                 <xs:element name="PosY" type="xs:integer"/>
-              </xs:all>
-              </xs:complexType>
-           </xs:element>
+           <xsd:element name="Can" minOccurs="0" maxOccurs="unbounded">
+              <xsd:complexType>
+              <xsd:all>
+                 <xsd:element name="PosX" type="xsd:integer"/>
+                 <xsd:element name="PosY" type="xsd:integer"/>
+              </xsd:all>
+              </xsd:complexType>
+           </xsd:element>
 
 
 
-           <xs:element name="RemoteButton" minOccurs="0" maxOccurs="1">
-              <xs:complexType>
-              <xs:all>
-                 <xs:element name="PosX" type="xs:integer"/>
-                 <xs:element name="PosY" type="xs:integer"/>
-              </xs:all>
-              </xs:complexType>
-           </xs:element>
+           <xsd:element name="RemoteBot" minOccurs="0" maxOccurs="1">
+              <xsd:complexType>
+              <xsd:all>
+                 <xsd:element name="PosX" type="xsd:integer"/>
+                 <xsd:element name="PosY" type="xsd:integer"/>
+              </xsd:all>
+              </xsd:complexType>
+           </xsd:element>
 
 
-        </xs:sequence>  
-        </xs:complexType>
-     </xs:element>  
+        </xsd:sequence>  
+        </xsd:complexType>
+     </xsd:element>  
 
 
-     <xs:element name="StationaryItems">
-       <xs:complexType>
-       <xs:sequence>
+     <xsd:element name="StationaryItems">
+       <xsd:complexType>
+       <xsd:sequence>
 
-          <xs:element name="Wall" minOccurs="0" maxOccurs="unbounded">
-            <xs:complexType>
-            <xs:all>
-                <xs:element name="PosX" type="xs:integer"/>
-                <xs:element name="PosY" type="xs:integer"/>
-                <xs:element name="Height" type="xs:float"/>
-                <xs:element name="Direction" type="xs:float"/>
-            </xs:all>
-            </xs:complexType>
-          </xs:element>
+          <xsd:element name="Wall" minOccurs="0" maxOccurs="unbounded">
+            <xsd:complexType>
+            <xsd:all>
+                <xsd:element name="PosX" type="xsd:integer"/>
+                <xsd:element name="PosY" type="xsd:integer"/>
+                <xsd:element name="Height" type="xsd:float"/>
+                <xsd:element name="Direction" type="xsd:float"/>
+            </xsd:all>
+            </xsd:complexType>
+          </xsd:element>
 
-        </xs:sequence>  
-        </xs:complexType>
-      </xs:element>
+        </xsd:sequence>  
+        </xsd:complexType>
+      </xsd:element>
    
-      
+  
 
         
-  </xs:sequence> 
-  <xs:attribute name="WindowHeight" type="xs:float" fixed="???"/>
-  <xs:attribute name="WindowWidth" type="xs:float" fixed="???"/>
- </xs:complexType>
-</xs:element>
+  </xsd:sequence> 
+  </xsd:complexType>
+</xsd:element>
 
-</xs:schema>
+</xsd:schema>

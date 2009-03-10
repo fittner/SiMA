@@ -1,9 +1,6 @@
-
 <?xml version="1.0" ?> 
 
-<BubbleWorld xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="testxsdfile.xsd">
-
-  
+<BubbleWorld>
 
 <MobileItems>
 
@@ -13,7 +10,7 @@
     <Size>10.3</Size>	
     <Height>2.0</Height>
     <Weight>2.2</Weight>	
-    <Direction>120</Direction>
+    <Direction>12.0</Direction>
     
   </Bubble>
     
@@ -32,7 +29,7 @@
     <Size>7.3</Size>	
     <Height>2.0</Height>
     <Weight>2.2</Weight>	
-    <Direction>90</Direction>
+    <Direction>90.0</Direction>
   </Bubble>
 
   <Bubble>
