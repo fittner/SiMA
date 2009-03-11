@@ -30,7 +30,7 @@ public class clsWorldBoundaries {
 		oPose = new clsPose(100, 0, 0);
         oWall = new clsWall(1, oPose, 193, 6);
         clsRegisterEntity.registerEntity(oWall);
-        clsImagePortrayal.PlaceImage("S:/ARS/PA/BWv1/BW/src/resources/images/wall1.jpg", 8, new sim.util.Double2D(oPose.getPosition().x, oPose.getPosition().y), clsSingletonMasonGetter.getFieldEnvironment());
+       clsImagePortrayal.PlaceImage("S:/ARS/PA/BWv1/BW/src/resources/images/wall1.jpg", 8, new sim.util.Double2D(oPose.getPosition().x, oPose.getPosition().y), clsSingletonMasonGetter.getFieldEnvironment());
  
          	
         oPose = new clsPose(100, 200, 0);
