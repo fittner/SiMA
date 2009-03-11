@@ -1,11 +1,15 @@
-/**
- * @author deutsch
- * 25.02.2009, 15:15:21
- * 
- * $Rev::                      $: Revision of last commit
- * $Author::                   $: Author of last commit
- * $Date::                     $: Date of last commit
- */
+/*
+  Features of file:
+     1. Objects are loading from XML file to Bubble world 
+     2. Checking compatibility of XML file with XML schema
+     
+  Author:
+     Nauman Qadeer
+     
+  Version1 date:  
+     11th March 2009
+*/
+
 package bw.sim.creation.simpleXMLLoader;
 
 import java.io.File;
