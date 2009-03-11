@@ -72,10 +72,14 @@
     <Height>2.0</Height>
     <Direction>2.2</Direction>	
   </Wall>
-  
-
+ 
 </StationaryItems>
 
-
+<Window>
+   <Width>25</Width>
+   <Height>80</Height>
+</Window> 
+   
+   
 </BubbleWorld>
 
