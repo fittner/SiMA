@@ -1,7 +1,9 @@
 /*
-  Features of file:
-     1. Objects are loading from XML file to Bubble world 
-     2. Checking compatibility of XML file with XML schema
+  Summary of file:
+     1. Checking compatibility of XML file with XML schema
+     2. Loading DOM from XML file
+     3. Load Window from DOM  
+     4. Instantiate objects for Mobile & Stationary classes and call their methods for loading objects 
      
   Author:
      Nauman Qadeer
@@ -97,6 +99,9 @@ public class clsSimpleXMLLoader extends clsLoader {
         // Load window
         // -----------------------------------------------------------------------
       
+        	System.out.println("Diplaying values for Window");
+        	System.out.println("--------------------------------");        
+        
         	Node currentNode = nodelist[5].item(0);  // Because Window is only one so see only first node 
  		    
         	// Convert node into element to get its child nodes
@@ -119,7 +124,7 @@ public class clsSimpleXMLLoader extends clsLoader {
  		    
         	// Print Height (to verify just)
         	System.out.println("Height of Window is: " + height);     
-   		 
+        	System.out.println();
       
         	// Call createGrids method of super class
         	/*	super.createGrids(25,80); //   window pnWidth and pnHeight */
@@ -127,6 +132,7 @@ public class clsSimpleXMLLoader extends clsLoader {
         // Load Window Ends 
         // ----------------------------------------------------------------------
          
+     
         	
         // Load MobileItems (Bubbles,Stones,Cans,RemoteBot)
         // ----------------------------------------------------------------------- 
@@ -141,11 +147,12 @@ public class clsSimpleXMLLoader extends clsLoader {
          // ----------------------------------------------------------------------	
         	
         
+        	
          // Load StationaryItems (Wall)
          // ----------------------------------------------------------------------- 
             	
-            LoadStationaryItems lsi = new LoadStationaryItems();
-            lsi.loadWorldBoundaries(nodelist[4]);
+              LoadStationaryItems lsi = new LoadStationaryItems();
+              lsi.loadWorldBoundaries(nodelist[4]);
             
           // Load StationaryItems Ends 
           // ----------------------------------------------------------------------	

@@ -1,13 +1,15 @@
-/**
- * @author qadeer
- * 11.03.2009, 17:47:48
- * 
- * $Rev::                      $: Revision of last commit
- * $Author::                   $: Author of last commit
- * $Date::                     $: Date of last commit
- */
-package bw.sim.creation.simpleXMLLoader;
+/*
+Summary of file:
+    Loading Stationary Objects from DOM to BubbleWorld
+   
+Author:
+   Nauman Qadeer
+   
+Version1 date:  
+   11th March 2009
+*/
 
+package bw.sim.creation.simpleXMLLoader;
 import ARSsim.physics2D.util.clsPose;
 import ARSsim.portrayal.simple.clsImagePortrayal;
 import bw.entities.clsWall;
@@ -21,32 +23,94 @@ import org.w3c.dom.Node;
 public class LoadStationaryItems {
 	
 
-		public static void loadWorldBoundaries(NodeList nodelist){
-			clsPose oPose;
-			clsWall oWall;
+ public static void loadWorldBoundaries(NodeList nodelist){
+		
+  if (nodelist.getLength() != 0)
+	    		
+	 try {		
+	     		  
+	    System.out.println();
+	    System.out.println("Diplaying values for All Walls");
+	    System.out.println("--------------------------------");
+	     		
+	    for (int i = 0; i < nodelist.getLength(); i++)
+	      {
+	     	 /* Already Existing code (As in "bw.sim.creation.simpleLoader" package)
+	     	         
+	     	    clsPose oPose;
+				clsWall oWall;
 			
-	        // HORIZ
-			oPose = new clsPose(100, 0, 0);
-	        oWall = new clsWall(1, oPose, 193, 6);
-	        clsRegisterEntity.registerEntity(oWall);
-	       clsImagePortrayal.PlaceImage("S:/ARS/PA/BWv1/BW/src/resources/images/wall1.jpg", 8, new sim.util.Double2D(oPose.getPosition().x, oPose.getPosition().y), clsSingletonMasonGetter.getFieldEnvironment());
+	        	// HORIZ
+				oPose = new clsPose(100, 0, 0);
+	        	oWall = new clsWall(1, oPose, 193, 6);
+	        	clsRegisterEntity.registerEntity(oWall);
+	       		clsImagePortrayal.PlaceImage("S:/ARS/PA/BWv1/BW/src/resources/images/wall1.jpg", 8, new sim.util.Double2D(oPose.getPosition().x, oPose.getPosition().y), clsSingletonMasonGetter.getFieldEnvironment());
 	 
 	         	
-	        oPose = new clsPose(100, 200, 0);
-	        oWall = new clsWall(2, oPose, 193, 6);
-	        clsRegisterEntity.registerEntity(oWall);
-	        clsImagePortrayal.PlaceImage("S:/ARS/PA/BWv1/BW/src/resources/images/wall1.jpg", 8, new sim.util.Double2D(oPose.getPosition().x, oPose.getPosition().y), clsSingletonMasonGetter.getFieldEnvironment());
+	        	oPose = new clsPose(100, 200, 0);
+	        	oWall = new clsWall(2, oPose, 193, 6);
+	        	clsRegisterEntity.registerEntity(oWall);
+	        	clsImagePortrayal.PlaceImage("S:/ARS/PA/BWv1/BW/src/resources/images/wall1.jpg", 8, new sim.util.Double2D(oPose.getPosition().x, oPose.getPosition().y), clsSingletonMasonGetter.getFieldEnvironment());
 	                
-	        // VERT
-	        oPose = new clsPose(0, 100, 0);
-	        oWall = new clsWall(3, oPose, 6, 200);
-	        clsRegisterEntity.registerEntity(oWall);
-	        clsImagePortrayal.PlaceImage("S:/ARS/PA/BWv1/BW/src/resources/images/wall2.jpg", 8, new sim.util.Double2D(oPose.getPosition().x, oPose.getPosition().y), clsSingletonMasonGetter.getFieldEnvironment());
+	        	// VERT
+	        	oPose = new clsPose(0, 100, 0);
+	        	oWall = new clsWall(3, oPose, 6, 200);
+	        	clsRegisterEntity.registerEntity(oWall);
+	        	clsImagePortrayal.PlaceImage("S:/ARS/PA/BWv1/BW/src/resources/images/wall2.jpg", 8, new sim.util.Double2D(oPose.getPosition().x, oPose.getPosition().y), clsSingletonMasonGetter.getFieldEnvironment());
 	        
-	        oPose = new clsPose(200, 100, 0);
-	        oWall = new clsWall(4, oPose, 6, 200);
-	        clsRegisterEntity.registerEntity(oWall);
-	        clsImagePortrayal.PlaceImage("S:/ARS/PA/BWv1/BW/src/resources/images/wall2.jpg", 8, new sim.util.Double2D(oPose.getPosition().x, oPose.getPosition().y), clsSingletonMasonGetter.getFieldEnvironment());
-		}
+	        	oPose = new clsPose(200, 100, 0);
+	        	oWall = new clsWall(4, oPose, 6, 200);
+	        	clsRegisterEntity.registerEntity(oWall);
+	        	clsImagePortrayal.PlaceImage("S:/ARS/PA/BWv1/BW/src/resources/images/wall2.jpg", 8, new sim.util.Double2D(oPose.getPosition().x, oPose.getPosition().y), clsSingletonMasonGetter.getFieldEnvironment());
+	     		  	 
+	     	 */ 
+	     	 System.out.println();
+	     	 System.out.println("Values for Wall "+ (i+1)+ " are: ");	 
+	     			
+	     	 Node currentNode = nodelist.item(i);
+	     	 if (currentNode.getNodeType() == Node.ELEMENT_NODE) 
+	     		{ 
+	     			Element nodeelement1 = (Element) currentNode;
+	     			NodeList attributelist1 = nodeelement1.getElementsByTagName("PosX");
+	     			Element attributeelement1 = (Element) attributelist1.item(0);
+	     			NodeList attributechildlist1 = attributeelement1.getChildNodes();
+	     			int value1 = new Integer(attributechildlist1.item(0).getNodeValue());
+	     			System.out.println("PosX: " + value1);
+	     					 
+	     			Element nodeelement2 = (Element) currentNode;
+	     			NodeList attributelist2 = nodeelement2.getElementsByTagName("PosY");
+	     			Element attributeelement2 = (Element) attributelist2.item(0);
+	     			NodeList attributechildlist2 = attributeelement2.getChildNodes();
+	     			int value2 = new Integer(attributechildlist2.item(0).getNodeValue());
+	     			System.out.println("PosY: " + value2);
+	     				  
+	     			Element nodeelement3 = (Element) currentNode;
+	     			NodeList attributelist3 = nodeelement3.getElementsByTagName("Height");
+	     			Element attributeelement3 = (Element) attributelist3.item(0);
+	     			NodeList attributechildlist3 = attributeelement3.getChildNodes();
+	     			float value3 = new Float(attributechildlist3.item(0).getNodeValue());
+	     			System.out.println("Height: " + value3);
+	     				  
+	     				     				  
+	     			Element nodeelement4 = (Element) currentNode;
+	     			NodeList attributelist4 = nodeelement4.getElementsByTagName("Direction");
+	     			Element attributeelement4 = (Element) attributelist4.item(0);
+	     			NodeList attributechildlist4 = attributeelement4.getChildNodes();
+	     			float value4 = new Float(attributechildlist4.item(0).getNodeValue());
+	     			System.out.println("Direction: " + value4);					     
+	     					  
+	     		 }   // End of if
+	     			
+	           }   // End of For loop
+	     		
+	     	}      // End try
+	      catch (Exception e) 
+	     	{
+	     		System.err.println("Error Loading Walls ");
+	     		System.exit(1);
+	     	 } 	     
+	        
+    }       // End of loadWorldBoundaries method        
+     
 		
-}
+} // End of LoadStationaryItems class
