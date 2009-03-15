@@ -47,7 +47,15 @@ public class clsSimpleXMLLoader extends clsLoader {
 	
 	//Loading Bubble World
 	
-	public static void main(String argv[])    //  public void loadObjects() 
+	public static void main(String argv[]) {
+		clsSimpleXMLLoader.load();
+	}
+	
+	public void loadObjects() {
+		clsSimpleXMLLoader.load();
+	}
+	
+	private static void load() 
 	{
 		// Initializing array of nodelist (to put lists of elements like all Bubble list etc.)
 		NodeList[] nodelist;
