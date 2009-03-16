@@ -6,61 +6,65 @@
 <MobileItems>
 
   <Bubble id="4"> 
-    <PosX>10</PosX>	
-    <PosY>20</PosY>
-    <Size>10.3</Size>	
-    <Height>2.0</Height>
-    <Weight>2.2</Weight>	
-    <Direction>12.0</Direction>
+    <PosX>15</PosX>	
+    <PosY>15</PosY>
+    <Direction>0.0</Direction>
   </Bubble>
     
   <Bubble id="40"> 
-    <PosX>30</PosX>	
-    <PosY>40</PosY>
-    <Size>12.3</Size>	
-    <Height>2.0</Height>
-    <Weight>2.2</Weight>	
-    <Direction>20.5</Direction>
+    <PosX>15</PosX>	
+    <PosY>50</PosY>
+    <Direction>3.14</Direction>
   </Bubble>
 
   <Bubble id="56"> 
     <PosX>50</PosX>	
-    <PosY>60</PosY>
-    <Size>7.3</Size>	
-    <Height>2.0</Height>
-    <Weight>2.2</Weight>	
-    <Direction>90.0</Direction>
+    <PosY>50</PosY>
+    <Direction>2.7</Direction>
   </Bubble>
 
   <Bubble id="57">
-    <PosX>70</PosX>	
-    <PosY>80</PosY>
-    <Size>6.1</Size>	
-    <Height>2.5</Height>
-    <Weight>2.0</Weight>	
-    <Direction>45.5</Direction>
+    <PosX>50</PosX>	
+    <PosY>15</PosY>
+    <Direction>5.34</Direction>
   </Bubble>
 
 
   <Stone> 
-    <PosX>10</PosX>	
-    <PosY>20</PosY>
-    <Size>10.3</Size>	
-    <Height>2.0</Height>
-    <Weight>2.2</Weight>	
-    <Color>Red</Color>
-    
+    <PosX>30</PosX>	
+    <PosY>30</PosY>
+    <Size>5</Size>	
   </Stone>
     
   <Stone> 
-    <PosX>30</PosX>	
+    <PosX>150</PosX>	
     <PosY>40</PosY>
-    <Size>12.3</Size>	
-    <Height>2.0</Height>
-    <Weight>2.2</Weight>	
-    <Color>Orange</Color>
+    <Size>40</Size>	
   </Stone>
 
+  <Can>
+  	<PosX>150</PosX>
+  	<PosY>75</PosY>
+  </Can>
+  
+  <Can>
+  	<PosX>190</PosX>
+  	<PosY>190</PosY>
+  </Can>
+  
+  <Can>
+  	<PosX>75</PosX>
+  	<PosY>150</PosY>
+  </Can>  
+  
+  <RemoteBot>
+    <PosX>130</PosX>
+    <PosY>180</PosY>
+    <Direction>1.2</Direction>
+  </RemoteBot>
+  
+
+  
 
 </MobileItems>
 
@@ -68,17 +72,18 @@
 <StationaryItems>
 
   <Wall> 
-    <PosX>30</PosX>	
-    <PosY>40</PosY>
-    <Height>2.0</Height>
-    <Direction>2.2</Direction>	
+    <PosX>180</PosX>	
+    <PosY>10</PosY>
+    <Length>50.0</Length>
+    <Width>3.0</Width>
+    <Direction>4.71225</Direction>	
   </Wall>
  
 </StationaryItems>
 
 <Window>
-   <Width>25</Width>
-   <Height>80</Height>
+   <Width>200</Width>
+   <Height>200</Height>
 </Window> 
    
    

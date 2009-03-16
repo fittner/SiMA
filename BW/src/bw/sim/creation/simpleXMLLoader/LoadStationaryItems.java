@@ -11,10 +11,8 @@ Version1 date:
 
 package bw.sim.creation.simpleXMLLoader;
 import ARSsim.physics2D.util.clsPose;
-import ARSsim.portrayal.simple.clsImagePortrayal;
 import bw.entities.clsWall;
 import bw.factories.clsRegisterEntity;
-import bw.factories.clsSingletonMasonGetter;
 
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
@@ -85,19 +83,31 @@ public class LoadStationaryItems {
 	     			System.out.println("PosY: " + value2);
 	     				  
 	     			Element nodeelement3 = (Element) currentNode;
-	     			NodeList attributelist3 = nodeelement3.getElementsByTagName("Height");
+	     			NodeList attributelist3 = nodeelement3.getElementsByTagName("Length");
 	     			Element attributeelement3 = (Element) attributelist3.item(0);
 	     			NodeList attributechildlist3 = attributeelement3.getChildNodes();
 	     			float value3 = new Float(attributechildlist3.item(0).getNodeValue());
-	     			System.out.println("Height: " + value3);
+	     			System.out.println("Length: " + value3);
 	     				  
-	     				     				  
+	     			Element nodeelement5 = (Element) currentNode;
+	     			NodeList attributelist5 = nodeelement5.getElementsByTagName("Width");
+	     			Element attributeelement5 = (Element) attributelist5.item(0);
+	     			NodeList attributechildlist5 = attributeelement5.getChildNodes();
+	     			float value5 = new Float(attributechildlist5.item(0).getNodeValue());
+	     			System.out.println("Width: " + value5);	     				  
+
 	     			Element nodeelement4 = (Element) currentNode;
 	     			NodeList attributelist4 = nodeelement4.getElementsByTagName("Direction");
 	     			Element attributeelement4 = (Element) attributelist4.item(0);
 	     			NodeList attributechildlist4 = attributeelement4.getChildNodes();
 	     			float value4 = new Float(attributechildlist4.item(0).getNodeValue());
-	     			System.out.println("Direction: " + value4);					     
+	     			System.out.println("Direction: " + value4);		
+	     			
+	     			
+	     			
+	     			clsPose oPose = new clsPose(value1, value2, value4);
+		        	clsWall oWall = new clsWall(1, oPose, value5, value3);
+		        	clsRegisterEntity.registerEntity(oWall);
 	     					  
 	     		 }   // End of if
 	     			

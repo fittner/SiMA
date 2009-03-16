@@ -25,8 +25,9 @@ public class clsWall extends clsStationary  {
 	
     public double radius;
     
-    public clsWall(int pnId, clsPose poPose, int prWidth, int prHeight) {
-    	super(pnId, poPose, new sim.physics2D.shape.Rectangle(prWidth, prHeight, clsWall.moDefaultColor));
+    public clsWall(int pnId, clsPose poPose, double prLength, double prWidth) {
+    	super(pnId, poPose, new sim.physics2D.shape.Rectangle(prLength, prWidth, clsWall.moDefaultColor));
+    	//FIXME direction of wall ...
     } 
 
 

@@ -16,8 +16,7 @@ import bw.entities.clsCan;
 import bw.entities.clsRemoteBot;
 import bw.entities.clsStone;
 import bw.factories.clsRegisterEntity;
-import bw.factories.clsSingletonMasonGetter;
-import bw.sim.creation.clsLoader;
+
 
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
@@ -65,34 +64,17 @@ public class LoadMobileItems {
 				  int value2 = new Integer(attributechildlist2.item(0).getNodeValue());
 				  System.out.println("PosY: " + value2);
 				  
-				  Element nodeelement3 = (Element) currentNode;
-				  NodeList attributelist3 = nodeelement3.getElementsByTagName("Size");
-				  Element attributeelement3 = (Element) attributelist3.item(0);
-				  NodeList attributechildlist3 = attributeelement3.getChildNodes();
-				  float value3 = new Float(attributechildlist3.item(0).getNodeValue());
-				  System.out.println("Size: " + value3);
-				  
-				  Element nodeelement4 = (Element) currentNode;
-				  NodeList attributelist4 = nodeelement4.getElementsByTagName("Height");
-				  Element attributeelement4 = (Element) attributelist4.item(0);
-				  NodeList attributechildlist4 = attributeelement4.getChildNodes();
-				  float value4 = new Float(attributechildlist4.item(0).getNodeValue());
-				  System.out.println("Height: " + value4);
-				  
-				  Element nodeelement5 = (Element) currentNode;
-				  NodeList attributelist5 = nodeelement5.getElementsByTagName("Weight");
-				  Element attributeelement5 = (Element) attributelist5.item(0);
-				  NodeList attributechildlist5 = attributeelement5.getChildNodes();
-				  float value5 = new Float(attributechildlist5.item(0).getNodeValue());
-				  System.out.println("Weight: " + value5);
-				  
 				  Element nodeelement6 = (Element) currentNode;
 				  NodeList attributelist6 = nodeelement6.getElementsByTagName("Direction");
 				  Element attributeelement6 = (Element) attributelist6.item(0);
 				  NodeList attributechildlist6 = attributeelement6.getChildNodes();
 				  float value6 = new Float(attributechildlist6.item(0).getNodeValue());
-				  System.out.println("Direction: " + value6);					     
-					  
+				  System.out.println("Direction: " + value6);						  
+				  
+				  clsPose oStartPose = new clsPose(value1, value2, value6);
+ 			  	  clsBubble oBubble = new clsBubble(i, oStartPose, new sim.physics2D.util.Double2D(0, 0));
+				  clsRegisterEntity.registerEntity(oBubble);
+			  
 			    }   // End of if
 			
              }   // End of For loop
@@ -155,6 +137,12 @@ public class LoadMobileItems {
 				  float value3 = new Float(attributechildlist3.item(0).getNodeValue());
 				  System.out.println("Size: " + value3);
 				  
+			        
+				   clsPose oStartPose = new clsPose(value1, value2, 0);
+				   double rRadius = value3;
+		           clsStone oStone = new clsStone(i, oStartPose, new sim.physics2D.util.Double2D(0, 0), rRadius);
+			       clsRegisterEntity.registerEntity(oStone);
+/*			       
 				  Element nodeelement4 = (Element) currentNode;
 				  NodeList attributelist4 = nodeelement4.getElementsByTagName("Height");
 				  Element attributeelement4 = (Element) attributelist4.item(0);
@@ -175,7 +163,7 @@ public class LoadMobileItems {
 				  NodeList attributechildlist6 = attributeelement6.getChildNodes();
 				  String value6 = attributechildlist6.item(0).getNodeValue();
 				  System.out.println("Color: " + value6);					     
-					  
+*/					  
 			    }   // End of if
 			
              }   // End of For loop
@@ -230,6 +218,9 @@ public class LoadMobileItems {
 				  int value2 = new Integer(attributechildlist2.item(0).getNodeValue());
 				  System.out.println("PosY: " + value2);
 				  
+		        	clsPose oStartPose = new clsPose(value1, value2, 0);
+		        	clsCan oCan = new clsCan(i, oStartPose, new sim.physics2D.util.Double2D(0, 0));
+		        	clsRegisterEntity.registerEntity(oCan);				  
 			    }   // End of if
 			
                }   // End of For loop
@@ -284,6 +275,11 @@ public class LoadMobileItems {
 					NodeList attributechildlist2 = attributeelement2.getChildNodes();
 				    int value2 = new Integer(attributechildlist2.item(0).getNodeValue());
 					System.out.println("PosY: " + value2);
+					
+					
+					clsPose oStartPose = new clsPose(value1, value2, 0);
+	 			    clsRemoteBot oBot = new clsRemoteBot(i, oStartPose, new sim.physics2D.util.Double2D(0, 0));
+					clsRegisterEntity.registerEntity(oBot);
 							  
 				  }   // End of if
 						

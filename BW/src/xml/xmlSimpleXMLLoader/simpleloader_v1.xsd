@@ -11,11 +11,8 @@
           <xsd:element name="Bubble" id="ID" minOccurs="0" maxOccurs="unbounded">           
              <xsd:complexType>                                                 
               <xsd:all>                
-                <xsd:element name="PosX" type="xsd:integer"/>
-                <xsd:element name="PosY" type="xsd:integer"/>
-                <xsd:element name="Size" type="xsd:float"/>
-                <xsd:element name="Height" type="xsd:float"/>
-                <xsd:element name="Weight" type="xsd:float"/>
+                <xsd:element name="PosX" type="xsd:float"/>
+                <xsd:element name="PosY" type="xsd:float"/>
                 <xsd:element name="Direction" type="xsd:float"/>
               </xsd:all>               
               <xsd:attribute name="id" type="xsd:integer"/>              
@@ -26,12 +23,9 @@
            <xsd:element name="Stone" minOccurs="0" maxOccurs="unbounded">
              <xsd:complexType>
              <xsd:all>
-                <xsd:element name="PosX" type="xsd:integer"/>
-                <xsd:element name="PosY" type="xsd:integer"/>
+                <xsd:element name="PosX" type="xsd:float"/>
+                <xsd:element name="PosY" type="xsd:float"/>
                 <xsd:element name="Size" type="xsd:float"/>
-                <xsd:element name="Height" type="xsd:float"/>
-                <xsd:element name="Weight" type="xsd:float"/>
-                <xsd:element name="Color" type="xsd:string"/>
              </xsd:all>
              </xsd:complexType>
            </xsd:element>
@@ -40,8 +34,8 @@
            <xsd:element name="Can" minOccurs="0" maxOccurs="unbounded">
               <xsd:complexType>
               <xsd:all>
-                 <xsd:element name="PosX" type="xsd:integer"/>
-                 <xsd:element name="PosY" type="xsd:integer"/>
+                 <xsd:element name="PosX" type="xsd:float"/>
+                 <xsd:element name="PosY" type="xsd:float"/>
               </xsd:all>
               </xsd:complexType>
            </xsd:element>
@@ -51,8 +45,9 @@
            <xsd:element name="RemoteBot" minOccurs="0" maxOccurs="1">
               <xsd:complexType>
               <xsd:all>
-                 <xsd:element name="PosX" type="xsd:integer"/>
-                 <xsd:element name="PosY" type="xsd:integer"/>
+                 <xsd:element name="PosX" type="xsd:float"/>
+                 <xsd:element name="PosY" type="xsd:float"/>
+                 <xsd:element name="Direction" type="xsd:float"/>                 
               </xsd:all>
               </xsd:complexType>
            </xsd:element>
@@ -70,9 +65,10 @@
           <xsd:element name="Wall" minOccurs="0" maxOccurs="unbounded">
             <xsd:complexType>
             <xsd:all>
-                <xsd:element name="PosX" type="xsd:integer"/>
-                <xsd:element name="PosY" type="xsd:integer"/>
-                <xsd:element name="Height" type="xsd:float"/>
+                <xsd:element name="PosX" type="xsd:float"/>
+                <xsd:element name="PosY" type="xsd:float"/>
+                <xsd:element name="Length" type="xsd:float"/>
+                <xsd:element name="Width" type="xsd:float"/>
                 <xsd:element name="Direction" type="xsd:float"/>
             </xsd:all>
             </xsd:complexType>
@@ -86,8 +82,8 @@
     <xsd:element name="Window" minOccurs="1" maxOccurs="1">
       <xsd:complexType>
          <xsd:all>
-            <xsd:element name="Width" type="xsd:integer"/>
-            <xsd:element name="Height" type="xsd:integer"/>
+            <xsd:element name="Width" type="xsd:float"/>
+            <xsd:element name="Height" type="xsd:float"/>
          </xsd:all>
       </xsd:complexType>
     </xsd:element>

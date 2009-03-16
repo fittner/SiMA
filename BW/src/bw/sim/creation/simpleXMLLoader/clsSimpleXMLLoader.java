@@ -18,11 +18,7 @@ import java.io.File;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
-import javax.xml.transform.Source;
-import javax.xml.transform.stream.StreamSource;
-import javax.xml.validation.Validator;
-import javax.xml.validation.SchemaFactory;
-import javax.xml.validation.Schema;
+
 
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -34,63 +30,75 @@ import sim.engine.SimState;
 import bw.sim.creation.clsLoader;
 
 
+/**
+ * a proof of concept implementation for a simple xml loader. implemented by nauman
+ * 
+ * @deprecated
+ * 
+ * @author nauman
+ * @author deutsch
+ * 16.03.2009, 11:05:21
+ * 
+ */
 public class clsSimpleXMLLoader extends clsLoader {
 
+	String moXMLfileName;
 	
 	// Constructor 
 	
-	public clsSimpleXMLLoader(SimState poSimState)
+	public clsSimpleXMLLoader(SimState poSimState, String xmlfileName)
 	{
 		super(poSimState);
+		moXMLfileName = xmlfileName;
 	}
 
 	
 	//Loading Bubble World
 	
 	public static void main(String argv[]) {
-		clsSimpleXMLLoader.load();
+		clsSimpleXMLLoader.load(null, "S:/ARS/PA/BWv1/BW/src/xml/xmlSimpleXMLLoader/config1.xml");
 	}
 	
 	public void loadObjects() {
-		clsSimpleXMLLoader.load();
+		clsSimpleXMLLoader.load(this, moXMLfileName);
 	}
 	
-	private static void load() 
+	private static void load(clsSimpleXMLLoader poLoader, String xmlfileName) 
 	{
 		// Initializing array of nodelist (to put lists of elements like all Bubble list etc.)
 		NodeList[] nodelist;
 		nodelist = new NodeList[10];
 
-        String xmlfileName = "S:/ARS/PA/BWv1/TestApps/src/nq_xmlreader/testxmlfile.xml";
 
 		try {
-    	
-    	//Create "Schema Factory" object
-    	SchemaFactory schemafactory = SchemaFactory.newInstance(javax.xml.XMLConstants.W3C_XML_SCHEMA_NS_URI);
-    	
-    	// Define "XML Schema file"
-    	Source schemafile = new StreamSource("S:/ARS/PA/BWv1/TestApps/src/nq_xmlreader/testxsdfile.xsd");
-    	
-    	//Create "Schema" object (from Schema Factory Object) 
-    	Schema schema = schemafactory.newSchema(schemafile);
-        
-        // Create "Schema Validator" object
-        Validator validator = schema.newValidator();
-        
-        // Define XML file
-        File xmlfile = new File(xmlfileName);
-        
-        // Validate XML file against XML schema
-        validator.validate(new StreamSource(xmlfileName));
-           	
-        // Create "Document Builder Factory" object
-        DocumentBuilderFactory dbf = javax.xml.parsers.DocumentBuilderFactory.newInstance();
-        
-        // Create "Document Builder" object (from Document Builder Factory object)
-    	DocumentBuilder db = dbf.newDocumentBuilder();
-    	
-    	//Create DOM object of XML file
-    	Document document = db.parse(xmlfile);
+	    	File file = new File(xmlfileName);
+	    	
+	        DocumentBuilderFactory dbf = javax.xml.parsers.DocumentBuilderFactory.newInstance();
+	    	dbf.setValidating(true);  
+
+//	    	javax.xml.validation.SchemaFactory schemafactory = javax.xml.validation.SchemaFactory.newInstance(javax.xml.XMLConstants.W3C_XML_SCHEMA_NS_URI);
+//	    	Source schemafile = new StreamSource("S:\\ARS\\PA\\BWv1\\ExtTools\\src\\test_xml\\test.xsd");
+//	    	javax.xml.validation.Schema schema = schemafactory.newSchema(schemafile);
+//	    	dbf.setSchema(schema);
+	    	
+	    	dbf.setFeature("http://apache.org/xml/features/validation/schema", true);
+	    	dbf.setFeature("http://apache.org/xml/features/validation/schema-full-checking", true); 
+	    	
+	    	dbf.setIgnoringComments(true); 
+	    	dbf.setCoalescing(true); 
+	    	dbf.setNamespaceAware(true); // or false, depends 
+	    	dbf.setXIncludeAware(true);  // of false, depends
+	    	
+
+	    	
+	    	DocumentBuilder db = dbf.newDocumentBuilder();
+	    	
+	    	// use db.setErrorHandler to add a new errorhandler that can throw exceptions. the default handler just writes to the system console
+	    	db.setErrorHandler(new SimpleErrorHandler());
+			Document document = db.parse(file);
+			
+			
+		
     
 		// Normalize DOM object
 		document.getDocumentElement().normalize();
@@ -134,36 +142,39 @@ public class clsSimpleXMLLoader extends clsLoader {
         	System.out.println("Height of Window is: " + height);     
         	System.out.println();
       
+        	if (poLoader != null) {
+        	  poLoader.createGrids(width, height);
+        	}
+        	
         	// Call createGrids method of super class
         	/*	super.createGrids(25,80); //   window pnWidth and pnHeight */
       
         // Load Window Ends 
         // ----------------------------------------------------------------------
          
+            // Load StationaryItems (Wall)
+            // ----------------------------------------------------------------------- 
+               	
+                 LoadStationaryItems.loadWorldBoundaries(nodelist[4]);
+               
+             // Load StationaryItems Ends 
+             // ----------------------------------------------------------------------	        	
      
         	
         // Load MobileItems (Bubbles,Stones,Cans,RemoteBot)
         // ----------------------------------------------------------------------- 
         	
-        	LoadMobileItems lmi = new LoadMobileItems();
-        	lmi.loadBubbles(nodelist[0].getLength(),nodelist[0]);
-        	lmi.loadStones(nodelist[1].getLength(),nodelist[1]);
-        	lmi.loadCans(nodelist[2].getLength(),nodelist[2]);
-        	lmi.loadRemoteBot(nodelist[3].getLength(),nodelist[3]);
+        	LoadMobileItems.loadBubbles(nodelist[0].getLength(),nodelist[0]);
+        	LoadMobileItems.loadStones(nodelist[1].getLength(),nodelist[1]);
+        	LoadMobileItems.loadCans(nodelist[2].getLength(),nodelist[2]);
+        	LoadMobileItems.loadRemoteBot(nodelist[3].getLength(),nodelist[3]);
         	
          // Load MobileItems Ends 
          // ----------------------------------------------------------------------	
         	
         
         	
-         // Load StationaryItems (Wall)
-         // ----------------------------------------------------------------------- 
-            	
-              LoadStationaryItems lsi = new LoadStationaryItems();
-              lsi.loadWorldBoundaries(nodelist[4]);
-            
-          // Load StationaryItems Ends 
-          // ----------------------------------------------------------------------	
+
         
         	
         	
