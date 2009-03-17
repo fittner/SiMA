@@ -1,27 +1,26 @@
 package ARSsim.display;
 
-import java.awt.Dimension;
 import java.awt.Point;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionListener;
-import java.awt.geom.Dimension2D;
 import java.awt.geom.Rectangle2D;
 
 import sim.display.GUIState;
 import sim.util.Bag;
 import sim.physics2D.physicalObject.MobileObject2D;
-import sim.physics2D.util.Angle;
 import sim.physics2D.util.Double2D;
-import sim.portrayal.DrawInfo2D;
 import sim.portrayal.LocationWrapper;
-import sim.portrayal.continuous.ContinuousPortrayal2D;
 
+/**
+ * @author langr
+ *
+ * Using this ARSDisplay2D in your MainWithUI supports drag and drop of objects.
+ *
+ */
 public class Display2D extends sim.display.Display2D {
 
 	//members necessary for drag and drop
-	
-	private Point moPoint;
 	private Bag[] moHitObjects;
 	
 	/**
@@ -35,41 +34,16 @@ public class Display2D extends sim.display.Display2D {
 		super(width, height, simulation, interval);
 
 
+		// Adds the mouse listener for the mouseDragged event 
 		insideDisplay.addMouseMotionListener(new MouseMotionListener() 
 		{
 
 			@Override
 			public void mouseDragged(MouseEvent e) {
-				
-//				System.out.println(arg0.getPoint().toString() + " --> " + transformed);
-				
-        		Point oPoint = e.getPoint();
-        		
-                for(int x=0;x<moHitObjects.length;x++)
-                {
-                	Bag obj = moHitObjects[x];
-                	Object hitObject = obj.objs[x];
-                	
-                	if( hitObject instanceof LocationWrapper )
-                	{
-                		
-                		LocationWrapper portrayal = ((LocationWrapper)hitObject);
-                		//portrayal.move(obj, new Dimension(1,1));
-                		
-                		Object porty = portrayal.getObject();
-                		if( porty instanceof MobileObject2D )
-	                	{
-                			MobileObject2D mobi = (MobileObject2D)porty;
-                			mobi.setPose(transformToMasonCoord(oPoint), mobi.getOrientation());
-	                	}
-                		
-                		//((MobileObject2D)hitObject).setPose(new Double2D(10, 10), new Angle(0));
-                		oPoint = moPoint;
-                	}
-                }
-                repaint();
-				
-				
+
+				Point oPoint = e.getPoint();
+				moveSelectedObject(oPoint);
+			    repaint();
 			}
 
 			@Override
@@ -79,52 +53,55 @@ public class Display2D extends sim.display.Display2D {
 			
 		});
 		
-	    //Add listener to components that can bring up popup menus.
+	    //Add listener for mouse-buttons to start and stop drag'n drop
 		insideDisplay.addMouseListener(new MouseAdapter()
 	        {
 	        public void mousePressed(MouseEvent e)
 	            {
 	        		Point point = e.getPoint();
-	        		
 	        		Rectangle2D.Double rect =  new Rectangle2D.Double( point.x, point.y, 1, 1 );
 	        		moHitObjects = objectsHitBy(rect);
-	        		int ix = 0;
-	        		ix++;
-	        		
 	            }
 	        
 	        public void mouseReleased(MouseEvent e)
 	            {
-	        		Point point = e.getPoint();
-	        		
-	                for(int x=0;x<moHitObjects.length;x++)
-	                {
-	                	Bag obj = moHitObjects[x];
-	                	Object hitObject = obj.objs[x];
-	                	
-	                	if( hitObject instanceof LocationWrapper )
-	                	{
-	                		
-	                		LocationWrapper portrayal = ((LocationWrapper)hitObject);
-	                		//portrayal.move(obj, new Dimension(1,1));
-	                		
-	                		Object porty = portrayal.getObject();
-	                		if( porty instanceof MobileObject2D )
-		                	{
-	                			MobileObject2D mobi = (MobileObject2D)porty;
-	                			mobi.setPose(transformToMasonCoord(point), mobi.getOrientation());
-		                	}
-	                		
-	                		//((MobileObject2D)hitObject).setPose(new Double2D(10, 10), new Angle(0));
-	                		point = moPoint;
-	                	}
-	                }
-	                repaint();
+	        		Point oPoint = e.getPoint();
+					moveSelectedObject(oPoint);
+				    repaint();
 	            }
 	        });
 	}
 	
 	
+	/**
+	 * Moves the selected object stored in moHitObjects to the given position.
+	 * Requires a repaint-call afterwards!
+	 * 
+	 * @param poPoint
+	 */
+	public void moveSelectedObject(Point poPoint)
+	{
+	    for(int x=0;x<moHitObjects.length;x++)
+	    {
+	    	Object oHitObject = moHitObjects[x].objs[x];
+	    	if( oHitObject instanceof LocationWrapper )
+	    	{
+	    		Object oLocation = ((LocationWrapper)oHitObject).getObject();
+	    		if( oLocation instanceof MobileObject2D )
+	        	{
+	    			MobileObject2D oMobile = (MobileObject2D)oLocation;
+	    			oMobile.setPose(transformToMasonCoord(poPoint), oMobile.getOrientation());
+	        	}
+	    	}
+	    }
+	}
+	
+	/**
+	 * converting mouse coordinates to world coordinates - considering the zoom scale 
+	 * 
+	 * @param poP
+	 * @return
+	 */
 	public Double2D transformToMasonCoord(Point poP)
 	{
         double scale = getScale();
