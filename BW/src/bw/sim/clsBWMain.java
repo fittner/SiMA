@@ -72,8 +72,8 @@ public class clsBWMain extends SimState{
 	{
 		super.start();
 		//creating and registering objects...
-//		clsLoader oLoader = new clsSimpleLoader(this, 200, 200);
-		clsLoader oLoader = new clsSimpleXMLLoader(this, "S:/ARS/PA/BWv1/BW/src/xml/xmlSimpleXMLLoader/config1.xml");
+		clsLoader oLoader = new clsSimpleLoader(this, 200, 200);
+//		clsLoader oLoader = new clsSimpleXMLLoader(this, "S:/ARS/PA/BWv1/BW/src/xml/xmlSimpleXMLLoader/config1.xml");
 		oLoader.loadObjects();
 		
 		//clear the charts

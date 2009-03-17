@@ -34,7 +34,7 @@ public class clsBWMainWithUI extends GUIState{
 
 	/** GUI widget which holds some number of field portrayals and frames, 
 	 * usually layered on top of one another */
-	private Display2D moDisplay;
+	private ARSsim.display.Display2D moDisplay;
 	/** window to hold Main Display2D panel */
 	private JFrame moDisplayGamegridFrame;
 	/** window to hold charting panel */
@@ -107,7 +107,7 @@ public class clsBWMainWithUI extends GUIState{
 		
 		super.init(poController);
 		
-		moDisplay = new Display2D(600,600,this,1); //TODO make me konfiguierbar
+		moDisplay = new ARSsim.display.Display2D(600,600,this,1); //TODO make me konfiguierbar
 		moDisplay.setClipping(false); //we’d like to see objects outside the width & height box
 		
 		//let the display generate a frame for you
