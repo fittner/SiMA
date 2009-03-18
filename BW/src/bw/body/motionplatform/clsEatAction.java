@@ -8,6 +8,7 @@
 package bw.body.motionplatform;
 
 import sim.physics2D.util.Angle;
+import bw.entities.clsEntity;
 import bw.utils.enums.eActionCommandMotion;
 import bw.utils.enums.eActionCommandType;
 
@@ -21,89 +22,33 @@ import bw.utils.enums.eActionCommandType;
  */
 public class clsEatAction extends clsBrainAction{
 
-	public eActionCommandMotion meMotionType;
-	public double mnSpeed; //e.g. normal speed is 4.0
-	public Angle moRelativeRotation;
+	private clsEntity moEatenEntity = null;
 	
 	/**
 	 * @param meType
 	 * @param meMotionType
 	 */
-	public clsEatAction(eActionCommandType meType, eActionCommandMotion meMotionType) {
+	public clsEatAction(eActionCommandType meType, clsEntity poEatenEntity) {
 		super(meType);
-		this.meMotionType = meMotionType;
+		this.moEatenEntity = poEatenEntity;
 	}
 
 	// region: getter/setter
 	
 	/**
-	 * @return the meMotionType
-	 */
-	public eActionCommandMotion getMotionType() {
-		return meMotionType;
-	}
-
-	/**
-	 * @param meMotionType the meMotionType to set
-	 */
-	public void setMotionType(eActionCommandMotion meMotionType) {
-		this.meMotionType = meMotionType;
-	}
-
-	/**
 	 * @return the mnSpeed
 	 */
-	public double getSpeed() {
-		return mnSpeed;
+	public clsEntity getEatenEntity() {
+		return moEatenEntity;
 	}
 
 	/**
 	 * @param mnSpeed the mnSpeed to set
 	 */
-	public void setSpeed(int mnSpeed) {
-		this.mnSpeed = mnSpeed;
+	public void setEatenEntity(clsEntity poEatenEntity) {
+		this.moEatenEntity = poEatenEntity;
 	}
 
-	/**
-	 * @return the moRelativeRotation
-	 */
-	public Angle getRelativeRotation() {
-		return moRelativeRotation;
-	}
 
-	/**
-	 * @param moRelativeRotation the moRelativeRotation to set
-	 */
-	public void setRelativeRotation(Angle moRelativeRotation) {
-		this.moRelativeRotation = moRelativeRotation;
-	}
-	
-	/**
-	 * @param meType
-	 * @param meMotionType
-	 * @param mnSpeed
-	 * @param moDirection
-	 */
-	public clsEatAction(eActionCommandType peType,
-			eActionCommandMotion peMotionType, int pnSpeed, Angle poRelativeRotation) {
-		super(peType);
-		this.meMotionType = peMotionType;
-		this.mnSpeed = pnSpeed;
-		this.moRelativeRotation = poRelativeRotation;
-	}
-	
-	/**
-	 * helper function to create a motion action
-	 *
-	 * @author langr
-	 * 18.03.2009, 11:13:49
-	 *
-	 * @param motionCommand
-	 * @return
-	 */
-	public static clsEatAction creatAction(eActionCommandMotion motionCommand)
-	{
-		return new clsEatAction(eActionCommandType.MOTION, eActionCommandMotion.ROTATE_RIGHT);
-	}
-	
+
 }
