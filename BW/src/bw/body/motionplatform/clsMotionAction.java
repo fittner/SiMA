@@ -93,4 +93,18 @@ public class clsMotionAction extends clsBrainAction{
 		this.moRelativeRotation = poRelativeRotation;
 	}
 	
+	/**
+	 * helper function to create a motion action
+	 *
+	 * @author langr
+	 * 18.03.2009, 11:13:49
+	 *
+	 * @param motionCommand
+	 * @return
+	 */
+	public static clsMotionAction creatAction(eActionCommandMotion motionCommand)
+	{
+		return new clsMotionAction(eActionCommandType.MOTION, eActionCommandMotion.ROTATE_RIGHT);
+	}
+	
 }

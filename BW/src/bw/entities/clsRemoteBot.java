@@ -133,16 +133,16 @@ public class clsRemoteBot extends clsAnimate  {
 	   	switch( clsKeyListener.getKeyPressed() )
     	{
     	case 38: //up
-    		poActionList.add(new clsMotionAction(eActionCommandType.MOTION, eActionCommandMotion.MOVE_FORWARD) );
+    		poActionList.add(clsMotionAction.creatAction(eActionCommandMotion.MOVE_FORWARD) );
     		break;
     	case 40: //down
-    		poActionList.add(new clsMotionAction(eActionCommandType.MOTION, eActionCommandMotion.MOVE_BACKWARD) );
+    		poActionList.add(clsMotionAction.creatAction(eActionCommandMotion.MOVE_BACKWARD) );
     		break;
     	case 37: //rotate_left
-    		poActionList.add(new clsMotionAction(eActionCommandType.MOTION, eActionCommandMotion.ROTATE_LEFT) );
+    		poActionList.add(clsMotionAction.creatAction(eActionCommandMotion.ROTATE_LEFT) );
     		break;
     	case 39: //rotate_right
-    		poActionList.add(new clsMotionAction(eActionCommandType.MOTION, eActionCommandMotion.ROTATE_RIGHT) );
+    		poActionList.add(clsMotionAction.creatAction(eActionCommandMotion.ROTATE_RIGHT) );
     		break;
     	case 65: //'A'
     		break;
@@ -170,7 +170,6 @@ public class clsRemoteBot extends clsAnimate  {
 	@Override
 	public void updateInternalState() {
 		// TODO Auto-generated method stub
-		
 	}
 
 }

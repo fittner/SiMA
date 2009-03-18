@@ -8,6 +8,7 @@
 package bw.body.io;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import sim.physics2D.util.Double2D;
 
@@ -17,6 +18,8 @@ import bw.body.io.sensors.external.*;
 import bw.body.motionplatform.clsBrainAction;
 import bw.entities.clsAnimate;
 import bw.entities.clsEntity;
+import bw.utils.enums.eActuatorExtType;
+import bw.utils.enums.eSensorExtType;
 
 /**
  * TODO (langr) - THIS CLASS NEEDS A REFACTORING - reason: not every
@@ -40,8 +43,8 @@ import bw.entities.clsEntity;
 public class clsExternalIO extends clsBaseIO {
 
 	
-	public ArrayList<clsSensorExt> moSensorExternal;
-	public ArrayList<clsActuatorExt> moActuatorExternal;
+	public HashMap<eSensorExtType, clsSensorExt> moSensorExternal;
+	public HashMap<eActuatorExtType, clsActuatorExt> moActuatorExternal;
 	
 	public clsEntity moEntity;
 	
@@ -53,20 +56,18 @@ public class clsExternalIO extends clsBaseIO {
 		
 		moEntity = poEntity; //the entity for physics engine access
 		
-		moSensorExternal = new ArrayList<clsSensorExt>();
-		moActuatorExternal = new ArrayList<clsActuatorExt>();
+		moSensorExternal = new HashMap<eSensorExtType, clsSensorExt>();
+		moActuatorExternal = new HashMap<eActuatorExtType, clsActuatorExt>();
 		
 		//initialization of sensors
-		moSensorExternal.add(new clsSensorAcceleration(moEntity, this));
-		moSensorExternal.add(new clsSensorBump(moEntity, this));
+		moSensorExternal.put(eSensorExtType.ACCELERATION, new clsSensorAcceleration(moEntity, this));
+		moSensorExternal.put(eSensorExtType.BUMP, new clsSensorBump(moEntity, this));
 //		moSensorExternal.add(new clsSensorVision(moEntity, this));
 //		moSensorExternal.add(new clsSensorEatableArea(moEntity, this, new Double2D(20,0) ));
 		
 		//initialization of actuators
-		moActuatorExternal.add(new clsActuatorEat((clsAnimate)moEntity, this));
-		moActuatorExternal.add(new clsActuatorMove(moEntity, this));
-		
-		
+		moActuatorExternal.put(eActuatorExtType.EAT , new clsActuatorEat((clsAnimate)moEntity, this));
+		moActuatorExternal.put(eActuatorExtType.MOTION, new clsActuatorMove(moEntity, this));
 	}
 
 	/* (non-Javadoc)
@@ -80,7 +81,7 @@ public class clsExternalIO extends clsBaseIO {
 	 */
 	@Override
 	public void stepSensing() {
-		for (clsSensorExt sensor : moSensorExternal) {
+		for (clsSensorExt sensor : moSensorExternal.values()) {
 			sensor.updateSensorData();
 		}
 	}
@@ -97,11 +98,10 @@ public class clsExternalIO extends clsBaseIO {
 	 */
 	@Override
 	public void stepExecution(ArrayList<clsBrainAction> poActionList) {
-		for (clsActuatorExt actuator : moActuatorExternal) {
+		for (clsActuatorExt actuator : moActuatorExternal.values()) {
 			actuator.updateActuatorData(poActionList);
 		}
 		
 	}
-
 
 }

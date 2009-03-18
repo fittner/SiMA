@@ -11,9 +11,11 @@ import java.awt.Color;
 import java.util.ArrayList;
 
 import bw.actionresponses.clsBubbleResponses;
+import bw.body.io.sensors.external.clsSensorVision;
 import bw.body.motionplatform.clsBrainAction;
 import ARSsim.physics2D.util.clsPose;
 import bw.utils.enums.eEntityType;
+import bw.utils.enums.eSensorExtType;
 
 //import tstBw.*;
 
@@ -52,9 +54,10 @@ public class clsBubble extends clsAnimate {
 		this.setEntityActionResponse(new clsBubbleResponses());
     } 
 	
+	// TODO: this code should be transfarred to the entities inspector class - used only for inspectors
 	public float getInternalEnergyConsuptionSUM() {	return super.moAgentBody.getInternalSystem().getInternalEnergyConsumption().getSum();	} 
 	public Object[] getInternalEnergyConsumption() {	return moAgentBody.getInternalSystem().getInternalEnergyConsumption().getList().values().toArray();	}
-	public Object[] getSensorExternal() { return moAgentBody.getExternalIO().moSensorExternal.toArray();}
+	public Object[] getSensorExternal() { return moAgentBody.getExternalIO().moSensorExternal.values().toArray();}
 
 
 
@@ -94,6 +97,9 @@ public class clsBubble extends clsAnimate {
 	@Override
 	public void processing(ArrayList<clsBrainAction> poActionList) {
 		// TODO Auto-generated method stub
+		
+		
+		clsSensorVision oVision = (clsSensorVision)(moAgentBody.getExternalIO().moSensorExternal.get(eSensorExtType.VISION));
 		
 	}
 
