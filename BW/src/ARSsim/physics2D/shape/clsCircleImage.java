@@ -129,6 +129,7 @@ public class clsCircleImage extends Circle
         if (!mbShowSimple)
 	        {
 			   	BufferedImageOp op = null;
+			  
 		        graphics.drawImage(moImage, op, x , y );
 	        }
         }

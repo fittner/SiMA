@@ -13,6 +13,7 @@ import java.util.ArrayList;
 import bw.actionresponses.clsEntityActionResponses;
 import bw.body.io.clsBaseIO;
 import bw.body.motionplatform.clsBrainAction;
+import bw.body.motionplatform.clsEatAction;
 import bw.entities.clsAnimate;
 import bw.exceptions.*;
 import bw.utils.enums.eBodyParts;
@@ -72,6 +73,11 @@ public class clsActuatorEat extends clsActuatorExt {
 	@Override
 	public void updateActuatorData(ArrayList<clsBrainAction> poActionList) {
 		
+		for( clsBrainAction oCmd : poActionList)
+		{
+		}
+
+		
 //		try {
 //			eatAction();
 //		} catch (exEntityActionResponseNotImplemented e) {
@@ -89,7 +95,7 @@ public class clsActuatorEat extends clsActuatorExt {
 	 * @param poEntity
 	 * @throws exEntityActionResponseNotImplemented 
 	 */
-	public void eatAction() throws exEntityActionResponseNotImplemented{
+	public void eatAction(ArrayList<clsEatAction> poEatActionList) throws exEntityActionResponseNotImplemented{
 		
 		clsAnimate oViewedAnimate = null;
 		clsEntityActionResponses oEntityActionResponse = moAnimate.getEntityActionResponses();
@@ -98,6 +104,12 @@ public class clsActuatorEat extends clsActuatorExt {
 			
 			//read what EatSensor sees in front of him and give it to eat action, exception if more then 1?
 			//...clsAnimate oViewedAnimate = clsEatAction.View();
+			
+			//get eat entities from Brain Actions
+			
+			//return entities that are in eat area, if nothing, do notihing
+			
+			//if(nothing to eat)
 			
 			//when we eat, we need more energy
 			registerEnergyConsumption(mrDefaultEnergyConsuptionValue + 3.5f); //TODO clemens: change 50 to the real value
