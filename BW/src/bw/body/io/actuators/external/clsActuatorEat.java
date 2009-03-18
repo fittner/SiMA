@@ -15,6 +15,7 @@ import bw.body.io.clsBaseIO;
 import bw.body.motionplatform.clsBrainAction;
 import bw.body.motionplatform.clsEatAction;
 import bw.entities.clsAnimate;
+import bw.entities.clsEntity;
 import bw.exceptions.*;
 import bw.utils.enums.eBodyParts;
 import bw.utils.tools.clsFood;
@@ -75,6 +76,15 @@ public class clsActuatorEat extends clsActuatorExt {
 		
 		for( clsBrainAction oCmd : poActionList)
 		{
+			if(oCmd instanceof clsEatAction)
+			{
+				try {
+					eatAction((clsEatAction)oCmd);
+				} catch (exEntityActionResponseNotImplemented e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
 		}
 
 		
@@ -95,33 +105,38 @@ public class clsActuatorEat extends clsActuatorExt {
 	 * @param poEntity
 	 * @throws exEntityActionResponseNotImplemented 
 	 */
-	public void eatAction(ArrayList<clsEatAction> poEatActionList) throws exEntityActionResponseNotImplemented{
+	public void eatAction(clsEatAction poEatAction) throws exEntityActionResponseNotImplemented{
 		
 		clsAnimate oViewedAnimate = null;
-		clsEntityActionResponses oEntityActionResponse = moAnimate.getEntityActionResponses();
+		
 		
 		try{
 			
 			//read what EatSensor sees in front of him and give it to eat action, exception if more then 1?
 			//...clsAnimate oViewedAnimate = clsEatAction.View();
 			
-			//get eat entities from Brain Actions
+			//get eat entity from Brain Actions
+			//poEatAction.getEatenEntity();
 			
 			//return entities that are in eat area, if nothing, do notihing
+			clsEntity oEatenEntity = poEatAction.getEatenEntity();
+			if(oEatenEntity != null)
+			{
+
+				clsEntityActionResponses oEntityActionResponse = oEatenEntity.getEntityActionResponses();
+				//when we eat, we need more energy
+				registerEnergyConsumption(mrDefaultEnergyConsuptionValue + 3.5f); //TODO clemens: change 50 to the real value
+				
+				float rWeight = 27; //größe des Bissen
+				
+				clsFood oReturnedFood = oEntityActionResponse.actionEatResponse(rWeight); //Apfel gibt mir einen Bisset food retour
+				
+				moAnimate.moAgentBody.getInterBodyWorldSystem().getConsumeFood().digest(oReturnedFood); // food an Body zur weiterverarbeitung geben
+				
+				if(oReturnedFood == null)
+					throw(new exEntityNotEatable(oViewedAnimate.getEntityType()) );
 			
-			//if(nothing to eat)
-			
-			//when we eat, we need more energy
-			registerEnergyConsumption(mrDefaultEnergyConsuptionValue + 3.5f); //TODO clemens: change 50 to the real value
-			
-			float rWeight = 27; //größe des Bissen
-			//FIXME - eating yourself is not an option ... oEntityActionResponse references to your own body!!!
-			clsFood oReturnedFood = oEntityActionResponse.actionEatResponse(rWeight); //Apfel gibt mir einen Bisset food retour
-			
-			moAnimate.moAgentBody.getInterBodyWorldSystem().getConsumeFood().digest(oReturnedFood); // food an Body zur weiterverarbeitung geben
-			
-			if(oReturnedFood == null)
-				throw(new exEntityNotEatable(oViewedAnimate.getEntityType()) );
+			}
 			
 		}catch(exEntityNotEatable ex){
 			ex.printStackTrace();

@@ -7,9 +7,7 @@
  */
 package bw.body.motionplatform;
 
-import sim.physics2D.util.Angle;
 import bw.entities.clsEntity;
-import bw.utils.enums.eActionCommandMotion;
 import bw.utils.enums.eActionCommandType;
 
 /**
