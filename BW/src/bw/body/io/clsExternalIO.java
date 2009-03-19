@@ -16,6 +16,7 @@ import bw.body.clsAgentBody;
 import bw.body.io.actuators.external.*;
 import bw.body.io.sensors.external.*;
 import bw.body.motionplatform.clsBrainAction;
+import bw.body.motionplatform.clsBrainActionContainer;
 import bw.entities.clsAnimate;
 import bw.entities.clsEntity;
 import bw.utils.enums.eActuatorExtType;
@@ -97,7 +98,7 @@ public class clsExternalIO extends clsBaseIO {
 	 * @see bw.body.itfStepExecution#stepExecution()
 	 */
 	@Override
-	public void stepExecution(ArrayList<clsBrainAction> poActionList) {
+	public void stepExecution(clsBrainActionContainer poActionList) {
 		for (clsActuatorExt actuator : moActuatorExternal.values()) {
 			actuator.updateActuatorData(poActionList);
 		}

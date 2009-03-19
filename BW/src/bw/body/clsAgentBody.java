@@ -17,6 +17,7 @@ import bw.body.intraBodySystems.clsIntraBodySystem;
 import bw.body.io.clsExternalIO;
 import bw.body.io.clsInternalIO;
 import bw.body.motionplatform.clsBrainAction;
+import bw.body.motionplatform.clsBrainActionContainer;
 import bw.entities.clsEntity;
 
 /**
@@ -145,7 +146,7 @@ public class clsAgentBody implements itfStepSensing, itfStepUpdateInternalState,
 	 * 
 	 * @see bw.body.itfStep#stepExecution()
 	 */
-	public void stepExecution(ArrayList<clsBrainAction> poActionList) {
+	public void stepExecution(clsBrainActionContainer poActionList) {
 		moExternalIO.stepExecution(poActionList);
 		moInternalIO.stepExecution(poActionList);
 	}

@@ -15,6 +15,7 @@ import sim.physics2D.util.Angle;
 import bw.body.io.clsBaseIO;
 import bw.body.io.actuators.itfActuatorUpdate;
 import bw.body.motionplatform.clsBrainAction;
+import bw.body.motionplatform.clsBrainActionContainer;
 import bw.body.motionplatform.clsMotionAction;
 import bw.entities.clsEntity;
 import bw.entities.clsMobile;
@@ -79,12 +80,12 @@ public class clsActuatorMove extends clsActuatorExt implements itfActuatorUpdate
 	 * @see bw.body.io.actuators.itfActuatorUpdate#updateActuatorData(java.util.ArrayList)
 	 */
 	@Override
-	public void updateActuatorData(ArrayList<clsBrainAction> poActionList) {
+	public void updateActuatorData(clsBrainActionContainer poActionList) {
 
 		// TODO: (langr) --> moEntity.execution(oActionList);
 		try
 		{
-			dispatchBrainActions(poActionList);
+			dispatchBrainActions(poActionList.getMoveAction());
 		}
 		catch( Exception ex )
 		{
@@ -103,22 +104,12 @@ public class clsActuatorMove extends clsActuatorExt implements itfActuatorUpdate
      *
      * @param poActionList
      */
-    public void dispatchBrainActions(ArrayList<clsBrainAction> poActionList) throws Exception
+    public void dispatchBrainActions(ArrayList<clsMotionAction> poActionList) throws Exception
     {
     	for (clsBrainAction oCmd : poActionList) {
-    		
     		eActionCommandType eType = oCmd.getType(); 
-    		switch (eType)
-    		{
-    		case MOTION:
-    			dispatchMotion(oCmd);
-    			break;
-    		default:
-    			break;
-    		}
-    	}
-    	
-    	
+   			dispatchMotion(oCmd);
+   		}
     }
     
     public void dispatchMotion(clsBrainAction poCmd) throws Exception
@@ -161,5 +152,4 @@ public class clsActuatorMove extends clsActuatorExt implements itfActuatorUpdate
     			break;
     	}
     }
-
 }

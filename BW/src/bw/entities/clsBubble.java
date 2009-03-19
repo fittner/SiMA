@@ -13,6 +13,7 @@ import java.util.ArrayList;
 import bw.actionresponses.clsBubbleResponses;
 import bw.body.io.sensors.external.clsSensorVision;
 import bw.body.motionplatform.clsBrainAction;
+import bw.body.motionplatform.clsBrainActionContainer;
 import ARSsim.physics2D.util.clsPose;
 import bw.utils.enums.eEntityType;
 import bw.utils.enums.eSensorExtType;
@@ -83,7 +84,7 @@ public class clsBubble extends clsAnimate {
 	 * @see bw.clsEntity#execution(java.util.ArrayList)
 	 */
 	@Override
-	public void execution(ArrayList<clsBrainAction> poActionList) {
+	public void execution(clsBrainActionContainer poActionList) {
 		super.execution(poActionList);
 	}
 
@@ -95,7 +96,7 @@ public class clsBubble extends clsAnimate {
 	 * @see bw.entities.clsEntity#processing(java.util.ArrayList)
 	 */
 	@Override
-	public void processing(ArrayList<clsBrainAction> poActionList) {
+	public void processing(clsBrainActionContainer poActionList) {
 		// TODO Auto-generated method stub
 		
 		

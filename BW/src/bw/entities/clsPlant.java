@@ -12,6 +12,7 @@ import java.util.ArrayList;
 
 import ARSsim.physics2D.util.clsPose;
 import bw.body.motionplatform.clsBrainAction;
+import bw.body.motionplatform.clsBrainActionContainer;
 import bw.utils.enums.eEntityType;
 
 /**
@@ -57,7 +58,7 @@ public class clsPlant extends clsAnimate{
 	 * @see bw.clsEntity#execution(java.util.ArrayList)
 	 */
 	@Override
-	public void execution(ArrayList<clsBrainAction> poActionList) {
+	public void execution(clsBrainActionContainer poActionList) {
 		// TODO Auto-generated method stub
 		
 	}
@@ -70,7 +71,7 @@ public class clsPlant extends clsAnimate{
 	 * @see bw.entities.clsEntity#processing(java.util.ArrayList)
 	 */
 	@Override
-	public void processing(ArrayList<clsBrainAction> poActionList) {
+	public void processing(clsBrainActionContainer poActionList) {
 		// TODO Auto-generated method stub
 		
 	}

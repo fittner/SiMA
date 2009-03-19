@@ -12,6 +12,7 @@ import java.util.ArrayList;
 
 import ARSsim.physics2D.util.clsPose;
 import bw.body.motionplatform.clsBrainAction;
+import bw.body.motionplatform.clsBrainActionContainer;
 import bw.body.motionplatform.clsMotionAction;
 import bw.physicalObjects.bodyparts.clsBotHands;
 import bw.utils.enums.eActionCommandMotion;
@@ -106,7 +107,7 @@ public class clsRemoteBot extends clsAnimate  {
 	 * @see bw.clsEntity#execution()
 	 */
 	@Override
-	public void execution(ArrayList<clsBrainAction> poActionList) {
+	public void execution(clsBrainActionContainer poActionList) {
 		super.execution(poActionList);
 	}
 
@@ -126,23 +127,23 @@ public class clsRemoteBot extends clsAnimate  {
 	 * @see bw.entities.clsEntity#processing(java.util.ArrayList)
 	 */
 	@Override
-	public void processing(ArrayList<clsBrainAction> poActionList) {
+	public void processing(clsBrainActionContainer poActionList) {
 		
 		//the processing is taken over by the user via keyboard
 		
 	   	switch( clsKeyListener.getKeyPressed() )
     	{
     	case 38: //up
-    		poActionList.add(clsMotionAction.creatAction(eActionCommandMotion.MOVE_FORWARD) );
+    		poActionList.addMoveAction(clsMotionAction.creatAction(eActionCommandMotion.MOVE_FORWARD) );
     		break;
     	case 40: //down
-    		poActionList.add(clsMotionAction.creatAction(eActionCommandMotion.MOVE_BACKWARD) );
+    		poActionList.addMoveAction(clsMotionAction.creatAction(eActionCommandMotion.MOVE_BACKWARD) );
     		break;
     	case 37: //rotate_left
-    		poActionList.add(clsMotionAction.creatAction(eActionCommandMotion.ROTATE_LEFT) );
+    		poActionList.addMoveAction(clsMotionAction.creatAction(eActionCommandMotion.ROTATE_LEFT) );
     		break;
     	case 39: //rotate_right
-    		poActionList.add(clsMotionAction.creatAction(eActionCommandMotion.ROTATE_RIGHT) );
+    		poActionList.addMoveAction(clsMotionAction.creatAction(eActionCommandMotion.ROTATE_RIGHT) );
     		break;
     	case 65: //'A'
     		break;

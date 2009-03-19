@@ -11,6 +11,7 @@ package bw.body;
 import java.util.ArrayList;
 
 import bw.body.motionplatform.clsBrainAction;
+import bw.body.motionplatform.clsBrainActionContainer;
 
 /**
  * 4th call in the overall body cycle (complete cycle see itfStep)
@@ -22,6 +23,6 @@ import bw.body.motionplatform.clsBrainAction;
  */
 public interface itfStepExecution extends itfStep {
 
-	public void stepExecution(ArrayList<clsBrainAction> poActionList);
+	public void stepExecution(clsBrainActionContainer poActionList);
 	
 }

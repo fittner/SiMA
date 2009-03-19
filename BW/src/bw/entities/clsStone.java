@@ -10,6 +10,7 @@ package bw.entities;
 import java.awt.Color;
 import java.util.ArrayList;
 import bw.body.motionplatform.clsBrainAction;
+import bw.body.motionplatform.clsBrainActionContainer;
 import bw.utils.enums.eEntityType;
 import ARSsim.physics2D.util.clsPose;
 
@@ -60,7 +61,7 @@ public class clsStone extends clsInanimate {
 	 * @see bw.clsEntity#execution(java.util.ArrayList)
 	 */
 	@Override
-	public void execution(ArrayList<clsBrainAction> poActionList) {
+	public void execution(clsBrainActionContainer poActionList) {
 		// TODO Auto-generated method stub
 		
 	}
@@ -74,7 +75,7 @@ public class clsStone extends clsInanimate {
 	 * @see bw.entities.clsEntity#processing(java.util.ArrayList)
 	 */
 	@Override
-	public void processing(ArrayList<clsBrainAction> poActionList) {
+	public void processing(clsBrainActionContainer poActionList) {
 		// TODO Auto-generated method stub
 		
 	}

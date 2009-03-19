@@ -104,7 +104,7 @@ public class clsMotionAction extends clsBrainAction{
 	 */
 	public static clsMotionAction creatAction(eActionCommandMotion motionCommand)
 	{
-		return new clsMotionAction(eActionCommandType.MOTION, eActionCommandMotion.ROTATE_RIGHT);
+		return new clsMotionAction(eActionCommandType.MOTION, motionCommand);
 	}
 	
 }

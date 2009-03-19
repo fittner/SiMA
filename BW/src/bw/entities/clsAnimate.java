@@ -15,6 +15,7 @@ import ARSsim.physics2D.util.clsPose;
 import bw.body.clsAgentBody;
 
 import bw.body.motionplatform.clsBrainAction;
+import bw.body.motionplatform.clsBrainActionContainer;
 
 
 /**
@@ -53,7 +54,7 @@ public abstract class clsAnimate extends clsMobile{
 		getAgentBody().stepSensing();
 	}
 	
-	public void execution(ArrayList<clsBrainAction> poActionList) {
+	public void execution(clsBrainActionContainer poActionList) {
 		getAgentBody().stepExecution(poActionList);
 	}
 }

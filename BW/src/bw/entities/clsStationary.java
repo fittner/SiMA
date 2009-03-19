@@ -10,6 +10,7 @@ package bw.entities;
 import java.util.ArrayList;
 import sim.physics2D.shape.Shape;
 import bw.body.motionplatform.clsBrainAction;
+import bw.body.motionplatform.clsBrainActionContainer;
 import ARSsim.physics2D.physicalObject.clsStationaryObject2D;
 import ARSsim.physics2D.util.clsPose;
 
@@ -53,7 +54,7 @@ public abstract class clsStationary extends clsEntity {
 	 * @see bw.clsEntity#execution(java.util.ArrayList)
 	 */
 	@Override
-	public void execution(ArrayList<clsBrainAction> poActionList) {
+	public void execution(clsBrainActionContainer poActionList) {
 		// DO NOTHING - stationary objects are inanimate per design ...
 	}
 	/* (non-Javadoc)
@@ -75,7 +76,7 @@ public abstract class clsStationary extends clsEntity {
 	 * @see bw.entities.clsEntity#processing(java.util.ArrayList)
 	 */
 	@Override
-	public void processing(ArrayList<clsBrainAction> poActionList) {
+	public void processing(clsBrainActionContainer poActionList) {
 		// DO NOTHING - stationary objects are inanimate per design ...		
 	}
 	/* (non-Javadoc)

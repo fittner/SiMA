@@ -10,6 +10,7 @@ package bw.body.io.actuators;
 import java.util.ArrayList;
 
 import bw.body.motionplatform.clsBrainAction;
+import bw.body.motionplatform.clsBrainActionContainer;
 
 /**
  * TODO (deutsch) - insert description 
@@ -19,6 +20,6 @@ import bw.body.motionplatform.clsBrainAction;
  */
 public interface itfActuatorUpdate {
 
-	void updateActuatorData(ArrayList<clsBrainAction> poActionList);
+	void updateActuatorData(clsBrainActionContainer poActionList);
 	
 }

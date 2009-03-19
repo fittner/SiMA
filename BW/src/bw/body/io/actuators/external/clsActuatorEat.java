@@ -13,6 +13,7 @@ import java.util.ArrayList;
 import bw.actionresponses.clsEntityActionResponses;
 import bw.body.io.clsBaseIO;
 import bw.body.motionplatform.clsBrainAction;
+import bw.body.motionplatform.clsBrainActionContainer;
 import bw.body.motionplatform.clsEatAction;
 import bw.entities.clsAnimate;
 import bw.entities.clsEntity;
@@ -72,9 +73,9 @@ public class clsActuatorEat extends clsActuatorExt {
 	 * @see bw.body.io.actuators.itfActuatorUpdate#updateActuatorData()
 	 */
 	@Override
-	public void updateActuatorData(ArrayList<clsBrainAction> poActionList) {
+	public void updateActuatorData(clsBrainActionContainer poActionList) {
 		
-		for( clsBrainAction oCmd : poActionList)
+		for( clsBrainAction oCmd : poActionList.getEatAction())
 		{
 			if(oCmd instanceof clsEatAction)
 			{

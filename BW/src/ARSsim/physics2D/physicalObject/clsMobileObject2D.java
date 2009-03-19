@@ -13,6 +13,7 @@ import sim.portrayal.DrawInfo2D;
 import ARSsim.motionplatform.clsMotionPlatform;
 import ARSsim.physics2D.util.clsPose;
 import bw.body.motionplatform.clsBrainAction;
+import bw.body.motionplatform.clsBrainActionContainer;
 import bw.entities.clsEntity;
 import bw.factories.clsSingletonMasonGetter;
 import bw.physicalObjects.sensors.clsEntityPartVision;
@@ -30,14 +31,14 @@ public class clsMobileObject2D extends sim.physics2D.physicalObject.MobileObject
 	private clsEntity moEntity;
 	public clsMotionPlatform moMotionPlatform;
 	public ArrayList<clsCollidingObject> moCollisionList;
-	public ArrayList<clsBrainAction> moActionList;
+	public clsBrainActionContainer moActionList;
 	
 	public clsMobileObject2D(clsEntity poEntity)
 	{
 		moEntity = poEntity;
 		moMotionPlatform = new clsMotionPlatform(this);
 		moCollisionList = new ArrayList<clsCollidingObject>();
-		moActionList = new ArrayList<clsBrainAction>();
+		moActionList = new clsBrainActionContainer();
 	}
 
 	/* (non-Javadoc)
@@ -115,7 +116,7 @@ public class clsMobileObject2D extends sim.physics2D.physicalObject.MobileObject
 		moEntity.updateInternalState();
 		moEntity.sensing();
 		
-		moActionList.clear();
+		moActionList.clearAll();
 		moEntity.processing(moActionList);
 		
 		//with these 2, physics work!

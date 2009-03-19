@@ -15,6 +15,7 @@ import ARSsim.physics2D.util.clsPose;
 import bw.actionresponses.clsDefaultEntityActionResponse;
 import bw.actionresponses.clsEntityActionResponses;
 import bw.body.motionplatform.clsBrainAction;
+import bw.body.motionplatform.clsBrainActionContainer;
 import bw.utils.enums.eEntityType;
 
 /**
@@ -79,8 +80,8 @@ public abstract class clsEntity {
 	 */
 	public abstract void updateInternalState();
 	public abstract void sensing();
-	public abstract void processing(ArrayList<clsBrainAction> poActionList);
-	public abstract void execution(ArrayList<clsBrainAction> poActionList);
+	public abstract void processing(clsBrainActionContainer poActionList);
+	public abstract void execution(clsBrainActionContainer poActionList);
 	
 	/**
 	 * TODO (deutsch) - insert description
