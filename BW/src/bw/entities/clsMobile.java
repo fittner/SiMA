@@ -20,7 +20,7 @@ import ARSsim.physics2D.util.clsPose;
 public abstract class clsMobile extends clsEntity {
 	
 	private double mrDefaultCoeffFriction = 0.5;
-	private double mrDefaultStaticFriction = 0.0;
+	private double mrDefaultStaticFriction = 0.3;
 	private double mrDefaultRestitution = 1.0;
 
 	

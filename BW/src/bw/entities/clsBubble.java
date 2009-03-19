@@ -15,6 +15,7 @@ import bw.body.io.sensors.external.clsSensorVision;
 import bw.body.motionplatform.clsBrainAction;
 import bw.body.motionplatform.clsBrainActionContainer;
 import ARSsim.physics2D.util.clsPose;
+import bw.mind.ai.clsDumbMindA;
 import bw.utils.enums.eEntityType;
 import bw.utils.enums.eSensorExtType;
 
@@ -28,7 +29,7 @@ import bw.utils.enums.eSensorExtType;
  */
 public class clsBubble extends clsAnimate {
 
-	private static double mrDefaultWeight = 300.0f;
+	private static double mrDefaultWeight = 100.0f;
 	private static double mrDefaultRadius = 10.0f;
 	private static Color moDefaultColor = Color.green;
 
@@ -97,11 +98,9 @@ public class clsBubble extends clsAnimate {
 	 */
 	@Override
 	public void processing(clsBrainActionContainer poActionList) {
-		// TODO Auto-generated method stub
-		
-		
-		clsSensorVision oVision = (clsSensorVision)(moAgentBody.getExternalIO().moSensorExternal.get(eSensorExtType.VISION));
-		
+
+		clsDumbMindA oDumbMind = new clsDumbMindA();
+		oDumbMind.processDumbDecisions((clsAnimate)this, poActionList);
 	}
 
 	/* (non-Javadoc)

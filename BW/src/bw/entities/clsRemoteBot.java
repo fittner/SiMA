@@ -34,7 +34,7 @@ public class clsRemoteBot extends clsAnimate  {
     private clsBotHands moBotHand1;
     private clsBotHands moBotHand2;
    
-	private static double mrDefaultWeight = 300.0f;
+	private static double mrDefaultWeight = 100.0f;
 	private static double mrDefaultRadius = 10.0f;
 	private static Color moDefaultColor = Color.CYAN;
 	private static Color moDefaultHandColor = Color.gray;

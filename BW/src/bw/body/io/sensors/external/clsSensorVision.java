@@ -39,9 +39,9 @@ public class clsSensorVision extends clsSensorExt
 	private double mnViewRad;
 	private double mnVisRange; 
 	private clsEntityPartVision moVisionArea;
-	private HashMap<Integer, PhysicalObject2D> meCollidingObj;
-	private HashMap<Integer, PhysicalObject2D> meViewObj;
-	private HashMap<Integer, Double2D> meCollisionPoint;
+	private HashMap<Integer, PhysicalObject2D> moCollidingObj;
+	private HashMap<Integer, PhysicalObject2D> moViewObj;
+	private HashMap<Integer, Double2D> moCollisionPoint;
 		
 	/**
 	 * @param poEntity
@@ -52,9 +52,9 @@ public class clsSensorVision extends clsSensorExt
 		mnViewRad = Math.PI;
 		mnVisRange = 50; 
 		
-		meCollidingObj = new HashMap<Integer, PhysicalObject2D>();
-		meViewObj = new HashMap<Integer, PhysicalObject2D>(); 
-		meCollisionPoint = new HashMap<Integer, Double2D>(); 
+		moCollidingObj = new HashMap<Integer, PhysicalObject2D>();
+		moViewObj = new HashMap<Integer, PhysicalObject2D>(); 
+		moCollisionPoint = new HashMap<Integer, Double2D>(); 
 		moVisionArea = new clsEntityPartVision(poEntity, mnVisRange);
 		this.regVisionObj(poEntity);
 	}
@@ -77,9 +77,9 @@ public class clsSensorVision extends clsSensorExt
 		mnViewRad = pnViewDegree;
 		mnVisRange = pnVisRange; 
 		
-		meCollidingObj = new HashMap<Integer, PhysicalObject2D>();
-		meViewObj = new HashMap<Integer, PhysicalObject2D>(); 
-		meCollisionPoint = new HashMap<Integer, Double2D>(); 
+		moCollidingObj = new HashMap<Integer, PhysicalObject2D>();
+		moViewObj = new HashMap<Integer, PhysicalObject2D>(); 
+		moCollisionPoint = new HashMap<Integer, Double2D>(); 
 		moVisionArea = new clsEntityPartVision(poEntity, mnVisRange);
 		
 		//moVisionArea.setCenterOffset(poOffsetVisionArea);
@@ -146,20 +146,20 @@ public class clsSensorVision extends clsSensorExt
 		double nOrientation;  
 		PhysicalObject2D oPhObj;  
 				
-		meCollidingObj = moVisionArea.getMeUnFilteredObj();
-		meCollisionPoint = moVisionArea.getMeCollisionPoint(); 
+		moCollidingObj = moVisionArea.getMeUnFilteredObj();
+		moCollisionPoint = moVisionArea.getMeCollisionPoint(); 
 	
-		if(meCollidingObj.size()>0)
+		if(moCollidingObj.size()>0)
 		 {
-			meViewObj.clear(); 
+			moViewObj.clear(); 
 			try{			
-				Iterator<PhysicalObject2D> itr = meCollidingObj.values().iterator(); 			
+				Iterator<PhysicalObject2D> itr = moCollidingObj.values().iterator(); 			
 				while(itr.hasNext())
 				{
 					oPhObj = itr.next(); 
-					nOrientation = this.getRelPos(meCollisionPoint.get(oPhObj.getIndex()));
+					nOrientation = this.getRelPos(moCollisionPoint.get(oPhObj.getIndex()));
 					
-					if(!meViewObj.containsKey(oPhObj.getIndex()) && this.getInView(nOrientation)){
+					if(!moViewObj.containsKey(oPhObj.getIndex()) && this.getInView(nOrientation)){
 						this.addViewObj(oPhObj); 
 					}
 			     }
@@ -253,7 +253,7 @@ public class clsSensorVision extends clsSensorExt
 	public void updateSensorData() {
 		//TODO: HZ --> update meViewObj + meCollidingObj
 		this.calcViewObj();
-		moVisionArea.setMeVisionObj(meViewObj);
+		moVisionArea.setMeVisionObj(moViewObj);
 	}
 	
 	/**
@@ -262,7 +262,7 @@ public class clsSensorVision extends clsSensorExt
 	 * @param pPhObj
 	 */
 	public void addViewObj(PhysicalObject2D pPhObj)	{
-		meViewObj.put(pPhObj.getIndex(),pPhObj);
+		moViewObj.put(pPhObj.getIndex(),pPhObj);
 	}
 	
 	/**
@@ -271,7 +271,7 @@ public class clsSensorVision extends clsSensorExt
 	 * @param peCollidingObj
 	 */
 	public void setMeCollidingObj(HashMap<Integer, PhysicalObject2D> peCollidingObj)	{
-		meCollidingObj = peCollidingObj; 
+		moCollidingObj = peCollidingObj; 
 	}
 	
 	/**
@@ -319,8 +319,8 @@ public class clsSensorVision extends clsSensorExt
 	/**
 	 * @return the meViewObj
 	 */
-	public HashMap<Integer, PhysicalObject2D> getMeViewObj() {
-		return meViewObj;
+	public HashMap<Integer, PhysicalObject2D> getViewObj() {
+		return moViewObj;
 	}
 
 	
