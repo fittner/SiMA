@@ -59,6 +59,14 @@ public class clsSingletonMasonGetter {
      *
      */
     private clsSingletonMasonGetter() {}
+    
+    /**
+     * TODO (deutsch) - insert description 
+     * 
+     * @author deutsch
+     * 19.02.2009, 18:45:20
+     */
+    private ARSsim.display.Display2D moDisplay2D = null;
 
 
     /**
@@ -146,6 +154,30 @@ public class clsSingletonMasonGetter {
 	 */
 	public static SimState getSimState() {
 		return clsSingletonMasonGetter.getInstance().moSimState;
+	}
+	
+	/**
+	 * TODO (deutsch) - insert description
+	 *
+	 * @author deutsch
+	 * 19.02.2009, 18:45:36
+	 *
+	 * @param poDisplay2D
+	 */
+	public static void setDisplay2D(ARSsim.display.Display2D poDisplay2D) {
+		clsSingletonMasonGetter.getInstance().moDisplay2D = poDisplay2D;
+	}
+
+	/**
+	 * TODO (deutsch) - insert description
+	 *
+	 * @author deutsch
+	 * 19.02.2009, 18:45:40
+	 *
+	 * @return
+	 */
+	public static ARSsim.display.Display2D getDisplay2D() {
+		return clsSingletonMasonGetter.getInstance().moDisplay2D;
 	}
 
 }

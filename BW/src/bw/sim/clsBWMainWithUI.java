@@ -121,6 +121,8 @@ public class clsBWMainWithUI extends GUIState{
 		moDisplayGamegridFrame.setVisible(true);
 		moDisplay.attach(moGameGridPortrayal, "BW GameGrid"); //attach the Portrayal to the Display2D to display it 
 		
+		clsSingletonMasonGetter.setDisplay2D(moDisplay);
+		
 		//add the charting panel
 		if ( ((clsBWMain)state).getmbChartDisplay()) {
 	        addChartPanel(poController,(clsBWMain)state);

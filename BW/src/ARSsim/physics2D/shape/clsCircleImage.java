@@ -3,11 +3,14 @@ package ARSsim.physics2D.shape;
 import sim.physics2D.shape.Circle;
 import sim.portrayal.*;
 import java.awt.*;
+import java.awt.geom.AffineTransform;
 import java.awt.image.BufferedImage;
 import java.awt.image.BufferedImageOp;
 import java.io.File;
 import java.io.IOException;
 import javax.imageio.ImageIO;
+
+import bw.factories.clsSingletonMasonGetter;
 
 /**
  * Extension of the Physics Engine circle, showing a image instead
@@ -109,28 +112,30 @@ public class clsCircleImage extends Circle
     /** Display the circle + image */
     public void draw(Object object, Graphics2D graphics, DrawInfo2D info)
         {
-        final double width = info.draw.width * mrRadius * 2;
-        final double height = info.draw.height  * mrRadius * 2;
+        final double fWidthArc = info.draw.width * mrRadius * 2;
+        final double fHeightArc = info.draw.height  * mrRadius * 2;
         
-        int imageWidth = moImage.getWidth();
-        int imageHeight = moImage.getHeight();
+        int nImageWidth = moImage.getWidth();
+        int nImageHeight = moImage.getHeight();
         
+        double fScale = clsSingletonMasonGetter.getDisplay2D().getScale(); // 2 = zoomed in 1x, 0.5 = zoomed out 1x TODO performance issue?
 
         graphics.setPaint(paint);
 
-        final int x = (int)(info.draw.x - width / 2.0);
-        final int y = (int)(info.draw.y - height / 2.0);
-        final int w = (int)(width);
-        final int h = (int)(height);
+        final int nxArc = (int)(info.draw.x - fWidthArc / 2.0);
+        final int nyArc = (int)(info.draw.y - fHeightArc / 2.0);
+        final int nwArc = (int)(fWidthArc);
+        final int nhArc = (int)(fHeightArc);
 
         //displays the physical circle
-        graphics.fillArc(x, y, w, h, 0, 360); //fillOval(x,y,w,h);
+        graphics.fillArc(nxArc, nyArc, nwArc, nhArc, 0, 360); //fillOval(x,y,w,h); //scale automatic by mason
 
         if (!mbShowSimple)
 	        {
-			   	BufferedImageOp op = null;
-			  
-		        graphics.drawImage(moImage, op, x , y );
+		        int nScaledWidth = (int) (nImageWidth * fScale);
+		        int nScaledHeight = (int) (nImageHeight * fScale);
+		   	
+		        graphics.drawImage(moImage, nxArc , nyArc, nScaledWidth, nScaledHeight, null );
 	        }
         }
    
