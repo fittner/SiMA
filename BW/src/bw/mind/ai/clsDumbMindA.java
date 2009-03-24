@@ -70,6 +70,7 @@ public class clsDumbMindA {
 		{
 			poActionList.addMoveAction(clsMotionAction.creatAction(eActionCommandMotion.MOVE_BACKWARD) );
 			poActionList.addMoveAction(clsMotionAction.creatAction(eActionCommandMotion.ROTATE_LEFT) );
+		
 		}
 		else
 		{

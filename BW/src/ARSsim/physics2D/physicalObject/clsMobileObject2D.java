@@ -33,6 +33,16 @@ public class clsMobileObject2D extends sim.physics2D.physicalObject.MobileObject
 	public ArrayList<clsCollidingObject> moCollisionList;
 	public clsBrainActionContainer moActionList;
 	
+	/**
+	 * @author muchitsch
+	 * 24.03.2009, 12:54:30
+	 * 
+	 * @return the moActionList
+	 */
+	public clsBrainActionContainer getBrainActionList() {
+		return moActionList;
+	}
+
 	public clsMobileObject2D(clsEntity poEntity)
 	{
 		moEntity = poEntity;

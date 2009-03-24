@@ -17,21 +17,17 @@ public class clsMotionPlatform
         {
     	moMobile = poMobile;
     	
+    	//CHKME RooL: was sind die angles etc und wafür werden die gebraucht? Verdacht das sie unnütz sind!
         P_angle = 10;
         D_angle = 500;
                 
         P_pos = .2;
         D_pos = 10;
         
-        initPhysicalBehavior();
+
         }
     
-    private void initPhysicalBehavior() 
-    {
-    	moMobile.setCoefficientOfFriction(.2);
-    	moMobile.setCoefficientOfStaticFriction(0);
-    	moMobile.setCoefficientOfRestitution(1);
-    }
+
         
     public Double2D localFromGlobal(Double2D globalCoordinate)
         {
