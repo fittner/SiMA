@@ -16,6 +16,7 @@ import bw.body.motionplatform.clsBrainAction;
 import bw.body.motionplatform.clsBrainActionContainer;
 import ARSsim.physics2D.util.clsPose;
 import bw.mind.ai.clsDumbMindA;
+import bw.physicalObjects.sensors.clsEntityPartVision;
 import bw.utils.enums.eEntityType;
 import bw.utils.enums.eSensorExtType;
 
@@ -116,6 +117,11 @@ public class clsBubble extends clsAnimate {
 		
 	}
 
-
+	public clsEntityPartVision getVision()
+	{
+		return ((clsSensorVision)this.moAgentBody
+					.getExternalIO().moSensorExternal
+					.get(bw.utils.enums.eSensorExtType.VISION)).getMoVisionArea(); 
+	}
 
 }

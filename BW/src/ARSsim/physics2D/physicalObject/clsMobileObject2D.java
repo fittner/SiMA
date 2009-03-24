@@ -15,6 +15,7 @@ import ARSsim.physics2D.util.clsPose;
 import bw.body.motionplatform.clsBrainAction;
 import bw.body.motionplatform.clsBrainActionContainer;
 import bw.entities.clsEntity;
+import bw.entities.clsRemoteBot;
 import bw.factories.clsSingletonMasonGetter;
 import bw.physicalObjects.sensors.clsEntityPartVision;
 
@@ -163,6 +164,9 @@ public class clsMobileObject2D extends sim.physics2D.physicalObject.MobileObject
 	@Override
 	public void addForce() {
 		moEntity.execution(moActionList);
+		
+		//correct rotation-force to emulate static friction for rotation
+		setStaticRotationFriction();
 	}
 	
     /* (non-Javadoc)
@@ -184,7 +188,6 @@ public class clsMobileObject2D extends sim.physics2D.physicalObject.MobileObject
     	if(!(other instanceof clsEntityPartVision)) {
     		
         	moCollisionList.add(new clsCollidingObject(other, colPoint));
-   		
     	}
     	   	
     	//return 2; // sticky collision
@@ -192,4 +195,24 @@ public class clsMobileObject2D extends sim.physics2D.physicalObject.MobileObject
     	//return 0; //happy guessing!
     	return 1; 
 	}
+    
+    public void setStaticRotationFriction() {
+    	if(moEntity instanceof clsRemoteBot)
+    	{
+	    	double nAngularVel = getAngularVelocity();
+	    	double nToAdd = 0;
+	    	if( nAngularVel > 0.002d ) {
+	    		nToAdd = -0.3;
+		    	addTorque(nToAdd);
+	    	}
+	    	else if( nAngularVel < -0.002d ) {
+	    		nToAdd = 0.3;
+		    	addTorque(nToAdd);
+	    	}
+	    	else
+	    	{
+	    		setAngularVelocity(0.0);
+	    	}
+    	}
+    }
 }

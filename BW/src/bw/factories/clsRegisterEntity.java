@@ -12,6 +12,7 @@ import sim.physics2D.constraint.PinJoint;
 import sim.physics2D.physicalObject.PhysicalObject2D;
 import ARSsim.physics2D.physicalObject.clsMobileObject2D;
 import ARSsim.physics2D.physicalObject.clsStationaryObject2D;
+import bw.entities.clsBubble;
 import bw.entities.clsMobile;
 import bw.entities.clsRemoteBot;
 import bw.entities.clsStationary;
@@ -71,7 +72,6 @@ public final class clsRegisterEntity {
 		registerMobileObject2D(poEntity.getMobileObject2D());
 		
 		registerPhysicalObject2D(poEntity.getVision() );
-		
 		clsSingletonMasonGetter.getFieldEnvironment().setObjectLocation(poEntity.getVision(), new sim.util.Double2D(poEntity.getPosition().x, poEntity.getPosition().y));
 		clsSingletonMasonGetter.getSimState().schedule.scheduleRepeating(poEntity.getVision());
 		
@@ -88,6 +88,16 @@ public final class clsRegisterEntity {
         clsSingletonMasonGetter.getPhysicsEngine2D().register(oPJ2);
         
  
+		poEntity.setRegistered(true);
+	}
+	
+	public static void registerEntity(clsBubble poEntity) {
+		registerMobileObject2D(poEntity.getMobileObject2D());
+		
+		registerPhysicalObject2D(poEntity.getVision() );
+		clsSingletonMasonGetter.getFieldEnvironment().setObjectLocation(poEntity.getVision(), new sim.util.Double2D(poEntity.getPosition().x, poEntity.getPosition().y));
+		clsSingletonMasonGetter.getSimState().schedule.scheduleRepeating(poEntity.getVision());
+
 		poEntity.setRegistered(true);
 	}
 
