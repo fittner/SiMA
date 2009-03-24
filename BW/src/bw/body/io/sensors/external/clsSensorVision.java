@@ -7,6 +7,8 @@
  */
 package bw.body.io.sensors.external;
 
+import java.awt.Color;
+import java.awt.Paint;
 import java.util.HashMap;
 import java.util.Iterator;
 
@@ -22,7 +24,9 @@ import ARSsim.physics2D.physicalObject.clsMobileObject2D;
 import bw.body.io.clsBaseIO;
 import bw.entities.clsEntity;
 import bw.entities.clsMobile;
+import bw.factories.clsRegisterEntity;
 import bw.factories.clsSingletonMasonGetter;
+import bw.physicalObjects.bodyparts.clsBotHands;
 import bw.physicalObjects.sensors.clsEntityPartVision;
 import bw.utils.enums.eBodyParts;
 
@@ -54,7 +58,7 @@ public class clsSensorVision extends clsSensorExt
 		
 		moCollidingObj = new HashMap<Integer, PhysicalObject2D>();
 		moViewObj = new HashMap<Integer, PhysicalObject2D>(); 
-		moCollisionPoint = new HashMap<Integer, Double2D>(); 
+		moCollisionPoint = new HashMap<Integer, Double2D>();
 		moVisionArea = new clsEntityPartVision(poEntity, mnVisRange);
 		this.regVisionObj(poEntity);
 	}
@@ -83,8 +87,7 @@ public class clsSensorVision extends clsSensorExt
 		moVisionArea = new clsEntityPartVision(poEntity, mnVisRange);
 		
 		//moVisionArea.setCenterOffset(poOffsetVisionArea);
-		//this.regVisionObjWithParams(poEntity, poOffsetVisionArea, poVisionOrientation);
-		this.regVisionObj(poEntity);
+	    this.regVisionObj(poEntity);
 	}
 	
 	/**
@@ -115,18 +118,18 @@ public class clsSensorVision extends clsSensorExt
 		if(poOffsetVisionArea != null)
 			oEntityPos = oEntityPos.add(poOffsetVisionArea);
 		
-		PhysicsEngine2D oPhyEn2D = clsSingletonMasonGetter.getPhysicsEngine2D();
-		Continuous2D oFieldEnvironment = clsSingletonMasonGetter.getFieldEnvironment();
-		SimState oSimState = clsSingletonMasonGetter.getSimState();
+		//PhysicsEngine2D oPhyEn2D = clsSingletonMasonGetter.getPhysicsEngine2D();
+		//Continuous2D oFieldEnvironment = clsSingletonMasonGetter.getFieldEnvironment();
+		//SimState oSimState = clsSingletonMasonGetter.getSimState();
 		
 		try
 		{
 			moVisionArea.setPose(oEntityPos, poVisionOrientation);
 			
-			oFieldEnvironment.setObjectLocation(moVisionArea, new sim.util.Double2D(oEntityPos.x, oEntityPos.y));
-			oPhyEn2D.register(moVisionArea);
-			oPhyEn2D.setNoCollisions(moVisionArea,((clsMobile)poEntity).getMobileObject2D());
-	        oSimState.schedule.scheduleRepeating(moVisionArea);     
+			//oFieldEnvironment.setObjectLocation(moVisionArea, new sim.util.Double2D(oEntityPos.x, oEntityPos.y));
+			//oPhyEn2D.register(moVisionArea);
+			//oPhyEn2D.setNoCollisions(moVisionArea,((clsMobile)poEntity).getMobileObject2D());
+			//oSimState.schedule.scheduleRepeating(moVisionArea);     
 	      //todo
 //	        PinJoint pj = new PinJoint(oEntityPos, moVisionArea, (clsMobileObject2D)(((clsMobile)poEntity).getMobileObject2D()));
 //	        oPhyEn2D.register(pj);
@@ -308,6 +311,11 @@ public class clsSensorVision extends clsSensorExt
 	public double getMnVisRange() {
 		return mnVisRange;
 	}
+	
+	public clsEntityPartVision getMoVisionArea()
+	{
+		return moVisionArea; 
+	}
 
 	/**
 	 * @param mnVisRange the mnVisRange to set
@@ -322,6 +330,4 @@ public class clsSensorVision extends clsSensorExt
 	public HashMap<Integer, PhysicalObject2D> getViewObj() {
 		return moViewObj;
 	}
-
-	
 }
