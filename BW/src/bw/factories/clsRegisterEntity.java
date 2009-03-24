@@ -70,10 +70,14 @@ public final class clsRegisterEntity {
 	public static void registerEntity(clsRemoteBot poEntity) {
 		registerMobileObject2D(poEntity.getMobileObject2D());
 		
+		registerPhysicalObject2D(poEntity.getVision() );
+		
+		clsSingletonMasonGetter.getFieldEnvironment().setObjectLocation(poEntity.getVision(), new sim.util.Double2D(poEntity.getPosition().x, poEntity.getPosition().y));
+		clsSingletonMasonGetter.getSimState().schedule.scheduleRepeating(poEntity.getVision());
+		
 		registerBotHands(poEntity.getBotHand1());
 		registerBotHands(poEntity.getBotHand2());
 		
-                    
 		clsSingletonMasonGetter.getPhysicsEngine2D().setNoCollisions(poEntity.getMobileObject2D(), poEntity.getBotHand1());
 		clsSingletonMasonGetter.getPhysicsEngine2D().setNoCollisions(poEntity.getMobileObject2D(), poEntity.getBotHand2());
                     
@@ -83,6 +87,7 @@ public final class clsRegisterEntity {
         clsSingletonMasonGetter.getPhysicsEngine2D().register(oPJ1);
         clsSingletonMasonGetter.getPhysicsEngine2D().register(oPJ2);
         
+ 
 		poEntity.setRegistered(true);
 	}
 
