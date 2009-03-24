@@ -12,21 +12,13 @@ import java.awt.Paint;
 import java.util.HashMap;
 import java.util.Iterator;
 
-import sim.engine.SimState;
-import sim.field.continuous.Continuous2D;
-import sim.physics2D.PhysicsEngine2D;
-import sim.physics2D.constraint.PinJoint;
 import sim.physics2D.physicalObject.PhysicalObject2D;
 import sim.physics2D.util.Angle;
 import sim.physics2D.util.Double2D;
 
-import ARSsim.physics2D.physicalObject.clsMobileObject2D;
 import bw.body.io.clsBaseIO;
 import bw.entities.clsEntity;
 import bw.entities.clsMobile;
-import bw.factories.clsRegisterEntity;
-import bw.factories.clsSingletonMasonGetter;
-import bw.physicalObjects.bodyparts.clsBotHands;
 import bw.physicalObjects.sensors.clsEntityPartVision;
 import bw.utils.enums.eBodyParts;
 
@@ -118,21 +110,10 @@ public class clsSensorVision extends clsSensorExt
 		if(poOffsetVisionArea != null)
 			oEntityPos = oEntityPos.add(poOffsetVisionArea);
 		
-		//PhysicsEngine2D oPhyEn2D = clsSingletonMasonGetter.getPhysicsEngine2D();
-		//Continuous2D oFieldEnvironment = clsSingletonMasonGetter.getFieldEnvironment();
-		//SimState oSimState = clsSingletonMasonGetter.getSimState();
-		
 		try
 		{
 			moVisionArea.setPose(oEntityPos, poVisionOrientation);
-			
-			//oFieldEnvironment.setObjectLocation(moVisionArea, new sim.util.Double2D(oEntityPos.x, oEntityPos.y));
-			//oPhyEn2D.register(moVisionArea);
-			//oPhyEn2D.setNoCollisions(moVisionArea,((clsMobile)poEntity).getMobileObject2D());
-			//oSimState.schedule.scheduleRepeating(moVisionArea);     
-	      //todo
-//	        PinJoint pj = new PinJoint(oEntityPos, moVisionArea, (clsMobileObject2D)(((clsMobile)poEntity).getMobileObject2D()));
-//	        oPhyEn2D.register(pj);
+		
 		}
 		catch( Exception ex )
 		{
@@ -254,7 +235,6 @@ public class clsSensorVision extends clsSensorExt
 	 * Updates the sensor data values by fetching the info from the physics engine entity 
 	 */
 	public void updateSensorData() {
-		//TODO: HZ --> update meViewObj + meCollidingObj
 		this.calcViewObj();
 		moVisionArea.setMeVisionObj(moViewObj);
 	}
