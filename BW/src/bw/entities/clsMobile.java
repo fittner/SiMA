@@ -8,6 +8,7 @@
 package bw.entities;
 
 import sim.physics2D.shape.Shape;
+import sim.physics2D.util.Angle;
 import ARSsim.physics2D.physicalObject.clsMobileObject2D;
 import ARSsim.physics2D.util.clsPose;
 
@@ -27,7 +28,10 @@ public abstract class clsMobile extends clsEntity {
 	public clsMobile(int pnId, clsPose poPose, sim.physics2D.util.Double2D poStartingVelocity, Shape poShape, double prMass) {
 		super(pnId);
 		
-		initPhysicalObject2D(poPose, poStartingVelocity, poShape, prMass);
+		if(this.meEntityType.equals(meEntityType.REMOTEBOT)) 
+			initPhysicalObject2D(new clsPose(poPose.getPosition(), new Angle(0d)), poStartingVelocity, poShape, prMass);
+		else
+			initPhysicalObject2D(poPose, poStartingVelocity, poShape, prMass);
 	}
 	
 	protected void initPhysicalObject2D(clsPose poPose, sim.physics2D.util.Double2D poStartingVelocity, Shape poShape, double prMass) {
