@@ -19,6 +19,7 @@ import sim.physics2D.util.Angle;
 import sim.physics2D.util.Double2D;
 import sim.portrayal.DrawInfo2D;
 
+import ARSsim.physics2D.physicalObject.clsMobileObject2D;
 import ARSsim.physics2D.shape.clsCircleBorder;
 import bw.entities.clsEntity;
 import bw.entities.clsMobile;
@@ -55,7 +56,7 @@ public class clsEntityPartVision extends MobileObject2D implements Steppable{
 	 * @param poEntity
 	 * @param pnRad
 	 */
-	public clsEntityPartVision(clsEntity poEntity,  double pnRad) {    	
+	public clsEntityPartVision(clsEntity poEntity,  double pnRad) {    
 	 mnRadius = pnRad; 
 
 	 meFilteredObj = new HashMap<Integer, PhysicalObject2D>();
@@ -69,8 +70,9 @@ public class clsEntityPartVision extends MobileObject2D implements Steppable{
 		try
 		{
 			 this.setShape(moShape, MASS); 
-			 this.setCoefficientOfFriction(FRICTION);
+			 /*this.setCoefficientOfFriction(FRICTION);
 			 this.setCoefficientOfRestitution(RESTITUTION);
+			 */
 		}catch(Exception ex)
 		{
 			System.out.println(ex.getMessage());
@@ -89,7 +91,7 @@ public class clsEntityPartVision extends MobileObject2D implements Steppable{
 	 * @see sim.engine.Steppable#step(sim.engine.SimState)
 	 */
 	public void step(SimState state){
-		sim.physics2D.util.Double2D oEntityPos = ((clsMobile)moEntity).getMobileObject2D().getPosition();
+		 sim.physics2D.util.Double2D oEntityPos = ((clsMobile)moEntity).getMobileObject2D().getPosition();
 		 Angle oEntityOrientation = ((clsMobile)moEntity).getMobileObject2D().getOrientation();
 		 
 	     this.setPose(oEntityPos, oEntityOrientation);
