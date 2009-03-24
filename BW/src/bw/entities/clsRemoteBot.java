@@ -15,11 +15,14 @@ import bw.body.motionplatform.clsBrainAction;
 import bw.body.motionplatform.clsBrainActionContainer;
 import bw.body.motionplatform.clsMotionAction;
 import bw.physicalObjects.bodyparts.clsBotHands;
+import bw.physicalObjects.sensors.clsEntityPartVision;
+import bw.body.io.sensors.external.clsSensorVision;
 import bw.utils.enums.eActionCommandMotion;
 import bw.utils.enums.eActionCommandType;
 import bw.utils.enums.eEntityType;
 import sim.display.clsKeyListener;
 import sim.physics2D.util.Angle;
+import sim.physics2D.physicalObject.PhysicalObject2D;
 
 /**
  * Sample implementation of a clsAnimate, having sensors and actuators 
@@ -33,7 +36,7 @@ import sim.physics2D.util.Angle;
 public class clsRemoteBot extends clsAnimate  {
     private clsBotHands moBotHand1;
     private clsBotHands moBotHand2;
-   
+       
 	private static double mrDefaultWeight = 100.0f;
 	private static double mrDefaultRadius = 10.0f;
 	private static Color moDefaultColor = Color.CYAN;
@@ -54,7 +57,7 @@ public class clsRemoteBot extends clsAnimate  {
 		super(pnId, poStartingPose, poStartingVelocity, new sim.physics2D.shape.Circle(clsRemoteBot.mrDefaultRadius, clsRemoteBot.moDefaultColor), clsRemoteBot.mrDefaultWeight);
 		
 		addBotHands();
-    }
+	}
 	
 	private clsBotHands addHand(double offsetX, double offsetY) {
         double x = getPosition().x;
@@ -67,6 +70,8 @@ public class clsRemoteBot extends clsAnimate  {
         
         return oHand;
 	}
+	
+	
 	
 	/**
 	 * To be called AFTER clsRemoteBot has been initialized and registered to mason 
@@ -94,7 +99,14 @@ public class clsRemoteBot extends clsAnimate  {
 	public clsBotHands getBotHand2() {
 		return moBotHand2;
 	}
-
+	
+	public clsEntityPartVision getVision()
+	{
+		return ((clsSensorVision)this.moAgentBody
+					.getExternalIO().moSensorExternal
+					.get(bw.utils.enums.eSensorExtType.VISION)).getMoVisionArea(); 
+	}
+	
 	/* (non-Javadoc)
 	 * @see bw.clsEntity#setEntityType()
 	 */
