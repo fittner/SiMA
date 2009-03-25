@@ -22,7 +22,7 @@ import bw.utils.enums.eActionCommandType;
 public class clsMotionAction extends clsBrainAction{
 
 	public eActionCommandMotion meMotionType;
-	public double mnSpeed; //e.g. normal speed is 4.0
+	public double mnSpeed = 4; //e.g. normal speed is 4.0
 	public Angle moRelativeRotation;
 	
 	/**

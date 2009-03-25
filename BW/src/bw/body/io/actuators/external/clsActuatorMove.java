@@ -122,7 +122,7 @@ public class clsActuatorMove extends clsActuatorExt implements itfActuatorUpdate
     	switch( oMotion.getMotionType() )
     	{
     	case MOVE_FORWARD:
-    		((clsMobile)moEntity).getMobileObject2D().moMotionPlatform.moveForward(4.0);
+    		((clsMobile)moEntity).getMobileObject2D().moMotionPlatform.moveForward(oMotion.getSpeed());
     		break;
     	case MOVE_BACKWARD:
     		((clsMobile)moEntity).getMobileObject2D().moMotionPlatform.backup();
@@ -143,7 +143,7 @@ public class clsActuatorMove extends clsActuatorExt implements itfActuatorUpdate
     		((clsMobile)moEntity).getMobileObject2D().moMotionPlatform.faceTowardsRelative(new Angle(1.2));
     		break;
     	case RUN_FORWARD:
-    		((clsMobile)moEntity).getMobileObject2D().moMotionPlatform.moveForward(12.0);
+    		((clsMobile)moEntity).getMobileObject2D().moMotionPlatform.moveForward(oMotion.getSpeed()*3);
     		break;
     	case JUMP:
     		throw new Exception("clsMobileObject2D:dispatchMotion - JUMP not yet implemented");

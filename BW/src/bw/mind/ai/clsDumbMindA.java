@@ -74,7 +74,9 @@ public class clsDumbMindA {
 		}
 		else
 		{
-			poActionList.addMoveAction(clsMotionAction.creatAction(eActionCommandMotion.MOVE_FORWARD) );
+			clsMotionAction oAction = clsMotionAction.creatAction(eActionCommandMotion.MOVE_FORWARD);
+			oAction.setSpeed(2);
+			poActionList.addMoveAction(oAction);
 		}
 		
 	}

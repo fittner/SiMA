@@ -166,7 +166,7 @@ public class clsMobileObject2D extends sim.physics2D.physicalObject.MobileObject
 		moEntity.execution(moActionList);
 		
 		//correct rotation-force to emulate static friction for rotation
-		setStaticRotationFriction();
+		addAngularFriction();
 	}
 	
     /* (non-Javadoc)
@@ -196,8 +196,16 @@ public class clsMobileObject2D extends sim.physics2D.physicalObject.MobileObject
     	return 1; 
 	}
     
-    public void setStaticRotationFriction() {
-    	if(moEntity instanceof clsRemoteBot)
+    /**
+     * This method simulates an angular-friction that is not supported by the physics-engine.
+     * Problem until now: Each clsMobileObject2D has the same angular friction 
+     *
+     * @author langr
+     * 25.03.2009, 09:44:04
+     *
+     */
+    public void addAngularFriction() {
+    	//if(moEntity instanceof clsRemoteBot)
     	{
 	    	double nAngularVel = getAngularVelocity();
 	    	double nToAdd = 0;
