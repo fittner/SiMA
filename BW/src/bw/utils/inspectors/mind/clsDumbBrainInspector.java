@@ -69,16 +69,16 @@ public class clsDumbBrainInspector extends Inspector implements ItemListener{
             // creating the checkbox to sitch on/off the AI intelligence-levels.
             Box oBox1 = new Box(BoxLayout.X_AXIS);
             moCaption = new JLabel("Layers of Brooks Subsumption Architecture");
-            oBox1.add(moCaption);
-            oBox1.add(Box.createGlue());
-
-            
-            // creating the checkbox to sitch on/off the AI intelligence-levels.
-            Box oBox2 = new Box(BoxLayout.X_AXIS);
             moCheckBoxCD = new JCheckBox("Roomba brain (collision detection)");
             moCheckBoxCD.setSelected(true);
-            oBox2.add(moCheckBoxCD);
-            oBox2.add(Box.createGlue());
+            
+            moCheckBoxCA = new JCheckBox("Obstacle Master Brain (collision avoidance)");
+            moCheckBoxCA.setSelected(true);
+            
+            oBox1.add(moCaption, BorderLayout.AFTER_LAST_LINE);
+            oBox1.add(moCheckBoxCD, BorderLayout.AFTER_LAST_LINE);
+            oBox1.add(moCheckBoxCA, BorderLayout.AFTER_LAST_LINE);
+            oBox1.add(Box.createGlue());
             
             //Register a listener for the check boxes.
             moCheckBoxCD.addItemListener(this);
@@ -87,8 +87,6 @@ public class clsDumbBrainInspector extends Inspector implements ItemListener{
          // set up our inspector: keep the properties inspector around too
             setLayout(new BorderLayout());
             add(oBox1, BorderLayout.NORTH);
-            add(oBox2, BorderLayout.AFTER_LAST_LINE);
-            
             add(originalInspector, BorderLayout.CENTER);
         }
 	
