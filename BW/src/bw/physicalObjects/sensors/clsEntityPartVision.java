@@ -43,6 +43,8 @@ public class clsEntityPartVision extends MobileObject2D implements Steppable{
 	private final static double RESTITUTION = 0;
 	
 	private double mnRadius;
+	
+	private Double2D moOffsetVisionArea = null;
 		
 	private HashMap<Integer, PhysicalObject2D> meFilteredObj;
 	private HashMap<Integer, PhysicalObject2D> meUnFilteredObj;
@@ -55,9 +57,11 @@ public class clsEntityPartVision extends MobileObject2D implements Steppable{
 	/**
 	 * @param poEntity
 	 * @param pnRad
+	 * @param poOffsetVisionArea 
 	 */
-	public clsEntityPartVision(clsEntity poEntity,  double pnRad) {    
-	 mnRadius = pnRad; 
+	public clsEntityPartVision(clsEntity poEntity,  double pnRad, Double2D poOffsetVisionArea) {    
+	 mnRadius = pnRad;
+	 moOffsetVisionArea = poOffsetVisionArea;
 
 	 meFilteredObj = new HashMap<Integer, PhysicalObject2D>();
 	 meUnFilteredObj = new HashMap<Integer, PhysicalObject2D>();
@@ -93,6 +97,9 @@ public class clsEntityPartVision extends MobileObject2D implements Steppable{
 	public void step(SimState state){
 		 sim.physics2D.util.Double2D oEntityPos = ((clsMobile)moEntity).getMobileObject2D().getPosition();
 		 Angle oEntityOrientation = ((clsMobile)moEntity).getMobileObject2D().getOrientation();
+		 
+		 if(moOffsetVisionArea != null)
+				oEntityPos = oEntityPos.add(moOffsetVisionArea);
 		 
 	     this.setPose(oEntityPos, oEntityOrientation);
 	     clsSingletonMasonGetter.getFieldEnvironment().setObjectLocation(this, new sim.util.Double2D(oEntityPos.x, oEntityPos.y));

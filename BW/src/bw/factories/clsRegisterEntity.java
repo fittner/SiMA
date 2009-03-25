@@ -75,6 +75,10 @@ public final class clsRegisterEntity {
 		clsSingletonMasonGetter.getFieldEnvironment().setObjectLocation(poEntity.getVision(), new sim.util.Double2D(poEntity.getPosition().x, poEntity.getPosition().y));
 		clsSingletonMasonGetter.getSimState().schedule.scheduleRepeating(poEntity.getVision());
 		
+		registerPhysicalObject2D(poEntity.getEatableAreaVision() );
+		clsSingletonMasonGetter.getFieldEnvironment().setObjectLocation(poEntity.getEatableAreaVision(), new sim.util.Double2D(poEntity.getPosition().x, poEntity.getPosition().y));
+		clsSingletonMasonGetter.getSimState().schedule.scheduleRepeating(poEntity.getEatableAreaVision());
+		
 		registerBotHands(poEntity.getBotHand1());
 		registerBotHands(poEntity.getBotHand2());
 		
@@ -83,6 +87,10 @@ public final class clsRegisterEntity {
 		clsSingletonMasonGetter.getPhysicsEngine2D().setNoCollisions(poEntity.getVision(),poEntity.getMobileObject2D());
 		clsSingletonMasonGetter.getPhysicsEngine2D().setNoCollisions(poEntity.getVision(),poEntity.getBotHand1());
 		clsSingletonMasonGetter.getPhysicsEngine2D().setNoCollisions(poEntity.getVision(),poEntity.getBotHand2());
+		
+		clsSingletonMasonGetter.getPhysicsEngine2D().setNoCollisions(poEntity.getEatableAreaVision(),poEntity.getMobileObject2D());
+		clsSingletonMasonGetter.getPhysicsEngine2D().setNoCollisions(poEntity.getEatableAreaVision(),poEntity.getBotHand1());
+		clsSingletonMasonGetter.getPhysicsEngine2D().setNoCollisions(poEntity.getEatableAreaVision(),poEntity.getBotHand2());
 		
         PinJoint oPJ1 = new PinJoint(poEntity.getBotHand1().getPosition(), poEntity.getBotHand1(), poEntity.getMobileObject2D());
         PinJoint oPJ2 = new PinJoint(poEntity.getBotHand2().getPosition(), poEntity.getBotHand2(), poEntity.getMobileObject2D());
@@ -100,6 +108,10 @@ public final class clsRegisterEntity {
 		registerPhysicalObject2D(poEntity.getVision() );
 		clsSingletonMasonGetter.getFieldEnvironment().setObjectLocation(poEntity.getVision(), new sim.util.Double2D(poEntity.getPosition().x, poEntity.getPosition().y));
 		clsSingletonMasonGetter.getSimState().schedule.scheduleRepeating(poEntity.getVision());
+		
+		registerPhysicalObject2D(poEntity.getEatableAreaVision() );
+		clsSingletonMasonGetter.getFieldEnvironment().setObjectLocation(poEntity.getEatableAreaVision(), new sim.util.Double2D( (poEntity.getEatableAreaVision().getPosition().x+10), poEntity.getEatableAreaVision().getPosition().y));
+		clsSingletonMasonGetter.getSimState().schedule.scheduleRepeating(poEntity.getEatableAreaVision());
 
 		poEntity.setRegistered(true);
 	}

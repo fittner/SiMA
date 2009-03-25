@@ -11,6 +11,7 @@ import java.awt.Color;
 import java.util.ArrayList;
 
 import bw.actionresponses.clsBubbleResponses;
+import bw.body.io.sensors.external.clsSensorEatableArea;
 import bw.body.io.sensors.external.clsSensorVision;
 import bw.body.motionplatform.clsBrainAction;
 import bw.body.motionplatform.clsBrainActionContainer;
@@ -122,6 +123,13 @@ public class clsBubble extends clsAnimate {
 		return ((clsSensorVision)this.moAgentBody
 					.getExternalIO().moSensorExternal
 					.get(bw.utils.enums.eSensorExtType.VISION)).getMoVisionArea(); 
+	}
+	
+	public clsEntityPartVision getEatableAreaVision()
+	{
+		return ((clsSensorEatableArea)this.moAgentBody
+					.getExternalIO().moSensorExternal
+					.get(bw.utils.enums.eSensorExtType.EATABLE_AREA)).getMoVisionArea(); 
 	}
 
 }

@@ -51,8 +51,8 @@ public class clsSensorVision extends clsSensorExt
 		moCollidingObj = new HashMap<Integer, PhysicalObject2D>();
 		moViewObj = new HashMap<Integer, PhysicalObject2D>(); 
 		moCollisionPoint = new HashMap<Integer, Double2D>();
-		moVisionArea = new clsEntityPartVision(poEntity, mnVisRange);
-		this.regVisionObj(poEntity);
+		moVisionArea = new clsEntityPartVision(poEntity, mnVisRange, null);
+		this.regVisionObj(poEntity, null); //null = no offset = vision centered on object
 	}
 	
 	/**
@@ -76,10 +76,9 @@ public class clsSensorVision extends clsSensorExt
 		moCollidingObj = new HashMap<Integer, PhysicalObject2D>();
 		moViewObj = new HashMap<Integer, PhysicalObject2D>(); 
 		moCollisionPoint = new HashMap<Integer, Double2D>(); 
-		moVisionArea = new clsEntityPartVision(poEntity, mnVisRange);
+		moVisionArea = new clsEntityPartVision(poEntity, mnVisRange, poOffsetVisionArea);
 		
-		//moVisionArea.setCenterOffset(poOffsetVisionArea);
-	    this.regVisionObj(poEntity);
+	    this.regVisionObj(poEntity, poOffsetVisionArea);
 	}
 	
 	/**
@@ -87,9 +86,9 @@ public class clsSensorVision extends clsSensorExt
 	 *
 	 * @param poEntity
 	 */
-	private void regVisionObj(clsEntity poEntity)	{
+	private void regVisionObj(clsEntity poEntity, Double2D poOffsetVisionArea)	{
 		Angle oEntityOrientation = ((clsMobile)poEntity).getMobileObject2D().getOrientation(); 
-		regVisionObjWithParams(poEntity, null, oEntityOrientation);
+		regVisionObjWithParams(poEntity, poOffsetVisionArea, oEntityOrientation);
     }
 	
 	/**
@@ -106,7 +105,7 @@ public class clsSensorVision extends clsSensorExt
 		
 		Double2D oEntityPos = ((clsMobile)poEntity).getMobileObject2D().getPosition(); 
 		
-		//if we have a offset, change the center point.
+		//if we have a offset, change the center point. this is only for initializing, see step of entitypartvision for more
 		if(poOffsetVisionArea != null)
 			oEntityPos = oEntityPos.add(poOffsetVisionArea);
 		

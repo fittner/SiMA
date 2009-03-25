@@ -16,6 +16,7 @@ import bw.body.motionplatform.clsBrainActionContainer;
 import bw.body.motionplatform.clsMotionAction;
 import bw.physicalObjects.bodyparts.clsBotHands;
 import bw.physicalObjects.sensors.clsEntityPartVision;
+import bw.body.io.sensors.external.clsSensorEatableArea;
 import bw.body.io.sensors.external.clsSensorVision;
 import bw.utils.enums.eActionCommandMotion;
 import bw.utils.enums.eActionCommandType;
@@ -105,6 +106,13 @@ public class clsRemoteBot extends clsAnimate  {
 		return ((clsSensorVision)this.moAgentBody
 					.getExternalIO().moSensorExternal
 					.get(bw.utils.enums.eSensorExtType.VISION)).getMoVisionArea(); 
+	}
+	
+	public clsEntityPartVision getEatableAreaVision()
+	{
+		return ((clsSensorEatableArea)this.moAgentBody
+					.getExternalIO().moSensorExternal
+					.get(bw.utils.enums.eSensorExtType.EATABLE_AREA)).getMoVisionArea(); 
 	}
 	
 	/* (non-Javadoc)

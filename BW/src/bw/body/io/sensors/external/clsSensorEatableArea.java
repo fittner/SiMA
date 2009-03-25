@@ -25,13 +25,10 @@ import bw.utils.enums.eBodyParts;
 public class clsSensorEatableArea extends clsSensorVision {
 	
 	private final static double VIEWDEGREE = Math.PI;
-	private final static double VISRANGE = 10; 
-
-	/**
-	 * A sensor to define what is directly in front of your mouth the area where you can eat something
-	 * 
-	 * @author muchitsch
-	 * 26.02.2009, 10:21:40
+	private final static double VISRANGE = 5; 
+	
+	public final static Double2D DEFAULTVISIONOFFSETT = new Double2D(15,0); //neded when creating the class in clsExternalIO!
+	/*
 	 * @param poEntity 
 	 *
 	 * @param poBaseIO
