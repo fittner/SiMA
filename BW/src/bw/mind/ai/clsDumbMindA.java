@@ -10,6 +10,7 @@ package bw.mind.ai;
 
 import sim.physics2D.physicalObject.PhysicalObject2D;
 import ARSsim.physics2D.physicalObject.clsMobileObject2D;
+import bw.body.itfStepProcessing;
 import bw.body.io.sensors.external.clsSensorBump;
 import bw.body.io.sensors.external.clsSensorVision;
 import bw.body.motionplatform.clsBrainActionContainer;
@@ -17,6 +18,7 @@ import bw.body.motionplatform.clsMotionAction;
 import bw.entities.clsAnimate;
 import bw.entities.clsCan;
 import bw.entities.clsEntity;
+import bw.mind.clsMind;
 import bw.utils.enums.eActionCommandMotion;
 import bw.utils.enums.eEntityType;
 import bw.utils.enums.eSensorExtType;
@@ -28,21 +30,31 @@ import bw.utils.enums.eSensorExtType;
  * 19.03.2009, 15:57:25
  * 
  */
-public class clsDumbMindA {
+public class clsDumbMindA extends clsMind implements itfStepProcessing{
 
+	private boolean moRoombaIntelligence = true;
+	
 	public void clsDumbMind()
 	{
 	}
 	
-	public void processDumbDecisions(clsAnimate poEntity, clsBrainActionContainer poActionList)
-	{	
-		
+	/* (non-Javadoc)
+	 *
+	 * @author langr
+	 * 25.03.2009, 10:27:38
+	 * 
+	 * @see bw.body.itfStepProcessing#stepProcessing(bw.entities.clsAnimate, bw.body.motionplatform.clsBrainActionContainer)
+	 */
+	@Override
+	public void stepProcessing(clsAnimate poAnimate,
+			clsBrainActionContainer poActionList) {
+
 		//followAnObject(poEntity, poActionList);
 		
-		doRobotDance(poEntity, poActionList);
+		doRobotDance(poAnimate, poActionList);
 		
-
 	}
+	
 	public void followAnObject(clsAnimate poEntity, clsBrainActionContainer poActionList)
 	{
 		clsSensorVision oVision = (clsSensorVision)(poEntity.moAgentBody.getExternalIO().moSensorExternal.get(eSensorExtType.VISION));
@@ -80,4 +92,26 @@ public class clsDumbMindA {
 		}
 		
 	}
+
+	/**
+	 * @author langr
+	 * 25.03.2009, 10:36:11
+	 * 
+	 * @param moRoombaIntelligence the moRoombaIntelligence to set
+	 */
+	public void setRoombaIntelligence(boolean moRoombaIntelligence) {
+		this.moRoombaIntelligence = moRoombaIntelligence;
+	}
+
+	/**
+	 * @author langr
+	 * 25.03.2009, 10:36:11
+	 * 
+	 * @return the moRoombaIntelligence
+	 */
+	public boolean isRoombaIntelligence() {
+		return moRoombaIntelligence;
+	}
+
+
 }

@@ -100,8 +100,8 @@ public class clsBubble extends clsAnimate {
 	@Override
 	public void processing(clsBrainActionContainer poActionList) {
 
-		clsDumbMindA oDumbMind = new clsDumbMindA();
-		oDumbMind.processDumbDecisions((clsAnimate)this, poActionList);
+		this.getAgentBody().getBrain().stepProcessing((clsAnimate)this, poActionList);
+
 	}
 
 	/* (non-Javadoc)

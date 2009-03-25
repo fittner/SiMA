@@ -18,6 +18,7 @@ import bw.body.io.clsExternalIO;
 import bw.body.io.clsInternalIO;
 import bw.body.motionplatform.clsBrainAction;
 import bw.body.motionplatform.clsBrainActionContainer;
+import bw.entities.clsAnimate;
 import bw.entities.clsEntity;
 
 /**
@@ -135,8 +136,8 @@ public class clsAgentBody implements itfStepSensing, itfStepUpdateInternalState,
 	 * 25.02.2009, 16:02:00
 	 *
 	 */
-	public void stepProcessing(){
-		moBrain.stepProcessing();
+	public void stepProcessing(clsAnimate poEntity, clsBrainActionContainer poActionList){
+		moBrain.stepProcessing(poEntity, poActionList);
 	}
 	
 	/* (non-Javadoc)
