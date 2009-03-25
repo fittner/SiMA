@@ -8,16 +8,21 @@
  */
 package bw.utils.inspectors.mind;
 
+import java.awt.BorderLayout;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 
 import javax.swing.Box;
 import javax.swing.BoxLayout;
+import javax.swing.JButton;
 import javax.swing.JCheckBox;
+import javax.swing.JLabel;
 
+import ARSsim.physics2D.physicalObject.clsMobileObject2D;
 import bw.entities.clsBubble;
 import bw.mind.clsMind;
 import bw.mind.ai.clsDumbMindA;
+import bw.utils.sound.AePlayWave;
 import sim.display.Controller;
 import sim.display.GUIState;
 import sim.engine.SimState;
@@ -41,30 +46,50 @@ public class clsDumbBrainInspector extends Inspector implements ItemListener{
 	 */
 	private static final long serialVersionUID = 1L;
 	
-	
 	public Inspector moOriginalInspector;
-	private JCheckBox moCheckBox;
 	private clsBubble moBubble;
-    
+	private Controller moConsole;
+
+	//content controls
+	private JLabel moCaption;
+	private JCheckBox moCheckBoxCD; //collision detection
+	private JCheckBox moCheckBoxCA; //collision avoidance
+	    
     public clsDumbBrainInspector(Inspector originalInspector,
                                 LocationWrapper wrapper,
                                 GUIState guiState)
         {
     		moOriginalInspector = originalInspector;
-    		
-    		moBubble=(clsBubble) wrapper.getObject();
+    		moBubble= (clsBubble)((clsMobileObject2D)wrapper.getObject()).getEntity();
             final SimState state=guiState.state;
-            final Controller console=guiState.controller;
+            moConsole=guiState.controller;
             
-            // now let's add a Button
-            Box oBox = new Box(BoxLayout.X_AXIS);
-            moCheckBox = new JCheckBox("Roomba brain");
-            moCheckBox.setSelected(true);
-            oBox.add(moCheckBox);
-            oBox.add(Box.createGlue());
+            moCaption = new JLabel("Layers of Brooks Subsumption Architecture");
+
+            // creating the checkbox to sitch on/off the AI intelligence-levels.
+            Box oBox1 = new Box(BoxLayout.X_AXIS);
+            moCaption = new JLabel("Layers of Brooks Subsumption Architecture");
+            oBox1.add(moCaption);
+            oBox1.add(Box.createGlue());
+
+            
+            // creating the checkbox to sitch on/off the AI intelligence-levels.
+            Box oBox2 = new Box(BoxLayout.X_AXIS);
+            moCheckBoxCD = new JCheckBox("Roomba brain (collision detection)");
+            moCheckBoxCD.setSelected(true);
+            oBox2.add(moCheckBoxCD);
+            oBox2.add(Box.createGlue());
             
             //Register a listener for the check boxes.
-            moCheckBox.addItemListener(this);
+            moCheckBoxCD.addItemListener(this);
+            
+            
+         // set up our inspector: keep the properties inspector around too
+            setLayout(new BorderLayout());
+            add(oBox1, BorderLayout.NORTH);
+            add(oBox2, BorderLayout.AFTER_LAST_LINE);
+            
+            add(originalInspector, BorderLayout.CENTER);
         }
 	
 	/* (non-Javadoc)
@@ -91,13 +116,15 @@ public class clsDumbBrainInspector extends Inspector implements ItemListener{
 
 		Object source = e.getItemSelectable();
 
-		if( source == moCheckBox)
+		if( source == moCheckBoxCD)
 		{
 			
 			clsMind oMind = moBubble.moAgentBody.getBrain().getMind();
 			if( oMind instanceof clsDumbMindA ) {
-				((clsDumbMindA)oMind).setRoombaIntelligence(moCheckBox.isSelected());
+				((clsDumbMindA)oMind).setRoombaIntelligence(moCheckBoxCD.isSelected());
 			}
 		}
+		
+		moConsole.refresh();
 	}
 }

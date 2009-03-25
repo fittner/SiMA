@@ -20,9 +20,9 @@ import ARSsim.physics2D.util.clsPose;
  */
 public abstract class clsMobile extends clsEntity {
 	
-	private double mrDefaultCoeffFriction = 0.3;
-	private double mrDefaultStaticFriction = 0.3;
-	private double mrDefaultRestitution = 1.0;
+	private double mrDefaultCoeffFriction = 0.5; //0.5
+	private double mrDefaultStaticFriction = 0.2; //0.2
+	private double mrDefaultRestitution = 1.0; //1.0
 
 	
 	public clsMobile(int pnId, clsPose poPose, sim.physics2D.util.Double2D poStartingVelocity, Shape poShape, double prMass) {

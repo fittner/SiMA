@@ -5,19 +5,24 @@ package ARSsim.physics2D.physicalObject;
 
 import java.util.ArrayList;
 
+import sim.display.GUIState;
 import sim.engine.SimState;
 import sim.engine.Steppable;
 import sim.physics2D.forceGenerator.ForceGenerator;
 import sim.physics2D.physicalObject.PhysicalObject2D;
 import sim.portrayal.DrawInfo2D;
+import sim.portrayal.Inspector;
+import sim.portrayal.LocationWrapper;
 import ARSsim.motionplatform.clsMotionPlatform;
 import ARSsim.physics2D.util.clsPose;
 import bw.body.motionplatform.clsBrainAction;
 import bw.body.motionplatform.clsBrainActionContainer;
+import bw.entities.clsBubble;
 import bw.entities.clsEntity;
 import bw.entities.clsRemoteBot;
 import bw.factories.clsSingletonMasonGetter;
 import bw.physicalObjects.sensors.clsEntityPartVision;
+import bw.utils.inspectors.mind.clsDumbBrainInspector;
 
 /**
  * Our representative of the mason physics class
@@ -222,5 +227,29 @@ public class clsMobileObject2D extends sim.physics2D.physicalObject.MobileObject
 	    		setAngularVelocity(0.0);
 	    	}
     	}
+    }
+    
+    
+    /* Assigning customized MASON-inspectors to specific objects  
+     *
+     * @author langr
+     * 25.03.2009, 14:57:20
+     * 
+     * @see sim.portrayal.SimplePortrayal2D#getInspector(sim.portrayal.LocationWrapper, sim.display.GUIState)
+     */
+    public Inspector getInspector(LocationWrapper wrapper, GUIState state){
+		//Override to get constantly updating inspectors = volatile
+    	
+    	Inspector oRetVal;
+    	
+        if (wrapper == null) return null;
+        
+        if( moEntity instanceof clsBubble ) {
+        	oRetVal = new clsDumbBrainInspector(super.getInspector(wrapper,state), wrapper, state); //(SimplePortrayal2D)this.getInspector()
+        }
+        else	{
+        	oRetVal = super.getInspector(wrapper, state);  	
+        }
+	    return oRetVal;
     }
 }

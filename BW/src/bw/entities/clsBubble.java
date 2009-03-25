@@ -9,17 +9,18 @@ package bw.entities;
 
 import java.awt.Color;
 import java.util.ArrayList;
+import sim.display.GUIState;
+import sim.portrayal.Inspector;
+import sim.portrayal.LocationWrapper;
 
 import bw.actionresponses.clsBubbleResponses;
 import bw.body.io.sensors.external.clsSensorEatableArea;
 import bw.body.io.sensors.external.clsSensorVision;
-import bw.body.motionplatform.clsBrainAction;
 import bw.body.motionplatform.clsBrainActionContainer;
 import ARSsim.physics2D.util.clsPose;
-import bw.mind.ai.clsDumbMindA;
 import bw.physicalObjects.sensors.clsEntityPartVision;
 import bw.utils.enums.eEntityType;
-import bw.utils.enums.eSensorExtType;
+import bw.utils.inspectors.mind.clsDumbBrainInspector;
 
 //import tstBw.*;
 
@@ -125,11 +126,12 @@ public class clsBubble extends clsAnimate {
 					.get(bw.utils.enums.eSensorExtType.VISION)).getMoVisionArea(); 
 	}
 	
+		
 	public clsEntityPartVision getEatableAreaVision()
 	{
 		return ((clsSensorEatableArea)this.moAgentBody
 					.getExternalIO().moSensorExternal
 					.get(bw.utils.enums.eSensorExtType.EATABLE_AREA)).getMoVisionArea(); 
 	}
-
+	
 }

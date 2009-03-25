@@ -22,6 +22,7 @@ import bw.mind.clsMind;
 import bw.utils.enums.eActionCommandMotion;
 import bw.utils.enums.eEntityType;
 import bw.utils.enums.eSensorExtType;
+import bw.utils.sound.AePlayWave;
 
 /**
  * TODO (langr) - insert description 
@@ -32,7 +33,7 @@ import bw.utils.enums.eSensorExtType;
  */
 public class clsDumbMindA extends clsMind implements itfStepProcessing{
 
-	private boolean moRoombaIntelligence = true;
+	private boolean mnRoombaIntelligence = true;
 	
 	public void clsDumbMind()
 	{
@@ -51,7 +52,9 @@ public class clsDumbMindA extends clsMind implements itfStepProcessing{
 
 		//followAnObject(poEntity, poActionList);
 		
-		doRobotDance(poAnimate, poActionList);
+		if(isRoombaIntelligence()) {
+			doRobotDance(poAnimate, poActionList);
+		}
 		
 	}
 	
@@ -100,7 +103,13 @@ public class clsDumbMindA extends clsMind implements itfStepProcessing{
 	 * @param moRoombaIntelligence the moRoombaIntelligence to set
 	 */
 	public void setRoombaIntelligence(boolean moRoombaIntelligence) {
-		this.moRoombaIntelligence = moRoombaIntelligence;
+		this.mnRoombaIntelligence = moRoombaIntelligence;
+		
+		//this is for fun only (roland)
+		if( moRoombaIntelligence) {
+			new AePlayWave("S:\\ARS\\PA\\BWv1\\BW\\src\\resources\\sounds\\r2d2.wav").start();
+		}
+		
 	}
 
 	/**
@@ -110,7 +119,7 @@ public class clsDumbMindA extends clsMind implements itfStepProcessing{
 	 * @return the moRoombaIntelligence
 	 */
 	public boolean isRoombaIntelligence() {
-		return moRoombaIntelligence;
+		return mnRoombaIntelligence;
 	}
 
 
