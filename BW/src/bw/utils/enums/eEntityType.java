@@ -25,5 +25,6 @@ public enum eEntityType {
 	//INANIMATE
 	CAN,
 	STONE,
-	WALL
+	WALL,
+	FOOD
 }

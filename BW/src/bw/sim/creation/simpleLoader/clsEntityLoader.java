@@ -7,7 +7,10 @@
  */
 package bw.sim.creation.simpleLoader;
 
+import org.w3c.dom.NodeList;
+
 import ARSsim.physics2D.util.clsPose;
+import bw.entities.clsCake;
 import bw.entities.clsCan;
 import bw.entities.clsStone;
 import bw.factories.clsRegisterEntity;
@@ -34,6 +37,7 @@ public class clsEntityLoader {
 		//load inanimate entitieshere
 		loadCans(pnNumCans);
 		loadStones(pnNumStones);
+		loadFood();
 
 	}
 	
@@ -43,7 +47,8 @@ public class clsEntityLoader {
 			clsPose oStartPose = clsLoader.generateRandomPose();
 			
 			//FIXME warum ist der Radius random? wenn ein Bild drüber ist, dann muss der Radius dem Bild entsprechen!
-			double rRadius = clsSingletonMasonGetter.getSimState().random.nextDouble() * 30.0 + 10.0;
+			//double rRadius = clsSingletonMasonGetter.getSimState().random.nextDouble() * 30.0 + 10.0;
+			double rRadius =  15.0 ;
 	        
 		    clsStone oStone = new clsStone(i, oStartPose, new sim.physics2D.util.Double2D(0, 0), rRadius);
 		    clsRegisterEntity.registerEntity(oStone);
@@ -59,7 +64,13 @@ public class clsEntityLoader {
 	        
 	        clsRegisterEntity.registerEntity(oCan);
         }
-		
-	}
+ 	}
+	
+	 public static void loadFood( ) 
+     {
+    	  	clsPose oStartPose = clsLoader.generateRandomPose();
+    	    clsCake oCake = new clsCake(1, oStartPose, new sim.physics2D.util.Double2D(0, 0));
+    		clsRegisterEntity.registerEntity(oCake);
+     }
 
 }
