@@ -20,6 +20,7 @@ import bw.body.motionplatform.clsBrainActionContainer;
 import bw.body.motionplatform.clsEatAction;
 import bw.body.motionplatform.clsMotionAction;
 import bw.entities.clsAnimate;
+import bw.entities.clsCake;
 import bw.entities.clsCan;
 import bw.entities.clsEntity;
 import bw.mind.clsMind;
@@ -112,9 +113,16 @@ public class clsDumbMindA extends clsMind implements itfStepProcessing{
 				if(  oPhysicalObj instanceof clsMobileObject2D)
 				{
 					clsMobileObject2D oEatenMobileObject = (clsMobileObject2D)oPhysicalObj; 
+					clsEntity oEatenEntity = oEatenMobileObject.getEntity();
 					
-					clsEatAction poEatAction = new clsEatAction(eActionCommandType.EAT, oEatenMobileObject.getEntity());
-					poActionList.addEatAction( poEatAction );
+					//TODO cm only cakes for now
+					if(  oEatenEntity instanceof clsCake)
+					{
+						clsEatAction oEatAction = new clsEatAction(eActionCommandType.EAT, oEatenEntity);
+						poActionList.addEatAction(oEatAction);
+
+					}
+
 				}
 			}
 			 

@@ -9,6 +9,9 @@ package bw.entities;
 
 import java.awt.Color;
 import java.util.ArrayList;
+
+import bw.actionresponses.clsBubbleResponses;
+import bw.actionresponses.clsDefaultEntityActionResponse;
 import bw.body.motionplatform.clsBrainAction;
 import bw.body.motionplatform.clsBrainActionContainer;
 import bw.utils.enums.eEntityType;
@@ -36,6 +39,8 @@ public class clsCake extends clsInanimate {
 		
 		
 		setShape(new ARSsim.physics2D.shape.clsCircleImage(clsCake.mrDefaultRadius, moDefaultColor , moImagePath), clsCake.mrDefaultMass);
+		
+		this.setEntityActionResponse(new clsDefaultEntityActionResponse());
     } 
 	
 

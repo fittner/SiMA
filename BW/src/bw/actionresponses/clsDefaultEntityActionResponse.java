@@ -25,7 +25,7 @@ public class clsDefaultEntityActionResponse extends clsEntityActionResponses {
 	@Override
 	public clsFood actionEatResponse(float prWeight) throws exEntityActionResponseNotImplemented {
 	
-		//CHKME cm: only for testing! 
+		//CHKME cm: only for testing! what else?
 		clsFood oFood = new clsFood();
 	
 			try {
