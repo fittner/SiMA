@@ -27,15 +27,15 @@ public class clsSensorEatableArea extends clsSensorVision {
 	private final static double VIEWDEGREE = Math.PI;
 	private final static double VISRANGE = 5; 
 	
-	public final static Double2D DEFAULTVISIONOFFSETT = new Double2D(15,0); //neded when creating the class in clsExternalIO!
+	public final static double DEFAULTVISIONOFFSETT = 15; //neded when creating the class in clsExternalIO!
 	/*
 	 * @param poEntity 
 	 *
 	 * @param poBaseIO
 	 * @param  
 	 */
-	public clsSensorEatableArea(clsEntity poEntity, clsBaseIO poBaseIO, Double2D poCenterOffset ) {
-		super(poEntity, poBaseIO, VIEWDEGREE, VISRANGE, poCenterOffset, ((clsMobile)poEntity).getMobileObject2D().getOrientation());
+	public clsSensorEatableArea(clsEntity poEntity, clsBaseIO poBaseIO, double pnCenterOffset ) {
+		super(poEntity, poBaseIO, VIEWDEGREE, VISRANGE, pnCenterOffset, ((clsMobile)poEntity).getMobileObject2D().getOrientation());
 	}
 
 	/* (non-Javadoc)
@@ -73,8 +73,8 @@ public class clsSensorEatableArea extends clsSensorVision {
 	 */
 	@Override
 	public void updateSensorData() {
-		// TODO  clemens can be donne by heimos base?
-
+		// donne by vision base
+		super.updateSensorData();
 	}
 
 }

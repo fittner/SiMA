@@ -44,7 +44,7 @@ public class clsEntityPartVision extends MobileObject2D implements Steppable{
 	
 	private double mnRadius;
 	
-	private Double2D moOffsetVisionArea = null;
+	private double mnRadiusOffsetVisionArea = 0;
 		
 	private HashMap<Integer, PhysicalObject2D> meFilteredObj;
 	private HashMap<Integer, PhysicalObject2D> meUnFilteredObj;
@@ -57,11 +57,11 @@ public class clsEntityPartVision extends MobileObject2D implements Steppable{
 	/**
 	 * @param poEntity
 	 * @param pnRad
-	 * @param poOffsetVisionArea 
+	 * @param pnRadiusOffsetVisionArea 
 	 */
-	public clsEntityPartVision(clsEntity poEntity,  double pnRad, Double2D poOffsetVisionArea) {    
+	public clsEntityPartVision(clsEntity poEntity,  double pnRad, double pnRadiusOffsetVisionArea) {    
 	 mnRadius = pnRad;
-	 moOffsetVisionArea = poOffsetVisionArea;
+	 mnRadiusOffsetVisionArea = pnRadiusOffsetVisionArea;
 
 	 meFilteredObj = new HashMap<Integer, PhysicalObject2D>();
 	 meUnFilteredObj = new HashMap<Integer, PhysicalObject2D>();
@@ -98,8 +98,11 @@ public class clsEntityPartVision extends MobileObject2D implements Steppable{
 		 sim.physics2D.util.Double2D oEntityPos = ((clsMobile)moEntity).getMobileObject2D().getPosition();
 		 Angle oEntityOrientation = ((clsMobile)moEntity).getMobileObject2D().getOrientation();
 		 
-		 if(moOffsetVisionArea != null)
-				oEntityPos = oEntityPos.add(moOffsetVisionArea);
+		 //if we have a offset radius, recalculate position
+		 if(mnRadiusOffsetVisionArea != 0)
+		 {
+			 oEntityPos = new Double2D(oEntityPos.x + mnRadiusOffsetVisionArea * Math.cos(oEntityOrientation.radians), oEntityPos.y + mnRadiusOffsetVisionArea * Math.sin(oEntityOrientation.radians) );
+		 }
 		 
 	     this.setPose(oEntityPos, oEntityOrientation);
 	     clsSingletonMasonGetter.getFieldEnvironment().setObjectLocation(this, new sim.util.Double2D(oEntityPos.x, oEntityPos.y));
