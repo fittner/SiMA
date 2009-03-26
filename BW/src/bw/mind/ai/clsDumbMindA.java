@@ -8,18 +8,23 @@
  */
 package bw.mind.ai;
 
+import java.util.Iterator;
+
 import sim.physics2D.physicalObject.PhysicalObject2D;
 import ARSsim.physics2D.physicalObject.clsMobileObject2D;
 import bw.body.itfStepProcessing;
 import bw.body.io.sensors.external.clsSensorBump;
+import bw.body.io.sensors.external.clsSensorEatableArea;
 import bw.body.io.sensors.external.clsSensorVision;
 import bw.body.motionplatform.clsBrainActionContainer;
+import bw.body.motionplatform.clsEatAction;
 import bw.body.motionplatform.clsMotionAction;
 import bw.entities.clsAnimate;
 import bw.entities.clsCan;
 import bw.entities.clsEntity;
 import bw.mind.clsMind;
 import bw.utils.enums.eActionCommandMotion;
+import bw.utils.enums.eActionCommandType;
 import bw.utils.enums.eEntityType;
 import bw.utils.enums.eSensorExtType;
 import bw.utils.sound.AePlayWave;
@@ -79,6 +84,7 @@ public class clsDumbMindA extends clsMind implements itfStepProcessing{
 	
 	public void doRobotDance(clsAnimate poEntity, clsBrainActionContainer poActionList)
 	{
+		//move
 		clsSensorBump oBump = (clsSensorBump)(poEntity.moAgentBody.getExternalIO().moSensorExternal.get(eSensorExtType.BUMP));
 		
 		if( oBump.isBumped() )
@@ -92,6 +98,28 @@ public class clsDumbMindA extends clsMind implements itfStepProcessing{
 			clsMotionAction oAction = clsMotionAction.creatAction(eActionCommandMotion.MOVE_FORWARD);
 			oAction.setSpeed(2);
 			poActionList.addMoveAction(oAction);
+		}
+		
+		//eat
+		clsSensorEatableArea oEatArea = (clsSensorEatableArea)(poEntity.moAgentBody.getExternalIO().moSensorExternal.get(eSensorExtType.EATABLE_AREA));
+		if(oEatArea.getViewObj() != null)
+		{
+
+			Iterator<PhysicalObject2D> itr = oEatArea.getViewObj().values().iterator(); 			
+			while(itr.hasNext())
+			{
+				PhysicalObject2D oPhysicalObj = itr.next();
+				if(  oPhysicalObj instanceof clsMobileObject2D)
+				{
+					clsMobileObject2D oEatenMobileObject = (clsMobileObject2D)oPhysicalObj; 
+					
+					clsEatAction poEatAction = new clsEatAction(eActionCommandType.EAT, oEatenMobileObject.getEntity());
+					poActionList.addEatAction( poEatAction );
+				}
+			}
+			 
+			
+			
 		}
 		
 	}

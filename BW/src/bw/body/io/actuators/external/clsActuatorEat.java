@@ -114,12 +114,11 @@ public class clsActuatorEat extends clsActuatorExt {
 		try{
 			
 			//read what EatSensor sees in front of him and give it to eat action, exception if more then 1?
-			//...clsAnimate oViewedAnimate = clsEatAction.View();
-			
-			//get eat entity from Brain Actions
-			//poEatAction.getEatenEntity();
+
 			
 			//return entities that are in eat area, if nothing, do notihing
+			
+			//get eat entity from Brain Actions
 			clsEntity oEatenEntity = poEatAction.getEatenEntity();
 			if(oEatenEntity != null)
 			{
@@ -128,11 +127,12 @@ public class clsActuatorEat extends clsActuatorExt {
 				//when we eat, we need more energy
 				registerEnergyConsumption(mrDefaultEnergyConsuptionValue + 3.5f); //TODO clemens: change 50 to the real value
 				
-				float rWeight = 27; //größe des Bissen
+				float rWeight = 3.33f; //größe des Bissen
 				
 				clsFood oReturnedFood = oEntityActionResponse.actionEatResponse(rWeight); //Apfel gibt mir einen Bisset food retour
 				
-				moAnimate.moAgentBody.getInterBodyWorldSystem().getConsumeFood().digest(oReturnedFood); // food an Body zur weiterverarbeitung geben
+				//TODO CM geht noch nicht! digest wirft exception
+				//moAnimate.moAgentBody.getInterBodyWorldSystem().getConsumeFood().digest(oReturnedFood); // food an Body zur weiterverarbeitung geben
 				
 				if(oReturnedFood == null)
 					throw(new exEntityNotEatable(oViewedAnimate.getEntityType()) );
