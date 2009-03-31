@@ -14,7 +14,6 @@ import java.awt.event.ItemListener;
 
 import javax.swing.Box;
 import javax.swing.BoxLayout;
-import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JLabel;
 
@@ -22,7 +21,6 @@ import ARSsim.physics2D.physicalObject.clsMobileObject2D;
 import bw.entities.clsBubble;
 import bw.mind.clsMind;
 import bw.mind.ai.clsDumbMindA;
-import bw.utils.sound.AePlayWave;
 import sim.display.Controller;
 import sim.display.GUIState;
 import sim.engine.SimState;
@@ -67,7 +65,7 @@ public class clsDumbBrainInspector extends Inspector implements ItemListener{
             moCaption = new JLabel("Layers of Brooks Subsumption Architecture");
 
             // creating the checkbox to sitch on/off the AI intelligence-levels.
-            Box oBox1 = new Box(BoxLayout.X_AXIS);
+            Box oBox1 = new Box(BoxLayout.Y_AXIS);
             moCaption = new JLabel("Layers of Brooks Subsumption Architecture");
             moCheckBoxCD = new JCheckBox("Roomba brain (collision detection)");
             moCheckBoxCD.setSelected(true);
