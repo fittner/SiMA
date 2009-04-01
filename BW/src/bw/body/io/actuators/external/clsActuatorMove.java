@@ -137,10 +137,10 @@ public class clsActuatorMove extends clsActuatorExt implements itfActuatorUpdate
     		throw new Exception("clsMobileObject2D:dispatchMotion - MOVE_RIGHT not yet implemented");
     		//break;
     	case ROTATE_LEFT:
-    		((clsMobile)moEntity).getMobileObject2D().moMotionPlatform.faceTowardsRelative(new Angle(-1.2));
+    		((clsMobile)moEntity).getMobileObject2D().moMotionPlatform.faceTowardsRelative(new Angle(-(Math.PI/200))); //Math.PI/200 == little less than 2 degrees
     		break;
     	case ROTATE_RIGHT:
-    		((clsMobile)moEntity).getMobileObject2D().moMotionPlatform.faceTowardsRelative(new Angle(1.2));
+    		((clsMobile)moEntity).getMobileObject2D().moMotionPlatform.faceTowardsRelative(new Angle(Math.PI/200));
     		break;
     	case RUN_FORWARD:
     		((clsMobile)moEntity).getMobileObject2D().moMotionPlatform.moveForward(oMotion.getSpeed()*3);

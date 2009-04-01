@@ -91,12 +91,16 @@ public class clsMotionPlatform
     
     public void faceTowards(Angle globalAngle)
         {
-        double angularVel = moMobile.getAngularVelocity();
-        double angularError = globalAngle.add(new Angle(-moMobile.getOrientation().radians)).radians;
-        if (angularError >= Math.PI)
-            angularError = -(Angle.twoPI - angularError);
-        double toAdd = P_angle * angularError - D_angle * angularVel;
-        moMobile.addTorque(toAdd);
+//        double angularVel = moMobile.getAngularVelocity();
+//        double angularError = globalAngle.add(new Angle(-moMobile.getOrientation().radians)).radians;
+//        if (angularError >= Math.PI)
+//            angularError = -(Angle.twoPI - angularError);
+//        double toAdd = P_angle * angularError - D_angle * angularVel;
+//        moMobile.addTorque(toAdd);
+        
+    	moMobile.setPose(moMobile.getPosition(), globalAngle);
+    	
+        
         }
         
     public void moveForward(double speed)

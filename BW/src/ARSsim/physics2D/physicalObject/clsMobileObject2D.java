@@ -22,6 +22,7 @@ import bw.entities.clsEntity;
 import bw.entities.clsRemoteBot;
 import bw.factories.clsSingletonMasonGetter;
 import bw.physicalObjects.sensors.clsEntityPartVision;
+import bw.utils.inspectors.clsInspectorMapping;
 import bw.utils.inspectors.mind.clsDumbBrainInspector;
 
 /**
@@ -38,6 +39,8 @@ public class clsMobileObject2D extends sim.physics2D.physicalObject.MobileObject
 	public clsMotionPlatform moMotionPlatform;
 	public ArrayList<clsCollidingObject> moCollisionList;
 	public clsBrainActionContainer moActionList;
+	
+	private Inspector moMasonInspector = null;
 	
 	/**
 	 * @author muchitsch
@@ -230,7 +233,8 @@ public class clsMobileObject2D extends sim.physics2D.physicalObject.MobileObject
     }
     
     
-    /* Assigning customized MASON-inspectors to specific objects  
+    /* Assigning customized MASON-inspectors to specific objects
+     * The mapping is defined in the static method clsInspectorMapping.getInspector()
      *
      * @author langr
      * 25.03.2009, 14:57:20
@@ -240,16 +244,10 @@ public class clsMobileObject2D extends sim.physics2D.physicalObject.MobileObject
     public Inspector getInspector(LocationWrapper wrapper, GUIState state){
 		//Override to get constantly updating inspectors = volatile
     	
-    	Inspector oRetVal;
-    	
-        if (wrapper == null) return null;
-        
-        if( moEntity instanceof clsBubble ) {
-        	oRetVal = new clsDumbBrainInspector(super.getInspector(wrapper,state), wrapper, state); //(SimplePortrayal2D)this.getInspector()
-        }
-        else	{
-        	oRetVal = super.getInspector(wrapper, state);  	
-        }
-	    return oRetVal;
+    	if( moMasonInspector == null)
+    	{
+    		moMasonInspector = clsInspectorMapping.getInspector(super.getInspector(wrapper,state), wrapper, state, moEntity);
+    	}
+    	return moMasonInspector;
     }
 }

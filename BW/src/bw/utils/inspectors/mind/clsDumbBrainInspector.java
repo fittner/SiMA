@@ -12,6 +12,7 @@ import java.awt.BorderLayout;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 
+import javax.swing.BorderFactory;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.JCheckBox;
@@ -76,10 +77,12 @@ public class clsDumbBrainInspector extends Inspector implements ItemListener{
             oBox1.add(moCaption, BorderLayout.AFTER_LAST_LINE);
             oBox1.add(moCheckBoxCD, BorderLayout.AFTER_LAST_LINE);
             oBox1.add(moCheckBoxCA, BorderLayout.AFTER_LAST_LINE);
+            oBox1.setBorder(BorderFactory.createTitledBorder("AI Brain Inspector"));
             oBox1.add(Box.createGlue());
             
             //Register a listener for the check boxes.
             moCheckBoxCD.addItemListener(this);
+            moCheckBoxCA.addItemListener(this);
             
             
          // set up our inspector: keep the properties inspector around too
@@ -112,15 +115,21 @@ public class clsDumbBrainInspector extends Inspector implements ItemListener{
 
 		Object source = e.getItemSelectable();
 
-		if( source == moCheckBoxCD)
-		{
-			
-			clsMind oMind = moBubble.moAgentBody.getBrain().getMind();
-			if( oMind instanceof clsDumbMindA ) {
-				((clsDumbMindA)oMind).setRoombaIntelligence(moCheckBoxCD.isSelected());
+		clsDumbMindA oDumbMind = null;
+		clsMind oMind = moBubble.moAgentBody.getBrain().getMind();
+		if( oMind instanceof clsDumbMindA ) {
+			oDumbMind = ((clsDumbMindA)oMind);
+		
+			if( source == moCheckBoxCD)
+			{
+				oDumbMind.setRoombaIntelligence(moCheckBoxCD.isSelected());
+			}
+			else if(source == moCheckBoxCA)
+			{
+				oDumbMind.setCollisionAvoidance(moCheckBoxCA.isSelected());
 			}
 		}
-		
+			
 		moConsole.refresh();
 	}
 }
