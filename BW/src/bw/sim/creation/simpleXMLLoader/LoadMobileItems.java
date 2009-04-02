@@ -10,6 +10,8 @@
 */
 package bw.sim.creation.simpleXMLLoader;
 
+import java.awt.Color;
+
 import ARSsim.physics2D.util.clsPose;
 import bw.entities.clsBubble;
 import bw.entities.clsCan;
@@ -72,7 +74,7 @@ public class LoadMobileItems {
 				  System.out.println("Direction: " + value6);						  
 				  
 				  clsPose oStartPose = new clsPose(value1, value2, value6);
- 			  	  clsBubble oBubble = new clsBubble(i, oStartPose, new sim.physics2D.util.Double2D(0, 0));
+ 			  	  clsBubble oBubble = new clsBubble(i, oStartPose, new sim.physics2D.util.Double2D(0, 0), Color.green);
 				  clsRegisterEntity.registerEntity(oBubble);
 			  
 			    }   // End of if

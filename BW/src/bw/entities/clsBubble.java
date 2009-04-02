@@ -8,6 +8,7 @@
 package bw.entities;
 
 import java.awt.Color;
+import java.awt.Paint;
 import java.util.ArrayList;
 import sim.display.GUIState;
 import sim.portrayal.Inspector;
@@ -47,12 +48,12 @@ public class clsBubble extends clsAnimate {
 	 * @param poStartingPose
 	 * @param poStartingVelocity
 	 */
-	public clsBubble(int pnId, clsPose poStartingPose, sim.physics2D.util.Double2D poStartingVelocity)
+	public clsBubble(int pnId, clsPose poStartingPose, sim.physics2D.util.Double2D poStartingVelocity, Paint poColor)
     {
 		super(pnId, 
 				poStartingPose, 
 				poStartingVelocity, 
-				new sim.physics2D.shape.Circle(clsBubble.mrDefaultRadius, clsBubble.moDefaultColor), 
+				new sim.physics2D.shape.Circle(clsBubble.mrDefaultRadius, poColor), 
 				clsBubble.mrDefaultWeight
 				);
 		

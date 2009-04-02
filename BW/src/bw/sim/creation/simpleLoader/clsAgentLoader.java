@@ -7,6 +7,9 @@
  */
 package bw.sim.creation.simpleLoader;
 
+import java.awt.Color;
+import java.awt.Paint;
+
 import ARSsim.physics2D.util.clsPose;
 import bw.entities.clsBubble;
 import bw.entities.clsRemoteBot;
@@ -25,11 +28,19 @@ public class clsAgentLoader {
 		loadBubbles(pnNumBubbles);
 	}
 	
-	public static void loadBubbles(int pnNumAgents){		
+	public static void loadBubbles(int pnNumAgents){	
+		
+		Paint[] oColors = {Color.green, Color.ORANGE, Color.yellow};
+		
 		 for (int i = 0; i < pnNumAgents; i++)
          {
+			 Paint oColor = Color.GREEN;
+			 if(i < oColors.length)
+				 oColor = oColors[i];
+			 
+			 
 	         clsPose oStartPose = clsLoader.generateRandomPose();
-		  	 clsBubble oBubble = new clsBubble(i, oStartPose, new sim.physics2D.util.Double2D(0, 0));
+		  	 clsBubble oBubble = new clsBubble(i, oStartPose, new sim.physics2D.util.Double2D(0, 0), oColor);
 		  	 clsRegisterEntity.registerEntity(oBubble);
          }
 	}
