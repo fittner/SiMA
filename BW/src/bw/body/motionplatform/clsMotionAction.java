@@ -61,7 +61,7 @@ public class clsMotionAction extends clsBrainAction{
 	/**
 	 * @param mnSpeed the mnSpeed to set
 	 */
-	public void setSpeed(int mnSpeed) {
+	public void setSpeed(double mnSpeed) {
 		this.mnSpeed = mnSpeed;
 	}
 

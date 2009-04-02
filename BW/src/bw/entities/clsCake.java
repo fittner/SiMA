@@ -49,7 +49,7 @@ public class clsCake extends clsInanimate {
 	 */
 	@Override
 	protected void setEntityType() {
-		meEntityType = eEntityType.FOOD;
+		meEntityType = eEntityType.CAKE;
 		
 	}
 

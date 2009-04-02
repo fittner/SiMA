@@ -30,6 +30,7 @@ import bw.utils.enums.eActionCommandType;
 import bw.utils.enums.eEntityType;
 import bw.utils.enums.eSensorExtType;
 import bw.utils.sound.AePlayWave;
+import bw.utils.tools.clsFood;
 import bw.utils.tools.clsVectorCalculation;
 
 /**
@@ -67,6 +68,7 @@ public class clsDumbMindA extends clsMind implements itfStepProcessing{
 			doRobotDance(poAnimate, poActionList);
 		}
 		
+		eat(poAnimate, poActionList);
 	}
 	
 	public void followAnObject(clsAnimate poEntity, clsBrainActionContainer poActionList)
@@ -79,9 +81,9 @@ public class clsDumbMindA extends clsMind implements itfStepProcessing{
 			{
 				clsMobileObject2D oMobile = (clsMobileObject2D)oVisionObj;
 				clsEntity oEntity = oMobile.getEntity();
-				if( oEntity.getEntityType() == eEntityType.CAN)
+				if( oEntity.getEntityType() == eEntityType.CAKE)
 				{
-					clsCan oCan = (clsCan)oEntity;
+					clsCake oCan = (clsCake)oEntity;
 					Double2D oTarget = oCan.getPosition();
 					Double2D oMyPos = poEntity.getPosition();
 					
@@ -92,14 +94,11 @@ public class clsDumbMindA extends clsMind implements itfStepProcessing{
 					//this is the direction, the agent is looking to
 					double oOrientation = poEntity.getMobileObject2D().getOrientation().radians;
 					
-					int nPiCount = Math.abs((int)((oOrientation-oAbsAngle)/Math.PI));
-					double oModPi = oOrientation - oAbsAngle - (nPiCount*Math.PI);
-					
 					if( (oOrientation-0.1d) <= oAbsAngle && oAbsAngle <= (oOrientation+0.1d) )
 					{
 						//walk ahead to reach the can  
 						clsMotionAction oAction = clsMotionAction.creatAction(eActionCommandMotion.MOVE_FORWARD);
-						oAction.setSpeed(2);
+						oAction.setSpeed(2.5);
 						poActionList.addMoveAction(oAction);
 					}
 					else if( !((oAbsAngle+Math.PI) < oOrientation ) && (oAbsAngle < oOrientation-0.1  || ((oOrientation+Math.PI) < oAbsAngle)) )
@@ -132,10 +131,22 @@ public class clsDumbMindA extends clsMind implements itfStepProcessing{
 		else if( !isCollisionAvoidance() )
 		{
 			clsMotionAction oAction = clsMotionAction.creatAction(eActionCommandMotion.MOVE_FORWARD);
-			oAction.setSpeed(2);
+			oAction.setSpeed(2.5);
 			poActionList.addMoveAction(oAction);
 		}
-		
+	}
+
+	/**
+	 * TODO (langr) - insert description
+	 *
+	 * @author langr
+	 * 02.04.2009, 13:04:55
+	 *
+	 * @param poEntity
+	 * @param poActionList
+	 */
+	private void eat(clsAnimate poEntity,
+			clsBrainActionContainer poActionList) {
 		//eat
 		clsSensorEatableArea oEatArea = (clsSensorEatableArea)(poEntity.moAgentBody.getExternalIO().moSensorExternal.get(eSensorExtType.EATABLE_AREA));
 		if(oEatArea.getViewObj() != null)
@@ -155,16 +166,13 @@ public class clsDumbMindA extends clsMind implements itfStepProcessing{
 					{
 						clsEatAction oEatAction = new clsEatAction(eActionCommandType.EAT, oEatenEntity);
 						poActionList.addEatAction(oEatAction);
+						
+						setCollisionAvoidance(false);
 
 					}
-
 				}
 			}
-			 
-			
-			
 		}
-		
 	}
 
 	/**
