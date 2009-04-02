@@ -102,7 +102,7 @@ public class clsDumbMindA extends clsMind implements itfStepProcessing{
 						oAction.setSpeed(2);
 						poActionList.addMoveAction(oAction);
 					}
-					else if( oAbsAngle < oOrientation-0.1)
+					else if( !((oAbsAngle+Math.PI) < oOrientation ) && (oAbsAngle < oOrientation-0.1  || ((oOrientation+Math.PI) < oAbsAngle)) )
 					{
 						//rotate left
 						poActionList.addMoveAction(clsMotionAction.creatAction(eActionCommandMotion.ROTATE_LEFT) );
