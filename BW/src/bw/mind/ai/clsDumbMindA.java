@@ -167,6 +167,8 @@ public class clsDumbMindA extends clsMind implements itfStepProcessing{
 						clsEatAction oEatAction = new clsEatAction(eActionCommandType.EAT, oEatenEntity);
 						poActionList.addEatAction(oEatAction);
 						
+						// Roland: when the agent reaches the cake - ist stops 
+						// (deactivating the following-the-food logic)
 						setCollisionAvoidance(false);
 
 					}
