@@ -132,7 +132,7 @@ public class clsActuatorEat extends clsActuatorExt {
 				clsFood oReturnedFood = oEntityActionResponse.actionEatResponse(rWeight); //Apfel gibt mir einen Bisset food retour
 				
 				//TODO CM geht noch nicht! digest wirft exception
-				//moAnimate.moAgentBody.getInterBodyWorldSystem().getConsumeFood().digest(oReturnedFood); // food an Body zur weiterverarbeitung geben
+				moAnimate.moAgentBody.getInterBodyWorldSystem().getConsumeFood().digest(oReturnedFood); // food an Body zur weiterverarbeitung geben
 				
 				if(oReturnedFood == null)
 					throw(new exEntityNotEatable(oViewedAnimate.getEntityType()) );
