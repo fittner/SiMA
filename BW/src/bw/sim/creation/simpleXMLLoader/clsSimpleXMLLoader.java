@@ -56,7 +56,7 @@ public class clsSimpleXMLLoader extends clsLoader {
 	//Loading Bubble World
 	
 	public static void main(String argv[]) {
-		clsSimpleXMLLoader.load(null, "S:/ARS/PA/BWv1/BW/src/xml/xmlSimpleXMLLoader/config1.xml");
+		clsSimpleXMLLoader.load(null, bw.sim.clsBWMain.msArsPath + "/src/xml/xmlSimpleXMLLoader/config1.xml");
 	}
 	
 	public void loadObjects() {

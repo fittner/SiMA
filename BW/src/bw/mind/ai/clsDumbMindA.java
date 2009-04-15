@@ -188,7 +188,7 @@ public class clsDumbMindA extends clsMind implements itfStepProcessing{
 		
 		//this is for fun only (roland)
 		if( moRoombaIntelligence) {
-			new AePlayWave("S:\\ARS\\PA\\BWv1\\BW\\src\\resources\\sounds\\r2d2.wav").start();
+			new AePlayWave(bw.sim.clsBWMain.msArsPath + "/src/resources/sounds/r2d2.wav").start();
 		}
 		
 	}
@@ -214,7 +214,7 @@ public class clsDumbMindA extends clsMind implements itfStepProcessing{
 		
 		//this is for fun only (roland)
 		if( mnCollisionAvoidance) {
-			new AePlayWave("S:\\ARS\\PA\\BWv1\\BW\\src\\resources\\sounds\\utini.wav").start();
+			new AePlayWave(bw.sim.clsBWMain.msArsPath + "/src/resources/sounds/utini.wav").start();
 		}
 	}
 

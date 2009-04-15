@@ -50,6 +50,7 @@ public class clsBWMainWithUI extends GUIState{
 	public clsBWMainWithUI(SimState poState) { super(poState); }	
 	
 	public static void main(String[] poArgs){
+		clsBWMain.setArsPath();
 		//console is an elaborate GUI Controller. This is the standard way of starting the UI.
 		Console oConsole = new Console(new clsBWMainWithUI());
 		oConsole.setVisible(true);
@@ -108,13 +109,13 @@ public class clsBWMainWithUI extends GUIState{
 		super.init(poController);
 		
 		moDisplay = new ARSsim.display.Display2D(600,600,this,1); //TODO make me konfiguierbar
-		moDisplay.setClipping(false); //we’d like to see objects outside the width & height box
+		moDisplay.setClipping(false); //weï¿½d like to see objects outside the width & height box
 		
 		//let the display generate a frame for you
 		moDisplayGamegridFrame = moDisplay.createFrame();
 		moDisplayGamegridFrame.setTitle("BW V3.0 GameGrid");
 		moDisplayGamegridFrame.addKeyListener(listener);
-		poController.registerFrame(moDisplayGamegridFrame); //register the JFrame with the Console to include it in the Console’s list
+		poController.registerFrame(moDisplayGamegridFrame); //register the JFrame with the Console to include it in the Consoleï¿½s list
 		
 		// specify the backdrop color  -- what gets painted behind the displays
 		moDisplay.setBackdrop(Color.white); //TODO make me konfigurierbar
@@ -154,8 +155,8 @@ public class clsBWMainWithUI extends GUIState{
 		setupPortrayals();
 	}
 	
-	/** Here we tell the Portrayal which field it is portraying and how it’s doing it. 
-	 * We’ll also reset the display so it reregisters itself with the console in 
+	/** Here we tell the Portrayal which field it is portraying and how itï¿½s doing it. 
+	 * Weï¿½ll also reset the display so it reregisters itself with the console in 
 	 * preparation for being stepped each timestep 
 	 */
 	public void setupPortrayals(){

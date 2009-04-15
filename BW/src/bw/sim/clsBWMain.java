@@ -25,6 +25,7 @@ import bw.sim.creation.simpleXMLLoader.clsSimpleXMLLoader;
  */
 public class clsBWMain extends SimState{
 	
+	public static String msArsPath;
 	
 	/**
 	 * TODO (deutsch) - insert description 
@@ -37,7 +38,7 @@ public class clsBWMain extends SimState{
 	 * TODO clemens: deactivated for now, has to set by config.xml later! */
 	private boolean mbChartDisplay = false; 
 //	private JFreeChart  moTestChart;
-	private XYSeries moTestSeries = new XYSeries("Agents"); //TODO clemens name passt nicht, muss erst schauen wofür das genau ist!
+	private XYSeries moTestSeries = new XYSeries("Agents"); //TODO clemens name passt nicht, muss erst schauen wofï¿½r das genau ist!
 //	private XYSeriesCollection moAgents_series_coll = new XYSeriesCollection(moTestSeries); //TODO clemens
 
      
@@ -73,7 +74,7 @@ public class clsBWMain extends SimState{
 		super.start();
 		//creating and registering objects...
 		clsLoader oLoader = new clsSimpleLoader(this, 200, 200);
-//		clsLoader oLoader = new clsSimpleXMLLoader(this, "S:/ARS/PA/BWv1/BW/src/xml/xmlSimpleXMLLoader/config1.xml");
+//		clsLoader oLoader = new clsSimpleXMLLoader(this, bw.sim.clsBWMain.msArsPath + "/src/xml/xmlSimpleXMLLoader/config1.xml");
 		oLoader.loadObjects();
 		
 		//clear the charts
@@ -88,8 +89,18 @@ public class clsBWMain extends SimState{
 	 */
 	public static void main(String[] args)
 	{
+		setArsPath();
 		doLoop(clsBWMain.class, args);
 		System.exit(0);
+	}
+	
+	public static void setArsPath()
+	{
+		if (System.getProperty("file.separator").equals("/"))
+			msArsPath = System.getProperty("user.home") + "/ARS/PA/BWv1/BW"; // Unix
+		else if (System.getProperty("file.separator").equals("\\"))
+			msArsPath = "S:/ARS/PA/BWv1/BW"; // Windows
+		else throw new NullPointerException("Spooky OS detected, can't find ARS-Root-Dir.");
 	}
 
 }// end class

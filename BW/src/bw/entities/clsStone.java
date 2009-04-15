@@ -23,13 +23,13 @@ import ARSsim.physics2D.util.clsPose;
  */
 public class clsStone extends clsInanimate {
 	private static double mrDefaultRadiusToMassConversion = 10.0;
-	private static String moImagePath = "S:/ARS/PA/BWv1/BW/src/resources/images/rock1.jpg";
+	private static String moImagePath = bw.sim.clsBWMain.msArsPath + "/src/resources/images/rock1.jpg";
 	private static Color moDefaultColor = Color.DARK_GRAY;
 
 	public clsStone(int pnId, clsPose poPose, sim.physics2D.util.Double2D poStartingVelocity, double prRadius)
     {
 //		super(pnId, poPose, poStartingVelocity, new ARSsim.physics2D.shape.clsCircleImage(prRadius, clsStone.moDefaultColor, clsStone.moImagePath), prRadius * clsStone.mrDefaultRadiusToMassConversion);
-		//todo muchitsch ... hier wird eine default shape übergeben, nicht null, sonst krachts
+		//todo muchitsch ... hier wird eine default shape ï¿½bergeben, nicht null, sonst krachts
 		super(pnId, poPose, poStartingVelocity, null, prRadius * clsStone.mrDefaultRadiusToMassConversion);
 		
 		double rMass = prRadius * clsStone.mrDefaultRadiusToMassConversion;

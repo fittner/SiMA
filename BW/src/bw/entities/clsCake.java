@@ -27,13 +27,13 @@ import ARSsim.physics2D.util.clsPose;
 public class clsCake extends clsInanimate {
 	private static double mrDefaultMass = 30.0;
 	private static double mrDefaultRadius = 10.0;
-	private static String moImagePath = "S:/ARS/PA/BWv1/BW/src/resources/images/cake.gif";
+	private static String moImagePath = bw.sim.clsBWMain.msArsPath + "/src/resources/images/cake.gif";
 	private static Color moDefaultColor = Color.pink;
 
 	public clsCake(int pnId, clsPose poPose, sim.physics2D.util.Double2D poStartingVelocity)
     {
 //		super(pnId, poPose, poStartingVelocity, new ARSsim.physics2D.shape.clsCircleImage(prRadius, clsStone.moDefaultColor, clsStone.moImagePath), prRadius * clsStone.mrDefaultRadiusToMassConversion);
-		//todo muchitsch ... hier wird eine default shape übergeben, nicht null, sonst krachts
+		//todo muchitsch ... hier wird eine default shape ï¿½bergeben, nicht null, sonst krachts
 		super(pnId, poPose, poStartingVelocity, null, clsCake.mrDefaultMass);
 		
 		
