@@ -79,7 +79,6 @@ public class clsActuatorMove extends clsActuatorExt implements itfActuatorUpdate
 	 * 
 	 * @see bw.body.io.actuators.itfActuatorUpdate#updateActuatorData(java.util.ArrayList)
 	 */
-	@Override
 	public void updateActuatorData(clsBrainActionContainer poActionList) {
 
 		// TODO: (langr) --> moEntity.execution(oActionList);

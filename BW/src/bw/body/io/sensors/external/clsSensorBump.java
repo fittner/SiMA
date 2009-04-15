@@ -56,7 +56,6 @@ public class clsSensorBump extends clsSensorExt {
 	/* (non-Javadoc)
 	 * @see bw.body.io.sensors.external.clsSensorExt#updateSensorData()
 	 */
-	@Override
 	public void updateSensorData() {
 		clsMobileObject2D oMobile = ((clsAnimate)moEntity).getMobileObject2D();
 		moCollisionList = oMobile.moCollisionList;

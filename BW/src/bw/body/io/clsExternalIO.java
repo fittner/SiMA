@@ -81,7 +81,6 @@ public class clsExternalIO extends clsBaseIO {
 	 * 
 	 * @see bw.body.itfStepSensing#stepSensing()
 	 */
-	@Override
 	public void stepSensing() {
 		for (clsSensorExt sensor : moSensorExternal.values()) {
 			sensor.updateSensorData();
@@ -98,7 +97,6 @@ public class clsExternalIO extends clsBaseIO {
 	 * 
 	 * @see bw.body.itfStepExecution#stepExecution()
 	 */
-	@Override
 	public void stepExecution(clsBrainActionContainer poActionList) {
 		for (clsActuatorExt actuator : moActuatorExternal.values()) {
 			actuator.updateActuatorData(poActionList);

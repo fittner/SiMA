@@ -47,7 +47,6 @@ public class clsSensorOlfactoric extends clsSensorExt {
 	/* (non-Javadoc)
 	 * @see bw.body.io.sensors.itfSensorUpdate#updateSensorData()
 	 */
-	@Override
 	public void updateSensorData() {
 		// TODO Auto-generated method stub
 		

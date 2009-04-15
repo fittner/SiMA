@@ -33,7 +33,6 @@ public class clsBrain implements itfStepProcessing {
 	/* (non-Javadoc)
 	 * @see bw.body.itfStep#step()
 	 */
-	@Override
 	public void stepProcessing(clsAnimate poAnimate, clsBrainActionContainer poActionList) {
 
 		moMind.stepProcessing(poAnimate, poActionList);

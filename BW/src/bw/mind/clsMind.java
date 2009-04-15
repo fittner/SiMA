@@ -27,7 +27,6 @@ public class clsMind implements itfStepProcessing{
 	 * 
 	 * @see bw.body.itfStepProcessing#stepProcessing(bw.entities.clsAnimate, bw.body.motionplatform.clsBrainActionContainer)
 	 */
-	@Override
 	public void stepProcessing(clsAnimate poAnimate,
 			clsBrainActionContainer poActionList) {
 		// TODO Auto-generated method stub

@@ -182,7 +182,6 @@ public class clsFastMessengerSystem implements itfStepUpdateInternalState {
 	 * 
 	 * @see bw.body.itfStep#step()
 	 */
-	@Override
 	public void stepUpdateInternalState() {
 		// TODO Auto-generated method stub
 		

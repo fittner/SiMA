@@ -56,7 +56,6 @@ public class clsStationaryObject2D extends sim.physics2D.physicalObject.Stationa
 	/* (non-Javadoc)
 	 * @see ARSsim.physics2D.physicalObject.itfSetupFunctions#setShape(sim.physics2D.shape.Shape, double)
 	 */
-	@Override
 	public void setShape(Shape poShape, double poMass) {
 		// TODO Why is there no setShape - corresponding to clsMobileObject2D. Adopt it!
 		this.setShape(poShape);
@@ -65,7 +64,6 @@ public class clsStationaryObject2D extends sim.physics2D.physicalObject.Stationa
 	/* (non-Javadoc)
 	 * @see ARSsim.physics2D.physicalObject.itfSetupFunctions#setCoefficients(double, double, double)
 	 */
-	@Override
 	public void setCoefficients(double poFriction, double poStaticFriction,
 			double poRestitution) {
 		setCoefficients(poFriction, poStaticFriction, poRestitution);

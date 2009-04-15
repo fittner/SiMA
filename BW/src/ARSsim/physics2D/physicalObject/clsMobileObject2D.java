@@ -129,7 +129,6 @@ public class clsMobileObject2D extends sim.physics2D.physicalObject.MobileObject
 	 * 
 	 * @see sim.engine.Steppable#step(sim.engine.SimState)
 	 */
-	@Override
 	public void step(SimState state) {
 		
 		moEntity.updateInternalState();
@@ -169,7 +168,6 @@ public class clsMobileObject2D extends sim.physics2D.physicalObject.MobileObject
 	 * 
 	 * @see sim.physics2D.forceGenerator.ForceGenerator#addForce()
 	 */
-	@Override
 	public void addForce() {
 		moEntity.execution(moActionList);
 		

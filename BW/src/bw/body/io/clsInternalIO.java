@@ -36,7 +36,6 @@ public class clsInternalIO extends clsBaseIO{
 	 * 
 	 * @see bw.body.itfStepSensing#stepSensing()
 	 */
-	@Override
 	public void stepSensing() {
 		// TODO Auto-generated method stub
 		
@@ -49,7 +48,6 @@ public class clsInternalIO extends clsBaseIO{
 	 * 
 	 * @see bw.body.itfStepExecution#stepExecution()
 	 */
-	@Override
 	public void stepExecution(clsBrainActionContainer poActionList) {
 		// TODO Auto-generated method stub
 		
