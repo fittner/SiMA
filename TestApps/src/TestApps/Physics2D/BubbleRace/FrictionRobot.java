@@ -3,7 +3,6 @@ package TestApps.Physics2D.BubbleRace;
 import sim.physics2D.util.Angle;
 import sim.physics2D.util.Double2D;
 import sim.util.matrix.*;
-import sim.physics2D.physicalObject.*;
 
 import bw.world.surface.*;
 
@@ -14,7 +13,11 @@ import bw.world.surface.*;
  */
 public class FrictionRobot extends MobileAgent2D
     {
-    private double P_angle;
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	private double P_angle;
     private double D_angle;
         
     private double P_pos;

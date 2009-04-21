@@ -5,8 +5,6 @@ import sim.engine.*;
 import sim.physics2D.forceGenerator.ForceGenerator;
 import sim.physics2D.util.*;
 
-import bw.world.surface.*;
-
 /**
  * This class was adopted from the Bot class from the physics engine
  * @author kohlhauser
@@ -15,6 +13,10 @@ import bw.world.surface.*;
 public class Bubble extends FrictionRobot implements Steppable, ForceGenerator
 {	
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	public Effector e1;
 	public Effector e2;
 	

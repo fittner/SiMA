@@ -12,7 +12,12 @@ import sim.physics2D.util.*;
  */
 public class Effector extends MobileObject2D implements Steppable
 {
-    // public double radius;
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
+	// public double radius;
     public Effector(Double2D pos, Double2D vel, double radius, Paint paint)
     {
         setVelocity(vel);

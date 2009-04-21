@@ -21,6 +21,10 @@ import bw.world.surface.*;
  */
 public class BubbleRace extends SimState
 {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	public Continuous2D fieldEnvironment;
 	public IntGrid2D surfaceGrid;
 	public File xmlFile = null;
