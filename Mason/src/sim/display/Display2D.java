@@ -1219,6 +1219,7 @@ public class Display2D extends JComponent implements Steppable
         }
 
         private void dumpInfo(String s, KeyEvent e) {
+/*        	
           System.out.println(s);
           
           int code = e.getKeyCode();
@@ -1232,6 +1233,7 @@ public class Display2D extends JComponent implements Steppable
           System.out.println("\tLocation: "
               + location(e.getKeyLocation()));
           System.out.println("\tAction? " + e.isActionKey());
+*/          
         }
 
         private String location(int location) {
