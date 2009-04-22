@@ -7,8 +7,8 @@
  */
 package bw.body.brain;
 
-import bw.body.itfStep;
 import bw.body.itfStepProcessing;
+import bw.body.brain.symbolization.clsSymbolization;
 import bw.body.motionplatform.clsBrainActionContainer;
 import bw.entities.clsAnimate;
 import bw.mind.clsMind;
@@ -16,7 +16,8 @@ import bw.mind.ai.clsDumbMindA;
 
 /**
  * The brain is the container for the mind and has a direct connection to external and internal IO.
- * TODO: re-think if we insert a clsCerebellum for the neuroscientific perception-modules like R. Velik.
+ * Done: re-think if we insert a clsCerebellum for the neuroscientific perception-modules like R. Velik.
+ * Answer: moSymbolization
  * 
  * @author langr
  * 
@@ -24,6 +25,7 @@ import bw.mind.ai.clsDumbMindA;
 public class clsBrain implements itfStepProcessing {
 
 	public clsMind moMind;
+	public clsSymbolization moSymbolization;
 	
 	public clsBrain() {
 		moMind = new clsDumbMindA();
@@ -53,6 +55,16 @@ public class clsBrain implements itfStepProcessing {
 	 */
 	public clsMind getMind() {
 		return moMind;
+	}
+
+	/**
+	 * @author langr
+	 * 21.04.2009, 13:09:29
+	 * 
+	 * @return the moSymbolization
+	 */
+	public clsSymbolization getSymbolization() {
+		return moSymbolization;
 	}
 	
 }
