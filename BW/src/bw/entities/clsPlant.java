@@ -58,7 +58,7 @@ public class clsPlant extends clsAnimate{
 	 * @see bw.clsEntity#execution(java.util.ArrayList)
 	 */
 	@Override
-	public void execution(clsBrainActionContainer poActionList) {
+	public void execution() {
 		// TODO Auto-generated method stub
 		
 	}
@@ -71,7 +71,7 @@ public class clsPlant extends clsAnimate{
 	 * @see bw.entities.clsEntity#processing(java.util.ArrayList)
 	 */
 	@Override
-	public void processing(clsBrainActionContainer poActionList) {
+	public void processing() {
 		// TODO Auto-generated method stub
 		
 	}

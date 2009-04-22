@@ -27,6 +27,7 @@ import bw.body.motionplatform.clsBrainActionContainer;
 public abstract class clsAnimate extends clsMobile{
 
 	public clsAgentBody moAgentBody; // the instance of a body
+	protected clsBrainActionContainer moActionList;
 	
 	/**
 	 * @param poStartingPosition
@@ -37,6 +38,7 @@ public abstract class clsAnimate extends clsMobile{
 		super(pnId, poPose, poStartingVelocity, poShape, poMass);
 		
 		moAgentBody = new clsAgentBody(this);
+		moActionList = new clsBrainActionContainer();
 	}
 	
 	
@@ -54,7 +56,11 @@ public abstract class clsAnimate extends clsMobile{
 		getAgentBody().stepSensing();
 	}
 	
-	public void execution(clsBrainActionContainer poActionList) {
-		getAgentBody().stepExecution(poActionList);
+	public void execution() {
+		getAgentBody().stepExecution(moActionList);
+	}
+	
+	public void processing() {
+	
 	}
 }

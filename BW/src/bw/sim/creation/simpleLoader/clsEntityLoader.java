@@ -33,11 +33,11 @@ public class clsEntityLoader {
 	 * @param poObjPE
 	 * @param poSimState
 	 */
-	public static void loadInanimate(int pnNumCans, int pnNumStones){
+	public static void loadInanimate(int pnNumCans, int pnNumStones, int pnNumFood){
 		//load inanimate entitieshere
 		loadCans(pnNumCans);
 		loadStones(pnNumStones);
-		loadFood();
+		loadFood(pnNumFood);
 
 	}
 	
@@ -66,11 +66,14 @@ public class clsEntityLoader {
         }
  	}
 	
-	 public static void loadFood( ) 
+	 public static void loadFood(int pnNumFood) 
      {
+        for (int i = 0; i < pnNumFood; i++)
+        {		 
     	  	clsPose oStartPose = clsLoader.generateRandomPose();
     	    clsCake oCake = new clsCake(1, oStartPose, new sim.physics2D.util.Double2D(0, 0));
     		clsRegisterEntity.registerEntity(oCake);
+        }
      }
 
 }

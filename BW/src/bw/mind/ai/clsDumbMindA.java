@@ -59,6 +59,8 @@ public class clsDumbMindA extends clsMind implements itfStepProcessing{
 	@Override
 	public void stepProcessing(clsAnimate poAnimate,
 			clsBrainActionContainer poActionList) {
+		
+		poActionList.clearAll();
 
 		if(isCollisionAvoidance()) {
 			followAnObject(poAnimate, poActionList);

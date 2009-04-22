@@ -54,7 +54,7 @@ public abstract class clsStationary extends clsEntity {
 	 * @see bw.clsEntity#execution(java.util.ArrayList)
 	 */
 	@Override
-	public void execution(clsBrainActionContainer poActionList) {
+	public void execution() {
 		// DO NOTHING - stationary objects are inanimate per design ...
 	}
 	/* (non-Javadoc)
@@ -76,7 +76,7 @@ public abstract class clsStationary extends clsEntity {
 	 * @see bw.entities.clsEntity#processing(java.util.ArrayList)
 	 */
 	@Override
-	public void processing(clsBrainActionContainer poActionList) {
+	public void processing() {
 		// DO NOTHING - stationary objects are inanimate per design ...		
 	}
 	/* (non-Javadoc)

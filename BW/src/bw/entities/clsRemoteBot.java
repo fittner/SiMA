@@ -9,10 +9,13 @@ package bw.entities;
 
 import java.awt.Color;
 import java.util.ArrayList;
+import java.util.Iterator;
 
+import ARSsim.physics2D.physicalObject.clsMobileObject2D;
 import ARSsim.physics2D.util.clsPose;
 import bw.body.motionplatform.clsBrainAction;
 import bw.body.motionplatform.clsBrainActionContainer;
+import bw.body.motionplatform.clsEatAction;
 import bw.body.motionplatform.clsMotionAction;
 import bw.physicalObjects.bodyparts.clsBotHands;
 import bw.physicalObjects.sensors.clsEntityPartVision;
@@ -21,6 +24,7 @@ import bw.body.io.sensors.external.clsSensorVision;
 import bw.utils.enums.eActionCommandMotion;
 import bw.utils.enums.eActionCommandType;
 import bw.utils.enums.eEntityType;
+import bw.utils.enums.eSensorExtType;
 import sim.display.clsKeyListener;
 import sim.physics2D.util.Angle;
 import sim.physics2D.physicalObject.PhysicalObject2D;
@@ -123,21 +127,6 @@ public class clsRemoteBot extends clsAnimate  {
 		meEntityType = eEntityType.REMOTEBOT;
 	}
 	
-	/* (non-Javadoc)
-	 * @see bw.clsEntity#execution()
-	 */
-	@Override
-	public void execution(clsBrainActionContainer poActionList) {
-		super.execution(poActionList);
-	}
-
-	/* (non-Javadoc)
-	 * @see bw.clsEntity#sensing()
-	 */
-	@Override
-	public void sensing() {
-		super.sensing();		
-	}
 
 	/* (non-Javadoc)
 	 *
@@ -147,25 +136,29 @@ public class clsRemoteBot extends clsAnimate  {
 	 * @see bw.entities.clsEntity#processing(java.util.ArrayList)
 	 */
 	@Override
-	public void processing(clsBrainActionContainer poActionList) {
+	public void processing() {
+		moActionList.clearAll();
 		
 		//the processing is taken over by the user via keyboard
 		
 	   	switch( clsKeyListener.getKeyPressed() )
     	{
     	case 38: //up
-    		poActionList.addMoveAction(clsMotionAction.creatAction(eActionCommandMotion.MOVE_FORWARD) );
+    		moActionList.addMoveAction(clsMotionAction.creatAction(eActionCommandMotion.MOVE_FORWARD) );
     		break;
     	case 40: //down
-    		poActionList.addMoveAction(clsMotionAction.creatAction(eActionCommandMotion.MOVE_BACKWARD) );
+    		moActionList.addMoveAction(clsMotionAction.creatAction(eActionCommandMotion.MOVE_BACKWARD) );
     		break;
     	case 37: //rotate_left
-    		poActionList.addMoveAction(clsMotionAction.creatAction(eActionCommandMotion.ROTATE_LEFT) );
+    		moActionList.addMoveAction(clsMotionAction.creatAction(eActionCommandMotion.ROTATE_LEFT) );
     		break;
     	case 39: //rotate_right
-    		poActionList.addMoveAction(clsMotionAction.creatAction(eActionCommandMotion.ROTATE_RIGHT) );
+    		moActionList.addMoveAction(clsMotionAction.creatAction(eActionCommandMotion.ROTATE_RIGHT) );
     		break;
     	case 65: //'A'
+    		break;
+    	case 69: //'E'
+    		eat(this, moActionList);
     		break;
     	case 83: //'S'
 //            if(botState==HAVECAN)
@@ -180,7 +173,44 @@ public class clsRemoteBot extends clsAnimate  {
     		break;
     	}
 	}
+	
+	/**
+	 * TODO (langr) - insert description
+	 *
+	 * @author langr
+	 * 02.04.2009, 13:04:55
+	 *
+	 * @param poEntity
+	 * @param poActionList
+	 */
+	private void eat(clsAnimate poEntity, clsBrainActionContainer poActionList) {
+		//eat
+		clsSensorEatableArea oEatArea = (clsSensorEatableArea)(poEntity.moAgentBody.getExternalIO().moSensorExternal.get(eSensorExtType.EATABLE_AREA));
+		if(oEatArea.getViewObj() != null)
+		{
 
+			Iterator<PhysicalObject2D> itr = oEatArea.getViewObj().values().iterator(); 			
+			while(itr.hasNext())
+			{
+				PhysicalObject2D oPhysicalObj = itr.next();
+				if(  oPhysicalObj instanceof clsMobileObject2D)
+				{
+					clsMobileObject2D oEatenMobileObject = (clsMobileObject2D)oPhysicalObj; 
+					clsEntity oEatenEntity = oEatenMobileObject.getEntity();
+					
+					//TODO cm only cakes for now
+					if(  oEatenEntity instanceof clsCake)
+					{
+						clsEatAction oEatAction = new clsEatAction(eActionCommandType.EAT, oEatenEntity);
+						poActionList.addEatAction(oEatAction);
+						
+
+					}
+				}
+			}
+		}
+	}
+	
 	/* (non-Javadoc)
 	 *
 	 * @author langr

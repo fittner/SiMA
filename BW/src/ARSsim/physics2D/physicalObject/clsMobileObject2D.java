@@ -38,26 +38,14 @@ public class clsMobileObject2D extends sim.physics2D.physicalObject.MobileObject
 	private clsEntity moEntity;
 	public clsMotionPlatform moMotionPlatform;
 	public ArrayList<clsCollidingObject> moCollisionList;
-	public clsBrainActionContainer moActionList;
 	
 	private Inspector moMasonInspector = null;
 	
-	/**
-	 * @author muchitsch
-	 * 24.03.2009, 12:54:30
-	 * 
-	 * @return the moActionList
-	 */
-	public clsBrainActionContainer getBrainActionList() {
-		return moActionList;
-	}
-
 	public clsMobileObject2D(clsEntity poEntity)
 	{
 		moEntity = poEntity;
 		moMotionPlatform = new clsMotionPlatform(this);
 		moCollisionList = new ArrayList<clsCollidingObject>();
-		moActionList = new clsBrainActionContainer();
 	}
 
 	/* (non-Javadoc)
@@ -133,9 +121,8 @@ public class clsMobileObject2D extends sim.physics2D.physicalObject.MobileObject
 		
 		moEntity.updateInternalState();
 		moEntity.sensing();
-		
-		moActionList.clearAll();
-		moEntity.processing(moActionList);
+		moEntity.processing();
+		//the method moEntity.execution() is called in method addforce()
 		
 		//with these 2, physics work!
 		sim.physics2D.util.Double2D position = this.getPosition();
@@ -169,7 +156,7 @@ public class clsMobileObject2D extends sim.physics2D.physicalObject.MobileObject
 	 * @see sim.physics2D.forceGenerator.ForceGenerator#addForce()
 	 */
 	public void addForce() {
-		moEntity.execution(moActionList);
+		moEntity.execution();
 		
 		//correct rotation-force to emulate static friction for rotation
 		addAngularFriction();

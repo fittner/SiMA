@@ -80,8 +80,8 @@ public abstract class clsEntity {
 	 */
 	public abstract void updateInternalState();
 	public abstract void sensing();
-	public abstract void processing(clsBrainActionContainer poActionList);
-	public abstract void execution(clsBrainActionContainer poActionList);
+	public abstract void processing();
+	public abstract void execution();
 	
 	/**
 	 * TODO (deutsch) - insert description

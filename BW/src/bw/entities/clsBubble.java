@@ -78,22 +78,6 @@ public class clsBubble extends clsAnimate {
 	}
 	
 	/* (non-Javadoc)
-	 * @see bw.clsEntity#sensing()
-	 */
-	@Override
-	public void sensing() {
-		super.sensing();
-	}	
-
-	/* (non-Javadoc)
-	 * @see bw.clsEntity#execution(java.util.ArrayList)
-	 */
-	@Override
-	public void execution(clsBrainActionContainer poActionList) {
-		super.execution(poActionList);
-	}
-
-	/* (non-Javadoc)
 	 *
 	 * @author langr
 	 * 25.02.2009, 17:33:53
@@ -101,10 +85,8 @@ public class clsBubble extends clsAnimate {
 	 * @see bw.entities.clsEntity#processing(java.util.ArrayList)
 	 */
 	@Override
-	public void processing(clsBrainActionContainer poActionList) {
-
-		this.getAgentBody().getBrain().stepProcessing((clsAnimate)this, poActionList);
-
+	public void processing() {
+		this.getAgentBody().getBrain().stepProcessing((clsAnimate)this, moActionList);
 	}
 
 	/* (non-Javadoc)
