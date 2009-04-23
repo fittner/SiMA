@@ -10,6 +10,8 @@ package bw.entities;
 
 import java.util.ArrayList;
 
+import decisionunit.clsBaseDecisionUnit;
+
 import sim.physics2D.shape.Shape;
 import ARSsim.physics2D.util.clsPose;
 import bw.body.clsAgentBody;
@@ -50,6 +52,10 @@ public abstract class clsAnimate extends clsMobile{
 	 */
 	public clsAgentBody getAgentBody() {
 		return moAgentBody;
+	}
+	
+	public void setDecisionUnit(clsBaseDecisionUnit poDecisionUnit) {
+		moAgentBody.getBrain().setDecisionUnit(poDecisionUnit);
 	}
 	
 	public void sensing() {

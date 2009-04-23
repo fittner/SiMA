@@ -18,15 +18,15 @@ import javax.swing.BoxLayout;
 import javax.swing.JCheckBox;
 import javax.swing.JLabel;
 
+
 import ARSsim.physics2D.physicalObject.clsMobileObject2D;
 import bw.entities.clsBubble;
-import bw.mind.clsMind;
-import bw.mind.ai.clsDumbMindA;
 import sim.display.Controller;
 import sim.display.GUIState;
 import sim.engine.SimState;
 import sim.portrayal.Inspector;
 import sim.portrayal.LocationWrapper;
+import simple.dumbmind.clsDumbMindA;
 
 /**
  * Inspector for testing purpose to switch on/off intelligence-levels in 'AI brain'  

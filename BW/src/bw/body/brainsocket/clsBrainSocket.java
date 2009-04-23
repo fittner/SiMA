@@ -9,6 +9,8 @@ package bw.body.brainsocket;
 
 import java.util.HashMap;
 
+import simple.dumbmind.clsDumbMindA;
+
 import decisionunit.clsBaseDecisionUnit;
 import decisionunit.itf.actions.clsActionCommands;
 import decisionunit.itf.sensors.clsSensorData;
@@ -18,8 +20,6 @@ import bw.body.io.sensors.external.clsSensorExt;
 import bw.body.io.sensors.internal.clsSensorInt;
 import bw.body.motionplatform.clsBrainActionContainer;
 import bw.entities.clsAnimate;
-import bw.mind.clsMind;
-import bw.mind.ai.clsDumbMindA;
 import bw.utils.enums.eSensorExtType;
 import bw.utils.enums.eSensorIntType;
 
