@@ -49,14 +49,14 @@ public abstract class clsRuleTreeLeaf extends clsRuleTreeElement{
     {
       oResult = (clsRuleTreeLeaf)clsLeafEmotion.create(poNode);
     }
-//    else if( oName == "leafHormone" )
-//    {
-//      oResult = (clsRuleTreeLeaf)clsLeafHormone.create(poNode);
-//    }
-//    else if( oName == "leafLandscapesVisible" )
-//    {
-//      oResult = (clsRuleTreeLeaf)clsLeafLandscapesVisible.create(poNode);
-//    }
+    else if( oName == "leafHormone" )
+    {
+      oResult = (clsRuleTreeLeaf)clsLeafHormone.create(poNode);
+    }
+    else if( oName == "leafLandscapesVisible" )
+    {
+      oResult = (clsRuleTreeLeaf)clsLeafLandscapesVisible.create(poNode);
+    }
     else if( oName == "leafObstaclesVisible" )
     {
       oResult = (clsRuleTreeLeaf)clsLeafObstaclesVisible.create(poNode);
@@ -65,18 +65,18 @@ public abstract class clsRuleTreeLeaf extends clsRuleTreeElement{
     {
       oResult = (clsRuleTreeLeaf)clsLeafBubblesVisible.create(poNode);
     }
-//    else if( oName == "leafBubblesScentable" )
-//    {
-//      oResult = (clsRuleTreeLeaf)clsLeafBubblesScentable.create(poNode);
-//    }
+    else if( oName == "leafBubblesScentable" )
+    {
+      oResult = (clsRuleTreeLeaf)clsLeafBubblesScentable.create(poNode);
+    }
 //    else if( oName == "leafComplexEmotion" )
 //    {
 //      oResult = (clsRuleTreeLeaf)clsLeafComplexEmotion.create(poNode);
 //    }
-//    else if( oName == "leafAcoustics" )
-//    {
-//      oResult = (clsRuleTreeLeaf)clsLeafAcoustics.create(poNode);
-//    }
+    else if( oName == "leafAcoustics" )
+    {
+      oResult = (clsRuleTreeLeaf)clsLeafAcoustics.create(poNode);
+    }
     else if( oName == "leafAboveEnergySource" )
     {
       oResult = (clsRuleTreeLeaf)clsLeafAboveEnergySource.create(poNode);
@@ -85,15 +85,15 @@ public abstract class clsRuleTreeLeaf extends clsRuleTreeElement{
     {
       oResult = (clsRuleTreeLeaf)clsLeafBumped.create(poNode);
     }
-//    else if( oName == "leafOwnSocialLevel" )
-//    {
-////       Engine.log.println(" Node Name "+oName);
-//      oResult = (clsRuleTreeLeaf)clsLeafOwnSocialLevel.create(poNode);
-//    }
-//    else if( oName == "leafAboveLandscape" )
-//    {
-//      oResult = (clsRuleTreeLeaf)clsLeafAboveLandscape.create(poNode);
-//    } 
+    else if( oName == "leafOwnSocialLevel" )
+    {
+//       Engine.log.println(" Node Name "+oName);
+      oResult = (clsRuleTreeLeaf)clsLeafOwnSocialLevel.create(poNode);
+    }
+    else if( oName == "leafAboveLandscape" )
+    {
+      oResult = (clsRuleTreeLeaf)clsLeafAboveLandscape.create(poNode);
+    } 
 
     if( oResult != null )
     {
