@@ -16,6 +16,9 @@ import sim.physics2D.physicalObject.PhysicalObject2D;
 import sim.physics2D.util.Angle;
 import sim.physics2D.util.Double2D;
 
+import ARSsim.physics2D.util.clsPolarcoordinate;
+import ARSsim.physics2D.util.clsPose;
+import bfg.tools.shapes.clsPoint;
 import bw.body.io.clsBaseIO;
 import bw.entities.clsEntity;
 import bw.entities.clsMobile;
@@ -36,8 +39,9 @@ public class clsSensorVision extends clsSensorExt
 	private double mnVisRange; 
 	private clsEntityPartVision moVisionArea;
 	private HashMap<Integer, PhysicalObject2D> moCollidingObj;
-	private HashMap<Integer, PhysicalObject2D> moViewObj;
 	private HashMap<Integer, Double2D> moCollisionPoint;
+	private HashMap<Integer, PhysicalObject2D> moViewObj;
+	private HashMap<Integer, clsPolarcoordinate> moViewObjDir;
 		
 	/**
 	 * @param poEntity
@@ -51,6 +55,8 @@ public class clsSensorVision extends clsSensorExt
 		moCollidingObj = new HashMap<Integer, PhysicalObject2D>();
 		moViewObj = new HashMap<Integer, PhysicalObject2D>(); 
 		moCollisionPoint = new HashMap<Integer, Double2D>();
+		moViewObjDir = new HashMap<Integer, clsPolarcoordinate>();
+		
 		moVisionArea = new clsEntityPartVision(poEntity, mnVisRange, 0);
 		this.regVisionObj(poEntity, 0); //0 = no offset = vision centered on object
 	}
@@ -126,8 +132,6 @@ public class clsSensorVision extends clsSensorExt
 	 *
 	 */
 	private void calcViewObj(){
-		double nOrientation;  
-		PhysicalObject2D oPhObj;  
 				
 		moCollidingObj = moVisionArea.getMeUnFilteredObj();
 		moCollisionPoint = moVisionArea.getMeCollisionPoint(); 
@@ -139,18 +143,34 @@ public class clsSensorVision extends clsSensorExt
 				Iterator<PhysicalObject2D> itr = moCollidingObj.values().iterator(); 			
 				while(itr.hasNext())
 				{
-					oPhObj = itr.next(); 
-					nOrientation = this.getRelPos(moCollisionPoint.get(oPhObj.getIndex()));
+					PhysicalObject2D oPhObj = itr.next();
+					clsPolarcoordinate oRel = getRelPos(moCollisionPoint.get(oPhObj.getIndex())); 
 					
-					if(!moViewObj.containsKey(oPhObj.getIndex()) && this.getInView(nOrientation)){
-						this.addViewObj(oPhObj); 
+					if(!moViewObj.containsKey(oPhObj.getIndex()) && getInView(oRel.moAzimuth.radians)){
+						addViewObj(oPhObj); 
+						addViewObjDir(oRel, oPhObj.getIndex());
 					}
 			     }
-			}catch(Exception ex)
-			{System.out.println(ex.getMessage());}
+			} catch(Exception ex){
+				System.out.println(ex.getMessage());
+			}
 		 }
 	}
 	
+	/**
+	 * TODO (deutsch) - insert description
+	 *
+	 * @author deutsch
+	 * 23.04.2009, 17:27:07
+	 *
+	 * @param rel
+	 * @param index
+	 */
+	private void addViewObjDir(clsPolarcoordinate rel, int index) {
+		moViewObjDir.put(index,rel);
+		
+	}
+
 	/**
 	 * TODO (zeilinger) - returns the angle of the relative position
 	 * to the perceived objectn
@@ -158,7 +178,7 @@ public class clsSensorVision extends clsSensorExt
 	 * @param poPos
 	 * @return nOrientation 
 	 */
-	public double getRelPos(Double2D poColPos)
+	public clsPolarcoordinate getRelPos(Double2D poColPos)
 	{   
 		double nOrientation;
 		
@@ -167,7 +187,7 @@ public class clsSensorVision extends clsSensorExt
 		if(nOrientation < 0)
 			nOrientation = 2*Math.PI+nOrientation; 
 		
-		return nOrientation; 
+		return new clsPolarcoordinate(poColPos.length(), nOrientation); 
 	}
 	
 	/**
@@ -234,7 +254,7 @@ public class clsSensorVision extends clsSensorExt
 	 * Updates the sensor data values by fetching the info from the physics engine entity 
 	 */
 	public void updateSensorData() {
-		this.calcViewObj();
+		calcViewObj();
 		moVisionArea.setMeVisionObj(moViewObj);
 	}
 	
@@ -309,4 +329,11 @@ public class clsSensorVision extends clsSensorExt
 	public HashMap<Integer, PhysicalObject2D> getViewObj() {
 		return moViewObj;
 	}
+	
+	/**
+	 * @return the moViewObjDir
+	 */
+	public HashMap<Integer, clsPolarcoordinate> getViewObjDir() {
+		return moViewObjDir;
+	}	
 }

@@ -14,6 +14,7 @@ package bw.utils.enums;
  * 
  */
 public enum eEntityType {
+	UNDEFINED,
 
 	//ANIMATES
 	ANIMAL,
