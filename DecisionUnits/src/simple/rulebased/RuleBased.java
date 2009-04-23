@@ -9,6 +9,7 @@
 package simple.rulebased;
 
 import decisionunit.clsBaseDecisionUnit;
+import decisionunit.itf.actions.clsActionCommandContainer;
 import decisionunit.itf.actions.clsActionCommands;
 
 
@@ -31,7 +32,7 @@ public class RuleBased extends clsBaseDecisionUnit {
 	}
 */
 	@Override
-	public clsActionCommands process() {
+	public clsActionCommandContainer process() {
 		// TODO Auto-generated method stub
 		return null;
 	}

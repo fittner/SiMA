@@ -11,7 +11,10 @@ package simple.dumbmind;
 import java.util.Iterator;
 
 import decisionunit.clsBaseDecisionUnit;
+import decisionunit.itf.actions.clsActionCommandContainer;
 import decisionunit.itf.actions.clsActionCommands;
+import decisionunit.itf.actions.clsMotionAction;
+import decisionunit.itf.actions.eActionCommandMotion;
 
 //import sim.physics2D.physicalObject.PhysicalObject2D;
 //import sim.physics2D.util.Double2D;
@@ -201,9 +204,10 @@ public class clsDumbMindA extends clsBaseDecisionUnit {
 	}
 
 	@Override
-	public clsActionCommands process() {
-		// TODO Auto-generated method stub
-		return null;
+	public clsActionCommandContainer process() {
+		clsActionCommandContainer oCommands = new clsActionCommandContainer();
+		oCommands.addMoveAction( clsMotionAction.creatAction(eActionCommandMotion.MOVE_FORWARD));
+		return oCommands;
 	}
 
 
