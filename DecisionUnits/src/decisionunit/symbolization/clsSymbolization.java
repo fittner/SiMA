@@ -6,7 +6,7 @@
  * $Author::                   $: Author of last commit
  * $Date::                     $: Date of last commit
  */
-package bw.body.brain.symbolization;
+package decisionunit.symbolization;
 
 /**
  * Superclass of all symbolization frameworks that are and will be implemented. 

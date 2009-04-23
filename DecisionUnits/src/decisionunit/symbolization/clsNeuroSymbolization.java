@@ -1,31 +1,31 @@
 /**
  * @author langr
- * 21.04.2009, 11:58:35
+ * 21.04.2009, 12:00:34
  * 
  * $Rev::                      $: Revision of last commit
  * $Author::                   $: Author of last commit
  * $Date::                     $: Date of last commit
  */
-package bw.body.brain.symbolization;
+package decisionunit.symbolization;
 
 /**
- * Implementation for symbolization of sensory data using the Anylogic-based 
- * BFG implementation with the RuleTrees defined in XML.  
+ * Implementation for symbolization of sensory data using R. Velik's implementation
+ * of Multimodal NeuroSymbols.
  * 
  * @author langr
- * 21.04.2009, 11:58:35
+ * 21.04.2009, 12:00:34
  * 
  */
-public class clsImageSymbolization extends clsSymbolization {
+public class clsNeuroSymbolization extends clsSymbolization {
 
 	/**
 	 * TODO (langr) - insert description 
 	 * 
 	 * @author langr
-	 * 21.04.2009, 11:58:35
+	 * 21.04.2009, 12:00:34
 	 *
 	 */
-	public clsImageSymbolization() {
+	public clsNeuroSymbolization() {
 		// TODO Auto-generated constructor stub
 	}
 
