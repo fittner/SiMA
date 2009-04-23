@@ -6,7 +6,7 @@
  * $Author::                   $: Author of last commit
  * $Date::                     $: Date of last commit
  */
-package decisionunit.symbolization;
+package symbolization;
 
 /**
  * Implementation for symbolization of sensory data using the Anylogic-based 
