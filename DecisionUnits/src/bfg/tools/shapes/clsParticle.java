@@ -19,7 +19,7 @@ import java.io.Serializable;
  *
  */
 public class clsParticle extends clsPoint implements Serializable {
-  public float mrWeight;
+  public double mrWeight;
 
   public clsParticle() {
     super();
@@ -27,7 +27,7 @@ public class clsParticle extends clsPoint implements Serializable {
     mrWeight = 0;
   }
 
-  public clsParticle(float prX, float prY, float prWeight) {
+  public clsParticle(double prX, double prY, double prWeight) {
     super(prX, prY);
 
     setWeight(prWeight);
@@ -38,14 +38,14 @@ public class clsParticle extends clsPoint implements Serializable {
     setWeight(poParticle.mrWeight);
   }
 
-  public void setWeight(float prWeight) throws IllegalArgumentException {
+  public void setWeight(double prWeight) throws IllegalArgumentException {
     if (prWeight<0) {
       throw new IllegalArgumentException("prWeight >= 0");
     }
     mrWeight = prWeight;
   }
 
-  public float normalize(float prNorm) {
+  public double normalize(double prNorm) {
     mrWeight = mrWeight / prNorm;
 
     return mrWeight;

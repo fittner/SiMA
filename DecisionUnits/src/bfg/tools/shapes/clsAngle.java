@@ -23,12 +23,12 @@ import java.io.Serializable;
  *
  */
 public class clsAngle implements Serializable { //extends clsCloneable
-  public float mrAlpha;
+  public double mrAlpha;
 
   public clsAngle() {
     mrAlpha = 0;
   }
-  public clsAngle(float prAlpha) {
+  public clsAngle(double prAlpha) {
     mrAlpha = prAlpha;
     normalize(true);
   }
@@ -45,7 +45,7 @@ public class clsAngle implements Serializable { //extends clsCloneable
     return "@"+nf.format(getDegree());
   }
 
-  public void set(float prAlpha) {
+  public void set(double prAlpha) {
     mrAlpha = prAlpha;
     normalize(true);
   }
@@ -53,12 +53,12 @@ public class clsAngle implements Serializable { //extends clsCloneable
   public void set(clsAngle poAngle) {
     mrAlpha = poAngle.mrAlpha;
   }
-  public void setDegree(float prAlpha) {
-    mrAlpha = prAlpha*(float)Math.PI/180;
+  public void setDegree(double prAlpha) {
+    mrAlpha = prAlpha*(double)Math.PI/180;
   }
 
 
-  public void add(float prAlpha) {
+  public void add(double prAlpha) {
     mrAlpha+=prAlpha;
     normalize(true);
   }
@@ -66,7 +66,7 @@ public class clsAngle implements Serializable { //extends clsCloneable
     add(poAngle.mrAlpha);
   }
 
-  public void substract(float prAlpha) {
+  public void substract(double prAlpha) {
     mrAlpha-=prAlpha;
     normalize(true);
   }
@@ -74,10 +74,10 @@ public class clsAngle implements Serializable { //extends clsCloneable
     substract(poAngle.mrAlpha);
   }
 
-  public boolean angleEqualTolerance(clsAngle poAngle, float prAngleTolerance) {
-    float cPI2 = (float)(2*Math.PI);  
+  public boolean angleEqualTolerance(clsAngle poAngle, double prAngleTolerance) {
+    double cPI2 = (double)(2*Math.PI);  
 
-    float rTemp = mrAlpha - poAngle.mrAlpha;
+    double rTemp = mrAlpha - poAngle.mrAlpha;
     
     rTemp = getNormalizedAngle(rTemp, true, cPI2);
     rTemp = Math.abs(rTemp);
@@ -85,16 +85,16 @@ public class clsAngle implements Serializable { //extends clsCloneable
     return (rTemp < prAngleTolerance);
   }
 
-  public float getShortestSide() {
-    float rResult = getNormalizedAngle(mrAlpha, true, (float)Math.PI);
+  public double getShortestSide() {
+    double rResult = getNormalizedAngle(mrAlpha, true, (double)Math.PI);
     return rResult;
   }
 
-  public static float getNormalizedAngle(float prAlpha) {
-    return getNormalizedAngle(prAlpha, false, 2*(float)Math.PI);
+  public static double getNormalizedAngle(double prAlpha) {
+    return getNormalizedAngle(prAlpha, false, 2*(double)Math.PI);
   }
 
-  public static float getNormalizedAngle(float prAlpha, boolean pnPlusMinus, float prMaxValue) {
+  public static double getNormalizedAngle(double prAlpha, boolean pnPlusMinus, double prMaxValue) {
     while (prAlpha>=prMaxValue) {
       prAlpha-=2*Math.PI;
     }
@@ -109,19 +109,19 @@ public class clsAngle implements Serializable { //extends clsCloneable
   }
 
   public void normalize(boolean pnPlusMinus) {
-    mrAlpha = clsAngle.getNormalizedAngle(mrAlpha, pnPlusMinus, 2*(float)Math.PI);
+    mrAlpha = clsAngle.getNormalizedAngle(mrAlpha, pnPlusMinus, 2*(double)Math.PI);
   }
 
-  public void blur(float prSigma) {
-    //mrAlpha = (float)DistrGaussian.sample(prSigma, mrAlpha);
+  public void blur(double prSigma) {
+    //mrAlpha = (double)DistrGaussian.sample(prSigma, mrAlpha);
 
     normalize(true);
   }
 
-  public static float getDegree(float prAlpha) {
-    return prAlpha*180/(float)Math.PI;
+  public static double getDegree(double prAlpha) {
+    return prAlpha*180/(double)Math.PI;
   }
-  public float getDegree() {
-    return mrAlpha*180/(float)Math.PI;
+  public double getDegree() {
+    return mrAlpha*180/(double)Math.PI;
   }
 };

@@ -20,14 +20,14 @@ import java.io.Serializable;
  *
  */
 public class clsPoint implements Serializable {
-  public float mrX;
-  public float mrY;
+  public double mrX;
+  public double mrY;
 
   public clsPoint() {
     mrX = 0;
     mrY = 0;
   }
-  public clsPoint(float prX, float prY) {
+  public clsPoint(double prX, double prY) {
     mrX = prX;
     mrY = prY;
   }
@@ -45,19 +45,19 @@ public class clsPoint implements Serializable {
     return "("+nf.format(mrX)+"/"+nf.format(mrY)+")";
   }
 
-  public float distance() {
-    return (float)(Math.sqrt(Math.pow(mrX,2) + Math.pow(mrY,2)));
+  public double distance() {
+    return (double)(Math.sqrt(Math.pow(mrX,2) + Math.pow(mrY,2)));
   }
 
-  public float distance(clsPoint poPoint) {
-    return (float)(Math.sqrt(Math.pow((mrX-poPoint.mrX),2) + Math.pow((mrY-poPoint.mrY),2)));
+  public double distance(clsPoint poPoint) {
+    return (double)(Math.sqrt(Math.pow((mrX-poPoint.mrX),2) + Math.pow((mrY-poPoint.mrY),2)));
   }
 
-  public float distance(float prX, float prY) {
-    return (float)(Math.sqrt(Math.pow((mrX-prX),2) + Math.pow((mrY-prY),2)));
+  public double distance(double prX, double prY) {
+    return (double)(Math.sqrt(Math.pow((mrX-prX),2) + Math.pow((mrY-prY),2)));
   }
 
-  public void set(float prX, float prY) {
+  public void set(double prX, double prY) {
     mrX = prX;
     mrY = prY;
   }
@@ -67,7 +67,7 @@ public class clsPoint implements Serializable {
     mrY = poPoint.mrY;
   }
 
-  public void add(float prX, float prY) {
+  public void add(double prX, double prY) {
     mrX += prX;
     mrY += prY;
   }
@@ -76,7 +76,7 @@ public class clsPoint implements Serializable {
     add(poPoint.mrX, poPoint.mrY);
   }
 
-  public void substract(float prX, float prY) {
+  public void substract(double prX, double prY) {
     mrX -= prX;
     mrY -= prY;
   }
@@ -85,16 +85,16 @@ public class clsPoint implements Serializable {
     substract(poPoint.mrX, poPoint.mrY);
   }
 
-  public void scalarMult(float prScalar) {
+  public void scalarMult(double prScalar) {
     mrX *= prScalar;
     mrY *= prScalar;
   }
 
-  public clsAngle angleToPoint(float prX, float prY) {
-    float dX = prX - mrX;
-    float dY = prY - mrY;
+  public clsAngle angleToPoint(double prX, double prY) {
+    double dX = prX - mrX;
+    double dY = prY - mrY;
 
-    clsAngle alpha = new clsAngle((float)Math.atan2(dY, dX));
+    clsAngle alpha = new clsAngle((double)Math.atan2(dY, dX));
 
     return alpha;
   }
@@ -104,12 +104,12 @@ public class clsPoint implements Serializable {
   }
 
   public void normalize() {
-    float length = distance();
+    double length = distance();
     scalarMult(1/length);
   }
 
-  public void blur(float prSigma) {
-//    mrX = (float)DistrGaussian.sample(prSigma, mrX);
-//    mrY = (float)DistrGaussian.sample(prSigma, mrY);
+  public void blur(double prSigma) {
+//    mrX = (double)DistrGaussian.sample(prSigma, mrX);
+//    mrY = (double)DistrGaussian.sample(prSigma, mrY);
   }
 };

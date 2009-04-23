@@ -20,18 +20,18 @@ import java.io.Serializable;
  *
  */
 public class clsPolarcoordinate implements Serializable { //extends clsCloneable
-  public float mrLength;
+  public double mrLength;
   public clsAngle moAzimuth;
 
   public clsPolarcoordinate() {
     mrLength = 0;
     moAzimuth = new clsAngle();
   }
-  public clsPolarcoordinate(float prLength, float prAzimuth) {
+  public clsPolarcoordinate(double prLength, double prAzimuth) {
     mrLength = prLength;
     moAzimuth = new clsAngle(prAzimuth);
   }
-  public clsPolarcoordinate(float prLength, clsAngle poAzimuth) {
+  public clsPolarcoordinate(double prLength, clsAngle poAzimuth) {
     mrLength = prLength;
     moAzimuth = new clsAngle(poAzimuth);
   }
@@ -61,11 +61,11 @@ public class clsPolarcoordinate implements Serializable { //extends clsCloneable
     mrLength = poFrom.distance(poTo);
     moAzimuth = poFrom.angleToPoint(poTo);
   }
-  public void set(float prLength, float prAzimuth) {
+  public void set(double prLength, double prAzimuth) {
     mrLength = prLength;
     moAzimuth.set(prAzimuth);
   }
-  public void set(float prLength, clsAngle poAzimuth) {
+  public void set(double prLength, clsAngle poAzimuth) {
     mrLength = prLength;
     moAzimuth.set(poAzimuth);
   }
@@ -80,14 +80,14 @@ public class clsPolarcoordinate implements Serializable { //extends clsCloneable
     moAzimuth = oFrom.angleToPoint(poTo);
   }
 
-  public void blur(float prQualityDistance, float prQualityAzimuth) {
+  public void blur(double prQualityDistance, double prQualityAzimuth) {
     moAzimuth.blur(prQualityAzimuth);
 
-    //mrLength = (float)DistrGaussian.sample(prQualityDistance, mrLength);
+    //mrLength = (double)DistrGaussian.sample(prQualityDistance, mrLength);
   }
 
 
-  public void rotateBy(float prAlpha) {
+  public void rotateBy(double prAlpha) {
     moAzimuth.add(prAlpha);
   }
   public void rotateBy(clsAngle poAngle) {
@@ -97,17 +97,17 @@ public class clsPolarcoordinate implements Serializable { //extends clsCloneable
   public clsPoint getVector() {
     clsPoint oResult = new clsPoint(mrLength, 0);
     
-    float rAngle = clsAngle.getNormalizedAngle( moAzimuth.mrAlpha, false, 2*(float)Math.PI);
+    double rAngle = clsAngle.getNormalizedAngle( moAzimuth.mrAlpha, false, 2*(double)Math.PI);
 
-    oResult.mrX = (float)Math.cos(rAngle) * mrLength;
+    oResult.mrX = (double)Math.cos(rAngle) * mrLength;
 
 // cos takes care of the correct signum ...
 //    if (moAzimuth.mrAlpha > Math.PI/2 && moAzimuth.mrAlpha < 3*Math.PI/2 ) {
 //      oResult.mrX = -oResult.mrX;
 //    }
     
-    oResult.mrY = (float)(Math.sqrt(Math.pow(mrLength,2) - Math.pow(oResult.mrX,2)));
-    if (rAngle >(float) Math.PI) {
+    oResult.mrY = (double)(Math.sqrt(Math.pow(mrLength,2) - Math.pow(oResult.mrX,2)));
+    if (rAngle >(double) Math.PI) {
       oResult.mrY = -oResult.mrY;
     }
 
