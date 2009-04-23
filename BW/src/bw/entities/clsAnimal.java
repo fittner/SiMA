@@ -68,4 +68,20 @@ public class clsAnimal extends clsAnimate{
 		// TODO Auto-generated method stub
 		
 	}
+
+
+	/* (non-Javadoc)
+	 *
+	 * @author deutsch
+	 * 22.04.2009, 16:53:08
+	 * 
+	 * @see bw.entities.clsEntity#processing()
+	 */
+	@Override
+	public void processing() {
+		// TODO Auto-generated method stub
+		
+	}
+	
+	
 }

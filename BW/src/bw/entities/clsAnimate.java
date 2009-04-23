@@ -59,8 +59,5 @@ public abstract class clsAnimate extends clsMobile{
 	public void execution() {
 		getAgentBody().stepExecution(moActionList);
 	}
-	
-	public void processing() {
-	
-	}
+
 }

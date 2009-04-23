@@ -15,15 +15,11 @@ import sim.portrayal.Inspector;
 import sim.portrayal.LocationWrapper;
 import ARSsim.motionplatform.clsMotionPlatform;
 import ARSsim.physics2D.util.clsPose;
-import bw.body.motionplatform.clsBrainAction;
-import bw.body.motionplatform.clsBrainActionContainer;
-import bw.entities.clsBubble;
 import bw.entities.clsEntity;
-import bw.entities.clsRemoteBot;
 import bw.factories.clsSingletonMasonGetter;
+import bw.factories.clsSingletonUniqueIdGenerator;
 import bw.physicalObjects.sensors.clsEntityPartVision;
 import bw.utils.inspectors.clsInspectorMapping;
-import bw.utils.inspectors.mind.clsDumbBrainInspector;
 
 /**
  * Our representative of the mason physics class
@@ -118,11 +114,11 @@ public class clsMobileObject2D extends sim.physics2D.physicalObject.MobileObject
 	 * @see sim.engine.Steppable#step(sim.engine.SimState)
 	 */
 	public void step(SimState state) {
-		
+		//this block should be distributed to different steps
 		moEntity.updateInternalState();
 		moEntity.sensing();
 		moEntity.processing();
-		//the method moEntity.execution() is called in method addforce()
+		//moEntity.execution();
 		
 		//with these 2, physics work!
 		sim.physics2D.util.Double2D position = this.getPosition();
@@ -156,6 +152,7 @@ public class clsMobileObject2D extends sim.physics2D.physicalObject.MobileObject
 	 * @see sim.physics2D.forceGenerator.ForceGenerator#addForce()
 	 */
 	public void addForce() {
+//		System.out.println("Execution # "+clsSingletonUniqueIdGenerator.getCurrentUniqueId());
 		moEntity.execution();
 		
 		//correct rotation-force to emulate static friction for rotation

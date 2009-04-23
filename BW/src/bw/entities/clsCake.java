@@ -8,12 +8,7 @@
 package bw.entities;
 
 import java.awt.Color;
-import java.util.ArrayList;
-
-import bw.actionresponses.clsBubbleResponses;
-import bw.actionresponses.clsDefaultEntityActionResponse;
-import bw.body.motionplatform.clsBrainAction;
-import bw.body.motionplatform.clsBrainActionContainer;
+import bw.actionresponses.clsCakeResponses;
 import bw.utils.enums.eEntityType;
 import ARSsim.physics2D.util.clsPose;
 
@@ -29,6 +24,10 @@ public class clsCake extends clsInanimate {
 	private static double mrDefaultRadius = 10.0;
 	private static String moImagePath = bw.sim.clsBWMain.msArsPath + "/src/resources/images/cake.gif";
 	private static Color moDefaultColor = Color.pink;
+	
+	private float mrCakeWeight;
+	private boolean mnTotallyConsumed;
+	private boolean mnShapeUpdated;
 
 	public clsCake(int pnId, clsPose poPose, sim.physics2D.util.Double2D poStartingVelocity)
     {
@@ -36,12 +35,31 @@ public class clsCake extends clsInanimate {
 		//todo muchitsch ... hier wird eine default shape �bergeben, nicht null, sonst krachts
 		super(pnId, poPose, poStartingVelocity, null, clsCake.mrDefaultMass);
 		
-		
+		mrCakeWeight = (float) mrDefaultMass;
+		mnTotallyConsumed = false;
+		mnShapeUpdated = false;
 		
 		setShape(new ARSsim.physics2D.shape.clsCircleImage(clsCake.mrDefaultRadius, moDefaultColor , moImagePath), clsCake.mrDefaultMass);
 		
-		this.setEntityActionResponse(new clsDefaultEntityActionResponse());
+		this.setEntityActionResponse(new clsCakeResponses(this));
     } 
+	
+	public float withdraw(float prAmount) {
+		float rWeight = 0.0f;
+		
+		if (prAmount > 0.0f) {
+			if (mrCakeWeight > prAmount) {
+				rWeight = prAmount;
+				mrCakeWeight -= prAmount;
+			} else {
+				rWeight = mrCakeWeight;
+				mrCakeWeight = 0.0f;
+				mnTotallyConsumed = true;
+			}
+		}
+		
+		return rWeight;
+	}
 	
 
 	/* (non-Javadoc)
@@ -97,6 +115,11 @@ public class clsCake extends clsInanimate {
 	@Override
 	public void updateInternalState() {
 		// TODO Auto-generated method stub
+		
+		if (mnTotallyConsumed && !mnShapeUpdated) {
+			mnShapeUpdated = true;
+			setShape(new sim.physics2D.shape.Circle(clsCake.mrDefaultRadius, Color.gray), clsCake.mrDefaultMass);
+		}
 		
 	}
 

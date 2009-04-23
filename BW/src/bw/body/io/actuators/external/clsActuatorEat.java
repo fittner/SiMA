@@ -8,8 +8,6 @@
 package bw.body.io.actuators.external;
 
 
-import java.util.ArrayList;
-
 import bw.actionresponses.clsEntityActionResponses;
 import bw.body.io.clsBaseIO;
 import bw.body.motionplatform.clsBrainAction;
@@ -126,15 +124,16 @@ public class clsActuatorEat extends clsActuatorExt {
 				//when we eat, we need more energy
 				registerEnergyConsumption(mrDefaultEnergyConsuptionValue + 3.5f); //TODO clemens: change 50 to the real value
 				
-				float rWeight = 3.33f; //grï¿½ï¿½e des Bissen
+				float rWeight = 1.0f; //größe des Bissen
 				
 				clsFood oReturnedFood = oEntityActionResponse.actionEatResponse(rWeight); //Apfel gibt mir einen Bisset food retour
 				
 				//TODO CM geht noch nicht! digest wirft exception
 				moAnimate.moAgentBody.getInterBodyWorldSystem().getConsumeFood().digest(oReturnedFood); // food an Body zur weiterverarbeitung geben
 				
-				if(oReturnedFood == null)
+				if(oReturnedFood == null) {
 					throw(new exEntityNotEatable(oViewedAnimate.getEntityType()) );
+				}
 			
 			}
 			

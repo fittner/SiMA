@@ -8,8 +8,6 @@
 package bw.actionresponses;
 
 import bw.exceptions.exEntityActionResponseNotImplemented;
-import bw.exceptions.exFoodAlreadyNormalized;
-import bw.exceptions.exFoodAmountBelowZero;
 import bw.utils.tools.clsFood;
 
 /**
@@ -26,24 +24,8 @@ public class clsDefaultEntityActionResponse extends clsEntityActionResponses {
 	@Override
 	public clsFood actionEatResponse(float prWeight) throws exEntityActionResponseNotImplemented {
 	
-		//CHKME cm: only for testing! what else?
-		clsFood oFood = new clsFood();
-	
-			try {
-				oFood.addNutritionFraction(1, 1.0f);
-				oFood.setAmount(1.0f);
-				oFood.finalize();
-			} catch (exFoodAmountBelowZero e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			} catch (exFoodAlreadyNormalized e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-
-			return oFood;
-			
-		//throw new bw.exceptions.exEntityActionResponseNotImplemented();
+		
+		throw new bw.exceptions.exEntityActionResponseNotImplemented();
 	}
 
 }

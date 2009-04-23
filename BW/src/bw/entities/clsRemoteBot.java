@@ -8,12 +8,10 @@
 package bw.entities;
 
 import java.awt.Color;
-import java.util.ArrayList;
 import java.util.Iterator;
 
 import ARSsim.physics2D.physicalObject.clsMobileObject2D;
 import ARSsim.physics2D.util.clsPose;
-import bw.body.motionplatform.clsBrainAction;
 import bw.body.motionplatform.clsBrainActionContainer;
 import bw.body.motionplatform.clsEatAction;
 import bw.body.motionplatform.clsMotionAction;
@@ -21,6 +19,7 @@ import bw.physicalObjects.bodyparts.clsBotHands;
 import bw.physicalObjects.sensors.clsEntityPartVision;
 import bw.body.io.sensors.external.clsSensorEatableArea;
 import bw.body.io.sensors.external.clsSensorVision;
+import bw.factories.clsSingletonUniqueIdGenerator;
 import bw.utils.enums.eActionCommandMotion;
 import bw.utils.enums.eActionCommandType;
 import bw.utils.enums.eEntityType;
@@ -46,8 +45,12 @@ public class clsRemoteBot extends clsAnimate  {
 	private static double mrDefaultRadius = 10.0f;
 	private static Color moDefaultColor = Color.CYAN;
 	private static Color moDefaultHandColor = Color.gray;
+	
+	private int mnUniqueId = clsSingletonUniqueIdGenerator.getUniqueId();
 
+//	private Array moCapturedKeys;
 
+	private String moTemp = "";
 	/**
 	 * TODO (deutsch) - insert description 
 	 * 
@@ -138,6 +141,15 @@ public class clsRemoteBot extends clsAnimate  {
 	@Override
 	public void processing() {
 		moActionList.clearAll();
+
+		if (moTemp.length() > 0) {
+			System.out.print("...");
+		}
+		
+		if (clsKeyListener.getKeyPressed() != 0) {
+			moTemp += clsKeyListener.getKeyPressed()+"; ";
+		}
+		
 		
 		//the processing is taken over by the user via keyboard
 		
@@ -223,4 +235,13 @@ public class clsRemoteBot extends clsAnimate  {
 		// TODO Auto-generated method stub
 	}
 
+	public void execution() {
+		super.execution();
+		
+		if (moTemp.length() > 0) {
+	      System.out.println(mnUniqueId+": "+moTemp);
+	      moTemp = "";
+		}
+
+	}
 }

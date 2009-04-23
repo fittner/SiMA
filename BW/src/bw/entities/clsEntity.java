@@ -43,7 +43,6 @@ public abstract class clsEntity {
 	
 	protected PhysicalObject2D moPhysicalObject2D;
 	private clsEntityActionResponses moEntityActionResponses;
-	private Shape moShape;
 	private float mrMass;
 	protected eEntityType meEntityType;
 	private int mnId;
@@ -65,7 +64,6 @@ public abstract class clsEntity {
 		setEntityActionResponse(new clsDefaultEntityActionResponse());
 
 		moPhysicalObject2D = null;
-		moShape = null;
 		mrMass = 0.0f;
 		setRegistered(false);
 	}	
@@ -219,25 +217,6 @@ public abstract class clsEntity {
 		return moEntityActionResponses;
 	}
 
-	/**
-	 * @author deutsch
-	 * 25.02.2009, 15:43:54
-	 * 
-	 * @param moShape the moShape to set
-	 */
-	public void setShape(Shape moShape) {
-		this.moShape = moShape;
-	}
-
-	/**
-	 * @author deutsch
-	 * 25.02.2009, 15:43:54
-	 * 
-	 * @return the moShape
-	 */
-	public Shape getShape() {
-		return moShape;
-	}
 
 	/**
 	 * @author deutsch

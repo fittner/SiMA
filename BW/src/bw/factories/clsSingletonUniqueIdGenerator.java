@@ -49,4 +49,14 @@ public class clsSingletonUniqueIdGenerator {
 	public static int getUniqueId() {
 		return clsSingletonUniqueIdGenerator.getInstance().mnCounter++;
 	}
+	
+	/**
+	 * TODO (deutsch) - insert description
+	 *
+	 * @return
+	 */
+	public static int getCurrentUniqueId() {
+		return clsSingletonUniqueIdGenerator.getInstance().mnCounter;
+	}
+	
 }
