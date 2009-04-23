@@ -7,7 +7,8 @@ package bfg.tools.xmltools;
 
 // Imports
 import bfg.tools.shapes.clsPoint;
-import bw.utils.enums.deprecated.enumTypeLandscape;
+import bfg.utils.enums.enumTypeLandscape;
+
 import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
 import java.util.TreeMap;

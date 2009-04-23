@@ -8,12 +8,6 @@ package bfg.symbolization.ruletree;
 // Imports
 import org.w3c.dom.Node;
 import org.w3c.dom.NamedNodeMap;
-import bw.utils.enums.deprecated.enumOptionalType;
-import bw.utils.enums.deprecated.enumTypeTrippleState;
-import bw.utils.enums.deprecated.enumTypeLandscape;
-import bw.utils.enums.deprecated.enumTypeCount;
-import bw.utils.enums.deprecated.enumTypeSide;
-import bw.utils.enums.deprecated.enumTypeDistance;
 import bfg.symbolization.brainimages.clsIdentity;
 import bfg.symbolization.brainimages.clsImagePerception;
 import bfg.symbolization.brainimages.clsImageAbstract;
@@ -21,6 +15,12 @@ import bfg.symbolization.brainimages.clsContainerPerceptions;
 import bfg.symbolization.brainimages.clsContainerPercVisionsLandscapes;
 import bfg.symbolization.brainimages.clsPerceptionVisionLandscape;
 import bfg.tools.xmltools.clsXMLAbstractImageReader;
+import bfg.utils.enums.enumOptionalType;
+import bfg.utils.enums.enumTypeCount;
+import bfg.utils.enums.enumTypeDistance;
+import bfg.utils.enums.enumTypeLandscape;
+import bfg.utils.enums.enumTypeSide;
+import bfg.utils.enums.enumTypeTrippleState;
 
 /**
  *

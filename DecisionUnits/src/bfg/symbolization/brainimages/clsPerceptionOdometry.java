@@ -6,12 +6,12 @@
 package bfg.symbolization.brainimages;
 
 // Imports
-import bw.utils.enums.deprecated.enumTypeDistance;
-import bw.utils.enums.deprecated.enumTypeSide;
-import bw.utils.enums.deprecated.enumTypeRotation;
 import bfg.tools.shapes.clsAngle;
 import bfg.tools.shapes.clsPolarcoordinate;
 import bfg.tools.shapes.clsPoint;
+import bfg.utils.enums.enumTypeDistance;
+import bfg.utils.enums.enumTypeRotation;
+import bfg.utils.enums.enumTypeSide;
 
 /**
  *

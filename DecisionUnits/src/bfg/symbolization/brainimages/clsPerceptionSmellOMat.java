@@ -6,8 +6,8 @@
 package bfg.symbolization.brainimages;
 
 // Imports
-import bw.utils.enums.deprecated.enumTypeScentIntensity;
 import bfg.tools.clsId;
+import bfg.utils.enums.enumTypeScentIntensity;
 
 /**
  *

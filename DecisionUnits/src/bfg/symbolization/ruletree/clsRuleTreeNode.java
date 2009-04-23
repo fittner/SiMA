@@ -10,7 +10,7 @@ import java.util.Vector;
 import org.w3c.dom.Node;
 import org.w3c.dom.NamedNodeMap;
 import bfg.tools.xmltools.clsXMLAbstractImageReader;
-import bw.utils.enums.deprecated.enumBooleanOperator;
+import bfg.utils.enums.enumBooleanOperator;
 import bfg.symbolization.brainimages.clsIdentity;
 import bfg.symbolization.brainimages.clsImagePerception;
 import bfg.symbolization.brainimages.clsImageAbstract;

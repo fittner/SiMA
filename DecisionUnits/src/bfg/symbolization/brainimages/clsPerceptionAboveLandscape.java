@@ -6,7 +6,7 @@
 package bfg.symbolization.brainimages;
 
 // Imports
-import bw.utils.enums.deprecated.enumTypeLandscape;
+import bfg.utils.enums.enumTypeLandscape;
 
 /**
  *

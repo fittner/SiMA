@@ -9,7 +9,7 @@ package bfg.symbolization.ruletree;
 import org.w3c.dom.Node;
 import org.w3c.dom.NamedNodeMap;
 import bfg.tools.xmltools.clsXMLAbstractImageReader;
-import bw.utils.enums.deprecated.enumOptionalType;
+import bfg.utils.enums.enumOptionalType;
 import bfg.symbolization.brainimages.clsIdentity;
 
 //import pkgBrainComplexEmotion.clsContainerComplexEmotion;

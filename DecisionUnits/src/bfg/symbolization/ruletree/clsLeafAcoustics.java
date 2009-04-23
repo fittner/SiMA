@@ -8,15 +8,15 @@ package bfg.symbolization.ruletree;
 // Imports
 import org.w3c.dom.Node;
 import org.w3c.dom.NamedNodeMap;
-import bw.utils.enums.deprecated.enumOptionalType;
-import bw.utils.enums.deprecated.enumTypeTrippleState;
-import bw.utils.enums.deprecated.enumTypeEntityMessages;
 import bfg.symbolization.brainimages.clsIdentity;
 import bfg.symbolization.brainimages.clsImagePerception;
 import bfg.symbolization.brainimages.clsImageAbstract;
 import bfg.symbolization.brainimages.clsContainerPerceptions;
 import bfg.symbolization.brainimages.clsPerceptionAcoustic;
 import bfg.symbolization.brainimages.clsContainerPercAcoustics;
+import bfg.utils.enums.enumOptionalType;
+import bfg.utils.enums.enumTypeEntityMessages;
+import bfg.utils.enums.enumTypeTrippleState;
 
 /**
  *

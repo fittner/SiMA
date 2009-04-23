@@ -9,11 +9,11 @@ package bfg.symbolization.brainimages;
 import java.util.Vector;
 import org.w3c.dom.Node;
 import org.w3c.dom.NamedNodeMap;
-import bw.utils.enums.deprecated.enumTypeTrippleState;
 
 import bfg.tools.xmltools.XMLException;
 import bfg.tools.xmltools.clsXMLConfiguration;
 import bfg.tools.xmltools.clsXMLAbstractImageReader;
+import bfg.utils.enums.enumTypeTrippleState;
 //import bfg.symbolization.recognition.clsScenarioContainer;
 //import bfg.symbolization.recognition.clsSuperEgoAction;
 //import bfg.symbolization.recognition.clsDesireContainer;

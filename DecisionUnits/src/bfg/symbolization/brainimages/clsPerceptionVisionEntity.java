@@ -6,16 +6,16 @@
 package bfg.symbolization.brainimages;
 
 // Imports
-import bw.utils.enums.deprecated.enumTypeSocialLevel;
-import bw.utils.enums.deprecated.enumTypeHealthState;
-import bw.utils.enums.deprecated.enumTypeDistance;
-import bw.utils.enums.deprecated.enumTypeSide;
 //import pkgTools.clsCloneable;
 import bfg.tools.shapes.clsPolarcoordinate;
 import bfg.tools.shapes.clsPoint;
 import bfg.tools.shapes.clsAngle;
 import bfg.tools.shapes.clsPolarcoordinate;
 import bfg.tools.shapes.clsPoint;
+import bfg.utils.enums.enumTypeDistance;
+import bfg.utils.enums.enumTypeHealthState;
+import bfg.utils.enums.enumTypeSide;
+import bfg.utils.enums.enumTypeSocialLevel;
 
 /**
  *

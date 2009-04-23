@@ -6,7 +6,7 @@
 package bfg.symbolization.brainimages;
 
 // Imports
-import bw.utils.enums.deprecated.enumTypeEntityMessages;
+import bfg.utils.enums.enumTypeEntityMessages;
 
 /**
  *

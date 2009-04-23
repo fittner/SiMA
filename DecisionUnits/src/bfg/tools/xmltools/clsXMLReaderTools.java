@@ -8,7 +8,8 @@ package bfg.tools.xmltools;
 // Imports
 import org.w3c.dom.Node;
 import org.w3c.dom.NamedNodeMap;
-import bw.utils.enums.deprecated.enumTypeTrippleState;
+
+import bfg.utils.enums.enumTypeTrippleState;
 
 /**
  *
