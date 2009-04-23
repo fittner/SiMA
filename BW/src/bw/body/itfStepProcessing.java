@@ -9,7 +9,6 @@
 package bw.body;
 
 import bw.body.motionplatform.clsBrainActionContainer;
-import bw.entities.clsAnimate;
 
 /**
  * 3rd call in the overall body cycle (complete cycle see itfStep)
@@ -23,6 +22,6 @@ import bw.entities.clsAnimate;
  */
 public interface itfStepProcessing extends itfStep {
 
-	public void stepProcessing(clsAnimate poAnimate, clsBrainActionContainer poActionList);
+	public clsBrainActionContainer stepProcessing();
 	
 }

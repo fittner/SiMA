@@ -10,7 +10,7 @@ package bw.body;
 
 import java.util.ArrayList;
 
-import bw.body.brain.clsBrain;
+import bw.body.brainsocket.clsBrainSocket;
 import bw.body.interBodyWorldSystems.clsInterBodyWorldSystem;
 import bw.body.internalSystems.clsInternalSystem;
 import bw.body.intraBodySystems.clsIntraBodySystem;
@@ -30,7 +30,7 @@ import bw.entities.clsEntity;
  * 
  */
 public class clsAgentBody implements itfStepSensing, itfStepUpdateInternalState, itfStepProcessing, itfStepExecution {
-	private clsBrain moBrain;
+	private clsBrainSocket moBrain;
     private clsInternalSystem moInternalSystem;
     private clsIntraBodySystem moIntraBodySystem;
     private clsInterBodyWorldSystem moInterBodyWorldSystem;
@@ -41,7 +41,7 @@ public class clsAgentBody implements itfStepSensing, itfStepUpdateInternalState,
 	 * CTOR
 	 */
 	public clsAgentBody(clsEntity poEntity) {
-  	   moBrain = new clsBrain();
+  	   moBrain = new clsBrainSocket(moExternalIO.moSensorExternal, moInternalIO.moSensorInternal);
   	   
 	   moInternalSystem = new clsInternalSystem();
 	   moIntraBodySystem = new clsIntraBodySystem(moInternalSystem);
@@ -56,7 +56,7 @@ public class clsAgentBody implements itfStepSensing, itfStepUpdateInternalState,
 	/**
 	 * @return the moBrain
 	 */
-	public clsBrain getBrain() {
+	public clsBrainSocket getBrain() {
 		return moBrain;
 	}
 
@@ -136,8 +136,8 @@ public class clsAgentBody implements itfStepSensing, itfStepUpdateInternalState,
 	 * 25.02.2009, 16:02:00
 	 *
 	 */
-	public void stepProcessing(clsAnimate poEntity, clsBrainActionContainer poActionList){
-		moBrain.stepProcessing(poEntity, poActionList);
+	public clsBrainActionContainer stepProcessing(){
+		return moBrain.stepProcessing();
 	}
 	
 	/* (non-Javadoc)

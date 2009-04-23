@@ -8,10 +8,15 @@
 package bw.body.io;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import bw.body.clsAgentBody;
+import bw.body.io.sensors.external.clsSensorExt;
+import bw.body.io.sensors.internal.clsSensorInt;
 import bw.body.motionplatform.clsBrainAction;
 import bw.body.motionplatform.clsBrainActionContainer;
+import bw.utils.enums.eSensorExtType;
+import bw.utils.enums.eSensorIntType;
 
 /**
  * TODO (deutsch) - insert description 
@@ -20,6 +25,7 @@ import bw.body.motionplatform.clsBrainActionContainer;
  * 
  */
 public class clsInternalIO extends clsBaseIO{
+	public HashMap<eSensorIntType, clsSensorInt> moSensorInternal;
 
 	public clsAgentBody moBody;
 	

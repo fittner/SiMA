@@ -86,7 +86,7 @@ public class clsBubble extends clsAnimate {
 	 */
 	@Override
 	public void processing() {
-		this.getAgentBody().getBrain().stepProcessing((clsAnimate)this, moActionList);
+		moActionList = this.getAgentBody().getBrain().stepProcessing();
 	}
 
 	/* (non-Javadoc)

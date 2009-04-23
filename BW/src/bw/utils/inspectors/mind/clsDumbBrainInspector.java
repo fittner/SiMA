@@ -113,7 +113,7 @@ public class clsDumbBrainInspector extends Inspector implements ItemListener{
 	public void itemStateChanged(ItemEvent e) {
 
 		Object source = e.getItemSelectable();
-
+/*
 		clsDumbMindA oDumbMind = null;
 		clsMind oMind = moBubble.moAgentBody.getBrain().getMind();
 		if( oMind instanceof clsDumbMindA ) {
@@ -128,7 +128,7 @@ public class clsDumbBrainInspector extends Inspector implements ItemListener{
 				oDumbMind.setCollisionAvoidance(moCheckBoxCA.isSelected());
 			}
 		}
-			
+*/			
 		moConsole.refresh();
 	}
 }

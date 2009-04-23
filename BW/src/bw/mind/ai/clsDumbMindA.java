@@ -22,7 +22,6 @@ import bw.body.motionplatform.clsEatAction;
 import bw.body.motionplatform.clsMotionAction;
 import bw.entities.clsAnimate;
 import bw.entities.clsCake;
-import bw.entities.clsCan;
 import bw.entities.clsEntity;
 import bw.mind.clsMind;
 import bw.utils.enums.eActionCommandMotion;
@@ -30,7 +29,6 @@ import bw.utils.enums.eActionCommandType;
 import bw.utils.enums.eEntityType;
 import bw.utils.enums.eSensorExtType;
 import bw.utils.sound.AePlayWave;
-import bw.utils.tools.clsFood;
 import bw.utils.tools.clsVectorCalculation;
 
 /**
@@ -44,9 +42,11 @@ public class clsDumbMindA extends clsMind implements itfStepProcessing{
 
 	private boolean mnRoombaIntelligence = true;
 	private boolean mnCollisionAvoidance = false;
+	private clsAnimate moAnimate;
 	
-	public void clsDumbMind()
+	public clsDumbMindA(clsAnimate poAnimate)
 	{
+		moAnimate = poAnimate;
 	}
 	
 	/* (non-Javadoc)
@@ -57,20 +57,21 @@ public class clsDumbMindA extends clsMind implements itfStepProcessing{
 	 * @see bw.body.itfStepProcessing#stepProcessing(bw.entities.clsAnimate, bw.body.motionplatform.clsBrainActionContainer)
 	 */
 	@Override
-	public void stepProcessing(clsAnimate poAnimate,
-			clsBrainActionContainer poActionList) {
+	public clsBrainActionContainer stepProcessing() {
 		
-		poActionList.clearAll();
+		clsBrainActionContainer oActionList = new clsBrainActionContainer();
 
 		if(isCollisionAvoidance()) {
-			followAnObject(poAnimate, poActionList);
+			followAnObject(moAnimate, oActionList);
 		}
 		
 		if(isRoombaIntelligence()) {
-			doRobotDance(poAnimate, poActionList);
+			doRobotDance(moAnimate, oActionList);
 		}
 		
-		eat(poAnimate, poActionList);
+		eat(moAnimate, oActionList);
+		
+		return oActionList;
 	}
 	
 	public void followAnObject(clsAnimate poEntity, clsBrainActionContainer poActionList)
