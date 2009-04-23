@@ -14,9 +14,9 @@ import bw.utils.enums.deprecated.enumTypeTrippleState;
 import bfg.tools.xmltools.XMLException;
 import bfg.tools.xmltools.clsXMLConfiguration;
 import bfg.tools.xmltools.clsXMLAbstractImageReader;
-import bfg.symbolization.recognition.clsScenarioContainer;
-import bfg.symbolization.recognition.clsSuperEgoAction;
-import bfg.symbolization.recognition.clsDesireContainer;
+//import bfg.symbolization.recognition.clsScenarioContainer;
+//import bfg.symbolization.recognition.clsSuperEgoAction;
+//import bfg.symbolization.recognition.clsDesireContainer;
 import bfg.symbolization.ruletree.clsRuleTreeNode;
 import bfg.symbolization.ruletree.clsRuleTreeElement;
 import bfg.symbolization.ruletree.clsRuleCompareResult;
@@ -47,7 +47,7 @@ public class clsImageAbstract // extends clsImageGeneric //uncommented at import
   public boolean mnFullMatchRequired = false;
 
 //  public clsActionPlan moActionPlan;
-  public clsSuperEgoAction moSuperEgoAction;
+//  public clsSuperEgoAction moSuperEgoAction;
 
 //  public static clsContainerAbstractImages moLoadedImageList = new clsContainerAbstractImages();
 
@@ -164,12 +164,12 @@ public class clsImageAbstract // extends clsImageGeneric //uncommented at import
 
 
 
-    //superEgoAction
-    Node oSuperEgoActionNode = clsXMLAbstractImageReader.getNextNodeElementByName( poAbstractImageNode, "SuperEgoAction");
-    if( oSuperEgoActionNode != null )
-    {
-      oResult.moSuperEgoAction = clsSuperEgoAction.create(oSuperEgoActionNode);
-    }
+//    //superEgoAction
+//    Node oSuperEgoActionNode = clsXMLAbstractImageReader.getNextNodeElementByName( poAbstractImageNode, "SuperEgoAction");
+//    if( oSuperEgoActionNode != null )
+//    {
+//      oResult.moSuperEgoAction = clsSuperEgoAction.create(oSuperEgoActionNode);
+//    }
 
     
 //    oResult.moActionPlan = clsImageAbstractAction.getAction( oResult.mnImageId );
