@@ -9,17 +9,13 @@ package bw.body.brainsocket;
 
 import java.util.HashMap;
 
-import simple.dumbmind.clsDumbMindA;
-
 import decisionunit.clsBaseDecisionUnit;
 import decisionunit.itf.actions.clsActionCommands;
 import decisionunit.itf.sensors.clsSensorData;
-import decisionunit.symbolization.clsSymbolization;
 import bw.body.itfStepProcessing;
 import bw.body.io.sensors.external.clsSensorExt;
 import bw.body.io.sensors.internal.clsSensorInt;
 import bw.body.motionplatform.clsBrainActionContainer;
-import bw.entities.clsAnimate;
 import bw.utils.enums.eSensorExtType;
 import bw.utils.enums.eSensorIntType;
 
@@ -48,10 +44,14 @@ public class clsBrainSocket implements itfStepProcessing {
 	 */
 //	public void stepProcessing(clsAnimate poAnimate, clsBrainActionContainer poActionList) {
 	public clsBrainActionContainer stepProcessing() {
-		moDecisionUnit.update(convertSensorData());
-		clsActionCommands oDecisionUnitResult = moDecisionUnit.process();
+		if (moDecisionUnit != null) {
+			moDecisionUnit.update(convertSensorData());
+			clsActionCommands oDecisionUnitResult = moDecisionUnit.process();
 
-		return convertActionCommands(oDecisionUnitResult);	
+			return convertActionCommands(oDecisionUnitResult);
+		} else {
+			return new clsBrainActionContainer();
+		}
 	}
 	
 	private clsSensorData convertSensorData() {

@@ -44,13 +44,13 @@ public class clsInspectorMapping {
 	 */
 	public static Inspector getInspector(Inspector poSuperInspector, LocationWrapper poWrapper, GUIState poState, clsEntity poEntity)
 	{
-    	Inspector oRetVal;
+    	Inspector oRetVal = null;
     	
         if (poEntity == null) return null;
         
         //extend this if-statement with your new clsEntity-classes or inspectors
         if( poEntity instanceof clsBubble ) {
-        	oRetVal = new clsDumbBrainInspector(poSuperInspector, poWrapper, poState);
+//        	oRetVal = new clsDumbBrainInspector(poSuperInspector, poWrapper, poState);
         }
 //        else if (poEntity instanceof clsMyNewClass ) {
 //        	oRetVal = new clsMyNewInspector(poSuperInspector, poWrapper, poState);

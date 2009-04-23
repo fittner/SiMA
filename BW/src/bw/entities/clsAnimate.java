@@ -8,15 +8,10 @@
 package bw.entities;
 
 
-import java.util.ArrayList;
-
 import decisionunit.clsBaseDecisionUnit;
-
 import sim.physics2D.shape.Shape;
 import ARSsim.physics2D.util.clsPose;
 import bw.body.clsAgentBody;
-
-import bw.body.motionplatform.clsBrainAction;
 import bw.body.motionplatform.clsBrainActionContainer;
 
 

@@ -7,18 +7,13 @@
  */
 package bw.body;
 
-
-import java.util.ArrayList;
-
 import bw.body.brainsocket.clsBrainSocket;
 import bw.body.interBodyWorldSystems.clsInterBodyWorldSystem;
 import bw.body.internalSystems.clsInternalSystem;
 import bw.body.intraBodySystems.clsIntraBodySystem;
 import bw.body.io.clsExternalIO;
 import bw.body.io.clsInternalIO;
-import bw.body.motionplatform.clsBrainAction;
 import bw.body.motionplatform.clsBrainActionContainer;
-import bw.entities.clsAnimate;
 import bw.entities.clsEntity;
 
 /**
@@ -40,15 +35,15 @@ public class clsAgentBody implements itfStepSensing, itfStepUpdateInternalState,
 	/**
 	 * CTOR
 	 */
-	public clsAgentBody(clsEntity poEntity) {
-  	   moBrain = new clsBrainSocket(moExternalIO.moSensorExternal, moInternalIO.moSensorInternal);
-  	   
+	public clsAgentBody(clsEntity poEntity)  { 
 	   moInternalSystem = new clsInternalSystem();
 	   moIntraBodySystem = new clsIntraBodySystem(moInternalSystem);
 	   moInterBodyWorldSystem = new clsInterBodyWorldSystem(moInternalSystem);
 	   
 	   moExternalIO = new clsExternalIO(poEntity, this);
 	   moInternalIO = new clsInternalIO(this);
+	   
+  	   moBrain = new clsBrainSocket(moExternalIO.moSensorExternal, moInternalIO.moSensorInternal);
 	}
 	
 	
