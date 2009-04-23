@@ -7,15 +7,18 @@
  */
 package bw.body.brainsocket;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 
 import sim.physics2D.physicalObject.PhysicalObject2D;
 
 import decisionunit.clsBaseDecisionUnit;
+import decisionunit.itf.actions.clsActionCommandContainer;
 import decisionunit.itf.actions.clsActionCommands;
+import decisionunit.itf.actions.clsEatAction;
+import decisionunit.itf.actions.clsMotionAction;
 import decisionunit.itf.sensors.clsBump;
-import decisionunit.itf.sensors.clsDataBase;
 import decisionunit.itf.sensors.clsEatableArea;
 import decisionunit.itf.sensors.clsSensorData;
 import decisionunit.itf.sensors.clsVision;
@@ -32,13 +35,15 @@ import bw.body.io.sensors.external.clsSensorVision;
 import bw.body.io.sensors.internal.clsSensorInt;
 import bw.body.motionplatform.clsBrainActionContainer;
 import bw.entities.clsEntity;
+import bw.utils.enums.eActionCommandMotion;
+import bw.utils.enums.eActionCommandType;
 import bw.utils.enums.eSensorExtType;
 import bw.utils.enums.eSensorIntType;
 
 /**
  * The brain is the container for the mind and has a direct connection to external and internal IO.
  * Done: re-think if we insert a clsCerebellum for the neuroscientific perception-modules like R. Velik.
- * Answer: moSymbolization
+ * Answer: moSymbolization -> all done in another project
  * 
  * @author langr
  * 
@@ -62,7 +67,7 @@ public class clsBrainSocket implements itfStepProcessing {
 	public clsBrainActionContainer stepProcessing() {
 		if (moDecisionUnit != null) {
 			moDecisionUnit.update(convertSensorData());
-			clsActionCommands oDecisionUnitResult = moDecisionUnit.process();
+			clsActionCommandContainer oDecisionUnitResult = moDecisionUnit.process();
 
 			return convertActionCommands(oDecisionUnitResult);
 		} else {
@@ -70,6 +75,7 @@ public class clsBrainSocket implements itfStepProcessing {
 		}
 	}
 	
+	/* **************************************************** CONVERT SENSOR DATA *********************************************** */
 	private clsSensorData convertSensorData() {
 		clsSensorData oData = new clsSensorData();
 		
@@ -77,7 +83,7 @@ public class clsBrainSocket implements itfStepProcessing {
 		oData.addSensor(eSensorType.EATABLE_AREA, convertEatAbleAreaSensor() );
 		oData.addSensor(eSensorType.VISION, converVisionSensor() );
 		
-		return null;
+		return oData;
 	}
 	
 	private clsVision converVisionSensor() {
@@ -90,20 +96,27 @@ public class clsBrainSocket implements itfStepProcessing {
 			Integer oKey = i.next();
 			PhysicalObject2D visionObj = oVision.getViewObj().get(oKey);
 			ARSsim.physics2D.util.clsPolarcoordinate visionDir = oVision.getViewObjDir().get(oKey);
-			convertVisionEntry(visionObj, visionDir);
+			clsVisionEntry oEntry = convertVisionEntry(visionObj, visionDir);
+			if (oEntry != null) {
+			  oData.add(oEntry);
+			}
 		}
 		
 		return oData;
 	}
 
 	private clsVisionEntry convertVisionEntry(PhysicalObject2D visionObj, ARSsim.physics2D.util.clsPolarcoordinate visionDir) {
+		clsEntity oEntity = getEntity(visionObj);
+		if (oEntity == null) {
+			return null;
+		}
+
 		clsVisionEntry oData = new clsVisionEntry();
 		
 		oData.moEntityType = getEntityType(visionObj);		
 		oData.moPolarcoordinate = new clsPolarcoordinate(visionDir.mrLength, visionDir.moAzimuth.radians);
 		
-		clsEntity oEntity = getEntity(visionObj);
-		
+	
 		oData.moEntityId = oEntity.getId();
 		
 		// TODO Auto-generated method stub
@@ -115,16 +128,25 @@ public class clsBrainSocket implements itfStepProcessing {
 		
 		clsSensorEatableArea oEatableSensor = (clsSensorEatableArea) moSensorsExt.get(eSensorExtType.EATABLE_AREA);
 		
-		if (oEatableSensor.getViewObj() != null) {
+		Iterator<Integer> i = oEatableSensor.getViewObj().keySet().iterator();
+		
+		if (i.hasNext()) {
+			Integer oKey = i.next();
 			oData.mnNumEntitiesPresent = oEatableSensor.getViewObj().size();
-			oData.mnTypeOfFirstEntity = getEntityType( oEatableSensor.getViewObj().get(oEatableSensor.getViewObj().keySet().toArray()[0]) );
+			oData.mnTypeOfFirstEntity = getEntityType( oEatableSensor.getViewObj().get(oKey) );
 		}
 			
 		return oData;
 	}
 	
-	private  decisionunit.itf.sensors.eEntityType getEntityType(PhysicalObject2D poObject) {	
-		return convertEntityType( getEntity(poObject).getEntityType() );		
+	private  decisionunit.itf.sensors.eEntityType getEntityType(PhysicalObject2D poObject) {
+		clsEntity oEntity = getEntity(poObject);
+		
+		if (oEntity != null) {
+		  return convertEntityType( getEntity(poObject).getEntityType() );
+		} else {
+			return decisionunit.itf.sensors.eEntityType.UNDEFINED;
+		}
 	}
 	
 	private clsEntity getEntity(PhysicalObject2D poObject) {
@@ -166,11 +188,57 @@ public class clsBrainSocket implements itfStepProcessing {
 		return oData;
 	}
 
-	private clsBrainActionContainer convertActionCommands(clsActionCommands poCommands) {
-		return null;
+	/* **************************************************** CONVERT ACTION DATA *********************************************** */
+	private clsBrainActionContainer convertActionCommands(clsActionCommandContainer poCommands) {
+		clsBrainActionContainer oBrainActions = new clsBrainActionContainer();
+		
+		if (poCommands != null) {
+		  convertEatActions(oBrainActions, poCommands.getEatAction());
+		  convertMoveActions(oBrainActions, poCommands.getMoveAction());
+		}
+		
+		return oBrainActions;
 	}
 	
 	
+	private void convertMoveActions(clsBrainActionContainer brainActions, ArrayList<clsMotionAction> moveAction) {
+		for (clsMotionAction oAction: moveAction) {
+			bw.utils.enums.eActionCommandMotion eMotion = eActionCommandMotion.UNDEFINED;
+			
+			switch (oAction.meMotionType) {
+			   case UNDEFINED: eMotion = eActionCommandMotion.UNDEFINED;break;
+			   case MOVE_FORWARD: eMotion = eActionCommandMotion.MOVE_FORWARD;break;
+			   case MOVE_LEFT: eMotion = eActionCommandMotion.MOVE_LEFT;break;
+			   case MOVE_RIGHT: eMotion = eActionCommandMotion.MOVE_RIGHT;break;
+			   case MOVE_DIRECTION: eMotion = eActionCommandMotion.MOVE_DIRECTION;break;
+			   case MOVE_BACKWARD: eMotion = eActionCommandMotion.MOVE_BACKWARD;break;
+			   case ROTATE_LEFT: eMotion = eActionCommandMotion.ROTATE_LEFT;break;
+			   case ROTATE_RIGHT: eMotion = eActionCommandMotion.ROTATE_RIGHT;break;
+			   case RUN_FORWARD: eMotion = eActionCommandMotion.RUN_FORWARD;break;
+			   case JUMP: eMotion = eActionCommandMotion.JUMP;break;
+			}
+			bw.body.motionplatform.clsMotionAction oMotionAction = bw.body.motionplatform.clsMotionAction.creatAction(eMotion);
+			brainActions.addMoveAction(oMotionAction);
+		}
+	}
+
+	private void convertEatActions(clsBrainActionContainer brainActions, ArrayList<clsEatAction> eatAction) {
+		clsEntity oEntity = null;
+		clsSensorEatableArea oEatableSensor = (clsSensorEatableArea) moSensorsExt.get(eSensorExtType.EATABLE_AREA);
+		
+		Iterator<Integer> i = oEatableSensor.getViewObj().keySet().iterator();
+		
+		if (i.hasNext()) {
+			Integer oKey = i.next();
+			oEntity = getEntity( oEatableSensor.getViewObj().get(oKey) );
+		}
+		
+		for (@SuppressWarnings("unused") clsEatAction oAction: eatAction) {
+			bw.body.motionplatform.clsEatAction oEatAction = new bw.body.motionplatform.clsEatAction(eActionCommandType.EAT, oEntity);
+			brainActions.addEatAction(oEatAction);
+		}
+	}
+
 	/*************************************************
 	 *         GETTER & SETTER
 	 ************************************************/

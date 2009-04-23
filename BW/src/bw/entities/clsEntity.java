@@ -7,15 +7,12 @@
  */
 package bw.entities;
 
-import java.util.ArrayList;
 import sim.physics2D.physicalObject.PhysicalObject2D;
 import sim.physics2D.shape.Shape;
 import ARSsim.physics2D.physicalObject.itfSetupFunctions;
 import ARSsim.physics2D.util.clsPose;
 import bw.actionresponses.clsDefaultEntityActionResponse;
 import bw.actionresponses.clsEntityActionResponses;
-import bw.body.motionplatform.clsBrainAction;
-import bw.body.motionplatform.clsBrainActionContainer;
 import bw.utils.enums.eEntityType;
 
 /**
