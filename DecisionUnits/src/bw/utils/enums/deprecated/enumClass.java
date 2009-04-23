@@ -19,7 +19,6 @@
 package bw.utils.enums.deprecated;
 
 // Imports
-import bw.utils.datatypes.clsCloneable;
 
 /**
  *
@@ -32,7 +31,7 @@ import bw.utils.datatypes.clsCloneable;
  * $Date: 2009-01-27 19:59:35 +0100 (Di, 27 Jän 2009) $: Date of last commit
  *
  */
-abstract class enumClass extends clsCloneable {
+abstract class enumClass  {
   public final static int TENUM_UNDEFINED    = Integer.MIN_VALUE;
 
   /** 
