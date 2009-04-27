@@ -8,11 +8,8 @@
  */
 package simple.dumbmind;
 
-import java.util.Iterator;
-
 import decisionunit.clsBaseDecisionUnit;
 import decisionunit.itf.actions.clsActionCommandContainer;
-import decisionunit.itf.actions.clsActionCommands;
 import decisionunit.itf.actions.clsMotionAction;
 import decisionunit.itf.actions.eActionCommandMotion;
 
