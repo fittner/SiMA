@@ -11,7 +11,7 @@ package simple.dumbmind;
 import decisionunit.clsBaseDecisionUnit;
 import decisionunit.itf.actions.clsActionCommandContainer;
 import decisionunit.itf.actions.clsMotionAction;
-import decisionunit.itf.actions.eActionCommandMotion;
+import enums.eActionCommandMotion;
 
 //import sim.physics2D.physicalObject.PhysicalObject2D;
 //import sim.physics2D.util.Double2D;
