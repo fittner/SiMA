@@ -38,6 +38,7 @@ import bw.body.motionplatform.clsBrainActionContainer;
 import bw.entities.clsEntity;
 import enums.eActionCommandMotion;
 import enums.eActionCommandType;
+import enums.eEntityType;
 import enums.eSensorExtType;
 
 /**
@@ -130,10 +131,14 @@ public class clsBrainSocket implements itfStepProcessing {
 		
 		Iterator<Integer> i = oEatableSensor.getViewObj().keySet().iterator();
 		
-		if (i.hasNext()) {
+		while (i.hasNext()) {
 			Integer oKey = i.next();
 			oData.mnNumEntitiesPresent = oEatableSensor.getViewObj().size();
 			oData.mnTypeOfFirstEntity = getEntityType( oEatableSensor.getViewObj().get(oKey) );
+			
+			if (oData.mnTypeOfFirstEntity != eEntityType.UNDEFINED) {
+				break;
+			}
 		}
 			
 		return oData;

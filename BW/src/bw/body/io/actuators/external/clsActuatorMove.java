@@ -88,7 +88,7 @@ public class clsActuatorMove extends clsActuatorExt implements itfActuatorUpdate
 		}
 		catch( Exception ex )
 		{
-			System.out.println(ex.getMessage());
+			System.out.println("updateActuatorData:"+ex.getMessage());
 		}
 		
 	}

@@ -80,7 +80,9 @@ public class clsSensorVision extends clsSensorExt
 		mnVisRange = pnVisRange; 
 		
 		moCollidingObj = new HashMap<Integer, PhysicalObject2D>();
-		moViewObj = new HashMap<Integer, PhysicalObject2D>(); 
+		moViewObj = new HashMap<Integer, PhysicalObject2D>();
+		moViewObjDir = new HashMap<Integer, clsPolarcoordinate>();
+		
 		moCollisionPoint = new HashMap<Integer, Double2D>(); 
 		moVisionArea = new clsEntityPartVision(poEntity, mnVisRange, pnRadiusOffsetVisionArea);
 		
@@ -122,7 +124,7 @@ public class clsSensorVision extends clsSensorExt
 		}
 		catch( Exception ex )
 		{
-			System.out.println(ex.getMessage());
+			System.out.println("regVisionObjWithParams:"+ex.getMessage());
 		}
 	}
 
@@ -139,7 +141,7 @@ public class clsSensorVision extends clsSensorExt
 		if(moCollidingObj.size()>0)
 		 {
 			moViewObj.clear(); 
-			try{			
+//			try{			
 				Iterator<PhysicalObject2D> itr = moCollidingObj.values().iterator(); 			
 				while(itr.hasNext())
 				{
@@ -148,13 +150,17 @@ public class clsSensorVision extends clsSensorExt
 					
 					if(!moViewObj.containsKey(oPhObj.getIndex()) && getInView(oRel.moAzimuth.radians)){
 						addViewObj(oPhObj, oPhObj.getIndex()); 
-						oRel.moAzimuth = oRel.moAzimuth.add(-moVisionArea.getOrientation().radians);
+						oRel.rotateBy(moVisionArea.getOrientation(), true);
+						try {
 						addViewObjDir(oRel, oPhObj.getIndex());
+						} catch (Exception e) {
+							System.out.println(e);
+						}
 					}
 			     }
-			} catch(Exception ex){
-				System.out.println(ex.getMessage());
-			}
+//			} catch(Exception ex){
+//				System.out.println("calcViewObj:"+ex.getMessage());
+//			}
 		 }
 	}
 	
