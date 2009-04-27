@@ -2,22 +2,22 @@ package decisionunit.itf.sensors;
 
 import java.util.HashMap;
 
-import enums.eSensorType;
+import enums.eSensorExtType;
 
 
 
 public class clsSensorData {
-	private HashMap<eSensorType, clsDataBase> moSensorData;
+	private HashMap<eSensorExtType, clsDataBase> moSensorData;
 	
 	public clsSensorData() {
-		moSensorData = new HashMap<eSensorType, clsDataBase>();
+		moSensorData = new HashMap<eSensorExtType, clsDataBase>();
 	}
 	
-	public void addSensor(eSensorType pnType, clsDataBase poData) {
+	public void addSensor(eSensorExtType pnType, clsDataBase poData) {
 		moSensorData.put(pnType, poData);
 	}
 	
-	public clsDataBase getSensor(eSensorType pnType) {
+	public clsDataBase getSensor(eSensorExtType pnType) {
 		return moSensorData.get(pnType);
 	}
 }

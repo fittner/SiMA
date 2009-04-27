@@ -3,17 +3,19 @@ package enums;
 public enum eEntityType {
 
 	UNDEFINED,
-	CAN,
-	BUBBLE,
-	CAKE,
-	PLANT,
-	REMOTEBOT,
-	STONE,
-	WALL,
 
-
+	//ANIMATES
 	ANIMAL,
 	BOT,
+	BUBBLE,
+	PLANT,
+	REMOTEBOT,
+	
+	//INANIMATE
+	CAN,
+	CAKE,
+	STONE,
+	WALL,
 	FOOD	
 }
 

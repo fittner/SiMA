@@ -1,6 +1,7 @@
 package enums;
 
-public enum eSensorType {
+public enum eSensorExtType {
+	UNDEFINED,
 	ACCELERATION,
 	ACOUSTIC,
 	BUMP,
