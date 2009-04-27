@@ -1,5 +1,7 @@
 package ARSsim.physics2D.util;
 
+import java.text.NumberFormat;
+
 import sim.physics2D.util.Angle;
 import sim.physics2D.util.Double2D;
 
@@ -62,5 +64,12 @@ public class clsPose {
 	 */
 	public sim.physics2D.util.Angle getAngle() {
 		return moAngle;
+	}
+	
+	public String toString() {
+	    NumberFormat nf = java.text.NumberFormat.getInstance( );
+	    nf.setMinimumFractionDigits( 1 );
+	    nf.setMaximumFractionDigits( 3 );
+		return "[x:"+nf.format(moPosition.x)+"/y:"+nf.format(moPosition.y)+"|a:"+nf.format(moAngle.radians)+"]";
 	}
 }
