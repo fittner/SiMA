@@ -6,5 +6,6 @@
 	<classpathentry combineaccessrules="false" kind="src" path="/DecisionUnitInterface"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/Mason"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/MasonPhysics2D"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/DecisionUnits"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
