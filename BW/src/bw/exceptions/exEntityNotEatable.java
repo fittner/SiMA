@@ -7,7 +7,7 @@
  */
 package bw.exceptions;
 
-import bw.utils.enums.eEntityType;
+import enums.eEntityType;
 
 /**
  * Exceptions used by sensors and actuators, for Information if a object is eatable poisned etc.

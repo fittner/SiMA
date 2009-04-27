@@ -13,7 +13,7 @@ import ARSsim.physics2D.physicalObject.itfSetupFunctions;
 import ARSsim.physics2D.util.clsPose;
 import bw.actionresponses.clsDefaultEntityActionResponse;
 import bw.actionresponses.clsEntityActionResponses;
-import bw.utils.enums.eEntityType;
+import enums.eEntityType;
 
 /**
  * Entity is the baseclass of any object in the BubbleWorld.

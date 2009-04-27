@@ -8,8 +8,8 @@
 package bw.body.motionplatform;
 
 import sim.physics2D.util.Angle;
-import bw.utils.enums.eActionCommandMotion;
-import bw.utils.enums.eActionCommandType;
+import enums.eActionCommandMotion;
+import enums.eActionCommandType;
 
 /**
  * message class to send a motion action from the brains thinking-cycle

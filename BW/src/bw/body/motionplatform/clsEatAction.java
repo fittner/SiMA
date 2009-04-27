@@ -7,8 +7,8 @@
  */
 package bw.body.motionplatform;
 
+import enums.eActionCommandType;
 import bw.entities.clsEntity;
-import bw.utils.enums.eActionCommandType;
 
 /**
  * message class to send a motion action from the brains thinking-cycle

@@ -10,13 +10,14 @@ package bw.body.io;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import enums.eSensorIntType;
+
 import bw.body.clsAgentBody;
 import bw.body.io.sensors.external.clsSensorExt;
 import bw.body.io.sensors.internal.clsSensorInt;
 import bw.body.motionplatform.clsBrainAction;
 import bw.body.motionplatform.clsBrainActionContainer;
-import bw.utils.enums.eSensorExtType;
-import bw.utils.enums.eSensorIntType;
+import enums.eSensorExtType;
 
 /**
  * TODO (deutsch) - insert description 

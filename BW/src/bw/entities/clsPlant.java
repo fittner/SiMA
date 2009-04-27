@@ -13,7 +13,7 @@ import java.util.ArrayList;
 import ARSsim.physics2D.util.clsPose;
 import bw.body.motionplatform.clsBrainAction;
 import bw.body.motionplatform.clsBrainActionContainer;
-import bw.utils.enums.eEntityType;
+import enums.eEntityType;
 
 /**
  * An instance of the mobile object clsAnimate that can:

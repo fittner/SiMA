@@ -16,7 +16,7 @@ import bw.body.io.sensors.external.clsSensorEatableArea;
 import bw.body.io.sensors.external.clsSensorVision;
 import ARSsim.physics2D.util.clsPose;
 import bw.physicalObjects.sensors.clsEntityPartVision;
-import bw.utils.enums.eEntityType;
+import enums.eEntityType;
 
 import simple.dumbmind.clsDumbMindA;
 //import tstBw.*;
@@ -103,7 +103,7 @@ public class clsBubble extends clsAnimate {
 	{
 		return ((clsSensorVision)this.moAgentBody
 					.getExternalIO().moSensorExternal
-					.get(bw.utils.enums.eSensorExtType.VISION)).getMoVisionArea(); 
+					.get(enums.eSensorExtType.VISION)).getMoVisionArea(); 
 	}
 	
 		
@@ -111,7 +111,7 @@ public class clsBubble extends clsAnimate {
 	{
 		return ((clsSensorEatableArea)this.moAgentBody
 					.getExternalIO().moSensorExternal
-					.get(bw.utils.enums.eSensorExtType.EATABLE_AREA)).getMoVisionArea(); 
+					.get(enums.eSensorExtType.EATABLE_AREA)).getMoVisionArea(); 
 	}
 	
 }

@@ -10,6 +10,8 @@ package bw.body.io;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import enums.eActuatorExtType;
+
 import sim.physics2D.util.Double2D;
 
 import bw.body.clsAgentBody;
@@ -19,8 +21,7 @@ import bw.body.motionplatform.clsBrainAction;
 import bw.body.motionplatform.clsBrainActionContainer;
 import bw.entities.clsAnimate;
 import bw.entities.clsEntity;
-import bw.utils.enums.eActuatorExtType;
-import bw.utils.enums.eSensorExtType;
+import enums.eSensorExtType;
 
 /**
  * TODO (langr) - THIS CLASS NEEDS A REFACTORING - reason: not every

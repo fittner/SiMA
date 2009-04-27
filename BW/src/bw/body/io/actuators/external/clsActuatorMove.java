@@ -19,7 +19,7 @@ import bw.body.motionplatform.clsBrainActionContainer;
 import bw.body.motionplatform.clsMotionAction;
 import bw.entities.clsEntity;
 import bw.entities.clsMobile;
-import bw.utils.enums.eActionCommandType;
+import enums.eActionCommandType;
 
 /**
  * class is the interface that communicates to clsMotionPlatform to let our entity move.

@@ -23,7 +23,8 @@ import decisionunit.itf.sensors.clsEatableArea;
 import decisionunit.itf.sensors.clsSensorData;
 import decisionunit.itf.sensors.clsVision;
 import decisionunit.itf.sensors.clsVisionEntry;
-import enums.eSensorType;
+import enums.eSensorIntType;
+import enums.eSensorExtType;
 import ARSsim.physics2D.physicalObject.clsMobileObject2D;
 import ARSsim.physics2D.physicalObject.clsStationaryObject2D;
 import bfg.tools.shapes.clsPolarcoordinate;
@@ -35,10 +36,9 @@ import bw.body.io.sensors.external.clsSensorVision;
 import bw.body.io.sensors.internal.clsSensorInt;
 import bw.body.motionplatform.clsBrainActionContainer;
 import bw.entities.clsEntity;
-import bw.utils.enums.eActionCommandMotion;
-import bw.utils.enums.eActionCommandType;
-import bw.utils.enums.eSensorExtType;
-import bw.utils.enums.eSensorIntType;
+import enums.eActionCommandMotion;
+import enums.eActionCommandType;
+import enums.eSensorExtType;
 
 /**
  * The brain is the container for the mind and has a direct connection to external and internal IO.
@@ -79,9 +79,9 @@ public class clsBrainSocket implements itfStepProcessing {
 	private clsSensorData convertSensorData() {
 		clsSensorData oData = new clsSensorData();
 		
-		oData.addSensor(eSensorType.BUMP, convertBumpSensor() );
-		oData.addSensor(eSensorType.EATABLE_AREA, convertEatAbleAreaSensor() );
-		oData.addSensor(eSensorType.VISION, converVisionSensor() );
+		oData.addSensor(eSensorExtType.BUMP, convertBumpSensor() );
+		oData.addSensor(eSensorExtType.EATABLE_AREA, convertEatAbleAreaSensor() );
+		oData.addSensor(eSensorExtType.VISION, converVisionSensor() );
 		
 		return oData;
 	}
@@ -143,7 +143,7 @@ public class clsBrainSocket implements itfStepProcessing {
 		clsEntity oEntity = getEntity(poObject);
 		
 		if (oEntity != null) {
-		  return convertEntityType( getEntity(poObject).getEntityType() );
+		  return getEntity(poObject).getEntityType();
 		} else {
 			return enums.eEntityType.UNDEFINED;
 		}
@@ -161,23 +161,6 @@ public class clsBrainSocket implements itfStepProcessing {
 		return oResult;
 	}
 	
-	private enums.eEntityType convertEntityType(bw.utils.enums.eEntityType peType) {
-		enums.eEntityType eResult = enums.eEntityType.UNDEFINED;
-		switch(peType) {
-			case ANIMAL: eResult = enums.eEntityType.ANIMAL; break;
-			case BOT: eResult = enums.eEntityType.BOT; break;
-			case BUBBLE: eResult = enums.eEntityType.BUBBLE; break;
-			case PLANT: eResult = enums.eEntityType.PLANT; break;
-			case REMOTEBOT: eResult = enums.eEntityType.REMOTEBOT; break;
-			case CAN: eResult = enums.eEntityType.CAN; break;
-			case CAKE: eResult = enums.eEntityType.CAKE; break;
-			case STONE: eResult = enums.eEntityType.STONE; break;
-			case WALL: eResult = enums.eEntityType.WALL; break;
-			case FOOD: eResult = enums.eEntityType.FOOD; break;
-		}
-
-		return eResult;
-	}
 
 	private clsBump convertBumpSensor() {
 		clsBump oData = new clsBump();
@@ -203,21 +186,7 @@ public class clsBrainSocket implements itfStepProcessing {
 	
 	private void convertMoveActions(clsBrainActionContainer brainActions, ArrayList<clsMotionAction> moveAction) {
 		for (clsMotionAction oAction: moveAction) {
-			bw.utils.enums.eActionCommandMotion eMotion = eActionCommandMotion.UNDEFINED;
-			
-			switch (oAction.meMotionType) {
-			   case UNDEFINED: eMotion = eActionCommandMotion.UNDEFINED;break;
-			   case MOVE_FORWARD: eMotion = eActionCommandMotion.MOVE_FORWARD;break;
-			   case MOVE_LEFT: eMotion = eActionCommandMotion.MOVE_LEFT;break;
-			   case MOVE_RIGHT: eMotion = eActionCommandMotion.MOVE_RIGHT;break;
-			   case MOVE_DIRECTION: eMotion = eActionCommandMotion.MOVE_DIRECTION;break;
-			   case MOVE_BACKWARD: eMotion = eActionCommandMotion.MOVE_BACKWARD;break;
-			   case ROTATE_LEFT: eMotion = eActionCommandMotion.ROTATE_LEFT;break;
-			   case ROTATE_RIGHT: eMotion = eActionCommandMotion.ROTATE_RIGHT;break;
-			   case RUN_FORWARD: eMotion = eActionCommandMotion.RUN_FORWARD;break;
-			   case JUMP: eMotion = eActionCommandMotion.JUMP;break;
-			}
-			bw.body.motionplatform.clsMotionAction oMotionAction = bw.body.motionplatform.clsMotionAction.creatAction(eMotion);
+			bw.body.motionplatform.clsMotionAction oMotionAction = bw.body.motionplatform.clsMotionAction.creatAction(oAction.meMotionType);
 			brainActions.addMoveAction(oMotionAction);
 		}
 	}

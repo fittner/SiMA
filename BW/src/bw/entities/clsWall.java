@@ -9,7 +9,7 @@ package bw.entities;
 
 import java.awt.Color;
 import ARSsim.physics2D.util.clsPose;
-import bw.utils.enums.eEntityType;
+import enums.eEntityType;
 
 
 /**

@@ -7,7 +7,7 @@
  */
 package bw.body.motionplatform;
 
-import bw.utils.enums.eActionCommandType;
+import enums.eActionCommandType;
 
 /**
  * Base class for all brain actions 
