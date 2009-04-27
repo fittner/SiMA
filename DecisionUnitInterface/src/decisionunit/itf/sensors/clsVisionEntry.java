@@ -5,7 +5,7 @@ import bfg.tools.shapes.clsPolarcoordinate;
 
 public class clsVisionEntry {
 	public clsPolarcoordinate moPolarcoordinate = new clsPolarcoordinate();
-	public eEntityType moEntityType = eEntityType.UNDEFINED;
+	public eEntityType mnEntityType = eEntityType.UNDEFINED;
 	public int moEntityId = -1;
 //	public eShapeType moShapeType = eShapeType.UNDEFINED;
 	//	public double mrWidth = -1;
