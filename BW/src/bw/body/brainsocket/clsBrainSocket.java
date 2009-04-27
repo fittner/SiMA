@@ -23,7 +23,7 @@ import decisionunit.itf.sensors.clsEatableArea;
 import decisionunit.itf.sensors.clsSensorData;
 import decisionunit.itf.sensors.clsVision;
 import decisionunit.itf.sensors.clsVisionEntry;
-import decisionunit.itf.sensors.eSensorType;
+import enums.eSensorType;
 import ARSsim.physics2D.physicalObject.clsMobileObject2D;
 import ARSsim.physics2D.physicalObject.clsStationaryObject2D;
 import bfg.tools.shapes.clsPolarcoordinate;
@@ -139,13 +139,13 @@ public class clsBrainSocket implements itfStepProcessing {
 		return oData;
 	}
 	
-	private  decisionunit.itf.sensors.eEntityType getEntityType(PhysicalObject2D poObject) {
+	private  enums.eEntityType getEntityType(PhysicalObject2D poObject) {
 		clsEntity oEntity = getEntity(poObject);
 		
 		if (oEntity != null) {
 		  return convertEntityType( getEntity(poObject).getEntityType() );
 		} else {
-			return decisionunit.itf.sensors.eEntityType.UNDEFINED;
+			return enums.eEntityType.UNDEFINED;
 		}
 	}
 	
@@ -161,19 +161,19 @@ public class clsBrainSocket implements itfStepProcessing {
 		return oResult;
 	}
 	
-	private decisionunit.itf.sensors.eEntityType convertEntityType(bw.utils.enums.eEntityType peType) {
-		decisionunit.itf.sensors.eEntityType eResult = decisionunit.itf.sensors.eEntityType.UNDEFINED;
+	private enums.eEntityType convertEntityType(bw.utils.enums.eEntityType peType) {
+		enums.eEntityType eResult = enums.eEntityType.UNDEFINED;
 		switch(peType) {
-			case ANIMAL: eResult = decisionunit.itf.sensors.eEntityType.ANIMAL; break;
-			case BOT: eResult = decisionunit.itf.sensors.eEntityType.BOT; break;
-			case BUBBLE: eResult = decisionunit.itf.sensors.eEntityType.BUBBLE; break;
-			case PLANT: eResult = decisionunit.itf.sensors.eEntityType.PLANT; break;
-			case REMOTEBOT: eResult = decisionunit.itf.sensors.eEntityType.REMOTEBOT; break;
-			case CAN: eResult = decisionunit.itf.sensors.eEntityType.CAN; break;
-			case CAKE: eResult = decisionunit.itf.sensors.eEntityType.CAKE; break;
-			case STONE: eResult = decisionunit.itf.sensors.eEntityType.STONE; break;
-			case WALL: eResult = decisionunit.itf.sensors.eEntityType.WALL; break;
-			case FOOD: eResult = decisionunit.itf.sensors.eEntityType.FOOD; break;
+			case ANIMAL: eResult = enums.eEntityType.ANIMAL; break;
+			case BOT: eResult = enums.eEntityType.BOT; break;
+			case BUBBLE: eResult = enums.eEntityType.BUBBLE; break;
+			case PLANT: eResult = enums.eEntityType.PLANT; break;
+			case REMOTEBOT: eResult = enums.eEntityType.REMOTEBOT; break;
+			case CAN: eResult = enums.eEntityType.CAN; break;
+			case CAKE: eResult = enums.eEntityType.CAKE; break;
+			case STONE: eResult = enums.eEntityType.STONE; break;
+			case WALL: eResult = enums.eEntityType.WALL; break;
+			case FOOD: eResult = enums.eEntityType.FOOD; break;
 		}
 
 		return eResult;
