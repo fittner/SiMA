@@ -5,7 +5,7 @@
  * $Author::                   $: Author of last commit
  * $Date::                     $: Date of last commit
  */
-package decisionunit.itf.actions;
+package enums;
 
 /**
  * Brain action command types for motion 

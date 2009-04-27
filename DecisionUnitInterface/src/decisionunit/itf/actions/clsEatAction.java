@@ -8,7 +8,7 @@
 package decisionunit.itf.actions;
 
 
-import decisionunit.itf.actions.eActionCommandType;
+import enums.eActionCommandType;
 
 /**
  * message class to send a eat action from the brains thinking-cycle

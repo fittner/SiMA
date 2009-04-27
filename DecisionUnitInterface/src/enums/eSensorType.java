@@ -1,4 +1,4 @@
-package decisionunit.itf.sensors;
+package enums;
 
 public enum eSensorType {
 	ACCELERATION,

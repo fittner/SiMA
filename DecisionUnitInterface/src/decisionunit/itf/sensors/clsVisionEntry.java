@@ -1,5 +1,6 @@
 package decisionunit.itf.sensors;
 
+import enums.eEntityType;
 import bfg.tools.shapes.clsPolarcoordinate;
 
 public class clsVisionEntry {

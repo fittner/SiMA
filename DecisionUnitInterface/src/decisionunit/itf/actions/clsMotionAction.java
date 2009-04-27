@@ -8,7 +8,8 @@
 package decisionunit.itf.actions;
 
 import bfg.tools.shapes.clsAngle;
-import decisionunit.itf.actions.eActionCommandMotion;
+import enums.eActionCommandMotion;
+import enums.eActionCommandType;
 
 
 /**

@@ -7,7 +7,7 @@
  */
 package decisionunit.itf.actions;
 
-import decisionunit.itf.actions.eActionCommandType;
+import enums.eActionCommandType;
 
 /**
  * Base class for all brain actions 

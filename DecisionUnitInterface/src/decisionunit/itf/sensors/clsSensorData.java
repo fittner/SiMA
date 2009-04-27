@@ -2,6 +2,8 @@ package decisionunit.itf.sensors;
 
 import java.util.HashMap;
 
+import enums.eSensorType;
+
 
 
 public class clsSensorData {
