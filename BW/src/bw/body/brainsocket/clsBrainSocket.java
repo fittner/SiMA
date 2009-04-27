@@ -113,7 +113,7 @@ public class clsBrainSocket implements itfStepProcessing {
 
 		clsVisionEntry oData = new clsVisionEntry();
 		
-		oData.moEntityType = getEntityType(visionObj);		
+		oData.mnEntityType = getEntityType(visionObj);		
 		oData.moPolarcoordinate = new clsPolarcoordinate(visionDir.mrLength, visionDir.moAzimuth.radians);
 		
 	

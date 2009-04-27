@@ -8,6 +8,8 @@
  */
 package ARSsim.physics2D.util;
 
+import java.text.NumberFormat;
+
 import sim.physics2D.util.Angle;
 import sim.physics2D.util.Double2D;
 
@@ -54,11 +56,23 @@ public class clsPolarcoordinate {
 	  
 
 	  public String toString() {
-	    return "clsPolarcoordinate["+mrLength+"/"+moAzimuth.radians+"]";
+		    NumberFormat nf = java.text.NumberFormat.getInstance( );
+		    nf.setMinimumFractionDigits( 1 );
+		    nf.setMaximumFractionDigits( 3 );		  
+	    return "[r:"+nf.format(mrLength)+"|a:"+nf.format(moAzimuth.radians)+"]";
 	  }
 
 
 	  public void rotateBy(Angle poAngle) {
-	    moAzimuth.add(poAngle);
+		  moAzimuth = moAzimuth.add(poAngle);
+	  }
+	  
+	  public void rotateBy(Angle poAngle, boolean pnInvertSign) {
+		  if (pnInvertSign) {
+			  moAzimuth = moAzimuth.add(-poAngle.radians);			  
+		  } else {
+			  rotateBy(poAngle);
+		  }
+
 	  }
 }

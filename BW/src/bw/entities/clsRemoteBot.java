@@ -50,7 +50,6 @@ public class clsRemoteBot extends clsAnimate  {
 
 //	private Array moCapturedKeys;
 
-	private String moTemp = "";
 	/**
 	 * TODO (deutsch) - insert description 
 	 * 
@@ -142,15 +141,6 @@ public class clsRemoteBot extends clsAnimate  {
 	public void processing() {
 		moActionList.clearAll();
 
-		if (moTemp.length() > 0) {
-			System.out.print("...");
-		}
-		
-		if (clsKeyListener.getKeyPressed() != 0) {
-			moTemp += clsKeyListener.getKeyPressed()+"; ";
-		}
-		
-		
 		//the processing is taken over by the user via keyboard
 		
 	   	switch( clsKeyListener.getKeyPressed() )
@@ -237,11 +227,11 @@ public class clsRemoteBot extends clsAnimate  {
 
 	public void execution() {
 		super.execution();
-		
+/*		
 		if (moTemp.length() > 0) {
-	      System.out.println(mnUniqueId+": "+moTemp);
+	      // System.out.println(mnUniqueId+": "+moTemp);
 	      moTemp = "";
 		}
-
+*/
 	}
 }

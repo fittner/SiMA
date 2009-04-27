@@ -147,7 +147,8 @@ public class clsSensorVision extends clsSensorExt
 					clsPolarcoordinate oRel = getRelPos(moCollisionPoint.get(oPhObj.getIndex())); 
 					
 					if(!moViewObj.containsKey(oPhObj.getIndex()) && getInView(oRel.moAzimuth.radians)){
-						addViewObj(oPhObj); 
+						addViewObj(oPhObj, oPhObj.getIndex()); 
+						oRel.moAzimuth = oRel.moAzimuth.add(-moVisionArea.getOrientation().radians);
 						addViewObjDir(oRel, oPhObj.getIndex());
 					}
 			     }
@@ -263,8 +264,8 @@ public class clsSensorVision extends clsSensorExt
 	 *
 	 * @param pPhObj
 	 */
-	public void addViewObj(PhysicalObject2D pPhObj)	{
-		moViewObj.put(pPhObj.getIndex(),pPhObj);
+	public void addViewObj(PhysicalObject2D pPhObj, int index)	{
+		moViewObj.put(index,pPhObj);
 	}
 	
 	/**

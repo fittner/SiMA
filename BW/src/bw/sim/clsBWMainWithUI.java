@@ -75,6 +75,7 @@ public class clsBWMainWithUI extends GUIState{
         }
 
         private void dumpInfo(String s, KeyEvent e) {
+/*        	
           System.out.println(s);
           int code = e.getKeyCode();
           System.out.println("\tCode: " + KeyEvent.getKeyText(code));
@@ -85,6 +86,7 @@ public class clsBWMainWithUI extends GUIState{
           System.out.println("\tLocation: "
               + location(e.getKeyLocation()));
           System.out.println("\tAction? " + e.isActionKey());
+*/          
         }
 
         private String location(int location) {

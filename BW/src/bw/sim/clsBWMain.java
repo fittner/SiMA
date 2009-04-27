@@ -73,8 +73,8 @@ public class clsBWMain extends SimState{
 	{
 		super.start();
 		//creating and registering objects...
-//		clsLoader oLoader = new clsSimpleLoader(this, 200, 200, 1, 2, 5, 3, 1);
-		clsLoader oLoader = new clsSimpleLoader(this, 200, 200, 0, 1, 0, 0, 0);
+		clsLoader oLoader = new clsSimpleLoader(this, 200, 200, 1, 2, 5, 3, 1);
+//		clsLoader oLoader = new clsSimpleLoader(this, 200, 200, 0, 1, 0, 0, 1);
 //		clsLoader oLoader = new clsSimpleXMLLoader(this, bw.sim.clsBWMain.msArsPath + "/src/xml/xmlSimpleXMLLoader/config1.xml");
 		oLoader.loadObjects();
 		

@@ -3,6 +3,8 @@
  */
 package ARSsim.physics2D.physicalObject;
 
+import inspectors.clsInspectorMapping;
+
 import java.util.ArrayList;
 
 import sim.display.GUIState;
@@ -15,11 +17,11 @@ import sim.portrayal.Inspector;
 import sim.portrayal.LocationWrapper;
 import ARSsim.motionplatform.clsMotionPlatform;
 import ARSsim.physics2D.util.clsPose;
+import bw.entities.clsAnimate;
 import bw.entities.clsEntity;
 import bw.factories.clsSingletonMasonGetter;
 import bw.factories.clsSingletonUniqueIdGenerator;
 import bw.physicalObjects.sensors.clsEntityPartVision;
-import bw.utils.inspectors.clsInspectorMapping;
 
 /**
  * Our representative of the mason physics class
@@ -228,7 +230,9 @@ public class clsMobileObject2D extends sim.physics2D.physicalObject.MobileObject
     	
     	if( moMasonInspector == null)
     	{
-    		moMasonInspector = clsInspectorMapping.getInspector(super.getInspector(wrapper,state), wrapper, state, moEntity);
+    		if (moEntity instanceof clsAnimate) {
+    		  moMasonInspector = clsInspectorMapping.getInspector(super.getInspector(wrapper,state), wrapper, state, ((clsAnimate)moEntity).getAgentBody().getBrain().getDecisionUnit());
+    		}
     	}
     	return moMasonInspector;
     }
