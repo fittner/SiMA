@@ -19,7 +19,13 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 
 import bfg.symbolization.brainimages.clsContainerAbstractImages;
+import bfg.symbolization.brainimages.clsContainerPerceptions;
+import bfg.symbolization.brainimages.clsIdentity;
 import bfg.symbolization.brainimages.clsImageAbstract;
+import bfg.symbolization.brainimages.clsImagePerception;
+import bfg.symbolization.brainimages.clsPerceptionVisionEntity;
+import bfg.tools.cls0to1;
+import bfg.tools.shapes.clsPoint;
 import bfg.tools.xmltools.clsXMLConfiguration;
 
 /**
@@ -32,7 +38,7 @@ import bfg.tools.xmltools.clsXMLConfiguration;
 public class tssImageAbstract {
 
 	
-	clsImageAbstract moTestImage;
+	clsContainerAbstractImages moTestImages;
 	
 	/**
 	 * Test method for {@link bfg.symbolization.brainimages.clsImageAbstract#createImageAbstractList(java.util.Vector, int)}.
@@ -42,10 +48,45 @@ public class tssImageAbstract {
 		
 		Vector<String> oFilePaths = new Vector<String>(); 
 		oFilePaths.add("PSY_10");
-		clsContainerAbstractImages oImages = moTestImage.createImageAbstractList(oFilePaths, 1);
+		clsContainerAbstractImages moTestImages = clsImageAbstract.createImageAbstractList(oFilePaths, 1);
 		
-		assertTrue(oImages.moAbstractImageList.size() > 0);
+		assertTrue(moTestImages.moAbstractImageList.size() > 0);
 	}
+	
+	/**
+	 * Test method for {@link bfg.symbolization.brainimages.clsImageAbstract#createImageAbstractList(java.util.Vector, int)}.
+	 */
+	@Test
+	public void testEvaluateTree() {
+		
+		cls0to1 oMatch = new cls0to1();
+		
+		clsContainerPerceptions oPercCont = new clsContainerPerceptions(); 
+		clsImagePerception oPerception = new clsImagePerception();
+		
+		Vector<String> oFilePaths = new Vector<String>(); 
+		oFilePaths.add("PSY_10");
+		clsContainerAbstractImages moTestImages = clsImageAbstract.createImageAbstractList(oFilePaths, 1);
+		
+		
+		//add bump info
+		oPerception.moBumped.set(true);
+		
+		//add vision info (agent at 10/10)
+		clsPerceptionVisionEntity oVision = new clsPerceptionVisionEntity(new clsPoint(10, 10), 1, 1, true, false, 0);
+		oPerception.moVisionEntitiesList.moEntities.add(oVision);
+		
+		oPercCont.moPerceptions.add(oPerception);
+		try
+		{
+			oMatch = moTestImages.moAbstractImageList.get(105).evaluateTree(oPerception, oPercCont, new clsIdentity());
+		}catch(Exception e)
+		{
+			e.getMessage();
+		}
+		
+		assertTrue( (oMatch.get() > 0.1) );
+}
 	
 //	/**
 //	 * Test method for {@link bfg.symbolization.brainimages.clsImageAbstract#clsImageAbstract(int, java.lang.String, java.lang.String)}.
@@ -56,7 +97,7 @@ public class tssImageAbstract {
 //	}
 
 	/**
-	 * TODO (langr) - insert description
+	 * configuration for xml-loader
 	 *
 	 * @author langr
 	 * 22.04.2009, 10:39:13

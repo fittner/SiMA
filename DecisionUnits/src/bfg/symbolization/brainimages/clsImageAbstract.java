@@ -10,6 +10,7 @@ import java.util.Vector;
 import org.w3c.dom.Node;
 import org.w3c.dom.NamedNodeMap;
 
+import bfg.tools.cls0to1;
 import bfg.tools.xmltools.XMLException;
 import bfg.tools.xmltools.clsXMLConfiguration;
 import bfg.tools.xmltools.clsXMLAbstractImageReader;
@@ -185,40 +186,40 @@ public class clsImageAbstract // extends clsImageGeneric //uncommented at import
     return oResult;
   }
 
-//  //---------------------------------------------------------------------------
-//  public cls0to1 evaluateTree(clsImagePerception poImagePerception, clsContainerComplexEmotion poBrainsComplexEmotions, clsContainerPerceptions poBrainsPerceptions, clsIdentity poBrainsIdentity) 
-//  //---------------------------------------------------------------------------
-//  {
-//     Engine.log.println( "Match on ID="+mnImageId+" | ("+moName+")" );
-//     float eps = 0.05f;
-//
-//     int[] oNodeCount = {0,0};
-//     moRuleRoot.evaluateTree(poImagePerception, this, oNodeCount, poBrainsComplexEmotions, poBrainsPerceptions, poBrainsIdentity);
-//     cls0to1 oResult = new cls0to1( ((float)(100/oNodeCount[1])*oNodeCount[0])/100 );
-//     if( mnFullMatchRequired && oResult.get() < (1-eps) )
-//     {
-////        Engine.log.println("reset match to 0 from "+oResult.get()+" under eps:"+eps);
-//        oResult.set(0.0f);
-//     }
-////     Engine.log.println( "Match on ID="+mnImageId+" Match="+oResult.toString()+" | ("+moName+")" );
-//     return oResult;
-//  }
-//
-//  //---------------------------------------------------------------------------
-//  public clsRuleCompareResult getCompareResult(clsImagePerception poImagePerception, 
-//                              clsScenarioContainer poBrainsScenarioList,
-//                              clsDesireContainer poBrainsDesireList,
-//                              clsContainerComplexEmotion poBrainsComplexEmotions, 
-//                              clsContainerPerceptions poBrainsPerceptions, 
-//                              clsIdentity poBrainsIdentity
-//                              ) 
-//  //---------------------------------------------------------------------------
-//  {
-//    clsRuleCompareResult oResult = new clsRuleCompareResult(this, (evaluateTree(poImagePerception, poBrainsComplexEmotions, poBrainsPerceptions, poBrainsIdentity )).get());
-//
+  //---------------------------------------------------------------------------
+  public cls0to1 evaluateTree(clsImagePerception poImagePerception, /*clsContainerComplexEmotion poBrainsComplexEmotions,*/ clsContainerPerceptions poBrainsPerceptions, clsIdentity poBrainsIdentity) 
+  //---------------------------------------------------------------------------
+  {
+     float eps = 0.05f;
+
+     int[] oNodeCount = {0,0};
+     moRuleRoot.evaluateTree(poImagePerception, this, oNodeCount, poBrainsPerceptions, poBrainsIdentity); //poBrainsComplexEmotions,
+     cls0to1 oResult = new cls0to1( ((float)(100/oNodeCount[1])*oNodeCount[0])/100 );
+     if( mnFullMatchRequired && oResult.get() < (1-eps) )
+     {
+//        Engine.log.println("reset match to 0 from "+oResult.get()+" under eps:"+eps);
+        oResult.set(0.0f);
+     }
+//     Engine.log.println( "Match on ID="+mnImageId+" Match="+oResult.toString()+" | ("+moName+")" );
+     return oResult;
+  }
+
+  //---------------------------------------------------------------------------
+  public clsRuleCompareResult getCompareResult(clsImagePerception poImagePerception, 
+                              /*clsScenarioContainer poBrainsScenarioList,
+                              clsDesireContainer poBrainsDesireList,
+                              clsContainerComplexEmotion poBrainsComplexEmotions,*/ 
+                              clsContainerPerceptions poBrainsPerceptions, 
+                              clsIdentity poBrainsIdentity
+                              ) 
+  //---------------------------------------------------------------------------
+  {
+    clsRuleCompareResult oResult = new clsRuleCompareResult(this, (evaluateTree(poImagePerception, /*poBrainsComplexEmotions,*/ poBrainsPerceptions, poBrainsIdentity )).get());
+
 //    oResult.setTargetDrives(moDriveList);
 //    oResult.setTargetEmotions(moEmotionList);
-//
+
+    //first attempt-implementation of a focus of attention - if active scenario/desire --> match * 1.2f 
 //    boolean moStressValue = false;
 //    if( poBrainsScenarioList.getTransitionIdList().containsKey( new Integer(mnImageId) ) )
 //    {
@@ -229,9 +230,9 @@ public class clsImageAbstract // extends clsImageGeneric //uncommented at import
 //      moStressValue = true;
 //    }
 //    if( moStressValue ) oResult.stress(poBrainsIdentity);
-//
-//    return oResult;
-//  }
+
+    return oResult;
+  }
 //
 //  //---------------------------------------------------------------------------
 //  public String toString() 
