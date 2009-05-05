@@ -27,6 +27,7 @@ import bw.utils.datatypes.clsMutableFloat;
  */
 public class clsInternalEnergyConsumption implements itfStep {
 	private HashMap<Integer, clsMutableFloat> moList; // this list stores all registered values.
+	private HashMap<Integer, clsMutableFloat> moListOnce; // this list stores all registered values.
 	float mrSum; 											// stores the sum of all values within moList.
 	boolean mnDirtyFlag; 								// set to true if moList has been changed.
 	
@@ -35,36 +36,26 @@ public class clsInternalEnergyConsumption implements itfStep {
 	 */
 	public clsInternalEnergyConsumption() {
 		moList = new HashMap<Integer, clsMutableFloat>();
+		moListOnce = new HashMap<Integer, clsMutableFloat>();
 		mnDirtyFlag = true;
 		mrSum = 0.0f;
 	}
 	
 	
-	/**
-	 * returns a clone of the complete list of stored values
-	 * 
-	 * TODO Type safety: Unchecked cast from Object to HashMap<Integer,clsMutableInteger>
-	 *
-	 * @return moList clone
-	 */
-	public HashMap<Integer, clsMutableFloat> getList() {
-		return new HashMap<Integer, clsMutableFloat>(moList);
+	public HashMap<Integer, clsMutableFloat> getMergedList() {
+		HashMap<Integer, clsMutableFloat> oTemp = new HashMap<Integer, clsMutableFloat>(moList);
+		
+		Iterator<Integer> i = moListOnce.keySet().iterator();
+		
+		while (i.hasNext()) {
+			Integer oKey = i.next();
+			clsMutableFloat oValue = new clsMutableFloat(moListOnce.get(oKey));
+			oTemp.put(oKey, oValue);
+		}
+		
+		return oTemp;
 	}
 	
-	/**
-	 * Adds or updates the value pnValue of key pnKey. If no entry for pnKey is found, a new one is generated.
-	 * If pnKey exists, the object is updated to the value of pnKey. As HashMap accepts keys as objects only, pnKey is
-	 * converted into an object of type Integer and setValue(Integer poKey, float prValue) is called.
-	 *
-	 * @param pnKey - the key 
-	 * @param prValue - the value
-	 */
-	public void setValue(int pnKey, float prValue) {
-	  Integer oKey = new Integer(pnKey);
-	  
-	  this.setValue(oKey, prValue);
-	}
-
 	/**
 	 * returns true if a value has been added or stored.
 	 *
@@ -81,36 +72,27 @@ public class clsInternalEnergyConsumption implements itfStep {
 	 * @param poKey - the key
 	 * @param pnValue - the value
 	 */
-	public void setValue(Integer poKey, float prValue) {
+	public void setValue(Integer poKey, clsMutableFloat poValue) {
+		mnDirtyFlag = true;
+	
+		moList.put(poKey, poValue);
+	}
+	
+	public void setValueOnce(Integer poKey, clsMutableFloat poValue) {
 		mnDirtyFlag = true;
 		
-		clsMutableFloat oValue;
+		moListOnce.put(poKey, poValue);
 		
-		if (this.keyExists(poKey)) {
-			oValue = (clsMutableFloat)moList.get(poKey);
-			oValue.set(prValue);
-		 
-		} else {
-			oValue = new clsMutableFloat(prValue);
-			moList.put(poKey, oValue);
-		}
-		
-		moList.put(poKey, oValue);
 	}
 	
-	/**
-	 * Does moList contains an entry with id pnKey. As HashMap accepts keys as objects only, pnKey is
-	 * converted into an object of type Integer and keyExists(Integer poKey) is called.
-	 *
-	 * @param pnKey - the key
-	 * @return true if this key is in the list
-	 */
-	public boolean keyExists(int pnKey) {
-		Integer oKey = new Integer(pnKey);
-		
-		return keyExists(oKey);
+	public clsMutableFloat getValue(Integer poKey) {
+		return moList.get(poKey);
 	}
-	
+
+	public clsMutableFloat getValueOnce(Integer poKey) {
+		return moListOnce.get(poKey);
+	}
+		
 	/**
 	 * Does moList contains an entry with id pnKey.
 	 *
@@ -122,29 +104,18 @@ public class clsInternalEnergyConsumption implements itfStep {
 	}
 
 	/**
-	 * Returns the value for the key. If the key does not exists, it returns null.  As HashMap accepts keys as objects only, pnKey is
-	 * converted into an object of type Integer and getValue(Integer poKey) is called.
-	 *
-	 * @param pnKey - the key
-	 * @return the value as a clsMutableInteger object
-	 */
-	public clsMutableFloat getValue(int pnKey) {
-		return this.getValue(new Integer(pnKey));
-	}
-	
-	/**
-	 * Returns the value for the key. If the key does not exists, it returns null.
+	 * Does moListOnce contains an entry with id pnKey.
 	 *
 	 * @param poKey - the key
-	 * @return the value as a clsMutableInteger object
+	 * @return true if this key is in the list
 	 */
-	public clsMutableFloat getValue(Integer poKey)  {
-		return (clsMutableFloat)moList.get(poKey);
+	public boolean keyExistsOnce(Integer poKey) {
+		return moListOnce.containsKey(poKey);
 	}
 	
 	/**
 	 * Calculates the sum of all stored values and stores it. mnDirtyFlag is set to false. If an update 
-	 * occurs using setValue, the stored sum is invalideted and a recalculation is necessary.
+	 * occurs using setValue, the stored sum is invalidated and a recalculation is necessary.
 	 *
 	 * @return the sum of all stored values.
 	 */
@@ -152,7 +123,7 @@ public class clsInternalEnergyConsumption implements itfStep {
 		float rSum = 0;
 		
 		if (mnDirtyFlag) {
-			Iterator<Integer> i = moList.keySet().iterator();
+			Iterator<Integer> i = getMergedList().keySet().iterator();
 			
 			while (i.hasNext()) {
 				clsMutableFloat oValue = moList.get(i.next());
@@ -172,6 +143,6 @@ public class clsInternalEnergyConsumption implements itfStep {
 	 * @see bw.body.itfStep#step()
 	 */
 	public void step() {
-		
+		moListOnce.clear();
 	}
 }

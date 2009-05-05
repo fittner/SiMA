@@ -8,7 +8,7 @@
  */
 package bw.body.io.actuators.actionCommands;
 
-import bw.utils.enums.*;
+import bw.utils.datatypes.clsMutableFloat;
 import bw.body.io.actuators.clsActionCommand;
 import bw.entities.clsEntity;
 import bw.entities.clsAnimate;
@@ -29,7 +29,7 @@ public class clsEatAction extends clsActionCommand{
 	public boolean execute(clsEntity poEntity) {
 		float rDefaultEnergyConsuptionValue = 1.0f;
 		
-		((clsAnimate) poEntity).getAgentBody().getInternalSystem().getInternalEnergyConsumption().setValue(clsSingletonUniqueIdGenerator.getUniqueId(), rDefaultEnergyConsuptionValue + 3.5f);
+		((clsAnimate) poEntity).getAgentBody().getInternalSystem().getInternalEnergyConsumption().setValue(new Integer(clsSingletonUniqueIdGenerator.getUniqueId()), new clsMutableFloat(rDefaultEnergyConsuptionValue + 3.5f));
 
 		/*
 		//Commentary suggests this doens't work anyway...

@@ -11,6 +11,7 @@ import bw.body.itfStep;
 import bw.body.itfStepExecution;
 import bw.body.itfStepSensing;
 import bw.body.internalSystems.clsInternalEnergyConsumption;
+import bw.utils.datatypes.clsMutableFloat;
 
 /**
  * TODO (deutsch) - insert description 
@@ -26,6 +27,6 @@ public abstract class clsBaseIO implements itfStepSensing, itfStepExecution  {
 	}
 
 	public void registerEnergyConsumption(int pnId, float prValue) {
-		moInternalEnergyConsumption.setValue(pnId, prValue);
+		moInternalEnergyConsumption.setValue(new Integer(pnId), new clsMutableFloat(prValue));
 	}
 }

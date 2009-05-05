@@ -11,6 +11,7 @@ import java.util.Random;
 import bw.body.itfStepUpdateInternalState;
 import bw.exceptions.exFoodAlreadyNormalized;
 import bw.exceptions.exNoSuchNutritionType;
+import bw.utils.datatypes.clsMutableFloat;
 
 /**
  * TODO (deutsch) - insert description 
@@ -136,14 +137,14 @@ public class clsInternalSystem implements itfStepUpdateInternalState {
 		if (moInternalEnergyConsumption.getSum() == 0) {
 			// init a value for each consumer
 			for (int i = 0; i<20; i++) {
-				moInternalEnergyConsumption.setValue(i+1, rand.nextInt(100));
+				moInternalEnergyConsumption.setValue(new Integer(i+1), new clsMutableFloat(rand.nextInt(100)));
 			}
 		} else {
 			for (int i = 0; i<20; i++) {
 				//update values randomly 
 				if (rand.nextInt(100)>80) {
 					//but only sometimes - not every cycle ....
-					moInternalEnergyConsumption.setValue(i+1, rand.nextInt(100));	
+					moInternalEnergyConsumption.setValue(new Integer(i+1), new clsMutableFloat(rand.nextInt(100)));	
 				}
 			}		
 		}
