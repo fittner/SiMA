@@ -45,6 +45,25 @@ public class clsConfigContainer extends clsBaseConfig {
 	public void clear() {
 		moConfig.clear();
 	}
+	
+	public boolean containsKey(Integer poKey) {
+		return moConfig.containsKey(poKey);
+	}
+	
+	public boolean containsKey(Enum poKey) {
+		return containsKey(poKey.ordinal());
+	}
+	
+	public void overwritewith(clsConfigContainer poOther) {
+		if (poOther != null) {
+			Iterator<Integer> i = poOther.moConfig.keySet().iterator();
+			
+			while (i.hasNext()) {
+				Integer oKey = i.next();
+				moConfig.put(oKey, poOther.moConfig.get(oKey));
+			}
+		}
+	}
 
 	/* (non-Javadoc)
 	 *
