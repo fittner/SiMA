@@ -208,6 +208,8 @@ public class clsInternalSystem implements itfStepUpdateInternalState {
 		moFastMessengerSystem.stepUpdateInternalState();
 		
 		moStomachSystem.withdrawEnergy( moInternalEnergyConsumption.getSum() );
+		
+		moInternalEnergyConsumption.step();
 	}
 
 	public void stepExecution() {
