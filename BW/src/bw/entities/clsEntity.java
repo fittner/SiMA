@@ -69,7 +69,6 @@ public abstract class clsEntity {
 		mrMass = 0.0f;
 		setRegistered(false);
 	}	
-	protected abstract clsConfigContainer getDefaultConfig();
 	
 	/**
 	 * the entities cycle for perception-deliberation-action
@@ -285,5 +284,19 @@ public abstract class clsEntity {
 		return mnRegistered;
 	}
 	
+	/* (non-Javadoc)
+	 *
+	 * @author deutsch
+	 * 05.05.2009, 17:47:05
+	 * 
+	 * @see bw.entities.clsEntity#getDefaultConfig()
+	 */
 
+	protected clsConfigContainer getDefaultConfig() {
+		// TODO Auto-generated method stub
+		clsConfigContainer oDefault = new clsConfigContainer();
+	
+		
+		return oDefault;
+	}
 }

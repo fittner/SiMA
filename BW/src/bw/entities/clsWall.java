@@ -57,7 +57,7 @@ public class clsWall extends clsStationary  {
 	@Override
 	protected clsConfigContainer getDefaultConfig() {
 		// TODO Auto-generated method stub
-		clsConfigContainer oDefault = new clsConfigContainer();
+		clsConfigContainer oDefault = super.getDefaultConfig();
 	
 		
 		return oDefault;

@@ -58,8 +58,7 @@ public class clsInternalSystem implements itfStepUpdateInternalState {
 
 	private clsConfigContainer getDefaultConfig() {
 		clsConfigContainer oDefault = new clsConfigContainer();
-	
-		
+		//TODO add default values
 		return oDefault;
 	}	
 	

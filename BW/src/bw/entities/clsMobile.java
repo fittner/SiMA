@@ -62,4 +62,20 @@ public abstract class clsMobile extends clsEntity {
 	public void setVelocity(sim.physics2D.util.Double2D poVelocity) {
 		getMobileObject2D().setVelocity(poVelocity);
 	}
+	
+	/* (non-Javadoc)
+	 *
+	 * @author deutsch
+	 * 05.05.2009, 17:47:05
+	 * 
+	 * @see bw.entities.clsEntity#getDefaultConfig()
+	 */
+	@Override
+	protected clsConfigContainer getDefaultConfig() {
+		// TODO Auto-generated method stub
+		clsConfigContainer oDefault = super.getDefaultConfig();
+	
+		
+		return oDefault;
+	}	
 }

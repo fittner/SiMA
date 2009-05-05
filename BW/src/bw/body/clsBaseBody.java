@@ -20,7 +20,11 @@ import bw.utils.container.clsConfigContainer;
 public abstract class clsBaseBody implements itfStepSensing, itfStepUpdateInternalState, itfStepProcessing, itfStepExecution {
 	protected clsConfigContainer moConfig;
 	
-	protected abstract clsConfigContainer getDefaultConfig();
+	protected clsConfigContainer getDefaultConfig() {
+		clsConfigContainer oDefault = new clsConfigContainer();
+		
+		return oDefault;
+	}
 	
 	public clsBaseBody(clsConfigContainer poConfig){
 		moConfig = getDefaultConfig();

@@ -9,6 +9,7 @@ package bw.body.interBodyWorldSystems;
 
 import bw.body.itfStepUpdateInternalState;
 import bw.body.internalSystems.clsInternalSystem;
+import bw.utils.container.clsConfigContainer;
 
 /**
  * TODO (deutsch) - insert description 
@@ -20,18 +21,29 @@ public class clsInterBodyWorldSystem implements itfStepUpdateInternalState {
 	private clsConsumeFood moConsumeFood;
 	private clsDamageBump moDamageBump;
 	private clsDamageLightning moDamageLightning;
-	
+    
+    private clsConfigContainer moConfig;
+    
 	private static final int mnDefaultGarbageNutritionType = 1; 
 
 	/**
 	 * 
 	 */
-	public clsInterBodyWorldSystem(clsInternalSystem poInternalSystem) {
+	public clsInterBodyWorldSystem(clsInternalSystem poInternalSystem, clsConfigContainer poConfig) {
+		moConfig = getDefaultConfig();
+		moConfig.overwritewith(poConfig);
+		
 		moConsumeFood = new clsConsumeFood(mnDefaultGarbageNutritionType, poInternalSystem.getStomachSystem());
 		moDamageBump = new clsDamageBump(poInternalSystem);
 		moDamageLightning = new clsDamageLightning(poInternalSystem);
 	}
 	
+	private clsConfigContainer getDefaultConfig() {
+		clsConfigContainer oDefault = new clsConfigContainer();
+		//TODO add default values
+		return oDefault;
+	}	
+		
 	public clsConsumeFood getConsumeFood() {
 		return moConsumeFood;
 	}

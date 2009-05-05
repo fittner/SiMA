@@ -114,7 +114,7 @@ public class clsBubble extends clsAnimate {
 	@Override
 	protected clsConfigContainer getDefaultConfig() {
 		// TODO Auto-generated method stub
-		clsConfigContainer oDefault = new clsConfigContainer();
+		clsConfigContainer oDefault = super.getDefaultConfig();
 	
 		
 		return oDefault;

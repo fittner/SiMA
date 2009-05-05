@@ -17,6 +17,7 @@ import bw.body.io.sensors.external.clsSensorExt;
 import bw.body.io.sensors.internal.clsSensorInt;
 import bw.body.motionplatform.clsBrainAction;
 import bw.body.motionplatform.clsBrainActionContainer;
+import bw.utils.container.clsConfigContainer;
 import enums.eSensorExtType;
 
 /**
@@ -29,12 +30,19 @@ public class clsInternalIO extends clsBaseIO{
 	public HashMap<eSensorIntType, clsSensorInt> moSensorInternal;
 
 	public clsAgentBody moBody;
-	
-	public clsInternalIO(clsAgentBody poBody) {
-		super(poBody.getInternalSystem().getInternalEnergyConsumption());
+    
+	public clsInternalIO(clsAgentBody poBody, clsConfigContainer poConfig) {
+		super(poBody.getInternalSystem().getInternalEnergyConsumption(), poConfig);
 
 		moBody = poBody;
 	}
+	
+	protected clsConfigContainer getDefaultConfig() {
+		clsConfigContainer oDefault = new clsConfigContainer();
+		//TODO add default values
+		return oDefault;
+	}	
+		
 
 	/* (non-Javadoc)
 	 *

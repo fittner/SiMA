@@ -37,6 +37,20 @@ public abstract class clsInanimate extends clsMobile {
 	}
 
 
-
+	/* (non-Javadoc)
+	 *
+	 * @author deutsch
+	 * 05.05.2009, 17:47:05
+	 * 
+	 * @see bw.entities.clsEntity#getDefaultConfig()
+	 */
+	@Override
+	protected clsConfigContainer getDefaultConfig() {
+		// TODO Auto-generated method stub
+		clsConfigContainer oDefault = super.getDefaultConfig();
+	
+		
+		return oDefault;
+	}
 	
 }

@@ -11,6 +11,7 @@ import bw.body.itfStep;
 import bw.body.itfStepExecution;
 import bw.body.itfStepSensing;
 import bw.body.internalSystems.clsInternalEnergyConsumption;
+import bw.utils.container.clsConfigContainer;
 import bw.utils.datatypes.clsMutableFloat;
 
 /**
@@ -21,12 +22,18 @@ import bw.utils.datatypes.clsMutableFloat;
  */
 public abstract class clsBaseIO implements itfStepSensing, itfStepExecution  {
 	private clsInternalEnergyConsumption moInternalEnergyConsumption;
-	
-	public clsBaseIO(clsInternalEnergyConsumption poInternalEnergyConsumption) {
+    protected clsConfigContainer moConfig;
+    
+	public clsBaseIO(clsInternalEnergyConsumption poInternalEnergyConsumption, clsConfigContainer poConfig) {
+		moConfig = getDefaultConfig();
+		moConfig.overwritewith(poConfig);
+		
 		moInternalEnergyConsumption = poInternalEnergyConsumption;
 	}
 
 	public void registerEnergyConsumption(int pnId, float prValue) {
 		moInternalEnergyConsumption.setValue(new Integer(pnId), new clsMutableFloat(prValue));
 	}
+	
+	protected abstract clsConfigContainer getDefaultConfig();
 }

@@ -93,7 +93,7 @@ public class clsCan extends clsInanimate {
 	@Override
 	protected clsConfigContainer getDefaultConfig() {
 		// TODO Auto-generated method stub
-		clsConfigContainer oDefault = new clsConfigContainer();
+		clsConfigContainer oDefault = super.getDefaultConfig();
 	
 		
 		return oDefault;

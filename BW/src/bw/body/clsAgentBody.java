@@ -41,13 +41,13 @@ public class clsAgentBody extends clsBaseBody {
 		super(poConfig);
 		
 	   moInternalSystem = new clsInternalSystem((clsConfigContainer) poConfig.get(eBodyParts.INTSYS));
-	   moIntraBodySystem = new clsIntraBodySystem(moInternalSystem);
-	   moInterBodyWorldSystem = new clsInterBodyWorldSystem(moInternalSystem);
+	   moIntraBodySystem = new clsIntraBodySystem(moInternalSystem, (clsConfigContainer) poConfig.get(eBodyParts.INTRA));
+	   moInterBodyWorldSystem = new clsInterBodyWorldSystem(moInternalSystem, (clsConfigContainer) poConfig.get(eBodyParts.INTER));
 	   
-	   moExternalIO = new clsExternalIO(poEntity, this);
-	   moInternalIO = new clsInternalIO(this);
+	   moExternalIO = new clsExternalIO(poEntity, this, (clsConfigContainer) poConfig.get(eBodyParts.EXTERNAL_IO));
+	   moInternalIO = new clsInternalIO(this, (clsConfigContainer) poConfig.get(eBodyParts.INTERNAL_IO));
 	   
-  	   moBrain = new clsBrainSocket(moExternalIO.moSensorExternal, moInternalIO.moSensorInternal);
+  	   moBrain = new clsBrainSocket(moExternalIO.moSensorExternal, moInternalIO.moSensorInternal, (clsConfigContainer) poConfig.get(eBodyParts.BRAIN));
 	}
 	
 	/* (non-Javadoc)
@@ -59,7 +59,7 @@ public class clsAgentBody extends clsBaseBody {
 	 */
 	@Override
 	protected clsConfigContainer getDefaultConfig() {
-		clsConfigContainer oDefault = new clsConfigContainer();
+		clsConfigContainer oDefault = super.getDefaultConfig();
 		
 		oDefault.add(eBodyParts.INTSYS, null);
 		oDefault.add(eBodyParts.INTRA, null);

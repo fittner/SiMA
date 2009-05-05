@@ -36,6 +36,7 @@ import bw.body.io.sensors.external.clsSensorVision;
 import bw.body.io.sensors.internal.clsSensorInt;
 import bw.body.motionplatform.clsBrainActionContainer;
 import bw.entities.clsEntity;
+import bw.utils.container.clsConfigContainer;
 import enums.eActionCommandMotion;
 import enums.eActionCommandType;
 import enums.eEntityType;
@@ -54,13 +55,23 @@ public class clsBrainSocket implements itfStepProcessing {
 	private clsBaseDecisionUnit moDecisionUnit;
 	private HashMap<eSensorExtType, clsSensorExt> moSensorsExt;
 	private HashMap<eSensorIntType, clsSensorInt> moSensorsInt;
+    
+    private clsConfigContainer moConfig;	
 	
-	
-	public clsBrainSocket(HashMap<eSensorExtType, clsSensorExt> poSensorsExt, HashMap<eSensorIntType, clsSensorInt> poSensorsInt) {
+	public clsBrainSocket(HashMap<eSensorExtType, clsSensorExt> poSensorsExt, HashMap<eSensorIntType, clsSensorInt> poSensorsInt, clsConfigContainer poConfig) {
+		moConfig = getDefaultConfig();
+		moConfig.overwritewith(poConfig);
+				
 		moSensorsExt = poSensorsExt;
 		moSensorsInt = poSensorsInt;
 	}
 
+	private clsConfigContainer getDefaultConfig() {
+		clsConfigContainer oDefault = new clsConfigContainer();
+		//TODO add default values
+		return oDefault;
+	}	
+		
 	/* (non-Javadoc)
 	 * @see bw.body.itfStep#step()
 	 */
