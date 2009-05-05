@@ -10,7 +10,6 @@ package bw.body.internalSystems;
 import java.util.Random;
 import bw.body.itfStepUpdateInternalState;
 import bw.exceptions.exFoodAlreadyNormalized;
-import bw.exceptions.exNoSuchNutritionType;
 import bw.utils.datatypes.clsMutableFloat;
 
 /**
@@ -45,7 +44,6 @@ public class clsInternalSystem implements itfStepUpdateInternalState {
    	    moInternalEnergyConsumption = new clsInternalEnergyConsumption();
 		
    	   //testing the energy consumption
-   	   randomFillIEC();
    	   setupStomach();
    	   setupFlesh();
 
@@ -128,30 +126,6 @@ public class clsInternalSystem implements itfStepUpdateInternalState {
 
 	/**
 	 * TODO (deutsch) - insert description
-	 * TODO remove this again
-	 *
-	 */
-	private void randomFillIEC() {
-		Random rand = new Random();
-		
-		if (moInternalEnergyConsumption.getSum() == 0) {
-			// init a value for each consumer
-			for (int i = 0; i<20; i++) {
-				moInternalEnergyConsumption.setValue(new Integer(i+1), new clsMutableFloat(rand.nextInt(100)));
-			}
-		} else {
-			for (int i = 0; i<20; i++) {
-				//update values randomly 
-				if (rand.nextInt(100)>80) {
-					//but only sometimes - not every cycle ....
-					moInternalEnergyConsumption.setValue(new Integer(i+1), new clsMutableFloat(rand.nextInt(100)));	
-				}
-			}		
-		}
-	}
-	
-	/**
-	 * TODO (deutsch) - insert description
 	 *
 	 */
 	private void setupStomach() {
@@ -160,29 +134,6 @@ public class clsInternalSystem implements itfStepUpdateInternalState {
 		}
 		
 		moStomachSystem.addEnergy(10.0f);
-	}
-	
-	/**
-	 * TODO (deutsch) - insert description
-	 * TODO remove this again
-	 *
-	 */
-	private void randomFEEDAGENT() {
-		Random rand = new Random();
-		
-		if (rand.nextInt(100)>95) {
-			moStomachSystem.addEnergy( rand.nextFloat() );
-		}
-		
-		for (int i=0; i<10; i++) {
-			if (rand.nextInt(100)>95) {
-				try {
-					moStomachSystem.addNutrition(i, rand.nextFloat() * 0.1f );
-				} catch (exNoSuchNutritionType e) {
-					// ignore exception
-				}
-			}
-		}
 	}
 	
 	/**
@@ -196,10 +147,7 @@ public class clsInternalSystem implements itfStepUpdateInternalState {
 	 * TODO (deutsch) - insert description
 	 *
 	 */
-	public void stepUpdateInternalState() {
-		randomFillIEC();
-		randomFEEDAGENT();
-		
+	public void stepUpdateInternalState() {	
 		moStomachSystem.stepUpdateInternalState();
 		moStaminaSystem.stepUpdateInternalState();
 		moHealthSystem.stepUpdateInternalState();
