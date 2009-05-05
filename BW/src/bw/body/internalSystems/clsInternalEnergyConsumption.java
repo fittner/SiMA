@@ -143,6 +143,9 @@ public class clsInternalEnergyConsumption implements itfStep {
 	 * @see bw.body.itfStep#step()
 	 */
 	public void step() {
-		moListOnce.clear();
+		if (moListOnce.size() > 0) {
+			moListOnce.clear();
+			mnDirtyFlag = true;
+		}
 	}
 }
