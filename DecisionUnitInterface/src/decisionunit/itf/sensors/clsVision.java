@@ -2,7 +2,7 @@ package decisionunit.itf.sensors;
 
 import java.util.ArrayList;
 
-public class clsVision extends clsDataBase {
+public class clsVision extends clsSensorExtern {
 	private ArrayList<clsVisionEntry> moEntries = new ArrayList<clsVisionEntry>();
 	
 	public void add(clsVisionEntry poEntry) {
