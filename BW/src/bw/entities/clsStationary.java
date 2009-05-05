@@ -11,6 +11,7 @@ import java.util.ArrayList;
 import sim.physics2D.shape.Shape;
 import bw.body.motionplatform.clsBrainAction;
 import bw.body.motionplatform.clsBrainActionContainer;
+import bw.utils.container.clsConfigContainer;
 import ARSsim.physics2D.physicalObject.clsStationaryObject2D;
 import ARSsim.physics2D.util.clsPose;
 
@@ -25,8 +26,8 @@ import ARSsim.physics2D.util.clsPose;
 public abstract class clsStationary extends clsEntity {
 	private static double mrDefaultStationaryWeight = 9999.0;
 
-	public clsStationary(int pnId, clsPose poPose, Shape poShape) {
-		super(pnId);
+	public clsStationary(int pnId, clsPose poPose, Shape poShape, clsConfigContainer poConfig) {
+		super(pnId, poConfig);
 		
 		initPhysicalObject2D(poPose, null, poShape, mrDefaultStationaryWeight);
 	}

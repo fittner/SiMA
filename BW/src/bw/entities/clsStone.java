@@ -11,6 +11,7 @@ import java.awt.Color;
 import java.util.ArrayList;
 import bw.body.motionplatform.clsBrainAction;
 import bw.body.motionplatform.clsBrainActionContainer;
+import bw.utils.container.clsConfigContainer;
 import enums.eEntityType;
 import ARSsim.physics2D.util.clsPose;
 
@@ -26,11 +27,11 @@ public class clsStone extends clsInanimate {
 	private static String moImagePath = bw.sim.clsBWMain.msArsPath + "/src/resources/images/rock1.jpg";
 	private static Color moDefaultColor = Color.DARK_GRAY;
 
-	public clsStone(int pnId, clsPose poPose, sim.physics2D.util.Double2D poStartingVelocity, double prRadius)
+	public clsStone(int pnId, clsPose poPose, sim.physics2D.util.Double2D poStartingVelocity, double prRadius, clsConfigContainer poConfig)
     {
 //		super(pnId, poPose, poStartingVelocity, new ARSsim.physics2D.shape.clsCircleImage(prRadius, clsStone.moDefaultColor, clsStone.moImagePath), prRadius * clsStone.mrDefaultRadiusToMassConversion);
 		//todo muchitsch ... hier wird eine default shape �bergeben, nicht null, sonst krachts
-		super(pnId, poPose, poStartingVelocity, null, prRadius * clsStone.mrDefaultRadiusToMassConversion);
+		super(pnId, poPose, poStartingVelocity, null, prRadius * clsStone.mrDefaultRadiusToMassConversion, poConfig);
 		
 		double rMass = prRadius * clsStone.mrDefaultRadiusToMassConversion;
 		
@@ -92,6 +93,23 @@ public class clsStone extends clsInanimate {
 	public void updateInternalState() {
 		// TODO Auto-generated method stub
 		
+	}
+
+
+	/* (non-Javadoc)
+	 *
+	 * @author deutsch
+	 * 05.05.2009, 17:44:49
+	 * 
+	 * @see bw.entities.clsEntity#getDefaultConfig()
+	 */
+	@Override
+	protected clsConfigContainer getDefaultConfig() {
+		// TODO Auto-generated method stub
+		clsConfigContainer oDefault = new clsConfigContainer();
+	
+		
+		return oDefault;
 	}
 
 }

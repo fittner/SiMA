@@ -10,7 +10,9 @@ package bw.body.internalSystems;
 import java.util.Random;
 import bw.body.itfStepUpdateInternalState;
 import bw.exceptions.exFoodAlreadyNormalized;
+import bw.utils.container.clsConfigContainer;
 import bw.utils.datatypes.clsMutableFloat;
+import bw.utils.enums.eBodyParts;
 
 /**
  * TODO (deutsch) - insert description 
@@ -28,12 +30,17 @@ public class clsInternalSystem implements itfStepUpdateInternalState {
     private clsStaminaSystem moStaminaSystem;
     private clsStomachSystem moStomachSystem;
     private clsInternalEnergyConsumption moInternalEnergyConsumption; // list of all the bodies energy consumers
+    
+    private clsConfigContainer moConfig;
 	
 	
 	/**
 	 * 
 	 */
-	public clsInternalSystem() {
+	public clsInternalSystem(clsConfigContainer poConfig) {
+		moConfig = getDefaultConfig();
+		moConfig.overwritewith(poConfig);
+		
   	    moFlesh = new clsFlesh();
   	    moSlowMessengerSystem = new clsSlowMessengerSystem();
   	    moFastMessengerSystem = new clsFastMessengerSystem();
@@ -49,6 +56,12 @@ public class clsInternalSystem implements itfStepUpdateInternalState {
 
 	}
 
+	private clsConfigContainer getDefaultConfig() {
+		clsConfigContainer oDefault = new clsConfigContainer();
+	
+		
+		return oDefault;
+	}	
 	
 	
 	/**

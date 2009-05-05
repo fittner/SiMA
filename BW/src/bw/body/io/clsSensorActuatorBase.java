@@ -45,7 +45,6 @@ public abstract class clsSensorActuatorBase {
 		return moName;
 	}
 
-
 	/**
 	 * @return the mnUniqueId
 	 */

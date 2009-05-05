@@ -16,6 +16,7 @@ import bw.body.io.sensors.external.clsSensorEatableArea;
 import bw.body.io.sensors.external.clsSensorVision;
 import ARSsim.physics2D.util.clsPose;
 import bw.physicalObjects.sensors.clsEntityPartVision;
+import bw.utils.container.clsConfigContainer;
 import enums.eEntityType;
 
 import simple.dumbmind.clsDumbMindA;
@@ -44,13 +45,14 @@ public class clsBubble extends clsAnimate {
 	 * @param poStartingPose
 	 * @param poStartingVelocity
 	 */
-	public clsBubble(int pnId, clsPose poStartingPose, sim.physics2D.util.Double2D poStartingVelocity, Paint poColor)
+	public clsBubble(int pnId, clsPose poStartingPose, sim.physics2D.util.Double2D poStartingVelocity, Paint poColor,  clsConfigContainer poConfig)
     {
 		super(pnId, 
 				poStartingPose, 
 				poStartingVelocity, 
 				new sim.physics2D.shape.Circle(clsBubble.mrDefaultRadius, poColor), 
-				clsBubble.mrDefaultWeight
+				clsBubble.mrDefaultWeight,
+				poConfig
 				);
 		
 		this.setEntityActionResponse(new clsBubbleResponses());
@@ -100,6 +102,22 @@ public class clsBubble extends clsAnimate {
 		return ((clsSensorEatableArea)this.moAgentBody
 					.getExternalIO().moSensorExternal
 					.get(enums.eSensorExtType.EATABLE_AREA)).getMoVisionArea(); 
+	}
+
+	/* (non-Javadoc)
+	 *
+	 * @author deutsch
+	 * 05.05.2009, 17:47:05
+	 * 
+	 * @see bw.entities.clsEntity#getDefaultConfig()
+	 */
+	@Override
+	protected clsConfigContainer getDefaultConfig() {
+		// TODO Auto-generated method stub
+		clsConfigContainer oDefault = new clsConfigContainer();
+	
+		
+		return oDefault;
 	}
 	
 }

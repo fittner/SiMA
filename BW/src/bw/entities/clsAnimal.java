@@ -13,6 +13,7 @@ import java.util.ArrayList;
 import ARSsim.physics2D.util.clsPose;
 import bw.body.motionplatform.clsBrainAction;
 import bw.body.motionplatform.clsBrainActionContainer;
+import bw.utils.container.clsConfigContainer;
 import enums.eEntityType;
 import sim.physics2D.util.Double2D;
 
@@ -38,8 +39,8 @@ public class clsAnimal extends clsAnimate{
 	 * @param poStartingVelocity
 	 * @param pnId
 	 */
-	public clsAnimal(int pnId, clsPose poPose, Double2D poStartingVelocity) {
-		super(pnId, poPose, poStartingVelocity, new sim.physics2D.shape.Circle(clsAnimal.mrDefaultRadius, clsAnimal.moDefaultColor), clsAnimal.mrDefaultWeight);
+	public clsAnimal(int pnId, clsPose poPose, Double2D poStartingVelocity, clsConfigContainer poConfig) {
+		super(pnId, poPose, poStartingVelocity, new sim.physics2D.shape.Circle(clsAnimal.mrDefaultRadius, clsAnimal.moDefaultColor), clsAnimal.mrDefaultWeight, poConfig);
 		// TODO Auto-generated constructor stub
 	}
 
@@ -81,6 +82,23 @@ public class clsAnimal extends clsAnimate{
 	public void processing() {
 		// TODO Auto-generated method stub
 		
+	}
+
+
+	/* (non-Javadoc)
+	 *
+	 * @author deutsch
+	 * 05.05.2009, 17:47:23
+	 * 
+	 * @see bw.entities.clsEntity#getDefaultConfig()
+	 */
+	@Override
+	protected clsConfigContainer getDefaultConfig() {
+		// TODO Auto-generated method stub
+		clsConfigContainer oDefault = new clsConfigContainer();
+	
+		
+		return oDefault;
 	}
 	
 	

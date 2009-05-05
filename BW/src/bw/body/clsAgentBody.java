@@ -15,6 +15,8 @@ import bw.body.io.clsExternalIO;
 import bw.body.io.clsInternalIO;
 import bw.body.motionplatform.clsBrainActionContainer;
 import bw.entities.clsEntity;
+import bw.utils.container.clsConfigContainer;
+import bw.utils.enums.eBodyParts;
 
 /**
  * The agent body is the basic container for each entity the body needs: 
@@ -24,7 +26,7 @@ import bw.entities.clsEntity;
  * @author langr
  * 
  */
-public class clsAgentBody implements itfStepSensing, itfStepUpdateInternalState, itfStepProcessing, itfStepExecution {
+public class clsAgentBody extends clsBaseBody {
 	private clsBrainSocket moBrain;
     private clsInternalSystem moInternalSystem;
     private clsIntraBodySystem moIntraBodySystem;
@@ -35,8 +37,10 @@ public class clsAgentBody implements itfStepSensing, itfStepUpdateInternalState,
 	/**
 	 * CTOR
 	 */
-	public clsAgentBody(clsEntity poEntity)  { 
-	   moInternalSystem = new clsInternalSystem();
+	public clsAgentBody(clsEntity poEntity, clsConfigContainer poConfig)  {
+		super(poConfig);
+		
+	   moInternalSystem = new clsInternalSystem((clsConfigContainer) poConfig.get(eBodyParts.INTSYS));
 	   moIntraBodySystem = new clsIntraBodySystem(moInternalSystem);
 	   moInterBodyWorldSystem = new clsInterBodyWorldSystem(moInternalSystem);
 	   
@@ -46,7 +50,26 @@ public class clsAgentBody implements itfStepSensing, itfStepUpdateInternalState,
   	   moBrain = new clsBrainSocket(moExternalIO.moSensorExternal, moInternalIO.moSensorInternal);
 	}
 	
-	
+	/* (non-Javadoc)
+	 *
+	 * @author deutsch
+	 * 05.05.2009, 17:12:09
+	 * 
+	 * @see bw.body.clsBaseBody#getDefaultConfig()
+	 */
+	@Override
+	protected clsConfigContainer getDefaultConfig() {
+		clsConfigContainer oDefault = new clsConfigContainer();
+		
+		oDefault.add(eBodyParts.INTSYS, null);
+		oDefault.add(eBodyParts.INTRA, null);
+		oDefault.add(eBodyParts.INTER, null);
+		oDefault.add(eBodyParts.EXTERNAL_IO, null);
+		oDefault.add(eBodyParts.INTERNAL_IO, null);
+		oDefault.add(eBodyParts.BRAIN, null);
+		
+		return oDefault;
+	}	
 	
 	/**
 	 * @return the moBrain
@@ -146,5 +169,9 @@ public class clsAgentBody implements itfStepSensing, itfStepUpdateInternalState,
 		moExternalIO.stepExecution(poActionList);
 		moInternalIO.stepExecution(poActionList);
 	}
+
+
+
+
 
 }

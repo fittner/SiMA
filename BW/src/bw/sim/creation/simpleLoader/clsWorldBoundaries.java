@@ -12,6 +12,7 @@ import ARSsim.portrayal.simple.clsImagePortrayal;
 import bw.entities.clsWall;
 import bw.factories.clsRegisterEntity;
 import bw.factories.clsSingletonMasonGetter;
+import bw.utils.container.clsConfigContainer;
 
 
 /**
@@ -28,24 +29,24 @@ public class clsWorldBoundaries {
 		
         // HORIZ
 		oPose = new clsPose(100, 0, 0);
-        oWall = new clsWall(1, oPose, 193, 6);
+        oWall = new clsWall(1, oPose, 193, 6, new clsConfigContainer());
         clsRegisterEntity.registerEntity(oWall);
        clsImagePortrayal.PlaceImage(bw.sim.clsBWMain.msArsPath + "/src/resources/images/wall1.jpg", 8, new sim.util.Double2D(oPose.getPosition().x, oPose.getPosition().y), clsSingletonMasonGetter.getFieldEnvironment());
  
          	
         oPose = new clsPose(100, 200, 0);
-        oWall = new clsWall(2, oPose, 193, 6);
+        oWall = new clsWall(2, oPose, 193, 6, new clsConfigContainer());
         clsRegisterEntity.registerEntity(oWall);
         clsImagePortrayal.PlaceImage(bw.sim.clsBWMain.msArsPath + "/src/resources/images/wall1.jpg", 8, new sim.util.Double2D(oPose.getPosition().x, oPose.getPosition().y), clsSingletonMasonGetter.getFieldEnvironment());
                 
         // VERT
         oPose = new clsPose(0, 100, 0);
-        oWall = new clsWall(3, oPose, 6, 200);
+        oWall = new clsWall(3, oPose, 6, 200, new clsConfigContainer());
         clsRegisterEntity.registerEntity(oWall);
         clsImagePortrayal.PlaceImage(bw.sim.clsBWMain.msArsPath + "/src/resources/images/wall2.jpg", 8, new sim.util.Double2D(oPose.getPosition().x, oPose.getPosition().y), clsSingletonMasonGetter.getFieldEnvironment());
         
         oPose = new clsPose(200, 100, 0);
-        oWall = new clsWall(4, oPose, 6, 200);
+        oWall = new clsWall(4, oPose, 6, 200, new clsConfigContainer());
         clsRegisterEntity.registerEntity(oWall);
         clsImagePortrayal.PlaceImage(bw.sim.clsBWMain.msArsPath + "/src/resources/images/wall2.jpg", 8, new sim.util.Double2D(oPose.getPosition().x, oPose.getPosition().y), clsSingletonMasonGetter.getFieldEnvironment());
 	}

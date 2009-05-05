@@ -15,6 +15,7 @@ import bw.entities.clsBubble;
 import bw.entities.clsRemoteBot;
 import bw.factories.clsRegisterEntity;
 import bw.sim.creation.clsLoader;
+import bw.utils.container.clsConfigContainer;
 
 /**
  * Helper class to load every agent and register to mason-physics2D 
@@ -40,7 +41,7 @@ public class clsAgentLoader {
 			 
 			 
 	         clsPose oStartPose = clsLoader.generateRandomPose();
-		  	 clsBubble oBubble = new clsBubble(i, oStartPose, new sim.physics2D.util.Double2D(0, 0), oColor);
+		  	 clsBubble oBubble = new clsBubble(i, oStartPose, new sim.physics2D.util.Double2D(0, 0), oColor, new clsConfigContainer());
 		  	 clsRegisterEntity.registerEntity(oBubble);
          }
 	}
@@ -56,7 +57,7 @@ public class clsAgentLoader {
 	public static void loadRemoteBots(int pnNumBots) {
 		for (int i = 0; i < pnNumBots; i++) {
 	        clsPose oStartPose = clsLoader.generateRandomPose();
- 			clsRemoteBot oBot = new clsRemoteBot(i, oStartPose, new sim.physics2D.util.Double2D(0, 0));
+ 			clsRemoteBot oBot = new clsRemoteBot(i, oStartPose, new sim.physics2D.util.Double2D(0, 0), new clsConfigContainer());
 			clsRegisterEntity.registerEntity(oBot);
         }
 	}	

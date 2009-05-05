@@ -15,6 +15,7 @@ package bw.utils.enums;
  */
 public enum eBodyParts {
 	//internal systems
+	INTSYS,
 	INTSYS_FAST_MESSENGER_SYSTEM,
 	INTSYS_FLESH,
 	INTSYS_HEALTH_SYSTEM,
@@ -26,12 +27,17 @@ public enum eBodyParts {
 	INTSYS_TEMPERATURE_SYSTEM,
 	
 	//intrabodysysems
+	INTRA,
 	INTRA_DAMAGE_NUTRITION,
 	INTRA_DAMAGE_TEMPERATURE,
 	
 	//interbodyworldsystems
+	INTER,
 	INTER_DAMAGE_BUMP,
 	INTER_DAMAGE_LIGHTNING,
+	
+	EXTERNAL_IO,
+	INTERNAL_IO,
 	
 	//sensors
 	SENSOR_EXT,

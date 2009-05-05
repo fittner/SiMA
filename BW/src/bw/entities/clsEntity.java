@@ -13,6 +13,7 @@ import ARSsim.physics2D.physicalObject.itfSetupFunctions;
 import ARSsim.physics2D.util.clsPose;
 import bw.actionresponses.clsDefaultEntityActionResponse;
 import bw.actionresponses.clsEntityActionResponses;
+import bw.utils.container.clsConfigContainer;
 import enums.eEntityType;
 
 /**
@@ -44,6 +45,7 @@ public abstract class clsEntity {
 	protected eEntityType meEntityType;
 	private int mnId;
 	private boolean mnRegistered;
+	protected clsConfigContainer moConfig;
 	
 	/**
 	 * TODO (deutsch) - insert description 
@@ -53,7 +55,10 @@ public abstract class clsEntity {
 	 *
 	 * @param pnId
 	 */
-	public clsEntity(int pnId) {
+	public clsEntity(int pnId, clsConfigContainer poConfig) {
+		moConfig = getDefaultConfig();
+		moConfig.overwritewith(poConfig);
+		
 		setId(pnId);
 		
 		setEntityType();
@@ -64,6 +69,7 @@ public abstract class clsEntity {
 		mrMass = 0.0f;
 		setRegistered(false);
 	}	
+	protected abstract clsConfigContainer getDefaultConfig();
 	
 	/**
 	 * the entities cycle for perception-deliberation-action
@@ -278,4 +284,6 @@ public abstract class clsEntity {
 	public boolean isRegistered() {
 		return mnRegistered;
 	}
+	
+
 }

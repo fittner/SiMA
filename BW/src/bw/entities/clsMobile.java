@@ -7,6 +7,7 @@
  */
 package bw.entities;
 
+import bw.utils.container.clsConfigContainer;
 import sim.physics2D.shape.Shape;
 import sim.physics2D.util.Angle;
 import ARSsim.physics2D.physicalObject.clsMobileObject2D;
@@ -25,8 +26,8 @@ public abstract class clsMobile extends clsEntity {
 	private double mrDefaultRestitution = 1.0; //1.0
 
 	
-	public clsMobile(int pnId, clsPose poPose, sim.physics2D.util.Double2D poStartingVelocity, Shape poShape, double prMass) {
-		super(pnId);
+	public clsMobile(int pnId, clsPose poPose, sim.physics2D.util.Double2D poStartingVelocity, Shape poShape, double prMass,  clsConfigContainer poConfig) {
+		super(pnId, poConfig);
 		
 		if(this.meEntityType.equals(meEntityType.REMOTEBOT)) 
 			initPhysicalObject2D(new clsPose(poPose.getPosition(), new Angle(0d)), poStartingVelocity, poShape, prMass);

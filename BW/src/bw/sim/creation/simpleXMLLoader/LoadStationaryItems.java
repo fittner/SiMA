@@ -13,6 +13,7 @@ package bw.sim.creation.simpleXMLLoader;
 import ARSsim.physics2D.util.clsPose;
 import bw.entities.clsWall;
 import bw.factories.clsRegisterEntity;
+import bw.utils.container.clsConfigContainer;
 
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
@@ -106,7 +107,7 @@ public class LoadStationaryItems {
 	     			
 	     			
 	     			clsPose oPose = new clsPose(value1, value2, value4);
-		        	clsWall oWall = new clsWall(1, oPose, value5, value3);
+		        	clsWall oWall = new clsWall(1, oPose, value5, value3, new clsConfigContainer());
 		        	clsRegisterEntity.registerEntity(oWall);
 	     					  
 	     		 }   // End of if

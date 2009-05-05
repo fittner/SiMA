@@ -8,6 +8,8 @@
 package bw.entities;
 
 import java.awt.Color;
+
+import bw.utils.container.clsConfigContainer;
 import ARSsim.physics2D.util.clsPose;
 import enums.eEntityType;
 
@@ -25,8 +27,8 @@ public class clsWall extends clsStationary  {
 	
     public double radius;
     
-    public clsWall(int pnId, clsPose poPose, double prLength, double prWidth) {
-    	super(pnId, poPose, new sim.physics2D.shape.Rectangle(prLength, prWidth, clsWall.moDefaultColor));
+    public clsWall(int pnId, clsPose poPose, double prLength, double prWidth, clsConfigContainer poConfig) {
+    	super(pnId, poPose, new sim.physics2D.shape.Rectangle(prLength, prWidth, clsWall.moDefaultColor), poConfig);
     	//FIXME direction of wall ...
     } 
 
@@ -42,6 +44,23 @@ public class clsWall extends clsStationary  {
 	protected void setEntityType() {
 		meEntityType = eEntityType.WALL;
 		
+	}
+
+
+	/* (non-Javadoc)
+	 *
+	 * @author deutsch
+	 * 05.05.2009, 17:45:21
+	 * 
+	 * @see bw.entities.clsEntity#getDefaultConfig()
+	 */
+	@Override
+	protected clsConfigContainer getDefaultConfig() {
+		// TODO Auto-generated method stub
+		clsConfigContainer oDefault = new clsConfigContainer();
+	
+		
+		return oDefault;
 	}
 
 
