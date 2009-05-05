@@ -8,6 +8,8 @@
  */
 package symbolization;
 
+import decisionunit.itf.sensors.clsSensorData;
+
 /**
  * Implementation for symbolization of sensory data using the Anylogic-based 
  * BFG implementation with the RuleTrees defined in XML.  
@@ -26,7 +28,11 @@ public class clsImageSymbolization extends clsSymbolization {
 	 *
 	 */
 	public clsImageSymbolization() {
-		// TODO Auto-generated constructor stub
 	}
 
+	public void generateSymbols(clsSensorData poSensorData)
+	{
+		
+	}
+	
 }

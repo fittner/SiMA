@@ -55,10 +55,25 @@ public abstract class clsAnimate extends clsMobile{
 	
 	public void sensing() {
 		getAgentBody().stepSensing();
+		
 	}
 	
 	public void execution() {
 		getAgentBody().stepExecution(moActionList);
 	}
+	
+
+	/* (non-Javadoc)
+	 *
+	 * @author langr
+	 * 25.02.2009, 17:33:53
+	 * 
+	 * @see bw.entities.clsEntity#updateInternalState()
+	 */
+	@Override
+	public void updateInternalState() {
+		getAgentBody().stepUpdateInternalState();
+		
+	}	
 
 }

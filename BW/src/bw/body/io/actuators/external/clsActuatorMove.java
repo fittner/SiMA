@@ -17,8 +17,11 @@ import bw.body.io.actuators.itfActuatorUpdate;
 import bw.body.motionplatform.clsBrainAction;
 import bw.body.motionplatform.clsBrainActionContainer;
 import bw.body.motionplatform.clsMotionAction;
+import bw.entities.clsAnimate;
 import bw.entities.clsEntity;
 import bw.entities.clsMobile;
+import bw.entities.clsRemoteBot;
+import bw.utils.datatypes.clsMutableFloat;
 import enums.eActionCommandType;
 
 /**
@@ -149,6 +152,10 @@ public class clsActuatorMove extends clsActuatorExt implements itfActuatorUpdate
     		//break;
     	default:
     			break;
+    	}
+    	
+    	if(moEntity instanceof clsAnimate){
+    		((clsAnimate)moEntity).moAgentBody.getInternalSystem().getInternalEnergyConsumption().setValueOnce(new Integer(55), new clsMutableFloat(0.01f));
     	}
     }
 }

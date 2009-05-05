@@ -117,8 +117,8 @@ public class clsMobileObject2D extends sim.physics2D.physicalObject.MobileObject
 	 */
 	public void step(SimState state) {
 		//this block should be distributed to different steps
-		moEntity.updateInternalState();
 		moEntity.sensing();
+		moEntity.updateInternalState();
 		moEntity.processing();
 		//moEntity.execution();
 		

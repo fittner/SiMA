@@ -86,18 +86,6 @@ public class clsBubble extends clsAnimate {
 		moActionList = this.getAgentBody().getBrain().stepProcessing();
 	}
 
-	/* (non-Javadoc)
-	 *
-	 * @author langr
-	 * 25.02.2009, 17:33:53
-	 * 
-	 * @see bw.entities.clsEntity#updateInternalState()
-	 */
-	@Override
-	public void updateInternalState() {
-		// TODO Auto-generated method stub
-		
-	}
 
 	public clsEntityPartVision getVision()
 	{

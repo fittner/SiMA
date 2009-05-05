@@ -212,18 +212,7 @@ public class clsRemoteBot extends clsAnimate  {
 			}
 		}
 	}
-	
-	/* (non-Javadoc)
-	 *
-	 * @author langr
-	 * 25.02.2009, 17:36:09
-	 * 
-	 * @see bw.entities.clsEntity#updateInternalState()
-	 */
-	@Override
-	public void updateInternalState() {
-		// TODO Auto-generated method stub
-	}
+
 
 	public void execution() {
 		super.execution();

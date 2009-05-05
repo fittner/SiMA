@@ -46,7 +46,7 @@ public class clsInspectorMapping {
 	{
     	Inspector oRetVal = null;
     	
-        if (poDU == null) return null;
+        if (poDU == null) return poSuperInspector; //return standard mason inspector when decision unit is null
         
         //extend this if-statement with your new clsEntity-classes or inspectors
         if( poDU instanceof clsDumbMindA) {

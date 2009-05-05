@@ -49,8 +49,7 @@ public class clsInternalEnergyConsumption implements itfStep {
 		
 		while (i.hasNext()) {
 			Integer oKey = i.next();
-			clsMutableFloat oValue = new clsMutableFloat(moListOnce.get(oKey));
-			oTemp.put(oKey, oValue);
+			oTemp.put(oKey, moListOnce.get(oKey));
 		}
 		
 		return oTemp;
@@ -126,7 +125,7 @@ public class clsInternalEnergyConsumption implements itfStep {
 			Iterator<Integer> i = getMergedList().keySet().iterator();
 			
 			while (i.hasNext()) {
-				clsMutableFloat oValue = moList.get(i.next());
+				clsMutableFloat oValue = getMergedList().get(i.next());
 				rSum += oValue.floatValue();
 			}
 			
