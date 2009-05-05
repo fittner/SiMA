@@ -9,15 +9,16 @@ package bw.body.io;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-
 import enums.eActuatorExtType;
-
-import sim.physics2D.util.Double2D;
-
 import bw.body.clsAgentBody;
-import bw.body.io.actuators.external.*;
-import bw.body.io.sensors.external.*;
-import bw.body.motionplatform.clsBrainAction;
+import bw.body.io.actuators.external.clsActuatorEat;
+import bw.body.io.actuators.external.clsActuatorExt;
+import bw.body.io.actuators.external.clsActuatorMove;
+import bw.body.io.sensors.external.clsSensorAcceleration;
+import bw.body.io.sensors.external.clsSensorBump;
+import bw.body.io.sensors.external.clsSensorEatableArea;
+import bw.body.io.sensors.external.clsSensorExt;
+import bw.body.io.sensors.external.clsSensorVision;
 import bw.body.motionplatform.clsBrainActionContainer;
 import bw.entities.clsAnimate;
 import bw.entities.clsEntity;
@@ -62,15 +63,28 @@ public class clsExternalIO extends clsBaseIO {
 		moActuatorExternal = new HashMap<eActuatorExtType, clsActuatorExt>();
 		
 		//initialization of sensors
-		moSensorExternal.put(eSensorExtType.ACCELERATION, new clsSensorAcceleration(moEntity, this));
-		moSensorExternal.put(eSensorExtType.BUMP, new clsSensorBump(moEntity, this));
-		moSensorExternal.put(eSensorExtType.VISION ,new clsSensorVision(moEntity, this));
-		moSensorExternal.put(eSensorExtType.EATABLE_AREA ,new clsSensorEatableArea(moEntity, this, clsSensorEatableArea.DEFAULTVISIONOFFSETT));
-
+		ArrayList<eSensorExtType> oExternalSensors = new ArrayList<eSensorExtType>();
+		oExternalSensors.add(eSensorExtType.ACCELERATION);
+		oExternalSensors.add(eSensorExtType.BUMP);
+		oExternalSensors.add(eSensorExtType.VISION);
+		oExternalSensors.add(eSensorExtType.EATABLE_AREA);
+		
+		initSensorExternal(oExternalSensors);
 		
 		//initialization of actuators
 		moActuatorExternal.put(eActuatorExtType.EAT , new clsActuatorEat((clsAnimate)moEntity, this));
 		moActuatorExternal.put(eActuatorExtType.MOTION, new clsActuatorMove(moEntity, this));
+	}
+	
+	private void initSensorExternal(ArrayList<eSensorExtType> poExternalSensors) {
+		for (eSensorExtType eType:poExternalSensors) {
+			switch (eType) {
+				case ACCELERATION: moSensorExternal.put(eSensorExtType.ACCELERATION, new clsSensorAcceleration(moEntity, this)); break;
+				case BUMP: moSensorExternal.put(eSensorExtType.BUMP, new clsSensorBump(moEntity, this)); break;
+				case VISION: moSensorExternal.put(eSensorExtType.VISION ,new clsSensorVision(moEntity, this)); break;
+				case EATABLE_AREA: moSensorExternal.put(eSensorExtType.EATABLE_AREA ,new clsSensorEatableArea(moEntity, this, clsSensorEatableArea.DEFAULTVISIONOFFSETT)); break;
+			}
+		}
 	}
 
 	/* (non-Javadoc)
