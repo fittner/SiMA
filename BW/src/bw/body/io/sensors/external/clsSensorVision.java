@@ -7,8 +7,6 @@
  */
 package bw.body.io.sensors.external;
 
-import java.awt.Color;
-import java.awt.Paint;
 import java.util.HashMap;
 import java.util.Iterator;
 
@@ -17,8 +15,6 @@ import sim.physics2D.util.Angle;
 import sim.physics2D.util.Double2D;
 
 import ARSsim.physics2D.util.clsPolarcoordinate;
-import ARSsim.physics2D.util.clsPose;
-import bfg.tools.shapes.clsPoint;
 import bw.body.io.clsBaseIO;
 import bw.entities.clsEntity;
 import bw.entities.clsMobile;
