@@ -32,6 +32,11 @@ public final class clsRegisterEntity {
 		clsSingletonMasonGetter.getPhysicsEngine2D().register(poPhysicalObject2D);
 	}
 	
+	public static void unRegisterPhysicalObject2D(PhysicalObject2D poPhysicalObject2D) {
+		clsSingletonMasonGetter.getPhysicsEngine2D().unRegister(poPhysicalObject2D);
+		clsSingletonMasonGetter.getFieldEnvironment().allObjects.remove(poPhysicalObject2D);
+	}
+	
 	/**
 	 *
 	 * This function registers mason's PhysicalObject2D in the

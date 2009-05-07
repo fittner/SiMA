@@ -9,6 +9,7 @@ package bw.entities;
 
 import java.awt.Color;
 import bw.actionresponses.clsCakeResponses;
+import bw.factories.clsRegisterEntity;
 import bw.utils.container.clsConfigMap;
 import enums.eEntityType;
 import ARSsim.physics2D.util.clsPose;
@@ -120,8 +121,11 @@ public class clsCake extends clsInanimate {
 		if (mnTotallyConsumed && !mnShapeUpdated) {
 			mnShapeUpdated = true;
 			setShape(new sim.physics2D.shape.Circle(clsCake.mrDefaultRadius, Color.gray), clsCake.mrDefaultMass);
+			
+			//TODO langr: wohin damit
+			//This command removes the cake from the playground
+			clsRegisterEntity.unRegisterPhysicalObject2D(getMobileObject2D());
 		}
-		
 	}
 
 	/* (non-Javadoc)
