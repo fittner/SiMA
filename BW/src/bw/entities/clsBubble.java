@@ -16,7 +16,7 @@ import bw.body.io.sensors.external.clsSensorEatableArea;
 import bw.body.io.sensors.external.clsSensorVision;
 import ARSsim.physics2D.util.clsPose;
 import bw.physicalObjects.sensors.clsEntityPartVision;
-import bw.utils.container.clsConfigContainer;
+import bw.utils.container.clsConfigMap;
 import enums.eEntityType;
 
 import simple.dumbmind.clsDumbMindA;
@@ -45,7 +45,7 @@ public class clsBubble extends clsAnimate {
 	 * @param poStartingPose
 	 * @param poStartingVelocity
 	 */
-	public clsBubble(int pnId, clsPose poStartingPose, sim.physics2D.util.Double2D poStartingVelocity, Paint poColor,  clsConfigContainer poConfig)
+	public clsBubble(int pnId, clsPose poStartingPose, sim.physics2D.util.Double2D poStartingVelocity, Paint poColor,  clsConfigMap poConfig)
     {
 		super(pnId, 
 				poStartingPose, 
@@ -112,9 +112,9 @@ public class clsBubble extends clsAnimate {
 	 * @see bw.entities.clsEntity#getDefaultConfig()
 	 */
 	@Override
-	protected clsConfigContainer getDefaultConfig() {
+	protected clsConfigMap getDefaultConfig() {
 		// TODO Auto-generated method stub
-		clsConfigContainer oDefault = super.getDefaultConfig();
+		clsConfigMap oDefault = super.getDefaultConfig();
 	
 		
 		return oDefault;

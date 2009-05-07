@@ -7,9 +7,15 @@
  */
 package bw.body.internalSystems;
 
+import bw.exceptions.exFoodAlreadyNormalized;
 import bw.exceptions.exFoodAmountBelowZero;
+import bw.utils.container.clsConfigMap;
+import bw.utils.container.clsConfigFloat;
+import bw.utils.enums.eConfigEntries;
+import bw.utils.enums.eNutritions;
 import bw.utils.tools.clsFood;
 import java.lang.Math;
+import java.util.Iterator;
 
 /**
  * TODO (deutsch) - insert description 
@@ -18,6 +24,56 @@ import java.lang.Math;
  * 
  */
 public class clsFlesh extends clsFood {
+    private clsConfigMap moConfig;	
+	
+	public clsFlesh(clsConfigMap poConfig) {
+		super();
+		applyConfig(poConfig);		
+	}
+	
+	private void applyConfig(clsConfigMap poConfig) {
+		moConfig = getDefaultConfig();
+		moConfig.overwritewith(poConfig);	
+		
+		clsConfigMap oNutritions = (clsConfigMap) moConfig.get(eConfigEntries.NUTRITIONS);
+		
+		Iterator<Integer> i = oNutritions.iterator();
+		
+		try {
+			while (i.hasNext()) {
+				Integer oKey = i.next();
+				addNutritionFraction(oKey, ((clsConfigFloat)oNutritions.get(oKey)).get());
+			}
+		} catch (exFoodAlreadyNormalized e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		try {
+			finalize();
+		} catch (exFoodAlreadyNormalized e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+
+	private clsConfigMap getDefaultConfig() {
+		clsConfigMap oDefault = new clsConfigMap();
+		
+		clsConfigMap oNutritions = new clsConfigMap();
+		
+		oNutritions.add(eNutritions.FAT, new clsConfigFloat(0.3f));
+		oNutritions.add(eNutritions.PROTEIN, new clsConfigFloat(0.1f));
+		oNutritions.add(eNutritions.VITAMIN, new clsConfigFloat(0.2f));
+		oNutritions.add(eNutritions.CARBOHYDRATE, new clsConfigFloat(0.5f));
+		oNutritions.add(eNutritions.WATER, new clsConfigFloat(1.3f));
+		oNutritions.add(eNutritions.MINERAL, new clsConfigFloat(0.4f));
+		oNutritions.add(eNutritions.TRACEELEMENT, new clsConfigFloat(0.01f));
+		
+		oDefault.add(eConfigEntries.NUTRITIONS, oNutritions);
+		//TODO add default values
+		return oDefault;
+	}	
 
 	/**
 	 * TODO (deutsch) - insert description

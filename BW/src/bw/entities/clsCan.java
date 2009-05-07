@@ -13,7 +13,7 @@ import java.util.ArrayList;
 import ARSsim.physics2D.util.clsPose;
 import bw.body.motionplatform.clsBrainAction;
 import bw.body.motionplatform.clsBrainActionContainer;
-import bw.utils.container.clsConfigContainer;
+import bw.utils.container.clsConfigMap;
 import enums.eEntityType;
 
 public class clsCan extends clsInanimate {
@@ -21,7 +21,7 @@ public class clsCan extends clsInanimate {
 	private static double mrDefaultRadius = 2.0f;
 	private static Color moDefaultColor = Color.blue;	
     
-    public clsCan(int pnId, clsPose poStartingPose, sim.physics2D.util.Double2D poStartingVelocity, clsConfigContainer poConfig) {
+    public clsCan(int pnId, clsPose poStartingPose, sim.physics2D.util.Double2D poStartingVelocity, clsConfigMap poConfig) {
 		super(pnId, 
 				poStartingPose, 
 				poStartingVelocity, 
@@ -91,9 +91,9 @@ public class clsCan extends clsInanimate {
 	 * @see bw.entities.clsEntity#getDefaultConfig()
 	 */
 	@Override
-	protected clsConfigContainer getDefaultConfig() {
+	protected clsConfigMap getDefaultConfig() {
 		// TODO Auto-generated method stub
-		clsConfigContainer oDefault = super.getDefaultConfig();
+		clsConfigMap oDefault = super.getDefaultConfig();
 	
 		
 		return oDefault;

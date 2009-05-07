@@ -10,6 +10,9 @@ package bw.body.internalSystems;
 import bw.body.itfStepUpdateInternalState;
 import bw.exceptions.exContentColumnMaxContentExceeded;
 import bw.exceptions.exContentColumnMinContentUnderrun;
+import bw.utils.container.clsConfigMap;
+import bw.utils.container.clsConfigFloat;
+import bw.utils.enums.eConfigEntries;
 import bw.utils.tools.clsFillLevel;
 
 /**
@@ -19,25 +22,48 @@ import bw.utils.tools.clsFillLevel;
  * 
  */
 public class clsTemperatureSystem implements itfStepUpdateInternalState {
+    private clsConfigMap moConfig;
+    
 	private clsFillLevel moTemperature;
-	
-	private float mrDefaultContent = 1.0f;
-	private float mrDefaultMaxContent = 2.0f;
-	private float mrDefaultChange = 0.0f;
-	private float mrDefaultLowerBound = 0.9f;
-	private float mrDefaultUpperBound = 1.1f;
 	
 	private float mrSelfRegulationAdaption;
 	
-	public clsTemperatureSystem() {
+	public clsTemperatureSystem(clsConfigMap poConfig) {
+		applyConfig(poConfig);	
+		
 		try {
-			moTemperature = new clsFillLevel(mrDefaultContent, mrDefaultMaxContent, mrDefaultChange, mrDefaultLowerBound, mrDefaultUpperBound);
+			moTemperature = new clsFillLevel(
+					((clsConfigFloat)moConfig.get(eConfigEntries.CONTENT)).get(), 
+					((clsConfigFloat)moConfig.get(eConfigEntries.MAXCONTENT)).get(), 
+					((clsConfigFloat)moConfig.get(eConfigEntries.CHANGE)).get(), 
+					((clsConfigFloat)moConfig.get(eConfigEntries.LOWERBOUND)).get(), 
+					((clsConfigFloat)moConfig.get(eConfigEntries.UPPERBOUND)).get()
+					);
 		} catch (exContentColumnMaxContentExceeded e) {
 		} catch (exContentColumnMinContentUnderrun e) {
 		}
 		
-		mrSelfRegulationAdaption = 0.01f;
 	}
+	
+	private void applyConfig(clsConfigMap poConfig) {
+		moConfig = getDefaultConfig();
+		moConfig.overwritewith(poConfig);	
+		
+		mrSelfRegulationAdaption = ((clsConfigFloat)moConfig.get(eConfigEntries.SELFREGULATIONADAPTION)).get();
+	}
+
+	private clsConfigMap getDefaultConfig() {
+		clsConfigMap oDefault = new clsConfigMap();
+		
+		oDefault.add(eConfigEntries.CONTENT, new clsConfigFloat(1.0f));
+		oDefault.add(eConfigEntries.MAXCONTENT, new clsConfigFloat(2.0f));
+		oDefault.add(eConfigEntries.CHANGE, new clsConfigFloat(0.0f));
+		oDefault.add(eConfigEntries.LOWERBOUND, new clsConfigFloat(0.9f));
+		oDefault.add(eConfigEntries.UPPERBOUND, new clsConfigFloat(1.1f));
+		oDefault.add(eConfigEntries.SELFREGULATIONADAPTION, new clsConfigFloat(0.01f));
+
+		return oDefault;
+	}	
 	
 	public void cool(float prCooledBy) {
 		try {

@@ -8,7 +8,7 @@
  */
 package bw.body;
 
-import bw.utils.container.clsConfigContainer;
+import bw.utils.container.clsConfigMap;
 
 /**
  * TODO (deutsch) - insert description 
@@ -18,17 +18,18 @@ import bw.utils.container.clsConfigContainer;
  * 
  */
 public abstract class clsBaseBody implements itfStepSensing, itfStepUpdateInternalState, itfStepProcessing, itfStepExecution {
-	protected clsConfigContainer moConfig;
+	protected clsConfigMap moConfig;
 	
-	protected clsConfigContainer getDefaultConfig() {
-		clsConfigContainer oDefault = new clsConfigContainer();
+	public clsBaseBody(clsConfigMap poConfig){
+		moConfig = getDefaultConfig();
+		moConfig.overwritewith(poConfig);
+	}
+	
+	protected clsConfigMap getDefaultConfig() {
+		clsConfigMap oDefault = new clsConfigMap();
 		
 		return oDefault;
 	}
 	
-	public clsBaseBody(clsConfigContainer poConfig){
-		moConfig = getDefaultConfig();
-		moConfig.overwritewith(poConfig);
-	}
 
 }

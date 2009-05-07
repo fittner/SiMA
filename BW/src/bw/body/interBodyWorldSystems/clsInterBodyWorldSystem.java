@@ -9,7 +9,7 @@ package bw.body.interBodyWorldSystems;
 
 import bw.body.itfStepUpdateInternalState;
 import bw.body.internalSystems.clsInternalSystem;
-import bw.utils.container.clsConfigContainer;
+import bw.utils.container.clsConfigMap;
 
 /**
  * TODO (deutsch) - insert description 
@@ -22,14 +22,14 @@ public class clsInterBodyWorldSystem implements itfStepUpdateInternalState {
 	private clsDamageBump moDamageBump;
 	private clsDamageLightning moDamageLightning;
     
-    private clsConfigContainer moConfig;
+    private clsConfigMap moConfig;
     
 	private static final int mnDefaultGarbageNutritionType = 1; 
 
 	/**
 	 * 
 	 */
-	public clsInterBodyWorldSystem(clsInternalSystem poInternalSystem, clsConfigContainer poConfig) {
+	public clsInterBodyWorldSystem(clsInternalSystem poInternalSystem, clsConfigMap poConfig) {
 		moConfig = getDefaultConfig();
 		moConfig.overwritewith(poConfig);
 		
@@ -38,8 +38,8 @@ public class clsInterBodyWorldSystem implements itfStepUpdateInternalState {
 		moDamageLightning = new clsDamageLightning(poInternalSystem);
 	}
 	
-	private clsConfigContainer getDefaultConfig() {
-		clsConfigContainer oDefault = new clsConfigContainer();
+	private clsConfigMap getDefaultConfig() {
+		clsConfigMap oDefault = new clsConfigMap();
 		//TODO add default values
 		return oDefault;
 	}	

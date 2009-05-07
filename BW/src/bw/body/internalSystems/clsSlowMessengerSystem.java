@@ -15,6 +15,9 @@ import bw.exceptions.exContentColumnMinContentUnderrun;
 import bw.exceptions.exSlowMessengerAlreadyExists;
 import bw.exceptions.exSlowMessengerDoesNotExist;
 import bw.exceptions.exValueNotWithinRange;
+import bw.utils.container.clsConfigMap;
+import bw.utils.container.clsConfigFloat;
+import bw.utils.enums.eConfigEntries;
 import bw.utils.tools.clsDecayColumn;
 
 /**
@@ -24,20 +27,43 @@ import bw.utils.tools.clsDecayColumn;
  * 
  */
 public class clsSlowMessengerSystem implements itfStepUpdateInternalState {
+    private clsConfigMap moConfig;
+    
 	private HashMap<Integer, clsDecayColumn> moSlowMessengerContainer;
 
-	private float mrDefaultContent = 0.0f;
-	private float mrDefaultMaxContent = 1.0f;
-	private float mrDefaultIncreaseRate = 0.1f;
-	private float mrDefaultDecayRate = 0.01f;
+	private float mrDefaultContent;
+	private float mrDefaultMaxContent;
+	private float mrDefaultIncreaseRate;
+	private float mrDefaultDecayRate;
 	 
 	/**
 	 * 
 	 */
-	public clsSlowMessengerSystem() {
-		super();
-		
+	public clsSlowMessengerSystem(clsConfigMap poConfig) {
 		moSlowMessengerContainer = new HashMap<Integer, clsDecayColumn>();
+		
+		applyConfig(poConfig);		
+	}
+	
+	private void applyConfig(clsConfigMap poConfig) {
+		moConfig = getDefaultConfig();
+		moConfig.overwritewith(poConfig);	
+		
+		mrDefaultContent = ((clsConfigFloat)moConfig.get(eConfigEntries.CONTENT)).get();
+		mrDefaultMaxContent = ((clsConfigFloat)moConfig.get(eConfigEntries.MAXCONTENT)).get();
+		mrDefaultIncreaseRate = ((clsConfigFloat)moConfig.get(eConfigEntries.INCREASERATE)).get();
+		mrDefaultDecayRate = ((clsConfigFloat)moConfig.get(eConfigEntries.DECAYRATE)).get();
+	}
+
+	private clsConfigMap getDefaultConfig() {
+		clsConfigMap oDefault = new clsConfigMap();
+		
+		oDefault.add(eConfigEntries.CONTENT, new clsConfigFloat(0.0f));
+		oDefault.add(eConfigEntries.MAXCONTENT, new clsConfigFloat(1.0f));
+		oDefault.add(eConfigEntries.INCREASERATE, new clsConfigFloat(0.1f));
+		oDefault.add(eConfigEntries.DECAYRATE, new clsConfigFloat(0.01f));
+		
+		return oDefault;
 	}
 	
 	/**

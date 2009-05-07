@@ -11,6 +11,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 
 import bw.body.itfStep;
+import bw.utils.container.clsConfigMap;
 import bw.utils.datatypes.clsMutableFloat;
 
 /**
@@ -26,6 +27,8 @@ import bw.utils.datatypes.clsMutableFloat;
  * 
  */
 public class clsInternalEnergyConsumption implements itfStep {
+    private clsConfigMap moConfig;
+    
 	private HashMap<Integer, clsMutableFloat> moList; // this list stores all registered values.
 	private HashMap<Integer, clsMutableFloat> moListOnce; // this list stores all registered values.
 	float mrSum; 											// stores the sum of all values within moList.
@@ -34,12 +37,27 @@ public class clsInternalEnergyConsumption implements itfStep {
 	/**
 	 * This constructor initializes moList with an empty HashMap, mnDirtyFlag is set to true, and mnSum is set to 0.
 	 */
-	public clsInternalEnergyConsumption() {
+	public clsInternalEnergyConsumption(clsConfigMap poConfig) {
 		moList = new HashMap<Integer, clsMutableFloat>();
 		moListOnce = new HashMap<Integer, clsMutableFloat>();
 		mnDirtyFlag = true;
 		mrSum = 0.0f;
+		
+		applyConfig(poConfig);		
 	}
+	
+	private void applyConfig(clsConfigMap poConfig) {
+		moConfig = getDefaultConfig();
+		moConfig.overwritewith(poConfig);	
+		
+		//TODO add custom code
+	}
+
+	private clsConfigMap getDefaultConfig() {
+		clsConfigMap oDefault = new clsConfigMap();
+		//TODO add default values
+		return oDefault;
+	}	
 	
 	
 	public HashMap<Integer, clsMutableFloat> getMergedList() {

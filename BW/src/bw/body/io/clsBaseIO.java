@@ -11,7 +11,7 @@ import bw.body.itfStep;
 import bw.body.itfStepExecution;
 import bw.body.itfStepSensing;
 import bw.body.internalSystems.clsInternalEnergyConsumption;
-import bw.utils.container.clsConfigContainer;
+import bw.utils.container.clsConfigMap;
 import bw.utils.datatypes.clsMutableFloat;
 
 /**
@@ -22,9 +22,9 @@ import bw.utils.datatypes.clsMutableFloat;
  */
 public abstract class clsBaseIO implements itfStepSensing, itfStepExecution  {
 	private clsInternalEnergyConsumption moInternalEnergyConsumption;
-    protected clsConfigContainer moConfig;
+    protected clsConfigMap moConfig;
     
-	public clsBaseIO(clsInternalEnergyConsumption poInternalEnergyConsumption, clsConfigContainer poConfig) {
+	public clsBaseIO(clsInternalEnergyConsumption poInternalEnergyConsumption, clsConfigMap poConfig) {
 		moConfig = getDefaultConfig();
 		moConfig.overwritewith(poConfig);
 		
@@ -35,5 +35,5 @@ public abstract class clsBaseIO implements itfStepSensing, itfStepExecution  {
 		moInternalEnergyConsumption.setValue(new Integer(pnId), new clsMutableFloat(prValue));
 	}
 	
-	protected abstract clsConfigContainer getDefaultConfig();
+	protected abstract clsConfigMap getDefaultConfig();
 }

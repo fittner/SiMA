@@ -17,7 +17,7 @@ import bw.body.motionplatform.clsEatAction;
 import bw.body.motionplatform.clsMotionAction;
 import bw.physicalObjects.bodyparts.clsBotHands;
 import bw.physicalObjects.sensors.clsEntityPartVision;
-import bw.utils.container.clsConfigContainer;
+import bw.utils.container.clsConfigMap;
 import bw.body.io.sensors.external.clsSensorEatableArea;
 import bw.body.io.sensors.external.clsSensorVision;
 import bw.factories.clsSingletonUniqueIdGenerator;
@@ -61,7 +61,7 @@ public class clsRemoteBot extends clsAnimate  {
 	 * @param poStartingPose
 	 * @param poStartingVelocity
 	 */
-	public clsRemoteBot(int pnId, clsPose poStartingPose, sim.physics2D.util.Double2D poStartingVelocity, clsConfigContainer poConfig) {
+	public clsRemoteBot(int pnId, clsPose poStartingPose, sim.physics2D.util.Double2D poStartingVelocity, clsConfigMap poConfig) {
 		super(pnId, poStartingPose, poStartingVelocity, new sim.physics2D.shape.Circle(clsRemoteBot.mrDefaultRadius, clsRemoteBot.moDefaultColor), clsRemoteBot.mrDefaultWeight, poConfig);
 		
 		addBotHands();
@@ -233,9 +233,9 @@ public class clsRemoteBot extends clsAnimate  {
 	 * @see bw.entities.clsEntity#getDefaultConfig()
 	 */
 	@Override
-	protected clsConfigContainer getDefaultConfig() {
+	protected clsConfigMap getDefaultConfig() {
 		// TODO Auto-generated method stub
-		clsConfigContainer oDefault = super.getDefaultConfig();
+		clsConfigMap oDefault = super.getDefaultConfig();
 	
 		
 		return oDefault;

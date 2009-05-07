@@ -9,7 +9,7 @@ package bw.entities;
 
 import java.awt.Color;
 import bw.actionresponses.clsCakeResponses;
-import bw.utils.container.clsConfigContainer;
+import bw.utils.container.clsConfigMap;
 import enums.eEntityType;
 import ARSsim.physics2D.util.clsPose;
 
@@ -30,7 +30,7 @@ public class clsCake extends clsInanimate {
 	private boolean mnTotallyConsumed;
 	private boolean mnShapeUpdated;
 
-	public clsCake(int pnId, clsPose poPose, sim.physics2D.util.Double2D poStartingVelocity, clsConfigContainer poConfig)
+	public clsCake(int pnId, clsPose poPose, sim.physics2D.util.Double2D poStartingVelocity, clsConfigMap poConfig)
     {
 //		super(pnId, poPose, poStartingVelocity, new ARSsim.physics2D.shape.clsCircleImage(prRadius, clsStone.moDefaultColor, clsStone.moImagePath), prRadius * clsStone.mrDefaultRadiusToMassConversion);
 		//todo muchitsch ... hier wird eine default shape �bergeben, nicht null, sonst krachts
@@ -132,9 +132,9 @@ public class clsCake extends clsInanimate {
 	 * @see bw.entities.clsEntity#getDefaultConfig()
 	 */
 	@Override
-	protected clsConfigContainer getDefaultConfig() {
+	protected clsConfigMap getDefaultConfig() {
 		// TODO Auto-generated method stub
-		clsConfigContainer oDefault = super.getDefaultConfig();
+		clsConfigMap oDefault = super.getDefaultConfig();
 	
 		
 		return oDefault;

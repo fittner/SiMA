@@ -13,7 +13,7 @@ import java.util.ArrayList;
 import ARSsim.physics2D.util.clsPose;
 import bw.body.motionplatform.clsBrainAction;
 import bw.body.motionplatform.clsBrainActionContainer;
-import bw.utils.container.clsConfigContainer;
+import bw.utils.container.clsConfigMap;
 import enums.eEntityType;
 
 /**
@@ -32,7 +32,7 @@ public class clsPlant extends clsAnimate{
 	private static double mrDefaultRadius = 10.0f;
 	private static Color moDefaultColor = Color.ORANGE;	
     
-    public clsPlant(int pnId, clsPose poStartingPose, sim.physics2D.util.Double2D poStartingVelocity, clsConfigContainer poConfig) {
+    public clsPlant(int pnId, clsPose poStartingPose, sim.physics2D.util.Double2D poStartingVelocity, clsConfigMap poConfig) {
 		super(pnId, poStartingPose, poStartingVelocity, new sim.physics2D.shape.Circle(clsPlant.mrDefaultRadius, clsPlant.moDefaultColor), clsPlant.mrDefaultWeight, poConfig);
 
     }
@@ -98,9 +98,9 @@ public class clsPlant extends clsAnimate{
 	 * @see bw.entities.clsEntity#getDefaultConfig()
 	 */
 	@Override
-	protected clsConfigContainer getDefaultConfig() {
+	protected clsConfigMap getDefaultConfig() {
 		// TODO Auto-generated method stub
-		clsConfigContainer oDefault = super.getDefaultConfig();
+		clsConfigMap oDefault = super.getDefaultConfig();
 	
 		
 		return oDefault;

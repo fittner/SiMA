@@ -27,7 +27,7 @@ public class tstStomachSystem {
 	 */
 	@Test
 	public void testClsStomachSystem() {
-		clsStomachSystem oSS = new clsStomachSystem();
+		clsStomachSystem oSS = new clsStomachSystem(null);
 		
 		assertNotNull(oSS);
 	}
@@ -37,7 +37,7 @@ public class tstStomachSystem {
 	 */
 	@Test
 	public void testAddNutritionType() {
-		clsStomachSystem oSS = new clsStomachSystem();
+		clsStomachSystem oSS = new clsStomachSystem(null);
 
 		assertNull(oSS.getNutritionLevel(1));
 		
@@ -51,7 +51,7 @@ public class tstStomachSystem {
 	 */
 	@Test
 	public void testRemoveNutritionType() {
-		clsStomachSystem oSS = new clsStomachSystem();
+		clsStomachSystem oSS = new clsStomachSystem(null);
 
 		assertNull(oSS.getNutritionLevel(1));
 		
@@ -70,7 +70,7 @@ public class tstStomachSystem {
 	 */
 	@Test
 	public void testGetNutritionLevel() {
-		clsStomachSystem oSS = new clsStomachSystem();
+		clsStomachSystem oSS = new clsStomachSystem(null);
 
 		oSS.addNutritionType(1);
 		
@@ -82,7 +82,7 @@ public class tstStomachSystem {
 	 */
 	@Test
 	public void testAddNutrition() {
-		clsStomachSystem oSS = new clsStomachSystem();
+		clsStomachSystem oSS = new clsStomachSystem(null);
 		oSS.addNutritionType(1);
 		oSS.addNutritionType(2);
 		oSS.addNutritionType(3);
@@ -118,7 +118,7 @@ public class tstStomachSystem {
 	 */
 	@Test
 	public void testWithdrawNutrition() {
-		clsStomachSystem oSS = new clsStomachSystem();
+		clsStomachSystem oSS = new clsStomachSystem(null);
 		oSS.addNutritionType(1);
 		oSS.addNutritionType(2);
 		oSS.addNutritionType(3);
@@ -173,7 +173,7 @@ public class tstStomachSystem {
 	 */
 	@Test
 	public void testAddEnergy() {
-		clsStomachSystem oSS = new clsStomachSystem();
+		clsStomachSystem oSS = new clsStomachSystem(null);
 		oSS.addNutritionType(1);
 		oSS.addNutritionType(2);
 		oSS.addNutritionType(3);
@@ -202,7 +202,7 @@ public class tstStomachSystem {
 	 */
 	@Test
 	public void testWithdrawEnergy() {
-		clsStomachSystem oSS = new clsStomachSystem();
+		clsStomachSystem oSS = new clsStomachSystem(null);
 		oSS.addNutritionType(1);
 		oSS.addNutritionType(2);
 		oSS.addNutritionType(3);
@@ -243,7 +243,7 @@ public class tstStomachSystem {
 	 */
 	@Test
 	public void testStep() {
-		clsStomachSystem oSS = new clsStomachSystem();
+		clsStomachSystem oSS = new clsStomachSystem(null);
 		oSS.addNutritionType(1);
 		oSS.addNutritionType(2);
 		oSS.addNutritionType(3);
@@ -282,7 +282,7 @@ public class tstStomachSystem {
 	 */
 	@Test
 	public void testGetEnergy() {
-		clsStomachSystem oSS = new clsStomachSystem();
+		clsStomachSystem oSS = new clsStomachSystem(null);
 		
 		assertEquals(oSS.getEnergy(), 0.0f, 0.000001f);
 		

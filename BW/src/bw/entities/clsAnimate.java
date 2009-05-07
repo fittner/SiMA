@@ -13,7 +13,7 @@ import sim.physics2D.shape.Shape;
 import ARSsim.physics2D.util.clsPose;
 import bw.body.clsAgentBody;
 import bw.body.motionplatform.clsBrainActionContainer;
-import bw.utils.container.clsConfigContainer;
+import bw.utils.container.clsConfigMap;
 
 
 /**
@@ -32,7 +32,7 @@ public abstract class clsAnimate extends clsMobile{
 	 * @param poStartingVelocity
 	 * @param pnId
 	 */
-	public clsAnimate(int pnId, clsPose poPose, sim.physics2D.util.Double2D poStartingVelocity, Shape poShape, double poMass, clsConfigContainer poConfig) {
+	public clsAnimate(int pnId, clsPose poPose, sim.physics2D.util.Double2D poStartingVelocity, Shape poShape, double poMass, clsConfigMap poConfig) {
 		super(pnId, poPose, poStartingVelocity, poShape, poMass, poConfig);
 		
 		moAgentBody = new clsAgentBody(this, poConfig);
@@ -85,9 +85,9 @@ public abstract class clsAnimate extends clsMobile{
 	 * @see bw.entities.clsEntity#getDefaultConfig()
 	 */
 	@Override
-	protected clsConfigContainer getDefaultConfig() {
+	protected clsConfigMap getDefaultConfig() {
 		// TODO Auto-generated method stub
-		clsConfigContainer oDefault = super.getDefaultConfig();
+		clsConfigMap oDefault = super.getDefaultConfig();
 	
 		
 		return oDefault;

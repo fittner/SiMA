@@ -7,7 +7,7 @@
  */
 package bw.entities;
 
-import bw.utils.container.clsConfigContainer;
+import bw.utils.container.clsConfigMap;
 import sim.physics2D.shape.Shape;
 import sim.physics2D.util.Angle;
 import ARSsim.physics2D.physicalObject.clsMobileObject2D;
@@ -26,7 +26,7 @@ public abstract class clsMobile extends clsEntity {
 	private double mrDefaultRestitution = 1.0; //1.0
 
 	
-	public clsMobile(int pnId, clsPose poPose, sim.physics2D.util.Double2D poStartingVelocity, Shape poShape, double prMass,  clsConfigContainer poConfig) {
+	public clsMobile(int pnId, clsPose poPose, sim.physics2D.util.Double2D poStartingVelocity, Shape poShape, double prMass,  clsConfigMap poConfig) {
 		super(pnId, poConfig);
 		
 		if(this.meEntityType.equals(meEntityType.REMOTEBOT)) 
@@ -71,9 +71,9 @@ public abstract class clsMobile extends clsEntity {
 	 * @see bw.entities.clsEntity#getDefaultConfig()
 	 */
 	@Override
-	protected clsConfigContainer getDefaultConfig() {
+	protected clsConfigMap getDefaultConfig() {
 		// TODO Auto-generated method stub
-		clsConfigContainer oDefault = super.getDefaultConfig();
+		clsConfigMap oDefault = super.getDefaultConfig();
 	
 		
 		return oDefault;

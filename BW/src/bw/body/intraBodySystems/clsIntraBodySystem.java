@@ -9,7 +9,7 @@ package bw.body.intraBodySystems;
 
 import bw.body.itfStepUpdateInternalState;
 import bw.body.internalSystems.clsInternalSystem;
-import bw.utils.container.clsConfigContainer;
+import bw.utils.container.clsConfigMap;
 
 /**
  * TODO (deutsch) - insert description 
@@ -23,9 +23,9 @@ public class clsIntraBodySystem implements itfStepUpdateInternalState{
     private clsDamageNutrition moDamageNutrition;
     private clsDamageTemperature moDamageTemperature;
     
-    private clsConfigContainer moConfig;
+    private clsConfigMap moConfig;
     
-    public clsIntraBodySystem(clsInternalSystem poInternalSystem, clsConfigContainer poConfig) {
+    public clsIntraBodySystem(clsInternalSystem poInternalSystem, clsConfigMap poConfig) {
 		moConfig = getDefaultConfig();
 		moConfig.overwritewith(poConfig);
 		
@@ -36,8 +36,8 @@ public class clsIntraBodySystem implements itfStepUpdateInternalState{
 	   moDamageTemperature = new clsDamageTemperature(poInternalSystem);
     }
     
-	private clsConfigContainer getDefaultConfig() {
-		clsConfigContainer oDefault = new clsConfigContainer();
+	private clsConfigMap getDefaultConfig() {
+		clsConfigMap oDefault = new clsConfigMap();
 		//TODO add default values
 		return oDefault;
 	}	

@@ -20,10 +20,10 @@ import bw.utils.enums.eBindingState;
  * 05.05.2009, 13:54:11
  * 
  */
-public class clsConfigContainer extends clsBaseConfig {
+public class clsConfigMap extends clsConfigCollection {
 	private HashMap<Integer, clsBaseConfig> moConfig;
 	
-	public clsConfigContainer() {
+	public clsConfigMap() {
 		moConfig = new HashMap<Integer, clsBaseConfig>();
 	}
 
@@ -42,6 +42,10 @@ public class clsConfigContainer extends clsBaseConfig {
 		return get(poKey.ordinal());
 	}
 	
+	public Iterator<Integer> iterator() {
+		return moConfig.keySet().iterator();
+	}
+	
 	public void clear() {
 		moConfig.clear();
 	}
@@ -54,7 +58,7 @@ public class clsConfigContainer extends clsBaseConfig {
 		return containsKey(poKey.ordinal());
 	}
 	
-	public void overwritewith(clsConfigContainer poOther) {
+	public void overwritewith(clsConfigMap poOther) {
 		if (poOther != null) {
 			Iterator<Integer> i = poOther.moConfig.keySet().iterator();
 			
@@ -74,13 +78,14 @@ public class clsConfigContainer extends clsBaseConfig {
 	 */
 	@Override
 	public String toString() {
-		String oResult = "ConfigContainer\n";
+		String oResult = "ConfigMap\n";
 		
 		Iterator<Integer> i = moConfig.keySet().iterator();
 		
 		while (i.hasNext()) {
 			oResult += i + ": "+ moConfig.get(i.next()).toString() + "\n";
 		}
+		oResult +="----\n";
 		
 		return oResult;
 	}

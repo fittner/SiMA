@@ -34,7 +34,7 @@ public class tstSlowMessengerSystem {
 	 */
 	@Test
 	public void testClsSlowMessengerSystem() {
-		clsSlowMessengerSystem oSMS = new clsSlowMessengerSystem();
+		clsSlowMessengerSystem oSMS = new clsSlowMessengerSystem(null);
 		
 		assertNotNull(oSMS);		
 	}
@@ -44,7 +44,7 @@ public class tstSlowMessengerSystem {
 	 */
 	@Test
 	public void testAddSlowMessengerInt() {
-		clsSlowMessengerSystem oSMS = new clsSlowMessengerSystem();
+		clsSlowMessengerSystem oSMS = new clsSlowMessengerSystem(null);
 		clsDecayColumn oDC = null;
 		
 		try {
@@ -97,7 +97,7 @@ public class tstSlowMessengerSystem {
 	 */
 	@Test
 	public void testGetSlowMessengers() {
-		clsSlowMessengerSystem oSMS = new clsSlowMessengerSystem();
+		clsSlowMessengerSystem oSMS = new clsSlowMessengerSystem(null);
 		try {
 			oSMS.addSlowMessenger(1);
 			oSMS.addSlowMessenger(2);
@@ -119,7 +119,7 @@ public class tstSlowMessengerSystem {
 	 */
 	@Test
 	public void testExistsSlowMessengerInt() {
-		clsSlowMessengerSystem oSMS = new clsSlowMessengerSystem();
+		clsSlowMessengerSystem oSMS = new clsSlowMessengerSystem(null);
 		try {
 			oSMS.addSlowMessenger(1);
 			oSMS.addSlowMessenger(2);
@@ -140,7 +140,7 @@ public class tstSlowMessengerSystem {
 	 */
 	@Test
 	public void testGetMessengerValueVsInject() {
-		clsSlowMessengerSystem oSMS = new clsSlowMessengerSystem();
+		clsSlowMessengerSystem oSMS = new clsSlowMessengerSystem(null);
 		try {
 			oSMS.addSlowMessenger(1);
 		} catch (exSlowMessengerAlreadyExists e) {

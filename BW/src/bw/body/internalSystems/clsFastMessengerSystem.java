@@ -11,6 +11,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import bw.body.itfStepUpdateInternalState;
+import bw.utils.container.clsConfigMap;
 import bw.utils.enums.partclass.clsBasePart;
 
 /**
@@ -20,6 +21,8 @@ import bw.utils.enums.partclass.clsBasePart;
  * 
  */
 public class clsFastMessengerSystem implements itfStepUpdateInternalState {
+    private clsConfigMap moConfig;
+    
 	private HashMap<clsBasePart, ArrayList<clsBasePart>> moSourceTargetMappings;
 	private HashMap<clsBasePart, ArrayList<clsBasePart>> moTargetSourceMappings;
 	
@@ -27,14 +30,27 @@ public class clsFastMessengerSystem implements itfStepUpdateInternalState {
 	
 	private HashMap<clsBasePart, ArrayList<clsFastMessengerEntry>> moTargetList;
 	
-	/**
-	 * 
-	 */
-	public clsFastMessengerSystem() {
+	public clsFastMessengerSystem(clsConfigMap poConfig) {
 		moSourceTargetMappings = new HashMap<clsBasePart, ArrayList<clsBasePart>>();
 		moTargetSourceMappings = new HashMap<clsBasePart, ArrayList<clsBasePart>>();		
 		moMessages = new ArrayList<clsFastMessengerEntry>();
 		moTargetList = new HashMap<clsBasePart, ArrayList<clsFastMessengerEntry>>();
+		
+		applyConfig(poConfig);		
+		
+	}
+	
+	private void applyConfig(clsConfigMap poConfig) {
+		moConfig = getDefaultConfig();
+		moConfig.overwritewith(poConfig);	
+		
+		//TODO add custom code
+	}
+
+	private clsConfigMap getDefaultConfig() {
+		clsConfigMap oDefault = new clsConfigMap();
+		//TODO add default values
+		return oDefault;
 	}
 	
 	/**

@@ -31,7 +31,7 @@ public class tstInternalEnergyConsumption {
 	 */
 	@Test
 	public void testClsInternalEnergyConsumption() {
-		clsInternalEnergyConsumption moIEC = new clsInternalEnergyConsumption();
+		clsInternalEnergyConsumption moIEC = new clsInternalEnergyConsumption(null);
 
 		assertNotNull(moIEC);
 	}
@@ -41,7 +41,7 @@ public class tstInternalEnergyConsumption {
 	 */
 	@Test
 	public void testGetList() {
-		clsInternalEnergyConsumption moIEC = new clsInternalEnergyConsumption();
+		clsInternalEnergyConsumption moIEC = new clsInternalEnergyConsumption(null);
 	
 		moIEC.setValue(new Integer(1), new clsMutableFloat(1.0f));
 		moIEC.setValue(new Integer(2), new clsMutableFloat(2.0f));
@@ -73,7 +73,7 @@ public class tstInternalEnergyConsumption {
 	 */
 	@Test
 	public void testSetValueIntInt() {
-		clsInternalEnergyConsumption moIEC = new clsInternalEnergyConsumption();
+		clsInternalEnergyConsumption moIEC = new clsInternalEnergyConsumption(null);
 		
 		moIEC.setValue(1, new clsMutableFloat(2.0f));
 		
@@ -95,7 +95,7 @@ public class tstInternalEnergyConsumption {
 	 */
 	@Test
 	public void testHasChanged() {
-		clsInternalEnergyConsumption moIEC = new clsInternalEnergyConsumption();
+		clsInternalEnergyConsumption moIEC = new clsInternalEnergyConsumption(null);
 
 		float rTemp;
 
@@ -121,7 +121,7 @@ public class tstInternalEnergyConsumption {
 	 */
 	@Test
 	public void testSetValueIntegerInt() {
-		clsInternalEnergyConsumption moIEC = new clsInternalEnergyConsumption();
+		clsInternalEnergyConsumption moIEC = new clsInternalEnergyConsumption(null);
 		
 		Integer oKey = new Integer(1);
 		
@@ -145,7 +145,7 @@ public class tstInternalEnergyConsumption {
 	 */
 	@Test
 	public void testKeyExistsInt() {
-		clsInternalEnergyConsumption moIEC = new clsInternalEnergyConsumption();
+		clsInternalEnergyConsumption moIEC = new clsInternalEnergyConsumption(null);
 
 		assertFalse(moIEC.keyExists(0));
 		
@@ -159,7 +159,7 @@ public class tstInternalEnergyConsumption {
 	 */
 	@Test
 	public void testKeyExistsInteger() {
-		clsInternalEnergyConsumption moIEC = new clsInternalEnergyConsumption();
+		clsInternalEnergyConsumption moIEC = new clsInternalEnergyConsumption(null);
 
 		Integer oKey = new Integer(1);
 		
@@ -175,7 +175,7 @@ public class tstInternalEnergyConsumption {
 	 */
 	@Test
 	public void testGetValueInt() {
-		clsInternalEnergyConsumption moIEC = new clsInternalEnergyConsumption();
+		clsInternalEnergyConsumption moIEC = new clsInternalEnergyConsumption(null);
 
 		assertNull(moIEC.getValue(1));
 		
@@ -191,7 +191,7 @@ public class tstInternalEnergyConsumption {
 	 */
 	@Test
 	public void testGetValueInteger() {
-		clsInternalEnergyConsumption moIEC = new clsInternalEnergyConsumption();
+		clsInternalEnergyConsumption moIEC = new clsInternalEnergyConsumption(null);
 
 		Integer oKey = new Integer(1);
 		
@@ -209,7 +209,7 @@ public class tstInternalEnergyConsumption {
 	 */
 	@Test
 	public void testGetSum() {
-		clsInternalEnergyConsumption moIEC = new clsInternalEnergyConsumption();
+		clsInternalEnergyConsumption moIEC = new clsInternalEnergyConsumption(null);
 
 		assertEquals(moIEC.getSum(), 0.0f, 0.00001f);
 		

@@ -13,7 +13,7 @@ import java.util.ArrayList;
 import ARSsim.physics2D.util.clsPose;
 import bw.body.motionplatform.clsBrainAction;
 import bw.body.motionplatform.clsBrainActionContainer;
-import bw.utils.container.clsConfigContainer;
+import bw.utils.container.clsConfigMap;
 import enums.eEntityType;
 import sim.physics2D.util.Double2D;
 
@@ -39,7 +39,7 @@ public class clsAnimal extends clsAnimate{
 	 * @param poStartingVelocity
 	 * @param pnId
 	 */
-	public clsAnimal(int pnId, clsPose poPose, Double2D poStartingVelocity, clsConfigContainer poConfig) {
+	public clsAnimal(int pnId, clsPose poPose, Double2D poStartingVelocity, clsConfigMap poConfig) {
 		super(pnId, poPose, poStartingVelocity, new sim.physics2D.shape.Circle(clsAnimal.mrDefaultRadius, clsAnimal.moDefaultColor), clsAnimal.mrDefaultWeight, poConfig);
 		// TODO Auto-generated constructor stub
 	}
@@ -93,9 +93,9 @@ public class clsAnimal extends clsAnimate{
 	 * @see bw.entities.clsEntity#getDefaultConfig()
 	 */
 	@Override
-	protected clsConfigContainer getDefaultConfig() {
+	protected clsConfigMap getDefaultConfig() {
 		// TODO Auto-generated method stub
-		clsConfigContainer oDefault = super.getDefaultConfig();
+		clsConfigMap oDefault = super.getDefaultConfig();
 	
 		
 		return oDefault;

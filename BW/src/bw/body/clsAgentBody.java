@@ -15,7 +15,7 @@ import bw.body.io.clsExternalIO;
 import bw.body.io.clsInternalIO;
 import bw.body.motionplatform.clsBrainActionContainer;
 import bw.entities.clsEntity;
-import bw.utils.container.clsConfigContainer;
+import bw.utils.container.clsConfigMap;
 import bw.utils.enums.eBodyParts;
 
 /**
@@ -37,18 +37,19 @@ public class clsAgentBody extends clsBaseBody {
 	/**
 	 * CTOR
 	 */
-	public clsAgentBody(clsEntity poEntity, clsConfigContainer poConfig)  {
+	public clsAgentBody(clsEntity poEntity, clsConfigMap poConfig)  {
 		super(poConfig);
 		
-	   moInternalSystem = new clsInternalSystem((clsConfigContainer) poConfig.get(eBodyParts.INTSYS));
-	   moIntraBodySystem = new clsIntraBodySystem(moInternalSystem, (clsConfigContainer) poConfig.get(eBodyParts.INTRA));
-	   moInterBodyWorldSystem = new clsInterBodyWorldSystem(moInternalSystem, (clsConfigContainer) poConfig.get(eBodyParts.INTER));
+	   moInternalSystem = new clsInternalSystem((clsConfigMap) poConfig.get(eBodyParts.INTSYS));
+	   moIntraBodySystem = new clsIntraBodySystem(moInternalSystem, (clsConfigMap) poConfig.get(eBodyParts.INTRA));
+	   moInterBodyWorldSystem = new clsInterBodyWorldSystem(moInternalSystem, (clsConfigMap) poConfig.get(eBodyParts.INTER));
 	   
-	   moExternalIO = new clsExternalIO(poEntity, this, (clsConfigContainer) poConfig.get(eBodyParts.EXTERNAL_IO));
-	   moInternalIO = new clsInternalIO(this, (clsConfigContainer) poConfig.get(eBodyParts.INTERNAL_IO));
+	   moExternalIO = new clsExternalIO(poEntity, this, (clsConfigMap) poConfig.get(eBodyParts.EXTERNAL_IO));
+	   moInternalIO = new clsInternalIO(this, (clsConfigMap) poConfig.get(eBodyParts.INTERNAL_IO));
 	   
-  	   moBrain = new clsBrainSocket(moExternalIO.moSensorExternal, moInternalIO.moSensorInternal, (clsConfigContainer) poConfig.get(eBodyParts.BRAIN));
+  	   moBrain = new clsBrainSocket(moExternalIO.moSensorExternal, moInternalIO.moSensorInternal, (clsConfigMap) poConfig.get(eBodyParts.BRAIN));
 	}
+	
 	
 	/* (non-Javadoc)
 	 *
@@ -58,8 +59,8 @@ public class clsAgentBody extends clsBaseBody {
 	 * @see bw.body.clsBaseBody#getDefaultConfig()
 	 */
 	@Override
-	protected clsConfigContainer getDefaultConfig() {
-		clsConfigContainer oDefault = super.getDefaultConfig();
+	protected clsConfigMap getDefaultConfig() {
+		clsConfigMap oDefault = super.getDefaultConfig();
 		
 		oDefault.add(eBodyParts.INTSYS, null);
 		oDefault.add(eBodyParts.INTRA, null);

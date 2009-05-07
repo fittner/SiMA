@@ -7,7 +7,7 @@
  */
 package bw.entities;
 
-import bw.utils.container.clsConfigContainer;
+import bw.utils.container.clsConfigMap;
 import ARSsim.physics2D.util.clsPose;
 import sim.physics2D.shape.Shape;
 import sim.physics2D.util.Double2D;
@@ -32,7 +32,7 @@ public abstract class clsInanimate extends clsMobile {
 	 * @param circle
 	 * @param pnId
 	 */
-	public clsInanimate(int pnId, clsPose poStartingPose, Double2D poStartingVelocity, Shape poShape, double poMass, clsConfigContainer poConfig) {
+	public clsInanimate(int pnId, clsPose poStartingPose, Double2D poStartingVelocity, Shape poShape, double poMass, clsConfigMap poConfig) {
 		super(pnId, poStartingPose, poStartingVelocity, poShape, poMass, poConfig);
 	}
 
@@ -45,9 +45,9 @@ public abstract class clsInanimate extends clsMobile {
 	 * @see bw.entities.clsEntity#getDefaultConfig()
 	 */
 	@Override
-	protected clsConfigContainer getDefaultConfig() {
+	protected clsConfigMap getDefaultConfig() {
 		// TODO Auto-generated method stub
-		clsConfigContainer oDefault = super.getDefaultConfig();
+		clsConfigMap oDefault = super.getDefaultConfig();
 	
 		
 		return oDefault;

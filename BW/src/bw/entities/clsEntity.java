@@ -13,7 +13,7 @@ import ARSsim.physics2D.physicalObject.itfSetupFunctions;
 import ARSsim.physics2D.util.clsPose;
 import bw.actionresponses.clsDefaultEntityActionResponse;
 import bw.actionresponses.clsEntityActionResponses;
-import bw.utils.container.clsConfigContainer;
+import bw.utils.container.clsConfigMap;
 import enums.eEntityType;
 
 /**
@@ -45,7 +45,7 @@ public abstract class clsEntity {
 	protected eEntityType meEntityType;
 	private int mnId;
 	private boolean mnRegistered;
-	protected clsConfigContainer moConfig;
+	protected clsConfigMap moConfig;
 	
 	/**
 	 * TODO (deutsch) - insert description 
@@ -55,7 +55,7 @@ public abstract class clsEntity {
 	 *
 	 * @param pnId
 	 */
-	public clsEntity(int pnId, clsConfigContainer poConfig) {
+	public clsEntity(int pnId, clsConfigMap poConfig) {
 		moConfig = getDefaultConfig();
 		moConfig.overwritewith(poConfig);
 		
@@ -292,9 +292,9 @@ public abstract class clsEntity {
 	 * @see bw.entities.clsEntity#getDefaultConfig()
 	 */
 
-	protected clsConfigContainer getDefaultConfig() {
+	protected clsConfigMap getDefaultConfig() {
 		// TODO Auto-generated method stub
-		clsConfigContainer oDefault = new clsConfigContainer();
+		clsConfigMap oDefault = new clsConfigMap();
 	
 		
 		return oDefault;

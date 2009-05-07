@@ -11,7 +11,7 @@ import java.util.ArrayList;
 import sim.physics2D.shape.Shape;
 import bw.body.motionplatform.clsBrainAction;
 import bw.body.motionplatform.clsBrainActionContainer;
-import bw.utils.container.clsConfigContainer;
+import bw.utils.container.clsConfigMap;
 import ARSsim.physics2D.physicalObject.clsStationaryObject2D;
 import ARSsim.physics2D.util.clsPose;
 
@@ -26,7 +26,7 @@ import ARSsim.physics2D.util.clsPose;
 public abstract class clsStationary extends clsEntity {
 	private static double mrDefaultStationaryWeight = 9999.0;
 
-	public clsStationary(int pnId, clsPose poPose, Shape poShape, clsConfigContainer poConfig) {
+	public clsStationary(int pnId, clsPose poPose, Shape poShape, clsConfigMap poConfig) {
 		super(pnId, poConfig);
 		
 		initPhysicalObject2D(poPose, null, poShape, mrDefaultStationaryWeight);
@@ -101,9 +101,9 @@ public abstract class clsStationary extends clsEntity {
 	 * @see bw.entities.clsEntity#getDefaultConfig()
 	 */
 	@Override
-	protected clsConfigContainer getDefaultConfig() {
+	protected clsConfigMap getDefaultConfig() {
 		// TODO Auto-generated method stub
-		clsConfigContainer oDefault = super.getDefaultConfig();
+		clsConfigMap oDefault = super.getDefaultConfig();
 	
 		
 		return oDefault;

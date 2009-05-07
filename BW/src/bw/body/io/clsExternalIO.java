@@ -22,7 +22,7 @@ import bw.body.io.sensors.external.clsSensorVision;
 import bw.body.motionplatform.clsBrainActionContainer;
 import bw.entities.clsAnimate;
 import bw.entities.clsEntity;
-import bw.utils.container.clsConfigContainer;
+import bw.utils.container.clsConfigMap;
 import enums.eSensorExtType;
 
 /**
@@ -55,7 +55,7 @@ public class clsExternalIO extends clsBaseIO {
 /**
 	 * 
 	 */
-	public clsExternalIO(clsEntity poEntity, clsAgentBody poBody, clsConfigContainer poConfig) {
+	public clsExternalIO(clsEntity poEntity, clsAgentBody poBody, clsConfigMap poConfig) {
 		super(poBody.getInternalSystem().getInternalEnergyConsumption(), poConfig);
 		
 		moEntity = poEntity; //the entity for physics engine access
@@ -77,8 +77,8 @@ public class clsExternalIO extends clsBaseIO {
 		moActuatorExternal.put(eActuatorExtType.MOTION, new clsActuatorMove(moEntity, this));
 	}
 	
-	protected clsConfigContainer getDefaultConfig() {
-		clsConfigContainer oDefault = new clsConfigContainer();
+	protected clsConfigMap getDefaultConfig() {
+		clsConfigMap oDefault = new clsConfigMap();
 		//TODO add default values
 		return oDefault;
 	}	

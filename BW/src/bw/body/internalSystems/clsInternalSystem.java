@@ -7,11 +7,8 @@
  */
 package bw.body.internalSystems;
 
-import java.util.Random;
 import bw.body.itfStepUpdateInternalState;
-import bw.exceptions.exFoodAlreadyNormalized;
-import bw.utils.container.clsConfigContainer;
-import bw.utils.datatypes.clsMutableFloat;
+import bw.utils.container.clsConfigMap;
 import bw.utils.enums.eBodyParts;
 
 /**
@@ -31,58 +28,39 @@ public class clsInternalSystem implements itfStepUpdateInternalState {
     private clsStomachSystem moStomachSystem;
     private clsInternalEnergyConsumption moInternalEnergyConsumption; // list of all the bodies energy consumers
     
-    private clsConfigContainer moConfig;
+    private clsConfigMap moConfig;
 	
 	
 	/**
 	 * 
 	 */
-	public clsInternalSystem(clsConfigContainer poConfig) {
+	public clsInternalSystem(clsConfigMap poConfig) {
+		applyConfig(poConfig);
+		
+  	    moFlesh 				= new clsFlesh((clsConfigMap) moConfig.get(eBodyParts.INTSYS_FLESH));
+  	    moSlowMessengerSystem 	= new clsSlowMessengerSystem((clsConfigMap) moConfig.get(eBodyParts.INTSYS_SLOW_MESSENGER_SYSTEM));
+  	    moFastMessengerSystem 	= new clsFastMessengerSystem((clsConfigMap) moConfig.get(eBodyParts.INTSYS_FAST_MESSENGER_SYSTEM));
+		moTemperatureSystem 	= new clsTemperatureSystem((clsConfigMap) moConfig.get(eBodyParts.INTSYS_TEMPERATURE_SYSTEM));
+		moHealthSystem 			= new clsHealthSystem((clsConfigMap) moConfig.get(eBodyParts.INTSYS_HEALTH_SYSTEM));
+		moStaminaSystem			= new clsStaminaSystem((clsConfigMap) moConfig.get(eBodyParts.INTSYS_STAMINA_SYSTEM));
+		moStomachSystem 		= new clsStomachSystem((clsConfigMap) moConfig.get(eBodyParts.INTSYS_STOMACH_SYSTEM));
+   	    moInternalEnergyConsumption = new clsInternalEnergyConsumption((clsConfigMap) moConfig.get(eBodyParts.INTSYS_INTERNAL_ENERGY_CONSUMPTION));		
+	}
+	
+	private void applyConfig(clsConfigMap poConfig) {
 		moConfig = getDefaultConfig();
-		moConfig.overwritewith(poConfig);
+		moConfig.overwritewith(poConfig);	
 		
-  	    moFlesh = new clsFlesh();
-  	    moSlowMessengerSystem = new clsSlowMessengerSystem();
-  	    moFastMessengerSystem = new clsFastMessengerSystem();
-		moTemperatureSystem = new clsTemperatureSystem();
-		moHealthSystem = new clsHealthSystem();
-		moStaminaSystem = new clsStaminaSystem();
-		moStomachSystem = new clsStomachSystem();
-   	    moInternalEnergyConsumption = new clsInternalEnergyConsumption();
-		
-   	   //testing the energy consumption
-   	   setupStomach();
-   	   setupFlesh();
-
+		//TODO add custom code
 	}
 
-	private clsConfigContainer getDefaultConfig() {
-		clsConfigContainer oDefault = new clsConfigContainer();
+	private clsConfigMap getDefaultConfig() {
+		clsConfigMap oDefault = new clsConfigMap();
 		//TODO add default values
 		return oDefault;
 	}	
 	
 	
-	/**
-	 * TODO (deutsch) - insert description
-	 *
-	 */
-	private void setupFlesh() {
-		try {
-			moFlesh.addNutritionFraction(1, 0.3f);
-			moFlesh.addNutritionFraction(2, 0.1f);
-			moFlesh.addNutritionFraction(3, 0.2f);
-			moFlesh.addNutritionFraction(4, 1.3f);
-			moFlesh.addNutritionFraction(5, 0.9f);
-			moFlesh.finalize();
-		} catch (exFoodAlreadyNormalized e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-	}
-
-
-
 	/**
 	 * @return the moFlesh
 	 */
@@ -136,17 +114,6 @@ public class clsInternalSystem implements itfStepUpdateInternalState {
 		return moStomachSystem;
 	}
 
-	/**
-	 * TODO (deutsch) - insert description
-	 *
-	 */
-	private void setupStomach() {
-		for (int i=0; i<10; i++) {
-			moStomachSystem.addNutritionType(i);
-		}
-		
-		moStomachSystem.addEnergy(10.0f);
-	}
 	
 	/**
 	 * @return the moInternalEnergyConsumption

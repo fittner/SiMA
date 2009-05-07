@@ -36,7 +36,7 @@ import bw.body.io.sensors.external.clsSensorVision;
 import bw.body.io.sensors.internal.clsSensorInt;
 import bw.body.motionplatform.clsBrainActionContainer;
 import bw.entities.clsEntity;
-import bw.utils.container.clsConfigContainer;
+import bw.utils.container.clsConfigMap;
 import enums.eActionCommandMotion;
 import enums.eActionCommandType;
 import enums.eEntityType;
@@ -56,9 +56,9 @@ public class clsBrainSocket implements itfStepProcessing {
 	private HashMap<eSensorExtType, clsSensorExt> moSensorsExt;
 	private HashMap<eSensorIntType, clsSensorInt> moSensorsInt;
     
-    private clsConfigContainer moConfig;	
+    private clsConfigMap moConfig;	
 	
-	public clsBrainSocket(HashMap<eSensorExtType, clsSensorExt> poSensorsExt, HashMap<eSensorIntType, clsSensorInt> poSensorsInt, clsConfigContainer poConfig) {
+	public clsBrainSocket(HashMap<eSensorExtType, clsSensorExt> poSensorsExt, HashMap<eSensorIntType, clsSensorInt> poSensorsInt, clsConfigMap poConfig) {
 		moConfig = getDefaultConfig();
 		moConfig.overwritewith(poConfig);
 				
@@ -66,8 +66,8 @@ public class clsBrainSocket implements itfStepProcessing {
 		moSensorsInt = poSensorsInt;
 	}
 
-	private clsConfigContainer getDefaultConfig() {
-		clsConfigContainer oDefault = new clsConfigContainer();
+	private clsConfigMap getDefaultConfig() {
+		clsConfigMap oDefault = new clsConfigMap();
 		//TODO add default values
 		return oDefault;
 	}	

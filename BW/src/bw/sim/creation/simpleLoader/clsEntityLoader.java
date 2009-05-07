@@ -16,7 +16,7 @@ import bw.entities.clsStone;
 import bw.factories.clsRegisterEntity;
 import bw.factories.clsSingletonMasonGetter;
 import bw.sim.creation.clsLoader;
-import bw.utils.container.clsConfigContainer;
+import bw.utils.container.clsConfigMap;
 
 
 /**
@@ -51,7 +51,7 @@ public class clsEntityLoader {
 			//double rRadius = clsSingletonMasonGetter.getSimState().random.nextDouble() * 30.0 + 10.0;
 			double rRadius =  15.0 ;
 	        
-		    clsStone oStone = new clsStone(i, oStartPose, new sim.physics2D.util.Double2D(0, 0), rRadius, new clsConfigContainer());
+		    clsStone oStone = new clsStone(i, oStartPose, new sim.physics2D.util.Double2D(0, 0), rRadius, new clsConfigMap());
 		    clsRegisterEntity.registerEntity(oStone);
         }
 	}
@@ -61,7 +61,7 @@ public class clsEntityLoader {
         for (int i = 0; i < pnNumCans; i++)
         {
         	clsPose oStartPose = clsLoader.generateRandomPose();
-	        clsCan oCan = new clsCan(i, oStartPose, new sim.physics2D.util.Double2D(0, 0), new clsConfigContainer());
+	        clsCan oCan = new clsCan(i, oStartPose, new sim.physics2D.util.Double2D(0, 0), new clsConfigMap());
 	        
 	        clsRegisterEntity.registerEntity(oCan);
         }
@@ -72,7 +72,7 @@ public class clsEntityLoader {
         for (int i = 0; i < pnNumFood; i++)
         {		 
     	  	clsPose oStartPose = clsLoader.generateRandomPose();
-    	    clsCake oCake = new clsCake(1, oStartPose, new sim.physics2D.util.Double2D(0, 0), new clsConfigContainer());
+    	    clsCake oCake = new clsCake(1, oStartPose, new sim.physics2D.util.Double2D(0, 0), new clsConfigMap());
     		clsRegisterEntity.registerEntity(oCake);
         }
      }

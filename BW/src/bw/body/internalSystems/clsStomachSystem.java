@@ -12,6 +12,13 @@ import java.util.Iterator;
 import bw.body.itfStepUpdateInternalState;
 import bw.exceptions.exContentColumnMaxContentExceeded;
 import bw.exceptions.exContentColumnMinContentUnderrun;
+import bw.utils.container.clsBaseConfig;
+import bw.utils.container.clsConfigEnum;
+import bw.utils.container.clsConfigList;
+import bw.utils.container.clsConfigMap;
+import bw.utils.container.clsConfigFloat;
+import bw.utils.enums.eConfigEntries;
+import bw.utils.enums.eNutritions;
 import bw.utils.tools.clsNutritionLevel;
 
 /**
@@ -21,28 +28,82 @@ import bw.utils.tools.clsNutritionLevel;
  * 
  */
 public class clsStomachSystem implements itfStepUpdateInternalState {
+    private clsConfigMap moConfig;
+    
 	private HashMap<Integer, clsNutritionLevel> moNutritions;
 	private HashMap<Integer, Float> moFractions;
 	private float mrFractionSum;
 	private float mrEnergy;
 	
-	private float mrDefaultMaxLevel = 5.0f; //pseudo const for init purposes
-	private float mrDefaultContent = 0.0f; //pseudo const for init purposes
-	private float mrDefaultLowerBorder = 0.5f; //pseudo const for init purposes
-	private float mrDefaultUpperBorder = 2.5f; //pseudo const for init purposes
-	private float mrDefaultDecreasePerStep = 0.0001f; //pseudo const for init purposes
-	private float mrDefaultFraction = 1.0f; //pseudo const for init purposes
+	private float mrDefaultMaxLevel;
+	private float mrDefaultContent;
+	private float mrDefaultLowerBorder;
+	private float mrDefaultUpperBorder;
+	private float mrDefaultDecreasePerStep;
+	private float mrDefaultFraction;
 	
 	/**
 	 * TODO (deutsch) - insert description
 	 */
-	public clsStomachSystem() {
-		super();
-		
+	public clsStomachSystem(clsConfigMap poConfig) {
 		moNutritions = new HashMap<Integer, clsNutritionLevel>();
 		moFractions = new HashMap<Integer, Float>();
+		
+		applyConfig(poConfig);	
+		
 		updateFractionSum();
 		updateEnergy();
+	}
+	
+	private void applyConfig(clsConfigMap poConfig) {
+		moConfig = getDefaultConfig();
+		moConfig.overwritewith(poConfig);	
+		
+		
+		clsConfigMap oNutConf = (clsConfigMap)moConfig.get(eConfigEntries.NUTRITIONCONFIG);
+		
+		mrDefaultMaxLevel = ((clsConfigFloat)oNutConf.get(eConfigEntries.MAXCONTENT)).get();
+		mrDefaultContent = ((clsConfigFloat)oNutConf.get(eConfigEntries.CONTENT)).get();
+		mrDefaultLowerBorder = ((clsConfigFloat)oNutConf.get(eConfigEntries.LOWERBOUND)).get();
+		mrDefaultUpperBorder = ((clsConfigFloat)oNutConf.get(eConfigEntries.UPPERBOUND)).get();
+		mrDefaultDecreasePerStep = ((clsConfigFloat)oNutConf.get(eConfigEntries.DECAYRATE)).get();
+		mrDefaultFraction = ((clsConfigFloat)oNutConf.get(eConfigEntries.FRACTION)).get();		
+
+		clsConfigList oNutList = (clsConfigList)moConfig.get(eConfigEntries.NUTRITIONS);
+		Iterator<clsBaseConfig> i = oNutList.iterator();
+		
+		while (i.hasNext()) {
+			addNutritionType( ((clsConfigEnum)i.next()).get().ordinal() );
+		}
+
+		addEnergy( ((clsConfigFloat)moConfig.get(eConfigEntries.CONTENT)).get() );		
+	}
+
+	private clsConfigMap getDefaultConfig() {
+		clsConfigMap oDefault = new clsConfigMap();
+		
+		clsConfigMap oNutritionConfig = new clsConfigMap();		
+		oNutritionConfig.add(eConfigEntries.MAXCONTENT, new clsConfigFloat(5.0f));
+		oNutritionConfig.add(eConfigEntries.CONTENT, new clsConfigFloat(0.0f));
+		oNutritionConfig.add(eConfigEntries.LOWERBOUND, new clsConfigFloat(0.5f));
+		oNutritionConfig.add(eConfigEntries.UPPERBOUND, new clsConfigFloat(2.5f));
+		oNutritionConfig.add(eConfigEntries.DECAYRATE, new clsConfigFloat(0.0001f));
+		oNutritionConfig.add(eConfigEntries.FRACTION, new clsConfigFloat(1.0f));
+		oDefault.add(eConfigEntries.NUTRITIONCONFIG, oNutritionConfig);		
+		
+		clsConfigList oNutritions = new clsConfigList();
+		oNutritions.add(new clsConfigEnum(eNutritions.FAT));
+		oNutritions.add(new clsConfigEnum(eNutritions.PROTEIN));
+		oNutritions.add(new clsConfigEnum(eNutritions.VITAMIN));
+		oNutritions.add(new clsConfigEnum(eNutritions.CARBOHYDRATE));
+		oNutritions.add(new clsConfigEnum(eNutritions.WATER));
+		oNutritions.add(new clsConfigEnum(eNutritions.MINERAL));
+		oNutritions.add(new clsConfigEnum(eNutritions.TRACEELEMENT));
+		oDefault.add(eConfigEntries.NUTRITIONS, oNutritions);
+		
+		oDefault.add(eConfigEntries.CONTENT, new clsConfigFloat(10.0f));
+
+		return oDefault;
 	}
 	
 	/**

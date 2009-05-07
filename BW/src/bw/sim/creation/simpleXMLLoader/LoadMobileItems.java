@@ -18,7 +18,7 @@ import bw.entities.clsCan;
 import bw.entities.clsRemoteBot;
 import bw.entities.clsStone;
 import bw.factories.clsRegisterEntity;
-import bw.utils.container.clsConfigContainer;
+import bw.utils.container.clsConfigMap;
 
 
 import org.w3c.dom.Element;
@@ -75,7 +75,7 @@ public class LoadMobileItems {
 				  System.out.println("Direction: " + value6);						  
 				  
 				  clsPose oStartPose = new clsPose(value1, value2, value6);
- 			  	  clsBubble oBubble = new clsBubble(i, oStartPose, new sim.physics2D.util.Double2D(0, 0), Color.green, new clsConfigContainer());
+ 			  	  clsBubble oBubble = new clsBubble(i, oStartPose, new sim.physics2D.util.Double2D(0, 0), Color.green, new clsConfigMap());
 				  clsRegisterEntity.registerEntity(oBubble);
 			  
 			    }   // End of if
@@ -143,7 +143,7 @@ public class LoadMobileItems {
 			        
 				   clsPose oStartPose = new clsPose(value1, value2, 0);
 				   double rRadius = value3;
-		           clsStone oStone = new clsStone(i, oStartPose, new sim.physics2D.util.Double2D(0, 0), rRadius, new clsConfigContainer());
+		           clsStone oStone = new clsStone(i, oStartPose, new sim.physics2D.util.Double2D(0, 0), rRadius, new clsConfigMap());
 			       clsRegisterEntity.registerEntity(oStone);
 /*			       
 				  Element nodeelement4 = (Element) currentNode;
@@ -222,7 +222,7 @@ public class LoadMobileItems {
 				  System.out.println("PosY: " + value2);
 				  
 		        	clsPose oStartPose = new clsPose(value1, value2, 0);
-		        	clsCan oCan = new clsCan(i, oStartPose, new sim.physics2D.util.Double2D(0, 0), new clsConfigContainer());
+		        	clsCan oCan = new clsCan(i, oStartPose, new sim.physics2D.util.Double2D(0, 0), new clsConfigMap());
 		        	clsRegisterEntity.registerEntity(oCan);				  
 			    }   // End of if
 			
@@ -281,7 +281,7 @@ public class LoadMobileItems {
 					
 					
 					clsPose oStartPose = new clsPose(value1, value2, 0);
-	 			    clsRemoteBot oBot = new clsRemoteBot(i, oStartPose, new sim.physics2D.util.Double2D(0, 0), new clsConfigContainer());
+	 			    clsRemoteBot oBot = new clsRemoteBot(i, oStartPose, new sim.physics2D.util.Double2D(0, 0), new clsConfigMap());
 					clsRegisterEntity.registerEntity(oBot);
 							  
 				  }   // End of if
