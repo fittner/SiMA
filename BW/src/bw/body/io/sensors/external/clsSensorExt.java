@@ -10,6 +10,7 @@ package bw.body.io.sensors.external;
 import bw.body.io.clsBaseIO;
 import bw.body.io.clsSensorActuatorBaseExt;
 import bw.body.io.sensors.itfSensorUpdate;
+import bw.utils.container.clsConfigMap;
 
 /**
  * TODO (zeilinger) - insert description 
@@ -19,12 +20,33 @@ import bw.body.io.sensors.itfSensorUpdate;
  */
 public abstract class clsSensorExt extends clsSensorActuatorBaseExt implements itfSensorUpdate {
 
+	protected clsConfigMap moConfig;
+	
 	/**
 	 * @param poBaseIO
 	 */
-	public clsSensorExt(clsBaseIO poBaseIO) {
+	public clsSensorExt(clsBaseIO poBaseIO, clsConfigMap poConfig) {
 		super(poBaseIO);
-		// TODO Auto-generated constructor stub
+		moConfig = getFinalConfig(poConfig);
+		applyConfig();
 	}
 
+	private void applyConfig() {
+		//TODO add ...
+
+	}
+	
+	private static clsConfigMap getFinalConfig(clsConfigMap poConfig) {
+		clsConfigMap oDefault = getDefaultConfig();
+		oDefault.overwritewith(poConfig);
+		return oDefault;
+	}
+	
+	private static clsConfigMap getDefaultConfig() {
+		clsConfigMap oDefault = new clsConfigMap();
+		
+		//TODO add ...
+		
+		return oDefault;
+	}
 }

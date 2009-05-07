@@ -11,6 +11,9 @@ import bw.body.itfStep;
 import bw.body.internalSystems.clsFastMessengerSystem;
 import bw.body.internalSystems.clsHealthSystem;
 import bw.body.internalSystems.clsInternalSystem;
+import bw.utils.container.clsConfigFloat;
+import bw.utils.container.clsConfigMap;
+import bw.utils.enums.eConfigEntries;
 import bw.utils.enums.partclass.clsPartBrain;
 import bw.utils.enums.partclass.clsPartDamageBump;
 import bw.utils.enums.partclass.clsPartSensorBump;
@@ -23,12 +26,14 @@ import bw.utils.enums.partclass.clsPartSensorBump;
  */
 public class clsDamageBump implements itfStep {
 	
-	private float mrDefaultPainThreshold = 0.0f;
-	private float mrDefaultHealthPenalty = 1.0f;
-	private float mrDefaultHurtThreshold = 0.0f;
+	private float mrPainThreshold;
+	private float mrHealthPenalty;
+	private float mrHurtThreshold;
 
 	private clsHealthSystem moHealthSystem;
 	private clsFastMessengerSystem moFastMessengerSystem;
+	
+    private clsConfigMap moConfig;	
 	
 	/**
 	 * TODO (deutsch) - insert description 
@@ -38,12 +43,37 @@ public class clsDamageBump implements itfStep {
 	 *
 	 * @param poInternalSystem
 	 */
-	public clsDamageBump(clsInternalSystem poInternalSystem) {
+	public clsDamageBump(clsInternalSystem poInternalSystem, clsConfigMap poConfig) {
+		moConfig = getFinalConfig(poConfig);
+		applyConfig();
+		
 		moHealthSystem = poInternalSystem.getHealthSystem();
 		moFastMessengerSystem = poInternalSystem.getFastMessengerSystem();
 		
 		moFastMessengerSystem.addMapping(new clsPartDamageBump(), new clsPartBrain());
 	}
+	
+	private void applyConfig() {
+		mrPainThreshold = ((clsConfigFloat)moConfig.get(eConfigEntries.PAINTHRESHOLD)).get();
+		mrHealthPenalty = ((clsConfigFloat)moConfig.get(eConfigEntries.HEALTHPENALTY)).get();
+		mrHurtThreshold = ((clsConfigFloat)moConfig.get(eConfigEntries.HURTTHRESHOLD)).get();		
+	}
+	
+	private static clsConfigMap getFinalConfig(clsConfigMap poConfig) {
+		clsConfigMap oDefault = getDefaultConfig();
+		oDefault.overwritewith(poConfig);
+		return oDefault;
+	}
+	
+	private static clsConfigMap getDefaultConfig() {
+		clsConfigMap oDefault = new clsConfigMap();
+
+		oDefault.add(eConfigEntries.PAINTHRESHOLD, new clsConfigFloat(0.0f));
+		oDefault.add(eConfigEntries.HEALTHPENALTY, new clsConfigFloat(1.0f));
+		oDefault.add(eConfigEntries.HURTTHRESHOLD, new clsConfigFloat(0.0f));
+
+		return oDefault;
+	}	
 	
 	/**
 	 * TODO (deutsch) - insert description
@@ -54,8 +84,8 @@ public class clsDamageBump implements itfStep {
 	 * @param prPenaltySum
 	 */
 	private void hurt(float prPenaltySum) {
-		if (prPenaltySum > mrDefaultHurtThreshold) {
-			float rHealthPenalty = prPenaltySum * mrDefaultHealthPenalty;
+		if (prPenaltySum > mrHurtThreshold) {
+			float rHealthPenalty = prPenaltySum * mrHealthPenalty;
 			moHealthSystem.hurt(rHealthPenalty);
 		}
 	}
@@ -69,7 +99,7 @@ public class clsDamageBump implements itfStep {
 	 * @param prPenaltySum
 	 */
 	private void pain(clsPartSensorBump poSource, float prPenaltySum) {
-		if (prPenaltySum > mrDefaultPainThreshold) {
+		if (prPenaltySum > mrPainThreshold) {
 			moFastMessengerSystem.addMessage((clsPartSensorBump)poSource.clone(), new clsPartBrain(), prPenaltySum);
 		}
 	}

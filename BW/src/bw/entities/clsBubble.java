@@ -19,7 +19,6 @@ import bw.physicalObjects.sensors.clsEntityPartVision;
 import bw.utils.container.clsConfigMap;
 import enums.eEntityType;
 
-import simple.dumbmind.clsDumbMindA;
 //import tstBw.*;
 
 /**
@@ -52,14 +51,35 @@ public class clsBubble extends clsAnimate {
 				poStartingVelocity, 
 				new sim.physics2D.shape.Circle(clsBubble.mrDefaultRadius, poColor), 
 				clsBubble.mrDefaultWeight,
-				poConfig
+				getFinalConfig(poConfig)
 				);
 		
-		this.setEntityActionResponse(new clsBubbleResponses());
-		this.setDecisionUnit(new clsDumbMindA());
+		applyConfig();
+		
+		setEntityActionResponse(new clsBubbleResponses());
+		setDecisionUnit(new clsDumbMindA());
     } 
 	
-	// TODO: this code should be transfarred to the entities inspector class - used only for inspectors
+	private void applyConfig() {
+		//TODO add ...
+
+	}
+	
+	private static clsConfigMap getFinalConfig(clsConfigMap poConfig) {
+		clsConfigMap oDefault = getDefaultConfig();
+		oDefault.overwritewith(poConfig);
+		return oDefault;
+	}
+	
+	private static clsConfigMap getDefaultConfig() {
+		clsConfigMap oDefault = new clsConfigMap();
+		
+		//TODO add ...
+		
+		return oDefault;
+	}	
+	
+	// TODO: this code should be transferred to the entities inspector class - used only for inspectors
 	public float getInternalEnergyConsuptionSUM() {	return super.moAgentBody.getInternalSystem().getInternalEnergyConsumption().getSum();	} 
 	public Object[] getInternalEnergyConsumption() {	return moAgentBody.getInternalSystem().getInternalEnergyConsumption().getMergedList().values().toArray();	}
 	public Object[] getSensorExternal() { return moAgentBody.getExternalIO().moSensorExternal.values().toArray();}
@@ -104,20 +124,5 @@ public class clsBubble extends clsAnimate {
 					.get(enums.eSensorExtType.EATABLE_AREA)).getMoVisionArea(); 
 	}
 
-	/* (non-Javadoc)
-	 *
-	 * @author deutsch
-	 * 05.05.2009, 17:47:05
-	 * 
-	 * @see bw.entities.clsEntity#getDefaultConfig()
-	 */
-	@Override
-	protected clsConfigMap getDefaultConfig() {
-		// TODO Auto-generated method stub
-		clsConfigMap oDefault = super.getDefaultConfig();
-	
-		
-		return oDefault;
-	}
-	
+
 }

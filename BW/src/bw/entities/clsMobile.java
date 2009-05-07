@@ -27,13 +27,34 @@ public abstract class clsMobile extends clsEntity {
 
 	
 	public clsMobile(int pnId, clsPose poPose, sim.physics2D.util.Double2D poStartingVelocity, Shape poShape, double prMass,  clsConfigMap poConfig) {
-		super(pnId, poConfig);
+		super(pnId, clsMobile.getFinalConfig(poConfig));
+		
+		applyConfig();
 		
 		if(this.meEntityType.equals(meEntityType.REMOTEBOT)) 
 			initPhysicalObject2D(new clsPose(poPose.getPosition(), new Angle(0d)), poStartingVelocity, poShape, prMass);
 		else
 			initPhysicalObject2D(poPose, poStartingVelocity, poShape, prMass);
 	}
+	
+	private void applyConfig() {
+		//TODO add ...
+
+	}
+	
+	private static clsConfigMap getFinalConfig(clsConfigMap poConfig) {
+		clsConfigMap oDefault = getDefaultConfig();
+		oDefault.overwritewith(poConfig);
+		return oDefault;
+	}
+	
+	private static clsConfigMap getDefaultConfig() {
+		clsConfigMap oDefault = new clsConfigMap();
+		
+		//TODO add ...
+		
+		return oDefault;
+	}	
 	
 	protected void initPhysicalObject2D(clsPose poPose, sim.physics2D.util.Double2D poStartingVelocity, Shape poShape, double prMass) {
 		moPhysicalObject2D = new clsMobileObject2D(this);
@@ -63,19 +84,4 @@ public abstract class clsMobile extends clsEntity {
 		getMobileObject2D().setVelocity(poVelocity);
 	}
 	
-	/* (non-Javadoc)
-	 *
-	 * @author deutsch
-	 * 05.05.2009, 17:47:05
-	 * 
-	 * @see bw.entities.clsEntity#getDefaultConfig()
-	 */
-	@Override
-	protected clsConfigMap getDefaultConfig() {
-		// TODO Auto-generated method stub
-		clsConfigMap oDefault = super.getDefaultConfig();
-	
-		
-		return oDefault;
-	}	
 }

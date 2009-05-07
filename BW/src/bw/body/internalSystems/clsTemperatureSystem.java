@@ -29,7 +29,8 @@ public class clsTemperatureSystem implements itfStepUpdateInternalState {
 	private float mrSelfRegulationAdaption;
 	
 	public clsTemperatureSystem(clsConfigMap poConfig) {
-		applyConfig(poConfig);	
+		moConfig = getFinalConfig(poConfig);
+		applyConfig();	
 		
 		try {
 			moTemperature = new clsFillLevel(
@@ -45,14 +46,18 @@ public class clsTemperatureSystem implements itfStepUpdateInternalState {
 		
 	}
 	
-	private void applyConfig(clsConfigMap poConfig) {
-		moConfig = getDefaultConfig();
-		moConfig.overwritewith(poConfig);	
-		
+	private void applyConfig() {
+
 		mrSelfRegulationAdaption = ((clsConfigFloat)moConfig.get(eConfigEntries.SELFREGULATIONADAPTION)).get();
 	}
 
-	private clsConfigMap getDefaultConfig() {
+	private static clsConfigMap getFinalConfig(clsConfigMap poConfig) {
+		clsConfigMap oDefault = getDefaultConfig();
+		oDefault.overwritewith(poConfig);
+		return oDefault;
+	}
+	
+	private static clsConfigMap getDefaultConfig() {
 		clsConfigMap oDefault = new clsConfigMap();
 		
 		oDefault.add(eConfigEntries.CONTENT, new clsConfigFloat(1.0f));

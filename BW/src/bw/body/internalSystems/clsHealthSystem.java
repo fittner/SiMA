@@ -29,7 +29,8 @@ public class clsHealthSystem implements itfStepUpdateInternalState {
 	private float mrIsDeadThreshold = 0.001f;
 	
 	public clsHealthSystem(clsConfigMap poConfig) {
-		applyConfig(poConfig);		
+		moConfig = getFinalConfig(poConfig);
+		applyConfig();		
 		
 		moHealth = null;
 		
@@ -50,14 +51,18 @@ public class clsHealthSystem implements itfStepUpdateInternalState {
 		mnIsAlive = true;
 	}
 	
-	private void applyConfig(clsConfigMap poConfig) {
-		moConfig = getDefaultConfig();
-		moConfig.overwritewith(poConfig);	
+	private void applyConfig() {
 		
 		mrIsDeadThreshold = ((clsConfigFloat)moConfig.get(eConfigEntries.ISDEADTHRESHOLD)).get();
 	}
 
-	private clsConfigMap getDefaultConfig() {
+	private static clsConfigMap getFinalConfig(clsConfigMap poConfig) {
+		clsConfigMap oDefault = getDefaultConfig();
+		oDefault.overwritewith(poConfig);
+		return oDefault;
+	}
+	
+	private static clsConfigMap getDefaultConfig() {
 		clsConfigMap oDefault = new clsConfigMap();
 		
 		oDefault.add(eConfigEntries.ISDEADTHRESHOLD, new clsConfigFloat(0.001f));

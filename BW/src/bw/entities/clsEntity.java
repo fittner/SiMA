@@ -56,8 +56,9 @@ public abstract class clsEntity {
 	 * @param pnId
 	 */
 	public clsEntity(int pnId, clsConfigMap poConfig) {
-		moConfig = getDefaultConfig();
-		moConfig.overwritewith(poConfig);
+		moConfig = getFinalConfig(poConfig);
+
+		applyConfig();
 		
 		setId(pnId);
 		
@@ -69,6 +70,25 @@ public abstract class clsEntity {
 		mrMass = 0.0f;
 		setRegistered(false);
 	}	
+	
+	private void applyConfig() {
+		//TODO add ...
+
+	}
+	
+	private static clsConfigMap getFinalConfig(clsConfigMap poConfig) {
+		clsConfigMap oDefault = getDefaultConfig();
+		oDefault.overwritewith(poConfig);
+		return oDefault;
+	}
+	
+	private static clsConfigMap getDefaultConfig() {
+		clsConfigMap oDefault = new clsConfigMap();
+		
+		//TODO add ...
+		
+		return oDefault;
+	}
 	
 	/**
 	 * the entities cycle for perception-deliberation-action
@@ -284,19 +304,5 @@ public abstract class clsEntity {
 		return mnRegistered;
 	}
 	
-	/* (non-Javadoc)
-	 *
-	 * @author deutsch
-	 * 05.05.2009, 17:47:05
-	 * 
-	 * @see bw.entities.clsEntity#getDefaultConfig()
-	 */
 
-	protected clsConfigMap getDefaultConfig() {
-		// TODO Auto-generated method stub
-		clsConfigMap oDefault = new clsConfigMap();
-	
-		
-		return oDefault;
-	}
 }

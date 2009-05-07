@@ -14,7 +14,11 @@ import java.util.Iterator;
 import bw.body.internalSystems.clsStomachSystem;
 import bw.exceptions.exFoodNotFinalized;
 import bw.exceptions.exNoSuchNutritionType;
+import bw.utils.container.clsConfigEnum;
+import bw.utils.container.clsConfigMap;
 import bw.utils.datatypes.clsMutableFloat;
+import bw.utils.enums.eConfigEntries;
+import bw.utils.enums.eNutritions;
 import bw.utils.tools.clsFood;
 
 /**
@@ -27,13 +31,33 @@ public class clsConsumeFood {
 	private Integer moGarbageNutritionType;
 	private clsStomachSystem moStomachSystem;
 
-	/**
-	 * @param pnGarbageNutritionType
-	 * @param poStomach
-	 */
-	public clsConsumeFood(int pnGarbageNutritionType, clsStomachSystem poStomach) {
-		moGarbageNutritionType = new Integer(pnGarbageNutritionType);
+    private clsConfigMap moConfig;	
+	
+    public clsConsumeFood(clsStomachSystem poStomach, clsConfigMap poConfig) {
+    	moConfig = getFinalConfig(poConfig);
+    	applyConfig();
+    	
 		moStomachSystem = poStomach;
+	}
+	
+	private void applyConfig() {
+		
+		moGarbageNutritionType = new Integer( ((clsConfigEnum)moConfig.get(eConfigEntries.GARBAGENUTRITIONTYPE)).ordinal() );
+
+	}
+	
+	private static clsConfigMap getFinalConfig(clsConfigMap poConfig) {
+		clsConfigMap oDefault = getDefaultConfig();
+		oDefault.overwritewith(poConfig);
+		return oDefault;
+	}
+	
+	private static clsConfigMap getDefaultConfig() {
+		clsConfigMap oDefault = new clsConfigMap();
+		
+		oDefault.add(eConfigEntries.GARBAGENUTRITIONTYPE, new clsConfigEnum(eNutritions.UNDIGESTABLE));
+		
+		return oDefault;
 	}
 	
 	/**

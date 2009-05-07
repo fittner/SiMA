@@ -33,22 +33,27 @@ public abstract class clsInanimate extends clsMobile {
 	 * @param pnId
 	 */
 	public clsInanimate(int pnId, clsPose poStartingPose, Double2D poStartingVelocity, Shape poShape, double poMass, clsConfigMap poConfig) {
-		super(pnId, poStartingPose, poStartingVelocity, poShape, poMass, poConfig);
+		super(pnId, poStartingPose, poStartingVelocity, poShape, poMass, clsInanimate.getFinalConfig(poConfig));
+		
+		applyConfig();
 	}
 
 
-	/* (non-Javadoc)
-	 *
-	 * @author deutsch
-	 * 05.05.2009, 17:47:05
-	 * 
-	 * @see bw.entities.clsEntity#getDefaultConfig()
-	 */
-	@Override
-	protected clsConfigMap getDefaultConfig() {
-		// TODO Auto-generated method stub
-		clsConfigMap oDefault = super.getDefaultConfig();
+	private void applyConfig() {
+		//TODO add ...
+
+	}
 	
+	private static clsConfigMap getFinalConfig(clsConfigMap poConfig) {
+		clsConfigMap oDefault = getDefaultConfig();
+		oDefault.overwritewith(poConfig);
+		return oDefault;
+	}
+	
+	private static clsConfigMap getDefaultConfig() {
+		clsConfigMap oDefault = new clsConfigMap();
+		
+		//TODO add ...
 		
 		return oDefault;
 	}

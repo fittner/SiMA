@@ -30,12 +30,9 @@ public class clsInternalSystem implements itfStepUpdateInternalState {
     
     private clsConfigMap moConfig;
 	
-	
-	/**
-	 * 
-	 */
 	public clsInternalSystem(clsConfigMap poConfig) {
-		applyConfig(poConfig);
+		moConfig = getFinalConfig(poConfig);
+		applyConfig();
 		
   	    moFlesh 				= new clsFlesh((clsConfigMap) moConfig.get(eBodyParts.INTSYS_FLESH));
   	    moSlowMessengerSystem 	= new clsSlowMessengerSystem((clsConfigMap) moConfig.get(eBodyParts.INTSYS_SLOW_MESSENGER_SYSTEM));
@@ -47,14 +44,18 @@ public class clsInternalSystem implements itfStepUpdateInternalState {
    	    moInternalEnergyConsumption = new clsInternalEnergyConsumption((clsConfigMap) moConfig.get(eBodyParts.INTSYS_INTERNAL_ENERGY_CONSUMPTION));		
 	}
 	
-	private void applyConfig(clsConfigMap poConfig) {
-		moConfig = getDefaultConfig();
-		moConfig.overwritewith(poConfig);	
+	private void applyConfig() {
 		
 		//TODO add custom code
 	}
+	
+	private static clsConfigMap getFinalConfig(clsConfigMap poConfig) {
+		clsConfigMap oDefault = getDefaultConfig();
+		oDefault.overwritewith(poConfig);
+		return oDefault;
+	}	
 
-	private clsConfigMap getDefaultConfig() {
+	private static clsConfigMap getDefaultConfig() {
 		clsConfigMap oDefault = new clsConfigMap();
 		//TODO add default values
 		return oDefault;

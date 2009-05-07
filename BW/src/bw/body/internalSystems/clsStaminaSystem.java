@@ -27,7 +27,8 @@ public class clsStaminaSystem implements itfStepUpdateInternalState {
 	private clsFillLevel moStamina;
 	
 	public clsStaminaSystem(clsConfigMap poConfig) {
-		applyConfig(poConfig);
+		moConfig = getFinalConfig(poConfig);
+		applyConfig();
 		
 		moStamina = null;
 		
@@ -42,14 +43,18 @@ public class clsStaminaSystem implements itfStepUpdateInternalState {
 		}
 	}
 	
-	private void applyConfig(clsConfigMap poConfig) {
-		moConfig = getDefaultConfig();
-		moConfig.overwritewith(poConfig);	
-		
+	private void applyConfig() {
+
 		//TODO add custom code
 	}
 
-	private clsConfigMap getDefaultConfig() {
+	private static clsConfigMap getFinalConfig(clsConfigMap poConfig) {
+		clsConfigMap oDefault = getDefaultConfig();
+		oDefault.overwritewith(poConfig);
+		return oDefault;
+	}
+	
+	private static clsConfigMap getDefaultConfig() {
 		clsConfigMap oDefault = new clsConfigMap();
 
 		oDefault.add(eConfigEntries.CONTENT, new clsConfigFloat(1.0f));

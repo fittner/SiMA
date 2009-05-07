@@ -7,8 +7,6 @@
  */
 package bw.body.io.sensors.external;
 
-import java.awt.Color;
-import java.awt.Paint;
 import java.util.HashMap;
 import java.util.Iterator;
 
@@ -17,13 +15,14 @@ import sim.physics2D.util.Angle;
 import sim.physics2D.util.Double2D;
 
 import ARSsim.physics2D.util.clsPolarcoordinate;
-import ARSsim.physics2D.util.clsPose;
-import bfg.tools.shapes.clsPoint;
 import bw.body.io.clsBaseIO;
 import bw.entities.clsEntity;
 import bw.entities.clsMobile;
 import bw.physicalObjects.sensors.clsEntityPartVision;
+import bw.utils.container.clsConfigFloat;
+import bw.utils.container.clsConfigMap;
 import bw.utils.enums.eBodyParts;
+import bw.utils.enums.eConfigEntries;
 
 /**
  * TODO (zeilinger) - This class defines the Vision object which is tagged to an animate 
@@ -33,10 +32,13 @@ import bw.utils.enums.eBodyParts;
  * @author zeilinger
  * 
  */
-public class clsSensorVision extends clsSensorExt
-{
-	private double mnViewRad;
-	private double mnVisRange; 
+public class clsSensorVision extends clsSensorExt {
+	protected double mnViewRad;
+	protected double mnVisRange; 
+	protected double mnVisOffset;
+	
+	private clsEntity moEntity;
+	
 	private clsEntityPartVision moVisionArea;
 	private HashMap<Integer, PhysicalObject2D> moCollidingObj;
 	private HashMap<Integer, Double2D> moCollisionPoint;
@@ -47,46 +49,43 @@ public class clsSensorVision extends clsSensorExt
 	 * @param poEntity
 	 * @param poBaseIO
 	 */
-	public clsSensorVision(clsEntity poEntity, clsBaseIO poBaseIO)	{
-		super(poBaseIO);
-		mnViewRad = Math.PI;
-		mnVisRange = 50; 
-		
+	public clsSensorVision(clsEntity poEntity, clsBaseIO poBaseIO, clsConfigMap poConfig)	{
+		super(poBaseIO, clsSensorVision.getFinalConfig(poConfig));
+			
 		moCollidingObj = new HashMap<Integer, PhysicalObject2D>();
 		moViewObj = new HashMap<Integer, PhysicalObject2D>(); 
 		moCollisionPoint = new HashMap<Integer, Double2D>();
 		moViewObjDir = new HashMap<Integer, clsPolarcoordinate>();
 		
-		moVisionArea = new clsEntityPartVision(poEntity, mnVisRange, 0);
-		this.regVisionObj(poEntity, 0); //0 = no offset = vision centered on object
+		moEntity = poEntity;
+		 
+		applyConfig();
+
+		moVisionArea = new clsEntityPartVision(moEntity, mnVisRange, mnVisOffset);
+		this.regVisionObj(moEntity, mnVisOffset); //0 = no offset = vision centered on object
+	}	
+	
+	private void applyConfig() {	
+		mnViewRad = ((clsConfigFloat)moConfig.get(eConfigEntries.ANGLE)).get();
+		mnVisRange = ((clsConfigFloat)moConfig.get(eConfigEntries.RANGE)).get();
+		mnVisOffset = ((clsConfigFloat)moConfig.get(eConfigEntries.OFFSET)).get();
 	}
 	
-	/**
-	 * special constructor with all the parameters for the vision area
-	 * 
-	 * @author muchitsch
-	 * 26.02.2009, 11:21:50
-	 *
-	 * @param poEntity
-	 * @param poBaseIO
-	 * @param pnViewDegree
-	 * @param pnVisRange
-	 * @param pnRadiusOffsetVisionArea
-	 * @param poVisionOrientation
-	 */
-	public clsSensorVision(clsEntity poEntity, clsBaseIO poBaseIO, double pnViewDegree, double pnVisRange, double pnRadiusOffsetVisionArea, Angle poVisionOrientation)	{
-		super(poBaseIO);
-		mnViewRad = pnViewDegree;
-		mnVisRange = pnVisRange; 
+	private static clsConfigMap getFinalConfig(clsConfigMap poConfig) {
+		clsConfigMap oDefault = getDefaultConfig();
+		oDefault.overwritewith(poConfig);
+		return oDefault;
+	}
+	
+	private static clsConfigMap getDefaultConfig() {
+		clsConfigMap oDefault = new clsConfigMap();
 		
-		moCollidingObj = new HashMap<Integer, PhysicalObject2D>();
-		moViewObj = new HashMap<Integer, PhysicalObject2D>();
-		moViewObjDir = new HashMap<Integer, clsPolarcoordinate>();
+		oDefault.add(eConfigEntries.ANGLE, new clsConfigFloat((float) Math.PI));
+		oDefault.add(eConfigEntries.RANGE, new clsConfigFloat(50.0f));
+		oDefault.add(eConfigEntries.OFFSET, new clsConfigFloat(0.0f));
 		
-		moCollisionPoint = new HashMap<Integer, Double2D>(); 
-		moVisionArea = new clsEntityPartVision(poEntity, mnVisRange, pnRadiusOffsetVisionArea);
-		
-	    this.regVisionObj(poEntity, pnRadiusOffsetVisionArea);
+
+		return oDefault;
 	}
 	
 	/**

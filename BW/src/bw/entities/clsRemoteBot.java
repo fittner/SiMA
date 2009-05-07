@@ -62,10 +62,31 @@ public class clsRemoteBot extends clsAnimate  {
 	 * @param poStartingVelocity
 	 */
 	public clsRemoteBot(int pnId, clsPose poStartingPose, sim.physics2D.util.Double2D poStartingVelocity, clsConfigMap poConfig) {
-		super(pnId, poStartingPose, poStartingVelocity, new sim.physics2D.shape.Circle(clsRemoteBot.mrDefaultRadius, clsRemoteBot.moDefaultColor), clsRemoteBot.mrDefaultWeight, poConfig);
+		super(pnId, poStartingPose, poStartingVelocity, new sim.physics2D.shape.Circle(clsRemoteBot.mrDefaultRadius, clsRemoteBot.moDefaultColor), clsRemoteBot.mrDefaultWeight, clsRemoteBot.getFinalConfig(poConfig));
+		
+		applyConfig();
 		
 		addBotHands();
 	}
+	
+	private void applyConfig() {
+		//TODO add ...
+
+	}
+	
+	private static clsConfigMap getFinalConfig(clsConfigMap poConfig) {
+		clsConfigMap oDefault = getDefaultConfig();
+		oDefault.overwritewith(poConfig);
+		return oDefault;
+	}
+	
+	private static clsConfigMap getDefaultConfig() {
+		clsConfigMap oDefault = new clsConfigMap();
+		
+		//TODO add ...
+		
+		return oDefault;
+	}	
 	
 	private clsBotHands addHand(double offsetX, double offsetY) {
         double x = getPosition().x;
@@ -225,19 +246,5 @@ public class clsRemoteBot extends clsAnimate  {
 */
 	}
 
-	/* (non-Javadoc)
-	 *
-	 * @author deutsch
-	 * 05.05.2009, 17:45:47
-	 * 
-	 * @see bw.entities.clsEntity#getDefaultConfig()
-	 */
-	@Override
-	protected clsConfigMap getDefaultConfig() {
-		// TODO Auto-generated method stub
-		clsConfigMap oDefault = super.getDefaultConfig();
-	
-		
-		return oDefault;
-	}
+
 }

@@ -43,17 +43,22 @@ public class clsInternalEnergyConsumption implements itfStep {
 		mnDirtyFlag = true;
 		mrSum = 0.0f;
 		
-		applyConfig(poConfig);		
+		moConfig = getFinalConfig(poConfig);
+		applyConfig();		
 	}
 	
-	private void applyConfig(clsConfigMap poConfig) {
-		moConfig = getDefaultConfig();
-		moConfig.overwritewith(poConfig);	
+	private void applyConfig() {
 		
 		//TODO add custom code
 	}
 
-	private clsConfigMap getDefaultConfig() {
+	private static clsConfigMap getFinalConfig(clsConfigMap poConfig) {
+		clsConfigMap oDefault = getDefaultConfig();
+		oDefault.overwritewith(poConfig);
+		return oDefault;
+	}
+	
+	private static clsConfigMap getDefaultConfig() {
 		clsConfigMap oDefault = new clsConfigMap();
 		//TODO add default values
 		return oDefault;

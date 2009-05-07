@@ -27,11 +27,32 @@ public class clsCan extends clsInanimate {
 				poStartingVelocity, 
 				new sim.physics2D.shape.Circle(clsCan.mrDefaultRadius, clsCan.moDefaultColor),
 				clsCan.mrDefaultWeight,
-				poConfig
+				getFinalConfig(poConfig)
 				);
+		
+		applyConfig();
 
     }
 
+	private void applyConfig() {
+		//TODO add ...
+
+	}
+	
+	private static clsConfigMap getFinalConfig(clsConfigMap poConfig) {
+		clsConfigMap oDefault = getDefaultConfig();
+		oDefault.overwritewith(poConfig);
+		return oDefault;
+	}
+	
+	private static clsConfigMap getDefaultConfig() {
+		clsConfigMap oDefault = new clsConfigMap();
+		
+		//TODO add ...
+		
+		return oDefault;
+	}
+	
 	/* (non-Javadoc)
 	 * @see bw.clsEntity#setEntityType()
 	 */
@@ -83,20 +104,5 @@ public class clsCan extends clsInanimate {
 		
 	}
 
-	/* (non-Javadoc)
-	 *
-	 * @author deutsch
-	 * 05.05.2009, 17:46:23
-	 * 
-	 * @see bw.entities.clsEntity#getDefaultConfig()
-	 */
-	@Override
-	protected clsConfigMap getDefaultConfig() {
-		// TODO Auto-generated method stub
-		clsConfigMap oDefault = super.getDefaultConfig();
-	
-		
-		return oDefault;
-	}
 }
 

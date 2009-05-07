@@ -35,7 +35,9 @@ public class clsCake extends clsInanimate {
     {
 //		super(pnId, poPose, poStartingVelocity, new ARSsim.physics2D.shape.clsCircleImage(prRadius, clsStone.moDefaultColor, clsStone.moImagePath), prRadius * clsStone.mrDefaultRadiusToMassConversion);
 		//todo muchitsch ... hier wird eine default shape �bergeben, nicht null, sonst krachts
-		super(pnId, poPose, poStartingVelocity, null, clsCake.mrDefaultMass, poConfig);
+		super(pnId, poPose, poStartingVelocity, null, clsCake.mrDefaultMass, clsCake.getFinalConfig(poConfig));
+		
+		applyConfig();
 		
 		mrCakeWeight = (float) mrDefaultMass;
 		mnTotallyConsumed = false;
@@ -43,8 +45,27 @@ public class clsCake extends clsInanimate {
 		
 		setShape(new ARSsim.physics2D.shape.clsCircleImage(clsCake.mrDefaultRadius, moDefaultColor , moImagePath), clsCake.mrDefaultMass);
 		
-		this.setEntityActionResponse(new clsCakeResponses(this));
+		setEntityActionResponse(new clsCakeResponses(this));
     } 
+	
+	private void applyConfig() {
+		//TODO add ...
+
+	}
+	
+	private static clsConfigMap getFinalConfig(clsConfigMap poConfig) {
+		clsConfigMap oDefault = getDefaultConfig();
+		oDefault.overwritewith(poConfig);
+		return oDefault;
+	}
+	
+	private static clsConfigMap getDefaultConfig() {
+		clsConfigMap oDefault = new clsConfigMap();
+		
+		//TODO add ...
+		
+		return oDefault;
+	}
 	
 	public float withdraw(float prAmount) {
 		float rWeight = 0.0f;
@@ -126,22 +147,6 @@ public class clsCake extends clsInanimate {
 			//This command removes the cake from the playground
 			clsRegisterEntity.unRegisterPhysicalObject2D(getMobileObject2D());
 		}
-	}
-
-	/* (non-Javadoc)
-	 *
-	 * @author deutsch
-	 * 05.05.2009, 17:46:40
-	 * 
-	 * @see bw.entities.clsEntity#getDefaultConfig()
-	 */
-	@Override
-	protected clsConfigMap getDefaultConfig() {
-		// TODO Auto-generated method stub
-		clsConfigMap oDefault = super.getDefaultConfig();
-	
-		
-		return oDefault;
 	}
 
 }

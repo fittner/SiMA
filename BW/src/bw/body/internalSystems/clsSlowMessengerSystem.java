@@ -42,12 +42,11 @@ public class clsSlowMessengerSystem implements itfStepUpdateInternalState {
 	public clsSlowMessengerSystem(clsConfigMap poConfig) {
 		moSlowMessengerContainer = new HashMap<Integer, clsDecayColumn>();
 		
-		applyConfig(poConfig);		
+		moConfig = getFinalConfig(poConfig);
+		applyConfig();		
 	}
 	
-	private void applyConfig(clsConfigMap poConfig) {
-		moConfig = getDefaultConfig();
-		moConfig.overwritewith(poConfig);	
+	private void applyConfig() {
 		
 		mrDefaultContent = ((clsConfigFloat)moConfig.get(eConfigEntries.CONTENT)).get();
 		mrDefaultMaxContent = ((clsConfigFloat)moConfig.get(eConfigEntries.MAXCONTENT)).get();
@@ -55,7 +54,13 @@ public class clsSlowMessengerSystem implements itfStepUpdateInternalState {
 		mrDefaultDecayRate = ((clsConfigFloat)moConfig.get(eConfigEntries.DECAYRATE)).get();
 	}
 
-	private clsConfigMap getDefaultConfig() {
+	private static clsConfigMap getFinalConfig(clsConfigMap poConfig) {
+		clsConfigMap oDefault = getDefaultConfig();
+		oDefault.overwritewith(poConfig);
+		return oDefault;
+	}
+	
+	private static clsConfigMap getDefaultConfig() {
 		clsConfigMap oDefault = new clsConfigMap();
 		
 		oDefault.add(eConfigEntries.CONTENT, new clsConfigFloat(0.0f));

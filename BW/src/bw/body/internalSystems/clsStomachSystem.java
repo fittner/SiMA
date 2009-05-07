@@ -49,16 +49,14 @@ public class clsStomachSystem implements itfStepUpdateInternalState {
 		moNutritions = new HashMap<Integer, clsNutritionLevel>();
 		moFractions = new HashMap<Integer, Float>();
 		
-		applyConfig(poConfig);	
+		moConfig = getFinalConfig(poConfig);
+		applyConfig();	
 		
 		updateFractionSum();
 		updateEnergy();
 	}
 	
-	private void applyConfig(clsConfigMap poConfig) {
-		moConfig = getDefaultConfig();
-		moConfig.overwritewith(poConfig);	
-		
+	private void applyConfig() {
 		
 		clsConfigMap oNutConf = (clsConfigMap)moConfig.get(eConfigEntries.NUTRITIONCONFIG);
 		
@@ -73,13 +71,19 @@ public class clsStomachSystem implements itfStepUpdateInternalState {
 		Iterator<clsBaseConfig> i = oNutList.iterator();
 		
 		while (i.hasNext()) {
-			addNutritionType( ((clsConfigEnum)i.next()).get().ordinal() );
+			addNutritionType( ((clsConfigEnum)i.next()).ordinal() );
 		}
 
 		addEnergy( ((clsConfigFloat)moConfig.get(eConfigEntries.CONTENT)).get() );		
 	}
 
-	private clsConfigMap getDefaultConfig() {
+	private static clsConfigMap getFinalConfig(clsConfigMap poConfig) {
+		clsConfigMap oDefault = getDefaultConfig();
+		oDefault.overwritewith(poConfig);
+		return oDefault;
+	}
+	
+	private static clsConfigMap getDefaultConfig() {
 		clsConfigMap oDefault = new clsConfigMap();
 		
 		clsConfigMap oNutritionConfig = new clsConfigMap();		

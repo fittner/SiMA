@@ -28,10 +28,31 @@ public class clsWall extends clsStationary  {
     public double radius;
     
     public clsWall(int pnId, clsPose poPose, double prLength, double prWidth, clsConfigMap poConfig) {
-    	super(pnId, poPose, new sim.physics2D.shape.Rectangle(prLength, prWidth, clsWall.moDefaultColor), poConfig);
+    	super(pnId, poPose, new sim.physics2D.shape.Rectangle(prLength, prWidth, clsWall.moDefaultColor), clsWall.getFinalConfig(poConfig));
+    	
+    	applyConfig();
+    	
     	//FIXME direction of wall ...
     } 
 
+	private void applyConfig() {
+		//TODO add ...
+
+	}
+	
+	private static clsConfigMap getFinalConfig(clsConfigMap poConfig) {
+		clsConfigMap oDefault = getDefaultConfig();
+		oDefault.overwritewith(poConfig);
+		return oDefault;
+	}
+	
+	private static clsConfigMap getDefaultConfig() {
+		clsConfigMap oDefault = new clsConfigMap();
+		
+		//TODO add ...
+		
+		return oDefault;
+	}    
 
 	/* (non-Javadoc)
 	 *
@@ -45,25 +66,6 @@ public class clsWall extends clsStationary  {
 		meEntityType = eEntityType.WALL;
 		
 	}
-
-
-	/* (non-Javadoc)
-	 *
-	 * @author deutsch
-	 * 05.05.2009, 17:45:21
-	 * 
-	 * @see bw.entities.clsEntity#getDefaultConfig()
-	 */
-	@Override
-	protected clsConfigMap getDefaultConfig() {
-		// TODO Auto-generated method stub
-		clsConfigMap oDefault = super.getDefaultConfig();
-	
-		
-		return oDefault;
-	}
-
-
 
 
 }

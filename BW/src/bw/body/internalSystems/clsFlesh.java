@@ -28,12 +28,11 @@ public class clsFlesh extends clsFood {
 	
 	public clsFlesh(clsConfigMap poConfig) {
 		super();
-		applyConfig(poConfig);		
+		moConfig = getFinalConfig(poConfig);
+		applyConfig();
 	}
 	
-	private void applyConfig(clsConfigMap poConfig) {
-		moConfig = getDefaultConfig();
-		moConfig.overwritewith(poConfig);	
+	private void applyConfig() {
 		
 		clsConfigMap oNutritions = (clsConfigMap) moConfig.get(eConfigEntries.NUTRITIONS);
 		
@@ -57,7 +56,13 @@ public class clsFlesh extends clsFood {
 		}
 	}
 
-	private clsConfigMap getDefaultConfig() {
+	private static clsConfigMap getFinalConfig(clsConfigMap poConfig) {
+		clsConfigMap oDefault = getDefaultConfig();
+		oDefault.overwritewith(poConfig);
+		return oDefault;
+	}
+	
+	private static clsConfigMap getDefaultConfig() {
 		clsConfigMap oDefault = new clsConfigMap();
 		
 		clsConfigMap oNutritions = new clsConfigMap();

@@ -40,11 +40,31 @@ public class clsAnimal extends clsAnimate{
 	 * @param pnId
 	 */
 	public clsAnimal(int pnId, clsPose poPose, Double2D poStartingVelocity, clsConfigMap poConfig) {
-		super(pnId, poPose, poStartingVelocity, new sim.physics2D.shape.Circle(clsAnimal.mrDefaultRadius, clsAnimal.moDefaultColor), clsAnimal.mrDefaultWeight, poConfig);
+		super(pnId, poPose, poStartingVelocity, new sim.physics2D.shape.Circle(clsAnimal.mrDefaultRadius, clsAnimal.moDefaultColor), clsAnimal.mrDefaultWeight, clsAnimal.getFinalConfig(poConfig));
+		
+		applyConfig();
 		// TODO Auto-generated constructor stub
 	}
 
+	private void applyConfig() {
+		//TODO add ...
 
+	}
+	
+	private static clsConfigMap getFinalConfig(clsConfigMap poConfig) {
+		clsConfigMap oDefault = getDefaultConfig();
+		oDefault.overwritewith(poConfig);
+		return oDefault;
+	}
+	
+	private static clsConfigMap getDefaultConfig() {
+		clsConfigMap oDefault = new clsConfigMap();
+		
+		//TODO add ...
+		
+		return oDefault;
+	}
+	
 	/* (non-Javadoc)
 	 * @see bw.clsEntity#setEntityType()
 	 */
@@ -84,22 +104,6 @@ public class clsAnimal extends clsAnimate{
 		
 	}
 
-
-	/* (non-Javadoc)
-	 *
-	 * @author deutsch
-	 * 05.05.2009, 17:47:23
-	 * 
-	 * @see bw.entities.clsEntity#getDefaultConfig()
-	 */
-	@Override
-	protected clsConfigMap getDefaultConfig() {
-		// TODO Auto-generated method stub
-		clsConfigMap oDefault = super.getDefaultConfig();
-	
-		
-		return oDefault;
-	}
 	
 	
 }

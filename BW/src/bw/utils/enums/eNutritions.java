@@ -26,4 +26,5 @@ public enum eNutritions {
 	VITAMIN_A,
 	VITAMIN_B,
 	VITAMIN_C,
+	UNDIGESTABLE,
 }

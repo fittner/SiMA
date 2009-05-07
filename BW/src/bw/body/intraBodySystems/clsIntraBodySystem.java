@@ -10,6 +10,7 @@ package bw.body.intraBodySystems;
 import bw.body.itfStepUpdateInternalState;
 import bw.body.internalSystems.clsInternalSystem;
 import bw.utils.container.clsConfigMap;
+import bw.utils.enums.eBodyParts;
 
 /**
  * TODO (deutsch) - insert description 
@@ -26,19 +27,34 @@ public class clsIntraBodySystem implements itfStepUpdateInternalState{
     private clsConfigMap moConfig;
     
     public clsIntraBodySystem(clsInternalSystem poInternalSystem, clsConfigMap poConfig) {
-		moConfig = getDefaultConfig();
-		moConfig.overwritewith(poConfig);
-		
-    	
-   	   moBioSystem = new clsBodyColor();
-	   moGrowthSystem = new clsGrowth();  
-	   moDamageNutrition = new clsDamageNutrition(poInternalSystem);
-	   moDamageTemperature = new clsDamageTemperature(poInternalSystem);
+    	moConfig = getFinalConfig(poConfig);    	
+		applyConfig();
+		    	
+   	    moBioSystem = new clsBodyColor((clsConfigMap) moConfig.get(eBodyParts.INTRA_DAMAGE_NUTRITION));
+	    moGrowthSystem = new clsGrowth((clsConfigMap) moConfig.get(eBodyParts.INTRA_DAMAGE_TEMPERATURE));  
+	    moDamageNutrition = new clsDamageNutrition(poInternalSystem, (clsConfigMap) moConfig.get(eBodyParts.INTRA_BODYCOLOR));
+	    moDamageTemperature = new clsDamageTemperature(poInternalSystem, (clsConfigMap) moConfig.get(eBodyParts.INTRA_GROWTH));
     }
     
-	private clsConfigMap getDefaultConfig() {
+	private void applyConfig() {
+		//TODO add ...
+
+	}
+
+	private static clsConfigMap getFinalConfig(clsConfigMap poConfig) {
+		clsConfigMap oDefault = getDefaultConfig();
+		oDefault.overwritewith(poConfig);
+		return oDefault;
+	}
+	
+	private static clsConfigMap getDefaultConfig() {
 		clsConfigMap oDefault = new clsConfigMap();
-		//TODO add default values
+		
+		oDefault.add(eBodyParts.INTRA_DAMAGE_NUTRITION, null);
+		oDefault.add(eBodyParts.INTRA_DAMAGE_TEMPERATURE, null);
+		oDefault.add(eBodyParts.INTRA_BODYCOLOR, null);
+		oDefault.add(eBodyParts.INTRA_GROWTH, null);
+		
 		return oDefault;
 	}	
 	    
@@ -85,7 +101,7 @@ public class clsIntraBodySystem implements itfStepUpdateInternalState{
     public void stepUpdateInternalState() {
     	moBioSystem.stepUpdateInternalState();
     	moGrowthSystem.stepUpdateInternalState();
-//     	moDamageNutrition.stepUpdateInternalState();
-//    	moDamageTemperature.stepUpdateInternalState();
+     	moDamageNutrition.stepUpdateInternalState();
+    	moDamageTemperature.stepUpdateInternalState();
     }
 }

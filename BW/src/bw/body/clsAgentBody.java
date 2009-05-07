@@ -44,7 +44,7 @@ public class clsAgentBody extends clsBaseBody {
 	   moIntraBodySystem = new clsIntraBodySystem(moInternalSystem, (clsConfigMap) poConfig.get(eBodyParts.INTRA));
 	   moInterBodyWorldSystem = new clsInterBodyWorldSystem(moInternalSystem, (clsConfigMap) poConfig.get(eBodyParts.INTER));
 	   
-	   moExternalIO = new clsExternalIO(poEntity, this, (clsConfigMap) poConfig.get(eBodyParts.EXTERNAL_IO));
+	   moExternalIO = new clsExternalIO(poEntity, this.getInternalSystem().getInternalEnergyConsumption(), (clsConfigMap) poConfig.get(eBodyParts.EXTERNAL_IO));
 	   moInternalIO = new clsInternalIO(this, (clsConfigMap) poConfig.get(eBodyParts.INTERNAL_IO));
 	   
   	   moBrain = new clsBrainSocket(moExternalIO.moSensorExternal, moInternalIO.moSensorInternal, (clsConfigMap) poConfig.get(eBodyParts.BRAIN));

@@ -15,7 +15,6 @@ import sim.physics2D.physicalObject.PhysicalObject2D;
 
 import decisionunit.clsBaseDecisionUnit;
 import decisionunit.itf.actions.clsActionCommandContainer;
-import decisionunit.itf.actions.clsActionCommands;
 import decisionunit.itf.actions.clsEatAction;
 import decisionunit.itf.actions.clsMotionAction;
 import decisionunit.itf.sensors.clsBump;
@@ -37,10 +36,8 @@ import bw.body.io.sensors.internal.clsSensorInt;
 import bw.body.motionplatform.clsBrainActionContainer;
 import bw.entities.clsEntity;
 import bw.utils.container.clsConfigMap;
-import enums.eActionCommandMotion;
 import enums.eActionCommandType;
 import enums.eEntityType;
-import enums.eSensorExtType;
 
 /**
  * The brain is the container for the mind and has a direct connection to external and internal IO.

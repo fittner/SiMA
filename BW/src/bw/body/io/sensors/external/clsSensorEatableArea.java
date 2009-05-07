@@ -8,12 +8,13 @@
  */
 package bw.body.io.sensors.external;
 
-import sim.physics2D.util.Double2D;
-import ARSsim.physics2D.physicalObject.clsMobileObject2D;
 import bw.body.io.clsBaseIO;
 import bw.entities.clsEntity;
 import bw.entities.clsMobile;
+import bw.utils.container.clsConfigFloat;
+import bw.utils.container.clsConfigMap;
 import bw.utils.enums.eBodyParts;
+import bw.utils.enums.eConfigEntries;
 
 /**
  * A sensor to define what is directly in front of your mouth the area where you can eat something
@@ -24,20 +25,41 @@ import bw.utils.enums.eBodyParts;
  */
 public class clsSensorEatableArea extends clsSensorVision {
 	
-	private final static double VIEWDEGREE = Math.PI;
-	private final static double VISRANGE = 5; 
 	
-	public final static double DEFAULTVISIONOFFSETT = 15; //neded when creating the class in clsExternalIO!
 	/*
 	 * @param poEntity 
 	 *
 	 * @param poBaseIO
 	 * @param  
 	 */
-	public clsSensorEatableArea(clsEntity poEntity, clsBaseIO poBaseIO, double pnCenterOffset ) {
-		super(poEntity, poBaseIO, VIEWDEGREE, VISRANGE, pnCenterOffset, ((clsMobile)poEntity).getMobileObject2D().getOrientation());
+	public clsSensorEatableArea(clsEntity poEntity, clsBaseIO poBaseIO, clsConfigMap poConfig ) {
+		super(poEntity, poBaseIO, clsSensorEatableArea.getFinalConfig(poConfig));
+		
+		applyConfig();
 	}
 
+	private void applyConfig() {
+		mnViewRad = ((clsConfigFloat)moConfig.get(eConfigEntries.ANGLE)).get();
+		mnVisRange = ((clsConfigFloat)moConfig.get(eConfigEntries.RANGE)).get();
+		mnVisOffset = ((clsConfigFloat)moConfig.get(eConfigEntries.OFFSET)).get();
+	}
+	
+	private static clsConfigMap getFinalConfig(clsConfigMap poConfig) {
+		clsConfigMap oDefault = getDefaultConfig();
+		oDefault.overwritewith(poConfig);
+		return oDefault;
+	}
+	
+	private static clsConfigMap getDefaultConfig() {
+		clsConfigMap oDefault = new clsConfigMap();
+		
+		oDefault.add(eConfigEntries.ANGLE, new clsConfigFloat((float) Math.PI));
+		oDefault.add(eConfigEntries.RANGE, new clsConfigFloat(5.0f));
+		oDefault.add(eConfigEntries.OFFSET, new clsConfigFloat(15.0f));
+		
+		return oDefault;
+	}
+	
 	/* (non-Javadoc)
 	 *
 	 * @author muchitsch

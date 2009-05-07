@@ -13,7 +13,10 @@ import ARSsim.physics2D.physicalObject.clsMobileObject2D;
 import bw.body.io.clsBaseIO;
 import bw.entities.clsAnimate;
 import bw.entities.clsEntity;
+import bw.utils.container.clsConfigFloat;
+import bw.utils.container.clsConfigMap;
 import bw.utils.enums.eBodyParts;
+import bw.utils.enums.eConfigEntries;
 import bw.utils.enums.partclass.clsPartSensorBump;
 
 /**
@@ -32,16 +35,37 @@ public class clsSensorBump extends clsSensorExt {
 	/**
 	 * constructor takes the entity stored as a local reference 
 	 */
-	public clsSensorBump(clsEntity poEntity, clsBaseIO poBaseIO) {
-		super(poBaseIO);
+	public clsSensorBump(clsEntity poEntity, clsBaseIO poBaseIO, clsConfigMap poConfig) {
+		super(poBaseIO, clsSensorBump.getFinalConfig(poConfig));
+		
+		applyConfig();
 		setEntity(poEntity);
 
 		setBumped(false);
 		
-		//this registeres a static energy consuption
-		registerEnergyConsumption(5); //TODO register the real value, 
-
 		moPartSensorBump = new clsPartSensorBump();
+	}
+	
+	private void applyConfig() {
+
+		
+		//this registeres a static energy consuption
+		registerEnergyConsumption( ((clsConfigFloat)moConfig.get(eConfigEntries.ENERGYCONSUMPTION)).get() ); 
+
+	}
+	
+	private static clsConfigMap getFinalConfig(clsConfigMap poConfig) {
+		clsConfigMap oDefault = getDefaultConfig();
+		oDefault.overwritewith(poConfig);
+		return oDefault;
+	}
+		
+	private static clsConfigMap getDefaultConfig() {
+		clsConfigMap oDefault = new clsConfigMap();
+		
+		oDefault.add(eConfigEntries.ENERGYCONSUMPTION, new clsConfigFloat(5.0f));
+		
+		return oDefault;
 	}
 	
 	/**

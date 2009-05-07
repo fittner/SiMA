@@ -8,6 +8,7 @@
 package bw.body.io.sensors.external;
 
 import bw.body.io.clsBaseIO;
+import bw.utils.container.clsConfigMap;
 import bw.utils.enums.eBodyParts;
 
 /**
@@ -21,8 +22,8 @@ public class clsSensorAcoustic extends clsSensorExt {
 	/**
 	 * @param poBaseIO
 	 */
-	public clsSensorAcoustic(clsBaseIO poBaseIO) {
-		super(poBaseIO);
+	public clsSensorAcoustic(clsBaseIO poBaseIO, clsConfigMap poConfig) {
+		super(poBaseIO, poConfig);
 		// TODO Auto-generated constructor stub
 	}
 

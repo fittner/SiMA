@@ -33,6 +33,10 @@ public class clsConfigEnum extends clsConfigSkalar {
 	public Enum get() {
 		return eValue;
 	}
+	
+	public int ordinal() {
+		return eValue.ordinal();
+	}
 
 	/* (non-Javadoc)
 	 *

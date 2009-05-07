@@ -33,10 +33,31 @@ public class clsPlant extends clsAnimate{
 	private static Color moDefaultColor = Color.ORANGE;	
     
     public clsPlant(int pnId, clsPose poStartingPose, sim.physics2D.util.Double2D poStartingVelocity, clsConfigMap poConfig) {
-		super(pnId, poStartingPose, poStartingVelocity, new sim.physics2D.shape.Circle(clsPlant.mrDefaultRadius, clsPlant.moDefaultColor), clsPlant.mrDefaultWeight, poConfig);
+		super(pnId, poStartingPose, poStartingVelocity, new sim.physics2D.shape.Circle(clsPlant.mrDefaultRadius, clsPlant.moDefaultColor), clsPlant.mrDefaultWeight, clsPlant.getFinalConfig(poConfig));
+		
+		applyConfig();
 
     }
 
+	private void applyConfig() {
+		//TODO add ...
+
+	}
+	
+	private static clsConfigMap getFinalConfig(clsConfigMap poConfig) {
+		clsConfigMap oDefault = getDefaultConfig();
+		oDefault.overwritewith(poConfig);
+		return oDefault;
+	}
+	
+	private static clsConfigMap getDefaultConfig() {
+		clsConfigMap oDefault = new clsConfigMap();
+		
+		//TODO add ...
+		
+		return oDefault;
+	}
+	
 	/* (non-Javadoc)
 	 * @see bw.clsEntity#setEntityType()
 	 */
@@ -90,20 +111,6 @@ public class clsPlant extends clsAnimate{
 		
 	}
 
-	/* (non-Javadoc)
-	 *
-	 * @author deutsch
-	 * 05.05.2009, 17:46:06
-	 * 
-	 * @see bw.entities.clsEntity#getDefaultConfig()
-	 */
-	@Override
-	protected clsConfigMap getDefaultConfig() {
-		// TODO Auto-generated method stub
-		clsConfigMap oDefault = super.getDefaultConfig();
-	
-		
-		return oDefault;
-	}
+
 
 }

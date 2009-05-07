@@ -10,11 +10,14 @@ package bw.body.intraBodySystems;
 import java.util.HashMap;
 import java.util.Iterator;
 
-import bw.body.itfStep;
+import bw.body.itfStepUpdateInternalState;
 import bw.body.internalSystems.clsFastMessengerSystem;
 import bw.body.internalSystems.clsHealthSystem;
 import bw.body.internalSystems.clsInternalSystem;
 import bw.body.internalSystems.clsStomachSystem;
+import bw.utils.container.clsConfigFloat;
+import bw.utils.container.clsConfigMap;
+import bw.utils.enums.eConfigEntries;
 import bw.utils.enums.partclass.clsPartBrain;
 import bw.utils.enums.partclass.clsPartDamageNutrition;
 import bw.utils.tools.clsNutritionLevel;
@@ -25,14 +28,16 @@ import bw.utils.tools.clsNutritionLevel;
  * @author deutsch
  * 
  */
-public class clsDamageNutrition implements itfStep {
+public class clsDamageNutrition implements itfStepUpdateInternalState {
 	
-	private float mrDefaultHealthPenalty = 0.1f;
-	private float mrDefaultPainThreshold = 0.5f;
+	private float mrHealthPenalty;
+	private float mrPainThreshold;
 
 	private clsStomachSystem moStomachSystem;
 	private clsHealthSystem moHealthSystem;
 	private clsFastMessengerSystem moFastMessengerSystem;
+	
+	private clsConfigMap moConfig;
 	
 	/**
 	 * TODO (deutsch) - insert description 
@@ -42,13 +47,37 @@ public class clsDamageNutrition implements itfStep {
 	 *
 	 * @param poInternalSystem
 	 */
-	public clsDamageNutrition(clsInternalSystem poInternalSystem) {
+	public clsDamageNutrition(clsInternalSystem poInternalSystem, clsConfigMap poConfig) {
 		moStomachSystem = poInternalSystem.getStomachSystem();
 		moHealthSystem = poInternalSystem.getHealthSystem();
 		moFastMessengerSystem = poInternalSystem.getFastMessengerSystem();
 		
 		moFastMessengerSystem.addMapping(new clsPartDamageNutrition(), new clsPartBrain());
+		
+		moConfig = getFinalConfig(poConfig);
+		applyConfig();
 	}
+	
+	private void applyConfig() {
+		
+		mrPainThreshold = ((clsConfigFloat)moConfig.get(eConfigEntries.PAINTHRESHOLD)).get();
+		mrHealthPenalty = ((clsConfigFloat)moConfig.get(eConfigEntries.HEALTHPENALTY)).get();
+	}
+	
+	private static clsConfigMap getFinalConfig(clsConfigMap poConfig) {
+		clsConfigMap oDefault = getDefaultConfig();
+		oDefault.overwritewith(poConfig);
+		return oDefault;
+	}
+	
+	private static clsConfigMap getDefaultConfig() {
+		clsConfigMap oDefault = new clsConfigMap();
+		
+		oDefault.add(eConfigEntries.PAINTHRESHOLD, new clsConfigFloat(0.1f));
+		oDefault.add(eConfigEntries.HEALTHPENALTY, new clsConfigFloat(0.5f));
+		
+		return oDefault;
+	}	
 
 	/**
 	 * TODO (deutsch) - insert description
@@ -83,7 +112,7 @@ public class clsDamageNutrition implements itfStep {
 	 * @param prPenaltySum
 	 */
 	private void hurt(float prPenaltySum) {
-		float rHealthPenalty = prPenaltySum * mrDefaultHealthPenalty;
+		float rHealthPenalty = prPenaltySum * mrHealthPenalty;
 		moHealthSystem.hurt(rHealthPenalty);
 	}
 	
@@ -96,19 +125,12 @@ public class clsDamageNutrition implements itfStep {
 	 * @param prPenaltySum
 	 */
 	private void pain(float prPenaltySum) {
-		if (prPenaltySum > mrDefaultPainThreshold) {
+		if (prPenaltySum > mrPainThreshold) {
 			moFastMessengerSystem.addMessage(new clsPartDamageNutrition(), new clsPartBrain(), prPenaltySum);
 		}
 	}
 	
-    /* (non-Javadoc)
-     *
-     * @author deutsch
-     * 19.02.2009, 19:51:04
-     * 
-     * @see bw.body.itfStep#step()
-     */
-    public void step() {
+    public void stepUpdateInternalState() {
     	float rPenaltySum = nutritionPenaltySum();
     	
     	hurt(rPenaltySum);

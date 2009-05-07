@@ -10,6 +10,7 @@ package bw.body.io.sensors.external;
 import sim.physics2D.util.Double2D;
 import bw.body.io.clsBaseIO;
 import bw.entities.clsEntity;
+import bw.utils.container.clsConfigMap;
 import bw.utils.enums.eBodyParts;
 
 /**
@@ -27,12 +28,33 @@ public class clsSensorAcceleration extends clsSensorExt{
 	/**
 	 * constructor takes the entity stored as a local reference 
 	 */
-	public clsSensorAcceleration(clsEntity poEntity, clsBaseIO poBaseIO) {
-		super(poBaseIO);
+	public clsSensorAcceleration(clsEntity poEntity, clsBaseIO poBaseIO, clsConfigMap poConfig) {
+		super(poBaseIO, clsSensorAcceleration.getFinalConfig(poConfig));
+		applyConfig();
 		setEntity(poEntity);
 		// TODO Auto-generated constructor stub
 	}
 
+	private void applyConfig() {
+		
+		//TODO add ...
+
+	}
+	
+	private static clsConfigMap getFinalConfig(clsConfigMap poConfig) {
+		clsConfigMap oDefault = getDefaultConfig();
+		oDefault.overwritewith(poConfig);
+		return oDefault;
+	}
+	
+	private static clsConfigMap getDefaultConfig() {
+		clsConfigMap oDefault = new clsConfigMap();
+		
+		//TODO add ...
+		
+		return oDefault;
+	}
+	
 	private Double2D moCurrentVelocity;
 	/**
 	 * @return the moCurrentVelocity - directing to vector er
