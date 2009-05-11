@@ -55,7 +55,7 @@ public class clsDumbMindA extends clsBaseDecisionUnit {
 	
 	public void followAnObject(clsActionCommandContainer poActionList)
 	{
-		clsVision oVision = (clsVision) getSensorData().getSensor(eSensorExtType.VISION);
+		clsVision oVision = (clsVision) getSensorData().getSensorExt(eSensorExtType.VISION);
 		
 		for( clsVisionEntry oVisionObj : oVision.getList() ) {
 			
@@ -91,7 +91,7 @@ public class clsDumbMindA extends clsBaseDecisionUnit {
 	
 	private void eat(clsActionCommandContainer poActionList) {
 		//eat
-		clsEatableArea oEatArea = (clsEatableArea) getSensorData().getSensor(eSensorExtType.EATABLE_AREA);
+		clsEatableArea oEatArea = (clsEatableArea) getSensorData().getSensorExt(eSensorExtType.EATABLE_AREA);
 		if(oEatArea.mnNumEntitiesPresent > 0)
 		{
 
@@ -111,7 +111,7 @@ public class clsDumbMindA extends clsBaseDecisionUnit {
 	public void doRobotDance(clsActionCommandContainer poActionList)
 	{
 		//move
-		clsBump oBump = (clsBump) getSensorData().getSensor(eSensorExtType.BUMP);
+		clsBump oBump = (clsBump) getSensorData().getSensorExt(eSensorExtType.BUMP);
 		
 		if( oBump.mnBumped )
 		{

@@ -18,8 +18,10 @@ import decisionunit.itf.actions.clsActionCommandContainer;
 import decisionunit.itf.actions.clsEatAction;
 import decisionunit.itf.actions.clsMotionAction;
 import decisionunit.itf.sensors.clsBump;
+import decisionunit.itf.sensors.clsDataBase;
 import decisionunit.itf.sensors.clsEatableArea;
 import decisionunit.itf.sensors.clsSensorData;
+import decisionunit.itf.sensors.clsStomachSystem;
 import decisionunit.itf.sensors.clsVision;
 import decisionunit.itf.sensors.clsVisionEntry;
 import enums.eSensorIntType;
@@ -88,13 +90,79 @@ public class clsBrainSocket implements itfStepProcessing {
 	private clsSensorData convertSensorData() {
 		clsSensorData oData = new clsSensorData();
 		
-		oData.addSensor(eSensorExtType.BUMP, convertBumpSensor() );
-		oData.addSensor(eSensorExtType.EATABLE_AREA, convertEatAbleAreaSensor() );
-		oData.addSensor(eSensorExtType.VISION, converVisionSensor() );
+		oData.addSensorExt(eSensorExtType.BUMP, convertBumpSensor() );
+		oData.addSensorExt(eSensorExtType.EATABLE_AREA, convertEatAbleAreaSensor() );
+		oData.addSensorExt(eSensorExtType.VISION, converVisionSensor() );
+		
+		//ad homeostasis sensor data
+		oData.addSensorInt(eSensorIntType.ENERGY_CONSUMPTION, convertEnergySystem() );
+		oData.addSensorInt(eSensorIntType.HEALTH_SYSTEM, convertHealthSystem() );
+		oData.addSensorInt(eSensorIntType.STAMINA, convertStaminaSystem() );
+		oData.addSensorInt(eSensorIntType.STOMACH, convertStomachSystem() );
 		
 		return oData;
 	}
 	
+	/**
+	 * TODO (langr) - insert description
+	 *
+	 * @author langr
+	 * 11.05.2009, 17:44:19
+	 *
+	 * @return
+	 */
+	private clsDataBase convertStomachSystem() {
+
+//		clsStomachSystem oData = new clsStomachSystem();
+//		
+//		clsSensorVision oVision = (clsSensorVision)(moSensorsInt.get(eSensorIntType.VISION));
+//		
+//		Iterator<Integer> i = oVision.getViewObj().keySet().iterator();
+//		while (i.hasNext()) {
+//		
+//		
+		return null;
+	}
+
+	/**
+	 * TODO (langr) - insert description
+	 *
+	 * @author langr
+	 * 11.05.2009, 17:44:15
+	 *
+	 * @return
+	 */
+	private clsDataBase convertStaminaSystem() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	/**
+	 * TODO (langr) - insert description
+	 *
+	 * @author langr
+	 * 11.05.2009, 17:44:01
+	 *
+	 * @return
+	 */
+	private clsDataBase convertHealthSystem() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	/**
+	 * TODO (langr) - insert description
+	 *
+	 * @author langr
+	 * 11.05.2009, 17:43:58
+	 *
+	 * @return
+	 */
+	private clsDataBase convertEnergySystem() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 	private clsVision converVisionSensor() {
 		clsVision oData = new clsVision();
 		

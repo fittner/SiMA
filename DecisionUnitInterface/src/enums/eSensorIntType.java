@@ -17,5 +17,11 @@ package enums;
  */
 public enum eSensorIntType {
    UNDEFINED,
+   //internal system (not homeostasis)
    
+	//homeostasis
+	ENERGY_CONSUMPTION,
+	HEALTH_SYSTEM,
+	STAMINA,
+	STOMACH
 }
