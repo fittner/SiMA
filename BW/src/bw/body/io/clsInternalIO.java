@@ -12,7 +12,7 @@ import java.util.HashMap;
 
 import enums.eSensorIntType;
 
-import bw.body.clsAgentBody;
+import bw.body.clsComplexBody;
 import bw.body.io.sensors.external.clsSensorExt;
 import bw.body.io.sensors.internal.clsSensorInt;
 import bw.body.motionplatform.clsBrainAction;
@@ -29,9 +29,9 @@ import enums.eSensorExtType;
 public class clsInternalIO extends clsBaseIO{
 	public HashMap<eSensorIntType, clsSensorInt> moSensorInternal;
 
-	public clsAgentBody moBody;
+	public clsComplexBody moBody;
     
-	public clsInternalIO(clsAgentBody poBody, clsConfigMap poConfig) {
+	public clsInternalIO(clsComplexBody poBody, clsConfigMap poConfig) {
 		super(poBody.getInternalSystem().getInternalEnergyConsumption(), poConfig);
 
 		moBody = poBody;

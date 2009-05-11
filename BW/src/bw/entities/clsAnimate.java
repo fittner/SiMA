@@ -11,7 +11,7 @@ package bw.entities;
 import decisionunit.clsBaseDecisionUnit;
 import sim.physics2D.shape.Shape;
 import ARSsim.physics2D.util.clsPose;
-import bw.body.clsAgentBody;
+import bw.body.clsComplexBody;
 import bw.body.motionplatform.clsBrainActionContainer;
 import bw.utils.container.clsConfigMap;
 
@@ -24,7 +24,7 @@ import bw.utils.container.clsConfigMap;
  */
 public abstract class clsAnimate extends clsMobile{
 
-	public clsAgentBody moAgentBody; // the instance of a body
+	public clsComplexBody moAgentBody; // the instance of a body
 	protected clsBrainActionContainer moActionList;
 	
 	/**
@@ -37,7 +37,7 @@ public abstract class clsAnimate extends clsMobile{
 		
 		applyConfig();
 		
-		moAgentBody = new clsAgentBody(this, poConfig);
+		moAgentBody = new clsComplexBody(this, poConfig);
 		moActionList = new clsBrainActionContainer();
 	}
 	
@@ -67,7 +67,7 @@ public abstract class clsAnimate extends clsMobile{
 	 * 
 	 * @return the moAgentBody
 	 */
-	public clsAgentBody getAgentBody() {
+	public clsComplexBody getAgentBody() {
 		return moAgentBody;
 	}
 	

@@ -26,7 +26,7 @@ import bw.utils.enums.eBodyParts;
  * @author langr
  * 
  */
-public class clsAgentBody extends clsBaseBody {
+public class clsComplexBody extends clsBaseBody {
 	private clsBrainSocket moBrain;
     private clsInternalSystem moInternalSystem;
     private clsIntraBodySystem moIntraBodySystem;
@@ -37,7 +37,7 @@ public class clsAgentBody extends clsBaseBody {
 	/**
 	 * CTOR
 	 */
-	public clsAgentBody(clsEntity poEntity, clsConfigMap poConfig)  {
+	public clsComplexBody(clsEntity poEntity, clsConfigMap poConfig)  {
 		super(poConfig);
 		
 	   moInternalSystem = new clsInternalSystem((clsConfigMap) poConfig.get(eBodyParts.INTSYS));
