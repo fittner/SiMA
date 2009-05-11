@@ -7,9 +7,11 @@
  */
 package bw.body.io;
 
+import bw.body.itfGetInternalEnergyConsumption;
 import bw.body.itfStepExecution;
 import bw.body.itfStepSensing;
 import bw.body.internalSystems.clsInternalEnergyConsumption;
+import bw.entities.clsEntity;
 import bw.utils.container.clsConfigMap;
 import bw.utils.datatypes.clsMutableFloat;
 
@@ -24,15 +26,21 @@ public abstract class clsBaseIO implements itfStepSensing, itfStepExecution  {
 	
     protected clsConfigMap moConfig;
     
-	public clsBaseIO(clsInternalEnergyConsumption poInternalEnergyConsumption, clsConfigMap poConfig) {
+	public clsBaseIO(clsEntity poEntity, clsConfigMap poConfig) {
 		moConfig = getFinalConfig(poConfig);
 		applyConfig();
 		
-		moInternalEnergyConsumption = poInternalEnergyConsumption;
+		if (poEntity instanceof itfGetInternalEnergyConsumption) {
+			moInternalEnergyConsumption = ((itfGetInternalEnergyConsumption)poEntity).getInternalEnergyConsumption();
+		} else {
+			moInternalEnergyConsumption = null;
+		}
 	}
 
 	public void registerEnergyConsumption(int pnId, float prValue) {
-		moInternalEnergyConsumption.setValue(new Integer(pnId), new clsMutableFloat(prValue));
+		if (moInternalEnergyConsumption != null) {
+			moInternalEnergyConsumption.setValue(new Integer(pnId), new clsMutableFloat(prValue));
+		}
 	}
 	
 	private void applyConfig() {

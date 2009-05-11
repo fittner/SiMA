@@ -9,6 +9,7 @@
 package bw.body;
 
 import bw.body.motionplatform.clsBrainActionContainer;
+import bw.entities.clsEntity;
 import bw.utils.container.clsConfigMap;
 
 /**
@@ -28,11 +29,29 @@ public class clsSimpleBody extends clsBaseBody {
 	 *
 	 * @param poConfig
 	 */
-	public clsSimpleBody(clsConfigMap poConfig) {
-		super(poConfig);
+	public clsSimpleBody(clsEntity poEntity, clsConfigMap poConfig) {
+		super(poEntity, getFinalConfig(poConfig));
+		applyConfig();
 		// TODO Auto-generated constructor stub
 	}
 
+	private void applyConfig() {
+		//TODO add code ...
+	}
+	
+	private static clsConfigMap getFinalConfig(clsConfigMap poConfig) {
+		clsConfigMap oDefault = getDefaultConfig();
+		oDefault.overwritewith(poConfig);
+		return oDefault;
+	}
+	
+	private static clsConfigMap getDefaultConfig() {
+		clsConfigMap oDefault = new clsConfigMap();
+
+		//TODO add code ...
+
+		return oDefault;
+	}	
 	/* (non-Javadoc)
 	 *
 	 * @author deutsch

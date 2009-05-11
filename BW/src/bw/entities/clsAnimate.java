@@ -11,7 +11,8 @@ package bw.entities;
 import decisionunit.clsBaseDecisionUnit;
 import sim.physics2D.shape.Shape;
 import ARSsim.physics2D.util.clsPose;
-import bw.body.clsComplexBody;
+import bw.body.clsBaseBody;
+import bw.body.itfGetBody;
 import bw.body.motionplatform.clsBrainActionContainer;
 import bw.utils.container.clsConfigMap;
 
@@ -22,9 +23,9 @@ import bw.utils.container.clsConfigMap;
  * @author langr
  * 
  */
-public abstract class clsAnimate extends clsMobile{
+public abstract class clsAnimate extends clsMobile implements itfGetBody {
 
-	public clsComplexBody moAgentBody; // the instance of a body
+	public clsBaseBody moBody; // the instance of a body
 	protected clsBrainActionContainer moActionList;
 	
 	/**
@@ -32,15 +33,16 @@ public abstract class clsAnimate extends clsMobile{
 	 * @param poStartingVelocity
 	 * @param pnId
 	 */
-	public clsAnimate(int pnId, clsPose poPose, sim.physics2D.util.Double2D poStartingVelocity, Shape poShape, double poMass, clsConfigMap poConfig) {
+	protected clsAnimate(int pnId, clsPose poPose, sim.physics2D.util.Double2D poStartingVelocity, Shape poShape, double poMass, clsConfigMap poConfig) {
 		super(pnId, poPose, poStartingVelocity, poShape, poMass, clsAnimate.getFinalConfig(poConfig));
 		
 		applyConfig();
 		
-		moAgentBody = new clsComplexBody(this, poConfig);
+		moBody = createBody();
 		moActionList = new clsBrainActionContainer();
 	}
 	
+	protected abstract clsBaseBody createBody();
 	
 	private void applyConfig() {
 		//TODO add ...
@@ -61,27 +63,17 @@ public abstract class clsAnimate extends clsMobile{
 		return oDefault;
 	}
 	
-	/**
-	 * @author langr
-	 * 20.02.2009, 11:40:14
-	 * 
-	 * @return the moAgentBody
-	 */
-	public clsComplexBody getAgentBody() {
-		return moAgentBody;
-	}
-	
 	public void setDecisionUnit(clsBaseDecisionUnit poDecisionUnit) {
-		moAgentBody.getBrain().setDecisionUnit(poDecisionUnit);
+		moBody.getBrain().setDecisionUnit(poDecisionUnit);
 	}
 	
 	public void sensing() {
-		getAgentBody().stepSensing();
+		moBody.stepSensing();
 		
 	}
 	
 	public void execution() {
-		getAgentBody().stepExecution(moActionList);
+		moBody.stepExecution(moActionList);
 	}
 	
 
@@ -94,8 +86,20 @@ public abstract class clsAnimate extends clsMobile{
 	 */
 	@Override
 	public void updateInternalState() {
-		getAgentBody().stepUpdateInternalState();
+		moBody.stepUpdateInternalState();
 		
 	}	
 
+	/* (non-Javadoc)
+	 *
+	 * @author deutsch
+	 * 11.05.2009, 18:40:22
+	 * 
+	 * @see bw.body.itfGetBody#getBody()
+	 */
+	@Override
+	public clsBaseBody getBody() {
+		// TODO Auto-generated method stub
+		return moBody;
+	}	
 }

@@ -12,6 +12,8 @@ import java.util.ArrayList;
 
 import sim.physics2D.util.Angle;
 
+import bw.body.itfGetBody;
+import bw.body.itfGetInternalEnergyConsumption;
 import bw.body.io.clsBaseIO;
 import bw.body.io.actuators.itfActuatorUpdate;
 import bw.body.motionplatform.clsBrainAction;
@@ -20,7 +22,6 @@ import bw.body.motionplatform.clsMotionAction;
 import bw.entities.clsAnimate;
 import bw.entities.clsEntity;
 import bw.entities.clsMobile;
-import bw.entities.clsRemoteBot;
 import bw.utils.datatypes.clsMutableFloat;
 import enums.eActionCommandType;
 
@@ -109,7 +110,7 @@ public class clsActuatorMove extends clsActuatorExt implements itfActuatorUpdate
     public void dispatchBrainActions(ArrayList<clsMotionAction> poActionList) throws Exception
     {
     	for (clsBrainAction oCmd : poActionList) {
-    		eActionCommandType eType = oCmd.getType(); 
+//    		eActionCommandType eType = oCmd.getType(); 
    			dispatchMotion(oCmd);
    		}
     }
@@ -155,7 +156,7 @@ public class clsActuatorMove extends clsActuatorExt implements itfActuatorUpdate
     	}
     	
     	if(moEntity instanceof clsAnimate){
-    		((clsAnimate)moEntity).moAgentBody.getInternalSystem().getInternalEnergyConsumption().setValueOnce(new Integer(55), new clsMutableFloat(0.01f));
+    		((itfGetInternalEnergyConsumption)((itfGetBody)moEntity).getBody()).getInternalEnergyConsumption().setValueOnce(new Integer(55), new clsMutableFloat(0.01f));
     	}
     }
 }

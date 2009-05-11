@@ -12,6 +12,9 @@ import java.awt.Paint;
 
 import simple.dumbmind.clsDumbMindA;
 import bw.actionresponses.clsBubbleResponses;
+import bw.body.clsBaseBody;
+import bw.body.clsComplexBody;
+import bw.body.itfGetInternalEnergyConsumption;
 import bw.body.io.sensors.external.clsSensorEatableArea;
 import bw.body.io.sensors.external.clsSensorVision;
 import ARSsim.physics2D.util.clsPose;
@@ -46,19 +49,24 @@ public class clsBubble extends clsAnimate {
 	 */
 	public clsBubble(int pnId, clsPose poStartingPose, sim.physics2D.util.Double2D poStartingVelocity, Paint poColor,  clsConfigMap poConfig)
     {
-		super(pnId, 
+		super(
+				pnId, 
 				poStartingPose, 
 				poStartingVelocity, 
 				new sim.physics2D.shape.Circle(clsBubble.mrDefaultRadius, poColor), 
 				clsBubble.mrDefaultWeight,
 				getFinalConfig(poConfig)
 				);
-		
+			
 		applyConfig();
 		
 		setEntityActionResponse(new clsBubbleResponses());
 		setDecisionUnit(new clsDumbMindA());
     } 
+
+	public clsBaseBody createBody() {
+		return  new clsComplexBody(this, moConfig);
+	}
 	
 	private void applyConfig() {
 		//TODO add ...
@@ -80,9 +88,9 @@ public class clsBubble extends clsAnimate {
 	}	
 	
 	// TODO: this code should be transferred to the entities inspector class - used only for inspectors
-	public float getInternalEnergyConsuptionSUM() {	return super.moAgentBody.getInternalSystem().getInternalEnergyConsumption().getSum();	} 
-	public Object[] getInternalEnergyConsumption() {	return moAgentBody.getInternalSystem().getInternalEnergyConsumption().getMergedList().values().toArray();	}
-	public Object[] getSensorExternal() { return moAgentBody.getExternalIO().moSensorExternal.values().toArray();}
+	public float getInternalEnergyConsuptionSUM() {	return ((itfGetInternalEnergyConsumption)moBody).getInternalEnergyConsumption().getSum();	} 
+	public Object[] getInternalEnergyConsumption() { return ((itfGetInternalEnergyConsumption)moBody).getInternalEnergyConsumption().getMergedList().values().toArray();	}
+	public Object[] getSensorExternal() { return moBody.getExternalIO().moSensorExternal.values().toArray();}
 
 
 
@@ -105,13 +113,13 @@ public class clsBubble extends clsAnimate {
 	 */
 	@Override
 	public void processing() {
-		moActionList = this.getAgentBody().getBrain().stepProcessing();
+		moActionList = moBody.getBrain().stepProcessing();
 	}
 
 
 	public clsEntityPartVision getVision()
 	{
-		return ((clsSensorVision)this.moAgentBody
+		return ((clsSensorVision)this.moBody
 					.getExternalIO().moSensorExternal
 					.get(enums.eSensorExtType.VISION)).getMoVisionArea(); 
 	}
@@ -119,10 +127,12 @@ public class clsBubble extends clsAnimate {
 		
 	public clsEntityPartVision getEatableAreaVision()
 	{
-		return ((clsSensorEatableArea)this.moAgentBody
+		return ((clsSensorEatableArea)this.moBody
 					.getExternalIO().moSensorExternal
 					.get(enums.eSensorExtType.EATABLE_AREA)).getMoVisionArea(); 
 	}
+
+
 
 
 }

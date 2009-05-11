@@ -9,6 +9,8 @@ package bw.body.io.actuators.external;
 
 
 import bw.actionresponses.clsEntityActionResponses;
+import bw.body.clsComplexBody;
+import bw.body.itfGetBody;
 import bw.body.io.clsBaseIO;
 import bw.body.motionplatform.clsBrainAction;
 import bw.body.motionplatform.clsBrainActionContainer;
@@ -104,10 +106,7 @@ public class clsActuatorEat extends clsActuatorExt {
 	 * @throws exEntityActionResponseNotImplemented 
 	 */
 	public void eatAction(clsEatAction poEatAction) throws exEntityActionResponseNotImplemented{
-		
-		clsAnimate oViewedAnimate = null;
-		
-		
+				
 		try{
 			
 			//read what EatSensor sees in front of him and give it to eat action, exception if more then 1?
@@ -129,10 +128,10 @@ public class clsActuatorEat extends clsActuatorExt {
 				clsFood oReturnedFood = oEntityActionResponse.actionEatResponse(rWeight); //Apfel gibt mir einen Bisset food retour
 				
 				//TODO CM geht noch nicht! digest wirft exception
-				moAnimate.moAgentBody.getInterBodyWorldSystem().getConsumeFood().digest(oReturnedFood); // food an Body zur weiterverarbeitung geben
+				((clsComplexBody)((itfGetBody)moAnimate).getBody()).getInterBodyWorldSystem().getConsumeFood().digest(oReturnedFood); // food an Body zur weiterverarbeitung geben
 				
 				if(oReturnedFood == null) {
-					throw(new exEntityNotEatable(oViewedAnimate.getEntityType()) );
+					throw(new exEntityNotEatable(oEatenEntity.getEntityType()) );
 				}
 			
 			}

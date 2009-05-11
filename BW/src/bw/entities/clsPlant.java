@@ -8,11 +8,9 @@
 package bw.entities;
 
 import java.awt.Color;
-import java.util.ArrayList;
-
 import ARSsim.physics2D.util.clsPose;
-import bw.body.motionplatform.clsBrainAction;
-import bw.body.motionplatform.clsBrainActionContainer;
+import bw.body.clsBaseBody;
+import bw.body.clsSimpleBody;
 import bw.utils.container.clsConfigMap;
 import enums.eEntityType;
 
@@ -38,7 +36,11 @@ public class clsPlant extends clsAnimate{
 		applyConfig();
 
     }
-
+    
+	public clsBaseBody createBody() {
+		return  new clsSimpleBody(this, moConfig);
+	}
+	
 	private void applyConfig() {
 		//TODO add ...
 

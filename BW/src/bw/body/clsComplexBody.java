@@ -7,12 +7,10 @@
  */
 package bw.body;
 
-import bw.body.brainsocket.clsBrainSocket;
 import bw.body.interBodyWorldSystems.clsInterBodyWorldSystem;
+import bw.body.internalSystems.clsInternalEnergyConsumption;
 import bw.body.internalSystems.clsInternalSystem;
 import bw.body.intraBodySystems.clsIntraBodySystem;
-import bw.body.io.clsExternalIO;
-import bw.body.io.clsInternalIO;
 import bw.body.motionplatform.clsBrainActionContainer;
 import bw.entities.clsEntity;
 import bw.utils.container.clsConfigMap;
@@ -26,60 +24,47 @@ import bw.utils.enums.eBodyParts;
  * @author langr
  * 
  */
-public class clsComplexBody extends clsBaseBody {
-	private clsBrainSocket moBrain;
+public class clsComplexBody extends clsBaseBody implements itfGetInternalEnergyConsumption {
+	
     private clsInternalSystem moInternalSystem;
     private clsIntraBodySystem moIntraBodySystem;
     private clsInterBodyWorldSystem moInterBodyWorldSystem;
-    private clsExternalIO moExternalIO;
-    private clsInternalIO moInternalIO;
-    
+       
 	/**
 	 * CTOR
 	 */
 	public clsComplexBody(clsEntity poEntity, clsConfigMap poConfig)  {
-		super(poConfig);
+		super(poEntity, getFinalConfig(poConfig));	
+		applyConfig();		
 		
-	   moInternalSystem = new clsInternalSystem((clsConfigMap) poConfig.get(eBodyParts.INTSYS));
-	   moIntraBodySystem = new clsIntraBodySystem(moInternalSystem, (clsConfigMap) poConfig.get(eBodyParts.INTRA));
-	   moInterBodyWorldSystem = new clsInterBodyWorldSystem(moInternalSystem, (clsConfigMap) poConfig.get(eBodyParts.INTER));
-	   
-	   moExternalIO = new clsExternalIO(poEntity, this.getInternalSystem().getInternalEnergyConsumption(), (clsConfigMap) poConfig.get(eBodyParts.EXTERNAL_IO));
-	   moInternalIO = new clsInternalIO(this, (clsConfigMap) poConfig.get(eBodyParts.INTERNAL_IO));
-	   
-  	   moBrain = new clsBrainSocket(moExternalIO.moSensorExternal, moInternalIO.moSensorInternal, (clsConfigMap) poConfig.get(eBodyParts.BRAIN));
+		moInternalSystem = new clsInternalSystem((clsConfigMap) moConfig.get(eBodyParts.INTSYS));
+		moIntraBodySystem = new clsIntraBodySystem(moInternalSystem, (clsConfigMap) moConfig.get(eBodyParts.INTRA));
+		moInterBodyWorldSystem = new clsInterBodyWorldSystem(moInternalSystem, (clsConfigMap) moConfig.get(eBodyParts.INTER));
+	}
+
+	private void applyConfig() {
+		//TODO add code ...
 	}
 	
+	private static clsConfigMap getFinalConfig(clsConfigMap poConfig) {
+		clsConfigMap oDefault = getDefaultConfig();
+		oDefault.overwritewith(poConfig);
+		return oDefault;
+	}
 	
-	/* (non-Javadoc)
-	 *
-	 * @author deutsch
-	 * 05.05.2009, 17:12:09
-	 * 
-	 * @see bw.body.clsBaseBody#getDefaultConfig()
-	 */
-	@Override
-	protected clsConfigMap getDefaultConfig() {
-		clsConfigMap oDefault = super.getDefaultConfig();
-		
+	private static clsConfigMap getDefaultConfig() {
+		clsConfigMap oDefault = new clsConfigMap();
+
 		oDefault.add(eBodyParts.INTSYS, null);
 		oDefault.add(eBodyParts.INTRA, null);
 		oDefault.add(eBodyParts.INTER, null);
 		oDefault.add(eBodyParts.EXTERNAL_IO, null);
 		oDefault.add(eBodyParts.INTERNAL_IO, null);
 		oDefault.add(eBodyParts.BRAIN, null);
-		
+
 		return oDefault;
 	}	
 	
-	/**
-	 * @return the moBrain
-	 */
-	public clsBrainSocket getBrain() {
-		return moBrain;
-	}
-
-
 
 	/**
 	 * @return the moInternalStates
@@ -99,21 +84,6 @@ public class clsComplexBody extends clsBaseBody {
 
 
 
-	/**
-	 * @return the moExternalIO
-	 */
-	public clsExternalIO getExternalIO() {
-		return moExternalIO;
-	}
-
-
-
-	/**
-	 * @return the moInternalIO
-	 */
-	public clsInternalIO getInternalIO() {
-		return moInternalIO;
-	}
 
 	/**
 	 * @return the moInterBodyWorldSystem
@@ -144,8 +114,7 @@ public class clsComplexBody extends clsBaseBody {
 	 * @see bw.body.itfStep#stepSensing()
 	 */
 	public void stepSensing() {
-		moExternalIO.stepSensing();
-		moInternalIO.stepSensing();
+		super.stepSensing();
 	}
 	
 	/**
@@ -156,7 +125,7 @@ public class clsComplexBody extends clsBaseBody {
 	 *
 	 */
 	public clsBrainActionContainer stepProcessing(){
-		return moBrain.stepProcessing();
+		return super.stepProcessing();
 	}
 	
 	/* (non-Javadoc)
@@ -167,12 +136,19 @@ public class clsComplexBody extends clsBaseBody {
 	 * @see bw.body.itfStep#stepExecution()
 	 */
 	public void stepExecution(clsBrainActionContainer poActionList) {
-		moExternalIO.stepExecution(poActionList);
-		moInternalIO.stepExecution(poActionList);
+		super.stepExecution(poActionList);
 	}
 
-
-
-
+	/* (non-Javadoc)
+	 *
+	 * @author deutsch
+	 * 11.05.2009, 18:15:55
+	 * 
+	 * @see bw.body.itfInternalEnergyConsumption#getInternalEnergyConsumption()
+	 */
+	@Override
+	public clsInternalEnergyConsumption getInternalEnergyConsumption() {
+		return moInternalSystem.getInternalEnergyConsumption();
+	}
 
 }

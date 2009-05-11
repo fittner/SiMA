@@ -12,6 +12,8 @@ import java.util.Iterator;
 
 import ARSsim.physics2D.physicalObject.clsMobileObject2D;
 import ARSsim.physics2D.util.clsPose;
+import bw.body.clsBaseBody;
+import bw.body.clsComplexBody;
 import bw.body.motionplatform.clsBrainActionContainer;
 import bw.body.motionplatform.clsEatAction;
 import bw.body.motionplatform.clsMotionAction;
@@ -68,6 +70,10 @@ public class clsRemoteBot extends clsAnimate  {
 		
 		addBotHands();
 	}
+	
+	public clsBaseBody createBody() {
+		return  new clsComplexBody(this, moConfig);
+	}	
 	
 	private void applyConfig() {
 		//TODO add ...
@@ -131,14 +137,14 @@ public class clsRemoteBot extends clsAnimate  {
 	
 	public clsEntityPartVision getVision()
 	{
-		return ((clsSensorVision)this.moAgentBody
+		return ((clsSensorVision)moBody
 					.getExternalIO().moSensorExternal
 					.get(enums.eSensorExtType.VISION)).getMoVisionArea(); 
 	}
 	
 	public clsEntityPartVision getEatableAreaVision()
 	{
-		return ((clsSensorEatableArea)this.moAgentBody
+		return ((clsSensorEatableArea)moBody
 					.getExternalIO().moSensorExternal
 					.get(enums.eSensorExtType.EATABLE_AREA)).getMoVisionArea(); 
 	}
@@ -182,7 +188,7 @@ public class clsRemoteBot extends clsAnimate  {
     	case 65: //'A'
     		break;
     	case 69: //'E'
-    		eat(this, moActionList);
+    		eat(moActionList);
     		break;
     	case 83: //'S'
 //            if(botState==HAVECAN)
@@ -207,9 +213,9 @@ public class clsRemoteBot extends clsAnimate  {
 	 * @param poEntity
 	 * @param poActionList
 	 */
-	private void eat(clsAnimate poEntity, clsBrainActionContainer poActionList) {
+	private void eat(clsBrainActionContainer poActionList) {
 		//eat
-		clsSensorEatableArea oEatArea = (clsSensorEatableArea)(poEntity.moAgentBody.getExternalIO().moSensorExternal.get(eSensorExtType.EATABLE_AREA));
+		clsSensorEatableArea oEatArea = (clsSensorEatableArea)(moBody.getExternalIO().moSensorExternal.get(eSensorExtType.EATABLE_AREA));
 		if(oEatArea.getViewObj() != null)
 		{
 
@@ -245,6 +251,8 @@ public class clsRemoteBot extends clsAnimate  {
 		}
 */
 	}
+
+
 
 
 }

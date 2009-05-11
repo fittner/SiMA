@@ -17,6 +17,7 @@ import sim.portrayal.Inspector;
 import sim.portrayal.LocationWrapper;
 import ARSsim.motionplatform.clsMotionPlatform;
 import ARSsim.physics2D.util.clsPose;
+import bw.body.itfGetBody;
 import bw.entities.clsAnimate;
 import bw.entities.clsEntity;
 import bw.factories.clsSingletonMasonGetter;
@@ -231,7 +232,7 @@ public class clsMobileObject2D extends sim.physics2D.physicalObject.MobileObject
     	if( moMasonInspector == null)
     	{
     		if (moEntity instanceof clsAnimate) {
-    		  moMasonInspector = clsInspectorMapping.getInspector(super.getInspector(wrapper,state), wrapper, state, ((clsAnimate)moEntity).getAgentBody().getBrain().getDecisionUnit());
+    		  moMasonInspector = clsInspectorMapping.getInspector(super.getInspector(wrapper,state), wrapper, state, ((itfGetBody)moEntity).getBody().getBrain().getDecisionUnit());
     		}
     	}
     	return moMasonInspector;

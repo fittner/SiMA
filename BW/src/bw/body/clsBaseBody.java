@@ -8,7 +8,13 @@
  */
 package bw.body;
 
+import bw.body.brainsocket.clsBrainSocket;
+import bw.body.io.clsExternalIO;
+import bw.body.io.clsInternalIO;
+import bw.body.motionplatform.clsBrainActionContainer;
+import bw.entities.clsEntity;
 import bw.utils.container.clsConfigMap;
+import bw.utils.enums.eBodyParts;
 
 /**
  * TODO (deutsch) - insert description 
@@ -18,18 +24,73 @@ import bw.utils.container.clsConfigMap;
  * 
  */
 public abstract class clsBaseBody implements itfStepSensing, itfStepUpdateInternalState, itfStepProcessing, itfStepExecution {
+	private clsBrainSocket moBrain;
+    private clsExternalIO moExternalIO;
+    private clsInternalIO moInternalIO;
+	
 	protected clsConfigMap moConfig;
 	
-	public clsBaseBody(clsConfigMap poConfig){
-		moConfig = getDefaultConfig();
-		moConfig.overwritewith(poConfig);
+	public clsBaseBody(clsEntity poEntity, clsConfigMap poConfig){
+		moConfig = getFinalConfig(poConfig);
+		applyConfig();
+		
+	   moExternalIO = new clsExternalIO(poEntity, (clsConfigMap)moConfig.get(eBodyParts.EXTERNAL_IO));
+	   moInternalIO = new clsInternalIO(poEntity, (clsConfigMap)moConfig.get(eBodyParts.INTERNAL_IO));
+	   
+  	   moBrain = new clsBrainSocket(moExternalIO.moSensorExternal, moInternalIO.moSensorInternal, (clsConfigMap) poConfig.get(eBodyParts.BRAIN));		
 	}
 	
-	protected clsConfigMap getDefaultConfig() {
-		clsConfigMap oDefault = new clsConfigMap();
-		
+	private void applyConfig() {
+		//TODO add code ...
+	}
+	
+	private static clsConfigMap getFinalConfig(clsConfigMap poConfig) {
+		clsConfigMap oDefault = getDefaultConfig();
+		oDefault.overwritewith(poConfig);
 		return oDefault;
 	}
 	
+	private static clsConfigMap getDefaultConfig() {
+		clsConfigMap oDefault = new clsConfigMap();
 
+		//TODO add code ...
+
+		return oDefault;
+	}	
+	
+	/**
+	 * @return the moExternalIO
+	 */
+	public clsExternalIO getExternalIO() {
+		return moExternalIO;
+	}
+
+
+
+	/**
+	 * @return the moInternalIO
+	 */
+	public clsInternalIO getInternalIO() {
+		return moInternalIO;
+	}
+	/**
+	 * @return the moBrain
+	 */
+	public clsBrainSocket getBrain() {
+		return moBrain;
+	}
+
+	public void stepSensing() {
+		moExternalIO.stepSensing();
+		moInternalIO.stepSensing();
+	}
+	
+	public clsBrainActionContainer stepProcessing(){
+		return moBrain.stepProcessing();
+	}	
+
+	public void stepExecution(clsBrainActionContainer poActionList) {
+		moExternalIO.stepExecution(poActionList);
+		moInternalIO.stepExecution(poActionList);
+	}	
 }

@@ -8,11 +8,9 @@
 package bw.entities;
 
 import java.awt.Color;
-import java.util.ArrayList;
-
 import ARSsim.physics2D.util.clsPose;
-import bw.body.motionplatform.clsBrainAction;
-import bw.body.motionplatform.clsBrainActionContainer;
+import bw.body.clsBaseBody;
+import bw.body.clsSimpleBody;
 import bw.utils.container.clsConfigMap;
 import enums.eEntityType;
 import sim.physics2D.util.Double2D;
@@ -46,6 +44,10 @@ public class clsAnimal extends clsAnimate{
 		// TODO Auto-generated constructor stub
 	}
 
+	public clsBaseBody createBody() {
+		return  new clsSimpleBody(this, moConfig);
+	}
+		
 	private void applyConfig() {
 		//TODO add ...
 

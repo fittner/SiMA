@@ -10,6 +10,8 @@ package bw.body.io.sensors.external;
 import java.util.ArrayList;
 import ARSsim.physics2D.physicalObject.clsCollidingObject;
 import ARSsim.physics2D.physicalObject.clsMobileObject2D;
+import bw.body.clsComplexBody;
+import bw.body.itfGetBody;
 import bw.body.io.clsBaseIO;
 import bw.entities.clsAnimate;
 import bw.entities.clsEntity;
@@ -91,9 +93,11 @@ public class clsSensorBump extends clsSensorExt {
 		}
 		
 		if (mnBumped) {
-			// TODO calculate true force
-			float rForce = 1.0f;
-			((clsAnimate)moEntity).getAgentBody().getInterBodyWorldSystem().getDamageBump().bumped(moPartSensorBump, rForce);
+			if ( ((itfGetBody)moEntity).getBody() instanceof clsComplexBody) {
+				//TODO calculate true force
+				float rForce = 1.0f;
+				((clsComplexBody)((itfGetBody)moEntity).getBody()).getInterBodyWorldSystem().getDamageBump().bumped(moPartSensorBump, rForce);
+			}
 		}
 	}
 

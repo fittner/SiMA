@@ -7,18 +7,16 @@
  */
 package bw.body.io;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 
 import enums.eSensorIntType;
 
-import bw.body.clsComplexBody;
-import bw.body.io.sensors.external.clsSensorExt;
+import bw.body.clsBaseBody;
+import bw.body.itfGetBody;
 import bw.body.io.sensors.internal.clsSensorInt;
-import bw.body.motionplatform.clsBrainAction;
 import bw.body.motionplatform.clsBrainActionContainer;
+import bw.entities.clsEntity;
 import bw.utils.container.clsConfigMap;
-import enums.eSensorExtType;
 
 /**
  * TODO (deutsch) - insert description 
@@ -29,12 +27,16 @@ import enums.eSensorExtType;
 public class clsInternalIO extends clsBaseIO{
 	public HashMap<eSensorIntType, clsSensorInt> moSensorInternal;
 
-	public clsComplexBody moBody;
+	public clsBaseBody moBody;
     
-	public clsInternalIO(clsComplexBody poBody, clsConfigMap poConfig) {
-		super(poBody.getInternalSystem().getInternalEnergyConsumption(), poConfig);
+	public clsInternalIO(clsEntity poEntity, clsConfigMap poConfig) {
+		super(poEntity, poConfig);
 
-		moBody = poBody;
+		if (poEntity instanceof itfGetBody) {
+			moBody = ((itfGetBody)poEntity).getBody();
+		} else {
+			moBody = null;
+		}
 	}
 	
 	protected clsConfigMap getDefaultConfig() {
