@@ -38,6 +38,9 @@ public enum eConfigEntries {
 	RANGE,
 	OFFSET,
 	
+	//
+	ACTIVATE,
+	
 	// lists
 	NUTRITIONCONFIG,
 	EXTSENSORCONFIG,

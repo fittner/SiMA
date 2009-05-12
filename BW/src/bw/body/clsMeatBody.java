@@ -10,7 +10,11 @@ package bw.body;
 
 import bw.body.internalSystems.clsFlesh;
 import bw.entities.clsEntity;
+import bw.utils.container.clsConfigBoolean;
+import bw.utils.container.clsConfigFloat;
 import bw.utils.container.clsConfigMap;
+import bw.utils.enums.eBodyParts;
+import bw.utils.enums.eConfigEntries;
 
 /**
  * TODO (deutsch) - insert description 
@@ -33,11 +37,34 @@ public class clsMeatBody extends clsBaseBody {
 	 * @param poConfig
 	 */
 	public clsMeatBody(clsEntity poEntity, clsConfigMap poConfig) {
-		super(poEntity, poConfig);
+		super(poEntity, getFinalConfig(poConfig));
+		applyConfig();
 	
-		// TODO Auto-generated constructor stub
+		moFlesh = new clsFlesh((clsConfigMap) moConfig.get(eBodyParts.INTSYS_FLESH));
 	}
 
+	private void applyConfig() {
+		mrRegrowRate = ((clsConfigFloat)moConfig.get(eConfigEntries.INCREASERATE)).get();
+	}
+	
+	private static clsConfigMap getFinalConfig(clsConfigMap poConfig) {
+		clsConfigMap oDefault = getDefaultConfig();
+		oDefault.overwritewith(poConfig);
+		return oDefault;
+	}
+	
+	private static clsConfigMap getDefaultConfig() {
+		clsConfigMap oDefault = new clsConfigMap();
+		
+		oDefault.add(eConfigEntries.INCREASERATE, new clsConfigFloat(0.01f));
+		
+		clsConfigMap oExt = new clsConfigMap();
+		oExt.add(eConfigEntries.ACTIVATE, new clsConfigBoolean(false));	
+		oDefault.add(eBodyParts.EXTERNAL_IO, oExt);
+
+		return oDefault;
+	}	
+		
 	/* (non-Javadoc)
 	 *
 	 * @author deutsch
@@ -47,8 +74,18 @@ public class clsMeatBody extends clsBaseBody {
 	 */
 	@Override
 	public void stepUpdateInternalState() {
-		// TODO Auto-generated method stub
+		moFlesh.grow(mrRegrowRate);
 
+	}
+
+	/**
+	 * @author deutsch
+	 * 12.05.2009, 17:53:30
+	 * 
+	 * @return the moFlesh
+	 */
+	public clsFlesh getFlesh() {
+		return moFlesh;
 	}
 
 }

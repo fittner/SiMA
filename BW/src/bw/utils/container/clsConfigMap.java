@@ -11,8 +11,6 @@ package bw.utils.container;
 import java.util.HashMap;
 import java.util.Iterator;
 
-import bw.utils.enums.eBindingState;
-
 /**
  * TODO (deutsch) - insert description 
  * 
@@ -31,6 +29,7 @@ public class clsConfigMap extends clsConfigCollection {
 		moConfig.put(poKey, poValue);
 	}
 
+	@SuppressWarnings("unchecked")
 	public void add(Enum poKey, clsBaseConfig poValue) {
 		add(poKey.ordinal(), poValue);
 	}
@@ -38,6 +37,7 @@ public class clsConfigMap extends clsConfigCollection {
 	public clsBaseConfig get(Integer poKey) {
 		return moConfig.get(poKey);
 	}
+	@SuppressWarnings("unchecked")
 	public clsBaseConfig get(Enum poKey) {
 		return get(poKey.ordinal());
 	}
@@ -54,6 +54,7 @@ public class clsConfigMap extends clsConfigCollection {
 		return moConfig.containsKey(poKey);
 	}
 	
+	@SuppressWarnings("unchecked")
 	public boolean containsKey(Enum poKey) {
 		return containsKey(poKey.ordinal());
 	}

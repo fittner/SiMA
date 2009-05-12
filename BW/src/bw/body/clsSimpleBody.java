@@ -51,6 +51,8 @@ public class clsSimpleBody extends clsBaseBody {
 		//EAT
 		//MOVE
 	}
+	
+	
 
 	private void applyConfig() {
 		//TODO add code ...

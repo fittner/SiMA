@@ -23,6 +23,7 @@ import bw.body.motionplatform.clsBrainActionContainer;
 import bw.entities.clsAnimate;
 import bw.entities.clsEntity;
 import bw.utils.container.clsBaseConfig;
+import bw.utils.container.clsConfigBoolean;
 import bw.utils.container.clsConfigEnum;
 import bw.utils.container.clsConfigList;
 import bw.utils.container.clsConfigMap;
@@ -78,7 +79,9 @@ public class clsExternalIO extends clsBaseIO {
 	private void applyConfig() {
 		
 		//initialization of sensors
-		initSensorExternal((clsConfigList)moConfig.get(eConfigEntries.EXTSENSORS), (clsConfigMap)moConfig.get(eConfigEntries.EXTSENSORCONFIG));
+		if ( ((clsConfigBoolean)moConfig.get(eConfigEntries.ACTIVATE)).get() ) {
+			initSensorExternal((clsConfigList)moConfig.get(eConfigEntries.EXTSENSORS), (clsConfigMap)moConfig.get(eConfigEntries.EXTSENSORCONFIG));
+		}
 
 
 	}
@@ -92,6 +95,8 @@ public class clsExternalIO extends clsBaseIO {
 	private static clsConfigMap getDefaultConfig() {
 		clsConfigMap oDefault = new clsConfigMap();
 		
+		oDefault.add(eConfigEntries.ACTIVATE, new clsConfigBoolean(true));
+		
 		clsConfigList oSensors = new clsConfigList();
 		oSensors.add(new clsConfigEnum(eSensorExtType.ACCELERATION));
 		oSensors.add(new clsConfigEnum(eSensorExtType.BUMP));
@@ -101,10 +106,24 @@ public class clsExternalIO extends clsBaseIO {
 		
 
 		clsConfigMap oSensorConfigs = new clsConfigMap();
-		oSensorConfigs.add(eSensorExtType.ACCELERATION, new clsConfigMap());
-		oSensorConfigs.add(eSensorExtType.BUMP, new clsConfigMap());
-		oSensorConfigs.add(eSensorExtType.VISION, new clsConfigMap());
-		oSensorConfigs.add(eSensorExtType.EATABLE_AREA, new clsConfigMap());
+		clsConfigMap oSC_Temp;
+		
+		oSC_Temp = new clsConfigMap();
+		oSC_Temp.add(eConfigEntries.ACTIVATE, new clsConfigBoolean(true));
+		oSensorConfigs.add(eSensorExtType.ACCELERATION, oSC_Temp);
+		
+		oSC_Temp = new clsConfigMap();
+		oSC_Temp.add(eConfigEntries.ACTIVATE, new clsConfigBoolean(true));
+		oSensorConfigs.add(eSensorExtType.BUMP, oSC_Temp);
+
+		oSC_Temp = new clsConfigMap();
+		oSC_Temp.add(eConfigEntries.ACTIVATE, new clsConfigBoolean(true));
+		oSensorConfigs.add(eSensorExtType.VISION, oSC_Temp);
+		
+		oSC_Temp = new clsConfigMap();
+		oSC_Temp.add(eConfigEntries.ACTIVATE, new clsConfigBoolean(true));
+		oSensorConfigs.add(eSensorExtType.EATABLE_AREA, oSC_Temp);
+		
 		oDefault.add(eConfigEntries.EXTSENSORCONFIG, oSensorConfigs);
 		
 		return oDefault;
@@ -115,20 +134,23 @@ public class clsExternalIO extends clsBaseIO {
 		while (i.hasNext()) {
 			eSensorExtType eType = (eSensorExtType) ((clsConfigEnum)i.next()).get();
 			clsConfigMap oConfig = (clsConfigMap)poSensorConfigs.get(eType);
+			boolean nActivate = ((clsConfigBoolean)oConfig.get(eConfigEntries.ACTIVATE)).get();
 
-			switch (eType) {
-				case ACCELERATION: 
-					moSensorExternal.put(eSensorExtType.ACCELERATION, new clsSensorAcceleration(moEntity, this, oConfig)); 
-					break;
-				case BUMP: 
-					moSensorExternal.put(eSensorExtType.BUMP, new clsSensorBump(moEntity, this, oConfig)); 
-					break;
-				case VISION: 
-					moSensorExternal.put(eSensorExtType.VISION, new clsSensorVision(moEntity, this, oConfig)); 
-					break;
-				case EATABLE_AREA: 
-					moSensorExternal.put(eSensorExtType.EATABLE_AREA, new clsSensorEatableArea(moEntity, this, oConfig)); 
-					break;
+			if (nActivate) {
+				switch (eType) {
+					case ACCELERATION: 
+						moSensorExternal.put(eSensorExtType.ACCELERATION, new clsSensorAcceleration(moEntity, this, oConfig)); 
+						break;
+					case BUMP: 
+						moSensorExternal.put(eSensorExtType.BUMP, new clsSensorBump(moEntity, this, oConfig)); 
+						break;
+					case VISION: 
+						moSensorExternal.put(eSensorExtType.VISION, new clsSensorVision(moEntity, this, oConfig)); 
+						break;
+					case EATABLE_AREA: 
+						moSensorExternal.put(eSensorExtType.EATABLE_AREA, new clsSensorEatableArea(moEntity, this, oConfig)); 
+						break;
+				}
 			}
 		}
 	}
