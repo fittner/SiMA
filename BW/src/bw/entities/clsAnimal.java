@@ -10,7 +10,7 @@ package bw.entities;
 import java.awt.Color;
 import ARSsim.physics2D.util.clsPose;
 import bw.body.clsBaseBody;
-import bw.body.clsSimpleBody;
+import bw.body.clsComplexBody;
 import bw.utils.container.clsConfigMap;
 import enums.eEntityType;
 import sim.physics2D.util.Double2D;
@@ -45,7 +45,7 @@ public class clsAnimal extends clsAnimate{
 	}
 
 	public clsBaseBody createBody() {
-		return  new clsSimpleBody(this, moConfig);
+		return  new clsComplexBody(this, moConfig);
 	}
 		
 	private void applyConfig() {
