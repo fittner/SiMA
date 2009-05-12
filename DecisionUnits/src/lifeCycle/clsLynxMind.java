@@ -3,7 +3,7 @@ package lifeCycle;
 import decisionunit.clsBaseDecisionUnit;
 import decisionunit.itf.actions.clsActionCommandContainer;
 
-public class clsTigerMind extends clsBaseDecisionUnit  {
+public class clsLynxMind extends clsBaseDecisionUnit  {
 
 	@Override
 	public clsActionCommandContainer process() {
