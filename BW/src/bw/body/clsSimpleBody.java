@@ -23,7 +23,7 @@ import bw.utils.container.clsConfigMap;
  * 11.05.2009, 17:55:57
  * 
  */
-public class clsSimpleBody extends clsBaseBody {
+public class clsSimpleBody extends clsBaseBody implements itfGetInternalEnergyConsumption, itfGetHealthSystem, itfGetStaminaSystem {
 
 	private clsHealthSystem moHealthSystem;
 	private clsStomachSystem moStomachSystem;
