@@ -10,6 +10,8 @@ public enum eEntityType {
 	BUBBLE,
 	PLANT,
 	REMOTEBOT,
+	HARE,
+	TIGER,
 	
 	//INANIMATE
 	CAN,
