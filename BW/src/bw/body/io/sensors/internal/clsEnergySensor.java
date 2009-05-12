@@ -8,6 +8,11 @@
  */
 package bw.body.io.sensors.internal;
 
+import enums.eSensorIntType;
+import bw.body.clsComplexBody;
+import bw.body.clsSimpleBody;
+import bw.body.itfGetBody;
+import bw.body.internalSystems.clsInternalEnergyConsumption;
 import bw.body.io.clsBaseIO;
 import bw.entities.clsEntity;
 import bw.utils.container.clsConfigFloat;
@@ -21,7 +26,7 @@ import bw.utils.enums.eConfigEntries;
  * 12.05.2009, 17:37:09
  * 
  */
-public class clsEnergyConsumption extends clsSensorInt {
+public class clsEnergySensor extends clsSensorInt {
 
 	private clsEntity moEntity;
 	
@@ -35,8 +40,8 @@ public class clsEnergyConsumption extends clsSensorInt {
 	 *
 	 * @param poBaseIO
 	 */
-	public clsEnergyConsumption(clsEntity poEntity, clsBaseIO poBaseIO, clsConfigMap poConfig) {
-		super(poBaseIO, clsEnergyConsumption.getFinalConfig(poConfig));
+	public clsEnergySensor(clsEntity poEntity, clsBaseIO poBaseIO, clsConfigMap poConfig) {
+		super(poBaseIO, clsEnergySensor.getFinalConfig(poConfig));
 		// TODO Auto-generated constructor stub
 		
 		applyConfig();
@@ -125,7 +130,14 @@ public class clsEnergyConsumption extends clsSensorInt {
 	 */
 	@Override
 	public void updateSensorData() {
-		// TODO Auto-generated method stub
+
+		if ( ((itfGetBody)moEntity).getBody() instanceof clsSimpleBody) {
+			clsInternalEnergyConsumption oInternalEnergyConsumption = ((clsSimpleBody)((itfGetBody)moEntity).getBody()).getInternalEnergyConsumption();
+
+			//TODO: set values
+			
+		}
+
 
 	}
 

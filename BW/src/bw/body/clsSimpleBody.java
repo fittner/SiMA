@@ -8,6 +8,10 @@
  */
 package bw.body;
 
+import bw.body.internalSystems.clsHealthSystem;
+import bw.body.internalSystems.clsInternalEnergyConsumption;
+import bw.body.internalSystems.clsStaminaSystem;
+import bw.body.internalSystems.clsStomachSystem;
 import bw.body.motionplatform.clsBrainActionContainer;
 import bw.entities.clsEntity;
 import bw.utils.container.clsConfigMap;
@@ -21,6 +25,12 @@ import bw.utils.container.clsConfigMap;
  */
 public class clsSimpleBody extends clsBaseBody {
 
+	private clsHealthSystem moHealthSystem;
+	private clsStomachSystem moStomachSystem;
+	private clsStaminaSystem moStaminaSystem;
+	private clsInternalEnergyConsumption moInternalEnergyConsumption;
+
+	
 	/**
 	 * TODO (deutsch) - insert description 
 	 * 
@@ -71,6 +81,42 @@ public class clsSimpleBody extends clsBaseBody {
 
 		return oDefault;
 	}	
+	
+	
+	
+	/**
+	 * @return the moHealthSystem
+	 */
+	public clsHealthSystem getHealthSystem() {
+		return moHealthSystem;
+	}
+
+
+	/**
+	 * @return the moStaminaSystem
+	 */
+	public clsStaminaSystem getStaminaSystem() {
+		return moStaminaSystem;
+	}
+
+
+	/**
+	 * @return the moStomachSystem
+	 */
+	public clsStomachSystem getStomachSystem() {
+		return moStomachSystem;
+	}
+
+	
+	/**
+	 * @return the moInternalEnergyConsumption
+	 */
+	public clsInternalEnergyConsumption getInternalEnergyConsumption() {
+		return moInternalEnergyConsumption;
+	}
+	
+
+	
 	/* (non-Javadoc)
 	 *
 	 * @author deutsch

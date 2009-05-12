@@ -8,6 +8,10 @@
  */
 package bw.body.io.sensors.internal;
 
+import bw.body.clsSimpleBody;
+import bw.body.itfGetBody;
+import bw.body.internalSystems.clsHealthSystem;
+import bw.body.internalSystems.clsInternalEnergyConsumption;
 import bw.body.io.clsBaseIO;
 import bw.entities.clsEntity;
 import bw.utils.container.clsConfigFloat;
@@ -21,7 +25,7 @@ import bw.utils.enums.eConfigEntries;
  * 12.05.2009, 17:39:42
  * 
  */
-public class clsHealthSystem extends clsSensorInt {
+public class clsHealthSensor extends clsSensorInt {
 
 	private clsEntity moEntity;
 	
@@ -38,8 +42,8 @@ public class clsHealthSystem extends clsSensorInt {
 	 *
 	 * @param poBaseIO
 	 */
-	public clsHealthSystem(clsEntity poEntity, clsBaseIO poBaseIO, clsConfigMap poConfig) {
-		super(poBaseIO, clsHealthSystem.getFinalConfig(poConfig));
+	public clsHealthSensor(clsEntity poEntity, clsBaseIO poBaseIO, clsConfigMap poConfig) {
+		super(poBaseIO, clsHealthSensor.getFinalConfig(poConfig));
 		// TODO Auto-generated constructor stub
 		
 		applyConfig();
@@ -113,8 +117,14 @@ public class clsHealthSystem extends clsSensorInt {
 	 */
 	@Override
 	public void updateSensorData() {
-		// TODO Auto-generated method stub
 
+		if ( ((itfGetBody)moEntity).getBody() instanceof clsSimpleBody) {
+			clsHealthSystem oHealthSystem = ((clsSimpleBody)((itfGetBody)moEntity).getBody()).getHealthSystem();
+
+			//TODO: set values
+			
+		}
+		
 	}
 	
 	

@@ -8,6 +8,10 @@
  */
 package bw.body.io.sensors.internal;
 
+import bw.body.clsSimpleBody;
+import bw.body.itfGetBody;
+import bw.body.internalSystems.clsHealthSystem;
+import bw.body.internalSystems.clsStaminaSystem;
 import bw.body.io.clsBaseIO;
 import bw.entities.clsEntity;
 import bw.utils.container.clsConfigFloat;
@@ -21,7 +25,7 @@ import bw.utils.enums.eConfigEntries;
  * 12.05.2009, 17:38:42
  * 
  */
-public class clsStaminaSystem extends clsSensorInt {
+public class clsStaminaSensor extends clsSensorInt {
 
 	private clsEntity moEntity;
 	
@@ -39,8 +43,8 @@ public class clsStaminaSystem extends clsSensorInt {
 	 *
 	 * @param poBaseIO
 	 */
-	public clsStaminaSystem(clsEntity poEntity, clsBaseIO poBaseIO, clsConfigMap poConfig) {
-		super(poBaseIO, clsStaminaSystem.getFinalConfig(poConfig));
+	public clsStaminaSensor(clsEntity poEntity, clsBaseIO poBaseIO, clsConfigMap poConfig) {
+		super(poBaseIO, clsStaminaSensor.getFinalConfig(poConfig));
 		// TODO Auto-generated constructor stub
 		
 		applyConfig();
@@ -113,7 +117,13 @@ public class clsStaminaSystem extends clsSensorInt {
 	 */
 	@Override
 	public void updateSensorData() {
-		// TODO Auto-generated method stub
+
+		if ( ((itfGetBody)moEntity).getBody() instanceof clsSimpleBody) {
+			clsStaminaSystem oStaminaSystem = ((clsSimpleBody)((itfGetBody)moEntity).getBody()).getStaminaSystem();
+
+			//TODO: set values
+			
+		}
 
 	}
 	

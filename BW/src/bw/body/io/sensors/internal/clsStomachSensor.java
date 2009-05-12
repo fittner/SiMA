@@ -8,6 +8,10 @@
  */
 package bw.body.io.sensors.internal;
 
+import bw.body.clsSimpleBody;
+import bw.body.itfGetBody;
+import bw.body.internalSystems.clsHealthSystem;
+import bw.body.internalSystems.clsStomachSystem;
 import bw.body.io.clsBaseIO;
 import bw.entities.clsEntity;
 import bw.utils.container.clsConfigFloat;
@@ -21,7 +25,7 @@ import bw.utils.enums.eConfigEntries;
  * 12.05.2009, 17:40:44
  * 
  */
-public class clsStomachSystem extends clsSensorInt {
+public class clsStomachSensor extends clsSensorInt {
 
 	private clsEntity moEntity;
 	
@@ -35,8 +39,8 @@ public class clsStomachSystem extends clsSensorInt {
 	 *
 	 * @param poBaseIO
 	 */
-	public clsStomachSystem(clsEntity poEntity, clsBaseIO poBaseIO, clsConfigMap poConfig) {
-		super(poBaseIO, clsStomachSystem.getFinalConfig(poConfig));
+	public clsStomachSensor(clsEntity poEntity, clsBaseIO poBaseIO, clsConfigMap poConfig) {
+		super(poBaseIO, clsStomachSensor.getFinalConfig(poConfig));
 		// TODO Auto-generated constructor stub
 		
 		applyConfig();
@@ -109,8 +113,14 @@ public class clsStomachSystem extends clsSensorInt {
 	 */
 	@Override
 	public void updateSensorData() {
-		// TODO Auto-generated method stub
 
+		if ( ((itfGetBody)moEntity).getBody() instanceof clsSimpleBody) {
+			clsStomachSystem oHealthSystem = ((clsSimpleBody)((itfGetBody)moEntity).getBody()).getStomachSystem();
+
+			//TODO: set values
+			
+		}
+		
 	}
 	
 	/**
