@@ -49,6 +49,13 @@ public class clsFlesh extends clsFood {
 		}
 		
 		try {
+			setAmount( ((clsConfigFloat)moConfig.get(eConfigEntries.CONTENT)).get() );
+		} catch (exFoodAmountBelowZero e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		
+		try {
 			finalize();
 		} catch (exFoodAlreadyNormalized e) {
 			// TODO Auto-generated catch block
@@ -64,6 +71,8 @@ public class clsFlesh extends clsFood {
 	
 	private static clsConfigMap getDefaultConfig() {
 		clsConfigMap oDefault = new clsConfigMap();
+		
+		oDefault.add(eConfigEntries.CONTENT, new clsConfigFloat(10.0f));
 		
 		clsConfigMap oNutritions = new clsConfigMap();
 		
