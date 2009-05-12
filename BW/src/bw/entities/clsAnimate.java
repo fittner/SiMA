@@ -102,4 +102,16 @@ public abstract class clsAnimate extends clsMobile implements itfGetBody {
 		// TODO Auto-generated method stub
 		return moBody;
 	}	
+	
+	/* (non-Javadoc)
+	 *
+	 * @author langr
+	 * 25.02.2009, 17:33:53
+	 * 
+	 * @see bw.entities.clsEntity#processing(java.util.ArrayList)
+	 */
+	@Override
+	public void processing() {
+		moActionList = moBody.getBrain().stepProcessing();
+	}	
 }

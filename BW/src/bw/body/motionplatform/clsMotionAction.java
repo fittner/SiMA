@@ -22,7 +22,7 @@ import enums.eActionCommandType;
 public class clsMotionAction extends clsBrainAction{
 
 	public eActionCommandMotion meMotionType;
-	public double mnSpeed = 4; //e.g. normal speed is 4.0
+	public double mrSpeed = 4; //e.g. normal speed is 4.0
 	public Angle moRelativeRotation;
 	
 	/**
@@ -55,14 +55,14 @@ public class clsMotionAction extends clsBrainAction{
 	 * @return the mnSpeed
 	 */
 	public double getSpeed() {
-		return mnSpeed;
+		return mrSpeed;
 	}
 
 	/**
 	 * @param mnSpeed the mnSpeed to set
 	 */
-	public void setSpeed(double mnSpeed) {
-		this.mnSpeed = mnSpeed;
+	public void setSpeed(double prSpeed) {
+		this.mrSpeed = prSpeed;
 	}
 
 	/**
@@ -86,10 +86,10 @@ public class clsMotionAction extends clsBrainAction{
 	 * @param moDirection
 	 */
 	public clsMotionAction(eActionCommandType peType,
-			eActionCommandMotion peMotionType, int pnSpeed, Angle poRelativeRotation) {
+			eActionCommandMotion peMotionType, double prSpeed, Angle poRelativeRotation) {
 		super(peType);
 		this.meMotionType = peMotionType;
-		this.mnSpeed = pnSpeed;
+		this.mrSpeed = prSpeed;
 		this.moRelativeRotation = poRelativeRotation;
 	}
 	

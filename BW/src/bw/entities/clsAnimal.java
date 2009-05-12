@@ -11,7 +11,10 @@ import java.awt.Color;
 import ARSsim.physics2D.util.clsPose;
 import bw.body.clsBaseBody;
 import bw.body.clsComplexBody;
+import bw.utils.container.clsConfigFloat;
+import bw.utils.container.clsConfigInt;
 import bw.utils.container.clsConfigMap;
+import bw.utils.enums.eConfigEntries;
 import enums.eEntityType;
 import sim.physics2D.util.Double2D;
 
@@ -28,9 +31,10 @@ import sim.physics2D.util.Double2D;
  * 
  */
 public class clsAnimal extends clsAnimate{
-	private static double mrDefaultWeight = 300.0f;
-	private static double mrDefaultRadius = 10.0f;
-	private static Color moDefaultColor = Color.BLUE;
+	private static double mrWeight;
+	private static double mrRadius;
+	private static Color moColor;
+	private static double mrSpeed;
 
 	/**
 	 * @param poStartingPosition
@@ -38,8 +42,7 @@ public class clsAnimal extends clsAnimate{
 	 * @param pnId
 	 */
 	public clsAnimal(int pnId, clsPose poPose, Double2D poStartingVelocity, clsConfigMap poConfig) {
-		super(pnId, poPose, poStartingVelocity, new sim.physics2D.shape.Circle(clsAnimal.mrDefaultRadius, clsAnimal.moDefaultColor), clsAnimal.mrDefaultWeight, clsAnimal.getFinalConfig(poConfig));
-		
+		super(pnId, poPose, poStartingVelocity, new sim.physics2D.shape.Circle(clsAnimal.mrRadius, clsAnimal.moColor), clsAnimal.mrWeight, clsAnimal.getFinalConfig(poConfig));
 		applyConfig();
 		// TODO Auto-generated constructor stub
 	}
@@ -49,8 +52,10 @@ public class clsAnimal extends clsAnimate{
 	}
 		
 	private void applyConfig() {
-		//TODO add ...
-
+		mrWeight = ( (clsConfigFloat)moConfig.get(eConfigEntries.WEIGHT) ).get();
+		mrRadius = ( (clsConfigFloat)moConfig.get(eConfigEntries.RADIUS) ).get();
+		mrSpeed = ( (clsConfigFloat)moConfig.get(eConfigEntries.SPEED) ).get();
+		moColor = new Color( ( (clsConfigInt)moConfig.get(eConfigEntries.COLOR) ).get() );
 	}
 	
 	private static clsConfigMap getFinalConfig(clsConfigMap poConfig) {
@@ -62,8 +67,11 @@ public class clsAnimal extends clsAnimate{
 	private static clsConfigMap getDefaultConfig() {
 		clsConfigMap oDefault = new clsConfigMap();
 		
-		//TODO add ...
-		
+		oDefault.add(eConfigEntries.SPEED, new clsConfigFloat(4.0f));
+		oDefault.add(eConfigEntries.WEIGHT, new clsConfigFloat(300.0f));
+		oDefault.add(eConfigEntries.RADIUS, new clsConfigFloat(10.0f));
+		oDefault.add(eConfigEntries.COLOR, new clsConfigInt( Color.BLUE.getRGB() ));
+
 		return oDefault;
 	}
 	
@@ -74,38 +82,7 @@ public class clsAnimal extends clsAnimate{
 	protected void setEntityType() {
 		// TODO Auto-generated method stub
 		meEntityType = eEntityType.ANIMAL;
-		
-	}
-	
-
-
-	/* (non-Javadoc)
-	 *
-	 * @author langr
-	 * 25.02.2009, 17:31:48
-	 * 
-	 * @see bw.entities.clsEntity#updateInternalState()
-	 */
-	@Override
-	public void updateInternalState() {
-		// TODO Auto-generated method stub
-		
 	}
 
 
-	/* (non-Javadoc)
-	 *
-	 * @author deutsch
-	 * 22.04.2009, 16:53:08
-	 * 
-	 * @see bw.entities.clsEntity#processing()
-	 */
-	@Override
-	public void processing() {
-		// TODO Auto-generated method stub
-		
-	}
-
-	
-	
 }

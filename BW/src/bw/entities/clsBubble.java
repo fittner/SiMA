@@ -104,17 +104,7 @@ public class clsBubble extends clsAnimate {
 		
 	}
 	
-	/* (non-Javadoc)
-	 *
-	 * @author langr
-	 * 25.02.2009, 17:33:53
-	 * 
-	 * @see bw.entities.clsEntity#processing(java.util.ArrayList)
-	 */
-	@Override
-	public void processing() {
-		moActionList = moBody.getBrain().stepProcessing();
-	}
+
 
 
 	public clsEntityPartVision getVision()

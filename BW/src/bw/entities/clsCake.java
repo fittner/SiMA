@@ -94,39 +94,6 @@ public class clsCake extends clsInanimate {
 		
 	}
 
-	/* (non-Javadoc)
-	 * @see bw.clsEntity#sensing()
-	 */
-	@Override
-	public void sensing() {
-		// TODO Auto-generated method stub
-		
-	}
-	
-
-	/* (non-Javadoc)
-	 * @see bw.clsEntity#execution(java.util.ArrayList)
-	 */
-	@Override
-	public void execution() {
-		// TODO Auto-generated method stub
-		
-	}
-
-
-	/* (non-Javadoc)
-	 *
-	 * @author langr
-	 * 25.02.2009, 17:37:10
-	 * 
-	 * @see bw.entities.clsEntity#processing(java.util.ArrayList)
-	 */
-	@Override
-	public void processing() {
-		// TODO Auto-generated method stub
-		
-	}
-
 
 	/* (non-Javadoc)
 	 *
@@ -147,6 +114,45 @@ public class clsCake extends clsInanimate {
 			//This command removes the cake from the playground
 			clsRegisterEntity.unRegisterPhysicalObject2D(getMobileObject2D());
 		}
+	}
+
+	/* (non-Javadoc)
+	 *
+	 * @author deutsch
+	 * 12.05.2009, 19:26:16
+	 * 
+	 * @see bw.entities.clsEntity#execution()
+	 */
+	@Override
+	public void execution() {
+		// no executions
+		
+	}
+
+	/* (non-Javadoc)
+	 *
+	 * @author deutsch
+	 * 12.05.2009, 19:26:16
+	 * 
+	 * @see bw.entities.clsEntity#processing()
+	 */
+	@Override
+	public void processing() {
+		// no processing
+		
+	}
+
+	/* (non-Javadoc)
+	 *
+	 * @author deutsch
+	 * 12.05.2009, 19:26:16
+	 * 
+	 * @see bw.entities.clsEntity#sensing()
+	 */
+	@Override
+	public void sensing() {
+		// no sensing
+		
 	}
 
 }

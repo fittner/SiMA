@@ -37,6 +37,10 @@ public enum eConfigEntries {
 	ANGLE,
 	RANGE,
 	OFFSET,
+	WEIGHT,
+	RADIUS,
+	COLOR, 
+	SPEED,
 	
 	//
 	ACTIVATE,
