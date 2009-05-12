@@ -11,7 +11,6 @@ package bw.body.io.sensors.internal;
 import enums.eSensorIntType;
 import bw.body.clsBaseBody;
 import bw.body.clsComplexBody;
-import bw.body.clsSimpleBody;
 import bw.body.internalSystems.clsInternalEnergyConsumption;
 import bw.body.io.clsBaseIO;
 import bw.body.itfget.itfGetBody;
@@ -132,8 +131,8 @@ public class clsEnergySensor extends clsSensorInt {
 	@Override
 	public void updateSensorData() {
 
-		if ( moBody instanceof clsSimpleBody) {
-			clsInternalEnergyConsumption oInternalEnergyConsumption = ((clsSimpleBody)moBody).getInternalEnergyConsumption();
+		if ( moBody instanceof clsComplexBody) {
+			clsInternalEnergyConsumption oInternalEnergyConsumption = ((clsComplexBody)moBody).getInternalEnergyConsumption();
 
 			mrEnergy = oInternalEnergyConsumption.getSum();
 			

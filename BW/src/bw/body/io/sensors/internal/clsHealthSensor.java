@@ -9,7 +9,7 @@
 package bw.body.io.sensors.internal;
 
 import bw.body.clsBaseBody;
-import bw.body.clsSimpleBody;
+import bw.body.clsComplexBody;
 import bw.body.internalSystems.clsHealthSystem;
 import bw.body.internalSystems.clsInternalEnergyConsumption;
 import bw.body.io.clsBaseIO;
@@ -119,8 +119,8 @@ public class clsHealthSensor extends clsSensorInt {
 	@Override
 	public void updateSensorData() {
 
-		if ( ((itfGetBody)moBody).getBody() instanceof clsSimpleBody) {
-			clsHealthSystem oHealthSystem = ((clsSimpleBody)moBody).getHealthSystem();
+		if ( ((itfGetBody)moBody).getBody() instanceof clsComplexBody) {
+			clsHealthSystem oHealthSystem = ((clsComplexBody)moBody).getInternalSystem().getHealthSystem();
 
 			mrHealthValue = oHealthSystem.getHealth().getContent();
 			mrRecoveryRate = oHealthSystem.getRecoveryRate();

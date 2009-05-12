@@ -9,7 +9,7 @@
 package bw.body.io.sensors.internal;
 
 import bw.body.clsBaseBody;
-import bw.body.clsSimpleBody;
+import bw.body.clsComplexBody;
 import bw.body.internalSystems.clsHealthSystem;
 import bw.body.internalSystems.clsStaminaSystem;
 import bw.body.io.clsBaseIO;
@@ -119,16 +119,16 @@ public class clsStaminaSensor extends clsSensorInt {
 	@Override
 	public void updateSensorData() {
 
-		if ( ((itfGetBody)moBody).getBody() instanceof clsSimpleBody) {
+		if ( ((itfGetBody)moBody).getBody() instanceof clsComplexBody) {
 			
 			//does not exist in a simple body
 			
-			//clsStaminaSystem oStaminaSystem = ((clsSimpleBody)moBody).getStaminaSystem();
+			clsStaminaSystem oStaminaSystem = ((clsComplexBody)moBody).getInternalSystem().getStaminaSystem();
 
-//			mrStaminaValue = oStaminaSystem.getStamina().getContent();
-//			mrRecoveryRate = oStaminaSystem.getRecoveryRate();
-//			mrLowerBound = oStaminaSystem.getStamina().getLowerBound();
-//			mrUpperBound = oStaminaSystem.getStamina().getUpperBound();
+			mrStaminaValue = oStaminaSystem.getStamina().getContent();
+			mrRecoveryRate = oStaminaSystem.getRecoveryRate();
+			mrLowerBound = oStaminaSystem.getStamina().getLowerBound();
+			mrUpperBound = oStaminaSystem.getStamina().getUpperBound();
 		}
 	}
 	
