@@ -121,8 +121,10 @@ public class clsHealthSensor extends clsSensorInt {
 		if ( ((itfGetBody)moEntity).getBody() instanceof clsSimpleBody) {
 			clsHealthSystem oHealthSystem = ((clsSimpleBody)((itfGetBody)moEntity).getBody()).getHealthSystem();
 
-			//TODO: set values
-			
+			mrHealthValue = oHealthSystem.getHealth().getContent();
+			mrRecoveryRate = oHealthSystem.getRecoveryRate();
+			mrLowerBound = oHealthSystem.getHealth().getLowerBound();
+			mrUpperBound = oHealthSystem.getHealth().getUpperBound();
 		}
 		
 	}

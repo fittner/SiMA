@@ -134,7 +134,7 @@ public class clsEnergySensor extends clsSensorInt {
 		if ( ((itfGetBody)moEntity).getBody() instanceof clsSimpleBody) {
 			clsInternalEnergyConsumption oInternalEnergyConsumption = ((clsSimpleBody)((itfGetBody)moEntity).getBody()).getInternalEnergyConsumption();
 
-			//TODO: set values
+			mrEnergy = oInternalEnergyConsumption.getSum();
 			
 		}
 

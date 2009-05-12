@@ -121,10 +121,11 @@ public class clsStaminaSensor extends clsSensorInt {
 		if ( ((itfGetBody)moEntity).getBody() instanceof clsSimpleBody) {
 			clsStaminaSystem oStaminaSystem = ((clsSimpleBody)((itfGetBody)moEntity).getBody()).getStaminaSystem();
 
-			//TODO: set values
-			
+			mrStaminaValue = oStaminaSystem.getStamina().getContent();
+			mrRecoveryRate = oStaminaSystem.getRecoveryRate();
+			mrLowerBound = oStaminaSystem.getStamina().getLowerBound();
+			mrUpperBound = oStaminaSystem.getStamina().getUpperBound();
 		}
-
 	}
 	
 	/**

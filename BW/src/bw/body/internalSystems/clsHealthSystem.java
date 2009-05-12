@@ -25,6 +25,16 @@ public class clsHealthSystem implements itfStepUpdateInternalState {
     private clsConfigMap moConfig;
     
 	private clsFillLevel moHealth;
+	/**
+	 * @author langr
+	 * 12.05.2009, 18:25:12
+	 * 
+	 * @return the moHealth
+	 */
+	public clsFillLevel getHealth() {
+		return moHealth;
+	}
+
 	boolean mnIsAlive;
 	private float mrIsDeadThreshold = 0.001f;
 	

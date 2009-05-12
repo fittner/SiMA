@@ -26,6 +26,16 @@ public class clsStaminaSystem implements itfStepUpdateInternalState {
     
 	private clsFillLevel moStamina;
 	
+	/**
+	 * @author langr
+	 * 12.05.2009, 18:28:26
+	 * 
+	 * @return the moStamina
+	 */
+	public clsFillLevel getStamina() {
+		return moStamina;
+	}
+
 	public clsStaminaSystem(clsConfigMap poConfig) {
 		moConfig = getFinalConfig(poConfig);
 		applyConfig();

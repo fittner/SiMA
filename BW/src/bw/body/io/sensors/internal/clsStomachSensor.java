@@ -115,10 +115,9 @@ public class clsStomachSensor extends clsSensorInt {
 	public void updateSensorData() {
 
 		if ( ((itfGetBody)moEntity).getBody() instanceof clsSimpleBody) {
-			clsStomachSystem oHealthSystem = ((clsSimpleBody)((itfGetBody)moEntity).getBody()).getStomachSystem();
+			clsStomachSystem oStomachSystem = ((clsSimpleBody)((itfGetBody)moEntity).getBody()).getStomachSystem();
 
-			//TODO: set values
-			
+			mrEnergy = oStomachSystem.getEnergy();
 		}
 		
 	}
