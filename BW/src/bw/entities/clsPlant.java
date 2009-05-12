@@ -10,7 +10,7 @@ package bw.entities;
 import java.awt.Color;
 import ARSsim.physics2D.util.clsPose;
 import bw.body.clsBaseBody;
-import bw.body.clsSimpleBody;
+import bw.body.clsMeatBody;
 import bw.utils.container.clsConfigMap;
 import enums.eEntityType;
 
@@ -24,12 +24,12 @@ import enums.eEntityType;
  * @author langr
  * 
  */
-public class clsPlant extends clsAnimate{
+public class clsPlant extends clsAnimate {
 
 	private static double mrDefaultWeight = 300.0f;
 	private static double mrDefaultRadius = 10.0f;
 	private static Color moDefaultColor = Color.ORANGE;	
-    
+	   
     public clsPlant(int pnId, clsPose poStartingPose, sim.physics2D.util.Double2D poStartingVelocity, clsConfigMap poConfig) {
 		super(pnId, poStartingPose, poStartingVelocity, new sim.physics2D.shape.Circle(clsPlant.mrDefaultRadius, clsPlant.moDefaultColor), clsPlant.mrDefaultWeight, clsPlant.getFinalConfig(poConfig));
 		
@@ -38,7 +38,7 @@ public class clsPlant extends clsAnimate{
     }
     
 	public clsBaseBody createBody() {
-		return  new clsSimpleBody(this, moConfig);
+		return  new clsMeatBody(this, moConfig);
 	}
 	
 	private void applyConfig() {
