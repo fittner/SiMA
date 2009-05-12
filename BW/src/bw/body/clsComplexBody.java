@@ -7,10 +7,13 @@
  */
 package bw.body;
 
+import bw.body.brainsocket.clsBrainSocket;
 import bw.body.interBodyWorldSystems.clsInterBodyWorldSystem;
 import bw.body.internalSystems.clsInternalEnergyConsumption;
 import bw.body.internalSystems.clsInternalSystem;
 import bw.body.intraBodySystems.clsIntraBodySystem;
+import bw.body.io.clsExternalIO;
+import bw.body.io.clsInternalIO;
 import bw.body.itfget.itfGetInternalEnergyConsumption;
 import bw.body.motionplatform.clsBrainActionContainer;
 import bw.entities.clsEntity;
@@ -41,6 +44,12 @@ public class clsComplexBody extends clsBaseBody implements itfGetInternalEnergyC
 		moInternalSystem = new clsInternalSystem((clsConfigMap) moConfig.get(eBodyParts.INTSYS));
 		moIntraBodySystem = new clsIntraBodySystem(moInternalSystem, (clsConfigMap) moConfig.get(eBodyParts.INTRA));
 		moInterBodyWorldSystem = new clsInterBodyWorldSystem(moInternalSystem, (clsConfigMap) moConfig.get(eBodyParts.INTER));
+		
+		moExternalIO = new clsExternalIO(this, poEntity, (clsConfigMap)moConfig.get(eBodyParts.EXTERNAL_IO));
+		moInternalIO = new clsInternalIO(this, (clsConfigMap)moConfig.get(eBodyParts.INTERNAL_IO));
+		   
+	  	moBrain = new clsBrainSocket(moExternalIO.moSensorExternal, moInternalIO.moSensorInternal, (clsConfigMap) poConfig.get(eBodyParts.BRAIN));		
+		
 	}
 
 	private void applyConfig() {

@@ -11,13 +11,9 @@ package bw.body.io.sensors.internal;
 import bw.body.clsBaseBody;
 import bw.body.clsComplexBody;
 import bw.body.internalSystems.clsHealthSystem;
-import bw.body.internalSystems.clsInternalEnergyConsumption;
 import bw.body.io.clsBaseIO;
 import bw.body.itfget.itfGetBody;
-import bw.entities.clsEntity;
-import bw.utils.container.clsConfigFloat;
 import bw.utils.container.clsConfigMap;
-import bw.utils.enums.eConfigEntries;
 
 /**
  * TODO (langr) - insert description 
@@ -55,7 +51,7 @@ public class clsHealthSensor extends clsSensorInt {
 
 		
 		//this registeres a static energy consuption
-		registerEnergyConsumption( ((clsConfigFloat)moConfig.get(eConfigEntries.ENERGYCONSUMPTION)).get() ); 
+		//registerEnergyConsumption( ((clsConfigFloat)moConfig.get(eConfigEntries.ENERGYCONSUMPTION)).get() ); 
 
 	}
 	
@@ -119,7 +115,7 @@ public class clsHealthSensor extends clsSensorInt {
 	@Override
 	public void updateSensorData() {
 
-		if ( ((itfGetBody)moBody).getBody() instanceof clsComplexBody) {
+		if ( moBody instanceof clsComplexBody) {
 			clsHealthSystem oHealthSystem = ((clsComplexBody)moBody).getInternalSystem().getHealthSystem();
 
 			mrHealthValue = oHealthSystem.getHealth().getContent();

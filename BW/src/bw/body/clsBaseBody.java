@@ -24,9 +24,9 @@ import bw.utils.enums.eBodyParts;
  * 
  */
 public abstract class clsBaseBody implements itfStepSensing, itfStepUpdateInternalState, itfStepProcessing, itfStepExecution {
-	private clsBrainSocket moBrain;
-    private clsExternalIO moExternalIO;
-    private clsInternalIO moInternalIO;
+	protected clsBrainSocket moBrain;
+    protected clsExternalIO moExternalIO;
+    protected clsInternalIO moInternalIO;
 	
 	protected clsConfigMap moConfig;
 	
@@ -34,10 +34,10 @@ public abstract class clsBaseBody implements itfStepSensing, itfStepUpdateIntern
 		moConfig = getFinalConfig(poConfig);
 		applyConfig();
 		
-	   moExternalIO = new clsExternalIO(poEntity, (clsConfigMap)moConfig.get(eBodyParts.EXTERNAL_IO));
-	   moInternalIO = new clsInternalIO(poEntity, (clsConfigMap)moConfig.get(eBodyParts.INTERNAL_IO));
-	   
-  	   moBrain = new clsBrainSocket(moExternalIO.moSensorExternal, moInternalIO.moSensorInternal, (clsConfigMap) poConfig.get(eBodyParts.BRAIN));		
+		moBrain = null;
+		moExternalIO = null;
+		moInternalIO = null;
+		
 	}
 	
 	private void applyConfig() {

@@ -35,6 +35,7 @@ import bw.body.io.sensors.external.clsSensorEatableArea;
 import bw.body.io.sensors.external.clsSensorExt;
 import bw.body.io.sensors.external.clsSensorVision;
 import bw.body.io.sensors.internal.clsSensorInt;
+import bw.body.io.sensors.internal.clsStomachSensor;
 import bw.body.motionplatform.clsBrainActionContainer;
 import bw.entities.clsEntity;
 import bw.utils.container.clsConfigMap;
@@ -113,14 +114,12 @@ public class clsBrainSocket implements itfStepProcessing {
 	 */
 	private clsDataBase convertStomachSystem() {
 
-		clsStomachSystem oData = new clsStomachSystem();
+		clsStomachSystem oRetVal = new clsStomachSystem();
 		
-//		clsSensorVision oVision = (clsSensorVision)(moSensorsInt.get(eSensorIntType.STOMACH));
-//		
-//		Iterator<Integer> i = oVision.getViewObj().keySet().iterator();
-//		while (i.hasNext()) {
-//		
-//		
+		clsStomachSensor oStomachSensor = (clsStomachSensor)(moSensorsInt.get(eSensorIntType.STOMACH));
+
+		
+		
 		return null;
 	}
 

@@ -11,6 +11,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 
 import enums.eActuatorExtType;
+import bw.body.clsBaseBody;
 import bw.body.io.actuators.external.clsActuatorEat;
 import bw.body.io.actuators.external.clsActuatorExt;
 import bw.body.io.actuators.external.clsActuatorMove;
@@ -60,8 +61,8 @@ public class clsExternalIO extends clsBaseIO {
 /**
 	 * 
 	 */
-	public clsExternalIO(clsEntity poEntity, clsConfigMap poConfig) {
-		super(poEntity, clsExternalIO.getFinalConfig(poConfig));
+	public clsExternalIO(clsBaseBody poBody, clsEntity poEntity, clsConfigMap poConfig) {
+		super(poBody, clsExternalIO.getFinalConfig(poConfig));
 		
 		moEntity = poEntity; //the entity for physics engine access
 		

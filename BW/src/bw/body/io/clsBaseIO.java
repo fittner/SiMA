@@ -7,6 +7,7 @@
  */
 package bw.body.io;
 
+import bw.body.clsBaseBody;
 import bw.body.itfStepExecution;
 import bw.body.itfStepSensing;
 import bw.body.internalSystems.clsInternalEnergyConsumption;
@@ -26,12 +27,12 @@ public abstract class clsBaseIO implements itfStepSensing, itfStepExecution  {
 	
     protected clsConfigMap moConfig;
     
-	public clsBaseIO(clsEntity poEntity, clsConfigMap poConfig) {
+	public clsBaseIO(clsBaseBody poBody, clsConfigMap poConfig) {
 		moConfig = getFinalConfig(poConfig);
 		applyConfig();
 		
-		if (poEntity instanceof itfGetInternalEnergyConsumption) {
-			moInternalEnergyConsumption = ((itfGetInternalEnergyConsumption)poEntity).getInternalEnergyConsumption();
+		if (poBody instanceof itfGetInternalEnergyConsumption) {
+			moInternalEnergyConsumption = ((itfGetInternalEnergyConsumption)poBody).getInternalEnergyConsumption();
 		} else {
 			moInternalEnergyConsumption = null;
 		}

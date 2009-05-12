@@ -14,10 +14,6 @@ import enums.eSensorExtType;
 import enums.eSensorIntType;
 
 import bw.body.clsBaseBody;
-import bw.body.io.sensors.external.clsSensorAcceleration;
-import bw.body.io.sensors.external.clsSensorBump;
-import bw.body.io.sensors.external.clsSensorEatableArea;
-import bw.body.io.sensors.external.clsSensorVision;
 import bw.body.io.sensors.internal.clsEnergySensor;
 import bw.body.io.sensors.internal.clsHealthSensor;
 import bw.body.io.sensors.internal.clsSensorInt;
@@ -44,14 +40,11 @@ public class clsInternalIO extends clsBaseIO{
 
 	public clsBaseBody moBody;
     
-	public clsInternalIO(clsEntity poEntity, clsConfigMap poConfig) {
-		super(poEntity, clsInternalIO.getFinalConfig(poConfig));
+	public clsInternalIO(clsBaseBody poBody, clsConfigMap poConfig) {
+		super(poBody, clsInternalIO.getFinalConfig(poConfig));
 
-		if (poEntity instanceof itfGetBody) {
-			moBody = ((itfGetBody)poEntity).getBody();
-		} else {
-			moBody = null;
-		}
+		moSensorInternal = new HashMap<eSensorIntType, clsSensorInt>();
+		moBody = poBody;
 		
 		applyConfig();
 		
@@ -98,8 +91,8 @@ public class clsInternalIO extends clsBaseIO{
 		oSensorConfigs.add(eSensorIntType.HEALTH_SYSTEM, oSC_Temp);
 
 		oSC_Temp = new clsConfigMap();
-		oSC_Temp.add(eSensorIntType.STAMINA, new clsConfigBoolean(true));
-		oSensorConfigs.add(eSensorExtType.VISION, oSC_Temp);
+		oSC_Temp.add(eConfigEntries.ACTIVATE, new clsConfigBoolean(true));
+		oSensorConfigs.add(eSensorIntType.STAMINA, oSC_Temp);
 		
 		oSC_Temp = new clsConfigMap();
 		oSC_Temp.add(eConfigEntries.ACTIVATE, new clsConfigBoolean(true));
@@ -120,7 +113,8 @@ public class clsInternalIO extends clsBaseIO{
 			if (nActivate) {
 				switch (eType) {
 					case ENERGY_CONSUMPTION: 
-						moSensorInternal.put(eSensorIntType.ENERGY_CONSUMPTION, new clsEnergySensor(moBody, this, oConfig)); 
+						clsEnergySensor oTemp =  new clsEnergySensor(moBody, this, oConfig);
+						moSensorInternal.put(eSensorIntType.ENERGY_CONSUMPTION, oTemp); 
 						break;
 					case HEALTH_SYSTEM: 
 						moSensorInternal.put(eSensorIntType.HEALTH_SYSTEM, new clsHealthSensor(moBody, this, oConfig)); 
@@ -145,8 +139,9 @@ public class clsInternalIO extends clsBaseIO{
 	 * @see bw.body.itfStepSensing#stepSensing()
 	 */
 	public void stepSensing() {
-		// TODO Auto-generated method stub
-		
+		for (clsSensorInt sensor : moSensorInternal.values()) {
+			sensor.updateSensorData();
+		}		
 	}
 
 	/* (non-Javadoc)
@@ -157,7 +152,10 @@ public class clsInternalIO extends clsBaseIO{
 	 * @see bw.body.itfStepExecution#stepExecution()
 	 */
 	public void stepExecution(clsBrainActionContainer poActionList) {
-		// TODO Auto-generated method stub
+
+//		for (clsActuatorInt actuator : moActuatorInternal.values()) {
+//			actuator.updateActuatorData(poActionList);
+//		}
 		
 	}
 	
