@@ -20,7 +20,7 @@ import sim.field.grid.IntGrid2D;
 			This document defines a schema for the surface of a bw world.
 		</documentation>
 	</annotation>
-
+ 
 	<element name="world" type="WorldType"/>
 
 	<complexType name="WorldType">
