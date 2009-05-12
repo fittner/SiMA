@@ -22,16 +22,16 @@ public class clsLifeCycleLoader extends clsLoader {
 
 	private int mnNumPlants;
 	private int mnNumHares;
-	private int mnNumTigers;
+	private int mnNumLynx;
 	private int mnNumStones;
 
-	public clsLifeCycleLoader(SimState poSimState, int pnWidth, int pnHeight, int pnPlants, int pnHares, int pnTigers, int pnStones) {
+	public clsLifeCycleLoader(SimState poSimState, int pnWidth, int pnHeight, int pnPlants, int pnHares, int pnLynx, int pnStones) {
 		super(poSimState);
 		
 		
 		mnNumPlants = pnPlants;
 		mnNumHares = pnHares;
-		mnNumTigers = pnTigers;
+		mnNumLynx = pnLynx;
 		mnNumStones = pnStones;
 		
 		createGrids(pnWidth, pnHeight);
@@ -47,7 +47,10 @@ public class clsLifeCycleLoader extends clsLoader {
 	 */
 	@Override
 	public void loadObjects() {
-		// TODO Auto-generated method stub
-		
+		clsWorldBoundaries.loadWorldBoundaries();
+		clsEntityLoader.loadStones(mnNumStones);
+		clsEntityLoader.loadPlants(mnNumPlants);
+		clsEntityLoader.loadHares(mnNumHares);
+		clsEntityLoader.loadLynx(mnNumLynx);
 	}	
 }

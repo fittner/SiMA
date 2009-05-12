@@ -10,7 +10,7 @@ package bw.entities;
 
 import java.awt.Color;
 
-import lifeCycle.clsTigerMind;
+import lifeCycle.clsLynxMind;
 import sim.physics2D.util.Double2D;
 import ARSsim.physics2D.util.clsPose;
 import bw.utils.container.clsConfigFloat;
@@ -26,7 +26,7 @@ import enums.eEntityType;
  * 12.05.2009, 19:37:43
  * 
  */
-public class clsTiger extends clsAnimal {
+public class clsLynx extends clsAnimal {
 
 	/**
 	 * TODO (deutsch) - insert description 
@@ -39,10 +39,10 @@ public class clsTiger extends clsAnimal {
 	 * @param poStartingVelocity
 	 * @param poConfig
 	 */
-	public clsTiger(int pnId, clsPose poPose, Double2D poStartingVelocity, clsConfigMap poConfig) {
+	public clsLynx(int pnId, clsPose poPose, Double2D poStartingVelocity, clsConfigMap poConfig) {
 		super(pnId, poPose, poStartingVelocity, getFinalConfig(poConfig));
 		applyConfig();		
-		setDecisionUnit(new clsTigerMind());
+		setDecisionUnit(new clsLynxMind());
 	}
 
 	

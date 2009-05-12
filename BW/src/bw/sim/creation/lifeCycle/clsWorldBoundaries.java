@@ -33,25 +33,25 @@ public class clsWorldBoundaries {
 		clsWall oWall;
 		
         // HORIZ
-		oPose = new clsPose(100, 0, 0);
-        oWall = new clsWall(1, oPose, 193, 6, new clsConfigMap());
+		oPose = new clsPose(xMax/2, 0, 0);
+        oWall = new clsWall(1, oPose, xMax - rThickness - 1, rThickness, new clsConfigMap());
         clsRegisterEntity.registerEntity(oWall);
         clsImagePortrayal.PlaceImage(bw.sim.clsBWMain.msArsPath + "/src/resources/images/wall1.jpg", 8, new sim.util.Double2D(oPose.getPosition().x, oPose.getPosition().y), clsSingletonMasonGetter.getFieldEnvironment());
  
          	
-        oPose = new clsPose(100, 200, 0);
-        oWall = new clsWall(2, oPose, 193, 6, new clsConfigMap());
+        oPose = new clsPose(xMax/2, yMax, 0);
+        oWall = new clsWall(2, oPose, xMax - rThickness - 1, rThickness, new clsConfigMap());
         clsRegisterEntity.registerEntity(oWall);
         clsImagePortrayal.PlaceImage(bw.sim.clsBWMain.msArsPath + "/src/resources/images/wall1.jpg", 8, new sim.util.Double2D(oPose.getPosition().x, oPose.getPosition().y), clsSingletonMasonGetter.getFieldEnvironment());
                 
         // VERT
-        oPose = new clsPose(0, 100, 0);
-        oWall = new clsWall(3, oPose, 6, 200, new clsConfigMap());
+        oPose = new clsPose(0, yMax/2, 0);
+        oWall = new clsWall(3, oPose, rThickness, yMax, new clsConfigMap());
         clsRegisterEntity.registerEntity(oWall);
         clsImagePortrayal.PlaceImage(bw.sim.clsBWMain.msArsPath + "/src/resources/images/wall2.jpg", 8, new sim.util.Double2D(oPose.getPosition().x, oPose.getPosition().y), clsSingletonMasonGetter.getFieldEnvironment());
         
-        oPose = new clsPose(200, 100, 0);
-        oWall = new clsWall(4, oPose, 6, 200, new clsConfigMap());
+        oPose = new clsPose(xMax, yMax/2, 0);
+        oWall = new clsWall(4, oPose, rThickness, yMax, new clsConfigMap());
         clsRegisterEntity.registerEntity(oWall);
         clsImagePortrayal.PlaceImage(bw.sim.clsBWMain.msArsPath + "/src/resources/images/wall2.jpg", 8, new sim.util.Double2D(oPose.getPosition().x, oPose.getPosition().y), clsSingletonMasonGetter.getFieldEnvironment());
 	}
