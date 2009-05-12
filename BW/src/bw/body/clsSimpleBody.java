@@ -8,13 +8,14 @@
  */
 package bw.body;
 
+import bw.body.internalSystems.clsFlesh;
 import bw.body.internalSystems.clsHealthSystem;
 import bw.body.internalSystems.clsInternalEnergyConsumption;
-import bw.body.internalSystems.clsStaminaSystem;
 import bw.body.internalSystems.clsStomachSystem;
 import bw.body.motionplatform.clsBrainActionContainer;
 import bw.entities.clsEntity;
 import bw.utils.container.clsConfigMap;
+import bw.utils.enums.eBodyParts;
 
 /**
  * TODO (deutsch) - insert description 
@@ -23,11 +24,11 @@ import bw.utils.container.clsConfigMap;
  * 11.05.2009, 17:55:57
  * 
  */
-public class clsSimpleBody extends clsBaseBody implements itfGetInternalEnergyConsumption, itfGetHealthSystem, itfGetStaminaSystem {
+public class clsSimpleBody extends clsBaseBody implements itfGetInternalEnergyConsumption, itfGetHealthSystem, itfGetFlesh, itfGetStomachSystem {
 
 	private clsHealthSystem moHealthSystem;
 	private clsStomachSystem moStomachSystem;
-	private clsStaminaSystem moStaminaSystem;
+	private clsFlesh moFlesh;
 	private clsInternalEnergyConsumption moInternalEnergyConsumption;
 
 	
@@ -42,6 +43,12 @@ public class clsSimpleBody extends clsBaseBody implements itfGetInternalEnergyCo
 	public clsSimpleBody(clsEntity poEntity, clsConfigMap poConfig) {
 		super(poEntity, getFinalConfig(poConfig));
 		applyConfig();
+		
+		moHealthSystem = new clsHealthSystem( (clsConfigMap)moConfig.get(eBodyParts.INTSYS_HEALTH_SYSTEM));
+		moStomachSystem = new clsStomachSystem( (clsConfigMap)moConfig.get(eBodyParts.INTSYS_HEALTH_SYSTEM));
+		moHealthSystem = new clsHealthSystem( (clsConfigMap)moConfig.get(eBodyParts.INTSYS_HEALTH_SYSTEM));
+		moFlesh = new clsFlesh( (clsConfigMap)moConfig.get(eBodyParts.INTSYS_HEALTH_SYSTEM));
+		
 		// TODO Auto-generated constructor stub
 		
 		//Systems:
@@ -91,13 +98,6 @@ public class clsSimpleBody extends clsBaseBody implements itfGetInternalEnergyCo
 		return moHealthSystem;
 	}
 
-
-	/**
-	 * @return the moStaminaSystem
-	 */
-	public clsStaminaSystem getStaminaSystem() {
-		return moStaminaSystem;
-	}
 
 
 	/**
@@ -167,6 +167,21 @@ public class clsSimpleBody extends clsBaseBody implements itfGetInternalEnergyCo
 	public void stepExecution(clsBrainActionContainer poActionList) {
 		// TODO Auto-generated method stub
 
+	}
+
+
+
+	/* (non-Javadoc)
+	 *
+	 * @author deutsch
+	 * 12.05.2009, 18:32:32
+	 * 
+	 * @see bw.body.itfGetFlesh#getFlesh()
+	 */
+	@Override
+	public clsFlesh getFlesh() {
+		// TODO Auto-generated method stub
+		return moFlesh;
 	}
 
 }

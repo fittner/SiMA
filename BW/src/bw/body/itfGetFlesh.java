@@ -1,6 +1,6 @@
 /**
  * @author deutsch
- * 12.05.2009, 18:22:36
+ * 12.05.2009, 18:31:00
  * 
  * $Rev::                      $: Revision of last commit
  * $Author::                   $: Author of last commit
@@ -8,16 +8,14 @@
  */
 package bw.body;
 
-import bw.body.internalSystems.clsStomachSystem;
-
+import bw.body.internalSystems.clsFlesh;
 /**
  * TODO (deutsch) - insert description 
  * 
  * @author deutsch
- * 12.05.2009, 18:22:36
+ * 12.05.2009, 18:31:00
  * 
  */
-public interface itfGetStomachSystem {
-	public clsStomachSystem getStomachSystem();
-
+public interface itfGetFlesh {
+	public clsFlesh getFlesh();
 }
