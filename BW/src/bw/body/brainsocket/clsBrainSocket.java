@@ -20,7 +20,10 @@ import decisionunit.itf.actions.clsMotionAction;
 import decisionunit.itf.sensors.clsBump;
 import decisionunit.itf.sensors.clsDataBase;
 import decisionunit.itf.sensors.clsEatableArea;
+import decisionunit.itf.sensors.clsEnergyConsumption;
+import decisionunit.itf.sensors.clsHealthSystem;
 import decisionunit.itf.sensors.clsSensorData;
+import decisionunit.itf.sensors.clsStaminaSystem;
 import decisionunit.itf.sensors.clsStomachSystem;
 import decisionunit.itf.sensors.clsVision;
 import decisionunit.itf.sensors.clsVisionEntry;
@@ -34,7 +37,10 @@ import bw.body.io.sensors.external.clsSensorBump;
 import bw.body.io.sensors.external.clsSensorEatableArea;
 import bw.body.io.sensors.external.clsSensorExt;
 import bw.body.io.sensors.external.clsSensorVision;
+import bw.body.io.sensors.internal.clsEnergySensor;
+import bw.body.io.sensors.internal.clsHealthSensor;
 import bw.body.io.sensors.internal.clsSensorInt;
+import bw.body.io.sensors.internal.clsStaminaSensor;
 import bw.body.io.sensors.internal.clsStomachSensor;
 import bw.body.motionplatform.clsBrainActionContainer;
 import bw.entities.clsEntity;
@@ -115,12 +121,11 @@ public class clsBrainSocket implements itfStepProcessing {
 	private clsDataBase convertStomachSystem() {
 
 		clsStomachSystem oRetVal = new clsStomachSystem();
-		
 		clsStomachSensor oStomachSensor = (clsStomachSensor)(moSensorsInt.get(eSensorIntType.STOMACH));
 
+		oRetVal.setEnergy( oStomachSensor.getEnergy() );
 		
-		
-		return null;
+		return oRetVal;
 	}
 
 	/**
@@ -132,8 +137,16 @@ public class clsBrainSocket implements itfStepProcessing {
 	 * @return
 	 */
 	private clsDataBase convertStaminaSystem() {
-		// TODO Auto-generated method stub
-		return null;
+		
+		clsStaminaSystem oRetVal = new clsStaminaSystem();
+		clsStaminaSensor oStaminaSensor = (clsStaminaSensor)(moSensorsInt.get(eSensorIntType.STAMINA));
+
+		oRetVal.setStaminaValue(oStaminaSensor.getStaminaValue());
+		oRetVal.setRecoveryRate(oStaminaSensor.getRecoveryRate());
+		oRetVal.setLowerBound(oStaminaSensor.getLowerBound());
+		oRetVal.setUpperBound(oStaminaSensor.getUpperBound());
+		
+		return oRetVal;	
 	}
 
 	/**
@@ -145,8 +158,16 @@ public class clsBrainSocket implements itfStepProcessing {
 	 * @return
 	 */
 	private clsDataBase convertHealthSystem() {
-		// TODO Auto-generated method stub
-		return null;
+		
+		clsHealthSystem oRetVal = new clsHealthSystem();
+		clsHealthSensor oHealthSensor = (clsHealthSensor)(moSensorsInt.get(eSensorIntType.HEALTH_SYSTEM));
+
+		oRetVal.setHealthValue(oHealthSensor.getHealthValue());
+		oRetVal.setRecoveryRate(oHealthSensor.getRecoveryRate());
+		oRetVal.setLowerBound(oHealthSensor.getLowerBound());
+		oRetVal.setUpperBound(oHealthSensor.getUpperBound());
+		
+		return oRetVal;	
 	}
 
 	/**
@@ -158,8 +179,14 @@ public class clsBrainSocket implements itfStepProcessing {
 	 * @return
 	 */
 	private clsDataBase convertEnergySystem() {
-		// TODO Auto-generated method stub
-		return null;
+
+		clsEnergyConsumption oRetVal = new clsEnergyConsumption();
+		clsEnergySensor oEnergySensor = (clsEnergySensor)(moSensorsInt.get(eSensorIntType.ENERGY_CONSUMPTION));
+
+		oRetVal.setEnergy( oEnergySensor.getEnergy() );
+		
+		return oRetVal;
+		
 	}
 
 	private clsVision converVisionSensor() {
