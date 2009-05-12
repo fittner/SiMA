@@ -58,9 +58,7 @@ public class clsComplexBody extends clsBaseBody implements itfGetInternalEnergyC
 		oDefault.add(eBodyParts.INTSYS, null);
 		oDefault.add(eBodyParts.INTRA, null);
 		oDefault.add(eBodyParts.INTER, null);
-		oDefault.add(eBodyParts.EXTERNAL_IO, null);
-		oDefault.add(eBodyParts.INTERNAL_IO, null);
-		oDefault.add(eBodyParts.BRAIN, null);
+
 
 		return oDefault;
 	}	

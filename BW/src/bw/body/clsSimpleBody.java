@@ -33,6 +33,23 @@ public class clsSimpleBody extends clsBaseBody {
 		super(poEntity, getFinalConfig(poConfig));
 		applyConfig();
 		// TODO Auto-generated constructor stub
+		
+		//Systems:
+		//Flesh
+		//Health
+		//Stomach (1 Nutrition for food, ggf 1 for undegistable)
+		//EnergyConsumption (ggf: only with one default value - no dynamic updates from the actuators)
+		
+		//Sensors:
+		//VISION
+		//EATABLE
+		//BUMP
+		//EnergyLevel
+		//HealthLevel
+		
+		//Actuators:
+		//EAT
+		//MOVE
 	}
 
 	private void applyConfig() {
