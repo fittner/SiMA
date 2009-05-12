@@ -6,7 +6,7 @@
  * $Author::                   $: Author of last commit
  * $Date::                     $: Date of last commit
  */
-package bw.body;
+package bw.body.itfget;
 
 import bw.body.internalSystems.clsHealthSystem;
 

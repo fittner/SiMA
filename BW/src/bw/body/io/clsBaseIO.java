@@ -7,10 +7,10 @@
  */
 package bw.body.io;
 
-import bw.body.itfGetInternalEnergyConsumption;
 import bw.body.itfStepExecution;
 import bw.body.itfStepSensing;
 import bw.body.internalSystems.clsInternalEnergyConsumption;
+import bw.body.itfget.itfGetInternalEnergyConsumption;
 import bw.entities.clsEntity;
 import bw.utils.container.clsConfigMap;
 import bw.utils.datatypes.clsMutableFloat;

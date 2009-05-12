@@ -1,22 +1,22 @@
 /**
  * @author deutsch
- * 11.05.2009, 18:15:07
+ * 11.05.2009, 18:19:28
  * 
  * $Rev::                      $: Revision of last commit
  * $Author::                   $: Author of last commit
  * $Date::                     $: Date of last commit
  */
-package bw.body;
+package bw.body.itfget;
 
-import bw.body.internalSystems.clsInternalEnergyConsumption;
+import bw.body.clsBaseBody;
 
 /**
  * TODO (deutsch) - insert description 
  * 
  * @author deutsch
- * 11.05.2009, 18:15:07
+ * 11.05.2009, 18:19:28
  * 
  */
-public interface itfGetInternalEnergyConsumption {
-	public clsInternalEnergyConsumption getInternalEnergyConsumption();
+public interface itfGetBody {
+	public clsBaseBody getBody();
 }

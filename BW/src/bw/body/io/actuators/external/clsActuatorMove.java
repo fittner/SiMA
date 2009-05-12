@@ -12,10 +12,10 @@ import java.util.ArrayList;
 
 import sim.physics2D.util.Angle;
 
-import bw.body.itfGetBody;
-import bw.body.itfGetInternalEnergyConsumption;
 import bw.body.io.clsBaseIO;
 import bw.body.io.actuators.itfActuatorUpdate;
+import bw.body.itfget.itfGetBody;
+import bw.body.itfget.itfGetInternalEnergyConsumption;
 import bw.body.motionplatform.clsBrainAction;
 import bw.body.motionplatform.clsBrainActionContainer;
 import bw.body.motionplatform.clsMotionAction;

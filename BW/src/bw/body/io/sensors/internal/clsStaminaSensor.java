@@ -9,10 +9,10 @@
 package bw.body.io.sensors.internal;
 
 import bw.body.clsSimpleBody;
-import bw.body.itfGetBody;
 import bw.body.internalSystems.clsHealthSystem;
 import bw.body.internalSystems.clsStaminaSystem;
 import bw.body.io.clsBaseIO;
+import bw.body.itfget.itfGetBody;
 import bw.entities.clsEntity;
 import bw.utils.container.clsConfigFloat;
 import bw.utils.container.clsConfigMap;

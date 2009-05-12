@@ -11,6 +11,7 @@ import bw.body.interBodyWorldSystems.clsInterBodyWorldSystem;
 import bw.body.internalSystems.clsInternalEnergyConsumption;
 import bw.body.internalSystems.clsInternalSystem;
 import bw.body.intraBodySystems.clsIntraBodySystem;
+import bw.body.itfget.itfGetInternalEnergyConsumption;
 import bw.body.motionplatform.clsBrainActionContainer;
 import bw.entities.clsEntity;
 import bw.utils.container.clsConfigMap;

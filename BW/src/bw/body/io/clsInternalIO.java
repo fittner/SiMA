@@ -12,8 +12,8 @@ import java.util.HashMap;
 import enums.eSensorIntType;
 
 import bw.body.clsBaseBody;
-import bw.body.itfGetBody;
 import bw.body.io.sensors.internal.clsSensorInt;
+import bw.body.itfget.itfGetBody;
 import bw.body.motionplatform.clsBrainActionContainer;
 import bw.entities.clsEntity;
 import bw.utils.container.clsConfigMap;

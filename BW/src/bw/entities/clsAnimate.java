@@ -12,7 +12,7 @@ import decisionunit.clsBaseDecisionUnit;
 import sim.physics2D.shape.Shape;
 import ARSsim.physics2D.util.clsPose;
 import bw.body.clsBaseBody;
-import bw.body.itfGetBody;
+import bw.body.itfget.itfGetBody;
 import bw.body.motionplatform.clsBrainActionContainer;
 import bw.utils.container.clsConfigMap;
 

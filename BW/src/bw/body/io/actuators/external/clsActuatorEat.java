@@ -10,8 +10,8 @@ package bw.body.io.actuators.external;
 
 import bw.actionresponses.clsEntityActionResponses;
 import bw.body.clsComplexBody;
-import bw.body.itfGetBody;
 import bw.body.io.clsBaseIO;
+import bw.body.itfget.itfGetBody;
 import bw.body.motionplatform.clsBrainAction;
 import bw.body.motionplatform.clsBrainActionContainer;
 import bw.body.motionplatform.clsEatAction;

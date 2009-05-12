@@ -47,6 +47,23 @@ public class clsDamageNutrition implements itfStepUpdateInternalState {
 	 *
 	 * @param poInternalSystem
 	 */
+	public clsDamageNutrition(clsStomachSystem poStomachSystem, clsHealthSystem poHealthSystem, clsConfigMap poConfig) {
+		moStomachSystem = poStomachSystem;
+		moHealthSystem = poHealthSystem;
+		moFastMessengerSystem = null;
+		
+		moConfig = getFinalConfig(poConfig);
+		applyConfig();
+	}
+	
+	/**
+	 * TODO (deutsch) - insert description 
+	 * 
+	 * @author deutsch
+	 * 19.02.2009, 19:51:48
+	 *
+	 * @param poInternalSystem
+	 */
 	public clsDamageNutrition(clsInternalSystem poInternalSystem, clsConfigMap poConfig) {
 		moStomachSystem = poInternalSystem.getStomachSystem();
 		moHealthSystem = poInternalSystem.getHealthSystem();
@@ -59,7 +76,6 @@ public class clsDamageNutrition implements itfStepUpdateInternalState {
 	}
 	
 	private void applyConfig() {
-		
 		mrPainThreshold = ((clsConfigFloat)moConfig.get(eConfigEntries.PAINTHRESHOLD)).get();
 		mrHealthPenalty = ((clsConfigFloat)moConfig.get(eConfigEntries.HEALTHPENALTY)).get();
 	}
@@ -126,7 +142,9 @@ public class clsDamageNutrition implements itfStepUpdateInternalState {
 	 */
 	private void pain(float prPenaltySum) {
 		if (prPenaltySum > mrPainThreshold) {
-			moFastMessengerSystem.addMessage(new clsPartDamageNutrition(), new clsPartBrain(), prPenaltySum);
+			if (moFastMessengerSystem != null) {
+				moFastMessengerSystem.addMessage(new clsPartDamageNutrition(), new clsPartBrain(), prPenaltySum);
+			}
 		}
 	}
 	

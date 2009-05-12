@@ -17,7 +17,7 @@ import sim.portrayal.Inspector;
 import sim.portrayal.LocationWrapper;
 import ARSsim.motionplatform.clsMotionPlatform;
 import ARSsim.physics2D.util.clsPose;
-import bw.body.itfGetBody;
+import bw.body.itfget.itfGetBody;
 import bw.entities.clsAnimate;
 import bw.entities.clsEntity;
 import bw.factories.clsSingletonMasonGetter;

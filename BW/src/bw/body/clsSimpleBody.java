@@ -8,10 +8,16 @@
  */
 package bw.body;
 
+import bw.body.interBodyWorldSystems.clsConsumeFood;
 import bw.body.internalSystems.clsFlesh;
 import bw.body.internalSystems.clsHealthSystem;
 import bw.body.internalSystems.clsInternalEnergyConsumption;
 import bw.body.internalSystems.clsStomachSystem;
+import bw.body.intraBodySystems.clsDamageNutrition;
+import bw.body.itfget.itfGetFlesh;
+import bw.body.itfget.itfGetHealthSystem;
+import bw.body.itfget.itfGetInternalEnergyConsumption;
+import bw.body.itfget.itfGetStomachSystem;
 import bw.body.motionplatform.clsBrainActionContainer;
 import bw.entities.clsEntity;
 import bw.utils.container.clsConfigMap;
@@ -26,6 +32,9 @@ import bw.utils.enums.eBodyParts;
  */
 public class clsSimpleBody extends clsBaseBody implements itfGetInternalEnergyConsumption, itfGetHealthSystem, itfGetFlesh, itfGetStomachSystem {
 
+	private clsDamageNutrition moDamageNutrition;
+	private clsConsumeFood moConsumeFood;
+	
 	private clsHealthSystem moHealthSystem;
 	private clsStomachSystem moStomachSystem;
 	private clsFlesh moFlesh;
@@ -44,19 +53,20 @@ public class clsSimpleBody extends clsBaseBody implements itfGetInternalEnergyCo
 		super(poEntity, getFinalConfig(poConfig));
 		applyConfig();
 		
-		moHealthSystem = new clsHealthSystem( (clsConfigMap)moConfig.get(eBodyParts.INTSYS_HEALTH_SYSTEM));
-		moStomachSystem = new clsStomachSystem( (clsConfigMap)moConfig.get(eBodyParts.INTSYS_HEALTH_SYSTEM));
-		moHealthSystem = new clsHealthSystem( (clsConfigMap)moConfig.get(eBodyParts.INTSYS_HEALTH_SYSTEM));
-		moFlesh = new clsFlesh( (clsConfigMap)moConfig.get(eBodyParts.INTSYS_HEALTH_SYSTEM));
-		
-		// TODO Auto-generated constructor stub
-		
 		//Systems:
 		//Flesh
 		//Health
 		//Stomach (1 Nutrition for food, ggf 1 for undegistable)
-		//EnergyConsumption (ggf: only with one default value - no dynamic updates from the actuators)
+		//EnergyConsumption (ggf: only with one default value - no dynamic updates from the actuators)		
+		moHealthSystem = new clsHealthSystem( (clsConfigMap)moConfig.get(eBodyParts.INTSYS_HEALTH_SYSTEM));
+		moStomachSystem = new clsStomachSystem( (clsConfigMap)moConfig.get(eBodyParts.INTSYS_STOMACH_SYSTEM));
+		moInternalEnergyConsumption = new clsInternalEnergyConsumption( (clsConfigMap)moConfig.get(eBodyParts.INTSYS_INTERNAL_ENERGY_CONSUMPTION));
+		moFlesh = new clsFlesh( (clsConfigMap)moConfig.get(eBodyParts.INTSYS_FLESH));
 		
+		moConsumeFood = new clsConsumeFood(moStomachSystem, (clsConfigMap)moConfig.get(eBodyParts.INTER_CONSUME_FOOD) );
+		moDamageNutrition = new clsDamageNutrition(moStomachSystem, moHealthSystem, (clsConfigMap)moConfig.get(eBodyParts.INTRA_DAMAGE_NUTRITION) );
+		// TODO Auto-generated constructor stub
+	
 		//Sensors:
 		//VISION
 		//EATABLE

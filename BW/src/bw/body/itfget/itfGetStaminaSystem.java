@@ -1,23 +1,22 @@
 /**
  * @author deutsch
- * 12.05.2009, 18:22:36
+ * 12.05.2009, 18:22:47
  * 
  * $Rev::                      $: Revision of last commit
  * $Author::                   $: Author of last commit
  * $Date::                     $: Date of last commit
  */
-package bw.body;
+package bw.body.itfget;
 
-import bw.body.internalSystems.clsStomachSystem;
+import bw.body.internalSystems.clsStaminaSystem;
 
 /**
  * TODO (deutsch) - insert description 
  * 
  * @author deutsch
- * 12.05.2009, 18:22:36
+ * 12.05.2009, 18:22:47
  * 
  */
-public interface itfGetStomachSystem {
-	public clsStomachSystem getStomachSystem();
-
+public interface itfGetStaminaSystem {
+	public clsStaminaSystem getStaminaSystem();
 }

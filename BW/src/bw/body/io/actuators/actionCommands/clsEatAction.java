@@ -9,9 +9,9 @@
 package bw.body.io.actuators.actionCommands;
 
 import bw.utils.datatypes.clsMutableFloat;
-import bw.body.itfGetBody;
-import bw.body.itfGetInternalEnergyConsumption;
 import bw.body.io.actuators.clsActionCommand;
+import bw.body.itfget.itfGetBody;
+import bw.body.itfget.itfGetInternalEnergyConsumption;
 import bw.entities.clsEntity;
 import bw.entities.clsAnimate;
 import bw.factories.clsSingletonUniqueIdGenerator;
