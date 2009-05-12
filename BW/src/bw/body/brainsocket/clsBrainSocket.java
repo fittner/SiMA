@@ -113,9 +113,9 @@ public class clsBrainSocket implements itfStepProcessing {
 	 */
 	private clsDataBase convertStomachSystem() {
 
-//		clsStomachSystem oData = new clsStomachSystem();
-//		
-//		clsSensorVision oVision = (clsSensorVision)(moSensorsInt.get(eSensorIntType.VISION));
+		clsStomachSystem oData = new clsStomachSystem();
+		
+//		clsSensorVision oVision = (clsSensorVision)(moSensorsInt.get(eSensorIntType.STOMACH));
 //		
 //		Iterator<Integer> i = oVision.getViewObj().keySet().iterator();
 //		while (i.hasNext()) {
