@@ -8,15 +8,30 @@
 package bw.body.io;
 
 import java.util.HashMap;
+import java.util.Iterator;
 
+import enums.eSensorExtType;
 import enums.eSensorIntType;
 
 import bw.body.clsBaseBody;
+import bw.body.io.sensors.external.clsSensorAcceleration;
+import bw.body.io.sensors.external.clsSensorBump;
+import bw.body.io.sensors.external.clsSensorEatableArea;
+import bw.body.io.sensors.external.clsSensorVision;
+import bw.body.io.sensors.internal.clsEnergySensor;
+import bw.body.io.sensors.internal.clsHealthSensor;
 import bw.body.io.sensors.internal.clsSensorInt;
+import bw.body.io.sensors.internal.clsStaminaSensor;
+import bw.body.io.sensors.internal.clsStomachSensor;
 import bw.body.itfget.itfGetBody;
 import bw.body.motionplatform.clsBrainActionContainer;
 import bw.entities.clsEntity;
+import bw.utils.container.clsBaseConfig;
+import bw.utils.container.clsConfigBoolean;
+import bw.utils.container.clsConfigEnum;
+import bw.utils.container.clsConfigList;
 import bw.utils.container.clsConfigMap;
+import bw.utils.enums.eConfigEntries;
 
 /**
  * TODO (deutsch) - insert description 
@@ -30,21 +45,97 @@ public class clsInternalIO extends clsBaseIO{
 	public clsBaseBody moBody;
     
 	public clsInternalIO(clsEntity poEntity, clsConfigMap poConfig) {
-		super(poEntity, poConfig);
+		super(poEntity, clsInternalIO.getFinalConfig(poConfig));
 
 		if (poEntity instanceof itfGetBody) {
 			moBody = ((itfGetBody)poEntity).getBody();
 		} else {
 			moBody = null;
 		}
+		
+		applyConfig();
+		
 	}
 	
-	protected clsConfigMap getDefaultConfig() {
+	private void applyConfig() {
+		
+		//initialization of sensors
+		if ( ((clsConfigBoolean)moConfig.get(eConfigEntries.ACTIVATE)).get() ) {
+			initSensorInternal((clsConfigList)moConfig.get(eConfigEntries.INTSENSORS), (clsConfigMap)moConfig.get(eConfigEntries.INTSENSORCONFIG));
+		}
+
+
+	}
+	
+	private static clsConfigMap getFinalConfig(clsConfigMap poConfig) {
+		clsConfigMap oDefault = getDefaultConfig();
+		oDefault.overwritewith(poConfig);
+		return oDefault;
+	}
+	
+	private static clsConfigMap getDefaultConfig() {
 		clsConfigMap oDefault = new clsConfigMap();
-		//TODO add default values
+		
+		oDefault.add(eConfigEntries.ACTIVATE, new clsConfigBoolean(true));
+		
+		clsConfigList oSensors = new clsConfigList();
+		oSensors.add(new clsConfigEnum(eSensorIntType.ENERGY_CONSUMPTION));
+		oSensors.add(new clsConfigEnum(eSensorIntType.HEALTH_SYSTEM));
+		oSensors.add(new clsConfigEnum(eSensorIntType.STAMINA));
+		oSensors.add(new clsConfigEnum(eSensorIntType.STOMACH));	
+		oDefault.add(eConfigEntries.INTSENSORS, oSensors);
+		
+
+		clsConfigMap oSensorConfigs = new clsConfigMap();
+		clsConfigMap oSC_Temp;
+		
+		oSC_Temp = new clsConfigMap();
+		oSC_Temp.add(eConfigEntries.ACTIVATE, new clsConfigBoolean(true));
+		oSensorConfigs.add(eSensorIntType.ENERGY_CONSUMPTION, oSC_Temp);
+		
+		oSC_Temp = new clsConfigMap();
+		oSC_Temp.add(eConfigEntries.ACTIVATE, new clsConfigBoolean(true));
+		oSensorConfigs.add(eSensorIntType.HEALTH_SYSTEM, oSC_Temp);
+
+		oSC_Temp = new clsConfigMap();
+		oSC_Temp.add(eSensorIntType.STAMINA, new clsConfigBoolean(true));
+		oSensorConfigs.add(eSensorExtType.VISION, oSC_Temp);
+		
+		oSC_Temp = new clsConfigMap();
+		oSC_Temp.add(eConfigEntries.ACTIVATE, new clsConfigBoolean(true));
+		oSensorConfigs.add(eSensorIntType.STOMACH, oSC_Temp);
+		
+		oDefault.add(eConfigEntries.INTSENSORCONFIG, oSensorConfigs);
+		
 		return oDefault;
 	}	
-		
+	
+	private void initSensorInternal(clsConfigList poInternalSensors, clsConfigMap poSensorConfigs) {
+		Iterator<clsBaseConfig> i = poInternalSensors.iterator();
+		while (i.hasNext()) {
+			eSensorIntType eType = (eSensorIntType) ((clsConfigEnum)i.next()).get();
+			clsConfigMap oConfig = (clsConfigMap)poSensorConfigs.get(eType);
+			boolean nActivate = ((clsConfigBoolean)oConfig.get(eConfigEntries.ACTIVATE)).get();
+
+			if (nActivate) {
+				switch (eType) {
+					case ENERGY_CONSUMPTION: 
+						moSensorInternal.put(eSensorIntType.ENERGY_CONSUMPTION, new clsEnergySensor(moBody, this, oConfig)); 
+						break;
+					case HEALTH_SYSTEM: 
+						moSensorInternal.put(eSensorIntType.HEALTH_SYSTEM, new clsHealthSensor(moBody, this, oConfig)); 
+						break;
+					case STAMINA: 
+						moSensorInternal.put(eSensorIntType.STAMINA, new clsStaminaSensor(moBody, this, oConfig)); 
+						break;
+					case STOMACH: 
+						moSensorInternal.put(eSensorIntType.STOMACH, new clsStomachSensor(moBody, this, oConfig)); 
+						break;
+				}
+			}
+		}
+	}
+	
 
 	/* (non-Javadoc)
 	 *

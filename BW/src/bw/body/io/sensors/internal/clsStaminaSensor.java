@@ -8,6 +8,7 @@
  */
 package bw.body.io.sensors.internal;
 
+import bw.body.clsBaseBody;
 import bw.body.clsSimpleBody;
 import bw.body.internalSystems.clsHealthSystem;
 import bw.body.internalSystems.clsStaminaSystem;
@@ -27,7 +28,7 @@ import bw.utils.enums.eConfigEntries;
  */
 public class clsStaminaSensor extends clsSensorInt {
 
-	private clsEntity moEntity;
+	private clsBaseBody moBody;
 	
 	private float mrStaminaValue;
 	private float mrRecoveryRate;
@@ -43,12 +44,12 @@ public class clsStaminaSensor extends clsSensorInt {
 	 *
 	 * @param poBaseIO
 	 */
-	public clsStaminaSensor(clsEntity poEntity, clsBaseIO poBaseIO, clsConfigMap poConfig) {
+	public clsStaminaSensor(clsBaseBody poBody, clsBaseIO poBaseIO, clsConfigMap poConfig) {
 		super(poBaseIO, clsStaminaSensor.getFinalConfig(poConfig));
 		// TODO Auto-generated constructor stub
 		
 		applyConfig();
-		setEntity(poEntity);
+		setEntity(poBody);
 	}
 	
 	private void applyConfig() {
@@ -78,8 +79,8 @@ public class clsStaminaSensor extends clsSensorInt {
 	 *
 	 * @param poEntity
 	 */
-	private void setEntity(clsEntity poEntity) {
-		this.moEntity = poEntity;
+	private void setEntity(clsBaseBody poBody) {
+		this.moBody = poBody;
 	}
 
 	/* (non-Javadoc)
@@ -118,13 +119,16 @@ public class clsStaminaSensor extends clsSensorInt {
 	@Override
 	public void updateSensorData() {
 
-		if ( ((itfGetBody)moEntity).getBody() instanceof clsSimpleBody) {
-			clsStaminaSystem oStaminaSystem = ((clsSimpleBody)((itfGetBody)moEntity).getBody()).getStaminaSystem();
+		if ( ((itfGetBody)moBody).getBody() instanceof clsSimpleBody) {
+			
+			//does not exist in a simple body
+			
+			//clsStaminaSystem oStaminaSystem = ((clsSimpleBody)moBody).getStaminaSystem();
 
-			mrStaminaValue = oStaminaSystem.getStamina().getContent();
-			mrRecoveryRate = oStaminaSystem.getRecoveryRate();
-			mrLowerBound = oStaminaSystem.getStamina().getLowerBound();
-			mrUpperBound = oStaminaSystem.getStamina().getUpperBound();
+//			mrStaminaValue = oStaminaSystem.getStamina().getContent();
+//			mrRecoveryRate = oStaminaSystem.getRecoveryRate();
+//			mrLowerBound = oStaminaSystem.getStamina().getLowerBound();
+//			mrUpperBound = oStaminaSystem.getStamina().getUpperBound();
 		}
 	}
 	

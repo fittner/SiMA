@@ -8,6 +8,7 @@
  */
 package bw.body.io.sensors.internal;
 
+import bw.body.clsBaseBody;
 import bw.body.clsSimpleBody;
 import bw.body.internalSystems.clsHealthSystem;
 import bw.body.internalSystems.clsInternalEnergyConsumption;
@@ -27,7 +28,7 @@ import bw.utils.enums.eConfigEntries;
  */
 public class clsHealthSensor extends clsSensorInt {
 
-	private clsEntity moEntity;
+	private clsBaseBody moBody;
 	
 	private float mrHealthValue;
 	private float mrRecoveryRate;
@@ -42,12 +43,12 @@ public class clsHealthSensor extends clsSensorInt {
 	 *
 	 * @param poBaseIO
 	 */
-	public clsHealthSensor(clsEntity poEntity, clsBaseIO poBaseIO, clsConfigMap poConfig) {
+	public clsHealthSensor(clsBaseBody poBody, clsBaseIO poBaseIO, clsConfigMap poConfig) {
 		super(poBaseIO, clsHealthSensor.getFinalConfig(poConfig));
 		// TODO Auto-generated constructor stub
 		
 		applyConfig();
-		setEntity(poEntity);
+		setEntity(poBody);
 	}
 	
 	private void applyConfig() {
@@ -77,8 +78,8 @@ public class clsHealthSensor extends clsSensorInt {
 	 *
 	 * @param poEntity
 	 */
-	private void setEntity(clsEntity poEntity) {
-		this.moEntity = poEntity;
+	private void setEntity(clsBaseBody poBody) {
+		this.moBody = poBody;
 	}
 	
 	
@@ -118,8 +119,8 @@ public class clsHealthSensor extends clsSensorInt {
 	@Override
 	public void updateSensorData() {
 
-		if ( ((itfGetBody)moEntity).getBody() instanceof clsSimpleBody) {
-			clsHealthSystem oHealthSystem = ((clsSimpleBody)((itfGetBody)moEntity).getBody()).getHealthSystem();
+		if ( ((itfGetBody)moBody).getBody() instanceof clsSimpleBody) {
+			clsHealthSystem oHealthSystem = ((clsSimpleBody)moBody).getHealthSystem();
 
 			mrHealthValue = oHealthSystem.getHealth().getContent();
 			mrRecoveryRate = oHealthSystem.getRecoveryRate();
