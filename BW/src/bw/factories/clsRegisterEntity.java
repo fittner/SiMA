@@ -12,6 +12,9 @@ import sim.physics2D.constraint.PinJoint;
 import sim.physics2D.physicalObject.PhysicalObject2D;
 import ARSsim.physics2D.physicalObject.clsMobileObject2D;
 import ARSsim.physics2D.physicalObject.clsStationaryObject2D;
+import bw.body.itfget.itfGetEatableArea;
+import bw.body.itfget.itfGetVision;
+import bw.entities.clsAnimate;
 import bw.entities.clsBubble;
 import bw.entities.clsMobile;
 import bw.entities.clsRemoteBot;
@@ -107,16 +110,20 @@ public final class clsRegisterEntity {
 		poEntity.setRegistered(true);
 	}
 	
-	public static void registerEntity(clsBubble poEntity) {
+	public static void registerEntity(clsAnimate poEntity) {
 		registerMobileObject2D(poEntity.getMobileObject2D());
 		
-		registerPhysicalObject2D(poEntity.getVision() );
-		clsSingletonMasonGetter.getFieldEnvironment().setObjectLocation(poEntity.getVision(), new sim.util.Double2D(poEntity.getPosition().x, poEntity.getPosition().y));
-		clsSingletonMasonGetter.getSimState().schedule.scheduleRepeating(poEntity.getVision());
+		if (poEntity instanceof itfGetVision) {
+			registerPhysicalObject2D(((itfGetVision)poEntity).getVision() );
+			clsSingletonMasonGetter.getFieldEnvironment().setObjectLocation(((itfGetVision)poEntity).getVision(), new sim.util.Double2D(poEntity.getPosition().x, poEntity.getPosition().y));
+			clsSingletonMasonGetter.getSimState().schedule.scheduleRepeating(((itfGetVision)poEntity).getVision());
+		}
 		
-		registerPhysicalObject2D(poEntity.getEatableAreaVision() );
-		clsSingletonMasonGetter.getFieldEnvironment().setObjectLocation(poEntity.getEatableAreaVision(), new sim.util.Double2D( (poEntity.getEatableAreaVision().getPosition().x+10), poEntity.getEatableAreaVision().getPosition().y));
-		clsSingletonMasonGetter.getSimState().schedule.scheduleRepeating(poEntity.getEatableAreaVision());
+		if (poEntity instanceof itfGetEatableArea) {
+			registerPhysicalObject2D(((itfGetEatableArea)poEntity).getEatableArea() );
+			clsSingletonMasonGetter.getFieldEnvironment().setObjectLocation(((itfGetEatableArea)poEntity).getEatableArea(), new sim.util.Double2D( (((itfGetEatableArea)poEntity).getEatableArea().getPosition().x+10), ((itfGetEatableArea)poEntity).getEatableArea().getPosition().y));
+			clsSingletonMasonGetter.getSimState().schedule.scheduleRepeating(((itfGetEatableArea)poEntity).getEatableArea());
+		}
 
 		poEntity.setRegistered(true);
 	}

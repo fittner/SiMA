@@ -11,6 +11,8 @@ import java.awt.Color;
 import ARSsim.physics2D.util.clsPose;
 import bw.body.clsBaseBody;
 import bw.body.clsComplexBody;
+import bw.body.itfget.itfGetEatableArea;
+import bw.body.itfget.itfGetVision;
 import bw.utils.container.clsConfigFloat;
 import bw.utils.container.clsConfigInt;
 import bw.utils.container.clsConfigMap;
@@ -30,25 +32,39 @@ import sim.physics2D.util.Double2D;
  * @author langr
  * 
  */
-public class clsAnimal extends clsAnimate{
+public class clsAnimal extends clsAnimate implements itfGetVision, itfGetEatableArea{
 	private static double mrWeight;
 	private static double mrRadius;
 	private static Color moColor;
 	private static double mrSpeed;
 
+	private boolean mnAlive;
 	/**
 	 * @param poStartingPosition
 	 * @param poStartingVelocity
 	 * @param pnId
 	 */
 	public clsAnimal(int pnId, clsPose poPose, Double2D poStartingVelocity, clsConfigMap poConfig) {
-		super(pnId, poPose, poStartingVelocity, new sim.physics2D.shape.Circle(clsAnimal.mrRadius, clsAnimal.moColor), clsAnimal.mrWeight, clsAnimal.getFinalConfig(poConfig));
+		super(
+				pnId, 
+				poPose, 
+				poStartingVelocity, 
+				null, 
+				10.0f, 
+				clsAnimal.getFinalConfig(poConfig)
+			);
+		
 		applyConfig();
+
+	
+		setShape(new sim.physics2D.shape.Circle(mrRadius, moColor), mrWeight);
+		
+		mnAlive = true;
 		// TODO Auto-generated constructor stub
 	}
 
 	public clsBaseBody createBody() {
-		return  new clsComplexBody(this, moConfig);
+		return  new clsComplexBody(this, (clsConfigMap)moConfig.get(eConfigEntries.BODY) );
 	}
 		
 	private void applyConfig() {

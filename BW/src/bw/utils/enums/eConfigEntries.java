@@ -17,6 +17,7 @@ package bw.utils.enums;
  */
 public enum eConfigEntries {
 	// single entries
+	BODY,
 	CONTENT,
 	MAXCONTENT,
 	INCREASERATE,

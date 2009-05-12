@@ -20,8 +20,11 @@ import bw.body.motionplatform.clsMotionAction;
 import bw.physicalObjects.bodyparts.clsBotHands;
 import bw.physicalObjects.sensors.clsEntityPartVision;
 import bw.utils.container.clsConfigMap;
+import bw.utils.enums.eConfigEntries;
 import bw.body.io.sensors.external.clsSensorEatableArea;
 import bw.body.io.sensors.external.clsSensorVision;
+import bw.body.itfget.itfGetEatableArea;
+import bw.body.itfget.itfGetVision;
 import bw.factories.clsSingletonUniqueIdGenerator;
 import enums.eActionCommandMotion;
 import enums.eActionCommandType;
@@ -40,7 +43,7 @@ import sim.physics2D.physicalObject.PhysicalObject2D;
  * @author langr
  * 
  */
-public class clsRemoteBot extends clsAnimate  {
+public class clsRemoteBot extends clsAnimate implements itfGetVision, itfGetEatableArea  {
     private clsBotHands moBotHand1;
     private clsBotHands moBotHand2;
        
@@ -72,7 +75,7 @@ public class clsRemoteBot extends clsAnimate  {
 	}
 	
 	public clsBaseBody createBody() {
-		return  new clsComplexBody(this, moConfig);
+		return  new clsComplexBody(this, (clsConfigMap)moConfig.get(eConfigEntries.BODY));
 	}	
 	
 	private void applyConfig() {

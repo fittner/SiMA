@@ -16,10 +16,13 @@ import bw.body.clsBaseBody;
 import bw.body.clsComplexBody;
 import bw.body.io.sensors.external.clsSensorEatableArea;
 import bw.body.io.sensors.external.clsSensorVision;
+import bw.body.itfget.itfGetEatableArea;
 import bw.body.itfget.itfGetInternalEnergyConsumption;
+import bw.body.itfget.itfGetVision;
 import ARSsim.physics2D.util.clsPose;
 import bw.physicalObjects.sensors.clsEntityPartVision;
 import bw.utils.container.clsConfigMap;
+import bw.utils.enums.eConfigEntries;
 import enums.eEntityType;
 
 //import tstBw.*;
@@ -30,7 +33,7 @@ import enums.eEntityType;
  * @author langr
  * 
  */
-public class clsBubble extends clsAnimate {
+public class clsBubble extends clsAnimate implements itfGetVision, itfGetEatableArea {
 
 	private static double mrDefaultWeight = 100.0f;
 	private static double mrDefaultRadius = 10.0f;
@@ -65,7 +68,7 @@ public class clsBubble extends clsAnimate {
     } 
 
 	public clsBaseBody createBody() {
-		return  new clsComplexBody(this, moConfig);
+		return  new clsComplexBody(this, (clsConfigMap)moConfig.get(eConfigEntries.BODY));
 	}
 	
 	private void applyConfig() {
@@ -107,20 +110,7 @@ public class clsBubble extends clsAnimate {
 
 
 
-	public clsEntityPartVision getVision()
-	{
-		return ((clsSensorVision)this.moBody
-					.getExternalIO().moSensorExternal
-					.get(enums.eSensorExtType.VISION)).getMoVisionArea(); 
-	}
-	
-		
-	public clsEntityPartVision getEatableAreaVision()
-	{
-		return ((clsSensorEatableArea)this.moBody
-					.getExternalIO().moSensorExternal
-					.get(enums.eSensorExtType.EATABLE_AREA)).getMoVisionArea(); 
-	}
+
 
 
 

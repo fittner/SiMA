@@ -12,8 +12,13 @@ import decisionunit.clsBaseDecisionUnit;
 import sim.physics2D.shape.Shape;
 import ARSsim.physics2D.util.clsPose;
 import bw.body.clsBaseBody;
+import bw.body.io.sensors.external.clsSensorEatableArea;
+import bw.body.io.sensors.external.clsSensorVision;
 import bw.body.itfget.itfGetBody;
+import bw.body.itfget.itfGetEatableArea;
+import bw.body.itfget.itfGetVision;
 import bw.body.motionplatform.clsBrainActionContainer;
+import bw.physicalObjects.sensors.clsEntityPartVision;
 import bw.utils.container.clsConfigMap;
 
 
@@ -113,5 +118,20 @@ public abstract class clsAnimate extends clsMobile implements itfGetBody {
 	@Override
 	public void processing() {
 		moActionList = moBody.getBrain().stepProcessing();
+	}
+	
+	public clsEntityPartVision getVision()
+	{
+		return ((clsSensorVision)this.moBody
+					.getExternalIO().moSensorExternal
+					.get(enums.eSensorExtType.VISION)).getMoVisionArea(); 
+	}
+	
+		
+	public clsEntityPartVision getEatableArea()
+	{
+		return ((clsSensorEatableArea)this.moBody
+					.getExternalIO().moSensorExternal
+					.get(enums.eSensorExtType.EATABLE_AREA)).getMoVisionArea(); 
 	}	
 }

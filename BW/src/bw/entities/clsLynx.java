@@ -58,10 +58,10 @@ public class clsLynx extends clsAnimal {
 	private static clsConfigMap getDefaultConfig() {
 		clsConfigMap oDefault = new clsConfigMap();
 		
-		oDefault.add(eConfigEntries.SPEED, new clsConfigFloat(3.0f));
-		oDefault.add(eConfigEntries.WEIGHT, new clsConfigFloat(100.0f));
-		oDefault.add(eConfigEntries.RADIUS, new clsConfigFloat(5.0f));
-		oDefault.add(eConfigEntries.COLOR, new clsConfigInt( Color.RED.getRGB() ));
+		oDefault.add(eConfigEntries.SPEED, new clsConfigFloat(6.0f));
+		oDefault.add(eConfigEntries.WEIGHT, new clsConfigFloat(200.0f));
+		oDefault.add(eConfigEntries.RADIUS, new clsConfigFloat(15.0f));
+		oDefault.add(eConfigEntries.COLOR, new clsConfigInt( Color.PINK.getRGB() ));
 
 		return oDefault;
 	}

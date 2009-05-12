@@ -53,9 +53,6 @@ public abstract class clsBaseBody implements itfStepSensing, itfStepUpdateIntern
 	private static clsConfigMap getDefaultConfig() {
 		clsConfigMap oDefault = new clsConfigMap();
 
-		oDefault.add(eBodyParts.EXTERNAL_IO, null);
-		oDefault.add(eBodyParts.INTERNAL_IO, null);
-		oDefault.add(eBodyParts.BRAIN, null);
 
 		return oDefault;
 	}	

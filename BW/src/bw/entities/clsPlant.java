@@ -12,6 +12,7 @@ import ARSsim.physics2D.util.clsPose;
 import bw.body.clsBaseBody;
 import bw.body.clsMeatBody;
 import bw.utils.container.clsConfigMap;
+import bw.utils.enums.eConfigEntries;
 import enums.eEntityType;
 
 /**
@@ -38,7 +39,7 @@ public class clsPlant extends clsAnimate {
     }
     
 	public clsBaseBody createBody() {
-		return  new clsMeatBody(this, moConfig);
+		return  new clsMeatBody(this, (clsConfigMap)moConfig.get(eConfigEntries.BODY));
 	}
 	
 	private void applyConfig() {
