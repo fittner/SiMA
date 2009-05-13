@@ -10,6 +10,7 @@ package bw.body.internalSystems;
 import bw.body.itfStepUpdateInternalState;
 import bw.utils.container.clsConfigMap;
 import bw.utils.enums.eBodyParts;
+import bw.utils.enums.eConfigEntries;
 
 /**
  * TODO (deutsch) - insert description 
@@ -34,14 +35,14 @@ public class clsInternalSystem implements itfStepUpdateInternalState {
 		moConfig = getFinalConfig(poConfig);
 		applyConfig();
 		
-  	    moFlesh 				= new clsFlesh((clsConfigMap) moConfig.get(eBodyParts.INTSYS_FLESH));
-  	    moSlowMessengerSystem 	= new clsSlowMessengerSystem((clsConfigMap) moConfig.get(eBodyParts.INTSYS_SLOW_MESSENGER_SYSTEM));
-  	    moFastMessengerSystem 	= new clsFastMessengerSystem((clsConfigMap) moConfig.get(eBodyParts.INTSYS_FAST_MESSENGER_SYSTEM));
-		moTemperatureSystem 	= new clsTemperatureSystem((clsConfigMap) moConfig.get(eBodyParts.INTSYS_TEMPERATURE_SYSTEM));
-		moHealthSystem 			= new clsHealthSystem((clsConfigMap) moConfig.get(eBodyParts.INTSYS_HEALTH_SYSTEM));
-		moStaminaSystem			= new clsStaminaSystem((clsConfigMap) moConfig.get(eBodyParts.INTSYS_STAMINA_SYSTEM));
-		moStomachSystem 		= new clsStomachSystem((clsConfigMap) moConfig.get(eBodyParts.INTSYS_STOMACH_SYSTEM));
-   	    moInternalEnergyConsumption = new clsInternalEnergyConsumption((clsConfigMap) moConfig.get(eBodyParts.INTSYS_INTERNAL_ENERGY_CONSUMPTION));		
+  	    moFlesh 				= new clsFlesh((clsConfigMap) moConfig.get(eConfigEntries.INTSYS_FLESH));
+  	    moSlowMessengerSystem 	= new clsSlowMessengerSystem((clsConfigMap) moConfig.get(eConfigEntries.INTSYS_SLOW_MESSENGER_SYSTEM));
+  	    moFastMessengerSystem 	= new clsFastMessengerSystem((clsConfigMap) moConfig.get(eConfigEntries.INTSYS_FAST_MESSENGER_SYSTEM));
+		moTemperatureSystem 	= new clsTemperatureSystem((clsConfigMap) moConfig.get(eConfigEntries.INTSYS_TEMPERATURE_SYSTEM));
+		moHealthSystem 			= new clsHealthSystem((clsConfigMap) moConfig.get(eConfigEntries.INTSYS_HEALTH_SYSTEM));
+		moStaminaSystem			= new clsStaminaSystem((clsConfigMap) moConfig.get(eConfigEntries.INTSYS_STAMINA_SYSTEM));
+		moStomachSystem 		= new clsStomachSystem((clsConfigMap) moConfig.get(eConfigEntries.INTSYS_STOMACH_SYSTEM));
+   	    moInternalEnergyConsumption = new clsInternalEnergyConsumption((clsConfigMap) moConfig.get(eConfigEntries.INTSYS_INTERNAL_ENERGY_CONSUMPTION));		
 	}
 	
 	private void applyConfig() {

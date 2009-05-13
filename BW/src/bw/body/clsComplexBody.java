@@ -20,6 +20,7 @@ import bw.entities.clsEntity;
 import bw.utils.container.clsBaseConfig;
 import bw.utils.container.clsConfigMap;
 import bw.utils.enums.eBodyParts;
+import bw.utils.enums.eConfigEntries;
 
 /**
  * The agent body is the basic container for each entity the body needs: 
@@ -42,15 +43,15 @@ public class clsComplexBody extends clsBaseBody implements itfGetInternalEnergyC
 		super(poEntity, getFinalConfig(poConfig));	
 		applyConfig();		
 		
-		moInternalSystem = new clsInternalSystem((clsConfigMap) moConfig.get(eBodyParts.INTSYS));
-		moIntraBodySystem = new clsIntraBodySystem(moInternalSystem, (clsConfigMap) moConfig.get(eBodyParts.INTRA));
-		moInterBodyWorldSystem = new clsInterBodyWorldSystem(moInternalSystem, (clsConfigMap) moConfig.get(eBodyParts.INTER));
+		moInternalSystem = new clsInternalSystem((clsConfigMap) moConfig.get(eConfigEntries.INTSYS));
+		moIntraBodySystem = new clsIntraBodySystem(moInternalSystem, (clsConfigMap) moConfig.get(eConfigEntries.INTRA));
+		moInterBodyWorldSystem = new clsInterBodyWorldSystem(moInternalSystem, (clsConfigMap) moConfig.get(eConfigEntries.INTER));
 		
-		moExternalIO = new clsExternalIO(this, poEntity, (clsConfigMap)moConfig.get(eBodyParts.EXTERNAL_IO));
+		moExternalIO = new clsExternalIO(this, poEntity, (clsConfigMap)moConfig.get(eConfigEntries.EXTERNAL_IO));
 		
-		moInternalIO = new clsInternalIO(this, (clsConfigMap)moConfig.get(eBodyParts.INTERNAL_IO) );
+		moInternalIO = new clsInternalIO(this, (clsConfigMap)moConfig.get(eConfigEntries.INTERNAL_IO) );
 		   
-		moBrain = new clsBrainSocket(moExternalIO.moSensorExternal, moInternalIO.moSensorInternal, (clsConfigMap) moConfig.get(eBodyParts.BRAIN));		
+		moBrain = new clsBrainSocket(moExternalIO.moSensorExternal, moInternalIO.moSensorInternal, (clsConfigMap) moConfig.get(eConfigEntries.BRAIN));		
 		
 	}
 
@@ -67,13 +68,13 @@ public class clsComplexBody extends clsBaseBody implements itfGetInternalEnergyC
 	private static clsConfigMap getDefaultConfig() {
 		clsConfigMap oDefault = new clsConfigMap();
 
-		oDefault.add(eBodyParts.INTSYS, null);
-		oDefault.add(eBodyParts.INTRA, null);
-		oDefault.add(eBodyParts.INTER, null);
+		oDefault.add(eConfigEntries.INTSYS, null);
+		oDefault.add(eConfigEntries.INTRA, null);
+		oDefault.add(eConfigEntries.INTER, null);
 
-		oDefault.add(eBodyParts.EXTERNAL_IO, null);
-		oDefault.add(eBodyParts.INTERNAL_IO, null);
-		oDefault.add(eBodyParts.BRAIN, null);
+		oDefault.add(eConfigEntries.EXTERNAL_IO, null);
+		oDefault.add(eConfigEntries.INTERNAL_IO, null);
+		oDefault.add(eConfigEntries.BRAIN, null);
 
 		return oDefault;
 	}	

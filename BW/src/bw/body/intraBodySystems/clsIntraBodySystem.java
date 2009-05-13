@@ -11,6 +11,7 @@ import bw.body.itfStepUpdateInternalState;
 import bw.body.internalSystems.clsInternalSystem;
 import bw.utils.container.clsConfigMap;
 import bw.utils.enums.eBodyParts;
+import bw.utils.enums.eConfigEntries;
 
 /**
  * TODO (deutsch) - insert description 
@@ -30,10 +31,10 @@ public class clsIntraBodySystem implements itfStepUpdateInternalState{
     	moConfig = getFinalConfig(poConfig);    	
 		applyConfig();
 		    	
-   	    moBioSystem = new clsBodyColor((clsConfigMap) moConfig.get(eBodyParts.INTRA_DAMAGE_NUTRITION));
-	    moGrowthSystem = new clsGrowth((clsConfigMap) moConfig.get(eBodyParts.INTRA_DAMAGE_TEMPERATURE));  
-	    moDamageNutrition = new clsDamageNutrition(poInternalSystem, (clsConfigMap) moConfig.get(eBodyParts.INTRA_BODYCOLOR));
-	    moDamageTemperature = new clsDamageTemperature(poInternalSystem, (clsConfigMap) moConfig.get(eBodyParts.INTRA_GROWTH));
+   	    moBioSystem = new clsBodyColor((clsConfigMap) moConfig.get(eConfigEntries.INTRA_DAMAGE_NUTRITION));
+	    moGrowthSystem = new clsGrowth((clsConfigMap) moConfig.get(eConfigEntries.INTRA_DAMAGE_TEMPERATURE));  
+	    moDamageNutrition = new clsDamageNutrition(poInternalSystem, (clsConfigMap) moConfig.get(eConfigEntries.INTRA_BODYCOLOR));
+	    moDamageTemperature = new clsDamageTemperature(poInternalSystem, (clsConfigMap) moConfig.get(eConfigEntries.INTRA_GROWTH));
     }
     
 	private void applyConfig() {
@@ -50,10 +51,10 @@ public class clsIntraBodySystem implements itfStepUpdateInternalState{
 	private static clsConfigMap getDefaultConfig() {
 		clsConfigMap oDefault = new clsConfigMap();
 		
-		oDefault.add(eBodyParts.INTRA_DAMAGE_NUTRITION, null);
-		oDefault.add(eBodyParts.INTRA_DAMAGE_TEMPERATURE, null);
-		oDefault.add(eBodyParts.INTRA_BODYCOLOR, null);
-		oDefault.add(eBodyParts.INTRA_GROWTH, null);
+		oDefault.add(eConfigEntries.INTRA_DAMAGE_NUTRITION, null);
+		oDefault.add(eConfigEntries.INTRA_DAMAGE_TEMPERATURE, null);
+		oDefault.add(eConfigEntries.INTRA_BODYCOLOR, null);
+		oDefault.add(eConfigEntries.INTRA_GROWTH, null);
 		
 		return oDefault;
 	}	

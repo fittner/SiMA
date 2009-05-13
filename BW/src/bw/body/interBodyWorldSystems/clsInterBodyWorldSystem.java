@@ -10,7 +10,7 @@ package bw.body.interBodyWorldSystems;
 import bw.body.itfStepUpdateInternalState;
 import bw.body.internalSystems.clsInternalSystem;
 import bw.utils.container.clsConfigMap;
-import bw.utils.enums.eBodyParts;
+import bw.utils.enums.eConfigEntries;
 
 /**
  * TODO (deutsch) - insert description 
@@ -29,9 +29,9 @@ public class clsInterBodyWorldSystem implements itfStepUpdateInternalState {
 		moConfig = getFinalConfig(poConfig);		
 		applyConfig();
 		
-		moConsumeFood = new clsConsumeFood(poInternalSystem.getStomachSystem(), (clsConfigMap) moConfig.get(eBodyParts.INTER_CONSUME_FOOD));
-		moDamageBump = new clsDamageBump(poInternalSystem, (clsConfigMap) moConfig.get(eBodyParts.INTER_DAMAGE_BUMP));
-		moDamageLightning = new clsDamageLightning(poInternalSystem, (clsConfigMap) moConfig.get(eBodyParts.INTER_DAMAGE_LIGHTNING));
+		moConsumeFood = new clsConsumeFood(poInternalSystem.getStomachSystem(), (clsConfigMap) moConfig.get(eConfigEntries.INTER_CONSUME_FOOD));
+		moDamageBump = new clsDamageBump(poInternalSystem, (clsConfigMap) moConfig.get(eConfigEntries.INTER_DAMAGE_BUMP));
+		moDamageLightning = new clsDamageLightning(poInternalSystem, (clsConfigMap) moConfig.get(eConfigEntries.INTER_DAMAGE_LIGHTNING));
 	}
 	
 	private void applyConfig() {
@@ -48,9 +48,9 @@ public class clsInterBodyWorldSystem implements itfStepUpdateInternalState {
 	private static clsConfigMap getDefaultConfig() {
 		clsConfigMap oDefault = new clsConfigMap();
 		
-		oDefault.add(eBodyParts.INTER_DAMAGE_BUMP, null);
-		oDefault.add(eBodyParts.INTER_DAMAGE_LIGHTNING, null);
-		oDefault.add(eBodyParts.INTER_CONSUME_FOOD, null);
+		oDefault.add(eConfigEntries.INTER_DAMAGE_BUMP, null);
+		oDefault.add(eConfigEntries.INTER_DAMAGE_LIGHTNING, null);
+		oDefault.add(eConfigEntries.INTER_CONSUME_FOOD, null);
 		
 		return oDefault;
 	}	

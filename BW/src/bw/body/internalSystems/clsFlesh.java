@@ -76,13 +76,13 @@ public class clsFlesh extends clsFood {
 		
 		clsConfigMap oNutritions = new clsConfigMap();
 		
-		oNutritions.add(eNutritions.FAT, new clsConfigFloat(0.3f));
-		oNutritions.add(eNutritions.PROTEIN, new clsConfigFloat(0.1f));
-		oNutritions.add(eNutritions.VITAMIN, new clsConfigFloat(0.2f));
-		oNutritions.add(eNutritions.CARBOHYDRATE, new clsConfigFloat(0.5f));
-		oNutritions.add(eNutritions.WATER, new clsConfigFloat(1.3f));
-		oNutritions.add(eNutritions.MINERAL, new clsConfigFloat(0.4f));
-		oNutritions.add(eNutritions.TRACEELEMENT, new clsConfigFloat(0.01f));
+		oNutritions.add(eConfigEntries.FAT, new clsConfigFloat(0.3f));
+		oNutritions.add(eConfigEntries.PROTEIN, new clsConfigFloat(0.1f));
+		oNutritions.add(eConfigEntries.VITAMIN, new clsConfigFloat(0.2f));
+		oNutritions.add(eConfigEntries.CARBOHYDRATE, new clsConfigFloat(0.5f));
+		oNutritions.add(eConfigEntries.WATER, new clsConfigFloat(1.3f));
+		oNutritions.add(eConfigEntries.MINERAL, new clsConfigFloat(0.4f));
+		oNutritions.add(eConfigEntries.TRACEELEMENT, new clsConfigFloat(0.01f));
 		
 		oDefault.add(eConfigEntries.NUTRITIONS, oNutritions);
 		//TODO add default values

@@ -42,12 +42,12 @@ public class clsMeatBody extends clsBaseBody {
 		super(poEntity, getFinalConfig(poConfig));
 		applyConfig();
 	
-		moFlesh = new clsFlesh((clsConfigMap) moConfig.get(eBodyParts.INTSYS_FLESH));
+		moFlesh = new clsFlesh((clsConfigMap) moConfig.get(eConfigEntries.INTSYS_FLESH));
 	}
 
 	private void applyConfig() {
 		
-		clsConfigMap oFleshConfig = (clsConfigMap) moConfig.get(eBodyParts.INTSYS_FLESH);
+		clsConfigMap oFleshConfig = (clsConfigMap) moConfig.get(eConfigEntries.INTSYS_FLESH);
 		mrRegrowRate = ((clsConfigFloat)oFleshConfig.get(eConfigEntries.INCREASERATE)).get();
 		mrMaxWeight  = ((clsConfigFloat)oFleshConfig.get(eConfigEntries.MAXCONTENT)).get();
 	}
@@ -63,28 +63,28 @@ public class clsMeatBody extends clsBaseBody {
 		
 		clsConfigMap oExt = new clsConfigMap();
 		oExt.add(eConfigEntries.ACTIVATE, new clsConfigBoolean(false));	
-		oDefault.add(eBodyParts.EXTERNAL_IO, oExt);
-		oDefault.add(eBodyParts.INTERNAL_IO, oExt);
+		oDefault.add(eConfigEntries.EXTERNAL_IO, oExt);
+		oDefault.add(eConfigEntries.INTERNAL_IO, oExt);
 
 
 		clsConfigMap oFlesh = new clsConfigMap();		
 		
 		clsConfigMap oNutritions = new clsConfigMap();
 		
-		oNutritions.add(eNutritions.FAT, new clsConfigFloat(1.0f));
-		oNutritions.add(eNutritions.PROTEIN, new clsConfigFloat(1.0f));
-		oNutritions.add(eNutritions.VITAMIN, new clsConfigFloat(1.0f));
-		oNutritions.add(eNutritions.CARBOHYDRATE, new clsConfigFloat(1.0f));
-		oNutritions.add(eNutritions.WATER, new clsConfigFloat(1.0f));
-		oNutritions.add(eNutritions.MINERAL, new clsConfigFloat(1.0f));
-		oNutritions.add(eNutritions.TRACEELEMENT, new clsConfigFloat(1.0f));
+		oNutritions.add(eConfigEntries.FAT, new clsConfigFloat(1.0f));
+		oNutritions.add(eConfigEntries.PROTEIN, new clsConfigFloat(1.0f));
+		oNutritions.add(eConfigEntries.VITAMIN, new clsConfigFloat(1.0f));
+		oNutritions.add(eConfigEntries.CARBOHYDRATE, new clsConfigFloat(1.0f));
+		oNutritions.add(eConfigEntries.WATER, new clsConfigFloat(1.0f));
+		oNutritions.add(eConfigEntries.MINERAL, new clsConfigFloat(1.0f));
+		oNutritions.add(eConfigEntries.TRACEELEMENT, new clsConfigFloat(1.0f));
 		
 		oFlesh.add(eConfigEntries.NUTRITIONS, oNutritions);
 		oFlesh.add(eConfigEntries.CONTENT, new clsConfigFloat(10.0f));
 		oFlesh.add(eConfigEntries.MAXCONTENT, new clsConfigFloat(20.0f));
 		oFlesh.add(eConfigEntries.INCREASERATE, new clsConfigFloat(0.01f));
 		
-		oDefault.add(eBodyParts.INTSYS_FLESH, oFlesh);
+		oDefault.add(eConfigEntries.INTSYS_FLESH, oFlesh);
 		
 		return oDefault;
 	}	

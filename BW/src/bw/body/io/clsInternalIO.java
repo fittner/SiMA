@@ -72,10 +72,10 @@ public class clsInternalIO extends clsBaseIO{
 		oDefault.add(eConfigEntries.ACTIVATE, new clsConfigBoolean(true));
 		
 		clsConfigList oSensors = new clsConfigList();
-		oSensors.add(new clsConfigEnum(eSensorIntType.ENERGY_CONSUMPTION));
-		oSensors.add(new clsConfigEnum(eSensorIntType.HEALTH_SYSTEM));
-		oSensors.add(new clsConfigEnum(eSensorIntType.STAMINA));
-		oSensors.add(new clsConfigEnum(eSensorIntType.STOMACH));	
+		oSensors.add(new clsConfigEnum(eConfigEntries.ENERGY_CONSUMPTION));
+		oSensors.add(new clsConfigEnum(eConfigEntries.HEALTH_SYSTEM));
+		oSensors.add(new clsConfigEnum(eConfigEntries.STAMINA));
+		oSensors.add(new clsConfigEnum(eConfigEntries.STOMACH));	
 		oDefault.add(eConfigEntries.INTSENSORS, oSensors);
 		
 
@@ -84,19 +84,19 @@ public class clsInternalIO extends clsBaseIO{
 		
 		oSC_Temp = new clsConfigMap();
 		oSC_Temp.add(eConfigEntries.ACTIVATE, new clsConfigBoolean(true));
-		oSensorConfigs.add(eSensorIntType.ENERGY_CONSUMPTION, oSC_Temp);
+		oSensorConfigs.add(eConfigEntries.ENERGY_CONSUMPTION, oSC_Temp);
 		
 		oSC_Temp = new clsConfigMap();
 		oSC_Temp.add(eConfigEntries.ACTIVATE, new clsConfigBoolean(true));
-		oSensorConfigs.add(eSensorIntType.HEALTH_SYSTEM, oSC_Temp);
+		oSensorConfigs.add(eConfigEntries.HEALTH_SYSTEM, oSC_Temp);
 
 		oSC_Temp = new clsConfigMap();
 		oSC_Temp.add(eConfigEntries.ACTIVATE, new clsConfigBoolean(true));
-		oSensorConfigs.add(eSensorIntType.STAMINA, oSC_Temp);
+		oSensorConfigs.add(eConfigEntries.STAMINA, oSC_Temp);
 		
 		oSC_Temp = new clsConfigMap();
 		oSC_Temp.add(eConfigEntries.ACTIVATE, new clsConfigBoolean(true));
-		oSensorConfigs.add(eSensorIntType.STOMACH, oSC_Temp);
+		oSensorConfigs.add(eConfigEntries.STOMACH, oSC_Temp);
 		
 		oDefault.add(eConfigEntries.INTSENSORCONFIG, oSensorConfigs);
 		
@@ -106,7 +106,7 @@ public class clsInternalIO extends clsBaseIO{
 	private void initSensorInternal(clsConfigList poInternalSensors, clsConfigMap poSensorConfigs) {
 		Iterator<clsBaseConfig> i = poInternalSensors.iterator();
 		while (i.hasNext()) {
-			eSensorIntType eType = (eSensorIntType) ((clsConfigEnum)i.next()).get();
+			eConfigEntries eType = (eConfigEntries) ((clsConfigEnum)i.next()).get();
 			clsConfigMap oConfig = (clsConfigMap)poSensorConfigs.get(eType);
 			boolean nActivate = ((clsConfigBoolean)oConfig.get(eConfigEntries.ACTIVATE)).get();
 

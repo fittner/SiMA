@@ -99,10 +99,10 @@ public class clsExternalIO extends clsBaseIO {
 		oDefault.add(eConfigEntries.ACTIVATE, new clsConfigBoolean(true));
 		
 		clsConfigList oSensors = new clsConfigList();
-		oSensors.add(new clsConfigEnum(eSensorExtType.ACCELERATION));
-		oSensors.add(new clsConfigEnum(eSensorExtType.BUMP));
-		oSensors.add(new clsConfigEnum(eSensorExtType.VISION));
-		oSensors.add(new clsConfigEnum(eSensorExtType.EATABLE_AREA));	
+		oSensors.add(new clsConfigEnum(eConfigEntries.ACCELERATION));
+		oSensors.add(new clsConfigEnum(eConfigEntries.BUMP));
+		oSensors.add(new clsConfigEnum(eConfigEntries.VISION));
+		oSensors.add(new clsConfigEnum(eConfigEntries.EATABLE_AREA));	
 		oDefault.add(eConfigEntries.EXTSENSORS, oSensors);
 		
 
@@ -111,19 +111,19 @@ public class clsExternalIO extends clsBaseIO {
 		
 		oSC_Temp = new clsConfigMap();
 		oSC_Temp.add(eConfigEntries.ACTIVATE, new clsConfigBoolean(true));
-		oSensorConfigs.add(eSensorExtType.ACCELERATION, oSC_Temp);
+		oSensorConfigs.add(eConfigEntries.ACCELERATION, oSC_Temp);
 		
 		oSC_Temp = new clsConfigMap();
 		oSC_Temp.add(eConfigEntries.ACTIVATE, new clsConfigBoolean(true));
-		oSensorConfigs.add(eSensorExtType.BUMP, oSC_Temp);
+		oSensorConfigs.add(eConfigEntries.BUMP, oSC_Temp);
 
 		oSC_Temp = new clsConfigMap();
 		oSC_Temp.add(eConfigEntries.ACTIVATE, new clsConfigBoolean(true));
-		oSensorConfigs.add(eSensorExtType.VISION, oSC_Temp);
+		oSensorConfigs.add(eConfigEntries.VISION, oSC_Temp);
 		
 		oSC_Temp = new clsConfigMap();
 		oSC_Temp.add(eConfigEntries.ACTIVATE, new clsConfigBoolean(true));
-		oSensorConfigs.add(eSensorExtType.EATABLE_AREA, oSC_Temp);
+		oSensorConfigs.add(eConfigEntries.EATABLE_AREA, oSC_Temp);
 		
 		oDefault.add(eConfigEntries.EXTSENSORCONFIG, oSensorConfigs);
 		
@@ -133,7 +133,7 @@ public class clsExternalIO extends clsBaseIO {
 	private void initSensorExternal(clsConfigList poExternalSensors, clsConfigMap poSensorConfigs) {
 		Iterator<clsBaseConfig> i = poExternalSensors.iterator();
 		while (i.hasNext()) {
-			eSensorExtType eType = (eSensorExtType) ((clsConfigEnum)i.next()).get();
+			eConfigEntries eType = (eConfigEntries) ((clsConfigEnum)i.next()).get();
 			clsConfigMap oConfig = (clsConfigMap)poSensorConfigs.get(eType);
 			boolean nActivate = ((clsConfigBoolean)oConfig.get(eConfigEntries.ACTIVATE)).get();
 
