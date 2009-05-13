@@ -9,10 +9,14 @@
 package bw.body.io.actuators;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Iterator;
+
+import decisionunit.itf.actions.*;
+
+import enums.eCallPriority;
 import bw.entities.clsEntity;
 import bw.utils.enums.*;
-import bw.body.io.actuators.clsActionSequence;
 import bw.exceptions.*;
 
 /**
@@ -22,10 +26,11 @@ import bw.exceptions.*;
  * 15.04.2009, 18:40:19
  * 
  */
-public class clsActionProcessor {
+public class clsActionProcessor implements itfActionProcessor {
 	
 	 clsEntity moEntity;
-	 ArrayList<Class<clsActionCommand>> moDisabledCommands=new ArrayList<Class<clsActionCommand>> ();
+	 HashMap<String, clsActionExecutor> moMap = new HashMap<String, clsActionExecutor>();
+	 ArrayList<Class<itfActionCommand>> moDisabledCommands=new ArrayList<Class<itfActionCommand>> ();
 	 ArrayList<clsProcessorInhibition> moInhibitedCommands=new ArrayList<clsProcessorInhibition> ();
 	 ArrayList<clsProcessorCall> moCommandStack=new ArrayList<clsProcessorCall>();
 	 ArrayList<clsProcessorResult> moExecutionHistory=new ArrayList<clsProcessorResult>();
@@ -58,6 +63,13 @@ public class clsActionProcessor {
 	 public void enableCommand(Class poCommand) {
 		 if (moDisabledCommands.contains(poCommand)) moDisabledCommands.remove(poCommand);
 	 }
+
+	 /*
+	  * Add a command/executor pair
+	  */
+  	 public void addCommand(Class poCommand, clsActionExecutor poExecutor) {
+  		 moMap.put(poCommand.getName(), poExecutor);
+	 }
 	 
 	 /*
 	  * Adds the given command to the inhibition-list. The given command will be inhibited for the number of cycles given as duration.
@@ -71,10 +83,10 @@ public class clsActionProcessor {
 	 * The duration can be set to any number greater or equal to one and defines the 
 	 * number of simulation cycles the command should be executed for.
 	 */
-	public void call(clsActionCommand poCommand, eCallPriority pePriority) {
+	public void call(itfActionCommand poCommand, eCallPriority pePriority) {
 		call(poCommand, pePriority,1);
 	}
-	public void call(clsActionCommand poCommand, eCallPriority pePriority, int pnDuration) {
+	public void call(itfActionCommand poCommand, eCallPriority pePriority, int pnDuration) {
 		//Explicit exception was disabled because having to use try/catch blocks when calling is annoying...
 		//if (moDisabledCommands.contains(poCommand.getClass())) throw (new exCommandDisabled());
 		moCommandStack.add(new clsProcessorCall(poCommand,pePriority,pnDuration));
@@ -83,7 +95,7 @@ public class clsActionProcessor {
 	/*
 	 * Adds Sequences to the stack.
 	 */
-	public void callSequence(clsActionSequence poSequence, eCallPriority pePriority) {
+	public void call(clsActionSequence poSequence, eCallPriority pePriority) {
 		moCommandStack.add(new clsProcessorCall(poSequence,pePriority));
 	}
 	
@@ -91,11 +103,11 @@ public class clsActionProcessor {
 	 *Returns an array of ActionCommands from the last round. 
 	 *The parameter “result” can be used to filter by result(Default=Executed) 
 	 */
-	public ArrayList<clsActionCommand> getExecutionHistory() {
+	public ArrayList<itfActionCommand> getExecutionHistory() {
 		return getExecutionHistory(eExecutionResult.EXECUTIONRESULT_EXECUTED);
 	}
-	public ArrayList<clsActionCommand> getExecutionHistory(eExecutionResult peResult) {
-		ArrayList<clsActionCommand> oReturnList = new ArrayList<clsActionCommand>();
+	public ArrayList<itfActionCommand> getExecutionHistory(eExecutionResult peResult) {
+		ArrayList<itfActionCommand> oReturnList = new ArrayList<itfActionCommand>();
 
 		Iterator<clsProcessorResult> oItSeq = moExecutionHistory.iterator();
 		while (oItSeq.hasNext()) {
@@ -113,8 +125,8 @@ public class clsActionProcessor {
 	/*
 	 * Returns an array of ActionCommands which are scheduled for dispatch in the current round
 	 */
-	public ArrayList<clsActionCommand> getCommandStack() {
-		ArrayList<clsActionCommand> oReturnList = new ArrayList<clsActionCommand>();
+	public ArrayList<itfActionCommand> getCommandStack() {
+		ArrayList<itfActionCommand> oReturnList = new ArrayList<itfActionCommand>();
 
 		Iterator<clsProcessorCall> oItStck = moCommandStack.iterator();
 		while (oItStck.hasNext()) {
@@ -131,16 +143,7 @@ public class clsActionProcessor {
 	public void dispatch() {
 	
 		//Create the execution-stack
-		ArrayList<clsProcessorResult> oExecutionStack=new ArrayList<clsProcessorResult>();		
-		Iterator<clsProcessorCall> oItStck = moCommandStack.iterator();
-		while (oItStck.hasNext()) {
-			clsProcessorCall oPCall = oItStck.next();
-			Iterator<clsActionCommand> oItCmd = oPCall.getCommands().iterator();
-			while (oItCmd.hasNext()) {
-				clsActionCommand oCmd = oItCmd.next();
-				oExecutionStack.add(new clsProcessorResult(oPCall,oCmd));
-			}
-		}
+		ArrayList<clsProcessorResult> oExecutionStack=CreateExecutionStack();		
 		
 		//1. Delete disabled commands
 		disableCommands(oExecutionStack);
@@ -164,6 +167,23 @@ public class clsActionProcessor {
 		dispatchFinalize(oExecutionStack);
 		
 		moExecutionHistory=oExecutionStack;
+	}
+
+	/*
+	 * Creates a stack of executors for the commands dispatched
+	 */
+	private ArrayList<clsProcessorResult> CreateExecutionStack() {
+		ArrayList<clsProcessorResult> oExecutionStack=new ArrayList<clsProcessorResult>();
+		Iterator<clsProcessorCall> oItStck = moCommandStack.iterator();
+		while (oItStck.hasNext()) {
+			clsProcessorCall oPCall = oItStck.next();
+			Iterator<itfActionCommand> oItCmd = oPCall.getCommands().iterator();
+			while (oItCmd.hasNext()) {
+				itfActionCommand oCmd = oItCmd.next();
+				oExecutionStack.add(new clsProcessorResult(oPCall, oCmd, moMap.get(oCmd.getClass().getName()) ));
+			}
+		}
+		return oExecutionStack;
 	}
 	
 	/*
@@ -220,7 +240,7 @@ public class clsActionProcessor {
 			while (oItInner.hasNext()) {
 				clsProcessorResult oInner = oItInner.next();
 				//both commands are active and inner command is excluded by the outer command
-				if (oOuter.getActive() && oInner.getActive() && oOuter.getCommand().getMutualExclusions().contains(oInner.getCommand().getClass())) {
+				if (oOuter.getActive() && oInner.getActive() && oOuter.getExecutor().getMutualExclusions(oOuter.getCommand()).contains(oInner.getCommand().getClass())) {
 					//different priorities=>Disable lower, equal priorities=>Disable both (Never disable State-Updates!)
 					if (oOuter.getCall().getCallPriority()==oInner.getCall().getCallPriority()) {
 						if (oOuter.getCall().getCallPriority()!=eCallPriority.CALLPRIORITY_STATEUPDATE) oOuter.setResult(eExecutionResult.EXECUTIONRESULT_MUTUALEXCLUSION);
@@ -245,7 +265,7 @@ public class clsActionProcessor {
 		while (oItStck.hasNext()) {
 			clsProcessorResult oExRes = oItStck.next();
 			if (oExRes.getActive()) {
-				if (oExRes.getCommand().execute(moEntity)) {
+				if (oExRes.getExecutor().execute(oExRes.getCommand(), moEntity)) {
 					oExRes.setResult(eExecutionResult.EXECUTIONRESULT_EXECUTED);
 				} else {
 					oExRes.setResult(eExecutionResult.EXECUTIONRESULT_CONSTRAINTVIOLATION);
@@ -290,13 +310,13 @@ public class clsActionProcessor {
 			 meCallPriority=peCallPriority;
 		 }
 
-		 public clsProcessorCall(clsActionCommand poCommand,eCallPriority peCallPriority, int pnDuration) {
+		 public clsProcessorCall(itfActionCommand poCommand,eCallPriority peCallPriority, int pnDuration) {
 			 moSequence=new clsActionSequence();
 			 moSequence.add(0,poCommand,pnDuration);
 			 meCallPriority=peCallPriority;
 		 }
 
-		 public ArrayList<clsActionCommand> getCommands() {
+		 public ArrayList<itfActionCommand> getCommands() {
 			 return moSequence.getCommands(mnRound);
 		 }
 		 
@@ -324,16 +344,16 @@ public class clsActionProcessor {
 	  * Private class for storing inhibitions
 	  */
 	 private class clsProcessorInhibition {
-		 Class<clsActionCommand> moCommand;
+		 Class<itfActionCommand> moCommand;
 		 int mnDuration;
 		 int mnRound = 0;
 		 
-		 public clsProcessorInhibition(Class<clsActionCommand> poCommand,int pnDuration) {
+		 public clsProcessorInhibition(Class<itfActionCommand> poCommand,int pnDuration) {
 			 moCommand=poCommand;
 			 mnDuration=pnDuration;
 		 }
 		 
-		 public Class<clsActionCommand>getCommand() {
+		 public Class<itfActionCommand>getCommand() {
 			 return moCommand;
 		 }
 		 
@@ -352,11 +372,13 @@ public class clsActionProcessor {
 	  * Private class for storing executed commands and their result
 	  */
 	 private class clsProcessorResult {
-		 private clsActionCommand moCommand;
+		 private itfActionCommand moCommand;
+		 private clsActionExecutor moExecutor;
 		 private eExecutionResult meResult = eExecutionResult.EXECUTIONRESULT_NOTEXECUTED;
 		 private clsProcessorCall moCall;
 		 
-		 public clsProcessorResult(clsProcessorCall poCall, clsActionCommand poCommand) {
+		 public clsProcessorResult(clsProcessorCall poCall, itfActionCommand poCommand, clsActionExecutor poExecutor) {
+			 moExecutor=poExecutor;
 			 moCommand=poCommand;
 			 moCall=poCall;
 		 }
@@ -371,8 +393,12 @@ public class clsActionProcessor {
 			 return meResult;
 		 }
 		 
-		 public clsActionCommand getCommand() {
+		 public itfActionCommand getCommand() {
 			 return moCommand;
+		 }
+
+		 public clsActionExecutor getExecutor() {
+			 return moExecutor;
 		 }
 
 		 public clsProcessorCall getCall() {

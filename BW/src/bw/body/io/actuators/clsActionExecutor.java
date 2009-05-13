@@ -1,6 +1,6 @@
 /**
  * @author Benny Dönz
- * 15.04.2009, 15:25:16
+ * 13.05.2009, 21:53:05
  * 
  * $Rev::                      $: Revision of last commit
  * $Author::                   $: Author of last commit
@@ -9,7 +9,10 @@
 package bw.body.io.actuators;
 
 import java.util.ArrayList;
+
 import bw.entities.clsEntity;
+import decisionunit.itf.actions.clsActionEat;
+import decisionunit.itf.actions.itfActionCommand;
 
 /**
  * This abstract class must be inherited by all actions commands so they 
@@ -20,8 +23,8 @@ import bw.entities.clsEntity;
  * 15.04.2009, 15:25:16
  * 
  */
-public abstract class clsActionCommand {
-
+public abstract class clsActionExecutor {
+	
 	/*
 	 * Array of types of action commands which can not be performed at the 
 	 * same time. This will be checked by the processor in a double loop 
@@ -29,15 +32,15 @@ public abstract class clsActionCommand {
 	 * themselves, i.e. no two commands of the same type can be executed 
 	 * in the same round.
 	 */
-	public ArrayList<Class<clsActionCommand>> getMutualExclusions() {
-		return new ArrayList<Class<clsActionCommand>>(); 
+	public ArrayList<Class<itfActionCommand>> getMutualExclusions(itfActionCommand poCommand) {
+		return new ArrayList<Class<itfActionCommand>>(); 
 	}
 	
 	/*
 	 * Get the amount of energy needed per round to perform the action. Even 
 	 * if the action can not be performed this amount of energy will be consumed.
 	 */
-	public double getEnergyDemand() {
+	public double getEnergyDemand(itfActionCommand poCommand) {
 		return 0;
 	}
 
@@ -45,7 +48,7 @@ public abstract class clsActionCommand {
 	 * Get the amount of stamina needed per round to perform the action. Even 
 	 * if the action can not be performed this amount of stamina will be consumed.
 	 */
-	public double getStaminaDemand() {
+	public double getStaminaDemand(itfActionCommand poCommand) {
 		return 0;
 	}
 
@@ -54,8 +57,8 @@ public abstract class clsActionCommand {
 	 * e.g. no injuries, enough stamina, etc. and then executes the command.
 	 * Returns true/false depending on if the action was successful.
 	 */
-	public boolean execute(clsEntity poEntity) {
+	public boolean execute(itfActionCommand poCommand, clsEntity poEntity) {
 		return false;
 	}	
-			
+	
 }

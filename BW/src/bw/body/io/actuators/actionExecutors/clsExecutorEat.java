@@ -1,21 +1,20 @@
 /**
  * @author Benny Dönz
- * 15.04.2009, 16:31:13
+ * 13.05.2009, 21:44:44
  * 
  * $Rev::                      $: Revision of last commit
  * $Author::                   $: Author of last commit
  * $Date::                     $: Date of last commit
  */
-package bw.body.io.actuators.actionCommands;
+package bw.body.io.actuators.actionExecutors;
 
-import bw.utils.datatypes.clsMutableFloat;
-import bw.body.io.actuators.clsActionCommand;
+import bw.body.io.actuators.clsActionExecutor;
 import bw.body.itfget.itfGetBody;
 import bw.body.itfget.itfGetInternalEnergyConsumption;
 import bw.entities.clsEntity;
-import bw.entities.clsAnimate;
 import bw.factories.clsSingletonUniqueIdGenerator;
-
+import bw.utils.datatypes.clsMutableFloat;
+import decisionunit.itf.actions.*;
 /**
  * TODO Temporary eat command derived from clsActuatorEat 
  * 
@@ -23,12 +22,9 @@ import bw.factories.clsSingletonUniqueIdGenerator;
  * 15.04.2009, 16:31:13
  * 
  */
-public class clsEatAction extends clsActionCommand{
+public class clsExecutorEat extends clsActionExecutor{
 
-	public clsEatAction() {
-	}
-	
-	public boolean execute(clsEntity poEntity) {
+	public boolean execute(itfActionCommand poCommand, clsEntity poEntity) {
 		float rDefaultEnergyConsuptionValue = 1.0f;
 		
 		((itfGetInternalEnergyConsumption)((itfGetBody)poEntity).getBody()).getInternalEnergyConsumption().setValue(new Integer(clsSingletonUniqueIdGenerator.getUniqueId()), new clsMutableFloat(rDefaultEnergyConsuptionValue + 3.5f));
@@ -40,7 +36,7 @@ public class clsEatAction extends clsActionCommand{
 			//when we eat, we need more energy
 			registerEnergyConsumption(mrDefaultEnergyConsuptionValue + 3.5f); //TODO clemens: change 50 to the real value
 			
-			float rWeight = 3.33f; //größe des Bissen
+			float rWeight = 1.0f; //größe des Bissen
 			
 			clsFood oReturnedFood = oEntityActionResponse.actionEatResponse(rWeight); //Apfel gibt mir einen Bisset food retour
 			
@@ -50,7 +46,7 @@ public class clsEatAction extends clsActionCommand{
 			if(oReturnedFood == null)
 				throw(new exEntityNotEatable(oViewedAnimate.getEntityType()) );
 		 */
-		
+
 		return true;
 	}	
 

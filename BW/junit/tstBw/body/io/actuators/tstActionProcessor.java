@@ -11,10 +11,13 @@ package tstBw.body.io.actuators;
 import static org.junit.Assert.*;
 import org.junit.Test;
 
+import decisionunit.itf.actions.*;
+
+import enums.eCallPriority;
+
 import java.util.ArrayList;
 import bw.body.io.actuators.*;
 import bw.entities.clsEntity;
-import bw.utils.enums.eCallPriority;
 import bw.utils.enums.eExecutionResult;
 
 /**
@@ -36,7 +39,7 @@ public class tstActionProcessor {
 		clsActionProcessor oAPr;
 		
 		//Test for mutual exclusion where both are blocked
-		oAPr = new clsActionProcessor(null);
+		oAPr = getActionProcessor();
 		tstTestCommand_A oMutex_Err1 = new tstTestCommand_A();
 		tstTestCommand_B oMutex_Err2 = new tstTestCommand_B();
 		oMutex_Err1.addMutualExclusion(tstTestCommand_B.class);
@@ -48,7 +51,7 @@ public class tstActionProcessor {
 		assertTrue("MutEx: Executionstates are wrong", oAPr.getExecutionHistory(eExecutionResult.EXECUTIONRESULT_MUTUALEXCLUSION).contains(oMutex_Err1) && oAPr.getExecutionHistory(eExecutionResult.EXECUTIONRESULT_MUTUALEXCLUSION).contains(oMutex_Err2) );
 	
 		//Test for mutual exclusion where only one is blocked
-		oAPr = new clsActionProcessor(null);
+		oAPr = getActionProcessor();
 		tstTestCommand_A oMutex_High = new tstTestCommand_A();
 		tstTestCommand_B oMutex_Low = new tstTestCommand_B();
 		oMutex_High.addMutualExclusion(tstTestCommand_B.class);
@@ -62,13 +65,25 @@ public class tstActionProcessor {
 	}
 
 	/*
+	 * Create a processor and register testcommands
+	 */
+	private clsActionProcessor getActionProcessor() {
+		clsActionProcessor oProcessor = new clsActionProcessor(null);
+		clsActionExecutor oExecutor = new tstTestExecutor();
+		oProcessor.addCommand(tstTestCommand.class, oExecutor);
+		oProcessor.addCommand(tstTestCommand_A.class, oExecutor);
+		oProcessor.addCommand(tstTestCommand_B.class, oExecutor);
+		return oProcessor;
+	}
+	
+	/*
 	 * Check if inhibitions work by dispatching an inhibted command and a not inhibited
 	 */
 	@Test
 	public void testExecution_Inhibition() {
 		clsActionProcessor oAPr;
 		
-		oAPr = new clsActionProcessor(null);
+		oAPr = getActionProcessor();
 		tstTestCommand_A oCmd_Inhibit = new tstTestCommand_A();
 		tstTestCommand_B oCmd_NonInhibit = new tstTestCommand_B();
 		oAPr.call(oCmd_Inhibit, eCallPriority.CALLPRIORITY_NORMAL);
@@ -90,7 +105,7 @@ public class tstActionProcessor {
 	public void testExecution_Disabling() {
 		clsActionProcessor oAPr;
 		
-		oAPr = new clsActionProcessor(null);
+		oAPr = getActionProcessor();
 		tstTestCommand_A oCmd_Disabled = new tstTestCommand_A();
 		tstTestCommand_B oCmd_Enabled = new tstTestCommand_B();
 		oAPr.call(oCmd_Disabled, eCallPriority.CALLPRIORITY_NORMAL);
@@ -114,7 +129,7 @@ public class tstActionProcessor {
 		clsActionProcessor oAPr;
 		
 		//Create actions
-		oAPr = new clsActionProcessor(null);
+		oAPr = getActionProcessor();
 		tstTestCommand_A oCmd_A0 = new tstTestCommand_A();
 		tstTestCommand_A oCmd_A1 = new tstTestCommand_A();
 		tstTestCommand_A oCmd_A2 = new tstTestCommand_A();
@@ -125,7 +140,7 @@ public class tstActionProcessor {
 		oSeq.add(1, oCmd_A1, 1);
 		oSeq.add(2, oCmd_A2, 1);
 		oSeq.add(3, oCmd_A3, 1);
-		oAPr.callSequence(oSeq, eCallPriority.CALLPRIORITY_NORMAL);
+		oAPr.call(oSeq, eCallPriority.CALLPRIORITY_NORMAL);
 		oAPr.call(oCmd_B, eCallPriority.CALLPRIORITY_NORMAL,4);
 		
 		//Round 1 - A0 + B should be performed
@@ -201,12 +216,29 @@ public class tstActionProcessor {
 	}
 
 	/*
+	 * test-executor for processor. Can check if it was executed and mutual exclusions 
+	 * can be set externally. Also energy/stamina demands can be set externally 
+	 */
+	private class tstTestExecutor extends clsActionExecutor {
+		
+		public boolean execute(itfActionCommand poCommand, clsEntity poEntity) {
+			tstTestCommand oCommand = (tstTestCommand) poCommand;
+			oCommand.setExecuted(true);
+			return true;
+		}
+
+		public ArrayList<Class<itfActionCommand>> getMutualExclusions(itfActionCommand poCommand) {
+			return ((tstTestCommand) poCommand).getMutualExclusions(); 
+		}
+}
+	
+	/*
 	 * test-command for processor. Can check if it was executed and mutual exclusions 
 	 * can be set externally. Also energy/stamina demands can be set externally 
 	 */
-	private class tstTestCommand extends clsActionCommand {
+	private class tstTestCommand implements itfActionCommand {
 		private boolean mbExecuted=false;
-		private ArrayList<Class<clsActionCommand>> moMutEx = new ArrayList<Class<clsActionCommand>>();
+		private ArrayList<Class<itfActionCommand>> moMutEx = new ArrayList<Class<itfActionCommand>>();
 		double mnEnergy;
 		double mnStamina;
 
@@ -224,7 +256,7 @@ public class tstActionProcessor {
 			return mnStamina;
 		}
 		
-		public ArrayList<Class<clsActionCommand>> getMutualExclusions() {
+		public ArrayList<Class<itfActionCommand>> getMutualExclusions() {
 			return moMutEx; 
 		}
 		
@@ -240,9 +272,8 @@ public class tstActionProcessor {
 			return mbExecuted;
 		}
 
-		public boolean execute(clsEntity poEntity) {
-			mbExecuted=true;
-			return true;
+		public void setExecuted(boolean pbExecuted) {
+			mbExecuted=pbExecuted;
 		}
 	}
 	private class tstTestCommand_A extends tstTestCommand {
