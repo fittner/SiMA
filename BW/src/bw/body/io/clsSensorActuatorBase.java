@@ -40,6 +40,9 @@ public abstract class clsSensorActuatorBase {
 	protected void registerEnergyConsumption(float prValue) {
 		moBaseIO.registerEnergyConsumption(mnUniqueId, prValue);
 	}
+	protected void registerEnergyConsumptionOnce(float prValue) {
+		moBaseIO.registerEnergyConsumptionOnce(mnUniqueId, prValue);
+	}
 
 	public String getName() {
 		return moName;
