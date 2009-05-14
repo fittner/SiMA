@@ -8,9 +8,14 @@
 package bw.entities;
 
 import java.awt.Color;
-import bw.actionresponses.clsCakeResponses;
+import bw.actionresponses.clsMeatResponses;
+import bw.body.clsMeatBody;
+import bw.body.internalSystems.clsFlesh;
+import bw.body.itfget.itfGetFlesh;
 import bw.factories.clsRegisterEntity;
+import bw.utils.container.clsConfigFloat;
 import bw.utils.container.clsConfigMap;
+import bw.utils.enums.eConfigEntries;
 import enums.eEntityType;
 import ARSsim.physics2D.util.clsPose;
 
@@ -21,7 +26,7 @@ import ARSsim.physics2D.util.clsPose;
  * @author muchitsch
  * 
  */
-public class clsCake extends clsInanimate {
+public class clsCake extends clsInanimate implements itfGetFlesh {
 	private static double mrDefaultMass = 30.0;
 	private static double mrDefaultRadius = 10.0;
 	private static String moImagePath = bw.sim.clsBWMain.msArsPath + "/src/resources/images/cake.gif";
@@ -30,6 +35,8 @@ public class clsCake extends clsInanimate {
 	private float mrCakeWeight;
 	private boolean mnTotallyConsumed;
 	private boolean mnShapeUpdated;
+	
+	private clsMeatBody moBody;
 
 	public clsCake(int pnId, clsPose poPose, sim.physics2D.util.Double2D poStartingVelocity, clsConfigMap poConfig)
     {
@@ -43,9 +50,11 @@ public class clsCake extends clsInanimate {
 		mnTotallyConsumed = false;
 		mnShapeUpdated = false;
 		
+		moBody = new clsMeatBody(this, (clsConfigMap)moConfig.get(eConfigEntries.BODY));
+		
 		setShape(new ARSsim.physics2D.shape.clsCircleImage(clsCake.mrDefaultRadius, moDefaultColor , moImagePath), clsCake.mrDefaultMass);
 		
-		setEntityActionResponse(new clsCakeResponses(this));
+		setEntityActionResponse(new clsMeatResponses(this));
     } 
 	
 	private void applyConfig() {
@@ -61,8 +70,23 @@ public class clsCake extends clsInanimate {
 	
 	private static clsConfigMap getDefaultConfig() {
 		clsConfigMap oDefault = new clsConfigMap();
+
+		clsConfigMap oBody = new clsConfigMap();		
+
+		clsConfigMap oFlesh = new clsConfigMap();		
+		clsConfigMap oNutritions = new clsConfigMap();
 		
-		//TODO add ...
+		oNutritions.add(eConfigEntries.FAT, new clsConfigFloat(5.0f));
+		oNutritions.add(eConfigEntries.WATER, new clsConfigFloat(1.0f));
+		
+		oFlesh.add(eConfigEntries.NUTRITIONS, oNutritions);
+		oFlesh.add(eConfigEntries.CONTENT, new clsConfigFloat(15.0f));
+		oFlesh.add(eConfigEntries.MAXCONTENT, new clsConfigFloat(15.0f));
+		oFlesh.add(eConfigEntries.INCREASERATE, new clsConfigFloat(0.00f));
+		
+		oBody.add(eConfigEntries.INTSYS_FLESH, oFlesh);
+
+		oDefault.add(eConfigEntries.BODY, oBody);		
 		
 		return oDefault;
 	}
@@ -80,6 +104,7 @@ public class clsCake extends clsInanimate {
 				mnTotallyConsumed = true;
 			}
 		}
+		
 		
 		return rWeight;
 	}
@@ -153,6 +178,18 @@ public class clsCake extends clsInanimate {
 	public void sensing() {
 		// no sensing
 		
+	}
+
+	/* (non-Javadoc)
+	 *
+	 * @author deutsch
+	 * 14.05.2009, 18:16:27
+	 * 
+	 * @see bw.body.itfget.itfGetFlesh#getFlesh()
+	 */
+	@Override
+	public clsFlesh getFlesh() {
+		return this.moBody.getFlesh();
 	}
 
 }

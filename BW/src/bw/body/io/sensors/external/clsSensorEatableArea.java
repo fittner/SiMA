@@ -10,7 +10,6 @@ package bw.body.io.sensors.external;
 
 import bw.body.io.clsBaseIO;
 import bw.entities.clsEntity;
-import bw.entities.clsMobile;
 import bw.utils.container.clsConfigFloat;
 import bw.utils.container.clsConfigMap;
 import bw.utils.enums.eBodyParts;
@@ -95,7 +94,7 @@ public class clsSensorEatableArea extends clsSensorVision {
 	 */
 	@Override
 	public void updateSensorData() {
-		// donne by vision base
+		// done by vision base
 		super.updateSensorData();
 	}
 

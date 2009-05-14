@@ -12,7 +12,6 @@ import bw.exceptions.exFoodAmountBelowZero;
 import bw.utils.container.clsConfigMap;
 import bw.utils.container.clsConfigFloat;
 import bw.utils.enums.eConfigEntries;
-import bw.utils.enums.eNutritions;
 import bw.utils.tools.clsFood;
 import java.lang.Math;
 import java.util.Iterator;
@@ -115,19 +114,27 @@ public class clsFlesh extends clsFood {
 		setAmount(getAmount() - Math.abs(prWeight));
 	}	
 	
-	public float withdraw(float prAmount) {		
-		float rResult = 0.0f;
+	public clsFood withdraw(float prAmount) {		
+		clsFood oResult = new clsFood(this);
 		float rWeight = getAmount();
 		
 		try {
 			reduce(prAmount);
-			rResult = prAmount;
+			oResult.setAmount(prAmount);
 		} catch (exFoodAmountBelowZero e) {
 			// TODO Auto-generated catch block
-			rResult = rWeight;
+			try {
+				oResult.setAmount(rWeight);
+			} catch (exFoodAmountBelowZero e1) {
+				// 
+			}
 			mnTotallyConsumed = true;
 		}
 		
-		return rResult;
-	}	
+		return oResult;
+	}
+	
+	public boolean getTotallyConsumed() {
+		return mnTotallyConsumed;
+	}
 }

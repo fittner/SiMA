@@ -38,6 +38,19 @@ public class clsFood {
 		mnFinalized = false;
 	}
 	
+	public clsFood(clsFood poFood) {
+		mrAmount = poFood.mrAmount;
+		mnFinalized = poFood.mnFinalized;
+		
+		Iterator<Integer> i = poFood.moComposition.keySet().iterator();
+		
+		while (i.hasNext()) {
+			Integer oKey = i.next();
+			clsMutableFloat oValue = new clsMutableFloat(poFood.moComposition.get(oKey));
+			moComposition.put(oKey, oValue);
+		}
+	}
+	
 	/**
 	 * set the weight of the food piece (0.0 <= x < FLOATMAX).
 	 *

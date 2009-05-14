@@ -8,7 +8,10 @@
  */
 package bw.actionresponses;
 
+import bw.body.internalSystems.clsFlesh;
+import bw.body.itfget.itfGetFlesh;
 import bw.entities.clsCake;
+import bw.entities.clsEntity;
 import bw.exceptions.exFoodAlreadyNormalized;
 import bw.exceptions.exFoodAmountBelowZero;
 import bw.utils.tools.clsFood;
@@ -20,11 +23,11 @@ import bw.utils.tools.clsFood;
  * 22.04.2009, 16:06:20
  * 
  */
-public class clsCakeResponses extends clsEntityActionResponses {
-	clsCake moCake;
+public class clsMeatResponses extends clsEntityActionResponses {
+	clsFlesh moFlesh;
 	
-	public clsCakeResponses(clsCake poCake) {
-		moCake = poCake;
+	public clsMeatResponses(itfGetFlesh poEntity) {
+		moFlesh = poEntity.getFlesh();
 	}
 
 	/* (non-Javadoc)
@@ -36,23 +39,7 @@ public class clsCakeResponses extends clsEntityActionResponses {
 	 */
 	@Override
 	public clsFood actionEatResponse(float prWeight) {
-		//CHKME cm: only for testing! what else?
-		clsFood oFood = new clsFood();
-
-		try {
-			float rWeight = moCake.withdraw(prWeight);
-			
-			oFood.addNutritionFraction(1, 1.0f);
-			oFood.setAmount(rWeight);
-			oFood.finalize();
-		} catch (exFoodAmountBelowZero e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (exFoodAlreadyNormalized e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-
+		clsFood oFood = moFlesh.withdraw(prWeight);
 		return oFood;
 	}
 
