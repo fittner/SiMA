@@ -9,11 +9,7 @@
 package simple.dumbmind;
 
 import decisionunit.clsBaseDecisionUnit;
-import decisionunit.itf.actions.clsActionCommandContainer;
-import decisionunit.itf.actions.clsEatAction;
-import decisionunit.itf.actions.clsMotionAction;
-import enums.eActionCommandMotion;
-import enums.eActionCommandType;
+import decisionunit.itf.actions.itfActionProcessor;
 import enums.eEntityType;
 import enums.eSensorExtType;
 import decisionunit.itf.sensors.clsBump;
@@ -36,6 +32,7 @@ public class clsDumbMindA extends clsBaseDecisionUnit {
 	public clsDumbMindA() {
 	}
 	
+	/*TODO-BD
 	public clsActionCommandContainer stepProcessing() {
 		
 		clsActionCommandContainer oActionList = new clsActionCommandContainer();
@@ -126,7 +123,7 @@ public class clsDumbMindA extends clsBaseDecisionUnit {
 			poActionList.addMoveAction(oAction);
 		}
 	}	
-
+*/
 	public void setRoombaIntelligence(boolean moRoombaIntelligence) {
 		this.mnRoombaIntelligence = moRoombaIntelligence;
 		
@@ -156,13 +153,12 @@ public class clsDumbMindA extends clsBaseDecisionUnit {
 	}
 
 	@Override
-	public clsActionCommandContainer process() {
-		clsActionCommandContainer oCommands = stepProcessing();
+	public void process(itfActionProcessor poActionProcessor) {
+		//TODO-BD: clsActionCommandContainer oCommands = stepProcessing();
 		
 		//clsActionCommandContainer oCommands = new clsActionCommandContainer();
 		//oCommands.addMoveAction( clsMotionAction.creatAction(eActionCommandMotion.MOVE_FORWARD));
 		
-		return oCommands;
 	}
 
 

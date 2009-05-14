@@ -15,7 +15,6 @@ import bw.body.intraBodySystems.clsIntraBodySystem;
 import bw.body.io.clsExternalIO;
 import bw.body.io.clsInternalIO;
 import bw.body.itfget.itfGetInternalEnergyConsumption;
-import bw.body.motionplatform.clsBrainActionContainer;
 import bw.entities.clsEntity;
 import bw.utils.container.clsBaseConfig;
 import bw.utils.container.clsConfigMap;
@@ -51,7 +50,7 @@ public class clsComplexBody extends clsBaseBody implements itfGetInternalEnergyC
 		
 		moInternalIO = new clsInternalIO(this, (clsConfigMap)moConfig.get(eConfigEntries.INTERNAL_IO) );
 		   
-		moBrain = new clsBrainSocket(moExternalIO.moSensorExternal, moInternalIO.moSensorInternal, (clsConfigMap) moConfig.get(eConfigEntries.BRAIN));		
+		moBrain = new clsBrainSocket(moExternalIO.moSensorExternal, moInternalIO.moSensorInternal, moExternalIO.getActionProcessor(), (clsConfigMap) moConfig.get(eConfigEntries.BRAIN));		
 		
 	}
 
@@ -138,8 +137,8 @@ public class clsComplexBody extends clsBaseBody implements itfGetInternalEnergyC
 	 * 25.02.2009, 16:02:00
 	 *
 	 */
-	public clsBrainActionContainer stepProcessing(){
-		return super.stepProcessing();
+	public void stepProcessing(){
+		 super.stepProcessing();
 	}
 	
 	/* (non-Javadoc)
@@ -149,8 +148,8 @@ public class clsComplexBody extends clsBaseBody implements itfGetInternalEnergyC
 	 * 
 	 * @see bw.body.itfStep#stepExecution()
 	 */
-	public void stepExecution(clsBrainActionContainer poActionList) {
-		super.stepExecution(poActionList);
+	public void stepExecution() {
+		super.stepExecution();
 	}
 
 	/* (non-Javadoc)

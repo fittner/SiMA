@@ -17,7 +17,6 @@ import bw.body.io.sensors.external.clsSensorVision;
 import bw.body.itfget.itfGetBody;
 import bw.body.itfget.itfGetEatableArea;
 import bw.body.itfget.itfGetVision;
-import bw.body.motionplatform.clsBrainActionContainer;
 import bw.physicalObjects.sensors.clsEntityPartVision;
 import bw.utils.container.clsConfigMap;
 
@@ -31,7 +30,6 @@ import bw.utils.container.clsConfigMap;
 public abstract class clsAnimate extends clsMobile implements itfGetBody {
 
 	public clsBaseBody moBody; // the instance of a body
-	protected clsBrainActionContainer moActionList;
 	
 	/**
 	 * @param poStartingPosition
@@ -44,7 +42,6 @@ public abstract class clsAnimate extends clsMobile implements itfGetBody {
 		applyConfig();
 		
 		moBody = createBody();
-		moActionList = new clsBrainActionContainer();
 	}
 	
 	protected abstract clsBaseBody createBody();
@@ -78,7 +75,7 @@ public abstract class clsAnimate extends clsMobile implements itfGetBody {
 	}
 	
 	public void execution() {
-		moBody.stepExecution(moActionList);
+		moBody.stepExecution();
 	}
 	
 
@@ -117,7 +114,7 @@ public abstract class clsAnimate extends clsMobile implements itfGetBody {
 	 */
 	@Override
 	public void processing() {
-		moActionList = moBody.getBrain().stepProcessing();
+		moBody.getBrain().stepProcessing();
 	}
 	
 	public clsEntityPartVision getVision()

@@ -20,7 +20,6 @@ import bw.body.io.sensors.internal.clsSensorInt;
 import bw.body.io.sensors.internal.clsStaminaSensor;
 import bw.body.io.sensors.internal.clsStomachSensor;
 import bw.body.itfget.itfGetBody;
-import bw.body.motionplatform.clsBrainActionContainer;
 import bw.entities.clsEntity;
 import bw.utils.container.clsBaseConfig;
 import bw.utils.container.clsConfigBoolean;
@@ -151,11 +150,7 @@ public class clsInternalIO extends clsBaseIO{
 	 * 
 	 * @see bw.body.itfStepExecution#stepExecution()
 	 */
-	public void stepExecution(clsBrainActionContainer poActionList) {
-
-//		for (clsActuatorInt actuator : moActuatorInternal.values()) {
-//			actuator.updateActuatorData(poActionList);
-//		}
+	public void stepExecution() {
 		
 	}
 	

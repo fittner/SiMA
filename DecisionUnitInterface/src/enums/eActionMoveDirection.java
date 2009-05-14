@@ -15,7 +15,7 @@ package enums;
  * 15.04.2009, 16:42:25
  * 
  */
-public enum eMoveActionDirection {
+public enum eActionMoveDirection {
 	MOVE_FORWARD,
 	MOVE_BACKWARD
 }

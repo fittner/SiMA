@@ -9,8 +9,6 @@ package bw.entities;
 
 import java.util.ArrayList;
 import sim.physics2D.shape.Shape;
-import bw.body.motionplatform.clsBrainAction;
-import bw.body.motionplatform.clsBrainActionContainer;
 import bw.utils.container.clsConfigMap;
 import ARSsim.physics2D.physicalObject.clsStationaryObject2D;
 import ARSsim.physics2D.util.clsPose;

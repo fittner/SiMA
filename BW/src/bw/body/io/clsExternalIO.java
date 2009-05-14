@@ -10,17 +10,15 @@ package bw.body.io;
 import java.util.HashMap;
 import java.util.Iterator;
 
-import enums.eActuatorExtType;
 import bw.body.clsBaseBody;
-import bw.body.io.actuators.external.clsActuatorEat;
-import bw.body.io.actuators.external.clsActuatorExt;
-import bw.body.io.actuators.external.clsActuatorMove;
+import bw.body.io.actuators.clsActionProcessor;
+import bw.body.io.actuators.actionExecutors.*;
+import decisionunit.itf.actions.*; 
 import bw.body.io.sensors.external.clsSensorAcceleration;
 import bw.body.io.sensors.external.clsSensorBump;
 import bw.body.io.sensors.external.clsSensorEatableArea;
 import bw.body.io.sensors.external.clsSensorExt;
 import bw.body.io.sensors.external.clsSensorVision;
-import bw.body.motionplatform.clsBrainActionContainer;
 import bw.entities.clsAnimate;
 import bw.entities.clsEntity;
 import bw.utils.container.clsBaseConfig;
@@ -47,14 +45,15 @@ import enums.eSensorExtType;
  * The method @@@ is automatically called from clsBody and ensures
  * the actuator-execution for all actuators during the execution-cycle.
  * 
+ * BD - adapted the class to host the actionprocessor
+ * 
  * @author langr
  * 
  */
 public class clsExternalIO extends clsBaseIO {
 
-	
+	private clsActionProcessor moProcessor; 
 	public HashMap<eSensorExtType, clsSensorExt> moSensorExternal;
-	public HashMap<eActuatorExtType, clsActuatorExt> moActuatorExternal;
 	
 	public clsEntity moEntity;
 	
@@ -67,14 +66,14 @@ public class clsExternalIO extends clsBaseIO {
 		moEntity = poEntity; //the entity for physics engine access
 		
 		moSensorExternal = new HashMap<eSensorExtType, clsSensorExt>();
-		moActuatorExternal = new HashMap<eActuatorExtType, clsActuatorExt>();
+		moProcessor = new clsActionProcessor(poEntity);
+		
+		//TODO (BD) - Use Configuration for initialisation of Actions!
+		moProcessor.addCommand(clsActionEat.class, new clsExecutorEat());
+		moProcessor.addCommand(clsActionMove.class, new clsExecutorMove());
+		moProcessor.addCommand(clsActionTurn.class, new clsExecutorTurn());
 		
 		applyConfig();
-		
-		
-		//initialization of actuators
-		moActuatorExternal.put(eActuatorExtType.EAT , new clsActuatorEat((clsAnimate)moEntity, this));
-		moActuatorExternal.put(eActuatorExtType.MOTION, new clsActuatorMove(moEntity, this));
 	}
 	
 	private void applyConfig() {
@@ -83,7 +82,6 @@ public class clsExternalIO extends clsBaseIO {
 		if ( ((clsConfigBoolean)moConfig.get(eConfigEntries.ACTIVATE)).get() ) {
 			initSensorExternal((clsConfigList)moConfig.get(eConfigEntries.EXTSENSORS), (clsConfigMap)moConfig.get(eConfigEntries.EXTSENSORCONFIG));
 		}
-
 
 	}
 
@@ -156,6 +154,11 @@ public class clsExternalIO extends clsBaseIO {
 		}
 	}
 
+	public clsActionProcessor getActionProcessor() {
+		return moProcessor;
+	}
+	
+	
 	/* (non-Javadoc)
 	 *
 	 * each sensor has to be updated to guarantee valid data for the next cycle 'processing'
@@ -181,11 +184,8 @@ public class clsExternalIO extends clsBaseIO {
 	 * 
 	 * @see bw.body.itfStepExecution#stepExecution()
 	 */
-	public void stepExecution(clsBrainActionContainer poActionList) {
-		for (clsActuatorExt actuator : moActuatorExternal.values()) {
-			actuator.updateActuatorData(poActionList);
-		}
-		
+	public void stepExecution() {
+		moProcessor.dispatch();
 	}
 
 }

@@ -9,8 +9,6 @@ package bw.entities;
 
 import java.awt.Color;
 import java.util.ArrayList;
-import bw.body.motionplatform.clsBrainAction;
-import bw.body.motionplatform.clsBrainActionContainer;
 import bw.utils.container.clsConfigMap;
 import enums.eEntityType;
 import ARSsim.physics2D.util.clsPose;

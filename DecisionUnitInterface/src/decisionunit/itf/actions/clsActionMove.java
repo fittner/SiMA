@@ -1,16 +1,16 @@
 package decisionunit.itf.actions;
 
-import enums.eMoveActionDirection;
+import enums.eActionMoveDirection;
 
 public class clsActionMove implements itfActionCommand {
-	private eMoveActionDirection meDirection;
+	private eActionMoveDirection meDirection;
 	private double mnSpeed;
 
 	public clsActionMove() {
-		meDirection=eMoveActionDirection.MOVE_FORWARD;
+		meDirection=eActionMoveDirection.MOVE_FORWARD;
 		mnSpeed=4;
 	}
-	public clsActionMove(eMoveActionDirection peDirection, double pnSpeed) {
+	public clsActionMove(eActionMoveDirection peDirection, double pnSpeed) {
 		meDirection=peDirection;
 		mnSpeed=pnSpeed;
 	}
@@ -23,11 +23,11 @@ public class clsActionMove implements itfActionCommand {
 		mnSpeed=pnSpeed;
 	}
 	
-	public eMoveActionDirection getDirection() {
+	public eActionMoveDirection getDirection() {
 		return meDirection;
 	}
 	
-	public void setSpeed(eMoveActionDirection peDirection) {
+	public void setSpeed(eActionMoveDirection peDirection) {
 		meDirection=peDirection;
 	}
 }

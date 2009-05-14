@@ -1,6 +1,6 @@
 package decisionunit;
 
-import decisionunit.itf.actions.clsActionCommandContainer;
+import decisionunit.itf.actions.itfActionProcessor;
 import decisionunit.itf.sensors.clsSensorData;
 
 public abstract class clsBaseDecisionUnit {
@@ -10,7 +10,7 @@ public abstract class clsBaseDecisionUnit {
 		setSensorData(poSensorData);		
 	}
 	
-	public abstract clsActionCommandContainer process();
+	public abstract void process(itfActionProcessor poActionProcessor);
 
 	/**
 	 * @param moSensorData the moSensorData to set

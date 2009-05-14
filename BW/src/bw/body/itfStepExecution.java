@@ -9,11 +9,11 @@
 package bw.body;
 
 
-import bw.body.motionplatform.clsBrainActionContainer;
-
 /**
  * 4th call in the overall body cycle (complete cycle see itfStep)
  * Executes the action commands (from thinking) within the entities actuators  
+ * 
+ * BD - Removed ActionContainer - logic
  * 
  * @author langr
  * 25.02.2009, 16:24:49
@@ -21,6 +21,6 @@ import bw.body.motionplatform.clsBrainActionContainer;
  */
 public interface itfStepExecution extends itfStep {
 
-	public void stepExecution(clsBrainActionContainer poActionList);
+	public void stepExecution();
 	
 }

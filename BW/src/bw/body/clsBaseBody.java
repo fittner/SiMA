@@ -11,7 +11,6 @@ package bw.body;
 import bw.body.brainsocket.clsBrainSocket;
 import bw.body.io.clsExternalIO;
 import bw.body.io.clsInternalIO;
-import bw.body.motionplatform.clsBrainActionContainer;
 import bw.entities.clsEntity;
 import bw.utils.container.clsConfigMap;
 import bw.utils.enums.eBodyParts;
@@ -84,12 +83,12 @@ public abstract class clsBaseBody implements itfStepSensing, itfStepUpdateIntern
 		moInternalIO.stepSensing();
 	}
 	
-	public clsBrainActionContainer stepProcessing(){
-		return moBrain.stepProcessing();
+	public void stepProcessing(){
+		moBrain.stepProcessing();
 	}	
 
-	public void stepExecution(clsBrainActionContainer poActionList) {
-		moExternalIO.stepExecution(poActionList);
-		moInternalIO.stepExecution(poActionList);
+	public void stepExecution() {
+		moExternalIO.stepExecution();
+		moInternalIO.stepExecution();
 	}	
 }

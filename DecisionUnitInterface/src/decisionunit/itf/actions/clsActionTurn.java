@@ -1,17 +1,17 @@
 package decisionunit.itf.actions;
 
-import enums.eTurnActionDirection;
+import enums.eActionTurnDirection;
 
 public class clsActionTurn implements itfActionCommand {
 
-	private eTurnActionDirection meDirection;
+	private eActionTurnDirection meDirection;
 	private double mnAngle; //in degrees, will automatically be transformed to rad 
 
-	public clsActionTurn(eTurnActionDirection peDirection) {
+	public clsActionTurn(eActionTurnDirection peDirection) {
 		meDirection=peDirection;
 		mnAngle=2;
 	}
-	public clsActionTurn(eTurnActionDirection peDirection, double pnAngle) {
+	public clsActionTurn(eActionTurnDirection peDirection, double pnAngle) {
 		meDirection=peDirection;
 		mnAngle=pnAngle;
 	}
@@ -24,11 +24,11 @@ public class clsActionTurn implements itfActionCommand {
 		mnAngle=pnAngle;
 	}
 	
-	public eTurnActionDirection getDirection() {
+	public eActionTurnDirection getDirection() {
 		return meDirection;
 	}
 	
-	public void setSpeed(eTurnActionDirection peDirection) {
+	public void setSpeed(eActionTurnDirection peDirection) {
 		meDirection=peDirection;
 	}
 	

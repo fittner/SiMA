@@ -1,14 +1,13 @@
 package lifeCycle;
 
 import decisionunit.clsBaseDecisionUnit;
-import decisionunit.itf.actions.clsActionCommandContainer;
+import decisionunit.itf.actions.itfActionProcessor;
 
 public class clsLynxMind extends clsBaseDecisionUnit  {
 
 	@Override
-	public clsActionCommandContainer process() {
+	public void process(itfActionProcessor poActionProcessor) {
 		// TODO Auto-generated method stub
-		return null;
 	}
 
 }

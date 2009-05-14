@@ -14,9 +14,7 @@ import java.util.Iterator;
 import sim.physics2D.physicalObject.PhysicalObject2D;
 
 import decisionunit.clsBaseDecisionUnit;
-import decisionunit.itf.actions.clsActionCommandContainer;
-import decisionunit.itf.actions.clsEatAction;
-import decisionunit.itf.actions.clsMotionAction;
+import decisionunit.itf.actions.itfActionProcessor;
 import decisionunit.itf.sensors.clsBump;
 import decisionunit.itf.sensors.clsDataBase;
 import decisionunit.itf.sensors.clsEatableArea;
@@ -42,10 +40,8 @@ import bw.body.io.sensors.internal.clsHealthSensor;
 import bw.body.io.sensors.internal.clsSensorInt;
 import bw.body.io.sensors.internal.clsStaminaSensor;
 import bw.body.io.sensors.internal.clsStomachSensor;
-import bw.body.motionplatform.clsBrainActionContainer;
 import bw.entities.clsEntity;
 import bw.utils.container.clsConfigMap;
-import enums.eActionCommandType;
 import enums.eEntityType;
 
 /**
@@ -59,15 +55,17 @@ import enums.eEntityType;
 public class clsBrainSocket implements itfStepProcessing {
 
 	private clsBaseDecisionUnit moDecisionUnit;
+	private itfActionProcessor moActionProcessor;
 	private HashMap<eSensorExtType, clsSensorExt> moSensorsExt;
 	private HashMap<eSensorIntType, clsSensorInt> moSensorsInt;
     
     private clsConfigMap moConfig;	
 	
-	public clsBrainSocket(HashMap<eSensorExtType, clsSensorExt> poSensorsExt, HashMap<eSensorIntType, clsSensorInt> poSensorsInt, clsConfigMap poConfig) {
+	public clsBrainSocket(HashMap<eSensorExtType, clsSensorExt> poSensorsExt, HashMap<eSensorIntType, clsSensorInt> poSensorsInt, itfActionProcessor poActionProcessor, clsConfigMap poConfig) {
 		moConfig = getDefaultConfig();
 		moConfig.overwritewith(poConfig);
 				
+		moActionProcessor=poActionProcessor;
 		moSensorsExt = poSensorsExt;
 		moSensorsInt = poSensorsInt;
 	}
@@ -82,15 +80,11 @@ public class clsBrainSocket implements itfStepProcessing {
 	 * @see bw.body.itfStep#step()
 	 */
 //	public void stepProcessing(clsAnimate poAnimate, clsBrainActionContainer poActionList) {
-	public clsBrainActionContainer stepProcessing() {
+	public void stepProcessing() {
 		if (moDecisionUnit != null) {
 			moDecisionUnit.update(convertSensorData());
-			clsActionCommandContainer oDecisionUnitResult = moDecisionUnit.process();
-
-			return convertActionCommands(oDecisionUnitResult);
-		} else {
-			return new clsBrainActionContainer();
-		}
+			moDecisionUnit.process(moActionProcessor);
+		} 
 	}
 	
 	/* **************************************************** CONVERT SENSOR DATA *********************************************** */
@@ -276,43 +270,6 @@ public class clsBrainSocket implements itfStepProcessing {
 		oData.mnBumped = oBumpSensor.isBumped();
 
 		return oData;
-	}
-
-	/* **************************************************** CONVERT ACTION DATA *********************************************** */
-	private clsBrainActionContainer convertActionCommands(clsActionCommandContainer poCommands) {
-		clsBrainActionContainer oBrainActions = new clsBrainActionContainer();
-		
-		if (poCommands != null) {
-		  convertEatActions(oBrainActions, poCommands.getEatAction());
-		  convertMoveActions(oBrainActions, poCommands.getMoveAction());
-		}
-		
-		return oBrainActions;
-	}
-	
-	
-	private void convertMoveActions(clsBrainActionContainer brainActions, ArrayList<clsMotionAction> moveAction) {
-		for (clsMotionAction oAction: moveAction) {
-			bw.body.motionplatform.clsMotionAction oMotionAction = bw.body.motionplatform.clsMotionAction.creatAction(oAction.meMotionType);
-			brainActions.addMoveAction(oMotionAction);
-		}
-	}
-
-	private void convertEatActions(clsBrainActionContainer brainActions, ArrayList<clsEatAction> eatAction) {
-		clsEntity oEntity = null;
-		clsSensorEatableArea oEatableSensor = (clsSensorEatableArea) moSensorsExt.get(eSensorExtType.EATABLE_AREA);
-		
-		Iterator<Integer> i = oEatableSensor.getViewObj().keySet().iterator();
-		
-		if (i.hasNext()) {
-			Integer oKey = i.next();
-			oEntity = getEntity( oEatableSensor.getViewObj().get(oKey) );
-		}
-		
-		for (@SuppressWarnings("unused") clsEatAction oAction: eatAction) {
-			bw.body.motionplatform.clsEatAction oEatAction = new bw.body.motionplatform.clsEatAction(eActionCommandType.EAT, oEntity);
-			brainActions.addEatAction(oEatAction);
-		}
 	}
 
 	/*************************************************

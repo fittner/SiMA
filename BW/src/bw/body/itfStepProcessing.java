@@ -8,8 +8,6 @@
  */
 package bw.body;
 
-import bw.body.motionplatform.clsBrainActionContainer;
-
 /**
  * 3rd call in the overall body cycle (complete cycle see itfStep)
  * 
@@ -22,6 +20,6 @@ import bw.body.motionplatform.clsBrainActionContainer;
  */
 public interface itfStepProcessing extends itfStep {
 
-	public clsBrainActionContainer stepProcessing();
+	public void stepProcessing();
 	
 }

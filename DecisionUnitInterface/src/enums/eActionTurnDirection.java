@@ -15,7 +15,7 @@ package enums;
  * 15.04.2009, 16:59:58
  * 
  */
-public enum eTurnActionDirection {
+public enum eActionTurnDirection {
 	TURN_LEFT,
 	TURN_RIGHT
 }
