@@ -9,7 +9,12 @@
 package simple.dumbmind;
 
 import decisionunit.clsBaseDecisionUnit;
+import decisionunit.itf.actions.clsActionEat;
+import decisionunit.itf.actions.clsActionMove;
+import decisionunit.itf.actions.clsActionTurn;
 import decisionunit.itf.actions.itfActionProcessor;
+import enums.eActionMoveDirection;
+import enums.eActionTurnDirection;
 import enums.eEntityType;
 import enums.eSensorExtType;
 import decisionunit.itf.sensors.clsBump;
@@ -32,25 +37,21 @@ public class clsDumbMindA extends clsBaseDecisionUnit {
 	public clsDumbMindA() {
 	}
 	
-	/*TODO-BD
-	public clsActionCommandContainer stepProcessing() {
+	public void stepProcessing(itfActionProcessor poActionProcessor) {
 		
-		clsActionCommandContainer oActionList = new clsActionCommandContainer();
-
 		if(isCollisionAvoidance()) {
-			followAnObject(oActionList);
+			followAnObject(poActionProcessor);
 		}
 		
 		if(isRoombaIntelligence()) {
-			doRobotDance(oActionList);
+			doRobotDance(poActionProcessor);
 		}
 		
-		eat(oActionList);
+		eat(poActionProcessor);
 		
-		return oActionList;
 	}
 	
-	public void followAnObject(clsActionCommandContainer poActionList)
+	public void followAnObject(itfActionProcessor poActionProcessor)
 	{
 		clsVision oVision = (clsVision) getSensorData().getSensorExt(eSensorExtType.VISION);
 		
@@ -65,19 +66,22 @@ public class clsDumbMindA extends clsBaseDecisionUnit {
 					if( rAngle < 0.1 || rAngle > (2*Math.PI - 0.1))
 					{
 						//walk ahead to reach the can  
-						clsMotionAction oAction = clsMotionAction.creatAction(eActionCommandMotion.MOVE_FORWARD);
-						oAction.setSpeed(2.5);
-						poActionList.addMoveAction(oAction);
+						//clsMotionAction oAction = clsMotionAction.creatAction(eActionCommandMotion.MOVE_FORWARD);
+						//oAction.setSpeed(2.5);
+						//poActionList.addMoveAction(oAction);
+						poActionProcessor.call(new clsActionMove(eActionMoveDirection.MOVE_FORWARD,2.5));
 					}
 					else if( rAngle >= 0 && rAngle < Math.PI )
 					{
 						//rotate right
-						poActionList.addMoveAction(clsMotionAction.creatAction(eActionCommandMotion.ROTATE_RIGHT) );
+						//poActionList.addMoveAction(clsMotionAction.creatAction(eActionCommandMotion.ROTATE_RIGHT) );
+						poActionProcessor.call(new clsActionTurn(eActionTurnDirection.TURN_RIGHT));
 					}
 					else
 					{
 						//rotate left
-						poActionList.addMoveAction(clsMotionAction.creatAction(eActionCommandMotion.ROTATE_LEFT) );
+						//poActionList.addMoveAction(clsMotionAction.creatAction(eActionCommandMotion.ROTATE_LEFT) );
+						poActionProcessor.call(new clsActionTurn(eActionTurnDirection.TURN_LEFT));
 					}
 					
 					break;
@@ -86,7 +90,7 @@ public class clsDumbMindA extends clsBaseDecisionUnit {
 		}
 	}	
 	
-	private void eat(clsActionCommandContainer poActionList) {
+	private void eat(itfActionProcessor poActionProcessor) {
 		//eat
 		clsEatableArea oEatArea = (clsEatableArea) getSensorData().getSensorExt(eSensorExtType.EATABLE_AREA);
 		if(oEatArea.mnNumEntitiesPresent > 0)
@@ -94,8 +98,9 @@ public class clsDumbMindA extends clsBaseDecisionUnit {
 
 				if( oEatArea.mnTypeOfFirstEntity == eEntityType.CAKE )
 				{
-						clsEatAction oEatAction = new clsEatAction();
-						poActionList.addEatAction(oEatAction);
+						//clsEatAction oEatAction = new clsEatAction();
+						//poActionList.addEatAction(oEatAction);
+						poActionProcessor.call(new clsActionEat());	
 						
 						// Roland: when the agent reaches the cake - ist stops 
 						// (deactivating the following-the-food logic)
@@ -105,25 +110,27 @@ public class clsDumbMindA extends clsBaseDecisionUnit {
 		}
 	}	
 	
-	public void doRobotDance(clsActionCommandContainer poActionList)
+	public void doRobotDance(itfActionProcessor poActionProcessor)
 	{
 		//move
 		clsBump oBump = (clsBump) getSensorData().getSensorExt(eSensorExtType.BUMP);
 		
 		if( oBump.mnBumped )
 		{
-			poActionList.addMoveAction(clsMotionAction.creatAction(eActionCommandMotion.MOVE_BACKWARD) );
-			poActionList.addMoveAction(clsMotionAction.creatAction(eActionCommandMotion.ROTATE_LEFT) );
-		
+			//poActionList.addMoveAction(clsMotionAction.creatAction(eActionCommandMotion.MOVE_BACKWARD) );
+			//poActionList.addMoveAction(clsMotionAction.creatAction(eActionCommandMotion.ROTATE_LEFT) );
+			poActionProcessor.call(new clsActionMove(eActionMoveDirection.MOVE_BACKWARD,4));
+			poActionProcessor.call(new clsActionTurn(eActionTurnDirection.TURN_LEFT));
 		}
 		else if( !isCollisionAvoidance() )
 		{
-			clsMotionAction oAction = clsMotionAction.creatAction(eActionCommandMotion.MOVE_FORWARD);
-			oAction.setSpeed(2.5);
-			poActionList.addMoveAction(oAction);
+			//clsMotionAction oAction = clsMotionAction.creatAction(eActionCommandMotion.MOVE_FORWARD);
+			//oAction.setSpeed(2.5);
+			//poActionList.addMoveAction(oAction);
+			poActionProcessor.call(new clsActionMove(eActionMoveDirection.MOVE_FORWARD,2.5));
 		}
 	}	
-*/
+
 	public void setRoombaIntelligence(boolean moRoombaIntelligence) {
 		this.mnRoombaIntelligence = moRoombaIntelligence;
 		
@@ -153,8 +160,8 @@ public class clsDumbMindA extends clsBaseDecisionUnit {
 	}
 
 	@Override
-	public void process(itfActionProcessor poActionProcessor) {
-		//TODO-BD: clsActionCommandContainer oCommands = stepProcessing();
+	public void process(itfActionProcessor poActionProcessor) { 
+		stepProcessing(poActionProcessor);
 		
 		//clsActionCommandContainer oCommands = new clsActionCommandContainer();
 		//oCommands.addMoveAction( clsMotionAction.creatAction(eActionCommandMotion.MOVE_FORWARD));

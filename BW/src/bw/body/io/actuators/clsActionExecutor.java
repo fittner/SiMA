@@ -13,6 +13,7 @@ import java.util.ArrayList;
 import bw.entities.clsEntity;
 import decisionunit.itf.actions.clsActionEat;
 import decisionunit.itf.actions.itfActionCommand;
+import bw.factories.clsSingletonUniqueIdGenerator;
 
 /**
  * This abstract class must be inherited by all actions commands so they 
@@ -24,6 +25,14 @@ import decisionunit.itf.actions.itfActionCommand;
  * 
  */
 public abstract class clsActionExecutor {
+
+	private static final int mnUniqueId = clsSingletonUniqueIdGenerator.getUniqueId();
+
+	public abstract String getName();
+	
+	public long getUniqueId() {
+		return mnUniqueId;
+	}
 	
 	/*
 	 * Array of types of action commands which can not be performed at the 

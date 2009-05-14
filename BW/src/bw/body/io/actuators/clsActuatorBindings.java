@@ -11,6 +11,7 @@ package bw.body.io.actuators;
 import java.util.ArrayList;
 import bw.body.io.actuators.actionProxies.itfCarryable;
 import bw.exceptions.*;
+import bw.factories.clsSingletonUniqueIdGenerator;
 
 /**
  * This class manages the bindings of an agent and entities it is carrying. 
@@ -25,7 +26,16 @@ public class clsActuatorBindings {
 
 	private itfCarryable moCarriedObject = null;
 	private ArrayList<itfCarryable> moInventory = new ArrayList<itfCarryable>();
-	
+
+	private static final int mnUniqueId = clsSingletonUniqueIdGenerator.getUniqueId();
+
+	public String getName() {
+		return "Actuator bindings";
+	}
+	public long getUniqueId() {
+		return mnUniqueId;
+	}
+
 	public itfCarryable getCarriedObject() {
 		return moCarriedObject;
 	}

@@ -68,7 +68,7 @@ public class clsExternalIO extends clsBaseIO {
 		moSensorExternal = new HashMap<eSensorExtType, clsSensorExt>();
 		moProcessor = new clsActionProcessor(poEntity);
 		
-		//TODO (BD) - Use Configuration for initialisation of Actions!
+		//TODO (BD) - Configuration will be used when final Actions are implemented
 		moProcessor.addCommand(clsActionEat.class, new clsExecutorEat());
 		moProcessor.addCommand(clsActionMove.class, new clsExecutorMove());
 		moProcessor.addCommand(clsActionTurn.class, new clsExecutorTurn());

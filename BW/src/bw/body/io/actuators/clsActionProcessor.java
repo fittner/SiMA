@@ -11,9 +11,8 @@ package bw.body.io.actuators;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
-
+import bw.factories.clsSingletonUniqueIdGenerator;
 import decisionunit.itf.actions.*;
-
 import enums.eCallPriority;
 import bw.entities.clsEntity;
 import bw.utils.enums.*;
@@ -34,6 +33,15 @@ public class clsActionProcessor implements itfActionProcessor {
 	 ArrayList<clsProcessorInhibition> moInhibitedCommands=new ArrayList<clsProcessorInhibition> ();
 	 ArrayList<clsProcessorCall> moCommandStack=new ArrayList<clsProcessorCall>();
 	 ArrayList<clsProcessorResult> moExecutionHistory=new ArrayList<clsProcessorResult>();
+
+	 private static final int mnUniqueId = clsSingletonUniqueIdGenerator.getUniqueId();
+
+	 public String getName() {
+		return "Action processor";
+	 }
+	 public long getUniqueId() {
+		return mnUniqueId;
+	 }
 	 
 	 public clsActionProcessor(clsEntity poEntity) {
 		 moEntity=poEntity;	 
@@ -83,6 +91,9 @@ public class clsActionProcessor implements itfActionProcessor {
 	 * The duration can be set to any number greater or equal to one and defines the 
 	 * number of simulation cycles the command should be executed for.
 	 */
+	public void call(itfActionCommand poCommand) {
+		call(poCommand, eCallPriority.CALLPRIORITY_NORMAL,1);
+	}
 	public void call(itfActionCommand poCommand, eCallPriority pePriority) {
 		call(poCommand, pePriority,1);
 	}
@@ -95,6 +106,9 @@ public class clsActionProcessor implements itfActionProcessor {
 	/*
 	 * Adds Sequences to the stack.
 	 */
+	public void call(clsActionSequence poSequence) {
+		call(poSequence,eCallPriority.CALLPRIORITY_NORMAL);
+	}
 	public void call(clsActionSequence poSequence, eCallPriority pePriority) {
 		moCommandStack.add(new clsProcessorCall(poSequence,pePriority));
 	}

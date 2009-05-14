@@ -22,6 +22,10 @@ import decisionunit.itf.actions.*;
  */
 public class clsExecutorTurn extends clsActionExecutor{
 
+	public String getName() {
+		return "Turn executor";
+	}
+	
 	public boolean execute(itfActionCommand poCommand, clsEntity poEntity) {
 		clsActionTurn oCommand = (clsActionTurn) poCommand;
     	switch( oCommand.getDirection() )

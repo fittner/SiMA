@@ -12,8 +12,10 @@ import enums.eCallPriority;
 public interface itfActionProcessor {
 
 	public void inhibitCommand(Class poCommand, int pnDuration);	 
-	public void call(itfActionCommand poCommand, eCallPriority pePriority);
-	public void call(clsActionSequence poSequence, eCallPriority pePriority);
 	public void call(itfActionCommand poCommand, eCallPriority pePriority, int pnDuration);
+	public void call(itfActionCommand poCommand, eCallPriority pePriority);
+	public void call(itfActionCommand poCommand);
+	public void call(clsActionSequence poSequence, eCallPriority pePriority);
+	public void call(clsActionSequence poSequence);
 
 }

@@ -178,24 +178,24 @@ public class clsRemoteBot extends clsAnimate implements itfGetVision, itfGetEata
     	{
     	case 38: //up
     		//moActionList.addMoveAction(clsMotionAction.creatAction(eActionCommandMotion.MOVE_FORWARD) );
-    		oAP.call(new clsActionMove(eActionMoveDirection.MOVE_FORWARD,4),eCallPriority.CALLPRIORITY_NORMAL);
+    		oAP.call(new clsActionMove(eActionMoveDirection.MOVE_FORWARD,4));
     		break;
     	case 40: //down
     		//moActionList.addMoveAction(clsMotionAction.creatAction(eActionCommandMotion.MOVE_BACKWARD) );
-    		oAP.call(new clsActionMove(eActionMoveDirection.MOVE_BACKWARD,4),eCallPriority.CALLPRIORITY_NORMAL);
+    		oAP.call(new clsActionMove(eActionMoveDirection.MOVE_BACKWARD,4));
     		break;
     	case 37: //rotate_left
     		//moActionList.addMoveAction(clsMotionAction.creatAction(eActionCommandMotion.ROTATE_LEFT) );
-    		oAP.call(new clsActionTurn(eActionTurnDirection.TURN_LEFT),eCallPriority.CALLPRIORITY_NORMAL);
+    		oAP.call(new clsActionTurn(eActionTurnDirection.TURN_LEFT));
     		break;
     	case 39: //rotate_right
     		//moActionList.addMoveAction(clsMotionAction.creatAction(eActionCommandMotion.ROTATE_RIGHT) );
-    		oAP.call(new clsActionTurn(eActionTurnDirection.TURN_RIGHT),eCallPriority.CALLPRIORITY_NORMAL);
+    		oAP.call(new clsActionTurn(eActionTurnDirection.TURN_RIGHT));
     		break;
     	case 65: //'A'
     		break;
     	case 69: //'E'
-    		//TODO-BD: eat(moActionList);
+    		eat();
     		break;
     	case 83: //'S'
 //            if(botState==HAVECAN)
@@ -221,8 +221,7 @@ public class clsRemoteBot extends clsAnimate implements itfGetVision, itfGetEata
 	 * @param poActionList
 	 */
 
-	/* TODO-BD
-	private void eat(clsBrainActionContainer poActionList) {
+	private void eat() {
 		//eat
 		clsSensorEatableArea oEatArea = (clsSensorEatableArea)(moBody.getExternalIO().moSensorExternal.get(eSensorExtType.EATABLE_AREA));
 		if(oEatArea.getViewObj() != null)
@@ -240,16 +239,16 @@ public class clsRemoteBot extends clsAnimate implements itfGetVision, itfGetEata
 					//TODO cm only cakes for now
 					if(  oEatenEntity instanceof clsCake)
 					{
-						clsEatAction oEatAction = new clsEatAction(eActionCommandType.EAT, oEatenEntity);
-						poActionList.addEatAction(oEatAction);
-						
+						//clsEatAction oEatAction = new clsEatAction(eActionCommandType.EAT, oEatenEntity);
+						//poActionList.addEatAction(oEatAction);
 
+						clsActionProcessor oAP = moBody.getExternalIO().getActionProcessor();
+						oAP.call(new clsActionEat());	
 					}
 				}
 			}
 		}
 	}
-*/
 
 	public void execution() {
 		super.execution();

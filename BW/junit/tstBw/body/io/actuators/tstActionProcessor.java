@@ -221,6 +221,10 @@ public class tstActionProcessor {
 	 */
 	private class tstTestExecutor extends clsActionExecutor {
 		
+		public String getName() {
+			return "Test Executor";
+		}
+		
 		public boolean execute(itfActionCommand poCommand, clsEntity poEntity) {
 			tstTestCommand oCommand = (tstTestCommand) poCommand;
 			oCommand.setExecuted(true);

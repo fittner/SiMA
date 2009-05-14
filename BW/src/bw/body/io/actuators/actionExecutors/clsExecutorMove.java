@@ -22,13 +22,16 @@ import decisionunit.itf.actions.*;
  */
 public class clsExecutorMove extends clsActionExecutor{
 
-
+	public String getName() {
+		return "Move executor";
+	}
+	
 	public boolean execute(itfActionCommand poCommand, clsEntity poEntity) {
 		clsActionMove oCommand =(clsActionMove) poCommand; 
     	switch(oCommand.getDirection() )
     	{
     	case MOVE_FORWARD:
-    		((clsMobile)poEntity).getMobileObject2D().moMotionPlatform.moveForward(oCommand.getSpeed());
+    		((clsMobile)poEntity).getMobileObject2D().moMotionPlatform.moveForward(10*oCommand.getSpeed());
     	case MOVE_BACKWARD:
     		((clsMobile)poEntity).getMobileObject2D().moMotionPlatform.backup();
     	}
