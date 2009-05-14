@@ -25,10 +25,12 @@ import java.util.Iterator;
  */
 public class clsFlesh extends clsFood {
     private clsConfigMap moConfig;	
+    private boolean mnTotallyConsumed;
 	
 	public clsFlesh(clsConfigMap poConfig) {
 		super();
 		moConfig = getFinalConfig(poConfig);
+		mnTotallyConsumed = false;
 		applyConfig();
 	}
 	
@@ -97,6 +99,7 @@ public class clsFlesh extends clsFood {
 	public void grow(float prWeight) {
 		try {
 			setAmount(getAmount() + Math.abs(prWeight));
+			mnTotallyConsumed = false;
 		} catch (exFoodAmountBelowZero e) {
 			//can not happen
 		}
@@ -110,5 +113,21 @@ public class clsFlesh extends clsFood {
 	 */
 	public void reduce(float prWeight) throws exFoodAmountBelowZero {
 		setAmount(getAmount() - Math.abs(prWeight));
+	}	
+	
+	public float withdraw(float prAmount) {		
+		float rResult = 0.0f;
+		float rWeight = getAmount();
+		
+		try {
+			reduce(prAmount);
+			rResult = prAmount;
+		} catch (exFoodAmountBelowZero e) {
+			// TODO Auto-generated catch block
+			rResult = rWeight;
+			mnTotallyConsumed = true;
+		}
+		
+		return rResult;
 	}	
 }
