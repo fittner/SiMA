@@ -57,7 +57,7 @@ public class clsFillLevelInspector extends Inspector implements ItemListener{
 	private JLabel moCaption;
 	private JCheckBox moCheckBoxCD; //collision detection
 	private JCheckBox moCheckBoxCA; //collision avoidance
-	//private JProgressBar moEnergyProgress;
+	private JProgressBar moEnergyProgress;
 	private clsInspectorsAnalyse moAnalyse;
 
 	    
@@ -77,7 +77,13 @@ public class clsFillLevelInspector extends Inspector implements ItemListener{
 
             // creating the checkbox to sitch on/off the AI intelligence-levels.
             Box oBox1 = new Box(BoxLayout.Y_AXIS);
-          
+            moCaption = new JLabel(""+moStomachSystem.getEnergy());
+            moCheckBoxCD = new JCheckBox("Roomba brain (collision detection)");
+            moCheckBoxCD.setSelected(true );
+            
+            moCheckBoxCA = new JCheckBox("Obstacle Master Brain (collision avoidance)");
+            moCheckBoxCA.setSelected(true);
+            
             //kilic
             //moEnergyProgress= new JProgressBar(JProgressBar.VERTICAL, 0, 50);
             //moEnergyProgress.setStringPainted(true);
@@ -85,11 +91,21 @@ public class clsFillLevelInspector extends Inspector implements ItemListener{
             moAnalyse = new clsInspectorsAnalyse(true,0,50,moStomachSystem.getList());
             
             oBox1.add(moCaption, BorderLayout.AFTER_LAST_LINE);
+            oBox1.add(moCheckBoxCD, BorderLayout.AFTER_LAST_LINE);
+            oBox1.add(moCheckBoxCA, BorderLayout.AFTER_LAST_LINE);
             //kilic
             //oBox1.add(moAnalyse.getPanelOfAnalyse(), BorderLayout.AFTER_LAST_LINE);
             oBox1.add(moAnalyse.getProgressOfEnergy(), BorderLayout.AFTER_LAST_LINE);
             oBox1.setBorder(BorderFactory.createTitledBorder("Inspector for clsFillLevel"));
             oBox1.add(Box.createGlue());
+            
+            //Register a listener for the check boxes.
+            moCheckBoxCD.addItemListener(this);
+            moCheckBoxCA.addItemListener(this);
+            
+            
+            
+            
             
          // set up our inspector: keep the properties inspector around too
             setLayout(new BorderLayout());
