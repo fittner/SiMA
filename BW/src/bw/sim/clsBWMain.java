@@ -84,7 +84,7 @@ public class clsBWMain extends SimState{
 		
 		//clear the charts
 		moTestSeries.clear(); //TODO Clemens for charting
-		//TODO clemens: add charts/statistics to schedule here
+		//TODO clemens: add charts/statistics to schedule here 
 	}
 
 	/**
