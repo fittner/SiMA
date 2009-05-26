@@ -17,12 +17,16 @@ import sim.portrayal.Inspector;
 import sim.portrayal.LocationWrapper;
 import ARSsim.motionplatform.clsMotionPlatform;
 import ARSsim.physics2D.util.clsPose;
+import bw.body.clsBaseBody;
+import bw.body.clsComplexBody;
 import bw.body.itfget.itfGetBody;
 import bw.entities.clsAnimate;
+import bw.entities.clsBubble;
 import bw.entities.clsEntity;
 import bw.factories.clsSingletonMasonGetter;
 import bw.factories.clsSingletonUniqueIdGenerator;
 import bw.physicalObjects.sensors.clsEntityPartVision;
+import bw.utils.inspectors.body.clsFillLevelInspector;
 
 /**
  * Our representative of the mason physics class
@@ -232,7 +236,14 @@ public class clsMobileObject2D extends sim.physics2D.physicalObject.MobileObject
     	if( moMasonInspector == null)
     	{
     		if (moEntity instanceof clsAnimate) {
-    		  moMasonInspector = clsInspectorMapping.getInspector(super.getInspector(wrapper,state), wrapper, state, ((itfGetBody)moEntity).getBody().getBrain().getDecisionUnit());
+    			
+    			clsBaseBody iBody = ((itfGetBody)moEntity).getBody();
+   				moMasonInspector = clsInspectorMapping.getInspector(super.getInspector(wrapper,state), wrapper, state, iBody.getBrain().getDecisionUnit());
+
+   				//FIXME (all): For test purpose only! This is a direct access to the body and should be outsourced like the decision units inspector mapping!!!
+   				if(iBody instanceof clsComplexBody) {
+    			  moMasonInspector = new clsFillLevelInspector(moMasonInspector, wrapper, state, ((clsComplexBody)iBody).getInternalSystem().getStomachSystem());
+   				}
     		}
     	}
     	return moMasonInspector;

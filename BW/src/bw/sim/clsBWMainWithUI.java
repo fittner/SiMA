@@ -11,6 +11,7 @@ package bw.sim;
 import sim.display.*;
 import sim.engine.*;
 import javax.swing.*;
+
 import sim.portrayal.*;
 import sim.portrayal.continuous.*;
 import java.awt.Color;
@@ -54,6 +55,9 @@ public class clsBWMainWithUI extends GUIState{
 		//console is an elaborate GUI Controller. This is the standard way of starting the UI.
 		Console oConsole = new Console(new clsBWMainWithUI());
 		oConsole.setVisible(true);
+		
+		oConsole.getTabPane().addTab("Test", new JTabbedPane());
+		oConsole.getTabPane().remove(5);
 	}
 	
 	/** returns the title bar of the console
