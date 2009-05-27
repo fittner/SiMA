@@ -8,6 +8,7 @@
  */
 package bw.utils.inspectors.body;
 
+import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
@@ -15,9 +16,13 @@ import java.awt.Graphics;
 import java.util.HashMap;
 
 import javax.swing.BorderFactory;
+import javax.swing.Box;
+import javax.swing.BoxLayout;
 import javax.swing.JComponent;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JProgressBar;
+import javax.swing.border.EtchedBorder;
 import javax.swing.border.TitledBorder;
 
 import bw.utils.tools.clsNutritionLevel;
@@ -30,18 +35,11 @@ import bw.utils.tools.clsNutritionLevel;
  * 
  */
 public class clsInspectorsAnalyse extends JComponent{
-	/**
-	 * TODO (langr) - insert description 
-	 * 
-	 * @author langr
-	 * 26.05.2009, 09:45:12
-	 */
-	private static final long serialVersionUID = 1L;
 	private JProgressBar energy_progress;
 	/**Das ist das Hauptpanel, in dem alle Panels von Analyseanzeigen enthalten sind*/ 
-	private JPanel panelOfAnalyse= new JPanel();
+	private JPanel panelOfAnalyse= new JPanel(new BorderLayout());
 	/**Die Liste der Nutrition und deren Panele */
-	private HashMap<Integer, JPanel> panelOfNutrition = new HashMap<Integer, JPanel>();
+	private HashMap<Integer, clsSingleFillLevel> panelOfNutrition = new HashMap<Integer, clsSingleFillLevel>();
 	
 	/*private int mrX;
 	private int mrY;
@@ -126,14 +124,16 @@ public class clsInspectorsAnalyse extends JComponent{
 	private void creatProgressbar(boolean pos, int min, int max){
 		if(pos) this.energy_progress=new JProgressBar(JProgressBar.VERTICAL,min,max);
 		else  this.energy_progress=new JProgressBar(JProgressBar.HORIZONTAL,min,max);
+		
 		this.energy_progress.setStringPainted(true);
-		this.panelOfAnalyse.add(this.energy_progress);
+		this.panelOfAnalyse.add(this.energy_progress,BorderLayout.WEST);
 				
 		
 	}
 	/*******************************************************************
 	 * 
-	 * TODO (kilic) - Für jede Natrution wird ein Panel erstellt
+	 * TODO (kilic) - Für jede Natrution wird ein Panel durch die Klasse 
+	 * clsSingleFillLevel erstellt
 	 *
 	 * @author kilic
 	 * 25.05.2009, 09:17:52
@@ -141,18 +141,20 @@ public class clsInspectorsAnalyse extends JComponent{
 	 * @param listOfNatrution
 	 */
 	private void createPanelsOfNutritionLevel(HashMap<Integer, clsNutritionLevel> listOfNatrution) {
+		//JPanel jp = new JPanel();
+		Box box= new Box(BoxLayout.X_AXIS); 
 			for(int i=0;i<listOfNatrution.size();i++){
-				//clsNutritionLevel tmp =listOfNatrution.get(i);
-				JPanel jp = new JPanel();
-				Dimension d= new Dimension();
-				d.setSize(100, 100);
-				jp.setMinimumSize(d);
+				clsNutritionLevel tmp =listOfNatrution.get(i);
+				clsSingleFillLevel single = new clsSingleFillLevel(i,tmp.getLowerBound(),tmp.getUpperBound(),0,tmp.getMaxContent(), tmp.getContent(),50,100); 
 				//jp.add(new JLabel("N"+(i+1)));
-				jp.setBorder(BorderFactory.createTitledBorder(BorderFactory.createEmptyBorder(), "N"+(i+1), TitledBorder.CENTER, TitledBorder.BOTTOM,new Font("SansSerif ",Font.BOLD,10),Color.orange));
+				//single.setSize(200, 200);
+				//single.setBorder(BorderFactory.createTitledBorder(BorderFactory.createEtchedBorder(), "N"+(i+1), TitledBorder.CENTER, TitledBorder.BOTTOM,new Font("SansSerif ",Font.BOLD,10),Color.orange));
 				//jp.setBorder(BorderFactory.createTitledBorder(BorderFactory.createEtchedBorder(EtchedBorder.LOWERED), "N"+(i+1), TitledBorder.CENTER, TitledBorder.BOTTOM,new Font("SansSerif ",Font.BOLD,12),Color.orange));
-				this.panelOfAnalyse.add(jp);
-				this.panelOfNutrition.put(i,jp);
+				//jp.add(single);
+				box.add(single);
+				this.panelOfNutrition.put(i,single);
 		}
+			this.panelOfAnalyse.add(box,BorderLayout.CENTER);
 	}
 	
 	/******************************************************************************
@@ -209,14 +211,17 @@ public class clsInspectorsAnalyse extends JComponent{
 	 * @param valueo ist aktueller Wert
 	 ********************************************************************************/
 	public void paintAnalysisOfANutrition (Graphics g, int x, int y, float mino, float maxo, float valueorg) {
-		int min=(int)mino*10;
-		int max=(int)maxo*10;
-		int value=(int)valueorg*10;
+		int min=(int)(mino*10);
+		int max=(int)(maxo*10);
+		int value=(int)(valueorg*10);
 		g.setColor(Color.black);
-		g.drawString("min", x-35, y-min);
+		g.drawString((""+mino).substring(0, 3), x-35, y-min);
+		//g.drawString("min", x-35, y-min);
 		g.drawLine((x-10), (y-min), (x+20), (y-min));
-		g.drawString("max", x-35, y-max);
+		g.drawString((""+valueorg).substring(0, 3), x-35, y-max);
+		//g.drawString("max", x-35, y-max);
 		g.drawLine((x-10), (y-max), (x+20), (y-max));
+		g.drawString((""+valueorg).substring(0, 3), x+20, y-value);
 		
 		
 		//g.fillRect(x, (yy-value), 10, value);
@@ -356,7 +361,6 @@ public class clsInspectorsAnalyse extends JComponent{
 			
 			x=x+100;
 		}
-		this.panelOfAnalyse.revalidate();
 	}
 	/**************************************************************************
 	 * 
@@ -378,6 +382,14 @@ public class clsInspectorsAnalyse extends JComponent{
 			this.paintAnalysisOfANutrition(this.panelOfNutrition.get(i).getGraphics(), x, y,(int)tmp.getLowerBound(), (int)tmp.getUpperBound(),(int)tmp.getContent());
 			
 			//x=x+100;
+		}
+	}
+	public void update(HashMap<Integer, clsNutritionLevel> listOfNutrution){
+		//public void paintPanelOfAnalysisOfSeveralNutrition (HashMap<Integer, clsNutritionLevel> listOfNutrution, int x, int y) {
+		for(int i=0;i<listOfNutrution.size();i++){
+			clsNutritionLevel tmp =listOfNutrution.get(i);
+			this.panelOfNutrition.get(i).updateFloat(tmp.getContent());
+			
 		}
 	}
 	
