@@ -1,5 +1,6 @@
 package bw.LocalizationOrientation;
 
+import sim.util.Bag;
 
 /**
  * @author  monkfoodb
@@ -98,9 +99,5 @@ public class clsStep {
 		this.prevArea = prevArea;
 	}
 	
-	public void resetReachedStatus(){
-		PathToPrev.reached=false;
-		PathToNext.reached=false;
-	}
 	
 }

@@ -1,5 +1,6 @@
 package bw.LocalizationOrientation;
 
+import sim.physics2D.util.Double2D;
 
 /**
  * An extra class was created for the position in case the movement 
@@ -12,14 +13,11 @@ package bw.LocalizationOrientation;
 public class clsMove {
 
 	public double beta;
-	public double alpha;
 	public double B; 
 	public double direction;
 	public double A;
-	public boolean reached; 
 	
 	public clsMove(){
-		reached=false;
 	}
 
 	

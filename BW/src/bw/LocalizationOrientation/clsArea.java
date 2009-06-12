@@ -7,11 +7,6 @@
  */
 package bw.LocalizationOrientation;
 
-import bw.body.io.sensors.external.visionAnalysis.clsObject;
-import bw.entities.clsCake;
-import ARSsim.physics2D.physicalObject.clsMobileObject2D;
-import sim.util.Bag;
-
 
 /**
  * properties of one single area, obstacles in sight,
@@ -26,14 +21,10 @@ public class clsArea {
 	public double PositionSimilarity;
 	private int area_id;
 	private clsPerceivedObj  meObjectsInSight;
-	private Bag nonLandmarkObjects;
 	private int upToDateness;
-	public double reserved;
 	
 	public clsArea(int num){
 		meObjectsInSight = new clsPerceivedObj(num);
-		nonLandmarkObjects = new Bag();
-		upToDateness=100;
 	}
 	
 	
@@ -76,19 +67,6 @@ public class clsArea {
 	
 	public double getUpToDateness(){
 		return this.upToDateness;
-	}
-	
-	public void addNonLandmarkObject(Object NonLandmarkObject){
-		this.nonLandmarkObjects.add(NonLandmarkObject);
-	}
-	
-	public boolean hasFood(){
-		int i;
-		for (i=0;i<nonLandmarkObjects.numObjs;i++){
-			if ( ((clsMobileObject2D)((clsObject)nonLandmarkObjects.get(i)).moObject).getEntity() instanceof clsCake)
-				return true;
-		}
-		return false;
 	}
 	
 }

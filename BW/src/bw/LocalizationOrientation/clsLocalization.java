@@ -7,11 +7,15 @@
  */
 package bw.LocalizationOrientation;
 
-import ARSsim.physics2D.physicalObject.clsMobileObject2D;
-import bw.entities.clsStone;
 import bw.memory.clsElementStep;
 import bw.memory.clsEvent;
+import bw.memory.clsFeatureStep;
 import bw.memory.clsMemory;
+import java.util.HashMap;
+import java.util.Iterator;
+import sim.physics2D.physicalObject.PhysicalObject2D;
+import sim.physics2D.physicalObject.StationaryObject2D;
+import sim.physics2D.util.Double2D;
 import sim.util.Bag;
 
 /**
@@ -21,44 +25,30 @@ import sim.util.Bag;
 public class clsLocalization {
 	
 	int areacount=0;
-	
+	double similarObjectsTolerance = 0.01; // 0.01 - 1; 0.01->no deviation at all
+	double similarObjcetbeeringTolerance = 40;	//  0 < x <= 360	size of discrete angular segments
 	
 	private clsAreaSemanticMemory SemMemory = new clsAreaSemanticMemory();
 	private clsDeadReckoning DeadReckoning = new clsDeadReckoning();
 	private clsPathPlanning PathPlanning = new clsPathPlanning();
-	private clsMemory episodicMemory;
+	private
 	
 	int currAreaID=-1;
 	int prevAreaID=-1;
 	int relativeHeadingDirection;
 	private clsStep currentStep=null;
-	//private clsStep previousStep=null;
-	public boolean madeTransition=false;
-	
+	private clsStep previousStep=null;
 	public clsPath tmpPath;
-	//private clsStep pathCurrentStep;
-	private int currentGoalArea=1;
-
-	
+	private clsStep pathCurrentStep;
 	private clsPerceivedObj previousPerceivedObj=null;
+	private clsAssumptions assumtionSystem=new clsAssumptions(1.,30., 0.2, 5);
 	
-	//For Adjustment
-	double similarObjectsTolerance = 0.01; // 0.01 - 1; 0.01->no deviation at all
-	double similarObjcetbeeringTolerance = 45;	//  0 < x <= 360	size of discrete angular segments
-	double areaEvaluationUp = 1.4;
-	double areaEvaluationDown = 0.6;
-	private clsAssumptions assumtionSystem=new clsAssumptions(1.,30., 0.5, 5);
-	
-	public  clsLocalization(clsMemory moMemory){
-		episodicMemory=moMemory;
-	}
 	
 	
 	//emotions not yet implemented
-	public void orientate(clsPerceivedObj PerceivedObj){
+	public void orientate(clsPerceivedObj PerceivedObj,clsMemory episodicMemory){
 	
 		currentStep=new clsStep();	
-		madeTransition=false;
 		
 //		only calc if there exist objects in the environment
 		if (PerceivedObj.getNum()>0){
@@ -66,11 +56,8 @@ public class clsLocalization {
 			//if an Area was encoded
 			if( ( tempArea = calc_area(PerceivedObj))!=null ){
 				 currAreaID = SemMemory.rememberArea(tempArea,similarObjectsTolerance, similarObjcetbeeringTolerance);
-				 
 				//if area boarder is crossed
 				if (this.currAreaID != prevAreaID){
-					madeTransition=true;
-					
 						//here we can not use the tempArea to calc the link point because the main objects might not be the same as in the remembered area 
 						if (this.currAreaID > 0)
 							currentStep.setPathToPrev(DeadReckoning.calcLink(SemMemory.getAreaEntry(this.currAreaID-1),PerceivedObj));
@@ -83,36 +70,29 @@ public class clsLocalization {
 								if (assumtionSystem.expectedAreaID!=this.currAreaID){
 									//as the expected ID was not reached it might be gone and thus the upToDatenes is lowered
 									//0.6 means the upToDateness has dropped to about the half after 2 wrong assertions
-									this.SemMemory.updateUpToDateness(areaEvaluationDown, assumtionSystem.expectedAreaID);
-									System.out.printf("Evaluation Down for Area "+ assumtionSystem.expectedAreaID+" ");
+									this.SemMemory.updateUpToDateness(0.6, assumtionSystem.expectedAreaID);
 								}else{
 									//1.4 has about the same inverted gain as 0.6
-									this.SemMemory.updateUpToDateness(areaEvaluationUp, assumtionSystem.expectedAreaID);
+									this.SemMemory.updateUpToDateness(1.4, assumtionSystem.expectedAreaID);
 								}
 							}
 						}
 						
-						 //check if part of the path is passed
-						 if (tmpPath!=null){
-							 if(tmpPath.getNextArea()==currAreaID){
-									if (currAreaID==currentGoalArea){
-										System.out.println("SUCCESS: Arrived in goal area");
-										tmpPath=null;
-									}else{
-										/*//if the path is beeing followed get the next step
-										pathCurrentStep=tmpPath.getNextStep();
-										if (pathCurrentStep==null){
-											tmpPath=null;
-											System.out.println("Path ends Here");
-											}*/
-										//WARNING HIGHLY INEFFICIENT
-										planPath(this.currentGoalArea);
+						//if there is a path planed
+						if (tmpPath!=null){
+							//	check if the path is beeing followed
+							if (!((tmpPath.getPrevArea() == prevAreaID) && (tmpPath.getNextArea() == currAreaID))){
+							//	if not, clear the path
+								tmpPath=null;}
+							else{
+							//if the path is beeing followed get the next step
+								pathCurrentStep=tmpPath.getNextStep();
+								if (pathCurrentStep==null){
+									tmpPath=null;
+									System.out.println("ARIVED AT GOAL");
 									}
-							 }else if(tmpPath.getNextMove().reached){
-								 System.out.println("ERROR: Not following planed path");
-								 tmpPath=null;
-							 }
-							}
+								}
+						}
 						
 			//Debug Robert Borer
 					System.out.println("I am in Area " + currAreaID);	
@@ -130,7 +110,7 @@ public class clsLocalization {
 		currentStep.setPrevArea(prevAreaID);
 		currentStep.setNextarea(currAreaID);
 		
-		//this.previousStep=this.currentStep;
+		this.previousStep=this.currentStep;
 		
 		
 		prevAreaID=currAreaID;
@@ -141,7 +121,7 @@ public class clsLocalization {
 	/*Hier wird ein satz von objekten in sicht in eine area umgewandelt 
 	 * vorausgesetzt es ist ein referenzobjekt vorhanden
 	 * 
-	 * ÅEergabewert: die listen an gesichteten Objekten
+	 * Übergabewert: die listen an gesichteten Objekten
 	 * 
 	 * Rückgabewert: die erstelle Area oder Null falls kein Stationary 
 	 * objet vorhanden ist, das die Area identifizieren könnte
@@ -150,49 +130,11 @@ public class clsLocalization {
 	private clsArea calc_area(clsPerceivedObj tmpPerceivedObj){
 		clsPerceivedObj PerceivedObj=tmpPerceivedObj.clone();
 		
-		int j,k,mainpos=0;
+		int i=0,j;
 		clsArea newArea = new clsArea(PerceivedObj.getNum());
-		
-		//extract the non Landmark Objects; in this case only cake
-		for (k=0;k<PerceivedObj.getNum();k++){
-			if (PerceivedObj.getObject(k).moObject instanceof clsMobileObject2D){
-				if (! (( (clsMobileObject2D)PerceivedObj.getObject(k).moObject ).getEntity() instanceof clsStone) ){
-					newArea.addNonLandmarkObject(PerceivedObj.getObject(k));
-					PerceivedObj.removeObject(k);
-				}
-			}
-		}
-					
 		
 		if (PerceivedObj.getNum() > 0){
 
-			//set a unique object in first position
-			//first: find a unique object
-			for ( k=0;k<PerceivedObj.getNum();k++){
-				mainpos=k;
-				for ( j=0;j<PerceivedObj.getNum();j++)
-					if ((PerceivedObj.getObject(j).equals(PerceivedObj.getObject(mainpos))) && (mainpos!=j))
-						break;
-				if (j>=PerceivedObj.getNum())
-					break;
-			}
-			
-			if (mainpos!=0){
-//				set the mainobject to first position to ease future calculations
-				Object tmpobj=PerceivedObj.getObject(0);
-				double tmpbearing = PerceivedObj.getBearing(0),tmpdistance = PerceivedObj.getDistance(0);
-				
-				PerceivedObj.getObjects().set(0, PerceivedObj.getObjects().get(mainpos));
-				PerceivedObj.getObjects().set(mainpos, tmpobj);
-				PerceivedObj.setBearing(0, PerceivedObj.getBearing(mainpos));
-				PerceivedObj.setBearing(mainpos, tmpbearing);
-				PerceivedObj.setDistance(0, PerceivedObj.getDistance(mainpos));
-				PerceivedObj.setDistance(mainpos, tmpdistance);
-				
-			}else if (mainpos >= PerceivedObj.getNum())
-				mainpos=0;
-			
-			
 			for ( j=1;j<PerceivedObj.getNum();j++)
 					PerceivedObj.setBearing(j, (PerceivedObj.getBearing(0)>PerceivedObj.getBearing(j)) ? 
 													(PerceivedObj.getBearing(j)-PerceivedObj.getBearing(0)+360) : 
@@ -216,15 +158,12 @@ public class clsLocalization {
 	}
 	
 	
-	public boolean planPath(int GoalAreaID){
-		currentGoalArea=GoalAreaID;
-		tmpPath= PathPlanning.calculate(this.getCurrentArea(),GoalAreaID,filterStepHistory(episodicMemory), SemMemory);
+	public boolean planPath(int GoalAreaID, clsMemory eMemory){
+		tmpPath= PathPlanning.calculate(this.getCurrentArea(),GoalAreaID,filterStepHistory(eMemory), SemMemory);
 		
 		if(tmpPath!=null){
 			if (tmpPath.getNextArea()==this.currAreaID)
-				tmpPath.getNextStep();
-			//Debug output
-			tmpPath.String();
+				pathCurrentStep=tmpPath.getNextStep();
 			return true;
 		}
 		else
@@ -237,25 +176,15 @@ public class clsLocalization {
 	 * if return value is greater than 360 -> error
 	 */
 	public double PathGetDirection(clsPerceivedObj objects){
-		clsArea area = SemMemory.getAreaEntry(this.currAreaID-1);
-		if ((objects.getNum()<2) || (area.getObjects().getNum()<2)){
-			System.out.println("ORIENTATION ERROR: Cannot calc direction from here\n");
+		if (objects.getNum()<2)
 			return 361;
-		}
 		
-		if (this.tmpPath==null){
-			System.out.printf("ORIENTATION ERROR: No Path found   -    RECALC   ->   ");
-			if (planPath(this.currentGoalArea)){
-				System.out.printf("SUCCESS\n");
-			}else{
-				System.out.printf("FAILED\n");
-				return -1;
-			}
-		}
+		if (this.tmpPath==null)
+			return 0;
 		
 		double D, E, F, gamma, lambda, epsilon, direction=0;
 		int i,mainObject=-1,secondaryObject=-1;
-		
+		clsArea area = SemMemory.getAreaEntry(this.currAreaID-1);
 		
 		//get the link that is to take next.
 		clsMove tmpMove=tmpPath.getNextMove();
@@ -275,40 +204,24 @@ public class clsLocalization {
 		E=objects.getDistance(secondaryObject);
 //debug Robert Borer hier war ein fehler NULLPOINTER EXCEPTION
 if(tmpMove==null)
-	System.out.printf("ERROR:Can not find nextMove");
+	System.out.printf("ERROR at getting nextMove");
 		gamma = Math.toDegrees( Math.acos(( Math.pow(D, 2)+Math.pow(tmpMove.B, 2)-Math.pow(E, 2))/(2*D*tmpMove.B )) );
-		lambda = (gamma - tmpMove.beta);
+		lambda = Math.abs(gamma - tmpMove.beta);
 		
 		F = Math.sqrt(Math.pow(D, 2) + Math.pow(tmpMove.A, 2) - (2*D*tmpMove.A*Math.cos(Math.toRadians(lambda))));
 		
 		epsilon = Math.toDegrees( Math.acos((Math.pow(F, 2) + Math.pow(D, 2) - Math.pow(tmpMove.A, 2))/(2*F*D)) );
 		
-		//winkel anpassen
-		//System.out.printf("distance %2.2f\n", F);
-		if (lambda>0)
-			epsilon=epsilon*(-1);
-		if (tmpMove.alpha<180)
-			epsilon=epsilon*(-1);
-		direction = objects.getBearing(mainObject)+epsilon;
+		direction = epsilon - objects.getBearing(mainObject);
 		
-
-		//if the agent is very close to transition point, use the passing direction. distance has to be adjusted as needed
-		if (F<2)
-			tmpMove.reached=true;	
-		
-		if (tmpMove.reached){
-			direction=(360-tmpMove.direction)+objects.getBearing(mainObject);
-			//passing direction is recorded at every transition if the transition is used backwards the direction has to be inverted
-			if (!tmpPath.isFwPath)
-				direction-=180;
-		}
-		
-//		System.out.println(direction + "Grad");
+		System.out.println(direction + "Grad");
 		if (direction<0)
 			direction+=360;
-		if (direction>360)
-			direction-=360;
-		
+		if (!tmpPath.isFwPath){
+//			direction-=180;
+			if (direction<0)
+				direction+=360;
+		}
 		
 		return direction;
 	}
@@ -326,31 +239,6 @@ if(tmpMove==null)
 		
 		return stepHistory;
 	}
-	
-	public boolean spontaniousFoodSearch(){
-		
-		int foodArea=findFoodArea();
-		
-		//DEBUG
-		System.out.println("FOOD IN AREA "+foodArea);
-		
-		if (foodArea!=-1)
-			return planPath(foodArea);
-		
-		return false;
-	}
-	
-	
-	private int findFoodArea(){
-		int i;
-		for (i=this.SemMemory.getSize()-1;i>=0;i--){
-			if (SemMemory.getAreaEntry(i).hasFood())
-				return i;
-		}
-		return -1;
-	}
-	
-	
 }
 
 

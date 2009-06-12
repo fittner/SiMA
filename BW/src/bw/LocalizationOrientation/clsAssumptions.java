@@ -8,6 +8,7 @@
 package bw.LocalizationOrientation;
 
 import sim.util.Bag;
+import bw.memory.clsMemory;
 
 /**
  *  based on the provided environmental information it
@@ -56,8 +57,8 @@ public class clsAssumptions {
 		
 		Bag potentialSteps = new Bag();
 		int currentArea= area.getid();
-		int i,mainObject=-1,secondaryObject=-1;
-		double D, E, distance=-1, headingDiff,headingCurr = -1;
+		int i,mainObject=-1,secondaryObject=-1, BestDistanceID=-1;
+		double D, E, distance=-1, headingDiff,headingCurr = -1, BestDistance=-1;
 		
 		//gather the neccessary data
 		for (i=0;i<objects.getNum();i++){
@@ -74,22 +75,16 @@ public class clsAssumptions {
 		D=objects.getDistance(mainObject);
 		E=objects.getDistance(secondaryObject);
 		
-/*	
+		
 //		if there is currently a path check if it is being followed. If yes the path goal is the most likely goal
 		if (currentPath!=null){
 			clsMove tmpMove = currentPath.getNextMove();
-			distance = calcDistance(tmpMove.beta, tmpMove.B, D, tmpMove.A, E);
-			//for testing. a path is been followed when no angle changings have to be done. NOT when the transition is near.
-			//Reason for this is the situation that when following a path a new area appears befor the transition point is close.
-			//this happened due to vision error. The vision system (not the vision analysis) sees different things when following a 
-			//path in reverse direction. Do not know why. so if no angle adjustments have to be performed, the path is followed
-			//if ( (distance<path_distance_tolerance) && ( (pathDirectionDifference<path_heading_tolerance) || (pathDirectionDifference>(360-path_heading_tolerance)) ) ){
-			if ( (pathDirectionDifference<path_heading_tolerance) || (pathDirectionDifference>(360-path_heading_tolerance))  ){
-					this.expectedAreaID= currentPath.getNextArea();
+			calcDistance(tmpMove.beta, tmpMove.B, D, tmpMove.A, E);
+			if ((distance<path_distance_tolerance) && (pathDirectionDifference<path_heading_tolerance)){
+				this.expectedAreaID= currentPath.getNextArea();
 				return true;
 			}
 		}
-		*/
 		
 		
 		//search for transitions that occured in this area and that has a transition
@@ -131,6 +126,7 @@ public class clsAssumptions {
 	}
 	
 	public double calcDistance(double beta, double B, double D, double A, double E){
+		int distance=0;
 		double gamma, lambda, F;
 		gamma = Math.toDegrees( Math.acos(( Math.pow(D, 2)+Math.pow(B, 2)-Math.pow(E, 2))/(2*D*B )) );
 		lambda = Math.abs(gamma - beta);

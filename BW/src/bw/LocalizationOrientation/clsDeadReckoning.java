@@ -1,6 +1,6 @@
 package bw.LocalizationOrientation;
 
-
+import sim.util.Bag;
 
 public class clsDeadReckoning {
 
@@ -49,7 +49,6 @@ public class clsDeadReckoning {
 			newLink.B=B;
 			newLink.beta=beta;
 			newLink.A=A;
-			newLink.alpha=alpha;
 		}
 		return newLink;
 	}

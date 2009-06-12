@@ -74,8 +74,9 @@ public class clsAreaSemanticMemory {
 		//add to list
 		addAreaEntry(newArea);
 		//For Debug
-		System.out.printf("neue Area definiert: Nr %d ",newArea.getid());
+		System.out.printf("neue Area definiert");
 		newArea.getObjects().String();
+		System.out.printf("\n");
 	}
 	
 	
@@ -94,23 +95,17 @@ public class clsAreaSemanticMemory {
 			
 		//prüfen auf gleiche objekte in sicht
 			//jeden memory eintrag prüfen 
-			
 			for(int i=0;i<num;i++){
 				clsArea currentArea = getAreaEntry(i);
 				currentArea.SimilarObjectCount=0;
 				currentArea.ObjectsSimilarity=0;
 				currentArea.PositionSimilarity=0;
-				//reset the used variable for each object in area. (used to make sure that an object is only once used for comparisson)
-				for (int k=0 ; k<currentArea.getNumObj() ; k++)
-					currentArea.getObjects().getObject(k).used=false;
-				
 				//in dem memory eintrag für jedes element in der derzeitigen Area
 				for (int j=0;j<newArea.getObjects().getNum();j++){
+					
 					//vergleichen mit jedem element aus den memoryeintrag auf übereinstimmung
 					for (int k=0 ; k<currentArea.getNumObj() ; k++){
-						if ((newArea.getObjects().getObject(j).equals(currentArea.getObjects().getObject(k))) && !(currentArea.getObjects().getObject(k).used)){
-							//set object as allready used for comparrison
-							currentArea.getObjects().getObject(k).used=true;
+						if (newArea.getObjects().getObject(j).equals(currentArea.getObjects().getObject(k))){
 							currentArea.SimilarObjectCount++;
 							break;
 						}
@@ -156,29 +151,20 @@ public class clsAreaSemanticMemory {
 							diffBearing= newArea.getObjects().getBearing(k);// das gegenstück in der vorhandenen Memory sollte bearing0 haben darum keine subtraktion "- ((clsArea)potentialAreas.get(k)).getObjects().getBearing(0);"
 							AreaBearingDifference=0;
 							
-				//			reset the "used" variable for each object; it is used to ensure every object is only compared once
-							for ( h=0 ; h<currentArea.getNumObj() ; h++)
-								currentArea.getObjects().getObject(h).used=false;
-							
 				//			the angle is adjusted for every object within the new area. preparation for angular comparisson
 							for (i=0;i<newArea.getNumObj();i++){
-								if (diffBearing!=0)
-									newArea.getObjects().setBearing(i,
-											(newArea.getObjects().getBearing(i)-diffBearing)<0 ? 
-													(newArea.getObjects().getBearing(i)-diffBearing+360) : 
-													(newArea.getObjects().getBearing(i)-diffBearing) );
+								newArea.getObjects().setBearing(i,
+										(newArea.getObjects().getBearing(i)-diffBearing)<0 ? 
+												(newArea.getObjects().getBearing(i)-diffBearing+360) : 
+												(newArea.getObjects().getBearing(i)-diffBearing) );
 								
 				//			Search for same objects and calc difference
 								for (h=0;h<currentArea.getNumObj();h++){
 				//					if object found, check if bearing is within tolerance, if there are several same objects, use the one with the best fit
-									if ((newArea.getObjects().getObject(i).equals(currentArea.getObjects().getObject(h))) && !(currentArea.getObjects().getObject(h).used)){
+									if (newArea.getObjects().getObject(i).equals(currentArea.getObjects().getObject(h))){
 										temp=(((int)(newArea.getObjects().getBearing(i)/similarObjcetbeeringTolerance)==(int)(currentArea.getObjects().getBearing(h)/similarObjcetbeeringTolerance)) ? 1 : 0);
-										if (temp>bestSingleBearingDifference){
+										if (temp>bestSingleBearingDifference)
 											bestSingleBearingDifference=temp;
-											//make sure this object os not used for comparisson again
-											currentArea.getObjects().getObject(h).used=true;
-											break;
-										}
 									}
 								}
 				//				Add up the bearing differences
@@ -218,14 +204,14 @@ public class clsAreaSemanticMemory {
 	
 	public boolean updateUpToDateness(double factor, int entry){
 		//check if entry is within range
-		if (!((entry<=this.AreaEntries.numObjs)&&(entry>0)))
+		if ((this.AreaEntries.numObjs>=entry)&&(entry>0))
 			return false;
 		
 //debug
 		if (entry==-1)
 			System.out.println("FUCK");
 		
-		this.getAreaEntry(entry-1).updateUpToDateness(factor);
+		this.getAreaEntry(entry).updateUpToDateness(factor);
 		return true;
 	}
 	

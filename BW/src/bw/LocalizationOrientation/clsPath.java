@@ -62,7 +62,6 @@ public class clsPath {
 	 * @return the accumulated uptodateness. To make a less value of quality better (less steps are better) the uptodateness is 
 	 * turned into a area-Badness ba calculating 100-UpToDateness
 	 */
-	//TODO (borer) - Robert Borer hier wäre nich was zu tun. im moment überwiegt die wichtigkeit der up to dateness der länge extrem. 1x schlecht bewertete direktverbindung ist so gut wie ca 30 transition langer weg 
 	public double getPathQuality(clsAreaSemanticMemory SemAreaMemory){
 		if (this.Steps.numObjs==0)
 			return 0;
@@ -72,7 +71,7 @@ public class clsPath {
 		for (int i=0; i < this.Steps.numObjs;i++)
 			quality += 100-SemAreaMemory.getAreaEntry(((clsStep)this.Steps.get(i)).getCurrentArea() -1 ).getUpToDateness() + 1; //the +1 i done so that even if all areas are up to date, the amout o fthe areas is counted and used for finding the shortest/best
 			
-			return quality;
+			return quality/this.Steps.numObjs;
 	}
 	
 	public Bag getMovements(){
@@ -125,24 +124,5 @@ public class clsPath {
 		}else{
 			return ((clsStep)Steps.get(step)).getPathToPrev();
 		} 
-	}
-	
-	public void resetReachedStatus(){
-		int i;
-		for (i=0;i<Steps.numObjs;i++){
-			((clsStep)Steps.get(i)).resetReachedStatus();
-		}
-	}
-	public void String(){
-		int i;
-		System.out.printf("Path: ");
-		if (isFwPath){
-			for (i=0;i<Steps.numObjs;i++)
-				System.out.printf("%d - ", ((clsStep)Steps.get(i)).getNextarea());
-		}else{
-			for (i=0;i<Steps.numObjs;i++)
-				System.out.printf("%d - ", ((clsStep)Steps.get(i)).getPrevArea());
-		} 
-		System.out.printf("\n");
 	}
 }

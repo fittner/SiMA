@@ -1,12 +1,12 @@
 package bw.LocalizationOrientation;
 
-import bw.body.io.sensors.external.visionAnalysis.clsObject;
 import sim.util.Bag;
 
 /**
  * @author  monkfoodb
  */
 public class clsPerceivedObj {
+	private int ID;
 	private Bag meObject;
 	private double[] mobearing;
 	private double[] modistance;
@@ -49,8 +49,8 @@ public class clsPerceivedObj {
 		
 	}
 	
-	public clsObject getObject(int i){
-		return (clsObject)this.meObject.get(i);
+	public Object getObject(int i){
+		return this.meObject.get(i);
 	}
 	
 	public Bag getObjects(){
@@ -81,11 +81,10 @@ public class clsPerceivedObj {
 		
 		System.out.printf("Area: ");
 		for (int i=0;i<count;i++){
-			System.out.printf("ID:%2d ;",((clsObject)this.meObject.get(i)).ID);
+			System.out.printf(this.meObject.get(i).toString());
 			//System.out.printf("; %l m; %l ¡---", this.modistance[i],this.mobearing[i]);
-			System.out.printf("%3.1f m; %3.1f ¡ ---",this.modistance[i], this.mobearing[i]);
+			System.out.printf("; "+this.modistance[i]+" m; "+this.mobearing[i]+" ¡---");
 			}
-		System.out.printf("\n");
 	}
 	public clsPerceivedObj clone(){
 		clsPerceivedObj newPerceivedObj=new clsPerceivedObj(count);

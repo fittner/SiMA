@@ -31,7 +31,7 @@ public class clsPathPlanning {
 		Bag bwPaths = new Bag();
 		clsPath tempFwPath;
 		clsPath tempBwPath;
-		int  i=0,pathCount=0;
+		int  i,k=0,pathCount=0;
 		
 		
 //		zuerst werden alle Stepeinträge gesucht deren CurrentArea == der jetzigen CurrentAreaID
@@ -59,9 +59,7 @@ public class clsPathPlanning {
 				tempBwPath=(clsPath)bwPaths.get(i);
 			//sollte der weg noch ncht beendet sein
 				if ( 	!tempFwPath.isComplete 	){
-//  TODO (borer) -  hier eingügen das weg beendet fals area mit zu großer furcht oder mit zu wenig vertrauen; 
-//alternativ können auch beim transitions extrahieren diese transitions und areas weggelassen werden
-//das geht aber nur wenn dann auch die Dijkstra implementation steht. so muß es ein durchgängiger strom sein.  
+					
 					if((tempFwPath.memposTemp==(StepMemory.numObjs-1))||(((clsStep)StepMemory.get(tempFwPath.memposTemp)).getPathToNext()==null)){
 						tempFwPath.isComplete=true;
 						pathCount--;
@@ -81,8 +79,7 @@ public class clsPathPlanning {
 						}
 						
 						tempFwPath.addStep(StepMemory.get(tempFwPath.memposTemp));
-						if (!tempFwPath.isComplete)	//counting has to stop at the goal position other wise the ext bwpath might cross it
-							tempFwPath.memposTemp++;
+						tempFwPath.memposTemp++;
 						
 					}
 					
@@ -109,8 +106,7 @@ public class clsPathPlanning {
 							}
 							
 							tempBwPath.addStep(StepMemory.get(tempBwPath.memposTemp));
-							if (!tempBwPath.isComplete)	//counting has to stop at the goal position other wise the ext Fwpath might cross it
-								tempBwPath.memposTemp--;
+							tempBwPath.memposTemp--;
 							
 					}
 				}
@@ -119,9 +115,11 @@ public class clsPathPlanning {
 		fwPaths.addAll(bwPaths);
 		int bestpath=-1;
 		double bestpathquality=-1;
-		for (i=0;i<fwPaths.numObjs;i++){
+		for (i=1;i<fwPaths.numObjs;i++){
 			if (((clsPath)fwPaths.get(i)).success){
-				if ( (bestpath==-1) || (((clsPath)fwPaths.get(i)).getPathQuality(AreaMemory)<bestpathquality) ){
+				if (bestpath==-1){
+					bestpath=i;
+				}else if (((clsPath)fwPaths.get(i)).getPathQuality(AreaMemory)<bestpathquality){
 					bestpath=i;
 					bestpathquality=((clsPath)fwPaths.get(bestpath)).getPathQuality(AreaMemory);
 				}
@@ -131,8 +129,6 @@ public class clsPathPlanning {
 		if (bestpath==-1){
 			return null;
 		}
-		
-		((clsPath)fwPaths.get(bestpath)).resetReachedStatus();
 		
 		return (clsPath)fwPaths.get(bestpath);
 	}
