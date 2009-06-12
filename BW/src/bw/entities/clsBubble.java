@@ -10,9 +10,7 @@ package bw.entities;
 import java.awt.Color;
 import java.awt.Paint;
 
-import sim.physics2D.util.Angle;
 import simple.dumbmind.clsDumbMindA;
-import simple.dumbmind.clsDumbMindOrientationTest;
 import bw.actionresponses.clsBubbleResponses;
 import bw.body.clsBaseBody;
 import bw.body.clsComplexBody;
@@ -21,9 +19,7 @@ import bw.body.io.sensors.external.clsSensorVision;
 import bw.body.itfget.itfGetEatableArea;
 import bw.body.itfget.itfGetInternalEnergyConsumption;
 import bw.body.itfget.itfGetVision;
-import bw.factories.clsSingletonMasonGetter;
 import ARSsim.physics2D.util.clsPose;
-import bw.physicalObjects.bodyparts.clsBotHands;
 import bw.physicalObjects.sensors.clsEntityPartVision;
 import bw.utils.container.clsConfigMap;
 import bw.utils.enums.eConfigEntries;
@@ -54,8 +50,6 @@ public class clsBubble extends clsAnimate implements itfGetVision, itfGetEatable
 	 * @param poStartingPose
 	 * @param poStartingVelocity
 	 */
-	
-	
 	public clsBubble(int pnId, clsPose poStartingPose, sim.physics2D.util.Double2D poStartingVelocity, Paint poColor,  clsConfigMap poConfig)
     {
 		super(
@@ -69,10 +63,8 @@ public class clsBubble extends clsAnimate implements itfGetVision, itfGetEatable
 			
 		applyConfig();
 		
-		
 		setEntityActionResponse(new clsBubbleResponses());
-		//setDecisionUnit(new clsDumbMindA());
-		setDecisionUnit(new clsDumbMindOrientationTest( this ));
+		setDecisionUnit(new clsDumbMindA());
     } 
 
 	public clsBaseBody createBody() {
@@ -116,10 +108,11 @@ public class clsBubble extends clsAnimate implements itfGetVision, itfGetEatable
 	}
 	
 
-	public clsEntityPartVision getVision()
-	{
-		return ((clsSensorVision)moBody
-					.getExternalIO().moSensorExternal
-					.get(enums.eSensorExtType.VISION)).getMoVisionArea(); 
-	}
+
+
+
+
+
+
+
 }

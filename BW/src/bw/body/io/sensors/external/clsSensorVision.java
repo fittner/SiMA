@@ -61,8 +61,8 @@ public class clsSensorVision extends clsSensorExt {
 		 
 		applyConfig();
 
-		moVisionArea = new clsEntityPartVision(moEntity, mnVisRange, 0);//mnVisOffset);
-		this.regVisionObj(moEntity, 0);//mnVisOffset); //0 = no offset = vision centered on object
+		moVisionArea = new clsEntityPartVision(moEntity, mnVisRange, mnVisOffset);
+		this.regVisionObj(moEntity, mnVisOffset); //0 = no offset = vision centered on object
 	}	
 	
 	private void applyConfig() {	
@@ -80,8 +80,8 @@ public class clsSensorVision extends clsSensorExt {
 	private static clsConfigMap getDefaultConfig() {
 		clsConfigMap oDefault = new clsConfigMap();
 		
-		oDefault.add(eConfigEntries.ANGLE, new clsConfigFloat((float) (6.283)));
-		oDefault.add(eConfigEntries.RANGE, new clsConfigFloat(80.0f));
+		oDefault.add(eConfigEntries.ANGLE, new clsConfigFloat((float) Math.PI));
+		oDefault.add(eConfigEntries.RANGE, new clsConfigFloat(50.0f));
 		oDefault.add(eConfigEntries.OFFSET, new clsConfigFloat(0.0f));
 		
 

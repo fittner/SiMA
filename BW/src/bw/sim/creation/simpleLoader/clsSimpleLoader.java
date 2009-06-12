@@ -9,9 +9,6 @@
 package bw.sim.creation.simpleLoader;
 
 import sim.engine.SimState;
-import ARSsim.physics2D.util.clsPose;
-import ARSsim.portrayal.simple.clsImagePortrayal;
-import bw.factories.clsSingletonMasonGetter;
 import bw.sim.creation.clsLoader;
 
 
@@ -44,7 +41,7 @@ public class clsSimpleLoader extends clsLoader {
 		super(poSimState);
 		
 		mnNumRemoteBots = 1;
-		mnNumBots = 0;
+		mnNumBots = 2;
 
 		mnNumCans = 5;
 		mnNumStones = 3;
@@ -78,9 +75,6 @@ public class clsSimpleLoader extends clsLoader {
 	 */
 	@Override
 	public void loadObjects() {
-		clsPose oPose = new clsPose(100, 100, 0);
-		//clsImagePortrayal.PlaceImage(bw.sim.clsBWMain.msArsPath + "/src/resources/images/back.jpg", 200, new sim.util.Double2D(oPose.getPosition().x, oPose.getPosition().y), clsSingletonMasonGetter.getFieldEnvironment());
-		 
 		clsWorldBoundaries.loadWorldBoundaries();
 		clsEntityLoader.loadInanimate(mnNumCans, mnNumStones, mnNumCakes);	
 		clsAgentLoader.loadAgents(mnNumRemoteBots, mnNumBots);

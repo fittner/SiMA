@@ -99,7 +99,7 @@ public abstract class clsAnimate extends clsMobile implements itfGetBody {
 	 * 
 	 * @see bw.body.itfGetBody#getBody()
 	 */
-	//@Override
+	@Override
 	public clsBaseBody getBody() {
 		// TODO Auto-generated method stub
 		return moBody;
