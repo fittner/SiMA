@@ -32,8 +32,9 @@ public class clsExecutorTurn extends clsActionExecutor{
     	{
     	case TURN_LEFT:
     		((clsMobile)poEntity).getMobileObject2D().moMotionPlatform.faceTowardsRelative(new Angle(oCommand.getAngle()/360*Math.PI*(-1)));
+    		break;
     	case TURN_RIGHT:
-    		((clsMobile)poEntity).getMobileObject2D().moMotionPlatform.faceTowardsRelative(new Angle(oCommand.getAngle()/360*Math.PI/200));
+    		((clsMobile)poEntity).getMobileObject2D().moMotionPlatform.faceTowardsRelative(new Angle(oCommand.getAngle()/360*Math.PI));// /200));
     	}
     	return true;
 	}	

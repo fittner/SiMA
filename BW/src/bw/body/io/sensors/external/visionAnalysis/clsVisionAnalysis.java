@@ -21,7 +21,7 @@ public class clsVisionAnalysis {
 	
 	public clsPerceivedObj calc_PerceivedObj(clsEntityPartVision vision, double pos_x, double pos_y){
 		HashMap<Integer, PhysicalObject2D>  VisionObj = vision.getMeVisionObj();
-		//double vision_distance = vision.getMnRadius();
+		double vision_distance = vision.getMnRadius();
 		clsPerceivedObj mePerceiveObj = new clsPerceivedObj(VisionObj.values().size());
 		Iterator<PhysicalObject2D> ObjIterator = VisionObj.values().iterator();
 		while (ObjIterator.hasNext()){
@@ -38,17 +38,18 @@ public class clsVisionAnalysis {
 						//do not calc if object is bot itselfe
 						if (!( ( (pos_x-obj_x)+(pos_y-obj_y) )==0 )  ){
 								double distance = Math.sqrt(Math.pow(Math.abs(pos_x-obj_x),2) + Math.pow(Math.abs(pos_y-obj_y),2));
-								
-								double bearing = Math.toDegrees(Math.atan((obj_y-pos_y)/(obj_x-pos_x)));
-								if ((obj_x-pos_x)<0){
-									bearing+=180;
-								}else if((obj_y-pos_y)<0){
-									bearing+=360;}
-								bearing -= Math.toDegrees(vision.getOrientation().radians);
-								
-								if (bearing<0)
-									bearing+=360;
-								mePerceiveObj.addObject(newObject, distance, bearing);
+								if (distance<=vision_distance){
+									double bearing = Math.toDegrees(Math.atan((obj_y-pos_y)/(obj_x-pos_x)));
+									if ((obj_x-pos_x)<0){
+										bearing+=180;
+									}else if((obj_y-pos_y)<0){
+										bearing+=360;}
+									bearing -= Math.toDegrees(vision.getOrientation().radians);
+									
+									if (bearing<0)
+										bearing+=360;
+									mePerceiveObj.addObject(newObject, distance, bearing);
+								}
 						}
 			}
 		}

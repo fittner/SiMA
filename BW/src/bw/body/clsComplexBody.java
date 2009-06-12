@@ -159,7 +159,7 @@ public class clsComplexBody extends clsBaseBody implements itfGetInternalEnergyC
 	 * 
 	 * @see bw.body.itfInternalEnergyConsumption#getInternalEnergyConsumption()
 	 */
-	@Override
+	//@Override
 	public clsInternalEnergyConsumption getInternalEnergyConsumption() {
 		return moInternalSystem.getInternalEnergyConsumption();
 	}

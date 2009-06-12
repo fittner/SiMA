@@ -124,7 +124,7 @@ public final class clsRegisterEntity {
 			clsSingletonMasonGetter.getFieldEnvironment().setObjectLocation(((itfGetEatableArea)poEntity).getEatableArea(), new sim.util.Double2D( (((itfGetEatableArea)poEntity).getEatableArea().getPosition().x+10), ((itfGetEatableArea)poEntity).getEatableArea().getPosition().y));
 			clsSingletonMasonGetter.getSimState().schedule.scheduleRepeating(((itfGetEatableArea)poEntity).getEatableArea());
 		}
-
+		
 		poEntity.setRegistered(true);
 	}
 

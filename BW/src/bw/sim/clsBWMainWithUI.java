@@ -67,15 +67,15 @@ public class clsBWMainWithUI extends GUIState{
 
     KeyListener listener = new KeyListener() {
         public void keyPressed(KeyEvent e) {
-          dumpInfo("Pressed", e);
+          //dumpInfo("Pressed", e);
         }
 
         public void keyReleased(KeyEvent e) {
-          dumpInfo("Released", e);
+          //dumpInfo("Released", e);
         }
 
         public void keyTyped(KeyEvent e) {
-          dumpInfo("Typed", e);
+          //dumpInfo("Typed", e);
         }
 
         private void dumpInfo(String s, KeyEvent e) {

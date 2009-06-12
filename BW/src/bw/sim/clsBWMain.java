@@ -14,6 +14,9 @@ import ec.util.MersenneTwisterFast;
 import sim.engine.Schedule;
 import sim.engine.SimState;
 
+import ARSsim.physics2D.util.clsPose;
+import ARSsim.portrayal.simple.clsImagePortrayal;
+import bw.factories.clsSingletonMasonGetter;
 import bw.sim.creation.clsLoader;
 import bw.sim.creation.lifeCycle.clsLifeCycleLoader;
 import bw.sim.creation.simpleLoader.clsSimpleLoader;
@@ -76,8 +79,9 @@ public class clsBWMain extends SimState{
 		//creating and registering objects...
 		clsLoader oLoader = null;
 		
+		// poSimState,  pnWidth,  pnHeight,  pnNumRemoteBots,  pnNumBots,  pnNumCans,  pnNumStones,  pnNumCakes
 //		oLoader = new clsLifeCycleLoader(this, 200, 200, 5, 3, 1, 2);
-		oLoader = new clsSimpleLoader(this, 200, 200, 1, 2, 5, 3, 1);
+		oLoader = new clsSimpleLoader(this, 200, 200, 0, 1, 0, 3, 0);
 //		oLoader = new clsSimpleLoader(this, 200, 200, 1, 0, 0, 0, 1);
 //		oLoader = new clsSimpleXMLLoader(this, bw.sim.clsBWMain.msArsPath + "/src/xml/xmlSimpleXMLLoader/config1.xml");
 		oLoader.loadObjects();
@@ -102,7 +106,7 @@ public class clsBWMain extends SimState{
 	public static void setArsPath()
 	{
 		if (System.getProperty("file.separator").equals("/"))
-			msArsPath = System.getProperty("user.home") + "/ARS/PA/BWv1/BW"; // Unix
+			msArsPath = "/Users/monkfoodb/Documents/TU Daten/ARS Diplomarbeit/ARS/BFG30/BW"; // Unix
 		else if (System.getProperty("file.separator").equals("\\"))
 			msArsPath = "S:/ARS/PA/BWv1/BW"; // Windows
 		else throw new NullPointerException("Spooky OS detected, can't find ARS-Root-Dir.");

@@ -187,7 +187,7 @@ public class clsCake extends clsInanimate implements itfGetFlesh {
 	 * 
 	 * @see bw.body.itfget.itfGetFlesh#getFlesh()
 	 */
-	@Override
+	//@Override
 	public clsFlesh getFlesh() {
 		return this.moBody.getFlesh();
 	}

@@ -12,6 +12,7 @@ import java.util.Iterator;
 
 import ARSsim.physics2D.physicalObject.clsMobileObject2D;
 import ARSsim.physics2D.util.clsPose;
+import ARSsim.portrayal.simple.clsImagePortrayal;
 import bw.body.clsBaseBody;
 import bw.body.clsComplexBody;
 import bw.body.io.actuators.clsActionProcessor;
@@ -22,8 +23,10 @@ import bw.utils.container.clsConfigMap;
 import bw.utils.enums.eConfigEntries;
 import bw.body.io.sensors.external.clsSensorEatableArea;
 import bw.body.io.sensors.external.clsSensorVision;
+import bw.body.io.sensors.external.visionAnalysis.clsVisionAnalysis;
 import bw.body.itfget.itfGetEatableArea;
 import bw.body.itfget.itfGetVision;
+import bw.factories.clsSingletonMasonGetter;
 import bw.factories.clsSingletonUniqueIdGenerator;
 import enums.eCallPriority;
 import enums.eEntityType;
@@ -33,6 +36,14 @@ import enums.eActionTurnDirection;
 import sim.display.clsKeyListener;
 import sim.physics2D.util.Angle;
 import sim.physics2D.physicalObject.PhysicalObject2D;
+
+import java.util.HashMap;
+import bw.LocalizationOrientation.*;
+import bw.memory.clsMemory;
+import bw.memory.tempframework.clsActionContainer;
+import bw.memory.tempframework.clsContainerCompareResults;
+import bw.memory.tempframework.clsImagePerception;
+import bw.memory.tempframework.clsRecognitionProcessResult;
 
 /**
  * Sample implementation of a clsAnimate, having sensors and actuators 
@@ -46,6 +57,24 @@ import sim.physics2D.physicalObject.PhysicalObject2D;
 public class clsRemoteBot extends clsAnimate implements itfGetVision, itfGetEatableArea  {
     private clsBotHands moBotHand1;
     private clsBotHands moBotHand2;
+    
+    private clsLocalization moLocalization;
+    private clsVisionAnalysis moVisionAnalisys;
+    private clsPerceivedObj moPerceivedObjects;
+    private clsMemory moMemory;
+    private int test=0;
+    double tmp;
+    
+    private boolean followingPath=false;
+    
+    //statistics
+    private int pathfound=0;
+    private int pathnotfound=0;
+    private int pathincomplete=0;
+    private int pathtoolong=0;
+    private int pathrecalcOK=0;
+    private int pathrecalcBAD=0;
+    private int pathsuccess=0;
        
 	private static double mrDefaultWeight = 100.0f;
 	private static double mrDefaultRadius = 10.0f;
@@ -72,6 +101,11 @@ public class clsRemoteBot extends clsAnimate implements itfGetVision, itfGetEata
 		applyConfig();
 		
 		addBotHands();
+
+		this.moMemory = new clsMemory();
+		this.moLocalization = new clsLocalization(moMemory);
+		this.moVisionAnalisys = new clsVisionAnalysis();
+		
 	}
 	
 	public clsBaseBody createBody() {
@@ -127,6 +161,7 @@ public class clsRemoteBot extends clsAnimate implements itfGetVision, itfGetEata
 		
 		moBotHand1 = addHand(12, 6);
 		moBotHand2 = addHand(12, -6);
+		
 
 		getMobileObject2D().setPose(getPosition(), oDirection);
 	}
@@ -172,6 +207,41 @@ public class clsRemoteBot extends clsAnimate implements itfGetVision, itfGetEata
 	public void processing() {
 		clsActionProcessor oAP = moBody.getExternalIO().getActionProcessor();
 
+		//calculate vision and perform localization if there landmarks in sight
+		if (this.getVision().getMeVisionObj().size()>0){			
+			moPerceivedObjects = moVisionAnalisys.calc_PerceivedObj(this.getVision(), this.getPosition().x, this.getPosition().y);
+			moLocalization.orientate(moPerceivedObjects);
+			if (moLocalization.madeTransition){
+				clsPose oPose = new clsPose(this.getPosition().x, this.getPosition().y, 0);
+				clsImagePortrayal.PlaceImage(bw.sim.clsBWMain.msArsPath + "/src/resources/images/transition.jpg", 2, new sim.util.Double2D(oPose.getPosition().x, oPose.getPosition().y), clsSingletonMasonGetter.getFieldEnvironment());
+			}else{	
+			//	clsPose oPose = new clsPose(this.getPosition().x, this.getPosition().y, 0);
+			//	clsImagePortrayal.PlaceImage(bw.sim.clsBWMain.msArsPath + "/src/resources/images/path.jpg", 2, new sim.util.Double2D(oPose.getPosition().x, oPose.getPosition().y), clsSingletonMasonGetter.getFieldEnvironment());
+			}
+			moMemory.addData(new clsImagePerception(), new clsContainerCompareResults(), new clsRecognitionProcessResult(), new clsActionContainer(), moLocalization.getCurrStep());
+			
+			//test++;
+			/*if (test % 1000 == 0){
+				if (moLocalization.planPath(2, moMemory)){	
+					double tmp=moLocalization.PathGetDirection(moPerceivedObjects);
+		    		if (tmp<0)
+		    			tmp+=360;
+		    		
+		    		System.out.println("direction = " + tmp);
+		    		clsMotionAction tmpMotion = clsMotionAction.creatAction(eActionCommandMotion.TURN_TO_PATH);
+		    		tmpMotion.setRelativeRotation(new Angle( Math.toRadians(tmp) ));
+		    	//	poActionList.addMoveAction(tmpMotion);
+				} else{
+					System.out.println("no path found");
+				}
+			}*/
+		}
+		
+		
+		if (followingPath)
+			this.followPath(oAP);
+		
+		
 		//the processing is taken over by the user via keyboard
 		
 	   	switch( clsKeyListener.getKeyPressed() )
@@ -192,21 +262,29 @@ public class clsRemoteBot extends clsAnimate implements itfGetVision, itfGetEata
     		//moActionList.addMoveAction(clsMotionAction.creatAction(eActionCommandMotion.ROTATE_RIGHT) );
     		oAP.call(new clsActionTurn(eActionTurnDirection.TURN_RIGHT));
     		break;
-    	case 65: //'A'
+    	case 65: //'A'	calc path to area 2
+    		if (moLocalization.planPath(2))
+    			System.out.println("Fund a Path");
+    		else
+    			System.out.println("No Path was found");
+    		break;
+    	case 89: //'Y' print the direction to go
+    		tmp=moLocalization.PathGetDirection(moPerceivedObjects);
+    		System.out.println("direction = " + tmp);
     		break;
     	case 69: //'E'
-    		eat();
+    		tmp=moLocalization.PathGetDirection(moPerceivedObjects);
+    		if (tmp<=360&&tmp>=0)
+    			if (tmp<359&&tmp>=180)
+    				oAP.call(new clsActionTurn(eActionTurnDirection.TURN_LEFT));
+    			else if(tmp>1&&tmp<180)
+    				oAP.call(new clsActionTurn(eActionTurnDirection.TURN_RIGHT));
     		break;
     	case 83: //'S'
-//            if(botState==HAVECAN)
-//            {
-//	    		objCE.unRegisterForceConstraint(pj);                            
-//	            botState = APPROACHINGCAN;
-//	            objCE.removeNoCollisions(getMobile(), currentCan.getMobile());
-//	            objCE.removeNoCollisions(e1, currentCan.getMobile());
-//	            objCE.removeNoCollisions(e2, currentCan.getMobile());
-//	            currentCan.visible = true;
-//            }
+    		if (!followingPath)
+    			followingPath=true;
+    		else
+    			followingPath=false;
     		break;
     	}
 	}
@@ -260,7 +338,35 @@ public class clsRemoteBot extends clsAnimate implements itfGetVision, itfGetEata
 */
 	}
 
-
+public void followPath(itfActionProcessor poActionProcessor){
+		//wenn am ziel
+		if (moLocalization.getCurrentArea()==2){
+			followingPath=false;
+			return;
+		}
+		
+		double tmp=moLocalization.PathGetDirection(moPerceivedObjects);
+		
+		if (tmp==361){
+			followingPath=false;
+			return;
+		}
+		if (tmp==-1){
+			followingPath=false;
+			return;
+		}
+			
+		
+//erst zu checkpoint gehen dann in die richtige richtung und fertig		
+		if (tmp<=360&&tmp>=0)
+			if (tmp<358&&tmp>=180)
+				poActionProcessor.call(new clsActionTurn(eActionTurnDirection.TURN_LEFT));
+			else if(tmp>2&&tmp<180)
+				poActionProcessor.call(new clsActionTurn(eActionTurnDirection.TURN_RIGHT));
+    		else
+    			poActionProcessor.call(new clsActionMove(eActionMoveDirection.MOVE_FORWARD,0.9));
+		
+	}
 
 
 }

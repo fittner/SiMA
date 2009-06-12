@@ -36,9 +36,10 @@ public class clsEntityLoader {
 	 */
 	public static void loadInanimate(int pnNumCans, int pnNumStones, int pnNumFood){
 		//load inanimate entitieshere
-		loadCans(pnNumCans);
-		loadStones(pnNumStones);
-		loadFood(pnNumFood);
+		//loadCans(pnNumCans);
+		//loadStones(pnNumStones);
+		//loadFood(pnNumFood);
+		staticEnvironment();
 
 	}
 	
@@ -76,5 +77,31 @@ public class clsEntityLoader {
     		clsRegisterEntity.registerEntity(oCake);
         }
      }
+	 
+	 public static void staticEnvironment(){
+			double rRadius = 13;
+			int i=0;
+			
+			clsPose oStartPose = new clsPose(60,60,3);
+			clsStone oStone = new clsStone(i, oStartPose, new sim.physics2D.util.Double2D(0, 0), 1, new clsConfigMap());
+		    clsRegisterEntity.registerEntity(oStone);
+		    i++;
+		    oStartPose = new clsPose(40,160,3);
+		    oStone = new clsStone(i, oStartPose, new sim.physics2D.util.Double2D(0, 0), 2, new clsConfigMap());
+		    clsRegisterEntity.registerEntity(oStone);
+		    i++;
+		    oStartPose = new clsPose(140,100,3);
+		    oStone = new clsStone(i, oStartPose, new sim.physics2D.util.Double2D(0, 0), 3, new clsConfigMap());
+		    clsRegisterEntity.registerEntity(oStone);
+		    i++;
+		    oStartPose = new clsPose(120,160,3);
+		    oStone = new clsStone(i, oStartPose, new sim.physics2D.util.Double2D(0, 0), 4, new clsConfigMap());
+		    clsRegisterEntity.registerEntity(oStone);
+		    i++;
+		     oStartPose = new clsPose(70,170,3);
+    	    clsCake oCake = new clsCake(i, oStartPose, new sim.physics2D.util.Double2D(0, 0), new clsConfigMap());
+    		clsRegisterEntity.registerEntity(oCake);
+		} 
+	 
 
 }
