@@ -1,5 +1,5 @@
 /**
- * @author langr
+ * @author UNKNOWN <-- ADD NAME
  * 19.03.2009, 15:57:25
  * 
  * $Rev::                      $: Revision of last commit
@@ -33,9 +33,11 @@ import decisionunit.itf.sensors.clsVision;
 import decisionunit.itf.sensors.clsVisionEntry;
 
 /**
- * TODO (langr) - insert description 
+ * TODO (UNKNOWN) - add name & insert description! 
  * 
- * @author langr
+ * HINT: NEVER COMMIT FILES WITH ERRORS INSDE - IT'S PROHIBITED BY ARS-LAW!
+ * 
+ * @author UNKNOWN
  * 19.03.2009, 15:57:25
  * 
  */

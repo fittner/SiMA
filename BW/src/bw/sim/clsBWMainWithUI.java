@@ -19,11 +19,14 @@ import java.awt.Container;
 import java.awt.Dimension;
 import org.jfree.chart.ChartPanel;
 
+import enums.eEntityType;
+
 import bw.factories.clsSingletonMasonGetter;
 import bw.utils.visualization.clsCharts;
 
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.util.ArrayList;
 
 /**
  * Main function for Simulation, UI part
@@ -53,11 +56,39 @@ public class clsBWMainWithUI extends GUIState{
 	public static void main(String[] poArgs){
 		clsBWMain.setArsPath();
 		//console is an elaborate GUI Controller. This is the standard way of starting the UI.
-		Console oConsole = new Console(new clsBWMainWithUI());
-		oConsole.setVisible(true);
 		
-		oConsole.getTabPane().addTab("Test", new JTabbedPane());
-		oConsole.getTabPane().remove(5);
+		clsBWMainWithUI oMainWithUI = new clsBWMainWithUI();
+		clsSingletonMasonGetter.setConsole( new ARSsim.display.Console(oMainWithUI) );
+		clsSingletonMasonGetter.getConsole().setVisible(true);
+		
+		//TODO: (langr) - for testing purpose only
+		oMainWithUI.testTabView();
+	}
+
+	
+	public void testTabView()
+	{
+		ArrayList<JTabbedPane> oTabView = new ArrayList<JTabbedPane> ();
+		JTabbedPane oTestPaneBub1 = new JTabbedPane();
+		oTestPaneBub1.setName("Bubble Tab 1");
+		JTabbedPane oTestPaneBub2 = new JTabbedPane();
+		oTestPaneBub2.setName("Bubble Tab 2");
+		oTabView.add(oTestPaneBub1);
+		oTabView.add(oTestPaneBub2);
+		clsSingletonMasonGetter.getConsole().addTabbSetup(eEntityType.BUBBLE.hashCode(), oTabView);
+		
+		ArrayList<JTabbedPane> oTabView2 = new ArrayList<JTabbedPane> ();
+		JTabbedPane oTestPaneBot1 = new JTabbedPane();
+		oTestPaneBot1.setName("RemoteBot Tab 1");
+		JTabbedPane oTestPaneBot2 = new JTabbedPane();
+		oTestPaneBot2.setName("RemoteBot Tab 2");
+		oTabView2.add(oTestPaneBot1);
+		oTabView2.add(oTestPaneBot2);
+		clsSingletonMasonGetter.getConsole().addTabbSetup(eEntityType.REMOTEBOT.hashCode(), oTabView2);
+		
+		
+		clsSingletonMasonGetter.getConsole().setView(eEntityType.BUBBLE.hashCode());
+		clsSingletonMasonGetter.getConsole().setView(eEntityType.REMOTEBOT.hashCode());
 	}
 	
 	/** returns the title bar of the console

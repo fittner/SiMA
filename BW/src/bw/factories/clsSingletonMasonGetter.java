@@ -68,6 +68,14 @@ public class clsSingletonMasonGetter {
      */
     private ARSsim.display.Display2D moDisplay2D = null;
 
+    /**
+     * Holds the complete GUI and is needed to adapt the 
+     * Inspector Tabs when selecting another entity type.
+     * 
+     * @author langr
+     * 19.02.2009, 18:45:20
+     */
+    private ARSsim.display.Console moConsole = null;
 
     /**
      * TODO (deutsch) - insert description
@@ -178,6 +186,32 @@ public class clsSingletonMasonGetter {
 	 */
 	public static ARSsim.display.Display2D getDisplay2D() {
 		return clsSingletonMasonGetter.getInstance().moDisplay2D;
+	}
+	
+	/**
+	 * sets the complete GUI and is needed to adapt the 
+     * Inspector Tabs when selecting another entity type.
+	 *
+	 * @author langr
+	 * 19.02.2009, 18:45:36
+	 *
+	 * @param poDisplay2D
+	 */
+	public static void setConsole(ARSsim.display.Console poConsole) {
+		clsSingletonMasonGetter.getInstance().moConsole = poConsole;
+	}
+
+	/**
+	 * returns the complete GUI and is needed to adapt the 
+     * Inspector Tabs when selecting another entity type.
+	 *
+	 * @author langr
+	 * 19.02.2009, 18:45:40
+	 *
+	 * @return
+	 */
+	public static ARSsim.display.Console getConsole() {
+		return clsSingletonMasonGetter.getInstance().moConsole;
 	}
 
 }

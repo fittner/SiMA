@@ -7,6 +7,8 @@ import inspectors.clsInspectorMapping;
 
 import java.util.ArrayList;
 
+import enums.eEntityType;
+
 import sim.display.GUIState;
 import sim.engine.SimState;
 import sim.engine.Steppable;
@@ -23,6 +25,7 @@ import bw.body.itfget.itfGetBody;
 import bw.entities.clsAnimate;
 import bw.entities.clsBubble;
 import bw.entities.clsEntity;
+import bw.entities.clsRemoteBot;
 import bw.factories.clsSingletonMasonGetter;
 import bw.factories.clsSingletonUniqueIdGenerator;
 import bw.physicalObjects.sensors.clsEntityPartVision;
@@ -232,6 +235,9 @@ public class clsMobileObject2D extends sim.physics2D.physicalObject.MobileObject
      */
     public Inspector getInspector(LocationWrapper wrapper, GUIState state){
 		//Override to get constantly updating inspectors = volatile
+    	
+    	//TODO: (langr) - testing purpose only! adapt tabs for selected entity
+		clsSingletonMasonGetter.getConsole().setView(moEntity.getEntityType().hashCode());
     	
     	if( moMasonInspector == null)
     	{
