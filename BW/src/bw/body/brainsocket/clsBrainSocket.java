@@ -117,7 +117,7 @@ public class clsBrainSocket implements itfStepProcessing {
 		clsStomachSystem oRetVal = new clsStomachSystem();
 		clsStomachSensor oStomachSensor = (clsStomachSensor)(moSensorsInt.get(eSensorIntType.STOMACH));
 
-		oRetVal.setEnergy( oStomachSensor.getEnergy() );
+		oRetVal.mrEnergy = oStomachSensor.getEnergy();
 		
 		return oRetVal;
 	}
@@ -135,10 +135,7 @@ public class clsBrainSocket implements itfStepProcessing {
 		clsStaminaSystem oRetVal = new clsStaminaSystem();
 		clsStaminaSensor oStaminaSensor = (clsStaminaSensor)(moSensorsInt.get(eSensorIntType.STAMINA));
 
-		oRetVal.setStaminaValue(oStaminaSensor.getStaminaValue());
-		oRetVal.setRecoveryRate(oStaminaSensor.getRecoveryRate());
-		oRetVal.setLowerBound(oStaminaSensor.getLowerBound());
-		oRetVal.setUpperBound(oStaminaSensor.getUpperBound());
+		oRetVal.mrStaminaValue = oStaminaSensor.getStaminaValue();
 		
 		return oRetVal;	
 	}
@@ -156,10 +153,7 @@ public class clsBrainSocket implements itfStepProcessing {
 		clsHealthSystem oRetVal = new clsHealthSystem();
 		clsHealthSensor oHealthSensor = (clsHealthSensor)(moSensorsInt.get(eSensorIntType.HEALTH_SYSTEM));
 
-		oRetVal.setHealthValue(oHealthSensor.getHealthValue());
-		oRetVal.setRecoveryRate(oHealthSensor.getRecoveryRate());
-		oRetVal.setLowerBound(oHealthSensor.getLowerBound());
-		oRetVal.setUpperBound(oHealthSensor.getUpperBound());
+		oRetVal.mrHealthValue = oHealthSensor.getHealthValue();
 		
 		return oRetVal;	
 	}
@@ -177,7 +171,7 @@ public class clsBrainSocket implements itfStepProcessing {
 		clsEnergyConsumption oRetVal = new clsEnergyConsumption();
 		clsEnergySensor oEnergySensor = (clsEnergySensor)(moSensorsInt.get(eSensorIntType.ENERGY_CONSUMPTION));
 
-		oRetVal.setEnergy( oEnergySensor.getEnergy() );
+		oRetVal.mrEnergy = oEnergySensor.getEnergy();
 		
 		return oRetVal;
 		

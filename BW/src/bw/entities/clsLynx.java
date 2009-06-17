@@ -10,7 +10,7 @@ package bw.entities;
 
 import java.awt.Color;
 
-import lifeCycle.clsLynxMind;
+import lifeCycle.JADEX.clsLynxMind;
 import sim.physics2D.util.Double2D;
 import ARSsim.physics2D.util.clsPose;
 import bw.utils.container.clsConfigFloat;

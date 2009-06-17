@@ -12,7 +12,7 @@ import java.awt.Color;
 
 import enums.eEntityType;
 
-import lifeCycle.clsHareMind;
+import lifeCycle.JADEX.clsHareMind;
 
 import sim.physics2D.util.Double2D;
 import ARSsim.physics2D.util.clsPose;

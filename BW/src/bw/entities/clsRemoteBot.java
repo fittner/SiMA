@@ -8,14 +8,10 @@
 package bw.entities;
 
 import java.awt.Color;
-import java.util.Iterator;
 
-import ARSsim.physics2D.physicalObject.clsMobileObject2D;
 import ARSsim.physics2D.util.clsPose;
 import bw.body.clsBaseBody;
 import bw.body.clsComplexBody;
-import bw.body.io.actuators.clsActionProcessor;
-import decisionunit.itf.actions.*;
 import bw.physicalObjects.bodyparts.clsBotHands;
 import bw.physicalObjects.sensors.clsEntityPartVision;
 import bw.utils.container.clsConfigMap;
@@ -25,14 +21,10 @@ import bw.body.io.sensors.external.clsSensorVision;
 import bw.body.itfget.itfGetEatableArea;
 import bw.body.itfget.itfGetVision;
 import bw.factories.clsSingletonUniqueIdGenerator;
-import enums.eCallPriority;
 import enums.eEntityType;
-import enums.eActionMoveDirection;
-import enums.eSensorExtType;
-import enums.eActionTurnDirection;
 import sim.display.clsKeyListener;
 import sim.physics2D.util.Angle;
-import sim.physics2D.physicalObject.PhysicalObject2D;
+import simple.remotecontrol.clsRemoteControl;
 
 /**
  * Sample implementation of a clsAnimate, having sensors and actuators 
@@ -72,6 +64,7 @@ public class clsRemoteBot extends clsAnimate implements itfGetVision, itfGetEata
 		applyConfig();
 		
 		addBotHands();
+		setDecisionUnit(new clsRemoteControl());		
 	}
 	
 	public clsBaseBody createBody() {
@@ -170,96 +163,11 @@ public class clsRemoteBot extends clsAnimate implements itfGetVision, itfGetEata
 	 */
 	@Override
 	public void processing() {
-		clsActionProcessor oAP = moBody.getExternalIO().getActionProcessor();
 
-		//the processing is taken over by the user via keyboard
-		
-	   	switch( clsKeyListener.getKeyPressed() )
-    	{
-    	case 38: //up
-    		//moActionList.addMoveAction(clsMotionAction.creatAction(eActionCommandMotion.MOVE_FORWARD) );
-    		oAP.call(new clsActionMove(eActionMoveDirection.MOVE_FORWARD,4));
-    		break;
-    	case 40: //down
-    		//moActionList.addMoveAction(clsMotionAction.creatAction(eActionCommandMotion.MOVE_BACKWARD) );
-    		oAP.call(new clsActionMove(eActionMoveDirection.MOVE_BACKWARD,4));
-    		break;
-    	case 37: //rotate_left
-    		//moActionList.addMoveAction(clsMotionAction.creatAction(eActionCommandMotion.ROTATE_LEFT) );
-    		oAP.call(new clsActionTurn(eActionTurnDirection.TURN_LEFT));
-    		break;
-    	case 39: //rotate_right
-    		//moActionList.addMoveAction(clsMotionAction.creatAction(eActionCommandMotion.ROTATE_RIGHT) );
-    		oAP.call(new clsActionTurn(eActionTurnDirection.TURN_RIGHT));
-    		break;
-    	case 65: //'A'
-    		break;
-    	case 69: //'E'
-    		eat();
-    		break;
-    	case 83: //'S'
-//            if(botState==HAVECAN)
-//            {
-//	    		objCE.unRegisterForceConstraint(pj);                            
-//	            botState = APPROACHINGCAN;
-//	            objCE.removeNoCollisions(getMobile(), currentCan.getMobile());
-//	            objCE.removeNoCollisions(e1, currentCan.getMobile());
-//	            objCE.removeNoCollisions(e2, currentCan.getMobile());
-//	            currentCan.visible = true;
-//            }
-    		break;
-    	}
+		((clsRemoteControl)(moBody.getBrain().getDecisionUnit())).setKeyPressed(clsKeyListener.getKeyPressed());		
+		moBody.getBrain().stepProcessing();
 	}
 	
-	/**
-	 * TODO (langr) - insert description
-	 *
-	 * @author langr
-	 * 02.04.2009, 13:04:55
-	 *
-	 * @param poEntity
-	 * @param poActionList
-	 */
-
-	private void eat() {
-		//eat
-		clsSensorEatableArea oEatArea = (clsSensorEatableArea)(moBody.getExternalIO().moSensorExternal.get(eSensorExtType.EATABLE_AREA));
-		if(oEatArea.getViewObj() != null)
-		{
-
-			Iterator<PhysicalObject2D> itr = oEatArea.getViewObj().values().iterator(); 			
-			while(itr.hasNext())
-			{
-				PhysicalObject2D oPhysicalObj = itr.next();
-				if(  oPhysicalObj instanceof clsMobileObject2D)
-				{
-					clsMobileObject2D oEatenMobileObject = (clsMobileObject2D)oPhysicalObj; 
-					clsEntity oEatenEntity = oEatenMobileObject.getEntity();
-					
-					//TODO cm only cakes for now
-					if(  oEatenEntity instanceof clsCake)
-					{
-						//clsEatAction oEatAction = new clsEatAction(eActionCommandType.EAT, oEatenEntity);
-						//poActionList.addEatAction(oEatAction);
-
-						clsActionProcessor oAP = moBody.getExternalIO().getActionProcessor();
-						oAP.call(new clsActionEat());	
-					}
-				}
-			}
-		}
-	}
-
-	public void execution() {
-		super.execution();
-/*		
-		if (moTemp.length() > 0) {
-	      // System.out.println(mnUniqueId+": "+moTemp);
-	      moTemp = "";
-		}
-*/
-	}
-
 
 
 
