@@ -1,9 +1,9 @@
-package lifeCycle;
+package lifeCycle.JADEX;
 
 import decisionunit.clsBaseDecisionUnit;
 import decisionunit.itf.actions.itfActionProcessor;
 
-public class clsHareMind extends clsBaseDecisionUnit {
+public class clsLynxMind extends clsBaseDecisionUnit  {
 
 	@Override
 	public void process(itfActionProcessor poActionProcessor) {
