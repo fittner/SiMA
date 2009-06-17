@@ -5,19 +5,19 @@
  * $Author::                   $: Author of last commit
  * $Date::                     $: Date of last commit
  */
-package bw.sim;
+package sim;
 
 import org.jfree.data.xy.XYSeries;
 
 import ec.util.MersenneTwisterFast;
 
+import sim.creation.clsLoader;
+import sim.creation.lifeCycle.clsLifeCycleLoader;
+import sim.creation.simpleLoader.clsSimpleLoader;
+import sim.creation.simpleXMLLoader.clsSimpleXMLLoader;
 import sim.engine.Schedule;
 import sim.engine.SimState;
 
-import bw.sim.creation.clsLoader;
-import bw.sim.creation.lifeCycle.clsLifeCycleLoader;
-import bw.sim.creation.simpleLoader.clsSimpleLoader;
-import bw.sim.creation.simpleXMLLoader.clsSimpleXMLLoader;
 
 /**
  * Main function for simulation

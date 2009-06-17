@@ -5,16 +5,17 @@
  * $Author::                   $: Author of last commit
  * $Date::                     $: Date of last commit
  */
-package bw.sim.creation.simpleLoader;
+package sim.creation.simpleLoader;
 
 import java.awt.Color;
 import java.awt.Paint;
+
+import sim.creation.clsLoader;
 
 import ARSsim.physics2D.util.clsPose;
 import bw.entities.clsBubble;
 import bw.entities.clsRemoteBot;
 import bw.factories.clsRegisterEntity;
-import bw.sim.creation.clsLoader;
 import bw.utils.container.clsConfigMap;
 
 /**

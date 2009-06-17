@@ -1,4 +1,4 @@
-package bw.sim.creation.simpleXMLLoader;
+package sim.creation.simpleXMLLoader;
 
 import org.xml.sax.ErrorHandler;
 import org.xml.sax.SAXParseException;

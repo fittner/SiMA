@@ -6,10 +6,10 @@
  * $Author::                   $: Author of last commit
  * $Date::                     $: Date of last commit
  */
-package bw.sim.creation.simpleLoader;
+package sim.creation.simpleLoader;
 
+import sim.creation.clsLoader;
 import sim.engine.SimState;
-import bw.sim.creation.clsLoader;
 
 
 /**

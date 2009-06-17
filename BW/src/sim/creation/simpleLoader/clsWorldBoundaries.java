@@ -5,7 +5,7 @@
  * $Author::                   $: Author of last commit
  * $Date::                     $: Date of last commit
  */
-package bw.sim.creation.simpleLoader;
+package sim.creation.simpleLoader;
 
 import ARSsim.physics2D.util.clsPose;
 import ARSsim.portrayal.simple.clsImagePortrayal;
@@ -31,24 +31,24 @@ public class clsWorldBoundaries {
 		oPose = new clsPose(100, 0, 0);
         oWall = new clsWall(1, oPose, 193, 6, new clsConfigMap());
         clsRegisterEntity.registerEntity(oWall);
-       clsImagePortrayal.PlaceImage(bw.sim.clsBWMain.msArsPath + "/src/resources/images/wall1.jpg", 8, new sim.util.Double2D(oPose.getPosition().x, oPose.getPosition().y), clsSingletonMasonGetter.getFieldEnvironment());
+       clsImagePortrayal.PlaceImage(sim.clsBWMain.msArsPath + "/src/resources/images/wall1.jpg", 8, new sim.util.Double2D(oPose.getPosition().x, oPose.getPosition().y), clsSingletonMasonGetter.getFieldEnvironment());
  
          	
         oPose = new clsPose(100, 200, 0);
         oWall = new clsWall(2, oPose, 193, 6, new clsConfigMap());
         clsRegisterEntity.registerEntity(oWall);
-        clsImagePortrayal.PlaceImage(bw.sim.clsBWMain.msArsPath + "/src/resources/images/wall1.jpg", 8, new sim.util.Double2D(oPose.getPosition().x, oPose.getPosition().y), clsSingletonMasonGetter.getFieldEnvironment());
+        clsImagePortrayal.PlaceImage(sim.clsBWMain.msArsPath + "/src/resources/images/wall1.jpg", 8, new sim.util.Double2D(oPose.getPosition().x, oPose.getPosition().y), clsSingletonMasonGetter.getFieldEnvironment());
                 
         // VERT
         oPose = new clsPose(0, 100, 0);
         oWall = new clsWall(3, oPose, 6, 200, new clsConfigMap());
         clsRegisterEntity.registerEntity(oWall);
-        clsImagePortrayal.PlaceImage(bw.sim.clsBWMain.msArsPath + "/src/resources/images/wall2.jpg", 8, new sim.util.Double2D(oPose.getPosition().x, oPose.getPosition().y), clsSingletonMasonGetter.getFieldEnvironment());
+        clsImagePortrayal.PlaceImage(sim.clsBWMain.msArsPath + "/src/resources/images/wall2.jpg", 8, new sim.util.Double2D(oPose.getPosition().x, oPose.getPosition().y), clsSingletonMasonGetter.getFieldEnvironment());
         
         oPose = new clsPose(200, 100, 0);
         oWall = new clsWall(4, oPose, 6, 200, new clsConfigMap());
         clsRegisterEntity.registerEntity(oWall);
-        clsImagePortrayal.PlaceImage(bw.sim.clsBWMain.msArsPath + "/src/resources/images/wall2.jpg", 8, new sim.util.Double2D(oPose.getPosition().x, oPose.getPosition().y), clsSingletonMasonGetter.getFieldEnvironment());
+        clsImagePortrayal.PlaceImage(sim.clsBWMain.msArsPath + "/src/resources/images/wall2.jpg", 8, new sim.util.Double2D(oPose.getPosition().x, oPose.getPosition().y), clsSingletonMasonGetter.getFieldEnvironment());
 	}
 	
 }

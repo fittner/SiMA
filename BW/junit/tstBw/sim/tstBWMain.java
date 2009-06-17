@@ -60,7 +60,7 @@ public class tstBWMain {
 	}
 
 	/**
-	 * Test method for {@link bw.sim.clsBWMain#clsBWMain(long)}.
+	 * Test method for {@link sim.clsBWMain#clsBWMain(long)}.
 	 */
 	@Test
 	public void testClsBWMainLong() {
@@ -68,7 +68,7 @@ public class tstBWMain {
 	}
 
 	/**
-	 * Test method for {@link bw.sim.clsBWMain#clsBWMain(long, int, int)}.
+	 * Test method for {@link sim.clsBWMain#clsBWMain(long, int, int)}.
 	 */
 	@Test
 	public void testClsBWMainLongIntInt() {

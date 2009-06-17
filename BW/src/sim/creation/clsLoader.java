@@ -6,7 +6,7 @@
  * $Author::                   $: Author of last commit
  * $Date::                     $: Date of last commit
  */
-package bw.sim.creation;
+package sim.creation;
 
 import ARSsim.physics2D.util.clsPose;
 import bw.factories.clsSingletonMasonGetter;

@@ -6,9 +6,9 @@
  * $Author::                   $: Author of last commit
  * $Date::                     $: Date of last commit
  */
-package bw.sim.creation.lifeCycle;
+package sim.creation.lifeCycle;
 
-import bw.sim.creation.clsLoader;
+import sim.creation.clsLoader;
 import sim.engine.SimState;
 
 /**

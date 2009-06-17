@@ -16,7 +16,8 @@ import org.jfree.chart.renderer.xy.XYItemRenderer;
 import org.jfree.chart.axis.ValueAxis;
 import org.jfree.data.xy.XYSeriesCollection;
 
-import bw.sim.clsBWMain;
+import sim.clsBWMain;
+
 
 /**
  * Class for all JFreeChart definitions. Here all special charting needs are nested.

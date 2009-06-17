@@ -5,9 +5,11 @@
  * $Author::                   $: Author of last commit
  * $Date::                     $: Date of last commit
  */
-package bw.sim.creation.simpleLoader;
+package sim.creation.simpleLoader;
 
 import org.w3c.dom.NodeList;
+
+import sim.creation.clsLoader;
 
 import ARSsim.physics2D.util.clsPose;
 import bw.entities.clsCake;
@@ -15,7 +17,6 @@ import bw.entities.clsCan;
 import bw.entities.clsStone;
 import bw.factories.clsRegisterEntity;
 import bw.factories.clsSingletonMasonGetter;
-import bw.sim.creation.clsLoader;
 import bw.utils.container.clsConfigMap;
 
 

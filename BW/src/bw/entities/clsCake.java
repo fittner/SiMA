@@ -29,7 +29,7 @@ import ARSsim.physics2D.util.clsPose;
 public class clsCake extends clsInanimate implements itfGetFlesh {
 	private static double mrDefaultMass = 30.0;
 	private static double mrDefaultRadius = 10.0;
-	private static String moImagePath = bw.sim.clsBWMain.msArsPath + "/src/resources/images/cake.gif";
+	private static String moImagePath = sim.clsBWMain.msArsPath + "/src/resources/images/cake.gif";
 	private static Color moDefaultColor = Color.pink;
 	
 	private float mrCakeWeight;

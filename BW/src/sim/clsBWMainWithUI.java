@@ -6,7 +6,7 @@
  * $Date::                     $: Date of last commit
  */
 
-package bw.sim;
+package sim;
 
 import sim.display.*;
 import sim.engine.*;

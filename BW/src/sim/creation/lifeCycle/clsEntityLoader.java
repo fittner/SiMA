@@ -6,15 +6,15 @@
  * $Author::                   $: Author of last commit
  * $Date::                     $: Date of last commit
  */
-package bw.sim.creation.lifeCycle;
+package sim.creation.lifeCycle;
 
+import sim.creation.clsLoader;
 import ARSsim.physics2D.util.clsPose;
 import bw.entities.clsHare;
 import bw.entities.clsLynx;
 import bw.entities.clsPlant;
 import bw.entities.clsStone;
 import bw.factories.clsRegisterEntity;
-import bw.sim.creation.clsLoader;
 import bw.utils.container.clsConfigMap;
 
 /**

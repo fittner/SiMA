@@ -9,7 +9,7 @@ Version1 date:
    11th March 2009
 */
 
-package bw.sim.creation.simpleXMLLoader;
+package sim.creation.simpleXMLLoader;
 import ARSsim.physics2D.util.clsPose;
 import bw.entities.clsWall;
 import bw.factories.clsRegisterEntity;
