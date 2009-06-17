@@ -11,11 +11,17 @@ package decisionunit.itf.sensors;
  */
 public class clsFastMessengerSystem extends clsSensorIntern {
 
-	/**
-	 * 
-	 */
-	public clsFastMessengerSystem() {
-		// TODO Auto-generated constructor stub
-	}
+	@Override
+	public String logXML() {
+		String logEntry = "";
+		
+//		logEntry += addXMLTag("Energy", mrEnergy+""); 
 
+		return addXMLTag(logEntry);
+	}
+	
+	@Override
+	public String toString() {
+		return getClassName()+": ";
+	}	
 }

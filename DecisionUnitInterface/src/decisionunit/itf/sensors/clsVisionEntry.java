@@ -11,4 +11,24 @@ public class clsVisionEntry {
 	//	public double mrWidth = -1;
 	//	public double mrLength = -1;
 	//	public HashMap<Integer, Object> moVisibleAttributes = new HashMap<Integer, Object>();
+	
+	protected String moClassName;
+	
+	public clsVisionEntry() {
+		moClassName = clsDataBase.stripClassPrefix(this.getClass().getName());
+	}
+	
+	public String logXML() {
+		String logEntry = "";
+		
+		logEntry += clsDataBase.addXMLTag("Polarcoordinate", moPolarcoordinate.toString()); 
+		logEntry += clsDataBase.addXMLTag("EntityType", mnEntityType.toString()); 
+		logEntry += clsDataBase.addXMLTag("EntityId", moEntityId+""); 
+
+		return clsDataBase.addXMLTag(moClassName, logEntry);		
+	}
+
+	public String toString() {
+		return moClassName+": type "+mnEntityType+" | id "+moEntityId+" | direction "+moPolarcoordinate;
+	}
 }

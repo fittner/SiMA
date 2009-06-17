@@ -11,27 +11,19 @@ package decisionunit.itf.sensors;
  */
 public class clsEnergyConsumption extends clsSensorHomeostasis {
 
-	private float mrEnergy;
+	public float mrEnergy;
 	
-	/**
-	 * 
-	 */
-	public clsEnergyConsumption() {
-		// TODO Auto-generated constructor stub
-	}
+	@Override
+	public String logXML() {
+		String logEntry = "";
+		
+		logEntry += addXMLTag("Energy", mrEnergy+""); 
 
-	/**
-	 * @param mrEnergy the mrEnergy to set
-	 */
-	public void setEnergy(float mrEnergy) {
-		this.mrEnergy = mrEnergy;
+		return addXMLTag(logEntry);
 	}
-
-	/**
-	 * @return the mrEnergy
-	 */
-	public float getEnergy() {
-		return mrEnergy;
-	}
-
+	
+	@Override
+	public String toString() {
+		return getClassName()+": Energy "+mrEnergy;
+	}		
 }

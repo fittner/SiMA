@@ -6,6 +6,6 @@ package decisionunit.itf.sensors;
  * Base class for all external sensors like vision, mouth area, nose, bump, ... 
  *
  */
-public class clsSensorExtern extends clsDataBase{
+abstract public class clsSensorExtern extends clsDataBase{
 
 }

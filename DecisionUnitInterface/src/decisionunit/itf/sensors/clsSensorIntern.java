@@ -11,6 +11,6 @@ package decisionunit.itf.sensors;
  * 
  * This does NOT include sensors, directly related to homeostasis --> clsSensorHomeostasis
  */
-public class clsSensorIntern extends clsDataBase{
+abstract public class clsSensorIntern extends clsDataBase{
 
 }
