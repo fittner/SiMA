@@ -17,6 +17,7 @@ import sim.creation.simpleLoader.clsSimpleLoader;
 import sim.creation.simpleXMLLoader.clsSimpleXMLLoader;
 import sim.engine.Schedule;
 import sim.engine.SimState;
+import statictools.clsGetARSPath;
 
 
 /**
@@ -101,11 +102,7 @@ public class clsBWMain extends SimState{
 	
 	public static void setArsPath()
 	{
-		if (System.getProperty("file.separator").equals("/"))
-			msArsPath = System.getProperty("user.home") + "/ARS/PA/BWv1/BW"; // Unix
-		else if (System.getProperty("file.separator").equals("\\"))
-			msArsPath = "S:/ARS/PA/BWv1/BW"; // Windows
-		else throw new NullPointerException("Spooky OS detected, can't find ARS-Root-Dir.");
+		msArsPath = clsGetARSPath.getArsPath()+"/BW";
 	}
 
 }// end class

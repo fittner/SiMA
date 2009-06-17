@@ -20,11 +20,11 @@ import bw.body.io.sensors.external.clsSensorEatableArea;
 import bw.body.io.sensors.external.clsSensorVision;
 import bw.body.itfget.itfGetEatableArea;
 import bw.body.itfget.itfGetVision;
-import bw.factories.clsSingletonUniqueIdGenerator;
 import enums.eEntityType;
 import sim.display.clsKeyListener;
 import sim.physics2D.util.Angle;
 import simple.remotecontrol.clsRemoteControl;
+import statictools.clsSingletonUniqueIdGenerator;
 
 /**
  * Sample implementation of a clsAnimate, having sensors and actuators 

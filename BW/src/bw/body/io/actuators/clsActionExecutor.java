@@ -10,10 +10,11 @@ package bw.body.io.actuators;
 
 import java.util.ArrayList;
 
+import statictools.clsSingletonUniqueIdGenerator;
+
 import bw.entities.clsEntity;
 import decisionunit.itf.actions.clsActionEat;
 import decisionunit.itf.actions.itfActionCommand;
-import bw.factories.clsSingletonUniqueIdGenerator;
 
 /**
  * This abstract class must be inherited by all actions commands so they 

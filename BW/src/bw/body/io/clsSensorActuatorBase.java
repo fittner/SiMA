@@ -9,7 +9,7 @@ package bw.body.io;
 
 
 
-import bw.factories.clsSingletonUniqueIdGenerator;
+import statictools.clsSingletonUniqueIdGenerator;
 import bw.utils.enums.eBodyParts;
 
 

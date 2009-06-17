@@ -5,7 +5,7 @@ public class clsBump extends clsSensorExtern {
 
 	@Override
 	public String logXML() {
-		return addXMLTag(mnBumped+"");
+		return addXMLTag(new Boolean(mnBumped).toString());
 	}
 
 	@Override

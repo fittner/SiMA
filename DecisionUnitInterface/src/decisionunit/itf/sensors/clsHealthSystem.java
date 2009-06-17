@@ -15,7 +15,7 @@ public class clsHealthSystem extends clsSensorHomeostasis {
 	public String logXML() {
 		String logEntry = "";
 		
-		logEntry += addXMLTag("Health", mrHealthValue+""); 
+		logEntry += addXMLTag("Health", new Float(mrHealthValue).toString()); 
 
 
 		return addXMLTag(logEntry);

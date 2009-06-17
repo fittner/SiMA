@@ -17,6 +17,7 @@ import sim.physics2D.physicalObject.PhysicalObject2D;
 import sim.portrayal.DrawInfo2D;
 import sim.portrayal.Inspector;
 import sim.portrayal.LocationWrapper;
+import statictools.clsSingletonUniqueIdGenerator;
 import ARSsim.motionplatform.clsMotionPlatform;
 import ARSsim.physics2D.util.clsPose;
 import bw.body.clsBaseBody;
@@ -27,7 +28,6 @@ import bw.entities.clsBubble;
 import bw.entities.clsEntity;
 import bw.entities.clsRemoteBot;
 import bw.factories.clsSingletonMasonGetter;
-import bw.factories.clsSingletonUniqueIdGenerator;
 import bw.physicalObjects.sensors.clsEntityPartVision;
 import bw.utils.inspectors.body.clsFillLevelInspector;
 

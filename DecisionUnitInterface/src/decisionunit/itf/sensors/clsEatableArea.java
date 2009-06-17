@@ -10,8 +10,8 @@ public class clsEatableArea extends clsSensorExtern {
 	public String logXML() {
 		String logEntry = "";
 		
-		logEntry += addXMLTag("NumEntitiesPresent", mnNumEntitiesPresent+""); 
-		logEntry += addXMLTag("TypeOfFirstEntity", mnTypeOfFirstEntity+""); 
+		logEntry += addXMLTag("NumEntitiesPresent", new Integer(mnNumEntitiesPresent).toString()); 
+		logEntry += addXMLTag("TypeOfFirstEntity", mnTypeOfFirstEntity.toString()); 
 
 		return addXMLTag(logEntry);
 	}

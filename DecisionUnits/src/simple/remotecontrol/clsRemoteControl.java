@@ -1,5 +1,13 @@
 package simple.remotecontrol;
 
+import java.io.BufferedWriter;
+import java.io.FileWriter;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
+import statictools.clsGetARSPath;
+import statictools.clsSingletonUniqueIdGenerator;
 import decisionunit.clsBaseDecisionUnit;
 import decisionunit.itf.actions.clsActionEat;
 import decisionunit.itf.actions.clsActionMove;
@@ -14,9 +22,31 @@ import enums.eSensorExtType;
 public class clsRemoteControl extends clsBaseDecisionUnit  {
 	private int moKeyPressed;
 
+	private boolean mnLogXML = true;
+	private String moFileName;
+
+    private String getDateTime() {
+        DateFormat dateFormat = new SimpleDateFormat("yyyyMMdd_HHmmss");
+        Date date = new Date();
+        return dateFormat.format(date);
+    }
+    
+	public clsRemoteControl() {
+		super();
+
+		moFileName = clsGetARSPath.getArsPath()+"/remotebotlog_"+getDateTime()+"_"+clsSingletonUniqueIdGenerator.getUniqueId()+".xml";
+	}
 	public void setKeyPressed(int i) {
 		moKeyPressed = i;
 	}
+	
+	public void setLogXML(boolean mnLogXML) {
+		this.mnLogXML = mnLogXML;
+	}
+	
+	public boolean isLogXML() {
+		return mnLogXML;
+	}	
 	
 	@Override
 	public void process(itfActionProcessor poActionProcessor) {
@@ -58,6 +88,9 @@ public class clsRemoteControl extends clsBaseDecisionUnit  {
     		break;
     	}
 		
+	   	if (mnLogXML) {
+	   		goLogging(poActionProcessor);
+	   	}
 	}
 
 	private void eat(itfActionProcessor poActionProcessor) {
@@ -74,6 +107,26 @@ public class clsRemoteControl extends clsBaseDecisionUnit  {
 						poActionProcessor.call(new clsActionEat());	
 				}
 		}
+	}
+	
+	private void goLogging(itfActionProcessor poActionProcessor) {
+		String logEntry = "<DUSet>";
+		
+		logEntry += getSensorData().logXML();
+		//logEntry += poActionProcessor.logXML();
+		
+		logEntry += "</DUSet>\n";
+		
+	    try{
+	   	    // Create file 
+	   	    FileWriter fstream = new FileWriter(moFileName,true);
+	         BufferedWriter out = new BufferedWriter(fstream);
+	         out.write(logEntry);
+	   	    //Close the output stream
+	   	    out.close();
+	     }catch (Exception e){//Catch exception if any
+	   	      System.err.println("Error: " + e.getMessage());
+	    }		
 	}
 	
 }

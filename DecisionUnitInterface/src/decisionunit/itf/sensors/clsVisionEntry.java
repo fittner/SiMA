@@ -23,7 +23,7 @@ public class clsVisionEntry {
 		
 		logEntry += clsDataBase.addXMLTag("Polarcoordinate", moPolarcoordinate.toString()); 
 		logEntry += clsDataBase.addXMLTag("EntityType", mnEntityType.toString()); 
-		logEntry += clsDataBase.addXMLTag("EntityId", moEntityId+""); 
+		logEntry += clsDataBase.addXMLTag("EntityId", new Integer(moEntityId).toString()); 
 
 		return clsDataBase.addXMLTag(moClassName, logEntry);		
 	}

@@ -9,9 +9,10 @@
 package bw.body.io.actuators;
 
 import java.util.ArrayList;
+
+import statictools.clsSingletonUniqueIdGenerator;
 import bw.body.io.actuators.actionProxies.itfCarryable;
 import bw.exceptions.*;
-import bw.factories.clsSingletonUniqueIdGenerator;
 
 /**
  * This class manages the bindings of an agent and entities it is carrying. 

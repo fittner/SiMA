@@ -49,7 +49,7 @@ public class clsSensorData {
 		logEntry += clsDataBase.addXMLTag("External", logXMLSensors(moSensorDataExt.values()));
 		logEntry += clsDataBase.addXMLTag("Internal", logXMLSensors(moSensorDataInt.values()));
 		
-		return clsDataBase.addXMLTag("SensorData", logEntry)+"\n";		
+		return clsDataBase.addXMLTag("SensorData", logEntry);		
 	}
 
 	private String toStringSensors(Collection<clsDataBase> poSensorData) {

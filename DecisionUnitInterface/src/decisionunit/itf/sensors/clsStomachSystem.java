@@ -17,7 +17,7 @@ public class clsStomachSystem extends clsSensorHomeostasis {
 	public String logXML() {
 		String logEntry = "";
 		
-		logEntry += addXMLTag("Energy", mrEnergy+""); 
+		logEntry += addXMLTag("Energy", new Float(mrEnergy).toString()); 
 
 		return addXMLTag(logEntry);
 	}

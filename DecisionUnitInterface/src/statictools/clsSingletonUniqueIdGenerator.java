@@ -5,7 +5,7 @@
  * $Author::                   $: Author of last commit
  * $Date::                     $: Date of last commit
  */
-package bw.factories;
+package statictools;
 
 /**
  * TODO (deutsch) - insert description 

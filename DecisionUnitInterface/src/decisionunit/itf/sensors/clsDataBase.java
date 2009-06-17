@@ -7,6 +7,10 @@ public abstract class clsDataBase {
 	protected String getClassName() {
 		String name = this.getClass().getName();
 		
+		while (name.indexOf(".") > 0) {
+			name = name.substring(name.indexOf(".")+1);
+		}
+		
 		return stripClassPrefix(name);
 	}
 	
