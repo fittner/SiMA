@@ -8,8 +8,6 @@
 	<classpathentry kind="con" path="org.eclipse.jdt.junit.JUNIT_CONTAINER/4"/>
 	<classpathentry kind="lib" path="lib/jcommon-1.0.14.jar"/>
 	<classpathentry kind="lib" path="lib/jfreechart-1.0.11.jar"/>
-	<classpathentry combineaccessrules="false" kind="src" path="/ARSMasonPhysics2D"/>
-	<classpathentry combineaccessrules="false" kind="src" path="/ARSMason"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/DecisionUnits"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/DecisionUnitInterface"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/DecisionUnitMasonInspectors"/>
