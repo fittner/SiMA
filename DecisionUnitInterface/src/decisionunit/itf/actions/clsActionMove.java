@@ -2,32 +2,49 @@ package decisionunit.itf.actions;
 
 import enums.eActionMoveDirection;
 
+/**
+ * Move command
+ * Parameter Speed = speed of movement (default is 4)
+ * Parameter Direction = direction in which to move
+ * 
+ * @author Benny Dönz
+ * 15.04.2009, 16:31:13
+ * 
+ */
 public class clsActionMove implements itfActionCommand {
 	private eActionMoveDirection meDirection;
-	private double mnSpeed;
+	private float mrSpeed;
 
+	//Move forward at average speed
 	public clsActionMove() {
 		meDirection=eActionMoveDirection.MOVE_FORWARD;
-		mnSpeed=4;
+		mrSpeed=4;
 	}
-	public clsActionMove(eActionMoveDirection peDirection, double pnSpeed) {
+	
+	public clsActionMove(eActionMoveDirection peDirection, float prSpeed) {
 		meDirection=peDirection;
-		mnSpeed=pnSpeed;
+		mrSpeed=prSpeed;
 	}
 	
 	public double getSpeed() {
-		return mnSpeed;
+		return mrSpeed;
 	}
 	
-	public void setSpeed(double pnSpeed) {
-		mnSpeed=pnSpeed;
+	public void setSpeed(float prSpeed) {
+		mrSpeed=prSpeed;
 	}
 	
 	public eActionMoveDirection getDirection() {
 		return meDirection;
 	}
 	
-	public void setSpeed(eActionMoveDirection peDirection) {
+	public void setDirection(eActionMoveDirection peDirection) {
 		meDirection=peDirection;
 	}
+
+	public String getLog() {
+		return "<Move>" + meDirection.toString() + "@" + mrSpeed  + "</Move>"; 
+	}
+	
+
 }

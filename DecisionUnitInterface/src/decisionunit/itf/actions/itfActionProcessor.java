@@ -17,5 +17,7 @@ public interface itfActionProcessor {
 	public void call(itfActionCommand poCommand);
 	public void call(clsActionSequence poSequence, eCallPriority pePriority);
 	public void call(clsActionSequence poSequence);
+	
+	public String logXML();
 
 }

@@ -8,5 +8,7 @@ package decisionunit.itf.actions;
  * 
  */
 public interface itfActionCommand {
+	
+	public String getLog();
 
 }

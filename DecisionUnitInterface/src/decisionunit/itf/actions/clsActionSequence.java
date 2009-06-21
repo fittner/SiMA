@@ -33,6 +33,21 @@ public class clsActionSequence {
 	}
 	
 	/*
+	 * 
+	 */
+	public String getLog() {
+		String sLog = "";
+		
+		Iterator<clsSequencedAction> oItSeq = moCommands.iterator();
+		while (oItSeq.hasNext()) {
+			clsSequencedAction oSeqAction = oItSeq.next();
+			sLog += oSeqAction.getAction().getLog();
+		}
+		
+		return sLog;
+	}
+	
+	/*
 	 * Returns the number of rounds the sequence contains
 	 */
 	public int getRounds() {

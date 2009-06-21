@@ -1,7 +1,8 @@
 package decisionunit.itf.actions;
 
 /**
- * TODO Temporary eat command derived from clsActuatorEat 
+ * Eat command
+ * No parameters, so anything eatable will be eaten... 
  * 
  * @author Benny Dönz
  * 15.04.2009, 16:31:13
@@ -9,4 +10,8 @@ package decisionunit.itf.actions;
  */
 public class clsActionEat implements itfActionCommand {
 
+	public String getLog() {
+		return "<Eat></Eat>"; 
+	}
+	
 }
