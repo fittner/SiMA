@@ -94,8 +94,7 @@ public class clsRemoteControl extends clsBaseDecisionUnit  {
 	}
 
 	private void eat(itfActionProcessor poActionProcessor) {
-		//eat
-		//eat
+		/*
 		clsEatableArea oEatArea = (clsEatableArea) getSensorData().getSensorExt(eSensorExtType.EATABLE_AREA);
 		if(oEatArea.mnNumEntitiesPresent > 0)
 		{
@@ -107,13 +106,15 @@ public class clsRemoteControl extends clsBaseDecisionUnit  {
 						poActionProcessor.call(new clsActionEat());	
 				}
 		}
+		*/
+		poActionProcessor.call(new clsActionEat());	
 	}
 	
 	private void goLogging(itfActionProcessor poActionProcessor) {
 		String logEntry = "<DUSet>";
 		
 		logEntry += getSensorData().logXML();
-		//logEntry += poActionProcessor.logXML();
+		logEntry += poActionProcessor.logXML();
 		
 		logEntry += "</DUSet>\n";
 		

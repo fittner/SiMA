@@ -17,8 +17,10 @@ import enums.eActionMoveDirection;
 import enums.eActionTurnDirection;
 import enums.eEntityType;
 import enums.eSensorExtType;
+import enums.eSensorIntType;
 import decisionunit.itf.sensors.clsBump;
 import decisionunit.itf.sensors.clsEatableArea;
+import decisionunit.itf.sensors.clsStaminaSystem;
 import decisionunit.itf.sensors.clsVision;
 import decisionunit.itf.sensors.clsVisionEntry;
 
@@ -69,7 +71,7 @@ public class clsDumbMindA extends clsBaseDecisionUnit {
 						//clsMotionAction oAction = clsMotionAction.creatAction(eActionCommandMotion.MOVE_FORWARD);
 						//oAction.setSpeed(2.5);
 						//poActionList.addMoveAction(oAction);
-						poActionProcessor.call(new clsActionMove(eActionMoveDirection.MOVE_FORWARD,2.5));
+						poActionProcessor.call(new clsActionMove(eActionMoveDirection.MOVE_FORWARD,2.5f));
 					}
 					else if( rAngle >= 0 && rAngle < Math.PI )
 					{
@@ -114,6 +116,9 @@ public class clsDumbMindA extends clsBaseDecisionUnit {
 	{
 		//move
 		clsBump oBump = (clsBump) getSensorData().getSensorExt(eSensorExtType.BUMP);
+		clsStaminaSystem oSSys = (clsStaminaSystem) getSensorData().getSensorInt(eSensorIntType.STAMINA);
+		
+		if (oSSys.mrStaminaValue<0.2) return;
 		
 		if( oBump.mnBumped )
 		{
@@ -127,7 +132,7 @@ public class clsDumbMindA extends clsBaseDecisionUnit {
 			//clsMotionAction oAction = clsMotionAction.creatAction(eActionCommandMotion.MOVE_FORWARD);
 			//oAction.setSpeed(2.5);
 			//poActionList.addMoveAction(oAction);
-			poActionProcessor.call(new clsActionMove(eActionMoveDirection.MOVE_FORWARD,2.5));
+			poActionProcessor.call(new clsActionMove(eActionMoveDirection.MOVE_FORWARD,4));
 		}
 	}	
 
