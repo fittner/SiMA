@@ -15,7 +15,10 @@ import java.util.Iterator;
 import statictools.clsSingletonUniqueIdGenerator;
 import decisionunit.itf.actions.*;
 import enums.eCallPriority;
+import bw.body.clsComplexBody;
+import bw.body.itfget.itfGetBody;
 import bw.entities.clsEntity;
+import bw.utils.datatypes.clsMutableFloat;
 import bw.utils.enums.*;
 import bw.exceptions.*;
 
@@ -28,6 +31,7 @@ import bw.exceptions.*;
  */
 public class clsActionProcessor implements itfActionProcessor {
 	
+	 String msLogXML = "";
 	 clsEntity moEntity;
 	 HashMap<String, clsActionExecutor> moMap = new HashMap<String, clsActionExecutor>();
 	 ArrayList<Class<itfActionCommand>> moDisabledCommands=new ArrayList<Class<itfActionCommand>> ();
@@ -51,10 +55,11 @@ public class clsActionProcessor implements itfActionProcessor {
 	 /*
 	  * Function for resetting the processor and clearing the action stack
 	  */
-	 public void clear() {
+	 public void clear()  {
 		 moInhibitedCommands=new ArrayList<clsProcessorInhibition> ();
 		 moCommandStack=new ArrayList<clsProcessorCall>();
 		 moExecutionHistory=new ArrayList<clsProcessorResult>();
+		 msLogXML="";
 	 }
 	 
 	 /*
@@ -101,7 +106,9 @@ public class clsActionProcessor implements itfActionProcessor {
 	public void call(itfActionCommand poCommand, eCallPriority pePriority, int pnDuration) {
 		//Explicit exception was disabled because having to use try/catch blocks when calling is annoying...
 		//if (moDisabledCommands.contains(poCommand.getClass())) throw (new exCommandDisabled());
+		msLogXML += poCommand.getLog();
 		moCommandStack.add(new clsProcessorCall(poCommand,pePriority,pnDuration));
+		
 	}
 	
 	/*
@@ -111,6 +118,7 @@ public class clsActionProcessor implements itfActionProcessor {
 		call(poSequence,eCallPriority.CALLPRIORITY_NORMAL);
 	}
 	public void call(clsActionSequence poSequence, eCallPriority pePriority) {
+		msLogXML += poSequence.getLog();
 		moCommandStack.add(new clsProcessorCall(poSequence,pePriority));
 	}
 	
@@ -153,10 +161,17 @@ public class clsActionProcessor implements itfActionProcessor {
 	}
 		
 	/*
+	 * Returns a XML-log containing the dispatched calls of the current simulation cycle
+	 */
+	public String logXML() {
+		return "<Actions>" + msLogXML + "</Actions>";
+	}
+	
+	/*
 	 *Start Dispatch Phase 
 	 */
 	public void dispatch() {
-	
+
 		//Create the execution-stack
 		ArrayList<clsProcessorResult> oExecutionStack=CreateExecutionStack();		
 		
@@ -165,12 +180,12 @@ public class clsActionProcessor implements itfActionProcessor {
 		
 		//2.	Delete inhibited commands
 		inhibitCommands(oExecutionStack);
-		
+	
 		//3.	Check binding states: Consume energy and stamina when carrying objects. If the energy or stamina – levels are not sufficient the objects will be dropped automatically.
 		//TODO BD: Will be done when implementing the binding functions
 		
 		//4.	Check energy and stamina levels: Consume energy and stamina for all remaining actions in order of priority and calling. If the energy and stamina levels are not sufficient for all the remaining commands no command (except priority “update state”) will be executed but energy and stamina levels will still be reduced down to the total minimum.
-		//TODO BD: Will be done when implementing the first "real" actions
+		ConsumeEnergy(oExecutionStack);
 		
 		//5.	Check for mutual exclusions
 		mutexCommands(oExecutionStack);
@@ -237,6 +252,39 @@ public class clsActionProcessor implements itfActionProcessor {
 			}
 		}
 	}
+	
+	/*
+	 * Consume stamina and Energy => Only Stamina will be checked for >=0, if energy goes below zero... RIP
+	 */
+	private void ConsumeEnergy(ArrayList<clsProcessorResult> opExecutionStack) {
+		if (moEntity==null) return; 
+		clsComplexBody oBody = (clsComplexBody) ((itfGetBody)moEntity).getBody();
+
+		Iterator<clsProcessorResult> oItStck = opExecutionStack.iterator();
+		while (oItStck.hasNext()) {
+			clsProcessorResult oExRes = oItStck.next();
+			if (oExRes.getActive() ) {
+
+				//get values
+				float rEnergyDemand = oExRes.getExecutor().getEnergyDemand(oExRes.getCommand());
+				float rStaminaDemand = oExRes.getExecutor().getStaminaDemand(oExRes.getCommand());
+				float rStaminaAvailable = oBody.getInternalSystem().getStaminaSystem().getStamina().getContent();
+				
+				//If not enough stamina then consume what's left, reduce energy but no execution
+				if (rStaminaAvailable<rStaminaDemand && rStaminaDemand!=0) {
+					rEnergyDemand = rEnergyDemand * rStaminaAvailable/rStaminaDemand;
+					rStaminaDemand =rStaminaAvailable;
+					oExRes.setResult(eExecutionResult.EXECUTIONRESULT_NOSTAMINA );
+				}
+
+				//Consume
+				if (rStaminaDemand>0) oBody.getInternalSystem().getStaminaSystem().consumeStamina(rStaminaDemand);
+				if (rEnergyDemand>0) oBody.getInternalEnergyConsumption().setValueOnce(new Integer(clsSingletonUniqueIdGenerator.getUniqueId()), new clsMutableFloat(rEnergyDemand));
+				
+			}
+		}
+	
+	}
 
 	/*
 	 *Check for mutual exclusions: If a mutual exclusion exists, then the command 
@@ -280,7 +328,7 @@ public class clsActionProcessor implements itfActionProcessor {
 		while (oItStck.hasNext()) {
 			clsProcessorResult oExRes = oItStck.next();
 			if (oExRes.getActive()) {
-				if (oExRes.getExecutor().execute(oExRes.getCommand(), moEntity)) {
+				if (oExRes.getExecutor().execute(oExRes.getCommand())) {
 					oExRes.setResult(eExecutionResult.EXECUTIONRESULT_EXECUTED);
 				} else {
 					oExRes.setResult(eExecutionResult.EXECUTIONRESULT_CONSTRAINTVIOLATION);
@@ -307,6 +355,8 @@ public class clsActionProcessor implements itfActionProcessor {
 			if (oPInh.getActive()==false) moInhibitedCommands.remove(oPInh);
 		}
 		
+		//Clear log
+		msLogXML="";
 	}
 	 	 
 

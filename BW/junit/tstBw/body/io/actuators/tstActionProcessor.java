@@ -220,9 +220,13 @@ public class tstActionProcessor {
 	 * can be set externally. Also energy/stamina demands can be set externally 
 	 */
 	private class tstTestExecutor extends clsActionExecutor {
-		
-		public String getName() {
-			return "Test Executor";
+
+		protected void setBodyPart() {
+		}
+		protected void setBodyPartId() {
+		}
+		protected void setName() {
+			moName= "Test Executor";
 		}
 		
 		public boolean execute(itfActionCommand poCommand, clsEntity poEntity) {
@@ -231,7 +235,7 @@ public class tstActionProcessor {
 			return true;
 		}
 
-		public ArrayList<Class<itfActionCommand>> getMutualExclusions(itfActionCommand poCommand) {
+		public ArrayList<Class> getMutualExclusions(itfActionCommand poCommand) {
 			return ((tstTestCommand) poCommand).getMutualExclusions(); 
 		}
 }
@@ -242,7 +246,7 @@ public class tstActionProcessor {
 	 */
 	private class tstTestCommand implements itfActionCommand {
 		private boolean mbExecuted=false;
-		private ArrayList<Class<itfActionCommand>> moMutEx = new ArrayList<Class<itfActionCommand>>();
+		private ArrayList<Class> moMutEx = new ArrayList<Class>();
 		double mnEnergy;
 		double mnStamina;
 
@@ -260,7 +264,7 @@ public class tstActionProcessor {
 			return mnStamina;
 		}
 		
-		public ArrayList<Class<itfActionCommand>> getMutualExclusions() {
+		public ArrayList<Class> getMutualExclusions() {
 			return moMutEx; 
 		}
 		
@@ -278,6 +282,10 @@ public class tstActionProcessor {
 
 		public void setExecuted(boolean pbExecuted) {
 			mbExecuted=pbExecuted;
+		}
+		
+		public String getLog() {
+			return "";
 		}
 	}
 	private class tstTestCommand_A extends tstTestCommand {

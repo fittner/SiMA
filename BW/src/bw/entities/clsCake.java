@@ -16,6 +16,8 @@ import bw.factories.clsRegisterEntity;
 import bw.utils.container.clsConfigFloat;
 import bw.utils.container.clsConfigMap;
 import bw.utils.enums.eConfigEntries;
+import bw.utils.tools.clsFood;
+import bw.body.io.actuators.actionProxies.*;
 import enums.eEntityType;
 import ARSsim.physics2D.util.clsPose;
 
@@ -26,7 +28,7 @@ import ARSsim.physics2D.util.clsPose;
  * @author muchitsch
  * 
  */
-public class clsCake extends clsInanimate implements itfGetFlesh {
+public class clsCake extends clsInanimate implements itfGetFlesh, itfAPEatable {
 	private static double mrDefaultMass = 30.0;
 	private static double mrDefaultRadius = 10.0;
 	private static String moImagePath = sim.clsBWMain.msArsPath + "/src/resources/images/cake.gif";
@@ -192,4 +194,18 @@ public class clsCake extends clsInanimate implements itfGetFlesh {
 		return this.moBody.getFlesh();
 	}
 
+
+	/*
+	 * Interface Eatable
+	 */
+	public float tryEat() {
+		return 0;
+	}
+	public clsFood Eat(float prBiteSize) {
+		clsFood oFood = getFlesh().withdraw(prBiteSize);
+		return oFood;
+		
+	}
+	
+	
 }

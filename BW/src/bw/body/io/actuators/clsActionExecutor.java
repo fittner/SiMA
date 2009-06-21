@@ -9,12 +9,18 @@
 package bw.body.io.actuators;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
 
+import sim.physics2D.physicalObject.PhysicalObject2D;
 import statictools.clsSingletonUniqueIdGenerator;
-
+import ARSsim.physics2D.physicalObject.clsMobileObject2D;
+import ARSsim.physics2D.physicalObject.clsStationaryObject2D;
+import bw.body.io.clsSensorActuatorBase;
 import bw.entities.clsEntity;
 import decisionunit.itf.actions.clsActionEat;
 import decisionunit.itf.actions.itfActionCommand;
+import bw.utils.enums.partclass.*;
 
 /**
  * This abstract class must be inherited by all actions commands so they 
@@ -25,15 +31,15 @@ import decisionunit.itf.actions.itfActionCommand;
  * 15.04.2009, 15:25:16
  * 
  */
-public abstract class clsActionExecutor {
-
-	private static final int mnUniqueId = clsSingletonUniqueIdGenerator.getUniqueId();
-
-	public abstract String getName();
+public abstract class clsActionExecutor extends clsSensorActuatorBase {
 	
-	public long getUniqueId() {
-		return mnUniqueId;
-	}
+	protected static float srEnergyRelation = 0.2f;		//Relation energy to stamina
+	
+	protected clsPartActionEx moBodyPart;
+
+	protected abstract void setBodyPart();
+	protected abstract void setBodyPartId();
+	protected abstract void setName();
 	
 	/*
 	 * Array of types of action commands which can not be performed at the 
@@ -42,15 +48,15 @@ public abstract class clsActionExecutor {
 	 * themselves, i.e. no two commands of the same type can be executed 
 	 * in the same round.
 	 */
-	public ArrayList<Class<itfActionCommand>> getMutualExclusions(itfActionCommand poCommand) {
-		return new ArrayList<Class<itfActionCommand>>(); 
+	public ArrayList<Class> getMutualExclusions(itfActionCommand poCommand) {
+		return new ArrayList<Class>(); 
 	}
 	
 	/*
 	 * Get the amount of energy needed per round to perform the action. Even 
 	 * if the action can not be performed this amount of energy will be consumed.
 	 */
-	public double getEnergyDemand(itfActionCommand poCommand) {
+	public float getEnergyDemand(itfActionCommand poCommand) {
 		return 0;
 	}
 
@@ -58,7 +64,7 @@ public abstract class clsActionExecutor {
 	 * Get the amount of stamina needed per round to perform the action. Even 
 	 * if the action can not be performed this amount of stamina will be consumed.
 	 */
-	public double getStaminaDemand(itfActionCommand poCommand) {
+	public float getStaminaDemand(itfActionCommand poCommand) {
 		return 0;
 	}
 
@@ -67,8 +73,37 @@ public abstract class clsActionExecutor {
 	 * e.g. no injuries, enough stamina, etc. and then executes the command.
 	 * Returns true/false depending on if the action was successful.
 	 */
-	public boolean execute(itfActionCommand poCommand, clsEntity poEntity) {
+	public boolean execute(itfActionCommand poCommand) {
 		return false;
 	}	
+
+	/*
+	 * Support function for finding an entity in a given Range
+	 */
+	protected clsEntity findSingleEntityInRange(HashMap poSearch, Class poInterface) {
+		clsEntity oEntity=null;
+
+		Iterator<Integer> i = poSearch.keySet().iterator();
+		if (i.hasNext()) {
+			Integer oKey = i.next();
+			PhysicalObject2D poIntObject =(PhysicalObject2D) poSearch.get(oKey); 
+
+			clsEntity oIntEntity=null;
+			if (poIntObject instanceof clsMobileObject2D) {
+				oIntEntity = ((clsMobileObject2D) poIntObject).getEntity();
+			} else if (poIntObject instanceof clsStationaryObject2D) {
+				oIntEntity = ((clsStationaryObject2D) poIntObject).getEntity();
+			}
+			
+			if (oIntEntity !=null ) {
+				if (poInterface.isAssignableFrom(oIntEntity.getClass())  ) {
+					if (oEntity !=null) return null;
+					oEntity=oIntEntity;
+				}
+			}
+		}
+
+		return oEntity;
+	}
 	
 }

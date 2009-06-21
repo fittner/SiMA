@@ -11,6 +11,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 
 import bw.body.clsBaseBody;
+import bw.body.clsComplexBody;
 import bw.body.io.actuators.clsActionProcessor;
 import bw.body.io.actuators.actionExecutors.*;
 import decisionunit.itf.actions.*; 
@@ -19,6 +20,7 @@ import bw.body.io.sensors.external.clsSensorBump;
 import bw.body.io.sensors.external.clsSensorEatableArea;
 import bw.body.io.sensors.external.clsSensorExt;
 import bw.body.io.sensors.external.clsSensorVision;
+import bw.body.itfget.itfGetBody;
 import bw.entities.clsAnimate;
 import bw.entities.clsEntity;
 import bw.utils.container.clsBaseConfig;
@@ -67,11 +69,12 @@ public class clsExternalIO extends clsBaseIO {
 		
 		moSensorExternal = new HashMap<eSensorExtType, clsSensorExt>();
 		moProcessor = new clsActionProcessor(poEntity);
-		
-		//TODO (BD) - Configuration will be used when final Actions are implemented
-		moProcessor.addCommand(clsActionEat.class, new clsExecutorEat());
-		moProcessor.addCommand(clsActionMove.class, new clsExecutorMove());
-		moProcessor.addCommand(clsActionTurn.class, new clsExecutorTurn());
+
+		clsComplexBody oBody = (clsComplexBody) ((itfGetBody)poEntity).getBody();
+		moProcessor.addCommand(clsActionMove.class, new clsExecutorMove(poEntity, 10));
+		moProcessor.addCommand(clsActionTurn.class, new clsExecutorTurn(poEntity));
+		moProcessor.addCommand(clsActionEat.class, new clsExecutorEat(poEntity,eSensorExtType.EATABLE_AREA,1));
+		moProcessor.addCommand(clsActionKill.class, new clsExecutorKill(poEntity,eSensorExtType.EATABLE_AREA,1));
 		
 		applyConfig();
 	}

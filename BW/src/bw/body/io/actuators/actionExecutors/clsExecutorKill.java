@@ -1,6 +1,6 @@
 /**
  * @author Benny Dönz
- * 13.05.2009, 21:44:44
+ * 21.06.2009, 13:13:07
  * 
  * $Rev::                      $: Revision of last commit
  * $Author::                   $: Author of last commit
@@ -10,9 +10,6 @@ package bw.body.io.actuators.actionExecutors;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-
-import statictools.clsSingletonUniqueIdGenerator;
-
 import bw.body.clsComplexBody;
 import bw.body.internalSystems.clsFastMessengerSystem;
 import bw.body.io.actuators.clsActionExecutor;
@@ -20,52 +17,53 @@ import bw.body.io.sensors.external.clsSensorVision;
 import bw.entities.clsEntity;
 import bw.utils.datatypes.clsMutableFloat;
 import bw.utils.enums.partclass.clsPartBrain;
-import bw.utils.tools.clsFood;
 import bw.body.io.actuators.actionProxies.*;
 import bw.body.itfget.itfGetBody;
 import decisionunit.itf.actions.*;
 import enums.eSensorExtType;
 
 /**
- * Action Executor for eating
- * Proxy itfAPEatable
+ * Action Executor for killing
+ * Proxy itfAPKillable
  * Parameters:
  *   poRangeSensor = Visionsensor to use
- * 	 prBiteSize = Size of bite taken when eating (default = weight 1)
+ * 	 prForceScalingFactor = Scales the force applied to the force felt by the entity to be killed (default = 1)
  * 
  * @author Benny Dönz
  * 15.04.2009, 16:31:13
  * 
  */
-public class clsExecutorEat extends clsActionExecutor{
+public class clsExecutorKill extends clsActionExecutor{
 
-	static float srStaminaDemand = 0.5f;		//Stamina demand 			
-	
+	static float srStaminaBase = 4f;			//Stamina demand =srStaminaScalingFactor*pow(srStaminaBase,Force) ; 			
+	static float srStaminaScalingFactor = 0.01f;  
+
 	private ArrayList<Class> moMutEx = new ArrayList<Class>();
-	private float mrBiteSize;
+
 	private clsEntity moEntity;
 	private eSensorExtType moRangeSensor;
+	
+	private float mrForceScalingFactor;
 
-	public clsExecutorEat(clsEntity poEntity,eSensorExtType poRangeSensor, float prBiteSize) {
+	public clsExecutorKill(clsEntity poEntity,eSensorExtType poRangeSensor, float prForceScalingFactor) {
 		moEntity=poEntity;
 		moRangeSensor=poRangeSensor;
-		mrBiteSize=prBiteSize;
+		mrForceScalingFactor=prForceScalingFactor;
 		
-		moMutEx.add(clsActionMove.class);
-		moMutEx.add(clsActionTurn.class);
+		moMutEx.add(clsActionEat.class);
 	}
 	
 	/*
 	 * Set values for SensorActuator base-class
 	 */
 	protected void setBodyPart() {
-		moBodyPart = new bw.utils.enums.partclass.clsPartActionExEat();
+		moBodyPart = new bw.utils.enums.partclass.clsPartActionExKill();
 	}
 	protected void setBodyPartId() {
-		mePartId = bw.utils.enums.eBodyParts.ACTIONEX_EAT;
+		mePartId = bw.utils.enums.eBodyParts.ACTIONEX_KILL;
 	}
 	protected void setName() {
-		moName="Eat executor";	
+		moName="Kill executor";	
 	}
 
 	/*
@@ -82,39 +80,37 @@ public class clsExecutorEat extends clsActionExecutor{
 		return getStaminaDemand(poCommand)*srEnergyRelation;
 	}
 	public float getStaminaDemand(itfActionCommand poCommand) {
-		return srStaminaDemand;
+		clsActionKill oCommand =(clsActionKill) poCommand;
+		return srStaminaScalingFactor* (float) Math.pow(srStaminaBase,oCommand.getForce()) ;
 	}
 
 	/*
 	 * Executor 
 	 */
 	public boolean execute(itfActionCommand poCommand) {
-		clsActionEat oCommand =(clsActionEat) poCommand; 
+		clsActionKill oCommand =(clsActionKill) poCommand; 
 		clsComplexBody oBody = (clsComplexBody) ((itfGetBody)moEntity).getBody();
-		
+
 		//Is something in range
 		HashMap oSearch = ((clsSensorVision) oBody.getExternalIO().moSensorExternal.get(moRangeSensor)).getViewObj();
-		itfAPEatable oEatenEntity = (itfAPEatable) findSingleEntityInRange(oSearch,itfAPEatable.class) ;
-		
-		if (oEatenEntity==null) {
+		itfAPKillable oKilledEntity = (itfAPKillable) findSingleEntityInRange(oSearch,itfAPKillable.class) ;
+
+		if (oKilledEntity==null) {
 			//Nothing in range then send fast Messenger
 			clsFastMessengerSystem oFastMessengerSystem = oBody.getInternalSystem().getFastMessengerSystem();
 			oFastMessengerSystem.addMessage(moBodyPart, new clsPartBrain(), 1);
 			return false;
 		} 
 
-		//Check if eating is ok
-		float rDamage = oEatenEntity.tryEat();
+		//Check if killing is ok
+		float rDamage = oKilledEntity.tryKill(oCommand.getForce());
 		if (rDamage>0) {
 			oBody.getInternalSystem().getHealthSystem().hurt(rDamage);
 			return false;
 		}
-		
-		//Eat!
-        clsFood oReturnedFood =oEatenEntity.Eat(mrBiteSize);
-        if(oReturnedFood != null) {                
-        	oBody.getInterBodyWorldSystem().getConsumeFood().digest(oReturnedFood);
-        }
+
+		//Kill!
+		oKilledEntity.kill(oCommand.getForce());
 		
 		return true;
 	}	

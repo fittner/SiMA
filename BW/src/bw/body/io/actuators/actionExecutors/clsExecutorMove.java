@@ -8,13 +8,17 @@
  */
 package bw.body.io.actuators.actionExecutors;
 
+import java.util.ArrayList;
+
 import bw.body.io.actuators.clsActionExecutor;
 import bw.entities.clsEntity;
 import bw.entities.clsMobile;
 import decisionunit.itf.actions.*;
 
 /**
- * TODO (Benny Dönz) - insert description 
+ * Action Executor for movement
+ * Parameters:
+ *    prSpeedScalingFactor = Relation of Speed to Energy. For Average Speed of "4", default ist 10 
  * 
  * @author Benny Dönz
  * 13.05.2009, 21:44:55
@@ -22,18 +26,61 @@ import decisionunit.itf.actions.*;
  */
 public class clsExecutorMove extends clsActionExecutor{
 
-	public String getName() {
-		return "Move executor";
+	static float srStaminaBase = 2f;			//Stamina demand =srStaminaScalingFactor*pow(srStaminaBase,Speed) ; 			
+	static float srStaminaScalingFactor = 0.01f;  
+	
+	private ArrayList<Class> moMutEx = new ArrayList<Class>();
+
+	private clsEntity moEntity;
+	private float mrSpeedScalingFactor;
+	
+	public clsExecutorMove(clsEntity poEntity,float prSpeedScalingFactor) {
+		moEntity=poEntity;
+		mrSpeedScalingFactor=prSpeedScalingFactor;
 	}
 	
-	public boolean execute(itfActionCommand poCommand, clsEntity poEntity) {
+	/*
+	 * Set values for SensorActuator base-class
+	 */
+	protected void setBodyPart() {
+		moBodyPart = new bw.utils.enums.partclass.clsPartActionExMove();
+	}
+	protected void setBodyPartId() {
+		mePartId = bw.utils.enums.eBodyParts.ACTIONEX_MOVE;
+	}
+	protected void setName() {
+		moName="Move executor";
+	}
+
+	/*
+	 * Mutual exclusions (are bi-directional, so only need to be added in order of creation 
+	 */
+	public ArrayList<Class> getMutualExclusions(itfActionCommand poCommand) {
+		return moMutEx; 
+	}
+	
+	/*
+	 * Energy and stamina demand 
+	 */
+	public float getEnergyDemand(itfActionCommand poCommand) {
+		return getStaminaDemand(poCommand)*srEnergyRelation;
+	}
+	public float getStaminaDemand(itfActionCommand poCommand) {
+		clsActionMove oCommand =(clsActionMove) poCommand;
+		return srStaminaScalingFactor* (float) Math.pow(srStaminaBase,oCommand.getSpeed()) ;
+	}
+	
+	/*
+	 * Executor 
+	 */
+	public boolean execute(itfActionCommand poCommand) {
 		clsActionMove oCommand =(clsActionMove) poCommand; 
     	switch(oCommand.getDirection() )
     	{
     	case MOVE_FORWARD:
-    		((clsMobile)poEntity).getMobileObject2D().moMotionPlatform.moveForward(10*oCommand.getSpeed());
+    		((clsMobile)moEntity).getMobileObject2D().moMotionPlatform.moveForward(mrSpeedScalingFactor*oCommand.getSpeed());
     	case MOVE_BACKWARD:
-    		((clsMobile)poEntity).getMobileObject2D().moMotionPlatform.backup();
+    		((clsMobile)moEntity).getMobileObject2D().moMotionPlatform.backup();
     	}
     	return true;
 	}	
