@@ -25,7 +25,7 @@ public class clsRemoteControl extends clsBaseDecisionUnit  {
 
 	private boolean mnLogXML = false;
 	private int mnStepsToSkip = 0;
-	private int mnStepCounter = 0;
+	private int mnStepCounter = 1;
 	private String moFileName;
 
     private String getDateTime() {
