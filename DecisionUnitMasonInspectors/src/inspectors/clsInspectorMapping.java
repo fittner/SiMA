@@ -10,10 +10,12 @@ package inspectors;
 
 import decisionunit.clsBaseDecisionUnit;
 import inspectors.mind.clsDumbBrainInspector;
+import inspectors.mind.clsRemoteControlInspector;
 import sim.display.GUIState;
 import sim.portrayal.Inspector;
 import sim.portrayal.LocationWrapper;
 import simple.dumbmind.clsDumbMindA;
+import simple.remotecontrol.clsRemoteControl;
 
 /**
  * assigns the required inspector class to the object extending the clsEntity-class 
@@ -51,6 +53,9 @@ public class clsInspectorMapping {
         //extend this if-statement with your new clsEntity-classes or inspectors
         if( poDU instanceof clsDumbMindA) {
         	oRetVal = new clsDumbBrainInspector(poSuperInspector, poWrapper, poState, (clsDumbMindA) poDU);
+        }
+        else if( poDU instanceof clsRemoteControl) {
+        	oRetVal = new clsRemoteControlInspector(poSuperInspector, poWrapper, poState, (clsRemoteControl) poDU);
         }
 //        else if (poEntity instanceof clsMyNewClass ) {
 //        	oRetVal = new clsMyNewInspector(poSuperInspector, poWrapper, poState);

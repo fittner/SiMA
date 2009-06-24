@@ -23,6 +23,8 @@ public class clsRemoteControl extends clsBaseDecisionUnit  {
 	private int moKeyPressed;
 
 	private boolean mnLogXML = true;
+	private int mnStepsToSkip = 0;
+	private int mnStepCounter = 0;
 	private String moFileName;
 
     private String getDateTime() {
@@ -48,6 +50,14 @@ public class clsRemoteControl extends clsBaseDecisionUnit  {
 		return mnLogXML;
 	}	
 	
+	public void setStepsToSkip(int mnStepsToSkip) {
+		this.mnStepsToSkip = mnStepsToSkip;
+	}
+
+	public int getStepsToSkip() {
+		return mnStepsToSkip;
+	}
+
 	@Override
 	public void process(itfActionProcessor poActionProcessor) {
 		//the processing is taken over by the user via keyboard
@@ -113,21 +123,36 @@ public class clsRemoteControl extends clsBaseDecisionUnit  {
 	private void goLogging(itfActionProcessor poActionProcessor) {
 		String logEntry = "<DUSet>";
 		
-		logEntry += getSensorData().logXML();
-		logEntry += poActionProcessor.logXML();
+		//skip logging for mnStepsToSkip
+		mnStepCounter++;
+		if((mnStepCounter%getSkipModulo())==0) {
+			mnStepCounter = 0;
+			logEntry += getSensorData().logXML();
+			logEntry += poActionProcessor.logXML();
+			
+			logEntry += "</DUSet>\n";
+			
+		    try{
+		   	    // Create file 
+		   	    FileWriter fstream = new FileWriter(moFileName,true);
+		         BufferedWriter out = new BufferedWriter(fstream);
+		         out.write(logEntry);
+		   	    //Close the output stream
+		   	    out.close();
+		     }catch (Exception e){//Catch exception if any
+		   	      System.err.println("Error: " + e.getMessage());
+		    }	
+		}
+	}
+	
+	private int getSkipModulo(){
 		
-		logEntry += "</DUSet>\n";
-		
-	    try{
-	   	    // Create file 
-	   	    FileWriter fstream = new FileWriter(moFileName,true);
-	         BufferedWriter out = new BufferedWriter(fstream);
-	         out.write(logEntry);
-	   	    //Close the output stream
-	   	    out.close();
-	     }catch (Exception e){//Catch exception if any
-	   	      System.err.println("Error: " + e.getMessage());
-	    }		
+		int oRetVal = mnStepsToSkip+1;
+		if(oRetVal < 1){
+			oRetVal = 1;
+		}
+	
+		return oRetVal;
 	}
 	
 }
