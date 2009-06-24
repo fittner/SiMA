@@ -16,9 +16,11 @@ public class clsVision extends clsSensorExtern {
 	@Override
 	public String logXML() {
 		String logEntry = "";
+		int id = 0;
 		
 		for (clsVisionEntry oEntry:moEntries) {
-			logEntry += addXMLTag("Entry", oEntry.logXML());
+			logEntry += addXMLTag("Entry", oEntry.logXML(id));
+			id++;
 		}
 		
 		return addXMLTag(logEntry);

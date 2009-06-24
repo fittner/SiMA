@@ -37,12 +37,13 @@ public class clsAngle implements Serializable { //extends clsCloneable
   }
 
   public String toString() {
-    NumberFormat nf = java.text.NumberFormat.getInstance( );
-    nf.setMinimumFractionDigits( 3 );
-    nf.setMaximumFractionDigits( 3 );
+//    NumberFormat nf = java.text.NumberFormat.getInstance( );
+//    nf.setMinimumFractionDigits( 3 );
+//    nf.setMaximumFractionDigits( 3 );
 
 //    return "@"+nf.format(mrAlpha);
-    return "@"+nf.format(getDegree());
+//    return "@"+nf.format(getDegree());
+	  return "@"+getDegree();
   }
 
   public void set(double prAlpha) {

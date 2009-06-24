@@ -15,17 +15,19 @@ public class clsVisionEntry {
 	protected String moClassName;
 	
 	public clsVisionEntry() {
-		moClassName = clsDataBase.stripClassPrefix(this.getClass().getName());
+		moClassName = "VisionEntry";
 	}
 	
-	public String logXML() {
-		String logEntry = "";
+	public String logXML(int pnId) {
+		String logEntry = "<Entry id=\""+pnId+"\">";
 		
 		logEntry += clsDataBase.addXMLTag("Polarcoordinate", moPolarcoordinate.toString()); 
 		logEntry += clsDataBase.addXMLTag("EntityType", mnEntityType.toString()); 
-		logEntry += clsDataBase.addXMLTag("EntityId", new Integer(moEntityId).toString()); 
+		logEntry += clsDataBase.addXMLTag("EntityId", new Integer(moEntityId).toString());
+		
+		logEntry += "</Entry>";
 
-		return clsDataBase.addXMLTag(moClassName, logEntry);		
+		return logEntry;		
 	}
 
 	public String toString() {

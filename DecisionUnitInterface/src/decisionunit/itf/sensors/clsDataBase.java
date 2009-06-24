@@ -7,14 +7,17 @@ public abstract class clsDataBase {
 	protected String getClassName() {
 		String name = this.getClass().getName();
 		
+		return stripClassPrefix( stripNamespace(name) );
+	}
+	
+	static protected String stripNamespace(String name) {
 		while (name.indexOf(".") > 0) {
 			name = name.substring(name.indexOf(".")+1);
 		}
 		
-		return stripClassPrefix(name);
+		return name;
 	}
-	
-	static protected String stripClassPrefix(String name) {
+	static protected String stripClassPrefix(String name) {		
 		if (name.startsWith("cls", 0)) {
 			name = name.substring(3);
 		}

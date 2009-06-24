@@ -50,11 +50,12 @@ public class clsPolarcoordinate implements Serializable { //extends clsCloneable
     moAzimuth = oFrom.angleToPoint(poTo);
   }
   public String toString() {
-    NumberFormat nf = java.text.NumberFormat.getInstance( );
-    nf.setMinimumFractionDigits( 3 );
-    nf.setMaximumFractionDigits( 3 );
+	  //    NumberFormat nf = java.text.NumberFormat.getInstance( );
+	  //    nf.setMinimumFractionDigits( 3 );
+	  //    nf.setMaximumFractionDigits( 3 );
 
-    return "r"+nf.format(mrLength)+"/"+moAzimuth.toString();
+	  //    return "r"+nf.format(mrLength)+"/"+moAzimuth.toString();
+    return "r"+mrLength+moAzimuth.toString();
   }
 
   public void set(clsPoint poFrom, clsPoint poTo) {
