@@ -8,5 +8,6 @@ public enum eSensorExtType {
 	EATABLE_AREA,
 	OLFACTORIC,
 	TACTILE,
-	VISION
+	VISION,
+	POSITIONCHANGE,
 }
