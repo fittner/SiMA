@@ -7,8 +7,8 @@ package memory.tempframework;
 
 // Imports
 import java.util.TreeMap;
-import bw.memory.tempframework.clsActionContainer;
-import bw.memory.tempframework.clsContainerBaseVector;
+import memory.tempframework.clsActionContainer;
+import memory.tempframework.clsContainerBaseVector;
 
 /**
  *

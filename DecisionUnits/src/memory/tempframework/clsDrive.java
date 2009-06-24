@@ -10,9 +10,9 @@ package memory.tempframework;
 //
 import org.w3c.dom.Node;
 import org.w3c.dom.NamedNodeMap;
-import bw.memory.tempframework.clsCloneable;
-import bw.memory.tempframework.enumTypeLevelDrive;
-import bw.memory.tempframework.enumTypeDrive;
+import memory.tempframework.clsCloneable;
+import memory.tempframework.enumTypeLevelDrive;
+import memory.tempframework.enumTypeDrive;
 
 /**
  *

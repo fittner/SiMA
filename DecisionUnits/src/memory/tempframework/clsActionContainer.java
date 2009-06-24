@@ -6,11 +6,11 @@
 package memory.tempframework;
 
 // Imports
-import bw.memory.tempframework.enumTypeTrippleState;
+import memory.tempframework.enumTypeTrippleState;
 import java.util.Vector;
 import org.w3c.dom.Node;
 
-import bw.memory.tempframework.clsContainerBaseVector;
+import memory.tempframework.clsContainerBaseVector;
 
 /**
  *

@@ -5,7 +5,7 @@
 // Belongs to package
 package memory.tempframework;
 
-import bw.memory.tempframework.clsMutableInteger;
+import memory.tempframework.clsMutableInteger;
 import java.util.Iterator;
 import java.util.Set;
 import java.util.TreeMap;

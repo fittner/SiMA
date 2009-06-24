@@ -5,11 +5,11 @@
 // Belongs to package
 package memory.tempframework;
 
-import bw.memory.tempframework.clsCloneable;
-import bw.memory.tempframework.clsContainerDrive;
-import bw.memory.tempframework.clsContainerEmotion;
-import bw.memory.tempframework.clsDrive;
-import bw.memory.tempframework.clsEmotion;
+import memory.tempframework.clsCloneable;
+import memory.tempframework.clsContainerDrive;
+import memory.tempframework.clsContainerEmotion;
+import memory.tempframework.clsDrive;
+import memory.tempframework.clsEmotion;
 
 /**
  * This is the class description ... $Revision: 572 $:  Revision of last commit $Author: deutsch $: Author of last commit $Date: 2007-05-31 10:56:07 +0200 (Do, 31 Mai 2007) $: Date of last commit

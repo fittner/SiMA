@@ -9,19 +9,19 @@ package memory.tempframework;
 import org.w3c.dom.Node;
 import org.w3c.dom.NamedNodeMap;
 
-import bw.memory.tempframework.clsAction;
+import memory.tempframework.clsAction;
 
-import bw.memory.tempframework.clsCloneable;
+import memory.tempframework.clsCloneable;
 
 /*
 import pkgXMLTools.clsXMLConfiguration;
-import bw.memory.tempframework.clsXMLAbstractImageReader;
+import memory.tempframework.clsXMLAbstractImageReader;
 import pkgXMLTools.XMLException;
 
-import bw.memory.tempframework.enumTypeLevelEmotion;
-import bw.memory.tempframework.enumTypeEmotion;
-import bw.memory.tempframework.enumTypeBrainInnerAction;
-import bw.memory.tempframework.enumTypeActionSource;
+import memory.tempframework.enumTypeLevelEmotion;
+import memory.tempframework.enumTypeEmotion;
+import memory.tempframework.enumTypeBrainInnerAction;
+import memory.tempframework.enumTypeActionSource;
 */
 import java.util.Vector;
 

@@ -7,9 +7,9 @@ package memory.tempframework;
 
 // Imports
 
-import bw.memory.tempframework.clsActionContainer;
-import bw.memory.tempframework.clsRuleCompareResult;
-import bw.memory.tempframework.enumTypeTrippleState;
+import memory.tempframework.clsActionContainer;
+import memory.tempframework.clsRuleCompareResult;
+import memory.tempframework.enumTypeTrippleState;
 import java.util.Vector;
 
 /**

@@ -6,9 +6,9 @@
 package memory.tempframework;
 
 // Imports
-//import bw.memory.tempframework.enumTypeSocialLevel;
-import bw.memory.tempframework.clsActionContainer;
-import bw.memory.tempframework.clsAction;
+//import memory.tempframework.enumTypeSocialLevel;
+import memory.tempframework.clsActionContainer;
+import memory.tempframework.clsAction;
 
 /**
  *

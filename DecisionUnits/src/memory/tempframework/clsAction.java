@@ -12,9 +12,9 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NamedNodeMap;
 import java.util.Comparator;
 
-import bw.memory.tempframework.enumTypeTrippleState;
-import bw.memory.tempframework.enumTypeBrainAction;
-import bw.memory.tempframework.enumTypeActionSource;
+import memory.tempframework.enumTypeTrippleState;
+import memory.tempframework.enumTypeBrainAction;
+import memory.tempframework.enumTypeActionSource;
 
 //import bw.memory.tempframework.clsXMLAbstractImageReader;
 

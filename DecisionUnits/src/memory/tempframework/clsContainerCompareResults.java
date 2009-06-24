@@ -9,17 +9,17 @@ package memory.tempframework;
 import java.util.TreeMap;
 import java.util.Iterator;
 import java.util.Set;
-//import bw.memory.tempframework.clsMutableDouble;
-//import bw.memory.tempframework.clsMutableFloat;
-import bw.memory.tempframework.clsMutableInteger;
-import bw.memory.tempframework.clsContainerBaseVector;
-import bw.memory.tempframework.clsContainerEmotion;
-import bw.memory.tempframework.clsEmotion;
-import bw.memory.tempframework.clsContainerDrive;
-import bw.memory.tempframework.clsDrive;
-import bw.memory.tempframework.clsRuleCompareResult;
-import bw.memory.tempframework.clsAction;
-import bw.memory.tempframework.clsActionContainer;
+//import memory.tempframework.clsMutableDouble;
+//import memory.tempframework.clsMutableFloat;
+import memory.tempframework.clsMutableInteger;
+import memory.tempframework.clsContainerBaseVector;
+import memory.tempframework.clsContainerEmotion;
+import memory.tempframework.clsEmotion;
+import memory.tempframework.clsContainerDrive;
+import memory.tempframework.clsDrive;
+import memory.tempframework.clsRuleCompareResult;
+import memory.tempframework.clsAction;
+import memory.tempframework.clsActionContainer;
 
 /**
  *

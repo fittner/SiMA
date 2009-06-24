@@ -9,15 +9,15 @@
 package simple.dumbmind;
 
 import ARSsim.physics2D.physicalObject.clsMobileObject2D;
-import bw.LocalizationOrientation.clsLocalization;
-import bw.LocalizationOrientation.clsPerceivedObj;
+import LocalizationOrientation.clsLocalization;
+import LocalizationOrientation.clsPerceivedObj;
 import bw.body.io.sensors.external.visionAnalysis.clsVisionAnalysis;
 import bw.entities.clsBubble;
-import bw.memory.clsMemory;
-import bw.memory.tempframework.clsActionContainer;
-import bw.memory.tempframework.clsContainerCompareResults;
-import bw.memory.tempframework.clsImagePerception;
-import bw.memory.tempframework.clsRecognitionProcessResult;
+import memory.clsMemory;
+import memory.tempframework.clsActionContainer;
+import memory.tempframework.clsContainerCompareResults;
+import memory.tempframework.clsImagePerception;
+import memory.tempframework.clsRecognitionProcessResult;
 import decisionunit.clsBaseDecisionUnit;
 import decisionunit.itf.actions.clsActionEat;
 import decisionunit.itf.actions.clsActionMove;
@@ -134,7 +134,7 @@ public class clsDumbMindOrientationTest extends clsBaseDecisionUnit {
 				}else{	
 					clsVision oVision = (clsVision) getSensorData().getSensorExt(eSensorExtType.VISION);
 					if (!avoid_obstacles(moPerceivedObjects,poActionProcessor) && !avoid_Walls(oVision,poActionProcessor))
-						poActionProcessor.call(new clsActionMove(eActionMoveDirection.MOVE_FORWARD,1.0));
+						poActionProcessor.call(new clsActionMove(eActionMoveDirection.MOVE_FORWARD,1.0f));
 				}
 			
 		}
@@ -166,7 +166,7 @@ public class clsDumbMindOrientationTest extends clsBaseDecisionUnit {
 			else if(tmp>2&&tmp<180)
 				poActionProcessor.call(new clsActionTurn(eActionTurnDirection.TURN_RIGHT));
     		else
-    			poActionProcessor.call(new clsActionMove(eActionMoveDirection.MOVE_FORWARD,0.9));
+    			poActionProcessor.call(new clsActionMove(eActionMoveDirection.MOVE_FORWARD,0.9f));
 		
 	}
 	

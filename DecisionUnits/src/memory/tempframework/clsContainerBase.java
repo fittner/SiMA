@@ -6,7 +6,7 @@
 package memory.tempframework;
 
 // Imports
-import bw.memory.tempframework.clsCloneable;
+import memory.tempframework.clsCloneable;
 
 /**
  *
