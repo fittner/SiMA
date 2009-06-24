@@ -20,9 +20,10 @@ import enums.eEntityType;
 import enums.eSensorExtType;
 
 public class clsRemoteControl extends clsBaseDecisionUnit  {
+	private int mnUniqueId;
 	private int moKeyPressed;
 
-	private boolean mnLogXML = true;
+	private boolean mnLogXML = false;
 	private int mnStepsToSkip = 0;
 	private int mnStepCounter = 0;
 	private String moFileName;
@@ -35,9 +36,20 @@ public class clsRemoteControl extends clsBaseDecisionUnit  {
     
 	public clsRemoteControl() {
 		super();
-
-		moFileName = clsGetARSPath.getArsPath()+"/remotebotlog_"+getDateTime()+"_"+clsSingletonUniqueIdGenerator.getUniqueId()+".xml";
+		
+		mnUniqueId = clsSingletonUniqueIdGenerator.getUniqueId();
+		moFileName = clsGetARSPath.getArsPath()+"/remotebotlog_"+getDateTime()+"_"+mnUniqueId+".xml";
+		
+		startFile();
 	}
+	
+	protected void finalize() throws Throwable
+	{
+	  endFile();
+	  //do finalization here
+	  super.finalize(); //not necessary if extending Object.
+	} 
+	
 	public void setKeyPressed(int i) {
 		moKeyPressed = i;
 	}
@@ -50,8 +62,12 @@ public class clsRemoteControl extends clsBaseDecisionUnit  {
 		return mnLogXML;
 	}	
 	
-	public void setStepsToSkip(int mnStepsToSkip) {
-		this.mnStepsToSkip = mnStepsToSkip;
+	public void setStepsToSkip(int pnStepsToSkip) {
+		mnStepsToSkip = pnStepsToSkip;
+		
+		if(mnStepsToSkip < 1){
+			mnStepsToSkip = 1;
+		}
 	}
 
 	public int getStepsToSkip() {
@@ -104,7 +120,6 @@ public class clsRemoteControl extends clsBaseDecisionUnit  {
 	}
 
 	private void eat(itfActionProcessor poActionProcessor) {
-		/*
 		clsEatableArea oEatArea = (clsEatableArea) getSensorData().getSensorExt(eSensorExtType.EATABLE_AREA);
 		if(oEatArea.mnNumEntitiesPresent > 0)
 		{
@@ -116,17 +131,46 @@ public class clsRemoteControl extends clsBaseDecisionUnit  {
 						poActionProcessor.call(new clsActionEat());	
 				}
 		}
-		*/
-		poActionProcessor.call(new clsActionEat());	
+//		poActionProcessor.call(new clsActionEat());	
+	}
+	
+	private void startFile() {
+	    try{
+	    	String logEntry = "<RemoteControl id=\""+mnUniqueId+"\">\n\n";
+	   	    // Create file 
+	   	    FileWriter fstream = new FileWriter(moFileName,false);
+	        BufferedWriter out = new BufferedWriter(fstream);
+	        out.write(logEntry);
+	        out.flush();
+	   	    //Close the output stream
+	   	    out.close();
+	     }catch (Exception e){//Catch exception if any
+	   	      System.err.println("Error: " + e.getMessage());
+	    }		
+	}
+	
+	private void endFile() {
+	    try{
+	    	String logEntry = "</RemoteControl>\n\n";
+	   	    // Create file 
+	   	    FileWriter fstream = new FileWriter(moFileName,true);
+	        BufferedWriter out = new BufferedWriter(fstream);
+	        out.write(logEntry);
+	        out.flush();
+	   	    //Close the output stream
+	   	    out.close();
+	     }catch (Exception e){//Catch exception if any
+	   	      System.err.println("Error: " + e.getMessage());
+	    }		
 	}
 	
 	private void goLogging(itfActionProcessor poActionProcessor) {
-		String logEntry = "<DUSet>";
-		
+
+
 		//skip logging for mnStepsToSkip
-		mnStepCounter++;
-		if((mnStepCounter%getSkipModulo())==0) {
-			mnStepCounter = 0;
+		if((mnStepCounter % mnStepsToSkip)==0) {
+			String logEntry = "<DUSet round=\""+mnStepCounter+"\">";
+			
 			logEntry += getSensorData().logXML();
 			logEntry += poActionProcessor.logXML();
 			
@@ -135,24 +179,17 @@ public class clsRemoteControl extends clsBaseDecisionUnit  {
 		    try{
 		   	    // Create file 
 		   	    FileWriter fstream = new FileWriter(moFileName,true);
-		         BufferedWriter out = new BufferedWriter(fstream);
-		         out.write(logEntry);
+		        BufferedWriter out = new BufferedWriter(fstream);
+		        out.write(logEntry);
+		        out.flush();
 		   	    //Close the output stream
 		   	    out.close();
 		     }catch (Exception e){//Catch exception if any
 		   	      System.err.println("Error: " + e.getMessage());
-		    }	
+		    }     
 		}
+		mnStepCounter++;
 	}
 	
-	private int getSkipModulo(){
-		
-		int oRetVal = mnStepsToSkip+1;
-		if(oRetVal < 1){
-			oRetVal = 1;
-		}
-	
-		return oRetVal;
-	}
 	
 }
