@@ -39,6 +39,23 @@ public class clsPose {
 	}
 
 	/**
+	 * TODO (deutsch) - insert description 
+	 * 
+	 * @author deutsch
+	 * 24.06.2009, 11:38:42
+	 *
+	 * @param pose
+	 */
+	public clsPose(clsPose pose) {
+		setPosition(pose.moPosition);
+		setAngle(pose.moAngle);
+	}
+
+	public void setPose(clsPose pose) {
+		setPosition(pose.moPosition);
+		setAngle(pose.moAngle);		
+	}
+	/**
 	 * @param moPosition the moPosition to set
 	 */
 	public void setPosition(sim.physics2D.util.Double2D moPosition) {
@@ -59,6 +76,10 @@ public class clsPose {
 		this.moAngle = moAngle;
 	}
 
+	public void subtract(clsPose other) {
+		moPosition = moPosition.subtract(other.moPosition);
+		moAngle = moAngle.add(-other.moAngle.radians);
+	}
 	/**
 	 * @return the moAngle
 	 */

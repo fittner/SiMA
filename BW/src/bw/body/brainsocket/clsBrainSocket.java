@@ -20,6 +20,7 @@ import decisionunit.itf.sensors.clsDataBase;
 import decisionunit.itf.sensors.clsEatableArea;
 import decisionunit.itf.sensors.clsEnergyConsumption;
 import decisionunit.itf.sensors.clsHealthSystem;
+import decisionunit.itf.sensors.clsPositionChange;
 import decisionunit.itf.sensors.clsSensorData;
 import decisionunit.itf.sensors.clsStaminaSystem;
 import decisionunit.itf.sensors.clsStomachSystem;
@@ -29,11 +30,13 @@ import enums.eSensorIntType;
 import enums.eSensorExtType;
 import ARSsim.physics2D.physicalObject.clsMobileObject2D;
 import ARSsim.physics2D.physicalObject.clsStationaryObject2D;
+import ARSsim.physics2D.util.clsPose;
 import bfg.tools.shapes.clsPolarcoordinate;
 import bw.body.itfStepProcessing;
 import bw.body.io.sensors.external.clsSensorBump;
 import bw.body.io.sensors.external.clsSensorEatableArea;
 import bw.body.io.sensors.external.clsSensorExt;
+import bw.body.io.sensors.external.clsSensorPositionChange;
 import bw.body.io.sensors.external.clsSensorVision;
 import bw.body.io.sensors.internal.clsEnergySensor;
 import bw.body.io.sensors.internal.clsHealthSensor;
@@ -92,6 +95,7 @@ public class clsBrainSocket implements itfStepProcessing {
 		clsSensorData oData = new clsSensorData();
 		
 		oData.addSensorExt(eSensorExtType.BUMP, convertBumpSensor() );
+		oData.addSensorExt(eSensorExtType.POSITIONCHANGE, convertPositionChangeSensor() );
 		oData.addSensorExt(eSensorExtType.EATABLE_AREA, convertEatAbleAreaSensor() );
 		oData.addSensorExt(eSensorExtType.VISION, converVisionSensor() );
 		
@@ -100,6 +104,18 @@ public class clsBrainSocket implements itfStepProcessing {
 		oData.addSensorInt(eSensorIntType.HEALTH_SYSTEM, convertHealthSystem() );
 		oData.addSensorInt(eSensorIntType.STAMINA, convertStaminaSystem() );
 		oData.addSensorInt(eSensorIntType.STOMACH, convertStomachSystem() );
+		
+		return oData;
+	}
+	
+	private clsPositionChange convertPositionChangeSensor() {
+		clsPositionChange oData = new clsPositionChange();
+		
+		clsSensorPositionChange oSensor = (clsSensorPositionChange)(moSensorsExt.get(eSensorExtType.POSITIONCHANGE));
+		
+		oData.x = oSensor.getPositionChange().getPosition().x;
+		oData.y = oSensor.getPositionChange().getPosition().y;
+		oData.a = oSensor.getPositionChange().getAngle().radians;
 		
 		return oData;
 	}

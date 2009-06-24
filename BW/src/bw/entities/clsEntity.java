@@ -113,6 +113,7 @@ public abstract class clsEntity {
 	 */
 	public abstract sim.physics2D.util.Double2D getPosition();
 	
+	
 	/**
 	 * TODO (deutsch) - insert description
 	 *
@@ -189,6 +190,10 @@ public abstract class clsEntity {
 	 */
 	public void setPose(clsPose poPose) {
 		((itfSetupFunctions)moPhysicalObject2D).setPose(poPose);
+	}
+	
+	public clsPose getPose() {
+		return ((itfSetupFunctions)moPhysicalObject2D).getPose();
 	}
 	
 	/**

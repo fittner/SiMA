@@ -174,7 +174,7 @@ public class clsSingleFillLevel extends JPanel {
 	 ********************************************************************************/
 	public void paintAnalysisOfANutrition(Graphics g) {
 		//this.value=3;
-		System.out.println( "minCont: "+this.mrMinContent+" maxCont: "+this.mrMaxContent+ " value: "+this.mrValueFloat);
+//		System.out.println( "minCont: "+this.mrMinContent+" maxCont: "+this.mrMaxContent+ " value: "+this.mrValueFloat);
 		//System.out.println( "min: "+this.mrMinFloat+" max: "+this.mrMaxFloat+ " value: "+this.mrValueFloat);
 		g.setColor(Color.black);
 		//minContent-Wert

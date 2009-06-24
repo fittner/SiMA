@@ -19,6 +19,7 @@ import bw.body.io.sensors.external.clsSensorAcceleration;
 import bw.body.io.sensors.external.clsSensorBump;
 import bw.body.io.sensors.external.clsSensorEatableArea;
 import bw.body.io.sensors.external.clsSensorExt;
+import bw.body.io.sensors.external.clsSensorPositionChange;
 import bw.body.io.sensors.external.clsSensorVision;
 import bw.body.itfget.itfGetBody;
 import bw.entities.clsAnimate;
@@ -104,6 +105,7 @@ public class clsExternalIO extends clsBaseIO {
 		oSensors.add(new clsConfigEnum(eConfigEntries.BUMP));
 		oSensors.add(new clsConfigEnum(eConfigEntries.VISION));
 		oSensors.add(new clsConfigEnum(eConfigEntries.EATABLE_AREA));	
+		oSensors.add(new clsConfigEnum(eConfigEntries.POSITIONCHANGE));
 		oDefault.add(eConfigEntries.EXTSENSORS, oSensors);
 		
 
@@ -125,6 +127,10 @@ public class clsExternalIO extends clsBaseIO {
 		oSC_Temp = new clsConfigMap();
 		oSC_Temp.add(eConfigEntries.ACTIVATE, new clsConfigBoolean(true));
 		oSensorConfigs.add(eConfigEntries.EATABLE_AREA, oSC_Temp);
+		
+		oSC_Temp = new clsConfigMap();
+		oSC_Temp.add(eConfigEntries.ACTIVATE, new clsConfigBoolean(true));
+		oSensorConfigs.add(eConfigEntries.POSITIONCHANGE, oSC_Temp);
 		
 		oDefault.add(eConfigEntries.EXTSENSORCONFIG, oSensorConfigs);
 		
@@ -152,6 +158,10 @@ public class clsExternalIO extends clsBaseIO {
 					case EATABLE_AREA: 
 						moSensorExternal.put(eSensorExtType.EATABLE_AREA, new clsSensorEatableArea(moEntity, this, oConfig)); 
 						break;
+						
+					case POSITIONCHANGE: 
+						moSensorExternal.put(eSensorExtType.POSITIONCHANGE, new clsSensorPositionChange(moEntity, this, oConfig)); 
+						break;						
 				}
 			}
 		}
