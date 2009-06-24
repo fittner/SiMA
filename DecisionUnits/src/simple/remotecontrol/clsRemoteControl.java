@@ -24,8 +24,8 @@ public class clsRemoteControl extends clsBaseDecisionUnit  {
 	private int moKeyPressed;
 
 	private boolean mnLogXML = false;
-	private int mnStepsToSkip = 0;
-	private int mnStepCounter = 1;
+	private int mnStepsToSkip = 1;
+	private int mnStepCounter = 0;
 	private String moFileName;
 
     private String getDateTime() {
@@ -40,7 +40,7 @@ public class clsRemoteControl extends clsBaseDecisionUnit  {
 		mnUniqueId = clsSingletonUniqueIdGenerator.getUniqueId();
 		moFileName = clsGetARSPath.getArsPath()+"/remotebotlog_"+getDateTime()+"_"+mnUniqueId+".xml";
 		
-		startFile();
+
 	}
 	
 	protected void finalize() throws Throwable
@@ -56,6 +56,12 @@ public class clsRemoteControl extends clsBaseDecisionUnit  {
 	
 	public void setLogXML(boolean mnLogXML) {
 		this.mnLogXML = mnLogXML;
+		
+		if (this.mnLogXML) {
+			startFile();
+		} else {
+			endFile();
+		}
 	}
 	
 	public boolean isLogXML() {
