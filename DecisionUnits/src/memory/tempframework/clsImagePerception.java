@@ -3,7 +3,7 @@
 //
 
 // Belongs to package
-package bw.memory.tempframework;
+package memory.tempframework;
 
 // Imports
 //import bw.memory.tempframework.enumTypeSocialLevel;

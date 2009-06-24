@@ -3,7 +3,7 @@
 //
 
 // Belongs to package
-package bw.memory.tempframework;
+package memory.tempframework;
 
 import bw.memory.tempframework.clsCloneable;
 import bw.memory.tempframework.clsContainerDrive;
