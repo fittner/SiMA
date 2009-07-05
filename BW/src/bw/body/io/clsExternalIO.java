@@ -24,6 +24,7 @@ import bw.body.io.sensors.external.clsSensorVision;
 import bw.body.itfget.itfGetBody;
 import bw.entities.clsAnimate;
 import bw.entities.clsEntity;
+import bw.entities.clsMobile;
 import bw.utils.container.clsBaseConfig;
 import bw.utils.container.clsConfigBoolean;
 import bw.utils.container.clsConfigEnum;
@@ -71,12 +72,18 @@ public class clsExternalIO extends clsBaseIO {
 		moSensorExternal = new HashMap<eSensorExtType, clsSensorExt>();
 		moProcessor = new clsActionProcessor(poEntity);
 
-		clsComplexBody oBody = (clsComplexBody) ((itfGetBody)poEntity).getBody();
 		moProcessor.addCommand(clsActionMove.class, new clsExecutorMove(poEntity, 10));
 		moProcessor.addCommand(clsActionTurn.class, new clsExecutorTurn(poEntity));
 		moProcessor.addCommand(clsActionEat.class, new clsExecutorEat(poEntity,eSensorExtType.EATABLE_AREA,1));
 		moProcessor.addCommand(clsActionKill.class, new clsExecutorKill(poEntity,eSensorExtType.EATABLE_AREA,1));
 		
+		if (poEntity instanceof clsMobile) {
+			moProcessor.addCommand(clsActionPickUp.class, new clsExecutorPickUp((clsMobile) poEntity,eSensorExtType.EATABLE_AREA,0.01f));
+			moProcessor.addCommand(clsActionDrop.class, new clsExecutorDrop((clsMobile) poEntity));
+			moProcessor.addCommand(clsActionFromInventory.class, new clsExecutorFromInventory((clsMobile) poEntity));
+			moProcessor.addCommand(clsActionToInventory.class, new clsExecutorToInventory((clsMobile) poEntity));
+		}
+
 		applyConfig();
 	}
 	

@@ -18,6 +18,7 @@ import enums.eCallPriority;
 import bw.body.clsComplexBody;
 import bw.body.itfget.itfGetBody;
 import bw.entities.clsEntity;
+import bw.entities.clsMobile;
 import bw.utils.datatypes.clsMutableFloat;
 import bw.utils.enums.*;
 import bw.exceptions.*;
@@ -38,6 +39,9 @@ public class clsActionProcessor implements itfActionProcessor {
 	 ArrayList<clsProcessorInhibition> moInhibitedCommands=new ArrayList<clsProcessorInhibition> ();
 	 ArrayList<clsProcessorCall> moCommandStack=new ArrayList<clsProcessorCall>();
 	 ArrayList<clsProcessorResult> moExecutionHistory=new ArrayList<clsProcessorResult>();
+
+	 static float srInventoryStaminaDemand = 0.25f;		//Stamina demand for a full inventory  
+	 static float srInventoryEnergyRelation = 0.2f;		//Relation energy to stamina
 
 	 private static final int mnUniqueId = clsSingletonUniqueIdGenerator.getUniqueId();
 
@@ -181,8 +185,8 @@ public class clsActionProcessor implements itfActionProcessor {
 		//2.	Delete inhibited commands
 		inhibitCommands(oExecutionStack);
 	
-		//3.	Check binding states: Consume energy and stamina when carrying objects. If the energy or stamina – levels are not sufficient the objects will be dropped automatically.
-		//TODO BD: Will be done when implementing the binding functions
+		//3.	Check binding states: Consume energy and stamina for keeping objects in the inventory
+		ConsumeBindingEnergy();
 		
 		//4.	Check energy and stamina levels: Consume energy and stamina for all remaining actions in order of priority and calling. If the energy and stamina levels are not sufficient for all the remaining commands no command (except priority “update state”) will be executed but energy and stamina levels will still be reduced down to the total minimum.
 		ConsumeEnergy(oExecutionStack);
@@ -254,6 +258,36 @@ public class clsActionProcessor implements itfActionProcessor {
 	}
 	
 	/*
+	 * Consume stamina and Energy for keeping objects in the inventory => Only Stamina will be checked for >=0, if energy goes below zero... RIP
+	 */
+	private void ConsumeBindingEnergy() {
+		if (moEntity==null) return;
+
+		if (!(moEntity instanceof clsMobile)) return;
+		clsMobile oMEntity = (clsMobile) moEntity;
+		
+		if (oMEntity.getInventory()==null) return;
+		if (oMEntity.getInventory().getMaxMass()==0 ) return;
+		clsComplexBody oBody = (clsComplexBody) ((itfGetBody)moEntity).getBody();
+
+		//get values
+		float rStaminaDemand = oMEntity.getInventory().getMass() / oMEntity.getInventory().getMaxMass() * srInventoryStaminaDemand ;
+		float rEnergyDemand = rStaminaDemand * srInventoryEnergyRelation;
+		float rStaminaAvailable = oBody.getInternalSystem().getStaminaSystem().getStamina().getContent();
+		
+		//If not enough stamina then consume what's left
+		if (rStaminaAvailable<rStaminaDemand && rStaminaDemand!=0) {
+			rEnergyDemand = rEnergyDemand * rStaminaAvailable/rStaminaDemand;
+			rStaminaDemand =rStaminaAvailable;
+		}
+
+		//Consume
+		if (rStaminaDemand>0) oBody.getInternalSystem().getStaminaSystem().consumeStamina(rStaminaDemand);
+		if (rEnergyDemand>0) oBody.getInternalEnergyConsumption().setValueOnce(new Integer(clsSingletonUniqueIdGenerator.getUniqueId()), new clsMutableFloat(rEnergyDemand));		
+		
+	}
+
+	/*
 	 * Consume stamina and Energy => Only Stamina will be checked for >=0, if energy goes below zero... RIP
 	 */
 	private void ConsumeEnergy(ArrayList<clsProcessorResult> opExecutionStack) {
@@ -283,9 +317,8 @@ public class clsActionProcessor implements itfActionProcessor {
 				
 			}
 		}
-	
 	}
-
+	
 	/*
 	 *Check for mutual exclusions: If a mutual exclusion exists, then the command 
 	 *with the highest priority is selected and all others are deleted. If more 

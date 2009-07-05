@@ -29,6 +29,9 @@ import enums.eEntityType;
  * sub-classes: clsMobile, clsStatic
  *  
  * @author langr
+ *
+ * Changes:
+ *    BD/2009-07-03: Added Inventory  
  * 
  */
 /**

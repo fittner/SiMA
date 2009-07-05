@@ -25,10 +25,13 @@ public abstract class clsMobile extends clsEntity {
 	private double mrDefaultStaticFriction = 0.2; //0.2
 	private double mrDefaultRestitution = 1.0; //1.0
 
+	protected clsInventory moInventory;
 	
 	public clsMobile(int pnId, clsPose poPose, sim.physics2D.util.Double2D poStartingVelocity, Shape poShape, double prMass,  clsConfigMap poConfig) {
 		super(pnId, clsMobile.getFinalConfig(poConfig));
-		
+
+		setEntityInventory();
+
 		applyConfig();
 		
 		if(this.meEntityType.equals(meEntityType.REMOTEBOT)) 
@@ -55,6 +58,18 @@ public abstract class clsMobile extends clsEntity {
 		
 		return oDefault;
 	}	
+
+
+	/*
+	 * Override to configure inventory-size
+	 */
+	protected void setEntityInventory() {
+		moInventory= new clsInventory(this,10,100);
+	}
+	public clsInventory getInventory() {
+		return moInventory;
+	}
+
 	
 	protected void initPhysicalObject2D(clsPose poPose, sim.physics2D.util.Double2D poStartingVelocity, Shape poShape, double prMass) {
 		moPhysicalObject2D = new clsMobileObject2D(this);

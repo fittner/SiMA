@@ -15,6 +15,7 @@ import bw.body.itfget.itfGetFlesh;
 import bw.factories.clsRegisterEntity;
 import bw.utils.container.clsConfigFloat;
 import bw.utils.container.clsConfigMap;
+import bw.utils.enums.eBindingState;
 import bw.utils.enums.eConfigEntries;
 import bw.utils.tools.clsFood;
 import bw.body.io.actuators.actionProxies.*;
@@ -28,7 +29,7 @@ import ARSsim.physics2D.util.clsPose;
  * @author muchitsch
  * 
  */
-public class clsCake extends clsInanimate implements itfGetFlesh, itfAPEatable {
+public class clsCake extends clsInanimate implements itfGetFlesh, itfAPEatable, itfAPCarryable {
 	private static double mrDefaultMass = 30.0;
 	private static double mrDefaultRadius = 10.0;
 	private static String moImagePath = sim.clsBWMain.msArsPath + "/src/resources/images/cake.gif";
@@ -207,5 +208,14 @@ public class clsCake extends clsInanimate implements itfGetFlesh, itfAPEatable {
 		
 	}
 	
+	/*
+	 * Interface Carryable
+	 */
+	public clsMobile getCarryableEntity() {
+		return this;	
+	}
+	public void setCarriedBindingState(eBindingState pBindingState) {
+		//handle binding-state implications 
+	}
 	
 }
