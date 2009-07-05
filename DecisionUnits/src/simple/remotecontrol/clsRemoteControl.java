@@ -9,10 +9,7 @@ import java.util.Date;
 import statictools.clsGetARSPath;
 import statictools.clsSingletonUniqueIdGenerator;
 import decisionunit.clsBaseDecisionUnit;
-import decisionunit.itf.actions.clsActionEat;
-import decisionunit.itf.actions.clsActionMove;
-import decisionunit.itf.actions.clsActionTurn;
-import decisionunit.itf.actions.itfActionProcessor;
+import decisionunit.itf.actions.*;
 import decisionunit.itf.sensors.clsEatableArea;
 import enums.eActionMoveDirection;
 import enums.eActionTurnDirection;
@@ -107,6 +104,19 @@ public class clsRemoteControl extends clsBaseDecisionUnit  {
     	case 69: //'E'
     		eat(poActionProcessor);
     		break;
+    	case 107: // '+'
+    		poActionProcessor.call(new clsActionPickUp() );
+    		break;
+    	case 109: // '-'
+    		poActionProcessor.call(new clsActionDrop() );
+    		break;
+    	case 111: // '/'
+    		poActionProcessor.call(new clsActionFromInventory() );
+    		break;
+    	case 106: // '*'
+    		poActionProcessor.call(new clsActionToInventory() );
+    		break;
+    		
     	case 83: //'S'
 //            if(botState==HAVECAN)
 //            {
