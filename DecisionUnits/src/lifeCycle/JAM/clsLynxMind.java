@@ -9,12 +9,16 @@ public class clsLynxMind extends clsRemoteControl  {
 
 	@Override
 	public void process(itfActionProcessor poActionProcessor) {
-		super.process(poActionProcessor);
+
+//		//===========TESTING PURPOSE ONLY!
+//		super.process(poActionProcessor);
+//		
+//	   	switch( getKeyPressed() )
+//    	{
+//    	case 66:
+//    		break;
+//    	}
+//	  //=========== END
 		
-	   	switch( getKeyPressed() )
-    	{
-    	case 66:
-    		break;
-    	}
 	}
 }
