@@ -11,7 +11,7 @@ import bw.body.itfStepUpdateInternalState;
 import bw.exceptions.exContentColumnMaxContentExceeded;
 import bw.exceptions.exContentColumnMinContentUnderrun;
 import bw.utils.container.clsConfigMap;
-import bw.utils.container.clsConfigFloat;
+import bw.utils.container.clsConfigDouble;
 import bw.utils.enums.eConfigEntries;
 import bw.utils.tools.clsFillLevel;
 
@@ -34,11 +34,11 @@ public class clsTemperatureSystem implements itfStepUpdateInternalState {
 		
 		try {
 			moTemperature = new clsFillLevel(
-					((clsConfigFloat)moConfig.get(eConfigEntries.CONTENT)).get(), 
-					((clsConfigFloat)moConfig.get(eConfigEntries.MAXCONTENT)).get(), 
-					((clsConfigFloat)moConfig.get(eConfigEntries.CHANGE)).get(), 
-					((clsConfigFloat)moConfig.get(eConfigEntries.LOWERBOUND)).get(), 
-					((clsConfigFloat)moConfig.get(eConfigEntries.UPPERBOUND)).get()
+					((clsConfigDouble)moConfig.get(eConfigEntries.CONTENT)).get(), 
+					((clsConfigDouble)moConfig.get(eConfigEntries.MAXCONTENT)).get(), 
+					((clsConfigDouble)moConfig.get(eConfigEntries.CHANGE)).get(), 
+					((clsConfigDouble)moConfig.get(eConfigEntries.LOWERBOUND)).get(), 
+					((clsConfigDouble)moConfig.get(eConfigEntries.UPPERBOUND)).get()
 					);
 		} catch (exContentColumnMaxContentExceeded e) {
 		} catch (exContentColumnMinContentUnderrun e) {
@@ -48,7 +48,7 @@ public class clsTemperatureSystem implements itfStepUpdateInternalState {
 	
 	private void applyConfig() {
 
-		mrSelfRegulationAdaption = ((clsConfigFloat)moConfig.get(eConfigEntries.SELFREGULATIONADAPTION)).get();
+		mrSelfRegulationAdaption = ((clsConfigDouble)moConfig.get(eConfigEntries.SELFREGULATIONADAPTION)).get();
 	}
 
 	private static clsConfigMap getFinalConfig(clsConfigMap poConfig) {
@@ -60,12 +60,12 @@ public class clsTemperatureSystem implements itfStepUpdateInternalState {
 	private static clsConfigMap getDefaultConfig() {
 		clsConfigMap oDefault = new clsConfigMap();
 		
-		oDefault.add(eConfigEntries.CONTENT, new clsConfigFloat(1.0f));
-		oDefault.add(eConfigEntries.MAXCONTENT, new clsConfigFloat(2.0f));
-		oDefault.add(eConfigEntries.CHANGE, new clsConfigFloat(0.0f));
-		oDefault.add(eConfigEntries.LOWERBOUND, new clsConfigFloat(0.9f));
-		oDefault.add(eConfigEntries.UPPERBOUND, new clsConfigFloat(1.1f));
-		oDefault.add(eConfigEntries.SELFREGULATIONADAPTION, new clsConfigFloat(0.01f));
+		oDefault.add(eConfigEntries.CONTENT, new clsConfigDouble(1.0f));
+		oDefault.add(eConfigEntries.MAXCONTENT, new clsConfigDouble(2.0f));
+		oDefault.add(eConfigEntries.CHANGE, new clsConfigDouble(0.0f));
+		oDefault.add(eConfigEntries.LOWERBOUND, new clsConfigDouble(0.9f));
+		oDefault.add(eConfigEntries.UPPERBOUND, new clsConfigDouble(1.1f));
+		oDefault.add(eConfigEntries.SELFREGULATIONADAPTION, new clsConfigDouble(0.01f));
 
 		return oDefault;
 	}	
@@ -86,11 +86,11 @@ public class clsTemperatureSystem implements itfStepUpdateInternalState {
 		}
 	}
 	
-	public float getRecoveryRate() {
+	public double getRecoveryRate() {
 		return moTemperature.getChange();
 	}
 	
-	public void setRecoveryRate(float prRecoveryRate) {	
+	public void setRecoveryRate(double prRecoveryRate) {	
 		moTemperature.setChange(prRecoveryRate);
 	}
 	
@@ -104,11 +104,11 @@ public class clsTemperatureSystem implements itfStepUpdateInternalState {
 		}
 	}
 	
-	public float getPercentageLow() {
+	public double getPercentageLow() {
 		return moTemperature.percentageLow();
 	}
 	
-	public float getPercentageHigh() {
+	public double getPercentageHigh() {
 		return moTemperature.percentageHigh();
 	}
 	

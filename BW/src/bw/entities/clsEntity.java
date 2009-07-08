@@ -44,7 +44,7 @@ public abstract class clsEntity {
 	
 	protected PhysicalObject2D moPhysicalObject2D;
 	private clsEntityActionResponses moEntityActionResponses;
-	private float mrMass;
+	private double mrMass;
 	protected eEntityType meEntityType;
 	private int mnId;
 	private boolean mnRegistered;
@@ -254,7 +254,7 @@ public abstract class clsEntity {
 	 * 
 	 * @param mrMass the mrMass to set
 	 */
-	public void setMass(float mrMass) {
+	public void setMass(double mrMass) {
 		this.mrMass = mrMass;
 	}
 
@@ -264,7 +264,7 @@ public abstract class clsEntity {
 	 * 
 	 * @return the mrMass
 	 */
-	public float getMass() {
+	public double getMass() {
 		return mrMass;
 	}
 	

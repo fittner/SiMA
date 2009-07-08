@@ -11,9 +11,8 @@ import java.util.HashMap;
 import java.util.Iterator;
 
 import bw.exceptions.exFoodAlreadyNormalized;
-import bw.exceptions.exFoodAmountBelowZero;
 import bw.exceptions.exFoodNotFinalized;
-import bw.utils.datatypes.clsMutableFloat;
+import bw.utils.datatypes.clsMutableDouble;
 
 /**
  * Food describes a piece of junk that can be transferred from one agent to the other (e.g. plant to bubble). It is
@@ -25,15 +24,15 @@ import bw.utils.datatypes.clsMutableFloat;
  * 
  */
 public class clsFood {
-	private HashMap<Integer, clsMutableFloat> moComposition;
-	private float mrAmount;
+	private HashMap<Integer, clsMutableDouble> moComposition;
+	private double mrAmount;
 	private boolean mnFinalized;
 	
 	/**
 	 * 
 	 */
 	public clsFood() {
-		moComposition = new HashMap<Integer, clsMutableFloat>();
+		moComposition = new HashMap<Integer, clsMutableDouble>();
 		mrAmount = 0.0f;
 		mnFinalized = false;
 	}
@@ -46,7 +45,7 @@ public class clsFood {
 		
 		while (i.hasNext()) {
 			Integer oKey = i.next();
-			clsMutableFloat oValue = new clsMutableFloat(poFood.moComposition.get(oKey));
+			clsMutableDouble oValue = new clsMutableDouble(poFood.moComposition.get(oKey));
 			moComposition.put(oKey, oValue);
 		}
 	}
@@ -57,7 +56,7 @@ public class clsFood {
 	 * @param prAmount
 	 * @throws bw.exceptions.exFoodAmountBelowZero 
 	 */
-	public void setAmount(float prAmount) throws bw.exceptions.exFoodAmountBelowZero {
+	public void setAmount(double prAmount) throws bw.exceptions.exFoodAmountBelowZero {
 		mrAmount = prAmount;
 		
 		if (mrAmount < 0.0f) {
@@ -72,7 +71,7 @@ public class clsFood {
 	 *
 	 * @return the mrAmount
 	 */
-	public float getAmount() {
+	public double getAmount() {
 		return mrAmount;
 	}
 	
@@ -83,7 +82,7 @@ public class clsFood {
 	 * @return mrAmount * mrNutritionFraction
 	 * @throws exFoodNotFinalized 
 	 */
-	public float getNutritionAmount(int pnNutritionId) throws exFoodNotFinalized {
+	public double getNutritionAmount(int pnNutritionId) throws exFoodNotFinalized {
 		return getNutritionAmount(new Integer(pnNutritionId));
 	}
 	
@@ -94,13 +93,13 @@ public class clsFood {
 	 * @return mrAmount * mrNutritionFraction
 	 * @throws exFoodNotFinalized 
 	 */
-	public float getNutritionAmount(Integer poNutritionId) throws bw.exceptions.exFoodNotFinalized {
+	public double getNutritionAmount(Integer poNutritionId) throws bw.exceptions.exFoodNotFinalized {
 		if (!mnFinalized) {
 			throw new bw.exceptions.exFoodNotFinalized();
 		}
 		
-		float rValue = moComposition.get(poNutritionId).floatValue();
-		float rTemp = mrAmount * rValue;
+		double rValue = moComposition.get(poNutritionId).doubleValue();
+		double rTemp = mrAmount * rValue;
 		return rTemp;
 		
 //		return mrAmount * moComposition.get(poNutritionId).floatValue();
@@ -113,18 +112,18 @@ public class clsFood {
 	 * @return the HashMap<Integer, clsMutableFloat>
 	 * @throws bw.exceptions.exFoodNotFinalized
 	 */
-	public HashMap<Integer, clsMutableFloat> getNutritionAmounts() throws bw.exceptions.exFoodNotFinalized {
+	public HashMap<Integer, clsMutableDouble> getNutritionAmounts() throws bw.exceptions.exFoodNotFinalized {
 		if (!mnFinalized) {
 			throw new bw.exceptions.exFoodNotFinalized();
 		}
 		
-		HashMap<Integer, clsMutableFloat> oComposition = new HashMap<Integer, clsMutableFloat>();
+		HashMap<Integer, clsMutableDouble> oComposition = new HashMap<Integer, clsMutableDouble>();
 		
 		Iterator<Integer> i =  moComposition.keySet().iterator();
 		while (i.hasNext()) {
 			Integer oKey = (Integer) i.next();
-			clsMutableFloat oFraction = moComposition.get(oKey);
-			oComposition.put(new Integer(oKey), new clsMutableFloat(oFraction.floatValue() * mrAmount));
+			clsMutableDouble oFraction = moComposition.get(oKey);
+			oComposition.put(new Integer(oKey), new clsMutableDouble(oFraction.doubleValue() * mrAmount));
 		}		
 		
 		return oComposition;
@@ -139,16 +138,16 @@ public class clsFood {
 	 * @throws exFoodAlreadyNormalized 
 	 */
 	public void addFood(clsFood poFood) throws exFoodNotFinalized, exFoodAlreadyNormalized {
-		float rAmount = this.getAmount() + poFood.getAmount();
+		double rAmount = this.getAmount() + poFood.getAmount();
 		
-		HashMap<Integer, clsMutableFloat> oSetA = poFood.getNutritionAmounts();
-		HashMap<Integer, clsMutableFloat> oSetB = this.getNutritionAmounts();
+		HashMap<Integer, clsMutableDouble> oSetA = poFood.getNutritionAmounts();
+		HashMap<Integer, clsMutableDouble> oSetB = this.getNutritionAmounts();
 		
 		//look for each entry of setA if there is a matching entry in setB. if yes, add value of setB to setA
 		Iterator<Integer> i = oSetA.keySet().iterator();
 		while (i.hasNext()) {
 			Integer oKey = i.next();
-			clsMutableFloat oValue = oSetA.get(oKey);
+			clsMutableDouble oValue = oSetA.get(oKey);
 			
 			if (oSetB.containsKey(oKey)) {
 				oValue.add( oSetB.get(oKey) );
@@ -161,7 +160,7 @@ public class clsFood {
 			Integer oKey = j.next();
 			
 			if (!oSetA.containsKey(oKey)) {
-				clsMutableFloat oValue = oSetB.get(oKey);
+				clsMutableDouble oValue = oSetB.get(oKey);
 				oSetA.put(oKey, oValue);
 			}
 		}
@@ -169,7 +168,7 @@ public class clsFood {
 		//reset this food
 		this.mnFinalized = false;
 		this.mrAmount = rAmount;
-		this.moComposition = new HashMap<Integer, clsMutableFloat>(oSetA);
+		this.moComposition = new HashMap<Integer, clsMutableDouble>(oSetA);
 		this.finalize();
 	}
 	
@@ -181,7 +180,7 @@ public class clsFood {
 	 * @param prFraction
 	 */
 	public void addNutritionFraction(int pnNurtritionId, float prFraction) throws bw.exceptions.exFoodAlreadyNormalized {
-		addNutritionFraction(new Integer(pnNurtritionId), new clsMutableFloat(prFraction));
+		addNutritionFraction(new Integer(pnNurtritionId), new clsMutableDouble(prFraction));
 	}
 	
 	/**
@@ -191,12 +190,12 @@ public class clsFood {
 	 * @param poId
 	 * @param poFraction
 	 */
-	public void addNutritionFraction(Integer poNutritionId, clsMutableFloat poFraction) throws bw.exceptions.exFoodAlreadyNormalized {
+	public void addNutritionFraction(Integer poNutritionId, clsMutableDouble poFraction) throws bw.exceptions.exFoodAlreadyNormalized {
 		if (mnFinalized) {
 			throw new bw.exceptions.exFoodAlreadyNormalized();
 		}
 		
-		if (poFraction.floatValue() < 0.0f) {
+		if (poFraction.doubleValue() < 0.0f) {
 			poFraction.set(0.0f);
 		}
 		
@@ -216,14 +215,14 @@ public class clsFood {
 		Iterator<Integer> i =  moComposition.keySet().iterator();
 			
 		while (i.hasNext()) {
-			rFractionSum += moComposition.get(i.next()).floatValue();
+			rFractionSum += moComposition.get(i.next()).doubleValue();
 		}
 			
 		float rInvFSum = 1.0f/rFractionSum;
 			
 		i = moComposition.keySet().iterator();
 		while (i.hasNext()) {
-			clsMutableFloat oFraction = moComposition.get(i.next());
+			clsMutableDouble oFraction = moComposition.get(i.next());
 			oFraction.mult(rInvFSum);
 		}
 	}

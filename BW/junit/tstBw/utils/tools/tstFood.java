@@ -14,7 +14,7 @@ import java.util.HashMap;
 import bw.exceptions.exFoodAlreadyNormalized;
 import bw.exceptions.exFoodAmountBelowZero;
 import bw.exceptions.exFoodNotFinalized;
-import bw.utils.datatypes.clsMutableFloat;
+import bw.utils.datatypes.clsMutableDouble;
 import bw.utils.tools.clsFood;
 import org.junit.Test;
 
@@ -37,7 +37,7 @@ public class tstFood {
 		
 		try {
 			@SuppressWarnings("unused")
-			float rTemp = oFood.getNutritionAmount(1);
+			double rTemp = oFood.getNutritionAmount(1);
 			fail("Food not finalised, but exception FoodNotFinalized not thrown.");
 		} catch (exFoodNotFinalized e1) {
 			//thrown exception expected 
@@ -51,7 +51,7 @@ public class tstFood {
 		
 		try {
 			@SuppressWarnings("unused")
-			float rTemp = oFood.getNutritionAmount(1);
+			double rTemp = oFood.getNutritionAmount(1);
 			fail("Food not finalised, but exception FoodNotFinalized not thrown.");
 		} catch (exFoodNotFinalized e1) {
 			//thrown exception expected 
@@ -65,7 +65,7 @@ public class tstFood {
 		
 		try {
 			@SuppressWarnings("unused")
-			float rTemp = oFood.getNutritionAmount(1);
+			double rTemp = oFood.getNutritionAmount(1);
 		} catch (exFoodNotFinalized e1) {
 			fail("Food finalised, but exception FoodNotFinalized still thrown.");
 		}		
@@ -203,7 +203,7 @@ public class tstFood {
 		} catch (exFoodAlreadyNormalized e) {
 		}
 		
-		HashMap<java.lang.Integer,clsMutableFloat> oMap = null;
+		HashMap<java.lang.Integer,clsMutableDouble> oMap = null;
 		
 		try {
 			oMap = oFood.getNutritionAmounts();

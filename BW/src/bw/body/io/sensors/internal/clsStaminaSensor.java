@@ -26,10 +26,10 @@ public class clsStaminaSensor extends clsSensorInt {
 
 	private clsBaseBody moBody;
 	
-	private float mrStaminaValue;
-	private float mrRecoveryRate;
-	private float mrLowerBound;
-	private float mrUpperBound;
+	private double mrStaminaValue;
+	private double mrRecoveryRate;
+	private double mrLowerBound;
+	private double mrUpperBound;
 	
 	
 	/**
@@ -123,8 +123,8 @@ public class clsStaminaSensor extends clsSensorInt {
 
 			mrStaminaValue = oStaminaSystem.getStamina().getContent();
 			mrRecoveryRate = oStaminaSystem.getRecoveryRate();
-			mrLowerBound = oStaminaSystem.getStamina().getLowerBound();
-			mrUpperBound = oStaminaSystem.getStamina().getUpperBound();
+			mrLowerBound   = oStaminaSystem.getStamina().getLowerBound();
+			mrUpperBound   = oStaminaSystem.getStamina().getUpperBound();
 		}
 	}
 	
@@ -138,7 +138,7 @@ public class clsStaminaSensor extends clsSensorInt {
 	/**
 	 * @return the mrStaminaValue
 	 */
-	public float getStaminaValue() {
+	public double getStaminaValue() {
 		return mrStaminaValue;
 	}
 
@@ -152,7 +152,7 @@ public class clsStaminaSensor extends clsSensorInt {
 	/**
 	 * @return the mrRecoveryRate
 	 */
-	public float getRecoveryRate() {
+	public double getRecoveryRate() {
 		return mrRecoveryRate;
 	}
 
@@ -166,7 +166,7 @@ public class clsStaminaSensor extends clsSensorInt {
 	/**
 	 * @return the mrLowerBound
 	 */
-	public float getLowerBound() {
+	public double getLowerBound() {
 		return mrLowerBound;
 	}
 
@@ -180,7 +180,7 @@ public class clsStaminaSensor extends clsSensorInt {
 	/**
 	 * @return the mrUpperBound
 	 */
-	public float getUpperBound() {
+	public double getUpperBound() {
 		return mrUpperBound;
 	}
 

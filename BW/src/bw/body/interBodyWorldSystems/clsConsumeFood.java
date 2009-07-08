@@ -16,7 +16,7 @@ import bw.exceptions.exFoodNotFinalized;
 import bw.exceptions.exNoSuchNutritionType;
 import bw.utils.container.clsConfigEnum;
 import bw.utils.container.clsConfigMap;
-import bw.utils.datatypes.clsMutableFloat;
+import bw.utils.datatypes.clsMutableDouble;
 import bw.utils.enums.eConfigEntries;
 import bw.utils.enums.eNutritions;
 import bw.utils.tools.clsFood;
@@ -66,7 +66,7 @@ public class clsConsumeFood {
 	 * @param poFood
 	 */
 	public void digest(clsFood poFood) {
-		HashMap<Integer, clsMutableFloat> oNutritions = null;
+		HashMap<Integer, clsMutableDouble> oNutritions = null;
 		
 		try {
 			oNutritions = poFood.getNutritionAmounts();
@@ -79,13 +79,13 @@ public class clsConsumeFood {
 		
 		while(i.hasNext()) {
 			Integer oNutritionType = i.next();
-			clsMutableFloat oAmount = oNutritions.get(oNutritionType);
+			clsMutableDouble oAmount = oNutritions.get(oNutritionType);
 			
 			try {
-				moStomachSystem.addNutrition(oNutritionType, oAmount.floatValue());
+				moStomachSystem.addNutrition(oNutritionType, oAmount.doubleValue());
 			} catch (exNoSuchNutritionType e) {
 				try {
-					moStomachSystem.addNutrition(moGarbageNutritionType, oAmount.floatValue());
+					moStomachSystem.addNutrition(moGarbageNutritionType, oAmount.doubleValue());
 				} catch (exNoSuchNutritionType e1) {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();

@@ -15,10 +15,10 @@ package bw.exceptions;
  */
 public class exContentColumnMinContentUnderrun extends exException {
 
-	private float mrValue;
-	private float mrMinValue;
+	private double mrValue;
+	private double mrMinValue;
 
-	public exContentColumnMinContentUnderrun(float prValue, float prMinValue) {
+	public exContentColumnMinContentUnderrun(double prValue, double prMinValue) {
 		mrValue = prValue;
 		mrMinValue = prMinValue;
 	}

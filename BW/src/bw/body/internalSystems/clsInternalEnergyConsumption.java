@@ -12,7 +12,7 @@ import java.util.Iterator;
 
 import bw.body.itfStep;
 import bw.utils.container.clsConfigMap;
-import bw.utils.datatypes.clsMutableFloat;
+import bw.utils.datatypes.clsMutableDouble;
 
 /**
  * The class energy consumption maintains a list where all active objects of the agent 
@@ -29,17 +29,17 @@ import bw.utils.datatypes.clsMutableFloat;
 public class clsInternalEnergyConsumption implements itfStep {
     private clsConfigMap moConfig;
     
-	private HashMap<Integer, clsMutableFloat> moList; // this list stores all registered values.
-	private HashMap<Integer, clsMutableFloat> moListOnce; // this list stores all registered values.
-	float mrSum; 											// stores the sum of all values within moList.
+	private HashMap<Integer, clsMutableDouble> moList; // this list stores all registered values.
+	private HashMap<Integer, clsMutableDouble> moListOnce; // this list stores all registered values.
+	double mrSum; 											// stores the sum of all values within moList.
 	boolean mnDirtyFlag; 								// set to true if moList has been changed.
 	
 	/**
 	 * This constructor initializes moList with an empty HashMap, mnDirtyFlag is set to true, and mnSum is set to 0.
 	 */
 	public clsInternalEnergyConsumption(clsConfigMap poConfig) {
-		moList = new HashMap<Integer, clsMutableFloat>();
-		moListOnce = new HashMap<Integer, clsMutableFloat>();
+		moList = new HashMap<Integer, clsMutableDouble>();
+		moListOnce = new HashMap<Integer, clsMutableDouble>();
 		mnDirtyFlag = true;
 		mrSum = 0.0f;
 		
@@ -65,8 +65,8 @@ public class clsInternalEnergyConsumption implements itfStep {
 	}	
 	
 	
-	public HashMap<Integer, clsMutableFloat> getMergedList() {
-		HashMap<Integer, clsMutableFloat> oTemp = new HashMap<Integer, clsMutableFloat>(moList);
+	public HashMap<Integer, clsMutableDouble> getMergedList() {
+		HashMap<Integer, clsMutableDouble> oTemp = new HashMap<Integer, clsMutableDouble>(moList);
 		
 		Iterator<Integer> i = moListOnce.keySet().iterator();
 		
@@ -94,24 +94,24 @@ public class clsInternalEnergyConsumption implements itfStep {
 	 * @param poKey - the key
 	 * @param pnValue - the value
 	 */
-	public void setValue(Integer poKey, clsMutableFloat poValue) {
+	public void setValue(Integer poKey, clsMutableDouble poValue) {
 		mnDirtyFlag = true;
 	
 		moList.put(poKey, poValue);
 	}
 	
-	public void setValueOnce(Integer poKey, clsMutableFloat poValue) {
+	public void setValueOnce(Integer poKey, clsMutableDouble poValue) {
 		mnDirtyFlag = true;
 		
 		moListOnce.put(poKey, poValue);
 		
 	}
 	
-	public clsMutableFloat getValue(Integer poKey) {
+	public clsMutableDouble getValue(Integer poKey) {
 		return moList.get(poKey);
 	}
 
-	public clsMutableFloat getValueOnce(Integer poKey) {
+	public clsMutableDouble getValueOnce(Integer poKey) {
 		return moListOnce.get(poKey);
 	}
 		
@@ -141,15 +141,15 @@ public class clsInternalEnergyConsumption implements itfStep {
 	 *
 	 * @return the sum of all stored values.
 	 */
-	public float getSum() {
-		float rSum = 0;
+	public double getSum() {
+		double rSum = 0;
 		
 		if (mnDirtyFlag) {
 			Iterator<Integer> i = getMergedList().keySet().iterator();
 			
 			while (i.hasNext()) {
-				clsMutableFloat oValue = getMergedList().get(i.next());
-				rSum += oValue.floatValue();
+				clsMutableDouble oValue = getMergedList().get(i.next());
+				rSum += oValue.doubleValue();
 			}
 			
 			mnDirtyFlag = false;

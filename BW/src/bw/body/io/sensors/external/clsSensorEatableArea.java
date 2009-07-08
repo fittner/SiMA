@@ -10,7 +10,7 @@ package bw.body.io.sensors.external;
 
 import bw.body.io.clsBaseIO;
 import bw.entities.clsEntity;
-import bw.utils.container.clsConfigFloat;
+import bw.utils.container.clsConfigDouble;
 import bw.utils.container.clsConfigMap;
 import bw.utils.enums.eBodyParts;
 import bw.utils.enums.eConfigEntries;
@@ -38,9 +38,9 @@ public class clsSensorEatableArea extends clsSensorVision {
 	}
 
 	private void applyConfig() {
-		mnViewRad = ((clsConfigFloat)moConfig.get(eConfigEntries.ANGLE)).get();
-		mnVisRange = ((clsConfigFloat)moConfig.get(eConfigEntries.RANGE)).get();
-		mnVisOffset = ((clsConfigFloat)moConfig.get(eConfigEntries.OFFSET)).get();
+		mnViewRad = ((clsConfigDouble)moConfig.get(eConfigEntries.ANGLE)).get();
+		mnVisRange = ((clsConfigDouble)moConfig.get(eConfigEntries.RANGE)).get();
+		mnVisOffset = ((clsConfigDouble)moConfig.get(eConfigEntries.OFFSET)).get();
 	}
 	
 	private static clsConfigMap getFinalConfig(clsConfigMap poConfig) {
@@ -52,9 +52,9 @@ public class clsSensorEatableArea extends clsSensorVision {
 	private static clsConfigMap getDefaultConfig() {
 		clsConfigMap oDefault = new clsConfigMap();
 		
-		oDefault.add(eConfigEntries.ANGLE, new clsConfigFloat((float) Math.PI));
-		oDefault.add(eConfigEntries.RANGE, new clsConfigFloat(5.0f));
-		oDefault.add(eConfigEntries.OFFSET, new clsConfigFloat(15.0f));
+		oDefault.add(eConfigEntries.ANGLE, new clsConfigDouble((float) Math.PI));
+		oDefault.add(eConfigEntries.RANGE, new clsConfigDouble(5.0f));
+		oDefault.add(eConfigEntries.OFFSET, new clsConfigDouble(15.0f));
 		
 		return oDefault;
 	}

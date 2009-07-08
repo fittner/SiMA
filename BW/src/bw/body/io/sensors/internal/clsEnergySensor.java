@@ -25,7 +25,7 @@ public class clsEnergySensor extends clsSensorInt {
 
 	private clsBaseBody moBody;
 	
-	private float mrEnergy;
+	private double mrEnergy;
 	
 	/**
 	 * TODO (langr) - insert description 
@@ -85,7 +85,7 @@ public class clsEnergySensor extends clsSensorInt {
 	/**
 	 * @return the mrEnergy
 	 */
-	public float getEnergy() {
+	public double getEnergy() {
 		return mrEnergy;
 	}
 	

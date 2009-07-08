@@ -13,7 +13,7 @@ import bw.body.clsMeatBody;
 import bw.body.internalSystems.clsFlesh;
 import bw.body.itfget.itfGetFlesh;
 import bw.factories.clsRegisterEntity;
-import bw.utils.container.clsConfigFloat;
+import bw.utils.container.clsConfigDouble;
 import bw.utils.container.clsConfigMap;
 import bw.utils.enums.eBindingState;
 import bw.utils.enums.eConfigEntries;
@@ -30,13 +30,12 @@ import ARSsim.physics2D.util.clsPose;
  * 
  */
 public class clsCake extends clsInanimate implements itfGetFlesh, itfAPEatable, itfAPCarryable {
-	private static double mrDefaultMass = 30.0;
 	private static double mrDefaultRadius = 10.0;
 	private static String moImagePath = sim.clsBWMain.msArsPath + "/src/resources/images/cake.gif";
 	private static Color moDefaultColor = Color.pink;
 	
-	private float mrCakeWeight;
-	private boolean mnTotallyConsumed;
+	private static double mrOwnMass = 1.0; //mass without any flesh left ...
+	
 	private boolean mnShapeUpdated;
 	
 	private clsMeatBody moBody;
@@ -45,24 +44,22 @@ public class clsCake extends clsInanimate implements itfGetFlesh, itfAPEatable, 
     {
 //		super(pnId, poPose, poStartingVelocity, new ARSsim.physics2D.shape.clsCircleImage(prRadius, clsStone.moDefaultColor, clsStone.moImagePath), prRadius * clsStone.mrDefaultRadiusToMassConversion);
 		//todo muchitsch ... hier wird eine default shape �bergeben, nicht null, sonst krachts
-		super(pnId, poPose, poStartingVelocity, null, clsCake.mrDefaultMass, clsCake.getFinalConfig(poConfig));
+		super(pnId, poPose, poStartingVelocity, null, clsCake.mrOwnMass, clsCake.getFinalConfig(poConfig));
 		
 		applyConfig();
 		
-		mrCakeWeight = (float) mrDefaultMass;
-		mnTotallyConsumed = false;
 		mnShapeUpdated = false;
 		
 		moBody = new clsMeatBody(this, (clsConfigMap)moConfig.get(eConfigEntries.BODY));
+		setMass(mrOwnMass + getFlesh().getAmount());
 		
-		setShape(new ARSsim.physics2D.shape.clsCircleImage(clsCake.mrDefaultRadius, moDefaultColor , moImagePath), clsCake.mrDefaultMass);
+		setShape(new ARSsim.physics2D.shape.clsCircleImage(clsCake.mrDefaultRadius, moDefaultColor , moImagePath), getMass());
 		
 		setEntityActionResponse(new clsMeatResponses(this));
     } 
 	
 	private void applyConfig() {
 		//TODO add ...
-
 	}
 	
 	private static clsConfigMap getFinalConfig(clsConfigMap poConfig) {
@@ -79,13 +76,13 @@ public class clsCake extends clsInanimate implements itfGetFlesh, itfAPEatable, 
 		clsConfigMap oFlesh = new clsConfigMap();		
 		clsConfigMap oNutritions = new clsConfigMap();
 		
-		oNutritions.add(eConfigEntries.FAT, new clsConfigFloat(5.0f));
-		oNutritions.add(eConfigEntries.WATER, new clsConfigFloat(1.0f));
+		oNutritions.add(eConfigEntries.FAT, new clsConfigDouble(5.0f));
+		oNutritions.add(eConfigEntries.WATER, new clsConfigDouble(1.0f));
 		
 		oFlesh.add(eConfigEntries.NUTRITIONS, oNutritions);
-		oFlesh.add(eConfigEntries.CONTENT, new clsConfigFloat(15.0f));
-		oFlesh.add(eConfigEntries.MAXCONTENT, new clsConfigFloat(15.0f));
-		oFlesh.add(eConfigEntries.INCREASERATE, new clsConfigFloat(0.00f));
+		oFlesh.add(eConfigEntries.CONTENT, new clsConfigDouble(15.0f));
+		oFlesh.add(eConfigEntries.MAXCONTENT, new clsConfigDouble(15.0f));
+		oFlesh.add(eConfigEntries.INCREASERATE, new clsConfigDouble(0.00f));
 		
 		oBody.add(eConfigEntries.INTSYS_FLESH, oFlesh);
 
@@ -94,23 +91,7 @@ public class clsCake extends clsInanimate implements itfGetFlesh, itfAPEatable, 
 		return oDefault;
 	}
 	
-	public float withdraw(float prAmount) {
-		float rWeight = 0.0f;
-		
-		if (prAmount > 0.0f) {
-			if (mrCakeWeight > prAmount) {
-				rWeight = prAmount;
-				mrCakeWeight -= prAmount;
-			} else {
-				rWeight = mrCakeWeight;
-				mrCakeWeight = 0.0f;
-				mnTotallyConsumed = true;
-			}
-		}
-		
-		
-		return rWeight;
-	}
+
 	
 
 	/* (non-Javadoc)
@@ -134,9 +115,9 @@ public class clsCake extends clsInanimate implements itfGetFlesh, itfAPEatable, 
 	public void updateInternalState() {
 		// TODO Auto-generated method stub
 		
-		if (mnTotallyConsumed && !mnShapeUpdated) {
+		if (getFlesh().getTotallyConsumed() && !mnShapeUpdated) {
 			mnShapeUpdated = true;
-			setShape(new sim.physics2D.shape.Circle(clsCake.mrDefaultRadius, Color.gray), clsCake.mrDefaultMass);
+			setShape(new sim.physics2D.shape.Circle(clsCake.mrDefaultRadius, Color.gray), getFlesh().getAmount());
 			
 			//TODO langr: wohin damit
 			//This command removes the cake from the playground
@@ -194,8 +175,7 @@ public class clsCake extends clsInanimate implements itfGetFlesh, itfAPEatable, 
 	public clsFlesh getFlesh() {
 		return this.moBody.getFlesh();
 	}
-
-
+	
 	/*
 	 * Interface Eatable
 	 */
@@ -203,9 +183,14 @@ public class clsCake extends clsInanimate implements itfGetFlesh, itfAPEatable, 
 		return 0;
 	}
 	public clsFood Eat(float prBiteSize) {
+		//withdraw from the flesh the food corresponding the bite size in weight
 		clsFood oFood = getFlesh().withdraw(prBiteSize);
-		return oFood;
 		
+		//update the Mason Physics2D Mass to the new weight
+		setMass(mrOwnMass + getFlesh().getAmount());
+		
+		//return the chunk of food
+		return oFood;
 	}
 	
 	/*

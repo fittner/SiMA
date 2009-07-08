@@ -10,7 +10,7 @@ package bw.body.internalSystems;
 import bw.exceptions.exFoodAlreadyNormalized;
 import bw.exceptions.exFoodAmountBelowZero;
 import bw.utils.container.clsConfigMap;
-import bw.utils.container.clsConfigFloat;
+import bw.utils.container.clsConfigDouble;
 import bw.utils.enums.eConfigEntries;
 import bw.utils.tools.clsFood;
 import java.lang.Math;
@@ -42,7 +42,7 @@ public class clsFlesh extends clsFood {
 		try {
 			while (i.hasNext()) {
 				Integer oKey = i.next();
-				addNutritionFraction(oKey, ((clsConfigFloat)oNutritions.get(oKey)).get());
+				addNutritionFraction(oKey, ((clsConfigDouble)oNutritions.get(oKey)).get());
 			}
 		} catch (exFoodAlreadyNormalized e) {
 			// TODO Auto-generated catch block
@@ -50,7 +50,7 @@ public class clsFlesh extends clsFood {
 		}
 		
 		try {
-			setAmount( ((clsConfigFloat)moConfig.get(eConfigEntries.CONTENT)).get() );
+			setAmount( ((clsConfigDouble)moConfig.get(eConfigEntries.CONTENT)).get() );
 		} catch (exFoodAmountBelowZero e1) {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
@@ -73,17 +73,17 @@ public class clsFlesh extends clsFood {
 	private static clsConfigMap getDefaultConfig() {
 		clsConfigMap oDefault = new clsConfigMap();
 		
-		oDefault.add(eConfigEntries.CONTENT, new clsConfigFloat(10.0f));
+		oDefault.add(eConfigEntries.CONTENT, new clsConfigDouble(10.0f));
 		
 		clsConfigMap oNutritions = new clsConfigMap();
 		
-		oNutritions.add(eConfigEntries.FAT, new clsConfigFloat(0.3f));
-		oNutritions.add(eConfigEntries.PROTEIN, new clsConfigFloat(0.1f));
-		oNutritions.add(eConfigEntries.VITAMIN, new clsConfigFloat(0.2f));
-		oNutritions.add(eConfigEntries.CARBOHYDRATE, new clsConfigFloat(0.5f));
-		oNutritions.add(eConfigEntries.WATER, new clsConfigFloat(1.3f));
-		oNutritions.add(eConfigEntries.MINERAL, new clsConfigFloat(0.4f));
-		oNutritions.add(eConfigEntries.TRACEELEMENT, new clsConfigFloat(0.01f));
+		oNutritions.add(eConfigEntries.FAT, new clsConfigDouble(0.3f));
+		oNutritions.add(eConfigEntries.PROTEIN, new clsConfigDouble(0.1f));
+		oNutritions.add(eConfigEntries.VITAMIN, new clsConfigDouble(0.2f));
+		oNutritions.add(eConfigEntries.CARBOHYDRATE, new clsConfigDouble(0.5f));
+		oNutritions.add(eConfigEntries.WATER, new clsConfigDouble(1.3f));
+		oNutritions.add(eConfigEntries.MINERAL, new clsConfigDouble(0.4f));
+		oNutritions.add(eConfigEntries.TRACEELEMENT, new clsConfigDouble(0.01f));
 		
 		oDefault.add(eConfigEntries.NUTRITIONS, oNutritions);
 		//TODO add default values
@@ -116,7 +116,7 @@ public class clsFlesh extends clsFood {
 	
 	public clsFood withdraw(float prAmount) {		
 		clsFood oResult = new clsFood(this);
-		float rWeight = getAmount();
+		double rWeight = getAmount();
 		
 		try {
 			reduce(prAmount);
@@ -136,5 +136,15 @@ public class clsFlesh extends clsFood {
 	
 	public boolean getTotallyConsumed() {
 		return mnTotallyConsumed;
+	}
+	
+	public void setAmount(double prAmount) throws bw.exceptions.exFoodAmountBelowZero {
+		setAmount(prAmount);
+		
+		if (getAmount() == 0.0) {
+			mnTotallyConsumed = true;
+		} else {
+			mnTotallyConsumed = false;
+		}
 	}
 }

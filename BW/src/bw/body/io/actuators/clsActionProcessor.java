@@ -19,6 +19,7 @@ import bw.body.clsComplexBody;
 import bw.body.itfget.itfGetBody;
 import bw.entities.clsEntity;
 import bw.entities.clsMobile;
+import bw.utils.datatypes.clsMutableDouble;
 import bw.utils.datatypes.clsMutableFloat;
 import bw.utils.enums.*;
 import bw.exceptions.*;
@@ -40,8 +41,8 @@ public class clsActionProcessor implements itfActionProcessor {
 	 ArrayList<clsProcessorCall> moCommandStack=new ArrayList<clsProcessorCall>();
 	 ArrayList<clsProcessorResult> moExecutionHistory=new ArrayList<clsProcessorResult>();
 
-	 static float srInventoryStaminaDemand = 0.25f;		//Stamina demand for a full inventory  
-	 static float srInventoryEnergyRelation = 0.2f;		//Relation energy to stamina
+	 static double srInventoryStaminaDemand = 0.25f;		//Stamina demand for a full inventory  
+	 static double srInventoryEnergyRelation = 0.2f;		//Relation energy to stamina
 
 	 private static final int mnUniqueId = clsSingletonUniqueIdGenerator.getUniqueId();
 
@@ -271,9 +272,9 @@ public class clsActionProcessor implements itfActionProcessor {
 		clsComplexBody oBody = (clsComplexBody) ((itfGetBody)moEntity).getBody();
 
 		//get values
-		float rStaminaDemand = oMEntity.getInventory().getMass() / oMEntity.getInventory().getMaxMass() * srInventoryStaminaDemand ;
-		float rEnergyDemand = rStaminaDemand * srInventoryEnergyRelation;
-		float rStaminaAvailable = oBody.getInternalSystem().getStaminaSystem().getStamina().getContent();
+		double rStaminaDemand = oMEntity.getInventory().getMass() / oMEntity.getInventory().getMaxMass() * srInventoryStaminaDemand ;
+		double rEnergyDemand = rStaminaDemand * srInventoryEnergyRelation;
+		double rStaminaAvailable = oBody.getInternalSystem().getStaminaSystem().getStamina().getContent();
 		
 		//If not enough stamina then consume what's left
 		if (rStaminaAvailable<rStaminaDemand && rStaminaDemand!=0) {
@@ -283,7 +284,7 @@ public class clsActionProcessor implements itfActionProcessor {
 
 		//Consume
 		if (rStaminaDemand>0) oBody.getInternalSystem().getStaminaSystem().consumeStamina(rStaminaDemand);
-		if (rEnergyDemand>0) oBody.getInternalEnergyConsumption().setValueOnce(new Integer(clsSingletonUniqueIdGenerator.getUniqueId()), new clsMutableFloat(rEnergyDemand));		
+		if (rEnergyDemand>0) oBody.getInternalEnergyConsumption().setValueOnce(new Integer(clsSingletonUniqueIdGenerator.getUniqueId()), new clsMutableDouble(rEnergyDemand));		
 		
 	}
 
@@ -300,9 +301,9 @@ public class clsActionProcessor implements itfActionProcessor {
 			if (oExRes.getActive() ) {
 
 				//get values
-				float rEnergyDemand = oExRes.getExecutor().getEnergyDemand(oExRes.getCommand());
-				float rStaminaDemand = oExRes.getExecutor().getStaminaDemand(oExRes.getCommand());
-				float rStaminaAvailable = oBody.getInternalSystem().getStaminaSystem().getStamina().getContent();
+				double rEnergyDemand = oExRes.getExecutor().getEnergyDemand(oExRes.getCommand());
+				double rStaminaDemand = oExRes.getExecutor().getStaminaDemand(oExRes.getCommand());
+				double rStaminaAvailable = oBody.getInternalSystem().getStaminaSystem().getStamina().getContent();
 				
 				//If not enough stamina then consume what's left, reduce energy but no execution
 				if (rStaminaAvailable<rStaminaDemand && rStaminaDemand!=0) {
@@ -313,7 +314,7 @@ public class clsActionProcessor implements itfActionProcessor {
 
 				//Consume
 				if (rStaminaDemand>0) oBody.getInternalSystem().getStaminaSystem().consumeStamina(rStaminaDemand);
-				if (rEnergyDemand>0) oBody.getInternalEnergyConsumption().setValueOnce(new Integer(clsSingletonUniqueIdGenerator.getUniqueId()), new clsMutableFloat(rEnergyDemand));
+				if (rEnergyDemand>0) oBody.getInternalEnergyConsumption().setValueOnce(new Integer(clsSingletonUniqueIdGenerator.getUniqueId()), new clsMutableDouble(rEnergyDemand));
 				
 			}
 		}

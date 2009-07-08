@@ -11,7 +11,7 @@ import bw.body.itfStep;
 import bw.body.internalSystems.clsFastMessengerSystem;
 import bw.body.internalSystems.clsHealthSystem;
 import bw.body.internalSystems.clsInternalSystem;
-import bw.utils.container.clsConfigFloat;
+import bw.utils.container.clsConfigDouble;
 import bw.utils.container.clsConfigMap;
 import bw.utils.enums.eConfigEntries;
 import bw.utils.enums.partclass.clsPartBrain;
@@ -55,9 +55,9 @@ public class clsDamageLightning implements itfStep {
 	
 	private void applyConfig() {
 		
-		mrPainThreshold = ((clsConfigFloat)moConfig.get(eConfigEntries.PAINTHRESHOLD)).get();
-		mrHealthPenalty = ((clsConfigFloat)moConfig.get(eConfigEntries.HEALTHPENALTY)).get();
-		mrHurtThreshold = ((clsConfigFloat)moConfig.get(eConfigEntries.HURTTHRESHOLD)).get();	
+		mrPainThreshold = ((clsConfigDouble)moConfig.get(eConfigEntries.PAINTHRESHOLD)).get();
+		mrHealthPenalty = ((clsConfigDouble)moConfig.get(eConfigEntries.HEALTHPENALTY)).get();
+		mrHurtThreshold = ((clsConfigDouble)moConfig.get(eConfigEntries.HURTTHRESHOLD)).get();	
 	}
 	
 	private static clsConfigMap getFinalConfig(clsConfigMap poConfig) {
@@ -69,9 +69,9 @@ public class clsDamageLightning implements itfStep {
 	private static clsConfigMap getDefaultConfig() {
 		clsConfigMap oDefault = new clsConfigMap();
 		
-		oDefault.add(eConfigEntries.PAINTHRESHOLD, new clsConfigFloat(0.0f));
-		oDefault.add(eConfigEntries.HEALTHPENALTY, new clsConfigFloat(1.0f));
-		oDefault.add(eConfigEntries.HURTTHRESHOLD, new clsConfigFloat(0.0f));
+		oDefault.add(eConfigEntries.PAINTHRESHOLD, new clsConfigDouble(0.0f));
+		oDefault.add(eConfigEntries.HEALTHPENALTY, new clsConfigDouble(1.0f));
+		oDefault.add(eConfigEntries.HURTTHRESHOLD, new clsConfigDouble(0.0f));
 		
 		return oDefault;
 	}

@@ -45,7 +45,6 @@ public class clsMutableFloat  extends clsCloneable {
         m_value = poValue.m_value;
     }
     
-    /** Return int value. */
     public float floatValue() {return m_value;}
     public Float FloatValue() {return new Float(m_value);} 
 

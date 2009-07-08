@@ -16,7 +16,7 @@ import bw.utils.container.clsBaseConfig;
 import bw.utils.container.clsConfigEnum;
 import bw.utils.container.clsConfigList;
 import bw.utils.container.clsConfigMap;
-import bw.utils.container.clsConfigFloat;
+import bw.utils.container.clsConfigDouble;
 import bw.utils.enums.eConfigEntries;
 import bw.utils.enums.eNutritions;
 import bw.utils.tools.clsNutritionLevel;
@@ -31,23 +31,23 @@ public class clsStomachSystem implements itfStepUpdateInternalState {
     private clsConfigMap moConfig;
     
 	private HashMap<Integer, clsNutritionLevel> moNutritions;
-	private HashMap<Integer, Float> moFractions;
-	private float mrFractionSum;
-	private float mrEnergy;
+	private HashMap<Integer, Double> moFractions;
+	private double mrFractionSum;
+	private double mrEnergy;
 	
-	private float mrDefaultMaxLevel;
-	private float mrDefaultContent;
-	private float mrDefaultLowerBorder;
-	private float mrDefaultUpperBorder;
-	private float mrDefaultDecreasePerStep;
-	private float mrDefaultFraction;
+	private double mrDefaultMaxLevel;
+	private double mrDefaultContent;
+	private double mrDefaultLowerBorder;
+	private double mrDefaultUpperBorder;
+	private double mrDefaultDecreasePerStep;
+	private double mrDefaultFraction;
 	
 	/**
 	 * TODO (deutsch) - insert description
 	 */
 	public clsStomachSystem(clsConfigMap poConfig) {
 		moNutritions = new HashMap<Integer, clsNutritionLevel>();
-		moFractions = new HashMap<Integer, Float>();
+		moFractions = new HashMap<Integer, Double>();
 		
 		moConfig = getFinalConfig(poConfig);
 		applyConfig();	
@@ -60,12 +60,12 @@ public class clsStomachSystem implements itfStepUpdateInternalState {
 		
 		clsConfigMap oNutConf = (clsConfigMap)moConfig.get(eConfigEntries.NUTRITIONCONFIG);
 		
-		mrDefaultMaxLevel = ((clsConfigFloat)oNutConf.get(eConfigEntries.MAXCONTENT)).get();
-		mrDefaultContent = ((clsConfigFloat)oNutConf.get(eConfigEntries.CONTENT)).get();
-		mrDefaultLowerBorder = ((clsConfigFloat)oNutConf.get(eConfigEntries.LOWERBOUND)).get();
-		mrDefaultUpperBorder = ((clsConfigFloat)oNutConf.get(eConfigEntries.UPPERBOUND)).get();
-		mrDefaultDecreasePerStep = ((clsConfigFloat)oNutConf.get(eConfigEntries.DECAYRATE)).get();
-		mrDefaultFraction = ((clsConfigFloat)oNutConf.get(eConfigEntries.FRACTION)).get();		
+		mrDefaultMaxLevel = ((clsConfigDouble)oNutConf.get(eConfigEntries.MAXCONTENT)).get();
+		mrDefaultContent = ((clsConfigDouble)oNutConf.get(eConfigEntries.CONTENT)).get();
+		mrDefaultLowerBorder = ((clsConfigDouble)oNutConf.get(eConfigEntries.LOWERBOUND)).get();
+		mrDefaultUpperBorder = ((clsConfigDouble)oNutConf.get(eConfigEntries.UPPERBOUND)).get();
+		mrDefaultDecreasePerStep = ((clsConfigDouble)oNutConf.get(eConfigEntries.DECAYRATE)).get();
+		mrDefaultFraction = ((clsConfigDouble)oNutConf.get(eConfigEntries.FRACTION)).get();		
 
 		clsConfigList oNutList = (clsConfigList)moConfig.get(eConfigEntries.NUTRITIONS);
 		Iterator<clsBaseConfig> i = oNutList.iterator();
@@ -74,7 +74,7 @@ public class clsStomachSystem implements itfStepUpdateInternalState {
 			addNutritionType( ((clsConfigEnum)i.next()).ordinal() );
 		}
 
-		addEnergy( ((clsConfigFloat)moConfig.get(eConfigEntries.CONTENT)).get() );		
+		addEnergy( ((clsConfigDouble)moConfig.get(eConfigEntries.CONTENT)).get() );		
 	}
 
 	private static clsConfigMap getFinalConfig(clsConfigMap poConfig) {
@@ -87,12 +87,12 @@ public class clsStomachSystem implements itfStepUpdateInternalState {
 		clsConfigMap oDefault = new clsConfigMap();
 		
 		clsConfigMap oNutritionConfig = new clsConfigMap();		
-		oNutritionConfig.add(eConfigEntries.MAXCONTENT, new clsConfigFloat(5.0f));
-		oNutritionConfig.add(eConfigEntries.CONTENT, new clsConfigFloat(0.0f));
-		oNutritionConfig.add(eConfigEntries.LOWERBOUND, new clsConfigFloat(0.5f));
-		oNutritionConfig.add(eConfigEntries.UPPERBOUND, new clsConfigFloat(2.5f));
-		oNutritionConfig.add(eConfigEntries.DECAYRATE, new clsConfigFloat(0.0001f));
-		oNutritionConfig.add(eConfigEntries.FRACTION, new clsConfigFloat(1.0f));
+		oNutritionConfig.add(eConfigEntries.MAXCONTENT, new clsConfigDouble(5.0f));
+		oNutritionConfig.add(eConfigEntries.CONTENT, new clsConfigDouble(0.0f));
+		oNutritionConfig.add(eConfigEntries.LOWERBOUND, new clsConfigDouble(0.5f));
+		oNutritionConfig.add(eConfigEntries.UPPERBOUND, new clsConfigDouble(2.5f));
+		oNutritionConfig.add(eConfigEntries.DECAYRATE, new clsConfigDouble(0.0001f));
+		oNutritionConfig.add(eConfigEntries.FRACTION, new clsConfigDouble(1.0f));
 		oDefault.add(eConfigEntries.NUTRITIONCONFIG, oNutritionConfig);		
 		
 		clsConfigList oNutritions = new clsConfigList();
@@ -105,7 +105,7 @@ public class clsStomachSystem implements itfStepUpdateInternalState {
 		oNutritions.add(new clsConfigEnum(eNutritions.TRACEELEMENT));
 		oDefault.add(eConfigEntries.NUTRITIONS, oNutritions);
 		
-		oDefault.add(eConfigEntries.CONTENT, new clsConfigFloat(10.0f));
+		oDefault.add(eConfigEntries.CONTENT, new clsConfigDouble(10.0f));
 
 		return oDefault;
 	}
@@ -133,7 +133,7 @@ public class clsStomachSystem implements itfStepUpdateInternalState {
 						mrDefaultUpperBorder, mrDefaultDecreasePerStep);
 
 				moNutritions.put(poId, oNL);
-				moFractions.put(poId, new Float(mrDefaultFraction));
+				moFractions.put(poId, new Double(mrDefaultFraction));
 			} catch (exContentColumnMaxContentExceeded e) {
 			} catch (exContentColumnMinContentUnderrun e) {
 			}			
@@ -184,8 +184,8 @@ public class clsStomachSystem implements itfStepUpdateInternalState {
 	 * @return
 	 * @throws bw.exceptions.exNoSuchNutritionType 
 	 */
-	public float addNutrition(Integer poId, float prAmount) throws bw.exceptions.exNoSuchNutritionType {
-		float rResult = 0;
+	public double addNutrition(Integer poId, double prAmount) throws bw.exceptions.exNoSuchNutritionType {
+		double rResult = 0;
 
 		clsNutritionLevel oNL = this.getNutritionLevel(poId);
 		
@@ -193,8 +193,8 @@ public class clsStomachSystem implements itfStepUpdateInternalState {
 			throw new bw.exceptions.exNoSuchNutritionType(poId);
 		}
 		
-		float rNutritionLevel = oNL.getContent();
-		float rNutritionLevelUpdate = rNutritionLevel;
+		double rNutritionLevel = oNL.getContent();
+		double rNutritionLevelUpdate = rNutritionLevel;
 		
 		if (oNL != null) {
 			try {
@@ -222,8 +222,8 @@ public class clsStomachSystem implements itfStepUpdateInternalState {
 	 * @return
 	 * @throws bw.exceptions.exNoSuchNutritionType 
 	 */
-	public float withdrawNutrition(Integer poId, float prAmount) throws bw.exceptions.exNoSuchNutritionType {
-		float rResult = 0;
+	public double withdrawNutrition(Integer poId, double prAmount) throws bw.exceptions.exNoSuchNutritionType {
+		double rResult = 0;
 		
 		clsNutritionLevel oNL = this.getNutritionLevel(poId);
 		
@@ -231,8 +231,8 @@ public class clsStomachSystem implements itfStepUpdateInternalState {
 			throw new bw.exceptions.exNoSuchNutritionType(poId);
 		}
 		
-		float rNutritionLevel = oNL.getContent();
-		float rNutritionLevelUpdate = rNutritionLevel;
+		double rNutritionLevel = oNL.getContent();
+		double rNutritionLevelUpdate = rNutritionLevel;
 		
 		if (oNL != null) {
 			try {
@@ -258,10 +258,10 @@ public class clsStomachSystem implements itfStepUpdateInternalState {
 	 * @param prAmount
 	 * @return
 	 */
-	public clsChangeEnergyResult addEnergy(float prAmount) {
-		float rAmountFraction = prAmount / this.mrFractionSum;
+	public clsChangeEnergyResult addEnergy(double prAmount) {
+		double rAmountFraction = prAmount / this.mrFractionSum;
 		clsChangeEnergyResult oResult = new clsChangeEnergyResult();
-		float rEnergyLevel = this.getEnergy();
+		double rEnergyLevel = this.getEnergy();
 
 		Iterator<Integer> i = moNutritions.keySet().iterator();
 		
@@ -270,9 +270,9 @@ public class clsStomachSystem implements itfStepUpdateInternalState {
 			
 			clsNutritionLevel oNL = moNutritions.get(oKey);
 			
-			float rFraction = moFractions.get(oKey).floatValue();
-			float rContent = oNL.getContent();
-			float rFractionPercentage = 0.0f;
+			double rFraction = moFractions.get(oKey).floatValue();
+			double rContent = oNL.getContent();
+			double rFractionPercentage = 0.0f;
 			
 			try {
 				oNL.increase(rFraction * rAmountFraction);
@@ -292,13 +292,13 @@ public class clsStomachSystem implements itfStepUpdateInternalState {
 				
 			}
 			
-			oResult.addFraction(oKey, new Float( rFractionPercentage ));
+			oResult.addFraction(oKey, new Double( rFractionPercentage ));
 			
 		}
 				
 		this.updateEnergy();
 		
-		float rEnergyLevelUpdate = this.getEnergy();
+		double rEnergyLevelUpdate = this.getEnergy();
 		
 		try {
 			oResult.setTotalPercentage( (rEnergyLevelUpdate-rEnergyLevel) / prAmount );
@@ -314,10 +314,10 @@ public class clsStomachSystem implements itfStepUpdateInternalState {
 	 * @param prAmount
 	 * @return
 	 */
-	public clsChangeEnergyResult withdrawEnergy(float prAmount) {		
-		float rAmountFraction = prAmount / this.mrFractionSum;
+	public clsChangeEnergyResult withdrawEnergy(double prAmount) {		
+		double rAmountFraction = prAmount / this.mrFractionSum;
 		clsChangeEnergyResult oResult = new clsChangeEnergyResult();
-		float rEnergyLevel = this.getEnergy();
+		double rEnergyLevel = this.getEnergy();
 		
 		Iterator<Integer> i = moNutritions.keySet().iterator();
 		
@@ -326,9 +326,9 @@ public class clsStomachSystem implements itfStepUpdateInternalState {
 			
 			clsNutritionLevel oNL = moNutritions.get(oKey);
 			
-			float rFraction = moFractions.get(oKey).floatValue();			
-			float rContent = oNL.getContent();
-			float rFractionPercentage = 0.0f;
+			double rFraction = moFractions.get(oKey).floatValue();			
+			double rContent = oNL.getContent();
+			double rFractionPercentage = 0.0f;
 
 			try {
 				oNL.decrease(rFraction * rAmountFraction);
@@ -348,13 +348,13 @@ public class clsStomachSystem implements itfStepUpdateInternalState {
 				
 			}
 			
-			oResult.addFraction(oKey, new Float( rFractionPercentage ));
+			oResult.addFraction(oKey, new Double( rFractionPercentage ));
 			
 		}		
 		
 		this.updateEnergy();	
 		
-		float rEnergyLevelUpdate = this.getEnergy();
+		double rEnergyLevelUpdate = this.getEnergy();
 		
 		try {
 			oResult.setTotalPercentage( (rEnergyLevelUpdate-rEnergyLevel) / prAmount );
@@ -403,7 +403,7 @@ public class clsStomachSystem implements itfStepUpdateInternalState {
 	 *
 	 * @return
 	 */
-	public float getEnergy() {
+	public double getEnergy() {
 		return this.mrEnergy;
 	}
 }

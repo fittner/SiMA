@@ -16,7 +16,7 @@ import bw.exceptions.exSlowMessengerAlreadyExists;
 import bw.exceptions.exSlowMessengerDoesNotExist;
 import bw.exceptions.exValueNotWithinRange;
 import bw.utils.container.clsConfigMap;
-import bw.utils.container.clsConfigFloat;
+import bw.utils.container.clsConfigDouble;
 import bw.utils.enums.eConfigEntries;
 import bw.utils.tools.clsDecayColumn;
 
@@ -31,10 +31,10 @@ public class clsSlowMessengerSystem implements itfStepUpdateInternalState {
     
 	private HashMap<Integer, clsDecayColumn> moSlowMessengerContainer;
 
-	private float mrDefaultContent;
-	private float mrDefaultMaxContent;
-	private float mrDefaultIncreaseRate;
-	private float mrDefaultDecayRate;
+	private double mrDefaultContent;
+	private double mrDefaultMaxContent;
+	private double mrDefaultIncreaseRate;
+	private double mrDefaultDecayRate;
 	 
 	/**
 	 * 
@@ -48,10 +48,10 @@ public class clsSlowMessengerSystem implements itfStepUpdateInternalState {
 	
 	private void applyConfig() {
 		
-		mrDefaultContent = ((clsConfigFloat)moConfig.get(eConfigEntries.CONTENT)).get();
-		mrDefaultMaxContent = ((clsConfigFloat)moConfig.get(eConfigEntries.MAXCONTENT)).get();
-		mrDefaultIncreaseRate = ((clsConfigFloat)moConfig.get(eConfigEntries.INCREASERATE)).get();
-		mrDefaultDecayRate = ((clsConfigFloat)moConfig.get(eConfigEntries.DECAYRATE)).get();
+		mrDefaultContent = ((clsConfigDouble)moConfig.get(eConfigEntries.CONTENT)).get();
+		mrDefaultMaxContent = ((clsConfigDouble)moConfig.get(eConfigEntries.MAXCONTENT)).get();
+		mrDefaultIncreaseRate = ((clsConfigDouble)moConfig.get(eConfigEntries.INCREASERATE)).get();
+		mrDefaultDecayRate = ((clsConfigDouble)moConfig.get(eConfigEntries.DECAYRATE)).get();
 	}
 
 	private static clsConfigMap getFinalConfig(clsConfigMap poConfig) {
@@ -63,10 +63,10 @@ public class clsSlowMessengerSystem implements itfStepUpdateInternalState {
 	private static clsConfigMap getDefaultConfig() {
 		clsConfigMap oDefault = new clsConfigMap();
 		
-		oDefault.add(eConfigEntries.CONTENT, new clsConfigFloat(0.0f));
-		oDefault.add(eConfigEntries.MAXCONTENT, new clsConfigFloat(1.0f));
-		oDefault.add(eConfigEntries.INCREASERATE, new clsConfigFloat(0.1f));
-		oDefault.add(eConfigEntries.DECAYRATE, new clsConfigFloat(0.01f));
+		oDefault.add(eConfigEntries.CONTENT, new clsConfigDouble(0.0f));
+		oDefault.add(eConfigEntries.MAXCONTENT, new clsConfigDouble(1.0f));
+		oDefault.add(eConfigEntries.INCREASERATE, new clsConfigDouble(0.1f));
+		oDefault.add(eConfigEntries.DECAYRATE, new clsConfigDouble(0.01f));
 		
 		return oDefault;
 	}
@@ -143,7 +143,7 @@ public class clsSlowMessengerSystem implements itfStepUpdateInternalState {
 	 * @return
 	 * @throws exSlowMessengerDoesNotExist
 	 */
-	public float getMessengerValue(int pnMessengerId) throws exSlowMessengerDoesNotExist {
+	public double getMessengerValue(int pnMessengerId) throws exSlowMessengerDoesNotExist {
 		return getMessengerValue(new Integer(pnMessengerId));
 	}
 	
@@ -154,7 +154,7 @@ public class clsSlowMessengerSystem implements itfStepUpdateInternalState {
 	 * @return
 	 * @throws exSlowMessengerDoesNotExist
 	 */
-	public float getMessengerValue(Integer poMessengerId) throws exSlowMessengerDoesNotExist {
+	public double getMessengerValue(Integer poMessengerId) throws exSlowMessengerDoesNotExist {
 		if (!moSlowMessengerContainer.containsKey(poMessengerId)) {
 			throw new bw.exceptions.exSlowMessengerDoesNotExist(poMessengerId);
 		}		
@@ -170,7 +170,7 @@ public class clsSlowMessengerSystem implements itfStepUpdateInternalState {
 	 * @throws exSlowMessengerDoesNotExist
 	 * @throws exValueNotWithinRange
 	 */
-	public void inject(int pnMessengerId, float prAmount) throws exSlowMessengerDoesNotExist, exValueNotWithinRange {		
+	public void inject(int pnMessengerId, double prAmount) throws exSlowMessengerDoesNotExist, exValueNotWithinRange {		
 		inject(new Integer(pnMessengerId), prAmount);
 	}
 	
@@ -182,7 +182,7 @@ public class clsSlowMessengerSystem implements itfStepUpdateInternalState {
 	 * @throws exSlowMessengerDoesNotExist
 	 * @throws exValueNotWithinRange
 	 */
-	public void inject(Integer poMessengerId, float prAmount) throws exSlowMessengerDoesNotExist, exValueNotWithinRange {		
+	public void inject(Integer poMessengerId, double prAmount) throws exSlowMessengerDoesNotExist, exValueNotWithinRange {		
 		if (!moSlowMessengerContainer.containsKey(poMessengerId)) {
 			throw new bw.exceptions.exSlowMessengerDoesNotExist(poMessengerId);
 		}

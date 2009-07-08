@@ -11,7 +11,7 @@ import bw.body.itfStepUpdateInternalState;
 import bw.exceptions.exContentColumnMaxContentExceeded;
 import bw.exceptions.exContentColumnMinContentUnderrun;
 import bw.utils.container.clsConfigMap;
-import bw.utils.container.clsConfigFloat;
+import bw.utils.container.clsConfigDouble;
 import bw.utils.enums.eConfigEntries;
 import bw.utils.tools.clsFillLevel;
 
@@ -44,9 +44,9 @@ public class clsStaminaSystem implements itfStepUpdateInternalState {
 		
 		try {
 			moStamina = new clsFillLevel(
-					((clsConfigFloat)moConfig.get(eConfigEntries.CONTENT)).get(), 
-					((clsConfigFloat)moConfig.get(eConfigEntries.MAXCONTENT)).get(), 
-					((clsConfigFloat)moConfig.get(eConfigEntries.CHANGE)).get()
+					((clsConfigDouble)moConfig.get(eConfigEntries.CONTENT)).get(), 
+					((clsConfigDouble)moConfig.get(eConfigEntries.MAXCONTENT)).get(), 
+					((clsConfigDouble)moConfig.get(eConfigEntries.CHANGE)).get()
 					);
 		} catch (exContentColumnMaxContentExceeded e) {
 		} catch (exContentColumnMinContentUnderrun e) {
@@ -67,14 +67,14 @@ public class clsStaminaSystem implements itfStepUpdateInternalState {
 	private static clsConfigMap getDefaultConfig() {
 		clsConfigMap oDefault = new clsConfigMap();
 
-		oDefault.add(eConfigEntries.CONTENT, new clsConfigFloat(1.0f));
-		oDefault.add(eConfigEntries.MAXCONTENT, new clsConfigFloat(1.0f));
-		oDefault.add(eConfigEntries.CHANGE, new clsConfigFloat(0.05f));
+		oDefault.add(eConfigEntries.CONTENT, new clsConfigDouble(1.0f));
+		oDefault.add(eConfigEntries.MAXCONTENT, new clsConfigDouble(1.0f));
+		oDefault.add(eConfigEntries.CHANGE, new clsConfigDouble(0.05f));
 		
 		return oDefault;
 	}	
 	
-	public void consumeStamina(float prStaminaConsumed) {
+	public void consumeStamina(double prStaminaConsumed) {
 		try {
 			moStamina.decrease(prStaminaConsumed);
 		} catch (exContentColumnMaxContentExceeded e) {
@@ -82,7 +82,7 @@ public class clsStaminaSystem implements itfStepUpdateInternalState {
 		}
 	}
 	
-	public void regainStamina(float prStaminaRegained) {
+	public void regainStamina(double prStaminaRegained) {
 		try {
 			moStamina.increase(prStaminaRegained);
 		} catch (exContentColumnMaxContentExceeded e) {
@@ -90,11 +90,11 @@ public class clsStaminaSystem implements itfStepUpdateInternalState {
 		}
 	}
 	
-	public float getRecoveryRate() {
+	public double getRecoveryRate() {
 		return moStamina.getChange();
 	}
 	
-	public void setRecoveryRate(float prRecoveryRate) {
+	public void setRecoveryRate(double prRecoveryRate) {
 		if (prRecoveryRate < 0.0f) {
 			prRecoveryRate = 0.0f;
 		}

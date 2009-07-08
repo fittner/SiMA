@@ -21,15 +21,15 @@ public class clsDecayColumn extends clsContentColumn {
 	/**
 	 * 
 	 */
-	private float mrIncreaseRate;
+	private double mrIncreaseRate;
 	/**
 	 * 
 	 */
-	private float mrDecayRate;
+	private double mrDecayRate;
 	/**
 	 * 
 	 */
-	private float mrInjectionValue;	
+	private double mrInjectionValue;	
 	/**
 	 * 
 	 */
@@ -37,7 +37,7 @@ public class clsDecayColumn extends clsContentColumn {
 	/**
 	 * 
 	 */
-	private float mrZeroDelta;
+	private double mrZeroDelta;
 	
 	/**
 	 * @throws exContentColumnMinContentUnderrun 
@@ -63,7 +63,7 @@ public class clsDecayColumn extends clsContentColumn {
 	 * @throws exContentColumnMaxContentExceeded 
 	 * @throws exValueNotWithinRange 
 	 */
-	public clsDecayColumn(float prIncreaseRate, float prDecayRate) throws exContentColumnMaxContentExceeded, exContentColumnMinContentUnderrun, exValueNotWithinRange {
+	public clsDecayColumn(double prIncreaseRate, double prDecayRate) throws exContentColumnMaxContentExceeded, exContentColumnMinContentUnderrun, exValueNotWithinRange {
 		super(0.0f, 1.0f);
 
 		this.setIncreaseRate(prIncreaseRate);
@@ -83,7 +83,7 @@ public class clsDecayColumn extends clsContentColumn {
 	 * @throws exContentColumnMinContentUnderrun
 	 * @throws exValueNotWithinRange
 	 */
-	public clsDecayColumn(float prContent, float prMaxContent, float prIncreaseRate, float prDecayRate) throws exContentColumnMaxContentExceeded, exContentColumnMinContentUnderrun, exValueNotWithinRange {
+	public clsDecayColumn(double prContent, double prMaxContent, double prIncreaseRate, double prDecayRate) throws exContentColumnMaxContentExceeded, exContentColumnMinContentUnderrun, exValueNotWithinRange {
 		super(prContent, prMaxContent);
 
 		this.setIncreaseRate(prIncreaseRate);
@@ -97,7 +97,7 @@ public class clsDecayColumn extends clsContentColumn {
 	/**
 	 * @return the mrZeroDelta
 	 */
-	public float getZeroDelta() {
+	public double getZeroDelta() {
 		return mrZeroDelta;
 	}
 	
@@ -106,7 +106,7 @@ public class clsDecayColumn extends clsContentColumn {
 	 * @param mrZeroDelta the mrZeroDelta to set
 	 * @throws exValueNotWithinRange 
 	 */
-	public void setZeroDelta(float prZeroDelta) throws exValueNotWithinRange {
+	public void setZeroDelta(double prZeroDelta) throws exValueNotWithinRange {
 		if (prZeroDelta < 0.0f || prZeroDelta > 0.1f) {
 			throw new bw.exceptions.exValueNotWithinRange(0.0f, prZeroDelta, 1.0f);			
 		}		
@@ -124,7 +124,7 @@ public class clsDecayColumn extends clsContentColumn {
 	/**
 	 * @return the mrIncreaseRate
 	 */
-	public float getIncreaseRate() {
+	public double getIncreaseRate() {
 		return mrIncreaseRate;
 	}
 
@@ -132,7 +132,7 @@ public class clsDecayColumn extends clsContentColumn {
 	 * @param mrIncreaseRate the mrIncreaseRate to set
 	 * @throws exValueNotWithinRange 
 	 */
-	public void setIncreaseRate(float prIncreaseRate) throws exValueNotWithinRange {		
+	public void setIncreaseRate(double prIncreaseRate) throws exValueNotWithinRange {		
 		if (prIncreaseRate < 0.0f || prIncreaseRate > 1.0f) {
 			throw new bw.exceptions.exValueNotWithinRange(0.0f, prIncreaseRate, 1.0f);			
 		}
@@ -143,7 +143,7 @@ public class clsDecayColumn extends clsContentColumn {
 	/**
 	 * @return the mrDecayRate
 	 */
-	public float getDecayRate() {
+	public double getDecayRate() {
 		return mrDecayRate;
 	}
 
@@ -151,7 +151,7 @@ public class clsDecayColumn extends clsContentColumn {
 	 * @param mrDecayRate the mrDecayRate to set
 	 * @throws exValueNotWithinRange 
 	 */
-	public void setDecayRate(float prDecayRate) throws exValueNotWithinRange {
+	public void setDecayRate(double prDecayRate) throws exValueNotWithinRange {
 		if (prDecayRate < 0.0f || prDecayRate > 1.0f) {
 			throw new bw.exceptions.exValueNotWithinRange(0.0f, prDecayRate, 1.0f);			
 		}
@@ -165,7 +165,7 @@ public class clsDecayColumn extends clsContentColumn {
 	 * @param prAmount
 	 * @throws exValueNotWithinRange
 	 */
-	public void inject(float prAmount) throws exValueNotWithinRange {
+	public void inject(double prAmount) throws exValueNotWithinRange {
 		if (prAmount < 0.0f || prAmount > this.getMaxContent()) {
 			throw new bw.exceptions.exValueNotWithinRange(0.0f, prAmount, this.getMaxContent());
 		}
@@ -176,7 +176,7 @@ public class clsDecayColumn extends clsContentColumn {
 	/**
 	 * @return the mrInjectionValue
 	 */
-	public float getInjectionValue() {
+	public double getInjectionValue() {
 		return mrInjectionValue;
 	}
 
@@ -186,7 +186,7 @@ public class clsDecayColumn extends clsContentColumn {
 	 * @param prInjectionValue
 	 * @throws exValueNotWithinRange
 	 */
-	public void setInjectionValue(float prInjectionValue) throws exValueNotWithinRange {
+	public void setInjectionValue(double prInjectionValue) throws exValueNotWithinRange {
 		if (prInjectionValue < 0.0f || prInjectionValue > this.getMaxContent()) {
 			throw new bw.exceptions.exValueNotWithinRange(0.0f, prInjectionValue, this.getMaxContent());
 		}
@@ -200,7 +200,7 @@ public class clsDecayColumn extends clsContentColumn {
 	 *
 	 */
 	private void decay() {
-		float rContent = getContent();
+		double rContent = getContent();
 		
 		rContent = rContent - rContent * mrDecayRate;
 		
@@ -218,8 +218,8 @@ public class clsDecayColumn extends clsContentColumn {
 	 *
 	 */
 	private void increase() {
-		float rContent = getContent();
-		float rChange = mrInjectionValue * mrIncreaseRate;
+		double rContent = getContent();
+		double rChange = mrInjectionValue * mrIncreaseRate;
 		
 		rContent = rContent + rChange;
 		

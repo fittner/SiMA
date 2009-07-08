@@ -19,7 +19,7 @@ import bw.body.io.clsBaseIO;
 import bw.entities.clsEntity;
 import bw.entities.clsMobile;
 import bw.physicalObjects.sensors.clsEntityPartVision;
-import bw.utils.container.clsConfigFloat;
+import bw.utils.container.clsConfigDouble;
 import bw.utils.container.clsConfigMap;
 import bw.utils.enums.eBodyParts;
 import bw.utils.enums.eConfigEntries;
@@ -66,9 +66,9 @@ public class clsSensorVision extends clsSensorExt {
 	}	
 	
 	private void applyConfig() {	
-		mnViewRad = ((clsConfigFloat)moConfig.get(eConfigEntries.ANGLE)).get();
-		mnVisRange = ((clsConfigFloat)moConfig.get(eConfigEntries.RANGE)).get();
-		mnVisOffset = ((clsConfigFloat)moConfig.get(eConfigEntries.OFFSET)).get();
+		mnViewRad = ((clsConfigDouble)moConfig.get(eConfigEntries.ANGLE)).get();
+		mnVisRange = ((clsConfigDouble)moConfig.get(eConfigEntries.RANGE)).get();
+		mnVisOffset = ((clsConfigDouble)moConfig.get(eConfigEntries.OFFSET)).get();
 	}
 	
 	private static clsConfigMap getFinalConfig(clsConfigMap poConfig) {
@@ -80,9 +80,9 @@ public class clsSensorVision extends clsSensorExt {
 	private static clsConfigMap getDefaultConfig() {
 		clsConfigMap oDefault = new clsConfigMap();
 		
-		oDefault.add(eConfigEntries.ANGLE, new clsConfigFloat((float) Math.PI));
-		oDefault.add(eConfigEntries.RANGE, new clsConfigFloat(50.0f));
-		oDefault.add(eConfigEntries.OFFSET, new clsConfigFloat(0.0f));
+		oDefault.add(eConfigEntries.ANGLE, new clsConfigDouble((float) Math.PI));
+		oDefault.add(eConfigEntries.RANGE, new clsConfigDouble(50.0f));
+		oDefault.add(eConfigEntries.OFFSET, new clsConfigDouble(0.0f));
 		
 
 		return oDefault;

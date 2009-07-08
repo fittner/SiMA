@@ -11,7 +11,7 @@ import bw.body.itfStepUpdateInternalState;
 import bw.exceptions.exContentColumnMaxContentExceeded;
 import bw.exceptions.exContentColumnMinContentUnderrun;
 import bw.utils.container.clsConfigMap;
-import bw.utils.container.clsConfigFloat;
+import bw.utils.container.clsConfigDouble;
 import bw.utils.enums.eConfigEntries;
 import bw.utils.tools.clsFillLevel;
 
@@ -36,7 +36,7 @@ public class clsHealthSystem implements itfStepUpdateInternalState {
 	}
 
 	boolean mnIsAlive;
-	private float mrIsDeadThreshold = 0.001f;
+	private double mrIsDeadThreshold = 0.001;
 	
 	public clsHealthSystem(clsConfigMap poConfig) {
 		moConfig = getFinalConfig(poConfig);
@@ -46,9 +46,9 @@ public class clsHealthSystem implements itfStepUpdateInternalState {
 		
 		try {
 			moHealth = new clsFillLevel(
-					((clsConfigFloat)moConfig.get(eConfigEntries.CONTENT)).get(), 
-					((clsConfigFloat)moConfig.get(eConfigEntries.MAXCONTENT)).get(), 
-					((clsConfigFloat)moConfig.get(eConfigEntries.SELFHEALINGRATE)).get()
+					((clsConfigDouble)moConfig.get(eConfigEntries.CONTENT)).get(), 
+					((clsConfigDouble)moConfig.get(eConfigEntries.MAXCONTENT)).get(), 
+					((clsConfigDouble)moConfig.get(eConfigEntries.SELFHEALINGRATE)).get()
 					);
 		} catch (exContentColumnMaxContentExceeded e) {
 			// TODO Auto-generated catch block
@@ -63,7 +63,7 @@ public class clsHealthSystem implements itfStepUpdateInternalState {
 	
 	private void applyConfig() {
 		
-		mrIsDeadThreshold = ((clsConfigFloat)moConfig.get(eConfigEntries.ISDEADTHRESHOLD)).get();
+		mrIsDeadThreshold = ((clsConfigDouble)moConfig.get(eConfigEntries.ISDEADTHRESHOLD)).get();
 	}
 
 	private static clsConfigMap getFinalConfig(clsConfigMap poConfig) {
@@ -75,15 +75,15 @@ public class clsHealthSystem implements itfStepUpdateInternalState {
 	private static clsConfigMap getDefaultConfig() {
 		clsConfigMap oDefault = new clsConfigMap();
 		
-		oDefault.add(eConfigEntries.ISDEADTHRESHOLD, new clsConfigFloat(0.001f));
-		oDefault.add(eConfigEntries.CONTENT, new clsConfigFloat(10.0f));
-		oDefault.add(eConfigEntries.MAXCONTENT, new clsConfigFloat(10.0f));
-		oDefault.add(eConfigEntries.SELFHEALINGRATE, new clsConfigFloat(0.05f));
+		oDefault.add(eConfigEntries.ISDEADTHRESHOLD, new clsConfigDouble(0.001f));
+		oDefault.add(eConfigEntries.CONTENT, new clsConfigDouble(10.0f));
+		oDefault.add(eConfigEntries.MAXCONTENT, new clsConfigDouble(10.0f));
+		oDefault.add(eConfigEntries.SELFHEALINGRATE, new clsConfigDouble(0.05f));
 		
 		return oDefault;
 	}	
 	
-	public void hurt(float prHealthRemoved) {
+	public void hurt(double prHealthRemoved) {
 		try {
 			moHealth.decrease(prHealthRemoved);
 		} catch (exContentColumnMaxContentExceeded e) {
@@ -92,7 +92,7 @@ public class clsHealthSystem implements itfStepUpdateInternalState {
 		updateIsAlive();
 	}
 	
-	public void heal(float prHealthRegained) {
+	public void heal(double prHealthRegained) {
 		try {
 			moHealth.increase(prHealthRegained);
 		} catch (exContentColumnMaxContentExceeded e) {
@@ -101,13 +101,13 @@ public class clsHealthSystem implements itfStepUpdateInternalState {
 		updateIsAlive();
 	}
 	
-	public float getRecoveryRate() {
+	public double getRecoveryRate() {
 		return moHealth.getChange();
 	}
 	
-	public void setRecoveryRate(float prRecoveryRate) {
+	public void setRecoveryRate(double prRecoveryRate) {
 		if (prRecoveryRate < 0.0f) {
-			prRecoveryRate = 0.0f;
+			prRecoveryRate = 0.0;
 		}
 		
 		moHealth.setChange(prRecoveryRate);

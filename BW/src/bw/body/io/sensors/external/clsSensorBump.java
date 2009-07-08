@@ -15,7 +15,7 @@ import bw.body.io.clsBaseIO;
 import bw.body.itfget.itfGetBody;
 import bw.entities.clsAnimate;
 import bw.entities.clsEntity;
-import bw.utils.container.clsConfigFloat;
+import bw.utils.container.clsConfigDouble;
 import bw.utils.container.clsConfigMap;
 import bw.utils.enums.eBodyParts;
 import bw.utils.enums.eConfigEntries;
@@ -52,7 +52,7 @@ public class clsSensorBump extends clsSensorExt {
 
 		
 		//this registeres a static energy consuption
-		registerEnergyConsumption( ((clsConfigFloat)moConfig.get(eConfigEntries.ENERGYCONSUMPTION)).get() ); 
+		registerEnergyConsumption( ((clsConfigDouble)moConfig.get(eConfigEntries.ENERGYCONSUMPTION)).get() ); 
 
 	}
 	
@@ -65,7 +65,7 @@ public class clsSensorBump extends clsSensorExt {
 	private static clsConfigMap getDefaultConfig() {
 		clsConfigMap oDefault = new clsConfigMap();
 		
-		oDefault.add(eConfigEntries.ENERGYCONSUMPTION, new clsConfigFloat(5.0f));
+		oDefault.add(eConfigEntries.ENERGYCONSUMPTION, new clsConfigDouble(5.0f));
 		
 		return oDefault;
 	}

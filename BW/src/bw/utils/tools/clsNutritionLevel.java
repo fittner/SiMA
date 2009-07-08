@@ -28,7 +28,7 @@ public class clsNutritionLevel extends clsFillLevel implements itfStep {
 	 * @throws exContentColumnMinContentUnderrun 
 	 * @throws exContentColumnMaxContentExceeded 
 	 */
-	public clsNutritionLevel(float prContent, float prMaxContent, float prLowerBound, float prUpperBound, float prDecreasePerStep) throws exContentColumnMaxContentExceeded, exContentColumnMinContentUnderrun {
+	public clsNutritionLevel(double prContent, double prMaxContent, double prLowerBound, double prUpperBound, double prDecreasePerStep) throws exContentColumnMaxContentExceeded, exContentColumnMinContentUnderrun {
 		super(prContent, prMaxContent, -prDecreasePerStep, prLowerBound, prUpperBound);
 		
 		setDecreasePerStep(prDecreasePerStep);
@@ -37,14 +37,14 @@ public class clsNutritionLevel extends clsFillLevel implements itfStep {
 	/**
 	 * @return the mrDecreasePerStep
 	 */
-	public float getDecreasePerStep() {
+	public double getDecreasePerStep() {
 		return -getChange();
 	}
 
 	/**
 	 * @param mrDecreasePerStep the mrDecreasePerStep to set
 	 */
-	public void setDecreasePerStep(float prDecreasePerStep) {
+	public void setDecreasePerStep(double prDecreasePerStep) {
 		setChange(-prDecreasePerStep);
 		
 		checkDecreasePerStep();

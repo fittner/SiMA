@@ -91,7 +91,7 @@ public class clsBubble extends clsAnimate implements itfGetVision, itfGetEatable
 	}	
 	
 	// TODO: this code should be transferred to the entities inspector class - used only for inspectors
-	public float getInternalEnergyConsuptionSUM() {	return ((itfGetInternalEnergyConsumption)moBody).getInternalEnergyConsumption().getSum();	} 
+	public double getInternalEnergyConsuptionSUM() {	return ((itfGetInternalEnergyConsumption)moBody).getInternalEnergyConsumption().getSum();	} 
 	public Object[] getInternalEnergyConsumption() { return ((itfGetInternalEnergyConsumption)moBody).getInternalEnergyConsumption().getMergedList().values().toArray();	}
 	public Object[] getSensorExternal() { return moBody.getExternalIO().moSensorExternal.values().toArray();}
 

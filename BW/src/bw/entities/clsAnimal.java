@@ -13,7 +13,7 @@ import bw.body.clsBaseBody;
 import bw.body.clsComplexBody;
 import bw.body.itfget.itfGetEatableArea;
 import bw.body.itfget.itfGetVision;
-import bw.utils.container.clsConfigFloat;
+import bw.utils.container.clsConfigDouble;
 import bw.utils.container.clsConfigInt;
 import bw.utils.container.clsConfigMap;
 import bw.utils.enums.eConfigEntries;
@@ -68,9 +68,9 @@ public class clsAnimal extends clsAnimate implements itfGetVision, itfGetEatable
 	}
 		
 	private void applyConfig() {
-		mrWeight = ( (clsConfigFloat)moConfig.get(eConfigEntries.WEIGHT) ).get();
-		mrRadius = ( (clsConfigFloat)moConfig.get(eConfigEntries.RADIUS) ).get();
-		mrSpeed = ( (clsConfigFloat)moConfig.get(eConfigEntries.SPEED) ).get();
+		mrWeight = ( (clsConfigDouble)moConfig.get(eConfigEntries.WEIGHT) ).get();
+		mrRadius = ( (clsConfigDouble)moConfig.get(eConfigEntries.RADIUS) ).get();
+		mrSpeed = ( (clsConfigDouble)moConfig.get(eConfigEntries.SPEED) ).get();
 		moColor = new Color( ( (clsConfigInt)moConfig.get(eConfigEntries.COLOR) ).get() );
 	}
 	
@@ -83,9 +83,9 @@ public class clsAnimal extends clsAnimate implements itfGetVision, itfGetEatable
 	private static clsConfigMap getDefaultConfig() {
 		clsConfigMap oDefault = new clsConfigMap();
 		
-		oDefault.add(eConfigEntries.SPEED, new clsConfigFloat(4.0f));
-		oDefault.add(eConfigEntries.WEIGHT, new clsConfigFloat(300.0f));
-		oDefault.add(eConfigEntries.RADIUS, new clsConfigFloat(10.0f));
+		oDefault.add(eConfigEntries.SPEED, new clsConfigDouble(4.0f));
+		oDefault.add(eConfigEntries.WEIGHT, new clsConfigDouble(300.0f));
+		oDefault.add(eConfigEntries.RADIUS, new clsConfigDouble(10.0f));
 		oDefault.add(eConfigEntries.COLOR, new clsConfigInt( Color.BLUE.getRGB() ));
 
 		return oDefault;

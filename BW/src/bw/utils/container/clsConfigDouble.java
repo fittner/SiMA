@@ -15,14 +15,14 @@ package bw.utils.container;
  * 05.05.2009, 14:07:46
  * 
  */
-public class clsConfigFloat extends clsConfigSkalar {
+public class clsConfigDouble extends clsConfigSkalar {
 	private float mrValue;
 	
-	public clsConfigFloat() {
+	public clsConfigDouble() {
 		mrValue = 0;
 	}
 	
-	public clsConfigFloat(float prValue) {
+	public clsConfigDouble(float prValue) {
 		mrValue = prValue;
 	}
 	

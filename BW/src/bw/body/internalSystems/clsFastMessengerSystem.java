@@ -172,7 +172,7 @@ public class clsFastMessengerSystem implements itfStepUpdateInternalState {
 	 * @param poTarget
 	 * @param prIntensity
 	 */
-	public void addMessage(clsBasePart poSource, clsBasePart poTarget, float prIntensity) {
+	public void addMessage(clsBasePart poSource, clsBasePart poTarget, double prIntensity) {
 		addMessage(new clsFastMessengerEntry(poSource, poTarget, prIntensity));
 	}
 	

@@ -14,7 +14,6 @@ import java.util.Iterator;
 import bw.exceptions.exInventoryFull;
 import bw.factories.clsSingletonMasonGetter;
 import bw.factories.clsRegisterEntity;
-import bw.utils.enums.eExecutionResult;
 import sim.physics2D.constraint.PinJoint;
 
 /**
@@ -28,7 +27,7 @@ import sim.physics2D.constraint.PinJoint;
 public class clsInventory {
 
 	private int mnMaxItems;
-	private float mrMaxMass;
+	private double mrMaxMass;
 
 	private ArrayList<clsMobile> moInventory=new ArrayList<clsMobile>();
 	private clsMobile moEntity;
@@ -40,7 +39,7 @@ public class clsInventory {
 	 *             (0=No inventory but 1 item can be carried, <0: No inventory and nothing can be carried)
 	 * pnMaxMass = Max. Number/Weight of Items which can be kept in the inventory
 	 */
-	public clsInventory(clsMobile poEntity,int pnMaxItems, float prMaxMass) {
+	public clsInventory(clsMobile poEntity,int pnMaxItems, double prMaxMass) {
 		moEntity=poEntity;
 		mnMaxItems = pnMaxItems;
 		mrMaxMass=prMaxMass;
@@ -59,11 +58,11 @@ public class clsInventory {
 	/*
 	 * Current/Max mass
 	 */
-	public float getMaxMass() {
+	public double getMaxMass() {
 		return mrMaxMass;		
 	}
-	public float getMass() {
-		float nTotalMass=0;
+	public double getMass() {
+		double nTotalMass=0;
 		Iterator<clsMobile> oIt = moInventory.iterator();
 		while (oIt.hasNext()) {
 			clsMobile oEntity = oIt.next();

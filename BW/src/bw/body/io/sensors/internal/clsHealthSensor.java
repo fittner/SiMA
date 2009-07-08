@@ -12,7 +12,6 @@ import bw.body.clsBaseBody;
 import bw.body.clsComplexBody;
 import bw.body.internalSystems.clsHealthSystem;
 import bw.body.io.clsBaseIO;
-import bw.body.itfget.itfGetBody;
 import bw.utils.container.clsConfigMap;
 
 /**
@@ -26,10 +25,10 @@ public class clsHealthSensor extends clsSensorInt {
 
 	private clsBaseBody moBody;
 	
-	private float mrHealthValue;
-	private float mrRecoveryRate;
-	private float mrLowerBound;
-	private float mrUpperBound;
+	private double mrHealthValue;
+	private double mrRecoveryRate;
+	private double mrLowerBound;
+	private double mrUpperBound;
 	
 	/**
 	 * TODO (langr) - insert description 
@@ -137,7 +136,7 @@ public class clsHealthSensor extends clsSensorInt {
 	/**
 	 * @return the mrHealthValue
 	 */
-	public float getHealthValue() {
+	public double getHealthValue() {
 		return mrHealthValue;
 	}
 
@@ -151,7 +150,7 @@ public class clsHealthSensor extends clsSensorInt {
 	/**
 	 * @return the mrRecoveryRate
 	 */
-	public float getRecoveryRate() {
+	public double getRecoveryRate() {
 		return mrRecoveryRate;
 	}
 
@@ -165,7 +164,7 @@ public class clsHealthSensor extends clsSensorInt {
 	/**
 	 * @return the mrLowerBound
 	 */
-	public float getLowerBound() {
+	public double getLowerBound() {
 		return mrLowerBound;
 	}
 
@@ -179,7 +178,7 @@ public class clsHealthSensor extends clsSensorInt {
 	/**
 	 * @return the mrUpperBound
 	 */
-	public float getUpperBound() {
+	public double getUpperBound() {
 		return mrUpperBound;
 	}
 

@@ -145,7 +145,7 @@ public class clsInspectorsAnalyse extends JComponent{
 		Box box= new Box(BoxLayout.X_AXIS); 
 			for(int i=0;i<listOfNatrution.size();i++){
 				clsNutritionLevel tmp =listOfNatrution.get(i);
-				clsSingleFillLevel single = new clsSingleFillLevel(i,tmp.getLowerBound(),tmp.getUpperBound(),0,tmp.getMaxContent(), tmp.getContent(),50,100); 
+				clsSingleFillLevel single = new clsSingleFillLevel(i,(float)tmp.getLowerBound(),(float)tmp.getUpperBound(),(float)0,(float)tmp.getMaxContent(), (float)tmp.getContent(),50,100); 
 				//jp.add(new JLabel("N"+(i+1)));
 				//single.setSize(200, 200);
 				//single.setBorder(BorderFactory.createTitledBorder(BorderFactory.createEtchedBorder(), "N"+(i+1), TitledBorder.CENTER, TitledBorder.BOTTOM,new Font("SansSerif ",Font.BOLD,10),Color.orange));
@@ -311,7 +311,7 @@ public class clsInspectorsAnalyse extends JComponent{
 	public void paintAnalysisOfSeveralNutrition (Graphics g, HashMap<Integer, clsNutritionLevel> listOfNutrution, int x, int y) {
 		for(int i=0;i<listOfNutrution.size();i++){
 			clsNutritionLevel tmp =listOfNutrution.get(i);
-			this.paintAnalysisOfANutrition(g, x, y, tmp.getLowerBound(), tmp.getUpperBound(),tmp.getContent());
+			this.paintAnalysisOfANutrition(g, x, y, (float)tmp.getLowerBound(), (float)tmp.getUpperBound(), (float)tmp.getContent());
 			//this.paintAnalysisOfANutrition(g, x, y, tmp.getLowerBound(), tmp.getUpperBound(),(float)Math.random());
 			
 			//x=x+100;
@@ -357,7 +357,7 @@ public class clsInspectorsAnalyse extends JComponent{
 		for(int i=0;i<listOfNutrution.size();i++){
 			clsNutritionLevel tmp =listOfNutrution.get(i);
 			//this.paintAnalysisOfANutrition(this.panelOfNutrition.get(i).getGraphics(), x, y, tmp.getLowerBound(), tmp.getUpperBound(),tmp.getContent());
-			this.paintAnalysisOfANutrition(g, x, y, tmp.getLowerBound(), tmp.getUpperBound(),tmp.getContent());
+			this.paintAnalysisOfANutrition(g, x, y, (float)tmp.getLowerBound(), (float)tmp.getUpperBound(), (float)tmp.getContent());
 			
 			x=x+100;
 		}
@@ -388,7 +388,7 @@ public class clsInspectorsAnalyse extends JComponent{
 		//public void paintPanelOfAnalysisOfSeveralNutrition (HashMap<Integer, clsNutritionLevel> listOfNutrution, int x, int y) {
 		for(int i=0;i<listOfNutrution.size();i++){
 			clsNutritionLevel tmp =listOfNutrution.get(i);
-			this.panelOfNutrition.get(i).updateFloat(tmp.getContent());
+			this.panelOfNutrition.get(i).updateFloat((float)tmp.getContent());
 			
 		}
 	}

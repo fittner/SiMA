@@ -15,7 +15,7 @@ import sim.display.clsKeyListener;
 import sim.physics2D.util.Double2D;
 import simple.remotecontrol.clsRemoteControl;
 import ARSsim.physics2D.util.clsPose;
-import bw.utils.container.clsConfigFloat;
+import bw.utils.container.clsConfigDouble;
 import bw.utils.container.clsConfigInt;
 import bw.utils.container.clsConfigMap;
 import bw.utils.enums.eConfigEntries;
@@ -60,9 +60,9 @@ public class clsLynx extends clsAnimal {
 	private static clsConfigMap getDefaultConfig() {
 		clsConfigMap oDefault = new clsConfigMap();
 		
-		oDefault.add(eConfigEntries.SPEED, new clsConfigFloat(6.0f));
-		oDefault.add(eConfigEntries.WEIGHT, new clsConfigFloat(200.0f));
-		oDefault.add(eConfigEntries.RADIUS, new clsConfigFloat(15.0f));
+		oDefault.add(eConfigEntries.SPEED, new clsConfigDouble(6.0f));
+		oDefault.add(eConfigEntries.WEIGHT, new clsConfigDouble(200.0f));
+		oDefault.add(eConfigEntries.RADIUS, new clsConfigDouble(15.0f));
 		oDefault.add(eConfigEntries.COLOR, new clsConfigInt( Color.PINK.getRGB() ));
 
 		return oDefault;

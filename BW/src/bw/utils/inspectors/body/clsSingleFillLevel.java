@@ -64,6 +64,7 @@ public class clsSingleFillLevel extends JPanel {
 		//System.out.println("id: "+id+" min: "+min+" max: "+max+" value: "+value+" x: "+x+" y: "+y);
 	}
 	
+	
 
 	/**
 	 * diese Konstruktor empfängt die max. und min. und die aktuelle Werte im

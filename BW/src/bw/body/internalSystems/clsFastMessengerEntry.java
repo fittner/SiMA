@@ -18,14 +18,14 @@ import bw.utils.enums.partclass.clsBasePart;
 public class clsFastMessengerEntry {
 	private clsBasePart moSource;
 	private clsBasePart moTarget;
-	private float mrIntensity;
+	private double mrIntensity;
 	
 	/**
 	 * @param poSource
 	 * @param poTarget
 	 * @param prIntensity
 	 */
-	public clsFastMessengerEntry(clsBasePart poSource, clsBasePart poTarget, float prIntensity) {
+	public clsFastMessengerEntry(clsBasePart poSource, clsBasePart poTarget, double prIntensity) {
 		moSource = poSource;
 		moTarget = poTarget;
 		mrIntensity = prIntensity;
@@ -52,7 +52,7 @@ public class clsFastMessengerEntry {
 	 *
 	 * @return
 	 */
-	public float getIntensity() {
+	public double getIntensity() {
 		return mrIntensity;
 	}
 	

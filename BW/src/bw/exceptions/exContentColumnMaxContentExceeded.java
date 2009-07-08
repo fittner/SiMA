@@ -15,10 +15,10 @@ package bw.exceptions;
  */
 public class exContentColumnMaxContentExceeded extends exException {
 
-	private float mrValue;
-	private float mrMaxValue;
+	private double mrValue;
+	private double mrMaxValue;
 
-	public exContentColumnMaxContentExceeded(float prValue, float prMaxValue) {
+	public exContentColumnMaxContentExceeded(double prValue, double prMaxValue) {
 		mrValue = prValue;
 		mrMaxValue = prMaxValue;
 	}

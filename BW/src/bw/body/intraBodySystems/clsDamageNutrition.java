@@ -15,7 +15,7 @@ import bw.body.internalSystems.clsFastMessengerSystem;
 import bw.body.internalSystems.clsHealthSystem;
 import bw.body.internalSystems.clsInternalSystem;
 import bw.body.internalSystems.clsStomachSystem;
-import bw.utils.container.clsConfigFloat;
+import bw.utils.container.clsConfigDouble;
 import bw.utils.container.clsConfigMap;
 import bw.utils.enums.eConfigEntries;
 import bw.utils.enums.partclass.clsPartBrain;
@@ -30,8 +30,8 @@ import bw.utils.tools.clsNutritionLevel;
  */
 public class clsDamageNutrition implements itfStepUpdateInternalState {
 	
-	private float mrHealthPenalty;
-	private float mrPainThreshold;
+	private double mrHealthPenalty;
+	private double mrPainThreshold;
 
 	private clsStomachSystem moStomachSystem;
 	private clsHealthSystem moHealthSystem;
@@ -76,8 +76,8 @@ public class clsDamageNutrition implements itfStepUpdateInternalState {
 	}
 	
 	private void applyConfig() {
-		mrPainThreshold = ((clsConfigFloat)moConfig.get(eConfigEntries.PAINTHRESHOLD)).get();
-		mrHealthPenalty = ((clsConfigFloat)moConfig.get(eConfigEntries.HEALTHPENALTY)).get();
+		mrPainThreshold = ((clsConfigDouble)moConfig.get(eConfigEntries.PAINTHRESHOLD)).get();
+		mrHealthPenalty = ((clsConfigDouble)moConfig.get(eConfigEntries.HEALTHPENALTY)).get();
 	}
 	
 	private static clsConfigMap getFinalConfig(clsConfigMap poConfig) {
@@ -89,8 +89,8 @@ public class clsDamageNutrition implements itfStepUpdateInternalState {
 	private static clsConfigMap getDefaultConfig() {
 		clsConfigMap oDefault = new clsConfigMap();
 		
-		oDefault.add(eConfigEntries.PAINTHRESHOLD, new clsConfigFloat(0.1f));
-		oDefault.add(eConfigEntries.HEALTHPENALTY, new clsConfigFloat(0.5f));
+		oDefault.add(eConfigEntries.PAINTHRESHOLD, new clsConfigDouble(0.1f));
+		oDefault.add(eConfigEntries.HEALTHPENALTY, new clsConfigDouble(0.5f));
 		
 		return oDefault;
 	}	
@@ -102,16 +102,16 @@ public class clsDamageNutrition implements itfStepUpdateInternalState {
 	 * 19.02.2009, 19:51:45
 	 *
 	 */
-	private float nutritionPenaltySum() {
+	private double nutritionPenaltySum() {
 		HashMap<Integer, clsNutritionLevel> oList = moStomachSystem.getList();
-		float rPenaltySum = 0.0f;
+		double rPenaltySum = 0.0f;
 		
 		Iterator<Integer> i = oList.keySet().iterator();
 		while (i.hasNext()) {
 			Integer oKey = i.next();
 			clsNutritionLevel oNL = oList.get(oKey);
 			
-			float rTemp = oNL.percentageHigh() + oNL.percentageLow();
+			double rTemp = oNL.percentageHigh() + oNL.percentageLow();
 			
 			rPenaltySum += rTemp * rTemp;
 		}
@@ -127,8 +127,8 @@ public class clsDamageNutrition implements itfStepUpdateInternalState {
 	 *
 	 * @param prPenaltySum
 	 */
-	private void hurt(float prPenaltySum) {
-		float rHealthPenalty = prPenaltySum * mrHealthPenalty;
+	private void hurt(double prPenaltySum) {
+		double rHealthPenalty = prPenaltySum * mrHealthPenalty;
 		moHealthSystem.hurt(rHealthPenalty);
 	}
 	
@@ -140,7 +140,7 @@ public class clsDamageNutrition implements itfStepUpdateInternalState {
 	 *
 	 * @param prPenaltySum
 	 */
-	private void pain(float prPenaltySum) {
+	private void pain(double prPenaltySum) {
 		if (prPenaltySum > mrPainThreshold) {
 			if (moFastMessengerSystem != null) {
 				moFastMessengerSystem.addMessage(new clsPartDamageNutrition(), new clsPartBrain(), prPenaltySum);
@@ -149,7 +149,7 @@ public class clsDamageNutrition implements itfStepUpdateInternalState {
 	}
 	
     public void stepUpdateInternalState() {
-    	float rPenaltySum = nutritionPenaltySum();
+    	double rPenaltySum = nutritionPenaltySum();
     	
     	hurt(rPenaltySum);
     	pain(rPenaltySum);

@@ -16,15 +16,15 @@ import java.util.HashMap;
  * 
  */
 public class clsChangeEnergyResult {
-	private float mrTotalPercentage;
-	private HashMap<Integer, Float> moFractions;
+	private double mrTotalPercentage;
+	private HashMap<Integer, Double> moFractions;
 	
 	/**
 	 * 
 	 */
 	public clsChangeEnergyResult() {
-		mrTotalPercentage = 0.0f;
-		moFractions = new HashMap<Integer, Float>();
+		mrTotalPercentage = 0.0;
+		moFractions = new HashMap<Integer, Double>();
 	}
 	
 	/**
@@ -32,7 +32,7 @@ public class clsChangeEnergyResult {
 	 *
 	 * @param prPercentage
 	 */
-	public void setTotalPercentage(float prPercentage) {
+	public void setTotalPercentage(double prPercentage) {
 		mrTotalPercentage = checkValue(prPercentage);
 	}
 	
@@ -41,7 +41,7 @@ public class clsChangeEnergyResult {
 	 *
 	 * @return
 	 */
-	public float getTotalPercentage() {
+	public double getTotalPercentage() {
 		return mrTotalPercentage;
 	}
 	
@@ -51,8 +51,8 @@ public class clsChangeEnergyResult {
 	 * @param pnNutritionType
 	 * @param prFraction
 	 */
-	public void addFraction(int pnNutritionType, float prFraction) {
-		addFraction(new Integer(pnNutritionType), new Float(prFraction));
+	public void addFraction(int pnNutritionType, double prFraction) {
+		addFraction(new Integer(pnNutritionType), new Double(prFraction));
 	}
 	
 	/**
@@ -61,7 +61,7 @@ public class clsChangeEnergyResult {
 	 * @param poNutritionType
 	 * @param poFraction
 	 */
-	public void addFraction(Integer poNutritionType, Float poFraction) {
+	public void addFraction(Integer poNutritionType, Double poFraction) {
 		moFractions.put(poNutritionType, poFraction);
 	}
 	
@@ -71,7 +71,7 @@ public class clsChangeEnergyResult {
 	 * @param pnNutritionType
 	 * @return
 	 */
-	public float getFraction(int pnNutritionType) {
+	public double getFraction(int pnNutritionType) {
 		return getFraction(new Integer(pnNutritionType));
 	}
 	
@@ -81,7 +81,7 @@ public class clsChangeEnergyResult {
 	 * @param poNutritionType
 	 * @return
 	 */
-	public float getFraction(Integer poNutritionType) {
+	public double getFraction(Integer poNutritionType) {
 		return moFractions.get(poNutritionType).floatValue();
 	}
 	
@@ -90,7 +90,7 @@ public class clsChangeEnergyResult {
 	 *
 	 * @return
 	 */
-	public HashMap<Integer, Float> getFractions() {
+	public HashMap<Integer, Double> getFractions() {
 		return moFractions;
 	}
 	
@@ -100,7 +100,7 @@ public class clsChangeEnergyResult {
 	 * @param prValue
 	 * @return
 	 */
-	private static float checkValue(float prValue) {
+	private static double checkValue(double prValue) {
 		if (prValue > 1.0f) {
 			prValue = 1.0f; 
 		} else if (prValue < 0.0f) {

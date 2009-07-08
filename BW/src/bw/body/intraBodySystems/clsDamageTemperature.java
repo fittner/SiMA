@@ -12,7 +12,7 @@ import bw.body.internalSystems.clsFastMessengerSystem;
 import bw.body.internalSystems.clsHealthSystem;
 import bw.body.internalSystems.clsInternalSystem;
 import bw.body.internalSystems.clsTemperatureSystem;
-import bw.utils.container.clsConfigFloat;
+import bw.utils.container.clsConfigDouble;
 import bw.utils.container.clsConfigMap;
 import bw.utils.enums.eConfigEntries;
 import bw.utils.enums.partclass.clsPartBrain;
@@ -26,8 +26,8 @@ import bw.utils.enums.partclass.clsPartDamageTemperature;
  */
 public class clsDamageTemperature implements itfStepUpdateInternalState {
 
-	private float mrHealthPenalty;
-	private float mrPainThreshold;
+	private double mrHealthPenalty;
+	private double mrPainThreshold;
 	
 	private clsTemperatureSystem moTemperatureSystem;
 	private clsHealthSystem moHealthSystem;
@@ -48,8 +48,8 @@ public class clsDamageTemperature implements itfStepUpdateInternalState {
 	
 	private void applyConfig() {
 		
-		mrPainThreshold = ((clsConfigFloat)moConfig.get(eConfigEntries.PAINTHRESHOLD)).get();
-		mrHealthPenalty = ((clsConfigFloat)moConfig.get(eConfigEntries.HEALTHPENALTY)).get();
+		mrPainThreshold = ((clsConfigDouble)moConfig.get(eConfigEntries.PAINTHRESHOLD)).get();
+		mrHealthPenalty = ((clsConfigDouble)moConfig.get(eConfigEntries.HEALTHPENALTY)).get();
 	}
 	
 	private static clsConfigMap getFinalConfig(clsConfigMap poConfig) {
@@ -61,8 +61,8 @@ public class clsDamageTemperature implements itfStepUpdateInternalState {
 	private static clsConfigMap getDefaultConfig() {
 		clsConfigMap oDefault = new clsConfigMap();
 		
-		oDefault.add(eConfigEntries.PAINTHRESHOLD, new clsConfigFloat(0.1f));
-		oDefault.add(eConfigEntries.HEALTHPENALTY, new clsConfigFloat(0.5f));
+		oDefault.add(eConfigEntries.PAINTHRESHOLD, new clsConfigDouble(0.1f));
+		oDefault.add(eConfigEntries.HEALTHPENALTY, new clsConfigDouble(0.5f));
 		
 		return oDefault;
 	}	
@@ -74,8 +74,8 @@ public class clsDamageTemperature implements itfStepUpdateInternalState {
 	 * 19.02.2009, 19:51:45
 	 *
 	 */
-	private float temperaturePenalty() {
-		float rPenalty = 0.0f;
+	private double temperaturePenalty() {
+		double rPenalty = 0.0f;
 		
 		rPenalty = moTemperatureSystem.getPercentageHigh() + moTemperatureSystem.getPercentageLow();
 		rPenalty = rPenalty * rPenalty;
@@ -91,8 +91,8 @@ public class clsDamageTemperature implements itfStepUpdateInternalState {
 	 *
 	 * @param prPenaltySum
 	 */
-	private void hurt(float prPenaltySum) {
-		float rHealthPenalty = prPenaltySum * mrHealthPenalty;
+	private void hurt(double prPenaltySum) {
+		double rHealthPenalty = prPenaltySum * mrHealthPenalty;
 		moHealthSystem.hurt(rHealthPenalty);
 	}
 	
@@ -104,14 +104,14 @@ public class clsDamageTemperature implements itfStepUpdateInternalState {
 	 *
 	 * @param prPenaltySum
 	 */
-	private void pain(float prPenaltySum) {
+	private void pain(double prPenaltySum) {
 		if (prPenaltySum > mrPainThreshold) {
 			moFastMessengerSystem.addMessage(new clsPartDamageTemperature(), new clsPartBrain(), prPenaltySum);
 		}
 	}
 	
     public void stepUpdateInternalState() {
-    	float rPenaltySum = temperaturePenalty();
+    	double rPenaltySum = temperaturePenalty();
     	
     	hurt(rPenaltySum);
     	pain(rPenaltySum);
