@@ -51,6 +51,10 @@ public class clsRemoteControl extends clsBaseDecisionUnit  {
 		moKeyPressed = i;
 	}
 	
+	public int getKeyPressed() {
+		return moKeyPressed;
+	}
+	
 	public void setLogXML(boolean mnLogXML) {
 		this.mnLogXML = mnLogXML;
 		
