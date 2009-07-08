@@ -1,12 +1,14 @@
 package test;
 
-public class PrimativeCast {
+public class PrimitiveCast {
 
     private int loopCount =  java.lang.Integer.MAX_VALUE / 2;
     private int testCount = 1;
     
     long ci = 0;
     long cs = 0;
+    long cf = 0;
+    long cd = 0;
     long cis = 0;
     long csi = 0;
     long cfd = 0;
@@ -35,7 +37,7 @@ public class PrimativeCast {
 
     
    
-    public PrimativeCast() {
+    public PrimitiveCast() {
         System.out.println( "--------------------------------" );
 
         for( int i = 0, n = testCount; i < n; i++ )
@@ -44,6 +46,8 @@ public class PrimativeCast {
            
             ci += intControl();
             cs += shortControl();
+            cf += floatControl();
+            cd += doubleControl();            
             cis += castIntToShort();
             csi += castShortToInt();
             cfd += castFloatToDouble();
@@ -75,6 +79,8 @@ public class PrimativeCast {
         
         ci /= testCount;
         cs /= testCount;
+        cd /= testCount;
+        cf /= testCount;        
         cis /= testCount;
         csi /= testCount;
         cdf /= testCount;
@@ -82,6 +88,8 @@ public class PrimativeCast {
         
         System.out.println("int to int (control): " + ci);
         System.out.println("short to short (control): " + cs);
+        System.out.println("float to float (control): " + cf);
+        System.out.println("double to double (control): " + cd);
         System.out.println("int to short (simple cast): " + cis);
         System.out.println("float to double (simple automatic cast): " + cfd);
         System.out.println("double to float (simple cast): " + cdf);
@@ -139,7 +147,37 @@ public class PrimativeCast {
         
     }
    
-    private int intControl() {
+    private long doubleControl() {
+        double testFloat = 0;
+        
+        long start = System.currentTimeMillis();
+        for (int i = 0, n = loopCount; i < n; i++) {
+        	double result = testFloat;
+        	testFloat++;
+        	result++;
+        }
+        long end = System.currentTimeMillis();
+        int duration = (int)(end - start);
+       
+        return duration;
+	}
+
+	private long floatControl() {
+        float testFloat = 0;
+        
+        long start = System.currentTimeMillis();
+        for (int i = 0, n = loopCount; i < n; i++) {
+        	float result = testFloat;
+        	testFloat++;
+        	result++;
+        }
+        long end = System.currentTimeMillis();
+        int duration = (int)(end - start);
+       
+        return duration;
+	}
+
+	private int intControl() {
         int testInt = 0;
        
         long start = System.currentTimeMillis();
@@ -515,7 +553,7 @@ public class PrimativeCast {
      * @param args
      */
     public static void main(String[] args) {
-        new PrimativeCast();
+        new PrimitiveCast();
     }
 
 } 
