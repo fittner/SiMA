@@ -26,15 +26,15 @@ import decisionunit.itf.actions.*;
  */
 public class clsExecutorMove extends clsActionExecutor{
 
-	static float srStaminaBase = 2f;			//Stamina demand =srStaminaScalingFactor*pow(srStaminaBase,Speed) ; 			
-	static float srStaminaScalingFactor = 0.01f;  
+	static double srStaminaBase = 2f;			//Stamina demand =srStaminaScalingFactor*pow(srStaminaBase,Speed) ; 			
+	static double srStaminaScalingFactor = 0.01f;  
 	
 	private ArrayList<Class> moMutEx = new ArrayList<Class>();
 
 	private clsEntity moEntity;
-	private float mrSpeedScalingFactor;
+	private double mrSpeedScalingFactor;
 	
-	public clsExecutorMove(clsEntity poEntity,float prSpeedScalingFactor) {
+	public clsExecutorMove(clsEntity poEntity,double prSpeedScalingFactor) {
 		moEntity=poEntity;
 		mrSpeedScalingFactor=prSpeedScalingFactor;
 	}
@@ -62,10 +62,10 @@ public class clsExecutorMove extends clsActionExecutor{
 	/*
 	 * Energy and stamina demand 
 	 */
-	public float getEnergyDemand(itfActionCommand poCommand) {
+	public double getEnergyDemand(itfActionCommand poCommand) {
 		return getStaminaDemand(poCommand)*srEnergyRelation;
 	}
-	public float getStaminaDemand(itfActionCommand poCommand) {
+	public double getStaminaDemand(itfActionCommand poCommand) {
 		clsActionMove oCommand =(clsActionMove) poCommand;
 		return srStaminaScalingFactor* (float) Math.pow(srStaminaBase,oCommand.getSpeed()) ;
 	}

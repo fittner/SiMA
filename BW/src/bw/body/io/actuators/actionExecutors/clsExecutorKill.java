@@ -35,17 +35,17 @@ import enums.eSensorExtType;
  */
 public class clsExecutorKill extends clsActionExecutor{
 
-	static float srStaminaBase = 4f;			//Stamina demand =srStaminaScalingFactor*pow(srStaminaBase,Force) ; 			
-	static float srStaminaScalingFactor = 0.01f;  
+	static double srStaminaBase = 4f;			//Stamina demand =srStaminaScalingFactor*pow(srStaminaBase,Force) ; 			
+	static double srStaminaScalingFactor = 0.01f;  
 
 	private ArrayList<Class> moMutEx = new ArrayList<Class>();
 
 	private clsEntity moEntity;
 	private eSensorExtType moRangeSensor;
 	
-	private float mrForceScalingFactor;
+	private double mrForceScalingFactor;
 
-	public clsExecutorKill(clsEntity poEntity,eSensorExtType poRangeSensor, float prForceScalingFactor) {
+	public clsExecutorKill(clsEntity poEntity,eSensorExtType poRangeSensor, double prForceScalingFactor) {
 		moEntity=poEntity;
 		moRangeSensor=poRangeSensor;
 		mrForceScalingFactor=prForceScalingFactor;
@@ -76,10 +76,10 @@ public class clsExecutorKill extends clsActionExecutor{
 	/*
 	 * Energy and stamina demand 
 	 */
-	public float getEnergyDemand(itfActionCommand poCommand) {
+	public double getEnergyDemand(itfActionCommand poCommand) {
 		return getStaminaDemand(poCommand)*srEnergyRelation;
 	}
-	public float getStaminaDemand(itfActionCommand poCommand) {
+	public double getStaminaDemand(itfActionCommand poCommand) {
 		clsActionKill oCommand =(clsActionKill) poCommand;
 		return srStaminaScalingFactor* (float) Math.pow(srStaminaBase,oCommand.getForce()) ;
 	}
@@ -103,7 +103,7 @@ public class clsExecutorKill extends clsActionExecutor{
 		} 
 
 		//Check if killing is ok
-		float rDamage = oKilledEntity.tryKill(oCommand.getForce());
+		double rDamage = oKilledEntity.tryKill(oCommand.getForce());
 		if (rDamage>0) {
 			oBody.getInternalSystem().getHealthSystem().hurt(rDamage);
 			return false;

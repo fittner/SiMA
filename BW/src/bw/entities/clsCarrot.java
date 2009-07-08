@@ -149,7 +149,7 @@ public class clsCarrot extends clsInanimate implements itfGetFlesh, itfAPEatable
 	 * @see bw.body.io.actuators.actionProxies.itfAPEatable#Eat(float)
 	 */
 	@Override
-	public clsFood Eat(float prBiteSize) {
+	public clsFood Eat(double prBiteSize) {
 		//withdraw from the flesh the food corresponding the bite size in weight
 		clsFood oFood = getFlesh().withdraw(prBiteSize);
 		
@@ -168,7 +168,7 @@ public class clsCarrot extends clsInanimate implements itfGetFlesh, itfAPEatable
 	 * @see bw.body.io.actuators.actionProxies.itfAPEatable#tryEat()
 	 */
 	@Override
-	public float tryEat() {
+	public double tryEat() {
 		return 0;
 	}
 

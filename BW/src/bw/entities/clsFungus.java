@@ -203,10 +203,10 @@ public class clsFungus extends clsInanimate implements itfGetFlesh, itfAPEatable
 	/*
 	 * Interface Eatable
 	 */
-	public float tryEat() {
+	public double tryEat() {
 		return 0;
 	}
-	public clsFood Eat(float prBiteSize) {
+	public clsFood Eat(double prBiteSize) {
 		clsFood oFood = getFlesh().withdraw(prBiteSize);
 		return oFood;
 	}

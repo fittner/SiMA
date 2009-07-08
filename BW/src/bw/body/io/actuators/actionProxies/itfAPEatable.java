@@ -16,7 +16,7 @@ public interface itfAPEatable {
 	/*
 	 * returns 0 if ok, otherwise a value for the damage inflicted
 	 */
-	float tryEat();
+	double tryEat();
 	
 	/*
 	 * Inform the entity it has been eaten and get food as a result. 
@@ -24,5 +24,5 @@ public interface itfAPEatable {
 	 * Parameters
 	 * 	prBiteSize=Size of the bite (default=1)
 	 */
-	clsFood Eat(float prBiteSize);
+	clsFood Eat(double prBiteSize);
 }

@@ -67,10 +67,10 @@ public class clsExecutorFromInventory extends clsActionExecutor{
 	/*
 	 * Energy and stamina demand 
 	 */
-	public float getEnergyDemand(itfActionCommand poCommand) {
+	public double getEnergyDemand(itfActionCommand poCommand) {
 		return getStaminaDemand(poCommand)*srEnergyRelation;
 	}
-	public float getStaminaDemand(itfActionCommand poCommand) {
+	public double getStaminaDemand(itfActionCommand poCommand) {
 		return 0;
 	}
 

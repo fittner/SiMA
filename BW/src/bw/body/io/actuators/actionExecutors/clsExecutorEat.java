@@ -36,14 +36,14 @@ import enums.eSensorExtType;
  */
 public class clsExecutorEat extends clsActionExecutor{
 
-	static float srStaminaDemand = 0.5f;		//Stamina demand 			
+	static double srStaminaDemand = 0.5f;		//Stamina demand 			
 	
 	private ArrayList<Class> moMutEx = new ArrayList<Class>();
-	private float mrBiteSize;
+	private double mrBiteSize;
 	private clsEntity moEntity;
 	private eSensorExtType moRangeSensor;
 
-	public clsExecutorEat(clsEntity poEntity,eSensorExtType poRangeSensor, float prBiteSize) {
+	public clsExecutorEat(clsEntity poEntity,eSensorExtType poRangeSensor, double prBiteSize) {
 		moEntity=poEntity;
 		moRangeSensor=poRangeSensor;
 		mrBiteSize=prBiteSize;
@@ -75,10 +75,10 @@ public class clsExecutorEat extends clsActionExecutor{
 	/*
 	 * Energy and stamina demand 
 	 */
-	public float getEnergyDemand(itfActionCommand poCommand) {
+	public double getEnergyDemand(itfActionCommand poCommand) {
 		return getStaminaDemand(poCommand)*srEnergyRelation;
 	}
-	public float getStaminaDemand(itfActionCommand poCommand) {
+	public double getStaminaDemand(itfActionCommand poCommand) {
 		return srStaminaDemand;
 	}
 
@@ -101,7 +101,7 @@ public class clsExecutorEat extends clsActionExecutor{
 		} 
 
 		//Check if eating is ok
-		float rDamage = oEatenEntity.tryEat();
+		double rDamage = oEatenEntity.tryEat();
 		if (rDamage>0) {
 			oBody.getInternalSystem().getHealthSystem().hurt(rDamage);
 			return false;

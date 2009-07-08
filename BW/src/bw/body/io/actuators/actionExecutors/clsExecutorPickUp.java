@@ -45,9 +45,9 @@ public class clsExecutorPickUp  extends clsActionExecutor {
 	private clsMobile moEntity;
 	private eSensorExtType moRangeSensor;
 
-	private float mrMassScalingFactor;
+	private double mrMassScalingFactor;
 	
-	public clsExecutorPickUp(clsMobile poEntity,eSensorExtType poRangeSensor, float prMassScalingFactor) {
+	public clsExecutorPickUp(clsMobile poEntity,eSensorExtType poRangeSensor, double prMassScalingFactor) {
 		moEntity=poEntity;
 		moRangeSensor=poRangeSensor;
 		mrMassScalingFactor=prMassScalingFactor;
@@ -79,10 +79,10 @@ public class clsExecutorPickUp  extends clsActionExecutor {
 	/*
 	 * Energy and stamina demand 
 	 */
-	public float getEnergyDemand(itfActionCommand poCommand) {
+	public double getEnergyDemand(itfActionCommand poCommand) {
 		return getStaminaDemand(poCommand)*srEnergyRelation;
 	}
-	public float getStaminaDemand(itfActionCommand poCommand) {
+	public double getStaminaDemand(itfActionCommand poCommand) {
 
 		//Is something in range
 		clsComplexBody oBody = (clsComplexBody) ((itfGetBody)moEntity).getBody();
@@ -94,7 +94,7 @@ public class clsExecutorPickUp  extends clsActionExecutor {
 		if (oEntity.getCarryableEntity() ==null) return 0;
 
 		//Calculate stamina from mass/maxmass relation
-		return (float) (mrMassScalingFactor * oEntity.getCarryableEntity().getMass()); //float cast added by TD
+		return  (mrMassScalingFactor * oEntity.getCarryableEntity().getMass()); 
 	}
 
 	/*

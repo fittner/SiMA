@@ -27,8 +27,8 @@ import enums.eActionTurnDirection;
  */
 public class clsExecutorTurn extends clsActionExecutor{
 
-	static float srStaminaBase = 2f;			//Stamina demand =srStaminaScalingFactor*pow(srStaminaBase,Angle) ; 			
-	static float srStaminaScalingFactor = 0.001f;   
+	static double srStaminaBase = 2f;			//Stamina demand =srStaminaScalingFactor*pow(srStaminaBase,Angle) ; 			
+	static double srStaminaScalingFactor = 0.001f;   
 
 	private ArrayList<Class> moMutEx = new ArrayList<Class>();
 	private clsEntity moEntity;
@@ -60,12 +60,12 @@ public class clsExecutorTurn extends clsActionExecutor{
 	/*
 	 * Energy and stamina demand 
 	 */
-	public float getEnergyDemand(itfActionCommand poCommand) {
+	public double getEnergyDemand(itfActionCommand poCommand) {
 		return getStaminaDemand(poCommand)*srEnergyRelation;
 	}
-	public float getStaminaDemand(itfActionCommand poCommand) {
+	public double getStaminaDemand(itfActionCommand poCommand) {
 		clsActionTurn oCommand =(clsActionTurn) poCommand;
-		return srStaminaScalingFactor* (float) Math.pow(srStaminaBase,Math.abs( oCommand.getAngle())) ;
+		return srStaminaScalingFactor* Math.pow(srStaminaBase,Math.abs( oCommand.getAngle())) ;
 	}
 
 	public boolean execute(itfActionCommand poCommand) {

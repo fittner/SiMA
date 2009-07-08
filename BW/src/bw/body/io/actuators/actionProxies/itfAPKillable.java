@@ -13,14 +13,14 @@ public interface itfAPKillable {
 
 	/*
 	 * tries to kill the entity using a given force (default=4)
-	 * returns 0 if OK, else damage-value as float
+	 * returns 0 if OK, else damage-value as double
 	 */
-	float tryKill(float pfForce);
+	double tryKill(double pfForce);
 	
 	/*
 	 * Inform the entity it has been killed 
 	 * Will only be executed if tryKill returns 0 as result
 	 */
-	void kill(float pfForce);
+	void kill(double pfForce);
 		
 }

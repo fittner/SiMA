@@ -33,7 +33,7 @@ import bw.utils.enums.partclass.*;
  */
 public abstract class clsActionExecutor extends clsSensorActuatorBase {
 	
-	protected static float srEnergyRelation = 0.2f;		//Relation energy to stamina
+	protected static double srEnergyRelation = 0.2f;		//Relation energy to stamina
 	
 	protected clsPartActionEx moBodyPart;
 
@@ -56,7 +56,7 @@ public abstract class clsActionExecutor extends clsSensorActuatorBase {
 	 * Get the amount of energy needed per round to perform the action. Even 
 	 * if the action can not be performed this amount of energy will be consumed.
 	 */
-	public float getEnergyDemand(itfActionCommand poCommand) {
+	public double getEnergyDemand(itfActionCommand poCommand) {
 		return 0;
 	}
 
@@ -64,7 +64,7 @@ public abstract class clsActionExecutor extends clsSensorActuatorBase {
 	 * Get the amount of stamina needed per round to perform the action. Even 
 	 * if the action can not be performed this amount of stamina will be consumed.
 	 */
-	public float getStaminaDemand(itfActionCommand poCommand) {
+	public double getStaminaDemand(itfActionCommand poCommand) {
 		return 0;
 	}
 

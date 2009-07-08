@@ -179,7 +179,7 @@ public class clsActionProcessor implements itfActionProcessor {
 
 		//Create the execution-stack
 		ArrayList<clsProcessorResult> oExecutionStack=CreateExecutionStack();		
-		
+
 		//1. Delete disabled commands
 		disableCommands(oExecutionStack);
 		

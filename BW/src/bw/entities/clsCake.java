@@ -179,10 +179,10 @@ public class clsCake extends clsInanimate implements itfGetFlesh, itfAPEatable, 
 	/*
 	 * Interface Eatable
 	 */
-	public float tryEat() {
+	public double tryEat() {
 		return 0;
 	}
-	public clsFood Eat(float prBiteSize) {
+	public clsFood Eat(double prBiteSize) {
 		//withdraw from the flesh the food corresponding the bite size in weight
 		clsFood oFood = getFlesh().withdraw(prBiteSize);
 		
