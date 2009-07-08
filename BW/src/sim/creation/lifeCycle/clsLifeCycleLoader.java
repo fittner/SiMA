@@ -20,16 +20,16 @@ import sim.engine.SimState;
  */
 public class clsLifeCycleLoader extends clsLoader {
 
-	private int mnNumPlants;
+	private int mnNumCarrots;
 	private int mnNumHares;
 	private int mnNumLynx;
 	private int mnNumStones;
 
-	public clsLifeCycleLoader(SimState poSimState, int pnWidth, int pnHeight, int pnPlants, int pnHares, int pnLynx, int pnStones) {
+	public clsLifeCycleLoader(SimState poSimState, int pnWidth, int pnHeight, int pnCarrots, int pnHares, int pnLynx, int pnStones) {
 		super(poSimState);
 		
 		
-		mnNumPlants = pnPlants;
+		mnNumCarrots = pnCarrots;
 		mnNumHares = pnHares;
 		mnNumLynx = pnLynx;
 		mnNumStones = pnStones;
@@ -49,7 +49,7 @@ public class clsLifeCycleLoader extends clsLoader {
 	public void loadObjects() {
 		clsWorldBoundaries.loadWorldBoundaries();
 		clsEntityLoader.loadStones(mnNumStones);
-		clsEntityLoader.loadPlants(mnNumPlants);
+		clsEntityLoader.loadCarrots(mnNumCarrots);
 		clsEntityLoader.loadHares(mnNumHares);
 		clsEntityLoader.loadLynx(mnNumLynx);
 	}	

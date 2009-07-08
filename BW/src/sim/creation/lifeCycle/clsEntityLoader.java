@@ -10,9 +10,9 @@ package sim.creation.lifeCycle;
 
 import sim.creation.clsLoader;
 import ARSsim.physics2D.util.clsPose;
+import bw.entities.clsCarrot;
 import bw.entities.clsHare;
 import bw.entities.clsLynx;
-import bw.entities.clsPlant;
 import bw.entities.clsStone;
 import bw.factories.clsRegisterEntity;
 import bw.utils.container.clsConfigMap;
@@ -39,12 +39,12 @@ public class clsEntityLoader {
         }
 	}
 	
-	public static void loadPlants(int pnNum){
+	public static void loadCarrots(int pnNum){
         for (int i = 0; i < pnNum; i++)
         {
         	clsPose oStartPose = clsLoader.generateRandomPose();
-        	clsPlant oPlant = new clsPlant(i, oStartPose, new sim.physics2D.util.Double2D(0, 0), new clsConfigMap());	        
-	        clsRegisterEntity.registerEntity(oPlant);
+        	clsCarrot oCarrot = new clsCarrot(i, oStartPose, new sim.physics2D.util.Double2D(0, 0), new clsConfigMap());	        
+	        clsRegisterEntity.registerEntity(oCarrot);
         }
  	}	
 	
