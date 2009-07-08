@@ -15,8 +15,6 @@ import bw.body.clsBaseBody;
 import bw.body.io.sensors.external.clsSensorEatableArea;
 import bw.body.io.sensors.external.clsSensorVision;
 import bw.body.itfget.itfGetBody;
-import bw.body.itfget.itfGetEatableArea;
-import bw.body.itfget.itfGetVision;
 import bw.physicalObjects.sensors.clsEntityPartVision;
 import bw.utils.container.clsConfigMap;
 

@@ -110,11 +110,11 @@ public class clsFlesh extends clsFood {
 	 * @param prWeight
 	 * @throws exFoodAmountBelowZero
 	 */
-	public void reduce(float prWeight) throws exFoodAmountBelowZero {
+	public void reduce(double prWeight) throws exFoodAmountBelowZero {
 		setAmount(getAmount() - Math.abs(prWeight));
 	}	
 	
-	public clsFood withdraw(float prAmount) {		
+	public clsFood withdraw(double prAmount) {		
 		clsFood oResult = new clsFood(this);
 		double rWeight = getAmount();
 		

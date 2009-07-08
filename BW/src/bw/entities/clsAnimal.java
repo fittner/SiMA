@@ -59,8 +59,7 @@ public class clsAnimal extends clsAnimate implements itfGetVision, itfGetEatable
 	
 		setShape(new sim.physics2D.shape.Circle(mrRadius, moColor), mrWeight);
 		
-		mnAlive = true;
-		// TODO Auto-generated constructor stub
+		setAlive(true);
 	}
 
 	public clsBaseBody createBody() {
@@ -98,6 +97,26 @@ public class clsAnimal extends clsAnimate implements itfGetVision, itfGetEatable
 	protected void setEntityType() {
 		// TODO Auto-generated method stub
 		meEntityType = eEntityType.ANIMAL;
+	}
+
+	/**
+	 * @author deutsch
+	 * 08.07.2009, 15:05:52
+	 * 
+	 * @param mnAlive the mnAlive to set
+	 */
+	public void setAlive(boolean mnAlive) {
+		this.mnAlive = mnAlive;
+	}
+
+	/**
+	 * @author deutsch
+	 * 08.07.2009, 15:05:52
+	 * 
+	 * @return the mnAlive
+	 */
+	public boolean isAlive() {
+		return mnAlive;
 	}
 
 

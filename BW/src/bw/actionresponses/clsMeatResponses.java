@@ -10,10 +10,6 @@ package bw.actionresponses;
 
 import bw.body.internalSystems.clsFlesh;
 import bw.body.itfget.itfGetFlesh;
-import bw.entities.clsCake;
-import bw.entities.clsEntity;
-import bw.exceptions.exFoodAlreadyNormalized;
-import bw.exceptions.exFoodAmountBelowZero;
 import bw.utils.tools.clsFood;
 
 /**

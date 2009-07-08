@@ -13,9 +13,7 @@ import bw.entities.clsEntity;
 import bw.utils.container.clsConfigBoolean;
 import bw.utils.container.clsConfigDouble;
 import bw.utils.container.clsConfigMap;
-import bw.utils.enums.eBodyParts;
 import bw.utils.enums.eConfigEntries;
-import bw.utils.enums.eNutritions;
 
 /**
  * TODO (deutsch) - insert description 

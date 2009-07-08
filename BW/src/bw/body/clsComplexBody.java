@@ -16,9 +16,7 @@ import bw.body.io.clsExternalIO;
 import bw.body.io.clsInternalIO;
 import bw.body.itfget.itfGetInternalEnergyConsumption;
 import bw.entities.clsEntity;
-import bw.utils.container.clsBaseConfig;
 import bw.utils.container.clsConfigMap;
-import bw.utils.enums.eBodyParts;
 import bw.utils.enums.eConfigEntries;
 
 /**

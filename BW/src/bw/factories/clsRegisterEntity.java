@@ -15,7 +15,6 @@ import ARSsim.physics2D.physicalObject.clsStationaryObject2D;
 import bw.body.itfget.itfGetEatableArea;
 import bw.body.itfget.itfGetVision;
 import bw.entities.clsAnimate;
-import bw.entities.clsBubble;
 import bw.entities.clsMobile;
 import bw.entities.clsRemoteBot;
 import bw.entities.clsStationary;

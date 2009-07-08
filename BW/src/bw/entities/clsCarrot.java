@@ -20,7 +20,6 @@ import bw.body.io.actuators.actionProxies.itfAPCarryable;
 import bw.body.io.actuators.actionProxies.itfAPEatable;
 import bw.body.itfget.itfGetFlesh;
 import bw.exceptions.exFoodAmountBelowZero;
-import bw.factories.clsRegisterEntity;
 import bw.utils.container.clsConfigDouble;
 import bw.utils.container.clsConfigMap;
 import bw.utils.enums.eBindingState;
@@ -257,12 +256,14 @@ public class clsCarrot extends clsInanimate implements itfGetFlesh, itfAPEatable
 			if (mnStepsUntilRegrow <= 0) {
 				try {
 					getFlesh().setAmount(mrInitialFleshMass);
+					mnShapeUpdated = false;
+					mnStepsUntilRegrow = mnRegrowRate;
 				} catch (exFoodAmountBelowZero e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
 			}
-		}
+		} 
 	}	
 	
 	/* (non-Javadoc)
@@ -275,7 +276,6 @@ public class clsCarrot extends clsInanimate implements itfGetFlesh, itfAPEatable
 	@Override
 	public void updateInternalState() {
 		updateShape();
-		
 		regrowIt();
 	}
 

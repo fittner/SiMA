@@ -13,7 +13,6 @@ import bw.body.io.clsExternalIO;
 import bw.body.io.clsInternalIO;
 import bw.entities.clsEntity;
 import bw.utils.container.clsConfigMap;
-import bw.utils.enums.eBodyParts;
 
 /**
  * TODO (deutsch) - insert description 

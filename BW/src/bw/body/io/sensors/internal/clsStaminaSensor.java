@@ -12,7 +12,6 @@ import bw.body.clsBaseBody;
 import bw.body.clsComplexBody;
 import bw.body.internalSystems.clsStaminaSystem;
 import bw.body.io.clsBaseIO;
-import bw.body.itfget.itfGetBody;
 import bw.utils.container.clsConfigMap;
 
 /**

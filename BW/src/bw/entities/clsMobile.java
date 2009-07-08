@@ -7,6 +7,7 @@
  */
 package bw.entities;
 
+import enums.eEntityType;
 import bw.utils.container.clsConfigMap;
 import sim.physics2D.shape.Shape;
 import sim.physics2D.util.Angle;
@@ -34,7 +35,7 @@ public abstract class clsMobile extends clsEntity {
 
 		applyConfig();
 		
-		if(this.meEntityType.equals(meEntityType.REMOTEBOT)) 
+		if(this.meEntityType.equals(eEntityType.REMOTEBOT)) 
 			initPhysicalObject2D(new clsPose(poPose.getPosition(), new Angle(0d)), poStartingVelocity, poShape, prMass);
 		else
 			initPhysicalObject2D(poPose, poStartingVelocity, poShape, prMass);

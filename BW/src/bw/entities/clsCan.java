@@ -8,8 +8,6 @@
 package bw.entities;
 
 import java.awt.Color;
-import java.util.ArrayList;
-
 import ARSsim.physics2D.util.clsPose;
 import bw.utils.container.clsConfigMap;
 import enums.eEntityType;

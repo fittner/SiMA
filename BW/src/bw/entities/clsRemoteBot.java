@@ -167,8 +167,15 @@ public class clsRemoteBot extends clsAnimate implements itfGetVision, itfGetEata
 		((clsRemoteControl)(moBody.getBrain().getDecisionUnit())).setKeyPressed(clsKeyListener.getKeyPressed());		
 		moBody.getBrain().stepProcessing();
 	}
+
+	/**
+	 * @author deutsch
+	 * 08.07.2009, 15:05:13
+	 * 
+	 * @return the mnUniqueId
+	 */
+	public int getUniqueId() {
+		return mnUniqueId;
+	}
 	
-
-
-
 }

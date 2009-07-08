@@ -7,20 +7,15 @@
  */
 package bw.entities;
 
-import java.awt.Color;
 import java.awt.Paint;
-
 import simple.dumbmind.clsDumbMindA;
 import bw.actionresponses.clsBubbleResponses;
 import bw.body.clsBaseBody;
 import bw.body.clsComplexBody;
-import bw.body.io.sensors.external.clsSensorEatableArea;
-import bw.body.io.sensors.external.clsSensorVision;
 import bw.body.itfget.itfGetEatableArea;
 import bw.body.itfget.itfGetInternalEnergyConsumption;
 import bw.body.itfget.itfGetVision;
 import ARSsim.physics2D.util.clsPose;
-import bw.physicalObjects.sensors.clsEntityPartVision;
 import bw.utils.container.clsConfigMap;
 import bw.utils.enums.eConfigEntries;
 import enums.eEntityType;
@@ -37,7 +32,6 @@ public class clsBubble extends clsAnimate implements itfGetVision, itfGetEatable
 
 	private static double mrDefaultWeight = 100.0f;
 	private static double mrDefaultRadius = 10.0f;
-	private static Color moDefaultColor = Color.green;
 
 
 	/**

@@ -4,11 +4,7 @@
 package ARSsim.physics2D.physicalObject;
 
 import inspectors.clsInspectorMapping;
-
 import java.util.ArrayList;
-
-import enums.eEntityType;
-
 import sim.display.GUIState;
 import sim.engine.SimState;
 import sim.engine.Steppable;
@@ -17,16 +13,13 @@ import sim.physics2D.physicalObject.PhysicalObject2D;
 import sim.portrayal.DrawInfo2D;
 import sim.portrayal.Inspector;
 import sim.portrayal.LocationWrapper;
-import statictools.clsSingletonUniqueIdGenerator;
 import ARSsim.motionplatform.clsMotionPlatform;
 import ARSsim.physics2D.util.clsPose;
 import bw.body.clsBaseBody;
 import bw.body.clsComplexBody;
 import bw.body.itfget.itfGetBody;
 import bw.entities.clsAnimate;
-import bw.entities.clsBubble;
 import bw.entities.clsEntity;
-import bw.entities.clsRemoteBot;
 import bw.factories.clsSingletonMasonGetter;
 import bw.physicalObjects.sensors.clsEntityPartVision;
 import bw.utils.inspectors.body.clsFillLevelInspector;
