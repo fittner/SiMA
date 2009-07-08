@@ -9,8 +9,8 @@
 package bw.entities;
 
 import java.awt.Color;
-
-import lifeCycle.JAM.clsLynxMind;
+import decisionunit.clsBaseDecisionUnit;
+import lifeCycle.eLifeCycleDUs;
 import sim.display.clsKeyListener;
 import sim.physics2D.util.Double2D;
 import simple.remotecontrol.clsRemoteControl;
@@ -41,10 +41,19 @@ public class clsLynx extends clsAnimal {
 	 * @param poStartingVelocity
 	 * @param poConfig
 	 */
-	public clsLynx(int pnId, clsPose poPose, Double2D poStartingVelocity, clsConfigMap poConfig) {
+	public clsLynx(int pnId, clsPose poPose, Double2D poStartingVelocity, clsConfigMap poConfig, eLifeCycleDUs peDU) {
 		super(pnId, poPose, poStartingVelocity, getFinalConfig(poConfig));
 		applyConfig();		
-		setDecisionUnit(new clsLynxMind());
+		
+		clsBaseDecisionUnit oDU = null;
+		if (peDU == eLifeCycleDUs.JAM) {
+			oDU = new lifeCycle.JAM.clsLynxMind();			
+		} else if (peDU == eLifeCycleDUs.JADEX) {
+			oDU = new lifeCycle.JADEX.clsLynxMind();
+		} else if (peDU == eLifeCycleDUs.IfThenElse) {
+			oDU = new lifeCycle.IfThenElse.clsLynxMind();
+		}
+		setDecisionUnit(oDU);		
 	}
 
 	

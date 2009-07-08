@@ -8,6 +8,7 @@
  */
 package sim.creation.lifeCycle;
 
+import lifeCycle.eLifeCycleDUs;
 import sim.creation.clsLoader;
 import ARSsim.physics2D.util.clsPose;
 import bw.entities.clsCarrot;
@@ -30,7 +31,7 @@ public class clsEntityLoader {
         {
 			clsPose oStartPose = clsLoader.generateRandomPose();
 			
-			//FIXME warum ist der Radius random? wenn ein Bild drüber ist, dann muss der Radius dem Bild entsprechen!
+			//FIXME warum ist der Radius random? wenn ein Bild drï¿½ber ist, dann muss der Radius dem Bild entsprechen!
 			//double rRadius = clsSingletonMasonGetter.getSimState().random.nextDouble() * 30.0 + 10.0;
 			double rRadius =  15.0 ;
 	        
@@ -48,20 +49,20 @@ public class clsEntityLoader {
         }
  	}	
 	
-	public static void loadHares(int pnNum){
+	public static void loadHares(int pnNum, eLifeCycleDUs peDU){
         for (int i = 0; i < pnNum; i++)
         {
         	clsPose oStartPose = clsLoader.generateRandomPose();
-        	clsHare oHare = new clsHare(i, oStartPose, new sim.physics2D.util.Double2D(0, 0), new clsConfigMap());	        
+        	clsHare oHare = new clsHare(i, oStartPose, new sim.physics2D.util.Double2D(0, 0), new clsConfigMap(), peDU);	        
 	        clsRegisterEntity.registerEntity(oHare);
         }
  	}	
 	
-	public static void loadLynx(int pnNum){
+	public static void loadLynx(int pnNum, eLifeCycleDUs peDU){
         for (int i = 0; i < pnNum; i++)
         {
         	clsPose oStartPose = clsLoader.generateRandomPose();
-        	clsLynx oLynx = new clsLynx(i, oStartPose, new sim.physics2D.util.Double2D(0, 0), new clsConfigMap());	        
+        	clsLynx oLynx = new clsLynx(i, oStartPose, new sim.physics2D.util.Double2D(0, 0), new clsConfigMap(), peDU);	        
 	        clsRegisterEntity.registerEntity(oLynx);
         }
  	}		

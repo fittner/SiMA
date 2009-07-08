@@ -10,10 +10,11 @@ package bw.entities;
 
 import java.awt.Color;
 
+import decisionunit.clsBaseDecisionUnit;
+
 import enums.eEntityType;
 
-import lifeCycle.JAM.clsHareMind;
-
+import lifeCycle.eLifeCycleDUs;
 import sim.display.clsKeyListener;
 import sim.physics2D.util.Double2D;
 import simple.remotecontrol.clsRemoteControl;
@@ -49,10 +50,19 @@ public class clsHare extends clsAnimal implements itfGetFlesh, itfAPEatable, itf
 	 * @param poStartingVelocity
 	 * @param poConfig
 	 */
-	public clsHare(int pnId, clsPose poPose, Double2D poStartingVelocity, clsConfigMap poConfig) {
+	public clsHare(int pnId, clsPose poPose, Double2D poStartingVelocity, clsConfigMap poConfig, eLifeCycleDUs peDU) {
 		super(pnId, poPose, poStartingVelocity, getFinalConfig(poConfig));
 		applyConfig();		
-		setDecisionUnit(new clsHareMind());
+		
+		clsBaseDecisionUnit oDU = null;
+		if (peDU == eLifeCycleDUs.JAM) {
+			oDU = new lifeCycle.JAM.clsHareMind();			
+		} else if (peDU == eLifeCycleDUs.JADEX) {
+			oDU = new lifeCycle.JADEX.clsHareMind();
+		} else if (peDU == eLifeCycleDUs.IfThenElse) {
+			oDU = new lifeCycle.IfThenElse.clsHareMind();
+		}
+		setDecisionUnit(oDU);
 	}
 
 	

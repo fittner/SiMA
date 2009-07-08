@@ -8,6 +8,7 @@
  */
 package sim.creation.lifeCycle;
 
+import lifeCycle.eLifeCycleDUs;
 import sim.creation.clsLoader;
 import sim.engine.SimState;
 
@@ -24,10 +25,16 @@ public class clsLifeCycleLoader extends clsLoader {
 	private int mnNumHares;
 	private int mnNumLynx;
 	private int mnNumStones;
+	private eLifeCycleDUs meHareDU;
+	private eLifeCycleDUs meLynxDU;
 
-	public clsLifeCycleLoader(SimState poSimState, int pnWidth, int pnHeight, int pnCarrots, int pnHares, int pnLynx, int pnStones) {
+	public clsLifeCycleLoader(SimState poSimState, int pnWidth, int pnHeight, 
+			                  int pnCarrots, int pnHares, int pnLynx, int pnStones,
+			                  eLifeCycleDUs peHareDU, eLifeCycleDUs peLynxDU) {
 		super(poSimState);
 		
+		meHareDU = peHareDU;
+		meLynxDU = peLynxDU;
 		
 		mnNumCarrots = pnCarrots;
 		mnNumHares = pnHares;
@@ -50,7 +57,7 @@ public class clsLifeCycleLoader extends clsLoader {
 		clsWorldBoundaries.loadWorldBoundaries();
 		clsEntityLoader.loadStones(mnNumStones);
 		clsEntityLoader.loadCarrots(mnNumCarrots);
-		clsEntityLoader.loadHares(mnNumHares);
-		clsEntityLoader.loadLynx(mnNumLynx);
+		clsEntityLoader.loadHares(mnNumHares, meHareDU);
+		clsEntityLoader.loadLynx(mnNumLynx, meLynxDU);
 	}	
 }
