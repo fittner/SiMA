@@ -23,6 +23,7 @@ import bw.body.internalSystems.clsFlesh;
 import bw.body.io.actuators.actionProxies.itfAPEatable;
 import bw.body.io.actuators.actionProxies.itfAPKillable;
 import bw.body.itfget.itfGetFlesh;
+import bw.factories.clsRegisterEntity;
 import bw.utils.container.clsConfigDouble;
 import bw.utils.container.clsConfigInt;
 import bw.utils.container.clsConfigMap;
@@ -169,6 +170,24 @@ public class clsHare extends clsAnimal implements itfGetFlesh, itfAPEatable, itf
 		// TODO Auto-generated method stub
 	
 		return 0;
+	}
+	
+	
+	/* (non-Javadoc)
+	 *
+	 * @author langr
+	 * 25.02.2009, 17:37:10
+	 * 
+	 * @see bw.entities.clsEntity#updateInternalState()
+	 */
+	@Override
+	public void updateInternalState() {
+		// TODO Auto-generated method stub
+		super.updateInternalState();
+		if ( isAlive() && getFlesh().getTotallyConsumed() ) {
+			//This command removes the cake from the playground
+			clsRegisterEntity.unRegisterPhysicalObject2D(getMobileObject2D());
+		}
 	}
 	
 }
