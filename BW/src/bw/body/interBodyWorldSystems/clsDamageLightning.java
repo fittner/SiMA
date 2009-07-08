@@ -25,9 +25,9 @@ import bw.utils.enums.partclass.clsPartDamageBump;
  */
 public class clsDamageLightning implements itfStep {
 
-	private float mrPainThreshold;
-	private float mrHealthPenalty;
-	private float mrHurtThreshold;
+	private double mrPainThreshold;
+	private double mrHealthPenalty;
+	private double mrHurtThreshold;
 
 	private clsHealthSystem moHealthSystem;
 	private clsFastMessengerSystem moFastMessengerSystem;

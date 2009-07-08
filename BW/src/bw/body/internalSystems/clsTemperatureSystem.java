@@ -26,7 +26,7 @@ public class clsTemperatureSystem implements itfStepUpdateInternalState {
     
 	private clsFillLevel moTemperature;
 	
-	private float mrSelfRegulationAdaption;
+	private double mrSelfRegulationAdaption;
 	
 	public clsTemperatureSystem(clsConfigMap poConfig) {
 		moConfig = getFinalConfig(poConfig);

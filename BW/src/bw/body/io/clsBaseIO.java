@@ -37,13 +37,13 @@ public abstract class clsBaseIO implements itfStepSensing, itfStepExecution  {
 		}
 	}
 
-	public void registerEnergyConsumption(int pnId, float prValue) {
+	public void registerEnergyConsumption(int pnId, double prValue) {
 		if (moInternalEnergyConsumption != null) {
 			moInternalEnergyConsumption.setValue(new Integer(pnId), new clsMutableDouble(prValue));
 		}
 	}
 
-	public void registerEnergyConsumptionOnce(int pnId, float prValue) {
+	public void registerEnergyConsumptionOnce(int pnId, double prValue) {
 		if (moInternalEnergyConsumption != null) {
 			moInternalEnergyConsumption.setValueOnce(new Integer(pnId), new clsMutableDouble(prValue));
 		}

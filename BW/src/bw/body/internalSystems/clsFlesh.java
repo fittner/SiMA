@@ -95,7 +95,7 @@ public class clsFlesh extends clsFood {
 	 *
 	 * @param prWeight
 	 */
-	public void grow(float prWeight) {
+	public void grow(double prWeight) {
 		try {
 			setAmount(getAmount() + Math.abs(prWeight));
 			mnTotallyConsumed = false;

@@ -24,8 +24,8 @@ import bw.utils.enums.eConfigEntries;
  */
 public class clsMeatBody extends clsBaseBody {
 	private clsFlesh moFlesh;
-	private float mrRegrowRate;
-	private float mrMaxWeight;
+	private double mrRegrowRate;
+	private double mrMaxWeight;
 
 	/**
 	 * TODO (deutsch) - insert description 

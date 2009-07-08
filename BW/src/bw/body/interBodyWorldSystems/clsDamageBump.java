@@ -26,9 +26,9 @@ import bw.utils.enums.partclass.clsPartSensorBump;
  */
 public class clsDamageBump implements itfStep {
 	
-	private float mrPainThreshold;
-	private float mrHealthPenalty;
-	private float mrHurtThreshold;
+	private double mrPainThreshold;
+	private double mrHealthPenalty;
+	private double mrHurtThreshold;
 
 	private clsHealthSystem moHealthSystem;
 	private clsFastMessengerSystem moFastMessengerSystem;
@@ -83,9 +83,9 @@ public class clsDamageBump implements itfStep {
 	 *
 	 * @param prPenaltySum
 	 */
-	private void hurt(float prPenaltySum) {
+	private void hurt(double prPenaltySum) {
 		if (prPenaltySum > mrHurtThreshold) {
-			float rHealthPenalty = prPenaltySum * mrHealthPenalty;
+			double rHealthPenalty = prPenaltySum * mrHealthPenalty;
 			moHealthSystem.hurt(rHealthPenalty);
 		}
 	}

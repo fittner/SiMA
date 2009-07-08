@@ -179,7 +179,7 @@ public class clsFood {
 	 * @param pnId
 	 * @param prFraction
 	 */
-	public void addNutritionFraction(int pnNurtritionId, float prFraction) throws bw.exceptions.exFoodAlreadyNormalized {
+	public void addNutritionFraction(int pnNurtritionId, double prFraction) throws bw.exceptions.exFoodAlreadyNormalized {
 		addNutritionFraction(new Integer(pnNurtritionId), new clsMutableDouble(prFraction));
 	}
 	
@@ -211,14 +211,14 @@ public class clsFood {
 			throw new bw.exceptions.exFoodAlreadyNormalized();
 		}
 		
-		float rFractionSum = 0.0f;
+		double rFractionSum = 0.0f;
 		Iterator<Integer> i =  moComposition.keySet().iterator();
 			
 		while (i.hasNext()) {
 			rFractionSum += moComposition.get(i.next()).doubleValue();
 		}
 			
-		float rInvFSum = 1.0f/rFractionSum;
+		double rInvFSum = 1.0f/rFractionSum;
 			
 		i = moComposition.keySet().iterator();
 		while (i.hasNext()) {

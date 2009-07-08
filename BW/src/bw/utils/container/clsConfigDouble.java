@@ -16,21 +16,21 @@ package bw.utils.container;
  * 
  */
 public class clsConfigDouble extends clsConfigSkalar {
-	private float mrValue;
+	private double mrValue;
 	
 	public clsConfigDouble() {
 		mrValue = 0;
 	}
 	
-	public clsConfigDouble(float prValue) {
+	public clsConfigDouble(double prValue) {
 		mrValue = prValue;
 	}
 	
-	public void set(float prValue) {
+	public void set(double prValue) {
 		mrValue = prValue;
 	}
 	
-	public float get() {
+	public double get() {
 		return mrValue;
 	}
 
@@ -43,7 +43,7 @@ public class clsConfigDouble extends clsConfigSkalar {
 	 */
 	@Override
 	public String toString() {
-		return "float: " + mrValue;
+		return "double: " + mrValue;
 	}
 
 }
