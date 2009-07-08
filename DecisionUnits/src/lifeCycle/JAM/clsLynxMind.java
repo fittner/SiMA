@@ -23,18 +23,24 @@ public class clsLynxMind extends clsRemoteControl  {
 	@Override
 	public void process(itfActionProcessor poActionProcessor) {
 
-		//===========TESTING PURPOSE ONLY!
-	   	switch( getKeyPressed() )
-    	{
-    	case 75: //'K'
-    		killHare(poActionProcessor);
-    		break;
-    	default:
-    		super.process(poActionProcessor);
-    		break;
-    	}
-	  //=========== END
+//		//===========TESTING PURPOSE ONLY!
+//	   	switch( getKeyPressed() )
+//    	{
+//    	case 75: //'K'
+//    		killHare(poActionProcessor);
+//    		break;
+//    	default:
+//    		super.process(poActionProcessor);
+//    		break;
+//    	}
+//	  //=========== END
+		
+		doLynxThinking(poActionProcessor);
 	}
+	
+	int mnStepCounter = 0;
+	int mnStepsToRepeatLastAction = 20;
+	int mnCurrentActionCode = 0; //default move forward
 	
 	public void doLynxThinking(itfActionProcessor poActionProcessor) {
 		
@@ -54,9 +60,8 @@ public class clsLynxMind extends clsRemoteControl  {
 			handleColision(poActionProcessor);
 		}
 		else {
-//			seekHare();
+			seekHare(poActionProcessor);
 		}
-		
 	}
 	
 	public boolean checkEatableArea() 	{
@@ -82,6 +87,42 @@ public class clsLynxMind extends clsRemoteControl  {
 		return oRetVal;
 	}
 	
+	public void seekHare(itfActionProcessor poActionProcessor) {
+		
+		if(	mnStepCounter >= mnStepsToRepeatLastAction ) {
+			mnStepCounter = 0; //reset stepcounter
+			mnStepsToRepeatLastAction = (int)(Math.random()*20); //generate new action repeat time to avoid always the same boring behaviour;
+			
+			mnCurrentActionCode = (int)(Math.random()*4); //determine new random action
+		}
+		else
+		{
+			//do as the action command says...
+			switch(mnCurrentActionCode) {
+			case 0:
+				poActionProcessor.call(new clsActionMove(eActionMoveDirection.MOVE_FORWARD,4));
+				break;
+			case 1:
+	    		poActionProcessor.call(new clsActionMove(eActionMoveDirection.MOVE_BACKWARD,4));
+				break;
+			case 2:
+				poActionProcessor.call(new clsActionTurn(eActionTurnDirection.TURN_LEFT));
+				break;
+			case 3:
+				poActionProcessor.call(new clsActionTurn(eActionTurnDirection.TURN_RIGHT));
+				break;
+			case 5:
+				poActionProcessor.call(new clsActionMove(eActionMoveDirection.MOVE_BACKWARD,4));
+				poActionProcessor.call(new clsActionTurn(eActionTurnDirection.TURN_LEFT));
+				break;
+			default:
+				poActionProcessor.call(new clsActionMove(eActionMoveDirection.MOVE_FORWARD,4));
+				break;
+			}
+		}
+		mnStepCounter++;		
+	}
+	
 	public void followHare(itfActionProcessor poActionProcessor, clsVisionEntry poVisionObj) {
 		
 		double rAngle = poVisionObj.moPolarcoordinate.moAzimuth.mrAlpha;
@@ -104,8 +145,9 @@ public class clsLynxMind extends clsRemoteControl  {
 	}
 	
 	public void handleColision(itfActionProcessor poActionProcessor) {
-		poActionProcessor.call(new clsActionMove(eActionMoveDirection.MOVE_BACKWARD,4));
-		poActionProcessor.call(new clsActionTurn(eActionTurnDirection.TURN_LEFT));
+		mnStepCounter = 0;
+		mnStepsToRepeatLastAction = 40;
+		mnCurrentActionCode = 5;
 	}
 	
 	//public void 

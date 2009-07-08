@@ -14,16 +14,15 @@ public class clsHareMind extends clsRemoteControl { //should be derived from cls
 
 		clsKeyListener.getKeyPressed();
 		
-//		//===========TESTING PURPOSE ONLY!
-//		super.process(poActionProcessor);
-//		
-//	   	switch( getKeyPressed() )
-//    	{
-//    	case 75: //'K'
-//    		super.kill(poActionProcessor);
-//    		break;
-//    	}
-//	  //=========== END
+		//===========TESTING PURPOSE ONLY!
+		super.process(poActionProcessor);
+		
+	   	switch( getKeyPressed() )
+    	{
+    	case 75: //'K'
+    		break;
+    	}
+	  //=========== END
 	   	
 	}
 }

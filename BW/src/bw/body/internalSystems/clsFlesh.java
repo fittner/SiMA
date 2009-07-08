@@ -139,7 +139,7 @@ public class clsFlesh extends clsFood {
 	}
 	
 	public void setAmount(double prAmount) throws bw.exceptions.exFoodAmountBelowZero {
-		setAmount(prAmount);
+		super.setAmount(prAmount);
 		
 		if (getAmount() == 0.0) {
 			mnTotallyConsumed = true;
