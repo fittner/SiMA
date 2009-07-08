@@ -28,6 +28,7 @@ public class clsSimpleLoader extends clsLoader {
 	private int mnNumBots;
 	private int mnNumFungi;
 	private int mnNumUraniumOre;
+	private int mnNumBases;
 
 	/**
 	 * TODO (deutsch) - insert description 
@@ -50,12 +51,13 @@ public class clsSimpleLoader extends clsLoader {
 		mnNumCakes = 1;
 		mnNumFungi = 1;
 		mnNumUraniumOre = 1;
+		mnNumBases = 1;
 		
 		createGrids(pnWidth, pnHeight);
 		// TODO Auto-generated constructor stub
 	}
 	
-	public clsSimpleLoader(SimState poSimState, int pnWidth, int pnHeight, int pnNumRemoteBots, int pnNumBots, int pnNumCans, int pnNumStones, int pnNumCakes, int pnNumFungi, int pnNumUraniumOre) {
+	public clsSimpleLoader(SimState poSimState, int pnWidth, int pnHeight, int pnNumRemoteBots, int pnNumBots, int pnNumCans, int pnNumStones, int pnNumCakes, int pnNumFungi, int pnNumUraniumOre, int pnNumBases) {
 		super(poSimState);
 		
 		
@@ -68,6 +70,7 @@ public class clsSimpleLoader extends clsLoader {
 		mnNumCakes = pnNumCakes;
 		mnNumFungi = pnNumFungi;
 		mnNumUraniumOre = pnNumUraniumOre;
+		mnNumBases = pnNumBases;
 		
 		createGrids(pnWidth, pnHeight);
 		// TODO Auto-generated constructor stub
@@ -83,7 +86,7 @@ public class clsSimpleLoader extends clsLoader {
 	@Override
 	public void loadObjects() {
 		clsWorldBoundaries.loadWorldBoundaries();
-		clsEntityLoader.loadInanimate(mnNumCans, mnNumStones, mnNumCakes, mnNumFungi, mnNumUraniumOre);	
+		clsEntityLoader.loadInanimate(mnNumCans, mnNumStones, mnNumCakes, mnNumFungi, mnNumUraniumOre, mnNumBases);	
 		clsAgentLoader.loadAgents(mnNumRemoteBots, mnNumBots);
 	}
 

@@ -17,6 +17,7 @@ import bw.entities.clsCan;
 import bw.entities.clsStone;
 import bw.entities.clsFungus;
 import bw.entities.clsUraniumOre;
+import bw.entities.clsBase;
 import bw.factories.clsRegisterEntity;
 import bw.factories.clsSingletonMasonGetter;
 import bw.utils.container.clsConfigMap;
@@ -37,13 +38,14 @@ public class clsEntityLoader {
 	 * @param poObjPE
 	 * @param poSimState
 	 */
-	public static void loadInanimate(int pnNumCans, int pnNumStones, int pnNumFood, int pnNumFungi, int pnNumUraniumOre){
+	public static void loadInanimate(int pnNumCans, int pnNumStones, int pnNumFood, int pnNumFungi, int pnNumUraniumOre, int pnNumBases){
 		//load inanimate entitieshere
 		loadCans(pnNumCans);
 		loadStones(pnNumStones);
 		loadFood(pnNumFood);
 		loadFungi(pnNumFungi);
 		loadUraniumOre(pnNumUraniumOre);
+		loadBases(pnNumBases);
 	}
 	
 	public static void loadStones(int pnNumStones){
@@ -83,11 +85,10 @@ public class clsEntityLoader {
 	 
 	 public static void loadFungi(int pnNumFungi) 
      {
-		double prRadius = 8;
         for (int i = 0; i < pnNumFungi; i++)
         {		 
     	  	clsPose oStartPose = clsLoader.generateRandomPose();
-    	    clsFungus oFungus = new clsFungus(i, oStartPose, new sim.physics2D.util.Double2D(0, 0), prRadius, new clsConfigMap());
+    	    clsFungus oFungus = new clsFungus(i, oStartPose, new sim.physics2D.util.Double2D(0, 0), new clsConfigMap());
     		clsRegisterEntity.registerEntity(oFungus);
         }
      }
@@ -101,5 +102,15 @@ public class clsEntityLoader {
 		        clsRegisterEntity.registerEntity(oUraniumOre);
 	        }
 	}
+	 
+	 public static void loadBases(int pnNumBases) 
+     {
+        for (int i = 0; i < pnNumBases; i++)
+        {		 
+    	  	clsPose oStartPose = clsLoader.generateRandomPose();
+    	    clsBase oBase = new clsBase(i, oStartPose, new sim.physics2D.util.Double2D(0, 0), new clsConfigMap());
+    		clsRegisterEntity.registerEntity(oBase);
+        }
+     }
 
 }

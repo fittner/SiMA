@@ -20,6 +20,7 @@ public enum eEntityType {
 	WALL,
 	FOOD,
 	FUNGUS,
+	URANIUM,
 	CARROT
 }
 

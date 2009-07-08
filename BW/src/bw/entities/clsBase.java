@@ -8,42 +8,39 @@
 package bw.entities;
 
 import java.awt.Color;
+import java.util.ArrayList;
+
 import ARSsim.physics2D.util.clsPose;
-import bw.utils.container.clsConfigMap;
-import bw.utils.enums.eBindingState;
-import bw.utils.enums.eConfigEntries;
 import bw.body.io.actuators.actionProxies.itfAPCarryable;
+import bw.utils.container.clsConfigMap;
 import enums.eEntityType;
 
+
 /**
- * 
- * This class represents uranium ore - an utility for the Fungus-Eater. It's a radioactivity source and can be carried.
- * 
- * TODO (horvath) - implement radioactivity
+ * TODO (horvath) - insert description 
  * 
  * @author horvath
- * 08.07.2009, 11:25:46
+ * 08.07.2009, 14:52:00
  * 
  */
-public class clsUraniumOre extends clsInanimate implements itfAPCarryable{
-	private static double mrDefaultWeight = 30.0f;
-	private static double mrDefaultRadius = 4.0f;
-	private static String moImagePath = sim.clsBWMain.msArsPath + "/src/resources/images/Uranium.png";
-	private static Color moDefaultColor = Color.green;	
+public class clsBase extends clsInanimate{
+	private static double mrDefaultWeight = 1000000.0f;
+	private static double mrDefaultRadius = 20.0f;
+	private static String moImagePath = sim.clsBWMain.msArsPath + "/src/resources/images/spacestation.gif";
+	private static Color moDefaultColor = Color.gray;	
     
-    public clsUraniumOre(int pnId, clsPose poStartingPose, sim.physics2D.util.Double2D poStartingVelocity, clsConfigMap poConfig) {
+    public clsBase(int pnId, clsPose poStartingPose, sim.physics2D.util.Double2D poStartingVelocity, clsConfigMap poConfig) {
 		super(pnId, 
 				poStartingPose, 
 				poStartingVelocity, 
-				null,
-				clsUraniumOre.mrDefaultWeight,
+				new sim.physics2D.shape.Circle(clsBase.mrDefaultRadius, clsBase.moDefaultColor),
+				clsBase.mrDefaultWeight,
 				getFinalConfig(poConfig)
 				);
 		
 		applyConfig();
-		
-		setShape(new ARSsim.physics2D.shape.clsCircleImage(clsUraniumOre.mrDefaultRadius, moDefaultColor , moImagePath), clsUraniumOre.mrDefaultWeight);
 
+		setShape(new ARSsim.physics2D.shape.clsCircleImage(clsBase.mrDefaultRadius, moDefaultColor , moImagePath), clsBase.mrDefaultWeight);
     }
 
 	private void applyConfig() {
@@ -60,8 +57,7 @@ public class clsUraniumOre extends clsInanimate implements itfAPCarryable{
 	private static clsConfigMap getDefaultConfig() {
 		clsConfigMap oDefault = new clsConfigMap();
 		
-		clsConfigMap oBody = new clsConfigMap();		
-		oDefault.add(eConfigEntries.BODY, oBody);		
+		//TODO add ...
 		
 		return oDefault;
 	}
@@ -71,7 +67,7 @@ public class clsUraniumOre extends clsInanimate implements itfAPCarryable{
 	 */
 	@Override
 	protected void setEntityType() {
-		meEntityType = eEntityType.URANIUM;
+		meEntityType = eEntityType.CAN;
 		
 	}
 
@@ -115,16 +111,6 @@ public class clsUraniumOre extends clsInanimate implements itfAPCarryable{
 	public void updateInternalState() {
 		// TODO Auto-generated method stub
 		
-	}
-	
-	/*
-	 * Interface Carryable
-	 */
-	public clsMobile getCarryableEntity() {
-		return this;	
-	}
-	public void setCarriedBindingState(eBindingState pBindingState) {
-		//handle binding-state implications 
 	}
 
 }
