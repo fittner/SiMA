@@ -83,13 +83,13 @@ public class clsFungus extends clsInanimate implements itfGetFlesh, itfAPEatable
 		clsConfigMap oFlesh = new clsConfigMap();		
 		clsConfigMap oNutritions = new clsConfigMap();
 		
-		oNutritions.add(eConfigEntries.FAT, new clsConfigFloat(5.0f));
-		oNutritions.add(eConfigEntries.WATER, new clsConfigFloat(1.0f));
+		oNutritions.add(eConfigEntries.FAT, new clsConfigDouble(5.0f));
+		oNutritions.add(eConfigEntries.WATER, new clsConfigDouble(1.0f));
 		
 		oFlesh.add(eConfigEntries.NUTRITIONS, oNutritions);
-		oFlesh.add(eConfigEntries.CONTENT, new clsConfigFloat(15.0f));
-		oFlesh.add(eConfigEntries.MAXCONTENT, new clsConfigFloat(15.0f));
-		oFlesh.add(eConfigEntries.INCREASERATE, new clsConfigFloat(0.00f));
+		oFlesh.add(eConfigEntries.CONTENT, new clsConfigDouble(15.0f));
+		oFlesh.add(eConfigEntries.MAXCONTENT, new clsConfigDouble(15.0f));
+		oFlesh.add(eConfigEntries.INCREASERATE, new clsConfigDouble(0.00f));
 		
 		oBody.add(eConfigEntries.INTSYS_FLESH, oFlesh);
 
