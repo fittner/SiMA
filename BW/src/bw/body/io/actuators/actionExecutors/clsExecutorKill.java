@@ -81,7 +81,7 @@ public class clsExecutorKill extends clsActionExecutor{
 	}
 	public double getStaminaDemand(itfActionCommand poCommand) {
 		clsActionKill oCommand =(clsActionKill) poCommand;
-		return srStaminaScalingFactor* (float) Math.pow(srStaminaBase,oCommand.getForce()) ;
+		return srStaminaScalingFactor* Math.pow(srStaminaBase,oCommand.getForce()) ;
 	}
 
 	/*

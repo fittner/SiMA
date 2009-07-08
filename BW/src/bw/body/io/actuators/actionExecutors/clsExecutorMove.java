@@ -67,7 +67,7 @@ public class clsExecutorMove extends clsActionExecutor{
 	}
 	public double getStaminaDemand(itfActionCommand poCommand) {
 		clsActionMove oCommand =(clsActionMove) poCommand;
-		return srStaminaScalingFactor* (float) Math.pow(srStaminaBase,oCommand.getSpeed()) ;
+		return srStaminaScalingFactor* Math.pow(srStaminaBase,oCommand.getSpeed()) ;
 	}
 	
 	/*
