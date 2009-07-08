@@ -169,7 +169,6 @@ public class clsCarrot extends clsInanimate implements itfGetFlesh, itfAPEatable
 	 */
 	@Override
 	public float tryEat() {
-		// TODO Auto-generated method stub
 		return 0;
 	}
 

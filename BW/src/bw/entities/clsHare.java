@@ -121,7 +121,6 @@ public class clsHare extends clsAnimal implements itfGetFlesh, itfAPEatable, itf
 	 */
 	@Override
 	public clsFood Eat(float prBiteSize) {
-		// TODO Auto-generated method stub
 		return getFlesh().withdraw(prBiteSize);
 	}
 
@@ -135,7 +134,6 @@ public class clsHare extends clsAnimal implements itfGetFlesh, itfAPEatable, itf
 	 */
 	@Override
 	public float tryEat() {
-		// TODO Auto-generated method stub
 		if (!isAlive()){
   		  return 0;
 		} else {
@@ -153,7 +151,6 @@ public class clsHare extends clsAnimal implements itfGetFlesh, itfAPEatable, itf
 	 */
 	@Override
 	public void kill(float pfForce) {
-		// TODO Auto-generated method stub
 		setAlive(false);
 	}
 
@@ -167,8 +164,6 @@ public class clsHare extends clsAnimal implements itfGetFlesh, itfAPEatable, itf
 	 */
 	@Override
 	public float tryKill(float pfForce) {
-		// TODO Auto-generated method stub
-	
 		return 0;
 	}
 	
