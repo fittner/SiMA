@@ -120,4 +120,61 @@ public class clsAnimal extends clsAnimate implements itfGetVision, itfGetEatable
 	}
 
 
+	/* (non-Javadoc)
+	 *
+	 * @author deutsch
+	 * 08.07.2009, 10:59:18
+	 * 
+	 * @see bw.entities.clsEntity#execution()
+	 */
+	@Override
+	public void execution() {
+		if (isAlive()) {
+			super.execution();
+		}
+	}
+
+	/* (non-Javadoc)
+	 *
+	 * @author deutsch
+	 * 08.07.2009, 10:59:18
+	 * 
+	 * @see bw.entities.clsEntity#processing()
+	 */
+	@Override
+	public void processing() {
+		if (isAlive()) {
+			super.processing();
+		}
+	}
+
+	/* (non-Javadoc)
+	 *
+	 * @author deutsch
+	 * 08.07.2009, 10:59:18
+	 * 
+	 * @see bw.entities.clsEntity#sensing()
+	 */
+	@Override
+	public void sensing() {
+		if (isAlive()) {
+			super.sensing();
+		}
+	}
+
+	
+	/* (non-Javadoc)
+	 *
+	 * @author deutsch
+	 * 08.07.2009, 10:59:18
+	 * 
+	 * @see bw.entities.clsEntity#updateInternalState()
+	 */
+	@Override
+	public void updateInternalState() {
+		if (isAlive()) {
+			super.updateInternalState();
+		}
+	}	
+
 }

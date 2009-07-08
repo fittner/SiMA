@@ -18,10 +18,16 @@ import sim.display.clsKeyListener;
 import sim.physics2D.util.Double2D;
 import simple.remotecontrol.clsRemoteControl;
 import ARSsim.physics2D.util.clsPose;
+import bw.body.clsComplexBody;
+import bw.body.internalSystems.clsFlesh;
+import bw.body.io.actuators.actionProxies.itfAPEatable;
+import bw.body.io.actuators.actionProxies.itfAPKillable;
+import bw.body.itfget.itfGetFlesh;
 import bw.utils.container.clsConfigDouble;
 import bw.utils.container.clsConfigInt;
 import bw.utils.container.clsConfigMap;
 import bw.utils.enums.eConfigEntries;
+import bw.utils.tools.clsFood;
 
 /**
  * TODO (deutsch) - insert description 
@@ -30,8 +36,7 @@ import bw.utils.enums.eConfigEntries;
  * 12.05.2009, 19:30:22
  * 
  */
-public class clsHare extends clsAnimal {
-
+public class clsHare extends clsAnimal implements itfGetFlesh, itfAPEatable, itfAPKillable {
 	/**
 	 * TODO (deutsch) - insert description 
 	 * 
@@ -88,9 +93,82 @@ public class clsHare extends clsAnimal {
 	 */
 	@Override
 	public void processing() {
-
 	    ((clsRemoteControl)(moBody.getBrain().getDecisionUnit())).setKeyPressed(clsKeyListener.getKeyPressed());		
 		super.processing();
+	}
+
+	/* (non-Javadoc)
+	 *
+	 * @author deutsch
+	 * 08.07.2009, 15:13:45
+	 * 
+	 * @see bw.body.itfget.itfGetFlesh#getFlesh()
+	 */
+	@Override
+	public clsFlesh getFlesh() {
+		// TODO Auto-generated method stub
+		return ((clsComplexBody)moBody).getInternalSystem().getFlesh();
+	}
+
+
+	/* (non-Javadoc)
+	 *
+	 * @author deutsch
+	 * 08.07.2009, 15:13:45
+	 * 
+	 * @see bw.body.io.actuators.actionProxies.itfAPEatable#Eat(float)
+	 */
+	@Override
+	public clsFood Eat(float prBiteSize) {
+		// TODO Auto-generated method stub
+		return getFlesh().withdraw(prBiteSize);
+	}
+
+
+	/* (non-Javadoc)
+	 *
+	 * @author deutsch
+	 * 08.07.2009, 15:13:45
+	 * 
+	 * @see bw.body.io.actuators.actionProxies.itfAPEatable#tryEat()
+	 */
+	@Override
+	public float tryEat() {
+		// TODO Auto-generated method stub
+		if (!isAlive()){
+  		  return 0;
+		} else {
+		  return 1.0f;
+		}
+	}
+
+
+	/* (non-Javadoc)
+	 *
+	 * @author deutsch
+	 * 08.07.2009, 15:17:57
+	 * 
+	 * @see bw.body.io.actuators.actionProxies.itfAPKillable#kill(float)
+	 */
+	@Override
+	public void kill(float pfForce) {
+		// TODO Auto-generated method stub
+		setAlive(false);
+	}
+
+
+	/* (non-Javadoc)
+	 *
+	 * @author deutsch
+	 * 08.07.2009, 15:17:57
+	 * 
+	 * @see bw.body.io.actuators.actionProxies.itfAPKillable#tryKill(float)
+	 */
+	@Override
+	public float tryKill(float pfForce) {
+		// TODO Auto-generated method stub
+	
+		return 0;
 	}
 	
 }
