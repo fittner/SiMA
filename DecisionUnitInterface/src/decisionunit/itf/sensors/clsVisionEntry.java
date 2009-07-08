@@ -7,6 +7,7 @@ public class clsVisionEntry {
 	public clsPolarcoordinate moPolarcoordinate = new clsPolarcoordinate();
 	public eEntityType mnEntityType = eEntityType.UNDEFINED;
 	public int moEntityId = -1;
+	public boolean mnAlive = false;
 //	public eShapeType moShapeType = eShapeType.UNDEFINED;
 	//	public double mrWidth = -1;
 	//	public double mrLength = -1;

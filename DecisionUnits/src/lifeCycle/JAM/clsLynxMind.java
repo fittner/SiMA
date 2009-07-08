@@ -23,7 +23,7 @@ public class clsLynxMind extends clsRemoteControl  {
 	@Override
 	public void process(itfActionProcessor poActionProcessor) {
 
-//		//===========TESTING PURPOSE ONLY!
+//		//===========USE THIS CODE FOR REMOTE CONTROL
 //	   	switch( getKeyPressed() )
 //    	{
 //    	case 75: //'K'
@@ -33,14 +33,17 @@ public class clsLynxMind extends clsRemoteControl  {
 //    		super.process(poActionProcessor);
 //    		break;
 //    	}
-//	  //=========== END
+//	  	//=========== END
 		
+		//===========USE THIS CODE FOR AUTOMATIC IF/THEN-ACTION
 		doLynxThinking(poActionProcessor);
+		//=========== END
 	}
 	
-	int mnStepCounter = 0;
-	int mnStepsToRepeatLastAction = 20;
-	int mnCurrentActionCode = 0; //default move forward
+	private int mnStepCounter = 0; //local step counter to measure the steps until the next action has to be selected
+	private int mnStepsToRepeatLastAction = 20; //after these steps the next action is considered
+	private  static int mnRepeatRange = 100; //random generator goes from 0 to mnRepeatRange
+	private int mnCurrentActionCode = 0; //default move forward
 	
 	public void doLynxThinking(itfActionProcessor poActionProcessor) {
 		
@@ -48,8 +51,12 @@ public class clsLynxMind extends clsRemoteControl  {
 		clsBump oBump = (clsBump) getSensorData().getSensorExt(eSensorExtType.BUMP);
 		
 		if( checkEatableArea() ) {
-			killHare(poActionProcessor);
-			eatHare(poActionProcessor);
+			if(oVisibleHare.mnAlive) {				
+				killHare(poActionProcessor);
+			}
+			else {				
+				eatHare(poActionProcessor);
+			}
 		}
 		
 		else if( oVisibleHare != null ) {
@@ -91,7 +98,7 @@ public class clsLynxMind extends clsRemoteControl  {
 		
 		if(	mnStepCounter >= mnStepsToRepeatLastAction ) {
 			mnStepCounter = 0; //reset stepcounter
-			mnStepsToRepeatLastAction = (int)(Math.random()*20); //generate new action repeat time to avoid always the same boring behaviour;
+			mnStepsToRepeatLastAction = (int)(Math.random()*mnRepeatRange); //generate new action repeat time to avoid always the same boring behaviour;
 			
 			mnCurrentActionCode = (int)(Math.random()*4); //determine new random action
 		}
@@ -103,7 +110,9 @@ public class clsLynxMind extends clsRemoteControl  {
 				poActionProcessor.call(new clsActionMove(eActionMoveDirection.MOVE_FORWARD,4));
 				break;
 			case 1:
-	    		poActionProcessor.call(new clsActionMove(eActionMoveDirection.MOVE_BACKWARD,4));
+	    		//poActionProcessor.call(new clsActionMove(eActionMoveDirection.MOVE_BACKWARD,4));
+				//don't move backwards - its better for seeking to only move forward... 
+				poActionProcessor.call(new clsActionMove(eActionMoveDirection.MOVE_FORWARD,4));
 				break;
 			case 2:
 				poActionProcessor.call(new clsActionTurn(eActionTurnDirection.TURN_LEFT));
@@ -146,7 +155,7 @@ public class clsLynxMind extends clsRemoteControl  {
 	
 	public void handleColision(itfActionProcessor poActionProcessor) {
 		mnStepCounter = 0;
-		mnStepsToRepeatLastAction = 40;
+		mnStepsToRepeatLastAction = 60;
 		mnCurrentActionCode = 5;
 	}
 	

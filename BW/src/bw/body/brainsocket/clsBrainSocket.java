@@ -44,6 +44,7 @@ import bw.body.io.sensors.internal.clsSensorInt;
 import bw.body.io.sensors.internal.clsStaminaSensor;
 import bw.body.io.sensors.internal.clsStomachSensor;
 import bw.entities.clsEntity;
+import bw.entities.clsAnimal;
 import bw.utils.container.clsConfigMap;
 import enums.eEntityType;
 
@@ -222,6 +223,11 @@ public class clsBrainSocket implements itfStepProcessing {
 		
 		oData.mnEntityType = getEntityType(visionObj);		
 		oData.moPolarcoordinate = new clsPolarcoordinate(visionDir.mrLength, visionDir.moAzimuth.radians);
+		
+		if( oEntity instanceof clsAnimal )
+		{
+			oData.mnAlive = ((clsAnimal)oEntity).isAlive();
+		}
 		
 	
 		oData.moEntityId = oEntity.getId();
