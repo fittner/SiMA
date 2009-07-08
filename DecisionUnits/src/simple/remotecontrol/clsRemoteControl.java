@@ -106,7 +106,7 @@ public class clsRemoteControl extends clsBaseDecisionUnit  {
     	case 65: //'A'
     		break;
     	case 69: //'E'
-    		eat(poActionProcessor);
+    		eat(poActionProcessor, eEntityType.CAKE);
     		break;
     	case 107: // '+'
     		poActionProcessor.call(new clsActionPickUp() );
@@ -139,12 +139,12 @@ public class clsRemoteControl extends clsBaseDecisionUnit  {
 	   	}
 	}
 
-	private void eat(itfActionProcessor poActionProcessor) {
+	protected void eat(itfActionProcessor poActionProcessor, enums.eEntityType peEntityType) {
 		clsEatableArea oEatArea = (clsEatableArea) getSensorData().getSensorExt(eSensorExtType.EATABLE_AREA);
 		if(oEatArea.mnNumEntitiesPresent > 0)
 		{
 
-				if( oEatArea.mnTypeOfFirstEntity == eEntityType.CAKE )
+				if( oEatArea.mnTypeOfFirstEntity == peEntityType )
 				{
 						//clsEatAction oEatAction = new clsEatAction();
 						//poActionList.addEatAction(oEatAction);
@@ -160,11 +160,11 @@ public class clsRemoteControl extends clsBaseDecisionUnit  {
 	 * 
 	 * @param poActionProcessor
 	 */
-	protected void kill(itfActionProcessor poActionProcessor) {
+	protected void kill(itfActionProcessor poActionProcessor, enums.eEntityType peEntityType) {
 		clsEatableArea oEatArea = (clsEatableArea) getSensorData().getSensorExt(eSensorExtType.EATABLE_AREA);
 		if(oEatArea.mnNumEntitiesPresent > 0)
 		{
-			if( oEatArea.mnTypeOfFirstEntity == eEntityType.HARE )
+			if( oEatArea.mnTypeOfFirstEntity == peEntityType )
 			{
 				poActionProcessor.call(new clsActionKill(4));	
 			}
