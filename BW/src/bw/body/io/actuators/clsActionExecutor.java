@@ -84,7 +84,7 @@ public abstract class clsActionExecutor extends clsSensorActuatorBase {
 		clsEntity oEntity=null;
 
 		Iterator<Integer> i = poSearch.keySet().iterator();
-		if (i.hasNext()) {
+		while (i.hasNext()) {
 			Integer oKey = i.next();
 			PhysicalObject2D poIntObject =(PhysicalObject2D) poSearch.get(oKey); 
 
