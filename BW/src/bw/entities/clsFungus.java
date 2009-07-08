@@ -36,7 +36,7 @@ import ARSsim.physics2D.util.clsPose;
 public class clsFungus extends clsInanimate implements itfGetFlesh, itfAPEatable {
 	private static double mrDefaultMass = 30.0;
 	private static double mrDefaultRadius = 10.0;
-	private static String moImagePath = sim.clsBWMain.msArsPath + "/src/resources/images/cake.gif";
+	private static String moImagePath = sim.clsBWMain.msArsPath + "/src/resources/images/fungus.jpg";
 	private static Color moDefaultColor = Color.pink;
 	
 	private float mrCakeWeight;
