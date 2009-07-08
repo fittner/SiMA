@@ -36,7 +36,7 @@ import enums.eSensorExtType;
 public class clsExecutorKill extends clsActionExecutor{
 
 	static double srStaminaBase = 4f;			//Stamina demand =srStaminaScalingFactor*pow(srStaminaBase,Force) ; 			
-	static double srStaminaScalingFactor = 0.001f;  
+	static double srStaminaScalingFactor = 0; //0.001f;  
 
 	private ArrayList<Class> moMutEx = new ArrayList<Class>();
 

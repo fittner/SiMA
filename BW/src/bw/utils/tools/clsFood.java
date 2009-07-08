@@ -40,6 +40,7 @@ public class clsFood {
 	public clsFood(clsFood poFood) {
 		mrAmount = poFood.mrAmount;
 		mnFinalized = poFood.mnFinalized;
+		moComposition = new HashMap<Integer, clsMutableDouble>(); //Added by BD
 		
 		Iterator<Integer> i = poFood.moComposition.keySet().iterator();
 		

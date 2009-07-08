@@ -36,7 +36,7 @@ import enums.eSensorExtType;
  */
 public class clsExecutorEat extends clsActionExecutor{
 
-	static double srStaminaDemand = 0.5f;		//Stamina demand 			
+	static double srStaminaDemand = 0; //0.5f;		//Stamina demand 			
 	
 	private ArrayList<Class> moMutEx = new ArrayList<Class>();
 	private double mrBiteSize;
