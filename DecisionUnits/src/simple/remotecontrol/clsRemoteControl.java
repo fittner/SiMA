@@ -20,7 +20,7 @@ public class clsRemoteControl extends clsBaseDecisionUnit  {
 	private int mnUniqueId;
 	private int moKeyPressed;
 
-	private boolean mnLogXML = false;
+		private boolean mnLogXML = false;
 	private int mnStepsToSkip = 1;
 	private int mnStepCounter = 0;
 	private String moFileName;
@@ -49,6 +49,7 @@ public class clsRemoteControl extends clsBaseDecisionUnit  {
 	
 	public void setKeyPressed(int i) {
 		moKeyPressed = i;
+		//System.out.println("Pressed key: "+ moKeyPressed);
 	}
 	
 	public int getKeyPressed() {
@@ -84,7 +85,6 @@ public class clsRemoteControl extends clsBaseDecisionUnit  {
 	@Override
 	public void process(itfActionProcessor poActionProcessor) {
 		//the processing is taken over by the user via keyboard
-		
 	   	switch( moKeyPressed )
     	{
     	case 38: //up
@@ -150,6 +150,24 @@ public class clsRemoteControl extends clsBaseDecisionUnit  {
 						//poActionList.addEatAction(oEatAction);
 						poActionProcessor.call(new clsActionEat());	
 				}
+		}
+//		poActionProcessor.call(new clsActionEat());	
+	}
+	
+	
+	/**
+	 * Hurts the entity with 4 hit-points - using calsActionKill as command-processor interface 
+	 * 
+	 * @param poActionProcessor
+	 */
+	protected void kill(itfActionProcessor poActionProcessor) {
+		clsEatableArea oEatArea = (clsEatableArea) getSensorData().getSensorExt(eSensorExtType.EATABLE_AREA);
+		if(oEatArea.mnNumEntitiesPresent > 0)
+		{
+			if( oEatArea.mnTypeOfFirstEntity == eEntityType.HARE )
+			{
+				poActionProcessor.call(new clsActionKill(4));	
+			}
 		}
 //		poActionProcessor.call(new clsActionEat());	
 	}

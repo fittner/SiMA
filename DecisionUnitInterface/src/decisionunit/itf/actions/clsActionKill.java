@@ -9,7 +9,7 @@ package decisionunit.itf.actions;
  * 20.06.2009, 15:31:13
  * 
  */
-public class clsActionKill {
+public class clsActionKill implements itfActionCommand {
 
 	private float mrForce;
 

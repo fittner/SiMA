@@ -10,8 +10,10 @@ package bw.entities;
 
 import java.awt.Color;
 
-import lifeCycle.JADEX.clsLynxMind;
+import lifeCycle.JAM.clsLynxMind;
+import sim.display.clsKeyListener;
 import sim.physics2D.util.Double2D;
+import simple.remotecontrol.clsRemoteControl;
 import ARSsim.physics2D.util.clsPose;
 import bw.utils.container.clsConfigFloat;
 import bw.utils.container.clsConfigInt;
@@ -73,5 +75,19 @@ public class clsLynx extends clsAnimal {
 	protected void setEntityType() {
 		// TODO Auto-generated method stub
 		meEntityType = eEntityType.TIGER;
+	}
+	
+	/* (non-Javadoc)
+	 *
+	 * @author langr
+	 * 25.02.2009, 17:36:09
+	 * 
+	 * @see bw.entities.clsEntity#processing(java.util.ArrayList)
+	 */
+	@Override
+	public void processing() {
+
+	    ((clsRemoteControl)(moBody.getBrain().getDecisionUnit())).setKeyPressed(clsKeyListener.getKeyPressed());		
+		super.processing();
 	}
 }

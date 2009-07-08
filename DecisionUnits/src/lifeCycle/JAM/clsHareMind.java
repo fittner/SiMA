@@ -4,6 +4,7 @@ package lifeCycle.JAM;
 import decisionunit.clsBaseDecisionUnit;
 import decisionunit.itf.actions.itfActionProcessor;
 
+import sim.display.clsKeyListener;
 import simple.remotecontrol.clsRemoteControl; //for testing purpose only! remove after test
 
 public class clsHareMind extends clsRemoteControl { //should be derived from clsBaseDecisionUit
@@ -11,15 +12,18 @@ public class clsHareMind extends clsRemoteControl { //should be derived from cls
 	@Override
 	public void process(itfActionProcessor poActionProcessor) {
 
-		//===========TESTING PURPOSE ONLY!
-		super.process(poActionProcessor);
+		clsKeyListener.getKeyPressed();
 		
-	   	switch( getKeyPressed() )
-    	{
-    	case 66:
-    		break;
-    	}
-	  //=========== END
+//		//===========TESTING PURPOSE ONLY!
+//		super.process(poActionProcessor);
+//		
+//	   	switch( getKeyPressed() )
+//    	{
+//    	case 75: //'K'
+//    		super.kill(poActionProcessor);
+//    		break;
+//    	}
+//	  //=========== END
 	   	
 	}
 }
