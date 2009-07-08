@@ -9,7 +9,7 @@ package decisionunit.itf.sensors;
  */
 public class clsStaminaSystem extends clsSensorHomeostasis {
 
-	public float mrStaminaValue;
+	public double mrStaminaValue;
 
 	@Override
 	public String logXML() {

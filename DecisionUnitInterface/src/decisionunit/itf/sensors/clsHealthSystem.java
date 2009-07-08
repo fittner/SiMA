@@ -9,13 +9,13 @@ package decisionunit.itf.sensors;
  */
 public class clsHealthSystem extends clsSensorHomeostasis {
 
-	public float mrHealthValue;
+	public double mrHealthValue;
 	
 	@Override
 	public String logXML() {
 		String logEntry = "";
 		
-		logEntry += addXMLTag("Health", new Float(mrHealthValue).toString()); 
+		logEntry += addXMLTag("Health", new Double(mrHealthValue).toString()); 
 
 
 		return addXMLTag(logEntry);

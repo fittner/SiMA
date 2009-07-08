@@ -11,7 +11,7 @@ package decisionunit.itf.sensors;
  */
 public class clsEnergyConsumption extends clsSensorHomeostasis {
 
-	public float mrEnergy;
+	public double mrEnergy;
 	
 	@Override
 	public String logXML() {

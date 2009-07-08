@@ -19,6 +19,7 @@ public enum eEntityType {
 	STONE,
 	WALL,
 	FOOD,
-	FUNGUS
+	FUNGUS,
+	CARROT
 }
 
