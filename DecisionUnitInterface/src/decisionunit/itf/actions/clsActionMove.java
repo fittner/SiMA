@@ -13,7 +13,7 @@ import enums.eActionMoveDirection;
  */
 public class clsActionMove implements itfActionCommand {
 	private eActionMoveDirection meDirection;
-	private float mrSpeed;
+	private double mrSpeed;
 
 	//Move forward at average speed
 	public clsActionMove() {
@@ -21,7 +21,7 @@ public class clsActionMove implements itfActionCommand {
 		mrSpeed=4;
 	}
 	
-	public clsActionMove(eActionMoveDirection peDirection, float prSpeed) {
+	public clsActionMove(eActionMoveDirection peDirection, double prSpeed) {
 		meDirection=peDirection;
 		mrSpeed=prSpeed;
 	}
@@ -30,7 +30,7 @@ public class clsActionMove implements itfActionCommand {
 		return mrSpeed;
 	}
 	
-	public void setSpeed(float prSpeed) {
+	public void setSpeed(double prSpeed) {
 		mrSpeed=prSpeed;
 	}
 	

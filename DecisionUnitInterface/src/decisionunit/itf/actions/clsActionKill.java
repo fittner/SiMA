@@ -11,9 +11,9 @@ package decisionunit.itf.actions;
  */
 public class clsActionKill implements itfActionCommand {
 
-	private float mrForce;
+	private double mrForce;
 
-	public clsActionKill(float prForce) {
+	public clsActionKill(double prForce) {
 		mrForce=prForce;
 	}
 	
@@ -21,10 +21,10 @@ public class clsActionKill implements itfActionCommand {
 		return "<Kill>" + mrForce + "</Kill>"; 
 	}
 
-	public float getForce() {
+	public double getForce() {
 		return mrForce;
 	}
-	public void setForce(float prForce) {
+	public void setForce(double prForce) {
 		mrForce=prForce;
 	}
 }
