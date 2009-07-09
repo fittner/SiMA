@@ -8,12 +8,14 @@ import decisionunit.itf.actions.clsActionTurn;
 import decisionunit.itf.actions.itfActionProcessor;
 import decisionunit.itf.sensors.clsBump;
 import decisionunit.itf.sensors.clsEatableArea;
+import decisionunit.itf.sensors.clsStomachSystem;
 import decisionunit.itf.sensors.clsVision;
 import decisionunit.itf.sensors.clsVisionEntry;
 import enums.eActionMoveDirection;
 import enums.eActionTurnDirection;
 import enums.eEntityType;
 import enums.eSensorExtType;
+import enums.eSensorIntType;
 //import sim.display.clsKeyListener;
 import simple.remotecontrol.clsRemoteControl; //for testing purpose only! remove after test
 
@@ -44,13 +46,14 @@ public class clsLynxMind extends clsRemoteControl  {
 	private int mnStepsToRepeatLastAction = 20; //after these steps the next action is considered
 	private  static int mnRepeatRange = 100; //random generator goes from 0 to mnRepeatRange
 	private int mnCurrentActionCode = 0; //default move forward
+	private static double mnHungryThreasholed = 4; //energy level, where hare gets hungry
 	
 	public void doLynxThinking(itfActionProcessor poActionProcessor) {
 		
 		clsVisionEntry oVisibleHare = checkVision();
 		clsBump oBump = (clsBump) getSensorData().getSensorExt(eSensorExtType.BUMP);
 		
-		if( checkEatableArea() ) {
+		if( checkEatableArea() && isHungry() ) {
 			if(oVisibleHare.mnAlive) {				
 				killHare(poActionProcessor);
 			}
@@ -59,7 +62,7 @@ public class clsLynxMind extends clsRemoteControl  {
 			}
 		}
 		
-		else if( oVisibleHare != null ) {
+		else if( oVisibleHare != null && isHungry() ) {
 			followHare(poActionProcessor, oVisibleHare);
 		}
 		else if( oBump.mnBumped )
@@ -92,6 +95,18 @@ public class clsLynxMind extends clsRemoteControl  {
 			}
 		}
 		return oRetVal;
+	}
+	
+	private boolean isHungry() {
+
+		boolean nRetVal = false;
+		clsStomachSystem oStomach = (clsStomachSystem) getSensorData().getSensorInt(eSensorIntType.STOMACH);
+
+		if( oStomach.mrEnergy <= mnHungryThreasholed ) {
+			nRetVal = true;
+		}
+		
+		return nRetVal;
 	}
 	
 	public void seekHare(itfActionProcessor poActionProcessor) {

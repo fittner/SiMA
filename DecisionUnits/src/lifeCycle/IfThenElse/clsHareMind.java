@@ -7,12 +7,14 @@ import decisionunit.itf.actions.clsActionTurn;
 import decisionunit.itf.actions.itfActionProcessor;
 import decisionunit.itf.sensors.clsBump;
 import decisionunit.itf.sensors.clsEatableArea;
+import decisionunit.itf.sensors.clsStomachSystem;
 import decisionunit.itf.sensors.clsVision;
 import decisionunit.itf.sensors.clsVisionEntry;
 import enums.eActionMoveDirection;
 import enums.eActionTurnDirection;
 import enums.eEntityType;
 import enums.eSensorExtType;
+import enums.eSensorIntType;
 
 import sim.display.clsKeyListener;
 import simple.remotecontrol.clsRemoteControl; //for testing purpose only! remove after test
@@ -43,17 +45,18 @@ public class clsHareMind extends clsRemoteControl { //should be derived from cls
 	private int mnStepsToRepeatLastAction = 20; //after these steps the next action is considered
 	private  static int mnRepeatRange = 100; //random generator goes from 0 to mnRepeatRange
 	private int mnCurrentActionCode = 0; //default move forward
+	private static double mnHungryThreasholed = 4; //energy level, where hare gets hungry
 	
 	public void doHareThinking(itfActionProcessor poActionProcessor) {
 		
-		clsVisionEntry oVisibleHare = checkVision();
+		clsVisionEntry oVisibleCarrot = checkVision();
 		clsBump oBump = (clsBump) getSensorData().getSensorExt(eSensorExtType.BUMP);
 		
-		if( checkEatableArea() ) {
+		if( checkEatableArea() && isHungry() ) {
 			eatCarrot(poActionProcessor);
 		}
-		else if( oVisibleHare != null ) {
-			reachCarrot(poActionProcessor, oVisibleHare);
+		else if( oVisibleCarrot != null && isHungry()) {
+			reachCarrot(poActionProcessor, oVisibleCarrot);
 			//todo: flee when lynx in range!!!
 		}
 		else if( oBump.mnBumped )
@@ -86,6 +89,18 @@ public class clsHareMind extends clsRemoteControl { //should be derived from cls
 			}
 		}
 		return oRetVal;
+	}
+	
+	private boolean isHungry() {
+
+		boolean nRetVal = false;
+		clsStomachSystem oStomach = (clsStomachSystem) getSensorData().getSensorInt(eSensorIntType.STOMACH);
+
+		if( oStomach.mrEnergy <= mnHungryThreasholed ) {
+			nRetVal = true;
+		}
+		
+		return nRetVal;
 	}
 	
 	public void seekCarrot(itfActionProcessor poActionProcessor) {
