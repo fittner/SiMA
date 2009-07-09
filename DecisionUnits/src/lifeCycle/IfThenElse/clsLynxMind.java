@@ -107,12 +107,12 @@ public class clsLynxMind extends clsRemoteControl  {
 			//do as the action command says...
 			switch(mnCurrentActionCode) {
 			case 0:
-				poActionProcessor.call(new clsActionMove(eActionMoveDirection.MOVE_FORWARD,4));
+				poActionProcessor.call(new clsActionMove(eActionMoveDirection.MOVE_FORWARD,6));
 				break;
 			case 1:
 	    		//poActionProcessor.call(new clsActionMove(eActionMoveDirection.MOVE_BACKWARD,4));
 				//don't move backwards - its better for seeking to only move forward... 
-				poActionProcessor.call(new clsActionMove(eActionMoveDirection.MOVE_FORWARD,4));
+				poActionProcessor.call(new clsActionMove(eActionMoveDirection.MOVE_FORWARD,6));
 				break;
 			case 2:
 				poActionProcessor.call(new clsActionTurn(eActionTurnDirection.TURN_LEFT));
@@ -121,11 +121,11 @@ public class clsLynxMind extends clsRemoteControl  {
 				poActionProcessor.call(new clsActionTurn(eActionTurnDirection.TURN_RIGHT));
 				break;
 			case 5:
-				poActionProcessor.call(new clsActionMove(eActionMoveDirection.MOVE_BACKWARD,4));
+				poActionProcessor.call(new clsActionMove(eActionMoveDirection.MOVE_BACKWARD,6));
 				poActionProcessor.call(new clsActionTurn(eActionTurnDirection.TURN_LEFT));
 				break;
 			default:
-				poActionProcessor.call(new clsActionMove(eActionMoveDirection.MOVE_FORWARD,4));
+				poActionProcessor.call(new clsActionMove(eActionMoveDirection.MOVE_FORWARD,6));
 				break;
 			}
 		}
