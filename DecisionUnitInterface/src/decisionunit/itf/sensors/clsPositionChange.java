@@ -10,9 +10,9 @@ public class clsPositionChange extends clsSensorExtern {
 	public String logXML() {
 		String logEntry = "";
 		
-		logEntry += clsDataBase.addXMLTag("x", new Float(x).toString()); 
-		logEntry += clsDataBase.addXMLTag("y", new Float(y).toString()); 
-		logEntry += clsDataBase.addXMLTag("a", new Float(a).toString()); 
+		logEntry += clsDataBase.addXMLTag("x", new Double(x).toString()); 
+		logEntry += clsDataBase.addXMLTag("y", new Double(y).toString()); 
+		logEntry += clsDataBase.addXMLTag("a", new Double(a).toString()); 
 		
 		return addXMLTag(logEntry);
 	}

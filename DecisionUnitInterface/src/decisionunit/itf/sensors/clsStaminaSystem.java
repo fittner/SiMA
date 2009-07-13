@@ -15,7 +15,7 @@ public class clsStaminaSystem extends clsSensorHomeostasis {
 	public String logXML() {
 		String logEntry = "";
 		
-		logEntry += addXMLTag("Stamina", new Float(mrStaminaValue).toString()); 
+		logEntry += addXMLTag("Stamina", new Double(mrStaminaValue).toString()); 
 
 
 		return addXMLTag(logEntry);
