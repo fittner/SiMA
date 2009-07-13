@@ -3,7 +3,7 @@
  */
 package ARSsim.physics2D.physicalObject;
 
-import inspectors.clsInspectorMapping;
+//import inspectors.clsInspectorMapping;
 import java.util.ArrayList;
 import sim.display.GUIState;
 import sim.engine.SimState;
@@ -13,16 +13,13 @@ import sim.physics2D.physicalObject.PhysicalObject2D;
 import sim.portrayal.DrawInfo2D;
 import sim.portrayal.Inspector;
 import sim.portrayal.LocationWrapper;
+import sim.portrayal.inspector.TabbedInspector;
 import ARSsim.motionplatform.clsMotionPlatform;
 import ARSsim.physics2D.util.clsPose;
-import bw.body.clsBaseBody;
-import bw.body.clsComplexBody;
-import bw.body.itfget.itfGetBody;
-import bw.entities.clsAnimate;
 import bw.entities.clsEntity;
 import bw.factories.clsSingletonMasonGetter;
 import bw.physicalObjects.sensors.clsEntityPartVision;
-import bw.utils.inspectors.body.clsFillLevelInspector;
+import bw.utils.inspectors.entity.clsInspectorEntity;
 
 /**
  * Our representative of the mason physics class
@@ -38,7 +35,7 @@ public class clsMobileObject2D extends sim.physics2D.physicalObject.MobileObject
 	public clsMotionPlatform moMotionPlatform;
 	public ArrayList<clsCollidingObject> moCollisionList;
 	
-	private Inspector moMasonInspector = null;
+	private TabbedInspector moMasonInspector = null;
 	
 	public clsMobileObject2D(clsEntity poEntity)
 	{
@@ -233,20 +230,26 @@ public class clsMobileObject2D extends sim.physics2D.physicalObject.MobileObject
 		//Override to get constantly updating inspectors = volatile
     	
     	//TODO: (langr) - testing purpose only! adapt tabs for selected entity
-		clsSingletonMasonGetter.getConsole().setView(moEntity.getEntityType().hashCode());
+		//clsSingletonMasonGetter.getConsole().setView(moEntity.getEntityType().hashCode());
     	
     	if( moMasonInspector == null)
     	{
-    		if (moEntity instanceof clsAnimate) {
-    			
-    			clsBaseBody iBody = ((itfGetBody)moEntity).getBody();
-   				moMasonInspector = clsInspectorMapping.getInspector(super.getInspector(wrapper,state), wrapper, state, iBody.getBrain().getDecisionUnit());
-
-   				//FIXME (all): For test purpose only! This is a direct access to the body and should be outsourced like the decision units inspector mapping!!!
-   				if(iBody instanceof clsComplexBody) {
-    			  moMasonInspector = new clsFillLevelInspector(moMasonInspector, wrapper, state, ((clsComplexBody)iBody).getInternalSystem().getStomachSystem());
-   				}
-    		}
+    		moMasonInspector = new TabbedInspector();
+    		
+    		super.getInspector(wrapper,state).removeAll();
+    		
+    		moMasonInspector.addInspector( new clsInspectorEntity(super.getInspector(wrapper,state), wrapper, state, moEntity), "Entity - Basic Values");
+    		
+//    		if (moEntity instanceof clsAnimate) {
+//    			
+//    			clsBaseBody iBody = ((itfGetBody)moEntity).getBody();
+//   				moMasonInspector.addInspector(clsInspectorMapping.getInspector(super.getInspector(wrapper,state), wrapper, state, iBody.getBrain().getDecisionUnit()), "AnimalBrain");
+//
+//   				//FIXME (all): For test purpose only! This is a direct access to the body and should be outsourced like the decision units inspector mapping!!!
+//   				if(iBody instanceof clsComplexBody) {
+//   					moMasonInspector.addInspector( new clsFillLevelInspector(super.getInspector(wrapper,state), wrapper, state, ((clsComplexBody)iBody).getInternalSystem().getStomachSystem()), "Stomach System");
+//   				}
+//    		}
     	}
     	return moMasonInspector;
     }
