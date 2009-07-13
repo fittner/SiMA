@@ -35,12 +35,14 @@ public class clsValueLinear extends clsValueFuzzy implements Serializable {
     setValue(prValue);
   }
  
+  @Override
   public float getValue() {
     return mrValue;
   }
 
 
 
+  @Override
   public float setValue(float prValue) {
     if (prValue < mrMinValue) {
       mrValue = mrMinValue; 

@@ -1,6 +1,5 @@
 package lifeCycle.IfThenElse;
 
-import decisionunit.clsBaseDecisionUnit;
 //import decisionunit.itf.actions.clsActionEat;
 //import decisionunit.itf.actions.clsActionKill;
 import decisionunit.itf.actions.clsActionMove;

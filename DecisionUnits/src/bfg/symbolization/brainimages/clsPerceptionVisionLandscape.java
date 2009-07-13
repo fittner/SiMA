@@ -35,6 +35,7 @@ public class clsPerceptionVisionLandscape extends clsPerceptionVision {
     mnLandscapeType = pnLandscapeType;
   }
 
+  @Override
   public String toString() {
     return super.toString()+" "+enumTypeLandscape.getString(mnLandscapeType);
   }

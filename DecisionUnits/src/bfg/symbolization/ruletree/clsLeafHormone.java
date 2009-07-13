@@ -17,9 +17,7 @@ import bfg.symbolization.brainimages.clsPerceptionHormone;
 import bfg.tools.xmltools.clsXMLAbstractImageReader;
 import bfg.utils.enums.enumOptionalType;
 import bfg.utils.enums.enumTypeHormone;
-import bfg.utils.enums.enumTypeLandscape;
 import bfg.utils.enums.enumTypeLevelHormone;
-import bfg.utils.enums.enumTypeTrippleState;
 
 /**
  *
@@ -54,6 +52,7 @@ class clsLeafHormone extends clsRuleTreeLeaf
   }
 
   //---------------------------------------------------------------------------
+  @Override
   public boolean evaluateTree(clsImagePerception poImage, clsImageAbstract poAbstractImage, int[] poCompareResult, /*clsContainerComplexEmotion poBrainsComplexEmotions,*/ clsContainerPerceptions poBrainsPerceptions, clsIdentity poBrainsIdentity)
   //---------------------------------------------------------------------------
   {
@@ -74,6 +73,7 @@ class clsLeafHormone extends clsRuleTreeLeaf
   }
   
   //---------------------------------------------------------------------------
+  @Override
   public void weight(clsImagePerception pImage, clsImageAbstract aImage, clsRuleCompareResult compareResult)
   //---------------------------------------------------------------------------
   {
@@ -102,6 +102,7 @@ class clsLeafHormone extends clsRuleTreeLeaf
   }
 
   //---------------------------------------------------------------------------
+  @Override
   public String toString() 
   //---------------------------------------------------------------------------
   {

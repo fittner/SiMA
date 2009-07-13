@@ -23,7 +23,7 @@ import memory.tempframework.enumTypeEmotion;
 import memory.tempframework.enumTypeBrainInnerAction;
 import memory.tempframework.enumTypeActionSource;
 */
-import java.util.Vector;
+//import java.util.Vector;
 
 /**
  *
@@ -182,6 +182,7 @@ public class clsEmotion extends clsCloneable {
     return create(poEmotionNode);
   }
 
+  @Override
   public String toString() {
     return toString(false);
   }

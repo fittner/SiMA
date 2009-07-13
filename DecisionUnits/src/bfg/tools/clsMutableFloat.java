@@ -42,6 +42,7 @@ public class clsMutableFloat  extends clsCloneable implements Serializable {
       m_value = prValue;
     }
 
+    @Override
     public String toString() {
       return Float.toString(m_value);
     }

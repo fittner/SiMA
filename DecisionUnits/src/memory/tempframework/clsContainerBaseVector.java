@@ -37,6 +37,7 @@ abstract public class clsContainerBaseVector extends clsContainerBase {
     checkSize();  
   }
 
+  @Override
   public void add(Object poObject) {
     moContainer.add(poObject);
     checkSize();
@@ -59,6 +60,7 @@ abstract public class clsContainerBaseVector extends clsContainerBase {
     return oResult;
   }
 
+  @Override
   protected Object getObject(int pnPos) {
     Object oResult = null;
 
@@ -71,6 +73,7 @@ abstract public class clsContainerBaseVector extends clsContainerBase {
     return moContainer;
   }
 
+  @Override
   public void remove(Object poObject) {
     moContainer.removeElement(poObject);
   }
@@ -79,17 +82,21 @@ abstract public class clsContainerBaseVector extends clsContainerBase {
     return moContainer.removeElement(poObject);
   }
 
+  @Override
   public void remove(int pnPos) {
     moContainer.removeElementAt(pnPos);
   }
+  @Override
   public void removeAll() {
     moContainer.removeAllElements();
   }
 
+  @Override
   public int size() {
     return moContainer.size();
   }
 
+  @Override
   public String toString() {
     String oResult = "";
 
@@ -106,6 +113,7 @@ abstract public class clsContainerBaseVector extends clsContainerBase {
   }
 
 
+  @Override
   protected abstract String gettoString(Object poObject);
 
 };

@@ -23,6 +23,7 @@ abstract public class clsContainerBaseTreeMap extends clsContainerBase {
     moMaxKey = new clsMutableInteger(-1);
   }
 
+  @Override
   public void add(Object poObject) {
     moMaxKey.inc();
     add(poObject, moMaxKey.IntegerValue());
@@ -38,6 +39,7 @@ abstract public class clsContainerBaseTreeMap extends clsContainerBase {
     }
   }
 
+  @Override
   protected Object getObject(int pnKey) {
     return getObject(new Integer(pnKey));
   }
@@ -53,6 +55,7 @@ abstract public class clsContainerBaseTreeMap extends clsContainerBase {
     return moContainer.keySet();
   }
 
+  @Override
   public void remove(Object poObject) {
     Set oTemp = moContainer.keySet();
 
@@ -66,12 +69,14 @@ abstract public class clsContainerBaseTreeMap extends clsContainerBase {
       }
     }
   }
+  @Override
   public void remove(int pnKey) {
     remove(pnKey);
   }
   public void remove(Integer poKey) {
     moContainer.remove(poKey);
   }
+  @Override
   public void removeAll() {
     moContainer.clear();
   }
@@ -80,10 +85,12 @@ abstract public class clsContainerBaseTreeMap extends clsContainerBase {
     return moContainer.keySet();
   }
 
+  @Override
   public int size() {
     return moContainer.size();
   }
 
+  @Override
   public String toString() {
     String oResult = "";
 
@@ -104,6 +111,7 @@ abstract public class clsContainerBaseTreeMap extends clsContainerBase {
    return oResult;
   }
 
+  @Override
   protected abstract String gettoString(Object poObject);
 
 };

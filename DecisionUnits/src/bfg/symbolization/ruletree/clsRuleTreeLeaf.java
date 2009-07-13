@@ -106,6 +106,7 @@ public abstract class clsRuleTreeLeaf extends clsRuleTreeElement{
   }
 
   //---------------------------------------------------------------------------
+  @Override
   public String toString() 
   //---------------------------------------------------------------------------
   {
@@ -114,6 +115,7 @@ public abstract class clsRuleTreeLeaf extends clsRuleTreeElement{
     return oRetValue;
   }
 
+  @Override
   public abstract boolean evaluateTree(clsImagePerception poImage, clsImageAbstract poAbstractImage, int[] poCompareResult, /*clsContainerComplexEmotion poBrainsComplexEmotions,*/ clsContainerPerceptions poBrainsPerceptions, clsIdentity poBrainsIdentity);
   public abstract void weight(clsImagePerception poImage, clsImageAbstract poAbstractImage, clsRuleCompareResult compareResult);
 };

@@ -27,6 +27,7 @@ public class clsFeatureActions extends clsFeature{
 	/**
 	 * Returns the initially delivered actions in a container (clsActionContainer)
 	 */
+	@Override
 	public Object getContainer() {
 		return moContainerActions;
 	}
@@ -37,6 +38,7 @@ public class clsFeatureActions extends clsFeature{
 	 * @param poPrevFeature The feature actions of the previous situation
 	 * @return true, if encoding is triggered; otherwise false
 	 */
+	@Override
 	public boolean triggerEncoding(clsFeature poPrevFeature) {
 		clsFeatureActions oPrevActions = (clsFeatureActions)poPrevFeature;
 		boolean nTrigger = false;
@@ -63,6 +65,7 @@ public class clsFeatureActions extends clsFeature{
 	 * actions indicated in the cue appear in this feature actions
 	 * @return A clsMatchFeature object with the matching result	 
 	 */
+	@Override
 	public clsMatchFeature getMatch(clsFeature poCueFeature) {
 		clsFeatureActions oCueActions = (clsFeatureActions)poCueFeature;
 		clsMatchFeature oFeatureMatch = new clsMatchFeature(oCueActions);
@@ -92,16 +95,19 @@ public class clsFeatureActions extends clsFeature{
 	/**
 	 * Overloaded method from clsFeature. See clsAction::getMatch()
 	 */
+	@Override
 	public clsMatchFeature getDeliberateMatch(clsFeature poCueFeature) {
 		return getMatch(poCueFeature);
 	}
 	
+	@Override
 	public boolean checkIfSameType(clsFeature poFeature) {
 		if(poFeature instanceof clsFeatureActions) {
 			return true;
 		}
 		return false;
 	}
+	@Override
 	public String toString() {
 		String oRet = "";
 		for (int i=0; i<moFeatureElements.size(); i++) {

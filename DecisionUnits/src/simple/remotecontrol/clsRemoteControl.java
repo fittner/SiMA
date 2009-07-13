@@ -40,6 +40,7 @@ public class clsRemoteControl extends clsBaseDecisionUnit  {
 
 	}
 	
+	@Override
 	protected void finalize() throws Throwable
 	{
 	  endFile();

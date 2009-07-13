@@ -61,6 +61,7 @@ public class clsHealthState extends clsCloneable {
     return meType;
   }
 
+  @Override
   public String toString() {
     return "t:"+enumTypeHealthState.getString(meType)+" s:"+enumTypeLevelHealthState.getString(meState);
   }

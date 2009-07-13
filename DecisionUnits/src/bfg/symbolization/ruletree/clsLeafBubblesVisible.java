@@ -12,7 +12,6 @@ import bfg.tools.xmltools.clsXMLAbstractImageReader;
 import bfg.utils.enums.enumOptionalType;
 import bfg.utils.enums.enumTypeCount;
 import bfg.utils.enums.enumTypeDistance;
-import bfg.utils.enums.enumTypeObstacle;
 import bfg.utils.enums.enumTypeSide;
 import bfg.utils.enums.enumTypeTrippleState;
 //import pkgBrainComplexEmotion.clsContainerComplexEmotion;
@@ -66,6 +65,7 @@ class clsLeafBubblesVisible extends clsRuleTreeLeaf
 
 
   //---------------------------------------------------------------------------
+  @Override
   public boolean evaluateTree(clsImagePerception poImage, clsImageAbstract poAbstractImage, int[] poCompareResult, /*clsContainerComplexEmotion poBrainsComplexEmotions,*/ clsContainerPerceptions poBrainsPerceptions, clsIdentity poBrainsIdentity)
   //---------------------------------------------------------------------------
   {
@@ -86,6 +86,7 @@ class clsLeafBubblesVisible extends clsRuleTreeLeaf
   }
   
   //---------------------------------------------------------------------------
+  @Override
   public void weight(clsImagePerception pImage, clsImageAbstract aImage, clsRuleCompareResult compareResult)
   //---------------------------------------------------------------------------
   {
@@ -154,6 +155,7 @@ class clsLeafBubblesVisible extends clsRuleTreeLeaf
   }
 
   //---------------------------------------------------------------------------
+  @Override
   public String toString() 
   //---------------------------------------------------------------------------
   {

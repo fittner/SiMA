@@ -48,6 +48,7 @@ class clsLeafBumped extends clsRuleTreeLeaf
   }
 
   //---------------------------------------------------------------------------
+  @Override
   public boolean evaluateTree(clsImagePerception poImage, clsImageAbstract poAbstractImage, int[] poCompareResult, /*clsContainerComplexEmotion poBrainsComplexEmotions,*/ clsContainerPerceptions poBrainsPerceptions, clsIdentity poBrainsIdentity)
   //---------------------------------------------------------------------------
   {
@@ -68,6 +69,7 @@ class clsLeafBumped extends clsRuleTreeLeaf
   }
   
   //---------------------------------------------------------------------------
+  @Override
   public void weight(clsImagePerception pImage, clsImageAbstract aImage, clsRuleCompareResult compareResult)
   //--------------------------------------------------------------------------- 
   {
@@ -96,6 +98,7 @@ class clsLeafBumped extends clsRuleTreeLeaf
   }
 
   //---------------------------------------------------------------------------
+  @Override
   public String toString() 
   //---------------------------------------------------------------------------
   {

@@ -26,15 +26,18 @@ public class clsFeatureCompareResults extends clsFeature  {
 	/**
 	 * Returns the initially delivered actions in a container (clsContainerCompareResults)
 	 */
+	@Override
 	public Object getContainer() {
 		return moContainerCompareResults;
 	}
+	@Override
 	public boolean checkIfSameType(clsFeature poFeature) {
 		if(poFeature instanceof clsFeatureCompareResults) {
 			return true;
 		}
 		return false;
 	}
+	@Override
 	public String toString() {
 		return moContainerCompareResults.toString();
 		//return "Template Images";

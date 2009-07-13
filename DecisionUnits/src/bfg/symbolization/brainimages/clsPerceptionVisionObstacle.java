@@ -34,6 +34,7 @@ public class clsPerceptionVisionObstacle extends clsPerceptionVision {
     mnObstacleType = pnObstacleType;
   }
 
+  @Override
   public String toString() {
     return super.toString()+" "+enumTypeObstacle.getString(mnObstacleType);
   }

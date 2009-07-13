@@ -18,6 +18,7 @@ abstract class clsImageGeneric extends clsCloneable {
   public clsContainerDrive   moDriveList = new clsContainerDrive();
   public clsContainerEmotion moEmotionList = new clsContainerEmotion();
 
+  @Override
   public String toString() {
     return "drives: "+moDriveList.toString()+"\n"+"emotions: "+moEmotionList.toString();
   }

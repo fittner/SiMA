@@ -65,19 +65,11 @@ abstract class clsValueFuzzy extends clsCloneable implements Serializable {
   }
 
 
-  //TODO: Das untere ist grober Unsinn: rHA geht nicht in das Ergebnis der Berechnung ein!
-  //      Irgend jemand kann da die Fläche von einem Dreieck nicht ausrechnen! 
-  private float getArea(float rA, float rHA, float rH) {
-    // rA ... untere kantenlänge
-    // rHA ... distanz vom linken eck von rA zur höhensymmetrale
-    // rH ... höhe des dreiecks auf rA bezogen
- 
-	float rArea = 0;
+  private float getArea(float rA, float rH) {
+    // rA ... untere kantenlï¿½nge
+    // rH ... hï¿½he des dreiecks auf rA bezogen
 
-    rArea += (rHA * rH) / 2.0;
-    rArea += ((rA-rHA) * rH) / 2.0;
-
-    return rArea;
+    return (rA * rH) / 2.0f;
   }
 
   private float calcSingleIntersectionArea(float prX1, float prSigma1, float prX2, float prSigma2) {
@@ -90,9 +82,7 @@ abstract class clsValueFuzzy extends clsCloneable implements Serializable {
       float rX = (rD2 - rD1) / (rK1 - rK2);
       float rY = rK2 * rX + rD2;
 
-      float rArea = getArea( ( (prX1+prSigma1) - (prX2-prSigma2) ), rX, rY);
-
-      return rArea;
+      return getArea( ( (prX1+prSigma1) - (prX2-prSigma2) ), rY);
   }
 
   private float calcFloatIntersectionArea(float prX1, float prSigma1, float prX2, float prSigma2) {

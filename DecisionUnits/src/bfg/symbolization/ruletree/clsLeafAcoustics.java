@@ -16,7 +16,6 @@ import bfg.symbolization.brainimages.clsPerceptionAcoustic;
 import bfg.symbolization.brainimages.clsContainerPercAcoustics;
 import bfg.utils.enums.enumOptionalType;
 import bfg.utils.enums.enumTypeEntityMessages;
-import bfg.utils.enums.enumTypeTrippleState;
 
 /**
  *
@@ -48,6 +47,7 @@ class clsLeafAcoustics extends clsRuleTreeLeaf
   }
 
   //---------------------------------------------------------------------------
+  @Override
   public boolean evaluateTree(clsImagePerception poImage, clsImageAbstract poAbstractImage, int[] poCompareResult, /*clsContainerComplexEmotion poBrainsComplexEmotions,*/ clsContainerPerceptions poBrainsPerceptions, clsIdentity poBrainsIdentity)
   //---------------------------------------------------------------------------
   {
@@ -68,6 +68,7 @@ class clsLeafAcoustics extends clsRuleTreeLeaf
   }
   
   //---------------------------------------------------------------------------
+  @Override
   public void weight(clsImagePerception pImage, clsImageAbstract aImage, clsRuleCompareResult compareResult)
   //--------------------------------------------------------------------------- 
   {
@@ -101,6 +102,7 @@ class clsLeafAcoustics extends clsRuleTreeLeaf
   }
 
   //---------------------------------------------------------------------------
+  @Override
   public String toString() 
   //---------------------------------------------------------------------------
   {

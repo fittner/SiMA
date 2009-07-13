@@ -130,6 +130,7 @@ public class clsPerceptionOdometry  { //extends clsCloneable
     return meDirection;
   }
 
+  @Override
   public String toString() {
     return "dist:"+enumTypeDistance.getString(meDistance)+" dir:"+enumTypeSide.getString(meDirection)+" rot:"+enumTypeRotation.getString(meRotation);
   }

@@ -20,8 +20,6 @@ import bfg.symbolization.brainimages.clsContainerPerceptions;
 //import pkgBrainEmotion.clsEmotion;
 //import pkgBrainEmotion.clsContainerEmotion;
 
-import java.util.Set;
-import java.util.Iterator;
 /**
  *
  * This is the class description ...
@@ -55,6 +53,7 @@ class clsLeafEmotion extends clsRuleTreeLeaf
   }
 
   //---------------------------------------------------------------------------                                    
+  @Override
   public boolean evaluateTree(clsImagePerception poImage, clsImageAbstract poAbstractImage, int[] poCompareResult, /*clsContainerComplexEmotion poBrainsComplexEmotions,*/ clsContainerPerceptions poBrainsPerceptions, clsIdentity poBrainsIdentity  )
   //---------------------------------------------------------------------------
   {
@@ -75,6 +74,7 @@ class clsLeafEmotion extends clsRuleTreeLeaf
   }
   
   //---------------------------------------------------------------------------
+  @Override
   public void weight(clsImagePerception pImage, clsImageAbstract aImage, clsRuleCompareResult compareResult)
   //--------------------------------------------------------------------------- 
   {
@@ -113,6 +113,7 @@ class clsLeafEmotion extends clsRuleTreeLeaf
 //  }
 
   //---------------------------------------------------------------------------
+  @Override
   public String toString() 
   //---------------------------------------------------------------------------
   {

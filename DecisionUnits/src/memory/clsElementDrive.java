@@ -40,6 +40,7 @@ public class clsElementDrive extends clsFeatureElement {
 	 * Sets the salience and checks, if the encoding of an event on the basis of this drive should be triggered
 	 * Currently: trigger encoding on threshold (on change event)
 	 */
+	@Override
 	public boolean triggerEncoding(clsFeatureElement poPrevDrive) {
 		clsElementDrive oPrevDrive = (clsElementDrive)poPrevDrive;
 		//calculates difference to previous Drive
@@ -113,6 +114,7 @@ public class clsElementDrive extends clsFeatureElement {
 	 * @param poDrive The drive of the retrieval cue (the cue element)
 	 * @return A clsMatchFeatureElement object representing the match of this element to the cue element
 	 */
+	@Override
 	public clsMatchFeatureElement getMatch(clsFeatureElement poDrive) {
 		// compares this Drive with the parameter and returns the match
 		clsElementDrive oDriveCue = (clsElementDrive)poDrive;
@@ -120,6 +122,7 @@ public class clsElementDrive extends clsFeatureElement {
 		float rMatch = (float)Math.exp(-0.5 * Math.pow(rDiff/MATCH_DELTA0, 2));
 		return new clsMatchFeatureElement(oDriveCue, rMatch);
 	}
+	@Override
 	public boolean checkIfSameType(clsFeatureElement poFeatElem) {
 		if(poFeatElem instanceof clsElementDrive) {
 			clsElementDrive oDrive = (clsElementDrive)poFeatElem;

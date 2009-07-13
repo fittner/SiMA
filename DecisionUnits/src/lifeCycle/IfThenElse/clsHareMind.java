@@ -1,7 +1,6 @@
 package lifeCycle.IfThenElse;
 
 
-import decisionunit.clsBaseDecisionUnit;
 import decisionunit.itf.actions.clsActionMove;
 import decisionunit.itf.actions.clsActionTurn;
 import decisionunit.itf.actions.itfActionProcessor;
@@ -16,7 +15,6 @@ import enums.eEntityType;
 import enums.eSensorExtType;
 import enums.eSensorIntType;
 
-import sim.display.clsKeyListener;
 import simple.remotecontrol.clsRemoteControl; //for testing purpose only! remove after test
 
 public class clsHareMind extends clsRemoteControl { //should be derived from clsBaseDecisionUit

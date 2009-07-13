@@ -6,9 +6,9 @@
 package bfg.symbolization.brainimages;
 
 // Imports
-import java.util.TreeMap;
-import java.util.Iterator;
-import java.util.Set;
+//import java.util.TreeMap;
+//import java.util.Iterator;
+//import java.util.Set;
 //import pkgTools.clsMutableDouble;
 //import pkgTools.clsMutableFloat;
 //import pkgTools.clsMutableInteger;

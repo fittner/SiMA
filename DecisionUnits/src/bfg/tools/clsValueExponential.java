@@ -14,7 +14,7 @@ import java.io.Serializable;
  *
  * Das ist in Wirklichkeit eine Abbildung! Gesettet wird mrValue (original),  
  * gegettet wird mrInternalValue (abgebildet). Die Abbildungsfunktion ist 
- * im Bereich [-1/2,+1/2] linear, außerhalb irgendeine das Wachstum begrenzende
+ * im Bereich [-1/2,+1/2] linear, auï¿½erhalb irgendeine das Wachstum begrenzende
  * Exponentialfunktion.
  *
  * $Revision: 572 $:  Revision of last commit
@@ -42,6 +42,7 @@ public class clsValueExponential extends clsValueFuzzy implements Serializable {
     mrValue = poValue.mrValue;
   }
  
+  @Override
   public float getValue() {
     return mrInternalValue;
   }
@@ -55,6 +56,7 @@ public class clsValueExponential extends clsValueFuzzy implements Serializable {
     return mrInternalValue;
   }
 
+  @Override
   public float setValue(float prValue) {
     mrValue = prValue;
 

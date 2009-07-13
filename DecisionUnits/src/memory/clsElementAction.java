@@ -1,8 +1,6 @@
 package memory;
 
 import memory.tempframework.*;
-import memory.tempframework.enumTypeBrainAction;
-import memory.tempframework.enumTypeTrippleState;
 
 /**
  * The class clsElementAction represents the feature element action. It represents one action (clsAction) and implements the additional functionalities inherited from the abstract class clsFeatureElement $Revision: 572 $:  Revision of last commit $Author: deutsch $: Author of last commit $Date: 2007-05-31 10:56:07 +0200 (Do, 31 Mai 2007) $: Date of last commit
@@ -28,6 +26,7 @@ public class clsElementAction extends clsFeatureElement  {
 	 * Checks, whether this action is the same as the one indicated in the parameter. Is called with every previous action.
 	 * If the same action was executed in the previous situation, encoding is not triggered!!!
 	 */
+	@Override
 	public boolean triggerEncoding(clsFeatureElement poPrevAction){
 		// this ElementAction is called with every previous Action
 		clsElementAction oPrevElemAction = (clsElementAction)poPrevAction;		
@@ -43,7 +42,7 @@ public class clsElementAction extends clsFeatureElement  {
 //			moSalience.set(1);
 //			mnTrigger = true;
 				  // if Action is accomplished
-				  // hier ist keine Action accomplished (außer call for help...) -> immer -1; 
+				  // hier ist keine Action accomplished (auï¿½er call for help...) -> immer -1; 
 				  // z.B bei promenade ist jeweils LastAction accomplished.
 		}
 		if(mnTrigger) {
@@ -51,6 +50,7 @@ public class clsElementAction extends clsFeatureElement  {
 		}
 		return mnTrigger;
 	}
+	@Override
 	public clsMatchFeatureElement getMatch(clsFeatureElement poCueAction) {
 		// this ElementAction is called with every previous Action
 		if( checkIfSameType(poCueAction) ) {
@@ -63,6 +63,7 @@ public class clsElementAction extends clsFeatureElement  {
 	/**
 	 * Checks whether this action is of the same type as the one indicated in the parameter
 	 */
+	@Override
 	public boolean checkIfSameType(clsFeatureElement poFeatElem) {
 		if(poFeatElem instanceof clsElementAction) {
 			clsElementAction oAction = (clsElementAction)poFeatElem;
@@ -72,6 +73,7 @@ public class clsElementAction extends clsFeatureElement  {
 		}
 		return false;
 	}
+	@Override
 	public String toString() {
 		return enumTypeBrainAction.getString( moAction.mnId ) + "\n";
 	}

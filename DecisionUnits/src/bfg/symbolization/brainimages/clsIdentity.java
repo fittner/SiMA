@@ -24,6 +24,7 @@ public class  clsIdentity
     public int mnBubbleId = -1;
     public boolean mnFocusOfAttention = true;
     
+    @Override
     public String toString() 
     {
       return "Identity TID:"+mnTeamId+" BID:"+mnBubbleId+" EP:"+mnEnergyProducer+" EC:"+mnEnergyConsumer+" Focus:"+mnFocusOfAttention; 

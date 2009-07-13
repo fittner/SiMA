@@ -56,6 +56,7 @@ public class clsElementCompareResult extends clsFeatureElement {
 	 * Sets the salience and checks, if the encoding of an event on the basis of this drive should be triggered
 	 * Currently: trigger encoding on the basis of a salience level (change to the current situation and absolut level)
 	 */
+	@Override
 	public boolean triggerEncoding(clsFeatureElement poPrevCompResult) {
 		clsElementCompareResult oPrevCompResult = (clsElementCompareResult)poPrevCompResult;
 		//calculates difference to RuleCompareResult of the previous situation
@@ -121,6 +122,7 @@ public class clsElementCompareResult extends clsFeatureElement {
 	 * @param poCompareResult The TI-match of the retrieval cue (the cue element)
 	 * @return A clsMatchFeatureElement object representing the match of this element to the cue element
 	 */
+	@Override
 	public clsMatchFeatureElement getMatch(clsFeatureElement poCompareResult) {
 		// compares this  and returns the match
 		clsElementCompareResult oCompResultCue = (clsElementCompareResult)poCompareResult;
@@ -128,6 +130,7 @@ public class clsElementCompareResult extends clsFeatureElement {
 		float rMatch = (float)Math.exp(-0.5 * Math.pow(rDiff/MATCH_DELTA0, 2));
 		return new clsMatchFeatureElement(oCompResultCue, rMatch);
 	}
+	@Override
 	public boolean checkIfSameType(clsFeatureElement poFeatElem) {
 		if(poFeatElem instanceof clsElementCompareResult) {
 			clsElementCompareResult oCompResult = (clsElementCompareResult)poFeatElem;

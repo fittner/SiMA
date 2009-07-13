@@ -70,6 +70,7 @@ public class clsPerceptionVision {
     return meDirection;
   }
 
+  @Override
   public String toString() {
     return "dist:"+enumTypeDistance.getString(meDistance)+" dir:"+enumTypeSide.getString(meDirection);
   }

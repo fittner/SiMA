@@ -18,7 +18,8 @@ import java.io.Serializable;
  *
  */
 public class clsCloneable implements Cloneable, Serializable {
-  public Object clone() {
+	@Override
+	public Object clone() {
     try {
       return super.clone();
     } catch (CloneNotSupportedException e) {

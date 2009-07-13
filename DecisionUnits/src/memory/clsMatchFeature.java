@@ -60,6 +60,7 @@ public class clsMatchFeature {
 		return moMatch.get();
 	}
 
+	@Override
 	public String toString() {
 		String oFeatName = moFeature.toString();
 		return "  Feature "+oFeatName+" Match: " + moMatch.get();

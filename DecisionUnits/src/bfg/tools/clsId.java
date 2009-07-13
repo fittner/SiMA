@@ -35,6 +35,7 @@ public class clsId implements Serializable, java.lang.Comparable {
     mnEntityId = poId.mnEntityId;
   }
 
+  @Override
   public String toString() {
     return mnTeamId+"/"+mnEntityId;
   }

@@ -35,6 +35,7 @@ abstract class clsPerceptionBoolean  { //extends clsCloneable
     return mnValue;
   }
 
+  @Override
   public String toString() {
     return ""+mnValue;
   }

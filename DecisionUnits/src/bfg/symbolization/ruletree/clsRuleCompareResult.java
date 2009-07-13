@@ -77,6 +77,7 @@ public class clsRuleCompareResult { //extends clsCloneable
     }
   }
 
+  @Override
   public String toString() {
     return toString(true);
   }

@@ -78,6 +78,7 @@ public class clsImagePerception extends clsImageGeneric {
     //moLastExecutedActions   = new clsActionContainer();
   }
 
+  @Override
   public String toString() {
     String oResult = super.toString()+"\n";
     oResult += "healthstate: "+moHealthStateList.toString()+"\n";

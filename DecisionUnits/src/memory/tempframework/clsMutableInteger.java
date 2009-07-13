@@ -49,6 +49,7 @@ public class clsMutableInteger extends clsCloneable implements Serializable {
       return m_value = pnValue;
     }
 
+    @Override
     public String toString() {
       return Integer.toString(m_value);
     }

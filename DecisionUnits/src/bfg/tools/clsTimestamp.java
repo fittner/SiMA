@@ -49,6 +49,7 @@ public class clsTimestamp extends clsCloneable implements Serializable {
     mrTimeStamp = prStamp;
   }
 
+  @Override
   public String toString() {
     return ""+mrTimeStamp;
   }

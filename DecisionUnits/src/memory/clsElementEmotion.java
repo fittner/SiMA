@@ -53,6 +53,7 @@ public class clsElementEmotion extends clsFeatureElement {
 	 * Currently: trigger encoding on the basis of a salience level (change to the current situation and absolut level) and
 	 * further checks slow emotional changes over longer time periods 
 	 */
+	@Override
 	public boolean triggerEncoding(clsFeatureElement poPrevEmotion) {
 		clsElementEmotion oPrevEmotion = (clsElementEmotion)poPrevEmotion;
 		//calculates difference to previous Emotion
@@ -124,12 +125,14 @@ public class clsElementEmotion extends clsFeatureElement {
 	 * @param poEmotion The emotion of the retrieval cue (the cue element)
 	 * @return A clsMatchFeatureElement object representing the match of this element to the cue element
 	 */
+	@Override
 	public clsMatchFeatureElement getMatch(clsFeatureElement poEmotion) {
 		clsElementEmotion oEmotionCue = (clsElementEmotion)poEmotion;
 		float rDiff = Math.abs( moEmotion.getInternalValue() - oEmotionCue.getEmotion().getInternalValue() );
 		float rMatch = (float)Math.exp(-0.5 * Math.pow(rDiff/MATCH_DELTA0, 2));
 		return new clsMatchFeatureElement(oEmotionCue, rMatch);
 	}
+	@Override
 	public boolean checkIfSameType(clsFeatureElement poFeatElem) {
 		if(poFeatElem instanceof clsElementEmotion) {
 			clsElementEmotion oEmotion = (clsElementEmotion)poFeatElem;

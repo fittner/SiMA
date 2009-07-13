@@ -22,6 +22,7 @@ public class clsPerceptionBumped extends clsPerceptionBoolean {
     return isTrue();
   }
 
+  @Override
   public String toString() {
     return "bumped: "+super.toString();
   }

@@ -6,8 +6,8 @@
 package bfg.symbolization.ruletree;
 
 // Imports
-import org.w3c.dom.Node;
-import org.w3c.dom.NamedNodeMap;
+//import org.w3c.dom.Node;
+//import org.w3c.dom.NamedNodeMap;
 //import pkgXMLTools.clsXMLAbstractImageReader;
 //import pkgEnum.enumOptionalType;
 //import pkgEnum.enumTypeLevelComplexEmotion;

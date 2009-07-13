@@ -51,6 +51,7 @@ public class clsRuleTreeNode extends clsRuleTreeElement {
   }
 
   //---------------------------------------------------------------------------
+  @Override
   public boolean evaluateTree(clsImagePerception poImage, 
                               clsImageAbstract poAbstractImage, 
                               int[] poCompareResult, 
@@ -99,6 +100,7 @@ public class clsRuleTreeNode extends clsRuleTreeElement {
   }
 
   //---------------------------------------------------------------------------
+  @Override
   public String toString() 
   //---------------------------------------------------------------------------
   {

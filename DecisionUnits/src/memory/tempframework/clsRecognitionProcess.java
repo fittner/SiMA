@@ -7,10 +7,10 @@ package memory.tempframework;
 
 // Imports
 
-import memory.tempframework.clsActionContainer;
-import memory.tempframework.clsRuleCompareResult;
-import memory.tempframework.enumTypeTrippleState;
-import java.util.Vector;
+//import memory.tempframework.clsActionContainer;
+//import memory.tempframework.clsRuleCompareResult;
+//import memory.tempframework.enumTypeTrippleState;
+//import java.util.Vector;
 
 /**
  * This is the class description ... $Revision: 755 $:  Revision of last commit $Author: langr $: Author of last commit $Date: 2007-07-19 15:05:38 +0200 (Do, 19 Jul 2007) $: Date of last commit

@@ -27,6 +27,7 @@ public class clsFeatureEmotions extends clsFeature  {
 	/**
 	 * Returns the initially delivered actions in a container (clsContainerEmotions)
 	 */
+	@Override
 	public Object getContainer() {
 		return moContainerEmotions;
 	}
@@ -46,12 +47,14 @@ public class clsFeatureEmotions extends clsFeature  {
 		}
 		return new cls0to1(rEmotionalTone);
 	}
+	@Override
 	public boolean checkIfSameType(clsFeature poFeature) {
 		if(poFeature instanceof clsFeatureEmotions) {
 			return true;
 		}
 		return false;
 	}
+	@Override
 	public String toString() {
 		return "Emotions";
 	}

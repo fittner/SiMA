@@ -7,8 +7,8 @@ package memory.tempframework;
 
 // Imports
 //import memory.tempframework.enumTypeSocialLevel;
-import memory.tempframework.clsActionContainer;
-import memory.tempframework.clsAction;
+//import memory.tempframework.clsActionContainer;
+//import memory.tempframework.clsAction;
 
 /**
  *

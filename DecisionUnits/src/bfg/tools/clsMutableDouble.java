@@ -42,6 +42,7 @@ public class clsMutableDouble extends clsCloneable implements Serializable {
       m_value = prValue;
     }
 
+    @Override
     public String toString() {
       return Double.toString(m_value);
     }

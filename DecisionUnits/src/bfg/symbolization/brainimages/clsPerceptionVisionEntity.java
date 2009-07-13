@@ -9,9 +9,6 @@ package bfg.symbolization.brainimages;
 //import pkgTools.clsCloneable;
 import bfg.tools.shapes.clsPolarcoordinate;
 import bfg.tools.shapes.clsPoint;
-import bfg.tools.shapes.clsAngle;
-import bfg.tools.shapes.clsPolarcoordinate;
-import bfg.tools.shapes.clsPoint;
 import bfg.utils.enums.enumTypeDistance;
 import bfg.utils.enums.enumTypeHealthState;
 import bfg.utils.enums.enumTypeSide;
@@ -67,6 +64,7 @@ public class clsPerceptionVisionEntity extends clsPerceptionVision {
     return mnEnergyConsumer;
   }          
 
+  @Override
   public String toString() {
     return "tid:"+mnTeamId+" mp:"+mnEnergyProducer+" mc:"+mnEnergyConsumer+" dist:"+enumTypeDistance.getString(meDistance)+" dir:"+enumTypeSide.getString(meDirection)+" soc.lvl:"+enumTypeSocialLevel.getString(meSocialLevel);
   }

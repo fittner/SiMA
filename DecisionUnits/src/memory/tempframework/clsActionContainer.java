@@ -7,8 +7,6 @@ package memory.tempframework;
 
 // Imports
 import memory.tempframework.enumTypeTrippleState;
-import java.util.Vector;
-import org.w3c.dom.Node;
 
 import memory.tempframework.clsContainerBaseVector;
 
@@ -67,6 +65,7 @@ public class clsActionContainer extends clsContainerBaseVector
     return oResult;
   }
 
+  @Override
   protected String gettoString(Object poObject)
   {
    return ((clsAction)poObject).toString();

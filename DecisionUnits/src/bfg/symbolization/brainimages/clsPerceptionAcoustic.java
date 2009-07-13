@@ -44,6 +44,7 @@ public class clsPerceptionAcoustic { //extends clsCloneable
     return mnMessageTypeId;
   }
 
+  @Override
   public String toString() {
     return "message:"+enumTypeEntityMessages.getString(mnMessageTypeId);
   }

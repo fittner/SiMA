@@ -78,6 +78,7 @@ public class clsPerceptionSmellOMat {
     return mnScentId;
   }
 
+  @Override
   public String toString() {
     return "tm:"+mnTeamMate+" ep:"+mnEnergyProducer+" ec:"+mnEnergyConsumer+" sc:"+enumTypeScentIntensity.getString(meScentIntensity)+" sid:"+mnScentId;
   }
