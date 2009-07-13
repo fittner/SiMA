@@ -45,7 +45,7 @@ public class clsRemoteControlInspector extends Inspector implements ItemListener
 	//content controls
 	private JLabel moCaption;
 	private JCheckBox moLog; //collision detection
-	private JCheckBox moCheckBoxCA; //collision avoidance
+	// private JCheckBox moCheckBoxCA; //collision avoidance	// EH - make warnings free
 	private JSpinner moStepsToSkip; //for tracing purpose - how many steps shall be skipped
 	    
     public clsRemoteControlInspector(Inspector originalInspector,
