@@ -7,6 +7,7 @@
  */
 package bw.body.brainsocket;
 
+import java.awt.Color;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -98,7 +99,7 @@ public class clsBrainSocket implements itfStepProcessing {
 		oData.addSensorExt(eSensorExtType.BUMP, convertBumpSensor() );
 		oData.addSensorExt(eSensorExtType.POSITIONCHANGE, convertPositionChangeSensor() );
 		oData.addSensorExt(eSensorExtType.EATABLE_AREA, convertEatAbleAreaSensor() );
-		oData.addSensorExt(eSensorExtType.VISION, converVisionSensor() );
+		oData.addSensorExt(eSensorExtType.VISION, convertVisionSensor() );
 		
 		//ad homeostasis sensor data
 		oData.addSensorInt(eSensorIntType.ENERGY_CONSUMPTION, convertEnergySystem() );
@@ -194,7 +195,7 @@ public class clsBrainSocket implements itfStepProcessing {
 		
 	}
 
-	private clsVision converVisionSensor() {
+	private clsVision convertVisionSensor() {
 		clsVision oData = new clsVision();
 		
 		clsSensorVision oVision = (clsSensorVision)(moSensorsExt.get(eSensorExtType.VISION));
@@ -223,6 +224,7 @@ public class clsBrainSocket implements itfStepProcessing {
 		
 		oData.mnEntityType = getEntityType(visionObj);		
 		oData.moPolarcoordinate = new clsPolarcoordinate(visionDir.mrLength, visionDir.moAzimuth.radians);
+		oData.moColor = (Color) oEntity.getShape().getPaint();
 		
 		if( oEntity instanceof clsAnimal )
 		{

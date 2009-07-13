@@ -52,7 +52,7 @@ public class clsSensorEatableArea extends clsSensorVision {
 	private static clsConfigMap getDefaultConfig() {
 		clsConfigMap oDefault = new clsConfigMap();
 		
-		oDefault.add(eConfigEntries.ANGLE, new clsConfigDouble((float) Math.PI));
+		oDefault.add(eConfigEntries.ANGLE, new clsConfigDouble(2.0f * (float) Math.PI));
 		oDefault.add(eConfigEntries.RANGE, new clsConfigDouble(5.0f));
 		oDefault.add(eConfigEntries.OFFSET, new clsConfigDouble(15.0f));
 		

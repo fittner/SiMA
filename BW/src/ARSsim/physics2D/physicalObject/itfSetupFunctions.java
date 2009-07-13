@@ -26,4 +26,5 @@ public interface itfSetupFunctions {
 	public void setCoefficients(double poFriction, double poStaticFriction, double poRestitution);
 	
 	public clsPose getPose();
+    public Shape getShape();
 }

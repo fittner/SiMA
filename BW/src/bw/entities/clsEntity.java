@@ -217,6 +217,19 @@ public abstract class clsEntity {
 		
 	}
 	
+	
+	/**
+	 * see implementation clsMobileObject2D
+	 *
+	 * @author langr
+	 * 25.02.2009, 15:11:45
+	 *
+
+	 */
+	public Shape getShape() {
+		return ((itfSetupFunctions)moPhysicalObject2D).getShape();
+	}	
+	
 	/**
 	 * see implementation clsMobileObject2D
 	 *
