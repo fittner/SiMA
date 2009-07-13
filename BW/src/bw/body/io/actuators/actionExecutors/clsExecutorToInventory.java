@@ -27,7 +27,7 @@ public class clsExecutorToInventory extends clsActionExecutor {
 
 	private clsMobile moEntity;
 
-	private ArrayList<Class> moMutEx = new ArrayList<Class>();
+	private ArrayList<Class<?>> moMutEx = new ArrayList<Class<?>>();
 
 	public clsExecutorToInventory(clsMobile poEntity) {
 		moEntity=poEntity;
@@ -57,7 +57,7 @@ public class clsExecutorToInventory extends clsActionExecutor {
 	 * Mutual exclusions (are bi-directional, so only need to be added in order of creation 
 	 */
 	@Override
-	public ArrayList<Class> getMutualExclusions(itfActionCommand poCommand) {
+	public ArrayList<Class<?>> getMutualExclusions(itfActionCommand poCommand) {
 		return moMutEx; 
 	}
 

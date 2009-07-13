@@ -34,7 +34,7 @@ public class clsActionProcessor implements itfActionProcessor {
 	 String msLogXML = "";
 	 clsEntity moEntity;
 	 HashMap<String, clsActionExecutor> moMap = new HashMap<String, clsActionExecutor>();
-	 ArrayList<Class<itfActionCommand>> moDisabledCommands=new ArrayList<Class<itfActionCommand>> ();
+	 ArrayList<Class<?>> moDisabledCommands=new ArrayList<Class<?>> ();
 	 ArrayList<clsProcessorInhibition> moInhibitedCommands=new ArrayList<clsProcessorInhibition> ();
 	 ArrayList<clsProcessorCall> moCommandStack=new ArrayList<clsProcessorCall>();
 	 ArrayList<clsProcessorResult> moExecutionHistory=new ArrayList<clsProcessorResult>();
@@ -69,7 +69,7 @@ public class clsActionProcessor implements itfActionProcessor {
 	  * Adds the given command to the disabled-list. If this type of command is 
 	  * called an exception will be thrown immediately at the instance of calling.
 	  */
-	 public void disableCommand(Class poCommand)  {
+	 public void disableCommand(Class<?> poCommand)  {
 		 if (moDisabledCommands.contains(poCommand)) return;
 		 moDisabledCommands.add(poCommand);
 	 }
@@ -77,21 +77,21 @@ public class clsActionProcessor implements itfActionProcessor {
 	 /*
 	  * Removes the given command from the disabled-list
 	  */
-	 public void enableCommand(Class poCommand) {
+	 public void enableCommand(Class<?> poCommand) {
 		 if (moDisabledCommands.contains(poCommand)) moDisabledCommands.remove(poCommand);
 	 }
 
 	 /*
 	  * Add a command/executor pair
 	  */
-  	 public void addCommand(Class poCommand, clsActionExecutor poExecutor) {
+  	 public void addCommand(Class<?> poCommand, clsActionExecutor poExecutor) {
   		 moMap.put(poCommand.getName(), poExecutor);
 	 }
 	 
 	 /*
 	  * Adds the given command to the inhibition-list. The given command will be inhibited for the number of cycles given as duration.
 	  */
-	 public void inhibitCommand(Class poCommand, int pnDuration) {
+	 public void inhibitCommand(Class<?> poCommand, int pnDuration) {
 		 moInhibitedCommands.add(new clsProcessorInhibition(poCommand,pnDuration));	 
 	 }
 	 
@@ -441,16 +441,16 @@ public class clsActionProcessor implements itfActionProcessor {
 	  * Private class for storing inhibitions
 	  */
 	 private class clsProcessorInhibition {
-		 Class<itfActionCommand> moCommand;
+		 Class<?> moCommand;
 		 int mnDuration;
 		 int mnRound = 0;
 		 
-		 public clsProcessorInhibition(Class<itfActionCommand> poCommand,int pnDuration) {
+		 public clsProcessorInhibition(Class<?> poCommand,int pnDuration) {
 			 moCommand=poCommand;
 			 mnDuration=pnDuration;
 		 }
 		 
-		 public Class<itfActionCommand>getCommand() {
+		 public Class<?>getCommand() {
 			 return moCommand;
 		 }
 		 

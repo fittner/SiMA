@@ -17,7 +17,6 @@ import enums.eCallPriority;
 
 import java.util.ArrayList;
 import bw.body.io.actuators.*;
-import bw.entities.clsEntity;
 import bw.utils.enums.eExecutionResult;
 
 /**
@@ -88,7 +87,7 @@ public class tstActionProcessor {
 		tstTestCommand_B oCmd_NonInhibit = new tstTestCommand_B();
 		oAPr.call(oCmd_Inhibit, eCallPriority.CALLPRIORITY_NORMAL);
 		oAPr.call(oCmd_NonInhibit, eCallPriority.CALLPRIORITY_NORMAL);
-		oAPr.inhibitCommand(tstTestCommand_A.class, 1);
+		oAPr.inhibitCommand(tstTestCommand_A.class  , 1);
 		oAPr.dispatch();
 		assertFalse("Inhibit: Command 1 was not blocked", oCmd_Inhibit.getExecuted());
 		assertTrue("Inhibit: Command 2 was not executed", oCmd_NonInhibit.getExecuted());
@@ -227,19 +226,21 @@ public class tstActionProcessor {
 		@Override
 		protected void setBodyPartId() {
 		}
+		
 		@Override
 		protected void setName() {
 			moName= "Test Executor";
 		}
 		
-		public boolean execute(itfActionCommand poCommand, clsEntity poEntity) {
+		@Override
+		public boolean execute(itfActionCommand poCommand) {
 			tstTestCommand oCommand = (tstTestCommand) poCommand;
 			oCommand.setExecuted(true);
 			return true;
 		}
 
 		@Override
-		public ArrayList<Class> getMutualExclusions(itfActionCommand poCommand) {
+		public ArrayList<Class<?>> getMutualExclusions(itfActionCommand poCommand) {
 			return ((tstTestCommand) poCommand).getMutualExclusions(); 
 		}
 }
@@ -250,7 +251,7 @@ public class tstActionProcessor {
 	 */
 	private class tstTestCommand implements itfActionCommand {
 		private boolean mbExecuted=false;
-		private ArrayList<Class> moMutEx = new ArrayList<Class>();
+		private ArrayList<Class<?>> moMutEx = new ArrayList<Class<?>>();
 		double mnEnergy;
 		double mnStamina;
 
@@ -268,11 +269,11 @@ public class tstActionProcessor {
 			return mnStamina;
 		}
 		
-		public ArrayList<Class> getMutualExclusions() {
+		public ArrayList<Class<?>> getMutualExclusions() {
 			return moMutEx; 
 		}
 		
-		public void addMutualExclusion(Class poMutEx) {
+		public void addMutualExclusion(Class<?> poMutEx) {
 			moMutEx.add(poMutEx);
 		}
 		

@@ -10,6 +10,8 @@ package bw.body.io.actuators.actionExecutors;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+
+import sim.physics2D.physicalObject.PhysicalObject2D;
 import bw.body.clsComplexBody;
 import bw.body.internalSystems.clsFastMessengerSystem;
 import bw.body.io.actuators.clsActionExecutor;
@@ -37,7 +39,7 @@ public class clsExecutorKill extends clsActionExecutor{
 	static double srStaminaBase = 4f;			//Stamina demand =srStaminaScalingFactor*pow(srStaminaBase,Force) ; 			
 	static double srStaminaScalingFactor = 0; //0.001f;  
 
-	private ArrayList<Class> moMutEx = new ArrayList<Class>();
+	private ArrayList<Class<?>> moMutEx = new ArrayList<Class<?>>();
 
 	private clsEntity moEntity;
 	private eSensorExtType moRangeSensor;
@@ -72,7 +74,7 @@ public class clsExecutorKill extends clsActionExecutor{
 	 * Mutual exclusions (are bi-directional, so only need to be added in order of creation 
 	 */
 	@Override
-	public ArrayList<Class> getMutualExclusions(itfActionCommand poCommand) {
+	public ArrayList<Class<?>> getMutualExclusions(itfActionCommand poCommand) {
 		return moMutEx; 
 	}
 	
@@ -98,7 +100,7 @@ public class clsExecutorKill extends clsActionExecutor{
 		clsComplexBody oBody = (clsComplexBody) ((itfGetBody)moEntity).getBody();
 
 		//Is something in range
-		HashMap oSearch = ((clsSensorVision) oBody.getExternalIO().moSensorExternal.get(moRangeSensor)).getViewObj();
+		HashMap<Integer, PhysicalObject2D> oSearch = ((clsSensorVision) oBody.getExternalIO().moSensorExternal.get(moRangeSensor)).getViewObj();
 		itfAPKillable oKilledEntity = (itfAPKillable) findSingleEntityInRange(oSearch,itfAPKillable.class) ;
 
 		if (oKilledEntity==null) {
@@ -109,7 +111,7 @@ public class clsExecutorKill extends clsActionExecutor{
 		} 
 
 		//Check if killing is ok
-		double rDamage = oKilledEntity.tryKill(oCommand.getForce());
+		double rDamage = oKilledEntity.tryKill(oCommand.getForce()*mrForceScalingFactor);
 		if (rDamage>0) {
 			oBody.getInternalSystem().getHealthSystem().hurt(rDamage);
 			return false;

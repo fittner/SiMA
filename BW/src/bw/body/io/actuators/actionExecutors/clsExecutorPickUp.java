@@ -11,6 +11,8 @@ package bw.body.io.actuators.actionExecutors;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import sim.physics2D.physicalObject.PhysicalObject2D;
+
 import bw.body.clsComplexBody;
 import bw.body.io.actuators.clsActionExecutor;
 import bw.body.io.actuators.actionProxies.*;
@@ -34,7 +36,7 @@ import bw.body.itfget.itfGetBody;
  */
 public class clsExecutorPickUp  extends clsActionExecutor {
 
-	private ArrayList<Class> moMutEx = new ArrayList<Class>();
+	private ArrayList<Class<?>> moMutEx = new ArrayList<Class<?>>();
 
 	private clsMobile moEntity;
 	private eSensorExtType moRangeSensor;
@@ -70,7 +72,7 @@ public class clsExecutorPickUp  extends clsActionExecutor {
 	 * Mutual exclusions (are bi-directional, so only need to be added in order of creation 
 	 */
 	@Override
-	public ArrayList<Class> getMutualExclusions(itfActionCommand poCommand) {
+	public ArrayList<Class<?>> getMutualExclusions(itfActionCommand poCommand) {
 		return moMutEx; 
 	}
 
@@ -86,7 +88,7 @@ public class clsExecutorPickUp  extends clsActionExecutor {
 
 		//Is something in range
 		clsComplexBody oBody = (clsComplexBody) ((itfGetBody)moEntity).getBody();
-		HashMap oSearch = ((clsSensorVision) oBody.getExternalIO().moSensorExternal.get(moRangeSensor)).getViewObj();
+		HashMap<Integer, PhysicalObject2D>  oSearch = ((clsSensorVision) oBody.getExternalIO().moSensorExternal.get(moRangeSensor)).getViewObj();
 		itfAPCarryable oEntity = (itfAPCarryable) findSingleEntityInRange(oSearch,itfAPCarryable.class) ;
 
 		//nothing there = waste energy
@@ -107,7 +109,8 @@ public class clsExecutorPickUp  extends clsActionExecutor {
 		
 		//Is something in range
 		clsComplexBody oBody = (clsComplexBody) ((itfGetBody)moEntity).getBody();
-		HashMap oSearch = ((clsSensorVision) oBody.getExternalIO().moSensorExternal.get(moRangeSensor)).getViewObj();
+		//<Integer, PhysicalObject2D>'
+		HashMap  oSearch = ((clsSensorVision) oBody.getExternalIO().moSensorExternal.get(moRangeSensor)).getViewObj();
 		itfAPCarryable oEntity = (itfAPCarryable) findSingleEntityInRange(oSearch,itfAPCarryable.class) ;
 		if (oEntity==null) return false;
 

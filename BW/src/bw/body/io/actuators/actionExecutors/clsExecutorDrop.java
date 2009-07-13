@@ -26,7 +26,7 @@ public class clsExecutorDrop  extends clsActionExecutor{
 
 	private clsMobile moEntity;
 
-	private ArrayList<Class> moMutEx = new ArrayList<Class>();
+	private ArrayList<Class<?>> moMutEx = new ArrayList<Class<?>>();
 
 	public clsExecutorDrop(clsMobile poEntity) {
 		moEntity=poEntity;
@@ -56,7 +56,7 @@ public class clsExecutorDrop  extends clsActionExecutor{
 	 * Mutual exclusions (are bi-directional, so only need to be added in order of creation 
 	 */
 	@Override
-	public ArrayList<Class> getMutualExclusions(itfActionCommand poCommand) {
+	public ArrayList<Class<?>> getMutualExclusions(itfActionCommand poCommand) {
 		return moMutEx; 
 	}
 

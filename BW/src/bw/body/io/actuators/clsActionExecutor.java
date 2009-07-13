@@ -48,8 +48,8 @@ public abstract class clsActionExecutor extends clsSensorActuatorBase {
 	 * themselves, i.e. no two commands of the same type can be executed 
 	 * in the same round.
 	 */
-	public ArrayList<Class> getMutualExclusions(itfActionCommand poCommand) {
-		return new ArrayList<Class>(); 
+	public ArrayList<Class<?>> getMutualExclusions(itfActionCommand poCommand) {
+		return new ArrayList<Class<?>>(); 
 	}
 	
 	/*
@@ -80,7 +80,7 @@ public abstract class clsActionExecutor extends clsSensorActuatorBase {
 	/*
 	 * Support function for finding an entity in a given Range
 	 */
-	protected clsEntity findSingleEntityInRange(HashMap poSearch, Class poInterface) {
+	protected clsEntity findSingleEntityInRange(HashMap<Integer, PhysicalObject2D> poSearch, Class<?> poInterface) {
 		clsEntity oEntity=null;
 
 		Iterator<Integer> i = poSearch.keySet().iterator();

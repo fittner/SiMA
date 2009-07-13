@@ -11,6 +11,8 @@ package bw.body.io.actuators.actionExecutors;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import sim.physics2D.physicalObject.PhysicalObject2D;
+
 import bw.body.clsComplexBody;
 import bw.body.internalSystems.clsFastMessengerSystem;
 import bw.body.io.actuators.clsActionExecutor;
@@ -38,7 +40,7 @@ public class clsExecutorEat extends clsActionExecutor{
 
 	static double srStaminaDemand = 0; //0.5f;		//Stamina demand 			
 	
-	private ArrayList<Class> moMutEx = new ArrayList<Class>();
+	private ArrayList<Class<?>> moMutEx = new ArrayList<Class<?>>();
 	private double mrBiteSize;
 	private clsEntity moEntity;
 	private eSensorExtType moRangeSensor;
@@ -72,7 +74,7 @@ public class clsExecutorEat extends clsActionExecutor{
 	 * Mutual exclusions (are bi-directional, so only need to be added in order of creation 
 	 */
 	@Override
-	public ArrayList<Class> getMutualExclusions(itfActionCommand poCommand) {
+	public ArrayList<Class<?>> getMutualExclusions(itfActionCommand poCommand) {
 		return moMutEx; 
 	}
 	
@@ -93,11 +95,10 @@ public class clsExecutorEat extends clsActionExecutor{
 	 */
 	@Override
 	public boolean execute(itfActionCommand poCommand) {
-		clsActionEat oCommand =(clsActionEat) poCommand; 
 		clsComplexBody oBody = (clsComplexBody) ((itfGetBody)moEntity).getBody();
 		
 		//Is something in range
-		HashMap oSearch = ((clsSensorVision) oBody.getExternalIO().moSensorExternal.get(moRangeSensor)).getViewObj();
+		HashMap<Integer, PhysicalObject2D> oSearch = ((clsSensorVision) oBody.getExternalIO().moSensorExternal.get(moRangeSensor)).getViewObj();
 		itfAPEatable oEatenEntity = (itfAPEatable) findSingleEntityInRange(oSearch,itfAPEatable.class) ;
 		
 		if (oEatenEntity==null) {

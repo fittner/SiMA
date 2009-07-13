@@ -30,7 +30,7 @@ public class clsExecutorTurn extends clsActionExecutor{
 	static double srStaminaBase = 2f;			//Stamina demand =srStaminaScalingFactor*pow(srStaminaBase,Angle) ; 			
 	static double srStaminaScalingFactor = 0.001f;   
 
-	private ArrayList<Class> moMutEx = new ArrayList<Class>();
+	private ArrayList<Class<?>> moMutEx = new ArrayList<Class<?>>();
 	private clsEntity moEntity;
 	
 	public clsExecutorTurn(clsEntity poEntity) {
@@ -57,7 +57,7 @@ public class clsExecutorTurn extends clsActionExecutor{
 	 * Mutual exclusions (are bi-directional, so only need to be added in order of creation 
 	 */
 	@Override
-	public ArrayList<Class> getMutualExclusions(itfActionCommand poCommand) {
+	public ArrayList<Class<?>> getMutualExclusions(itfActionCommand poCommand) {
 		return moMutEx;
 	}
 	
