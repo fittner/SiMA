@@ -116,7 +116,6 @@ public class clsRemoteControlInspector extends Inspector implements ItemListener
 		moConsole.refresh();
 	}
 
-	@Override
 	public void stateChanged(ChangeEvent arg0) {
 
 		Object source = arg0.getSource();
