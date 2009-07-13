@@ -6,7 +6,6 @@
 package bfg.tools.shapes;
 
 // Imports
-import java.text.NumberFormat;
 import java.io.Serializable;
 //import pkgTools.clsCloneable;
 
@@ -49,6 +48,7 @@ public class clsPolarcoordinate implements Serializable { //extends clsCloneable
     mrLength = oFrom.distance(poTo);
     moAzimuth = oFrom.angleToPoint(poTo);
   }
+  @Override
   public String toString() {
 	  //    NumberFormat nf = java.text.NumberFormat.getInstance( );
 	  //    nf.setMinimumFractionDigits( 3 );
@@ -98,17 +98,17 @@ public class clsPolarcoordinate implements Serializable { //extends clsCloneable
   public clsPoint getVector() {
     clsPoint oResult = new clsPoint(mrLength, 0);
     
-    double rAngle = clsAngle.getNormalizedAngle( moAzimuth.mrAlpha, false, 2*(double)Math.PI);
+    double rAngle = clsAngle.getNormalizedAngle( moAzimuth.mrAlpha, false, 2.0d*Math.PI);
 
-    oResult.mrX = (double)Math.cos(rAngle) * mrLength;
+    oResult.mrX = Math.cos(rAngle) * mrLength;
 
 // cos takes care of the correct signum ...
 //    if (moAzimuth.mrAlpha > Math.PI/2 && moAzimuth.mrAlpha < 3*Math.PI/2 ) {
 //      oResult.mrX = -oResult.mrX;
 //    }
     
-    oResult.mrY = (double)(Math.sqrt(Math.pow(mrLength,2) - Math.pow(oResult.mrX,2)));
-    if (rAngle >(double) Math.PI) {
+    oResult.mrY = Math.sqrt(Math.pow(mrLength,2) - Math.pow(oResult.mrX,2));
+    if (rAngle > Math.PI) {
       oResult.mrY = -oResult.mrY;
     }
 

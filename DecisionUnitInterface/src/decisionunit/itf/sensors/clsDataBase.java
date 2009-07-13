@@ -2,6 +2,7 @@ package decisionunit.itf.sensors;
 
 public abstract class clsDataBase {
 	abstract public String logXML();
+	@Override
 	abstract public String toString();
 		
 	protected String getClassName() {

@@ -65,6 +65,7 @@ public class clsSensorData {
 		
 		return logEntry;
 	}	
+	@Override
 	public String toString() {
 		return "SensorData: External "+toStringSensors(moSensorDataExt.values())+" $$ Internal "+toStringSensors(moSensorDataInt.values());
 	}	

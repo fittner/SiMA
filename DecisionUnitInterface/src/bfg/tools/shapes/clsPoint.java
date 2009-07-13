@@ -37,6 +37,7 @@ public class clsPoint implements Serializable {
   }
 
 
+  @Override
   public String toString() {
     NumberFormat nf = java.text.NumberFormat.getInstance( );
     nf.setMinimumFractionDigits( 3 );
@@ -46,15 +47,15 @@ public class clsPoint implements Serializable {
   }
 
   public double distance() {
-    return (double)(Math.sqrt(Math.pow(mrX,2) + Math.pow(mrY,2)));
+    return Math.sqrt(Math.pow(mrX,2) + Math.pow(mrY,2));
   }
 
   public double distance(clsPoint poPoint) {
-    return (double)(Math.sqrt(Math.pow((mrX-poPoint.mrX),2) + Math.pow((mrY-poPoint.mrY),2)));
+    return Math.sqrt(Math.pow((mrX-poPoint.mrX),2) + Math.pow((mrY-poPoint.mrY),2));
   }
 
   public double distance(double prX, double prY) {
-    return (double)(Math.sqrt(Math.pow((mrX-prX),2) + Math.pow((mrY-prY),2)));
+    return Math.sqrt(Math.pow((mrX-prX),2) + Math.pow((mrY-prY),2));
   }
 
   public void set(double prX, double prY) {
@@ -94,7 +95,7 @@ public class clsPoint implements Serializable {
     double dX = prX - mrX;
     double dY = prY - mrY;
 
-    clsAngle alpha = new clsAngle((double)Math.atan2(dY, dX));
+    clsAngle alpha = new clsAngle(Math.atan2(dY, dX));
 
     return alpha;
   }

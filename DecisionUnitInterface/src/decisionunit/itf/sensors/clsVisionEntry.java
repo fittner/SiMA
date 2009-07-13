@@ -39,6 +39,7 @@ public class clsVisionEntry {
 		return logEntry;		
 	}
 
+	@Override
 	public String toString() {
 		String oResult = "";
 		oResult += moClassName+": type "+mnEntityType+" | id "+moEntityId+" | direction "+moPolarcoordinate;

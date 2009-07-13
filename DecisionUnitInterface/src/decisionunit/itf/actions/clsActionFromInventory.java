@@ -1,7 +1,5 @@
 package decisionunit.itf.actions;
 
-import enums.eActionMoveDirection;
-
 public class clsActionFromInventory implements itfActionCommand {
 
 	/**
@@ -9,7 +7,7 @@ public class clsActionFromInventory implements itfActionCommand {
 	 * Get an item from the inventory (this item will then be set as carried) 
 	 * Parameter Index = 0-based index of the item to take from the inventory (default=0, i.e. the first)
 	 * 
-	 * @author Benny Dönz
+	 * @author Benny Dï¿½nz
 	 * 03.07.2009, 22:39:05
 	 * 
 	 */

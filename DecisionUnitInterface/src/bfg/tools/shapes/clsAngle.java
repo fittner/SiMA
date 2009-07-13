@@ -6,7 +6,6 @@
 package bfg.tools.shapes;
 
 // Imports
-import java.text.NumberFormat;
 import java.io.Serializable;
 
 //langr --> import comment
@@ -36,6 +35,7 @@ public class clsAngle implements Serializable { //extends clsCloneable
     mrAlpha = poAngle.mrAlpha;
   }
 
+  @Override
   public String toString() {
 //    NumberFormat nf = java.text.NumberFormat.getInstance( );
 //    nf.setMinimumFractionDigits( 3 );
@@ -55,7 +55,7 @@ public class clsAngle implements Serializable { //extends clsCloneable
     mrAlpha = poAngle.mrAlpha;
   }
   public void setDegree(double prAlpha) {
-    mrAlpha = prAlpha*(double)Math.PI/180;
+    mrAlpha = prAlpha*Math.PI/180.0d;
   }
 
 
@@ -76,7 +76,7 @@ public class clsAngle implements Serializable { //extends clsCloneable
   }
 
   public boolean angleEqualTolerance(clsAngle poAngle, double prAngleTolerance) {
-    double cPI2 = (double)(2*Math.PI);  
+    double cPI2 = 2.0d*Math.PI;  
 
     double rTemp = mrAlpha - poAngle.mrAlpha;
     
@@ -87,12 +87,12 @@ public class clsAngle implements Serializable { //extends clsCloneable
   }
 
   public double getShortestSide() {
-    double rResult = getNormalizedAngle(mrAlpha, true, (double)Math.PI);
+    double rResult = getNormalizedAngle(mrAlpha, true, Math.PI);
     return rResult;
   }
 
   public static double getNormalizedAngle(double prAlpha) {
-    return getNormalizedAngle(prAlpha, false, 2*(double)Math.PI);
+    return getNormalizedAngle(prAlpha, false, 2.0d*Math.PI);
   }
 
   public static double getNormalizedAngle(double prAlpha, boolean pnPlusMinus, double prMaxValue) {
@@ -110,7 +110,7 @@ public class clsAngle implements Serializable { //extends clsCloneable
   }
 
   public void normalize(boolean pnPlusMinus) {
-    mrAlpha = clsAngle.getNormalizedAngle(mrAlpha, pnPlusMinus, 2*(double)Math.PI);
+    mrAlpha = clsAngle.getNormalizedAngle(mrAlpha, pnPlusMinus, 2.0d*Math.PI);
   }
 
   public void blur(double prSigma) {
@@ -120,9 +120,9 @@ public class clsAngle implements Serializable { //extends clsCloneable
   }
 
   public static double getDegree(double prAlpha) {
-    return prAlpha*180/(double)Math.PI;
+    return prAlpha*180.0d/Math.PI;
   }
   public double getDegree() {
-    return mrAlpha*180/(double)Math.PI;
+    return mrAlpha*180.0d/Math.PI;
   }
 };

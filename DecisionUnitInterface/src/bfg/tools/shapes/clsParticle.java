@@ -51,6 +51,7 @@ public class clsParticle extends clsPoint implements Serializable {
     return mrWeight;
   }
   
+  @Override
   public String toString() {
     String oResult = super.toString();
 
