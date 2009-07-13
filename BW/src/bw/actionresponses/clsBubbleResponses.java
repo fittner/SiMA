@@ -19,7 +19,7 @@ import bw.utils.tools.clsFood;
 public class clsBubbleResponses extends clsEntityActionResponses {
 	
 	@Override
-	public clsFood actionEatResponse(float prWeight) throws exEntityActionResponseNotImplemented {
+	public clsFood actionEatResponse(double prWeight) throws exEntityActionResponseNotImplemented {
 		throw new bw.exceptions.exEntityActionResponseNotImplemented();
 	}
 }

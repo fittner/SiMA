@@ -98,13 +98,13 @@ public class clsDamageBump implements itfStep {
 	 *
 	 * @param prPenaltySum
 	 */
-	private void pain(clsPartSensorBump poSource, float prPenaltySum) {
+	private void pain(clsPartSensorBump poSource, double prPenaltySum) {
 		if (prPenaltySum > mrPainThreshold) {
 			moFastMessengerSystem.addMessage((clsPartSensorBump)poSource.clone(), new clsPartBrain(), prPenaltySum);
 		}
 	}
 	
-	public void bumped(clsPartSensorBump poSource, float prForce) {
+	public void bumped(clsPartSensorBump poSource, double prForce) {
 		hurt(prForce);
 		pain(poSource, prForce);
 	}

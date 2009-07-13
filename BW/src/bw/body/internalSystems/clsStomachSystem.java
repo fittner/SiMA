@@ -158,12 +158,12 @@ public class clsStomachSystem implements itfStepUpdateInternalState {
 	 *
 	 */
 	private void updateFractionSum() {
-		mrFractionSum = 0.0f;
+		mrFractionSum = 0.0;
 		
 		Iterator<Integer> i = moFractions.keySet().iterator();
 		
 		while (i.hasNext()) {
-			mrFractionSum += (Float)moFractions.get(i.next()).floatValue();
+			mrFractionSum += moFractions.get(i.next());
 		}
 	}
 	
@@ -384,7 +384,7 @@ public class clsStomachSystem implements itfStepUpdateInternalState {
 	 *
 	 */
 	private void updateEnergy() {
-		mrEnergy = 0.0f;
+		mrEnergy = 0.0;
 
 		Iterator<Integer> i = moNutritions.keySet().iterator();
 		
@@ -392,7 +392,7 @@ public class clsStomachSystem implements itfStepUpdateInternalState {
 			Integer oKey = i.next();
 			
 			clsNutritionLevel oNL = moNutritions.get(oKey);
-			float rFraction = moFractions.get(oKey).floatValue();
+			double rFraction = moFractions.get(oKey);
 			
 			mrEnergy += oNL.getContent() * rFraction;
 		}

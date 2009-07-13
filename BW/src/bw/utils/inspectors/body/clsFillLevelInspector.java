@@ -140,7 +140,7 @@ public class clsFillLevelInspector extends Inspector implements ItemListener{
 	 * @param max ist Max. Wert
 	 * @param value ist aktueller Wert
 	 ********************************************************************************/
-	public void paintAnalysisOfNutriotion (Graphics g, int x, int y, float mino, float maxo, float valueorg) {
+	public void paintAnalysisOfNutriotion (Graphics g, int x, int y, double mino, double maxo, double valueorg) {
 		int min=(int)mino*10;
 		int max=(int)maxo*10;
 		int value=(int)valueorg*10;

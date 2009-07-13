@@ -78,7 +78,7 @@ public class clsEnergySensor extends clsSensorInt {
 	/**
 	 * @param mrEnergy the mrEnergy to set
 	 */
-	public void setEnergy(float mrEnergy) {
+	public void setEnergy(double mrEnergy) {
 		this.mrEnergy = mrEnergy;
 	}
 

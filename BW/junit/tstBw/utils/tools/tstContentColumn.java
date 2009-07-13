@@ -26,13 +26,13 @@ public class tstContentColumn {
 		assertFalse(oColumn.getContent() > oColumn.getMaxContent());
 		
 		assertFalse(oColumn.getMaxContent() < 0.0f);
-		assertFalse(oColumn.getMaxContent() > java.lang.Float.MAX_VALUE);
+		assertFalse(oColumn.getMaxContent() > java.lang.Double.MAX_VALUE);
 	}
 	
 	@Test
 	public void test2ParamConstructor(){
-		float nContent = 50.0f;
-		float nMaxContent = 100.0f;
+		double nContent = 50.0f;
+		double nMaxContent = 100.0f;
 		
 		clsContentColumn oColumn = null;
 		
@@ -52,13 +52,13 @@ public class tstContentColumn {
 		
 		assertFalse(oColumn.getMaxContent() < 0.0f);
 		assertEquals(oColumn.getMaxContent(), nMaxContent, 0.00001f);
-		assertFalse(oColumn.getMaxContent() > java.lang.Float.MAX_VALUE);		
+		assertFalse(oColumn.getMaxContent() > java.lang.Double.MAX_VALUE);		
 	}
 	
 	@Test
 	public void test3ParamConstructor(){
-		float nContent = 50.0f;
-		float nMaxContent = 100.0f;
+		double nContent = 50.0f;
+		double nMaxContent = 100.0f;
 		
 		clsContentColumn oColumn = null;
 		
@@ -78,13 +78,13 @@ public class tstContentColumn {
 		
 		assertFalse(oColumn.getMaxContent() < 0.0f);
 		assertEquals(oColumn.getMaxContent(), nMaxContent, 0.00001f);
-		assertFalse(oColumn.getMaxContent() > java.lang.Float.MAX_VALUE);		
+		assertFalse(oColumn.getMaxContent() > java.lang.Double.MAX_VALUE);		
 	}	
 	
 	@Test
 	public void testGetterSetter() {
-		float nContent = 50.0f;
-		float nMaxContent = 100.0f;
+		double nContent = 50.0f;
+		double nMaxContent = 100.0f;
 
 		
 		clsContentColumn oColumn = null;
@@ -151,14 +151,14 @@ public class tstContentColumn {
 		assertFalse(oColumn.getMaxContent() < 0.0f);
 		assertEquals(oColumn.getMaxContent(), 0.0f, 0.00001f);	
 		assertFalse(oColumn.getContent() > oColumn.getMaxContent());
-		assertFalse(oColumn.getMaxContent() > java.lang.Float.MAX_VALUE);
+		assertFalse(oColumn.getMaxContent() > java.lang.Double.MAX_VALUE);
 
 	}
 
 	@Test
 	public void testIncDec() {
-		float nContent = 50.0f;
-		float nMaxContent = 100.0f;
+		double nContent = 50.0f;
+		double nMaxContent = 100.0f;
 
 		clsContentColumn oColumn = null;
 		

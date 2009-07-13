@@ -34,7 +34,7 @@ public class clsMeatResponses extends clsEntityActionResponses {
 	 * @see bw.actionresponses.clsEntityActionResponses#actionEatResponse(float)
 	 */
 	@Override
-	public clsFood actionEatResponse(float prWeight) {
+	public clsFood actionEatResponse(double prWeight) {
 		clsFood oFood = moFlesh.withdraw(prWeight);
 		return oFood;
 	}

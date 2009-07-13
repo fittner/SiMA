@@ -65,7 +65,7 @@ public class clsSensorBump extends clsSensorExt {
 	private static clsConfigMap getDefaultConfig() {
 		clsConfigMap oDefault = new clsConfigMap();
 		
-		oDefault.add(eConfigEntries.ENERGYCONSUMPTION, new clsConfigDouble(5.0f));
+		oDefault.add(eConfigEntries.ENERGYCONSUMPTION, new clsConfigDouble(5.0));
 		
 		return oDefault;
 	}
@@ -95,7 +95,7 @@ public class clsSensorBump extends clsSensorExt {
 		if (mnBumped) {
 			if ( ((itfGetBody)moEntity).getBody() instanceof clsComplexBody) {
 				//TODO calculate true force
-				float rForce = 1.0f;
+				double rForce = 1.0;
 				((clsComplexBody)((itfGetBody)moEntity).getBody()).getInterBodyWorldSystem().getDamageBump().bumped(moPartSensorBump, rForce);
 			}
 		}

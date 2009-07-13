@@ -80,9 +80,9 @@ public class clsSensorVision extends clsSensorExt {
 	private static clsConfigMap getDefaultConfig() {
 		clsConfigMap oDefault = new clsConfigMap();
 		
-		oDefault.add(eConfigEntries.ANGLE, new clsConfigDouble((float) Math.PI));
-		oDefault.add(eConfigEntries.RANGE, new clsConfigDouble(50.0f));
-		oDefault.add(eConfigEntries.OFFSET, new clsConfigDouble(0.0f));
+		oDefault.add(eConfigEntries.ANGLE, new clsConfigDouble(Math.PI));
+		oDefault.add(eConfigEntries.RANGE, new clsConfigDouble(50.0));
+		oDefault.add(eConfigEntries.OFFSET, new clsConfigDouble(0.0));
 		
 
 		return oDefault;

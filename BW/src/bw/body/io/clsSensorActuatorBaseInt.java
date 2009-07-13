@@ -29,10 +29,10 @@ public abstract class clsSensorActuatorBaseInt extends clsSensorActuatorBase{
 	}
 
 
-	protected void registerEnergyConsumption(float prValue) {
+	protected void registerEnergyConsumption(double prValue) {
 		moBaseIO.registerEnergyConsumption(getUniqueId(), prValue);
 	}
-	protected void registerEnergyConsumptionOnce(float prValue) {
+	protected void registerEnergyConsumptionOnce(double prValue) {
 		moBaseIO.registerEnergyConsumptionOnce(getUniqueId(), prValue);
 	}
 

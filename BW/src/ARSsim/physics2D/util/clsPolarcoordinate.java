@@ -50,7 +50,7 @@ public class clsPolarcoordinate {
 	  }
 	  
 	  private static Angle angleToPoint(Double2D poTo) {
-	    double alpha = (float)Math.atan2(poTo.y, poTo.x);
+	    double alpha = Math.atan2(poTo.y, poTo.x);
 	    return new Angle(alpha);
 	  }
 	  

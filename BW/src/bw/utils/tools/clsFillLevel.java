@@ -25,9 +25,9 @@ public class clsFillLevel extends clsContentColumn {
 	 */
 	public clsFillLevel() {
 		super();
-		mrLowerBound = this.getMaxContent() / 3.0f;
-		mrUpperBound = mrLowerBound * 2.0f;
-		mrChange = 0.0f;
+		mrLowerBound = this.getMaxContent() / 3.0;
+		mrUpperBound = mrLowerBound * 2.0;
+		mrChange = 0.0;
 		
 		checkBounds();		
 	}
@@ -41,9 +41,9 @@ public class clsFillLevel extends clsContentColumn {
 	public clsFillLevel(double prContent, double prMaxContent) throws bw.exceptions.exContentColumnMaxContentExceeded, bw.exceptions.exContentColumnMinContentUnderrun {
 		super(prContent, prMaxContent);
 		
-		mrLowerBound = this.getMaxContent() / 3.0f;
-		mrUpperBound = mrLowerBound * 2.0f;	
-		mrChange = 0.0f;
+		mrLowerBound = this.getMaxContent() / 3.0;
+		mrUpperBound = mrLowerBound * 2.0;	
+		mrChange = 0.0;
 		
 		checkBounds();
 	}
@@ -58,8 +58,8 @@ public class clsFillLevel extends clsContentColumn {
 	public clsFillLevel(double prContent, double prMaxContent, double prChange) throws bw.exceptions.exContentColumnMaxContentExceeded, bw.exceptions.exContentColumnMinContentUnderrun {
 		super(prContent, prMaxContent);
 		
-		mrLowerBound = this.getMaxContent() / 3.0f;
-		mrUpperBound = mrLowerBound * 2.0f;	
+		mrLowerBound = this.getMaxContent() / 3.0;
+		mrUpperBound = mrLowerBound * 2.0;	
 		mrChange = prChange;
 		
 		checkBounds();
@@ -95,7 +95,7 @@ public class clsFillLevel extends clsContentColumn {
 	}
 
 	/**
-	 * Applies the mrChange value to mrContent. See also {@link clsContentColumn#change(float)}
+	 * Applies the mrChange value to mrContent. See also {@link clsContentColumn#change(double)}
 	 * 
 	 * @see clsContentColumn.change(float)
 	 */
@@ -145,7 +145,7 @@ public class clsFillLevel extends clsContentColumn {
 	 * @return
 	 */
 	public double percentageLow() {
-		double rPercentage = 0.0f;
+		double rPercentage = 0.0;
 		
 		if (isLow()) {
 			double rRange = getLowerBound();
@@ -191,7 +191,7 @@ public class clsFillLevel extends clsContentColumn {
 	 * 
 	 * @param mrLowerBound the mrLowerBound to set
 	 */
-	public double setLowerBound(float prBound) {
+	public double setLowerBound(double prBound) {
 		this.mrLowerBound = prBound;
 		
 		checkLowerBound();
@@ -211,7 +211,7 @@ public class clsFillLevel extends clsContentColumn {
 	 * 
 	 * @param mrUpperBound the mrUpperBound to set
 	 */
-	public double setUpperBound(float prBound) {
+	public double setUpperBound(double prBound) {
 		this.mrUpperBound = prBound;
 		
 		checkUpperBound();
@@ -226,8 +226,8 @@ public class clsFillLevel extends clsContentColumn {
 	 *
 	 */
 	private void checkLowerBound() {
-		if (mrLowerBound < 0.0f) {
-			mrLowerBound = 0.0f;
+		if (mrLowerBound < 0.0) {
+			mrLowerBound = 0.0;
 		} else if (mrLowerBound > this.getMaxContent()) {
 			mrLowerBound = this.getMaxContent();
 		}
@@ -246,8 +246,8 @@ public class clsFillLevel extends clsContentColumn {
 	private void checkUpperBound() {
 		if (mrUpperBound > this.getMaxContent()) {
 			mrUpperBound = this.getMaxContent();
-		} else if (mrUpperBound < 0.0f) {
-			mrUpperBound = 0.0f;
+		} else if (mrUpperBound < 0.0) {
+			mrUpperBound = 0.0;
 		}
 		
 		if (mrUpperBound < mrLowerBound) {

@@ -87,21 +87,21 @@ public class LoadStationaryItems {
 	     			NodeList attributelist3 = nodeelement3.getElementsByTagName("Length");
 	     			Element attributeelement3 = (Element) attributelist3.item(0);
 	     			NodeList attributechildlist3 = attributeelement3.getChildNodes();
-	     			float value3 = new Float(attributechildlist3.item(0).getNodeValue());
+	     			double value3 = new Double(attributechildlist3.item(0).getNodeValue());
 	     			System.out.println("Length: " + value3);
 	     				  
 	     			Element nodeelement5 = (Element) currentNode;
 	     			NodeList attributelist5 = nodeelement5.getElementsByTagName("Width");
 	     			Element attributeelement5 = (Element) attributelist5.item(0);
 	     			NodeList attributechildlist5 = attributeelement5.getChildNodes();
-	     			float value5 = new Float(attributechildlist5.item(0).getNodeValue());
+	     			double value5 = new Double(attributechildlist5.item(0).getNodeValue());
 	     			System.out.println("Width: " + value5);	     				  
 
 	     			Element nodeelement4 = (Element) currentNode;
 	     			NodeList attributelist4 = nodeelement4.getElementsByTagName("Direction");
 	     			Element attributeelement4 = (Element) attributelist4.item(0);
 	     			NodeList attributechildlist4 = attributeelement4.getChildNodes();
-	     			float value4 = new Float(attributechildlist4.item(0).getNodeValue());
+	     			double value4 = new Double(attributechildlist4.item(0).getNodeValue());
 	     			System.out.println("Direction: " + value4);		
 	     			
 	     			

@@ -56,7 +56,7 @@ public class clsMutableDouble implements Cloneable, Serializable {
 	    }
 	    /** Constructor */
 	    public clsMutableDouble(Double poValue) {
-	        m_value = poValue.floatValue();
+	        m_value = poValue.doubleValue();
 	    }    
 	    /** Copy Constructor */
 	    public clsMutableDouble(clsMutableDouble poValue) {
@@ -66,10 +66,10 @@ public class clsMutableDouble implements Cloneable, Serializable {
 	    public double doubleValue() {return m_value;}
 	    public Double DoubleValue() {return new Double(m_value);} 
 
-	    public void add(Float poValue) {add(poValue.floatValue());}
-	    public void div(Float poValue) {div(poValue.floatValue());}
-	    public void mult(Float poValue) {mult(poValue.floatValue());}
-	    public void set(Float poValue) {set(poValue.floatValue());}
+	    public void add(Double poValue) {add(poValue.doubleValue());}
+	    public void div(Double poValue) {div(poValue.doubleValue());}
+	    public void mult(Double poValue) {mult(poValue.doubleValue());}
+	    public void set(Double poValue) {set(poValue.doubleValue());}
 	    
 	    public void add(clsMutableDouble poValue) {add(poValue.m_value);}
 	    public void div(clsMutableDouble poValue) {div(poValue.m_value);}

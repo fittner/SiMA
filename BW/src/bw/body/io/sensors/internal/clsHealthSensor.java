@@ -128,7 +128,7 @@ public class clsHealthSensor extends clsSensorInt {
 	/**
 	 * @param mrHealthValue the mrHealthValue to set
 	 */
-	public void setHealthValue(float mrHealthValue) {
+	public void setHealthValue(double mrHealthValue) {
 		this.mrHealthValue = mrHealthValue;
 	}
 
@@ -142,7 +142,7 @@ public class clsHealthSensor extends clsSensorInt {
 	/**
 	 * @param mrRecoveryRate the mrRecoveryRate to set
 	 */
-	public void setRecoveryRate(float mrRecoveryRate) {
+	public void setRecoveryRate(double mrRecoveryRate) {
 		this.mrRecoveryRate = mrRecoveryRate;
 	}
 
@@ -156,7 +156,7 @@ public class clsHealthSensor extends clsSensorInt {
 	/**
 	 * @param mrLowerBound the mrLowerBound to set
 	 */
-	public void setLowerBound(float mrLowerBound) {
+	public void setLowerBound(double mrLowerBound) {
 		this.mrLowerBound = mrLowerBound;
 	}
 
@@ -170,7 +170,7 @@ public class clsHealthSensor extends clsSensorInt {
 	/**
 	 * @param mrUpperBound the mrUpperBound to set
 	 */
-	public void setUpperBound(float mrUpperBound) {
+	public void setUpperBound(double mrUpperBound) {
 		this.mrUpperBound = mrUpperBound;
 	}
 

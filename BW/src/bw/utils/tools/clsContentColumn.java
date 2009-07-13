@@ -27,7 +27,7 @@ public class clsContentColumn {
 	/**
 	 * mgContent is the current fill level
 	 */
-	private double mrContent = 0.0f;
+	private double mrContent = 0.0;
 	
 	
 	/**
@@ -75,8 +75,8 @@ public class clsContentColumn {
 	private void checkMaxValue() {
 		if (this.mrMaxContent < 0) {
 			this.mrMaxContent = 0;
-		} else if (this.mrMaxContent > java.lang.Float.MAX_VALUE) {
-			this.mrMaxContent = java.lang.Float.MAX_VALUE;
+		} else if (this.mrMaxContent > java.lang.Double.MAX_VALUE) {
+			this.mrMaxContent = java.lang.Double.MAX_VALUE;
 		}
 	}
 	

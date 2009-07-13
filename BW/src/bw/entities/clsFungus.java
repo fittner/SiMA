@@ -39,7 +39,7 @@ public class clsFungus extends clsInanimate implements itfGetFlesh, itfAPEatable
 	private static String moImagePath = sim.clsBWMain.msArsPath + "/src/resources/images/fungus.jpg";
 	private static Color moDefaultColor = Color.pink;
 	
-	private float mrCakeWeight;
+	private double mrCakeWeight;
 	private boolean mnTotallyConsumed;
 	private boolean mnShapeUpdated;
 	
@@ -53,7 +53,7 @@ public class clsFungus extends clsInanimate implements itfGetFlesh, itfAPEatable
 		
 		applyConfig();
 		
-		mrCakeWeight = (float) mrDefaultMass;
+		mrCakeWeight = mrDefaultMass;
 		mnTotallyConsumed = false;
 		mnShapeUpdated = false;
 		
@@ -98,16 +98,16 @@ public class clsFungus extends clsInanimate implements itfGetFlesh, itfAPEatable
 		return oDefault;
 	}
 	
-	public float withdraw(float prAmount) {
-		float rWeight = 0.0f;
+	public double withdraw(double prAmount) {
+		double rWeight = 0.0;
 		
-		if (prAmount > 0.0f) {
+		if (prAmount > 0.0) {
 			if (mrCakeWeight > prAmount) {
 				rWeight = prAmount;
 				mrCakeWeight -= prAmount;
 			} else {
 				rWeight = mrCakeWeight;
-				mrCakeWeight = 0.0f;
+				mrCakeWeight = 0.0;
 				mnTotallyConsumed = true;
 			}
 		}

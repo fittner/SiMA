@@ -28,11 +28,11 @@ public class clsSingleFillLevel extends JPanel {
 	private static final long serialVersionUID = 6911103242202927797L;
 	
 	public int id;
-	private float mrMinContentFloat;
-	private float mrMaxContentFloat;
-	private float mrMinFloat;
-	private float mrMaxFloat;
-	private float mrValueFloat;
+	private double mrMinContentFloat;
+	private double mrMaxContentFloat;
+	private double mrMinFloat;
+	private double mrMaxFloat;
+	private double mrValueFloat;
 	//private float mrMinContentInt;
 	//private float mrMaxContentInt;
 	private int mrMinInt;
@@ -56,7 +56,7 @@ public class clsSingleFillLevel extends JPanel {
 	 * diese Konstruktor empf�ngt die max. und min. und die aktuelle Werte im
 	 * Format von Float
 	 */
-	public clsSingleFillLevel(int id, float min, float max, float minContent, float maxContent, float value, int x, int y) {
+	public clsSingleFillLevel(int id, double min, double max, double minContent, double maxContent, double value, int x, int y) {
 		this.mrMinFloat=min;
 		this.mrMaxFloat=max;
 		this.initValue(value);
@@ -109,7 +109,7 @@ public class clsSingleFillLevel extends JPanel {
 	 * @param minContent ist min. Content-Wert
 	 * @param maxContent ist max. Content-Wert
 	 **************************************************************************/
-	private void initMinAndMax(float min, float max, float minContent, float maxContent){
+	private void initMinAndMax(double min, double max, double minContent, double maxContent){
 		this.mrMaxContentFloat=maxContent;
 		this.mrMinContentFloat=minContent;
 		this.mrMin = (int) (min * 10);
@@ -126,7 +126,7 @@ public class clsSingleFillLevel extends JPanel {
 	 *
 	 * @param value
 	 *************************************************************************/
-	public void initValue(float value){
+	public void initValue(double value){
 		this.mrValueFloat=value;
 		//this.mrValueFloat=(float)3.35;
 		this.mrValue=(int)( this.mrValueFloat * 10);
@@ -140,7 +140,7 @@ public class clsSingleFillLevel extends JPanel {
 	 *
 	 * @param value
 	 **************************************************************************/
-	public void updateFloat(float value){
+	public void updateFloat(double value){
 		this.initValue(value);
 		this.repaint();
 	}

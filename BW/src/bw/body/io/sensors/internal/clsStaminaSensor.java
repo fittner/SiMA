@@ -129,7 +129,7 @@ public class clsStaminaSensor extends clsSensorInt {
 	/**
 	 * @param mrStaminaValue the mrStaminaValue to set
 	 */
-	public void setStaminaValue(float mrStaminaValue) {
+	public void setStaminaValue(double mrStaminaValue) {
 		this.mrStaminaValue = mrStaminaValue;
 	}
 
@@ -143,7 +143,7 @@ public class clsStaminaSensor extends clsSensorInt {
 	/**
 	 * @param mrRecoveryRate the mrRecoveryRate to set
 	 */
-	public void setRecoveryRate(float mrRecoveryRate) {
+	public void setRecoveryRate(double mrRecoveryRate) {
 		this.mrRecoveryRate = mrRecoveryRate;
 	}
 
@@ -157,7 +157,7 @@ public class clsStaminaSensor extends clsSensorInt {
 	/**
 	 * @param mrLowerBound the mrLowerBound to set
 	 */
-	public void setLowerBound(float mrLowerBound) {
+	public void setLowerBound(double mrLowerBound) {
 		this.mrLowerBound = mrLowerBound;
 	}
 
@@ -171,7 +171,7 @@ public class clsStaminaSensor extends clsSensorInt {
 	/**
 	 * @param mrUpperBound the mrUpperBound to set
 	 */
-	public void setUpperBound(float mrUpperBound) {
+	public void setUpperBound(double mrUpperBound) {
 		this.mrUpperBound = mrUpperBound;
 	}
 

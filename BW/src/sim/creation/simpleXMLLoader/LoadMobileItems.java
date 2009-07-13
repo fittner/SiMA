@@ -71,7 +71,7 @@ public class LoadMobileItems {
 				  NodeList attributelist6 = nodeelement6.getElementsByTagName("Direction");
 				  Element attributeelement6 = (Element) attributelist6.item(0);
 				  NodeList attributechildlist6 = attributeelement6.getChildNodes();
-				  float value6 = new Float(attributechildlist6.item(0).getNodeValue());
+				  double value6 = new Double(attributechildlist6.item(0).getNodeValue());
 				  System.out.println("Direction: " + value6);						  
 				  
 				  clsPose oStartPose = new clsPose(value1, value2, value6);
@@ -137,7 +137,7 @@ public class LoadMobileItems {
 				  NodeList attributelist3 = nodeelement3.getElementsByTagName("Size");
 				  Element attributeelement3 = (Element) attributelist3.item(0);
 				  NodeList attributechildlist3 = attributeelement3.getChildNodes();
-				  float value3 = new Float(attributechildlist3.item(0).getNodeValue());
+				  double value3 = new Double(attributechildlist3.item(0).getNodeValue());
 				  System.out.println("Size: " + value3);
 				  
 			        

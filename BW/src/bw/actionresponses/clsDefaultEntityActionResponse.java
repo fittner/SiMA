@@ -22,7 +22,7 @@ public class clsDefaultEntityActionResponse extends clsEntityActionResponses {
 	 * @see bw.actionresponses.clsEntityActionResponses#actionEatResponse(float)
 	 */
 	@Override
-	public clsFood actionEatResponse(float prWeight) throws exEntityActionResponseNotImplemented {
+	public clsFood actionEatResponse(double prWeight) throws exEntityActionResponseNotImplemented {
 	
 		
 		throw new bw.exceptions.exEntityActionResponseNotImplemented();

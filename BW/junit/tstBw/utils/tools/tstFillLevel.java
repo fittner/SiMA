@@ -30,13 +30,13 @@ public class tstFillLevel {
 		clsFillLevel oFill = new clsFillLevel();
 		assertNotNull(oFill);
 
-		assertEquals(oFill.getMaxContent(), java.lang.Float.MAX_VALUE);
+		assertEquals(oFill.getMaxContent(), java.lang.Double.MAX_VALUE);
 		assertEquals(oFill.getContent(), 0.0f, 0.00001f);
 		assertEquals(oFill.getChange(), 0.0f, 0.00001f);
 	}
 
 	/**
-	 * Test method for {@link bw.utils.tools.clsFillLevel#clsFillLevel(float, float)}.
+	 * Test method for {@link bw.utils.tools.clsFillLevel#clsFillLevel(double, double)}.
 	 */
 	@Test
 	public void testClsFillLevelFloatFloat() {
@@ -60,7 +60,7 @@ public class tstFillLevel {
 	}
 
 	/**
-	 * Test method for {@link bw.utils.tools.clsFillLevel#clsFillLevel(float, float, float)}.
+	 * Test method for {@link bw.utils.tools.clsFillLevel#clsFillLevel(double, double, double)}.
 	 */
 	@Test
 	public void testClsFillLevelFloatFloatFloat() {
@@ -84,7 +84,7 @@ public class tstFillLevel {
 	}
 	
 	/**
-	 * Test method for {@link bw.utils.tools.clsFillLevel#clsFillLevel(float, float, float, float)}.
+	 * Test method for {@link bw.utils.tools.clsFillLevel#clsFillLevel(double, double, double, double)}.
 	 */
 	@Test
 	public void testClsFillLevelFloatFloatFloatFloat() {
@@ -108,7 +108,7 @@ public class tstFillLevel {
 	}
 
 	/**
-	 * Test method for {@link bw.utils.tools.clsFillLevel#setBounds(float, float)}.
+	 * Test method for {@link bw.utils.tools.clsFillLevel#setBounds(double, double)}.
 	 */
 	@Test
 	public void testSetBounds() {
@@ -237,7 +237,7 @@ public class tstFillLevel {
 	}
 
 	/**
-	 * Test method for {@link bw.utils.tools.clsFillLevel#setLowerBound(float)}.
+	 * Test method for {@link bw.utils.tools.clsFillLevel#setLowerBound(double)}.
 	 */
 	@Test
 	public void testSetLowerBound() {
@@ -291,7 +291,7 @@ public class tstFillLevel {
 	}
 
 	/**
-	 * Test method for {@link bw.utils.tools.clsFillLevel#setUpperBound(float)}.
+	 * Test method for {@link bw.utils.tools.clsFillLevel#setUpperBound(double)}.
 	 */
 	@Test
 	public void testSetUpperBound() {

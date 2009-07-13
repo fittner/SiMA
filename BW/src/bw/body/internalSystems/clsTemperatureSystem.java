@@ -70,7 +70,7 @@ public class clsTemperatureSystem implements itfStepUpdateInternalState {
 		return oDefault;
 	}	
 	
-	public void cool(float prCooledBy) {
+	public void cool(double prCooledBy) {
 		try {
 			moTemperature.decrease(prCooledBy);
 		} catch (exContentColumnMaxContentExceeded e) {
@@ -78,7 +78,7 @@ public class clsTemperatureSystem implements itfStepUpdateInternalState {
 		}
 	}
 	
-	public void heat(float prHeatedBy) {
+	public void heat(double prHeatedBy) {
 		try {		
 			moTemperature.increase(prHeatedBy);
 		} catch (exContentColumnMaxContentExceeded e) {
