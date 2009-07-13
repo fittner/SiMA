@@ -124,6 +124,7 @@ public class clsComplexBody extends clsBaseBody implements itfGetInternalEnergyC
 	 * 
 	 * @see bw.body.itfStep#stepSensing()
 	 */
+	@Override
 	public void stepSensing() {
 		super.stepSensing();
 	}
@@ -135,6 +136,7 @@ public class clsComplexBody extends clsBaseBody implements itfGetInternalEnergyC
 	 * 25.02.2009, 16:02:00
 	 *
 	 */
+	@Override
 	public void stepProcessing(){
 		 super.stepProcessing();
 	}
@@ -146,6 +148,7 @@ public class clsComplexBody extends clsBaseBody implements itfGetInternalEnergyC
 	 * 
 	 * @see bw.body.itfStep#stepExecution()
 	 */
+	@Override
 	public void stepExecution() {
 		super.stepExecution();
 	}
@@ -157,7 +160,6 @@ public class clsComplexBody extends clsBaseBody implements itfGetInternalEnergyC
 	 * 
 	 * @see bw.body.itfInternalEnergyConsumption#getInternalEnergyConsumption()
 	 */
-	@Override
 	public clsInternalEnergyConsumption getInternalEnergyConsumption() {
 		return moInternalSystem.getInternalEnergyConsumption();
 	}

@@ -21,6 +21,7 @@ public class exNoSuchNutritionType extends exException {
 		mnNutritionType = pnNutritionType;
 	}
 	
+	@Override
 	public String toString() {
 		return ("NoSuchNutritionType: nutrition of type "+mnNutritionType+" is unkown.\n");
 	}

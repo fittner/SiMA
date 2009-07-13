@@ -53,6 +53,7 @@ public class clsMutableBoolean extends clsCloneable {
       return m_value = pnValue;
     }
 
+    @Override
     public String toString() {
       return Boolean.toString(m_value);
     }

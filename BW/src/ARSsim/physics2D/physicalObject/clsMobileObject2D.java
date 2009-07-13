@@ -171,12 +171,14 @@ public class clsMobileObject2D extends sim.physics2D.physicalObject.MobileObject
      * 
      * @see sim.portrayal.SimplePortrayal2D#hitObject(java.lang.Object, sim.portrayal.DrawInfo2D)
      */
-    public boolean hitObject(Object object, DrawInfo2D range)
+	@Override
+	public boolean hitObject(Object object, DrawInfo2D range)
     {
     	return true;
     }
 
-    public int handleCollision(PhysicalObject2D other, sim.physics2D.util.Double2D colPoint)
+	@Override
+	public int handleCollision(PhysicalObject2D other, sim.physics2D.util.Double2D colPoint)
     {
     	if(!(other instanceof clsEntityPartVision)) {
     		
@@ -226,6 +228,7 @@ public class clsMobileObject2D extends sim.physics2D.physicalObject.MobileObject
      * 
      * @see sim.portrayal.SimplePortrayal2D#getInspector(sim.portrayal.LocationWrapper, sim.display.GUIState)
      */
+    @Override
     public Inspector getInspector(LocationWrapper wrapper, GUIState state){
 		//Override to get constantly updating inspectors = volatile
     	

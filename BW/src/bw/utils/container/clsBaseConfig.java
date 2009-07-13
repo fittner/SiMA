@@ -17,5 +17,6 @@ package bw.utils.container;
  */
 public abstract class clsBaseConfig {
 
+	@Override
 	public abstract String toString();
 }

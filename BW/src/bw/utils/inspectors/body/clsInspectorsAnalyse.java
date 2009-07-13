@@ -10,20 +10,14 @@ package bw.utils.inspectors.body;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
-import java.awt.Dimension;
-import java.awt.Font;
 import java.awt.Graphics;
 import java.util.HashMap;
 
-import javax.swing.BorderFactory;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.JComponent;
-import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JProgressBar;
-import javax.swing.border.EtchedBorder;
-import javax.swing.border.TitledBorder;
 
 import bw.utils.tools.clsNutritionLevel;
 
@@ -76,7 +70,7 @@ public class clsInspectorsAnalyse extends JComponent{
 
 	/*********************************************************************************
 	 * 
-	 * TODO (kilic) - In dieser Methode wird eine Progressbar für Energy erstellt
+	 * TODO (kilic) - In dieser Methode wird eine Progressbar fï¿½r Energy erstellt
 	 *
 	 * @author kilic
 	 * 15.05.2009, 11:09:44
@@ -93,7 +87,7 @@ public class clsInspectorsAnalyse extends JComponent{
 	}
 	/*********************************************************************************
 	 * 
-	 * TODO (kilic) - In dieser Konstruktor wird eine Progressbar für Energy erstellt
+	 * TODO (kilic) - In dieser Konstruktor wird eine Progressbar fï¿½r Energy erstellt
 	 *
 	 * @author kilic
 	 * 15.05.2009, 11:09:44
@@ -112,7 +106,7 @@ public class clsInspectorsAnalyse extends JComponent{
 	/*************************************************************************
 	 * 
 	 * TODO (kilic) - In dieser Methode wird Progressbar erstellt und in den 
-	 * Panel hinzugefügt
+	 * Panel hinzugefï¿½gt
 	 *
 	 * @author kilic
 	 * 25.05.2009, 08:54:31
@@ -132,7 +126,7 @@ public class clsInspectorsAnalyse extends JComponent{
 	}
 	/*******************************************************************
 	 * 
-	 * TODO (kilic) - Für jede Natrution wird ein Panel durch die Klasse 
+	 * TODO (kilic) - Fï¿½r jede Natrution wird ein Panel durch die Klasse 
 	 * clsSingleFillLevel erstellt
 	 *
 	 * @author kilic
@@ -172,12 +166,12 @@ public class clsInspectorsAnalyse extends JComponent{
 	}
 	/******************************************************************************
 	 * 
-	 * TODO (kilic) - Die Methode liefert den Progressbar zurück
+	 * TODO (kilic) - Die Methode liefert den Progressbar zurï¿½ck
 	 *
 	 * @author kilic
 	 * 15.05.2009, 11:17:55
 	 *
-	 * @return JProgressBar für Energie von Inspector
+	 * @return JProgressBar fï¿½r Energie von Inspector
 	 ******************************************************************************/
 	public JProgressBar getProgressOfEnergy(){
 		return this.energy_progress;
@@ -196,16 +190,16 @@ public class clsInspectorsAnalyse extends JComponent{
 	}
 	/********************************************************************************
 	 * 
-	 * TODO (kilic) - Für die Auswertung werden die nötigen Werte und Koordinaten 
-	 * eingegeben. Die Werte sind in Float. Die Kästschen werden nach dem Float
+	 * TODO (kilic) - Fï¿½r die Auswertung werden die nï¿½tigen Werte und Koordinaten 
+	 * eingegeben. Die Werte sind in Float. Die Kï¿½stschen werden nach dem Float
 	 * eingestellt.
 	 *
 	 * @author kilic
 	 * 14.05.2009, 14:05:30
 	 *
 	 * @param g
-	 * @param x ist x-Koordinat für Ausgabe 
-	 * @param y ist y-Koordinat für Ausgabe
+	 * @param x ist x-Koordinat fï¿½r Ausgabe 
+	 * @param y ist y-Koordinat fï¿½r Ausgabe
 	 * @param mino ist Min. Wert
 	 * @param maxo ist Max. Wert
 	 * @param valueo ist aktueller Wert
@@ -250,15 +244,15 @@ public class clsInspectorsAnalyse extends JComponent{
 	  }
 	/********************************************************************************
 	 * 
-	 * TODO (kilic) - Für die Auswertung werden die nötigen Werte und Koordinaten 
+	 * TODO (kilic) - Fï¿½r die Auswertung werden die nï¿½tigen Werte und Koordinaten 
 	 * eingegeben. Die Werte  werden direkt als Integer eingegeben
 	 *
 	 * @author kilic
 	 * 14.05.2009, 14:05:30
 	 *
 	 * @param g
-	 * @param x ist x-Koordinat für Ausgabe 
-	 * @param y ist y-Koordinat für Ausgabe
+	 * @param x ist x-Koordinat fï¿½r Ausgabe 
+	 * @param y ist y-Koordinat fï¿½r Ausgabe
 	 * @param min ist Min. Wert
 	 * @param max ist Max. Wert
 	 * @param value ist aktueller Wert
@@ -298,15 +292,15 @@ public class clsInspectorsAnalyse extends JComponent{
 	/**************************************************************************
 	 * 
 	 * TODO (kilic) - Die Analyse der ganzen Nutritionsliste wird gezeigt
-	 * für die Werte wird Float angenommen
+	 * fï¿½r die Werte wird Float angenommen
 	 *
 	 * @author kilic
 	 * 15.05.2009, 11:34:07
 	 *
 	 * @param g
 	 * @param listOfNutrution
-	 * @param x ist x-Achse für Ausgabeort der Ergebnise von Analysen
-	 * @param y ist y-Achse für Ausgabeort der Ergebnise von Analysen 
+	 * @param x ist x-Achse fï¿½r Ausgabeort der Ergebnise von Analysen
+	 * @param y ist y-Achse fï¿½r Ausgabeort der Ergebnise von Analysen 
 	 **************************************************************************/
 	public void paintAnalysisOfSeveralNutrition (Graphics g, HashMap<Integer, clsNutritionLevel> listOfNutrution, int x, int y) {
 		for(int i=0;i<listOfNutrution.size();i++){
@@ -320,15 +314,15 @@ public class clsInspectorsAnalyse extends JComponent{
 	/**************************************************************************
 	 * 
 	 * TODO (kilic) - Die Analyse der ganzen Nutritionsliste wird gezeigt
-	 * für die Werte wird Integer angenommen
+	 * fï¿½r die Werte wird Integer angenommen
 	 *
 	 * @author kilic
 	 * 15.05.2009, 11:34:07
 	 *
 	 * @param g
 	 * @param listOfNutrution
-	 * @param x ist x-Achse für Ausgabeort der Ergebnise von Analysen
-	 * @param y ist y-Achse für Ausgabeort der Ergebnise von Analysen
+	 * @param x ist x-Achse fï¿½r Ausgabeort der Ergebnise von Analysen
+	 * @param y ist y-Achse fï¿½r Ausgabeort der Ergebnise von Analysen
 	 **************************************************************************/
 	public void paintAnalysisOfSeveralNutritionReal (Graphics g, HashMap<Integer, clsNutritionLevel> listOfNutrution, int x, int y) {
 		for(int i=0;i<listOfNutrution.size();i++){
@@ -342,15 +336,15 @@ public class clsInspectorsAnalyse extends JComponent{
 	/**************************************************************************
 	 * 
 	 * TODO (kilic)  Die Analyse aller Nutrition wird auf eigenen Panel gezeigt
-	 * für die Werte wird Float angenommen
+	 * fï¿½r die Werte wird Float angenommen
 	 *
 	 * @author kilic
 	 * 15.05.2009, 11:34:07
 	 *
 	 * @param g
 	 * @param listOfNutrution
-	 * @param x ist x-Achse für Ausgabeort der Ergebnise von Analysen
-	 * @param y ist y-Achse für Ausgabeort der Ergebnise von Analysen 
+	 * @param x ist x-Achse fï¿½r Ausgabeort der Ergebnise von Analysen
+	 * @param y ist y-Achse fï¿½r Ausgabeort der Ergebnise von Analysen 
 	 **************************************************************************/
 	public void paintPanelOfAnalysisOfSeveralNutrition (Graphics g, HashMap<Integer, clsNutritionLevel> listOfNutrution, int x, int y) {
 		//public void paintPanelOfAnalysisOfSeveralNutrition (HashMap<Integer, clsNutritionLevel> listOfNutrution, int x, int y) {
@@ -365,15 +359,15 @@ public class clsInspectorsAnalyse extends JComponent{
 	/**************************************************************************
 	 * 
 	 * TODO (kilic) -Die Analyse aller Nutrition wird auf eigenen Panel gezeigt
-	 * für die Werte wird Integer angenommen
+	 * fï¿½r die Werte wird Integer angenommen
 	 *
 	 * @author kilic
 	 * 15.05.2009, 11:34:07
 	 *
 	 * @param g
 	 * @param listOfNutrution
-	 * @param x ist x-Achse für Ausgabeort der Ergebnise von Analysen
-	 * @param y ist y-Achse für Ausgabeort der Ergebnise von Analysen
+	 * @param x ist x-Achse fï¿½r Ausgabeort der Ergebnise von Analysen
+	 * @param y ist y-Achse fï¿½r Ausgabeort der Ergebnise von Analysen
 	 **************************************************************************/
 	public void paintPanelOfAnalysisOfSeveralNutritionReal (HashMap<Integer, clsNutritionLevel> listOfNutrution, int x, int y) {
 		for(int i=0;i<listOfNutrution.size();i++){

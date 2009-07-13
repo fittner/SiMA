@@ -28,7 +28,7 @@ package bw.utils.datatypes;
  * 
  * Das ist in Wirklichkeit eine Abbildung! Gesettet wird mrValue (original),  
  * gegettet wird mrInternalValue (abgebildet). Die Abbildungsfunktion ist 
- * im Bereich [-1/2,+1/2] linear, außerhalb irgendeine das Wachstum begrenzende
+ * im Bereich [-1/2,+1/2] linear, auï¿½erhalb irgendeine das Wachstum begrenzende
  * Exponentialfunktion.
  *
  * $Revision$:  Revision of last commit
@@ -56,6 +56,7 @@ public class clsValueExponential extends clsValueFuzzy {
     mrValue = poValue.mrValue;
   }
  
+  @Override
   public float getValue() {
     return mrInternalValue;
   }
@@ -69,6 +70,7 @@ public class clsValueExponential extends clsValueFuzzy {
     return mrInternalValue;
   }
 
+  @Override
   public float setValue(float prValue) {
     mrValue = prValue;
 

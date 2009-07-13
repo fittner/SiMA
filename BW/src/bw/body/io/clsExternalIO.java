@@ -11,7 +11,6 @@ import java.util.HashMap;
 import java.util.Iterator;
 
 import bw.body.clsBaseBody;
-import bw.body.clsComplexBody;
 import bw.body.io.actuators.clsActionProcessor;
 import bw.body.io.actuators.actionExecutors.*;
 import decisionunit.itf.actions.*; 
@@ -21,8 +20,6 @@ import bw.body.io.sensors.external.clsSensorEatableArea;
 import bw.body.io.sensors.external.clsSensorExt;
 import bw.body.io.sensors.external.clsSensorPositionChange;
 import bw.body.io.sensors.external.clsSensorVision;
-import bw.body.itfget.itfGetBody;
-import bw.entities.clsAnimate;
 import bw.entities.clsEntity;
 import bw.entities.clsMobile;
 import bw.utils.container.clsBaseConfig;

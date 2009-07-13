@@ -1,5 +1,5 @@
 /**
- * @author Benny Dönz
+ * @author Benny Dï¿½nz
  * 16.04.2009, 10:07:52
  * 
  * $Rev::                      $: Revision of last commit
@@ -23,7 +23,7 @@ import bw.utils.enums.eExecutionResult;
 /**
  * Test-Cases for action processor
  * 
- * @author Benny Dönz
+ * @author Benny Dï¿½nz
  * 16.04.2009, 10:07:52
  * 
  */
@@ -221,10 +221,13 @@ public class tstActionProcessor {
 	 */
 	private class tstTestExecutor extends clsActionExecutor {
 
+		@Override
 		protected void setBodyPart() {
 		}
+		@Override
 		protected void setBodyPartId() {
 		}
+		@Override
 		protected void setName() {
 			moName= "Test Executor";
 		}
@@ -235,6 +238,7 @@ public class tstActionProcessor {
 			return true;
 		}
 
+		@Override
 		public ArrayList<Class> getMutualExclusions(itfActionCommand poCommand) {
 			return ((tstTestCommand) poCommand).getMutualExclusions(); 
 		}

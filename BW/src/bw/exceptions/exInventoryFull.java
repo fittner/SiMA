@@ -1,5 +1,5 @@
 /**
- * @author Benny Dönz
+ * @author Benny Dï¿½nz
  * 03.07.2009, 20:07:51
  * 
  * $Rev::                      $: Revision of last commit
@@ -9,14 +9,15 @@
 package bw.exceptions;
 
 /**
- * TODO (Benny Dönz) - insert description 
+ * TODO (Benny Dï¿½nz) - insert description 
  * 
- * @author Benny Dönz
+ * @author Benny Dï¿½nz
  * 03.07.2009, 20:07:51
  * 
  */
 public class exInventoryFull extends exException {
 
+	@Override
 	public String toString() {
 		return ("Inventory full - cannot add another item");
 	}

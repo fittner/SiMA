@@ -38,6 +38,7 @@ public class clsPlant extends clsAnimate {
 
     }
     
+    @Override
 	public clsBaseBody createBody() {
 		return  new clsMeatBody(this, (clsConfigMap)moConfig.get(eConfigEntries.BODY));
 	}

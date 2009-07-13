@@ -59,6 +59,7 @@ public class clsSimpleXMLLoader extends clsLoader {
 		clsSimpleXMLLoader.load(null, sim.clsBWMain.msArsPath + "/src/xml/xmlSimpleXMLLoader/config1.xml");
 	}
 	
+	@Override
 	public void loadObjects() {
 		clsSimpleXMLLoader.load(this, moXMLfileName);
 	}

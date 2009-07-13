@@ -10,7 +10,6 @@ package bw.body.io;
 import java.util.HashMap;
 import java.util.Iterator;
 
-import enums.eSensorExtType;
 import enums.eSensorIntType;
 
 import bw.body.clsBaseBody;
@@ -19,8 +18,6 @@ import bw.body.io.sensors.internal.clsHealthSensor;
 import bw.body.io.sensors.internal.clsSensorInt;
 import bw.body.io.sensors.internal.clsStaminaSensor;
 import bw.body.io.sensors.internal.clsStomachSensor;
-import bw.body.itfget.itfGetBody;
-import bw.entities.clsEntity;
 import bw.utils.container.clsBaseConfig;
 import bw.utils.container.clsConfigBoolean;
 import bw.utils.container.clsConfigEnum;

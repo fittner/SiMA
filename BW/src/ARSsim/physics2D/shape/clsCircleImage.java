@@ -3,9 +3,7 @@ package ARSsim.physics2D.shape;
 import sim.physics2D.shape.Circle;
 import sim.portrayal.*;
 import java.awt.*;
-import java.awt.geom.AffineTransform;
 import java.awt.image.BufferedImage;
-import java.awt.image.BufferedImageOp;
 import java.io.File;
 import java.io.IOException;
 import javax.imageio.ImageIO;
@@ -110,6 +108,7 @@ public class clsCircleImage extends Circle
         
     
     /** Display the circle + image */
+	@Override
     public void draw(Object object, Graphics2D graphics, DrawInfo2D info)
         {
         final double fWidthArc = info.draw.width * mrRadius * 2;

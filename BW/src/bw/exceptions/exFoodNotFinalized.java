@@ -15,7 +15,7 @@ package bw.exceptions;
  */
 public class exFoodNotFinalized extends exException {
 
-
+	@Override
 	public String toString() {
 		return ("FoodNotFinalized: food object has not been finalized after setup.\n");
 	}

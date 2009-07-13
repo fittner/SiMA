@@ -30,6 +30,7 @@ package bw.utils.datatypes;
  *
  */
 public class clsCloneable implements Cloneable {
+  @Override
   public Object clone() {
     try {
       return super.clone();

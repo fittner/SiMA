@@ -67,6 +67,7 @@ public class clsRemoteBot extends clsAnimate implements itfGetVision, itfGetEata
 		setDecisionUnit(new clsRemoteControl());		
 	}
 	
+	@Override
 	public clsBaseBody createBody() {
 		return  new clsComplexBody(this, (clsConfigMap)moConfig.get(eConfigEntries.BODY));
 	}	
@@ -131,6 +132,7 @@ public class clsRemoteBot extends clsAnimate implements itfGetVision, itfGetEata
 		return moBotHand2;
 	}
 	
+	@Override
 	public clsEntityPartVision getVision()
 	{
 		return ((clsSensorVision)moBody

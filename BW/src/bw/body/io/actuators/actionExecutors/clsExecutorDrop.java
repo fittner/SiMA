@@ -1,5 +1,5 @@
 /**
- * @author Benny Dönz
+ * @author Benny Dï¿½nz
  * 05.07.2009, 12:07:04
  * 
  * $Rev::                      $: Revision of last commit
@@ -9,27 +9,16 @@
 package bw.body.io.actuators.actionExecutors;
 
 import java.util.ArrayList;
-import java.util.HashMap;
-
-import sim.physics2D.constraint.PinJoint;
-import statictools.clsSingletonUniqueIdGenerator;
-
-import bw.body.clsComplexBody;
 import bw.body.io.actuators.clsActionExecutor;
 import bw.body.io.actuators.actionProxies.*;
-import bw.body.io.sensors.external.clsSensorVision;
-import bw.body.itfget.itfGetBody;
 import decisionunit.itf.actions.*;
-import enums.eSensorExtType;
-import bw.entities.clsEntity;
 import bw.entities.clsMobile;
-import bw.factories.clsSingletonMasonGetter;
 import bw.utils.enums.eBindingState;
 
 /**
  * Action Executor for dropping objects
  * 
- * @author Benny Dönz
+ * @author Benny Dï¿½nz
  * 05.07.2009, 12:07:04
  * 
  */
@@ -50,12 +39,15 @@ public class clsExecutorDrop  extends clsActionExecutor{
 	/*
 	 * Set values for SensorActuator base-class
 	 */
+	@Override
 	protected void setBodyPart() {
 		moBodyPart = new bw.utils.enums.partclass.clsPartActionExDrop();
 	}
+	@Override
 	protected void setBodyPartId() {
 		mePartId = bw.utils.enums.eBodyParts.ACTIONEX_DROP;
 	}
+	@Override
 	protected void setName() {
 		moName="Drop executor";	
 	}
@@ -63,6 +55,7 @@ public class clsExecutorDrop  extends clsActionExecutor{
 	/*
 	 * Mutual exclusions (are bi-directional, so only need to be added in order of creation 
 	 */
+	@Override
 	public ArrayList<Class> getMutualExclusions(itfActionCommand poCommand) {
 		return moMutEx; 
 	}
@@ -70,9 +63,11 @@ public class clsExecutorDrop  extends clsActionExecutor{
 	/*
 	 * Energy and stamina demand 
 	 */
+	@Override
 	public double getEnergyDemand(itfActionCommand poCommand) {
 		return getStaminaDemand(poCommand)*srEnergyRelation;
 	}
+	@Override
 	public double getStaminaDemand(itfActionCommand poCommand) {
 		return 0;
 	}
@@ -80,6 +75,7 @@ public class clsExecutorDrop  extends clsActionExecutor{
 	/*
 	 * Executor 
 	 */
+	@Override
 	public boolean execute(itfActionCommand poCommand) {
 		if (!(moEntity instanceof clsMobile)) return false;
 		clsMobile oMEntity = (clsMobile) moEntity;

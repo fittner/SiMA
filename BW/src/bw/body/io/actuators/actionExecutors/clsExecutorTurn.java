@@ -1,5 +1,5 @@
 /**
- * @author Benny Dönz
+ * @author Benny Dï¿½nz
  * 13.05.2009, 21:45:05
  * 
  * $Rev::                      $: Revision of last commit
@@ -21,7 +21,7 @@ import enums.eActionTurnDirection;
  * Parameters:
  *    none 
  *
- * @author Benny Dönz
+ * @author Benny Dï¿½nz
  * 13.05.2009, 21:45:05
  * 
  */
@@ -40,12 +40,15 @@ public class clsExecutorTurn extends clsActionExecutor{
 	/*
 	 * Set values for SensorActuator base-class
 	 */
+	@Override
 	protected void setBodyPart() {
 		moBodyPart = new bw.utils.enums.partclass.clsPartActionExTurn();
 	}
+	@Override
 	protected void setBodyPartId() {
 		mePartId = bw.utils.enums.eBodyParts.ACTIONEX_TURN;
 	}
+	@Override
 	protected void setName() {
 		moName="Turn executor";
 	}
@@ -53,6 +56,7 @@ public class clsExecutorTurn extends clsActionExecutor{
 	/*
 	 * Mutual exclusions (are bi-directional, so only need to be added in order of creation 
 	 */
+	@Override
 	public ArrayList<Class> getMutualExclusions(itfActionCommand poCommand) {
 		return moMutEx;
 	}
@@ -60,14 +64,17 @@ public class clsExecutorTurn extends clsActionExecutor{
 	/*
 	 * Energy and stamina demand 
 	 */
+	@Override
 	public double getEnergyDemand(itfActionCommand poCommand) {
 		return getStaminaDemand(poCommand)*srEnergyRelation;
 	}
+	@Override
 	public double getStaminaDemand(itfActionCommand poCommand) {
 		clsActionTurn oCommand =(clsActionTurn) poCommand;
 		return srStaminaScalingFactor* Math.pow(srStaminaBase,Math.abs( oCommand.getAngle())) ;
 	}
 
+	@Override
 	public boolean execute(itfActionCommand poCommand) {
 		clsActionTurn oCommand = (clsActionTurn) poCommand;
     	if (oCommand.getDirection()==eActionTurnDirection.TURN_LEFT) ((clsMobile)moEntity).getMobileObject2D().moMotionPlatform.faceTowardsRelative(new Angle(oCommand.getAngle()/360*Math.PI*(-1.0)));

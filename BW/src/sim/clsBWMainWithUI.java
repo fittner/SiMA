@@ -141,6 +141,7 @@ public class clsBWMainWithUI extends GUIState{
         }
       };
 	
+    @Override
 	public void init(Controller poController){
 		
 		super.init(poController);
@@ -167,6 +168,7 @@ public class clsBWMainWithUI extends GUIState{
 		}
 	}
 	
+    @Override
 	public void quit(){
 		super.quit();
 		//remove game grid
@@ -182,11 +184,13 @@ public class clsBWMainWithUI extends GUIState{
 		moDisplay = null;
 	}
 	
+    @Override
 	public void start(){
 		super.start();
 		setupPortrayals();
 	}
 	
+    @Override
 	public void load(SimState poState){
 		super.load(poState);
 		setupPortrayals();
@@ -207,10 +211,12 @@ public class clsBWMainWithUI extends GUIState{
 		moDisplay.repaint();
 	}
 	
+	@Override
 	public Object getSimulationInspectedObject(){ 
 		return state; 
 	}
 	
+	@Override
 	public Inspector getInspector(){
 		//Override to get constantly updating inspectors = volatile
 	    Inspector oInspector = super.getInspector();

@@ -228,6 +228,7 @@ public class clsFood {
 		}
 	}
 	
+	@Override
 	public void finalize() throws bw.exceptions.exFoodAlreadyNormalized {
 		normalizeFractions();
 		mnFinalized = true;

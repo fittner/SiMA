@@ -63,6 +63,7 @@ public class clsMutableFloat  extends clsCloneable {
     public void mult(float prValue) {m_value *= prValue;}
     public void set(float prValue) {m_value = prValue;}
 
+    @Override
     public String toString() {
       return Float.toString(m_value);
     }

@@ -50,6 +50,7 @@ public class clsObject {
 		
 	}
 	
+	@Override
 	public boolean equals(Object tmpObject){
 		if (this.ID==((clsObject)tmpObject).getid()){
 			return true;

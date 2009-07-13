@@ -40,6 +40,7 @@ public abstract class MobileAgent2D extends MobileObject2D
      * based on the coefficients of friction.
      * Overwrites inherited method. 
      */
+	@Override
 	public void addFrictionForce()
 	{
 		Double2D velocity = this.getVelocity(); 

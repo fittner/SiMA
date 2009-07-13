@@ -67,11 +67,13 @@ public abstract class clsAnimate extends clsMobile implements itfGetBody {
 		moBody.getBrain().setDecisionUnit(poDecisionUnit);
 	}
 	
+	@Override
 	public void sensing() {
 		moBody.stepSensing();
 		
 	}
 	
+	@Override
 	public void execution() {
 		moBody.stepExecution();
 	}
@@ -97,7 +99,6 @@ public abstract class clsAnimate extends clsMobile implements itfGetBody {
 	 * 
 	 * @see bw.body.itfGetBody#getBody()
 	 */
-	@Override
 	public clsBaseBody getBody() {
 		// TODO Auto-generated method stub
 		return moBody;

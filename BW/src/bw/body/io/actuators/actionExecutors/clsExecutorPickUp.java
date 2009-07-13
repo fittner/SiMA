@@ -1,5 +1,5 @@
 /**
- * @author Benny Dönz
+ * @author Benny Dï¿½nz
  * 05.07.2009, 12:06:53
  * 
  * $Rev::                      $: Revision of last commit
@@ -11,18 +11,12 @@ package bw.body.io.actuators.actionExecutors;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-import statictools.clsSingletonUniqueIdGenerator;
-import sim.physics2D.constraint.PinJoint;
-
-import ARSsim.physics2D.physicalObject.clsMobileObject2D;
 import bw.body.clsComplexBody;
 import bw.body.io.actuators.clsActionExecutor;
 import bw.body.io.actuators.actionProxies.*;
 import decisionunit.itf.actions.*;
 import bw.body.io.sensors.external.clsSensorVision;
-import bw.entities.clsEntity;
 import bw.entities.clsMobile;
-import bw.factories.clsSingletonMasonGetter;
 import bw.utils.enums.eBindingState;
 import enums.eSensorExtType;
 import bw.body.itfget.itfGetBody;
@@ -34,7 +28,7 @@ import bw.body.itfget.itfGetBody;
  *   poRangeSensor = Visionsensor to use
  *   prMassScalingFactor = Amount of Stamina needed per Unit of mass to pick something up 
  * 
- * @author Benny Dönz
+ * @author Benny Dï¿½nz
  * 05.07.2009, 12:06:53
  * 
  */
@@ -59,12 +53,15 @@ public class clsExecutorPickUp  extends clsActionExecutor {
 	/*
 	 * Set values for SensorActuator base-class
 	 */
+	@Override
 	protected void setBodyPart() {
 		moBodyPart = new bw.utils.enums.partclass.clsPartActionExPickUp();
 	}
+	@Override
 	protected void setBodyPartId() {
 		mePartId = bw.utils.enums.eBodyParts.ACTIONEX_PICKUP;
 	}
+	@Override
 	protected void setName() {
 		moName="Pick-up executor";	
 	}
@@ -72,6 +69,7 @@ public class clsExecutorPickUp  extends clsActionExecutor {
 	/*
 	 * Mutual exclusions (are bi-directional, so only need to be added in order of creation 
 	 */
+	@Override
 	public ArrayList<Class> getMutualExclusions(itfActionCommand poCommand) {
 		return moMutEx; 
 	}
@@ -79,9 +77,11 @@ public class clsExecutorPickUp  extends clsActionExecutor {
 	/*
 	 * Energy and stamina demand 
 	 */
+	@Override
 	public double getEnergyDemand(itfActionCommand poCommand) {
 		return getStaminaDemand(poCommand)*srEnergyRelation;
 	}
+	@Override
 	public double getStaminaDemand(itfActionCommand poCommand) {
 
 		//Is something in range
@@ -100,6 +100,7 @@ public class clsExecutorPickUp  extends clsActionExecutor {
 	/*
 	 * Executor 
 	 */
+	@Override
 	public boolean execute(itfActionCommand poCommand) {
 		if (!(moEntity instanceof clsMobile)) return false;
 		clsMobile oMEntity = (clsMobile) moEntity;

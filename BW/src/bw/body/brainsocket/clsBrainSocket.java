@@ -8,7 +8,6 @@
 package bw.body.brainsocket;
 
 import java.awt.Color;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 
@@ -31,7 +30,6 @@ import enums.eSensorIntType;
 import enums.eSensorExtType;
 import ARSsim.physics2D.physicalObject.clsMobileObject2D;
 import ARSsim.physics2D.physicalObject.clsStationaryObject2D;
-import ARSsim.physics2D.util.clsPose;
 import bfg.tools.shapes.clsPolarcoordinate;
 import bw.body.itfStepProcessing;
 import bw.body.io.sensors.external.clsSensorBump;

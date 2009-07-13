@@ -194,7 +194,6 @@ public class clsFungus extends clsInanimate implements itfGetFlesh, itfAPEatable
 	 * 
 	 * @see bw.body.itfget.itfGetFlesh#getFlesh()
 	 */
-	@Override
 	public clsFlesh getFlesh() {
 		return this.moBody.getFlesh();
 	}

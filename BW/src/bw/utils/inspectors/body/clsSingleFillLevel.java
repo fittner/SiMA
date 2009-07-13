@@ -14,12 +14,11 @@ import java.awt.Font;
 import java.awt.Graphics;
 
 import javax.swing.BorderFactory;
-import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.border.TitledBorder;
 
 /**
- * TODO (kilic) - Diese Klasse beschreibt den einzelnen Füllstand der Nutrition
+ * TODO (kilic) - Diese Klasse beschreibt den einzelnen Fï¿½llstand der Nutrition
  * 
  * @author kilic 26.05.2009, 12:36:41
  * 
@@ -51,7 +50,7 @@ public class clsSingleFillLevel extends JPanel {
 
 	}
 	/**
-	 * diese Konstruktor empfängt die max. und min. und die aktuelle Werte im
+	 * diese Konstruktor empfï¿½ngt die max. und min. und die aktuelle Werte im
 	 * Format von Float
 	 */
 	public clsSingleFillLevel(int id, float min, float max, float minContent, float maxContent, float value, int x, int y) {
@@ -67,7 +66,7 @@ public class clsSingleFillLevel extends JPanel {
 	
 
 	/**
-	 * diese Konstruktor empfängt die max. und min. und die aktuelle Werte im
+	 * diese Konstruktor empfï¿½ngt die max. und min. und die aktuelle Werte im
 	 * Format von Integer
 	 */
 	public clsSingleFillLevel(int id, int min, int max, int value, int x, int y) {
@@ -97,7 +96,7 @@ public class clsSingleFillLevel extends JPanel {
 	}
 	/**************************************************************************
 	 * 
-	 * TODO (kilic) - Die Werte min, max und Value werden für die Aufzeichnung
+	 * TODO (kilic) - Die Werte min, max und Value werden fï¿½r die Aufzeichnung
 	 * initalisiert
 	 *
 	 * @author kilic
@@ -117,7 +116,7 @@ public class clsSingleFillLevel extends JPanel {
 	}
 	/*************************************************************************
 	 * 
-	 * TODO (kilic) - Der Value wird für die Aufzeichnung initalisiert
+	 * TODO (kilic) - Der Value wird fï¿½r die Aufzeichnung initalisiert
 	 *
 	 * @author kilic
 	 * 26.05.2009, 13:46:20
@@ -156,6 +155,7 @@ public class clsSingleFillLevel extends JPanel {
 		this.repaint();
 	}
 
+	@Override
 	public void paint(Graphics g) {
 		// HIER ZEICHNEST DU
 		this.paintAnalysisOfANutrition(g);
@@ -163,8 +163,8 @@ public class clsSingleFillLevel extends JPanel {
 
 	/********************************************************************************
 	 * 
-	 * TODO (kilic) - Für die Auswertung werden die nötigen Werte und
-	 * Koordinaten eingegeben. Die Werte sind in Float. Die Kästschen werden
+	 * TODO (kilic) - Fï¿½r die Auswertung werden die nï¿½tigen Werte und
+	 * Koordinaten eingegeben. Die Werte sind in Float. Die Kï¿½stschen werden
 	 * nach dem Float eingestellt.
 	 * 
 	 * @author kilic 14.05.2009, 14:05:30
@@ -263,7 +263,7 @@ public class clsSingleFillLevel extends JPanel {
 
 	/********************************************************************************
 	 * 
-	 * TODO (kilic) - Für die Auswertung werden die nötigen Werte und
+	 * TODO (kilic) - Fï¿½r die Auswertung werden die nï¿½tigen Werte und
 	 * Koordinaten eingegeben. Die Werte werden direkt als Integer eingegeben
 	 * 
 	 * @author kilic 14.05.2009, 14:05:30

@@ -7,8 +7,6 @@
  */
 package sim.creation.simpleLoader;
 
-import org.w3c.dom.NodeList;
-
 import sim.creation.clsLoader;
 
 import ARSsim.physics2D.util.clsPose;
@@ -19,7 +17,6 @@ import bw.entities.clsFungus;
 import bw.entities.clsUraniumOre;
 import bw.entities.clsBase;
 import bw.factories.clsRegisterEntity;
-import bw.factories.clsSingletonMasonGetter;
 import bw.utils.container.clsConfigMap;
 
 
@@ -53,7 +50,7 @@ public class clsEntityLoader {
         {
 			clsPose oStartPose = clsLoader.generateRandomPose();
 			
-			//FIXME warum ist der Radius random? wenn ein Bild drüber ist, dann muss der Radius dem Bild entsprechen!
+			//FIXME warum ist der Radius random? wenn ein Bild drï¿½ber ist, dann muss der Radius dem Bild entsprechen!
 			//double rRadius = clsSingletonMasonGetter.getSimState().random.nextDouble() * 30.0 + 10.0;
 			double rRadius =  15.0 ;
 	        

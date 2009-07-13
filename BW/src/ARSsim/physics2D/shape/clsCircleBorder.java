@@ -21,6 +21,7 @@ public class clsCircleBorder extends Circle
         
     
     /** Display the circle */
+	@Override
     public void draw(Object object, Graphics2D graphics, DrawInfo2D info)
         {
         final double width = info.draw.width * radius * 2;

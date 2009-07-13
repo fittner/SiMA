@@ -62,6 +62,7 @@ public class clsAnimal extends clsAnimate implements itfGetVision, itfGetEatable
 		setAlive(true);
 	}
 
+	@Override
 	public clsBaseBody createBody() {
 		return  new clsComplexBody(this, (clsConfigMap)moConfig.get(eConfigEntries.BODY) );
 	}

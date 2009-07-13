@@ -15,6 +15,7 @@ package bw.exceptions;
  */
 public class exFoodAlreadyNormalized extends exException {
 
+	@Override
 	public String toString() {
 		return ("FoodAlreadyNormalized\n");
 	}

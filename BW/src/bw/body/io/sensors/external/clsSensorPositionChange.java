@@ -85,7 +85,6 @@ public class clsSensorPositionChange extends clsSensorExt {
 	 * 
 	 * @see bw.body.io.sensors.itfSensorUpdate#updateSensorData()
 	 */
-	@Override
 	public void updateSensorData() {
 		clsPose oCurrentPose = new clsPose(moEntity.getPose());
 		moDiv = new clsPose(oCurrentPose);

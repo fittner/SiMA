@@ -87,6 +87,7 @@ public class clsPose {
 		return moAngle;
 	}
 	
+	@Override
 	public String toString() {
 	    NumberFormat nf = java.text.NumberFormat.getInstance( );
 	    nf.setMinimumFractionDigits( 1 );

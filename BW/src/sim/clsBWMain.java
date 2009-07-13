@@ -7,16 +7,12 @@
  */
 package sim;
 
-import lifeCycle.eLifeCycleDUs;
-
 import org.jfree.data.xy.XYSeries;
 
 import ec.util.MersenneTwisterFast;
 
 import sim.creation.clsLoader;
-import sim.creation.lifeCycle.clsLifeCycleLoader;
 import sim.creation.simpleLoader.clsSimpleLoader;
-import sim.creation.simpleXMLLoader.clsSimpleXMLLoader;
 import sim.engine.Schedule;
 import sim.engine.SimState;
 import statictools.clsGetARSPath;
@@ -73,6 +69,7 @@ public class clsBWMain extends SimState{
 	/**
 	 * start is the method called when the simulation starts but before any agents have been pulsed.
 	 */
+	@Override
 	public void start()
 	{
 		super.start();

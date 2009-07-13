@@ -63,6 +63,7 @@ public class clsMutableDouble extends clsCloneable {
 	    public void mult(double prValue) {m_value *= prValue;}
 	    public void set(double prValue) {m_value = prValue;}
 
+	    @Override
 	    public String toString() {
 	      return Double.toString(m_value);
 	    }

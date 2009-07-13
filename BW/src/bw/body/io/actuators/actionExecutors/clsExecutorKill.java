@@ -1,5 +1,5 @@
 /**
- * @author Benny Dönz
+ * @author Benny Dï¿½nz
  * 21.06.2009, 13:13:07
  * 
  * $Rev::                      $: Revision of last commit
@@ -15,7 +15,6 @@ import bw.body.internalSystems.clsFastMessengerSystem;
 import bw.body.io.actuators.clsActionExecutor;
 import bw.body.io.sensors.external.clsSensorVision;
 import bw.entities.clsEntity;
-import bw.utils.datatypes.clsMutableFloat;
 import bw.utils.enums.partclass.clsPartBrain;
 import bw.body.io.actuators.actionProxies.*;
 import bw.body.itfget.itfGetBody;
@@ -29,7 +28,7 @@ import enums.eSensorExtType;
  *   poRangeSensor = Visionsensor to use
  * 	 prForceScalingFactor = Scales the force applied to the force felt by the entity to be killed (default = 1)
  * 
- * @author Benny Dönz
+ * @author Benny Dï¿½nz
  * 15.04.2009, 16:31:13
  * 
  */
@@ -56,12 +55,15 @@ public class clsExecutorKill extends clsActionExecutor{
 	/*
 	 * Set values for SensorActuator base-class
 	 */
+	@Override
 	protected void setBodyPart() {
 		moBodyPart = new bw.utils.enums.partclass.clsPartActionExKill();
 	}
+	@Override
 	protected void setBodyPartId() {
 		mePartId = bw.utils.enums.eBodyParts.ACTIONEX_KILL;
 	}
+	@Override
 	protected void setName() {
 		moName="Kill executor";	
 	}
@@ -69,6 +71,7 @@ public class clsExecutorKill extends clsActionExecutor{
 	/*
 	 * Mutual exclusions (are bi-directional, so only need to be added in order of creation 
 	 */
+	@Override
 	public ArrayList<Class> getMutualExclusions(itfActionCommand poCommand) {
 		return moMutEx; 
 	}
@@ -76,9 +79,11 @@ public class clsExecutorKill extends clsActionExecutor{
 	/*
 	 * Energy and stamina demand 
 	 */
+	@Override
 	public double getEnergyDemand(itfActionCommand poCommand) {
 		return getStaminaDemand(poCommand)*srEnergyRelation;
 	}
+	@Override
 	public double getStaminaDemand(itfActionCommand poCommand) {
 		clsActionKill oCommand =(clsActionKill) poCommand;
 		return srStaminaScalingFactor* Math.pow(srStaminaBase,oCommand.getForce()) ;
@@ -87,6 +92,7 @@ public class clsExecutorKill extends clsActionExecutor{
 	/*
 	 * Executor 
 	 */
+	@Override
 	public boolean execute(itfActionCommand poCommand) {
 		clsActionKill oCommand =(clsActionKill) poCommand; 
 		clsComplexBody oBody = (clsComplexBody) ((itfGetBody)moEntity).getBody();

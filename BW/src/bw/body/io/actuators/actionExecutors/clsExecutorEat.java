@@ -1,5 +1,5 @@
 /**
- * @author Benny Dönz
+ * @author Benny Dï¿½nz
  * 13.05.2009, 21:44:44
  * 
  * $Rev::                      $: Revision of last commit
@@ -30,7 +30,7 @@ import enums.eSensorExtType;
  *   poRangeSensor = Visionsensor to use
  * 	 prBiteSize = Size of bite taken when eating (default = weight 1)
  * 
- * @author Benny Dönz
+ * @author Benny Dï¿½nz
  * 15.04.2009, 16:31:13
  * 
  */
@@ -55,12 +55,15 @@ public class clsExecutorEat extends clsActionExecutor{
 	/*
 	 * Set values for SensorActuator base-class
 	 */
+	@Override
 	protected void setBodyPart() {
 		moBodyPart = new bw.utils.enums.partclass.clsPartActionExEat();
 	}
+	@Override
 	protected void setBodyPartId() {
 		mePartId = bw.utils.enums.eBodyParts.ACTIONEX_EAT;
 	}
+	@Override
 	protected void setName() {
 		moName="Eat executor";	
 	}
@@ -68,6 +71,7 @@ public class clsExecutorEat extends clsActionExecutor{
 	/*
 	 * Mutual exclusions (are bi-directional, so only need to be added in order of creation 
 	 */
+	@Override
 	public ArrayList<Class> getMutualExclusions(itfActionCommand poCommand) {
 		return moMutEx; 
 	}
@@ -75,9 +79,11 @@ public class clsExecutorEat extends clsActionExecutor{
 	/*
 	 * Energy and stamina demand 
 	 */
+	@Override
 	public double getEnergyDemand(itfActionCommand poCommand) {
 		return getStaminaDemand(poCommand)*srEnergyRelation;
 	}
+	@Override
 	public double getStaminaDemand(itfActionCommand poCommand) {
 		return srStaminaDemand;
 	}
@@ -85,6 +91,7 @@ public class clsExecutorEat extends clsActionExecutor{
 	/*
 	 * Executor 
 	 */
+	@Override
 	public boolean execute(itfActionCommand poCommand) {
 		clsActionEat oCommand =(clsActionEat) poCommand; 
 		clsComplexBody oBody = (clsComplexBody) ((itfGetBody)moEntity).getBody();

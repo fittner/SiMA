@@ -10,6 +10,7 @@ import java.io.IOException;
 import javax.imageio.ImageIO;
 
 
+
 /**
  * Extension of the Physics Engine circle, showing a image instead
  * 
@@ -84,6 +85,7 @@ public class clsRectangleImage extends sim.physics2D.shape.Rectangle
     }
 	 
     /** Display the circle + image */
+	@Override
     public void draw(Object object, Graphics2D graphics, DrawInfo2D info)
         {
         final double width = info.draw.width * mrWidth;

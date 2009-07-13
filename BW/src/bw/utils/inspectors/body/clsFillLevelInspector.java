@@ -13,7 +13,6 @@ import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
-import java.util.HashMap;
 
 import javax.swing.BorderFactory;
 import javax.swing.Box;
@@ -23,14 +22,12 @@ import javax.swing.JLabel;
 import javax.swing.JProgressBar;
 
 import bw.body.internalSystems.clsStomachSystem;
-import bw.utils.tools.clsNutritionLevel;
 
 import sim.display.Controller;
 import sim.display.GUIState;
 //import sim.engine.SimState;
 import sim.portrayal.Inspector;
 import sim.portrayal.LocationWrapper;
-import simple.dumbmind.clsDumbMindA;
 
 /**
  * Inspector for testing purpose to switch on/off intelligence-levels in 'AI brain'  
@@ -112,6 +109,7 @@ public class clsFillLevelInspector extends Inspector implements ItemListener{
 		this.repaint();
 	}
 
+	@Override
 	public void paint (Graphics g)
 	{
 		super.paint(g);
@@ -120,7 +118,7 @@ public class clsFillLevelInspector extends Inspector implements ItemListener{
 		//kilic
 		//aktualisiere den Progressbar
 		moAnalyse.updatingValue((int)moStomachSystem.getEnergy());
-		//aktualisiere die Füllkästschen
+		//aktualisiere die Fï¿½llkï¿½stschen
 		//moAnalyse.paintPanelOfAnalysisOfSeveralNutrition(g,moStomachSystem.getList(), 100, 150);
 		moAnalyse.update(moStomachSystem.getList());
 		
@@ -136,8 +134,8 @@ public class clsFillLevelInspector extends Inspector implements ItemListener{
 	 * 14.05.2009, 14:05:30
 	 *
 	 * @param g
-	 * @param x ist x-Koordinat für Ausgabe 
-	 * @param y ist y-Koordinat für Ausgabe
+	 * @param x ist x-Koordinat fï¿½r Ausgabe 
+	 * @param y ist y-Koordinat fï¿½r Ausgabe
 	 * @param min ist Min. Wert
 	 * @param max ist Max. Wert
 	 * @param value ist aktueller Wert

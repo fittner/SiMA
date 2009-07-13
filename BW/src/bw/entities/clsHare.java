@@ -115,7 +115,6 @@ public class clsHare extends clsAnimal implements itfGetFlesh, itfAPEatable, itf
 	 * 
 	 * @see bw.body.itfget.itfGetFlesh#getFlesh()
 	 */
-	@Override
 	public clsFlesh getFlesh() {
 		// TODO Auto-generated method stub
 		return ((clsComplexBody)moBody).getInternalSystem().getFlesh();
@@ -129,7 +128,6 @@ public class clsHare extends clsAnimal implements itfGetFlesh, itfAPEatable, itf
 	 * 
 	 * @see bw.body.io.actuators.actionProxies.itfAPEatable#Eat(float)
 	 */
-	@Override
 	public clsFood Eat(double prBiteSize) {
 		return getFlesh().withdraw(prBiteSize);
 	}
@@ -142,7 +140,6 @@ public class clsHare extends clsAnimal implements itfGetFlesh, itfAPEatable, itf
 	 * 
 	 * @see bw.body.io.actuators.actionProxies.itfAPEatable#tryEat()
 	 */
-	@Override
 	public double tryEat() {
 		if (!isAlive()){
   		  return 0;
@@ -159,7 +156,6 @@ public class clsHare extends clsAnimal implements itfGetFlesh, itfAPEatable, itf
 	 * 
 	 * @see bw.body.io.actuators.actionProxies.itfAPKillable#kill(float)
 	 */
-	@Override
 	public void kill(double pfForce) {
 		setAlive(false);
 	}
@@ -172,7 +168,6 @@ public class clsHare extends clsAnimal implements itfGetFlesh, itfAPEatable, itf
 	 * 
 	 * @see bw.body.io.actuators.actionProxies.itfAPKillable#tryKill(float)
 	 */
-	@Override
 	public double tryKill(double pfForce) {
 		return 0;
 	}

@@ -61,6 +61,7 @@ public class clsBubble extends clsAnimate implements itfGetVision, itfGetEatable
 		setDecisionUnit(new clsDumbMindA());
     } 
 
+	@Override
 	public clsBaseBody createBody() {
 		return  new clsComplexBody(this, (clsConfigMap)moConfig.get(eConfigEntries.BODY));
 	}

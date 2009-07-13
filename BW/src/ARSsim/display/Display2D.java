@@ -56,13 +56,14 @@ public class Display2D extends sim.display.Display2D {
 	    //Add listener for mouse-buttons to start and stop drag'n drop
 		insideDisplay.addMouseListener(new MouseAdapter()
 	        {
-	        public void mousePressed(MouseEvent e)
+	        @Override
+			public void mousePressed(MouseEvent e)
 	            {
 	        		Point point = e.getPoint();
 	        		Rectangle2D.Double rect =  new Rectangle2D.Double( point.x, point.y, 1, 1 );
 	        		moHitObjects = objectsHitBy(rect);
 	            }
-	        
+	        @Override
 	        public void mouseReleased(MouseEvent e)
 	            {
 	        		Point oPoint = e.getPoint();

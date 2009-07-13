@@ -9,7 +9,6 @@ package bw.body.internalSystems;
 
 import bw.body.itfStepUpdateInternalState;
 import bw.utils.container.clsConfigMap;
-import bw.utils.enums.eBodyParts;
 import bw.utils.enums.eConfigEntries;
 
 /**

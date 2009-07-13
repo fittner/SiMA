@@ -1,5 +1,5 @@
 /**
- * @author Benny Dönz
+ * @author Benny Dï¿½nz
  * 13.05.2009, 21:44:55
  * 
  * $Rev::                      $: Revision of last commit
@@ -20,7 +20,7 @@ import decisionunit.itf.actions.*;
  * Parameters:
  *    prSpeedScalingFactor = Relation of Speed to Energy. For Average Speed of "4", default ist 10 
  * 
- * @author Benny Dönz
+ * @author Benny Dï¿½nz
  * 13.05.2009, 21:44:55
  * 
  */
@@ -42,12 +42,15 @@ public class clsExecutorMove extends clsActionExecutor{
 	/*
 	 * Set values for SensorActuator base-class
 	 */
+	@Override
 	protected void setBodyPart() {
 		moBodyPart = new bw.utils.enums.partclass.clsPartActionExMove();
 	}
+	@Override
 	protected void setBodyPartId() {
 		mePartId = bw.utils.enums.eBodyParts.ACTIONEX_MOVE;
 	}
+	@Override
 	protected void setName() {
 		moName="Move executor";
 	}
@@ -55,6 +58,7 @@ public class clsExecutorMove extends clsActionExecutor{
 	/*
 	 * Mutual exclusions (are bi-directional, so only need to be added in order of creation 
 	 */
+	@Override
 	public ArrayList<Class> getMutualExclusions(itfActionCommand poCommand) {
 		return moMutEx; 
 	}
@@ -62,9 +66,11 @@ public class clsExecutorMove extends clsActionExecutor{
 	/*
 	 * Energy and stamina demand 
 	 */
+	@Override
 	public double getEnergyDemand(itfActionCommand poCommand) {
 		return getStaminaDemand(poCommand)*srEnergyRelation;
 	}
+	@Override
 	public double getStaminaDemand(itfActionCommand poCommand) {
 		clsActionMove oCommand =(clsActionMove) poCommand;
 		return srStaminaScalingFactor* Math.pow(srStaminaBase,oCommand.getSpeed()) ;
@@ -73,6 +79,7 @@ public class clsExecutorMove extends clsActionExecutor{
 	/*
 	 * Executor 
 	 */
+	@Override
 	public boolean execute(itfActionCommand poCommand) {
 		clsActionMove oCommand =(clsActionMove) poCommand; 
     	switch(oCommand.getDirection() )

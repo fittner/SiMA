@@ -54,7 +54,7 @@ public class clsPolarcoordinate {
 	    return new Angle(alpha);
 	  }
 	  
-
+	  @Override
 	  public String toString() {
 		    NumberFormat nf = java.text.NumberFormat.getInstance( );
 		    nf.setMinimumFractionDigits( 1 );

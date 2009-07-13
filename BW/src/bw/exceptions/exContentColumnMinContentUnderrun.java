@@ -23,6 +23,7 @@ public class exContentColumnMinContentUnderrun extends exException {
 		mrMinValue = prMinValue;
 	}
 	
+	@Override
 	public String toString() {
 		return ("ContentColumnMaxContentExceeded: value "+mrValue+" is below min value "+mrMinValue+" -> value set to min value.\n");
 	}

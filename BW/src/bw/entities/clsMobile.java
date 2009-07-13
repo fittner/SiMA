@@ -71,7 +71,7 @@ public abstract class clsMobile extends clsEntity {
 		return moInventory;
 	}
 
-	
+	@Override
 	protected void initPhysicalObject2D(clsPose poPose, sim.physics2D.util.Double2D poStartingVelocity, Shape poShape, double prMass) {
 		moPhysicalObject2D = new clsMobileObject2D(this);
 		
@@ -88,6 +88,7 @@ public abstract class clsMobile extends clsEntity {
 		return (clsMobileObject2D)moPhysicalObject2D;
 	}
 	
+	@Override
 	public sim.physics2D.util.Double2D getPosition() {
 		return getMobileObject2D().getPosition();
 	}

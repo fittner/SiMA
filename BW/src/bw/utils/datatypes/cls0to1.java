@@ -72,6 +72,7 @@ public class cls0to1 extends clsCloneable {
   }
 
   
+  @Override
   public String toString() {
     return ""+mrValue;
   }

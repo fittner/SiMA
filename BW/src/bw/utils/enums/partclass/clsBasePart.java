@@ -46,6 +46,7 @@ public abstract class clsBasePart implements Cloneable {
 	/* (non-Javadoc)
 	 * @see java.lang.Object#clone()
 	 */
+	@Override
 	public clsBasePart clone() {
 		clsBasePart oResult = null;
 		try {

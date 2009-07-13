@@ -21,6 +21,7 @@ public class exNutritionEmpty extends exException {
 		mnNutritionType = pnNutritionType;
 	}
 	
+	@Override
 	public String toString() {
 		return ("NutritionEmpty: nutrition of type "+mnNutritionType+" is empty.\n");
 	}

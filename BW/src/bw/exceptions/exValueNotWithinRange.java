@@ -28,6 +28,7 @@ public class exValueNotWithinRange extends exException {
 		mrMaxValue = prMaxValue;
 	}
 	
+	@Override
 	public String toString() {
 		return ("ValueNotWithinRange: violation of "+mrMinValue+" <= "+mrValue+" <= "+mrMaxValue+"\n");
 	}

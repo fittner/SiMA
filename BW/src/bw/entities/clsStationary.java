@@ -50,6 +50,7 @@ public abstract class clsStationary extends clsEntity {
 		return oDefault;
 	}
 	
+	@Override
 	protected void initPhysicalObject2D(clsPose poPose, sim.physics2D.util.Double2D poStartingVelocity, Shape poShape, double prMass) {
 		moPhysicalObject2D = new clsStationaryObject2D(this);
 		
@@ -61,6 +62,7 @@ public abstract class clsStationary extends clsEntity {
 		return (clsStationaryObject2D)moPhysicalObject2D;
 	}
 		
+	@Override
 	public sim.physics2D.util.Double2D getPosition() {
 		return getStationaryObject2D().getPosition();
 	}	

@@ -1,5 +1,5 @@
 /**
- * @author Benny Dönz
+ * @author Benny Dï¿½nz
  * 13.05.2009, 21:53:05
  * 
  * $Rev::                      $: Revision of last commit
@@ -13,12 +13,10 @@ import java.util.HashMap;
 import java.util.Iterator;
 
 import sim.physics2D.physicalObject.PhysicalObject2D;
-import statictools.clsSingletonUniqueIdGenerator;
 import ARSsim.physics2D.physicalObject.clsMobileObject2D;
 import ARSsim.physics2D.physicalObject.clsStationaryObject2D;
 import bw.body.io.clsSensorActuatorBase;
 import bw.entities.clsEntity;
-import decisionunit.itf.actions.clsActionEat;
 import decisionunit.itf.actions.itfActionCommand;
 import bw.utils.enums.partclass.*;
 
@@ -27,7 +25,7 @@ import bw.utils.enums.partclass.*;
  * can be processed. The public constructor of a concrete action command 
  * should contain all relevant parameters, e.g. speed of movement etc. 
  * 
- * @author Benny Dönz
+ * @author Benny Dï¿½nz
  * 15.04.2009, 15:25:16
  * 
  */
@@ -38,7 +36,9 @@ public abstract class clsActionExecutor extends clsSensorActuatorBase {
 	protected clsPartActionEx moBodyPart;
 
 	protected abstract void setBodyPart();
+	@Override
 	protected abstract void setBodyPartId();
+	@Override
 	protected abstract void setName();
 	
 	/*

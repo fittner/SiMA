@@ -138,6 +138,7 @@ public class clsFlesh extends clsFood {
 		return mnTotallyConsumed;
 	}
 	
+	@Override
 	public void setAmount(double prAmount) throws bw.exceptions.exFoodAmountBelowZero {
 		super.setAmount(prAmount);
 		

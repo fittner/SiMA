@@ -19,7 +19,6 @@ import sim.physics2D.util.Angle;
 import sim.physics2D.util.Double2D;
 import sim.portrayal.DrawInfo2D;
 
-import ARSsim.physics2D.physicalObject.clsMobileObject2D;
 import ARSsim.physics2D.shape.clsCircleBorder;
 import bw.entities.clsEntity;
 import bw.entities.clsMobile;
@@ -86,6 +85,7 @@ public class clsEntityPartVision extends MobileObject2D implements Steppable{
 	/* (non-Javadoc)
 	 * @see sim.physics2D.physicalObject.PhysicalObject2D#handleCollision(sim.physics2D.physicalObject.PhysicalObject2D, sim.physics2D.util.Double2D)
 	 */
+	@Override
 	public int handleCollision(PhysicalObject2D other, sim.physics2D.util.Double2D colPoint){
 		meFilteredObj.put(other.getIndex(), other);
 		return 0; // Vis collision
@@ -256,14 +256,16 @@ public class clsEntityPartVision extends MobileObject2D implements Steppable{
 	/* (non-Javadoc)
 	 * @see sim.physics2D.physicalObject.MobileObject2D#addFrictionForce()
 	 */
+	@Override
 	public void addFrictionForce()
 	{        }
 	
 	/* (non-Javadoc)
 	 * @see sim.portrayal.SimplePortrayal2D#hitObject(java.lang.Object, sim.portrayal.DrawInfo2D)
 	 */
+	@Override
 	public boolean hitObject(Object object, DrawInfo2D range)   {
-		//TODO Clemens, hier gehört mehr rein als nur true!
+		//TODO Clemens, hier gehï¿½rt mehr rein als nur true!
     	return true; // (insert location algorithm and intersection here)
     }
 	
@@ -277,6 +279,7 @@ public class clsEntityPartVision extends MobileObject2D implements Steppable{
 	/* (non-Javadoc)
 	 * @see sim.physics2D.physicalObject.PhysicalObject2D#addContact(sim.physics2D.physicalObject.PhysicalObject2D, sim.physics2D.util.Double2D)
 	 */
+	@Override
 	public void addContact(PhysicalObject2D other, sim.physics2D.util.Double2D colPoint){
 		//FIXME colPoint not used
 		if (colPoint != null)

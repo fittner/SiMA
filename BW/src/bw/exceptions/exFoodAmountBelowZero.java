@@ -15,7 +15,7 @@ package bw.exceptions;
  */
 public class exFoodAmountBelowZero extends exException {
 
-	
+	@Override
 	public String toString() {
 		return ("FoodAmountBelowZero\n");
 	}

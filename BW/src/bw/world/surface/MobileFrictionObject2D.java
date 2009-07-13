@@ -22,6 +22,7 @@ public abstract class MobileFrictionObject2D extends MobileObject2D
      * based on the coefficients of friction.
      * Overwrites inherited method. 
      */
+	@Override
 	public void addFrictionForce()
 	{
 		//getting necessary information for the calculation

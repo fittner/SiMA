@@ -1,5 +1,5 @@
 /**
- * @author Benny Dönz
+ * @author Benny Dï¿½nz
  * 05.07.2009, 12:07:31
  * 
  * $Rev::                      $: Revision of last commit
@@ -9,22 +9,17 @@
 package bw.body.io.actuators.actionExecutors;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 
-import statictools.clsSingletonUniqueIdGenerator;
-
-import bw.body.clsComplexBody;
 import bw.body.io.actuators.clsActionExecutor;
 import bw.body.io.actuators.actionProxies.*;
 import decisionunit.itf.actions.*;
-import bw.entities.clsEntity;
 import bw.entities.clsMobile;
 import bw.utils.enums.eBindingState;
 
 /**
  * Action Executor for moving objects from the inventory and set them as carried
  * 
- * @author Benny Dönz
+ * @author Benny Dï¿½nz
  * 05.07.2009, 12:07:31
  * 
  */
@@ -45,12 +40,15 @@ public class clsExecutorFromInventory extends clsActionExecutor{
 	/*
 	 * Set values for SensorActuator base-class
 	 */
+	@Override
 	protected void setBodyPart() {
 		moBodyPart = new bw.utils.enums.partclass.clsPartActionExFromInventory();
 	}
+	@Override
 	protected void setBodyPartId() {
 		mePartId = bw.utils.enums.eBodyParts.ACTIONEX_FROMINVENTORY;
 	}
+	@Override
 	protected void setName() {
 		moName="Get from inventory executor";	
 	}
@@ -59,6 +57,7 @@ public class clsExecutorFromInventory extends clsActionExecutor{
 	/*
 	 * Mutual exclusions (are bi-directional, so only need to be added in order of creation 
 	 */
+	@Override
 	public ArrayList<Class> getMutualExclusions(itfActionCommand poCommand) {
 		return moMutEx; 
 	}
@@ -67,9 +66,11 @@ public class clsExecutorFromInventory extends clsActionExecutor{
 	/*
 	 * Energy and stamina demand 
 	 */
+	@Override
 	public double getEnergyDemand(itfActionCommand poCommand) {
 		return getStaminaDemand(poCommand)*srEnergyRelation;
 	}
+	@Override
 	public double getStaminaDemand(itfActionCommand poCommand) {
 		return 0;
 	}
@@ -77,6 +78,7 @@ public class clsExecutorFromInventory extends clsActionExecutor{
 	/*
 	 * Executor 
 	 */
+	@Override
 	public boolean execute(itfActionCommand poCommand) {
 		clsActionFromInventory oCommand =(clsActionFromInventory) poCommand; 
 		itfAPCarryable oEntity;

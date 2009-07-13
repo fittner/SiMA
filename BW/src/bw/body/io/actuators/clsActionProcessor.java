@@ -1,5 +1,5 @@
 /**
- * @author Benny Dönz
+ * @author Benny Dï¿½nz
  * 15.04.2009, 18:40:19
  * 
  * $Rev::                      $: Revision of last commit
@@ -20,14 +20,12 @@ import bw.body.itfget.itfGetBody;
 import bw.entities.clsEntity;
 import bw.entities.clsMobile;
 import bw.utils.datatypes.clsMutableDouble;
-import bw.utils.datatypes.clsMutableFloat;
 import bw.utils.enums.*;
-import bw.exceptions.*;
 
 /**
  * The action processor provides functions to control the execution of commands
  * 
- * @author Benny Dönz
+ * @author Benny Dï¿½nz
  * 15.04.2009, 18:40:19
  * 
  */
@@ -129,7 +127,7 @@ public class clsActionProcessor implements itfActionProcessor {
 	
 	/*
 	 *Returns an array of ActionCommands from the last round. 
-	 *The parameter “result” can be used to filter by result(Default=Executed) 
+	 *The parameter ï¿½resultï¿½ can be used to filter by result(Default=Executed) 
 	 */
 	public ArrayList<itfActionCommand> getExecutionHistory() {
 		return getExecutionHistory(eExecutionResult.EXECUTIONRESULT_EXECUTED);
@@ -189,7 +187,7 @@ public class clsActionProcessor implements itfActionProcessor {
 		//3.	Check binding states: Consume energy and stamina for keeping objects in the inventory
 		ConsumeBindingEnergy();
 		
-		//4.	Check energy and stamina levels: Consume energy and stamina for all remaining actions in order of priority and calling. If the energy and stamina levels are not sufficient for all the remaining commands no command (except priority “update state”) will be executed but energy and stamina levels will still be reduced down to the total minimum.
+		//4.	Check energy and stamina levels: Consume energy and stamina for all remaining actions in order of priority and calling. If the energy and stamina levels are not sufficient for all the remaining commands no command (except priority ï¿½update stateï¿½) will be executed but energy and stamina levels will still be reduced down to the total minimum.
 		ConsumeEnergy(oExecutionStack);
 		
 		//5.	Check for mutual exclusions
@@ -240,7 +238,7 @@ public class clsActionProcessor implements itfActionProcessor {
 	
 	/*
 	 *Delete inhibited commands: Inhibited commands are deleted from the stack 
-	 *(except priority “update state”). There are no consequences other than that 
+	 *(except priority ï¿½update stateï¿½). There are no consequences other than that 
 	 *the command is not dispatched 
 	 */
 	private void inhibitCommands(ArrayList<clsProcessorResult> opExecutionStack) {

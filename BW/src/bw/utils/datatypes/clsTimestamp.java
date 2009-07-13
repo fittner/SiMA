@@ -63,6 +63,7 @@ public class clsTimestamp extends clsCloneable {
     mrTimeStamp = prStamp;
   }
 
+  @Override
   public String toString() {
     return ""+mrTimeStamp;
   }

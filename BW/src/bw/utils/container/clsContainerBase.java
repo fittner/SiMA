@@ -46,6 +46,7 @@ abstract class clsContainerBase extends clsCloneable implements Cloneable  {
 
   abstract public int size();
 
+  @Override
   abstract public String toString();
 
   protected abstract String gettoString(Object poObject);

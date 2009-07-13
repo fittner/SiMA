@@ -62,6 +62,7 @@ public class SAXHandler extends DefaultHandler
 	/**
 	 * Overwritten from the super class
 	 */
+	@Override
 	public void startDocument()
 	{
 		System.out.println("SAXHandler: \nStarting file processing...");
@@ -70,6 +71,7 @@ public class SAXHandler extends DefaultHandler
 	/**
 	 * Overwritten from the super class
 	 */
+	@Override
 	public void endDocument()
 	{
 		System.out.println("Done processing file.");
@@ -79,6 +81,7 @@ public class SAXHandler extends DefaultHandler
 	 * In this class the world is created form the XML-file. A basic range check is done to make sure the coordinates are within the boundaries. 
 	 * Overwritten from the super class
 	 */
+	@Override
 	public void startElement(String uri, String localName, String qName, Attributes attr)
 	{
 		//creating the world with the provided width and height
@@ -170,6 +173,7 @@ public class SAXHandler extends DefaultHandler
 	/**
 	 * Overwritten from the super class
 	 */
+	@Override
 	public void endElement(String uri, String localName, String qName)
 	{
 		
