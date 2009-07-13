@@ -18,6 +18,8 @@
 // Belongs to package
 package bw.utils.datatypes;
 
+import java.io.Serializable;
+
 // Imports
 
 /**
@@ -29,9 +31,26 @@ package bw.utils.datatypes;
  * $Date$: Date of last commit
  *
  */
-public class clsMutableBoolean extends clsCloneable {
-    private boolean m_value;
+public class clsMutableBoolean implements Cloneable, Serializable {
+    /**
+	 * TODO (deutsch) - insert description 
+	 * 
+	 * @author deutsch
+	 * 13.07.2009, 18:58:54
+	 */
+	private static final long serialVersionUID = 729967101603040909L;
+	private boolean m_value;
     
+	
+	@Override
+	public clsMutableBoolean clone() {
+	    try {
+	      return (clsMutableBoolean) super.clone();
+	    } catch (CloneNotSupportedException e) {
+	      return null;
+	    }
+	}
+	    
     /** Constructor */
     public clsMutableBoolean(boolean value) {
         m_value = value;

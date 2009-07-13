@@ -18,6 +18,8 @@
 // Belongs to package
 package bw.utils.datatypes;
 
+import java.io.Serializable;
+
 // Imports
 
 /**
@@ -29,8 +31,24 @@ package bw.utils.datatypes;
  * $Date$: Date of last commit
  *
  */
-public class clsMutableInteger extends clsCloneable {
-    private int m_value;
+public class clsMutableInteger implements Cloneable, Serializable {
+    /**
+	 * TODO (deutsch) - insert description 
+	 * 
+	 * @author deutsch
+	 * 13.07.2009, 19:01:14
+	 */
+	private static final long serialVersionUID = 1294667044504111789L;
+	private int m_value;
+    
+	@Override
+	public clsMutableInteger clone() {
+	    try {
+	      return (clsMutableInteger) super.clone();
+	    } catch (CloneNotSupportedException e) {
+	      return null;
+	    }
+	}    
     
     /** Constructor */
     public clsMutableInteger(int value) {
