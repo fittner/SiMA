@@ -22,7 +22,11 @@ import java.io.Serializable;
  *
  */
 public class clsAngle implements Serializable { //extends clsCloneable
-  public double mrAlpha;
+  /**
+	 * 
+	 */
+	private static final long serialVersionUID = -90472626957601789L;
+public double mrAlpha;
 
   public clsAngle() {
     mrAlpha = 0;

@@ -20,7 +20,11 @@ import java.io.Serializable;
  *
  */
 public class clsPoint implements Serializable {
-  public double mrX;
+  /**
+	 * 
+	 */
+	private static final long serialVersionUID = -433673031048481304L;
+public double mrX;
   public double mrY;
 
   public clsPoint() {

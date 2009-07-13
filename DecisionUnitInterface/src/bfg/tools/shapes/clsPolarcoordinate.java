@@ -19,7 +19,11 @@ import java.io.Serializable;
  *
  */
 public class clsPolarcoordinate implements Serializable { //extends clsCloneable
-  public double mrLength;
+  /**
+	 * 
+	 */
+	private static final long serialVersionUID = -3884035044687816319L;
+public double mrLength;
   public clsAngle moAzimuth;
 
   public clsPolarcoordinate() {

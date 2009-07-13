@@ -19,7 +19,11 @@ import java.io.Serializable;
  *
  */
 public class clsParticle extends clsPoint implements Serializable {
-  public double mrWeight;
+  /**
+	 * 
+	 */
+	private static final long serialVersionUID = 9206357497638265673L;
+public double mrWeight;
 
   public clsParticle() {
     super();
