@@ -11,6 +11,9 @@ import sim.physics2D.util.Double2D;
  */
 public abstract class MobileFrictionObject2D extends MobileObject2D
 {
+	
+	private static final long serialVersionUID = -3923980527622686288L;
+	
 	//values identical to superclass but are declared private there 
 	protected final double zeroVelocity = 0.01;
 	protected final double gravity = 0.1;

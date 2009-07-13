@@ -16,7 +16,8 @@ import sim.display.GUIState;
  */
 public class Console extends sim.display.Console {
 
-	
+	private static final long serialVersionUID = 7217845510506158250L;
+
 	HashMap<Integer, ArrayList<JTabbedPane>> moTabbedPaneConfig = new HashMap<Integer, ArrayList<JTabbedPane>>();
 	
 	private int mnCurrentSelection = 0;

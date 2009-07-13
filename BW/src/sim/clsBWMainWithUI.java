@@ -124,6 +124,7 @@ public class clsBWMainWithUI extends GUIState{
 */          
         }
 
+/*	// EH - make warning free
         private String location(int location) {
           switch (location) {
           case KeyEvent.KEY_LOCATION_LEFT:
@@ -139,6 +140,7 @@ public class clsBWMainWithUI extends GUIState{
             return "Unknown";
           }
         }
+*/
       };
 	
     @Override

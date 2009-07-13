@@ -56,6 +56,7 @@ public class clsStomachSystem implements itfStepUpdateInternalState {
 		updateEnergy();
 	}
 	
+	@SuppressWarnings("unchecked") // EH: probably unsafe, please refactor
 	private void applyConfig() {
 		
 		clsConfigMap oNutConf = (clsConfigMap)moConfig.get(eConfigEntries.NUTRITIONCONFIG);
@@ -96,13 +97,13 @@ public class clsStomachSystem implements itfStepUpdateInternalState {
 		oDefault.add(eConfigEntries.NUTRITIONCONFIG, oNutritionConfig);		
 		
 		clsConfigList oNutritions = new clsConfigList();
-		oNutritions.add(new clsConfigEnum(eNutritions.FAT));
-		oNutritions.add(new clsConfigEnum(eNutritions.PROTEIN));
-		oNutritions.add(new clsConfigEnum(eNutritions.VITAMIN));
-		oNutritions.add(new clsConfigEnum(eNutritions.CARBOHYDRATE));
-		oNutritions.add(new clsConfigEnum(eNutritions.WATER));
-		oNutritions.add(new clsConfigEnum(eNutritions.MINERAL));
-		oNutritions.add(new clsConfigEnum(eNutritions.TRACEELEMENT));
+		oNutritions.add(new clsConfigEnum<eNutritions>(eNutritions.FAT));
+		oNutritions.add(new clsConfigEnum<eNutritions>(eNutritions.PROTEIN));
+		oNutritions.add(new clsConfigEnum<eNutritions>(eNutritions.VITAMIN));
+		oNutritions.add(new clsConfigEnum<eNutritions>(eNutritions.CARBOHYDRATE));
+		oNutritions.add(new clsConfigEnum<eNutritions>(eNutritions.WATER));
+		oNutritions.add(new clsConfigEnum<eNutritions>(eNutritions.MINERAL));
+		oNutritions.add(new clsConfigEnum<eNutritions>(eNutritions.TRACEELEMENT));
 		oDefault.add(eConfigEntries.NUTRITIONS, oNutritions);
 		
 		oDefault.add(eConfigEntries.CONTENT, new clsConfigDouble(10.0f));
@@ -372,7 +373,7 @@ public class clsStomachSystem implements itfStepUpdateInternalState {
 		Iterator<Integer> i = moNutritions.keySet().iterator();
 		
 		while (i.hasNext()) {
-			((clsNutritionLevel)moNutritions.get(i.next())).step();
+			moNutritions.get(i.next()).step();
 		}
 		
 		updateEnergy();

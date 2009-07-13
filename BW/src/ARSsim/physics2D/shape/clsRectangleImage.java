@@ -88,12 +88,12 @@ public class clsRectangleImage extends sim.physics2D.shape.Rectangle
 	@Override
     public void draw(Object object, Graphics2D graphics, DrawInfo2D info)
         {
-        final double width = info.draw.width * mrWidth;
+/* // EH - make warning free
+		final double width = info.draw.width * mrWidth;
         final double height = info.draw.height * mrWidth;
-        
         int imageWidth = moImage.getWidth();
         int imageHeight = moImage.getHeight();
-        
+*/
 
         graphics.setPaint(paint);
 

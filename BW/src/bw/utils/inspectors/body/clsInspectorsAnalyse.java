@@ -29,6 +29,9 @@ import bw.utils.tools.clsNutritionLevel;
  * 
  */
 public class clsInspectorsAnalyse extends JComponent{
+	
+	private static final long serialVersionUID = -5919029139654004572L;
+	
 	private JProgressBar energy_progress;
 	/**Das ist das Hauptpanel, in dem alle Panels von Analyseanzeigen enthalten sind*/ 
 	private JPanel panelOfAnalyse= new JPanel(new BorderLayout());

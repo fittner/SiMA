@@ -21,7 +21,7 @@ import bw.utils.enums.partclass.clsBasePart;
  * 
  */
 public class clsFastMessengerSystem implements itfStepUpdateInternalState {
-    private clsConfigMap moConfig;
+    // private clsConfigMap moConfig; // EH - make warning free
     
 	private HashMap<clsBasePart, ArrayList<clsBasePart>> moSourceTargetMappings;
 	private HashMap<clsBasePart, ArrayList<clsBasePart>> moTargetSourceMappings;
@@ -36,7 +36,7 @@ public class clsFastMessengerSystem implements itfStepUpdateInternalState {
 		moMessages = new ArrayList<clsFastMessengerEntry>();
 		moTargetList = new HashMap<clsBasePart, ArrayList<clsFastMessengerEntry>>();
 		
-		moConfig = getFinalConfig(poConfig);		
+		// moConfig = getFinalConfig(poConfig); // EH - make warning free		
 		applyConfig();		
 		
 	}
@@ -46,17 +46,21 @@ public class clsFastMessengerSystem implements itfStepUpdateInternalState {
 		//TODO add custom code
 	}
 
+/* // EH - make warning free
 	private static clsConfigMap getFinalConfig(clsConfigMap poConfig) {
 		clsConfigMap oDefault = getDefaultConfig();
 		oDefault.overwritewith(poConfig);
 		return oDefault;
 	}
+*/
 	
+/* // EH - make warning free
 	private static clsConfigMap getDefaultConfig() {
 		clsConfigMap oDefault = new clsConfigMap();
 		//TODO add default values
 		return oDefault;
 	}
+*/
 	
 	/**
 	 * TODO (deutsch) - insert description

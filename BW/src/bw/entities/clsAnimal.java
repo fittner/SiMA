@@ -36,7 +36,7 @@ public class clsAnimal extends clsAnimate implements itfGetVision, itfGetEatable
 	private static double mrWeight;
 	private static double mrRadius;
 	private static Color moColor;
-	private static double mrSpeed;
+	// private static double mrSpeed;	// EH - make warning free
 
 	private boolean mnAlive;
 	/**
@@ -70,7 +70,7 @@ public class clsAnimal extends clsAnimate implements itfGetVision, itfGetEatable
 	private void applyConfig() {
 		mrWeight = ( (clsConfigDouble)moConfig.get(eConfigEntries.WEIGHT) ).get();
 		mrRadius = ( (clsConfigDouble)moConfig.get(eConfigEntries.RADIUS) ).get();
-		mrSpeed = ( (clsConfigDouble)moConfig.get(eConfigEntries.SPEED) ).get();
+		// mrSpeed = ( (clsConfigDouble)moConfig.get(eConfigEntries.SPEED) ).get(); // EH - make warning free
 		moColor = new Color( ( (clsConfigInt)moConfig.get(eConfigEntries.COLOR) ).get() );
 	}
 	

@@ -38,8 +38,8 @@ public class clsEntityPartVision extends MobileObject2D implements Steppable{
 
 	private static final long serialVersionUID = 1L;
 	private final static double MASS = 0.0001;
-	private final static double FRICTION = 0;
-	private final static double RESTITUTION = 0;
+	//private final static double FRICTION = 0;		// EH - make warning free
+	//private final static double RESTITUTION = 0;	// EH - make warning free
 	
 	private double mnRadius;
 	

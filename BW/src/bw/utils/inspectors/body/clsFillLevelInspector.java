@@ -19,7 +19,7 @@ import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.JCheckBox;
 import javax.swing.JLabel;
-import javax.swing.JProgressBar;
+//import javax.swing.JProgressBar;
 
 import bw.body.internalSystems.clsStomachSystem;
 
@@ -54,7 +54,7 @@ public class clsFillLevelInspector extends Inspector implements ItemListener{
 	private JLabel moCaption;
 	private JCheckBox moCheckBoxCD; //collision detection
 	private JCheckBox moCheckBoxCA; //collision avoidance
-	private JProgressBar moEnergyProgress;
+	//private JProgressBar moEnergyProgress;
 	private clsInspectorsAnalyse moAnalyse;
     
     public clsFillLevelInspector(Inspector originalInspector,

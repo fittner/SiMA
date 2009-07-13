@@ -23,7 +23,7 @@ import bw.utils.enums.eBodyParts;
  */
 public class clsSensorAcceleration extends clsSensorExt{
 
-	private clsEntity moEntity;
+	//private clsEntity moEntity;	// EH - make warning free
 	
 	/**
 	 * constructor takes the entity stored as a local reference 
@@ -31,7 +31,7 @@ public class clsSensorAcceleration extends clsSensorExt{
 	public clsSensorAcceleration(clsEntity poEntity, clsBaseIO poBaseIO, clsConfigMap poConfig) {
 		super(poBaseIO, clsSensorAcceleration.getFinalConfig(poConfig));
 		applyConfig();
-		setEntity(poEntity);
+		//setEntity(poEntity);		// EH - make warning free
 		// TODO Auto-generated constructor stub
 	}
 
@@ -75,9 +75,11 @@ public class clsSensorAcceleration extends clsSensorExt{
 	/**
 	 * @param moEntity the moEntity to set
 	 */
+	/*	// EH - make warning free
 	public void setEntity(clsEntity poEntity) {
 		moEntity = poEntity;
 	}
+	*/
 
 	/**
 	 * @param mnAcceleration the mnAcceleration to set

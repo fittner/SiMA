@@ -16,7 +16,7 @@ import sim.util.Bag;
 public class clsObjectsSemanticMemory {
 
 	private Bag ObjectEntries = new Bag();
-	private double similarObjectsTolerance;
+	//private double similarObjectsTolerance;
 	public clsObjectsSemanticMemory(){
 		
 	}
@@ -37,7 +37,7 @@ public class clsObjectsSemanticMemory {
 	public int rememberObject(clsObject tempObject,double similarObjectsTolerance){
 		Bag PotentialObjects;
 		
-		this.similarObjectsTolerance=similarObjectsTolerance;
+		//this.similarObjectsTolerance=similarObjectsTolerance;
 		
 		//Potential similar objects are beeing searched
 		PotentialObjects = checkForSimilarObject(tempObject,similarObjectsTolerance);
@@ -65,12 +65,12 @@ public class clsObjectsSemanticMemory {
 	
 	
 	
-	/* Hier werden alle elemente in der Semantic Area Memory auf Ÿbereinstimmende 
-	 * objekte geprŸft und die % der Ÿbereinstimmung gespeichert 
+	/* Hier werden alle elemente in der Semantic Area Memory auf ï¿½bereinstimmende 
+	 * objekte geprï¿½ft und die % der ï¿½bereinstimmung gespeichert 
 	 * 
-	 * †bergabewert is die Area in der sich der Bot gerade befindet
+	 * ï¿½bergabewert is die Area in der sich der Bot gerade befindet
 	 * 
-	 * RŸckgabewert ist die liste von areas aus der Memory die eine 
+	 * Rï¿½ckgabewert ist die liste von areas aus der Memory die eine 
 	 * anzahl von gleichen objekten haben die innerhalb der tolleranz liegt
 	 **/
 		public Bag checkForSimilarObject (clsObject newObject, double similarObjectsTolerance){
@@ -78,8 +78,8 @@ public class clsObjectsSemanticMemory {
 			double bestequality=0;
 			Bag similarEntries = new Bag();
 			clsObject currentObject=null;
-		//prŸfen auf gleiche objekte in sicht
-			//jeden memory eintrag prŸfen, best passensten speichern
+		//prï¿½fen auf gleiche objekte in sicht
+			//jeden memory eintrag prï¿½fen, best passensten speichern
 			for(i=0;i<num;i++){
 				currentObject = getObjectEntry(i);
 				currentObject.calcEquality(newObject);
@@ -90,7 +90,7 @@ public class clsObjectsSemanticMemory {
 	
 			}
 			
-//			jene objekte deren Ÿbereinstimmung innerhald der toleranz sind werden zur liste potenzieleler objects hinzugefŸgt
+//			jene objekte deren ï¿½bereinstimmung innerhald der toleranz sind werden zur liste potenzieleler objects hinzugefï¿½gt
 			if ((bestfit!=-1) && (getObjectEntry(bestfit).ObjectSimilarity >= (100*(1-similarObjectsTolerance))))
 				similarEntries.add(getObjectEntry(bestfit));
 			

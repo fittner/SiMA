@@ -24,22 +24,25 @@ import javax.swing.border.TitledBorder;
  * 
  */
 public class clsSingleFillLevel extends JPanel {
+
+	private static final long serialVersionUID = 6911103242202927797L;
+	
 	public int id;
 	private float mrMinContentFloat;
 	private float mrMaxContentFloat;
 	private float mrMinFloat;
 	private float mrMaxFloat;
 	private float mrValueFloat;
-	private float mrMinContentInt;
-	private float mrMaxContentInt;
+	//private float mrMinContentInt;
+	//private float mrMaxContentInt;
 	private int mrMinInt;
 	private int mrMaxInt;
 	
-	private int mrValueInt;
+	//private int mrValueInt;
 	private int x;
 	private int y;
 	
-	private int mrMinContent;
+	//private int mrMinContent;
 	private int mrMaxContent;
 	private int mrMin;
 	private int mrMax;
@@ -111,7 +114,7 @@ public class clsSingleFillLevel extends JPanel {
 		this.mrMinContentFloat=minContent;
 		this.mrMin = (int) (min * 10);
 		this.mrMax = (int) (max * 10);
-		this.mrMinContent = (int) (minContent*10);
+		//this.mrMinContent = (int) (minContent*10);
 		this.mrMaxContent = (int) (maxContent*10);
 	}
 	/*************************************************************************

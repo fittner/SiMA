@@ -32,7 +32,7 @@ import java.awt.Color;
  * $Date$: Date of last commit
  *
  */
-public class clsId implements java.lang.Comparable {
+public class clsId implements java.lang.Comparable<clsId> {
   public int mnTeamId;
   public int mnEntityId;
 
@@ -96,19 +96,17 @@ public class clsId implements java.lang.Comparable {
     return Color.black;
   }
 
-  public final int compareTo( Object poId )
+  public final int compareTo( clsId poId )
   { 
     int nResult = -1;
 
-    clsId oOther = (clsId)poId;
-
-    if (this.mnTeamId == oOther.mnTeamId) {
-      if (this.mnEntityId > oOther.mnEntityId) {
+    if (this.mnTeamId == poId.mnTeamId) {
+      if (this.mnEntityId > poId.mnEntityId) {
         nResult = 1;
-      } else if (this.mnEntityId == oOther.mnEntityId) {
+      } else if (this.mnEntityId == poId.mnEntityId) {
         nResult = 0;
       }
-    } else if (this.mnTeamId > oOther.mnTeamId) {
+    } else if (this.mnTeamId > poId.mnTeamId) {
       nResult = 1;
     }
 

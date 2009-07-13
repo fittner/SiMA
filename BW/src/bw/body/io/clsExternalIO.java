@@ -105,11 +105,11 @@ public class clsExternalIO extends clsBaseIO {
 		oDefault.add(eConfigEntries.ACTIVATE, new clsConfigBoolean(true));
 		
 		clsConfigList oSensors = new clsConfigList();
-		oSensors.add(new clsConfigEnum(eConfigEntries.ACCELERATION));
-		oSensors.add(new clsConfigEnum(eConfigEntries.BUMP));
-		oSensors.add(new clsConfigEnum(eConfigEntries.VISION));
-		oSensors.add(new clsConfigEnum(eConfigEntries.EATABLE_AREA));	
-		oSensors.add(new clsConfigEnum(eConfigEntries.POSITIONCHANGE));
+		oSensors.add(new clsConfigEnum<eConfigEntries>(eConfigEntries.ACCELERATION));
+		oSensors.add(new clsConfigEnum<eConfigEntries>(eConfigEntries.BUMP));
+		oSensors.add(new clsConfigEnum<eConfigEntries>(eConfigEntries.VISION));
+		oSensors.add(new clsConfigEnum<eConfigEntries>(eConfigEntries.EATABLE_AREA));	
+		oSensors.add(new clsConfigEnum<eConfigEntries>(eConfigEntries.POSITIONCHANGE));
 		oDefault.add(eConfigEntries.EXTSENSORS, oSensors);
 		
 
@@ -141,6 +141,7 @@ public class clsExternalIO extends clsBaseIO {
 		return oDefault;
 	}	
 		
+	@SuppressWarnings("unchecked") // EH: probably unsafe, please refactor
 	private void initSensorExternal(clsConfigList poExternalSensors, clsConfigMap poSensorConfigs) {
 		Iterator<clsBaseConfig> i = poExternalSensors.iterator();
 		while (i.hasNext()) {

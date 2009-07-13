@@ -68,10 +68,10 @@ public class clsInternalIO extends clsBaseIO{
 		oDefault.add(eConfigEntries.ACTIVATE, new clsConfigBoolean(true));
 		
 		clsConfigList oSensors = new clsConfigList();
-		oSensors.add(new clsConfigEnum(eConfigEntries.ENERGY_CONSUMPTION));
-		oSensors.add(new clsConfigEnum(eConfigEntries.HEALTH_SYSTEM));
-		oSensors.add(new clsConfigEnum(eConfigEntries.STAMINA));
-		oSensors.add(new clsConfigEnum(eConfigEntries.STOMACH));	
+		oSensors.add(new clsConfigEnum<eConfigEntries>(eConfigEntries.ENERGY_CONSUMPTION));
+		oSensors.add(new clsConfigEnum<eConfigEntries>(eConfigEntries.HEALTH_SYSTEM));
+		oSensors.add(new clsConfigEnum<eConfigEntries>(eConfigEntries.STAMINA));
+		oSensors.add(new clsConfigEnum<eConfigEntries>(eConfigEntries.STOMACH));	
 		oDefault.add(eConfigEntries.INTSENSORS, oSensors);
 		
 
@@ -99,6 +99,7 @@ public class clsInternalIO extends clsBaseIO{
 		return oDefault;
 	}	
 	
+	@SuppressWarnings("unchecked") // EH: probably unsafe, please refactor
 	private void initSensorInternal(clsConfigList poInternalSensors, clsConfigMap poSensorConfigs) {
 		Iterator<clsBaseConfig> i = poInternalSensors.iterator();
 		while (i.hasNext()) {

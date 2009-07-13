@@ -27,7 +27,7 @@ import bw.utils.datatypes.clsMutableDouble;
  * 
  */
 public class clsInternalEnergyConsumption implements itfStep {
-    private clsConfigMap moConfig;
+    // private clsConfigMap moConfig;	// EH - make warning free
     
 	private HashMap<Integer, clsMutableDouble> moList; // this list stores all registered values.
 	private HashMap<Integer, clsMutableDouble> moListOnce; // this list stores all registered values.
@@ -43,7 +43,7 @@ public class clsInternalEnergyConsumption implements itfStep {
 		mnDirtyFlag = true;
 		mrSum = 0.0f;
 		
-		moConfig = getFinalConfig(poConfig);
+		// moConfig = getFinalConfig(poConfig); // EH - make warning free
 		applyConfig();		
 	}
 	
@@ -52,17 +52,21 @@ public class clsInternalEnergyConsumption implements itfStep {
 		//TODO add custom code
 	}
 
+/*	// EH - make warning free
 	private static clsConfigMap getFinalConfig(clsConfigMap poConfig) {
 		clsConfigMap oDefault = getDefaultConfig();
 		oDefault.overwritewith(poConfig);
 		return oDefault;
 	}
+*/
 	
+/* // EH - make warning free
 	private static clsConfigMap getDefaultConfig() {
 		clsConfigMap oDefault = new clsConfigMap();
 		//TODO add default values
 		return oDefault;
 	}	
+*/
 	
 	
 	public HashMap<Integer, clsMutableDouble> getMergedList() {

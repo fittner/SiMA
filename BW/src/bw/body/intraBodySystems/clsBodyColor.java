@@ -17,10 +17,10 @@ import bw.utils.container.clsConfigMap;
  * 
  */
 public class clsBodyColor implements itfStepUpdateInternalState {
-	private clsConfigMap moConfig;
+	// private clsConfigMap moConfig;	// EH - make warning free
 	
 	public clsBodyColor(clsConfigMap poConfig) {
-		moConfig = getFinalConfig(poConfig);
+		// moConfig = getFinalConfig(poConfig);	// EH - make warning free
 		applyConfig();
 	}
 	
@@ -30,12 +30,15 @@ public class clsBodyColor implements itfStepUpdateInternalState {
 
 	}
 
+/* // EH - make warning free
 	private static clsConfigMap getFinalConfig(clsConfigMap poConfig) {
 		clsConfigMap oDefault = getDefaultConfig();
 		oDefault.overwritewith(poConfig);
 		return oDefault;
 	}
+*/
 	
+/* // EH - make warning free
 	private static clsConfigMap getDefaultConfig() {
 		clsConfigMap oDefault = new clsConfigMap();
 		
@@ -43,6 +46,7 @@ public class clsBodyColor implements itfStepUpdateInternalState {
 		
 		return oDefault;
 	}	
+*/
 	
     /**
      * TODO (deutsch) - insert description

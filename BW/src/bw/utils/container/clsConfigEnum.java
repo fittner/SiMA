@@ -15,22 +15,22 @@ package bw.utils.container;
  * 07.05.2009, 11:40:36
  * 
  */
-public class clsConfigEnum extends clsConfigSkalar {
-	private Enum eValue;
+public class clsConfigEnum<E extends Enum<E>> extends clsConfigSkalar {
+	private Enum<E> eValue;
 	
 	public clsConfigEnum() {
 		
 	}
 	
-	public clsConfigEnum(Enum peValue) {
+	public clsConfigEnum(Enum<E> peValue) {
 		eValue = peValue;
 	}
 	
-	public void set(Enum peValue) {
+	public void set(Enum<E> peValue) {
 		eValue = peValue;
 	}
 	
-	public Enum get() {
+	public Enum<E> get() {
 		return eValue;
 	}
 	

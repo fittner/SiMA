@@ -40,9 +40,10 @@ public class clsConsumeFood {
 		moStomachSystem = poStomach;
 	}
 	
+	@SuppressWarnings("unchecked")
 	private void applyConfig() {
 		
-		moGarbageNutritionType = new Integer( ((clsConfigEnum)moConfig.get(eConfigEntries.GARBAGENUTRITIONTYPE)).ordinal() );
+		moGarbageNutritionType = new Integer( ((clsConfigEnum<eConfigEntries>)moConfig.get(eConfigEntries.GARBAGENUTRITIONTYPE)).ordinal() );
 
 	}
 	
@@ -55,7 +56,7 @@ public class clsConsumeFood {
 	private static clsConfigMap getDefaultConfig() {
 		clsConfigMap oDefault = new clsConfigMap();
 		
-		oDefault.add(eConfigEntries.GARBAGENUTRITIONTYPE, new clsConfigEnum(eNutritions.UNDIGESTABLE));
+		oDefault.add(eConfigEntries.GARBAGENUTRITIONTYPE, new clsConfigEnum<eNutritions>(eNutritions.UNDIGESTABLE));
 		
 		return oDefault;
 	}
