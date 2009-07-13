@@ -18,11 +18,10 @@ import java.io.Serializable;
  * $Date: 2007-05-31 10:56:07 +0200 (Do, 31 Mai 2007) $: Date of last commit
  *
  */
-public class clsPolarcoordinate implements Serializable { //extends clsCloneable
-  /**
-	 * 
-	 */
-	private static final long serialVersionUID = -3884035044687816319L;
+public class clsPolarcoordinate implements Serializable { // extends clsCloneable
+  
+private static final long serialVersionUID = -3884035044687816319L;
+
 public double mrLength;
   public clsAngle moAzimuth;
 
