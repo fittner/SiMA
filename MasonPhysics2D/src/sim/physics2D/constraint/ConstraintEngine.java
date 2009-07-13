@@ -197,6 +197,8 @@ public class ConstraintEngine
                     }
                 }
                         
+            // EH: dirty hack to prevent bubbles from escaping through walls: addCalculatedResponses(answerCT.times(1.5));
+            
             addCalculatedResponses(answerCT);
             this.unRegisterImpulseConstraint(col);
                         
