@@ -129,6 +129,7 @@ public class CarT extends TestApps.Physics2D.BubbleRace.FrictionRobot implements
 		}
 	}
 
+    @Override
     public int handleCollision(PhysicalObject2D other, Double2D colPoint)
 	{
 		Double2D globalPointPos = this.getPosition().add(colPoint);

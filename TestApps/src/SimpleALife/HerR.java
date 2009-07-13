@@ -124,6 +124,7 @@ public class HerR extends TestApps.Physics2D.BubbleRace.FrictionRobot implements
 		}
 	}
 
+	@Override
 	public int handleCollision(PhysicalObject2D other, Double2D colPoint)
 	{
 		subTargetPosition = null;	// to instantly calculate a new target after COLLISION
@@ -242,7 +243,7 @@ public class HerR extends TestApps.Physics2D.BubbleRace.FrictionRobot implements
 					}
 
 					// run approximately in the opposite direction
-					double alpha = Math.random()*2.8 - 1.4;	// +-1.4rad (= ~80°)
+					double alpha = Math.random()*2.8 - 1.4;	// +-1.4rad (= ~80ï¿½)
 					tempTarget = SimLifeMath.limitToBorders(position.subtract(observerPos).setLength(thinkAhead).rotate(alpha).add(position), this.size);
 				}
 

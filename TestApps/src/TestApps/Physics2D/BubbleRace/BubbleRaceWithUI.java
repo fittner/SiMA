@@ -59,17 +59,20 @@ public class BubbleRaceWithUI extends GUIState
 		return "Bot Race";
 	}
 	
+	@Override
 	public Object getSimulationInspectedObject()
 	{
 		return state;
 	}
 	
+	@Override
 	public void start()
 	{
 		super.start();
 		setupPortrayals();
 	}
 	
+	@Override
 	public void load(SimState state)
 	{
 		super.load(state);
@@ -89,6 +92,7 @@ public class BubbleRaceWithUI extends GUIState
 	}
 	
 	
+	@Override
 	public void init(Controller c)
 	{
 		super.init(c);
@@ -104,6 +108,7 @@ public class BubbleRaceWithUI extends GUIState
 		display.attach(entityPortrayal, "Bot Race");
 	}
 	
+	@Override
 	public void quit()
 	{
 		super.quit();

@@ -48,17 +48,20 @@ public class SimLifeArenaGUI extends GUIState
         return "SimLife Arena";
     }
 
+    @Override
     public Object getSimulationInspectedObject()
     {
     	return state;
     }
 
+    @Override
     public void start()
     {
         super.start();
         setupPortrayals();
    	}
 
+    @Override
     public void load(SimState state)
 	{
         super.load(state);
@@ -81,6 +84,7 @@ public class SimLifeArenaGUI extends GUIState
         display.repaint();
 	}
 
+    @Override
     public void init(Controller c)
 	{
         super.init(c);
@@ -99,6 +103,7 @@ public class SimLifeArenaGUI extends GUIState
         display.setBackdrop(Color.black);
 	}
 
+    @Override
     public void quit()
 	{
         super.quit();

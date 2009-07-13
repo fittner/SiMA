@@ -35,6 +35,7 @@ public class BubbleRace extends SimState
 	}
 	
     // Resets and starts a simulation
+	@Override
 	public void start()
 	{
 		super.start();

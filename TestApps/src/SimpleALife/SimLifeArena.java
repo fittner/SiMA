@@ -43,6 +43,7 @@ public class SimLifeArena extends SimState
     }
 
     // Resets and starts a simulation
+    @Override
     public void start()
     {
     	System.out.println("------ Start ------");	// debug
