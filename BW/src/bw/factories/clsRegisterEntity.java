@@ -8,6 +8,7 @@
  */
 package bw.factories;
 
+import sim.engine.Schedule;
 import sim.physics2D.constraint.PinJoint;
 import sim.physics2D.physicalObject.PhysicalObject2D;
 import ARSsim.physics2D.physicalObject.clsMobileObject2D;
@@ -29,6 +30,8 @@ import bw.physicalObjects.bodyparts.clsBotHands;
  * 
  */
 public final class clsRegisterEntity {
+	
+	public final static double defaultScheduleStepWidth = 1.0;
 
 	public static void registerPhysicalObject2D(PhysicalObject2D poPhysicalObject2D) {
 		clsSingletonMasonGetter.getPhysicsEngine2D().register(poPhysicalObject2D);
@@ -50,9 +53,17 @@ public final class clsRegisterEntity {
 	 * @author langr
 	 * 25.02.2009, 14:22:58
 	 */	
-	public static void registerMobileObject2D(clsMobileObject2D poMobileObject2D) {
+	public static void registerMobileObject2D(final clsMobileObject2D poMobileObject2D) {
 		registerPhysicalObject2D(poMobileObject2D);
-		clsSingletonMasonGetter.getSimState().schedule.scheduleRepeating(poMobileObject2D);			
+		Schedule s = clsSingletonMasonGetter.getSimState().schedule;
+
+		/* schedule the various steps */
+		s.scheduleRepeating(poMobileObject2D.getSteppableBeforeStepping(), 0, defaultScheduleStepWidth);
+		s.scheduleRepeating(poMobileObject2D.getSteppableSensing(), 1, defaultScheduleStepWidth);
+		s.scheduleRepeating(poMobileObject2D.getSteppableUpdateInternalState(), 2, defaultScheduleStepWidth);
+		s.scheduleRepeating(poMobileObject2D.getSteppableProcessing(), 3, defaultScheduleStepWidth);
+		//s.scheduleRepeating(poMobileObject2D.getSteppableExecution(), 4, defaultScheduleStepWidth);
+		s.scheduleRepeating(poMobileObject2D.getSteppableAfterStepping(), 5, defaultScheduleStepWidth);
 	}
 	
 	public static void registerStationaryObject2D(clsStationaryObject2D poStationaryObject2D) {
@@ -72,7 +83,7 @@ public final class clsRegisterEntity {
 	public static void registerBotHands(clsBotHands poBotHand) {
 		clsSingletonMasonGetter.getPhysicsEngine2D().register(poBotHand);
 		clsSingletonMasonGetter.getFieldEnvironment().setObjectLocation( poBotHand, new sim.util.Double2D(poBotHand.getPosition().getX(), poBotHand.getPosition().getY()) );
-		clsSingletonMasonGetter.getSimState().schedule.scheduleRepeating(poBotHand);
+		clsSingletonMasonGetter.getSimState().schedule.scheduleRepeating(poBotHand, 6, defaultScheduleStepWidth);
 	}
 	
 	public static void registerEntity(clsRemoteBot poEntity) {
@@ -80,11 +91,11 @@ public final class clsRegisterEntity {
 		
 		registerPhysicalObject2D(poEntity.getVision() );
 		clsSingletonMasonGetter.getFieldEnvironment().setObjectLocation(poEntity.getVision(), new sim.util.Double2D(poEntity.getPosition().x, poEntity.getPosition().y));
-		clsSingletonMasonGetter.getSimState().schedule.scheduleRepeating(poEntity.getVision());
+		clsSingletonMasonGetter.getSimState().schedule.scheduleRepeating(poEntity.getVision(), 6, defaultScheduleStepWidth);
 		
 		registerPhysicalObject2D(poEntity.getEatableAreaVision() );
 		clsSingletonMasonGetter.getFieldEnvironment().setObjectLocation(poEntity.getEatableAreaVision(), new sim.util.Double2D(poEntity.getPosition().x, poEntity.getPosition().y));
-		clsSingletonMasonGetter.getSimState().schedule.scheduleRepeating(poEntity.getEatableAreaVision());
+		clsSingletonMasonGetter.getSimState().schedule.scheduleRepeating(poEntity.getEatableAreaVision(), 6, defaultScheduleStepWidth);
 		
 		registerBotHands(poEntity.getBotHand1());
 		registerBotHands(poEntity.getBotHand2());
@@ -115,13 +126,13 @@ public final class clsRegisterEntity {
 		if (poEntity instanceof itfGetVision) {
 			registerPhysicalObject2D(((itfGetVision)poEntity).getVision() );
 			clsSingletonMasonGetter.getFieldEnvironment().setObjectLocation(((itfGetVision)poEntity).getVision(), new sim.util.Double2D(poEntity.getPosition().x, poEntity.getPosition().y));
-			clsSingletonMasonGetter.getSimState().schedule.scheduleRepeating(((itfGetVision)poEntity).getVision());
+			clsSingletonMasonGetter.getSimState().schedule.scheduleRepeating(((itfGetVision)poEntity).getVision(), 6, defaultScheduleStepWidth);
 		}
 		
 		if (poEntity instanceof itfGetEatableArea) {
 			registerPhysicalObject2D(((itfGetEatableArea)poEntity).getEatableArea() );
 			clsSingletonMasonGetter.getFieldEnvironment().setObjectLocation(((itfGetEatableArea)poEntity).getEatableArea(), new sim.util.Double2D( (((itfGetEatableArea)poEntity).getEatableArea().getPosition().x+10), ((itfGetEatableArea)poEntity).getEatableArea().getPosition().y));
-			clsSingletonMasonGetter.getSimState().schedule.scheduleRepeating(((itfGetEatableArea)poEntity).getEatableArea());
+			clsSingletonMasonGetter.getSimState().schedule.scheduleRepeating(((itfGetEatableArea)poEntity).getEatableArea(), 6, defaultScheduleStepWidth);
 		}
 
 		poEntity.setRegistered(true);

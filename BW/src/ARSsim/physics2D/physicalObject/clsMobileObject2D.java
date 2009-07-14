@@ -30,7 +30,7 @@ import bw.utils.inspectors.entity.clsInspectorEntity;
  * @author muchitsch
  *
  */
-public class clsMobileObject2D extends sim.physics2D.physicalObject.MobileObject2D implements Steppable, ForceGenerator, itfGetEntity, itfSetupFunctions {
+public class clsMobileObject2D extends sim.physics2D.physicalObject.MobileObject2D implements ForceGenerator, itfGetEntity, itfSetupFunctions {
 
 	private static final long serialVersionUID = -7732669244848952049L;
 	
@@ -116,6 +116,7 @@ public class clsMobileObject2D extends sim.physics2D.physicalObject.MobileObject
 	 * 
 	 * @see sim.engine.Steppable#step(sim.engine.SimState)
 	 */
+/*
 	public void step(SimState state) {
 		//this block should be distributed to different steps
 		moEntity.sensing();
@@ -129,6 +130,63 @@ public class clsMobileObject2D extends sim.physics2D.physicalObject.MobileObject
 	    
 	    // FIXME: clemens + roland - resetStepInfo should be called at the beginning of this function!
 		resetStepInfo();
+	}
+*/
+	
+	public Steppable getSteppableBeforeStepping() {
+		return new Steppable() {
+			private static final long serialVersionUID = 8277569961105957056L;
+			public void step(SimState state) {
+				resetStepInfo();
+			}
+		};
+	}
+	
+	public Steppable getSteppableSensing() {
+		return new Steppable() {
+			private static final long serialVersionUID = 6889902215107604312L;
+			public void step(SimState state) {
+				moEntity.sensing();
+			}
+		};
+	}
+	
+	public Steppable getSteppableUpdateInternalState() {
+		return new Steppable() {
+			private static final long serialVersionUID = -1672763372988537963L;
+			public void step(SimState state) {
+				moEntity.updateInternalState();
+			}
+		};
+	}
+	
+	public Steppable getSteppableProcessing() {
+		return new Steppable() {
+			private static final long serialVersionUID = -5218583360606426073L;
+			public void step(SimState state) {
+				moEntity.processing();
+			}
+		};
+	}
+	
+	public Steppable getSteppableExecution() {
+		return new Steppable() {
+			private static final long serialVersionUID = -7785659205720901693L;
+			public void step(SimState state) {
+				moEntity.execution();
+			}
+		};
+	}
+	
+	public Steppable getSteppableAfterStepping() {
+		return new Steppable() {
+			private static final long serialVersionUID = 8796719574709310639L;
+			public void step(SimState state) {
+				//with these 2, physics work!
+				sim.physics2D.util.Double2D position = getPosition();
+			    clsSingletonMasonGetter.getFieldEnvironment().setObjectLocation(clsMobileObject2D.this, new sim.util.Double2D(position.x, position.y));
+			}
+		};
 	}
 	
 	
