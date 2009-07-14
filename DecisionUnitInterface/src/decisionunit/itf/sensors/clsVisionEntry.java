@@ -1,13 +1,16 @@
 package decisionunit.itf.sensors;
 
+
 import java.awt.Color;
 
 import enums.eEntityType;
+import enums.eShapeType;
 import bfg.tools.shapes.clsPolarcoordinate;
 
 public class clsVisionEntry {
 	public clsPolarcoordinate moPolarcoordinate = new clsPolarcoordinate();
 	public eEntityType mnEntityType = eEntityType.UNDEFINED;
+	public eShapeType mnShapeType = eShapeType.UNDEFINED;
 	public int moEntityId = -1;
 	public boolean mnAlive = false;
 	public Color moColor = null;

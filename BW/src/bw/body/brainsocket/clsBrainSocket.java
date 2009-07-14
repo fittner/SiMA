@@ -12,6 +12,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 
 import sim.physics2D.physicalObject.PhysicalObject2D;
+import sim.physics2D.shape.*;
 
 import decisionunit.clsBaseDecisionUnit;
 import decisionunit.itf.actions.itfActionProcessor;
@@ -221,6 +222,7 @@ public class clsBrainSocket implements itfStepProcessing {
 		clsVisionEntry oData = new clsVisionEntry();
 		
 		oData.mnEntityType = getEntityType(visionObj);		
+		oData.mnShapeType = getShapeType(visionObj);
 		oData.moPolarcoordinate = new clsPolarcoordinate(visionDir.mrLength, visionDir.moAzimuth.radians);
 		oData.moColor = (Color) oEntity.getShape().getPaint();
 		
@@ -276,6 +278,17 @@ public class clsBrainSocket implements itfStepProcessing {
 		}	
 		
 		return oResult;
+	}
+	
+	private  enums.eShapeType getShapeType(PhysicalObject2D poObject) {
+		
+		if (poObject.getShape() instanceof  Circle) {
+			return enums.eShapeType.CIRCLE;
+		}else if(poObject.getShape() instanceof  Rectangle){
+			return enums.eShapeType.SQUARE;
+		} else {
+			return enums.eShapeType.UNDEFINED;
+		}
 	}
 	
 
