@@ -20,8 +20,11 @@ import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
 
+import bw.body.clsBaseBody;
+import bw.body.clsComplexBody;
 import bw.body.itfget.itfGetBody;
 import bw.entities.clsEntity;
+import bw.utils.inspectors.body.clsFillLevelInspector;
 
 import sim.display.GUIState;
 import sim.portrayal.Inspector;
@@ -172,13 +175,18 @@ public class clsInspectorEntity extends Inspector implements ActionListener {
 			
 			TabbedInspector oMasonInspector = new TabbedInspector();
 			
-			moEntityWindow = new Frame("This is the Frames for Entity Inspection!");
 			oMasonInspector.addInspector( clsInspectorMapping.getInspector(moOriginalInspector, moWrapper, moGuiState, ((itfGetBody)moEntity).getBody().getBrain().getDecisionUnit()), "Tab 1");
-			//oMasonInspector.addInspector( clsInspectorMapping.getInspector(moOriginalInspector, moWrapper, moGuiState, ((itfGetBody)moEntity).getBody().getBrain().getDecisionUnit()), "Tab 2");
 			oMasonInspector.addInspector( clsInspectorMapping.getInspector(moOriginalInspector, moWrapper, moGuiState, null), "Tab 2");
-			moEntityWindow.add(oMasonInspector);
-			moEntityWindow.setSize(300,200);
-			moEntityWindow.setVisible(true);
+
+			clsBaseBody iBody = ((itfGetBody)moEntity).getBody();
+			
+			if(iBody instanceof clsComplexBody) {
+				oMasonInspector.addInspector( new clsFillLevelInspector(moOriginalInspector, moWrapper, moGuiState, ((clsComplexBody)iBody).getInternalSystem().getStomachSystem()), "Stomach System");
+			}
+			
+			oMasonInspector.addInspector( clsInspectorMapping.getInspector(moOriginalInspector, moWrapper, moGuiState, null), "Tab 2");
+			
+			moEntityWindow = clsInspectorFrame.getInspectorFrame(oMasonInspector, "Entity Inspector");
 		}
 	}
 
