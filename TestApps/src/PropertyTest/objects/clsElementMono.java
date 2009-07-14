@@ -1,6 +1,6 @@
 package PropertyTest.objects;
 
-import java.util.Properties;
+import PropertyTest.Properties.clsBWProperties;
 
 public class clsElementMono extends clsElement {
 	public static final String P_A = "A";
@@ -12,7 +12,7 @@ public class clsElementMono extends clsElement {
 		mnA = A;
 	}
 	
-	public clsElementMono(String poPrefix, Properties poProp) {
+	public clsElementMono(String poPrefix, clsBWProperties poProp) {
 		super(poPrefix, poProp);
 		applyProperties(poPrefix, poProp);
 	}	
@@ -30,13 +30,13 @@ public class clsElementMono extends clsElement {
 		return super.toString()+"A: "+mnA;
 	}
 	
-	public static Properties getDefaultProperties(String poPrefix) {
+	public static clsBWProperties getDefaultProperties(String poPrefix) {
 		String pre = poPrefix;
 		if (pre.length()>0) {
 			pre = pre+".";
 		}
 		
-		Properties oProp = new Properties();
+		clsBWProperties oProp = new clsBWProperties();
 		
 		oProp.setProperty(pre+P_NAME, "mono");
 		oProp.setProperty(pre+P_A, "0");
@@ -44,12 +44,12 @@ public class clsElementMono extends clsElement {
 		return oProp;
 	}	
 	
-	private void applyProperties(String poPrefix, Properties poProp) {
+	private void applyProperties(String poPrefix, clsBWProperties poProp) {
 		String pre = poPrefix;
 		if (pre.length()>0) {
 			pre = pre+".";
 		}
 		
-		mnA = Integer.parseInt(poProp.getProperty(pre+P_A));
+		mnA = poProp.getPropertyInt(pre+P_A);
 	}	
 }

@@ -1,6 +1,6 @@
 package PropertyTest.objects;
 
-import java.util.Properties;
+import PropertyTest.Properties.clsBWProperties;
 
 public abstract class clsElement {
 	public static final String P_NAME = "name";
@@ -11,7 +11,7 @@ public abstract class clsElement {
 		moName = Name;
 	}
 	
-	public clsElement(String poPrefix, Properties poProp) {
+	public clsElement(String poPrefix, clsBWProperties poProp) {
 		applyProperties(poPrefix, poProp);
 	}
 	
@@ -20,13 +20,13 @@ public abstract class clsElement {
 		return "'"+moName+"' ";
 	}
 
-	private void applyProperties(String poPrefix, Properties poProp) {
+	private void applyProperties(String poPrefix, clsBWProperties poProp) {
 		String pre = poPrefix;
 		if (pre.length()>0) {
 			pre = pre+".";
 		}
 		
-		moName = poProp.getProperty(pre+P_NAME);
+		moName = poProp.getPropertyString(pre+P_NAME);
 	}
 	
 }

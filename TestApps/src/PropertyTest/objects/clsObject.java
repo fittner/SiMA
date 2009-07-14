@@ -1,6 +1,6 @@
 package PropertyTest.objects;
 
-import java.util.Properties;
+import PropertyTest.Properties.clsBWProperties;
 
 public class clsObject {
 	public static final String P_DUAL = "dual";
@@ -25,7 +25,7 @@ public class clsObject {
 		moElementGroup3 = new clsGroupElement3();
 		moTwitterGroup = new clsGroupTwitter();
 	}
-	public clsObject(String poPrefix, Properties poProp) {
+	public clsObject(String poPrefix, clsBWProperties poProp) {
 		applyProperties(poPrefix, poProp);
 	}	
 	
@@ -43,13 +43,13 @@ public class clsObject {
 		return res;
 	}
 	
-	public static Properties getDefaultProperties(String poPrefix) {
+	public static clsBWProperties getDefaultProperties(String poPrefix) {
 		String pre = poPrefix;
 		if (pre.length()>0) {
 			pre = pre+".";
 		}
 				
-		Properties oProp = new Properties();
+		clsBWProperties oProp = new clsBWProperties();
 		
 		oProp.putAll( clsElementMono.getDefaultProperties(pre+P_MONO) );
 		oProp.putAll( clsElementDual.getDefaultProperties(pre+P_DUAL) );
@@ -61,7 +61,7 @@ public class clsObject {
 		return oProp;		
 	}
 	
-	private void applyProperties(String poPrefix, Properties poProp) {
+	private void applyProperties(String poPrefix, clsBWProperties poProp) {
 		String pre = poPrefix;
 		if (pre.length()>0) {
 			pre = pre+".";

@@ -1,6 +1,6 @@
 package PropertyTest.objects;
 
-import java.util.Properties;
+import PropertyTest.Properties.clsBWProperties;
 
 public class clsGroupTwitter {
 	public static final String P_GROUP1 = "group1";
@@ -16,7 +16,7 @@ public class clsGroupTwitter {
 		moElementGroup2 = new clsGroupElement2(4);
 		moElementGroup3 = new clsGroupElement3();
 	}
-	public clsGroupTwitter(String poPrefix, Properties poProp) {
+	public clsGroupTwitter(String poPrefix, clsBWProperties poProp) {
 		applyProperties(poPrefix, poProp);
 	}		
 	
@@ -29,13 +29,13 @@ public class clsGroupTwitter {
 		return res;
 	}
 
-    public static Properties getDefaultProperties(String poPrefix) {
+    public static clsBWProperties getDefaultProperties(String poPrefix) {
 		String pre = poPrefix;
 		if (pre.length()>0) {
 			pre = pre+".";
 		}
 				
-		Properties oProp = new Properties();
+		clsBWProperties oProp = new clsBWProperties();
 		
 		oProp.putAll( clsGroupElement1.getDefaultProperties(pre+P_GROUP1) );
 		oProp.putAll( clsGroupElement2.getDefaultProperties(pre+P_GROUP2) );
@@ -44,7 +44,7 @@ public class clsGroupTwitter {
 		return oProp;
 	}	
 
-    private void applyProperties(String poPrefix, Properties poProp) {
+    private void applyProperties(String poPrefix, clsBWProperties poProp) {
 		String pre = poPrefix;
 		if (pre.length()>0) {
 			pre = pre+".";

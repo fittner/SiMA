@@ -1,7 +1,7 @@
 package PropertyTest.objects;
 
 import java.util.ArrayList;
-import java.util.Properties;
+import PropertyTest.Properties.clsBWProperties;
 
 public class clsGroupElement2 {
 	public static final String P_NUM_ELEMENTS = "num";
@@ -17,7 +17,7 @@ public class clsGroupElement2 {
 			addElement(i, i+1);
 		}
 	}
-	public clsGroupElement2(String poPrefix, Properties poProp) {
+	public clsGroupElement2(String poPrefix, clsBWProperties poProp) {
 		moElements = new ArrayList<clsElementDual>();
 		
 		applyProperties(poPrefix, poProp);
@@ -44,7 +44,7 @@ public class clsGroupElement2 {
 		return res;
 	}
 	
-	public static Properties getDefaultProperties(String poPrefix) {
+	public static clsBWProperties getDefaultProperties(String poPrefix) {
 		String pre = poPrefix;
 		if (pre.length()>0) {
 			pre = pre+".";
@@ -52,7 +52,7 @@ public class clsGroupElement2 {
 		
 		int num = 4;
 		
-		Properties oProp = new Properties();
+		clsBWProperties oProp = new clsBWProperties();
 
 		oProp.setProperty(pre+P_NUM_ELEMENTS, new Integer(num).toString());
 		
@@ -65,13 +65,13 @@ public class clsGroupElement2 {
 		return oProp;
 	}	
 	
-	private void applyProperties(String poPrefix, Properties poProp) {
+	private void applyProperties(String poPrefix, clsBWProperties poProp) {
 		String pre = poPrefix;
 		if (pre.length()>0) {
 			pre = pre+".";
 		}
 		
-		int num = Integer.parseInt(poProp.getProperty(pre+P_NUM_ELEMENTS));
+		int num = poProp.getPropertyInt(pre+P_NUM_ELEMENTS);
 		for (int i=0; i<num; i++) {
 			String temp = pre+i;
 			clsElementDual oED = new clsElementDual(temp, poProp);
