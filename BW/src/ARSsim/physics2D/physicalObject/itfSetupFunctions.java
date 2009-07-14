@@ -17,6 +17,9 @@ import sim.physics2D.shape.Shape;
  * Since the clsEntity only contains the base class of both (=physicalObject2D)
  * the implemented interface enables a direct access of these functions  anyway.
  * 
+ * Coefficients: Only mobile objects support friction and staticFriction. Restitution
+ * is supported by both, mobile and stationary. (EH)
+ * 
  * @author langr
  * 
  */

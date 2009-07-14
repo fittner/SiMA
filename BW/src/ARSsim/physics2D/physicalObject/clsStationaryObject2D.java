@@ -56,17 +56,18 @@ public class clsStationaryObject2D extends sim.physics2D.physicalObject.Stationa
 	/* (non-Javadoc)
 	 * @see ARSsim.physics2D.physicalObject.itfSetupFunctions#setShape(sim.physics2D.shape.Shape, double)
 	 */
-	public void setShape(Shape poShape, double poMass) {
+	public void setShape(Shape poShape, double ignored) {
 		// TODO Why is there no setShape - corresponding to clsMobileObject2D. Adopt it!
-		this.setShape(poShape);
+		setShape(poShape);
 	}
 
 	/* (non-Javadoc)
 	 * @see ARSsim.physics2D.physicalObject.itfSetupFunctions#setCoefficients(double, double, double)
+	 * Note: Stationary objects don't support friction and staticFriction, only restitution 
 	 */
-	public void setCoefficients(double poFriction, double poStaticFriction,
+	public void setCoefficients(double ignored1, double ignored2,
 			double poRestitution) {
-		setCoefficients(poFriction, poStaticFriction, poRestitution);
+		setCoefficientOfRestitution(poRestitution);
 	}
 		
 }
