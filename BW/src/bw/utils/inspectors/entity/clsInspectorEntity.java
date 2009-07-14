@@ -7,13 +7,11 @@
  * $Date::                     $: Date of last commit
  */
 package bw.utils.inspectors.entity;
-
 import inspectors.clsInspectorMapping;
-
 import java.awt.BorderLayout;
-import java.awt.Frame;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 import java.util.Formatter;
 
 import javax.swing.Box;
@@ -53,7 +51,7 @@ public class clsInspectorEntity extends Inspector implements ActionListener {
 	LocationWrapper moWrapper;
 	GUIState moGuiState;
 	
-	Frame moEntityWindow = null;
+	ArrayList<clsInspectorFrame> moEntityWindows = new ArrayList<clsInspectorFrame>();
 	
 	private JButton moBtnEntityInspectors;
 	private JButton moBtnBodyInspectors;
@@ -131,8 +129,13 @@ public class clsInspectorEntity extends Inspector implements ActionListener {
 		oDoubleFormatter = new Formatter();
 		moProp4.setValue( oDoubleFormatter.format("%.2f", moEntity.getPosition().y).toString() );
 		
-		if(moEntityWindow != null) {
-			moEntityWindow.invalidate();
+		//TODO: opened windows are not deleted when closed!!!!!
+		//FIXME: opened windows are not deleted when closed!!!!!  
+		for( clsInspectorFrame oEntityWindow : moEntityWindows)
+		{
+			if(oEntityWindow != null) {
+				oEntityWindow.getInspectorContent().updateInspector();
+			}
 		}
 	}
 
@@ -172,21 +175,22 @@ public class clsInspectorEntity extends Inspector implements ActionListener {
 		Object source = e.getSource();
 		
 		if( source == moBtnEntityInspectors ) {
-			
 			TabbedInspector oMasonInspector = new TabbedInspector();
-			
-			oMasonInspector.addInspector( clsInspectorMapping.getInspector(moOriginalInspector, moWrapper, moGuiState, ((itfGetBody)moEntity).getBody().getBrain().getDecisionUnit()), "Tab 1");
-			oMasonInspector.addInspector( clsInspectorMapping.getInspector(moOriginalInspector, moWrapper, moGuiState, null), "Tab 2");
-
+			oMasonInspector.addInspector(moOriginalInspector, "Default Insp.");
+			moEntityWindows.add( clsInspectorFrame.getInspectorFrame(oMasonInspector, "Entity Inspector") );
+		}
+		else if( source == moBtnBodyInspectors ) {
+			TabbedInspector oMasonInspector = new TabbedInspector();
 			clsBaseBody iBody = ((itfGetBody)moEntity).getBody();
-			
 			if(iBody instanceof clsComplexBody) {
 				oMasonInspector.addInspector( new clsFillLevelInspector(moOriginalInspector, moWrapper, moGuiState, ((clsComplexBody)iBody).getInternalSystem().getStomachSystem()), "Stomach System");
 			}
-			
-			oMasonInspector.addInspector( clsInspectorMapping.getInspector(moOriginalInspector, moWrapper, moGuiState, null), "Tab 2");
-			
-			moEntityWindow = clsInspectorFrame.getInspectorFrame(oMasonInspector, "Entity Inspector");
+			moEntityWindows.add( clsInspectorFrame.getInspectorFrame(oMasonInspector, "Body Inspector") );
+		}
+		else if( source == moBtnBrainInspectors) {
+			TabbedInspector oMasonInspector = new TabbedInspector();
+			oMasonInspector.addInspector( clsInspectorMapping.getInspector(moOriginalInspector, moWrapper, moGuiState, ((itfGetBody)moEntity).getBody().getBrain().getDecisionUnit()), "Brain Insp.");
+			moEntityWindows.add( clsInspectorFrame.getInspectorFrame(oMasonInspector, "Brain Inspector") );
 		}
 	}
 

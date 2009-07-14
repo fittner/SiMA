@@ -86,7 +86,7 @@ public class clsDumbBrainInspector extends Inspector implements ItemListener{
          // set up our inspector: keep the properties inspector around too
             setLayout(new BorderLayout());
             add(oBox1, BorderLayout.NORTH);
-            add(originalInspector, BorderLayout.CENTER);
+            //add(originalInspector, BorderLayout.CENTER);
         }
 	
 	/* (non-Javadoc)

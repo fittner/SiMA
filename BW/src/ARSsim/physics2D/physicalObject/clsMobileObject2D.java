@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import sim.display.GUIState;
 import sim.engine.SimState;
 import sim.engine.Steppable;
+
 import sim.physics2D.forceGenerator.ForceGenerator;
 import sim.physics2D.physicalObject.PhysicalObject2D;
 import sim.portrayal.DrawInfo2D;
@@ -16,10 +17,12 @@ import sim.portrayal.LocationWrapper;
 import sim.portrayal.inspector.TabbedInspector;
 import ARSsim.motionplatform.clsMotionPlatform;
 import ARSsim.physics2D.util.clsPose;
+
 import bw.entities.clsEntity;
 import bw.factories.clsSingletonMasonGetter;
 import bw.physicalObjects.sensors.clsEntityPartVision;
 import bw.utils.inspectors.entity.clsInspectorEntity;
+
 
 /**
  * Our representative of the mason physics class

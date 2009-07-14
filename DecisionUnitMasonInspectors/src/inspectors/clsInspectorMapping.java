@@ -60,9 +60,9 @@ public class clsInspectorMapping {
 //        else if (poEntity instanceof clsMyNewClass ) {
 //        	oRetVal = new clsMyNewInspector(poSuperInspector, poWrapper, poState);
 //       }
-        else	{
-        	oRetVal = poSuperInspector;  	
-        }
+//        else	{
+//        	oRetVal = poSuperInspector;  	
+//        }
 	    return oRetVal;
 	}
 }
