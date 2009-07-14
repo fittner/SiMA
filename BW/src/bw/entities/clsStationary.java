@@ -22,6 +22,7 @@ import ARSsim.physics2D.util.clsPose;
  */
 public abstract class clsStationary extends clsEntity {
 	private static double mrDefaultStationaryWeight = 9999.0;
+	private double mrDefaultRestitution = 0.5; //0.5 
 
 	public clsStationary(int pnId, clsPose poPose, Shape poShape, clsConfigMap poConfig) {
 		super(pnId, clsStationary.getFinalConfig(poConfig));
@@ -56,6 +57,7 @@ public abstract class clsStationary extends clsEntity {
 		
 		setPose(poPose);
 		setShape(poShape, prMass);
+		setCoefficients(0.0, 0.0, mrDefaultRestitution);  // First two coeffs ignored for stationary objects
 	}
 	
 	public clsStationaryObject2D getStationaryObject2D() {
