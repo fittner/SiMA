@@ -13,7 +13,6 @@ import java.util.Random;
 import enums.eEntityType;
 import sim.physics2D.util.Double2D;
 import ARSsim.physics2D.util.clsPose;
-import bw.actionresponses.clsMeatResponses;
 import bw.body.clsMeatBody;
 import bw.body.internalSystems.clsFlesh;
 import bw.body.io.actuators.actionProxies.itfAPCarryable;
@@ -79,8 +78,6 @@ public class clsCarrot extends clsInanimate implements itfGetFlesh, itfAPEatable
 		setMass(mrOwnMass + getFlesh().getAmount());
 		
 		setShape(new ARSsim.physics2D.shape.clsCircleImage(clsCarrot.mrDefaultRadius, moDefaultColor , moImagePathFresh), getMass());
-		
-		setEntityActionResponse(new clsMeatResponses(this));
 	}
 	
 	private void applyConfig() {

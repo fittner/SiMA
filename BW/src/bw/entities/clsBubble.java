@@ -9,7 +9,6 @@ package bw.entities;
 
 import java.awt.Paint;
 import simple.dumbmind.clsDumbMindA;
-import bw.actionresponses.clsBubbleResponses;
 import bw.body.clsBaseBody;
 import bw.body.clsComplexBody;
 import bw.body.itfget.itfGetEatableArea;
@@ -57,7 +56,6 @@ public class clsBubble extends clsAnimate implements itfGetVision, itfGetEatable
 			
 		applyConfig();
 		
-		setEntityActionResponse(new clsBubbleResponses());
 		setDecisionUnit(new clsDumbMindA());
     } 
 

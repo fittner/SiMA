@@ -25,7 +25,7 @@ import enums.eEntityType;
  * 08.07.2009, 11:25:46
  * 
  */
-public class clsUraniumOre extends clsInanimate implements itfAPCarryable{
+public class clsUraniumOre extends clsInanimate implements itfAPCarryable {
 	private static double mrDefaultWeight = 30.0f;
 	private static double mrDefaultRadius = 4.0f;
 	private static String moImagePath = sim.clsBWMain.msArsPath + "/src/resources/images/Uranium.png";

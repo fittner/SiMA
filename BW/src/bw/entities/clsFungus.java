@@ -8,7 +8,6 @@
 package bw.entities;
 
 import java.awt.Color;
-import bw.actionresponses.clsMeatResponses;
 import bw.body.clsMeatBody;
 import bw.body.internalSystems.clsFlesh;
 import bw.body.itfget.itfGetFlesh;
@@ -62,8 +61,6 @@ public class clsFungus extends clsInanimate implements itfGetFlesh, itfAPEatable
 		moBody = new clsMeatBody(this, (clsConfigMap)moConfig.get(eConfigEntries.BODY));
 		
 		setShape(new ARSsim.physics2D.shape.clsCircleImage(clsFungus.mrDefaultRadius, moDefaultColor , moImagePath), clsFungus.mrDefaultMass);
-		
-		setEntityActionResponse(new clsMeatResponses(this));
     } 
 	
 	private void applyConfig() {

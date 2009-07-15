@@ -11,8 +11,6 @@ import sim.physics2D.physicalObject.PhysicalObject2D;
 import sim.physics2D.shape.Shape;
 import ARSsim.physics2D.physicalObject.itfSetupFunctions;
 import ARSsim.physics2D.util.clsPose;
-import bw.actionresponses.clsDefaultEntityActionResponse;
-import bw.actionresponses.clsEntityActionResponses;
 import bw.utils.container.clsConfigMap;
 import enums.eEntityType;
 
@@ -43,7 +41,6 @@ import enums.eEntityType;
 public abstract class clsEntity {
 	
 	protected PhysicalObject2D moPhysicalObject2D;
-	private clsEntityActionResponses moEntityActionResponses;
 	private double mrMass;
 	protected eEntityType meEntityType;
 	private int mnId;
@@ -67,8 +64,6 @@ public abstract class clsEntity {
 		
 		setEntityType();
 		
-		setEntityActionResponse(new clsDefaultEntityActionResponse());
-
 		moPhysicalObject2D = null;
 		mrMass = 0.0f;
 		setRegistered(false);
@@ -139,18 +134,7 @@ public abstract class clsEntity {
 	 */
 	protected abstract void setEntityType();
 
-	/**
-	 * TODO (deutsch) - insert description
-	 *
-	 * @author deutsch
-	 * 26.02.2009, 11:15:27
-	 *
-	 * @param poResponse
-	 */
-	protected void setEntityActionResponse(clsEntityActionResponses poResponse) {
-		setEntityActionResponses(poResponse);
-	}
-	
+
 	/**
 	 * TODO (deutsch) - insert description
 	 *
@@ -244,23 +228,6 @@ public abstract class clsEntity {
 		((itfSetupFunctions)moPhysicalObject2D).setCoefficients(poFriction, poStaticFriction, poRestitution);
 	}
 	
-
-
-	/**
-	 * @param moEntityActionResponses the moEntityActionResponses to set
-	 */
-	public void setEntityActionResponses(clsEntityActionResponses poEntityActionResponses) {
-		this.moEntityActionResponses = poEntityActionResponses;
-	}
-
-	/**
-	 * @return the moEntityActionResponses
-	 */
-	public clsEntityActionResponses getEntityActionResponses() {
-		return moEntityActionResponses;
-	}
-
-
 	/**
 	 * @author deutsch
 	 * 25.02.2009, 16:21:36
