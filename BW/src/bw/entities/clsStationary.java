@@ -57,7 +57,7 @@ public abstract class clsStationary extends clsEntity {
 		
 		setPose(poPose);
 		setShape(poShape, prMass);
-		setCoefficients(0.0, 0.0, mrDefaultRestitution);  // First two coeffs ignored for stationary objects
+		setCoefficients(Double.NaN, Double.NaN, mrDefaultRestitution);  // First two coeffs ignored for stationary objects, use NaN
 	}
 	
 	public clsStationaryObject2D getStationaryObject2D() {

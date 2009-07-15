@@ -18,7 +18,8 @@ import sim.physics2D.shape.Shape;
  * the implemented interface enables a direct access of these functions  anyway.
  * 
  * Coefficients: Only mobile objects support friction and staticFriction. Restitution
- * is supported by both, mobile and stationary. (EH)
+ *     is supported by both, mobile and stationary. When using setCoefficients on
+ *     stationary objects, specify NaN for friction and staticFriction (EH)
  * 
  * @author langr
  * 

@@ -65,10 +65,13 @@ public class clsStationaryObject2D extends sim.physics2D.physicalObject.Stationa
 
 	/* (non-Javadoc)
 	 * @see ARSsim.physics2D.physicalObject.itfSetupFunctions#setCoefficients(double, double, double)
-	 * Note: Stationary objects don't support friction and staticFriction, only restitution 
+	 * Note: Stationary objects don't support friction and staticFriction, only restitution.
+	 *       Use NaN for the former two.
 	 */
-	public void setCoefficients(double ignored1, double ignored2,
+	public void setCoefficients(double mustBeNaN1, double mustBeNaN2,
 			double poRestitution) {
+		if (! Double.isNaN(mustBeNaN1) || ! Double.isNaN(mustBeNaN2))
+			throw new java.lang.UnsupportedOperationException("Cannot specify that argument for stationary objects, use NaN!");
 		setCoefficientOfRestitution(poRestitution);
 	}
 
