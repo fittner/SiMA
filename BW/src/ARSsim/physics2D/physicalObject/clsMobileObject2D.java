@@ -156,26 +156,50 @@ public class clsMobileObject2D extends sim.physics2D.physicalObject.MobileObject
 		return new Steppable() {
 			private static final long serialVersionUID = 8796719574709310639L;
 			public void step(SimState state) {
-				//correct rotation-force to emulate static friction for rotation
-				addAngularFriction();
-				
-				//with these 2, physics work!
-				sim.physics2D.util.Double2D position = getPosition();
-			    clsSingletonMasonGetter.getFieldEnvironment().setObjectLocation(clsMobileObject2D.this, new sim.util.Double2D(position.x, position.y));
+				postprocessStep();
 			}
 		};
 	}
 	
+	/**
+	 * May be called while Stepping, in any of the step-functions. Accumulates
+	 * values. Contrary to physics2D-addForce(double) should not be called any
+	 * more during addForce()-handling.
+	 *
+	 * @author holleis
+	 * 15.07.2009, 19:16:30
+	 * 
+	 * @see sim.physics2D.physicalObject.MobileObject2D#addForce(sim.physics2D.util.Double2D)
+	 */
 	@Override
 	public void addForce(Double2D force) {
 		moForceComponentVector.add(force);
 	}
 	
+	/**
+	 * May be called while Stepping, in any of the step-functions. Accumulates
+	 * values. Contrary to physics2D-addForce(double) should not be called any
+	 * more during addForce()-handling.
+	 *
+	 * @author holleis
+	 * 15.07.2009, 19:18:57
+	 * 
+	 * @see sim.physics2D.physicalObject.MobileObject2D#addTorque(double)
+	 */
 	@Override
 	public void addTorque(double torque) {
 		moTorqueComponentVector.add(torque);
     }
 	
+	/**
+	 * The forces accumulated by addForce(double) and addTorque(double) are
+	 * committed to the physics-engine.
+	 *
+	 * @author holleis
+	 * 15.07.2009, 19:15:27
+	 * 
+	 * @see sim.physics2D.forceGenerator.ForceGenerator#addForce()
+	 */
 	public void addForce() {		
 		for (Double2D force : moForceComponentVector) {
 			super.addForce(force);
@@ -190,9 +214,8 @@ public class clsMobileObject2D extends sim.physics2D.physicalObject.MobileObject
 	}
   
 	/**
-	 * TODO (langr) - insert description
-	 *
-	 * local variables are reseted here
+	 * Called before other step-functions.
+	 * Local variables are reseted here
 	 *
 	 * @author langr
 	 * 25.02.2009, 14:51:43
@@ -203,6 +226,19 @@ public class clsMobileObject2D extends sim.physics2D.physicalObject.MobileObject
 		moCollisionList.clear();
 		moForceComponentVector.clear();
 		moTorqueComponentVector.clear();
+	}
+	
+	/*
+	 * Called after other step-functions.
+	 */
+	public void postprocessStep()
+	{
+		//correct rotation-force to emulate static friction for rotation
+		addAngularFriction();
+		
+		//with these 2, physics work!
+		sim.physics2D.util.Double2D position = getPosition();
+	    clsSingletonMasonGetter.getFieldEnvironment().setObjectLocation(clsMobileObject2D.this, new sim.util.Double2D(position.x, position.y));
 	}
 	
     /* (non-Javadoc)
