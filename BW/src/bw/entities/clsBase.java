@@ -102,7 +102,7 @@ public class clsBase extends clsStationary{
 	}
 	
 	public void step(SimState state){
-		int i = 0; 
+		//int i = 0; 
 	}
 
 	/* (non-Javadoc)
