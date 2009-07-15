@@ -140,7 +140,17 @@ public class clsBWProperties extends Properties {
 	
 	@Override
 	public String getProperty(String key) {
-		return unescapeValue(super.getProperty(key));
+		String res = super.getProperty(key);
+		
+		if (res.startsWith(P_RANDOM)) {
+			//insuperior approach - a double value is converted to a string and to a double back again. 
+			//(usually, getPropertyDouble is called in case of random values)
+			res = new Double(clsRandomProperties.getRandom( res.substring( P_RANDOM.length() ))).toString();
+		} else {
+			res = unescapeValue(res);
+		}
+		
+		return res;
 	}
 	
 	@Override
