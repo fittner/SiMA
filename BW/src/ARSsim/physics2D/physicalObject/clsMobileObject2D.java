@@ -11,6 +11,7 @@ import sim.engine.Steppable;
 
 import sim.physics2D.forceGenerator.ForceGenerator;
 import sim.physics2D.physicalObject.PhysicalObject2D;
+import sim.physics2D.util.Double2D;
 import sim.portrayal.DrawInfo2D;
 import sim.portrayal.Inspector;
 import sim.portrayal.LocationWrapper;
@@ -37,6 +38,8 @@ public class clsMobileObject2D extends sim.physics2D.physicalObject.MobileObject
 	private clsEntity moEntity;
 	public clsMotionPlatform moMotionPlatform;
 	public ArrayList<clsCollidingObject> moCollisionList;
+	public ArrayList<Double2D> moForceComponentVector;
+	public ArrayList<Double> moTorqueComponentVector;
 	
 	private TabbedInspector moMasonInspector = null;
 	
@@ -45,6 +48,8 @@ public class clsMobileObject2D extends sim.physics2D.physicalObject.MobileObject
 		moEntity = poEntity;
 		moMotionPlatform = new clsMotionPlatform(this);
 		moCollisionList = new ArrayList<clsCollidingObject>();
+		moForceComponentVector = new ArrayList<Double2D>();
+		moTorqueComponentVector = new ArrayList<Double>();
 	}
 
 	/* (non-Javadoc)
@@ -102,37 +107,6 @@ public class clsMobileObject2D extends sim.physics2D.physicalObject.MobileObject
 		return moEntity;
 	}
 	
-	/* (non-Javadoc)
-	 * 
-	 * The step function, called by the mason framework for each registered object starts the 
-	 * perception and thinking cycle of the ARS-Entity with the calls:
-	 * - update internal state
-	 * - sensing
-	 * - processing
-	 * 
-	 * The cycle is completed in the addForce, where the 
-	 * -execution
-	 * of the entity is called 
-	 * 
-	 * @see sim.engine.Steppable#step(sim.engine.SimState)
-	 */
-/*
-	public void step(SimState state) {
-		//this block should be distributed to different steps
-		moEntity.sensing();
-		moEntity.updateInternalState();
-		moEntity.processing();
-		//moEntity.execution();
-		
-		//with these 2, physics work!
-		sim.physics2D.util.Double2D position = this.getPosition();
-	    clsSingletonMasonGetter.getFieldEnvironment().setObjectLocation(this, new sim.util.Double2D(position.x, position.y));
-	    
-	    // FIXME: clemens + roland - resetStepInfo should be called at the beginning of this function!
-		resetStepInfo();
-	}
-*/
-	
 	public Steppable getSteppableBeforeStepping() {
 		return new Steppable() {
 			private static final long serialVersionUID = 8277569961105957056L;
@@ -182,6 +156,9 @@ public class clsMobileObject2D extends sim.physics2D.physicalObject.MobileObject
 		return new Steppable() {
 			private static final long serialVersionUID = 8796719574709310639L;
 			public void step(SimState state) {
+				//correct rotation-force to emulate static friction for rotation
+				addAngularFriction();
+				
 				//with these 2, physics work!
 				sim.physics2D.util.Double2D position = getPosition();
 			    clsSingletonMasonGetter.getFieldEnvironment().setObjectLocation(clsMobileObject2D.this, new sim.util.Double2D(position.x, position.y));
@@ -189,7 +166,29 @@ public class clsMobileObject2D extends sim.physics2D.physicalObject.MobileObject
 		};
 	}
 	
+	@Override
+	public void addForce(Double2D force) {
+		moForceComponentVector.add(force);
+	}
 	
+	@Override
+	public void addTorque(double torque) {
+		moTorqueComponentVector.add(torque);
+    }
+	
+	public void addForce() {		
+		for (Double2D force : moForceComponentVector) {
+			super.addForce(force);
+		}
+		for (Double torque : moTorqueComponentVector) {
+			super.addTorque(torque);
+		}
+
+		/* addForce is sometimes called multiple times, clear to avoid applying forces multiple times */
+		moForceComponentVector.clear();		
+		moTorqueComponentVector.clear();
+	}
+  
 	/**
 	 * TODO (langr) - insert description
 	 *
@@ -202,22 +201,8 @@ public class clsMobileObject2D extends sim.physics2D.physicalObject.MobileObject
 	public void resetStepInfo()
 	{
 		moCollisionList.clear();
-	}
-	
-	/* (non-Javadoc)
-	 * 
-	 * The cycle (sensing-thinking-executing) is completed here, where the 
-	 * -execution
-	 * of the entity is called
-	 * 
-	 * @see sim.physics2D.forceGenerator.ForceGenerator#addForce()
-	 */
-	public void addForce() {
-//		System.out.println("Execution # "+clsSingletonUniqueIdGenerator.getCurrentUniqueId());
-		moEntity.execution();
-		
-		//correct rotation-force to emulate static friction for rotation
-		addAngularFriction();
+		moForceComponentVector.clear();
+		moTorqueComponentVector.clear();
 	}
 	
     /* (non-Javadoc)

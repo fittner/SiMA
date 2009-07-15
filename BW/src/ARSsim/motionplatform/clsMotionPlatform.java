@@ -1,23 +1,23 @@
 package ARSsim.motionplatform;
 
-import sim.physics2D.physicalObject.MobileObject2D;
 import sim.util.matrix.DenseMatrix;
 import sim.physics2D.util.*;
+import ARSsim.physics2D.physicalObject.clsMobileObject2D;
 
 public class clsMotionPlatform
    {
-	private MobileObject2D moMobile;
+	private clsMobileObject2D moMobile;
 	
     private double P_angle;
     private double D_angle;
         
     private double P_pos;
     private double D_pos;
-    public clsMotionPlatform(MobileObject2D poMobile)
+    public clsMotionPlatform(clsMobileObject2D poMobile)
         {
     	moMobile = poMobile;
     	
-    	//CHKME RooL: was sind die angles etc und wafür werden die gebraucht? Verdacht das sie unnütz sind!
+    	//CHKME RooL: was sind die angles etc und wafï¿½r werden die gebraucht? Verdacht das sie unnï¿½tz sind!
         P_angle = 10;
         D_angle = 500;
                 

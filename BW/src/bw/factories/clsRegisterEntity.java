@@ -63,7 +63,7 @@ public final class clsRegisterEntity {
 		s.scheduleRepeating(poMobileObject2D.getSteppableSensing(), 1, defaultScheduleStepWidth);
 		s.scheduleRepeating(poMobileObject2D.getSteppableUpdateInternalState(), 2, defaultScheduleStepWidth);
 		s.scheduleRepeating(poMobileObject2D.getSteppableProcessing(), 3, defaultScheduleStepWidth);
-		//s.scheduleRepeating(poMobileObject2D.getSteppableExecution(), 4, defaultScheduleStepWidth);
+		s.scheduleRepeating(poMobileObject2D.getSteppableExecution(), 4, defaultScheduleStepWidth);
 		s.scheduleRepeating(poMobileObject2D.getSteppableAfterStepping(), 5, defaultScheduleStepWidth);
 	}
 	
