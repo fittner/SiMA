@@ -9,12 +9,18 @@ import java.io.Reader;
 import java.util.ArrayList;
 import java.util.InvalidPropertiesFormatException;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Properties;
 
 public class clsBWProperties extends Properties {
 	private static final String P_INCLUDE = "@";
-	private static final String P_ESCAPE = "\\";
-
+	private static final String P_RANDOM = "§"; //don't blame me - roland states that the law is pure random
+	private static final String P_DELIMITER = ";";
+	
+	private static final String P_ESCAPE = "\\"; // don't change this value - escape is \\
+	private static final String P_REGEXP_ESCAPE = "\\\\";
+	private static final String P_REGEXP_DELIMITER = "(?<=(("+P_REGEXP_ESCAPE+P_REGEXP_ESCAPE+"){0,9}))"+P_DELIMITER;
+ 
 	/**
 	 * 
 	 */
@@ -24,6 +30,8 @@ public class clsBWProperties extends Properties {
 	private String escapeValue(String value) {
 		if (value.startsWith(P_INCLUDE)) {
 			value = P_ESCAPE+value;
+		} else if (value.startsWith(P_RANDOM)) {
+			value = P_ESCAPE+value;
 		}
 		
 		return value;
@@ -31,6 +39,8 @@ public class clsBWProperties extends Properties {
 	
 	private String unescapeValue(String value) {
 		if (value.startsWith(P_ESCAPE+P_INCLUDE)) {
+			value = value.substring( P_ESCAPE.length() ); 
+		} else if (value.startsWith(P_ESCAPE+P_RANDOM)) {
 			value = value.substring( P_ESCAPE.length() ); 
 		}
 		
@@ -42,7 +52,23 @@ public class clsBWProperties extends Properties {
 		value = escapeValue(value);
 		return super.setProperty(key, value );
 	}
+	public Object setProperty(String key, boolean value) {
+		return setProperty(key, Boolean.toString(value));
+	}
+	public Object setProperty(String key, int value) {
+		return setProperty(key, Integer.toString(value));		
+	}
+	public Object setProperty(String key, float value) {
+		return setProperty(key, Float.toString(value));		
+	}
+	public Object setProperty(String key, double value) {
+		return setProperty(key, Double.toString(value));		
+	}
+	public Object setProperty(String key, List<String> value) {
+		return setProperty(key, ListToString(value));
+	}
 
+	
 	@Override
 	public String getProperty(String key) {
 		return unescapeValue(super.getProperty(key));
@@ -62,7 +88,54 @@ public class clsBWProperties extends Properties {
 	}	
 	public double getPropertyDouble(String key) {
 		return Double.parseDouble(getProperty(key));
-	}		
+	}
+	public List<String> getPropertyList(String key) {
+		return StringToList(getProperty(key));
+	}	
+	
+	private static String escapeDelim(String value) {
+		if (value.contains(P_DELIMITER)) {
+			throw new java.lang.UnsupportedOperationException("escaping of strings currently buggy - please don't use the delimiter "+P_DELIMITER+" in your strings");
+		}
+		//TODO implement correct escaping and unescaping
+	//	value = value.replaceAll(P_REGEXP_ESCAPE, P_ESCAPE+P_ESCAPE); // escape the escape sequence - \\ is converted to \\\\
+	//	value = value.replaceAll(P_DELIMITER, P_ESCAPE+P_DELIMITER); // escape the delimiter - ; is converted to \\;
+		// note: "\\;" is converted to "\\\\\\;" - this has to dealt with in unescape Delim und the regexp has to deal with "\\". this is converted
+		// to "\\\\" and in the imploded string the value has a ; attached. e.g. "a", "\\", and "c" are imploded to "a;\\\\;c". thus. the 
+		// regexp used for split has to include all cases where an even number of escape sequence in front of a delimiter is found.  
+		// "a;\\\\\\;c" equals "a" and "\\;c". "a;\\\\;c" equals "a", "\\", and "c".
+		return value;
+	}
+	private static String unescapeDelim(String value) {
+		//TODO implement correct escaping and unescaping		
+		// reverse escapeDelim
+	//	value = value.replaceAll(P_REGEXP_ESCAPE+P_DELIMITER, P_DELIMITER);
+	//	value = value.replaceAll(P_REGEXP_ESCAPE, P_ESCAPE);
+		return value;
+	}
+	private static String ListToString(List<String> value)  {
+		String v = "";
+		for (String s:value) {
+			v+=escapeDelim(s)+P_DELIMITER;
+		}
+		
+		if (v.length()>0){
+			v = v.substring(0, v.length() - P_DELIMITER.length() );
+		}
+		
+		return v;
+	}
+	
+	private static List<String> StringToList(String value) {
+		String[] r = value.split(P_REGEXP_DELIMITER);
+		List<String> res = new ArrayList<String>();
+		
+		for (String s:r) {
+			res.add( unescapeDelim(s) );
+		}
+		
+		return res;
+	}
 
 	@Override
 	public String getProperty(String key, String defaultValue) {

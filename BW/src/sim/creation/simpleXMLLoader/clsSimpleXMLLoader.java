@@ -46,9 +46,9 @@ public class clsSimpleXMLLoader extends clsLoader {
 	
 	// Constructor 
 	
-	public clsSimpleXMLLoader(SimState poSimState, String xmlfileName)
+	public clsSimpleXMLLoader(SimState poSimState, String poPropertiesFilename, String xmlfileName)
 	{
-		super(poSimState);
+		super(poSimState, poPropertiesFilename);
 		moXMLfileName = xmlfileName;
 	}
 

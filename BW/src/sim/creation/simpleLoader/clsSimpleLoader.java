@@ -40,8 +40,8 @@ public class clsSimpleLoader extends clsLoader {
 	 * @param pnWidth
 	 * @param pnHeight
 	 */
-	public clsSimpleLoader(SimState poSimState, int pnWidth, int pnHeight) {
-		super(poSimState);
+	public clsSimpleLoader(SimState poSimState, String poPropertiesFilename, int pnWidth, int pnHeight) {
+		super(poSimState, poPropertiesFilename);
 		
 		mnNumRemoteBots = 1;
 		mnNumBots = 2;
@@ -57,8 +57,8 @@ public class clsSimpleLoader extends clsLoader {
 		// TODO Auto-generated constructor stub
 	}
 	
-	public clsSimpleLoader(SimState poSimState, int pnWidth, int pnHeight, int pnNumRemoteBots, int pnNumBots, int pnNumCans, int pnNumStones, int pnNumCakes, int pnNumFungi, int pnNumUraniumOre, int pnNumBases) {
-		super(poSimState);
+	public clsSimpleLoader(SimState poSimState, String poPropertiesFilename, int pnWidth, int pnHeight, int pnNumRemoteBots, int pnNumBots, int pnNumCans, int pnNumStones, int pnNumCakes, int pnNumFungi, int pnNumUraniumOre, int pnNumBases) {
+		super(poSimState, poPropertiesFilename);
 		
 		
 		mnNumRemoteBots = pnNumRemoteBots;

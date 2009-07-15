@@ -9,4 +9,14 @@ public class clsGetARSPath {
 			return "S:/ARS/PA/BWv1"; // Windows
 		else throw new NullPointerException("Spooky OS detected, can't find ARS-Root-Dir.");
 	}
+	
+	public static String getConfigPath()
+	{
+		return getArsPath()+System.getProperty("file.separator")+"Config";
+	}
+	
+	public static String getLogPath()
+	{
+		return getArsPath()+System.getProperty("file.separator")+"Log";
+	}	
 }

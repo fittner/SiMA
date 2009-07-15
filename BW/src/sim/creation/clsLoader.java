@@ -9,10 +9,13 @@
 package sim.creation;
 
 import ARSsim.physics2D.util.clsPose;
+import bw.factories.clsPropertiesGetter;
 import bw.factories.clsSingletonMasonGetter;
+import bw.utils.config.clsBWProperties;
 import sim.engine.SimState;
 import sim.field.continuous.Continuous2D;
 import sim.physics2D.PhysicsEngine2D;
+import statictools.clsGetARSPath;
 
 /**
  * TODO (deutsch) - insert description 
@@ -23,7 +26,9 @@ import sim.physics2D.PhysicsEngine2D;
  */
 public abstract class clsLoader {
 	
-    public clsLoader(SimState poSimState) {
+    public clsLoader(SimState poSimState, String poPropertiesFilename) {
+    	loadProperties(poPropertiesFilename);
+    	    	
     	createPhysicsEngine2D();
     	
 		clsSingletonMasonGetter.setSimState(poSimState);
@@ -31,7 +36,10 @@ public abstract class clsLoader {
 		clsSingletonMasonGetter.getSimState().schedule.scheduleRepeating(clsSingletonMasonGetter.getPhysicsEngine2D());		
     }
     
-    
+    private void loadProperties(String poPropertiesFilename) {
+    	clsBWProperties oProp = clsBWProperties.readProperties( clsGetARSPath.getConfigPath(), poPropertiesFilename);
+    	clsPropertiesGetter.setProperties(oProp);    	
+    }
     
 	public abstract void loadObjects();
 	

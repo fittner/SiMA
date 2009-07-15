@@ -28,10 +28,10 @@ public class clsLifeCycleLoader extends clsLoader {
 	private eLifeCycleDUs meHareDU;
 	private eLifeCycleDUs meLynxDU;
 
-	public clsLifeCycleLoader(SimState poSimState, int pnWidth, int pnHeight, 
+	public clsLifeCycleLoader(SimState poSimState, String poPropertiesFilename, int pnWidth, int pnHeight, 
 			                  int pnCarrots, int pnHares, int pnLynx, int pnStones,
 			                  eLifeCycleDUs peHareDU, eLifeCycleDUs peLynxDU) {
-		super(poSimState);
+		super(poSimState, poPropertiesFilename);
 		
 		meHareDU = peHareDU;
 		meLynxDU = peLynxDU;
