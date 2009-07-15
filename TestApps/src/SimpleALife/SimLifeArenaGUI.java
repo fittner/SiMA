@@ -72,7 +72,7 @@ public class SimLifeArenaGUI extends GUIState
     public void setupPortrayals()
 	{
         // tell the portrayals what to portray and how to portray them
-        entityPortrayal.setField(((SimLifeArena)state).fieldEnvironment);
+        entityPortrayal.setField(SimLifeArena.fieldEnvironment);
 
         surfacePortrayal.setField(((SimLifeArena)state).surfaceGrid);
         surfacePortrayal.setMap(bw.world.surface.Surface.colorMap);

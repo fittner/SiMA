@@ -65,8 +65,8 @@ public class CarT extends TestApps.Physics2D.BubbleRace.FrictionRobot implements
 //    		System.out.println(" Steps: "+steps+", Velocity: "+this.getVelocity());
 
 		position = this.getPosition();
-		SimLifeArena simLifeArena = (SimLifeArena)state;
-		simLifeArena.fieldEnvironment.setObjectLocation(this, new sim.util.Double2D(position.x, position.y));
+		//SimLifeArena simLifeArena = (SimLifeArena)state;
+		SimLifeArena.fieldEnvironment.setObjectLocation(this, new sim.util.Double2D(position.x, position.y));
 
 		// place for things that should react on every status change
 		if (oldStatus != status)
@@ -96,7 +96,7 @@ public class CarT extends TestApps.Physics2D.BubbleRace.FrictionRobot implements
 //				int visibleHerRs = 0;	// debug
 				double dist = SimLifeArena.maxDist;
 				double newDist;
-				allObjs = simLifeArena.fieldEnvironment.allObjects;
+				allObjs = SimLifeArena.fieldEnvironment.allObjects;
 
 				for (int i = 0; i < allObjs.numObjs; i++)
 				{

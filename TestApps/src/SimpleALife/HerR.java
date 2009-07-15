@@ -68,14 +68,14 @@ public class HerR extends TestApps.Physics2D.BubbleRace.FrictionRobot implements
 		steps++;
 
 		position = this.getPosition();
-		SimLifeArena simLifeArena = (SimLifeArena)state;
-		simLifeArena.fieldEnvironment.setObjectLocation(this, new sim.util.Double2D(position.x, position.y));
+//		SimLifeArena simLifeArena = (SimLifeArena)state;
+		SimLifeArena.fieldEnvironment.setObjectLocation(this, new sim.util.Double2D(position.x, position.y));
 
 		// place for things that should react on every status change
 		if (oldStatus != status)
     	{
     		oldStatus = status;
-    		allObjs = simLifeArena.fieldEnvironment.allObjects;
+    		allObjs = SimLifeArena.fieldEnvironment.allObjects;
 
     		// if the HerR state changes calculate a new target position instantly
         	subTargetPosition = null;

@@ -120,7 +120,8 @@ public class SimLifeArena extends SimState
 		objPE.register(rock);
 
 		// PlaG ("Grass")
-		int startX, endX, startY, endY, plaIndex = 0;
+		int startX, endX, startY, endY;
+		//int plaIndex = 0;
 
 		startX=40; endX=120;	// must although be changed in xmlFile
 		startY=15; endY=75;

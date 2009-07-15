@@ -13,7 +13,7 @@ public class PlaG implements Steppable
 
 	public int index;
 	public double mass, currentMass;
-	private int steps = 0;
+	//private int steps = 0;
 
 	public PlaG(Double2D pos, int width, int height)
 	{
