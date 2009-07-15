@@ -7,7 +7,7 @@
  * $Date::                     $: Date of last commit
  */
 package bw.utils.inspectors.entity;
-import inspectors.clsInspectorMapping;
+import inspectors.clsInspectorMappingDecision;
 import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -19,10 +19,9 @@ import javax.swing.BoxLayout;
 import javax.swing.JButton;
 
 import bw.body.clsBaseBody;
-import bw.body.clsComplexBody;
 import bw.body.itfget.itfGetBody;
 import bw.entities.clsEntity;
-import bw.utils.inspectors.body.clsFillLevelInspector;
+import bw.utils.inspectors.clsInspectorMappingEntity;
 
 import sim.display.GUIState;
 import sim.portrayal.Inspector;
@@ -175,23 +174,18 @@ public class clsInspectorEntity extends Inspector implements ActionListener {
 		Object source = e.getSource();
 		
 		if( source == moBtnEntityInspectors) {
-			TabbedInspector oMasonInspector = new TabbedInspector();
-			oMasonInspector.addInspector(moOriginalInspector, "Default Insp.");
+			TabbedInspector oMasonInspector = clsInspectorMappingEntity.getInspectorEntity(moOriginalInspector, moWrapper, moGuiState, moEntity);
 			moEntityWindows.add( clsInspectorFrame.getInspectorFrame(oMasonInspector, "Entity Inspector") );
 		}
 		else if( source == moBtnBodyInspectors ) {
-			TabbedInspector oMasonInspector = new TabbedInspector();
 			clsBaseBody iBody = ((itfGetBody)moEntity).getBody();
-			if(iBody instanceof clsComplexBody) {
-				oMasonInspector.addInspector( new clsFillLevelInspector(moOriginalInspector, moWrapper, moGuiState, ((clsComplexBody)iBody).getInternalSystem().getStomachSystem()), "Stomach System");
-			}
+			TabbedInspector oMasonInspector = clsInspectorMappingEntity.getInspectorBody(moOriginalInspector, moWrapper, moGuiState, iBody);
 			moEntityWindows.add( clsInspectorFrame.getInspectorFrame(oMasonInspector, "Body Inspector") );
 		}
 		else if( source == moBtnBrainInspectors) {
 			TabbedInspector oMasonInspector = new TabbedInspector();
-			oMasonInspector.addInspector( clsInspectorMapping.getInspector(moOriginalInspector, moWrapper, moGuiState, ((itfGetBody)moEntity).getBody().getBrain().getDecisionUnit()), "Brain Insp.");
+			oMasonInspector.addInspector( clsInspectorMappingDecision.getInspector(moOriginalInspector, moWrapper, moGuiState, ((itfGetBody)moEntity).getBody().getBrain().getDecisionUnit()), "Brain Insp.");
 			moEntityWindows.add( clsInspectorFrame.getInspectorFrame(oMasonInspector, "Brain Inspector") );
 		}
 	}
-
 }

@@ -14,18 +14,19 @@ import inspectors.mind.clsRemoteControlInspector;
 import sim.display.GUIState;
 import sim.portrayal.Inspector;
 import sim.portrayal.LocationWrapper;
+import sim.portrayal.inspector.TabbedInspector;
 import simple.dumbmind.clsDumbMindA;
 import simple.remotecontrol.clsRemoteControl;
 
 /**
- * assigns the required inspector class to the object extending the clsEntity-class 
+ * assigns the required decision inspector class to the object extending the clsEntity-class 
  * (mapping type of instance to mason inspector class)
  * 
  * @author langr
  * 01.04.2009, 15:44:50
  * 
  */
-public class clsInspectorMapping {
+public class clsInspectorMappingDecision {
 
 	/**
 	 * Insert the clsEntity.Object and get the corresponding customized inspector-class
@@ -44,25 +45,29 @@ public class clsInspectorMapping {
 	 * @param poEntity - the agent-object to distinguish between the classes... 
 	 * @return - the new inspector with the defined look and feel
 	 */
-	public static Inspector getInspector(Inspector poSuperInspector, LocationWrapper poWrapper, GUIState poState, clsBaseDecisionUnit poDU)
+	public static TabbedInspector getInspector(Inspector poSuperInspector, LocationWrapper poWrapper, GUIState poState, clsBaseDecisionUnit poDU)
 	{
-    	Inspector oRetVal = null;
+    	TabbedInspector oRetVal = new TabbedInspector();
     	
-        if (poDU == null) return poSuperInspector; //return standard mason inspector when decision unit is null
-        
         //extend this if-statement with your new clsEntity-classes or inspectors
         if( poDU instanceof clsDumbMindA) {
-        	oRetVal = new clsDumbBrainInspector(poSuperInspector, poWrapper, poState, (clsDumbMindA) poDU);
+        	oRetVal.addInspector( new clsDumbBrainInspector(poSuperInspector, poWrapper, poState, (clsDumbMindA)poDU), "Brain Insp.");
         }
         else if( poDU instanceof clsRemoteControl) {
-        	oRetVal = new clsRemoteControlInspector(poSuperInspector, poWrapper, poState, (clsRemoteControl) poDU);
+        	oRetVal.addInspector( new clsRemoteControlInspector(poSuperInspector, poWrapper, poState, (clsRemoteControl) poDU), "Brain Insp.");
         }
 //        else if (poEntity instanceof clsMyNewClass ) {
-//        	oRetVal = new clsMyNewInspector(poSuperInspector, poWrapper, poState);
+//        	oRetVal.addInspector( new clsMyNewInspector(poSuperInspector, poWrapper, poState), "Name of Inspector-Tab");
 //       }
 //        else	{
 //        	oRetVal = poSuperInspector;  	
 //        }
+        
+    	//add standard inspector if nothing happened
+    	if(oRetVal.inspectors.size() == 0)  {
+    		oRetVal.addInspector(poSuperInspector, "Values");
+    	}
+        
 	    return oRetVal;
 	}
 }

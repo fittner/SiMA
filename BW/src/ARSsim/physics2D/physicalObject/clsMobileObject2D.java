@@ -296,22 +296,10 @@ public class clsMobileObject2D extends sim.physics2D.physicalObject.MobileObject
     	if( moMasonInspector == null)
     	{
     		moMasonInspector = new TabbedInspector();
-    		
-    		//super.getInspector(wrapper,state).removeAll();
-    		
-    		moMasonInspector.addInspector( new clsInspectorEntity(super.getInspector(wrapper,state), wrapper, state, moEntity), "Entity - Basic Values");
-    		
-//    		if (moEntity instanceof clsAnimate) {
-//    			
-//    			clsBaseBody iBody = ((itfGetBody)moEntity).getBody();
-//   				moMasonInspector.addInspector(clsInspectorMapping.getInspector(super.getInspector(wrapper,state), wrapper, state, iBody.getBrain().getDecisionUnit()), "AnimalBrain");
-//
-//   				//FIXME (all): For test purpose only! This is a direct access to the body and should be outsourced like the decision units inspector mapping!!!
-//   				if(iBody instanceof clsComplexBody) {
-//   					moMasonInspector.addInspector( new clsFillLevelInspector(super.getInspector(wrapper,state), wrapper, state, ((clsComplexBody)iBody).getInternalSystem().getStomachSystem()), "Stomach System");
-//   				}
-//    		}
+    		Inspector oInspector = new clsInspectorEntity(super.getInspector(wrapper,state), wrapper, state, moEntity);
+    		moMasonInspector.addInspector( oInspector, "Entity - Basic Values");
     	}
+
     	return moMasonInspector;
     }
 }
