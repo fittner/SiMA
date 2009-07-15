@@ -19,6 +19,7 @@ import bw.entities.clsAnimate;
 import bw.entities.clsMobile;
 import bw.entities.clsRemoteBot;
 import bw.entities.clsStationary;
+import bw.entities.clsBase;
 import bw.physicalObjects.bodyparts.clsBotHands;
 
 
@@ -68,6 +69,9 @@ public final class clsRegisterEntity {
 	
 	public static void registerStationaryObject2D(clsStationaryObject2D poStationaryObject2D) {
 		registerPhysicalObject2D(poStationaryObject2D);		
+		Schedule s = clsSingletonMasonGetter.getSimState().schedule;
+		s.scheduleRepeating(poStationaryObject2D.getSteppableSensing(), 1, defaultScheduleStepWidth); 
+		s.scheduleRepeating(poStationaryObject2D.getSteppableProcessing(), 3, defaultScheduleStepWidth);
 	}
 	
 	public static void registerEntity(clsMobile poEntity) {
@@ -78,6 +82,26 @@ public final class clsRegisterEntity {
 	public static void registerEntity(clsStationary poEntity) {
 		registerStationaryObject2D(poEntity.getStationaryObject2D());
 		poEntity.setRegistered(true);		
+	}
+	
+	/**
+	 * 
+	 * Registers Base (stationary) object and it's eatable area
+	 * 
+	 * TODO (horvath) - generalize -> create a general stationary object with eatable area
+	 *
+	 * @author horvath
+	 * 13.07.2009, 14:46:52
+	 *
+	 * @param poEntity
+	 */
+	public static void registerEntity(clsBase poEntity) {
+		registerStationaryObject2D(poEntity.getStationaryObject2D());
+		poEntity.setRegistered(true);		
+		
+		registerPhysicalObject2D(poEntity.getEatableAreaVision() );
+		clsSingletonMasonGetter.getFieldEnvironment().setObjectLocation(poEntity.getEatableAreaVision(), new sim.util.Double2D(poEntity.getPosition().x, poEntity.getPosition().y));
+		clsSingletonMasonGetter.getSimState().schedule.scheduleRepeating(poEntity.getEatableAreaVision());
 	}
 
 	public static void registerBotHands(clsBotHands poBotHand) {

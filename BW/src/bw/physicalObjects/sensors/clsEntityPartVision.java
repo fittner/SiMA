@@ -22,6 +22,7 @@ import sim.portrayal.DrawInfo2D;
 import ARSsim.physics2D.shape.clsCircleBorder;
 import bw.entities.clsEntity;
 import bw.entities.clsMobile;
+import bw.entities.clsStationary;
 import bw.factories.clsSingletonMasonGetter;
 
 /**
@@ -95,8 +96,18 @@ public class clsEntityPartVision extends MobileObject2D implements Steppable{
 	 * @see sim.engine.Steppable#step(sim.engine.SimState)
 	 */
 	public void step(SimState state){
-		 sim.physics2D.util.Double2D oEntityPos = ((clsMobile)moEntity).getMobileObject2D().getPosition();
-		 Angle oEntityOrientation = ((clsMobile)moEntity).getMobileObject2D().getOrientation();
+		 sim.physics2D.util.Double2D oEntityPos = null;
+		 Angle oEntityOrientation = null;
+		 
+		 // In case the entity isn't Mobile, but Stationary with eatable area (Base), treat it as an instance of the Stationary class
+		 if(moEntity instanceof clsMobile){
+			 oEntityPos = ((clsMobile)moEntity).getMobileObject2D().getPosition();
+			 oEntityOrientation = ((clsMobile)moEntity).getMobileObject2D().getOrientation();
+		 }
+		 if(moEntity instanceof clsStationary){
+			 oEntityPos = ((clsStationary)moEntity).getStationaryObject2D().getPosition();
+			 oEntityOrientation = ((clsStationary)moEntity).getStationaryObject2D().getOrientation();
+		 }
 		 
 		 //if we have a offset radius, recalculate position
 		 if(mnRadiusOffsetVisionArea != 0)

@@ -14,10 +14,12 @@ import sim.physics2D.physicalObject.PhysicalObject2D;
 import sim.physics2D.util.Angle;
 import sim.physics2D.util.Double2D;
 
+//import ARSsim.physics2D.physicalObject.clsStationaryObject2D;
 import ARSsim.physics2D.util.clsPolarcoordinate;
 import bw.body.io.clsBaseIO;
 import bw.entities.clsEntity;
 import bw.entities.clsMobile;
+import bw.entities.clsStationary;
 import bw.physicalObjects.sensors.clsEntityPartVision;
 import bw.utils.container.clsConfigDouble;
 import bw.utils.container.clsConfigMap;
@@ -65,6 +67,7 @@ public class clsSensorVision extends clsSensorExt {
 		this.regVisionObj(moEntity, mnVisOffset); //0 = no offset = vision centered on object
 	}	
 	
+	
 	private void applyConfig() {	
 		mnViewRad = ((clsConfigDouble)moConfig.get(eConfigEntries.ANGLE)).get();
 		mnVisRange = ((clsConfigDouble)moConfig.get(eConfigEntries.RANGE)).get();
@@ -94,9 +97,19 @@ public class clsSensorVision extends clsSensorExt {
 	 * @param poEntity
 	 */
 	private void regVisionObj(clsEntity poEntity, double pnRadiusOffsetVisionArea)	{
-		Angle oEntityOrientation = ((clsMobile)poEntity).getMobileObject2D().getOrientation(); 
-		regVisionObjWithParams(poEntity, pnRadiusOffsetVisionArea, oEntityOrientation);
+		Angle oEntityOrientation;
+		if(poEntity instanceof clsMobile){
+			oEntityOrientation = ((clsMobile)poEntity).getMobileObject2D().getOrientation(); 
+			regVisionObjWithParams(poEntity, pnRadiusOffsetVisionArea, oEntityOrientation);
+		}
+		if(poEntity instanceof clsStationary){
+			oEntityOrientation = ((clsStationary)poEntity).getStationaryObject2D().getOrientation(); 
+			regVisionObjWithParams(poEntity, pnRadiusOffsetVisionArea, oEntityOrientation);
+		}		
     }
+	
+	
+	
 	
 	/**
 	 * Extension of the default method, with parameters
@@ -109,9 +122,15 @@ public class clsSensorVision extends clsSensorExt {
 	 * @param poVisionOrientation
 	 */
 	private void regVisionObjWithParams(clsEntity poEntity, double pnRadiusOffsetVisionArea, Angle poVisionOrientation)	{
+		Double2D oEntityPos = null;
 		
-		Double2D oEntityPos = ((clsMobile)poEntity).getMobileObject2D().getPosition(); 
-		
+		if(poEntity instanceof clsMobile){
+			oEntityPos = ((clsMobile)poEntity).getMobileObject2D().getPosition(); 
+		}
+		if(poEntity instanceof clsStationary){
+			oEntityPos = ((clsStationary)poEntity).getStationaryObject2D().getPosition(); 
+		}
+			
 		//if we have a offset, change the center point. this is only for initializing, see step of entitypartvision for more
 		if(pnRadiusOffsetVisionArea != 0)
 			//oEntityPos = oEntityPos.add(pnRadiusOffsetVisionArea);
@@ -126,6 +145,7 @@ public class clsSensorVision extends clsSensorExt {
 			System.out.println("regVisionObjWithParams:"+ex.getMessage());
 		}
 	}
+	
 
 
 	/**

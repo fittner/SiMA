@@ -30,6 +30,12 @@ public abstract class clsSensorExt extends clsSensorActuatorBaseExt implements i
 		moConfig = getFinalConfig(poConfig);
 		applyConfig();
 	}
+	
+	public clsSensorExt(clsConfigMap poConfig) {
+		super();
+		moConfig = getFinalConfig(poConfig);
+		applyConfig();
+	}
 
 	private void applyConfig() {
 		//TODO add ...

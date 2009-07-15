@@ -24,7 +24,6 @@ import enums.eEntityType;
  */
 public class clsWall extends clsStationary  {
 	private static Color moDefaultColor = Color.LIGHT_GRAY;
-	
     public double radius;
     
     public clsWall(int pnId, clsPose poPose, double prLength, double prWidth, clsConfigMap poConfig) {

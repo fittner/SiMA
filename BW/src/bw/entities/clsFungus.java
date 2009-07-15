@@ -1,5 +1,5 @@
 /**
- * @author muchitsch
+ * @author muchitsch, horvath
  * 
  * $Rev::                      $: Revision of last commit
  * $Author::                   $: Author of last commit
@@ -15,9 +15,11 @@ import bw.body.itfget.itfGetFlesh;
 import bw.factories.clsRegisterEntity;
 import bw.utils.container.clsConfigDouble;
 import bw.utils.container.clsConfigMap;
+import bw.utils.enums.eBindingState;
 import bw.utils.enums.eConfigEntries;
 import bw.utils.tools.clsFood;
 import bw.body.io.actuators.actionProxies.itfAPEatable;
+import bw.body.io.actuators.actionProxies.itfAPCarryable;
 import enums.eEntityType;
 import ARSsim.physics2D.util.clsPose;
 
@@ -33,9 +35,9 @@ import ARSsim.physics2D.util.clsPose;
  * 08.07.2009, 14:48:08
  * 
  */
-public class clsFungus extends clsInanimate implements itfGetFlesh, itfAPEatable {
+public class clsFungus extends clsInanimate implements itfGetFlesh, itfAPEatable, itfAPCarryable{
 	private static double mrDefaultMass = 30.0;
-	private static double mrDefaultRadius = 10.0;
+	private static double mrDefaultRadius = 6.0;
 	private static String moImagePath = sim.clsBWMain.msArsPath + "/src/resources/images/fungus.jpg";
 	private static Color moDefaultColor = Color.pink;
 	
@@ -208,5 +210,15 @@ public class clsFungus extends clsInanimate implements itfGetFlesh, itfAPEatable
 	public clsFood Eat(double prBiteSize) {
 		clsFood oFood = getFlesh().withdraw(prBiteSize);
 		return oFood;
+	}
+	
+	/*
+	 * Interface Carryable
+	 */
+	public clsMobile getCarryableEntity() {
+		return this;	
+	}
+	public void setCarriedBindingState(eBindingState pBindingState) {
+		//handle binding-state implications 
 	}
 }

@@ -23,12 +23,32 @@ public abstract class clsSensorActuatorBaseExt extends clsSensorActuatorBase{
 		super();
 		moBaseIO=poBaseIO;
 	}
+	
+	public clsSensorActuatorBaseExt() {
+		super();
+		moBaseIO = null;
+	}
 
+	
+	/*
+	 * If these two methods of an object which does not have body (e.g. Base) are called, moBaseIO is null and therefore an exception is thrown
+	 * 
+	 * @author horvath
+	 * 
+	 */
 	protected void registerEnergyConsumption(double prValue) {
-		moBaseIO.registerEnergyConsumption(getUniqueId(), prValue);
+		if(!moBaseIO.equals(null)){
+			moBaseIO.registerEnergyConsumption(getUniqueId(), prValue);
+		}else{
+			throw new NullPointerException();			
+		}
 	}
 	protected void registerEnergyConsumptionOnce(double prValue) {
-		moBaseIO.registerEnergyConsumptionOnce(getUniqueId(), prValue);
+		if(!moBaseIO.equals(null)){
+			moBaseIO.registerEnergyConsumptionOnce(getUniqueId(), prValue);
+		}else{
+			throw new NullPointerException();			
+		}
 	}
 
 	/**

@@ -89,6 +89,7 @@ public abstract class clsStationary extends clsEntity {
 	 */
 	@Override
 	public void sensing() {
+		int i = 0; 
 		// DO NOTHING - stationary objects are inanimate per design ...	
 	}
 	/* (non-Javadoc)

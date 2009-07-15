@@ -82,4 +82,22 @@ public class clsStationaryObject2D extends sim.physics2D.physicalObject.Stationa
 		moEntity.processing();
 		moEntity.execution();
 	}
+	
+	public Steppable getSteppableSensing() {
+		return new Steppable() {
+			private static final long serialVersionUID = 6889902215107604312L;
+			public void step(SimState state) {
+				moEntity.sensing();
+			}
+		};
+	}
+	
+	public Steppable getSteppableProcessing() {
+		return new Steppable() {
+			private static final long serialVersionUID = -5218583360606426073L;
+			public void step(SimState state) {
+				moEntity.processing();
+			}
+		};
+	}
 }

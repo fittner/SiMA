@@ -29,13 +29,14 @@ public class clsSensorEatableArea extends clsSensorVision {
 	 * @param poEntity 
 	 *
 	 * @param poBaseIO
-	 * @param  
+	 * @param 
 	 */
 	public clsSensorEatableArea(clsEntity poEntity, clsBaseIO poBaseIO, clsConfigMap poConfig ) {
 		super(poEntity, poBaseIO, clsSensorEatableArea.getFinalConfig(poConfig));
 		
 		applyConfig();
 	}
+
 
 	private void applyConfig() {
 		mnViewRad = ((clsConfigDouble)moConfig.get(eConfigEntries.ANGLE)).get();
