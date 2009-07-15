@@ -105,7 +105,7 @@ public class clsEntityLoader {
         for (int i = 0; i < pnNumBases; i++)
         {		 
     	  	clsPose oStartPose = clsLoader.generateRandomPose();
-    	    clsBase oBase = new clsBase(i, oStartPose, new sim.physics2D.util.Double2D(0, 0), new clsConfigMap());
+    	    clsBase oBase = new clsBase(i, oStartPose, new clsConfigMap());
     		clsRegisterEntity.registerEntity(oBase);
         }
      }
