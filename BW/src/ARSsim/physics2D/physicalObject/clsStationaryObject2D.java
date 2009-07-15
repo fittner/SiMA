@@ -3,6 +3,8 @@
  */
 package ARSsim.physics2D.physicalObject;
 
+import sim.engine.SimState;
+import sim.engine.Steppable;
 import sim.physics2D.shape.Shape;
 import ARSsim.physics2D.util.clsPose;
 import bw.entities.clsEntity;
@@ -14,7 +16,7 @@ import bw.factories.clsSingletonMasonGetter;
  * @author muchitsch
  *
  */
-public class clsStationaryObject2D extends sim.physics2D.physicalObject.StationaryObject2D implements itfGetEntity, itfSetupFunctions {
+public class clsStationaryObject2D extends sim.physics2D.physicalObject.StationaryObject2D  implements Steppable, itfGetEntity, itfSetupFunctions {
 	
 	/**
 	 * 
@@ -69,5 +71,12 @@ public class clsStationaryObject2D extends sim.physics2D.physicalObject.Stationa
 			double poRestitution) {
 		setCoefficientOfRestitution(poRestitution);
 	}
-		
+
+	public void step(SimState state) {
+		//this block should be distributed to different steps
+		moEntity.sensing();
+		moEntity.updateInternalState();
+		moEntity.processing();
+		moEntity.execution();
+	}
 }
