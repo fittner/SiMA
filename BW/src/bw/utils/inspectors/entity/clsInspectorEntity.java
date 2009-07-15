@@ -134,7 +134,7 @@ public class clsInspectorEntity extends Inspector implements ActionListener {
 		for( clsInspectorFrame oEntityWindow : moEntityWindows)
 		{
 			if(oEntityWindow != null) {
-				oEntityWindow.getInspectorContent().updateInspector();
+				oEntityWindow.updateContent();
 			}
 		}
 	}
@@ -174,7 +174,7 @@ public class clsInspectorEntity extends Inspector implements ActionListener {
 
 		Object source = e.getSource();
 		
-		if( source == moBtnEntityInspectors ) {
+		if( source == moBtnEntityInspectors) {
 			TabbedInspector oMasonInspector = new TabbedInspector();
 			oMasonInspector.addInspector(moOriginalInspector, "Default Insp.");
 			moEntityWindows.add( clsInspectorFrame.getInspectorFrame(oMasonInspector, "Entity Inspector") );

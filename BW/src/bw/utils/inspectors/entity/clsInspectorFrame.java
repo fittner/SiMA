@@ -65,4 +65,9 @@ public class clsInspectorFrame extends JFrame {
 		return moInspectorContent;
 	}
 	
+	public void updateContent() {
+		if(isVisible()) {
+			moInspectorContent.updateInspector();
+		}
+	}
 }

@@ -59,6 +59,9 @@ public class clsBWMainWithUI extends GUIState{
 		
 		clsBWMainWithUI oMainWithUI = new clsBWMainWithUI();
 		clsSingletonMasonGetter.setConsole( new ARSsim.display.Console(oMainWithUI) );
+		Dimension windowSize = clsSingletonMasonGetter.getConsole().getSize();
+		windowSize.height+=400;
+		clsSingletonMasonGetter.getConsole().setSize(windowSize);
 		clsSingletonMasonGetter.getConsole().setVisible(true);
 		
 		//TODO: (langr) - for testing purpose only

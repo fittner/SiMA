@@ -297,7 +297,7 @@ public class clsMobileObject2D extends sim.physics2D.physicalObject.MobileObject
     	{
     		moMasonInspector = new TabbedInspector();
     		
-    		super.getInspector(wrapper,state).removeAll();
+    		//super.getInspector(wrapper,state).removeAll();
     		
     		moMasonInspector.addInspector( new clsInspectorEntity(super.getInspector(wrapper,state), wrapper, state, moEntity), "Entity - Basic Values");
     		
