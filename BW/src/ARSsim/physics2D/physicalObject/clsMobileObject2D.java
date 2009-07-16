@@ -257,7 +257,6 @@ public class clsMobileObject2D extends
 	 */
 	public void resetStepInfo() {
 		permitAccessToAddForce = false;
-		moCollisionList.clear();
 		forceAccu = new Double2D();
 		torqueAccu = 0;
 	}
@@ -274,6 +273,8 @@ public class clsMobileObject2D extends
 		clsSingletonMasonGetter.getFieldEnvironment().setObjectLocation(
 				clsMobileObject2D.this,
 				new sim.util.Double2D(position.x, position.y));
+		
+		moCollisionList.clear();
 		
 		permitAccessToAddForce = true;
 	}
