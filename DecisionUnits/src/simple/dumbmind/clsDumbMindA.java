@@ -71,7 +71,7 @@ public class clsDumbMindA extends clsBaseDecisionUnit {
 						//clsMotionAction oAction = clsMotionAction.creatAction(eActionCommandMotion.MOVE_FORWARD);
 						//oAction.setSpeed(2.5);
 						//poActionList.addMoveAction(oAction);
-						poActionProcessor.call(new clsActionMove(eActionMoveDirection.MOVE_FORWARD,2.5f));
+						poActionProcessor.call(new clsActionMove(eActionMoveDirection.MOVE_FORWARD,1.0));
 					}
 					else if( rAngle >= 0 && rAngle < Math.PI )
 					{
@@ -124,7 +124,7 @@ public class clsDumbMindA extends clsBaseDecisionUnit {
 		{
 			//poActionList.addMoveAction(clsMotionAction.creatAction(eActionCommandMotion.MOVE_BACKWARD) );
 			//poActionList.addMoveAction(clsMotionAction.creatAction(eActionCommandMotion.ROTATE_LEFT) );
-			poActionProcessor.call(new clsActionMove(eActionMoveDirection.MOVE_BACKWARD,4));
+			poActionProcessor.call(new clsActionMove(eActionMoveDirection.MOVE_BACKWARD,1.0));
 			poActionProcessor.call(new clsActionTurn(eActionTurnDirection.TURN_LEFT));
 		}
 		else if( !isCollisionAvoidance() )
@@ -132,7 +132,7 @@ public class clsDumbMindA extends clsBaseDecisionUnit {
 			//clsMotionAction oAction = clsMotionAction.creatAction(eActionCommandMotion.MOVE_FORWARD);
 			//oAction.setSpeed(2.5);
 			//poActionList.addMoveAction(oAction);
-			poActionProcessor.call(new clsActionMove(eActionMoveDirection.MOVE_FORWARD,4));
+			poActionProcessor.call(new clsActionMove(eActionMoveDirection.MOVE_FORWARD,1.0));
 		}
 	}	
 

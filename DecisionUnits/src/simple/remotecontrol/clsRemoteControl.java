@@ -90,11 +90,11 @@ public class clsRemoteControl extends clsBaseDecisionUnit  {
     	{
     	case 38: //up
     		//moActionList.addMoveAction(clsMotionAction.creatAction(eActionCommandMotion.MOVE_FORWARD) );
-    		poActionProcessor.call(new clsActionMove(eActionMoveDirection.MOVE_FORWARD,4));
+    		poActionProcessor.call(new clsActionMove(eActionMoveDirection.MOVE_FORWARD,1.0));
     		break;
     	case 40: //down
     		//moActionList.addMoveAction(clsMotionAction.creatAction(eActionCommandMotion.MOVE_BACKWARD) );
-    		poActionProcessor.call(new clsActionMove(eActionMoveDirection.MOVE_BACKWARD,4));
+    		poActionProcessor.call(new clsActionMove(eActionMoveDirection.MOVE_BACKWARD,0.5));
     		break;
     	case 37: //rotate_left
     		//moActionList.addMoveAction(clsMotionAction.creatAction(eActionCommandMotion.ROTATE_LEFT) );
