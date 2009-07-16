@@ -15,6 +15,7 @@ import ARSsim.physics2D.physicalObject.clsMobileObject2D;
 import ARSsim.physics2D.physicalObject.clsStationaryObject2D;
 import bw.body.itfget.itfGetEatableArea;
 import bw.body.itfget.itfGetVision;
+import bw.body.itfget.itfGetRadiation;
 import bw.entities.clsAnimate;
 import bw.entities.clsMobile;
 import bw.entities.clsRemoteBot;
@@ -117,6 +118,10 @@ public final class clsRegisterEntity {
 		clsSingletonMasonGetter.getFieldEnvironment().setObjectLocation(poEntity.getVision(), new sim.util.Double2D(poEntity.getPosition().x, poEntity.getPosition().y));
 		clsSingletonMasonGetter.getSimState().schedule.scheduleRepeating(poEntity.getVision(), 6, defaultScheduleStepWidth);
 		
+		registerPhysicalObject2D(poEntity.getRadiation() );
+		clsSingletonMasonGetter.getFieldEnvironment().setObjectLocation(poEntity.getRadiation(), new sim.util.Double2D(poEntity.getPosition().x, poEntity.getPosition().y));
+		clsSingletonMasonGetter.getSimState().schedule.scheduleRepeating(poEntity.getRadiation(), 6, defaultScheduleStepWidth);
+		
 		registerPhysicalObject2D(poEntity.getEatableAreaVision() );
 		clsSingletonMasonGetter.getFieldEnvironment().setObjectLocation(poEntity.getEatableAreaVision(), new sim.util.Double2D(poEntity.getPosition().x, poEntity.getPosition().y));
 		clsSingletonMasonGetter.getSimState().schedule.scheduleRepeating(poEntity.getEatableAreaVision(), 6, defaultScheduleStepWidth);
@@ -129,6 +134,10 @@ public final class clsRegisterEntity {
 		clsSingletonMasonGetter.getPhysicsEngine2D().setNoCollisions(poEntity.getVision(),poEntity.getMobileObject2D());
 		clsSingletonMasonGetter.getPhysicsEngine2D().setNoCollisions(poEntity.getVision(),poEntity.getBotHand1());
 		clsSingletonMasonGetter.getPhysicsEngine2D().setNoCollisions(poEntity.getVision(),poEntity.getBotHand2());
+		
+		clsSingletonMasonGetter.getPhysicsEngine2D().setNoCollisions(poEntity.getRadiation(),poEntity.getMobileObject2D());
+		clsSingletonMasonGetter.getPhysicsEngine2D().setNoCollisions(poEntity.getRadiation(),poEntity.getBotHand1());
+		clsSingletonMasonGetter.getPhysicsEngine2D().setNoCollisions(poEntity.getRadiation(),poEntity.getBotHand2());
 		
 		clsSingletonMasonGetter.getPhysicsEngine2D().setNoCollisions(poEntity.getEatableAreaVision(),poEntity.getMobileObject2D());
 		clsSingletonMasonGetter.getPhysicsEngine2D().setNoCollisions(poEntity.getEatableAreaVision(),poEntity.getBotHand1());
@@ -151,6 +160,12 @@ public final class clsRegisterEntity {
 			registerPhysicalObject2D(((itfGetVision)poEntity).getVision() );
 			clsSingletonMasonGetter.getFieldEnvironment().setObjectLocation(((itfGetVision)poEntity).getVision(), new sim.util.Double2D(poEntity.getPosition().x, poEntity.getPosition().y));
 			clsSingletonMasonGetter.getSimState().schedule.scheduleRepeating(((itfGetVision)poEntity).getVision(), 6, defaultScheduleStepWidth);
+		}
+		
+		if (poEntity instanceof itfGetRadiation) {
+			registerPhysicalObject2D(((itfGetRadiation)poEntity).getRadiation() );
+			clsSingletonMasonGetter.getFieldEnvironment().setObjectLocation(((itfGetRadiation)poEntity).getRadiation(), new sim.util.Double2D(poEntity.getPosition().x, poEntity.getPosition().y));
+			clsSingletonMasonGetter.getSimState().schedule.scheduleRepeating(((itfGetRadiation)poEntity).getRadiation(), 6, defaultScheduleStepWidth);
 		}
 		
 		if (poEntity instanceof itfGetEatableArea) {

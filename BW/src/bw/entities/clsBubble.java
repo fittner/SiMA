@@ -14,6 +14,7 @@ import bw.body.clsComplexBody;
 import bw.body.itfget.itfGetEatableArea;
 import bw.body.itfget.itfGetInternalEnergyConsumption;
 import bw.body.itfget.itfGetVision;
+import bw.body.itfget.itfGetRadiation;
 import ARSsim.physics2D.util.clsPose;
 import bw.utils.container.clsConfigMap;
 import bw.utils.enums.eConfigEntries;
@@ -27,7 +28,7 @@ import enums.eEntityType;
  * @author langr
  * 
  */
-public class clsBubble extends clsAnimate implements itfGetVision, itfGetEatableArea {
+public class clsBubble extends clsAnimate implements itfGetVision, itfGetRadiation, itfGetEatableArea {
 
 	private static double mrDefaultWeight = 100.0f;
 	private static double mrDefaultRadius = 10.0f;

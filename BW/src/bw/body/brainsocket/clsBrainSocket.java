@@ -26,7 +26,9 @@ import decisionunit.itf.sensors.clsSensorData;
 import decisionunit.itf.sensors.clsStaminaSystem;
 import decisionunit.itf.sensors.clsStomachSystem;
 import decisionunit.itf.sensors.clsVision;
+import decisionunit.itf.sensors.clsRadiation;
 import decisionunit.itf.sensors.clsVisionEntry;
+import decisionunit.itf.sensors.clsRadiationEntry;
 import enums.eSensorIntType;
 import enums.eSensorExtType;
 import ARSsim.physics2D.physicalObject.clsMobileObject2D;
@@ -38,6 +40,7 @@ import bw.body.io.sensors.external.clsSensorEatableArea;
 import bw.body.io.sensors.external.clsSensorExt;
 import bw.body.io.sensors.external.clsSensorPositionChange;
 import bw.body.io.sensors.external.clsSensorVision;
+import bw.body.io.sensors.external.clsSensorRadiation;
 import bw.body.io.sensors.internal.clsEnergySensor;
 import bw.body.io.sensors.internal.clsHealthSensor;
 import bw.body.io.sensors.internal.clsSensorInt;
@@ -99,6 +102,7 @@ public class clsBrainSocket implements itfStepProcessing {
 		oData.addSensorExt(eSensorExtType.POSITIONCHANGE, convertPositionChangeSensor() );
 		oData.addSensorExt(eSensorExtType.EATABLE_AREA, convertEatAbleAreaSensor() );
 		oData.addSensorExt(eSensorExtType.VISION, convertVisionSensor() );
+		oData.addSensorExt(eSensorExtType.RADIATION, convertRadiationSensor() );
 		
 		//ad homeostasis sensor data
 		oData.addSensorInt(eSensorIntType.ENERGY_CONSUMPTION, convertEnergySystem() );
@@ -212,6 +216,25 @@ public class clsBrainSocket implements itfStepProcessing {
 		
 		return oData;
 	}
+	
+	private clsRadiation convertRadiationSensor() {
+		clsRadiation oData = new clsRadiation();
+		
+		clsSensorRadiation oRadiation = (clsSensorRadiation)(moSensorsExt.get(eSensorExtType.RADIATION));
+		
+		Iterator<Integer> i = oRadiation.getViewObj().keySet().iterator();
+		while (i.hasNext()) {
+			Integer oKey = i.next();
+			PhysicalObject2D radiationObj = oRadiation.getViewObj().get(oKey);
+			ARSsim.physics2D.util.clsPolarcoordinate radiationDir = oRadiation.getViewObjDir().get(oKey);
+			clsRadiationEntry oEntry = convertRadiationEntry(radiationObj, radiationDir);
+			if (oEntry != null) {
+			  oData.add(oEntry);
+			}
+		}
+		
+		return oData;
+	}
 
 	private clsVisionEntry convertVisionEntry(PhysicalObject2D visionObj, ARSsim.physics2D.util.clsPolarcoordinate visionDir) {
 		clsEntity oEntity = getEntity(visionObj);
@@ -224,6 +247,31 @@ public class clsBrainSocket implements itfStepProcessing {
 		oData.mnEntityType = getEntityType(visionObj);		
 		oData.mnShapeType = getShapeType(visionObj);
 		oData.moPolarcoordinate = new clsPolarcoordinate(visionDir.mrLength, visionDir.moAzimuth.radians);
+		oData.moColor = (Color) oEntity.getShape().getPaint();
+		
+		if( oEntity instanceof clsAnimal )
+		{
+			oData.mnAlive = ((clsAnimal)oEntity).isAlive();
+		}
+		
+	
+		oData.moEntityId = oEntity.getId();
+		
+		// TODO Auto-generated method stub
+		return oData;
+	}
+	
+	private clsRadiationEntry convertRadiationEntry(PhysicalObject2D radiationObj, ARSsim.physics2D.util.clsPolarcoordinate radiationDir) {
+		clsEntity oEntity = getEntity(radiationObj);
+		if (oEntity == null) {
+			return null;
+		}
+
+		clsRadiationEntry oData = new clsRadiationEntry();
+		
+		oData.mnEntityType = getEntityType(radiationObj);		
+		oData.mnShapeType = getShapeType(radiationObj);
+		oData.moPolarcoordinate = new clsPolarcoordinate(radiationDir.mrLength, radiationDir.moAzimuth.radians);
 		oData.moColor = (Color) oEntity.getShape().getPaint();
 		
 		if( oEntity instanceof clsAnimal )

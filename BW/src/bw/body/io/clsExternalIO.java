@@ -20,6 +20,7 @@ import bw.body.io.sensors.external.clsSensorEatableArea;
 import bw.body.io.sensors.external.clsSensorExt;
 import bw.body.io.sensors.external.clsSensorPositionChange;
 import bw.body.io.sensors.external.clsSensorVision;
+import bw.body.io.sensors.external.clsSensorRadiation;
 import bw.entities.clsEntity;
 import bw.entities.clsMobile;
 import bw.utils.container.clsBaseConfig;
@@ -108,6 +109,7 @@ public class clsExternalIO extends clsBaseIO {
 		oSensors.add(new clsConfigEnum<eConfigEntries>(eConfigEntries.ACCELERATION));
 		oSensors.add(new clsConfigEnum<eConfigEntries>(eConfigEntries.BUMP));
 		oSensors.add(new clsConfigEnum<eConfigEntries>(eConfigEntries.VISION));
+		oSensors.add(new clsConfigEnum<eConfigEntries>(eConfigEntries.RADIATION));
 		oSensors.add(new clsConfigEnum<eConfigEntries>(eConfigEntries.EATABLE_AREA));	
 		oSensors.add(new clsConfigEnum<eConfigEntries>(eConfigEntries.POSITIONCHANGE));
 		oDefault.add(eConfigEntries.EXTSENSORS, oSensors);
@@ -127,6 +129,10 @@ public class clsExternalIO extends clsBaseIO {
 		oSC_Temp = new clsConfigMap();
 		oSC_Temp.add(eConfigEntries.ACTIVATE, new clsConfigBoolean(true));
 		oSensorConfigs.add(eConfigEntries.VISION, oSC_Temp);
+		
+		oSC_Temp = new clsConfigMap();
+		oSC_Temp.add(eConfigEntries.ACTIVATE, new clsConfigBoolean(true));
+		oSensorConfigs.add(eConfigEntries.RADIATION, oSC_Temp);
 		
 		oSC_Temp = new clsConfigMap();
 		oSC_Temp.add(eConfigEntries.ACTIVATE, new clsConfigBoolean(true));
@@ -159,6 +165,9 @@ public class clsExternalIO extends clsBaseIO {
 						break;
 					case VISION: 
 						moSensorExternal.put(eSensorExtType.VISION, new clsSensorVision(moEntity, this, oConfig)); 
+						break;
+					case RADIATION: 
+						moSensorExternal.put(eSensorExtType.RADIATION, new clsSensorRadiation(moEntity, this, oConfig)); 
 						break;
 					case EATABLE_AREA: 
 						moSensorExternal.put(eSensorExtType.EATABLE_AREA, new clsSensorEatableArea(moEntity, this, oConfig)); 

@@ -14,8 +14,10 @@ import ARSsim.physics2D.util.clsPose;
 import bw.body.clsBaseBody;
 import bw.body.io.sensors.external.clsSensorEatableArea;
 import bw.body.io.sensors.external.clsSensorVision;
+import bw.body.io.sensors.external.clsSensorRadiation;
 import bw.body.itfget.itfGetBody;
 import bw.physicalObjects.sensors.clsEntityPartVision;
+import bw.physicalObjects.sensors.clsEntityPartRadiation;
 import bw.utils.container.clsConfigMap;
 
 
@@ -121,6 +123,22 @@ public abstract class clsAnimate extends clsMobile implements itfGetBody {
 		return ((clsSensorVision)this.moBody
 					.getExternalIO().moSensorExternal
 					.get(enums.eSensorExtType.VISION)).getMoVisionArea(); 
+	}
+	
+	/**
+	 * 
+	 * (horvath) - returns the radiation sensor
+	 *
+	 * @author horvath
+	 * 16.07.2009, 12:11:00
+	 *
+	 * @return clsEntityPartRadiation
+	 */
+	public clsEntityPartRadiation getRadiation()
+	{
+		return ((clsSensorRadiation)this.moBody
+					.getExternalIO().moSensorExternal
+					.get(enums.eSensorExtType.RADIATION)).getMoRadiationArea(); 
 	}
 	
 		

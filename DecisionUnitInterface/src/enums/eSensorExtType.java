@@ -10,4 +10,5 @@ public enum eSensorExtType {
 	TACTILE,
 	VISION,
 	POSITIONCHANGE,
+	RADIATION,
 }

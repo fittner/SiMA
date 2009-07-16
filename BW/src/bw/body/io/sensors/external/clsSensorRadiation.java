@@ -1,5 +1,5 @@
 /**
- * @author zeilinger
+ * @author horvath
  * 
  * $Rev::                      $: Revision of last commit
  * $Author::                   $: Author of last commit
@@ -20,28 +20,28 @@ import bw.body.io.clsBaseIO;
 import bw.entities.clsEntity;
 import bw.entities.clsMobile;
 import bw.entities.clsStationary;
-import bw.physicalObjects.sensors.clsEntityPartVision;
+import bw.physicalObjects.sensors.clsEntityPartRadiation;
 import bw.utils.container.clsConfigDouble;
 import bw.utils.container.clsConfigMap;
 import bw.utils.enums.eBodyParts;
 import bw.utils.enums.eConfigEntries;
 
 /**
- * TODO (zeilinger) - This class defines the Vision object which is tagged to an animate 
- *                    object. clsSensorVision defines the functionalities of the vision 
- *                    sensor, while clsAnimateVision defines the physical object.     
+ * TODO (horvath) - This class defines the Radiation sensor object which is tagged to an animate 
+ *                    object. clsSensorRadiation defines the functionalities of the radiation 
+ *                    sensor, while clsAnimateRadiation defines the physical object.     
  * 
- * @author zeilinger
+ * @author horvath
  * 
  */
-public class clsSensorVision extends clsSensorExt {
+public class clsSensorRadiation extends clsSensorExt {
 	protected double mnViewRad;
-	protected double mnVisRange; 
-	protected double mnVisOffset;
+	protected double mnRadRange; 
+	protected double mnRadOffset;
 	
 	private clsEntity moEntity;
 	
-	private clsEntityPartVision moVisionArea;
+	private clsEntityPartRadiation moRadiationArea;
 	private HashMap<Integer, PhysicalObject2D> moCollidingObj;
 	private HashMap<Integer, Double2D> moCollisionPoint;
 	private HashMap<Integer, PhysicalObject2D> moViewObj;
@@ -51,8 +51,8 @@ public class clsSensorVision extends clsSensorExt {
 	 * @param poEntity
 	 * @param poBaseIO
 	 */
-	public clsSensorVision(clsEntity poEntity, clsBaseIO poBaseIO, clsConfigMap poConfig)	{
-		super(poBaseIO, clsSensorVision.getFinalConfig(poConfig));
+	public clsSensorRadiation(clsEntity poEntity, clsBaseIO poBaseIO, clsConfigMap poConfig)	{
+		super(poBaseIO, clsSensorRadiation.getFinalConfig(poConfig));
 			
 		moCollidingObj = new HashMap<Integer, PhysicalObject2D>();
 		moViewObj = new HashMap<Integer, PhysicalObject2D>(); 
@@ -63,15 +63,15 @@ public class clsSensorVision extends clsSensorExt {
 		 
 		applyConfig();
 
-		moVisionArea = new clsEntityPartVision(moEntity, mnVisRange, mnVisOffset);
-		this.regVisionObj(moEntity, mnVisOffset); //0 = no offset = vision centered on object
+		moRadiationArea = new clsEntityPartRadiation(moEntity, mnRadRange, mnRadOffset);
+		this.regRadiationObj(moEntity, mnRadOffset); //0 = no offset = radiation sensing centered on object
 	}	
 	
 	
 	private void applyConfig() {	
 		mnViewRad = ((clsConfigDouble)moConfig.get(eConfigEntries.ANGLE)).get();
-		mnVisRange = ((clsConfigDouble)moConfig.get(eConfigEntries.RANGE)).get();
-		mnVisOffset = ((clsConfigDouble)moConfig.get(eConfigEntries.OFFSET)).get();
+		mnRadRange = ((clsConfigDouble)moConfig.get(eConfigEntries.RANGE)).get();
+		mnRadOffset = ((clsConfigDouble)moConfig.get(eConfigEntries.OFFSET)).get();
 	}
 	
 	private static clsConfigMap getFinalConfig(clsConfigMap poConfig) {
@@ -84,7 +84,7 @@ public class clsSensorVision extends clsSensorExt {
 		clsConfigMap oDefault = new clsConfigMap();
 		
 		oDefault.add(eConfigEntries.ANGLE, new clsConfigDouble(Math.PI));
-		oDefault.add(eConfigEntries.RANGE, new clsConfigDouble(50.0));
+		oDefault.add(eConfigEntries.RANGE, new clsConfigDouble(75.0));
 		oDefault.add(eConfigEntries.OFFSET, new clsConfigDouble(0.0));
 		
 
@@ -92,19 +92,19 @@ public class clsSensorVision extends clsSensorExt {
 	}
 	
 	/**
-	 * TODO (zeilinger) - insert description
+	 * TODO (horvath) - insert description
 	 *
 	 * @param poEntity
 	 */
-	private void regVisionObj(clsEntity poEntity, double pnRadiusOffsetVisionArea)	{
+	private void regRadiationObj(clsEntity poEntity, double pnRadiusOffsetRadiationArea)	{
 		Angle oEntityOrientation;
 		if(poEntity instanceof clsMobile){
 			oEntityOrientation = ((clsMobile)poEntity).getMobileObject2D().getOrientation(); 
-			regVisionObjWithParams(poEntity, pnRadiusOffsetVisionArea, oEntityOrientation);
+			regRadiationObjWithParams(poEntity, pnRadiusOffsetRadiationArea, oEntityOrientation);
 		}
 		if(poEntity instanceof clsStationary){
 			oEntityOrientation = ((clsStationary)poEntity).getStationaryObject2D().getOrientation(); 
-			regVisionObjWithParams(poEntity, pnRadiusOffsetVisionArea, oEntityOrientation);
+			regRadiationObjWithParams(poEntity, pnRadiusOffsetRadiationArea, oEntityOrientation);
 		}		
     }
 	
@@ -118,10 +118,10 @@ public class clsSensorVision extends clsSensorExt {
 	 * 25.02.2009, 13:36:24
 	 *
 	 * @param poEntity
-	 * @param pnRadiusOffsetVisionArea - how much is the center of the vision shiftet? NULL if no offset
-	 * @param poVisionOrientation
+	 * @param pnRadiusOffsetRadiationArea - how much is the center of the radiation shiftet? NULL if no offset
+	 * @param poRadiationOrientation
 	 */
-	private void regVisionObjWithParams(clsEntity poEntity, double pnRadiusOffsetVisionArea, Angle poVisionOrientation)	{
+	private void regRadiationObjWithParams(clsEntity poEntity, double pnRadiusOffsetRadiationnArea, Angle poRadiationOrientation)	{
 		Double2D oEntityPos = null;
 		
 		if(poEntity instanceof clsMobile){
@@ -131,31 +131,31 @@ public class clsSensorVision extends clsSensorExt {
 			oEntityPos = ((clsStationary)poEntity).getStationaryObject2D().getPosition(); 
 		}
 			
-		//if we have a offset, change the center point. this is only for initializing, see step of entitypartvision for more
-		if(pnRadiusOffsetVisionArea != 0)
-			//oEntityPos = oEntityPos.add(pnRadiusOffsetVisionArea);
+		//if we have a offset, change the center point. this is only for initializing, see step of entitypartradiation for more
+		if(pnRadiusOffsetRadiationnArea != 0)
+			//oEntityPos = oEntityPos.add(pnRadiusOffsetRadiationArea);
 		
 		try
 		{
-			moVisionArea.setPose(oEntityPos, poVisionOrientation);
+			moRadiationArea.setPose(oEntityPos, poRadiationOrientation);
 		
 		}
 		catch( Exception ex )
 		{
-			System.out.println("regVisionObjWithParams:"+ex.getMessage());
+			System.out.println("regRadiationObjWithParams:"+ex.getMessage());
 		}
 	}
 	
 
 
 	/**
-	 * TODO (zeilinger) - calculated which are within the entity vision field  
+	 * TODO (horvath) - calculated which are within the entity radiation sensing field  
 	 *
 	 */
 	private void calcViewObj(){
 				
-		moCollidingObj = moVisionArea.getMeUnFilteredObj();
-		moCollisionPoint = moVisionArea.getMeCollisionPoint(); 
+		moCollidingObj = moRadiationArea.getMeUnFilteredObj();
+		moCollisionPoint = moRadiationArea.getMeCollisionPoint(); 
 	
 		if(moCollidingObj.size()>0)
 		 {
@@ -169,7 +169,7 @@ public class clsSensorVision extends clsSensorExt {
 					
 					if(!moViewObj.containsKey(oPhObj.getIndex()) && getInView(oRel.moAzimuth.radians)){
 						addViewObj(oPhObj, oPhObj.getIndex()); 
-						oRel.rotateBy(moVisionArea.getOrientation(), true);
+						oRel.rotateBy(moRadiationArea.getOrientation(), true);
 						try {
 						addViewObjDir(oRel, oPhObj.getIndex());
 						} catch (Exception e) {
@@ -198,7 +198,7 @@ public class clsSensorVision extends clsSensorExt {
 	}
 
 	/**
-	 * TODO (zeilinger) - returns the angle of the relative position
+	 * TODO (horvath) - returns the angle of the relative position
 	 * to the perceived objectn
 	 *
 	 * @param poPos
@@ -217,7 +217,7 @@ public class clsSensorVision extends clsSensorExt {
 	}
 	
 	/**
-	 * TODO (zeilinger) - Tests if an object is within an agent's field of
+	 * TODO (horvath) - Tests if an object is within an agent's field of
 	 * view
 	 *
 	 * @param pnOrientation
@@ -225,7 +225,7 @@ public class clsSensorVision extends clsSensorExt {
 	 */
 	public boolean getInView(double pnOrientation)
 	{
-		double nEntityOrientation = moVisionArea.getOrientation().radians;
+		double nEntityOrientation = moRadiationArea.getOrientation().radians;
 		double nMinBorder; 
 		double nMaxBorder; 
 		
@@ -255,9 +255,9 @@ public class clsSensorVision extends clsSensorExt {
 	}
 	
 	/**
-	 * TODO (zeilinger) - insert description
+	 * TODO (horvath) - insert description
 	 *
-	 * @author zeilinger
+	 * @author horvath
 	 * 25.02.2009, 16:22:39
 	 *
 	 * @param pnOrientation
@@ -281,11 +281,11 @@ public class clsSensorVision extends clsSensorExt {
 	 */
 	public void updateSensorData() {
 		calcViewObj();
-		moVisionArea.setMeVisionObj(moViewObj);
+		moRadiationArea.setMeRadiationObj(moViewObj);
 	}
 	
 	/**
-	 * TODO (zeilinger) - insert description
+	 * TODO (horvath) - insert description
 	 *
 	 * @param pPhObj
 	 */
@@ -294,7 +294,7 @@ public class clsSensorVision extends clsSensorExt {
 	}
 	
 	/**
-	 * TODO (zeilinger) - insert description
+	 * TODO (horvath) - insert description
 	 *
 	 * @param peCollidingObj
 	 */
@@ -303,12 +303,12 @@ public class clsSensorVision extends clsSensorExt {
 	}
 	
 	/**
-	 * TODO (zeilinger) - insert description
+	 * TODO (horvath) - insert description
 	 *
-	 * @param pnVisRange
+	 * @param pnRadRange
 	 */
-	public void setVisionRange(double pnVisRange)	{
-		mnVisRange = pnVisRange; 
+	public void setRadiationRange(double pnRadRange)	{
+		mnRadRange = pnRadRange; 
 	}
 
 	/* (non-Javadoc)
@@ -317,7 +317,7 @@ public class clsSensorVision extends clsSensorExt {
 	@Override
 	protected void setBodyPartId() {
 		// TODO Auto-generated method stub
-		mePartId = eBodyParts.SENSOR_EXT_VISION;
+		mePartId = eBodyParts.SENSOR_EXT_RADIATION;
 	}
 
 	/* (non-Javadoc)
@@ -326,28 +326,27 @@ public class clsSensorVision extends clsSensorExt {
 	@Override
 	protected void setName() {
 		// TODO Auto-generated method stub
-		moName = "ext. Sensor Vision";
+		moName = "ext. Sensor Radiation";
 	}
 	
 	
 	/**
-	 * @return the mnVisRange
+	 * @return the mnRadRange
 	 */
-	public double getMnVisRange() {
-		return mnVisRange;
+	public double getmnRadRange() {
+		return mnRadRange;
 	}
 	
-	public clsEntityPartVision getMoVisionArea()
+	public clsEntityPartRadiation getMoRadiationArea()
 	{
-		return moVisionArea; 
+		return moRadiationArea; 
 	}
-	
 
 	/**
-	 * @param mnVisRange the mnVisRange to set
+	 * @param mnRadRange the mnRadRange to set
 	 */
-	public void setMnVisRange(double pnVisRange) {
-		this.mnVisRange = pnVisRange;
+	public void setMnRadRange(double pnRadRange) {
+		this.mnRadRange = pnRadRange;
 	}
 
 	/**
