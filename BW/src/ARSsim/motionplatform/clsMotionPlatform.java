@@ -106,9 +106,9 @@ public class clsMotionPlatform
     public void moveForward(double speed)
         {
         if (moMobile.getVelocity().length() < speed - .5)
-        	moMobile.addForce((new Double2D(speed, 0)).rotate(moMobile.getOrientation().radians));
+        	moMobile.addForceComponent((new Double2D(speed, 0)).rotate(moMobile.getOrientation().radians));
         else if (moMobile.getVelocity().length() > speed + .5)
-        	moMobile.addForce((new Double2D(-speed, 0)).rotate(moMobile.getOrientation().radians));
+        	moMobile.addForceComponent((new Double2D(-speed, 0)).rotate(moMobile.getOrientation().radians));
                 
         }
         
@@ -128,24 +128,24 @@ public class clsMotionPlatform
             angularError = -(Angle.twoPI - localAngle.radians);
                 
         double toAdd = P_angle * angularError - D_angle * angularVel;
-        moMobile.addTorque(toAdd);
+        moMobile.addTorqueComponent(toAdd);
                 
         // approach the target
         if (Math.abs(angularError) < Math.PI / 15)
             {
             if (localDestination.length() < 20)
-            	moMobile.addForce((new Double2D(4, 0)).rotate(moMobile.getOrientation().radians));
+            	moMobile.addForceComponent((new Double2D(4, 0)).rotate(moMobile.getOrientation().radians));
             else
                 {
                 double scale = P_pos * localDestination.length() - D_pos * moMobile.getVelocity().length();
                 Double2D force = (new Double2D(1, 0)).rotate(moMobile.getOrientation().radians).scalarMult(scale); 
-                moMobile.addForce(force);
+                moMobile.addForceComponent(force);
                 }
             }
         else
             {
             // otherwise, hit the breaks
-        	moMobile.addForce(moMobile.getVelocity().rotate(Math.PI).scalarMult(10));
+        	moMobile.addForceComponent(moMobile.getVelocity().rotate(Math.PI).scalarMult(10));
             }
         }
         
@@ -154,13 +154,13 @@ public class clsMotionPlatform
         double angularVel = moMobile.getAngularVelocity();
         Double2D vel = moMobile.getVelocity();
                 
-        moMobile.addForce(vel.rotate(Math.PI).scalarMult(10));
-        moMobile.addTorque(-angularVel * 200);
+        moMobile.addForceComponent(vel.rotate(Math.PI).scalarMult(10));
+        moMobile.addTorqueComponent(-angularVel * 200);
         }
         
     public void backup()
         {
         Double2D backward = new Double2D(4, 0).rotate(moMobile.getOrientation().add(Math.PI).radians);
-        moMobile.addForce(backward);
+        moMobile.addForceComponent(backward);
         }
     }

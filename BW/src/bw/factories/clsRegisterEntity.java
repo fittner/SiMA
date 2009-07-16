@@ -59,19 +59,19 @@ public final class clsRegisterEntity {
 		Schedule s = clsSingletonMasonGetter.getSimState().schedule;
 
 		/* schedule the various steps */
-		s.scheduleRepeating(poMobileObject2D.getSteppableBeforeStepping(), 0, defaultScheduleStepWidth);
-		s.scheduleRepeating(poMobileObject2D.getSteppableSensing(), 1, defaultScheduleStepWidth);
-		s.scheduleRepeating(poMobileObject2D.getSteppableUpdateInternalState(), 2, defaultScheduleStepWidth);
-		s.scheduleRepeating(poMobileObject2D.getSteppableProcessing(), 3, defaultScheduleStepWidth);
-		s.scheduleRepeating(poMobileObject2D.getSteppableExecution(), 4, defaultScheduleStepWidth);
-		s.scheduleRepeating(poMobileObject2D.getSteppableAfterStepping(), 5, defaultScheduleStepWidth);
+		s.scheduleRepeating(poMobileObject2D.getSteppableBeforeStepping(), 1, defaultScheduleStepWidth);
+		s.scheduleRepeating(poMobileObject2D.getSteppableSensing(), 2, defaultScheduleStepWidth);
+		s.scheduleRepeating(poMobileObject2D.getSteppableUpdateInternalState(), 3, defaultScheduleStepWidth);
+		s.scheduleRepeating(poMobileObject2D.getSteppableProcessing(), 4, defaultScheduleStepWidth);
+		s.scheduleRepeating(poMobileObject2D.getSteppableExecution(), 5, defaultScheduleStepWidth);
+		s.scheduleRepeating(poMobileObject2D.getSteppableAfterStepping(), 6, defaultScheduleStepWidth);
 	}
 	
 	public static void registerStationaryObject2D(clsStationaryObject2D poStationaryObject2D) {
 		registerPhysicalObject2D(poStationaryObject2D);		
 		Schedule s = clsSingletonMasonGetter.getSimState().schedule;
-		s.scheduleRepeating(poStationaryObject2D.getSteppableSensing(), 1, defaultScheduleStepWidth); 
-		s.scheduleRepeating(poStationaryObject2D.getSteppableProcessing(), 3, defaultScheduleStepWidth);
+		s.scheduleRepeating(poStationaryObject2D.getSteppableSensing(), 2, defaultScheduleStepWidth); 
+		s.scheduleRepeating(poStationaryObject2D.getSteppableProcessing(), 4, defaultScheduleStepWidth);
 	}
 	
 	public static void registerEntity(clsMobile poEntity) {
