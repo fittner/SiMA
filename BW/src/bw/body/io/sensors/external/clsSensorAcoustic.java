@@ -7,6 +7,9 @@
  */
 package bw.body.io.sensors.external;
 
+import java.util.ArrayList;
+
+import sim.physics2D.physicalObject.PhysicalObject2D;
 import bw.body.io.clsBaseIO;
 import bw.utils.container.clsConfigMap;
 import bw.utils.enums.eBodyParts;
@@ -48,6 +51,11 @@ public class clsSensorAcoustic extends clsSensorExt {
 	 */
 	public void updateSensorData() {
 		// TODO Auto-generated method stub
+		
+	}
+	
+	
+	public void updateSensorData(Double pnRange, ArrayList<PhysicalObject2D> peObj){
 		
 	}
 
