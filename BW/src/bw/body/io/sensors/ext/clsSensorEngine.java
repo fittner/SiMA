@@ -17,7 +17,6 @@ import sim.physics2D.physicalObject.PhysicalObject2D;
 
 import bw.entities.clsEntity;
 import bw.physicalObjects.sensors.clsEntitySensorEngine;
-import bw.body.io.sensors.itfSensorUpdate;
 
 
 /**
@@ -27,7 +26,7 @@ import bw.body.io.sensors.itfSensorUpdate;
  * 13.07.2009, 11:33:45
  * 
  */
-public class clsSensorEngine implements itfSensorUpdate{
+public class clsSensorEngine{
 	
 	/**
 	 * TODO (zeilinger) - insert description 
