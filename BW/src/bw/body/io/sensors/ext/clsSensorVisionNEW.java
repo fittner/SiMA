@@ -83,6 +83,12 @@ public class clsSensorVisionNEW extends clsSensorExt {
 		/*has to be implemented - return SensorData to Decision Unit*/
 		return null; 
 	}
+    
+	@Override
+	public void updateSensorData(Double pnRange, ArrayList<PhysicalObject2D> peObj) {
+		// TODO Auto-generated method stub
+		moSensorData.setMeDetectedObject(pnRange, peObj); 
+	}
 	/* (non-Javadoc)
 	 *
 	 * @author zeilinger
@@ -91,11 +97,7 @@ public class clsSensorVisionNEW extends clsSensorExt {
 	 * @see bw.body.io.sensors.ext.clsSensorExt#updateSensorData(java.util.ArrayList)
 	 * Integrate Sensor Engine - new Sensor Ext
 	 */
-	@Override
-	public void updateSensorData(Double pnRange, ArrayList<PhysicalObject2D> peObj) {
-		// TODO Auto-generated method stub
-		moSensorData.setMeDetectedObject(pnRange, peObj); 
-	}
+	
 	
 	@Override
 	protected void setBodyPartId() {
