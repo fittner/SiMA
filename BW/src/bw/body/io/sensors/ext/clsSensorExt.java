@@ -8,10 +8,6 @@
  */
 package bw.body.io.sensors.ext;
 
-import java.util.ArrayList;
-
-import sim.physics2D.physicalObject.PhysicalObject2D;
-
 import bw.body.io.clsBaseIO;
 import bw.utils.container.clsConfigMap;
 
@@ -34,10 +30,7 @@ public abstract class clsSensorExt extends bw.body.io.sensors.external.clsSensor
 	 */
 	public clsSensorExt(clsBaseIO poBaseIO, clsConfigMap poConfig) {
 		super(poBaseIO, poConfig);
-		
-		//applyConfig();
+	
 		// TODO Auto-generated constructor stub
 	}
-	
-	public abstract void updateSensorData(Double pnRange, ArrayList<PhysicalObject2D> peObj);
 }
