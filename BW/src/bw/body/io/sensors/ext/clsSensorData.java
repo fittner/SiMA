@@ -11,7 +11,7 @@ package bw.body.io.sensors.ext;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-import bw.body.io.sensors.ext.clsSensorExt;
+import bw.body.io.sensors.external.clsSensorExt;
 import sim.physics2D.physicalObject.PhysicalObject2D;
 import sim.physics2D.util.Double2D;
 

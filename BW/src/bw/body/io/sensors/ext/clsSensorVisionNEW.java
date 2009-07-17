@@ -18,6 +18,7 @@ import bw.entities.clsEntity;
 import bw.utils.container.clsConfigDouble;
 import bw.utils.container.clsConfigMap;
 import bw.utils.enums.eConfigEntries;
+import bw.body.io.sensors.external.clsSensorExt;
 
 /**
  * TODO (zeilinger) - insert description 
