@@ -75,10 +75,6 @@ public class clsSensorVisionNEW extends clsSensorExt {
 		return null;
 	}
 	
-	public void updateSensorData(){
-		
-	}
-	
 	public ArrayList<PhysicalObject2D> getSensorData(){
 		/*has to be implemented - return SensorData to Decision Unit*/
 		return null; 
@@ -106,6 +102,19 @@ public class clsSensorVisionNEW extends clsSensorExt {
 	
 	@Override
 	protected void setName() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	/* (non-Javadoc)
+	 *
+	 * @author zeilinger
+	 * 17.07.2009, 23:26:09
+	 * 
+	 * @see bw.body.io.sensors.itfSensorUpdate#updateSensorData()
+	 */
+	@Override
+	public void updateSensorData() {
 		// TODO Auto-generated method stub
 		
 	}
