@@ -8,9 +8,6 @@
  */
 package bw.body.io.sensors.external;
 
-import java.util.ArrayList;
-
-import sim.physics2D.physicalObject.PhysicalObject2D;
 import ARSsim.physics2D.util.clsPose;
 import bw.body.io.clsBaseIO;
 import bw.entities.clsEntity;
@@ -117,8 +114,4 @@ public class clsSensorPositionChange extends clsSensorExt {
 		moName = "ext. Sensor Position Change";
 		
 	}	
-	
-	public void updateSensorData(Double pnRange, ArrayList<PhysicalObject2D> peObj){
-		
-	}
 }

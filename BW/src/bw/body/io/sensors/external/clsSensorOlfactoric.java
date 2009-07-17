@@ -7,9 +7,6 @@
  */
 package bw.body.io.sensors.external;
 
-import java.util.ArrayList;
-
-import sim.physics2D.physicalObject.PhysicalObject2D;
 import bw.body.io.clsBaseIO;
 import bw.utils.container.clsConfigMap;
 import bw.utils.enums.eBodyParts;
@@ -56,7 +53,4 @@ public class clsSensorOlfactoric extends clsSensorExt {
 		
 	}
 
-	public void updateSensorData(Double pnRange, ArrayList<PhysicalObject2D> peObj){
-		
-	}
 }

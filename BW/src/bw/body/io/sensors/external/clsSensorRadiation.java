@@ -7,7 +7,6 @@
  */
 package bw.body.io.sensors.external;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 
@@ -363,8 +362,4 @@ public class clsSensorRadiation extends clsSensorExt {
 	public HashMap<Integer, clsPolarcoordinate> getViewObjDir() {
 		return moViewObjDir;
 	}	
-	
-	public void updateSensorData(Double pnRange, ArrayList<PhysicalObject2D> peObj){
-		
-	}
 }

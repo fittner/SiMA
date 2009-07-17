@@ -288,10 +288,6 @@ public class clsSensorVision extends clsSensorExt {
 		moVisionArea.setMeVisionObj(moViewObj);
 	}
 	
-	public void updateSensorData(Double pnRange, ArrayList<PhysicalObject2D> peObj){
-		
-	}
-	
 	/**
 	 * TODO (zeilinger) - insert description
 	 *
