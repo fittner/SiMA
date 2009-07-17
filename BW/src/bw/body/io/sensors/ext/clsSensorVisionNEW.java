@@ -9,10 +9,8 @@
 package bw.body.io.sensors.ext;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 
 import sim.physics2D.physicalObject.PhysicalObject2D;
-import ARSsim.physics2D.util.clsPolarcoordinate;
 import bw.body.io.clsBaseIO;
 import bw.entities.clsEntity;
 import bw.utils.container.clsConfigDouble;
@@ -61,20 +59,7 @@ public class clsSensorVisionNEW extends clsSensorExt {
 		mnRange =(((clsConfigDouble)moConfig.get(eConfigEntries.RANGE)).get());
 	}
 	
-	/**
-	 * @return the meViewObj
-	 */
-	public HashMap<Integer, PhysicalObject2D> getViewObj() {
-		return null;
-	}
-	
-	/**
-	 * @return the moViewObjDir
-	 */
-	public HashMap<Integer, clsPolarcoordinate> getViewObjDir() {
-		return null;
-	}
-	
+		
 	public ArrayList<PhysicalObject2D> getSensorData(){
 		/*has to be implemented - return SensorData to Decision Unit*/
 		return null; 
@@ -116,6 +101,5 @@ public class clsSensorVisionNEW extends clsSensorExt {
 	@Override
 	public void updateSensorData() {
 		// TODO Auto-generated method stub
-		
 	}
 }
