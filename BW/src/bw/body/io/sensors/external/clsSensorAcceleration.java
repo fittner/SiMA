@@ -7,9 +7,6 @@
  */
 package bw.body.io.sensors.external;
 
-import java.util.ArrayList;
-
-import sim.physics2D.physicalObject.PhysicalObject2D;
 import sim.physics2D.util.Double2D;
 import bw.body.io.clsBaseIO;
 import bw.entities.clsEntity;
@@ -98,10 +95,6 @@ public class clsSensorAcceleration extends clsSensorExt{
 		//TODO: RL --> entity braucht die Mobile object 2D
 		// moCurrentVelocity = moEntity.getVelocity();
 		// moCurrentAngularVelocity = moEntity.getAngularVelocity();
-	}
-	
-	public void updateSensorData(Double pnRange, ArrayList<PhysicalObject2D> peObj){
-		
 	}
 
 	/* (non-Javadoc)
