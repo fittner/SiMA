@@ -33,7 +33,7 @@ public class clsSensorVisionNEW extends clsSensorExt {
 	private clsSensorData moSensorData; 
 	private Double mnRange;
 		
-	public clsSensorVisionNEW(clsEntity poEntity, clsBaseIO poBaseIO, clsConfigMap poConfig, clsSensorEngine poSensorEngine){
+	public clsSensorVisionNEW(clsEntity poEntity, clsBaseIO poBaseIO, clsConfigMap poConfig, clsSensorEngine poSensorEngine) {
 		super(poBaseIO, clsSensorVisionNEW.getFinalConfig(poConfig));
 		moEntity = poEntity;
 		applyConfig();

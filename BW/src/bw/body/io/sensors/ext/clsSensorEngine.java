@@ -17,7 +17,7 @@ import sim.physics2D.physicalObject.PhysicalObject2D;
 
 import bw.entities.clsEntity;
 import bw.physicalObjects.sensors.clsEntitySensorEngine;
-
+import bw.exceptions.exInvalidSensorRange;
 
 /**
  * TODO (zeilinger) - insert description 
@@ -36,16 +36,16 @@ public class clsSensorEngine{
 	 */
 	private static final long serialVersionUID = 1L;
 	
-	private HashMap<Double,ArrayList<clsSensorData>> moRegisteredSensor;
+	private HashMap<Double,ArrayList<clsSensorData>> meRegisteredSensor;
 	private HashMap <Double,ArrayList<PhysicalObject2D>> meDetectedObj;
 	private TreeMap<Double,clsEntitySensorEngine> meEntities;
 	private double[] mnRange = {20,40,60};
 		
 	public clsSensorEngine(clsEntity poHostEntity){
-		moRegisteredSensor = new HashMap<Double,ArrayList<clsSensorData>>();
+		meRegisteredSensor = new HashMap<Double,ArrayList<clsSensorData>>();
 		meDetectedObj = new HashMap <Double,ArrayList<PhysicalObject2D>>();	
 		meEntities = new TreeMap<Double, clsEntitySensorEngine>(); 
-				
+		
 		this.registerEngineEntity(poHostEntity); 
 	}
 	
@@ -58,25 +58,42 @@ public class clsSensorEngine{
 	//every sensor has to register itself in the Sensor List
 	public void registerSensor(clsSensorData poSensorData){
 	
-		    if(moRegisteredSensor.containsKey(poSensorData.getSensorRange())){
-				((ArrayList<clsSensorData>)this.moRegisteredSensor.get(poSensorData.getSensorRange()))
+		    if(meRegisteredSensor.containsKey(poSensorData.getSensorRange())){
+				((ArrayList<clsSensorData>)this.meRegisteredSensor.get(poSensorData.getSensorRange()))
 																  .add(poSensorData);
 			}
-			else{
+			else if (checkRange(poSensorData)){
 				ArrayList <clsSensorData> meSensorData = new ArrayList<clsSensorData>();
 				meSensorData.add(poSensorData); 
-				moRegisteredSensor.put(poSensorData.getSensorRange(),meSensorData);
+				meRegisteredSensor.put(poSensorData.getSensorRange(),meSensorData);
+			}
+			else{
+				try {
+					throw new exInvalidSensorRange(mnRange,poSensorData.getSensorRange());
+				} catch (exInvalidSensorRange e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 			}
 	}
-
+	
+	public boolean checkRange(clsSensorData poSensorData){
+		for(int index=0; index<mnRange.length;index++ ){
+			if(((Double)mnRange[index]).equals(poSensorData.getSensorRange())){
+				return true; 
+			}
+		}
+		return false; 
+	}
+	
 	public void updateSensorData() {
 		// TODO Auto-generated method stub
 		HashMap <Double,ArrayList<PhysicalObject2D>> eDetectedObj = requestSensorData(); 
-	   	Iterator <Double> rangeItr = moRegisteredSensor.keySet().iterator();
+	   	Iterator <Double> rangeItr = meRegisteredSensor.keySet().iterator();
 			
 		while(rangeItr.hasNext()){
 			double nRange = rangeItr.next();
-			Iterator <clsSensorData> itr = ((ArrayList<clsSensorData>)moRegisteredSensor.get(nRange)).iterator();
+			Iterator <clsSensorData> itr = ((ArrayList<clsSensorData>)meRegisteredSensor.get(nRange)).iterator();
 						
 			while(itr.hasNext()){
 				((clsSensorData)itr.next()).getSensorTyp().updateSensorData(nRange, eDetectedObj.get(nRange)); 
