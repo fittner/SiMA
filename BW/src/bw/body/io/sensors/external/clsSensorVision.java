@@ -7,7 +7,6 @@
  */
 package bw.body.io.sensors.external;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 
