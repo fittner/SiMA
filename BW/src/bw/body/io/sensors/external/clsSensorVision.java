@@ -7,6 +7,7 @@
  */
 package bw.body.io.sensors.external;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 
@@ -285,6 +286,10 @@ public class clsSensorVision extends clsSensorExt {
 	public void updateSensorData() {
 		calcViewObj();
 		moVisionArea.setMeVisionObj(moViewObj);
+	}
+	
+	public void updateSensorData(Double pnRange, ArrayList<PhysicalObject2D> peObj){
+		
 	}
 	
 	/**
