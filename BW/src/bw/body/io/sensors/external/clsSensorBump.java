@@ -8,6 +8,8 @@
 package bw.body.io.sensors.external;
 
 import java.util.ArrayList;
+
+import sim.physics2D.physicalObject.PhysicalObject2D;
 import ARSsim.physics2D.physicalObject.clsCollidingObject;
 import ARSsim.physics2D.physicalObject.clsMobileObject2D;
 import bw.body.clsComplexBody;
@@ -146,7 +148,9 @@ public class clsSensorBump extends clsSensorExt {
 		return moCollisionList;
 	}
 	
+	public void updateSensorData(Double pnRange, ArrayList<PhysicalObject2D> peObj){
 	
+	}
 
 	
 	
