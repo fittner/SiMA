@@ -90,19 +90,27 @@ public class clsSensorEngine{
 	
 	public HashMap <Double,ArrayList<PhysicalObject2D>> requestSensorData(){
 		meDetectedObj.clear(); 
-		ArrayList <PhysicalObject2D> eDummyList;
+		getSensorData(); 
+		sortOutData(); 
 		
+		return meDetectedObj; 
+	}
+	
+	private void getSensorData(){
 		for(int index=0; index < mnRange.length; index++){
 			meDetectedObj.put(mnRange[index], meEntities.get(mnRange[index]).requestSensorData());
-			
 		}
+	}
+	
+	private void sortOutData(){
+		ArrayList <PhysicalObject2D> eDummyList;
+		
 		for(int index=mnRange.length-1; index > 0; index--){
 			eDummyList = meDetectedObj.get(mnRange[index]); 
 			eDummyList.removeAll(meDetectedObj.get(mnRange[index-1])); 
 			meDetectedObj.put(mnRange[index],eDummyList);
 			eDummyList.clear();
 		}
-		return meDetectedObj; 
 	}
 	
 }
