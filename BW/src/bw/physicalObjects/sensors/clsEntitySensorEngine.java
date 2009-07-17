@@ -131,6 +131,7 @@ import bw.factories.clsSingletonMasonGetter;
 	    }		
 		
 	
+		@SuppressWarnings("unchecked")
 		public ArrayList <PhysicalObject2D> getMeDetectedObj(){
 			ArrayList <PhysicalObject2D> eDummyList = (ArrayList<PhysicalObject2D>) meDetectedObj.clone(); 
 			this.clearMeDetectedObj(); 
