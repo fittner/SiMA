@@ -83,7 +83,7 @@ public class clsSensorVision extends clsSensorExt {
 	private static clsConfigMap getDefaultConfig() {
 		clsConfigMap oDefault = new clsConfigMap();
 		
-		oDefault.add(eConfigEntries.ANGLE, new clsConfigDouble(Math.PI));
+		oDefault.add(eConfigEntries.ANGLE, new clsConfigDouble(5*Math.PI/3));
 		oDefault.add(eConfigEntries.RANGE, new clsConfigDouble(50.0));
 		oDefault.add(eConfigEntries.OFFSET, new clsConfigDouble(0.0));
 		
@@ -167,7 +167,7 @@ public class clsSensorVision extends clsSensorExt {
 					PhysicalObject2D oPhObj = itr.next();
 					clsPolarcoordinate oRel = getRelPos(moCollisionPoint.get(oPhObj.getIndex())); 
 					
-					if(!moViewObj.containsKey(oPhObj.getIndex()) && getInView(oRel.moAzimuth.radians)){
+					if(getInView(oRel.moAzimuth.radians)){
 						addViewObj(oPhObj, oPhObj.getIndex()); 
 						oRel.rotateBy(moVisionArea.getOrientation(), true);
 						try {
@@ -232,6 +232,9 @@ public class clsSensorVision extends clsSensorExt {
 		nEntityOrientation = this.normRad(nEntityOrientation);
 		nMinBorder = nEntityOrientation -  mnViewRad/2; 
 		nMaxBorder = nEntityOrientation +  mnViewRad/2; 
+		
+		if(mnViewRad == 2*Math.PI) // => nMinBorder == nMaxBorder, 360-degrees view    
+			return true; 
 		
 		if(nMaxBorder>2*Math.PI)
 			nMaxBorder-=2*Math.PI; 
