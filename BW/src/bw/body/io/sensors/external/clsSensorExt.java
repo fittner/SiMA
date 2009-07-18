@@ -7,9 +7,6 @@
  */
 package bw.body.io.sensors.external;
 
-import java.util.ArrayList;
-
-import sim.physics2D.physicalObject.PhysicalObject2D;
 import bw.body.io.clsBaseIO;
 import bw.body.io.clsSensorActuatorBaseExt;
 import bw.body.io.sensors.itfSensorUpdate;
@@ -24,7 +21,7 @@ import bw.utils.container.clsConfigMap;
 public abstract class clsSensorExt extends clsSensorActuatorBaseExt implements itfSensorUpdate {
 
 	protected clsConfigMap moConfig;
-	
+
 	/**
 	 * @param poBaseIO
 	 */
@@ -58,7 +55,5 @@ public abstract class clsSensorExt extends clsSensorActuatorBaseExt implements i
 		return oDefault;
 	}
 	
-	public void updateSensorData(Double pnRange, ArrayList<PhysicalObject2D> peObj) {
-	}
 
 }
