@@ -8,17 +8,21 @@
 package bw.entities;
 
 import java.awt.Color;
+import java.util.TreeMap;
 
 import ARSsim.physics2D.util.clsPose;
 import bw.body.clsBaseBody;
 import bw.body.clsComplexBody;
 import bw.physicalObjects.bodyparts.clsBotHands;
 import bw.physicalObjects.sensors.clsEntityPartVision;
+import bw.physicalObjects.sensors.clsEntitySensorEngine;
 import bw.utils.container.clsConfigMap;
 import bw.utils.enums.eConfigEntries;
+import bw.body.io.sensors.ext.clsSensorEngine;
 import bw.body.io.sensors.external.clsSensorEatableArea;
 import bw.body.io.sensors.external.clsSensorVision;
 import bw.body.itfget.itfGetEatableArea;
+import bw.body.itfget.itfGetSensorEngine;
 import bw.body.itfget.itfGetVision;
 import enums.eEntityType;
 import sim.display.clsKeyListener;
@@ -35,7 +39,8 @@ import statictools.clsSingletonUniqueIdGenerator;
  * @author langr
  * 
  */
-public class clsRemoteBot extends clsAnimate implements itfGetVision, itfGetEatableArea  {
+
+public class clsRemoteBot extends clsAnimate implements itfGetVision, itfGetEatableArea, itfGetSensorEngine  {
     private clsBotHands moBotHand1;
     private clsBotHands moBotHand2;
        
@@ -103,8 +108,6 @@ public class clsRemoteBot extends clsAnimate implements itfGetVision, itfGetEata
         return oHand;
 	}
 	
-	
-	
 	/**
 	 * To be called AFTER clsRemoteBot has been initialized and registered to mason 
 	 * 
@@ -145,6 +148,14 @@ public class clsRemoteBot extends clsAnimate implements itfGetVision, itfGetEata
 		return ((clsSensorEatableArea)moBody
 					.getExternalIO().moSensorExternal
 					.get(enums.eSensorExtType.EATABLE_AREA)).getMoVisionArea(); 
+	}
+	
+	//ZEILINGER - integrate SensorEngine 
+	@Override
+	public TreeMap <Double,clsEntitySensorEngine> getSensorEngine()
+	{
+		return ((clsSensorEngine)this.moBody
+					.getExternalIO().moSensorEngine).getMeSensorAreas(); 
 	}
 	
 	/* (non-Javadoc)
