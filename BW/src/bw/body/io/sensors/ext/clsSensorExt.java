@@ -67,8 +67,8 @@ public abstract class clsSensorExt extends clsSensorActuatorBaseExt implements i
 	public void updateSensorData(Double pnRange, ArrayList<PhysicalObject2D> peObj){}
 
 
-	public void assignSensorData(clsSensorExt poSensor,Double2D poSensorPosition, Double mnRange){
-		moSensorData = new clsSensorData(poSensor, poSensorPosition, mnRange); 
+	public void assignSensorData(clsSensorExt poSensor,Double2D poSensorPosition, Double moRange){
+		moSensorData = new clsSensorData(poSensor, poSensorPosition, moRange); 
 		moSensorEngine.registerSensor(this);
 	}
 	
