@@ -14,11 +14,15 @@ import bw.body.clsBaseBody;
 import bw.body.io.actuators.clsActionProcessor;
 import bw.body.io.actuators.actionExecutors.*;
 import decisionunit.itf.actions.*; 
+import bw.body.io.sensors.ext.clsSensorEngine;
 import bw.body.io.sensors.external.clsSensorAcceleration;
 import bw.body.io.sensors.external.clsSensorBump;
 import bw.body.io.sensors.external.clsSensorEatableArea;
 import bw.body.io.sensors.external.clsSensorExt;
 import bw.body.io.sensors.external.clsSensorPositionChange;
+//HZ -- integration Sensor Engine
+import bw.body.io.sensors.ext.clsSensorVisionNEW;
+
 import bw.body.io.sensors.external.clsSensorVision;
 import bw.body.io.sensors.external.clsSensorRadiation;
 import bw.entities.clsEntity;
@@ -55,8 +59,9 @@ import enums.eSensorExtType;
 public class clsExternalIO extends clsBaseIO {
 
 	private clsActionProcessor moProcessor; 
+	public clsSensorEngine moSensorEngine;
 	public HashMap<eSensorExtType, clsSensorExt> moSensorExternal;
-	
+		
 	public clsEntity moEntity;
 	
 /**
@@ -64,12 +69,11 @@ public class clsExternalIO extends clsBaseIO {
 	 */
 	public clsExternalIO(clsBaseBody poBody, clsEntity poEntity, clsConfigMap poConfig) {
 		super(poBody, clsExternalIO.getFinalConfig(poConfig));
-		
 		moEntity = poEntity; //the entity for physics engine access
-		
+				
 		moSensorExternal = new HashMap<eSensorExtType, clsSensorExt>();
 		moProcessor = new clsActionProcessor(poEntity);
-
+				
 		moProcessor.addCommand(clsActionMove.class, new clsExecutorMove(poEntity, 10));
 		moProcessor.addCommand(clsActionTurn.class, new clsExecutorTurn(poEntity));
 		moProcessor.addCommand(clsActionEat.class, new clsExecutorEat(poEntity,eSensorExtType.EATABLE_AREA,1));
@@ -91,7 +95,6 @@ public class clsExternalIO extends clsBaseIO {
 		if ( ((clsConfigBoolean)moConfig.get(eConfigEntries.ACTIVATE)).get() ) {
 			initSensorExternal((clsConfigList)moConfig.get(eConfigEntries.EXTSENSORS), (clsConfigMap)moConfig.get(eConfigEntries.EXTSENSORCONFIG));
 		}
-
 	}
 
 	private static clsConfigMap getFinalConfig(clsConfigMap poConfig) {
@@ -149,7 +152,10 @@ public class clsExternalIO extends clsBaseIO {
 		
 	@SuppressWarnings("unchecked") // EH: probably unsafe, please refactor
 	private void initSensorExternal(clsConfigList poExternalSensors, clsConfigMap poSensorConfigs) {
+		
+		moSensorEngine = new clsSensorEngine(moEntity);
 		Iterator<clsBaseConfig> i = poExternalSensors.iterator();
+		
 		while (i.hasNext()) {
 			eConfigEntries eType = (eConfigEntries) ((clsConfigEnum)i.next()).get();
 			clsConfigMap oConfig = (clsConfigMap)poSensorConfigs.get(eType);
@@ -157,14 +163,17 @@ public class clsExternalIO extends clsBaseIO {
 
 			if (nActivate) {
 				switch (eType) {
+					
 					case ACCELERATION: 
 						moSensorExternal.put(eSensorExtType.ACCELERATION, new clsSensorAcceleration(moEntity, this, oConfig)); 
 						break;
 					case BUMP: 
 						moSensorExternal.put(eSensorExtType.BUMP, new clsSensorBump(moEntity, this, oConfig)); 
 						break;
-					case VISION: 
+					case VISION:
 						moSensorExternal.put(eSensorExtType.VISION, new clsSensorVision(moEntity, this, oConfig)); 
+						//ZEILINGER - integrate SensorEngine - Do we need the registration of eSensorExtType
+						new clsSensorVisionNEW(moEntity, this, oConfig, moSensorEngine); 
 						break;
 					case RADIATION: 
 						moSensorExternal.put(eSensorExtType.RADIATION, new clsSensorRadiation(moEntity, this, oConfig)); 
@@ -172,7 +181,6 @@ public class clsExternalIO extends clsBaseIO {
 					case EATABLE_AREA: 
 						moSensorExternal.put(eSensorExtType.EATABLE_AREA, new clsSensorEatableArea(moEntity, this, oConfig)); 
 						break;
-						
 					case POSITIONCHANGE: 
 						moSensorExternal.put(eSensorExtType.POSITIONCHANGE, new clsSensorPositionChange(moEntity, this, oConfig)); 
 						break;						
@@ -180,7 +188,6 @@ public class clsExternalIO extends clsBaseIO {
 			}
 		}
 	}
-
 	public clsActionProcessor getActionProcessor() {
 		return moProcessor;
 	}
@@ -196,6 +203,8 @@ public class clsExternalIO extends clsBaseIO {
 	 * @see bw.body.itfStepSensing#stepSensing()
 	 */
 	public void stepSensing() {
+		moSensorEngine.updateSensorData(); // HZ integration of the Sensor Engine
+		
 		for (clsSensorExt sensor : moSensorExternal.values()) {
 			sensor.updateSensorData();
 		}
