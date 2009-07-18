@@ -8,12 +8,15 @@
  */
 package bw.factories;
 
+import java.util.TreeMap;
+
 import sim.engine.Schedule;
 import sim.physics2D.constraint.PinJoint;
 import sim.physics2D.physicalObject.PhysicalObject2D;
 import ARSsim.physics2D.physicalObject.clsMobileObject2D;
 import ARSsim.physics2D.physicalObject.clsStationaryObject2D;
 import bw.body.itfget.itfGetEatableArea;
+import bw.body.itfget.itfGetSensorEngine;
 import bw.body.itfget.itfGetVision;
 import bw.body.itfget.itfGetRadiation;
 import bw.entities.clsAnimate;
@@ -22,6 +25,7 @@ import bw.entities.clsRemoteBot;
 import bw.entities.clsStationary;
 import bw.entities.clsBase;
 import bw.physicalObjects.bodyparts.clsBotHands;
+import bw.physicalObjects.sensors.clsEntitySensorEngine;
 
 
 /**
@@ -114,6 +118,9 @@ public final class clsRegisterEntity {
 	public static void registerEntity(clsRemoteBot poEntity) {
 		registerMobileObject2D(poEntity.getMobileObject2D());
 		
+		//ZEILINGER -- integrate SensorEngine - actually only for remoteBot
+    	registerSensorEngine(((itfGetSensorEngine)poEntity).getSensorEngine()); 
+			
 		registerPhysicalObject2D(poEntity.getVision() );
 		clsSingletonMasonGetter.getFieldEnvironment().setObjectLocation(poEntity.getVision(), new sim.util.Double2D(poEntity.getPosition().x, poEntity.getPosition().y));
 		clsSingletonMasonGetter.getSimState().schedule.scheduleRepeating(poEntity.getVision(), 6, defaultScheduleStepWidth);
@@ -123,7 +130,7 @@ public final class clsRegisterEntity {
 		clsSingletonMasonGetter.getSimState().schedule.scheduleRepeating(poEntity.getRadiation(), 6, defaultScheduleStepWidth);
 		
 		registerPhysicalObject2D(poEntity.getEatableAreaVision() );
-		clsSingletonMasonGetter.getFieldEnvironment().setObjectLocation(poEntity.getEatableAreaVision(), new sim.util.Double2D(poEntity.getPosition().x, poEntity.getPosition().y));
+     	clsSingletonMasonGetter.getFieldEnvironment().setObjectLocation(poEntity.getEatableAreaVision(), new sim.util.Double2D(poEntity.getPosition().x, poEntity.getPosition().y));
 		clsSingletonMasonGetter.getSimState().schedule.scheduleRepeating(poEntity.getEatableAreaVision(), 6, defaultScheduleStepWidth);
 		
 		registerBotHands(poEntity.getBotHand1());
@@ -134,6 +141,7 @@ public final class clsRegisterEntity {
 		clsSingletonMasonGetter.getPhysicsEngine2D().setNoCollisions(poEntity.getVision(),poEntity.getMobileObject2D());
 		clsSingletonMasonGetter.getPhysicsEngine2D().setNoCollisions(poEntity.getVision(),poEntity.getBotHand1());
 		clsSingletonMasonGetter.getPhysicsEngine2D().setNoCollisions(poEntity.getVision(),poEntity.getBotHand2());
+		clsSingletonMasonGetter.getPhysicsEngine2D().setNoCollisions(poEntity.getVision(),poEntity.getEatableAreaVision());
 		
 		clsSingletonMasonGetter.getPhysicsEngine2D().setNoCollisions(poEntity.getRadiation(),poEntity.getMobileObject2D());
 		clsSingletonMasonGetter.getPhysicsEngine2D().setNoCollisions(poEntity.getRadiation(),poEntity.getBotHand1());
@@ -148,8 +156,7 @@ public final class clsRegisterEntity {
             
         clsSingletonMasonGetter.getPhysicsEngine2D().register(oPJ1);
         clsSingletonMasonGetter.getPhysicsEngine2D().register(oPJ2);
-        
- 
+   
 		poEntity.setRegistered(true);
 	}
 	
@@ -175,6 +182,16 @@ public final class clsRegisterEntity {
 		}
 
 		poEntity.setRegistered(true);
+	}
+	
+	//ZEILINGER -- integrate Sensor Engine
+	public static void registerSensorEngine(TreeMap<Double, clsEntitySensorEngine> peEntities){
+			
+		for(clsEntitySensorEngine entity : peEntities.values()){	
+			registerPhysicalObject2D(entity);
+			clsSingletonMasonGetter.getFieldEnvironment().setObjectLocation(entity, new sim.util.Double2D(entity.getPosition().x, entity.getPosition().y));
+			clsSingletonMasonGetter.getSimState().schedule.scheduleRepeating(entity, 6, defaultScheduleStepWidth);
+		}
 	}
 
 }
