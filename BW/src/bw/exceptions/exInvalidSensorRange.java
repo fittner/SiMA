@@ -26,15 +26,20 @@ public class exInvalidSensorRange extends exException{
 	private static final long serialVersionUID = 1L;
 		private double [] mnValue;
 		private double mnSenRange;
+		private String moRange; 
 
 		public exInvalidSensorRange(double [] pnValue, double prSenRange) {
 			mnValue = pnValue;
 			mnSenRange = prSenRange;
+			
+			for(double element : mnValue){
+				moRange += " "+element; 
+			}
 		}
 		
 		@Override
 		public String toString() {
-			return ("InvalidSensorRange: value "+mnSenRange +" is invalid. The sensor range has to match "+mnValue.toString() + "\n");
+			return ("InvalidSensorRange: value "+mnSenRange +" is invalid. The sensor range has to match "+moRange + "\n");
 		}
 		/**
 		 * 
