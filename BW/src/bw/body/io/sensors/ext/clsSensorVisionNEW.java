@@ -68,6 +68,9 @@ public class clsSensorVisionNEW extends clsSensorExt {
 	@Override
 	public void updateSensorData(Double pnRange, ArrayList<PhysicalObject2D> peObj) {
 		// TODO Auto-generated method stub
+		
+		System.out.println("Range " + pnRange + "  " + peObj.size());
+		
 		moSensorData.setMeDetectedObject(pnRange, peObj); 
 	}
 	/* (non-Javadoc)

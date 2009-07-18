@@ -69,7 +69,7 @@ public class clsSensorEngine{
 	
 	public void fillMeRegisteredSensor(double pnSensorRange, clsSensorExt poSensor){
 		
-		for(int index = mnRange.length-1; index>=0; index--){
+		for(int index = 0; index< mnRange.length; index++){
 		    if(meRegisteredSensor.containsKey(mnRange[index])){
 				((ArrayList<clsSensorExt>)this.meRegisteredSensor.get(mnRange[index]))
 																  .add(poSensor);
@@ -122,20 +122,22 @@ public class clsSensorEngine{
 		return meDetectedObj; 
 	}
 	
+	@SuppressWarnings("unchecked")
 	private void getSensorData(){
 		for(int index=0; index < mnRange.length; index++){
-			meDetectedObj.put(mnRange[index], meEntities.get(mnRange[index]).requestSensorData());
+			meDetectedObj.put(mnRange[index], 
+								((ArrayList<PhysicalObject2D>)(meEntities.get(mnRange[index]).requestSensorData()).clone()));
 		}
 	}
 	
 	private void sortOutData(){
-		ArrayList <PhysicalObject2D> eDummyList;
+		//ArrayList <PhysicalObject2D> eDummyList;
 		
 		for(int index=mnRange.length-1; index > 0; index--){
-			eDummyList = meDetectedObj.get(mnRange[index]); 
+			ArrayList <PhysicalObject2D> eDummyList = meDetectedObj.get(mnRange[index]); 
+			
 			eDummyList.removeAll(meDetectedObj.get(mnRange[index-1])); 
 			meDetectedObj.put(mnRange[index],eDummyList);
-			eDummyList.clear();
 		}
 	}
 	
