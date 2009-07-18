@@ -71,7 +71,8 @@ import bw.factories.clsSingletonMasonGetter;
 		}
 	
 		public void step(SimState state){
-			setLocation();  
+			setLocation();
+			clearMeDetectedObj();
 		}
 		
 		public void registerShape(){
@@ -80,12 +81,10 @@ import bw.factories.clsSingletonMasonGetter;
 			}catch(Exception ex){System.out.println(ex.getMessage());}
 		}
 		
-		public ArrayList <PhysicalObject2D> requestSensorData(){
-			return meDetectedObj; 
-		}
 		
-		private void clearMeDetectedObj(){
-			meDetectedObj.clear(); 
+		public ArrayList <PhysicalObject2D> requestSensorData(){
+			ArrayList <PhysicalObject2D> eDummyList = (ArrayList<PhysicalObject2D>) meDetectedObj; 
+			return eDummyList; 
 		}
 		
 		private void setLocation(){
@@ -104,14 +103,14 @@ import bw.factories.clsSingletonMasonGetter;
 		 * which are moving away from the   
 		*/     
 		
-//		@Override
-//		public void addContact(PhysicalObject2D obj, sim.physics2D.util.Double2D colPoint){
-//			//FIXME colPoint not used
-//			if (colPoint != null){
-//				meDetectedObj.add(obj);
-//				//meCollisionPoint.put(obj.getIndex(), colPoint);
-//			}				
-//		}
+		@Override
+		public void addContact(PhysicalObject2D obj, sim.physics2D.util.Double2D colPoint){
+			//FIXME colPoint not used
+			if (colPoint != null){
+				meDetectedObj.add(obj);
+				//meCollisionPoint.put(obj.getIndex(), colPoint);
+			}				
+		}
 		
 		//--------------------------------------------------------------------------------------------------
 		// Methods from Mobile2D which have to be overwritten
@@ -131,11 +130,14 @@ import bw.factories.clsSingletonMasonGetter;
 	    }		
 		
 	
-		@SuppressWarnings("unchecked")
 		public ArrayList <PhysicalObject2D> getMeDetectedObj(){
-			ArrayList <PhysicalObject2D> eDummyList = (ArrayList<PhysicalObject2D>) meDetectedObj.clone(); 
-			this.clearMeDetectedObj(); 
-			return eDummyList; 
+			return meDetectedObj; 
+		}
+		
+		//-------------------------------------------------------------------------------------------------
+		
+		private void clearMeDetectedObj(){
+			meDetectedObj.clear(); 
 		}
 }
 
