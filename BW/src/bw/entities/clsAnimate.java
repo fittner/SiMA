@@ -8,15 +8,19 @@
 package bw.entities;
 
 
+import java.util.TreeMap;
+
 import decisionunit.clsBaseDecisionUnit;
 import sim.physics2D.shape.Shape;
 import ARSsim.physics2D.util.clsPose;
 import bw.body.clsBaseBody;
+import bw.body.io.sensors.ext.clsSensorEngine;
 import bw.body.io.sensors.external.clsSensorEatableArea;
 import bw.body.io.sensors.external.clsSensorVision;
 import bw.body.io.sensors.external.clsSensorRadiation;
 import bw.body.itfget.itfGetBody;
 import bw.physicalObjects.sensors.clsEntityPartVision;
+import bw.physicalObjects.sensors.clsEntitySensorEngine;
 import bw.physicalObjects.sensors.clsEntityPartRadiation;
 import bw.utils.container.clsConfigMap;
 
@@ -148,4 +152,11 @@ public abstract class clsAnimate extends clsMobile implements itfGetBody {
 					.getExternalIO().moSensorExternal
 					.get(enums.eSensorExtType.EATABLE_AREA)).getMoVisionArea(); 
 	}	
+	
+	//HZ - integrate SensorEngine 
+	public TreeMap<Double, clsEntitySensorEngine> getSensorEngine()
+	{
+		return ((clsSensorEngine)this.moBody
+					.getExternalIO().moSensorEngine).getMeSensorAreas(); 
+	}
 }
