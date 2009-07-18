@@ -36,13 +36,13 @@ public class clsSensorEngine{
 	 */
 	private static final long serialVersionUID = 1L;
 	
-	private HashMap<Double,ArrayList<clsSensorData>> meRegisteredSensor;
+	private HashMap<Double,ArrayList<clsSensorExt>> meRegisteredSensor;
 	private HashMap <Double,ArrayList<PhysicalObject2D>> meDetectedObj;
 	private TreeMap<Double,clsEntitySensorEngine> meEntities;
-	private double[] mnRange = {20,40,60};
+	private double[] mnRange = {20,40,60}; //HZ -- has to be set in increasing sequence 
 		
 	public clsSensorEngine(clsEntity poHostEntity){
-		meRegisteredSensor = new HashMap<Double,ArrayList<clsSensorData>>();
+		meRegisteredSensor = new HashMap<Double,ArrayList<clsSensorExt>>();
 		meDetectedObj = new HashMap <Double,ArrayList<PhysicalObject2D>>();	
 		meEntities = new TreeMap<Double, clsEntitySensorEngine>(); 
 		
@@ -56,35 +56,44 @@ public class clsSensorEngine{
 	}
 
 	//every sensor has to register itself in the Sensor List
-	public void registerSensor(clsSensorData poSensorData){
-	
-		    if(meRegisteredSensor.containsKey(poSensorData.getSensorRange())){
-				((ArrayList<clsSensorData>)this.meRegisteredSensor.get(poSensorData.getSensorRange()))
-																  .add(poSensorData);
-			}
-			else if (checkRange(poSensorData)){
-				ArrayList <clsSensorData> meSensorData = new ArrayList<clsSensorData>();
-				meSensorData.add(poSensorData); 
-				meRegisteredSensor.put(poSensorData.getSensorRange(),meSensorData);
-			}
-			else{
-				try {
-					throw new exInvalidSensorRange(mnRange,poSensorData.getSensorRange());
-				} catch (exInvalidSensorRange e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-			}
+	public void registerSensor(clsSensorExt poSensor){
+		double nSensorRange = poSensor.getSensorData().getSensorRange(); 
+		
+		if(checkRange(nSensorRange)){
+			fillMeRegisteredSensor(nSensorRange, poSensor);
+		}
+		else{
+			throwExInvalidSensorRange(nSensorRange); 
+		}
 	}
 	
-	public boolean checkRange(clsSensorData poSensorData){
+	public void fillMeRegisteredSensor(double pnSensorRange, clsSensorExt poSensor){
+		
+		for(int index = mnRange.length-1; index>=0; index--){
+		    if(meRegisteredSensor.containsKey(mnRange[index])){
+				((ArrayList<clsSensorExt>)this.meRegisteredSensor.get(mnRange[index]))
+																  .add(poSensor);
+			}
+			else {
+				ArrayList <clsSensorExt> meSensor = new ArrayList<clsSensorExt>();
+				meSensor.add(poSensor); 
+				meRegisteredSensor.put(mnRange[index],meSensor);
+			}
+		    if(pnSensorRange == mnRange[index]){
+		    		break; 
+		    }
+		}
+	}
+	
+	public boolean checkRange(double pnRange){
 		for(int index=0; index<mnRange.length;index++ ){
-			if(((Double)mnRange[index]).equals(poSensorData.getSensorRange())){
+			if(((Double)mnRange[index]).equals(pnRange)){
 				return true; 
 			}
 		}
 		return false; 
 	}
+	
 	
 	public void updateSensorData() {
 		// TODO Auto-generated method stub
@@ -93,10 +102,10 @@ public class clsSensorEngine{
 			
 		while(rangeItr.hasNext()){
 			double nRange = rangeItr.next();
-			Iterator <clsSensorData> itr = ((ArrayList<clsSensorData>)meRegisteredSensor.get(nRange)).iterator();
+			Iterator <clsSensorExt> itr = ((ArrayList<clsSensorExt>)meRegisteredSensor.get(nRange)).iterator();
 						
 			while(itr.hasNext()){
-				((clsSensorData)itr.next()).getSensorTyp().updateSensorData(nRange, eDetectedObj.get(nRange)); 
+				((clsSensorExt)itr.next()).updateSensorData(nRange, eDetectedObj.get(nRange)); 
 			}
 		}
 	}
@@ -127,6 +136,15 @@ public class clsSensorEngine{
 			eDummyList.removeAll(meDetectedObj.get(mnRange[index-1])); 
 			meDetectedObj.put(mnRange[index],eDummyList);
 			eDummyList.clear();
+		}
+	}
+	
+	private void throwExInvalidSensorRange(double pnSensorRange){
+		try {
+			throw new exInvalidSensorRange(mnRange,pnSensorRange);
+		} catch (exInvalidSensorRange e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
 	}
 	
