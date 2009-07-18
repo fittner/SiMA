@@ -11,12 +11,13 @@ package bw.body.io.sensors.ext;
 import java.util.ArrayList;
 
 import sim.physics2D.physicalObject.PhysicalObject2D;
+import sim.physics2D.util.Double2D;
 import bw.body.io.clsBaseIO;
 import bw.entities.clsEntity;
 import bw.utils.container.clsConfigDouble;
 import bw.utils.container.clsConfigMap;
 import bw.utils.enums.eConfigEntries;
-import bw.body.io.sensors.external.clsSensorExt;
+import bw.body.io.sensors.ext.clsSensorExt;
 
 /**
  * TODO (zeilinger) - insert description 
@@ -27,16 +28,13 @@ import bw.body.io.sensors.external.clsSensorExt;
  */
 public class clsSensorVisionNEW extends clsSensorExt {
 
-	private clsEntity moEntity;
-	private clsSensorData moSensorData; 
 	private Double mnRange;
-		
+	private Double2D moPosition; 
+	
 	public clsSensorVisionNEW(clsEntity poEntity, clsBaseIO poBaseIO, clsConfigMap poConfig, clsSensorEngine poSensorEngine) {
-		super(poBaseIO, clsSensorVisionNEW.getFinalConfig(poConfig));
-		moEntity = poEntity;
+		super(poBaseIO, clsSensorVisionNEW.getFinalConfig(poConfig),poSensorEngine);
+		moPosition = poEntity.getPosition(); 
 		applyConfig();
-		moSensorData = new clsSensorData(this, moEntity.getPosition(), mnRange);
-		poSensorEngine.registerSensor(moSensorData);
 	}
 	
 	private static clsConfigMap getFinalConfig(clsConfigMap poConfig) {
@@ -51,19 +49,21 @@ public class clsSensorVisionNEW extends clsSensorExt {
 		oDefault.add(eConfigEntries.ANGLE, new clsConfigDouble(Math.PI));
 		oDefault.add(eConfigEntries.RANGE, new clsConfigDouble(60.0));
 		oDefault.add(eConfigEntries.OFFSET, new clsConfigDouble(0.0));
-
+	
 		return oDefault;
 	}
 	
-	private void applyConfig() {	
-		mnRange =(((clsConfigDouble)moConfig.get(eConfigEntries.RANGE)).get());
+	private void applyConfig() {
+		//HZ -- initialise sensor engine - defines the maximum sensor range
+		mnRange = ((clsConfigDouble)moConfig.get(eConfigEntries.RANGE)).get();
+		assignSensorData((clsSensorExt)this,moPosition, mnRange);	
 	}
 	
 		
-	public ArrayList<PhysicalObject2D> getSensorData(){
-		/*has to be implemented - return SensorData to Decision Unit*/
-		return null; 
-	}
+//	public ArrayList<PhysicalObject2D> getSensorData(){
+//		/*has to be implemented - return SensorData to Decision Unit*/
+//		return null; 
+//	}
     
 	@Override
 	public void updateSensorData(Double pnRange, ArrayList<PhysicalObject2D> peObj) {
