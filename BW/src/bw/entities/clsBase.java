@@ -34,7 +34,7 @@ import enums.eEntityType;
  * 08.07.2009, 14:52:00
  * 
  */
-public class clsBase extends clsStationary{
+public class clsBase extends clsStationary {
 	private static Color moDefaultColor = Color.gray;
 	private static double mrDefaultRadius = 20.0f;
 	private static String moImagePath = sim.clsBWMain.msArsPath + "/src/resources/images/spacestation.gif";
@@ -50,9 +50,9 @@ public class clsBase extends clsStationary{
 		
 		oConfig = poConfig;
 		
-		oConfig.add(eConfigEntries.ANGLE, new clsConfigDouble((float) 1.99 * Math.PI));
-		oConfig.add(eConfigEntries.RANGE, new clsConfigDouble(20.0f));
-		oConfig.add(eConfigEntries.OFFSET, new clsConfigDouble(0.0f));
+		oConfig.add(eConfigEntries.ANGLE, new clsConfigDouble(1.99 * Math.PI));
+		oConfig.add(eConfigEntries.RANGE, new clsConfigDouble(50.0));
+		oConfig.add(eConfigEntries.OFFSET, new clsConfigDouble(0.0));
 		
 		// null - Stationary objects don't have a body, therefore can't have an instance of clsBaseIO 
 		moSensorEatable = new clsSensorEatableArea(this, null, oConfig);		
@@ -123,15 +123,16 @@ public class clsBase extends clsStationary{
 	 */
 	@Override
 	public void processing() {
-		// TODO Auto-generated method stub
 		Iterator<Integer> i = moSensorEatable.getViewObj().keySet().iterator();
 		while (i.hasNext()) {
 			Integer oKey = i.next();
 			if (getEntityType(moSensorEatable.getViewObj().get(oKey)) == eEntityType.URANIUM) {
 				if(getEntity(moSensorEatable.getViewObj().get(oKey)).isRegistered()){
-					getEntity(moSensorEatable.getViewObj().get(oKey)).setRegistered(false);
-					bw.factories.clsRegisterEntity.unRegisterPhysicalObject2D(moSensorEatable.getViewObj().get(oKey));
-					mnStoredOre++;
+					//if(getEntity(moSensorEatable.getViewObj().get(oKey)).isRegistered()){
+						getEntity(moSensorEatable.getViewObj().get(oKey)).setRegistered(false);
+						bw.factories.clsRegisterEntity.unRegisterPhysicalObject2D(moSensorEatable.getViewObj().get(oKey));
+						mnStoredOre++;
+					//}
 				}
 			}
 		}		

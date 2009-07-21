@@ -22,6 +22,7 @@ import bw.body.io.sensors.ext.clsSensorEngine;
 import bw.body.io.sensors.external.clsSensorEatableArea;
 import bw.body.io.sensors.external.clsSensorVision;
 import bw.body.itfget.itfGetEatableArea;
+import bw.body.itfget.itfGetRadiation;
 import bw.body.itfget.itfGetSensorEngine;
 import bw.body.itfget.itfGetVision;
 import enums.eEntityType;
@@ -40,7 +41,7 @@ import statictools.clsSingletonUniqueIdGenerator;
  * 
  */
 
-public class clsRemoteBot extends clsAnimate implements itfGetVision, itfGetEatableArea, itfGetSensorEngine  {
+public class clsRemoteBot extends clsAnimate implements itfGetVision, itfGetRadiation, itfGetEatableArea, itfGetSensorEngine  {
     private clsBotHands moBotHand1;
     private clsBotHands moBotHand2;
        

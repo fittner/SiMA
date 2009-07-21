@@ -28,7 +28,6 @@ import decisionunit.itf.sensors.clsStomachSystem;
 import decisionunit.itf.sensors.clsVision;
 import decisionunit.itf.sensors.clsRadiation;
 import decisionunit.itf.sensors.clsVisionEntry;
-import decisionunit.itf.sensors.clsRadiationEntry;
 import enums.eSensorIntType;
 import enums.eSensorExtType;
 import ARSsim.physics2D.physicalObject.clsMobileObject2D;
@@ -220,19 +219,20 @@ public class clsBrainSocket implements itfStepProcessing {
 	private clsRadiation convertRadiationSensor() {
 		clsRadiation oData = new clsRadiation();
 		
-		clsSensorRadiation oRadiation = (clsSensorRadiation)(moSensorsExt.get(eSensorExtType.RADIATION));
+		clsSensorRadiation oRadiationSensor = (clsSensorRadiation) moSensorsExt.get(eSensorExtType.RADIATION);
 		
-		Iterator<Integer> i = oRadiation.getViewObj().keySet().iterator();
+		Iterator<Integer> i = oRadiationSensor.getViewObj().keySet().iterator();
+		
 		while (i.hasNext()) {
 			Integer oKey = i.next();
-			PhysicalObject2D radiationObj = oRadiation.getViewObj().get(oKey);
-			ARSsim.physics2D.util.clsPolarcoordinate radiationDir = oRadiation.getViewObjDir().get(oKey);
-			clsRadiationEntry oEntry = convertRadiationEntry(radiationObj, radiationDir);
-			if (oEntry != null) {
-			  oData.add(oEntry);
+			oData.mnNumEntitiesPresent = oRadiationSensor.getViewObj().size();
+			oData.mnTypeOfFirstEntity = getEntityType( oRadiationSensor.getViewObj().get(oKey) );
+			
+			if (oData.mnTypeOfFirstEntity != eEntityType.UNDEFINED) {
+				break;
 			}
 		}
-		
+			
 		return oData;
 	}
 
@@ -260,31 +260,7 @@ public class clsBrainSocket implements itfStepProcessing {
 		// TODO Auto-generated method stub
 		return oData;
 	}
-	
-	private clsRadiationEntry convertRadiationEntry(PhysicalObject2D radiationObj, ARSsim.physics2D.util.clsPolarcoordinate radiationDir) {
-		clsEntity oEntity = getEntity(radiationObj);
-		if (oEntity == null) {
-			return null;
-		}
 
-		clsRadiationEntry oData = new clsRadiationEntry();
-		
-		oData.mnEntityType = getEntityType(radiationObj);		
-		oData.mnShapeType = getShapeType(radiationObj);
-		oData.moPolarcoordinate = new clsPolarcoordinate(radiationDir.mrLength, radiationDir.moAzimuth.radians);
-		oData.moColor = (Color) oEntity.getShape().getPaint();
-		
-		if( oEntity instanceof clsAnimal )
-		{
-			oData.mnAlive = ((clsAnimal)oEntity).isAlive();
-		}
-		
-	
-		oData.moEntityId = oEntity.getId();
-		
-		// TODO Auto-generated method stub
-		return oData;
-	}
 
 	private clsEatableArea convertEatAbleAreaSensor() {
 		clsEatableArea oData = new clsEatableArea();

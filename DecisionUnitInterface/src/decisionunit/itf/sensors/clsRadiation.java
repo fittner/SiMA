@@ -1,47 +1,24 @@
 package decisionunit.itf.sensors;
 
-import java.util.ArrayList;
+import enums.eEntityType;
 
 public class clsRadiation extends clsSensorExtern {
-	private ArrayList<clsRadiationEntry> moEntries = new ArrayList<clsRadiationEntry>();
-	
-	public void add(clsRadiationEntry poEntry) {
-		moEntries.add(poEntry);
-	}
-	
-	public ArrayList<clsRadiationEntry> getList() {
-		return moEntries;
-	}
+	public int mnNumEntitiesPresent = 0;
+	public eEntityType mnTypeOfFirstEntity = eEntityType.UNDEFINED;
 	
 	@Override
 	public String logXML() {
 		String logEntry = "";
-		int id = 0;
 		
-		for (clsRadiationEntry oEntry:moEntries) {
-			logEntry += addXMLTag("Entry", oEntry.logXML(id));
-			id++;
-		}
-		
+		logEntry += addXMLTag("NumEntitiesPresent", new Integer(mnNumEntitiesPresent).toString()); 
+		logEntry += addXMLTag("TypeOfFirstEntity", mnTypeOfFirstEntity.toString()); 
+
 		return addXMLTag(logEntry);
 	}
 	
 	@Override
 	public String toString() {
-		String oResult = getClassName()+": ";
-		
-		int i = 0;
-		
-		for (clsRadiationEntry oEntry:moEntries) {
-			oResult += i+". "+oEntry+" >> ";
-
-			i++;
-		}
-		
-		if (i>0) {
-			oResult = oResult.substring(0, oResult.length()-4);
-		}
-		
-		return oResult;
-	}	
+		return getClassName()+": entities present "+mnNumEntitiesPresent+" | type of first entity "+mnTypeOfFirstEntity.toString();
+	}
 }
+

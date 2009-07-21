@@ -131,6 +131,7 @@ public class clsEntityPartVision extends MobileObject2D implements Steppable{
 	{
 		 meFilteredObj.clear(); 
 	     meUnFilteredObj.clear();
+	     meCollisionPoint.clear();
 	}
 	
 	//--------------------------------------------------------------------------------------------------

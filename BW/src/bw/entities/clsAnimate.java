@@ -21,7 +21,6 @@ import bw.body.io.sensors.external.clsSensorRadiation;
 import bw.body.itfget.itfGetBody;
 import bw.physicalObjects.sensors.clsEntityPartVision;
 import bw.physicalObjects.sensors.clsEntitySensorEngine;
-import bw.physicalObjects.sensors.clsEntityPartRadiation;
 import bw.utils.container.clsConfigMap;
 
 
@@ -138,11 +137,11 @@ public abstract class clsAnimate extends clsMobile implements itfGetBody {
 	 *
 	 * @return clsEntityPartRadiation
 	 */
-	public clsEntityPartRadiation getRadiation()
+	public clsEntityPartVision getRadiation()
 	{
 		return ((clsSensorRadiation)this.moBody
 					.getExternalIO().moSensorExternal
-					.get(enums.eSensorExtType.RADIATION)).getMoRadiationArea(); 
+					.get(enums.eSensorExtType.RADIATION)).getMoVisionArea(); 
 	}
 	
 		

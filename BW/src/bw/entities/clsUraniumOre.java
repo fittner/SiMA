@@ -30,8 +30,10 @@ public class clsUraniumOre extends clsInanimate implements itfAPCarryable {
 	private static double mrDefaultRadius = 4.0f;
 	private static String moImagePath = sim.clsBWMain.msArsPath + "/src/resources/images/Uranium.png";
 	private static Color moDefaultColor = Color.green;	
+	public double mrRadiationIntensity;
+
     
-    public clsUraniumOre(int pnId, clsPose poStartingPose, sim.physics2D.util.Double2D poStartingVelocity, clsConfigMap poConfig) {
+    public clsUraniumOre(int pnId, clsPose poStartingPose, sim.physics2D.util.Double2D poStartingVelocity, double orRadiationIntensity, clsConfigMap poConfig) {
 		super(pnId, 
 				poStartingPose, 
 				poStartingVelocity, 
@@ -39,6 +41,8 @@ public class clsUraniumOre extends clsInanimate implements itfAPCarryable {
 				clsUraniumOre.mrDefaultWeight,
 				getFinalConfig(poConfig)
 				);
+		
+		mrRadiationIntensity = orRadiationIntensity;
 		
 		applyConfig();
 		

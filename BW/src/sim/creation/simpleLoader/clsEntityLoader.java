@@ -94,7 +94,7 @@ public class clsEntityLoader {
 	        for (int i = 0; i < pnNumUraniumOre; i++)
 	        {
 	        	clsPose oStartPose = clsLoader.generateRandomPose();
-		        clsUraniumOre oUraniumOre = new clsUraniumOre(i, oStartPose, new sim.physics2D.util.Double2D(0, 0), new clsConfigMap());
+		        clsUraniumOre oUraniumOre = new clsUraniumOre(i, oStartPose, new sim.physics2D.util.Double2D(0, 0), 10, new clsConfigMap());
 		        
 		        clsRegisterEntity.registerEntity(oUraniumOre);
 	        }

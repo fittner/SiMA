@@ -106,7 +106,7 @@ public final class clsRegisterEntity {
 		
 		registerPhysicalObject2D(poEntity.getEatableAreaVision() );
 		clsSingletonMasonGetter.getFieldEnvironment().setObjectLocation(poEntity.getEatableAreaVision(), new sim.util.Double2D(poEntity.getPosition().x, poEntity.getPosition().y));
-		clsSingletonMasonGetter.getSimState().schedule.scheduleRepeating(poEntity.getEatableAreaVision());
+		clsSingletonMasonGetter.getSimState().schedule.scheduleRepeating(poEntity.getEatableAreaVision(), 6, defaultScheduleStepWidth);
 	}
 
 	public static void registerBotHands(clsBotHands poBotHand) {

@@ -35,7 +35,7 @@ import bw.utils.sensors.clsSensorDataCalculation;
  */
 public class clsSensorVision extends clsSensorExt {
 	protected double mnViewRad;
-	protected double mnVisRange; 
+	protected double mnVisRange;
 	protected double mnVisOffset;
 	
 	private clsEntity moEntity;
