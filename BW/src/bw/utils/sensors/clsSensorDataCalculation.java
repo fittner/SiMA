@@ -18,7 +18,7 @@ import ARSsim.physics2D.util.clsPolarcoordinate;
  * 20.07.2009, 16:26:54
  * 
  */
-public class clsSensorCalculation {
+public class clsSensorDataCalculation {
 
 	/**
 	 * TODO (zeilinger) - Tests if an object is within an agent's field of
@@ -39,7 +39,7 @@ public class clsSensorCalculation {
 		double nMinBorder; 
 		double nMaxBorder; 
 		
-		nEntityOrientation = this.normalizeToRadian(nEntityOrientation);
+		nEntityOrientation = this.normalizeRadian(nEntityOrientation);
 		nMinBorder = nEntityOrientation -  pnAreaOfViewRadians/2; 
 		nMaxBorder = nEntityOrientation +  pnAreaOfViewRadians/2; 
 		
@@ -75,7 +75,7 @@ public class clsSensorCalculation {
 	 * @param pnOrientation
 	 * @return
 	 */
-	public double normalizeToRadian(double pnEntityOrientation){
+	public double normalizeRadian(double pnEntityOrientation){
 		double newVal =  pnEntityOrientation; 
 		double twoPI = 2* Math.PI; 
 		
