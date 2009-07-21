@@ -8,13 +8,11 @@
 package bw.body.io.sensors.external;
 
 import java.util.HashMap;
-import java.util.Iterator;
 
 import sim.physics2D.physicalObject.PhysicalObject2D;
 import sim.physics2D.util.Angle;
 import sim.physics2D.util.Double2D;
 
-//import ARSsim.physics2D.physicalObject.clsStationaryObject2D;
 import ARSsim.physics2D.util.clsPolarcoordinate;
 import bw.body.io.clsBaseIO;
 import bw.entities.clsEntity;
@@ -25,6 +23,7 @@ import bw.utils.container.clsConfigDouble;
 import bw.utils.container.clsConfigMap;
 import bw.utils.enums.eBodyParts;
 import bw.utils.enums.eConfigEntries;
+import bw.utils.sensors.clsSensorDataCalculation;
 
 /**
  * TODO (zeilinger) - This class defines the Vision object which is tagged to an animate 
@@ -46,6 +45,7 @@ public class clsSensorVision extends clsSensorExt {
 	private HashMap<Integer, Double2D> moCollisionPoint;
 	private HashMap<Integer, PhysicalObject2D> moViewObj;
 	private HashMap<Integer, clsPolarcoordinate> moViewObjDir;
+	private clsSensorDataCalculation moCalculationObj; 
 		
 	/**
 	 * @param poEntity
@@ -64,6 +64,7 @@ public class clsSensorVision extends clsSensorExt {
 		applyConfig();
 
 		moVisionArea = new clsEntityPartVision(moEntity, mnVisRange, mnVisOffset);
+		moCalculationObj = new clsSensorDataCalculation(); 
 		this.regVisionObj(moEntity, mnVisOffset); //0 = no offset = vision centered on object
 	}	
 	
@@ -107,10 +108,7 @@ public class clsSensorVision extends clsSensorExt {
 			regVisionObjWithParams(poEntity, pnRadiusOffsetVisionArea, oEntityOrientation);
 		}		
     }
-	
-	
-	
-	
+		
 	/**
 	 * Extension of the default method, with parameters
 	 *
@@ -157,32 +155,24 @@ public class clsSensorVision extends clsSensorExt {
 		moCollidingObj = moVisionArea.getMeUnFilteredObj();
 		moCollisionPoint = moVisionArea.getMeCollisionPoint(); 
 	
-		if(moCollidingObj.size()>0)
-		 {
+		if(moCollidingObj.size()>0) {
 			moViewObj.clear(); 
-//			try{			
-				Iterator<PhysicalObject2D> itr = moCollidingObj.values().iterator(); 			
-				while(itr.hasNext())
-				{
-					PhysicalObject2D oPhObj = itr.next();
-					clsPolarcoordinate oRel = getRelPos(moCollisionPoint.get(oPhObj.getIndex())); 
+
+			for(PhysicalObject2D oPhysicalObject : moCollidingObj.values()){
+					clsPolarcoordinate oRel = moCalculationObj
+											 .getRelativeCollisionPosition(moCollisionPoint
+											 .get(oPhysicalObject.getIndex())); 
 					
-					if(getInView(oRel.moAzimuth.radians)){
-						addViewObj(oPhObj, oPhObj.getIndex()); 
+					if(moCalculationObj.checkIfObjectInView(oRel.moAzimuth.radians, 
+												moVisionArea.getOrientation().radians, mnViewRad)){
+						addViewObj(oPhysicalObject); 
 						oRel.rotateBy(moVisionArea.getOrientation(), true);
-						try {
-						addViewObjDir(oRel, oPhObj.getIndex());
-						} catch (Exception e) {
-							System.out.println(e);
-						}
+						addViewObjDir(oRel, oPhysicalObject.getIndex());
 					}
 			     }
-//			} catch(Exception ex){
-//				System.out.println("calcViewObj:"+ex.getMessage());
-//			}
 		 }
 	}
-	
+		
 	/**
 	 * TODO (deutsch) - insert description
 	 *
@@ -195,88 +185,6 @@ public class clsSensorVision extends clsSensorExt {
 	private void addViewObjDir(clsPolarcoordinate rel, int index) {
 		moViewObjDir.put(index,rel);
 		
-	}
-
-	/**
-	 * TODO (zeilinger) - returns the angle of the relative position
-	 * to the perceived objectn
-	 *
-	 * @param poPos
-	 * @return nOrientation 
-	 */
-	public clsPolarcoordinate getRelPos(Double2D poColPos)
-	{   
-		double nOrientation;
-		
-		nOrientation = Math.atan2(poColPos.y, poColPos.x);
-		
-		if(nOrientation < 0)
-			nOrientation = 2*Math.PI+nOrientation; 
-		
-		return new clsPolarcoordinate(poColPos.length(), nOrientation); 
-	}
-	
-	/**
-	 * TODO (zeilinger) - Tests if an object is within an agent's field of
-	 * view
-	 *
-	 * @param pnOrientation
-	 * @return boolean
-	 */
-	public boolean getInView(double pnOrientation)
-	{
-		double nEntityOrientation = moVisionArea.getOrientation().radians;
-		double nMinBorder; 
-		double nMaxBorder; 
-		
-		nEntityOrientation = this.normRad(nEntityOrientation);
-		nMinBorder = nEntityOrientation -  mnViewRad/2; 
-		nMaxBorder = nEntityOrientation +  mnViewRad/2; 
-		
-		if(mnViewRad == 2*Math.PI) // => nMinBorder == nMaxBorder, 360-degrees view    
-			return true; 
-		
-		if(nMaxBorder>2*Math.PI)
-			nMaxBorder-=2*Math.PI; 
-		if(nMinBorder<0)
-			nMinBorder+=2*Math.PI; 
-		
-		if(nMaxBorder > nMinBorder && 
-				pnOrientation <= nMaxBorder &&
-				pnOrientation >= nMinBorder)
-		{
-			return true;  
-		}
-		else if (nMaxBorder < nMinBorder && 
-				(pnOrientation <= nMaxBorder || 
-				pnOrientation >= nMinBorder))
-		{
-			
-			return true; 
-		}
-		return false; 
-	}
-	
-	/**
-	 * TODO (zeilinger) - insert description
-	 *
-	 * @author zeilinger
-	 * 25.02.2009, 16:22:39
-	 *
-	 * @param pnOrientation
-	 * @return
-	 */
-	public double normRad(double pnOrientation)
-	{
-		double newVal =  pnOrientation; 
-		double twoPI = 2* Math.PI; 
-		
-		while(newVal > twoPI)
-	            newVal -= twoPI;
-	                
-	    while(newVal < 0)
-	            newVal += twoPI;
-	  return newVal;  
 	}
 	
 	/* (non-Javadoc)
@@ -292,8 +200,8 @@ public class clsSensorVision extends clsSensorExt {
 	 *
 	 * @param pPhObj
 	 */
-	public void addViewObj(PhysicalObject2D pPhObj, int index)	{
-		moViewObj.put(index,pPhObj);
+	public void addViewObj(PhysicalObject2D pPhObj)	{
+		moViewObj.put(pPhObj.getIndex(),pPhObj);
 	}
 	
 	/**
@@ -366,4 +274,6 @@ public class clsSensorVision extends clsSensorExt {
 	public HashMap<Integer, clsPolarcoordinate> getViewObjDir() {
 		return moViewObjDir;
 	}	
+	
+	
 }
