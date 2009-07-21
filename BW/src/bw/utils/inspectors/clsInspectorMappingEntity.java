@@ -29,6 +29,7 @@ import bw.entities.clsUraniumOre;
 //import bw.entities.clsRemoteBot;
 import bw.entities.clsStationary;
 import bw.utils.inspectors.body.clsFillLevelInspector;
+import bw.utils.inspectors.entity.clsInspectorBubble;
 import sim.display.GUIState;
 import sim.portrayal.Inspector;
 import sim.portrayal.LocationWrapper;
@@ -71,6 +72,7 @@ public class clsInspectorMappingEntity {
 	    		
 	    	}
 	    	else if( poEntity instanceof clsBubble) {
+	    		oRetVal.addInspector( new clsInspectorBubble(poSuperInspector, poWrapper, poState, (clsBubble)poEntity), "Bubble default");
 	    		
 	    	}
 	    	else if( poEntity instanceof clsCake) {
