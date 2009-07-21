@@ -28,13 +28,14 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.util.ArrayList;
 
+
 /**
  * Main function for Simulation, UI part
  * 
  * @author muchitsch
  * 
  */
-public class clsBWMainWithUI extends GUIState{
+public class clsBWMainWithUI extends GUIState {
 
 	/** GUI widget which holds some number of field portrayals and frames, 
 	 * usually layered on top of one another */
@@ -54,8 +55,10 @@ public class clsBWMainWithUI extends GUIState{
 	public clsBWMainWithUI(SimState poState) { super(poState); }	
 	
 	public static void main(String[] poArgs){
+		
+		clsBWMain.configurationParamter = poArgs;		
+		
 		clsBWMain.setArsPath();
-		//console is an elaborate GUI Controller. This is the standard way of starting the UI.
 		
 		clsBWMainWithUI oMainWithUI = new clsBWMainWithUI();
 		clsSingletonMasonGetter.setConsole( new ARSsim.display.Console(oMainWithUI) );
@@ -65,10 +68,10 @@ public class clsBWMainWithUI extends GUIState{
 		clsSingletonMasonGetter.getConsole().setVisible(true);
 		
 		//TODO: (langr) - for testing purpose only
-		oMainWithUI.testTabView();
+		oMainWithUI.testTabView();		
 	}
 
-	
+		
 	public void testTabView()
 	{
 		ArrayList<JTabbedPane> oTabView = new ArrayList<JTabbedPane> ();

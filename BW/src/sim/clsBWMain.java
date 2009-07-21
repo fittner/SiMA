@@ -40,6 +40,8 @@ public class clsBWMain extends SimState{
 //	private JFreeChart  moTestChart;
 	private XYSeries moTestSeries = new XYSeries("Agents"); //TODO clemens name passt nicht, muss erst schauen wof�r das genau ist!
 //	private XYSeriesCollection moAgents_series_coll = new XYSeriesCollection(moTestSeries); //TODO clemens
+	
+	public static String[] configurationParamter;
 
      
     public clsBWMain(long pnSeed) {
@@ -75,14 +77,19 @@ public class clsBWMain extends SimState{
 		super.start();
 		//creating and registering objects...
 		clsLoader oLoader = null;
+		String[] debugDummy = clsBWMain.configurationParamter;
+
+		if (clsBWMain.configurationParamter[0].equals("0")) {
 		
-
 //		oLoader = new clsLifeCycleLoader(this, "", 200, 200, 5, 3, 1, 2, eLifeCycleDUs.IfThenElse, eLifeCycleDUs.IfThenElse);
 //		oLoader = new clsSimpleLoader(this, "", 200, 200, 1, 2, 5, 3, 1, 1, 1, 1);
 
 //		oLoader = new clsLifeCycleLoader(this, "", 200, 200, 5, 3, 1, 2, eLifeCycleDUs.IfThenElse, eLifeCycleDUs.IfThenElse);
 //		oLoader = new clsSimpleLoader(this, "", 200, 200, 1, 2, 5, 3, 1, 1, 1, 1);
-		oLoader = new clsSimpleLoader(this, "", 200, 200, 1, 0, 0, 0, 0, 0, 10, 1);
+			oLoader = new clsSimpleLoader(this, "", 200, 200, 1, 0, 0, 0, 0, 0, 10, 1);
+		} else {
+			oLoader = new clsSimpleLoader(this, "", 100, 100, 1, 0, 0, 0, 0, 0, 10, 1);
+		}
 //		oLoader = new clsSimpleXMLLoader(this, "", bw.sim.clsBWMain.msArsPath + "/src/xml/xmlSimpleXMLLoader/config1.xml");
 		oLoader.loadObjects();
 		
@@ -98,6 +105,8 @@ public class clsBWMain extends SimState{
 	 */
 	public static void main(String[] args)
 	{
+		configurationParamter = args;
+		
 		setArsPath();
 		doLoop(clsBWMain.class, args);
 		System.exit(0);
