@@ -16,7 +16,7 @@ import sim.physics2D.physicalObject.PhysicalObject2D;
 import ARSsim.physics2D.physicalObject.clsMobileObject2D;
 import ARSsim.physics2D.physicalObject.clsStationaryObject2D;
 import bw.body.itfget.itfGetEatableArea;
-import bw.body.itfget.itfGetSensorEngine;
+//import bw.body.itfget.itfGetSensorEngine;
 import bw.body.itfget.itfGetVision;
 import bw.body.itfget.itfGetRadiation;
 import bw.entities.clsAnimate;
@@ -119,7 +119,7 @@ public final class clsRegisterEntity {
 		registerMobileObject2D(poEntity.getMobileObject2D());
 		
 		//ZEILINGER -- integrate SensorEngine - actually only for remoteBot
-    	registerSensorEngine(((itfGetSensorEngine)poEntity).getSensorEngine()); 
+    	//registerSensorEngine(((itfGetSensorEngine)poEntity).getSensorEngine()); 
 			
 		registerPhysicalObject2D(poEntity.getVision() );
 		clsSingletonMasonGetter.getFieldEnvironment().setObjectLocation(poEntity.getVision(), new sim.util.Double2D(poEntity.getPosition().x, poEntity.getPosition().y));
