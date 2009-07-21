@@ -21,7 +21,8 @@ import bw.body.io.sensors.external.clsSensorEatableArea;
 import bw.body.io.sensors.external.clsSensorExt;
 import bw.body.io.sensors.external.clsSensorPositionChange;
 //HZ -- integration Sensor Engine
-import bw.body.io.sensors.ext.clsSensorVisionNEW;
+//import bw.body.io.sensors.ext.clsSensorVisionNEW;
+//import bw.entities.clsRemoteBot;
 
 import bw.body.io.sensors.external.clsSensorVision;
 import bw.body.io.sensors.external.clsSensorRadiation;
@@ -153,7 +154,7 @@ public class clsExternalIO extends clsBaseIO {
 	@SuppressWarnings("unchecked") // EH: probably unsafe, please refactor
 	private void initSensorExternal(clsConfigList poExternalSensors, clsConfigMap poSensorConfigs) {
 		
-		moSensorEngine = new clsSensorEngine(moEntity);
+		//moSensorEngine = new clsSensorEngine(moEntity);
 		Iterator<clsBaseConfig> i = poExternalSensors.iterator();
 		
 		while (i.hasNext()) {
@@ -173,7 +174,8 @@ public class clsExternalIO extends clsBaseIO {
 					case VISION:
 						moSensorExternal.put(eSensorExtType.VISION, new clsSensorVision(moEntity, this, oConfig)); 
 						//ZEILINGER - integrate SensorEngine - Do we need the registration of eSensorExtType
-						new clsSensorVisionNEW(moEntity, this, oConfig, moSensorEngine); 
+//						if(moEntity instanceof clsRemoteBot)
+//							new clsSensorVisionNEW(moEntity, this, oConfig, moSensorEngine);
 						break;
 					case RADIATION: 
 						moSensorExternal.put(eSensorExtType.RADIATION, new clsSensorRadiation(moEntity, this, oConfig)); 
@@ -203,7 +205,7 @@ public class clsExternalIO extends clsBaseIO {
 	 * @see bw.body.itfStepSensing#stepSensing()
 	 */
 	public void stepSensing() {
-		moSensorEngine.updateSensorData(); // HZ integration of the Sensor Engine
+		//moSensorEngine.updateSensorData(); // HZ integration of the Sensor Engine
 		
 		for (clsSensorExt sensor : moSensorExternal.values()) {
 			sensor.updateSensorData();
