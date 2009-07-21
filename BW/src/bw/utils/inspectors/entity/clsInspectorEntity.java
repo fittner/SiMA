@@ -13,6 +13,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.Formatter;
+import java.util.Iterator;
 
 import javax.swing.Box;
 import javax.swing.BoxLayout;
@@ -29,7 +30,23 @@ import sim.portrayal.LocationWrapper;
 import sim.portrayal.inspector.TabbedInspector;
 import sim.util.gui.PropertyField;
 /**
- * TODO (langr) - insert description 
+ * The InspectorEntity is the main entry point for all further entity inspectors.
+ * It provides common entity information (position, id, ...) and 
+ * three buttons for further popup-inspector-tab-windows:
+ * 
+ * 1.: EntityInspectors
+ * 2.: BodyInspectors
+ * 3.: BrainInspectors
+ * 
+ * All three are of the type clsInspectorFrame. This frame contains/handles the inspectors and 
+ * registers itself as a Steppable in the MASON's schedule to get updated. It then calls the 
+ * containing inspects.
+ * 
+ * Define the inspector-content for each entity in the responsible InspectorMapping-classes:
+ * clsInspectorMappingEntity (for Entity and Body)
+ * clsInspectorMappingDecision (for brain related things)
+ * 
+ * NOTE: each customized inspector has to implement the updateInspector-function!
  * 
  * @author langr
  * 13.07.2009, 15:01:27
@@ -37,12 +54,6 @@ import sim.util.gui.PropertyField;
  */
 public class clsInspectorEntity extends Inspector implements ActionListener {
 
-	/**
-	 * TODO (langr) - insert description 
-	 * 
-	 * @author langr
-	 * 13.07.2009, 17:42:21
-	 */
 	private static final long serialVersionUID = 1L;
 	
 	public Inspector moOriginalInspector;
@@ -81,8 +92,6 @@ public class clsInspectorEntity extends Inspector implements ActionListener {
 		moGuiState = guiState;
 
 		
-		//SimpleProperties oProp = new SimpleProperties(poEntity.getEntityType().toString());
-
 		Box oBox1 = new Box(BoxLayout.Y_AXIS);
 		moProp1 = new  PropertyField("Type", poEntity.getEntityType().toString(), false, null, PropertyField.SHOW_TEXTFIELD);
 		moProp2 = new  PropertyField("ID", ""+poEntity.getId(), false, null, PropertyField.SHOW_TEXTFIELD);
@@ -121,45 +130,25 @@ public class clsInspectorEntity extends Inspector implements ActionListener {
 	 */
 	@Override
 	public void updateInspector() {
-		// TODO Auto-generated method stub
-
 		Formatter oDoubleFormatter = new Formatter();
 		moProp3.setValue( oDoubleFormatter.format("%.2f", moEntity.getPosition().x).toString() );
 		oDoubleFormatter = new Formatter();
 		moProp4.setValue( oDoubleFormatter.format("%.2f", moEntity.getPosition().y).toString() );
 		
-		//TODO: opened windows are not deleted when closed!!!!!
-		//FIXME: opened windows are not deleted when closed!!!!!  
-		for( clsInspectorFrame oEntityWindow : moEntityWindows)
-		{
-			if(oEntityWindow != null) {
-				oEntityWindow.updateContent();
+		for (Iterator<clsInspectorFrame> it = moEntityWindows.iterator(); it.hasNext(); ) {
+			clsInspectorFrame oFrame = it.next();
+			if( oFrame != null) {
+				//oFrame.updateContent();
+				if(!oFrame.isVisible()) { 
+					oFrame.stopInspector(); //remove the inspector-steppables from the schedule 
+					it.remove();//remove the window that should be updated from the list when it is invisible (=closed)
+				}
+			}
+			else { //remove the window that should be updated from the list when it null (should not happen)
+				it.remove();
 			}
 		}
 	}
-
-	/* (non-Javadoc)
-	 *
-	 * @author langr
-	 * 13.07.2009, 16:10:28
-	 * 
-	 * @see java.awt.event.ItemListener#itemStateChanged(java.awt.event.ItemEvent)
-	 */
-//	@Override
-//	public void itemStateChanged(ItemEvent e) {
-//		Object source = e.getItemSelectable();
-		
-//		if( source == moCheckBoxCD)
-//		{
-//			moDU.setRoombaIntelligence(moCheckBoxCD.isSelected());
-//		}
-//		else if(source == moCheckBoxCA)
-//		{
-//			moDU.setCollisionAvoidance(moCheckBoxCA.isSelected());
-//		}
-//		
-//		moConsole.refresh();		
-//	}
 
 	/* (non-Javadoc)
 	 *
@@ -174,16 +163,19 @@ public class clsInspectorEntity extends Inspector implements ActionListener {
 		Object source = e.getSource();
 		
 		if( source == moBtnEntityInspectors) {
+			//define the inspector-content for each entity in the responsible InspectorMapping-class
 			TabbedInspector oMasonInspector = clsInspectorMappingEntity.getInspectorEntity(moOriginalInspector, moWrapper, moGuiState, moEntity);
 			moEntityWindows.add( clsInspectorFrame.getInspectorFrame(oMasonInspector, "Entity Inspector") );
 		}
 		else if( source == moBtnBodyInspectors ) {
 			clsBaseBody iBody = ((itfGetBody)moEntity).getBody();
+			//define the inspector-content for each entity in the responsible InspectorMapping-class
 			TabbedInspector oMasonInspector = clsInspectorMappingEntity.getInspectorBody(moOriginalInspector, moWrapper, moGuiState, iBody);
 			moEntityWindows.add( clsInspectorFrame.getInspectorFrame(oMasonInspector, "Body Inspector") );
 		}
 		else if( source == moBtnBrainInspectors) {
 			TabbedInspector oMasonInspector = new TabbedInspector();
+			//define the inspector-content for each entity in the responsible InspectorMapping-class
 			oMasonInspector.addInspector( clsInspectorMappingDecision.getInspector(moOriginalInspector, moWrapper, moGuiState, ((itfGetBody)moEntity).getBody().getBrain().getDecisionUnit()), "Brain Insp.");
 			moEntityWindows.add( clsInspectorFrame.getInspectorFrame(oMasonInspector, "Brain Inspector") );
 		}

@@ -10,22 +10,35 @@ package bw.utils.inspectors.body;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.GradientPaint;
 import java.awt.Graphics;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
+import java.util.Map;
 
-import javax.swing.BorderFactory;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.JCheckBox;
 import javax.swing.JLabel;
-//import javax.swing.JProgressBar;
+
+import org.jfree.chart.ChartFactory;
+import org.jfree.chart.ChartPanel;
+import org.jfree.chart.JFreeChart;
+import org.jfree.chart.axis.CategoryAxis;
+import org.jfree.chart.axis.CategoryLabelPositions;
+import org.jfree.chart.axis.NumberAxis;
+import org.jfree.chart.plot.CategoryPlot;
+import org.jfree.chart.plot.PlotOrientation;
+import org.jfree.chart.renderer.category.BarRenderer;
+import org.jfree.data.category.DefaultCategoryDataset;
 
 import bw.body.internalSystems.clsStomachSystem;
+import bw.utils.tools.clsNutritionLevel;
 
 import sim.display.Controller;
 import sim.display.GUIState;
-//import sim.engine.SimState;
+
 import sim.portrayal.Inspector;
 import sim.portrayal.LocationWrapper;
 
@@ -46,7 +59,7 @@ public class clsFillLevelInspector extends Inspector implements ItemListener{
 	 */
 	private static final long serialVersionUID = 1L;
 	
-	public Inspector moOriginalInspector;
+	public sim.portrayal.Inspector moOriginalInspector;
 	private clsStomachSystem moStomachSystem;
 	private Controller moConsole;
 
@@ -56,14 +69,16 @@ public class clsFillLevelInspector extends Inspector implements ItemListener{
 	private JCheckBox moCheckBoxCA; //collision avoidance
 	//private JProgressBar moEnergyProgress;
 	private clsInspectorsAnalyse moAnalyse;
+	
+	private ChartPanel moChartPanel;
+	private DefaultCategoryDataset moDataset;
     
-    public clsFillLevelInspector(Inspector originalInspector,
+    public clsFillLevelInspector(sim.portrayal.Inspector originalInspector,
             LocationWrapper wrapper,
             GUIState guiState,
             clsStomachSystem poDU)
     {
-
-
+    	super();
     	moOriginalInspector = originalInspector;
     	moStomachSystem= poDU;
     	//final SimState state=guiState.state;
@@ -74,22 +89,78 @@ public class clsFillLevelInspector extends Inspector implements ItemListener{
     	// creating the checkbox to sitch on/off the AI intelligence-levels.
     	Box oBox1 = new Box(BoxLayout.Y_AXIS);
 
-    	//kilic
-    	//moEnergyProgress= new JProgressBar(JProgressBar.VERTICAL, 0, 50);
-    	//moEnergyProgress.setStringPainted(true);
-    	//moAnalyse = new clsInspectorsAnalyse(true,0,50);
-    	moAnalyse = new clsInspectorsAnalyse(true,0,50,moStomachSystem.getList());
+    	
+    	moDataset = new DefaultCategoryDataset();
+		for(Map.Entry<Integer, clsNutritionLevel> oNut : moStomachSystem.getList().entrySet() ) {
+			moDataset.addValue( 4, "", ""); //oNut.getValue().getContent()
+		}
+		
+        JFreeChart oChartPanel = ChartFactory.createBarChart(
+                "Stomach Fill Level",     // chart title
+                "Nutritions",               // domain axis label
+                "",                  // range axis label
+                moDataset,                  // data
+                PlotOrientation.VERTICAL, // orientation
+                true,                     // include legend
+                true,                     // tooltips?
+                false                     // URLs?
+            );
+        
+        oChartPanel.setBackgroundPaint(Color.white);
 
-    	oBox1.add(moCaption, BorderLayout.AFTER_LAST_LINE);
-    	//kilic
-    	oBox1.add(moAnalyse.getPanelOfAnalyse(), BorderLayout.AFTER_LAST_LINE);
-    	//oBox1.add(moAnalyse.getProgressOfEnergy(), BorderLayout.AFTER_LAST_LINE);
-    	oBox1.setBorder(BorderFactory.createTitledBorder("Inspector for clsFillLevel"));
-    	oBox1.add(Box.createGlue());
+        // get a reference to the plot for further customisation...
+        CategoryPlot plot = (CategoryPlot) oChartPanel.getPlot();
+
+        // ******************************************************************
+        //  More than 150 demo applications are included with the JFreeChart
+        //  Developer Guide...for more information, see:
+        //
+        //  >   http://www.object-refinery.com/jfreechart/guide.html
+        //
+        // ******************************************************************
+
+        // set the range axis to display integers only...
+        NumberAxis rangeAxis = (NumberAxis) plot.getRangeAxis();
+        rangeAxis.setStandardTickUnits(NumberAxis.createIntegerTickUnits());
+
+        // disable bar outlines...
+        BarRenderer renderer = (BarRenderer) plot.getRenderer();
+        renderer.setDrawBarOutline(false);
+
+        // set up gradient paints for series...
+        GradientPaint gp0 = new GradientPaint(0.0f, 0.0f, Color.blue,
+                0.0f, 0.0f, new Color(0, 0, 64));
+        renderer.setSeriesPaint(0, gp0);
+ 
+        CategoryAxis domainAxis = plot.getDomainAxis();
+        domainAxis.setCategoryLabelPositions(
+                CategoryLabelPositions.createUpRotationLabelPositions(
+                        Math.PI / 6.0));
+        
+        moChartPanel = new ChartPanel(oChartPanel);
+        moChartPanel.setFillZoomRectangle(true);
+        //chartPanel.setMouseWheelEnabled(true);
+        moChartPanel.setPreferredSize(new Dimension(500, 270));
+       
+        //oBox1.add(chartPanel);
+    	
+//    	//kilic
+//    	//moEnergyProgress= new JProgressBar(JProgressBar.VERTICAL, 0, 50);
+//    	//moEnergyProgress.setStringPainted(true);
+//    	//moAnalyse = new clsInspectorsAnalyse(true,0,50);
+//    	moAnalyse = new clsInspectorsAnalyse(true,0,50,moStomachSystem.getList());
+//
+//    	oBox1.add(moCaption, BorderLayout.AFTER_LAST_LINE);
+//    	//kilic
+//    	oBox1.add(moAnalyse.getPanelOfAnalyse(), BorderLayout.AFTER_LAST_LINE);
+//    	//oBox1.add(moAnalyse.getProgressOfEnergy(), BorderLayout.AFTER_LAST_LINE);
+//    	oBox1.setBorder(BorderFactory.createTitledBorder("Inspector for clsFillLevel"));
+//    	oBox1.add(Box.createGlue());
 
     	// set up our inspector: keep the properties inspector around too
     	setLayout(new BorderLayout());
-    	add(oBox1, BorderLayout.NORTH);
+    	add(moChartPanel, BorderLayout.NORTH);
+
     }
 
 	/* (non-Javadoc)
@@ -105,26 +176,62 @@ public class clsFillLevelInspector extends Inspector implements ItemListener{
 		moCaption.setText(""+moStomachSystem.getEnergy());
 		moOriginalInspector.updateInspector();
 	
+    	moDataset = new DefaultCategoryDataset();
+    	//int i = 1;
+		//for(Map.Entry<Integer, clsNutritionLevel> oNut : moStomachSystem.getList().entrySet() ) {
+    	for(int i=0; i<6;i++) {
+			moDataset.addValue( Math.random()*4, new Integer(i).toString(), new Integer(i).toString() );//oNut.getValue().getContent()
+		}
+
+		moChartPanel.getChart().getCategoryPlot().setDataset(moDataset);
+		moChartPanel.invalidate();
+		
 		this.repaint();
 	}
+	
+//    /**
+//    Called whenever the system needs to get a Steppable which, when stepped, will update the inspector and
+//    repaint it. 
+// */
+// @Override
+//public Steppable getUpdateSteppable()
+//     {
+//     return new Steppable()
+//         {
+//         public void step(final SimState state)
+//             {
+//             SwingUtilities.invokeLater(new Runnable()
+//                 {
+//                 public void run()
+//                     {
+//                     synchronized(state.schedule)
+//                         {
+//                         updateInspector();
+//                         repaint();
+//                         }
+//                     }
+//                 });
+//             }
+//         };
+//     }
 
-	@Override
-	public void paint (Graphics g)
-	{
-		super.paint(g);
-		int i=0;
-		i++;
-		//kilic
-		//aktualisiere den Progressbar
-		moAnalyse.updatingValue((int)moStomachSystem.getEnergy());
-		//aktualisiere die F�llk�stschen
-		//moAnalyse.paintPanelOfAnalysisOfSeveralNutrition(g,moStomachSystem.getList(), 100, 150);
-		moAnalyse.update(moStomachSystem.getList());
-		
-		
-		
-		
-	}
+//	@Override
+//	public void paint (Graphics g)
+//	{
+//		super.paint(g);
+//		int i=0;
+//		i++;
+//		//kilic
+//		//aktualisiere den Progressbar
+//		moAnalyse.updatingValue((int)moStomachSystem.getEnergy());
+//		//aktualisiere die F�llk�stschen
+//		//moAnalyse.paintPanelOfAnalysisOfSeveralNutrition(g,moStomachSystem.getList(), 100, 150);
+//		moAnalyse.update(moStomachSystem.getList());
+//		
+//		
+//		
+//		
+//	}
 	/********************************************************************************
 	 * 
 	 * TODO (kilic) - insert description
@@ -197,4 +304,5 @@ public class clsFillLevelInspector extends Inspector implements ItemListener{
 			
 		moConsole.refresh();
 	}
+
 }

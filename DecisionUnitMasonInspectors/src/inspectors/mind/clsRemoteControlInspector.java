@@ -23,12 +23,14 @@ import javax.swing.event.ChangeListener;
 
 import sim.display.Controller;
 import sim.display.GUIState;
+import sim.engine.SimState;
+import sim.engine.Steppable;
 //import sim.engine.SimState;
 import sim.portrayal.Inspector;
 import sim.portrayal.LocationWrapper;
 import simple.remotecontrol.clsRemoteControl;
 
-public class clsRemoteControlInspector extends Inspector implements ItemListener, ChangeListener {
+public class clsRemoteControlInspector extends Inspector implements ItemListener, ChangeListener, Steppable {
 
 	/**
 	 * TODO (langr) - insert description 
@@ -124,6 +126,19 @@ public class clsRemoteControlInspector extends Inspector implements ItemListener
 			moDU.setStepsToSkip(Integer.parseInt(moStepsToSkip.getValue().toString()));
 		}
 		
+	}
+	
+	/* (non-Javadoc)
+	 *
+	 * @author langr
+	 * 16.07.2009, 14:47:13
+	 * 
+	 * @see sim.engine.Steppable#step(sim.engine.SimState)
+	 */
+	@Override
+	public void step(SimState state) {
+		updateInspector();
+		repaint();
 	}
 	
 }

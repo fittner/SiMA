@@ -59,9 +59,6 @@ public class clsInspectorMappingDecision {
 //        else if (poEntity instanceof clsMyNewClass ) {
 //        	oRetVal.addInspector( new clsMyNewInspector(poSuperInspector, poWrapper, poState), "Name of Inspector-Tab");
 //       }
-//        else	{
-//        	oRetVal = poSuperInspector;  	
-//        }
         
     	//add standard inspector if nothing happened
     	if(oRetVal.inspectors.size() == 0)  {
