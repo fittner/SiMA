@@ -52,6 +52,7 @@ public class clsInspectorFrame extends JFrame implements Steppable {
 		oRetVal.getContentPane().add(poContent, BorderLayout.CENTER);
 		oRetVal.pack();
 		oRetVal.setVisible(true);
+		oRetVal.setTitle(poName);
 		
 		//registers this frame as steppable and stores the stoppable for deregistration when the window is closed
         synchronized(clsSingletonMasonGetter.getSimState().schedule)  // //avoid deadlocks with MASON scheduler

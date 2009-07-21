@@ -165,19 +165,19 @@ public class clsInspectorEntity extends Inspector implements ActionListener {
 		if( source == moBtnEntityInspectors) {
 			//define the inspector-content for each entity in the responsible InspectorMapping-class
 			TabbedInspector oMasonInspector = clsInspectorMappingEntity.getInspectorEntity(moOriginalInspector, moWrapper, moGuiState, moEntity);
-			moEntityWindows.add( clsInspectorFrame.getInspectorFrame(oMasonInspector, "Entity Inspector") );
+			moEntityWindows.add( clsInspectorFrame.getInspectorFrame(oMasonInspector, moEntity.getId()  + " - " +  moEntity.getEntityType().toString() + " - Entity Inspector") );
 		}
 		else if( source == moBtnBodyInspectors ) {
 			clsBaseBody iBody = ((itfGetBody)moEntity).getBody();
 			//define the inspector-content for each entity in the responsible InspectorMapping-class
 			TabbedInspector oMasonInspector = clsInspectorMappingEntity.getInspectorBody(moOriginalInspector, moWrapper, moGuiState, iBody);
-			moEntityWindows.add( clsInspectorFrame.getInspectorFrame(oMasonInspector, "Body Inspector") );
+			moEntityWindows.add( clsInspectorFrame.getInspectorFrame(oMasonInspector, moEntity.getId()  + " - " +  moEntity.getEntityType().toString() + " - Body Inspector") );
 		}
 		else if( source == moBtnBrainInspectors) {
 			TabbedInspector oMasonInspector = new TabbedInspector();
 			//define the inspector-content for each entity in the responsible InspectorMapping-class
 			oMasonInspector.addInspector( clsInspectorMappingDecision.getInspector(moOriginalInspector, moWrapper, moGuiState, ((itfGetBody)moEntity).getBody().getBrain().getDecisionUnit()), "Brain Insp.");
-			moEntityWindows.add( clsInspectorFrame.getInspectorFrame(oMasonInspector, "Brain Inspector") );
+			moEntityWindows.add( clsInspectorFrame.getInspectorFrame(oMasonInspector, moEntity.getId() + " - " + moEntity.getEntityType().toString() + " - Brain Inspector") );
 		}
 	}
 }
