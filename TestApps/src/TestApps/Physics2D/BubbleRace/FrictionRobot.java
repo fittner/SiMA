@@ -11,7 +11,7 @@ import bw.world.surface.*;
  * @author kohlhauser
  *
  */
-public class FrictionRobot extends MobileAgent2D
+public class FrictionRobot extends clsMobileFrictionObject2D
     {
     /**
 	 * 

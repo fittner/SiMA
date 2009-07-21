@@ -85,7 +85,7 @@ public class BubbleRaceWithUI extends GUIState
 		entityPortrayal.setField(((BubbleRace) state).fieldEnvironment);
 		
         surfacePortrayal.setField(((BubbleRace)state).surfaceGrid);
-        surfacePortrayal.setMap(Surface.colorMap);
+        surfacePortrayal.setMap(itfSurface.soColorMap);
 		
 		display.reset();
 		display.repaint();

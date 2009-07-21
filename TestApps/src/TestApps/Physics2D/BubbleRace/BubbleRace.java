@@ -54,18 +54,18 @@ public class BubbleRace extends SimState
 	    {
 	    	if (xmlFile.exists())
 	    	{
-	    		surfaceGrid = SurfaceHandler.getInstance().createWorld(xmlFile);
+	    		surfaceGrid = clsSurfaceHandler.getInstance().createWorld(xmlFile);
 	    	}
 	    	else
 	    	{
 	    		System.out.println("XML-file does not exist!");
-	    		surfaceGrid = SurfaceHandler.getInstance().createWorld(200, 200);	//mine
+	    		surfaceGrid = clsSurfaceHandler.getInstance().createWorld(200, 200);	//mine
 	    	}
 	    }
 	    else
 	    {
 	    	System.out.println("xmlFile not initialised");
-	    	surfaceGrid = SurfaceHandler.getInstance().createWorld(200, 200);	//mine
+	    	surfaceGrid = clsSurfaceHandler.getInstance().createWorld(200, 200);	//mine
 	    }
 		
 		//Set up the bots
