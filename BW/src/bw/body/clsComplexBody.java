@@ -9,7 +9,6 @@ package bw.body;
 
 import bw.body.brainsocket.clsBrainSocket;
 import bw.body.interBodyWorldSystems.clsInterBodyWorldSystem;
-import bw.body.internalSystems.clsFlesh;
 import bw.body.internalSystems.clsInternalEnergyConsumption;
 import bw.body.internalSystems.clsInternalSystem;
 import bw.body.intraBodySystems.clsIntraBodySystem;
@@ -41,8 +40,8 @@ public class clsComplexBody extends clsBaseBody implements itfGetInternalEnergyC
 		super(poPrefix, poProp);
 		applyProperties(poPrefix, poProp);
 		
-		moExternalIO = new clsExternalIO(this, poEntity, (clsConfigMap)moConfig.get(eConfigEntries.EXTERNAL_IO));
-		moInternalIO = new clsInternalIO(this, (clsConfigMap)moConfig.get(eConfigEntries.INTERNAL_IO) );
+		moExternalIO = new clsExternalIO(poPrefix, poProp, this, poEntity);
+		moInternalIO = new clsInternalIO(poPrefix, poProp, this);
 		moBrain = new clsBrainSocket(poPrefix, poProp, moExternalIO.moSensorExternal, moInternalIO.moSensorInternal, moExternalIO.getActionProcessor());		
 	}
 
