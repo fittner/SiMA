@@ -75,7 +75,7 @@ public class SimLifeArenaGUI extends GUIState
         entityPortrayal.setField(SimLifeArena.fieldEnvironment);
 
         surfacePortrayal.setField(((SimLifeArena)state).surfaceGrid);
-        surfacePortrayal.setMap(bw.world.surface.Surface.colorMap);
+        surfacePortrayal.setMap(bw.world.surface.itfSurface.soColorMap);
 
         // reschedule the displayer
         display.reset();

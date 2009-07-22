@@ -15,7 +15,7 @@ import sim.field.grid.IntGrid2D;
 import sim.physics2D.*;
 import sim.physics2D.util.*;
 import sim.physics2D.constraint.*;
-import bw.world.surface.SurfaceHandler;
+import bw.world.surface.clsSurfaceHandler;
 
 public class SimLifeArena extends SimState
 {
@@ -61,18 +61,18 @@ public class SimLifeArena extends SimState
 	    {
 	    	if (xmlFile.exists())
 	    	{
-	    		surfaceGrid = SurfaceHandler.getInstance().createWorld(xmlFile);
+	    		surfaceGrid = clsSurfaceHandler.getInstance().createWorld(xmlFile);
 	    	}
 	    	else
 	    	{
 	    		System.out.println("xmlFile does not exist!");
-	    		surfaceGrid = SurfaceHandler.getInstance().createWorld(arenaWidth, arenaHeight);	//mine
+	    		surfaceGrid = clsSurfaceHandler.getInstance().createWorld(arenaWidth, arenaHeight);	//mine
 	    	}
 	    }
 	    else
 	    {
 	    	System.out.println("xmlFile not initialised");
-	    	surfaceGrid = SurfaceHandler.getInstance().createWorld(arenaWidth, arenaHeight);	//mine
+	    	surfaceGrid = clsSurfaceHandler.getInstance().createWorld(arenaWidth, arenaHeight);	//mine
 	    }
 
 	    // TODO: make subfunctions for the register stuff to make it possible to create one from outside
