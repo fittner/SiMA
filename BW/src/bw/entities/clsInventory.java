@@ -79,7 +79,7 @@ public class clsInventory {
 	public clsMobile getCarriedEntity() {
 		return moCarriedEntity;
 	}
-	public void setCarriedEntity(clsMobile poEntity) {
+	public void setCarriedEntity(clsMobile poEntity) {		
 		//Can I carry anything?
 		if (getMaxItems()<0) return;
 		

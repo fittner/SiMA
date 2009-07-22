@@ -115,13 +115,17 @@ public class clsExecutorPickUp  extends clsActionExecutor {
 		if (oEntity==null) return false;
 
 		//Try to pick it up
-		try {
+		try {			
+			//increase entity holders
+			oEntity.getCarryableEntity().incHolders();
+
 			oMEntity.getInventory().setCarriedEntity(oEntity.getCarryableEntity());
 		} catch(Throwable e) {
 			return false;			
 		}
 		
         oEntity.setCarriedBindingState(eBindingState.CARRIED);
+        
 		return true;
 	}
 }

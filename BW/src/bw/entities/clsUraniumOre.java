@@ -85,7 +85,6 @@ public class clsUraniumOre extends clsInanimate implements itfAPCarryable {
 	@Override
 	public void sensing() {
 		// TODO Auto-generated method stub
-		
 	}
 
 	/* (non-Javadoc)

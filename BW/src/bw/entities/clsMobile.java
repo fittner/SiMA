@@ -22,6 +22,7 @@ import ARSsim.physics2D.util.clsPose;
  */
 public abstract class clsMobile extends clsEntity {
 	
+	private int mnHolders; // number of bubles which picked-up and carry this mobile entity 
 	private double mrDefaultCoeffFriction = 0.5; //0.5
 	private double mrDefaultStaticFriction = 0.2; //0.2
 	private double mrDefaultRestitution = 1.0; //1.0
@@ -34,6 +35,8 @@ public abstract class clsMobile extends clsEntity {
 		setEntityInventory();
 
 		applyConfig();
+		
+		mnHolders = 0;
 		
 		if(this.meEntityType.equals(eEntityType.REMOTEBOT)) 
 			initPhysicalObject2D(new clsPose(poPose.getPosition(), new Angle(0d)), poStartingVelocity, poShape, prMass);
@@ -101,4 +104,20 @@ public abstract class clsMobile extends clsEntity {
 		getMobileObject2D().setVelocity(poVelocity);
 	}
 	
+	// increases number of bubles which picked-up and carry this mobile entity 
+	public void incHolders(){
+		mnHolders++;		
+	}
+	
+	// decreases number of bubles which picked-up and carry this mobile entity 
+	public void decHolders(){
+		if (mnHolders != 0){
+			mnHolders--;
+		}
+	}
+	
+	// returns number of bubles which picked-up and carry this mobile entity 
+	public int getHolders(){
+		return mnHolders;		
+	}
 }

@@ -110,8 +110,7 @@ public class clsActionProcessor implements itfActionProcessor {
 		//Explicit exception was disabled because having to use try/catch blocks when calling is annoying...
 		//if (moDisabledCommands.contains(poCommand.getClass())) throw (new exCommandDisabled());
 		msLogXML += poCommand.getLog();
-		moCommandStack.add(new clsProcessorCall(poCommand,pePriority,pnDuration));
-		
+		moCommandStack.add(new clsProcessorCall(poCommand,pePriority,pnDuration));		
 	}
 	
 	/*
@@ -359,7 +358,7 @@ public class clsActionProcessor implements itfActionProcessor {
 		Iterator<clsProcessorResult> oItStck = opExecutionStack.iterator();
 		while (oItStck.hasNext()) {
 			clsProcessorResult oExRes = oItStck.next();
-			if (oExRes.getActive()) {
+			if (oExRes.getActive()) {				
 				if (oExRes.getExecutor().execute(oExRes.getCommand())) {
 					oExRes.setResult(eExecutionResult.EXECUTIONRESULT_EXECUTED);
 				} else {

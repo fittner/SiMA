@@ -19,6 +19,7 @@ import enums.eSensorExtType;
 public class clsRemoteControl extends clsBaseDecisionUnit  {
 	private int mnUniqueId;
 	private int moKeyPressed;
+	private int moPrevKeyPressed;	// previous key pressed
 
 		private boolean mnLogXML = false;
 	private int mnStepsToSkip = 1;
@@ -49,6 +50,7 @@ public class clsRemoteControl extends clsBaseDecisionUnit  {
 	} 
 	
 	public void setKeyPressed(int i) {
+		moPrevKeyPressed = moKeyPressed;
 		moKeyPressed = i;
 		//System.out.println("Pressed key: "+ moKeyPressed);
 	}
@@ -110,10 +112,14 @@ public class clsRemoteControl extends clsBaseDecisionUnit  {
     		eat(poActionProcessor, eEntityType.CAKE);
     		break;
     	case 107: // '+'
-    		poActionProcessor.call(new clsActionPickUp() );
+    		if(moPrevKeyPressed != 107){	// the '+' key has to be released 
+    			poActionProcessor.call(new clsActionPickUp() );
+    		}
     		break;
     	case 109: // '-'
-    		poActionProcessor.call(new clsActionDrop() );
+    		if(moPrevKeyPressed != 109){	// the '-' key has to be released 
+    			poActionProcessor.call(new clsActionDrop() );
+    		}
     		break;
     	case 111: // '/'
     		poActionProcessor.call(new clsActionFromInventory() );

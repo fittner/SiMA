@@ -86,6 +86,9 @@ public class clsExecutorDrop  extends clsActionExecutor{
 
 		//try to drop
 		try {
+			//decrease entity holders
+			oMEntity.getInventory().getCarriedEntity().decHolders();
+			
 			oEntity= (itfAPCarryable)oMEntity.getInventory().getCarriedEntity(); 
 			oMEntity.getInventory().setCarriedEntity(null);
 		} catch(Throwable e) {
@@ -93,6 +96,7 @@ public class clsExecutorDrop  extends clsActionExecutor{
 		}
 		
 		oEntity.setCarriedBindingState(eBindingState.NONE);
+		 
 		return true;
 	}
 }

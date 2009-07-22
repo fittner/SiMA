@@ -126,13 +126,17 @@ public class clsBase extends clsStationary {
 		Iterator<Integer> i = moSensorEatable.getViewObj().keySet().iterator();
 		while (i.hasNext()) {
 			Integer oKey = i.next();
+			// check if the entity is uranium
 			if (getEntityType(moSensorEatable.getViewObj().get(oKey)) == eEntityType.URANIUM) {
+				// check if the entity is registered - 'exists'
 				if(getEntity(moSensorEatable.getViewObj().get(oKey)).isRegistered()){
-					//if(getEntity(moSensorEatable.getViewObj().get(oKey)).isRegistered()){
+					// check if the entity is not carried by any bubble
+					if(((clsUraniumOre)getEntity(moSensorEatable.getViewObj().get(oKey))).getHolders() == 0){
+						// 'eat' the entity
 						getEntity(moSensorEatable.getViewObj().get(oKey)).setRegistered(false);
 						bw.factories.clsRegisterEntity.unRegisterPhysicalObject2D(moSensorEatable.getViewObj().get(oKey));
 						mnStoredOre++;
-					//}
+					}
 				}
 			}
 		}		
