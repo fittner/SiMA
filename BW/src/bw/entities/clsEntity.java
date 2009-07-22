@@ -16,7 +16,7 @@ import bw.utils.tools.clsContentColumn;
 import enums.eEntityType;
 
 /**
- * Entity is the baseclass of any object in the BubbleWorld.
+ * Entity is the base class of any object in the BubbleWorld.
  * With the containing PhysicalObject2D it holds the reference to the physical-object within the 
  * mason-framework.
  * 
@@ -70,9 +70,6 @@ public abstract class clsEntity {
 
 	private void applyProperties(String poPrefix, clsBWProperties poProp) {
 		String pre = clsBWProperties.addDot(poPrefix);
-		if (pre.length()>0) {
-			pre = pre+".";
-		}
 
 		int nId = poProp.getPropertyInt(pre+P_ID );
 		setId( nId );
