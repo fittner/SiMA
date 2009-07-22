@@ -7,8 +7,7 @@
  */
 package bw.body.io.sensors.external;
 
-import bw.body.io.clsBaseIO;
-import bw.utils.container.clsConfigMap;
+import bw.utils.config.clsBWProperties;
 import bw.utils.enums.eBodyParts;
 
 /**
@@ -19,14 +18,28 @@ import bw.utils.enums.eBodyParts;
  */
 public class clsSensorTactile extends clsSensorExt {
 
-	/**
-	 * @param poBaseIO
-	 */
-	public clsSensorTactile(clsBaseIO poBaseIO, clsConfigMap poConfig) {
-		super(poBaseIO, poConfig);
+	public clsSensorTactile(String poPrefix, clsBWProperties poProp) {
+		super(poPrefix, poProp);
 		// TODO Auto-generated constructor stub
+		applyProperties(poPrefix, poProp);
 	}
 
+	public static clsBWProperties getDefaultProperties(String poPrefix) {
+		// String pre = clsBWProperties.addDot(poPrefix);
+		
+		clsBWProperties oProp = new clsBWProperties();
+		
+		//nothing to do
+				
+		return oProp;
+	}	
+
+	private void applyProperties(String poPrefix, clsBWProperties poProp) {
+		//String pre = clsBWProperties.addDot(poPrefix);
+
+		//nothing to do
+	}	
+	
 	/* (non-Javadoc)
 	 * @see bw.body.io.clsSensorActuatorBase#setBodyPartId()
 	 */

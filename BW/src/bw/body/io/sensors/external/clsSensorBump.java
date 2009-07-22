@@ -15,10 +15,8 @@ import bw.body.io.clsBaseIO;
 import bw.body.itfget.itfGetBody;
 import bw.entities.clsAnimate;
 import bw.entities.clsEntity;
-import bw.utils.container.clsConfigDouble;
-import bw.utils.container.clsConfigMap;
+import bw.utils.config.clsBWProperties;
 import bw.utils.enums.eBodyParts;
-import bw.utils.enums.eConfigEntries;
 import bw.utils.enums.partclass.clsPartSensorBump;
 
 /**
@@ -34,41 +32,31 @@ public class clsSensorBump extends clsSensorExt {
 	public ArrayList<clsCollidingObject> moCollisionList; 
 	private clsPartSensorBump moPartSensorBump;
 
-	/**
-	 * constructor takes the entity stored as a local reference 
-	 */
-	public clsSensorBump(clsEntity poEntity, clsBaseIO poBaseIO, clsConfigMap poConfig) {
-		super(poBaseIO, clsSensorBump.getFinalConfig(poConfig));
-		
-		applyConfig();
+	public clsSensorBump(String poPrefix, clsBWProperties poProp, clsBaseIO poBaseIO, clsEntity poEntity) {
+		super(poPrefix, poProp, poBaseIO);
 		setEntity(poEntity);
 
 		setBumped(false);
 		
 		moPartSensorBump = new clsPartSensorBump();
+		applyProperties(poPrefix, poProp);
 	}
-	
-	private void applyConfig() {
 
+	public static clsBWProperties getDefaultProperties(String poPrefix) {
+		// String pre = clsBWProperties.addDot(poPrefix);
 		
-		//this registeres a static energy consuption
-		registerEnergyConsumption( ((clsConfigDouble)moConfig.get(eConfigEntries.ENERGYCONSUMPTION)).get() ); 
+		clsBWProperties oProp = new clsBWProperties();
+		
+		//nothing to do
+				
+		return oProp;
+	}	
 
-	}
-	
-	private static clsConfigMap getFinalConfig(clsConfigMap poConfig) {
-		clsConfigMap oDefault = getDefaultConfig();
-		oDefault.overwritewith(poConfig);
-		return oDefault;
-	}
-		
-	private static clsConfigMap getDefaultConfig() {
-		clsConfigMap oDefault = new clsConfigMap();
-		
-		oDefault.add(eConfigEntries.ENERGYCONSUMPTION, new clsConfigDouble(5.0));
-		
-		return oDefault;
-	}
+	private void applyProperties(String poPrefix, clsBWProperties poProp) {
+		//String pre = clsBWProperties.addDot(poPrefix);
+
+		//nothing to do
+	}	
 	
 	/**
 	 * TODO (muchitsch) - insert description

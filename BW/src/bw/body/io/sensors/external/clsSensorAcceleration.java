@@ -8,9 +8,7 @@
 package bw.body.io.sensors.external;
 
 import sim.physics2D.util.Double2D;
-import bw.body.io.clsBaseIO;
-import bw.entities.clsEntity;
-import bw.utils.container.clsConfigMap;
+import bw.utils.config.clsBWProperties;
 import bw.utils.enums.eBodyParts;
 
 /**
@@ -25,35 +23,27 @@ public class clsSensorAcceleration extends clsSensorExt{
 
 	//private clsEntity moEntity;	// EH - make warning free
 	
-	/**
-	 * constructor takes the entity stored as a local reference 
-	 */
-	public clsSensorAcceleration(clsEntity poEntity, clsBaseIO poBaseIO, clsConfigMap poConfig) {
-		super(poBaseIO, clsSensorAcceleration.getFinalConfig(poConfig));
-		applyConfig();
+	public clsSensorAcceleration(String poPrefix, clsBWProperties poProp) {
+		super(poPrefix, poProp);
 		//setEntity(poEntity);		// EH - make warning free
-		// TODO Auto-generated constructor stub
+		applyProperties(poPrefix, poProp);
 	}
 
-	private void applyConfig() {
+	public static clsBWProperties getDefaultProperties(String poPrefix) {
+		// String pre = clsBWProperties.addDot(poPrefix);
 		
-		//TODO add ...
+		clsBWProperties oProp = new clsBWProperties();
+		
+		//nothing to do
+				
+		return oProp;
+	}	
 
-	}
-	
-	private static clsConfigMap getFinalConfig(clsConfigMap poConfig) {
-		clsConfigMap oDefault = getDefaultConfig();
-		oDefault.overwritewith(poConfig);
-		return oDefault;
-	}
-	
-	private static clsConfigMap getDefaultConfig() {
-		clsConfigMap oDefault = new clsConfigMap();
-		
-		//TODO add ...
-		
-		return oDefault;
-	}
+	private void applyProperties(String poPrefix, clsBWProperties poProp) {
+		//String pre = clsBWProperties.addDot(poPrefix);
+
+		//nothing to do
+	}		
 	
 	private Double2D moCurrentVelocity;
 	/**

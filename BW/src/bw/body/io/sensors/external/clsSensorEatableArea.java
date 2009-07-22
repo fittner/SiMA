@@ -10,10 +10,8 @@ package bw.body.io.sensors.external;
 
 import bw.body.io.clsBaseIO;
 import bw.entities.clsEntity;
-import bw.utils.container.clsConfigDouble;
-import bw.utils.container.clsConfigMap;
+import bw.utils.config.clsBWProperties;
 import bw.utils.enums.eBodyParts;
-import bw.utils.enums.eConfigEntries;
 
 /**
  * A sensor to define what is directly in front of your mouth the area where you can eat something
@@ -24,41 +22,30 @@ import bw.utils.enums.eConfigEntries;
  */
 public class clsSensorEatableArea extends clsSensorVision {
 	
-	
-	/*
-	 * @param poEntity 
-	 *
-	 * @param poBaseIO
-	 * @param 
-	 */
-	public clsSensorEatableArea(clsEntity poEntity, clsBaseIO poBaseIO, clsConfigMap poConfig ) {
-		super(poEntity, poBaseIO, clsSensorEatableArea.getFinalConfig(poConfig));
+	public clsSensorEatableArea(String poPrefix, clsBWProperties poProp, clsBaseIO poBaseIO, clsEntity poEntity)	{
+		super(poPrefix, poProp, poBaseIO, poEntity);		
 		
-		applyConfig();
+		applyProperties(poPrefix, poProp);
+	}	
+	
+	public static clsBWProperties getDefaultProperties(String poPrefix) {
+		String pre = clsBWProperties.addDot(poPrefix);
+		
+		clsBWProperties oProp = new clsBWProperties();
+		
+		oProp.setProperty(pre+P_ANGLE, (2.0 *  Math.PI) );
+		oProp.setProperty(pre+P_RANGE, 5 );
+		oProp.setProperty(pre+P_OFFSET, 15 );		
+				
+		return oProp;
+	}	
+
+	private void applyProperties(String poPrefix, clsBWProperties poProp) {
+		//String pre = clsBWProperties.addDot(poPrefix);
+		
+		// nothing to do
 	}
 
-
-	private void applyConfig() {
-		mnViewRad = ((clsConfigDouble)moConfig.get(eConfigEntries.ANGLE)).get();
-		mnVisRange = ((clsConfigDouble)moConfig.get(eConfigEntries.RANGE)).get();
-		mnVisOffset = ((clsConfigDouble)moConfig.get(eConfigEntries.OFFSET)).get();
-	}
-	
-	private static clsConfigMap getFinalConfig(clsConfigMap poConfig) {
-		clsConfigMap oDefault = getDefaultConfig();
-		oDefault.overwritewith(poConfig);
-		return oDefault;
-	}
-	
-	private static clsConfigMap getDefaultConfig() {
-		clsConfigMap oDefault = new clsConfigMap();
-		
-		oDefault.add(eConfigEntries.ANGLE, new clsConfigDouble(2.0 *  Math.PI));
-		oDefault.add(eConfigEntries.RANGE, new clsConfigDouble(5.0));
-		oDefault.add(eConfigEntries.OFFSET, new clsConfigDouble(15.0));
-		
-		return oDefault;
-	}
 	
 	/* (non-Javadoc)
 	 *

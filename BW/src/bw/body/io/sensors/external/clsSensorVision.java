@@ -19,10 +19,8 @@ import bw.entities.clsEntity;
 import bw.entities.clsMobile;
 import bw.entities.clsStationary;
 import bw.physicalObjects.sensors.clsEntityPartVision;
-import bw.utils.container.clsConfigDouble;
-import bw.utils.container.clsConfigMap;
+import bw.utils.config.clsBWProperties;
 import bw.utils.enums.eBodyParts;
-import bw.utils.enums.eConfigEntries;
 import bw.utils.sensors.clsSensorDataCalculation;
 
 /**
@@ -34,11 +32,15 @@ import bw.utils.sensors.clsSensorDataCalculation;
  * 
  */
 public class clsSensorVision extends clsSensorExt {
+	public static final String P_ANGLE = "angle";
+	public static final String P_RANGE = "range";
+	public static final String P_OFFSET = "offset";	
+	
 	protected double mnViewRad;
 	protected double mnVisRange;
 	protected double mnVisOffset;
 	
-	private clsEntity moEntity;
+	protected clsEntity moEntity;
 	
 	protected clsEntityPartVision moVisionArea;
 	private HashMap<Integer, PhysicalObject2D> moCollidingObj;
@@ -51,8 +53,8 @@ public class clsSensorVision extends clsSensorExt {
 	 * @param poEntity
 	 * @param poBaseIO
 	 */
-	public clsSensorVision(clsEntity poEntity, clsBaseIO poBaseIO, clsConfigMap poConfig)	{
-		super(poBaseIO, clsSensorVision.getFinalConfig(poConfig));
+	public clsSensorVision(String poPrefix, clsBWProperties poProp, clsBaseIO poBaseIO, clsEntity poEntity)	{
+		super(poPrefix, poProp);
 			
 		moCollidingObj = new HashMap<Integer, PhysicalObject2D>();
 		moViewObj = new HashMap<Integer, PhysicalObject2D>(); 
@@ -61,36 +63,33 @@ public class clsSensorVision extends clsSensorExt {
 		
 		moEntity = poEntity;
 		 
-		applyConfig();
+		applyProperties(poPrefix, poProp);
 
 		moVisionArea = new clsEntityPartVision(moEntity, mnVisRange, mnVisOffset);
 		moCalculationObj = new clsSensorDataCalculation(); 
 		this.regVisionObj(moEntity, mnVisOffset); //0 = no offset = vision centered on object
 	}	
 	
-	
-	private void applyConfig() {	
-		mnViewRad = ((clsConfigDouble)moConfig.get(eConfigEntries.ANGLE)).get();
-		mnVisRange = ((clsConfigDouble)moConfig.get(eConfigEntries.RANGE)).get();
-		mnVisOffset = ((clsConfigDouble)moConfig.get(eConfigEntries.OFFSET)).get();
-	}
-	
-	private static clsConfigMap getFinalConfig(clsConfigMap poConfig) {
-		clsConfigMap oDefault = getDefaultConfig();
-		oDefault.overwritewith(poConfig);
-		return oDefault;
-	}
-	
-	private static clsConfigMap getDefaultConfig() {
-		clsConfigMap oDefault = new clsConfigMap();
+	public static clsBWProperties getDefaultProperties(String poPrefix) {
+		String pre = clsBWProperties.addDot(poPrefix);
 		
-		oDefault.add(eConfigEntries.ANGLE, new clsConfigDouble(5*Math.PI/3));
-		oDefault.add(eConfigEntries.RANGE, new clsConfigDouble(50.0));
-		oDefault.add(eConfigEntries.OFFSET, new clsConfigDouble(0.0));
+		clsBWProperties oProp = new clsBWProperties();
 		
+		oProp.setProperty(pre+P_ANGLE, (5*Math.PI/3) );
+		oProp.setProperty(pre+P_RANGE, 50 );
+		oProp.setProperty(pre+P_OFFSET, 0 );		
+				
+		return oProp;
+	}	
 
-		return oDefault;
+	private void applyProperties(String poPrefix, clsBWProperties poProp) {
+		String pre = clsBWProperties.addDot(poPrefix);
+		
+		mnViewRad = poProp.getPropertyDouble(pre+P_ANGLE);
+		mnVisRange = poProp.getPropertyDouble(pre+P_RANGE);
+		mnVisOffset = poProp.getPropertyDouble(pre+P_OFFSET);
 	}
+	
 	
 	/**
 	 * TODO (zeilinger) - insert description

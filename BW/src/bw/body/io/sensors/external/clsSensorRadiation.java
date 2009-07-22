@@ -13,10 +13,8 @@ import ARSsim.physics2D.physicalObject.clsMobileObject2D;
 import ARSsim.physics2D.physicalObject.clsStationaryObject2D;
 import bw.body.io.clsBaseIO;
 import bw.entities.clsEntity;
-import bw.utils.container.clsConfigDouble;
-import bw.utils.container.clsConfigMap;
+import bw.utils.config.clsBWProperties;
 import bw.utils.enums.eBodyParts;
-import bw.utils.enums.eConfigEntries;
 import bw. entities.clsUraniumOre;
 
 /**
@@ -30,7 +28,6 @@ import bw. entities.clsUraniumOre;
 public class clsSensorRadiation extends clsSensorVision {
 		
 	private double mrRadiation;
-	private clsEntity moEntity;
 	
 	/*
 	 * @param poEntity 
@@ -38,37 +35,33 @@ public class clsSensorRadiation extends clsSensorVision {
 	 * @param poBaseIO
 	 * @param 
 	 */
-	public clsSensorRadiation(clsEntity poEntity, clsBaseIO poBaseIO, clsConfigMap poConfig ) {
-		super(poEntity, poBaseIO, clsSensorRadiation.getFinalConfig(poConfig));
-		moEntity = poEntity;
+	public clsSensorRadiation(String poPrefix, clsBWProperties poProp, clsBaseIO poBaseIO, clsEntity poEntity)	{
+		super(poPrefix, poProp, poBaseIO, poEntity);	
 		
 		mrRadiation = 0;
 		
-		applyConfig();
+		applyProperties(poPrefix, poProp);
 	}
 
+	public static clsBWProperties getDefaultProperties(String poPrefix) {
+		String pre = clsBWProperties.addDot(poPrefix);
+		
+		clsBWProperties oProp = new clsBWProperties();
+		
+		oProp.setProperty(pre+P_ANGLE, (2.0 *  Math.PI) );
+		oProp.setProperty(pre+P_RANGE, 80 );
+		oProp.setProperty(pre+P_OFFSET, 0 );		
+				
+		return oProp;
+	}	
 
-	private void applyConfig() {
-		mnViewRad = ((clsConfigDouble)moConfig.get(eConfigEntries.ANGLE)).get();
-		mnVisRange = ((clsConfigDouble)moConfig.get(eConfigEntries.RANGE)).get();
-		mnVisOffset = ((clsConfigDouble)moConfig.get(eConfigEntries.OFFSET)).get();
-	}
-	
-	private static clsConfigMap getFinalConfig(clsConfigMap poConfig) {
-		clsConfigMap oDefault = getDefaultConfig();
-		oDefault.overwritewith(poConfig);
-		return oDefault;
-	}
-	
-	private static clsConfigMap getDefaultConfig() {
-		clsConfigMap oDefault = new clsConfigMap();
+	private void applyProperties(String poPrefix, clsBWProperties poProp) {
+		//String pre = clsBWProperties.addDot(poPrefix);
 		
-		oDefault.add(eConfigEntries.ANGLE, new clsConfigDouble(2.0 *  Math.PI));
-		oDefault.add(eConfigEntries.RANGE, new clsConfigDouble(80.0));
-		oDefault.add(eConfigEntries.OFFSET, new clsConfigDouble(0.0));
-		
-		return oDefault;
-	}
+		// nothing to do
+	}	
+
+
 	
 	/* (non-Javadoc)
 	 *

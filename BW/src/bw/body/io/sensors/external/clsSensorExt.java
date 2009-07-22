@@ -10,7 +10,7 @@ package bw.body.io.sensors.external;
 import bw.body.io.clsBaseIO;
 import bw.body.io.clsSensorActuatorBaseExt;
 import bw.body.io.sensors.itfSensorUpdate;
-import bw.utils.container.clsConfigMap;
+import bw.utils.config.clsBWProperties;
 
 /**
  * TODO (zeilinger) - insert description 
@@ -20,40 +20,32 @@ import bw.utils.container.clsConfigMap;
  */
 public abstract class clsSensorExt extends clsSensorActuatorBaseExt implements itfSensorUpdate {
 
-	protected clsConfigMap moConfig;
 
-	/**
-	 * @param poBaseIO
-	 */
-	public clsSensorExt(clsBaseIO poBaseIO, clsConfigMap poConfig) {
-		super(poBaseIO);
-		moConfig = getFinalConfig(poConfig);
-		applyConfig();
-	}
-	
-	public clsSensorExt(clsConfigMap poConfig) {
+	public clsSensorExt(String poPrefix, clsBWProperties poProp) {
 		super();
-		moConfig = getFinalConfig(poConfig);
-		applyConfig();
+		applyProperties(poPrefix, poProp);
+	}
+	
+	public clsSensorExt(String poPrefix, clsBWProperties poProp, clsBaseIO poBaseIO) {
+		super(poBaseIO);
+		applyProperties(poPrefix, poProp);
 	}
 
-	private void applyConfig() {
-		//TODO add ...
-	}
-	
-	private static clsConfigMap getFinalConfig(clsConfigMap poConfig) {
-		clsConfigMap oDefault = getDefaultConfig();
-		oDefault.overwritewith(poConfig);
-		return oDefault;
-	}
-	
-	private static clsConfigMap getDefaultConfig() {
-		clsConfigMap oDefault = new clsConfigMap();
+	public static clsBWProperties getDefaultProperties(String poPrefix) {
+		// String pre = clsBWProperties.addDot(poPrefix);
 		
-		//TODO add ...
+		clsBWProperties oProp = new clsBWProperties();
 		
-		return oDefault;
-	}
-	
+		//nothing to do
+				
+		return oProp;
+	}	
+
+	private void applyProperties(String poPrefix, clsBWProperties poProp) {
+		//String pre = clsBWProperties.addDot(poPrefix);
+
+		//nothing to do
+	}		
+
 
 }

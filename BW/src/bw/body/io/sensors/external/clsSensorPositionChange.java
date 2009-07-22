@@ -11,7 +11,7 @@ package bw.body.io.sensors.external;
 import ARSsim.physics2D.util.clsPose;
 import bw.body.io.clsBaseIO;
 import bw.entities.clsEntity;
-import bw.utils.container.clsConfigMap;
+import bw.utils.config.clsBWProperties;
 import bw.utils.enums.eBodyParts;
 
 /**
@@ -37,40 +37,32 @@ public class clsSensorPositionChange extends clsSensorExt {
 	 */
 	private clsEntity moEntity;
 	
-	/**
-	 * constructor takes the entity stored as a local reference 
-	 */
-	public clsSensorPositionChange(clsEntity poEntity, clsBaseIO poBaseIO, clsConfigMap poConfig) {
-		super(poBaseIO, clsSensorPositionChange.getFinalConfig(poConfig));
+	
+	public clsSensorPositionChange(String poPrefix, clsBWProperties poProp, clsBaseIO poBaseIO, clsEntity poEntity) {
+		super(poPrefix, poProp);
+		setEntity(poEntity);	
 		moLastPos = new clsPose(poEntity.getPose());
 		moDiv = new clsPose(0,0,0);
-		
-		applyConfig();
-		setEntity(poEntity);
-		// TODO Auto-generated constructor stub
+		applyProperties(poPrefix, poProp);
 	}
-	
 
-	private void applyConfig() {
+	public static clsBWProperties getDefaultProperties(String poPrefix) {
+		// String pre = clsBWProperties.addDot(poPrefix);
 		
-		//TODO add ...
+		clsBWProperties oProp = new clsBWProperties();
+		
+		//nothing to do
+				
+		return oProp;
+	}	
 
-	}
-	
-	private static clsConfigMap getFinalConfig(clsConfigMap poConfig) {
-		clsConfigMap oDefault = getDefaultConfig();
-		oDefault.overwritewith(poConfig);
-		return oDefault;
-	}
-	
-	private static clsConfigMap getDefaultConfig() {
-		clsConfigMap oDefault = new clsConfigMap();
-		
-		//TODO add ...
-		
-		return oDefault;
-	}
-	
+	private void applyProperties(String poPrefix, clsBWProperties poProp) {
+		//String pre = clsBWProperties.addDot(poPrefix);
+
+		//nothing to do
+	}		
+
+
 	/**
 	 * @param moEntity the moEntity to set
 	 */
