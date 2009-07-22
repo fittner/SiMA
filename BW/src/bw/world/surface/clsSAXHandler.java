@@ -7,6 +7,7 @@ import org.xml.sax.helpers.DefaultHandler;
 import sim.field.grid.IntGrid2D;
 
 //@deprecated
+//Properties are to be used instead of XML-files
 
 /**
  * This class parses the XML-file in order to create a world with surfaces from it. 
