@@ -40,7 +40,7 @@ import bw.body.io.sensors.external.clsSensorExt;
 import bw.body.io.sensors.external.clsSensorPositionChange;
 import bw.body.io.sensors.external.clsSensorVision;
 import bw.body.io.sensors.external.clsSensorRadiation;
-import bw.body.io.sensors.internal.clsEnergySensor;
+import bw.body.io.sensors.internal.clsEnergyConsumptionSensor;
 import bw.body.io.sensors.internal.clsHealthSensor;
 import bw.body.io.sensors.internal.clsSensorInt;
 import bw.body.io.sensors.internal.clsStaminaSensor;
@@ -112,7 +112,7 @@ public class clsBrainSocket implements itfStepProcessing {
 		
 		//ad homeostasis sensor data
 		oData.addSensorInt(eSensorIntType.ENERGY_CONSUMPTION, convertEnergySystem() );
-		oData.addSensorInt(eSensorIntType.HEALTH_SYSTEM, convertHealthSystem() );
+		oData.addSensorInt(eSensorIntType.HEALTH, convertHealthSystem() );
 		oData.addSensorInt(eSensorIntType.STAMINA, convertStaminaSystem() );
 		oData.addSensorInt(eSensorIntType.STOMACH, convertStomachSystem() );
 		
@@ -178,7 +178,7 @@ public class clsBrainSocket implements itfStepProcessing {
 	private clsDataBase convertHealthSystem() {
 		
 		clsHealthSystem oRetVal = new clsHealthSystem();
-		clsHealthSensor oHealthSensor = (clsHealthSensor)(moSensorsInt.get(eSensorIntType.HEALTH_SYSTEM));
+		clsHealthSensor oHealthSensor = (clsHealthSensor)(moSensorsInt.get(eSensorIntType.HEALTH));
 
 		oRetVal.mrHealthValue = oHealthSensor.getHealthValue();
 		
@@ -196,7 +196,7 @@ public class clsBrainSocket implements itfStepProcessing {
 	private clsDataBase convertEnergySystem() {
 
 		clsEnergyConsumption oRetVal = new clsEnergyConsumption();
-		clsEnergySensor oEnergySensor = (clsEnergySensor)(moSensorsInt.get(eSensorIntType.ENERGY_CONSUMPTION));
+		clsEnergyConsumptionSensor oEnergySensor = (clsEnergyConsumptionSensor)(moSensorsInt.get(eSensorIntType.ENERGY_CONSUMPTION));
 
 		oRetVal.mrEnergy = oEnergySensor.getEnergy();
 		
