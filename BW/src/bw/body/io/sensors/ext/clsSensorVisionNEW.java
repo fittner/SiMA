@@ -14,9 +14,7 @@ import sim.physics2D.physicalObject.PhysicalObject2D;
 import sim.physics2D.util.Double2D;
 import bw.body.io.clsBaseIO;
 import bw.entities.clsEntity;
-import bw.utils.container.clsConfigDouble;
-import bw.utils.container.clsConfigMap;
-import bw.utils.enums.eConfigEntries;
+import bw.utils.config.clsBWProperties;
 import bw.body.io.sensors.ext.clsSensorExt;
 
 /**
@@ -27,37 +25,43 @@ import bw.body.io.sensors.ext.clsSensorExt;
  * 
  */
 public class clsSensorVisionNEW extends clsSensorExt {
-
+	public static final String P_ANGLE = "angle";
+	public static final String P_RANGE = "range";
+	public static final String P_OFFSET = "offset";	
+	
 	private Double mnRange;
 	private Double2D moPosition; 
 	
-	public clsSensorVisionNEW(clsEntity poEntity, clsBaseIO poBaseIO, clsConfigMap poConfig, clsSensorEngine poSensorEngine) {
-		super(poBaseIO, clsSensorVisionNEW.getFinalConfig(poConfig),poSensorEngine);
+	public clsSensorVisionNEW(String poPrefix, clsBWProperties poProp, clsEntity poEntity, clsBaseIO poBaseIO, clsSensorEngine poSensorEngine) {
+		super(poPrefix, poProp, poBaseIO, poSensorEngine);
 		moPosition = poEntity.getPosition(); 
-		applyConfig();
+		applyProperties(poPrefix, poProp);
 	}
 	
-	private static clsConfigMap getFinalConfig(clsConfigMap poConfig) {
-		clsConfigMap oDefault = getDefaultConfig();
-		oDefault.overwritewith(poConfig);
-		return oDefault;
-	}
 	
-	private static clsConfigMap getDefaultConfig() {
-		clsConfigMap oDefault = new clsConfigMap();
+	public static clsBWProperties getDefaultProperties(String poPrefix) {
+		String pre = clsBWProperties.addDot(poPrefix);
 		
-		oDefault.add(eConfigEntries.ANGLE, new clsConfigDouble(Math.PI));
-		oDefault.add(eConfigEntries.RANGE, new clsConfigDouble(60.0));
-		oDefault.add(eConfigEntries.OFFSET, new clsConfigDouble(0.0));
-	
-		return oDefault;
-	}
-	
-	private void applyConfig() {
+		clsBWProperties oProp = new clsBWProperties();
+		
+		oProp.setProperty(pre+P_ANGLE, Math.PI );
+		oProp.setProperty(pre+P_RANGE, 60 );
+		oProp.setProperty(pre+P_OFFSET, 0 );		
+				
+		return oProp;
+	}	
+
+	private void applyProperties(String poPrefix, clsBWProperties poProp) {
+		String pre = clsBWProperties.addDot(poPrefix);
+		
+		//mnViewRad = poProp.getPropertyDouble(pre+P_ANGLE);
+		mnRange = poProp.getPropertyDouble(pre+P_RANGE);
+		//mnVisOffset = poProp.getPropertyDouble(pre+P_OFFSET);
+		
 		//HZ -- initialise sensor engine - defines the maximum sensor range
-		mnRange = ((clsConfigDouble)moConfig.get(eConfigEntries.RANGE)).get();
-		assignSensorData((clsSensorExt)this,moPosition, mnRange);	
+		assignSensorData((clsSensorExt)this,moPosition, mnRange);			
 	}
+	
 	
 		
 //	public ArrayList<PhysicalObject2D> getSensorData(){

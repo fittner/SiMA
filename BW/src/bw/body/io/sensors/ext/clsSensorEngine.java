@@ -28,14 +28,6 @@ import bw.exceptions.exInvalidSensorRange;
  */
 public class clsSensorEngine{
 	
-	/**
-	 * TODO (zeilinger) - insert description 
-	 * 
-	 * @author zeilinger
-	 * 13.07.2009, 23:00:20
-	 */
-	private static final long serialVersionUID = 1L;
-	
 	private HashMap<Double,ArrayList<clsSensorExt>> meRegisteredSensor;
 	private HashMap <Double,ArrayList<PhysicalObject2D>> meDetectedObj;
 	private TreeMap<Double,clsEntitySensorEngine> meEntities;

@@ -11,8 +11,7 @@ package bw.body.io.sensors.ext;
 import java.util.ArrayList;
 
 import bw.body.io.clsBaseIO;
-import bw.utils.container.clsConfigMap;
-
+import bw.utils.config.clsBWProperties;
 import sim.physics2D.physicalObject.PhysicalObject2D;
 
 /**
@@ -24,22 +23,29 @@ import sim.physics2D.physicalObject.PhysicalObject2D;
  */
 public class clsSensorOlfactoricNEW extends clsSensorExt{
 
-	/**
-	 * TODO (zeilinger) - insert description 
-	 * 
-	 * @author zeilinger
-	 * 18.07.2009, 17:15:47
-	 *
-	 * @param poBaseIO
-	 * @param poConfig
-	 * @param poSensorEngine
-	 */
-	public clsSensorOlfactoricNEW(clsBaseIO poBaseIO, clsConfigMap poConfig,
-			clsSensorEngine poSensorEngine) {
-		super(poBaseIO, poConfig, poSensorEngine);
+
+	public clsSensorOlfactoricNEW(String poPrefix, clsBWProperties poProp, clsBaseIO poBaseIO, clsSensorEngine poSensorEngine) {
+		super(poPrefix, poProp, poBaseIO, poSensorEngine);
 		// TODO Auto-generated constructor stub
+		applyProperties(poPrefix, poProp);
 	}
 
+	public static clsBWProperties getDefaultProperties(String poPrefix) {
+		// String pre = clsBWProperties.addDot(poPrefix);
+		
+		clsBWProperties oProp = new clsBWProperties();
+		
+		//nothing to do
+				
+		return oProp;
+	}	
+
+	private void applyProperties(String poPrefix, clsBWProperties poProp) {
+		//String pre = clsBWProperties.addDot(poPrefix);
+
+		//nothing to do
+	}
+	
 	/* (non-Javadoc)
 	 *
 	 * @author zeilinger
