@@ -14,6 +14,7 @@ package bw.utils.enums;
  * @author deutsch
  * 07.05.2009, 09:54:33
  * 
+ * @deprecated
  */
 public enum eConfigEntries {
 	// single entries
