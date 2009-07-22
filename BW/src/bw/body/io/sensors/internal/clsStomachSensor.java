@@ -8,11 +8,16 @@
  */
 package bw.body.io.sensors.internal;
 
+import java.util.HashMap;
 import bw.body.clsBaseBody;
 import bw.body.clsComplexBody;
 import bw.body.internalSystems.clsStomachSystem;
 import bw.body.io.clsBaseIO;
-import bw.utils.container.clsConfigMap;
+import bw.utils.config.clsBWProperties;
+import bw.utils.datatypes.clsMutableDouble;
+import bw.utils.enums.eBodyParts;
+import bw.utils.enums.eNutritions;
+import bw.utils.tools.clsNutritionLevel;
 
 /**
  * TODO (langr) - insert description 
@@ -23,47 +28,37 @@ import bw.utils.container.clsConfigMap;
  */
 public class clsStomachSensor extends clsSensorInt {
 
-	private clsBaseBody moBody;
+	private clsBaseBody moBody; // reference
 	
 	private double mrEnergy;
-	
-	/**
-	 * TODO (langr) - insert description 
-	 * 
-	 * @author langr
-	 * 12.05.2009, 17:40:44
-	 *
-	 * @param poBaseIO
-	 */
-	public clsStomachSensor(clsBaseBody poBody, clsBaseIO poBaseIO, clsConfigMap poConfig) {
-		super(poBaseIO, clsStomachSensor.getFinalConfig(poConfig));
-		// TODO Auto-generated constructor stub
+	private HashMap<eNutritions, clsMutableDouble> moNutritionContents;
+
+	public clsStomachSensor(String poPrefix, clsBWProperties poProp, clsBaseIO poBaseIO, clsBaseBody poBody) {
+		super(poPrefix, poProp, poBaseIO);
 		
-		applyConfig();
+		mrEnergy = 0;
+		moNutritionContents = new HashMap<eNutritions, clsMutableDouble>();
+		
 		setEntity(poBody);
+		applyProperties(poPrefix, poProp);
 	}
 
-	private void applyConfig() {
-
+	public static clsBWProperties getDefaultProperties(String poPrefix) {
+		// String pre = clsBWProperties.addDot(poPrefix);
 		
-		//this registeres a static energy consuption
-		//registerEnergyConsumption( ((clsConfigFloat)moConfig.get(eConfigEntries.ENERGYCONSUMPTION)).get() ); 
+		clsBWProperties oProp = new clsBWProperties();
+		
+		//nothing to do
+				
+		return oProp;
+	}	
 
-	}
+	private void applyProperties(String poPrefix, clsBWProperties poProp) {
+		//String pre = clsBWProperties.addDot(poPrefix);
+
+		//nothing to do
+	}	
 	
-	private static clsConfigMap getFinalConfig(clsConfigMap poConfig) {
-		clsConfigMap oDefault = getDefaultConfig();
-		oDefault.overwritewith(poConfig);
-		return oDefault;
-	}
-
-	private static clsConfigMap getDefaultConfig() {
-		clsConfigMap oDefault = new clsConfigMap();
-		
-		//oDefault.add(eConfigEntries.ENERGYCONSUMPTION, new clsConfigFloat(5.0f));
-		
-		return oDefault;
-	}
 	
 	/**
 	 * TODO (muchitsch) - insert description
@@ -83,7 +78,7 @@ public class clsStomachSensor extends clsSensorInt {
 	 */
 	@Override
 	protected void setBodyPartId() {
-		// TODO Auto-generated method stub
+		mePartId = eBodyParts.SENSOR_INT_STOMACH;
 
 	}
 
@@ -96,7 +91,7 @@ public class clsStomachSensor extends clsSensorInt {
 	 */
 	@Override
 	protected void setName() {
-		// TODO Auto-generated method stub
+		moName = "int. Stomach Sensor";
 
 	}
 
@@ -113,17 +108,22 @@ public class clsStomachSensor extends clsSensorInt {
 			clsStomachSystem oStomachSystem = ((clsComplexBody)moBody).getInternalSystem().getStomachSystem();
 
 			mrEnergy = oStomachSystem.getEnergy();
+			
+			HashMap<eNutritions, clsNutritionLevel> oList = oStomachSystem.getList();
+			moNutritionContents.clear();
+			
+			for(eNutritions nKey:oList.keySet()) {
+				clsNutritionLevel oNL = oList.get(nKey);
+				moNutritionContents.put(nKey, new clsMutableDouble( oNL.getContent() ) );
+			}
 		}
 		
 	}
 	
-	/**
-	 * @param mrEnergy the mrEnergy to set
-	 */
-	public void setEnergy(double mrEnergy) {
-		this.mrEnergy = mrEnergy;
+	public HashMap<eNutritions, clsMutableDouble> getNutritionContents() {
+		return moNutritionContents;
 	}
-
+	
 	/**
 	 * @return the mrEnergy
 	 */

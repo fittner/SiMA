@@ -12,7 +12,8 @@ import bw.body.clsBaseBody;
 import bw.body.clsComplexBody;
 import bw.body.internalSystems.clsInternalEnergyConsumption;
 import bw.body.io.clsBaseIO;
-import bw.utils.container.clsConfigMap;
+import bw.utils.config.clsBWProperties;
+import bw.utils.enums.eBodyParts;
 
 /**
  * TODO (langr) - insert description 
@@ -23,47 +24,33 @@ import bw.utils.container.clsConfigMap;
  */
 public class clsEnergySensor extends clsSensorInt {
 
-	private clsBaseBody moBody;
+	private clsBaseBody moBody; // reference
 	
 	private double mrEnergy;
 	
-	/**
-	 * TODO (langr) - insert description 
-	 * 
-	 * @author langr
-	 * 12.05.2009, 17:37:20
-	 *
-	 * @param poBaseIO
-	 */
-	public clsEnergySensor(clsBaseBody poBody, clsBaseIO poBaseIO, clsConfigMap poConfig) {
-		super(poBaseIO, clsEnergySensor.getFinalConfig(poConfig));
-		// TODO Auto-generated constructor stub
+	public clsEnergySensor(String poPrefix, clsBWProperties poProp, clsBaseIO poBaseIO, clsBaseBody poBody) {
+		super(poPrefix, poProp, poBaseIO);
 		
-		applyConfig();
 		setEntity(poBody);
+		applyProperties(poPrefix, poProp);
 	}
-	
-	private void applyConfig() {
 
+	public static clsBWProperties getDefaultProperties(String poPrefix) {
+		// String pre = clsBWProperties.addDot(poPrefix);
 		
-		//this registeres a static energy consuption
-		//registerEnergyConsumption( ((clsConfigFloat)moConfig.get(eConfigEntries.ENERGYCONSUMPTION)).get() ); 
+		clsBWProperties oProp = new clsBWProperties();
+		
+		//nothing to do
+				
+		return oProp;
+	}	
 
-	}
+	private void applyProperties(String poPrefix, clsBWProperties poProp) {
+		//String pre = clsBWProperties.addDot(poPrefix);
+
+		//nothing to do
+	}	
 	
-	private static clsConfigMap getFinalConfig(clsConfigMap poConfig) {
-		clsConfigMap oDefault = getDefaultConfig();
-		oDefault.overwritewith(poConfig);
-		return oDefault;
-	}
-	
-	private static clsConfigMap getDefaultConfig() {
-		clsConfigMap oDefault = new clsConfigMap();
-		
-		//oDefault.add(eConfigEntries.ENERGYCONSUMPTION, new clsConfigFloat(5.0f));
-		
-		return oDefault;
-	}
 	
 	/**
 	 * TODO (muchitsch) - insert description
@@ -74,14 +61,6 @@ public class clsEnergySensor extends clsSensorInt {
 		this.moBody = poBody;
 	}
 	
-	
-	/**
-	 * @param mrEnergy the mrEnergy to set
-	 */
-	public void setEnergy(double mrEnergy) {
-		this.mrEnergy = mrEnergy;
-	}
-
 	/**
 	 * @return the mrEnergy
 	 */
@@ -99,7 +78,7 @@ public class clsEnergySensor extends clsSensorInt {
 	 */
 	@Override
 	protected void setBodyPartId() {
-		// TODO Auto-generated method stub
+		mePartId = eBodyParts.SENSOR_INT_ENERGY;
 
 	}
 
@@ -112,7 +91,7 @@ public class clsEnergySensor extends clsSensorInt {
 	 */
 	@Override
 	protected void setName() {
-		// TODO Auto-generated method stub
+		moName = "int. Energy Sensor";
 
 	}
 

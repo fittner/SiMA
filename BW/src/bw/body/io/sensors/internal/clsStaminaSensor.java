@@ -12,7 +12,8 @@ import bw.body.clsBaseBody;
 import bw.body.clsComplexBody;
 import bw.body.internalSystems.clsStaminaSystem;
 import bw.body.io.clsBaseIO;
-import bw.utils.container.clsConfigMap;
+import bw.utils.config.clsBWProperties;
+import bw.utils.enums.eBodyParts;
 
 /**
  * TODO (langr) - insert description 
@@ -23,52 +24,33 @@ import bw.utils.container.clsConfigMap;
  */
 public class clsStaminaSensor extends clsSensorInt {
 
-	private clsBaseBody moBody;
+	private clsBaseBody moBody; // reference
 	
 	private double mrStaminaValue;
-	private double mrRecoveryRate;
-	private double mrLowerBound;
-	private double mrUpperBound;
 	
-	
-	/**
-	 * TODO (langr) - insert description 
-	 * 
-	 * @author langr
-	 * 12.05.2009, 17:38:42
-	 *
-	 * @param poBaseIO
-	 */
-	public clsStaminaSensor(clsBaseBody poBody, clsBaseIO poBaseIO, clsConfigMap poConfig) {
-		super(poBaseIO, clsStaminaSensor.getFinalConfig(poConfig));
-		// TODO Auto-generated constructor stub
+	public clsStaminaSensor(String poPrefix, clsBWProperties poProp, clsBaseIO poBaseIO, clsBaseBody poBody) {
+		super(poPrefix, poProp, poBaseIO);
 		
-		applyConfig();
 		setEntity(poBody);
+		applyProperties(poPrefix, poProp);
 	}
-	
-	private void applyConfig() {
 
+	public static clsBWProperties getDefaultProperties(String poPrefix) {
+		// String pre = clsBWProperties.addDot(poPrefix);
 		
-		//this registeres a static energy consuption
-		//registerEnergyConsumption( ((clsConfigFloat)moConfig.get(eConfigEntries.ENERGYCONSUMPTION)).get() ); 
+		clsBWProperties oProp = new clsBWProperties();
+		
+		//nothing to do
+				
+		return oProp;
+	}	
 
-	}
-	
-	private static clsConfigMap getFinalConfig(clsConfigMap poConfig) {
-		clsConfigMap oDefault = getDefaultConfig();
-		oDefault.overwritewith(poConfig);
-		return oDefault;
-	}
-	
-	private static clsConfigMap getDefaultConfig() {
-		clsConfigMap oDefault = new clsConfigMap();
+	private void applyProperties(String poPrefix, clsBWProperties poProp) {
+		//String pre = clsBWProperties.addDot(poPrefix);
+
+		//nothing to do
+	}	
 		
-		//oDefault.add(eConfigEntries.ENERGYCONSUMPTION, new clsConfigFloat(5.0f));
-		
-		return oDefault;
-	}
-	
 	/**
 	 * TODO (muchitsch) - insert description
 	 *
@@ -87,7 +69,7 @@ public class clsStaminaSensor extends clsSensorInt {
 	 */
 	@Override
 	protected void setBodyPartId() {
-		// TODO Auto-generated method stub
+		mePartId = eBodyParts.SENSOR_INT_STAMINA;
 
 	}
 
@@ -100,7 +82,7 @@ public class clsStaminaSensor extends clsSensorInt {
 	 */
 	@Override
 	protected void setName() {
-		// TODO Auto-generated method stub
+		moName = "int. Stamina Sensor";
 
 	}
 
@@ -120,66 +102,13 @@ public class clsStaminaSensor extends clsSensorInt {
 			clsStaminaSystem oStaminaSystem = ((clsComplexBody)moBody).getInternalSystem().getStaminaSystem();
 
 			mrStaminaValue = oStaminaSystem.getStamina().getContent();
-			mrRecoveryRate = oStaminaSystem.getRecoveryRate();
-			mrLowerBound   = oStaminaSystem.getStamina().getLowerBound();
-			mrUpperBound   = oStaminaSystem.getStamina().getUpperBound();
 		}
 	}
 	
-	/**
-	 * @param mrStaminaValue the mrStaminaValue to set
-	 */
-	public void setStaminaValue(double mrStaminaValue) {
-		this.mrStaminaValue = mrStaminaValue;
-	}
-
 	/**
 	 * @return the mrStaminaValue
 	 */
 	public double getStaminaValue() {
 		return mrStaminaValue;
 	}
-
-	/**
-	 * @param mrRecoveryRate the mrRecoveryRate to set
-	 */
-	public void setRecoveryRate(double mrRecoveryRate) {
-		this.mrRecoveryRate = mrRecoveryRate;
-	}
-
-	/**
-	 * @return the mrRecoveryRate
-	 */
-	public double getRecoveryRate() {
-		return mrRecoveryRate;
-	}
-
-	/**
-	 * @param mrLowerBound the mrLowerBound to set
-	 */
-	public void setLowerBound(double mrLowerBound) {
-		this.mrLowerBound = mrLowerBound;
-	}
-
-	/**
-	 * @return the mrLowerBound
-	 */
-	public double getLowerBound() {
-		return mrLowerBound;
-	}
-
-	/**
-	 * @param mrUpperBound the mrUpperBound to set
-	 */
-	public void setUpperBound(double mrUpperBound) {
-		this.mrUpperBound = mrUpperBound;
-	}
-
-	/**
-	 * @return the mrUpperBound
-	 */
-	public double getUpperBound() {
-		return mrUpperBound;
-	}
-
 }
