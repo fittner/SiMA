@@ -24,7 +24,7 @@ import bw.utils.config.clsBWProperties;
  * 
  */
 public class clsInternalIO extends clsBaseIO{
-	public static final String P_NUMSENSORS = "numintsensors";
+	public static final String P_NUMSENSORS = "numsensors";
 	public static final String P_SENSORTYPE = "sensortype";
 	public static final String P_SENSORACTIVE = "sensoractive";	
 
@@ -98,7 +98,6 @@ public class clsInternalIO extends clsBaseIO{
 				}
 			}
 		}
-		//nothing to do
 	}	
 	
 	/* (non-Javadoc)

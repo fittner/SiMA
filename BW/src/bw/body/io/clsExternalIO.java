@@ -8,8 +8,6 @@
 package bw.body.io;
 
 import java.util.HashMap;
-import java.util.Iterator;
-
 import bw.body.clsBaseBody;
 import bw.body.io.actuators.clsActionProcessor;
 import bw.body.io.actuators.actionExecutors.*;
@@ -28,12 +26,7 @@ import bw.body.io.sensors.external.clsSensorVision;
 import bw.body.io.sensors.external.clsSensorRadiation;
 import bw.entities.clsEntity;
 import bw.entities.clsMobile;
-import bw.utils.container.clsBaseConfig;
-import bw.utils.container.clsConfigBoolean;
-import bw.utils.container.clsConfigEnum;
-import bw.utils.container.clsConfigList;
-import bw.utils.container.clsConfigMap;
-import bw.utils.enums.eConfigEntries;
+import bw.utils.config.clsBWProperties;
 import enums.eSensorExtType;
 
 /**
@@ -58,18 +51,18 @@ import enums.eSensorExtType;
  * 
  */
 public class clsExternalIO extends clsBaseIO {
-
+	public static final String P_NUMSENSORS = "numsensors";
+	public static final String P_SENSORTYPE = "sensortype";
+	public static final String P_SENSORACTIVE = "sensoractive";	
+	
 	private clsActionProcessor moProcessor; 
-	public clsSensorEngine moSensorEngine;
+	public  clsSensorEngine moSensorEngine;
 	public HashMap<eSensorExtType, clsSensorExt> moSensorExternal;
 		
 	public clsEntity moEntity;
-	
-/**
-	 * 
-	 */
-	public clsExternalIO(clsBaseBody poBody, clsEntity poEntity, clsConfigMap poConfig) {
-		super(poBody, clsExternalIO.getFinalConfig(poConfig));
+
+	public clsExternalIO(String poPrefix, clsBWProperties poProp, clsBaseBody poBody, clsEntity poEntity) {
+		super(poPrefix, poProp, poBody);
 		moEntity = poEntity; //the entity for physics engine access
 				
 		moSensorExternal = new HashMap<eSensorExtType, clsSensorExt>();
@@ -87,109 +80,85 @@ public class clsExternalIO extends clsBaseIO {
 			moProcessor.addCommand(clsActionToInventory.class, new clsExecutorToInventory((clsMobile) poEntity));
 		}
 
-		applyConfig();
+		applyProperties(poPrefix, poProp);
 	}
 	
-	private void applyConfig() {
+	public static clsBWProperties getDefaultProperties(String poPrefix) {
+		String pre = clsBWProperties.addDot(poPrefix);
 		
-		//initialization of sensors
-		if ( ((clsConfigBoolean)moConfig.get(eConfigEntries.ACTIVATE)).get() ) {
-			initSensorExternal((clsConfigList)moConfig.get(eConfigEntries.EXTSENSORS), (clsConfigMap)moConfig.get(eConfigEntries.EXTSENSORCONFIG));
-		}
-	}
-
-	private static clsConfigMap getFinalConfig(clsConfigMap poConfig) {
-		clsConfigMap oDefault = getDefaultConfig();
-		oDefault.overwritewith(poConfig);
-		return oDefault;
-	}
-	
-	private static clsConfigMap getDefaultConfig() {
-		clsConfigMap oDefault = new clsConfigMap();
+		clsBWProperties oProp = new clsBWProperties();
 		
-		oDefault.add(eConfigEntries.ACTIVATE, new clsConfigBoolean(true));
+		oProp.setProperty(pre+P_NUMSENSORS, 6);
 		
-		clsConfigList oSensors = new clsConfigList();
-		oSensors.add(new clsConfigEnum<eConfigEntries>(eConfigEntries.ACCELERATION));
-		oSensors.add(new clsConfigEnum<eConfigEntries>(eConfigEntries.BUMP));
-		oSensors.add(new clsConfigEnum<eConfigEntries>(eConfigEntries.VISION));
-		oSensors.add(new clsConfigEnum<eConfigEntries>(eConfigEntries.RADIATION));
-		oSensors.add(new clsConfigEnum<eConfigEntries>(eConfigEntries.EATABLE_AREA));	
-		oSensors.add(new clsConfigEnum<eConfigEntries>(eConfigEntries.POSITIONCHANGE));
-		oDefault.add(eConfigEntries.EXTSENSORS, oSensors);
+		oProp.putAll( clsSensorAcceleration.getDefaultProperties( pre+"0") );
+		oProp.setProperty(pre+"0."+P_SENSORACTIVE, true);
+		oProp.setProperty(pre+"0."+P_SENSORTYPE, eSensorExtType.ACCELERATION.toString());
+				
+		oProp.putAll( clsSensorBump.getDefaultProperties( pre+"1") );
+		oProp.setProperty(pre+"1."+P_SENSORACTIVE, true);
+		oProp.setProperty(pre+"1."+P_SENSORTYPE, eSensorExtType.BUMP.toString());
+				
+		oProp.putAll( clsSensorVision.getDefaultProperties( pre+"2") );
+		oProp.setProperty(pre+"2."+P_SENSORACTIVE, true);
+		oProp.setProperty(pre+"2."+P_SENSORTYPE, eSensorExtType.VISION.toString());
 		
-
-		clsConfigMap oSensorConfigs = new clsConfigMap();
-		clsConfigMap oSC_Temp;
+		oProp.putAll( clsSensorRadiation.getDefaultProperties( pre+"3") );
+		oProp.setProperty(pre+"3."+P_SENSORACTIVE, true);
+		oProp.setProperty(pre+"3."+P_SENSORTYPE, eSensorExtType.RADIATION.toString());
 		
-		oSC_Temp = new clsConfigMap();
-		oSC_Temp.add(eConfigEntries.ACTIVATE, new clsConfigBoolean(true));
-		oSensorConfigs.add(eConfigEntries.ACCELERATION, oSC_Temp);
+		oProp.putAll( clsSensorEatableArea.getDefaultProperties( pre+"4") );
+		oProp.setProperty(pre+"3."+P_SENSORACTIVE, true);
+		oProp.setProperty(pre+"3."+P_SENSORTYPE, eSensorExtType.EATABLE_AREA.toString());
 		
-		oSC_Temp = new clsConfigMap();
-		oSC_Temp.add(eConfigEntries.ACTIVATE, new clsConfigBoolean(true));
-		oSensorConfigs.add(eConfigEntries.BUMP, oSC_Temp);
-
-		oSC_Temp = new clsConfigMap();
-		oSC_Temp.add(eConfigEntries.ACTIVATE, new clsConfigBoolean(true));
-		oSensorConfigs.add(eConfigEntries.VISION, oSC_Temp);
-		
-		oSC_Temp = new clsConfigMap();
-		oSC_Temp.add(eConfigEntries.ACTIVATE, new clsConfigBoolean(true));
-		oSensorConfigs.add(eConfigEntries.RADIATION, oSC_Temp);
-		
-		oSC_Temp = new clsConfigMap();
-		oSC_Temp.add(eConfigEntries.ACTIVATE, new clsConfigBoolean(true));
-		oSensorConfigs.add(eConfigEntries.EATABLE_AREA, oSC_Temp);
-		
-		oSC_Temp = new clsConfigMap();
-		oSC_Temp.add(eConfigEntries.ACTIVATE, new clsConfigBoolean(true));
-		oSensorConfigs.add(eConfigEntries.POSITIONCHANGE, oSC_Temp);
-		
-		oDefault.add(eConfigEntries.EXTSENSORCONFIG, oSensorConfigs);
-		
-		return oDefault;
+		oProp.putAll( clsSensorPositionChange.getDefaultProperties( pre+"5") );
+		oProp.setProperty(pre+"3."+P_SENSORACTIVE, true);
+		oProp.setProperty(pre+"3."+P_SENSORTYPE, eSensorExtType.POSITIONCHANGE.toString());		
+				
+		return oProp;
 	}	
-		
-	@SuppressWarnings("unchecked") // EH: probably unsafe, please refactor
-	private void initSensorExternal(clsConfigList poExternalSensors, clsConfigMap poSensorConfigs) {
-		
-		//moSensorEngine = new clsSensorEngine(moEntity);
-		Iterator<clsBaseConfig> i = poExternalSensors.iterator();
-		
-		while (i.hasNext()) {
-			eConfigEntries eType = (eConfigEntries) ((clsConfigEnum)i.next()).get();
-			clsConfigMap oConfig = (clsConfigMap)poSensorConfigs.get(eType);
-			boolean nActivate = ((clsConfigBoolean)oConfig.get(eConfigEntries.ACTIVATE)).get();
 
-			if (nActivate) {
-				switch (eType) {
-					
-					case ACCELERATION: 
-						moSensorExternal.put(eSensorExtType.ACCELERATION, new clsSensorAcceleration(moEntity, this, oConfig)); 
+	private void applyProperties(String poPrefix, clsBWProperties poProp) {
+		String pre = clsBWProperties.addDot(poPrefix);
+
+		int num = poProp.getPropertyInt(pre+P_NUMSENSORS);
+		for (int i=0; i<num; i++) {
+			String tmp_pre = pre+i+".";
+			
+			boolean nActive = poProp.getPropertyBoolean(tmp_pre+P_SENSORACTIVE);
+			if (nActive) {
+				String oType = poProp.getPropertyString(tmp_pre+P_SENSORTYPE);
+				eSensorExtType eType = eSensorExtType.valueOf(oType);
+				
+				switch(eType) {
+					case ACCELERATION:
+						moSensorExternal.put(eType, new clsSensorAcceleration(tmp_pre, poProp)); 
 						break;
-					case BUMP: 
-						moSensorExternal.put(eSensorExtType.BUMP, new clsSensorBump(moEntity, this, oConfig)); 
+					case BUMP:
+						moSensorExternal.put(eType, new clsSensorBump(tmp_pre, poProp, this, moEntity)); 
 						break;
 					case VISION:
-						moSensorExternal.put(eSensorExtType.VISION, new clsSensorVision(moEntity, this, oConfig)); 
-						//ZEILINGER - integrate SensorEngine - Do we need the registration of eSensorExtType
-//						if(moEntity instanceof clsRemoteBot)
-//							new clsSensorVisionNEW(moEntity, this, oConfig, moSensorEngine);
+						moSensorExternal.put(eType, new clsSensorVision(tmp_pre, poProp, this, moEntity)); 
 						break;
-					case RADIATION: 
-						moSensorExternal.put(eSensorExtType.RADIATION, new clsSensorRadiation(moEntity, this, oConfig)); 
+					case RADIATION:
+						moSensorExternal.put(eType, new clsSensorRadiation(tmp_pre, poProp, this, moEntity)); 
 						break;
-					case EATABLE_AREA: 
-						moSensorExternal.put(eSensorExtType.EATABLE_AREA, new clsSensorEatableArea(moEntity, this, oConfig)); 
+					case EATABLE_AREA:
+						moSensorExternal.put(eType, new clsSensorEatableArea(tmp_pre, poProp, this, moEntity)); 
 						break;
-					case POSITIONCHANGE: 
-						moSensorExternal.put(eSensorExtType.POSITIONCHANGE, new clsSensorPositionChange(moEntity, this, oConfig)); 
-						break;						
+					case POSITIONCHANGE:
+						moSensorExternal.put(eType, new clsSensorPositionChange(tmp_pre, poProp, this, moEntity)); 
+						break;
+						
+					default:
+						throw new java.lang.NoSuchMethodError(eType.toString());
 				}
 			}
 		}
-	}
+
+		
+	}	
+		
+	
 	public clsActionProcessor getActionProcessor() {
 		return moProcessor;
 	}
