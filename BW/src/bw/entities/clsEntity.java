@@ -12,7 +12,6 @@ import sim.physics2D.shape.Shape;
 import ARSsim.physics2D.physicalObject.itfSetupFunctions;
 import ARSsim.physics2D.util.clsPose;
 import bw.utils.config.clsBWProperties;
-import bw.utils.tools.clsContentColumn;
 import enums.eEntityType;
 
 /**
@@ -40,8 +39,8 @@ import enums.eEntityType;
  * 
  */
 public abstract class clsEntity {
-	public static final String P_MASS = "mass";
 	public static final String P_ID = "id";
+	public static final String P_MASS = "mass";
 	
 	protected PhysicalObject2D moPhysicalObject2D;
 	private double mrMass;
@@ -62,7 +61,6 @@ public abstract class clsEntity {
 		String pre = clsBWProperties.addDot(poPrefix);
 
 		clsBWProperties oProp = new clsBWProperties();
-		oProp.putAll( clsContentColumn.getDefaultProperties(pre) );
 		oProp.setProperty(pre+P_MASS, 0.0);
 		
 		return oProp;
