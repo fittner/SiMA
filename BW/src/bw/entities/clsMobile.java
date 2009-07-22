@@ -8,9 +8,9 @@
 package bw.entities;
 
 import enums.eEntityType;
-import bw.utils.container.clsConfigMap;
+import bw.utils.config.clsBWProperties;
 import sim.physics2D.shape.Shape;
-import sim.physics2D.util.Angle;
+import sim.physics2D.util.Double2D;
 import ARSsim.physics2D.physicalObject.clsMobileObject2D;
 import ARSsim.physics2D.util.clsPose;
 
@@ -22,47 +22,72 @@ import ARSsim.physics2D.util.clsPose;
  */
 public abstract class clsMobile extends clsEntity {
 	
+	public static final String P_POS_X = "pos_x";
+	public static final String P_POS_Y = "pos_y";
+	public static final String P_POS_ANGLE = "pos_angle";
+	public static final String P_START_VELOCITY_X = "start_velocity_x";
+	public static final String P_START_VELOCITY_Y = "start_velocity_y";
+	public static final String P_SHAPE = "pos_shape";
+	
+	public static final String P_DEF_COEFF_FRICTION = "def_coeff_friction";
+	public static final String P_DEF_STATIC_FRICTION = "def_static_friction";
+	public static final String P_DEF_RESTITUTION = "def_restitution";
+	
 	private int mnHolders; // number of bubles which picked-up and carry this mobile entity 
-	private double mrDefaultCoeffFriction = 0.5; //0.5
-	private double mrDefaultStaticFriction = 0.2; //0.2
-	private double mrDefaultRestitution = 1.0; //1.0
+	private double mrDefaultCoeffFriction; 	//0.5
+	private double mrDefaultStaticFriction;	//0.2
+	private double mrDefaultRestitution;	//1.0
 
 	protected clsInventory moInventory;
 	
-	public clsMobile(int pnId, clsPose poPose, sim.physics2D.util.Double2D poStartingVelocity, Shape poShape, double prMass,  clsConfigMap poConfig) {
-		super(pnId, clsMobile.getFinalConfig(poConfig));
 
+	public clsMobile(String poPrefix, clsBWProperties poProp, Shape poShape) {
+		super(poPrefix, poProp);
+		
 		setEntityInventory();
-
-		applyConfig();
+		
+		applyProperties(poPrefix, poProp, poShape);
 		
 		mnHolders = 0;
-		
-		if(this.meEntityType.equals(eEntityType.REMOTEBOT)) 
-			initPhysicalObject2D(new clsPose(poPose.getPosition(), new Angle(0d)), poStartingVelocity, poShape, prMass);
-		else
-			initPhysicalObject2D(poPose, poStartingVelocity, poShape, prMass);
 	}
-	
-	private void applyConfig() {
-		//TODO add ...
 
-	}
-	
-	private static clsConfigMap getFinalConfig(clsConfigMap poConfig) {
-		clsConfigMap oDefault = getDefaultConfig();
-		oDefault.overwritewith(poConfig);
-		return oDefault;
-	}
-	
-	private static clsConfigMap getDefaultConfig() {
-		clsConfigMap oDefault = new clsConfigMap();
+
+	public static clsBWProperties getDefaultProperties(String poPrefix) {
+		String pre = clsBWProperties.addDot(poPrefix);
+
+		clsBWProperties oProp = new clsBWProperties();
+
+		oProp.setProperty(pre+P_POS_X, 0.0);
+		oProp.setProperty(pre+P_POS_Y, 0.0);
+		oProp.setProperty(pre+P_POS_ANGLE, 0.0);
+		oProp.setProperty(pre+P_START_VELOCITY_X, 0.0);
+		oProp.setProperty(pre+P_START_VELOCITY_Y, 0.0);
 		
-		//TODO add ...
+		oProp.setProperty(pre+P_DEF_COEFF_FRICTION , 0.5);
+		oProp.setProperty(pre+P_DEF_STATIC_FRICTION , 0.2);
+		oProp.setProperty(pre+P_DEF_RESTITUTION , 1.0);
 		
-		return oDefault;
+		return oProp;
 	}	
 
+	private void applyProperties(String poPrefix, clsBWProperties poProp, Shape poShape) {
+		String pre = clsBWProperties.addDot(poPrefix);
+
+		mrDefaultCoeffFriction = poProp.getPropertyDouble(pre+P_DEF_COEFF_FRICTION);
+		mrDefaultStaticFriction = poProp.getPropertyDouble(pre+P_DEF_STATIC_FRICTION);
+		mrDefaultRestitution = poProp.getPropertyDouble(pre+P_DEF_RESTITUTION);
+		
+		double oPosX = poProp.getPropertyDouble(pre+P_POS_X);
+		double oPosY = poProp.getPropertyDouble(pre+P_POS_Y);
+		double oPosAngle = poProp.getPropertyDouble(pre+P_POS_ANGLE);
+		Double2D oVelocity = new Double2D(  poProp.getPropertyDouble(pre+P_START_VELOCITY_X), 
+											poProp.getPropertyDouble(pre+P_START_VELOCITY_Y) );
+		
+		if(this.meEntityType.equals(eEntityType.REMOTEBOT)) 
+			initPhysicalObject2D(new clsPose(oPosX, oPosY, 0), oVelocity, poShape, getMass());
+		else
+			initPhysicalObject2D(new clsPose(oPosX, oPosY, oPosAngle), oVelocity, poShape, getMass());
+	}	
 
 	/*
 	 * Override to configure inventory-size
