@@ -9,11 +9,7 @@
 package bw.body;
 
 import bw.body.internalSystems.clsFlesh;
-import bw.entities.clsEntity;
-import bw.utils.container.clsConfigBoolean;
-import bw.utils.container.clsConfigDouble;
-import bw.utils.container.clsConfigMap;
-import bw.utils.enums.eConfigEntries;
+import bw.utils.config.clsBWProperties;
 
 /**
  * TODO (deutsch) - insert description 
@@ -23,68 +19,36 @@ import bw.utils.enums.eConfigEntries;
  * 
  */
 public class clsMeatBody extends clsBaseBody {
+	public static final String P_REGROWRATE = "regrowrate";
+	public static final String P_MAXWEIGHT  = "maxweight";
+	
 	private clsFlesh moFlesh;
 	private double mrRegrowRate;
 	private double mrMaxWeight;
 
-	/**
-	 * TODO (deutsch) - insert description 
-	 * 
-	 * @author deutsch
-	 * 12.05.2009, 17:11:58
-	 *
-	 * @param poEntity
-	 * @param poConfig
-	 */
-	public clsMeatBody(clsEntity poEntity, clsConfigMap poConfig) {
-		super(poEntity, getFinalConfig(poConfig));
-		applyConfig();
-	
-		moFlesh = new clsFlesh((clsConfigMap) moConfig.get(eConfigEntries.INTSYS_FLESH));
+	public clsMeatBody(String poPrefix, clsBWProperties poProp) {
+		super(poPrefix, poProp);
+		applyProperties(poPrefix, poProp);
 	}
 
-	private void applyConfig() {
+	public static clsBWProperties getDefaultProperties(String poPrefix) {
+		String pre = clsBWProperties.addDot(poPrefix);
 		
-		clsConfigMap oFleshConfig = (clsConfigMap) moConfig.get(eConfigEntries.INTSYS_FLESH);
-		mrRegrowRate = ((clsConfigDouble)oFleshConfig.get(eConfigEntries.INCREASERATE)).get();
-		mrMaxWeight  = ((clsConfigDouble)oFleshConfig.get(eConfigEntries.MAXCONTENT)).get();
-	}
-	
-	private static clsConfigMap getFinalConfig(clsConfigMap poConfig) {
-		clsConfigMap oDefault = getDefaultConfig();
-		oDefault.overwritewith(poConfig);
-		return oDefault;
-	}
-	
-	private static clsConfigMap getDefaultConfig() {
-		clsConfigMap oDefault = new clsConfigMap();
+		clsBWProperties oProp = new clsBWProperties();
 		
-		clsConfigMap oExt = new clsConfigMap();
-		oExt.add(eConfigEntries.ACTIVATE, new clsConfigBoolean(false));	
-		oDefault.add(eConfigEntries.EXTERNAL_IO, oExt);
-		oDefault.add(eConfigEntries.INTERNAL_IO, oExt);
+		oProp.putAll( clsFlesh.getDefaultProperties(pre) );
+		oProp.setProperty(pre+P_REGROWRATE, 0);
+		oProp.setProperty(pre+P_MAXWEIGHT, java.lang.Double.MAX_VALUE);
+				
+		return oProp;
+	}	
 
+	private void applyProperties(String poPrefix, clsBWProperties poProp) {
+		String pre = clsBWProperties.addDot(poPrefix);
 
-		clsConfigMap oFlesh = new clsConfigMap();		
-		
-		clsConfigMap oNutritions = new clsConfigMap();
-		
-		oNutritions.add(eConfigEntries.FAT, new clsConfigDouble(1.0f));
-		oNutritions.add(eConfigEntries.PROTEIN, new clsConfigDouble(1.0f));
-		oNutritions.add(eConfigEntries.VITAMIN, new clsConfigDouble(1.0f));
-		oNutritions.add(eConfigEntries.CARBOHYDRATE, new clsConfigDouble(1.0f));
-		oNutritions.add(eConfigEntries.WATER, new clsConfigDouble(1.0f));
-		oNutritions.add(eConfigEntries.MINERAL, new clsConfigDouble(1.0f));
-		oNutritions.add(eConfigEntries.TRACEELEMENT, new clsConfigDouble(1.0f));
-		
-		oFlesh.add(eConfigEntries.NUTRITIONS, oNutritions);
-		oFlesh.add(eConfigEntries.CONTENT, new clsConfigDouble(10.0f));
-		oFlesh.add(eConfigEntries.MAXCONTENT, new clsConfigDouble(20.0f));
-		oFlesh.add(eConfigEntries.INCREASERATE, new clsConfigDouble(0.01f));
-		
-		oDefault.add(eConfigEntries.INTSYS_FLESH, oFlesh);
-		
-		return oDefault;
+		moFlesh = new clsFlesh(pre, poProp);
+		mrRegrowRate = poProp.getPropertyDouble(pre+P_REGROWRATE);
+		mrMaxWeight = poProp.getPropertyDouble(pre+P_MAXWEIGHT);
 	}	
 		
 	/* (non-Javadoc)

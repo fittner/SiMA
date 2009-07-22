@@ -11,8 +11,7 @@ package bw.body;
 import bw.body.brainsocket.clsBrainSocket;
 import bw.body.io.clsExternalIO;
 import bw.body.io.clsInternalIO;
-import bw.entities.clsEntity;
-import bw.utils.container.clsConfigMap;
+import bw.utils.config.clsBWProperties;
 
 /**
  * TODO (deutsch) - insert description 
@@ -26,34 +25,30 @@ public abstract class clsBaseBody implements itfStepSensing, itfStepUpdateIntern
     protected clsExternalIO moExternalIO;
     protected clsInternalIO moInternalIO;
 	
-	protected clsConfigMap moConfig;
-	
-	public clsBaseBody(clsEntity poEntity, clsConfigMap poConfig){
-		moConfig = getFinalConfig(poConfig);
-		applyConfig();
+	public clsBaseBody(String poPrefix, clsBWProperties poProp) {
+		applyProperties(poPrefix, poProp);
 		
 		moBrain = null;
 		moExternalIO = null;
-		moInternalIO = null;
+		moInternalIO = null;		
+	}
+
+	public static clsBWProperties getDefaultProperties(String poPrefix) {
+		//String pre = clsBWProperties.addDot(poPrefix);
 		
-	}
-	
-	private void applyConfig() {
-		//TODO add code ...
-	}
-	
-	private static clsConfigMap getFinalConfig(clsConfigMap poConfig) {
-		clsConfigMap oDefault = getDefaultConfig();
-		oDefault.overwritewith(poConfig);
-		return oDefault;
-	}
-	
-	private static clsConfigMap getDefaultConfig() {
-		clsConfigMap oDefault = new clsConfigMap();
-
-
-		return oDefault;
+		clsBWProperties oProp = new clsBWProperties();
+		
+		// nothing to do
+				
+		return oProp;
 	}	
+
+	private void applyProperties(String poPrefix, clsBWProperties poProp) {
+		//String pre = clsBWProperties.addDot(poPrefix);
+
+		//nothing to do ...
+	}	
+	
 	
 	/**
 	 * @return the moExternalIO

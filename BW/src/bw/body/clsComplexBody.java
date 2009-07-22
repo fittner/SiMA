@@ -9,6 +9,7 @@ package bw.body;
 
 import bw.body.brainsocket.clsBrainSocket;
 import bw.body.interBodyWorldSystems.clsInterBodyWorldSystem;
+import bw.body.internalSystems.clsFlesh;
 import bw.body.internalSystems.clsInternalEnergyConsumption;
 import bw.body.internalSystems.clsInternalSystem;
 import bw.body.intraBodySystems.clsIntraBodySystem;
@@ -16,8 +17,8 @@ import bw.body.io.clsExternalIO;
 import bw.body.io.clsInternalIO;
 import bw.body.itfget.itfGetInternalEnergyConsumption;
 import bw.entities.clsEntity;
-import bw.utils.container.clsConfigMap;
-import bw.utils.enums.eConfigEntries;
+import bw.utils.config.clsBWProperties;
+
 
 /**
  * The agent body is the basic container for each entity the body needs: 
@@ -28,54 +29,42 @@ import bw.utils.enums.eConfigEntries;
  * 
  */
 public class clsComplexBody extends clsBaseBody implements itfGetInternalEnergyConsumption {
+	public static final String P_INTERNAL = "internal";
+	public static final String P_INTRABODY = "intrabody";
+	public static final String P_BODYWORLD = "bodyworld";
 	
     private clsInternalSystem moInternalSystem;
     private clsIntraBodySystem moIntraBodySystem;
     private clsInterBodyWorldSystem moInterBodyWorldSystem;
        
-	/**
-	 * CTOR
-	 */
-	public clsComplexBody(clsEntity poEntity, clsConfigMap poConfig)  {
-		super(poEntity, getFinalConfig(poConfig));	
-		applyConfig();		
-		
-		moInternalSystem = new clsInternalSystem((clsConfigMap) moConfig.get(eConfigEntries.INTSYS));
-		moIntraBodySystem = new clsIntraBodySystem(moInternalSystem, (clsConfigMap) moConfig.get(eConfigEntries.INTRA));
-		moInterBodyWorldSystem = new clsInterBodyWorldSystem(moInternalSystem, (clsConfigMap) moConfig.get(eConfigEntries.INTER));
+    public clsComplexBody(String poPrefix, clsBWProperties poProp, clsEntity poEntity) {
+		super(poPrefix, poProp);
+		applyProperties(poPrefix, poProp);
 		
 		moExternalIO = new clsExternalIO(this, poEntity, (clsConfigMap)moConfig.get(eConfigEntries.EXTERNAL_IO));
-		
 		moInternalIO = new clsInternalIO(this, (clsConfigMap)moConfig.get(eConfigEntries.INTERNAL_IO) );
-		   
 		moBrain = new clsBrainSocket(moExternalIO.moSensorExternal, moInternalIO.moSensorInternal, moExternalIO.getActionProcessor(), (clsConfigMap) moConfig.get(eConfigEntries.BRAIN));		
+	}
+
+	public static clsBWProperties getDefaultProperties(String poPrefix) {
+		String pre = clsBWProperties.addDot(poPrefix);
 		
-	}
-
-	private void applyConfig() {
-		//TODO add code ...
-	}
-	
-	private static clsConfigMap getFinalConfig(clsConfigMap poConfig) {
-		clsConfigMap oDefault = getDefaultConfig();
-		oDefault.overwritewith(poConfig);
-		return oDefault;
-	}
-	
-	private static clsConfigMap getDefaultConfig() {
-		clsConfigMap oDefault = new clsConfigMap();
-
-		oDefault.add(eConfigEntries.INTSYS, null);
-		oDefault.add(eConfigEntries.INTRA, null);
-		oDefault.add(eConfigEntries.INTER, null);
-
-		oDefault.add(eConfigEntries.EXTERNAL_IO, null);
-		oDefault.add(eConfigEntries.INTERNAL_IO, null);
-		oDefault.add(eConfigEntries.BRAIN, null);
-
-		return oDefault;
+		clsBWProperties oProp = new clsBWProperties();
+		
+		oProp.putAll( clsInternalSystem.getDefaultProperties(pre+P_INTERNAL) );
+		oProp.putAll( clsIntraBodySystem.getDefaultProperties(pre+P_INTRABODY) );
+		oProp.putAll( clsInterBodyWorldSystem.getDefaultProperties(pre+P_BODYWORLD) );
+				
+		return oProp;
 	}	
-	
+
+	private void applyProperties(String poPrefix, clsBWProperties poProp) {
+		String pre = clsBWProperties.addDot(poPrefix);
+
+		moInternalSystem = new clsInternalSystem(pre+P_INTERNAL, poProp);
+		moIntraBodySystem = new clsIntraBodySystem(pre+P_INTRABODY, poProp, moInternalSystem);
+		moInterBodyWorldSystem = new clsInterBodyWorldSystem(pre+P_BODYWORLD, poProp, moInternalSystem);
+	}		
 
 	/**
 	 * @return the moInternalStates
