@@ -14,20 +14,47 @@ import bw.factories.clsSingletonMasonGetter;
 import ec.util.MersenneTwisterFast;
 
 /**
- * usage: 
- * 		$L34.55;99.0  				// L ... linear distribution // lower bound // upper bound
- * 		$G1.0;20.0					// G ... gaussian distribution // mean // std
- *      $BG1.0;20.0;-10.0;100.0     // BG ... bounded gaussian distribution // mean // std // lower bound // upper bound
+ * random number generator for property files. 
+ * 
+ * each time the value of some.key is read, a new random value is returned. four different types of random number generators are available: linear, gaussian, gaussian tail, and bounded gaussian.
+ * 
  * 
  * @author deutsch
  * 15.07.2009, 15:44:38
  * 
  */
 public class clsRandomProperties {
+	/**
+	 * the string poParams is returned without poIdentifier at its start
+	 *
+	 * @author deutsch
+	 * 22.07.2009, 09:40:35
+	 *
+	 * @param poParams
+	 * @param poIdentifier
+	 * @return
+	 */
 	private static String removeIdentifier(String poParams, String poIdentifier) {
 		return poParams.substring(poIdentifier.length());
 	}
 	
+	/**
+	 * converts a property string to a matching random value.
+	 *
+	 * usage: 
+	 * 		$L34.55;99.0  				// L ... linear distribution // lower bound // upper bound
+	 * 		$G1.0;20.0					// G ... gaussian distribution // mean // std
+	 *      $BG1.0;20.0;-10.0;100.0     // BG ... bounded gaussian distribution // mean // std // lower bound // upper bound
+	 *      $TG1.0;20.0					// TG ... gaussian tail distribution // mean // std
+	 *      
+	 * @author deutsch
+	 * 22.07.2009, 09:41:30
+	 *
+	 * @param poParams
+	 * @return
+	 * @throws java.lang.UnsupportedOperationException
+	 * @throws java.lang.NullPointerException
+	 */
 	public static double getRandom(String poParams) throws java.lang.UnsupportedOperationException, java.lang.NullPointerException {
 		abstract class RandomGenerator {
 			protected String[] oParams;
