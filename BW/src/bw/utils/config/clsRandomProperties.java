@@ -8,8 +8,10 @@
  */
 package bw.utils.config;
 
-import ec.util.MersenneTwisterFast;
+import java.util.Random;
+
 import bw.factories.clsSingletonMasonGetter;
+import ec.util.MersenneTwisterFast;
 
 /**
  * usage: 
@@ -26,13 +28,22 @@ public class clsRandomProperties {
 		return poParams.substring(poIdentifier.length());
 	}
 	
-	public static double getRandom(String poParams) {
+	public static double getRandom(String poParams) throws java.lang.UnsupportedOperationException, java.lang.NullPointerException {
 		abstract class RandomGenerator {
 			protected String[] oParams;
-			protected MersenneTwisterFast moRandom;
+			protected MersenneTwisterFast moRandomTwister;
+			protected Random moRandomJava;
 			
 			public RandomGenerator(String poParams) {
-				moRandom = clsSingletonMasonGetter.getSimState().random;		
+				moRandomTwister = null;
+				moRandomJava = null;
+				
+				try {
+					moRandomTwister = clsSingletonMasonGetter.getSimState().random;
+				} catch (java.lang.NullPointerException e) {
+					moRandomJava = new Random();
+				}
+				
 				oParams = poParams.split(";");
 			}
 			
@@ -40,7 +51,7 @@ public class clsRandomProperties {
 		}
 		
 		class LinearRandom extends RandomGenerator {
-			public static final String P_IDENTIFIER = "L";
+			public static final String P_IDENTIFIER = "L"; // important: should be unique 
 			protected double mrFrom;
 			protected double mrTo;
 			
@@ -53,14 +64,21 @@ public class clsRandomProperties {
 
 			@Override
 			public double getValue() {
-				double r = moRandom.nextDouble();
+				double r = 0;
+				
+				if (moRandomTwister != null) {
+					r = moRandomTwister.nextDouble();
+				} else {
+				    r = moRandomJava.nextDouble();
+				}
+				
 				r = mrFrom + r*(mrTo-mrFrom);
 				return r;
 			}
 		}
 		
 		class GaussianRandom extends RandomGenerator {
-			public static final String P_IDENTIFIER = "G";
+			public static final String P_IDENTIFIER = "G"; // important: should be unique 
 			protected double mrMean;
 			protected double mrSigma;
 			
@@ -73,14 +91,21 @@ public class clsRandomProperties {
 
 			@Override
 			public double getValue() {
-				double r = moRandom.nextDouble();
+				double r = 0;
+				
+				if (moRandomTwister != null) {
+					r = moRandomTwister.nextGaussian();
+				} else {
+				    r = moRandomJava.nextGaussian();
+				}				
+
 				r = mrMean + r*mrSigma;
 				return r;
 			}
 		}	
 		
 		class BoundedGaussianRandom extends GaussianRandom {
-			public static final String P_IDENTIFIER = "BG";
+			public static final String P_IDENTIFIER = "BG"; // important: should be unique e.g. "GB" would lead to never calling bounded gaussian due to the fact that gaussian has "G" as identifier!
 			protected double mrLowerBound;
 			protected double mrUpperBound;			
 			
@@ -102,6 +127,30 @@ public class clsRandomProperties {
 			}
 		}
 		
+		class GaussianTailRandom extends GaussianRandom {
+			public static final String P_IDENTIFIER = "TG"; // important: should be unique e.g. "GT" would lead to never calling bounded gaussian due to the fact that gaussian has "G" as identifier!
+			
+			public GaussianTailRandom(String poParams) {
+				super(poParams);
+			}
+			
+			@Override
+			public double getValue() {
+				double r = 0;
+				
+				if (moRandomTwister != null) {
+					r = moRandomTwister.nextGaussian();
+				} else {
+				    r = moRandomJava.nextGaussian();
+				}			
+				
+				r = Math.abs(r);
+
+				r = mrMean + r*mrSigma;
+				return r;
+			}
+		}
+		
 		double result = 0.0;
 		RandomGenerator oRandom = null;
 		
@@ -111,12 +160,19 @@ public class clsRandomProperties {
 			oRandom = new GaussianRandom( clsRandomProperties.removeIdentifier(poParams, GaussianRandom.P_IDENTIFIER) );
 		} else if (poParams.startsWith(BoundedGaussianRandom.P_IDENTIFIER)) {
 			oRandom = new BoundedGaussianRandom( clsRandomProperties.removeIdentifier(poParams, BoundedGaussianRandom.P_IDENTIFIER) );
-		}  
+		} else if (poParams.startsWith(GaussianTailRandom.P_IDENTIFIER)) {
+			oRandom = new GaussianTailRandom( clsRandomProperties.removeIdentifier(poParams, GaussianTailRandom.P_IDENTIFIER) );
+		} else {
+			throw new java.lang.UnsupportedOperationException();
+		}
 		
 		if (oRandom != null) {
 			result = oRandom.getValue();
+		} else {
+			throw new java.lang.NullPointerException();
 		}
 		
 		return result;
 	}
+	
 }
