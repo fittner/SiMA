@@ -10,6 +10,7 @@ package bw.utils.tools;
 import bw.exceptions.exContentColumnMaxContentExceeded;
 import bw.exceptions.exContentColumnMinContentUnderrun;
 import bw.exceptions.exValueNotWithinRange;
+import bw.utils.config.clsBWProperties;
 
 /**
  * TODO (deutsch) - insert description 
@@ -18,26 +19,16 @@ import bw.exceptions.exValueNotWithinRange;
  * 
  */
 public class clsDecayColumn extends clsContentColumn {
-	/**
-	 * 
-	 */
+	public static final String P_INCREASERATE = "increaserate";
+	public static final String P_DECAYRATE = "decayrate";
+	public static final String P_INJECTIONVALUE = "injectionvalue";
+
 	private double mrIncreaseRate;
-	/**
-	 * 
-	 */
 	private double mrDecayRate;
-	/**
-	 * 
-	 */
-	private double mrInjectionValue;	
-	/**
-	 * 
-	 */
+	private double mrInjectionValue;
+	
 	private boolean mnIsZero;
-	/**
-	 * 
-	 */
-	private double mrZeroDelta;
+	private static final double mrZeroDelta = 0.0001f;
 	
 	/**
 	 * @throws exContentColumnMinContentUnderrun 
@@ -46,14 +37,51 @@ public class clsDecayColumn extends clsContentColumn {
 	 * 
 	 */
 	public clsDecayColumn() throws exContentColumnMaxContentExceeded, exContentColumnMinContentUnderrun, exValueNotWithinRange {
-		super(0.0f, 1.0f);
+		super(0.0, 1.0);
 		
-		this.setIncreaseRate(0.1f);
-		this.setDecayRate(0.01f);
+		this.setIncreaseRate(0.1);
+		this.setDecayRate(0.01);
 		
-		mrInjectionValue = 0.0f;
+		mrInjectionValue = 0.0;
 		mnIsZero = false;
-		mrZeroDelta = 0.0001f;
+		
+		checkZero();
+	}
+	
+	
+	public clsDecayColumn(String poPrefix, clsBWProperties poProp) throws exValueNotWithinRange {
+		super(poPrefix, poProp);
+		applyProperties(poPrefix, poProp);
+		checkZero();
+	}
+
+	public static clsBWProperties getDefaultProperties(String poPrefix) {
+		String pre = poPrefix;
+		if (pre.length()>0) {
+			pre = pre+".";
+		}
+		
+		clsBWProperties oProp = new clsBWProperties();
+		
+		oProp.putAll( clsContentColumn.getDefaultProperties(pre) );
+		
+		oProp.setProperty(pre+P_INCREASERATE, 0.1);
+		oProp.setProperty(pre+P_DECAYRATE,  0.1);		
+		oProp.setProperty(pre+P_INJECTIONVALUE, 0);
+		
+		return oProp;
+	}	
+
+	private void applyProperties(String poPrefix, clsBWProperties poProp) throws exValueNotWithinRange {
+		String pre = poPrefix;
+		if (pre.length()>0) {
+			pre = pre+".";
+		}
+		
+		this.setIncreaseRate(poProp.getPropertyDouble(pre+P_INCREASERATE));
+		this.setDecayRate(poProp.getPropertyDouble(pre+P_DECAYRATE));
+		
+		mrInjectionValue = poProp.getPropertyDouble(pre+P_INJECTIONVALUE);		
 	}
 	
 	/**
@@ -64,14 +92,15 @@ public class clsDecayColumn extends clsContentColumn {
 	 * @throws exValueNotWithinRange 
 	 */
 	public clsDecayColumn(double prIncreaseRate, double prDecayRate) throws exContentColumnMaxContentExceeded, exContentColumnMinContentUnderrun, exValueNotWithinRange {
-		super(0.0f, 1.0f);
+		super(0.0, 1.0);
 
 		this.setIncreaseRate(prIncreaseRate);
 		this.setDecayRate(prDecayRate);
 		
-		mrInjectionValue = 0.0f;
+		mrInjectionValue = 0.0;
 		mnIsZero = false;
-		mrZeroDelta = 0.0001f;
+		
+		checkZero();
 	}
 
 	/**
@@ -89,9 +118,10 @@ public class clsDecayColumn extends clsContentColumn {
 		this.setIncreaseRate(prIncreaseRate);
 		this.setDecayRate(prDecayRate);
 		
-		mrInjectionValue = 0.0f;
+		mrInjectionValue = 0.0;
 		mnIsZero = false;		
-		mrZeroDelta = 0.0001f;
+		
+		checkZero();
 	}
 	
 	/**
@@ -100,19 +130,6 @@ public class clsDecayColumn extends clsContentColumn {
 	public double getZeroDelta() {
 		return mrZeroDelta;
 	}
-	
-
-	/**
-	 * @param mrZeroDelta the mrZeroDelta to set
-	 * @throws exValueNotWithinRange 
-	 */
-	public void setZeroDelta(double prZeroDelta) throws exValueNotWithinRange {
-		if (prZeroDelta < 0.0f || prZeroDelta > 0.1f) {
-			throw new bw.exceptions.exValueNotWithinRange(0.0f, prZeroDelta, 1.0f);			
-		}		
-		this.mrZeroDelta = prZeroDelta;
-	}
-	
 
 	/**
 	 * @return the mnIsZero

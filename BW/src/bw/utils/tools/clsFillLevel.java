@@ -7,6 +7,8 @@
  */
 package bw.utils.tools;
 
+import bw.utils.config.clsBWProperties;
+
 /**
  * Extends the content column by two concepts: 1. dividing the column into three parts (low, normal, high);  
  * 2. it allows to predefine a value (mrChange) which will be added to the content each call of update()
@@ -15,6 +17,9 @@ package bw.utils.tools;
  * 
  */
 public class clsFillLevel extends clsContentColumn {
+	public static final String P_LOWERBOUND = "lowerbound";
+	public static final String P_UPPERBOUND = "upperbound";
+	public static final String P_CHANGE = "change";
 
 	private double mrLowerBound;
 	private double mrUpperBound;
@@ -30,6 +35,39 @@ public class clsFillLevel extends clsContentColumn {
 		mrChange = 0.0;
 		
 		checkBounds();		
+	}
+	
+	public clsFillLevel(String poPrefix, clsBWProperties poProp) {
+		super(poPrefix, poProp);
+		applyProperties(poPrefix, poProp);
+	}
+
+	public static clsBWProperties getDefaultProperties(String poPrefix) {
+		String pre = poPrefix;
+		if (pre.length()>0) {
+			pre = pre+".";
+		}
+		
+		clsBWProperties oProp = new clsBWProperties();
+		
+		oProp.putAll( clsContentColumn.getDefaultProperties(pre) );
+		
+		oProp.setProperty(pre+P_LOWERBOUND, java.lang.Double.MAX_VALUE/3 );
+		oProp.setProperty(pre+P_UPPERBOUND, (java.lang.Double.MAX_VALUE/3)*2 );		
+		oProp.setProperty(pre+P_CHANGE, 0);
+		
+		return oProp;
+	}	
+
+	private void applyProperties(String poPrefix, clsBWProperties poProp) {
+		String pre = poPrefix;
+		if (pre.length()>0) {
+			pre = pre+".";
+		}
+		
+		mrLowerBound = poProp.getPropertyDouble(pre+P_LOWERBOUND);
+		mrUpperBound = poProp.getPropertyDouble(pre+P_UPPERBOUND);		
+		mrChange = poProp.getPropertyDouble(pre+P_CHANGE);		
 	}
 	
 	/**

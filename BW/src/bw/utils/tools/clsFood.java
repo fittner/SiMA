@@ -12,7 +12,9 @@ import java.util.Iterator;
 
 import bw.exceptions.exFoodAlreadyNormalized;
 import bw.exceptions.exFoodNotFinalized;
+import bw.utils.config.clsBWProperties;
 import bw.utils.datatypes.clsMutableDouble;
+import bw.utils.enums.eNutritions;
 
 /**
  * Food describes a piece of junk that can be transferred from one agent to the other (e.g. plant to bubble). It is
@@ -24,28 +26,100 @@ import bw.utils.datatypes.clsMutableDouble;
  * 
  */
 public class clsFood {
-	private HashMap<Integer, clsMutableDouble> moComposition;
-	private double mrAmount;
+	public static final String P_WEIGHT = "weight";
+	public static final String P_NUMNUTRITIONS = "numnutritions";
+	public static final String P_NUTRITIONTYPE = "type";
+	public static final String P_NUTRITIONFRACTION = "fraction";
+	
+	private HashMap<eNutritions, clsMutableDouble> moComposition;
+	private double mrWeight;
 	private boolean mnFinalized;
 	
 	/**
 	 * 
 	 */
 	public clsFood() {
-		moComposition = new HashMap<Integer, clsMutableDouble>();
-		mrAmount = 0.0f;
+		moComposition = new HashMap<eNutritions, clsMutableDouble>();
+		mrWeight = 0.0f;
 		mnFinalized = false;
 	}
 	
-	public clsFood(clsFood poFood) {
-		mrAmount = poFood.mrAmount;
-		mnFinalized = poFood.mnFinalized;
-		moComposition = new HashMap<Integer, clsMutableDouble>(); //Added by BD
+	
+	public clsFood(String poPrefix, clsBWProperties poProp) {
+		moComposition = new HashMap<eNutritions, clsMutableDouble>();
+		mrWeight = 0.0f;
+		mnFinalized = false;
 		
-		Iterator<Integer> i = poFood.moComposition.keySet().iterator();
+		applyProperties(poPrefix, poProp);
+	}
+
+	public static clsBWProperties getDefaultProperties(String poPrefix) {
+		String pre = poPrefix;
+		if (pre.length()>0) {
+			pre = pre+".";
+		}
+		
+		clsBWProperties oProp = new clsBWProperties();
+		
+		oProp.setProperty(pre+P_WEIGHT, 5.0 );
+		oProp.setProperty(pre+P_NUMNUTRITIONS, 6 );
+		oProp.setProperty(pre+"0"+P_NUTRITIONTYPE, eNutritions.PROTEIN.toString());
+		oProp.setProperty(pre+"0"+P_NUTRITIONFRACTION, 0.1);
+
+		oProp.setProperty(pre+"1"+P_NUTRITIONTYPE, eNutritions.FAT.toString());
+		oProp.setProperty(pre+"1"+P_NUTRITIONFRACTION, 1.0);
+
+		oProp.setProperty(pre+"2"+P_NUTRITIONTYPE, eNutritions.VITAMIN.toString());
+		oProp.setProperty(pre+"2"+P_NUTRITIONFRACTION, 0.1);
+
+		oProp.setProperty(pre+"3"+P_NUTRITIONTYPE, eNutritions.CARBOHYDRATE.toString());
+		oProp.setProperty(pre+"3"+P_NUTRITIONFRACTION, 1.0);
+
+		oProp.setProperty(pre+"4"+P_NUTRITIONTYPE, eNutritions.WATER.toString());
+		oProp.setProperty(pre+"4"+P_NUTRITIONFRACTION, 2.0);
+
+		oProp.setProperty(pre+"5"+P_NUTRITIONTYPE, eNutritions.UNDIGESTABLE.toString());
+		oProp.setProperty(pre+"5"+P_NUTRITIONFRACTION, 0.8);
+				
+		return oProp;
+	}	
+
+	private void applyProperties(String poPrefix, clsBWProperties poProp) {
+		String pre = poPrefix;
+		if (pre.length()>0) {
+			pre = pre+".";
+		}
+		
+		mrWeight = poProp.getPropertyDouble(pre+P_WEIGHT);
+		
+		int num = poProp.getPropertyInt(pre+P_NUMNUTRITIONS);
+		for (int i=0; i<num; i++) {
+			String oNutType = poProp.getPropertyString(pre+new Integer(i).toString()+P_NUTRITIONTYPE);
+			eNutritions nNutType = eNutritions.valueOf(oNutType);
+			double fFraction = poProp.getPropertyDouble(pre+new Integer(i).toString()+P_NUTRITIONFRACTION);
+			try {
+				addNutritionFraction(nNutType, new clsMutableDouble(fFraction));
+			} catch (exFoodAlreadyNormalized e) {
+				//unreachable - hopefully - mnFinalized is set to false in this function ...
+			}
+		}
+		
+		try {
+			finalize();
+		} catch (exFoodAlreadyNormalized e) {
+			//unreachable - hopefully - mnFinalized is set to false in this function ...
+		}
+	}	
+	
+	public clsFood(clsFood poFood) {
+		mrWeight = poFood.mrWeight;
+		mnFinalized = poFood.mnFinalized;
+		moComposition = new HashMap<eNutritions, clsMutableDouble>(); //Added by BD
+		
+		Iterator<eNutritions> i = poFood.moComposition.keySet().iterator();
 		
 		while (i.hasNext()) {
-			Integer oKey = i.next();
+			eNutritions oKey = i.next();
 			clsMutableDouble oValue = new clsMutableDouble(poFood.moComposition.get(oKey));
 			moComposition.put(oKey, oValue);
 		}
@@ -54,84 +128,73 @@ public class clsFood {
 	/**
 	 * set the weight of the food piece (0.0 <= x < FLOATMAX).
 	 *
-	 * @param prAmount
-	 * @throws bw.exceptions.exFoodAmountBelowZero 
+	 * @param prWeight
+	 * @throws bw.exceptions.exFoodWeightBelowZero 
 	 */
-	public void setAmount(double prAmount) throws bw.exceptions.exFoodAmountBelowZero {
-		mrAmount = prAmount;
+	public void setWeight(double prWeight) throws bw.exceptions.exFoodWeightBelowZero {
+		mrWeight = prWeight;
 		
-		if (mrAmount < 0.0f) {
-			mrAmount = 0.0f;
+		if (mrWeight < 0.0f) {
+			mrWeight = 0.0f;
 			
-			throw new bw.exceptions.exFoodAmountBelowZero();
+			throw new bw.exceptions.exFoodWeightBelowZero();
 		}
 	}
 	
 	/**
 	 * returns the weight of the food piece
 	 *
-	 * @return the mrAmount
+	 * @return the mrWeight
 	 */
-	public double getAmount() {
-		return mrAmount;
-	}
-	
-	/**
-	 * Returns the total weight of a certain nutrition within this piece of food.
-	 *
-	 * @param pnNutritionId
-	 * @return mrAmount * mrNutritionFraction
-	 * @throws exFoodNotFinalized 
-	 */
-	public double getNutritionAmount(int pnNutritionId) throws exFoodNotFinalized {
-		return getNutritionAmount(new Integer(pnNutritionId));
+	public double getWeight() {
+		return mrWeight;
 	}
 	
 	/**
 	 * Returns the total weight of a certain nutrition within this piece of food.
 	 * 
 	 * @param poNutritionId
-	 * @return mrAmount * mrNutritionFraction
+	 * @return mrWeight * mrNutritionFraction
 	 * @throws exFoodNotFinalized 
 	 */
-	public double getNutritionAmount(Integer poNutritionId) throws bw.exceptions.exFoodNotFinalized {
+	public double getNutritionWeight(eNutritions poNutritionId) throws bw.exceptions.exFoodNotFinalized {
 		if (!mnFinalized) {
 			throw new bw.exceptions.exFoodNotFinalized();
 		}
 		
 		double rValue = moComposition.get(poNutritionId).doubleValue();
-		double rTemp = mrAmount * rValue;
+		double rTemp = mrWeight * rValue;
 		return rTemp;
 		
-//		return mrAmount * moComposition.get(poNutritionId).floatValue();
+//		return mrWeight * moComposition.get(poNutritionId).floatValue();
 	}
 	
 	/**
-	 * Similar to getNutritionAmount - only this time, the function returns a HashMap containting all
+	 * Similar to getNutritionWeight - only this time, the function returns a HashMap containting all
 	 * total weights of all nutritions within this type of food.
 	 *
 	 * @return the HashMap<Integer, clsMutableFloat>
 	 * @throws bw.exceptions.exFoodNotFinalized
 	 */
-	public HashMap<Integer, clsMutableDouble> getNutritionAmounts() throws bw.exceptions.exFoodNotFinalized {
+	public HashMap<eNutritions, clsMutableDouble> getNutritionWeights() throws bw.exceptions.exFoodNotFinalized {
 		if (!mnFinalized) {
 			throw new bw.exceptions.exFoodNotFinalized();
 		}
 		
-		HashMap<Integer, clsMutableDouble> oComposition = new HashMap<Integer, clsMutableDouble>();
+		HashMap<eNutritions, clsMutableDouble> oComposition = new HashMap<eNutritions, clsMutableDouble>();
 		
-		Iterator<Integer> i =  moComposition.keySet().iterator();
+		Iterator<eNutritions> i =  moComposition.keySet().iterator();
 		while (i.hasNext()) {
-			Integer oKey = (Integer) i.next();
+			eNutritions oKey = (eNutritions) i.next();
 			clsMutableDouble oFraction = moComposition.get(oKey);
-			oComposition.put(new Integer(oKey), new clsMutableDouble(oFraction.doubleValue() * mrAmount));
+			oComposition.put(oKey, new clsMutableDouble(oFraction.doubleValue() * mrWeight));
 		}		
 		
 		return oComposition;
 	}
 	
 	/**
-	 * This functions adds another piece of food to the current one. In fact the results of getNutritonAmounts()
+	 * This functions adds another piece of food to the current one. In fact the results of getNutritonWeights()
 	 * of both pieces are added and afterwards normalized. The weights are simply added.
 	 *
 	 * @param poFood
@@ -139,15 +202,15 @@ public class clsFood {
 	 * @throws exFoodAlreadyNormalized 
 	 */
 	public void addFood(clsFood poFood) throws exFoodNotFinalized, exFoodAlreadyNormalized {
-		double rAmount = this.getAmount() + poFood.getAmount();
+		double rWeight = this.getWeight() + poFood.getWeight();
 		
-		HashMap<Integer, clsMutableDouble> oSetA = poFood.getNutritionAmounts();
-		HashMap<Integer, clsMutableDouble> oSetB = this.getNutritionAmounts();
+		HashMap<eNutritions, clsMutableDouble> oSetA = poFood.getNutritionWeights();
+		HashMap<eNutritions, clsMutableDouble> oSetB = this.getNutritionWeights();
 		
 		//look for each entry of setA if there is a matching entry in setB. if yes, add value of setB to setA
-		Iterator<Integer> i = oSetA.keySet().iterator();
+		Iterator<eNutritions> i = oSetA.keySet().iterator();
 		while (i.hasNext()) {
-			Integer oKey = i.next();
+			eNutritions oKey = i.next();
 			clsMutableDouble oValue = oSetA.get(oKey);
 			
 			if (oSetB.containsKey(oKey)) {
@@ -156,9 +219,9 @@ public class clsFood {
 		}
 		
 		//add all entries from setB which have not corresponding entry in setA to setA
-		Iterator<Integer> j = oSetB.keySet().iterator();
+		Iterator<eNutritions> j = oSetB.keySet().iterator();
 		while (j.hasNext()) {
-			Integer oKey = j.next();
+			eNutritions oKey = j.next();
 			
 			if (!oSetA.containsKey(oKey)) {
 				clsMutableDouble oValue = oSetB.get(oKey);
@@ -168,22 +231,12 @@ public class clsFood {
 		
 		//reset this food
 		this.mnFinalized = false;
-		this.mrAmount = rAmount;
-		this.moComposition = new HashMap<Integer, clsMutableDouble>(oSetA);
+		this.mrWeight = rWeight;
+		this.moComposition = new HashMap<eNutritions, clsMutableDouble>(oSetA);
 		this.finalize();
 	}
 	
-	/**
-	 * Adds a new nutrition type with its fraction to the object. Already existing nutrition type entries
-	 * will be overwritten by the new fraction.
-	 *
-	 * @param pnId
-	 * @param prFraction
-	 */
-	public void addNutritionFraction(int pnNurtritionId, double prFraction) throws bw.exceptions.exFoodAlreadyNormalized {
-		addNutritionFraction(new Integer(pnNurtritionId), new clsMutableDouble(prFraction));
-	}
-	
+
 	/**
 	 * Adds a new nutrition type with its fraction to the object. Already existing nutrition type entries
 	 * will be overwritten by the new fraction.
@@ -191,7 +244,7 @@ public class clsFood {
 	 * @param poId
 	 * @param poFraction
 	 */
-	public void addNutritionFraction(Integer poNutritionId, clsMutableDouble poFraction) throws bw.exceptions.exFoodAlreadyNormalized {
+	public void addNutritionFraction(eNutritions poNutritionId, clsMutableDouble poFraction) throws bw.exceptions.exFoodAlreadyNormalized {
 		if (mnFinalized) {
 			throw new bw.exceptions.exFoodAlreadyNormalized();
 		}
@@ -213,7 +266,7 @@ public class clsFood {
 		}
 		
 		double rFractionSum = 0.0f;
-		Iterator<Integer> i =  moComposition.keySet().iterator();
+		Iterator<eNutritions> i =  moComposition.keySet().iterator();
 			
 		while (i.hasNext()) {
 			rFractionSum += moComposition.get(i.next()).doubleValue();

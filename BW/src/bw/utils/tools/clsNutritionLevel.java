@@ -10,6 +10,7 @@ package bw.utils.tools;
 import bw.body.itfStep;
 import bw.exceptions.exContentColumnMaxContentExceeded;
 import bw.exceptions.exContentColumnMinContentUnderrun;
+import bw.utils.config.clsBWProperties;
 
 /**
  * A nutrition level is a special case of a fill level. By implementing the itfStep interface and guaranteeing,
@@ -34,6 +35,37 @@ public class clsNutritionLevel extends clsFillLevel implements itfStep {
 		setDecreasePerStep(prDecreasePerStep);
 	}
 
+	public clsNutritionLevel(String poPrefix, clsBWProperties poProp) {
+		super(poPrefix, poProp);
+		applyProperties(poPrefix, poProp);
+	}
+
+	public static clsBWProperties getDefaultProperties(String poPrefix) {
+		String pre = poPrefix;
+		if (pre.length()>0) {
+			pre = pre+".";
+		}
+		
+		clsBWProperties oProp = new clsBWProperties();
+		
+		oProp.setProperty(clsContentColumn.P_CONTENT, 0.75);
+		oProp.setProperty(clsContentColumn.P_MAXCONTENT, 1.2);
+		oProp.setProperty(clsFillLevel.P_CHANGE, "0.05");
+		oProp.setProperty(clsFillLevel.P_LOWERBOUND, "0.3");
+		oProp.setProperty(clsFillLevel.P_UPPERBOUND, "1.0");
+		
+		return oProp;
+	}	
+
+	private void applyProperties(String poPrefix, clsBWProperties poProp) {
+		String pre = poPrefix;
+		if (pre.length()>0) {
+			pre = pre+".";
+		}
+		
+		//no params to be set - everything done in clsFillLevel and clsContentColumn	
+	}	
+	
 	/**
 	 * @return the mrDecreasePerStep
 	 */

@@ -7,6 +7,9 @@
  */
 package bw.utils.tools;
 
+import bw.utils.config.clsBWProperties;
+
+
 /**
  * Content column is a general purpose value container. It is
  * intended to be used similarly to a silo. it has a maximum 
@@ -18,6 +21,8 @@ package bw.utils.tools;
  */
 
 public class clsContentColumn {
+	public static final String P_MAXCONTENT = "maxcontent";
+	public static final String P_CONTENT = "content";
 
 	/**
 	 * mgMaxContent is the maximum amount which the column can be filled with.
@@ -34,8 +39,35 @@ public class clsContentColumn {
 	 * Constructor which uses the default values mrMaxContent = MAX_VALUE and mrContent = 0 
 	 */
 	public clsContentColumn() {
-		super();
 	}
+	
+	public clsContentColumn(String poPrefix, clsBWProperties poProp) {
+		applyProperties(poPrefix, poProp);
+	}
+
+	public static clsBWProperties getDefaultProperties(String poPrefix) {
+		String pre = poPrefix;
+		if (pre.length()>0) {
+			pre = pre+".";
+		}
+		
+		clsBWProperties oProp = new clsBWProperties();
+		
+		oProp.setProperty(pre+P_MAXCONTENT, new Double(java.lang.Double.MAX_VALUE).toString());
+		oProp.setProperty(pre+P_CONTENT, "0");
+		
+		return oProp;
+	}	
+
+	private void applyProperties(String poPrefix, clsBWProperties poProp) {
+		String pre = poPrefix;
+		if (pre.length()>0) {
+			pre = pre+".";
+		}
+		
+		mrMaxContent = poProp.getPropertyDouble(pre+P_MAXCONTENT);
+		mrContent = poProp.getPropertyDouble(pre+P_CONTENT);		
+	}	
 	
 	/**
 	 * Constructor which takes mrContent and mrMaxContent as params. Performs checkValue.
