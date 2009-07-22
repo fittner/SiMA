@@ -156,7 +156,7 @@ public class clsBWProperties extends Properties {
 	 * @param value
 	 * @return string with all list entries seperated by a delimiter
 	 */
-	private static String ListToString(List<String> value)  {
+	public static String ListToString(List<String> value)  {
 		String v = "";
 		for (String s:value) {
 			v+=escapeDelim(s)+P_DELIMITER;
@@ -180,7 +180,7 @@ public class clsBWProperties extends Properties {
 	 * @param value
 	 * @return list of unescaped string parts
 	 */
-	private static List<String> StringToList(String value) {
+	public static List<String> StringToList(String value) {
 		String[] r = value.split(P_REGEXP_DELIMITER);
 		List<String> res = new ArrayList<String>();
 		
