@@ -108,6 +108,18 @@ public class clsBWProperties extends Properties {
 	}
 	
 	/**
+	 * Constructor. base dir is set to "". no Property map is created.
+	 * 
+	 * @author deutsch
+	 * 22.07.2009, 09:59:26
+	 *
+	 * @param poBaseDir
+	 */
+	public clsBWProperties() {
+		setBaseDir("");
+	}
+	
+	/**
 	 * sets the base dir. guarantees that the given path is either empty or ends with the correct file.separator
 	 *
 	 * @author deutsch

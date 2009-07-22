@@ -18,7 +18,7 @@ import bw.body.internalSystems.clsFlesh;
 import bw.body.io.actuators.actionProxies.itfAPCarryable;
 import bw.body.io.actuators.actionProxies.itfAPEatable;
 import bw.body.itfget.itfGetFlesh;
-import bw.exceptions.exFoodAmountBelowZero;
+import bw.exceptions.exFoodWeightBelowZero;
 import bw.utils.container.clsConfigDouble;
 import bw.utils.container.clsConfigMap;
 import bw.utils.enums.eBindingState;
@@ -75,7 +75,7 @@ public class clsCarrot extends clsInanimate implements itfGetFlesh, itfAPEatable
 		mnStepsUntilRegrow = mnRegrowRate;
 		
 		moBody = new clsMeatBody(this, (clsConfigMap)moConfig.get(eConfigEntries.BODY));
-		setMass(mrOwnMass + getFlesh().getAmount());
+		setMass(mrOwnMass + getFlesh().getWeight());
 		
 		setShape(new ARSsim.physics2D.shape.clsCircleImage(clsCarrot.mrDefaultRadius, moDefaultColor , moImagePathFresh), getMass());
 	}
@@ -149,7 +149,7 @@ public class clsCarrot extends clsInanimate implements itfGetFlesh, itfAPEatable
 		clsFood oFood = getFlesh().withdraw(prBiteSize);
 		
 		//update the Mason Physics2D Mass to the new weight
-		setMass(mrOwnMass + getFlesh().getAmount());
+		setMass(mrOwnMass + getFlesh().getWeight());
 		
 		//return the chunk of food
 		return oFood;
@@ -246,10 +246,10 @@ public class clsCarrot extends clsInanimate implements itfGetFlesh, itfAPEatable
 			mnStepsUntilRegrow--;
 			if (mnStepsUntilRegrow <= 0) {
 				try {
-					getFlesh().setAmount(mrInitialFleshMass);
+					getFlesh().setWeight(mrInitialFleshMass);
 					mnShapeUpdated = false;
 					mnStepsUntilRegrow = mnRegrowRate;
-				} catch (exFoodAmountBelowZero e) {
+				} catch (exFoodWeightBelowZero e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}

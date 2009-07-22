@@ -28,7 +28,7 @@ import bw.utils.tools.clsFood;
  * 
  */
 public class clsConsumeFood {
-	private Integer moGarbageNutritionType;
+	private eNutritions moGarbageNutritionType;
 	private clsStomachSystem moStomachSystem;
 
     private clsConfigMap moConfig;	
@@ -40,10 +40,9 @@ public class clsConsumeFood {
 		moStomachSystem = poStomach;
 	}
 	
-	@SuppressWarnings("unchecked")
 	private void applyConfig() {
 		
-		moGarbageNutritionType = new Integer( ((clsConfigEnum<eConfigEntries>)moConfig.get(eConfigEntries.GARBAGENUTRITIONTYPE)).ordinal() );
+		moGarbageNutritionType = eNutritions.UNDIGESTABLE;
 
 	}
 	
@@ -67,19 +66,19 @@ public class clsConsumeFood {
 	 * @param poFood
 	 */
 	public void digest(clsFood poFood) {
-		HashMap<Integer, clsMutableDouble> oNutritions = null;
+		HashMap<eNutritions, clsMutableDouble> oNutritions = null;
 		
 		try {
-			oNutritions = poFood.getNutritionAmounts();
+			oNutritions = poFood.getNutritionWeights();
 		} catch (exFoodNotFinalized e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		
-		Iterator<Integer> i = oNutritions.keySet().iterator();
+		Iterator<eNutritions> i = oNutritions.keySet().iterator();
 		
 		while(i.hasNext()) {
-			Integer oNutritionType = i.next();
+			eNutritions oNutritionType = i.next();
 			clsMutableDouble oAmount = oNutritions.get(oNutritionType);
 			
 			try {

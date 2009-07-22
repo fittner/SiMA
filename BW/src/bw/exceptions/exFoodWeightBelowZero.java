@@ -13,7 +13,7 @@ package bw.exceptions;
  * @author deutsch
  * 
  */
-public class exFoodAmountBelowZero extends exException {
+public class exFoodWeightBelowZero extends exException {
 
 	@Override
 	public String toString() {

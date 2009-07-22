@@ -18,6 +18,7 @@ import bw.body.internalSystems.clsStomachSystem;
 import bw.utils.container.clsConfigDouble;
 import bw.utils.container.clsConfigMap;
 import bw.utils.enums.eConfigEntries;
+import bw.utils.enums.eNutritions;
 import bw.utils.enums.partclass.clsPartBrain;
 import bw.utils.enums.partclass.clsPartDamageNutrition;
 import bw.utils.tools.clsNutritionLevel;
@@ -103,12 +104,12 @@ public class clsDamageNutrition implements itfStepUpdateInternalState {
 	 *
 	 */
 	private double nutritionPenaltySum() {
-		HashMap<Integer, clsNutritionLevel> oList = moStomachSystem.getList();
+		HashMap<eNutritions, clsNutritionLevel> oList = moStomachSystem.getList();
 		double rPenaltySum = 0.0f;
 		
-		Iterator<Integer> i = oList.keySet().iterator();
+		Iterator<eNutritions> i = oList.keySet().iterator();
 		while (i.hasNext()) {
-			Integer oKey = i.next();
+			eNutritions oKey = i.next();
 			clsNutritionLevel oNL = oList.get(oKey);
 			
 			double rTemp = oNL.percentageHigh() + oNL.percentageLow();

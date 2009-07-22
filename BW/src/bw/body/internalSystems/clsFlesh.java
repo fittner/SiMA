@@ -8,7 +8,7 @@
 package bw.body.internalSystems;
 
 import bw.exceptions.exFoodAlreadyNormalized;
-import bw.exceptions.exFoodAmountBelowZero;
+import bw.exceptions.exFoodWeightBelowZero;
 import bw.utils.container.clsConfigMap;
 import bw.utils.container.clsConfigDouble;
 import bw.utils.enums.eConfigEntries;
@@ -50,8 +50,8 @@ public class clsFlesh extends clsFood {
 		}
 		
 		try {
-			setAmount( ((clsConfigDouble)moConfig.get(eConfigEntries.CONTENT)).get() );
-		} catch (exFoodAmountBelowZero e1) {
+			setWeight( ((clsConfigDouble)moConfig.get(eConfigEntries.CONTENT)).get() );
+		} catch (exFoodWeightBelowZero e1) {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
@@ -97,9 +97,9 @@ public class clsFlesh extends clsFood {
 	 */
 	public void grow(double prWeight) {
 		try {
-			setAmount(getAmount() + Math.abs(prWeight));
+			setWeight(getWeight() + Math.abs(prWeight));
 			mnTotallyConsumed = false;
-		} catch (exFoodAmountBelowZero e) {
+		} catch (exFoodWeightBelowZero e) {
 			//can not happen
 		}
 	}
@@ -108,24 +108,24 @@ public class clsFlesh extends clsFood {
 	 * TODO (deutsch) - insert description
 	 *
 	 * @param prWeight
-	 * @throws exFoodAmountBelowZero
+	 * @throws exFoodWeightBelowZero
 	 */
-	public void reduce(double prWeight) throws exFoodAmountBelowZero {
-		setAmount(getAmount() - Math.abs(prWeight));
+	public void reduce(double prWeight) throws exFoodWeightBelowZero {
+		setWeight(getWeight() - Math.abs(prWeight));
 	}	
 	
 	public clsFood withdraw(double prAmount) {		
 		clsFood oResult = new clsFood(this);
-		double rWeight = getAmount();
+		double rWeight = getWeight();
 		
 		try {
 			reduce(prAmount);
-			oResult.setAmount(prAmount);
-		} catch (exFoodAmountBelowZero e) {
+			oResult.setWeight(prAmount);
+		} catch (exFoodWeightBelowZero e) {
 			// TODO Auto-generated catch block
 			try {
-				oResult.setAmount(rWeight);
-			} catch (exFoodAmountBelowZero e1) {
+				oResult.setWeight(rWeight);
+			} catch (exFoodWeightBelowZero e1) {
 				// 
 			}
 			mnTotallyConsumed = true;
@@ -139,10 +139,10 @@ public class clsFlesh extends clsFood {
 	}
 	
 	@Override
-	public void setAmount(double prAmount) throws bw.exceptions.exFoodAmountBelowZero {
-		super.setAmount(prAmount);
+	public void setWeight(double prAmount) throws bw.exceptions.exFoodWeightBelowZero {
+		super.setWeight(prAmount);
 		
-		if (getAmount() == 0.0) {
+		if (getWeight() == 0.0) {
 			mnTotallyConsumed = true;
 		} else {
 			mnTotallyConsumed = false;

@@ -30,8 +30,8 @@ import bw.utils.tools.clsNutritionLevel;
 public class clsStomachSystem implements itfStepUpdateInternalState {
     private clsConfigMap moConfig;
     
-	private HashMap<Integer, clsNutritionLevel> moNutritions;
-	private HashMap<Integer, Double> moFractions;
+	private HashMap<eNutritions, clsNutritionLevel> moNutritions;
+	private HashMap<eNutritions, Double> moFractions;
 	private double mrFractionSum;
 	private double mrEnergy;
 	
@@ -46,8 +46,8 @@ public class clsStomachSystem implements itfStepUpdateInternalState {
 	 * TODO (deutsch) - insert description
 	 */
 	public clsStomachSystem(clsConfigMap poConfig) {
-		moNutritions = new HashMap<Integer, clsNutritionLevel>();
-		moFractions = new HashMap<Integer, Double>();
+		moNutritions = new HashMap<eNutritions, clsNutritionLevel>();
+		moFractions = new HashMap<eNutritions, Double>();
 		
 		moConfig = getFinalConfig(poConfig);
 		applyConfig();	
@@ -72,7 +72,7 @@ public class clsStomachSystem implements itfStepUpdateInternalState {
 		Iterator<clsBaseConfig> i = oNutList.iterator();
 		
 		while (i.hasNext()) {
-			addNutritionType( ((clsConfigEnum)i.next()).ordinal() );
+			addNutritionType( (eNutritions)((clsConfigEnum)i.next()).get() );
 		}
 
 		addEnergy( ((clsConfigDouble)moConfig.get(eConfigEntries.CONTENT)).get() );		
@@ -118,8 +118,8 @@ public class clsStomachSystem implements itfStepUpdateInternalState {
 	 *
 	 * @return moList clone
 	 */
-	public HashMap<Integer, clsNutritionLevel> getList() {
-		return new HashMap<Integer, clsNutritionLevel>(moNutritions);
+	public HashMap<eNutritions, clsNutritionLevel> getList() {
+		return new HashMap<eNutritions, clsNutritionLevel>(moNutritions);
 	}
 	
 	/**
@@ -127,7 +127,7 @@ public class clsStomachSystem implements itfStepUpdateInternalState {
 	 *
 	 * @param poId
 	 */
-	public void addNutritionType(Integer poId) {
+	public void addNutritionType(eNutritions poId) {
 		if (!(moNutritions.containsKey(poId))) {
 			try {
 				clsNutritionLevel oNL = new clsNutritionLevel(mrDefaultContent, mrDefaultMaxLevel, mrDefaultLowerBorder, 
@@ -160,7 +160,7 @@ public class clsStomachSystem implements itfStepUpdateInternalState {
 	private void updateFractionSum() {
 		mrFractionSum = 0.0;
 		
-		Iterator<Integer> i = moFractions.keySet().iterator();
+		Iterator<eNutritions> i = moFractions.keySet().iterator();
 		
 		while (i.hasNext()) {
 			mrFractionSum += moFractions.get(i.next());
@@ -173,7 +173,7 @@ public class clsStomachSystem implements itfStepUpdateInternalState {
 	 * @param poId
 	 * @return
 	 */
-	public clsNutritionLevel getNutritionLevel(Integer poId) {
+	public clsNutritionLevel getNutritionLevel(eNutritions poId) {
 		return moNutritions.get(poId);
 	}
 
@@ -185,7 +185,7 @@ public class clsStomachSystem implements itfStepUpdateInternalState {
 	 * @return
 	 * @throws bw.exceptions.exNoSuchNutritionType 
 	 */
-	public double addNutrition(Integer poId, double prAmount) throws bw.exceptions.exNoSuchNutritionType {
+	public double addNutrition(eNutritions poId, double prAmount) throws bw.exceptions.exNoSuchNutritionType {
 		double rResult = 0;
 
 		clsNutritionLevel oNL = this.getNutritionLevel(poId);
@@ -223,7 +223,7 @@ public class clsStomachSystem implements itfStepUpdateInternalState {
 	 * @return
 	 * @throws bw.exceptions.exNoSuchNutritionType 
 	 */
-	public double withdrawNutrition(Integer poId, double prAmount) throws bw.exceptions.exNoSuchNutritionType {
+	public double withdrawNutrition(eNutritions poId, double prAmount) throws bw.exceptions.exNoSuchNutritionType {
 		double rResult = 0;
 		
 		clsNutritionLevel oNL = this.getNutritionLevel(poId);
@@ -264,10 +264,10 @@ public class clsStomachSystem implements itfStepUpdateInternalState {
 		clsChangeEnergyResult oResult = new clsChangeEnergyResult();
 		double rEnergyLevel = this.getEnergy();
 
-		Iterator<Integer> i = moNutritions.keySet().iterator();
+		Iterator<eNutritions> i = moNutritions.keySet().iterator();
 		
 		while (i.hasNext()) {
-			Integer oKey = i.next();
+			eNutritions oKey = i.next();
 			
 			clsNutritionLevel oNL = moNutritions.get(oKey);
 			
@@ -320,10 +320,10 @@ public class clsStomachSystem implements itfStepUpdateInternalState {
 		clsChangeEnergyResult oResult = new clsChangeEnergyResult();
 		double rEnergyLevel = this.getEnergy();
 		
-		Iterator<Integer> i = moNutritions.keySet().iterator();
+		Iterator<eNutritions> i = moNutritions.keySet().iterator();
 		
 		while (i.hasNext()) {
-			Integer oKey = i.next();
+			eNutritions oKey = i.next();
 			
 			clsNutritionLevel oNL = moNutritions.get(oKey);
 			
@@ -370,7 +370,7 @@ public class clsStomachSystem implements itfStepUpdateInternalState {
 	 *
 	 */
 	public void stepUpdateInternalState() {
-		Iterator<Integer> i = moNutritions.keySet().iterator();
+		Iterator<eNutritions> i = moNutritions.keySet().iterator();
 		
 		while (i.hasNext()) {
 			moNutritions.get(i.next()).step();
@@ -386,10 +386,10 @@ public class clsStomachSystem implements itfStepUpdateInternalState {
 	private void updateEnergy() {
 		mrEnergy = 0.0;
 
-		Iterator<Integer> i = moNutritions.keySet().iterator();
+		Iterator<eNutritions> i = moNutritions.keySet().iterator();
 		
 		while (i.hasNext()) {
-			Integer oKey = i.next();
+			eNutritions oKey = i.next();
 			
 			clsNutritionLevel oNL = moNutritions.get(oKey);
 			double rFraction = moFractions.get(oKey);

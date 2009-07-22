@@ -30,6 +30,7 @@ import org.jfree.chart.renderer.category.LevelRenderer;
 import org.jfree.data.category.DefaultCategoryDataset;
 
 import bw.body.internalSystems.clsStomachSystem;
+import bw.utils.enums.eNutritions;
 import bw.utils.tools.clsNutritionLevel;
 
 import sim.display.GUIState;
@@ -94,12 +95,11 @@ public class clsFillLevelInspector extends Inspector{
 		moDataset.addValue(moStomachSystem.getEnergy(), "Energy", "Energy");
 		moDatasetLowerLimits.addValue(0, "Lower Bound", "Energy");
 		moDatasetUpperLimits.addValue(5, "Upper Bound", "Energy");
-		int i=0;
-		for(Map.Entry<Integer, clsNutritionLevel> oNut : moStomachSystem.getList().entrySet() ) {
-			moDataset.addValue( 4, "", "Nutrition "+i); //oNut.getValue().getContent()
-			moDatasetLowerLimits.addValue(1, "Lower Bound", "Nutrition "+i);
-			moDatasetUpperLimits.addValue(4, "Upper Bound", "Nutrition "+i);
-			i++;
+
+		for(Map.Entry<eNutritions, clsNutritionLevel> oNut : moStomachSystem.getList().entrySet() ) {
+			moDataset.addValue( 4, "", "Nutrition "+oNut.getKey().toString()); //oNut.getValue().getContent()
+			moDatasetLowerLimits.addValue(1, "Lower Bound", "Nutrition "+oNut.getKey().toString());
+			moDatasetUpperLimits.addValue(4, "Upper Bound", "Nutrition "+oNut.getKey().toString());
 		}
 		
         JFreeChart oChartPanel = ChartFactory.createBarChart(
@@ -172,13 +172,11 @@ public class clsFillLevelInspector extends Inspector{
 		moDataset.addValue(moStomachSystem.getEnergy(), "Energy", "Energy");
 		moDatasetLowerLimits.addValue(0, "Lower Bound", "Energy");
 		moDatasetUpperLimits.addValue(5, "Upper Bound", "Energy");
-		int i=0;
 		//TODO: (langr) to be adapted when stomach system is ready to use
-		for(Map.Entry<Integer, clsNutritionLevel> oNut : moStomachSystem.getList().entrySet() ) {
-			moDataset.addValue( Math.random()*4, "Nutrition", "Nutrition "+i); //oNut.getValue().getContent()
-			moDatasetLowerLimits.addValue(1, "Lower Bound", "Nutrition "+i);
-			moDatasetUpperLimits.addValue(4, "Upper Bound", "Nutrition "+i);
-			i++;
+		for(Map.Entry<eNutritions, clsNutritionLevel> oNut : moStomachSystem.getList().entrySet() ) {
+			moDataset.addValue( Math.random()*4, "Nutrition", "Nutrition "+oNut.getKey().toString()); //oNut.getValue().getContent()
+			moDatasetLowerLimits.addValue(1, "Lower Bound", "Nutrition "+oNut.getKey().toString());
+			moDatasetUpperLimits.addValue(4, "Upper Bound", "Nutrition "+oNut.getKey().toString());
 		}
 		moChartPanel.getChart().getCategoryPlot().setDataset(moDataset);
 		moChartPanel.invalidate();		

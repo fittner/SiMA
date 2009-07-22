@@ -50,7 +50,7 @@ public class clsCake extends clsInanimate implements itfGetFlesh, itfAPEatable, 
 		mnShapeUpdated = false;
 		
 		moBody = new clsMeatBody(this, (clsConfigMap)moConfig.get(eConfigEntries.BODY));
-		setMass(mrOwnMass + getFlesh().getAmount());
+		setMass(mrOwnMass + getFlesh().getWeight());
 		
 		setShape(new ARSsim.physics2D.shape.clsCircleImage(clsCake.mrDefaultRadius, moDefaultColor , moImagePath), getMass());
     } 
@@ -114,7 +114,7 @@ public class clsCake extends clsInanimate implements itfGetFlesh, itfAPEatable, 
 		
 		if (getFlesh().getTotallyConsumed() && !mnShapeUpdated) {
 			mnShapeUpdated = true;
-			setShape(new sim.physics2D.shape.Circle(clsCake.mrDefaultRadius, Color.gray), getFlesh().getAmount());
+			setShape(new sim.physics2D.shape.Circle(clsCake.mrDefaultRadius, Color.gray), getFlesh().getWeight());
 			
 			//TODO langr: wohin damit
 			//This command removes the cake from the playground
@@ -183,7 +183,7 @@ public class clsCake extends clsInanimate implements itfGetFlesh, itfAPEatable, 
 		clsFood oFood = getFlesh().withdraw(prBiteSize);
 		
 		//update the Mason Physics2D Mass to the new weight
-		setMass(mrOwnMass + getFlesh().getAmount());
+		setMass(mrOwnMass + getFlesh().getWeight());
 		
 		//return the chunk of food
 		return oFood;

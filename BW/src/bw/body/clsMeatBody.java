@@ -95,7 +95,7 @@ public class clsMeatBody extends clsBaseBody {
 	 * @see bw.body.itfStepUpdateInternalState#stepUpdateInternalState()
 	 */
 	public void stepUpdateInternalState() {
-		if (moFlesh.getAmount() < mrMaxWeight) {
+		if (moFlesh.getWeight() < mrMaxWeight) {
 			moFlesh.grow(mrRegrowRate);
 		}
 	}

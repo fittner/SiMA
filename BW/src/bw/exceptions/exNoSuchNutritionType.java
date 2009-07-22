@@ -7,6 +7,8 @@
  */
 package bw.exceptions;
 
+import bw.utils.enums.eNutritions;
+
 /**
  * TODO (deutsch) - insert description 
  * 
@@ -15,9 +17,9 @@ package bw.exceptions;
  */
 public class exNoSuchNutritionType extends exException {
 
-	private int mnNutritionType;
+	private eNutritions mnNutritionType;
 	
-	public exNoSuchNutritionType(int pnNutritionType) {
+	public exNoSuchNutritionType(eNutritions pnNutritionType) {
 		mnNutritionType = pnNutritionType;
 	}
 	

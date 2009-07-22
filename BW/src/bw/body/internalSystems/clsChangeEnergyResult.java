@@ -9,6 +9,8 @@ package bw.body.internalSystems;
 
 import java.util.HashMap;
 
+import bw.utils.enums.eNutritions;
+
 /**
  * TODO (deutsch) - insert description 
  * 
@@ -17,14 +19,14 @@ import java.util.HashMap;
  */
 public class clsChangeEnergyResult {
 	private double mrTotalPercentage;
-	private HashMap<Integer, Double> moFractions;
+	private HashMap<eNutritions, Double> moFractions;
 	
 	/**
 	 * 
 	 */
 	public clsChangeEnergyResult() {
 		mrTotalPercentage = 0.0;
-		moFractions = new HashMap<Integer, Double>();
+		moFractions = new HashMap<eNutritions, Double>();
 	}
 	
 	/**
@@ -44,16 +46,7 @@ public class clsChangeEnergyResult {
 	public double getTotalPercentage() {
 		return mrTotalPercentage;
 	}
-	
-	/**
-	 * TODO (deutsch) - insert description
-	 *
-	 * @param pnNutritionType
-	 * @param prFraction
-	 */
-	public void addFraction(int pnNutritionType, double prFraction) {
-		addFraction(new Integer(pnNutritionType), new Double(prFraction));
-	}
+
 	
 	/**
 	 * TODO (deutsch) - insert description
@@ -61,19 +54,10 @@ public class clsChangeEnergyResult {
 	 * @param poNutritionType
 	 * @param poFraction
 	 */
-	public void addFraction(Integer poNutritionType, Double poFraction) {
+	public void addFraction(eNutritions poNutritionType, Double poFraction) {
 		moFractions.put(poNutritionType, poFraction);
 	}
-	
-	/**
-	 * TODO (deutsch) - insert description
-	 *
-	 * @param pnNutritionType
-	 * @return
-	 */
-	public double getFraction(int pnNutritionType) {
-		return getFraction(new Integer(pnNutritionType));
-	}
+
 	
 	/**
 	 * TODO (deutsch) - insert description
@@ -81,7 +65,7 @@ public class clsChangeEnergyResult {
 	 * @param poNutritionType
 	 * @return
 	 */
-	public double getFraction(Integer poNutritionType) {
+	public double getFraction(eNutritions poNutritionType) {
 		return moFractions.get(poNutritionType).floatValue();
 	}
 	
@@ -90,7 +74,7 @@ public class clsChangeEnergyResult {
 	 *
 	 * @return
 	 */
-	public HashMap<Integer, Double> getFractions() {
+	public HashMap<eNutritions, Double> getFractions() {
 		return moFractions;
 	}
 	
