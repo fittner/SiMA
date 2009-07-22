@@ -21,6 +21,7 @@ import org.junit.runner.RunWith;
 	tstBw.utils.tools.tstFood.class,
 	tstBw.utils.tools.tstDecayColumn.class,
 	tstBw.utils.config.tstRandomProperties.class,
+	tstBw.utils.config.tstBWProperties.class,
 })
 public class tssTools {
 
