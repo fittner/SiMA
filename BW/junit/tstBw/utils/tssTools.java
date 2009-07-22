@@ -20,6 +20,7 @@ import org.junit.runner.RunWith;
 	tstBw.utils.tools.tstFillLevel.class,
 	tstBw.utils.tools.tstFood.class,
 	tstBw.utils.tools.tstDecayColumn.class,
+	tstBw.utils.config.tstRandomProperties.class,
 })
 public class tssTools {
 
