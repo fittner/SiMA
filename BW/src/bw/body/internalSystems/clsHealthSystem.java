@@ -10,9 +10,8 @@ package bw.body.internalSystems;
 import bw.body.itfStepUpdateInternalState;
 import bw.exceptions.exContentColumnMaxContentExceeded;
 import bw.exceptions.exContentColumnMinContentUnderrun;
-import bw.utils.container.clsConfigMap;
-import bw.utils.container.clsConfigDouble;
-import bw.utils.enums.eConfigEntries;
+import bw.utils.config.clsBWProperties;
+import bw.utils.tools.clsContentColumn;
 import bw.utils.tools.clsFillLevel;
 
 /**
@@ -22,8 +21,6 @@ import bw.utils.tools.clsFillLevel;
  * 
  */
 public class clsHealthSystem implements itfStepUpdateInternalState {
-    private clsConfigMap moConfig;
-    
 	private clsFillLevel moHealth;
 	/**
 	 * @author langr
@@ -36,52 +33,33 @@ public class clsHealthSystem implements itfStepUpdateInternalState {
 	}
 
 	boolean mnIsAlive;
-	private double mrIsDeadThreshold = 0.001;
+	private static final double mrIsDeadThreshold = 0.001;
 	
-	public clsHealthSystem(clsConfigMap poConfig) {
-		moConfig = getFinalConfig(poConfig);
-		applyConfig();		
-		
-		moHealth = null;
-		
-		try {
-			moHealth = new clsFillLevel(
-					((clsConfigDouble)moConfig.get(eConfigEntries.CONTENT)).get(), 
-					((clsConfigDouble)moConfig.get(eConfigEntries.MAXCONTENT)).get(), 
-					((clsConfigDouble)moConfig.get(eConfigEntries.SELFHEALINGRATE)).get()
-					);
-		} catch (exContentColumnMaxContentExceeded e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (exContentColumnMinContentUnderrun e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		
-		mnIsAlive = true;
-	}
-	
-	private void applyConfig() {
-		
-		mrIsDeadThreshold = ((clsConfigDouble)moConfig.get(eConfigEntries.ISDEADTHRESHOLD)).get();
+	public clsHealthSystem(String poPrefix, clsBWProperties poProp) {
+		applyProperties(poPrefix, poProp);
+		updateIsAlive();
 	}
 
-	private static clsConfigMap getFinalConfig(clsConfigMap poConfig) {
-		clsConfigMap oDefault = getDefaultConfig();
-		oDefault.overwritewith(poConfig);
-		return oDefault;
-	}
+	public static clsBWProperties getDefaultProperties(String poPrefix) {
+		String pre = clsBWProperties.addDot(poPrefix);
+		
+		clsBWProperties oProp = new clsBWProperties();
+		
+		oProp.setProperty(pre+clsContentColumn.P_CONTENT, 10);
+		oProp.setProperty(pre+clsContentColumn.P_MAXCONTENT, 10);
+		oProp.setProperty(pre+clsFillLevel.P_CHANGE, "0.05");
+		oProp.setProperty(pre+clsFillLevel.P_LOWERBOUND, "5");
+		oProp.setProperty(pre+clsFillLevel.P_UPPERBOUND, "10");	
 	
-	private static clsConfigMap getDefaultConfig() {
-		clsConfigMap oDefault = new clsConfigMap();
 		
-		oDefault.add(eConfigEntries.ISDEADTHRESHOLD, new clsConfigDouble(0.001f));
-		oDefault.add(eConfigEntries.CONTENT, new clsConfigDouble(10.0f));
-		oDefault.add(eConfigEntries.MAXCONTENT, new clsConfigDouble(10.0f));
-		oDefault.add(eConfigEntries.SELFHEALINGRATE, new clsConfigDouble(0.05f));
-		
-		return oDefault;
+		return oProp;
 	}	
+
+	private void applyProperties(String poPrefix, clsBWProperties poProp) {
+		String pre = clsBWProperties.addDot(poPrefix);
+		
+		moHealth = new clsFillLevel(pre, poProp);
+	}
 	
 	public void hurt(double prHealthRemoved) {
 		try {

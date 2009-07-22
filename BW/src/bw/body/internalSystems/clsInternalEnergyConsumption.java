@@ -11,7 +11,8 @@ import java.util.HashMap;
 import java.util.Iterator;
 
 import bw.body.itfStep;
-import bw.utils.container.clsConfigMap;
+import bw.utils.config.clsBWProperties;
+
 import bw.utils.datatypes.clsMutableDouble;
 
 /**
@@ -37,36 +38,28 @@ public class clsInternalEnergyConsumption implements itfStep {
 	/**
 	 * This constructor initializes moList with an empty HashMap, mnDirtyFlag is set to true, and mnSum is set to 0.
 	 */
-	public clsInternalEnergyConsumption(clsConfigMap poConfig) {
+	public clsInternalEnergyConsumption(String poPrefix, clsBWProperties poProp) {
 		moList = new HashMap<Integer, clsMutableDouble>();
 		moListOnce = new HashMap<Integer, clsMutableDouble>();
 		mnDirtyFlag = true;
 		mrSum = 0.0f;
 		
-		// moConfig = getFinalConfig(poConfig); // EH - make warning free
-		applyConfig();		
+		applyProperties(poPrefix, poProp);	
 	}
 	
-	private void applyConfig() {
+	public static clsBWProperties getDefaultProperties(String poPrefix) {
+		//String pre = clsBWProperties.addDot(poPrefix);
+		clsBWProperties oProp = new clsBWProperties();
 		
-		//TODO add custom code
-	}
-
-/*	// EH - make warning free
-	private static clsConfigMap getFinalConfig(clsConfigMap poConfig) {
-		clsConfigMap oDefault = getDefaultConfig();
-		oDefault.overwritewith(poConfig);
-		return oDefault;
-	}
-*/
-	
-/* // EH - make warning free
-	private static clsConfigMap getDefaultConfig() {
-		clsConfigMap oDefault = new clsConfigMap();
-		//TODO add default values
-		return oDefault;
+		// no properties
+		
+		return oProp;
 	}	
-*/
+
+	private void applyProperties(String poPrefix, clsBWProperties poProp) {
+		//String pre = clsBWProperties.addDot(poPrefix);
+        // nothing to do		
+	}	
 	
 	
 	public HashMap<Integer, clsMutableDouble> getMergedList() {

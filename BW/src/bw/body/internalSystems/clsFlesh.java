@@ -7,14 +7,10 @@
  */
 package bw.body.internalSystems;
 
-import bw.exceptions.exFoodAlreadyNormalized;
 import bw.exceptions.exFoodWeightBelowZero;
-import bw.utils.container.clsConfigMap;
-import bw.utils.container.clsConfigDouble;
-import bw.utils.enums.eConfigEntries;
+import bw.utils.config.clsBWProperties;
 import bw.utils.tools.clsFood;
 import java.lang.Math;
-import java.util.Iterator;
 
 /**
  * TODO (deutsch) - insert description 
@@ -23,72 +19,35 @@ import java.util.Iterator;
  * 
  */
 public class clsFlesh extends clsFood {
-    private clsConfigMap moConfig;	
     private boolean mnTotallyConsumed;
 	
-	public clsFlesh(clsConfigMap poConfig) {
+	public clsFlesh() {
 		super();
-		moConfig = getFinalConfig(poConfig);
 		mnTotallyConsumed = false;
-		applyConfig();
 	}
 	
-	private void applyConfig() {
-		
-		clsConfigMap oNutritions = (clsConfigMap) moConfig.get(eConfigEntries.NUTRITIONS);
-		
-		Iterator<Integer> i = oNutritions.iterator();
-		
-		try {
-			while (i.hasNext()) {
-				Integer oKey = i.next();
-				addNutritionFraction(oKey, ((clsConfigDouble)oNutritions.get(oKey)).get());
-			}
-		} catch (exFoodAlreadyNormalized e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		
-		try {
-			setWeight( ((clsConfigDouble)moConfig.get(eConfigEntries.CONTENT)).get() );
-		} catch (exFoodWeightBelowZero e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		}
-		
-		try {
-			finalize();
-		} catch (exFoodAlreadyNormalized e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+	
+	public clsFlesh(String poPrefix, clsBWProperties poProp) {
+		super(poPrefix, poProp);
+		applyProperties(poPrefix, poProp);
+		totallyConsumed();
 	}
 
-	private static clsConfigMap getFinalConfig(clsConfigMap poConfig) {
-		clsConfigMap oDefault = getDefaultConfig();
-		oDefault.overwritewith(poConfig);
-		return oDefault;
-	}
-	
-	private static clsConfigMap getDefaultConfig() {
-		clsConfigMap oDefault = new clsConfigMap();
+	public static clsBWProperties getDefaultProperties(String poPrefix) {
+		String pre = clsBWProperties.addDot(poPrefix);
 		
-		oDefault.add(eConfigEntries.CONTENT, new clsConfigDouble(10.0f));
+		clsBWProperties oProp = new clsBWProperties();
 		
-		clsConfigMap oNutritions = new clsConfigMap();
-		
-		oNutritions.add(eConfigEntries.FAT, new clsConfigDouble(0.3f));
-		oNutritions.add(eConfigEntries.PROTEIN, new clsConfigDouble(0.1f));
-		oNutritions.add(eConfigEntries.VITAMIN, new clsConfigDouble(0.2f));
-		oNutritions.add(eConfigEntries.CARBOHYDRATE, new clsConfigDouble(0.5f));
-		oNutritions.add(eConfigEntries.WATER, new clsConfigDouble(1.3f));
-		oNutritions.add(eConfigEntries.MINERAL, new clsConfigDouble(0.4f));
-		oNutritions.add(eConfigEntries.TRACEELEMENT, new clsConfigDouble(0.01f));
-		
-		oDefault.add(eConfigEntries.NUTRITIONS, oNutritions);
-		//TODO add default values
-		return oDefault;
+		oProp.putAll( clsFood.getDefaultProperties(pre) );
+				
+		return oProp;
 	}	
+
+	private void applyProperties(String poPrefix, clsBWProperties poProp) {
+		//String pre = clsBWProperties.addDot(poPrefix);
+
+		//nothing to do ...
+	}
 
 	/**
 	 * TODO (deutsch) - insert description
@@ -141,11 +100,15 @@ public class clsFlesh extends clsFood {
 	@Override
 	public void setWeight(double prAmount) throws bw.exceptions.exFoodWeightBelowZero {
 		super.setWeight(prAmount);
+		totallyConsumed();
+	}
+	
+	private void totallyConsumed() {
 		
 		if (getWeight() == 0.0) {
 			mnTotallyConsumed = true;
 		} else {
 			mnTotallyConsumed = false;
-		}
+		}		
 	}
 }

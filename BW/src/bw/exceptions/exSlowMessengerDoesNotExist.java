@@ -7,6 +7,8 @@
  */
 package bw.exceptions;
 
+import bw.utils.enums.eSlowMessenger;
+
 /**
  * TODO (deutsch) - insert description 
  * 
@@ -20,9 +22,9 @@ public class exSlowMessengerDoesNotExist extends exException {
 	 */
 	private static final long serialVersionUID = 4661856014822575735L;
 
-	private int mnSlowMessengerId;
+	private eSlowMessenger mnSlowMessengerId;
 	
-	public exSlowMessengerDoesNotExist(int pnSlowMessengerId) {
+	public exSlowMessengerDoesNotExist(eSlowMessenger pnSlowMessengerId) {
 		mnSlowMessengerId = pnSlowMessengerId;
 	}	
 	

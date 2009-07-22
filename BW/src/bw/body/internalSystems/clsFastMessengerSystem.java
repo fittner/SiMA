@@ -11,7 +11,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import bw.body.itfStepUpdateInternalState;
-import bw.utils.container.clsConfigMap;
+import bw.utils.config.clsBWProperties;
 import bw.utils.enums.partclass.clsBasePart;
 
 /**
@@ -29,38 +29,31 @@ public class clsFastMessengerSystem implements itfStepUpdateInternalState {
 	private ArrayList<clsFastMessengerEntry> moMessages;
 	
 	private HashMap<clsBasePart, ArrayList<clsFastMessengerEntry>> moTargetList;
-	
-	public clsFastMessengerSystem(clsConfigMap poConfig) {
+
+
+	public clsFastMessengerSystem(String poPrefix, clsBWProperties poProp) {
 		moSourceTargetMappings = new HashMap<clsBasePart, ArrayList<clsBasePart>>();
 		moTargetSourceMappings = new HashMap<clsBasePart, ArrayList<clsBasePart>>();		
 		moMessages = new ArrayList<clsFastMessengerEntry>();
-		moTargetList = new HashMap<clsBasePart, ArrayList<clsFastMessengerEntry>>();
-		
-		// moConfig = getFinalConfig(poConfig); // EH - make warning free		
-		applyConfig();		
-		
-	}
-	
-	private void applyConfig() {
-		
-		//TODO add custom code
+		moTargetList = new HashMap<clsBasePart, ArrayList<clsFastMessengerEntry>>();		
+		applyProperties(poPrefix, poProp);
 	}
 
-/* // EH - make warning free
-	private static clsConfigMap getFinalConfig(clsConfigMap poConfig) {
-		clsConfigMap oDefault = getDefaultConfig();
-		oDefault.overwritewith(poConfig);
-		return oDefault;
-	}
-*/
-	
-/* // EH - make warning free
-	private static clsConfigMap getDefaultConfig() {
-		clsConfigMap oDefault = new clsConfigMap();
-		//TODO add default values
-		return oDefault;
-	}
-*/
+	public static clsBWProperties getDefaultProperties(String poPrefix) {
+		//String pre = clsBWProperties.addDot(poPrefix);
+		
+		clsBWProperties oProp = new clsBWProperties();
+		
+		// no properties
+		
+		return oProp;
+	}	
+
+	private void applyProperties(String poPrefix, clsBWProperties poProp) {
+		//String pre = clsBWProperties.addDot(poPrefix);
+		
+        // nothing to do		
+	}	
 	
 	/**
 	 * TODO (deutsch) - insert description

@@ -12,12 +12,7 @@ import java.util.Iterator;
 import bw.body.itfStepUpdateInternalState;
 import bw.exceptions.exContentColumnMaxContentExceeded;
 import bw.exceptions.exContentColumnMinContentUnderrun;
-import bw.utils.container.clsBaseConfig;
-import bw.utils.container.clsConfigEnum;
-import bw.utils.container.clsConfigList;
-import bw.utils.container.clsConfigMap;
-import bw.utils.container.clsConfigDouble;
-import bw.utils.enums.eConfigEntries;
+import bw.utils.config.clsBWProperties;
 import bw.utils.enums.eNutritions;
 import bw.utils.tools.clsNutritionLevel;
 
@@ -28,88 +23,82 @@ import bw.utils.tools.clsNutritionLevel;
  * 
  */
 public class clsStomachSystem implements itfStepUpdateInternalState {
-    private clsConfigMap moConfig;
-    
+    public static final String P_NUMNUTRITIONS = "numnutritions";
+	public static final String P_NUTRITIONTYPE = "type";
+	public static final String P_NUTRITIONFRACTION = "fraction";
+	
 	private HashMap<eNutritions, clsNutritionLevel> moNutritions;
 	private HashMap<eNutritions, Double> moFractions;
 	private double mrFractionSum;
 	private double mrEnergy;
 	
-	private double mrDefaultMaxLevel;
-	private double mrDefaultContent;
-	private double mrDefaultLowerBorder;
-	private double mrDefaultUpperBorder;
-	private double mrDefaultDecreasePerStep;
-	private double mrDefaultFraction;
-	
-	/**
-	 * TODO (deutsch) - insert description
-	 */
-	public clsStomachSystem(clsConfigMap poConfig) {
+	public clsStomachSystem(String poPrefix, clsBWProperties poProp) {
 		moNutritions = new HashMap<eNutritions, clsNutritionLevel>();
 		moFractions = new HashMap<eNutritions, Double>();
 		
-		moConfig = getFinalConfig(poConfig);
-		applyConfig();	
+		applyProperties(poPrefix, poProp);
 		
 		updateFractionSum();
 		updateEnergy();
 	}
-	
-	@SuppressWarnings("unchecked") // EH: probably unsafe, please refactor
-	private void applyConfig() {
-		
-		clsConfigMap oNutConf = (clsConfigMap)moConfig.get(eConfigEntries.NUTRITIONCONFIG);
-		
-		mrDefaultMaxLevel = ((clsConfigDouble)oNutConf.get(eConfigEntries.MAXCONTENT)).get();
-		mrDefaultContent = ((clsConfigDouble)oNutConf.get(eConfigEntries.CONTENT)).get();
-		mrDefaultLowerBorder = ((clsConfigDouble)oNutConf.get(eConfigEntries.LOWERBOUND)).get();
-		mrDefaultUpperBorder = ((clsConfigDouble)oNutConf.get(eConfigEntries.UPPERBOUND)).get();
-		mrDefaultDecreasePerStep = ((clsConfigDouble)oNutConf.get(eConfigEntries.DECAYRATE)).get();
-		mrDefaultFraction = ((clsConfigDouble)oNutConf.get(eConfigEntries.FRACTION)).get();		
 
-		clsConfigList oNutList = (clsConfigList)moConfig.get(eConfigEntries.NUTRITIONS);
-		Iterator<clsBaseConfig> i = oNutList.iterator();
+	public static clsBWProperties getDefaultProperties(String poPrefix) {
+		String pre = clsBWProperties.addDot(poPrefix);
 		
-		while (i.hasNext()) {
-			addNutritionType( (eNutritions)((clsConfigEnum)i.next()).get() );
-		}
+		clsBWProperties oProp = new clsBWProperties();
+		
+		oProp.setProperty(pre+P_NUMNUTRITIONS, 8);
 
-		addEnergy( ((clsConfigDouble)moConfig.get(eConfigEntries.CONTENT)).get() );		
-	}
+		oProp.setProperty(pre+"0."+P_NUTRITIONTYPE, eNutritions.FAT.toString());
+		oProp.setProperty(pre+"0."+P_NUTRITIONFRACTION, 1);
+		oProp.putAll( clsNutritionLevel.getDefaultProperties(pre+"0.") );
 
-	private static clsConfigMap getFinalConfig(clsConfigMap poConfig) {
-		clsConfigMap oDefault = getDefaultConfig();
-		oDefault.overwritewith(poConfig);
-		return oDefault;
-	}
-	
-	private static clsConfigMap getDefaultConfig() {
-		clsConfigMap oDefault = new clsConfigMap();
-		
-		clsConfigMap oNutritionConfig = new clsConfigMap();		
-		oNutritionConfig.add(eConfigEntries.MAXCONTENT, new clsConfigDouble(5.0f));
-		oNutritionConfig.add(eConfigEntries.CONTENT, new clsConfigDouble(0.0f));
-		oNutritionConfig.add(eConfigEntries.LOWERBOUND, new clsConfigDouble(0.5f));
-		oNutritionConfig.add(eConfigEntries.UPPERBOUND, new clsConfigDouble(2.5f));
-		oNutritionConfig.add(eConfigEntries.DECAYRATE, new clsConfigDouble(0.0001f));
-		oNutritionConfig.add(eConfigEntries.FRACTION, new clsConfigDouble(1.0f));
-		oDefault.add(eConfigEntries.NUTRITIONCONFIG, oNutritionConfig);		
-		
-		clsConfigList oNutritions = new clsConfigList();
-		oNutritions.add(new clsConfigEnum<eNutritions>(eNutritions.FAT));
-		oNutritions.add(new clsConfigEnum<eNutritions>(eNutritions.PROTEIN));
-		oNutritions.add(new clsConfigEnum<eNutritions>(eNutritions.VITAMIN));
-		oNutritions.add(new clsConfigEnum<eNutritions>(eNutritions.CARBOHYDRATE));
-		oNutritions.add(new clsConfigEnum<eNutritions>(eNutritions.WATER));
-		oNutritions.add(new clsConfigEnum<eNutritions>(eNutritions.MINERAL));
-		oNutritions.add(new clsConfigEnum<eNutritions>(eNutritions.TRACEELEMENT));
-		oDefault.add(eConfigEntries.NUTRITIONS, oNutritions);
-		
-		oDefault.add(eConfigEntries.CONTENT, new clsConfigDouble(10.0f));
+		oProp.setProperty(pre+"1."+P_NUTRITIONTYPE, eNutritions.PROTEIN.toString());
+		oProp.setProperty(pre+"1."+P_NUTRITIONFRACTION, 1);
+		oProp.putAll( clsNutritionLevel.getDefaultProperties(pre+"1.") );
 
-		return oDefault;
-	}
+		oProp.setProperty(pre+"2."+P_NUTRITIONTYPE, eNutritions.VITAMIN.toString());
+		oProp.setProperty(pre+"2."+P_NUTRITIONFRACTION, 1);
+		oProp.putAll( clsNutritionLevel.getDefaultProperties(pre+"2.") );
+
+		oProp.setProperty(pre+"3."+P_NUTRITIONTYPE, eNutritions.CARBOHYDRATE.toString());
+		oProp.setProperty(pre+"3."+P_NUTRITIONFRACTION, 1);
+		oProp.putAll( clsNutritionLevel.getDefaultProperties(pre+"3.") );
+
+		oProp.setProperty(pre+"4."+P_NUTRITIONTYPE, eNutritions.WATER.toString());
+		oProp.setProperty(pre+"4."+P_NUTRITIONFRACTION, 1);
+		oProp.putAll( clsNutritionLevel.getDefaultProperties(pre+"4.") );
+
+		oProp.setProperty(pre+"5."+P_NUTRITIONTYPE, eNutritions.MINERAL.toString());
+		oProp.setProperty(pre+"5."+P_NUTRITIONFRACTION, 1);
+		oProp.putAll( clsNutritionLevel.getDefaultProperties(pre+"5.") );
+
+		oProp.setProperty(pre+"6."+P_NUTRITIONTYPE, eNutritions.TRACEELEMENT.toString());
+		oProp.setProperty(pre+"6."+P_NUTRITIONFRACTION, 1);
+		oProp.putAll( clsNutritionLevel.getDefaultProperties(pre+"6.") );
+
+		oProp.setProperty(pre+"7."+P_NUTRITIONTYPE, eNutritions.UNDIGESTABLE.toString());
+		oProp.setProperty(pre+"7."+P_NUTRITIONFRACTION, 1);
+		oProp.putAll( clsNutritionLevel.getDefaultProperties(pre+"7.") );
+		
+		return oProp;
+	}	
+
+	private void applyProperties(String poPrefix, clsBWProperties poProp) {
+	    String pre = clsBWProperties.addDot(poPrefix);
+		
+        int num = poProp.getPropertyInt(pre+P_NUMNUTRITIONS);
+        for (int i=0; i<num; i++) {
+        	String tmp_pre = pre+i+".";
+        	
+       		clsNutritionLevel oNL = new clsNutritionLevel(tmp_pre, poProp);
+       		double rFraction = poProp.getPropertyDouble(tmp_pre+P_NUTRITIONFRACTION);
+			String oSM = poProp.getPropertyString(tmp_pre+P_NUTRITIONTYPE);
+			eNutritions nSM = eNutritions.valueOf(oSM);
+			
+			addNutritionType(nSM, oNL, rFraction);
+        }
+	}		
 	
 	/**
 	 * returns a clone of the complete list of stored values
@@ -127,24 +116,17 @@ public class clsStomachSystem implements itfStepUpdateInternalState {
 	 *
 	 * @param poId
 	 */
-	public void addNutritionType(eNutritions poId) {
+	public void addNutritionType(eNutritions poId, clsNutritionLevel poNL, double prDefaultFraction) {
 		if (!(moNutritions.containsKey(poId))) {
-			try {
-				clsNutritionLevel oNL = new clsNutritionLevel(mrDefaultContent, mrDefaultMaxLevel, mrDefaultLowerBorder, 
-						mrDefaultUpperBorder, mrDefaultDecreasePerStep);
-
-				moNutritions.put(poId, oNL);
-				moFractions.put(poId, new Double(mrDefaultFraction));
-			} catch (exContentColumnMaxContentExceeded e) {
-			} catch (exContentColumnMinContentUnderrun e) {
-			}			
+			moNutritions.put(poId, poNL);
+			moFractions.put(poId, new Double(prDefaultFraction));
 		}
 		
 		updateFractionSum();
 		updateEnergy();		
 	}
 	
-	public void removeNutritionType(Integer poId) {
+	public void removeNutritionType(eNutritions poId) {
 		if (moNutritions.containsKey(poId)) {
 			moNutritions.remove(poId);
 		}

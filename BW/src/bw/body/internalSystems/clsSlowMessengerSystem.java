@@ -15,9 +15,8 @@ import bw.exceptions.exContentColumnMinContentUnderrun;
 import bw.exceptions.exSlowMessengerAlreadyExists;
 import bw.exceptions.exSlowMessengerDoesNotExist;
 import bw.exceptions.exValueNotWithinRange;
-import bw.utils.container.clsConfigMap;
-import bw.utils.container.clsConfigDouble;
-import bw.utils.enums.eConfigEntries;
+import bw.utils.config.clsBWProperties;
+import bw.utils.enums.eSlowMessenger;
 import bw.utils.tools.clsDecayColumn;
 
 /**
@@ -27,63 +26,50 @@ import bw.utils.tools.clsDecayColumn;
  * 
  */
 public class clsSlowMessengerSystem implements itfStepUpdateInternalState {
-    private clsConfigMap moConfig;
-    
-	private HashMap<Integer, clsDecayColumn> moSlowMessengerContainer;
-
-	private double mrDefaultContent;
-	private double mrDefaultMaxContent;
-	private double mrDefaultIncreaseRate;
-	private double mrDefaultDecayRate;
+	public static final String P_NUMSLOWMESSENGERS = "numslowmessengers";
+	public static final String P_SLOWMESSENGERTYPE = "slowmessengertype";
+	
+	private HashMap<eSlowMessenger, clsDecayColumn> moSlowMessengerContainer;
 	 
-	/**
-	 * 
-	 */
-	public clsSlowMessengerSystem(clsConfigMap poConfig) {
-		moSlowMessengerContainer = new HashMap<Integer, clsDecayColumn>();
+	public clsSlowMessengerSystem(String poPrefix, clsBWProperties poProp) {
+		moSlowMessengerContainer = new HashMap<eSlowMessenger, clsDecayColumn>();
 		
-		moConfig = getFinalConfig(poConfig);
-		applyConfig();		
-	}
-	
-	private void applyConfig() {
-		
-		mrDefaultContent = ((clsConfigDouble)moConfig.get(eConfigEntries.CONTENT)).get();
-		mrDefaultMaxContent = ((clsConfigDouble)moConfig.get(eConfigEntries.MAXCONTENT)).get();
-		mrDefaultIncreaseRate = ((clsConfigDouble)moConfig.get(eConfigEntries.INCREASERATE)).get();
-		mrDefaultDecayRate = ((clsConfigDouble)moConfig.get(eConfigEntries.DECAYRATE)).get();
+		applyProperties(poPrefix, poProp);
 	}
 
-	private static clsConfigMap getFinalConfig(clsConfigMap poConfig) {
-		clsConfigMap oDefault = getDefaultConfig();
-		oDefault.overwritewith(poConfig);
-		return oDefault;
-	}
-	
-	private static clsConfigMap getDefaultConfig() {
-		clsConfigMap oDefault = new clsConfigMap();
+	public static clsBWProperties getDefaultProperties(String poPrefix) {
+		String pre = clsBWProperties.addDot(poPrefix);
 		
-		oDefault.add(eConfigEntries.CONTENT, new clsConfigDouble(0.0f));
-		oDefault.add(eConfigEntries.MAXCONTENT, new clsConfigDouble(1.0f));
-		oDefault.add(eConfigEntries.INCREASERATE, new clsConfigDouble(0.1f));
-		oDefault.add(eConfigEntries.DECAYRATE, new clsConfigDouble(0.01f));
+		clsBWProperties oProp = new clsBWProperties();
 		
-		return oDefault;
-	}
+		oProp.setProperty(pre+P_NUMSLOWMESSENGERS, 2);
+		
+		oProp.setProperty(pre+"0."+P_SLOWMESSENGERTYPE, eSlowMessenger.TESTOSTERON.toString());
+		oProp.putAll( clsDecayColumn.getDefaultProperties(pre+"0") );
+
+		oProp.setProperty(pre+"1."+P_SLOWMESSENGERTYPE, eSlowMessenger.BLOODSUGAR.toString());
+		oProp.putAll( clsDecayColumn.getDefaultProperties(pre+"1") );
+		
+		return oProp;
+	}	
+
+	private void applyProperties(String poPrefix, clsBWProperties poProp) {
+	    String pre = clsBWProperties.addDot(poPrefix);
+		
+        int num = poProp.getPropertyInt(pre+P_NUMSLOWMESSENGERS);
+        for (int i=0; i<num; i++) {
+        	try {
+				clsDecayColumn oDC = new clsDecayColumn(pre+i+".", poProp);
+				String oSM = poProp.getPropertyString(pre+i+"."+P_SLOWMESSENGERTYPE);
+				eSlowMessenger nSM = eSlowMessenger.valueOf(oSM);
+				moSlowMessengerContainer.put(nSM, oDC);
+				
+			} catch (exValueNotWithinRange e) {				
+				e.printStackTrace();
+			}
+        }
+	}	
 	
-	/**
-	 * TODO (deutsch) - insert description
-	 *
-	 * @param pnMessengerId
-	 * @return
-	 * @throws exSlowMessengerAlreadyExists
-	 * @throws exContentColumnMaxContentExceeded
-	 * @throws exContentColumnMinContentUnderrun
-	 * @throws exValueNotWithinRange
-	 */
-	public clsDecayColumn addSlowMessenger(int pnMessengerId) throws exSlowMessengerAlreadyExists, exContentColumnMaxContentExceeded, exContentColumnMinContentUnderrun, exValueNotWithinRange {
-		return addSlowMessenger(new Integer(pnMessengerId));
-	}
 	
 	/**
 	 * TODO (deutsch) - insert description
@@ -95,12 +81,12 @@ public class clsSlowMessengerSystem implements itfStepUpdateInternalState {
 	 * @throws exContentColumnMinContentUnderrun
 	 * @throws exValueNotWithinRange
 	 */
-	public clsDecayColumn addSlowMessenger(Integer poMessengerId) throws exSlowMessengerAlreadyExists, exContentColumnMaxContentExceeded, exContentColumnMinContentUnderrun, exValueNotWithinRange {
+	public clsDecayColumn addSlowMessenger(eSlowMessenger poMessengerId, double prDefaultContent, double prDefaultMaxContent, double prDefaultIncreaseRate, double prDefaultDecayRate) throws exSlowMessengerAlreadyExists, exContentColumnMaxContentExceeded, exContentColumnMinContentUnderrun, exValueNotWithinRange {
 		if (moSlowMessengerContainer.containsKey(poMessengerId)) {
 			throw new bw.exceptions.exSlowMessengerAlreadyExists(poMessengerId);
 		}
 		
-		clsDecayColumn oSlowMessenger = new clsDecayColumn(mrDefaultContent, mrDefaultMaxContent, mrDefaultIncreaseRate, mrDefaultDecayRate);
+		clsDecayColumn oSlowMessenger = new clsDecayColumn(prDefaultContent, prDefaultMaxContent, prDefaultIncreaseRate, prDefaultDecayRate);
 		
 		moSlowMessengerContainer.put(poMessengerId, oSlowMessenger);
 		
@@ -112,49 +98,29 @@ public class clsSlowMessengerSystem implements itfStepUpdateInternalState {
 	 *
 	 * @return
 	 */
-	public HashMap<Integer, clsDecayColumn> getSlowMessengers() {
-		return new HashMap<Integer, clsDecayColumn>(moSlowMessengerContainer);
+	public HashMap<eSlowMessenger, clsDecayColumn> getSlowMessengers() {
+		return new HashMap<eSlowMessenger, clsDecayColumn>(moSlowMessengerContainer);
 	}
 	
-	/**
-	 * TODO (deutsch) - insert description
-	 *
-	 * @param pnMessengerId
-	 * @return
-	 */
-	public boolean existsSlowMessenger(int pnMessengerId) {
-		return existsSlowMessenger(new Integer(pnMessengerId));
-	}
-	
+
 	/**
 	 * TODO (deutsch) - insert description
 	 *
 	 * @param poMessengerId
 	 * @return
 	 */
-	public boolean existsSlowMessenger(Integer poMessengerId) {
+	public boolean existsSlowMessenger(eSlowMessenger poMessengerId) {
 		return moSlowMessengerContainer.containsKey(poMessengerId);
 	}
 	
 	/**
 	 * TODO (deutsch) - insert description
 	 *
-	 * @param pnMessengerId
-	 * @return
-	 * @throws exSlowMessengerDoesNotExist
-	 */
-	public double getMessengerValue(int pnMessengerId) throws exSlowMessengerDoesNotExist {
-		return getMessengerValue(new Integer(pnMessengerId));
-	}
-	
-	/**
-	 * TODO (deutsch) - insert description
-	 *
 	 * @param poMessengerId
 	 * @return
 	 * @throws exSlowMessengerDoesNotExist
 	 */
-	public double getMessengerValue(Integer poMessengerId) throws exSlowMessengerDoesNotExist {
+	public double getMessengerValue(eSlowMessenger poMessengerId) throws exSlowMessengerDoesNotExist {
 		if (!moSlowMessengerContainer.containsKey(poMessengerId)) {
 			throw new bw.exceptions.exSlowMessengerDoesNotExist(poMessengerId);
 		}		
@@ -165,24 +131,12 @@ public class clsSlowMessengerSystem implements itfStepUpdateInternalState {
 	/**
 	 * TODO (deutsch) - insert description
 	 *
-	 * @param pnMessengerId
-	 * @param prAmount
-	 * @throws exSlowMessengerDoesNotExist
-	 * @throws exValueNotWithinRange
-	 */
-	public void inject(int pnMessengerId, double prAmount) throws exSlowMessengerDoesNotExist, exValueNotWithinRange {		
-		inject(new Integer(pnMessengerId), prAmount);
-	}
-	
-	/**
-	 * TODO (deutsch) - insert description
-	 *
 	 * @param poMessengerId
 	 * @param prAmount
 	 * @throws exSlowMessengerDoesNotExist
 	 * @throws exValueNotWithinRange
 	 */
-	public void inject(Integer poMessengerId, double prAmount) throws exSlowMessengerDoesNotExist, exValueNotWithinRange {		
+	public void inject(eSlowMessenger poMessengerId, double prAmount) throws exSlowMessengerDoesNotExist, exValueNotWithinRange {		
 		if (!moSlowMessengerContainer.containsKey(poMessengerId)) {
 			throw new bw.exceptions.exSlowMessengerDoesNotExist(poMessengerId);
 		}
@@ -196,7 +150,7 @@ public class clsSlowMessengerSystem implements itfStepUpdateInternalState {
 	 * @see bw.body.itfStep#step()
 	 */
 	public void stepUpdateInternalState() {
-		Iterator<Integer> i = moSlowMessengerContainer.keySet().iterator();
+		Iterator<eSlowMessenger> i = moSlowMessengerContainer.keySet().iterator();
 		
 		while(i.hasNext()) {
 			clsDecayColumn oSlowMessenger = moSlowMessengerContainer.get(i.next());

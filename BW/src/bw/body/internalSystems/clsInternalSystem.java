@@ -8,8 +8,7 @@
 package bw.body.internalSystems;
 
 import bw.body.itfStepUpdateInternalState;
-import bw.utils.container.clsConfigMap;
-import bw.utils.enums.eConfigEntries;
+import bw.utils.config.clsBWProperties;
 
 /**
  * TODO (deutsch) - insert description 
@@ -19,6 +18,15 @@ import bw.utils.enums.eConfigEntries;
  * 
  */
 public class clsInternalSystem implements itfStepUpdateInternalState {
+	public static final String P_FLESH = "flesh";
+	public static final String P_SLOWMESSENGER = "slowmessenger";
+	public static final String P_FASTMESSENGER = "fastmessenger";
+	public static final String P_TEMPERATURE = "temperature";
+	public static final String P_HEALTH = "health";
+	public static final String P_STAMINA = "stamina";
+	public static final String P_STOMACH = "stomach";
+	public static final String P_INTENERGYCONSUMPTION = "intenergyconsumption";
+	
     private clsFlesh moFlesh;
     private clsSlowMessengerSystem moSlowMessengerSystem;
     private clsFastMessengerSystem moFastMessengerSystem;
@@ -28,40 +36,40 @@ public class clsInternalSystem implements itfStepUpdateInternalState {
     private clsStomachSystem moStomachSystem;
     private clsInternalEnergyConsumption moInternalEnergyConsumption; // list of all the bodies energy consumers
     
-    private clsConfigMap moConfig;
-	
-	public clsInternalSystem(clsConfigMap poConfig) {
-		moConfig = getFinalConfig(poConfig);
-		applyConfig();
-		
-  	    moFlesh 				= new clsFlesh((clsConfigMap) moConfig.get(eConfigEntries.INTSYS_FLESH));
-  	    moSlowMessengerSystem 	= new clsSlowMessengerSystem((clsConfigMap) moConfig.get(eConfigEntries.INTSYS_SLOW_MESSENGER_SYSTEM));
-  	    moFastMessengerSystem 	= new clsFastMessengerSystem((clsConfigMap) moConfig.get(eConfigEntries.INTSYS_FAST_MESSENGER_SYSTEM));
-		moTemperatureSystem 	= new clsTemperatureSystem((clsConfigMap) moConfig.get(eConfigEntries.INTSYS_TEMPERATURE_SYSTEM));
-		moHealthSystem 			= new clsHealthSystem((clsConfigMap) moConfig.get(eConfigEntries.INTSYS_HEALTH_SYSTEM));
-		moStaminaSystem			= new clsStaminaSystem((clsConfigMap) moConfig.get(eConfigEntries.INTSYS_STAMINA_SYSTEM));
-		moStomachSystem 		= new clsStomachSystem((clsConfigMap) moConfig.get(eConfigEntries.INTSYS_STOMACH_SYSTEM));
-   	    moInternalEnergyConsumption = new clsInternalEnergyConsumption((clsConfigMap) moConfig.get(eConfigEntries.INTSYS_INTERNAL_ENERGY_CONSUMPTION));		
+	public clsInternalSystem(String poPrefix, clsBWProperties poProp) {
+		applyProperties(poPrefix, poProp);
 	}
-	
-	private void applyConfig() {
+
+	public static clsBWProperties getDefaultProperties(String poPrefix) {
+		String pre = clsBWProperties.addDot(poPrefix);
 		
-		//TODO add custom code
-	}
-	
-	private static clsConfigMap getFinalConfig(clsConfigMap poConfig) {
-		clsConfigMap oDefault = getDefaultConfig();
-		oDefault.overwritewith(poConfig);
-		return oDefault;
+		clsBWProperties oProp = new clsBWProperties();
+
+		oProp.putAll( clsFlesh.getDefaultProperties(pre+P_FLESH) );
+		oProp.putAll( clsSlowMessengerSystem.getDefaultProperties(pre+P_SLOWMESSENGER) );
+		oProp.putAll( clsFastMessengerSystem.getDefaultProperties(pre+P_FASTMESSENGER) );
+		oProp.putAll( clsTemperatureSystem.getDefaultProperties(pre+P_TEMPERATURE) );
+		oProp.putAll( clsHealthSystem.getDefaultProperties(pre+P_HEALTH) );
+		oProp.putAll( clsStaminaSystem.getDefaultProperties(pre+P_STAMINA) );
+		oProp.putAll( clsStomachSystem.getDefaultProperties(pre+P_STOMACH) );
+		oProp.putAll( clsInternalEnergyConsumption.getDefaultProperties(pre+P_INTENERGYCONSUMPTION) );
+				
+		return oProp;
 	}	
 
-	private static clsConfigMap getDefaultConfig() {
-		clsConfigMap oDefault = new clsConfigMap();
-		//TODO add default values
-		return oDefault;
+	private void applyProperties(String poPrefix, clsBWProperties poProp) {
+		String pre = clsBWProperties.addDot(poPrefix);
+
+  	    moFlesh 				= new clsFlesh(pre+P_FLESH, poProp);
+  	    moSlowMessengerSystem 	= new clsSlowMessengerSystem(pre+P_SLOWMESSENGER, poProp);
+  	    moFastMessengerSystem 	= new clsFastMessengerSystem(pre+P_FASTMESSENGER, poProp);
+		moTemperatureSystem 	= new clsTemperatureSystem(pre+P_TEMPERATURE, poProp);
+		moHealthSystem 			= new clsHealthSystem(pre+P_HEALTH, poProp);
+		moStaminaSystem			= new clsStaminaSystem(pre+P_STAMINA, poProp);
+		moStomachSystem 		= new clsStomachSystem(pre+P_STOMACH, poProp);
+   	    moInternalEnergyConsumption = new clsInternalEnergyConsumption(pre+P_INTENERGYCONSUMPTION, poProp);	
 	}	
-	
-	
+		
 	/**
 	 * @return the moFlesh
 	 */

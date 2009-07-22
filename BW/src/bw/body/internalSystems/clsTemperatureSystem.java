@@ -10,9 +10,8 @@ package bw.body.internalSystems;
 import bw.body.itfStepUpdateInternalState;
 import bw.exceptions.exContentColumnMaxContentExceeded;
 import bw.exceptions.exContentColumnMinContentUnderrun;
-import bw.utils.container.clsConfigMap;
-import bw.utils.container.clsConfigDouble;
-import bw.utils.enums.eConfigEntries;
+import bw.utils.config.clsBWProperties;
+import bw.utils.tools.clsContentColumn;
 import bw.utils.tools.clsFillLevel;
 
 /**
@@ -22,54 +21,38 @@ import bw.utils.tools.clsFillLevel;
  * 
  */
 public class clsTemperatureSystem implements itfStepUpdateInternalState {
-    private clsConfigMap moConfig;
+    public static final String P_SELFREGULATION = "selfregulation";
     
 	private clsFillLevel moTemperature;
 	
 	private double mrSelfRegulationAdaption;
 	
-	public clsTemperatureSystem(clsConfigMap poConfig) {
-		moConfig = getFinalConfig(poConfig);
-		applyConfig();	
-		
-		try {
-			moTemperature = new clsFillLevel(
-					((clsConfigDouble)moConfig.get(eConfigEntries.CONTENT)).get(), 
-					((clsConfigDouble)moConfig.get(eConfigEntries.MAXCONTENT)).get(), 
-					((clsConfigDouble)moConfig.get(eConfigEntries.CHANGE)).get(), 
-					((clsConfigDouble)moConfig.get(eConfigEntries.LOWERBOUND)).get(), 
-					((clsConfigDouble)moConfig.get(eConfigEntries.UPPERBOUND)).get()
-					);
-		} catch (exContentColumnMaxContentExceeded e) {
-		} catch (exContentColumnMinContentUnderrun e) {
-		}
-		
-	}
-	
-	private void applyConfig() {
-
-		mrSelfRegulationAdaption = ((clsConfigDouble)moConfig.get(eConfigEntries.SELFREGULATIONADAPTION)).get();
+	public clsTemperatureSystem(String poPrefix, clsBWProperties poProp) {
+		applyProperties(poPrefix, poProp);
 	}
 
-	private static clsConfigMap getFinalConfig(clsConfigMap poConfig) {
-		clsConfigMap oDefault = getDefaultConfig();
-		oDefault.overwritewith(poConfig);
-		return oDefault;
-	}
-	
-	private static clsConfigMap getDefaultConfig() {
-		clsConfigMap oDefault = new clsConfigMap();
+	public static clsBWProperties getDefaultProperties(String poPrefix) {
+		String pre = clsBWProperties.addDot(poPrefix);
 		
-		oDefault.add(eConfigEntries.CONTENT, new clsConfigDouble(1.0f));
-		oDefault.add(eConfigEntries.MAXCONTENT, new clsConfigDouble(2.0f));
-		oDefault.add(eConfigEntries.CHANGE, new clsConfigDouble(0.0f));
-		oDefault.add(eConfigEntries.LOWERBOUND, new clsConfigDouble(0.9f));
-		oDefault.add(eConfigEntries.UPPERBOUND, new clsConfigDouble(1.1f));
-		oDefault.add(eConfigEntries.SELFREGULATIONADAPTION, new clsConfigDouble(0.01f));
-
-		return oDefault;
+		clsBWProperties oProp = new clsBWProperties();
+		
+		oProp.setProperty(pre+clsContentColumn.P_CONTENT, 1);
+		oProp.setProperty(pre+clsContentColumn.P_MAXCONTENT, 1);
+		oProp.setProperty(pre+clsFillLevel.P_CHANGE, "0.05");
+		oProp.setProperty(pre+clsFillLevel.P_LOWERBOUND, "0.33");
+		oProp.setProperty(pre+clsFillLevel.P_UPPERBOUND, "0.66");	
+		oProp.setProperty(pre+P_SELFREGULATION, "0.01");		
+		
+		return oProp;
 	}	
-	
+
+	private void applyProperties(String poPrefix, clsBWProperties poProp) {
+		String pre = clsBWProperties.addDot(poPrefix);
+		
+		mrSelfRegulationAdaption = poProp.getPropertyDouble(pre+P_SELFREGULATION);
+		moTemperature = new clsFillLevel(pre, poProp);
+	}
+		
 	public void cool(double prCooledBy) {
 		try {
 			moTemperature.decrease(prCooledBy);
