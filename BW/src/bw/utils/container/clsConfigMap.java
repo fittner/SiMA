@@ -19,6 +19,7 @@ import bw.utils.enums.eConfigEntries;
  * @author deutsch
  * 05.05.2009, 13:54:11
  * 
+ * @deprecated
  */
 public class clsConfigMap extends clsConfigCollection {
 	private HashMap<Integer, clsBaseConfig> moConfig;

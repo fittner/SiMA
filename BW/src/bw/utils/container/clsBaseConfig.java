@@ -14,6 +14,7 @@ package bw.utils.container;
  * @author deutsch
  * 05.05.2009, 13:53:44
  * 
+ * @deprecated 
  */
 public abstract class clsBaseConfig {
 

@@ -17,6 +17,7 @@ import java.util.Iterator;
  * @author deutsch
  * 07.05.2009, 11:33:04
  * 
+ * @deprecated
  */
 public class clsConfigList extends clsConfigCollection {
 	private ArrayList<clsBaseConfig> moConfig;

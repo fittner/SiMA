@@ -14,6 +14,7 @@ package bw.utils.container;
  * @author deutsch
  * 05.05.2009, 17:18:11
  * 
+ * @deprecated 
  */
 public class clsConfigBoolean extends clsConfigSkalar {
 	private boolean mnValue;

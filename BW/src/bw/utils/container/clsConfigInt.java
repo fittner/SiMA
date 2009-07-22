@@ -14,6 +14,7 @@ package bw.utils.container;
  * @author deutsch
  * 05.05.2009, 14:11:01
  * 
+ * @deprecated
  */
 public class clsConfigInt extends clsConfigSkalar {
 	private int mnValue;

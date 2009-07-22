@@ -14,6 +14,7 @@ package bw.utils.container;
  * @author deutsch
  * 05.05.2009, 14:39:12
  * 
+ * @deprecated
  */
 public class clsConfigInteger extends clsConfigObject {
 	private Integer moValue;

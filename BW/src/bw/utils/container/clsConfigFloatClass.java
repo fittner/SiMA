@@ -14,6 +14,7 @@ package bw.utils.container;
  * @author deutsch
  * 05.05.2009, 14:49:43
  * 
+ * @deprecated
  */
 public class clsConfigFloatClass extends clsConfigObject {
 	private Float moValue;

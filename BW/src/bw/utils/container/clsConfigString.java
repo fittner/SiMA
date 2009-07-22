@@ -14,6 +14,7 @@ package bw.utils.container;
  * @author deutsch
  * 05.05.2009, 14:12:41
  * 
+ * @deprecated
  */
 public class clsConfigString extends clsConfigObject {
 	private String moValue;

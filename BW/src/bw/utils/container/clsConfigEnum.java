@@ -14,6 +14,7 @@ package bw.utils.container;
  * @author deutsch
  * 07.05.2009, 11:40:36
  * 
+ * @deprecated
  */
 public class clsConfigEnum<E extends Enum<E>> extends clsConfigSkalar {
 	private Enum<E> eValue;
