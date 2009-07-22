@@ -13,11 +13,15 @@ import java.util.HashMap;
 import java.util.Iterator;
 
 import sim.physics2D.physicalObject.PhysicalObject2D;
+import statictools.clsSingletonUniqueIdGenerator;
 import ARSsim.physics2D.physicalObject.clsMobileObject2D;
 import ARSsim.physics2D.physicalObject.clsStationaryObject2D;
-import bw.body.io.clsSensorActuatorBase;
+import bw.body.io.itfGetBodyPartId;
+import bw.body.io.itfGetName;
+import bw.body.io.itfGetUniqueId;
 import bw.entities.clsEntity;
 import decisionunit.itf.actions.itfActionCommand;
+import bw.utils.enums.eBodyParts;
 import bw.utils.enums.partclass.*;
 
 /**
@@ -29,17 +33,26 @@ import bw.utils.enums.partclass.*;
  * 15.04.2009, 15:25:16
  * 
  */
-public abstract class clsActionExecutor extends clsSensorActuatorBase {
+public abstract class clsActionExecutor implements itfGetBodyPartId, itfGetName, itfGetUniqueId {
 	
 	protected static double srEnergyRelation = 0.2f;		//Relation energy to stamina
 	
 	protected clsPartActionEx moBodyPart;
 
+	/* added by TD - replacement for obsolete parent class clsSensorActuatorBaseExt */
+	private static final int mnUniqueId = clsSingletonUniqueIdGenerator.getUniqueId();
+	protected eBodyParts mePartId;
+	protected String moName;	
+
+	/* added by TD - replacement for obsolete parent class clsSensorActuatorBaseExt */	
 	protected abstract void setBodyPart();
-	@Override
 	protected abstract void setBodyPartId();
-	@Override
 	protected abstract void setName();
+	
+	/* added by TD - replacement for obsolete parent class clsSensorActuatorBaseExt */
+	public eBodyParts getBodyPartId() {return mePartId;}
+	public String getName() {return moName;}
+	public int getUniqueId() {return mnUniqueId;}
 	
 	/*
 	 * Array of types of action commands which can not be performed at the 
