@@ -27,8 +27,7 @@ public abstract class clsMobile extends clsEntity {
 	public static final String P_POS_ANGLE = "pos_angle";
 	public static final String P_START_VELOCITY_X = "start_velocity_x";
 	public static final String P_START_VELOCITY_Y = "start_velocity_y";
-	public static final String P_SHAPE = "pos_shape";
-	
+
 	public static final String P_DEF_COEFF_FRICTION = "def_coeff_friction";
 	public static final String P_DEF_STATIC_FRICTION = "def_static_friction";
 	public static final String P_DEF_RESTITUTION = "def_restitution";
@@ -83,6 +82,7 @@ public abstract class clsMobile extends clsEntity {
 		Double2D oVelocity = new Double2D(  poProp.getPropertyDouble(pre+P_START_VELOCITY_X), 
 											poProp.getPropertyDouble(pre+P_START_VELOCITY_Y) );
 		
+		//TODO: (everyone) - THIS IS PFUSCH AND AWFUL - YOU CANNOT SET SOMETHING HERE JUST FOR A SPECIFIC ENTITY!
 		if(this.meEntityType.equals(eEntityType.REMOTEBOT)) 
 			initPhysicalObject2D(new clsPose(oPosX, oPosY, 0), oVelocity, poShape, getMass());
 		else

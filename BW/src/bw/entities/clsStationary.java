@@ -8,7 +8,7 @@
 package bw.entities;
 
 import sim.physics2D.shape.Shape;
-import bw.utils.container.clsConfigMap;
+import bw.utils.config.clsBWProperties;
 import ARSsim.physics2D.physicalObject.clsStationaryObject2D;
 import ARSsim.physics2D.util.clsPose;
 
@@ -21,35 +21,51 @@ import ARSsim.physics2D.util.clsPose;
  * 
  */
 public abstract class clsStationary extends clsEntity {
-	private static double mrDefaultStationaryWeight = 9999.0;
-	private double mrDefaultRestitution = 0.5; //0.5 
+	
+	public static final String P_POS_X = "pos_x";
+	public static final String P_POS_Y = "pos_y";
+	public static final String P_POS_ANGLE = "pos_angle";
 
-	public clsStationary(int pnId, clsPose poPose, Shape poShape, clsConfigMap poConfig) {
-		super(pnId, clsStationary.getFinalConfig(poConfig));
-		
-		applyConfig();
-		
-		initPhysicalObject2D(poPose, null, poShape, mrDefaultStationaryWeight);
-	}
+	public static final String P_DEF_STATIONARY_WEIGHT = "def_stationary_weight";
+	public static final String P_DEF_RESTITUTION = "def_restitution";
 	
-	private void applyConfig() {
-		//TODO add ...
+	
+	private static double mrDefaultStationaryWeight; //9999.0;
+	private double mrDefaultRestitution; 			 //0.5 
 
+	
+	public clsStationary(String poPrefix, clsBWProperties poProp, Shape poShape) {
+		super(poPrefix, poProp);
+		applyProperties(poPrefix, poProp, poShape);
 	}
 	
-	private static clsConfigMap getFinalConfig(clsConfigMap poConfig) {
-		clsConfigMap oDefault = getDefaultConfig();
-		oDefault.overwritewith(poConfig);
-		return oDefault;
-	}
+	public static clsBWProperties getDefaultProperties(String poPrefix) {
+		String pre = clsBWProperties.addDot(poPrefix);
+
+		clsBWProperties oProp = new clsBWProperties();
+
+		oProp.setProperty(pre+P_POS_X, 0.0);
+		oProp.setProperty(pre+P_POS_Y, 0.0);
+		oProp.setProperty(pre+P_POS_ANGLE, 0.0);
+		
+		oProp.setProperty(pre+P_DEF_STATIONARY_WEIGHT , 9999.0);
+		oProp.setProperty(pre+P_DEF_RESTITUTION , 1.0);
+		
+		return oProp;
+	}	
 	
-	private static clsConfigMap getDefaultConfig() {
-		clsConfigMap oDefault = new clsConfigMap();
+	private void applyProperties(String poPrefix, clsBWProperties poProp, Shape poShape) {
+		String pre = clsBWProperties.addDot(poPrefix);
+
+		mrDefaultStationaryWeight = poProp.getPropertyDouble(pre+P_DEF_STATIONARY_WEIGHT);
+		mrDefaultRestitution = poProp.getPropertyDouble(pre+P_DEF_RESTITUTION);
 		
-		//TODO add ...
+		double oPosX = poProp.getPropertyDouble(pre+P_POS_X);
+		double oPosY = poProp.getPropertyDouble(pre+P_POS_Y);
+		double oPosAngle = poProp.getPropertyDouble(pre+P_POS_ANGLE);
 		
-		return oDefault;
-	}
+		initPhysicalObject2D(new clsPose(oPosX, oPosY, oPosAngle), null, poShape, mrDefaultStationaryWeight);
+	}	
 	
 	@Override
 	protected void initPhysicalObject2D(clsPose poPose, sim.physics2D.util.Double2D poStartingVelocity, Shape poShape, double prMass) {
