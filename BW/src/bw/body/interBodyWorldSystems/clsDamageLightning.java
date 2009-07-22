@@ -24,7 +24,7 @@ import bw.utils.enums.partclass.clsPartSensorBump;
 public class clsDamageLightning implements itfStep {
 	public static final String P_PAINTHRESHOLD = "painthreshold";
 	public static final String P_PAINFACTOR = "painfactor";
-	public static final String P_HEALTHPENALTY = "healthpenalt";
+	public static final String P_HEALTHPENALTY = "healthpenalty";
 	public static final String P_HURTTHRESHOLD = "hurthreshold";
 	
 	private double mrPainThreshold;
