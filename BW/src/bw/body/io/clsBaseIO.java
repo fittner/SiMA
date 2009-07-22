@@ -12,7 +12,7 @@ import bw.body.itfStepExecution;
 import bw.body.itfStepSensing;
 import bw.body.internalSystems.clsInternalEnergyConsumption;
 import bw.body.itfget.itfGetInternalEnergyConsumption;
-import bw.utils.container.clsConfigMap;
+import bw.utils.config.clsBWProperties;
 import bw.utils.datatypes.clsMutableDouble;
 
 /**
@@ -24,19 +24,32 @@ import bw.utils.datatypes.clsMutableDouble;
 public abstract class clsBaseIO implements itfStepSensing, itfStepExecution  {
 	private clsInternalEnergyConsumption moInternalEnergyConsumption;
 	
-    protected clsConfigMap moConfig;
-    
-	public clsBaseIO(clsBaseBody poBody, clsConfigMap poConfig) {
-		moConfig = getFinalConfig(poConfig);
-		applyConfig();
-		
+	public clsBaseIO(String poPrefix, clsBWProperties poProp, clsBaseBody poBody) {
 		if (poBody instanceof itfGetInternalEnergyConsumption) {
 			moInternalEnergyConsumption = ((itfGetInternalEnergyConsumption)poBody).getInternalEnergyConsumption();
 		} else {
 			moInternalEnergyConsumption = null;
 		}
+		
+		applyProperties(poPrefix, poProp);
 	}
 
+	public static clsBWProperties getDefaultProperties(String poPrefix) {
+		// String pre = clsBWProperties.addDot(poPrefix);
+		
+		clsBWProperties oProp = new clsBWProperties();
+		
+		//nothing to do
+				
+		return oProp;
+	}	
+
+	private void applyProperties(String poPrefix, clsBWProperties poProp) {
+		//String pre = clsBWProperties.addDot(poPrefix);
+
+		//nothing to do
+	}	
+	
 	public void registerEnergyConsumption(int pnId, double prValue) {
 		if (moInternalEnergyConsumption != null) {
 			moInternalEnergyConsumption.setValue(new Integer(pnId), new clsMutableDouble(prValue));
@@ -48,19 +61,4 @@ public abstract class clsBaseIO implements itfStepSensing, itfStepExecution  {
 			moInternalEnergyConsumption.setValueOnce(new Integer(pnId), new clsMutableDouble(prValue));
 		}
 	}
-	
-	private void applyConfig() {
-	}
-	
-	private static clsConfigMap getFinalConfig(clsConfigMap poConfig) {
-		clsConfigMap oDefault = getDefaultConfig();
-		oDefault.overwritewith(poConfig);
-		return oDefault;
-	}
-	
-	private static clsConfigMap getDefaultConfig() {
-		clsConfigMap oDefault = new clsConfigMap();
-
-		return oDefault;
-	}	
 }

@@ -17,7 +17,7 @@ package bw.body.io;
  */
 public abstract class clsSensorActuatorBaseInt extends clsSensorActuatorBase{
 
-	private clsBaseIO moBaseIO;
+	private clsBaseIO moBaseIO; // reference
 	
 	/**
 	 * @param poBaseIO
