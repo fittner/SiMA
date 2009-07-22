@@ -8,9 +8,11 @@
 package bw.body.interBodyWorldSystems;
 
 import bw.body.itfStepUpdateInternalState;
+import bw.body.internalSystems.clsFastMessengerSystem;
+import bw.body.internalSystems.clsFlesh;
 import bw.body.internalSystems.clsInternalSystem;
-import bw.utils.container.clsConfigMap;
-import bw.utils.enums.eConfigEntries;
+import bw.body.internalSystems.clsSlowMessengerSystem;
+import bw.utils.config.clsBWProperties;
 
 /**
  * TODO (deutsch) - insert description 
@@ -19,41 +21,37 @@ import bw.utils.enums.eConfigEntries;
  * 
  */
 public class clsInterBodyWorldSystem implements itfStepUpdateInternalState {
+	public static final String P_CONSUMEFOOD = "consumefood";	
+	public static final String P_DAMAGEBUMP = "damagebump";	
+	public static final String P_DAMAGELIGHTNING = "damagelightning";	
+	
 	private clsConsumeFood moConsumeFood;
 	private clsDamageBump moDamageBump;
 	private clsDamageLightning moDamageLightning;
     
-    private clsConfigMap moConfig;
-    
-	public clsInterBodyWorldSystem(clsInternalSystem poInternalSystem, clsConfigMap poConfig) {
-		moConfig = getFinalConfig(poConfig);		
-		applyConfig();
-		
-		moConsumeFood = new clsConsumeFood(poInternalSystem.getStomachSystem(), (clsConfigMap) moConfig.get(eConfigEntries.INTER_CONSUME_FOOD));
-		moDamageBump = new clsDamageBump(poInternalSystem, (clsConfigMap) moConfig.get(eConfigEntries.INTER_DAMAGE_BUMP));
-		moDamageLightning = new clsDamageLightning(poInternalSystem, (clsConfigMap) moConfig.get(eConfigEntries.INTER_DAMAGE_LIGHTNING));
+	public clsInterBodyWorldSystem(String poPrefix, clsBWProperties poProp, clsInternalSystem poInternalSystem) {
+		applyProperties(poPrefix, poProp, poInternalSystem);
 	}
-	
-	private void applyConfig() {
+
+	public static clsBWProperties getDefaultProperties(String poPrefix) {
+		String pre = clsBWProperties.addDot(poPrefix);
 		
-		//TODO add custom code
-	}
-	
-	private static clsConfigMap getFinalConfig(clsConfigMap poConfig) {
-		clsConfigMap oDefault = getDefaultConfig();
-		oDefault.overwritewith(poConfig);
-		return oDefault;
-	}
-	
-	private static clsConfigMap getDefaultConfig() {
-		clsConfigMap oDefault = new clsConfigMap();
-		
-		oDefault.add(eConfigEntries.INTER_DAMAGE_BUMP, null);
-		oDefault.add(eConfigEntries.INTER_DAMAGE_LIGHTNING, null);
-		oDefault.add(eConfigEntries.INTER_CONSUME_FOOD, null);
-		
-		return oDefault;
+		clsBWProperties oProp = new clsBWProperties();
+
+		oProp.putAll( clsFlesh.getDefaultProperties(pre+P_CONSUMEFOOD) );
+		oProp.putAll( clsSlowMessengerSystem.getDefaultProperties(pre+P_DAMAGEBUMP) );
+		oProp.putAll( clsFastMessengerSystem.getDefaultProperties(pre+P_DAMAGELIGHTNING) );
+				
+		return oProp;
 	}	
+
+	private void applyProperties(String poPrefix, clsBWProperties poProp, clsInternalSystem poInternalSystem) {
+		String pre = clsBWProperties.addDot(poPrefix);
+
+		moConsumeFood 		= new clsConsumeFood(pre+P_CONSUMEFOOD, poProp, poInternalSystem.getStomachSystem());
+		moDamageBump 		= new clsDamageBump(pre+P_DAMAGEBUMP, poProp, poInternalSystem.getHealthSystem(), poInternalSystem.getFastMessengerSystem());
+		moDamageLightning 	= new clsDamageLightning(pre+P_DAMAGELIGHTNING, poProp, poInternalSystem.getHealthSystem(), poInternalSystem.getFastMessengerSystem());
+	}		
 		
 	public clsConsumeFood getConsumeFood() {
 		return moConsumeFood;

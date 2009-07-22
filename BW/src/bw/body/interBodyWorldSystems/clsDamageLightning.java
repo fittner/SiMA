@@ -9,13 +9,11 @@ package bw.body.interBodyWorldSystems;
 
 import bw.body.itfStep;
 import bw.body.internalSystems.clsFastMessengerSystem;
-//import bw.body.internalSystems.clsHealthSystem;
-import bw.body.internalSystems.clsInternalSystem;
-//import bw.utils.container.clsConfigDouble;
-import bw.utils.container.clsConfigMap;
-//import bw.utils.enums.eConfigEntries;
+import bw.body.internalSystems.clsHealthSystem;
+import bw.utils.config.clsBWProperties;
 import bw.utils.enums.partclass.clsPartBrain;
-import bw.utils.enums.partclass.clsPartDamageBump;
+import bw.utils.enums.partclass.clsPartDamageLightning;
+import bw.utils.enums.partclass.clsPartSensorBump;
 
 /**
  * TODO (deutsch) - insert description 
@@ -24,62 +22,83 @@ import bw.utils.enums.partclass.clsPartDamageBump;
  * 
  */
 public class clsDamageLightning implements itfStep {
+	public static final String P_PAINTHRESHOLD = "painthreshold";
+	public static final String P_PAINFACTOR = "painfactor";
+	public static final String P_HEALTHPENALTY = "healthpenalt";
+	public static final String P_HURTTHRESHOLD = "hurthreshold";
+	
+	private double mrPainThreshold;
+	private double mrPainFactor;	
+	private double mrHealthPenalty;
+	private double mrHurtThreshold;
 
-	// private double mrPainThreshold; // EH - make warning free
-	// private double mrHealthPenalty; // EH - make warning free
-	// private double mrHurtThreshold; // EH - make warning free
-
-	// private clsHealthSystem moHealthSystem; // EH - make warning free
+	private clsHealthSystem moHealthSystem; // EH - make warning free
 	private clsFastMessengerSystem moFastMessengerSystem;
 	
-    // private clsConfigMap moConfig; // EH - make warning free	
+	public clsDamageLightning(String poPrefix, clsBWProperties poProp, clsHealthSystem poHealthSystem, clsFastMessengerSystem poFastMessengerSystem) {
+		moHealthSystem = poHealthSystem;
+		moFastMessengerSystem = poFastMessengerSystem;
+		moFastMessengerSystem.addMapping(new clsPartDamageLightning(), new clsPartBrain());
+		
+		applyProperties(poPrefix, poProp);
+	}
+
+	public static clsBWProperties getDefaultProperties(String poPrefix) {
+		String pre = clsBWProperties.addDot(poPrefix);
+		
+		clsBWProperties oProp = new clsBWProperties();
+		
+		oProp.setProperty(pre+P_PAINTHRESHOLD, 0);
+		oProp.setProperty(pre+P_PAINFACTOR, 1);
+		oProp.setProperty(pre+P_HURTTHRESHOLD, 0);
+		oProp.setProperty(pre+P_HEALTHPENALTY, 1);
+				
+		return oProp;
+	}	
+
+	private void applyProperties(String poPrefix, clsBWProperties poProp) {
+		String pre = clsBWProperties.addDot(poPrefix);
+		
+		mrPainThreshold = poProp.getPropertyDouble(pre+P_PAINTHRESHOLD);
+		mrPainFactor = poProp.getPropertyDouble(pre+P_PAINFACTOR);
+		mrHealthPenalty = poProp.getPropertyDouble(pre+P_HURTTHRESHOLD);
+		mrHurtThreshold = poProp.getPropertyDouble(pre+P_HEALTHPENALTY);
+
+	}		
 	
 	/**
-	 * TODO (deutsch) - insert description 
-	 * 
-	 * @author deutsch
-	 * 19.02.2009, 19:51:48
+	 * TODO (deutsch) - insert description
 	 *
-	 * @param poInternalSystem
+	 * @author deutsch
+	 * 20.02.2009, 12:00:02
+	 *
+	 * @param prPenaltySum
 	 */
-	public clsDamageLightning(clsInternalSystem poInternalSystem, clsConfigMap poConfig) {
-		// moConfig = getFinalConfig(poConfig); // EH - make warning free		
-		// applyConfig(); // EH - make warning free
-		
-		// moHealthSystem = poInternalSystem.getHealthSystem(); // EH - make warning free
-		moFastMessengerSystem = poInternalSystem.getFastMessengerSystem();
-		
-		moFastMessengerSystem.addMapping(new clsPartDamageBump(), new clsPartBrain());
-	}	
-	
-/* // EH - make warning free
-	private void applyConfig() {
-		
-		mrPainThreshold = ((clsConfigDouble)moConfig.get(eConfigEntries.PAINTHRESHOLD)).get();
-		mrHealthPenalty = ((clsConfigDouble)moConfig.get(eConfigEntries.HEALTHPENALTY)).get();
-		mrHurtThreshold = ((clsConfigDouble)moConfig.get(eConfigEntries.HURTTHRESHOLD)).get();	
+	private void hurt(double prPenaltySum) {
+		if (prPenaltySum > mrHurtThreshold) {
+			double rHealthPenalty = prPenaltySum * mrHealthPenalty;
+			moHealthSystem.hurt(rHealthPenalty);
+		}
 	}
-*/	
 	
-/* // EH - make warning free
-	private static clsConfigMap getFinalConfig(clsConfigMap poConfig) {
-		clsConfigMap oDefault = getDefaultConfig();
-		oDefault.overwritewith(poConfig);
-		return oDefault;
+	/**
+	 * TODO (deutsch) - insert description
+	 *
+	 * @author deutsch
+	 * 20.02.2009, 12:00:00
+	 *
+	 * @param prPenaltySum
+	 */
+	private void pain(clsPartSensorBump poSource, double prPenaltySum) {
+		if (prPenaltySum > mrPainThreshold) {
+			moFastMessengerSystem.addMessage((clsPartSensorBump)poSource.clone(), new clsPartBrain(), prPenaltySum * mrPainFactor);
+		}
 	}
-*/
 	
-/* // EH - make warning free
-	private static clsConfigMap getDefaultConfig() {
-		clsConfigMap oDefault = new clsConfigMap();
-		
-		oDefault.add(eConfigEntries.PAINTHRESHOLD, new clsConfigDouble(0.0f));
-		oDefault.add(eConfigEntries.HEALTHPENALTY, new clsConfigDouble(1.0f));
-		oDefault.add(eConfigEntries.HURTTHRESHOLD, new clsConfigDouble(0.0f));
-		
-		return oDefault;
+	public void bumped(clsPartSensorBump poSource, double prForce) {
+		hurt(prForce);
+		pain(poSource, prForce);
 	}
-*/
 	
     /**
      * TODO (deutsch) - insert description

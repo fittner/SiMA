@@ -10,10 +10,7 @@ package bw.body.interBodyWorldSystems;
 import bw.body.itfStep;
 import bw.body.internalSystems.clsFastMessengerSystem;
 import bw.body.internalSystems.clsHealthSystem;
-import bw.body.internalSystems.clsInternalSystem;
-import bw.utils.container.clsConfigDouble;
-import bw.utils.container.clsConfigMap;
-import bw.utils.enums.eConfigEntries;
+import bw.utils.config.clsBWProperties;
 import bw.utils.enums.partclass.clsPartBrain;
 import bw.utils.enums.partclass.clsPartDamageBump;
 import bw.utils.enums.partclass.clsPartSensorBump;
@@ -25,56 +22,50 @@ import bw.utils.enums.partclass.clsPartSensorBump;
  * 
  */
 public class clsDamageBump implements itfStep {
+	public static final String P_PAINTHRESHOLD = "painthreshold";
+	public static final String P_PAINFACTOR = "painfactor";
+	public static final String P_HEALTHPENALTY = "healthpenalt";
+	public static final String P_HURTTHRESHOLD = "hurthreshold";
 	
 	private double mrPainThreshold;
+	private double mrPainFactor;	
 	private double mrHealthPenalty;
 	private double mrHurtThreshold;
 
-	private clsHealthSystem moHealthSystem;
-	private clsFastMessengerSystem moFastMessengerSystem;
+	private clsHealthSystem moHealthSystem; // reference
+	private clsFastMessengerSystem moFastMessengerSystem; // reference
 	
-    private clsConfigMap moConfig;	
-	
-	/**
-	 * TODO (deutsch) - insert description 
-	 * 
-	 * @author deutsch
-	 * 19.02.2009, 19:51:48
-	 *
-	 * @param poInternalSystem
-	 */
-	public clsDamageBump(clsInternalSystem poInternalSystem, clsConfigMap poConfig) {
-		moConfig = getFinalConfig(poConfig);
-		applyConfig();
-		
-		moHealthSystem = poInternalSystem.getHealthSystem();
-		moFastMessengerSystem = poInternalSystem.getFastMessengerSystem();
-		
+	public clsDamageBump(String poPrefix, clsBWProperties poProp, clsHealthSystem poHealthSystem, clsFastMessengerSystem poFastMessengerSystem) {
+		moHealthSystem = poHealthSystem;
+		moFastMessengerSystem = poFastMessengerSystem;
 		moFastMessengerSystem.addMapping(new clsPartDamageBump(), new clsPartBrain());
+		
+		applyProperties(poPrefix, poProp);
 	}
-	
-	private void applyConfig() {
-		mrPainThreshold = ((clsConfigDouble)moConfig.get(eConfigEntries.PAINTHRESHOLD)).get();
-		mrHealthPenalty = ((clsConfigDouble)moConfig.get(eConfigEntries.HEALTHPENALTY)).get();
-		mrHurtThreshold = ((clsConfigDouble)moConfig.get(eConfigEntries.HURTTHRESHOLD)).get();		
-	}
-	
-	private static clsConfigMap getFinalConfig(clsConfigMap poConfig) {
-		clsConfigMap oDefault = getDefaultConfig();
-		oDefault.overwritewith(poConfig);
-		return oDefault;
-	}
-	
-	private static clsConfigMap getDefaultConfig() {
-		clsConfigMap oDefault = new clsConfigMap();
 
-		oDefault.add(eConfigEntries.PAINTHRESHOLD, new clsConfigDouble(0.0f));
-		oDefault.add(eConfigEntries.HEALTHPENALTY, new clsConfigDouble(1.0f));
-		oDefault.add(eConfigEntries.HURTTHRESHOLD, new clsConfigDouble(0.0f));
-
-		return oDefault;
+	public static clsBWProperties getDefaultProperties(String poPrefix) {
+		String pre = clsBWProperties.addDot(poPrefix);
+		
+		clsBWProperties oProp = new clsBWProperties();
+		
+		oProp.setProperty(pre+P_PAINTHRESHOLD, 0);
+		oProp.setProperty(pre+P_PAINFACTOR, 1);
+		oProp.setProperty(pre+P_HURTTHRESHOLD, 0);
+		oProp.setProperty(pre+P_HEALTHPENALTY, 1);
+				
+		return oProp;
 	}	
-	
+
+	private void applyProperties(String poPrefix, clsBWProperties poProp) {
+		String pre = clsBWProperties.addDot(poPrefix);
+		
+		mrPainThreshold = poProp.getPropertyDouble(pre+P_PAINTHRESHOLD);
+		mrPainFactor = poProp.getPropertyDouble(pre+P_PAINFACTOR);
+		mrHealthPenalty = poProp.getPropertyDouble(pre+P_HURTTHRESHOLD);
+		mrHurtThreshold = poProp.getPropertyDouble(pre+P_HEALTHPENALTY);
+
+	}	
+		
 	/**
 	 * TODO (deutsch) - insert description
 	 *
@@ -100,7 +91,7 @@ public class clsDamageBump implements itfStep {
 	 */
 	private void pain(clsPartSensorBump poSource, double prPenaltySum) {
 		if (prPenaltySum > mrPainThreshold) {
-			moFastMessengerSystem.addMessage((clsPartSensorBump)poSource.clone(), new clsPartBrain(), prPenaltySum);
+			moFastMessengerSystem.addMessage((clsPartSensorBump)poSource.clone(), new clsPartBrain(), prPenaltySum * mrPainFactor);
 		}
 	}
 	

@@ -14,10 +14,8 @@ import java.util.Iterator;
 import bw.body.internalSystems.clsStomachSystem;
 import bw.exceptions.exFoodNotFinalized;
 import bw.exceptions.exNoSuchNutritionType;
-import bw.utils.container.clsConfigEnum;
-import bw.utils.container.clsConfigMap;
+import bw.utils.config.clsBWProperties;
 import bw.utils.datatypes.clsMutableDouble;
-import bw.utils.enums.eConfigEntries;
 import bw.utils.enums.eNutritions;
 import bw.utils.tools.clsFood;
 
@@ -28,36 +26,33 @@ import bw.utils.tools.clsFood;
  * 
  */
 public class clsConsumeFood {
-	private eNutritions moGarbageNutritionType;
-	private clsStomachSystem moStomachSystem;
-
-    private clsConfigMap moConfig;	
+	public static final String P_GARBAGENUTRITIONTYPE = "garbagenutritiontype";
 	
-    public clsConsumeFood(clsStomachSystem poStomach, clsConfigMap poConfig) {
-    	moConfig = getFinalConfig(poConfig);
-    	applyConfig();
-    	
+	private eNutritions mnGarbageNutritionType;
+	private clsStomachSystem moStomachSystem; // reference to existing stomach
+
+
+	public clsConsumeFood(String poPrefix, clsBWProperties poProp, clsStomachSystem poStomach) {
 		moStomachSystem = poStomach;
-	}
-	
-	private void applyConfig() {
 		
-		moGarbageNutritionType = eNutritions.UNDIGESTABLE;
+		applyProperties(poPrefix, poProp);
+	}
 
-	}
-	
-	private static clsConfigMap getFinalConfig(clsConfigMap poConfig) {
-		clsConfigMap oDefault = getDefaultConfig();
-		oDefault.overwritewith(poConfig);
-		return oDefault;
-	}
-	
-	private static clsConfigMap getDefaultConfig() {
-		clsConfigMap oDefault = new clsConfigMap();
+	public static clsBWProperties getDefaultProperties(String poPrefix) {
+		String pre = clsBWProperties.addDot(poPrefix);
 		
-		oDefault.add(eConfigEntries.GARBAGENUTRITIONTYPE, new clsConfigEnum<eNutritions>(eNutritions.UNDIGESTABLE));
+		clsBWProperties oProp = new clsBWProperties();
 		
-		return oDefault;
+		oProp.setProperty(pre+P_GARBAGENUTRITIONTYPE, eNutritions.UNDIGESTABLE.toString());
+				
+		return oProp;
+	}	
+
+	private void applyProperties(String poPrefix, clsBWProperties poProp) {
+		String pre = clsBWProperties.addDot(poPrefix);
+
+		String temp = poProp.getProperty(pre+P_GARBAGENUTRITIONTYPE);
+		mnGarbageNutritionType = eNutritions.valueOf(temp);
 	}
 	
 	/**
@@ -85,7 +80,7 @@ public class clsConsumeFood {
 				moStomachSystem.addNutrition(oNutritionType, oAmount.doubleValue());
 			} catch (exNoSuchNutritionType e) {
 				try {
-					moStomachSystem.addNutrition(moGarbageNutritionType, oAmount.doubleValue());
+					moStomachSystem.addNutrition(mnGarbageNutritionType, oAmount.doubleValue());
 				} catch (exNoSuchNutritionType e1) {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
