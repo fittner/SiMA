@@ -9,8 +9,7 @@ package bw.body.intraBodySystems;
 
 import bw.body.itfStepUpdateInternalState;
 import bw.body.internalSystems.clsInternalSystem;
-import bw.utils.container.clsConfigMap;
-import bw.utils.enums.eConfigEntries;
+import bw.utils.config.clsBWProperties;
 
 /**
  * TODO (deutsch) - insert description 
@@ -19,46 +18,42 @@ import bw.utils.enums.eConfigEntries;
  * 
  */
 public class clsIntraBodySystem implements itfStepUpdateInternalState{
+	public static final String P_BODYCOLOR = "bodycolor";	
+	public static final String P_GROWTHSYSTEM = "growthsystem";	
+	public static final String P_DAMAGENUTRITION = "damagenutrition";	
+	public static final String P_DAMAGETEMPERATURE = "damagetemperature";	
+	
     private clsBodyColor moBioSystem;
     private clsGrowth moGrowthSystem;
     private clsDamageNutrition moDamageNutrition;
     private clsDamageTemperature moDamageTemperature;
     
-    private clsConfigMap moConfig;
-    
-    public clsIntraBodySystem(clsInternalSystem poInternalSystem, clsConfigMap poConfig) {
-    	moConfig = getFinalConfig(poConfig);    	
-		applyConfig();
-		    	
-   	    moBioSystem = new clsBodyColor((clsConfigMap) moConfig.get(eConfigEntries.INTRA_DAMAGE_NUTRITION));
-	    moGrowthSystem = new clsGrowth((clsConfigMap) moConfig.get(eConfigEntries.INTRA_DAMAGE_TEMPERATURE));  
-	    moDamageNutrition = new clsDamageNutrition(poInternalSystem, (clsConfigMap) moConfig.get(eConfigEntries.INTRA_BODYCOLOR));
-	    moDamageTemperature = new clsDamageTemperature(poInternalSystem, (clsConfigMap) moConfig.get(eConfigEntries.INTRA_GROWTH));
-    }
-    
-	private void applyConfig() {
-		//TODO add ...
-
+    public clsIntraBodySystem(String poPrefix, clsBWProperties poProp, clsInternalSystem poInternalSystem) {
+		applyProperties(poPrefix, poProp, poInternalSystem);
 	}
 
-	private static clsConfigMap getFinalConfig(clsConfigMap poConfig) {
-		clsConfigMap oDefault = getDefaultConfig();
-		oDefault.overwritewith(poConfig);
-		return oDefault;
-	}
-	
-	private static clsConfigMap getDefaultConfig() {
-		clsConfigMap oDefault = new clsConfigMap();
+	public static clsBWProperties getDefaultProperties(String poPrefix) {
+		String pre = clsBWProperties.addDot(poPrefix);
 		
-		oDefault.add(eConfigEntries.INTRA_DAMAGE_NUTRITION, null);
-		oDefault.add(eConfigEntries.INTRA_DAMAGE_TEMPERATURE, null);
-		oDefault.add(eConfigEntries.INTRA_BODYCOLOR, null);
-		oDefault.add(eConfigEntries.INTRA_GROWTH, null);
-		
-		return oDefault;
+		clsBWProperties oProp = new clsBWProperties();
+
+		oProp.putAll( clsBodyColor.getDefaultProperties(pre+P_BODYCOLOR) );
+		oProp.putAll( clsGrowth.getDefaultProperties(pre+P_GROWTHSYSTEM) );
+		oProp.putAll( clsDamageNutrition.getDefaultProperties(pre+P_DAMAGENUTRITION) );
+		oProp.putAll( clsDamageTemperature.getDefaultProperties(pre+P_DAMAGETEMPERATURE) );
+				
+		return oProp;
+	}	
+
+	private void applyProperties(String poPrefix, clsBWProperties poProp, clsInternalSystem poInternalSystem) {
+		String pre = clsBWProperties.addDot(poPrefix);
+
+		moBioSystem 		= new clsBodyColor(pre+P_BODYCOLOR, poProp);
+		moGrowthSystem 		= new clsGrowth(pre+P_GROWTHSYSTEM, poProp);
+		moDamageNutrition 		= new clsDamageNutrition(pre+P_DAMAGENUTRITION, poProp, poInternalSystem.getHealthSystem(), poInternalSystem.getStomachSystem(), poInternalSystem.getFastMessengerSystem());
+		moDamageTemperature 	= new clsDamageTemperature(pre+P_DAMAGETEMPERATURE, poProp, poInternalSystem.getHealthSystem(), poInternalSystem.getTemperatureSystem(), poInternalSystem.getFastMessengerSystem());
 	}	
 	    
-    
     /**
 	 * @return the moBioSystem
 	 */

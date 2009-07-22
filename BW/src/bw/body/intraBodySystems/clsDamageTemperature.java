@@ -10,12 +10,10 @@ package bw.body.intraBodySystems;
 import bw.body.itfStepUpdateInternalState;
 import bw.body.internalSystems.clsFastMessengerSystem;
 import bw.body.internalSystems.clsHealthSystem;
-import bw.body.internalSystems.clsInternalSystem;
 import bw.body.internalSystems.clsTemperatureSystem;
-import bw.utils.container.clsConfigDouble;
-import bw.utils.container.clsConfigMap;
-import bw.utils.enums.eConfigEntries;
+import bw.utils.config.clsBWProperties;
 import bw.utils.enums.partclass.clsPartBrain;
+import bw.utils.enums.partclass.clsPartDamageNutrition;
 import bw.utils.enums.partclass.clsPartDamageTemperature;
 
 /**
@@ -25,47 +23,46 @@ import bw.utils.enums.partclass.clsPartDamageTemperature;
  * 
  */
 public class clsDamageTemperature implements itfStepUpdateInternalState {
-
+	public static final String P_PAINTHRESHOLD = "painthreshold";
+	public static final String P_PAINFACTOR = "painfactor";
+	public static final String P_HEALTHPENALTY = "healthpenalty";
+	
 	private double mrHealthPenalty;
 	private double mrPainThreshold;
+	private double mrPainFactor;
 	
 	private clsTemperatureSystem moTemperatureSystem;
 	private clsHealthSystem moHealthSystem;
 	private clsFastMessengerSystem moFastMessengerSystem;
 	
-	private clsConfigMap moConfig;
-	
-	public clsDamageTemperature(clsInternalSystem poInternalSystem, clsConfigMap poConfig) {
-		moTemperatureSystem = poInternalSystem.getTemperatureSystem();
-		moHealthSystem = poInternalSystem.getHealthSystem();
-		moFastMessengerSystem = poInternalSystem.getFastMessengerSystem();
+	public clsDamageTemperature(String poPrefix, clsBWProperties poProp, clsHealthSystem poHealthSystem, clsTemperatureSystem poTemperatureSystem, clsFastMessengerSystem poFastMessengerSystem) {
+		moHealthSystem = poHealthSystem;
+		moTemperatureSystem = poTemperatureSystem;		
+		moFastMessengerSystem = poFastMessengerSystem;
+		moFastMessengerSystem.addMapping(new clsPartDamageNutrition(), new clsPartBrain());
 		
-		moFastMessengerSystem.addMapping(new clsPartDamageTemperature(), new clsPartBrain());
-		
-		moConfig = getFinalConfig(poConfig);
-		applyConfig();
+		applyProperties(poPrefix, poProp);
 	}
-	
-	private void applyConfig() {
+
+	public static clsBWProperties getDefaultProperties(String poPrefix) {
+		String pre = clsBWProperties.addDot(poPrefix);
 		
-		mrPainThreshold = ((clsConfigDouble)moConfig.get(eConfigEntries.PAINTHRESHOLD)).get();
-		mrHealthPenalty = ((clsConfigDouble)moConfig.get(eConfigEntries.HEALTHPENALTY)).get();
-	}
-	
-	private static clsConfigMap getFinalConfig(clsConfigMap poConfig) {
-		clsConfigMap oDefault = getDefaultConfig();
-		oDefault.overwritewith(poConfig);
-		return oDefault;
-	}
-	
-	private static clsConfigMap getDefaultConfig() {
-		clsConfigMap oDefault = new clsConfigMap();
+		clsBWProperties oProp = new clsBWProperties();
 		
-		oDefault.add(eConfigEntries.PAINTHRESHOLD, new clsConfigDouble(0.1f));
-		oDefault.add(eConfigEntries.HEALTHPENALTY, new clsConfigDouble(0.5f));
-		
-		return oDefault;
+		oProp.setProperty(pre+P_PAINTHRESHOLD, 0.1);
+		oProp.setProperty(pre+P_PAINFACTOR, 1);
+		oProp.setProperty(pre+P_HEALTHPENALTY, 0.5);
+				
+		return oProp;
 	}	
+
+	private void applyProperties(String poPrefix, clsBWProperties poProp) {
+		String pre = clsBWProperties.addDot(poPrefix);
+		
+		mrPainThreshold = poProp.getPropertyDouble(pre+P_PAINTHRESHOLD);
+		mrPainFactor = poProp.getPropertyDouble(pre+P_PAINFACTOR);
+		mrHealthPenalty = poProp.getPropertyDouble(pre+P_HEALTHPENALTY);
+	}		
 	
 	/**
 	 * TODO (deutsch) - insert description
@@ -106,7 +103,7 @@ public class clsDamageTemperature implements itfStepUpdateInternalState {
 	 */
 	private void pain(double prPenaltySum) {
 		if (prPenaltySum > mrPainThreshold) {
-			moFastMessengerSystem.addMessage(new clsPartDamageTemperature(), new clsPartBrain(), prPenaltySum);
+			moFastMessengerSystem.addMessage(new clsPartDamageTemperature(), new clsPartBrain(), prPenaltySum * mrPainFactor);
 		}
 	}
 	

@@ -8,7 +8,7 @@
 package bw.body.intraBodySystems;
 
 import bw.body.itfStepUpdateInternalState;
-import bw.utils.container.clsConfigMap;
+import bw.utils.config.clsBWProperties;
 
 /**
  * TODO (deutsch) - insert description 
@@ -17,36 +17,28 @@ import bw.utils.container.clsConfigMap;
  * 
  */
 public class clsBodyColor implements itfStepUpdateInternalState {
-	// private clsConfigMap moConfig;	// EH - make warning free
-	
-	public clsBodyColor(clsConfigMap poConfig) {
-		// moConfig = getFinalConfig(poConfig);	// EH - make warning free
-		applyConfig();
-	}
-	
-	private void applyConfig() {
-		
-		//TODO add ...
 
+	public clsBodyColor(String poPrefix, clsBWProperties poProp) {
+		applyProperties(poPrefix, poProp);
 	}
 
-/* // EH - make warning free
-	private static clsConfigMap getFinalConfig(clsConfigMap poConfig) {
-		clsConfigMap oDefault = getDefaultConfig();
-		oDefault.overwritewith(poConfig);
-		return oDefault;
-	}
-*/
-	
-/* // EH - make warning free
-	private static clsConfigMap getDefaultConfig() {
-		clsConfigMap oDefault = new clsConfigMap();
+	public static clsBWProperties getDefaultProperties(String poPrefix) {
+		// String pre = clsBWProperties.addDot(poPrefix);
 		
-		//TODO add ...
+		clsBWProperties oProp = new clsBWProperties();
 		
-		return oDefault;
+		// nothing to do
+				
+		return oProp;
 	}	
-*/
+
+	private void applyProperties(String poPrefix, clsBWProperties poProp) {
+		//String pre = clsBWProperties.addDot(poPrefix);
+
+		//nothing to do ...
+	}	
+
+
 	
     /**
      * TODO (deutsch) - insert description
