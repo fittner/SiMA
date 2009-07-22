@@ -31,6 +31,8 @@ import bw.entities.clsUraniumOre;
 import bw.entities.clsStationary;
 import bw.utils.inspectors.body.clsFillLevelInspector;
 import bw.utils.inspectors.entity.clsInspectorBubble;
+import bw.utils.inspectors.entity.clsInspectorFungus;
+import bw.utils.inspectors.entity.clsInspectorRemoteBot;
 import bw.utils.inspectors.entity.clsInspectorBase;
 import sim.display.GUIState;
 import sim.portrayal.Inspector;
@@ -74,8 +76,7 @@ public class clsInspectorMappingEntity {
 	    		
 	    	}
 	    	else if( poEntity instanceof clsBubble) {
-	    		oRetVal.addInspector( new clsInspectorBubble(poSuperInspector, poWrapper, poState, (clsBubble)poEntity), "Bubble default");
-	    		
+	    		oRetVal.addInspector( new clsInspectorBubble(poSuperInspector, poWrapper, poState, (clsBubble)poEntity), "Bubble");
 	    	}
 	    	else if( poEntity instanceof clsCake) {
 	    		
@@ -87,7 +88,7 @@ public class clsInspectorMappingEntity {
 	    		
 	    	}
 	    	else if( poEntity instanceof clsFungus) {
-	    		
+	    		oRetVal.addInspector( new clsInspectorFungus(poSuperInspector, poWrapper, poState, (clsFungus)poEntity), "Fungus");
 	    	}
 	    	else if( poEntity instanceof clsHare) {
 	    		
@@ -99,7 +100,7 @@ public class clsInspectorMappingEntity {
 	    		
 	    	}
 	    	else if( poEntity instanceof clsRemoteBot) {
-	    		
+	    		oRetVal.addInspector( new clsInspectorRemoteBot(poSuperInspector, poWrapper, poState, (clsRemoteBot)poEntity), "RemoteBot");
 	    	}
 	    	else if( poEntity instanceof clsStone) {
 	    		
