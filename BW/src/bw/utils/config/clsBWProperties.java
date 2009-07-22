@@ -629,4 +629,12 @@ public class clsBWProperties extends Properties {
 		
 		return value;
 	}	
+	
+	public static String addDot(String poPrefix) {
+		if (poPrefix.length()>0 && !poPrefix.endsWith(".")) {
+			return poPrefix + ".";
+		}
+		
+		return poPrefix;
+	}
 }
