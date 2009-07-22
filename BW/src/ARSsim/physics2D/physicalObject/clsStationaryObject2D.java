@@ -3,12 +3,18 @@
  */
 package ARSsim.physics2D.physicalObject;
 
+import sim.display.GUIState;
 import sim.engine.SimState;
 import sim.engine.Steppable;
 import sim.physics2D.shape.Shape;
+import sim.portrayal.DrawInfo2D;
+import sim.portrayal.Inspector;
+import sim.portrayal.LocationWrapper;
+import sim.portrayal.inspector.TabbedInspector;
 import ARSsim.physics2D.util.clsPose;
 import bw.entities.clsEntity;
 import bw.factories.clsSingletonMasonGetter;
+import bw.utils.inspectors.entity.clsInspectorEntity;
 
 /**
  * Our representative of the mason physics class
@@ -24,6 +30,8 @@ public class clsStationaryObject2D extends sim.physics2D.physicalObject.Stationa
 	private static final long serialVersionUID = 915012100712508497L;
 	
 	private clsEntity moEntity;
+	
+	private TabbedInspector moMasonInspector = null;
 	
 	public clsStationaryObject2D(clsEntity poEntity)
 	{
@@ -99,5 +107,47 @@ public class clsStationaryObject2D extends sim.physics2D.physicalObject.Stationa
 				moEntity.processing();
 			}
 		};
+	}
+	
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * supports message handling for the mouse-doubleclick / inspectors
+	 * 
+	 * @author langr 25.02.2009, 14:54:30
+	 * 
+	 * @see sim.portrayal.SimplePortrayal2D#hitObject(java.lang.Object,
+	 * sim.portrayal.DrawInfo2D)
+	 */
+	@Override
+	public boolean hitObject(Object object, DrawInfo2D range) {
+		return true;
+	}
+	
+	/*
+	 * Assigning customized MASON-inspectors to specific objects The mapping is
+	 * defined in the static method clsInspectorMapping.getInspector()
+	 * 
+	 * @author langr 25.03.2009, 14:57:20
+	 * 
+	 * @see
+	 * sim.portrayal.SimplePortrayal2D#getInspector(sim.portrayal.LocationWrapper
+	 * , sim.display.GUIState)
+	 */
+	@Override
+	public Inspector getInspector(LocationWrapper wrapper, GUIState state) {
+		// Override to get constantly updating inspectors = volatile
+
+		// TODO: (langr) - testing purpose only! adapt tabs for selected entity
+		// clsSingletonMasonGetter.getConsole().setView(moEntity.getEntityType().hashCode());
+
+		if (moMasonInspector == null) {
+			moMasonInspector = new TabbedInspector();
+			Inspector oInspector = new clsInspectorEntity(super.getInspector(
+					wrapper, state), wrapper, state, moEntity);
+			moMasonInspector.addInspector(oInspector, "Entity - Basic Values");
+		}
+
+		return moMasonInspector;
 	}
 }

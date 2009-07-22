@@ -14,6 +14,7 @@ import bw.body.clsMeatBody;
 //import bw.entities.clsBubble;
 import bw.entities.clsAnimal;
 import bw.entities.clsBubble;
+import bw.entities.clsBase;
 import bw.entities.clsCake;
 import bw.entities.clsCan;
 import bw.entities.clsCarrot;
@@ -30,6 +31,7 @@ import bw.entities.clsUraniumOre;
 import bw.entities.clsStationary;
 import bw.utils.inspectors.body.clsFillLevelInspector;
 import bw.utils.inspectors.entity.clsInspectorBubble;
+import bw.utils.inspectors.entity.clsInspectorBase;
 import sim.display.GUIState;
 import sim.portrayal.Inspector;
 import sim.portrayal.LocationWrapper;
@@ -108,6 +110,11 @@ public class clsInspectorMappingEntity {
     	}
     	else if ( poEntity instanceof clsStationary )
     	{
+    		int i = 1;
+    		if( poEntity instanceof clsBase) {
+	    		oRetVal.addInspector( new clsInspectorBase(poSuperInspector, poWrapper, poState, (clsBase)poEntity), "Base default");
+	    		
+	    	}
 //	    	if( poEntity instanceof ) {
 //	    		
 //	    	}

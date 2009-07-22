@@ -45,6 +45,7 @@ public class clsEntityPartVision extends MobileObject2D implements Steppable{
 	private double mnRadius;
 	
 	private double mnRadiusOffsetVisionArea = 0;
+	private double mrIntensity;
 		
 	private HashMap<Integer, PhysicalObject2D> meFilteredObj;
 	private HashMap<Integer, PhysicalObject2D> meUnFilteredObj;
@@ -70,6 +71,7 @@ public class clsEntityPartVision extends MobileObject2D implements Steppable{
 	 moColor = Color.yellow;
 	 moShape = new clsCircleBorder(mnRadius, moColor);
 	 moEntity = poEntity; 
+	 mrIntensity = 0;
 	 
 		try
 		{
@@ -153,6 +155,24 @@ public class clsEntityPartVision extends MobileObject2D implements Steppable{
 	public void setMnRadius(double pnRadius) {
 		this.mnRadius = pnRadius;
 	}
+	
+	/**
+	 * @return the mrIntensity
+	 */
+	public double getMrIntensity() {
+		return mrIntensity;
+	}
+
+
+	/**
+	 * @param mrIntensity the mrIntensity to set
+	 */
+	public void setMrIntensity(double prIntensity) {
+		this.mrIntensity = prIntensity;
+	}
+	
+	
+	
 
 
 	/**

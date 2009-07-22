@@ -40,7 +40,7 @@ public class clsSensorVision extends clsSensorExt {
 	
 	private clsEntity moEntity;
 	
-	private clsEntityPartVision moVisionArea;
+	protected clsEntityPartVision moVisionArea;
 	private HashMap<Integer, PhysicalObject2D> moCollidingObj;
 	private HashMap<Integer, Double2D> moCollisionPoint;
 	private HashMap<Integer, PhysicalObject2D> moViewObj;

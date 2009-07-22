@@ -14,6 +14,7 @@ public enum eEntityType {
 	TIGER,
 	
 	//INANIMATE
+	BASE,
 	CAN,
 	CAKE,
 	STONE,

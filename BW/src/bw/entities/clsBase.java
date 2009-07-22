@@ -88,7 +88,7 @@ public class clsBase extends clsStationary {
 	 */
 	@Override
 	protected void setEntityType() {
-		meEntityType = eEntityType.CAN;
+		meEntityType = eEntityType.BASE;
 		
 	}
 

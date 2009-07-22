@@ -127,6 +127,7 @@ public class clsSensorRadiation extends clsSensorVision {
 				}
 			}
 		}
+		super.moVisionArea.setMrIntensity(mrRadiation);
 	}
 	
 	
