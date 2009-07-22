@@ -14,6 +14,7 @@ import org.junit.Test;
 import bw.exceptions.exContentColumnMaxContentExceeded;
 import bw.exceptions.exContentColumnMinContentUnderrun;
 import bw.exceptions.exValueNotWithinRange;
+import bw.utils.config.clsBWProperties;
 import bw.utils.tools.clsDecayColumn;
 
 /**
@@ -50,6 +51,25 @@ public class tstDecayColumn {
 		assertEquals(oDC.getMaxContent(), 1.0f, 0.0000001f);
 	}
 
+	
+	
+	@Test 
+	public void testPropertyConstructor() {
+		clsBWProperties oProp = clsDecayColumn.getDefaultProperties("");
+		clsDecayColumn oColumn = null;
+		try {
+			oColumn = new clsDecayColumn("", oProp);
+		} catch (exValueNotWithinRange e) {
+			fail(e.toString());
+		}
+		assertNotNull(oColumn);
+		assertEquals(oColumn.getContent(), 0.0, 0.000001);
+		assertEquals(oColumn.getMaxContent(), java.lang.Double.MAX_VALUE, 0.000001);
+		assertEquals(oColumn.getDecayRate(), 0.1, 0.000001);
+		assertEquals(oColumn.getIncreaseRate(), 0.1, 0.000001);
+		assertEquals(oColumn.getInjectionValue(), 0.0, 0.000001);
+	}
+	
 	/**
 	 * Test method for {@link bw.utils.tools.clsDecayColumn#clsDecayColumn(float, float)}.
 	 */
@@ -361,11 +381,6 @@ public class tstDecayColumn {
 		
 		assertEquals(oDC.getContent(), 0.09f, 0.001f);
 		
-		assertFalse(oDC.isZero());
-		try {
-			oDC.setZeroDelta(0.01f);
-		} catch (exValueNotWithinRange e1) {
-		}
 		
 		for (int i=0; i<30; i++) {
 			oDC.update();
@@ -380,21 +395,7 @@ public class tstDecayColumn {
 		} catch (exValueNotWithinRange e) {
 		}
 		
-		assertFalse(oDC.isZero());		
-		
-		try {
-			oDC.setZeroDelta(-0.01f);
-			fail("ValueNotWithinRange not thrown");
-		} catch (exValueNotWithinRange e) {
-			//expected exception
-		}
-		
-		try {
-			oDC.setZeroDelta(0.11f);
-			fail("ValueNotWithinRange not thrown");
-		} catch (exValueNotWithinRange e) {
-			//expected exception
-		}		
+		assertFalse(oDC.isZero());			
 	}
 
 }

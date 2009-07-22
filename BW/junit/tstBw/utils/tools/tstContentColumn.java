@@ -7,6 +7,7 @@ package tstBw.utils.tools;
 import static org.junit.Assert.*;
 import bw.exceptions.exContentColumnMaxContentExceeded;
 import bw.exceptions.exContentColumnMinContentUnderrun;
+import bw.utils.config.clsBWProperties;
 import bw.utils.tools.clsContentColumn;
 
 import org.junit.Test;
@@ -53,6 +54,16 @@ public class tstContentColumn {
 		assertFalse(oColumn.getMaxContent() < 0.0f);
 		assertEquals(oColumn.getMaxContent(), nMaxContent, 0.00001f);
 		assertFalse(oColumn.getMaxContent() > java.lang.Double.MAX_VALUE);		
+	}
+	
+	@Test 
+	public void testPropertyConstructor() {
+		clsBWProperties oProp = clsContentColumn.getDefaultProperties("");
+		clsContentColumn oColumn = null;
+		oColumn = new clsContentColumn("", oProp);
+		assertNotNull(oColumn);
+		assertEquals(oColumn.getContent(), 0.0, 0.000001);
+		assertEquals(oColumn.getMaxContent(), java.lang.Double.MAX_VALUE, 0.000001);
 	}
 	
 	@Test

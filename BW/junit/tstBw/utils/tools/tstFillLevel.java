@@ -10,6 +10,7 @@ package tstBw.utils.tools;
 import static org.junit.Assert.*;
 import bw.exceptions.exContentColumnMaxContentExceeded;
 import bw.exceptions.exContentColumnMinContentUnderrun;
+import bw.utils.config.clsBWProperties;
 import bw.utils.tools.clsFillLevel;
 
 import org.junit.Test;
@@ -35,6 +36,20 @@ public class tstFillLevel {
 		assertEquals(oFill.getChange(), 0.0f, 0.00001f);
 	}
 
+	@Test 
+	public void testPropertyConstructor() {
+		clsBWProperties oProp = clsFillLevel.getDefaultProperties("");
+		clsFillLevel oColumn = null;
+	
+		oColumn = new clsFillLevel("", oProp);
+	
+		assertNotNull(oColumn);
+		assertEquals(oColumn.getContent(), 0.0, 0.000001);
+		assertEquals(oColumn.getMaxContent(), java.lang.Double.MAX_VALUE, 0.000001);
+		assertEquals(oColumn.getLowerBound(), java.lang.Double.MAX_VALUE/3 , 0.000001);
+		assertEquals(oColumn.getUpperBound(), (java.lang.Double.MAX_VALUE/3) * 2 , 0.000001);
+	}
+	
 	/**
 	 * Test method for {@link bw.utils.tools.clsFillLevel#clsFillLevel(double, double)}.
 	 */

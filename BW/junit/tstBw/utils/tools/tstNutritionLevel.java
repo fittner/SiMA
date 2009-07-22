@@ -10,6 +10,7 @@ package tstBw.utils.tools;
 import static org.junit.Assert.*;
 import bw.exceptions.exContentColumnMaxContentExceeded;
 import bw.exceptions.exContentColumnMinContentUnderrun;
+import bw.utils.config.clsBWProperties;
 import bw.utils.tools.clsNutritionLevel;
 
 import org.junit.Test;
@@ -47,6 +48,22 @@ public class tstNutritionLevel {
 		assertEquals(oNL.getDecreasePerStep(), 0.5f, 0.00001f);
 		
 	}
+	
+	@Test 
+	public void testPropertyConstructor() {
+		clsBWProperties oProp = clsNutritionLevel.getDefaultProperties("");
+		clsNutritionLevel oColumn = null;
+	
+		oColumn = new clsNutritionLevel("", oProp);
+	
+		assertNotNull(oColumn);
+		assertEquals(oColumn.getContent(), 0.75, 0.000001);
+		assertEquals(oColumn.getMaxContent(), 1.2, 0.000001);
+		assertEquals(oColumn.getLowerBound(), 0.3 , 0.000001);
+		assertEquals(oColumn.getUpperBound(), 1.0 , 0.000001);
+		assertEquals(oColumn.getChange(), 0.05 , 0.000001);		
+	}
+	
 
 	/**
 	 * Test method for {@link bw.utils.tools.clsNutritionLevel#getDecreasePerStep()}.
