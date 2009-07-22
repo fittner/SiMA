@@ -46,10 +46,7 @@ public class clsContentColumn {
 	}
 
 	public static clsBWProperties getDefaultProperties(String poPrefix) {
-		String pre = poPrefix;
-		if (pre.length()>0) {
-			pre = pre+".";
-		}
+		String pre = clsBWProperties.addDot(poPrefix);
 		
 		clsBWProperties oProp = new clsBWProperties();
 		
@@ -60,10 +57,7 @@ public class clsContentColumn {
 	}	
 
 	private void applyProperties(String poPrefix, clsBWProperties poProp) {
-		String pre = poPrefix;
-		if (pre.length()>0) {
-			pre = pre+".";
-		}
+		String pre = clsBWProperties.addDot(poPrefix);
 		
 		mrMaxContent = poProp.getPropertyDouble(pre+P_MAXCONTENT);
 		mrContent = poProp.getPropertyDouble(pre+P_CONTENT);		

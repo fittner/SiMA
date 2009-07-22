@@ -41,28 +41,22 @@ public class clsNutritionLevel extends clsFillLevel implements itfStep {
 	}
 
 	public static clsBWProperties getDefaultProperties(String poPrefix) {
-		String pre = poPrefix;
-		if (pre.length()>0) {
-			pre = pre+".";
-		}
-		
+		String pre = clsBWProperties.addDot(poPrefix);
+
 		clsBWProperties oProp = new clsBWProperties();
 		
-		oProp.setProperty(clsContentColumn.P_CONTENT, 0.75);
-		oProp.setProperty(clsContentColumn.P_MAXCONTENT, 1.2);
-		oProp.setProperty(clsFillLevel.P_CHANGE, "0.05");
-		oProp.setProperty(clsFillLevel.P_LOWERBOUND, "0.3");
-		oProp.setProperty(clsFillLevel.P_UPPERBOUND, "1.0");
+		oProp.setProperty(pre+clsContentColumn.P_CONTENT, 0.75);
+		oProp.setProperty(pre+clsContentColumn.P_MAXCONTENT, 1.2);
+		oProp.setProperty(pre+clsFillLevel.P_CHANGE, "0.05");
+		oProp.setProperty(pre+clsFillLevel.P_LOWERBOUND, "0.3");
+		oProp.setProperty(pre+clsFillLevel.P_UPPERBOUND, "1.0");
 		
 		return oProp;
 	}	
 
 	private void applyProperties(String poPrefix, clsBWProperties poProp) {
-		String pre = poPrefix;
-		if (pre.length()>0) {
-			pre = pre+".";
-		}
-		
+		//String pre = clsBWProperties.addDot(poPrefix);
+
 		//no params to be set - everything done in clsFillLevel and clsContentColumn	
 	}	
 	

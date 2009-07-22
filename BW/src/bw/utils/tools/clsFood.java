@@ -54,49 +54,43 @@ public class clsFood {
 	}
 
 	public static clsBWProperties getDefaultProperties(String poPrefix) {
-		String pre = poPrefix;
-		if (pre.length()>0) {
-			pre = pre+".";
-		}
-		
+		String pre = clsBWProperties.addDot(poPrefix);
+
 		clsBWProperties oProp = new clsBWProperties();
 		
 		oProp.setProperty(pre+P_WEIGHT, 5.0 );
 		oProp.setProperty(pre+P_NUMNUTRITIONS, 6 );
-		oProp.setProperty(pre+"0"+P_NUTRITIONTYPE, eNutritions.PROTEIN.toString());
-		oProp.setProperty(pre+"0"+P_NUTRITIONFRACTION, 0.1);
+		oProp.setProperty(pre+"0."+P_NUTRITIONTYPE, eNutritions.PROTEIN.toString());
+		oProp.setProperty(pre+"0."+P_NUTRITIONFRACTION, 0.1);
 
-		oProp.setProperty(pre+"1"+P_NUTRITIONTYPE, eNutritions.FAT.toString());
-		oProp.setProperty(pre+"1"+P_NUTRITIONFRACTION, 1.0);
+		oProp.setProperty(pre+"1."+P_NUTRITIONTYPE, eNutritions.FAT.toString());
+		oProp.setProperty(pre+"1."+P_NUTRITIONFRACTION, 1.0);
 
-		oProp.setProperty(pre+"2"+P_NUTRITIONTYPE, eNutritions.VITAMIN.toString());
-		oProp.setProperty(pre+"2"+P_NUTRITIONFRACTION, 0.1);
+		oProp.setProperty(pre+"2."+P_NUTRITIONTYPE, eNutritions.VITAMIN.toString());
+		oProp.setProperty(pre+"2."+P_NUTRITIONFRACTION, 0.1);
 
-		oProp.setProperty(pre+"3"+P_NUTRITIONTYPE, eNutritions.CARBOHYDRATE.toString());
-		oProp.setProperty(pre+"3"+P_NUTRITIONFRACTION, 1.0);
+		oProp.setProperty(pre+"3."+P_NUTRITIONTYPE, eNutritions.CARBOHYDRATE.toString());
+		oProp.setProperty(pre+"3."+P_NUTRITIONFRACTION, 1.0);
 
-		oProp.setProperty(pre+"4"+P_NUTRITIONTYPE, eNutritions.WATER.toString());
-		oProp.setProperty(pre+"4"+P_NUTRITIONFRACTION, 2.0);
+		oProp.setProperty(pre+"4."+P_NUTRITIONTYPE, eNutritions.WATER.toString());
+		oProp.setProperty(pre+"4."+P_NUTRITIONFRACTION, 2.0);
 
-		oProp.setProperty(pre+"5"+P_NUTRITIONTYPE, eNutritions.UNDIGESTABLE.toString());
-		oProp.setProperty(pre+"5"+P_NUTRITIONFRACTION, 0.8);
+		oProp.setProperty(pre+"5."+P_NUTRITIONTYPE, eNutritions.UNDIGESTABLE.toString());
+		oProp.setProperty(pre+"5."+P_NUTRITIONFRACTION, 0.8);
 				
 		return oProp;
 	}	
 
 	private void applyProperties(String poPrefix, clsBWProperties poProp) {
-		String pre = poPrefix;
-		if (pre.length()>0) {
-			pre = pre+".";
-		}
-		
+		String pre = clsBWProperties.addDot(poPrefix);
+
 		mrWeight = poProp.getPropertyDouble(pre+P_WEIGHT);
 		
 		int num = poProp.getPropertyInt(pre+P_NUMNUTRITIONS);
 		for (int i=0; i<num; i++) {
-			String oNutType = poProp.getPropertyString(pre+new Integer(i).toString()+P_NUTRITIONTYPE);
+			String oNutType = poProp.getPropertyString(pre+new Integer(i).toString()+"."+P_NUTRITIONTYPE);
 			eNutritions nNutType = eNutritions.valueOf(oNutType);
-			double fFraction = poProp.getPropertyDouble(pre+new Integer(i).toString()+P_NUTRITIONFRACTION);
+			double fFraction = poProp.getPropertyDouble(pre+new Integer(i).toString()+"."+P_NUTRITIONFRACTION);
 			try {
 				addNutritionFraction(nNutType, new clsMutableDouble(fFraction));
 			} catch (exFoodAlreadyNormalized e) {

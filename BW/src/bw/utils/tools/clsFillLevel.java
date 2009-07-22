@@ -43,11 +43,8 @@ public class clsFillLevel extends clsContentColumn {
 	}
 
 	public static clsBWProperties getDefaultProperties(String poPrefix) {
-		String pre = poPrefix;
-		if (pre.length()>0) {
-			pre = pre+".";
-		}
-		
+		String pre = clsBWProperties.addDot(poPrefix);
+
 		clsBWProperties oProp = new clsBWProperties();
 		
 		oProp.putAll( clsContentColumn.getDefaultProperties(pre) );
@@ -60,11 +57,8 @@ public class clsFillLevel extends clsContentColumn {
 	}	
 
 	private void applyProperties(String poPrefix, clsBWProperties poProp) {
-		String pre = poPrefix;
-		if (pre.length()>0) {
-			pre = pre+".";
-		}
-		
+		String pre = clsBWProperties.addDot(poPrefix);
+
 		mrLowerBound = poProp.getPropertyDouble(pre+P_LOWERBOUND);
 		mrUpperBound = poProp.getPropertyDouble(pre+P_UPPERBOUND);		
 		mrChange = poProp.getPropertyDouble(pre+P_CHANGE);		

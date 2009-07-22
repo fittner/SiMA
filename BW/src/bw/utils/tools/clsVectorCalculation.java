@@ -16,6 +16,7 @@ import sim.physics2D.util.Double2D;
  * @author langr
  * 01.04.2009, 17:31:49
  * 
+ * @deprecated
  */
 public class clsVectorCalculation {
 

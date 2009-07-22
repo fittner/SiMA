@@ -56,10 +56,7 @@ public class clsDecayColumn extends clsContentColumn {
 	}
 
 	public static clsBWProperties getDefaultProperties(String poPrefix) {
-		String pre = poPrefix;
-		if (pre.length()>0) {
-			pre = pre+".";
-		}
+		String pre = clsBWProperties.addDot(poPrefix);
 		
 		clsBWProperties oProp = new clsBWProperties();
 		
@@ -73,11 +70,8 @@ public class clsDecayColumn extends clsContentColumn {
 	}	
 
 	private void applyProperties(String poPrefix, clsBWProperties poProp) throws exValueNotWithinRange {
-		String pre = poPrefix;
-		if (pre.length()>0) {
-			pre = pre+".";
-		}
-		
+		String pre = clsBWProperties.addDot(poPrefix);
+
 		this.setIncreaseRate(poProp.getPropertyDouble(pre+P_INCREASERATE));
 		this.setDecayRate(poProp.getPropertyDouble(pre+P_DECAYRATE));
 		
