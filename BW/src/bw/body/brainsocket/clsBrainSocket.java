@@ -47,7 +47,7 @@ import bw.body.io.sensors.internal.clsStaminaSensor;
 import bw.body.io.sensors.internal.clsStomachSensor;
 import bw.entities.clsEntity;
 import bw.entities.clsAnimal;
-import bw.utils.container.clsConfigMap;
+import bw.utils.config.clsBWProperties;
 import enums.eEntityType;
 
 /**
@@ -60,27 +60,34 @@ import enums.eEntityType;
  */
 public class clsBrainSocket implements itfStepProcessing {
 
-	private clsBaseDecisionUnit moDecisionUnit;
-	private itfActionProcessor moActionProcessor;
-	private HashMap<eSensorExtType, clsSensorExt> moSensorsExt;
-	private HashMap<eSensorIntType, clsSensorInt> moSensorsInt;
-    
-    private clsConfigMap moConfig;	
+	private clsBaseDecisionUnit moDecisionUnit; //reference
+	private itfActionProcessor moActionProcessor; //reference
+	private HashMap<eSensorExtType, clsSensorExt> moSensorsExt; //reference
+	private HashMap<eSensorIntType, clsSensorInt> moSensorsInt; //reference
 	
-	public clsBrainSocket(HashMap<eSensorExtType, clsSensorExt> poSensorsExt, HashMap<eSensorIntType, clsSensorInt> poSensorsInt, itfActionProcessor poActionProcessor, clsConfigMap poConfig) {
-		moConfig = getDefaultConfig();
-		moConfig.overwritewith(poConfig);
-				
+	public clsBrainSocket(String poPrefix, clsBWProperties poProp, HashMap<eSensorExtType, clsSensorExt> poSensorsExt, HashMap<eSensorIntType, clsSensorInt> poSensorsInt, itfActionProcessor poActionProcessor) {
 		moActionProcessor=poActionProcessor;
 		moSensorsExt = poSensorsExt;
 		moSensorsInt = poSensorsInt;
+		
+		applyProperties(poPrefix, poProp);
 	}
 
-	private clsConfigMap getDefaultConfig() {
-		clsConfigMap oDefault = new clsConfigMap();
-		//TODO add default values
-		return oDefault;
+	public static clsBWProperties getDefaultProperties(String poPrefix) {
+		// String pre = clsBWProperties.addDot(poPrefix);
+		
+		clsBWProperties oProp = new clsBWProperties();
+		
+		//nothing to do
+				
+		return oProp;
 	}	
+
+	private void applyProperties(String poPrefix, clsBWProperties poProp) {
+		//String pre = clsBWProperties.addDot(poPrefix);
+
+		//nothing to do
+	}		
 		
 	/* (non-Javadoc)
 	 * @see bw.body.itfStep#step()

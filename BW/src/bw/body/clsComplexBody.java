@@ -43,7 +43,7 @@ public class clsComplexBody extends clsBaseBody implements itfGetInternalEnergyC
 		
 		moExternalIO = new clsExternalIO(this, poEntity, (clsConfigMap)moConfig.get(eConfigEntries.EXTERNAL_IO));
 		moInternalIO = new clsInternalIO(this, (clsConfigMap)moConfig.get(eConfigEntries.INTERNAL_IO) );
-		moBrain = new clsBrainSocket(moExternalIO.moSensorExternal, moInternalIO.moSensorInternal, moExternalIO.getActionProcessor(), (clsConfigMap) moConfig.get(eConfigEntries.BRAIN));		
+		moBrain = new clsBrainSocket(poPrefix, poProp, moExternalIO.moSensorExternal, moInternalIO.moSensorInternal, moExternalIO.getActionProcessor());		
 	}
 
 	public static clsBWProperties getDefaultProperties(String poPrefix) {
