@@ -31,6 +31,7 @@ import bw.entities.clsUraniumOre;
 import bw.entities.clsStationary;
 import bw.utils.inspectors.body.clsFillLevelInspector;
 import bw.utils.inspectors.entity.clsInspectorBubble;
+import bw.utils.inspectors.entity.clsInspectorDefault;
 import bw.utils.inspectors.entity.clsInspectorFungus;
 import bw.utils.inspectors.entity.clsInspectorRemoteBot;
 import bw.utils.inspectors.entity.clsInspectorBase;
@@ -70,43 +71,44 @@ public class clsInspectorMappingEntity {
 	{
     	TabbedInspector oRetVal = new TabbedInspector();
 
+    	//change the default inspector to the one you created for the entity if you want more inspected
     	if( poEntity instanceof clsMobile )
     	{
 	    	if( poEntity instanceof clsAnimal) {
-	    		
+	    		oRetVal.addInspector( new clsInspectorDefault(poSuperInspector, poWrapper, poState, poEntity), "Animal");
 	    	}
 	    	else if( poEntity instanceof clsBubble) {
 	    		oRetVal.addInspector( new clsInspectorBubble(poSuperInspector, poWrapper, poState, (clsBubble)poEntity), "Bubble");
 	    	}
 	    	else if( poEntity instanceof clsCake) {
-	    		
+	    		oRetVal.addInspector( new clsInspectorDefault(poSuperInspector, poWrapper, poState, poEntity), "Cake");
 	    	}
 	    	else if( poEntity instanceof clsCan) {
-	    		
+	    		oRetVal.addInspector( new clsInspectorDefault(poSuperInspector, poWrapper, poState, poEntity), "Can");	    		
 	    	}
 	    	else if( poEntity instanceof clsCarrot) {
-	    		
+	    		oRetVal.addInspector( new clsInspectorDefault(poSuperInspector, poWrapper, poState, poEntity), "Carrot");
 	    	}
 	    	else if( poEntity instanceof clsFungus) {
 	    		oRetVal.addInspector( new clsInspectorFungus(poSuperInspector, poWrapper, poState, (clsFungus)poEntity), "Fungus");
 	    	}
 	    	else if( poEntity instanceof clsHare) {
-	    		
+	    		oRetVal.addInspector( new clsInspectorDefault(poSuperInspector, poWrapper, poState, poEntity), "Hare");
 	    	}
 	    	else if( poEntity instanceof clsLynx) {
-	    		
+	    		oRetVal.addInspector( new clsInspectorDefault(poSuperInspector, poWrapper, poState, poEntity), "Lynx");
 	    	}
 	    	else if( poEntity instanceof clsPlant) {
-	    		
+	    		oRetVal.addInspector( new clsInspectorDefault(poSuperInspector, poWrapper, poState, poEntity), "Plant");	    		
 	    	}
 	    	else if( poEntity instanceof clsRemoteBot) {
 	    		oRetVal.addInspector( new clsInspectorRemoteBot(poSuperInspector, poWrapper, poState, (clsRemoteBot)poEntity), "RemoteBot");
 	    	}
 	    	else if( poEntity instanceof clsStone) {
-	    		
+	    		oRetVal.addInspector( new clsInspectorDefault(poSuperInspector, poWrapper, poState, poEntity), "Stone");
 	    	}
 	    	else if( poEntity instanceof clsUraniumOre) {
-	    		
+	    		oRetVal.addInspector( new clsInspectorDefault(poSuperInspector, poWrapper, poState, poEntity), "UraniumOre");
 	    	}	    	
     	}
     	else if ( poEntity instanceof clsStationary )

@@ -27,10 +27,11 @@ import sim.util.gui.PropertyField;
  * Jul 15, 2009, 1:20:23 PM
  * 
  */
-final class clsInspectorDefault extends Inspector {
+public class clsInspectorDefault extends Inspector {
 
 	/**
-	 * TODO (muchitsch) - insert description 
+	 * shows default inspectors, common for all entities
+	 * change this only if the values can be found in the root entity class! 
 	 * 
 	 * @author muchitsch
 	 * Jul 15, 2009, 1:24:40 PM
@@ -50,7 +51,7 @@ final class clsInspectorDefault extends Inspector {
 	private PropertyField moProp7;
 
 	/**
-	 * TODO (muchitsch) - CTOR Default Inspectors, 4 all entities 
+	 * CTOR Default Inspectors, 4 all entities 
 	 * 
 	 * @author muchitsch
 	 * Jul 15, 2009, 1:53:51 PM
@@ -76,7 +77,7 @@ final class clsInspectorDefault extends Inspector {
 		TitledBorder oTitle = BorderFactory.createTitledBorder("default");
 		oBox1.setBorder(oTitle);
 		
-		//inspected fields....
+		//inspected defalt clsEntity fields, nothing else!....
 		moProp1 = new  PropertyField("ID", ""+moEntity.getId(), false, null, PropertyField.SHOW_TEXTFIELD);
 		moProp2 = new  PropertyField("Type", ""+moEntity.getEntityType().toString(), false, null, PropertyField.SHOW_TEXTFIELD);
 		moProp3 = new  PropertyField("Position X", clsInspectorUtils.FormatDouble(moEntity.getPosition().x), false, null, PropertyField.SHOW_TEXTFIELD);
