@@ -11,7 +11,8 @@ import sim.physics2D.physicalObject.PhysicalObject2D;
 import sim.physics2D.shape.Shape;
 import ARSsim.physics2D.physicalObject.itfSetupFunctions;
 import ARSsim.physics2D.util.clsPose;
-import bw.utils.container.clsConfigMap;
+import bw.utils.config.clsBWProperties;
+import bw.utils.tools.clsContentColumn;
 import enums.eEntityType;
 
 /**
@@ -39,53 +40,45 @@ import enums.eEntityType;
  * 
  */
 public abstract class clsEntity {
+	public static final String P_MASS = "mass";
+	public static final String P_ID = "id";
 	
 	protected PhysicalObject2D moPhysicalObject2D;
 	private double mrMass;
 	protected eEntityType meEntityType;
 	private int mnId;
 	private boolean mnRegistered;
-	protected clsConfigMap moConfig;
 	
-	/**
-	 * TODO (deutsch) - insert description 
-	 * 
-	 * @author deutsch
-	 * 26.02.2009, 11:15:36
-	 *
-	 * @param pnId
-	 */
-	public clsEntity(int pnId, clsConfigMap poConfig) {
-		moConfig = getFinalConfig(poConfig);
-
-		applyConfig();
+	public clsEntity(String poPrefix, clsBWProperties poProp) {
+		setEntityType();
+		moPhysicalObject2D = null;
 		
-		setId(pnId);
+		applyProperties(poPrefix, poProp);
+		
+		setRegistered(false);
+	}
+	
+	public static clsBWProperties getDefaultProperties(String poPrefix) {
+		String pre = clsBWProperties.addDot(poPrefix);
+
+		clsBWProperties oProp = new clsBWProperties();
+		oProp.putAll( clsContentColumn.getDefaultProperties(pre) );
+		oProp.setProperty(pre+P_MASS, 0.0);
+		
+		return oProp;
+	}	
+
+	private void applyProperties(String poPrefix, clsBWProperties poProp) {
+		String pre = clsBWProperties.addDot(poPrefix);
+		if (pre.length()>0) {
+			pre = pre+".";
+		}
+
+		int nId = poProp.getPropertyInt(pre+P_ID );
+		setId( nId );
 		
 		setEntityType();
-		
-		moPhysicalObject2D = null;
-		mrMass = 0.0f;
-		setRegistered(false);
-	}	
-	
-	private void applyConfig() {
-		//TODO add ...
-
-	}
-	
-	private static clsConfigMap getFinalConfig(clsConfigMap poConfig) {
-		clsConfigMap oDefault = getDefaultConfig();
-		oDefault.overwritewith(poConfig);
-		return oDefault;
-	}
-	
-	private static clsConfigMap getDefaultConfig() {
-		clsConfigMap oDefault = new clsConfigMap();
-		
-		//TODO add ...
-		
-		return oDefault;
+		mrMass = poProp.getPropertyDouble(pre+P_MASS);
 	}
 	
 	/**
