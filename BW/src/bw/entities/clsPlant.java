@@ -8,11 +8,7 @@
 package bw.entities;
 
 import java.awt.Color;
-import ARSsim.physics2D.util.clsPose;
-import bw.body.clsBaseBody;
-import bw.body.clsMeatBody;
-import bw.utils.container.clsConfigMap;
-import bw.utils.enums.eConfigEntries;
+import bw.utils.config.clsBWProperties;
 import enums.eEntityType;
 
 /**
@@ -27,41 +23,39 @@ import enums.eEntityType;
  */
 public class clsPlant extends clsAnimate {
 
-	private static double mrDefaultWeight = 300.0f;
-	private static double mrDefaultRadius = 10.0f;
-	private static Color moDefaultColor = Color.ORANGE;	
-	   
-    public clsPlant(int pnId, clsPose poStartingPose, sim.physics2D.util.Double2D poStartingVelocity, clsConfigMap poConfig) {
-		super(pnId, poStartingPose, poStartingVelocity, new sim.physics2D.shape.Circle(clsPlant.mrDefaultRadius, clsPlant.moDefaultColor), clsPlant.mrDefaultWeight, clsPlant.getFinalConfig(poConfig));
+	public static final String P_DEFAULT_WEIGHT = "weight"; 
+	public static final String P_MOBILE_SHAPE_RADIUS = "radius"; 
+	public static final String P_MOBILE_SHAPE_TYPE = "shape_type"; 
+	public static final String P_ENTIY_COLOR_B = "colorB";
+	public static final String P_ENTIY_COLOR_G = "colorG";
+	public static final String P_ENTIY_COLOR_R = "colorR";
 		
-		applyConfig();
+    public clsPlant(String poPrefix, clsBWProperties poProp) {
+		super(poPrefix, poProp);
+		
+		applyProperties(poPrefix, poProp);
 
     }
     
-    @Override
-	public clsBaseBody createBody() {
-		return  new clsMeatBody(this, (clsConfigMap)moConfig.get(eConfigEntries.BODY));
-	}
-	
-	private void applyConfig() {
-		//TODO add ...
+    private void applyProperties(String poPrefix, clsBWProperties poProp){		
+		//TODO
+	}	
+    
+    public static clsBWProperties getDefaultProperties(String poPrefix) {
+		String pre = clsBWProperties.addDot(poPrefix);
 
-	}
-	
-	private static clsConfigMap getFinalConfig(clsConfigMap poConfig) {
-		clsConfigMap oDefault = getDefaultConfig();
-		oDefault.overwritewith(poConfig);
-		return oDefault;
-	}
-	
-	private static clsConfigMap getDefaultConfig() {
-		clsConfigMap oDefault = new clsConfigMap();
-		
-		//TODO add ...
-		
-		return oDefault;
-	}
-	
+		clsBWProperties oProp = new clsBWProperties();
+		oProp.putAll(clsAnimate.getDefaultProperties(poPrefix) );
+		oProp.setProperty(pre+P_ENTIY_COLOR_B, Color.ORANGE.getBlue());
+		oProp.setProperty(pre+P_ENTIY_COLOR_B, Color.ORANGE.getBlue());
+		oProp.setProperty(pre+P_ENTIY_COLOR_G, Color.ORANGE.getGreen());
+		oProp.setProperty(pre+P_MOBILE_SHAPE_TYPE, "SHAPE_CIRCLE");
+		oProp.setProperty(pre+P_DEFAULT_WEIGHT, 300.0);
+		oProp.setProperty(pre+P_MOBILE_SHAPE_RADIUS, 10.0);
+
+		return oProp;
+	}	
+  	
 	/* (non-Javadoc)
 	 * @see bw.clsEntity#setEntityType()
 	 */
