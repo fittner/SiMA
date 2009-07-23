@@ -10,14 +10,12 @@ package bw.entities;
 import java.awt.Color;
 import java.util.TreeMap;
 
-import ARSsim.physics2D.util.clsPose;
-import bw.body.clsBaseBody;
-import bw.body.clsComplexBody;
+import du.utils.enums.eDecisionType;
+
 import bw.physicalObjects.bodyparts.clsBotHands;
 import bw.physicalObjects.sensors.clsEntityPartVision;
 import bw.physicalObjects.sensors.clsEntitySensorEngine;
-import bw.utils.container.clsConfigMap;
-import bw.utils.enums.eConfigEntries;
+import bw.utils.config.clsBWProperties;
 import bw.body.io.sensors.ext.clsSensorEngine;
 import bw.body.io.sensors.external.clsSensorEatableArea;
 import bw.body.io.sensors.external.clsSensorVision;
@@ -42,60 +40,66 @@ import statictools.clsSingletonUniqueIdGenerator;
  */
 
 public class clsRemoteBot extends clsAnimate implements itfGetVision, itfGetRadiation, itfGetEatableArea, itfGetSensorEngine  {
+	public static final String P_BOT_RADIUS = "bot_radius";
+	
+	public static final String P_BOT_HAND_COLOR_R = "bot_hand_color_r";
+	public static final String P_BOT_HAND_COLOR_G = "bot_hand_color_g";
+	public static final String P_BOT_HAND_COLOR_B = "bot_hand_color_b";
+	
     private clsBotHands moBotHand1;
     private clsBotHands moBotHand2;
        
-	private static double mrDefaultWeight = 100.0f;
-	private static double mrDefaultRadius = 10.0f;
-	private static Color moDefaultColor = Color.CYAN;
-	private static Color moDefaultHandColor = Color.gray;
+	private Color moDefaultHandColor; // = Color.gray;
 	
 	private int mnUniqueId = clsSingletonUniqueIdGenerator.getUniqueId();
 
-//	private Array moCapturedKeys;
 
-	/**
-	 * TODO (deutsch) - insert description 
-	 * 
-	 * @author deutsch
-	 * 26.02.2009, 11:29:23
-	 *
-	 * @param pnId
-	 * @param poStartingPose
-	 * @param poStartingVelocity
-	 */
-	public clsRemoteBot(int pnId, clsPose poStartingPose, sim.physics2D.util.Double2D poStartingVelocity, clsConfigMap poConfig) {
-		super(pnId, poStartingPose, poStartingVelocity, new sim.physics2D.shape.Circle(clsRemoteBot.mrDefaultRadius, clsRemoteBot.moDefaultColor), clsRemoteBot.mrDefaultWeight, clsRemoteBot.getFinalConfig(poConfig));
-		
-		applyConfig();
-		
-		addBotHands();
-		setDecisionUnit(new clsRemoteControl());		
-	}
-	
-	@Override
-	public clsBaseBody createBody() {
-		return  new clsComplexBody(this, (clsConfigMap)moConfig.get(eConfigEntries.BODY));
-	}	
-	
-	private void applyConfig() {
-		//TODO add ...
+	public clsRemoteBot(String poPrefix, clsBWProperties poProp) {
+		super(poPrefix, poProp, 
+			      new sim.physics2D.shape.Circle(poProp.getPropertyDouble(P_BOT_RADIUS), 
+			      new Color(poProp.getPropertyFloat(P_ENTITY_COLOR_R),
+			    		    poProp.getPropertyFloat(P_ENTITY_COLOR_G),
+			    		    poProp.getPropertyFloat(P_ENTITY_COLOR_B)) ) );
+			applyProperties(poPrefix, poProp);
+			
+			addBotHands();
+		}
 
+	public static clsBWProperties getDefaultProperties(String poPrefix) {
+		String pre = clsBWProperties.addDot(poPrefix);
+
+		clsBWProperties oProp = new clsBWProperties();
+		
+		//TODO: (langr) - should pass the config to the decision unit!
+		//oProp.putAll( clsDumbMindA.getDefaultProperties(pre) ); //clsDumbMindA.getDefaultProperties(pre)
+		oProp.setProperty(pre+P_DECISION_TYPE, "DU_DUMB_MIND_A");
+		
+		oProp.setProperty(pre+P_BOT_RADIUS, "10.0");
+		//override entity color
+		oProp.setProperty(pre+P_ENTITY_COLOR_R, Color.CYAN.getRed());
+		oProp.setProperty(pre+P_ENTITY_COLOR_G, Color.CYAN.getGreen());
+		oProp.setProperty(pre+P_ENTITY_COLOR_B, Color.CYAN.getBlue());
+		
+		//bot-hand color
+		oProp.setProperty(pre+P_BOT_HAND_COLOR_R, Color.gray.getRed());
+		oProp.setProperty(pre+P_BOT_HAND_COLOR_G, Color.gray.getGreen());
+		oProp.setProperty(pre+P_BOT_HAND_COLOR_B, Color.gray.getBlue());
+		
+		return oProp;
 	}
 	
-	private static clsConfigMap getFinalConfig(clsConfigMap poConfig) {
-		clsConfigMap oDefault = getDefaultConfig();
-		oDefault.overwritewith(poConfig);
-		return oDefault;
-	}
+	private void applyProperties(String poPrefix, clsBWProperties poProp) {
+		String pre = clsBWProperties.addDot(poPrefix);
 	
-	private static clsConfigMap getDefaultConfig() {
-		clsConfigMap oDefault = new clsConfigMap();
-		
-		//TODO add ...
-		
-		return oDefault;
-	}	
+		moDefaultHandColor = new Color(poProp.getPropertyFloat(P_BOT_HAND_COLOR_R),
+	    		    					poProp.getPropertyFloat(P_BOT_HAND_COLOR_G),
+	    		    					poProp.getPropertyFloat(P_BOT_HAND_COLOR_B));
+		addBotHands(); //in the defined color above....
+
+		moDecisionType = eDecisionType.valueOf( poProp.getPropertyString(pre+P_DECISION_TYPE) );
+		//create the defined decision unit...
+		setDecisionUnit(moDecisionType);
+	}
 	
 	private clsBotHands addHand(double offsetX, double offsetY) {
         double x = getPosition().x;

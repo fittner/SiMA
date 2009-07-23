@@ -11,7 +11,10 @@ package bw.entities;
 import java.util.TreeMap;
 
 import decisionunit.clsBaseDecisionUnit;
+import du.utils.enums.eDecisionType;
 import sim.physics2D.shape.Shape;
+import simple.dumbmind.clsDumbMindA;
+import simple.remotecontrol.clsRemoteControl;
 import bw.body.clsBaseBody;
 import bw.body.clsComplexBody;
 import bw.body.clsMeatBody;
@@ -34,9 +37,11 @@ import bw.utils.enums.eBodyType;
 public abstract class clsAnimate extends clsMobile implements itfGetBody {
 
 	public static final String P_BODY_TYPE = "body_type";
+	public static final String P_DECISION_TYPE = "decision_type";
 	
 	public clsBaseBody moBody; // the instance of a body
 	public eBodyType moBodyType;
+	public eDecisionType moDecisionType;
 	
 	public clsAnimate(String poPrefix, clsBWProperties poProp, Shape poShape) {
 		super(poPrefix, poProp, poShape);
@@ -77,8 +82,24 @@ public abstract class clsAnimate extends clsMobile implements itfGetBody {
 		moBodyType = eBodyType.valueOf( poProp.getPropertyString(pre+P_BODY_TYPE) );
 	}	
 	
-	public void setDecisionUnit(clsBaseDecisionUnit poDecisionUnit) {
-		moBody.getBrain().setDecisionUnit(poDecisionUnit);
+	public void setDecisionUnit(eDecisionType poDecisionType) {
+		
+		clsBaseDecisionUnit oDecisionUnit = null;
+		
+		//create the defined decision unit...
+		switch(poDecisionType) {
+		case DU_DUMB_MIND_A:
+			oDecisionUnit = new clsDumbMindA();
+			break;
+		case DU_REMOTE:
+			oDecisionUnit = new clsRemoteControl();
+			break;
+		default:
+			oDecisionUnit = new clsDumbMindA();
+		break;
+		}
+		
+		moBody.getBrain().setDecisionUnit(oDecisionUnit);
 	}
 	
 	@Override
