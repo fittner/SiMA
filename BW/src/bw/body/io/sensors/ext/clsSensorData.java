@@ -12,6 +12,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import bw.body.io.sensors.ext.clsSensorExt;
+import bw.utils.sensors.clsSensorDataCalculation;
 import sim.physics2D.physicalObject.PhysicalObject2D;
 import sim.physics2D.util.Double2D;
 
@@ -22,17 +23,22 @@ import sim.physics2D.util.Double2D;
  * 13.07.2009, 11:34:52
  * 
  */
-public class clsSensorData {
+public class clsSensorData extends clsSensorDataCalculation{
 	
 	private Double mnRange;
+	private Double mnAngle;
 	private Double2D moPosition; 
 	private HashMap<Double, ArrayList<PhysicalObject2D>> meDetectedObjects; 
+	private HashMap<Double, HashMap<Integer, Double2D>> meCollisionPoints; 
 	
-	public clsSensorData(clsSensorExt poSensorTyp, Double2D poSensorPos, Double pnSensorRange)
+	public clsSensorData(clsSensorExt poSensorTyp, Double2D poSensorPosition,
+						 Double pnSensorRange, Double pnSensorAngle)
 	{		
-		moPosition = poSensorPos;
+		moPosition = poSensorPosition;
+		mnAngle = pnSensorAngle; 
 		mnRange = pnSensorRange;
 		meDetectedObjects = new HashMap<Double, ArrayList<PhysicalObject2D>>();
+		meCollisionPoints = new HashMap<Double, HashMap<Integer, Double2D>>(); 
 	}
 
 	public Double2D getSensorPos(){
@@ -47,11 +53,24 @@ public class clsSensorData {
 		return mnRange; 
 	}
 	
-	public void setMeDetectedObject(Double poSensorRange,ArrayList<PhysicalObject2D> pePhysicalObject){
-		meDetectedObjects.put(poSensorRange, pePhysicalObject); 
+	public Double getSensorAngle(){
+		return mnAngle; 
+	}
+	
+	public void setMeDetectedObjectList(Double pnAreaRange,ArrayList<PhysicalObject2D> pePhysicalObject){
+		meDetectedObjects.put(pnAreaRange, pePhysicalObject); 
+	}
+	
+	public void setMeCollisionPointList(Double poSensorRange, HashMap<Integer,Double2D> poCollisionPointList){
+		meCollisionPoints.put(poSensorRange, poCollisionPointList); 
 	}
 	
 	public HashMap <Double, ArrayList<PhysicalObject2D>> getMeDetectedObject(){
 		return meDetectedObjects;
 	}
+	
+	public HashMap<Double,HashMap<Integer, Double2D>> getMeCollisionPointList(){
+		return meCollisionPoints;
+	}
+	
 }

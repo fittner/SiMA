@@ -9,6 +9,7 @@
 package bw.body.io.sensors.ext;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import sim.physics2D.physicalObject.PhysicalObject2D;
 import sim.physics2D.util.Double2D;
@@ -28,13 +29,14 @@ public class clsSensorVisionNEW extends clsSensorExt {
 	public static final String P_ANGLE = "angle";
 	public static final String P_RANGE = "range";
 	public static final String P_OFFSET = "offset";	
+	public static final String P_POSITIONX = "positionX";	
+	public static final String P_POSITIONY = "positionY";	
 	
-	private Double mnRange;
-	private Double2D moPosition; 
-	
-	public clsSensorVisionNEW(String poPrefix, clsBWProperties poProp, clsEntity poEntity, clsBaseIO poBaseIO, clsSensorEngine poSensorEngine) {
-		super(poPrefix, poProp, poBaseIO, poSensorEngine);
-		moPosition = poEntity.getPosition(); 
+	private static clsEntity moHostEntity; 
+		
+	public clsSensorVisionNEW(String poPrefix, clsBWProperties poProp, clsBaseIO poBaseIO, clsSensorEngine poSensorEngine, clsEntity poEntity) {
+		super(poPrefix, poProp, poBaseIO, poSensorEngine, poEntity);
+		moHostEntity = poEntity; 
 		applyProperties(poPrefix, poProp);
 	}
 	
@@ -47,45 +49,60 @@ public class clsSensorVisionNEW extends clsSensorExt {
 		oProp.setProperty(pre+P_ANGLE, Math.PI );
 		oProp.setProperty(pre+P_RANGE, 60 );
 		oProp.setProperty(pre+P_OFFSET, 0 );		
-				
+		oProp.setProperty(pre+P_POSITIONX, moHostEntity.getPosition().x);
+		oProp.setProperty(pre+P_POSITIONY, moHostEntity.getPosition().y);
+		
 		return oProp;
 	}	
 
 	private void applyProperties(String poPrefix, clsBWProperties poProp) {
 		String pre = clsBWProperties.addDot(poPrefix);
 		
-		//mnViewRad = poProp.getPropertyDouble(pre+P_ANGLE);
-		mnRange = poProp.getPropertyDouble(pre+P_RANGE);
-		//mnVisOffset = poProp.getPropertyDouble(pre+P_OFFSET);
-		
+		Double nAngle = poProp.getPropertyDouble(pre+P_ANGLE);
+		Double nRange = poProp.getPropertyDouble(pre+P_RANGE);
+		Double nPositionX = poProp.getPropertyDouble(pre+P_POSITIONX);
+		Double nPositionY = poProp.getPropertyDouble(pre+P_POSITIONY);
+			
+
 		//HZ -- initialise sensor engine - defines the maximum sensor range
-		assignSensorData((clsSensorExt)this,moPosition, mnRange);			
+		assignSensorData((clsSensorExt)this,
+						new Double2D(nPositionX, nPositionY), 
+						nRange, 
+						nAngle);			
 	}
-	
-	
+
 		
 //	public ArrayList<PhysicalObject2D> getSensorData(){
 //		/*has to be implemented - return SensorData to Decision Unit*/
 //		return null; 
 //	}
     
+
 	@Override
-	public void updateSensorData(Double pnRange, ArrayList<PhysicalObject2D> peObj) {
+	public void updateSensorData(Double pnAreaRange, 
+										ArrayList<PhysicalObject2D> peObjInAreaList, 
+										HashMap<Integer, Double2D> peCollisionPointList) {
 		// TODO Auto-generated method stub
-		
+	
 		//System.out.println("Range " + pnRange + "  " + peObj.size());
+		setDetectedObjBySensor(pnAreaRange, peObjInAreaList, peCollisionPointList);
+    }
+	
+	private void setDetectedObjBySensor(Double pnAreaRange,
+										ArrayList<PhysicalObject2D> peObjInAreaList, 
+										HashMap<Integer, Double2D> peCollisionPointList){
 		
-		moSensorData.setMeDetectedObject(pnRange, peObj); 
+		calculateObjInFieldOfView(pnAreaRange, peObjInAreaList, peCollisionPointList); 
 	}
+	
 	/* (non-Javadoc)
 	 *
 	 * @author zeilinger
 	 * 16.07.2009, 12:48:42
 	 * 
 	 * @see bw.body.io.sensors.ext.clsSensorExt#updateSensorData(java.util.ArrayList)
-	 * Integrate Sensor Engine - new Sensor Ext
+	 * Integrate Sensor Engine - new SensorExt
 	 */
-	
 	
 	@Override
 	protected void setBodyPartId() {
@@ -95,9 +112,8 @@ public class clsSensorVisionNEW extends clsSensorExt {
 	@Override
 	protected void setName() {
 		// TODO Auto-generated method stub
-		
 	}
-
+	
 	/* (non-Javadoc)
 	 *
 	 * @author zeilinger
@@ -109,4 +125,6 @@ public class clsSensorVisionNEW extends clsSensorExt {
 	public void updateSensorData() {
 		// TODO Auto-generated method stub
 	}
+
+	
 }

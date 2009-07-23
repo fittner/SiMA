@@ -12,6 +12,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import bw.body.io.clsBaseIO;
+import bw.entities.clsEntity;
 import bw.utils.config.clsBWProperties;
 import sim.physics2D.physicalObject.PhysicalObject2D;
 import sim.physics2D.util.Double2D;
@@ -37,8 +38,9 @@ public class clsSensorAcousticNEW extends clsSensorExt{
 	 * @param poSensorEngine
 	 */
 
-	public clsSensorAcousticNEW(String poPrefix, clsBWProperties poProp, clsBaseIO poBaseIO, clsSensorEngine poSensorEngine) {
-		super(poPrefix, poProp, poBaseIO, poSensorEngine);
+	public clsSensorAcousticNEW(String poPrefix, clsBWProperties poProp, 
+							    clsBaseIO poBaseIO, clsSensorEngine poSensorEngine, clsEntity poEntity) {
+		super(poPrefix, poProp, poBaseIO, poSensorEngine, poEntity);
 
 		// TODO Auto-generated constructor stub
 		applyProperties(poPrefix, poProp);
