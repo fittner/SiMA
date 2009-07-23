@@ -80,9 +80,7 @@ public class clsAgentLoader {
 	         oProp.setProperty("RemoteBot."+clsMobile.P_POS_X, oStartPose.getPosition().x);
 	         oProp.setProperty("RemoteBot."+clsMobile.P_POS_Y, oStartPose.getPosition().y);
 	         oProp.setProperty("RemoteBot."+clsMobile.P_POS_ANGLE, oStartPose.getAngle().radians);
-	         
-		  	 clsBubble oBubble = new clsBubble( "RemoteBot.", oProp );
-	        
+
  			clsRemoteBot oBot = new clsRemoteBot("RemoteBot.", oProp);
 			clsRegisterEntity.registerEntity(oBot);
         }
