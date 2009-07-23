@@ -10,6 +10,7 @@ package bw.entities;
 import java.awt.Color;
 
 import bw.utils.config.clsBWProperties;
+import bw.utils.enums.eShapeType;
 import enums.eEntityType;
 
 
@@ -39,9 +40,6 @@ public class clsWall extends clsStationary  {
     	//FIXME direction of wall ...
     } 
 
-	
-	
-	
 	public static clsBWProperties getDefaultProperties(String poPrefix) {
 		//String pre = clsBWProperties.addDot(poPrefix);
 		String pre = clsBWProperties.addDot(poPrefix);
@@ -51,8 +49,11 @@ public class clsWall extends clsStationary  {
 		oProp.setProperty(pre+P_ENTIY_COLOR_B, Color.black.getBlue());
 		oProp.setProperty(pre+P_ENTIY_COLOR_B, Color.black.getBlue());
 		oProp.setProperty(pre+P_ENTIY_COLOR_G, Color.black.getGreen());
-		oProp.setProperty(pre+P_SHAPE_TYPE, "SHAPE_CIRCLE");
-			
+		oProp.setProperty(pre+P_SHAPE_TYPE, eShapeType.SHAPE_RECTANGLE.name());
+		
+		oProp.setProperty(pre+P_SHAPE_WIDTH, "10");
+		oProp.setProperty(pre+P_SHAPE_HEIGHT, "100");
+		
 		return oProp;
 	}	
 		
