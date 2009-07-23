@@ -8,15 +8,16 @@
 package sim.creation.simpleLoader;
 
 import java.awt.Color;
-import java.awt.Paint;
 
 import sim.creation.clsLoader;
 
 import ARSsim.physics2D.util.clsPose;
 import bw.entities.clsBubble;
+import bw.entities.clsEntity;
+import bw.entities.clsMobile;
 import bw.entities.clsRemoteBot;
 import bw.factories.clsRegisterEntity;
-import bw.utils.container.clsConfigMap;
+import bw.utils.config.clsBWProperties;
 
 /**
  * Helper class to load every agent and register to mason-physics2D 
@@ -32,17 +33,30 @@ public class clsAgentLoader {
 	
 	public static void loadBubbles(int pnNumAgents){	
 		
-		Paint[] oColors = {Color.green, Color.ORANGE, Color.yellow};
+		Color[] oColors = {Color.green, Color.ORANGE, Color.yellow};
 		
 		 for (int i = 0; i < pnNumAgents; i++)
          {
-			 Paint oColor = Color.GREEN;
+			 Color oColor = Color.GREEN;
 			 if(i < oColors.length)
 				 oColor = oColors[i];
 			 
 			 
 	         clsPose oStartPose = clsLoader.generateRandomPose();
-		  	 clsBubble oBubble = new clsBubble(i, oStartPose, new sim.physics2D.util.Double2D(0, 0), oColor, new clsConfigMap());
+	         
+	         clsBWProperties oProp = clsBubble.getDefaultProperties("");
+	         
+	         oProp.setProperty("Bubble."+clsEntity.P_ID, i);
+	         oProp.setProperty("Bubble."+clsMobile.P_POS_X, oStartPose.getPosition().x);
+	         oProp.setProperty("Bubble."+clsMobile.P_POS_Y, oStartPose.getPosition().y);
+	         oProp.setProperty("Bubble."+clsMobile.P_POS_ANGLE, oStartPose.getAngle().radians);
+	         
+	         oProp.setProperty("Bubble."+clsEntity.P_ENTITY_COLOR_R, oColor.getRed());
+	         oProp.setProperty("Bubble."+clsEntity.P_ENTITY_COLOR_G, oColor.getGreen());
+	         oProp.setProperty("Bubble."+clsEntity.P_ENTITY_COLOR_B, oColor.getBlue());
+	         
+		  	 clsBubble oBubble = new clsBubble( "Bubble.", oProp );
+
 		  	 clsRegisterEntity.registerEntity(oBubble);
          }
 	}
@@ -58,7 +72,18 @@ public class clsAgentLoader {
 	public static void loadRemoteBots(int pnNumBots) {
 		for (int i = 0; i < pnNumBots; i++) {
 	        clsPose oStartPose = clsLoader.generateRandomPose();
- 			clsRemoteBot oBot = new clsRemoteBot(i, oStartPose, new sim.physics2D.util.Double2D(0, 0), new clsConfigMap());
+	        
+	        
+	         clsBWProperties oProp = clsRemoteBot.getDefaultProperties("");
+	         
+	         oProp.setProperty("RemoteBot."+clsEntity.P_ID, i);
+	         oProp.setProperty("RemoteBot."+clsMobile.P_POS_X, oStartPose.getPosition().x);
+	         oProp.setProperty("RemoteBot."+clsMobile.P_POS_Y, oStartPose.getPosition().y);
+	         oProp.setProperty("RemoteBot."+clsMobile.P_POS_ANGLE, oStartPose.getAngle().radians);
+	         
+		  	 clsBubble oBubble = new clsBubble( "RemoteBot.", oProp );
+	        
+ 			clsRemoteBot oBot = new clsRemoteBot("RemoteBot.", oProp);
 			clsRegisterEntity.registerEntity(oBot);
         }
 	}	
