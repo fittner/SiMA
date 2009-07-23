@@ -25,9 +25,6 @@ public class clsWall extends clsStationary  {
     
 	public static final String P_LENGTH = "length"; 
 	public static final String P_WIDTH = "width";
-	public static final String P_POS_X = "pos_x";
-	public static final String P_POS_Y = "pos_y";
-	public static final String P_POS_ANGLE = "pos_angle";
 	public static final String P_ID = "entity_ID";
 	public static final String P_COLOR = "color";
 	
