@@ -8,18 +8,14 @@
 package bw.entities;
 
 import java.awt.Color;
-import ARSsim.physics2D.util.clsPose;
-import bw.body.clsBaseBody;
-import bw.body.clsComplexBody;
+
+import du.utils.enums.eDecisionType;
+
 import bw.body.itfget.itfGetEatableArea;
 import bw.body.itfget.itfGetVision;
-import bw.utils.container.clsConfigDouble;
-import bw.utils.container.clsConfigInt;
-import bw.utils.container.clsConfigMap;
-import bw.utils.enums.eConfigEntries;
+import bw.utils.config.clsBWProperties;
+import bw.utils.enums.eShapeType;
 import enums.eEntityType;
-import sim.physics2D.util.Double2D;
-
 
 /**
  * Preliminary simple moving entities with the 'ability' to be eaten.
@@ -33,62 +29,40 @@ import sim.physics2D.util.Double2D;
  * 
  */
 public class clsAnimal extends clsAnimate implements itfGetVision, itfGetEatableArea{
-	private static double mrWeight;
-	private static double mrRadius;
-	private static Color moColor;
-	// private static double mrSpeed;	// EH - make warning free
 
 	private boolean mnAlive;
-	/**
-	 * @param poStartingPosition
-	 * @param poStartingVelocity
-	 * @param pnId
-	 */
-	public clsAnimal(int pnId, clsPose poPose, Double2D poStartingVelocity, clsConfigMap poConfig) {
-		super(
-				pnId, 
-				poPose, 
-				poStartingVelocity, 
-				null, 
-				10.0f, 
-				clsAnimal.getFinalConfig(poConfig)
-			);
-		
-		applyConfig();
-
 	
-		setShape(new sim.physics2D.shape.Circle(mrRadius, moColor), mrWeight);
-		
+	public clsAnimal(String poPrefix, clsBWProperties poProp) {
+		super(poPrefix, poProp );
+		applyProperties(poPrefix, poProp);
 		setAlive(true);
 	}
-
-	@Override
-	public clsBaseBody createBody() {
-		return  new clsComplexBody(this, (clsConfigMap)moConfig.get(eConfigEntries.BODY) );
-	}
-		
-	private void applyConfig() {
-		mrWeight = ( (clsConfigDouble)moConfig.get(eConfigEntries.WEIGHT) ).get();
-		mrRadius = ( (clsConfigDouble)moConfig.get(eConfigEntries.RADIUS) ).get();
-		// mrSpeed = ( (clsConfigDouble)moConfig.get(eConfigEntries.SPEED) ).get(); // EH - make warning free
-		moColor = new Color( ( (clsConfigInt)moConfig.get(eConfigEntries.COLOR) ).get() );
+	
+	private void applyProperties(String poPrefix, clsBWProperties poProp) {
+		//String pre = clsBWProperties.addDot(poPrefix);
+		//add additional fields here
 	}
 	
-	private static clsConfigMap getFinalConfig(clsConfigMap poConfig) {
-		clsConfigMap oDefault = getDefaultConfig();
-		oDefault.overwritewith(poConfig);
-		return oDefault;
-	}
 	
-	private static clsConfigMap getDefaultConfig() {
-		clsConfigMap oDefault = new clsConfigMap();
-		
-		oDefault.add(eConfigEntries.SPEED, new clsConfigDouble(4.0f));
-		oDefault.add(eConfigEntries.WEIGHT, new clsConfigDouble(300.0f));
-		oDefault.add(eConfigEntries.RADIUS, new clsConfigDouble(10.0f));
-		oDefault.add(eConfigEntries.COLOR, new clsConfigInt( Color.BLUE.getRGB() ));
+	public static clsBWProperties getDefaultProperties(String poPrefix) {
+		String pre = clsBWProperties.addDot(poPrefix);
 
-		return oDefault;
+		clsBWProperties oProp = new clsBWProperties();
+		oProp.putAll( clsAnimate.getDefaultProperties(pre) );
+		//TODO: (langr) - should pass the config to the decision unit!
+		//oProp.putAll( clsDumbMindA.getDefaultProperties(pre) ); //clsDumbMindA.getDefaultProperties(pre)
+		oProp.setProperty(pre+P_DECISION_TYPE, eDecisionType.DU_DUMB_MIND_A.name());
+		
+		oProp.setProperty(pre+P_MOBILE_SHAPE_TYPE, eShapeType.SHAPE_CIRCLE.name());
+		oProp.setProperty(pre+P_MOBILE_SHAPE_RADIUS, "10.0");
+		oProp.setProperty(pre+P_ENTITY_COLOR_R, Color.BLUE.getRed() );
+		oProp.setProperty(pre+P_ENTITY_COLOR_G, Color.BLUE.getGreen() );
+		oProp.setProperty(pre+P_ENTITY_COLOR_B, Color.BLUE.getBlue() );
+		
+//		oProp.setProperty(pre+P_MOBILE_SPEED, "4.0" );
+//		oProp.setProperty(pre+P_ENTITY_WEIGHT, "300.0" ); //TODO: (creator) is this for the mass???
+
+		return oProp;
 	}
 	
 	/* (non-Javadoc)

@@ -94,6 +94,24 @@ public abstract class clsAnimate extends clsMobile implements itfGetBody {
 		case DU_REMOTE:
 			oDecisionUnit = new clsRemoteControl();
 			break;
+		case DU_HARE_MIND_JADEX:
+			oDecisionUnit = new lifeCycle.JADEX.clsHareMind();
+			break;			
+		case DU_HARE_MIND_JAM:
+			oDecisionUnit = new lifeCycle.JAM.clsHareMind();
+			break;		
+		case DU_HARE_MIND_IFTHENELSE:
+			oDecisionUnit = new lifeCycle.IfThenElse.clsHareMind();
+			break;	
+		case DU_LYNX_MIND_JADEX:
+			oDecisionUnit = new lifeCycle.JADEX.clsLynxMind();
+			break;			
+		case DU_LYNX_MIND_JAM:
+			oDecisionUnit = new lifeCycle.JAM.clsLynxMind();
+			break;	
+		case DU_LYNX_MIND_IFTHENELSE:
+			oDecisionUnit = new lifeCycle.IfThenElse.clsLynxMind();
+			break;			
 		default:
 			oDecisionUnit = new clsDumbMindA();
 		break;

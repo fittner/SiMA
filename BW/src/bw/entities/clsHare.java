@@ -10,25 +10,20 @@ package bw.entities;
 
 import java.awt.Color;
 
-import decisionunit.clsBaseDecisionUnit;
+import du.utils.enums.eDecisionType;
 
 import enums.eEntityType;
 
-import lifeCycle.eLifeCycleDUs;
 import sim.display.clsKeyListener;
-import sim.physics2D.util.Double2D;
 import simple.remotecontrol.clsRemoteControl;
-import ARSsim.physics2D.util.clsPose;
 import bw.body.clsComplexBody;
 import bw.body.internalSystems.clsFlesh;
 import bw.body.io.actuators.actionProxies.itfAPEatable;
 import bw.body.io.actuators.actionProxies.itfAPKillable;
 import bw.body.itfget.itfGetFlesh;
 import bw.factories.clsRegisterEntity;
-import bw.utils.container.clsConfigDouble;
-import bw.utils.container.clsConfigInt;
-import bw.utils.container.clsConfigMap;
-import bw.utils.enums.eConfigEntries;
+import bw.utils.config.clsBWProperties;
+import bw.utils.enums.eShapeType;
 import bw.utils.tools.clsFood;
 
 /**
@@ -39,53 +34,39 @@ import bw.utils.tools.clsFood;
  * 
  */
 public class clsHare extends clsAnimal implements itfGetFlesh, itfAPEatable, itfAPKillable {
-	/**
-	 * TODO (deutsch) - insert description 
-	 * 
-	 * @author deutsch
-	 * 12.05.2009, 19:34:43
-	 *
-	 * @param pnId
-	 * @param poPose
-	 * @param poStartingVelocity
-	 * @param poConfig
-	 */
-	public clsHare(int pnId, clsPose poPose, Double2D poStartingVelocity, clsConfigMap poConfig, eLifeCycleDUs peDU) {
-		super(pnId, poPose, poStartingVelocity, getFinalConfig(poConfig));
-		applyConfig();		
+
+	public clsHare(String poPrefix, clsBWProperties poProp) {
+		super(poPrefix, poProp );
+		applyProperties(poPrefix, poProp);
+		setAlive(true);
+	}
+	
+	private void applyProperties(String poPrefix, clsBWProperties poProp) {
+		//String pre = clsBWProperties.addDot(poPrefix);
+		//add additional fields here
+	}
+	
+	public static clsBWProperties getDefaultProperties(String poPrefix) {
+		String pre = clsBWProperties.addDot(poPrefix);
+
+		clsBWProperties oProp = new clsBWProperties();
+		oProp.putAll( clsAnimate.getDefaultProperties(pre) );
+		//TODO: (langr) - should pass the config to the decision unit!
+		//oProp.putAll( clsDumbMindA.getDefaultProperties(pre) ); //clsDumbMindA.getDefaultProperties(pre)
+		oProp.setProperty(pre+P_DECISION_TYPE, eDecisionType.DU_HARE_MIND_IFTHENELSE.name());
 		
-		clsBaseDecisionUnit oDU = null;
-		if (peDU == eLifeCycleDUs.JAM) {
-			oDU = new lifeCycle.JAM.clsHareMind();			
-		} else if (peDU == eLifeCycleDUs.JADEX) {
-			oDU = new lifeCycle.JADEX.clsHareMind();
-		} else if (peDU == eLifeCycleDUs.IfThenElse) {
-			oDU = new lifeCycle.IfThenElse.clsHareMind();
-		}
-		setDecisionUnit(oDU);
+		oProp.setProperty(pre+P_MOBILE_SHAPE_TYPE, eShapeType.SHAPE_CIRCLE.name());
+		oProp.setProperty(pre+P_MOBILE_SHAPE_RADIUS, "5.0");
+		oProp.setProperty(pre+P_ENTITY_COLOR_R, Color.RED.getRed() );
+		oProp.setProperty(pre+P_ENTITY_COLOR_G, Color.RED.getGreen() );
+		oProp.setProperty(pre+P_ENTITY_COLOR_B, Color.RED.getBlue() );
+		
+//		oProp.setProperty(pre+P_MOBILE_SPEED, "3.0" );
+//		oProp.setProperty(pre+P_ENTITY_WEIGHT, "100.0" ); //TODO: (creator) is this for the mass???
+		
+		return oProp;
 	}
 
-	
-	private void applyConfig() {
-	}
-	
-	private static clsConfigMap getFinalConfig(clsConfigMap poConfig) {
-		clsConfigMap oDefault = getDefaultConfig();
-		oDefault.overwritewith(poConfig);
-		return oDefault;
-	}
-	
-	private static clsConfigMap getDefaultConfig() {
-		clsConfigMap oDefault = new clsConfigMap();
-		
-		oDefault.add(eConfigEntries.SPEED, new clsConfigDouble(3.0f));
-		oDefault.add(eConfigEntries.WEIGHT, new clsConfigDouble(100.0f));
-		oDefault.add(eConfigEntries.RADIUS, new clsConfigDouble(5.0f));
-		oDefault.add(eConfigEntries.COLOR, new clsConfigInt( Color.RED.getRGB() ));
-
-		return oDefault;
-	}
-		
 	/* (non-Javadoc)
 	 * @see bw.clsEntity#setEntityType()
 	 */
