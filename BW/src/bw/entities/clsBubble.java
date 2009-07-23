@@ -7,17 +7,17 @@
  */
 package bw.entities;
 
-import java.awt.Paint;
+import java.awt.Color;
+
+import du.utils.enums.eDecisionType;
+
 import simple.dumbmind.clsDumbMindA;
-import bw.body.clsBaseBody;
-import bw.body.clsComplexBody;
+import simple.remotecontrol.clsRemoteControl;
 import bw.body.itfget.itfGetEatableArea;
 import bw.body.itfget.itfGetInternalEnergyConsumption;
 import bw.body.itfget.itfGetRadiation;
 import bw.body.itfget.itfGetVision;
-import ARSsim.physics2D.util.clsPose;
-import bw.utils.container.clsConfigMap;
-import bw.utils.enums.eConfigEntries;
+import bw.utils.config.clsBWProperties;
 import enums.eEntityType;
 
 //import tstBw.*;
@@ -30,67 +30,65 @@ import enums.eEntityType;
  */
 public class clsBubble extends clsAnimate implements itfGetVision, itfGetEatableArea, itfGetRadiation {
 
+	public static final String P_BUBBLE_WEIGHT = "bubble_weight";
+	public static final String P_BUBBLE_RADIUS = "bubble_radius";
+	public static final String P_DECISION_TYPE = "decision_type";
+	
+	public static final String P_ENTITY_COLOR_R = "entity_color_r";
+	public static final String P_ENTITY_COLOR_G = "entity_color_g";
+	public static final String P_ENTITY_COLOR_B = "entity_color_b";
+	
+	//TODO: (langr) - WTF? should be in config and getDefaultProperties
 	private static double mrDefaultWeight = 100.0f;
 	private static double mrDefaultRadius = 10.0f;
+	
+	
+	public eDecisionType moDecisionType;
 
 
-	/**
-	 * TODO (deutsch) - insert description 
-	 * 
-	 * @author deutsch
-	 * 26.02.2009, 11:29:23
-	 *
-	 * @param pnId
-	 * @param poStartingPose
-	 * @param poStartingVelocity
-	 */
-	public clsBubble(int pnId, clsPose poStartingPose, sim.physics2D.util.Double2D poStartingVelocity, Paint poColor,  clsConfigMap poConfig)
-    {
-		super(
-				pnId, 
-				poStartingPose, 
-				poStartingVelocity, 
-				new sim.physics2D.shape.Circle(clsBubble.mrDefaultRadius, poColor), 
-				clsBubble.mrDefaultWeight,
-				getFinalConfig(poConfig)
-				);
-			
-		applyConfig();
-		
-		setDecisionUnit(new clsDumbMindA());
-    } 
-
-	@Override
-	public clsBaseBody createBody() {
-		return  new clsComplexBody(this, (clsConfigMap)moConfig.get(eConfigEntries.BODY));
+	public clsBubble(String poPrefix, clsBWProperties poProp) {
+		super(poPrefix, poProp, 
+		      new sim.physics2D.shape.Circle(clsBubble.mrDefaultRadius, 
+		      new Color(poProp.getPropertyFloat(P_ENTITY_COLOR_R),
+		    		    poProp.getPropertyFloat(P_ENTITY_COLOR_G),
+		    		    poProp.getPropertyFloat(P_ENTITY_COLOR_B)) ) );
+		applyProperties(poPrefix, poProp);
 	}
 	
-	private void applyConfig() {
-		//TODO add ...
+	public static clsBWProperties getDefaultProperties(String poPrefix) {
+		String pre = clsBWProperties.addDot(poPrefix);
 
+		clsBWProperties oProp = new clsBWProperties();
+		
+		//TODO: (langr) - should pass the config to the decision unit!
+		//oProp.putAll( clsDumbMindA.getDefaultProperties(pre) ); //clsDumbMindA.getDefaultProperties(pre)
+		oProp.setProperty(pre+P_DECISION_TYPE, "DU_DUMB_MIND_A");
+		
+		return oProp;
 	}
 	
-	private static clsConfigMap getFinalConfig(clsConfigMap poConfig) {
-		clsConfigMap oDefault = getDefaultConfig();
-		oDefault.overwritewith(poConfig);
-		return oDefault;
+	private void applyProperties(String poPrefix, clsBWProperties poProp) {
+		String pre = clsBWProperties.addDot(poPrefix);
+		moDecisionType = eDecisionType.valueOf( poProp.getPropertyString(pre+P_DECISION_TYPE) );
+
+		//create the defined decision unit...
+		switch(moDecisionType) {
+		case DU_DUMB_MIND_A:
+			setDecisionUnit(new clsDumbMindA());
+			break;
+		case DU_REMOTE:
+			setDecisionUnit(new clsRemoteControl());
+			break;
+		default:
+			setDecisionUnit(new clsDumbMindA());
+		break;
+		}
 	}
-	
-	private static clsConfigMap getDefaultConfig() {
-		clsConfigMap oDefault = new clsConfigMap();
-		
-		//TODO add ...
-		
-		return oDefault;
-	}	
-	
+
 	// TODO: this code should be transferred to the entities inspector class - used only for inspectors
 	public double getInternalEnergyConsuptionSUM() {	return ((itfGetInternalEnergyConsumption)moBody).getInternalEnergyConsumption().getSum();	} 
 	public Object[] getInternalEnergyConsumption() { return ((itfGetInternalEnergyConsumption)moBody).getInternalEnergyConsumption().getMergedList().values().toArray();	}
 	public Object[] getSensorExternal() { return moBody.getExternalIO().moSensorExternal.values().toArray();}
-
-
-
 
 	/* (non-Javadoc)
 	 * @see bw.clsEntity#setEntityType()
@@ -100,13 +98,4 @@ public class clsBubble extends clsAnimate implements itfGetVision, itfGetEatable
 		meEntityType = eEntityType.BUBBLE;
 		
 	}
-	
-
-
-
-
-
-
-
-
 }

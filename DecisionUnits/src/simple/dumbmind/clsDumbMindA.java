@@ -39,6 +39,23 @@ public class clsDumbMindA extends clsBaseDecisionUnit {
 	public clsDumbMindA() {
 	}
 	
+//	//TODO: (langr) new config
+//	public clsDumbMindA(String poPrefix, clsBWProperties poProp) {
+//		applyProperties(poPrefix, poProp);
+//	}
+//	
+//	public static clsBWProperties getDefaultProperties(String poPrefix) {
+//		String pre = clsBWProperties.addDot(poPrefix);
+//
+//		return oProp;
+//	}
+//	
+//	private void applyProperties(String poPrefix, clsBWProperties poProp) {
+//		String pre = clsBWProperties.addDot(poPrefix);
+//		
+//	}
+	
+	
 	public void stepProcessing(itfActionProcessor poActionProcessor) {
 		
 		if(isCollisionAvoidance()) {
