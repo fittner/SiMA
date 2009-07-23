@@ -25,9 +25,9 @@ import bw.body.itfget.itfGetRadiation;
 import bw.body.itfget.itfGetSensorEngine;
 import bw.body.itfget.itfGetVision;
 import enums.eEntityType;
-import sim.display.clsKeyListener;
+//import sim.display.clsKeyListener;
 import sim.physics2D.util.Angle;
-import simple.remotecontrol.clsRemoteControl;
+//import simple.remotecontrol.clsRemoteControl;
 import statictools.clsSingletonUniqueIdGenerator;
 
 /**
@@ -181,7 +181,7 @@ public class clsRemoteBot extends clsAnimate implements itfGetVision, itfGetRadi
 	@Override
 	public void processing() {
 
-		((clsRemoteControl)(moBody.getBrain().getDecisionUnit())).setKeyPressed(clsKeyListener.getKeyPressed());		
+//		((clsRemoteControl)(moBody.getBrain().getDecisionUnit())).setKeyPressed(clsKeyListener.getKeyPressed());		
 		moBody.getBrain().stepProcessing();
 	}
 

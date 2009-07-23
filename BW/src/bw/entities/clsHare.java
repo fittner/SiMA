@@ -14,8 +14,8 @@ import du.utils.enums.eDecisionType;
 
 import enums.eEntityType;
 
-import sim.display.clsKeyListener;
-import simple.remotecontrol.clsRemoteControl;
+//import sim.display.clsKeyListener;
+//import simple.remotecontrol.clsRemoteControl;
 import bw.body.clsComplexBody;
 import bw.body.internalSystems.clsFlesh;
 import bw.body.io.actuators.actionProxies.itfAPEatable;
@@ -85,7 +85,7 @@ public class clsHare extends clsAnimal implements itfGetFlesh, itfAPEatable, itf
 	 */
 	@Override
 	public void processing() {
-	    ((clsRemoteControl)(moBody.getBrain().getDecisionUnit())).setKeyPressed(clsKeyListener.getKeyPressed());		
+//	    ((clsRemoteControl)(moBody.getBrain().getDecisionUnit())).setKeyPressed(clsKeyListener.getKeyPressed());		
 		super.processing();
 	}
 

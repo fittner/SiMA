@@ -10,8 +10,8 @@ package bw.entities;
 
 import java.awt.Color;
 import du.utils.enums.eDecisionType;
-import sim.display.clsKeyListener;
-import simple.remotecontrol.clsRemoteControl;
+//import sim.display.clsKeyListener;
+//import simple.remotecontrol.clsRemoteControl;
 import bw.utils.config.clsBWProperties;
 import bw.utils.enums.eShapeType;
 import enums.eEntityType;
@@ -76,7 +76,7 @@ public class clsLynx extends clsAnimal {
 	@Override
 	public void processing() {
 
-	    ((clsRemoteControl)(moBody.getBrain().getDecisionUnit())).setKeyPressed(clsKeyListener.getKeyPressed());		
+//	    ((clsRemoteControl)(moBody.getBrain().getDecisionUnit())).setKeyPressed(clsKeyListener.getKeyPressed());		
 		super.processing();
 	}
 }
