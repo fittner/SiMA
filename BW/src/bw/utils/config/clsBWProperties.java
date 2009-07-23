@@ -385,7 +385,16 @@ public class clsBWProperties extends Properties {
 	public String getPropertyString(String key) {
 		return getProperty(key);
 	}
-	
+	/**
+	 * Searches for the property with the specified key in this property list. If the key is not found in this property list, the default property list, and its defaults, recursively, are then checked. The method returns null if the property is not found.
+	 * two different types of values are accepted: html color like encoding (#12AF32) and java color names (red, white, etc.).
+	 *
+	 * @author deutsch
+	 * 22.07.2009, 10:12:39
+	 *
+	 * @param key
+	 * @return the value in this property list with the specified key value.
+	 */	
 	public Color getPropertyColor(String key) {
 		String value = getProperty(key);
 		Color result = null;
@@ -404,11 +413,6 @@ public class clsBWProperties extends Properties {
 
 		
 		return result;
-	}
-	
-	public Object setProperty(String key, Color value) {
-		String v = P_COLOR+Integer.toString(value.getRed() & 0xffffff, 16);
-		return setProperty(key, v);
 	}
 	
 	/**
@@ -553,6 +557,21 @@ public class clsBWProperties extends Properties {
 		return setProperty(key, Integer.toString(value));		
 	}
 	
+	/**
+	 * Calls the Hashtable method put. Provided for parallelism with the getProperty method. Enforces use of strings for property keys and values. The value returned is the result of the Hashtable call to put.
+	 * the Color value is safed in html encoding (#AB23C1)
+	 *
+	 * @author deutsch
+	 * 23.07.2009, 16:55:06
+	 *
+	 * @param key
+	 * @param value
+	 * @return
+	 */
+	public Object setProperty(String key, Color value) {
+		String v = P_COLOR+Integer.toString(value.getRed() & 0xffffff, 16);
+		return setProperty(key, v);
+	}	
 	/**
 	 * Calls the Hashtable method put. Provided for parallelism with the getProperty method. Enforces use of strings for property keys and values. The value returned is the result of the Hashtable call to put. 
 	 *
