@@ -1,0 +1,16 @@
+#
+#Thu Jul 23 17:41:55 CEST 2009
+colorB=255
+colorG=0
+colorR=0
+def_coeff_friction=0.5
+def_restitution=1.0
+def_static_friction=0.2
+mass=80.0
+pos_angle=0.0
+pos_x=0.0
+pos_y=0.0
+radius=2.0
+shape_type=SHAPE_CIRCLE
+start_velocity_x=0.0
+start_velocity_y=0.0

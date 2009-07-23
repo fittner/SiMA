@@ -1,0 +1,22 @@
+#
+#Thu Jul 23 17:41:55 CEST 2009
+colorB=175
+colorG=175
+colorR=255
+def_coeff_friction=0.5
+def_restitution=1.0
+def_static_friction=0.2
+flesh_content=15.0
+flesh_increaserate=0.0
+flesh_max_content=15.0
+image_path=null/src/resources/images/cake.gif
+mass=1.0
+nutrition_fat=5.0
+nutrition_water=1.0
+pos_angle=0.0
+pos_x=0.0
+pos_y=0.0
+radius=10.0
+shape_type=SHAPE_CIRCLE
+start_velocity_x=0.0
+start_velocity_y=0.0
