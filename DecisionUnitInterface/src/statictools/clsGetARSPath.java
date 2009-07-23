@@ -12,11 +12,11 @@ public class clsGetARSPath {
 	
 	public static String getConfigPath()
 	{
-		return getArsPath()+System.getProperty("file.separator")+"Config";
+		return getArsPath()+System.getProperty("file.separator")+"BW"+System.getProperty("file.separator")+"config";
 	}
 	
 	public static String getLogPath()
 	{
-		return getArsPath()+System.getProperty("file.separator")+"Log";
+		return getArsPath()+System.getProperty("file.separator")+"BW"+System.getProperty("file.separator")+"log";
 	}	
 }
