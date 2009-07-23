@@ -34,7 +34,7 @@ public class clsSensorBump extends clsSensorExt {
 
 	public clsSensorBump(String poPrefix, clsBWProperties poProp, clsBaseIO poBaseIO, clsEntity poEntity) {
 		super(poPrefix, poProp, poBaseIO);
-		setEntity(poEntity);
+		this.moEntity = poEntity;
 
 		setBumped(false);
 		
@@ -58,15 +58,6 @@ public class clsSensorBump extends clsSensorExt {
 		//nothing to do
 	}	
 	
-	/**
-	 * TODO (muchitsch) - insert description
-	 *
-	 * @param poEntity
-	 */
-	private void setEntity(clsEntity poEntity) {
-		this.moEntity = poEntity;
-	}
-
 	/* (non-Javadoc)
 	 * @see bw.body.io.sensors.external.clsSensorExt#updateSensorData()
 	 */

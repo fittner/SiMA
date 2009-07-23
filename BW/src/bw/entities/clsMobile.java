@@ -164,6 +164,10 @@ public abstract class clsMobile extends clsEntity {
 		return getMobileObject2D().getVelocity();
 	}
 	
+	public double getAngularVelocity() {
+		return getMobileObject2D().getAngularVelocity();
+	}
+	
 	public void setVelocity(sim.physics2D.util.Double2D poVelocity) {
 		getMobileObject2D().setVelocity(poVelocity);
 	}

@@ -40,7 +40,7 @@ public class clsSensorPositionChange extends clsSensorExt {
 	
 	public clsSensorPositionChange(String poPrefix, clsBWProperties poProp, clsBaseIO poBaseIO, clsEntity poEntity) {
 		super(poPrefix, poProp);
-		setEntity(poEntity);	
+		moEntity = poEntity;
 		moLastPos = new clsPose(poEntity.getPose());
 		moDiv = new clsPose(0,0,0);
 		applyProperties(poPrefix, poProp);
@@ -62,13 +62,6 @@ public class clsSensorPositionChange extends clsSensorExt {
 		//nothing to do
 	}		
 
-
-	/**
-	 * @param moEntity the moEntity to set
-	 */
-	public void setEntity(clsEntity poEntity) {
-		moEntity = poEntity;
-	}
 
 	/* (non-Javadoc)
 	 *

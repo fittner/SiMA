@@ -131,7 +131,7 @@ public class clsExternalIO extends clsBaseIO {
 				
 				switch(eType) {
 					case ACCELERATION:
-						moSensorExternal.put(eType, new clsSensorAcceleration(tmp_pre, poProp)); 
+						moSensorExternal.put(eType, new clsSensorAcceleration(tmp_pre, poProp, this, moEntity)); 
 						break;
 					case BUMP:
 						moSensorExternal.put(eType, new clsSensorBump(tmp_pre, poProp, this, moEntity)); 

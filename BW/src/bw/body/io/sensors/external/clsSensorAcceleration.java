@@ -10,6 +10,9 @@ package bw.body.io.sensors.external;
 import sim.physics2D.util.Double2D;
 import bw.utils.config.clsBWProperties;
 import bw.utils.enums.eBodyParts;
+import bw.body.io.clsBaseIO;
+import bw.entities.clsEntity;
+import bw.entities.clsMobile;
 
 /**
  * use this sensor to get the current forces affecting the owner
@@ -21,11 +24,23 @@ import bw.utils.enums.eBodyParts;
  */
 public class clsSensorAcceleration extends clsSensorExt{
 
-	//private clsEntity moEntity;	// EH - make warning free
+	private clsMobile moEntity;	
 	
-	public clsSensorAcceleration(String poPrefix, clsBWProperties poProp) {
+	private Double2D oldVelocity;
+	private Double2D curVelocity;
+	private double oldAngularVelocity;
+	private double curAngularVelocity;
+	
+	private Double2D curAcceleration;
+	private double curAngularAcceleration;
+	
+	private static double stepsPerSecond = 10.0; // TODO: use BW-wide definition
+	
+	public clsSensorAcceleration(String poPrefix, clsBWProperties poProp, clsBaseIO poBaseIO, clsEntity poEntity) {
 		super(poPrefix, poProp);
-		//setEntity(poEntity);		// EH - make warning free
+		if (! (poEntity instanceof clsMobile))
+			throw new UnsupportedOperationException("Only mobile entitys may have acceleration Sensors!");
+		moEntity = (clsMobile)poEntity;
 		applyProperties(poPrefix, poProp);
 	}
 
@@ -45,46 +60,22 @@ public class clsSensorAcceleration extends clsSensorExt{
 		//nothing to do
 	}		
 	
-	private Double2D moCurrentVelocity;
-	/**
-	 * @return the moCurrentVelocity - directing to vector er
-	 */
-	public Double2D getCurrentVelocity() {
-		return moCurrentVelocity;
-	}
 
-	private double moCurrentAngularVelocity; 
+	public Double2D getCurAcceleration() { return curAcceleration; }
+	public double getCurAngularAcceleration() { return curAngularAcceleration; }
 	
-	/**
-	 * @return the AccelerationVector - directing to vector ephi (polar coordinates)
-	 */
-	public double getCurrentAngularVelocity() {
-		return moCurrentAngularVelocity;
-	}
-	
-	/**
-	 * @param moEntity the moEntity to set
-	 */
-	/*	// EH - make warning free
-	public void setEntity(clsEntity poEntity) {
-		moEntity = poEntity;
-	}
-	*/
-
-	/**
-	 * @param mnAcceleration the mnAcceleration to set
-	 */
-	public void setAcceleration(int poAcceleration) {
-	}
 	
 	/* (non-Javadoc)
 	 * Updates the sensor data values by fetching the info from the physics engine entity 
 	 */
 	public void updateSensorData() {
-
-		//TODO: RL --> entity braucht die Mobile object 2D
-		// moCurrentVelocity = moEntity.getVelocity();
-		// moCurrentAngularVelocity = moEntity.getAngularVelocity();
+		oldVelocity = curVelocity;
+		curVelocity = moEntity.getVelocity();
+		oldAngularVelocity = curAngularVelocity;
+		curAngularVelocity = moEntity.getAngularVelocity();
+		
+		curAcceleration = curVelocity.subtract(oldVelocity).scalarMult(stepsPerSecond);
+		curAngularAcceleration = (curAngularVelocity - oldAngularVelocity) * stepsPerSecond;
 	}
 
 	/* (non-Javadoc)
