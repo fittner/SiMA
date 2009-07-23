@@ -50,5 +50,4 @@ public class clsWorldBoundaries {
         clsRegisterEntity.registerEntity(oWall);
         clsImagePortrayal.PlaceImage(sim.clsBWMain.msArsPath + "/src/resources/images/wall2.jpg", 8, new sim.util.Double2D(oPose.getPosition().x, oPose.getPosition().y), clsSingletonMasonGetter.getFieldEnvironment());
 	}
-	
 }
