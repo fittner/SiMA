@@ -54,13 +54,13 @@ public abstract class clsAnimate extends clsMobile implements itfGetBody {
 		clsBaseBody oRetVal = null;
 		switch( moBodyType ) {
 		case BODY_TYPE_MEAT:
-			oRetVal = new clsMeatBody(poPrefix, poProp);
+			oRetVal = new clsMeatBody(pre, poProp);
 			break;
 		case BODY_TYPE_COMPLEX:
-			oRetVal = new clsComplexBody(poPrefix, poProp, this);
+			oRetVal = new clsComplexBody(pre, poProp, this);
 			break;
 		default:
-			oRetVal = new clsMeatBody(poPrefix, poProp);
+			oRetVal = new clsMeatBody(pre, poProp);
 			break;
 		}
 		
