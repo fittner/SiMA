@@ -7,10 +7,9 @@
  */
 package bw.entities;
 
-import java.awt.Color;
+import sim.physics2D.shape.Shape;
 
-import bw.utils.container.clsConfigMap;
-import ARSsim.physics2D.util.clsPose;
+import bw.utils.config.clsBWProperties;
 import enums.eEntityType;
 
 
@@ -23,36 +22,38 @@ import enums.eEntityType;
  * 
  */
 public class clsWall extends clsStationary  {
-	private static Color moDefaultColor = Color.LIGHT_GRAY;
-    public double radius;
     
-    public clsWall(int pnId, clsPose poPose, double prLength, double prWidth, clsConfigMap poConfig) {
-    	super(pnId, poPose, new sim.physics2D.shape.Rectangle(prLength, prWidth, clsWall.moDefaultColor), clsWall.getFinalConfig(poConfig));
+	public static final String P_LENGTH = "length"; 
+	public static final String P_WIDTH = "width";
+	public static final String P_POS_X = "pos_x";
+	public static final String P_POS_Y = "pos_y";
+	public static final String P_POS_ANGLE = "pos_angle";
+	public static final String P_ID = "entity_ID";
+	public static final String P_COLOR = "color";
+	
+	public double radius;
+    
+    public clsWall(String poPrefix, clsBWProperties poProp, Shape poShape) {
+    	super(poPrefix, poProp, poShape);
     	
-    	applyConfig();
+    	applyProperties(poPrefix, poProp, poShape);
     	
     	//FIXME direction of wall ...
     } 
 
-	private void applyConfig() {
-		//TODO add ...
-
-	}
 	
-	private static clsConfigMap getFinalConfig(clsConfigMap poConfig) {
-		clsConfigMap oDefault = getDefaultConfig();
-		oDefault.overwritewith(poConfig);
-		return oDefault;
-	}
 	
-	private static clsConfigMap getDefaultConfig() {
-		clsConfigMap oDefault = new clsConfigMap();
+	
+	public static clsBWProperties getDefaultProperties(String poPrefix) {
+		//String pre = clsBWProperties.addDot(poPrefix);
 		
-		//TODO add ...
+		clsBWProperties oProp = new clsBWProperties();
+		return oProp;
+	}	
 		
-		return oDefault;
-	}    
-
+	private void applyProperties(String poPrefix, clsBWProperties poProp, Shape poShape){		
+		
+	}	
 	/* (non-Javadoc)
 	 *
 	 * @author deutsch
