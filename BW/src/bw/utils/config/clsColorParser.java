@@ -15,7 +15,8 @@ import java.lang.reflect.Field;
 
 
 /**
- * Reflects java.awt.Color and makes all its static colors ("black", "blue" ...) available. 
+ * Reflects java.awt.Color and makes all its static colors ("black", "blue" ...) available. additionally, custom 
+ * colors can be used (ars_logo, ars_background, tu_blue, etc.). every color given as string param is converted to lower case.
  * 
  * @author Edgar Holleis
  * 23.07.2009, 16:19:58
