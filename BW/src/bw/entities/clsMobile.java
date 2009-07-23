@@ -7,8 +7,10 @@
  */
 package bw.entities;
 
-import enums.eEntityType;
+import java.awt.Color;
+
 import bw.utils.config.clsBWProperties;
+import bw.utils.enums.eShapeType;
 import sim.physics2D.shape.Shape;
 import sim.physics2D.util.Double2D;
 import ARSsim.physics2D.physicalObject.clsMobileObject2D;
@@ -32,6 +34,11 @@ public abstract class clsMobile extends clsEntity {
 	public static final String P_DEF_STATIC_FRICTION = "def_static_friction";
 	public static final String P_DEF_RESTITUTION = "def_restitution";
 	
+	public static final String P_MOBILE_SHAPE_TYPE = "mobile_shape_type";
+	public static final String P_MOBILE_SHAPE_RADIUS = "mobile_shape_radius";
+	public static final String P_MOBILE_SHAPE_WIDTH = "mobile_shape_width";
+	public static final String P_MOBILE_SHAPE_HEIGHT = "mobile_shape_height";
+	
 	private int mnHolders; // number of bubles which picked-up and carry this mobile entity 
 	private double mrDefaultCoeffFriction; 	//0.5
 	private double mrDefaultStaticFriction;	//0.2
@@ -40,12 +47,12 @@ public abstract class clsMobile extends clsEntity {
 	protected clsInventory moInventory;
 	
 
-	public clsMobile(String poPrefix, clsBWProperties poProp, Shape poShape) {
+	public clsMobile(String poPrefix, clsBWProperties poProp) {
 		super(poPrefix, poProp);
 		
 		setEntityInventory();
 		
-		applyProperties(poPrefix, poProp, poShape);
+		applyProperties(poPrefix, poProp);
 		
 		mnHolders = 0;
 	}
@@ -71,7 +78,7 @@ public abstract class clsMobile extends clsEntity {
 		return oProp;
 	}	
 
-	private void applyProperties(String poPrefix, clsBWProperties poProp, Shape poShape) {
+	private void applyProperties(String poPrefix, clsBWProperties poProp) {
 		String pre = clsBWProperties.addDot(poPrefix);
 
 		mrDefaultCoeffFriction = poProp.getPropertyDouble(pre+P_DEF_COEFF_FRICTION);
@@ -84,12 +91,42 @@ public abstract class clsMobile extends clsEntity {
 		Double2D oVelocity = new Double2D(  poProp.getPropertyDouble(pre+P_START_VELOCITY_X), 
 											poProp.getPropertyDouble(pre+P_START_VELOCITY_Y) );
 		
-		//TODO: (everyone) - THIS IS PFUSCH AND AWFUL - YOU CANNOT SET SOMETHING HERE JUST FOR A SPECIFIC ENTITY!
-		if(this.meEntityType.equals(eEntityType.REMOTEBOT)) 
-			initPhysicalObject2D(new clsPose(oPosX, oPosY, 0), oVelocity, poShape, getMass());
-		else
-			initPhysicalObject2D(new clsPose(oPosX, oPosY, oPosAngle), oVelocity, poShape, getMass());
-	}	
+		Shape oShape = createShape(pre, poProp); //depends on the config
+		initPhysicalObject2D(new clsPose(oPosX, oPosY, oPosAngle), oVelocity, oShape, getMass());
+	}
+	
+	private Shape createShape(String pre, clsBWProperties poProp) {
+		
+		Shape oShape = null; 
+			
+		eShapeType oShapeType = eShapeType.valueOf( poProp.getPropertyString(P_MOBILE_SHAPE_TYPE) );
+		
+		switch( oShapeType ) {
+		case SHAPE_CIRCLE:
+			oShape = new sim.physics2D.shape.Circle(poProp.getPropertyDouble(P_MOBILE_SHAPE_RADIUS), 
+					 new Color(poProp.getPropertyFloat(P_ENTITY_COLOR_R),
+							   poProp.getPropertyFloat(P_ENTITY_COLOR_G),
+							   poProp.getPropertyFloat(P_ENTITY_COLOR_B)));
+			break;
+		case SHAPE_RECTANGLE:
+			oShape = new sim.physics2D.shape.Rectangle(	poProp.getPropertyDouble(P_MOBILE_SHAPE_WIDTH),
+														poProp.getPropertyDouble(P_MOBILE_SHAPE_HEIGHT), 
+					 new Color(poProp.getPropertyFloat(P_ENTITY_COLOR_R),
+							   poProp.getPropertyFloat(P_ENTITY_COLOR_G),
+							   poProp.getPropertyFloat(P_ENTITY_COLOR_B)));
+			break;
+		case SHAPE_POLYGON:
+			//TODO: (everyone) - add list for points of polygon in config!
+			break;
+		default:
+			oShape = new sim.physics2D.shape.Circle(poProp.getPropertyDouble(P_MOBILE_SHAPE_RADIUS), 
+					 new Color(poProp.getPropertyFloat(P_ENTITY_COLOR_R),
+							   poProp.getPropertyFloat(P_ENTITY_COLOR_G),
+							   poProp.getPropertyFloat(P_ENTITY_COLOR_B)));
+			break;
+		}
+		return oShape;
+	}
 
 	/*
 	 * Override to configure inventory-size

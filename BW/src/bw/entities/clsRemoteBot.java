@@ -16,6 +16,7 @@ import bw.physicalObjects.bodyparts.clsBotHands;
 import bw.physicalObjects.sensors.clsEntityPartVision;
 import bw.physicalObjects.sensors.clsEntitySensorEngine;
 import bw.utils.config.clsBWProperties;
+import bw.utils.enums.eShapeType;
 import bw.body.io.sensors.ext.clsSensorEngine;
 import bw.body.io.sensors.external.clsSensorEatableArea;
 import bw.body.io.sensors.external.clsSensorVision;
@@ -55,11 +56,7 @@ public class clsRemoteBot extends clsAnimate implements itfGetVision, itfGetRadi
 
 
 	public clsRemoteBot(String poPrefix, clsBWProperties poProp) {
-		super(poPrefix, poProp, 
-			      new sim.physics2D.shape.Circle(poProp.getPropertyDouble(P_BOT_RADIUS), 
-			      new Color(poProp.getPropertyFloat(P_ENTITY_COLOR_R),
-			    		    poProp.getPropertyFloat(P_ENTITY_COLOR_G),
-			    		    poProp.getPropertyFloat(P_ENTITY_COLOR_B)) ) );
+		super(poPrefix, poProp);
 			applyProperties(poPrefix, poProp);
 			
 			addBotHands();
@@ -74,8 +71,8 @@ public class clsRemoteBot extends clsAnimate implements itfGetVision, itfGetRadi
 		//oProp.putAll( clsDumbMindA.getDefaultProperties(pre) ); //clsDumbMindA.getDefaultProperties(pre)
 		oProp.setProperty(pre+P_DECISION_TYPE, "DU_DUMB_MIND_A");
 		
+		oProp.setProperty(pre+P_MOBILE_SHAPE_TYPE, eShapeType.SHAPE_CIRCLE.name());
 		oProp.setProperty(pre+P_BOT_RADIUS, "10.0");
-		//override entity color
 		oProp.setProperty(pre+P_ENTITY_COLOR_R, Color.CYAN.getRed());
 		oProp.setProperty(pre+P_ENTITY_COLOR_G, Color.CYAN.getGreen());
 		oProp.setProperty(pre+P_ENTITY_COLOR_B, Color.CYAN.getBlue());

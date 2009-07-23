@@ -12,7 +12,6 @@ import java.util.TreeMap;
 
 import decisionunit.clsBaseDecisionUnit;
 import du.utils.enums.eDecisionType;
-import sim.physics2D.shape.Shape;
 import simple.dumbmind.clsDumbMindA;
 import simple.remotecontrol.clsRemoteControl;
 import bw.body.clsBaseBody;
@@ -43,9 +42,9 @@ public abstract class clsAnimate extends clsMobile implements itfGetBody {
 	public eBodyType moBodyType;
 	public eDecisionType moDecisionType;
 	
-	public clsAnimate(String poPrefix, clsBWProperties poProp, Shape poShape) {
-		super(poPrefix, poProp, poShape);
-		applyProperties(poPrefix, poProp, poShape);
+	public clsAnimate(String poPrefix, clsBWProperties poProp) {
+		super(poPrefix, poProp);
+		applyProperties(poPrefix, poProp);
 		moBody = createBody(poPrefix, poProp);
 	}
 
@@ -77,7 +76,7 @@ public abstract class clsAnimate extends clsMobile implements itfGetBody {
 		return oProp;
 	}	
 	
-	private void applyProperties(String poPrefix, clsBWProperties poProp, Shape poShape) {
+	private void applyProperties(String poPrefix, clsBWProperties poProp) {
 		String pre = clsBWProperties.addDot(poPrefix);
 		moBodyType = eBodyType.valueOf( poProp.getPropertyString(pre+P_BODY_TYPE) );
 	}	

@@ -7,8 +7,6 @@
  */
 package bw.entities;
 
-import java.awt.Color;
-
 import du.utils.enums.eDecisionType;
 
 import bw.body.itfget.itfGetEatableArea;
@@ -16,6 +14,7 @@ import bw.body.itfget.itfGetInternalEnergyConsumption;
 import bw.body.itfget.itfGetRadiation;
 import bw.body.itfget.itfGetVision;
 import bw.utils.config.clsBWProperties;
+import bw.utils.enums.eShapeType;
 import enums.eEntityType;
 
 //import tstBw.*;
@@ -28,14 +27,8 @@ import enums.eEntityType;
  */
 public class clsBubble extends clsAnimate implements itfGetVision, itfGetEatableArea, itfGetRadiation {
 
-	public static final String P_BUBBLE_RADIUS = "bubble_radius";
-
 	public clsBubble(String poPrefix, clsBWProperties poProp) {
-		super(poPrefix, poProp, 
-		      new sim.physics2D.shape.Circle(poProp.getPropertyDouble(P_BUBBLE_RADIUS), 
-		      new Color(poProp.getPropertyFloat(P_ENTITY_COLOR_R),
-		    		    poProp.getPropertyFloat(P_ENTITY_COLOR_G),
-		    		    poProp.getPropertyFloat(P_ENTITY_COLOR_B)) ) );
+		super(poPrefix, poProp);
 		applyProperties(poPrefix, poProp);
 	}
 	
@@ -48,11 +41,12 @@ public class clsBubble extends clsAnimate implements itfGetVision, itfGetEatable
 		//oProp.putAll( clsDumbMindA.getDefaultProperties(pre) ); //clsDumbMindA.getDefaultProperties(pre)
 		oProp.setProperty(pre+P_DECISION_TYPE, "DU_DUMB_MIND_A");
 		
-		oProp.setProperty(pre+P_BUBBLE_RADIUS, "10.0");
+		oProp.setProperty(pre+P_MOBILE_SHAPE_TYPE, eShapeType.SHAPE_CIRCLE.name());
+		oProp.setProperty(pre+P_MOBILE_SHAPE_RADIUS, "10.0");
 		oProp.setProperty(pre+P_ENTITY_COLOR_R, "0");
 		oProp.setProperty(pre+P_ENTITY_COLOR_G, "200");
 		oProp.setProperty(pre+P_ENTITY_COLOR_B, "0");
-		
+
 		return oProp;
 	}
 	
