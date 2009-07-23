@@ -24,11 +24,6 @@ import enums.eEntityType;
  */
 public class clsWall extends clsStationary  {
     
-	public static final String P_ID = "entity_ID";
-	public static final String P_ENTIY_COLOR_B = "colorB";
-	public static final String P_ENTIY_COLOR_G = "colorG";
-	public static final String P_ENTIY_COLOR_R = "colorR";
-	public static final String P_MOBILE_SHAPE_TYPE = "shape_type"; 
 	
 	public double radius;
     
@@ -46,9 +41,9 @@ public class clsWall extends clsStationary  {
 		clsBWProperties oProp = new clsBWProperties();
 		oProp.putAll(clsStationary.getDefaultProperties(pre) );
 		
-		oProp.setProperty(pre+P_ENTIY_COLOR_B, Color.black.getBlue());
-		oProp.setProperty(pre+P_ENTIY_COLOR_B, Color.black.getBlue());
-		oProp.setProperty(pre+P_ENTIY_COLOR_G, Color.black.getGreen());
+		oProp.setProperty(pre+P_ENTITY_COLOR_B, Color.black.getBlue());
+		oProp.setProperty(pre+P_ENTITY_COLOR_B, Color.black.getBlue());
+		oProp.setProperty(pre+P_ENTITY_COLOR_G, Color.black.getGreen());
 		oProp.setProperty(pre+P_SHAPE_TYPE, eShapeType.SHAPE_RECTANGLE.name());
 		
 		oProp.setProperty(pre+P_SHAPE_WIDTH, "10");

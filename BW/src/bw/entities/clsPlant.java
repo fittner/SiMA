@@ -23,7 +23,6 @@ import enums.eEntityType;
  */
 public class clsPlant extends clsAnimate {
 
-	public static final String P_DEFAULT_WEIGHT = "mass";
 	
 	public clsPlant(String poPrefix, clsBWProperties poProp) {
 		super(poPrefix, poProp);
@@ -45,7 +44,7 @@ public class clsPlant extends clsAnimate {
 		oProp.setProperty(pre+P_ENTITY_COLOR_B, Color.ORANGE.getBlue());
 		oProp.setProperty(pre+P_ENTITY_COLOR_G, Color.ORANGE.getGreen());
 		oProp.setProperty(pre+P_SHAPE_TYPE, "SHAPE_CIRCLE");
-		oProp.setProperty(pre+P_DEFAULT_WEIGHT, 300.0);
+		oProp.setProperty(pre+P_MASS, 300.0);
 		oProp.setProperty(pre+P_SHAPE_RADIUS, 10.0);
 
 		return oProp;

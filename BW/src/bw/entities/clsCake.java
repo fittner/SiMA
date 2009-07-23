@@ -29,7 +29,6 @@ import enums.eEntityType;
  */
 public class clsCake extends clsInanimate implements itfGetFlesh, itfAPEatable, itfAPCarryable {
 	
-	public static final String P_DEFAULT_WEIGHT = "mass"; 
 	public static final String P_IMAGE_PATH = "image_path";
 	
 	public static final String P_FAT = "nutrition_fat";
@@ -66,7 +65,7 @@ public class clsCake extends clsInanimate implements itfGetFlesh, itfAPEatable, 
 	
 	private void applyProperties(String poPrefix, clsBWProperties poProp){		
 		mrDefaultRadius = poProp.getPropertyDouble(poPrefix +P_SHAPE_RADIUS); 
-		mrDefaultMass = poProp.getPropertyDouble(poPrefix +P_DEFAULT_WEIGHT);
+		mrDefaultMass = poProp.getPropertyDouble(poPrefix +P_MASS);
 	}	
 	
 	public static clsBWProperties getDefaultProperties(String poPrefix) {
@@ -78,7 +77,7 @@ public class clsCake extends clsInanimate implements itfGetFlesh, itfAPEatable, 
 		oProp.setProperty(pre+P_ENTITY_COLOR_B, Color.pink.getBlue());
 		oProp.setProperty(pre+P_ENTITY_COLOR_G, Color.pink.getGreen());
 		oProp.setProperty(pre+P_ENTITY_COLOR_R, Color.pink.getRed());
-		oProp.setProperty(pre+P_DEFAULT_WEIGHT, 1.0);
+		oProp.setProperty(pre+P_MASS, 1.0);
 		oProp.setProperty(pre+P_SHAPE_RADIUS, 10.0);
 		oProp.setProperty(pre+P_SHAPE_TYPE,  eShapeType.SHAPE_CIRCLE.name());
 		oProp.setProperty(pre+P_IMAGE_PATH, sim.clsBWMain.msArsPath + "/src/resources/images/cake.gif");

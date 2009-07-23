@@ -14,9 +14,7 @@ import enums.eEntityType;
 
 public class clsCan extends clsInanimate {
 		
-	public static final String P_DEFAULT_WEIGHT = "weight"; 
-    
-    public clsCan(String poPrefix, clsBWProperties poProp) {
+	public clsCan(String poPrefix, clsBWProperties poProp) {
 		super(poPrefix, poProp); 
 		
 		applyProperties(poPrefix, poProp);
@@ -36,7 +34,7 @@ public static clsBWProperties getDefaultProperties(String poPrefix) {
 		oProp.setProperty(pre+P_ENTITY_COLOR_B, Color.blue.getBlue());
 		oProp.setProperty(pre+P_ENTITY_COLOR_G, Color.blue.getGreen());
 		oProp.setProperty(pre+P_ENTITY_COLOR_R, Color.blue.getRed());
-		oProp.setProperty(pre+P_DEFAULT_WEIGHT, 80.0);
+		oProp.setProperty(pre+P_MASS, 80.0);
 		oProp.setProperty(pre+P_SHAPE_RADIUS, 2.0);
 		oProp.setProperty(pre+P_SHAPE_TYPE,  eShapeType.SHAPE_CIRCLE.name());
 		

@@ -28,9 +28,7 @@ import enums.eEntityType;
 public class clsUraniumOre extends clsInanimate implements itfAPCarryable {
 	
 	public static final String P_RADIATION_INTENSITY = "radiation_intensity";
-		
-	public static final String P_DEFAULT_WEIGHT = "weight"; 
-	public static final String P_IMAGE_PATH = "image_path";
+    public static final String P_IMAGE_PATH = "image_path";
 	
 	public double mrRadiationIntensity;
 	
@@ -44,7 +42,7 @@ public class clsUraniumOre extends clsInanimate implements itfAPCarryable {
 									     poProp.getPropertyInt(poPrefix +P_ENTITY_COLOR_G),
 									     poProp.getPropertyInt(poPrefix +P_ENTITY_COLOR_B)), 
 							   poProp.getPropertyString(poPrefix +P_IMAGE_PATH)),
-							   poProp.getPropertyDouble(poPrefix +P_DEFAULT_WEIGHT)); 
+							   poProp.getPropertyDouble(poPrefix +P_MASS)); 
 	}
     
     private void applyProperties(String poPrefix, clsBWProperties poProp){		
@@ -63,7 +61,7 @@ public class clsUraniumOre extends clsInanimate implements itfAPCarryable {
 		oProp.setProperty(pre+P_ENTITY_COLOR_G, Color.green.getGreen());
 		oProp.setProperty(pre+P_SHAPE_TYPE, eShapeType.SHAPE_CIRCLE.name());
 		
-		oProp.setProperty(pre+P_DEFAULT_WEIGHT, 30.0);
+		oProp.setProperty(pre+P_MASS, 30.0);
 		oProp.setProperty(pre+P_SHAPE_RADIUS, 4.0);
 		oProp.setProperty(pre+P_IMAGE_PATH, sim.clsBWMain.msArsPath + "/src/resources/images/Uranium.png");
 		

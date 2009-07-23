@@ -31,7 +31,6 @@ import bw.utils.tools.clsFood;
  */
 public class clsCarrot extends clsInanimate implements itfGetFlesh, itfAPEatable, itfAPCarryable {
 		
-	public static final String P_DEFAULT_WEIGHT = "weight";
 	public static final String P_IMAGE_PATH_FRESH = "image_path_fresh";
 	public static final String P_IMAGE_PATH_DEAD = "image_path_dead";
 	
@@ -93,7 +92,7 @@ public class clsCarrot extends clsInanimate implements itfGetFlesh, itfAPEatable
 	
 	private void applyProperties(String poPrefix, clsBWProperties poProp){		
 		//TODO
-		mrOwnMass = poProp.getPropertyDouble(poPrefix + P_DEFAULT_WEIGHT); 
+		mrOwnMass = poProp.getPropertyDouble(poPrefix + P_MASS); 
 		mrInitialFleshMass = poProp.getPropertyDouble(poPrefix +P_CONTENT);
 		mrDefaultRadius = poProp.getPropertyDouble(poPrefix +P_SHAPE_RADIUS);
 		moDefaultColor = new Color (poProp.getPropertyInt(poPrefix +P_ENTITY_COLOR_R),
@@ -114,7 +113,7 @@ public class clsCarrot extends clsInanimate implements itfGetFlesh, itfAPEatable
 		oProp.setProperty(pre+P_ENTITY_COLOR_B, Color.orange.getBlue());
 		oProp.setProperty(pre+P_ENTITY_COLOR_G, Color.orange.getGreen());
 		oProp.setProperty(pre+P_ENTITY_COLOR_R, Color.orange.getRed());
-		oProp.setProperty(pre+P_DEFAULT_WEIGHT, 1.0);
+		oProp.setProperty(pre+P_MASS, 1.0);
 		oProp.setProperty(pre+P_SHAPE_RADIUS, 5.0);
 		oProp.setProperty(pre+P_SHAPE_TYPE, eShapeType.SHAPE_CIRCLE.name());
 		oProp.setProperty(pre+P_IMAGE_PATH_FRESH, sim.clsBWMain.msArsPath + "/src/resources/images/carrot_clipart.jpg");
