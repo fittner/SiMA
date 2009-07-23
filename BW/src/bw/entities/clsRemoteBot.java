@@ -67,6 +67,8 @@ public class clsRemoteBot extends clsAnimate implements itfGetVision, itfGetRadi
 
 		clsBWProperties oProp = new clsBWProperties();
 		
+		oProp.putAll( clsAnimate.getDefaultProperties(pre) );
+		
 		//TODO: (langr) - should pass the config to the decision unit!
 		//oProp.putAll( clsDumbMindA.getDefaultProperties(pre) ); //clsDumbMindA.getDefaultProperties(pre)
 		oProp.setProperty(pre+P_DECISION_TYPE, "DU_DUMB_MIND_A");

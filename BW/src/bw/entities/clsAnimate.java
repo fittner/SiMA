@@ -71,6 +71,7 @@ public abstract class clsAnimate extends clsMobile implements itfGetBody {
 		String pre = clsBWProperties.addDot(poPrefix);
 
 		clsBWProperties oProp = new clsBWProperties();
+		oProp.putAll( clsMobile.getDefaultProperties(pre) );
 		oProp.putAll( clsMeatBody.getDefaultProperties(pre) );
 		oProp.setProperty(pre+P_BODY_TYPE, "BODY_TYPE_MEAT");
 		return oProp;
