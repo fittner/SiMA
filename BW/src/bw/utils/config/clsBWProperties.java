@@ -1,17 +1,23 @@
 package bw.utils.config;
 
 import java.awt.Color;
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.Reader;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.InvalidPropertiesFormatException;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Properties;
+import java.util.Set;
 
 /**
  * clsBWProperties is a specialization of the java.util.Properties class. 
@@ -67,7 +73,7 @@ public class clsBWProperties extends Properties {
 	 * @author deutsch
 	 * 22.07.2009, 09:55:35
 	 */
-	private static final String P_RANDOM = "ï¿½"; //don't blame me - roland states that the law is pure random
+	private static final String P_RANDOM = "§"; //don't blame me - roland states that the law is pure random
 	
 	/**
 	 * TAG denoting that the following value is a hex color #01AFB2 
@@ -261,6 +267,7 @@ public class clsBWProperties extends Properties {
 	 * @param poComments
 	 */
 	public static void writeProperties(clsBWProperties poProp, String poBaseDir, String poFilename, String poComments) {
+    
 		if (!poBaseDir.endsWith(System.getProperty("file.separator")) && poBaseDir.length()>0 ) {
 			poBaseDir += System.getProperty("file.separator");
 		}
@@ -271,14 +278,64 @@ public class clsBWProperties extends Properties {
 	         new FileOutputStream( poBaseDir+poFilename );
 	      
 	      poProp.store(propOutFile, poComments);
+	      
+	      ArrayList<String> lines = readLines(poBaseDir+poFilename);
+	      lines = sortLines(lines, "#");
+	      writeLines(lines, poBaseDir+poFilename);
 	    } catch ( FileNotFoundException e ) {
           System.err.println( "Canï¿½t find " + poFilename );
         } catch ( IOException e ) {
 	      System.err.println( "I/O failed." );
 	    }
 	}
+	
+	private static ArrayList<String> sortLines(ArrayList<String> lines, String skipLinesStartingWith) {
+		ArrayList<String> head_lines = new ArrayList<String>();
+		
+		//fetch all lines which start with # or what every at the top of the file. the first line which is not a comment stops this routine.
+		for (String line:lines) {
+			if (line.startsWith(skipLinesStartingWith)) {
+				head_lines.add(line);
+			} else {
+				break;
+			}
+		}
+		
+		//remove head from the lines to be sorted
+		for (int i=0; i<head_lines.size(); i++) {
+			lines.remove(0);
+		}
+		
+		Collections.sort(lines);
+		head_lines.addAll(lines);
+		
+		return head_lines;
+	}
 
-
+	private static ArrayList<String> readLines(String filename) throws IOException {
+        FileReader fileReader = new FileReader(filename);
+        BufferedReader bufferedReader = new BufferedReader(fileReader);
+        ArrayList<String> lines = new ArrayList<String>();
+        String line = null;
+        while ((line = bufferedReader.readLine()) != null) {
+            lines.add(line);
+        }
+        bufferedReader.close();
+        return lines;
+    }
+	
+    private static void writeLines(List<String> list, String filename) throws IOException {
+    	FileWriter fileWriter = new FileWriter(filename);
+        BufferedWriter out = new BufferedWriter(fileWriter);
+        
+        for (String line:list) {
+        	out.write(line);
+        	out.newLine();
+        }
+        out.close();
+    }
+	
+	
 	/* (non-Javadoc)
 	 *
 	 * @author deutsch
@@ -569,9 +626,21 @@ public class clsBWProperties extends Properties {
 	 * @return
 	 */
 	public Object setProperty(String key, Color value) {
-		String v = P_COLOR+Integer.toString(value.getRed() & 0xffffff, 16);
+		String v = P_COLOR;
+		v+=intToHexString(value.getRed());
+		v+=intToHexString(value.getGreen());
+		v+=intToHexString(value.getBlue());
 		return setProperty(key, v);
 	}	
+	private String intToHexString(int i) {
+		String oS = Integer.toString(i & 0xff, 16);
+		
+		if(oS.length()<2) {
+			oS = "0"+oS;
+		}
+		
+		return oS;
+	}
 	/**
 	 * Calls the Hashtable method put. Provided for parallelism with the getProperty method. Enforces use of strings for property keys and values. The value returned is the result of the Hashtable call to put. 
 	 *
@@ -682,11 +751,51 @@ public class clsBWProperties extends Properties {
 		return value;
 	}	
 	
+	/**
+	 * ensures that the prefix ends with a "." 
+	 *
+	 * @author deutsch
+	 * 23.07.2009, 18:20:34
+	 *
+	 * @param poPrefix
+	 * @return
+	 */
 	public static String addDot(String poPrefix) {
 		if (poPrefix.length()>0 && !poPrefix.endsWith(".")) {
 			return poPrefix + ".";
 		}
 		
 		return poPrefix;
+	}
+	
+	/**
+	 * removes all entries from the hashmap which starts with a certain prefix. only the matching key and its subkeys are removed
+	 * e.g. "bubble.body" removes "bubble.body" and "bubble.body.*" but not "bubble.body_type".
+	 *
+	 * @author deutsch
+	 * 23.07.2009, 19:17:08
+	 *
+	 * @param poPrefix
+	 */
+	public void removeKeysStartingWith(String poPrefix) {
+		//remove direct match
+		this.remove(poPrefix);
+		
+		//add dot to ensure that only subkeys are removed
+		poPrefix = addDot(poPrefix);
+		
+		Set<Object> oKeyList = this.keySet();
+		ArrayList<String> oRemoveCandidates = new ArrayList<String>();
+		
+		for (Object oKey:oKeyList) {
+			String tmp = (String)oKey;
+			if (tmp.startsWith(poPrefix)) {
+				oRemoveCandidates.add(tmp);
+			}
+		}
+		
+		for (String oKey:oRemoveCandidates) {
+			this.remove(oKey);
+		}
 	}
 }

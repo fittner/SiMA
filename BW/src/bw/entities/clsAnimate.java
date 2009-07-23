@@ -36,6 +36,7 @@ import bw.utils.enums.eBodyType;
 public abstract class clsAnimate extends clsMobile implements itfGetBody {
 
 	public static final String P_BODY_TYPE = "body_type";
+	public static final String P_BODY = "body";
 	public static final String P_DECISION_TYPE = "decision_type";
 	
 	public clsBaseBody moBody; // the instance of a body
@@ -72,8 +73,8 @@ public abstract class clsAnimate extends clsMobile implements itfGetBody {
 
 		clsBWProperties oProp = new clsBWProperties();
 		oProp.putAll( clsMobile.getDefaultProperties(pre) );
-		oProp.putAll( clsMeatBody.getDefaultProperties(pre) );
-		oProp.setProperty(pre+P_BODY_TYPE, "BODY_TYPE_MEAT");
+		oProp.putAll( clsMeatBody.getDefaultProperties(pre+P_BODY) );
+		oProp.setProperty(pre+P_BODY_TYPE, eBodyType.BODY_TYPE_MEAT.toString());
 		return oProp;
 	}	
 	

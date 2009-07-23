@@ -42,9 +42,7 @@ public abstract class clsEntity {
 	public static final String P_ID = "id";
 	public static final String P_MASS = "mass";
 	
-	public static final String P_ENTITY_COLOR_R = "entity_color_r";
-	public static final String P_ENTITY_COLOR_G = "entity_color_g";
-	public static final String P_ENTITY_COLOR_B = "entity_color_b";
+	public static final String P_ENTITY_COLOR_RGB = "color_rgb";
 	
 	protected PhysicalObject2D moPhysicalObject2D;
 	private double mrMass;

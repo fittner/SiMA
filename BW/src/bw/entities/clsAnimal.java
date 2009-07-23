@@ -55,9 +55,7 @@ public class clsAnimal extends clsAnimate implements itfGetVision, itfGetEatable
 		
 		oProp.setProperty(pre+P_SHAPE_TYPE, eShapeType.SHAPE_CIRCLE.name());
 		oProp.setProperty(pre+P_SHAPE_RADIUS, "10.0");
-		oProp.setProperty(pre+P_ENTITY_COLOR_R, Color.BLUE.getRed() );
-		oProp.setProperty(pre+P_ENTITY_COLOR_G, Color.BLUE.getGreen() );
-		oProp.setProperty(pre+P_ENTITY_COLOR_B, Color.BLUE.getBlue() );
+		oProp.setProperty(pre+P_ENTITY_COLOR_RGB, Color.blue);
 		
 //		oProp.setProperty(pre+P_MOBILE_SPEED, "4.0" );
 //		oProp.setProperty(pre+P_ENTITY_WEIGHT, "300.0" ); //TODO: (creator) is this for the mass???

@@ -47,9 +47,7 @@ public class clsLynx extends clsAnimal {
 		
 		oProp.setProperty(pre+P_SHAPE_TYPE, eShapeType.SHAPE_CIRCLE.name());
 		oProp.setProperty(pre+P_SHAPE_RADIUS, "15.0");
-		oProp.setProperty(pre+P_ENTITY_COLOR_R, Color.PINK.getRed() );
-		oProp.setProperty(pre+P_ENTITY_COLOR_G, Color.PINK.getGreen() );
-		oProp.setProperty(pre+P_ENTITY_COLOR_B, Color.PINK.getBlue() );
+		oProp.setProperty(pre+P_ENTITY_COLOR_RGB, Color.PINK);		
 		
 //		oProp.setProperty(pre+P_MOBILE_SPEED, "6.0" );
 //		oProp.setProperty(pre+P_ENTITY_WEIGHT, "200.0" ); //TODO: (creator) is this for the mass???

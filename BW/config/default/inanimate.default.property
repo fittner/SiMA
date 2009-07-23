@@ -1,5 +1,5 @@
 #
-#Thu Jul 23 17:41:55 CEST 2009
+#Thu Jul 23 19:48:58 CEST 2009
 def_coeff_friction=0.5
 def_restitution=1.0
 def_static_friction=0.2

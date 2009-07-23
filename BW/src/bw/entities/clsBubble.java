@@ -7,13 +7,17 @@
  */
 package bw.entities;
 
+import java.awt.Color;
+
 import du.utils.enums.eDecisionType;
 
+import bw.body.clsComplexBody;
 import bw.body.itfget.itfGetEatableArea;
 import bw.body.itfget.itfGetInternalEnergyConsumption;
 import bw.body.itfget.itfGetRadiation;
 import bw.body.itfget.itfGetVision;
 import bw.utils.config.clsBWProperties;
+import bw.utils.enums.eBodyType;
 import bw.utils.enums.eShapeType;
 import enums.eEntityType;
 
@@ -37,15 +41,19 @@ public class clsBubble extends clsAnimate implements itfGetVision, itfGetEatable
 
 		clsBWProperties oProp = new clsBWProperties();
 		oProp.putAll( clsAnimate.getDefaultProperties(pre) );
+		
+		oProp.removeKeysStartingWith(pre+clsAnimate.P_BODY);
+		
+		oProp.putAll( clsComplexBody.getDefaultProperties(pre+P_BODY) );
+		oProp.setProperty(pre+P_BODY_TYPE, eBodyType.BODY_TYPE_COMPLEX.toString());
+		
 		//TODO: (langr) - should pass the config to the decision unit!
 		//oProp.putAll( clsDumbMindA.getDefaultProperties(pre) ); //clsDumbMindA.getDefaultProperties(pre)
 		oProp.setProperty(pre+P_DECISION_TYPE, eDecisionType.DU_DUMB_MIND_A.name());
 		
 		oProp.setProperty(pre+P_SHAPE_TYPE, eShapeType.SHAPE_CIRCLE.name());
 		oProp.setProperty(pre+P_SHAPE_RADIUS, "10.0");
-		oProp.setProperty(pre+P_ENTITY_COLOR_R, "0");
-		oProp.setProperty(pre+P_ENTITY_COLOR_G, "200");
-		oProp.setProperty(pre+P_ENTITY_COLOR_B, "0");
+		oProp.setProperty(pre+P_ENTITY_COLOR_RGB, new Color(0,200,0));
 
 		return oProp;
 	}

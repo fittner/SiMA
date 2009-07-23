@@ -7,8 +7,6 @@
  */
 package bw.entities;
 
-import java.awt.Color;
-
 import bw.utils.config.clsBWProperties;
 import bw.utils.enums.eShapeType;
 import sim.physics2D.shape.Shape;
@@ -104,25 +102,19 @@ public abstract class clsMobile extends clsEntity {
 		switch( oShapeType ) {
 		case SHAPE_CIRCLE:
 			oShape = new sim.physics2D.shape.Circle(poProp.getPropertyDouble(P_SHAPE_RADIUS), 
-					 new Color(poProp.getPropertyInt(P_ENTITY_COLOR_R),
-							   poProp.getPropertyInt(P_ENTITY_COLOR_G),
-							   poProp.getPropertyInt(P_ENTITY_COLOR_B)));
+					 poProp.getPropertyColor(P_ENTITY_COLOR_RGB));
 			break;
 		case SHAPE_RECTANGLE:
 			oShape = new sim.physics2D.shape.Rectangle(	poProp.getPropertyDouble(P_SHAPE_WIDTH),
 														poProp.getPropertyDouble(P_SHAPE_HEIGHT), 
-					 new Color(poProp.getPropertyInt(P_ENTITY_COLOR_R),
-							   poProp.getPropertyInt(P_ENTITY_COLOR_G),
-							   poProp.getPropertyInt(P_ENTITY_COLOR_B)));
+														 poProp.getPropertyColor(P_ENTITY_COLOR_RGB));
 			break;
 		case SHAPE_POLYGON:
 			//TODO: (everyone) - add list for points of polygon in config!
 			break;
 		default:
 			oShape = new sim.physics2D.shape.Circle(poProp.getPropertyDouble(P_SHAPE_RADIUS), 
-					 new Color(poProp.getPropertyInt(P_ENTITY_COLOR_R),
-							   poProp.getPropertyInt(P_ENTITY_COLOR_G),
-							   poProp.getPropertyInt(P_ENTITY_COLOR_B)));
+					 poProp.getPropertyColor(P_ENTITY_COLOR_RGB));
 			break;
 		}
 		return oShape;

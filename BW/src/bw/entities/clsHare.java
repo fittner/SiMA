@@ -57,9 +57,7 @@ public class clsHare extends clsAnimal implements itfGetFlesh, itfAPEatable, itf
 		
 		oProp.setProperty(pre+P_SHAPE_TYPE, eShapeType.SHAPE_CIRCLE.name());
 		oProp.setProperty(pre+P_SHAPE_RADIUS, "5.0");
-		oProp.setProperty(pre+P_ENTITY_COLOR_R, Color.RED.getRed() );
-		oProp.setProperty(pre+P_ENTITY_COLOR_G, Color.RED.getGreen() );
-		oProp.setProperty(pre+P_ENTITY_COLOR_B, Color.RED.getBlue() );
+		oProp.setProperty(pre+P_ENTITY_COLOR_RGB, Color.RED);		
 		
 //		oProp.setProperty(pre+P_MOBILE_SPEED, "3.0" );
 //		oProp.setProperty(pre+P_ENTITY_WEIGHT, "100.0" ); //TODO: (creator) is this for the mass???

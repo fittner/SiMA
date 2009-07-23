@@ -75,9 +75,7 @@ public class clsRemoteBot extends clsAnimate implements itfGetVision, itfGetRadi
 		
 		oProp.setProperty(pre+P_SHAPE_TYPE, eShapeType.SHAPE_CIRCLE.name());
 		oProp.setProperty(pre+P_BOT_RADIUS, "10.0");
-		oProp.setProperty(pre+P_ENTITY_COLOR_R, Color.CYAN.getRed());
-		oProp.setProperty(pre+P_ENTITY_COLOR_G, Color.CYAN.getGreen());
-		oProp.setProperty(pre+P_ENTITY_COLOR_B, Color.CYAN.getBlue());
+		oProp.setProperty(pre+P_ENTITY_COLOR_RGB, Color.CYAN);
 		
 		//bot-hand color
 		oProp.setProperty(pre+P_BOT_HAND_COLOR_R, Color.gray.getRed());
