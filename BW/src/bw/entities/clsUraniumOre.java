@@ -28,23 +28,24 @@ public class clsUraniumOre extends clsInanimate implements itfAPCarryable {
 	
 	public static final String P_ID = "id";
 	public static final String P_RADIATION_INTENSITY = "radiation_intensity";
-	public static final String P_COLOR_BLUE = "colorB";
-	public static final String P_COLOR_GREEN = "colorG";
-	public static final String P_COLOR_RED = "colorR";
+	public static final String P_ENTIY_COLOR_B = "colorB";
+	public static final String P_ENTIY_COLOR_G = "colorG";
+	public static final String P_ENTIY_COLOR_R = "colorR";
+	public static final String P_MOBILE_SHAPE_TYPE = "shape_type"; 
 	
 	public static final String P_DEFAULT_WEIGHT = "weight"; 
-	public static final String P_DEFAULT_RADIUS = "radius"; 
+	public static final String P_MOBILE_SHAPE_RADIUS = "radius"; 
 	public static final String P_IMAGE_PATH = "image_path";
-    
-    public clsUraniumOre(String poPrefix, clsBWProperties poProp) {
-		super(poPrefix, poProp, null);
+	
+	public clsUraniumOre(String poPrefix, clsBWProperties poProp) {
+		super(poPrefix, poProp);
 		applyProperties(poPrefix, poProp);
 		
 		setShape(new ARSsim.physics2D.shape.
-				clsCircleImage(poProp.getPropertyDouble(poPrefix + P_DEFAULT_RADIUS),
-							   new Color(poProp.getPropertyInt(poPrefix +P_COLOR_RED),
-									     poProp.getPropertyInt(poPrefix +P_COLOR_GREEN),
-									     poProp.getPropertyInt(poPrefix +P_COLOR_BLUE)), 
+				clsCircleImage(poProp.getPropertyDouble(poPrefix + P_MOBILE_SHAPE_RADIUS),
+							   new Color(poProp.getPropertyInt(poPrefix +P_ENTIY_COLOR_R),
+									     poProp.getPropertyInt(poPrefix +P_ENTIY_COLOR_G),
+									     poProp.getPropertyInt(poPrefix +P_ENTIY_COLOR_B)), 
 							   poProp.getPropertyString(poPrefix +P_IMAGE_PATH)),
 							   poProp.getPropertyDouble(poPrefix +P_DEFAULT_WEIGHT)); 
 	}
@@ -57,12 +58,15 @@ public class clsUraniumOre extends clsInanimate implements itfAPCarryable {
 		String pre = clsBWProperties.addDot(poPrefix);
 
 		clsBWProperties oProp = new clsBWProperties();
-
-		oProp.setProperty(pre+P_COLOR_BLUE, Color.green.getBlue());
-		oProp.setProperty(pre+P_COLOR_GREEN, Color.green.getGreen());
-		oProp.setProperty(pre+P_COLOR_RED, Color.green.getRed());
+		
+		oProp.putAll(clsInanimate.getDefaultProperties(poPrefix) );
+		oProp.setProperty(pre+P_ENTIY_COLOR_B, Color.green.getBlue());
+		oProp.setProperty(pre+P_ENTIY_COLOR_B, Color.green.getBlue());
+		oProp.setProperty(pre+P_ENTIY_COLOR_G, Color.green.getGreen());
+		oProp.setProperty(pre+P_MOBILE_SHAPE_TYPE, "SHAPE_CIRCLE");
+		
 		oProp.setProperty(pre+P_DEFAULT_WEIGHT, 30.0);
-		oProp.setProperty(pre+P_DEFAULT_RADIUS, 4.0);
+		oProp.setProperty(pre+P_MOBILE_SHAPE_RADIUS, 4.0);
 		oProp.setProperty(pre+P_IMAGE_PATH, sim.clsBWMain.msArsPath + "/src/resources/images/Uranium.png");
 		
 		return oProp;

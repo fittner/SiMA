@@ -15,12 +15,9 @@ import sim.physics2D.physicalObject.PhysicalObject2D;
 
 import ARSsim.physics2D.physicalObject.clsMobileObject2D;
 import ARSsim.physics2D.physicalObject.clsStationaryObject2D;
-import ARSsim.physics2D.util.clsPose;
 import bw.body.io.sensors.external.clsSensorEatableArea;
 import bw.physicalObjects.sensors.clsEntityPartVision;
-import bw.utils.container.clsConfigDouble;
-import bw.utils.container.clsConfigMap;
-import bw.utils.enums.eConfigEntries;
+import bw.utils.config.clsBWProperties;
 import enums.eEntityType;
 //import bw.factories.clsRegisterEntity;
 
@@ -35,60 +32,64 @@ import enums.eEntityType;
  * 
  */
 public class clsBase extends clsStationary {
-	private static Color moDefaultColor = Color.gray;
-	private static double mrDefaultRadius = 20.0f;
-	private static String moImagePath = sim.clsBWMain.msArsPath + "/src/resources/images/spacestation.gif";
-	private int mnStoredOre;	// stored ore counter
 	
+	public static final String P_ENTIY_COLOR_B = "colorB";
+	public static final String P_ENTIY_COLOR_G = "colorG";
+	public static final String P_ENTIY_COLOR_R = "colorR";
+	public static final String P_SHAPE_TYPE = "shape_type"; 
+	
+	public static final String P_SHAPE_RADIUS = "radius"; 
+	public static final String P_ENTITY_RANGE = "range"; 
+	public static final String P_ENTITY_ANGLE = "angle"; 
+	public static final String P_ENTITY_OFFSET = "offset"; 
+	public static final String P_IMAGE_PATH = "image_path";
+			
+	private int mnStoredOre;	// stored ore counter
 	private clsSensorEatableArea moSensorEatable;	// 'eatability' sensor
-	private clsConfigMap oConfig;					// 'eatability' sensor configuration
-    
-    public clsBase(int pnId, clsPose poPose, clsConfigMap poConfig) {
-    	super(pnId, poPose, new ARSsim.physics2D.shape.clsCircleImage(clsBase.mrDefaultRadius, moDefaultColor , moImagePath), clsBase.getFinalConfig(poConfig));
-		
-		applyConfig();
-		
-		oConfig = poConfig;
-		
-		oConfig.add(eConfigEntries.ANGLE, new clsConfigDouble(1.99 * Math.PI));
-		oConfig.add(eConfigEntries.RANGE, new clsConfigDouble(50.0));
-		oConfig.add(eConfigEntries.OFFSET, new clsConfigDouble(0.0));
-		
-		// null - Stationary objects don't have a body, therefore can't have an instance of clsBaseIO 
-		moSensorEatable = new clsSensorEatableArea(this, null, oConfig);		
+	
+	
+    public clsBase(String poPrefix, clsBWProperties poProp) {
+    	super(poPrefix, poProp);
+    	applyProperties(poPrefix, poProp);
+    	
+    	// null - Stationary objects don't have a body, therefore can't have an instance of clsBaseIO 
+		moSensorEatable = new clsSensorEatableArea(poPrefix, poProp, null,this);		
 		
 		mnStoredOre = 0;
     }
     
     
-  
+    private void applyProperties(String poPrefix, clsBWProperties poProp){		
+		//TODO
+	}	
+    
+    public static clsBWProperties getDefaultProperties(String poPrefix) {
+		String pre = clsBWProperties.addDot(poPrefix);
 
-	private void applyConfig() {
-		//TODO add ...
+		clsBWProperties oProp = new clsBWProperties();
 		
+		oProp.putAll(clsInanimate.getDefaultProperties(poPrefix) );
+		oProp.setProperty(pre+P_ENTIY_COLOR_B, Color.gray.getBlue());
+		oProp.setProperty(pre+P_ENTIY_COLOR_B, Color.gray.getBlue());
+		oProp.setProperty(pre+P_ENTIY_COLOR_G, Color.gray.getGreen());
+		oProp.setProperty(pre+P_SHAPE_TYPE, "SHAPE_CIRCLE");
+				
+		oProp.setProperty(pre+P_ENTITY_ANGLE, 1.99 * Math.PI);
+		oProp.setProperty(pre+P_ENTITY_RANGE, 50.0);
+		oProp.setProperty(pre+P_SHAPE_RADIUS, 50.0);
+		oProp.setProperty(pre+P_ENTITY_OFFSET, 0.0);
+		oProp.setProperty(pre+P_IMAGE_PATH, sim.clsBWMain.msArsPath + "/src/resources/images/spacestation.gif");
 		
-	}
-	
-	private static clsConfigMap getFinalConfig(clsConfigMap poConfig) {
-		clsConfigMap oDefault = getDefaultConfig();
-		oDefault.overwritewith(poConfig);
-		return oDefault;
-	}
-	
-	private static clsConfigMap getDefaultConfig() {
-		clsConfigMap oDefault = new clsConfigMap();
-		
-		//TODO add ...
-		
-		return oDefault;
-	}
-	
+		return oProp;
+	}	
+
+			
 	/* (non-Javadoc)
 	 * @see bw.clsEntity#setEntityType()
 	 */
 	@Override
 	protected void setEntityType() {
-		meEntityType = eEntityType.BASE;
+		meEntityType = eEntityType.UNDEFINED;
 		
 	}
 

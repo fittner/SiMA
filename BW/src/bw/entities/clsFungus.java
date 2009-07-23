@@ -34,13 +34,14 @@ import enums.eEntityType;
 public class clsFungus extends clsInanimate implements itfGetFlesh, itfAPEatable, itfAPCarryable{
 	
 	public static final String P_ID = "id";
-	public static final String P_COLOR_BLUE = "colorB";
-	public static final String P_COLOR_GREEN = "colorG";
-	public static final String P_COLOR_RED = "colorR";
+	public static final String P_ENTIY_COLOR_B = "colorB";
+	public static final String P_ENTIY_COLOR_G = "colorG";
+	public static final String P_ENTIY_COLOR_R = "colorR";
 	
 	public static final String P_DEFAULT_MASS = "mass"; 
-	public static final String P_DEFAULT_RADIUS = "radius"; 
+	public static final String P_MOBILE_SHAPE_RADIUS = "radius"; 
 	public static final String P_IMAGE_PATH = "image_path";
+	public static final String P_MOBILE_SHAPE_TYPE = "shape_type"; 
 	
 	public static final String P_FAT = "nutrition_fat";
 	public static final String P_WATER = "nutrition_water";
@@ -61,7 +62,7 @@ public class clsFungus extends clsInanimate implements itfGetFlesh, itfAPEatable
     {
 //		super(pnId, poPose, poStartingVelocity, new ARSsim.physics2D.shape.clsCircleImage(prRadius, clsStone.moDefaultColor, clsStone.moImagePath), prRadius * clsStone.mrDefaultRadiusToMassConversion);
 		//todo muchitsch ... hier wird eine default shape �bergeben, nicht null, sonst krachts
-		super(poPrefix, poProp,  null);
+		super(poPrefix, poProp);
 		
 		applyProperties(poPrefix, poProp); 
 		
@@ -70,10 +71,10 @@ public class clsFungus extends clsInanimate implements itfGetFlesh, itfAPEatable
 		
 		moBody = new clsMeatBody(poPrefix, poProp);
 		
-		setShape(new ARSsim.physics2D.shape.clsCircleImage(poProp.getPropertyDouble(poPrefix + P_DEFAULT_RADIUS), 
-				new Color(poProp.getPropertyInt(poPrefix +P_COLOR_RED),
-					     poProp.getPropertyInt(poPrefix +P_COLOR_GREEN),
-					     poProp.getPropertyInt(poPrefix +P_COLOR_BLUE)), 
+		setShape(new ARSsim.physics2D.shape.clsCircleImage(poProp.getPropertyDouble(poPrefix + P_MOBILE_SHAPE_RADIUS), 
+				new Color(poProp.getPropertyInt(poPrefix +P_ENTIY_COLOR_R),
+					     poProp.getPropertyInt(poPrefix +P_ENTIY_COLOR_G),
+					     poProp.getPropertyInt(poPrefix +P_ENTIY_COLOR_B)), 
 					     poProp.getPropertyString(poPrefix +P_IMAGE_PATH)), 
 					     poProp.getPropertyDouble(poPrefix +P_DEFAULT_MASS));
     } 
@@ -81,7 +82,7 @@ public class clsFungus extends clsInanimate implements itfGetFlesh, itfAPEatable
 	private void applyProperties(String poPrefix, clsBWProperties poProp){		
 			//TODO
 			mrCakeWeight =  poProp.getPropertyDouble(poPrefix +P_DEFAULT_MASS);
-			mrDefaultRadius = poProp.getPropertyDouble(poPrefix +P_DEFAULT_RADIUS); 
+			mrDefaultRadius = poProp.getPropertyDouble(poPrefix +P_MOBILE_SHAPE_RADIUS); 
 			mrDefaultMass = poProp.getPropertyDouble(poPrefix +P_DEFAULT_MASS);
 	}	
 		
@@ -89,12 +90,14 @@ public class clsFungus extends clsInanimate implements itfGetFlesh, itfAPEatable
 			String pre = clsBWProperties.addDot(poPrefix);
 
 			clsBWProperties oProp = new clsBWProperties();
-
-			oProp.setProperty(pre+P_COLOR_BLUE, Color.pink.getBlue());
-			oProp.setProperty(pre+P_COLOR_GREEN, Color.pink.getGreen());
-			oProp.setProperty(pre+P_COLOR_RED, Color.pink.getRed());
+			
+			oProp.putAll(clsInanimate.getDefaultProperties(poPrefix) );
+			oProp.setProperty(pre+P_ENTIY_COLOR_B, Color.pink.getBlue());
+			oProp.setProperty(pre+P_ENTIY_COLOR_G, Color.pink.getGreen());
+			oProp.setProperty(pre+P_ENTIY_COLOR_R, Color.pink.getRed());
 			oProp.setProperty(pre+P_DEFAULT_MASS, 30.0);
-			oProp.setProperty(pre+P_DEFAULT_RADIUS, 6.0);
+			oProp.setProperty(pre+P_MOBILE_SHAPE_TYPE, "SHAPE_CIRCLE");
+			oProp.setProperty(pre+P_MOBILE_SHAPE_RADIUS, 6.0);
 			oProp.setProperty(pre+P_IMAGE_PATH, sim.clsBWMain.msArsPath + "/src/resources/images/fungus.jpg");
 			
 			oProp.setProperty(pre+P_FAT, 5.0);

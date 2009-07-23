@@ -31,12 +31,13 @@ import bw.utils.tools.clsFood;
 public class clsCarrot extends clsInanimate implements itfGetFlesh, itfAPEatable, itfAPCarryable {
 		
 	public static final String P_ID = "id";
-	public static final String P_COLOR_BLUE = "colorB";
-	public static final String P_COLOR_GREEN = "colorG";
-	public static final String P_COLOR_RED = "colorR";
+	public static final String P_ENTIY_COLOR_B = "colorB";
+	public static final String P_ENTIY_COLOR_G = "colorG";
+	public static final String P_ENTIY_COLOR_R = "colorR";
 	
 	public static final String P_DEFAULT_MASS = "mass"; 
-	public static final String P_DEFAULT_RADIUS = "radius"; 
+	public static final String P_MOBILE_SHAPE_RADIUS = "radius"; 
+	public static final String P_MOBILE_SHAPE_TYPE = "shape_type"; 
 	public static final String P_IMAGE_PATH_FRESH = "image_path_fresh";
 	public static final String P_IMAGE_PATH_DEAD = "image_path_dead";
 	
@@ -77,7 +78,7 @@ public class clsCarrot extends clsInanimate implements itfGetFlesh, itfAPEatable
 	 * @param poConfig
 	 */
 	public clsCarrot(String poPrefix, clsBWProperties poProp) {
-		super(poPrefix, poProp, null);
+		super(poPrefix, poProp);
 		
 		applyProperties(poPrefix, poProp);
 		
@@ -100,10 +101,10 @@ public class clsCarrot extends clsInanimate implements itfGetFlesh, itfAPEatable
 		//TODO
 		mrOwnMass = poProp.getPropertyDouble(poPrefix + P_DEFAULT_MASS); 
 		mrInitialFleshMass = poProp.getPropertyDouble(poPrefix +P_CONTENT);
-		mrDefaultRadius = poProp.getPropertyDouble(poPrefix +P_DEFAULT_RADIUS);
-		moDefaultColor = new Color (poProp.getPropertyInt(poPrefix +P_COLOR_RED),
-									poProp.getPropertyInt(poPrefix +P_COLOR_GREEN),
-									poProp.getPropertyInt(poPrefix +P_COLOR_BLUE));
+		mrDefaultRadius = poProp.getPropertyDouble(poPrefix +P_MOBILE_SHAPE_RADIUS);
+		moDefaultColor = new Color (poProp.getPropertyInt(poPrefix +P_ENTIY_COLOR_R),
+									poProp.getPropertyInt(poPrefix +P_ENTIY_COLOR_G),
+									poProp.getPropertyInt(poPrefix +P_ENTIY_COLOR_B));
 		moImagePathFresh = poProp.getPropertyString(poPrefix +P_IMAGE_PATH_FRESH);
 		moImagePathDead = poProp.getPropertyString(poPrefix +P_IMAGE_PATH_DEAD);
 		
@@ -114,12 +115,14 @@ public class clsCarrot extends clsInanimate implements itfGetFlesh, itfAPEatable
 		String pre = clsBWProperties.addDot(poPrefix);
 
 		clsBWProperties oProp = new clsBWProperties();
-
-		oProp.setProperty(pre+P_COLOR_BLUE, Color.orange.getBlue());
-		oProp.setProperty(pre+P_COLOR_GREEN, Color.orange.getGreen());
-		oProp.setProperty(pre+P_COLOR_RED, Color.orange.getRed());
+		
+		oProp.putAll(clsInanimate.getDefaultProperties(poPrefix) );
+		oProp.setProperty(pre+P_ENTIY_COLOR_B, Color.orange.getBlue());
+		oProp.setProperty(pre+P_ENTIY_COLOR_G, Color.orange.getGreen());
+		oProp.setProperty(pre+P_ENTIY_COLOR_R, Color.orange.getRed());
 		oProp.setProperty(pre+P_DEFAULT_MASS, 1.0);
-		oProp.setProperty(pre+P_DEFAULT_RADIUS, 5.0);
+		oProp.setProperty(pre+P_MOBILE_SHAPE_RADIUS, 5.0);
+		oProp.setProperty(pre+P_MOBILE_SHAPE_TYPE, "SHAPE_CIRCLE");
 		oProp.setProperty(pre+P_IMAGE_PATH_FRESH, sim.clsBWMain.msArsPath + "/src/resources/images/carrot_clipart.jpg");
 		oProp.setProperty(pre+P_IMAGE_PATH_DEAD, sim.clsBWMain.msArsPath + "/src/resources/images/carrot_grayscale.jpg");
 		

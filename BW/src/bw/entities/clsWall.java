@@ -7,7 +7,7 @@
  */
 package bw.entities;
 
-import sim.physics2D.shape.Shape;
+import java.awt.Color;
 
 import bw.utils.config.clsBWProperties;
 import enums.eEntityType;
@@ -23,17 +23,18 @@ import enums.eEntityType;
  */
 public class clsWall extends clsStationary  {
     
-	public static final String P_LENGTH = "length"; 
-	public static final String P_WIDTH = "width";
 	public static final String P_ID = "entity_ID";
-	public static final String P_COLOR = "color";
+	public static final String P_ENTIY_COLOR_B = "colorB";
+	public static final String P_ENTIY_COLOR_G = "colorG";
+	public static final String P_ENTIY_COLOR_R = "colorR";
+	public static final String P_MOBILE_SHAPE_TYPE = "shape_type"; 
 	
 	public double radius;
     
-    public clsWall(String poPrefix, clsBWProperties poProp, Shape poShape) {
-    	super(poPrefix, poProp, poShape);
+    public clsWall(String poPrefix, clsBWProperties poProp) {
+    	super(poPrefix, poProp);
     	
-    	applyProperties(poPrefix, poProp, poShape);
+    	applyProperties(poPrefix, poProp);
     	
     	//FIXME direction of wall ...
     } 
@@ -43,12 +44,19 @@ public class clsWall extends clsStationary  {
 	
 	public static clsBWProperties getDefaultProperties(String poPrefix) {
 		//String pre = clsBWProperties.addDot(poPrefix);
-		
+		String pre = clsBWProperties.addDot(poPrefix);
 		clsBWProperties oProp = new clsBWProperties();
+		oProp.putAll(clsStationary.getDefaultProperties(pre) );
+		
+		oProp.setProperty(pre+P_ENTIY_COLOR_B, Color.black.getBlue());
+		oProp.setProperty(pre+P_ENTIY_COLOR_B, Color.black.getBlue());
+		oProp.setProperty(pre+P_ENTIY_COLOR_G, Color.black.getGreen());
+		oProp.setProperty(pre+P_SHAPE_TYPE, "SHAPE_CIRCLE");
+			
 		return oProp;
 	}	
 		
-	private void applyProperties(String poPrefix, clsBWProperties poProp, Shape poShape){		
+	private void applyProperties(String poPrefix, clsBWProperties poProp){		
 		
 	}	
 	/* (non-Javadoc)

@@ -22,30 +22,31 @@ import enums.eEntityType;
 public class clsStone extends clsInanimate {
 		
 	public static final String P_ID = "id";
-	public static final String P_COLOR_BLUE = "colorB";
-	public static final String P_COLOR_GREEN = "colorG";
-	public static final String P_COLOR_RED = "colorR";
+	public static final String P_ENTIY_COLOR_B = "colorB";
+	public static final String P_ENTIY_COLOR_G = "colorG";
+	public static final String P_ENTIY_COLOR_R = "colorR";
 	
 	public static final String P_IMAGE_PATH = "image_path";
 	public static final String P_RADIUS_TO_MASS_CONVERSION = "conversion";
-	public static final String P_RADIUS = "radius";
+	public static final String P_MOBILE_SHAPE_RADIUS = "radius";
+	public static final String P_MOBILE_SHAPE_TYPE = "shape_type"; 
 	
 	
 	public clsStone(String poPrefix, clsBWProperties poProp)
     {
 //		super(pnId, poPose, poStartingVelocity, new ARSsim.physics2D.shape.clsCircleImage(prRadius, clsStone.moDefaultColor, clsStone.moImagePath), prRadius * clsStone.mrDefaultRadiusToMassConversion);
 		//todo muchitsch ... hier wird eine default shape �bergeben, nicht null, sonst krachts
-		super(poPrefix, poProp, null); 
+		super(poPrefix, poProp); 
 		//super(pnId, poPose, poStartingVelocity, null, prRadius * clsStone.mrDefaultRadiusToMassConversion, clsStone.getFinalConfig(poConfig));
 		applyProperties(poPrefix, poProp);
 		
-		double rMass = poProp.getPropertyDouble(poPrefix+ P_RADIUS)*
+		double rMass = poProp.getPropertyDouble(poPrefix+ P_MOBILE_SHAPE_RADIUS)*
 						poProp.getPropertyDouble(poPrefix+ P_RADIUS_TO_MASS_CONVERSION);  
 			
-		setShape(new ARSsim.physics2D.shape.clsCircleImage(poProp.getPropertyDouble(poPrefix+ P_RADIUS), 
-									new Color(poProp.getPropertyInt(poPrefix+ P_COLOR_RED),
-											  poProp.getPropertyInt(poPrefix+ P_COLOR_GREEN), 
-											  poProp.getPropertyInt(poPrefix+ P_COLOR_BLUE)), 
+		setShape(new ARSsim.physics2D.shape.clsCircleImage(poProp.getPropertyDouble(poPrefix+ P_MOBILE_SHAPE_RADIUS), 
+									new Color(poProp.getPropertyInt(poPrefix+ P_ENTIY_COLOR_R),
+											  poProp.getPropertyInt(poPrefix+ P_ENTIY_COLOR_G), 
+											  poProp.getPropertyInt(poPrefix+ P_ENTIY_COLOR_B)), 
 											  poProp.getPropertyString(poPrefix +P_IMAGE_PATH)),
 											  rMass);
     } 
@@ -59,12 +60,13 @@ public class clsStone extends clsInanimate {
 
 			clsBWProperties oProp = new clsBWProperties();
 
+			oProp.putAll(clsInanimate.getDefaultProperties(poPrefix) );
 			oProp.setProperty(pre+P_RADIUS_TO_MASS_CONVERSION , 10.0);
-			oProp.setProperty(pre+P_RADIUS, 1.0);
-			 
-			oProp.setProperty(pre+P_COLOR_BLUE, Color.DARK_GRAY.getBlue());
-			oProp.setProperty(pre+P_COLOR_GREEN, Color.DARK_GRAY.getGreen());
-			oProp.setProperty(pre+P_COLOR_RED, Color.DARK_GRAY.getRed());
+			oProp.setProperty(pre+P_MOBILE_SHAPE_TYPE, "SHAPE_CIRCLE");
+			oProp.setProperty(pre+P_MOBILE_SHAPE_RADIUS, 1.0);
+			oProp.setProperty(pre+P_ENTIY_COLOR_B, Color.DARK_GRAY.getBlue());
+			oProp.setProperty(pre+P_ENTIY_COLOR_G, Color.DARK_GRAY.getGreen());
+			oProp.setProperty(pre+P_ENTIY_COLOR_R, Color.DARK_GRAY.getRed());
 		    oProp.setProperty(pre+P_IMAGE_PATH, sim.clsBWMain.msArsPath + "/src/resources/images/rock1.jpg");
 		   			
 			return oProp;

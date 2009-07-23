@@ -7,8 +7,12 @@
  */
 package bw.entities;
 
+import java.awt.Color;
+
 import sim.physics2D.shape.Shape;
+import sim.physics2D.util.Double2D;
 import bw.utils.config.clsBWProperties;
+import bw.utils.enums.eShapeType;
 import ARSsim.physics2D.physicalObject.clsStationaryObject2D;
 import ARSsim.physics2D.util.clsPose;
 
@@ -25,18 +29,20 @@ public abstract class clsStationary extends clsEntity {
 	public static final String P_POS_X = "pos_x";
 	public static final String P_POS_Y = "pos_y";
 	public static final String P_POS_ANGLE = "pos_angle";
-
+	
+	public static final String P_SHAPE_TYPE = "shape_type";
+	public static final String P_SHAPE_RADIUS = "shape_radius";
+	public static final String P_SHAPE_WIDTH = "shape_width";
+	public static final String P_SHAPE_HEIGHT = "shape_height";
 	public static final String P_DEF_STATIONARY_WEIGHT = "def_stationary_weight";
 	public static final String P_DEF_RESTITUTION = "def_restitution";
-	
-	
-	private static double mrDefaultStationaryWeight; //9999.0;
+		
 	private double mrDefaultRestitution; 			 //0.5 
 
 	
-	public clsStationary(String poPrefix, clsBWProperties poProp, Shape poShape) {
+	public clsStationary(String poPrefix, clsBWProperties poProp) {
 		super(poPrefix, poProp);
-		applyProperties(poPrefix, poProp, poShape);
+		applyProperties(poPrefix, poProp);
 	}
 	
 	public static clsBWProperties getDefaultProperties(String poPrefix) {
@@ -47,25 +53,58 @@ public abstract class clsStationary extends clsEntity {
 		oProp.setProperty(pre+P_POS_X, 0.0);
 		oProp.setProperty(pre+P_POS_Y, 0.0);
 		oProp.setProperty(pre+P_POS_ANGLE, 0.0);
-		
+				
 		oProp.setProperty(pre+P_DEF_STATIONARY_WEIGHT , 9999.0);
 		oProp.setProperty(pre+P_DEF_RESTITUTION , 1.0);
 		
 		return oProp;
 	}	
 	
-	private void applyProperties(String poPrefix, clsBWProperties poProp, Shape poShape) {
+	private void applyProperties(String poPrefix, clsBWProperties poProp) {
 		String pre = clsBWProperties.addDot(poPrefix);
 
-		mrDefaultStationaryWeight = poProp.getPropertyDouble(pre+P_DEF_STATIONARY_WEIGHT);
 		mrDefaultRestitution = poProp.getPropertyDouble(pre+P_DEF_RESTITUTION);
 		
 		double oPosX = poProp.getPropertyDouble(pre+P_POS_X);
 		double oPosY = poProp.getPropertyDouble(pre+P_POS_Y);
 		double oPosAngle = poProp.getPropertyDouble(pre+P_POS_ANGLE);
 		
-		initPhysicalObject2D(new clsPose(oPosX, oPosY, oPosAngle), null, poShape, mrDefaultStationaryWeight);
+		Shape oShape = createShape(pre, poProp);
+		initPhysicalObject2D(new clsPose(oPosX, oPosY, oPosAngle), new Double2D(0.0,0.0), oShape, getMass());
 	}	
+	
+private Shape createShape(String pre, clsBWProperties poProp) {
+		
+		Shape oShape = null; 
+			
+		eShapeType oShapeType = eShapeType.valueOf( poProp.getPropertyString(P_SHAPE_TYPE) );
+		
+		switch( oShapeType ) {
+		case SHAPE_CIRCLE:
+			oShape = new sim.physics2D.shape.Circle(poProp.getPropertyDouble(P_SHAPE_RADIUS), 
+					 new Color(poProp.getPropertyInt(P_ENTITY_COLOR_R),
+							   poProp.getPropertyInt(P_ENTITY_COLOR_G),
+							   poProp.getPropertyInt(P_ENTITY_COLOR_B)));
+			break;
+		case SHAPE_RECTANGLE:
+			oShape = new sim.physics2D.shape.Rectangle(	poProp.getPropertyDouble(P_SHAPE_WIDTH),
+														poProp.getPropertyDouble(P_SHAPE_HEIGHT), 
+					 new Color(poProp.getPropertyInt(P_ENTITY_COLOR_R),
+							   poProp.getPropertyInt(P_ENTITY_COLOR_G),
+							   poProp.getPropertyInt(P_ENTITY_COLOR_B)));
+			break;
+		case SHAPE_POLYGON:
+			//TODO: (everyone) - add list for points of polygon in config!
+			break;
+		default:
+			oShape = new sim.physics2D.shape.Circle(poProp.getPropertyDouble(P_SHAPE_RADIUS), 
+					 new Color(poProp.getPropertyInt(P_ENTITY_COLOR_R),
+							   poProp.getPropertyInt(P_ENTITY_COLOR_G),
+							   poProp.getPropertyInt(P_ENTITY_COLOR_B)));
+			break;
+		}
+		return oShape;
+	}
 	
 	@Override
 	protected void initPhysicalObject2D(clsPose poPose, sim.physics2D.util.Double2D poStartingVelocity, Shape poShape, double prMass) {

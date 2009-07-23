@@ -13,12 +13,13 @@ import enums.eEntityType;
 
 public class clsCan extends clsInanimate {
 	public static final String P_ID = "id";
-	public static final String P_COLOR_BLUE = "colorB";
-	public static final String P_COLOR_GREEN = "colorG";
-	public static final String P_COLOR_RED = "colorR";
+	public static final String P_ENTIY_COLOR_B = "colorB";
+	public static final String P_ENTIY_COLOR_G = "colorG";
+	public static final String P_ENTIY_COLOR_R = "colorR";
 	
 	public static final String P_DEFAULT_MASS = "mass"; 
-	public static final String P_DEFAULT_RADIUS = "radius"; 
+	public static final String P_MOBILE_SHAPE_RADIUS = "radius"; 
+	public static final String P_MOBILE_SHAPE_TYPE = "shape_type";  
 		
 	
 //	private static double mrDefaultWeight = 80.0f;
@@ -26,14 +27,9 @@ public class clsCan extends clsInanimate {
 //	private static Color moDefaultColor = Color.blue;	
     
     public clsCan(String poPrefix, clsBWProperties poProp) {
-		super(poPrefix, poProp,  
-				new sim.physics2D.shape.Circle(poProp.getPropertyDouble(poPrefix +P_DEFAULT_RADIUS), 
-										new Color(poProp.getPropertyInt(poPrefix +P_COLOR_RED),
-											      poProp.getPropertyInt(poPrefix +P_COLOR_GREEN),
-											      poProp.getPropertyInt(poPrefix +P_COLOR_BLUE)))); 
+		super(poPrefix, poProp); 
 		
 		applyProperties(poPrefix, poProp);
-
     }
 
 	
@@ -45,12 +41,14 @@ public static clsBWProperties getDefaultProperties(String poPrefix) {
 		String pre = clsBWProperties.addDot(poPrefix);
 
 		clsBWProperties oProp = new clsBWProperties();
-
-		oProp.setProperty(pre+P_COLOR_BLUE, Color.blue.getBlue());
-		oProp.setProperty(pre+P_COLOR_GREEN, Color.blue.getGreen());
-		oProp.setProperty(pre+P_COLOR_RED, Color.blue.getRed());
+		
+		oProp.putAll(clsInanimate.getDefaultProperties(poPrefix) );
+		oProp.setProperty(pre+P_ENTIY_COLOR_B, Color.blue.getBlue());
+		oProp.setProperty(pre+P_ENTIY_COLOR_G, Color.blue.getGreen());
+		oProp.setProperty(pre+P_ENTIY_COLOR_R, Color.blue.getRed());
 		oProp.setProperty(pre+P_DEFAULT_MASS, 80.0);
-		oProp.setProperty(pre+P_DEFAULT_RADIUS, 2.0);
+		oProp.setProperty(pre+P_MOBILE_SHAPE_RADIUS, 2.0);
+		oProp.setProperty(pre+P_MOBILE_SHAPE_TYPE, "SHAPE_CIRCLE");
 		
 		return oProp;
 }
