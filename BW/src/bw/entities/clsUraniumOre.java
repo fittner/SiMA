@@ -37,6 +37,8 @@ public class clsUraniumOre extends clsInanimate implements itfAPCarryable {
 	public static final String P_MOBILE_SHAPE_RADIUS = "radius"; 
 	public static final String P_IMAGE_PATH = "image_path";
 	
+	public double mrRadiationIntensity;
+	
 	public clsUraniumOre(String poPrefix, clsBWProperties poProp) {
 		super(poPrefix, poProp);
 		applyProperties(poPrefix, poProp);
@@ -52,6 +54,7 @@ public class clsUraniumOre extends clsInanimate implements itfAPCarryable {
     
     private void applyProperties(String poPrefix, clsBWProperties poProp){		
 		//TODO
+    	mrRadiationIntensity = poProp.getPropertyDouble(poPrefix +P_RADIATION_INTENSITY);
 	}	
 	
 	public static clsBWProperties getDefaultProperties(String poPrefix) {
