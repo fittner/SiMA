@@ -8,18 +8,17 @@
 package bw.entities;
 
 import java.awt.Color;
+
+import sim.physics2D.shape.Shape;
 import bw.body.clsMeatBody;
 import bw.body.internalSystems.clsFlesh;
 import bw.body.itfget.itfGetFlesh;
 import bw.factories.clsRegisterEntity;
-import bw.utils.container.clsConfigDouble;
-import bw.utils.container.clsConfigMap;
+import bw.utils.config.clsBWProperties;
 import bw.utils.enums.eBindingState;
-import bw.utils.enums.eConfigEntries;
 import bw.utils.tools.clsFood;
 import bw.body.io.actuators.actionProxies.*;
 import enums.eEntityType;
-import ARSsim.physics2D.util.clsPose;
 
 /**
  * Mason representative (physics+renderOnScreen) for a stone. 
@@ -29,68 +28,76 @@ import ARSsim.physics2D.util.clsPose;
  * 
  */
 public class clsCake extends clsInanimate implements itfGetFlesh, itfAPEatable, itfAPCarryable {
-	private static double mrDefaultRadius = 10.0;
-	private static String moImagePath = sim.clsBWMain.msArsPath + "/src/resources/images/cake.gif";
-	private static Color moDefaultColor = Color.pink;
 	
-	private static double mrOwnMass = 1.0; //mass without any flesh left ...
+	public static final String P_ID = "id";
+	public static final String P_COLOR_BLUE = "colorB";
+	public static final String P_COLOR_GREEN = "colorG";
+	public static final String P_COLOR_RED = "colorR";
+	
+	public static final String P_DEFAULT_MASS = "mass"; 
+	public static final String P_DEFAULT_RADIUS = "radius"; 
+	public static final String P_IMAGE_PATH = "image_path";
+	
+	public static final String P_FAT = "nutrition_fat";
+	public static final String P_WATER = "nutrition_water";
+	public static final String P_CONTENT= "flesh_content";
+	public static final String P_MAXCONTENT= "flesh_max_content";
+	public static final String P_INCREASERATE = "flesh_increaserate";
 	
 	private boolean mnShapeUpdated;
-	
+	private double mrDefaultRadius; 
+	private double mrDefaultMass; 
 	private clsMeatBody moBody;
 
-	public clsCake(int pnId, clsPose poPose, sim.physics2D.util.Double2D poStartingVelocity, clsConfigMap poConfig)
+	public clsCake(String poPrefix, clsBWProperties poProp,  Shape poShape)
     {
 //		super(pnId, poPose, poStartingVelocity, new ARSsim.physics2D.shape.clsCircleImage(prRadius, clsStone.moDefaultColor, clsStone.moImagePath), prRadius * clsStone.mrDefaultRadiusToMassConversion);
 		//todo muchitsch ... hier wird eine default shape �bergeben, nicht null, sonst krachts
-		super(pnId, poPose, poStartingVelocity, null, clsCake.mrOwnMass, clsCake.getFinalConfig(poConfig));
+		super(poPrefix, poProp, null);
 		
-		applyConfig();
+		applyProperties(poPrefix, poProp);
 		
 		mnShapeUpdated = false;
+		moBody = new clsMeatBody(poPrefix, poProp);
 		
-		moBody = new clsMeatBody(this, (clsConfigMap)moConfig.get(eConfigEntries.BODY));
-		setMass(mrOwnMass + getFlesh().getWeight());
-		
-		setShape(new ARSsim.physics2D.shape.clsCircleImage(clsCake.mrDefaultRadius, moDefaultColor , moImagePath), getMass());
+		setMass(mrDefaultMass + getFlesh().getWeight());
+		setShape(new ARSsim.physics2D.shape.clsCircleImage(mrDefaultRadius, 
+								new Color(poProp.getPropertyInt(poPrefix +P_COLOR_RED),
+									     poProp.getPropertyInt(poPrefix +P_COLOR_GREEN),
+									     poProp.getPropertyInt(poPrefix +P_COLOR_BLUE)), 
+									     poProp.getPropertyString(poPrefix +P_IMAGE_PATH)), 
+									     getMass()); //TODO Verify if getMass() is needed or if 
+													 //the use of the local Mass is sufficient
     } 
 	
-	private void applyConfig() {
-		//TODO add ...
+	private void applyProperties(String poPrefix, clsBWProperties poProp){		
+		mrDefaultRadius = poProp.getPropertyDouble(poPrefix +P_DEFAULT_RADIUS); 
+		mrDefaultMass = poProp.getPropertyDouble(poPrefix +P_DEFAULT_MASS);
+	}	
+	
+	public static clsBWProperties getDefaultProperties(String poPrefix) {
+		String pre = clsBWProperties.addDot(poPrefix);
+
+		clsBWProperties oProp = new clsBWProperties();
+
+		oProp.setProperty(pre+P_COLOR_BLUE, Color.pink.getBlue());
+		oProp.setProperty(pre+P_COLOR_GREEN, Color.pink.getGreen());
+		oProp.setProperty(pre+P_COLOR_RED, Color.pink.getRed());
+		oProp.setProperty(pre+P_DEFAULT_MASS, 1.0);
+		oProp.setProperty(pre+P_DEFAULT_RADIUS, 10.0);
+		oProp.setProperty(pre+P_IMAGE_PATH, sim.clsBWMain.msArsPath + "/src/resources/images/cake.gif");
+		
+		oProp.setProperty(pre+P_FAT, 5.0);
+		oProp.setProperty(pre+P_WATER, 1.0);
+
+		oProp.setProperty(pre+P_CONTENT, 15.0);
+		oProp.setProperty(pre+P_MAXCONTENT, 15.0);
+		oProp.setProperty(pre+P_INCREASERATE, 0.0);
+	
+		
+		return oProp;
 	}
 	
-	private static clsConfigMap getFinalConfig(clsConfigMap poConfig) {
-		clsConfigMap oDefault = getDefaultConfig();
-		oDefault.overwritewith(poConfig);
-		return oDefault;
-	}
-	
-	private static clsConfigMap getDefaultConfig() {
-		clsConfigMap oDefault = new clsConfigMap();
-
-		clsConfigMap oBody = new clsConfigMap();		
-
-		clsConfigMap oFlesh = new clsConfigMap();		
-		clsConfigMap oNutritions = new clsConfigMap();
-		
-		oNutritions.add(eConfigEntries.FAT, new clsConfigDouble(5.0f));
-		oNutritions.add(eConfigEntries.WATER, new clsConfigDouble(1.0f));
-		
-		oFlesh.add(eConfigEntries.NUTRITIONS, oNutritions);
-		oFlesh.add(eConfigEntries.CONTENT, new clsConfigDouble(15.0f));
-		oFlesh.add(eConfigEntries.MAXCONTENT, new clsConfigDouble(15.0f));
-		oFlesh.add(eConfigEntries.INCREASERATE, new clsConfigDouble(0.00f));
-		
-		oBody.add(eConfigEntries.INTSYS_FLESH, oFlesh);
-
-		oDefault.add(eConfigEntries.BODY, oBody);		
-		
-		return oDefault;
-	}
-	
-
-	
-
 	/* (non-Javadoc)
 	 * @see bw.clsEntity#setEntityType()
 	 */
@@ -114,7 +121,7 @@ public class clsCake extends clsInanimate implements itfGetFlesh, itfAPEatable, 
 		
 		if (getFlesh().getTotallyConsumed() && !mnShapeUpdated) {
 			mnShapeUpdated = true;
-			setShape(new sim.physics2D.shape.Circle(clsCake.mrDefaultRadius, Color.gray), getFlesh().getWeight());
+			setShape(new sim.physics2D.shape.Circle(mrDefaultRadius, Color.gray), getFlesh().getWeight());
 			
 			//TODO langr: wohin damit
 			//This command removes the cake from the playground
@@ -183,7 +190,7 @@ public class clsCake extends clsInanimate implements itfGetFlesh, itfAPEatable, 
 		clsFood oFood = getFlesh().withdraw(prBiteSize);
 		
 		//update the Mason Physics2D Mass to the new weight
-		setMass(mrOwnMass + getFlesh().getWeight());
+		setMass(mrDefaultMass + getFlesh().getWeight());
 		
 		//return the chunk of food
 		return oFood;

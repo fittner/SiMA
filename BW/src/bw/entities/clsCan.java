@@ -8,48 +8,54 @@
 package bw.entities;
 
 import java.awt.Color;
-import ARSsim.physics2D.util.clsPose;
-import bw.utils.container.clsConfigMap;
+import bw.utils.config.clsBWProperties;
 import enums.eEntityType;
 
 public class clsCan extends clsInanimate {
-	private static double mrDefaultWeight = 80.0f;
-	private static double mrDefaultRadius = 2.0f;
-	private static Color moDefaultColor = Color.blue;	
-    
-    public clsCan(int pnId, clsPose poStartingPose, sim.physics2D.util.Double2D poStartingVelocity, clsConfigMap poConfig) {
-		super(pnId, 
-				poStartingPose, 
-				poStartingVelocity, 
-				new sim.physics2D.shape.Circle(clsCan.mrDefaultRadius, clsCan.moDefaultColor),
-				clsCan.mrDefaultWeight,
-				getFinalConfig(poConfig)
-				);
+	public static final String P_ID = "id";
+	public static final String P_COLOR_BLUE = "colorB";
+	public static final String P_COLOR_GREEN = "colorG";
+	public static final String P_COLOR_RED = "colorR";
+	
+	public static final String P_DEFAULT_MASS = "mass"; 
+	public static final String P_DEFAULT_RADIUS = "radius"; 
 		
-		applyConfig();
+	
+//	private static double mrDefaultWeight = 80.0f;
+//	private static double mrDefaultRadius = 2.0f;
+//	private static Color moDefaultColor = Color.blue;	
+    
+    public clsCan(String poPrefix, clsBWProperties poProp) {
+		super(poPrefix, poProp,  
+				new sim.physics2D.shape.Circle(poProp.getPropertyDouble(poPrefix +P_DEFAULT_RADIUS), 
+										new Color(poProp.getPropertyInt(poPrefix +P_COLOR_RED),
+											      poProp.getPropertyInt(poPrefix +P_COLOR_GREEN),
+											      poProp.getPropertyInt(poPrefix +P_COLOR_BLUE)))); 
+		
+		applyProperties(poPrefix, poProp);
 
     }
 
-	private void applyConfig() {
-		//TODO add ...
+	
+    private void applyProperties(String poPrefix, clsBWProperties poProp){		
+		//TODO
+	}	
+	
+public static clsBWProperties getDefaultProperties(String poPrefix) {
+		String pre = clsBWProperties.addDot(poPrefix);
 
-	}
-	
-	private static clsConfigMap getFinalConfig(clsConfigMap poConfig) {
-		clsConfigMap oDefault = getDefaultConfig();
-		oDefault.overwritewith(poConfig);
-		return oDefault;
-	}
-	
-	private static clsConfigMap getDefaultConfig() {
-		clsConfigMap oDefault = new clsConfigMap();
+		clsBWProperties oProp = new clsBWProperties();
+
+		oProp.setProperty(pre+P_COLOR_BLUE, Color.blue.getBlue());
+		oProp.setProperty(pre+P_COLOR_GREEN, Color.blue.getGreen());
+		oProp.setProperty(pre+P_COLOR_RED, Color.blue.getRed());
+		oProp.setProperty(pre+P_DEFAULT_MASS, 80.0);
+		oProp.setProperty(pre+P_DEFAULT_RADIUS, 2.0);
 		
-		//TODO add ...
-		
-		return oDefault;
-	}
-	
-	/* (non-Javadoc)
+		return oProp;
+}
+    
+    /* (non-Javadoc)
 	 * @see bw.clsEntity#setEntityType()
 	 */
 	@Override
