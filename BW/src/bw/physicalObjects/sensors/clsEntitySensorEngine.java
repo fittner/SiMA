@@ -11,11 +11,13 @@ package bw.physicalObjects.sensors;
 import java.awt.Color;
 import java.awt.Paint;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import sim.engine.SimState;
 import sim.engine.Steppable;
 import sim.physics2D.physicalObject.MobileObject2D;
 import sim.physics2D.physicalObject.PhysicalObject2D;
+import sim.physics2D.util.Double2D;
 import sim.portrayal.DrawInfo2D;
 
 import ARSsim.physics2D.physicalObject.clsMobileObject2D;
@@ -32,6 +34,7 @@ import bw.factories.clsSingletonMasonGetter;
  * 
  */
 
+
 	/**
 	 *  This class defines the the physical object for the vision sensor. It 
 	 *  extends the Mobile2D object.
@@ -47,7 +50,8 @@ import bw.factories.clsSingletonMasonGetter;
 		private static final long serialVersionUID = 1L;
 		private final static double MASS = 0.0001;
 	
-		private ArrayList <PhysicalObject2D>  meDetectedObj;
+		private HashMap <Integer, sim.physics2D.util.Double2D>  meCollisionPointMap;
+		private ArrayList <PhysicalObject2D>  meDetectedObjList;
 		private Paint moColor;
 		private clsCircleBorder moShape;
 		private clsEntity moHostEntity;
@@ -58,7 +62,8 @@ import bw.factories.clsSingletonMasonGetter;
 		 * @param pnRadiusOffsetVisionArea 
 		 */
 		public clsEntitySensorEngine(clsEntity poHostEntity, double pnRadius) {    
-		   meDetectedObj = new ArrayList <PhysicalObject2D>(); 
+		   meDetectedObjList = new ArrayList <PhysicalObject2D>(); 
+		   meCollisionPointMap = new HashMap<Integer, Double2D>(); 
 		   moColor = Color.RED;
 		   moShape = new clsCircleBorder(pnRadius, moColor);
 		   moHostEntity = poHostEntity; 
@@ -72,7 +77,7 @@ import bw.factories.clsSingletonMasonGetter;
 	
 		public void step(SimState state){
 			setLocation();
-			clearMeDetectedObj();
+			clearList();
 		}
 		
 		public void registerShape(){
@@ -82,9 +87,12 @@ import bw.factories.clsSingletonMasonGetter;
 		}
 		
 		
-		public ArrayList <PhysicalObject2D> requestSensorData(){
-			ArrayList <PhysicalObject2D> eDummyList = (ArrayList<PhysicalObject2D>) meDetectedObj; 
-			return eDummyList; 
+		public ArrayList <PhysicalObject2D> requestDetectedObjList(){
+			return meDetectedObjList; 
+		}
+		
+		public HashMap <Integer, Double2D> requestCollisionPointMap(){
+			return meCollisionPointMap; 
 		}
 		
 		private void setLocation(){
@@ -92,9 +100,9 @@ import bw.factories.clsSingletonMasonGetter;
 			this.setPose(oMobileObj.getPosition(), oMobileObj.getOrientation()); 
 			clsSingletonMasonGetter.getFieldEnvironment().setObjectLocation(this, 
 										new sim.util.Double2D(oMobileObj.getPosition().x,oMobileObj.getPosition().y));
-
 		}
 			
+		
 		//--------------------------------------------------------------------------------------------------
 		// Methods from PhysicalObject2D which have to be overwritten
 		//-------------------------------------------------------------------------------------------------
@@ -104,11 +112,12 @@ import bw.factories.clsSingletonMasonGetter;
 		*/     
 		
 		@Override
-		public void addContact(PhysicalObject2D obj, sim.physics2D.util.Double2D colPoint){
+		public void addContact(PhysicalObject2D poCollidingObj,
+									 Double2D poCollisionPoint){
 			//FIXME colPoint not used
-			if (colPoint != null){
-				meDetectedObj.add(obj);
-				//meCollisionPoint.put(obj.getIndex(), colPoint);
+			if (poCollisionPoint != null){
+				meDetectedObjList.add(poCollidingObj);
+				meCollisionPointMap.put(poCollidingObj.getIndex(), poCollisionPoint);
 			}				
 		}
 		
@@ -117,8 +126,8 @@ import bw.factories.clsSingletonMasonGetter;
 		//-------------------------------------------------------------------------------------------------
 		/** Calculates and adds the static and dynamic friction forces on the object
 		 * based on the coefficients of friction. 
-		 */
-		
+		*/
+			
 		@Override
 		public void addFrictionForce()
 		{        }
@@ -129,15 +138,12 @@ import bw.factories.clsSingletonMasonGetter;
 	    	return true; // (insert location algorithm and intersection here)
 	    }		
 		
-	
-		public ArrayList <PhysicalObject2D> getMeDetectedObj(){
-			return meDetectedObj; 
-		}
-		
+
 		//-------------------------------------------------------------------------------------------------
 		
-		private void clearMeDetectedObj(){
-			meDetectedObj.clear(); 
+		private void clearList(){
+			meDetectedObjList.clear(); 
+			meCollisionPointMap.clear(); 
 		}
 }
 
