@@ -56,6 +56,8 @@ public abstract class clsMobile extends clsEntity {
 
 		clsBWProperties oProp = new clsBWProperties();
 
+		oProp.putAll( clsEntity.getDefaultProperties(pre) );
+		
 		oProp.setProperty(pre+P_POS_X, 0.0);
 		oProp.setProperty(pre+P_POS_Y, 0.0);
 		oProp.setProperty(pre+P_POS_ANGLE, 0.0);

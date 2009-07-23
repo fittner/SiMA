@@ -14,6 +14,8 @@ import decisionunit.clsBaseDecisionUnit;
 import sim.physics2D.shape.Shape;
 import ARSsim.physics2D.util.clsPose;
 import bw.body.clsBaseBody;
+import bw.body.clsComplexBody;
+import bw.body.clsMeatBody;
 import bw.body.io.sensors.ext.clsSensorEngine;
 import bw.body.io.sensors.external.clsSensorEatableArea;
 import bw.body.io.sensors.external.clsSensorVision;
@@ -21,8 +23,8 @@ import bw.body.io.sensors.external.clsSensorRadiation;
 import bw.body.itfget.itfGetBody;
 import bw.physicalObjects.sensors.clsEntityPartVision;
 import bw.physicalObjects.sensors.clsEntitySensorEngine;
-import bw.utils.container.clsConfigMap;
-
+import bw.utils.config.clsBWProperties;
+import bw.utils.enums.eBodyType;
 
 /**
  * Animates represents living objects that can e.g. move, grow, think.
@@ -32,41 +34,49 @@ import bw.utils.container.clsConfigMap;
  */
 public abstract class clsAnimate extends clsMobile implements itfGetBody {
 
+	public static final String P_BODY_TYPE = "body_type";
+	
 	public clsBaseBody moBody; // the instance of a body
+	public eBodyType moBodyType;
 	
-	/**
-	 * @param poStartingPosition
-	 * @param poStartingVelocity
-	 * @param pnId
-	 */
-	protected clsAnimate(int pnId, clsPose poPose, sim.physics2D.util.Double2D poStartingVelocity, Shape poShape, double poMass, clsConfigMap poConfig) {
-		super(pnId, poPose, poStartingVelocity, poShape, poMass, clsAnimate.getFinalConfig(poConfig));
-		
-		applyConfig();
-		
-		moBody = createBody();
+	public clsAnimate(String poPrefix, clsBWProperties poProp, Shape poShape) {
+		super(poPrefix, poProp, poShape);
+		applyProperties(poPrefix, poProp, poShape);
+		moBody = createBody(poPrefix, poProp);
 	}
-	
-	protected abstract clsBaseBody createBody();
-	
-	private void applyConfig() {
-		//TODO add ...
 
-	}
-	
-	private static clsConfigMap getFinalConfig(clsConfigMap poConfig) {
-		clsConfigMap oDefault = getDefaultConfig();
-		oDefault.overwritewith(poConfig);
-		return oDefault;
-	}
-	
-	private static clsConfigMap getDefaultConfig() {
-		clsConfigMap oDefault = new clsConfigMap();
+	private clsBaseBody createBody(String poPrefix, clsBWProperties poProp) {
+		String pre = clsBWProperties.addDot(poPrefix);
 		
-		//TODO add ...
+		clsBaseBody oRetVal = null;
+		switch( moBodyType ) {
+		case BODY_TYPE_MEAT:
+			oRetVal = new clsMeatBody(poPrefix, poProp, this);
+			break;
+		case BODY_TYPE_COMPLEX:
+			oRetVal = new clsComplexBody(poPrefix, poProp, this);
+			break;
+		default:
+			oRetVal = new clsMeatBody(poPrefix, poProp, this);
+			break;
+		}
 		
-		return oDefault;
+		return oRetVal;
 	}
+
+	public static clsBWProperties getDefaultProperties(String poPrefix) {
+		String pre = clsBWProperties.addDot(poPrefix);
+
+		clsBWProperties oProp = new clsBWProperties();
+		oProp.putAll( clsMeatBody.getDefaultProperties(pre) );
+		oProp.setProperty(pre+P_BODY_TYPE, "BODY_TYPE_MEAT");
+		return oProp;
+	}	
+	
+	private void applyProperties(String poPrefix, clsBWProperties poProp, Shape poShape) {
+		String pre = clsBWProperties.addDot(poPrefix);
+		moBodyType = eBodyType.valueOf( poProp.getPropertyString(pre+P_BODY_TYPE) );
+	}	
 	
 	public void setDecisionUnit(clsBaseDecisionUnit poDecisionUnit) {
 		moBody.getBrain().setDecisionUnit(poDecisionUnit);

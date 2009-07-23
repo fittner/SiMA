@@ -43,7 +43,7 @@ public abstract class clsStationary extends clsEntity {
 		String pre = clsBWProperties.addDot(poPrefix);
 
 		clsBWProperties oProp = new clsBWProperties();
-
+		oProp.putAll( clsEntity.getDefaultProperties(pre) );
 		oProp.setProperty(pre+P_POS_X, 0.0);
 		oProp.setProperty(pre+P_POS_Y, 0.0);
 		oProp.setProperty(pre+P_POS_ANGLE, 0.0);
