@@ -17,15 +17,15 @@ import java.util.Properties;
  * clsBWProperties is a specialization of the java.util.Properties class. 
  * 
  * Next to the regular functionalities, include of other property files and generation of random numbers for values is supported. In the bw project 
- * exists a singleton “bw.factories.clsPropertiesGetter”. It provides access to the properties and should be filled with an instance of 
+ * exists a singleton ï¿½bw.factories.clsPropertiesGetterï¿½. It provides access to the properties and should be filled with an instance of 
  * clsBWProperties as soon as possible. Currently, this is done in the constructor sim.creation.clsLoader. 
  * 
  * Currently, the following list of values is supported by clsBWProperties: String, boolean, int, float, double, semicolon 
- * separated list of any type listed before, excluding lists within lists(e.g. “23;12;43”). corresponding setter and getter functions are available.
+ * separated list of any type listed before, excluding lists within lists(e.g. ï¿½23;12;43ï¿½). corresponding setter and getter functions are available.
  * 
  * Special config tags: 
  * 
- * Include Propertyfile "some.key = @include.me.properties". the string following @ is used as filename to open another property file. “some.key” is 
+ * Include Propertyfile "some.key = @include.me.properties". the string following @ is used as filename to open another property file. ï¿½some.keyï¿½ is 
  * added as prefix to each key of the other file. finally the properties of the other file are merged into the current file and the include line is 
  * removed. this works recursively.
  * 
@@ -67,7 +67,7 @@ public class clsBWProperties extends Properties {
 	 * @author deutsch
 	 * 22.07.2009, 09:55:35
 	 */
-	private static final String P_RANDOM = "§"; //don't blame me - roland states that the law is pure random
+	private static final String P_RANDOM = "ï¿½"; //don't blame me - roland states that the law is pure random
 	
 	/**
 	 * TAG denoting that the following value is a hex color #01AFB2 
@@ -239,7 +239,7 @@ public class clsBWProperties extends Properties {
 	        p2.load( propInFile );
 	        
 	    } catch ( FileNotFoundException e ) {
-          System.err.println( "Can’t find " + poFilename );
+          System.err.println( "Canï¿½t find " + poFilename );
         } catch ( IOException e ) {
 	      System.err.println( "I/O failed." );
 	    }		
@@ -272,7 +272,7 @@ public class clsBWProperties extends Properties {
 	      
 	      poProp.store(propOutFile, poComments);
 	    } catch ( FileNotFoundException e ) {
-          System.err.println( "Can’t find " + poFilename );
+          System.err.println( "Canï¿½t find " + poFilename );
         } catch ( IOException e ) {
 	      System.err.println( "I/O failed." );
 	    }
@@ -399,7 +399,7 @@ public class clsBWProperties extends Properties {
 				Integer.valueOf(value.substring(3, 5), 16).intValue(),
 				Integer.valueOf(value.substring(5, 7), 16).intValue());
 		} else {
-			// TODO edgar pleas add "light_gray" to Color.light_gray converter
+			result = clsColorParser.parse(value);
 		}
 
 		
