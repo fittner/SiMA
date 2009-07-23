@@ -54,8 +54,8 @@ public class ClemLifeMain extends SimState
 		
 		
 		
-		pos = new Double2D(100, 150);
-		cRock rock = new cRock(pos, 20, 30);
+		pos = new Double2D(100, 100);
+		cRock rock = new cRock(pos, 20, 300);
 		fieldEnvironment.setObjectLocation(rock, new sim.util.Double2D(pos.x, pos.y));
 		objPE.register(rock);
 
