@@ -35,6 +35,7 @@ import bw.utils.inspectors.entity.clsInspectorDefault;
 import bw.utils.inspectors.entity.clsInspectorFungus;
 import bw.utils.inspectors.entity.clsInspectorRemoteBot;
 import bw.utils.inspectors.entity.clsInspectorBase;
+import bw.utils.inspectors.entity.clsInspectorSensor;
 import sim.display.GUIState;
 import sim.portrayal.Inspector;
 import sim.portrayal.LocationWrapper;
@@ -102,6 +103,7 @@ public class clsInspectorMappingEntity {
 	    		oRetVal.addInspector( new clsInspectorDefault(poSuperInspector, poWrapper, poState, poEntity), "Plant");	    		
 	    	}
 	    	else if( poEntity instanceof clsRemoteBot) {
+	    		oRetVal.addInspector(new clsInspectorSensor(poSuperInspector, poWrapper,poState,(clsRemoteBot)poEntity), "RemoteBot Sensors");
 	    		oRetVal.addInspector( new clsInspectorRemoteBot(poSuperInspector, poWrapper, poState, (clsRemoteBot)poEntity), "RemoteBot");
 	    	}
 	    	else if( poEntity instanceof clsStone) {
@@ -115,7 +117,7 @@ public class clsInspectorMappingEntity {
     	{
     		int i = 1;
     		if( poEntity instanceof clsBase) {
-	    		oRetVal.addInspector( new clsInspectorBase(poSuperInspector, poWrapper, poState, (clsBase)poEntity), "Base default");
+	    		oRetVal.addInspector(new clsInspectorBase(poSuperInspector, poWrapper, poState, (clsBase)poEntity), "Base default");
 	    		
 	    	}
 //	    	if( poEntity instanceof ) {
