@@ -21,7 +21,7 @@ public enum eSensorIntType {
    
 	//homeostasis
 	ENERGY_CONSUMPTION,
-	HEALTH_SYSTEM,
+	HEALTH,
 	STAMINA,
 	STOMACH
 }
