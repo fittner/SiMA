@@ -8,6 +8,8 @@
 package bw.entities;
 
 import java.awt.Color;
+
+import statictools.clsGetARSPath;
 import bw.body.clsMeatBody;
 import bw.body.internalSystems.clsFlesh;
 import bw.body.itfget.itfGetFlesh;
@@ -91,7 +93,7 @@ public class clsFungus extends clsInanimate implements itfGetFlesh, itfAPEatable
 			oProp.setProperty(pre+P_MASS, 30.0);
 			oProp.setProperty(pre+P_SHAPE_TYPE, "SHAPE_CIRCLE");
 			oProp.setProperty(pre+P_SHAPE_RADIUS, 6.0);
-			oProp.setProperty(pre+P_IMAGE_PATH, sim.clsBWMain.msArsPath + "/src/resources/images/fungus.jpg");
+			oProp.setProperty(pre+P_IMAGE_PATH, clsGetARSPath.getArsPath()+ "/src/resources/images/fungus.jpg");
 			
 			oProp.setProperty(pre+P_FAT, 5.0);
 			oProp.setProperty(pre+P_WATER, 1.0);

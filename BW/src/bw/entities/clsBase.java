@@ -12,6 +12,7 @@ import java.util.Iterator;
 
 import sim.engine.SimState;
 import sim.physics2D.physicalObject.PhysicalObject2D;
+import statictools.clsGetARSPath;
 
 import ARSsim.physics2D.physicalObject.clsMobileObject2D;
 import ARSsim.physics2D.physicalObject.clsStationaryObject2D;
@@ -35,7 +36,7 @@ import enums.eEntityType;
 public class clsBase extends clsStationary {
 	
 	public static final String P_ENTITY_RANGE = "range"; 
-	public static final String P_ENTITY_ANGLE = "angle"; 
+	public static final String P_ENTITY_ANGLE_VIEW = "angle_view"; 
 	public static final String P_ENTITY_OFFSET = "offset"; 
 	public static final String P_IMAGE_PATH = "image_path";
 			
@@ -69,11 +70,11 @@ public class clsBase extends clsStationary {
 		oProp.setProperty(pre+P_ENTITY_COLOR_G, Color.gray.getGreen());
 		oProp.setProperty(pre+P_SHAPE_TYPE,  eShapeType.SHAPE_CIRCLE.name());
 				
-		oProp.setProperty(pre+P_ENTITY_ANGLE, 1.99 * Math.PI);
+		oProp.setProperty(pre+P_ENTITY_ANGLE_VIEW, 1.99 * Math.PI);
 		oProp.setProperty(pre+P_ENTITY_RANGE, 50.0);
 		oProp.setProperty(pre+P_SHAPE_RADIUS, 50.0);
 		oProp.setProperty(pre+P_ENTITY_OFFSET, 0.0);
-		oProp.setProperty(pre+P_IMAGE_PATH, sim.clsBWMain.msArsPath + "/src/resources/images/spacestation.gif");
+		oProp.setProperty(pre+P_IMAGE_PATH, clsGetARSPath.getArsPath()+ "/src/resources/images/spacestation.gif");
 		
 		return oProp;
 	}	

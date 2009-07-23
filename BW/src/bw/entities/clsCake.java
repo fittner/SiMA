@@ -9,6 +9,8 @@ package bw.entities;
 
 import java.awt.Color;
 
+import statictools.clsGetARSPath;
+
 import bw.body.clsMeatBody;
 import bw.body.internalSystems.clsFlesh;
 import bw.body.itfget.itfGetFlesh;
@@ -80,7 +82,7 @@ public class clsCake extends clsInanimate implements itfGetFlesh, itfAPEatable, 
 		oProp.setProperty(pre+P_MASS, 1.0);
 		oProp.setProperty(pre+P_SHAPE_RADIUS, 10.0);
 		oProp.setProperty(pre+P_SHAPE_TYPE,  eShapeType.SHAPE_CIRCLE.name());
-		oProp.setProperty(pre+P_IMAGE_PATH, sim.clsBWMain.msArsPath + "/src/resources/images/cake.gif");
+		oProp.setProperty(pre+P_IMAGE_PATH, clsGetARSPath.getArsPath()+ "/src/resources/images/cake.gif");
 		
 		oProp.setProperty(pre+P_FAT, 5.0);
 		oProp.setProperty(pre+P_WATER, 1.0);

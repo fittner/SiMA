@@ -34,7 +34,7 @@ public abstract class clsStationary extends clsEntity {
 	public static final String P_SHAPE_RADIUS = "shape_radius";
 	public static final String P_SHAPE_WIDTH = "shape_width";
 	public static final String P_SHAPE_HEIGHT = "shape_height";
-	public static final String P_DEF_STATIONARY_WEIGHT = "def_stationary_weight";
+	public static final String P_MASS = "mass";
 	public static final String P_DEF_RESTITUTION = "def_restitution";
 		
 	private double mrDefaultRestitution; 			 //0.5 
@@ -54,7 +54,7 @@ public abstract class clsStationary extends clsEntity {
 		oProp.setProperty(pre+P_POS_Y, 0.0);
 		oProp.setProperty(pre+P_POS_ANGLE, 0.0);
 				
-		oProp.setProperty(pre+P_DEF_STATIONARY_WEIGHT , 9999.0);
+		oProp.setProperty(pre+P_MASS , 9999.0);
 		oProp.setProperty(pre+P_DEF_RESTITUTION , 1.0);
 		
 		return oProp;
