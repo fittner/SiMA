@@ -45,8 +45,8 @@ public class clsLynx extends clsAnimal {
 		//oProp.putAll( clsDumbMindA.getDefaultProperties(pre) ); //clsDumbMindA.getDefaultProperties(pre)
 		oProp.setProperty(pre+P_DECISION_TYPE, eDecisionType.DU_LYNX_MIND_IFTHENELSE.name());
 		
-		oProp.setProperty(pre+P_MOBILE_SHAPE_TYPE, eShapeType.SHAPE_CIRCLE.name());
-		oProp.setProperty(pre+P_MOBILE_SHAPE_RADIUS, "15.0");
+		oProp.setProperty(pre+P_SHAPE_TYPE, eShapeType.SHAPE_CIRCLE.name());
+		oProp.setProperty(pre+P_SHAPE_RADIUS, "15.0");
 		oProp.setProperty(pre+P_ENTITY_COLOR_R, Color.PINK.getRed() );
 		oProp.setProperty(pre+P_ENTITY_COLOR_G, Color.PINK.getGreen() );
 		oProp.setProperty(pre+P_ENTITY_COLOR_B, Color.PINK.getBlue() );

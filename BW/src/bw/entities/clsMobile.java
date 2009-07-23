@@ -34,10 +34,10 @@ public abstract class clsMobile extends clsEntity {
 	public static final String P_DEF_STATIC_FRICTION = "def_static_friction";
 	public static final String P_DEF_RESTITUTION = "def_restitution";
 	
-	public static final String P_MOBILE_SHAPE_TYPE = "mobile_shape_type";
-	public static final String P_MOBILE_SHAPE_RADIUS = "mobile_shape_radius";
-	public static final String P_MOBILE_SHAPE_WIDTH = "mobile_shape_width";
-	public static final String P_MOBILE_SHAPE_HEIGHT = "mobile_shape_height";
+	public static final String P_SHAPE_TYPE = "mobile_shape_type";
+	public static final String P_SHAPE_RADIUS = "mobile_shape_radius";
+	public static final String P_SHAPE_WIDTH = "mobile_shape_width";
+	public static final String P_SHAPE_HEIGHT = "mobile_shape_height";
 	
 	private int mnHolders; // number of bubles which picked-up and carry this mobile entity 
 	private double mrDefaultCoeffFriction; 	//0.5
@@ -99,18 +99,18 @@ public abstract class clsMobile extends clsEntity {
 		
 		Shape oShape = null; 
 			
-		eShapeType oShapeType = eShapeType.valueOf( poProp.getPropertyString(P_MOBILE_SHAPE_TYPE) );
+		eShapeType oShapeType = eShapeType.valueOf( poProp.getPropertyString(P_SHAPE_TYPE) );
 		
 		switch( oShapeType ) {
 		case SHAPE_CIRCLE:
-			oShape = new sim.physics2D.shape.Circle(poProp.getPropertyDouble(P_MOBILE_SHAPE_RADIUS), 
+			oShape = new sim.physics2D.shape.Circle(poProp.getPropertyDouble(P_SHAPE_RADIUS), 
 					 new Color(poProp.getPropertyInt(P_ENTITY_COLOR_R),
 							   poProp.getPropertyInt(P_ENTITY_COLOR_G),
 							   poProp.getPropertyInt(P_ENTITY_COLOR_B)));
 			break;
 		case SHAPE_RECTANGLE:
-			oShape = new sim.physics2D.shape.Rectangle(	poProp.getPropertyDouble(P_MOBILE_SHAPE_WIDTH),
-														poProp.getPropertyDouble(P_MOBILE_SHAPE_HEIGHT), 
+			oShape = new sim.physics2D.shape.Rectangle(	poProp.getPropertyDouble(P_SHAPE_WIDTH),
+														poProp.getPropertyDouble(P_SHAPE_HEIGHT), 
 					 new Color(poProp.getPropertyInt(P_ENTITY_COLOR_R),
 							   poProp.getPropertyInt(P_ENTITY_COLOR_G),
 							   poProp.getPropertyInt(P_ENTITY_COLOR_B)));
@@ -119,7 +119,7 @@ public abstract class clsMobile extends clsEntity {
 			//TODO: (everyone) - add list for points of polygon in config!
 			break;
 		default:
-			oShape = new sim.physics2D.shape.Circle(poProp.getPropertyDouble(P_MOBILE_SHAPE_RADIUS), 
+			oShape = new sim.physics2D.shape.Circle(poProp.getPropertyDouble(P_SHAPE_RADIUS), 
 					 new Color(poProp.getPropertyInt(P_ENTITY_COLOR_R),
 							   poProp.getPropertyInt(P_ENTITY_COLOR_G),
 							   poProp.getPropertyInt(P_ENTITY_COLOR_B)));

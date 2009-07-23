@@ -53,8 +53,8 @@ public class clsAnimal extends clsAnimate implements itfGetVision, itfGetEatable
 		//oProp.putAll( clsDumbMindA.getDefaultProperties(pre) ); //clsDumbMindA.getDefaultProperties(pre)
 		oProp.setProperty(pre+P_DECISION_TYPE, eDecisionType.DU_DUMB_MIND_A.name());
 		
-		oProp.setProperty(pre+P_MOBILE_SHAPE_TYPE, eShapeType.SHAPE_CIRCLE.name());
-		oProp.setProperty(pre+P_MOBILE_SHAPE_RADIUS, "10.0");
+		oProp.setProperty(pre+P_SHAPE_TYPE, eShapeType.SHAPE_CIRCLE.name());
+		oProp.setProperty(pre+P_SHAPE_RADIUS, "10.0");
 		oProp.setProperty(pre+P_ENTITY_COLOR_R, Color.BLUE.getRed() );
 		oProp.setProperty(pre+P_ENTITY_COLOR_G, Color.BLUE.getGreen() );
 		oProp.setProperty(pre+P_ENTITY_COLOR_B, Color.BLUE.getBlue() );

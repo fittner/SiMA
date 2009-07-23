@@ -55,8 +55,8 @@ public class clsHare extends clsAnimal implements itfGetFlesh, itfAPEatable, itf
 		//oProp.putAll( clsDumbMindA.getDefaultProperties(pre) ); //clsDumbMindA.getDefaultProperties(pre)
 		oProp.setProperty(pre+P_DECISION_TYPE, eDecisionType.DU_HARE_MIND_IFTHENELSE.name());
 		
-		oProp.setProperty(pre+P_MOBILE_SHAPE_TYPE, eShapeType.SHAPE_CIRCLE.name());
-		oProp.setProperty(pre+P_MOBILE_SHAPE_RADIUS, "5.0");
+		oProp.setProperty(pre+P_SHAPE_TYPE, eShapeType.SHAPE_CIRCLE.name());
+		oProp.setProperty(pre+P_SHAPE_RADIUS, "5.0");
 		oProp.setProperty(pre+P_ENTITY_COLOR_R, Color.RED.getRed() );
 		oProp.setProperty(pre+P_ENTITY_COLOR_G, Color.RED.getGreen() );
 		oProp.setProperty(pre+P_ENTITY_COLOR_B, Color.RED.getBlue() );
