@@ -26,6 +26,7 @@ import enums.eEntityType;
  */
 public class clsUraniumOre extends clsInanimate implements itfAPCarryable {
 	
+	public static final String P_ID = "id";
 	public static final String P_POS_X = "pos_x";
 	public static final String P_POS_Y = "pos_y";
 	public static final String P_POS_ANGLE = "pos_angle";
@@ -38,7 +39,6 @@ public class clsUraniumOre extends clsInanimate implements itfAPCarryable {
 	
 	public static final String P_DEFAULT_WEIGHT = "weight"; 
 	public static final String P_DEFAULT_RADIUS = "radius"; 
-	public static final String P_ID = "id";
 	public static final String P_IMAGE_PATH = "image_path";
     
     public clsUraniumOre(String poPrefix, clsBWProperties poProp) {
