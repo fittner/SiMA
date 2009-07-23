@@ -1,5 +1,6 @@
 package bw.utils.config;
 
+import java.awt.Color;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -68,6 +69,13 @@ public class clsBWProperties extends Properties {
 	 */
 	private static final String P_RANDOM = "§"; //don't blame me - roland states that the law is pure random
 	
+	/**
+	 * TAG denoting that the following value is a hex color #01AFB2 
+	 * 
+	 * @author deutsch
+	 * 23.07.2009, 16:01:06
+	 */
+	private static final String P_COLOR = "#";
 	
 	/**
 	 * delimiter escape escaped for regexp usage
@@ -376,6 +384,31 @@ public class clsBWProperties extends Properties {
 	 */
 	public String getPropertyString(String key) {
 		return getProperty(key);
+	}
+	
+	public Color getPropertyColor(String key) {
+		String value = getProperty(key);
+		Color result = null;
+
+		if (value.startsWith(P_COLOR)) {
+			if (value.length() != 7) {
+				throw new java.lang.IllegalArgumentException();
+			}
+			result = new Color(
+				Integer.valueOf(value.substring(1, 3), 16).intValue(),
+				Integer.valueOf(value.substring(3, 5), 16).intValue(),
+				Integer.valueOf(value.substring(5, 7), 16).intValue());
+		} else {
+			// TODO edgar pleas add "light_gray" to Color.light_gray converter
+		}
+
+		
+		return result;
+	}
+	
+	public Object setProperty(String key, Color value) {
+		String v = P_COLOR+Integer.toString(value.getRed() & 0xffffff, 16);
+		return setProperty(key, v);
 	}
 	
 	/**
