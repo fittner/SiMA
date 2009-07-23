@@ -8,10 +8,9 @@
 package bw.entities;
 
 import java.awt.Color;
-import ARSsim.physics2D.util.clsPose;
-import bw.utils.container.clsConfigMap;
+
+import bw.utils.config.clsBWProperties;
 import bw.utils.enums.eBindingState;
-import bw.utils.enums.eConfigEntries;
 import bw.body.io.actuators.actionProxies.itfAPCarryable;
 import enums.eEntityType;
 
@@ -26,49 +25,60 @@ import enums.eEntityType;
  * 
  */
 public class clsUraniumOre extends clsInanimate implements itfAPCarryable {
-	private static double mrDefaultWeight = 30.0f;
-	private static double mrDefaultRadius = 4.0f;
-	private static String moImagePath = sim.clsBWMain.msArsPath + "/src/resources/images/Uranium.png";
-	private static Color moDefaultColor = Color.green;	
-	public double mrRadiationIntensity;
-
+	
+	public static final String P_POS_X = "pos_x";
+	public static final String P_POS_Y = "pos_y";
+	public static final String P_POS_ANGLE = "pos_angle";
+	public static final String P_START_VELOCITY_X = "start_velocity_x";
+	public static final String P_START_VELOCITY_Y = "start_velocity_y";
+	public static final String P_RADIATION_INTENSITY = "radiation_intensity";
+	public static final String P_COLOR_BLUE = "colorB";
+	public static final String P_COLOR_GREEN = "colorG";
+	public static final String P_COLOR_RED = "colorR";
+	
+	public static final String P_DEFAULT_WEIGHT = "weight"; 
+	public static final String P_DEFAULT_RADIUS = "radius"; 
+	public static final String P_ID = "entity_ID";
+	public static final String P_IMAGE_PATH = "image_path";
     
-    public clsUraniumOre(int pnId, clsPose poStartingPose, sim.physics2D.util.Double2D poStartingVelocity, double orRadiationIntensity, clsConfigMap poConfig) {
-		super(pnId, 
-				poStartingPose, 
-				poStartingVelocity, 
-				null,
-				clsUraniumOre.mrDefaultWeight,
-				getFinalConfig(poConfig)
-				);
+    public clsUraniumOre(String poPrefix, clsBWProperties poProp) {
+		super(poPrefix, poProp, null);
+		applyProperties(poPrefix, poProp);
 		
-		mrRadiationIntensity = orRadiationIntensity;
-		
-		applyConfig();
-		
-		setShape(new ARSsim.physics2D.shape.clsCircleImage(clsUraniumOre.mrDefaultRadius, moDefaultColor , moImagePath), clsUraniumOre.mrDefaultWeight);
-
-    }
-
-	private void applyConfig() {
-		//TODO add ...
-
+		setShape(new ARSsim.physics2D.shape.
+				clsCircleImage(poProp.getPropertyDouble(poPrefix + P_DEFAULT_RADIUS),
+							   new Color(poProp.getPropertyInt(poPrefix +P_COLOR_RED),
+									     poProp.getPropertyInt(poPrefix +P_COLOR_GREEN),
+									     poProp.getPropertyInt(poPrefix +P_COLOR_BLUE)), 
+							   poProp.getPropertyString(poPrefix +P_IMAGE_PATH)),
+							   poProp.getPropertyDouble(poPrefix +P_DEFAULT_WEIGHT)); 
 	}
+    
+    private void applyProperties(String poPrefix, clsBWProperties poProp){		
+		//TODO
+	}	
 	
-	private static clsConfigMap getFinalConfig(clsConfigMap poConfig) {
-		clsConfigMap oDefault = getDefaultConfig();
-		oDefault.overwritewith(poConfig);
-		return oDefault;
-	}
-	
-	private static clsConfigMap getDefaultConfig() {
-		clsConfigMap oDefault = new clsConfigMap();
+	public static clsBWProperties getDefaultProperties(String poPrefix) {
+		String pre = clsBWProperties.addDot(poPrefix);
+
+		clsBWProperties oProp = new clsBWProperties();
+
+		oProp.setProperty(pre+P_POS_X, 0.0);
+		oProp.setProperty(pre+P_POS_Y, 0.0);
+		oProp.setProperty(pre+P_POS_ANGLE, 0.0);
+		oProp.setProperty(pre+P_START_VELOCITY_X, 0.0);
+		oProp.setProperty(pre+P_START_VELOCITY_Y, 0.0);
 		
-		clsConfigMap oBody = new clsConfigMap();		
-		oDefault.add(eConfigEntries.BODY, oBody);		
+		oProp.setProperty(pre+P_COLOR_BLUE, Color.green.getBlue());
+		oProp.setProperty(pre+P_COLOR_GREEN, Color.green.getGreen());
+		oProp.setProperty(pre+P_COLOR_RED, Color.green.getRed());
+		oProp.setProperty(pre+P_DEFAULT_WEIGHT, 30.0);
+		oProp.setProperty(pre+P_DEFAULT_RADIUS, 4.0);
+		oProp.setProperty(pre+P_IMAGE_PATH, sim.clsBWMain.msArsPath + "/src/resources/images/Uranium.png");
 		
-		return oDefault;
-	}
+		return oProp;
+	}	
+	
 	
 	/* (non-Javadoc)
 	 * @see bw.clsEntity#setEntityType()
