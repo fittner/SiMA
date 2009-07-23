@@ -12,12 +12,15 @@ import sim.creation.clsLoader;
 import ARSsim.physics2D.util.clsPose;
 import bw.entities.clsCake;
 import bw.entities.clsCan;
+import bw.entities.clsEntity;
+import bw.entities.clsMobile;
 import bw.entities.clsStone;
 import bw.entities.clsFungus;
 import bw.entities.clsUraniumOre;
 import bw.entities.clsBase;
 import bw.factories.clsRegisterEntity;
-import bw.utils.container.clsConfigMap;
+import bw.utils.config.clsBWProperties;
+
 
 
 /**
@@ -52,9 +55,13 @@ public class clsEntityLoader {
 			
 			//FIXME warum ist der Radius random? wenn ein Bild dr�ber ist, dann muss der Radius dem Bild entsprechen!
 			//double rRadius = clsSingletonMasonGetter.getSimState().random.nextDouble() * 30.0 + 10.0;
-			double rRadius =  15.0 ;
+			clsBWProperties oProp = clsStone.getDefaultProperties("");
+			oProp.setProperty("Stone."+clsEntity.P_ID, i);
+	        oProp.setProperty("Stone."+clsMobile.P_POS_X, oStartPose.getPosition().x);
+	        oProp.setProperty("Stone."+clsMobile.P_POS_Y, oStartPose.getPosition().y);
+	        oProp.setProperty("Stone."+clsMobile.P_POS_ANGLE, oStartPose.getAngle().radians);
 	        
-		    clsStone oStone = new clsStone(i, oStartPose, new sim.physics2D.util.Double2D(0, 0), rRadius, new clsConfigMap());
+		    clsStone oStone = new clsStone("Stone.", oProp);
 		    clsRegisterEntity.registerEntity(oStone);
         }
 	}
@@ -64,19 +71,32 @@ public class clsEntityLoader {
         for (int i = 0; i < pnNumCans; i++)
         {
         	clsPose oStartPose = clsLoader.generateRandomPose();
-	        clsCan oCan = new clsCan(i, oStartPose, new sim.physics2D.util.Double2D(0, 0), new clsConfigMap());
+        	clsBWProperties oProp = clsCan.getDefaultProperties("");
+        	oProp.setProperty("Can."+clsEntity.P_ID, i);
+	        oProp.setProperty("Can."+clsMobile.P_POS_X, oStartPose.getPosition().x);
+	        oProp.setProperty("Can."+clsMobile.P_POS_Y, oStartPose.getPosition().y);
+	        oProp.setProperty("Can."+clsMobile.P_POS_ANGLE, oStartPose.getAngle().radians);
+	         
+
+        	clsCan oCan = new clsCan("Can.",oProp); 
 	        
 	        clsRegisterEntity.registerEntity(oCan);
         }
- 	}
-	
+	}
+ 	
 	 public static void loadFood(int pnNumFood) 
      {
         for (int i = 0; i < pnNumFood; i++)
         {		 
     	  	clsPose oStartPose = clsLoader.generateRandomPose();
-    	    clsCake oCake = new clsCake(1, oStartPose, new sim.physics2D.util.Double2D(0, 0), new clsConfigMap());
-    		clsRegisterEntity.registerEntity(oCake);
+    	    clsBWProperties oProp = clsCake.getDefaultProperties("");
+    	  	oProp.setProperty("Cake."+clsEntity.P_ID, i);
+	        oProp.setProperty("Cake."+clsMobile.P_POS_X, oStartPose.getPosition().x);
+	        oProp.setProperty("Cake."+clsMobile.P_POS_Y, oStartPose.getPosition().y);
+	        oProp.setProperty("Cake."+clsMobile.P_POS_ANGLE, oStartPose.getAngle().radians);
+    	    clsCake oCake = new clsCake("Cake.",oProp);
+    		
+    	    clsRegisterEntity.registerEntity(oCake);
         }
      }
 	 
@@ -85,7 +105,13 @@ public class clsEntityLoader {
         for (int i = 0; i < pnNumFungi; i++)
         {		 
     	  	clsPose oStartPose = clsLoader.generateRandomPose();
-    	    clsFungus oFungus = new clsFungus(i, oStartPose, new sim.physics2D.util.Double2D(0, 0), new clsConfigMap());
+    	  	clsBWProperties oProp = clsFungus.getDefaultProperties("");
+    	  	oProp.setProperty("Fungus."+clsEntity.P_ID, i);
+	        oProp.setProperty("Fungus."+clsMobile.P_POS_X, oStartPose.getPosition().x);
+	        oProp.setProperty("Fungus."+clsMobile.P_POS_Y, oStartPose.getPosition().y);
+	        oProp.setProperty("Fungus."+clsMobile.P_POS_ANGLE, oStartPose.getAngle().radians);
+	        
+    	    clsFungus oFungus = new clsFungus("Fungus.", oProp); 
     		clsRegisterEntity.registerEntity(oFungus);
         }
      }
@@ -94,8 +120,13 @@ public class clsEntityLoader {
 	        for (int i = 0; i < pnNumUraniumOre; i++)
 	        {
 	        	clsPose oStartPose = clsLoader.generateRandomPose();
-		        clsUraniumOre oUraniumOre = new clsUraniumOre(i, oStartPose, new sim.physics2D.util.Double2D(0, 0), 10, new clsConfigMap());
-		        
+	        	clsBWProperties oProp = clsUraniumOre.getDefaultProperties("");
+	        	oProp.setProperty("UraniumOre."+clsEntity.P_ID, i);
+		        oProp.setProperty("UraniumOre."+clsMobile.P_POS_X, oStartPose.getPosition().x);
+		        oProp.setProperty("UraniumOre."+clsMobile.P_POS_Y, oStartPose.getPosition().y);
+		        oProp.setProperty("UraniumOre."+clsMobile.P_POS_ANGLE, oStartPose.getAngle().radians);
+	        	
+		        clsUraniumOre oUraniumOre = new clsUraniumOre("UraniumOre.", oProp);
 		        clsRegisterEntity.registerEntity(oUraniumOre);
 	        }
 	}
@@ -105,7 +136,13 @@ public class clsEntityLoader {
         for (int i = 0; i < pnNumBases; i++)
         {		 
     	  	clsPose oStartPose = clsLoader.generateRandomPose();
-    	    clsBase oBase = new clsBase(i, oStartPose, new clsConfigMap());
+    	  	clsBWProperties oProp = clsBase.getDefaultProperties("");
+    	  	oProp.setProperty("Base."+clsEntity.P_ID, i);
+	        oProp.setProperty("Base."+clsMobile.P_POS_X, oStartPose.getPosition().x);
+	        oProp.setProperty("Base."+clsMobile.P_POS_Y, oStartPose.getPosition().y);
+	        oProp.setProperty("Base."+clsMobile.P_POS_ANGLE, oStartPose.getAngle().radians);
+        	
+    	    clsBase oBase = new clsBase("Base.", oProp);
     		clsRegisterEntity.registerEntity(oBase);
         }
      }
