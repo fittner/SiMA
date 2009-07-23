@@ -27,11 +27,6 @@ import enums.eEntityType;
 public class clsUraniumOre extends clsInanimate implements itfAPCarryable {
 	
 	public static final String P_ID = "id";
-	public static final String P_POS_X = "pos_x";
-	public static final String P_POS_Y = "pos_y";
-	public static final String P_POS_ANGLE = "pos_angle";
-	public static final String P_START_VELOCITY_X = "start_velocity_x";
-	public static final String P_START_VELOCITY_Y = "start_velocity_y";
 	public static final String P_RADIATION_INTENSITY = "radiation_intensity";
 	public static final String P_COLOR_BLUE = "colorB";
 	public static final String P_COLOR_GREEN = "colorG";
@@ -63,12 +58,6 @@ public class clsUraniumOre extends clsInanimate implements itfAPCarryable {
 
 		clsBWProperties oProp = new clsBWProperties();
 
-		oProp.setProperty(pre+P_POS_X, 0.0);
-		oProp.setProperty(pre+P_POS_Y, 0.0);
-		oProp.setProperty(pre+P_POS_ANGLE, 0.0);
-		oProp.setProperty(pre+P_START_VELOCITY_X, 0.0);
-		oProp.setProperty(pre+P_START_VELOCITY_Y, 0.0);
-		
 		oProp.setProperty(pre+P_COLOR_BLUE, Color.green.getBlue());
 		oProp.setProperty(pre+P_COLOR_GREEN, Color.green.getGreen());
 		oProp.setProperty(pre+P_COLOR_RED, Color.green.getRed());

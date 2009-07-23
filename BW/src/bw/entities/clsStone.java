@@ -8,9 +8,9 @@
 package bw.entities;
 
 import java.awt.Color;
-import bw.utils.container.clsConfigMap;
+
+import bw.utils.config.clsBWProperties;
 import enums.eEntityType;
-import ARSsim.physics2D.util.clsPose;
 
 /**
  * Mason representative (physics+renderOnScreen) for a stone. 
@@ -20,41 +20,55 @@ import ARSsim.physics2D.util.clsPose;
  * 
  */
 public class clsStone extends clsInanimate {
-	private static double mrDefaultRadiusToMassConversion = 10.0;
-	private static String moImagePath = sim.clsBWMain.msArsPath + "/src/resources/images/rock1.jpg";
-	private static Color moDefaultColor = Color.DARK_GRAY;
-
-	public clsStone(int pnId, clsPose poPose, sim.physics2D.util.Double2D poStartingVelocity, double prRadius, clsConfigMap poConfig)
+		
+	public static final String P_ID = "id";
+	public static final String P_COLOR_BLUE = "colorB";
+	public static final String P_COLOR_GREEN = "colorG";
+	public static final String P_COLOR_RED = "colorR";
+	
+	public static final String P_IMAGE_PATH = "image_path";
+	public static final String P_RADIUS_TO_MASS_CONVERSION = "conversion";
+	public static final String P_RADIUS = "radius";
+	
+	
+	public clsStone(String poPrefix, clsBWProperties poProp)
     {
 //		super(pnId, poPose, poStartingVelocity, new ARSsim.physics2D.shape.clsCircleImage(prRadius, clsStone.moDefaultColor, clsStone.moImagePath), prRadius * clsStone.mrDefaultRadiusToMassConversion);
 		//todo muchitsch ... hier wird eine default shape �bergeben, nicht null, sonst krachts
-		super(pnId, poPose, poStartingVelocity, null, prRadius * clsStone.mrDefaultRadiusToMassConversion, clsStone.getFinalConfig(poConfig));
+		super(poPrefix, poProp, null); 
+		//super(pnId, poPose, poStartingVelocity, null, prRadius * clsStone.mrDefaultRadiusToMassConversion, clsStone.getFinalConfig(poConfig));
+		applyProperties(poPrefix, poProp);
 		
-		applyConfig();
-		
-		double rMass = prRadius * clsStone.mrDefaultRadiusToMassConversion;
-		
-		setShape(new ARSsim.physics2D.shape.clsCircleImage(prRadius, moDefaultColor , moImagePath), rMass);
+		double rMass = poProp.getPropertyDouble(poPrefix+ P_RADIUS)*
+						poProp.getPropertyDouble(poPrefix+ P_RADIUS_TO_MASS_CONVERSION);  
+			
+		setShape(new ARSsim.physics2D.shape.clsCircleImage(poProp.getPropertyDouble(poPrefix+ P_RADIUS), 
+									new Color(poProp.getPropertyInt(poPrefix+ P_COLOR_RED),
+											  poProp.getPropertyInt(poPrefix+ P_COLOR_GREEN), 
+											  poProp.getPropertyInt(poPrefix+ P_COLOR_BLUE)), 
+											  poProp.getPropertyString(poPrefix +P_IMAGE_PATH)),
+											  rMass);
     } 
 	
-	private void applyConfig() {
-		//TODO add ...
+	private void applyProperties(String poPrefix, clsBWProperties poProp){		
+			//TODO
+		}	
+		
+		public static clsBWProperties getDefaultProperties(String poPrefix) {
+			String pre = clsBWProperties.addDot(poPrefix);
 
-	}
-	
-	private static clsConfigMap getFinalConfig(clsConfigMap poConfig) {
-		clsConfigMap oDefault = getDefaultConfig();
-		oDefault.overwritewith(poConfig);
-		return oDefault;
-	}
-	
-	private static clsConfigMap getDefaultConfig() {
-		clsConfigMap oDefault = new clsConfigMap();
-		
-		//TODO add ...
-		
-		return oDefault;
-	}
+			clsBWProperties oProp = new clsBWProperties();
+
+			oProp.setProperty(pre+P_RADIUS_TO_MASS_CONVERSION , 10.0);
+			oProp.setProperty(pre+P_RADIUS, 1.0);
+			 
+			oProp.setProperty(pre+P_COLOR_BLUE, Color.DARK_GRAY.getBlue());
+			oProp.setProperty(pre+P_COLOR_GREEN, Color.DARK_GRAY.getGreen());
+			oProp.setProperty(pre+P_COLOR_RED, Color.DARK_GRAY.getRed());
+		    oProp.setProperty(pre+P_IMAGE_PATH, sim.clsBWMain.msArsPath + "/src/resources/images/rock1.jpg");
+		   			
+			return oProp;
+		}	
 	
 	/* (non-Javadoc)
 	 * @see bw.clsEntity#setEntityType()

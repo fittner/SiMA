@@ -62,7 +62,8 @@ public abstract class clsInanimate extends clsMobile {
 		return oProp;
 	}	
 		
-	private void applyProperties(String poPrefix, clsBWProperties poProp, Shape poShape){		
+	private void applyProperties(String poPrefix, clsBWProperties poProp, Shape poShape) {		
+	
 		
 	}	
 

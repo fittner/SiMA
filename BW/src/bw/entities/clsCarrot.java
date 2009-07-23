@@ -11,18 +11,14 @@ package bw.entities;
 import java.awt.Color;
 import java.util.Random;
 import enums.eEntityType;
-import sim.physics2D.util.Double2D;
-import ARSsim.physics2D.util.clsPose;
 import bw.body.clsMeatBody;
 import bw.body.internalSystems.clsFlesh;
 import bw.body.io.actuators.actionProxies.itfAPCarryable;
 import bw.body.io.actuators.actionProxies.itfAPEatable;
 import bw.body.itfget.itfGetFlesh;
 import bw.exceptions.exFoodWeightBelowZero;
-import bw.utils.container.clsConfigDouble;
-import bw.utils.container.clsConfigMap;
+import bw.utils.config.clsBWProperties;
 import bw.utils.enums.eBindingState;
-import bw.utils.enums.eConfigEntries;
 import bw.utils.tools.clsFood;
 
 /**
@@ -33,20 +29,38 @@ import bw.utils.tools.clsFood;
  * 
  */
 public class clsCarrot extends clsInanimate implements itfGetFlesh, itfAPEatable, itfAPCarryable {
-	private static double mrDefaultRadius = 5.0;
-	private static String moImagePathFresh = sim.clsBWMain.msArsPath + "/src/resources/images/carrot_clipart.jpg";
-	private static String moImagePathDead = sim.clsBWMain.msArsPath + "/src/resources/images/carrot_grayscale.jpg";
-	private static Color moDefaultColor = Color.orange;
+		
+	public static final String P_ID = "id";
+	public static final String P_COLOR_BLUE = "colorB";
+	public static final String P_COLOR_GREEN = "colorG";
+	public static final String P_COLOR_RED = "colorR";
 	
-	private static double mrOwnMass = 1.0; //mass without any flesh left ...
-	private double mrInitialFleshMass = 0.0; //mass of the consumeable part of the carrot - set on creation of the flesh and after each regrow period  
-
+	public static final String P_DEFAULT_MASS = "mass"; 
+	public static final String P_DEFAULT_RADIUS = "radius"; 
+	public static final String P_IMAGE_PATH_FRESH = "image_path_fresh";
+	public static final String P_IMAGE_PATH_DEAD = "image_path_dead";
+	
+	public static final String P_FAT = "nutrition_fat";
+	public static final String P_WATER = "nutrition_water";
+	
+	public static final String P_CONTENT= "flesh_content";
+	public static final String P_MAXCONTENT= "flesh_max_content";
+	public static final String P_INCREASERATE = "flesh_increaserate";
+	
+	public static final String P_REGROW_STEPS_MIN = "regrow_steps_min";
+	public static final String P_REGROW_STEPS_MAX = "regrow_steps_max";
+	
+	
+	private double mrDefaultRadius; 
+	private Color  moDefaultColor;  
+	private double mrOwnMass; 
+	private String moImagePathFresh;
+	private String moImagePathDead;
+	private double mrInitialFleshMass; //mass of the consumeable part of the carrot - set on creation of the flesh and after each regrow period  
+	
 	private boolean mnShapeUpdated;
 		
 	private int mnRegrowRate;
-	private static int mnRegrowStepsMin = 50;
-	private static int mnRegrowStepsMax = 1000;
-	
 	private int mnStepsUntilRegrow;
 	
 	private clsMeatBody moBody;
@@ -62,59 +76,65 @@ public class clsCarrot extends clsInanimate implements itfGetFlesh, itfAPEatable
 	 * @param poStartingVelocity
 	 * @param poConfig
 	 */
-	public clsCarrot(int pnId, clsPose poStartingPose,
-			Double2D poStartingVelocity, clsConfigMap poConfig) {
-		super(pnId, poStartingPose, poStartingVelocity, null, clsCarrot.mrOwnMass, clsCarrot.getFinalConfig(poConfig));
+	public clsCarrot(String poPrefix, clsBWProperties poProp) {
+		super(poPrefix, poProp, null);
 		
-		applyConfig();
+		applyProperties(poPrefix, poProp);
 		
 		mnShapeUpdated = false;
 		
 		Random generator = new Random();
-		mnRegrowRate =  mnRegrowStepsMin + Math.round(generator.nextFloat() * (mnRegrowStepsMax - mnRegrowStepsMin));
+		mnRegrowRate = poProp.getPropertyInt(poPrefix + P_REGROW_STEPS_MIN)+
+											 Math.round(generator.nextFloat()*
+											(poProp.getPropertyInt(poPrefix + P_REGROW_STEPS_MAX)-
+											 poProp.getPropertyInt(poPrefix + P_REGROW_STEPS_MIN)));
 		mnStepsUntilRegrow = mnRegrowRate;
 		
-		moBody = new clsMeatBody(this, (clsConfigMap)moConfig.get(eConfigEntries.BODY));
+		moBody = new clsMeatBody(poPrefix, poProp);
 		setMass(mrOwnMass + getFlesh().getWeight());
 		
-		setShape(new ARSsim.physics2D.shape.clsCircleImage(clsCarrot.mrDefaultRadius, moDefaultColor , moImagePathFresh), getMass());
+		setShape(new ARSsim.physics2D.shape.clsCircleImage(mrDefaultRadius, moDefaultColor , moImagePathFresh), getMass());
 	}
 	
-	private void applyConfig() {
-
-		// store initial mass of flesh - needed for regrowing
-		mrInitialFleshMass = ((clsConfigDouble)((clsConfigMap)((clsConfigMap)moConfig.get(eConfigEntries.BODY)).get(eConfigEntries.INTSYS_FLESH)).get(eConfigEntries.CONTENT)).get();
-
-	}
-	
-	private static clsConfigMap getFinalConfig(clsConfigMap poConfig) {
-		clsConfigMap oDefault = getDefaultConfig();
-		oDefault.overwritewith(poConfig);
-		return oDefault;
-	}
-	
-	private static clsConfigMap getDefaultConfig() {
-		clsConfigMap oDefault = new clsConfigMap();
-
-		clsConfigMap oBody = new clsConfigMap();		
-
-		clsConfigMap oFlesh = new clsConfigMap();		
-		clsConfigMap oNutritions = new clsConfigMap();
+	private void applyProperties(String poPrefix, clsBWProperties poProp){		
+		//TODO
+		mrOwnMass = poProp.getPropertyDouble(poPrefix + P_DEFAULT_MASS); 
+		mrInitialFleshMass = poProp.getPropertyDouble(poPrefix +P_CONTENT);
+		mrDefaultRadius = poProp.getPropertyDouble(poPrefix +P_DEFAULT_RADIUS);
+		moDefaultColor = new Color (poProp.getPropertyInt(poPrefix +P_COLOR_RED),
+									poProp.getPropertyInt(poPrefix +P_COLOR_GREEN),
+									poProp.getPropertyInt(poPrefix +P_COLOR_BLUE));
+		moImagePathFresh = poProp.getPropertyString(poPrefix +P_IMAGE_PATH_FRESH);
+		moImagePathDead = poProp.getPropertyString(poPrefix +P_IMAGE_PATH_DEAD);
 		
-		oNutritions.add(eConfigEntries.FAT, new clsConfigDouble(5.0f));
-		oNutritions.add(eConfigEntries.WATER, new clsConfigDouble(1.0f));
-		
-		oFlesh.add(eConfigEntries.NUTRITIONS, oNutritions);
-		oFlesh.add(eConfigEntries.CONTENT, new clsConfigDouble(15.0f));
-		oFlesh.add(eConfigEntries.MAXCONTENT, new clsConfigDouble(15.0f));
-		oFlesh.add(eConfigEntries.INCREASERATE, new clsConfigDouble(0.00f));
-		
-		oBody.add(eConfigEntries.INTSYS_FLESH, oFlesh);
-
-		oDefault.add(eConfigEntries.BODY, oBody);		
-		
-		return oDefault;
 	}	
+		
+	
+	public static clsBWProperties getDefaultProperties(String poPrefix) {
+		String pre = clsBWProperties.addDot(poPrefix);
+
+		clsBWProperties oProp = new clsBWProperties();
+
+		oProp.setProperty(pre+P_COLOR_BLUE, Color.orange.getBlue());
+		oProp.setProperty(pre+P_COLOR_GREEN, Color.orange.getGreen());
+		oProp.setProperty(pre+P_COLOR_RED, Color.orange.getRed());
+		oProp.setProperty(pre+P_DEFAULT_MASS, 1.0);
+		oProp.setProperty(pre+P_DEFAULT_RADIUS, 5.0);
+		oProp.setProperty(pre+P_IMAGE_PATH_FRESH, sim.clsBWMain.msArsPath + "/src/resources/images/carrot_clipart.jpg");
+		oProp.setProperty(pre+P_IMAGE_PATH_DEAD, sim.clsBWMain.msArsPath + "/src/resources/images/carrot_grayscale.jpg");
+		
+		oProp.setProperty(pre+P_FAT, 5.0);
+		oProp.setProperty(pre+P_WATER, 1.0);
+
+		oProp.setProperty(pre+P_CONTENT, 15.0);
+		oProp.setProperty(pre+P_MAXCONTENT, 15.0);
+		oProp.setProperty(pre+P_INCREASERATE, 0.0);
+	
+		oProp.setProperty(pre+P_REGROW_STEPS_MIN, 50);
+		oProp.setProperty(pre+P_REGROW_STEPS_MAX, 1000);
+			
+		return oProp;
+}
 	
 	/* (non-Javadoc)
 	 * @see bw.clsEntity#setEntityType()
@@ -232,12 +252,12 @@ public class clsCarrot extends clsInanimate implements itfGetFlesh, itfAPEatable
 			// state has changed recently to no_food_left
 			// update shape to the gray carrot
 			mnShapeUpdated = true;
-			setShape(new ARSsim.physics2D.shape.clsCircleImage(clsCarrot.mrDefaultRadius, Color.gray , moImagePathDead), getMass());			
+			setShape(new ARSsim.physics2D.shape.clsCircleImage(mrDefaultRadius, Color.gray , moImagePathDead), getMass());			
 		} else if (!getFlesh().getTotallyConsumed() && !mnShapeUpdated) {
 			// state has changed recently to food_available
 			// update shape to the orange carrot
 			mnShapeUpdated = true;
-			setShape(new ARSsim.physics2D.shape.clsCircleImage(clsCarrot.mrDefaultRadius, moDefaultColor , moImagePathFresh), getMass());
+			setShape(new ARSsim.physics2D.shape.clsCircleImage(mrDefaultRadius, moDefaultColor , moImagePathFresh), getMass());
 		}		
 	}
 	

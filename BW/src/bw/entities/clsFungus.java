@@ -12,15 +12,12 @@ import bw.body.clsMeatBody;
 import bw.body.internalSystems.clsFlesh;
 import bw.body.itfget.itfGetFlesh;
 import bw.factories.clsRegisterEntity;
-import bw.utils.container.clsConfigDouble;
-import bw.utils.container.clsConfigMap;
+import bw.utils.config.clsBWProperties;
 import bw.utils.enums.eBindingState;
-import bw.utils.enums.eConfigEntries;
 import bw.utils.tools.clsFood;
 import bw.body.io.actuators.actionProxies.itfAPEatable;
 import bw.body.io.actuators.actionProxies.itfAPCarryable;
 import enums.eEntityType;
-import ARSsim.physics2D.util.clsPose;
 
 
 /**
@@ -35,66 +32,80 @@ import ARSsim.physics2D.util.clsPose;
  * 
  */
 public class clsFungus extends clsInanimate implements itfGetFlesh, itfAPEatable, itfAPCarryable{
-	private static double mrDefaultMass = 30.0;
-	private static double mrDefaultRadius = 6.0;
-	private static String moImagePath = sim.clsBWMain.msArsPath + "/src/resources/images/fungus.jpg";
-	private static Color moDefaultColor = Color.pink;
+	
+	public static final String P_ID = "id";
+	public static final String P_COLOR_BLUE = "colorB";
+	public static final String P_COLOR_GREEN = "colorG";
+	public static final String P_COLOR_RED = "colorR";
+	
+	public static final String P_DEFAULT_MASS = "mass"; 
+	public static final String P_DEFAULT_RADIUS = "radius"; 
+	public static final String P_IMAGE_PATH = "image_path";
+	
+	public static final String P_FAT = "nutrition_fat";
+	public static final String P_WATER = "nutrition_water";
+	
+	public static final String P_CONTENT= "flesh_content";
+	public static final String P_MAXCONTENT= "flesh_max_content";
+	public static final String P_INCREASERATE = "flesh_increaserate";
 	
 	private double mrCakeWeight;
+	private double mrDefaultRadius; 
+	private double mrDefaultMass; 
 	private boolean mnTotallyConsumed;
 	private boolean mnShapeUpdated;
 	
 	private clsMeatBody moBody;
 
-	public clsFungus(int pnId, clsPose poPose, sim.physics2D.util.Double2D poStartingVelocity, clsConfigMap poConfig)
+	public clsFungus(String poPrefix, clsBWProperties poProp)
     {
 //		super(pnId, poPose, poStartingVelocity, new ARSsim.physics2D.shape.clsCircleImage(prRadius, clsStone.moDefaultColor, clsStone.moImagePath), prRadius * clsStone.mrDefaultRadiusToMassConversion);
 		//todo muchitsch ... hier wird eine default shape �bergeben, nicht null, sonst krachts
-		super(pnId, poPose, poStartingVelocity, null, clsFungus.mrDefaultMass, clsFungus.getFinalConfig(poConfig));
+		super(poPrefix, poProp,  null);
 		
-		applyConfig();
+		applyProperties(poPrefix, poProp); 
 		
-		mrCakeWeight = mrDefaultMass;
 		mnTotallyConsumed = false;
 		mnShapeUpdated = false;
 		
-		moBody = new clsMeatBody(this, (clsConfigMap)moConfig.get(eConfigEntries.BODY));
+		moBody = new clsMeatBody(poPrefix, poProp);
 		
-		setShape(new ARSsim.physics2D.shape.clsCircleImage(clsFungus.mrDefaultRadius, moDefaultColor , moImagePath), clsFungus.mrDefaultMass);
+		setShape(new ARSsim.physics2D.shape.clsCircleImage(poProp.getPropertyDouble(poPrefix + P_DEFAULT_RADIUS), 
+				new Color(poProp.getPropertyInt(poPrefix +P_COLOR_RED),
+					     poProp.getPropertyInt(poPrefix +P_COLOR_GREEN),
+					     poProp.getPropertyInt(poPrefix +P_COLOR_BLUE)), 
+					     poProp.getPropertyString(poPrefix +P_IMAGE_PATH)), 
+					     poProp.getPropertyDouble(poPrefix +P_DEFAULT_MASS));
     } 
 	
-	private void applyConfig() {
-		//TODO add ...
-
-	}
-	
-	private static clsConfigMap getFinalConfig(clsConfigMap poConfig) {
-		clsConfigMap oDefault = getDefaultConfig();
-		oDefault.overwritewith(poConfig);
-		return oDefault;
-	}
-	
-	private static clsConfigMap getDefaultConfig() {
-		clsConfigMap oDefault = new clsConfigMap();
-
-		clsConfigMap oBody = new clsConfigMap();		
-
-		clsConfigMap oFlesh = new clsConfigMap();		
-		clsConfigMap oNutritions = new clsConfigMap();
+	private void applyProperties(String poPrefix, clsBWProperties poProp){		
+			//TODO
+			mrCakeWeight =  poProp.getPropertyDouble(poPrefix +P_DEFAULT_MASS);
+			mrDefaultRadius = poProp.getPropertyDouble(poPrefix +P_DEFAULT_RADIUS); 
+			mrDefaultMass = poProp.getPropertyDouble(poPrefix +P_DEFAULT_MASS);
+	}	
 		
-		oNutritions.add(eConfigEntries.FAT, new clsConfigDouble(5.0f));
-		oNutritions.add(eConfigEntries.WATER, new clsConfigDouble(1.0f));
-		
-		oFlesh.add(eConfigEntries.NUTRITIONS, oNutritions);
-		oFlesh.add(eConfigEntries.CONTENT, new clsConfigDouble(15.0f));
-		oFlesh.add(eConfigEntries.MAXCONTENT, new clsConfigDouble(15.0f));
-		oFlesh.add(eConfigEntries.INCREASERATE, new clsConfigDouble(0.00f));
-		
-		oBody.add(eConfigEntries.INTSYS_FLESH, oFlesh);
+	public static clsBWProperties getDefaultProperties(String poPrefix) {
+			String pre = clsBWProperties.addDot(poPrefix);
 
-		oDefault.add(eConfigEntries.BODY, oBody);		
+			clsBWProperties oProp = new clsBWProperties();
+
+			oProp.setProperty(pre+P_COLOR_BLUE, Color.pink.getBlue());
+			oProp.setProperty(pre+P_COLOR_GREEN, Color.pink.getGreen());
+			oProp.setProperty(pre+P_COLOR_RED, Color.pink.getRed());
+			oProp.setProperty(pre+P_DEFAULT_MASS, 30.0);
+			oProp.setProperty(pre+P_DEFAULT_RADIUS, 6.0);
+			oProp.setProperty(pre+P_IMAGE_PATH, sim.clsBWMain.msArsPath + "/src/resources/images/fungus.jpg");
+			
+			oProp.setProperty(pre+P_FAT, 5.0);
+			oProp.setProperty(pre+P_WATER, 1.0);
+
+			oProp.setProperty(pre+P_CONTENT, 15.0);
+			oProp.setProperty(pre+P_MAXCONTENT, 15.0);
+			oProp.setProperty(pre+P_INCREASERATE, 0.0);
 		
-		return oDefault;
+			
+			return oProp;
 	}
 	
 	public double withdraw(double prAmount) {
@@ -110,8 +121,7 @@ public class clsFungus extends clsInanimate implements itfGetFlesh, itfAPEatable
 				mnTotallyConsumed = true;
 			}
 		}
-		
-		
+
 		return rWeight;
 	}
 	
@@ -139,7 +149,7 @@ public class clsFungus extends clsInanimate implements itfGetFlesh, itfAPEatable
 		
 		if (mnTotallyConsumed && !mnShapeUpdated) {
 			mnShapeUpdated = true;
-			setShape(new sim.physics2D.shape.Circle(clsFungus.mrDefaultRadius, Color.gray), clsFungus.mrDefaultMass);
+			setShape(new sim.physics2D.shape.Circle(mrDefaultRadius, Color.gray), mrDefaultMass);
 			
 			//TODO langr: wohin damit
 			//This command removes the cake from the playground
