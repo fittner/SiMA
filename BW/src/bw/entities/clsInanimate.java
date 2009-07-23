@@ -7,10 +7,9 @@
  */
 package bw.entities;
 
-import bw.utils.container.clsConfigMap;
-import ARSsim.physics2D.util.clsPose;
+import bw.utils.config.clsBWProperties;
 import sim.physics2D.shape.Shape;
-import sim.physics2D.util.Double2D;
+
 
 
 /**
@@ -21,6 +20,14 @@ import sim.physics2D.util.Double2D;
  */
 public abstract class clsInanimate extends clsMobile {
 
+	public static final String P_POS_X = "pos_x";
+	public static final String P_POS_Y = "pos_y";
+	public static final String P_POS_ANGLE = "pos_angle";
+	public static final String P_START_VELOCITY_X = "start_velocity_x";
+	public static final String P_START_VELOCITY_Y = "start_velocity_y";
+	public static final String P_MASS = "mass";
+	public static final String P_ID = "entity_ID";
+	
 	/**
 	 * TODO (deutsch) - insert description 
 	 * 
@@ -32,30 +39,31 @@ public abstract class clsInanimate extends clsMobile {
 	 * @param circle
 	 * @param pnId
 	 */
-	public clsInanimate(int pnId, clsPose poStartingPose, Double2D poStartingVelocity, Shape poShape, double poMass, clsConfigMap poConfig) {
-		super(pnId, poStartingPose, poStartingVelocity, poShape, poMass, clsInanimate.getFinalConfig(poConfig));
+	
+	public clsInanimate(String poPrefix, clsBWProperties poProp,  Shape poShape) {
+		super(poPrefix, poProp, poShape);
 		
-		applyConfig();
+		applyProperties(poPrefix, poProp, poShape);
 	}
 
 
-	private void applyConfig() {
-		//TODO add ...
+	public static clsBWProperties getDefaultProperties(String poPrefix) {
+		String pre = clsBWProperties.addDot(poPrefix);
 
-	}
-	
-	private static clsConfigMap getFinalConfig(clsConfigMap poConfig) {
-		clsConfigMap oDefault = getDefaultConfig();
-		oDefault.overwritewith(poConfig);
-		return oDefault;
-	}
-	
-	private static clsConfigMap getDefaultConfig() {
-		clsConfigMap oDefault = new clsConfigMap();
+		clsBWProperties oProp = new clsBWProperties();
+
+		oProp.setProperty(pre+P_POS_X, 0.0);
+		oProp.setProperty(pre+P_POS_Y, 0.0);
+		oProp.setProperty(pre+P_POS_ANGLE, 0.0);
+		oProp.setProperty(pre+P_START_VELOCITY_X, 0.0);
+		oProp.setProperty(pre+P_START_VELOCITY_Y, 0.0);
 		
-		//TODO add ...
+
+		return oProp;
+	}	
 		
-		return oDefault;
-	}
-	
+	private void applyProperties(String poPrefix, clsBWProperties poProp, Shape poShape){		
+		
+	}	
+
 }
