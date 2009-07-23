@@ -104,25 +104,25 @@ public abstract class clsMobile extends clsEntity {
 		switch( oShapeType ) {
 		case SHAPE_CIRCLE:
 			oShape = new sim.physics2D.shape.Circle(poProp.getPropertyDouble(P_MOBILE_SHAPE_RADIUS), 
-					 new Color(poProp.getPropertyFloat(P_ENTITY_COLOR_R),
-							   poProp.getPropertyFloat(P_ENTITY_COLOR_G),
-							   poProp.getPropertyFloat(P_ENTITY_COLOR_B)));
+					 new Color(poProp.getPropertyInt(P_ENTITY_COLOR_R),
+							   poProp.getPropertyInt(P_ENTITY_COLOR_G),
+							   poProp.getPropertyInt(P_ENTITY_COLOR_B)));
 			break;
 		case SHAPE_RECTANGLE:
 			oShape = new sim.physics2D.shape.Rectangle(	poProp.getPropertyDouble(P_MOBILE_SHAPE_WIDTH),
 														poProp.getPropertyDouble(P_MOBILE_SHAPE_HEIGHT), 
-					 new Color(poProp.getPropertyFloat(P_ENTITY_COLOR_R),
-							   poProp.getPropertyFloat(P_ENTITY_COLOR_G),
-							   poProp.getPropertyFloat(P_ENTITY_COLOR_B)));
+					 new Color(poProp.getPropertyInt(P_ENTITY_COLOR_R),
+							   poProp.getPropertyInt(P_ENTITY_COLOR_G),
+							   poProp.getPropertyInt(P_ENTITY_COLOR_B)));
 			break;
 		case SHAPE_POLYGON:
 			//TODO: (everyone) - add list for points of polygon in config!
 			break;
 		default:
 			oShape = new sim.physics2D.shape.Circle(poProp.getPropertyDouble(P_MOBILE_SHAPE_RADIUS), 
-					 new Color(poProp.getPropertyFloat(P_ENTITY_COLOR_R),
-							   poProp.getPropertyFloat(P_ENTITY_COLOR_G),
-							   poProp.getPropertyFloat(P_ENTITY_COLOR_B)));
+					 new Color(poProp.getPropertyInt(P_ENTITY_COLOR_R),
+							   poProp.getPropertyInt(P_ENTITY_COLOR_G),
+							   poProp.getPropertyInt(P_ENTITY_COLOR_B)));
 			break;
 		}
 		return oShape;
