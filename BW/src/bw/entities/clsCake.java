@@ -15,6 +15,7 @@ import bw.body.itfget.itfGetFlesh;
 import bw.factories.clsRegisterEntity;
 import bw.utils.config.clsBWProperties;
 import bw.utils.enums.eBindingState;
+import bw.utils.enums.eShapeType;
 import bw.utils.tools.clsFood;
 import bw.body.io.actuators.actionProxies.*;
 import enums.eEntityType;
@@ -28,14 +29,7 @@ import enums.eEntityType;
  */
 public class clsCake extends clsInanimate implements itfGetFlesh, itfAPEatable, itfAPCarryable {
 	
-	public static final String P_ID = "id";
-	public static final String P_ENTIY_COLOR_B = "colorB";
-	public static final String P_ENTIY_COLOR_G = "colorG";
-	public static final String P_ENTIY_COLOR_R = "colorR";
-	
-	public static final String P_DEFAULT_MASS = "mass"; 
-	public static final String P_MOBILE_SHAPE_RADIUS = "radius"; 
-	public static final String P_MOBILE_SHAPE_TYPE = "shape_type"; 
+	public static final String P_DEFAULT_WEIGHT = "mass"; 
 	public static final String P_IMAGE_PATH = "image_path";
 	
 	public static final String P_FAT = "nutrition_fat";
@@ -62,17 +56,17 @@ public class clsCake extends clsInanimate implements itfGetFlesh, itfAPEatable, 
 		
 		setMass(mrDefaultMass + getFlesh().getWeight());
 		setShape(new ARSsim.physics2D.shape.clsCircleImage(mrDefaultRadius, 
-								new Color(poProp.getPropertyInt(poPrefix +P_ENTIY_COLOR_R),
-									     poProp.getPropertyInt(poPrefix +P_ENTIY_COLOR_G),
-									     poProp.getPropertyInt(poPrefix +P_ENTIY_COLOR_B)), 
+								new Color(poProp.getPropertyInt(poPrefix +P_ENTITY_COLOR_R),
+									     poProp.getPropertyInt(poPrefix +P_ENTITY_COLOR_G),
+									     poProp.getPropertyInt(poPrefix +P_ENTITY_COLOR_B)), 
 									     poProp.getPropertyString(poPrefix +P_IMAGE_PATH)), 
 									     getMass()); //TODO Verify if getMass() is needed or if 
 													 //the use of the local Mass is sufficient
     } 
 	
 	private void applyProperties(String poPrefix, clsBWProperties poProp){		
-		mrDefaultRadius = poProp.getPropertyDouble(poPrefix +P_MOBILE_SHAPE_RADIUS); 
-		mrDefaultMass = poProp.getPropertyDouble(poPrefix +P_DEFAULT_MASS);
+		mrDefaultRadius = poProp.getPropertyDouble(poPrefix +P_SHAPE_RADIUS); 
+		mrDefaultMass = poProp.getPropertyDouble(poPrefix +P_DEFAULT_WEIGHT);
 	}	
 	
 	public static clsBWProperties getDefaultProperties(String poPrefix) {
@@ -81,12 +75,12 @@ public class clsCake extends clsInanimate implements itfGetFlesh, itfAPEatable, 
 		clsBWProperties oProp = new clsBWProperties();
 		
 		oProp.putAll(clsInanimate.getDefaultProperties(poPrefix) );
-		oProp.setProperty(pre+P_ENTIY_COLOR_B, Color.pink.getBlue());
-		oProp.setProperty(pre+P_ENTIY_COLOR_G, Color.pink.getGreen());
-		oProp.setProperty(pre+P_ENTIY_COLOR_R, Color.pink.getRed());
-		oProp.setProperty(pre+P_DEFAULT_MASS, 1.0);
-		oProp.setProperty(pre+P_MOBILE_SHAPE_RADIUS, 10.0);
-		oProp.setProperty(pre+P_MOBILE_SHAPE_TYPE, "SHAPE_CIRCLE");
+		oProp.setProperty(pre+P_ENTITY_COLOR_B, Color.pink.getBlue());
+		oProp.setProperty(pre+P_ENTITY_COLOR_G, Color.pink.getGreen());
+		oProp.setProperty(pre+P_ENTITY_COLOR_R, Color.pink.getRed());
+		oProp.setProperty(pre+P_DEFAULT_WEIGHT, 1.0);
+		oProp.setProperty(pre+P_SHAPE_RADIUS, 10.0);
+		oProp.setProperty(pre+P_SHAPE_TYPE,  eShapeType.SHAPE_CIRCLE.name());
 		oProp.setProperty(pre+P_IMAGE_PATH, sim.clsBWMain.msArsPath + "/src/resources/images/cake.gif");
 		
 		oProp.setProperty(pre+P_FAT, 5.0);

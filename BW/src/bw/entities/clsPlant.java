@@ -23,14 +23,9 @@ import enums.eEntityType;
  */
 public class clsPlant extends clsAnimate {
 
-	public static final String P_DEFAULT_WEIGHT = "weight"; 
-	public static final String P_MOBILE_SHAPE_RADIUS = "radius"; 
-	public static final String P_MOBILE_SHAPE_TYPE = "shape_type"; 
-	public static final String P_ENTIY_COLOR_B = "colorB";
-	public static final String P_ENTIY_COLOR_G = "colorG";
-	public static final String P_ENTIY_COLOR_R = "colorR";
-		
-    public clsPlant(String poPrefix, clsBWProperties poProp) {
+	public static final String P_DEFAULT_WEIGHT = "mass";
+	
+	public clsPlant(String poPrefix, clsBWProperties poProp) {
 		super(poPrefix, poProp);
 		
 		applyProperties(poPrefix, poProp);
@@ -46,12 +41,12 @@ public class clsPlant extends clsAnimate {
 
 		clsBWProperties oProp = new clsBWProperties();
 		oProp.putAll(clsAnimate.getDefaultProperties(poPrefix) );
-		oProp.setProperty(pre+P_ENTIY_COLOR_B, Color.ORANGE.getBlue());
-		oProp.setProperty(pre+P_ENTIY_COLOR_B, Color.ORANGE.getBlue());
-		oProp.setProperty(pre+P_ENTIY_COLOR_G, Color.ORANGE.getGreen());
-		oProp.setProperty(pre+P_MOBILE_SHAPE_TYPE, "SHAPE_CIRCLE");
+		oProp.setProperty(pre+P_ENTITY_COLOR_B, Color.ORANGE.getBlue());
+		oProp.setProperty(pre+P_ENTITY_COLOR_B, Color.ORANGE.getBlue());
+		oProp.setProperty(pre+P_ENTITY_COLOR_G, Color.ORANGE.getGreen());
+		oProp.setProperty(pre+P_SHAPE_TYPE, "SHAPE_CIRCLE");
 		oProp.setProperty(pre+P_DEFAULT_WEIGHT, 300.0);
-		oProp.setProperty(pre+P_MOBILE_SHAPE_RADIUS, 10.0);
+		oProp.setProperty(pre+P_SHAPE_RADIUS, 10.0);
 
 		return oProp;
 	}	

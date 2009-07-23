@@ -9,22 +9,12 @@ package bw.entities;
 
 import java.awt.Color;
 import bw.utils.config.clsBWProperties;
+import bw.utils.enums.eShapeType;
 import enums.eEntityType;
 
 public class clsCan extends clsInanimate {
-	public static final String P_ID = "id";
-	public static final String P_ENTIY_COLOR_B = "colorB";
-	public static final String P_ENTIY_COLOR_G = "colorG";
-	public static final String P_ENTIY_COLOR_R = "colorR";
-	
-	public static final String P_DEFAULT_MASS = "mass"; 
-	public static final String P_MOBILE_SHAPE_RADIUS = "radius"; 
-	public static final String P_MOBILE_SHAPE_TYPE = "shape_type";  
 		
-	
-//	private static double mrDefaultWeight = 80.0f;
-//	private static double mrDefaultRadius = 2.0f;
-//	private static Color moDefaultColor = Color.blue;	
+	public static final String P_DEFAULT_WEIGHT = "weight"; 
     
     public clsCan(String poPrefix, clsBWProperties poProp) {
 		super(poPrefix, poProp); 
@@ -43,12 +33,12 @@ public static clsBWProperties getDefaultProperties(String poPrefix) {
 		clsBWProperties oProp = new clsBWProperties();
 		
 		oProp.putAll(clsInanimate.getDefaultProperties(poPrefix) );
-		oProp.setProperty(pre+P_ENTIY_COLOR_B, Color.blue.getBlue());
-		oProp.setProperty(pre+P_ENTIY_COLOR_G, Color.blue.getGreen());
-		oProp.setProperty(pre+P_ENTIY_COLOR_R, Color.blue.getRed());
-		oProp.setProperty(pre+P_DEFAULT_MASS, 80.0);
-		oProp.setProperty(pre+P_MOBILE_SHAPE_RADIUS, 2.0);
-		oProp.setProperty(pre+P_MOBILE_SHAPE_TYPE, "SHAPE_CIRCLE");
+		oProp.setProperty(pre+P_ENTITY_COLOR_B, Color.blue.getBlue());
+		oProp.setProperty(pre+P_ENTITY_COLOR_G, Color.blue.getGreen());
+		oProp.setProperty(pre+P_ENTITY_COLOR_R, Color.blue.getRed());
+		oProp.setProperty(pre+P_DEFAULT_WEIGHT, 80.0);
+		oProp.setProperty(pre+P_SHAPE_RADIUS, 2.0);
+		oProp.setProperty(pre+P_SHAPE_TYPE,  eShapeType.SHAPE_CIRCLE.name());
 		
 		return oProp;
 }

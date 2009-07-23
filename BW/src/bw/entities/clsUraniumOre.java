@@ -11,6 +11,7 @@ import java.awt.Color;
 
 import bw.utils.config.clsBWProperties;
 import bw.utils.enums.eBindingState;
+import bw.utils.enums.eShapeType;
 import bw.body.io.actuators.actionProxies.itfAPCarryable;
 import enums.eEntityType;
 
@@ -26,15 +27,9 @@ import enums.eEntityType;
  */
 public class clsUraniumOre extends clsInanimate implements itfAPCarryable {
 	
-	public static final String P_ID = "id";
 	public static final String P_RADIATION_INTENSITY = "radiation_intensity";
-	public static final String P_ENTIY_COLOR_B = "colorB";
-	public static final String P_ENTIY_COLOR_G = "colorG";
-	public static final String P_ENTIY_COLOR_R = "colorR";
-	public static final String P_MOBILE_SHAPE_TYPE = "shape_type"; 
-	
+		
 	public static final String P_DEFAULT_WEIGHT = "weight"; 
-	public static final String P_MOBILE_SHAPE_RADIUS = "radius"; 
 	public static final String P_IMAGE_PATH = "image_path";
 	
 	public double mrRadiationIntensity;
@@ -44,10 +39,10 @@ public class clsUraniumOre extends clsInanimate implements itfAPCarryable {
 		applyProperties(poPrefix, poProp);
 		
 		setShape(new ARSsim.physics2D.shape.
-				clsCircleImage(poProp.getPropertyDouble(poPrefix + P_MOBILE_SHAPE_RADIUS),
-							   new Color(poProp.getPropertyInt(poPrefix +P_ENTIY_COLOR_R),
-									     poProp.getPropertyInt(poPrefix +P_ENTIY_COLOR_G),
-									     poProp.getPropertyInt(poPrefix +P_ENTIY_COLOR_B)), 
+				clsCircleImage(poProp.getPropertyDouble(poPrefix + P_SHAPE_RADIUS),
+							   new Color(poProp.getPropertyInt(poPrefix +P_ENTITY_COLOR_R),
+									     poProp.getPropertyInt(poPrefix +P_ENTITY_COLOR_G),
+									     poProp.getPropertyInt(poPrefix +P_ENTITY_COLOR_B)), 
 							   poProp.getPropertyString(poPrefix +P_IMAGE_PATH)),
 							   poProp.getPropertyDouble(poPrefix +P_DEFAULT_WEIGHT)); 
 	}
@@ -56,25 +51,24 @@ public class clsUraniumOre extends clsInanimate implements itfAPCarryable {
 		//TODO
     	mrRadiationIntensity = poProp.getPropertyDouble(poPrefix +P_RADIATION_INTENSITY);
 	}	
-	
+    
 	public static clsBWProperties getDefaultProperties(String poPrefix) {
 		String pre = clsBWProperties.addDot(poPrefix);
 
 		clsBWProperties oProp = new clsBWProperties();
 		
 		oProp.putAll(clsInanimate.getDefaultProperties(poPrefix) );
-		oProp.setProperty(pre+P_ENTIY_COLOR_B, Color.green.getBlue());
-		oProp.setProperty(pre+P_ENTIY_COLOR_B, Color.green.getBlue());
-		oProp.setProperty(pre+P_ENTIY_COLOR_G, Color.green.getGreen());
-		oProp.setProperty(pre+P_MOBILE_SHAPE_TYPE, "SHAPE_CIRCLE");
+		oProp.setProperty(pre+P_ENTITY_COLOR_B, Color.green.getBlue());
+		oProp.setProperty(pre+P_ENTITY_COLOR_B, Color.green.getBlue());
+		oProp.setProperty(pre+P_ENTITY_COLOR_G, Color.green.getGreen());
+		oProp.setProperty(pre+P_SHAPE_TYPE, eShapeType.SHAPE_CIRCLE.name());
 		
 		oProp.setProperty(pre+P_DEFAULT_WEIGHT, 30.0);
-		oProp.setProperty(pre+P_MOBILE_SHAPE_RADIUS, 4.0);
+		oProp.setProperty(pre+P_SHAPE_RADIUS, 4.0);
 		oProp.setProperty(pre+P_IMAGE_PATH, sim.clsBWMain.msArsPath + "/src/resources/images/Uranium.png");
 		
 		return oProp;
 	}	
-	
 	
 	/* (non-Javadoc)
 	 * @see bw.clsEntity#setEntityType()

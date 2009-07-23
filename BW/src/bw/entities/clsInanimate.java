@@ -19,8 +19,6 @@ import bw.utils.config.clsBWProperties;
  */
 public abstract class clsInanimate extends clsMobile {
 
-	public static final String P_ID = "entity_ID";
-	
 	/**
 	 * TODO (deutsch) - insert description 
 	 * 
