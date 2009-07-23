@@ -12,7 +12,6 @@ import java.util.TreeMap;
 
 import decisionunit.clsBaseDecisionUnit;
 import sim.physics2D.shape.Shape;
-import ARSsim.physics2D.util.clsPose;
 import bw.body.clsBaseBody;
 import bw.body.clsComplexBody;
 import bw.body.clsMeatBody;
@@ -51,13 +50,13 @@ public abstract class clsAnimate extends clsMobile implements itfGetBody {
 		clsBaseBody oRetVal = null;
 		switch( moBodyType ) {
 		case BODY_TYPE_MEAT:
-			oRetVal = new clsMeatBody(poPrefix, poProp, this);
+			oRetVal = new clsMeatBody(poPrefix, poProp);
 			break;
 		case BODY_TYPE_COMPLEX:
 			oRetVal = new clsComplexBody(poPrefix, poProp, this);
 			break;
 		default:
-			oRetVal = new clsMeatBody(poPrefix, poProp, this);
+			oRetVal = new clsMeatBody(poPrefix, poProp);
 			break;
 		}
 		
