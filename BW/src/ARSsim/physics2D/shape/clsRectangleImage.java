@@ -6,9 +6,8 @@ import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
-
 import javax.imageio.ImageIO;
-
+import bw.factories.clsSingletonMasonGetter;
 
 
 /**
@@ -19,28 +18,28 @@ import javax.imageio.ImageIO;
  */
 public class clsRectangleImage extends sim.physics2D.shape.Rectangle
     {
-	
-    
-	double mrWidth;
-	double mrHeight;
-	
-	BufferedImage moImage = null;
-	public boolean mbShowSimple = false;
+		double mrWidth;
+		double mrHeight;
+		
+		private BufferedImage moImage = null;
+		private Paint moDefaultColor = null;
+		private boolean mbShowSimple = false; //can be used later to hide images for speed
 		
 	
 	/**
-	 * creates a rectangular physical object with the given range and displays a image instead.
-	 * Users need to know what radius the image has!
+	 * creates a rectangular physical object with the given range and displays a image above.
+	 * Users need to know what s the image has!
 	 * 
 	 * @param prRadius
 	 * @param poPaint
 	 * @param psImageFilePath
 	 */
-	public clsRectangleImage(double prWidth, double prHeight, Paint poDefautColor , String psImageFilePath)
+	public clsRectangleImage(double prWidth, double prHeight, Paint poDefaultColor , String psImageFilePath)
     {
-		super(prWidth, prHeight, poDefautColor);
+		super(prWidth, prHeight, poDefaultColor);
 		this.mrWidth = prWidth; 
-		this.mrWidth = prHeight;
+		this.mrHeight = prHeight;
+		this.moDefaultColor = poDefaultColor;
        
     	File oFile = new File( psImageFilePath );
 
@@ -53,65 +52,34 @@ public class clsRectangleImage extends sim.physics2D.shape.Rectangle
 	   		throw new NullPointerException("Image URL could not be loaded, file not found in file");
 	   	}
     }
-	
-	
-	
-	/**
-	 * creates a circular physical object with the given range and displays a image instead.
-	 * Users need to know what radius the image has!
-	 * 
-	 * @param prRadius
-	 * @param poDefautColor
-	 * @param poImageURL
-	 * @throws IOException
-	 */
-	public clsRectangleImage(double prWidth, double prHeight, Paint poDefautColor, java.net.URL poImageURL  ) 
-    {
-		super(prWidth, prHeight, poDefautColor);
-		this.mrWidth = prWidth; 
-		this.mrWidth = prHeight;
-		
-		if(poImageURL == null)
-			throw new NullPointerException("Image URL could not be loaded, file not found in ressource");
-		
-	
-		try {
-			moImage = ImageIO.read(poImageURL);
-		} catch (IOException e) {
-			e.printStackTrace();
-			throw new NullPointerException("Image URL could not be loaded, file not found in file");
-		}
-		
-    }
-	 
+ 
     /** Display the circle + image */
 	@Override
     public void draw(Object object, Graphics2D graphics, DrawInfo2D info)
         {
-/* // EH - make warning free
-		final double width = info.draw.width * mrWidth;
-        final double height = info.draw.height * mrWidth;
-        int imageWidth = moImage.getWidth();
-        int imageHeight = moImage.getHeight();
-*/
+//        int nImageOriginalWidth = moImage.getWidth();
+//        int nImageOriginalHeight = moImage.getHeight();
+        double fMasonZoom = clsSingletonMasonGetter.getDisplay2D().getScale(); // 2 = zoomed in 1x, 0.5 = zoomed out 1x TODO performance issue?
 
         graphics.setPaint(paint);
+        graphics.setColor((Color)moDefaultColor); //do we need this?
 
-//        final int x = (int)info.draw.x ;
-//        final int y = (int)info.draw.y ;
-        final int x = (int)(info.draw.x) ;
-        final int y = (int)(info.draw.y);
-        final int w = (int)( info.draw.width);
-        final int h = (int)( info.draw.width);
+        //get the size of the rectangle, resized by mason automaticaly!
+        final int nXRect = (int)(info.draw.x);
+        final int nYRect = (int)(info.draw.y);
+        final int nWRect = (int)(info.draw.width);
+        final int nHRect = (int)(info.draw.height);
 
-        //displays the physical circle
-        graphics.fillRect(x, y, w, h);
+        //displays the physical rect
+        graphics.fillRect(nXRect, nYRect, nWRect, nHRect);
 
-//        if (!mbShowSimple)
-//	        {
-//			   	BufferedImageOp op = null;
-//		        graphics.drawImage(moImage, op, x , y );
-//	        }
+        if (!mbShowSimple)
+	        {
+        		//get the new size for the image, need to zoom it ourself
+		        int nImageScaledWidth = (int)(nWRect * fMasonZoom);
+		        int nImageScaledHeight = (int)(nHRect * fMasonZoom);
+		        //draw above the physical object
+		        graphics.drawImage(moImage, nXRect , nYRect, nImageScaledWidth, nImageScaledHeight, null );
+	        }
         }
-   
     }

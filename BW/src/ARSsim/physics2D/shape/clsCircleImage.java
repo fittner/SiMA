@@ -22,7 +22,7 @@ public class clsCircleImage extends Circle
     
 	double mrRadius; 
 	BufferedImage moImage = null;
-	public boolean mbShowSimple = false;
+	private boolean mbShowSimple = false; //can be used later to hide images for speed
 		
 	/**
 	 * creates a circular physical object with the given range and displays a image instead.
