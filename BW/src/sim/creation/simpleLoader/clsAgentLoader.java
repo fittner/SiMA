@@ -51,11 +51,8 @@ public class clsAgentLoader {
 	         oProp.setProperty("Bubble."+clsMobile.P_POS_Y, oStartPose.getPosition().y);
 	         oProp.setProperty("Bubble."+clsMobile.P_POS_ANGLE, oStartPose.getAngle().radians);
 	         
-	         oProp.setProperty("Bubble."+clsEntity.P_ENTITY_COLOR_R, oColor.getRed());
-	         oProp.setProperty("Bubble."+clsEntity.P_ENTITY_COLOR_G, oColor.getGreen());
-	         oProp.setProperty("Bubble."+clsEntity.P_ENTITY_COLOR_B, oColor.getBlue());
-	         
-		  	 clsBubble oBubble = new clsBubble( "Bubble.", oProp );
+	         oProp.setProperty("Bubble."+clsEntity.P_ENTITY_COLOR_RGB, oColor);
+	         clsBubble oBubble = new clsBubble( "Bubble.", oProp );
 
 		  	 clsRegisterEntity.registerEntity(oBubble);
          }
@@ -73,7 +70,6 @@ public class clsAgentLoader {
 		for (int i = 0; i < pnNumBots; i++) {
 	        clsPose oStartPose = clsLoader.generateRandomPose();
 	        
-	        
 	         clsBWProperties oProp = clsRemoteBot.getDefaultProperties("");
 	         
 	         oProp.setProperty("RemoteBot."+clsEntity.P_ID, i);
@@ -82,6 +78,7 @@ public class clsAgentLoader {
 	         oProp.setProperty("RemoteBot."+clsMobile.P_POS_ANGLE, oStartPose.getAngle().radians);
 
  			clsRemoteBot oBot = new clsRemoteBot("RemoteBot.", oProp);
+
 			clsRegisterEntity.registerEntity(oBot);
         }
 	}	
