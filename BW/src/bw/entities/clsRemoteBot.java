@@ -11,7 +11,9 @@ import java.awt.Color;
 import du.utils.enums.eDecisionType;
 import bw.physicalObjects.bodyparts.clsBotHands;
 import bw.utils.config.clsBWProperties;
+import bw.utils.enums.eBodyType;
 import bw.utils.enums.eShapeType;
+import bw.body.clsComplexBody;
 import bw.body.itfget.itfGetEatableArea;
 import bw.body.itfget.itfGetRadiation;
 import bw.body.itfget.itfGetVision;
@@ -53,6 +55,8 @@ public class clsRemoteBot extends clsAnimate implements itfGetVision, itfGetRadi
 		
 		//TODO: (langr) - should pass the config to the decision unit!
 		//oProp.putAll( clsDumbMindA.getDefaultProperties(pre) ); //clsDumbMindA.getDefaultProperties(pre)
+		oProp.putAll( clsComplexBody.getDefaultProperties(pre+P_BODY) );
+		oProp.setProperty(pre+P_BODY_TYPE, eBodyType.COMPLEX.toString());
 		oProp.setProperty(pre+P_DECISION_TYPE, eDecisionType.DUMB_MIND_A.name());
 		
 		
