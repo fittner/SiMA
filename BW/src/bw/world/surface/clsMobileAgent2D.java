@@ -18,6 +18,13 @@ import sim.physics2D.util.Double2D;
  */
 public abstract class clsMobileAgent2D extends MobileObject2D
 {
+	/**
+	 * TODO (tobias) - insert description 
+	 * 
+	 * @author tobias
+	 * Jul 24, 2009, 5:46:40 PM
+	 */
+	private static final long serialVersionUID = 6025374867186032786L;
 	//values identical to superclass but are declared private there 
 	protected final double mrZeroVelocity = 0.01;
 	protected final double mrGravity = 0.1;
