@@ -115,7 +115,7 @@ public class clsInspectorMappingEntity {
     	}
     	else if ( poEntity instanceof clsStationary )
     	{
-    		int i = 1;
+    		// int i = 1; //unused int - removed by TD
     		if( poEntity instanceof clsBase) {
 	    		oRetVal.addInspector(new clsInspectorBase(poSuperInspector, poWrapper, poState, (clsBase)poEntity), "Base default");
 	    		
