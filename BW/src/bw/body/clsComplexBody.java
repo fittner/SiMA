@@ -27,11 +27,17 @@ import bw.utils.config.clsBWProperties;
  * @author langr
  * 
  */
-public class clsComplexBody extends clsBaseBody implements itfGetInternalEnergyConsumption {
+public class clsComplexBody extends clsBaseBody implements 
+							itfGetInternalEnergyConsumption, itfGetBrain,
+							itfGetInternalIO, itfGetExternalIO {
 	public static final String P_INTERNAL = "internal";
 	public static final String P_INTRABODY = "intrabody";
 	public static final String P_BODYWORLD = "bodyworld";
 	
+	protected clsBrainSocket moBrain;
+    protected clsExternalIO moExternalIO;
+    protected clsInternalIO moInternalIO;
+    
     private clsInternalSystem moInternalSystem;
     private clsIntraBodySystem moIntraBodySystem;
     private clsInterBodyWorldSystem moInterBodyWorldSystem;
@@ -97,7 +103,7 @@ public class clsComplexBody extends clsBaseBody implements itfGetInternalEnergyC
 	 *
 	 * @author langr
 	 * 25.02.2009, 16:01:54
-	 *
+	 *itfGetInternalIO
 	 */
 	public void stepUpdateInternalState() {
 		moInternalSystem.stepUpdateInternalState(); //call first!
@@ -105,42 +111,6 @@ public class clsComplexBody extends clsBaseBody implements itfGetInternalEnergyC
 		moInterBodyWorldSystem.stepUpdateInternalState();
 	}
 	
-	/* (non-Javadoc)
-	 *
-	 * @author langr
-	 * 25.02.2009, 16:01:56
-	 * 
-	 * @see bw.body.itfStep#stepSensing()
-	 */
-	@Override
-	public void stepSensing() {
-		super.stepSensing();
-	}
-	
-	/**
-	 * TODO (langr) - insert description
-	 *
-	 * @author langr
-	 * 25.02.2009, 16:02:00
-	 *
-	 */
-	@Override
-	public void stepProcessing(){
-		 super.stepProcessing();
-	}
-	
-	/* (non-Javadoc)
-	 *
-	 * @author langr
-	 * 25.02.2009, 16:02:05
-	 * 
-	 * @see bw.body.itfStep#stepExecution()
-	 */
-	@Override
-	public void stepExecution() {
-		super.stepExecution();
-	}
-
 	/* (non-Javadoc)
 	 *
 	 * @author deutsch
@@ -152,4 +122,37 @@ public class clsComplexBody extends clsBaseBody implements itfGetInternalEnergyC
 		return moInternalSystem.getInternalEnergyConsumption();
 	}
 
+	/**
+	 * @return the moExternalIO
+	 */
+	public clsExternalIO getExternalIO() {
+		return moExternalIO;
+	}
+
+	/**
+	 * @return the moInternalIO
+	 */
+	public clsInternalIO getInternalIO() {
+		return moInternalIO;
+	}
+	/**
+	 * @return the moBrain
+	 */
+	public clsBrainSocket getBrain() {
+		return moBrain;
+	}	
+	
+	public void stepSensing() {
+		moExternalIO.stepSensing();
+		moInternalIO.stepSensing();
+	}
+	
+	public void stepProcessing(){
+		moBrain.stepProcessing();
+	}	
+
+	public void stepExecution() {
+		moExternalIO.stepExecution();
+		moInternalIO.stepExecution();
+	}		
 }

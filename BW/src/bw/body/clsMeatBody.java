@@ -74,4 +74,40 @@ public class clsMeatBody extends clsBaseBody {
 		return moFlesh;
 	}
 
+	/* (non-Javadoc)
+	 *
+	 * @author tobias
+	 * Jul 24, 2009, 6:09:06 PM
+	 * 
+	 * @see bw.body.itfStepSensing#stepSensing()
+	 */
+	@Override
+	public void stepSensing() {
+		// nothing to do
+	}
+
+	/* (non-Javadoc)
+	 *
+	 * @author tobias
+	 * Jul 24, 2009, 6:09:06 PM
+	 * 
+	 * @see bw.body.itfStepProcessing#stepProcessing()
+	 */
+	@Override
+	public void stepProcessing() {
+		// nothing to do
+	}
+
+	/* (non-Javadoc)
+	 *
+	 * @author tobias
+	 * Jul 24, 2009, 6:09:06 PM
+	 * 
+	 * @see bw.body.itfStepExecution#stepExecution()
+	 */
+	@Override
+	public void stepExecution() {
+		// nothing to do
+	}
+
 }
