@@ -68,7 +68,7 @@ public class clsBase extends clsStationary {
 		
 		oProp.putAll(clsStationary.getDefaultProperties(pre) );
 		oProp.setProperty(pre+P_ENTITY_COLOR_RGB, Color.gray);
-		oProp.setProperty(pre+P_SHAPE_TYPE,  eShapeType.SHAPE_CIRCLE.name());
+		oProp.setProperty(pre+P_SHAPE_TYPE,  eShapeType.CIRCLE.name());
 				
 		oProp.setProperty(pre+P_BASE_VIEW_ANGLE, 1.99 * Math.PI);
 		oProp.setProperty(pre+P_BASE_RANGE, 50.0);

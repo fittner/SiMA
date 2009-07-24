@@ -17,8 +17,8 @@ package bw.utils.enums;
  */
 public enum eBodyType {
 
-	BODY_TYPE_BASE,		//its only the baseclass of all
-	BODY_TYPE_MEAT,
-	BODY_TYPE_COMPLEX
+	BASE,		//its only the baseclass of all
+	MEAT,
+	COMPLEX
 	
 }

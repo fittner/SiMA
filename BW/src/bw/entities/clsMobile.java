@@ -32,10 +32,10 @@ public abstract class clsMobile extends clsEntity {
 	public static final String P_DEF_STATIC_FRICTION = "def_static_friction";
 	public static final String P_DEF_RESTITUTION = "def_restitution";
 	
-	public static final String P_SHAPE_TYPE = "mobile_shape_type";
-	public static final String P_SHAPE_RADIUS = "mobile_shape_radius";
-	public static final String P_SHAPE_WIDTH = "mobile_shape_width";
-	public static final String P_SHAPE_HEIGHT = "mobile_shape_height";
+	public static final String P_SHAPE_TYPE = "shape_type";
+	public static final String P_SHAPE_RADIUS = "shape_radius";
+	public static final String P_SHAPE_WIDTH = "shape_width";
+	public static final String P_SHAPE_HEIGHT = "shape_height";
 	
 	private int mnHolders; // number of bubles which picked-up and carry this mobile entity 
 	private double mrDefaultCoeffFriction; 	//0.5
@@ -100,16 +100,16 @@ public abstract class clsMobile extends clsEntity {
 		eShapeType oShapeType = eShapeType.valueOf( poProp.getPropertyString(pre +P_SHAPE_TYPE) );
 		
 		switch( oShapeType ) {
-		case SHAPE_CIRCLE:
+		case CIRCLE:
 			oShape = new sim.physics2D.shape.Circle(poProp.getPropertyDouble(pre +P_SHAPE_RADIUS), 
 					 poProp.getPropertyColor(pre +P_ENTITY_COLOR_RGB));
 			break;
-		case SHAPE_RECTANGLE:
+		case RECTANGLE:
 			oShape = new sim.physics2D.shape.Rectangle(	poProp.getPropertyDouble(pre +P_SHAPE_WIDTH),
 														poProp.getPropertyDouble(pre +P_SHAPE_HEIGHT), 
 														 poProp.getPropertyColor(pre +P_ENTITY_COLOR_RGB));
 			break;
-		case SHAPE_POLYGON:
+		case POLYGON:
 			//TODO: (everyone) - add list for points of polygon in config!
 			break;
 		default:

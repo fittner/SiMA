@@ -79,7 +79,7 @@ public class clsCake extends clsInanimate implements itfGetFlesh, itfAPEatable, 
 		oProp.setProperty(pre+P_ENTITY_COLOR_RGB, Color.pink);
 		oProp.setProperty(pre+P_MASS, 1.0);
 		oProp.setProperty(pre+P_SHAPE_RADIUS, 10.0);
-		oProp.setProperty(pre+P_SHAPE_TYPE,  eShapeType.SHAPE_CIRCLE.name());
+		oProp.setProperty(pre+P_SHAPE_TYPE,  eShapeType.CIRCLE.name());
 		oProp.setProperty(pre+P_IMAGE_PATH, clsGetARSPath.getArsPath()+ "/BW/src/resources/images/cake.gif");
 		
 		

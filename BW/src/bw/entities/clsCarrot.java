@@ -116,7 +116,7 @@ public class clsCarrot extends clsInanimate implements itfGetFlesh, itfAPEatable
 		oProp.setProperty(pre+P_ENTITY_COLOR_RGB, Color.orange);
 		oProp.setProperty(pre+P_MASS, 1.0);
 		oProp.setProperty(pre+P_SHAPE_RADIUS, 5.0);
-		oProp.setProperty(pre+P_SHAPE_TYPE, eShapeType.SHAPE_CIRCLE.name());
+		oProp.setProperty(pre+P_SHAPE_TYPE, eShapeType.CIRCLE.name());
 		oProp.setProperty(pre+P_IMAGE_PATH_FRESH, clsGetARSPath.getArsPath()+ "/BW/src/resources/images/carrot_clipart.jpg");
 		oProp.setProperty(pre+P_IMAGE_PATH_DEAD, clsGetARSPath.getArsPath()+ "/BW/src/resources/images/carrot_grayscale.jpg");
 		

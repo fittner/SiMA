@@ -41,7 +41,7 @@ public class clsWall extends clsStationary  {
 		oProp.putAll(clsStationary.getDefaultProperties(pre) );
 		
 		oProp.setProperty(pre+P_ENTITY_COLOR_RGB, Color.black);
-		oProp.setProperty(pre+P_SHAPE_TYPE, eShapeType.SHAPE_RECTANGLE.name());
+		oProp.setProperty(pre+P_SHAPE_TYPE, eShapeType.RECTANGLE.name());
 			
 		return oProp;
 	}	

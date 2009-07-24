@@ -56,10 +56,10 @@ public abstract class clsAnimate extends clsMobile implements itfGetBody {
 		
 		clsBaseBody oRetVal = null;
 		switch( moBodyType ) {
-		case BODY_TYPE_MEAT:
+		case MEAT:
 			oRetVal = new clsMeatBody(pre, poProp);
 			break;
-		case BODY_TYPE_COMPLEX:
+		case COMPLEX:
 			oRetVal = new clsComplexBody(pre, poProp, this);
 			break;
 		default:
@@ -76,7 +76,7 @@ public abstract class clsAnimate extends clsMobile implements itfGetBody {
 		clsBWProperties oProp = new clsBWProperties();
 		oProp.putAll( clsMobile.getDefaultProperties(pre) );
 		oProp.putAll( clsMeatBody.getDefaultProperties(pre+P_BODY) );
-		oProp.setProperty(pre+P_BODY_TYPE, eBodyType.BODY_TYPE_MEAT.toString());
+		oProp.setProperty(pre+P_BODY_TYPE, eBodyType.MEAT.toString());
 		return oProp;
 	}	
 	
@@ -92,28 +92,28 @@ public abstract class clsAnimate extends clsMobile implements itfGetBody {
 			
 			//create the defined decision unit...
 			switch(poDecisionType) {
-			case DU_DUMB_MIND_A:
+			case DUMB_MIND_A:
 				oDecisionUnit = new clsDumbMindA();
 				break;
-			case DU_REMOTE:
+			case REMOTE:
 				oDecisionUnit = new clsRemoteControl();
 				break;
-			case DU_HARE_MIND_JADEX:
+			case HARE_JADEX:
 				oDecisionUnit = new lifeCycle.JADEX.clsHareMind();
 				break;			
-			case DU_HARE_MIND_JAM:
+			case HARE_JAM:
 				oDecisionUnit = new lifeCycle.JAM.clsHareMind();
 				break;		
-			case DU_HARE_MIND_IFTHENELSE:
+			case HARE_IFTHENELSE:
 				oDecisionUnit = new lifeCycle.IfThenElse.clsHareMind();
 				break;	
-			case DU_LYNX_MIND_JADEX:
+			case LYNX_JADEX:
 				oDecisionUnit = new lifeCycle.JADEX.clsLynxMind();
 				break;			
-			case DU_LYNX_MIND_JAM:
+			case LYNX_JAM:
 				oDecisionUnit = new lifeCycle.JAM.clsLynxMind();
 				break;	
-			case DU_LYNX_MIND_IFTHENELSE:
+			case LYNX_IFTHENELSE:
 				oDecisionUnit = new lifeCycle.IfThenElse.clsLynxMind();
 				break;			
 			default:

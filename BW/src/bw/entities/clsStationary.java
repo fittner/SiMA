@@ -77,16 +77,16 @@ private Shape createShape(String pre, clsBWProperties poProp) {
 		eShapeType oShapeType = eShapeType.valueOf(poProp.getPropertyString(pre +P_SHAPE_TYPE) );
 		
 		switch( oShapeType ) {
-		case SHAPE_CIRCLE:
+		case CIRCLE:
 			oShape = new sim.physics2D.shape.Circle(poProp.getPropertyDouble(pre +P_SHAPE_RADIUS), 
 					 poProp.getPropertyColor(pre +P_ENTITY_COLOR_RGB));
 			break;
-		case SHAPE_RECTANGLE:
+		case RECTANGLE:
 			oShape = new sim.physics2D.shape.Rectangle(	poProp.getPropertyDouble(pre +P_SHAPE_WIDTH),
 														poProp.getPropertyDouble(pre +P_SHAPE_HEIGHT), 
 														 poProp.getPropertyColor(pre +P_ENTITY_COLOR_RGB));
 			break;
-		case SHAPE_POLYGON:
+		case POLYGON:
 			//TODO: (everyone) - add list for points of polygon in config!
 			break;
 		default:

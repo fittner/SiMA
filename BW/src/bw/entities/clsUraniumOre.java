@@ -57,7 +57,7 @@ public class clsUraniumOre extends clsInanimate implements itfAPCarryable {
 		
 		oProp.putAll(clsInanimate.getDefaultProperties(pre) );
 		oProp.setProperty(pre+P_ENTITY_COLOR_RGB, Color.green);
-		oProp.setProperty(pre+P_SHAPE_TYPE, eShapeType.SHAPE_CIRCLE.name());
+		oProp.setProperty(pre+P_SHAPE_TYPE, eShapeType.CIRCLE.name());
 		oProp.setProperty(pre+P_RADIATION_INTENSITY, 0.0);
 		oProp.setProperty(pre+P_MASS, 30.0);
 		oProp.setProperty(pre+P_SHAPE_RADIUS, 4.0);
