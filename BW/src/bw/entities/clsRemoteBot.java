@@ -70,7 +70,7 @@ public class clsRemoteBot extends clsAnimate implements itfGetVision, itfGetRadi
 		
 		//TODO: (langr) - should pass the config to the decision unit!
 		//oProp.putAll( clsDumbMindA.getDefaultProperties(pre) ); //clsDumbMindA.getDefaultProperties(pre)
-		oProp.setProperty(pre+P_DECISION_TYPE, "DU_DUMB_MIND_A");
+		oProp.setProperty(pre+P_DECISION_TYPE, eDecisionType.DU_DUMB_MIND_A.name());
 		
 		oProp.setProperty(pre+P_SHAPE_TYPE, eShapeType.SHAPE_CIRCLE.name());
 		oProp.setProperty(pre+P_BOT_RADIUS, 10.0);
