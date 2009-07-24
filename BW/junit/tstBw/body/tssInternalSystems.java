@@ -23,8 +23,6 @@ import org.junit.runner.RunWith;
 @SuiteClasses( {
 	
 	tstBw.body.internalSystems.tstInternalEnergyConsumption.class,
-	tstBw.body.internalSystems.tstStomachSystem.class,
-	tstBw.body.internalSystems.tstSlowMessengerSystem.class,
 	//bw.body.???.class,
 })
 
