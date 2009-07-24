@@ -13,7 +13,7 @@ import bw.body.clsBaseBody;
 import bw.body.io.actuators.clsActionProcessor;
 import bw.body.io.actuators.actionExecutors.*;
 import decisionunit.itf.actions.*; 
-//import bw.body.io.sensors.ext.clsSensorEngine;
+import bw.body.io.sensors.ext.clsSensorEngine;
 import bw.body.io.sensors.external.clsSensorAcceleration;
 import bw.body.io.sensors.external.clsSensorBump;
 import bw.body.io.sensors.external.clsSensorEatableArea;
@@ -57,7 +57,7 @@ public class clsExternalIO extends clsBaseIO {
 	public static final String P_SENSORACTIVE = "sensoractive";	
 	
 	private clsActionProcessor moProcessor; 
-	//public  clsSensorEngine moSensorEngine; -ZEILINGER integrate the senor engine
+	public  clsSensorEngine moSensorEngine; //-ZEILINGER integrate the senor engine
 	public HashMap<eSensorExtType, clsSensorExt> moSensorExternal;
 	public clsEntity moEntity;
 
