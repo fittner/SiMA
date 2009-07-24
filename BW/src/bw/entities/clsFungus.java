@@ -67,9 +67,7 @@ public class clsFungus extends clsInanimate implements itfGetFlesh, itfAPEatable
 		moBody = new clsMeatBody(poPrefix, poProp);
 		
 		setShape(new ARSsim.physics2D.shape.clsCircleImage(poProp.getPropertyDouble(poPrefix + P_SHAPE_RADIUS), 
-				new Color(poProp.getPropertyInt(poPrefix +P_ENTITY_COLOR_R),
-					     poProp.getPropertyInt(poPrefix +P_ENTITY_COLOR_G),
-					     poProp.getPropertyInt(poPrefix +P_ENTITY_COLOR_B)), 
+				         poProp.getPropertyColor(poPrefix + P_ENTITY_COLOR_RGB), 
 					     poProp.getPropertyString(poPrefix +P_IMAGE_PATH)), 
 					     poProp.getPropertyDouble(poPrefix +P_MASS));
     } 
@@ -87,9 +85,7 @@ public class clsFungus extends clsInanimate implements itfGetFlesh, itfAPEatable
 			clsBWProperties oProp = new clsBWProperties();
 			
 			oProp.putAll(clsInanimate.getDefaultProperties(poPrefix) );
-			oProp.setProperty(pre+P_ENTITY_COLOR_B, Color.pink.getBlue());
-			oProp.setProperty(pre+P_ENTITY_COLOR_G, Color.pink.getGreen());
-			oProp.setProperty(pre+P_ENTITY_COLOR_R, Color.pink.getRed());
+			oProp.setProperty(pre+P_ENTITY_COLOR_RGB, Color.pink);
 			oProp.setProperty(pre+P_MASS, 30.0);
 			oProp.setProperty(pre+P_SHAPE_TYPE, "SHAPE_CIRCLE");
 			oProp.setProperty(pre+P_SHAPE_RADIUS, 6.0);

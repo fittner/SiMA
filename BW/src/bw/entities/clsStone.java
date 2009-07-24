@@ -39,11 +39,9 @@ public class clsStone extends clsInanimate {
 						poProp.getPropertyDouble(poPrefix+ P_RADIUS_TO_MASS_CONVERSION);  
 			
 		setShape(new ARSsim.physics2D.shape.clsCircleImage(poProp.getPropertyDouble(poPrefix+ P_SHAPE_RADIUS), 
-									new Color(poProp.getPropertyInt(poPrefix+ P_ENTITY_COLOR_R),
-											  poProp.getPropertyInt(poPrefix+ P_ENTITY_COLOR_G), 
-											  poProp.getPropertyInt(poPrefix+ P_ENTITY_COLOR_B)), 
-											  poProp.getPropertyString(poPrefix +P_IMAGE_PATH)),
-											  rMass);
+									                       poProp.getPropertyColor(poPrefix+P_ENTITY_COLOR_RGB), 
+															  poProp.getPropertyString(poPrefix +P_IMAGE_PATH)),
+															  rMass);
     } 
 	
 	private void applyProperties(String poPrefix, clsBWProperties poProp){		
@@ -59,10 +57,8 @@ public class clsStone extends clsInanimate {
 			oProp.setProperty(pre+P_RADIUS_TO_MASS_CONVERSION , 10.0);
 			oProp.setProperty(pre+P_SHAPE_TYPE,  eShapeType.SHAPE_CIRCLE.name());
 			oProp.setProperty(pre+P_SHAPE_RADIUS, 1.0);
-			oProp.setProperty(pre+P_ENTITY_COLOR_B, Color.DARK_GRAY.getBlue());
-			oProp.setProperty(pre+P_ENTITY_COLOR_G, Color.DARK_GRAY.getGreen());
-			oProp.setProperty(pre+P_ENTITY_COLOR_R, Color.DARK_GRAY.getRed());
-		    oProp.setProperty(pre+P_IMAGE_PATH, clsGetARSPath.getArsPath()+ "/src/resources/images/rock1.jpg");
+			oProp.setProperty(pre+P_ENTITY_COLOR_RGB, Color.DARK_GRAY);
+			oProp.setProperty(pre+P_IMAGE_PATH, clsGetARSPath.getArsPath()+ "/src/resources/images/rock1.jpg");
 		   			
 			return oProp;
 		}	

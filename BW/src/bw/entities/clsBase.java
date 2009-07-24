@@ -65,9 +65,7 @@ public class clsBase extends clsStationary {
 		clsBWProperties oProp = new clsBWProperties();
 		
 		oProp.putAll(clsInanimate.getDefaultProperties(poPrefix) );
-		oProp.setProperty(pre+P_ENTITY_COLOR_B, Color.gray.getBlue());
-		oProp.setProperty(pre+P_ENTITY_COLOR_B, Color.gray.getBlue());
-		oProp.setProperty(pre+P_ENTITY_COLOR_G, Color.gray.getGreen());
+		oProp.setProperty(pre+P_ENTITY_COLOR_RGB, Color.gray);
 		oProp.setProperty(pre+P_SHAPE_TYPE,  eShapeType.SHAPE_CIRCLE.name());
 				
 		oProp.setProperty(pre+P_ENTITY_ANGLE_VIEW, 1.99 * Math.PI);

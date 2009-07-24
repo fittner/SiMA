@@ -40,10 +40,8 @@ public class clsUraniumOre extends clsInanimate implements itfAPCarryable {
 		
 		setShape(new ARSsim.physics2D.shape.
 				clsCircleImage(poProp.getPropertyDouble(poPrefix + P_SHAPE_RADIUS),
-							   new Color(poProp.getPropertyInt(poPrefix +P_ENTITY_COLOR_R),
-									     poProp.getPropertyInt(poPrefix +P_ENTITY_COLOR_G),
-									     poProp.getPropertyInt(poPrefix +P_ENTITY_COLOR_B)), 
-							   poProp.getPropertyString(poPrefix +P_IMAGE_PATH)),
+							   poProp.getPropertyColor(poPrefix+P_ENTITY_COLOR_RGB),
+									     poProp.getPropertyString(poPrefix +P_IMAGE_PATH)),
 							   poProp.getPropertyDouble(poPrefix +P_MASS)); 
 	}
     
@@ -58,9 +56,7 @@ public class clsUraniumOre extends clsInanimate implements itfAPCarryable {
 		clsBWProperties oProp = new clsBWProperties();
 		
 		oProp.putAll(clsInanimate.getDefaultProperties(poPrefix) );
-		oProp.setProperty(pre+P_ENTITY_COLOR_B, Color.green.getBlue());
-		oProp.setProperty(pre+P_ENTITY_COLOR_B, Color.green.getBlue());
-		oProp.setProperty(pre+P_ENTITY_COLOR_G, Color.green.getGreen());
+		oProp.setProperty(pre+P_ENTITY_COLOR_RGB, Color.green);
 		oProp.setProperty(pre+P_SHAPE_TYPE, eShapeType.SHAPE_CIRCLE.name());
 		
 		oProp.setProperty(pre+P_MASS, 30.0);

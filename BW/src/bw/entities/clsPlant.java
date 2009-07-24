@@ -37,12 +37,10 @@ public class clsPlant extends clsAnimate {
     
     public static clsBWProperties getDefaultProperties(String poPrefix) {
 		String pre = clsBWProperties.addDot(poPrefix);
-
+		
 		clsBWProperties oProp = new clsBWProperties();
 		oProp.putAll(clsAnimate.getDefaultProperties(poPrefix) );
-		oProp.setProperty(pre+P_ENTITY_COLOR_B, Color.ORANGE.getBlue());
-		oProp.setProperty(pre+P_ENTITY_COLOR_B, Color.ORANGE.getBlue());
-		oProp.setProperty(pre+P_ENTITY_COLOR_G, Color.ORANGE.getGreen());
+		oProp.setProperty(pre+P_ENTITY_COLOR_RGB, Color.ORANGE);
 		oProp.setProperty(pre+P_SHAPE_TYPE, "SHAPE_CIRCLE");
 		oProp.setProperty(pre+P_MASS, 300.0);
 		oProp.setProperty(pre+P_SHAPE_RADIUS, 10.0);

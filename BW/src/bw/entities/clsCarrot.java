@@ -97,9 +97,7 @@ public class clsCarrot extends clsInanimate implements itfGetFlesh, itfAPEatable
 		mrOwnMass = poProp.getPropertyDouble(poPrefix + P_MASS); 
 		mrInitialFleshMass = poProp.getPropertyDouble(poPrefix +P_CONTENT);
 		mrDefaultRadius = poProp.getPropertyDouble(poPrefix +P_SHAPE_RADIUS);
-		moDefaultColor = new Color (poProp.getPropertyInt(poPrefix +P_ENTITY_COLOR_R),
-									poProp.getPropertyInt(poPrefix +P_ENTITY_COLOR_G),
-									poProp.getPropertyInt(poPrefix +P_ENTITY_COLOR_B));
+		moDefaultColor =  poProp.getPropertyColor(poPrefix +P_ENTITY_COLOR_RGB);
 		moImagePathFresh = poProp.getPropertyString(poPrefix +P_IMAGE_PATH_FRESH);
 		moImagePathDead = poProp.getPropertyString(poPrefix +P_IMAGE_PATH_DEAD);
 		
@@ -112,9 +110,7 @@ public class clsCarrot extends clsInanimate implements itfGetFlesh, itfAPEatable
 		clsBWProperties oProp = new clsBWProperties();
 		
 		oProp.putAll(clsInanimate.getDefaultProperties(poPrefix) );
-		oProp.setProperty(pre+P_ENTITY_COLOR_B, Color.orange.getBlue());
-		oProp.setProperty(pre+P_ENTITY_COLOR_G, Color.orange.getGreen());
-		oProp.setProperty(pre+P_ENTITY_COLOR_R, Color.orange.getRed());
+		oProp.setProperty(pre+P_ENTITY_COLOR_RGB, Color.orange);
 		oProp.setProperty(pre+P_MASS, 1.0);
 		oProp.setProperty(pre+P_SHAPE_RADIUS, 5.0);
 		oProp.setProperty(pre+P_SHAPE_TYPE, eShapeType.SHAPE_CIRCLE.name());

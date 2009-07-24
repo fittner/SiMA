@@ -57,11 +57,9 @@ public class clsCake extends clsInanimate implements itfGetFlesh, itfAPEatable, 
 		
 		setMass(mrDefaultMass + getFlesh().getWeight());
 		setShape(new ARSsim.physics2D.shape.clsCircleImage(mrDefaultRadius, 
-								new Color(poProp.getPropertyInt(poPrefix +P_ENTITY_COLOR_R),
-									     poProp.getPropertyInt(poPrefix +P_ENTITY_COLOR_G),
-									     poProp.getPropertyInt(poPrefix +P_ENTITY_COLOR_B)), 
-									     poProp.getPropertyString(poPrefix +P_IMAGE_PATH)), 
-									     getMass()); //TODO Verify if getMass() is needed or if 
+								poProp.getPropertyColor(poPrefix +P_ENTITY_COLOR_RGB),
+								poProp.getPropertyString(poPrefix +P_IMAGE_PATH)), 
+								getMass()); //TODO Verify if getMass() is needed or if 
 													 //the use of the local Mass is sufficient
     } 
 	
@@ -76,9 +74,7 @@ public class clsCake extends clsInanimate implements itfGetFlesh, itfAPEatable, 
 		clsBWProperties oProp = new clsBWProperties();
 		
 		oProp.putAll(clsInanimate.getDefaultProperties(poPrefix) );
-		oProp.setProperty(pre+P_ENTITY_COLOR_B, Color.pink.getBlue());
-		oProp.setProperty(pre+P_ENTITY_COLOR_G, Color.pink.getGreen());
-		oProp.setProperty(pre+P_ENTITY_COLOR_R, Color.pink.getRed());
+		oProp.setProperty(pre+P_ENTITY_COLOR_RGB, Color.pink);
 		oProp.setProperty(pre+P_MASS, 1.0);
 		oProp.setProperty(pre+P_SHAPE_RADIUS, 10.0);
 		oProp.setProperty(pre+P_SHAPE_TYPE,  eShapeType.SHAPE_CIRCLE.name());
