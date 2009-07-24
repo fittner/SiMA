@@ -70,6 +70,7 @@ public class tstRandomProperties {
 		String oG = "G100.0;1.0";	
 		
 		try {
+			@SuppressWarnings("unused")
 			double temp = clsRandomProperties.getRandom(oG);
 		} catch (java.lang.NullPointerException e) {
 			fail();
