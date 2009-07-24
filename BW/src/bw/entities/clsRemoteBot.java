@@ -18,7 +18,7 @@ import bw.physicalObjects.sensors.clsEntitySensorEngine;
 import bw.utils.config.clsBWProperties;
 import bw.utils.enums.eShapeType;
 import bw.body.io.sensors.ext.clsSensorEngine;
-import bw.body.io.sensors.ext.clsSensorVisionNEW;
+//import bw.body.io.sensors.ext.clsSensorVisionNEW;
 import bw.body.io.sensors.external.clsSensorEatableArea;
 import bw.body.io.sensors.external.clsSensorVision;
 import bw.body.itfget.itfGetEatableArea;
@@ -157,13 +157,13 @@ public class clsRemoteBot extends clsAnimate implements itfGetVision, itfGetRadi
 	
 	//ZEILINGER Has to be Integrated to Animated too
 	/*returns the Vision Sensor*/
-	public clsSensorVisionNEW getVision_new()
-	{
-		return (clsSensorVisionNEW)moBody
-					.getExternalIO().moSensorExternal
-					.get(enums.eSensorExtType.VISION_new); 
-	}
-	
+//	public clsSensorVisionNEW getVision_new()
+//	{
+//		return (clsSensorVisionNEW)moBody
+//					.getExternalIO().moSensorExternal
+//					.get(enums.eSensorExtType.VISION_new); 
+//	}
+//	
 	/* (non-Javadoc)
 	 * @see bw.clsEntity#setEntityType()
 	 */
