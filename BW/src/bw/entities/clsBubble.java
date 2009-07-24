@@ -12,6 +12,7 @@ import java.awt.Color;
 import du.utils.enums.eDecisionType;
 
 import bw.body.clsComplexBody;
+import bw.body.itfGetExternalIO;
 import bw.body.itfget.itfGetEatableArea;
 import bw.body.itfget.itfGetInternalEnergyConsumption;
 import bw.body.itfget.itfGetRadiation;
@@ -68,7 +69,13 @@ public class clsBubble extends clsAnimate implements itfGetVision, itfGetEatable
 	// TODO: this code should be transferred to the entities inspector class - used only for inspectors
 	public double getInternalEnergyConsuptionSUM() {	return ((itfGetInternalEnergyConsumption)moBody).getInternalEnergyConsumption().getSum();	} 
 	public Object[] getInternalEnergyConsumption() { return ((itfGetInternalEnergyConsumption)moBody).getInternalEnergyConsumption().getMergedList().values().toArray();	}
-	public Object[] getSensorExternal() { return moBody.getExternalIO().moSensorExternal.values().toArray();}
+	public Object[] getSensorExternal() {
+		if (moBody instanceof itfGetExternalIO) {
+			return ((itfGetExternalIO)moBody).getExternalIO().moSensorExternal.values().toArray();
+		} else {
+			return null;
+		}
+	}
 
 	/* (non-Javadoc)
 	 * @see bw.clsEntity#setEntityType()

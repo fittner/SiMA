@@ -17,6 +17,8 @@ import simple.remotecontrol.clsRemoteControl;
 import bw.body.clsBaseBody;
 import bw.body.clsComplexBody;
 import bw.body.clsMeatBody;
+import bw.body.itfGetBrain;
+import bw.body.itfGetExternalIO;
 import bw.body.io.sensors.ext.clsSensorEngine;
 import bw.body.io.sensors.external.clsSensorEatableArea;
 import bw.body.io.sensors.external.clsSensorVision;
@@ -45,8 +47,8 @@ public abstract class clsAnimate extends clsMobile implements itfGetBody {
 	
 	public clsAnimate(String poPrefix, clsBWProperties poProp) {
 		super(poPrefix, poProp);
+		
 		applyProperties(poPrefix, poProp);
-		moBody = createBody(poPrefix+P_BODY, poProp);
 	}
 
 	private clsBaseBody createBody(String poPrefix, clsBWProperties poProp) {
@@ -79,46 +81,48 @@ public abstract class clsAnimate extends clsMobile implements itfGetBody {
 	}	
 	
 	private void applyProperties(String poPrefix, clsBWProperties poProp) {
-		String pre = clsBWProperties.addDot(poPrefix);
-		moBodyType = eBodyType.valueOf( poProp.getPropertyString(pre+P_BODY_TYPE) );
+		String pre 	= clsBWProperties.addDot(poPrefix);
+		moBodyType 	= eBodyType.valueOf( poProp.getPropertyString(pre+P_BODY_TYPE) );
+		moBody 		= createBody(poPrefix+P_BODY, poProp);
 	}	
 	
 	public void setDecisionUnit(eDecisionType poDecisionType) {
-		
-		clsBaseDecisionUnit oDecisionUnit = null;
-		
-		//create the defined decision unit...
-		switch(poDecisionType) {
-		case DU_DUMB_MIND_A:
-			oDecisionUnit = new clsDumbMindA();
+		if (moBody instanceof itfGetBrain) {
+			clsBaseDecisionUnit oDecisionUnit = null;
+			
+			//create the defined decision unit...
+			switch(poDecisionType) {
+			case DU_DUMB_MIND_A:
+				oDecisionUnit = new clsDumbMindA();
+				break;
+			case DU_REMOTE:
+				oDecisionUnit = new clsRemoteControl();
+				break;
+			case DU_HARE_MIND_JADEX:
+				oDecisionUnit = new lifeCycle.JADEX.clsHareMind();
+				break;			
+			case DU_HARE_MIND_JAM:
+				oDecisionUnit = new lifeCycle.JAM.clsHareMind();
+				break;		
+			case DU_HARE_MIND_IFTHENELSE:
+				oDecisionUnit = new lifeCycle.IfThenElse.clsHareMind();
+				break;	
+			case DU_LYNX_MIND_JADEX:
+				oDecisionUnit = new lifeCycle.JADEX.clsLynxMind();
+				break;			
+			case DU_LYNX_MIND_JAM:
+				oDecisionUnit = new lifeCycle.JAM.clsLynxMind();
+				break;	
+			case DU_LYNX_MIND_IFTHENELSE:
+				oDecisionUnit = new lifeCycle.IfThenElse.clsLynxMind();
+				break;			
+			default:
+				oDecisionUnit = null;
 			break;
-		case DU_REMOTE:
-			oDecisionUnit = new clsRemoteControl();
-			break;
-		case DU_HARE_MIND_JADEX:
-			oDecisionUnit = new lifeCycle.JADEX.clsHareMind();
-			break;			
-		case DU_HARE_MIND_JAM:
-			oDecisionUnit = new lifeCycle.JAM.clsHareMind();
-			break;		
-		case DU_HARE_MIND_IFTHENELSE:
-			oDecisionUnit = new lifeCycle.IfThenElse.clsHareMind();
-			break;	
-		case DU_LYNX_MIND_JADEX:
-			oDecisionUnit = new lifeCycle.JADEX.clsLynxMind();
-			break;			
-		case DU_LYNX_MIND_JAM:
-			oDecisionUnit = new lifeCycle.JAM.clsLynxMind();
-			break;	
-		case DU_LYNX_MIND_IFTHENELSE:
-			oDecisionUnit = new lifeCycle.IfThenElse.clsLynxMind();
-			break;			
-		default:
-			oDecisionUnit = new clsDumbMindA();
-		break;
+			}
+			
+			((itfGetBrain)moBody).getBrain().setDecisionUnit(oDecisionUnit);
 		}
-		
-		moBody.getBrain().setDecisionUnit(oDecisionUnit);
 	}
 	
 	@Override
@@ -167,14 +171,20 @@ public abstract class clsAnimate extends clsMobile implements itfGetBody {
 	 */
 	@Override
 	public void processing() {
-		moBody.getBrain().stepProcessing();
+		if (moBody instanceof itfGetBrain) {
+			((itfGetBrain)moBody).getBrain().stepProcessing();
+		}
 	}
 	
 	public clsEntityPartVision getVision()
 	{
-		return ((clsSensorVision)this.moBody
-					.getExternalIO().moSensorExternal
-					.get(enums.eSensorExtType.VISION)).getMoVisionArea(); 
+		if (moBody instanceof itfGetExternalIO) {		
+			return ((clsSensorVision)
+					(((itfGetExternalIO)moBody).getExternalIO().moSensorExternal
+					.get(enums.eSensorExtType.VISION))).getMoVisionArea();
+		} else {
+			return null;
+		}		
 	}
 	
 	/**
@@ -188,23 +198,36 @@ public abstract class clsAnimate extends clsMobile implements itfGetBody {
 	 */
 	public clsEntityPartVision getRadiation()
 	{
-		return ((clsSensorRadiation)this.moBody
-					.getExternalIO().moSensorExternal
-					.get(enums.eSensorExtType.RADIATION)).getMoVisionArea(); 
+		if (moBody instanceof itfGetExternalIO) {
+			return ((clsSensorRadiation)
+					(((itfGetExternalIO)moBody).getExternalIO().moSensorExternal
+					.get(enums.eSensorExtType.RADIATION))).getMoVisionArea();
+		} else {
+			return null;
+		}
 	}
 	
 		
 	public clsEntityPartVision getEatableArea()
 	{
-		return ((clsSensorEatableArea)this.moBody
-					.getExternalIO().moSensorExternal
-					.get(enums.eSensorExtType.EATABLE_AREA)).getMoVisionArea(); 
+		if (moBody instanceof itfGetExternalIO) {		
+			return ((clsSensorEatableArea)
+					(((itfGetExternalIO)moBody).getExternalIO().moSensorExternal
+					.get(enums.eSensorExtType.EATABLE_AREA))).getMoVisionArea(); 
+		} else {
+			return null;
+		}			
 	}	
 	
 	//ZEILINGER - integrate SensorEngine 
 	public TreeMap<Double, clsEntitySensorEngine> getSensorEngineAreas()
 	{
-		return ((clsSensorEngine)this.moBody
-					.getExternalIO().moSensorEngine).getMeSensorAreas(); 
+		if (moBody instanceof itfGetExternalIO) {		
+			return ((clsSensorEngine)
+					(((itfGetExternalIO)moBody)
+					.getExternalIO().moSensorEngine)).getMeSensorAreas();
+		} else {
+			return null;
+		}			
 	}
 }

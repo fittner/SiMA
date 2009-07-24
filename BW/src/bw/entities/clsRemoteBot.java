@@ -8,22 +8,15 @@
 package bw.entities;
 
 import java.awt.Color;
-import java.util.TreeMap;
 
 import du.utils.enums.eDecisionType;
 
 import bw.physicalObjects.bodyparts.clsBotHands;
-import bw.physicalObjects.sensors.clsEntityPartVision;
-import bw.physicalObjects.sensors.clsEntitySensorEngine;
 import bw.utils.config.clsBWProperties;
 import bw.utils.enums.eShapeType;
-import bw.body.io.sensors.ext.clsSensorEngine;
 //import bw.body.io.sensors.ext.clsSensorVisionNEW;
-import bw.body.io.sensors.external.clsSensorEatableArea;
-import bw.body.io.sensors.external.clsSensorVision;
 import bw.body.itfget.itfGetEatableArea;
 import bw.body.itfget.itfGetRadiation;
-import bw.body.itfget.itfGetSensorEngine;
 import bw.body.itfget.itfGetVision;
 import enums.eEntityType;
 //import sim.display.clsKeyListener;
@@ -41,7 +34,7 @@ import statictools.clsSingletonUniqueIdGenerator;
  * 
  */
 
-public class clsRemoteBot extends clsAnimate implements itfGetVision, itfGetRadiation, itfGetEatableArea, itfGetSensorEngine  {
+public class clsRemoteBot extends clsAnimate implements itfGetVision, itfGetRadiation, itfGetEatableArea  {
 	public static final String P_BOT_RADIUS = "bot_radius";
 	
 	public static final String P_BOT_HAND_COLOR_RGB = "bot_hand_color_rgb";
@@ -131,30 +124,7 @@ public class clsRemoteBot extends clsAnimate implements itfGetVision, itfGetRadi
 	public clsBotHands getBotHand2() {
 		return moBotHand2;
 	}
-	
-	@Override
-	public clsEntityPartVision getVision()
-	{
-		return ((clsSensorVision)moBody
-					.getExternalIO().moSensorExternal
-					.get(enums.eSensorExtType.VISION)).getMoVisionArea(); 
-	}
-	
-	public clsEntityPartVision getEatableAreaVision()
-	{
-		return ((clsSensorEatableArea)moBody
-					.getExternalIO().moSensorExternal
-					.get(enums.eSensorExtType.EATABLE_AREA)).getMoVisionArea(); 
-	}
-	
-	//ZEILINGER - integrate SensorEngine 
-	@Override
-	public TreeMap <Double,clsEntitySensorEngine> getSensorEngineAreas()
-	{
-		return ((clsSensorEngine)this.moBody
-					.getExternalIO().moSensorEngine).getMeSensorAreas(); 
-	}
-	
+		
 	//ZEILINGER Has to be Integrated to Animated too
 	/*returns the Vision Sensor*/
 //	public clsSensorVisionNEW getVision_new()
@@ -170,21 +140,6 @@ public class clsRemoteBot extends clsAnimate implements itfGetVision, itfGetRadi
 	@Override
 	protected void setEntityType() {
 		meEntityType = eEntityType.REMOTEBOT;
-	}
-	
-
-	/* (non-Javadoc)
-	 *
-	 * @author langr
-	 * 25.02.2009, 17:36:09
-	 * 
-	 * @see bw.entities.clsEntity#processing(java.util.ArrayList)
-	 */
-	@Override
-	public void processing() {
-
-//		((clsRemoteControl)(moBody.getBrain().getDecisionUnit())).setKeyPressed(clsKeyListener.getKeyPressed());		
-		moBody.getBrain().stepProcessing();
 	}
 
 	/**
