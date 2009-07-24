@@ -44,7 +44,7 @@ public class clsAgentLoader {
 			 
 	         clsPose oStartPose = clsLoader.generateRandomPose();
 	         
-	         clsBWProperties oProp = clsBubble.getDefaultProperties("");
+	         clsBWProperties oProp = clsBubble.getDefaultProperties("Bubble.");
 	         
 	         oProp.setProperty("Bubble."+clsEntity.P_ID, i);
 	         oProp.setProperty("Bubble."+clsMobile.P_POS_X, oStartPose.getPosition().x);
@@ -70,7 +70,7 @@ public class clsAgentLoader {
 		for (int i = 0; i < pnNumBots; i++) {
 	        clsPose oStartPose = clsLoader.generateRandomPose();
 	        
-	         clsBWProperties oProp = clsRemoteBot.getDefaultProperties("");
+	         clsBWProperties oProp = clsRemoteBot.getDefaultProperties("RemoteBot.");
 	         
 	         oProp.setProperty("RemoteBot."+clsEntity.P_ID, i);
 	         oProp.setProperty("RemoteBot."+clsMobile.P_POS_X, oStartPose.getPosition().x);

@@ -10,7 +10,7 @@ package sim.creation.simpleLoader;
 import ARSsim.physics2D.util.clsPose;
 import ARSsim.portrayal.simple.clsImagePortrayal;
 import bw.entities.clsEntity;
-import bw.entities.clsMobile;
+import bw.entities.clsStationary;
 import bw.entities.clsWall;
 import bw.factories.clsRegisterEntity;
 import bw.factories.clsSingletonMasonGetter;
@@ -32,13 +32,13 @@ public class clsWorldBoundaries {
 		oPose = new clsPose(100, 0, 0);
 		
 		
-        clsBWProperties oProp = clsWall.getDefaultProperties("");
+        clsBWProperties oProp = clsWall.getDefaultProperties("Wall.");
         oProp.setProperty("Wall."+clsEntity.P_ID, 1);
-        oProp.setProperty("Wall."+clsMobile.P_POS_X, oPose.getPosition().x);
-        oProp.setProperty("Wall."+clsMobile.P_POS_Y, oPose.getPosition().y);
-        oProp.setProperty("Wall."+clsMobile.P_POS_ANGLE, oPose.getAngle().radians);
-        oProp.setProperty("Wall."+clsMobile.P_SHAPE_WIDTH, 193);
-        oProp.setProperty("Wall."+clsMobile.P_SHAPE_HEIGHT, 6);
+        oProp.setProperty("Wall."+clsStationary.P_POS_X, oPose.getPosition().x);
+        oProp.setProperty("Wall."+clsStationary.P_POS_Y, oPose.getPosition().y);
+        oProp.setProperty("Wall."+clsStationary.P_POS_ANGLE, oPose.getAngle().radians);
+        oProp.setProperty("Wall."+clsStationary.P_SHAPE_WIDTH, 193);
+        oProp.setProperty("Wall."+clsStationary.P_SHAPE_HEIGHT, 6);
         
 		
         oWall = new clsWall("Wall.", oProp);
@@ -48,13 +48,13 @@ public class clsWorldBoundaries {
 
         oPose = new clsPose(100, 200, 0);
         
-        oProp = clsWall.getDefaultProperties("");
+        oProp = clsWall.getDefaultProperties("Wall.");
         oProp.setProperty("Wall."+clsEntity.P_ID, 2);
-        oProp.setProperty("Wall."+clsMobile.P_POS_X, oPose.getPosition().x);
-        oProp.setProperty("Wall."+clsMobile.P_POS_Y, oPose.getPosition().y);
-        oProp.setProperty("Wall."+clsMobile.P_POS_ANGLE, oPose.getAngle().radians);
-        oProp.setProperty("Wall."+clsMobile.P_SHAPE_WIDTH, 193);
-        oProp.setProperty("Wall."+clsMobile.P_SHAPE_HEIGHT, 6);
+        oProp.setProperty("Wall."+clsStationary.P_POS_X, oPose.getPosition().x);
+        oProp.setProperty("Wall."+clsStationary.P_POS_Y, oPose.getPosition().y);
+        oProp.setProperty("Wall."+clsStationary.P_POS_ANGLE, oPose.getAngle().radians);
+        oProp.setProperty("Wall."+clsStationary.P_SHAPE_WIDTH, 193);
+        oProp.setProperty("Wall."+clsStationary.P_SHAPE_HEIGHT, 6);
 
         oWall = new clsWall("Wall.", oProp);
         clsRegisterEntity.registerEntity(oWall);
@@ -62,26 +62,26 @@ public class clsWorldBoundaries {
 
         // VERT
         oPose = new clsPose(0, 100, 0);
-        oProp = clsWall.getDefaultProperties("");
+        oProp = clsWall.getDefaultProperties("Wall.");
         oProp.setProperty("Wall."+clsEntity.P_ID, 2);
-        oProp.setProperty("Wall."+clsMobile.P_POS_X, oPose.getPosition().x);
-        oProp.setProperty("Wall."+clsMobile.P_POS_Y, oPose.getPosition().y);
-        oProp.setProperty("Wall."+clsMobile.P_POS_ANGLE, oPose.getAngle().radians);
-        oProp.setProperty("Wall."+clsMobile.P_SHAPE_WIDTH, 6);
-        oProp.setProperty("Wall."+clsMobile.P_SHAPE_HEIGHT, 200);
+        oProp.setProperty("Wall."+clsStationary.P_POS_X, oPose.getPosition().x);
+        oProp.setProperty("Wall."+clsStationary.P_POS_Y, oPose.getPosition().y);
+        oProp.setProperty("Wall."+clsStationary.P_POS_ANGLE, oPose.getAngle().radians);
+        oProp.setProperty("Wall."+clsStationary.P_SHAPE_WIDTH, 6);
+        oProp.setProperty("Wall."+clsStationary.P_SHAPE_HEIGHT, 200);
 
         oWall = new clsWall("Wall.", oProp);
         clsRegisterEntity.registerEntity(oWall);
         clsImagePortrayal.PlaceImage(sim.clsBWMain.msArsPath + "/src/resources/images/wall2.jpg", 8, new sim.util.Double2D(oPose.getPosition().x, oPose.getPosition().y), clsSingletonMasonGetter.getFieldEnvironment());
 
         oPose = new clsPose(200, 100, 0);
-        oProp = clsWall.getDefaultProperties("");
+        oProp = clsWall.getDefaultProperties("Wall.");
         oProp.setProperty("Wall."+clsEntity.P_ID, 2);
-        oProp.setProperty("Wall."+clsMobile.P_POS_X, oPose.getPosition().x);
-        oProp.setProperty("Wall."+clsMobile.P_POS_Y, oPose.getPosition().y);
-        oProp.setProperty("Wall."+clsMobile.P_POS_ANGLE, oPose.getAngle().radians);
-        oProp.setProperty("Wall."+clsMobile.P_SHAPE_WIDTH, 6);
-        oProp.setProperty("Wall."+clsMobile.P_SHAPE_HEIGHT, 200);
+        oProp.setProperty("Wall."+clsStationary.P_POS_X, oPose.getPosition().x);
+        oProp.setProperty("Wall."+clsStationary.P_POS_Y, oPose.getPosition().y);
+        oProp.setProperty("Wall."+clsStationary.P_POS_ANGLE, oPose.getAngle().radians);
+        oProp.setProperty("Wall."+clsStationary.P_SHAPE_WIDTH, 6);
+        oProp.setProperty("Wall."+clsStationary.P_SHAPE_HEIGHT, 200);
 
         oWall = new clsWall("Wall.", oProp);
         clsRegisterEntity.registerEntity(oWall);

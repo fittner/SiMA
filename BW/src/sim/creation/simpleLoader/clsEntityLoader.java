@@ -14,6 +14,7 @@ import bw.entities.clsCake;
 import bw.entities.clsCan;
 import bw.entities.clsEntity;
 import bw.entities.clsMobile;
+import bw.entities.clsStationary;
 import bw.entities.clsStone;
 import bw.entities.clsFungus;
 import bw.entities.clsUraniumOre;
@@ -55,7 +56,7 @@ public class clsEntityLoader {
 			
 			//FIXME warum ist der Radius random? wenn ein Bild dr�ber ist, dann muss der Radius dem Bild entsprechen!
 			//double rRadius = clsSingletonMasonGetter.getSimState().random.nextDouble() * 30.0 + 10.0;
-			clsBWProperties oProp = clsStone.getDefaultProperties("");
+			clsBWProperties oProp = clsStone.getDefaultProperties("Stone.");
 			oProp.setProperty("Stone."+clsEntity.P_ID, i);
 	        oProp.setProperty("Stone."+clsMobile.P_POS_X, oStartPose.getPosition().x);
 	        oProp.setProperty("Stone."+clsMobile.P_POS_Y, oStartPose.getPosition().y);
@@ -71,7 +72,7 @@ public class clsEntityLoader {
         for (int i = 0; i < pnNumCans; i++)
         {
         	clsPose oStartPose = clsLoader.generateRandomPose();
-        	clsBWProperties oProp = clsCan.getDefaultProperties("");
+        	clsBWProperties oProp = clsCan.getDefaultProperties("Can.");
         	oProp.setProperty("Can."+clsEntity.P_ID, i);
 	        oProp.setProperty("Can."+clsMobile.P_POS_X, oStartPose.getPosition().x);
 	        oProp.setProperty("Can."+clsMobile.P_POS_Y, oStartPose.getPosition().y);
@@ -89,7 +90,7 @@ public class clsEntityLoader {
         for (int i = 0; i < pnNumFood; i++)
         {		 
     	  	clsPose oStartPose = clsLoader.generateRandomPose();
-    	    clsBWProperties oProp = clsCake.getDefaultProperties("");
+    	    clsBWProperties oProp = clsCake.getDefaultProperties("Cake.");
     	  	oProp.setProperty("Cake."+clsEntity.P_ID, i);
 	        oProp.setProperty("Cake."+clsMobile.P_POS_X, oStartPose.getPosition().x);
 	        oProp.setProperty("Cake."+clsMobile.P_POS_Y, oStartPose.getPosition().y);
@@ -105,7 +106,7 @@ public class clsEntityLoader {
         for (int i = 0; i < pnNumFungi; i++)
         {		 
     	  	clsPose oStartPose = clsLoader.generateRandomPose();
-    	  	clsBWProperties oProp = clsFungus.getDefaultProperties("");
+    	  	clsBWProperties oProp = clsFungus.getDefaultProperties("Fungus.");
     	  	oProp.setProperty("Fungus."+clsEntity.P_ID, i);
 	        oProp.setProperty("Fungus."+clsMobile.P_POS_X, oStartPose.getPosition().x);
 	        oProp.setProperty("Fungus."+clsMobile.P_POS_Y, oStartPose.getPosition().y);
@@ -120,13 +121,13 @@ public class clsEntityLoader {
 	        for (int i = 0; i < pnNumUraniumOre; i++)
 	        {
 	        	clsPose oStartPose = clsLoader.generateRandomPose();
-	        	clsBWProperties oProp = clsUraniumOre.getDefaultProperties("");
-	        	oProp.setProperty("UraniumOre."+clsEntity.P_ID, i);
-		        oProp.setProperty("UraniumOre."+clsMobile.P_POS_X, oStartPose.getPosition().x);
-		        oProp.setProperty("UraniumOre."+clsMobile.P_POS_Y, oStartPose.getPosition().y);
-		        oProp.setProperty("UraniumOre."+clsMobile.P_POS_ANGLE, oStartPose.getAngle().radians);
+	        	clsBWProperties oProp = clsUraniumOre.getDefaultProperties("Uranium.");
+	        	oProp.setProperty("Uranium."+clsEntity.P_ID, i);
+		        oProp.setProperty("Uranium."+clsMobile.P_POS_X, oStartPose.getPosition().x);
+		        oProp.setProperty("Uranium."+clsMobile.P_POS_Y, oStartPose.getPosition().y);
+		        oProp.setProperty("Uranium."+clsMobile.P_POS_ANGLE, oStartPose.getAngle().radians);
 	        	
-		        clsUraniumOre oUraniumOre = new clsUraniumOre("UraniumOre.", oProp);
+		        clsUraniumOre oUraniumOre = new clsUraniumOre("Uranium.", oProp);
 		        clsRegisterEntity.registerEntity(oUraniumOre);
 	        }
 	}
@@ -136,12 +137,12 @@ public class clsEntityLoader {
         for (int i = 0; i < pnNumBases; i++)
         {		 
     	  	clsPose oStartPose = clsLoader.generateRandomPose();
-    	  	clsBWProperties oProp = clsBase.getDefaultProperties("");
+    	  	clsBWProperties oProp = clsBase.getDefaultProperties("Base.");
     	  	oProp.setProperty("Base."+clsEntity.P_ID, i);
-	        oProp.setProperty("Base."+clsMobile.P_POS_X, oStartPose.getPosition().x);
-	        oProp.setProperty("Base."+clsMobile.P_POS_Y, oStartPose.getPosition().y);
-	        oProp.setProperty("Base."+clsMobile.P_POS_ANGLE, oStartPose.getAngle().radians);
-        	
+	        oProp.setProperty("Base."+clsStationary.P_POS_X, oStartPose.getPosition().x);
+	        oProp.setProperty("Base."+clsStationary.P_POS_Y, oStartPose.getPosition().y);
+	        oProp.setProperty("Base."+clsStationary.P_POS_ANGLE, oStartPose.getAngle().radians);
+	   	        
     	    clsBase oBase = new clsBase("Base.", oProp);
     		clsRegisterEntity.registerEntity(oBase);
         }
