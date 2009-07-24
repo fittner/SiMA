@@ -8,15 +8,17 @@
  */
 package sim.creation.lifeCycle;
 
-import lifeCycle.eLifeCycleDUs;
+import du.utils.enums.eDecisionType;
 import sim.creation.clsLoader;
-import ARSsim.physics2D.util.clsPose;
+import bw.entities.clsAnimate;
 import bw.entities.clsCarrot;
+import bw.entities.clsEntity;
 import bw.entities.clsHare;
 import bw.entities.clsLynx;
+import bw.entities.clsMobile;
 import bw.entities.clsStone;
 import bw.factories.clsRegisterEntity;
-import bw.utils.container.clsConfigMap;
+import bw.utils.config.clsBWProperties;
 
 /**
  * TODO (deutsch) - insert description 
@@ -28,14 +30,16 @@ import bw.utils.container.clsConfigMap;
 public class clsEntityLoader {
 	public static void loadStones(int pnNum){
 		for (int i = 0; i < pnNum; i++)
-        {
-			clsPose oStartPose = clsLoader.generateRandomPose();
-			
+        {		
 			//FIXME warum ist der Radius random? wenn ein Bild dr�ber ist, dann muss der Radius dem Bild entsprechen!
 			//double rRadius = clsSingletonMasonGetter.getSimState().random.nextDouble() * 30.0 + 10.0;
-			double rRadius =  15.0 ;
+
+			clsBWProperties oProp = clsStone.getDefaultProperties("");
+			oProp.putAll( clsLoader.generateRandomPose("", clsMobile.P_POS_X, clsMobile.P_POS_Y, clsMobile.P_POS_ANGLE) );
+			oProp.setProperty(""+clsEntity.P_ID, i);
+	        oProp.setProperty(""+clsStone.P_SHAPE_RADIUS, 15);
 	        
-		    clsStone oStone = new clsStone(i, oStartPose, new sim.physics2D.util.Double2D(0, 0), rRadius, new clsConfigMap());
+		    clsStone oStone = new clsStone("", oProp);
 		    clsRegisterEntity.registerEntity(oStone);
         }
 	}
@@ -43,26 +47,40 @@ public class clsEntityLoader {
 	public static void loadCarrots(int pnNum){
         for (int i = 0; i < pnNum; i++)
         {
-        	clsPose oStartPose = clsLoader.generateRandomPose();
-        	clsCarrot oCarrot = new clsCarrot(i, oStartPose, new sim.physics2D.util.Double2D(0, 0), new clsConfigMap());	        
+        	clsBWProperties oProp = clsCarrot.getDefaultProperties("");
+
+        	oProp.putAll( clsLoader.generateRandomPose("", clsMobile.P_POS_X, clsMobile.P_POS_Y, clsMobile.P_POS_ANGLE) );
+			oProp.setProperty(""+clsEntity.P_ID, i);
+	                	
+        	clsCarrot oCarrot = new clsCarrot("", oProp);	        
 	        clsRegisterEntity.registerEntity(oCarrot);
         }
  	}	
 	
-	public static void loadHares(int pnNum, eLifeCycleDUs peDU){
+	public static void loadHares(int pnNum, eDecisionType peDU){
         for (int i = 0; i < pnNum; i++)
         {
-        	clsPose oStartPose = clsLoader.generateRandomPose();
-        	clsHare oHare = new clsHare(i, oStartPose, new sim.physics2D.util.Double2D(0, 0), new clsConfigMap(), peDU);	        
+        	clsBWProperties oProp = clsHare.getDefaultProperties("");
+
+        	oProp.putAll( clsLoader.generateRandomPose("", clsMobile.P_POS_X, clsMobile.P_POS_Y, clsMobile.P_POS_ANGLE) );
+			oProp.setProperty(""+clsEntity.P_ID, i);
+			oProp.setProperty(""+clsAnimate.P_DECISION_TYPE, peDU.toString());
+	                	
+			clsHare oHare = new clsHare("", oProp);
 	        clsRegisterEntity.registerEntity(oHare);
         }
  	}	
 	
-	public static void loadLynx(int pnNum, eLifeCycleDUs peDU){
-        for (int i = 0; i < pnNum; i++)
+	public static void loadLynx(int pnNum, eDecisionType peDU){
+        for (int i = 0; i < pnNum; i++)        
         {
-        	clsPose oStartPose = clsLoader.generateRandomPose();
-        	clsLynx oLynx = new clsLynx(i, oStartPose, new sim.physics2D.util.Double2D(0, 0), new clsConfigMap(), peDU);	        
+        	clsBWProperties oProp = clsLynx.getDefaultProperties("");
+
+        	oProp.putAll( clsLoader.generateRandomPose("", clsMobile.P_POS_X, clsMobile.P_POS_Y, clsMobile.P_POS_ANGLE) );
+			oProp.setProperty(""+clsEntity.P_ID, i);
+			oProp.setProperty(""+clsAnimate.P_DECISION_TYPE, peDU.toString());
+			
+			clsLynx oLynx = new clsLynx("", oProp);		        
 	        clsRegisterEntity.registerEntity(oLynx);
         }
  	}		

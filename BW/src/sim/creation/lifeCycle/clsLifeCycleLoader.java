@@ -8,7 +8,7 @@
  */
 package sim.creation.lifeCycle;
 
-import lifeCycle.eLifeCycleDUs;
+import du.utils.enums.eDecisionType;
 import sim.creation.clsLoader;
 import sim.engine.SimState;
 
@@ -25,12 +25,12 @@ public class clsLifeCycleLoader extends clsLoader {
 	private int mnNumHares;
 	private int mnNumLynx;
 	private int mnNumStones;
-	private eLifeCycleDUs meHareDU;
-	private eLifeCycleDUs meLynxDU;
+	private eDecisionType meHareDU;
+	private eDecisionType meLynxDU;
 
 	public clsLifeCycleLoader(SimState poSimState, String poPropertiesFilename, int pnWidth, int pnHeight, 
 			                  int pnCarrots, int pnHares, int pnLynx, int pnStones,
-			                  eLifeCycleDUs peHareDU, eLifeCycleDUs peLynxDU) {
+			                  eDecisionType peHareDU, eDecisionType peLynxDU) {
 		super(poSimState, poPropertiesFilename);
 		
 		meHareDU = peHareDU;

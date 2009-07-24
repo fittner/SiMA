@@ -10,10 +10,12 @@ package sim.creation.lifeCycle;
 
 import ARSsim.physics2D.util.clsPose;
 import ARSsim.portrayal.simple.clsImagePortrayal;
+import bw.entities.clsEntity;
+import bw.entities.clsStationary;
 import bw.entities.clsWall;
 import bw.factories.clsRegisterEntity;
 import bw.factories.clsSingletonMasonGetter;
-import bw.utils.container.clsConfigMap;
+import bw.utils.config.clsBWProperties;
 
 
 /**
@@ -25,35 +27,66 @@ import bw.utils.container.clsConfigMap;
 public class clsWorldBoundaries {
 
 	public static void loadWorldBoundaries(){
-		double xMax = clsSingletonMasonGetter.getFieldEnvironment().getWidth();
-		double yMax = clsSingletonMasonGetter.getFieldEnvironment().getHeight();
-		double rThickness = 6;
-		
 		clsPose oPose;
 		clsWall oWall;
-		
+
         // HORIZ
-		oPose = new clsPose(xMax/2, 0, 0);
-        oWall = new clsWall(1, oPose, xMax - rThickness - 1, rThickness, new clsConfigMap());
-        clsRegisterEntity.registerEntity(oWall);
-        clsImagePortrayal.PlaceImage(sim.clsBWMain.msArsPath + "/src/resources/images/wall1.jpg", 8, new sim.util.Double2D(oPose.getPosition().x, oPose.getPosition().y), clsSingletonMasonGetter.getFieldEnvironment());
- 
-         	
-        oPose = new clsPose(xMax/2, yMax, 0);
-        oWall = new clsWall(2, oPose, xMax - rThickness - 1, rThickness, new clsConfigMap());
-        clsRegisterEntity.registerEntity(oWall);
-        clsImagePortrayal.PlaceImage(sim.clsBWMain.msArsPath + "/src/resources/images/wall1.jpg", 8, new sim.util.Double2D(oPose.getPosition().x, oPose.getPosition().y), clsSingletonMasonGetter.getFieldEnvironment());
-                
-        // VERT
-        oPose = new clsPose(0, yMax/2, 0);
-        oWall = new clsWall(3, oPose, rThickness, yMax, new clsConfigMap());
-        clsRegisterEntity.registerEntity(oWall);
-        clsImagePortrayal.PlaceImage(sim.clsBWMain.msArsPath + "/src/resources/images/wall2.jpg", 8, new sim.util.Double2D(oPose.getPosition().x, oPose.getPosition().y), clsSingletonMasonGetter.getFieldEnvironment());
+		oPose = new clsPose(100, 0, 0);
+		
+		
+        clsBWProperties oProp = clsWall.getDefaultProperties("Wall.");
+        oProp.setProperty("Wall."+clsEntity.P_ID, 1);
+        oProp.setProperty("Wall."+clsStationary.P_POS_X, oPose.getPosition().x);
+        oProp.setProperty("Wall."+clsStationary.P_POS_Y, oPose.getPosition().y);
+        oProp.setProperty("Wall."+clsStationary.P_POS_ANGLE, oPose.getAngle().radians);
+        oProp.setProperty("Wall."+clsStationary.P_SHAPE_WIDTH, 193);
+        oProp.setProperty("Wall."+clsStationary.P_SHAPE_HEIGHT, 6);
         
-        oPose = new clsPose(xMax, yMax/2, 0);
-        oWall = new clsWall(4, oPose, rThickness, yMax, new clsConfigMap());
+		
+        oWall = new clsWall("Wall.", oProp);
+        clsRegisterEntity.registerEntity(oWall);
+       clsImagePortrayal.PlaceImage(sim.clsBWMain.msArsPath + "/src/resources/images/wall1.jpg", 8, new sim.util.Double2D(oPose.getPosition().x, oPose.getPosition().y), clsSingletonMasonGetter.getFieldEnvironment());
+
+
+        oPose = new clsPose(100, 200, 0);
+        
+        oProp = clsWall.getDefaultProperties("Wall.");
+        oProp.setProperty("Wall."+clsEntity.P_ID, 2);
+        oProp.setProperty("Wall."+clsStationary.P_POS_X, oPose.getPosition().x);
+        oProp.setProperty("Wall."+clsStationary.P_POS_Y, oPose.getPosition().y);
+        oProp.setProperty("Wall."+clsStationary.P_POS_ANGLE, oPose.getAngle().radians);
+        oProp.setProperty("Wall."+clsStationary.P_SHAPE_WIDTH, 193);
+        oProp.setProperty("Wall."+clsStationary.P_SHAPE_HEIGHT, 6);
+
+        oWall = new clsWall("Wall.", oProp);
+        clsRegisterEntity.registerEntity(oWall);
+        clsImagePortrayal.PlaceImage(sim.clsBWMain.msArsPath + "/src/resources/images/wall1.jpg", 8, new sim.util.Double2D(oPose.getPosition().x, oPose.getPosition().y), clsSingletonMasonGetter.getFieldEnvironment());
+
+        // VERT
+        oPose = new clsPose(0, 100, 0);
+        oProp = clsWall.getDefaultProperties("Wall.");
+        oProp.setProperty("Wall."+clsEntity.P_ID, 2);
+        oProp.setProperty("Wall."+clsStationary.P_POS_X, oPose.getPosition().x);
+        oProp.setProperty("Wall."+clsStationary.P_POS_Y, oPose.getPosition().y);
+        oProp.setProperty("Wall."+clsStationary.P_POS_ANGLE, oPose.getAngle().radians);
+        oProp.setProperty("Wall."+clsStationary.P_SHAPE_WIDTH, 6);
+        oProp.setProperty("Wall."+clsStationary.P_SHAPE_HEIGHT, 200);
+
+        oWall = new clsWall("Wall.", oProp);
         clsRegisterEntity.registerEntity(oWall);
         clsImagePortrayal.PlaceImage(sim.clsBWMain.msArsPath + "/src/resources/images/wall2.jpg", 8, new sim.util.Double2D(oPose.getPosition().x, oPose.getPosition().y), clsSingletonMasonGetter.getFieldEnvironment());
+
+        oPose = new clsPose(200, 100, 0);
+        oProp = clsWall.getDefaultProperties("Wall.");
+        oProp.setProperty("Wall."+clsEntity.P_ID, 2);
+        oProp.setProperty("Wall."+clsStationary.P_POS_X, oPose.getPosition().x);
+        oProp.setProperty("Wall."+clsStationary.P_POS_Y, oPose.getPosition().y);
+        oProp.setProperty("Wall."+clsStationary.P_POS_ANGLE, oPose.getAngle().radians);
+        oProp.setProperty("Wall."+clsStationary.P_SHAPE_WIDTH, 6);
+        oProp.setProperty("Wall."+clsStationary.P_SHAPE_HEIGHT, 200);
+
+        oWall = new clsWall("Wall.", oProp);
+        clsRegisterEntity.registerEntity(oWall);
+        clsImagePortrayal.PlaceImage(sim.clsBWMain.msArsPath + "/src/resources/images/wall2.jpg", 8, new sim.util.Double2D(oPose.getPosition().x, oPose.getPosition().y), clsSingletonMasonGetter.getFieldEnvironment());	
 	}
-	
 }

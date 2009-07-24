@@ -8,7 +8,6 @@
  */
 package sim.creation;
 
-import ARSsim.physics2D.util.clsPose;
 import bw.factories.clsPropertiesGetter;
 import bw.factories.clsSingletonMasonGetter;
 import bw.utils.config.clsBWProperties;
@@ -57,14 +56,21 @@ public abstract class clsLoader {
     	clsSingletonMasonGetter.setFieldEnvironment(new Continuous2D(25, pnWidth, pnHeight));
     }	
     
-	public static clsPose generateRandomPose() {
+	public static clsBWProperties generateRandomPose(String Prefix, String P_POS_X, String P_POS_Y, String P_POS_ANGLE) {
+		String pre = clsBWProperties.addDot(Prefix);
+		
 		double xMax = clsSingletonMasonGetter.getFieldEnvironment().getWidth();
 		double yMax = clsSingletonMasonGetter.getFieldEnvironment().getHeight();
 		
         double xStartPos = Math.max(Math.min(clsSingletonMasonGetter.getSimState().random.nextDouble() * xMax, xMax - 20), 20);
         double yStartPos = Math.max(Math.min(clsSingletonMasonGetter.getSimState().random.nextDouble() * yMax, yMax - 20), 50);
-        double rAngle = clsSingletonMasonGetter.getSimState().random.nextDouble() * Math.PI;
+        double rAngle = clsSingletonMasonGetter.getSimState().random.nextDouble() * Math.PI * 2;
         
-        return new clsPose(xStartPos, yStartPos, rAngle);		
+    	clsBWProperties oProp = new clsBWProperties();
+        oProp.setProperty(pre+P_POS_X, xStartPos);
+        oProp.setProperty(pre+P_POS_Y, yStartPos);
+        oProp.setProperty(pre+P_POS_ANGLE, rAngle);
+        
+        return oProp;		
 	}    
 }

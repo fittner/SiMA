@@ -8,10 +8,7 @@
 package sim.creation.simpleLoader;
 
 import java.awt.Color;
-
 import sim.creation.clsLoader;
-
-import ARSsim.physics2D.util.clsPose;
 import bw.entities.clsBubble;
 import bw.entities.clsEntity;
 import bw.entities.clsMobile;
@@ -40,16 +37,10 @@ public class clsAgentLoader {
 			 Color oColor = Color.GREEN;
 			 if(i < oColors.length)
 				 oColor = oColors[i];
-			 
-			 
-	         clsPose oStartPose = clsLoader.generateRandomPose();
-	         
+			 	         
 	         clsBWProperties oProp = clsBubble.getDefaultProperties("Bubble.");
-	         
+			 oProp.putAll( clsLoader.generateRandomPose("Bubble.", clsMobile.P_POS_X, clsMobile.P_POS_Y, clsMobile.P_POS_ANGLE) );	         
 	         oProp.setProperty("Bubble."+clsEntity.P_ID, i);
-	         oProp.setProperty("Bubble."+clsMobile.P_POS_X, oStartPose.getPosition().x);
-	         oProp.setProperty("Bubble."+clsMobile.P_POS_Y, oStartPose.getPosition().y);
-	         oProp.setProperty("Bubble."+clsMobile.P_POS_ANGLE, oStartPose.getAngle().radians);
 	         
 	         oProp.setProperty("Bubble."+clsEntity.P_ENTITY_COLOR_RGB, oColor);
 	         clsBubble oBubble = new clsBubble( "Bubble.", oProp );
@@ -68,18 +59,14 @@ public class clsAgentLoader {
 	 */
 	public static void loadRemoteBots(int pnNumBots) {
 		for (int i = 0; i < pnNumBots; i++) {
-	        clsPose oStartPose = clsLoader.generateRandomPose();
-	        
 	         clsBWProperties oProp = clsRemoteBot.getDefaultProperties("RemoteBot.");
+			 oProp.putAll( clsLoader.generateRandomPose("RemoteBot.", clsMobile.P_POS_X, clsMobile.P_POS_Y, clsMobile.P_POS_ANGLE) );	         
 	         
 	         oProp.setProperty("RemoteBot."+clsEntity.P_ID, i);
-	         oProp.setProperty("RemoteBot."+clsMobile.P_POS_X, oStartPose.getPosition().x);
-	         oProp.setProperty("RemoteBot."+clsMobile.P_POS_Y, oStartPose.getPosition().y);
-	         oProp.setProperty("RemoteBot."+clsMobile.P_POS_ANGLE, oStartPose.getAngle().radians);
 
  			clsRemoteBot oBot = new clsRemoteBot("RemoteBot.", oProp);
 
-			clsRegisterEntity.registerEntity(oBot);
+ 			clsRegisterEntity.registerEntity(oBot);
         }
 	}	
 }
