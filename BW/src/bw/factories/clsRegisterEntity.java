@@ -129,31 +129,31 @@ public final class clsRegisterEntity {
 		clsSingletonMasonGetter.getFieldEnvironment().setObjectLocation(poEntity.getRadiation(), new sim.util.Double2D(poEntity.getPosition().x, poEntity.getPosition().y));
 		clsSingletonMasonGetter.getSimState().schedule.scheduleRepeating(poEntity.getRadiation(), 6, defaultScheduleStepWidth);
 		
-		registerPhysicalObject2D(poEntity.getEatableAreaVision() );
-     	clsSingletonMasonGetter.getFieldEnvironment().setObjectLocation(poEntity.getEatableAreaVision(), new sim.util.Double2D(poEntity.getPosition().x, poEntity.getPosition().y));
-		clsSingletonMasonGetter.getSimState().schedule.scheduleRepeating(poEntity.getEatableAreaVision(), 6, defaultScheduleStepWidth);
-		
+		registerPhysicalObject2D(poEntity.getEatableArea() );
+     	clsSingletonMasonGetter.getFieldEnvironment().setObjectLocation(poEntity.getEatableArea(), new sim.util.Double2D(poEntity.getPosition().x, poEntity.getPosition().y));
+		clsSingletonMasonGetter.getSimState().schedule.scheduleRepeating(poEntity.getEatableArea(), 6, defaultScheduleStepWidth);
+	
 		registerBotHands(poEntity.getBotHand1());
 		registerBotHands(poEntity.getBotHand2());
-		
+	
 		clsSingletonMasonGetter.getPhysicsEngine2D().setNoCollisions(poEntity.getMobileObject2D(), poEntity.getBotHand1());
 		clsSingletonMasonGetter.getPhysicsEngine2D().setNoCollisions(poEntity.getMobileObject2D(), poEntity.getBotHand2());
 		clsSingletonMasonGetter.getPhysicsEngine2D().setNoCollisions(poEntity.getVision(),poEntity.getMobileObject2D());
 		clsSingletonMasonGetter.getPhysicsEngine2D().setNoCollisions(poEntity.getVision(),poEntity.getBotHand1());
 		clsSingletonMasonGetter.getPhysicsEngine2D().setNoCollisions(poEntity.getVision(),poEntity.getBotHand2());
-		clsSingletonMasonGetter.getPhysicsEngine2D().setNoCollisions(poEntity.getVision(),poEntity.getEatableAreaVision());
+		clsSingletonMasonGetter.getPhysicsEngine2D().setNoCollisions(poEntity.getVision(),poEntity.getEatableArea());
 		
 		clsSingletonMasonGetter.getPhysicsEngine2D().setNoCollisions(poEntity.getRadiation(),poEntity.getMobileObject2D());
 		clsSingletonMasonGetter.getPhysicsEngine2D().setNoCollisions(poEntity.getRadiation(),poEntity.getBotHand1());
 		clsSingletonMasonGetter.getPhysicsEngine2D().setNoCollisions(poEntity.getRadiation(),poEntity.getBotHand2());
 		
-		clsSingletonMasonGetter.getPhysicsEngine2D().setNoCollisions(poEntity.getEatableAreaVision(),poEntity.getMobileObject2D());
-		clsSingletonMasonGetter.getPhysicsEngine2D().setNoCollisions(poEntity.getEatableAreaVision(),poEntity.getBotHand1());
-		clsSingletonMasonGetter.getPhysicsEngine2D().setNoCollisions(poEntity.getEatableAreaVision(),poEntity.getBotHand2());
+		clsSingletonMasonGetter.getPhysicsEngine2D().setNoCollisions(poEntity.getEatableArea(),poEntity.getMobileObject2D());
+		clsSingletonMasonGetter.getPhysicsEngine2D().setNoCollisions(poEntity.getEatableArea(),poEntity.getBotHand1());
+		clsSingletonMasonGetter.getPhysicsEngine2D().setNoCollisions(poEntity.getEatableArea(),poEntity.getBotHand2());
 		
         PinJoint oPJ1 = new PinJoint(poEntity.getBotHand1().getPosition(), poEntity.getBotHand1(), poEntity.getMobileObject2D());
         PinJoint oPJ2 = new PinJoint(poEntity.getBotHand2().getPosition(), poEntity.getBotHand2(), poEntity.getMobileObject2D());
-            
+           
         clsSingletonMasonGetter.getPhysicsEngine2D().register(oPJ1);
         clsSingletonMasonGetter.getPhysicsEngine2D().register(oPJ2);
    
