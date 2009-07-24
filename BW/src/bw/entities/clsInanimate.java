@@ -7,7 +7,9 @@
  */
 package bw.entities;
 
+
 import bw.utils.config.clsBWProperties;
+
 
 
 
@@ -39,10 +41,10 @@ public abstract class clsInanimate extends clsMobile {
 
 
 	public static clsBWProperties getDefaultProperties(String poPrefix) {
+		String pre = clsBWProperties.addDot(poPrefix);
 		
 		clsBWProperties oProp = new clsBWProperties();
-		oProp.putAll(clsMobile.getDefaultProperties(poPrefix));
-	
+		oProp.putAll(clsMobile.getDefaultProperties(pre));
 		return oProp;
 	}	
 		

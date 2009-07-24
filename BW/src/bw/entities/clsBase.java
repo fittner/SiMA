@@ -17,6 +17,7 @@ import statictools.clsGetARSPath;
 import ARSsim.physics2D.physicalObject.clsMobileObject2D;
 import ARSsim.physics2D.physicalObject.clsStationaryObject2D;
 import bw.body.io.sensors.external.clsSensorEatableArea;
+import bw.body.io.sensors.external.clsSensorVision;
 import bw.physicalObjects.sensors.clsEntityPartVision;
 import bw.utils.config.clsBWProperties;
 import bw.utils.enums.eShapeType;
@@ -35,9 +36,9 @@ import enums.eEntityType;
  */
 public class clsBase extends clsStationary {
 	
-	public static final String P_ENTITY_RANGE = "range"; 
-	public static final String P_ENTITY_ANGLE_VIEW = "angle_view"; 
-	public static final String P_ENTITY_OFFSET = "offset"; 
+	public static final String P_BASE_RANGE = "range"; 
+	public static final String P_BASE_VIEW_ANGLE = "view_angle"; 
+	public static final String P_BASE_OFFSET = "offset"; 
 	public static final String P_IMAGE_PATH = "image_path";
 			
 	private int mnStoredOre;	// stored ore counter
@@ -49,7 +50,8 @@ public class clsBase extends clsStationary {
     	applyProperties(poPrefix, poProp);
     	
     	// null - Stationary objects don't have a body, therefore can't have an instance of clsBaseIO 
-		moSensorEatable = new clsSensorEatableArea(poPrefix, poProp, null,this);		
+    	poProp.putAll( clsSensorVision.getDefaultProperties(poPrefix+"3.") );
+    	moSensorEatable = new clsSensorEatableArea(poPrefix+"3.", poProp, null,this);		
 		
 		mnStoredOre = 0;
     }
@@ -64,15 +66,15 @@ public class clsBase extends clsStationary {
 
 		clsBWProperties oProp = new clsBWProperties();
 		
-		oProp.putAll(clsInanimate.getDefaultProperties(poPrefix) );
+		oProp.putAll(clsStationary.getDefaultProperties(pre) );
 		oProp.setProperty(pre+P_ENTITY_COLOR_RGB, Color.gray);
 		oProp.setProperty(pre+P_SHAPE_TYPE,  eShapeType.SHAPE_CIRCLE.name());
 				
-		oProp.setProperty(pre+P_ENTITY_ANGLE_VIEW, 1.99 * Math.PI);
-		oProp.setProperty(pre+P_ENTITY_RANGE, 50.0);
+		oProp.setProperty(pre+P_BASE_VIEW_ANGLE, 1.99 * Math.PI);
+		oProp.setProperty(pre+P_BASE_RANGE, 50.0);
 		oProp.setProperty(pre+P_SHAPE_RADIUS, 50.0);
-		oProp.setProperty(pre+P_ENTITY_OFFSET, 0.0);
-		oProp.setProperty(pre+P_IMAGE_PATH, clsGetARSPath.getArsPath()+ "/src/resources/images/spacestation.gif");
+		oProp.setProperty(pre+P_BASE_OFFSET, 0.0);
+		oProp.setProperty(pre+P_IMAGE_PATH, clsGetARSPath.getArsPath()+ "/BW/src/resources/images/spacestation.gif");
 		
 		return oProp;
 	}	
@@ -83,7 +85,7 @@ public class clsBase extends clsStationary {
 	 */
 	@Override
 	protected void setEntityType() {
-		meEntityType = eEntityType.UNDEFINED;
+		meEntityType = eEntityType.BASE;
 		
 	}
 

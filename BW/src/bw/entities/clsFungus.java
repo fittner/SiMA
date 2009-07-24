@@ -35,7 +35,7 @@ import enums.eEntityType;
  */
 public class clsFungus extends clsInanimate implements itfGetFlesh, itfAPEatable, itfAPCarryable{
 	
-	
+	public static final String P_BODY = "body";
 	public static final String P_IMAGE_PATH = "image_path";
 	
 	public static final String P_FAT = "nutrition_fat";
@@ -64,7 +64,7 @@ public class clsFungus extends clsInanimate implements itfGetFlesh, itfAPEatable
 		mnTotallyConsumed = false;
 		mnShapeUpdated = false;
 		
-		moBody = new clsMeatBody(poPrefix, poProp);
+		moBody = new clsMeatBody(poPrefix+P_BODY, poProp);
 		
 		setShape(new ARSsim.physics2D.shape.clsCircleImage(poProp.getPropertyDouble(poPrefix + P_SHAPE_RADIUS), 
 				         poProp.getPropertyColor(poPrefix + P_ENTITY_COLOR_RGB), 
@@ -84,15 +84,16 @@ public class clsFungus extends clsInanimate implements itfGetFlesh, itfAPEatable
 
 			clsBWProperties oProp = new clsBWProperties();
 			
-			oProp.putAll(clsInanimate.getDefaultProperties(poPrefix) );
+			oProp.putAll(clsInanimate.getDefaultProperties(pre) );
+			oProp.putAll(clsMeatBody.getDefaultProperties(pre+P_BODY) );
 			oProp.setProperty(pre+P_ENTITY_COLOR_RGB, Color.pink);
 			oProp.setProperty(pre+P_MASS, 30.0);
 			oProp.setProperty(pre+P_SHAPE_TYPE, "SHAPE_CIRCLE");
 			oProp.setProperty(pre+P_SHAPE_RADIUS, 6.0);
-			oProp.setProperty(pre+P_IMAGE_PATH, clsGetARSPath.getArsPath()+ "/src/resources/images/fungus.jpg");
+			oProp.setProperty(pre+P_IMAGE_PATH, clsGetARSPath.getArsPath()+ "/BW/src/resources/images/fungus.jpg");
 			
-			oProp.setProperty(pre+P_FAT, 5.0);
-			oProp.setProperty(pre+P_WATER, 1.0);
+			oProp.setProperty(pre+"1."+clsFlesh.P_NUTRITIONFRACTION, 5.0);
+			oProp.setProperty(pre+"4."+clsFlesh.P_NUTRITIONFRACTION, 1.0);
 
 			oProp.setProperty(pre+P_CONTENT, 15.0);
 			oProp.setProperty(pre+P_MAXCONTENT, 15.0);
@@ -125,7 +126,7 @@ public class clsFungus extends clsInanimate implements itfGetFlesh, itfAPEatable
 	 */
 	@Override
 	protected void setEntityType() {
-		meEntityType = eEntityType.CAKE;
+		meEntityType = eEntityType.FUNGUS ;
 		
 	}
 

@@ -46,7 +46,7 @@ public abstract class clsAnimate extends clsMobile implements itfGetBody {
 	public clsAnimate(String poPrefix, clsBWProperties poProp) {
 		super(poPrefix, poProp);
 		applyProperties(poPrefix, poProp);
-		moBody = createBody(poPrefix, poProp);
+		moBody = createBody(poPrefix+P_BODY, poProp);
 	}
 
 	private clsBaseBody createBody(String poPrefix, clsBWProperties poProp) {
@@ -201,8 +201,8 @@ public abstract class clsAnimate extends clsMobile implements itfGetBody {
 					.get(enums.eSensorExtType.EATABLE_AREA)).getMoVisionArea(); 
 	}	
 	
-	//HZ - integrate SensorEngine 
-	public TreeMap<Double, clsEntitySensorEngine> getSensorEngine()
+	//ZEILINGER - integrate SensorEngine 
+	public TreeMap<Double, clsEntitySensorEngine> getSensorEngineAreas()
 	{
 		return ((clsSensorEngine)this.moBody
 					.getExternalIO().moSensorEngine).getMeSensorAreas(); 

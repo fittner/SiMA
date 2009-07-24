@@ -53,12 +53,12 @@ public class clsStone extends clsInanimate {
 
 			clsBWProperties oProp = new clsBWProperties();
 
-			oProp.putAll(clsInanimate.getDefaultProperties(poPrefix) );
+			oProp.putAll(clsInanimate.getDefaultProperties(pre) );
 			oProp.setProperty(pre+P_RADIUS_TO_MASS_CONVERSION , 10.0);
 			oProp.setProperty(pre+P_SHAPE_TYPE,  eShapeType.SHAPE_CIRCLE.name());
 			oProp.setProperty(pre+P_SHAPE_RADIUS, 1.0);
 			oProp.setProperty(pre+P_ENTITY_COLOR_RGB, Color.DARK_GRAY);
-			oProp.setProperty(pre+P_IMAGE_PATH, clsGetARSPath.getArsPath()+ "/src/resources/images/rock1.jpg");
+			oProp.setProperty(pre+P_IMAGE_PATH, clsGetARSPath.getArsPath()+ "/BW/src/resources/images/rock1.jpg");
 		   			
 			return oProp;
 		}	

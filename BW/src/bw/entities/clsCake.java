@@ -31,19 +31,20 @@ import enums.eEntityType;
  */
 public class clsCake extends clsInanimate implements itfGetFlesh, itfAPEatable, itfAPCarryable {
 	
+	public static final String P_BODY_TYPE = "body_type";
+	public static final String P_BODY = "body";
 	public static final String P_IMAGE_PATH = "image_path";
 	
-	public static final String P_FAT = "nutrition_fat";
-	public static final String P_WATER = "nutrition_water";
-	public static final String P_CONTENT= "flesh_content";
+    public static final String P_CONTENT= "flesh_content";
 	public static final String P_MAXCONTENT= "flesh_max_content";
 	public static final String P_INCREASERATE = "flesh_increaserate";
 	
 	private boolean mnShapeUpdated;
 	private double mrDefaultRadius; 
 	private double mrDefaultMass; 
+	
 	private clsMeatBody moBody;
-
+		
 	public clsCake(String poPrefix, clsBWProperties poProp)
     {
 //		super(pnId, poPose, poStartingVelocity, new ARSsim.physics2D.shape.clsCircleImage(prRadius, clsStone.moDefaultColor, clsStone.moImagePath), prRadius * clsStone.mrDefaultRadiusToMassConversion);
@@ -53,7 +54,7 @@ public class clsCake extends clsInanimate implements itfGetFlesh, itfAPEatable, 
 		applyProperties(poPrefix, poProp);
 		
 		mnShapeUpdated = false;
-		moBody = new clsMeatBody(poPrefix, poProp);
+		moBody = new clsMeatBody(poPrefix+P_BODY, poProp);
 		
 		setMass(mrDefaultMass + getFlesh().getWeight());
 		setShape(new ARSsim.physics2D.shape.clsCircleImage(mrDefaultRadius, 
@@ -73,20 +74,21 @@ public class clsCake extends clsInanimate implements itfGetFlesh, itfAPEatable, 
 
 		clsBWProperties oProp = new clsBWProperties();
 		
-		oProp.putAll(clsInanimate.getDefaultProperties(poPrefix) );
+		oProp.putAll(clsInanimate.getDefaultProperties(pre) );
+		oProp.putAll( clsMeatBody.getDefaultProperties(pre+P_BODY) );
 		oProp.setProperty(pre+P_ENTITY_COLOR_RGB, Color.pink);
 		oProp.setProperty(pre+P_MASS, 1.0);
 		oProp.setProperty(pre+P_SHAPE_RADIUS, 10.0);
 		oProp.setProperty(pre+P_SHAPE_TYPE,  eShapeType.SHAPE_CIRCLE.name());
-		oProp.setProperty(pre+P_IMAGE_PATH, clsGetARSPath.getArsPath()+ "/src/resources/images/cake.gif");
+		oProp.setProperty(pre+P_IMAGE_PATH, clsGetARSPath.getArsPath()+ "/BW/src/resources/images/cake.gif");
 		
-		oProp.setProperty(pre+P_FAT, 5.0);
-		oProp.setProperty(pre+P_WATER, 1.0);
+		
+		oProp.setProperty(pre+P_BODY+"1."+clsFlesh.P_NUTRITIONFRACTION, 5.0);
+		oProp.setProperty(pre+P_BODY+"4."+clsFlesh.P_NUTRITIONFRACTION, 1.0);
 
 		oProp.setProperty(pre+P_CONTENT, 15.0);
 		oProp.setProperty(pre+P_MAXCONTENT, 15.0);
 		oProp.setProperty(pre+P_INCREASERATE, 0.0);
-	
 		
 		return oProp;
 	}

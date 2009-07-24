@@ -30,7 +30,7 @@ public static clsBWProperties getDefaultProperties(String poPrefix) {
 
 		clsBWProperties oProp = new clsBWProperties();
 		
-		oProp.putAll(clsInanimate.getDefaultProperties(poPrefix) );
+		oProp.putAll(clsInanimate.getDefaultProperties(pre) );
 		oProp.setProperty(pre+P_ENTITY_COLOR_RGB, Color.blue);
 		oProp.setProperty(pre+P_MASS, 80.0);
 		oProp.setProperty(pre+P_SHAPE_RADIUS, 2.0);

@@ -32,7 +32,6 @@ public abstract class clsStationary extends clsEntity {
 	public static final String P_SHAPE_RADIUS = "shape_radius";
 	public static final String P_SHAPE_WIDTH = "shape_width";
 	public static final String P_SHAPE_HEIGHT = "shape_height";
-	public static final String P_MASS = "mass";
 	public static final String P_DEF_RESTITUTION = "def_restitution";
 		
 	private double mrDefaultRestitution; 			 //0.5 
@@ -75,24 +74,24 @@ private Shape createShape(String pre, clsBWProperties poProp) {
 		
 		Shape oShape = null; 
 			
-		eShapeType oShapeType = eShapeType.valueOf( poProp.getPropertyString(P_SHAPE_TYPE) );
+		eShapeType oShapeType = eShapeType.valueOf(poProp.getPropertyString(pre +P_SHAPE_TYPE) );
 		
 		switch( oShapeType ) {
 		case SHAPE_CIRCLE:
-			oShape = new sim.physics2D.shape.Circle(poProp.getPropertyDouble(P_SHAPE_RADIUS), 
-					 poProp.getPropertyColor(P_ENTITY_COLOR_RGB));
+			oShape = new sim.physics2D.shape.Circle(poProp.getPropertyDouble(pre +P_SHAPE_RADIUS), 
+					 poProp.getPropertyColor(pre +P_ENTITY_COLOR_RGB));
 			break;
 		case SHAPE_RECTANGLE:
-			oShape = new sim.physics2D.shape.Rectangle(	poProp.getPropertyDouble(P_SHAPE_WIDTH),
-														poProp.getPropertyDouble(P_SHAPE_HEIGHT), 
-														 poProp.getPropertyColor(P_ENTITY_COLOR_RGB));
+			oShape = new sim.physics2D.shape.Rectangle(	poProp.getPropertyDouble(pre +P_SHAPE_WIDTH),
+														poProp.getPropertyDouble(pre +P_SHAPE_HEIGHT), 
+														 poProp.getPropertyColor(pre +P_ENTITY_COLOR_RGB));
 			break;
 		case SHAPE_POLYGON:
 			//TODO: (everyone) - add list for points of polygon in config!
 			break;
 		default:
-			oShape = new sim.physics2D.shape.Circle(poProp.getPropertyDouble(P_SHAPE_RADIUS), 
-					 poProp.getPropertyColor(P_ENTITY_COLOR_RGB));
+			oShape = new sim.physics2D.shape.Circle(poProp.getPropertyDouble(pre +P_SHAPE_RADIUS), 
+					 poProp.getPropertyColor(pre +P_ENTITY_COLOR_RGB));
 			break;
 		}
 		return oShape;

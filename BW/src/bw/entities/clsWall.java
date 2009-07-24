@@ -36,19 +36,13 @@ public class clsWall extends clsStationary  {
     } 
 
 	public static clsBWProperties getDefaultProperties(String poPrefix) {
-		//String pre = clsBWProperties.addDot(poPrefix);
 		String pre = clsBWProperties.addDot(poPrefix);
 		clsBWProperties oProp = new clsBWProperties();
 		oProp.putAll(clsStationary.getDefaultProperties(pre) );
 		
-		oProp.setProperty(pre+P_ENTITY_COLOR_B, Color.black.getBlue());
-		oProp.setProperty(pre+P_ENTITY_COLOR_B, Color.black.getBlue());
-		oProp.setProperty(pre+P_ENTITY_COLOR_G, Color.black.getGreen());
+		oProp.setProperty(pre+P_ENTITY_COLOR_RGB, Color.black);
 		oProp.setProperty(pre+P_SHAPE_TYPE, eShapeType.SHAPE_RECTANGLE.name());
-		
-		oProp.setProperty(pre+P_SHAPE_WIDTH, "10");
-		oProp.setProperty(pre+P_SHAPE_HEIGHT, "100");
-		
+			
 		return oProp;
 	}	
 		

@@ -33,6 +33,8 @@ import bw.utils.tools.clsFood;
  */
 public class clsCarrot extends clsInanimate implements itfGetFlesh, itfAPEatable, itfAPCarryable {
 		
+	public static final String P_BODY = "body";
+	
 	public static final String P_IMAGE_PATH_FRESH = "image_path_fresh";
 	public static final String P_IMAGE_PATH_DEAD = "image_path_dead";
 	
@@ -86,7 +88,7 @@ public class clsCarrot extends clsInanimate implements itfGetFlesh, itfAPEatable
 											 poProp.getPropertyInt(poPrefix + P_REGROW_STEPS_MIN)));
 		mnStepsUntilRegrow = mnRegrowRate;
 		
-		moBody = new clsMeatBody(poPrefix, poProp);
+		moBody = new clsMeatBody(poPrefix+P_BODY, poProp);
 		setMass(mrOwnMass + getFlesh().getWeight());
 		
 		setShape(new ARSsim.physics2D.shape.clsCircleImage(mrDefaultRadius, moDefaultColor , moImagePathFresh), getMass());
@@ -109,16 +111,17 @@ public class clsCarrot extends clsInanimate implements itfGetFlesh, itfAPEatable
 
 		clsBWProperties oProp = new clsBWProperties();
 		
-		oProp.putAll(clsInanimate.getDefaultProperties(poPrefix) );
+		oProp.putAll(clsInanimate.getDefaultProperties(pre) );
+		oProp.putAll(clsMeatBody.getDefaultProperties(pre+P_BODY) );
 		oProp.setProperty(pre+P_ENTITY_COLOR_RGB, Color.orange);
 		oProp.setProperty(pre+P_MASS, 1.0);
 		oProp.setProperty(pre+P_SHAPE_RADIUS, 5.0);
 		oProp.setProperty(pre+P_SHAPE_TYPE, eShapeType.SHAPE_CIRCLE.name());
-		oProp.setProperty(pre+P_IMAGE_PATH_FRESH, clsGetARSPath.getArsPath()+ "/src/resources/images/carrot_clipart.jpg");
-		oProp.setProperty(pre+P_IMAGE_PATH_DEAD, clsGetARSPath.getArsPath()+ "/src/resources/images/carrot_grayscale.jpg");
+		oProp.setProperty(pre+P_IMAGE_PATH_FRESH, clsGetARSPath.getArsPath()+ "/BW/src/resources/images/carrot_clipart.jpg");
+		oProp.setProperty(pre+P_IMAGE_PATH_DEAD, clsGetARSPath.getArsPath()+ "/BW/src/resources/images/carrot_grayscale.jpg");
 		
-		oProp.setProperty(pre+P_FAT, 5.0);
-		oProp.setProperty(pre+P_WATER, 1.0);
+		oProp.setProperty(pre+P_BODY+"1."+clsFlesh.P_NUTRITIONFRACTION, 5.0);
+		oProp.setProperty(pre+P_BODY+"4."+clsFlesh.P_NUTRITIONFRACTION, 1.0);
 
 		oProp.setProperty(pre+P_CONTENT, 15.0);
 		oProp.setProperty(pre+P_MAXCONTENT, 15.0);

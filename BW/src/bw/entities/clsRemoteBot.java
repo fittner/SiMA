@@ -73,9 +73,9 @@ public class clsRemoteBot extends clsAnimate implements itfGetVision, itfGetRadi
 		oProp.setProperty(pre+P_DECISION_TYPE, "DU_DUMB_MIND_A");
 		
 		oProp.setProperty(pre+P_SHAPE_TYPE, eShapeType.SHAPE_CIRCLE.name());
-		oProp.setProperty(pre+P_BOT_RADIUS, "10.0");
+		oProp.setProperty(pre+P_BOT_RADIUS, 10.0);
 		oProp.setProperty(pre+P_ENTITY_COLOR_RGB, Color.CYAN);
-		
+	    oProp.setProperty(pre+P_SHAPE_RADIUS, oProp.getPropertyDouble(pre+P_BOT_RADIUS));
 		//bot-hand color
 		oProp.setProperty(pre+P_BOT_HAND_COLOR_RGB, Color.gray);
 		
@@ -85,7 +85,7 @@ public class clsRemoteBot extends clsAnimate implements itfGetVision, itfGetRadi
 	private void applyProperties(String poPrefix, clsBWProperties poProp) {
 		String pre = clsBWProperties.addDot(poPrefix);
 	
-		moDefaultHandColor = poProp.getPropertyColor(P_BOT_HAND_COLOR_RGB);
+		moDefaultHandColor = poProp.getPropertyColor(pre+P_BOT_HAND_COLOR_RGB);
 		addBotHands(); //in the defined color above....
 
 		moDecisionType = eDecisionType.valueOf( poProp.getPropertyString(pre+P_DECISION_TYPE) );
