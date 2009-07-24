@@ -158,7 +158,7 @@ public class clsDumbMindA extends clsBaseDecisionUnit {
 		
 		//this is for fun only (roland)
 //		if( moRoombaIntelligence) {
-//			new AePlayWave(bw.sim.clsBWMain.msArsPath + "/src/resources/sounds/r2d2.wav").start();
+//			new AePlayWave(clsGetARSPath.getArsPath() + "/src/resources/sounds/r2d2.wav").start();
 //		}
 		
 	}
@@ -169,7 +169,7 @@ public class clsDumbMindA extends clsBaseDecisionUnit {
 		
 		//this is for fun only (roland)
 //		if( mnCollisionAvoidance) {
-//			new AePlayWave(bw.sim.clsBWMain.msArsPath + "/src/resources/sounds/utini.wav").start();
+//			new AePlayWave(clsGetARSPath.getArsPath() + "/src/resources/sounds/utini.wav").start();
 //		}
 	}
 

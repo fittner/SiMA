@@ -213,10 +213,10 @@
 //			moLocalization.orientate(moPerceivedObjects);
 //			if (moLocalization.madeTransition){
 //				clsPose oPose = new clsPose(this.getPosition().x, this.getPosition().y, 0);
-//				clsImagePortrayal.PlaceImage(sim.clsBWMain.msArsPath + "/src/resources/images/transition.jpg", 2, new sim.util.Double2D(oPose.getPosition().x, oPose.getPosition().y), clsSingletonMasonGetter.getFieldEnvironment());
+//				clsImagePortrayal.PlaceImage(clsGetARSPath.getArsPath() + "/src/resources/images/transition.jpg", 2, new sim.util.Double2D(oPose.getPosition().x, oPose.getPosition().y), clsSingletonMasonGetter.getFieldEnvironment());
 //			}else{	
 //			//	clsPose oPose = new clsPose(this.getPosition().x, this.getPosition().y, 0);
-//			//	clsImagePortrayal.PlaceImage(bw.sim.clsBWMain.msArsPath + "/src/resources/images/path.jpg", 2, new sim.util.Double2D(oPose.getPosition().x, oPose.getPosition().y), clsSingletonMasonGetter.getFieldEnvironment());
+//			//	clsImagePortrayal.PlaceImage(clsGetARSPath.getArsPath() + "/src/resources/images/path.jpg", 2, new sim.util.Double2D(oPose.getPosition().x, oPose.getPosition().y), clsSingletonMasonGetter.getFieldEnvironment());
 //			}
 //			moMemory.addData(new clsImagePerception(), new clsContainerCompareResults(), new clsRecognitionProcessResult(), new clsActionContainer(), moLocalization.getCurrStep());
 //			

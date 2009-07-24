@@ -36,7 +36,7 @@ public class clsCircleImage extends Circle
 //		this.mrRadius = prRadius; 
 //
 //		
-//        String nImagePath = bw.sim.clsBWMain.msArsPath + "/src/resources/images/rock1.jpg";
+//        String nImagePath = clsGetARSPath.getArsPath() + "/src/resources/images/rock1.jpg";
 //    	double nScale = 5;
 //    	File oFile = new File( nImagePath ); 
 //   	

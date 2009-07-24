@@ -217,7 +217,7 @@
 //		
 //		//this is for fun only (roland)
 ////		if( mnCollisionAvoidance) {
-////			new AePlayWave(bw.sim.clsBWMain.msArsPath + "/src/resources/sounds/utini.wav").start();
+////			new AePlayWave(clsGetARSPath.getArsPath() + "/src/resources/sounds/utini.wav").start();
 ////		}
 //	}
 //

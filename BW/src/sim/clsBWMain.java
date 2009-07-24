@@ -91,7 +91,7 @@ public class clsBWMain extends SimState{
 //		} else {
 //			oLoader = new clsSimpleLoader(this, "", 100, 100, 1, 0, 0, 0, 0, 0, 10, 1);
 		}
-//		oLoader = new clsSimpleXMLLoader(this, "", bw.sim.clsBWMain.msArsPath + "/src/xml/xmlSimpleXMLLoader/config1.xml");
+//		oLoader = new clsSimpleXMLLoader(this, "", clsGetARSPath.getArsPath() + "/src/xml/xmlSimpleXMLLoader/config1.xml");
 		oLoader.loadObjects();
 		
 		//clear the charts

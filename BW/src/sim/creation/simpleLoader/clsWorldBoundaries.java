@@ -7,6 +7,7 @@
  */
 package sim.creation.simpleLoader;
 
+import statictools.clsGetARSPath;
 import ARSsim.physics2D.util.clsPose;
 import ARSsim.portrayal.simple.clsImagePortrayal;
 import bw.entities.clsEntity;
@@ -43,7 +44,7 @@ public class clsWorldBoundaries {
 		
         oWall = new clsWall("Wall.", oProp);
         clsRegisterEntity.registerEntity(oWall);
-       clsImagePortrayal.PlaceImage(sim.clsBWMain.msArsPath + "/src/resources/images/wall1.jpg", 8, new sim.util.Double2D(oPose.getPosition().x, oPose.getPosition().y), clsSingletonMasonGetter.getFieldEnvironment());
+       clsImagePortrayal.PlaceImage(clsGetARSPath.getArsPath() + "/src/resources/images/wall1.jpg", 8, new sim.util.Double2D(oPose.getPosition().x, oPose.getPosition().y), clsSingletonMasonGetter.getFieldEnvironment());
 
 
         oPose = new clsPose(100, 200, 0);
@@ -58,7 +59,7 @@ public class clsWorldBoundaries {
 
         oWall = new clsWall("Wall.", oProp);
         clsRegisterEntity.registerEntity(oWall);
-        clsImagePortrayal.PlaceImage(sim.clsBWMain.msArsPath + "/src/resources/images/wall1.jpg", 8, new sim.util.Double2D(oPose.getPosition().x, oPose.getPosition().y), clsSingletonMasonGetter.getFieldEnvironment());
+        clsImagePortrayal.PlaceImage(clsGetARSPath.getArsPath() + "/src/resources/images/wall1.jpg", 8, new sim.util.Double2D(oPose.getPosition().x, oPose.getPosition().y), clsSingletonMasonGetter.getFieldEnvironment());
 
         // VERT
         oPose = new clsPose(0, 100, 0);
@@ -72,7 +73,7 @@ public class clsWorldBoundaries {
 
         oWall = new clsWall("Wall.", oProp);
         clsRegisterEntity.registerEntity(oWall);
-        clsImagePortrayal.PlaceImage(sim.clsBWMain.msArsPath + "/src/resources/images/wall2.jpg", 8, new sim.util.Double2D(oPose.getPosition().x, oPose.getPosition().y), clsSingletonMasonGetter.getFieldEnvironment());
+        clsImagePortrayal.PlaceImage(clsGetARSPath.getArsPath() + "/src/resources/images/wall2.jpg", 8, new sim.util.Double2D(oPose.getPosition().x, oPose.getPosition().y), clsSingletonMasonGetter.getFieldEnvironment());
 
         oPose = new clsPose(200, 100, 0);
         oProp = clsWall.getDefaultProperties("Wall.");
@@ -85,6 +86,6 @@ public class clsWorldBoundaries {
 
         oWall = new clsWall("Wall.", oProp);
         clsRegisterEntity.registerEntity(oWall);
-        clsImagePortrayal.PlaceImage(sim.clsBWMain.msArsPath + "/src/resources/images/wall2.jpg", 8, new sim.util.Double2D(oPose.getPosition().x, oPose.getPosition().y), clsSingletonMasonGetter.getFieldEnvironment());
+        clsImagePortrayal.PlaceImage(clsGetARSPath.getArsPath() + "/src/resources/images/wall2.jpg", 8, new sim.util.Double2D(oPose.getPosition().x, oPose.getPosition().y), clsSingletonMasonGetter.getFieldEnvironment());
 	}
 }
