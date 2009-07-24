@@ -9,6 +9,7 @@ package bw.entities;
 
 import sim.physics2D.physicalObject.PhysicalObject2D;
 import sim.physics2D.shape.Shape;
+import statictools.clsSingletonUniqueIdGenerator;
 import ARSsim.physics2D.physicalObject.itfSetupFunctions;
 import ARSsim.physics2D.util.clsPose;
 import bw.utils.config.clsBWProperties;
@@ -40,15 +41,21 @@ import enums.eEntityType;
  */
 public abstract class clsEntity {
 	public static final String P_ID = "id";
-	public static final String P_MASS = "mass";
+	public static final String P_STRUCTURALWEIGHT = "weight_structural";
 	
-	public static final String P_ENTITY_COLOR_RGB = "color_rgb";
+	//public static final String P_ENTITY_COLOR_RGB = "color_rgb"; // TD - moved to clsShapeCreator. if a differentiation between the color of the shape and the color of the agent is necessary - reactivate this property
+	public static final String P_SHAPE = "shape"; //prefix used for shape definitions
 	
 	protected PhysicalObject2D moPhysicalObject2D;
-	private double mrMass;
+	
+	protected double mrStructuralWeight; // weight without flesh or similar dynamic parts - usually static during livetime. only changes in case of growth or similiar mechanisms
+	protected double mrVariableWeight; // flesh + carried elements + ...
+	
 	protected eEntityType meEntityType;
 	private int mnId;
 	private boolean mnRegistered;
+	
+	private int mnUniqueId = clsSingletonUniqueIdGenerator.getUniqueId();
 	
 	public clsEntity(String poPrefix, clsBWProperties poProp) {
 		setEntityType();
@@ -63,7 +70,9 @@ public abstract class clsEntity {
 		String pre = clsBWProperties.addDot(poPrefix);
 
 		clsBWProperties oProp = new clsBWProperties();
-		oProp.setProperty(pre+P_MASS, 0.0);
+		
+		oProp.setProperty(pre+P_STRUCTURALWEIGHT, 1.0);
+		oProp.setProperty(pre+P_ID, -1);
 		
 		return oProp;
 	}	
@@ -71,11 +80,8 @@ public abstract class clsEntity {
 	private void applyProperties(String poPrefix, clsBWProperties poProp) {
 		String pre = clsBWProperties.addDot(poPrefix);
 
-		int nId = poProp.getPropertyInt(pre+P_ID );
-		setId( nId );
-		
-		setEntityType();
-		mrMass = poProp.getPropertyDouble(pre+P_MASS);
+		setId( poProp.getPropertyInt(pre+P_ID ) );
+		setStructuralWeight(poProp.getPropertyDouble(pre+P_STRUCTURALWEIGHT));
 	}
 	
 	/**
@@ -218,24 +224,32 @@ public abstract class clsEntity {
 		((itfSetupFunctions)moPhysicalObject2D).setCoefficients(poFriction, poStaticFriction, poRestitution);
 	}
 	
-	/**
-	 * @author deutsch
-	 * 25.02.2009, 16:21:36
-	 * 
-	 * @param mrMass the mrMass to set
-	 */
-	public void setMass(double mrMass) {
-		this.mrMass = mrMass;
+	public double getTotalWeight() {
+		return mrStructuralWeight + mrVariableWeight;
 	}
-
-	/**
-	 * @author deutsch
-	 * 25.02.2009, 16:21:36
-	 * 
-	 * @return the mrMass
-	 */
-	public double getMass() {
-		return mrMass;
+	
+	public double getStructuralWeight() {
+		return mrStructuralWeight;
+	}
+	
+	public double getVariableWeight() {
+		return mrVariableWeight;
+	}
+	
+	public void setStructuralWeight(double prWeight) {
+		mrStructuralWeight = prWeight;
+		updateMass();
+	}
+	
+	public void setVariableWeight(double prWeight) {
+		mrVariableWeight = prWeight;
+		updateMass();
+	}
+	
+	private void updateMass() {
+		if (moPhysicalObject2D != null) {
+			((itfSetupFunctions)moPhysicalObject2D).setMass(getTotalWeight());
+		}
 	}
 	
 	/**
@@ -281,6 +295,16 @@ public abstract class clsEntity {
 	public boolean isRegistered() {
 		return mnRegistered;
 	}
+
 	
 
+	/**
+	 * @author deutsch
+	 * 08.07.2009, 15:05:13
+	 * 
+	 * @return the mnUniqueId
+	 */
+	public int getUniqueId() {
+		return mnUniqueId;
+	}
 }

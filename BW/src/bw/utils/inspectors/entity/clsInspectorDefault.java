@@ -83,7 +83,7 @@ public class clsInspectorDefault extends Inspector {
 		moProp3 = new  PropertyField("Position X", clsInspectorUtils.FormatDouble(moEntity.getPosition().x), false, null, PropertyField.SHOW_TEXTFIELD);
 		moProp4 = new  PropertyField("Position Y", clsInspectorUtils.FormatDouble(moEntity.getPosition().y), false, null, PropertyField.SHOW_TEXTFIELD);
 		moProp5 = new  PropertyField("Color", ""+moEntity.getShape().getPaint().toString(), false, null, PropertyField.SHOW_TEXTFIELD);
-		moProp6 = new  PropertyField("Mass", clsInspectorUtils.FormatDouble(moEntity.getMass()), false, null, PropertyField.SHOW_TEXTFIELD);
+		moProp6 = new  PropertyField("Mass", clsInspectorUtils.FormatDouble(moEntity.getTotalWeight()), false, null, PropertyField.SHOW_TEXTFIELD);
 		moProp7 = new  PropertyField("Angle", clsInspectorUtils.FormatDouble(moEntity.getPose().getAngle().radians), false, null, PropertyField.SHOW_TEXTFIELD);
 		
 		oBox1.add(moProp1, BorderLayout.AFTER_LAST_LINE);
@@ -111,7 +111,7 @@ public class clsInspectorDefault extends Inspector {
 		moProp3.setValue(clsInspectorUtils.FormatDouble(moEntity.getPosition().x));
 		moProp4.setValue(clsInspectorUtils.FormatDouble(moEntity.getPosition().y));
 		moProp5.setValue(""+moEntity.getShape().getPaint().toString());
-		moProp6.setValue(clsInspectorUtils.FormatDouble(moEntity.getMass()));
+		moProp6.setValue(clsInspectorUtils.FormatDouble(moEntity.getTotalWeight()));
 		moProp7.setValue(clsInspectorUtils.FormatDouble(moEntity.getPose().getAngle().radians));
 	}
 	

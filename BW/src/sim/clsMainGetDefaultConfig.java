@@ -27,7 +27,9 @@ import bw.entities.clsRemoteBot;
 import bw.entities.clsStationary;
 import bw.entities.clsStone;
 import bw.entities.clsUraniumOre;
-import bw.entities.clsWall;
+import bw.entities.clsWallAxisAlign;
+import bw.entities.clsWallHorizontal;
+import bw.entities.clsWallVertical;
 import bw.utils.config.clsBWProperties;
 
 /**
@@ -69,7 +71,9 @@ public class clsMainGetDefaultConfig {
 		clsBWProperties.writeProperties(clsStationary.getDefaultProperties(""), oBaseDir, "stationary"+oExt, "");
 		clsBWProperties.writeProperties(clsStone.getDefaultProperties(""), oBaseDir, "stone"+oExt, "");
 		clsBWProperties.writeProperties(clsUraniumOre.getDefaultProperties(""), oBaseDir, "uraniumore"+oExt, "");
-		clsBWProperties.writeProperties(clsWall.getDefaultProperties(""), oBaseDir, "wall"+oExt, "");
+		clsBWProperties.writeProperties(clsWallAxisAlign.getDefaultProperties(""), oBaseDir, "wall_axis"+oExt, "");
+		clsBWProperties.writeProperties(clsWallHorizontal.getDefaultProperties(""), oBaseDir, "wall_hor"+oExt, "");
+		clsBWProperties.writeProperties(clsWallVertical.getDefaultProperties(""), oBaseDir, "wall_ver"+oExt, "");
 
 	}
 

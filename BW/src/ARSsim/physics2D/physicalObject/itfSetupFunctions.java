@@ -31,4 +31,6 @@ public interface itfSetupFunctions {
 	
 	public clsPose getPose();
     public Shape getShape();
+    public void setMass(double mass);
+    public double getMass();
 }

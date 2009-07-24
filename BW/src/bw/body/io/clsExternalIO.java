@@ -88,6 +88,8 @@ public class clsExternalIO extends clsBaseIO {
 		
 		clsBWProperties oProp = new clsBWProperties();
 		
+		oProp.setProperty(pre+P_NUMSENSORS, 6);
+		
 		oProp.putAll( clsSensorAcceleration.getDefaultProperties( pre+"0") );
 		oProp.setProperty(pre+"0."+P_SENSORACTIVE, true);
 		oProp.setProperty(pre+"0."+P_SENSORTYPE, eSensorExtType.ACCELERATION.toString());

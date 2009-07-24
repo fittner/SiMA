@@ -12,6 +12,7 @@ import java.awt.Color;
 import du.utils.enums.eDecisionType;
 //import sim.display.clsKeyListener;
 //import simple.remotecontrol.clsRemoteControl;
+import bw.entities.tools.clsShapeCreator;
 import bw.utils.config.clsBWProperties;
 import bw.utils.enums.eShapeType;
 import enums.eEntityType;
@@ -45,9 +46,12 @@ public class clsLynx extends clsAnimal {
 		//oProp.putAll( clsDumbMindA.getDefaultProperties(pre) ); //clsDumbMindA.getDefaultProperties(pre)
 		oProp.setProperty(pre+P_DECISION_TYPE, eDecisionType.LYNX_IFTHENELSE.name());
 		
-		oProp.setProperty(pre+P_SHAPE_TYPE, eShapeType.CIRCLE.name());
-		oProp.setProperty(pre+P_SHAPE_RADIUS, "15.0");
-		oProp.setProperty(pre+P_ENTITY_COLOR_RGB, Color.PINK);		
+		oProp.setProperty(pre+P_STRUCTURALWEIGHT, 200.0);
+		
+		oProp.setProperty(pre+P_SHAPE+"."+clsShapeCreator.P_TYPE, eShapeType.CIRCLE.name());
+		oProp.setProperty(pre+P_SHAPE+"."+clsShapeCreator.P_RADIUS, 15.0);
+		oProp.setProperty(pre+P_SHAPE+"."+clsShapeCreator.P_COLOR, Color.pink);
+		oProp.setProperty(pre+P_SHAPE+"."+clsShapeCreator.P_IMAGE_PATH, "/BW/src/resources/images/luchs.gif");
 		
 //		oProp.setProperty(pre+P_MOBILE_SPEED, "6.0" );
 //		oProp.setProperty(pre+P_ENTITY_WEIGHT, "200.0" ); //TODO: (creator) is this for the mass???

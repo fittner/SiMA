@@ -8,11 +8,11 @@
 package sim.creation.simpleLoader;
 
 import statictools.clsGetARSPath;
-import ARSsim.physics2D.util.clsPose;
 import ARSsim.portrayal.simple.clsImagePortrayal;
-import bw.entities.clsEntity;
-import bw.entities.clsStationary;
-import bw.entities.clsWall;
+import bw.entities.clsWallAxisAlign;
+import bw.entities.clsWallHorizontal;
+import bw.entities.clsWallVertical;
+import bw.entities.tools.clsShapeCreator;
 import bw.factories.clsRegisterEntity;
 import bw.factories.clsSingletonMasonGetter;
 import bw.utils.config.clsBWProperties;
@@ -26,66 +26,57 @@ import bw.utils.config.clsBWProperties;
 public class clsWorldBoundaries {
 
 	public static void loadWorldBoundaries(){
-		clsPose oPose;
-		clsWall oWall;
-
-        // HORIZ
-		oPose = new clsPose(100, 0, 0);
+		clsWallAxisAlign oWall = null;
+		clsBWProperties oProp = null;
 		
+		// add horizontal walls
+		oProp = clsWallHorizontal.getDefaultProperties("");
+		oProp.setProperty(clsWallHorizontal.P_SHAPE+"."+clsShapeCreator.P_WIDTH, 193);
+		oProp.setProperty(clsWallHorizontal.P_SHAPE+"."+clsShapeCreator.P_HEIGHT, 6);
+		oProp.setProperty(clsWallHorizontal.P_POS_X, 100);
+		oProp.setProperty(clsWallHorizontal.P_POS_Y, 0);
+		//remove image as long scaling is not implemented ...
+		oProp.setProperty(clsWallHorizontal.P_SHAPE+"."+clsShapeCreator.P_IMAGE_PATH, "");
 		
-        clsBWProperties oProp = clsWall.getDefaultProperties("Wall.");
-        oProp.setProperty("Wall."+clsEntity.P_ID, 1);
-        oProp.setProperty("Wall."+clsStationary.P_POS_X, oPose.getPosition().x);
-        oProp.setProperty("Wall."+clsStationary.P_POS_Y, oPose.getPosition().y);
-        oProp.setProperty("Wall."+clsStationary.P_POS_ANGLE, oPose.getAngle().radians);
-        oProp.setProperty("Wall."+clsStationary.P_SHAPE_WIDTH, 193);
-        oProp.setProperty("Wall."+clsStationary.P_SHAPE_HEIGHT, 6);
-        
+		oWall = new clsWallHorizontal("", oProp);
+		clsRegisterEntity.registerEntity(oWall);
 		
-        oWall = new clsWall("Wall.", oProp);
-        clsRegisterEntity.registerEntity(oWall);
-       clsImagePortrayal.PlaceImage(clsGetARSPath.getArsPath() + "/src/resources/images/wall1.jpg", 8, new sim.util.Double2D(oPose.getPosition().x, oPose.getPosition().y), clsSingletonMasonGetter.getFieldEnvironment());
+		oProp.setProperty(clsWallHorizontal.P_POS_Y, 200);		
 
+		oWall = new clsWallHorizontal("", oProp);
+		clsRegisterEntity.registerEntity(oWall);
+		
+		// add vertical walls
+		oProp = clsWallVertical.getDefaultProperties("");
+		oProp.setProperty(clsWallVertical.P_SHAPE+"."+clsShapeCreator.P_WIDTH, 6);
+		oProp.setProperty(clsWallVertical.P_SHAPE+"."+clsShapeCreator.P_HEIGHT, 193);
+		oProp.setProperty(clsWallVertical.P_POS_X, 0);
+		oProp.setProperty(clsWallVertical.P_POS_Y, 100);
+		//remove image as long scaling is not implemented ...
+		oProp.setProperty(clsWallVertical.P_SHAPE+"."+clsShapeCreator.P_IMAGE_PATH, "");
+		
+		oWall = new clsWallVertical("", oProp);
+		clsRegisterEntity.registerEntity(oWall);
+		
+		oProp.setProperty(clsWallVertical.P_POS_X, 200);		
 
-        oPose = new clsPose(100, 200, 0);
-        
-        oProp = clsWall.getDefaultProperties("Wall.");
-        oProp.setProperty("Wall."+clsEntity.P_ID, 2);
-        oProp.setProperty("Wall."+clsStationary.P_POS_X, oPose.getPosition().x);
-        oProp.setProperty("Wall."+clsStationary.P_POS_Y, oPose.getPosition().y);
-        oProp.setProperty("Wall."+clsStationary.P_POS_ANGLE, oPose.getAngle().radians);
-        oProp.setProperty("Wall."+clsStationary.P_SHAPE_WIDTH, 193);
-        oProp.setProperty("Wall."+clsStationary.P_SHAPE_HEIGHT, 6);
-
-        oWall = new clsWall("Wall.", oProp);
-        clsRegisterEntity.registerEntity(oWall);
-        clsImagePortrayal.PlaceImage(clsGetARSPath.getArsPath() + "/src/resources/images/wall1.jpg", 8, new sim.util.Double2D(oPose.getPosition().x, oPose.getPosition().y), clsSingletonMasonGetter.getFieldEnvironment());
-
-        // VERT
-        oPose = new clsPose(0, 100, 0);
-        oProp = clsWall.getDefaultProperties("Wall.");
-        oProp.setProperty("Wall."+clsEntity.P_ID, 2);
-        oProp.setProperty("Wall."+clsStationary.P_POS_X, oPose.getPosition().x);
-        oProp.setProperty("Wall."+clsStationary.P_POS_Y, oPose.getPosition().y);
-        oProp.setProperty("Wall."+clsStationary.P_POS_ANGLE, oPose.getAngle().radians);
-        oProp.setProperty("Wall."+clsStationary.P_SHAPE_WIDTH, 6);
-        oProp.setProperty("Wall."+clsStationary.P_SHAPE_HEIGHT, 200);
-
-        oWall = new clsWall("Wall.", oProp);
-        clsRegisterEntity.registerEntity(oWall);
-        clsImagePortrayal.PlaceImage(clsGetARSPath.getArsPath() + "/src/resources/images/wall2.jpg", 8, new sim.util.Double2D(oPose.getPosition().x, oPose.getPosition().y), clsSingletonMasonGetter.getFieldEnvironment());
-
-        oPose = new clsPose(200, 100, 0);
-        oProp = clsWall.getDefaultProperties("Wall.");
-        oProp.setProperty("Wall."+clsEntity.P_ID, 2);
-        oProp.setProperty("Wall."+clsStationary.P_POS_X, oPose.getPosition().x);
-        oProp.setProperty("Wall."+clsStationary.P_POS_Y, oPose.getPosition().y);
-        oProp.setProperty("Wall."+clsStationary.P_POS_ANGLE, oPose.getAngle().radians);
-        oProp.setProperty("Wall."+clsStationary.P_SHAPE_WIDTH, 6);
-        oProp.setProperty("Wall."+clsStationary.P_SHAPE_HEIGHT, 200);
-
-        oWall = new clsWall("Wall.", oProp);
-        clsRegisterEntity.registerEntity(oWall);
-        clsImagePortrayal.PlaceImage(clsGetARSPath.getArsPath() + "/src/resources/images/wall2.jpg", 8, new sim.util.Double2D(oPose.getPosition().x, oPose.getPosition().y), clsSingletonMasonGetter.getFieldEnvironment());
+		oWall = new clsWallVertical("", oProp);
+		clsRegisterEntity.registerEntity(oWall);
+		
+		// temporarily add images for the walls here - should be done in the wall class instead
+		// TODO remove this code !
+		clsImagePortrayal.PlaceImage(
+				clsGetARSPath.getArsPath() + "/BW/src/resources/images/wall1.jpg",	8, 
+				new sim.util.Double2D(100, 0), 	clsSingletonMasonGetter.getFieldEnvironment());	
+		clsImagePortrayal.PlaceImage(
+				clsGetARSPath.getArsPath() + "/BW/src/resources/images/wall1.jpg",	8, 
+				new sim.util.Double2D(100, 200), 	clsSingletonMasonGetter.getFieldEnvironment());	
+		
+		clsImagePortrayal.PlaceImage(
+				clsGetARSPath.getArsPath() + "/BW/src/resources/images/wall2.jpg",	8, 
+				new sim.util.Double2D(0, 100), 	clsSingletonMasonGetter.getFieldEnvironment());	
+		clsImagePortrayal.PlaceImage(
+				clsGetARSPath.getArsPath() + "/BW/src/resources/images/wall2.jpg",	8, 
+				new sim.util.Double2D(200, 100), 	clsSingletonMasonGetter.getFieldEnvironment());	
 	}
 }

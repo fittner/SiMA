@@ -15,11 +15,11 @@ import ARSsim.physics2D.physicalObject.clsMobileObject2D;
 import ARSsim.physics2D.physicalObject.clsStationaryObject2D;
 import bw.body.io.sensors.external.clsSensorEatableArea;
 import bw.body.io.sensors.external.clsSensorVision;
+import bw.entities.tools.clsShapeCreator;
 import bw.physicalObjects.sensors.clsEntityPartVision;
 import bw.utils.config.clsBWProperties;
 import bw.utils.enums.eShapeType;
 import enums.eEntityType;
-//import bw.factories.clsRegisterEntity;
 
 /**
  * 
@@ -32,30 +32,26 @@ import enums.eEntityType;
  * 
  */
 public class clsBase extends clsStationary {
+	public static final String P_SENSOR = "sensor";
 	
-	public static final String P_BASE_RANGE = "range"; 
-	public static final String P_BASE_VIEW_ANGLE = "view_angle"; 
-	public static final String P_BASE_OFFSET = "offset"; 
-	public static final String P_IMAGE_PATH = "image_path";
-			
 	private int mnStoredOre;	// stored ore counter
 	private clsSensorEatableArea moSensorEatable;	// 'eatability' sensor
 	
 	
     public clsBase(String poPrefix, clsBWProperties poProp) {
     	super(poPrefix, poProp);
-    	applyProperties(poPrefix, poProp);
     	
-    	// null - Stationary objects don't have a body, therefore can't have an instance of clsBaseIO 
-    	poProp.putAll( clsSensorVision.getDefaultProperties(poPrefix+"3.") );
-    	moSensorEatable = new clsSensorEatableArea(poPrefix+"3.", poProp, null,this);		
-		
 		mnStoredOre = 0;
+
+		applyProperties(poPrefix, poProp);
     }
     
     
     private void applyProperties(String poPrefix, clsBWProperties poProp){		
-		//TODO
+		String pre = clsBWProperties.addDot(poPrefix);
+		
+    	// null - Stationary objects don't have a body, therefore can't have an instance of clsBaseIO 
+    	moSensorEatable = new clsSensorEatableArea(pre+P_SENSOR, poProp, null,this);		
 	}	
     
     public static clsBWProperties getDefaultProperties(String poPrefix) {
@@ -64,14 +60,15 @@ public class clsBase extends clsStationary {
 		clsBWProperties oProp = new clsBWProperties();
 		
 		oProp.putAll(clsStationary.getDefaultProperties(pre) );
-		oProp.setProperty(pre+P_ENTITY_COLOR_RGB, Color.gray);
-		oProp.setProperty(pre+P_SHAPE_TYPE,  eShapeType.CIRCLE.name());
-				
-		oProp.setProperty(pre+P_BASE_VIEW_ANGLE, 1.99 * Math.PI);
-		oProp.setProperty(pre+P_BASE_RANGE, 50.0);
-		oProp.setProperty(pre+P_SHAPE_RADIUS, 50.0);
-		oProp.setProperty(pre+P_BASE_OFFSET, 0.0);
-		oProp.setProperty(pre+P_IMAGE_PATH, "/BW/src/resources/images/spacestation.gif");
+
+		oProp.setProperty(pre+P_SENSOR+"."+clsSensorVision.P_SENSOR_ANGLE, 1.99 * Math.PI );
+		oProp.setProperty(pre+P_SENSOR+"."+clsSensorVision.P_SENSOR_RANGE, 50.0 );
+		oProp.setProperty(pre+P_SENSOR+"."+clsSensorVision.P_SENSOR_OFFSET, 0.0 );				
+		
+		oProp.setProperty(pre+P_SHAPE+"."+clsShapeCreator.P_TYPE, eShapeType.CIRCLE.name());
+		oProp.setProperty(pre+P_SHAPE+"."+clsShapeCreator.P_RADIUS, 50.0);
+		oProp.setProperty(pre+P_SHAPE+"."+clsShapeCreator.P_COLOR, Color.gray);
+		oProp.setProperty(pre+P_SHAPE+"."+clsShapeCreator.P_IMAGE_PATH, "/BW/src/resources/images/spacestation.gif");		
 		
 		return oProp;
 	}	

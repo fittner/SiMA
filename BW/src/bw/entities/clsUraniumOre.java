@@ -12,6 +12,7 @@ import bw.utils.config.clsBWProperties;
 import bw.utils.enums.eBindingState;
 import bw.utils.enums.eShapeType;
 import bw.body.io.actuators.actionProxies.itfAPCarryable;
+import bw.entities.tools.clsShapeCreator;
 import enums.eEntityType;
 
 /**
@@ -27,23 +28,15 @@ import enums.eEntityType;
 public class clsUraniumOre extends clsInanimate implements itfAPCarryable {
 	
 	public static final String P_RADIATION_INTENSITY = "radiation_intensity";
-    public static final String P_IMAGE_PATH = "image_path";
 	
 	public double mrRadiationIntensity;
 	
 	public clsUraniumOre(String poPrefix, clsBWProperties poProp) {
 		super(poPrefix, poProp);
 		applyProperties(poPrefix, poProp);
-		
-		setShape(new ARSsim.physics2D.shape.
-				clsCircleImage(poProp.getPropertyDouble(poPrefix + P_SHAPE_RADIUS),
-							   poProp.getPropertyColor(poPrefix+P_ENTITY_COLOR_RGB),
-									     poProp.getPropertyString(poPrefix +P_IMAGE_PATH)),
-							   poProp.getPropertyDouble(poPrefix +P_MASS)); 
 	}
     
-    private void applyProperties(String poPrefix, clsBWProperties poProp){		
-		//TODO
+    private void applyProperties(String poPrefix, clsBWProperties poProp){
     	mrRadiationIntensity = poProp.getPropertyDouble(poPrefix +P_RADIATION_INTENSITY);
 	}	
     
@@ -53,12 +46,13 @@ public class clsUraniumOre extends clsInanimate implements itfAPCarryable {
 		clsBWProperties oProp = new clsBWProperties();
 		
 		oProp.putAll(clsInanimate.getDefaultProperties(pre) );
-		oProp.setProperty(pre+P_ENTITY_COLOR_RGB, Color.green);
-		oProp.setProperty(pre+P_SHAPE_TYPE, eShapeType.CIRCLE.name());
+		oProp.setProperty(pre+P_STRUCTURALWEIGHT, 30.0);
 		oProp.setProperty(pre+P_RADIATION_INTENSITY, 0.0);
-		oProp.setProperty(pre+P_MASS, 30.0);
-		oProp.setProperty(pre+P_SHAPE_RADIUS, 4.0);
-		oProp.setProperty(pre+P_IMAGE_PATH, "/BW/src/resources/images/Uranium.png");
+		
+		oProp.setProperty(pre+P_SHAPE+"."+clsShapeCreator.P_TYPE, eShapeType.CIRCLE.name());
+		oProp.setProperty(pre+P_SHAPE+"."+clsShapeCreator.P_RADIUS, "4.0");
+		oProp.setProperty(pre+P_SHAPE+"."+clsShapeCreator.P_COLOR, Color.green);
+		oProp.setProperty(pre+P_SHAPE+"."+clsShapeCreator.P_IMAGE_PATH, "/BW/src/resources/images/Uranium.png");
 		
 		return oProp;
 	}	
@@ -77,7 +71,7 @@ public class clsUraniumOre extends clsInanimate implements itfAPCarryable {
 	 */
 	@Override
 	public void sensing() {
-		// TODO Auto-generated method stub
+		// nothing to do
 	}
 
 	/* (non-Javadoc)
@@ -85,7 +79,7 @@ public class clsUraniumOre extends clsInanimate implements itfAPCarryable {
 	 */
 	@Override
 	public void execution() {
-		// TODO Auto-generated method stub
+		// nothing to do
 		
 	}
 	/* (non-Javadoc)
@@ -97,7 +91,7 @@ public class clsUraniumOre extends clsInanimate implements itfAPCarryable {
 	 */
 	@Override
 	public void processing() {
-		// TODO Auto-generated method stub
+		// nothing to do
 		
 	}
 	/* (non-Javadoc)
@@ -109,7 +103,7 @@ public class clsUraniumOre extends clsInanimate implements itfAPCarryable {
 	 */
 	@Override
 	public void updateInternalState() {
-		// TODO Auto-generated method stub
+		// nothing to do
 		
 	}
 	

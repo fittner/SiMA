@@ -13,6 +13,7 @@ import du.utils.enums.eDecisionType;
 
 import bw.body.itfget.itfGetEatableArea;
 import bw.body.itfget.itfGetVision;
+import bw.entities.tools.clsShapeCreator;
 import bw.utils.config.clsBWProperties;
 import bw.utils.enums.eShapeType;
 import enums.eEntityType;
@@ -49,16 +50,16 @@ public class clsAnimal extends clsAnimate implements itfGetVision, itfGetEatable
 
 		clsBWProperties oProp = new clsBWProperties();
 		oProp.putAll( clsAnimate.getDefaultProperties(pre) );
-		//TODO: (langr) - should pass the config to the decision unit!
-		//oProp.putAll( clsDumbMindA.getDefaultProperties(pre) ); //clsDumbMindA.getDefaultProperties(pre)
+
 		oProp.setProperty(pre+P_DECISION_TYPE, eDecisionType.DUMB_MIND_A.name());
 		
-		oProp.setProperty(pre+P_SHAPE_TYPE, eShapeType.CIRCLE.name());
-		oProp.setProperty(pre+P_SHAPE_RADIUS, "10.0");
-		oProp.setProperty(pre+P_ENTITY_COLOR_RGB, Color.blue);
+		oProp.setProperty(pre+P_SHAPE+"."+clsShapeCreator.P_TYPE, eShapeType.CIRCLE.name());
+		oProp.setProperty(pre+P_SHAPE+"."+clsShapeCreator.P_RADIUS, "10.0");
+		oProp.setProperty(pre+P_SHAPE+"."+clsShapeCreator.P_COLOR, Color.blue);
 		
-//		oProp.setProperty(pre+P_MOBILE_SPEED, "4.0" );
-//		oProp.setProperty(pre+P_ENTITY_WEIGHT, "300.0" ); //TODO: (creator) is this for the mass???
+		oProp.setProperty(pre+P_STRUCTURALWEIGHT, 50.0 );
+
+		//		oProp.setProperty(pre+P_MOBILE_SPEED, "4.0" );
 
 		return oProp;
 	}

@@ -8,21 +8,16 @@
 package bw.entities;
 
 import java.awt.Color;
-
 import du.utils.enums.eDecisionType;
-
 import bw.physicalObjects.bodyparts.clsBotHands;
 import bw.utils.config.clsBWProperties;
 import bw.utils.enums.eShapeType;
-//import bw.body.io.sensors.ext.clsSensorVisionNEW;
 import bw.body.itfget.itfGetEatableArea;
 import bw.body.itfget.itfGetRadiation;
 import bw.body.itfget.itfGetVision;
+import bw.entities.tools.clsShapeCreator;
 import enums.eEntityType;
-//import sim.display.clsKeyListener;
 import sim.physics2D.util.Angle;
-//import simple.remotecontrol.clsRemoteControl;
-import statictools.clsSingletonUniqueIdGenerator;
 
 /**
  * Sample implementation of a clsAnimate, having sensors and actuators 
@@ -35,25 +30,20 @@ import statictools.clsSingletonUniqueIdGenerator;
  */
 
 public class clsRemoteBot extends clsAnimate implements itfGetVision, itfGetRadiation, itfGetEatableArea  {
-	public static final String P_BOT_RADIUS = "bot_radius";
-	
-	public static final String P_BOT_HAND_COLOR_RGB = "bot_hand_color_rgb";
-	
     private clsBotHands moBotHand1;
     private clsBotHands moBotHand2;
-       
-	private Color moDefaultHandColor; // = Color.gray;
 	
-	private int mnUniqueId = clsSingletonUniqueIdGenerator.getUniqueId();
-
-
-	public clsRemoteBot(String poPrefix, clsBWProperties poProp) {
+    public clsRemoteBot(String poPrefix, clsBWProperties poProp) {
 		super(poPrefix, poProp);
-			applyProperties(poPrefix, poProp);
-			
-			addBotHands();
-		}
-
+		applyProperties(poPrefix, poProp);
+	}
+	
+	private void applyProperties(String poPrefix, clsBWProperties poProp) {
+		String pre = clsBWProperties.addDot(poPrefix);
+	
+		addBotHands( poProp.getPropertyColor(pre+P_SHAPE+"."+clsShapeCreator.P_COLOR) ); 
+	}
+	
 	public static clsBWProperties getDefaultProperties(String poPrefix) {
 		String pre = clsBWProperties.addDot(poPrefix);
 
@@ -65,35 +55,26 @@ public class clsRemoteBot extends clsAnimate implements itfGetVision, itfGetRadi
 		//oProp.putAll( clsDumbMindA.getDefaultProperties(pre) ); //clsDumbMindA.getDefaultProperties(pre)
 		oProp.setProperty(pre+P_DECISION_TYPE, eDecisionType.DUMB_MIND_A.name());
 		
-		oProp.setProperty(pre+P_SHAPE_TYPE, eShapeType.CIRCLE.name());
-		oProp.setProperty(pre+P_BOT_RADIUS, 10.0);
-		oProp.setProperty(pre+P_ENTITY_COLOR_RGB, Color.CYAN);
-	    oProp.setProperty(pre+P_SHAPE_RADIUS, oProp.getPropertyDouble(pre+P_BOT_RADIUS));
-		//bot-hand color
-		oProp.setProperty(pre+P_BOT_HAND_COLOR_RGB, Color.gray);
+		
+		oProp.setProperty(pre+P_SHAPE+"."+clsShapeCreator.P_TYPE, eShapeType.CIRCLE.name());
+		oProp.setProperty(pre+P_SHAPE+"."+clsShapeCreator.P_RADIUS, 10.0);
+		oProp.setProperty(pre+P_SHAPE+"."+clsShapeCreator.P_COLOR, Color.CYAN);
+
+		oProp.setProperty(pre+P_STRUCTURALWEIGHT, 50.0);
 		
 		return oProp;
 	}
 	
-	private void applyProperties(String poPrefix, clsBWProperties poProp) {
-		String pre = clsBWProperties.addDot(poPrefix);
-	
-		moDefaultHandColor = poProp.getPropertyColor(pre+P_BOT_HAND_COLOR_RGB);
-		addBotHands(); //in the defined color above....
 
-		moDecisionType = eDecisionType.valueOf( poProp.getPropertyString(pre+P_DECISION_TYPE) );
-		//create the defined decision unit...
-		setDecisionUnit(moDecisionType);
-	}
 	
-	private clsBotHands addHand(double offsetX, double offsetY) {
+	private clsBotHands addHand(double offsetX, double offsetY, Color poColor) {
         double x = getPosition().x;
         double y = getPosition().y;
         sim.physics2D.util.Double2D oPos;
                     
         oPos = new sim.physics2D.util.Double2D(x + offsetX, y + offsetY);
         
-        clsBotHands oHand = new clsBotHands(oPos, new sim.physics2D.util.Double2D(0, 0), 1, moDefaultHandColor);
+        clsBotHands oHand = new clsBotHands(oPos, new sim.physics2D.util.Double2D(0, 0), 1, poColor);
         
         return oHand;
 	}
@@ -107,13 +88,13 @@ public class clsRemoteBot extends clsAnimate implements itfGetVision, itfGetRadi
 	 * 26.02.2009, 11:38:59
 	 *
 	 */
-	private void addBotHands() {
+	private void addBotHands(Color poColor) {
 		//FIXME hands are only added correctly if - and only if - direction of bot is 0 ...
 		Angle oDirection = new Angle(getMobileObject2D().getOrientation().radians); //TODO add getDirection to clsEntity
 		getMobileObject2D().setPose(getPosition(), new Angle(0));
 		
-		moBotHand1 = addHand(12, 6);
-		moBotHand2 = addHand(12, -6);
+		moBotHand1 = addHand(12, 6, poColor);
+		moBotHand2 = addHand(12, -6, poColor);
 
 		getMobileObject2D().setPose(getPosition(), oDirection);
 	}
@@ -142,13 +123,4 @@ public class clsRemoteBot extends clsAnimate implements itfGetVision, itfGetRadi
 		meEntityType = eEntityType.REMOTEBOT;
 	}
 
-	/**
-	 * @author deutsch
-	 * 08.07.2009, 15:05:13
-	 * 
-	 * @return the mnUniqueId
-	 */
-	public int getUniqueId() {
-		return mnUniqueId;
-	}
 }

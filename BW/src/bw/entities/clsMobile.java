@@ -7,8 +7,9 @@
  */
 package bw.entities;
 
+import bw.entities.tools.clsInventory;
+import bw.entities.tools.clsShapeCreator;
 import bw.utils.config.clsBWProperties;
-import bw.utils.enums.eShapeType;
 import sim.physics2D.shape.Shape;
 import sim.physics2D.util.Double2D;
 import ARSsim.physics2D.physicalObject.clsMobileObject2D;
@@ -32,10 +33,7 @@ public abstract class clsMobile extends clsEntity {
 	public static final String P_DEF_STATIC_FRICTION = "def_static_friction";
 	public static final String P_DEF_RESTITUTION = "def_restitution";
 	
-	public static final String P_SHAPE_TYPE = "shape_type";
-	public static final String P_SHAPE_RADIUS = "shape_radius";
-	public static final String P_SHAPE_WIDTH = "shape_width";
-	public static final String P_SHAPE_HEIGHT = "shape_height";
+
 	
 	private int mnHolders; // number of bubles which picked-up and carry this mobile entity 
 	private double mrDefaultCoeffFriction; 	//0.5
@@ -89,35 +87,8 @@ public abstract class clsMobile extends clsEntity {
 		Double2D oVelocity = new Double2D(  poProp.getPropertyDouble(pre+P_START_VELOCITY_X), 
 											poProp.getPropertyDouble(pre+P_START_VELOCITY_Y) );
 		
-		Shape oShape = createShape(pre, poProp); //depends on the config
-		initPhysicalObject2D(new clsPose(oPosX, oPosY, oPosAngle), oVelocity, oShape, getMass());
-	}
-	
-	private Shape createShape(String pre, clsBWProperties poProp) {
-		
-		Shape oShape = null; 
-			
-		eShapeType oShapeType = eShapeType.valueOf( poProp.getPropertyString(pre +P_SHAPE_TYPE) );
-		
-		switch( oShapeType ) {
-		case CIRCLE:
-			oShape = new sim.physics2D.shape.Circle(poProp.getPropertyDouble(pre +P_SHAPE_RADIUS), 
-					 poProp.getPropertyColor(pre +P_ENTITY_COLOR_RGB));
-			break;
-		case RECTANGLE:
-			oShape = new sim.physics2D.shape.Rectangle(	poProp.getPropertyDouble(pre +P_SHAPE_WIDTH),
-														poProp.getPropertyDouble(pre +P_SHAPE_HEIGHT), 
-														 poProp.getPropertyColor(pre +P_ENTITY_COLOR_RGB));
-			break;
-		case POLYGON:
-			//TODO: (everyone) - add list for points of polygon in config!
-			break;
-		default:
-			oShape = new sim.physics2D.shape.Circle(poProp.getPropertyDouble(pre +P_SHAPE_RADIUS), 
-					 poProp.getPropertyColor(pre +P_ENTITY_COLOR_RGB));
-			break;
-		}
-		return oShape;
+		Shape oShape = clsShapeCreator.createShape(pre+P_SHAPE, poProp); //depends on the config
+		initPhysicalObject2D(new clsPose(oPosX, oPosY, oPosAngle), oVelocity, oShape, getTotalWeight());
 	}
 
 	/*

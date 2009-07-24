@@ -17,6 +17,7 @@ import bw.entities.clsHare;
 import bw.entities.clsLynx;
 import bw.entities.clsMobile;
 import bw.entities.clsStone;
+import bw.entities.tools.clsShapeCreator;
 import bw.factories.clsRegisterEntity;
 import bw.utils.config.clsBWProperties;
 
@@ -37,7 +38,7 @@ public class clsEntityLoader {
 			clsBWProperties oProp = clsStone.getDefaultProperties("");
 			oProp.putAll( clsLoader.generateRandomPose("", clsMobile.P_POS_X, clsMobile.P_POS_Y, clsMobile.P_POS_ANGLE) );
 			oProp.setProperty(""+clsEntity.P_ID, i);
-	        oProp.setProperty(""+clsStone.P_SHAPE_RADIUS, 15);
+	        oProp.setProperty(""+clsShapeCreator.P_RADIUS, 10);
 	        
 		    clsStone oStone = new clsStone("", oProp);
 		    clsRegisterEntity.registerEntity(oStone);

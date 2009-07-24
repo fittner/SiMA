@@ -1,18 +1,17 @@
 #
-#Thu Jul 23 19:48:58 CEST 2009
-colorB=64
-colorG=64
-colorR=64
+#Sat Jul 25 00:44:54 CEST 2009
 conversion=10.0
 def_coeff_friction=0.5
 def_restitution=1.0
 def_static_friction=0.2
-image_path=null/src/resources/images/rock1.jpg
-mass=0.0
+id=-1
 pos_angle=0.0
 pos_x=0.0
 pos_y=0.0
-radius=1.0
-shape_type=SHAPE_CIRCLE
+shape.color=\#404040
+shape.image_path=/BW/src/resources/images/rock1.jpg
+shape.radius=1.0
+shape.type=CIRCLE
 start_velocity_x=0.0
 start_velocity_y=0.0
+weight_structural=1.0

@@ -9,7 +9,6 @@ package bw.entities;
 
 
 import java.util.TreeMap;
-
 import decisionunit.clsBaseDecisionUnit;
 import du.utils.enums.eDecisionType;
 import simple.dumbmind.clsDumbMindA;
@@ -41,33 +40,12 @@ public abstract class clsAnimate extends clsMobile implements itfGetBody {
 	public static final String P_BODY = "body";
 	public static final String P_DECISION_TYPE = "decision_type";
 	
-	public clsBaseBody moBody; // the instance of a body
-	public eBodyType moBodyType;
-	public eDecisionType moDecisionType;
+	protected clsBaseBody moBody; // the instance of a body
 	
 	public clsAnimate(String poPrefix, clsBWProperties poProp) {
 		super(poPrefix, poProp);
 		
 		applyProperties(poPrefix, poProp);
-	}
-
-	private clsBaseBody createBody(String poPrefix, clsBWProperties poProp) {
-		String pre = clsBWProperties.addDot(poPrefix);
-		
-		clsBaseBody oRetVal = null;
-		switch( moBodyType ) {
-		case MEAT:
-			oRetVal = new clsMeatBody(pre, poProp);
-			break;
-		case COMPLEX:
-			oRetVal = new clsComplexBody(pre, poProp, this);
-			break;
-		default:
-			oRetVal = new clsMeatBody(pre, poProp);
-			break;
-		}
-		
-		return oRetVal;
 	}
 
 	public static clsBWProperties getDefaultProperties(String poPrefix) {
@@ -82,16 +60,44 @@ public abstract class clsAnimate extends clsMobile implements itfGetBody {
 	
 	private void applyProperties(String poPrefix, clsBWProperties poProp) {
 		String pre 	= clsBWProperties.addDot(poPrefix);
-		moBodyType 	= eBodyType.valueOf( poProp.getPropertyString(pre+P_BODY_TYPE) );
-		moBody 		= createBody(poPrefix+P_BODY, poProp);
+
+		setBody( createBody(pre, poProp) );
+		setDecisionUnit( createDecisionUnit(pre, poProp) );		
 	}	
+
+	private void setBody(clsBaseBody poBody) {
+		moBody = poBody;
+	}
 	
-	public void setDecisionUnit(eDecisionType poDecisionType) {
-		if (moBody instanceof itfGetBrain) {
-			clsBaseDecisionUnit oDecisionUnit = null;
-			
-			//create the defined decision unit...
-			switch(poDecisionType) {
+	private clsBaseBody createBody(String poPrefix, clsBWProperties poProp) {
+		String pre = clsBWProperties.addDot(poPrefix);
+		eBodyType oBodyType = eBodyType.valueOf( poProp.getPropertyString(pre+P_BODY_TYPE) );
+		
+		clsBaseBody oRetVal = null;
+		switch( oBodyType ) {
+		case MEAT:
+			oRetVal = new clsMeatBody(pre+P_BODY, poProp);
+			break;
+		case COMPLEX:
+			oRetVal = new clsComplexBody(pre+P_BODY, poProp, this);
+			break;
+		default:
+			oRetVal = new clsMeatBody(pre+P_BODY, poProp);
+			break;
+		}
+		
+		return oRetVal;
+	}
+	
+	private clsBaseDecisionUnit createDecisionUnit(String poPrefix, clsBWProperties poProp) {
+		String pre = clsBWProperties.addDot(poPrefix);
+		
+		eDecisionType nDecisionType = eDecisionType.valueOf( poProp.getPropertyString(pre+P_DECISION_TYPE) );
+		
+		clsBaseDecisionUnit oDecisionUnit = null;
+		
+		//create the defined decision unit...
+		switch(nDecisionType) {
 			case DUMB_MIND_A:
 				oDecisionUnit = new clsDumbMindA();
 				break;
@@ -119,16 +125,20 @@ public abstract class clsAnimate extends clsMobile implements itfGetBody {
 			default:
 				oDecisionUnit = null;
 			break;
-			}
-			
-			((itfGetBrain)moBody).getBrain().setDecisionUnit(oDecisionUnit);
+		}
+		
+		return oDecisionUnit;
+	}
+	
+	public void setDecisionUnit(clsBaseDecisionUnit poDecisionUnit) {
+		if (moBody instanceof itfGetBrain && poDecisionUnit != null) {
+			((itfGetBrain)moBody).getBrain().setDecisionUnit(poDecisionUnit);
 		}
 	}
 	
 	@Override
 	public void sensing() {
 		moBody.stepSensing();
-		
 	}
 	
 	@Override
@@ -147,7 +157,6 @@ public abstract class clsAnimate extends clsMobile implements itfGetBody {
 	@Override
 	public void updateInternalState() {
 		moBody.stepUpdateInternalState();
-		
 	}	
 
 	/* (non-Javadoc)
@@ -158,7 +167,6 @@ public abstract class clsAnimate extends clsMobile implements itfGetBody {
 	 * @see bw.body.itfGetBody#getBody()
 	 */
 	public clsBaseBody getBody() {
-		// TODO Auto-generated method stub
 		return moBody;
 	}	
 	

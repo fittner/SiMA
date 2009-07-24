@@ -67,7 +67,7 @@ public class clsInventory {
 		Iterator<clsMobile> oIt = moInventory.iterator();
 		while (oIt.hasNext()) {
 			clsMobile oEntity = oIt.next();
-			nTotalMass=nTotalMass+oEntity.getMass();
+			nTotalMass=nTotalMass+oEntity.getTotalWeight();
 		}
 		return nTotalMass;
 	}
@@ -118,7 +118,7 @@ public class clsInventory {
 
 		//Is there still space?
 		if (getItemCount()>=getMaxItems()) throw (new exInventoryFull() );
-		if ((getMass()+moCarriedEntity.getMass())>=getMaxMass()) throw (new exInventoryFull() );
+		if ((getMass()+moCarriedEntity.getTotalWeight())>=getMaxMass()) throw (new exInventoryFull() );
 
 		//move to inventory and remove from mason
 		clsMobile oEntity=moCarriedEntity;

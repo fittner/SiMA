@@ -8,6 +8,8 @@
 package bw.entities;
 
 import java.awt.Color;
+
+import bw.entities.tools.clsShapeCreator;
 import bw.utils.config.clsBWProperties;
 import bw.utils.enums.eShapeType;
 import enums.eEntityType;
@@ -20,45 +22,36 @@ import enums.eEntityType;
  * 
  */
 public class clsStone extends clsInanimate {
-		
-	public static final String P_IMAGE_PATH = "image_path";
 	public static final String P_RADIUS_TO_MASS_CONVERSION = "conversion";
 		
 	public clsStone(String poPrefix, clsBWProperties poProp)
     {
-//		super(pnId, poPose, poStartingVelocity, new ARSsim.physics2D.shape.clsCircleImage(prRadius, clsStone.moDefaultColor, clsStone.moImagePath), prRadius * clsStone.mrDefaultRadiusToMassConversion);
-		//todo muchitsch ... hier wird eine default shape �bergeben, nicht null, sonst krachts
 		super(poPrefix, poProp); 
-		//super(pnId, poPose, poStartingVelocity, null, prRadius * clsStone.mrDefaultRadiusToMassConversion, clsStone.getFinalConfig(poConfig));
 		applyProperties(poPrefix, poProp);
-		
-		double rMass = poProp.getPropertyDouble(poPrefix+ P_SHAPE_RADIUS)*
-						poProp.getPropertyDouble(poPrefix+ P_RADIUS_TO_MASS_CONVERSION);  
-			
-		setShape(new ARSsim.physics2D.shape.clsCircleImage(poProp.getPropertyDouble(poPrefix+ P_SHAPE_RADIUS), 
-									                       poProp.getPropertyColor(poPrefix+P_ENTITY_COLOR_RGB), 
-															  poProp.getPropertyString(poPrefix +P_IMAGE_PATH)),
-															  rMass);
-    } 
+    }
 	
-	private void applyProperties(String poPrefix, clsBWProperties poProp){		
-			//TODO
-		}	
+	private void applyProperties(String poPrefix, clsBWProperties poProp){	
+		String pre = clsBWProperties.addDot(poPrefix);
+		double rMass = poProp.getPropertyDouble(pre+P_SHAPE+"."+clsShapeCreator.P_RADIUS)*
+			poProp.getPropertyDouble(poPrefix+ P_RADIUS_TO_MASS_CONVERSION);
+		setStructuralWeight(rMass);
+	}	
 		
-		public static clsBWProperties getDefaultProperties(String poPrefix) {
-			String pre = clsBWProperties.addDot(poPrefix);
+	public static clsBWProperties getDefaultProperties(String poPrefix) {
+		String pre = clsBWProperties.addDot(poPrefix);
 
-			clsBWProperties oProp = new clsBWProperties();
+		clsBWProperties oProp = new clsBWProperties();
 
-			oProp.putAll(clsInanimate.getDefaultProperties(pre) );
-			oProp.setProperty(pre+P_RADIUS_TO_MASS_CONVERSION , 10.0);
-			oProp.setProperty(pre+P_SHAPE_TYPE,  eShapeType.CIRCLE.name());
-			oProp.setProperty(pre+P_SHAPE_RADIUS, 1.0);
-			oProp.setProperty(pre+P_ENTITY_COLOR_RGB, Color.DARK_GRAY);
-			oProp.setProperty(pre+P_IMAGE_PATH, "/BW/src/resources/images/rock1.jpg");
-		   			
-			return oProp;
-		}	
+		oProp.putAll(clsInanimate.getDefaultProperties(pre) );
+		oProp.setProperty(pre+P_RADIUS_TO_MASS_CONVERSION , 10.0);
+		
+		oProp.setProperty(pre+P_SHAPE+"."+clsShapeCreator.P_TYPE, eShapeType.CIRCLE.name());
+		oProp.setProperty(pre+P_SHAPE+"."+clsShapeCreator.P_RADIUS, "1.0");
+		oProp.setProperty(pre+P_SHAPE+"."+clsShapeCreator.P_COLOR, Color.DARK_GRAY);
+		oProp.setProperty(pre+P_SHAPE+"."+clsShapeCreator.P_IMAGE_PATH, "/BW/src/resources/images/rock1.jpg");
+	   			
+		return oProp;
+	}	
 	
 	/* (non-Javadoc)
 	 * @see bw.clsEntity#setEntityType()

@@ -83,7 +83,7 @@ public class clsBWMain extends SimState{
 		{
 		
 //		oLoader = new clsLifeCycleLoader(this, "", 200, 200, 5, 3, 1, 2, eLifeCycleDUs.IfThenElse, eLifeCycleDUs.IfThenElse);
-		oLoader = new clsSimpleLoader(this, "", 200, 200, 1, 0, 0, 0, 0, 0, 0, 0);
+		oLoader = new clsSimpleLoader(this, "", 200, 200, 1, 1, 1, 1, 1, 1, 1, 1);
 
 //		oLoader = new clsLifeCycleLoader(this, "", 200, 200, 5, 3, 1, 2, eLifeCycleDUs.IfThenElse, eLifeCycleDUs.IfThenElse);
 //		oLoader = new clsSimpleLoader(this, "", 200, 200, 1, 2, 5, 3, 1, 1, 1, 1);

@@ -8,6 +8,8 @@
 package bw.entities;
 
 import java.awt.Color;
+
+import bw.entities.tools.clsShapeCreator;
 import bw.utils.config.clsBWProperties;
 import bw.utils.enums.eShapeType;
 import enums.eEntityType;
@@ -22,22 +24,24 @@ public class clsCan extends clsInanimate {
 
 	
     private void applyProperties(String poPrefix, clsBWProperties poProp){		
-		//TODO
+		// nothing to do
 	}	
 	
-public static clsBWProperties getDefaultProperties(String poPrefix) {
+    public static clsBWProperties getDefaultProperties(String poPrefix) {
 		String pre = clsBWProperties.addDot(poPrefix);
 
 		clsBWProperties oProp = new clsBWProperties();
 		
 		oProp.putAll(clsInanimate.getDefaultProperties(pre) );
-		oProp.setProperty(pre+P_ENTITY_COLOR_RGB, Color.blue);
-		oProp.setProperty(pre+P_MASS, 80.0);
-		oProp.setProperty(pre+P_SHAPE_RADIUS, 2.0);
-		oProp.setProperty(pre+P_SHAPE_TYPE,  eShapeType.CIRCLE.name());
+		
+		oProp.setProperty(pre+P_STRUCTURALWEIGHT, 80.0);
+		
+		oProp.setProperty(pre+P_SHAPE+"."+clsShapeCreator.P_TYPE, eShapeType.CIRCLE.name());
+		oProp.setProperty(pre+P_SHAPE+"."+clsShapeCreator.P_RADIUS, 2);
+		oProp.setProperty(pre+P_SHAPE+"."+clsShapeCreator.P_COLOR, Color.blue);
 		
 		return oProp;
-}
+    }
     
     /* (non-Javadoc)
 	 * @see bw.clsEntity#setEntityType()
@@ -53,7 +57,7 @@ public static clsBWProperties getDefaultProperties(String poPrefix) {
 	 */
 	@Override
 	public void sensing() {
-		// TODO Auto-generated method stub
+		// nothing to do
 		
 	}
 
@@ -62,7 +66,7 @@ public static clsBWProperties getDefaultProperties(String poPrefix) {
 	 */
 	@Override
 	public void execution() {
-		// TODO Auto-generated method stub
+		// nothing to do
 		
 	}
 	/* (non-Javadoc)
@@ -74,7 +78,7 @@ public static clsBWProperties getDefaultProperties(String poPrefix) {
 	 */
 	@Override
 	public void processing() {
-		// TODO Auto-generated method stub
+		// nothing to do
 		
 	}
 	/* (non-Javadoc)
@@ -86,9 +90,6 @@ public static clsBWProperties getDefaultProperties(String poPrefix) {
 	 */
 	@Override
 	public void updateInternalState() {
-		// TODO Auto-generated method stub
-		
+		// nothing to do
 	}
-
 }
-

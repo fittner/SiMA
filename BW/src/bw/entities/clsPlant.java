@@ -8,7 +8,9 @@
 package bw.entities;
 
 import java.awt.Color;
+import bw.entities.tools.clsShapeCreator;
 import bw.utils.config.clsBWProperties;
+import bw.utils.enums.eShapeType;
 import enums.eEntityType;
 
 /**
@@ -26,13 +28,11 @@ public class clsPlant extends clsAnimate {
 	
 	public clsPlant(String poPrefix, clsBWProperties poProp) {
 		super(poPrefix, poProp);
-		
 		applyProperties(poPrefix, poProp);
-
     }
     
     private void applyProperties(String poPrefix, clsBWProperties poProp){		
-		//TODO
+		// nothing to do
 	}	
     
     public static clsBWProperties getDefaultProperties(String poPrefix) {
@@ -40,11 +40,13 @@ public class clsPlant extends clsAnimate {
 		
 		clsBWProperties oProp = new clsBWProperties();
 		oProp.putAll(clsAnimate.getDefaultProperties(poPrefix) );
-		oProp.setProperty(pre+P_ENTITY_COLOR_RGB, Color.ORANGE);
-		oProp.setProperty(pre+P_SHAPE_TYPE, "SHAPE_CIRCLE");
-		oProp.setProperty(pre+P_MASS, 300.0);
-		oProp.setProperty(pre+P_SHAPE_RADIUS, 10.0);
 
+		oProp.setProperty(pre+P_STRUCTURALWEIGHT, 300.0);
+		
+		oProp.setProperty(pre+P_SHAPE+"."+clsShapeCreator.P_TYPE, eShapeType.CIRCLE.name());
+		oProp.setProperty(pre+P_SHAPE+"."+clsShapeCreator.P_RADIUS, 10);
+		oProp.setProperty(pre+P_SHAPE+"."+clsShapeCreator.P_COLOR, Color.ORANGE);
+		
 		return oProp;
 	}	
   	
@@ -62,7 +64,7 @@ public class clsPlant extends clsAnimate {
 	 */
 	@Override
 	public void sensing() {
-		// TODO Auto-generated method stub
+		// nothing to do
 		
 	}
 
@@ -71,7 +73,7 @@ public class clsPlant extends clsAnimate {
 	 */
 	@Override
 	public void execution() {
-		// TODO Auto-generated method stub
+		// nothing to do
 		
 	}
 
@@ -84,8 +86,7 @@ public class clsPlant extends clsAnimate {
 	 */
 	@Override
 	public void processing() {
-		// TODO Auto-generated method stub
-		
+		// nothing to do
 	}
 
 	/* (non-Javadoc)
@@ -97,10 +98,6 @@ public class clsPlant extends clsAnimate {
 	 */
 	@Override
 	public void updateInternalState() {
-		// TODO Auto-generated method stub
-		
+		// nothing to do
 	}
-
-
-
 }

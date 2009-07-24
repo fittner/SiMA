@@ -96,7 +96,7 @@ public class clsExecutorPickUp  extends clsActionExecutor {
 		if (oEntity.getCarryableEntity() ==null) return 0;
 
 		//Calculate stamina from mass/maxmass relation
-		return  (mrMassScalingFactor * oEntity.getCarryableEntity().getMass()); 
+		return  (mrMassScalingFactor * oEntity.getCarryableEntity().getTotalWeight()); 
 	}
 
 	/*

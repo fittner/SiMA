@@ -1,8 +1,11 @@
 package ARSsim.physics2D.shape;
 
 import sim.physics2D.shape.Circle;
-import sim.portrayal.*;
-import java.awt.*;
+import sim.portrayal.DrawInfo2D;
+//import sim.portrayal.*;
+//import java.awt.*;
+import java.awt.Graphics2D;
+import java.awt.Paint;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -15,7 +18,7 @@ import bw.factories.clsSingletonMasonGetter;
  * 
  * @author muchitsch
  *  
- */
+ *///
 public class clsCircleImage extends Circle
     {
 	
@@ -76,35 +79,35 @@ public class clsCircleImage extends Circle
 	   		throw new NullPointerException("Image URL could not be loaded, file not found in file");
 	   	}
     }
-	
-	
-	
-	/**
-	 * creates a circular physical object with the given range and displays a image instead.
-	 * Users need to know what radius the image has!
-	 * 
-	 * @param prRadius
-	 * @param poDefautColor
-	 * @param poImageURL
-	 * @throws IOException
-	 */
-	public clsCircleImage(double prRadius, Paint poDefautColor, java.net.URL poImageURL  ) 
-    {
-		super(prRadius, poDefautColor);
-		
-		if(poImageURL == null)
-			throw new NullPointerException("Image URL could not be loaded, file not found in ressource");
-		
-		this.mrRadius = prRadius; 
-	
-		try {
-			moImage = ImageIO.read(poImageURL);
-		} catch (IOException e) {
-			e.printStackTrace();
-			throw new NullPointerException("Image URL could not be loaded, file not found in file");
-		}
-		
-    }
+
+
+	// TD - removed. we will not need to import images from urls ... fileaccess is sufficient. (removed to clarify this)
+	///**
+	// * creates a circular physical object with the given range and displays a image instead.
+	// * Users need to know what radius the image has!
+	// * 
+	// * @param prRadius
+	// * @param poDefautColor
+	// * @param poImageURL
+	// * @throws IOException
+	// */
+	//	public clsCircleImage(double prRadius, Paint poDefautColor, java.net.URL poImageURL  ) 
+	//    {
+	//		super(prRadius, poDefautColor);
+	//	
+	//	if(poImageURL == null)
+	//		throw new NullPointerException("Image URL could not be loaded, file not found in ressource");
+	//	
+	//	this.mrRadius = prRadius; 
+	//	
+	//	try {
+	//		moImage = ImageIO.read(poImageURL);
+	//	} catch (IOException e) {
+	//		e.printStackTrace();
+	//		throw new NullPointerException("Image URL could not be loaded, file not found in file");
+	//	}
+	//	
+	//}
         
     
     /** Display the circle + image */

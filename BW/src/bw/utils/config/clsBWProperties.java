@@ -73,7 +73,7 @@ public class clsBWProperties extends Properties {
 	 * @author deutsch
 	 * 22.07.2009, 09:55:35
 	 */
-	private static final String P_RANDOM = "§"; //don't blame me - roland states that the law is pure random
+	private static final String P_RANDOM = "ï¿½"; //don't blame me - roland states that the law is pure random
 	
 	/**
 	 * TAG denoting that the following value is a hex color #01AFB2 
@@ -346,6 +346,10 @@ public class clsBWProperties extends Properties {
 	@Override
 	public String getProperty(String key) {
 		String res = super.getProperty(key);
+
+		if (res == null) {
+			throw new java.lang.NullPointerException("Key not found: '"+key+"'");
+		}
 		
 		if (res.startsWith(P_RANDOM)) {
 			//insuperior approach - a double value is converted to a string and to a double back again. 

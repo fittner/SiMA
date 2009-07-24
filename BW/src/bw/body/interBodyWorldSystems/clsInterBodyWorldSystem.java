@@ -8,10 +8,7 @@
 package bw.body.interBodyWorldSystems;
 
 import bw.body.itfStepUpdateInternalState;
-import bw.body.internalSystems.clsFastMessengerSystem;
-import bw.body.internalSystems.clsFlesh;
 import bw.body.internalSystems.clsInternalSystem;
-import bw.body.internalSystems.clsSlowMessengerSystem;
 import bw.utils.config.clsBWProperties;
 
 /**
@@ -38,9 +35,9 @@ public class clsInterBodyWorldSystem implements itfStepUpdateInternalState {
 		
 		clsBWProperties oProp = new clsBWProperties();
 
-		oProp.putAll( clsFlesh.getDefaultProperties(pre+P_CONSUMEFOOD) );
-		oProp.putAll( clsSlowMessengerSystem.getDefaultProperties(pre+P_DAMAGEBUMP) );
-		oProp.putAll( clsFastMessengerSystem.getDefaultProperties(pre+P_DAMAGELIGHTNING) );
+		oProp.putAll( clsConsumeFood.getDefaultProperties(pre+P_CONSUMEFOOD) );
+		oProp.putAll( clsDamageBump.getDefaultProperties(pre+P_DAMAGEBUMP) );
+		oProp.putAll( clsDamageLightning.getDefaultProperties(pre+P_DAMAGELIGHTNING) );
 				
 		return oProp;
 	}	

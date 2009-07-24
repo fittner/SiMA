@@ -9,11 +9,10 @@ package bw.entities;
 
 import sim.physics2D.shape.Shape;
 import sim.physics2D.util.Double2D;
+import bw.entities.tools.clsShapeCreator;
 import bw.utils.config.clsBWProperties;
-import bw.utils.enums.eShapeType;
 import ARSsim.physics2D.physicalObject.clsStationaryObject2D;
 import ARSsim.physics2D.util.clsPose;
-
 
 
 /**
@@ -28,10 +27,6 @@ public abstract class clsStationary extends clsEntity {
 	public static final String P_POS_Y = "pos_y";
 	public static final String P_POS_ANGLE = "pos_angle";
 	
-	public static final String P_SHAPE_TYPE = "shape_type";
-	public static final String P_SHAPE_RADIUS = "shape_radius";
-	public static final String P_SHAPE_WIDTH = "shape_width";
-	public static final String P_SHAPE_HEIGHT = "shape_height";
 	public static final String P_DEF_RESTITUTION = "def_restitution";
 		
 	private double mrDefaultRestitution; 			 //0.5 
@@ -51,7 +46,7 @@ public abstract class clsStationary extends clsEntity {
 		oProp.setProperty(pre+P_POS_Y, 0.0);
 		oProp.setProperty(pre+P_POS_ANGLE, 0.0);
 				
-		oProp.setProperty(pre+P_MASS , 9999.0);
+		oProp.setProperty(pre+P_STRUCTURALWEIGHT , java.lang.Double.MAX_VALUE);
 		oProp.setProperty(pre+P_DEF_RESTITUTION , 1.0);
 		
 		return oProp;
@@ -66,36 +61,9 @@ public abstract class clsStationary extends clsEntity {
 		double oPosY = poProp.getPropertyDouble(pre+P_POS_Y);
 		double oPosAngle = poProp.getPropertyDouble(pre+P_POS_ANGLE);
 		
-		Shape oShape = createShape(pre, poProp);
-		initPhysicalObject2D(new clsPose(oPosX, oPosY, oPosAngle), new Double2D(0.0,0.0), oShape, getMass());
+		Shape oShape = clsShapeCreator.createShape(pre+P_SHAPE, poProp); //depends on the config
+		initPhysicalObject2D(new clsPose(oPosX, oPosY, oPosAngle), new Double2D(0.0,0.0), oShape, getTotalWeight());
 	}	
-	
-private Shape createShape(String pre, clsBWProperties poProp) {
-		
-		Shape oShape = null; 
-			
-		eShapeType oShapeType = eShapeType.valueOf(poProp.getPropertyString(pre +P_SHAPE_TYPE) );
-		
-		switch( oShapeType ) {
-		case CIRCLE:
-			oShape = new sim.physics2D.shape.Circle(poProp.getPropertyDouble(pre +P_SHAPE_RADIUS), 
-					 poProp.getPropertyColor(pre +P_ENTITY_COLOR_RGB));
-			break;
-		case RECTANGLE:
-			oShape = new sim.physics2D.shape.Rectangle(	poProp.getPropertyDouble(pre +P_SHAPE_WIDTH),
-														poProp.getPropertyDouble(pre +P_SHAPE_HEIGHT), 
-														 poProp.getPropertyColor(pre +P_ENTITY_COLOR_RGB));
-			break;
-		case POLYGON:
-			//TODO: (everyone) - add list for points of polygon in config!
-			break;
-		default:
-			oShape = new sim.physics2D.shape.Circle(poProp.getPropertyDouble(pre +P_SHAPE_RADIUS), 
-					 poProp.getPropertyColor(pre +P_ENTITY_COLOR_RGB));
-			break;
-		}
-		return oShape;
-	}
 	
 	@Override
 	protected void initPhysicalObject2D(clsPose poPose, sim.physics2D.util.Double2D poStartingVelocity, Shape poShape, double prMass) {

@@ -13,6 +13,7 @@ import bw.entities.clsBubble;
 import bw.entities.clsEntity;
 import bw.entities.clsMobile;
 import bw.entities.clsRemoteBot;
+import bw.entities.tools.clsShapeCreator;
 import bw.factories.clsRegisterEntity;
 import bw.utils.config.clsBWProperties;
 
@@ -42,7 +43,7 @@ public class clsAgentLoader {
 			 oProp.putAll( clsLoader.generateRandomPose("Bubble.", clsMobile.P_POS_X, clsMobile.P_POS_Y, clsMobile.P_POS_ANGLE) );	         
 	         oProp.setProperty("Bubble."+clsEntity.P_ID, i);
 	         
-	         oProp.setProperty("Bubble."+clsEntity.P_ENTITY_COLOR_RGB, oColor);
+	         oProp.setProperty("Bubble."+clsEntity.P_SHAPE+"."+clsShapeCreator.P_COLOR, oColor);
 	         clsBubble oBubble = new clsBubble( "Bubble.", oProp );
 
 		  	 clsRegisterEntity.registerEntity(oBubble);

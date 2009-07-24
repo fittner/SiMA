@@ -150,4 +150,28 @@ public class clsStationaryObject2D extends sim.physics2D.physicalObject.Stationa
 
 		return moMasonInspector;
 	}
+
+	/* (non-Javadoc)
+	 *
+	 * @author tobias
+	 * Jul 24, 2009, 10:37:04 PM
+	 * 
+	 * @see ARSsim.physics2D.physicalObject.itfSetupFunctions#getMass()
+	 */
+	@Override
+	public double getMass() {
+		return java.lang.Double.MAX_VALUE; //stationary objects have infinity mass!
+	}
+
+	/* (non-Javadoc)
+	 *
+	 * @author tobias
+	 * Jul 24, 2009, 10:37:04 PM
+	 * 
+	 * @see ARSsim.physics2D.physicalObject.itfSetupFunctions#setMass(double)
+	 */
+	@Override
+	public void setMass(double mass) {
+		//do nothing - stationary objects have infinite mass!
+	}
 }
