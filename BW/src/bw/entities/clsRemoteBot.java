@@ -18,6 +18,7 @@ import bw.physicalObjects.sensors.clsEntitySensorEngine;
 import bw.utils.config.clsBWProperties;
 import bw.utils.enums.eShapeType;
 import bw.body.io.sensors.ext.clsSensorEngine;
+import bw.body.io.sensors.ext.clsSensorVisionNEW;
 import bw.body.io.sensors.external.clsSensorEatableArea;
 import bw.body.io.sensors.external.clsSensorVision;
 import bw.body.itfget.itfGetEatableArea;
@@ -43,9 +44,7 @@ import statictools.clsSingletonUniqueIdGenerator;
 public class clsRemoteBot extends clsAnimate implements itfGetVision, itfGetRadiation, itfGetEatableArea, itfGetSensorEngine  {
 	public static final String P_BOT_RADIUS = "bot_radius";
 	
-	public static final String P_BOT_HAND_COLOR_R = "bot_hand_color_r";
-	public static final String P_BOT_HAND_COLOR_G = "bot_hand_color_g";
-	public static final String P_BOT_HAND_COLOR_B = "bot_hand_color_b";
+	public static final String P_BOT_HAND_COLOR_RGB = "bot_hand_color_rgb";
 	
     private clsBotHands moBotHand1;
     private clsBotHands moBotHand2;
@@ -78,9 +77,7 @@ public class clsRemoteBot extends clsAnimate implements itfGetVision, itfGetRadi
 		oProp.setProperty(pre+P_ENTITY_COLOR_RGB, Color.CYAN);
 		
 		//bot-hand color
-		oProp.setProperty(pre+P_BOT_HAND_COLOR_R, Color.gray.getRed());
-		oProp.setProperty(pre+P_BOT_HAND_COLOR_G, Color.gray.getGreen());
-		oProp.setProperty(pre+P_BOT_HAND_COLOR_B, Color.gray.getBlue());
+		oProp.setProperty(pre+P_BOT_HAND_COLOR_RGB, Color.gray);
 		
 		return oProp;
 	}
@@ -88,9 +85,7 @@ public class clsRemoteBot extends clsAnimate implements itfGetVision, itfGetRadi
 	private void applyProperties(String poPrefix, clsBWProperties poProp) {
 		String pre = clsBWProperties.addDot(poPrefix);
 	
-		moDefaultHandColor = new Color(poProp.getPropertyFloat(P_BOT_HAND_COLOR_R),
-	    		    					poProp.getPropertyFloat(P_BOT_HAND_COLOR_G),
-	    		    					poProp.getPropertyFloat(P_BOT_HAND_COLOR_B));
+		moDefaultHandColor = poProp.getPropertyColor(P_BOT_HAND_COLOR_RGB);
 		addBotHands(); //in the defined color above....
 
 		moDecisionType = eDecisionType.valueOf( poProp.getPropertyString(pre+P_DECISION_TYPE) );
@@ -154,10 +149,19 @@ public class clsRemoteBot extends clsAnimate implements itfGetVision, itfGetRadi
 	
 	//ZEILINGER - integrate SensorEngine 
 	@Override
-	public TreeMap <Double,clsEntitySensorEngine> getSensorEngine()
+	public TreeMap <Double,clsEntitySensorEngine> getSensorEngineAreas()
 	{
 		return ((clsSensorEngine)this.moBody
 					.getExternalIO().moSensorEngine).getMeSensorAreas(); 
+	}
+	
+	//ZEILINGER Has to be Integrated to Animated too
+	/*returns the Vision Sensor*/
+	public clsSensorVisionNEW getVision_new()
+	{
+		return (clsSensorVisionNEW)moBody
+					.getExternalIO().moSensorExternal
+					.get(enums.eSensorExtType.VISION_new); 
 	}
 	
 	/* (non-Javadoc)
@@ -192,5 +196,4 @@ public class clsRemoteBot extends clsAnimate implements itfGetVision, itfGetRadi
 	public int getUniqueId() {
 		return mnUniqueId;
 	}
-	
 }
