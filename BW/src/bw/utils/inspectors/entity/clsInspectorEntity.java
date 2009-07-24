@@ -20,6 +20,7 @@ import javax.swing.BoxLayout;
 import javax.swing.JButton;
 
 import bw.body.clsBaseBody;
+import bw.body.itfGetBrain;
 import bw.body.itfget.itfGetBody;
 import bw.entities.clsEntity;
 import bw.utils.inspectors.clsInspectorMappingEntity;
@@ -176,7 +177,7 @@ public class clsInspectorEntity extends Inspector implements ActionListener {
 		else if( source == moBtnBrainInspectors) {
 			TabbedInspector oMasonInspector = new TabbedInspector();
 			//define the inspector-content for each entity in the responsible InspectorMapping-class
-			oMasonInspector.addInspector( clsInspectorMappingDecision.getInspector(moOriginalInspector, moWrapper, moGuiState, ((itfGetBody)moEntity).getBody().getBrain().getDecisionUnit()), "Brain Insp.");
+			oMasonInspector.addInspector( clsInspectorMappingDecision.getInspector(moOriginalInspector, moWrapper, moGuiState, ((itfGetBrain)((itfGetBody)moEntity).getBody()).getBrain().getDecisionUnit()), "Brain Insp.");
 			moEntityWindows.add( clsInspectorFrame.getInspectorFrame(oMasonInspector, moEntity.getId() + " - " + moEntity.getEntityType().toString() + " - Brain Inspector") );
 		}
 	}
