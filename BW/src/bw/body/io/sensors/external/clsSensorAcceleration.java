@@ -24,6 +24,9 @@ import bw.entities.clsMobile;
  */
 public class clsSensorAcceleration extends clsSensorExt{
 
+	public static final String P_START_VELOCITY_X = "start_velocity_x";
+	public static final String P_START_VELOCITY_Y = "start_velocity_y";
+	
 	private clsMobile moEntity;	
 	
 	private Double2D oldVelocity;
@@ -45,19 +48,21 @@ public class clsSensorAcceleration extends clsSensorExt{
 	}
 
 	public static clsBWProperties getDefaultProperties(String poPrefix) {
-		// String pre = clsBWProperties.addDot(poPrefix);
+		String pre = clsBWProperties.addDot(poPrefix);
 		
 		clsBWProperties oProp = new clsBWProperties();
 		
-		//nothing to do
+		oProp.setProperty(pre+P_START_VELOCITY_X, 0.0);
+		oProp.setProperty(pre+P_START_VELOCITY_Y, 0.0);
 				
 		return oProp;
 	}	
 
 	private void applyProperties(String poPrefix, clsBWProperties poProp) {
-		//String pre = clsBWProperties.addDot(poPrefix);
+		String pre = clsBWProperties.addDot(poPrefix);
 
-		//nothing to do
+		curVelocity = new Double2D(poProp.getPropertyDouble(pre+P_START_VELOCITY_X),
+									poProp.getPropertyDouble(pre+P_START_VELOCITY_Y));
 	}		
 	
 
