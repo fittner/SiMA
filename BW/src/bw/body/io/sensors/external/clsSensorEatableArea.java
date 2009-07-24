@@ -28,14 +28,15 @@ public class clsSensorEatableArea extends clsSensorVision {
 		applyProperties(poPrefix, poProp);
 	}	
 	
-	public static clsBWProperties getDefaultProperties(String poPrefix) {
+        public static clsBWProperties getDefaultProperties(String poPrefix) {
 		String pre = clsBWProperties.addDot(poPrefix);
 		
 		clsBWProperties oProp = new clsBWProperties();
+		oProp.putAll( clsSensorVision.getDefaultProperties(pre) );
 		
-		oProp.setProperty(pre+P_ANGLE, (2.0 *  Math.PI) );
-		oProp.setProperty(pre+P_RANGE, 5 );
-		oProp.setProperty(pre+P_OFFSET, 15 );		
+		oProp.setProperty(pre+P_SENSOR_ANGLE, (2.0 *  Math.PI) );
+		oProp.setProperty(pre+P_SENSOR_RANGE, 5 );
+		oProp.setProperty(pre+P_SENSOR_OFFSET, 15 );		
 				
 		return oProp;
 	}	

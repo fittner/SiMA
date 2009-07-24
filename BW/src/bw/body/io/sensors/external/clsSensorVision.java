@@ -32,9 +32,9 @@ import bw.utils.sensors.clsSensorDataCalculation;
  * 
  */
 public class clsSensorVision extends clsSensorExt {
-	public static final String P_ANGLE = "angle";
-	public static final String P_RANGE = "range";
-	public static final String P_OFFSET = "offset";	
+	public static final String P_SENSOR_ANGLE = "sensor_angle";
+	public static final String P_SENSOR_RANGE = "sensor_range";
+	public static final String P_SENSOR_OFFSET = "offset";	
 	
 	protected double mnViewRad;
 	protected double mnVisRange;
@@ -48,7 +48,7 @@ public class clsSensorVision extends clsSensorExt {
 	private HashMap<Integer, PhysicalObject2D> moViewObj;
 	private HashMap<Integer, clsPolarcoordinate> moViewObjDir;
 	private clsSensorDataCalculation moCalculationObj; 
-		
+	
 	/**
 	 * @param poEntity
 	 * @param poBaseIO
@@ -75,19 +75,19 @@ public class clsSensorVision extends clsSensorExt {
 		
 		clsBWProperties oProp = new clsBWProperties();
 		
-		oProp.setProperty(pre+P_ANGLE, (5*Math.PI/3) );
-		oProp.setProperty(pre+P_RANGE, 50 );
-		oProp.setProperty(pre+P_OFFSET, 0 );		
+		oProp.setProperty(pre+P_SENSOR_ANGLE, (5*Math.PI/3) );
+		oProp.setProperty(pre+P_SENSOR_RANGE, 60.0 );
+		oProp.setProperty(pre+P_SENSOR_OFFSET, 0.0 );		
 				
 		return oProp;
 	}	
 
 	private void applyProperties(String poPrefix, clsBWProperties poProp) {
 		String pre = clsBWProperties.addDot(poPrefix);
-		
-		mnViewRad = poProp.getPropertyDouble(pre+P_ANGLE);
-		mnVisRange = poProp.getPropertyDouble(pre+P_RANGE);
-		mnVisOffset = poProp.getPropertyDouble(pre+P_OFFSET);
+					
+		mnViewRad = poProp.getPropertyDouble(pre+P_SENSOR_ANGLE);
+		mnVisRange = poProp.getPropertyDouble(pre+P_SENSOR_RANGE);
+		mnVisOffset = poProp.getPropertyDouble(pre+P_SENSOR_OFFSET);
 	}
 	
 	

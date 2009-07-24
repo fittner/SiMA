@@ -47,10 +47,11 @@ public class clsSensorRadiation extends clsSensorVision {
 		String pre = clsBWProperties.addDot(poPrefix);
 		
 		clsBWProperties oProp = new clsBWProperties();
+		oProp.putAll( clsSensorVision.getDefaultProperties(pre) );
 		
-		oProp.setProperty(pre+P_ANGLE, (2.0 *  Math.PI) );
-		oProp.setProperty(pre+P_RANGE, 80 );
-		oProp.setProperty(pre+P_OFFSET, 0 );		
+		oProp.setProperty(pre+P_SENSOR_ANGLE, (2.0 *  Math.PI) );
+		oProp.setProperty(pre+P_SENSOR_RANGE, 80 );
+		oProp.setProperty(pre+P_SENSOR_OFFSET, 0 );		
 				
 		return oProp;
 	}	
