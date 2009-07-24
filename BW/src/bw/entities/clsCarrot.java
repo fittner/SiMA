@@ -10,8 +10,6 @@ package bw.entities;
 
 import java.awt.Color;
 import java.util.Random;
-
-import statictools.clsGetARSPath;
 import enums.eEntityType;
 import bw.body.clsMeatBody;
 import bw.body.internalSystems.clsFlesh;
@@ -117,8 +115,8 @@ public class clsCarrot extends clsInanimate implements itfGetFlesh, itfAPEatable
 		oProp.setProperty(pre+P_MASS, 1.0);
 		oProp.setProperty(pre+P_SHAPE_RADIUS, 5.0);
 		oProp.setProperty(pre+P_SHAPE_TYPE, eShapeType.CIRCLE.name());
-		oProp.setProperty(pre+P_IMAGE_PATH_FRESH, clsGetARSPath.getArsPath()+ "/BW/src/resources/images/carrot_clipart.jpg");
-		oProp.setProperty(pre+P_IMAGE_PATH_DEAD, clsGetARSPath.getArsPath()+ "/BW/src/resources/images/carrot_grayscale.jpg");
+		oProp.setProperty(pre+P_IMAGE_PATH_FRESH, "/BW/src/resources/images/carrot_clipart.jpg");
+		oProp.setProperty(pre+P_IMAGE_PATH_DEAD, "/BW/src/resources/images/carrot_grayscale.jpg");
 		
 		oProp.setProperty(pre+P_BODY+"1."+clsFlesh.P_NUTRITIONFRACTION, 5.0);
 		oProp.setProperty(pre+P_BODY+"4."+clsFlesh.P_NUTRITIONFRACTION, 1.0);

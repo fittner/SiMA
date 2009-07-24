@@ -9,11 +9,8 @@ package bw.entities;
 
 import java.awt.Color;
 import java.util.Iterator;
-
 import sim.engine.SimState;
 import sim.physics2D.physicalObject.PhysicalObject2D;
-import statictools.clsGetARSPath;
-
 import ARSsim.physics2D.physicalObject.clsMobileObject2D;
 import ARSsim.physics2D.physicalObject.clsStationaryObject2D;
 import bw.body.io.sensors.external.clsSensorEatableArea;
@@ -74,7 +71,7 @@ public class clsBase extends clsStationary {
 		oProp.setProperty(pre+P_BASE_RANGE, 50.0);
 		oProp.setProperty(pre+P_SHAPE_RADIUS, 50.0);
 		oProp.setProperty(pre+P_BASE_OFFSET, 0.0);
-		oProp.setProperty(pre+P_IMAGE_PATH, clsGetARSPath.getArsPath()+ "/BW/src/resources/images/spacestation.gif");
+		oProp.setProperty(pre+P_IMAGE_PATH, "/BW/src/resources/images/spacestation.gif");
 		
 		return oProp;
 	}	

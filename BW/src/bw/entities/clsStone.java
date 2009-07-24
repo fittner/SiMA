@@ -8,9 +8,6 @@
 package bw.entities;
 
 import java.awt.Color;
-
-import statictools.clsGetARSPath;
-
 import bw.utils.config.clsBWProperties;
 import bw.utils.enums.eShapeType;
 import enums.eEntityType;
@@ -58,7 +55,7 @@ public class clsStone extends clsInanimate {
 			oProp.setProperty(pre+P_SHAPE_TYPE,  eShapeType.CIRCLE.name());
 			oProp.setProperty(pre+P_SHAPE_RADIUS, 1.0);
 			oProp.setProperty(pre+P_ENTITY_COLOR_RGB, Color.DARK_GRAY);
-			oProp.setProperty(pre+P_IMAGE_PATH, clsGetARSPath.getArsPath()+ "/BW/src/resources/images/rock1.jpg");
+			oProp.setProperty(pre+P_IMAGE_PATH, "/BW/src/resources/images/rock1.jpg");
 		   			
 			return oProp;
 		}	

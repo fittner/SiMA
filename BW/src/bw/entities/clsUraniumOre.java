@@ -8,9 +8,6 @@
 package bw.entities;
 
 import java.awt.Color;
-
-import statictools.clsGetARSPath;
-
 import bw.utils.config.clsBWProperties;
 import bw.utils.enums.eBindingState;
 import bw.utils.enums.eShapeType;
@@ -61,7 +58,7 @@ public class clsUraniumOre extends clsInanimate implements itfAPCarryable {
 		oProp.setProperty(pre+P_RADIATION_INTENSITY, 0.0);
 		oProp.setProperty(pre+P_MASS, 30.0);
 		oProp.setProperty(pre+P_SHAPE_RADIUS, 4.0);
-		oProp.setProperty(pre+P_IMAGE_PATH, clsGetARSPath.getArsPath()+ "/BW/src/resources/images/Uranium.png");
+		oProp.setProperty(pre+P_IMAGE_PATH, "/BW/src/resources/images/Uranium.png");
 		
 		return oProp;
 	}	
