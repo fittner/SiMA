@@ -8,11 +8,12 @@
 package bw.body.io;
 
 import java.util.HashMap;
+
 import bw.body.clsBaseBody;
 import bw.body.io.actuators.clsActionProcessor;
 import bw.body.io.actuators.actionExecutors.*;
 import decisionunit.itf.actions.*; 
-import bw.body.io.sensors.ext.clsSensorEngine;
+//import bw.body.io.sensors.ext.clsSensorEngine;
 import bw.body.io.sensors.external.clsSensorAcceleration;
 import bw.body.io.sensors.external.clsSensorBump;
 import bw.body.io.sensors.external.clsSensorEatableArea;
@@ -20,7 +21,7 @@ import bw.body.io.sensors.external.clsSensorExt;
 import bw.body.io.sensors.external.clsSensorPositionChange;
 //HZ -- integration Sensor Engine
 //import bw.body.io.sensors.ext.clsSensorVisionNEW;
-//import bw.entities.clsRemoteBot;
+
 
 import bw.body.io.sensors.external.clsSensorVision;
 import bw.body.io.sensors.external.clsSensorRadiation;
@@ -56,9 +57,8 @@ public class clsExternalIO extends clsBaseIO {
 	public static final String P_SENSORACTIVE = "sensoractive";	
 	
 	private clsActionProcessor moProcessor; 
-	public  clsSensorEngine moSensorEngine;
+	//public  clsSensorEngine moSensorEngine; -ZEILINGER integrate the senor engine
 	public HashMap<eSensorExtType, clsSensorExt> moSensorExternal;
-		
 	public clsEntity moEntity;
 
 	public clsExternalIO(String poPrefix, clsBWProperties poProp, clsBaseBody poBody, clsEntity poEntity) {
@@ -88,8 +88,6 @@ public class clsExternalIO extends clsBaseIO {
 		
 		clsBWProperties oProp = new clsBWProperties();
 		
-		oProp.setProperty(pre+P_NUMSENSORS, 6);
-		
 		oProp.putAll( clsSensorAcceleration.getDefaultProperties( pre+"0") );
 		oProp.setProperty(pre+"0."+P_SENSORACTIVE, true);
 		oProp.setProperty(pre+"0."+P_SENSORTYPE, eSensorExtType.ACCELERATION.toString());
@@ -107,16 +105,17 @@ public class clsExternalIO extends clsBaseIO {
 		oProp.setProperty(pre+"3."+P_SENSORTYPE, eSensorExtType.RADIATION.toString());
 		
 		oProp.putAll( clsSensorEatableArea.getDefaultProperties( pre+"4") );
-		oProp.setProperty(pre+"3."+P_SENSORACTIVE, true);
-		oProp.setProperty(pre+"3."+P_SENSORTYPE, eSensorExtType.EATABLE_AREA.toString());
+		oProp.setProperty(pre+"4."+P_SENSORACTIVE, true);
+		oProp.setProperty(pre+"4."+P_SENSORTYPE, eSensorExtType.EATABLE_AREA.toString());
 		
 		oProp.putAll( clsSensorPositionChange.getDefaultProperties( pre+"5") );
-		oProp.setProperty(pre+"3."+P_SENSORACTIVE, true);
-		oProp.setProperty(pre+"3."+P_SENSORTYPE, eSensorExtType.POSITIONCHANGE.toString());		
+		oProp.setProperty(pre+"5."+P_SENSORACTIVE, true);
+		oProp.setProperty(pre+"5."+P_SENSORTYPE, eSensorExtType.POSITIONCHANGE.toString());		
 				
 		return oProp;
 	}	
 
+		
 	private void applyProperties(String poPrefix, clsBWProperties poProp) {
 		String pre = clsBWProperties.addDot(poPrefix);
 
@@ -148,9 +147,7 @@ public class clsExternalIO extends clsBaseIO {
 					case POSITIONCHANGE:
 						moSensorExternal.put(eType, new clsSensorPositionChange(tmp_pre, poProp, this, moEntity)); 
 						break;
-						
-					default:
-						throw new java.lang.NoSuchMethodError(eType.toString());
+									
 				}
 			}
 		}
@@ -174,7 +171,7 @@ public class clsExternalIO extends clsBaseIO {
 	 * @see bw.body.itfStepSensing#stepSensing()
 	 */
 	public void stepSensing() {
-		//moSensorEngine.updateSensorData(); // HZ integration of the Sensor Engine
+		//moSensorEngine.updateSensorData(); // ZEILINGER integration of the Sensor Engine
 		
 		for (clsSensorExt sensor : moSensorExternal.values()) {
 			sensor.updateSensorData();
