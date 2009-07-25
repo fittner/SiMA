@@ -6,12 +6,11 @@ public enum eEntityType {
 
 	//ANIMATES
 	ANIMAL,
-	BOT,
 	BUBBLE,
 	PLANT,
 	REMOTEBOT,
 	HARE,
-	TIGER,
+	LYNX,
 	
 	//INANIMATE
 	BASE,
