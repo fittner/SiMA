@@ -24,20 +24,53 @@ import statictools.clsGetARSPath;
  * 
  */
 public abstract class clsLoader {
+	public static final String P_FIELD_WIDTH = "field_width";
+	public static final String P_FIELD_HEIGHT = "field_height";
 	
+	protected clsBWProperties moProperties;
+	protected static final String moPrefix = "";
+	
+    public clsLoader(SimState poSimState, clsBWProperties poProperties) {
+    	moProperties = poProperties;  	
+    	clsPropertiesGetter.setProperties(moProperties);    
+    	
+    	createPhysicsEngine2D();
+		clsSingletonMasonGetter.setSimState(poSimState);
+		clsSingletonMasonGetter.getSimState().schedule.scheduleRepeating(clsSingletonMasonGetter.getPhysicsEngine2D());		
+
+		applyProperties(moPrefix, moProperties);
+    }
+
+    @Deprecated
     public clsLoader(SimState poSimState, String poPropertiesFilename) {
-    	loadProperties(poPropertiesFilename);
+    	moProperties = loadProperties(poPropertiesFilename);
     	    	
     	createPhysicsEngine2D();
-    	
 		clsSingletonMasonGetter.setSimState(poSimState);
-		
 		clsSingletonMasonGetter.getSimState().schedule.scheduleRepeating(clsSingletonMasonGetter.getPhysicsEngine2D());		
-    }
+    }    
+	
+	private void applyProperties(String poPrefix, clsBWProperties poProp){		
+		String pre = clsBWProperties.addDot(poPrefix);
+		createGrids(pre, poProp);
+	}	
+	
+	public static clsBWProperties getDefaultProperties(String poPrefix) {
+		String pre = clsBWProperties.addDot(poPrefix);
+	
+		clsBWProperties oProp = new clsBWProperties();
+		
+		oProp.setProperty(pre+P_FIELD_WIDTH, 200.0);
+		oProp.setProperty(pre+P_FIELD_HEIGHT, 200.0);
+		
+		return oProp;
+	}    
     
-    private void loadProperties(String poPropertiesFilename) {
+	@Deprecated
+    private clsBWProperties loadProperties(String poPropertiesFilename) {
     	clsBWProperties oProp = clsBWProperties.readProperties( clsGetARSPath.getConfigPath(), poPropertiesFilename);
-    	clsPropertiesGetter.setProperties(oProp);    	
+    	clsPropertiesGetter.setProperties(oProp);    
+    	return oProp;
     }
     
 	public abstract void loadObjects();
@@ -46,6 +79,20 @@ public abstract class clsLoader {
 		clsSingletonMasonGetter.setPhysicsEngine2D(new PhysicsEngine2D());
 	}
 
+
+    private void createGrids(String poPrefix, clsBWProperties poProp)
+    {
+    	String pre = clsBWProperties.addDot(poPrefix);
+    	/**
+    	 * Continuous2D is a Field: a representation of space. In particular, Continuous2D 
+    	 * represents continuous 2-dimensional space it is actually infinite: the width 
+    	 * and height are just for GUI guidelines (starting size of the window). */
+    	int nWidth = poProp.getPropertyInt(pre+P_FIELD_WIDTH);
+    	int nHeight = poProp.getPropertyInt(pre+P_FIELD_HEIGHT);
+    	clsSingletonMasonGetter.setFieldEnvironment(new Continuous2D(25, nWidth, nHeight));
+    }	
+    
+    @Deprecated
     protected void createGrids(int pnWidth, int pnHeight)
     {
     	/**

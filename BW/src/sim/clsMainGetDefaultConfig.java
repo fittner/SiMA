@@ -8,6 +8,7 @@
  */
 package sim;
 
+import sim.creation.simplePropertyLoader.clsSimplePropertyLoader;
 import statictools.clsGetARSPath;
 import bw.entities.clsAnimal;
 import bw.entities.clsAnimate;
@@ -75,6 +76,7 @@ public class clsMainGetDefaultConfig {
 		clsBWProperties.writeProperties(clsWallHorizontal.getDefaultProperties(""), oBaseDir, "wall_hor"+oExt, "");
 		clsBWProperties.writeProperties(clsWallVertical.getDefaultProperties(""), oBaseDir, "wall_ver"+oExt, "");
 
+		clsBWProperties.writeProperties(clsSimplePropertyLoader.getDefaultProperties(""), clsGetARSPath.getConfigPath(), "simplePropertyLoader"+oExt, "");
 	}
 
 }

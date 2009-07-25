@@ -1,5 +1,5 @@
 #
-#Sat Jul 25 00:44:54 CEST 2009
+#Sat Jul 25 12:45:08 CEST 2009
 body.bodyworld.consumefood.garbagenutritiontype=UNDIGESTABLE
 body.bodyworld.damagebump.healthpenalty=1
 body.bodyworld.damagebump.hurthreshold=0
@@ -117,6 +117,8 @@ body.intrabody.damagetemperature.painfactor=1
 body.intrabody.damagetemperature.painthreshold=0.1
 body.sensorsext.0.sensoractive=true
 body.sensorsext.0.sensortype=ACCELERATION
+body.sensorsext.0.start_velocity_x=0.0
+body.sensorsext.0.start_velocity_y=0.0
 body.sensorsext.1.sensoractive=true
 body.sensorsext.1.sensortype=BUMP
 body.sensorsext.2.offset=0.0

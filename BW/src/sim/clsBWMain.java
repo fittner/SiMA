@@ -13,6 +13,7 @@ import ec.util.MersenneTwisterFast;
 
 import sim.creation.clsLoader;
 import sim.creation.simpleLoader.clsSimpleLoader;
+//import sim.creation.simplePropertyLoader.clsSimplePropertyLoader;
 import sim.engine.Schedule;
 import sim.engine.SimState;
 import statictools.clsGetARSPath;
@@ -83,11 +84,9 @@ public class clsBWMain extends SimState{
 		{
 		
 //		oLoader = new clsLifeCycleLoader(this, "", 200, 200, 5, 3, 1, 2, eLifeCycleDUs.IfThenElse, eLifeCycleDUs.IfThenElse);
-		oLoader = new clsSimpleLoader(this, "", 200, 200, 1, 1, 1, 1, 1, 1, 1, 1);
-
-//		oLoader = new clsLifeCycleLoader(this, "", 200, 200, 5, 3, 1, 2, eLifeCycleDUs.IfThenElse, eLifeCycleDUs.IfThenElse);
-//		oLoader = new clsSimpleLoader(this, "", 200, 200, 1, 2, 5, 3, 1, 1, 1, 1);
-//			oLoader = new clsSimpleLoader(this, "", 200, 200, 1, 0, 0, 0, 0, 0, 10, 0);
+		oLoader = new clsSimpleLoader(this, "", 200, 200, 0, 0, 1, 1, 1, 1, 1, 1);
+//		oLoader = new clsSimplePropertyLoader(this, clsSimplePropertyLoader.getDefaultProperties("") );
+		
 //		} else {
 //			oLoader = new clsSimpleLoader(this, "", 100, 100, 1, 0, 0, 0, 0, 0, 10, 1);
 		}
