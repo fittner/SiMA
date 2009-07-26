@@ -802,4 +802,32 @@ public class clsBWProperties extends Properties {
 			this.remove(oKey);
 		}
 	}
+	
+	/**
+	 * copies all entries which keys start with poPrefix into a new set. the prefix is removed from the keys
+	 * in the new set.
+	 *
+	 * @author tobias
+	 * Jul 26, 2009, 12:26:40 PM
+	 *
+	 * @param poPrefix
+	 * @return
+	 */
+	public clsBWProperties getSubset(String poPrefix) {
+		clsBWProperties oSubset = new clsBWProperties();
+
+		Set<Object> oKeyList = this.keySet();
+		
+		for (Object oKey:oKeyList) {
+			String tmp_key = (String)oKey;
+			if (tmp_key.startsWith(poPrefix)) {
+				String tmp_value = (String)get(oKey);
+				oSubset.put(tmp_key, tmp_value);
+			}
+		}
+		
+		oSubset.removeKeysStartingWith(poPrefix);
+		
+		return oSubset;
+	}
 }
