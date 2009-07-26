@@ -237,6 +237,8 @@ public class clsBWProperties extends Properties {
 	 */
 	public static clsBWProperties readProperties(String poBaseDir, String poFilename) {
 		clsBWProperties p2 = new clsBWProperties(poBaseDir);
+		
+		poFilename = poBaseDir + System.getProperty("file.separator") + poFilename;
         
 		if (poFilename.length()>0) {
 	    try
@@ -682,7 +684,7 @@ public class clsBWProperties extends Properties {
 	 * @param prefix
 	 */
 	public void addPrefix(String prefix) {
-		prefix += ".";
+		prefix = clsBWProperties.addDot(prefix);
 		
 		Iterator<String> i = stringPropertyNames().iterator();
 		
@@ -826,8 +828,33 @@ public class clsBWProperties extends Properties {
 			}
 		}
 		
-		oSubset.removeKeysStartingWith(poPrefix);
+		oSubset.stripPrefix(poPrefix);
 		
 		return oSubset;
+	}
+	
+	/**
+	 * scans all existing keys and returns true if at least one key starts with the given prefix.
+	 *
+	 * @author tobias
+	 * Jul 26, 2009, 3:02:11 PM
+	 *
+	 * @param poPrefix
+	 * @return
+	 */
+	public boolean existsPrefix(String poPrefix) {
+		boolean nResult = false;
+		
+		Set<Object> oKeyList = this.keySet();
+		
+		for (Object oKey:oKeyList) {
+			String tmp_key = (String)oKey;
+			if (tmp_key.startsWith(poPrefix)) {
+				nResult = true;
+				break;
+			}
+		}
+		
+		return nResult;
 	}
 }
