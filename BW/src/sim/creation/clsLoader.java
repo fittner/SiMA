@@ -26,9 +26,16 @@ import statictools.clsGetARSPath;
 public abstract class clsLoader {
 	public static final String P_FIELD_WIDTH = "field_width";
 	public static final String P_FIELD_HEIGHT = "field_height";
+	public static final String P_TITLE = "title";
+	public static final String P_DESCRIPTION = "description";
+	public static final String P_IMAGE = "image";
 	
-	protected clsBWProperties moProperties;
-	protected static final String moPrefix = "";
+	private clsBWProperties moProperties;
+	private static final String moPrefix = "";
+	private String moTitle;
+	private String moDescription;
+	private String moImageUrl;
+
 	
     public clsLoader(SimState poSimState, clsBWProperties poProperties) {
     	moProperties = poProperties;  	
@@ -52,6 +59,11 @@ public abstract class clsLoader {
 	
 	private void applyProperties(String poPrefix, clsBWProperties poProp){		
 		String pre = clsBWProperties.addDot(poPrefix);
+		
+		moTitle = poProp.getPropertyString(pre+P_TITLE);
+		moDescription = poProp.getPropertyString(pre+P_DESCRIPTION);
+		moImageUrl = poProp.getPropertyString(pre+P_IMAGE);
+		
 		createGrids(pre, poProp);
 	}	
 	
@@ -59,6 +71,10 @@ public abstract class clsLoader {
 		String pre = clsBWProperties.addDot(poPrefix);
 	
 		clsBWProperties oProp = new clsBWProperties();
+
+		oProp.setProperty(pre+P_TITLE, "default title");
+		oProp.setProperty(pre+P_DESCRIPTION, "Lorem ipsum dolor sit amet, consectetuer sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.");
+		oProp.setProperty(pre+P_IMAGE, "/BW/src/resources/images/cake.gif");
 		
 		oProp.setProperty(pre+P_FIELD_WIDTH, 200.0);
 		oProp.setProperty(pre+P_FIELD_HEIGHT, 200.0);
@@ -119,5 +135,38 @@ public abstract class clsLoader {
         oProp.setProperty(pre+P_POS_ANGLE, rAngle);
         
         return oProp;		
-	}    
+	}
+	
+	public String getTitle() {
+		return moTitle;
+	}
+	
+	public String getDescription() {
+		return moDescription;
+	}
+	
+	public String getImageUrl() {
+		return moImageUrl;
+	}
+	
+	@Deprecated
+	protected void setTitle(String poTitle) {
+		moTitle = poTitle;
+	}
+	@Deprecated
+	protected void setDescription(String poDescription) {
+		moDescription = poDescription;
+	}
+	@Deprecated
+	protected void setImageUrl(String poImageUrl) {
+		moImageUrl = poImageUrl;
+	}
+	
+	
+	protected clsBWProperties getProperties() {
+		return moProperties;
+	}
+	protected String getPrefix() {
+		return moPrefix;
+	}	
 }

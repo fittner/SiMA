@@ -9,9 +9,9 @@ package sim.creation.simpleLoader;
 
 import java.awt.Color;
 import sim.creation.clsLoader;
+import ARSsim.physics2D.util.clsPose;
 import bw.entities.clsBubble;
 import bw.entities.clsEntity;
-import bw.entities.clsMobile;
 import bw.entities.clsRemoteBot;
 import bw.entities.tools.clsShapeCreator;
 import bw.factories.clsRegisterEntity;
@@ -40,7 +40,7 @@ public class clsAgentLoader {
 				 oColor = oColors[i];
 			 	         
 	         clsBWProperties oProp = clsBubble.getDefaultProperties("Bubble.");
-			 oProp.putAll( clsLoader.generateRandomPose("Bubble.", clsMobile.P_POS_X, clsMobile.P_POS_Y, clsMobile.P_POS_ANGLE) );	         
+			 oProp.putAll( clsLoader.generateRandomPose("Bubble.", clsPose.P_POS_X, clsPose.P_POS_Y, clsPose.P_POS_ANGLE) );	         
 	         oProp.setProperty("Bubble."+clsEntity.P_ID, i);
 	         
 	         oProp.setProperty("Bubble."+clsEntity.P_SHAPE+"."+clsShapeCreator.P_COLOR, oColor);
@@ -61,7 +61,7 @@ public class clsAgentLoader {
 	public static void loadRemoteBots(int pnNumBots) {
 		for (int i = 0; i < pnNumBots; i++) {
 	         clsBWProperties oProp = clsRemoteBot.getDefaultProperties("RemoteBot.");
-			 oProp.putAll( clsLoader.generateRandomPose("RemoteBot.", clsMobile.P_POS_X, clsMobile.P_POS_Y, clsMobile.P_POS_ANGLE) );	         
+			 oProp.putAll( clsLoader.generateRandomPose("RemoteBot.", clsPose.P_POS_X, clsPose.P_POS_Y, clsPose.P_POS_ANGLE) );	         
 	         
 	         oProp.setProperty("RemoteBot."+clsEntity.P_ID, i);
 

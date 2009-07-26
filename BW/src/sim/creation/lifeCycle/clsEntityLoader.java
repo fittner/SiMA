@@ -10,12 +10,12 @@ package sim.creation.lifeCycle;
 
 import du.utils.enums.eDecisionType;
 import sim.creation.clsLoader;
+import ARSsim.physics2D.util.clsPose;
 import bw.entities.clsAnimate;
 import bw.entities.clsCarrot;
 import bw.entities.clsEntity;
 import bw.entities.clsHare;
 import bw.entities.clsLynx;
-import bw.entities.clsMobile;
 import bw.entities.clsStone;
 import bw.entities.tools.clsShapeCreator;
 import bw.factories.clsRegisterEntity;
@@ -36,7 +36,7 @@ public class clsEntityLoader {
 			//double rRadius = clsSingletonMasonGetter.getSimState().random.nextDouble() * 30.0 + 10.0;
 
 			clsBWProperties oProp = clsStone.getDefaultProperties("");
-			oProp.putAll( clsLoader.generateRandomPose("", clsMobile.P_POS_X, clsMobile.P_POS_Y, clsMobile.P_POS_ANGLE) );
+			oProp.putAll( clsLoader.generateRandomPose("", clsPose.P_POS_X, clsPose.P_POS_Y, clsPose.P_POS_ANGLE) );
 			oProp.setProperty(""+clsEntity.P_ID, i);
 	        oProp.setProperty(""+clsShapeCreator.P_RADIUS, 10);
 	        
@@ -50,7 +50,7 @@ public class clsEntityLoader {
         {
         	clsBWProperties oProp = clsCarrot.getDefaultProperties("");
 
-        	oProp.putAll( clsLoader.generateRandomPose("", clsMobile.P_POS_X, clsMobile.P_POS_Y, clsMobile.P_POS_ANGLE) );
+        	oProp.putAll( clsLoader.generateRandomPose("", clsPose.P_POS_X, clsPose.P_POS_Y, clsPose.P_POS_ANGLE) );
 			oProp.setProperty(""+clsEntity.P_ID, i);
 	                	
         	clsCarrot oCarrot = new clsCarrot("", oProp);	        
@@ -63,7 +63,7 @@ public class clsEntityLoader {
         {
         	clsBWProperties oProp = clsHare.getDefaultProperties("");
 
-        	oProp.putAll( clsLoader.generateRandomPose("", clsMobile.P_POS_X, clsMobile.P_POS_Y, clsMobile.P_POS_ANGLE) );
+        	oProp.putAll( clsLoader.generateRandomPose("", clsPose.P_POS_X, clsPose.P_POS_Y, clsPose.P_POS_ANGLE) );
 			oProp.setProperty(""+clsEntity.P_ID, i);
 			oProp.setProperty(""+clsAnimate.P_DECISION_TYPE, peDU.toString());
 	                	
@@ -77,7 +77,7 @@ public class clsEntityLoader {
         {
         	clsBWProperties oProp = clsLynx.getDefaultProperties("");
 
-        	oProp.putAll( clsLoader.generateRandomPose("", clsMobile.P_POS_X, clsMobile.P_POS_Y, clsMobile.P_POS_ANGLE) );
+        	oProp.putAll( clsLoader.generateRandomPose("", clsPose.P_POS_X, clsPose.P_POS_Y, clsPose.P_POS_ANGLE) );
 			oProp.setProperty(""+clsEntity.P_ID, i);
 			oProp.setProperty(""+clsAnimate.P_DECISION_TYPE, peDU.toString());
 			

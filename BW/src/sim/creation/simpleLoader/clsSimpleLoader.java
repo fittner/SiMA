@@ -73,7 +73,8 @@ public class clsSimpleLoader extends clsLoader {
 		mnNumBases = pnNumBases;
 		
 		createGrids(pnWidth, pnHeight);
-		// TODO Auto-generated constructor stub
+
+		setTitle("Simple Loader");
 	}	
 
 	/* (non-Javadoc)

@@ -9,6 +9,7 @@
 package sim.creation.lifeCycle;
 
 import statictools.clsGetARSPath;
+import ARSsim.physics2D.util.clsPose;
 import ARSsim.portrayal.simple.clsImagePortrayal;
 import bw.entities.clsWallAxisAlign;
 import bw.entities.clsWallHorizontal;
@@ -35,15 +36,15 @@ public class clsWorldBoundaries {
 		oProp = clsWallHorizontal.getDefaultProperties("");
 		oProp.setProperty(clsWallHorizontal.P_SHAPE+"."+clsShapeCreator.P_WIDTH, 193);
 		oProp.setProperty(clsWallHorizontal.P_SHAPE+"."+clsShapeCreator.P_HEIGHT, 6);
-		oProp.setProperty(clsWallHorizontal.P_POS_X, 100);
-		oProp.setProperty(clsWallHorizontal.P_POS_Y, 0);
+		oProp.setProperty(clsPose.P_POS_X, 100);
+		oProp.setProperty(clsPose.P_POS_Y, 0);
 		//remove image as long scaling is not implemented ...
 		oProp.setProperty(clsWallHorizontal.P_SHAPE+"."+clsShapeCreator.P_IMAGE_PATH, "");
 		
 		oWall = new clsWallHorizontal("", oProp);
 		clsRegisterEntity.registerEntity(oWall);
 		
-		oProp.setProperty(clsWallHorizontal.P_POS_Y, 200);		
+		oProp.setProperty(clsPose.P_POS_Y, 200);		
 
 		oWall = new clsWallHorizontal("", oProp);
 		clsRegisterEntity.registerEntity(oWall);
@@ -52,15 +53,15 @@ public class clsWorldBoundaries {
 		oProp = clsWallVertical.getDefaultProperties("");
 		oProp.setProperty(clsWallVertical.P_SHAPE+"."+clsShapeCreator.P_WIDTH, 193);
 		oProp.setProperty(clsWallVertical.P_SHAPE+"."+clsShapeCreator.P_HEIGHT, 6);
-		oProp.setProperty(clsWallVertical.P_POS_X, 0);
-		oProp.setProperty(clsWallVertical.P_POS_Y, 100);
+		oProp.setProperty(clsPose.P_POS_X, 0);
+		oProp.setProperty(clsPose.P_POS_Y, 100);
 		//remove image as long scaling is not implemented ...
 		oProp.setProperty(clsWallVertical.P_SHAPE+"."+clsShapeCreator.P_IMAGE_PATH, "");
 		
 		oWall = new clsWallVertical("", oProp);
 		clsRegisterEntity.registerEntity(oWall);
 		
-		oProp.setProperty(clsWallVertical.P_POS_X, 200);		
+		oProp.setProperty(clsPose.P_POS_X, 200);		
 
 		oWall = new clsWallVertical("", oProp);
 		clsRegisterEntity.registerEntity(oWall);

@@ -42,7 +42,8 @@ public class clsLifeCycleLoader extends clsLoader {
 		mnNumStones = pnStones;
 		
 		createGrids(pnWidth, pnHeight);
-		// TODO Auto-generated constructor stub
+
+		setTitle("Life Cycle");
 	}
 
 	/* (non-Javadoc)
