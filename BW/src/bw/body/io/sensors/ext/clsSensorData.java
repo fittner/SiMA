@@ -25,37 +25,22 @@ import sim.physics2D.util.Double2D;
  */
 public class clsSensorData extends clsSensorDataCalculation{
 	
-	private Double mnRange;
-	private Double mnAngle;
-	private Double2D moPosition; 
+	protected Double mnRange;
+	protected Double mnFieldOfView;
+	protected Double2D moSensorOffset; 
 	private HashMap<Double, ArrayList<PhysicalObject2D>> meDetectedObjects; 
 	private HashMap<Double, HashMap<Integer, Double2D>> meCollisionPoints; 
 	
-	public clsSensorData(clsSensorExt poSensorTyp, Double2D poSensorPosition,
-						 Double pnSensorRange, Double pnSensorAngle)
+	public clsSensorData(clsSensorExt poSensorTyp, Double2D poSensorOffset,
+						 Double pnSensorRange, Double pnFieldOfview)
 	{		
-		moPosition = poSensorPosition;
-		mnAngle = pnSensorAngle; 
+		moSensorOffset = poSensorOffset;
+		mnFieldOfView = pnFieldOfview; 
 		mnRange = pnSensorRange;
 		meDetectedObjects = new HashMap<Double, ArrayList<PhysicalObject2D>>();
 		meCollisionPoints = new HashMap<Double, HashMap<Integer, Double2D>>(); 
 	}
 
-	public Double2D getSensorPos(){
-		return moPosition; 
-	}
-	
-	public void setSensorPos(Double2D poSensorPos){
-		moPosition = poSensorPos;
-	}
-	
-	public Double getSensorRange(){
-		return mnRange; 
-	}
-	
-	public Double getSensorAngle(){
-		return mnAngle; 
-	}
 	
 	public void setMeDetectedObjectList(Double pnAreaRange,ArrayList<PhysicalObject2D> pePhysicalObject){
 		meDetectedObjects.put(pnAreaRange, pePhysicalObject); 

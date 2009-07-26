@@ -31,9 +31,14 @@ import bw.utils.config.clsBWProperties;
  */
 public abstract class clsSensorExt extends bw.body.io.sensors.external.clsSensorExt implements itfSensorUpdate {//clsSensorActuatorBaseExt implements itfSensorUpdate {
 
+	public static final String P_SENSOR_FIELD_OF_VIEW = "sensor_field_of_view";
+	public static final String P_SENSOR_RANGE = "sensor_range";
+	public static final String P_SENSOR_OFFSET_X = "sensor_offset_x";
+	public static final String P_SENSOR_OFFSET_Y = "senosr_offset_y";
+	
 	protected clsSensorData moSensorData; 
 	private clsSensorEngine moSensorEngine;  
-	private clsEntity moHostEntity;
+	private static clsEntity moHostEntity;
 	
 
 	/**
@@ -42,18 +47,23 @@ public abstract class clsSensorExt extends bw.body.io.sensors.external.clsSensor
 	public clsSensorExt(String poPrefix, clsBWProperties poProp, clsBaseIO poBaseIO,
 								clsSensorEngine poSensorEngine, clsEntity poEntity) {
 		super(poPrefix, poProp);
+		applyProperties(poPrefix, poProp);
+		
 		moSensorEngine = poSensorEngine;
 		moHostEntity = poEntity; 
-		applyProperties(poPrefix, poProp);
+		registerSensorAtEngine(); 
 	}
 	
 	public static clsBWProperties getDefaultProperties(String poPrefix) {
-		// String pre = clsBWProperties.addDot(poPrefix);
+		String pre = clsBWProperties.addDot(poPrefix);
 		
 		clsBWProperties oProp = new clsBWProperties();
 		
-		//nothing to do
-				
+		oProp.setProperty(pre+P_SENSOR_FIELD_OF_VIEW, 2 * Math.PI );
+		oProp.setProperty(pre+P_SENSOR_RANGE, 60 );
+		oProp.setProperty(pre+P_SENSOR_OFFSET_X, 0.0 );
+		oProp.setProperty(pre+P_SENSOR_OFFSET_Y, 0.0 );
+						
 		return oProp;
 	}	
 
@@ -63,14 +73,12 @@ public abstract class clsSensorExt extends bw.body.io.sensors.external.clsSensor
 		//nothing to do
 	}		
 	
-	public abstract void updateSensorData(Double pnRange, 
-										  ArrayList<PhysicalObject2D> peDetectedObj,
-										  HashMap<Integer, Double2D> peCollisionPoints);
-
-
 	public void assignSensorData(clsSensorExt poSensor,Double2D poSensorPosition,
-										Double mnRange, Double mnAngle){
-		moSensorData = new clsSensorData(poSensor, poSensorPosition, mnRange, mnAngle); 
+										Double pnRange, Double pnAngle){
+		moSensorData = new clsSensorData(poSensor, poSensorPosition, pnRange, pnAngle); 
+	}
+	
+	public void registerSensorAtEngine(){
 		moSensorEngine.registerSensor(this);
 	}
 	
@@ -78,6 +86,9 @@ public abstract class clsSensorExt extends bw.body.io.sensors.external.clsSensor
 		return moSensorData; 
 	}
 	
+	public abstract void updateSensorData(Double pnRange, ArrayList<PhysicalObject2D> peDetectedObj,
+			  HashMap<Integer, Double2D> peCollisionPoints);
+
 	
 	/* The methods calculateObjInFieldOfView, processObjInAreaList, getPolarCoordinates, and
 	 * evaluateIfObjInFieldOfView are sensor specific methods which need not to be  
@@ -87,56 +98,61 @@ public abstract class clsSensorExt extends bw.body.io.sensors.external.clsSensor
 										   ArrayList<PhysicalObject2D> peObjInAreaList,
 										   HashMap<Integer, Double2D> peCollisionPointList){
  
-	    ArrayList<PhysicalObject2D> eObjInAreaListTemp = new ArrayList <PhysicalObject2D>(); 
-		HashMap<Integer, Double2D> eCollisionPointListTemp = new HashMap<Integer, Double2D>(); 
-							
-			if(peObjInAreaList.size()>0 && moSensorData.getSensorAngle()<2*Math.PI){
-				processObjInAreaList(eObjInAreaListTemp, eCollisionPointListTemp, 
-									 peObjInAreaList, peCollisionPointList); 
+			if(peObjInAreaList.size()>0){
+				updateDetectedObjAndCollisionPointList(peObjInAreaList, peCollisionPointList);	
+				moSensorData.setMeDetectedObjectList(pnAreaRange, clsTemporaryDetectedObjHolder.meDetectedObjectList); 
+				moSensorData.setMeCollisionPointList(pnAreaRange, clsTemporaryDetectedObjHolder.meCollisionPointList); 
 			}
-			else {
-				eObjInAreaListTemp = peObjInAreaList; 
-				eCollisionPointListTemp = peCollisionPointList;
-			}
-		
-		moSensorData.setMeDetectedObjectList(pnAreaRange, eObjInAreaListTemp); 
-		moSensorData.setMeCollisionPointList(pnAreaRange, eCollisionPointListTemp); 
 	}
 	
-	
-	
-	private void processObjInAreaList(ArrayList<PhysicalObject2D> peObjInAreaListTemp,HashMap<Integer, Double2D> peCollisionPointListTemp, 
-								  	 ArrayList<PhysicalObject2D> peObjInAreaList, HashMap<Integer, Double2D> peCollisionPointList){
-		
-		Iterator <PhysicalObject2D> itr = peObjInAreaList.iterator(); 
-		while(itr.hasNext()){
-			PhysicalObject2D oPhysicalObject = itr.next(); 
-			clsPolarcoordinate oRel = getPolarCoordinates(peCollisionPointList, oPhysicalObject.getIndex());
-			evaluateIfObjInFieldOfView(oRel, oPhysicalObject, peObjInAreaListTemp, peCollisionPointListTemp); 
+	public void updateDetectedObjAndCollisionPointList(ArrayList<PhysicalObject2D> peDetectedObjectList,
+													   HashMap<Integer, Double2D> peCollisionPointList){
+		if(moSensorData.mnFieldOfView<2*Math.PI){
+			clsTemporaryDetectedObjHolder.clearList(); 
+			processObjInAreaList(peDetectedObjectList, peCollisionPointList); 
+		}
+		else{
+			clsTemporaryDetectedObjHolder.meDetectedObjectList = peDetectedObjectList; 
+			clsTemporaryDetectedObjHolder.meCollisionPointList = peCollisionPointList; 
 		}
 	}
 	
 	
-	
-	private clsPolarcoordinate getPolarCoordinates (HashMap<Integer, Double2D> peCollisionPointList, 
-														Integer nPhysicalObjectIndex){
+	private void processObjInAreaList(ArrayList<PhysicalObject2D> peDetectedObjectList, HashMap<Integer, Double2D> peCollisionPointList){
 		
-		return moSensorData.getRelativeCollisionPosition(peCollisionPointList
-						   .get(nPhysicalObjectIndex));
+		Iterator <PhysicalObject2D> itr = peDetectedObjectList.iterator(); 
+		while(itr.hasNext()){
+			PhysicalObject2D oPhysicalObject = itr.next(); 
+			int nPhysicalObjIndex = oPhysicalObject.getIndex(); 
+			Double2D oCollisionPoint = peCollisionPointList.get(nPhysicalObjIndex); 
+			clsPolarcoordinate oRel = getPolarCoordinates(oCollisionPoint);
+	
+			evaluateIfObjInFieldOfView(oRel.moAzimuth.radians, oPhysicalObject, oCollisionPoint); 
+		}
 	}
 	
+	private clsPolarcoordinate getPolarCoordinates (Double2D poCollisionPoint){
+		return moSensorData.getRelativeCollisionPosition(poCollisionPoint);
+	}
 	
+	private void evaluateIfObjInFieldOfView(double poRelativeCoordinatesRad, PhysicalObject2D poPhysicalObject,
+											Double2D poCollisionPoint){
 	
-	private void evaluateIfObjInFieldOfView(clsPolarcoordinate poRel, PhysicalObject2D poPhysicalObject,
-										ArrayList<PhysicalObject2D> peObjInAreaList,
-										HashMap<Integer,Double2D> peCollisionPointList){
+		if(moSensorData.checkIfObjectInView(poRelativeCoordinatesRad, moHostEntity.getPose().getAngle().radians, 
+											moSensorData.mnFieldOfView)){
+	
+				clsTemporaryDetectedObjHolder.meDetectedObjectList.add(poPhysicalObject); 
+				clsTemporaryDetectedObjHolder.meCollisionPointList.put(poPhysicalObject.getIndex(),poCollisionPoint); 
+		}
+	}
+	
+	private abstract static class clsTemporaryDetectedObjHolder{
+		public static ArrayList<PhysicalObject2D> meDetectedObjectList;
+		public static HashMap<Integer,Double2D> meCollisionPointList; 
 		
-		if(moSensorData.checkIfObjectInView(poRel.moAzimuth.radians, 
-				moHostEntity.getPose().getAngle().radians, moSensorData.getSensorAngle())){
-	
-				peObjInAreaList.add(poPhysicalObject); 
-				peCollisionPointList.put(poPhysicalObject.getIndex(),
-						                 peCollisionPointList.get(poPhysicalObject.getIndex())); 
+		public static void clearList(){
+			meDetectedObjectList.clear();
+			meCollisionPointList.clear(); 
 		}
 	}
 }
