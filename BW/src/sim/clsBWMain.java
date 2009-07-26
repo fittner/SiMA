@@ -9,11 +9,10 @@ package sim;
 
 import org.jfree.data.xy.XYSeries;
 
+import bw.utils.config.clsBWProperties;
 import ec.util.MersenneTwisterFast;
-
 import sim.creation.clsLoader;
-import sim.creation.simpleLoader.clsSimpleLoader;
-//import sim.creation.simplePropertyLoader.clsSimplePropertyLoader;
+import sim.creation.simplePropertyLoader.clsSimplePropertyLoader;
 import sim.engine.Schedule;
 import sim.engine.SimState;
 import statictools.clsGetARSPath;
@@ -25,38 +24,109 @@ import statictools.clsGetARSPath;
  * 
  */
 public class clsBWMain extends SimState{
-	
-	public static String msArsPath;
-	
 	/**
-	 * TODO (deutsch) - insert description 
+	 * TODO (tobias) - insert description 
 	 * 
-	 * @author deutsch
-	 * 24.02.2009, 14:45:41
+	 * @author tobias
+	 * Jul 26, 2009, 4:48:51 PM
 	 */
-	private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = -1952879483933572186L;
+	
 	/** activates/shows the charting panel
 	 * TODO clemens: deactivated for now, has to set by config.xml later! */
-	private boolean mbChartDisplay = false; 
-//	private JFreeChart  moTestChart;
+	//commented by TD
+	private boolean mbChartDisplay = false;
 	private XYSeries moTestSeries = new XYSeries("Agents"); //TODO clemens name passt nicht, muss erst schauen wof�r das genau ist!
+	
+//	private JFreeChart  moTestChart;
 //	private XYSeriesCollection moAgents_series_coll = new XYSeriesCollection(moTestSeries); //TODO clemens
 	
-	public static String[] configurationParamter;
-
+	private String[] moArgs;
      
+    public clsBWMain(long pnSeed, String[] args) {
+    	super(new MersenneTwisterFast(pnSeed), new Schedule());
+    	moArgs = args;
+    }
+    
     public clsBWMain(long pnSeed) {
     	super(new MersenneTwisterFast(pnSeed), new Schedule());
-	    //createGrids(); CHKME warum wolltest du das hier RooL? ist in der start() Methode eh gut aufgehoben!
-    }
+    	moArgs = null;
+    }    
 	
+	/**
+	 * start is the method called when the simulation starts but before any agents have been pulsed.
+	 */
+	@Override
+	public void start()
+	{
+		super.start();
+		
+		//IMPORTANT: do not change anything here just to run the configuration
+		//you like! you can change the command line arguments easily:
+		//  1. right click on clsBWMainWithUI.java in the package explorer.
+		//  2. select run as or debug as (they have different configs)
+		//  3. select run or debug config
+		//  4. select the second tab "arguments"
+		//  5. enter either the selected index or the filename into the textbox program arguments
+		//  6. apply
+		//  7. start debuggin / running
+		//
+		// the only thing which is allowed is to add another file in the switch statement.
+		
+		//creating and registering objects...
+		String oFilename = "";		
+		try {
+			int i = Integer.valueOf( moArgs[0] );
+			switch(i) {
+				case 0: oFilename = "testsetup.main.property"; break;
+				case 1: oFilename = "funguseater.main.property"; break;
+				case 2: oFilename = "hare_vs_lynx.main.property"; break;
+				default: oFilename = "testsetup.main.property"; break;
+			}
+		} catch (NumberFormatException e) {
+			oFilename = moArgs[0]; // given parameter is not an index number. it is probably a filename
+		} catch (java.lang.ArrayIndexOutOfBoundsException e) {
+			oFilename = "testsetup.main.property"; // no parameters given - used default config
+		}
+		
+		String oPath = clsGetARSPath.getConfigPath();
+		try {
+			oPath = moArgs[1];
+		} catch (java.lang.ArrayIndexOutOfBoundsException e) {
+			//do nothing 
+		}
+	
+		clsBWProperties oProp = clsBWProperties.readProperties(oPath, oFilename);
+		clsLoader oLoader = new clsSimplePropertyLoader(this, oProp);
+		oLoader.loadObjects();
+		
+		//clear the charts
+		moTestSeries.clear(); //TODO Clemens for charting
+		//TODO clemens: add charts/statistics to schedule here 
+	}
 
-    /**activates/shows the charting panel, default is false
+
+	/**
+	 * main - starts the simulation without gui
+	 *
+	 * TODO add arguments similarily to clsBWMainWithUI. caution! doLoop has its own arguments ...
+	 *
+	 * @author tobias
+	 * Jul 26, 2009, 5:12:07 PM
+	 *
+	 * @param args
+	 */
+	public static void main(String[] args)
+	{
+		doLoop(clsBWMain.class, args);
+		System.exit(0);
+	}
+	
+   /**activates/shows the charting panel, default is false
 	 * @return the mbChartDisplay */
 	public boolean getmbChartDisplay() {
 		return mbChartDisplay;
 	}
-    
 	
     /**
 	 * @author deutsch
@@ -66,55 +136,5 @@ public class clsBWMain extends SimState{
 	 */
 	public XYSeries getMoTestSeries() {
 		return moTestSeries;
-	}
-
-
-	/**
-	 * start is the method called when the simulation starts but before any agents have been pulsed.
-	 */
-	@Override
-	public void start()
-	{
-		super.start();
-		//creating and registering objects...
-		clsLoader oLoader = null;
-		String[] debugDummy = clsBWMain.configurationParamter;
-
-//		if (clsBWMain.configurationParamter[0].equals("0")) 
-		{
-		
-//		oLoader = new clsLifeCycleLoader(this, "", 200, 200, 5, 3, 1, 2, eLifeCycleDUs.IfThenElse, eLifeCycleDUs.IfThenElse);
-		oLoader = new clsSimpleLoader(this, "", 200, 200, 0, 0, 1, 1, 1, 1, 1, 1);
-//		oLoader = new clsSimplePropertyLoader(this, clsSimplePropertyLoader.getDefaultProperties("") );
-		
-//		} else {
-//			oLoader = new clsSimpleLoader(this, "", 100, 100, 1, 0, 0, 0, 0, 0, 10, 1);
-		}
-//		oLoader = new clsSimpleXMLLoader(this, "", clsGetARSPath.getArsPath() + "/src/xml/xmlSimpleXMLLoader/config1.xml");
-		oLoader.loadObjects();
-		
-		//clear the charts
-		moTestSeries.clear(); //TODO Clemens for charting
-		//TODO clemens: add charts/statistics to schedule here 
-	}
-
-	/**
-	 * The one and only Main
-	 *
-	 * @param args
-	 */
-	public static void main(String[] args)
-	{
-		configurationParamter = args;
-		
-		setArsPath();
-		doLoop(clsBWMain.class, args);
-		System.exit(0);
-	}
-	
-	public static void setArsPath()
-	{
-		msArsPath = clsGetARSPath.getArsPath()+"/BW";
-	}
-
-}// end class
+	}	
+}

@@ -14,6 +14,7 @@ import javax.swing.*;
 
 import sim.portrayal.*;
 import sim.portrayal.continuous.*;
+
 import java.awt.Color;
 import java.awt.Container;
 import java.awt.Dimension;
@@ -50,17 +51,28 @@ public class clsBWMainWithUI extends GUIState {
 	/** holds all charts if charting is activated in startup */
 	private clsCharts moCharts = null;
 	
-	//CTORs
-	public clsBWMainWithUI() { super(new clsBWMain( System.currentTimeMillis())); }
-	public clsBWMainWithUI(SimState poState) { super(poState); }	
+	public clsBWMainWithUI(String[] args) { 
+		super(new clsBWMain( System.currentTimeMillis(), args) ); 
+	}
 	
-	public static void main(String[] poArgs){
+	//comment added by TD - do we need this constructor?
+	//public clsBWMainWithUI(SimState poState) { super(poState); }	
+	
+	/**
+	 * main which starts the whole simulation with a gui. takes one to two parameter.
+	 * the first param can either be a number (see clsBWMain.start() to see which number loads
+	 * which configuration. or it can be a filename pointing to the config.
+	 * the second param can change the default config directory. see clsGetARSPath.getConfigPath() 
+	 * for the used default path. 
+	 *
+	 * @author tobias
+	 * Jul 26, 2009, 5:09:12 PM
+	 *
+	 * @param args
+	 */
+	public static void main(String[] args){
 		
-		clsBWMain.configurationParamter = poArgs;		
-		
-		clsBWMain.setArsPath();
-		
-		clsBWMainWithUI oMainWithUI = new clsBWMainWithUI();
+		clsBWMainWithUI oMainWithUI = new clsBWMainWithUI(args);
 		clsSingletonMasonGetter.setConsole( new ARSsim.display.Console(oMainWithUI) );
 		Dimension windowSize = clsSingletonMasonGetter.getConsole().getSize();
 		windowSize.height+=400;
@@ -169,7 +181,7 @@ public class clsBWMainWithUI extends GUIState {
 		moDisplay.attach(moGameGridPortrayal, "BW GameGrid"); //attach the Portrayal to the Display2D to display it 
 		
 		clsSingletonMasonGetter.setDisplay2D(moDisplay);
-		
+	
 		//add the charting panel
 		if ( ((clsBWMain)state).getmbChartDisplay()) {
 	        addChartPanel(poController,(clsBWMain)state);
