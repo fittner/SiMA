@@ -8,12 +8,11 @@
 
 package sim;
 
-import sim.display.*;
-import sim.engine.*;
-import javax.swing.*;
-
-import sim.portrayal.*;
-import sim.portrayal.continuous.*;
+import sim.display.Controller;
+import sim.display.GUIState;
+import sim.engine.SimState;
+import sim.portrayal.Inspector;
+import sim.portrayal.continuous.ContinuousPortrayal2D;
 
 import java.awt.Color;
 import java.awt.Container;
@@ -28,6 +27,11 @@ import bw.utils.visualization.clsCharts;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.util.ArrayList;
+
+import javax.swing.Box;
+import javax.swing.BoxLayout;
+import javax.swing.JFrame;
+import javax.swing.JTabbedPane;
 
 
 /**
