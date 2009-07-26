@@ -23,7 +23,7 @@ import enums.eEntityType;
  * @author langr
  * 
  */
-public class clsPlant extends clsAnimate {
+public class clsPlant extends clsInanimate {
 
 	
 	public clsPlant(String poPrefix, clsBWProperties poProp) {
