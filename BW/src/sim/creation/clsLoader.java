@@ -29,6 +29,7 @@ public abstract class clsLoader {
 	public static final String P_TITLE = "title";
 	public static final String P_SHORTDESC = "short_description";
 	public static final String P_DESCRIPTION = "description";
+	public static final String P_LINK = "url";
 	public static final String P_IMAGE = "image";
 	public static final String P_LOADER_TYPE = "loader_type";
 	public static final String P_LOADER_VERSION = "loader_version";
@@ -39,6 +40,7 @@ public abstract class clsLoader {
 	private String moDescription;
 	private String moShortDesc;	
 	private String moImageUrl;
+	private String moLinkUrl;
 
 	
     public clsLoader(SimState poSimState, clsBWProperties poProperties) {
@@ -72,6 +74,12 @@ public abstract class clsLoader {
 		moDescription = poProp.getPropertyString(pre+P_DESCRIPTION);
 		moImageUrl = poProp.getPropertyString(pre+P_IMAGE);
 		
+		try {
+			moLinkUrl = poProp.getPropertyString(pre+P_LINK);
+		} catch (java.lang.NullPointerException e) {
+			moLinkUrl = "";
+		}
+		
 		createGrids(pre, poProp);
 	}	
 	
@@ -93,6 +101,8 @@ public abstract class clsLoader {
 		
 		oProp.setProperty(pre+P_LOADER_TYPE, eLoader.UNDEFINED.name());
 		oProp.setProperty(pre+P_LOADER_VERSION, -1);
+		
+		oProp.setProperty(pre+P_LINK, "http://ars.ict.tuwien.ac.at");
 		
 		return oProp;
 	}    
@@ -168,6 +178,39 @@ public abstract class clsLoader {
 		return moShortDesc;
 	}
 	
+	public String getLinkUrl() {
+		return moLinkUrl;
+	}
+	
+	public String getIndexHtml() {
+		String html = "";
+		
+		html += "<html>";
+		html += "<head><title>"+getTitle()+"</title></head>";
+		html += "<body>";
+		html += "<table border=0 cellspacing=0 cellpadding=6>";
+		html += "<tr>";
+		html += "	<td valign=top>";
+		html += "		<img src=\""+clsGetARSPath.getArsPath()+getImageUrl()+"\">";
+		html += "	<td valign=top>";
+		html += "	<td>";
+		html += "		<h2>"+getTitle()+"</h2>"; 
+		html += "		<p>"+getShortDesc()+"</p>";
+		html += "	</td>";
+		html += "</tr>";
+		html += "</table>";
+		html += "<p>";
+		html += getDescription();
+		html += "</p>";		
+		if (getLinkUrl().length() > 0) {
+			html += "<a href=\""+getLinkUrl()+"\" target=_blank>"+getLinkUrl()+"</a>";
+		}
+		html += "</body>";
+		html += "</html>	";
+		
+		return html;
+	}
+	
 	@Deprecated
 	protected void setTitle(String poTitle) {
 		moTitle = poTitle;
@@ -183,6 +226,10 @@ public abstract class clsLoader {
 	@Deprecated
 	protected void setImageUrl(String poImageUrl) {
 		moImageUrl = poImageUrl;
+	}
+	@Deprecated
+	protected void setLinkUrl(String poLinkUrl) {
+		moLinkUrl = poLinkUrl;
 	}
 	
 	
