@@ -27,13 +27,17 @@ public abstract class clsLoader {
 	public static final String P_FIELD_WIDTH = "field_width";
 	public static final String P_FIELD_HEIGHT = "field_height";
 	public static final String P_TITLE = "title";
+	public static final String P_SHORTDESC = "short_description";
 	public static final String P_DESCRIPTION = "description";
 	public static final String P_IMAGE = "image";
+	public static final String P_LOADER_TYPE = "loader_type";
+	public static final String P_LOADER_VERSION = "loader_version";
 	
 	private clsBWProperties moProperties;
 	private static final String moPrefix = "";
 	private String moTitle;
 	private String moDescription;
+	private String moShortDesc;	
 	private String moImageUrl;
 
 	
@@ -46,6 +50,9 @@ public abstract class clsLoader {
 		clsSingletonMasonGetter.getSimState().schedule.scheduleRepeating(clsSingletonMasonGetter.getPhysicsEngine2D());		
 
 		applyProperties(moPrefix, moProperties);
+		
+		checkVersionCompatibility(moPrefix, moProperties);
+		verifyLoaderType(moPrefix, moProperties);
     }
 
     @Deprecated
@@ -61,11 +68,15 @@ public abstract class clsLoader {
 		String pre = clsBWProperties.addDot(poPrefix);
 		
 		moTitle = poProp.getPropertyString(pre+P_TITLE);
+		moShortDesc = poProp.getPropertyString(pre+P_SHORTDESC);
 		moDescription = poProp.getPropertyString(pre+P_DESCRIPTION);
 		moImageUrl = poProp.getPropertyString(pre+P_IMAGE);
 		
 		createGrids(pre, poProp);
 	}	
+	
+	protected abstract void checkVersionCompatibility(String poPrefix, clsBWProperties poProp);
+	protected abstract void verifyLoaderType(String poPrefix, clsBWProperties poProp);
 	
 	public static clsBWProperties getDefaultProperties(String poPrefix) {
 		String pre = clsBWProperties.addDot(poPrefix);
@@ -73,11 +84,15 @@ public abstract class clsLoader {
 		clsBWProperties oProp = new clsBWProperties();
 
 		oProp.setProperty(pre+P_TITLE, "default title");
+		oProp.setProperty(pre+P_SHORTDESC, "loader which loads lots of entities");
 		oProp.setProperty(pre+P_DESCRIPTION, "Lorem ipsum dolor sit amet, consectetuer sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.");
 		oProp.setProperty(pre+P_IMAGE, "/BW/src/resources/images/cake.gif");
 		
 		oProp.setProperty(pre+P_FIELD_WIDTH, 200.0);
 		oProp.setProperty(pre+P_FIELD_HEIGHT, 200.0);
+		
+		oProp.setProperty(pre+P_LOADER_TYPE, eLoader.UNDEFINED.name());
+		oProp.setProperty(pre+P_LOADER_VERSION, -1);
 		
 		return oProp;
 	}    
@@ -103,8 +118,8 @@ public abstract class clsLoader {
     	 * Continuous2D is a Field: a representation of space. In particular, Continuous2D 
     	 * represents continuous 2-dimensional space it is actually infinite: the width 
     	 * and height are just for GUI guidelines (starting size of the window). */
-    	int nWidth = poProp.getPropertyInt(pre+P_FIELD_WIDTH);
-    	int nHeight = poProp.getPropertyInt(pre+P_FIELD_HEIGHT);
+    	double nWidth = poProp.getPropertyDouble(pre+P_FIELD_WIDTH);
+    	double nHeight = poProp.getPropertyDouble(pre+P_FIELD_HEIGHT);
     	clsSingletonMasonGetter.setFieldEnvironment(new Continuous2D(25, nWidth, nHeight));
     }	
     
@@ -149,9 +164,17 @@ public abstract class clsLoader {
 		return moImageUrl;
 	}
 	
+	public String getShortDesc() {
+		return moShortDesc;
+	}
+	
 	@Deprecated
 	protected void setTitle(String poTitle) {
 		moTitle = poTitle;
+	}
+	@Deprecated
+	protected void setShortDesc(String poShortDesc) {
+		moShortDesc = poShortDesc;
 	}
 	@Deprecated
 	protected void setDescription(String poDescription) {

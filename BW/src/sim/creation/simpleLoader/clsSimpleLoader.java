@@ -8,6 +8,7 @@
  */
 package sim.creation.simpleLoader;
 
+import bw.utils.config.clsBWProperties;
 import sim.creation.clsLoader;
 import sim.engine.SimState;
 
@@ -18,6 +19,7 @@ import sim.engine.SimState;
  * @author deutsch
  * 25.02.2009, 14:03:50
  * 
+ * @deprecated
  */
 public class clsSimpleLoader extends clsLoader {
 
@@ -91,5 +93,29 @@ public class clsSimpleLoader extends clsLoader {
 		clsAgentLoader.loadAgents(mnNumRemoteBots, mnNumBots);
 	}
 
-
+	/* (non-Javadoc)
+	 *
+	 * @author tobias
+	 * Jul 26, 2009, 3:31:01 PM
+	 * 
+	 * @see sim.creation.clsLoader#checkVersionCompatibility(java.lang.String, bw.utils.config.clsBWProperties)
+	 */
+	@Override
+	protected void checkVersionCompatibility(String poPrefix,
+			clsBWProperties poProp) {
+		// nothing to do - this is the first and the last version - moreove this loader does not read files ...
+	}
+	
+	/* (non-Javadoc)
+	 *
+	 * @author tobias
+	 * Jul 26, 2009, 3:39:27 PM
+	 * 
+	 * @see sim.creation.clsLoader#verifyLoaderType(java.lang.String, bw.utils.config.clsBWProperties)
+	 */
+	@Override
+	protected void verifyLoaderType(String poPrefix, clsBWProperties poProp) {
+		// nothing to do - this loader is deprecated
+		
+	}	
 }

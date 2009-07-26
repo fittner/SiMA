@@ -23,9 +23,15 @@ import bw.entities.clsPlant;
 import bw.entities.clsRemoteBot;
 import bw.entities.clsStone;
 import bw.entities.clsUraniumOre;
+import bw.entities.clsWallAxisAlign;
+import bw.entities.clsWallHorizontal;
+import bw.entities.clsWallVertical;
+import bw.entities.tools.clsShapeCreator;
 import bw.factories.clsRegisterEntity;
+import bw.factories.clsSingletonMasonGetter;
 import bw.utils.config.clsBWProperties;
 import sim.creation.clsLoader;
+import sim.creation.eLoader;
 import sim.engine.SimState;
 
 /**
@@ -47,6 +53,9 @@ public class clsSimplePropertyLoader extends clsLoader {
 
 	private int numentitygroups;
 	
+	public static final int mnVersion = 1;
+	public static final int mnDownCompatibility = -1; // can read any old version
+	
 	public clsSimplePropertyLoader(SimState poSimState, clsBWProperties poProperties) {
 		super(poSimState, poProperties);
 		applyProperties(getPrefix(), getProperties());
@@ -55,9 +64,35 @@ public class clsSimplePropertyLoader extends clsLoader {
 	
     private void applyProperties(String poPrefix, clsBWProperties poProp){		
     	String pre = clsBWProperties.addDot(poPrefix);
+    	
     	numentitygroups = poProp.getPropertyInt(pre+P_NUMENTITYGROUPS);
+    	
+    	if (!poProp.existsPrefix(pre+P_ENTITYDEFAULTS)) {
+    		poProp.putAll( getEntityDefaults(pre+P_ENTITYDEFAULTS) );
+    	}
 	}	
 	
+    private static clsBWProperties getEntityDefaults(String poPrefix) {
+		String pre = clsBWProperties.addDot(poPrefix);
+		
+		clsBWProperties oProp = new clsBWProperties();
+		
+		oProp.putAll( clsBubble.getDefaultProperties	(pre+eEntityType.BUBBLE.name()) );
+		oProp.putAll( clsRemoteBot.getDefaultProperties	(pre+eEntityType.REMOTEBOT.name()) );
+		oProp.putAll( clsPlant.getDefaultProperties		(pre+eEntityType.PLANT.name()) );
+		oProp.putAll( clsHare.getDefaultProperties		(pre+eEntityType.HARE.name()) );		
+		oProp.putAll( clsLynx.getDefaultProperties		(pre+eEntityType.LYNX.name()) );
+		oProp.putAll( clsBase.getDefaultProperties		(pre+eEntityType.BASE.name()) );
+		oProp.putAll( clsCan.getDefaultProperties		(pre+eEntityType.CAN.name()) );
+		oProp.putAll( clsCake.getDefaultProperties		(pre+eEntityType.CAKE.name()) );
+		oProp.putAll( clsStone.getDefaultProperties		(pre+eEntityType.STONE.name()) );
+		oProp.putAll( clsFungus.getDefaultProperties	(pre+eEntityType.FUNGUS.name()) );
+		oProp.putAll( clsUraniumOre.getDefaultProperties(pre+eEntityType.URANIUM.name()) );
+		oProp.putAll( clsCarrot.getDefaultProperties	(pre+eEntityType.CARROT.name()) );
+		
+		return oProp;
+    }
+    
     public static clsBWProperties getDefaultProperties(String poPrefix) {
 		String pre = clsBWProperties.addDot(poPrefix);
 
@@ -65,20 +100,12 @@ public class clsSimplePropertyLoader extends clsLoader {
 		
 		oProp.putAll( clsLoader.getDefaultProperties(pre) );
 		
+		oProp.setProperty(pre+P_LOADER_TYPE, eLoader.SIMPLE_PROPERTY_LOADER.name());
+		oProp.setProperty(pre+P_LOADER_VERSION, mnVersion);
 		oProp.setProperty(pre+P_TITLE, "default simple property loader");
 		
-		oProp.putAll( clsBubble.getDefaultProperties	(pre+P_ENTITYDEFAULTS+"."+eEntityType.BUBBLE.name()) );
-		oProp.putAll( clsRemoteBot.getDefaultProperties	(pre+P_ENTITYDEFAULTS+"."+eEntityType.REMOTEBOT.name()) );
-		oProp.putAll( clsPlant.getDefaultProperties		(pre+P_ENTITYDEFAULTS+"."+eEntityType.PLANT.name()) );
-		oProp.putAll( clsHare.getDefaultProperties		(pre+P_ENTITYDEFAULTS+"."+eEntityType.HARE.name()) );		
-		oProp.putAll( clsLynx.getDefaultProperties		(pre+P_ENTITYDEFAULTS+"."+eEntityType.LYNX.name()) );
-		oProp.putAll( clsBase.getDefaultProperties		(pre+P_ENTITYDEFAULTS+"."+eEntityType.BASE.name()) );
-		oProp.putAll( clsCan.getDefaultProperties		(pre+P_ENTITYDEFAULTS+"."+eEntityType.CAN.name()) );
-		oProp.putAll( clsCake.getDefaultProperties		(pre+P_ENTITYDEFAULTS+"."+eEntityType.CAKE.name()) );
-		oProp.putAll( clsStone.getDefaultProperties		(pre+P_ENTITYDEFAULTS+"."+eEntityType.STONE.name()) );
-		oProp.putAll( clsFungus.getDefaultProperties	(pre+P_ENTITYDEFAULTS+"."+eEntityType.FUNGUS.name()) );
-		oProp.putAll( clsUraniumOre.getDefaultProperties(pre+P_ENTITYDEFAULTS+"."+eEntityType.URANIUM.name()) );
-		oProp.putAll( clsCarrot.getDefaultProperties	(pre+P_ENTITYDEFAULTS+"."+eEntityType.CARROT.name()) );
+		//TD - removed the following line. if this entry block is not present, it will be read on the fly during startup
+		//oProp.putAll( getEntityDefaults(pre+P_ENTITYDEFAULTS) );
 
 		int i=0;
 		oProp.setProperty(pre+i+"."+P_ENTITYGROUPTYPE, eEntityType.BUBBLE.name());
@@ -153,14 +180,14 @@ public class clsSimplePropertyLoader extends clsLoader {
     
     private clsBWProperties getEntityProperties(eEntityType pnType) {
     	String pre = clsBWProperties.addDot( getPrefix() );    	
-    	String oKey = pnType.name();
-    	clsBWProperties oResult = getProperties().getSubset(pre+P_ENTITYDEFAULTS+"."+oKey);
+    	String oKey = pre+P_ENTITYDEFAULTS+"."+pnType.name();
+    	clsBWProperties oResult = getProperties().getSubset(oKey);
     	return oResult;
     	
     }
     
     private clsBWProperties getPosition(String poPrefix, clsBWProperties poProp, String poPositionPrefix, int pnNumber) {
-    	String pre = clsBWProperties.addDot(poPrefix);
+    	String pre = clsBWProperties.addDot(poPrefix)+P_POSITIONS+".";
     	poPositionPrefix = clsBWProperties.addDot(poPositionPrefix);
     	
     	ePositionType nPosType = ePositionType.valueOf( poProp.getPropertyString(pre+P_POSITIONTYPE) );
@@ -179,7 +206,7 @@ public class clsSimplePropertyLoader extends clsLoader {
     			throw new java.lang.IllegalArgumentException("ePositionType."+nPosType.toString());
     	}
     	
-    	return null;
+    	return oPos;
     }
     
     private void createEntity(String poPrefix, clsBWProperties poProp, eEntityType pnType) {
@@ -250,12 +277,12 @@ public class clsSimplePropertyLoader extends clsLoader {
     	
     	int num = poProp.getPropertyInt(pre+P_NUMENTITES);
     	for (int i=0; i<num; i++) {
-    		String tmp_pre = pre+i+".";
+//    		String tmp_pre = pre+i+".";
     		clsBWProperties oEntityProperties = getEntityProperties(nType);
-    		oEntityProperties.addPrefix(tmp_pre);
-    		oEntityProperties.putAll( getPosition(pre, poProp, tmp_pre, i) );
+    		oEntityProperties.addPrefix("");
+    		oEntityProperties.putAll( getPosition(pre, poProp, "", i) );
     		
-    		createEntity(tmp_pre, poProp, nType);
+    		createEntity("", oEntityProperties, nType);
     	}
     }
     
@@ -273,5 +300,90 @@ public class clsSimplePropertyLoader extends clsLoader {
 		for (int i=0;i<numentitygroups; i++) {
 			createEntityGroup(pre+i, getProperties() );
 		}	
+		
+		if (getProperties().getPropertyBoolean(pre+P_WORLDBOUNDARYWALLS)) {
+			generateWorldBoundaries();
+		}
+	}
+
+	private void generateWorldBoundaries() {
+		clsWallAxisAlign oWall = null;
+		clsBWProperties oProp = null;
+		
+		double rWidth = clsSingletonMasonGetter.getFieldEnvironment().getWidth();
+		double rHeight = clsSingletonMasonGetter.getFieldEnvironment().getHeight();
+		double rWallThickness = 6;
+		
+		// add horizontal walls
+		oProp = clsWallHorizontal.getDefaultProperties("");
+		oProp.setProperty(clsWallHorizontal.P_SHAPE+"."+clsShapeCreator.P_WIDTH, rWidth+rWallThickness);
+		oProp.setProperty(clsWallHorizontal.P_SHAPE+"."+clsShapeCreator.P_HEIGHT, rWallThickness);
+		oProp.setProperty(clsPose.P_POS_X, rWidth/2);
+		oProp.setProperty(clsPose.P_POS_Y, 0);
+		// TODO remove image as long scaling is not implemented ...
+		oProp.setProperty(clsWallHorizontal.P_SHAPE+"."+clsShapeCreator.P_IMAGE_PATH, "");
+		
+		oWall = new clsWallHorizontal("", oProp);
+		clsRegisterEntity.registerEntity(oWall);
+		
+		oProp.setProperty(clsPose.P_POS_Y, rHeight);		
+
+		oWall = new clsWallHorizontal("", oProp);
+		clsRegisterEntity.registerEntity(oWall);
+		
+		// add vertical walls
+		oProp = clsWallVertical.getDefaultProperties("");
+		oProp.setProperty(clsWallVertical.P_SHAPE+"."+clsShapeCreator.P_WIDTH, rWallThickness);
+		oProp.setProperty(clsWallVertical.P_SHAPE+"."+clsShapeCreator.P_HEIGHT, rHeight+rWallThickness);
+		oProp.setProperty(clsPose.P_POS_X, 0);
+		oProp.setProperty(clsPose.P_POS_Y, rHeight/2);
+		// TODO remove image as long scaling is not implemented ...
+		oProp.setProperty(clsWallVertical.P_SHAPE+"."+clsShapeCreator.P_IMAGE_PATH, "");
+		
+		oWall = new clsWallVertical("", oProp);
+		clsRegisterEntity.registerEntity(oWall);
+		
+		oProp.setProperty(clsPose.P_POS_X, rWidth);		
+
+		oWall = new clsWallVertical("", oProp);
+		clsRegisterEntity.registerEntity(oWall);
+	}
+
+	/* (non-Javadoc)
+	 *
+	 * @author tobias
+	 * Jul 26, 2009, 3:24:30 PM
+	 * 
+	 * @see sim.creation.clsLoader#checkVersionCompatibility()
+	 */
+	@Override
+	protected void checkVersionCompatibility(String poPrefix, clsBWProperties poProp) {
+		String pre = clsBWProperties.addDot( poPrefix );
+		int nLoaderVersion = poProp.getPropertyInt(pre+P_LOADER_VERSION);
+		
+		if (nLoaderVersion > mnVersion) {
+			throw new java.lang.NullPointerException("loader is to old to read given file. loader version:"+mnVersion+"; file version:"+nLoaderVersion);
+		} else if (nLoaderVersion < mnDownCompatibility) {
+			throw new java.lang.NullPointerException("file is to old to be read by this loader. loader version:"+mnVersion+"; file version:"+nLoaderVersion);
+		}
+	}
+
+	
+
+	/* (non-Javadoc)
+	 *
+	 * @author tobias
+	 * Jul 26, 2009, 3:36:41 PM
+	 * 
+	 * @see sim.creation.clsLoader#verifyLoaderType(java.lang.String, bw.utils.config.clsBWProperties)
+	 */
+	@Override
+	protected void verifyLoaderType(String poPrefix, clsBWProperties poProp) {
+		String pre = clsBWProperties.addDot( poPrefix );
+		eLoader nLoader = eLoader.valueOf(poProp.getPropertyString(pre+P_LOADER_TYPE));
+		
+		if (nLoader != eLoader.SIMPLE_PROPERTY_LOADER) {
+			throw new java.lang.NullPointerException("wrong loader used. loader type:"+eLoader.SIMPLE_PROPERTY_LOADER+"; file created by loader"+poProp.getPropertyString(pre+P_LOADER_TYPE));
+		}		
 	}
 }

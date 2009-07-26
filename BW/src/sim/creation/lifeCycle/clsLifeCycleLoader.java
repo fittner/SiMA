@@ -8,6 +8,7 @@
  */
 package sim.creation.lifeCycle;
 
+import bw.utils.config.clsBWProperties;
 import du.utils.enums.eDecisionType;
 import sim.creation.clsLoader;
 import sim.engine.SimState;
@@ -18,6 +19,7 @@ import sim.engine.SimState;
  * @author deutsch
  * 12.05.2009, 18:14:45
  * 
+ * @deprecated
  */
 public class clsLifeCycleLoader extends clsLoader {
 
@@ -60,5 +62,31 @@ public class clsLifeCycleLoader extends clsLoader {
 		clsEntityLoader.loadCarrots(mnNumCarrots);
 		clsEntityLoader.loadHares(mnNumHares, meHareDU);
 		clsEntityLoader.loadLynx(mnNumLynx, meLynxDU);
+	}
+
+	/* (non-Javadoc)
+	 *
+	 * @author tobias
+	 * Jul 26, 2009, 3:31:01 PM
+	 * 
+	 * @see sim.creation.clsLoader#checkVersionCompatibility(java.lang.String, bw.utils.config.clsBWProperties)
+	 */
+	@Override
+	protected void checkVersionCompatibility(String poPrefix,
+			clsBWProperties poProp) {
+		// nothing to do - this is the first and the last version - moreove this loader does not read files ...
+	}
+
+	/* (non-Javadoc)
+	 *
+	 * @author tobias
+	 * Jul 26, 2009, 3:39:27 PM
+	 * 
+	 * @see sim.creation.clsLoader#verifyLoaderType(java.lang.String, bw.utils.config.clsBWProperties)
+	 */
+	@Override
+	protected void verifyLoaderType(String poPrefix, clsBWProperties poProp) {
+		// nothing to do - this loader is deprecated
+		
 	}	
 }
