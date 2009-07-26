@@ -22,10 +22,6 @@ import ARSsim.physics2D.util.clsPose;
  * 
  */
 public abstract class clsMobile extends clsEntity {
-	
-	public static final String P_POS_X = "pos_x";
-	public static final String P_POS_Y = "pos_y";
-	public static final String P_POS_ANGLE = "pos_angle";
 	public static final String P_START_VELOCITY_X = "start_velocity_x";
 	public static final String P_START_VELOCITY_Y = "start_velocity_y";
 
@@ -61,9 +57,9 @@ public abstract class clsMobile extends clsEntity {
 
 		oProp.putAll( clsEntity.getDefaultProperties(pre) );
 		
-		oProp.setProperty(pre+P_POS_X, 0.0);
-		oProp.setProperty(pre+P_POS_Y, 0.0);
-		oProp.setProperty(pre+P_POS_ANGLE, 0.0);
+		oProp.setProperty(pre+clsPose.P_POS_X, 0.0);
+		oProp.setProperty(pre+clsPose.P_POS_Y, 0.0);
+		oProp.setProperty(pre+clsPose.P_POS_ANGLE, 0.0);
 		oProp.setProperty(pre+P_START_VELOCITY_X, 0.0);
 		oProp.setProperty(pre+P_START_VELOCITY_Y, 0.0);
 		
@@ -81,9 +77,9 @@ public abstract class clsMobile extends clsEntity {
 		mrDefaultStaticFriction = poProp.getPropertyDouble(pre+P_DEF_STATIC_FRICTION);
 		mrDefaultRestitution = poProp.getPropertyDouble(pre+P_DEF_RESTITUTION);
 		
-		double oPosX = poProp.getPropertyDouble(pre+P_POS_X);
-		double oPosY = poProp.getPropertyDouble(pre+P_POS_Y);
-		double oPosAngle = poProp.getPropertyDouble(pre+P_POS_ANGLE);
+		double oPosX = poProp.getPropertyDouble(pre+clsPose.P_POS_X);
+		double oPosY = poProp.getPropertyDouble(pre+clsPose.P_POS_Y);
+		double oPosAngle = poProp.getPropertyDouble(pre+clsPose.P_POS_ANGLE);
 		Double2D oVelocity = new Double2D(  poProp.getPropertyDouble(pre+P_START_VELOCITY_X), 
 											poProp.getPropertyDouble(pre+P_START_VELOCITY_Y) );
 		

@@ -10,6 +10,10 @@ import sim.physics2D.util.Double2D;
  *
  */
 public class clsPose {
+	public static final String P_POS_X = "pos_x";
+	public static final String P_POS_Y = "pos_y";
+	public static final String P_POS_ANGLE = "pos_angle";
+	
 	/**
 	 * 
 	 */

@@ -22,11 +22,6 @@ import ARSsim.physics2D.util.clsPose;
  * 
  */
 public abstract class clsStationary extends clsEntity {
-	
-	public static final String P_POS_X = "pos_x";
-	public static final String P_POS_Y = "pos_y";
-	public static final String P_POS_ANGLE = "pos_angle";
-	
 	public static final String P_DEF_RESTITUTION = "def_restitution";
 		
 	private double mrDefaultRestitution; 			 //0.5 
@@ -42,9 +37,9 @@ public abstract class clsStationary extends clsEntity {
 
 		clsBWProperties oProp = new clsBWProperties();
 		oProp.putAll( clsEntity.getDefaultProperties(pre) );
-		oProp.setProperty(pre+P_POS_X, 0.0);
-		oProp.setProperty(pre+P_POS_Y, 0.0);
-		oProp.setProperty(pre+P_POS_ANGLE, 0.0);
+		oProp.setProperty(pre+clsPose.P_POS_X, 0.0);
+		oProp.setProperty(pre+clsPose.P_POS_Y, 0.0);
+		oProp.setProperty(pre+clsPose.P_POS_ANGLE, 0.0);
 				
 		oProp.setProperty(pre+P_STRUCTURALWEIGHT , java.lang.Double.MAX_VALUE);
 		oProp.setProperty(pre+P_DEF_RESTITUTION , 1.0);
@@ -57,9 +52,9 @@ public abstract class clsStationary extends clsEntity {
 
 		mrDefaultRestitution = poProp.getPropertyDouble(pre+P_DEF_RESTITUTION);
 		
-		double oPosX = poProp.getPropertyDouble(pre+P_POS_X);
-		double oPosY = poProp.getPropertyDouble(pre+P_POS_Y);
-		double oPosAngle = poProp.getPropertyDouble(pre+P_POS_ANGLE);
+		double oPosX = poProp.getPropertyDouble(pre+clsPose.P_POS_X);
+		double oPosY = poProp.getPropertyDouble(pre+clsPose.P_POS_Y);
+		double oPosAngle = poProp.getPropertyDouble(pre+clsPose.P_POS_ANGLE);
 		
 		Shape oShape = clsShapeCreator.createShape(pre+P_SHAPE, poProp); //depends on the config
 		initPhysicalObject2D(new clsPose(oPosX, oPosY, oPosAngle), new Double2D(0.0,0.0), oShape, getTotalWeight());
