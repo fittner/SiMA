@@ -70,23 +70,17 @@ import bw.factories.clsSingletonMasonGetter;
 		   registerShape(); 
 		 }
 	
-		@Override
-		public int handleCollision(PhysicalObject2D other, sim.physics2D.util.Double2D colPoint){
-			return 0; // Sensor Area Collision - avoids forwarding calculated impulses to the object
-		}
-	
 		public void step(SimState state){
-			setLocation();
+			setOrientationAndPosition();
 			clearList();
 		}
 		
 		public void registerShape(){
 			 try	{
-				 this.setShape(moShape, MASS); 
+				 setShape(moShape, MASS); 
 			}catch(Exception ex){System.out.println(ex.getMessage());}
 		}
-		
-		
+			
 		public ArrayList <PhysicalObject2D> requestDetectedObjList(){
 			return meDetectedObjList; 
 		}
@@ -95,14 +89,17 @@ import bw.factories.clsSingletonMasonGetter;
 			return meCollisionPointMap; 
 		}
 		
-		private void setLocation(){
+		private void setOrientationAndPosition(){
 			clsMobileObject2D oMobileObj = ((clsMobile)moHostEntity).getMobileObject2D();
 			this.setPose(oMobileObj.getPosition(), oMobileObj.getOrientation()); 
 			clsSingletonMasonGetter.getFieldEnvironment().setObjectLocation(this, 
 										new sim.util.Double2D(oMobileObj.getPosition().x,oMobileObj.getPosition().y));
 		}
 			
-		
+		private void clearList(){
+			meDetectedObjList.clear(); 
+			meCollisionPointMap.clear(); 
+		}
 		//--------------------------------------------------------------------------------------------------
 		// Methods from PhysicalObject2D which have to be overwritten
 		//-------------------------------------------------------------------------------------------------
@@ -110,6 +107,12 @@ import bw.factories.clsSingletonMasonGetter;
 		/** receives all objects, the physical object is colliding with - objects 
 		 * which are moving away from the   
 		*/     
+		
+		
+		@Override
+		public int handleCollision(PhysicalObject2D other, sim.physics2D.util.Double2D colPoint){
+			return 0; // Sensor Area Collision - avoids forwarding calculated impulses to the object
+		}
 		
 		@Override
 		public void addContact(PhysicalObject2D poCollidingObj,
@@ -120,7 +123,7 @@ import bw.factories.clsSingletonMasonGetter;
 				meCollisionPointMap.put(poCollidingObj.getIndex(), poCollisionPoint);
 			}				
 		}
-		
+
 		//--------------------------------------------------------------------------------------------------
 		// Methods from Mobile2D which have to be overwritten
 		//-------------------------------------------------------------------------------------------------
@@ -137,13 +140,5 @@ import bw.factories.clsSingletonMasonGetter;
 			//TODO Clemens, hier geh�rt mehr rein als nur true!
 	    	return true; // (insert location algorithm and intersection here)
 	    }		
-		
-
-		//-------------------------------------------------------------------------------------------------
-		
-		private void clearList(){
-			meDetectedObjList.clear(); 
-			meCollisionPointMap.clear(); 
-		}
 }
 
