@@ -52,31 +52,34 @@ public class clsMainGetDefaultConfig {
 	 */
 	public static void main(String[] args) {
 		String oBaseDir = clsGetARSPath.getConfigPath()+System.getProperty("file.separator")+"default";
-		String oExt = ".default.property";
+		String oSubExt = ".default.property";
+		String oMainExt = ".main.property";
 		
-		clsBWProperties.writeProperties(clsAnimal.getDefaultProperties(""), oBaseDir, "animal"+oExt, "");
-		clsBWProperties.writeProperties(clsAnimate.getDefaultProperties(""), oBaseDir, "animate"+oExt, "");
-		clsBWProperties.writeProperties(clsBase.getDefaultProperties(""), oBaseDir, "base"+oExt, "");
-		clsBWProperties.writeProperties(clsBubble.getDefaultProperties(""), oBaseDir, "bubble"+oExt, "");
-		clsBWProperties.writeProperties(clsCake.getDefaultProperties(""), oBaseDir, "cake"+oExt, "");
-		clsBWProperties.writeProperties(clsCan.getDefaultProperties(""), oBaseDir, "can"+oExt, "");
-		clsBWProperties.writeProperties(clsCarrot.getDefaultProperties(""), oBaseDir, "carrot"+oExt, "");
-		clsBWProperties.writeProperties(clsEntity.getDefaultProperties(""), oBaseDir, "entity"+oExt, "");
-		clsBWProperties.writeProperties(clsFungus.getDefaultProperties(""), oBaseDir, "fungus"+oExt, "");
-		clsBWProperties.writeProperties(clsHare.getDefaultProperties(""), oBaseDir, "hare"+oExt, "");
-		clsBWProperties.writeProperties(clsInanimate.getDefaultProperties(""), oBaseDir, "inanimate"+oExt, "");
-		clsBWProperties.writeProperties(clsLynx.getDefaultProperties(""), oBaseDir, "lynx"+oExt, "");
-		clsBWProperties.writeProperties(clsMobile.getDefaultProperties(""), oBaseDir, "mobile"+oExt, "");
-		clsBWProperties.writeProperties(clsPlant.getDefaultProperties(""), oBaseDir, "plant"+oExt, "");
-		clsBWProperties.writeProperties(clsRemoteBot.getDefaultProperties(""), oBaseDir, "remotebot"+oExt, "");
-		clsBWProperties.writeProperties(clsStationary.getDefaultProperties(""), oBaseDir, "stationary"+oExt, "");
-		clsBWProperties.writeProperties(clsStone.getDefaultProperties(""), oBaseDir, "stone"+oExt, "");
-		clsBWProperties.writeProperties(clsUraniumOre.getDefaultProperties(""), oBaseDir, "uraniumore"+oExt, "");
-		clsBWProperties.writeProperties(clsWallAxisAlign.getDefaultProperties(""), oBaseDir, "wall_axis"+oExt, "");
-		clsBWProperties.writeProperties(clsWallHorizontal.getDefaultProperties(""), oBaseDir, "wall_hor"+oExt, "");
-		clsBWProperties.writeProperties(clsWallVertical.getDefaultProperties(""), oBaseDir, "wall_ver"+oExt, "");
+		clsBWProperties.writeProperties(clsAnimal.getDefaultProperties(""), oBaseDir, "animal"+oSubExt, "");
+		clsBWProperties.writeProperties(clsAnimate.getDefaultProperties(""), oBaseDir, "animate"+oSubExt, "");
+		clsBWProperties.writeProperties(clsBase.getDefaultProperties(""), oBaseDir, "base"+oSubExt, "");
+		clsBWProperties.writeProperties(clsBubble.getDefaultProperties(""), oBaseDir, "bubble"+oSubExt, "");
+		clsBWProperties.writeProperties(clsCake.getDefaultProperties(""), oBaseDir, "cake"+oSubExt, "");
+		clsBWProperties.writeProperties(clsCan.getDefaultProperties(""), oBaseDir, "can"+oSubExt, "");
+		clsBWProperties.writeProperties(clsCarrot.getDefaultProperties(""), oBaseDir, "carrot"+oSubExt, "");
+		clsBWProperties.writeProperties(clsEntity.getDefaultProperties(""), oBaseDir, "entity"+oSubExt, "");
+		clsBWProperties.writeProperties(clsFungus.getDefaultProperties(""), oBaseDir, "fungus"+oSubExt, "");
+		clsBWProperties.writeProperties(clsHare.getDefaultProperties(""), oBaseDir, "hare"+oSubExt, "");
+		clsBWProperties.writeProperties(clsInanimate.getDefaultProperties(""), oBaseDir, "inanimate"+oSubExt, "");
+		clsBWProperties.writeProperties(clsLynx.getDefaultProperties(""), oBaseDir, "lynx"+oSubExt, "");
+		clsBWProperties.writeProperties(clsMobile.getDefaultProperties(""), oBaseDir, "mobile"+oSubExt, "");
+		clsBWProperties.writeProperties(clsPlant.getDefaultProperties(""), oBaseDir, "plant"+oSubExt, "");
+		clsBWProperties.writeProperties(clsRemoteBot.getDefaultProperties(""), oBaseDir, "remotebot"+oSubExt, "");
+		clsBWProperties.writeProperties(clsStationary.getDefaultProperties(""), oBaseDir, "stationary"+oSubExt, "");
+		clsBWProperties.writeProperties(clsStone.getDefaultProperties(""), oBaseDir, "stone"+oSubExt, "");
+		clsBWProperties.writeProperties(clsUraniumOre.getDefaultProperties(""), oBaseDir, "uraniumore"+oSubExt, "");
+		clsBWProperties.writeProperties(clsWallAxisAlign.getDefaultProperties(""), oBaseDir, "wall_axis"+oSubExt, "");
+		clsBWProperties.writeProperties(clsWallHorizontal.getDefaultProperties(""), oBaseDir, "wall_hor"+oSubExt, "");
+		clsBWProperties.writeProperties(clsWallVertical.getDefaultProperties(""), oBaseDir, "wall_ver"+oSubExt, "");
 
-		clsBWProperties.writeProperties(clsSimplePropertyLoader.getDefaultProperties(""), clsGetARSPath.getConfigPath(), "simplePropertyLoader"+oExt, "");
+		clsBWProperties.writeProperties(clsSimplePropertyLoader.getDefaultProperties(""), clsGetARSPath.getConfigPath(), "simplePropertyLoader"+oMainExt, "");
+		
+		System.out.println("done ...");
 	}
 
 }
