@@ -183,7 +183,7 @@ public final class clsRegisterEntity {
 		
 		if (poEntity instanceof itfGetEatableArea) {
 			registerPhysicalObject2D(((itfGetEatableArea)poEntity).getEatableArea() );
-			clsSingletonMasonGetter.getFieldEnvironment().setObjectLocation(((itfGetEatableArea)poEntity).getEatableArea(), new sim.util.Double2D( (((itfGetEatableArea)poEntity).getEatableArea().getPosition().x+10), ((itfGetEatableArea)poEntity).getEatableArea().getPosition().y));
+			clsSingletonMasonGetter.getFieldEnvironment().setObjectLocation(((itfGetEatableArea)poEntity).getEatableArea(), new sim.util.Double2D( poEntity.getPosition().x+10.0, poEntity.getPosition().y));
 			clsSingletonMasonGetter.getSimState().schedule.scheduleRepeating(((itfGetEatableArea)poEntity).getEatableArea(), 6, defaultScheduleStepWidth);
 		}
 		
