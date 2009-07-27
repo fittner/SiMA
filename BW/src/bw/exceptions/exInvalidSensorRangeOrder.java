@@ -15,7 +15,7 @@ package bw.exceptions;
  * 27.07.2009, 12:04:58
  * 
  */
-public class exInvalidSensorRangeOrder {
+public class exInvalidSensorRangeOrder extends exException{
 	/**
 	 * TODO (zeilinger) - insert description 
 	 * 
