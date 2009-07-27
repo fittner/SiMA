@@ -14,6 +14,7 @@ import java.util.HashMap;
 import bw.body.io.clsBaseIO;
 import bw.entities.clsEntity;
 import bw.utils.config.clsBWProperties;
+import bw.utils.enums.eBodyParts;
 import sim.physics2D.physicalObject.PhysicalObject2D;
 import sim.physics2D.util.Double2D;
 
@@ -24,7 +25,7 @@ import sim.physics2D.util.Double2D;
  * 18.07.2009, 17:06:30
  * 
  */
-public class clsSensorAcousticNEW extends clsSensorExt{
+public class clsSensorAcoustic extends clsSensorExt{
 
 
 	/**
@@ -38,7 +39,7 @@ public class clsSensorAcousticNEW extends clsSensorExt{
 	 * @param poSensorEngine
 	 */
 
-	public clsSensorAcousticNEW(String poPrefix, clsBWProperties poProp, 
+	public clsSensorAcoustic(String poPrefix, clsBWProperties poProp, 
 							    clsBaseIO poBaseIO, clsSensorEngine poSensorEngine, clsEntity poEntity) {
 		super(poPrefix, poProp, poBaseIO, poSensorEngine, poEntity);
 
@@ -48,19 +49,27 @@ public class clsSensorAcousticNEW extends clsSensorExt{
 
 
 	public static clsBWProperties getDefaultProperties(String poPrefix) {
-		// String pre = clsBWProperties.addDot(poPrefix);
+		String pre = clsBWProperties.addDot(poPrefix);
 		
 		clsBWProperties oProp = new clsBWProperties();
+		oProp.putAll(clsSensorExt.getDefaultProperties(pre) );
+		oProp.setProperty(pre+P_SENSOR_RANGE, 60.0 );
 		
-		//nothing to do
-				
 		return oProp;
 	}	
 
 	private void applyProperties(String poPrefix, clsBWProperties poProp) {
-		//String pre = clsBWProperties.addDot(poPrefix);
+		String pre = clsBWProperties.addDot(poPrefix);
+		
+		Double nFieldOfView = poProp.getPropertyDouble(pre+P_SENSOR_FIELD_OF_VIEW);
+		Double nRange = poProp.getPropertyDouble(pre+P_SENSOR_RANGE);
+		Double nOffset_X = poProp.getPropertyDouble(pre+P_SENSOR_OFFSET_X);
+		Double nOffset_Y = poProp.getPropertyDouble(pre+P_SENSOR_OFFSET_Y);
+			
 
-		//nothing to do
+		//HZ -- initialise sensor engine - defines the maximum sensor range
+		assignSensorData((clsSensorExt)this,new Double2D(nOffset_X, nOffset_Y), 
+						  nRange, nFieldOfView);
 	}	
 
 
@@ -73,7 +82,7 @@ public class clsSensorAcousticNEW extends clsSensorExt{
 	 */
 	@Override
 	protected void setBodyPartId() {
-		// TODO Auto-generated method stub
+		mePartId = eBodyParts.SENSOR_EXT_ACOUSTIC;	
 		
 	}
 
@@ -86,7 +95,7 @@ public class clsSensorAcousticNEW extends clsSensorExt{
 	 */
 	@Override
 	protected void setName() {
-		// TODO Auto-generated method stub
+		moName="ext. Sensor Acoustic";
 		
 	}
 
@@ -111,11 +120,27 @@ public class clsSensorAcousticNEW extends clsSensorExt{
 	 * @see bw.body.io.sensors.ext.clsSensorExt#updateSensorData(java.lang.Double, java.util.ArrayList, java.util.HashMap)
 	 */
 	@Override
-	public void updateSensorData(Double pnRange,
-			ArrayList<PhysicalObject2D> peDetectedObj,
-			HashMap<Integer, Double2D> peCollisionPoints) {
-		// TODO Auto-generated method stub
+	public void updateSensorData(Double pnAreaRange,
+			ArrayList<PhysicalObject2D> peDetectedObjInAreaList,
+			HashMap<Integer, Double2D> peCollisionPointList) {
+
+		setDetectedObjectsList(pnAreaRange, peDetectedObjInAreaList, peCollisionPointList);
+	}
+
+
+	/* (non-Javadoc)
+	 *
+	 * @author zeilinger
+	 * 27.07.2009, 11:02:59
+	 * 
+	 * @see bw.body.io.sensors.ext.clsSensorExt#setDetectedObjectsList(java.lang.Double, java.util.ArrayList, java.util.HashMap)
+	 */
+	@Override
+	public void setDetectedObjectsList(Double pnAreaRange,
+			ArrayList<PhysicalObject2D> peDetectedObjInAreaList,
+			HashMap<Integer, Double2D> peCollisionPointList) {
 		
+		calculateObjInFieldOfView(pnAreaRange, peDetectedObjInAreaList, peCollisionPointList); 
 	}
 
 }

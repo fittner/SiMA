@@ -31,11 +31,12 @@ import bw.utils.config.clsBWProperties;
  */
 public abstract class clsSensorExt extends bw.body.io.sensors.external.clsSensorExt implements itfSensorUpdate {//clsSensorActuatorBaseExt implements itfSensorUpdate {
 
+
 	public static final String P_SENSOR_FIELD_OF_VIEW = "sensor_field_of_view";
 	public static final String P_SENSOR_RANGE = "sensor_range";
 	public static final String P_SENSOR_OFFSET_X = "sensor_offset_x";
 	public static final String P_SENSOR_OFFSET_Y = "senosr_offset_y";
-	
+
 	protected clsSensorData moSensorData; 
 	private clsSensorEngine moSensorEngine;  
 	private static clsEntity moHostEntity;
@@ -86,8 +87,9 @@ public abstract class clsSensorExt extends bw.body.io.sensors.external.clsSensor
 		return moSensorData; 
 	}
 	
-	public abstract void updateSensorData(Double pnRange, ArrayList<PhysicalObject2D> peDetectedObj,
-			  HashMap<Integer, Double2D> peCollisionPoints);
+	public abstract void updateSensorData(Double pnAreaRange, 
+			  ArrayList<PhysicalObject2D> peDetectedObjInAreaList,
+			  HashMap<Integer, Double2D> peCollisionPointList);
 
 	
 	/* The methods calculateObjInFieldOfView, processObjInAreaList, getPolarCoordinates, and
@@ -95,11 +97,11 @@ public abstract class clsSensorExt extends bw.body.io.sensors.external.clsSensor
 	 * */
 	
 	public void calculateObjInFieldOfView(Double pnAreaRange, 
-										   ArrayList<PhysicalObject2D> peObjInAreaList,
+										   ArrayList<PhysicalObject2D> peDetectedObjectList,
 										   HashMap<Integer, Double2D> peCollisionPointList){
  
-			if(peObjInAreaList.size()>0){
-				updateDetectedObjAndCollisionPointList(peObjInAreaList, peCollisionPointList);	
+			if(peDetectedObjectList.size()>0){
+				updateDetectedObjAndCollisionPointList(peDetectedObjectList, peCollisionPointList);	
 				moSensorData.setMeDetectedObjectList(pnAreaRange, clsTemporaryDetectedObjHolder.meDetectedObjectList); 
 				moSensorData.setMeCollisionPointList(pnAreaRange, clsTemporaryDetectedObjHolder.meCollisionPointList); 
 			}
@@ -145,6 +147,10 @@ public abstract class clsSensorExt extends bw.body.io.sensors.external.clsSensor
 				clsTemporaryDetectedObjHolder.meCollisionPointList.put(poPhysicalObject.getIndex(),poCollisionPoint); 
 		}
 	}
+	
+	public abstract void setDetectedObjectsList(Double pnAreaRange,
+			ArrayList<PhysicalObject2D> peObjInAreaList, 
+			HashMap<Integer, Double2D> peCollisionPointList);
 	
 	private abstract static class clsTemporaryDetectedObjHolder{
 		public static ArrayList<PhysicalObject2D> meDetectedObjectList;

@@ -14,6 +14,7 @@ import java.util.HashMap;
 import bw.body.io.clsBaseIO;
 import bw.entities.clsEntity;
 import bw.utils.config.clsBWProperties;
+import bw.utils.enums.eBodyParts;
 import sim.physics2D.physicalObject.PhysicalObject2D;
 import sim.physics2D.util.Double2D;
 
@@ -24,7 +25,7 @@ import sim.physics2D.util.Double2D;
  * 18.07.2009, 17:07:05
  * 
  */
-public class clsSensorEatableAreaNEW extends clsSensorExt{
+public class clsSensorEatableArea extends clsSensorExt{
 
 
 	/**
@@ -38,7 +39,7 @@ public class clsSensorEatableAreaNEW extends clsSensorExt{
 	 * @param poSensorEngine
 	 */
 
-	public clsSensorEatableAreaNEW(String poPrefix, clsBWProperties poProp,
+	public clsSensorEatableArea(String poPrefix, clsBWProperties poProp,
 									clsBaseIO poBaseIO, clsSensorEngine poSensorEngine,clsEntity poEntity) {
 		super(poPrefix, poProp, poBaseIO, poSensorEngine, poEntity);
 
@@ -48,19 +49,29 @@ public class clsSensorEatableAreaNEW extends clsSensorExt{
 
 
 	public static clsBWProperties getDefaultProperties(String poPrefix) {
-		// String pre = clsBWProperties.addDot(poPrefix);
+		String pre = clsBWProperties.addDot(poPrefix);
 		
 		clsBWProperties oProp = new clsBWProperties();
+		oProp.putAll(clsSensorExt.getDefaultProperties(pre) );
+		oProp.setProperty(pre+P_SENSOR_RANGE, 20.0 );
 		
-		//nothing to do
-				
+		//TODO: Set Sensor Offset and the angle of the field of view
+		
 		return oProp;
 	}	
 
 	private void applyProperties(String poPrefix, clsBWProperties poProp) {
-		//String pre = clsBWProperties.addDot(poPrefix);
+		String pre = clsBWProperties.addDot(poPrefix);
+		
+		Double nFieldOfView = poProp.getPropertyDouble(pre+P_SENSOR_FIELD_OF_VIEW);
+		Double nRange = poProp.getPropertyDouble(pre+P_SENSOR_RANGE);
+		Double nOffset_X = poProp.getPropertyDouble(pre+P_SENSOR_OFFSET_X);
+		Double nOffset_Y = poProp.getPropertyDouble(pre+P_SENSOR_OFFSET_Y);
+			
 
-		//nothing to do
+		//HZ -- initialise sensor engine - defines the maximum sensor range
+		assignSensorData((clsSensorExt)this,new Double2D(nOffset_X, nOffset_Y), 
+						  nRange, nFieldOfView);
 	}	
 
 	/* (non-Javadoc)
@@ -72,7 +83,7 @@ public class clsSensorEatableAreaNEW extends clsSensorExt{
 	 */
 	@Override
 	protected void setBodyPartId() {
-		// TODO Auto-generated method stub
+		mePartId = eBodyParts.SENSOR_EXT_VISION_EATABLE_AREA;
 		
 	}
 
@@ -85,7 +96,7 @@ public class clsSensorEatableAreaNEW extends clsSensorExt{
 	 */
 	@Override
 	protected void setName() {
-		// TODO Auto-generated method stub
+		moName = "ext. Sensor Vision Eatable Area";
 		
 	}
 
@@ -110,9 +121,24 @@ public class clsSensorEatableAreaNEW extends clsSensorExt{
 	 * @see bw.body.io.sensors.ext.clsSensorExt#updateSensorData(java.lang.Double, java.util.ArrayList, java.util.HashMap)
 	 */
 	@Override
-	public void updateSensorData(Double pnRange,
-			ArrayList<PhysicalObject2D> peDetectedObj,
-			HashMap<Integer, Double2D> peCollisionPoints) {
+	public void updateSensorData(Double pnAreaRange,
+			ArrayList<PhysicalObject2D> peDetectedObjInAreaList,
+			HashMap<Integer, Double2D> peCollisionPointList) {
+		// TODO Auto-generated method stub
+		setDetectedObjectsList(pnAreaRange, peDetectedObjInAreaList, peCollisionPointList);
+	}
+
+	/* (non-Javadoc)
+	 *
+	 * @author zeilinger
+	 * 27.07.2009, 10:50:37
+	 * 
+	 * @see bw.body.io.sensors.ext.clsSensorExt#setDetectedObjectsList(java.lang.Double, java.util.ArrayList, java.util.HashMap)
+	 */
+	@Override
+	public void setDetectedObjectsList(Double pnAreaRange,
+			ArrayList<PhysicalObject2D> peDetectedObjInAreaList,
+			HashMap<Integer, Double2D> peCollisionPointList) {
 		// TODO Auto-generated method stub
 		
 	}
