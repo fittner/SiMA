@@ -16,7 +16,7 @@ import enums.eEntityType;
 
 //import sim.display.clsKeyListener;
 //import simple.remotecontrol.clsRemoteControl;
-import bw.body.clsComplexBody;
+import bw.body.clsMeatBody;
 import bw.body.internalSystems.clsFlesh;
 import bw.body.io.actuators.actionProxies.itfAPEatable;
 import bw.body.io.actuators.actionProxies.itfAPKillable;
@@ -51,7 +51,7 @@ public class clsHare extends clsAnimal implements itfGetFlesh, itfAPEatable, itf
 		String pre = clsBWProperties.addDot(poPrefix);
 
 		clsBWProperties oProp = new clsBWProperties();
-		oProp.putAll( clsAnimate.getDefaultProperties(pre) );
+		oProp.putAll( clsAnimal.getDefaultProperties(pre) );
 		//TODO: (langr) - should pass the config to the decision unit!
 		//oProp.putAll( clsDumbMindA.getDefaultProperties(pre) ); //clsDumbMindA.getDefaultProperties(pre)
 		oProp.setProperty(pre+P_DECISION_TYPE, eDecisionType.HARE_IFTHENELSE.name());
@@ -93,11 +93,12 @@ public class clsHare extends clsAnimal implements itfGetFlesh, itfAPEatable, itf
 	 *
 	 * @author deutsch
 	 * 08.07.2009, 15:13:45
-	 * 
+	 * 27.07.2009, 14:58    adapted by zeilinger from 
+	 * 						clsComplexBody to clsMeatBody 
 	 * @see bw.body.itfget.itfGetFlesh#getFlesh()
 	 */
 	public clsFlesh getFlesh() {
-		return ((clsComplexBody)moBody).getInternalSystem().getFlesh();
+		return ((clsMeatBody)moBody).getFlesh();
 	}
 
 
