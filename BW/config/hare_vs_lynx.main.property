@@ -19,6 +19,6 @@ description=Lorem ipsum dolor sit amet, consectetuer sadipscing elitr, sed diam 
 field_height=200.0
 field_width=200.0
 image=/BW/src/resources/images/hase.gif
-numentitygroups=14
+numentitygroups=4
 title=hare vs. lynx
 worldboundarywalls=true
