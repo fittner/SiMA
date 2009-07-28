@@ -18,6 +18,7 @@ import bw.physicalObjects.sensors.clsEntitySensorEngine;;
  * 15.07.2009, 21:35:04
  * 
  */
+
 public interface itfGetSensorEngine {
-	public TreeMap<Double, clsEntitySensorEngine> getSensorEngine();
+	public TreeMap<Double, clsEntitySensorEngine> getSensorEngineAreas();
 }
