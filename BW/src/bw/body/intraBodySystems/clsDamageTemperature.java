@@ -17,7 +17,7 @@ import bw.utils.enums.partclass.clsPartDamageNutrition;
 import bw.utils.enums.partclass.clsPartDamageTemperature;
 
 /**
- * TODO (deutsch) - insert description 
+ * DOCUMENT (deutsch) - insert description 
  * 
  * @author deutsch
  * 
@@ -65,7 +65,7 @@ public class clsDamageTemperature implements itfStepUpdateInternalState {
 	}		
 	
 	/**
-	 * TODO (deutsch) - insert description
+	 * DOCUMENT (deutsch) - insert description
 	 *
 	 * @author deutsch
 	 * 19.02.2009, 19:51:45
@@ -81,7 +81,7 @@ public class clsDamageTemperature implements itfStepUpdateInternalState {
 	}
 	
 	/**
-	 * TODO (deutsch) - insert description
+	 * DOCUMENT (deutsch) - insert description
 	 *
 	 * @author deutsch
 	 * 20.02.2009, 12:00:02
@@ -94,7 +94,7 @@ public class clsDamageTemperature implements itfStepUpdateInternalState {
 	}
 	
 	/**
-	 * TODO (deutsch) - insert description
+	 * DOCUMENT (deutsch) - insert description
 	 *
 	 * @author deutsch
 	 * 20.02.2009, 12:00:00

@@ -20,7 +20,7 @@ import bw.utils.enums.eBodyParts;
 import bw.body.io.sensors.ext.clsSensorExt;
 
 /**
- * TODO (zeilinger) - insert description 
+ * DOCUMENT (zeilinger) - insert description 
  * 
  * @author zeilinger
  * 14.07.2009, 08:01:45

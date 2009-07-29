@@ -48,7 +48,7 @@ import sim.portrayal.LocationWrapper;
 public class clsFillLevelInspector extends Inspector{
 
 	/**
-	 * TODO (langr) - insert description 
+	 * DOCUMENT (langr) - insert description 
 	 * 
 	 * @author langr
 	 * 25.03.2009, 10:36:38
@@ -80,7 +80,7 @@ public class clsFillLevelInspector extends Inspector{
     }
 
 	/**
-	 * TODO (langr) - insert description
+	 * DOCUMENT (langr) - insert description
 	 *
 	 * @author langr
 	 * 21.07.2009, 17:25:04

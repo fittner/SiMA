@@ -11,7 +11,7 @@ package bw.body.itfget;
 import bw.body.internalSystems.clsStaminaSystem;
 
 /**
- * TODO (deutsch) - insert description 
+ * DOCUMENT (deutsch) - insert description 
  * 
  * @author deutsch
  * 12.05.2009, 18:22:47

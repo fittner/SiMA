@@ -22,7 +22,7 @@ import bw.utils.tools.clsFood;
 import org.junit.Test;
 
 /**
- * TODO (deutsch) - insert description 
+ * DOCUMENT (deutsch) - insert description 
  * 
  * @author deutsch
  * 

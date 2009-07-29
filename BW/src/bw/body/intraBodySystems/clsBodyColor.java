@@ -11,7 +11,7 @@ import bw.body.itfStepUpdateInternalState;
 import bw.utils.config.clsBWProperties;
 
 /**
- * TODO (deutsch) - insert description 
+ * DOCUMENT (deutsch) - insert description 
  * 
  * @author deutsch
  * 
@@ -41,7 +41,7 @@ public class clsBodyColor implements itfStepUpdateInternalState {
 
 	
     /**
-     * TODO (deutsch) - insert description
+     * DOCUMENT (deutsch) - insert description
      *
      */
     public void stepUpdateInternalState() {

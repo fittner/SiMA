@@ -12,7 +12,7 @@ import java.util.HashMap;
 import bw.utils.enums.eNutritions;
 
 /**
- * TODO (deutsch) - insert description 
+ * DOCUMENT (deutsch) - insert description 
  * 
  * @author deutsch
  * 
@@ -30,7 +30,7 @@ public class clsChangeEnergyResult {
 	}
 	
 	/**
-	 * TODO (deutsch) - insert description
+	 * DOCUMENT (deutsch) - insert description
 	 *
 	 * @param prPercentage
 	 */
@@ -39,7 +39,7 @@ public class clsChangeEnergyResult {
 	}
 	
 	/**
-	 * TODO (deutsch) - insert description
+	 * DOCUMENT (deutsch) - insert description
 	 *
 	 * @return
 	 */
@@ -49,7 +49,7 @@ public class clsChangeEnergyResult {
 
 	
 	/**
-	 * TODO (deutsch) - insert description
+	 * DOCUMENT (deutsch) - insert description
 	 *
 	 * @param poNutritionType
 	 * @param poFraction
@@ -60,7 +60,7 @@ public class clsChangeEnergyResult {
 
 	
 	/**
-	 * TODO (deutsch) - insert description
+	 * DOCUMENT (deutsch) - insert description
 	 *
 	 * @param poNutritionType
 	 * @return
@@ -70,7 +70,7 @@ public class clsChangeEnergyResult {
 	}
 	
 	/**
-	 * TODO (deutsch) - insert description
+	 * DOCUMENT (deutsch) - insert description
 	 *
 	 * @return
 	 */
@@ -79,7 +79,7 @@ public class clsChangeEnergyResult {
 	}
 	
 	/**
-	 * TODO (deutsch) - insert description
+	 * DOCUMENT (deutsch) - insert description
 	 *
 	 * @param prValue
 	 * @return

@@ -10,7 +10,7 @@ package bw.utils.enums.partclass;
 import bw.utils.enums.eBodyParts;
 
 /**
- * TODO (deutsch) - insert description 
+ * DOCUMENT (deutsch) - insert description 
  * 
  * @author deutsch
  * 

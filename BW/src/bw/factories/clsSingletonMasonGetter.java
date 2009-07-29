@@ -12,14 +12,14 @@ import sim.field.continuous.Continuous2D;
 import sim.physics2D.PhysicsEngine2D;
 
 /**
- * TODO (deutsch) - insert description 
+ * DOCUMENT (deutsch) - insert description 
  * 
  * @author deutsch
  * 
  */
 public class clsSingletonMasonGetter {
     /**
-     * TODO (deutsch) - insert description 
+     * DOCUMENT (deutsch) - insert description 
      * 
      * @author deutsch
      * 19.02.2009, 18:45:16
@@ -27,7 +27,7 @@ public class clsSingletonMasonGetter {
     private static clsSingletonMasonGetter instance = null;
     
     /**
-     * TODO (deutsch) - insert description 
+     * DOCUMENT (deutsch) - insert description 
      * 
      * @author deutsch
      * 19.02.2009, 18:45:18
@@ -35,7 +35,7 @@ public class clsSingletonMasonGetter {
     private PhysicsEngine2D moPhysicsEngine2D = null;
 
     /**
-     * TODO (deutsch) - insert description 
+     * DOCUMENT (deutsch) - insert description 
      * 
      * @author deutsch
      * 19.02.2009, 18:45:20
@@ -43,7 +43,7 @@ public class clsSingletonMasonGetter {
     private Continuous2D moFieldEnvironment = null;
     
     /**
-     * TODO (deutsch) - insert description 
+     * DOCUMENT (deutsch) - insert description 
      * 
      * @author deutsch
      * 19.02.2009, 18:45:06
@@ -52,7 +52,7 @@ public class clsSingletonMasonGetter {
     
 
     /**
-     * TODO (deutsch) - insert description 
+     * DOCUMENT (deutsch) - insert description 
      * 
      * @author deutsch
      * 19.02.2009, 18:45:26
@@ -61,7 +61,7 @@ public class clsSingletonMasonGetter {
     private clsSingletonMasonGetter() {}
     
     /**
-     * TODO (deutsch) - insert description 
+     * DOCUMENT (deutsch) - insert description 
      * 
      * @author deutsch
      * 19.02.2009, 18:45:20
@@ -78,7 +78,7 @@ public class clsSingletonMasonGetter {
     private ARSsim.display.Console moConsole = null;
 
     /**
-     * TODO (deutsch) - insert description
+     * DOCUMENT (deutsch) - insert description
      *
      * @author deutsch
      * 19.02.2009, 18:45:31
@@ -93,7 +93,7 @@ public class clsSingletonMasonGetter {
     }
 
 	/**
-	 * TODO (deutsch) - insert description
+	 * DOCUMENT (deutsch) - insert description
 	 *
 	 * @author deutsch
 	 * 19.02.2009, 18:45:36
@@ -105,7 +105,7 @@ public class clsSingletonMasonGetter {
 	}
 
 	/**
-	 * TODO (deutsch) - insert description
+	 * DOCUMENT (deutsch) - insert description
 	 *
 	 * @author deutsch
 	 * 19.02.2009, 18:45:40
@@ -117,7 +117,7 @@ public class clsSingletonMasonGetter {
 	}
 	
 	/**
-	 * TODO (deutsch) - insert description
+	 * DOCUMENT (deutsch) - insert description
 	 *
 	 * @author deutsch
 	 * 19.02.2009, 18:45:45
@@ -129,7 +129,7 @@ public class clsSingletonMasonGetter {
 	}
 
 	/**
-	 * TODO (deutsch) - insert description
+	 * DOCUMENT (deutsch) - insert description
 	 *
 	 * @author deutsch
 	 * 19.02.2009, 18:45:49
@@ -141,7 +141,7 @@ public class clsSingletonMasonGetter {
 	}
 	
 	/**
-	 * TODO (deutsch) - insert description
+	 * DOCUMENT (deutsch) - insert description
 	 *
 	 * @author deutsch
 	 * 19.02.2009, 18:45:56
@@ -153,7 +153,7 @@ public class clsSingletonMasonGetter {
 	}
 
 	/**
-	 * TODO (deutsch) - insert description
+	 * DOCUMENT (deutsch) - insert description
 	 *
 	 * @author deutsch
 	 * 19.02.2009, 18:46:01
@@ -165,7 +165,7 @@ public class clsSingletonMasonGetter {
 	}
 	
 	/**
-	 * TODO (deutsch) - insert description
+	 * DOCUMENT (deutsch) - insert description
 	 *
 	 * @author deutsch
 	 * 19.02.2009, 18:45:36
@@ -177,7 +177,7 @@ public class clsSingletonMasonGetter {
 	}
 
 	/**
-	 * TODO (deutsch) - insert description
+	 * DOCUMENT (deutsch) - insert description
 	 *
 	 * @author deutsch
 	 * 19.02.2009, 18:45:40

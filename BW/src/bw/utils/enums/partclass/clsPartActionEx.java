@@ -1,5 +1,5 @@
 /**
- * @author Benny Dönz
+ * @author Benny Dï¿½nz
  * 21.06.2009, 09:44:28
  * 
  * $Rev::                      $: Revision of last commit
@@ -9,9 +9,9 @@
 package bw.utils.enums.partclass;
 
 /**
- * TODO (Benny Dönz) - insert description 
+ * DOCUMENT (Benny DÃ¶nz) - insert description 
  * 
- * @author Benny Dönz
+ * @author Benny Dï¿½nz
  * 21.06.2009, 09:44:28
  * 
  */

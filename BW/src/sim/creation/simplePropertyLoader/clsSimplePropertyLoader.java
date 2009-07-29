@@ -35,7 +35,7 @@ import sim.creation.eLoader;
 import sim.engine.SimState;
 
 /**
- * TODO (tobias) - insert description 
+ * DOCUMENT (tobias) - insert description 
  * 
  * @author tobias
  * Jul 25, 2009, 11:54:40 AM

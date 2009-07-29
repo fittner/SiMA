@@ -19,7 +19,7 @@ package symbolization;
 public class clsNeuroSymbolization extends clsSymbolization {
 
 	/**
-	 * TODO (langr) - insert description 
+	 * DOCUMENT (langr) - insert description 
 	 * 
 	 * @author langr
 	 * 21.04.2009, 12:00:34

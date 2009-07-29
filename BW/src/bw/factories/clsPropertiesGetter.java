@@ -11,7 +11,7 @@ package bw.factories;
 import bw.utils.config.clsBWProperties;
 
 /**
- * TODO (deutsch) - insert description 
+ * DOCUMENT (deutsch) - insert description 
  * 
  * @author deutsch
  * 15.07.2009, 17:36:36

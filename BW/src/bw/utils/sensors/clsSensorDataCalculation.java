@@ -12,7 +12,7 @@ import sim.physics2D.util.Double2D;
 import ARSsim.physics2D.util.clsPolarcoordinate;
 
 /**
- * TODO (zeilinger) - insert description 
+ * DOCUMENT (zeilinger) - insert description 
  * 
  * @author zeilinger
  * 20.07.2009, 16:26:54
@@ -67,7 +67,7 @@ public class clsSensorDataCalculation {
 	}
 	
 	/**
-	 * TODO (zeilinger) - insert description
+	 * DOCUMENT (zeilinger) - insert description
 	 *
 	 * @author zeilinger
 	 * 25.02.2009, 16:22:39

@@ -34,7 +34,7 @@ import enums.eEntityType;
  * 
  */
 /**
- * TODO (langr) - insert description 
+ * DOCUMENT (langr) - insert description 
  * 
  * @author langr
  * 
@@ -98,7 +98,7 @@ public abstract class clsEntity {
 	public abstract void execution();
 	
 	/**
-	 * TODO (deutsch) - insert description
+	 * DOCUMENT (deutsch) - insert description
 	 *
 	 * @author deutsch
 	 * 26.02.2009, 11:16:51
@@ -109,7 +109,7 @@ public abstract class clsEntity {
 	
 	
 	/**
-	 * TODO (deutsch) - insert description
+	 * DOCUMENT (deutsch) - insert description
 	 *
 	 * @author deutsch
 	 * 26.02.2009, 11:15:33
@@ -122,7 +122,7 @@ public abstract class clsEntity {
 	protected abstract void initPhysicalObject2D(clsPose poPose, sim.physics2D.util.Double2D poStartingVelocity, Shape poShape, double poMass);
 	
 	/**
-	 * TODO (deutsch) - insert description
+	 * DOCUMENT (deutsch) - insert description
 	 *
 	 * @author deutsch
 	 * 26.02.2009, 11:15:30
@@ -132,7 +132,7 @@ public abstract class clsEntity {
 
 
 	/**
-	 * TODO (deutsch) - insert description
+	 * DOCUMENT (deutsch) - insert description
 	 *
 	 * @author deutsch
 	 * 26.02.2009, 11:15:25
@@ -144,7 +144,7 @@ public abstract class clsEntity {
 	}
 	
 	/**
-	 * TODO (deutsch) - insert description
+	 * DOCUMENT (deutsch) - insert description
 	 *
 	 * @author deutsch
 	 * 26.02.2009, 11:15:22
@@ -253,7 +253,7 @@ public abstract class clsEntity {
 	}
 	
 	/**
-	 * TODO (deutsch) - insert description
+	 * DOCUMENT (deutsch) - insert description
 	 *
 	 * @author deutsch
 	 * 26.02.2009, 11:16:38
@@ -265,7 +265,7 @@ public abstract class clsEntity {
 	}
 	
 	/**
-	 * TODO (deutsch) - insert description
+	 * DOCUMENT (deutsch) - insert description
 	 *
 	 * @author deutsch
 	 * 26.02.2009, 11:16:36

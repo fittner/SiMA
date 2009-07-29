@@ -11,7 +11,7 @@ import bw.utils.config.clsBWProperties;
 import bw.utils.enums.eBodyParts;
 
 /**
- * TODO (zeilinger) - insert description 
+ * DOCUMENT (zeilinger) - insert description 
  * 
  * @author zeilinger
  * 

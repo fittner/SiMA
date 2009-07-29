@@ -9,7 +9,7 @@
 package sim.creation;
 
 /**
- * TODO (tobias) - insert description 
+ * DOCUMENT (tobias) - insert description 
  * 
  * @author tobias
  * Jul 26, 2009, 3:14:28 PM

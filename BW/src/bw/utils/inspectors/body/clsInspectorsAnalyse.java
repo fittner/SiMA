@@ -22,7 +22,7 @@ import javax.swing.JProgressBar;
 import bw.utils.tools.clsNutritionLevel;
 
 /**
- * TODO (kilic) - insert description 
+ * DOCUMENT (kilic) - insert description 
  * 
  * @author kilic
  * 15.05.2009, 10:21:47

@@ -16,7 +16,7 @@ import bw.utils.enums.partclass.clsPartDamageLightning;
 import bw.utils.enums.partclass.clsPartSensorBump;
 
 /**
- * TODO (deutsch) - insert description 
+ * DOCUMENT (deutsch) - insert description 
  * 
  * @author deutsch
  * 
@@ -67,7 +67,7 @@ public class clsDamageLightning implements itfStep {
 	}		
 	
 	/**
-	 * TODO (deutsch) - insert description
+	 * DOCUMENT (deutsch) - insert description
 	 *
 	 * @author deutsch
 	 * 20.02.2009, 12:00:02
@@ -82,7 +82,7 @@ public class clsDamageLightning implements itfStep {
 	}
 	
 	/**
-	 * TODO (deutsch) - insert description
+	 * DOCUMENT (deutsch) - insert description
 	 *
 	 * @author deutsch
 	 * 20.02.2009, 12:00:00
@@ -101,7 +101,7 @@ public class clsDamageLightning implements itfStep {
 	}
 	
     /**
-     * TODO (deutsch) - insert description
+     * DOCUMENT (deutsch) - insert description
      *
      */
     public void step() {

@@ -24,7 +24,7 @@ import statictools.clsGetARSPath;
  */
 public class clsBWMain extends SimState{
 	/**
-	 * TODO (tobias) - insert description 
+	 * DOCUMENT (tobias) - insert description 
 	 * 
 	 * @author tobias
 	 * Jul 26, 2009, 4:48:51 PM

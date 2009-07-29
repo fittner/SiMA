@@ -35,7 +35,7 @@ public class clsInspectorFrame extends JFrame implements Steppable {
 	private Stoppable moStoppableInspectors = null;
 	
 	/**
-	 * TODO (langr) - insert description 
+	 * DOCUMENT (langr) - insert description 
 	 * 
 	 * @author langr
 	 * 14.07.2009, 14:46:31

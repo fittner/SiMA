@@ -18,7 +18,7 @@ import bw.utils.config.clsBWProperties;
 import bw.utils.datatypes.clsMutableDouble;
 
 /**
- * TODO (deutsch) - insert description 
+ * DOCUMENT (deutsch) - insert description 
  * 
  * @author deutsch
  * 

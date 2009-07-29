@@ -20,7 +20,7 @@ import bw.physicalObjects.sensors.clsEntitySensorEngine;
 import bw.exceptions.exInvalidSensorRange;
 
 /**
- * TODO (zeilinger) - insert description 
+ * DOCUMENT (zeilinger) - insert description 
  * 
  * @author zeilinger
  * 13.07.2009, 11:33:45

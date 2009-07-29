@@ -17,7 +17,7 @@ import bw.utils.enums.eNutritions;
 import bw.utils.tools.clsNutritionLevel;
 
 /**
- * TODO (deutsch) - insert description 
+ * DOCUMENT (deutsch) - insert description 
  * 
  * @author deutsch
  * 
@@ -112,7 +112,7 @@ public class clsStomachSystem implements itfStepUpdateInternalState {
 	}
 	
 	/**
-	 * TODO (deutsch) - insert description
+	 * DOCUMENT (deutsch) - insert description
 	 *
 	 * @param poId
 	 */
@@ -136,7 +136,7 @@ public class clsStomachSystem implements itfStepUpdateInternalState {
 	}
 	
 	/**
-	 * TODO (deutsch) - insert description
+	 * DOCUMENT (deutsch) - insert description
 	 *
 	 */
 	private void updateFractionSum() {
@@ -150,7 +150,7 @@ public class clsStomachSystem implements itfStepUpdateInternalState {
 	}
 	
 	/**
-	 * TODO (deutsch) - insert description
+	 * DOCUMENT (deutsch) - insert description
 	 *
 	 * @param poId
 	 * @return
@@ -160,7 +160,7 @@ public class clsStomachSystem implements itfStepUpdateInternalState {
 	}
 
 	/**
-	 * TODO (deutsch) - insert description
+	 * DOCUMENT (deutsch) - insert description
 	 *
 	 * @param poId
 	 * @param prAmount
@@ -198,7 +198,7 @@ public class clsStomachSystem implements itfStepUpdateInternalState {
 	}
 	
 	/**
-	 * TODO (deutsch) - insert description
+	 * DOCUMENT (deutsch) - insert description
 	 *
 	 * @param poId
 	 * @param prAmount
@@ -236,7 +236,7 @@ public class clsStomachSystem implements itfStepUpdateInternalState {
 	}	
 	
 	/**
-	 * TODO (deutsch) - insert description
+	 * DOCUMENT (deutsch) - insert description
 	 *
 	 * @param prAmount
 	 * @return
@@ -292,7 +292,7 @@ public class clsStomachSystem implements itfStepUpdateInternalState {
 	}
 	
 	/**
-	 * TODO (deutsch) - insert description
+	 * DOCUMENT (deutsch) - insert description
 	 *
 	 * @param prAmount
 	 * @return
@@ -348,7 +348,7 @@ public class clsStomachSystem implements itfStepUpdateInternalState {
 	}
 	
 	/**
-	 * TODO (deutsch) - insert description
+	 * DOCUMENT (deutsch) - insert description
 	 *
 	 */
 	public void stepUpdateInternalState() {
@@ -362,7 +362,7 @@ public class clsStomachSystem implements itfStepUpdateInternalState {
 	}
 
 	/**
-	 * TODO (deutsch) - insert description
+	 * DOCUMENT (deutsch) - insert description
 	 *
 	 */
 	private void updateEnergy() {
@@ -382,7 +382,7 @@ public class clsStomachSystem implements itfStepUpdateInternalState {
 	}
 	
 	/**
-	 * TODO (deutsch) - insert description
+	 * DOCUMENT (deutsch) - insert description
 	 *
 	 * @return
 	 */

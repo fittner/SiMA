@@ -22,7 +22,7 @@ import javax.sound.sampled.UnsupportedAudioFileException;
 
 
 /**
- * TODO (langr) - insert description 
+ * DOCUMENT (langr) - insert description 
  * 
  * @author langr
  * 25.03.2009, 15:33:33

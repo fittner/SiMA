@@ -13,7 +13,7 @@ import bw.utils.tools.clsFood;
 import java.lang.Math;
 
 /**
- * TODO (deutsch) - insert description 
+ * DOCUMENT (deutsch) - insert description 
  * 
  * @author deutsch
  * 
@@ -50,7 +50,7 @@ public class clsFlesh extends clsFood {
 	}
 
 	/**
-	 * TODO (deutsch) - insert description
+	 * DOCUMENT (deutsch) - insert description
 	 *
 	 * @param prWeight
 	 */
@@ -64,7 +64,7 @@ public class clsFlesh extends clsFood {
 	}
 	
 	/**
-	 * TODO (deutsch) - insert description
+	 * DOCUMENT (deutsch) - insert description
 	 *
 	 * @param prWeight
 	 * @throws exFoodWeightBelowZero

@@ -13,7 +13,7 @@ import bw.body.io.sensors.itfSensorUpdate;
 import bw.utils.config.clsBWProperties;
 
 /**
- * TODO (zeilinger) - insert description 
+ * DOCUMENT (zeilinger) - insert description 
  * 
  * @author zeilinger
  * 

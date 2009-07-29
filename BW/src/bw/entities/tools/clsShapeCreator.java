@@ -18,7 +18,7 @@ import bw.utils.config.clsBWProperties;
 import bw.utils.enums.eShapeType;
 
 /**
- * TODO (tobias) - insert description 
+ * DOCUMENT (tobias) - insert description 
  * 
  * @author tobias
  * Jul 24, 2009, 8:39:41 PM

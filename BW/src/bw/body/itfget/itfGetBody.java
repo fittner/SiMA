@@ -11,7 +11,7 @@ package bw.body.itfget;
 import bw.body.clsBaseBody;
 
 /**
- * TODO (deutsch) - insert description 
+ * DOCUMENT (deutsch) - insert description 
  * 
  * @author deutsch
  * 11.05.2009, 18:19:28

@@ -8,7 +8,7 @@
 package bw.body.io;
 
 /**
- * TODO (zeilinger) - insert description 
+ * DOCUMENT (zeilinger) - insert description 
  * 
  * @author zeilinger
  * Changes:

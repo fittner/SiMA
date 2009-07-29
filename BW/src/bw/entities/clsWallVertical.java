@@ -15,7 +15,7 @@ import bw.utils.config.clsBWProperties;
 import bw.utils.enums.eShapeType;
 
 /**
- * TODO (tobias) - insert description 
+ * DOCUMENT (tobias) - insert description 
  * 
  * @author tobias
  * Jul 24, 2009, 11:00:37 PM
@@ -23,7 +23,7 @@ import bw.utils.enums.eShapeType;
  */
 public class clsWallVertical extends clsWallAxisAlign {
 	/**
-	 * TODO (tobias) - insert description 
+	 * DOCUMENT (tobias) - insert description 
 	 * 
 	 * @author tobias
 	 * Jul 24, 2009, 10:51:04 PM

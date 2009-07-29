@@ -9,7 +9,7 @@
 package bw.utils.enums.partclass;
 
 /**
- * TODO (deutsch) - insert description 
+ * DOCUMENT (deutsch) - insert description 
  * 
  * @author deutsch
  * 20.02.2009, 11:54:14

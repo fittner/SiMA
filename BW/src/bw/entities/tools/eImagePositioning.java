@@ -9,7 +9,7 @@
 package bw.entities.tools;
 
 /**
- * TODO (tobias) - insert description 
+ * DOCUMENT (tobias) - insert description 
  * 
  * @author tobias
  * Jul 24, 2009, 10:55:43 PM

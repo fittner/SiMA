@@ -22,7 +22,7 @@ import bw.utils.config.clsBWProperties;
 public abstract class clsInanimate extends clsMobile {
 
 	/**
-	 * TODO (deutsch) - insert description 
+	 * DOCUMENT (deutsch) - insert description 
 	 * 
 	 * @author deutsch
 	 * 25.02.2009, 17:27:06

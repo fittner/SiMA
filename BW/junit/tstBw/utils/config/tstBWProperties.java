@@ -15,7 +15,7 @@ import org.junit.Test;
 import bw.utils.config.clsBWProperties;
 
 /**
- * TODO (deutsch) - insert description 
+ * DOCUMENT (deutsch) - insert description 
  * 
  * @author deutsch
  * 22.07.2009, 10:32:43

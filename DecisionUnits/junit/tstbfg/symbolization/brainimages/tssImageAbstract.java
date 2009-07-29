@@ -29,7 +29,7 @@ import bfg.tools.shapes.clsPoint;
 import bfg.tools.xmltools.clsXMLConfiguration;
 
 /**
- * TODO (langr) - insert description 
+ * DOCUMENT (langr) - insert description 
  * 
  * @author langr
  * 22.04.2009, 10:39:13
@@ -111,7 +111,7 @@ public class tssImageAbstract {
 	}
 
 	/**
-	 * TODO (langr) - insert description
+	 * DOCUMENT (langr) - insert description
 	 *
 	 * @author langr
 	 * 22.04.2009, 10:39:13
@@ -123,7 +123,7 @@ public class tssImageAbstract {
 	}
 
 	/**
-	 * TODO (langr) - insert description
+	 * DOCUMENT (langr) - insert description
 	 *
 	 * @author langr
 	 * 22.04.2009, 10:39:13
@@ -135,7 +135,7 @@ public class tssImageAbstract {
 	}
 
 	/**
-	 * TODO (langr) - insert description
+	 * DOCUMENT (langr) - insert description
 	 *
 	 * @author langr
 	 * 22.04.2009, 10:39:13

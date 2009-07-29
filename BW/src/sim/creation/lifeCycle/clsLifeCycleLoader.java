@@ -14,7 +14,7 @@ import sim.creation.clsLoader;
 import sim.engine.SimState;
 
 /**
- * TODO (deutsch) - insert description 
+ * DOCUMENT (deutsch) - insert description 
  * 
  * @author deutsch
  * 12.05.2009, 18:14:45

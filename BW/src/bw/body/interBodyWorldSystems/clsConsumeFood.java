@@ -20,7 +20,7 @@ import bw.utils.enums.eNutritions;
 import bw.utils.tools.clsFood;
 
 /**
- * TODO (deutsch) - insert description 
+ * DOCUMENT (deutsch) - insert description 
  * 
  * @author deutsch
  * 
@@ -56,7 +56,7 @@ public class clsConsumeFood {
 	}
 	
 	/**
-	 * TODO (deutsch) - insert description
+	 * DOCUMENT (deutsch) - insert description
 	 *
 	 * @param poFood
 	 */

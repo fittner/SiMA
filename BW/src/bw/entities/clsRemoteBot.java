@@ -88,7 +88,7 @@ public class clsRemoteBot extends clsAnimate implements itfGetVision, itfGetRadi
 	/**
 	 * To be called AFTER clsRemoteBot has been initialized and registered to mason 
 	 * 
-	 * TODO (deutsch) - insert description
+	 * DOCUMENT (deutsch) - insert description
 	 *
 	 * @author deutsch
 	 * 26.02.2009, 11:38:59

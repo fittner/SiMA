@@ -15,7 +15,7 @@ import bw.entities.clsEntity;
 
 
 /**
- * TODO (zeilinger) - insert description 
+ * DOCUMENT (zeilinger) - insert description 
  * 
  * @author zeilinger
  * 22.07.2009, 15:43:50
@@ -25,7 +25,7 @@ public class clsInspectorSensor extends Inspector {
 
 	
 	/**
-	 * TODO (zeilinger) - insert description 
+	 * DOCUMENT (zeilinger) - insert description 
 	 * 
 	 * @author zeilinger
 	 * 22.07.2009, 15:44:47
@@ -34,7 +34,7 @@ public class clsInspectorSensor extends Inspector {
 	
 	clsEntity moHostEntity; 
 	/**
-	 * TODO (zeilinger) - insert description 
+	 * DOCUMENT (zeilinger) - insert description 
 	 * 
 	 * @author zeilinger
 	 * 22.07.2009, 16:47:33

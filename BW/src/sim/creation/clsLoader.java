@@ -17,7 +17,7 @@ import sim.physics2D.PhysicsEngine2D;
 import statictools.clsGetARSPath;
 
 /**
- * TODO (deutsch) - insert description 
+ * DOCUMENT (deutsch) - insert description 
  * 
  * @author deutsch
  * 25.02.2009, 14:00:51

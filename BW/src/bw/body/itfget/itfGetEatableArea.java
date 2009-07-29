@@ -11,7 +11,7 @@ package bw.body.itfget;
 import bw.physicalObjects.sensors.clsEntityPartVision;
 
 /**
- * TODO (deutsch) - insert description 
+ * DOCUMENT (deutsch) - insert description 
  * 
  * @author deutsch
  * 12.05.2009, 20:53:49

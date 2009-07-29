@@ -27,7 +27,7 @@ import bw.utils.enums.eShapeType;
 import bw.utils.tools.clsFood;
 
 /**
- * TODO (deutsch) - insert description 
+ * DOCUMENT (deutsch) - insert description 
  * 
  * @author deutsch
  * 08.07.2009, 10:33:20
@@ -52,7 +52,7 @@ public class clsCarrot extends clsInanimate implements itfGetFlesh, itfAPEatable
 	private clsMeatBody moBody;
 
 	/**
-	 * TODO (deutsch) - insert description 
+	 * DOCUMENT (deutsch) - insert description 
 	 * 
 	 * @author deutsch
 	 * 08.07.2009, 10:33:28

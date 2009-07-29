@@ -20,7 +20,7 @@ import bw.utils.enums.eNutritions;
 import bw.utils.tools.clsNutritionLevel;
 
 /**
- * TODO (langr) - insert description 
+ * DOCUMENT (langr) - insert description 
  * 
  * @author langr
  * 12.05.2009, 17:40:44
@@ -61,7 +61,7 @@ public class clsStomachSensor extends clsSensorInt {
 	
 	
 	/**
-	 * TODO (muchitsch) - insert description
+	 * DOCUMENT (muchitsch) - insert description
 	 *
 	 * @param poEntity
 	 */

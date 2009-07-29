@@ -10,7 +10,7 @@ package ARSsim.physics2D.physicalObject;
 import bw.entities.clsEntity;
 
 /**
- * TODO (deutsch) - insert description 
+ * DOCUMENT (deutsch) - insert description 
  * 
  * @author deutsch
  * 

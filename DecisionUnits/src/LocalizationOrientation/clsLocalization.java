@@ -15,7 +15,7 @@
 //import sim.util.Bag;
 //
 ///**
-// * TODO (borer) - insert description 
+// * DOCUMENT (borer) - insert description 
 // * @author  borer
 // */
 //public class clsLocalization {
@@ -143,8 +143,8 @@
 //	 * 
 //	 * ?Eergabewert: die listen an gesichteten Objekten
 //	 * 
-//	 * RŸckgabewert: die erstelle Area oder Null falls kein Stationary 
-//	 * objet vorhanden ist, das die Area identifizieren kšnnte
+//	 * Rï¿½ckgabewert: die erstelle Area oder Null falls kein Stationary 
+//	 * objet vorhanden ist, das die Area identifizieren kï¿½nnte
 //	 * */
 //	
 //	private clsArea calc_area(clsPerceivedObj tmpPerceivedObj){

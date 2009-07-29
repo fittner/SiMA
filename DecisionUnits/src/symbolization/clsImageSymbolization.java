@@ -21,7 +21,7 @@ import decisionunit.itf.sensors.clsSensorData;
 public class clsImageSymbolization extends clsSymbolization {
 
 	/**
-	 * TODO (langr) - insert description 
+	 * DOCUMENT (langr) - insert description 
 	 * 
 	 * @author langr
 	 * 21.04.2009, 11:58:35

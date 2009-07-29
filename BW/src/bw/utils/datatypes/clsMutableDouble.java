@@ -33,7 +33,7 @@ import java.io.Serializable;
  */
 public class clsMutableDouble implements Cloneable, Serializable {
 	   /**
-	 * TODO (deutsch) - insert description 
+	 * DOCUMENT (deutsch) - insert description 
 	 * 
 	 * @author deutsch
 	 * 13.07.2009, 19:00:32

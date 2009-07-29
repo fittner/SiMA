@@ -34,7 +34,7 @@ import sim.portrayal.Inspector;
 import sim.portrayal.LocationWrapper;
 
 /**
- * TODO (muchitsch) - insert description 
+ * DOCUMENT (muchitsch) - insert description 
  * 
  * @author muchitsch
  * Jul 24, 2009, 12:32:39 PM
@@ -43,7 +43,7 @@ import sim.portrayal.LocationWrapper;
 public class clsInspectorInternalSystems extends Inspector{
 
 	/**
-	 * TODO (muchitsch) - insert description 
+	 * DOCUMENT (muchitsch) - insert description 
 	 * 
 	 * @author muchitsch
 	 * Jul 24, 2009, 12:34:41 PM

@@ -86,7 +86,7 @@
 ////	private Array moCapturedKeys;
 //
 //	/**
-//	 * TODO (deutsch) - insert description 
+//	 * DOCUMENT (deutsch) - insert description 
 //	 * 
 //	 * @author deutsch
 //	 * 26.02.2009, 11:29:23
@@ -148,7 +148,7 @@
 //	/**
 //	 * To be called AFTER clsRemoteBot has been initialized and registered to mason 
 //	 * 
-//	 * TODO (deutsch) - insert description
+//	 * DOCUMENT (deutsch) - insert description
 //	 *
 //	 * @author deutsch
 //	 * 26.02.2009, 11:38:59
@@ -290,7 +290,7 @@
 //	}
 //	
 //	/**
-//	 * TODO (langr) - insert description
+//	 * DOCUMENT (langr) - insert description
 //	 *
 //	 * @author langr
 //	 * 02.04.2009, 13:04:55

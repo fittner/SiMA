@@ -12,7 +12,7 @@ import bw.body.internalSystems.clsInternalSystem;
 import bw.utils.config.clsBWProperties;
 
 /**
- * TODO (deutsch) - insert description 
+ * DOCUMENT (deutsch) - insert description 
  * 
  * @author deutsch
  * 

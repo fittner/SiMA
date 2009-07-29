@@ -9,7 +9,7 @@
 package bw.utils.enums;
 
 /**
- * TODO (langr) - insert description 
+ * DOCUMENT (langr) - insert description 
  * 
  * @author langr
  * 23.07.2009, 14:34:07

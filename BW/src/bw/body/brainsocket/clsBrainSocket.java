@@ -134,7 +134,7 @@ public class clsBrainSocket implements itfStepProcessing {
 	}
 	
 	/**
-	 * TODO (langr) - insert description
+	 * DOCUMENT (langr) - insert description
 	 *
 	 * @author langr
 	 * 11.05.2009, 17:44:19
@@ -152,7 +152,7 @@ public class clsBrainSocket implements itfStepProcessing {
 	}
 
 	/**
-	 * TODO (langr) - insert description
+	 * DOCUMENT (langr) - insert description
 	 *
 	 * @author langr
 	 * 11.05.2009, 17:44:15
@@ -170,7 +170,7 @@ public class clsBrainSocket implements itfStepProcessing {
 	}
 
 	/**
-	 * TODO (langr) - insert description
+	 * DOCUMENT (langr) - insert description
 	 *
 	 * @author langr
 	 * 11.05.2009, 17:44:01
@@ -188,7 +188,7 @@ public class clsBrainSocket implements itfStepProcessing {
 	}
 
 	/**
-	 * TODO (langr) - insert description
+	 * DOCUMENT (langr) - insert description
 	 *
 	 * @author langr
 	 * 11.05.2009, 17:44:01
@@ -206,7 +206,7 @@ public class clsBrainSocket implements itfStepProcessing {
 	}
 
 	/**
-	 * TODO (langr) - insert description
+	 * DOCUMENT (langr) - insert description
 	 *
 	 * @author langr
 	 * 11.05.2009, 17:43:58

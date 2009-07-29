@@ -9,7 +9,7 @@
 package enums;
 
 /**
- * TODO (deutsch) - insert description 
+ * DOCUMENT (deutsch) - insert description 
  * 
  * @author deutsch
  * 23.04.2009, 11:27:40

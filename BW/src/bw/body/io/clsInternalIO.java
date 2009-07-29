@@ -19,7 +19,7 @@ import bw.body.io.sensors.internal.clsStomachSensor;
 import bw.utils.config.clsBWProperties;
 
 /**
- * TODO (deutsch) - insert description 
+ * DOCUMENT (deutsch) - insert description 
  * 
  * @author deutsch
  * 

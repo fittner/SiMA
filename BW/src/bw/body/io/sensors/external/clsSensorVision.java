@@ -92,7 +92,7 @@ public class clsSensorVision extends clsSensorExt {
 	
 	
 	/**
-	 * TODO (zeilinger) - insert description
+	 * DOCUMENT (zeilinger) - insert description
 	 *
 	 * @param poEntity
 	 */
@@ -173,7 +173,7 @@ public class clsSensorVision extends clsSensorExt {
 	}
 		
 	/**
-	 * TODO (deutsch) - insert description
+	 * DOCUMENT (deutsch) - insert description
 	 *
 	 * @author deutsch
 	 * 23.04.2009, 17:27:07
@@ -195,7 +195,7 @@ public class clsSensorVision extends clsSensorExt {
 	}
 	
 	/**
-	 * TODO (zeilinger) - insert description
+	 * DOCUMENT (zeilinger) - insert description
 	 *
 	 * @param pPhObj
 	 */
@@ -204,7 +204,7 @@ public class clsSensorVision extends clsSensorExt {
 	}
 	
 	/**
-	 * TODO (zeilinger) - insert description
+	 * DOCUMENT (zeilinger) - insert description
 	 *
 	 * @param peCollidingObj
 	 */
@@ -213,7 +213,7 @@ public class clsSensorVision extends clsSensorExt {
 	}
 	
 	/**
-	 * TODO (zeilinger) - insert description
+	 * DOCUMENT (zeilinger) - insert description
 	 *
 	 * @param pnVisRange
 	 */

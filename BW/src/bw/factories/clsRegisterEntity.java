@@ -29,7 +29,7 @@ import bw.physicalObjects.sensors.clsEntitySensorEngine;
 
 
 /**
- * TODO (deutsch) - insert description 
+ * DOCUMENT (deutsch) - insert description 
  * 
  * @author deutsch
  * 25.02.2009, 15:22:23

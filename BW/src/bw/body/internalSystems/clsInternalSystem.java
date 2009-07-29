@@ -11,7 +11,7 @@ import bw.body.itfStepUpdateInternalState;
 import bw.utils.config.clsBWProperties;
 
 /**
- * TODO (deutsch) - insert description 
+ * DOCUMENT (deutsch) - insert description 
  * TODO clean class from test/debug functions
  * 
  * @author deutsch
@@ -132,7 +132,7 @@ public class clsInternalSystem implements itfStepUpdateInternalState {
 	}
 	
 	/**
-	 * TODO (deutsch) - insert description
+	 * DOCUMENT (deutsch) - insert description
 	 *
 	 */
 	public void stepUpdateInternalState() {	

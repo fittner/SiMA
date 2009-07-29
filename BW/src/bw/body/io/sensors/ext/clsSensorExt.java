@@ -23,7 +23,7 @@ import bw.utils.config.clsBWProperties;
 
 
 /**
- * TODO (zeilinger) - insert description 
+ * DOCUMENT (zeilinger) - insert description 
  * 
  * @author zeilinger
  * 18.07.2009, 09:28:39

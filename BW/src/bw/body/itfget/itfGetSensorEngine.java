@@ -12,7 +12,7 @@ import java.util.TreeMap;
 import bw.physicalObjects.sensors.clsEntitySensorEngine;;
 
 /**
- * TODO (zeilinger) - insert description 
+ * DOCUMENT (zeilinger) - insert description 
  * 
  * @author zeilinger
  * 15.07.2009, 21:35:04

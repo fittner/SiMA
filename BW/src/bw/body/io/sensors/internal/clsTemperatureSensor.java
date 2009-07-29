@@ -16,7 +16,7 @@ import bw.utils.config.clsBWProperties;
 import bw.utils.enums.eBodyParts;
 
 /**
- * TODO (andi) - insert description 
+ * DOCUMENT (andi) - insert description 
  * 
  * @author andi
  * 29.07.2009, 09:58:12
@@ -52,7 +52,7 @@ public class clsTemperatureSensor extends clsSensorInt {
 
 
 	/**
-	 * TODO (muchitsch) - insert description
+	 * DOCUMENT (muchitsch) - insert description
 	 *
 	 * @param poEntity
 	 */

@@ -10,7 +10,7 @@ package bw.body.itfget;
 
 import bw.body.internalSystems.clsFlesh;
 /**
- * TODO (deutsch) - insert description 
+ * DOCUMENT (deutsch) - insert description 
  * 
  * @author deutsch
  * 12.05.2009, 18:31:00

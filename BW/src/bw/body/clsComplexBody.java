@@ -107,7 +107,7 @@ public class clsComplexBody extends clsBaseBody implements
 
 
 	/**
-	 * TODO (langr) - insert description
+	 * DOCUMENT (langr) - insert description
 	 *
 	 * @author langr
 	 * 25.02.2009, 16:01:54

@@ -169,7 +169,7 @@ public class clsFillLevel extends clsContentColumn {
 	}
 	
 	/**
-	 * TODO (deutsch) - insert description
+	 * DOCUMENT (deutsch) - insert description
 	 *
 	 * @author deutsch
 	 * 20.02.2009, 11:08:28
@@ -191,7 +191,7 @@ public class clsFillLevel extends clsContentColumn {
 	}
 	
 	/**
-	 * TODO (deutsch) - insert description
+	 * DOCUMENT (deutsch) - insert description
 	 * 
 	 * @author deutsch
 	 * 20.02.2009, 11:08:30

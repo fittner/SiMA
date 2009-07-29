@@ -14,7 +14,7 @@ import sim.engine.SimState;
 
 
 /**
- * TODO (deutsch) - insert description 
+ * DOCUMENT (deutsch) - insert description 
  * 
  * @author deutsch
  * 25.02.2009, 14:03:50
@@ -33,7 +33,7 @@ public class clsSimpleLoader extends clsLoader {
 	private int mnNumBases;
 
 	/**
-	 * TODO (deutsch) - insert description 
+	 * DOCUMENT (deutsch) - insert description 
 	 * 
 	 * @author deutsch
 	 * 25.02.2009, 14:26:04

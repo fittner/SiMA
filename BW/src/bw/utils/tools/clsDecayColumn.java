@@ -13,7 +13,7 @@ import bw.exceptions.exValueNotWithinRange;
 import bw.utils.config.clsBWProperties;
 
 /**
- * TODO (deutsch) - insert description 
+ * DOCUMENT (deutsch) - insert description 
  * 
  * @author deutsch
  * 
@@ -171,7 +171,7 @@ public class clsDecayColumn extends clsContentColumn {
 
 
 	/**
-	 * TODO (deutsch) - insert description
+	 * DOCUMENT (deutsch) - insert description
 	 *
 	 * @param prAmount
 	 * @throws exValueNotWithinRange
@@ -192,7 +192,7 @@ public class clsDecayColumn extends clsContentColumn {
 	}
 
 	/**
-	 * TODO (deutsch) - insert description
+	 * DOCUMENT (deutsch) - insert description
 	 *
 	 * @param prInjectionValue
 	 * @throws exValueNotWithinRange
@@ -207,7 +207,7 @@ public class clsDecayColumn extends clsContentColumn {
 	}
 
 	/**
-	 * TODO (deutsch) - insert description
+	 * DOCUMENT (deutsch) - insert description
 	 *
 	 */
 	private void decay() {
@@ -225,7 +225,7 @@ public class clsDecayColumn extends clsContentColumn {
 	}
 	
 	/**
-	 * TODO (deutsch) - insert description
+	 * DOCUMENT (deutsch) - insert description
 	 *
 	 */
 	private void increase() {
@@ -264,7 +264,7 @@ public class clsDecayColumn extends clsContentColumn {
 	}
 
 	/**
-	 * TODO (deutsch) - insert description
+	 * DOCUMENT (deutsch) - insert description
 	 *
 	 */
 	public void update() {

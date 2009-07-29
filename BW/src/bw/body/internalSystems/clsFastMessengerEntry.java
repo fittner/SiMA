@@ -10,7 +10,7 @@ package bw.body.internalSystems;
 import bw.utils.enums.partclass.clsBasePart;
 
 /**
- * TODO (deutsch) - insert description 
+ * DOCUMENT (deutsch) - insert description 
  * 
  * @author deutsch
  * 
@@ -32,7 +32,7 @@ public class clsFastMessengerEntry {
 	}
 
 	/**
-	 * TODO (deutsch) - insert description
+	 * DOCUMENT (deutsch) - insert description
 	 *
 	 * @return
 	 */
@@ -40,7 +40,7 @@ public class clsFastMessengerEntry {
 		return moTarget;
 	}
 	/**
-	 * TODO (deutsch) - insert description
+	 * DOCUMENT (deutsch) - insert description
 	 *
 	 * @return
 	 */
@@ -48,7 +48,7 @@ public class clsFastMessengerEntry {
 		return moSource;
 	}	
 	/**
-	 * TODO (deutsch) - insert description
+	 * DOCUMENT (deutsch) - insert description
 	 *
 	 * @return
 	 */

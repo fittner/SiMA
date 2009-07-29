@@ -25,7 +25,7 @@ import enums.eEntityType;
  * 
  * Stores uranium ore collected by the Fungus-Eater. Has infinite capacity.
  * 
- * TODO (horvath) - insert description 
+ * DOCUMENT (horvath) - insert description 
  * 
  * @author horvath
  * 08.07.2009, 14:52:00

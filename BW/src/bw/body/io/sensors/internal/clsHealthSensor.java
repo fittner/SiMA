@@ -17,7 +17,7 @@ import bw.utils.enums.eBodyParts;
 
 
 /**
- * TODO (langr) - insert description 
+ * DOCUMENT (langr) - insert description 
  * 
  * @author langr
  * 12.05.2009, 17:39:42
@@ -53,7 +53,7 @@ public class clsHealthSensor extends clsSensorInt {
 
 
 	/**
-	 * TODO (muchitsch) - insert description
+	 * DOCUMENT (muchitsch) - insert description
 	 *
 	 * @param poEntity
 	 */

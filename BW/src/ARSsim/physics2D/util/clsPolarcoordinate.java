@@ -14,7 +14,7 @@ import sim.physics2D.util.Angle;
 import sim.physics2D.util.Double2D;
 
 /**
- * TODO (deutsch) - insert description 
+ * DOCUMENT (deutsch) - insert description 
  * 
  * @author deutsch
  * 23.04.2009, 16:03:42

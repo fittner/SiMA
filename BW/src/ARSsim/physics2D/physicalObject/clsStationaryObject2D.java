@@ -39,7 +39,7 @@ public class clsStationaryObject2D extends sim.physics2D.physicalObject.Stationa
 	}
 	
 	/**
-	 * TODO (muchitsch) - insert description
+	 * DOCUMENT (muchitsch) - insert description
 	 *
 	 * @return
 	 */

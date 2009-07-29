@@ -15,7 +15,7 @@ import bw.utils.config.clsBWProperties;
 import bw.utils.enums.eBodyParts;
 
 /**
- * TODO (deutsch) - insert description 
+ * DOCUMENT (deutsch) - insert description 
  * 
  * @author deutsch
  * 24.06.2009, 11:33:38
@@ -27,7 +27,7 @@ public class clsSensorPositionChange extends clsSensorExt {
 	private clsPose moDiv;
 	
 	/**
-	 * TODO (deutsch) - insert description 
+	 * DOCUMENT (deutsch) - insert description 
 	 * 
 	 * @author deutsch
 	 * 24.06.2009, 11:33:44

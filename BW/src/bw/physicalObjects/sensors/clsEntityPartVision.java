@@ -123,7 +123,7 @@ public class clsEntityPartVision extends MobileObject2D implements Steppable{
 	}
 	
 	/**
-	 * TODO (zeilinger) - insert description
+	 * DOCUMENT (zeilinger) - insert description
 	 *
 	 * @author zeilinger
 	 * 21.02.2009, 12:13:53

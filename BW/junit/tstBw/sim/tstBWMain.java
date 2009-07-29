@@ -16,7 +16,7 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 
 /**
- * TODO (muchitsch) - insert description 
+ * DOCUMENT (muchitsch) - insert description 
  * 
  * @author muchitsch
  * 
@@ -24,7 +24,7 @@ import org.junit.Test;
 public class tstBWMain {
 
 	/**
-	 * TODO (muchitsch) - insert description
+	 * DOCUMENT (muchitsch) - insert description
 	 *
 	 * @throws java.lang.Exception
 	 */
@@ -33,7 +33,7 @@ public class tstBWMain {
 	}
 
 	/**
-	 * TODO (muchitsch) - insert description
+	 * DOCUMENT (muchitsch) - insert description
 	 *
 	 * @throws java.lang.Exception
 	 */
@@ -42,7 +42,7 @@ public class tstBWMain {
 	}
 
 	/**
-	 * TODO (muchitsch) - insert description
+	 * DOCUMENT (muchitsch) - insert description
 	 *
 	 * @throws java.lang.Exception
 	 */
@@ -51,7 +51,7 @@ public class tstBWMain {
 	}
 
 	/**
-	 * TODO (muchitsch) - insert description
+	 * DOCUMENT (muchitsch) - insert description
 	 *
 	 * @throws java.lang.Exception
 	 */

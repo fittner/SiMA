@@ -43,7 +43,7 @@ public class clsPose {
 	}
 
 	/**
-	 * TODO (deutsch) - insert description 
+	 * DOCUMENT (deutsch) - insert description 
 	 * 
 	 * @author deutsch
 	 * 24.06.2009, 11:38:42

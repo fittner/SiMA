@@ -12,7 +12,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 
 /**
- * TODO (deutsch) - insert description 
+ * DOCUMENT (deutsch) - insert description 
  * 
  * @author deutsch
  * 07.05.2009, 11:33:04

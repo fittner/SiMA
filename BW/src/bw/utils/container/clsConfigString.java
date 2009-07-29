@@ -9,7 +9,7 @@
 package bw.utils.container;
 
 /**
- * TODO (deutsch) - insert description 
+ * DOCUMENT (deutsch) - insert description 
  * 
  * @author deutsch
  * 05.05.2009, 14:12:41

@@ -22,7 +22,7 @@ import bw.body.io.actuators.actionProxies.*;
 import enums.eEntityType;
 
 /**
- * TODO (tobias) - insert description 
+ * DOCUMENT (tobias) - insert description 
  * 
  * @author tobias
  * Jul 24, 2009, 10:15:27 PM

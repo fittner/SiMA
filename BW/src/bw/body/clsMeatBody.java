@@ -12,7 +12,7 @@ import bw.body.internalSystems.clsFlesh;
 import bw.utils.config.clsBWProperties;
 
 /**
- * TODO (deutsch) - insert description 
+ * DOCUMENT (deutsch) - insert description 
  * 
  * @author deutsch
  * 12.05.2009, 17:11:53

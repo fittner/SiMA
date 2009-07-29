@@ -11,7 +11,7 @@ package bw.body;
 import bw.utils.config.clsBWProperties;
 
 /**
- * TODO (deutsch) - insert description 
+ * DOCUMENT (deutsch) - insert description 
  * 
  * @author deutsch
  * 05.05.2009, 16:37:09

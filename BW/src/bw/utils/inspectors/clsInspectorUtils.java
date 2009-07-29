@@ -11,7 +11,7 @@ package bw.utils.inspectors;
 import java.util.Formatter;
 
 /**
- * TODO (muchitsch) - insert description 
+ * DOCUMENT (muchitsch) - insert description 
  * 
  * @author muchitsch
  * Jul 22, 2009, 6:53:29 PM

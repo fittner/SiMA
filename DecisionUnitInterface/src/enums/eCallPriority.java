@@ -1,5 +1,5 @@
 /**
- * @author Benny Dönz
+ * @author Benny Dï¿½nz
  * 15.04.2009, 18:48:43
  * 
  * $Rev::                      $: Revision of last commit
@@ -9,9 +9,9 @@
 package enums;
 
 /**
- * TODO (Benny Dönz) - insert description 
+ * DOCUMENT (Benny DÃ¶nz) - insert description 
  * 
- * @author Benny Dönz
+ * @author Benny Dï¿½nz
  * 15.04.2009, 18:48:43
  * 
  */

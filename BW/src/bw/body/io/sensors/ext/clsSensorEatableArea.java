@@ -19,7 +19,7 @@ import sim.physics2D.physicalObject.PhysicalObject2D;
 import sim.physics2D.util.Double2D;
 
 /**
- * TODO (zeilinger) - insert description 
+ * DOCUMENT (zeilinger) - insert description 
  * 
  * @author zeilinger
  * 18.07.2009, 17:07:05
@@ -29,7 +29,7 @@ public class clsSensorEatableArea extends clsSensorExt{
 
 
 	/**
-	 * TODO (zeilinger) - insert description 
+	 * DOCUMENT (zeilinger) - insert description 
 	 * 
 	 * @author zeilinger
 	 * 18.07.2009, 17:08:12

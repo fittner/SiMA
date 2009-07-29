@@ -31,7 +31,7 @@ import sim.util.gui.PropertyField;
 public class clsInspectorBase extends Inspector {
 
 	/**
-	 * TODO (horvath) - insert description 
+	 * DOCUMENT (horvath) - insert description 
 	 * 
 	 * @author horvath
 	 * Jul 22, 2009, 2:08:00 PM

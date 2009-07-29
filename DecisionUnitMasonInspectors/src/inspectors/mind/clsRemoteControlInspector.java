@@ -33,7 +33,7 @@ import simple.remotecontrol.clsRemoteControl;
 public class clsRemoteControlInspector extends Inspector implements ItemListener, ChangeListener, Steppable {
 
 	/**
-	 * TODO (langr) - insert description 
+	 * DOCUMENT (langr) - insert description 
 	 * 
 	 * @author langr
 	 * 25.03.2009, 10:36:38

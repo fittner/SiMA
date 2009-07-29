@@ -27,7 +27,7 @@ import bw.entities.clsMobile;
 import bw.factories.clsSingletonMasonGetter;
 
 /**
- * TODO (zeilinger) - insert description 
+ * DOCUMENT (zeilinger) - insert description 
  * 
  * @author zeilinger
  * 15.07.2009, 14:42:25

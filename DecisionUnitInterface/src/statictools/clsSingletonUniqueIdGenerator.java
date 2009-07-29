@@ -8,7 +8,7 @@
 package statictools;
 
 /**
- * TODO (deutsch) - insert description 
+ * DOCUMENT (deutsch) - insert description 
  * 
  * @author deutsch
  * 
@@ -30,7 +30,7 @@ public class clsSingletonUniqueIdGenerator {
     private clsSingletonUniqueIdGenerator() {}
 
     /**
-     * TODO (deutsch) - insert description
+     * DOCUMENT (deutsch) - insert description
      *
      * @return
      */
@@ -42,7 +42,7 @@ public class clsSingletonUniqueIdGenerator {
     }
 
 	/**
-	 * TODO (deutsch) - insert description
+	 * DOCUMENT (deutsch) - insert description
 	 *
 	 * @return
 	 */
@@ -51,7 +51,7 @@ public class clsSingletonUniqueIdGenerator {
 	}
 	
 	/**
-	 * TODO (deutsch) - insert description
+	 * DOCUMENT (deutsch) - insert description
 	 *
 	 * @return
 	 */

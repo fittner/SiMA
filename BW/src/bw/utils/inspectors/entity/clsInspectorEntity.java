@@ -75,7 +75,7 @@ public class clsInspectorEntity extends Inspector implements ActionListener {
 	
 	
 	/**
-	 * TODO (langr) - insert description 
+	 * DOCUMENT (langr) - insert description 
 	 * 
 	 * @author langr
 	 * 13.07.2009, 15:01:27

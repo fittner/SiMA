@@ -10,7 +10,7 @@ package bw.utils.enums.partclass;
 import bw.utils.enums.eBodyParts;
 
 /**
- * TODO (deutsch) - insert description 
+ * DOCUMENT (deutsch) - insert description 
  * 
  * @author deutsch
  * 
@@ -61,7 +61,7 @@ public abstract class clsBasePart implements Cloneable {
 	
 	
 	/**
-	 * TODO (deutsch) - insert description
+	 * DOCUMENT (deutsch) - insert description
 	 *
 	 * @param arg0
 	 * @return

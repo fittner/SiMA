@@ -15,7 +15,7 @@ import bw.utils.config.clsBWProperties;
 import bw.utils.enums.partclass.clsBasePart;
 
 /**
- * TODO (deutsch) - insert description 
+ * DOCUMENT (deutsch) - insert description 
  * 
  * @author deutsch
  * 
@@ -56,7 +56,7 @@ public class clsFastMessengerSystem implements itfStepUpdateInternalState {
 	}	
 	
 	/**
-	 * TODO (deutsch) - insert description
+	 * DOCUMENT (deutsch) - insert description
 	 *
 	 * @param poSource
 	 * @param poTarget
@@ -67,7 +67,7 @@ public class clsFastMessengerSystem implements itfStepUpdateInternalState {
 	}
 	
 	/**
-	 * TODO (deutsch) - insert description
+	 * DOCUMENT (deutsch) - insert description
 	 *
 	 * @param poSource
 	 * @param poTarget
@@ -87,7 +87,7 @@ public class clsFastMessengerSystem implements itfStepUpdateInternalState {
 	}
 	
 	/**
-	 * TODO (deutsch) - insert description
+	 * DOCUMENT (deutsch) - insert description
 	 *
 	 * @param poSource
 	 * @param poTarget
@@ -107,7 +107,7 @@ public class clsFastMessengerSystem implements itfStepUpdateInternalState {
 	}
 
 	/**
-	 * TODO (deutsch) - insert description
+	 * DOCUMENT (deutsch) - insert description
 	 *
 	 */
 	public void clear() {
@@ -116,7 +116,7 @@ public class clsFastMessengerSystem implements itfStepUpdateInternalState {
 	}
 
 	/**
-	 * TODO (deutsch) - insert description
+	 * DOCUMENT (deutsch) - insert description
 	 *
 	 * @param poSource
 	 * @return
@@ -126,7 +126,7 @@ public class clsFastMessengerSystem implements itfStepUpdateInternalState {
 	}
 	
 	/**
-	 * TODO (deutsch) - insert description
+	 * DOCUMENT (deutsch) - insert description
 	 *
 	 * @param poTarget
 	 * @return
@@ -136,7 +136,7 @@ public class clsFastMessengerSystem implements itfStepUpdateInternalState {
 	}
 	
 	/**
-	 * TODO (deutsch) - insert description
+	 * DOCUMENT (deutsch) - insert description
 	 *
 	 * @param poArray
 	 * @return
@@ -153,7 +153,7 @@ public class clsFastMessengerSystem implements itfStepUpdateInternalState {
 	}
 
 	/**
-	 * TODO (deutsch) - insert description
+	 * DOCUMENT (deutsch) - insert description
 	 *
 	 * @param poTarget
 	 * @return
@@ -163,7 +163,7 @@ public class clsFastMessengerSystem implements itfStepUpdateInternalState {
 	}
 	
 	/**
-	 * TODO (deutsch) - insert description
+	 * DOCUMENT (deutsch) - insert description
 	 *
 	 * @param poSource
 	 * @param poTarget
@@ -174,7 +174,7 @@ public class clsFastMessengerSystem implements itfStepUpdateInternalState {
 	}
 	
 	/**
-	 * TODO (deutsch) - insert description
+	 * DOCUMENT (deutsch) - insert description
 	 *
 	 * @param poMessage
 	 */

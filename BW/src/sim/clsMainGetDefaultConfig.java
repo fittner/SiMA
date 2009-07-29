@@ -34,7 +34,7 @@ import bw.entities.clsWallVertical;
 import bw.utils.config.clsBWProperties;
 
 /**
- * TODO (deutsch) - insert description 
+ * DOCUMENT (deutsch) - insert description 
  * 
  * @author deutsch
  * 23.07.2009, 15:51:57
@@ -43,7 +43,7 @@ import bw.utils.config.clsBWProperties;
 public class clsMainGetDefaultConfig {
 
 	/**
-	 * TODO (deutsch) - insert description
+	 * DOCUMENT (deutsch) - insert description
 	 *
 	 * @author deutsch
 	 * 23.07.2009, 15:51:57

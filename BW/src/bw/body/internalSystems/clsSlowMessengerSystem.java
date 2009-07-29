@@ -20,7 +20,7 @@ import bw.utils.enums.eSlowMessenger;
 import bw.utils.tools.clsDecayColumn;
 
 /**
- * TODO (deutsch) - insert description 
+ * DOCUMENT (deutsch) - insert description 
  * 
  * @author deutsch
  * 
@@ -72,7 +72,7 @@ public class clsSlowMessengerSystem implements itfStepUpdateInternalState {
 	
 	
 	/**
-	 * TODO (deutsch) - insert description
+	 * DOCUMENT (deutsch) - insert description
 	 *
 	 * @param poMessengerId
 	 * @return
@@ -94,7 +94,7 @@ public class clsSlowMessengerSystem implements itfStepUpdateInternalState {
 	}
 	
 	/**
-	 * TODO (deutsch) - insert description
+	 * DOCUMENT (deutsch) - insert description
 	 *
 	 * @return
 	 */
@@ -104,7 +104,7 @@ public class clsSlowMessengerSystem implements itfStepUpdateInternalState {
 	
 
 	/**
-	 * TODO (deutsch) - insert description
+	 * DOCUMENT (deutsch) - insert description
 	 *
 	 * @param poMessengerId
 	 * @return
@@ -114,7 +114,7 @@ public class clsSlowMessengerSystem implements itfStepUpdateInternalState {
 	}
 	
 	/**
-	 * TODO (deutsch) - insert description
+	 * DOCUMENT (deutsch) - insert description
 	 *
 	 * @param poMessengerId
 	 * @return
@@ -129,7 +129,7 @@ public class clsSlowMessengerSystem implements itfStepUpdateInternalState {
 	}
 
 	/**
-	 * TODO (deutsch) - insert description
+	 * DOCUMENT (deutsch) - insert description
 	 *
 	 * @param poMessengerId
 	 * @param prAmount

@@ -15,7 +15,7 @@ import org.junit.Test;
 import bw.utils.config.clsRandomProperties;
 
 /**
- * TODO (deutsch) - insert description 
+ * DOCUMENT (deutsch) - insert description 
  * 
  * @author deutsch
  * 22.07.2009, 09:02:32

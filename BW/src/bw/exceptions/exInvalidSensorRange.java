@@ -9,7 +9,7 @@
 package bw.exceptions;
 
 /**
- * TODO (zeilinger) - insert description 
+ * DOCUMENT (zeilinger) - insert description 
  * 
  * @author zeilinger
  * 17.07.2009, 23:42:37
@@ -18,7 +18,7 @@ package bw.exceptions;
 public class exInvalidSensorRange extends exException{
 
 		/**
-	 * TODO (zeilinger) - insert description 
+	 * DOCUMENT (zeilinger) - insert description 
 	 * 
 	 * @author zeilinger
 	 * 17.07.2009, 23:48:08

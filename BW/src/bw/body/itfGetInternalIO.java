@@ -11,7 +11,7 @@ package bw.body;
 import bw.body.io.clsInternalIO;
 
 /**
- * TODO (tobias) - insert description 
+ * DOCUMENT (tobias) - insert description 
  * 
  * @author tobias
  * Jul 24, 2009, 6:14:14 PM

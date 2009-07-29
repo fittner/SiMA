@@ -28,7 +28,7 @@ import bw.utils.enums.eShapeType;
 import bw.utils.tools.clsFood;
 
 /**
- * TODO (deutsch) - insert description 
+ * DOCUMENT (deutsch) - insert description 
  * 
  * @author deutsch
  * 12.05.2009, 19:30:22

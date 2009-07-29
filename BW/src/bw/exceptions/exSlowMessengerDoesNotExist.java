@@ -10,7 +10,7 @@ package bw.exceptions;
 import bw.utils.enums.eSlowMessenger;
 
 /**
- * TODO (deutsch) - insert description 
+ * DOCUMENT (deutsch) - insert description 
  * 
  * @author deutsch
  * 

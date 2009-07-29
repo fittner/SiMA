@@ -9,7 +9,7 @@
 package bw.exceptions;
 
 /**
- * TODO (Benny D�nz) - insert description 
+ * DOCUMENT (Benny Dönz) - insert description 
  * 
  * @author Benny D�nz
  * 03.07.2009, 20:07:51
