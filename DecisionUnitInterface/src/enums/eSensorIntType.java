@@ -23,5 +23,6 @@ public enum eSensorIntType {
 	ENERGY_CONSUMPTION,
 	HEALTH,
 	STAMINA,
-	STOMACH
+	STOMACH,
+	TEMPERATURE
 }
