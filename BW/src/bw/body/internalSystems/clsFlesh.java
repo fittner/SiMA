@@ -81,7 +81,6 @@ public class clsFlesh extends clsFood {
 			reduce(prAmount);
 			oResult.setWeight(prAmount);
 		} catch (exFoodWeightBelowZero e) {
-			// TODO Auto-generated catch block
 			try {
 				oResult.setWeight(rWeight);
 			} catch (exFoodWeightBelowZero e1) {

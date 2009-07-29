@@ -163,7 +163,7 @@ public class clsHare extends clsAnimal implements itfGetFlesh, itfAPEatable, itf
 	 */
 	@Override
 	public void updateInternalState() {
-		// TODO Auto-generated method stub
+		// TODO (langr) - Auto-generated method stub
 		super.updateInternalState();
 		if ( isAlive() && getFlesh().getTotallyConsumed() ) {
 			//This command removes the cake from the playground

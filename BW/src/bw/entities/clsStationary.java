@@ -121,7 +121,7 @@ public abstract class clsStationary extends clsEntity {
 	 */
 	@Override
 	public void updateInternalState() {
-		// TODO Auto-generated method stub
+		// TODO (zeilinger) - Auto-generated method stub
 		
 	}	
 	

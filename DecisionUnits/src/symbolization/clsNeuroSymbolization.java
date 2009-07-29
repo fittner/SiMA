@@ -26,7 +26,7 @@ public class clsNeuroSymbolization extends clsSymbolization {
 	 *
 	 */
 	public clsNeuroSymbolization() {
-		// TODO Auto-generated constructor stub
+		// TODO (langr) - Auto-generated constructor stub
 	}
 
 }

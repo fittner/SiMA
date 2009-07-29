@@ -44,7 +44,6 @@ public class clsConfigString extends clsConfigObject {
 	 */
 	@Override
 	public String toString() {
-		// TODO Auto-generated method stub
 		return "String: " + moValue;
 	}
 

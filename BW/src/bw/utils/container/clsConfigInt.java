@@ -44,7 +44,6 @@ public class clsConfigInt extends clsConfigSkalar {
 	 */
 	@Override
 	public String toString() {
-		// TODO Auto-generated method stub
 		return "int: " + mnValue;
 	}
 

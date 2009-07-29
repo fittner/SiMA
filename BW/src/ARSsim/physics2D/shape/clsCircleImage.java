@@ -49,7 +49,6 @@ public class clsCircleImage extends Circle
 //	   		moImage = ImageIO.read( oFile );
 //	   	} catch (IOException e)
 //	   	{
-//	   		// TODO Auto-generated catch block
 //	   		e.printStackTrace();
 //	   		throw new NullPointerException("Image URL could not be loaded, file not found in file");
 //	   	}

@@ -68,7 +68,7 @@ public class clsSensorVision extends clsSensorExt {
 	public void updateSensorData(Double pnAreaRange, 
 										ArrayList<PhysicalObject2D> peDetectedObjInAreaList, 
 										HashMap<Integer, Double2D> peCollisionPointList) {
-		// TODO Auto-generated method stub
+		// TODO (zeilinger) - Auto-generated method stub
 	
 		//System.out.println("Range " + pnRange + "  " + peObj.size());
 		setDetectedObjectsList(pnAreaRange, peDetectedObjInAreaList, peCollisionPointList);
@@ -110,7 +110,7 @@ public class clsSensorVision extends clsSensorExt {
 	 */
 	@Override
 	public void updateSensorData() {
-		// TODO Auto-generated method stub
+		// TODO (zeilinge) - Auto-generated method stub
 	}
 
 	

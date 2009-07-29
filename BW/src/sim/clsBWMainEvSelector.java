@@ -111,7 +111,7 @@ public class clsBWMainEvSelector implements ActionListener {
 	}
 
 	public static void main(String[] args) {
-		// TODO Auto-generated method stub
+		// TODO (andi) - Auto-generated method stub
 		clsBWMainEvSelector oUI = new clsBWMainEvSelector();
 	}
 

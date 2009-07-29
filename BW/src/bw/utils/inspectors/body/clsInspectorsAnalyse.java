@@ -54,7 +54,7 @@ public class clsInspectorsAnalyse extends JComponent{
 	 *
 	 */
 	public clsInspectorsAnalyse() {
-		// TODO Auto-generated constructor stub
+		// TODO (kilic) - Auto-generated constructor stub
 	}
 	/****************************************************************
 	 * 

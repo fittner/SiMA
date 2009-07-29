@@ -44,7 +44,6 @@ public class clsConfigFloatClass extends clsConfigObject {
 	 */
 	@Override
 	public String toString() {
-		// TODO Auto-generated method stub
 		return "Float: " + moValue;
 	}
 

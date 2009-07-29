@@ -42,7 +42,7 @@ public class clsSensorOlfactoric extends clsSensorExt{
 	public clsSensorOlfactoric(String poPrefix, clsBWProperties poProp,clsBaseIO poBaseIO, clsSensorEngine poSensorEngine, clsEntity poEntity) {
 		super(poPrefix, poProp, poBaseIO, poSensorEngine,poEntity);
 
-		// TODO Auto-generated constructor stub
+		// TODO (zeilinger) - Auto-generated constructor stub
 		applyProperties(poPrefix, poProp);
 	}
 
@@ -82,7 +82,7 @@ public class clsSensorOlfactoric extends clsSensorExt{
 	 */
 	@Override
 	public void updateSensorData() {
-		// TODO Auto-generated method stub
+		// TODO (zeilinger) - Auto-generated method stub
 		
 	}
 
@@ -97,7 +97,7 @@ public class clsSensorOlfactoric extends clsSensorExt{
 	public void updateSensorData(Double pnAreaRange,
 			ArrayList<PhysicalObject2D> peDetectedObjInAreaList,
 			HashMap<Integer, Double2D> peCollisionPointList) {
-		// TODO Auto-generated method stub
+		// TODO (zeilinger) - Auto-generated method stub
 		setDetectedObjectsList(pnAreaRange, peDetectedObjInAreaList, peCollisionPointList);
 	}
 

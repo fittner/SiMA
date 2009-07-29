@@ -33,10 +33,8 @@ public class tstNutritionLevel {
 		try {
 			oNL = new clsNutritionLevel(1.0f, 3.0f, 0.5f, 1.5f, 0.5f);
 		} catch (exContentColumnMaxContentExceeded e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (exContentColumnMinContentUnderrun e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		
@@ -75,10 +73,8 @@ public class tstNutritionLevel {
 		try {
 			oNL = new clsNutritionLevel(1.0f, 3.0f, 0.5f, 1.5f, 0.01f);
 		} catch (exContentColumnMaxContentExceeded e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (exContentColumnMinContentUnderrun e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		assertEquals(oNL.getDecreasePerStep(), 0.01f, 0.00001f);
@@ -94,10 +90,8 @@ public class tstNutritionLevel {
 		try {
 			oNL = new clsNutritionLevel(1.0f, 3.0f, 0.5f, 1.5f, 0.01f);
 		} catch (exContentColumnMaxContentExceeded e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (exContentColumnMinContentUnderrun e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		assertEquals(oNL.getDecreasePerStep(), 0.01f, 0.00001f);
@@ -115,10 +109,8 @@ public class tstNutritionLevel {
 		try {
 			oNL = new clsNutritionLevel(1.0f, 3.0f, 0.5f, 1.5f, 0.01f);
 		} catch (exContentColumnMaxContentExceeded e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (exContentColumnMinContentUnderrun e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		assertEquals(oNL.getDecreasePerStep(), 0.01f, 0.00001f);

@@ -48,7 +48,7 @@ public class clsInspectorSensor extends Inspector {
 							  LocationWrapper wrapper, 
 							  GUIState guiState, 
 					          clsEntity poEntity) {
-     		// TODO Auto-generated constructor stub
+     		// TODO (zeilinger) - Auto-generated constructor stub
 	}
 
 
@@ -61,7 +61,7 @@ public class clsInspectorSensor extends Inspector {
 	 */
 	@Override
 	public void updateInspector() {
-		// TODO Auto-generated method stub
+		// TODO (zeilinger) - Auto-generated method stub
 		
 	}
 }

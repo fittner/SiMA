@@ -148,7 +148,7 @@ public class clsCarrot extends clsInanimate implements itfGetFlesh, itfAPEatable
 	 * @see bw.body.itfget.itfGetFlesh#getFlesh()
 	 */
 	public clsFlesh getFlesh() {
-		// TODO Auto-generated method stub
+		// TODO (deutsch) - Auto-generated method stub
 		return this.moBody.getFlesh();
 	}
 
@@ -212,7 +212,7 @@ public class clsCarrot extends clsInanimate implements itfGetFlesh, itfAPEatable
 	 */
 	@Override
 	public void execution() {
-		// TODO Auto-generated method stub
+		// TODO (deutsch) - Auto-generated method stub
 		
 	}
 
@@ -225,7 +225,7 @@ public class clsCarrot extends clsInanimate implements itfGetFlesh, itfAPEatable
 	 */
 	@Override
 	public void processing() {
-		// TODO Auto-generated method stub
+		// TODO (deutsch) - Auto-generated method stub
 		
 	}
 
@@ -238,7 +238,7 @@ public class clsCarrot extends clsInanimate implements itfGetFlesh, itfAPEatable
 	 */
 	@Override
 	public void sensing() {
-		// TODO Auto-generated method stub
+		// TODO (deutsch) - Auto-generated method stub
 		
 	}
 
@@ -265,7 +265,6 @@ public class clsCarrot extends clsInanimate implements itfGetFlesh, itfAPEatable
 					mnShapeUpdated = false;
 					mnStepsUntilRegrow = mnRegrowRate;
 				} catch (exFoodWeightBelowZero e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
 			}

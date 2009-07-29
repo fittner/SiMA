@@ -66,7 +66,6 @@ public class clsConsumeFood {
 		try {
 			oNutritions = poFood.getNutritionWeights();
 		} catch (exFoodNotFinalized e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		
@@ -82,7 +81,6 @@ public class clsConsumeFood {
 				try {
 					moStomachSystem.addNutrition(mnGarbageNutritionType, oAmount.doubleValue());
 				} catch (exNoSuchNutritionType e1) {
-					// TODO Auto-generated catch block
 					e1.printStackTrace();
 				}
 			}

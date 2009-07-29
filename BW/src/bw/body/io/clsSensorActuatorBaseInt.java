@@ -25,7 +25,7 @@ public abstract class clsSensorActuatorBaseInt extends clsSensorActuatorBase{
 	public clsSensorActuatorBaseInt(clsBaseIO poBaseIO) {
 		super();
 		moBaseIO=poBaseIO;
-		// TODO Auto-generated constructor stub
+		// TODO (zeilinger) - Auto-generated constructor stub
 	}
 
 

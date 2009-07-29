@@ -66,7 +66,6 @@ public class clsImagePortrayal extends ImagePortrayal2D{
 			oImage = ImageIO.read( oFile );
 		} catch (IOException e)
 		{
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		

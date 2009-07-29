@@ -69,7 +69,7 @@ public class clsAnimal extends clsAnimate implements itfGetVision, itfGetEatable
 	 */
 	@Override
 	protected void setEntityType() {
-		// TODO Auto-generated method stub
+		// TODO (langr) - Auto-generated method stub
 		meEntityType = eEntityType.ANIMAL;
 	}
 

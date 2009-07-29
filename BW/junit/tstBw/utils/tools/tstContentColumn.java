@@ -40,10 +40,8 @@ public class tstContentColumn {
 		try {
 			oColumn = new clsContentColumn(nContent, nMaxContent);
 		} catch (exContentColumnMaxContentExceeded e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (exContentColumnMinContentUnderrun e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		
@@ -76,10 +74,8 @@ public class tstContentColumn {
 		try {
 			oColumn = new clsContentColumn(nContent, nMaxContent);
 		} catch (exContentColumnMaxContentExceeded e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (exContentColumnMinContentUnderrun e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		
@@ -103,20 +99,16 @@ public class tstContentColumn {
 		try {
 			oColumn = new clsContentColumn(nContent, nMaxContent);
 		} catch (exContentColumnMaxContentExceeded e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (exContentColumnMinContentUnderrun e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		
 		try {
 			oColumn.setContent(-1.0f);
 		} catch (exContentColumnMaxContentExceeded e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (exContentColumnMinContentUnderrun e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		assertFalse(oColumn.getContent() < 0.0f);
@@ -126,10 +118,8 @@ public class tstContentColumn {
 		try {
 			oColumn.setContent(nMaxContent + 1.0f);
 		} catch (exContentColumnMaxContentExceeded e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (exContentColumnMinContentUnderrun e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		assertFalse(oColumn.getContent() < 0.0f);
@@ -140,10 +130,8 @@ public class tstContentColumn {
 		try {
 			oColumn.setContent(nContent);
 		} catch (exContentColumnMaxContentExceeded e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (exContentColumnMinContentUnderrun e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		assertFalse(oColumn.getContent() < 0.0f);
@@ -153,10 +141,8 @@ public class tstContentColumn {
 		try {
 			oColumn.setMaxContent(-1.0f);
 		} catch (exContentColumnMaxContentExceeded e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (exContentColumnMinContentUnderrun e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		assertFalse(oColumn.getMaxContent() < 0.0f);
@@ -176,30 +162,24 @@ public class tstContentColumn {
 		try {
 			oColumn = new clsContentColumn(nContent, nMaxContent);
 		} catch (exContentColumnMaxContentExceeded e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (exContentColumnMinContentUnderrun e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 
 		try {
 			oColumn.decrease(5);
 		} catch (exContentColumnMaxContentExceeded e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (exContentColumnMinContentUnderrun e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		assertEquals(oColumn.getContent(), nContent-5.0f, 0.00001f);		
 		try {
 			oColumn.increase(5);
 		} catch (exContentColumnMaxContentExceeded e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (exContentColumnMinContentUnderrun e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		assertEquals(oColumn.getContent(), nContent, 0.00001f);		

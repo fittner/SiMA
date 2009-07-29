@@ -43,7 +43,7 @@ public class clsSensorAcoustic extends clsSensorExt{
 							    clsBaseIO poBaseIO, clsSensorEngine poSensorEngine, clsEntity poEntity) {
 		super(poPrefix, poProp, poBaseIO, poSensorEngine, poEntity);
 
-		// TODO Auto-generated constructor stub
+		// TODO (zeilinger) - Auto-generated constructor stub
 		applyProperties(poPrefix, poProp);
 	}
 
@@ -108,7 +108,7 @@ public class clsSensorAcoustic extends clsSensorExt{
 	 */
 	@Override
 	public void updateSensorData() {
-		// TODO Auto-generated method stub
+		// TODO (zeilinger) - Auto-generated method stub
 		
 	}
 

@@ -151,7 +151,6 @@ public class tstFood {
 		try {
 			oFood.setWeight(2.5f);
 		} catch (exFoodWeightBelowZero e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		assertEquals(oFood.getWeight(), 2.5f, 0.00001f);
@@ -168,7 +167,6 @@ public class tstFood {
 		try {
 			oFood.setWeight(1.0f);
 		} catch (exFoodWeightBelowZero e1) {
-			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
 
@@ -187,7 +185,6 @@ public class tstFood {
 			assertEquals(oFood.getNutritionWeight(eNutritions.CARBOHYDRATE), 0.3333f, 0.01f);
 			assertEquals(oFood.getNutritionWeight(eNutritions.FAT), 0.6666f, 0.01f);
 		} catch (exFoodNotFinalized e) {
-			// TODO Auto-generated catch block
 		}
 	}
 
@@ -202,7 +199,6 @@ public class tstFood {
 		try {
 			oFood.setWeight(1.0f);
 		} catch (exFoodWeightBelowZero e1) {
-			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
 
@@ -221,7 +217,6 @@ public class tstFood {
 			assertEquals(oFood.getNutritionWeight(eNutritions.CARBOHYDRATE), 0.3333f, 0.01f);
 			assertEquals(oFood.getNutritionWeight(eNutritions.FAT), 0.6666f, 0.01f);
 		} catch (exFoodNotFinalized e) {
-			// TODO Auto-generated catch block
 		}
 	}
 
@@ -236,7 +231,6 @@ public class tstFood {
 		try {
 			oFood.setWeight(1.0f);
 		} catch (exFoodWeightBelowZero e1) {
-			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
 
@@ -277,7 +271,6 @@ public class tstFood {
 		try {
 			oFood.setWeight(1.0f);
 		} catch (exFoodWeightBelowZero e1) {
-			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
 
@@ -304,7 +297,6 @@ public class tstFood {
 		try {
 			oFood2.setWeight(1.5f);
 		} catch (exFoodWeightBelowZero e1) {
-			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
 

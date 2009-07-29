@@ -48,7 +48,6 @@ public class clsConfigEnum<E extends Enum<E>> extends clsConfigSkalar {
 	 */
 	@Override
 	public String toString() {
-		// TODO Auto-generated method stub
 		return "enum: " + eValue;
 	}
 

@@ -25,7 +25,7 @@ public class Console extends sim.display.Console {
 	
 	public Console(GUIState simulation) {
 		super(simulation);
-		// TODO Auto-generated constructor stub
+		// TODO (langr) - Auto-generated constructor stub
 	}
 	
 	public void addTabbSetup(Integer pnEntityType, ArrayList<JTabbedPane> poTabbedPanes)

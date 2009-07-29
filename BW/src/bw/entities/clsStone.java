@@ -67,7 +67,7 @@ public class clsStone extends clsInanimate {
 	 */
 	@Override
 	public void sensing() {
-		// TODO Auto-generated method stub
+		// TODO (muchitsch) - Auto-generated method stub
 		
 	}
 	
@@ -77,7 +77,7 @@ public class clsStone extends clsInanimate {
 	 */
 	@Override
 	public void execution() {
-		// TODO Auto-generated method stub
+		// TODO (muchitsch) - Auto-generated method stub
 		
 	}
 
@@ -91,7 +91,7 @@ public class clsStone extends clsInanimate {
 	 */
 	@Override
 	public void processing() {
-		// TODO Auto-generated method stub
+		// TODO (muchitsch) - Auto-generated method stub
 		
 	}
 
@@ -105,7 +105,7 @@ public class clsStone extends clsInanimate {
 	 */
 	@Override
 	public void updateInternalState() {
-		// TODO Auto-generated method stub
+		// TODO (muchitsch) - Auto-generated method stub
 		
 	}
 

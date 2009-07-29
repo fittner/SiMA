@@ -44,7 +44,7 @@ public class clsStationaryObject2D extends sim.physics2D.physicalObject.Stationa
 	 * @return
 	 */
 	public clsEntity getEntity() {
-		// TODO Auto-generated method stub
+		// TODO (muchitsch) - Auto-generated method stub
 		return moEntity;
 	}	
 	

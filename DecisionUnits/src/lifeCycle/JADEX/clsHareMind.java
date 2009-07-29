@@ -7,7 +7,7 @@ public class clsHareMind extends clsBaseDecisionUnit {
 
 	@Override
 	public void process(itfActionProcessor poActionProcessor) {
-		// TODO Auto-generated method stub
+		// TODO (langr) - Auto-generated method stub
 	}
 
 }

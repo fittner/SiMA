@@ -116,7 +116,7 @@ public class clsMobileObject2D extends
 	 * @return
 	 */
 	public clsEntity getEntity() {
-		// TODO Auto-generated method stub
+		// TODO (muchitsch) - Auto-generated method stub
 		return moEntity;
 	}
 

@@ -52,7 +52,6 @@ public abstract class clsBasePart implements Cloneable {
 		try {
 			oResult = (clsBasePart) super.clone();
 		} catch (CloneNotSupportedException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 			

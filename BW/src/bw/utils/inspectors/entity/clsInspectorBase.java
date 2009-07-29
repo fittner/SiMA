@@ -101,7 +101,7 @@ public class clsInspectorBase extends Inspector {
 		
 		//TODO update me values
 		
-		// TODO Auto-generated method stub
+		// TODO (muchitsch) - Auto-generated method stub
 		
 		moProp2.setValue(""+moBase.getMnStoredOre());
 	}

@@ -20,7 +20,7 @@ public class clsSensorOlfactoric extends clsSensorExt {
 
 	public clsSensorOlfactoric(String poPrefix, clsBWProperties poProp) {
 		super(poPrefix, poProp);
-		// TODO Auto-generated constructor stub
+		// TODO (zeilinger) - Auto-generated constructor stub
 		applyProperties(poPrefix, poProp);
 	}
 
@@ -62,7 +62,7 @@ public class clsSensorOlfactoric extends clsSensorExt {
 	 * @see bw.body.io.sensors.itfSensorUpdate#updateSensorData()
 	 */
 	public void updateSensorData() {
-		// TODO Auto-generated method stub
+		// TODO (zeilinger) - Auto-generated method stub
 		
 	}
 

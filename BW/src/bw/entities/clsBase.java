@@ -88,7 +88,7 @@ public class clsBase extends clsStationary {
 	 */
 	@Override
 	public void sensing() {
-		// TODO Auto-generated method stub
+		// TODO (horvath) - Auto-generated method stub
 		moSensorEatable.updateSensorData();
 	}
 	
@@ -102,7 +102,7 @@ public class clsBase extends clsStationary {
 	@Override
 	public void execution() {
 	
-		// TODO Auto-generated method stub
+		// TODO (horvath) - Auto-generated method stub
 		
 	}
 	/* (non-Javadoc)
@@ -142,7 +142,7 @@ public class clsBase extends clsStationary {
 	@Override
 	public void updateInternalState() {
 		
-		// TODO Auto-generated method stub
+		// TODO (horvath) - Auto-generated method stub
 		
 	}
 	

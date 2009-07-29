@@ -284,7 +284,7 @@ public class clsBrainSocket implements itfStepProcessing {
 	
 		oData.moEntityId = oEntity.getId();
 		
-		// TODO Auto-generated method stub
+		// TODO (deutsch) - Auto-generated method stub
 		return oData;
 	}
 

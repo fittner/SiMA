@@ -44,7 +44,6 @@ public class clsConfigBoolean extends clsConfigSkalar {
 	 */
 	@Override
 	public String toString() {
-		// TODO Auto-generated method stub
 		return "bool: " + ((mnValue)?"true":"false");
 	}
 

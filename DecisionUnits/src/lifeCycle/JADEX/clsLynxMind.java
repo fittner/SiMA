@@ -7,7 +7,7 @@ public class clsLynxMind extends clsBaseDecisionUnit  {
 
 	@Override
 	public void process(itfActionProcessor poActionProcessor) {
-		// TODO Auto-generated method stub
+		// TODO (deutsch) - Auto-generated method stub
 	}
 
 }

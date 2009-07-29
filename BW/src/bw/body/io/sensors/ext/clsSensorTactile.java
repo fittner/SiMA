@@ -115,7 +115,7 @@ public class clsSensorTactile extends clsSensorExt {
 	 */
 	@Override
 	public void updateSensorData() {
-		// TODO Auto-generated method stub
+		// TODO (zeilinger) - Auto-generated method stub
 		
 	}
 

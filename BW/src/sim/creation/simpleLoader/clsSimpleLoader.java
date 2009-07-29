@@ -56,7 +56,7 @@ public class clsSimpleLoader extends clsLoader {
 		mnNumBases = 1;
 		
 		createGrids(pnWidth, pnHeight);
-		// TODO Auto-generated constructor stub
+		// TODO (deutsch) - Auto-generated constructor stub
 	}
 	
 	public clsSimpleLoader(SimState poSimState, String poPropertiesFilename, int pnWidth, int pnHeight, int pnNumRemoteBots, int pnNumBots, int pnNumCans, int pnNumStones, int pnNumCakes, int pnNumFungi, int pnNumUraniumOre, int pnNumBases) {

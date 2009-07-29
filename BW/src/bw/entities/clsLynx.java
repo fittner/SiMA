@@ -64,7 +64,7 @@ public class clsLynx extends clsAnimal {
 	 */
 	@Override
 	protected void setEntityType() {
-		// TODO Auto-generated method stub
+		// TODO (deutsch) - Auto-generated method stub
 		meEntityType = eEntityType.LYNX;
 	}
 	

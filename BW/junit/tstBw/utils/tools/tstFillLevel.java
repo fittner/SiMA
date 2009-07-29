@@ -59,10 +59,8 @@ public class tstFillLevel {
 		try {
 			oFill = new clsFillLevel(1.5f, 3.0f);
 		} catch (exContentColumnMaxContentExceeded e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (exContentColumnMinContentUnderrun e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		assertNotNull(oFill);
@@ -83,10 +81,8 @@ public class tstFillLevel {
 		try {
 			oFill = new clsFillLevel(1.5f, 3.0f, 0.1f);
 		} catch (exContentColumnMaxContentExceeded e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (exContentColumnMinContentUnderrun e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		assertNotNull(oFill);
@@ -107,10 +103,8 @@ public class tstFillLevel {
 		try {
 			oFill = new clsFillLevel(1.5f, 3.0f, 0.1f, 1.0f, 2.0f);
 		} catch (exContentColumnMaxContentExceeded e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (exContentColumnMinContentUnderrun e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		assertNotNull(oFill);
@@ -131,10 +125,8 @@ public class tstFillLevel {
 		try {
 			oFill = new clsFillLevel(1.5f, 3.0f);
 		} catch (exContentColumnMaxContentExceeded e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (exContentColumnMinContentUnderrun e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		assertNotNull(oFill);
@@ -177,10 +169,8 @@ public class tstFillLevel {
 		try {
 			oFill = new clsFillLevel(1.5f, 3.0f);
 		} catch (exContentColumnMaxContentExceeded e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (exContentColumnMinContentUnderrun e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 
@@ -189,10 +179,8 @@ public class tstFillLevel {
 		try {
 			oFill.setContent(0.3f);
 		} catch (exContentColumnMaxContentExceeded e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (exContentColumnMinContentUnderrun e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		
@@ -209,10 +197,8 @@ public class tstFillLevel {
 		try {
 			oFill = new clsFillLevel(1.5f, 3.0f);
 		} catch (exContentColumnMaxContentExceeded e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (exContentColumnMinContentUnderrun e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 
@@ -221,10 +207,8 @@ public class tstFillLevel {
 		try {
 			oFill.setContent(2.3f);
 		} catch (exContentColumnMaxContentExceeded e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (exContentColumnMinContentUnderrun e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		
@@ -241,10 +225,8 @@ public class tstFillLevel {
 		try {
 			oFill = new clsFillLevel(1.5f, 3.0f);
 		} catch (exContentColumnMaxContentExceeded e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (exContentColumnMinContentUnderrun e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		
@@ -260,10 +242,8 @@ public class tstFillLevel {
 		try {
 			oFill = new clsFillLevel(1.5f, 3.0f, 0.0f, 1.0f, 2.0f);
 		} catch (exContentColumnMaxContentExceeded e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (exContentColumnMinContentUnderrun e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		
@@ -295,10 +275,8 @@ public class tstFillLevel {
 		try {
 			oFill = new clsFillLevel(1.5f, 3.0f);
 		} catch (exContentColumnMaxContentExceeded e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (exContentColumnMinContentUnderrun e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		
@@ -315,10 +293,8 @@ public class tstFillLevel {
 		try {
 			oFill = new clsFillLevel(1.5f, 3.0f, 0.0f, 1.0f, 2.0f);
 		} catch (exContentColumnMaxContentExceeded e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (exContentColumnMinContentUnderrun e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		
@@ -349,10 +325,8 @@ public class tstFillLevel {
 		try {
 			oFill = new clsFillLevel(1.5f, 3.0f, 1.1f);
 		} catch (exContentColumnMaxContentExceeded e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (exContentColumnMinContentUnderrun e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		
@@ -373,10 +347,8 @@ public class tstFillLevel {
 		try {
 			oFill = new clsFillLevel(1.5f, 3.0f, 1.1f);
 		} catch (exContentColumnMaxContentExceeded e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (exContentColumnMinContentUnderrun e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		
@@ -394,10 +366,8 @@ public class tstFillLevel {
 		try {
 			oFill = new clsFillLevel(1.5f, 3.0f, 0.5f);
 		} catch (exContentColumnMaxContentExceeded e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (exContentColumnMinContentUnderrun e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		
@@ -408,10 +378,8 @@ public class tstFillLevel {
 		try {
 			oFill.update();
 		} catch (exContentColumnMaxContentExceeded e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (exContentColumnMinContentUnderrun e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		assertEquals(oFill.getContent(), 2.0f, 0.00001f);
@@ -419,28 +387,22 @@ public class tstFillLevel {
 		try {
 			oFill.update();
 		} catch (exContentColumnMaxContentExceeded e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (exContentColumnMinContentUnderrun e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		try {
 			oFill.update();
 		} catch (exContentColumnMaxContentExceeded e1) {
-			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		} catch (exContentColumnMinContentUnderrun e1) {
-			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
 		try {
 			oFill.update();
 		} catch (exContentColumnMaxContentExceeded e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (exContentColumnMinContentUnderrun e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		assertEquals(oFill.getContent(), 3.0f, 0.00001f);
@@ -449,37 +411,29 @@ public class tstFillLevel {
 		try {
 			oFill.update();
 		} catch (exContentColumnMaxContentExceeded e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (exContentColumnMinContentUnderrun e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		try {
 			oFill.update();
 		} catch (exContentColumnMaxContentExceeded e1) {
-			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		} catch (exContentColumnMinContentUnderrun e1) {
-			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
 		try {
 			oFill.update();
 		} catch (exContentColumnMaxContentExceeded e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (exContentColumnMinContentUnderrun e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		try {
 			oFill.update();
 		} catch (exContentColumnMaxContentExceeded e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (exContentColumnMinContentUnderrun e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		assertEquals(oFill.getContent(), 2.0f, 0.00001f);
@@ -488,28 +442,22 @@ public class tstFillLevel {
 		try {
 			oFill.update();
 		} catch (exContentColumnMaxContentExceeded e2) {
-			// TODO Auto-generated catch block
 			e2.printStackTrace();
 		} catch (exContentColumnMinContentUnderrun e2) {
-			// TODO Auto-generated catch block
 			e2.printStackTrace();
 		}
 		try {
 			oFill.update();
 		} catch (exContentColumnMaxContentExceeded e1) {
-			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		} catch (exContentColumnMinContentUnderrun e1) {
-			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
 		try {
 			oFill.update();
 		} catch (exContentColumnMaxContentExceeded e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (exContentColumnMinContentUnderrun e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		assertEquals(oFill.getContent(), 0.0f, 0.00001f);

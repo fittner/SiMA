@@ -226,7 +226,7 @@ public class clsSensorVision extends clsSensorExt {
 	 */
 	@Override
 	protected void setBodyPartId() {
-		// TODO Auto-generated method stub
+		// TODO (zeilinger) - Auto-generated method stub
 		mePartId = eBodyParts.SENSOR_EXT_VISION;
 	}
 
@@ -235,7 +235,7 @@ public class clsSensorVision extends clsSensorExt {
 	 */
 	@Override
 	protected void setName() {
-		// TODO Auto-generated method stub
+		// TODO (zeilinger) - Auto-generated method stub
 		moName = "ext. Sensor Vision";
 	}
 	
