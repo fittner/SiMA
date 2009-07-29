@@ -1,5 +1,5 @@
 #
-#Wed Jul 29 11:23:12 CEST 2009
+#Wed Jul 29 15:37:16 CEST 2009
 body.0.fraction=0.1
 body.0.type=PROTEIN
 body.1.fraction=1.0
@@ -162,7 +162,9 @@ body.sensorsint.2.sensoractive=true
 body.sensorsint.2.sensortype=STAMINA
 body.sensorsint.3.sensoractive=true
 body.sensorsint.3.sensortype=STOMACH
-body.sensorsint.numsensors=4
+body.sensorsint.4.sensoractive=true
+body.sensorsint.4.sensortype=TEMPERATURE
+body.sensorsint.numsensors=5
 body.weight=5.0
 body_type=COMPLEX
 decision_type=DUMB_MIND_A
