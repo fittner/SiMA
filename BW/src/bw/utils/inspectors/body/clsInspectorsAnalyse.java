@@ -47,7 +47,7 @@ public class clsInspectorsAnalyse extends JComponent{
 	private int mrUpperBound;*/
 
 	/**
-	 * TODO (kilic) - leere Konstruktor 
+	 * leere Konstruktor 
 	 * 
 	 * @author kilic
 	 * 15.05.2009, 10:21:47
@@ -58,7 +58,7 @@ public class clsInspectorsAnalyse extends JComponent{
 	}
 	/****************************************************************
 	 * 
-	 * TODO (kilic) - Konstruktor mit Creieren vom JProgress 
+	 * Konstruktor mit Creieren vom JProgress 
 	 * 
 	 * @author kilic
 	 * 15.05.2009, 11:26:42
@@ -73,7 +73,7 @@ public class clsInspectorsAnalyse extends JComponent{
 
 	/*********************************************************************************
 	 * 
-	 * TODO (kilic) - In dieser Methode wird eine Progressbar f�r Energy erstellt
+	 * In dieser Methode wird eine Progressbar f�r Energy erstellt
 	 *
 	 * @author kilic
 	 * 15.05.2009, 11:09:44
@@ -90,7 +90,7 @@ public class clsInspectorsAnalyse extends JComponent{
 	}
 	/*********************************************************************************
 	 * 
-	 * TODO (kilic) - In dieser Konstruktor wird eine Progressbar f�r Energy erstellt
+	 * In dieser Konstruktor wird eine Progressbar f�r Energy erstellt
 	 *
 	 * @author kilic
 	 * 15.05.2009, 11:09:44
@@ -108,7 +108,7 @@ public class clsInspectorsAnalyse extends JComponent{
 	}	
 	/*************************************************************************
 	 * 
-	 * TODO (kilic) - In dieser Methode wird Progressbar erstellt und in den 
+	 * In dieser Methode wird Progressbar erstellt und in den 
 	 * Panel hinzugef�gt
 	 *
 	 * @author kilic
@@ -129,7 +129,7 @@ public class clsInspectorsAnalyse extends JComponent{
 	}
 	/*******************************************************************
 	 * 
-	 * TODO (kilic) - F�r jede Natrution wird ein Panel durch die Klasse 
+	 * F�r jede Natrution wird ein Panel durch die Klasse 
 	 * clsSingleFillLevel erstellt
 	 *
 	 * @author kilic
@@ -156,7 +156,7 @@ public class clsInspectorsAnalyse extends JComponent{
 	
 	/******************************************************************************
 	 * 
-	 * TODO (kilic) - In dieser Methode wird der Wert von Progress aktualisiert
+	 * In dieser Methode wird der Wert von Progress aktualisiert
 	 * angegeben.
 	 *
 	 * @author kilic
@@ -169,7 +169,7 @@ public class clsInspectorsAnalyse extends JComponent{
 	}
 	/******************************************************************************
 	 * 
-	 * TODO (kilic) - Die Methode liefert den Progressbar zur�ck
+	 * Die Methode liefert den Progressbar zur�ck
 	 *
 	 * @author kilic
 	 * 15.05.2009, 11:17:55
@@ -181,7 +181,7 @@ public class clsInspectorsAnalyse extends JComponent{
 	}
 	/*******************************************************
 	 * 
-	 * TODO (kilic) - Liefert den Panl von Analyse
+	 * Liefert den Panl von Analyse
 	 *
 	 * @author kilic
 	 * 25.05.2009, 10:28:37
@@ -193,7 +193,7 @@ public class clsInspectorsAnalyse extends JComponent{
 	}
 	/********************************************************************************
 	 * 
-	 * TODO (kilic) - F�r die Auswertung werden die n�tigen Werte und Koordinaten 
+	 * F�r die Auswertung werden die n�tigen Werte und Koordinaten 
 	 * eingegeben. Die Werte sind in Float. Die K�stschen werden nach dem Float
 	 * eingestellt.
 	 *
@@ -247,7 +247,7 @@ public class clsInspectorsAnalyse extends JComponent{
 	  }
 	/********************************************************************************
 	 * 
-	 * TODO (kilic) - F�r die Auswertung werden die n�tigen Werte und Koordinaten 
+	 * F�r die Auswertung werden die n�tigen Werte und Koordinaten 
 	 * eingegeben. Die Werte  werden direkt als Integer eingegeben
 	 *
 	 * @author kilic
@@ -294,7 +294,7 @@ public class clsInspectorsAnalyse extends JComponent{
 	  }
 	/**************************************************************************
 	 * 
-	 * TODO (kilic) - Die Analyse der ganzen Nutritionsliste wird gezeigt
+	 * Die Analyse der ganzen Nutritionsliste wird gezeigt
 	 * f�r die Werte wird Float angenommen
 	 *
 	 * @author kilic
@@ -316,7 +316,7 @@ public class clsInspectorsAnalyse extends JComponent{
 	}
 	/**************************************************************************
 	 * 
-	 * TODO (kilic) - Die Analyse der ganzen Nutritionsliste wird gezeigt
+	 * Die Analyse der ganzen Nutritionsliste wird gezeigt
 	 * f�r die Werte wird Integer angenommen
 	 *
 	 * @author kilic
@@ -338,7 +338,7 @@ public class clsInspectorsAnalyse extends JComponent{
 	}
 	/**************************************************************************
 	 * 
-	 * TODO (kilic)  Die Analyse aller Nutrition wird auf eigenen Panel gezeigt
+	 *  Die Analyse aller Nutrition wird auf eigenen Panel gezeigt
 	 * f�r die Werte wird Float angenommen
 	 *
 	 * @author kilic
@@ -361,7 +361,7 @@ public class clsInspectorsAnalyse extends JComponent{
 	}
 	/**************************************************************************
 	 * 
-	 * TODO (kilic) -Die Analyse aller Nutrition wird auf eigenen Panel gezeigt
+	 * Die Analyse aller Nutrition wird auf eigenen Panel gezeigt
 	 * f�r die Werte wird Integer angenommen
 	 *
 	 * @author kilic

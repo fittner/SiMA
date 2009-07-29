@@ -18,7 +18,7 @@ import javax.swing.JPanel;
 import javax.swing.border.TitledBorder;
 
 /**
- * TODO (kilic) - Diese Klasse beschreibt den einzelnen F�llstand der Nutrition
+ * Diese Klasse beschreibt den einzelnen F�llstand der Nutrition
  * 
  * @author kilic 26.05.2009, 12:36:41
  * 
@@ -99,7 +99,7 @@ public class clsSingleFillLevel extends JPanel {
 	}
 	/**************************************************************************
 	 * 
-	 * TODO (kilic) - Die Werte min, max und Value werden f�r die Aufzeichnung
+	 * Die Werte min, max und Value werden f�r die Aufzeichnung
 	 * initalisiert
 	 *
 	 * @author kilic
@@ -119,7 +119,7 @@ public class clsSingleFillLevel extends JPanel {
 	}
 	/*************************************************************************
 	 * 
-	 * TODO (kilic) - Der Value wird f�r die Aufzeichnung initalisiert
+	 * Der Value wird f�r die Aufzeichnung initalisiert
 	 *
 	 * @author kilic
 	 * 26.05.2009, 13:46:20
@@ -133,7 +133,7 @@ public class clsSingleFillLevel extends JPanel {
 	}
 	/**************************************************************************
 	 * 
-	 * TODO (kilic) - Der aktuelle Wert in Form von Float wird aktualisiert
+	 * Der aktuelle Wert in Form von Float wird aktualisiert
 	 *
 	 * @author kilic
 	 * 26.05.2009, 13:43:10
@@ -146,7 +146,7 @@ public class clsSingleFillLevel extends JPanel {
 	}
 	/*************************************************************************
 	 * 
-	 * TODO (kilic) - Der aktuelle Wert in Form von Integer wird aktualisiert
+	 * Der aktuelle Wert in Form von Integer wird aktualisiert
 	 *
 	 * @author kilic
 	 * 26.05.2009, 13:44:05
@@ -166,7 +166,7 @@ public class clsSingleFillLevel extends JPanel {
 
 	/********************************************************************************
 	 * 
-	 * TODO (kilic) - F�r die Auswertung werden die n�tigen Werte und
+	 * F�r die Auswertung werden die n�tigen Werte und
 	 * Koordinaten eingegeben. Die Werte sind in Float. Die K�stschen werden
 	 * nach dem Float eingestellt.
 	 * 
@@ -266,7 +266,7 @@ public class clsSingleFillLevel extends JPanel {
 
 	/********************************************************************************
 	 * 
-	 * TODO (kilic) - F�r die Auswertung werden die n�tigen Werte und
+	 * F�r die Auswertung werden die n�tigen Werte und
 	 * Koordinaten eingegeben. Die Werte werden direkt als Integer eingegeben
 	 * 
 	 * @author kilic 14.05.2009, 14:05:30
