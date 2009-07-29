@@ -59,8 +59,6 @@ public class clsAnimal extends clsAnimate implements itfGetVision, itfGetEatable
 		
 		oProp.setProperty(pre+P_STRUCTURALWEIGHT, 50.0 );
 
-		//		oProp.setProperty(pre+P_MOBILE_SPEED, "4.0" );
-
 		return oProp;
 	}
 	
@@ -69,7 +67,6 @@ public class clsAnimal extends clsAnimate implements itfGetVision, itfGetEatable
 	 */
 	@Override
 	protected void setEntityType() {
-		// TODO (langr) - Auto-generated method stub
 		meEntityType = eEntityType.ANIMAL;
 	}
 
