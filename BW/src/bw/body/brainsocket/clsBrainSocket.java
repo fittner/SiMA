@@ -117,6 +117,7 @@ public class clsBrainSocket implements itfStepProcessing {
 		oData.addSensorInt(eSensorIntType.HEALTH, convertHealthSystem() );
 		oData.addSensorInt(eSensorIntType.STAMINA, convertStaminaSystem() );
 		oData.addSensorInt(eSensorIntType.STOMACH, convertStomachSystem() );
+		oData.addSensorInt(eSensorIntType.TEMPERATURE, convertTemperatureSystem() );
 		
 		return oData;
 	}
@@ -284,7 +285,6 @@ public class clsBrainSocket implements itfStepProcessing {
 	
 		oData.moEntityId = oEntity.getId();
 		
-		// TODO (deutsch) - Auto-generated method stub
 		return oData;
 	}
 
