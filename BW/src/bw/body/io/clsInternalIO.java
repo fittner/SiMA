@@ -47,28 +47,35 @@ public class clsInternalIO extends clsBaseIO{
 		
 		clsBWProperties oProp = new clsBWProperties();
 		
-		oProp.setProperty(pre+P_NUMSENSORS, 5);
 		
-		oProp.putAll( clsEnergyConsumptionSensor.getDefaultProperties( pre+"0") );
-		oProp.setProperty(pre+"0."+P_SENSORACTIVE, true);
-		oProp.setProperty(pre+"0."+P_SENSORTYPE, eSensorIntType.ENERGY_CONSUMPTION.toString());
+		int i=0;
+		oProp.putAll( clsEnergyConsumptionSensor.getDefaultProperties( pre+i) );
+		oProp.setProperty(pre+i+"."+P_SENSORACTIVE, true);
+		oProp.setProperty(pre+i+"."+P_SENSORTYPE, eSensorIntType.ENERGY_CONSUMPTION.toString());
+		i++;
 				
-		oProp.putAll( clsHealthSensor.getDefaultProperties( pre+"1") );
-		oProp.setProperty(pre+"1."+P_SENSORACTIVE, true);
-		oProp.setProperty(pre+"1."+P_SENSORTYPE, eSensorIntType.HEALTH.toString());
+		oProp.putAll( clsHealthSensor.getDefaultProperties( pre+i) );
+		oProp.setProperty(pre+i+"."+P_SENSORACTIVE, true);
+		oProp.setProperty(pre+i+"."+P_SENSORTYPE, eSensorIntType.HEALTH.toString());
+		i++;
 		
-		oProp.putAll( clsStaminaSensor.getDefaultProperties( pre+"2") );
-		oProp.setProperty(pre+"2."+P_SENSORACTIVE, true);
-		oProp.setProperty(pre+"2."+P_SENSORTYPE, eSensorIntType.STAMINA.toString());
+		oProp.putAll( clsStaminaSensor.getDefaultProperties( pre+i) );
+		oProp.setProperty(pre+i+"."+P_SENSORACTIVE, true);
+		oProp.setProperty(pre+i+"."+P_SENSORTYPE, eSensorIntType.STAMINA.toString());
+		i++;
 				
-		oProp.putAll( clsStomachSensor.getDefaultProperties( pre+"3") );
-		oProp.setProperty(pre+"3."+P_SENSORACTIVE, true);
-		oProp.setProperty(pre+"3."+P_SENSORTYPE, eSensorIntType.STOMACH.toString());
+		oProp.putAll( clsStomachSensor.getDefaultProperties( pre+i) );
+		oProp.setProperty(pre+i+"."+P_SENSORACTIVE, true);
+		oProp.setProperty(pre+i+"."+P_SENSORTYPE, eSensorIntType.STOMACH.toString());
+		i++;
 		
-		oProp.putAll( clsHealthSensor.getDefaultProperties( pre+"4") );
-		oProp.setProperty(pre+"4."+P_SENSORACTIVE, true);
-		oProp.setProperty(pre+"4."+P_SENSORTYPE, eSensorIntType.TEMPERATURE.toString());
+		oProp.putAll( clsHealthSensor.getDefaultProperties( pre+i) );
+		oProp.setProperty(pre+i+"."+P_SENSORACTIVE, true);
+		oProp.setProperty(pre+i+"."+P_SENSORTYPE, eSensorIntType.TEMPERATURE.toString());
+		i++;
 				
+		oProp.setProperty(pre+P_NUMSENSORS, i);
+		
 		return oProp;
 	}	
 
