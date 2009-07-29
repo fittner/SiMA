@@ -47,7 +47,7 @@ public class clsInternalIO extends clsBaseIO{
 		
 		clsBWProperties oProp = new clsBWProperties();
 		
-		oProp.setProperty(pre+P_NUMSENSORS, 4);
+		oProp.setProperty(pre+P_NUMSENSORS, 5);
 		
 		oProp.putAll( clsEnergyConsumptionSensor.getDefaultProperties( pre+"0") );
 		oProp.setProperty(pre+"0."+P_SENSORACTIVE, true);
