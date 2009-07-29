@@ -16,6 +16,7 @@ import enums.eEntityType;
 
 //import sim.display.clsKeyListener;
 //import simple.remotecontrol.clsRemoteControl;
+import bw.body.clsComplexBody;
 import bw.body.clsMeatBody;
 import bw.body.internalSystems.clsFlesh;
 import bw.body.io.actuators.actionProxies.itfAPEatable;
@@ -24,6 +25,7 @@ import bw.body.itfget.itfGetFlesh;
 import bw.entities.tools.clsShapeCreator;
 import bw.factories.clsRegisterEntity;
 import bw.utils.config.clsBWProperties;
+import bw.utils.enums.eBodyType;
 import bw.utils.enums.eShapeType;
 import bw.utils.tools.clsFood;
 
@@ -39,7 +41,6 @@ public class clsHare extends clsAnimal implements itfGetFlesh, itfAPEatable, itf
 	public clsHare(String poPrefix, clsBWProperties poProp) {
 		super(poPrefix, poProp );
 		applyProperties(poPrefix, poProp);
-		setAlive(true);
 	}
 	
 	private void applyProperties(String poPrefix, clsBWProperties poProp) {
@@ -55,6 +56,12 @@ public class clsHare extends clsAnimal implements itfGetFlesh, itfAPEatable, itf
 		//TODO: (langr) - should pass the config to the decision unit!
 		//oProp.putAll( clsDumbMindA.getDefaultProperties(pre) ); //clsDumbMindA.getDefaultProperties(pre)
 		oProp.setProperty(pre+P_DECISION_TYPE, eDecisionType.HARE_IFTHENELSE.name());
+
+		// remove whatever body has been assigned by getDefaultProperties
+		oProp.removeKeysStartingWith(pre+clsAnimate.P_BODY);
+		//add correct body
+		oProp.putAll( clsComplexBody.getDefaultProperties(pre+P_BODY) );
+		oProp.setProperty(pre+P_BODY_TYPE, eBodyType.COMPLEX.toString());
 		
 		oProp.setProperty(pre+P_STRUCTURALWEIGHT, 15.0);
 		
@@ -163,7 +170,6 @@ public class clsHare extends clsAnimal implements itfGetFlesh, itfAPEatable, itf
 	 */
 	@Override
 	public void updateInternalState() {
-		// TODO (langr) - Auto-generated method stub
 		super.updateInternalState();
 		if ( isAlive() && getFlesh().getTotallyConsumed() ) {
 			//This command removes the cake from the playground

@@ -12,8 +12,10 @@ import java.awt.Color;
 import du.utils.enums.eDecisionType;
 //import sim.display.clsKeyListener;
 //import simple.remotecontrol.clsRemoteControl;
+import bw.body.clsComplexBody;
 import bw.entities.tools.clsShapeCreator;
 import bw.utils.config.clsBWProperties;
+import bw.utils.enums.eBodyType;
 import bw.utils.enums.eShapeType;
 import enums.eEntityType;
 
@@ -29,7 +31,6 @@ public class clsLynx extends clsAnimal {
 	public clsLynx(String poPrefix, clsBWProperties poProp) {
 		super(poPrefix, poProp );
 		applyProperties(poPrefix, poProp);
-		setAlive(true);
 	}
 	
 	private void applyProperties(String poPrefix, clsBWProperties poProp) {
@@ -44,7 +45,14 @@ public class clsLynx extends clsAnimal {
 		oProp.putAll( clsAnimate.getDefaultProperties(pre) );
 		//TODO: (langr) - should pass the config to the decision unit!
 		//oProp.putAll( clsDumbMindA.getDefaultProperties(pre) ); //clsDumbMindA.getDefaultProperties(pre)
+		
 		oProp.setProperty(pre+P_DECISION_TYPE, eDecisionType.LYNX_IFTHENELSE.name());
+
+		// remove whatever body has been assigned by getDefaultProperties
+		oProp.removeKeysStartingWith(pre+clsAnimate.P_BODY);
+		//add correct body
+		oProp.putAll( clsComplexBody.getDefaultProperties(pre+P_BODY) );
+		oProp.setProperty(pre+P_BODY_TYPE, eBodyType.COMPLEX.toString());
 		
 		oProp.setProperty(pre+P_STRUCTURALWEIGHT, 200.0);
 		
@@ -52,9 +60,6 @@ public class clsLynx extends clsAnimal {
 		oProp.setProperty(pre+P_SHAPE+"."+clsShapeCreator.P_RADIUS, 15.0);
 		oProp.setProperty(pre+P_SHAPE+"."+clsShapeCreator.P_COLOR, Color.pink);
 		oProp.setProperty(pre+P_SHAPE+"."+clsShapeCreator.P_IMAGE_PATH, "/BW/src/resources/images/luchs.gif");
-		
-//		oProp.setProperty(pre+P_MOBILE_SPEED, "6.0" );
-//		oProp.setProperty(pre+P_ENTITY_WEIGHT, "200.0" ); //TODO: (creator) is this for the mass???
 		
 		return oProp;
 	}
@@ -64,7 +69,6 @@ public class clsLynx extends clsAnimal {
 	 */
 	@Override
 	protected void setEntityType() {
-		// TODO (deutsch) - Auto-generated method stub
 		meEntityType = eEntityType.LYNX;
 	}
 	
