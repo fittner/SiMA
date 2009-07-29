@@ -57,10 +57,6 @@ public class clsInternalIO extends clsBaseIO{
 		oProp.setProperty(pre+"1."+P_SENSORACTIVE, true);
 		oProp.setProperty(pre+"1."+P_SENSORTYPE, eSensorIntType.HEALTH.toString());
 		
-		oProp.putAll( clsTemperatureSensor.getDefaultProperties( pre+"1") );
-		oProp.setProperty(pre+"1."+P_SENSORACTIVE, true);
-		oProp.setProperty(pre+"1."+P_SENSORTYPE, eSensorIntType.TEMPERATURE.toString());
-							
 		oProp.putAll( clsStaminaSensor.getDefaultProperties( pre+"2") );
 		oProp.setProperty(pre+"2."+P_SENSORACTIVE, true);
 		oProp.setProperty(pre+"2."+P_SENSORTYPE, eSensorIntType.STAMINA.toString());
