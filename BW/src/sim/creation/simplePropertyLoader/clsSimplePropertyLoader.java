@@ -43,6 +43,7 @@ import sim.engine.SimState;
  */
 public class clsSimplePropertyLoader extends clsLoader {
 	public static final String P_WORLDBOUNDARYWALLS = "worldboundarywalls";
+	public static final String P_ENTITYGROUPS = "entitygroups";
 	public static final String P_NUMENTITYGROUPS = "numentitygroups";
 	public static final String P_NUMENTITES = "numentities";
 	public static final String P_ENTITYGROUPTYPE = "entitygrouptype";
@@ -65,7 +66,7 @@ public class clsSimplePropertyLoader extends clsLoader {
     private void applyProperties(String poPrefix, clsBWProperties poProp){		
     	String pre = clsBWProperties.addDot(poPrefix);
     	
-    	numentitygroups = poProp.getPropertyInt(pre+P_NUMENTITYGROUPS);
+    	numentitygroups = poProp.getPropertyInt(pre+P_ENTITYGROUPS+"."+P_NUMENTITYGROUPS);
     	
     	if (!poProp.existsPrefix(pre+P_ENTITYDEFAULTS)) {
     		poProp.putAll( getEntityDefaults(pre+P_ENTITYDEFAULTS) );
@@ -94,6 +95,10 @@ public class clsSimplePropertyLoader extends clsLoader {
     }
     
     public static clsBWProperties getDefaultProperties(String poPrefix) {
+    	return getDefaultProperties(poPrefix, false);
+    }
+    
+    public static clsBWProperties getDefaultProperties(String poPrefix, boolean pnAddDefaultEntities) {
 		String pre = clsBWProperties.addDot(poPrefix);
 
 		clsBWProperties oProp = new clsBWProperties();
@@ -104,75 +109,77 @@ public class clsSimplePropertyLoader extends clsLoader {
 		oProp.setProperty(pre+P_LOADER_VERSION, mnVersion);
 		oProp.setProperty(pre+P_TITLE, "default simple property loader");
 		
-		//TD - removed the following line. if this entry block is not present, it will be read on the fly during startup
-		//oProp.putAll( getEntityDefaults(pre+P_ENTITYDEFAULTS) );
+		if (pnAddDefaultEntities) {
+			oProp.putAll( getEntityDefaults(pre+P_ENTITYDEFAULTS) );
+		}
 
 		int i=0;
-		oProp.setProperty(pre+i+"."+P_ENTITYGROUPTYPE, eEntityType.BUBBLE.name());
-		oProp.setProperty(pre+i+"."+P_NUMENTITES, 3);
-		oProp.setProperty(pre+i+"."+P_POSITIONS+"."+P_POSITIONTYPE, ePositionType.LIST.name());
-		oProp.setProperty(pre+i+"."+P_POSITIONS+"."+"0."+clsPose.P_POS_X, 10);
-		oProp.setProperty(pre+i+"."+P_POSITIONS+"."+"0."+clsPose.P_POS_Y, 10);
-		oProp.setProperty(pre+i+"."+P_POSITIONS+"."+"0."+clsPose.P_POS_ANGLE, 0);
-		oProp.setProperty(pre+i+"."+P_POSITIONS+"."+"1."+clsPose.P_POS_X, 50);
-		oProp.setProperty(pre+i+"."+P_POSITIONS+"."+"1."+clsPose.P_POS_Y, 20);
-		oProp.setProperty(pre+i+"."+P_POSITIONS+"."+"1."+clsPose.P_POS_ANGLE, Math.PI);
-		oProp.setProperty(pre+i+"."+P_POSITIONS+"."+"2."+clsPose.P_POS_X, 100);
-		oProp.setProperty(pre+i+"."+P_POSITIONS+"."+"2."+clsPose.P_POS_Y, 100);
-		oProp.setProperty(pre+i+"."+P_POSITIONS+"."+"2."+clsPose.P_POS_ANGLE, Math.PI*2/3);
+		oProp.setProperty(pre+P_ENTITYGROUPS+"."+i+"."+P_ENTITYGROUPTYPE, eEntityType.BUBBLE.name());
+		oProp.setProperty(pre+P_ENTITYGROUPS+"."+i+"."+P_NUMENTITES, 3);
+		oProp.setProperty(pre+P_ENTITYGROUPS+"."+i+"."+P_POSITIONS+"."+P_POSITIONTYPE, ePositionType.LIST.name());
+		oProp.setProperty(pre+P_ENTITYGROUPS+"."+i+"."+P_POSITIONS+"."+"0."+clsPose.P_POS_X, 10);
+		oProp.setProperty(pre+P_ENTITYGROUPS+"."+i+"."+P_POSITIONS+"."+"0."+clsPose.P_POS_Y, 10);
+		oProp.setProperty(pre+P_ENTITYGROUPS+"."+i+"."+P_POSITIONS+"."+"0."+clsPose.P_POS_ANGLE, 0);
+		oProp.setProperty(pre+P_ENTITYGROUPS+"."+i+"."+P_POSITIONS+"."+"1."+clsPose.P_POS_X, 50);
+		oProp.setProperty(pre+P_ENTITYGROUPS+"."+i+"."+P_POSITIONS+"."+"1."+clsPose.P_POS_Y, 20);
+		oProp.setProperty(pre+P_ENTITYGROUPS+"."+i+"."+P_POSITIONS+"."+"1."+clsPose.P_POS_ANGLE, Math.PI);
+		oProp.setProperty(pre+P_ENTITYGROUPS+"."+i+"."+P_POSITIONS+"."+"2."+clsPose.P_POS_X, 100);
+		oProp.setProperty(pre+P_ENTITYGROUPS+"."+i+"."+P_POSITIONS+"."+"2."+clsPose.P_POS_Y, 100);
+		oProp.setProperty(pre+P_ENTITYGROUPS+"."+i+"."+P_POSITIONS+"."+"2."+clsPose.P_POS_ANGLE, Math.PI*2/3);
 		
 		i++;
-		oProp.setProperty(pre+i+"."+P_ENTITYGROUPTYPE, eEntityType.REMOTEBOT.name());
-		oProp.setProperty(pre+i+"."+P_NUMENTITES, 1);
-		oProp.setProperty(pre+i+"."+P_POSITIONS+"."+P_POSITIONTYPE, ePositionType.LIST.name());
-		oProp.setProperty(pre+i+"."+P_POSITIONS+"."+"0."+clsPose.P_POS_X, 50);
-		oProp.setProperty(pre+i+"."+P_POSITIONS+"."+"0."+clsPose.P_POS_Y, 50);
-		oProp.setProperty(pre+i+"."+P_POSITIONS+"."+"0."+clsPose.P_POS_ANGLE, 0);
+		oProp.setProperty(pre+P_ENTITYGROUPS+"."+i+"."+P_ENTITYGROUPTYPE, eEntityType.REMOTEBOT.name());
+		oProp.setProperty(pre+P_ENTITYGROUPS+"."+i+"."+P_NUMENTITES, 1);
+		oProp.setProperty(pre+P_ENTITYGROUPS+"."+i+"."+P_POSITIONS+"."+P_POSITIONTYPE, ePositionType.LIST.name());
+		oProp.setProperty(pre+P_ENTITYGROUPS+"."+i+"."+P_POSITIONS+"."+"0."+clsPose.P_POS_X, 50);
+		oProp.setProperty(pre+P_ENTITYGROUPS+"."+i+"."+P_POSITIONS+"."+"0."+clsPose.P_POS_Y, 50);
+		oProp.setProperty(pre+P_ENTITYGROUPS+"."+i+"."+P_POSITIONS+"."+"0."+clsPose.P_POS_ANGLE, 0);
 		
 		i++;
-		oProp.setProperty(pre+i+"."+P_ENTITYGROUPTYPE, eEntityType.PLANT.name());
-		oProp.setProperty(pre+i+"."+P_NUMENTITES, 1);
-		oProp.setProperty(pre+i+"."+P_POSITIONS+"."+P_POSITIONTYPE, ePositionType.RANDOM.name());
+		oProp.setProperty(pre+P_ENTITYGROUPS+"."+i+"."+P_ENTITYGROUPTYPE, eEntityType.PLANT.name());
+		oProp.setProperty(pre+P_ENTITYGROUPS+"."+i+"."+P_NUMENTITES, 1);
+		oProp.setProperty(pre+P_ENTITYGROUPS+"."+i+"."+P_POSITIONS+"."+P_POSITIONTYPE, ePositionType.RANDOM.name());
 		i++;
-		oProp.setProperty(pre+i+"."+P_ENTITYGROUPTYPE, eEntityType.HARE.name());
-		oProp.setProperty(pre+i+"."+P_NUMENTITES, 1);
-		oProp.setProperty(pre+i+"."+P_POSITIONS+"."+P_POSITIONTYPE, ePositionType.RANDOM.name());
+		oProp.setProperty(pre+P_ENTITYGROUPS+"."+i+"."+P_ENTITYGROUPTYPE, eEntityType.HARE.name());
+		oProp.setProperty(pre+P_ENTITYGROUPS+"."+i+"."+P_NUMENTITES, 1);
+		oProp.setProperty(pre+P_ENTITYGROUPS+"."+i+"."+P_POSITIONS+"."+P_POSITIONTYPE, ePositionType.RANDOM.name());
 		i++;
-		oProp.setProperty(pre+i+"."+P_ENTITYGROUPTYPE, eEntityType.LYNX.name());
-		oProp.setProperty(pre+i+"."+P_NUMENTITES, 1);
-		oProp.setProperty(pre+i+"."+P_POSITIONS+"."+P_POSITIONTYPE, ePositionType.RANDOM.name());
+		oProp.setProperty(pre+P_ENTITYGROUPS+"."+i+"."+P_ENTITYGROUPTYPE, eEntityType.LYNX.name());
+		oProp.setProperty(pre+P_ENTITYGROUPS+"."+i+"."+P_NUMENTITES, 1);
+		oProp.setProperty(pre+P_ENTITYGROUPS+"."+i+"."+P_POSITIONS+"."+P_POSITIONTYPE, ePositionType.RANDOM.name());
 		i++;
-		oProp.setProperty(pre+i+"."+P_ENTITYGROUPTYPE, eEntityType.BASE.name());
-		oProp.setProperty(pre+i+"."+P_NUMENTITES, 1);
-		oProp.setProperty(pre+i+"."+P_POSITIONS+"."+P_POSITIONTYPE, ePositionType.RANDOM.name());		
+		oProp.setProperty(pre+P_ENTITYGROUPS+"."+i+"."+P_ENTITYGROUPTYPE, eEntityType.BASE.name());
+		oProp.setProperty(pre+P_ENTITYGROUPS+"."+i+"."+P_NUMENTITES, 1);
+		oProp.setProperty(pre+P_ENTITYGROUPS+"."+i+"."+P_POSITIONS+"."+P_POSITIONTYPE, ePositionType.RANDOM.name());		
 		
 		i++;
-		oProp.setProperty(pre+i+"."+P_ENTITYGROUPTYPE, eEntityType.CAN.name());
-		oProp.setProperty(pre+i+"."+P_NUMENTITES, 1);
-		oProp.setProperty(pre+i+"."+P_POSITIONS+"."+P_POSITIONTYPE, ePositionType.RANDOM.name());
+		oProp.setProperty(pre+P_ENTITYGROUPS+"."+i+"."+P_ENTITYGROUPTYPE, eEntityType.CAN.name());
+		oProp.setProperty(pre+P_ENTITYGROUPS+"."+i+"."+P_NUMENTITES, 1);
+		oProp.setProperty(pre+P_ENTITYGROUPS+"."+i+"."+P_POSITIONS+"."+P_POSITIONTYPE, ePositionType.RANDOM.name());
 		i++;
-		oProp.setProperty(pre+i+"."+P_ENTITYGROUPTYPE, eEntityType.CAKE.name());
-		oProp.setProperty(pre+i+"."+P_NUMENTITES, 1);
-		oProp.setProperty(pre+i+"."+P_POSITIONS+"."+P_POSITIONTYPE, ePositionType.RANDOM.name());
+		oProp.setProperty(pre+P_ENTITYGROUPS+"."+i+"."+P_ENTITYGROUPTYPE, eEntityType.CAKE.name());
+		oProp.setProperty(pre+P_ENTITYGROUPS+"."+i+"."+P_NUMENTITES, 1);
+		oProp.setProperty(pre+P_ENTITYGROUPS+"."+i+"."+P_POSITIONS+"."+P_POSITIONTYPE, ePositionType.RANDOM.name());
 		i++;
-		oProp.setProperty(pre+i+"."+P_ENTITYGROUPTYPE, eEntityType.STONE.name());
-		oProp.setProperty(pre+i+"."+P_NUMENTITES, 1);
-		oProp.setProperty(pre+i+"."+P_POSITIONS+"."+P_POSITIONTYPE, ePositionType.RANDOM.name());
+		oProp.setProperty(pre+P_ENTITYGROUPS+"."+i+"."+P_ENTITYGROUPTYPE, eEntityType.STONE.name());
+		oProp.setProperty(pre+P_ENTITYGROUPS+"."+i+"."+P_NUMENTITES, 1);
+		oProp.setProperty(pre+P_ENTITYGROUPS+"."+i+"."+P_POSITIONS+"."+P_POSITIONTYPE, ePositionType.RANDOM.name());
 		i++;
-		oProp.setProperty(pre+i+"."+P_ENTITYGROUPTYPE, eEntityType.FUNGUS.name());
-		oProp.setProperty(pre+i+"."+P_NUMENTITES, 1);
-		oProp.setProperty(pre+i+"."+P_POSITIONS+"."+P_POSITIONTYPE, ePositionType.RANDOM.name());	
+		oProp.setProperty(pre+P_ENTITYGROUPS+"."+i+"."+P_ENTITYGROUPTYPE, eEntityType.FUNGUS.name());
+		oProp.setProperty(pre+P_ENTITYGROUPS+"."+i+"."+P_NUMENTITES, 1);
+		oProp.setProperty(pre+P_ENTITYGROUPS+"."+i+"."+P_POSITIONS+"."+P_POSITIONTYPE, ePositionType.RANDOM.name());	
 
 		i++;
-		oProp.setProperty(pre+i+"."+P_ENTITYGROUPTYPE, eEntityType.URANIUM.name());
-		oProp.setProperty(pre+i+"."+P_NUMENTITES, 1);
-		oProp.setProperty(pre+i+"."+P_POSITIONS+"."+P_POSITIONTYPE, ePositionType.RANDOM.name());
+		oProp.setProperty(pre+P_ENTITYGROUPS+"."+i+"."+P_ENTITYGROUPTYPE, eEntityType.URANIUM.name());
+		oProp.setProperty(pre+P_ENTITYGROUPS+"."+i+"."+P_NUMENTITES, 1);
+		oProp.setProperty(pre+P_ENTITYGROUPS+"."+i+"."+P_POSITIONS+"."+P_POSITIONTYPE, ePositionType.RANDOM.name());
 		i++;
-		oProp.setProperty(pre+i+"."+P_ENTITYGROUPTYPE, eEntityType.CARROT.name());
-		oProp.setProperty(pre+i+"."+P_NUMENTITES, 1);
-		oProp.setProperty(pre+i+"."+P_POSITIONS+"."+P_POSITIONTYPE, ePositionType.RANDOM.name());	
+		oProp.setProperty(pre+P_ENTITYGROUPS+"."+i+"."+P_ENTITYGROUPTYPE, eEntityType.CARROT.name());
+		oProp.setProperty(pre+P_ENTITYGROUPS+"."+i+"."+P_NUMENTITES, 1);
+		oProp.setProperty(pre+P_ENTITYGROUPS+"."+i+"."+P_POSITIONS+"."+P_POSITIONTYPE, ePositionType.RANDOM.name());	
 		
-		oProp.setProperty(pre+P_NUMENTITYGROUPS, i+1);
+		oProp.setProperty(pre+P_ENTITYGROUPS+"."+P_NUMENTITYGROUPS, i+1);
+		
 		oProp.setProperty(pre+P_WORLDBOUNDARYWALLS, new Boolean(true).toString());
 
 		return oProp;
@@ -298,7 +305,7 @@ public class clsSimplePropertyLoader extends clsLoader {
 		String pre = clsBWProperties.addDot( getPrefix() );
 		
 		for (int i=0;i<numentitygroups; i++) {
-			createEntityGroup(pre+i, getProperties() );
+			createEntityGroup(pre+P_ENTITYGROUPS+"."+i, getProperties() );
 		}	
 		
 		if (getProperties().getPropertyBoolean(pre+P_WORLDBOUNDARYWALLS)) {
