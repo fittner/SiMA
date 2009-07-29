@@ -15,12 +15,11 @@ import org.junit.runner.RunWith;
 @RunWith(Suite.class)
 @SuiteClasses( {
 	
-	tstBw.utils.tools.tstContentColumn.class,
-	tstBw.utils.tools.tstNutritionLevel.class,	
-	tstBw.utils.tools.tstFillLevel.class,
-	tstBw.utils.tools.tstFood.class,
-	tstBw.utils.tools.tstDecayColumn.class,
+	tstBw.utils.datatypes.tstMutableBoolean.class,
+	tstBw.utils.datatypes.tstMutableDouble.class,
+	tstBw.utils.datatypes.tstMutableFloat.class,
+	tstBw.utils.datatypes.tstMutableInteger.class,
 })
-public class tssTools {
+public class tssDatatypes {
 
 }

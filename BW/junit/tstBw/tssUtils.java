@@ -22,6 +22,8 @@ import org.junit.runner.RunWith;
 @SuiteClasses( {
 	
 	tstBw.utils.tssTools.class,
+	tstBw.utils.tssConfig.class,
+	tstBw.utils.tssDatatypes.class,
 })
 
 public class tssUtils {
