@@ -105,4 +105,7 @@ public class clsTemperatureSystem implements itfStepUpdateInternalState {
 		}
 			
 	}
+	public clsFillLevel getTemperature() {
+		return moTemperature;
+	}
 }

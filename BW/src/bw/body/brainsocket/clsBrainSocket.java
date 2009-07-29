@@ -21,6 +21,7 @@ import decisionunit.itf.sensors.clsDataBase;
 import decisionunit.itf.sensors.clsEatableArea;
 import decisionunit.itf.sensors.clsEnergyConsumption;
 import decisionunit.itf.sensors.clsHealthSystem;
+import decisionunit.itf.sensors.clsTemperatureSystem;
 import decisionunit.itf.sensors.clsPositionChange;
 import decisionunit.itf.sensors.clsSensorData;
 import decisionunit.itf.sensors.clsStaminaSystem;
@@ -42,6 +43,7 @@ import bw.body.io.sensors.external.clsSensorVision;
 import bw.body.io.sensors.external.clsSensorRadiation;
 import bw.body.io.sensors.internal.clsEnergyConsumptionSensor;
 import bw.body.io.sensors.internal.clsHealthSensor;
+import bw.body.io.sensors.internal.clsTemperatureSensor;
 import bw.body.io.sensors.internal.clsSensorInt;
 import bw.body.io.sensors.internal.clsStaminaSensor;
 import bw.body.io.sensors.internal.clsStomachSensor;
@@ -181,6 +183,24 @@ public class clsBrainSocket implements itfStepProcessing {
 		clsHealthSensor oHealthSensor = (clsHealthSensor)(moSensorsInt.get(eSensorIntType.HEALTH));
 
 		oRetVal.mrHealthValue = oHealthSensor.getHealthValue();
+		
+		return oRetVal;	
+	}
+
+	/**
+	 * TODO (langr) - insert description
+	 *
+	 * @author langr
+	 * 11.05.2009, 17:44:01
+	 *
+	 * @return
+	 */
+	private clsDataBase convertTemperatureSystem() {
+		
+		clsTemperatureSystem oRetVal = new clsTemperatureSystem();
+		clsTemperatureSensor oTemperatureSensor = (clsTemperatureSensor)(moSensorsInt.get(eSensorIntType.TEMPERATURE));
+
+		oRetVal.mrTemperatureValue = oTemperatureSensor.getTemperatureValue();
 		
 		return oRetVal;	
 	}

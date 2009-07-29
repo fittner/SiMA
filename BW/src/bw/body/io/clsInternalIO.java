@@ -12,6 +12,7 @@ import enums.eSensorIntType;
 import bw.body.clsBaseBody;
 import bw.body.io.sensors.internal.clsEnergyConsumptionSensor;
 import bw.body.io.sensors.internal.clsHealthSensor;
+import bw.body.io.sensors.internal.clsTemperatureSensor;
 import bw.body.io.sensors.internal.clsSensorInt;
 import bw.body.io.sensors.internal.clsStaminaSensor;
 import bw.body.io.sensors.internal.clsStomachSensor;
@@ -55,7 +56,11 @@ public class clsInternalIO extends clsBaseIO{
 		oProp.putAll( clsHealthSensor.getDefaultProperties( pre+"1") );
 		oProp.setProperty(pre+"1."+P_SENSORACTIVE, true);
 		oProp.setProperty(pre+"1."+P_SENSORTYPE, eSensorIntType.HEALTH.toString());
-				
+		
+		oProp.putAll( clsTemperatureSensor.getDefaultProperties( pre+"1") );
+		oProp.setProperty(pre+"1."+P_SENSORACTIVE, true);
+		oProp.setProperty(pre+"1."+P_SENSORTYPE, eSensorIntType.TEMPERATURE.toString());
+							
 		oProp.putAll( clsStaminaSensor.getDefaultProperties( pre+"2") );
 		oProp.setProperty(pre+"2."+P_SENSORACTIVE, true);
 		oProp.setProperty(pre+"2."+P_SENSORTYPE, eSensorIntType.STAMINA.toString());
@@ -63,6 +68,10 @@ public class clsInternalIO extends clsBaseIO{
 		oProp.putAll( clsStomachSensor.getDefaultProperties( pre+"3") );
 		oProp.setProperty(pre+"3."+P_SENSORACTIVE, true);
 		oProp.setProperty(pre+"3."+P_SENSORTYPE, eSensorIntType.STOMACH.toString());
+		
+		oProp.putAll( clsHealthSensor.getDefaultProperties( pre+"4") );
+		oProp.setProperty(pre+"1."+P_SENSORACTIVE, true);
+		oProp.setProperty(pre+"1."+P_SENSORTYPE, eSensorIntType.TEMPERATURE.toString());
 				
 		return oProp;
 	}	
@@ -91,6 +100,9 @@ public class clsInternalIO extends clsBaseIO{
 						break;
 					case STOMACH:
 						moSensorInternal.put(eType, new clsStomachSensor(tmp_pre, poProp, this, poBody)); 
+						break;
+					case TEMPERATURE:
+						moSensorInternal.put(eType, new clsTemperatureSensor(tmp_pre, poProp, this, poBody)); 
 						break;
 						
 					default:
