@@ -271,7 +271,7 @@ public class clsFood {
 		i = moComposition.keySet().iterator();
 		while (i.hasNext()) {
 			clsMutableDouble oFraction = moComposition.get(i.next());
-			oFraction.mult(rInvFSum);
+			oFraction.mul(rInvFSum);
 		}
 	}
 	
