@@ -3,7 +3,7 @@
  * 
  * Copied from the old bubble family game
  * 
- * CHKME keep this file?
+ * CHKME (deutsch) - keep this file?
  * @deprecated taken from old BFG
  *
  * $Rev:: 1825                 $: Revision of last commit
