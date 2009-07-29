@@ -1,17 +1,17 @@
 #
 #Sun Jul 26 15:07:41 CEST 2009
-0.entitygrouptype=CARROT
-0.numentities=15
-0.positions.positiontype=RANDOM
-1.entitygrouptype=HARE
-1.numentities=5
-1.positions.positiontype=RANDOM
-2.entitygrouptype=LYNX
-2.numentities=2
-2.positions.positiontype=RANDOM
-3.entitygrouptype=STONE
-3.numentities=5
-3.positions.positiontype=RANDOM
+entitygroups.0.entitygrouptype=CARROT
+entitygroups.0.numentities=15
+entitygroups.0.positions.positiontype=RANDOM
+entitygroups.1.entitygrouptype=HARE
+entitygroups.1.numentities=5
+entitygroups.1.positions.positiontype=RANDOM
+entitygroups.2.entitygrouptype=LYNX
+entitygroups.2.numentities=2
+entitygroups.2.positions.positiontype=RANDOM
+entitygroups.3.entitygrouptype=STONE
+entitygroups.3.numentities=5
+entitygroups.3.positions.positiontype=RANDOM
 loader_type=SIMPLE_PROPERTY_LOADER
 loader_version=1
 short_description=this is the good old hunter vs. prey example
@@ -19,6 +19,6 @@ description=Lorem ipsum dolor sit amet, consectetuer sadipscing elitr, sed diam 
 field_height=200.0
 field_width=200.0
 image=/BW/src/resources/images/hase.gif
-numentitygroups=4
+entitygroups.numentitygroups=4
 title=hare vs. lynx
 worldboundarywalls=true
