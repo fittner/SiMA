@@ -57,7 +57,8 @@ public class clsBubble extends clsAnimate implements itfGetVision, itfGetEatable
 		oProp.setProperty(pre+P_SHAPE+"."+clsShapeCreator.P_TYPE, eShapeType.CIRCLE.name());
 		oProp.setProperty(pre+P_SHAPE+"."+clsShapeCreator.P_RADIUS, 10.0);
 		oProp.setProperty(pre+P_SHAPE+"."+clsShapeCreator.P_COLOR, new Color(0,200,0));
-
+		oProp.setProperty(pre+P_SHAPE+"."+clsShapeCreator.P_IMAGE_PATH, "/BW/src/resources/images/bubble_red.png");
+		
 		oProp.setProperty(pre+P_STRUCTURALWEIGHT, 50.0);
 		
 		return oProp;

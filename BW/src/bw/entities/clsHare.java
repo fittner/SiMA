@@ -68,7 +68,7 @@ public class clsHare extends clsAnimal implements itfGetFlesh, itfAPEatable, itf
 		oProp.setProperty(pre+P_SHAPE+"."+clsShapeCreator.P_TYPE, eShapeType.CIRCLE.name());
 		oProp.setProperty(pre+P_SHAPE+"."+clsShapeCreator.P_RADIUS, 10.0);
 		oProp.setProperty(pre+P_SHAPE+"."+clsShapeCreator.P_COLOR, Color.pink);
-		oProp.setProperty(pre+P_SHAPE+"."+clsShapeCreator.P_IMAGE_PATH, "/BW/src/resources/images/hase.gif");	
+		oProp.setProperty(pre+P_SHAPE+"."+clsShapeCreator.P_IMAGE_PATH, "/BW/src/resources/images/hase.png");	
 		
 //		oProp.setProperty(pre+P_MOBILE_SPEED, "3.0" );
 		
