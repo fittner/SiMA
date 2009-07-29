@@ -9,7 +9,6 @@
 package bw.utils.config;
 
 import java.util.Random;
-
 import bw.factories.clsSingletonMasonGetter;
 import ec.util.MersenneTwisterFast;
 
