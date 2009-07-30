@@ -94,6 +94,7 @@ public class clsInspectorBubble extends Inspector {
 	public void updateInspector() {
 		
 		moProp1.setValue(clsInspectorUtils.FormatDouble(moBubble.getInternalEnergyConsuptionSUM()));
+		
 	}
 
 }

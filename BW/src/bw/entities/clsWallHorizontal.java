@@ -11,6 +11,7 @@ package bw.entities;
 import java.awt.Color;
 
 import bw.entities.tools.clsShapeCreator;
+import bw.entities.tools.eImagePositioning;
 import bw.utils.config.clsBWProperties;
 import bw.utils.enums.eShapeType;
 
@@ -46,6 +47,7 @@ public class clsWallHorizontal extends clsWallAxisAlign {
 		oProp.setProperty(pre+P_SHAPE+"."+clsShapeCreator.P_HEIGHT, 1);
 		oProp.setProperty(pre+P_SHAPE+"."+clsShapeCreator.P_COLOR, Color.black);
 		oProp.setProperty(pre+P_SHAPE+"."+clsShapeCreator.P_IMAGE_PATH, "/BW/src/resources/images/wall1.png");
+		oProp.setProperty(pre+P_SHAPE+"."+clsShapeCreator.P_IMAGE_POSITIONING, eImagePositioning.DEFAULT.name() );
 		
 		return oProp;
 	}		

@@ -113,7 +113,7 @@ public class clsShapeCreator {
 					poProp.getPropertyDouble(pre +P_WIDTH),
 					poProp.getPropertyDouble(pre +P_HEIGHT),
 					poProp.getPropertyColor(pre +P_COLOR),
-					clsGetARSPath.getArsPath()+poProp.getPropertyString(pre +P_IMAGE_PATH)
+					clsGetARSPath.getArsPath()+oImagePath
 					);
 		}			
 		

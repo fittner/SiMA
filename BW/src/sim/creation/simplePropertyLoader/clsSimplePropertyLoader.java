@@ -328,7 +328,7 @@ public class clsSimplePropertyLoader extends clsLoader {
 		oProp.setProperty(clsPose.P_POS_X, rWidth/2);
 		oProp.setProperty(clsPose.P_POS_Y, 0);
 		// TODO remove image as long scaling is not implemented ...
-		oProp.setProperty(clsWallHorizontal.P_SHAPE+"."+clsShapeCreator.P_IMAGE_PATH, "");
+		//oProp.setProperty(clsWallHorizontal.P_SHAPE+"."+clsShapeCreator.P_IMAGE_PATH, "");
 		
 		oWall = new clsWallHorizontal("", oProp);
 		clsRegisterEntity.registerEntity(oWall);
@@ -345,7 +345,7 @@ public class clsSimplePropertyLoader extends clsLoader {
 		oProp.setProperty(clsPose.P_POS_X, 0);
 		oProp.setProperty(clsPose.P_POS_Y, rHeight/2);
 		// TODO remove image as long scaling is not implemented ...
-		oProp.setProperty(clsWallVertical.P_SHAPE+"."+clsShapeCreator.P_IMAGE_PATH, "");
+		//oProp.setProperty(clsWallVertical.P_SHAPE+"."+clsShapeCreator.P_IMAGE_PATH, "");
 		
 		oWall = new clsWallVertical("", oProp);
 		clsRegisterEntity.registerEntity(oWall);

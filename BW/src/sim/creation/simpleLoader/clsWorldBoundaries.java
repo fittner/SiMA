@@ -7,15 +7,15 @@
  */
 package sim.creation.simpleLoader;
 
-import statictools.clsGetARSPath;
+
 import ARSsim.physics2D.util.clsPose;
-import ARSsim.portrayal.simple.clsImagePortrayal;
+
 import bw.entities.clsWallAxisAlign;
 import bw.entities.clsWallHorizontal;
 import bw.entities.clsWallVertical;
 import bw.entities.tools.clsShapeCreator;
 import bw.factories.clsRegisterEntity;
-import bw.factories.clsSingletonMasonGetter;
+
 import bw.utils.config.clsBWProperties;
 
 /**
@@ -54,7 +54,7 @@ public class clsWorldBoundaries {
 		oProp.setProperty(clsPose.P_POS_X, 0);
 		oProp.setProperty(clsPose.P_POS_Y, 100);
 		//remove image as long scaling is not implemented ...
-		oProp.setProperty(clsWallVertical.P_SHAPE+"."+clsShapeCreator.P_IMAGE_PATH, "");
+		oProp.setProperty(clsWallVertical.P_SHAPE+"."+clsShapeCreator.P_IMAGE_PATH, "/src/resources/images/wall1.png");
 		
 		oWall = new clsWallVertical("", oProp);
 		clsRegisterEntity.registerEntity(oWall);
@@ -66,18 +66,18 @@ public class clsWorldBoundaries {
 		
 		// temporarily add images for the walls here - should be done in the wall class instead
 		// TODO remove this code !
-		clsImagePortrayal.PlaceImage(
-				clsGetARSPath.getArsPath() + "/BW/src/resources/images/wall1.jpg",	8, 
-				new sim.util.Double2D(100, 0), 	clsSingletonMasonGetter.getFieldEnvironment());	
-		clsImagePortrayal.PlaceImage(
-				clsGetARSPath.getArsPath() + "/BW/src/resources/images/wall1.jpg",	8, 
-				new sim.util.Double2D(100, 200), 	clsSingletonMasonGetter.getFieldEnvironment());	
-		
-		clsImagePortrayal.PlaceImage(
-				clsGetARSPath.getArsPath() + "/BW/src/resources/images/wall2.jpg",	8, 
-				new sim.util.Double2D(0, 100), 	clsSingletonMasonGetter.getFieldEnvironment());	
-		clsImagePortrayal.PlaceImage(
-				clsGetARSPath.getArsPath() + "/BW/src/resources/images/wall2.jpg",	8, 
-				new sim.util.Double2D(200, 100), 	clsSingletonMasonGetter.getFieldEnvironment());	
+//		clsImagePortrayal.PlaceImage(
+//				clsGetARSPath.getArsPath() + "/BW/src/resources/images/wall1.jpg",	8, 
+//				new sim.util.Double2D(100, 0), 	clsSingletonMasonGetter.getFieldEnvironment());	
+//		clsImagePortrayal.PlaceImage(
+//				clsGetARSPath.getArsPath() + "/BW/src/resources/images/wall1.jpg",	8, 
+//				new sim.util.Double2D(100, 200), 	clsSingletonMasonGetter.getFieldEnvironment());	
+//		
+//		clsImagePortrayal.PlaceImage(
+//				clsGetARSPath.getArsPath() + "/BW/src/resources/images/wall2.jpg",	8, 
+//				new sim.util.Double2D(0, 100), 	clsSingletonMasonGetter.getFieldEnvironment());	
+//		clsImagePortrayal.PlaceImage(
+//				clsGetARSPath.getArsPath() + "/BW/src/resources/images/wall2.jpg",	8, 
+//				new sim.util.Double2D(200, 100), 	clsSingletonMasonGetter.getFieldEnvironment());	
 	}
 }

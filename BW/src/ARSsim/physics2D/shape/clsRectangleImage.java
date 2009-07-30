@@ -21,7 +21,7 @@ public class clsRectangleImage extends sim.physics2D.shape.Rectangle
 		double mrHeight;
 		private BufferedImage moImage = null; //saves the image
 		private Paint moDefaultColor = null; //color of the physical square underneath
-		private boolean mbShowSimple = true; //can be used later to hide images for speed
+		private boolean mbShowSimple = false; //can be used later to hide images for speed
 		
 	
 	/**
