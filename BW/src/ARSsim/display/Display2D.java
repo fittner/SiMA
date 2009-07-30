@@ -6,6 +6,8 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionListener;
 import java.awt.geom.Rectangle2D;
 
+import bw.utils.config.clsBWProperties;
+
 import sim.display.GUIState;
 import sim.util.Bag;
 import sim.physics2D.physicalObject.MobileObject2D;
@@ -19,16 +21,21 @@ import sim.portrayal.LocationWrapper;
  *
  */
 public class Display2D extends sim.display.Display2D {
+	public static final String P_WIDTH = "width";
+	public static final String P_HEIGHT = "height";
+	public static final String P_INTERVAL = "interval";
 
+	/**
+	 * DOCUMENT (deutsch) - insert description 
+	 * 
+	 * @author deutsch
+	 * 30.07.2009, 17:41:56
+	 */
+	private static final long serialVersionUID = -5129774859180110482L;
 	//members necessary for drag and drop
 	private Bag[] moHitObjects;
 	
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
 
-	
 	public Display2D(double width, double height, GUIState simulation,
 			long interval) {
 		super(width, height, simulation, interval);
@@ -73,6 +80,30 @@ public class Display2D extends sim.display.Display2D {
 	        });
 	}
 	
+	public static Display2D createDisplay2d(String poPrefix, clsBWProperties poProp, GUIState simulation) {
+		return applyProperties(poPrefix, poProp, simulation);
+	}
+	
+	private static Display2D applyProperties(String poPrefix, clsBWProperties poProp, GUIState simulation) {
+		String pre = clsBWProperties.addDot(poPrefix);
+		
+		double width = poProp.getPropertyDouble(pre+P_WIDTH);
+		double height = poProp.getPropertyDouble(pre+P_HEIGHT);
+		int interval = poProp.getPropertyInt(pre+P_INTERVAL);
+		
+		return new Display2D(width, height, simulation, interval);
+	}
+	
+	public static clsBWProperties getDefaultProperties(String poPrefix) {
+		String pre = clsBWProperties.addDot(poPrefix);
+		clsBWProperties oProp = new clsBWProperties();
+		
+		oProp.setProperty(pre+P_HEIGHT, 600.0);
+		oProp.setProperty(pre+P_WIDTH, 600.0);
+		oProp.setProperty(pre+P_INTERVAL, 1);
+		
+		return oProp;
+	}
 	
 	/**
 	 * Moves the selected object stored in moHitObjects to the given position.
