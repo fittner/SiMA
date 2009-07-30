@@ -45,7 +45,7 @@ public class clsWallHorizontal extends clsWallAxisAlign {
 		oProp.setProperty(pre+P_SHAPE+"."+clsShapeCreator.P_WIDTH, 10);
 		oProp.setProperty(pre+P_SHAPE+"."+clsShapeCreator.P_HEIGHT, 1);
 		oProp.setProperty(pre+P_SHAPE+"."+clsShapeCreator.P_COLOR, Color.black);
-		oProp.setProperty(pre+P_SHAPE+"."+clsShapeCreator.P_IMAGE_PATH, "/src/resources/images/wall1.png");
+		oProp.setProperty(pre+P_SHAPE+"."+clsShapeCreator.P_IMAGE_PATH, "/BW/src/resources/images/wall1.png");
 		
 		return oProp;
 	}		
