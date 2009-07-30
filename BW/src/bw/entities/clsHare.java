@@ -17,7 +17,6 @@ import enums.eEntityType;
 //import sim.display.clsKeyListener;
 //import simple.remotecontrol.clsRemoteControl;
 import bw.body.clsComplexBody;
-import bw.body.clsMeatBody;
 import bw.body.internalSystems.clsFlesh;
 import bw.body.io.actuators.actionProxies.itfAPEatable;
 import bw.body.io.actuators.actionProxies.itfAPKillable;
@@ -105,7 +104,7 @@ public class clsHare extends clsAnimal implements itfGetFlesh, itfAPEatable, itf
 	 * @see bw.body.itfget.itfGetFlesh#getFlesh()
 	 */
 	public clsFlesh getFlesh() {
-		return ((clsMeatBody)moBody).getFlesh();
+		return ((clsComplexBody)moBody).getInternalSystem().getFlesh();
 	}
 
 
