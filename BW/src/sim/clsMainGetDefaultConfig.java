@@ -79,6 +79,8 @@ public class clsMainGetDefaultConfig {
 
 		clsBWProperties.writeProperties(clsSimplePropertyLoader.getDefaultProperties("", true), clsGetARSPath.getConfigPath(), "simplePropertyLoader"+oMainExt, "");
 		
+		clsBWProperties.writeProperties(clsBWMainWithUI.getDefaultProperties(""),  clsGetARSPath.getConfigPath(), clsBWMainWithUI.F_CONFIGFILENAME, "");
+		
 		System.out.println("done ...");
 	}
 
