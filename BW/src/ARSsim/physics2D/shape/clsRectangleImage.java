@@ -21,7 +21,7 @@ public class clsRectangleImage extends sim.physics2D.shape.Rectangle
 		double mrHeight;
 		private BufferedImage moImage = null; //saves the image
 		private Paint moDefaultColor = null; //color of the physical square underneath
-		private boolean mbShowSimple = false; //can be used later to hide images for speed
+		private boolean mbShowSimple = true; //can be used later to hide images for speed
 		
 	
 	/**
@@ -73,8 +73,8 @@ public class clsRectangleImage extends sim.physics2D.shape.Rectangle
         //get the size of the rectangle, resized by mason automaticaly!
         final int nXRect = (int)(info.draw.x);
         final int nYRect = (int)(info.draw.y);
-        final int nWRect = (int)(mrWidth);
-        final int nHRect = (int)(mrHeight);
+        final int nWRect = (int)(mrWidth * fMasonZoom);
+        final int nHRect = (int)(mrHeight * fMasonZoom);
 
         //displays the physical rect
         graphics.fillRect(nXRect, nYRect, nWRect, nHRect);

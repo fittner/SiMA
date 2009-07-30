@@ -323,7 +323,7 @@ public class clsSimplePropertyLoader extends clsLoader {
 		
 		// add horizontal walls
 		oProp = clsWallHorizontal.getDefaultProperties("");
-		oProp.setProperty(clsWallHorizontal.P_SHAPE+"."+clsShapeCreator.P_WIDTH, rWidth+rWallThickness);
+		oProp.setProperty(clsWallHorizontal.P_SHAPE+"."+clsShapeCreator.P_WIDTH, rWidth);
 		oProp.setProperty(clsWallHorizontal.P_SHAPE+"."+clsShapeCreator.P_HEIGHT, rWallThickness);
 		oProp.setProperty(clsPose.P_POS_X, rWidth/2);
 		oProp.setProperty(clsPose.P_POS_Y, 0);
@@ -341,7 +341,7 @@ public class clsSimplePropertyLoader extends clsLoader {
 		// add vertical walls
 		oProp = clsWallVertical.getDefaultProperties("");
 		oProp.setProperty(clsWallVertical.P_SHAPE+"."+clsShapeCreator.P_WIDTH, rWallThickness);
-		oProp.setProperty(clsWallVertical.P_SHAPE+"."+clsShapeCreator.P_HEIGHT, rHeight+rWallThickness);
+		oProp.setProperty(clsWallVertical.P_SHAPE+"."+clsShapeCreator.P_HEIGHT, rHeight);
 		oProp.setProperty(clsPose.P_POS_X, 0);
 		oProp.setProperty(clsPose.P_POS_Y, rHeight/2);
 		// TODO remove image as long scaling is not implemented ...
