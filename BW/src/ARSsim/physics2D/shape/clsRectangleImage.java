@@ -73,8 +73,8 @@ public class clsRectangleImage extends sim.physics2D.shape.Rectangle
         //get the size of the rectangle, resized by mason automaticaly!
         final int nXRect = (int)(info.draw.x);
         final int nYRect = (int)(info.draw.y);
-        final int nWRect = (int)(mrWidth * fMasonZoom);
-        final int nHRect = (int)(mrHeight * fMasonZoom);
+        final int nWRect = (int)(mrWidth * fMasonZoom *3);
+        final int nHRect = (int)(mrHeight * fMasonZoom *3);
 
         //displays the physical rect
         graphics.fillRect(nXRect, nYRect, nWRect, nHRect);

@@ -27,6 +27,7 @@ import bw.entities.clsWallAxisAlign;
 import bw.entities.clsWallHorizontal;
 import bw.entities.clsWallVertical;
 import bw.entities.tools.clsShapeCreator;
+import bw.factories.clsPropertiesGetter;
 import bw.factories.clsRegisterEntity;
 import bw.factories.clsSingletonMasonGetter;
 import bw.utils.config.clsBWProperties;
@@ -326,6 +327,10 @@ public class clsSimplePropertyLoader extends clsLoader {
 		oProp.setProperty(clsWallHorizontal.P_SHAPE+"."+clsShapeCreator.P_WIDTH, rWidth);
 		oProp.setProperty(clsWallHorizontal.P_SHAPE+"."+clsShapeCreator.P_HEIGHT, rWallThickness);
 		oProp.setProperty(clsPose.P_POS_X, rWidth/2);
+		
+		if(clsPropertiesGetter.drawImages())
+			oProp.setProperty(clsPose.P_POS_X, 0);
+		
 		oProp.setProperty(clsPose.P_POS_Y, 0);
 		// TODO remove image as long scaling is not implemented ...
 		//oProp.setProperty(clsWallHorizontal.P_SHAPE+"."+clsShapeCreator.P_IMAGE_PATH, "");
@@ -344,6 +349,9 @@ public class clsSimplePropertyLoader extends clsLoader {
 		oProp.setProperty(clsWallVertical.P_SHAPE+"."+clsShapeCreator.P_HEIGHT, rHeight);
 		oProp.setProperty(clsPose.P_POS_X, 0);
 		oProp.setProperty(clsPose.P_POS_Y, rHeight/2);
+		
+		if(clsPropertiesGetter.drawImages())
+			oProp.setProperty(clsPose.P_POS_Y, 0);
 		// TODO remove image as long scaling is not implemented ...
 		//oProp.setProperty(clsWallVertical.P_SHAPE+"."+clsShapeCreator.P_IMAGE_PATH, "");
 		
