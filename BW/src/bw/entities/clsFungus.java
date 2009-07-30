@@ -12,6 +12,7 @@ import bw.body.clsMeatBody;
 import bw.body.internalSystems.clsFlesh;
 import bw.body.itfget.itfGetFlesh;
 import bw.entities.tools.clsShapeCreator;
+import bw.entities.tools.eImagePositioning;
 import bw.factories.clsRegisterEntity;
 import bw.utils.config.clsBWProperties;
 import bw.utils.enums.eBindingState;
@@ -66,6 +67,7 @@ public class clsFungus extends clsInanimate implements itfGetFlesh, itfAPEatable
 		oProp.setProperty(pre+P_SHAPE+"."+clsShapeCreator.P_RADIUS, "6.0");
 		oProp.setProperty(pre+P_SHAPE+"."+clsShapeCreator.P_COLOR, Color.pink);
 		oProp.setProperty(pre+P_SHAPE+"."+clsShapeCreator.P_IMAGE_PATH, "/BW/src/resources/images/fungus.png");
+		oProp.setProperty(pre+P_SHAPE+"."+clsShapeCreator.P_IMAGE_POSITIONING, eImagePositioning.DEFAULT.name());		
 		
 		oProp.setProperty(pre+P_BODY+"."+clsFlesh.P_WEIGHT, 15.0 );
 		oProp.setProperty(pre+P_BODY+"."+clsFlesh.P_NUMNUTRITIONS, 2 );

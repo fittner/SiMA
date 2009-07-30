@@ -22,6 +22,7 @@ import bw.body.io.actuators.actionProxies.itfAPEatable;
 import bw.body.io.actuators.actionProxies.itfAPKillable;
 import bw.body.itfget.itfGetFlesh;
 import bw.entities.tools.clsShapeCreator;
+import bw.entities.tools.eImagePositioning;
 import bw.factories.clsRegisterEntity;
 import bw.utils.config.clsBWProperties;
 import bw.utils.enums.eBodyType;
@@ -62,12 +63,18 @@ public class clsHare extends clsAnimal implements itfGetFlesh, itfAPEatable, itf
 		oProp.putAll( clsComplexBody.getDefaultProperties(pre+P_BODY) );
 		oProp.setProperty(pre+P_BODY_TYPE, eBodyType.COMPLEX.toString());
 		
-		oProp.setProperty(pre+P_STRUCTURALWEIGHT, 15.0);
+		//FIXME (deutsch) - .4. is not guaranteed - has to be changed!
+		oProp.setProperty(pre+"body.sensorsext.4.offset", 5);
+		oProp.setProperty(pre+"body.sensorsext.4.range", 2.5);
+
+		
+		oProp.setProperty(pre+P_STRUCTURALWEIGHT, 150.0);
 		
 		oProp.setProperty(pre+P_SHAPE+"."+clsShapeCreator.P_TYPE, eShapeType.CIRCLE.name());
-		oProp.setProperty(pre+P_SHAPE+"."+clsShapeCreator.P_RADIUS, 10.0);
-		oProp.setProperty(pre+P_SHAPE+"."+clsShapeCreator.P_COLOR, Color.pink);
-		oProp.setProperty(pre+P_SHAPE+"."+clsShapeCreator.P_IMAGE_PATH, "/BW/src/resources/images/hase.png");	
+		oProp.setProperty(pre+P_SHAPE+"."+clsShapeCreator.P_RADIUS, 2.5);
+		oProp.setProperty(pre+P_SHAPE+"."+clsShapeCreator.P_COLOR, Color.GRAY);
+		oProp.setProperty(pre+P_SHAPE+"."+clsShapeCreator.P_IMAGE_PATH, "/BW/src/resources/images/hase.png");
+		oProp.setProperty(pre+P_SHAPE+"."+clsShapeCreator.P_IMAGE_POSITIONING, eImagePositioning.DEFAULT.name());		
 		
 //		oProp.setProperty(pre+P_MOBILE_SPEED, "3.0" );
 		

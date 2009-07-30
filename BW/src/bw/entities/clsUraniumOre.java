@@ -13,6 +13,7 @@ import bw.utils.enums.eBindingState;
 import bw.utils.enums.eShapeType;
 import bw.body.io.actuators.actionProxies.itfAPCarryable;
 import bw.entities.tools.clsShapeCreator;
+import bw.entities.tools.eImagePositioning;
 import enums.eEntityType;
 
 /**
@@ -53,6 +54,7 @@ public class clsUraniumOre extends clsInanimate implements itfAPCarryable {
 		oProp.setProperty(pre+P_SHAPE+"."+clsShapeCreator.P_RADIUS, "4.0");
 		oProp.setProperty(pre+P_SHAPE+"."+clsShapeCreator.P_COLOR, Color.green);
 		oProp.setProperty(pre+P_SHAPE+"."+clsShapeCreator.P_IMAGE_PATH, "/BW/src/resources/images/uranium.png");
+		oProp.setProperty(pre+P_SHAPE+"."+clsShapeCreator.P_IMAGE_POSITIONING, eImagePositioning.DEFAULT.name());		
 		
 		return oProp;
 	}	

@@ -19,6 +19,7 @@ import bw.body.io.actuators.actionProxies.itfAPCarryable;
 import bw.body.io.actuators.actionProxies.itfAPEatable;
 import bw.body.itfget.itfGetFlesh;
 import bw.entities.tools.clsShapeCreator;
+import bw.entities.tools.eImagePositioning;
 import bw.exceptions.exFoodWeightBelowZero;
 import bw.utils.config.clsBWProperties;
 import bw.utils.enums.eBindingState;
@@ -100,21 +101,23 @@ public class clsCarrot extends clsInanimate implements itfGetFlesh, itfAPEatable
 		oProp.putAll(clsInanimate.getDefaultProperties(pre) );
 		
 		oProp.putAll(clsInanimate.getDefaultProperties(pre) );
-		oProp.setProperty(pre+P_STRUCTURALWEIGHT, 0.5);
+		oProp.setProperty(pre+P_STRUCTURALWEIGHT, 50);
 		
 		oProp.setProperty(pre+P_SHAPE+"."+clsShapeCreator.P_TYPE, eShapeType.CIRCLE.name());
-		oProp.setProperty(pre+P_SHAPE+"."+clsShapeCreator.P_RADIUS, "5.0");
+		oProp.setProperty(pre+P_SHAPE+"."+clsShapeCreator.P_RADIUS, "1.5");
 		oProp.setProperty(pre+P_SHAPE+"."+clsShapeCreator.P_COLOR, Color.orange);
 
 		oProp.setProperty(pre+P_SHAPE_FRESH+"."+clsShapeCreator.P_TYPE, eShapeType.CIRCLE.name());
-		oProp.setProperty(pre+P_SHAPE_FRESH+"."+clsShapeCreator.P_RADIUS, "5.0");
+		oProp.setProperty(pre+P_SHAPE_FRESH+"."+clsShapeCreator.P_RADIUS, "1.5");
 		oProp.setProperty(pre+P_SHAPE_FRESH+"."+clsShapeCreator.P_COLOR, Color.orange);
 		oProp.setProperty(pre+P_SHAPE_FRESH+"."+clsShapeCreator.P_IMAGE_PATH, "/BW/src/resources/images/carrot_clipart.png");
+		oProp.setProperty(pre+P_SHAPE_FRESH+"."+clsShapeCreator.P_IMAGE_POSITIONING, eImagePositioning.DEFAULT.name());
 
 		oProp.setProperty(pre+P_SHAPE_DEAD+"."+clsShapeCreator.P_TYPE, eShapeType.CIRCLE.name());
-		oProp.setProperty(pre+P_SHAPE_DEAD+"."+clsShapeCreator.P_RADIUS, "5.0");
+		oProp.setProperty(pre+P_SHAPE_DEAD+"."+clsShapeCreator.P_RADIUS, "1.5");
 		oProp.setProperty(pre+P_SHAPE_DEAD+"."+clsShapeCreator.P_COLOR, Color.gray);
 		oProp.setProperty(pre+P_SHAPE_DEAD+"."+clsShapeCreator.P_IMAGE_PATH, "/BW/src/resources/images/carrot_grayscale.png");
+		oProp.setProperty(pre+P_SHAPE_DEAD+"."+clsShapeCreator.P_IMAGE_POSITIONING, eImagePositioning.DEFAULT.name());
 
 		oProp.setProperty(pre+P_BODY+"."+clsFlesh.P_WEIGHT, 0.5 );
 		oProp.setProperty(pre+P_BODY+"."+clsFlesh.P_NUMNUTRITIONS, 2 );

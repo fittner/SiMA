@@ -18,6 +18,7 @@ import bw.body.itfget.itfGetInternalEnergyConsumption;
 import bw.body.itfget.itfGetRadiation;
 import bw.body.itfget.itfGetVision;
 import bw.entities.tools.clsShapeCreator;
+import bw.entities.tools.eImagePositioning;
 import bw.utils.config.clsBWProperties;
 import bw.utils.enums.eBodyType;
 import bw.utils.enums.eShapeType;
@@ -58,6 +59,7 @@ public class clsBubble extends clsAnimate implements itfGetVision, itfGetEatable
 		oProp.setProperty(pre+P_SHAPE+"."+clsShapeCreator.P_RADIUS, 10.0);
 		oProp.setProperty(pre+P_SHAPE+"."+clsShapeCreator.P_COLOR, new Color(0,200,0));
 		oProp.setProperty(pre+P_SHAPE+"."+clsShapeCreator.P_IMAGE_PATH, "/BW/src/resources/images/bubble_red.png");
+		oProp.setProperty(pre+P_SHAPE+"."+clsShapeCreator.P_IMAGE_POSITIONING, eImagePositioning.DEFAULT.name());		
 		
 		oProp.setProperty(pre+P_STRUCTURALWEIGHT, 50.0);
 		

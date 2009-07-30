@@ -14,6 +14,7 @@ import du.utils.enums.eDecisionType;
 //import simple.remotecontrol.clsRemoteControl;
 import bw.body.clsComplexBody;
 import bw.entities.tools.clsShapeCreator;
+import bw.entities.tools.eImagePositioning;
 import bw.utils.config.clsBWProperties;
 import bw.utils.enums.eBodyType;
 import bw.utils.enums.eShapeType;
@@ -54,12 +55,17 @@ public class clsLynx extends clsAnimal {
 		oProp.putAll( clsComplexBody.getDefaultProperties(pre+P_BODY) );
 		oProp.setProperty(pre+P_BODY_TYPE, eBodyType.COMPLEX.toString());
 		
-		oProp.setProperty(pre+P_STRUCTURALWEIGHT, 200.0);
+		//FIXME (deutsch) - .4. is not guaranteed - has to be changed!
+		oProp.setProperty(pre+"body.sensorsext.4.offset", 8);
+		oProp.setProperty(pre+"body.sensorsext.4.range", 3);
+		
+		oProp.setProperty(pre+P_STRUCTURALWEIGHT, 300.0);
 		
 		oProp.setProperty(pre+P_SHAPE+"."+clsShapeCreator.P_TYPE, eShapeType.CIRCLE.name());
-		oProp.setProperty(pre+P_SHAPE+"."+clsShapeCreator.P_RADIUS, 15.0);
-		oProp.setProperty(pre+P_SHAPE+"."+clsShapeCreator.P_COLOR, Color.pink);
+		oProp.setProperty(pre+P_SHAPE+"."+clsShapeCreator.P_RADIUS, 5.0);
+		oProp.setProperty(pre+P_SHAPE+"."+clsShapeCreator.P_COLOR, Color.yellow);
 		oProp.setProperty(pre+P_SHAPE+"."+clsShapeCreator.P_IMAGE_PATH, "/BW/src/resources/images/luchs.png");
+		oProp.setProperty(pre+P_SHAPE+"."+clsShapeCreator.P_IMAGE_POSITIONING, eImagePositioning.DEFAULT.name());		
 		
 		return oProp;
 	}

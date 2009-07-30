@@ -10,6 +10,7 @@ package bw.entities;
 import java.awt.Color;
 
 import bw.entities.tools.clsShapeCreator;
+import bw.entities.tools.eImagePositioning;
 import bw.utils.config.clsBWProperties;
 import bw.utils.enums.eShapeType;
 import enums.eEntityType;
@@ -43,12 +44,13 @@ public class clsStone extends clsInanimate {
 		clsBWProperties oProp = new clsBWProperties();
 
 		oProp.putAll(clsInanimate.getDefaultProperties(pre) );
-		oProp.setProperty(pre+P_RADIUS_TO_MASS_CONVERSION , 10.0);
+		oProp.setProperty(pre+P_RADIUS_TO_MASS_CONVERSION , 500.0);
 		
 		oProp.setProperty(pre+P_SHAPE+"."+clsShapeCreator.P_TYPE, eShapeType.CIRCLE.name());
-		oProp.setProperty(pre+P_SHAPE+"."+clsShapeCreator.P_RADIUS, "1.0");
+		oProp.setProperty(pre+P_SHAPE+"."+clsShapeCreator.P_RADIUS, "15.0");
 		oProp.setProperty(pre+P_SHAPE+"."+clsShapeCreator.P_COLOR, Color.DARK_GRAY);
 		oProp.setProperty(pre+P_SHAPE+"."+clsShapeCreator.P_IMAGE_PATH, "/BW/src/resources/images/rock1.png");
+		oProp.setProperty(pre+P_SHAPE+"."+clsShapeCreator.P_IMAGE_POSITIONING, eImagePositioning.DEFAULT.name());		
 	   			
 		return oProp;
 	}	
