@@ -1,5 +1,5 @@
 #
-#Wed Jul 29 15:37:16 CEST 2009
+#Thu Jul 30 18:33:37 CEST 2009
 body.bodyworld.consumefood.garbagenutritiontype=UNDIGESTABLE
 body.bodyworld.damagebump.healthpenalty=1
 body.bodyworld.damagebump.hurthreshold=0
@@ -131,7 +131,8 @@ body.sensorsext.3.sensor_angle=6.283185307179586
 body.sensorsext.3.sensor_range=80
 body.sensorsext.3.sensoractive=true
 body.sensorsext.3.sensortype=RADIATION
-body.sensorsext.4.offset=15
+body.sensorsext.4.offset=8
+body.sensorsext.4.range=3
 body.sensorsext.4.sensor_angle=6.283185307179586
 body.sensorsext.4.sensor_range=5
 body.sensorsext.4.sensoractive=true
@@ -139,6 +140,7 @@ body.sensorsext.4.sensortype=EATABLE_AREA
 body.sensorsext.5.sensoractive=true
 body.sensorsext.5.sensortype=POSITIONCHANGE
 body.sensorsext.numsensors=6
+body.sensorsext.sensorrange=0.0
 body.sensorsint.0.sensoractive=true
 body.sensorsint.0.sensortype=ENERGY_CONSUMPTION
 body.sensorsint.1.sensoractive=true
@@ -159,9 +161,10 @@ id=-1
 pos_angle=0.0
 pos_x=0.0
 pos_y=0.0
-shape.color=\#ffafaf
-shape.image_path=/BW/src/resources/images/luchs.gif
-shape.radius=15.0
+shape.color=\#ffff00
+shape.image_path=/BW/src/resources/images/luchs.png
+shape.image_positioning=DEFAULT
+shape.radius=5.0
 shape.type=CIRCLE
 start_velocity_x=0.0
 start_velocity_y=0.0

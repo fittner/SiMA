@@ -1,5 +1,5 @@
 #
-#Wed Jul 29 15:37:16 CEST 2009
+#Thu Jul 30 18:33:37 CEST 2009
 body.bodyworld.consumefood.garbagenutritiontype=UNDIGESTABLE
 body.bodyworld.damagebump.healthpenalty=1
 body.bodyworld.damagebump.hurthreshold=0
@@ -139,6 +139,7 @@ body.sensorsext.4.sensortype=EATABLE_AREA
 body.sensorsext.5.sensoractive=true
 body.sensorsext.5.sensortype=POSITIONCHANGE
 body.sensorsext.numsensors=6
+body.sensorsext.sensorrange=0.0
 body.sensorsint.0.sensoractive=true
 body.sensorsint.0.sensortype=ENERGY_CONSUMPTION
 body.sensorsint.1.sensoractive=true
@@ -160,6 +161,8 @@ pos_angle=0.0
 pos_x=0.0
 pos_y=0.0
 shape.color=\#00c800
+shape.image_path=/BW/src/resources/images/bubble_red.png
+shape.image_positioning=DEFAULT
 shape.radius=10.0
 shape.type=CIRCLE
 start_velocity_x=0.0

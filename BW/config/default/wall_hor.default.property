@@ -1,5 +1,5 @@
 #
-#Wed Jul 29 15:37:16 CEST 2009
+#Thu Jul 30 18:33:37 CEST 2009
 def_restitution=1.0
 id=-1
 pos_angle=0.0
@@ -7,7 +7,8 @@ pos_x=0.0
 pos_y=0.0
 shape.color=\#000000
 shape.height=1
-shape.image_path=/BW/src/resources/images/wall1.jpg
+shape.image_path=/BW/src/resources/images/wall1.png
+shape.image_positioning=DEFAULT
 shape.type=RECTANGLE
 shape.width=10
 weight_structural=1.7976931348623157E308

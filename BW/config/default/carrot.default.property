@@ -1,5 +1,5 @@
 #
-#Wed Jul 29 15:37:16 CEST 2009
+#Thu Jul 30 18:33:37 CEST 2009
 body.0.fraction=5.0
 body.0.type=FAT
 body.1.fraction=1.0
@@ -18,16 +18,18 @@ pos_y=0.0
 regrow_steps_max=1000
 regrow_steps_min=50
 shape.color=\#ffc800
-shape.radius=5.0
+shape.radius=1.5
 shape.type=CIRCLE
 shape_dead.color=\#808080
-shape_dead.image_path=/BW/src/resources/images/carrot_grayscale.jpg
-shape_dead.radius=5.0
+shape_dead.image_path=/BW/src/resources/images/carrot_grayscale.png
+shape_dead.image_positioning=DEFAULT
+shape_dead.radius=1.5
 shape_dead.type=CIRCLE
 shape_fresh.color=\#ffc800
-shape_fresh.image_path=/BW/src/resources/images/carrot_clipart.jpg
-shape_fresh.radius=5.0
+shape_fresh.image_path=/BW/src/resources/images/carrot_clipart.png
+shape_fresh.image_positioning=DEFAULT
+shape_fresh.radius=1.5
 shape_fresh.type=CIRCLE
 start_velocity_x=0.0
 start_velocity_y=0.0
-weight_structural=0.5
+weight_structural=5
