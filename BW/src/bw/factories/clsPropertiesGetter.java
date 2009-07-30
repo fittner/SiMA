@@ -26,7 +26,7 @@ public class clsPropertiesGetter {
 	protected clsPropertiesGetter() {
 		moProperties = new clsBWProperties();
 		moSystemProperties = new clsBWProperties();
-		mnDrawImages = true;
+		mnDrawImages = false;
 	}
 	
 	static private clsPropertiesGetter _instance = null;
