@@ -72,11 +72,11 @@ public class clsSensorEngine{
 	}	
 
 	private void applyProperties(String poPrefix, clsBWProperties poProp) {
-		String pre = clsBWProperties.addDot(poPrefix);
+//		String pre = clsBWProperties.addDot(poPrefix);
 		
-		int nNumSteps = poProp.getPropertyInt(pre+clsExternalIO.P_NUMSTEPS);
-		double nStepRange = poProp.getPropertyDouble(pre+clsExternalIO.P_MAX_RANGE)/nNumSteps;
-		adaptSensorEngineRange(nNumSteps, nStepRange); 
+//		int nNumSteps = poProp.getPropertyInt(pre+clsExternalIO.P_NUMSTEPS);
+//		double nStepRange = poProp.getPropertyDouble(pre+clsExternalIO.P_MAX_RANGE)/nNumSteps;
+//		adaptSensorEngineRange(nNumSteps, nStepRange); 
 	}
 	
 	/*The default diameters of the sensor-engine entities are defined in mnRange. 
@@ -85,13 +85,13 @@ public class clsSensorEngine{
 	 * the initialization.    
 	 * 
 	 */
-	private void adaptSensorEngineRange(Integer pnNumSteps, Double pnStepRange){
-		mnRange = new double[pnNumSteps];
-		
-		for(int index = 0;index < pnNumSteps; index++){
-			mnRange[index] = pnStepRange * (index+1); 
-		}
-	}
+//	private void adaptSensorEngineRange(Integer pnNumSteps, Double pnStepRange){
+//		mnRange = new double[pnNumSteps];
+//		
+//		for(int index = 0;index < pnNumSteps; index++){
+//			mnRange[index] = pnStepRange * (index+1); 
+//		}
+//	}
 	
 	private void registerEngineEntity(clsEntity poHostEntity){
 		for(int index=0; index < mnRange.length; index++){
