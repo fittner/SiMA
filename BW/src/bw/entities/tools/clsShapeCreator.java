@@ -14,6 +14,7 @@ import java.util.ArrayList;
 import sim.physics2D.shape.Shape;
 import statictools.clsGetARSPath;
 import bfg.tools.shapes.clsPoint;
+import bw.factories.clsPropertiesGetter;
 import bw.utils.config.clsBWProperties;
 import bw.utils.enums.eShapeType;
 
@@ -74,10 +75,15 @@ public class clsShapeCreator {
 			// everything is fine ...
 		}
 		
-		if (oImagePath.length() == 0) {
+		if (oImagePath.length() == 0 || !clsPropertiesGetter.drawImages()) {
 			oShape = new sim.physics2D.shape.Circle(poProp.getPropertyDouble(pre +P_RADIUS), 
 				 poProp.getPropertyColor(pre +P_COLOR));
 		} else {
+			eImagePositioning nImagePositioning = eImagePositioning.valueOf(poProp.getPropertyString(pre+P_IMAGE_POSITIONING));
+			if (nImagePositioning != eImagePositioning.DEFAULT) {
+				throw new java.lang.NoSuchMethodError();
+				// TODO (everyone) - image positioning not implemented yet
+			}			
 			oShape = new ARSsim.physics2D.shape.clsCircleImage(
 					poProp.getPropertyDouble(pre+ P_RADIUS),							                     
 					poProp.getPropertyColor(pre+P_COLOR),
@@ -99,7 +105,7 @@ public class clsShapeCreator {
 			// everything is fine ...
 		}
 		
-		if (oImagePath.length() == 0) {			
+		if (oImagePath.length() == 0 || !clsPropertiesGetter.drawImages()) {			
 			oShape = new sim.physics2D.shape.Rectangle(	poProp.getPropertyDouble(pre +P_WIDTH),
 													poProp.getPropertyDouble(pre +P_HEIGHT), 
 													 poProp.getPropertyColor(pre +P_COLOR));
@@ -147,15 +153,16 @@ public class clsShapeCreator {
 				oProp.setProperty(pre+P_ANGLE, Math.PI/2);
 				oProp.setProperty(pre+P_RADIUS, 5);
 				oProp.setProperty(pre+P_COLOR, Color.DARK_GRAY);
-//				oProp.setProperty(pre+P_IMAGE_PATH, "/BW/src/resources/images/fungus.jpg");
+				oProp.setProperty(pre+P_IMAGE_PATH, "/BW/src/resources/images/fungus.png");
+				oProp.setProperty(pre+P_IMAGE_POSITIONING, eImagePositioning.DEFAULT.name());
 				break;
 			case RECTANGLE:
 				oProp.setProperty(pre+P_TYPE, eShapeType.RECTANGLE.toString());
 				oProp.setProperty(pre+P_WIDTH, 10);
 				oProp.setProperty(pre+P_HEIGHT, 1);
 				oProp.setProperty(pre+P_COLOR, Color.GREEN);
-				oProp.setProperty(pre+P_IMAGE_PATH, "/src/resources/images/wall1.jpg");
-				oProp.setProperty(pre+P_IMAGE_POSITIONING, eImagePositioning.STRETCHING.name());
+				oProp.setProperty(pre+P_IMAGE_PATH, "/src/resources/images/wall1.png");
+				oProp.setProperty(pre+P_IMAGE_POSITIONING, eImagePositioning.DEFAULT.name());
 				break;
 			case POLYGON:
 				//note only convex polygons are allowed!
