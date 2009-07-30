@@ -9,12 +9,11 @@
 package bw.utils.inspectors.body;
 
 
+import java.awt.BasicStroke;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.GradientPaint;
-
-
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartPanel;
 import org.jfree.chart.JFreeChart;
@@ -25,10 +24,10 @@ import org.jfree.chart.plot.CategoryPlot;
 import org.jfree.chart.plot.DatasetRenderingOrder;
 import org.jfree.chart.plot.PlotOrientation;
 import org.jfree.chart.renderer.category.BarRenderer;
-
+import org.jfree.chart.renderer.category.CategoryItemRenderer;
+import org.jfree.chart.renderer.category.LevelRenderer;
 import org.jfree.data.category.DefaultCategoryDataset;
 import bw.body.internalSystems.clsInternalSystem;
-
 import sim.display.GUIState;
 import sim.portrayal.Inspector;
 import sim.portrayal.LocationWrapper;
@@ -52,8 +51,11 @@ public class clsInspectorInternalSystems extends Inspector{
 	public sim.portrayal.Inspector moOriginalInspector;
 	private clsInternalSystem moInternalSystem;
 	
+
 	private ChartPanel moChartPanel;
-	private DefaultCategoryDataset moDatasetHealth;
+	private DefaultCategoryDataset moDataset;
+	private DefaultCategoryDataset moDatasetUpperLimits;
+	private DefaultCategoryDataset moDatasetLowerLimits;
 	
 
 	
@@ -75,11 +77,23 @@ public class clsInspectorInternalSystems extends Inspector{
     }
 	
 	private void initChart() {
-		moDatasetHealth = new DefaultCategoryDataset();
 
+		moDataset = new DefaultCategoryDataset();
+		moDatasetLowerLimits = new DefaultCategoryDataset();
+		moDatasetUpperLimits = new DefaultCategoryDataset();
+		
+		moDataset.addValue(moInternalSystem.getStomachSystem().getEnergy(), "Energy", "Energy");
+		moDatasetLowerLimits.addValue(0, "Lower Bound", "Energy");
+		moDatasetUpperLimits.addValue(10, "Upper Bound", "Energy");
 
-		moDatasetHealth.addValue(moInternalSystem.getHealthSystem().getHealth().getContent(), "Health", "Health");
-
+		
+		moDataset.addValue(moInternalSystem.getHealthSystem().getHealth().getContent(), "Health", "Health");
+		moDatasetLowerLimits.addValue(0, "Lower Bound", "Health");
+		moDatasetUpperLimits.addValue(10, "Upper Bound", "Health");
+		
+		moDataset.addValue(moInternalSystem.getStaminaSystem().getStamina().getContent(), "Stamina", "Stamina");
+		moDatasetLowerLimits.addValue(0, "Lower Bound", "Stamina");
+		moDatasetUpperLimits.addValue(10, "Upper Bound", "Stamina");
 
 //		for(Map.Entry<eNutritions, clsNutritionLevel> oNut : moStomachSystem.getList().entrySet() ) {
 //			moDataset.addValue( 4, "", "Nutrition "+oNut.getKey().toString()); //oNut.getValue().getContent()
@@ -89,9 +103,9 @@ public class clsInspectorInternalSystems extends Inspector{
 		
         JFreeChart oChartPanel = ChartFactory.createBarChart(
                 "Internal Systems",     // chart title
-                "IntSystems",               // domain axis label
+                "Sys",               // domain axis label
                 "",                  // range axis label
-                moDatasetHealth,                  // data
+                moDataset,                  // data
                 PlotOrientation.VERTICAL, // orientation
                 true,                     // include legend
                 true,                     // tooltips?
@@ -106,7 +120,7 @@ public class clsInspectorInternalSystems extends Inspector{
         // set the range axis to display integers only...
         NumberAxis rangeAxis = (NumberAxis) plot.getRangeAxis();
         rangeAxis.setStandardTickUnits(NumberAxis.createIntegerTickUnits());
-        rangeAxis.setUpperBound(5.0); //set the max value for the energy/nutrition
+        rangeAxis.setUpperBound(12.0); //set the max value for the energy/nutrition
 
         // disable bar outlines...
         BarRenderer renderer = (BarRenderer) plot.getRenderer();
@@ -122,7 +136,19 @@ public class clsInspectorInternalSystems extends Inspector{
                 CategoryLabelPositions.createUpRotationLabelPositions(
                         Math.PI / 6.0));
         
+        //adds the lower limits to the chart
+        CategoryItemRenderer renderer2 = new LevelRenderer();
+        renderer2.setSeriesStroke(0, new BasicStroke(2.0f));
+        renderer2.setSeriesStroke(1, new BasicStroke(2.0f));
+        plot.setDataset(1, moDatasetLowerLimits);
+        plot.setRenderer(1, renderer2);
         
+        //adds the upper limits to the chart
+        CategoryItemRenderer renderer3 = new LevelRenderer();
+        renderer3.setSeriesStroke(0, new BasicStroke(2.0f));
+        renderer3.setSeriesStroke(1, new BasicStroke(2.0f));
+        plot.setDataset(2, moDatasetUpperLimits);
+        plot.setRenderer(2, renderer3);
         plot.setDatasetRenderingOrder(DatasetRenderingOrder.FORWARD);
         
         moChartPanel = new ChartPanel(oChartPanel);
@@ -141,9 +167,41 @@ public class clsInspectorInternalSystems extends Inspector{
 	 */
 	@Override
 	public void updateInspector() {
-		// TODO (muchitsch) - Auto-generated method stub
 		
+		moDataset = new DefaultCategoryDataset();
+		moDataset.addValue(moInternalSystem.getStomachSystem().getEnergy(), "Energy", "Energy");
+		moDatasetLowerLimits.addValue(0, "Lower Bound", "Energy");
+		moDatasetUpperLimits.addValue(10, "Upper Bound", "Energy");
+
+		
+		moDataset.addValue(moInternalSystem.getHealthSystem().getHealth().getContent(), "Health", "Health");
+		moDatasetLowerLimits.addValue(0, "Lower Bound", "Health");
+		moDatasetUpperLimits.addValue(10, "Upper Bound", "Health");
+		
+		moDataset.addValue(moInternalSystem.getStaminaSystem().getStamina().getContent(), "Stamina", "Stamina");
+		moDatasetLowerLimits.addValue(0, "Lower Bound", "Stamina");
+		moDatasetUpperLimits.addValue(10, "Upper Bound", "Stamina");
+		
+		moDataset.addValue(moInternalSystem.getTemperatureSystem().getTemperature().getContent(), "Temperature", "Temperature");
+		moDatasetLowerLimits.addValue(0, "Lower Bound", "Temperature");
+		moDatasetUpperLimits.addValue(10, "Upper Bound", "Temperature");
+		
+		moDataset.addValue(moInternalSystem.getInternalEnergyConsumption().getSum(), "Int.Eng.Cons", "Int.Eng.Cons");
+		moDatasetLowerLimits.addValue(0, "Lower Bound", "Int.Eng.Cons");
+		moDatasetUpperLimits.addValue(10, "Upper Bound", "Int.Eng.Cons");
+		
+		//TODO: (langr) to be adapted when stomach system is ready to use
+//		for(Map.Entry<eNutritions, clsNutritionLevel> oNut : moStomachSystem.getList().entrySet() ) {
+//			moDataset.addValue( Math.random()*4, "Nutrition", "Nutrition "+oNut.getKey().toString()); //oNut.getValue().getContent()
+//			moDatasetLowerLimits.addValue(1, "Lower Bound", "Nutrition "+oNut.getKey().toString());
+//			moDatasetUpperLimits.addValue(4, "Upper Bound", "Nutrition "+oNut.getKey().toString());
+//		}
+		moChartPanel.getChart().getCategoryPlot().setDataset(moDataset);
+		moChartPanel.invalidate();		
+		
+		this.repaint();
 	}
+		
 	
 
 }
