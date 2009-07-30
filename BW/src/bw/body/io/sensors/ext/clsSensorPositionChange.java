@@ -52,18 +52,25 @@ public class clsSensorPositionChange extends clsSensorExt{
 	}
 	
 	public static clsBWProperties getDefaultProperties(String poPrefix) {
-		// String pre = clsBWProperties.addDot(poPrefix);
+		String pre = clsBWProperties.addDot(poPrefix);
 		
 		clsBWProperties oProp = new clsBWProperties();
+		oProp.putAll(clsSensorExt.getDefaultProperties(pre));
 		//nothing to do
 				
 		return oProp;
 	}	
 
 	private void applyProperties(String poPrefix, clsBWProperties poProp) {
-		//String pre = clsBWProperties.addDot(poPrefix);
-
-		//nothing to do
+		String pre = clsBWProperties.addDot(poPrefix);
+		
+		double nFieldOfView= poProp.getPropertyDouble(pre+P_SENSOR_FIELD_OF_VIEW);
+		double nRange = poProp.getPropertyDouble(pre+clsExternalIO.P_SENSORRANGE);
+		Double2D oOffset =  new Double2D(poProp.getPropertyDouble(pre+P_SENSOR_OFFSET_X),
+										 poProp.getPropertyDouble(pre+P_SENSOR_OFFSET_Y));
+	
+		//HZ -- initialise sensor engine - defines the maximum sensor range
+		assignSensorData(oOffset, nRange, nFieldOfView);	
 	}		
 	/* (non-Javadoc)
 	 *

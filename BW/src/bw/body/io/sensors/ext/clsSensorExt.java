@@ -16,9 +16,8 @@ import sim.physics2D.physicalObject.PhysicalObject2D;
 import sim.physics2D.util.Double2D;
 import ARSsim.physics2D.util.clsPolarcoordinate;
 import bw.body.io.clsBaseIO;
-//import bw.body.io.clsSensorActuatorBaseExt;
+import bw.body.io.clsExternalIO;
 import bw.body.io.sensors.itfSensorUpdate;
-import bw.entities.clsEntity;
 import bw.utils.config.clsBWProperties;
 
 
@@ -31,56 +30,40 @@ import bw.utils.config.clsBWProperties;
  */
 public abstract class clsSensorExt extends bw.body.io.sensors.external.clsSensorExt implements itfSensorUpdate {//clsSensorActuatorBaseExt implements itfSensorUpdate {
 
-
 	public static final String P_SENSOR_FIELD_OF_VIEW = "sensor_field_of_view";
-	public static final String P_SENSOR_RANGE = "sensor_range";
-	public static final String P_SENSOR_OFFSET_X = "sensor_offset_x";
-	public static final String P_SENSOR_OFFSET_Y = "senosr_offset_y";
-
-	protected clsSensorData moSensorData; 
-	private clsSensorEngine moSensorEngine;  
-	private static clsEntity moHostEntity;
+	public static final String P_SENSOR_OFFSET_X = "sensor_offset_X";
+	public static final String P_SENSOR_OFFSET_Y = "sensor_offset_Y";
 	
-
+	public clsSensorData moSensorData; 
+	private clsSensorEngine moSensorEngine;  
+	
 	/**
 	 * @param poBaseIO
 	 */
-	public clsSensorExt(String poPrefix, clsBWProperties poProp, clsBaseIO poBaseIO,
-								clsSensorEngine poSensorEngine, clsEntity poEntity) {
+	public clsSensorExt(String poPrefix, clsBWProperties poProp,  
+						clsBaseIO poBaseIO) {
 		super(poPrefix, poProp);
 		applyProperties(poPrefix, poProp);
-		
-		moSensorEngine = poSensorEngine;
-		moHostEntity = poEntity; 
-		registerSensorAtEngine(); 
+		moSensorEngine = ((clsExternalIO)poBaseIO).moSensorEngine; 			
 	}
 	
 	public static clsBWProperties getDefaultProperties(String poPrefix) {
 		String pre = clsBWProperties.addDot(poPrefix);
 		
 		clsBWProperties oProp = new clsBWProperties();
-		
-		oProp.setProperty(pre+P_SENSOR_FIELD_OF_VIEW, 2 * Math.PI );
-		oProp.setProperty(pre+P_SENSOR_RANGE, 60 );
-		oProp.setProperty(pre+P_SENSOR_OFFSET_X, 0.0 );
-		oProp.setProperty(pre+P_SENSOR_OFFSET_Y, 0.0 );
-						
+		oProp.setProperty(pre+P_SENSOR_FIELD_OF_VIEW, 2*Math.PI);
+		oProp.setProperty(pre+P_SENSOR_OFFSET_X, 0.0);
+		oProp.setProperty(pre+P_SENSOR_OFFSET_Y, 0.0);
 		return oProp;
 	}	
 
 	private void applyProperties(String poPrefix, clsBWProperties poProp) {
 		//String pre = clsBWProperties.addDot(poPrefix);
-
-		//nothing to do
+		
 	}		
 	
-	public void assignSensorData(clsSensorExt poSensor,Double2D poSensorPosition,
-										Double pnRange, Double pnAngle){
-		moSensorData = new clsSensorData(poSensor, poSensorPosition, pnRange, pnAngle); 
-	}
-	
-	public void registerSensorAtEngine(){
-		moSensorEngine.registerSensor(this);
+	public void assignSensorData(Double2D poSensorOffset,Double pnRange, Double pnAngle){
+		moSensorData = new clsSensorData(poSensorOffset,pnRange, pnAngle); 
 	}
 	
 	public clsSensorData getSensorDataObj(){
@@ -139,8 +122,9 @@ public abstract class clsSensorExt extends bw.body.io.sensors.external.clsSensor
 	
 	private void evaluateIfObjInFieldOfView(double poRelativeCoordinatesRad, PhysicalObject2D poPhysicalObject,
 											Double2D poCollisionPoint){
-	
-		if(moSensorData.checkIfObjectInView(poRelativeCoordinatesRad, moHostEntity.getPose().getAngle().radians, 
+		double nOrientation = moSensorEngine.getMeSensorAreas().firstEntry()
+												.getValue().getOrientation().radians;
+		if(moSensorData.checkIfObjectInView(poRelativeCoordinatesRad, nOrientation, 
 											moSensorData.mnFieldOfView)){
 	
 				clsTemporaryDetectedObjHolder.meDetectedObjectList.add(poPhysicalObject); 

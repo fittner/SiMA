@@ -10,11 +10,12 @@ package bw.body.io.sensors.ext;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 
 import sim.physics2D.physicalObject.PhysicalObject2D;
 import sim.physics2D.util.Double2D;
 import bw.body.io.clsBaseIO;
-import bw.entities.clsEntity;
+import bw.body.io.clsExternalIO;
 import bw.utils.config.clsBWProperties;
 import bw.utils.enums.eBodyParts;
 import bw.body.io.sensors.ext.clsSensorExt;
@@ -27,20 +28,19 @@ import bw.body.io.sensors.ext.clsSensorExt;
  * 
  */
 public class clsSensorVision extends clsSensorExt {
-		
-   public clsSensorVision(String poPrefix, clsBWProperties poProp, clsBaseIO poBaseIO, clsSensorEngine poSensorEngine, clsEntity poEntity) {
-		super(poPrefix, poProp, poBaseIO, poSensorEngine, poEntity);
+
+   private ArrayList<PhysicalObject2D> meSensorDataDeliveredToDU = new ArrayList<PhysicalObject2D>(); 	
+	
+   public clsSensorVision(String poPrefix, clsBWProperties poProp, clsBaseIO poBaseIO) {
+		super(poPrefix, poProp, poBaseIO);
 		applyProperties(poPrefix, poProp);
 	}
-	
 	
 	public static clsBWProperties getDefaultProperties(String poPrefix) {
 		String pre = clsBWProperties.addDot(poPrefix);
 		
 		clsBWProperties oProp = new clsBWProperties();
-		oProp.putAll(clsSensorExt.getDefaultProperties(pre) );
-		oProp.setProperty(pre+P_SENSOR_FIELD_OF_VIEW, Math.PI );
-		oProp.setProperty(pre+P_SENSOR_RANGE, 60.0 );
+		oProp.putAll(clsSensorExt.getDefaultProperties(pre));
 		
 		return oProp;
 	}	
@@ -48,21 +48,22 @@ public class clsSensorVision extends clsSensorExt {
 	private void applyProperties(String poPrefix, clsBWProperties poProp) {
 		String pre = clsBWProperties.addDot(poPrefix);
 		
-		Double nFieldOfView = poProp.getPropertyDouble(pre+P_SENSOR_FIELD_OF_VIEW);
-		Double nRange = poProp.getPropertyDouble(pre+P_SENSOR_RANGE);
-		Double nOffset_X = poProp.getPropertyDouble(pre+P_SENSOR_OFFSET_X);
-		Double nOffset_Y = poProp.getPropertyDouble(pre+P_SENSOR_OFFSET_Y);
-			
-
+		double nFieldOfView= poProp.getPropertyDouble(pre+P_SENSOR_FIELD_OF_VIEW);
+		double nRange = poProp.getPropertyDouble(pre+clsExternalIO.P_SENSORRANGE);
+		Double2D oOffset =  new Double2D(poProp.getPropertyDouble(pre+P_SENSOR_OFFSET_X),
+										 poProp.getPropertyDouble(pre+P_SENSOR_OFFSET_Y));
+	
 		//HZ -- initialise sensor engine - defines the maximum sensor range
-		assignSensorData((clsSensorExt)this,new Double2D(nOffset_X, nOffset_Y), 
-						  nRange, nFieldOfView);			
+		assignSensorData(oOffset, nRange, nFieldOfView);			
 	}
-		
-//	public ArrayList<PhysicalObject2D> getSensorData(){
-//		/*has to be implemented - return SensorData to Decision Unit*/
-//		return null; 
-//	}
+	/*has to be implemented - return SensorData to Decision Unit,
+	 * Actual, only the detected physical objects summarized in 
+	 * one ArrayList are returned. 
+	 * TODO: imply the sensor specific computation  
+     */	
+	public ArrayList<PhysicalObject2D> getSensorData(){
+		return meSensorDataDeliveredToDU; 
+	}
 
 	@Override
 	public void updateSensorData(Double pnAreaRange, 
@@ -72,6 +73,7 @@ public class clsSensorVision extends clsSensorExt {
 	
 		//System.out.println("Range " + pnRange + "  " + peObj.size());
 		setDetectedObjectsList(pnAreaRange, peDetectedObjInAreaList, peCollisionPointList);
+		computeDataDeliveredToDU(); 
     }
 	
 	@Override
@@ -80,6 +82,23 @@ public class clsSensorVision extends clsSensorExt {
 										HashMap<Integer, Double2D> peCollisionPointList){
 		
 		calculateObjInFieldOfView(pnAreaRange, peDetectedObjInAreaList, peCollisionPointList); 
+	}
+	
+	/*has to be implemented - return SensorData to Decision Unit,
+	 * Actual, only the detected physical objects summarized in 
+	 * one ArrayList are returned. 
+	 * TODO: imply the sensor specific computation  
+     */	
+	public void computeDataDeliveredToDU(){
+		meSensorDataDeliveredToDU.clear(); 
+		HashMap<Double, ArrayList<PhysicalObject2D>> eDetectedObjectList = moSensorData.getMeDetectedObject(); 
+		for(ArrayList<PhysicalObject2D> element : eDetectedObjectList.values())
+		{
+			Iterator <PhysicalObject2D> itr = element.iterator(); 
+			while(itr.hasNext()){
+				meSensorDataDeliveredToDU.add(itr.next()); 
+			}
+		}
 	}
 	
 	/* (non-Javadoc)

@@ -10,9 +10,10 @@ package bw.body.io.sensors.ext;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 
 import bw.body.io.clsBaseIO;
-import bw.entities.clsEntity;
+import bw.body.io.clsExternalIO;
 import bw.utils.config.clsBWProperties;
 import bw.utils.enums.eBodyParts;
 import sim.physics2D.physicalObject.PhysicalObject2D;
@@ -25,8 +26,10 @@ import sim.physics2D.util.Double2D;
  * 18.07.2009, 17:07:05
  * 
  */
+
 public class clsSensorEatableArea extends clsSensorExt{
 
+   private ArrayList<PhysicalObject2D> meSensorDataDeliveredToDU = new ArrayList<PhysicalObject2D>(); 	
 
 	/**
 	 * DOCUMENT (zeilinger) - insert description 
@@ -39,23 +42,17 @@ public class clsSensorEatableArea extends clsSensorExt{
 	 * @param poSensorEngine
 	 */
 
-	public clsSensorEatableArea(String poPrefix, clsBWProperties poProp,
-									clsBaseIO poBaseIO, clsSensorEngine poSensorEngine,clsEntity poEntity) {
-		super(poPrefix, poProp, poBaseIO, poSensorEngine, poEntity);
 
-		// TODO (zeilinger) - Auto-generated constructor stub
+	public clsSensorEatableArea(String poPrefix, clsBWProperties poProp,clsBaseIO poBaseIO) {
+		super(poPrefix, poProp, poBaseIO);
 		applyProperties(poPrefix, poProp);
 	}
-
 
 	public static clsBWProperties getDefaultProperties(String poPrefix) {
 		String pre = clsBWProperties.addDot(poPrefix);
 		
 		clsBWProperties oProp = new clsBWProperties();
 		oProp.putAll(clsSensorExt.getDefaultProperties(pre) );
-		oProp.setProperty(pre+P_SENSOR_RANGE, 20.0 );
-		
-		//TODO: Set Sensor Offset and the angle of the field of view
 		
 		return oProp;
 	}	
@@ -63,43 +60,19 @@ public class clsSensorEatableArea extends clsSensorExt{
 	private void applyProperties(String poPrefix, clsBWProperties poProp) {
 		String pre = clsBWProperties.addDot(poPrefix);
 		
-		Double nFieldOfView = poProp.getPropertyDouble(pre+P_SENSOR_FIELD_OF_VIEW);
-		Double nRange = poProp.getPropertyDouble(pre+P_SENSOR_RANGE);
-		Double nOffset_X = poProp.getPropertyDouble(pre+P_SENSOR_OFFSET_X);
-		Double nOffset_Y = poProp.getPropertyDouble(pre+P_SENSOR_OFFSET_Y);
-			
-
+		double nFieldOfView= poProp.getPropertyDouble(pre+P_SENSOR_FIELD_OF_VIEW);
+		double nRange = poProp.getPropertyDouble(pre+clsExternalIO.P_SENSORRANGE);
+		Double2D oOffset =  new Double2D(poProp.getPropertyDouble(pre+P_SENSOR_OFFSET_X),
+																 poProp.getPropertyDouble(pre+P_SENSOR_OFFSET_Y));
+	
 		//HZ -- initialise sensor engine - defines the maximum sensor range
-		assignSensorData((clsSensorExt)this,new Double2D(nOffset_X, nOffset_Y), 
-						  nRange, nFieldOfView);
+		assignSensorData(oOffset, nRange, nFieldOfView);		
 	}	
-
-	/* (non-Javadoc)
-	 *
-	 * @author zeilinger
-	 * 18.07.2009, 17:07:41
-	 * 
-	 * @see bw.body.io.clsSensorActuatorBase#setBodyPartId()
-	 */
-	@Override
-	protected void setBodyPartId() {
-		mePartId = eBodyParts.SENSOR_EXT_VISION_EATABLE_AREA;
-		
+	
+	public ArrayList<PhysicalObject2D> getSensorData(){
+		return meSensorDataDeliveredToDU; 
 	}
-
-	/* (non-Javadoc)
-	 *
-	 * @author zeilinger
-	 * 18.07.2009, 17:07:41
-	 * 
-	 * @see bw.body.io.clsSensorActuatorBase#setName()
-	 */
-	@Override
-	protected void setName() {
-		moName = "ext. Sensor Vision Eatable Area";
-		
-	}
-
+	
 	/* (non-Javadoc)
 	 *
 	 * @author zeilinger
@@ -126,6 +99,7 @@ public class clsSensorEatableArea extends clsSensorExt{
 			HashMap<Integer, Double2D> peCollisionPointList) {
 		// TODO (zeilinger) - Auto-generated method stub
 		setDetectedObjectsList(pnAreaRange, peDetectedObjInAreaList, peCollisionPointList);
+		computeDataDeliveredToDU(); 
 	}
 
 	/* (non-Javadoc)
@@ -142,5 +116,42 @@ public class clsSensorEatableArea extends clsSensorExt{
 		// TODO (zeilinger) - Auto-generated method stub
 		
 	}
+	
+	public void computeDataDeliveredToDU(){
+		meSensorDataDeliveredToDU.clear(); 
+		HashMap<Double, ArrayList<PhysicalObject2D>> eDetectedObjectList = moSensorData.getMeDetectedObject(); 
+		for(ArrayList<PhysicalObject2D> element : eDetectedObjectList.values())
+		{
+			Iterator <PhysicalObject2D> itr = element.iterator(); 
+			while(itr.hasNext()){
+				meSensorDataDeliveredToDU.add(itr.next()); 
+			}
+		}
+	}
 
+	/* (non-Javadoc)
+	 *
+	 * @author zeilinger
+	 * 18.07.2009, 17:07:41
+	 * 
+	 * @see bw.body.io.clsSensorActuatorBase#setBodyPartId()
+	 */
+	@Override
+	protected void setBodyPartId() {
+		mePartId = eBodyParts.SENSOR_EXT_VISION_EATABLE_AREA;
+		
+	}
+
+	/* (non-Javadoc)
+	 *
+	 * @author zeilinger
+	 * 18.07.2009, 17:07:41
+	 * 
+	 * @see bw.body.io.clsSensorActuatorBase#setName()
+	 */
+	@Override
+	protected void setName() {
+		moName = "ext. Sensor Vision Eatable Area";
+		
+	}
 }

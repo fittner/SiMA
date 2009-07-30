@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import bw.body.io.clsBaseIO;
+import bw.body.io.clsExternalIO;
 import bw.utils.config.clsBWProperties;
 
 import sim.physics2D.physicalObject.PhysicalObject2D;
@@ -37,8 +38,29 @@ public class clsSensorBump extends clsSensorExt{
 	public clsSensorBump(String poPrefix, clsBWProperties poProp,
 			clsBaseIO poBaseIO) {
 		super(poPrefix, poProp, poBaseIO);
-		// TODO (zeilinger) - Auto-generated constructor stub
+		applyProperties(poPrefix, poProp);
 	}
+	
+	public static clsBWProperties getDefaultProperties(String poPrefix) {
+		String pre = clsBWProperties.addDot(poPrefix);
+		
+		clsBWProperties oProp = new clsBWProperties();
+		oProp.putAll(clsSensorExt.getDefaultProperties(pre) );
+		
+		return oProp;
+	}	
+
+	private void applyProperties(String poPrefix, clsBWProperties poProp) {
+		String pre = clsBWProperties.addDot(poPrefix);
+		
+		double nFieldOfView= poProp.getPropertyDouble(pre+P_SENSOR_FIELD_OF_VIEW);
+		double nRange = poProp.getPropertyDouble(pre+clsExternalIO.P_SENSORRANGE);
+		Double2D oOffset =  new Double2D(poProp.getPropertyDouble(pre+P_SENSOR_OFFSET_X),
+																 poProp.getPropertyDouble(pre+P_SENSOR_OFFSET_Y));
+	
+		//HZ -- initialise sensor engine - defines the maximum sensor range
+		assignSensorData(oOffset, nRange, nFieldOfView);		
+	}	
 
 	/* (non-Javadoc)
 	 *

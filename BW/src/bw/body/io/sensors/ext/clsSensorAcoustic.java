@@ -12,7 +12,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import bw.body.io.clsBaseIO;
-import bw.entities.clsEntity;
+import bw.body.io.clsExternalIO;
 import bw.utils.config.clsBWProperties;
 import bw.utils.enums.eBodyParts;
 import sim.physics2D.physicalObject.PhysicalObject2D;
@@ -39,9 +39,8 @@ public class clsSensorAcoustic extends clsSensorExt{
 	 * @param poSensorEngine
 	 */
 
-	public clsSensorAcoustic(String poPrefix, clsBWProperties poProp, 
-							    clsBaseIO poBaseIO, clsSensorEngine poSensorEngine, clsEntity poEntity) {
-		super(poPrefix, poProp, poBaseIO, poSensorEngine, poEntity);
+	public clsSensorAcoustic(String poPrefix, clsBWProperties poProp,clsBaseIO poBaseIO) {
+		super(poPrefix, poProp, poBaseIO);
 
 		// TODO (zeilinger) - Auto-generated constructor stub
 		applyProperties(poPrefix, poProp);
@@ -53,23 +52,19 @@ public class clsSensorAcoustic extends clsSensorExt{
 		
 		clsBWProperties oProp = new clsBWProperties();
 		oProp.putAll(clsSensorExt.getDefaultProperties(pre) );
-		oProp.setProperty(pre+P_SENSOR_RANGE, 60.0 );
-		
+
 		return oProp;
 	}	
 
 	private void applyProperties(String poPrefix, clsBWProperties poProp) {
 		String pre = clsBWProperties.addDot(poPrefix);
 		
-		Double nFieldOfView = poProp.getPropertyDouble(pre+P_SENSOR_FIELD_OF_VIEW);
-		Double nRange = poProp.getPropertyDouble(pre+P_SENSOR_RANGE);
-		Double nOffset_X = poProp.getPropertyDouble(pre+P_SENSOR_OFFSET_X);
-		Double nOffset_Y = poProp.getPropertyDouble(pre+P_SENSOR_OFFSET_Y);
-			
-
-		//HZ -- initialise sensor engine - defines the maximum sensor range
-		assignSensorData((clsSensorExt)this,new Double2D(nOffset_X, nOffset_Y), 
-						  nRange, nFieldOfView);
+		double nFieldOfView= poProp.getPropertyDouble(pre+P_SENSOR_FIELD_OF_VIEW);
+		double nRange = poProp.getPropertyDouble(pre+clsExternalIO.P_SENSORRANGE);
+		Double2D oOffset =  new Double2D(poProp.getPropertyDouble(pre+P_SENSOR_OFFSET_X),
+																 poProp.getPropertyDouble(pre+P_SENSOR_OFFSET_Y));
+	
+		assignSensorData(oOffset, nRange, nFieldOfView);		
 	}	
 
 

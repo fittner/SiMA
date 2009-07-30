@@ -11,7 +11,6 @@ package bw.body.io.sensors.ext;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-import bw.body.io.sensors.ext.clsSensorExt;
 import bw.utils.sensors.clsSensorDataCalculation;
 import sim.physics2D.physicalObject.PhysicalObject2D;
 import sim.physics2D.util.Double2D;
@@ -31,8 +30,7 @@ public class clsSensorData extends clsSensorDataCalculation{
 	private HashMap<Double, ArrayList<PhysicalObject2D>> meDetectedObjects; 
 	private HashMap<Double, HashMap<Integer, Double2D>> meCollisionPoints; 
 	
-	public clsSensorData(clsSensorExt poSensorTyp, Double2D poSensorOffset,
-						 Double pnSensorRange, Double pnFieldOfview)
+	public clsSensorData(Double2D poSensorOffset,Double pnSensorRange, Double pnFieldOfview)
 	{		
 		moSensorOffset = poSensorOffset;
 		mnFieldOfView = pnFieldOfview; 

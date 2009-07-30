@@ -13,10 +13,15 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.TreeMap;
 
+import enums.eSensorExtType;
+
 import sim.physics2D.physicalObject.PhysicalObject2D;
 import sim.physics2D.util.Double2D;
+import bw.body.io.clsBaseIO;
+import bw.body.io.clsExternalIO;
 import bw.entities.clsEntity;
 import bw.physicalObjects.sensors.clsEntitySensorEngine;
+import bw.utils.config.clsBWProperties;
 import bw.exceptions.exInvalidSensorRange;
 
 /**
@@ -39,25 +44,52 @@ import bw.exceptions.exInvalidSensorRange;
  */
 public class clsSensorEngine{
 	
-	private HashMap<Double,ArrayList<clsSensorExt>> meRegisteredSensor;
+	private HashMap<eSensorExtType,clsSensorExt> meRegisteredSensors; 
+	private HashMap<Double,ArrayList<clsSensorExt>> meRegisteredSensorAtRange;
 	private HashMap <Double,ArrayList<PhysicalObject2D>> meDetectedObj;
 	private HashMap <Double, HashMap<Integer, Double2D>> meCollisionPoints;
 	private TreeMap<Double,clsEntitySensorEngine> meEntities;
-	private double[] mnRange = {0,20,40,60}; //HZ -- has to be set in increasing sequence 
+	private double[] mnRange; //HZ -- has to be set in increasing sequence
 		
-	public clsSensorEngine(clsEntity poHostEntity){
-		meRegisteredSensor = new HashMap<Double,ArrayList<clsSensorExt>>();
+	public clsSensorEngine(String poPrefix, clsBWProperties poProp, clsBaseIO poBaseIO){
+		meRegisteredSensors = new HashMap<eSensorExtType,clsSensorExt>();
+		meRegisteredSensorAtRange = new HashMap<Double,ArrayList<clsSensorExt>>();
 		meDetectedObj = new HashMap <Double,ArrayList<PhysicalObject2D>>();
 		meCollisionPoints = new HashMap<Double,HashMap <Integer, Double2D>>(); 
 		meEntities = new TreeMap<Double, clsEntitySensorEngine>(); 
 		
-		adaptSensorEngineRange(poHostEntity); 
-		registerEngineEntity(poHostEntity); 
+		applyProperties(poPrefix, poProp);
+		registerEngineEntity(((clsExternalIO)poBaseIO).moEntity); 
 	}
 	
-	private void adaptSensorEngineRange(clsEntity poHostEntity){
-		for(int index = 0; index < mnRange.length; index++){
-			mnRange[index]+=poHostEntity.getShape().getMaxXDistanceFromCenter(); 
+	public static clsBWProperties getDefaultProperties(String poPrefix) {
+		String pre = clsBWProperties.addDot(poPrefix);
+		
+		clsBWProperties oProp = new clsBWProperties();
+		oProp.putAll(clsExternalIO.getDefaultProperties(pre));
+		
+		return oProp;
+	}	
+
+	private void applyProperties(String poPrefix, clsBWProperties poProp) {
+		String pre = clsBWProperties.addDot(poPrefix);
+		
+		int nNumSteps = poProp.getPropertyInt(pre+clsExternalIO.P_NUMSTEPS);
+		double nStepRange = poProp.getPropertyDouble(pre+clsExternalIO.P_MAX_RANGE)/nNumSteps;
+		adaptSensorEngineRange(nNumSteps, nStepRange); 
+	}
+	
+	/*The default diameters of the sensor-engine entities are defined in mnRange. 
+	 * As the hostEntities - entity which the sensors are assigned to - is not 
+	 * punctual but from a specific size, mnRange is adapted to this size during 
+	 * the initialization.    
+	 * 
+	 */
+	private void adaptSensorEngineRange(Integer pnNumSteps, Double pnStepRange){
+		mnRange = new double[pnNumSteps];
+		
+		for(int index = 0;index < pnNumSteps; index++){
+			mnRange[index] = pnStepRange * (index+1); 
 		}
 	}
 	
@@ -68,10 +100,11 @@ public class clsSensorEngine{
 	}
 	
 	//every sensor has to register itself in the Sensor List
-	public void registerSensor(clsSensorExt poSensor){
+	public void registerSensor(eSensorExtType oSensorType, clsSensorExt poSensor){
 		double nSensorRange = poSensor.moSensorData.mnRange; 
 	
 		if(checkRange(nSensorRange)){
+			setMeRegisteredSensors(oSensorType, poSensor);
 			registerSensorAtRanges(poSensor);
 		}
 		else{
@@ -88,9 +121,17 @@ public class clsSensorEngine{
 		return false; 
 	}
 	
+	private void setMeRegisteredSensors(eSensorExtType poSensorType,clsSensorExt peSensor){
+		meRegisteredSensors.put(poSensorType,peSensor); 
+	}
+	
+	public HashMap<eSensorExtType, clsSensorExt> getMeRegisteredSensors(){
+		return meRegisteredSensors;
+	}
+	
 	public void registerSensorAtRanges(clsSensorExt poSensor){
 		double maxSensorRange = poSensor.moSensorData.mnRange; 
-		
+				
 		for(int index = 0; index< mnRange.length; index++){
 			if(mnRange[index]>maxSensorRange)
 				fillMeRegisteredSensor(poSensor, mnRange[index]); 
@@ -99,7 +140,7 @@ public class clsSensorEngine{
 	
 	private void fillMeRegisteredSensor(clsSensorExt poSensor, double pnRange){
 	
-		if(meRegisteredSensor.containsKey(pnRange)){
+		if(meRegisteredSensorAtRange.containsKey(pnRange)){
 			registerSensorToExistingRange(poSensor, pnRange);
 		}
 		else {
@@ -108,13 +149,13 @@ public class clsSensorEngine{
 	}
 	
 	public void registerSensorToExistingRange(clsSensorExt poSensor, double pnRange){
-		((ArrayList<clsSensorExt>)this.meRegisteredSensor.get(pnRange)).add(poSensor);
+		((ArrayList<clsSensorExt>)this.meRegisteredSensorAtRange.get(pnRange)).add(poSensor);
 	}
 	
 	public void defineNewRangeAndRegisterSensor(clsSensorExt poSensor, double pnRange){
 		ArrayList <clsSensorExt> meSensor = new ArrayList<clsSensorExt>();
 		meSensor.add(poSensor); 
-		meRegisteredSensor.put(pnRange,meSensor);
+		meRegisteredSensorAtRange.put(pnRange,meSensor);
 	}
 	
 	public void updateSensorData() {
@@ -163,7 +204,7 @@ public class clsSensorEngine{
 	}
 	
 	public void updateSensorDataAtRanges(){
-		Iterator <Double> rangeItr = meRegisteredSensor.keySet().iterator();
+		Iterator <Double> rangeItr = meRegisteredSensorAtRange.keySet().iterator();
 		
 		while(rangeItr.hasNext()){
 			double nRange = rangeItr.next();
@@ -172,7 +213,7 @@ public class clsSensorEngine{
 	}
 	
 	public void updateSensorDataAtSpecificRange(double pnRange){
-		Iterator <clsSensorExt> itr = ((ArrayList<clsSensorExt>)meRegisteredSensor.get(pnRange)).iterator();
+		Iterator <clsSensorExt> itr = ((ArrayList<clsSensorExt>)meRegisteredSensorAtRange.get(pnRange)).iterator();
 	
 		while(itr.hasNext()){
 			((clsSensorExt)itr.next()).updateSensorData(pnRange, meDetectedObj.get(pnRange),
@@ -191,5 +232,5 @@ public class clsSensorEngine{
 			e.printStackTrace();
 		}
 	}
-
+	
 }

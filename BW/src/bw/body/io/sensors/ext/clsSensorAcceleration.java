@@ -67,6 +67,7 @@ public class clsSensorAcceleration extends clsSensorExt{
 		String pre = clsBWProperties.addDot(poPrefix);
 		
 		clsBWProperties oProp = new clsBWProperties();
+		oProp.putAll(clsSensorExt.getDefaultProperties(pre));
 		oProp.setProperty(pre+P_START_VELOCITY_X, 0.0);
 		oProp.setProperty(pre+P_START_VELOCITY_Y, 0.0);
 				
@@ -75,9 +76,16 @@ public class clsSensorAcceleration extends clsSensorExt{
 
 	private void applyProperties(String poPrefix, clsBWProperties poProp) {
 		String pre = clsBWProperties.addDot(poPrefix);
-
+		
 		curVelocity = new Double2D(poProp.getPropertyDouble(pre+P_START_VELOCITY_X),
 									poProp.getPropertyDouble(pre+P_START_VELOCITY_Y));
+		double nFieldOfView= poProp.getPropertyDouble(pre+P_SENSOR_FIELD_OF_VIEW);
+		double nRange = poProp.getPropertyDouble(pre+clsExternalIO.P_SENSORRANGE);
+		Double2D oOffset =  new Double2D(poProp.getPropertyDouble(pre+P_SENSOR_OFFSET_X),
+										 poProp.getPropertyDouble(pre+P_SENSOR_OFFSET_Y));
+	
+		//HZ -- initialise sensor engine - defines the maximum sensor range
+		assignSensorData(oOffset, nRange, nFieldOfView);		
 	}	
 	
 	/* (non-Javadoc)
