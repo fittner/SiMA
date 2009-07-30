@@ -8,6 +8,7 @@
  */
 package bw.factories;
 
+import sim.clsBWMainWithUI;
 import bw.utils.config.clsBWProperties;
 
 /**
@@ -19,10 +20,13 @@ import bw.utils.config.clsBWProperties;
  */
 public class clsPropertiesGetter {
 	private clsBWProperties moProperties; 
-	
+	private clsBWProperties moSystemProperties;
+	private boolean mnDrawImages;
 	
 	protected clsPropertiesGetter() {
-		
+		moProperties = new clsBWProperties();
+		moSystemProperties = new clsBWProperties();
+		mnDrawImages = true;
 	}
 	
 	static private clsPropertiesGetter _instance = null;
@@ -42,4 +46,16 @@ public class clsPropertiesGetter {
 		(clsPropertiesGetter.instance()).moProperties = poProperties;
 	}
 
+	static public clsBWProperties getSystemProperties() {
+		return (clsPropertiesGetter.instance()).moSystemProperties;
+	}
+	
+	static public void setSystemProperties(clsBWProperties poProperties) {
+		(clsPropertiesGetter.instance()).moSystemProperties = poProperties;
+		(clsPropertiesGetter.instance()).mnDrawImages = poProperties.getPropertyBoolean(clsBWMainWithUI.P_DRAWIMAGES);
+	}	
+	
+	static public boolean drawImages() {
+		return (clsPropertiesGetter.instance()).mnDrawImages;
+	}
 }
