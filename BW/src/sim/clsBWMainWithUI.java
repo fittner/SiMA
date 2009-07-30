@@ -13,6 +13,7 @@ import sim.display.GUIState;
 import sim.engine.SimState;
 import sim.portrayal.Inspector;
 import sim.portrayal.continuous.ContinuousPortrayal2D;
+import statictools.clsGetARSPath;
 
 import java.awt.Color;
 import java.awt.Container;
@@ -21,7 +22,9 @@ import org.jfree.chart.ChartPanel;
 
 import enums.eEntityType;
 
+import bw.factories.clsPropertiesGetter;
 import bw.factories.clsSingletonMasonGetter;
+import bw.utils.config.clsBWProperties;
 import bw.utils.visualization.clsCharts;
 
 import java.awt.event.KeyEvent;
@@ -41,7 +44,16 @@ import javax.swing.JTabbedPane;
  * 
  */
 public class clsBWMainWithUI extends GUIState {
-
+    public static final String P_BACKGROUNDCOLOR = "backgroundcolor";
+    public static final String P_TITLE = "title";
+    public static final String P_CLIPPING = "clipping";
+    public static final String P_PORTRAYALTITLE = "portrayal_title";
+    public static final String P_DRAWIMAGES = "draw_images";
+    public static final String P_GAMEGRIDFRAMEVISIBLE = "gamegrid_visible";
+    public static final String P_MAINWINDOWTITLE = "mainwindowtitle";
+    
+    public static final String  F_CONFIGFILENAME = "system.properties";
+    
 	/** GUI widget which holds some number of field portrayals and frames, 
 	 * usually layered on top of one another */
 	private ARSsim.display.Display2D moDisplay;
@@ -75,6 +87,14 @@ public class clsBWMainWithUI extends GUIState {
 	 * @param args
 	 */
 	public static void main(String[] args){
+		String oPath = clsGetARSPath.getConfigPath();
+		try {
+			oPath = args[1];
+		} catch (java.lang.ArrayIndexOutOfBoundsException e) {
+			//do nothing 
+		}		
+		clsBWProperties oProp = clsBWProperties.readProperties(oPath, F_CONFIGFILENAME);
+		clsPropertiesGetter.setSystemProperties(oProp);
 		
 		clsBWMainWithUI oMainWithUI = new clsBWMainWithUI(args);
 		clsSingletonMasonGetter.setConsole( new ARSsim.display.Console(oMainWithUI) );
@@ -116,7 +136,12 @@ public class clsBWMainWithUI extends GUIState {
 	/** returns the title bar of the console
 	 * @return String
 	 */
-	public static String getName() { return "... BW V3.0 ..."; } 
+	public static String getName() { 
+    	clsBWProperties oProp = clsPropertiesGetter.getSystemProperties();
+    	String pre = "";
+    	
+		return oProp.getPropertyString(pre+P_MAINWINDOWTITLE); 
+	} 
 
     KeyListener listener = new KeyListener() {
         public void keyPressed(KeyEvent e) {
@@ -165,24 +190,44 @@ public class clsBWMainWithUI extends GUIState {
 */
       };
 	
+
+     
+     public static clsBWProperties getDefaultProperties(String poPrefix) {
+    	 String pre = clsBWProperties.addDot(poPrefix);
+    	 
+    	 clsBWProperties oProp = ARSsim.display.Display2D.getDefaultProperties(pre);
+    	 
+    	 oProp.setProperty(pre+P_BACKGROUNDCOLOR, Color.white);
+    	 oProp.setProperty(pre+P_TITLE, "BW V1.0 GameGrid");
+    	 oProp.setProperty(pre+P_CLIPPING, false);
+    	 oProp.setProperty(pre+P_PORTRAYALTITLE, "BW GameGrid");
+    	 oProp.setProperty(pre+P_DRAWIMAGES, true);
+    	 oProp.setProperty(pre+P_GAMEGRIDFRAMEVISIBLE, true);
+    	 oProp.setProperty(pre+P_MAINWINDOWTITLE, "BW V1.0");
+    	 
+    	 return oProp;
+     }
+      
     @Override
 	public void init(Controller poController){
+    	super.init(poController);
 		
-		super.init(poController);
-		
-		moDisplay = new ARSsim.display.Display2D(600,600,this,1); //TODO make me konfiguierbar
-		moDisplay.setClipping(false); //we�d like to see objects outside the width & height box
+    	clsBWProperties oProp = clsPropertiesGetter.getSystemProperties();
+    	String pre = "";
+    	
+		moDisplay = ARSsim.display.Display2D.createDisplay2d("", oProp, this);
+		moDisplay.setClipping( oProp.getPropertyBoolean(pre+P_CLIPPING) ); //we�d like to see objects outside the width & height box
 		
 		//let the display generate a frame for you
 		moDisplayGamegridFrame = moDisplay.createFrame();
-		moDisplayGamegridFrame.setTitle("BW V3.0 GameGrid");
+		moDisplayGamegridFrame.setTitle( oProp.getPropertyString(pre+P_TITLE) );
 		moDisplayGamegridFrame.addKeyListener(listener);
 		poController.registerFrame(moDisplayGamegridFrame); //register the JFrame with the Console to include it in the Console�s list
 		
 		// specify the backdrop color  -- what gets painted behind the displays
-		moDisplay.setBackdrop(Color.white); //TODO make me konfigurierbar
-		moDisplayGamegridFrame.setVisible(true);
-		moDisplay.attach(moGameGridPortrayal, "BW GameGrid"); //attach the Portrayal to the Display2D to display it 
+		moDisplay.setBackdrop( oProp.getPropertyColor(pre+P_BACKGROUNDCOLOR) );
+		moDisplayGamegridFrame.setVisible( oProp.getPropertyBoolean(pre+P_GAMEGRIDFRAMEVISIBLE) );
+		moDisplay.attach(moGameGridPortrayal, oProp.getPropertyString(pre+P_PORTRAYALTITLE) ); //attach the Portrayal to the Display2D to display it 
 		
 		clsSingletonMasonGetter.setDisplay2D(moDisplay);
 	
