@@ -12,6 +12,7 @@ import java.awt.Color;
 import du.utils.enums.eDecisionType;
 
 import bw.body.itfget.itfGetEatableArea;
+import bw.body.itfget.itfGetRadiation;
 import bw.body.itfget.itfGetVision;
 import bw.entities.tools.clsShapeCreator;
 import bw.utils.config.clsBWProperties;
@@ -29,7 +30,7 @@ import enums.eEntityType;
  * @author langr
  * 
  */
-public class clsAnimal extends clsAnimate implements itfGetVision, itfGetEatableArea{
+public class clsAnimal extends clsAnimate implements itfGetRadiation, itfGetVision, itfGetEatableArea{
 
 	private boolean mnAlive;
 	
