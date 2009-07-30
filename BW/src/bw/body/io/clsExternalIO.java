@@ -55,6 +55,7 @@ public class clsExternalIO extends clsBaseIO {
 	public static final String P_NUMSENSORS = "numsensors";
 	public static final String P_SENSORTYPE = "sensortype";
 	public static final String P_SENSORACTIVE = "sensoractive";	
+	public static final String P_SENSORRANGE = "sensorrange";
 	
 	private clsActionProcessor moProcessor; 
 	public  clsSensorEngine moSensorEngine; //-ZEILINGER integrate the senor engine
@@ -87,6 +88,7 @@ public class clsExternalIO extends clsBaseIO {
 		String pre = clsBWProperties.addDot(poPrefix);
 		
 		clsBWProperties oProp = new clsBWProperties();
+		oProp.setProperty(pre+P_SENSORRANGE, 0.0); // Default - changed later on
 		
 		oProp.setProperty(pre+P_NUMSENSORS, 6);
 		
