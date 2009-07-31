@@ -176,12 +176,12 @@ public class clsSensorEngine{
 	}
 	
 	private void getSensorData(){
-		for(int index=0; index < mnRange.length; index++){
-			meDetectedObj.put(mnRange[index], 
-						      meEntities.get(mnRange[index]).requestDetectedObjList());
-			meCollisionPoints.put(mnRange[index],
-								  meEntities.get(mnRange[index]).requestCollisionPointMap());
-		}
+//		for(int index=0; index < mnRange.length; index++){
+//			meDetectedObj.put(mnRange[index], 
+//						      meEntities.get(mnRange[index]).requestDetectedObjList());
+//			meCollisionPoints.put(mnRange[index],
+//								  meEntities.get(mnRange[index]).requestCollisionPointMap());
+//		}
 	}
 	
 	/* The SensorEngine works on the base of three entities which cover a different range
