@@ -1,5 +1,5 @@
 #
-#Fri Jul 31 09:42:46 CEST 2009
+#Fri Jul 31 09:53:32 CEST 2009
 body.bodyworld.consumefood.garbagenutritiontype=UNDIGESTABLE
 body.bodyworld.damagebump.healthpenalty=1
 body.bodyworld.damagebump.hurthreshold=0
@@ -123,18 +123,17 @@ body.sensorsext.1.sensoractive=true
 body.sensorsext.1.sensortype=BUMP
 body.sensorsext.2.offset=0.0
 body.sensorsext.2.sensor_angle=5.235987755982989
-body.sensorsext.2.sensor_range=60.0
+body.sensorsext.2.sensor_range=45.0
 body.sensorsext.2.sensoractive=true
 body.sensorsext.2.sensortype=VISION
 body.sensorsext.3.offset=0
 body.sensorsext.3.sensor_angle=6.283185307179586
-body.sensorsext.3.sensor_range=80
+body.sensorsext.3.sensor_range=45.0
 body.sensorsext.3.sensoractive=true
 body.sensorsext.3.sensortype=RADIATION
 body.sensorsext.4.offset=8
-body.sensorsext.4.range=3
 body.sensorsext.4.sensor_angle=6.283185307179586
-body.sensorsext.4.sensor_range=5
+body.sensorsext.4.sensor_range=3
 body.sensorsext.4.sensoractive=true
 body.sensorsext.4.sensortype=EATABLE_AREA
 body.sensorsext.5.sensoractive=true
