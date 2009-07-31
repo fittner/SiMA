@@ -8,8 +8,15 @@
  */
 package sim.creation.simplePropertyLoader;
 
+import java.awt.Color;
+
+import du.utils.enums.eDecisionType;
 import enums.eEntityType;
 import ARSsim.physics2D.util.clsPose;
+import bw.body.clsComplexBody;
+import bw.body.internalSystems.clsFlesh;
+import bw.body.internalSystems.clsInternalSystem;
+import bw.entities.clsAnimate;
 import bw.entities.clsBase;
 import bw.entities.clsBubble;
 import bw.entities.clsCake;
@@ -44,6 +51,7 @@ import sim.engine.SimState;
  */
 public class clsSimplePropertyLoader extends clsLoader {
 	public static final String P_WORLDBOUNDARYWALLS = "worldboundarywalls";
+	public static final String P_OVERWRITEDEFAULTS = "overwritedefaults";
 	public static final String P_ENTITYGROUPS = "entitygroups";
 	public static final String P_NUMENTITYGROUPS = "numentitygroups";
 	public static final String P_NUMENTITES = "numentities";
@@ -127,6 +135,9 @@ public class clsSimplePropertyLoader extends clsLoader {
 		oProp.setProperty(pre+P_ENTITYGROUPS+"."+i+"."+P_POSITIONS+"."+"2."+clsPose.P_POS_X, 100);
 		oProp.setProperty(pre+P_ENTITYGROUPS+"."+i+"."+P_POSITIONS+"."+"2."+clsPose.P_POS_Y, 100);
 		oProp.setProperty(pre+P_ENTITYGROUPS+"."+i+"."+P_POSITIONS+"."+"2."+clsPose.P_POS_ANGLE, Math.PI*2/3);
+		oProp.setProperty(pre+P_ENTITYGROUPS+"."+i+"."+P_OVERWRITEDEFAULTS+"."+clsAnimate.P_BODY+"."+clsComplexBody.P_INTERNAL+"."+
+														clsInternalSystem.P_FLESH+"."+clsFlesh.P_WEIGHT, 15);
+		oProp.setProperty(pre+P_ENTITYGROUPS+"."+i+"."+P_OVERWRITEDEFAULTS+"."+clsShapeCreator.P_COLOR, Color.RED);
 		
 		i++;
 		oProp.setProperty(pre+P_ENTITYGROUPS+"."+i+"."+P_ENTITYGROUPTYPE, eEntityType.REMOTEBOT.name());
@@ -140,14 +151,19 @@ public class clsSimplePropertyLoader extends clsLoader {
 		oProp.setProperty(pre+P_ENTITYGROUPS+"."+i+"."+P_ENTITYGROUPTYPE, eEntityType.PLANT.name());
 		oProp.setProperty(pre+P_ENTITYGROUPS+"."+i+"."+P_NUMENTITES, 1);
 		oProp.setProperty(pre+P_ENTITYGROUPS+"."+i+"."+P_POSITIONS+"."+P_POSITIONTYPE, ePositionType.RANDOM.name());
+		
 		i++;
 		oProp.setProperty(pre+P_ENTITYGROUPS+"."+i+"."+P_ENTITYGROUPTYPE, eEntityType.HARE.name());
 		oProp.setProperty(pre+P_ENTITYGROUPS+"."+i+"."+P_NUMENTITES, 1);
 		oProp.setProperty(pre+P_ENTITYGROUPS+"."+i+"."+P_POSITIONS+"."+P_POSITIONTYPE, ePositionType.RANDOM.name());
+		oProp.setProperty(pre+P_ENTITYGROUPS+"."+i+"."+P_OVERWRITEDEFAULTS+"."+clsAnimate.P_DECISION_TYPE, eDecisionType.HARE_JADEX.name());
+		
 		i++;
 		oProp.setProperty(pre+P_ENTITYGROUPS+"."+i+"."+P_ENTITYGROUPTYPE, eEntityType.LYNX.name());
 		oProp.setProperty(pre+P_ENTITYGROUPS+"."+i+"."+P_NUMENTITES, 1);
 		oProp.setProperty(pre+P_ENTITYGROUPS+"."+i+"."+P_POSITIONS+"."+P_POSITIONTYPE, ePositionType.RANDOM.name());
+		oProp.setProperty(pre+P_ENTITYGROUPS+"."+i+"."+P_OVERWRITEDEFAULTS+"."+clsAnimate.P_DECISION_TYPE, eDecisionType.LYNX_JAM.name());
+		
 		i++;
 		oProp.setProperty(pre+P_ENTITYGROUPS+"."+i+"."+P_ENTITYGROUPTYPE, eEntityType.BASE.name());
 		oProp.setProperty(pre+P_ENTITYGROUPS+"."+i+"."+P_NUMENTITES, 1);
@@ -157,14 +173,17 @@ public class clsSimplePropertyLoader extends clsLoader {
 		oProp.setProperty(pre+P_ENTITYGROUPS+"."+i+"."+P_ENTITYGROUPTYPE, eEntityType.CAN.name());
 		oProp.setProperty(pre+P_ENTITYGROUPS+"."+i+"."+P_NUMENTITES, 1);
 		oProp.setProperty(pre+P_ENTITYGROUPS+"."+i+"."+P_POSITIONS+"."+P_POSITIONTYPE, ePositionType.RANDOM.name());
+		
 		i++;
 		oProp.setProperty(pre+P_ENTITYGROUPS+"."+i+"."+P_ENTITYGROUPTYPE, eEntityType.CAKE.name());
 		oProp.setProperty(pre+P_ENTITYGROUPS+"."+i+"."+P_NUMENTITES, 1);
 		oProp.setProperty(pre+P_ENTITYGROUPS+"."+i+"."+P_POSITIONS+"."+P_POSITIONTYPE, ePositionType.RANDOM.name());
+		
 		i++;
 		oProp.setProperty(pre+P_ENTITYGROUPS+"."+i+"."+P_ENTITYGROUPTYPE, eEntityType.STONE.name());
 		oProp.setProperty(pre+P_ENTITYGROUPS+"."+i+"."+P_NUMENTITES, 1);
 		oProp.setProperty(pre+P_ENTITYGROUPS+"."+i+"."+P_POSITIONS+"."+P_POSITIONTYPE, ePositionType.RANDOM.name());
+		
 		i++;
 		oProp.setProperty(pre+P_ENTITYGROUPS+"."+i+"."+P_ENTITYGROUPTYPE, eEntityType.FUNGUS.name());
 		oProp.setProperty(pre+P_ENTITYGROUPS+"."+i+"."+P_NUMENTITES, 1);
@@ -174,6 +193,7 @@ public class clsSimplePropertyLoader extends clsLoader {
 		oProp.setProperty(pre+P_ENTITYGROUPS+"."+i+"."+P_ENTITYGROUPTYPE, eEntityType.URANIUM.name());
 		oProp.setProperty(pre+P_ENTITYGROUPS+"."+i+"."+P_NUMENTITES, 1);
 		oProp.setProperty(pre+P_ENTITYGROUPS+"."+i+"."+P_POSITIONS+"."+P_POSITIONTYPE, ePositionType.RANDOM.name());
+		
 		i++;
 		oProp.setProperty(pre+P_ENTITYGROUPS+"."+i+"."+P_ENTITYGROUPTYPE, eEntityType.CARROT.name());
 		oProp.setProperty(pre+P_ENTITYGROUPS+"."+i+"."+P_NUMENTITES, 1);
@@ -281,13 +301,13 @@ public class clsSimplePropertyLoader extends clsLoader {
     private void createEntityGroup(String poPrefix, clsBWProperties poProp) {
     	String pre = clsBWProperties.addDot(poPrefix);
     	eEntityType nType = eEntityType.valueOf(poProp.getPropertyString(pre+P_ENTITYGROUPTYPE));
+    	clsBWProperties oOverwrite = poProp.getSubset(pre+P_OVERWRITEDEFAULTS);
     	
     	
     	int num = poProp.getPropertyInt(pre+P_NUMENTITES);
     	for (int i=0; i<num; i++) {
-//    		String tmp_pre = pre+i+".";
     		clsBWProperties oEntityProperties = getEntityProperties(nType);
-    		oEntityProperties.addPrefix("");
+    		oEntityProperties.putAll( oOverwrite );
     		oEntityProperties.putAll( getPosition(pre, poProp, "", i) );
     		
     		createEntity("", oEntityProperties, nType);
