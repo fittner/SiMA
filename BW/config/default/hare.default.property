@@ -1,5 +1,5 @@
 #
-#Thu Jul 30 18:33:37 CEST 2009
+#Fri Jul 31 09:21:47 CEST 2009
 body.bodyworld.consumefood.garbagenutritiontype=UNDIGESTABLE
 body.bodyworld.damagebump.healthpenalty=1
 body.bodyworld.damagebump.hurthreshold=0
@@ -168,4 +168,4 @@ shape.radius=2.5
 shape.type=CIRCLE
 start_velocity_x=0.0
 start_velocity_y=0.0
-weight_structural=55.0
+weight_structural=150.0
