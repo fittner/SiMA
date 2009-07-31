@@ -22,11 +22,13 @@ public class clsPropertiesGetter {
 	private clsBWProperties moProperties; 
 	private clsBWProperties moSystemProperties;
 	private boolean mnDrawImages;
+	private boolean mnDrawSensors;
 	
 	protected clsPropertiesGetter() {
 		moProperties = new clsBWProperties();
 		moSystemProperties = new clsBWProperties();
 		mnDrawImages = false;
+		mnDrawSensors = false;
 	}
 	
 	static private clsPropertiesGetter _instance = null;
@@ -53,9 +55,14 @@ public class clsPropertiesGetter {
 	static public void setSystemProperties(clsBWProperties poProperties) {
 		(clsPropertiesGetter.instance()).moSystemProperties = poProperties;
 		(clsPropertiesGetter.instance()).mnDrawImages = poProperties.getPropertyBoolean(clsBWMainWithUI.P_DRAWIMAGES);
+		(clsPropertiesGetter.instance()).mnDrawSensors = poProperties.getPropertyBoolean(clsBWMainWithUI.P_DRAWSENSORS);
 	}	
 	
 	static public boolean drawImages() {
 		return (clsPropertiesGetter.instance()).mnDrawImages;
+	}
+	
+	static public boolean drawSensors() {
+		return (clsPropertiesGetter.instance()).mnDrawSensors;
 	}
 }

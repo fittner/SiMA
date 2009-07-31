@@ -49,6 +49,7 @@ public class clsBWMainWithUI extends GUIState {
     public static final String P_CLIPPING = "clipping";
     public static final String P_PORTRAYALTITLE = "portrayal_title";
     public static final String P_DRAWIMAGES = "draw_images";
+    public static final String P_DRAWSENSORS = "draw_sensors";
     public static final String P_GAMEGRIDFRAMEVISIBLE = "gamegrid_visible";
     public static final String P_MAINWINDOWTITLE = "mainwindowtitle";
     
@@ -204,6 +205,7 @@ public class clsBWMainWithUI extends GUIState {
     	 oProp.setProperty(pre+P_DRAWIMAGES, true);
     	 oProp.setProperty(pre+P_GAMEGRIDFRAMEVISIBLE, true);
     	 oProp.setProperty(pre+P_MAINWINDOWTITLE, "BW V1.0");
+    	 oProp.setProperty(pre+P_DRAWSENSORS, true);
     	 
     	 return oProp;
      }
