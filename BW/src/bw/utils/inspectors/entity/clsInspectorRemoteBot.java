@@ -16,9 +16,6 @@ import bw.entities.clsRemoteBot;
 import sim.display.GUIState;
 import sim.portrayal.Inspector;
 import sim.portrayal.LocationWrapper;
-import bw.utils.inspectors.clsInspectorUtils;
-
-
 import sim.util.gui.PropertyField;
 
 /**
@@ -75,7 +72,7 @@ public class clsInspectorRemoteBot extends Inspector {
 		//inspected fields....
 		Box oBox1 = new Box(BoxLayout.Y_AXIS);
 		
-		moProp1 = new  PropertyField("ID", clsInspectorUtils.FormatDouble(moRemoteBot.getId()), false, null, PropertyField.SHOW_TEXTFIELD);
+		moProp1 = new  PropertyField("ID", moRemoteBot.getId(), false, null, PropertyField.SHOW_TEXTFIELD);
 		
 		oBox1.add(moProp1, BorderLayout.AFTER_LAST_LINE);
 	
@@ -93,7 +90,7 @@ public class clsInspectorRemoteBot extends Inspector {
 	@Override
 	public void updateInspector() {
 		
-		moProp1.setValue(clsInspectorUtils.FormatDouble(moRemoteBot.getId()));
+//		moProp1.setValue(moFungus.getId()); // TD - this value does not change during runtime
 	}
 
 }

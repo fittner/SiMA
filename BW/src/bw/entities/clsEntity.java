@@ -52,7 +52,7 @@ public abstract class clsEntity {
 	protected double mrVariableWeight; // flesh + carried elements + ...
 	
 	protected eEntityType meEntityType;
-	private int mnId;
+	private String moId;
 	private boolean mnRegistered;
 	
 	private int mnUniqueId = clsSingletonUniqueIdGenerator.getUniqueId();
@@ -80,7 +80,7 @@ public abstract class clsEntity {
 	private void applyProperties(String poPrefix, clsBWProperties poProp) {
 		String pre = clsBWProperties.addDot(poPrefix);
 
-		setId( poProp.getPropertyInt(pre+P_ID ) );
+		setId( poProp.getPropertyString(pre+P_ID ) );
 		setStructuralWeight(poProp.getPropertyDouble(pre+P_STRUCTURALWEIGHT));
 	}
 	
@@ -260,8 +260,8 @@ public abstract class clsEntity {
 	 *
 	 * @return
 	 */
-	public int getId() {	
-		return mnId;	
+	public String getId() {	
+		return moId;	
 	}
 	
 	/**
@@ -272,8 +272,8 @@ public abstract class clsEntity {
 	 *
 	 * @param pnId
 	 */
-	public void setId(int pnId) {		
-		this.mnId = pnId;	
+	public void setId(String poId) {		
+		this.moId = poId;	
 	}
 
 	/**

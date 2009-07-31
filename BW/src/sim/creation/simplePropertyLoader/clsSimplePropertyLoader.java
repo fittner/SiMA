@@ -62,6 +62,7 @@ public class clsSimplePropertyLoader extends clsLoader {
 	public static final String P_ENTITYDEFAULTS  = "entitydefaults";
 
 	private int numentitygroups;
+	private int idcounter = 0;
 	
 	public static final int mnVersion = 1;
 	public static final int mnDownCompatibility = -1; // can read any old version
@@ -307,9 +308,9 @@ public class clsSimplePropertyLoader extends clsLoader {
     	int num = poProp.getPropertyInt(pre+P_NUMENTITES);
     	for (int i=0; i<num; i++) {
     		clsBWProperties oEntityProperties = getEntityProperties(nType);
+    		oEntityProperties.put( clsEntity.P_ID, nType.name()+"_"+i );
     		oEntityProperties.putAll( oOverwrite );
-    		oEntityProperties.putAll( getPosition(pre, poProp, "", i) );
-    		
+    		oEntityProperties.putAll( getPosition(pre, poProp, "", i) );    		
     		createEntity("", oEntityProperties, nType);
     	}
     }

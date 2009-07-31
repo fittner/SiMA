@@ -76,7 +76,7 @@ public class clsInspectorFungus extends Inspector {
 		//inspected fields....
 		Box oBox1 = new Box(BoxLayout.Y_AXIS);
 		
-		moProp1 = new  PropertyField("ID", clsInspectorUtils.FormatDouble(moFungus.getId()), false, null, PropertyField.SHOW_TEXTFIELD);
+		moProp1 = new  PropertyField("ID", moFungus.getId(), false, null, PropertyField.SHOW_TEXTFIELD);
 		moProp2 = new  PropertyField("FleshWeight", clsInspectorUtils.FormatDouble(moFungus.getFlesh().getWeight()), false, null, PropertyField.SHOW_TEXTFIELD);
 		
 		oBox1.add(moProp1, BorderLayout.AFTER_LAST_LINE);
@@ -96,7 +96,7 @@ public class clsInspectorFungus extends Inspector {
 	@Override
 	public void updateInspector() {
 		
-		moProp1.setValue(clsInspectorUtils.FormatDouble(moFungus.getId()));
+//		moProp1.setValue(moFungus.getId()); // TD - this value does not change during runtime
 		moProp2.setValue(clsInspectorUtils.FormatDouble(moFungus.getFlesh().getWeight()));
 	}
 
