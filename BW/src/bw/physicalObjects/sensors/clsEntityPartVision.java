@@ -23,6 +23,7 @@ import ARSsim.physics2D.shape.clsCircleBorder;
 import bw.entities.clsEntity;
 import bw.entities.clsMobile;
 import bw.entities.clsStationary;
+import bw.factories.clsPropertiesGetter;
 import bw.factories.clsSingletonMasonGetter;
 
 /**
@@ -84,7 +85,14 @@ public class clsEntityPartVision extends MobileObject2D implements Steppable{
 			
 	public void setShapeDrawing(){
 			moColor = Color.yellow;
-			moShape = new clsCircleBorder(mnRadius, mnRadius, moColor);			
+			
+			double pnAngle = 0.0;
+						 
+			if(clsPropertiesGetter.drawSensors())
+				 pnAngle = 2*Math.PI; 
+			
+			
+			moShape = new clsCircleBorder(mnRadius, pnAngle, moColor);			
 	}
 	/* (non-Javadoc)
 	 * @see sim.physics2D.physicalObject.PhysicalObject2D#handleCollision(sim.physics2D.physicalObject.PhysicalObject2D, sim.physics2D.util.Double2D)
