@@ -54,6 +54,7 @@ public class clsMainGetDefaultConfig {
 		String oBaseDir = clsGetARSPath.getConfigPath()+System.getProperty("file.separator")+"default";
 		String oSubExt = ".default.property";
 		String oMainExt = ".main.property";
+		String oSystemFile = "system.default.property";
 		
 		clsBWProperties.writeProperties(clsAnimal.getDefaultProperties(""), oBaseDir, "animal"+oSubExt, "");
 		clsBWProperties.writeProperties(clsAnimate.getDefaultProperties(""), oBaseDir, "animate"+oSubExt, "");
@@ -79,7 +80,7 @@ public class clsMainGetDefaultConfig {
 
 		clsBWProperties.writeProperties(clsSimplePropertyLoader.getDefaultProperties("", true), clsGetARSPath.getConfigPath(), "simplePropertyLoader"+oMainExt, "");
 		
-		clsBWProperties.writeProperties(clsBWMainWithUI.getDefaultProperties(""),  clsGetARSPath.getConfigPath(), clsBWMainWithUI.F_CONFIGFILENAME, "");
+		clsBWProperties.writeProperties(clsBWMainWithUI.getDefaultProperties(""),  clsGetARSPath.getConfigPath(), oSystemFile, "");
 		
 		System.out.println("done ...");
 	}

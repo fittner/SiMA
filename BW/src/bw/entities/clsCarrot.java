@@ -101,8 +101,8 @@ public class clsCarrot extends clsInanimate implements itfGetFlesh, itfAPEatable
 		oProp.putAll(clsInanimate.getDefaultProperties(pre) );
 		
 		oProp.putAll(clsInanimate.getDefaultProperties(pre) );
-		oProp.setProperty(pre+P_STRUCTURALWEIGHT, 50);
-		
+		oProp.setProperty(pre+P_STRUCTURALWEIGHT, 5000);
+
 		oProp.setProperty(pre+P_SHAPE+"."+clsShapeCreator.P_TYPE, eShapeType.CIRCLE.name());
 		oProp.setProperty(pre+P_SHAPE+"."+clsShapeCreator.P_RADIUS, "1.5");
 		oProp.setProperty(pre+P_SHAPE+"."+clsShapeCreator.P_COLOR, Color.orange);
@@ -119,16 +119,18 @@ public class clsCarrot extends clsInanimate implements itfGetFlesh, itfAPEatable
 		oProp.setProperty(pre+P_SHAPE_DEAD+"."+clsShapeCreator.P_IMAGE_PATH, "/BW/src/resources/images/carrot_grayscale.png");
 		oProp.setProperty(pre+P_SHAPE_DEAD+"."+clsShapeCreator.P_IMAGE_POSITIONING, eImagePositioning.DEFAULT.name());
 
-		oProp.setProperty(pre+P_BODY+"."+clsFlesh.P_WEIGHT, 0.5 );
-		oProp.setProperty(pre+P_BODY+"."+clsFlesh.P_NUMNUTRITIONS, 2 );
+		oProp.setProperty(pre+P_BODY+"."+clsFlesh.P_WEIGHT, 5.0 );
+		oProp.setProperty(pre+P_BODY+"."+clsFlesh.P_NUMNUTRITIONS, 3);
 		oProp.setProperty(pre+P_BODY+"."+"0."+clsFlesh.P_NUTRITIONTYPE, eNutritions.FAT.name());
-		oProp.setProperty(pre+P_BODY+"."+"0."+clsFlesh.P_NUTRITIONFRACTION, 5.0);
+		oProp.setProperty(pre+P_BODY+"."+"0."+clsFlesh.P_NUTRITIONFRACTION, 1.0);
 		oProp.setProperty(pre+P_BODY+"."+"1."+clsFlesh.P_NUTRITIONTYPE, eNutritions.WATER.name());
 		oProp.setProperty(pre+P_BODY+"."+"1."+clsFlesh.P_NUTRITIONFRACTION, 1.0);
+		oProp.setProperty(pre+P_BODY+"."+"2."+clsFlesh.P_NUTRITIONTYPE, eNutritions.UNDIGESTABLE.name());
+		oProp.setProperty(pre+P_BODY+"."+"2."+clsFlesh.P_NUTRITIONFRACTION, 1.0);		
 		oProp.setProperty(pre+P_BODY+"."+clsMeatBody.P_MAXWEIGHT, 15);
 		oProp.setProperty(pre+P_BODY+"."+clsMeatBody.P_REGROWRATE, 0);		
 		
-		oProp.setProperty(pre+P_REGROW_STEPS_MIN, 50);
+		oProp.setProperty(pre+P_REGROW_STEPS_MIN, 250);
 		oProp.setProperty(pre+P_REGROW_STEPS_MAX, 1000);
 		
 		return oProp;
@@ -167,6 +169,10 @@ public class clsCarrot extends clsInanimate implements itfGetFlesh, itfAPEatable
 		//withdraw from the flesh the food corresponding the bite size in weight
 		clsFood oFood = getFlesh().withdraw(prBiteSize);
 		
+		if (mnShapeUpdated && getFlesh().getTotallyConsumed()) {
+			mnShapeUpdated = false;
+		}
+		
 		setVariableWeight(getFlesh().getWeight());
 		
 		//return the chunk of food
@@ -181,7 +187,11 @@ public class clsCarrot extends clsInanimate implements itfGetFlesh, itfAPEatable
 	 * @see bw.body.io.actuators.actionProxies.itfAPEatable#tryEat()
 	 */
 	public double tryEat() {
-		return 0;
+		if (getFlesh().getTotallyConsumed()) {
+			return 1;
+		} else {
+			return 0;
+		}
 	}
 
 	/* (non-Javadoc)

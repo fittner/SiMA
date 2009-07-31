@@ -25,20 +25,22 @@ import bw.utils.tools.clsNutritionLevel;
 public class clsStomachSystem implements itfStepUpdateInternalState {
     public static final String P_NUMNUTRITIONS = "numnutritions";
 	public static final String P_NUTRITIONTYPE = "type";
-	public static final String P_NUTRITIONFRACTION = "fraction";
+	public static final String P_NUTRITIONEFFICIENCY = "efficiency";
+	public static final String P_NUTRITIONMETABOLISMFACTOR = "metabolismfactor";
 	
 	private HashMap<eNutritions, clsNutritionLevel> moNutritions;
-	private HashMap<eNutritions, Double> moFractions;
-	private double mrFractionSum;
+	private HashMap<eNutritions, Double> moEnergyMetabolismFactor;
+	private HashMap<eNutritions, Double> moEnergyEfficiency;
+	
 	private double mrEnergy;
 	
 	public clsStomachSystem(String poPrefix, clsBWProperties poProp) {
 		moNutritions = new HashMap<eNutritions, clsNutritionLevel>();
-		moFractions = new HashMap<eNutritions, Double>();
+		moEnergyEfficiency = new HashMap<eNutritions, Double>();
+		moEnergyMetabolismFactor = new HashMap<eNutritions, Double>();
 		
 		applyProperties(poPrefix, poProp);
 		
-		updateFractionSum();
 		updateEnergy();
 	}
 
@@ -47,39 +49,57 @@ public class clsStomachSystem implements itfStepUpdateInternalState {
 		
 		clsBWProperties oProp = new clsBWProperties();
 		
-		oProp.setProperty(pre+P_NUMNUTRITIONS, 8);
+		int i = 0;
+		
+		oProp.setProperty(pre+i+"."+P_NUTRITIONTYPE, eNutritions.FAT.toString());
+		oProp.setProperty(pre+i+"."+P_NUTRITIONEFFICIENCY, 1);
+		oProp.setProperty(pre+i+"."+P_NUTRITIONMETABOLISMFACTOR, 1);
+		oProp.putAll( clsNutritionLevel.getDefaultProperties(pre+i+".") );
+		i++;
 
-		oProp.setProperty(pre+"0."+P_NUTRITIONTYPE, eNutritions.FAT.toString());
-		oProp.setProperty(pre+"0."+P_NUTRITIONFRACTION, 1);
-		oProp.putAll( clsNutritionLevel.getDefaultProperties(pre+"0.") );
+		oProp.setProperty(pre+i+"."+P_NUTRITIONTYPE, eNutritions.PROTEIN.toString());
+		oProp.setProperty(pre+i+"."+P_NUTRITIONEFFICIENCY, 1);
+		oProp.setProperty(pre+i+"."+P_NUTRITIONMETABOLISMFACTOR, 1);
+		oProp.putAll( clsNutritionLevel.getDefaultProperties(pre+i+".") );
+		i++;
 
-		oProp.setProperty(pre+"1."+P_NUTRITIONTYPE, eNutritions.PROTEIN.toString());
-		oProp.setProperty(pre+"1."+P_NUTRITIONFRACTION, 1);
-		oProp.putAll( clsNutritionLevel.getDefaultProperties(pre+"1.") );
+		oProp.setProperty(pre+i+"."+P_NUTRITIONTYPE, eNutritions.VITAMIN.toString());
+		oProp.setProperty(pre+i+"."+P_NUTRITIONEFFICIENCY, 1);
+		oProp.setProperty(pre+i+"."+P_NUTRITIONMETABOLISMFACTOR, 1);
+		oProp.putAll( clsNutritionLevel.getDefaultProperties(pre+i+".") );
+		i++;
 
-		oProp.setProperty(pre+"2."+P_NUTRITIONTYPE, eNutritions.VITAMIN.toString());
-		oProp.setProperty(pre+"2."+P_NUTRITIONFRACTION, 1);
-		oProp.putAll( clsNutritionLevel.getDefaultProperties(pre+"2.") );
+		oProp.setProperty(pre+i+"."+P_NUTRITIONTYPE, eNutritions.CARBOHYDRATE.toString());
+		oProp.setProperty(pre+i+"."+P_NUTRITIONEFFICIENCY, 1);
+		oProp.setProperty(pre+i+"."+P_NUTRITIONMETABOLISMFACTOR, 1);
+		oProp.putAll( clsNutritionLevel.getDefaultProperties(pre+i+".") );
+		i++;
 
-		oProp.setProperty(pre+"3."+P_NUTRITIONTYPE, eNutritions.CARBOHYDRATE.toString());
-		oProp.setProperty(pre+"3."+P_NUTRITIONFRACTION, 1);
-		oProp.putAll( clsNutritionLevel.getDefaultProperties(pre+"3.") );
+		oProp.setProperty(pre+i+"."+P_NUTRITIONTYPE, eNutritions.WATER.toString());
+		oProp.setProperty(pre+i+"."+P_NUTRITIONEFFICIENCY, 1);
+		oProp.setProperty(pre+i+"."+P_NUTRITIONMETABOLISMFACTOR, 1);
+		oProp.putAll( clsNutritionLevel.getDefaultProperties(pre+i+".") );
+		i++;
 
-		oProp.setProperty(pre+"4."+P_NUTRITIONTYPE, eNutritions.WATER.toString());
-		oProp.setProperty(pre+"4."+P_NUTRITIONFRACTION, 1);
-		oProp.putAll( clsNutritionLevel.getDefaultProperties(pre+"4.") );
+		oProp.setProperty(pre+i+"."+P_NUTRITIONTYPE, eNutritions.MINERAL.toString());
+		oProp.setProperty(pre+i+"."+P_NUTRITIONEFFICIENCY, 1);
+		oProp.setProperty(pre+i+"."+P_NUTRITIONMETABOLISMFACTOR, 1);
+		oProp.putAll( clsNutritionLevel.getDefaultProperties(pre+i+".") );
+		i++;
 
-		oProp.setProperty(pre+"5."+P_NUTRITIONTYPE, eNutritions.MINERAL.toString());
-		oProp.setProperty(pre+"5."+P_NUTRITIONFRACTION, 1);
-		oProp.putAll( clsNutritionLevel.getDefaultProperties(pre+"5.") );
+		oProp.setProperty(pre+i+"."+P_NUTRITIONTYPE, eNutritions.TRACEELEMENT.toString());
+		oProp.setProperty(pre+i+"."+P_NUTRITIONEFFICIENCY, 1);
+		oProp.setProperty(pre+i+"."+P_NUTRITIONMETABOLISMFACTOR, 1);
+		oProp.putAll( clsNutritionLevel.getDefaultProperties(pre+i+".") );
+		i++;
 
-		oProp.setProperty(pre+"6."+P_NUTRITIONTYPE, eNutritions.TRACEELEMENT.toString());
-		oProp.setProperty(pre+"6."+P_NUTRITIONFRACTION, 1);
-		oProp.putAll( clsNutritionLevel.getDefaultProperties(pre+"6.") );
+		oProp.setProperty(pre+i+"."+P_NUTRITIONTYPE, eNutritions.UNDIGESTABLE.toString());
+		oProp.setProperty(pre+i+"."+P_NUTRITIONEFFICIENCY, 0);
+		oProp.setProperty(pre+i+"."+P_NUTRITIONMETABOLISMFACTOR, 0);
+		oProp.putAll( clsNutritionLevel.getDefaultProperties(pre+i+".") );
+		i++;
 
-		oProp.setProperty(pre+"7."+P_NUTRITIONTYPE, eNutritions.UNDIGESTABLE.toString());
-		oProp.setProperty(pre+"7."+P_NUTRITIONFRACTION, 1);
-		oProp.putAll( clsNutritionLevel.getDefaultProperties(pre+"7.") );
+		oProp.setProperty(pre+P_NUMNUTRITIONS, i);
 		
 		return oProp;
 	}	
@@ -92,11 +112,12 @@ public class clsStomachSystem implements itfStepUpdateInternalState {
         	String tmp_pre = pre+i+".";
         	
        		clsNutritionLevel oNL = new clsNutritionLevel(tmp_pre, poProp);
-       		double rFraction = poProp.getPropertyDouble(tmp_pre+P_NUTRITIONFRACTION);
+       		double rEfficiency = poProp.getPropertyDouble(tmp_pre+P_NUTRITIONEFFICIENCY);
+       		double rFactor = poProp.getPropertyDouble(tmp_pre+P_NUTRITIONMETABOLISMFACTOR);
 			String oSM = poProp.getPropertyString(tmp_pre+P_NUTRITIONTYPE);
 			eNutritions nSM = eNutritions.valueOf(oSM);
 			
-			addNutritionType(nSM, oNL, rFraction);
+			addNutritionType(nSM, oNL, rEfficiency, rFactor);
         }
 	}		
 	
@@ -116,37 +137,24 @@ public class clsStomachSystem implements itfStepUpdateInternalState {
 	 *
 	 * @param poId
 	 */
-	public void addNutritionType(eNutritions poId, clsNutritionLevel poNL, double prDefaultFraction) {
+	public void addNutritionType(eNutritions poId, clsNutritionLevel poNL, double prDefaultEfficiency, double prDefaultFactor) {
 		if (!(moNutritions.containsKey(poId))) {
 			moNutritions.put(poId, poNL);
-			moFractions.put(poId, new Double(prDefaultFraction));
+			moEnergyEfficiency.put(poId, new Double(prDefaultEfficiency));
+			moEnergyMetabolismFactor.put(poId, new Double(prDefaultFactor));
 		}
 		
-		updateFractionSum();
 		updateEnergy();		
 	}
 	
 	public void removeNutritionType(eNutritions poId) {
 		if (moNutritions.containsKey(poId)) {
 			moNutritions.remove(poId);
+			moEnergyEfficiency.remove(poId);
+			moEnergyMetabolismFactor.remove(poId);
 		}
-		
-		updateFractionSum();
+
 		updateEnergy();
-	}
-	
-	/**
-	 * DOCUMENT (deutsch) - insert description
-	 *
-	 */
-	private void updateFractionSum() {
-		mrFractionSum = 0.0;
-		
-		Iterator<eNutritions> i = moFractions.keySet().iterator();
-		
-		while (i.hasNext()) {
-			mrFractionSum += moFractions.get(i.next());
-		}
 	}
 	
 	/**
@@ -234,114 +242,59 @@ public class clsStomachSystem implements itfStepUpdateInternalState {
 		
 		return rResult;		
 	}	
-	
+		
 	/**
 	 * DOCUMENT (deutsch) - insert description
 	 *
 	 * @param prAmount
 	 * @return
 	 */
-	public clsChangeEnergyResult addEnergy(double prAmount) {
-		double rAmountFraction = prAmount / this.mrFractionSum;
+	public clsChangeEnergyResult withdrawEnergy(double prAmount) {
 		clsChangeEnergyResult oResult = new clsChangeEnergyResult();
-		double rEnergyLevel = this.getEnergy();
-
-		Iterator<eNutritions> i = moNutritions.keySet().iterator();
 		
-		while (i.hasNext()) {
-			eNutritions oKey = i.next();
+		if (prAmount > 0) {
+			double rEnergyLevel = this.getEnergy();
 			
-			clsNutritionLevel oNL = moNutritions.get(oKey);
+			Iterator<eNutritions> i = moNutritions.keySet().iterator();
 			
-			double rFraction = moFractions.get(oKey).floatValue();
-			double rContent = oNL.getContent();
-			double rFractionPercentage = 0.0f;
+			while (i.hasNext()) {
+				eNutritions oKey = i.next();
+				
+				clsNutritionLevel oNL = moNutritions.get(oKey);
+				
+				double rFactor = moEnergyMetabolismFactor.get(oKey);			
+				double rContent = oNL.getContent();
+				double rFractionPercentage = 1.0f;
+				double rDecreaseAmount = prAmount * rFactor;
+				
+				try {
+					oNL.decrease(rDecreaseAmount);	
+				} catch (exContentColumnMaxContentExceeded e) {
+					try {
+						rFractionPercentage = (oNL.getMaxContent() - rContent) / rDecreaseAmount;
+					} catch (java.lang.ArithmeticException ee) {				
+					}					
+				
+				} catch (exContentColumnMinContentUnderrun e) {
+					try {
+						rFractionPercentage = rContent / rDecreaseAmount;
+					} catch (java.lang.ArithmeticException ee) {				
+					}					
+					
+				}
+				
+				oResult.addFraction(oKey, new Double( rFractionPercentage ));
+			}		
+			
+			this.updateEnergy();	
+			
+			double rEnergyLevelUpdate = this.getEnergy();
 			
 			try {
-				oNL.increase(rFraction * rAmountFraction);
-				rFractionPercentage = 1.0f;
-				
-			} catch (exContentColumnMaxContentExceeded e) {
-				try {
-					rFractionPercentage = (oNL.getMaxContent() - rContent) / prAmount;
-				} catch (java.lang.ArithmeticException ee) {				
-				}					
-			
-			} catch (exContentColumnMinContentUnderrun e) {
-				try {
-					rFractionPercentage = rContent / prAmount;
-				} catch (java.lang.ArithmeticException ee) {				
-				}					
-				
+				oResult.setTotalPercentage( (rEnergyLevelUpdate-rEnergyLevel) / prAmount );
+			} catch (java.lang.ArithmeticException e) {
 			}
 			
-			oResult.addFraction(oKey, new Double( rFractionPercentage ));
-			
-		}
-				
-		this.updateEnergy();
-		
-		double rEnergyLevelUpdate = this.getEnergy();
-		
-		try {
-			oResult.setTotalPercentage( (rEnergyLevelUpdate-rEnergyLevel) / prAmount );
-		} catch (java.lang.ArithmeticException e) {
-		}
-		
-		return oResult;
-	}
-	
-	/**
-	 * DOCUMENT (deutsch) - insert description
-	 *
-	 * @param prAmount
-	 * @return
-	 */
-	public clsChangeEnergyResult withdrawEnergy(double prAmount) {		
-		double rAmountFraction = prAmount / this.mrFractionSum;
-		clsChangeEnergyResult oResult = new clsChangeEnergyResult();
-		double rEnergyLevel = this.getEnergy();
-		
-		Iterator<eNutritions> i = moNutritions.keySet().iterator();
-		
-		while (i.hasNext()) {
-			eNutritions oKey = i.next();
-			
-			clsNutritionLevel oNL = moNutritions.get(oKey);
-			
-			double rFraction = moFractions.get(oKey).floatValue();			
-			double rContent = oNL.getContent();
-			double rFractionPercentage = 0.0f;
-
-			try {
-				oNL.decrease(rFraction * rAmountFraction);
-				rFractionPercentage = 1.0f;
-				
-			} catch (exContentColumnMaxContentExceeded e) {
-				try {
-					rFractionPercentage = (oNL.getMaxContent() - rContent) / prAmount;
-				} catch (java.lang.ArithmeticException ee) {				
-				}					
-			
-			} catch (exContentColumnMinContentUnderrun e) {
-				try {
-					rFractionPercentage = rContent / prAmount;
-				} catch (java.lang.ArithmeticException ee) {				
-				}					
-				
-			}
-			
-			oResult.addFraction(oKey, new Double( rFractionPercentage ));
-			
-		}		
-		
-		this.updateEnergy();	
-		
-		double rEnergyLevelUpdate = this.getEnergy();
-		
-		try {
-			oResult.setTotalPercentage( (rEnergyLevelUpdate-rEnergyLevel) / prAmount );
-		} catch (java.lang.ArithmeticException e) {
 		}
 		
 		return oResult;
@@ -374,9 +327,9 @@ public class clsStomachSystem implements itfStepUpdateInternalState {
 			eNutritions oKey = i.next();
 			
 			clsNutritionLevel oNL = moNutritions.get(oKey);
-			double rFraction = moFractions.get(oKey);
+			double rEfficiency = moEnergyEfficiency.get(oKey);
 			
-			mrEnergy += oNL.getContent() * rFraction;
+			mrEnergy += oNL.getContent() * rEfficiency;
 		}
 		
 	}

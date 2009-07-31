@@ -55,7 +55,7 @@ public class clsDamageNutrition implements itfStepUpdateInternalState {
 		
 		oProp.setProperty(pre+P_PAINTHRESHOLD, 0.1);
 		oProp.setProperty(pre+P_PAINFACTOR, 1);
-		oProp.setProperty(pre+P_HEALTHPENALTY, 0.5);
+		oProp.setProperty(pre+P_HEALTHPENALTY, 0.06);
 				
 		return oProp;
 	}	

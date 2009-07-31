@@ -99,6 +99,7 @@ public abstract class clsActionExecutor extends clsSensorActuatorBaseExt {
 			
 			if (oIntEntity !=null ) {
 				if (poInterface.isAssignableFrom(oIntEntity.getClass())  ) {
+//FIXME (dönz) - e.g. one hare, one carrot, one eatable ares. null is returned if the eatable area overlaps with its own hare body. correct return value should be carrot. TD 					
 					if (oEntity !=null) return null;
 					oEntity=oIntEntity;
 				}

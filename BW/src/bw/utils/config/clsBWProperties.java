@@ -784,6 +784,12 @@ public class clsBWProperties extends Properties {
 	 * @param poPrefix
 	 */
 	public void removeKeysStartingWith(String poPrefix) {
+		
+		//ensure, that tailing dots are removed.
+		if (poPrefix.endsWith(".")) {
+			poPrefix = poPrefix.substring(0, poPrefix.length()-1);
+		}
+		
 		//remove direct match
 		this.remove(poPrefix);
 		

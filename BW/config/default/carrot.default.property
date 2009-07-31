@@ -1,13 +1,15 @@
 #
-#Fri Jul 31 09:53:32 CEST 2009
-body.0.fraction=5.0
+#Fri Jul 31 12:12:50 CEST 2009
+body.0.fraction=1.0
 body.0.type=FAT
 body.1.fraction=1.0
 body.1.type=WATER
+body.2.fraction=1.0
+body.2.type=UNDIGESTABLE
 body.maxweight=15
-body.numnutritions=2
+body.numnutritions=3
 body.regrowrate=0
-body.weight=0.5
+body.weight=1.0
 def_coeff_friction=0.5
 def_restitution=1.0
 def_static_friction=0.2
@@ -32,4 +34,4 @@ shape_fresh.radius=1.5
 shape_fresh.type=CIRCLE
 start_velocity_x=0.0
 start_velocity_y=0.0
-weight_structural=50
+weight_structural=5000

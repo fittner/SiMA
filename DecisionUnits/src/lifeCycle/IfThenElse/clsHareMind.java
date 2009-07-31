@@ -1,6 +1,8 @@
 package lifeCycle.IfThenElse;
 
 
+import java.awt.Color;
+
 import decisionunit.itf.actions.clsActionMove;
 import decisionunit.itf.actions.clsActionTurn;
 import decisionunit.itf.actions.itfActionProcessor;
@@ -43,7 +45,7 @@ public class clsHareMind extends clsRemoteControl { //should be derived from cls
 	private int mnStepsToRepeatLastAction = 20; //after these steps the next action is considered
 	private  static int mnRepeatRange = 100; //random generator goes from 0 to mnRepeatRange
 	private int mnCurrentActionCode = 0; //default move forward
-	private static double mnHungryThreasholed = 4; //energy level, where hare gets hungry
+	private static double mnHungryThreasholed = 4.5; //energy level, where hare gets hungry
 	
 	public void doHareThinking(itfActionProcessor poActionProcessor) {
 		
@@ -69,18 +71,30 @@ public class clsHareMind extends clsRemoteControl { //should be derived from cls
 	public boolean checkEatableArea() 	{
 		boolean nRetVal = false;
 		clsEatableArea oEatArea = (clsEatableArea) getSensorData().getSensorExt(eSensorExtType.EATABLE_AREA);
-		if(oEatArea.mnNumEntitiesPresent > 0 && oEatArea.mnTypeOfFirstEntity == eEntityType.CARROT)
+		if(oEatArea.mnNumEntitiesPresent > 0 && oEatArea.mnTypeOfFirstEntity == eEntityType.CARROT &&
+				oEatArea.moColorOfFirstEntity != null && oEatArea.moColorOfFirstEntity.equals(Color.orange))
 		{
 			nRetVal = true;
 		}
 		return nRetVal;
 	}
 	
+	private boolean isCarrotOrange(clsVisionEntry oVisionObj) {
+		if (oVisionObj.mnEntityType == eEntityType.CARROT && 
+				oVisionObj.moColor != null &&
+				oVisionObj.moColor.equals(Color.orange) 
+				) {
+			return true;
+		}
+		
+		return false;
+	}
+	
 	public clsVisionEntry checkVision() {
 		clsVisionEntry oRetVal = null;
 		clsVision oVision = (clsVision) getSensorData().getSensorExt(eSensorExtType.VISION);
 		for( clsVisionEntry oVisionObj : oVision.getList() ) {
-			if( oVisionObj.mnEntityType == eEntityType.CARROT)
+			if( isCarrotOrange(oVisionObj) )
 			{
 				oRetVal = oVisionObj;
 				break;
@@ -174,7 +188,7 @@ public class clsHareMind extends clsRemoteControl { //should be derived from cls
 	 * @param poActionProcessor
 	 */
 	public void eatCarrot(itfActionProcessor poActionProcessor) {
-		//super.eat(poActionProcessor, eEntityType.CARROT);
+		super.eat(poActionProcessor, eEntityType.CARROT);
 	}
 	
 }

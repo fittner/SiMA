@@ -71,7 +71,7 @@ public class clsExternalIO extends clsBaseIO {
 				
 		moProcessor.addCommand(clsActionMove.class, new clsExecutorMove(poEntity, 10));
 		moProcessor.addCommand(clsActionTurn.class, new clsExecutorTurn(poEntity));
-		moProcessor.addCommand(clsActionEat.class, new clsExecutorEat(poEntity,eSensorExtType.EATABLE_AREA,1));
+		moProcessor.addCommand(clsActionEat.class, new clsExecutorEat(poEntity,eSensorExtType.EATABLE_AREA,0.3));
 		moProcessor.addCommand(clsActionKill.class, new clsExecutorKill(poEntity,eSensorExtType.EATABLE_AREA,1));
 		
 		if (poEntity instanceof clsMobile) {

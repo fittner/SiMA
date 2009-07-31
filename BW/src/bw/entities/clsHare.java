@@ -10,6 +10,8 @@ package bw.entities;
 
 import java.awt.Color;
 
+import sim.physics2D.shape.Shape;
+
 import du.utils.enums.eDecisionType;
 
 import enums.eEntityType;
@@ -18,6 +20,8 @@ import enums.eEntityType;
 //import simple.remotecontrol.clsRemoteControl;
 import bw.body.clsComplexBody;
 import bw.body.internalSystems.clsFlesh;
+import bw.body.internalSystems.clsInternalSystem;
+import bw.body.internalSystems.clsStomachSystem;
 import bw.body.io.actuators.actionProxies.itfAPEatable;
 import bw.body.io.actuators.actionProxies.itfAPKillable;
 import bw.body.itfget.itfGetFlesh;
@@ -26,8 +30,10 @@ import bw.entities.tools.eImagePositioning;
 import bw.factories.clsRegisterEntity;
 import bw.utils.config.clsBWProperties;
 import bw.utils.enums.eBodyType;
+import bw.utils.enums.eNutritions;
 import bw.utils.enums.eShapeType;
 import bw.utils.tools.clsFood;
+import bw.utils.tools.clsNutritionLevel;
 
 /**
  * DOCUMENT (deutsch) - insert description 
@@ -37,15 +43,22 @@ import bw.utils.tools.clsFood;
  * 
  */
 public class clsHare extends clsAnimal implements itfGetFlesh, itfAPEatable, itfAPKillable {
-
+	public static final String P_SHAPE_ALIVE		= "shape_alive";
+	public static final String P_SHAPE_DEAD 		= "shape_dead";
+	
+	private Shape moAlive;
+	private Shape moDead;
+	
 	public clsHare(String poPrefix, clsBWProperties poProp) {
 		super(poPrefix, poProp );
 		applyProperties(poPrefix, poProp);
 	}
 	
 	private void applyProperties(String poPrefix, clsBWProperties poProp) {
-		//String pre = clsBWProperties.addDot(poPrefix);
-		//nothing to do
+		String pre = clsBWProperties.addDot(poPrefix);
+		
+		moAlive = clsShapeCreator.createShape(poPrefix+P_SHAPE_ALIVE, poProp);
+		moDead = clsShapeCreator.createShape(poPrefix+P_SHAPE_DEAD, poProp);		
 	}
 	
 	public static clsBWProperties getDefaultProperties(String poPrefix) {
@@ -63,23 +76,88 @@ public class clsHare extends clsAnimal implements itfGetFlesh, itfAPEatable, itf
 		oProp.putAll( clsComplexBody.getDefaultProperties(pre+P_BODY) );
 		oProp.setProperty(pre+P_BODY_TYPE, eBodyType.COMPLEX.toString());
 		
+		oProp.setProperty(pre+P_STRUCTURALWEIGHT, 1000.0);		
+		
 		//FIXME (deutsch) - .4. is not guaranteed - has to be changed!
-		oProp.setProperty(pre+"body.sensorsext.4.offset", 5);
+		oProp.setProperty(pre+"body.sensorsext.4.offset", 8);
 		oProp.setProperty(pre+"body.sensorsext.4.sensor_range", 2.5);
 		oProp.setProperty(pre+"body.sensorsext.2.sensor_range", 30.0);
 		oProp.setProperty(pre+"body.sensorsext.3.sensor_range", 30.0);
 
+		//change stomach to desired values
+		String stomach_pre = pre+clsAnimate.P_BODY+"."+clsComplexBody.P_INTERNAL+"."+clsInternalSystem.P_STOMACH+".";
+		oProp.removeKeysStartingWith(stomach_pre);
+
+		int i = 0;
 		
-		oProp.setProperty(pre+P_STRUCTURALWEIGHT, 150.0);
+		oProp.setProperty(stomach_pre+i+"."+clsStomachSystem.P_NUTRITIONTYPE, eNutritions.FAT.toString());
+		oProp.setProperty(stomach_pre+i+"."+clsStomachSystem.P_NUTRITIONEFFICIENCY, 1);
+		oProp.setProperty(stomach_pre+i+"."+clsStomachSystem.P_NUTRITIONMETABOLISMFACTOR, 1);
+		oProp.putAll( clsNutritionLevel.getDefaultProperties(stomach_pre+i+".") );
+		oProp.setProperty(stomach_pre+i+"."+clsNutritionLevel.P_MAXCONTENT, 6);
+		oProp.setProperty(stomach_pre+i+"."+clsNutritionLevel.P_UPPERBOUND, 6);
+		oProp.setProperty(stomach_pre+i+"."+clsNutritionLevel.P_LOWERBOUND, 0.5);
+		oProp.setProperty(stomach_pre+i+"."+clsNutritionLevel.P_CONTENT, 3);
+		i++;
+
+		oProp.setProperty(stomach_pre+i+"."+clsStomachSystem.P_NUTRITIONTYPE, eNutritions.WATER.toString());
+		oProp.setProperty(stomach_pre+i+"."+clsStomachSystem.P_NUTRITIONEFFICIENCY, 0);
+		oProp.setProperty(stomach_pre+i+"."+clsStomachSystem.P_NUTRITIONMETABOLISMFACTOR, 1);
+		oProp.putAll( clsNutritionLevel.getDefaultProperties(stomach_pre+i+".") );
+		oProp.setProperty(stomach_pre+i+"."+clsNutritionLevel.P_MAXCONTENT, 6);
+		oProp.setProperty(stomach_pre+i+"."+clsNutritionLevel.P_UPPERBOUND, 6);
+		oProp.setProperty(stomach_pre+i+"."+clsNutritionLevel.P_LOWERBOUND, 0.5);
+		oProp.setProperty(stomach_pre+i+"."+clsNutritionLevel.P_CONTENT, 3);
+		i++;
 		
+		oProp.setProperty(stomach_pre+i+"."+clsStomachSystem.P_NUTRITIONTYPE, eNutritions.UNDIGESTABLE.toString());
+		oProp.setProperty(stomach_pre+i+"."+clsStomachSystem.P_NUTRITIONEFFICIENCY, 0);
+		oProp.setProperty(stomach_pre+i+"."+clsStomachSystem.P_NUTRITIONMETABOLISMFACTOR, 0);
+		oProp.putAll( clsNutritionLevel.getDefaultProperties(stomach_pre+i+".") );	
+		oProp.setProperty(stomach_pre+i+"."+clsNutritionLevel.P_CONTENT, 0);
+		oProp.setProperty(stomach_pre+i+"."+clsNutritionLevel.P_MAXCONTENT, 6);
+		oProp.setProperty(stomach_pre+i+"."+clsNutritionLevel.P_UPPERBOUND, 6);
+		oProp.setProperty(stomach_pre+i+"."+clsNutritionLevel.P_LOWERBOUND, 0);
+		
+		i++;
+		
+		oProp.setProperty(stomach_pre+clsStomachSystem.P_NUMNUTRITIONS, i);
+		
+		//change flesh to desired values
+		String flesh_pre = pre+clsAnimate.P_BODY+"."+clsComplexBody.P_INTERNAL+"."+clsInternalSystem.P_FLESH+".";
+		oProp.removeKeysStartingWith(flesh_pre);		
+		
+		oProp.setProperty(flesh_pre+clsFlesh.P_WEIGHT, 5.0 );
+		oProp.setProperty(flesh_pre+clsFlesh.P_NUMNUTRITIONS, 4 );
+		oProp.setProperty(flesh_pre+"0."+clsFlesh.P_NUTRITIONTYPE, eNutritions.PROTEIN.name());
+		oProp.setProperty(flesh_pre+"0."+clsFlesh.P_NUTRITIONFRACTION, 1.0);
+
+		oProp.setProperty(flesh_pre+"1."+clsFlesh.P_NUTRITIONTYPE, eNutritions.FAT.name());
+		oProp.setProperty(flesh_pre+"1."+clsFlesh.P_NUTRITIONFRACTION, 1.0);
+
+		oProp.setProperty(flesh_pre+"2."+clsFlesh.P_NUTRITIONTYPE, eNutritions.WATER.name());
+		oProp.setProperty(flesh_pre+"2."+clsFlesh.P_NUTRITIONFRACTION, 1.0);
+
+		oProp.setProperty(flesh_pre+"3."+clsFlesh.P_NUTRITIONTYPE, eNutritions.UNDIGESTABLE.toString());
+		oProp.setProperty(flesh_pre+"3."+clsFlesh.P_NUTRITIONFRACTION, 1.0);
+		
+		//set shape
 		oProp.setProperty(pre+P_SHAPE+"."+clsShapeCreator.P_TYPE, eShapeType.CIRCLE.name());
 		oProp.setProperty(pre+P_SHAPE+"."+clsShapeCreator.P_RADIUS, 2.5);
-		oProp.setProperty(pre+P_SHAPE+"."+clsShapeCreator.P_COLOR, Color.GRAY);
-		oProp.setProperty(pre+P_SHAPE+"."+clsShapeCreator.P_IMAGE_PATH, "/BW/src/resources/images/hase.png");
-		oProp.setProperty(pre+P_SHAPE+"."+clsShapeCreator.P_IMAGE_POSITIONING, eImagePositioning.DEFAULT.name());		
+		oProp.setProperty(pre+P_SHAPE+"."+clsShapeCreator.P_COLOR, Color.LIGHT_GRAY);
 		
-//		oProp.setProperty(pre+P_MOBILE_SPEED, "3.0" );
+		oProp.setProperty(pre+P_SHAPE_ALIVE+"."+clsShapeCreator.P_TYPE, eShapeType.CIRCLE.name());
+		oProp.setProperty(pre+P_SHAPE_ALIVE+"."+clsShapeCreator.P_RADIUS, 2.5);
+		oProp.setProperty(pre+P_SHAPE_ALIVE+"."+clsShapeCreator.P_COLOR, Color.LIGHT_GRAY);
+		oProp.setProperty(pre+P_SHAPE_ALIVE+"."+clsShapeCreator.P_IMAGE_PATH, "/BW/src/resources/images/hase.png");
+		oProp.setProperty(pre+P_SHAPE_ALIVE+"."+clsShapeCreator.P_IMAGE_POSITIONING, eImagePositioning.DEFAULT.name());		
 		
+		oProp.setProperty(pre+P_SHAPE_DEAD+"."+clsShapeCreator.P_TYPE, eShapeType.CIRCLE.name());
+		oProp.setProperty(pre+P_SHAPE_DEAD+"."+clsShapeCreator.P_RADIUS, 2.5);
+		oProp.setProperty(pre+P_SHAPE_DEAD+"."+clsShapeCreator.P_COLOR, Color.BLACK);
+		oProp.setProperty(pre+P_SHAPE_DEAD+"."+clsShapeCreator.P_IMAGE_PATH, "/BW/src/resources/images/hase.png");
+		oProp.setProperty(pre+P_SHAPE_DEAD+"."+clsShapeCreator.P_IMAGE_POSITIONING, eImagePositioning.DEFAULT.name());		
+				
 		return oProp;
 	}
 
@@ -182,6 +260,11 @@ public class clsHare extends clsAnimal implements itfGetFlesh, itfAPEatable, itf
 		if ( isAlive() && getFlesh().getTotallyConsumed() ) {
 			//This command removes the cake from the playground
 			clsRegisterEntity.unRegisterPhysicalObject2D(getMobileObject2D());
+		}
+		
+		if (((clsComplexBody)moBody).getInternalSystem().getHealthSystem().getHealth().getContent() < 0.0001) {
+			setAlive(false);
+			setShape(moDead, getTotalWeight());
 		}
 	}
 }

@@ -47,9 +47,9 @@ public class clsNutritionLevel extends clsFillLevel implements itfStep {
 		
 		oProp.setProperty(pre+clsContentColumn.P_CONTENT, 0.75);
 		oProp.setProperty(pre+clsContentColumn.P_MAXCONTENT, 1.2);
-		oProp.setProperty(pre+clsFillLevel.P_CHANGE, "0.05");
-		oProp.setProperty(pre+clsFillLevel.P_LOWERBOUND, "0.3");
-		oProp.setProperty(pre+clsFillLevel.P_UPPERBOUND, "1.0");
+		oProp.setProperty(pre+clsFillLevel.P_CHANGE, 0.0);
+		oProp.setProperty(pre+clsFillLevel.P_LOWERBOUND, 0.3);
+		oProp.setProperty(pre+clsFillLevel.P_UPPERBOUND, 1.0);
 		
 		return oProp;
 	}	

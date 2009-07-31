@@ -45,11 +45,11 @@ public class clsHealthSystem implements itfStepUpdateInternalState {
 		
 		clsBWProperties oProp = new clsBWProperties();
 		
-		oProp.setProperty(pre+clsContentColumn.P_CONTENT, 10);
-		oProp.setProperty(pre+clsContentColumn.P_MAXCONTENT, 10);
-		oProp.setProperty(pre+clsFillLevel.P_CHANGE, "0.05");
-		oProp.setProperty(pre+clsFillLevel.P_LOWERBOUND, "5");
-		oProp.setProperty(pre+clsFillLevel.P_UPPERBOUND, "10");	
+		oProp.setProperty(pre+clsContentColumn.P_CONTENT, 100);
+		oProp.setProperty(pre+clsContentColumn.P_MAXCONTENT, 100);
+		oProp.setProperty(pre+clsFillLevel.P_CHANGE, 0.05);
+		oProp.setProperty(pre+clsFillLevel.P_LOWERBOUND, 10);
+		oProp.setProperty(pre+clsFillLevel.P_UPPERBOUND, 90);	
 	
 		
 		return oProp;

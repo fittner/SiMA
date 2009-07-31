@@ -300,7 +300,8 @@ public class clsBrainSocket implements itfStepProcessing {
 			Integer oKey = i.next();
 			oData.mnNumEntitiesPresent = oEatableSensor.getViewObj().size();
 			oData.mnTypeOfFirstEntity = getEntityType( oEatableSensor.getViewObj().get(oKey) );
-			
+			oData.moColorOfFirstEntity = getEntityColor( oEatableSensor.getViewObj().get(oKey) );
+						
 			if (oData.mnTypeOfFirstEntity != eEntityType.UNDEFINED) {
 				break;
 			}
@@ -308,6 +309,16 @@ public class clsBrainSocket implements itfStepProcessing {
 			
 		return oData;
 	}
+	
+	private  Color getEntityColor(PhysicalObject2D poObject) {
+		clsEntity oEntity = getEntity(poObject);
+		
+		if (oEntity != null) {
+		  return  (Color) oEntity.getShape().getPaint();
+		} else {
+			return null;
+		}
+	}	
 	
 	private  enums.eEntityType getEntityType(PhysicalObject2D poObject) {
 		clsEntity oEntity = getEntity(poObject);

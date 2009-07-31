@@ -48,20 +48,21 @@ import sim.portrayal.LocationWrapper;
 public class clsFillLevelInspector extends Inspector{
 
 	/**
-	 * DOCUMENT (langr) - insert description 
+	 * DOCUMENT (tobias) - insert description 
 	 * 
-	 * @author langr
-	 * 25.03.2009, 10:36:38
+	 * @author tobias
+	 * Jul 31, 2009, 10:41:09 AM
 	 */
-	private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = 2381501531626669313L;
 	
 	public sim.portrayal.Inspector moOriginalInspector;
 	private clsStomachSystem moStomachSystem;
 	
 	private ChartPanel moChartPanel;
 	private DefaultCategoryDataset moDataset;
-	private DefaultCategoryDataset moDatasetUpperLimits;
-	private DefaultCategoryDataset moDatasetLowerLimits;
+	private DefaultCategoryDataset moDatasetUpperBounds;
+	private DefaultCategoryDataset moDatasetLowerBounds;
+	private DefaultCategoryDataset moDatasetMaxValue;
     
     public clsFillLevelInspector(sim.portrayal.Inspector originalInspector,
             LocationWrapper wrapper,
@@ -89,17 +90,20 @@ public class clsFillLevelInspector extends Inspector{
 	private void initNutritionChart() {
 		
 		moDataset = new DefaultCategoryDataset();
-		moDatasetLowerLimits = new DefaultCategoryDataset();
-		moDatasetUpperLimits = new DefaultCategoryDataset();
+		moDatasetLowerBounds = new DefaultCategoryDataset();
+		moDatasetUpperBounds = new DefaultCategoryDataset();
+		moDatasetMaxValue = new DefaultCategoryDataset();
 
 		moDataset.addValue(moStomachSystem.getEnergy(), "Energy", "Energy");
-		moDatasetLowerLimits.addValue(0, "Lower Bound", "Energy");
-		moDatasetUpperLimits.addValue(5, "Upper Bound", "Energy");
+		moDatasetLowerBounds.addValue(0, "Lower Bound", "Energy");
+		moDatasetUpperBounds.addValue(5, "Upper Bound", "Energy");
+		moDatasetMaxValue.addValue(5, "Max Value", "Energy");
 
 		for(Map.Entry<eNutritions, clsNutritionLevel> oNut : moStomachSystem.getList().entrySet() ) {
-			moDataset.addValue( 4, "", "Nutrition "+oNut.getKey().toString()); //oNut.getValue().getContent()
-			moDatasetLowerLimits.addValue(1, "Lower Bound", "Nutrition "+oNut.getKey().toString());
-			moDatasetUpperLimits.addValue(4, "Upper Bound", "Nutrition "+oNut.getKey().toString());
+			moDataset.addValue( oNut.getValue().getContent(), "Nutrition", oNut.getKey().toString()); 
+			moDatasetLowerBounds.addValue( oNut.getValue().getLowerBound(), "Lower Bound", oNut.getKey().toString());
+			moDatasetUpperBounds.addValue( oNut.getValue().getLowerBound(), "Upper Bound", oNut.getKey().toString());
+			moDatasetMaxValue.addValue( oNut.getValue().getMaxContent(), "Max Value", oNut.getKey().toString());
 		}
 		
         JFreeChart oChartPanel = ChartFactory.createBarChart(
@@ -141,15 +145,23 @@ public class clsFillLevelInspector extends Inspector{
         CategoryItemRenderer renderer2 = new LevelRenderer();
         renderer2.setSeriesStroke(0, new BasicStroke(2.0f));
         renderer2.setSeriesStroke(1, new BasicStroke(2.0f));
-        plot.setDataset(1, moDatasetLowerLimits);
+        plot.setDataset(1, moDatasetLowerBounds);
         plot.setRenderer(1, renderer2);
         
         //adds the upper limits to the chart
         CategoryItemRenderer renderer3 = new LevelRenderer();
         renderer3.setSeriesStroke(0, new BasicStroke(2.0f));
         renderer3.setSeriesStroke(1, new BasicStroke(2.0f));
-        plot.setDataset(2, moDatasetUpperLimits);
+        plot.setDataset(2, moDatasetUpperBounds);
         plot.setRenderer(2, renderer3);
+        
+        //adds the max value to the chart
+        CategoryItemRenderer renderer4 = new LevelRenderer();
+        renderer4.setSeriesStroke(0, new BasicStroke(2.0f));
+        renderer4.setSeriesStroke(1, new BasicStroke(2.0f));
+        plot.setDataset(3, moDatasetMaxValue);
+        plot.setRenderer(3, renderer4);        
+        
         plot.setDatasetRenderingOrder(DatasetRenderingOrder.FORWARD);
         
         moChartPanel = new ChartPanel(oChartPanel);
@@ -170,16 +182,17 @@ public class clsFillLevelInspector extends Inspector{
 		
     	moDataset = new DefaultCategoryDataset();
 		moDataset.addValue(moStomachSystem.getEnergy(), "Energy", "Energy");
-		moDatasetLowerLimits.addValue(0, "Lower Bound", "Energy");
-		moDatasetUpperLimits.addValue(5, "Upper Bound", "Energy");
-		//TODO: (langr) to be adapted when stomach system is ready to use
+		moDatasetLowerBounds.addValue(0, "Lower Bound", "Energy");
+		moDatasetUpperBounds.addValue(5, "Upper Bound", "Energy");
+	
 		for(Map.Entry<eNutritions, clsNutritionLevel> oNut : moStomachSystem.getList().entrySet() ) {
-			moDataset.addValue( Math.random()*4, "Nutrition", "Nutrition "+oNut.getKey().toString()); //oNut.getValue().getContent()
-			moDatasetLowerLimits.addValue(1, "Lower Bound", "Nutrition "+oNut.getKey().toString());
-			moDatasetUpperLimits.addValue(4, "Upper Bound", "Nutrition "+oNut.getKey().toString());
+			moDataset.addValue( oNut.getValue().getContent(), "Nutrition", oNut.getKey().toString()); 
+			moDatasetLowerBounds.addValue( oNut.getValue().getLowerBound(), "Lower Bound", oNut.getKey().toString());
+			moDatasetUpperBounds.addValue( oNut.getValue().getUpperBound(), "Upper Bound", oNut.getKey().toString());
 		}
+		
 		moChartPanel.getChart().getCategoryPlot().setDataset(moDataset);
-		moChartPanel.invalidate();		
+		moChartPanel.invalidate();
 		
 		this.repaint();
 	}
