@@ -34,7 +34,7 @@ import bw.factories.clsSingletonMasonGetter;
  * @author zeilinger
  * 
  */
-
+@Deprecated
 public class clsEntityPartVision extends MobileObject2D implements Steppable{
 
 	private static final long serialVersionUID = 1L;
@@ -68,23 +68,24 @@ public class clsEntityPartVision extends MobileObject2D implements Steppable{
 	 meUnFilteredObj = new HashMap<Integer, PhysicalObject2D>();
 	 meVisionObj = new HashMap<Integer, PhysicalObject2D>(); 
 	 meCollisionPoint = new HashMap<Integer, Double2D>(); 
-	 moColor = Color.yellow;
-	 moShape = new clsCircleBorder(mnRadius, moColor);
 	 moEntity = poEntity; 
 	 mrIntensity = 0;
+	 setShapeDrawing(); 
 	 
 		try
 		{
 			 this.setShape(moShape, MASS); 
-			 /*this.setCoefficientOfFriction(FRICTION);
-			 this.setCoefficientOfRestitution(RESTITUTION);
-			 */
+
 		}catch(Exception ex)
 		{
 			System.out.println(ex.getMessage());
 		}
 	}
 			
+	public void setShapeDrawing(){
+			moColor = Color.yellow;
+			moShape = new clsCircleBorder(mnRadius, mnRadius, moColor);			
+	}
 	/* (non-Javadoc)
 	 * @see sim.physics2D.physicalObject.PhysicalObject2D#handleCollision(sim.physics2D.physicalObject.PhysicalObject2D, sim.physics2D.util.Double2D)
 	 */

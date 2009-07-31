@@ -11,12 +11,13 @@ public class clsCircleBorder extends Circle
     {
     
 	double radius; 
+	int angle; 
 		
-	public clsCircleBorder(double radius, Paint paint)
+	public clsCircleBorder(double radius, double angle, Paint paint)
     {
 		super(radius, paint);
 		this.radius = radius; 
-		//this.paint = paint;
+	    this.angle = (int)Math.toDegrees(angle); 
     }
         
     
@@ -33,9 +34,13 @@ public class clsCircleBorder extends Circle
         final int y = (int)(info.draw.y - height / 2.0);
         final int w = (int)(width);
         final int h = (int)(height);
-
+        final int start_angle = getStartAngle(); 
+       
         // draw centered on the origin
-        graphics.drawArc(x,y,w, h, 0,360);
+        graphics.drawArc(x,y,w, h, start_angle,angle);
         }
    
-    }
+		public int getStartAngle(){
+			return 360-angle/2; 
+		}
+	 }

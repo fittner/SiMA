@@ -9,9 +9,7 @@
 package bw.physicalObjects.sensors;
 
 import java.awt.Color;
-import java.awt.Paint;
 import java.util.ArrayList;
-import java.util.HashMap;
 
 import sim.engine.SimState;
 import sim.engine.Steppable;
@@ -20,10 +18,12 @@ import sim.physics2D.physicalObject.PhysicalObject2D;
 import sim.physics2D.util.Double2D;
 import sim.portrayal.DrawInfo2D;
 
+import ARSsim.physics2D.physicalObject.clsCollidingObject;
 import ARSsim.physics2D.physicalObject.clsMobileObject2D;
 import ARSsim.physics2D.shape.clsCircleBorder;
 import bw.entities.clsEntity;
 import bw.entities.clsMobile;
+import bw.factories.clsPropertiesGetter;
 import bw.factories.clsSingletonMasonGetter;
 
 /**
@@ -50,9 +50,7 @@ import bw.factories.clsSingletonMasonGetter;
 		private static final long serialVersionUID = 1L;
 		private final static double MASS = 0.0001;
 	
-		private HashMap <Integer, sim.physics2D.util.Double2D>  meCollisionPointMap;
-		private ArrayList <PhysicalObject2D>  meDetectedObjList;
-		private Paint moColor;
+		private ArrayList <clsCollidingObject>  meDetectedObjList;
 		private clsCircleBorder moShape;
 		private clsEntity moHostEntity;
 				
@@ -62,17 +60,29 @@ import bw.factories.clsSingletonMasonGetter;
 		 * @param pnRadiusOffsetVisionArea 
 		 */
 		public clsEntitySensorEngine(clsEntity poHostEntity, double pnRadius) {    
-		   meDetectedObjList = new ArrayList <PhysicalObject2D>(); 
-		   meCollisionPointMap = new HashMap<Integer, Double2D>(); 
-		   moColor = Color.RED;
-		   moShape = new clsCircleBorder(pnRadius, moColor);
+		   meDetectedObjList = new ArrayList <clsCollidingObject>(); 
 		   moHostEntity = poHostEntity; 
-		   registerShape(); 
+		   setShape(pnRadius); 
 		 }
 	
 		public void step(SimState state){
 			setOrientationAndPosition();
 			clearList();
+		}
+		
+		public void setShape(double pnRadius){
+			setDrawOptions(pnRadius);
+			registerShape(); 
+		}
+		
+		public void setDrawOptions(double pnRadius){
+			 double pnAngle = 0.0;
+			 Color oColor = Color.RED;
+			 
+			 if(clsPropertiesGetter.drawSensors())
+				 pnAngle = 2*Math.PI; 
+			
+			 moShape = new clsCircleBorder(pnRadius, pnAngle, oColor);		
 		}
 		
 		public void registerShape(){
@@ -81,12 +91,8 @@ import bw.factories.clsSingletonMasonGetter;
 			}catch(Exception ex){System.out.println(ex.getMessage());}
 		}
 			
-		public ArrayList <PhysicalObject2D> requestDetectedObjList(){
+		public ArrayList <clsCollidingObject> requestDetectedObjList(){
 			return meDetectedObjList; 
-		}
-		
-		public HashMap <Integer, Double2D> requestCollisionPointMap(){
-			return meCollisionPointMap; 
 		}
 		
 		private void setOrientationAndPosition(){
@@ -98,7 +104,6 @@ import bw.factories.clsSingletonMasonGetter;
 			
 		private void clearList(){
 			meDetectedObjList.clear(); 
-			meCollisionPointMap.clear(); 
 		}
 		//--------------------------------------------------------------------------------------------------
 		// Methods from PhysicalObject2D which have to be overwritten
@@ -119,8 +124,7 @@ import bw.factories.clsSingletonMasonGetter;
 									 Double2D poCollisionPoint){
 			//FIXME colPoint not used
 			if (poCollisionPoint != null){
-				meDetectedObjList.add(poCollidingObj);
-				meCollisionPointMap.put(poCollidingObj.getIndex(), poCollisionPoint);
+				meDetectedObjList.add(new clsCollidingObject(poCollidingObj, poCollisionPoint));
 			}				
 		}
 
