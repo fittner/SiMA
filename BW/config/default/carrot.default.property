@@ -1,5 +1,5 @@
 #
-#Fri Jul 31 12:12:50 CEST 2009
+#Mon Aug 03 14:05:22 CEST 2009
 body.0.fraction=1.0
 body.0.type=FAT
 body.1.fraction=1.0
@@ -9,7 +9,7 @@ body.2.type=UNDIGESTABLE
 body.maxweight=15
 body.numnutritions=3
 body.regrowrate=0
-body.weight=1.0
+body.weight=5.0
 def_coeff_friction=0.5
 def_restitution=1.0
 def_static_friction=0.2
@@ -18,7 +18,7 @@ pos_angle=0.0
 pos_x=0.0
 pos_y=0.0
 regrow_steps_max=1000
-regrow_steps_min=50
+regrow_steps_min=250
 shape.color=\#ffc800
 shape.radius=1.5
 shape.type=CIRCLE

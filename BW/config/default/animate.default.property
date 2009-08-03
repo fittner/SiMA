@@ -1,5 +1,5 @@
 #
-#Fri Jul 31 12:12:50 CEST 2009
+#Mon Aug 03 14:05:22 CEST 2009
 body.0.fraction=0.1
 body.0.type=PROTEIN
 body.1.fraction=1.0
@@ -12,7 +12,7 @@ body.4.fraction=2.0
 body.4.type=WATER
 body.5.fraction=0.8
 body.5.type=UNDIGESTABLE
-body.maxweight=1.7976931348623157E308
+body.maxweight=100
 body.numnutritions=6
 body.regrowrate=0
 body.weight=5.0
