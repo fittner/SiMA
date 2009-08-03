@@ -55,11 +55,12 @@ public class clsBubble extends clsAnimate implements itfGetVision, itfGetEatable
 		//oProp.putAll( clsDumbMindA.getDefaultProperties(pre) ); //clsDumbMindA.getDefaultProperties(pre)
 		oProp.setProperty(pre+P_DECISION_TYPE, eDecisionType.DUMB_MIND_A.name());
 		
-		oProp.setProperty(pre+P_SHAPE+"."+clsShapeCreator.P_TYPE, eShapeType.CIRCLE.name());
-		oProp.setProperty(pre+P_SHAPE+"."+clsShapeCreator.P_RADIUS, 10.0);
-		oProp.setProperty(pre+P_SHAPE+"."+clsShapeCreator.P_COLOR, new Color(0,200,0));
-		oProp.setProperty(pre+P_SHAPE+"."+clsShapeCreator.P_IMAGE_PATH, "/BW/src/resources/images/bubble_red.png");
-		oProp.setProperty(pre+P_SHAPE+"."+clsShapeCreator.P_IMAGE_POSITIONING, eImagePositioning.DEFAULT.name());		
+		oProp.setProperty(pre+P_SHAPE+"."+clsShapeCreator.P_DEFAULT_SHAPE, P_SHAPENAME);
+		oProp.setProperty(pre+P_SHAPE+"."+P_SHAPENAME+"."+clsShapeCreator.P_TYPE, eShapeType.CIRCLE.name());
+		oProp.setProperty(pre+P_SHAPE+"."+P_SHAPENAME+"."+clsShapeCreator.P_RADIUS, 10.0);
+		oProp.setProperty(pre+P_SHAPE+"."+P_SHAPENAME+"."+clsShapeCreator.P_COLOR, new Color(0,200,0));
+		oProp.setProperty(pre+P_SHAPE+"."+P_SHAPENAME+"."+clsShapeCreator.P_IMAGE_PATH, "/BW/src/resources/images/bubble_red.png");
+		oProp.setProperty(pre+P_SHAPE+"."+P_SHAPENAME+"."+clsShapeCreator.P_IMAGE_POSITIONING, eImagePositioning.DEFAULT.name());		
 		
 		oProp.setProperty(pre+P_STRUCTURALWEIGHT, 50.0);
 		

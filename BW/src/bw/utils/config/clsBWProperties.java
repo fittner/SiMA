@@ -73,7 +73,8 @@ public class clsBWProperties extends Properties {
 	 * @author deutsch
 	 * 22.07.2009, 09:55:35
 	 */
-	private static final String P_RANDOM = "ï¿½"; //don't blame me - roland states that the law is pure random
+	private static final String P_RANDOM = "§"; //don't blame me - roland states that the law is pure random
+	private static final String P_RANDOM_ANSI = "\u00A7";
 	
 	/**
 	 * TAG denoting that the following value is a hex color #01AFB2 
@@ -243,6 +244,7 @@ public class clsBWProperties extends Properties {
 		if (poFilename.length()>0) {
 	    try
 	    {
+	    	System.out.println("reading property file '"+poFilename+"'");
 	        FileInputStream propInFile = new FileInputStream( poFilename );
 	        p2.load( propInFile );
 	        
@@ -357,6 +359,8 @@ public class clsBWProperties extends Properties {
 			//insuperior approach - a double value is converted to a string and to a double back again. 
 			//(usually, getPropertyDouble is called in case of random values)
 			res = new Double(clsRandomProperties.getRandom( res.substring( P_RANDOM.length() ))).toString();
+		} else if (res.startsWith(P_RANDOM_ANSI)) {
+			res = new Double(clsRandomProperties.getRandom( res.substring( P_RANDOM_ANSI.length() ))).toString();
 		} else {
 			res = unescapeTag(res);
 		}
@@ -750,6 +754,8 @@ public class clsBWProperties extends Properties {
 			value = P_ESCAPE+value;
 		} else if (value.startsWith(P_RANDOM)) {
 			value = P_ESCAPE+value;
+		} else if (value.startsWith(P_RANDOM_ANSI)) {
+			value = P_ESCAPE+value;			
 		} else if (value.startsWith(P_ESCAPE)) {
 			value = P_ESCAPE+value;
 		}		

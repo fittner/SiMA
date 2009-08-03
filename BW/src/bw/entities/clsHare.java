@@ -57,10 +57,8 @@ public class clsHare extends clsAnimal implements itfGetFlesh, itfAPEatable, itf
 	private void applyProperties(String poPrefix, clsBWProperties poProp) {
 		String pre = clsBWProperties.addDot(poPrefix);
 		
-		moAlive = clsShapeCreator.createShape(pre+P_SHAPE_ALIVE, poProp);
-		moDead = clsShapeCreator.createShape(pre+P_SHAPE_DEAD, poProp);		
-		
-		setShape(moAlive, getTotalWeight());
+		moAlive = clsShapeCreator.createShape(pre+P_SHAPE+"."+P_SHAPE_ALIVE, poProp);
+		moDead = clsShapeCreator.createShape(pre+P_SHAPE+"."+P_SHAPE_DEAD, poProp);		
 	}
 	
 	public static clsBWProperties getDefaultProperties(String poPrefix) {
@@ -144,21 +142,21 @@ public class clsHare extends clsAnimal implements itfGetFlesh, itfAPEatable, itf
 		oProp.setProperty(flesh_pre+"3."+clsFlesh.P_NUTRITIONFRACTION, 1.0);
 		
 		//set shape
-		oProp.setProperty(pre+P_SHAPE+"."+clsShapeCreator.P_TYPE, eShapeType.CIRCLE.name());
-		oProp.setProperty(pre+P_SHAPE+"."+clsShapeCreator.P_RADIUS, 2.5);
-		oProp.setProperty(pre+P_SHAPE+"."+clsShapeCreator.P_COLOR, Color.LIGHT_GRAY);
+		oProp.removeKeysStartingWith(pre+P_SHAPE);
 		
-		oProp.setProperty(pre+P_SHAPE_ALIVE+"."+clsShapeCreator.P_TYPE, eShapeType.CIRCLE.name());
-		oProp.setProperty(pre+P_SHAPE_ALIVE+"."+clsShapeCreator.P_RADIUS, 2.5);
-		oProp.setProperty(pre+P_SHAPE_ALIVE+"."+clsShapeCreator.P_COLOR, Color.LIGHT_GRAY);
-		oProp.setProperty(pre+P_SHAPE_ALIVE+"."+clsShapeCreator.P_IMAGE_PATH, "/BW/src/resources/images/hase.png");
-		oProp.setProperty(pre+P_SHAPE_ALIVE+"."+clsShapeCreator.P_IMAGE_POSITIONING, eImagePositioning.DEFAULT.name());		
+		oProp.setProperty(pre+P_SHAPE+"."+clsShapeCreator.P_DEFAULT_SHAPE, P_SHAPE_ALIVE);
 		
-		oProp.setProperty(pre+P_SHAPE_DEAD+"."+clsShapeCreator.P_TYPE, eShapeType.CIRCLE.name());
-		oProp.setProperty(pre+P_SHAPE_DEAD+"."+clsShapeCreator.P_RADIUS, 2.5);
-		oProp.setProperty(pre+P_SHAPE_DEAD+"."+clsShapeCreator.P_COLOR, Color.BLACK);
-		oProp.setProperty(pre+P_SHAPE_DEAD+"."+clsShapeCreator.P_IMAGE_PATH, "/BW/src/resources/images/hase.png");
-		oProp.setProperty(pre+P_SHAPE_DEAD+"."+clsShapeCreator.P_IMAGE_POSITIONING, eImagePositioning.DEFAULT.name());		
+		oProp.setProperty(pre+P_SHAPE+"."+P_SHAPE_ALIVE+"."+clsShapeCreator.P_TYPE, eShapeType.CIRCLE.name());
+		oProp.setProperty(pre+P_SHAPE+"."+P_SHAPE_ALIVE+"."+clsShapeCreator.P_RADIUS, 2.5);
+		oProp.setProperty(pre+P_SHAPE+"."+P_SHAPE_ALIVE+"."+clsShapeCreator.P_COLOR, Color.LIGHT_GRAY);
+		oProp.setProperty(pre+P_SHAPE+"."+P_SHAPE_ALIVE+"."+clsShapeCreator.P_IMAGE_PATH, "/BW/src/resources/images/hase.png");
+		oProp.setProperty(pre+P_SHAPE+"."+P_SHAPE_ALIVE+"."+clsShapeCreator.P_IMAGE_POSITIONING, eImagePositioning.DEFAULT.name());		
+		
+		oProp.setProperty(pre+P_SHAPE+"."+P_SHAPE_DEAD+"."+clsShapeCreator.P_TYPE, eShapeType.CIRCLE.name());
+		oProp.setProperty(pre+P_SHAPE+"."+P_SHAPE_DEAD+"."+clsShapeCreator.P_RADIUS, 2.5);
+		oProp.setProperty(pre+P_SHAPE+"."+P_SHAPE_DEAD+"."+clsShapeCreator.P_COLOR, Color.BLACK);
+		oProp.setProperty(pre+P_SHAPE+"."+P_SHAPE_DEAD+"."+clsShapeCreator.P_IMAGE_PATH, "/BW/src/resources/images/hase.png");
+		oProp.setProperty(pre+P_SHAPE+"."+P_SHAPE_DEAD+"."+clsShapeCreator.P_IMAGE_POSITIONING, eImagePositioning.DEFAULT.name());		
 				
 		return oProp;
 	}

@@ -26,6 +26,8 @@ import bw.utils.enums.eShapeType;
  * 
  */
 public class clsShapeCreator {
+	public static final String P_DEFAULT_SHAPE = "default_shape";
+	
 	public static final String P_IMAGE_PATH = "image_path";	
 	public static final String P_IMAGE_POSITIONING = "image_positioning";
 	public static final String P_TYPE   	= "type";

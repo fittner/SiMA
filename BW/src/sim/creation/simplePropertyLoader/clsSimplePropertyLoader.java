@@ -159,11 +159,12 @@ public class clsSimplePropertyLoader extends clsLoader {
 		oProp.setProperty(pre+P_ENTITYGROUPS+"."+i+"."+P_NUMENTITES, 1);
 		oProp.setProperty(pre+P_ENTITYGROUPS+"."+i+"."+P_POSITIONS+"."+P_POSITIONTYPE, ePositionType.RANDOM.name());
 		oProp.setProperty(pre+P_ENTITYGROUPS+"."+i+"."+P_REMOVEDEFAULTS, "shape, body");
-		oProp.setProperty(pre+P_ENTITYGROUPS+"."+i+"."+P_OVERWRITEDEFAULTS+"."+clsEntity.P_SHAPE+"."+clsShapeCreator.P_TYPE, eShapeType.CIRCLE.name());
-		oProp.setProperty(pre+P_ENTITYGROUPS+"."+i+"."+P_OVERWRITEDEFAULTS+"."+clsEntity.P_SHAPE+"."+clsShapeCreator.P_RADIUS, "1.5");
-		oProp.setProperty(pre+P_ENTITYGROUPS+"."+i+"."+P_OVERWRITEDEFAULTS+"."+clsEntity.P_SHAPE+"."+clsShapeCreator.P_COLOR, Color.orange);
-		oProp.setProperty(pre+P_ENTITYGROUPS+"."+i+"."+P_OVERWRITEDEFAULTS+"."+clsEntity.P_SHAPE+"."+clsShapeCreator.P_IMAGE_PATH, "/BW/src/resources/images/carrot_clipart.png");
-		oProp.setProperty(pre+P_ENTITYGROUPS+"."+i+"."+P_OVERWRITEDEFAULTS+"."+clsEntity.P_SHAPE+"."+clsShapeCreator.P_IMAGE_POSITIONING, eImagePositioning.DEFAULT.name());		
+		oProp.setProperty(pre+P_ENTITYGROUPS+"."+i+"."+P_OVERWRITEDEFAULTS+"."+clsEntity.P_SHAPE+"."+clsShapeCreator.P_DEFAULT_SHAPE, clsEntity.P_SHAPENAME);
+		oProp.setProperty(pre+P_ENTITYGROUPS+"."+i+"."+P_OVERWRITEDEFAULTS+"."+clsEntity.P_SHAPE+"."+clsEntity.P_SHAPENAME+"."+clsShapeCreator.P_TYPE, eShapeType.CIRCLE.name());
+		oProp.setProperty(pre+P_ENTITYGROUPS+"."+i+"."+P_OVERWRITEDEFAULTS+"."+clsEntity.P_SHAPE+"."+clsEntity.P_SHAPENAME+"."+clsShapeCreator.P_RADIUS, "1.5");
+		oProp.setProperty(pre+P_ENTITYGROUPS+"."+i+"."+P_OVERWRITEDEFAULTS+"."+clsEntity.P_SHAPE+"."+clsEntity.P_SHAPENAME+"."+clsShapeCreator.P_COLOR, Color.orange);
+		oProp.setProperty(pre+P_ENTITYGROUPS+"."+i+"."+P_OVERWRITEDEFAULTS+"."+clsEntity.P_SHAPE+"."+clsEntity.P_SHAPENAME+"."+clsShapeCreator.P_IMAGE_PATH, "/BW/src/resources/images/carrot_clipart.png");
+		oProp.setProperty(pre+P_ENTITYGROUPS+"."+i+"."+P_OVERWRITEDEFAULTS+"."+clsEntity.P_SHAPE+"."+clsEntity.P_SHAPENAME+"."+clsShapeCreator.P_IMAGE_POSITIONING, eImagePositioning.DEFAULT.name());		
 		oProp.setProperty(pre+P_ENTITYGROUPS+"."+i+"."+P_OVERWRITEDEFAULTS+"."+clsAnimate.P_BODY_TYPE, eBodyType.MEAT.toString());
 		oProp.setProperty(pre+P_ENTITYGROUPS+"."+i+"."+P_OVERWRITEDEFAULTS+"."+clsAnimate.P_BODY+"."+clsMeatBody.P_REGROWRATE, 1);
 		oProp.setProperty(pre+P_ENTITYGROUPS+"."+i+"."+P_OVERWRITEDEFAULTS+"."+clsAnimate.P_BODY+"."+clsMeatBody.P_MAXWEIGHT, 100);
@@ -328,15 +329,23 @@ public class clsSimplePropertyLoader extends clsLoader {
     	String pre = clsBWProperties.addDot(poPrefix);
     	eEntityType nType = eEntityType.valueOf(poProp.getPropertyString(pre+P_ENTITYGROUPTYPE));
     	clsBWProperties oOverwrite = poProp.getSubset(pre+P_OVERWRITEDEFAULTS);
-    	List<String> oRemove = poProp.getPropertyList(pre+P_REMOVEDEFAULTS);
+    	List<String> oRemove = null;
+    	
+    	try {
+    		poProp.getPropertyList(pre+P_REMOVEDEFAULTS);
+    	} catch (java.lang.NullPointerException e) {
+    		// do nothing
+    	}
     	
     	int num = poProp.getPropertyInt(pre+P_NUMENTITES);
     	for (int i=0; i<num; i++) {
     		clsBWProperties oEntityProperties = getEntityProperties(nType);
     		oEntityProperties.put( clsEntity.P_ID, nType.name()+"_"+i );
     		
-    		for (String oRemoveKey:oRemove) {
-    			oEntityProperties.removeKeysStartingWith(oRemoveKey);
+    		if (oRemove != null) {
+	    		for (String oRemoveKey:oRemove) {
+	    			oEntityProperties.removeKeysStartingWith(oRemoveKey);
+	    		}
     		}
     		
     		oEntityProperties.putAll( oOverwrite );

@@ -82,8 +82,8 @@ public class clsCarrot extends clsInanimate implements itfGetFlesh, itfAPEatable
 	private void applyProperties(String poPrefix, clsBWProperties poProp){
 		String pre = clsBWProperties.addDot(poPrefix);
 		
-		moFresh = clsShapeCreator.createShape(poPrefix+P_SHAPE_FRESH, poProp);
-		moDead = clsShapeCreator.createShape(poPrefix+P_SHAPE_DEAD, poProp);
+		moFresh = clsShapeCreator.createShape(poPrefix+P_SHAPE+"."+P_SHAPE_FRESH, poProp);
+		moDead = clsShapeCreator.createShape(poPrefix+P_SHAPE+"."+P_SHAPE_DEAD, poProp);
 		
 		mrInitialFleshWeight = poProp.getPropertyDouble(pre+P_BODY+"."+clsFlesh.P_WEIGHT);
 				
@@ -103,21 +103,17 @@ public class clsCarrot extends clsInanimate implements itfGetFlesh, itfAPEatable
 		oProp.putAll(clsInanimate.getDefaultProperties(pre) );
 		oProp.setProperty(pre+P_STRUCTURALWEIGHT, 5000);
 
-		oProp.setProperty(pre+P_SHAPE+"."+clsShapeCreator.P_TYPE, eShapeType.CIRCLE.name());
-		oProp.setProperty(pre+P_SHAPE+"."+clsShapeCreator.P_RADIUS, "1.5");
-		oProp.setProperty(pre+P_SHAPE+"."+clsShapeCreator.P_COLOR, Color.orange);
-
-		oProp.setProperty(pre+P_SHAPE_FRESH+"."+clsShapeCreator.P_TYPE, eShapeType.CIRCLE.name());
-		oProp.setProperty(pre+P_SHAPE_FRESH+"."+clsShapeCreator.P_RADIUS, "1.5");
-		oProp.setProperty(pre+P_SHAPE_FRESH+"."+clsShapeCreator.P_COLOR, Color.orange);
-		oProp.setProperty(pre+P_SHAPE_FRESH+"."+clsShapeCreator.P_IMAGE_PATH, "/BW/src/resources/images/carrot_clipart.png");
-		oProp.setProperty(pre+P_SHAPE_FRESH+"."+clsShapeCreator.P_IMAGE_POSITIONING, eImagePositioning.DEFAULT.name());
-
-		oProp.setProperty(pre+P_SHAPE_DEAD+"."+clsShapeCreator.P_TYPE, eShapeType.CIRCLE.name());
-		oProp.setProperty(pre+P_SHAPE_DEAD+"."+clsShapeCreator.P_RADIUS, "1.5");
-		oProp.setProperty(pre+P_SHAPE_DEAD+"."+clsShapeCreator.P_COLOR, Color.gray);
-		oProp.setProperty(pre+P_SHAPE_DEAD+"."+clsShapeCreator.P_IMAGE_PATH, "/BW/src/resources/images/carrot_grayscale.png");
-		oProp.setProperty(pre+P_SHAPE_DEAD+"."+clsShapeCreator.P_IMAGE_POSITIONING, eImagePositioning.DEFAULT.name());
+		oProp.setProperty(pre+P_SHAPE+"."+clsShapeCreator.P_DEFAULT_SHAPE, P_SHAPE_FRESH);
+		oProp.setProperty(pre+P_SHAPE+"."+P_SHAPE_FRESH+"."+clsShapeCreator.P_TYPE, eShapeType.CIRCLE.name());
+		oProp.setProperty(pre+P_SHAPE+"."+P_SHAPE_FRESH+"."+clsShapeCreator.P_RADIUS, "1.5");
+		oProp.setProperty(pre+P_SHAPE+"."+P_SHAPE_FRESH+"."+clsShapeCreator.P_COLOR, Color.orange);
+		oProp.setProperty(pre+P_SHAPE+"."+P_SHAPE_FRESH+"."+clsShapeCreator.P_IMAGE_PATH, "/BW/src/resources/images/carrot_clipart.png");
+		oProp.setProperty(pre+P_SHAPE+"."+P_SHAPE_FRESH+"."+clsShapeCreator.P_IMAGE_POSITIONING, eImagePositioning.DEFAULT.name());
+		oProp.setProperty(pre+P_SHAPE+"."+P_SHAPE_DEAD+"."+clsShapeCreator.P_TYPE, eShapeType.CIRCLE.name());
+		oProp.setProperty(pre+P_SHAPE+"."+P_SHAPE_DEAD+"."+clsShapeCreator.P_RADIUS, "1.5");
+		oProp.setProperty(pre+P_SHAPE+"."+P_SHAPE_DEAD+"."+clsShapeCreator.P_COLOR, Color.gray);
+		oProp.setProperty(pre+P_SHAPE+"."+P_SHAPE_DEAD+"."+clsShapeCreator.P_IMAGE_PATH, "/BW/src/resources/images/carrot_grayscale.png");
+		oProp.setProperty(pre+P_SHAPE+"."+P_SHAPE_DEAD+"."+clsShapeCreator.P_IMAGE_POSITIONING, eImagePositioning.DEFAULT.name());
 
 		oProp.setProperty(pre+P_BODY+"."+clsFlesh.P_WEIGHT, 5.0 );
 		oProp.setProperty(pre+P_BODY+"."+clsFlesh.P_NUMNUTRITIONS, 3);

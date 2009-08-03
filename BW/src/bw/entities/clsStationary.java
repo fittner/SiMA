@@ -56,7 +56,8 @@ public abstract class clsStationary extends clsEntity {
 		double oPosY = poProp.getPropertyDouble(pre+clsPose.P_POS_Y);
 		double oPosAngle = poProp.getPropertyDouble(pre+clsPose.P_POS_ANGLE);
 		
-		Shape oShape = clsShapeCreator.createShape(pre+P_SHAPE, poProp); //depends on the config
+		String oDefaultShape = poProp.getPropertyString(pre+P_SHAPE+"."+clsShapeCreator.P_DEFAULT_SHAPE);
+		Shape oShape = clsShapeCreator.createShape(pre+P_SHAPE+"."+oDefaultShape, poProp);
 		initPhysicalObject2D(new clsPose(oPosX, oPosY, oPosAngle), new Double2D(0.0,0.0), oShape, getTotalWeight());
 	}	
 	

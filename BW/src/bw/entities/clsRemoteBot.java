@@ -43,7 +43,7 @@ public class clsRemoteBot extends clsAnimate implements itfGetVision, itfGetRadi
 	private void applyProperties(String poPrefix, clsBWProperties poProp) {
 		String pre = clsBWProperties.addDot(poPrefix);
 	
-		addBotHands( poProp.getPropertyColor(pre+P_SHAPE+"."+clsShapeCreator.P_COLOR) ); 
+		addBotHands( poProp.getPropertyColor(pre+P_SHAPE+"."+P_SHAPENAME+"."+clsShapeCreator.P_COLOR) ); 
 	}
 	
 	public static clsBWProperties getDefaultProperties(String poPrefix) {
@@ -62,9 +62,10 @@ public class clsRemoteBot extends clsAnimate implements itfGetVision, itfGetRadi
 		oProp.setProperty(pre+P_DECISION_TYPE, eDecisionType.DUMB_MIND_A.name());
 		
 		
-		oProp.setProperty(pre+P_SHAPE+"."+clsShapeCreator.P_TYPE, eShapeType.CIRCLE.name());
-		oProp.setProperty(pre+P_SHAPE+"."+clsShapeCreator.P_RADIUS, 10.0);
-		oProp.setProperty(pre+P_SHAPE+"."+clsShapeCreator.P_COLOR, Color.CYAN);
+		oProp.setProperty(pre+P_SHAPE+"."+clsShapeCreator.P_DEFAULT_SHAPE, P_SHAPENAME);
+		oProp.setProperty(pre+P_SHAPE+"."+P_SHAPENAME+"."+clsShapeCreator.P_TYPE, eShapeType.CIRCLE.name());
+		oProp.setProperty(pre+P_SHAPE+"."+P_SHAPENAME+"."+clsShapeCreator.P_RADIUS, 10.0);
+		oProp.setProperty(pre+P_SHAPE+"."+P_SHAPENAME+"."+clsShapeCreator.P_COLOR, Color.CYAN);
 
 		oProp.setProperty(pre+P_STRUCTURALWEIGHT, 50.0);
 		

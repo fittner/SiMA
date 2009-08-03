@@ -45,6 +45,7 @@ public abstract class clsEntity {
 	
 	//public static final String P_ENTITY_COLOR_RGB = "color_rgb"; // TD - moved to clsShapeCreator. if a differentiation between the color of the shape and the color of the agent is necessary - reactivate this property
 	public static final String P_SHAPE = "shape"; //prefix used for shape definitions
+	public static final String P_SHAPENAME = "_";
 	
 	protected PhysicalObject2D moPhysicalObject2D;
 	

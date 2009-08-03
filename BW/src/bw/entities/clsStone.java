@@ -33,7 +33,7 @@ public class clsStone extends clsInanimate {
 	
 	private void applyProperties(String poPrefix, clsBWProperties poProp){	
 		String pre = clsBWProperties.addDot(poPrefix);
-		double rMass = poProp.getPropertyDouble(pre+P_SHAPE+"."+clsShapeCreator.P_RADIUS)*
+		double rMass = poProp.getPropertyDouble(pre+P_SHAPE+".0."+clsShapeCreator.P_RADIUS)*
 			poProp.getPropertyDouble(poPrefix+ P_RADIUS_TO_MASS_CONVERSION);
 		setStructuralWeight(rMass);
 	}	
@@ -46,11 +46,31 @@ public class clsStone extends clsInanimate {
 		oProp.putAll(clsInanimate.getDefaultProperties(pre) );
 		oProp.setProperty(pre+P_RADIUS_TO_MASS_CONVERSION , 500.0);
 		
-		oProp.setProperty(pre+P_SHAPE+"."+clsShapeCreator.P_TYPE, eShapeType.CIRCLE.name());
-		oProp.setProperty(pre+P_SHAPE+"."+clsShapeCreator.P_RADIUS, "15.0");
-		oProp.setProperty(pre+P_SHAPE+"."+clsShapeCreator.P_COLOR, Color.DARK_GRAY);
-		oProp.setProperty(pre+P_SHAPE+"."+clsShapeCreator.P_IMAGE_PATH, "/BW/src/resources/images/rock1.png");
-		oProp.setProperty(pre+P_SHAPE+"."+clsShapeCreator.P_IMAGE_POSITIONING, eImagePositioning.DEFAULT.name());		
+		oProp.setProperty(pre+P_SHAPE+"."+clsShapeCreator.P_DEFAULT_SHAPE, "0");
+		
+		oProp.setProperty(pre+P_SHAPE+".0."+clsShapeCreator.P_TYPE, eShapeType.CIRCLE.name());
+		oProp.setProperty(pre+P_SHAPE+".0."+clsShapeCreator.P_RADIUS, "15.0");
+		oProp.setProperty(pre+P_SHAPE+".0."+clsShapeCreator.P_COLOR, Color.DARK_GRAY);
+		oProp.setProperty(pre+P_SHAPE+".0."+clsShapeCreator.P_IMAGE_PATH, "/BW/src/resources/images/rock1.png");
+		oProp.setProperty(pre+P_SHAPE+".0."+clsShapeCreator.P_IMAGE_POSITIONING, eImagePositioning.DEFAULT.name());		
+		
+		oProp.setProperty(pre+P_SHAPE+".1."+clsShapeCreator.P_TYPE, eShapeType.CIRCLE.name());
+		oProp.setProperty(pre+P_SHAPE+".1."+clsShapeCreator.P_RADIUS, "15.0");
+		oProp.setProperty(pre+P_SHAPE+".1."+clsShapeCreator.P_COLOR, Color.DARK_GRAY);
+		oProp.setProperty(pre+P_SHAPE+".1."+clsShapeCreator.P_IMAGE_PATH, "/BW/src/resources/images/rock2.png");
+		oProp.setProperty(pre+P_SHAPE+".1."+clsShapeCreator.P_IMAGE_POSITIONING, eImagePositioning.DEFAULT.name());		
+		
+		oProp.setProperty(pre+P_SHAPE+".2."+clsShapeCreator.P_TYPE, eShapeType.CIRCLE.name());
+		oProp.setProperty(pre+P_SHAPE+".2."+clsShapeCreator.P_RADIUS, "15.0");
+		oProp.setProperty(pre+P_SHAPE+".2."+clsShapeCreator.P_COLOR, Color.DARK_GRAY);
+		oProp.setProperty(pre+P_SHAPE+".2."+clsShapeCreator.P_IMAGE_PATH, "/BW/src/resources/images/rock3.png");
+		oProp.setProperty(pre+P_SHAPE+".2."+clsShapeCreator.P_IMAGE_POSITIONING, eImagePositioning.DEFAULT.name());		
+		
+		oProp.setProperty(pre+P_SHAPE+".3."+clsShapeCreator.P_TYPE, eShapeType.CIRCLE.name());
+		oProp.setProperty(pre+P_SHAPE+".3."+clsShapeCreator.P_RADIUS, "15.0");
+		oProp.setProperty(pre+P_SHAPE+".3."+clsShapeCreator.P_COLOR, Color.DARK_GRAY);
+		oProp.setProperty(pre+P_SHAPE+".3."+clsShapeCreator.P_IMAGE_PATH, "/BW/src/resources/images/rock4.png");
+		oProp.setProperty(pre+P_SHAPE+".3."+clsShapeCreator.P_IMAGE_POSITIONING, eImagePositioning.DEFAULT.name());				
 	   			
 		return oProp;
 	}	

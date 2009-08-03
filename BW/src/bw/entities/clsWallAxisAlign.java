@@ -23,7 +23,7 @@ import enums.eEntityType;
  * @author langr
  * 
  */
-public class clsWallAxisAlign extends clsStationary  {
+public class clsWallAxisAlign extends clsStationary  {	
     public clsWallAxisAlign(String poPrefix, clsBWProperties poProp) {
     	super(poPrefix, poProp);
     	
@@ -35,10 +35,11 @@ public class clsWallAxisAlign extends clsStationary  {
 		clsBWProperties oProp = new clsBWProperties();
 		oProp.putAll(clsStationary.getDefaultProperties(pre) );
 		
-		oProp.setProperty(pre+P_SHAPE+"."+clsShapeCreator.P_TYPE, eShapeType.RECTANGLE.name());
-		oProp.setProperty(pre+P_SHAPE+"."+clsShapeCreator.P_WIDTH, 10);
-		oProp.setProperty(pre+P_SHAPE+"."+clsShapeCreator.P_HEIGHT, 10);
-		oProp.setProperty(pre+P_SHAPE+"."+clsShapeCreator.P_COLOR, Color.black);
+		oProp.setProperty(pre+P_SHAPE+"."+clsShapeCreator.P_DEFAULT_SHAPE, P_SHAPENAME);
+		oProp.setProperty(pre+P_SHAPE+"."+P_SHAPENAME+"."+clsShapeCreator.P_TYPE, eShapeType.RECTANGLE.name());
+		oProp.setProperty(pre+P_SHAPE+"."+P_SHAPENAME+"."+clsShapeCreator.P_WIDTH, 10);
+		oProp.setProperty(pre+P_SHAPE+"."+P_SHAPENAME+"."+clsShapeCreator.P_HEIGHT, 10);
+		oProp.setProperty(pre+P_SHAPE+"."+P_SHAPENAME+"."+clsShapeCreator.P_COLOR, Color.black);
 			
 		return oProp;
 	}	
