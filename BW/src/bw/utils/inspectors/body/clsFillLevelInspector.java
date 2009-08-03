@@ -102,7 +102,7 @@ public class clsFillLevelInspector extends Inspector{
 		for(Map.Entry<eNutritions, clsNutritionLevel> oNut : moStomachSystem.getList().entrySet() ) {
 			moDataset.addValue( oNut.getValue().getContent(), "Nutrition", oNut.getKey().toString()); 
 			moDatasetLowerBounds.addValue( oNut.getValue().getLowerBound(), "Lower Bound", oNut.getKey().toString());
-			moDatasetUpperBounds.addValue( oNut.getValue().getLowerBound(), "Upper Bound", oNut.getKey().toString());
+			moDatasetUpperBounds.addValue( oNut.getValue().getUpperBound(), "Upper Bound", oNut.getKey().toString());
 			moDatasetMaxValue.addValue( oNut.getValue().getMaxContent(), "Max Value", oNut.getKey().toString());
 		}
 		

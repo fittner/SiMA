@@ -38,7 +38,7 @@ public class clsMeatBody extends clsBaseBody {
 		
 		oProp.putAll( clsFlesh.getDefaultProperties(pre) );
 		oProp.setProperty(pre+P_REGROWRATE, 0);
-		oProp.setProperty(pre+P_MAXWEIGHT, java.lang.Double.MAX_VALUE);
+		oProp.setProperty(pre+P_MAXWEIGHT, 100);
 				
 		return oProp;
 	}	

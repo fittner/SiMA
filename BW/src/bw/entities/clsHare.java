@@ -57,8 +57,10 @@ public class clsHare extends clsAnimal implements itfGetFlesh, itfAPEatable, itf
 	private void applyProperties(String poPrefix, clsBWProperties poProp) {
 		String pre = clsBWProperties.addDot(poPrefix);
 		
-		moAlive = clsShapeCreator.createShape(poPrefix+P_SHAPE_ALIVE, poProp);
-		moDead = clsShapeCreator.createShape(poPrefix+P_SHAPE_DEAD, poProp);		
+		moAlive = clsShapeCreator.createShape(pre+P_SHAPE_ALIVE, poProp);
+		moDead = clsShapeCreator.createShape(pre+P_SHAPE_DEAD, poProp);		
+		
+		setShape(moAlive, getTotalWeight());
 	}
 	
 	public static clsBWProperties getDefaultProperties(String poPrefix) {

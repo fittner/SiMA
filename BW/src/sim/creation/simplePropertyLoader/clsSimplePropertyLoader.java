@@ -9,11 +9,12 @@
 package sim.creation.simplePropertyLoader;
 
 import java.awt.Color;
-
+import java.util.List;
 import du.utils.enums.eDecisionType;
 import enums.eEntityType;
 import ARSsim.physics2D.util.clsPose;
 import bw.body.clsComplexBody;
+import bw.body.clsMeatBody;
 import bw.body.internalSystems.clsFlesh;
 import bw.body.internalSystems.clsInternalSystem;
 import bw.entities.clsAnimate;
@@ -34,10 +35,14 @@ import bw.entities.clsWallAxisAlign;
 import bw.entities.clsWallHorizontal;
 import bw.entities.clsWallVertical;
 import bw.entities.tools.clsShapeCreator;
+import bw.entities.tools.eImagePositioning;
 import bw.factories.clsPropertiesGetter;
 import bw.factories.clsRegisterEntity;
 import bw.factories.clsSingletonMasonGetter;
 import bw.utils.config.clsBWProperties;
+import bw.utils.enums.eBodyType;
+import bw.utils.enums.eNutritions;
+import bw.utils.enums.eShapeType;
 import sim.creation.clsLoader;
 import sim.creation.eLoader;
 import sim.engine.SimState;
@@ -51,6 +56,7 @@ import sim.engine.SimState;
  */
 public class clsSimplePropertyLoader extends clsLoader {
 	public static final String P_WORLDBOUNDARYWALLS = "worldboundarywalls";
+	public static final String P_REMOVEDEFAULTS = "removedefaults";	
 	public static final String P_OVERWRITEDEFAULTS = "overwritedefaults";
 	public static final String P_ENTITYGROUPS = "entitygroups";
 	public static final String P_NUMENTITYGROUPS = "numentitygroups";
@@ -58,13 +64,13 @@ public class clsSimplePropertyLoader extends clsLoader {
 	public static final String P_ENTITYGROUPTYPE = "entitygrouptype";
 	public static final String P_POSITIONTYPE = "positiontype";
 	public static final String P_POSITIONS = "positions";
+
 	
 	public static final String P_ENTITYDEFAULTS  = "entitydefaults";
 
 	private int numentitygroups;
-	private int idcounter = 0;
 	
-	public static final int mnVersion = 1;
+	public static final int mnVersion = 2;
 	public static final int mnDownCompatibility = -1; // can read any old version
 	
 	public clsSimplePropertyLoader(SimState poSimState, clsBWProperties poProperties) {
@@ -152,6 +158,25 @@ public class clsSimplePropertyLoader extends clsLoader {
 		oProp.setProperty(pre+P_ENTITYGROUPS+"."+i+"."+P_ENTITYGROUPTYPE, eEntityType.PLANT.name());
 		oProp.setProperty(pre+P_ENTITYGROUPS+"."+i+"."+P_NUMENTITES, 1);
 		oProp.setProperty(pre+P_ENTITYGROUPS+"."+i+"."+P_POSITIONS+"."+P_POSITIONTYPE, ePositionType.RANDOM.name());
+		oProp.setProperty(pre+P_ENTITYGROUPS+"."+i+"."+P_REMOVEDEFAULTS, "shape, body");
+		oProp.setProperty(pre+P_ENTITYGROUPS+"."+i+"."+P_OVERWRITEDEFAULTS+"."+clsEntity.P_SHAPE+"."+clsShapeCreator.P_TYPE, eShapeType.CIRCLE.name());
+		oProp.setProperty(pre+P_ENTITYGROUPS+"."+i+"."+P_OVERWRITEDEFAULTS+"."+clsEntity.P_SHAPE+"."+clsShapeCreator.P_RADIUS, "1.5");
+		oProp.setProperty(pre+P_ENTITYGROUPS+"."+i+"."+P_OVERWRITEDEFAULTS+"."+clsEntity.P_SHAPE+"."+clsShapeCreator.P_COLOR, Color.orange);
+		oProp.setProperty(pre+P_ENTITYGROUPS+"."+i+"."+P_OVERWRITEDEFAULTS+"."+clsEntity.P_SHAPE+"."+clsShapeCreator.P_IMAGE_PATH, "/BW/src/resources/images/carrot_clipart.png");
+		oProp.setProperty(pre+P_ENTITYGROUPS+"."+i+"."+P_OVERWRITEDEFAULTS+"."+clsEntity.P_SHAPE+"."+clsShapeCreator.P_IMAGE_POSITIONING, eImagePositioning.DEFAULT.name());		
+		oProp.setProperty(pre+P_ENTITYGROUPS+"."+i+"."+P_OVERWRITEDEFAULTS+"."+clsAnimate.P_BODY_TYPE, eBodyType.MEAT.toString());
+		oProp.setProperty(pre+P_ENTITYGROUPS+"."+i+"."+P_OVERWRITEDEFAULTS+"."+clsAnimate.P_BODY+"."+clsMeatBody.P_REGROWRATE, 1);
+		oProp.setProperty(pre+P_ENTITYGROUPS+"."+i+"."+P_OVERWRITEDEFAULTS+"."+clsAnimate.P_BODY+"."+clsMeatBody.P_MAXWEIGHT, 100);
+		oProp.setProperty(pre+P_ENTITYGROUPS+"."+i+"."+P_OVERWRITEDEFAULTS+"."+clsAnimate.P_BODY+"."+clsFlesh.P_WEIGHT, 50 );
+		oProp.setProperty(pre+P_ENTITYGROUPS+"."+i+"."+P_OVERWRITEDEFAULTS+"."+clsAnimate.P_BODY+"."+clsFlesh.P_NUMNUTRITIONS, 4 );
+		oProp.setProperty(pre+P_ENTITYGROUPS+"."+i+"."+P_OVERWRITEDEFAULTS+"."+clsAnimate.P_BODY+"."+"0."+clsFlesh.P_NUTRITIONTYPE, eNutritions.PROTEIN.name());
+		oProp.setProperty(pre+P_ENTITYGROUPS+"."+i+"."+P_OVERWRITEDEFAULTS+"."+clsAnimate.P_BODY+"."+"0."+clsFlesh.P_NUTRITIONFRACTION, 0.5);
+		oProp.setProperty(pre+P_ENTITYGROUPS+"."+i+"."+P_OVERWRITEDEFAULTS+"."+clsAnimate.P_BODY+"."+"1."+clsFlesh.P_NUTRITIONTYPE, eNutritions.VITAMIN.name());
+		oProp.setProperty(pre+P_ENTITYGROUPS+"."+i+"."+P_OVERWRITEDEFAULTS+"."+clsAnimate.P_BODY+"."+"1."+clsFlesh.P_NUTRITIONFRACTION, 0.5);
+		oProp.setProperty(pre+P_ENTITYGROUPS+"."+i+"."+P_OVERWRITEDEFAULTS+"."+clsAnimate.P_BODY+"."+"2."+clsFlesh.P_NUTRITIONTYPE, eNutritions.WATER.name());
+		oProp.setProperty(pre+P_ENTITYGROUPS+"."+i+"."+P_OVERWRITEDEFAULTS+"."+clsAnimate.P_BODY+"."+"2."+clsFlesh.P_NUTRITIONFRACTION, 4);
+		oProp.setProperty(pre+P_ENTITYGROUPS+"."+i+"."+P_OVERWRITEDEFAULTS+"."+clsAnimate.P_BODY+"."+"3."+clsFlesh.P_NUTRITIONTYPE, eNutritions.UNDIGESTABLE.toString());
+		oProp.setProperty(pre+P_ENTITYGROUPS+"."+i+"."+P_OVERWRITEDEFAULTS+"."+clsAnimate.P_BODY+"."+"3."+clsFlesh.P_NUTRITIONFRACTION, 8);		
 		
 		i++;
 		oProp.setProperty(pre+P_ENTITYGROUPS+"."+i+"."+P_ENTITYGROUPTYPE, eEntityType.HARE.name());
@@ -303,12 +328,17 @@ public class clsSimplePropertyLoader extends clsLoader {
     	String pre = clsBWProperties.addDot(poPrefix);
     	eEntityType nType = eEntityType.valueOf(poProp.getPropertyString(pre+P_ENTITYGROUPTYPE));
     	clsBWProperties oOverwrite = poProp.getSubset(pre+P_OVERWRITEDEFAULTS);
-    	
+    	List<String> oRemove = poProp.getPropertyList(pre+P_REMOVEDEFAULTS);
     	
     	int num = poProp.getPropertyInt(pre+P_NUMENTITES);
     	for (int i=0; i<num; i++) {
     		clsBWProperties oEntityProperties = getEntityProperties(nType);
     		oEntityProperties.put( clsEntity.P_ID, nType.name()+"_"+i );
+    		
+    		for (String oRemoveKey:oRemove) {
+    			oEntityProperties.removeKeysStartingWith(oRemoveKey);
+    		}
+    		
     		oEntityProperties.putAll( oOverwrite );
     		oEntityProperties.putAll( getPosition(pre, poProp, "", i) );    		
     		createEntity("", oEntityProperties, nType);
