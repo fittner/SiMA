@@ -22,7 +22,7 @@ public abstract class clsBaseDecisionUnit {
 	/**
 	 * @return the moSensorData
 	 */
-	protected clsSensorData getSensorData() {
+	public clsSensorData getSensorData() {
 		return moSensorData;
 	}
 }

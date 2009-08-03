@@ -1,5 +1,7 @@
 package decisionunit.itf.sensors;
 
+import java.util.Formatter;
+
 public class clsPositionChange extends clsSensorExtern {
 
 	public double x=0;
@@ -21,6 +23,19 @@ public class clsPositionChange extends clsSensorExtern {
 	public String toString() {
 
 		return getClassName()+": "+x+"/"+y+"@"+a;
+	}
+
+	@Override
+	public String logHTML() {
+		String oResult = "";
+		Formatter oDoubleFormatter = new Formatter();
+		oResult += "<tr><td>"+getClassName()+"</td>"+oDoubleFormatter.format("%.5f",x);
+		oDoubleFormatter = new Formatter();
+		oResult += "/"+oDoubleFormatter.format("%.5f",y);
+		oDoubleFormatter = new Formatter();
+		oResult += "@"+oDoubleFormatter.format("%.5f",a)+"<td></td></tr>";
+		
+		return oResult;
 	}
 
 }

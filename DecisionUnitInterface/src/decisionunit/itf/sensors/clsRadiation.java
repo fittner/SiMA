@@ -20,5 +20,10 @@ public class clsRadiation extends clsSensorExtern {
 	public String toString() {
 		return getClassName()+": entities present "+mnNumEntitiesPresent+" | type of first entity "+mnTypeOfFirstEntity.toString();
 	}
+
+	@Override
+	public String logHTML() {
+		return "<tr><td>"+getClassName()+"</td><td>"+mnNumEntitiesPresent+"|"+mnTypeOfFirstEntity.toString()+"</td></tr>";
+	}
 }
 

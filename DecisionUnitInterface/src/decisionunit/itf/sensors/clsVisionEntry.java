@@ -2,6 +2,7 @@ package decisionunit.itf.sensors;
 
 
 import java.awt.Color;
+import java.util.Formatter;
 
 import enums.eEntityType;
 import enums.eShapeType;
@@ -40,6 +41,28 @@ public class clsVisionEntry {
 		logEntry += "</Entry>";
 
 		return logEntry;		
+	}
+	
+	public String logHTML() {
+		String oResult = "";
+		Formatter oDoubleFormatter = new Formatter();
+
+		
+		//mnEntityType
+		oResult += "x:"+oDoubleFormatter.format("%.2f",moPolarcoordinate.getVector().mrX);
+		//TODO (langr): use the formatter in a better way!!!
+		oDoubleFormatter = new Formatter();
+		oResult += " y:"+oDoubleFormatter.format("%.2f",moPolarcoordinate.getVector().mrY);
+		oDoubleFormatter = new Formatter();
+		oResult += " deg:"+oDoubleFormatter.format("%.5f",moPolarcoordinate.moAzimuth.getDegree())+" ";
+		oDoubleFormatter = new Formatter();
+		oResult += mnEntityType.toString();
+		oResult += " - ID="+moEntityId+" : ";
+
+		
+		moColor.toString();
+		
+		return oResult;
 	}
 
 	@Override

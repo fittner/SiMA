@@ -23,5 +23,10 @@ public class clsFastMessengerSystem extends clsSensorIntern {
 	@Override
 	public String toString() {
 		return getClassName()+": ";
+	}
+
+	@Override
+	public String logHTML() {
+		return "<tr><td>"+getClassName()+"</td><td></td></tr>";
 	}	
 }

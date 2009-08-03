@@ -23,4 +23,10 @@ public class clsEatableArea extends clsSensorExtern {
 	public String toString() {
 		return getClassName()+": entities present "+mnNumEntitiesPresent+" | type of first entity "+mnTypeOfFirstEntity.toString();
 	}
+
+	@Override
+	public String logHTML() {
+		
+		return "<tr><td>Eatable</td><td>"+getClassName()+" : "+mnNumEntitiesPresent+" : "+mnTypeOfFirstEntity.toString();
+	}
 }

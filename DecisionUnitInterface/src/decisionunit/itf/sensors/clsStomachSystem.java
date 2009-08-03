@@ -3,6 +3,8 @@
  */
 package decisionunit.itf.sensors;
 
+import java.util.Formatter;
+
 /**
  * @author langr
  * 
@@ -25,5 +27,11 @@ public class clsStomachSystem extends clsSensorHomeostasis {
 	@Override
 	public String toString() {
 		return getClassName()+": Energy "+mrEnergy;
+	}
+
+	@Override
+	public String logHTML() {
+		Formatter oDoubleFormatter = new Formatter();
+		return "<tr><td>"+getClassName()+"</td>"+oDoubleFormatter .format("%.5f",mrEnergy)+"<td></td></tr>";
 	}	
 }

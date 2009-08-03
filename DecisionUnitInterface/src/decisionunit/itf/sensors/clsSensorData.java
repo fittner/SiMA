@@ -51,6 +51,23 @@ public class clsSensorData {
 		
 		return clsDataBase.addXMLTag("SensorData", logEntry);		
 	}
+	
+	public String logHTML() {
+
+		String logEntry = "";
+		
+		logEntry+="<p color='#FF0000'>External Data</p><table><tr><td width='100'>Type</td><td>Value</td></tr>";
+		for( clsDataBase oDataBase : moSensorDataExt.values() ) {
+			logEntry += oDataBase.logHTML();
+		}
+		logEntry+="</table><p color='#FF0000'>Internal Data</p><table><tr><td width='100'>Type</td><td>Value</td></tr>";
+		for( clsDataBase oDataBase : moSensorDataInt.values() ) {
+			logEntry += oDataBase.logHTML();
+		}
+		logEntry+="</table>";
+		
+		return logEntry;
+	}	
 
 	private String toStringSensors(Collection<clsDataBase> poSensorData) {
 		String logEntry = "";
@@ -68,5 +85,7 @@ public class clsSensorData {
 	@Override
 	public String toString() {
 		return "SensorData: External "+toStringSensors(moSensorDataExt.values())+" $$ Internal "+toStringSensors(moSensorDataInt.values());
-	}	
+	}
+
+
 }

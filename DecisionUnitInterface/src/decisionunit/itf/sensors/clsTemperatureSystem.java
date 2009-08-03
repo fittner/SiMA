@@ -1,5 +1,7 @@
 package decisionunit.itf.sensors;
 
+import java.util.Formatter;
+
 public class clsTemperatureSystem  extends clsSensorHomeostasis {
 	
 	public double mrTemperatureValue;
@@ -17,6 +19,12 @@ public class clsTemperatureSystem  extends clsSensorHomeostasis {
 	@Override
 	public String toString() {
 		return getClassName()+": Temperature "+mrTemperatureValue;
+	}
+
+	@Override
+	public String logHTML() {
+		Formatter oDoubleFormatter = new Formatter();
+		return "<tr><td>"+getClassName()+"</td><td>"+oDoubleFormatter .format("%.5f",mrTemperatureValue)+"</td></tr>";
 	}			
 
 }

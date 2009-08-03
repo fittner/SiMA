@@ -2,6 +2,7 @@ package decisionunit.itf.sensors;
 
 public abstract class clsDataBase {
 	abstract public String logXML();
+	abstract public String logHTML();
 	@Override
 	abstract public String toString();
 		
@@ -41,5 +42,4 @@ public abstract class clsDataBase {
 		
 		return tag;
 	}
-
 }

@@ -43,5 +43,19 @@ public class clsVision extends clsSensorExtern {
 		}
 		
 		return oResult;
+	}
+
+	@Override
+	public String logHTML() {
+		
+		String oRetVal = "<tr><td>"+getClassName()+"</td><td></td></tr>";
+		
+		int i = 0;
+		for (clsVisionEntry oEntry:moEntries) {
+			oRetVal += "<tr><td>"+i+"</td><td>"+oEntry.logHTML()+"</td></tr>";
+			i++;
+		}
+		
+		return oRetVal;
 	}	
 }
