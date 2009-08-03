@@ -31,7 +31,7 @@ public class tstFillLevel {
 		clsFillLevel oFill = new clsFillLevel();
 		assertNotNull(oFill);
 
-		assertEquals(oFill.getMaxContent(), java.lang.Double.MAX_VALUE);
+		assertEquals(oFill.getMaxContent(), java.lang.Double.MAX_VALUE, 0.00001f);
 		assertEquals(oFill.getContent(), 0.0f, 0.00001f);
 		assertEquals(oFill.getChange(), 0.0f, 0.00001f);
 	}

@@ -77,15 +77,15 @@ public class clsBWMain extends SimState{
 		try {
 			int i = Integer.valueOf( moArgs[0] );
 			switch(i) {
-				case 0: oFilename = "testsetup.main.property"; break;
-				case 1: oFilename = "funguseater.main.property"; break;
-				case 2: oFilename = "hare_vs_lynx.main.property"; break;
-				default: oFilename = "testsetup.main.property"; break;
+				case 0: oFilename = "testsetup.main.properties"; break;
+				case 1: oFilename = "funguseater.main.properties"; break;
+				case 2: oFilename = "hare_vs_lynx.main.properties"; break;
+				default: oFilename = "testsetup.main.properties"; break;
 			}
 		} catch (NumberFormatException e) {
 			oFilename = moArgs[0]; // given parameter is not an index number. it is probably a filename
 		} catch (java.lang.ArrayIndexOutOfBoundsException e) {
-			oFilename = "testsetup.main.property"; // no parameters given - used default config
+			oFilename = "testsetup.main.properties"; // no parameters given - used default config
 		}
 		
 		String oPath = clsGetARSPath.getConfigPath();
