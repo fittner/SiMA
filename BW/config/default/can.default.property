@@ -1,5 +1,5 @@
 #
-#Mon Aug 03 14:05:22 CEST 2009
+#Mon Aug 03 14:55:32 CEST 2009
 def_coeff_friction=0.5
 def_restitution=1.0
 def_static_friction=0.2
@@ -7,9 +7,10 @@ id=-1
 pos_angle=0.0
 pos_x=0.0
 pos_y=0.0
-shape.color=\#0000ff
-shape.radius=2
-shape.type=CIRCLE
+shape._.color=\#0000ff
+shape._.radius=2
+shape._.type=CIRCLE
+shape.default_shape=_
 start_velocity_x=0.0
 start_velocity_y=0.0
 weight_structural=80.0

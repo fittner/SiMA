@@ -1,5 +1,5 @@
 #
-#Mon Aug 03 14:05:22 CEST 2009
+#Mon Aug 03 14:55:32 CEST 2009
 body.bodyworld.consumefood.garbagenutritiontype=UNDIGESTABLE
 body.bodyworld.damagebump.healthpenalty=1
 body.bodyworld.damagebump.hurthreshold=0
@@ -124,19 +124,17 @@ id=-1
 pos_angle=0.0
 pos_x=0.0
 pos_y=0.0
-shape.color=\#c0c0c0
-shape.radius=2.5
-shape.type=CIRCLE
-shape_alive.color=\#c0c0c0
-shape_alive.image_path=/BW/src/resources/images/hase.png
-shape_alive.image_positioning=DEFAULT
-shape_alive.radius=2.5
-shape_alive.type=CIRCLE
-shape_dead.color=\#000000
-shape_dead.image_path=/BW/src/resources/images/hase.png
-shape_dead.image_positioning=DEFAULT
-shape_dead.radius=2.5
-shape_dead.type=CIRCLE
+shape.default_shape=shape_alive
+shape.shape_alive.color=\#c0c0c0
+shape.shape_alive.image_path=/BW/src/resources/images/hase.png
+shape.shape_alive.image_positioning=DEFAULT
+shape.shape_alive.radius=2.5
+shape.shape_alive.type=CIRCLE
+shape.shape_dead.color=\#000000
+shape.shape_dead.image_path=/BW/src/resources/images/hase.png
+shape.shape_dead.image_positioning=DEFAULT
+shape.shape_dead.radius=2.5
+shape.shape_dead.type=CIRCLE
 start_velocity_x=0.0
 start_velocity_y=0.0
 weight_structural=1000.0

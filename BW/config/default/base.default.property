@@ -1,5 +1,5 @@
 #
-#Mon Aug 03 14:05:22 CEST 2009
+#Mon Aug 03 14:55:32 CEST 2009
 def_restitution=1.0
 id=-1
 pos_angle=0.0
@@ -8,9 +8,10 @@ pos_y=0.0
 sensor.offset=0.0
 sensor.sensor_angle=6.2517693806436885
 sensor.sensor_range=50.0
-shape.color=\#808080
-shape.image_path=/BW/src/resources/images/spacestation.png
-shape.image_positioning=DEFAULT
-shape.radius=50.0
-shape.type=CIRCLE
+shape._.color=\#808080
+shape._.image_path=/BW/src/resources/images/spacestation.png
+shape._.image_positioning=DEFAULT
+shape._.radius=50.0
+shape._.type=CIRCLE
+shape.default_shape=_
 weight_structural=1.7976931348623157E308

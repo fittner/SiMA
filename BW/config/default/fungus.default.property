@@ -1,5 +1,5 @@
 #
-#Mon Aug 03 14:05:22 CEST 2009
+#Mon Aug 03 14:55:32 CEST 2009
 body.0.fraction=5.0
 body.0.type=FAT
 body.1.fraction=1.0
@@ -15,11 +15,12 @@ id=-1
 pos_angle=0.0
 pos_x=0.0
 pos_y=0.0
-shape.color=\#ffafaf
-shape.image_path=/BW/src/resources/images/fungus.png
-shape.image_positioning=DEFAULT
-shape.radius=6.0
-shape.type=CIRCLE
+shape._.color=\#ffafaf
+shape._.image_path=/BW/src/resources/images/fungus.png
+shape._.image_positioning=DEFAULT
+shape._.radius=6.0
+shape._.type=CIRCLE
+shape.default_shape=_
 start_velocity_x=0.0
 start_velocity_y=0.0
 weight_structural=15.0
