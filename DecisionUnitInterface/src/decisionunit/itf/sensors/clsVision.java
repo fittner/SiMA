@@ -52,7 +52,7 @@ public class clsVision extends clsSensorExtern {
 		
 		int i = 0;
 		for (clsVisionEntry oEntry:moEntries) {
-			oRetVal += "<tr><td style='text-align:right;'>"+i+"</td><td>"+oEntry.logHTML()+"</td></tr>";
+			oRetVal += "<tr><td align='right'>"+i+"</td><td>"+oEntry.logHTML()+"</td></tr>";
 			i++;
 		}
 		
