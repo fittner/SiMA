@@ -86,8 +86,8 @@ public class clsInspectorInternalSystems extends Inspector{
 		moDatasetLowerLimits.addValue(0, "Lower Bound", "Energy");
 		moDatasetUpperLimits.addValue(10, "Upper Bound", "Energy");
 
-		
-		moDataset.addValue(moInternalSystem.getHealthSystem().getHealth().getContent(), "Health", "Health");
+		//health value divided by 10 to match with other upper bounds
+		moDataset.addValue(moInternalSystem.getHealthSystem().getHealth().getContent()/10, "Health", "Health");
 		moDatasetLowerLimits.addValue(0, "Lower Bound", "Health");
 		moDatasetUpperLimits.addValue(10, "Upper Bound", "Health");
 		
@@ -173,8 +173,8 @@ public class clsInspectorInternalSystems extends Inspector{
 		moDatasetLowerLimits.addValue(0, "Lower Bound", "Energy");
 		moDatasetUpperLimits.addValue(10, "Upper Bound", "Energy");
 
-		
-		moDataset.addValue(moInternalSystem.getHealthSystem().getHealth().getContent(), "Health", "Health");
+		//health value divided by 10 to match with other upper bounds
+		moDataset.addValue(moInternalSystem.getHealthSystem().getHealth().getContent()/10, "Health", "Health");
 		moDatasetLowerLimits.addValue(0, "Lower Bound", "Health");
 		moDatasetUpperLimits.addValue(10, "Upper Bound", "Health");
 		

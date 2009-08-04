@@ -67,7 +67,7 @@ public class clsSensorData {
 		logEntry+="</table>";
 		
 		return logEntry;
-	}	
+	}
 
 	private String toStringSensors(Collection<clsDataBase> poSensorData) {
 		String logEntry = "";
