@@ -175,9 +175,8 @@ public class clsInspectorEntity extends Inspector implements ActionListener {
 			moEntityWindows.add( clsInspectorFrame.getInspectorFrame(oMasonInspector, moEntity.getId()  + " - " +  moEntity.getEntityType().toString() + " - Body Inspector") );
 		}
 		else if( source == moBtnBrainInspectors) {
-			TabbedInspector oMasonInspector = new TabbedInspector();
 			//define the inspector-content for each entity in the responsible InspectorMapping-class
-			oMasonInspector.addInspector( clsInspectorMappingDecision.getInspector(moOriginalInspector, moWrapper, moGuiState, ((itfGetBrain)((itfGetBody)moEntity).getBody()).getBrain().getDecisionUnit()), "Brain Insp.");
+			TabbedInspector oMasonInspector = clsInspectorMappingDecision.getInspector(moOriginalInspector, moWrapper, moGuiState, ((itfGetBrain)((itfGetBody)moEntity).getBody()).getBrain().getDecisionUnit());
 			moEntityWindows.add( clsInspectorFrame.getInspectorFrame(oMasonInspector, moEntity.getId() + " - " + moEntity.getEntityType().toString() + " - Brain Inspector") );
 		}
 	}

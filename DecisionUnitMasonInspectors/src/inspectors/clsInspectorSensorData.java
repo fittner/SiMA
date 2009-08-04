@@ -80,9 +80,9 @@ public class clsInspectorSensorData extends Inspector {
 	 */
 	@Override
 	public void updateInspector() {
-        String contentData = "<html><head></head><body><p>";
+        String contentData = "<html><head><tr.font face='Courier'></head><body>";
         contentData+=moDU.getSensorData().logHTML();
-        contentData+="</p></body></html>";
+        contentData+="</body></html>";
         moHTMLPane.setText(contentData);
 	}
 

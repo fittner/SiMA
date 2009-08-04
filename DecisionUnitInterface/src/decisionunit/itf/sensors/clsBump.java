@@ -19,7 +19,7 @@ public class clsBump extends clsSensorExtern {
 		String oRetVal = "";
 		
 		if(mnBumped) {
-			oRetVal = "<tr color='FF0000'><td>"+getClassName()+"</td><td>"+new Boolean(mnBumped).toString()+"</td></tr>";
+			oRetVal = "<tr><td>"+getClassName()+"</td><td color='FF0000'>"+new Boolean(mnBumped).toString()+"</td></tr>";
 		}
 		else {
 			oRetVal = "<tr><td>"+getClassName()+"</td><td>"+new Boolean(mnBumped).toString()+"</td></tr>";
