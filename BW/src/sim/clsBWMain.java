@@ -49,7 +49,7 @@ public class clsBWMain extends SimState{
     
     public clsBWMain(long pnSeed) {
     	super(new MersenneTwisterFast(pnSeed), new Schedule());
-    	moArgs = null;
+    	moArgs = new String[]{};
     }    
 	
 	/**
