@@ -201,7 +201,5 @@ public class clsInspectorInternalSystems extends Inspector{
 		
 		this.repaint();
 	}
-		
-	
 
 }

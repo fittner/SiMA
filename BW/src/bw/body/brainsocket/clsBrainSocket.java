@@ -13,6 +13,7 @@ import java.util.Iterator;
 
 import sim.physics2D.physicalObject.PhysicalObject2D;
 import sim.physics2D.shape.*;
+import simple.remotecontrol.clsRemoteControl;
 
 import decisionunit.clsBaseDecisionUnit;
 import decisionunit.itf.actions.itfActionProcessor;
@@ -374,6 +375,19 @@ public class clsBrainSocket implements itfStepProcessing {
 	public void setDecisionUnit(clsBaseDecisionUnit poDecisionUnit) {
 		moDecisionUnit = poDecisionUnit;
 	}
-	
 
+	/**
+	 * DOCUMENT (langr) - insert description
+	 *
+	 * @author langr
+	 * 04.08.2009, 12:01:32
+	 *
+	 * @param keyPressed
+	 */
+	public void setKeyPressed(int keyPressed) {
+		if( moDecisionUnit instanceof clsRemoteControl) {
+			((clsRemoteControl) moDecisionUnit).setKeyPressed(keyPressed);
+		}
+		
+	}
 }

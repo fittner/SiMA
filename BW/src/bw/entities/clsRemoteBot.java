@@ -14,11 +14,14 @@ import bw.utils.config.clsBWProperties;
 import bw.utils.enums.eBodyType;
 import bw.utils.enums.eShapeType;
 import bw.body.clsComplexBody;
+import bw.body.itfGetBrain;
+import bw.body.brainsocket.clsBrainSocket;
 import bw.body.itfget.itfGetEatableArea;
 import bw.body.itfget.itfGetRadiation;
 import bw.body.itfget.itfGetVision;
 import bw.entities.tools.clsShapeCreator;
 import enums.eEntityType;
+import sim.display.clsKeyListener;
 import sim.physics2D.util.Angle;
 
 /**
@@ -59,7 +62,7 @@ public class clsRemoteBot extends clsAnimate implements itfGetVision, itfGetRadi
 		//TODO: Make sure that the Body type is the right one
 		oProp.putAll( clsComplexBody.getDefaultProperties(pre+P_BODY) ); 
 		oProp.setProperty(pre+P_BODY_TYPE, eBodyType.COMPLEX.toString());
-		oProp.setProperty(pre+P_DECISION_TYPE, eDecisionType.DUMB_MIND_A.name());
+		oProp.setProperty(pre+P_DECISION_TYPE, eDecisionType.REMOTE.name());
 		
 		
 		oProp.setProperty(pre+P_SHAPE+"."+clsShapeCreator.P_DEFAULT_SHAPE, P_SHAPENAME);
@@ -97,13 +100,12 @@ public class clsRemoteBot extends clsAnimate implements itfGetVision, itfGetRadi
 	 */
 	private void addBotHands(Color poColor) {
 		//FIXME hands are only added correctly if - and only if - direction of bot is 0 ...
-		Angle oDirection = new Angle(getMobileObject2D().getOrientation().radians); //TODO add getDirection to clsEntity
+		//Angle oDirection = new Angle(getMobileObject2D().getOrientation().radians); //TODO add getDirection to clsEntity
 		getMobileObject2D().setPose(getPosition(), new Angle(0));
 		
 		moBotHand1 = addHand(12, 6, poColor);
 		moBotHand2 = addHand(12, -6, poColor);
 
-		getMobileObject2D().setPose(getPosition(), oDirection);
 	}
 	
 	public clsBotHands getBotHand1() {
@@ -111,6 +113,15 @@ public class clsRemoteBot extends clsAnimate implements itfGetVision, itfGetRadi
 	}
 	public clsBotHands getBotHand2() {
 		return moBotHand2;
+	}
+	
+	@Override
+	public void processing() {
+		if (moBody instanceof itfGetBrain) {
+			clsBrainSocket oSocket = ((itfGetBrain)moBody).getBrain();
+			oSocket.setKeyPressed(clsKeyListener.getKeyPressed());
+			 ((itfGetBrain)moBody).getBrain().stepProcessing();
+		}
 	}
 		
 	//ZEILINGER Has to be Integrated to Animated too
