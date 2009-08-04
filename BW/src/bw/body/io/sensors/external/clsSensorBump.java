@@ -17,7 +17,6 @@ import bw.entities.clsAnimate;
 import bw.entities.clsEntity;
 import bw.utils.config.clsBWProperties;
 import bw.utils.enums.eBodyParts;
-import bw.utils.enums.partclass.clsPartSensorBump;
 
 /**
  * implementation of a vision sensor, returns the <clsCollidingObject> list of the actual bumped objects
@@ -30,7 +29,6 @@ public class clsSensorBump extends clsSensorExt {
 	private clsEntity moEntity;
 	private boolean mnBumped;
 	public ArrayList<clsCollidingObject> moCollisionList; 
-	private clsPartSensorBump moPartSensorBump;
 
 	public clsSensorBump(String poPrefix, clsBWProperties poProp, clsBaseIO poBaseIO, clsEntity poEntity) {
 		super(poPrefix, poProp, poBaseIO);
@@ -38,7 +36,6 @@ public class clsSensorBump extends clsSensorExt {
 
 		setBumped(false);
 		
-		moPartSensorBump = new clsPartSensorBump();
 		applyProperties(poPrefix, poProp);
 	}
 
@@ -75,7 +72,7 @@ public class clsSensorBump extends clsSensorExt {
 			if ( ((itfGetBody)moEntity).getBody() instanceof clsComplexBody) {
 				//TODO calculate true force
 				double rForce = 1.0;
-				((clsComplexBody)((itfGetBody)moEntity).getBody()).getInterBodyWorldSystem().getDamageBump().bumped(moPartSensorBump, rForce);
+				((clsComplexBody)((itfGetBody)moEntity).getBody()).getInterBodyWorldSystem().getDamageBump().bumped(eBodyParts.SENSOR_EXT_TACTILE_BUMP, rForce);
 			}
 		}
 	}

@@ -7,7 +7,7 @@
  */
 package bw.body.internalSystems;
 
-import bw.utils.enums.partclass.clsBasePart;
+import bw.utils.enums.eBodyParts;
 
 /**
  * DOCUMENT (deutsch) - insert description 
@@ -16,8 +16,8 @@ import bw.utils.enums.partclass.clsBasePart;
  * 
  */
 public class clsFastMessengerEntry {
-	private clsBasePart moSource;
-	private clsBasePart moTarget;
+	private eBodyParts moSource;
+	private eBodyParts moTarget;
 	private double mrIntensity;
 	
 	/**
@@ -25,7 +25,7 @@ public class clsFastMessengerEntry {
 	 * @param poTarget
 	 * @param prIntensity
 	 */
-	public clsFastMessengerEntry(clsBasePart poSource, clsBasePart poTarget, double prIntensity) {
+	public clsFastMessengerEntry(eBodyParts poSource, eBodyParts poTarget, double prIntensity) {
 		moSource = poSource;
 		moTarget = poTarget;
 		mrIntensity = prIntensity;
@@ -36,7 +36,7 @@ public class clsFastMessengerEntry {
 	 *
 	 * @return
 	 */
-	public clsBasePart getTarget() {
+	public eBodyParts getTarget() {
 		return moTarget;
 	}
 	/**
@@ -44,7 +44,7 @@ public class clsFastMessengerEntry {
 	 *
 	 * @return
 	 */
-	public clsBasePart getSource() {
+	public eBodyParts getSource() {
 		return moSource;
 	}	
 	/**

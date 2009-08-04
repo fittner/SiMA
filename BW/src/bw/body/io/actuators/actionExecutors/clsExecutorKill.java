@@ -17,7 +17,7 @@ import bw.body.internalSystems.clsFastMessengerSystem;
 import bw.body.io.actuators.clsActionExecutor;
 import bw.body.io.sensors.external.clsSensorVision;
 import bw.entities.clsEntity;
-import bw.utils.enums.partclass.clsPartBrain;
+import bw.utils.enums.eBodyParts;
 import bw.body.io.actuators.actionProxies.*;
 import bw.body.itfget.itfGetBody;
 import decisionunit.itf.actions.*;
@@ -57,10 +57,6 @@ public class clsExecutorKill extends clsActionExecutor{
 	/*
 	 * Set values for SensorActuator base-class
 	 */
-	@Override
-	protected void setBodyPart() {
-		moBodyPart = new bw.utils.enums.partclass.clsPartActionExKill();
-	}
 	@Override
 	protected void setBodyPartId() {
 		mePartId = bw.utils.enums.eBodyParts.ACTIONEX_KILL;
@@ -106,7 +102,7 @@ public class clsExecutorKill extends clsActionExecutor{
 		if (oKilledEntity==null) {
 			//Nothing in range then send fast Messenger
 			clsFastMessengerSystem oFastMessengerSystem = oBody.getInternalSystem().getFastMessengerSystem();
-			oFastMessengerSystem.addMessage(moBodyPart, new clsPartBrain(), 1);
+			oFastMessengerSystem.addMessage(mePartId, eBodyParts.BRAIN, 1);
 			return false;
 		} 
 

@@ -221,9 +221,6 @@ public class tstActionProcessor {
 	private class tstTestExecutor extends clsActionExecutor {
 
 		@Override
-		protected void setBodyPart() {
-		}
-		@Override
 		protected void setBodyPartId() {
 		}
 		

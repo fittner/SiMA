@@ -12,7 +12,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 import bw.body.itfStepUpdateInternalState;
 import bw.utils.config.clsBWProperties;
-import bw.utils.enums.partclass.clsBasePart;
+import bw.utils.enums.eBodyParts;
 
 /**
  * DOCUMENT (deutsch) - insert description 
@@ -23,19 +23,19 @@ import bw.utils.enums.partclass.clsBasePart;
 public class clsFastMessengerSystem implements itfStepUpdateInternalState {
     // private clsConfigMap moConfig; // EH - make warning free
     
-	private HashMap<clsBasePart, ArrayList<clsBasePart>> moSourceTargetMappings;
-	private HashMap<clsBasePart, ArrayList<clsBasePart>> moTargetSourceMappings;
+	private HashMap<eBodyParts, ArrayList<eBodyParts>> moSourceTargetMappings;
+	private HashMap<eBodyParts, ArrayList<eBodyParts>> moTargetSourceMappings;
 	
 	private ArrayList<clsFastMessengerEntry> moMessages;
 	
-	private HashMap<clsBasePart, ArrayList<clsFastMessengerEntry>> moTargetList;
+	private HashMap<eBodyParts, ArrayList<clsFastMessengerEntry>> moTargetList;
 
 
 	public clsFastMessengerSystem(String poPrefix, clsBWProperties poProp) {
-		moSourceTargetMappings = new HashMap<clsBasePart, ArrayList<clsBasePart>>();
-		moTargetSourceMappings = new HashMap<clsBasePart, ArrayList<clsBasePart>>();		
+		moSourceTargetMappings = new HashMap<eBodyParts, ArrayList<eBodyParts>>();
+		moTargetSourceMappings = new HashMap<eBodyParts, ArrayList<eBodyParts>>();		
 		moMessages = new ArrayList<clsFastMessengerEntry>();
-		moTargetList = new HashMap<clsBasePart, ArrayList<clsFastMessengerEntry>>();		
+		moTargetList = new HashMap<eBodyParts, ArrayList<clsFastMessengerEntry>>();		
 		applyProperties(poPrefix, poProp);
 	}
 
@@ -61,7 +61,7 @@ public class clsFastMessengerSystem implements itfStepUpdateInternalState {
 	 * @param poSource
 	 * @param poTarget
 	 */
-	public void addMapping(clsBasePart poSource, clsBasePart poTarget) {
+	public void addMapping(eBodyParts poSource, eBodyParts poTarget) {
 		addSourceMapping(poSource, poTarget);
 		addTargetMapping(poSource, poTarget);
 	}
@@ -72,11 +72,11 @@ public class clsFastMessengerSystem implements itfStepUpdateInternalState {
 	 * @param poSource
 	 * @param poTarget
 	 */
-	private void addSourceMapping(clsBasePart poSource, clsBasePart poTarget) {
-		ArrayList<clsBasePart> oList = moSourceTargetMappings.get(poSource);
+	private void addSourceMapping(eBodyParts poSource, eBodyParts poTarget) {
+		ArrayList<eBodyParts> oList = moSourceTargetMappings.get(poSource);
 		
 		if (oList == null) {
-			oList = new ArrayList<clsBasePart>();
+			oList = new ArrayList<eBodyParts>();
 		}
 		
 		if (!oList.contains(poTarget)) {
@@ -92,11 +92,11 @@ public class clsFastMessengerSystem implements itfStepUpdateInternalState {
 	 * @param poSource
 	 * @param poTarget
 	 */
-	private void addTargetMapping(clsBasePart poSource, clsBasePart poTarget) {
-		ArrayList<clsBasePart> oList = moSourceTargetMappings.get(poTarget);
+	private void addTargetMapping(eBodyParts poSource, eBodyParts poTarget) {
+		ArrayList<eBodyParts> oList = moSourceTargetMappings.get(poTarget);
 		
 		if (oList == null) {
-			oList = new ArrayList<clsBasePart>();
+			oList = new ArrayList<eBodyParts>();
 		}
 		
 		if (!oList.contains(poSource)) {
@@ -121,7 +121,7 @@ public class clsFastMessengerSystem implements itfStepUpdateInternalState {
 	 * @param poSource
 	 * @return
 	 */
-	public ArrayList<clsBasePart> getTargets(clsBasePart poSource) {
+	public ArrayList<eBodyParts> getTargets(eBodyParts poSource) {
 		return copyArray(moSourceTargetMappings.get(poSource));
 	}
 	
@@ -131,7 +131,7 @@ public class clsFastMessengerSystem implements itfStepUpdateInternalState {
 	 * @param poTarget
 	 * @return
 	 */
-	public ArrayList<clsBasePart> getSources(clsBasePart poTarget) {
+	public ArrayList<eBodyParts> getSources(eBodyParts poTarget) {
 		return copyArray(moTargetSourceMappings.get(poTarget));
 	}
 	
@@ -141,12 +141,12 @@ public class clsFastMessengerSystem implements itfStepUpdateInternalState {
 	 * @param poArray
 	 * @return
 	 */
-	private ArrayList<clsBasePart> copyArray(ArrayList<clsBasePart> poArray) {
-		ArrayList<clsBasePart> oResult = new ArrayList<clsBasePart>();
+	private ArrayList<eBodyParts> copyArray(ArrayList<eBodyParts> poArray) {
+		ArrayList<eBodyParts> oResult = new ArrayList<eBodyParts>();
 		
-		Iterator<clsBasePart> i = poArray.iterator();
+		Iterator<eBodyParts> i = poArray.iterator();
 		while (i.hasNext()) {
-			oResult.add(i.next().clone());
+			oResult.add(i.next());
 		}
 		
 		return oResult;		
@@ -158,7 +158,7 @@ public class clsFastMessengerSystem implements itfStepUpdateInternalState {
 	 * @param poTarget
 	 * @return
 	 */
-	public ArrayList<clsFastMessengerEntry> getMessagesForTarget(clsBasePart poTarget) {
+	public ArrayList<clsFastMessengerEntry> getMessagesForTarget(eBodyParts poTarget) {
 		return  moTargetList.get(poTarget);
 	}
 	
@@ -169,7 +169,7 @@ public class clsFastMessengerSystem implements itfStepUpdateInternalState {
 	 * @param poTarget
 	 * @param prIntensity
 	 */
-	public void addMessage(clsBasePart poSource, clsBasePart poTarget, double prIntensity) {
+	public void addMessage(eBodyParts poSource, eBodyParts poTarget, double prIntensity) {
 		addMessage(new clsFastMessengerEntry(poSource, poTarget, prIntensity));
 	}
 	
@@ -181,7 +181,7 @@ public class clsFastMessengerSystem implements itfStepUpdateInternalState {
 	public void addMessage(clsFastMessengerEntry poMessage) {
 		moMessages.add(poMessage);
 		
-		clsBasePart oTarget = poMessage.getTarget();
+		eBodyParts oTarget = poMessage.getTarget();
 		ArrayList<clsFastMessengerEntry> oList = moTargetList.get(oTarget);
 		
 		if (oList == null) {

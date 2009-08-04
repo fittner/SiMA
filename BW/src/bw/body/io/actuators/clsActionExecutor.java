@@ -18,7 +18,6 @@ import ARSsim.physics2D.physicalObject.clsStationaryObject2D;
 import bw.body.io.clsSensorActuatorBaseExt;
 import bw.entities.clsEntity;
 import decisionunit.itf.actions.itfActionCommand;
-import bw.utils.enums.partclass.*;
 
 /**
  * This abstract class must be inherited by all actions commands so they 
@@ -33,9 +32,6 @@ public abstract class clsActionExecutor extends clsSensorActuatorBaseExt {
 	
 	protected static double srEnergyRelation = 0.2f;		//Relation energy to stamina
 	
-	protected clsPartActionEx moBodyPart;
-
-	protected abstract void setBodyPart();
 	@Override
 	protected abstract void setBodyPartId();
 	@Override

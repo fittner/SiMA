@@ -11,9 +11,8 @@ import bw.body.itfStep;
 import bw.body.internalSystems.clsFastMessengerSystem;
 import bw.body.internalSystems.clsHealthSystem;
 import bw.utils.config.clsBWProperties;
-import bw.utils.enums.partclass.clsPartBrain;
-import bw.utils.enums.partclass.clsPartDamageBump;
-import bw.utils.enums.partclass.clsPartSensorBump;
+import bw.utils.enums.eBodyParts;
+
 
 /**
  * DOCUMENT (deutsch) - insert description 
@@ -38,7 +37,7 @@ public class clsDamageBump implements itfStep {
 	public clsDamageBump(String poPrefix, clsBWProperties poProp, clsHealthSystem poHealthSystem, clsFastMessengerSystem poFastMessengerSystem) {
 		moHealthSystem = poHealthSystem;
 		moFastMessengerSystem = poFastMessengerSystem;
-		moFastMessengerSystem.addMapping(new clsPartDamageBump(), new clsPartBrain());
+		moFastMessengerSystem.addMapping(eBodyParts.INTER_DAMAGE_BUMP, eBodyParts.BRAIN);
 		
 		applyProperties(poPrefix, poProp);
 	}
@@ -89,13 +88,13 @@ public class clsDamageBump implements itfStep {
 	 *
 	 * @param prPenaltySum
 	 */
-	private void pain(clsPartSensorBump poSource, double prPenaltySum) {
+	private void pain(eBodyParts poSource, double prPenaltySum) {
 		if (prPenaltySum > mrPainThreshold) {
-			moFastMessengerSystem.addMessage((clsPartSensorBump)poSource.clone(), new clsPartBrain(), prPenaltySum * mrPainFactor);
+			moFastMessengerSystem.addMessage(poSource, eBodyParts.BRAIN, prPenaltySum * mrPainFactor);
 		}
 	}
 	
-	public void bumped(clsPartSensorBump poSource, double prForce) {
+	public void bumped(eBodyParts poSource, double prForce) {
 		hurt(prForce);
 		pain(poSource, prForce);
 	}

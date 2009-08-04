@@ -15,9 +15,8 @@ import bw.body.internalSystems.clsFastMessengerSystem;
 import bw.body.internalSystems.clsHealthSystem;
 import bw.body.internalSystems.clsStomachSystem;
 import bw.utils.config.clsBWProperties;
+import bw.utils.enums.eBodyParts;
 import bw.utils.enums.eNutritions;
-import bw.utils.enums.partclass.clsPartBrain;
-import bw.utils.enums.partclass.clsPartDamageNutrition;
 import bw.utils.tools.clsNutritionLevel;
 
 /**
@@ -43,7 +42,7 @@ public class clsDamageNutrition implements itfStepUpdateInternalState {
 		moHealthSystem = poHealthSystem;
 		moStomachSystem = poStomachSystem;		
 		moFastMessengerSystem = poFastMessengerSystem;
-		moFastMessengerSystem.addMapping(new clsPartDamageNutrition(), new clsPartBrain());
+		moFastMessengerSystem.addMapping(eBodyParts.INTRA_DAMAGE_NUTRITION, eBodyParts.BRAIN);
 		
 		applyProperties(poPrefix, poProp);
 	}
@@ -117,7 +116,7 @@ public class clsDamageNutrition implements itfStepUpdateInternalState {
 	private void pain(double prPenaltySum) {
 		if (prPenaltySum > mrPainThreshold) {
 			if (moFastMessengerSystem != null) {
-				moFastMessengerSystem.addMessage(new clsPartDamageNutrition(), new clsPartBrain(), prPenaltySum * mrPainFactor);
+				moFastMessengerSystem.addMessage(eBodyParts.INTRA_DAMAGE_NUTRITION, eBodyParts.BRAIN, prPenaltySum * mrPainFactor);
 			}
 		}
 	}

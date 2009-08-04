@@ -41,10 +41,6 @@ public class clsExecutorFromInventory extends clsActionExecutor{
 	 * Set values for SensorActuator base-class
 	 */
 	@Override
-	protected void setBodyPart() {
-		moBodyPart = new bw.utils.enums.partclass.clsPartActionExFromInventory();
-	}
-	@Override
 	protected void setBodyPartId() {
 		mePartId = bw.utils.enums.eBodyParts.ACTIONEX_FROMINVENTORY;
 	}
