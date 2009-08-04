@@ -12,6 +12,7 @@ import java.util.TreeMap;
 import decisionunit.clsBaseDecisionUnit;
 import du.utils.enums.eDecisionType;
 import simple.dumbmind.clsDumbMindA;
+import simple.reactive.clsReactive;
 import simple.remotecontrol.clsRemoteControl;
 import bw.body.clsBaseBody;
 import bw.body.clsComplexBody;
@@ -100,6 +101,9 @@ public abstract class clsAnimate extends clsMobile implements itfGetBody {
 		switch(nDecisionType) {
 			case DUMB_MIND_A:
 				oDecisionUnit = new clsDumbMindA();
+				break;
+			case FUNGUS_EATER:
+				oDecisionUnit = new clsReactive();
 				break;
 			case REMOTE:
 				oDecisionUnit = new clsRemoteControl();

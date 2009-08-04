@@ -28,6 +28,7 @@ public class clsSimpleLoader extends clsLoader {
 	private int mnNumStones;
 	private int mnNumCakes;
 	private int mnNumBots;
+	private int mnNumFungusEaters;
 	private int mnNumFungi;
 	private int mnNumUraniumOre;
 	private int mnNumBases;
@@ -47,6 +48,7 @@ public class clsSimpleLoader extends clsLoader {
 		
 		mnNumRemoteBots = 1;
 		mnNumBots = 2;
+		mnNumFungusEaters = 2;
 
 		mnNumCans = 5;
 		mnNumStones = 3;
@@ -59,12 +61,13 @@ public class clsSimpleLoader extends clsLoader {
 		// TODO (deutsch) - Auto-generated constructor stub
 	}
 	
-	public clsSimpleLoader(SimState poSimState, String poPropertiesFilename, int pnWidth, int pnHeight, int pnNumRemoteBots, int pnNumBots, int pnNumCans, int pnNumStones, int pnNumCakes, int pnNumFungi, int pnNumUraniumOre, int pnNumBases) {
+	public clsSimpleLoader(SimState poSimState, String poPropertiesFilename, int pnWidth, int pnHeight, int pnNumRemoteBots, int pnNumBots, int pnNumFungusEaters, int pnNumCans, int pnNumStones, int pnNumCakes, int pnNumFungi, int pnNumUraniumOre, int pnNumBases) {
 		super(poSimState, poPropertiesFilename);
 		
 		
 		mnNumRemoteBots = pnNumRemoteBots;
 		mnNumBots = pnNumBots;
+		mnNumFungusEaters = pnNumFungusEaters;
 
 		mnNumCans = pnNumCans;
 		mnNumStones = pnNumStones;
@@ -90,7 +93,7 @@ public class clsSimpleLoader extends clsLoader {
 	public void loadObjects() {
 		clsWorldBoundaries.loadWorldBoundaries();
 		clsEntityLoader.loadInanimate(mnNumCans, mnNumStones, mnNumCakes, mnNumFungi, mnNumUraniumOre, mnNumBases);	
-		clsAgentLoader.loadAgents(mnNumRemoteBots, mnNumBots);
+		clsAgentLoader.loadAgents(mnNumRemoteBots, mnNumBots, mnNumFungusEaters);
 	}
 
 	/* (non-Javadoc)

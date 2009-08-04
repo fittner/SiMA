@@ -7,6 +7,7 @@ public enum eEntityType {
 	//ANIMATES
 	ANIMAL,
 	BUBBLE,
+	FUNGUS_EATER,
 	PLANT,
 	REMOTEBOT,
 	HARE,

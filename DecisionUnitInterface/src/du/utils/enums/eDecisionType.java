@@ -11,6 +11,8 @@ public enum eDecisionType {
 
 	DUMB_MIND_A,
 	DUMB_MIND_ORIENTATION,
+	
+	FUNGUS_EATER,
 
 	HARE_IFTHENELSE,
 	HARE_JADEX,

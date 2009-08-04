@@ -14,6 +14,7 @@ import bw.entities.clsAnimal;
 import bw.entities.clsAnimate;
 import bw.entities.clsBase;
 import bw.entities.clsBubble;
+import bw.entities.clsFungusEater;
 import bw.entities.clsCake;
 import bw.entities.clsCan;
 import bw.entities.clsCarrot;
@@ -60,6 +61,7 @@ public class clsMainGetDefaultConfig {
 		clsBWProperties.writeProperties(clsAnimate.getDefaultProperties(""), oBaseDir, "animate"+oSubExt, "");
 		clsBWProperties.writeProperties(clsBase.getDefaultProperties(""), oBaseDir, "base"+oSubExt, "");
 		clsBWProperties.writeProperties(clsBubble.getDefaultProperties(""), oBaseDir, "bubble"+oSubExt, "");
+		clsBWProperties.writeProperties(clsFungusEater.getDefaultProperties(""), oBaseDir, "funguseater"+oSubExt, "");
 		clsBWProperties.writeProperties(clsCake.getDefaultProperties(""), oBaseDir, "cake"+oSubExt, "");
 		clsBWProperties.writeProperties(clsCan.getDefaultProperties(""), oBaseDir, "can"+oSubExt, "");
 		clsBWProperties.writeProperties(clsCarrot.getDefaultProperties(""), oBaseDir, "carrot"+oSubExt, "");

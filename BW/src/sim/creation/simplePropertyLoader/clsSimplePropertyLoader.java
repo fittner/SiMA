@@ -20,6 +20,7 @@ import bw.body.internalSystems.clsInternalSystem;
 import bw.entities.clsAnimate;
 import bw.entities.clsBase;
 import bw.entities.clsBubble;
+import bw.entities.clsFungusEater;
 import bw.entities.clsCake;
 import bw.entities.clsCan;
 import bw.entities.clsCarrot;
@@ -95,6 +96,7 @@ public class clsSimplePropertyLoader extends clsLoader {
 		clsBWProperties oProp = new clsBWProperties();
 		
 		oProp.putAll( clsBubble.getDefaultProperties	(pre+eEntityType.BUBBLE.name()) );
+		oProp.putAll( clsFungusEater.getDefaultProperties	(pre+eEntityType.FUNGUS_EATER.name()) );
 		oProp.putAll( clsRemoteBot.getDefaultProperties	(pre+eEntityType.REMOTEBOT.name()) );
 		oProp.putAll( clsPlant.getDefaultProperties		(pre+eEntityType.PLANT.name()) );
 		oProp.putAll( clsHare.getDefaultProperties		(pre+eEntityType.HARE.name()) );		
@@ -273,6 +275,10 @@ public class clsSimplePropertyLoader extends clsLoader {
     		case BUBBLE:
     			oEntity = new clsBubble(pre, poProp);
     			clsRegisterEntity.registerEntity((clsBubble)oEntity);		
+    			break;
+    		case FUNGUS_EATER:
+    			oEntity = new clsFungusEater(pre, poProp);
+    			clsRegisterEntity.registerEntity((clsFungusEater)oEntity);		
     			break;
     		case REMOTEBOT:
     			oEntity = new clsRemoteBot(pre, poProp);

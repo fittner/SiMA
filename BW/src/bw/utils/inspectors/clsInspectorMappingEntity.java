@@ -14,6 +14,7 @@ import bw.body.clsMeatBody;
 //import bw.entities.clsBubble;
 import bw.entities.clsAnimal;
 import bw.entities.clsBubble;
+import bw.entities.clsFungusEater;
 import bw.entities.clsBase;
 import bw.entities.clsCake;
 import bw.entities.clsCan;
@@ -32,6 +33,7 @@ import bw.entities.clsStationary;
 import bw.utils.inspectors.body.clsFillLevelInspector;
 import bw.utils.inspectors.body.clsInspectorInternalSystems;
 import bw.utils.inspectors.entity.clsInspectorBubble;
+import bw.utils.inspectors.entity.clsInspectorFungusEater;
 import bw.utils.inspectors.entity.clsInspectorDefault;
 import bw.utils.inspectors.entity.clsInspectorFungus;
 import bw.utils.inspectors.entity.clsInspectorRemoteBot;
@@ -81,6 +83,9 @@ public class clsInspectorMappingEntity {
 	    	}
 	    	else if( poEntity instanceof clsBubble) {
 	    		oRetVal.addInspector( new clsInspectorBubble(poSuperInspector, poWrapper, poState, (clsBubble)poEntity), "Bubble");
+	    	}
+	    	else if( poEntity instanceof clsFungusEater) {
+	    		oRetVal.addInspector( new clsInspectorFungusEater(poSuperInspector, poWrapper, poState, (clsFungusEater)poEntity), "Fungus Eater");
 	    	}
 	    	else if( poEntity instanceof clsCake) {
 	    		oRetVal.addInspector( new clsInspectorDefault(poSuperInspector, poWrapper, poState, poEntity), "Cake");

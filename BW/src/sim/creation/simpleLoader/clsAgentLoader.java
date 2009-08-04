@@ -11,6 +11,7 @@ import java.awt.Color;
 import sim.creation.clsLoader;
 import ARSsim.physics2D.util.clsPose;
 import bw.entities.clsBubble;
+import bw.entities.clsFungusEater;
 import bw.entities.clsEntity;
 import bw.entities.clsRemoteBot;
 import bw.entities.tools.clsShapeCreator;
@@ -24,9 +25,10 @@ import bw.utils.config.clsBWProperties;
  */
 public class clsAgentLoader {
 
-	public static void loadAgents(int pnNumRemoteBots, int pnNumBubbles){
+	public static void loadAgents(int pnNumRemoteBots, int pnNumBubbles, int pnNumFungusEaters){
 		loadRemoteBots(pnNumRemoteBots);
 		loadBubbles(pnNumBubbles);
+		loadFungusEaters(pnNumFungusEaters);
 	}
 	
 	public static void loadBubbles(int pnNumAgents){	
@@ -49,6 +51,29 @@ public class clsAgentLoader {
 		  	 clsRegisterEntity.registerEntity(oBubble);
          }
 	}
+	
+	public static void loadFungusEaters(int pnNumAgents){	
+		
+		Color[] oColors = {Color.green, Color.ORANGE, Color.yellow};
+		
+		 for (int i = 0; i < pnNumAgents; i++)
+         {
+			 Color oColor = Color.GREEN;
+			 if(i < oColors.length)
+				 oColor = oColors[i];
+			 	         
+	         clsBWProperties oProp = clsFungusEater.getDefaultProperties("Fungus Eater.");
+			 oProp.putAll( clsLoader.generateRandomPose("Fungus Eater.", clsPose.P_POS_X, clsPose.P_POS_Y, clsPose.P_POS_ANGLE) );	         
+	         oProp.setProperty("Fungus Eater."+clsEntity.P_ID, i);
+	         
+	         oProp.setProperty("Fungus Eater."+clsEntity.P_SHAPE+"."+clsShapeCreator.P_COLOR, oColor);
+	         clsFungusEater oFungusEater = new clsFungusEater( "Fungus Eater.", oProp );
+
+		  	 clsRegisterEntity.registerEntity(oFungusEater);
+         }
+	}
+	
+	
 	
 	/**
 	 * remote control is only implemented for one remoteBot
