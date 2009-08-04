@@ -2,6 +2,8 @@ package decisionunit.itf.sensors;
 
 import java.util.Formatter;
 
+import bfg.tools.shapes.clsAngle;
+
 public class clsPositionChange extends clsSensorExtern {
 
 	public double x=0;
@@ -33,7 +35,8 @@ public class clsPositionChange extends clsSensorExtern {
 		oDoubleFormatter = new Formatter();
 		oResult += "/"+oDoubleFormatter.format("%.5f",y);
 		oDoubleFormatter = new Formatter();
-		oResult += "@"+oDoubleFormatter.format("%.5f",a)+"<td></td></tr>";
+		double newAngle = clsAngle.getNormalizedAngle(a, true, Math.PI);
+		oResult += "@"+oDoubleFormatter.format("%.5f",newAngle)+"<td></td></tr>";
 		
 		return oResult;
 	}

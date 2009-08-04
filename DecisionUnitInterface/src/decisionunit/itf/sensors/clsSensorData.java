@@ -56,11 +56,11 @@ public class clsSensorData {
 
 		String logEntry = "";
 		
-		logEntry+="<p color='#FF0000'>External Data</p><table><tr><th width='160'>Type</th><th>Value</th></tr>";
+		logEntry+="<p color='#FF0000'>External Data</p><table><tr><th width='160'>Type</th><th style='text-align:left;'>Value</th></tr>";
 		for( clsDataBase oDataBase : moSensorDataExt.values() ) {
 			logEntry += oDataBase.logHTML();
 		}
-		logEntry+="</table><p color='#FF0000'>Internal Data</p><table><tr><th width='160'>Type</th><th>Value</th></tr>";
+		logEntry+="</table><p color='#FF0000'>Internal Data</p><table><tr><th width='160'>Type</th><th style='text-align:left;'>Value</th></tr>";
 		for( clsDataBase oDataBase : moSensorDataInt.values() ) {
 			logEntry += oDataBase.logHTML();
 		}
