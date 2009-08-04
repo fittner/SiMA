@@ -11,6 +11,7 @@ import java.util.HashMap;
 import enums.eSensorIntType;
 import bw.body.clsBaseBody;
 import bw.body.io.sensors.internal.clsEnergyConsumptionSensor;
+import bw.body.io.sensors.internal.clsFastMessengerSensor;
 import bw.body.io.sensors.internal.clsHealthSensor;
 import bw.body.io.sensors.internal.clsTemperatureSensor;
 import bw.body.io.sensors.internal.clsSensorInt;
@@ -51,28 +52,33 @@ public class clsInternalIO extends clsBaseIO{
 		int i=0;
 		oProp.putAll( clsEnergyConsumptionSensor.getDefaultProperties( pre+i) );
 		oProp.setProperty(pre+i+"."+P_SENSORACTIVE, true);
-		oProp.setProperty(pre+i+"."+P_SENSORTYPE, eSensorIntType.ENERGY_CONSUMPTION.toString());
+		oProp.setProperty(pre+i+"."+P_SENSORTYPE, eSensorIntType.ENERGY_CONSUMPTION.name());
 		i++;
 				
 		oProp.putAll( clsHealthSensor.getDefaultProperties( pre+i) );
 		oProp.setProperty(pre+i+"."+P_SENSORACTIVE, true);
-		oProp.setProperty(pre+i+"."+P_SENSORTYPE, eSensorIntType.HEALTH.toString());
+		oProp.setProperty(pre+i+"."+P_SENSORTYPE, eSensorIntType.HEALTH.name());
 		i++;
 		
 		oProp.putAll( clsStaminaSensor.getDefaultProperties( pre+i) );
 		oProp.setProperty(pre+i+"."+P_SENSORACTIVE, true);
-		oProp.setProperty(pre+i+"."+P_SENSORTYPE, eSensorIntType.STAMINA.toString());
+		oProp.setProperty(pre+i+"."+P_SENSORTYPE, eSensorIntType.STAMINA.name());
 		i++;
 				
 		oProp.putAll( clsStomachSensor.getDefaultProperties( pre+i) );
 		oProp.setProperty(pre+i+"."+P_SENSORACTIVE, true);
-		oProp.setProperty(pre+i+"."+P_SENSORTYPE, eSensorIntType.STOMACH.toString());
+		oProp.setProperty(pre+i+"."+P_SENSORTYPE, eSensorIntType.STOMACH.name());
 		i++;
 		
 		oProp.putAll( clsHealthSensor.getDefaultProperties( pre+i) );
 		oProp.setProperty(pre+i+"."+P_SENSORACTIVE, true);
-		oProp.setProperty(pre+i+"."+P_SENSORTYPE, eSensorIntType.TEMPERATURE.toString());
+		oProp.setProperty(pre+i+"."+P_SENSORTYPE, eSensorIntType.TEMPERATURE.name());
 		i++;
+		
+		oProp.putAll( clsFastMessengerSensor.getDefaultProperties( pre+i) );
+		oProp.setProperty(pre+i+"."+P_SENSORACTIVE, true);
+		oProp.setProperty(pre+i+"."+P_SENSORTYPE, eSensorIntType.FASTMESSENGER.name());
+		i++;		
 				
 		oProp.setProperty(pre+P_NUMSENSORS, i);
 		
@@ -106,6 +112,9 @@ public class clsInternalIO extends clsBaseIO{
 						break;
 					case TEMPERATURE:
 						moSensorInternal.put(eType, new clsTemperatureSensor(tmp_pre, poProp, this, poBody)); 
+						break;
+					case FASTMESSENGER:
+						moSensorInternal.put(eType, new clsFastMessengerSensor(tmp_pre, poProp, this, poBody));
 						break;
 						
 					default:

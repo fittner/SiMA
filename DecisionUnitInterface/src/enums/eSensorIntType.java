@@ -24,5 +24,6 @@ public enum eSensorIntType {
 	HEALTH,
 	STAMINA,
 	STOMACH,
-	TEMPERATURE
+	TEMPERATURE,
+	FASTMESSENGER,
 }

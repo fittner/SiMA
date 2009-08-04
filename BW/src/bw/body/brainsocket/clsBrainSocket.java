@@ -21,6 +21,7 @@ import decisionunit.itf.sensors.clsBump;
 import decisionunit.itf.sensors.clsDataBase;
 import decisionunit.itf.sensors.clsEatableArea;
 import decisionunit.itf.sensors.clsEnergyConsumption;
+import decisionunit.itf.sensors.clsFastMessenger;
 import decisionunit.itf.sensors.clsHealthSystem;
 import decisionunit.itf.sensors.clsTemperatureSystem;
 import decisionunit.itf.sensors.clsPositionChange;
@@ -30,12 +31,14 @@ import decisionunit.itf.sensors.clsStomachSystem;
 import decisionunit.itf.sensors.clsVision;
 import decisionunit.itf.sensors.clsRadiation;
 import decisionunit.itf.sensors.clsVisionEntry;
+import enums.eFastMessengerSources;
 import enums.eSensorIntType;
 import enums.eSensorExtType;
 import ARSsim.physics2D.physicalObject.clsMobileObject2D;
 import ARSsim.physics2D.physicalObject.clsStationaryObject2D;
 import bfg.tools.shapes.clsPolarcoordinate;
 import bw.body.itfStepProcessing;
+import bw.body.internalSystems.clsFastMessengerEntry;
 import bw.body.io.sensors.external.clsSensorBump;
 import bw.body.io.sensors.external.clsSensorEatableArea;
 import bw.body.io.sensors.external.clsSensorExt;
@@ -43,6 +46,7 @@ import bw.body.io.sensors.external.clsSensorPositionChange;
 import bw.body.io.sensors.external.clsSensorVision;
 import bw.body.io.sensors.external.clsSensorRadiation;
 import bw.body.io.sensors.internal.clsEnergyConsumptionSensor;
+import bw.body.io.sensors.internal.clsFastMessengerSensor;
 import bw.body.io.sensors.internal.clsHealthSensor;
 import bw.body.io.sensors.internal.clsTemperatureSensor;
 import bw.body.io.sensors.internal.clsSensorInt;
@@ -119,8 +123,54 @@ public class clsBrainSocket implements itfStepProcessing {
 		oData.addSensorInt(eSensorIntType.STAMINA, convertStaminaSystem() );
 		oData.addSensorInt(eSensorIntType.STOMACH, convertStomachSystem() );
 		oData.addSensorInt(eSensorIntType.TEMPERATURE, convertTemperatureSystem() );
+		oData.addSensorInt(eSensorIntType.FASTMESSENGER, convertFastMessengerSystem() );
 		
 		return oData;
+	}
+	
+	private clsDataBase convertFastMessengerSystem() {
+
+		clsFastMessenger oRetVal = new clsFastMessenger();
+		clsFastMessengerSensor oSensor = (clsFastMessengerSensor)(moSensorsInt.get(eSensorIntType.FASTMESSENGER));
+
+		if (oSensor.getFastMessages() != null) {
+			for(clsFastMessengerEntry oEntry:oSensor.getFastMessages()) {
+				oRetVal.add( convertFastMessengerEntry(oEntry) );
+			}
+		}
+		
+		return oRetVal;
+	}
+	
+	private decisionunit.itf.sensors.clsFastMessengerEntry convertFastMessengerEntry(bw.body.internalSystems.clsFastMessengerEntry poEntry) {
+		eFastMessengerSources oSource;
+
+		switch(poEntry.getSource()) {
+			case INTRA_DAMAGE_NUTRITION:oSource=eFastMessengerSources.STOMACH;
+				break;
+			
+			case INTER_DAMAGE_BUMP:;
+			case SENSOR_EXT_TACTILE_BUMP:;
+			case SENSOR_EXT_TACTITLE:oSource=eFastMessengerSources.BUMP;
+				break;
+			
+			case INTRA_DAMAGE_TEMPERATURE:oSource=eFastMessengerSources.TEMPERATURE;
+				break;
+			
+			case INTER_DAMAGE_LIGHTNING:oSource=eFastMessengerSources.LIGHTNING;
+				break;
+			
+			case ACTIONEX_KILL:oSource=eFastMessengerSources.MANIPULATION_AREA;
+				break;
+			
+			case ACTIONEX_EAT:oSource=eFastMessengerSources.EATABLE_AREA;
+				break;
+			
+			default:throw new java.lang.NullPointerException("unkown fast messenger source: "+poEntry.getSource());
+		}
+		
+		decisionunit.itf.sensors.clsFastMessengerEntry oRes = new decisionunit.itf.sensors.clsFastMessengerEntry(oSource, poEntry.getIntensity());
+		return oRes;
 	}
 	
 	private clsPositionChange convertPositionChangeSensor() {

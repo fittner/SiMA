@@ -59,8 +59,9 @@ public class clsVisionEntry {
 		oResult += mnEntityType.toString();
 		oResult += " - ID="+moEntityId+" : ";
 
-		
-		moColor.toString();
+		if (moColor != null) {		
+			moColor.toString();
+		}
 		
 		return oResult;
 	}

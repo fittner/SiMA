@@ -6,10 +6,12 @@
  */
 package bw.body.io.sensors.internal;
 
+import java.util.ArrayList;
+
 import bw.body.clsBaseBody;
 import bw.body.clsComplexBody;
+import bw.body.internalSystems.clsFastMessengerEntry;
 import bw.body.internalSystems.clsFastMessengerSystem;
-import bw.body.internalSystems.clsTemperatureSystem;
 import bw.body.io.clsBaseIO;
 import bw.utils.config.clsBWProperties;
 import bw.utils.enums.eBodyParts;
@@ -24,6 +26,8 @@ import bw.utils.enums.eBodyParts;
 public class clsFastMessengerSensor extends clsSensorInt {
 
 	private clsFastMessengerSystem moFMS; // reference
+	private ArrayList<clsFastMessengerEntry> moMessages;
+	private eBodyParts moTargetFilter;
 	
 	/**
 	 * DOCUMENT (deutsch) - insert description 
@@ -35,9 +39,16 @@ public class clsFastMessengerSensor extends clsSensorInt {
 	 * @param poProp
 	 * @param poBaseIO
 	 */
-	public clsFastMessengerSensor(String poPrefix, clsBWProperties poProp, clsBaseIO poBaseIO, clsFastMessengerSystem poFMS) {
+	public clsFastMessengerSensor(String poPrefix, clsBWProperties poProp, clsBaseIO poBaseIO, clsBaseBody poBody) {
 		super(poPrefix, poProp, poBaseIO);
-		moFMS = poFMS;
+		
+		if (poBody  instanceof clsComplexBody) {
+			moFMS =  ((clsComplexBody)poBody).getInternalSystem().getFastMessengerSystem();	
+		} else {
+			moFMS = null;
+		}
+		
+		moTargetFilter = eBodyParts.BRAIN;
 		applyProperties(poPrefix, poProp);
 	}
 
@@ -90,10 +101,8 @@ public class clsFastMessengerSensor extends clsSensorInt {
 	 */
 	public void updateSensorData() {
 
-		if ( moBody instanceof clsComplexBody) {
-			clsTemperatureSystem oTemperatureSystem = ((clsComplexBody)moBody).getInternalSystem().getTemperatureSystem();
-
-			mrTemperatureValue = oTemperatureSystem.getTemperature().getContent();
+		if ( moFMS != null) {
+			moMessages = moFMS.getMessagesForTarget(moTargetFilter);
 		}
 		
 	}
@@ -101,8 +110,8 @@ public class clsFastMessengerSensor extends clsSensorInt {
 	/**
 	 * @return the mrHealthValue
 	 */
-	public double getTemperatureValue() {
-		return mrTemperatureValue;
+	public ArrayList<clsFastMessengerEntry> getFastMessages() {
+		return moMessages;
 	}
 	
 }

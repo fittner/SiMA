@@ -46,7 +46,7 @@ public class clsHare extends clsAnimal implements itfGetFlesh, itfAPEatable, itf
 	public static final String P_SHAPE_ALIVE		= "shape_alive";
 	public static final String P_SHAPE_DEAD 		= "shape_dead";
 	
-	private Shape moAlive;
+	//private Shape moAlive; //reactivate in case of resurrection
 	private Shape moDead;
 	
 	public clsHare(String poPrefix, clsBWProperties poProp) {
@@ -57,7 +57,7 @@ public class clsHare extends clsAnimal implements itfGetFlesh, itfAPEatable, itf
 	private void applyProperties(String poPrefix, clsBWProperties poProp) {
 		String pre = clsBWProperties.addDot(poPrefix);
 		
-		moAlive = clsShapeCreator.createShape(pre+P_SHAPE+"."+P_SHAPE_ALIVE, poProp);
+		//moAlive = clsShapeCreator.createShape(pre+P_SHAPE+"."+P_SHAPE_ALIVE, poProp); //reactivate in case of resurrection
 		moDead = clsShapeCreator.createShape(pre+P_SHAPE+"."+P_SHAPE_DEAD, poProp);		
 	}
 	
