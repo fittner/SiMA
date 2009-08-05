@@ -12,7 +12,7 @@ import java.util.ArrayList;
  *
  */
 public class clsFastMessenger extends clsSensorIntern {
-	private ArrayList<clsFastMessengerEntry> moEntries = new ArrayList<clsFastMessengerEntry>();
+	public ArrayList<clsFastMessengerEntry> moEntries = new ArrayList<clsFastMessengerEntry>();
 	
 	public void add(clsFastMessengerEntry poEntry) {
 		moEntries.add(poEntry);
