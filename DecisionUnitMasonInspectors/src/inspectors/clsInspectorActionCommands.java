@@ -8,9 +8,6 @@ package inspectors;
 
 import java.awt.BorderLayout;
 
-import javax.swing.Box;
-import javax.swing.BoxLayout;
-
 import sim.display.GUIState;
 import sim.portrayal.Inspector;
 import sim.portrayal.LocationWrapper;
@@ -54,18 +51,14 @@ public class clsInspectorActionCommands  extends Inspector {
 		
 //		moCaption = new JLabel("Layers of Brooks Subsumption Architecture"); // TD - warning free
         // creating the checkbox to sitch on/off the AI intelligence-levels.
-        Box oBox1 = new Box(BoxLayout.Y_AXIS);
 		
         String contentData = "<html><head></head><body><p>";
         contentData+=moDU.getSensorData().logHTML();
         contentData+="</p></body></html>";
         
+        setLayout(new BorderLayout());
     	moHTMLPane = new HTMLBrowser(contentData);
-        //JScrollPane scrollPane = new JScrollPane(moHTMLPane);
-        oBox1.add(moHTMLPane, BorderLayout.CENTER);
-
-		setLayout(new BorderLayout());
-		add(oBox1, BorderLayout.NORTH);
+		add(moHTMLPane, BorderLayout.WEST);
 	}
 	
 	/* (non-Javadoc)

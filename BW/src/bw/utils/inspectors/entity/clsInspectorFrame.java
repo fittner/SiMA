@@ -82,8 +82,10 @@ public class clsInspectorFrame extends JFrame implements Steppable {
 	@Override
 	public void step(SimState state) {
 		
+		Inspector oSelected = (Inspector)moInspectorContent.tabs.getSelectedComponent();
+		
 		for( Object oInsp : moInspectorContent.inspectors) {
-			if(oInsp instanceof Inspector) {
+			if(oInsp instanceof Inspector && oInsp == oSelected) {
 				((Inspector) oInsp).updateInspector();
 			}
 		}
