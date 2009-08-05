@@ -37,10 +37,10 @@ public class clsTemperatureSystem implements itfStepUpdateInternalState {
 		clsBWProperties oProp = new clsBWProperties();
 		
 		oProp.setProperty(pre+clsContentColumn.P_CONTENT, 1);
-		oProp.setProperty(pre+clsContentColumn.P_MAXCONTENT, 1);
+		oProp.setProperty(pre+clsContentColumn.P_MAXCONTENT, 2);
 		oProp.setProperty(pre+clsFillLevel.P_CHANGE, "0.05");
-		oProp.setProperty(pre+clsFillLevel.P_LOWERBOUND, "0.33");
-		oProp.setProperty(pre+clsFillLevel.P_UPPERBOUND, "0.66");	
+		oProp.setProperty(pre+clsFillLevel.P_LOWERBOUND, "0.5");
+		oProp.setProperty(pre+clsFillLevel.P_UPPERBOUND, "1.5");	
 		oProp.setProperty(pre+P_SELFREGULATION, "0.01");		
 		
 		return oProp;

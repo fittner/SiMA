@@ -106,19 +106,7 @@ public class clsComplexBody extends clsBaseBody implements
 	}
 
 
-	/**
-	 * DOCUMENT (langr) - insert description
-	 *
-	 * @author langr
-	 * 25.02.2009, 16:01:54
-	 *itfGetInternalIO
-	 */
-	public void stepUpdateInternalState() {
-		moInternalSystem.stepUpdateInternalState(); //call first!
-		moIntraBodySystem.stepUpdateInternalState();
-		moInterBodyWorldSystem.stepUpdateInternalState();
-	}
-	
+
 	/* (non-Javadoc)
 	 *
 	 * @author deutsch
@@ -155,6 +143,12 @@ public class clsComplexBody extends clsBaseBody implements
 		moInternalIO.stepSensing();
 	}
 	
+	public void stepUpdateInternalState() {
+		moInternalSystem.stepUpdateInternalState(); //call first!
+		moIntraBodySystem.stepUpdateInternalState();
+		moInterBodyWorldSystem.stepUpdateInternalState();
+	}
+	
 	public void stepProcessing(){
 		moBrain.stepProcessing();
 	}	
@@ -162,5 +156,6 @@ public class clsComplexBody extends clsBaseBody implements
 	public void stepExecution() {
 		moExternalIO.stepExecution();
 		moInternalIO.stepExecution();
-	}		
+	}
+	
 }

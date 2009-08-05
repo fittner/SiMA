@@ -37,7 +37,6 @@ public class clsDamageBump implements itfStep {
 	public clsDamageBump(String poPrefix, clsBWProperties poProp, clsHealthSystem poHealthSystem, clsFastMessengerSystem poFastMessengerSystem) {
 		moHealthSystem = poHealthSystem;
 		moFastMessengerSystem = poFastMessengerSystem;
-		moFastMessengerSystem.addMapping(eBodyParts.INTER_DAMAGE_BUMP, eBodyParts.BRAIN);
 		
 		applyProperties(poPrefix, poProp);
 	}

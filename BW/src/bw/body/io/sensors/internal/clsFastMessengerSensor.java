@@ -7,7 +7,6 @@
 package bw.body.io.sensors.internal;
 
 import java.util.ArrayList;
-
 import bw.body.clsBaseBody;
 import bw.body.clsComplexBody;
 import bw.body.internalSystems.clsFastMessengerEntry;

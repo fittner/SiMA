@@ -10,6 +10,7 @@ package bw.body.internalSystems;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.Map;
 import bw.body.itfStepUpdateInternalState;
 import bw.utils.config.clsBWProperties;
 import bw.utils.enums.eBodyParts;
@@ -21,136 +22,32 @@ import bw.utils.enums.eBodyParts;
  * 
  */
 public class clsFastMessengerSystem implements itfStepUpdateInternalState {
-    // private clsConfigMap moConfig; // EH - make warning free
-    
-	private HashMap<eBodyParts, ArrayList<eBodyParts>> moSourceTargetMappings;
-	private HashMap<eBodyParts, ArrayList<eBodyParts>> moTargetSourceMappings;
+	public static final String P_EXPIRETIME = "expiretime";
 	
-	private ArrayList<clsFastMessengerEntry> moMessages;
-	
-	private HashMap<eBodyParts, ArrayList<clsFastMessengerEntry>> moTargetList;
+	private HashMap<eBodyParts, HashMap<eBodyParts, clsFastMessengerEntry>> moTargetList;
 
+	private int mnDefaultExpireTime;
 
 	public clsFastMessengerSystem(String poPrefix, clsBWProperties poProp) {
-		moSourceTargetMappings = new HashMap<eBodyParts, ArrayList<eBodyParts>>();
-		moTargetSourceMappings = new HashMap<eBodyParts, ArrayList<eBodyParts>>();		
-		moMessages = new ArrayList<clsFastMessengerEntry>();
-		moTargetList = new HashMap<eBodyParts, ArrayList<clsFastMessengerEntry>>();		
+		moTargetList = new HashMap<eBodyParts, HashMap<eBodyParts, clsFastMessengerEntry>>();		
 		applyProperties(poPrefix, poProp);
 	}
 
 	public static clsBWProperties getDefaultProperties(String poPrefix) {
-		//String pre = clsBWProperties.addDot(poPrefix);
+		String pre = clsBWProperties.addDot(poPrefix);
 		
 		clsBWProperties oProp = new clsBWProperties();
 		
-		// no properties
+		oProp.setProperty(pre+P_EXPIRETIME, 3);
 		
 		return oProp;
 	}	
 
 	private void applyProperties(String poPrefix, clsBWProperties poProp) {
-		//String pre = clsBWProperties.addDot(poPrefix);
+		String pre = clsBWProperties.addDot(poPrefix);
 		
-        // nothing to do		
+		mnDefaultExpireTime = poProp.getPropertyInt(pre+P_EXPIRETIME);		
 	}	
-	
-	/**
-	 * DOCUMENT (deutsch) - insert description
-	 *
-	 * @param poSource
-	 * @param poTarget
-	 */
-	public void addMapping(eBodyParts poSource, eBodyParts poTarget) {
-		addSourceMapping(poSource, poTarget);
-		addTargetMapping(poSource, poTarget);
-	}
-	
-	/**
-	 * DOCUMENT (deutsch) - insert description
-	 *
-	 * @param poSource
-	 * @param poTarget
-	 */
-	private void addSourceMapping(eBodyParts poSource, eBodyParts poTarget) {
-		ArrayList<eBodyParts> oList = moSourceTargetMappings.get(poSource);
-		
-		if (oList == null) {
-			oList = new ArrayList<eBodyParts>();
-		}
-		
-		if (!oList.contains(poTarget)) {
-			oList.add(poTarget);
-		}
-		
-		moSourceTargetMappings.put(poSource, oList);
-	}
-	
-	/**
-	 * DOCUMENT (deutsch) - insert description
-	 *
-	 * @param poSource
-	 * @param poTarget
-	 */
-	private void addTargetMapping(eBodyParts poSource, eBodyParts poTarget) {
-		ArrayList<eBodyParts> oList = moSourceTargetMappings.get(poTarget);
-		
-		if (oList == null) {
-			oList = new ArrayList<eBodyParts>();
-		}
-		
-		if (!oList.contains(poSource)) {
-			oList.add(poSource);
-		}
-		
-		moSourceTargetMappings.put(poTarget, oList);		
-	}
-
-	/**
-	 * DOCUMENT (deutsch) - insert description
-	 *
-	 */
-	public void clear() {
-		moMessages.clear();
-		moTargetList.clear();
-	}
-
-	/**
-	 * DOCUMENT (deutsch) - insert description
-	 *
-	 * @param poSource
-	 * @return
-	 */
-	public ArrayList<eBodyParts> getTargets(eBodyParts poSource) {
-		return copyArray(moSourceTargetMappings.get(poSource));
-	}
-	
-	/**
-	 * DOCUMENT (deutsch) - insert description
-	 *
-	 * @param poTarget
-	 * @return
-	 */
-	public ArrayList<eBodyParts> getSources(eBodyParts poTarget) {
-		return copyArray(moTargetSourceMappings.get(poTarget));
-	}
-	
-	/**
-	 * DOCUMENT (deutsch) - insert description
-	 *
-	 * @param poArray
-	 * @return
-	 */
-	private ArrayList<eBodyParts> copyArray(ArrayList<eBodyParts> poArray) {
-		ArrayList<eBodyParts> oResult = new ArrayList<eBodyParts>();
-		
-		Iterator<eBodyParts> i = poArray.iterator();
-		while (i.hasNext()) {
-			oResult.add(i.next());
-		}
-		
-		return oResult;		
-	}
 
 	/**
 	 * DOCUMENT (deutsch) - insert description
@@ -159,7 +56,17 @@ public class clsFastMessengerSystem implements itfStepUpdateInternalState {
 	 * @return
 	 */
 	public ArrayList<clsFastMessengerEntry> getMessagesForTarget(eBodyParts poTarget) {
-		return  moTargetList.get(poTarget);
+		HashMap<eBodyParts, clsFastMessengerEntry> oList = moTargetList.get(poTarget);
+		ArrayList<clsFastMessengerEntry> oResult = new ArrayList<clsFastMessengerEntry>();
+		
+		if (oList != null) {
+			Iterator<eBodyParts> i = oList.keySet().iterator();
+			while (i.hasNext()) {
+				oResult.add( oList.get(i.next()) );
+			}
+		}
+		
+		return  oResult;
 	}
 	
 	/**
@@ -170,7 +77,7 @@ public class clsFastMessengerSystem implements itfStepUpdateInternalState {
 	 * @param prIntensity
 	 */
 	public void addMessage(eBodyParts poSource, eBodyParts poTarget, double prIntensity) {
-		addMessage(new clsFastMessengerEntry(poSource, poTarget, prIntensity));
+		addMessage(new clsFastMessengerEntry(poSource, poTarget, prIntensity, mnDefaultExpireTime));
 	}
 	
 	/**
@@ -179,18 +86,15 @@ public class clsFastMessengerSystem implements itfStepUpdateInternalState {
 	 * @param poMessage
 	 */
 	public void addMessage(clsFastMessengerEntry poMessage) {
-		moMessages.add(poMessage);
-		
 		eBodyParts oTarget = poMessage.getTarget();
-		ArrayList<clsFastMessengerEntry> oList = moTargetList.get(oTarget);
+		HashMap<eBodyParts, clsFastMessengerEntry> oList = moTargetList.get(oTarget);
 		
 		if (oList == null) {
-			oList = new ArrayList<clsFastMessengerEntry>();
-			oList.add(poMessage);
+			oList = new HashMap<eBodyParts, clsFastMessengerEntry>();
 			moTargetList.put(oTarget, oList);
-		} else {
-			oList.add(poMessage);
 		}
+		
+		oList.put(poMessage.getSource(), poMessage);
 	}
 
 	/* (non-Javadoc)
@@ -201,7 +105,25 @@ public class clsFastMessengerSystem implements itfStepUpdateInternalState {
 	 * @see bw.body.itfStep#step()
 	 */
 	public void stepUpdateInternalState() {
-		// TODO (deutsch) Auto-generated method stub
+		Iterator<eBodyParts> i = moTargetList.keySet().iterator();
+		
+		while (i.hasNext()) {
+			HashMap<eBodyParts, clsFastMessengerEntry> oEntries = moTargetList.get(i.next());
+			ArrayList<eBodyParts> oDeleteCandidates = new ArrayList<eBodyParts>();
+			
+			// age fast message entries
+			for ( Map.Entry<eBodyParts,clsFastMessengerEntry> oEntry:oEntries.entrySet()) {
+				oEntry.getValue().decTimer();
+				if (oEntry.getValue().timerExpired()) {
+					oDeleteCandidates.add(oEntry.getKey());
+				}
+			}
+			
+			//remove outdated fast message entries
+			for (eBodyParts oDeleteCandidate:oDeleteCandidates) {
+				oEntries.remove(oDeleteCandidate);
+			}
+		}
 		
 	}
 

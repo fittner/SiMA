@@ -36,7 +36,6 @@ public class clsDamageLightning implements itfStep {
 	public clsDamageLightning(String poPrefix, clsBWProperties poProp, clsHealthSystem poHealthSystem, clsFastMessengerSystem poFastMessengerSystem) {
 		moHealthSystem = poHealthSystem;
 		moFastMessengerSystem = poFastMessengerSystem;
-		moFastMessengerSystem.addMapping(eBodyParts.INTER_DAMAGE_LIGHTNING, eBodyParts.BRAIN);
 		
 		applyProperties(poPrefix, poProp);
 	}

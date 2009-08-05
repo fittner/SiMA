@@ -42,7 +42,6 @@ public class clsDamageNutrition implements itfStepUpdateInternalState {
 		moHealthSystem = poHealthSystem;
 		moStomachSystem = poStomachSystem;		
 		moFastMessengerSystem = poFastMessengerSystem;
-		moFastMessengerSystem.addMapping(eBodyParts.INTRA_DAMAGE_NUTRITION, eBodyParts.BRAIN);
 		
 		applyProperties(poPrefix, poProp);
 	}

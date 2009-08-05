@@ -37,7 +37,6 @@ public class clsDamageTemperature implements itfStepUpdateInternalState {
 		moHealthSystem = poHealthSystem;
 		moTemperatureSystem = poTemperatureSystem;		
 		moFastMessengerSystem = poFastMessengerSystem;
-		moFastMessengerSystem.addMapping(eBodyParts.INTRA_DAMAGE_TEMPERATURE, eBodyParts.BRAIN);
 		
 		applyProperties(poPrefix, poProp);
 	}
