@@ -182,8 +182,8 @@ public class clsDumbMindA extends clsBaseDecisionUnit {
 	}
 
 	@Override
-	public void process(itfActionProcessor poActionProcessor) { 
-		stepProcessing(poActionProcessor);
+	public void process() { 
+		stepProcessing(  getActionProcessor()  );
 		
 		//clsActionCommandContainer oCommands = new clsActionCommandContainer();
 		//oCommands.addMoveAction( clsMotionAction.creatAction(eActionCommandMotion.MOVE_FORWARD));

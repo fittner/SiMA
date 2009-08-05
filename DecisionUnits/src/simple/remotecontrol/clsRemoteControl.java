@@ -86,7 +86,8 @@ public class clsRemoteControl extends clsBaseDecisionUnit  {
 	}
 
 	@Override
-	public void process(itfActionProcessor poActionProcessor) {
+	public void process() {
+		 itfActionProcessor poActionProcessor = getActionProcessor();
 		//the processing is taken over by the user via keyboard
 	   	switch( moKeyPressed )
     	{

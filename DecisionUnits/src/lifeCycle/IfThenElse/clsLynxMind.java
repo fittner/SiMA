@@ -22,7 +22,7 @@ import simple.remotecontrol.clsRemoteControl; //for testing purpose only! remove
 public class clsLynxMind extends clsRemoteControl  {
 
 	@Override
-	public void process(itfActionProcessor poActionProcessor) {
+	public void process() {
 
 //		//===========USE THIS CODE FOR REMOTE CONTROL
 //	   	switch( getKeyPressed() )
@@ -37,7 +37,7 @@ public class clsLynxMind extends clsRemoteControl  {
 //	  	//=========== END
 		
 		//===========USE THIS CODE FOR AUTOMATIC IF/THEN-ACTION
-		doLynxThinking(poActionProcessor);
+		doLynxThinking( getActionProcessor() );
 		//=========== END
 	}
 	

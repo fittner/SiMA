@@ -61,6 +61,7 @@ public class clsInspectorMappingDecision {
 //       }
         
         oRetVal.addInspector( new clsInspectorSensorData(poSuperInspector, poWrapper, poState, poDU), "Sensor Information");
+        oRetVal.addInspector( new clsInspectorActionCommands(poSuperInspector, poWrapper, poState, poDU), "Action Commands");        
         
     	//add standard inspector if nothing happened
     	if(oRetVal.inspectors.size() == 0)  {

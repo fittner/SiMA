@@ -22,7 +22,7 @@ import simple.remotecontrol.clsRemoteControl; //for testing purpose only! remove
 public class clsHareMind extends clsRemoteControl { //should be derived from clsBaseDecisionUit
 
 	@Override
-	public void process(itfActionProcessor poActionProcessor) {
+	public void process() {
 
 //		//===========USE THIS CODE FOR REMOTE CONTROL
 //		super.process(poActionProcessor);
@@ -35,7 +35,7 @@ public class clsHareMind extends clsRemoteControl { //should be derived from cls
 //	  //=========== END
 	   	
 		//===========USE THIS CODE FOR AUTOMATIC IF/THEN-ACTION
-		doHareThinking(poActionProcessor);
+		doHareThinking(  getActionProcessor() );
 		//=========== END
 	}
 	

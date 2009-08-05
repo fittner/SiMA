@@ -103,7 +103,7 @@ public class clsBrainSocket implements itfStepProcessing {
 	public void stepProcessing() {
 		if (moDecisionUnit != null) {
 			moDecisionUnit.update(convertSensorData());
-			moDecisionUnit.process(moActionProcessor);
+			moDecisionUnit.process();
 		} 
 	}
 	
@@ -424,6 +424,7 @@ public class clsBrainSocket implements itfStepProcessing {
 
 	public void setDecisionUnit(clsBaseDecisionUnit poDecisionUnit) {
 		moDecisionUnit = poDecisionUnit;
+		moDecisionUnit.setActionProcessor(moActionProcessor);
 	}
 
 	/**

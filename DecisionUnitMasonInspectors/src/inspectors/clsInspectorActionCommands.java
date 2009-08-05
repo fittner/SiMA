@@ -1,8 +1,8 @@
 /**
- * clsInspectorSensorData.java: DecisionUnitMasonInspectors - inspectors
+ * clsInspectorActionCommands.java: DecisionUnitMasonInspectors - inspectors
  * 
- * @author langr
- * 03.08.2009, 13:34:23
+ * @author deutsch
+ * 05.08.2009, 13:22:55
  */
 package inspectors;
 
@@ -10,22 +10,21 @@ import java.awt.BorderLayout;
 
 import javax.swing.Box;
 import javax.swing.BoxLayout;
-//import javax.swing.JLabel; // TD - warning free
-import decisionunit.clsBaseDecisionUnit;
-//import sim.display.Controller; // TD - warning free
+
 import sim.display.GUIState;
 import sim.portrayal.Inspector;
 import sim.portrayal.LocationWrapper;
 import sim.util.gui.HTMLBrowser;
+import decisionunit.clsBaseDecisionUnit;
 
 /**
- * DOCUMENT (langr) - insert description 
+ * DOCUMENT (deutsch) - insert description 
  * 
- * @author langr
- * 03.08.2009, 13:34:23
+ * @author deutsch
+ * 05.08.2009, 13:22:55
  * 
  */
-public class clsInspectorSensorData extends Inspector {
+public class clsInspectorActionCommands  extends Inspector {
     
 	
 	/**
@@ -43,7 +42,7 @@ public class clsInspectorSensorData extends Inspector {
 	
 	HTMLBrowser moHTMLPane;
 	
-	public clsInspectorSensorData(Inspector originalInspector,
+	public clsInspectorActionCommands(Inspector originalInspector,
             LocationWrapper wrapper,
             GUIState guiState,
             clsBaseDecisionUnit poDU)

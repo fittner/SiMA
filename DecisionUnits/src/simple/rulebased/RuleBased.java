@@ -9,8 +9,6 @@
 package simple.rulebased;
 
 import decisionunit.clsBaseDecisionUnit;
-import decisionunit.itf.actions.itfActionProcessor;
-
 
 public class RuleBased extends clsBaseDecisionUnit {
 /*	
@@ -31,7 +29,7 @@ public class RuleBased extends clsBaseDecisionUnit {
 	}
 */
 	@Override
-	public void process(itfActionProcessor poActionProcessor) {
+	public void process() {
 		// TODO (deutsch) - Auto-generated method stub
 	}
 }
