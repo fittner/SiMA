@@ -49,6 +49,7 @@ public class clsHare extends clsAnimal implements itfGetFlesh, itfAPEatable, itf
 	public clsHare(String poPrefix, clsBWProperties poProp) {
 		super(poPrefix, poProp );
 		applyProperties(poPrefix, poProp);
+		updateShape();
 	}
 	
 	private void applyProperties(String poPrefix, clsBWProperties poProp) {
@@ -174,18 +175,6 @@ public class clsHare extends clsAnimal implements itfGetFlesh, itfAPEatable, itf
 		meEntityType = eEntityType.HARE;
 	}
 	
-	/* (non-Javadoc)
-	 *
-	 * @author langr
-	 * 25.02.2009, 17:36:09
-	 * 
-	 * @see bw.entities.clsEntity#processing(java.util.ArrayList)
-	 */
-	@Override
-	public void processing() {
-//	    ((clsRemoteControl)(moBody.getBrain().getDecisionUnit())).setKeyPressed(clsKeyListener.getKeyPressed());		
-		super.processing();
-	}
 
 	/* (non-Javadoc)
 	 *
@@ -196,10 +185,10 @@ public class clsHare extends clsAnimal implements itfGetFlesh, itfAPEatable, itf
 	 * @see bw.body.itfget.itfGetFlesh#getFlesh()
 	 */
 	public clsFlesh getFlesh() {
-		return ((clsComplexBody)moBody).getInternalSystem().getFlesh();
+		clsFlesh oResult = ((clsComplexBody)moBody).getInternalSystem().getFlesh();
+		return oResult;
 	}
-
-
+	
 	/* (non-Javadoc)
 	 *
 	 * @author deutsch
@@ -208,9 +197,37 @@ public class clsHare extends clsAnimal implements itfGetFlesh, itfAPEatable, itf
 	 * @see bw.body.io.actuators.actionProxies.itfAPEatable#Eat(float)
 	 */
 	public clsFood Eat(double prBiteSize) {
-		return getFlesh().withdraw(prBiteSize);
+		clsFood oResult = getFlesh().withdraw(prBiteSize);
+		updateShape();
+		return oResult;
+	}
+	
+
+
+
+	/* (non-Javadoc)
+	 *
+	 * @author deutsch
+	 * 08.07.2009, 15:17:57
+	 * 
+	 * @see bw.body.io.actuators.actionProxies.itfAPKillable#kill(float)
+	 */
+	public void kill(double pfForce) {
+		setAlive(false);
+		updateShape();
 	}
 
+
+	/* (non-Javadoc)
+	 *
+	 * @author deutsch
+	 * 08.07.2009, 15:17:57
+	 * 
+	 * @see bw.body.io.actuators.actionProxies.itfAPKillable#tryKill(float)
+	 */
+	public double tryKill(double pfForce) {
+		return 0;
+	}
 
 	/* (non-Javadoc)
 	 *
@@ -226,32 +243,30 @@ public class clsHare extends clsAnimal implements itfGetFlesh, itfAPEatable, itf
 		  return 1.0f;
 		}
 	}
-
-
-	/* (non-Javadoc)
-	 *
-	 * @author deutsch
-	 * 08.07.2009, 15:17:57
-	 * 
-	 * @see bw.body.io.actuators.actionProxies.itfAPKillable#kill(float)
-	 */
-	public void kill(double pfForce) {
-		setAlive(false);
-		setShape(moDead, getTotalWeight());
-	}
-
-
-	/* (non-Javadoc)
-	 *
-	 * @author deutsch
-	 * 08.07.2009, 15:17:57
-	 * 
-	 * @see bw.body.io.actuators.actionProxies.itfAPKillable#tryKill(float)
-	 */
-	public double tryKill(double pfForce) {
-		return 0;
+	
+	private void updateShape() {
+		if ( !isAlive() && getFlesh().getTotallyConsumed() ) {
+			//This command removes the cake from the playground
+			//clsRegisterEntity.unRegisterPhysicalObject2D(getMobileObject2D());
+			setShape(moDeadAndEaten, getTotalWeight());
+		} else if (!isAlive()) {
+			setShape(moDead, getTotalWeight());
+		}		
 	}
 	
+	/* (non-Javadoc)
+	 *
+	 * @author langr
+	 * 25.02.2009, 17:36:09
+	 * 
+	 * @see bw.entities.clsEntity#processing(java.util.ArrayList)
+	 */
+	@Override
+	public void processing() {
+//	    ((clsRemoteControl)(moBody.getBrain().getDecisionUnit())).setKeyPressed(clsKeyListener.getKeyPressed());		
+		super.processing();
+		updateShape();
+	}
 	
 	/* (non-Javadoc)
 	 *
@@ -263,15 +278,9 @@ public class clsHare extends clsAnimal implements itfGetFlesh, itfAPEatable, itf
 	@Override
 	public void updateInternalState() {
 		super.updateInternalState();
-		if ( !isAlive() && getFlesh().getTotallyConsumed() ) {
-			//This command removes the cake from the playground
-			//clsRegisterEntity.unRegisterPhysicalObject2D(getMobileObject2D());
-			setShape(moDeadAndEaten, getTotalWeight());
-		}
-		
 		if (((clsComplexBody)moBody).getInternalSystem().getHealthSystem().getHealth().getContent() < 0.0001) {
 			setAlive(false);
-			setShape(moDead, getTotalWeight());
 		}
+		updateShape();
 	}
 }
