@@ -1,6 +1,6 @@
 /**
- * @author langr
- * 19.03.2009, 15:57:25
+ * @author horvath
+ * 04.08.2009, 14:40:25
  * 
  * $Rev::                      $: Revision of last commit
  * $Author::                   $: Author of last commit
@@ -13,8 +13,13 @@ import decisionunit.itf.actions.clsActionEat;
 import decisionunit.itf.actions.itfActionProcessor;
 import enums.eEntityType;
 import enums.eSensorExtType;
+import enums.eSensorIntType;
 import decisionunit.itf.sensors.clsEatableArea;
 import decisionunit.itf.sensors.clsSensorData;
+import decisionunit.itf.sensors.clsRadiation;
+import decisionunit.itf.sensors.clsStomachSystem;
+import decisionunit.itf.sensors.clsVision;
+import decisionunit.itf.sensors.clsVisionEntry;
 
 /**
  * DOCUMENT (horvath) - insert description 
@@ -25,6 +30,13 @@ import decisionunit.itf.sensors.clsSensorData;
  */
 public class clsReactive extends clsBaseDecisionUnit {
 	
+	// constants
+	private final double mrMIN_ENERGY = 0.2;
+	private final double mrMAX_OBSTACLE_DISTANCE = 0.2;
+	private final double mrMAX_BASE_DISTANCE = 0.2;
+	private final double mrMAX_FUNGUS_DISTANCE = 0.2;
+	private final double mrMAX_URANIUM_DISTANCE = 0.2;
+		
 	public clsReactive() {
 	}
 	
@@ -32,7 +44,8 @@ public class clsReactive extends clsBaseDecisionUnit {
 	public void stepProcessing(itfActionProcessor poActionProcessor) {
 		// get sensor data at the moment
 		clsSensorData inputs = getSensorData();
-	
+				
+		
 		// If there is enough energy, do the job (collect uranium), if not, find something to eat.
 		if(!isEnoughEnergy(inputs)){
 			if(isFungusInRange(inputs)){
@@ -119,30 +132,60 @@ public class clsReactive extends clsBaseDecisionUnit {
 	}
 	
 	
-	
+	/*
+	 * (horvath) - if the fungus eater has enough energy, returns true, if not, returns false
+	 */
 	private boolean isEnoughEnergy(clsSensorData inputs){
-		
-		return true;
+		clsStomachSystem oStomach = (clsStomachSystem) getSensorData().getSensorInt(eSensorIntType.STOMACH);
+		if (oStomach.mrEnergy <= mrMIN_ENERGY ){
+			return false;	
+		}else{	
+			return true;
+		}
 	}
 	
+	/*
+	 * (horvath) - if there's some fungus in the visible range, returns true, if not, returns false
+	 */
 	private boolean isFungusInRange(clsSensorData inputs){
-		
-		return true;
+		clsVision oVision = (clsVision) getSensorData().getSensorExt(eSensorExtType.VISION);
+		for( clsVisionEntry oVisionObj : oVision.getList() ){
+			if( oVisionObj.mnEntityType == eEntityType.FUNGUS){
+				return true;
+			}
+		}
+		return false;
 	}
 	
+	/*
+	 * (horvath) - if there's some uranium in the sensible range, returns true, if not, returns false
+	 */
 	private boolean isUraniumInRange(clsSensorData inputs){
-		
-		return true;
+		clsRadiation oRadiation = (clsRadiation) getSensorData().getSensorExt(eSensorExtType.RADIATION);
+		if(oRadiation.mrIntensity == 0){
+			return false;	
+		}else{	
+			return true;
+		}
 	}
 	
 	private boolean isUraniumCollected(clsSensorData inputs){
 		
-		return true;
+		return false;
 	}
 	
+	/*
+	 * (horvath) - if distance of an object from the fungus eater is less than a predefined value, returns true, 
+	 * 			   otherwise returns false
+	 */
 	private boolean isObstacle(clsSensorData inputs){
-		
-		return true;
+		clsVision oVision = (clsVision) getSensorData().getSensorExt(eSensorExtType.VISION);
+		for( clsVisionEntry oVisionObj : oVision.getList() ) {
+			if(oVisionObj.moPolarcoordinate.mrLength <= mrMAX_OBSTACLE_DISTANCE){
+				return true;				
+			}
+		}
+		return false;
 	}
 	
 	private boolean isObstacleMovable(clsSensorData inputs){
@@ -155,19 +198,53 @@ public class clsReactive extends clsBaseDecisionUnit {
 		return true;
 	}
 	
+	
+	/*
+	 * (horvath) - if distance of the base from the fungus eater is less than a predefined value, returns true, 
+	 * 			   otherwise returns false
+	 */
 	private boolean isAtBase(clsSensorData inputs){
-		
-		return true;
+		clsVision oVision = (clsVision) getSensorData().getSensorExt(eSensorExtType.VISION);
+		for( clsVisionEntry oVisionObj : oVision.getList() ) {
+			if(oVisionObj.mnEntityType == eEntityType.BASE){
+				if(oVisionObj.moPolarcoordinate.mrLength <= mrMAX_BASE_DISTANCE){
+					return true;				
+				}				
+			}			
+		}
+		return false;
 	}
 	
+	/*
+	 * (horvath) - if distance of a fungus from the fungus eater is less than a predefined value, returns true, 
+	 * 			   otherwise returns false
+	 */
 	private boolean isAtFungus(clsSensorData inputs){
-		
-		return true;
+		clsVision oVision = (clsVision) getSensorData().getSensorExt(eSensorExtType.VISION);
+		for( clsVisionEntry oVisionObj : oVision.getList() ) {
+			if(oVisionObj.mnEntityType == eEntityType.FUNGUS){
+				if(oVisionObj.moPolarcoordinate.mrLength <= mrMAX_FUNGUS_DISTANCE){
+					return true;				
+				}				
+			}			
+		}
+		return false;
 	}
 	
+	/*
+	 * (horvath) - if distance of an uranium from the fungus eater is less than a predefined value, returns true, 
+	 * 			   otherwise returns false
+	 */
 	private boolean isAtUranium(clsSensorData inputs){
-		
-		return true;
+		clsVision oVision = (clsVision) getSensorData().getSensorExt(eSensorExtType.VISION);
+		for( clsVisionEntry oVisionObj : oVision.getList() ) {
+			if(oVisionObj.mnEntityType == eEntityType.URANIUM){
+				if(oVisionObj.moPolarcoordinate.mrLength <= mrMAX_URANIUM_DISTANCE){
+					return true;				
+				}				
+			}			
+		}
+		return false;
 	}
 	
 	private void moveObstacle(clsSensorData inputs, itfActionProcessor poActionProcessor){

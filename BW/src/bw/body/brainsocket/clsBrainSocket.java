@@ -13,6 +13,7 @@ import java.util.Iterator;
 
 import sim.physics2D.physicalObject.PhysicalObject2D;
 import sim.physics2D.shape.*;
+//import sim.physics2D.util.Double2D;
 import simple.remotecontrol.clsRemoteControl;
 
 import decisionunit.clsBaseDecisionUnit;
@@ -54,6 +55,7 @@ import bw.body.io.sensors.internal.clsStaminaSensor;
 import bw.body.io.sensors.internal.clsStomachSensor;
 import bw.entities.clsEntity;
 import bw.entities.clsAnimal;
+//import bw.entities.clsUraniumOre;
 import bw.utils.config.clsBWProperties;
 import enums.eEntityType;
 
@@ -298,23 +300,13 @@ public class clsBrainSocket implements itfStepProcessing {
 	
 	private clsRadiation convertRadiationSensor() {
 		clsRadiation oData = new clsRadiation();
-		
-		clsSensorRadiation oRadiationSensor = (clsSensorRadiation) moSensorsExt.get(eSensorExtType.RADIATION);
-		
-		Iterator<Integer> i = oRadiationSensor.getViewObj().keySet().iterator();
-		
-		while (i.hasNext()) {
-			Integer oKey = i.next();
-			oData.mnNumEntitiesPresent = oRadiationSensor.getViewObj().size();
-			oData.mnTypeOfFirstEntity = getEntityType( oRadiationSensor.getViewObj().get(oKey) );
-			
-			if (oData.mnTypeOfFirstEntity != eEntityType.UNDEFINED) {
-				break;
-			}
-		}
-			
+		clsSensorRadiation oRadiationSensor = (clsSensorRadiation) moSensorsExt.get(eSensorExtType.RADIATION);		
+		oRadiationSensor.updateSensorData();		
+		oData.mrIntensity = oRadiationSensor.getMrRadiation();		
 		return oData;
 	}
+	
+	
 
 	private clsVisionEntry convertVisionEntry(PhysicalObject2D visionObj, ARSsim.physics2D.util.clsPolarcoordinate visionDir) {
 		clsEntity oEntity = getEntity(visionObj);

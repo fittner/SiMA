@@ -11,7 +11,11 @@ public class clsRadiationEntry {
 	public clsPolarcoordinate moPolarcoordinate = new clsPolarcoordinate();
 	public eEntityType mnEntityType = eEntityType.UNDEFINED;
 	public eShapeType mnShapeType = eShapeType.UNDEFINED;
-	public int moEntityId = -1;
+	
+	// (horvath) - as in the vision sensor
+	//public int moEntityId = -1;
+	public String moEntityId = "";
+	
 	public boolean mnAlive = false;
 	public Color moColor = null;
 	
@@ -31,7 +35,7 @@ public class clsRadiationEntry {
 		
 		logEntry += clsDataBase.addXMLTag("Polarcoordinate", moPolarcoordinate.toString()); 
 		logEntry += clsDataBase.addXMLTag("EntityType", mnEntityType.toString()); 
-		logEntry += clsDataBase.addXMLTag("EntityId", new Integer(moEntityId).toString());
+		logEntry += clsDataBase.addXMLTag("EntityId", moEntityId);
 		
 		if (moColor != null) {
 		  logEntry += clsDataBase.addXMLTag("Color", moColor.toString());

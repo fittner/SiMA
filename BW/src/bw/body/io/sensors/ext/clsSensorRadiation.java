@@ -19,7 +19,7 @@ import ARSsim.physics2D.physicalObject.clsStationaryObject2D;
 import bw.body.io.clsBaseIO;
 import bw.body.io.clsExternalIO;
 import bw.entities.clsEntity;
-//import bw.entities.clsUraniumOre;
+import bw.entities.clsUraniumOre;
 import bw.utils.config.clsBWProperties;
 import bw.utils.enums.eBodyParts;
 
@@ -120,11 +120,10 @@ public class clsSensorRadiation extends clsSensorExt {
 				clsEntity oEntity = getEntity(itr.next()); 
 				
 				if(oEntity.getEntityType() == eEntityType.URANIUM && oEntity.isRegistered()){
-	throw new java.lang.NoSuchMethodError();	
-// FIXME (horvath) - getId is unsafe and does not guarantee a unique value! please change code. TD
-//					rDistance = getDistance(oEntity.getId());
+					//throw new java.lang.NoSuchMethodError();
+					rDistance = getDistance(oEntity.getUniqueId());
 					// calculate radiation contribution of the selected uranium ore 
-//					mrRadiation = mrRadiation + ((clsUraniumOre)oEntity).mrRadiationIntensity / Math.pow(rDistance, 2);
+					mrRadiation = mrRadiation + ((clsUraniumOre)oEntity).mrRadiationIntensity / Math.pow(rDistance, 2);
 				}
 			}
 		}
