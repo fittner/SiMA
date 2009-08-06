@@ -71,11 +71,11 @@ public class clsLynx extends clsAnimal {
 		
 		//FIXME (deutsch) - .4. is not guaranteed - has to be changed!
 		oProp.setProperty(pre+"body.sensorsext.4.offset", 11);
-		oProp.setProperty(pre+"body.sensorsext.4.sensor_range", 4);
+		oProp.setProperty(pre+"body.sensorsext.4.sensor_range", 2);
 		oProp.setProperty(pre+"body.sensorsext.2.sensor_range", 45.0);
 		oProp.setProperty(pre+"body.sensorsext.3.sensor_range", 45.0);		
 		
-		oProp.setProperty(pre+P_STRUCTURALWEIGHT, 1500.0);
+		oProp.setProperty(pre+P_STRUCTURALWEIGHT, 600.0);
 		
 
 		//change stomach to desired values

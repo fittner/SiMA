@@ -79,7 +79,7 @@ public class clsHare extends clsAnimal implements itfGetFlesh, itfAPEatable, itf
 		
 		//FIXME (deutsch) - .4. is not guaranteed - has to be changed!
 		oProp.setProperty(pre+"body.sensorsext.4.offset", 8);
-		oProp.setProperty(pre+"body.sensorsext.4.sensor_range", 2.5);
+		oProp.setProperty(pre+"body.sensorsext.4.sensor_range", 2);
 		oProp.setProperty(pre+"body.sensorsext.2.sensor_range", 30.0);
 		oProp.setProperty(pre+"body.sensorsext.3.sensor_range", 30.0);
 
