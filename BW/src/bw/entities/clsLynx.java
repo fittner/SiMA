@@ -66,7 +66,7 @@ public class clsLynx extends clsAnimal {
 		oProp.setProperty(pre+"body.sensorsext.2.sensor_range", 45.0);
 		oProp.setProperty(pre+"body.sensorsext.3.sensor_range", 45.0);		
 		
-		oProp.setProperty(pre+P_STRUCTURALWEIGHT, 300.0);
+		oProp.setProperty(pre+P_STRUCTURALWEIGHT, 500.0);
 		
 		//change stomach to desired values
 		String stomach_pre = pre+clsAnimate.P_BODY+"."+clsComplexBody.P_INTERNAL+"."+clsInternalSystem.P_STOMACH+".";

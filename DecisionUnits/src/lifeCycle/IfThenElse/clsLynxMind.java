@@ -2,6 +2,8 @@ package lifeCycle.IfThenElse;
 
 //import decisionunit.itf.actions.clsActionEat;
 //import decisionunit.itf.actions.clsActionKill;
+import java.awt.Color;
+
 import decisionunit.itf.actions.clsActionMove;
 import decisionunit.itf.actions.clsActionTurn;
 import decisionunit.itf.actions.itfActionProcessor;
@@ -48,27 +50,20 @@ public class clsLynxMind extends clsRemoteControl  {
 	private static double mnHungryThreasholed = 4; //energy level, where hare gets hungry
 	
 	public void doLynxThinking(itfActionProcessor poActionProcessor) {
-		
 		clsVisionEntry oVisibleHare = checkVision();
 		clsBump oBump = (clsBump) getSensorData().getSensorExt(eSensorExtType.BUMP);
 		
 		if( checkEatableArea() && isHungry() ) {
-			if(oVisibleHare.mnAlive) {				
+			if(oVisibleHare.moColor.equals(Color.red)) {
+				eatHare(poActionProcessor);
+			} else {				
 				killHare(poActionProcessor);
 			}
-			else {				
-				eatHare(poActionProcessor);
-			}
-		}
-		
-		else if( oVisibleHare != null && isHungry() ) {
+		} else if( oVisibleHare != null && isHungry() ) {
 			followHare(poActionProcessor, oVisibleHare);
-		}
-		else if( oBump.mnBumped )
-		{
+		} else if( oBump.mnBumped )	{
 			handleColision(poActionProcessor);
-		}
-		else {
+		} else {
 			seekHare(poActionProcessor);
 		}
 	}
@@ -76,7 +71,7 @@ public class clsLynxMind extends clsRemoteControl  {
 	public boolean checkEatableArea() 	{
 		boolean nRetVal = false;
 		clsEatableArea oEatArea = (clsEatableArea) getSensorData().getSensorExt(eSensorExtType.EATABLE_AREA);
-		if(oEatArea.mnNumEntitiesPresent > 0 && oEatArea.mnTypeOfFirstEntity == eEntityType.HARE)
+		if(oEatArea.mnNumEntitiesPresent > 0 && oEatArea.mnTypeOfFirstEntity == eEntityType.HARE && !oEatArea.moColorOfFirstEntity.equals(Color.BLACK))
 		{
 			nRetVal = true;
 		}
@@ -87,7 +82,7 @@ public class clsLynxMind extends clsRemoteControl  {
 		clsVisionEntry oRetVal = null;
 		clsVision oVision = (clsVision) getSensorData().getSensorExt(eSensorExtType.VISION);
 		for( clsVisionEntry oVisionObj : oVision.getList() ) {
-			if( oVisionObj.mnEntityType == eEntityType.HARE)
+			if( oVisionObj.mnEntityType == eEntityType.HARE && !oVisionObj.moColor.equals(Color.BLACK))
 			{
 				oRetVal = oVisionObj;
 				break;
@@ -97,7 +92,6 @@ public class clsLynxMind extends clsRemoteControl  {
 	}
 	
 	private boolean isHungry() {
-
 		boolean nRetVal = false;
 		clsStomachSystem oStomach = (clsStomachSystem) getSensorData().getSensorInt(eSensorIntType.STOMACH);
 

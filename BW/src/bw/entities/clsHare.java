@@ -9,13 +9,9 @@
 package bw.entities;
 
 import java.awt.Color;
-
 import sim.physics2D.shape.Shape;
-
 import du.utils.enums.eDecisionType;
-
 import enums.eEntityType;
-
 //import sim.display.clsKeyListener;
 //import simple.remotecontrol.clsRemoteControl;
 import bw.body.clsComplexBody;
@@ -27,7 +23,6 @@ import bw.body.io.actuators.actionProxies.itfAPKillable;
 import bw.body.itfget.itfGetFlesh;
 import bw.entities.tools.clsShapeCreator;
 import bw.entities.tools.eImagePositioning;
-import bw.factories.clsRegisterEntity;
 import bw.utils.config.clsBWProperties;
 import bw.utils.enums.eBodyType;
 import bw.utils.enums.eNutritions;
@@ -45,9 +40,11 @@ import bw.utils.tools.clsNutritionLevel;
 public class clsHare extends clsAnimal implements itfGetFlesh, itfAPEatable, itfAPKillable {
 	public static final String P_SHAPE_ALIVE		= "shape_alive";
 	public static final String P_SHAPE_DEAD 		= "shape_dead";
+	public static final String P_SHAPE_DEADANDEATEN 		= "shape_deadandeaten";
 	
 	//private Shape moAlive; //reactivate in case of resurrection
 	private Shape moDead;
+	private Shape moDeadAndEaten;
 	
 	public clsHare(String poPrefix, clsBWProperties poProp) {
 		super(poPrefix, poProp );
@@ -59,6 +56,7 @@ public class clsHare extends clsAnimal implements itfGetFlesh, itfAPEatable, itf
 		
 		//moAlive = clsShapeCreator.createShape(pre+P_SHAPE+"."+P_SHAPE_ALIVE, poProp); //reactivate in case of resurrection
 		moDead = clsShapeCreator.createShape(pre+P_SHAPE+"."+P_SHAPE_DEAD, poProp);		
+		moDeadAndEaten = clsShapeCreator.createShape(pre+P_SHAPE+"."+P_SHAPE_DEADANDEATEN, poProp);
 	}
 	
 	public static clsBWProperties getDefaultProperties(String poPrefix) {
@@ -149,15 +147,22 @@ public class clsHare extends clsAnimal implements itfGetFlesh, itfAPEatable, itf
 		oProp.setProperty(pre+P_SHAPE+"."+P_SHAPE_ALIVE+"."+clsShapeCreator.P_TYPE, eShapeType.CIRCLE.name());
 		oProp.setProperty(pre+P_SHAPE+"."+P_SHAPE_ALIVE+"."+clsShapeCreator.P_RADIUS, 2.5);
 		oProp.setProperty(pre+P_SHAPE+"."+P_SHAPE_ALIVE+"."+clsShapeCreator.P_COLOR, Color.LIGHT_GRAY);
-		oProp.setProperty(pre+P_SHAPE+"."+P_SHAPE_ALIVE+"."+clsShapeCreator.P_IMAGE_PATH, "/BW/src/resources/images/hase.png");
+		oProp.setProperty(pre+P_SHAPE+"."+P_SHAPE_ALIVE+"."+clsShapeCreator.P_IMAGE_PATH, "/BW/src/resources/images/hase_grey.png");
 		oProp.setProperty(pre+P_SHAPE+"."+P_SHAPE_ALIVE+"."+clsShapeCreator.P_IMAGE_POSITIONING, eImagePositioning.DEFAULT.name());		
 		
 		oProp.setProperty(pre+P_SHAPE+"."+P_SHAPE_DEAD+"."+clsShapeCreator.P_TYPE, eShapeType.CIRCLE.name());
 		oProp.setProperty(pre+P_SHAPE+"."+P_SHAPE_DEAD+"."+clsShapeCreator.P_RADIUS, 2.5);
-		oProp.setProperty(pre+P_SHAPE+"."+P_SHAPE_DEAD+"."+clsShapeCreator.P_COLOR, Color.BLACK);
-		oProp.setProperty(pre+P_SHAPE+"."+P_SHAPE_DEAD+"."+clsShapeCreator.P_IMAGE_PATH, "/BW/src/resources/images/hase.png");
+		oProp.setProperty(pre+P_SHAPE+"."+P_SHAPE_DEAD+"."+clsShapeCreator.P_COLOR, Color.RED);
+		oProp.setProperty(pre+P_SHAPE+"."+P_SHAPE_DEAD+"."+clsShapeCreator.P_IMAGE_PATH, "/BW/src/resources/images/hase_red.png");
 		oProp.setProperty(pre+P_SHAPE+"."+P_SHAPE_DEAD+"."+clsShapeCreator.P_IMAGE_POSITIONING, eImagePositioning.DEFAULT.name());		
 				
+		
+		oProp.setProperty(pre+P_SHAPE+"."+P_SHAPE_DEADANDEATEN+"."+clsShapeCreator.P_TYPE, eShapeType.CIRCLE.name());
+		oProp.setProperty(pre+P_SHAPE+"."+P_SHAPE_DEADANDEATEN+"."+clsShapeCreator.P_RADIUS, 2.5);
+		oProp.setProperty(pre+P_SHAPE+"."+P_SHAPE_DEADANDEATEN+"."+clsShapeCreator.P_COLOR, Color.BLACK);
+		oProp.setProperty(pre+P_SHAPE+"."+P_SHAPE_DEADANDEATEN+"."+clsShapeCreator.P_IMAGE_PATH, "/BW/src/resources/images/hase.png");
+		oProp.setProperty(pre+P_SHAPE+"."+P_SHAPE_DEADANDEATEN+"."+clsShapeCreator.P_IMAGE_POSITIONING, eImagePositioning.DEFAULT.name());		
+		
 		return oProp;
 	}
 
@@ -232,6 +237,7 @@ public class clsHare extends clsAnimal implements itfGetFlesh, itfAPEatable, itf
 	 */
 	public void kill(double pfForce) {
 		setAlive(false);
+		setShape(moDead, getTotalWeight());
 	}
 
 
@@ -257,9 +263,10 @@ public class clsHare extends clsAnimal implements itfGetFlesh, itfAPEatable, itf
 	@Override
 	public void updateInternalState() {
 		super.updateInternalState();
-		if ( isAlive() && getFlesh().getTotallyConsumed() ) {
+		if ( !isAlive() && getFlesh().getTotallyConsumed() ) {
 			//This command removes the cake from the playground
-			clsRegisterEntity.unRegisterPhysicalObject2D(getMobileObject2D());
+			//clsRegisterEntity.unRegisterPhysicalObject2D(getMobileObject2D());
+			setShape(moDeadAndEaten, getTotalWeight());
 		}
 		
 		if (((clsComplexBody)moBody).getInternalSystem().getHealthSystem().getHealth().getContent() < 0.0001) {
