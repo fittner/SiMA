@@ -54,16 +54,12 @@ public class clsHareMind extends clsRemoteControl { //should be derived from cls
 		
 		if( checkEatableArea() && isHungry() ) {
 			eatCarrot(poActionProcessor);
-		}
-		else if( oVisibleCarrot != null && isHungry()) {
+		} else if( oVisibleCarrot != null && isHungry()) {
 			reachCarrot(poActionProcessor, oVisibleCarrot);
 			//todo: flee when lynx in range!!!
-		}
-		else if( oBump.mnBumped )
-		{
+		} else if( oBump.mnBumped ) {
 			handleColision(poActionProcessor);
-		}
-		else {
+		} else {
 			seekCarrot(poActionProcessor);
 		}
 	}

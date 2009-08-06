@@ -47,7 +47,7 @@ public class clsLynxMind extends clsRemoteControl  {
 	private int mnStepsToRepeatLastAction = 20; //after these steps the next action is considered
 	private  static int mnRepeatRange = 100; //random generator goes from 0 to mnRepeatRange
 	private int mnCurrentActionCode = 0; //default move forward
-	private static double mnHungryThreasholed = 4; //energy level, where hare gets hungry
+	private static double mnHungryThreasholed = 7; //energy level, where hare gets hungry
 	
 	public void doLynxThinking(itfActionProcessor poActionProcessor) {
 		clsVisionEntry oVisibleHare = checkVision();
