@@ -44,7 +44,7 @@ public class clsColorParser  {
 		reverseMapping.put("ars_logo", new Color(216,68,32));
 		reverseMapping.put("ars_background", new Color(242,239,204));
 		reverseMapping.put("tu_blue", new Color(0,134,217));
-		
+	
 	}
 	
 	public static Color parse(String s) {

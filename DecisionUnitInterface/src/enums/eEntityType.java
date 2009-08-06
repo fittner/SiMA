@@ -22,6 +22,7 @@ public enum eEntityType {
 	FOOD,
 	FUNGUS,
 	URANIUM,
-	CARROT
+	CARROT,
+	SMARTEXCREMENT,
 }
 
