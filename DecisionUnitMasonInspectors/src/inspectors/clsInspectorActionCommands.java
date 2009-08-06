@@ -7,6 +7,7 @@
 package inspectors;
 
 import java.awt.BorderLayout;
+import java.util.ArrayList;
 
 import sim.display.GUIState;
 import sim.portrayal.Inspector;
@@ -22,15 +23,43 @@ import decisionunit.clsBaseDecisionUnit;
  * 
  */
 public class clsInspectorActionCommands  extends Inspector {
-    
-	
 	/**
-	 * DOCUMENT (langr) - insert description 
+	 * DOCUMENT (deutsch) - insert description 
 	 * 
-	 * @author langr
-	 * 03.08.2009, 14:32:39
+	 * @author deutsch
+	 * 06.08.2009, 08:21:29
 	 */
-	private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = 7969271764842942368L;
+
+	class Entry {
+		public int mnStartTime;
+		public int mnEndTime;
+		public String moActionCommand;
+		
+		public Entry(String poActionCommand) {
+			mnStartTime = mnTimeCounter;
+			mnEndTime = -1;
+			moActionCommand = poActionCommand;
+		}
+		
+		@Override
+		public String toString() {
+			String oResult = "";
+			
+			if (mnEndTime > 0) {
+				oResult = mnStartTime+" - "+mnEndTime+": "+moActionCommand;
+			} else {
+				oResult = mnStartTime+" - __: "+moActionCommand;
+			}
+			
+			return oResult;
+		}
+	}
+	
+    private ArrayList<Entry> moActionCommandHistory;
+    private int mnMaxHistoryLength = 20;
+    protected int mnTimeCounter;
+
 	
 	public Inspector moOriginalInspector;
 	private clsBaseDecisionUnit moDU;
@@ -38,6 +67,38 @@ public class clsInspectorActionCommands  extends Inspector {
 //	private JLabel moCaption; // TD - warning free
 	
 	HTMLBrowser moHTMLPane;
+	
+	private String getActionCommands() {
+		String oResult = "";
+		
+		String currentAction = moDU.getActionProcessorToHTML();
+		
+		if (moActionCommandHistory.size() > 0) {
+			Entry oLatestEntry = moActionCommandHistory.get(moActionCommandHistory.size()-1);
+			if (oLatestEntry != null) {
+				if (!oLatestEntry.moActionCommand.equals(currentAction)) {
+					oLatestEntry.mnEndTime = mnTimeCounter-1;
+					Entry oNewEntry = new Entry(currentAction);
+					moActionCommandHistory.add(oNewEntry);
+				}
+			}
+			
+			while (moActionCommandHistory.size() > mnMaxHistoryLength) {
+				moActionCommandHistory.remove(0);
+			}
+		} else {
+			Entry oNewEntry = new Entry(currentAction);
+			moActionCommandHistory.add(oNewEntry);
+		}
+		
+		oResult = "<ul>";
+		for (Entry oEntry:moActionCommandHistory) {
+			oResult += "<li>"+oEntry+"</li>";
+		}
+		oResult += "</ul>";
+		
+		return oResult;
+	}
 	
 	public clsInspectorActionCommands(Inspector originalInspector,
             LocationWrapper wrapper,
@@ -52,9 +113,12 @@ public class clsInspectorActionCommands  extends Inspector {
 //		moCaption = new JLabel("Layers of Brooks Subsumption Architecture"); // TD - warning free
         // creating the checkbox to sitch on/off the AI intelligence-levels.
 		
-        String contentData = "<html><head></head><body><p>";
-        contentData+=moDU.getSensorData().logHTML();
-        contentData+="</p></body></html>";
+		moActionCommandHistory = new ArrayList<Entry>();
+		
+        String contentData = "<html><head></head><body>";
+        contentData+="<h1>Action Commands History (last "+mnMaxHistoryLength+" entries)</h1>";
+        contentData+=getActionCommands();
+        contentData+="</body></html>";
         
         setLayout(new BorderLayout());
     	moHTMLPane = new HTMLBrowser(contentData);
@@ -70,8 +134,11 @@ public class clsInspectorActionCommands  extends Inspector {
 	 */
 	@Override
 	public void updateInspector() {
+		mnTimeCounter++;
+		
         String contentData = "<html><head><tr.font face='Courier'></head><body>";
-        contentData+=moDU.getSensorData().logHTML();
+        contentData+="<h1>Action Commands History (last "+mnMaxHistoryLength+" entries)</h1>";
+        contentData+=getActionCommands();
         contentData+="</body></html>";
         moHTMLPane.setText(contentData);
 	}

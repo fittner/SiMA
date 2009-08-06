@@ -104,6 +104,7 @@ public class clsBrainSocket implements itfStepProcessing {
 		if (moDecisionUnit != null) {
 			moDecisionUnit.update(convertSensorData());
 			moDecisionUnit.process();
+			moDecisionUnit.updateActionProcessorToHTML();
 		} 
 	}
 	
