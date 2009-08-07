@@ -11,8 +11,6 @@ import java.io.File;
 import java.io.IOException;
 import javax.imageio.ImageIO;
 
-import bw.factories.clsSingletonMasonGetter;
-
 /**
  * Extension of the Physics Engine circle, showing a image instead
  * 
@@ -65,9 +63,10 @@ public class clsCircleImage extends Circle
         
         //int nImageWidth = moImage.getWidth();
         //int nImageHeight = moImage.getHeight();
-        
-        double fScale = clsSingletonMasonGetter.getDisplay2D().getScale(); // 2 = zoomed in 1x, 0.5 = zoomed out 1x TODO performance issue?
 
+        //TODO - (muchitsch): delete this line, because there is no scaling necessary!
+        //double fScale = clsSingletonMasonGetter.getDisplay2D().getScale(); // 2 = zoomed in 1x, 0.5 = zoomed out 1x TODO performance issue?
+        
         graphics.setPaint(paint);
 
         final int nxArc = (int)(info.draw.x - fWidthArc / 2.0 );
@@ -80,8 +79,8 @@ public class clsCircleImage extends Circle
 
         if (!mbShowSimple)
 	        {
-		        int nScaledWidth = (int) (fWidthArc * fScale /2); //here the with of the arc should be used
-		        int nScaledHeight = (int) (fHeightArc * fScale /2);
+		        int nScaledWidth = (int) (fWidthArc); // * fScale /2 ... here the with of the arc should be used
+		        int nScaledHeight = (int) (fHeightArc);  // * fScale /2 ... no scaling necessary (roland)
 		   	
 		        graphics.drawImage(moImage, nxArc , nyArc, nScaledWidth, nScaledHeight, null );
 	        }
