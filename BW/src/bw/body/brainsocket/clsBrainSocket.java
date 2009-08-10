@@ -24,11 +24,12 @@ import decisionunit.itf.sensors.clsEatableArea;
 import decisionunit.itf.sensors.clsEnergyConsumption;
 import decisionunit.itf.sensors.clsFastMessenger;
 import decisionunit.itf.sensors.clsHealthSystem;
+import decisionunit.itf.sensors.clsStomachTension;
 import decisionunit.itf.sensors.clsTemperatureSystem;
 import decisionunit.itf.sensors.clsPositionChange;
 import decisionunit.itf.sensors.clsSensorData;
 import decisionunit.itf.sensors.clsStaminaSystem;
-import decisionunit.itf.sensors.clsStomachSystem;
+import decisionunit.itf.sensors.clsEnergy;
 import decisionunit.itf.sensors.clsVision;
 import decisionunit.itf.sensors.clsRadiation;
 import decisionunit.itf.sensors.clsVisionEntry;
@@ -47,12 +48,13 @@ import bw.body.io.sensors.external.clsSensorPositionChange;
 import bw.body.io.sensors.external.clsSensorVision;
 import bw.body.io.sensors.external.clsSensorRadiation;
 import bw.body.io.sensors.internal.clsEnergyConsumptionSensor;
+import bw.body.io.sensors.internal.clsEnergySensor;
 import bw.body.io.sensors.internal.clsFastMessengerSensor;
 import bw.body.io.sensors.internal.clsHealthSensor;
+import bw.body.io.sensors.internal.clsStomachTensionSensor;
 import bw.body.io.sensors.internal.clsTemperatureSensor;
 import bw.body.io.sensors.internal.clsSensorInt;
 import bw.body.io.sensors.internal.clsStaminaSensor;
-import bw.body.io.sensors.internal.clsStomachSensor;
 import bw.entities.clsEntity;
 import bw.entities.clsAnimal;
 //import bw.entities.clsUraniumOre;
@@ -124,7 +126,8 @@ public class clsBrainSocket implements itfStepProcessing {
 		oData.addSensorInt(eSensorIntType.ENERGY_CONSUMPTION, convertEnergySystem() );
 		oData.addSensorInt(eSensorIntType.HEALTH, convertHealthSystem() );
 		oData.addSensorInt(eSensorIntType.STAMINA, convertStaminaSystem() );
-		oData.addSensorInt(eSensorIntType.STOMACH, convertStomachSystem() );
+		oData.addSensorInt(eSensorIntType.ENERGY, convertStomachSystem_Energy() );
+		oData.addSensorInt(eSensorIntType.STOMACHTENSION, convertStomachSystem_Tension() );
 		oData.addSensorInt(eSensorIntType.TEMPERATURE, convertTemperatureSystem() );
 		oData.addSensorInt(eSensorIntType.FASTMESSENGER, convertFastMessengerSystem() );
 		
@@ -188,24 +191,26 @@ public class clsBrainSocket implements itfStepProcessing {
 		return oData;
 	}
 	
-	/**
-	 * DOCUMENT (langr) - insert description
-	 *
-	 * @author langr
-	 * 11.05.2009, 17:44:19
-	 *
-	 * @return
-	 */
-	private clsDataBase convertStomachSystem() {
+	private clsDataBase convertStomachSystem_Energy() {
 
-		clsStomachSystem oRetVal = new clsStomachSystem();
-		clsStomachSensor oStomachSensor = (clsStomachSensor)(moSensorsInt.get(eSensorIntType.STOMACH));
+		clsEnergy oRetVal = new clsEnergy();
+		clsEnergySensor oStomachSensor = (clsEnergySensor)(moSensorsInt.get(eSensorIntType.ENERGY));
 
 		oRetVal.mrEnergy = oStomachSensor.getEnergy();
 		
 		return oRetVal;
 	}
+	
+	private clsDataBase convertStomachSystem_Tension() {
 
+		clsStomachTension oRetVal = new clsStomachTension();
+		clsStomachTensionSensor oStomachSensor = (clsStomachTensionSensor)(moSensorsInt.get(eSensorIntType.STOMACHTENSION));
+
+		oRetVal.mrTension = oStomachSensor.getTension();
+		
+		return oRetVal;
+	}
+	
 	/**
 	 * DOCUMENT (langr) - insert description
 	 *

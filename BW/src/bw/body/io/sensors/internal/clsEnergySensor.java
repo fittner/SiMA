@@ -1,42 +1,35 @@
 /**
- * @author langr
- * 12.05.2009, 17:40:44
+ * clsEnergySensor.java: BW - bw.body.io.sensors.internal
  * 
- * $Rev::                      $: Revision of last commit
- * $Author::                   $: Author of last commit
- * $Date::                     $: Date of last commit
+ * @author deutsch
+ * 10.08.2009, 15:51:36
  */
 package bw.body.io.sensors.internal;
 
-import java.util.HashMap;
 import bw.body.clsBaseBody;
 import bw.body.clsComplexBody;
 import bw.body.internalSystems.clsStomachSystem;
 import bw.body.io.clsBaseIO;
 import bw.utils.config.clsBWProperties;
-import bw.utils.datatypes.clsMutableDouble;
 import bw.utils.enums.eBodyParts;
-import bw.utils.enums.eNutritions;
-import bw.utils.tools.clsNutritionLevel;
 
 /**
- * DOCUMENT (langr) - insert description 
+ * DOCUMENT (deutsch) - insert description 
  * 
- * @author langr
- * 12.05.2009, 17:40:44
+ * @author deutsch
+ * 10.08.2009, 15:51:36
  * 
  */
-public class clsStomachSensor extends clsSensorInt {
+public class clsEnergySensor extends clsSensorInt {
 
 	private clsBaseBody moBody; // reference
 	
-	private HashMap<eNutritions, clsMutableDouble> moNutritionContents;
+	private double mrEnergy;
 
-	public clsStomachSensor(String poPrefix, clsBWProperties poProp, clsBaseIO poBaseIO, clsBaseBody poBody) {
+	public clsEnergySensor(String poPrefix, clsBWProperties poProp, clsBaseIO poBaseIO, clsBaseBody poBody) {
 		super(poPrefix, poProp, poBaseIO);
 		
-		moNutritionContents = new HashMap<eNutritions, clsMutableDouble>();
-		
+		mrEnergy = 0;
 		setEntity(poBody);
 		applyProperties(poPrefix, poProp);
 	}
@@ -65,7 +58,7 @@ public class clsStomachSensor extends clsSensorInt {
 	 */
 	private void setEntity(clsBaseBody poBody) {
 		this.moBody = poBody;
-	}
+	}	
 	
 	/* (non-Javadoc)
 	 *
@@ -76,7 +69,7 @@ public class clsStomachSensor extends clsSensorInt {
 	 */
 	@Override
 	protected void setBodyPartId() {
-		mePartId = eBodyParts.SENSOR_INT_STOMACH;
+		mePartId = eBodyParts.SENSOR_INT_ENERGY;
 
 	}
 
@@ -89,9 +82,9 @@ public class clsStomachSensor extends clsSensorInt {
 	 */
 	@Override
 	protected void setName() {
-		moName = "int. Stomach Sensor";
-
-	}
+		moName = "int. Energy Sensor";
+	}	
+	
 
 	/* (non-Javadoc)
 	 *
@@ -105,19 +98,15 @@ public class clsStomachSensor extends clsSensorInt {
 		if ( moBody instanceof clsComplexBody) {
 			clsStomachSystem oStomachSystem = ((clsComplexBody)moBody).getInternalSystem().getStomachSystem();
 
-			HashMap<eNutritions, clsNutritionLevel> oList = oStomachSystem.getList();
-			moNutritionContents.clear();
-			
-			for(eNutritions nKey:oList.keySet()) {
-				clsNutritionLevel oNL = oList.get(nKey);
-				moNutritionContents.put(nKey, new clsMutableDouble( oNL.getContent() ) );
-			}
+			mrEnergy = oStomachSystem.getEnergy();
 		}
 		
 	}
 	
-	public HashMap<eNutritions, clsMutableDouble> getNutritionContents() {
-		return moNutritionContents;
-	}
-	
+	/**
+	 * @return the mrEnergy
+	 */
+	public double getEnergy() {
+		return mrEnergy;
+	}	
 }

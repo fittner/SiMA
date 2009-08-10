@@ -11,7 +11,7 @@ import java.util.Formatter;
  * Holds the information about the actual energy level within the stomach
  *
  */
-public class clsStomachSystem extends clsSensorHomeostasis {
+public class clsEnergy extends clsSensorHomeostasis {
 
 	public double mrEnergy;
 	

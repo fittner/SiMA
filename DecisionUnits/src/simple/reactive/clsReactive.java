@@ -21,7 +21,7 @@ import enums.eSensorIntType;
 import decisionunit.itf.sensors.clsEatableArea;
 import decisionunit.itf.sensors.clsSensorData;
 import decisionunit.itf.sensors.clsRadiation;
-import decisionunit.itf.sensors.clsStomachSystem;
+import decisionunit.itf.sensors.clsEnergy;
 import decisionunit.itf.sensors.clsVision;
 import decisionunit.itf.sensors.clsVisionEntry;
 import bfg.tools.shapes.clsPolarcoordinate;
@@ -156,7 +156,7 @@ public class clsReactive extends clsBaseDecisionUnit {
 	 * (horvath) - if the fungus eater has enough energy, returns true, if not, returns false
 	 */
 	private boolean isEnoughEnergy(clsSensorData inputs){
-		clsStomachSystem oStomach = (clsStomachSystem) getSensorData().getSensorInt(eSensorIntType.STOMACH);
+		clsEnergy oStomach = (clsEnergy) getSensorData().getSensorInt(eSensorIntType.STOMACH);
 		if (oStomach.mrEnergy <= mrMIN_ENERGY ){
 			return false;	
 		}else{	

@@ -26,4 +26,6 @@ public enum eSensorIntType {
 	STOMACH,
 	TEMPERATURE,
 	FASTMESSENGER,
+	ENERGY,
+	STOMACHTENSION,
 }

@@ -8,7 +8,7 @@ import decisionunit.itf.actions.clsActionTurn;
 import decisionunit.itf.actions.itfActionProcessor;
 import decisionunit.itf.sensors.clsBump;
 import decisionunit.itf.sensors.clsEatableArea;
-import decisionunit.itf.sensors.clsStomachSystem;
+import decisionunit.itf.sensors.clsEnergy;
 import decisionunit.itf.sensors.clsVision;
 import decisionunit.itf.sensors.clsVisionEntry;
 import enums.eActionMoveDirection;
@@ -102,7 +102,7 @@ public class clsHareMind extends clsRemoteControl { //should be derived from cls
 	private boolean isHungry() {
 
 		boolean nRetVal = false;
-		clsStomachSystem oStomach = (clsStomachSystem) getSensorData().getSensorInt(eSensorIntType.STOMACH);
+		clsEnergy oStomach = (clsEnergy) getSensorData().getSensorInt(eSensorIntType.ENERGY);
 
 		if( oStomach.mrEnergy <= mnHungryThreasholed ) {
 			nRetVal = true;

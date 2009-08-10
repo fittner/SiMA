@@ -85,6 +85,16 @@ public class clsInspectorInternalSystems extends Inspector{
 		moDataset.addValue(moInternalSystem.getStomachSystem().getEnergy(), "Energy", "Energy");
 		moDatasetLowerLimits.addValue(0, "Lower Bound", "Energy");
 		moDatasetUpperLimits.addValue(10, "Upper Bound", "Energy");
+		
+		double rTension = 0;
+		try {
+			rTension = moInternalSystem.getStomachSystem().getWeight() / moInternalSystem.getStomachSystem().getMaxWeight();
+		} catch (java.lang.ArithmeticException e) {
+			//nothing to do
+		}
+		moDataset.addValue(rTension, "Stomach Tension", "Stomach Tension");
+		moDatasetLowerLimits.addValue(0, "Lower Bound", "Stomach Tension");
+		moDatasetUpperLimits.addValue(1, "Upper Bound", "Stomach Tension");		
 
 		//health value divided by 10 to match with other upper bounds
 		moDataset.addValue(moInternalSystem.getHealthSystem().getHealth().getContent()/10, "Health", "Health");
@@ -173,6 +183,16 @@ public class clsInspectorInternalSystems extends Inspector{
 		moDatasetLowerLimits.addValue(0, "Lower Bound", "Energy");
 		moDatasetUpperLimits.addValue(10, "Upper Bound", "Energy");
 
+		double rTension = 0;
+		try {
+			rTension = moInternalSystem.getStomachSystem().getWeight() / moInternalSystem.getStomachSystem().getMaxWeight();
+		} catch (java.lang.ArithmeticException e) {
+			//nothing to do
+		}
+		moDataset.addValue(rTension, "Stomach Tension", "Stomach Tension");
+		moDatasetLowerLimits.addValue(0, "Lower Bound", "Stomach Tension");
+		moDatasetUpperLimits.addValue(1, "Upper Bound", "Stomach Tension");		
+		
 		//health value divided by 10 to match with other upper bounds
 		moDataset.addValue(moInternalSystem.getHealthSystem().getHealth().getContent()/10, "Health", "Health");
 		moDatasetLowerLimits.addValue(0, "Lower Bound", "Health");

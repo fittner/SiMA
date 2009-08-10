@@ -34,6 +34,9 @@ public class clsStomachSystem implements itfStepUpdateInternalState {
 	
 	private double mrEnergy;
 	
+	private double mrMaxWeight;
+	private double mrWeight;
+	
 	public clsStomachSystem(String poPrefix, clsBWProperties poProp) {
 		moNutritions = new HashMap<eNutritions, clsNutritionLevel>();
 		moEnergyEfficiency = new HashMap<eNutritions, Double>();
@@ -145,6 +148,7 @@ public class clsStomachSystem implements itfStepUpdateInternalState {
 		}
 		
 		updateEnergy();		
+		updateMaxWeight();
 	}
 	
 	public void removeNutritionType(eNutritions poId) {
@@ -155,6 +159,20 @@ public class clsStomachSystem implements itfStepUpdateInternalState {
 		}
 
 		updateEnergy();
+		updateMaxWeight();
+	}
+	
+	private void updateMaxWeight() {
+		mrMaxWeight = 0;
+		
+		Iterator<eNutritions> i = moNutritions.keySet().iterator();
+		
+		while (i.hasNext()) {
+			eNutritions oKey = i.next();
+			clsNutritionLevel oNL = moNutritions.get(oKey);	
+			mrMaxWeight += oNL.getMaxContent();
+			
+		}		
 	}
 	
 	/**
@@ -320,6 +338,7 @@ public class clsStomachSystem implements itfStepUpdateInternalState {
 	 */
 	private void updateEnergy() {
 		mrEnergy = 0.0;
+		mrWeight = 0.0;
 
 		Iterator<eNutritions> i = moNutritions.keySet().iterator();
 		
@@ -329,7 +348,9 @@ public class clsStomachSystem implements itfStepUpdateInternalState {
 			clsNutritionLevel oNL = moNutritions.get(oKey);
 			double rEfficiency = moEnergyEfficiency.get(oKey);
 			
+			mrWeight += oNL.getContent();
 			mrEnergy += oNL.getContent() * rEfficiency;
+			
 		}
 		
 	}
@@ -341,5 +362,13 @@ public class clsStomachSystem implements itfStepUpdateInternalState {
 	 */
 	public double getEnergy() {
 		return this.mrEnergy;
+	}
+	
+	public double getMaxWeight() {
+		return mrMaxWeight;
+	}
+	
+	public double getWeight() {
+		return mrWeight;
 	}
 }

@@ -11,8 +11,10 @@ import java.util.HashMap;
 import enums.eSensorIntType;
 import bw.body.clsBaseBody;
 import bw.body.io.sensors.internal.clsEnergyConsumptionSensor;
+import bw.body.io.sensors.internal.clsEnergySensor;
 import bw.body.io.sensors.internal.clsFastMessengerSensor;
 import bw.body.io.sensors.internal.clsHealthSensor;
+import bw.body.io.sensors.internal.clsStomachTensionSensor;
 import bw.body.io.sensors.internal.clsTemperatureSensor;
 import bw.body.io.sensors.internal.clsSensorInt;
 import bw.body.io.sensors.internal.clsStaminaSensor;
@@ -80,6 +82,16 @@ public class clsInternalIO extends clsBaseIO{
 		oProp.setProperty(pre+i+"."+P_SENSORTYPE, eSensorIntType.FASTMESSENGER.name());
 		i++;		
 				
+		oProp.putAll( clsEnergySensor.getDefaultProperties( pre+i) );
+		oProp.setProperty(pre+i+"."+P_SENSORACTIVE, true);
+		oProp.setProperty(pre+i+"."+P_SENSORTYPE, eSensorIntType.ENERGY.name());
+		i++;		
+		
+		oProp.putAll( clsStomachTensionSensor.getDefaultProperties( pre+i) );
+		oProp.setProperty(pre+i+"."+P_SENSORACTIVE, true);
+		oProp.setProperty(pre+i+"."+P_SENSORTYPE, eSensorIntType.STOMACHTENSION.name());
+		i++;		
+		
 		oProp.setProperty(pre+P_NUMSENSORS, i);
 		
 		return oProp;
@@ -115,6 +127,12 @@ public class clsInternalIO extends clsBaseIO{
 						break;
 					case FASTMESSENGER:
 						moSensorInternal.put(eType, new clsFastMessengerSensor(tmp_pre, poProp, this, poBody));
+						break;
+					case ENERGY:
+						moSensorInternal.put(eType, new clsEnergySensor(tmp_pre, poProp, this, poBody));
+						break;		
+					case STOMACHTENSION:
+						moSensorInternal.put(eType, new clsStomachTensionSensor(tmp_pre, poProp, this, poBody));
 						break;
 						
 					default:
