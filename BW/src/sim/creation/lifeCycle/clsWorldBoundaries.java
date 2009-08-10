@@ -22,9 +22,9 @@ import bw.utils.config.clsBWProperties;
 
 /**
  * Helper class to load the boundaries of the playground (walls for collisionhandler) 
- * 
+ * WIRD NICHT MEHR VERWENDET???
  * @author langr
- * 
+ *  @deprecated
  */
 public class clsWorldBoundaries {
 

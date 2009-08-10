@@ -2,14 +2,13 @@ package ARSsim.physics2D.shape;
 
 import sim.physics2D.shape.Circle;
 import sim.portrayal.DrawInfo2D;
-//import sim.portrayal.*;
-//import java.awt.*;
 import java.awt.Graphics2D;
 import java.awt.Paint;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import javax.imageio.ImageIO;
+
 
 /**
  * Extension of the Physics Engine circle, showing a image instead
@@ -23,13 +22,13 @@ public class clsCircleImage extends Circle
     
 	double mrRadius; 
 	BufferedImage moImage = null;
-	private boolean mbShowSimple = false; //can be used later to hide images for speed
-		
+	private boolean mbShowSimple = false; //can be used for testing, no image is rendered
 
 	
 	/**
-	 * creates a circular physical object with the given range and displays a image instead.
-	 * Users need to know what radius the image has!
+	 * creates a circular physical object with the given range and displays a image above.
+	 * image is resized to fit the rectangle around the circle (outer bounds)
+	 * remember: positioning in mason is on the center point of the polygon
 	 * 
 	 * @param prRadius
 	 * @param poPaint
@@ -60,13 +59,7 @@ public class clsCircleImage extends Circle
         {
         final double fWidthArc =  info.draw.width * mrRadius * 2;
         final double fHeightArc =  info.draw.height  * mrRadius * 2;
-        
-        //int nImageWidth = moImage.getWidth();
-        //int nImageHeight = moImage.getHeight();
-
-        //TODO - (muchitsch): delete this line, because there is no scaling necessary!
-        //double fScale = clsSingletonMasonGetter.getDisplay2D().getScale(); // 2 = zoomed in 1x, 0.5 = zoomed out 1x TODO performance issue?
-        
+       
         graphics.setPaint(paint);
 
         final int nxArc = (int)(info.draw.x - fWidthArc / 2.0 );
@@ -79,9 +72,15 @@ public class clsCircleImage extends Circle
 
         if (!mbShowSimple)
 	        {
-		        int nScaledWidth = (int) (fWidthArc); // * fScale /2 ... here the with of the arc should be used
-		        int nScaledHeight = (int) (fHeightArc);  // * fScale /2 ... no scaling necessary (roland)
+        		
+		        int nScaledWidth = (int) (fWidthArc  ); //here the with of the arc should be used
+		        int nScaledHeight = (int) (fHeightArc );
+
 		   	
+		        //AffineTransform affe = AffineTransform.getRotateInstance(getOrientation().radians);
+		        moImage.getGraphics();
+		        //imgGra.rotate(getOrientation().radians);
+		        
 		        graphics.drawImage(moImage, nxArc , nyArc, nScaledWidth, nScaledHeight, null );
 	        }
         }

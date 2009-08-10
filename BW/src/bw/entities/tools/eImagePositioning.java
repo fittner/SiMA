@@ -17,11 +17,19 @@ package bw.entities.tools;
  */
 public enum eImagePositioning {
 	DEFAULT,
-	CENTER,
+	CENTER, //the image is centered on shape and not scaled 1)
 	TOPLEFT,
 	TOPRIGHT,
 	BOTTOMLEFT,
 	BOTTOMRIGHT,
 	TILEING,
-	STRETCHING,
+	STRETCHING, //the image is scaled and streched in x and y to meet the underlying physical shape
 }
+
+/*
+ * 1) if the image is taller than it is wide, then the width of the image will be info.draw.width * scale and the height
+   will stay in proportion; else the height of the image will be info.draw.height * scale and the width will stay in proportion.
+ * 
+ * 2) 
+ */
+

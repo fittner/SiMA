@@ -37,7 +37,6 @@ import bw.entities.clsWallHorizontal;
 import bw.entities.clsWallVertical;
 import bw.entities.tools.clsShapeCreator;
 import bw.entities.tools.eImagePositioning;
-import bw.factories.clsPropertiesGetter;
 import bw.factories.clsRegisterEntity;
 import bw.factories.clsSingletonMasonGetter;
 import bw.utils.config.clsBWProperties;
@@ -380,6 +379,15 @@ public class clsSimplePropertyLoader extends clsLoader {
 		}
 	}
 
+	/**
+	 * This method is the only one to use to create the world boundaries.
+	 * Others are depricated!
+	 * Creates a brick wall around the FieldEnvironment. Remember positioning of shapes is in the centr point of the poligon!
+	 *
+	 * @author muchitsch
+	 * Aug 9, 2009, 12:35:19 PM
+	 *
+	 */
 	private void generateWorldBoundaries() {
 		clsWallAxisAlign oWall = null;
 		clsBWProperties oProp = null;
@@ -393,18 +401,15 @@ public class clsSimplePropertyLoader extends clsLoader {
 		oProp.setProperty(clsWallHorizontal.P_SHAPE+"."+clsShapeCreator.P_WIDTH, rWidth);
 		oProp.setProperty(clsWallHorizontal.P_SHAPE+"."+clsShapeCreator.P_HEIGHT, rWallThickness);
 		oProp.setProperty(clsPose.P_POS_X, rWidth/2);
-		
-		if(clsPropertiesGetter.drawImages())
-			oProp.setProperty(clsPose.P_POS_X, 0);
-		
-		oProp.setProperty(clsPose.P_POS_Y, 0);
+		oProp.setProperty(clsPose.P_POS_Y, rWallThickness/2);
+
 		// TODO remove image as long scaling is not implemented ...
 		//oProp.setProperty(clsWallHorizontal.P_SHAPE+"."+clsShapeCreator.P_IMAGE_PATH, "");
 		
 		oWall = new clsWallHorizontal("", oProp);
 		clsRegisterEntity.registerEntity(oWall);
 		
-		oProp.setProperty(clsPose.P_POS_Y, rHeight);		
+		oProp.setProperty(clsPose.P_POS_Y, rHeight-(rWallThickness/2) );		
 
 		oWall = new clsWallHorizontal("", oProp);
 		clsRegisterEntity.registerEntity(oWall);
@@ -413,18 +418,16 @@ public class clsSimplePropertyLoader extends clsLoader {
 		oProp = clsWallVertical.getDefaultProperties("");
 		oProp.setProperty(clsWallVertical.P_SHAPE+"."+clsShapeCreator.P_WIDTH, rWallThickness);
 		oProp.setProperty(clsWallVertical.P_SHAPE+"."+clsShapeCreator.P_HEIGHT, rHeight);
-		oProp.setProperty(clsPose.P_POS_X, 0);
+		oProp.setProperty(clsPose.P_POS_X, rWallThickness/2);
 		oProp.setProperty(clsPose.P_POS_Y, rHeight/2);
 		
-		if(clsPropertiesGetter.drawImages())
-			oProp.setProperty(clsPose.P_POS_Y, 0);
 		// TODO remove image as long scaling is not implemented ...
 		//oProp.setProperty(clsWallVertical.P_SHAPE+"."+clsShapeCreator.P_IMAGE_PATH, "");
 		
 		oWall = new clsWallVertical("", oProp);
 		clsRegisterEntity.registerEntity(oWall);
 		
-		oProp.setProperty(clsPose.P_POS_X, rWidth);		
+		oProp.setProperty(clsPose.P_POS_X, rWidth-(rWallThickness/2));		
 
 		oWall = new clsWallVertical("", oProp);
 		clsRegisterEntity.registerEntity(oWall);
