@@ -398,8 +398,8 @@ public class clsSimplePropertyLoader extends clsLoader {
 		
 		// add horizontal walls
 		oProp = clsWallHorizontal.getDefaultProperties("");
-		oProp.setProperty(clsWallHorizontal.P_SHAPE+"."+clsShapeCreator.P_WIDTH, rWidth);
-		oProp.setProperty(clsWallHorizontal.P_SHAPE+"."+clsShapeCreator.P_HEIGHT, rWallThickness);
+		oProp.setProperty(clsWallHorizontal.P_SHAPE+"."+clsEntity.P_SHAPENAME+"."+clsShapeCreator.P_WIDTH, rWidth);
+		oProp.setProperty(clsWallHorizontal.P_SHAPE+"."+clsEntity.P_SHAPENAME+"."+clsShapeCreator.P_HEIGHT, rWallThickness);
 		oProp.setProperty(clsPose.P_POS_X, rWidth/2);
 		oProp.setProperty(clsPose.P_POS_Y, rWallThickness/2);
 
@@ -416,8 +416,8 @@ public class clsSimplePropertyLoader extends clsLoader {
 		
 		// add vertical walls
 		oProp = clsWallVertical.getDefaultProperties("");
-		oProp.setProperty(clsWallVertical.P_SHAPE+"."+clsShapeCreator.P_WIDTH, rWallThickness);
-		oProp.setProperty(clsWallVertical.P_SHAPE+"."+clsShapeCreator.P_HEIGHT, rHeight);
+		oProp.setProperty(clsWallVertical.P_SHAPE+"."+clsEntity.P_SHAPENAME+"."+clsShapeCreator.P_WIDTH, rWallThickness);
+		oProp.setProperty(clsWallVertical.P_SHAPE+"."+clsEntity.P_SHAPENAME+"."+clsShapeCreator.P_HEIGHT, rHeight);
 		oProp.setProperty(clsPose.P_POS_X, rWallThickness/2);
 		oProp.setProperty(clsPose.P_POS_Y, rHeight/2);
 		
