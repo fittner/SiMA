@@ -217,7 +217,6 @@ public class clsInspectorInternalSystems extends Inspector{
 //			moDatasetUpperLimits.addValue(4, "Upper Bound", "Nutrition "+oNut.getKey().toString());
 //		}
 		moChartPanel.getChart().getCategoryPlot().setDataset(moDataset);
-		moChartPanel.invalidate();		
 		
 		this.repaint();
 	}

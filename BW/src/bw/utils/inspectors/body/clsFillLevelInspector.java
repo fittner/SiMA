@@ -192,7 +192,6 @@ public class clsFillLevelInspector extends Inspector{
 		}
 		
 		moChartPanel.getChart().getCategoryPlot().setDataset(moDataset);
-		moChartPanel.invalidate();
 		
 		this.repaint();
 	}
