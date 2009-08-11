@@ -16,6 +16,11 @@ import config.clsBWProperties;
  * 
  */
 public class C04_SuperEgo extends clsModuleContainer  {
+	public static final String P_E07 = "E07";
+	public static final String P_E22 = "E22";
+	
+	public E07_SuperEgo_unconscious moE07SuperEgoUnconscious;
+	public E22_SuperEgo_preconscious moE22SuperEgoPreconscious;
 
 	/**
 	 * DOCUMENT (deutsch) - insert description 
@@ -34,19 +39,21 @@ public class C04_SuperEgo extends clsModuleContainer  {
 	}
 	
 	public static clsBWProperties getDefaultProperties(String poPrefix) {
-		// String pre = clsBWProperties.addDot(poPrefix);
+		String pre = clsBWProperties.addDot(poPrefix);
 		
 		clsBWProperties oProp = new clsBWProperties();
+
+		oProp.putAll( E07_SuperEgo_unconscious.getDefaultProperties(pre+P_E07) );
+		oProp.putAll( E22_SuperEgo_preconscious.getDefaultProperties(pre+P_E22) );
 		
-		//nothing to do
-				
 		return oProp;
 	}	
 	
 	private void applyProperties(String poPrefix, clsBWProperties poProp) {
-		//String pre = clsBWProperties.addDot(poPrefix);
+		String pre = clsBWProperties.addDot(poPrefix);
 	
-		//nothing to do
+		moE07SuperEgoUnconscious = new E07_SuperEgo_unconscious(pre+P_E07, poProp, this);
+		moE22SuperEgoPreconscious = new E22_SuperEgo_preconscious(pre+P_E22, poProp, this);
 	}
 
 }
