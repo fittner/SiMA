@@ -22,7 +22,7 @@ import org.jfree.chart.ChartPanel;
 
 import enums.eEntityType;
 
-import bw.factories.clsPropertiesGetter;
+import bw.factories.clsSingletonProperties;
 import bw.factories.clsSingletonMasonGetter;
 import bw.utils.config.clsBWProperties;
 import bw.utils.visualization.clsCharts;
@@ -95,7 +95,7 @@ public class clsBWMainWithUI extends GUIState {
 			//do nothing 
 		}		
 		clsBWProperties oProp = clsBWProperties.readProperties(oPath, F_CONFIGFILENAME);
-		clsPropertiesGetter.setSystemProperties(oProp);
+		clsSingletonProperties.setSystemProperties(oProp);
 		
 		clsBWMainWithUI oMainWithUI = new clsBWMainWithUI(args);
 		clsSingletonMasonGetter.setConsole( new ARSsim.display.Console(oMainWithUI) );
@@ -138,7 +138,7 @@ public class clsBWMainWithUI extends GUIState {
 	 * @return String
 	 */
 	public static String getName() { 
-    	clsBWProperties oProp = clsPropertiesGetter.getSystemProperties();
+    	clsBWProperties oProp = clsSingletonProperties.getSystemProperties();
     	String pre = "";
     	
 		return oProp.getPropertyString(pre+P_MAINWINDOWTITLE); 
@@ -214,7 +214,7 @@ public class clsBWMainWithUI extends GUIState {
 	public void init(Controller poController){
     	super.init(poController);
 		
-    	clsBWProperties oProp = clsPropertiesGetter.getSystemProperties();
+    	clsBWProperties oProp = clsSingletonProperties.getSystemProperties();
     	String pre = "";
     	
 		moDisplay = ARSsim.display.Display2D.createDisplay2d("", oProp, this);

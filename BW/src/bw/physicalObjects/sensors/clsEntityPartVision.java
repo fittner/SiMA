@@ -23,7 +23,7 @@ import ARSsim.physics2D.shape.clsCircleBorder;
 import bw.entities.clsEntity;
 import bw.entities.clsMobile;
 import bw.entities.clsStationary;
-import bw.factories.clsPropertiesGetter;
+import bw.factories.clsSingletonProperties;
 import bw.factories.clsSingletonMasonGetter;
 
 /**
@@ -88,7 +88,7 @@ public class clsEntityPartVision extends MobileObject2D implements Steppable{
 			
 			double pnAngle = 0.0;
 						 
-			if(clsPropertiesGetter.drawSensors())
+			if(clsSingletonProperties.drawSensors())
 				 pnAngle = 2*Math.PI; 
 			
 			

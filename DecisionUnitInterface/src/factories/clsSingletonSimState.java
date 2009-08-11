@@ -4,7 +4,7 @@
  * @author deutsch
  * 11.08.2009, 11:32:34
  */
-package bw.factories;
+package factories;
 
 import sim.engine.SimState;
 

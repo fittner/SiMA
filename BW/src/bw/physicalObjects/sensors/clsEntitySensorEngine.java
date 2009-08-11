@@ -23,7 +23,7 @@ import ARSsim.physics2D.physicalObject.clsMobileObject2D;
 import ARSsim.physics2D.shape.clsCircleBorder;
 import bw.entities.clsEntity;
 import bw.entities.clsMobile;
-import bw.factories.clsPropertiesGetter;
+import bw.factories.clsSingletonProperties;
 import bw.factories.clsSingletonMasonGetter;
 
 /**
@@ -79,7 +79,7 @@ import bw.factories.clsSingletonMasonGetter;
 			 double pnAngle = 0.0;
 			 Color oColor = Color.RED;
 			 
-			 if(clsPropertiesGetter.drawSensors())
+			 if(clsSingletonProperties.drawSensors())
 				 pnAngle = 2*Math.PI; 
 			
 			 moShape = new clsCircleBorder(pnRadius, pnAngle, oColor);		

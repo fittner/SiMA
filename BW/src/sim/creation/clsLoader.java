@@ -8,7 +8,7 @@
  */
 package sim.creation;
 
-import bw.factories.clsPropertiesGetter;
+import bw.factories.clsSingletonProperties;
 import bw.factories.clsSingletonMasonGetter;
 import bw.utils.config.clsBWProperties;
 import sim.engine.SimState;
@@ -45,7 +45,7 @@ public abstract class clsLoader {
 	
     public clsLoader(SimState poSimState, clsBWProperties poProperties) {
     	moProperties = poProperties;  	
-    	clsPropertiesGetter.setProperties(moProperties);    
+    	clsSingletonProperties.setProperties(moProperties);    
     	
     	createPhysicsEngine2D();
 		clsSingletonMasonGetter.setSimState(poSimState);
@@ -110,7 +110,7 @@ public abstract class clsLoader {
 	@Deprecated
     private clsBWProperties loadProperties(String poPropertiesFilename) {
     	clsBWProperties oProp = clsBWProperties.readProperties( clsGetARSPath.getConfigPath(), poPropertiesFilename);
-    	clsPropertiesGetter.setProperties(oProp);    
+    	clsSingletonProperties.setProperties(oProp);    
     	return oProp;
     }
     

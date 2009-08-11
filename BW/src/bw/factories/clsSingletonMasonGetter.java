@@ -7,6 +7,7 @@
  */
 package bw.factories;
 
+import factories.clsSingletonSimState;
 import sim.engine.SimState;
 import sim.field.continuous.Continuous2D;
 import sim.physics2D.PhysicsEngine2D;

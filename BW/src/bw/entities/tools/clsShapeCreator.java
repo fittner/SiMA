@@ -14,7 +14,7 @@ import java.util.ArrayList;
 import sim.physics2D.shape.Shape;
 import statictools.clsGetARSPath;
 import bfg.tools.shapes.clsPoint;
-import bw.factories.clsPropertiesGetter;
+import bw.factories.clsSingletonProperties;
 import bw.utils.config.clsBWProperties;
 import bw.utils.enums.eShapeType;
 
@@ -77,7 +77,7 @@ public class clsShapeCreator {
 			// everything is fine ...
 		}
 		
-		if (oImagePath.length() == 0 || !clsPropertiesGetter.drawImages()) {
+		if (oImagePath.length() == 0 || !clsSingletonProperties.drawImages()) {
 			oShape = new sim.physics2D.shape.Circle(poProp.getPropertyDouble(pre +P_RADIUS), 
 				 poProp.getPropertyColor(pre +P_COLOR));
 		} else {
@@ -107,7 +107,7 @@ public class clsShapeCreator {
 			// everything is fine ...
 		}
 		
-		if (oImagePath.length() == 0 || !clsPropertiesGetter.drawImages()) {			
+		if (oImagePath.length() == 0 || !clsSingletonProperties.drawImages()) {			
 			oShape = new sim.physics2D.shape.Rectangle(	poProp.getPropertyDouble(pre +P_WIDTH),
 													poProp.getPropertyDouble(pre +P_HEIGHT), 
 													 poProp.getPropertyColor(pre +P_COLOR));
