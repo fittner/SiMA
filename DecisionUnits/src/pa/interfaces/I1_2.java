@@ -13,6 +13,6 @@ package pa.interfaces;
  * 11.08.2009, 12:19:57
  * 
  */
-public interface I1_2 extends itfBaseInteger {
-
+public interface I1_2 {
+	public void receive_I1_2(int pnData);
 }

@@ -1,35 +1,35 @@
 /**
- * E2_NeurosymbolizationOfNeeds.java: DecisionUnits - pa.modules
+ * E16_ManagmentOfMemoryTraces.java: DecisionUnits - pa.modules
  * 
  * @author deutsch
- * 11.08.2009, 12:12:02
+ * 11.08.2009, 14:31:19
  */
 package pa.modules;
 
-import pa.interfaces.I1_1;
 import config.clsBWProperties;
+import pa.interfaces.I2_6;
 
 /**
  * DOCUMENT (deutsch) - insert description 
  * 
  * @author deutsch
- * 11.08.2009, 12:12:02
+ * 11.08.2009, 14:31:19
  * 
  */
-public class E2_NeurosymbolizationOfNeeds extends clsModuleBase implements I1_1 {
+public class E16_ManagmentOfMemoryTraces extends clsModuleBase implements I2_6 {
 
 	/**
 	 * DOCUMENT (deutsch) - insert description 
 	 * 
 	 * @author deutsch
-	 * 11.08.2009, 12:12:14
+	 * 11.08.2009, 14:31:37
 	 *
 	 * @param poPrefix
 	 * @param poProp
 	 * @param poEnclosingContainer
 	 */
-	public E2_NeurosymbolizationOfNeeds(String poPrefix,
-			clsBWProperties poProp, clsModuleContainer poEnclosingContainer) {
+	public E16_ManagmentOfMemoryTraces(String poPrefix, clsBWProperties poProp,
+			clsModuleContainer poEnclosingContainer) {
 		super(poPrefix, poProp, poEnclosingContainer);
 		applyProperties(poPrefix, poProp);		
 	}
@@ -59,7 +59,7 @@ public class E2_NeurosymbolizationOfNeeds extends clsModuleBase implements I1_1 
 	 */
 	@Override
 	protected void setProcessType() {
-		mnProcessType = eProcessType.BODY;
+		mnProcessType = eProcessType.PRIMARY;
 	}
 
 	/* (non-Javadoc)
@@ -71,18 +71,31 @@ public class E2_NeurosymbolizationOfNeeds extends clsModuleBase implements I1_1 
 	 */
 	@Override
 	protected void setPsychicInstances() {
-		mnPsychicInstances = ePsychicInstances.BODY;
+		mnPsychicInstances = ePsychicInstances.EGO;
 	}
 
 	/* (non-Javadoc)
 	 *
 	 * @author deutsch
-	 * 11.08.2009, 12:14:22
+	 * 11.08.2009, 14:31:53
 	 * 
-	 * @see pa.interfaces.itfInteger#receive(int)
+	 * @see pa.interfaces.I2_6#receive_I2_6(int)
 	 */
 	@Override
-	public void receive(int pnData) {
+	public void receive_I2_6(int pnData) {
+		// TODO (deutsch) - Auto-generated method stub
+		
+	}
+
+	/* (non-Javadoc)
+	 *
+	 * @author deutsch
+	 * 11.08.2009, 14:31:53
+	 * 
+	 * @see pa.interfaces.itfStep#step()
+	 */
+	@Override
+	public void step() {
 		// TODO (deutsch) - Auto-generated method stub
 		
 	}

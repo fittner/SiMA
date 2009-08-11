@@ -6,6 +6,7 @@
  */
 package pa.modules;
 
+import pa.interfaces.itfStep;
 import config.clsBWProperties;
 
 /**
@@ -15,7 +16,7 @@ import config.clsBWProperties;
  * 11.08.2009, 11:16:13
  * 
  */
-public abstract class clsModuleBase {
+public abstract class clsModuleBase implements itfStep {
 	protected clsModuleContainer moEnclosingContainer;
 	protected eProcessType mnProcessType;
 	protected ePsychicInstances mnPsychicInstances;

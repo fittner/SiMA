@@ -1,37 +1,37 @@
 /**
- * E3_GenerationOfDrives.java: DecisionUnits - pa.modules
+ * E14_PreliminaryExternalPerception.java: DecisionUnits - pa.modules
  * 
  * @author deutsch
- * 11.08.2009, 12:19:04
+ * 11.08.2009, 14:26:13
  */
 package pa.modules;
 
-import pa.interfaces.I1_2;
 import config.clsBWProperties;
+import pa.interfaces.I2_2;
+import pa.interfaces.I2_4;
 
 /**
  * DOCUMENT (deutsch) - insert description 
  * 
  * @author deutsch
- * 11.08.2009, 12:19:04
+ * 11.08.2009, 14:26:13
  * 
  */
-public class E3_GenerationOfDrives extends clsModuleBase implements I1_2{
+public class E14_PreliminaryExternalPerception extends clsModuleBase implements I2_2, I2_4 {
 
 	/**
 	 * DOCUMENT (deutsch) - insert description 
 	 * 
 	 * @author deutsch
-	 * 11.08.2009, 12:19:24
+	 * 11.08.2009, 14:26:43
 	 *
 	 * @param poPrefix
 	 * @param poProp
 	 * @param poEnclosingContainer
 	 */
-	public E3_GenerationOfDrives(String poPrefix, clsBWProperties poProp,
-			clsModuleContainer poEnclosingContainer) {
+	public E14_PreliminaryExternalPerception(String poPrefix,
+			clsBWProperties poProp, clsModuleContainer poEnclosingContainer) {
 		super(poPrefix, poProp, poEnclosingContainer);
-
 		applyProperties(poPrefix, poProp);		
 	}
 	
@@ -72,18 +72,44 @@ public class E3_GenerationOfDrives extends clsModuleBase implements I1_2{
 	 */
 	@Override
 	protected void setPsychicInstances() {
-		mnPsychicInstances = ePsychicInstances.ID;
+		mnPsychicInstances = ePsychicInstances.EGO;
 	}
 
 	/* (non-Javadoc)
 	 *
 	 * @author deutsch
-	 * 11.08.2009, 12:20:35
+	 * 11.08.2009, 14:27:13
 	 * 
-	 * @see pa.interfaces.itfBaseInteger#receive(int)
+	 * @see pa.interfaces.I2_2#receive_I2_2(int)
 	 */
 	@Override
-	public void receive(int pnData) {
+	public void receive_I2_2(int pnData) {
+		// TODO (deutsch) - Auto-generated method stub
+		
+	}
+
+	/* (non-Javadoc)
+	 *
+	 * @author deutsch
+	 * 11.08.2009, 14:27:13
+	 * 
+	 * @see pa.interfaces.I2_4#receive_I2_4(int)
+	 */
+	@Override
+	public void receive_I2_4(int pnData) {
+		// TODO (deutsch) - Auto-generated method stub
+		
+	}
+
+	/* (non-Javadoc)
+	 *
+	 * @author deutsch
+	 * 11.08.2009, 14:27:13
+	 * 
+	 * @see pa.interfaces.itfStep#step()
+	 */
+	@Override
+	public void step() {
 		// TODO (deutsch) - Auto-generated method stub
 		
 	}

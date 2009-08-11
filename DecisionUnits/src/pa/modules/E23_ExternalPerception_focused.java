@@ -1,38 +1,37 @@
 /**
- * E1_Homeostases.java: DecisionUnits - pa.modules
+ * E23_ExternalPerception_focused.java: DecisionUnits - pa.modules
  * 
  * @author deutsch
- * 11.08.2009, 12:09:14
+ * 11.08.2009, 14:46:53
  */
 package pa.modules;
 
-import pa.interfaces.itfProcessSensorData;
 import config.clsBWProperties;
-import decisionunit.itf.sensors.clsSensorData;
+import pa.interfaces.I1_7;
+import pa.interfaces.I2_11;
 
 /**
  * DOCUMENT (deutsch) - insert description 
  * 
  * @author deutsch
- * 11.08.2009, 12:09:14
+ * 11.08.2009, 14:46:53
  * 
  */
-public class E1_Homeostases extends clsModuleBase implements itfProcessSensorData {
+public class E23_ExternalPerception_focused extends clsModuleBase implements I2_11, I1_7 {
 
 	/**
 	 * DOCUMENT (deutsch) - insert description 
 	 * 
 	 * @author deutsch
-	 * 11.08.2009, 12:09:27
+	 * 11.08.2009, 14:47:24
 	 *
 	 * @param poPrefix
 	 * @param poProp
 	 * @param poEnclosingContainer
 	 */
-	public E1_Homeostases(String poPrefix, clsBWProperties poProp,
-			clsModuleContainer poEnclosingContainer) {
+	public E23_ExternalPerception_focused(String poPrefix,
+			clsBWProperties poProp, clsModuleContainer poEnclosingContainer) {
 		super(poPrefix, poProp, poEnclosingContainer);
-
 		applyProperties(poPrefix, poProp);		
 	}
 	
@@ -61,7 +60,7 @@ public class E1_Homeostases extends clsModuleBase implements itfProcessSensorDat
 	 */
 	@Override
 	protected void setProcessType() {
-		mnProcessType = eProcessType.BODY;
+		mnProcessType = eProcessType.SECONDARY;
 	}
 
 	/* (non-Javadoc)
@@ -73,18 +72,44 @@ public class E1_Homeostases extends clsModuleBase implements itfProcessSensorDat
 	 */
 	@Override
 	protected void setPsychicInstances() {
-		mnPsychicInstances = ePsychicInstances.BODY;
+		mnPsychicInstances = ePsychicInstances.EGO;
 	}
 
 	/* (non-Javadoc)
 	 *
 	 * @author deutsch
-	 * 11.08.2009, 12:16:41
+	 * 11.08.2009, 14:47:49
 	 * 
-	 * @see pa.interfaces.itfProcessSensorData#process(decisionunit.itf.sensors.clsSensorData)
+	 * @see pa.interfaces.I2_11#receive_I2_11(int)
 	 */
 	@Override
-	public void process(clsSensorData poData) {
+	public void receive_I2_11(int pnData) {
+		// TODO (deutsch) - Auto-generated method stub
+		
+	}
+
+	/* (non-Javadoc)
+	 *
+	 * @author deutsch
+	 * 11.08.2009, 14:47:49
+	 * 
+	 * @see pa.interfaces.I1_7#receive_I1_7(int)
+	 */
+	@Override
+	public void receive_I1_7(int pnData) {
+		// TODO (deutsch) - Auto-generated method stub
+		
+	}
+
+	/* (non-Javadoc)
+	 *
+	 * @author deutsch
+	 * 11.08.2009, 14:47:49
+	 * 
+	 * @see pa.interfaces.itfStep#step()
+	 */
+	@Override
+	public void step() {
 		// TODO (deutsch) - Auto-generated method stub
 		
 	}
