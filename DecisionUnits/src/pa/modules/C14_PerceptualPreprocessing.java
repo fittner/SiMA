@@ -1,8 +1,8 @@
 /**
- * C07_EnvironmentalInterfaceFunctions.java: DecisionUnits - pa.modules
+ * C15_PerceptualPreprocessing.java: DecisionUnits - pa.modules
  * 
  * @author langr
- * 11.08.2009, 15:32:50
+ * 11.08.2009, 15:42:06
  */
 package pa.modules;
 
@@ -12,16 +12,16 @@ import config.clsBWProperties;
  * DOCUMENT (langr) - insert description 
  * 
  * @author langr
- * 11.08.2009, 15:32:50
+ * 11.08.2009, 15:42:06
  * 
  */
-public class C07_EnvironmentalInterfaceFunctions extends clsModuleContainer {
+public class C14_PerceptualPreprocessing extends clsModuleContainer {
 
-	public static final String P_E14 = "E14";
-	public static final String P_E30 = "E308";
+	public static final String P_E23 = "E23";
+	public static final String P_E24 = "E24";
 	
-	public E14_PreliminaryExternalPerception moE14PreliminaryExternalPerception;
-	public E30_MotilityControl moE30MotilityControl;
+	public E23_ExternalPerception_focused moE23ExternalPerception_focused;
+	public E24_RealityCheck moE24RealityCheck;
 
 	/**
 	 * DOCUMENT (deutsch) - insert description 
@@ -33,7 +33,7 @@ public class C07_EnvironmentalInterfaceFunctions extends clsModuleContainer {
 	 * @param poProp
 	 * @param poEnclosingContainer
 	 */
-	public C07_EnvironmentalInterfaceFunctions(String poPrefix, clsBWProperties poProp,
+	public C14_PerceptualPreprocessing(String poPrefix, clsBWProperties poProp,
 			clsModuleContainer poEnclosingContainer) {
 		super(poPrefix, poProp, poEnclosingContainer);
 		applyProperties(poPrefix, poProp);
@@ -44,8 +44,8 @@ public class C07_EnvironmentalInterfaceFunctions extends clsModuleContainer {
 		
 		clsBWProperties oProp = new clsBWProperties();
 		
-		oProp.putAll( E14_PreliminaryExternalPerception.getDefaultProperties(pre+P_E14) );
-		oProp.putAll( E30_MotilityControl.getDefaultProperties(pre+P_E30) );
+		oProp.putAll( E23_ExternalPerception_focused.getDefaultProperties(pre+P_E23) );
+		oProp.putAll( E24_RealityCheck.getDefaultProperties(pre+P_E24) );
 				
 		return oProp;
 	}
@@ -53,7 +53,7 @@ public class C07_EnvironmentalInterfaceFunctions extends clsModuleContainer {
 	private void applyProperties(String poPrefix, clsBWProperties poProp) {
 		String pre = clsBWProperties.addDot(poPrefix);
 	
-		moE14PreliminaryExternalPerception = new E14_PreliminaryExternalPerception(pre+P_E14, poProp, this);
-		moE30MotilityControl = new E30_MotilityControl(pre+P_E30, poProp, this);
+		moE23ExternalPerception_focused = new E23_ExternalPerception_focused(pre+P_E24, poProp, this);
+		moE24RealityCheck = new E24_RealityCheck(pre+P_E23, poProp, this);
 	}
 }
