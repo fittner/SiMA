@@ -14,5 +14,5 @@ package pa.interfaces;
  * 
  */
 public interface I3_2 {
-	public void receive_I3_1(int pnData);
+	public void receive_I3_2(int pnData);
 }
