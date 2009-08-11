@@ -6,19 +6,24 @@
  */
 package pa.modules;
 
+import memory.tempframework.clsActionContainer;
 import pa.interfaces.I1_2;
 import pa.interfaces.I1_5;
 import pa.interfaces.I2_2;
 import pa.interfaces.I2_4;
 import pa.interfaces.I2_5;
+import pa.interfaces.I2_6;
 import pa.interfaces.I2_8;
 import pa.interfaces.I2_9;
 import pa.interfaces.I3_1;
 import pa.interfaces.I3_2;
 import pa.interfaces.I3_3;
+import pa.interfaces.I4_3;
+import pa.interfaces.I8_1;
 import pa.interfaces.itfProcessHomeostases;
 import pa.interfaces.itfProcessSensorBody;
 import pa.interfaces.itfProcessSensorEnvironment;
+import pa.interfaces.itfReturnActionCommands;
 import config.clsBWProperties;
 import decisionunit.itf.sensors.clsSensorData;
 
@@ -33,16 +38,20 @@ public class C00_PsychicApparatus extends clsModuleContainer implements
 							itfProcessSensorEnvironment, 
 							itfProcessHomeostases, 
 							itfProcessSensorBody,
+							itfReturnActionCommands,
 							I1_2,
 							I1_5,
 							I2_2,
 							I2_4,
 							I2_5,
+							I2_6,
 							I2_8,
 							I2_9,
 							I3_1,
 							I3_2,
-							I3_3
+							I3_3,
+							I4_3,
+							I8_1
 							{
 	public static final String P_C01 = "C01";
 	public static final String P_C02 = "C02";
@@ -151,7 +160,7 @@ public class C00_PsychicApparatus extends clsModuleContainer implements
 	 */
 	@Override
 	public void receive_I2_2(int pnData) {
-		// TODO (deutsch) - Auto-generated method stub
+		moC03Ego.receive_I2_2(pnData);
 		
 	}
 
@@ -164,7 +173,7 @@ public class C00_PsychicApparatus extends clsModuleContainer implements
 	 */
 	@Override
 	public void receive_I2_4(int pnData) {
-		// TODO (deutsch) - Auto-generated method stub
+		moC03Ego.receive_I2_4(pnData);
 		
 	}
 
@@ -257,5 +266,56 @@ public class C00_PsychicApparatus extends clsModuleContainer implements
 	public void receive_I2_5(int pnData) {
 		moC02Id.receive_I2_5(pnData);
 		
+	}
+
+	/* (non-Javadoc)
+	 *
+	 * @author deutsch
+	 * 11.08.2009, 17:02:39
+	 * 
+	 * @see pa.interfaces.I2_6#receive_I2_6(int)
+	 */
+	@Override
+	public void receive_I2_6(int pnData) {
+		moC03Ego.receive_I2_6(pnData);
+		
+	}
+
+	/* (non-Javadoc)
+	 *
+	 * @author deutsch
+	 * 11.08.2009, 17:02:39
+	 * 
+	 * @see pa.interfaces.I4_3#receive_I4_3(int)
+	 */
+	@Override
+	public void receive_I4_3(int pnData) {
+		moC03Ego.receive_I4_3(pnData);
+		
+	}
+
+	/* (non-Javadoc)
+	 *
+	 * @author deutsch
+	 * 11.08.2009, 17:04:33
+	 * 
+	 * @see pa.interfaces.I8_1#receive_I8_1(int)
+	 */
+	@Override
+	public void receive_I8_1(int pnData) {
+		moC01Body.receive_I8_1(pnData);
+		
+	}
+
+	/* (non-Javadoc)
+	 *
+	 * @author deutsch
+	 * 11.08.2009, 17:09:31
+	 * 
+	 * @see pa.interfaces.itfReturnActionCommands#getActionCommands()
+	 */
+	@Override
+	public clsActionContainer getActionCommands() {
+		return moC01Body.getActionCommands();
 	}
 }

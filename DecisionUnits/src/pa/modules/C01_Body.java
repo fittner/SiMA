@@ -6,15 +6,18 @@
  */
 package pa.modules;
 
+import memory.tempframework.clsActionContainer;
 import pa.interfaces.I1_1;
 import pa.interfaces.I1_2;
 import pa.interfaces.I2_1;
+import pa.interfaces.I2_2;
 import pa.interfaces.I2_3;
 import pa.interfaces.I8_1;
 import pa.interfaces.I8_2;
 import pa.interfaces.itfProcessHomeostases;
 import pa.interfaces.itfProcessSensorBody;
 import pa.interfaces.itfProcessSensorEnvironment;
+import pa.interfaces.itfReturnActionCommands;
 import config.clsBWProperties;
 import decisionunit.itf.sensors.clsSensorData;
 
@@ -29,9 +32,11 @@ public class C01_Body extends clsModuleContainer implements
 						itfProcessSensorEnvironment, 
 						itfProcessHomeostases, 
 						itfProcessSensorBody,
+						itfReturnActionCommands,
 						I1_1,
 						I1_2,
 						I2_1,
+						I2_2,
 						I2_3,
 						I8_1,
 						I8_2
@@ -157,7 +162,7 @@ public class C01_Body extends clsModuleContainer implements
 	 */
 	@Override
 	public void receive_I2_1(int pnData) {
-		// TODO (deutsch) - Auto-generated method stub
+		moE11NeuroSymbolsEnvironment.receive_I2_1(pnData);
 		
 	}
 
@@ -170,7 +175,7 @@ public class C01_Body extends clsModuleContainer implements
 	 */
 	@Override
 	public void receive_I2_3(int pnData) {
-		// TODO (deutsch) - Auto-generated method stub
+		moE13NeuroSymbolsBody.receive_I2_3(pnData);
 		
 	}
 
@@ -183,7 +188,7 @@ public class C01_Body extends clsModuleContainer implements
 	 */
 	@Override
 	public void receive_I8_1(int pnData) {
-		// TODO (deutsch) - Auto-generated method stub
+		moE31NeuroDeSymbolization.receive_I8_1(pnData);
 		
 	}
 
@@ -196,7 +201,7 @@ public class C01_Body extends clsModuleContainer implements
 	 */
 	@Override
 	public void receive_I8_2(int pnData) {
-		// TODO (deutsch) - Auto-generated method stub
+		moE32Actuators.receive_I8_2(pnData);
 		
 	}
 
@@ -209,7 +214,32 @@ public class C01_Body extends clsModuleContainer implements
 	 */
 	@Override
 	public void receive_I1_2(int pnData) {
-		// TODO (deutsch) - Auto-generated method stub
+		((I1_2)moEnclosingContainer).receive_I1_2(pnData);
+		
+	}
+
+	/* (non-Javadoc)
+	 *
+	 * @author deutsch
+	 * 11.08.2009, 17:08:53
+	 * 
+	 * @see pa.interfaces.itfReturnActionCommands#getActionCommands()
+	 */
+	@Override
+	public clsActionContainer getActionCommands() {
+		return moE32Actuators.getActionCommands();
+	}
+
+	/* (non-Javadoc)
+	 *
+	 * @author deutsch
+	 * 11.08.2009, 17:13:39
+	 * 
+	 * @see pa.interfaces.I2_2#receive_I2_2(int)
+	 */
+	@Override
+	public void receive_I2_2(int pnData) {
+		((I2_2)moEnclosingContainer).receive_I2_2(pnData);
 		
 	}
 }

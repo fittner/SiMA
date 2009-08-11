@@ -7,6 +7,7 @@
 package pa.modules;
 
 import config.clsBWProperties;
+import pa.interfaces.I2_3;
 import decisionunit.itf.sensors.clsSensorData;
 import pa.interfaces.itfProcessSensorBody;
 
@@ -110,7 +111,7 @@ public class E12_SensorsBody extends clsModuleBase implements itfProcessSensorBo
 	 */
 	@Override
 	protected void send() {
-		// TODO (deutsch) - Auto-generated method stub
+		((I2_3)moEnclosingContainer).receive_I2_3(mnTest);
 		
 	}
 

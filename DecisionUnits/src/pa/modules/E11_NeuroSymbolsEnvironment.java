@@ -8,6 +8,7 @@ package pa.modules;
 
 import config.clsBWProperties;
 import pa.interfaces.I2_1;
+import pa.interfaces.I2_2;
 
 /**
  * DOCUMENT (deutsch) - insert description 
@@ -109,7 +110,7 @@ public class E11_NeuroSymbolsEnvironment extends clsModuleBase implements I2_1 {
 	 */
 	@Override
 	protected void send() {
-		// TODO (deutsch) - Auto-generated method stub
+		((I2_2)moEnclosingContainer).receive_I2_2(mnTest);
 		
 	}
 

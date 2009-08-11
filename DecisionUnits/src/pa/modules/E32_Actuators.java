@@ -124,7 +124,7 @@ public class E32_Actuators extends clsModuleBase implements I8_2, itfReturnActio
 	 */
 	@Override
 	protected void send() {
-		// TODO (deutsch) - Auto-generated method stub
+		// nothing to do
 		
 	}
 

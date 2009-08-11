@@ -8,8 +8,10 @@ package pa.modules;
 
 import config.clsBWProperties;
 import pa.interfaces.I2_5;
+import pa.interfaces.I2_6;
 import pa.interfaces.I4_1;
 import pa.interfaces.I4_2;
+import pa.interfaces.I4_3;
 
 /**
  * DOCUMENT (deutsch) - insert description 
@@ -137,7 +139,8 @@ public class E15_ManagementOfRepressedContents extends clsModuleBase implements 
 	 */
 	@Override
 	protected void send() {
-		// TODO (deutsch) - Auto-generated method stub
+		((I2_6)moEnclosingContainer).receive_I2_6(mnTest);
+		((I4_3)moEnclosingContainer).receive_I4_3(mnTest);
 		
 	}
 

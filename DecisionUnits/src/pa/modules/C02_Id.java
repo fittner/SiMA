@@ -10,8 +10,12 @@ import pa.interfaces.I1_2;
 import pa.interfaces.I1_4;
 import pa.interfaces.I1_5;
 import pa.interfaces.I2_5;
+import pa.interfaces.I2_6;
 import pa.interfaces.I2_8;
 import pa.interfaces.I2_9;
+import pa.interfaces.I4_1;
+import pa.interfaces.I4_2;
+import pa.interfaces.I4_3;
 import config.clsBWProperties;
 
 /**
@@ -26,8 +30,12 @@ public class C02_Id extends clsModuleContainer implements
 								I1_4,
 								I1_5,
 								I2_5,
+								I2_6,
 								I2_8,
-								I2_9
+								I2_9,
+								I4_1,
+								I4_2,
+								I4_3
 								{
 	public static final String P_E15 = "E15";
 	public static final String P_C05 = "C05";
@@ -150,5 +158,58 @@ public class C02_Id extends clsModuleContainer implements
 		moE15ManagementOfRepressedContents.receive_I2_5(pnData);
 		
 	}
+
+	/* (non-Javadoc)
+	 *
+	 * @author deutsch
+	 * 11.08.2009, 16:58:59
+	 * 
+	 * @see pa.interfaces.I4_1#receive_I4_1(int)
+	 */
+	@Override
+	public void receive_I4_1(int pnData) {
+		moE15ManagementOfRepressedContents.receive_I4_1(pnData);
+		
+	}
+
+	/* (non-Javadoc)
+	 *
+	 * @author deutsch
+	 * 11.08.2009, 16:58:59
+	 * 
+	 * @see pa.interfaces.I4_2#receive_I4_2(int)
+	 */
+	@Override
+	public void receive_I4_2(int pnData) {
+		moE15ManagementOfRepressedContents.receive_I4_2(pnData);
+		
+	}
+
+	/* (non-Javadoc)
+	 *
+	 * @author deutsch
+	 * 11.08.2009, 17:01:47
+	 * 
+	 * @see pa.interfaces.I2_6#receive_I2_6(int)
+	 */
+	@Override
+	public void receive_I2_6(int pnData) {
+		((I2_6)moEnclosingContainer).receive_I2_6(pnData);
+		
+	}
+
+	/* (non-Javadoc)
+	 *
+	 * @author deutsch
+	 * 11.08.2009, 17:01:47
+	 * 
+	 * @see pa.interfaces.I4_3#receive_I4_3(int)
+	 */
+	@Override
+	public void receive_I4_3(int pnData) {
+		((I4_3)moEnclosingContainer).receive_I4_3(pnData);
+		
+	}
+
 
 }

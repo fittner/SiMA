@@ -8,6 +8,7 @@ package pa.modules;
 
 import config.clsBWProperties;
 import pa.interfaces.I8_1;
+import pa.interfaces.I8_2;
 
 /**
  * DOCUMENT (deutsch) - insert description 
@@ -109,7 +110,7 @@ public class E31_NeuroDeSymbolization extends clsModuleBase implements I8_1 {
 	 */
 	@Override
 	protected void send() {
-		// TODO (deutsch) - Auto-generated method stub
+		((I8_2)moEnclosingContainer).receive_I8_2(mnTest);
 		
 	}
 
