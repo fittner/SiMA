@@ -7,6 +7,9 @@
 package pa.modules;
 
 import pa.interfaces.I1_4;
+import pa.interfaces.I1_5;
+import pa.interfaces.I2_8;
+import pa.interfaces.I2_9;
 import config.clsBWProperties;
 
 /**
@@ -17,7 +20,10 @@ import config.clsBWProperties;
  * 
  */
 public class C06_AffectGeneration extends clsModuleContainer implements
-                           I1_4
+                           I1_4,
+                           I1_5,
+                           I2_8,
+                           I2_9
                            {
 	public static final String P_E05 = "E05";
 	public static final String P_E18 = "E18";
@@ -69,6 +75,45 @@ public class C06_AffectGeneration extends clsModuleContainer implements
 	@Override
 	public void receive_I1_4(int pnData) {
 		moE05GenerationOfAffectsForDrives.receive_I1_4(pnData);
+		
+	}
+
+	/* (non-Javadoc)
+	 *
+	 * @author deutsch
+	 * 11.08.2009, 16:49:41
+	 * 
+	 * @see pa.interfaces.I1_5#receive_I1_5(int)
+	 */
+	@Override
+	public void receive_I1_5(int pnData) {
+		((I1_5)moEnclosingContainer).receive_I1_5(pnData);
+		
+	}
+
+	/* (non-Javadoc)
+	 *
+	 * @author deutsch
+	 * 11.08.2009, 16:51:45
+	 * 
+	 * @see pa.interfaces.I2_8#receive_I2_8(int)
+	 */
+	@Override
+	public void receive_I2_8(int pnData) {
+		moE18GenerationOfAffectsForPerception.receive_I2_8(pnData);
+		
+	}
+
+	/* (non-Javadoc)
+	 *
+	 * @author deutsch
+	 * 11.08.2009, 16:52:58
+	 * 
+	 * @see pa.interfaces.I2_9#receive_I2_9(int)
+	 */
+	@Override
+	public void receive_I2_9(int pnData) {
+		((I2_9)moEnclosingContainer).receive_I2_9(pnData);
 		
 	}
 }

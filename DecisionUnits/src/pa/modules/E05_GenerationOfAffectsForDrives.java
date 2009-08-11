@@ -7,6 +7,7 @@
 package pa.modules;
 
 import pa.interfaces.I1_4;
+import pa.interfaces.I1_5;
 import config.clsBWProperties;
 
 /**
@@ -109,7 +110,7 @@ public class E05_GenerationOfAffectsForDrives extends clsModuleBase implements I
 	 */
 	@Override
 	protected void send() {
-		// TODO (deutsch) - Auto-generated method stub
+		((I1_5)moEnclosingContainer).receive_I1_5(mnTest);
 		
 	}
 }

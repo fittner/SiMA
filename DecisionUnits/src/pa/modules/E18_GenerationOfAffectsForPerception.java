@@ -7,6 +7,7 @@
 package pa.modules;
 
 import config.clsBWProperties;
+import pa.interfaces.I2_9;
 import pa.interfaces.I2_8;
 
 /**
@@ -109,7 +110,7 @@ public class E18_GenerationOfAffectsForPerception extends clsModuleBase implemen
 	 */
 	@Override
 	protected void send() {
-		// TODO (deutsch) - Auto-generated method stub
+		((I2_9)moEnclosingContainer).receive_I2_9(mnTest);
 		
 	}
 }

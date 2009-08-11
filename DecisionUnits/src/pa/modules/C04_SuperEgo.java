@@ -106,7 +106,7 @@ public class C04_SuperEgo extends clsModuleContainer implements
 	 */
 	@Override
 	public void receive_I3_1(int pnData) {
-		// TODO (deutsch) - Auto-generated method stub
+		((I3_1)moEnclosingContainer).receive_I3_1(pnData);
 		
 	}
 
@@ -145,7 +145,7 @@ public class C04_SuperEgo extends clsModuleContainer implements
 	 */
 	@Override
 	public void receive_I3_3(int pnData) {
-		// TODO (deutsch) - Auto-generated method stub
+		((I3_3)moEnclosingContainer).receive_I3_3(pnData);
 		
 	}
 
@@ -158,7 +158,7 @@ public class C04_SuperEgo extends clsModuleContainer implements
 	 */
 	@Override
 	public void receive_I3_2(int pnData) {
-		// TODO (deutsch) - Auto-generated method stub
+		((I3_2)moEnclosingContainer).receive_I3_2(pnData);
 		
 	}
 
