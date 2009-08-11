@@ -186,7 +186,7 @@ public class C00_PsychicApparatus extends clsModuleContainer implements
 	 */
 	@Override
 	public void receive_I3_1(int pnData) {
-		// TODO (deutsch) - Auto-generated method stub
+		moC03Ego.receive_I3_1(pnData);
 		
 	}
 
@@ -199,7 +199,7 @@ public class C00_PsychicApparatus extends clsModuleContainer implements
 	 */
 	@Override
 	public void receive_I3_2(int pnData) {
-		// TODO (deutsch) - Auto-generated method stub
+		moC03Ego.receive_I3_2(pnData);
 		
 	}
 
@@ -212,7 +212,7 @@ public class C00_PsychicApparatus extends clsModuleContainer implements
 	 */
 	@Override
 	public void receive_I3_3(int pnData) {
-		// TODO (deutsch) - Auto-generated method stub
+		moC03Ego.receive_I3_3(pnData);
 		
 	}
 
