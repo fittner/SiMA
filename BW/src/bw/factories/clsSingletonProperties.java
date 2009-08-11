@@ -18,51 +18,51 @@ import bw.utils.config.clsBWProperties;
  * 15.07.2009, 17:36:36
  * 
  */
-public class clsPropertiesGetter {
+public class clsSingletonProperties {
 	private clsBWProperties moProperties; 
 	private clsBWProperties moSystemProperties;
 	private boolean mnDrawImages;
 	private boolean mnDrawSensors;
 	
-	protected clsPropertiesGetter() {
+	protected clsSingletonProperties() {
 		moProperties = new clsBWProperties();
 		moSystemProperties = new clsBWProperties();
 		mnDrawImages = false;
 		mnDrawSensors = false;
 	}
 	
-	static private clsPropertiesGetter _instance = null;
+	static private clsSingletonProperties _instance = null;
 	
-	static public clsPropertiesGetter instance() {
+	static public clsSingletonProperties instance() {
 		if (null == _instance) {
-			_instance = new clsPropertiesGetter();
+			_instance = new clsSingletonProperties();
 		}
 		return _instance;
 	}
 	
 	static public clsBWProperties getProperties() {
-		return (clsPropertiesGetter.instance()).moProperties;
+		return (clsSingletonProperties.instance()).moProperties;
 	}
 	
 	static public void setProperties(clsBWProperties poProperties) {
-		(clsPropertiesGetter.instance()).moProperties = poProperties;
+		(clsSingletonProperties.instance()).moProperties = poProperties;
 	}
 
 	static public clsBWProperties getSystemProperties() {
-		return (clsPropertiesGetter.instance()).moSystemProperties;
+		return (clsSingletonProperties.instance()).moSystemProperties;
 	}
 	
 	static public void setSystemProperties(clsBWProperties poProperties) {
-		(clsPropertiesGetter.instance()).moSystemProperties = poProperties;
-		(clsPropertiesGetter.instance()).mnDrawImages = poProperties.getPropertyBoolean(clsBWMainWithUI.P_DRAWIMAGES);
-		(clsPropertiesGetter.instance()).mnDrawSensors = poProperties.getPropertyBoolean(clsBWMainWithUI.P_DRAWSENSORS);
+		(clsSingletonProperties.instance()).moSystemProperties = poProperties;
+		(clsSingletonProperties.instance()).mnDrawImages = poProperties.getPropertyBoolean(clsBWMainWithUI.P_DRAWIMAGES);
+		(clsSingletonProperties.instance()).mnDrawSensors = poProperties.getPropertyBoolean(clsBWMainWithUI.P_DRAWSENSORS);
 	}	
 	
 	static public boolean drawImages() {
-		return (clsPropertiesGetter.instance()).mnDrawImages;
+		return (clsSingletonProperties.instance()).mnDrawImages;
 	}
 	
 	static public boolean drawSensors() {
-		return (clsPropertiesGetter.instance()).mnDrawSensors;
+		return (clsSingletonProperties.instance()).mnDrawSensors;
 	}
 }
