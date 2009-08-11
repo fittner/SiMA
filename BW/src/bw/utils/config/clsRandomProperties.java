@@ -9,8 +9,8 @@
 package bw.utils.config;
 
 import java.util.Random;
-import bw.factories.clsSingletonMasonGetter;
 import ec.util.MersenneTwisterFast;
+import factories.clsSingletonSimState;
 
 /**
  * random number generator for property files. 
@@ -65,7 +65,7 @@ public class clsRandomProperties {
 				moRandomJava = null;
 				
 				try {
-					moRandomTwister = clsSingletonMasonGetter.getSimState().random;
+					moRandomTwister = clsSingletonSimState.getSimState().random;
 				} catch (java.lang.NullPointerException e) {
 					moRandomJava = new Random();
 				}
