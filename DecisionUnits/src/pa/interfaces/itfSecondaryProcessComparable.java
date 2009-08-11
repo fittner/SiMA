@@ -6,6 +6,8 @@
  */
 package pa.interfaces;
 
+import pa.datatypes.clsSecondaryInformation;
+
 /**
  * DOCUMENT (langr) - insert description 
  * 
@@ -13,6 +15,8 @@ package pa.interfaces;
  * 11.08.2009, 11:36:59
  * 
  */
-public interface itfSecondaryProcessCompare {
+public interface itfSecondaryProcessComparable {
 
+	public int compareTo( clsSecondaryInformation poSecondaryInformation );
+	
 }

@@ -13,6 +13,6 @@ package pa.datatypes;
  * 11.08.2009, 11:16:41
  * 
  */
-public class clsAffect {
+public class clsAffect extends clsPsychicRepresentative {
 
 }

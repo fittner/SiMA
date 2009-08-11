@@ -16,7 +16,7 @@ import pa.interfaces.itfPrimaryProcessComparable;
  * 11.08.2009, 11:48:23
  * 
  */
-public class clsPrimaryInformation implements itfPrimaryProcessComparable, itfPrimaryProcessComparabelTP{
+public class clsPrimaryInformation extends clsPsychicRepresentative implements itfPrimaryProcessComparable, itfPrimaryProcessComparabelTP{
 
 	public clsThingPresentation moTP;
 	public clsAffect moAffect;
