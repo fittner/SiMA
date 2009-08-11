@@ -83,19 +83,32 @@ public class E18_GenerationOfAffectsForPerception extends clsModuleBase implemen
 	 */
 	@Override
 	public void receive_I2_8(int pnData) {
-		// TODO (deutsch) - Auto-generated method stub
+		mnTest += pnData;
 		
 	}
 
 	/* (non-Javadoc)
 	 *
 	 * @author deutsch
-	 * 11.08.2009, 14:34:27
+	 * 11.08.2009, 16:15:59
 	 * 
-	 * @see pa.interfaces.itfStep#step()
+	 * @see pa.modules.clsModuleBase#process()
 	 */
 	@Override
-	public void step() {
+	protected void process() {
+		mnTest++;
+		
+	}
+
+	/* (non-Javadoc)
+	 *
+	 * @author deutsch
+	 * 11.08.2009, 16:15:59
+	 * 
+	 * @see pa.modules.clsModuleBase#send()
+	 */
+	@Override
+	protected void send() {
 		// TODO (deutsch) - Auto-generated method stub
 		
 	}

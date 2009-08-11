@@ -84,7 +84,7 @@ public class E14_PreliminaryExternalPerception extends clsModuleBase implements 
 	 */
 	@Override
 	public void receive_I2_2(int pnData) {
-		// TODO (deutsch) - Auto-generated method stub
+		mnTest += pnData;
 		
 	}
 
@@ -97,21 +97,35 @@ public class E14_PreliminaryExternalPerception extends clsModuleBase implements 
 	 */
 	@Override
 	public void receive_I2_4(int pnData) {
-		// TODO (deutsch) - Auto-generated method stub
+		mnTest += pnData;
 		
 	}
 
 	/* (non-Javadoc)
 	 *
 	 * @author deutsch
-	 * 11.08.2009, 14:27:13
+	 * 11.08.2009, 16:15:41
 	 * 
-	 * @see pa.interfaces.itfStep#step()
+	 * @see pa.modules.clsModuleBase#process()
 	 */
 	@Override
-	public void step() {
+	protected void process() {
+		mnTest++;
+		
+	}
+
+	/* (non-Javadoc)
+	 *
+	 * @author deutsch
+	 * 11.08.2009, 16:15:41
+	 * 
+	 * @see pa.modules.clsModuleBase#send()
+	 */
+	@Override
+	protected void send() {
 		// TODO (deutsch) - Auto-generated method stub
 		
 	}
+
 
 }

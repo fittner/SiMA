@@ -83,21 +83,33 @@ public class E25_KnowledgeAboutReality extends clsModuleBase implements I2_12 {
 	 */
 	@Override
 	public void receive_I2_12(int pnData) {
-		// TODO (deutsch) - Auto-generated method stub
+		mnTest += pnData;
 		
 	}
 
 	/* (non-Javadoc)
 	 *
 	 * @author deutsch
-	 * 11.08.2009, 14:51:09
+	 * 11.08.2009, 16:16:30
 	 * 
-	 * @see pa.interfaces.itfStep#step()
+	 * @see pa.modules.clsModuleBase#process()
 	 */
 	@Override
-	public void step() {
+	protected void process() {
+		mnTest++;
+		
+	}
+
+	/* (non-Javadoc)
+	 *
+	 * @author deutsch
+	 * 11.08.2009, 16:16:30
+	 * 
+	 * @see pa.modules.clsModuleBase#send()
+	 */
+	@Override
+	protected void send() {
 		// TODO (deutsch) - Auto-generated method stub
 		
-	}	
-	
+	}
 }

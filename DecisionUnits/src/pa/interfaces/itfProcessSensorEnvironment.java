@@ -15,6 +15,6 @@ import decisionunit.itf.sensors.clsSensorData;
  * 11.08.2009, 12:15:44
  * 
  */
-public interface itfProcessSensorData {
-	public void process(clsSensorData poData);
+public interface itfProcessSensorEnvironment {
+	public void receiveEnvironment(clsSensorData poData);
 }

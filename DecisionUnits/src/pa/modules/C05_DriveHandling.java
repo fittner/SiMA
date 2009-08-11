@@ -6,6 +6,7 @@
  */
 package pa.modules;
 
+import pa.interfaces.I1_2;
 import config.clsBWProperties;
 
 /**
@@ -15,7 +16,9 @@ import config.clsBWProperties;
  * 11.08.2009, 15:28:05
  * 
  */
-public class C05_DriveHandling extends clsModuleContainer {
+public class C05_DriveHandling extends clsModuleContainer implements
+							I1_2
+							{
 	public static final String P_E03 = "E03";
 	public static final String P_E04 = "E04";
 	
@@ -54,6 +57,19 @@ public class C05_DriveHandling extends clsModuleContainer {
 	
 		moE03GenerationOfDrives = new E03_GenerationOfDrives(pre+P_E03, poProp, this);
 		moE04FusionOfDrives = new E04_FusionOfDrives(pre+P_E04, poProp, this);
+	}
+
+	/* (non-Javadoc)
+	 *
+	 * @author deutsch
+	 * 11.08.2009, 16:20:42
+	 * 
+	 * @see pa.interfaces.I1_2#receive_I1_2(int)
+	 */
+	@Override
+	public void receive_I1_2(int pnData) {
+		moE03GenerationOfDrives.receive_I1_2(pnData);
+		
 	}
 
 }

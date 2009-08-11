@@ -86,7 +86,7 @@ public class E20_InnerPerception_Affects extends clsModuleBase implements I5_1, 
 	 */
 	@Override
 	public void receive_I5_1(int pnData) {
-		// TODO (deutsch) - Auto-generated method stub
+		mnTest += pnData;
 		
 	}
 
@@ -99,7 +99,7 @@ public class E20_InnerPerception_Affects extends clsModuleBase implements I5_1, 
 	 */
 	@Override
 	public void receive_I5_2(int pnData) {
-		// TODO (deutsch) - Auto-generated method stub
+		mnTest += pnData;
 		
 	}
 
@@ -112,7 +112,7 @@ public class E20_InnerPerception_Affects extends clsModuleBase implements I5_1, 
 	 */
 	@Override
 	public void receive_I5_3(int pnData) {
-		// TODO (deutsch) - Auto-generated method stub
+		mnTest += pnData;
 		
 	}
 
@@ -125,22 +125,34 @@ public class E20_InnerPerception_Affects extends clsModuleBase implements I5_1, 
 	 */
 	@Override
 	public void receive_I5_4(int pnData) {
-		// TODO (deutsch) - Auto-generated method stub
+		mnTest += pnData;
 		
 	}
 
 	/* (non-Javadoc)
 	 *
 	 * @author deutsch
-	 * 11.08.2009, 14:41:15
+	 * 11.08.2009, 16:16:08
 	 * 
-	 * @see pa.interfaces.itfStep#step()
+	 * @see pa.modules.clsModuleBase#process()
 	 */
 	@Override
-	public void step() {
-		// TODO (deutsch) - Auto-generated method stub
+	protected void process() {
+		mnTest++;
 		
 	}
 
+	/* (non-Javadoc)
+	 *
+	 * @author deutsch
+	 * 11.08.2009, 16:16:08
+	 * 
+	 * @see pa.modules.clsModuleBase#send()
+	 */
+	@Override
+	protected void send() {
+		// TODO (deutsch) - Auto-generated method stub
+		
+	}
 
 }

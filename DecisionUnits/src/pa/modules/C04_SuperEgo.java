@@ -6,6 +6,13 @@
  */
 package pa.modules;
 
+import pa.interfaces.I1_5;
+import pa.interfaces.I1_7;
+import pa.interfaces.I2_11;
+import pa.interfaces.I2_9;
+import pa.interfaces.I3_1;
+import pa.interfaces.I3_2;
+import pa.interfaces.I3_3;
 import config.clsBWProperties;
 
 /**
@@ -15,7 +22,15 @@ import config.clsBWProperties;
  * 11.08.2009, 15:11:20
  * 
  */
-public class C04_SuperEgo extends clsModuleContainer  {
+public class C04_SuperEgo extends clsModuleContainer implements
+						I1_5,
+						I1_7,
+						I3_1,
+						I3_2,
+						I2_9,
+						I2_11,
+						I3_3
+						{
 	public static final String P_E07 = "E07";
 	public static final String P_E22 = "E22";
 	
@@ -54,6 +69,97 @@ public class C04_SuperEgo extends clsModuleContainer  {
 	
 		moE07SuperEgoUnconscious = new E07_SuperEgo_unconscious(pre+P_E07, poProp, this);
 		moE22SuperEgoPreconscious = new E22_SuperEgo_preconscious(pre+P_E22, poProp, this);
+	}
+
+	/* (non-Javadoc)
+	 *
+	 * @author deutsch
+	 * 11.08.2009, 16:23:33
+	 * 
+	 * @see pa.interfaces.I1_5#receive_I1_5(int)
+	 */
+	@Override
+	public void receive_I1_5(int pnData) {
+		moE07SuperEgoUnconscious.receive_I1_5(pnData);
+		
+	}
+
+	/* (non-Javadoc)
+	 *
+	 * @author deutsch
+	 * 11.08.2009, 16:23:33
+	 * 
+	 * @see pa.interfaces.I1_7#receive_I1_7(int)
+	 */
+	@Override
+	public void receive_I1_7(int pnData) {
+		moE22SuperEgoPreconscious.receive_I1_7(pnData);
+		
+	}
+
+	/* (non-Javadoc)
+	 *
+	 * @author deutsch
+	 * 11.08.2009, 16:23:33
+	 * 
+	 * @see pa.interfaces.I3_1#receive_I3_1(int)
+	 */
+	@Override
+	public void receive_I3_1(int pnData) {
+		// TODO (deutsch) - Auto-generated method stub
+		
+	}
+
+	/* (non-Javadoc)
+	 *
+	 * @author deutsch
+	 * 11.08.2009, 16:23:33
+	 * 
+	 * @see pa.interfaces.I2_9#receive_I2_9(int)
+	 */
+	@Override
+	public void receive_I2_9(int pnData) {
+		moE07SuperEgoUnconscious.receive_I2_9(pnData);
+		
+	}
+
+	/* (non-Javadoc)
+	 *
+	 * @author deutsch
+	 * 11.08.2009, 16:23:33
+	 * 
+	 * @see pa.interfaces.I2_11#receive_I2_11(int)
+	 */
+	@Override
+	public void receive_I2_11(int pnData) {
+		moE22SuperEgoPreconscious.receive_I2_11(pnData);
+		
+	}
+
+	/* (non-Javadoc)
+	 *
+	 * @author deutsch
+	 * 11.08.2009, 16:23:33
+	 * 
+	 * @see pa.interfaces.I3_3#receive_I3_3(int)
+	 */
+	@Override
+	public void receive_I3_3(int pnData) {
+		// TODO (deutsch) - Auto-generated method stub
+		
+	}
+
+	/* (non-Javadoc)
+	 *
+	 * @author deutsch
+	 * 11.08.2009, 16:28:01
+	 * 
+	 * @see pa.interfaces.I3_2#receive_I3_2(int)
+	 */
+	@Override
+	public void receive_I3_2(int pnData) {
+		// TODO (deutsch) - Auto-generated method stub
+		
 	}
 
 }

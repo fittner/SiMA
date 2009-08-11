@@ -83,21 +83,33 @@ public class E30_MotilityControl extends clsModuleBase implements I7_4 {
 	 */
 	@Override
 	public void receive_I7_4(int pnData) {
-		// TODO (deutsch) - Auto-generated method stub
+		mnTest += pnData;
 		
 	}
 
 	/* (non-Javadoc)
 	 *
 	 * @author deutsch
-	 * 11.08.2009, 14:58:46
+	 * 11.08.2009, 16:16:50
 	 * 
-	 * @see pa.interfaces.itfStep#step()
+	 * @see pa.modules.clsModuleBase#process()
 	 */
 	@Override
-	public void step() {
-		// TODO (deutsch) - Auto-generated method stub
+	protected void process() {
+		mnTest++;
 		
 	}
 
+	/* (non-Javadoc)
+	 *
+	 * @author deutsch
+	 * 11.08.2009, 16:16:50
+	 * 
+	 * @see pa.modules.clsModuleBase#send()
+	 */
+	@Override
+	protected void send() {
+		// TODO (deutsch) - Auto-generated method stub
+		
+	}
 }

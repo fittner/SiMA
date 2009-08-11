@@ -77,25 +77,38 @@ public class E09_KnowledgeAboutReality_unconscious extends clsModuleBase impleme
 	/* (non-Javadoc)
 	 *
 	 * @author deutsch
-	 * 11.08.2009, 13:39:32
-	 * 
-	 * @see pa.interfaces.itfStep#step()
-	 */
-	@Override
-	public void step() {
-		// TODO (deutsch) - Auto-generated method stub
-		
-	}
-
-	/* (non-Javadoc)
-	 *
-	 * @author deutsch
 	 * 11.08.2009, 14:10:04
 	 * 
 	 * @see pa.interfaces.I1_5#receive_I1_5(int)
 	 */
 	@Override
 	public void receive_I1_5(int pnData) {
+		mnTest += pnData;
+		
+	}
+
+	/* (non-Javadoc)
+	 *
+	 * @author deutsch
+	 * 11.08.2009, 16:15:18
+	 * 
+	 * @see pa.modules.clsModuleBase#process()
+	 */
+	@Override
+	protected void process() {
+		mnTest++;
+		
+	}
+
+	/* (non-Javadoc)
+	 *
+	 * @author deutsch
+	 * 11.08.2009, 16:15:18
+	 * 
+	 * @see pa.modules.clsModuleBase#send()
+	 */
+	@Override
+	protected void send() {
 		// TODO (deutsch) - Auto-generated method stub
 		
 	}

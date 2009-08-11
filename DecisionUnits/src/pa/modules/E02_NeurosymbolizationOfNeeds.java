@@ -7,6 +7,7 @@
 package pa.modules;
 
 import pa.interfaces.I1_1;
+import pa.interfaces.I1_2;
 import config.clsBWProperties;
 
 /**
@@ -77,26 +78,39 @@ public class E02_NeurosymbolizationOfNeeds extends clsModuleBase implements I1_1
 	/* (non-Javadoc)
 	 *
 	 * @author deutsch
-	 * 11.08.2009, 13:39:28
-	 * 
-	 * @see pa.interfaces.itfStep#step()
-	 */
-	@Override
-	public void step() {
-		// TODO (deutsch) - Auto-generated method stub
-		
-	}
-
-	/* (non-Javadoc)
-	 *
-	 * @author deutsch
 	 * 11.08.2009, 13:47:00
 	 * 
 	 * @see pa.interfaces.I1_1#receive_I1_1(int)
 	 */
 	@Override
 	public void receive_I1_1(int pnData) {
-		// TODO (deutsch) - Auto-generated method stub
+		mnTest += pnData;
+		
+	}
+
+	/* (non-Javadoc)
+	 *
+	 * @author deutsch
+	 * 11.08.2009, 16:12:58
+	 * 
+	 * @see pa.modules.clsModuleBase#process()
+	 */
+	@Override
+	protected void process() {
+		mnTest++;
+		
+	}
+
+	/* (non-Javadoc)
+	 *
+	 * @author deutsch
+	 * 11.08.2009, 16:12:58
+	 * 
+	 * @see pa.modules.clsModuleBase#send()
+	 */
+	@Override
+	protected void send() {
+		((I1_2)moEnclosingContainer).receive_I1_2(mnTest);
 		
 	}
 

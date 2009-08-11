@@ -8,7 +8,7 @@ package pa.modules;
 
 import config.clsBWProperties;
 import decisionunit.itf.sensors.clsSensorData;
-import pa.interfaces.itfProcessSensorData;
+import pa.interfaces.itfProcessSensorEnvironment;
 
 /**
  * DOCUMENT (deutsch) - insert description 
@@ -17,7 +17,7 @@ import pa.interfaces.itfProcessSensorData;
  * 11.08.2009, 14:13:27
  * 
  */
-public class E10_SensorsEnvironment extends clsModuleBase implements itfProcessSensorData {
+public class E10_SensorsEnvironment extends clsModuleBase implements itfProcessSensorEnvironment {
 
 	/**
 	 * DOCUMENT (deutsch) - insert description 
@@ -79,25 +79,38 @@ public class E10_SensorsEnvironment extends clsModuleBase implements itfProcessS
 	/* (non-Javadoc)
 	 *
 	 * @author deutsch
-	 * 11.08.2009, 14:14:34
+	 * 11.08.2009, 15:50:31
 	 * 
-	 * @see pa.interfaces.itfProcessSensorData#process(decisionunit.itf.sensors.clsSensorData)
+	 * @see pa.interfaces.itfProcessSensorEnvironment#processEnvironment(decisionunit.itf.sensors.clsSensorData)
 	 */
 	@Override
-	public void process(clsSensorData poData) {
-		// TODO (deutsch) - Auto-generated method stub
+	public void receiveEnvironment(clsSensorData poData) {
+		mnTest = 0;
 		
 	}
 
 	/* (non-Javadoc)
 	 *
 	 * @author deutsch
-	 * 11.08.2009, 14:14:34
+	 * 11.08.2009, 16:15:23
 	 * 
-	 * @see pa.interfaces.itfStep#step()
+	 * @see pa.modules.clsModuleBase#process()
 	 */
 	@Override
-	public void step() {
+	protected void process() {
+		mnTest++;
+		
+	}
+
+	/* (non-Javadoc)
+	 *
+	 * @author deutsch
+	 * 11.08.2009, 16:15:23
+	 * 
+	 * @see pa.modules.clsModuleBase#send()
+	 */
+	@Override
+	protected void send() {
 		// TODO (deutsch) - Auto-generated method stub
 		
 	}

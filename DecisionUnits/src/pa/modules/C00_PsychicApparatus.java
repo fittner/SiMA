@@ -6,7 +6,14 @@
  */
 package pa.modules;
 
+import pa.interfaces.I1_2;
+import pa.interfaces.I2_2;
+import pa.interfaces.I2_4;
+import pa.interfaces.itfProcessHomeostases;
+import pa.interfaces.itfProcessSensorBody;
+import pa.interfaces.itfProcessSensorEnvironment;
 import config.clsBWProperties;
+import decisionunit.itf.sensors.clsSensorData;
 
 /**
  * DOCUMENT (deutsch) - insert description 
@@ -15,7 +22,14 @@ import config.clsBWProperties;
  * 11.08.2009, 15:06:02
  * 
  */
-public class C00_PsychicApparatus extends clsModuleContainer {
+public class C00_PsychicApparatus extends clsModuleContainer implements 
+							itfProcessSensorEnvironment, 
+							itfProcessHomeostases, 
+							itfProcessSensorBody,
+							I1_2,
+							I2_2,
+							I2_4
+							{
 	public static final String P_C01 = "C01";
 	public static final String P_C02 = "C02";
 	public static final String P_C03 = "C03";
@@ -63,7 +77,80 @@ public class C00_PsychicApparatus extends clsModuleContainer {
 		moC03Ego = new C03_Ego(pre+P_C03, poProp, this);
 		moC04SuperEgo = new C04_SuperEgo(pre+P_C04, poProp, this);
 
-	}	
+	}
 
+	/* (non-Javadoc)
+	 *
+	 * @author deutsch
+	 * 11.08.2009, 15:53:01
+	 * 
+	 * @see pa.interfaces.itfProcessSensorEnvironment#processEnvironment(decisionunit.itf.sensors.clsSensorData)
+	 */
+	@Override
+	public void receiveEnvironment(clsSensorData poData) {
+		moC01Body.receiveEnvironment(poData);		
+	}
 
+	/* (non-Javadoc)
+	 *
+	 * @author deutsch
+	 * 11.08.2009, 15:53:01
+	 * 
+	 * @see pa.interfaces.itfProcessHomeostases#processHomeostases(decisionunit.itf.sensors.clsSensorData)
+	 */
+	@Override
+	public void receiveHomeostases(clsSensorData poData) {
+		moC01Body.receiveHomeostases(poData);		
+	}
+
+	/* (non-Javadoc)
+	 *
+	 * @author deutsch
+	 * 11.08.2009, 15:53:01
+	 * 
+	 * @see pa.interfaces.itfProcessSensorBody#processBody(decisionunit.itf.sensors.clsSensorData)
+	 */
+	@Override
+	public void receiveBody(clsSensorData poData) {
+		moC01Body.receiveBody(poData);		
+	}
+
+	/* (non-Javadoc)
+	 *
+	 * @author deutsch
+	 * 11.08.2009, 16:19:00
+	 * 
+	 * @see pa.interfaces.I1_2#receive_I1_2(int)
+	 */
+	@Override
+	public void receive_I1_2(int pnData) {
+		moC02Id.receive_I1_2(pnData);
+		
+	}
+
+	/* (non-Javadoc)
+	 *
+	 * @author deutsch
+	 * 11.08.2009, 16:19:00
+	 * 
+	 * @see pa.interfaces.I2_2#receive_I2_2(int)
+	 */
+	@Override
+	public void receive_I2_2(int pnData) {
+		// TODO (deutsch) - Auto-generated method stub
+		
+	}
+
+	/* (non-Javadoc)
+	 *
+	 * @author deutsch
+	 * 11.08.2009, 16:19:00
+	 * 
+	 * @see pa.interfaces.I2_4#receive_I2_4(int)
+	 */
+	@Override
+	public void receive_I2_4(int pnData) {
+		// TODO (deutsch) - Auto-generated method stub
+		
+	}
 }

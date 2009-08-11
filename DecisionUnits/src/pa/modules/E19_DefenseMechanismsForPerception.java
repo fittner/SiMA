@@ -84,6 +84,32 @@ public class E19_DefenseMechanismsForPerception extends clsModuleBase implements
 	 */
 	@Override
 	public void receive_I2_9(int pnData) {
+		mnTest += pnData;
+		
+	}
+
+	/* (non-Javadoc)
+	 *
+	 * @author deutsch
+	 * 11.08.2009, 16:16:03
+	 * 
+	 * @see pa.modules.clsModuleBase#process()
+	 */
+	@Override
+	protected void process() {
+		mnTest++;
+		
+	}
+
+	/* (non-Javadoc)
+	 *
+	 * @author deutsch
+	 * 11.08.2009, 16:16:03
+	 * 
+	 * @see pa.modules.clsModuleBase#send()
+	 */
+	@Override
+	protected void send() {
 		// TODO (deutsch) - Auto-generated method stub
 		
 	}
@@ -91,26 +117,13 @@ public class E19_DefenseMechanismsForPerception extends clsModuleBase implements
 	/* (non-Javadoc)
 	 *
 	 * @author deutsch
-	 * 11.08.2009, 14:36:10
+	 * 11.08.2009, 16:28:09
 	 * 
-	 * @see pa.interfaces.I3_2#receive_I3_1(int)
+	 * @see pa.interfaces.I3_2#receive_I3_2(int)
 	 */
 	@Override
-	public void receive_I3_1(int pnData) {
-		// TODO (deutsch) - Auto-generated method stub
-		
-	}
-
-	/* (non-Javadoc)
-	 *
-	 * @author deutsch
-	 * 11.08.2009, 14:36:10
-	 * 
-	 * @see pa.interfaces.itfStep#step()
-	 */
-	@Override
-	public void step() {
-		// TODO (deutsch) - Auto-generated method stub
+	public void receive_I3_2(int pnData) {
+		mnTest += pnData;
 		
 	}
 

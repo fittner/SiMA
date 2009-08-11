@@ -78,25 +78,38 @@ public class E03_GenerationOfDrives extends clsModuleBase implements I1_2 {
 	/* (non-Javadoc)
 	 *
 	 * @author deutsch
-	 * 11.08.2009, 13:39:32
-	 * 
-	 * @see pa.interfaces.itfStep#step()
-	 */
-	@Override
-	public void step() {
-		// TODO (deutsch) - Auto-generated method stub
-		
-	}
-
-	/* (non-Javadoc)
-	 *
-	 * @author deutsch
 	 * 11.08.2009, 13:46:56
 	 * 
 	 * @see pa.interfaces.I1_2#receive_I1_2(int)
 	 */
 	@Override
 	public void receive_I1_2(int pnData) {
+		mnTest += pnData;
+		
+	}
+
+	/* (non-Javadoc)
+	 *
+	 * @author deutsch
+	 * 11.08.2009, 16:14:48
+	 * 
+	 * @see pa.modules.clsModuleBase#process()
+	 */
+	@Override
+	protected void process() {
+		mnTest++;
+		
+	}
+
+	/* (non-Javadoc)
+	 *
+	 * @author deutsch
+	 * 11.08.2009, 16:14:49
+	 * 
+	 * @see pa.modules.clsModuleBase#send()
+	 */
+	@Override
+	protected void send() {
 		// TODO (deutsch) - Auto-generated method stub
 		
 	}

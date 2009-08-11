@@ -85,20 +85,7 @@ public class E32_Actuators extends clsModuleBase implements I8_2, itfReturnActio
 	 */
 	@Override
 	public void receive_I8_2(int pnData) {
-		// TODO (deutsch) - Auto-generated method stub
-		
-	}
-
-	/* (non-Javadoc)
-	 *
-	 * @author deutsch
-	 * 11.08.2009, 15:01:51
-	 * 
-	 * @see pa.interfaces.itfStep#step()
-	 */
-	@Override
-	public void step() {
-		// TODO (deutsch) - Auto-generated method stub
+		mnTest += pnData;
 		
 	}
 
@@ -113,6 +100,32 @@ public class E32_Actuators extends clsModuleBase implements I8_2, itfReturnActio
 	public clsActionContainer getActionCommands() {
 		// TODO (deutsch) - Auto-generated method stub
 		return null;
+	}
+
+	/* (non-Javadoc)
+	 *
+	 * @author deutsch
+	 * 11.08.2009, 16:16:59
+	 * 
+	 * @see pa.modules.clsModuleBase#process()
+	 */
+	@Override
+	protected void process() {
+		mnTest++;
+		
+	}
+
+	/* (non-Javadoc)
+	 *
+	 * @author deutsch
+	 * 11.08.2009, 16:16:59
+	 * 
+	 * @see pa.modules.clsModuleBase#send()
+	 */
+	@Override
+	protected void send() {
+		// TODO (deutsch) - Auto-generated method stub
+		
 	}
 
 }

@@ -9,6 +9,7 @@ package pa.modules;
 import config.clsBWProperties;
 import pa.interfaces.I1_7;
 import pa.interfaces.I2_11;
+import pa.interfaces.I3_3;
 
 /**
  * DOCUMENT (deutsch) - insert description 
@@ -84,7 +85,7 @@ public class E22_SuperEgo_preconscious extends clsModuleBase implements I1_7, I2
 	 */
 	@Override
 	public void receive_I1_7(int pnData) {
-		// TODO (deutsch) - Auto-generated method stub
+		mnTest += pnData;
 		
 	}
 
@@ -97,22 +98,33 @@ public class E22_SuperEgo_preconscious extends clsModuleBase implements I1_7, I2
 	 */
 	@Override
 	public void receive_I2_11(int pnData) {
-		// TODO (deutsch) - Auto-generated method stub
+		mnTest += pnData;
 		
 	}
 
 	/* (non-Javadoc)
 	 *
 	 * @author deutsch
-	 * 11.08.2009, 14:45:50
+	 * 11.08.2009, 16:16:16
 	 * 
-	 * @see pa.interfaces.itfStep#step()
+	 * @see pa.modules.clsModuleBase#process()
 	 */
 	@Override
-	public void step() {
-		// TODO (deutsch) - Auto-generated method stub
+	protected void process() {
+		mnTest++;
 		
 	}
 
-
+	/* (non-Javadoc)
+	 *
+	 * @author deutsch
+	 * 11.08.2009, 16:16:16
+	 * 
+	 * @see pa.modules.clsModuleBase#send()
+	 */
+	@Override
+	protected void send() {
+		((I3_3)moEnclosingContainer).receive_I3_3(mnTest);
+		
+	}
 }

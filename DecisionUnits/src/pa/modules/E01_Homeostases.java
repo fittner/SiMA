@@ -6,7 +6,8 @@
  */
 package pa.modules;
 
-import pa.interfaces.itfProcessSensorData;
+import pa.interfaces.I1_1;
+import pa.interfaces.itfProcessHomeostases;
 import config.clsBWProperties;
 import decisionunit.itf.sensors.clsSensorData;
 
@@ -17,7 +18,7 @@ import decisionunit.itf.sensors.clsSensorData;
  * 11.08.2009, 12:09:14
  * 
  */
-public class E01_Homeostases extends clsModuleBase implements itfProcessSensorData {
+public class E01_Homeostases extends clsModuleBase implements itfProcessHomeostases {
 
 	/**
 	 * DOCUMENT (deutsch) - insert description 
@@ -79,27 +80,38 @@ public class E01_Homeostases extends clsModuleBase implements itfProcessSensorDa
 	/* (non-Javadoc)
 	 *
 	 * @author deutsch
-	 * 11.08.2009, 12:16:41
+	 * 11.08.2009, 15:50:35
 	 * 
-	 * @see pa.interfaces.itfProcessSensorData#process(decisionunit.itf.sensors.clsSensorData)
+	 * @see pa.interfaces.itfProcessHomeostases#processHomeostases(decisionunit.itf.sensors.clsSensorData)
 	 */
 	@Override
-	public void process(clsSensorData poData) {
-		// TODO (deutsch) - Auto-generated method stub
+	public void receiveHomeostases(clsSensorData poData) {
+		mnTest = 0;
 		
 	}
 
 	/* (non-Javadoc)
 	 *
 	 * @author deutsch
-	 * 11.08.2009, 13:39:22
+	 * 11.08.2009, 16:04:44
 	 * 
-	 * @see pa.interfaces.itfStep#step()
+	 * @see pa.modules.clsModuleBase#process()
 	 */
 	@Override
-	public void step() {
-		// TODO (deutsch) - Auto-generated method stub
-		
+	protected void process() {
+		mnTest++;		
+	}
+
+	/* (non-Javadoc)
+	 *
+	 * @author deutsch
+	 * 11.08.2009, 16:04:44
+	 * 
+	 * @see pa.modules.clsModuleBase#transmit()
+	 */
+	@Override
+	protected void send() {
+		((I1_1)moEnclosingContainer).receive_I1_1(mnTest);		
 	}
 
 }

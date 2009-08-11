@@ -6,7 +6,17 @@
  */
 package pa.modules;
 
+import pa.interfaces.I1_1;
+import pa.interfaces.I1_2;
+import pa.interfaces.I2_1;
+import pa.interfaces.I2_3;
+import pa.interfaces.I8_1;
+import pa.interfaces.I8_2;
+import pa.interfaces.itfProcessHomeostases;
+import pa.interfaces.itfProcessSensorBody;
+import pa.interfaces.itfProcessSensorEnvironment;
 import config.clsBWProperties;
+import decisionunit.itf.sensors.clsSensorData;
 
 /**
  * DOCUMENT (deutsch) - insert description 
@@ -15,7 +25,17 @@ import config.clsBWProperties;
  * 11.08.2009, 15:09:50
  * 
  */
-public class C01_Body extends clsModuleContainer {
+public class C01_Body extends clsModuleContainer implements 
+						itfProcessSensorEnvironment, 
+						itfProcessHomeostases, 
+						itfProcessSensorBody,
+						I1_1,
+						I1_2,
+						I2_1,
+						I2_3,
+						I8_1,
+						I8_2
+						{
 	public static final String P_E01 = "E01";
 	public static final String P_E02 = "E02";
 	public static final String P_E10 = "E10";
@@ -80,4 +100,116 @@ public class C01_Body extends clsModuleContainer {
 		moE32Actuators = new E32_Actuators(pre+P_E32, poProp, this);
 	}
 
+	/* (non-Javadoc)
+	 *
+	 * @author deutsch
+	 * 11.08.2009, 15:51:56
+	 * 
+	 * @see pa.interfaces.itfProcessSensorEnvironment#processEnvironment(decisionunit.itf.sensors.clsSensorData)
+	 */
+	@Override
+	public void receiveEnvironment(clsSensorData poData) {
+		moE10SensorsEnvironment.receiveEnvironment(poData);		
+	}
+
+	/* (non-Javadoc)
+	 *
+	 * @author deutsch
+	 * 11.08.2009, 15:51:56
+	 * 
+	 * @see pa.interfaces.itfProcessHomeostases#processHomeostases(decisionunit.itf.sensors.clsSensorData)
+	 */
+	@Override
+	public void receiveHomeostases(clsSensorData poData) {
+		moE01Homeostases.receiveHomeostases(poData);		
+	}
+
+	/* (non-Javadoc)
+	 *
+	 * @author deutsch
+	 * 11.08.2009, 15:51:56
+	 * 
+	 * @see pa.interfaces.itfProcessSensorBody#processBody(decisionunit.itf.sensors.clsSensorData)
+	 */
+	@Override
+	public void receiveBody(clsSensorData poData) {
+		moE12SensorsBody.receiveBody(poData);		
+	}
+
+	/* (non-Javadoc)
+	 *
+	 * @author deutsch
+	 * 11.08.2009, 15:54:35
+	 * 
+	 * @see pa.interfaces.I1_1#receive_I1_1(int)
+	 */
+	@Override
+	public void receive_I1_1(int pnData) {
+		moE02NeurosymbolizationOfNeeds.receive_I1_1(pnData);		
+	}
+
+	/* (non-Javadoc)
+	 *
+	 * @author deutsch
+	 * 11.08.2009, 15:54:35
+	 * 
+	 * @see pa.interfaces.I2_1#receive_I2_1(int)
+	 */
+	@Override
+	public void receive_I2_1(int pnData) {
+		// TODO (deutsch) - Auto-generated method stub
+		
+	}
+
+	/* (non-Javadoc)
+	 *
+	 * @author deutsch
+	 * 11.08.2009, 15:54:35
+	 * 
+	 * @see pa.interfaces.I2_3#receive_I2_3(int)
+	 */
+	@Override
+	public void receive_I2_3(int pnData) {
+		// TODO (deutsch) - Auto-generated method stub
+		
+	}
+
+	/* (non-Javadoc)
+	 *
+	 * @author deutsch
+	 * 11.08.2009, 15:54:35
+	 * 
+	 * @see pa.interfaces.I8_1#receive_I8_1(int)
+	 */
+	@Override
+	public void receive_I8_1(int pnData) {
+		// TODO (deutsch) - Auto-generated method stub
+		
+	}
+
+	/* (non-Javadoc)
+	 *
+	 * @author deutsch
+	 * 11.08.2009, 15:54:35
+	 * 
+	 * @see pa.interfaces.I8_2#receive_I8_2(int)
+	 */
+	@Override
+	public void receive_I8_2(int pnData) {
+		// TODO (deutsch) - Auto-generated method stub
+		
+	}
+
+	/* (non-Javadoc)
+	 *
+	 * @author deutsch
+	 * 11.08.2009, 16:18:21
+	 * 
+	 * @see pa.interfaces.I1_2#receive_I1_2(int)
+	 */
+	@Override
+	public void receive_I1_2(int pnData) {
+		// TODO (deutsch) - Auto-generated method stub
+		
+	}
 }

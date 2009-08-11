@@ -77,25 +77,38 @@ public class E08_ConversionToSecondaryProcess extends clsModuleBase implements I
 	/* (non-Javadoc)
 	 *
 	 * @author deutsch
-	 * 11.08.2009, 13:39:32
-	 * 
-	 * @see pa.interfaces.itfStep#step()
-	 */
-	@Override
-	public void step() {
-		// TODO (deutsch) - Auto-generated method stub
-		
-	}
-
-	/* (non-Javadoc)
-	 *
-	 * @author deutsch
 	 * 11.08.2009, 14:12:33
 	 * 
 	 * @see pa.interfaces.I1_6#receive_I1_6(int)
 	 */
 	@Override
 	public void receive_I1_6(int pnData) {
+		mnTest += pnData;
+		
+	}
+
+	/* (non-Javadoc)
+	 *
+	 * @author deutsch
+	 * 11.08.2009, 16:15:14
+	 * 
+	 * @see pa.modules.clsModuleBase#process()
+	 */
+	@Override
+	protected void process() {
+		mnTest++;
+		
+	}
+
+	/* (non-Javadoc)
+	 *
+	 * @author deutsch
+	 * 11.08.2009, 16:15:14
+	 * 
+	 * @see pa.modules.clsModuleBase#send()
+	 */
+	@Override
+	protected void send() {
 		// TODO (deutsch) - Auto-generated method stub
 		
 	}
