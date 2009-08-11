@@ -1,8 +1,8 @@
 /**
- * clsModuleContainer.java: DecisionUnits - pa.modules
+ * C04_SuperEgo.java: DecisionUnits - pa.modules
  * 
  * @author deutsch
- * 11.08.2009, 11:15:58
+ * 11.08.2009, 15:11:20
  */
 package pa.modules;
 
@@ -12,15 +12,24 @@ import config.clsBWProperties;
  * DOCUMENT (deutsch) - insert description 
  * 
  * @author deutsch
- * 11.08.2009, 11:15:58
+ * 11.08.2009, 15:11:20
  * 
  */
-public abstract class clsModuleContainer {
-	protected clsModuleContainer moEnclosingContainer;
-	
-	public clsModuleContainer(String poPrefix, clsBWProperties poProp, clsModuleContainer poEnclosingContainer) {
-		moEnclosingContainer = poEnclosingContainer;
-		
+public class C04_SuperEgo extends clsModuleContainer  {
+
+	/**
+	 * DOCUMENT (deutsch) - insert description 
+	 * 
+	 * @author deutsch
+	 * 11.08.2009, 15:11:51
+	 *
+	 * @param poPrefix
+	 * @param poProp
+	 * @param poEnclosingContainer
+	 */
+	public C04_SuperEgo(String poPrefix, clsBWProperties poProp,
+			clsModuleContainer poEnclosingContainer) {
+		super(poPrefix, poProp, poEnclosingContainer);
 		applyProperties(poPrefix, poProp);
 	}
 	
@@ -38,5 +47,6 @@ public abstract class clsModuleContainer {
 		//String pre = clsBWProperties.addDot(poPrefix);
 	
 		//nothing to do
-	}	
+	}
+
 }
