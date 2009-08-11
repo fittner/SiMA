@@ -11,9 +11,10 @@ package bw.body.io.sensors.ext;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import config.clsBWProperties;
+
 import bw.body.io.clsBaseIO;
 import bw.body.io.clsExternalIO;
-import bw.utils.config.clsBWProperties;
 import bw.utils.enums.eBodyParts;
 import sim.physics2D.physicalObject.PhysicalObject2D;
 import sim.physics2D.util.Double2D;

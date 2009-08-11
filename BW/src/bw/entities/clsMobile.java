@@ -7,9 +7,9 @@
  */
 package bw.entities;
 
+import config.clsBWProperties;
 import bw.entities.tools.clsInventory;
 import bw.entities.tools.clsShapeCreator;
-import bw.utils.config.clsBWProperties;
 import sim.physics2D.shape.Shape;
 import sim.physics2D.util.Double2D;
 import ARSsim.physics2D.physicalObject.clsMobileObject2D;

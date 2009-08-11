@@ -9,11 +9,12 @@ package bw.body.io.sensors.ext;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import config.clsBWProperties;
+
 import ARSsim.physics2D.util.clsPose;
 import bw.body.io.clsBaseIO;
 import bw.body.io.clsExternalIO;
 import bw.entities.clsEntity;
-import bw.utils.config.clsBWProperties;
 import bw.utils.enums.eBodyParts;
 
 import sim.physics2D.physicalObject.PhysicalObject2D;

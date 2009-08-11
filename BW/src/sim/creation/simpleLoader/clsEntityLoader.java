@@ -7,6 +7,7 @@
  */
 package sim.creation.simpleLoader;
 
+import config.clsBWProperties;
 import sim.creation.clsLoader;
 
 import ARSsim.physics2D.util.clsPose;
@@ -18,7 +19,6 @@ import bw.entities.clsFungus;
 import bw.entities.clsUraniumOre;
 import bw.entities.clsBase;
 import bw.factories.clsRegisterEntity;
-import bw.utils.config.clsBWProperties;
 
 
 

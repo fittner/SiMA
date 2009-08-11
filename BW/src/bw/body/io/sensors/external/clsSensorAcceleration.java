@@ -7,8 +7,8 @@
  */
 package bw.body.io.sensors.external;
 
+import config.clsBWProperties;
 import sim.physics2D.util.Double2D;
-import bw.utils.config.clsBWProperties;
 import bw.utils.enums.eBodyParts;
 import bw.body.io.clsBaseIO;
 import bw.entities.clsEntity;

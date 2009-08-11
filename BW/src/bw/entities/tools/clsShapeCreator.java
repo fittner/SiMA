@@ -11,11 +11,12 @@ package bw.entities.tools;
 import java.awt.Color;
 import java.util.ArrayList;
 
+import config.clsBWProperties;
+
 import sim.physics2D.shape.Shape;
 import statictools.clsGetARSPath;
 import bfg.tools.shapes.clsPoint;
 import bw.factories.clsSingletonProperties;
-import bw.utils.config.clsBWProperties;
 import bw.utils.enums.eShapeType;
 
 /**

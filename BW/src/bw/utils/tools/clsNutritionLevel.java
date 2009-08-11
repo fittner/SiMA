@@ -7,10 +7,10 @@
  */
 package bw.utils.tools;
 
+import config.clsBWProperties;
 import bw.body.itfStep;
 import bw.exceptions.exContentColumnMaxContentExceeded;
 import bw.exceptions.exContentColumnMinContentUnderrun;
-import bw.utils.config.clsBWProperties;
 
 /**
  * A nutrition level is a special case of a fill level. By implementing the itfStep interface and guaranteeing,

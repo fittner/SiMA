@@ -8,6 +8,7 @@
  */
 package sim.creation.lifeCycle;
 
+import config.clsBWProperties;
 import du.utils.enums.eDecisionType;
 import sim.creation.clsLoader;
 import ARSsim.physics2D.util.clsPose;
@@ -19,7 +20,6 @@ import bw.entities.clsLynx;
 import bw.entities.clsStone;
 import bw.entities.tools.clsShapeCreator;
 import bw.factories.clsRegisterEntity;
-import bw.utils.config.clsBWProperties;
 
 /**
  * DOCUMENT (deutsch) - insert description 

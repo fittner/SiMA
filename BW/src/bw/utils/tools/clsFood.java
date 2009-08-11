@@ -10,9 +10,10 @@ package bw.utils.tools;
 import java.util.HashMap;
 import java.util.Iterator;
 
+import config.clsBWProperties;
+
 import bw.exceptions.exFoodAlreadyNormalized;
 import bw.exceptions.exFoodNotFinalized;
-import bw.utils.config.clsBWProperties;
 import bw.utils.datatypes.clsMutableDouble;
 import bw.utils.enums.eNutritions;
 

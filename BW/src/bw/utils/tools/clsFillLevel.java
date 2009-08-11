@@ -7,7 +7,7 @@
  */
 package bw.utils.tools;
 
-import bw.utils.config.clsBWProperties;
+import config.clsBWProperties;
 
 /**
  * Extends the content column by two concepts: 1. dividing the column into three parts (low, normal, high);  

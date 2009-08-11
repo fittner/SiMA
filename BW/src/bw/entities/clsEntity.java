@@ -7,12 +7,12 @@
  */
 package bw.entities;
 
+import config.clsBWProperties;
 import sim.physics2D.physicalObject.PhysicalObject2D;
 import sim.physics2D.shape.Shape;
 import statictools.clsSingletonUniqueIdGenerator;
 import ARSsim.physics2D.physicalObject.itfSetupFunctions;
 import ARSsim.physics2D.util.clsPose;
-import bw.utils.config.clsBWProperties;
 import enums.eEntityType;
 
 /**

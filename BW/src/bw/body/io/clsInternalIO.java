@@ -8,6 +8,8 @@
 package bw.body.io;
 
 import java.util.HashMap;
+
+import config.clsBWProperties;
 import enums.eSensorIntType;
 import bw.body.clsBaseBody;
 import bw.body.io.sensors.internal.clsEnergyConsumptionSensor;
@@ -19,7 +21,6 @@ import bw.body.io.sensors.internal.clsTemperatureSensor;
 import bw.body.io.sensors.internal.clsSensorInt;
 import bw.body.io.sensors.internal.clsStaminaSensor;
 import bw.body.io.sensors.internal.clsStomachSensor;
-import bw.utils.config.clsBWProperties;
 
 /**
  * DOCUMENT (deutsch) - insert description 

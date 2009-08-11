@@ -10,8 +10,9 @@ package bw.body.internalSystems;
 import java.util.HashMap;
 import java.util.Iterator;
 
+import config.clsBWProperties;
+
 import bw.body.itfStep;
-import bw.utils.config.clsBWProperties;
 
 import bw.utils.datatypes.clsMutableDouble;
 

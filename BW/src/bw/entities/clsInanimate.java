@@ -8,7 +8,7 @@
 package bw.entities;
 
 
-import bw.utils.config.clsBWProperties;
+import config.clsBWProperties;
 
 
 

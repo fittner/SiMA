@@ -11,6 +11,8 @@ package bw.entities;
 import java.awt.Color;
 import java.util.Random;
 
+import config.clsBWProperties;
+
 import sim.physics2D.shape.Shape;
 import enums.eEntityType;
 import bw.body.clsMeatBody;
@@ -21,7 +23,6 @@ import bw.body.itfget.itfGetFlesh;
 import bw.entities.tools.clsShapeCreator;
 import bw.entities.tools.eImagePositioning;
 import bw.exceptions.exFoodWeightBelowZero;
-import bw.utils.config.clsBWProperties;
 import bw.utils.enums.eBindingState;
 import bw.utils.enums.eNutritions;
 import bw.utils.enums.eShapeType;

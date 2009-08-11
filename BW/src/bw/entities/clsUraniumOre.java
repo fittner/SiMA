@@ -8,7 +8,8 @@
 package bw.entities;
 
 import java.awt.Color;
-import bw.utils.config.clsBWProperties;
+
+import config.clsBWProperties;
 import bw.utils.enums.eBindingState;
 import bw.utils.enums.eShapeType;
 import bw.body.io.actuators.actionProxies.itfAPCarryable;

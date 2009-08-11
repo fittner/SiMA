@@ -8,8 +8,8 @@
  */
 package bw.factories;
 
+import config.clsBWProperties;
 import sim.clsBWMainWithUI;
-import bw.utils.config.clsBWProperties;
 
 /**
  * DOCUMENT (deutsch) - insert description 

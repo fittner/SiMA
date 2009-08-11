@@ -9,6 +9,8 @@ package bw.body.io;
 
 import java.util.HashMap;
 
+import config.clsBWProperties;
+
 import bw.body.clsBaseBody;
 import bw.body.io.actuators.clsActionProcessor;
 import bw.body.io.actuators.actionExecutors.*;
@@ -27,7 +29,6 @@ import bw.body.io.sensors.external.clsSensorVision;
 import bw.body.io.sensors.external.clsSensorRadiation;
 import bw.entities.clsEntity;
 import bw.entities.clsMobile;
-import bw.utils.config.clsBWProperties;
 import enums.eSensorExtType;
 
 /**

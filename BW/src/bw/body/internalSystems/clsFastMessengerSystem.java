@@ -11,8 +11,9 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
+
+import config.clsBWProperties;
 import bw.body.itfStepUpdateInternalState;
-import bw.utils.config.clsBWProperties;
 import bw.utils.enums.eBodyParts;
 
 /**

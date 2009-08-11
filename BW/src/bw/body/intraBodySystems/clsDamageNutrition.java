@@ -10,11 +10,12 @@ package bw.body.intraBodySystems;
 import java.util.HashMap;
 import java.util.Iterator;
 
+import config.clsBWProperties;
+
 import bw.body.itfStepUpdateInternalState;
 import bw.body.internalSystems.clsFastMessengerSystem;
 import bw.body.internalSystems.clsHealthSystem;
 import bw.body.internalSystems.clsStomachSystem;
-import bw.utils.config.clsBWProperties;
 import bw.utils.enums.eBodyParts;
 import bw.utils.enums.eNutritions;
 import bw.utils.tools.clsNutritionLevel;

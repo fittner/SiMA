@@ -8,7 +8,8 @@
 package sim;
 
 import org.jfree.data.xy.XYSeries;
-import bw.utils.config.clsBWProperties;
+
+import config.clsBWProperties;
 import ec.util.MersenneTwisterFast;
 import sim.creation.clsLoader;
 import sim.creation.simplePropertyLoader.clsSimplePropertyLoader;

@@ -11,10 +11,11 @@ import java.util.HashMap;
 
 import java.util.Iterator;
 
+import config.clsBWProperties;
+
 import bw.body.internalSystems.clsStomachSystem;
 import bw.exceptions.exFoodNotFinalized;
 import bw.exceptions.exNoSuchNutritionType;
-import bw.utils.config.clsBWProperties;
 import bw.utils.datatypes.clsMutableDouble;
 import bw.utils.enums.eNutritions;
 import bw.utils.tools.clsFood;

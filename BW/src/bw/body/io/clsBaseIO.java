@@ -7,12 +7,12 @@
  */
 package bw.body.io;
 
+import config.clsBWProperties;
 import bw.body.clsBaseBody;
 import bw.body.itfStepExecution;
 import bw.body.itfStepSensing;
 import bw.body.internalSystems.clsInternalEnergyConsumption;
 import bw.body.itfget.itfGetInternalEnergyConsumption;
-import bw.utils.config.clsBWProperties;
 import bw.utils.datatypes.clsMutableDouble;
 
 /**

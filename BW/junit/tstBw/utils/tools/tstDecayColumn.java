@@ -11,10 +11,11 @@ import static org.junit.Assert.*;
 
 import org.junit.Test;
 
+import config.clsBWProperties;
+
 import bw.exceptions.exContentColumnMaxContentExceeded;
 import bw.exceptions.exContentColumnMinContentUnderrun;
 import bw.exceptions.exValueNotWithinRange;
-import bw.utils.config.clsBWProperties;
 import bw.utils.tools.clsDecayColumn;
 
 /**

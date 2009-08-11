@@ -8,7 +8,7 @@
  */
 package sim.creation.simpleLoader;
 
-import bw.utils.config.clsBWProperties;
+import config.clsBWProperties;
 import sim.creation.clsLoader;
 import sim.engine.SimState;
 

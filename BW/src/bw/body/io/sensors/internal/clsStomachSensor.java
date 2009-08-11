@@ -9,11 +9,12 @@
 package bw.body.io.sensors.internal;
 
 import java.util.HashMap;
+
+import config.clsBWProperties;
 import bw.body.clsBaseBody;
 import bw.body.clsComplexBody;
 import bw.body.internalSystems.clsStomachSystem;
 import bw.body.io.clsBaseIO;
-import bw.utils.config.clsBWProperties;
 import bw.utils.datatypes.clsMutableDouble;
 import bw.utils.enums.eBodyParts;
 import bw.utils.enums.eNutritions;

@@ -9,6 +9,8 @@
 package bw.entities;
 
 import java.awt.Color;
+
+import config.clsBWProperties;
 import sim.physics2D.shape.Shape;
 import du.utils.enums.eDecisionType;
 import enums.eEntityType;
@@ -23,7 +25,6 @@ import bw.body.io.actuators.actionProxies.itfAPKillable;
 import bw.body.itfget.itfGetFlesh;
 import bw.entities.tools.clsShapeCreator;
 import bw.entities.tools.eImagePositioning;
-import bw.utils.config.clsBWProperties;
 import bw.utils.enums.eBodyType;
 import bw.utils.enums.eNutritions;
 import bw.utils.enums.eShapeType;

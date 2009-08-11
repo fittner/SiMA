@@ -8,7 +8,7 @@
  */
 package sim.creation.lifeCycle;
 
-import bw.utils.config.clsBWProperties;
+import config.clsBWProperties;
 import du.utils.enums.eDecisionType;
 import sim.creation.clsLoader;
 import sim.engine.SimState;

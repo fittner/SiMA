@@ -8,10 +8,10 @@
  */
 package bw.body.io.sensors.external;
 
+import config.clsBWProperties;
 import ARSsim.physics2D.util.clsPose;
 import bw.body.io.clsBaseIO;
 import bw.entities.clsEntity;
-import bw.utils.config.clsBWProperties;
 import bw.utils.enums.eBodyParts;
 
 /**

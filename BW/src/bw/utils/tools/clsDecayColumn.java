@@ -7,10 +7,10 @@
  */
 package bw.utils.tools;
 
+import config.clsBWProperties;
 import bw.exceptions.exContentColumnMaxContentExceeded;
 import bw.exceptions.exContentColumnMinContentUnderrun;
 import bw.exceptions.exValueNotWithinRange;
-import bw.utils.config.clsBWProperties;
 
 /**
  * DOCUMENT (deutsch) - insert description 

@@ -7,8 +7,8 @@
  */
 package bw.body.intraBodySystems;
 
+import config.clsBWProperties;
 import bw.body.itfStepUpdateInternalState;
-import bw.utils.config.clsBWProperties;
 
 /**
  * DOCUMENT (deutsch) - insert description 

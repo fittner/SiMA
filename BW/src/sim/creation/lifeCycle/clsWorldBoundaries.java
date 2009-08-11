@@ -8,6 +8,7 @@
  */
 package sim.creation.lifeCycle;
 
+import config.clsBWProperties;
 import statictools.clsGetARSPath;
 import ARSsim.physics2D.util.clsPose;
 import ARSsim.portrayal.simple.clsImagePortrayal;
@@ -17,7 +18,6 @@ import bw.entities.clsWallVertical;
 import bw.entities.tools.clsShapeCreator;
 import bw.factories.clsRegisterEntity;
 import bw.factories.clsSingletonMasonGetter;
-import bw.utils.config.clsBWProperties;
 
 
 /**

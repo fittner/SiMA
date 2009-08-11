@@ -8,6 +8,8 @@
 package sim.creation.simpleLoader;
 
 import java.awt.Color;
+
+import config.clsBWProperties;
 import sim.creation.clsLoader;
 import ARSsim.physics2D.util.clsPose;
 import bw.entities.clsBubble;
@@ -16,7 +18,6 @@ import bw.entities.clsEntity;
 import bw.entities.clsRemoteBot;
 import bw.entities.tools.clsShapeCreator;
 import bw.factories.clsRegisterEntity;
-import bw.utils.config.clsBWProperties;
 
 /**
  * Helper class to load every agent and register to mason-physics2D 

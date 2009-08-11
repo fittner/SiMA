@@ -10,6 +10,8 @@ package bw.entities;
 
 import java.awt.Color;
 
+import config.clsBWProperties;
+
 import sim.physics2D.shape.Shape;
 import du.utils.enums.eDecisionType;
 //import sim.display.clsKeyListener;
@@ -20,7 +22,6 @@ import bw.body.internalSystems.clsInternalSystem;
 import bw.body.internalSystems.clsStomachSystem;
 import bw.entities.tools.clsShapeCreator;
 import bw.entities.tools.eImagePositioning;
-import bw.utils.config.clsBWProperties;
 import bw.utils.enums.eBodyType;
 import bw.utils.enums.eNutritions;
 import bw.utils.enums.eShapeType;

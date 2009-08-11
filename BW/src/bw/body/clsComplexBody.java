@@ -7,6 +7,7 @@
  */
 package bw.body;
 
+import config.clsBWProperties;
 import bw.body.brainsocket.clsBrainSocket;
 import bw.body.interBodyWorldSystems.clsInterBodyWorldSystem;
 import bw.body.internalSystems.clsInternalEnergyConsumption;
@@ -16,7 +17,6 @@ import bw.body.io.clsExternalIO;
 import bw.body.io.clsInternalIO;
 import bw.body.itfget.itfGetInternalEnergyConsumption;
 import bw.entities.clsEntity;
-import bw.utils.config.clsBWProperties;
 
 
 /**

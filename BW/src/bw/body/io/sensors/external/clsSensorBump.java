@@ -8,6 +8,8 @@
 package bw.body.io.sensors.external;
 
 import java.util.ArrayList;
+
+import config.clsBWProperties;
 import ARSsim.physics2D.physicalObject.clsCollidingObject;
 import ARSsim.physics2D.physicalObject.clsMobileObject2D;
 import bw.body.clsComplexBody;
@@ -15,7 +17,6 @@ import bw.body.io.clsBaseIO;
 import bw.body.itfget.itfGetBody;
 import bw.entities.clsAnimate;
 import bw.entities.clsEntity;
-import bw.utils.config.clsBWProperties;
 import bw.utils.enums.eBodyParts;
 
 /**

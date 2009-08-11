@@ -9,6 +9,8 @@ package bw.entities;
 
 import java.awt.Color;
 import java.util.Iterator;
+
+import config.clsBWProperties;
 import sim.engine.SimState;
 import sim.physics2D.physicalObject.PhysicalObject2D;
 import ARSsim.physics2D.physicalObject.clsMobileObject2D;
@@ -18,7 +20,6 @@ import bw.body.io.sensors.external.clsSensorVision;
 import bw.entities.tools.clsShapeCreator;
 import bw.entities.tools.eImagePositioning;
 import bw.physicalObjects.sensors.clsEntityPartVision;
-import bw.utils.config.clsBWProperties;
 import bw.utils.enums.eShapeType;
 import enums.eEntityType;
 

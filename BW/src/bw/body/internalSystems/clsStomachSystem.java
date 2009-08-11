@@ -9,10 +9,11 @@ package bw.body.internalSystems;
 
 import java.util.HashMap;
 import java.util.Iterator;
+
+import config.clsBWProperties;
 import bw.body.itfStepUpdateInternalState;
 import bw.exceptions.exContentColumnMaxContentExceeded;
 import bw.exceptions.exContentColumnMinContentUnderrun;
-import bw.utils.config.clsBWProperties;
 import bw.utils.enums.eNutritions;
 import bw.utils.tools.clsNutritionLevel;
 

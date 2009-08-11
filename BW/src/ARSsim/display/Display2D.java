@@ -6,7 +6,8 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionListener;
 import java.awt.geom.Rectangle2D;
 
-import bw.utils.config.clsBWProperties;
+import config.clsBWProperties;
+
 
 import sim.display.GUIState;
 import sim.util.Bag;

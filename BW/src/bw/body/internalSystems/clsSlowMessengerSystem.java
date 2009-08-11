@@ -9,13 +9,14 @@ package bw.body.internalSystems;
 
 import java.util.HashMap;
 import java.util.Iterator;
+
+import config.clsBWProperties;
 import bw.body.itfStepUpdateInternalState;
 import bw.exceptions.exContentColumnMaxContentExceeded;
 import bw.exceptions.exContentColumnMinContentUnderrun;
 import bw.exceptions.exSlowMessengerAlreadyExists;
 import bw.exceptions.exSlowMessengerDoesNotExist;
 import bw.exceptions.exValueNotWithinRange;
-import bw.utils.config.clsBWProperties;
 import bw.utils.enums.eSlowMessenger;
 import bw.utils.tools.clsDecayColumn;
 

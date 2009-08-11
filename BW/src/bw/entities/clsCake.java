@@ -8,13 +8,14 @@
 package bw.entities;
 
 import java.awt.Color;
+
+import config.clsBWProperties;
 import bw.body.clsMeatBody;
 import bw.body.internalSystems.clsFlesh;
 import bw.body.itfget.itfGetFlesh;
 import bw.entities.tools.clsShapeCreator;
 import bw.entities.tools.eImagePositioning;
 import bw.factories.clsRegisterEntity;
-import bw.utils.config.clsBWProperties;
 import bw.utils.enums.eBindingState;
 import bw.utils.enums.eNutritions;
 import bw.utils.enums.eShapeType;

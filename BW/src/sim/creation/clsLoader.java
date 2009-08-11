@@ -8,9 +8,9 @@
  */
 package sim.creation;
 
+import config.clsBWProperties;
 import bw.factories.clsSingletonProperties;
 import bw.factories.clsSingletonMasonGetter;
-import bw.utils.config.clsBWProperties;
 import sim.engine.SimState;
 import sim.field.continuous.Continuous2D;
 import sim.physics2D.PhysicsEngine2D;

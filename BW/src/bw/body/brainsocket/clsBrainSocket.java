@@ -11,6 +11,8 @@ import java.awt.Color;
 import java.util.HashMap;
 import java.util.Iterator;
 
+import config.clsBWProperties;
+
 import sim.physics2D.physicalObject.PhysicalObject2D;
 import sim.physics2D.shape.*;
 //import sim.physics2D.util.Double2D;
@@ -58,7 +60,6 @@ import bw.body.io.sensors.internal.clsStaminaSensor;
 import bw.entities.clsEntity;
 import bw.entities.clsAnimal;
 //import bw.entities.clsUraniumOre;
-import bw.utils.config.clsBWProperties;
 import enums.eEntityType;
 
 /**

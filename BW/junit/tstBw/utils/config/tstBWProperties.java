@@ -12,7 +12,8 @@ import static org.junit.Assert.*;
 import java.util.ArrayList;
 import org.junit.Test;
 
-import bw.utils.config.clsBWProperties;
+import config.clsBWProperties;
+
 
 /**
  * DOCUMENT (deutsch) - insert description 
@@ -24,7 +25,7 @@ import bw.utils.config.clsBWProperties;
 public class tstBWProperties {
 
 	/**
-	 * Test method for {@link bw.utils.config.clsBWProperties#ListToString(java.util.List)}.
+	 * Test method for {@link config.clsBWProperties#ListToString(java.util.List)}.
 	 */
 	@Test
 	public void testListToString() {
@@ -60,7 +61,7 @@ public class tstBWProperties {
 	}
 
 	/**
-	 * Test method for {@link bw.utils.config.clsBWProperties#StringToList(java.lang.String)}.
+	 * Test method for {@link config.clsBWProperties#StringToList(java.lang.String)}.
 	 */
 	@Test
 	public void testStringToList() {

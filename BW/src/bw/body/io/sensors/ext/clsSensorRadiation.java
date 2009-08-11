@@ -12,6 +12,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 
+import config.clsBWProperties;
+
 import enums.eEntityType;
 
 import ARSsim.physics2D.physicalObject.clsMobileObject2D;
@@ -20,7 +22,6 @@ import bw.body.io.clsBaseIO;
 import bw.body.io.clsExternalIO;
 import bw.entities.clsEntity;
 import bw.entities.clsUraniumOre;
-import bw.utils.config.clsBWProperties;
 import bw.utils.enums.eBodyParts;
 
 import sim.physics2D.physicalObject.PhysicalObject2D;

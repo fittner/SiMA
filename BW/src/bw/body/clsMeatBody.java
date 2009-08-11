@@ -8,8 +8,8 @@
  */
 package bw.body;
 
+import config.clsBWProperties;
 import bw.body.internalSystems.clsFlesh;
-import bw.utils.config.clsBWProperties;
 
 /**
  * DOCUMENT (deutsch) - insert description 

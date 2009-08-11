@@ -13,6 +13,8 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.TreeMap;
 
+import config.clsBWProperties;
+
 import enums.eSensorExtType;
 
 import sim.physics2D.physicalObject.PhysicalObject2D;
@@ -21,7 +23,6 @@ import bw.body.io.clsBaseIO;
 import bw.body.io.clsExternalIO;
 import bw.entities.clsEntity;
 import bw.physicalObjects.sensors.clsEntitySensorEngine;
-import bw.utils.config.clsBWProperties;
 import bw.exceptions.exInvalidSensorRange;
 
 /**

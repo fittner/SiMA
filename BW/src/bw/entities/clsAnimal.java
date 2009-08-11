@@ -9,13 +9,14 @@ package bw.entities;
 
 import java.awt.Color;
 
+import config.clsBWProperties;
+
 import du.utils.enums.eDecisionType;
 
 import bw.body.itfget.itfGetEatableArea;
 import bw.body.itfget.itfGetRadiation;
 import bw.body.itfget.itfGetVision;
 import bw.entities.tools.clsShapeCreator;
-import bw.utils.config.clsBWProperties;
 import bw.utils.enums.eShapeType;
 import enums.eEntityType;
 

@@ -8,9 +8,10 @@
 package bw.entities;
 
 import java.awt.Color;
+
+import config.clsBWProperties;
 import du.utils.enums.eDecisionType;
 import bw.physicalObjects.bodyparts.clsBotHands;
-import bw.utils.config.clsBWProperties;
 import bw.utils.enums.eBodyType;
 import bw.utils.enums.eShapeType;
 import bw.body.clsComplexBody;

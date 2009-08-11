@@ -12,7 +12,8 @@ import static org.junit.Assert.*;
 
 import org.junit.Test;
 
-import bw.utils.config.clsRandomProperties;
+import config.clsRandomProperties;
+
 
 /**
  * DOCUMENT (deutsch) - insert description 
@@ -24,7 +25,7 @@ import bw.utils.config.clsRandomProperties;
 public class tstRandomProperties {
 
 	/**
-	 * Test method for {@link bw.utils.config.clsRandomProperties#getRandom(java.lang.String)}.
+	 * Test method for {@link config.clsRandomProperties#getRandom(java.lang.String)}.
 	 */
 	@Test
 	public void testGetRandom() {

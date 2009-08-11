@@ -10,6 +10,8 @@ package sim.creation.simplePropertyLoader;
 
 import java.awt.Color;
 import java.util.List;
+
+import config.clsBWProperties;
 import du.utils.enums.eDecisionType;
 import enums.eEntityType;
 import ARSsim.physics2D.util.clsPose;
@@ -39,7 +41,6 @@ import bw.entities.tools.clsShapeCreator;
 import bw.entities.tools.eImagePositioning;
 import bw.factories.clsRegisterEntity;
 import bw.factories.clsSingletonMasonGetter;
-import bw.utils.config.clsBWProperties;
 import bw.utils.enums.eBodyType;
 import bw.utils.enums.eNutritions;
 import bw.utils.enums.eShapeType;

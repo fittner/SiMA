@@ -8,9 +8,10 @@
 package bw.body.internalSystems;
 
 import bw.exceptions.exFoodWeightBelowZero;
-import bw.utils.config.clsBWProperties;
 import bw.utils.tools.clsFood;
 import java.lang.Math;
+
+import config.clsBWProperties;
 
 /**
  * DOCUMENT (deutsch) - insert description 

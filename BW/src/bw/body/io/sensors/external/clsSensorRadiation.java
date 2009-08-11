@@ -6,6 +6,8 @@ package bw.body.io.sensors.external;
 
 import java.util.Iterator;
 
+import config.clsBWProperties;
+
 import sim.physics2D.physicalObject.PhysicalObject2D;
 import sim.physics2D.util.Double2D;
 import enums.eEntityType;
@@ -13,7 +15,6 @@ import ARSsim.physics2D.physicalObject.clsMobileObject2D;
 import ARSsim.physics2D.physicalObject.clsStationaryObject2D;
 import bw.body.io.clsBaseIO;
 import bw.entities.clsEntity;
-import bw.utils.config.clsBWProperties;
 import bw.utils.enums.eBodyParts;
 import bw. entities.clsUraniumOre;
 

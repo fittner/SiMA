@@ -14,12 +14,13 @@ import java.util.HashMap;
 import bw.exceptions.exFoodAlreadyNormalized;
 import bw.exceptions.exFoodWeightBelowZero;
 import bw.exceptions.exFoodNotFinalized;
-import bw.utils.config.clsBWProperties;
 import bw.utils.datatypes.clsMutableDouble;
 import bw.utils.enums.eNutritions;
 import bw.utils.tools.clsFood;
 
 import org.junit.Test;
+
+import config.clsBWProperties;
 
 /**
  * DOCUMENT (deutsch) - insert description 

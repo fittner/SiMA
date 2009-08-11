@@ -7,7 +7,7 @@
  */
 package bw.body.io.sensors.external;
 
-import bw.utils.config.clsBWProperties;
+import config.clsBWProperties;
 import bw.utils.enums.eBodyParts;
 
 /**

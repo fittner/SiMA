@@ -7,10 +7,10 @@
  */
 package bw.body.io.sensors.external;
 
+import config.clsBWProperties;
 import bw.body.io.clsBaseIO;
 import bw.body.io.clsSensorActuatorBaseExt;
 import bw.body.io.sensors.itfSensorUpdate;
-import bw.utils.config.clsBWProperties;
 
 /**
  * DOCUMENT (zeilinger) - insert description 

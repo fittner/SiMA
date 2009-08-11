@@ -7,10 +7,10 @@
  */
 package bw.body.internalSystems;
 
+import config.clsBWProperties;
 import bw.body.itfStepUpdateInternalState;
 import bw.exceptions.exContentColumnMaxContentExceeded;
 import bw.exceptions.exContentColumnMinContentUnderrun;
-import bw.utils.config.clsBWProperties;
 import bw.utils.tools.clsContentColumn;
 import bw.utils.tools.clsFillLevel;
 

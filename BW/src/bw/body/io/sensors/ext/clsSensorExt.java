@@ -12,13 +12,14 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 
+import config.clsBWProperties;
+
 import sim.physics2D.physicalObject.PhysicalObject2D;
 import sim.physics2D.util.Double2D;
 import ARSsim.physics2D.util.clsPolarcoordinate;
 import bw.body.io.clsBaseIO;
 import bw.body.io.clsExternalIO;
 import bw.body.io.sensors.itfSensorUpdate;
-import bw.utils.config.clsBWProperties;
 
 
 /**

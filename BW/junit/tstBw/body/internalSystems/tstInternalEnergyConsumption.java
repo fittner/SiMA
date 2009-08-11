@@ -13,8 +13,9 @@ import java.util.HashMap;
 
 import org.junit.Test;
 
+import config.clsBWProperties;
+
 import bw.body.internalSystems.clsInternalEnergyConsumption;
-import bw.utils.config.clsBWProperties;
 import bw.utils.datatypes.clsMutableDouble;
 
 /**

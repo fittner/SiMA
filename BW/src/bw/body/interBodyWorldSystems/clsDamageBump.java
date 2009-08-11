@@ -7,10 +7,10 @@
  */
 package bw.body.interBodyWorldSystems;
 
+import config.clsBWProperties;
 import bw.body.itfStep;
 import bw.body.internalSystems.clsFastMessengerSystem;
 import bw.body.internalSystems.clsHealthSystem;
-import bw.utils.config.clsBWProperties;
 import bw.utils.enums.eBodyParts;
 
 

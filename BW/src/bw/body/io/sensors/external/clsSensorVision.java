@@ -9,6 +9,8 @@ package bw.body.io.sensors.external;
 
 import java.util.HashMap;
 
+import config.clsBWProperties;
+
 import sim.physics2D.physicalObject.PhysicalObject2D;
 import sim.physics2D.util.Angle;
 import sim.physics2D.util.Double2D;
@@ -19,7 +21,6 @@ import bw.entities.clsEntity;
 import bw.entities.clsMobile;
 import bw.entities.clsStationary;
 import bw.physicalObjects.sensors.clsEntityPartVision;
-import bw.utils.config.clsBWProperties;
 import bw.utils.enums.eBodyParts;
 import bw.utils.sensors.clsSensorDataCalculation;
 

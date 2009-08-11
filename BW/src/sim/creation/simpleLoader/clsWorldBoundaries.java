@@ -8,6 +8,7 @@
 package sim.creation.simpleLoader;
 
 
+import config.clsBWProperties;
 import ARSsim.physics2D.util.clsPose;
 
 import bw.entities.clsWallAxisAlign;
@@ -16,7 +17,6 @@ import bw.entities.clsWallVertical;
 import bw.entities.tools.clsShapeCreator;
 import bw.factories.clsRegisterEntity;
 
-import bw.utils.config.clsBWProperties;
 
 /**
  * Helper class to load the boundaries of the playground (walls for collisionhandler) 

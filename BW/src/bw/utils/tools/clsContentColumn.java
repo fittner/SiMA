@@ -7,7 +7,7 @@
  */
 package bw.utils.tools;
 
-import bw.utils.config.clsBWProperties;
+import config.clsBWProperties;
 
 
 /**

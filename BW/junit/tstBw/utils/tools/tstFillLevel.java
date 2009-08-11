@@ -10,10 +10,11 @@ package tstBw.utils.tools;
 import static org.junit.Assert.*;
 import bw.exceptions.exContentColumnMaxContentExceeded;
 import bw.exceptions.exContentColumnMinContentUnderrun;
-import bw.utils.config.clsBWProperties;
 import bw.utils.tools.clsFillLevel;
 
 import org.junit.Test;
+
+import config.clsBWProperties;
 
 /**
  * DOCUMENT (deutsch) - insert description 

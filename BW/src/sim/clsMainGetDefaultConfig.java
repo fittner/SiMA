@@ -8,6 +8,7 @@
  */
 package sim;
 
+import config.clsBWProperties;
 import sim.creation.simplePropertyLoader.clsSimplePropertyLoader;
 import statictools.clsGetARSPath;
 import bw.entities.clsAnimal;
@@ -32,7 +33,6 @@ import bw.entities.clsUraniumOre;
 import bw.entities.clsWallAxisAlign;
 import bw.entities.clsWallHorizontal;
 import bw.entities.clsWallVertical;
-import bw.utils.config.clsBWProperties;
 
 /**
  * DOCUMENT (deutsch) - insert description 

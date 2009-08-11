@@ -9,8 +9,9 @@ package bw.entities;
 
 import java.awt.Color;
 
+import config.clsBWProperties;
+
 import bw.entities.tools.clsShapeCreator;
-import bw.utils.config.clsBWProperties;
 import bw.utils.enums.eShapeType;
 import enums.eEntityType;
 

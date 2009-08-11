@@ -9,6 +9,8 @@ package bw.entities;
 
 
 import java.util.TreeMap;
+
+import config.clsBWProperties;
 import decisionunit.clsBaseDecisionUnit;
 import du.utils.enums.eDecisionType;
 import simple.dumbmind.clsDumbMindA;
@@ -26,7 +28,6 @@ import bw.body.io.sensors.external.clsSensorRadiation;
 import bw.body.itfget.itfGetBody;
 import bw.physicalObjects.sensors.clsEntityPartVision;
 import bw.physicalObjects.sensors.clsEntitySensorEngine;
-import bw.utils.config.clsBWProperties;
 import bw.utils.enums.eBodyType;
 
 /**

@@ -7,12 +7,13 @@
 package bw.body.io.sensors.internal;
 
 import java.util.ArrayList;
+
+import config.clsBWProperties;
 import bw.body.clsBaseBody;
 import bw.body.clsComplexBody;
 import bw.body.internalSystems.clsFastMessengerEntry;
 import bw.body.internalSystems.clsFastMessengerSystem;
 import bw.body.io.clsBaseIO;
-import bw.utils.config.clsBWProperties;
 import bw.utils.enums.eBodyParts;
 
 /**
