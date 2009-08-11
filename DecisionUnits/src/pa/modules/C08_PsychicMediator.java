@@ -6,6 +6,9 @@
  */
 package pa.modules;
 
+import pa.interfaces.I2_6;
+import pa.interfaces.I2_8;
+import pa.interfaces.I3_3;
 import config.clsBWProperties;
 
 /**
@@ -15,7 +18,11 @@ import config.clsBWProperties;
  * 11.08.2009, 15:33:25
  * 
  */
-public class C08_PsychicMediator extends clsModuleContainer {
+public class C08_PsychicMediator extends clsModuleContainer implements 
+					I2_6,
+					I2_8,
+					I3_3
+					{
 
 	public static final String P_C09 = "C09";
 	public static final String P_C10 = "C10";
@@ -59,6 +66,44 @@ public class C08_PsychicMediator extends clsModuleContainer {
 		moC09PrimaryProcessor = new C09_PrimaryProcessor(pre+P_C09, poProp, this);
 		moC10SecondaryProcessor = new C11_SecondaryProcessor(pre+P_C10, poProp, this);
 		moC11PrimaryToSecondaryInterface1 = new C10_PrimaryToSecondaryInterface(pre+P_C11, poProp, this);
+	}
+
+	/* (non-Javadoc)
+	 *
+	 * @author langr
+	 * 11.08.2009, 17:21:52
+	 * 
+	 * @see pa.interfaces.I2_6#receive_I2_6(int)
+	 */
+	@Override
+	public void receive_I2_6(int pnData) {
+		moC09PrimaryProcessor.receive_I2_6(pnData);
+		
+	}
+
+	/* (non-Javadoc)
+	 *
+	 * @author langr
+	 * 11.08.2009, 17:22:04
+	 * 
+	 * @see pa.interfaces.I2_8#receive_I2_8(int)
+	 */
+	@Override
+	public void receive_I2_8(int pnData) {
+		((I2_8)moEnclosingContainer).receive_I2_8(pnData);
+	}
+
+	/* (non-Javadoc)
+	 *
+	 * @author langr
+	 * 11.08.2009, 17:32:38
+	 * 
+	 * @see pa.interfaces.I3_3#receive_I3_3(int)
+	 */
+	@Override
+	public void receive_I3_3(int pnData) {
+		moC10SecondaryProcessor.receive_I3_3(pnData);
+		
 	}
 
 }

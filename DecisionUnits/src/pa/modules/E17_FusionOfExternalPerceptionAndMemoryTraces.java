@@ -8,6 +8,7 @@ package pa.modules;
 
 import config.clsBWProperties;
 import pa.interfaces.I2_7;
+import pa.interfaces.I2_8;
 
 /**
  * DOCUMENT (deutsch) - insert description 
@@ -16,7 +17,9 @@ import pa.interfaces.I2_7;
  * 11.08.2009, 14:32:41
  * 
  */
-public class E17_FusionOfExternalPerceptionAndMemoryTraces extends clsModuleBase implements I2_7 {
+public class E17_FusionOfExternalPerceptionAndMemoryTraces extends clsModuleBase implements 
+						I2_7
+						{
 
 	/**
 	 * DOCUMENT (deutsch) - insert description 
@@ -109,8 +112,7 @@ public class E17_FusionOfExternalPerceptionAndMemoryTraces extends clsModuleBase
 	 */
 	@Override
 	protected void send() {
-		// TODO (deutsch) - Auto-generated method stub
-		
+		((I2_8)moEnclosingContainer).receive_I2_8(mnTest);
 	}
 
 }

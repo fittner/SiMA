@@ -6,6 +6,7 @@
  */
 package pa.modules;
 
+import pa.interfaces.I3_3;
 import config.clsBWProperties;
 
 /**
@@ -15,7 +16,9 @@ import config.clsBWProperties;
  * 11.08.2009, 15:37:00
  * 
  */
-public class C11_SecondaryProcessor extends clsModuleContainer {
+public class C11_SecondaryProcessor extends clsModuleContainer implements 
+				I3_3 
+				{
 
 	public static final String P_C15 = "C15";
 	public static final String P_C16 = "C16";
@@ -59,5 +62,17 @@ public class C11_SecondaryProcessor extends clsModuleContainer {
 		moC15PerceptualPreprocessing = new C14_PerceptualPreprocessing(pre+P_C15, poProp, this);
 		moC16Deliberation = new C15_Deliberation(pre+P_C16, poProp, this);
 		moC17SecondaryKnowledgeUtilizer = new C16_SecondaryKnowledgeUtilizer(pre+P_C17, poProp, this);
+	}
+
+	/* (non-Javadoc)
+	 *
+	 * @author langr
+	 * 11.08.2009, 17:34:19
+	 * 
+	 * @see pa.interfaces.I3_3#receive_I3_3(int)
+	 */
+	@Override
+	public void receive_I3_3(int pnData) {
+		moC16Deliberation.receive_I3_3(pnData);
 	}
 }

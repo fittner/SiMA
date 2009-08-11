@@ -6,6 +6,7 @@
  */
 package pa.modules;
 
+import pa.interfaces.I2_6;
 import config.clsBWProperties;
 
 /**
@@ -15,7 +16,8 @@ import config.clsBWProperties;
  * 11.08.2009, 15:41:11
  * 
  */
-public class C13_PrimaryKnowledgeUtilizer extends clsModuleContainer {
+public class C13_PrimaryKnowledgeUtilizer extends clsModuleContainer implements
+					I2_6 {
 
 	public static final String P_E09 = "E09";
 	public static final String P_E16 = "E16";
@@ -55,6 +57,18 @@ public class C13_PrimaryKnowledgeUtilizer extends clsModuleContainer {
 	
 		moE09KnowledgeAboutReality_unconscious = new E09_KnowledgeAboutReality_unconscious(pre+P_E09, poProp, this);
 		moE16ManagmentOfMemoryTraces = new E16_ManagmentOfMemoryTraces(pre+P_E16, poProp, this);
+	}
+
+	/* (non-Javadoc)
+	 *
+	 * @author langr
+	 * 11.08.2009, 17:26:16
+	 * 
+	 * @see pa.interfaces.I2_6#receive_I2_6(int)
+	 */
+	@Override
+	public void receive_I2_6(int pnData) {
+		moE16ManagmentOfMemoryTraces.receive_I2_6(pnData);
 	}
 
 }

@@ -6,6 +6,7 @@
  */
 package pa.modules;
 
+import pa.interfaces.I3_3;
 import config.clsBWProperties;
 
 /**
@@ -15,7 +16,8 @@ import config.clsBWProperties;
  * 11.08.2009, 15:42:32
  * 
  */
-public class C15_Deliberation extends clsModuleContainer {
+public class C15_Deliberation extends clsModuleContainer implements
+				I3_3 {
 
 	public static final String P_E26 = "E26";
 	public static final String P_E27 = "E27";
@@ -59,5 +61,18 @@ public class C15_Deliberation extends clsModuleContainer {
 		moE26DecisionMaking = new E26_DecisionMaking(pre+P_E26, poProp, this);
 		moE27GenerationOfImaginaryActions = new E27_GenerationOfImaginaryActions(pre+P_E27, poProp, this);
 		moE29EvaluationOfImaginaryActions = new E29_EvaluationOfImaginaryActions(pre+P_E29, poProp, this);
+	}
+
+	/* (non-Javadoc)
+	 *
+	 * @author langr
+	 * 11.08.2009, 17:34:59
+	 * 
+	 * @see pa.interfaces.I3_3#receive_I3_3(int)
+	 */
+	@Override
+	public void receive_I3_3(int pnData) {
+		moE26DecisionMaking.receive_I3_3(pnData);
+		
 	}
 }

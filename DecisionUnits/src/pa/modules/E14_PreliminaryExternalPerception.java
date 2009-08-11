@@ -9,6 +9,8 @@ package pa.modules;
 import config.clsBWProperties;
 import pa.interfaces.I2_2;
 import pa.interfaces.I2_4;
+import pa.interfaces.I2_5;
+import pa.interfaces.I2_6;
 
 /**
  * DOCUMENT (deutsch) - insert description 
@@ -17,7 +19,11 @@ import pa.interfaces.I2_4;
  * 11.08.2009, 14:26:13
  * 
  */
-public class E14_PreliminaryExternalPerception extends clsModuleBase implements I2_2, I2_4 {
+public class E14_PreliminaryExternalPerception extends clsModuleBase implements 
+					I2_2, 
+					I2_4,
+					I2_6
+					{
 
 	/**
 	 * DOCUMENT (deutsch) - insert description 
@@ -123,8 +129,19 @@ public class E14_PreliminaryExternalPerception extends clsModuleBase implements 
 	 */
 	@Override
 	protected void send() {
-		// TODO (deutsch) - Auto-generated method stub
-		
+		((I2_5)moEnclosingContainer).receive_I2_5(mnTest);
+	}
+
+	/* (non-Javadoc)
+	 *
+	 * @author langr
+	 * 11.08.2009, 17:08:46
+	 * 
+	 * @see pa.interfaces.I2_6#receive_I2_6(int)
+	 */
+	@Override
+	public void receive_I2_6(int pnData) {
+		// TODO (langr) - Auto-generated method stub
 	}
 
 

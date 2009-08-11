@@ -8,6 +8,7 @@ package pa.modules;
 
 import config.clsBWProperties;
 import pa.interfaces.I2_6;
+import pa.interfaces.I2_7;
 
 /**
  * DOCUMENT (deutsch) - insert description 
@@ -109,8 +110,6 @@ public class E16_ManagmentOfMemoryTraces extends clsModuleBase implements I2_6 {
 	 */
 	@Override
 	protected void send() {
-		// TODO (deutsch) - Auto-generated method stub
-		
+		((I2_7)moEnclosingContainer).receive_I2_7(mnTest);
 	}
-
 }

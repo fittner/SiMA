@@ -6,6 +6,10 @@
  */
 package pa.modules;
 
+import pa.interfaces.I2_5;
+import pa.interfaces.I2_6;
+import pa.interfaces.I2_7;
+import pa.interfaces.I2_8;
 import config.clsBWProperties;
 
 /**
@@ -15,7 +19,12 @@ import config.clsBWProperties;
  * 11.08.2009, 15:35:28
  * 
  */
-public class C09_PrimaryProcessor extends clsModuleContainer{
+public class C09_PrimaryProcessor extends clsModuleContainer implements 
+					I2_5,
+					I2_6,
+					I2_7,
+					I2_8
+					{
 
 	public static final String P_E17 = "E17";
 	public static final String P_C13 = "C13";
@@ -59,5 +68,53 @@ public class C09_PrimaryProcessor extends clsModuleContainer{
 		moE17FusionOfExternalPerceptionAndMemoryTraces = new E17_FusionOfExternalPerceptionAndMemoryTraces(pre+P_E17, poProp, this);
 		moC13PrimaryDecision = new C12_PrimaryDecision(pre+P_C13, poProp, this);
 		moC14PrimaryKnowledgeUtilizer = new C13_PrimaryKnowledgeUtilizer(pre+P_C14, poProp, this);
+	}
+
+	/* (non-Javadoc)
+	 *
+	 * @author langr
+	 * 11.08.2009, 16:52:58
+	 * 
+	 * @see pa.interfaces.I2_5#receive_I2_5(int)
+	 */
+	@Override
+	public void receive_I2_5(int pnData) {
+		((I2_5)moEnclosingContainer).receive_I2_5(pnData);
+	}
+
+	/* (non-Javadoc)
+	 *
+	 * @author langr
+	 * 11.08.2009, 17:16:30
+	 * 
+	 * @see pa.interfaces.I2_7#receive_I2_7(int)
+	 */
+	@Override
+	public void receive_I2_7(int pnData) {
+		moE17FusionOfExternalPerceptionAndMemoryTraces.receive_I2_7(pnData);
+	}
+
+	/* (non-Javadoc)
+	 *
+	 * @author langr
+	 * 11.08.2009, 17:20:13
+	 * 
+	 * @see pa.interfaces.I2_8#receive_I2_8(int)
+	 */
+	@Override
+	public void receive_I2_8(int pnData) {
+		((I2_8)moEnclosingContainer).receive_I2_8(pnData);		
+	}
+
+	/* (non-Javadoc)
+	 *
+	 * @author langr
+	 * 11.08.2009, 17:23:38
+	 * 
+	 * @see pa.interfaces.I2_6#receive_I2_6(int)
+	 */
+	@Override
+	public void receive_I2_6(int pnData) {
+		moC14PrimaryKnowledgeUtilizer.receive_I2_6(pnData);
 	}
 }
