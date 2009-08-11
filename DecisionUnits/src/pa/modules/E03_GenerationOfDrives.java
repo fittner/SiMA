@@ -7,6 +7,7 @@
 package pa.modules;
 
 import pa.interfaces.I1_2;
+import pa.interfaces.I1_3;
 import config.clsBWProperties;
 
 /**
@@ -110,7 +111,7 @@ public class E03_GenerationOfDrives extends clsModuleBase implements I1_2 {
 	 */
 	@Override
 	protected void send() {
-		// TODO (deutsch) - Auto-generated method stub
+		((I1_3)moEnclosingContainer).receive_I1_3(mnTest);
 		
 	}
 

@@ -7,6 +7,7 @@
 package pa.modules;
 
 import pa.interfaces.I1_2;
+import pa.interfaces.I1_4;
 import config.clsBWProperties;
 
 /**
@@ -17,7 +18,8 @@ import config.clsBWProperties;
  * 
  */
 public class C02_Id extends clsModuleContainer implements
-								I1_2
+								I1_2,
+								I1_4
 								{
 	public static final String P_E15 = "E15";
 	public static final String P_C05 = "C05";
@@ -73,6 +75,19 @@ public class C02_Id extends clsModuleContainer implements
 	@Override
 	public void receive_I1_2(int pnData) {
 		moC05DriveHandling.receive_I1_2(pnData);
+		
+	}
+
+	/* (non-Javadoc)
+	 *
+	 * @author deutsch
+	 * 11.08.2009, 16:39:00
+	 * 
+	 * @see pa.interfaces.I1_4#receive_I1_4(int)
+	 */
+	@Override
+	public void receive_I1_4(int pnData) {
+		moC06AffectGeneration.receive_I1_4(pnData);
 		
 	}
 

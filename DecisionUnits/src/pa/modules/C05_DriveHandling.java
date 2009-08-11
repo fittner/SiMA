@@ -7,6 +7,8 @@
 package pa.modules;
 
 import pa.interfaces.I1_2;
+import pa.interfaces.I1_3;
+import pa.interfaces.I1_4;
 import config.clsBWProperties;
 
 /**
@@ -17,7 +19,9 @@ import config.clsBWProperties;
  * 
  */
 public class C05_DriveHandling extends clsModuleContainer implements
-							I1_2
+							I1_2,
+							I1_3,
+							I1_4
 							{
 	public static final String P_E03 = "E03";
 	public static final String P_E04 = "E04";
@@ -69,6 +73,32 @@ public class C05_DriveHandling extends clsModuleContainer implements
 	@Override
 	public void receive_I1_2(int pnData) {
 		moE03GenerationOfDrives.receive_I1_2(pnData);
+		
+	}
+
+	/* (non-Javadoc)
+	 *
+	 * @author deutsch
+	 * 11.08.2009, 16:35:25
+	 * 
+	 * @see pa.interfaces.I1_3#receive_I1_3(int)
+	 */
+	@Override
+	public void receive_I1_3(int pnData) {
+		moE04FusionOfDrives.receive_I1_3(pnData);
+		
+	}
+
+	/* (non-Javadoc)
+	 *
+	 * @author deutsch
+	 * 11.08.2009, 16:38:37
+	 * 
+	 * @see pa.interfaces.I1_4#receive_I1_4(int)
+	 */
+	@Override
+	public void receive_I1_4(int pnData) {
+		((I1_4)moEnclosingContainer).receive_I1_4(pnData);
 		
 	}
 

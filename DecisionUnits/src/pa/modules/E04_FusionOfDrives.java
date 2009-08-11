@@ -7,6 +7,7 @@
 package pa.modules;
 
 import pa.interfaces.I1_3;
+import pa.interfaces.I1_4;
 import config.clsBWProperties;
 
 /**
@@ -109,7 +110,7 @@ public class E04_FusionOfDrives extends clsModuleBase implements I1_3 {
 	 */
 	@Override
 	protected void send() {
-		// TODO (deutsch) - Auto-generated method stub
+		((I1_4)moEnclosingContainer).receive_I1_4(mnTest);
 		
 	}
 }

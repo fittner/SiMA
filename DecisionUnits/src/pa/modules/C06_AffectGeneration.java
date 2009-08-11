@@ -6,6 +6,7 @@
  */
 package pa.modules;
 
+import pa.interfaces.I1_4;
 import config.clsBWProperties;
 
 /**
@@ -15,7 +16,9 @@ import config.clsBWProperties;
  * 11.08.2009, 15:28:15
  * 
  */
-public class C06_AffectGeneration extends clsModuleContainer {
+public class C06_AffectGeneration extends clsModuleContainer implements
+                           I1_4
+                           {
 	public static final String P_E05 = "E05";
 	public static final String P_E18 = "E18";
 	
@@ -54,5 +57,18 @@ public class C06_AffectGeneration extends clsModuleContainer {
 	
 		moE05GenerationOfAffectsForDrives = new E05_GenerationOfAffectsForDrives(pre+P_E05, poProp, this);
 		moE18GenerationOfAffectsForPerception = new E18_GenerationOfAffectsForPerception(pre+P_E18, poProp, this);
+	}
+
+	/* (non-Javadoc)
+	 *
+	 * @author deutsch
+	 * 11.08.2009, 16:39:25
+	 * 
+	 * @see pa.interfaces.I1_4#receive_I1_4(int)
+	 */
+	@Override
+	public void receive_I1_4(int pnData) {
+		moE05GenerationOfAffectsForDrives.receive_I1_4(pnData);
+		
 	}
 }
