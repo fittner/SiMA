@@ -6,6 +6,7 @@
  */
 package pa.modules;
 
+import pa.interfaces.I1_5;
 import pa.interfaces.I1_6;
 import pa.interfaces.I2_10;
 import pa.interfaces.I2_5;
@@ -25,6 +26,7 @@ import config.clsBWProperties;
  * 
  */
 public class C09_PrimaryProcessor extends clsModuleContainer implements 
+					I1_5,
 					I1_6,
 					I2_5,
 					I2_6,
@@ -186,5 +188,18 @@ public class C09_PrimaryProcessor extends clsModuleContainer implements
 	@Override
 	public void receive_I5_1(int pnData) {
 		((I5_1)moEnclosingContainer).receive_I5_1(pnData);
+	}
+
+	/* (non-Javadoc)
+	 *
+	 * @author langr
+	 * 12.08.2009, 10:18:20
+	 * 
+	 * @see pa.interfaces.I1_5#receive_I1_5(int)
+	 */
+	@Override
+	public void receive_I1_5(int pnData) {
+		moC13PrimaryDecision.receive_I1_5(pnData);
+		
 	}
 }

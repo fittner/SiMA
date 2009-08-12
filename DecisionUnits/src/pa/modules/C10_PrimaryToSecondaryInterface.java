@@ -6,6 +6,7 @@
  */
 package pa.modules;
 
+import pa.interfaces.I1_6;
 import config.clsBWProperties;
 
 /**
@@ -15,7 +16,9 @@ import config.clsBWProperties;
  * 11.08.2009, 15:37:27
  * 
  */
-public class C10_PrimaryToSecondaryInterface extends clsModuleContainer {
+public class C10_PrimaryToSecondaryInterface extends clsModuleContainer implements
+						I1_6
+						{
 
 	public static final String P_E08 = "E08";
 	public static final String P_E20 = "E20";
@@ -59,5 +62,17 @@ public class C10_PrimaryToSecondaryInterface extends clsModuleContainer {
 		moE08ConversionToSecondaryProcess = new E08_ConversionToSecondaryProcess(pre+P_E08, poProp, this);
 		moE20InnerPerception_Affects = new E20_InnerPerception_Affects(pre+P_E20, poProp, this);
 		moE21ConversionToSecondaryProcess = new E21_ConversionToSecondaryProcess(pre+P_E21, poProp, this);
+	}
+
+	/* (non-Javadoc)
+	 *
+	 * @author langr
+	 * 12.08.2009, 10:20:36
+	 * 
+	 * @see pa.interfaces.I1_6#receive_I1_6(int)
+	 */
+	@Override
+	public void receive_I1_6(int pnData) {
+		moE08ConversionToSecondaryProcess.receive_I1_6(pnData);		
 	}
 }

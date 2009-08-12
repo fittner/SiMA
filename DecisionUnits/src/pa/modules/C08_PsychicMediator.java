@@ -135,8 +135,7 @@ public class C08_PsychicMediator extends clsModuleContainer implements
 	 */
 	@Override
 	public void receive_I1_5(int pnData) {
-		// TODO (langr) - Auto-generated method stub
-		
+		moC09PrimaryProcessor.receive_I1_5(pnData);		
 	}
 
 	/* (non-Javadoc)
@@ -148,8 +147,7 @@ public class C08_PsychicMediator extends clsModuleContainer implements
 	 */
 	@Override
 	public void receive_I1_6(int pnData) {
-		// TODO (langr) - Auto-generated method stub
-		
+		moC11PrimaryToSecondaryInterface1.receive_I1_6(pnData);
 	}
 
 	/* (non-Javadoc)
@@ -161,8 +159,7 @@ public class C08_PsychicMediator extends clsModuleContainer implements
 	 */
 	@Override
 	public void receive_I2_9(int pnData) {
-		// TODO (langr) - Auto-generated method stub
-		
+		//moC09PrimaryProcessor.receive_I2_9(pnData);
 	}
 
 	/* (non-Javadoc)
