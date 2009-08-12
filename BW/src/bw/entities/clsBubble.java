@@ -92,4 +92,18 @@ public class clsBubble extends clsAnimate implements itfGetVision, itfGetEatable
 	protected void setEntityType() {
 		meEntityType = eEntityType.BUBBLE;
 	}
+	
+	/* (non-Javadoc)
+	 *
+	 * @author langr
+	 * 25.02.2009, 17:36:09
+	 * 
+	 * @see bw.entities.clsEntity#processing(java.util.ArrayList)
+	 */
+	@Override
+	public void processing() {
+
+//	    ((clsRemoteControl)(moBody.getBrain().getDecisionUnit())).setKeyPressed(clsKeyListener.getKeyPressed());		
+		super.processing();
+	}
 }

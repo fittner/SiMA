@@ -6,10 +6,14 @@
  */
 package pa.modules;
 
+import java.util.HashMap;
+
 import pa.interfaces.I1_1;
 import pa.interfaces.itfProcessHomeostases;
 import config.clsBWProperties;
+import decisionunit.itf.sensors.clsDataBase;
 import decisionunit.itf.sensors.clsSensorData;
+import enums.eSensorIntType;
 
 /**
  * DOCUMENT (deutsch) - insert description 
@@ -20,6 +24,8 @@ import decisionunit.itf.sensors.clsSensorData;
  */
 public class E01_Homeostases extends clsModuleBase implements itfProcessHomeostases {
 
+	private HashMap<eSensorIntType, clsDataBase> moHomeostasis;
+	
 	/**
 	 * DOCUMENT (deutsch) - insert description 
 	 * 
@@ -86,8 +92,8 @@ public class E01_Homeostases extends clsModuleBase implements itfProcessHomeosta
 	 */
 	@Override
 	public void receiveHomeostases(clsSensorData poData) {
-		mnTest = 0;
-		
+		//filter out homeostatic values only!
+		moHomeostasis = poData.getHomeostaticData();
 	}
 
 	/* (non-Javadoc)

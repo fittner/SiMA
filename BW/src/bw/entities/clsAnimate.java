@@ -130,6 +130,7 @@ public abstract class clsAnimate extends clsMobile implements itfGetBody {
 				break;	
 			case PA:
 				oDecisionUnit = new pa.clsPsychoAnalysis(pre+P_DU_PROPERTIES, poProp);
+				break;
 			default:
 				oDecisionUnit = null;
 			break;
