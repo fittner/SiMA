@@ -141,7 +141,7 @@ public class E14_PreliminaryExternalPerception extends clsModuleBase implements
 	 */
 	@Override
 	public void receive_I2_6(int pnData) {
-		// TODO (langr) - Auto-generated method stub
+		mnTest+=pnData;
 	}
 
 

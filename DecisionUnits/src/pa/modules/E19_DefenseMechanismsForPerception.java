@@ -7,8 +7,11 @@
 package pa.modules;
 
 import config.clsBWProperties;
+import pa.interfaces.I2_10;
 import pa.interfaces.I2_9;
 import pa.interfaces.I3_2;
+import pa.interfaces.I4_2;
+import pa.interfaces.I5_2;
 
 /**
  * DOCUMENT (deutsch) - insert description 
@@ -110,8 +113,9 @@ public class E19_DefenseMechanismsForPerception extends clsModuleBase implements
 	 */
 	@Override
 	protected void send() {
-		// TODO (deutsch) - Auto-generated method stub
-		
+		((I4_2)moEnclosingContainer).receive_I4_2(mnTest);
+		((I2_10)moEnclosingContainer).receive_I2_10(mnTest);
+		((I5_2)moEnclosingContainer).receive_I5_2(mnTest);	
 	}
 
 	/* (non-Javadoc)

@@ -8,6 +8,8 @@ package pa.modules;
 
 import config.clsBWProperties;
 import pa.interfaces.I1_6;
+import pa.interfaces.I1_7;
+import pa.interfaces.I5_3;
 
 /**
  * DOCUMENT (deutsch) - insert description 
@@ -109,7 +111,7 @@ public class E08_ConversionToSecondaryProcess extends clsModuleBase implements I
 	 */
 	@Override
 	protected void send() {
-		// TODO (deutsch) - Auto-generated method stub
-		
+		((I1_7)moEnclosingContainer).receive_I1_7(mnTest);
+		((I5_3)moEnclosingContainer).receive_I5_3(mnTest);	
 	}
 }

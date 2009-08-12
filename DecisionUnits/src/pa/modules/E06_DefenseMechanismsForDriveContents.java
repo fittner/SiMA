@@ -7,8 +7,11 @@
 package pa.modules;
 
 import pa.interfaces.I1_5;
+import pa.interfaces.I1_6;
 import pa.interfaces.I3_1;
+import pa.interfaces.I4_1;
 import pa.interfaces.I4_3;
+import pa.interfaces.I5_1;
 import pa.interfaces.I6_3;
 import config.clsBWProperties;
 
@@ -151,7 +154,8 @@ public class E06_DefenseMechanismsForDriveContents extends clsModuleBase impleme
 	 */
 	@Override
 	protected void send() {
-		// TODO (deutsch) - Auto-generated method stub
-		
+		((I1_6)moEnclosingContainer).receive_I1_6(mnTest);
+		((I4_1)moEnclosingContainer).receive_I4_1(mnTest);
+		((I5_1)moEnclosingContainer).receive_I5_1(mnTest);	
 	}
 }
