@@ -6,8 +6,8 @@
  */
 package pa.modules;
 
-import memory.tempframework.clsActionContainer;
 import config.clsBWProperties;
+import decisionunit.itf.actions.itfActionProcessor;
 import pa.interfaces.I8_2;
 import pa.interfaces.itfReturnActionCommands;
 
@@ -97,8 +97,8 @@ public class E32_Actuators extends clsModuleBase implements I8_2, itfReturnActio
 	 * @see pa.interfaces.itfReturnActionCommands#getActionCommands()
 	 */
 	@Override
-	public clsActionContainer getActionCommands(clsActionContainer poActionContainer) {
-		return poActionContainer;
+	public void getActionCommands(itfActionProcessor poActionContainer) {
+		//TODO
 	}
 
 	/* (non-Javadoc)

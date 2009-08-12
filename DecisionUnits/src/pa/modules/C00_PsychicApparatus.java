@@ -6,7 +6,6 @@
  */
 package pa.modules;
 
-import memory.tempframework.clsActionContainer;
 import pa.interfaces.I1_2;
 import pa.interfaces.I1_5;
 import pa.interfaces.I2_2;
@@ -27,6 +26,7 @@ import pa.interfaces.itfProcessSensorBody;
 import pa.interfaces.itfProcessSensorEnvironment;
 import pa.interfaces.itfReturnActionCommands;
 import config.clsBWProperties;
+import decisionunit.itf.actions.itfActionProcessor;
 import decisionunit.itf.sensors.clsSensorData;
 
 /**
@@ -319,8 +319,8 @@ public class C00_PsychicApparatus extends clsModuleContainer implements
 	 * @see pa.interfaces.itfReturnActionCommands#getActionCommands()
 	 */
 	@Override
-	public clsActionContainer getActionCommands(clsActionContainer poActionContainer) {
-		return moC01Body.getActionCommands(poActionContainer);
+	public void getActionCommands(itfActionProcessor poActionContainer) {
+		moC01Body.getActionCommands(poActionContainer);
 	}
 
 	/* (non-Javadoc)

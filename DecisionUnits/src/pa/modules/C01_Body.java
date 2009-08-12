@@ -6,7 +6,6 @@
  */
 package pa.modules;
 
-import memory.tempframework.clsActionContainer;
 import pa.interfaces.I1_1;
 import pa.interfaces.I1_2;
 import pa.interfaces.I2_1;
@@ -19,6 +18,7 @@ import pa.interfaces.itfProcessSensorBody;
 import pa.interfaces.itfProcessSensorEnvironment;
 import pa.interfaces.itfReturnActionCommands;
 import config.clsBWProperties;
+import decisionunit.itf.actions.itfActionProcessor;
 import decisionunit.itf.sensors.clsSensorData;
 
 /**
@@ -226,8 +226,8 @@ public class C01_Body extends clsModuleContainer implements
 	 * @see pa.interfaces.itfReturnActionCommands#getActionCommands()
 	 */
 	@Override
-	public clsActionContainer getActionCommands(clsActionContainer poActionContainer) {
-		return moE32Actuators.getActionCommands(poActionContainer);
+	public void getActionCommands(itfActionProcessor poActionContainer) {
+		moE32Actuators.getActionCommands(poActionContainer);
 	}
 
 	/* (non-Javadoc)

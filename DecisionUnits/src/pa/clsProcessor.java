@@ -6,8 +6,8 @@
  */
 package pa;
 
-import memory.tempframework.clsActionContainer;
 import config.clsBWProperties;
+import decisionunit.itf.actions.itfActionProcessor;
 import decisionunit.itf.sensors.clsSensorData;
 import pa.modules.C00_PsychicApparatus;
 import pa.modules.E01_Homeostases;
@@ -151,8 +151,8 @@ public class clsProcessor {
 		moPsychicApparatus.receiveHomeostases(poData);		
 	}
 
-	public clsActionContainer getActionCommands(clsActionContainer poActionContainer) {
-		return moPsychicApparatus.getActionCommands(poActionContainer);
+	public void getActionCommands(itfActionProcessor poActionContainer) {
+		moPsychicApparatus.getActionCommands(poActionContainer);
 	}
 	
 	public void step() {

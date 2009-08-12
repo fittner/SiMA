@@ -6,7 +6,7 @@
  */
 package pa.interfaces;
 
-import memory.tempframework.clsActionContainer;
+import decisionunit.itf.actions.itfActionProcessor;
 
 /**
  * DOCUMENT (deutsch) - insert description 
@@ -16,5 +16,5 @@ import memory.tempframework.clsActionContainer;
  * 
  */
 public interface itfReturnActionCommands {
-	public clsActionContainer getActionCommands(clsActionContainer poActionContainer);
+	public void getActionCommands(itfActionProcessor poActionContainer); //call by reference
 }
