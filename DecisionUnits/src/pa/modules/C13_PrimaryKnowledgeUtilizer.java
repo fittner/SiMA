@@ -10,6 +10,7 @@ import pa.interfaces.I1_5;
 import pa.interfaces.I2_6;
 import pa.interfaces.I2_7;
 import pa.interfaces.I6_3;
+import pa.memory.clsMemory;
 import config.clsBWProperties;
 
 /**
@@ -43,8 +44,8 @@ public class C13_PrimaryKnowledgeUtilizer extends clsModuleContainer implements
 	 * @param poEnclosingContainer
 	 */
 	public C13_PrimaryKnowledgeUtilizer(String poPrefix, clsBWProperties poProp,
-			clsModuleContainer poEnclosingContainer) {
-		super(poPrefix, poProp, poEnclosingContainer);
+			clsModuleContainer poEnclosingContainer, clsMemory poMemory) {
+		super(poPrefix, poProp, poEnclosingContainer, poMemory);
 		applyProperties(poPrefix, poProp);
 	}
 	

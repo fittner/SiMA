@@ -10,6 +10,7 @@ import pa.interfaces.I1_4;
 import pa.interfaces.I1_5;
 import pa.interfaces.I2_8;
 import pa.interfaces.I2_9;
+import pa.memory.clsMemory;
 import config.clsBWProperties;
 
 /**
@@ -42,8 +43,8 @@ public class C06_AffectGeneration extends clsModuleContainer implements
 	 * @param poEnclosingContainer
 	 */
 	public C06_AffectGeneration(String poPrefix, clsBWProperties poProp,
-			clsModuleContainer poEnclosingContainer) {
-		super(poPrefix, poProp, poEnclosingContainer);
+			clsModuleContainer poEnclosingContainer, clsMemory poMemory) {
+		super(poPrefix, poProp, poEnclosingContainer, poMemory);
 		applyProperties(poPrefix, poProp);
 	}
 	

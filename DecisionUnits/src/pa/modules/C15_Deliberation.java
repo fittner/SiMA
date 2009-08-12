@@ -15,6 +15,7 @@ import pa.interfaces.I7_1;
 import pa.interfaces.I7_2;
 import pa.interfaces.I7_3;
 import pa.interfaces.I7_4;
+import pa.memory.clsMemory;
 import config.clsBWProperties;
 
 /**
@@ -55,8 +56,8 @@ public class C15_Deliberation extends clsModuleContainer implements
 	 * @param poEnclosingContainer
 	 */
 	public C15_Deliberation(String poPrefix, clsBWProperties poProp,
-			clsModuleContainer poEnclosingContainer) {
-		super(poPrefix, poProp, poEnclosingContainer);
+			clsModuleContainer poEnclosingContainer, clsMemory poMemory) {
+		super(poPrefix, poProp, poEnclosingContainer, poMemory);
 		applyProperties(poPrefix, poProp);
 	}
 	

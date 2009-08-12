@@ -27,6 +27,7 @@ import pa.interfaces.itfProcessHomeostases;
 import pa.interfaces.itfProcessSensorBody;
 import pa.interfaces.itfProcessSensorEnvironment;
 import pa.interfaces.itfReturnActionCommands;
+import pa.memory.clsMemory;
 import config.clsBWProperties;
 import decisionunit.itf.actions.itfActionProcessor;
 import decisionunit.itf.sensors.clsSensorData;
@@ -65,6 +66,7 @@ public class C00_PsychicApparatus extends clsModuleContainer implements
 	public static final String P_C02 = "C02";
 	public static final String P_C03 = "C03";
 	public static final String P_C04 = "C04";
+	public static final String P_MEMORY = "MEMORY";
 	
 	public C01_Body moC01Body;
 	public C02_Id moC02Id;
@@ -82,7 +84,7 @@ public class C00_PsychicApparatus extends clsModuleContainer implements
 	 * @param poEnclosingContainer
 	 */
 	public C00_PsychicApparatus(String poPrefix, clsBWProperties poProp) {
-		super(poPrefix, poProp, null);
+		super(poPrefix, poProp, null, null);
 		applyProperties(poPrefix, poProp);
 	}
 	
@@ -95,6 +97,7 @@ public class C00_PsychicApparatus extends clsModuleContainer implements
 		oProp.putAll( C02_Id.getDefaultProperties(pre+P_C02) );
 		oProp.putAll( C03_Ego.getDefaultProperties(pre+P_C03) );
 		oProp.putAll( C04_SuperEgo.getDefaultProperties(pre+P_C04) );
+		oProp.putAll( clsMemory.getDefaultProperties(pre+P_MEMORY) );
 		
 				
 		return oProp;
@@ -103,10 +106,12 @@ public class C00_PsychicApparatus extends clsModuleContainer implements
 	private void applyProperties(String poPrefix, clsBWProperties poProp) {
 		String pre = clsBWProperties.addDot(poPrefix);
 	
-		moC01Body = new C01_Body(pre+P_C01, poProp, this);
-		moC02Id = new C02_Id(pre+P_C02, poProp, this);
-		moC03Ego = new C03_Ego(pre+P_C03, poProp, this);
-		moC04SuperEgo = new C04_SuperEgo(pre+P_C04, poProp, this);
+		moMemory = new clsMemory(pre+P_MEMORY, poProp);
+		
+		moC01Body = new C01_Body(pre+P_C01, poProp, this, moMemory);
+		moC02Id = new C02_Id(pre+P_C02, poProp, this, moMemory);
+		moC03Ego = new C03_Ego(pre+P_C03, poProp, this, moMemory);
+		moC04SuperEgo = new C04_SuperEgo(pre+P_C04, poProp, this, moMemory);
 
 	}
 

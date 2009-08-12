@@ -25,6 +25,7 @@ import pa.interfaces.I5_2;
 import pa.interfaces.I5_5;
 import pa.interfaces.I6_3;
 import pa.interfaces.I7_4;
+import pa.memory.clsMemory;
 import config.clsBWProperties;
 
 /**
@@ -75,8 +76,8 @@ public class C08_PsychicMediator extends clsModuleContainer implements
 	 * @param poEnclosingContainer
 	 */
 	public C08_PsychicMediator(String poPrefix, clsBWProperties poProp,
-			clsModuleContainer poEnclosingContainer) {
-		super(poPrefix, poProp, poEnclosingContainer);
+			clsModuleContainer poEnclosingContainer, clsMemory poMemory) {
+		super(poPrefix, poProp, poEnclosingContainer, poMemory);
 		applyProperties(poPrefix, poProp);
 	}
 	
@@ -95,9 +96,9 @@ public class C08_PsychicMediator extends clsModuleContainer implements
 	private void applyProperties(String poPrefix, clsBWProperties poProp) {
 		String pre = clsBWProperties.addDot(poPrefix);
 	
-		moC09PrimaryProcessor = new C09_PrimaryProcessor(pre+P_C09, poProp, this);
-		moC10SecondaryProcessor = new C11_SecondaryProcessor(pre+P_C10, poProp, this);
-		moC11PrimaryToSecondaryInterface1 = new C10_PrimaryToSecondaryInterface(pre+P_C11, poProp, this);
+		moC09PrimaryProcessor = new C09_PrimaryProcessor(pre+P_C09, poProp, this, moMemory);
+		moC10SecondaryProcessor = new C11_SecondaryProcessor(pre+P_C10, poProp, this, moMemory);
+		moC11PrimaryToSecondaryInterface1 = new C10_PrimaryToSecondaryInterface(pre+P_C11, poProp, this, moMemory);
 	}
 
 	/* (non-Javadoc)

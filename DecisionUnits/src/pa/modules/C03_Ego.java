@@ -22,6 +22,7 @@ import pa.interfaces.I4_1;
 import pa.interfaces.I4_2;
 import pa.interfaces.I4_3;
 import pa.interfaces.I7_4;
+import pa.memory.clsMemory;
 import pa.interfaces.I8_1;
 import config.clsBWProperties;
 
@@ -69,8 +70,8 @@ public class C03_Ego extends clsModuleContainer implements
 	 * @param poEnclosingContainer
 	 */
 	public C03_Ego(String poPrefix, clsBWProperties poProp,
-			clsModuleContainer poEnclosingContainer) {
-		super(poPrefix, poProp, poEnclosingContainer);
+			clsModuleContainer poEnclosingContainer, clsMemory poMemory) {
+		super(poPrefix, poProp, poEnclosingContainer, poMemory);
 		applyProperties(poPrefix, poProp);
 	}
 	
@@ -88,8 +89,8 @@ public class C03_Ego extends clsModuleContainer implements
 	private void applyProperties(String poPrefix, clsBWProperties poProp) {
 		String pre = clsBWProperties.addDot(poPrefix);
 	
-		moC07EnvironmentalInterfaceFunctions = new C07_EnvironmentalInterfaceFunctions(pre+P_C07, poProp, this);
-		moC08PsychicMediator = new C08_PsychicMediator(pre+P_C07, poProp, this);
+		moC07EnvironmentalInterfaceFunctions = new C07_EnvironmentalInterfaceFunctions(pre+P_C07, poProp, this, moMemory);
+		moC08PsychicMediator = new C08_PsychicMediator(pre+P_C07, poProp, this, moMemory);
 	}
 
 	/* (non-Javadoc)

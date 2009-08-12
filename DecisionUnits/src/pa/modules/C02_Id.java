@@ -16,6 +16,7 @@ import pa.interfaces.I2_9;
 import pa.interfaces.I4_1;
 import pa.interfaces.I4_2;
 import pa.interfaces.I4_3;
+import pa.memory.clsMemory;
 import config.clsBWProperties;
 
 /**
@@ -56,8 +57,8 @@ public class C02_Id extends clsModuleContainer implements
 	 * @param poEnclosingContainer
 	 */
 	public C02_Id(String poPrefix, clsBWProperties poProp,
-			clsModuleContainer poEnclosingContainer) {
-		super(poPrefix, poProp, poEnclosingContainer);
+			clsModuleContainer poEnclosingContainer, clsMemory poMemory) {
+		super(poPrefix, poProp, poEnclosingContainer, poMemory);
 		applyProperties(poPrefix, poProp);
 	}
 	
@@ -76,8 +77,8 @@ public class C02_Id extends clsModuleContainer implements
 	private void applyProperties(String poPrefix, clsBWProperties poProp) {
 		String pre = clsBWProperties.addDot(poPrefix);
 	
-		moC05DriveHandling = new C05_DriveHandling(pre+P_C05, poProp, this);
-		moC06AffectGeneration = new C06_AffectGeneration(pre+P_C06, poProp, this);
+		moC05DriveHandling = new C05_DriveHandling(pre+P_C05, poProp, this, moMemory);
+		moC06AffectGeneration = new C06_AffectGeneration(pre+P_C06, poProp, this, moMemory);
 		moE15ManagementOfRepressedContents = new E15_ManagementOfRepressedContents(pre+P_E15, poProp, this);
 	}
 

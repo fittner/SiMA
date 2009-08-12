@@ -9,6 +9,7 @@ package pa.modules;
 import pa.interfaces.I1_2;
 import pa.interfaces.I1_3;
 import pa.interfaces.I1_4;
+import pa.memory.clsMemory;
 import config.clsBWProperties;
 
 /**
@@ -40,8 +41,8 @@ public class C05_DriveHandling extends clsModuleContainer implements
 	 * @param poEnclosingContainer
 	 */
 	public C05_DriveHandling(String poPrefix, clsBWProperties poProp,
-			clsModuleContainer poEnclosingContainer) {
-		super(poPrefix, poProp, poEnclosingContainer);
+			clsModuleContainer poEnclosingContainer, clsMemory poMemory) {
+		super(poPrefix, poProp, poEnclosingContainer, poMemory);
 		applyProperties(poPrefix, poProp);
 	}
 	

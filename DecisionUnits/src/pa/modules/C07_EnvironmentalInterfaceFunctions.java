@@ -11,6 +11,7 @@ import pa.interfaces.I2_4;
 import pa.interfaces.I2_5;
 import pa.interfaces.I2_6;
 import pa.interfaces.I7_4;
+import pa.memory.clsMemory;
 import pa.interfaces.I8_1;
 import config.clsBWProperties;
 
@@ -47,8 +48,8 @@ public class C07_EnvironmentalInterfaceFunctions extends clsModuleContainer impl
 	 * @param poEnclosingContainer
 	 */
 	public C07_EnvironmentalInterfaceFunctions(String poPrefix, clsBWProperties poProp,
-			clsModuleContainer poEnclosingContainer) {
-		super(poPrefix, poProp, poEnclosingContainer);
+			clsModuleContainer poEnclosingContainer, clsMemory poMemory) {
+		super(poPrefix, poProp, poEnclosingContainer, poMemory);
 		applyProperties(poPrefix, poProp);
 	}
 	

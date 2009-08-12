@@ -11,6 +11,7 @@ import pa.interfaces.I2_11;
 import pa.interfaces.I2_12;
 import pa.interfaces.I2_13;
 import pa.interfaces.I6_1;
+import pa.memory.clsMemory;
 import config.clsBWProperties;
 
 /**
@@ -45,8 +46,8 @@ public class C14_PerceptualPreprocessing extends clsModuleContainer implements
 	 * @param poEnclosingContainer
 	 */
 	public C14_PerceptualPreprocessing(String poPrefix, clsBWProperties poProp,
-			clsModuleContainer poEnclosingContainer) {
-		super(poPrefix, poProp, poEnclosingContainer);
+			clsModuleContainer poEnclosingContainer, clsMemory poMemory) {
+		super(poPrefix, poProp, poEnclosingContainer, poMemory);
 		applyProperties(poPrefix, poProp);
 	}
 	

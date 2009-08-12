@@ -18,6 +18,7 @@ import pa.interfaces.I4_3;
 import pa.interfaces.I5_1;
 import pa.interfaces.I5_2;
 import pa.interfaces.I6_3;
+import pa.memory.clsMemory;
 import config.clsBWProperties;
 
 /**
@@ -59,8 +60,8 @@ public class C12_PrimaryDecision extends clsModuleContainer implements
 	 * @param poEnclosingContainer
 	 */
 	public C12_PrimaryDecision(String poPrefix, clsBWProperties poProp,
-			clsModuleContainer poEnclosingContainer) {
-		super(poPrefix, poProp, poEnclosingContainer);
+			clsModuleContainer poEnclosingContainer, clsMemory poMemory) {
+		super(poPrefix, poProp, poEnclosingContainer, poMemory);
 		applyProperties(poPrefix, poProp);
 	}
 	

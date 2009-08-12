@@ -22,6 +22,7 @@ import pa.interfaces.I4_3;
 import pa.interfaces.I5_1;
 import pa.interfaces.I5_2;
 import pa.interfaces.I6_3;
+import pa.memory.clsMemory;
 import config.clsBWProperties;
 
 /**
@@ -69,8 +70,8 @@ public class C09_PrimaryProcessor extends clsModuleContainer implements
 	 * @param poEnclosingContainer
 	 */
 	public C09_PrimaryProcessor(String poPrefix, clsBWProperties poProp,
-			clsModuleContainer poEnclosingContainer) {
-		super(poPrefix, poProp, poEnclosingContainer);
+			clsModuleContainer poEnclosingContainer, clsMemory poMemory) {
+		super(poPrefix, poProp, poEnclosingContainer, poMemory);
 		applyProperties(poPrefix, poProp);
 	}
 	
@@ -90,8 +91,8 @@ public class C09_PrimaryProcessor extends clsModuleContainer implements
 		String pre = clsBWProperties.addDot(poPrefix);
 	
 		moE17FusionOfExternalPerceptionAndMemoryTraces = new E17_FusionOfExternalPerceptionAndMemoryTraces(pre+P_E17, poProp, this);
-		moC13PrimaryDecision = new C12_PrimaryDecision(pre+P_C13, poProp, this);
-		moC14PrimaryKnowledgeUtilizer = new C13_PrimaryKnowledgeUtilizer(pre+P_C14, poProp, this);
+		moC13PrimaryDecision = new C12_PrimaryDecision(pre+P_C13, poProp, this, moMemory);
+		moC14PrimaryKnowledgeUtilizer = new C13_PrimaryKnowledgeUtilizer(pre+P_C14, poProp, this, moMemory);
 	}
 
 	/* (non-Javadoc)

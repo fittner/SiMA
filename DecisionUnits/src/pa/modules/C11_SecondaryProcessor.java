@@ -16,6 +16,7 @@ import pa.interfaces.I6_1;
 import pa.interfaces.I6_2;
 import pa.interfaces.I7_2;
 import pa.interfaces.I7_4;
+import pa.memory.clsMemory;
 import config.clsBWProperties;
 
 /**
@@ -57,8 +58,8 @@ public class C11_SecondaryProcessor extends clsModuleContainer implements
 	 * @param poEnclosingContainer
 	 */
 	public C11_SecondaryProcessor(String poPrefix, clsBWProperties poProp,
-			clsModuleContainer poEnclosingContainer) {
-		super(poPrefix, poProp, poEnclosingContainer);
+			clsModuleContainer poEnclosingContainer, clsMemory poMemory) {
+		super(poPrefix, poProp, poEnclosingContainer, poMemory);
 		applyProperties(poPrefix, poProp);
 	}
 	
@@ -77,9 +78,9 @@ public class C11_SecondaryProcessor extends clsModuleContainer implements
 	private void applyProperties(String poPrefix, clsBWProperties poProp) {
 		String pre = clsBWProperties.addDot(poPrefix);
 	
-		moC15PerceptualPreprocessing = new C14_PerceptualPreprocessing(pre+P_C15, poProp, this);
-		moC16Deliberation = new C15_Deliberation(pre+P_C16, poProp, this);
-		moC17SecondaryKnowledgeUtilizer = new C16_SecondaryKnowledgeUtilizer(pre+P_C17, poProp, this);
+		moC15PerceptualPreprocessing = new C14_PerceptualPreprocessing(pre+P_C15, poProp, this, moMemory);
+		moC16Deliberation = new C15_Deliberation(pre+P_C16, poProp, this, moMemory);
+		moC17SecondaryKnowledgeUtilizer = new C16_SecondaryKnowledgeUtilizer(pre+P_C17, poProp, this, moMemory);
 	}
 
 	/* (non-Javadoc)
