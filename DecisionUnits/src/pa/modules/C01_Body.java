@@ -226,8 +226,8 @@ public class C01_Body extends clsModuleContainer implements
 	 * @see pa.interfaces.itfReturnActionCommands#getActionCommands()
 	 */
 	@Override
-	public clsActionContainer getActionCommands() {
-		return moE32Actuators.getActionCommands();
+	public clsActionContainer getActionCommands(clsActionContainer poActionContainer) {
+		return moE32Actuators.getActionCommands(poActionContainer);
 	}
 
 	/* (non-Javadoc)

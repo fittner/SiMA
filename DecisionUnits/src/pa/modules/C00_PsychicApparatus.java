@@ -315,7 +315,7 @@ public class C00_PsychicApparatus extends clsModuleContainer implements
 	 * @see pa.interfaces.itfReturnActionCommands#getActionCommands()
 	 */
 	@Override
-	public clsActionContainer getActionCommands() {
-		return moC01Body.getActionCommands();
+	public clsActionContainer getActionCommands(clsActionContainer poActionContainer) {
+		return moC01Body.getActionCommands(poActionContainer);
 	}
 }

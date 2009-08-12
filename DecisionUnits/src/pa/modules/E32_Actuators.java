@@ -97,9 +97,8 @@ public class E32_Actuators extends clsModuleBase implements I8_2, itfReturnActio
 	 * @see pa.interfaces.itfReturnActionCommands#getActionCommands()
 	 */
 	@Override
-	public clsActionContainer getActionCommands() {
-		// TODO (deutsch) - Auto-generated method stub
-		return null;
+	public clsActionContainer getActionCommands(clsActionContainer poActionContainer) {
+		return poActionContainer;
 	}
 
 	/* (non-Javadoc)

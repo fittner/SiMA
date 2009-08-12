@@ -16,5 +16,5 @@ import memory.tempframework.clsActionContainer;
  * 
  */
 public interface itfReturnActionCommands {
-	public clsActionContainer getActionCommands();
+	public clsActionContainer getActionCommands(clsActionContainer poActionContainer);
 }
