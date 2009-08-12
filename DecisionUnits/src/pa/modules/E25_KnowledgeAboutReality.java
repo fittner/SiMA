@@ -8,6 +8,7 @@ package pa.modules;
 
 import config.clsBWProperties;
 import pa.interfaces.I2_12;
+import pa.interfaces.I6_1;
 
 /**
  * DOCUMENT (deutsch) - insert description 
@@ -109,7 +110,7 @@ public class E25_KnowledgeAboutReality extends clsModuleBase implements I2_12 {
 	 */
 	@Override
 	protected void send() {
-		// TODO (deutsch) - Auto-generated method stub
+		((I6_1)moEnclosingContainer).receive_I6_1(mnTest);
 		
 	}
 }

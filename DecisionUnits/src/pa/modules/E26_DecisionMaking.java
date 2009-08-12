@@ -11,6 +11,8 @@ import pa.interfaces.I1_7;
 import pa.interfaces.I2_13;
 import pa.interfaces.I3_3;
 import pa.interfaces.I5_5;
+import pa.interfaces.I7_1;
+import pa.interfaces.I7_2;
 
 /**
  * DOCUMENT (deutsch) - insert description 
@@ -151,7 +153,8 @@ public class E26_DecisionMaking extends clsModuleBase implements I1_7, I2_13, I3
 	 */
 	@Override
 	protected void send() {
-		// TODO (deutsch) - Auto-generated method stub
-		
+		((I7_1)moEnclosingContainer).receive_I7_1(mnTest);
+		((I7_2)moEnclosingContainer).receive_I7_2(mnTest);		
 	}
 }
+

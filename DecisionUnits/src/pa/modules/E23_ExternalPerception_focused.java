@@ -9,6 +9,7 @@ package pa.modules;
 import config.clsBWProperties;
 import pa.interfaces.I1_7;
 import pa.interfaces.I2_11;
+import pa.interfaces.I2_12;
 
 /**
  * DOCUMENT (deutsch) - insert description 
@@ -123,7 +124,7 @@ public class E23_ExternalPerception_focused extends clsModuleBase implements I2_
 	 */
 	@Override
 	protected void send() {
-		// TODO (deutsch) - Auto-generated method stub
+		((I2_12)moEnclosingContainer).receive_I2_12(mnTest);
 		
 	}
 }

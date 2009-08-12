@@ -8,6 +8,7 @@ package pa.modules;
 
 import pa.interfaces.I2_2;
 import pa.interfaces.I2_4;
+import pa.interfaces.I2_5;
 import pa.interfaces.I2_6;
 import pa.interfaces.I7_4;
 import config.clsBWProperties;
@@ -22,6 +23,7 @@ import config.clsBWProperties;
 public class C07_EnvironmentalInterfaceFunctions extends clsModuleContainer implements
 						I2_2,
 						I2_4,
+						I2_5,
 						I2_6,
 						I7_4
 						{
@@ -112,5 +114,18 @@ public class C07_EnvironmentalInterfaceFunctions extends clsModuleContainer impl
 	@Override
 	public void receive_I7_4(int pnData) {
 		moE30MotilityControl.receive_I7_4(pnData);
+	}
+
+	/* (non-Javadoc)
+	 *
+	 * @author deutsch
+	 * 12.08.2009, 11:31:08
+	 * 
+	 * @see pa.interfaces.I2_5#receive_I2_5(int)
+	 */
+	@Override
+	public void receive_I2_5(int pnData) {
+		((I2_5)moEnclosingContainer).receive_I2_5(pnData);
+		
 	}
 }

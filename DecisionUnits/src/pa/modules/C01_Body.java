@@ -11,6 +11,7 @@ import pa.interfaces.I1_2;
 import pa.interfaces.I2_1;
 import pa.interfaces.I2_2;
 import pa.interfaces.I2_3;
+import pa.interfaces.I2_4;
 import pa.interfaces.I8_1;
 import pa.interfaces.I8_2;
 import pa.interfaces.itfProcessHomeostases;
@@ -38,6 +39,7 @@ public class C01_Body extends clsModuleContainer implements
 						I2_1,
 						I2_2,
 						I2_3,
+						I2_4,
 						I8_1,
 						I8_2
 						{
@@ -240,6 +242,19 @@ public class C01_Body extends clsModuleContainer implements
 	@Override
 	public void receive_I2_2(int pnData) {
 		((I2_2)moEnclosingContainer).receive_I2_2(pnData);
+		
+	}
+
+	/* (non-Javadoc)
+	 *
+	 * @author deutsch
+	 * 12.08.2009, 11:29:26
+	 * 
+	 * @see pa.interfaces.I2_4#receive_I2_4(int)
+	 */
+	@Override
+	public void receive_I2_4(int pnData) {
+		((I2_4)moEnclosingContainer).receive_I2_4(pnData);
 		
 	}
 }

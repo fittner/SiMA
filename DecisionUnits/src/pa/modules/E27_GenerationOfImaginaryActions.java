@@ -9,6 +9,7 @@ package pa.modules;
 import config.clsBWProperties;
 import pa.interfaces.I6_2;
 import pa.interfaces.I7_1;
+import pa.interfaces.I7_3;
 
 /**
  * DOCUMENT (deutsch) - insert description 
@@ -123,7 +124,7 @@ public class E27_GenerationOfImaginaryActions extends clsModuleBase implements I
 	 */
 	@Override
 	protected void send() {
-		// TODO (deutsch) - Auto-generated method stub
+		((I7_3)moEnclosingContainer).receive_I7_3(mnTest);
 		
 	}
 }

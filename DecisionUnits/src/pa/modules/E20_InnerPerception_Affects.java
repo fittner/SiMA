@@ -11,6 +11,7 @@ import pa.interfaces.I5_1;
 import pa.interfaces.I5_2;
 import pa.interfaces.I5_3;
 import pa.interfaces.I5_4;
+import pa.interfaces.I5_5;
 
 /**
  * DOCUMENT (deutsch) - insert description 
@@ -151,7 +152,7 @@ public class E20_InnerPerception_Affects extends clsModuleBase implements I5_1, 
 	 */
 	@Override
 	protected void send() {
-		// TODO (deutsch) - Auto-generated method stub
+		((I5_5)moEnclosingContainer).receive_I5_5(mnTest);
 		
 	}
 

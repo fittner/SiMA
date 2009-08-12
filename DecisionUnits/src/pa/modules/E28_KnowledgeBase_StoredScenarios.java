@@ -8,6 +8,7 @@ package pa.modules;
 
 import config.clsBWProperties;
 import pa.interfaces.I7_2;
+import pa.interfaces.I6_2;
 
 /**
  * DOCUMENT (deutsch) - insert description 
@@ -109,7 +110,7 @@ public class E28_KnowledgeBase_StoredScenarios extends clsModuleBase implements 
 	 */
 	@Override
 	protected void send() {
-		// TODO (deutsch) - Auto-generated method stub
+		((I6_2)moEnclosingContainer).receive_I6_2(mnTest);
 		
 	}
 

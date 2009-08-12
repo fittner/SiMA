@@ -8,6 +8,7 @@ package pa.modules;
 
 import config.clsBWProperties;
 import pa.interfaces.I2_12;
+import pa.interfaces.I2_13;
 import pa.interfaces.I6_1;
 
 /**
@@ -123,7 +124,7 @@ public class E24_RealityCheck extends clsModuleBase implements I2_12, I6_1 {
 	 */
 	@Override
 	protected void send() {
-		// TODO (deutsch) - Auto-generated method stub
+		((I2_13)moEnclosingContainer).receive_I2_13(mnTest);
 		
 	}
 }

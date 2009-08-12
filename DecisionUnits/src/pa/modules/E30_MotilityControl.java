@@ -8,6 +8,7 @@ package pa.modules;
 
 import config.clsBWProperties;
 import pa.interfaces.I7_4;
+import pa.interfaces.I8_1;
 
 /**
  * DOCUMENT (deutsch) - insert description 
@@ -109,7 +110,7 @@ public class E30_MotilityControl extends clsModuleBase implements I7_4 {
 	 */
 	@Override
 	protected void send() {
-		// TODO (deutsch) - Auto-generated method stub
+		((I8_1)moEnclosingContainer).receive_I8_1(mnTest);
 		
 	}
 }
