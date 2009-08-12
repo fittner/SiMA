@@ -8,6 +8,7 @@ package pa.modules;
 
 import config.clsBWProperties;
 import pa.interfaces.I1_5;
+import pa.interfaces.I6_3;
 
 /**
  * DOCUMENT (deutsch) - insert description 
@@ -109,7 +110,6 @@ public class E09_KnowledgeAboutReality_unconscious extends clsModuleBase impleme
 	 */
 	@Override
 	protected void send() {
-		// TODO (deutsch) - Auto-generated method stub
-		
+		((I6_3)moEnclosingContainer).receive_I6_3(mnTest);			
 	}
 }

@@ -16,6 +16,8 @@ import pa.interfaces.I2_9;
 import pa.interfaces.I3_1;
 import pa.interfaces.I3_2;
 import pa.interfaces.I3_3;
+import pa.interfaces.I4_1;
+import pa.interfaces.I4_2;
 import pa.interfaces.I4_3;
 import config.clsBWProperties;
 
@@ -37,6 +39,8 @@ public class C03_Ego extends clsModuleContainer implements
 				I3_1,
 				I3_2,
 				I3_3,
+				I4_1,
+				I4_2,
 				I4_3
 				{
 
@@ -217,6 +221,32 @@ public class C03_Ego extends clsModuleContainer implements
 	@Override
 	public void receive_I3_3(int pnData) {
 		moC08PsychicMediator.receive_I3_3(pnData);
+		
+	}
+
+	/* (non-Javadoc)
+	 *
+	 * @author langr
+	 * 12.08.2009, 09:49:53
+	 * 
+	 * @see pa.interfaces.I4_1#receive_I4_1(int)
+	 */
+	@Override
+	public void receive_I4_1(int pnData) {
+		// TODO (langr) - Auto-generated method stub
+		
+	}
+
+	/* (non-Javadoc)
+	 *
+	 * @author langr
+	 * 12.08.2009, 09:49:53
+	 * 
+	 * @see pa.interfaces.I4_2#receive_I4_2(int)
+	 */
+	@Override
+	public void receive_I4_2(int pnData) {
+		// TODO (langr) - Auto-generated method stub
 		
 	}
 

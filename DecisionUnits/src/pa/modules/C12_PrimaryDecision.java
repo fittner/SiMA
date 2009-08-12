@@ -11,11 +11,13 @@ import pa.interfaces.I1_6;
 import pa.interfaces.I2_10;
 import pa.interfaces.I2_9;
 import pa.interfaces.I3_1;
+import pa.interfaces.I3_2;
 import pa.interfaces.I4_1;
 import pa.interfaces.I4_2;
 import pa.interfaces.I4_3;
 import pa.interfaces.I5_1;
 import pa.interfaces.I5_2;
+import pa.interfaces.I6_3;
 import config.clsBWProperties;
 
 /**
@@ -31,11 +33,13 @@ public class C12_PrimaryDecision extends clsModuleContainer implements
 					I2_9,
 					I2_10,
 					I3_1,
+					I3_2,
 					I4_1,
 					I4_2,
 					I4_3,
 					I5_1,
-					I5_2
+					I5_2,
+					I6_3
 					{
 
 	public static final String P_E06 = "E06";
@@ -87,7 +91,7 @@ public class C12_PrimaryDecision extends clsModuleContainer implements
 	 */
 	@Override
 	public void receive_I1_5(int pnData) {
-		// TODO (langr) - Auto-generated method stub
+		moE06DefenseMechanismsForDriveContents.receive_I1_5(pnData);		
 		
 	}
 
@@ -100,8 +104,7 @@ public class C12_PrimaryDecision extends clsModuleContainer implements
 	 */
 	@Override
 	public void receive_I1_6(int pnData) {
-		// TODO (langr) - Auto-generated method stub
-		
+		((I1_6)moEnclosingContainer).receive_I1_6(pnData);
 	}
 
 	/* (non-Javadoc)
@@ -113,8 +116,7 @@ public class C12_PrimaryDecision extends clsModuleContainer implements
 	 */
 	@Override
 	public void receive_I2_9(int pnData) {
-		// TODO (langr) - Auto-generated method stub
-		
+		moE19DefenseMechanismsForPerception.receive_I2_9(pnData);
 	}
 
 	/* (non-Javadoc)
@@ -126,8 +128,7 @@ public class C12_PrimaryDecision extends clsModuleContainer implements
 	 */
 	@Override
 	public void receive_I2_10(int pnData) {
-		// TODO (langr) - Auto-generated method stub
-		
+		((I2_10)moEnclosingContainer).receive_I2_10(pnData);
 	}
 
 	/* (non-Javadoc)
@@ -139,8 +140,7 @@ public class C12_PrimaryDecision extends clsModuleContainer implements
 	 */
 	@Override
 	public void receive_I3_1(int pnData) {
-		// TODO (langr) - Auto-generated method stub
-		
+		moE06DefenseMechanismsForDriveContents.receive_I3_1(pnData);	
 	}
 
 	/* (non-Javadoc)
@@ -152,8 +152,7 @@ public class C12_PrimaryDecision extends clsModuleContainer implements
 	 */
 	@Override
 	public void receive_I4_1(int pnData) {
-		// TODO (langr) - Auto-generated method stub
-		
+		((I4_1)moEnclosingContainer).receive_I4_1(pnData);	
 	}
 
 	/* (non-Javadoc)
@@ -165,8 +164,7 @@ public class C12_PrimaryDecision extends clsModuleContainer implements
 	 */
 	@Override
 	public void receive_I4_2(int pnData) {
-		// TODO (langr) - Auto-generated method stub
-		
+		((I4_2)moEnclosingContainer).receive_I4_2(pnData);			
 	}
 
 	/* (non-Javadoc)
@@ -178,8 +176,7 @@ public class C12_PrimaryDecision extends clsModuleContainer implements
 	 */
 	@Override
 	public void receive_I4_3(int pnData) {
-		// TODO (langr) - Auto-generated method stub
-		
+		moE06DefenseMechanismsForDriveContents.receive_I4_3(pnData);	
 	}
 
 	/* (non-Javadoc)
@@ -191,8 +188,7 @@ public class C12_PrimaryDecision extends clsModuleContainer implements
 	 */
 	@Override
 	public void receive_I5_1(int pnData) {
-		// TODO (langr) - Auto-generated method stub
-		
+		((I5_1)moEnclosingContainer).receive_I5_1(pnData);	
 	}
 
 	/* (non-Javadoc)
@@ -204,8 +200,31 @@ public class C12_PrimaryDecision extends clsModuleContainer implements
 	 */
 	@Override
 	public void receive_I5_2(int pnData) {
-		// TODO (langr) - Auto-generated method stub
-		
+		((I5_2)moEnclosingContainer).receive_I5_2(pnData);	
+	}
+
+	/* (non-Javadoc)
+	 *
+	 * @author langr
+	 * 12.08.2009, 08:50:01
+	 * 
+	 * @see pa.interfaces.I6_3#receive_I6_3(int)
+	 */
+	@Override
+	public void receive_I6_3(int pnData) {
+		moE06DefenseMechanismsForDriveContents.receive_I6_3(pnData);	
+	}
+
+	/* (non-Javadoc)
+	 *
+	 * @author langr
+	 * 12.08.2009, 08:53:15
+	 * 
+	 * @see pa.interfaces.I3_2#receive_I3_2(int)
+	 */
+	@Override
+	public void receive_I3_2(int pnData) {
+		moE19DefenseMechanismsForPerception.receive_I3_2(pnData);	
 	}
 
 }

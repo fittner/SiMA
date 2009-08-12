@@ -6,10 +6,15 @@
  */
 package pa.modules;
 
+import pa.interfaces.I1_6;
+import pa.interfaces.I2_10;
 import pa.interfaces.I2_5;
 import pa.interfaces.I2_6;
 import pa.interfaces.I2_7;
 import pa.interfaces.I2_8;
+import pa.interfaces.I4_1;
+import pa.interfaces.I4_2;
+import pa.interfaces.I5_1;
 import config.clsBWProperties;
 
 /**
@@ -20,10 +25,15 @@ import config.clsBWProperties;
  * 
  */
 public class C09_PrimaryProcessor extends clsModuleContainer implements 
+					I1_6,
 					I2_5,
 					I2_6,
 					I2_7,
-					I2_8
+					I2_8,
+					I2_10,
+					I4_1,
+					I4_2,
+					I5_1
 					{
 
 	public static final String P_E17 = "E17";
@@ -116,5 +126,65 @@ public class C09_PrimaryProcessor extends clsModuleContainer implements
 	@Override
 	public void receive_I2_6(int pnData) {
 		moC14PrimaryKnowledgeUtilizer.receive_I2_6(pnData);
+	}
+
+	/* (non-Javadoc)
+	 *
+	 * @author langr
+	 * 12.08.2009, 09:03:54
+	 * 
+	 * @see pa.interfaces.I1_6#receive_I1_6(int)
+	 */
+	@Override
+	public void receive_I1_6(int pnData) {
+		((I1_6)moEnclosingContainer).receive_I1_6(pnData);	
+	}
+
+	/* (non-Javadoc)
+	 *
+	 * @author langr
+	 * 12.08.2009, 09:03:54
+	 * 
+	 * @see pa.interfaces.I2_10#receive_I2_10(int)
+	 */
+	@Override
+	public void receive_I2_10(int pnData) {
+		((I2_10)moEnclosingContainer).receive_I2_10(pnData);
+	}
+
+	/* (non-Javadoc)
+	 *
+	 * @author langr
+	 * 12.08.2009, 09:03:54
+	 * 
+	 * @see pa.interfaces.I4_1#receive_I4_1(int)
+	 */
+	@Override
+	public void receive_I4_1(int pnData) {
+		((I4_1)moEnclosingContainer).receive_I4_1(pnData);
+	}
+
+	/* (non-Javadoc)
+	 *
+	 * @author langr
+	 * 12.08.2009, 09:03:54
+	 * 
+	 * @see pa.interfaces.I4_2#receive_I4_2(int)
+	 */
+	@Override
+	public void receive_I4_2(int pnData) {
+		((I4_2)moEnclosingContainer).receive_I4_2(pnData);
+	}
+
+	/* (non-Javadoc)
+	 *
+	 * @author langr
+	 * 12.08.2009, 09:03:54
+	 * 
+	 * @see pa.interfaces.I5_1#receive_I5_1(int)
+	 */
+	@Override
+	public void receive_I5_1(int pnData) {
+		((I5_1)moEnclosingContainer).receive_I5_1(pnData);
 	}
 }
