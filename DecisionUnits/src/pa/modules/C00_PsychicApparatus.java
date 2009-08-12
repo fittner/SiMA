@@ -8,6 +8,7 @@ package pa.modules;
 
 import pa.interfaces.I1_2;
 import pa.interfaces.I1_5;
+import pa.interfaces.I1_7;
 import pa.interfaces.I2_2;
 import pa.interfaces.I2_4;
 import pa.interfaces.I2_5;
@@ -43,6 +44,7 @@ public class C00_PsychicApparatus extends clsModuleContainer implements
 							itfReturnActionCommands,
 							I1_2,
 							I1_5,
+							I1_7,
 							I2_2,
 							I2_4,
 							I2_5,
@@ -345,5 +347,17 @@ public class C00_PsychicApparatus extends clsModuleContainer implements
 	@Override
 	public void receive_I4_2(int pnData) {
 		moC02Id.receive_I4_2(pnData);
+	}
+
+	/* (non-Javadoc)
+	 *
+	 * @author langr
+	 * 12.08.2009, 10:57:13
+	 * 
+	 * @see pa.interfaces.I1_7#receive_I1_7(int)
+	 */
+	@Override
+	public void receive_I1_7(int pnData) {
+		moC04SuperEgo.receive_I1_7(pnData);
 	}
 }

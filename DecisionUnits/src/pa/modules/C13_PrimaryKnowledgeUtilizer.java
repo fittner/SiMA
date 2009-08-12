@@ -6,7 +6,10 @@
  */
 package pa.modules;
 
+import pa.interfaces.I1_5;
 import pa.interfaces.I2_6;
+import pa.interfaces.I2_7;
+import pa.interfaces.I6_3;
 import config.clsBWProperties;
 
 /**
@@ -17,7 +20,11 @@ import config.clsBWProperties;
  * 
  */
 public class C13_PrimaryKnowledgeUtilizer extends clsModuleContainer implements
-					I2_6 {
+					I1_5,
+					I2_6,
+					I2_7,
+					I6_3
+					{
 
 	public static final String P_E09 = "E09";
 	public static final String P_E16 = "E16";
@@ -69,6 +76,42 @@ public class C13_PrimaryKnowledgeUtilizer extends clsModuleContainer implements
 	@Override
 	public void receive_I2_6(int pnData) {
 		moE16ManagmentOfMemoryTraces.receive_I2_6(pnData);
+	}
+
+	/* (non-Javadoc)
+	 *
+	 * @author langr
+	 * 12.08.2009, 11:07:34
+	 * 
+	 * @see pa.interfaces.I1_5#receive_I1_5(int)
+	 */
+	@Override
+	public void receive_I1_5(int pnData) {
+		moE09KnowledgeAboutReality_unconscious.receive_I1_5(pnData);
+	}
+
+	/* (non-Javadoc)
+	 *
+	 * @author langr
+	 * 12.08.2009, 11:07:34
+	 * 
+	 * @see pa.interfaces.I2_7#receive_I2_7(int)
+	 */
+	@Override
+	public void receive_I2_7(int pnData) {
+		((I2_7)moEnclosingContainer).receive_I2_7(pnData);
+	}
+
+	/* (non-Javadoc)
+	 *
+	 * @author langr
+	 * 12.08.2009, 11:07:34
+	 * 
+	 * @see pa.interfaces.I6_3#receive_I6_3(int)
+	 */
+	@Override
+	public void receive_I6_3(int pnData) {
+		((I6_3)moEnclosingContainer).receive_I6_3(pnData);
 	}
 
 }

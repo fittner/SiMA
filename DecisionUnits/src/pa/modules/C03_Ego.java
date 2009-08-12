@@ -7,6 +7,7 @@
 package pa.modules;
 
 import pa.interfaces.I1_5;
+import pa.interfaces.I1_7;
 import pa.interfaces.I2_2;
 import pa.interfaces.I2_4;
 import pa.interfaces.I2_5;
@@ -19,6 +20,7 @@ import pa.interfaces.I3_3;
 import pa.interfaces.I4_1;
 import pa.interfaces.I4_2;
 import pa.interfaces.I4_3;
+import pa.interfaces.I7_4;
 import config.clsBWProperties;
 
 /**
@@ -29,6 +31,7 @@ import config.clsBWProperties;
  * 
  */
 public class C03_Ego extends clsModuleContainer implements
+				I1_7,
 				I2_2,
 				I2_4,
 				I2_5,
@@ -41,7 +44,8 @@ public class C03_Ego extends clsModuleContainer implements
 				I3_3,
 				I4_1,
 				I4_2,
-				I4_3
+				I4_3,
+				I7_4
 				{
 
 	public static final String P_C07 = "C07";
@@ -239,6 +243,30 @@ public class C03_Ego extends clsModuleContainer implements
 	@Override
 	public void receive_I4_2(int pnData) {
 		((I4_2)moEnclosingContainer).receive_I4_2(pnData);
+	}
+
+	/* (non-Javadoc)
+	 *
+	 * @author langr
+	 * 12.08.2009, 10:56:38
+	 * 
+	 * @see pa.interfaces.I1_7#receive_I1_7(int)
+	 */
+	@Override
+	public void receive_I1_7(int pnData) {
+		((I1_7)moEnclosingContainer).receive_I1_7(pnData);
+	}
+
+	/* (non-Javadoc)
+	 *
+	 * @author langr
+	 * 12.08.2009, 11:24:59
+	 * 
+	 * @see pa.interfaces.I7_4#receive_I7_4(int)
+	 */
+	@Override
+	public void receive_I7_4(int pnData) {
+		moC07EnvironmentalInterfaceFunctions.receive_I7_4(pnData);
 	}
 
 }

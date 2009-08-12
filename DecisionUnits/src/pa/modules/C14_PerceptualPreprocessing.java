@@ -6,6 +6,11 @@
  */
 package pa.modules;
 
+import pa.interfaces.I1_7;
+import pa.interfaces.I2_11;
+import pa.interfaces.I2_12;
+import pa.interfaces.I2_13;
+import pa.interfaces.I6_1;
 import config.clsBWProperties;
 
 /**
@@ -15,7 +20,13 @@ import config.clsBWProperties;
  * 11.08.2009, 15:42:06
  * 
  */
-public class C14_PerceptualPreprocessing extends clsModuleContainer {
+public class C14_PerceptualPreprocessing extends clsModuleContainer implements
+						I1_7,
+						I2_11,
+						I2_12,
+						I2_13,
+						I6_1
+						{
 
 	public static final String P_E23 = "E23";
 	public static final String P_E24 = "E24";
@@ -55,5 +66,66 @@ public class C14_PerceptualPreprocessing extends clsModuleContainer {
 	
 		moE23ExternalPerception_focused = new E23_ExternalPerception_focused(pre+P_E24, poProp, this);
 		moE24RealityCheck = new E24_RealityCheck(pre+P_E23, poProp, this);
+	}
+
+	/* (non-Javadoc)
+	 *
+	 * @author langr
+	 * 12.08.2009, 11:02:03
+	 * 
+	 * @see pa.interfaces.I1_7#receive_I1_7(int)
+	 */
+	@Override
+	public void receive_I1_7(int pnData) {
+		moE23ExternalPerception_focused.receive_I1_7(pnData);
+	}
+
+	/* (non-Javadoc)
+	 *
+	 * @author langr
+	 * 12.08.2009, 11:02:03
+	 * 
+	 * @see pa.interfaces.I2_11#receive_I2_11(int)
+	 */
+	@Override
+	public void receive_I2_11(int pnData) {
+		moE23ExternalPerception_focused.receive_I2_11(pnData);
+	}
+
+	/* (non-Javadoc)
+	 *
+	 * @author langr
+	 * 12.08.2009, 11:11:44
+	 * 
+	 * @see pa.interfaces.I2_12#receive_I2_12(int)
+	 */
+	@Override
+	public void receive_I2_12(int pnData) {
+		((I2_12)moEnclosingContainer).receive_I2_12(pnData); //to e25 (know. real)
+		moE24RealityCheck.receive_I2_12(pnData);
+	}
+
+	/* (non-Javadoc)
+	 *
+	 * @author langr
+	 * 12.08.2009, 11:11:44
+	 * 
+	 * @see pa.interfaces.I2_13#receive_I2_13(int)
+	 */
+	@Override
+	public void receive_I2_13(int pnData) {
+		((I2_13)moEnclosingContainer).receive_I2_13(pnData);
+	}
+
+	/* (non-Javadoc)
+	 *
+	 * @author langr
+	 * 12.08.2009, 11:11:44
+	 * 
+	 * @see pa.interfaces.I6_1#receive_I6_1(int)
+	 */
+	@Override
+	public void receive_I6_1(int pnData) {
+		moE24RealityCheck.receive_I6_1(pnData);
 	}
 }

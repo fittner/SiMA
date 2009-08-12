@@ -8,6 +8,8 @@ package pa.modules;
 
 import pa.interfaces.I1_5;
 import pa.interfaces.I1_6;
+import pa.interfaces.I1_7;
+import pa.interfaces.I2_11;
 import pa.interfaces.I2_6;
 import pa.interfaces.I2_8;
 import pa.interfaces.I2_9;
@@ -18,7 +20,10 @@ import pa.interfaces.I4_1;
 import pa.interfaces.I4_2;
 import pa.interfaces.I4_3;
 import pa.interfaces.I5_1;
+import pa.interfaces.I5_2;
+import pa.interfaces.I5_5;
 import pa.interfaces.I6_3;
+import pa.interfaces.I7_4;
 import config.clsBWProperties;
 
 /**
@@ -31,9 +36,11 @@ import config.clsBWProperties;
 public class C08_PsychicMediator extends clsModuleContainer implements 
 					I1_5,
 					I1_6,
+					I1_7,
 					I2_6,
 					I2_8,
 					I2_9,
+					I2_11,
 					I3_1,
 					I3_2,
 					I3_3,
@@ -41,7 +48,10 @@ public class C08_PsychicMediator extends clsModuleContainer implements
 					I4_2,
 					I4_3,
 					I5_1,
-					I6_3
+					I5_2,
+					I5_5,
+					I6_3,
+					I7_4
 					{
 
 	public static final String P_C09 = "C09";
@@ -159,7 +169,7 @@ public class C08_PsychicMediator extends clsModuleContainer implements
 	 */
 	@Override
 	public void receive_I2_9(int pnData) {
-		//moC09PrimaryProcessor.receive_I2_9(pnData);
+		moC09PrimaryProcessor.receive_I2_9(pnData);
 	}
 
 	/* (non-Javadoc)
@@ -171,8 +181,7 @@ public class C08_PsychicMediator extends clsModuleContainer implements
 	 */
 	@Override
 	public void receive_I3_2(int pnData) {
-		// TODO (langr) - Auto-generated method stub
-		
+		moC09PrimaryProcessor.receive_I3_2(pnData);
 	}
 
 	/* (non-Javadoc)
@@ -184,8 +193,7 @@ public class C08_PsychicMediator extends clsModuleContainer implements
 	 */
 	@Override
 	public void receive_I4_1(int pnData) {
-		// TODO (langr) - Auto-generated method stub
-		
+		((I4_1)moEnclosingContainer).receive_I4_1(pnData);
 	}
 
 	/* (non-Javadoc)
@@ -197,8 +205,7 @@ public class C08_PsychicMediator extends clsModuleContainer implements
 	 */
 	@Override
 	public void receive_I4_2(int pnData) {
-		// TODO (langr) - Auto-generated method stub
-		
+		((I4_2)moEnclosingContainer).receive_I4_2(pnData);
 	}
 
 	/* (non-Javadoc)
@@ -210,8 +217,7 @@ public class C08_PsychicMediator extends clsModuleContainer implements
 	 */
 	@Override
 	public void receive_I4_3(int pnData) {
-		// TODO (langr) - Auto-generated method stub
-		
+		moC09PrimaryProcessor.receive_I4_3(pnData);
 	}
 
 	/* (non-Javadoc)
@@ -223,8 +229,7 @@ public class C08_PsychicMediator extends clsModuleContainer implements
 	 */
 	@Override
 	public void receive_I5_1(int pnData) {
-		// TODO (langr) - Auto-generated method stub
-		
+		moC11PrimaryToSecondaryInterface1.receive_I5_1(pnData);
 	}
 
 	/* (non-Javadoc)
@@ -236,8 +241,7 @@ public class C08_PsychicMediator extends clsModuleContainer implements
 	 */
 	@Override
 	public void receive_I6_3(int pnData) {
-		// TODO (langr) - Auto-generated method stub
-		
+		((I5_2)moEnclosingContainer).receive_I5_2(pnData);
 	}
 
 	/* (non-Javadoc)
@@ -249,8 +253,69 @@ public class C08_PsychicMediator extends clsModuleContainer implements
 	 */
 	@Override
 	public void receive_I3_1(int pnData) {
-		// TODO (langr) - Auto-generated method stub
-		
+		moC09PrimaryProcessor.receive_I3_1(pnData);
+	}
+
+	/* (non-Javadoc)
+	 *
+	 * @author langr
+	 * 12.08.2009, 10:35:06
+	 * 
+	 * @see pa.interfaces.I5_2#receive_I5_2(int)
+	 */
+	@Override
+	public void receive_I5_2(int pnData) {
+		moC11PrimaryToSecondaryInterface1.receive_I5_2(pnData);		
+	}
+
+	/* (non-Javadoc)
+	 *
+	 * @author langr
+	 * 12.08.2009, 10:45:16
+	 * 
+	 * @see pa.interfaces.I1_7#receive_I1_7(int)
+	 */
+	@Override
+	public void receive_I1_7(int pnData) {
+		moC10SecondaryProcessor.receive_I1_7(pnData); //e23&e26 (perc & delib)
+		((I1_7)moEnclosingContainer).receive_I1_7(pnData); //e22 (super ego)
+	}
+
+	/* (non-Javadoc)
+	 *
+	 * @author langr
+	 * 12.08.2009, 10:45:16
+	 * 
+	 * @see pa.interfaces.I2_11#receive_I2_11(int)
+	 */
+	@Override
+	public void receive_I2_11(int pnData) {
+		((I2_11)moEnclosingContainer).receive_I2_11(pnData); //to e22 (super ego)
+		moC10SecondaryProcessor.receive_I2_11(pnData);		 //to e23
+	}
+
+	/* (non-Javadoc)
+	 *
+	 * @author langr
+	 * 12.08.2009, 10:45:16
+	 * 
+	 * @see pa.interfaces.I5_5#receive_I5_5(int)
+	 */
+	@Override
+	public void receive_I5_5(int pnData) {
+		moC10SecondaryProcessor.receive_I5_5(pnData);
+	}
+
+	/* (non-Javadoc)
+	 *
+	 * @author langr
+	 * 12.08.2009, 11:24:22
+	 * 
+	 * @see pa.interfaces.I7_4#receive_I7_4(int)
+	 */
+	@Override
+	public void receive_I7_4(int pnData) {
+		((I7_4)moEnclosingContainer).receive_I7_4(pnData);
 	}
 
 }

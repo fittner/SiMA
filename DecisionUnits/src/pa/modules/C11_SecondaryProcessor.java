@@ -6,7 +6,16 @@
  */
 package pa.modules;
 
+import pa.interfaces.I1_7;
+import pa.interfaces.I2_11;
+import pa.interfaces.I2_12;
+import pa.interfaces.I2_13;
 import pa.interfaces.I3_3;
+import pa.interfaces.I5_5;
+import pa.interfaces.I6_1;
+import pa.interfaces.I6_2;
+import pa.interfaces.I7_2;
+import pa.interfaces.I7_4;
 import config.clsBWProperties;
 
 /**
@@ -17,7 +26,16 @@ import config.clsBWProperties;
  * 
  */
 public class C11_SecondaryProcessor extends clsModuleContainer implements 
-				I3_3 
+				I1_7,
+				I2_11,
+				I2_12,
+				I2_13,
+				I3_3,
+				I5_5,
+				I6_1,
+				I6_2,
+				I7_2,
+				I7_4
 				{
 
 	public static final String P_C15 = "C15";
@@ -74,5 +92,114 @@ public class C11_SecondaryProcessor extends clsModuleContainer implements
 	@Override
 	public void receive_I3_3(int pnData) {
 		moC16Deliberation.receive_I3_3(pnData);
+	}
+
+	/* (non-Javadoc)
+	 *
+	 * @author langr
+	 * 12.08.2009, 10:49:48
+	 * 
+	 * @see pa.interfaces.I1_7#receive_I1_7(int)
+	 */
+	@Override
+	public void receive_I1_7(int pnData) {
+		moC16Deliberation.receive_I1_7(pnData);
+		moC15PerceptualPreprocessing.receive_I1_7(pnData);
+	}
+
+	/* (non-Javadoc)
+	 *
+	 * @author langr
+	 * 12.08.2009, 10:49:48
+	 * 
+	 * @see pa.interfaces.I2_11#receive_I2_11(int)
+	 */
+	@Override
+	public void receive_I2_11(int pnData) {
+		moC15PerceptualPreprocessing.receive_I2_11(pnData);
+	}
+
+	/* (non-Javadoc)
+	 *
+	 * @author langr
+	 * 12.08.2009, 10:49:48
+	 * 
+	 * @see pa.interfaces.I5_5#receive_I5_5(int)
+	 */
+	@Override
+	public void receive_I5_5(int pnData) {
+		moC16Deliberation.receive_I5_5(pnData);
+	}
+
+	/* (non-Javadoc)
+	 *
+	 * @author langr
+	 * 12.08.2009, 11:21:41
+	 * 
+	 * @see pa.interfaces.I2_12#receive_I2_12(int)
+	 */
+	@Override
+	public void receive_I2_12(int pnData) {
+		moC17SecondaryKnowledgeUtilizer.receive_I2_12(pnData);
+	}
+
+	/* (non-Javadoc)
+	 *
+	 * @author langr
+	 * 12.08.2009, 11:21:41
+	 * 
+	 * @see pa.interfaces.I2_13#receive_I2_13(int)
+	 */
+	@Override
+	public void receive_I2_13(int pnData) {
+		moC16Deliberation.receive_I2_13(pnData);
+	}
+
+	/* (non-Javadoc)
+	 *
+	 * @author langr
+	 * 12.08.2009, 11:21:41
+	 * 
+	 * @see pa.interfaces.I6_1#receive_I6_1(int)
+	 */
+	@Override
+	public void receive_I6_1(int pnData) {
+		moC15PerceptualPreprocessing.receive_I6_1(pnData);
+	}
+
+	/* (non-Javadoc)
+	 *
+	 * @author langr
+	 * 12.08.2009, 11:21:41
+	 * 
+	 * @see pa.interfaces.I6_2#receive_I6_2(int)
+	 */
+	@Override
+	public void receive_I6_2(int pnData) {
+		moC16Deliberation.receive_I6_2(pnData);
+	}
+
+	/* (non-Javadoc)
+	 *
+	 * @author langr
+	 * 12.08.2009, 11:21:41
+	 * 
+	 * @see pa.interfaces.I7_2#receive_I7_2(int)
+	 */
+	@Override
+	public void receive_I7_2(int pnData) {
+		moC17SecondaryKnowledgeUtilizer.receive_I7_2(pnData);
+	}
+
+	/* (non-Javadoc)
+	 *
+	 * @author langr
+	 * 12.08.2009, 11:21:41
+	 * 
+	 * @see pa.interfaces.I7_4#receive_I7_4(int)
+	 */
+	@Override
+	public void receive_I7_4(int pnData) {
+		((I7_4)moEnclosingContainer).receive_I7_4(pnData);
 	}
 }

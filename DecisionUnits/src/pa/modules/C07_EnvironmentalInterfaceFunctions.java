@@ -9,6 +9,7 @@ package pa.modules;
 import pa.interfaces.I2_2;
 import pa.interfaces.I2_4;
 import pa.interfaces.I2_6;
+import pa.interfaces.I7_4;
 import config.clsBWProperties;
 
 /**
@@ -21,7 +22,8 @@ import config.clsBWProperties;
 public class C07_EnvironmentalInterfaceFunctions extends clsModuleContainer implements
 						I2_2,
 						I2_4,
-						I2_6 
+						I2_6,
+						I7_4
 						{
 
 	public static final String P_E14 = "E14";
@@ -98,5 +100,17 @@ public class C07_EnvironmentalInterfaceFunctions extends clsModuleContainer impl
 	@Override
 	public void receive_I2_4(int pnData) {
 		moE14PreliminaryExternalPerception.receive_I2_4(pnData);
+	}
+
+	/* (non-Javadoc)
+	 *
+	 * @author langr
+	 * 12.08.2009, 11:26:23
+	 * 
+	 * @see pa.interfaces.I7_4#receive_I7_4(int)
+	 */
+	@Override
+	public void receive_I7_4(int pnData) {
+		moE30MotilityControl.receive_I7_4(pnData);
 	}
 }

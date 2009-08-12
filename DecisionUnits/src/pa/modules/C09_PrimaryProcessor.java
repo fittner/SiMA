@@ -13,9 +13,14 @@ import pa.interfaces.I2_5;
 import pa.interfaces.I2_6;
 import pa.interfaces.I2_7;
 import pa.interfaces.I2_8;
+import pa.interfaces.I2_9;
+import pa.interfaces.I3_1;
+import pa.interfaces.I3_2;
 import pa.interfaces.I4_1;
 import pa.interfaces.I4_2;
+import pa.interfaces.I4_3;
 import pa.interfaces.I5_1;
+import pa.interfaces.I6_3;
 import config.clsBWProperties;
 
 /**
@@ -32,10 +37,15 @@ public class C09_PrimaryProcessor extends clsModuleContainer implements
 					I2_6,
 					I2_7,
 					I2_8,
+					I2_9,
 					I2_10,
+					I3_1,
+					I3_2,
 					I4_1,
 					I4_2,
-					I5_1
+					I4_3,
+					I5_1,
+					I6_3
 					{
 
 	public static final String P_E17 = "E17";
@@ -201,5 +211,66 @@ public class C09_PrimaryProcessor extends clsModuleContainer implements
 	public void receive_I1_5(int pnData) {
 		moC13PrimaryDecision.receive_I1_5(pnData);
 		
+	}
+
+	/* (non-Javadoc)
+	 *
+	 * @author langr
+	 * 12.08.2009, 10:24:33
+	 * 
+	 * @see pa.interfaces.I2_9#receive_I2_9(int)
+	 */
+	@Override
+	public void receive_I2_9(int pnData) {
+		moC13PrimaryDecision.receive_I2_9(pnData);		
+	}
+
+	/* (non-Javadoc)
+	 *
+	 * @author langr
+	 * 12.08.2009, 10:25:53
+	 * 
+	 * @see pa.interfaces.I3_2#receive_I3_2(int)
+	 */
+	@Override
+	public void receive_I3_2(int pnData) {
+		moC13PrimaryDecision.receive_I3_2(pnData);
+		
+	}
+
+	/* (non-Javadoc)
+	 *
+	 * @author langr
+	 * 12.08.2009, 10:27:51
+	 * 
+	 * @see pa.interfaces.I4_3#receive_I4_3(int)
+	 */
+	@Override
+	public void receive_I4_3(int pnData) {
+		moC13PrimaryDecision.receive_I4_3(pnData);
+	}
+
+	/* (non-Javadoc)
+	 *
+	 * @author langr
+	 * 12.08.2009, 10:29:58
+	 * 
+	 * @see pa.interfaces.I3_1#receive_I3_1(int)
+	 */
+	@Override
+	public void receive_I3_1(int pnData) {
+		moC13PrimaryDecision.receive_I3_1(pnData);		
+	}
+
+	/* (non-Javadoc)
+	 *
+	 * @author langr
+	 * 12.08.2009, 11:09:40
+	 * 
+	 * @see pa.interfaces.I6_3#receive_I6_3(int)
+	 */
+	@Override
+	public void receive_I6_3(int pnData) {
+		moC13PrimaryDecision.receive_I6_3(pnData);
 	}
 }
