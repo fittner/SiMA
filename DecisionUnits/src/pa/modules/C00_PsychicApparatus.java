@@ -9,6 +9,7 @@ package pa.modules;
 import pa.interfaces.I1_2;
 import pa.interfaces.I1_5;
 import pa.interfaces.I1_7;
+import pa.interfaces.I2_11;
 import pa.interfaces.I2_2;
 import pa.interfaces.I2_4;
 import pa.interfaces.I2_5;
@@ -51,6 +52,7 @@ public class C00_PsychicApparatus extends clsModuleContainer implements
 							I2_6,
 							I2_8,
 							I2_9,
+							I2_11,
 							I3_1,
 							I3_2,
 							I3_3,
@@ -359,5 +361,18 @@ public class C00_PsychicApparatus extends clsModuleContainer implements
 	@Override
 	public void receive_I1_7(int pnData) {
 		moC04SuperEgo.receive_I1_7(pnData);
+	}
+
+	/* (non-Javadoc)
+	 *
+	 * @author deutsch
+	 * 12.08.2009, 11:46:47
+	 * 
+	 * @see pa.interfaces.I2_11#receive_I2_11(int)
+	 */
+	@Override
+	public void receive_I2_11(int pnData) {
+		moC04SuperEgo.receive_I2_11(pnData);
+		
 	}
 }

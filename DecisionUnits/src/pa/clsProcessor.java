@@ -216,4 +216,9 @@ public class clsProcessor {
 		moE31NeuroDeSymbolization.step();
 		moE32Actuators.step();
 	}
+	
+	public static void main(String[] args) {
+		clsProcessor oProcessor = new clsProcessor("", clsProcessor.getDefaultProperties("") );
+		oProcessor.step();	
+	}
 }

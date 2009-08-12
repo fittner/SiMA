@@ -11,6 +11,7 @@ import pa.interfaces.I2_4;
 import pa.interfaces.I2_5;
 import pa.interfaces.I2_6;
 import pa.interfaces.I7_4;
+import pa.interfaces.I8_1;
 import config.clsBWProperties;
 
 /**
@@ -25,7 +26,8 @@ public class C07_EnvironmentalInterfaceFunctions extends clsModuleContainer impl
 						I2_4,
 						I2_5,
 						I2_6,
-						I7_4
+						I7_4,
+						I8_1
 						{
 
 	public static final String P_E14 = "E14";
@@ -126,6 +128,19 @@ public class C07_EnvironmentalInterfaceFunctions extends clsModuleContainer impl
 	@Override
 	public void receive_I2_5(int pnData) {
 		((I2_5)moEnclosingContainer).receive_I2_5(pnData);
+		
+	}
+
+	/* (non-Javadoc)
+	 *
+	 * @author deutsch
+	 * 12.08.2009, 11:48:21
+	 * 
+	 * @see pa.interfaces.I8_1#receive_I8_1(int)
+	 */
+	@Override
+	public void receive_I8_1(int pnData) {
+		((I8_1)moEnclosingContainer).receive_I8_1(pnData);
 		
 	}
 }
