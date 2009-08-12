@@ -6,6 +6,8 @@
  */
 package pa.modules;
 
+import pa.interfaces.I2_2;
+import pa.interfaces.I2_4;
 import pa.interfaces.I2_6;
 import config.clsBWProperties;
 
@@ -17,6 +19,8 @@ import config.clsBWProperties;
  * 
  */
 public class C07_EnvironmentalInterfaceFunctions extends clsModuleContainer implements
+						I2_2,
+						I2_4,
 						I2_6 
 						{
 
@@ -70,5 +74,29 @@ public class C07_EnvironmentalInterfaceFunctions extends clsModuleContainer impl
 	@Override
 	public void receive_I2_6(int pnData) {
 		moE14PreliminaryExternalPerception.receive_I2_6(pnData);
+	}
+
+	/* (non-Javadoc)
+	 *
+	 * @author langr
+	 * 12.08.2009, 10:01:47
+	 * 
+	 * @see pa.interfaces.I2_2#receive_I2_2(int)
+	 */
+	@Override
+	public void receive_I2_2(int pnData) {
+		moE14PreliminaryExternalPerception.receive_I2_2(pnData);		
+	}
+
+	/* (non-Javadoc)
+	 *
+	 * @author langr
+	 * 12.08.2009, 10:03:26
+	 * 
+	 * @see pa.interfaces.I2_4#receive_I2_4(int)
+	 */
+	@Override
+	public void receive_I2_4(int pnData) {
+		moE14PreliminaryExternalPerception.receive_I2_4(pnData);
 	}
 }

@@ -18,6 +18,8 @@ import pa.interfaces.I2_9;
 import pa.interfaces.I3_1;
 import pa.interfaces.I3_2;
 import pa.interfaces.I3_3;
+import pa.interfaces.I4_1;
+import pa.interfaces.I4_2;
 import pa.interfaces.I4_3;
 import pa.interfaces.I8_1;
 import pa.interfaces.itfProcessHomeostases;
@@ -50,6 +52,8 @@ public class C00_PsychicApparatus extends clsModuleContainer implements
 							I3_1,
 							I3_2,
 							I3_3,
+							I4_1,
+							I4_2,
 							I4_3,
 							I8_1
 							{
@@ -317,5 +321,29 @@ public class C00_PsychicApparatus extends clsModuleContainer implements
 	@Override
 	public clsActionContainer getActionCommands(clsActionContainer poActionContainer) {
 		return moC01Body.getActionCommands(poActionContainer);
+	}
+
+	/* (non-Javadoc)
+	 *
+	 * @author langr
+	 * 12.08.2009, 10:12:19
+	 * 
+	 * @see pa.interfaces.I4_1#receive_I4_1(int)
+	 */
+	@Override
+	public void receive_I4_1(int pnData) {
+		moC02Id.receive_I4_1(pnData);
+	}
+
+	/* (non-Javadoc)
+	 *
+	 * @author langr
+	 * 12.08.2009, 10:12:19
+	 * 
+	 * @see pa.interfaces.I4_2#receive_I4_2(int)
+	 */
+	@Override
+	public void receive_I4_2(int pnData) {
+		moC02Id.receive_I4_2(pnData);
 	}
 }

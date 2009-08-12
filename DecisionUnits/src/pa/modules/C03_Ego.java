@@ -93,8 +93,7 @@ public class C03_Ego extends clsModuleContainer implements
 	 */
 	@Override
 	public void receive_I2_2(int pnData) {
-		// TODO (deutsch) - Auto-generated method stub
-		
+		moC07EnvironmentalInterfaceFunctions.receive_I2_2(pnData);
 	}
 
 	/* (non-Javadoc)
@@ -106,8 +105,7 @@ public class C03_Ego extends clsModuleContainer implements
 	 */
 	@Override
 	public void receive_I2_4(int pnData) {
-		// TODO (deutsch) - Auto-generated method stub
-		
+		moC07EnvironmentalInterfaceFunctions.receive_I2_4(pnData);
 	}
 
 	/* (non-Javadoc)
@@ -119,8 +117,7 @@ public class C03_Ego extends clsModuleContainer implements
 	 */
 	@Override
 	public void receive_I1_5(int pnData) {
-		// TODO (deutsch) - Auto-generated method stub
-		
+		((I2_5)moEnclosingContainer).receive_I2_5(pnData);
 	}
 
 	/* (non-Javadoc)
@@ -132,8 +129,7 @@ public class C03_Ego extends clsModuleContainer implements
 	 */
 	@Override
 	public void receive_I2_9(int pnData) {
-		// TODO (deutsch) - Auto-generated method stub
-		
+		moC08PsychicMediator.receive_I2_9(pnData);
 	}
 
 	/* (non-Javadoc)
@@ -145,8 +141,7 @@ public class C03_Ego extends clsModuleContainer implements
 	 */
 	@Override
 	public void receive_I3_1(int pnData) {
-		// TODO (deutsch) - Auto-generated method stub
-		
+		moC08PsychicMediator.receive_I3_1(pnData);
 	}
 
 	/* (non-Javadoc)
@@ -158,7 +153,7 @@ public class C03_Ego extends clsModuleContainer implements
 	 */
 	@Override
 	public void receive_I3_2(int pnData) {
-		// TODO (deutsch) - Auto-generated method stub
+		moC08PsychicMediator.receive_I3_2(pnData);
 		
 	}
 
@@ -171,7 +166,7 @@ public class C03_Ego extends clsModuleContainer implements
 	 */
 	@Override
 	public void receive_I2_6(int pnData) {
-		moC07EnvironmentalInterfaceFunctions.receive_I2_6(pnData);
+		moC08PsychicMediator.receive_I2_6(pnData);
 	}
 
 	/* (non-Javadoc)
@@ -183,8 +178,7 @@ public class C03_Ego extends clsModuleContainer implements
 	 */
 	@Override
 	public void receive_I4_3(int pnData) {
-		// TODO (deutsch) - Auto-generated method stub
-		
+		moC08PsychicMediator.receive_I4_3(pnData);
 	}
 
 	/* (non-Javadoc)
@@ -221,7 +215,6 @@ public class C03_Ego extends clsModuleContainer implements
 	@Override
 	public void receive_I3_3(int pnData) {
 		moC08PsychicMediator.receive_I3_3(pnData);
-		
 	}
 
 	/* (non-Javadoc)
@@ -233,8 +226,7 @@ public class C03_Ego extends clsModuleContainer implements
 	 */
 	@Override
 	public void receive_I4_1(int pnData) {
-		// TODO (langr) - Auto-generated method stub
-		
+		((I4_1)moEnclosingContainer).receive_I4_1(pnData);
 	}
 
 	/* (non-Javadoc)
@@ -246,8 +238,7 @@ public class C03_Ego extends clsModuleContainer implements
 	 */
 	@Override
 	public void receive_I4_2(int pnData) {
-		// TODO (langr) - Auto-generated method stub
-		
+		((I4_2)moEnclosingContainer).receive_I4_2(pnData);
 	}
 
 }
