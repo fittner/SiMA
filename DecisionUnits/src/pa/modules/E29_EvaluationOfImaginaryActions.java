@@ -85,7 +85,7 @@ public class E29_EvaluationOfImaginaryActions extends clsModuleBase implements I
 	 */
 	@Override
 	public void receive_I5_5(int pnData) {
-		// TODO (deutsch) - Auto-generated method stub
+		mnTest += pnData;
 		
 	}
 

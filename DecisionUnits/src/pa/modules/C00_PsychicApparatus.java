@@ -234,6 +234,7 @@ public class C00_PsychicApparatus extends clsModuleContainer implements
 	@Override
 	public void receive_I1_5(int pnData) {
 		moC03Ego.receive_I1_5(pnData);
+		moC04SuperEgo.receive_I1_5(pnData);
 		
 	}
 
@@ -260,6 +261,7 @@ public class C00_PsychicApparatus extends clsModuleContainer implements
 	@Override
 	public void receive_I2_9(int pnData) {
 		moC03Ego.receive_I2_9(pnData);
+		moC04SuperEgo.receive_I2_9(pnData);
 		
 	}
 

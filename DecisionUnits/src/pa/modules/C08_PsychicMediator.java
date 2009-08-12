@@ -9,6 +9,7 @@ package pa.modules;
 import pa.interfaces.I1_5;
 import pa.interfaces.I1_6;
 import pa.interfaces.I1_7;
+import pa.interfaces.I2_10;
 import pa.interfaces.I2_11;
 import pa.interfaces.I2_6;
 import pa.interfaces.I2_8;
@@ -40,6 +41,7 @@ public class C08_PsychicMediator extends clsModuleContainer implements
 					I2_6,
 					I2_8,
 					I2_9,
+					I2_10,
 					I2_11,
 					I3_1,
 					I3_2,
@@ -316,6 +318,19 @@ public class C08_PsychicMediator extends clsModuleContainer implements
 	@Override
 	public void receive_I7_4(int pnData) {
 		((I7_4)moEnclosingContainer).receive_I7_4(pnData);
+	}
+
+	/* (non-Javadoc)
+	 *
+	 * @author deutsch
+	 * 12.08.2009, 13:09:48
+	 * 
+	 * @see pa.interfaces.I2_10#receive_I2_10(int)
+	 */
+	@Override
+	public void receive_I2_10(int pnData) {
+		moC11PrimaryToSecondaryInterface1.receive_I2_10(pnData);
+		
 	}
 
 }

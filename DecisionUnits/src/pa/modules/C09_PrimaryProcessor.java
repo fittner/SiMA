@@ -20,6 +20,7 @@ import pa.interfaces.I4_1;
 import pa.interfaces.I4_2;
 import pa.interfaces.I4_3;
 import pa.interfaces.I5_1;
+import pa.interfaces.I5_2;
 import pa.interfaces.I6_3;
 import config.clsBWProperties;
 
@@ -45,6 +46,7 @@ public class C09_PrimaryProcessor extends clsModuleContainer implements
 					I4_2,
 					I4_3,
 					I5_1,
+					I5_2,
 					I6_3
 					{
 
@@ -210,6 +212,7 @@ public class C09_PrimaryProcessor extends clsModuleContainer implements
 	@Override
 	public void receive_I1_5(int pnData) {
 		moC13PrimaryDecision.receive_I1_5(pnData);
+		moC14PrimaryKnowledgeUtilizer.receive_I1_5(pnData);
 		
 	}
 
@@ -272,5 +275,18 @@ public class C09_PrimaryProcessor extends clsModuleContainer implements
 	@Override
 	public void receive_I6_3(int pnData) {
 		moC13PrimaryDecision.receive_I6_3(pnData);
+	}
+
+	/* (non-Javadoc)
+	 *
+	 * @author deutsch
+	 * 12.08.2009, 13:11:10
+	 * 
+	 * @see pa.interfaces.I5_2#receive_I5_2(int)
+	 */
+	@Override
+	public void receive_I5_2(int pnData) {
+		((I5_2)moEnclosingContainer).receive_I5_2(pnData);
+		
 	}
 }

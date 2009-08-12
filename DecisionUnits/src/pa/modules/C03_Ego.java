@@ -125,7 +125,7 @@ public class C03_Ego extends clsModuleContainer implements
 	 */
 	@Override
 	public void receive_I1_5(int pnData) {
-		((I2_5)moEnclosingContainer).receive_I2_5(pnData);
+		moC08PsychicMediator.receive_I1_5(pnData);
 	}
 
 	/* (non-Javadoc)

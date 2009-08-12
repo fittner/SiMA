@@ -7,6 +7,7 @@
 package pa.modules;
 
 import config.clsBWProperties;
+import pa.interfaces.I5_4;
 import pa.interfaces.I2_10;
 import pa.interfaces.I2_11;
 
@@ -111,6 +112,7 @@ public class E21_ConversionToSecondaryProcess extends clsModuleBase implements I
 	@Override
 	protected void send() {
 		((I2_11)moEnclosingContainer).receive_I2_11(mnTest);
+		((I5_4)moEnclosingContainer).receive_I5_4(mnTest);
 		
 	}
 
