@@ -54,7 +54,8 @@ public class clsBubble extends clsAnimate implements itfGetVision, itfGetEatable
 		
 		//TODO: (langr) - should pass the config to the decision unit!
 		//oProp.putAll( clsDumbMindA.getDefaultProperties(pre) ); //clsDumbMindA.getDefaultProperties(pre)
-		oProp.setProperty(pre+P_DECISION_TYPE, eDecisionType.DUMB_MIND_A.name());
+		oProp.setProperty(pre+P_DECISION_TYPE, eDecisionType.PA.name());
+		oProp.putAll( pa.clsPsychoAnalysis.getDefaultProperties(pre+P_DU_PROPERTIES) );
 		
 		oProp.setProperty(pre+P_SHAPE+"."+clsShapeCreator.P_DEFAULT_SHAPE, P_SHAPENAME);
 		oProp.setProperty(pre+P_SHAPE+"."+P_SHAPENAME+"."+clsShapeCreator.P_TYPE, eShapeType.CIRCLE.name());

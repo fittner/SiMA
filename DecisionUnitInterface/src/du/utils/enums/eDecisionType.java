@@ -22,6 +22,8 @@ public enum eDecisionType {
 	LYNX_JAM,
 	LYNX_IFTHENELSE,
 	
+	PA,
+	
 	REMOTE,
 	RULE_BASED,
 	NONE

@@ -80,6 +80,8 @@ public class clsMainGetDefaultConfig {
 		clsBWProperties.writeProperties(clsWallHorizontal.getDefaultProperties(""), oBaseDir, "wall_hor"+oSubExt, "");
 		clsBWProperties.writeProperties(clsWallVertical.getDefaultProperties(""), oBaseDir, "wall_ver"+oSubExt, "");
 
+		clsBWProperties.writeProperties(pa.clsPsychoAnalysis.getDefaultProperties(""), oBaseDir, "du_pa"+oSubExt, "");
+		
 		clsBWProperties.writeProperties(clsSimplePropertyLoader.getDefaultProperties("", true), clsGetARSPath.getConfigPath(), "simplePropertyLoader"+oMainExt, "");
 		
 		clsBWProperties.writeProperties(clsBWMainWithUI.getDefaultProperties(""),  clsGetARSPath.getConfigPath(), oSystemFile, "");

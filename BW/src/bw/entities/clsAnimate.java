@@ -40,7 +40,8 @@ public abstract class clsAnimate extends clsMobile implements itfGetBody {
 
 	public static final String P_BODY_TYPE = "body_type";
 	public static final String P_BODY = "body";
-	public static final String P_DECISION_TYPE = "decision_type";
+	public static final String P_DECISION_TYPE = "decisionunit_type";
+	public static final String P_DU_PROPERTIES = "decisionunit_props";
 	
 	protected clsBaseBody moBody; // the instance of a body
 	
@@ -126,7 +127,9 @@ public abstract class clsAnimate extends clsMobile implements itfGetBody {
 				break;	
 			case LYNX_IFTHENELSE:
 				oDecisionUnit = new lifeCycle.IfThenElse.clsLynxMind();
-				break;			
+				break;	
+			case PA:
+				oDecisionUnit = new pa.clsPsychoAnalysis(pre+P_DU_PROPERTIES, poProp);
 			default:
 				oDecisionUnit = null;
 			break;
