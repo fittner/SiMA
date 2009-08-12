@@ -6,9 +6,12 @@
  */
 package pa.modules;
 
+import java.util.HashMap;
+
 import config.clsBWProperties;
 import pa.interfaces.I2_1;
-import decisionunit.itf.sensors.clsSensorData;
+import decisionunit.itf.sensors.clsDataBase;
+import enums.eSensorExtType;
 import pa.interfaces.itfProcessSensorEnvironment;
 
 /**
@@ -20,6 +23,8 @@ import pa.interfaces.itfProcessSensorEnvironment;
  */
 public class E10_SensorsEnvironment extends clsModuleBase implements itfProcessSensorEnvironment {
 
+	HashMap<eSensorExtType, clsDataBase> moEnvironmentalData;
+	
 	/**
 	 * DOCUMENT (deutsch) - insert description 
 	 * 
@@ -79,15 +84,14 @@ public class E10_SensorsEnvironment extends clsModuleBase implements itfProcessS
 
 	/* (non-Javadoc)
 	 *
-	 * @author deutsch
-	 * 11.08.2009, 15:50:31
+	 * @author langr
+	 * 12.08.2009, 20:58:11
 	 * 
-	 * @see pa.interfaces.itfProcessSensorEnvironment#processEnvironment(decisionunit.itf.sensors.clsSensorData)
+	 * @see pa.interfaces.itfProcessSensorEnvironment#receiveEnvironment(java.util.HashMap)
 	 */
 	@Override
-	public void receiveEnvironment(clsSensorData poData) {
-		mnTest = 0;
-		
+	public void receiveEnvironment(HashMap<eSensorExtType, clsDataBase> poData) {
+		moEnvironmentalData = poData;
 	}
 
 	/* (non-Javadoc)
@@ -112,7 +116,7 @@ public class E10_SensorsEnvironment extends clsModuleBase implements itfProcessS
 	 */
 	@Override
 	protected void send() {
-		((I2_1)moEnclosingContainer).receive_I2_1(mnTest);
+		((I2_1)moEnclosingContainer).receive_I2_1(moEnvironmentalData);
 		
 	}
 

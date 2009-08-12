@@ -12,7 +12,6 @@ import pa.interfaces.I1_1;
 import pa.interfaces.itfProcessHomeostases;
 import config.clsBWProperties;
 import decisionunit.itf.sensors.clsDataBase;
-import decisionunit.itf.sensors.clsSensorData;
 import enums.eSensorIntType;
 
 /**
@@ -86,14 +85,13 @@ public class E01_Homeostases extends clsModuleBase implements itfProcessHomeosta
 	/* (non-Javadoc)
 	 *
 	 * @author deutsch
-	 * 11.08.2009, 15:50:35
+	 * 11.08.2009, 15:53:01
 	 * 
 	 * @see pa.interfaces.itfProcessHomeostases#processHomeostases(decisionunit.itf.sensors.clsSensorData)
 	 */
 	@Override
-	public void receiveHomeostases(clsSensorData poData) {
-		//filter out homeostatic values only!
-		moHomeostasis = poData.getHomeostaticData();
+	public void receiveHomeostases(HashMap<eSensorIntType, clsDataBase> poData) {
+		moHomeostasis = poData;
 	}
 
 	/* (non-Javadoc)
@@ -105,7 +103,7 @@ public class E01_Homeostases extends clsModuleBase implements itfProcessHomeosta
 	 */
 	@Override
 	protected void process() {
-		mnTest++;		
+		//add necessary preprocessing here
 	}
 
 	/* (non-Javadoc)
@@ -117,7 +115,7 @@ public class E01_Homeostases extends clsModuleBase implements itfProcessHomeosta
 	 */
 	@Override
 	protected void send() {
-		((I1_1)moEnclosingContainer).receive_I1_1(mnTest);		
+		((I1_1)moEnclosingContainer).receive_I1_1(moHomeostasis);		
 	}
 
 }

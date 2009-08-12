@@ -6,6 +6,8 @@
  */
 package pa.modules;
 
+import java.util.HashMap;
+
 import pa.interfaces.I1_2;
 import pa.interfaces.I1_5;
 import pa.interfaces.I1_7;
@@ -30,7 +32,9 @@ import pa.interfaces.itfReturnActionCommands;
 import pa.memory.clsMemory;
 import config.clsBWProperties;
 import decisionunit.itf.actions.itfActionProcessor;
-import decisionunit.itf.sensors.clsSensorData;
+import decisionunit.itf.sensors.clsDataBase;
+import enums.eSensorExtType;
+import enums.eSensorIntType;
 
 /**
  * DOCUMENT (deutsch) - insert description 
@@ -120,35 +124,35 @@ public class C00_PsychicApparatus extends clsModuleContainer implements
 	 * @author deutsch
 	 * 11.08.2009, 15:53:01
 	 * 
-	 * @see pa.interfaces.itfProcessSensorEnvironment#processEnvironment(decisionunit.itf.sensors.clsSensorData)
+	 * @see pa.interfaces.itfProcessHomeostases#processHomeostases(decisionunit.itf.sensors.clsSensorData)
 	 */
 	@Override
-	public void receiveEnvironment(clsSensorData poData) {
+	public void receiveHomeostases(HashMap<eSensorIntType, clsDataBase> poData) {
+		moC01Body.receiveHomeostases(poData);		
+	}
+	
+	/* (non-Javadoc)
+	 *
+	 * @author langr
+	 * 12.08.2009, 20:58:11
+	 * 
+	 * @see pa.interfaces.itfProcessSensorEnvironment#receiveEnvironment(java.util.HashMap)
+	 */
+	@Override
+	public void receiveEnvironment(HashMap<eSensorExtType, clsDataBase> poData) {
 		moC01Body.receiveEnvironment(poData);		
 	}
 
 	/* (non-Javadoc)
 	 *
-	 * @author deutsch
-	 * 11.08.2009, 15:53:01
+	 * @author langr
+	 * 12.08.2009, 20:58:11
 	 * 
-	 * @see pa.interfaces.itfProcessHomeostases#processHomeostases(decisionunit.itf.sensors.clsSensorData)
+	 * @see pa.interfaces.itfProcessSensorBody#receiveBody(java.util.HashMap)
 	 */
 	@Override
-	public void receiveHomeostases(clsSensorData poData) {
-		moC01Body.receiveHomeostases(poData);		
-	}
-
-	/* (non-Javadoc)
-	 *
-	 * @author deutsch
-	 * 11.08.2009, 15:53:01
-	 * 
-	 * @see pa.interfaces.itfProcessSensorBody#processBody(decisionunit.itf.sensors.clsSensorData)
-	 */
-	@Override
-	public void receiveBody(clsSensorData poData) {
-		moC01Body.receiveBody(poData);		
+	public void receiveBody(HashMap<eSensorExtType, clsDataBase> poData) {
+		moC01Body.receiveBody(poData);
 	}
 
 	/* (non-Javadoc)

@@ -6,7 +6,10 @@
  */
 package pa.interfaces;
 
-import decisionunit.itf.sensors.clsSensorData;
+import java.util.HashMap;
+
+import decisionunit.itf.sensors.clsDataBase;
+import enums.eSensorExtType;
 
 /**
  * DOCUMENT (deutsch) - insert description 
@@ -16,5 +19,5 @@ import decisionunit.itf.sensors.clsSensorData;
  * 
  */
 public interface itfProcessSensorBody {
-	public void receiveBody(clsSensorData poData);
+	public void receiveBody(HashMap<eSensorExtType, clsDataBase> poData);
 }

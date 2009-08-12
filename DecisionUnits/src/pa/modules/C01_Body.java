@@ -6,6 +6,8 @@
  */
 package pa.modules;
 
+import java.util.HashMap;
+
 import pa.interfaces.I1_1;
 import pa.interfaces.I1_2;
 import pa.interfaces.I2_1;
@@ -21,7 +23,9 @@ import pa.interfaces.itfReturnActionCommands;
 import pa.memory.clsMemory;
 import config.clsBWProperties;
 import decisionunit.itf.actions.itfActionProcessor;
-import decisionunit.itf.sensors.clsSensorData;
+import decisionunit.itf.sensors.clsDataBase;
+import enums.eSensorExtType;
+import enums.eSensorIntType;
 
 /**
  * DOCUMENT (deutsch) - insert description 
@@ -110,37 +114,37 @@ public class C01_Body extends clsModuleContainer implements
 
 	/* (non-Javadoc)
 	 *
-	 * @author deutsch
-	 * 11.08.2009, 15:51:56
+	 * @author langr
+	 * 12.08.2009, 20:58:11
 	 * 
-	 * @see pa.interfaces.itfProcessSensorEnvironment#processEnvironment(decisionunit.itf.sensors.clsSensorData)
+	 * @see pa.interfaces.itfProcessSensorEnvironment#receiveEnvironment(java.util.HashMap)
 	 */
 	@Override
-	public void receiveEnvironment(clsSensorData poData) {
+	public void receiveEnvironment(HashMap<eSensorExtType, clsDataBase> poData) {
 		moE10SensorsEnvironment.receiveEnvironment(poData);		
 	}
 
 	/* (non-Javadoc)
 	 *
 	 * @author deutsch
-	 * 11.08.2009, 15:51:56
+	 * 11.08.2009, 15:53:01
 	 * 
 	 * @see pa.interfaces.itfProcessHomeostases#processHomeostases(decisionunit.itf.sensors.clsSensorData)
 	 */
 	@Override
-	public void receiveHomeostases(clsSensorData poData) {
+	public void receiveHomeostases(HashMap<eSensorIntType, clsDataBase> poData) {
 		moE01Homeostases.receiveHomeostases(poData);		
 	}
 
 	/* (non-Javadoc)
 	 *
-	 * @author deutsch
-	 * 11.08.2009, 15:51:56
+	 * @author langr
+	 * 12.08.2009, 20:58:11
 	 * 
-	 * @see pa.interfaces.itfProcessSensorBody#processBody(decisionunit.itf.sensors.clsSensorData)
+	 * @see pa.interfaces.itfProcessSensorBody#receiveBody(java.util.HashMap)
 	 */
 	@Override
-	public void receiveBody(clsSensorData poData) {
+	public void receiveBody(HashMap<eSensorExtType, clsDataBase> poData) {
 		moE12SensorsBody.receiveBody(poData);		
 	}
 
@@ -152,7 +156,7 @@ public class C01_Body extends clsModuleContainer implements
 	 * @see pa.interfaces.I1_1#receive_I1_1(int)
 	 */
 	@Override
-	public void receive_I1_1(int pnData) {
+	public void receive_I1_1(HashMap<eSensorIntType, clsDataBase> pnData) {
 		moE02NeurosymbolizationOfNeeds.receive_I1_1(pnData);		
 	}
 
@@ -164,7 +168,7 @@ public class C01_Body extends clsModuleContainer implements
 	 * @see pa.interfaces.I2_1#receive_I2_1(int)
 	 */
 	@Override
-	public void receive_I2_1(int pnData) {
+	public void receive_I2_1(HashMap<eSensorExtType, clsDataBase> pnData) {
 		moE11NeuroSymbolsEnvironment.receive_I2_1(pnData);
 		
 	}
@@ -177,7 +181,7 @@ public class C01_Body extends clsModuleContainer implements
 	 * @see pa.interfaces.I2_3#receive_I2_3(int)
 	 */
 	@Override
-	public void receive_I2_3(int pnData) {
+	public void receive_I2_3(HashMap<eSensorExtType, clsDataBase> pnData) {
 		moE13NeuroSymbolsBody.receive_I2_3(pnData);
 		
 	}

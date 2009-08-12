@@ -6,9 +6,13 @@
  */
 package pa.modules;
 
+import java.util.HashMap;
+
 import pa.interfaces.I1_1;
 import pa.interfaces.I1_2;
 import config.clsBWProperties;
+import decisionunit.itf.sensors.clsDataBase;
+import enums.eSensorIntType;
 
 /**
  * DOCUMENT (deutsch) - insert description 
@@ -19,6 +23,8 @@ import config.clsBWProperties;
  */
 public class E02_NeurosymbolizationOfNeeds extends clsModuleBase implements I1_1 {
 
+	private HashMap<eSensorIntType, clsDataBase> moHomeostasis;
+	
 	/**
 	 * DOCUMENT (deutsch) - insert description 
 	 * 
@@ -83,8 +89,8 @@ public class E02_NeurosymbolizationOfNeeds extends clsModuleBase implements I1_1
 	 * @see pa.interfaces.I1_1#receive_I1_1(int)
 	 */
 	@Override
-	public void receive_I1_1(int pnData) {
-		mnTest += pnData;
+	public void receive_I1_1(HashMap<eSensorIntType, clsDataBase> pnData) {
+		moHomeostasis = pnData;
 		
 	}
 

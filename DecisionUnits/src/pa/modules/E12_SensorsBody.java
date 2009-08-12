@@ -6,9 +6,12 @@
  */
 package pa.modules;
 
+import java.util.HashMap;
+
 import config.clsBWProperties;
 import pa.interfaces.I2_3;
-import decisionunit.itf.sensors.clsSensorData;
+import decisionunit.itf.sensors.clsDataBase;
+import enums.eSensorExtType;
 import pa.interfaces.itfProcessSensorBody;
 
 /**
@@ -20,6 +23,8 @@ import pa.interfaces.itfProcessSensorBody;
  */
 public class E12_SensorsBody extends clsModuleBase implements itfProcessSensorBody {
 
+	private HashMap<eSensorExtType, clsDataBase> moBodyData;
+	
 	/**
 	 * DOCUMENT (deutsch) - insert description 
 	 * 
@@ -78,15 +83,14 @@ public class E12_SensorsBody extends clsModuleBase implements itfProcessSensorBo
 
 	/* (non-Javadoc)
 	 *
-	 * @author deutsch
-	 * 11.08.2009, 15:50:27
+	 * @author langr
+	 * 12.08.2009, 20:58:11
 	 * 
-	 * @see pa.interfaces.itfProcessSensorBody#processBody(decisionunit.itf.sensors.clsSensorData)
+	 * @see pa.interfaces.itfProcessSensorBody#receiveBody(java.util.HashMap)
 	 */
 	@Override
-	public void receiveBody(clsSensorData poData) {
-		// TODO (deutsch) - Auto-generated method stub
-		
+	public void receiveBody(HashMap<eSensorExtType, clsDataBase> poData) {
+		moBodyData = poData;		
 	}
 
 	/* (non-Javadoc)
@@ -111,7 +115,7 @@ public class E12_SensorsBody extends clsModuleBase implements itfProcessSensorBo
 	 */
 	@Override
 	protected void send() {
-		((I2_3)moEnclosingContainer).receive_I2_3(mnTest);
+		((I2_3)moEnclosingContainer).receive_I2_3(moBodyData);
 		
 	}
 

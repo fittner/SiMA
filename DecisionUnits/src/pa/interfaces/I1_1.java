@@ -6,6 +6,11 @@
  */
 package pa.interfaces;
 
+import java.util.HashMap;
+
+import decisionunit.itf.sensors.clsDataBase;
+import enums.eSensorIntType;
+
 /**
  * DOCUMENT (deutsch) - insert description 
  * 
@@ -14,5 +19,5 @@ package pa.interfaces;
  * 
  */
 public interface I1_1 {
-	public void receive_I1_1(int pnData);
+	public void receive_I1_1(HashMap<eSensorIntType, clsDataBase> pnData);
 }

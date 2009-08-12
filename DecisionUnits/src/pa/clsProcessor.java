@@ -6,9 +6,14 @@
  */
 package pa;
 
+import java.util.HashMap;
+
 import config.clsBWProperties;
 import decisionunit.itf.actions.itfActionProcessor;
+import decisionunit.itf.sensors.clsDataBase;
 import decisionunit.itf.sensors.clsSensorData;
+import enums.eSensorExtType;
+import enums.eSensorIntType;
 import pa.modules.C00_PsychicApparatus;
 import pa.modules.E01_Homeostases;
 import pa.modules.E02_NeurosymbolizationOfNeeds;
@@ -146,9 +151,84 @@ public class clsProcessor {
 	}
 	
 	public void applySensorData(clsSensorData poData) {
-		moPsychicApparatus.receiveBody(poData);
-		moPsychicApparatus.receiveEnvironment(poData);
-		moPsychicApparatus.receiveHomeostases(poData);		
+		moPsychicApparatus.receiveBody( separateBodyData(poData) );
+		moPsychicApparatus.receiveEnvironment( separateEnvironmentalData(poData) );
+		moPsychicApparatus.receiveHomeostases( separateHomeostaticData(poData) );		
+	}
+
+	/**
+	 * collects homeostatic value only
+	 *
+	 * @author langr
+	 * 12.08.2009, 20:42:17
+	 *
+	 * @param poData
+	 * @return
+	 */
+	private HashMap<eSensorIntType, clsDataBase> separateHomeostaticData(clsSensorData poData) {
+		HashMap<eSensorIntType, clsDataBase> oResult = new HashMap<eSensorIntType, clsDataBase>();
+		
+		oResult.put(eSensorIntType.ENERGY, poData.getSensorInt(eSensorIntType.ENERGY));
+		oResult.put(eSensorIntType.ENERGY_CONSUMPTION, poData.getSensorInt(eSensorIntType.ENERGY_CONSUMPTION));
+		oResult.put(eSensorIntType.HEALTH, poData.getSensorInt(eSensorIntType.HEALTH));
+		oResult.put(eSensorIntType.STAMINA, poData.getSensorInt(eSensorIntType.STAMINA));
+		oResult.put(eSensorIntType.STOMACH, poData.getSensorInt(eSensorIntType.STOMACH));
+		oResult.put(eSensorIntType.TEMPERATURE, poData.getSensorInt(eSensorIntType.TEMPERATURE));
+		oResult.put(eSensorIntType.FASTMESSENGER, poData.getSensorInt(eSensorIntType.FASTMESSENGER));
+		oResult.put(eSensorIntType.STOMACHTENSION, poData.getSensorInt(eSensorIntType.STOMACHTENSION));
+		
+		return oResult;
+	}
+
+	/**
+	 * collects environmental data only
+	 *
+	 * @author langr
+	 * 12.08.2009, 20:41:51
+	 *
+	 * @param poData
+	 * @return
+	 */
+	private HashMap<eSensorExtType, clsDataBase> separateEnvironmentalData(clsSensorData poData) {
+		HashMap<eSensorExtType, clsDataBase> oResult = new HashMap<eSensorExtType, clsDataBase>();
+
+		//collect environmental data only
+		oResult.put(eSensorExtType.ACCELERATION, poData.getSensorExt(eSensorExtType.ACCELERATION));
+		oResult.put(eSensorExtType.ACOUSTIC, poData.getSensorExt(eSensorExtType.ACOUSTIC));
+		oResult.put(eSensorExtType.BUMP, poData.getSensorExt(eSensorExtType.BUMP));
+		oResult.put(eSensorExtType.EATABLE_AREA, poData.getSensorExt(eSensorExtType.EATABLE_AREA));
+		oResult.put(eSensorExtType.OLFACTORIC, poData.getSensorExt(eSensorExtType.OLFACTORIC));
+		oResult.put(eSensorExtType.TACTILE, poData.getSensorExt(eSensorExtType.TACTILE));
+		oResult.put(eSensorExtType.VISION, poData.getSensorExt(eSensorExtType.VISION));
+		oResult.put(eSensorExtType.POSITIONCHANGE, poData.getSensorExt(eSensorExtType.POSITIONCHANGE));
+		oResult.put(eSensorExtType.RADIATION, poData.getSensorExt(eSensorExtType.RADIATION));
+		
+		return oResult;
+	}
+
+	/**
+	 * collects bodily data only
+	 *
+	 * @author langr
+	 * 12.08.2009, 20:41:48
+	 *
+	 * @param poData
+	 * @return
+	 */
+	private HashMap<eSensorExtType, clsDataBase> separateBodyData(clsSensorData poData) {
+		HashMap<eSensorExtType, clsDataBase> oResult = new HashMap<eSensorExtType, clsDataBase>();
+		
+//		//TODO: (all) collect (but first generate) bodily data only
+//		oResult.put(eSensorExtType., poData.getSensorInt(eSensorExtType.));
+//		oResult.put(eSensorExtType., poData.eSensorExtType(eSensorIntType.));
+//		oResult.put(eSensorExtType., poData.getSensorInt(eSensorExtType.));
+//		oResult.put(eSensorExtType., poData.getSensorInt(eSensorExtType.));
+//		oResult.put(eSensorExtType., poData.getSensorInt(eSensorExtType.));
+//		oResult.put(eSensorExtType., poData.getSensorInt(eSensorExtType.));
+//		oResult.put(eSensorExtType., poData.getSensorInt(eSensorExtType.));
+//		oResult.put(eSensorExtType., poData.getSensorInt(eSensorExtType.));
+
+		return oResult;
 	}
 
 	public void getActionCommands(itfActionProcessor poActionContainer) {

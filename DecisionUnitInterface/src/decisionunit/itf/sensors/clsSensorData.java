@@ -34,19 +34,6 @@ public class clsSensorData {
 		return moSensorDataInt.get(pnType);
 	}
 	
-	public HashMap<eSensorIntType, clsDataBase> getHomeostaticData() {
-		HashMap<eSensorIntType, clsDataBase> oResult = new HashMap<eSensorIntType, clsDataBase>();
-		oResult.put(eSensorIntType.ENERGY, getSensorInt(eSensorIntType.ENERGY));
-		oResult.put(eSensorIntType.ENERGY_CONSUMPTION, getSensorInt(eSensorIntType.ENERGY_CONSUMPTION));
-		oResult.put(eSensorIntType.HEALTH, getSensorInt(eSensorIntType.HEALTH));
-		oResult.put(eSensorIntType.STAMINA, getSensorInt(eSensorIntType.STAMINA));
-		oResult.put(eSensorIntType.STOMACH, getSensorInt(eSensorIntType.STOMACH));
-		oResult.put(eSensorIntType.TEMPERATURE, getSensorInt(eSensorIntType.TEMPERATURE));
-		oResult.put(eSensorIntType.FASTMESSENGER, getSensorInt(eSensorIntType.FASTMESSENGER));
-		oResult.put(eSensorIntType.STOMACHTENSION, getSensorInt(eSensorIntType.STOMACHTENSION));
-		return oResult;
-	}
-	
 	private String logXMLSensors(Collection<clsDataBase> poSensorData) {
 		String logEntry = "";
 		

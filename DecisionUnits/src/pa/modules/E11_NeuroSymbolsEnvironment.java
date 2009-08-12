@@ -6,7 +6,11 @@
  */
 package pa.modules;
 
+import java.util.HashMap;
+
 import config.clsBWProperties;
+import decisionunit.itf.sensors.clsDataBase;
+import enums.eSensorExtType;
 import pa.interfaces.I2_1;
 import pa.interfaces.I2_2;
 
@@ -19,6 +23,8 @@ import pa.interfaces.I2_2;
  */
 public class E11_NeuroSymbolsEnvironment extends clsModuleBase implements I2_1 {
 
+	HashMap<eSensorExtType, clsDataBase> moEnvironmentalData;
+	
 	/**
 	 * DOCUMENT (deutsch) - insert description 
 	 * 
@@ -80,11 +86,11 @@ public class E11_NeuroSymbolsEnvironment extends clsModuleBase implements I2_1 {
 	 * @author deutsch
 	 * 11.08.2009, 14:20:05
 	 * 
-	 * @see pa.interfaces.I2_1#receive_I2_1(int)
+	 * @see pa.interfaces.I2_1#receive_I2_1(HashMap<eSensorExtType, clsDataBase>)
 	 */
 	@Override
-	public void receive_I2_1(int pnData) {
-		mnTest += pnData;
+	public void receive_I2_1(HashMap<eSensorExtType, clsDataBase> poData) {
+		moEnvironmentalData = poData;
 		
 	}
 
