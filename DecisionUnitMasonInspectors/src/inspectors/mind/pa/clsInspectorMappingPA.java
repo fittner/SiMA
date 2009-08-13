@@ -37,8 +37,9 @@ public class clsInspectorMappingPA {
 			oRetVal.addInspector( new clsE02InspectorInput(poSuperInspector, poWrapper, poState, moPA.moC01Body.moE02NeurosymbolizationOfNeeds), "Input");
 			oRetVal.addInspector( new clsE02InspectorOutput(poSuperInspector, poWrapper, poState, moPA.moC01Body.moE02NeurosymbolizationOfNeeds), "Output");
 		}
-		else if(poModuleName == "") {
-			
+		else if(poModuleName.equals("Psychic Apparatus")) {
+			oRetVal.addInspector( new clsPAInspectorFuncModel(poSuperInspector, poWrapper, poState, moPA), "Functional Model");
+			oRetVal.addInspector( new clsPAInspectorTopDown(poSuperInspector, poWrapper, poState, moPA), "Top-Down Design");
 		}
 		else {
 			

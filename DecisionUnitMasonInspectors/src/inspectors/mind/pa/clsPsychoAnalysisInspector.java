@@ -157,12 +157,12 @@ public class clsPsychoAnalysisInspector extends Inspector implements TreeSelecti
 		return;
 		
 		Object nodeInfo = node.getUserObject();
-		if (node.isLeaf()) {
+		//if (node.isLeaf()) {
 			moContentPane.remove(moContent);
 			moContent = clsInspectorMappingPA.getPAInspector( moOriginalInspector, moWrapper, moGuiState, moPA.getProcessor().getPsychicApparatus(), nodeInfo.toString());
 			moContentPane.add(moContent);
 			moContentPane.setViewportView(moContent);
 			moContentPane.repaint();
-		}
+		//}
 	}
 }
