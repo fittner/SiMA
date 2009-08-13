@@ -16,6 +16,7 @@ import bw.body.clsMeatBody;
 import bw.body.internalSystems.clsFlesh;
 import bw.entities.tools.clsShapeCreator;
 import bw.entities.tools.eImagePositioning;
+import bw.exceptions.exFoodWeightBelowZero;
 import bw.utils.enums.eNutritions;
 import bw.utils.enums.eShapeType;
 
@@ -26,15 +27,22 @@ import bw.utils.enums.eShapeType;
  * 06.08.2009, 14:12:46
  * 
  */
-public class clsSmartExcrements extends clsInanimate {
+public class clsSmartExcrement extends clsInanimate {
 	public static final String P_BODY = "body";
 	
 	private clsMeatBody moBody;
 		
-	public clsSmartExcrements(String poPrefix, clsBWProperties poProp)
+	public clsSmartExcrement(String poPrefix, clsBWProperties poProp, double prWeight)
     {
 		super(poPrefix, poProp);		
 		applyProperties(poPrefix, poProp);
+		
+		try {
+			getFlesh().setWeight(prWeight);
+		} catch (exFoodWeightBelowZero e) {
+			// nothing to do
+		}
+		setVariableWeight(getFlesh().getWeight());
     } 
 	
 	private void applyProperties(String poPrefix, clsBWProperties poProp){		
@@ -64,7 +72,7 @@ public class clsSmartExcrements extends clsInanimate {
 		oProp.setProperty(pre+P_BODY+"."+"0."+clsFlesh.P_NUTRITIONTYPE, eNutritions.UNDIGESTABLE.name());
 		oProp.setProperty(pre+P_BODY+"."+"0."+clsFlesh.P_NUTRITIONFRACTION, 1.0);
 		oProp.setProperty(pre+P_BODY+"."+clsFlesh.P_WEIGHT, 1 );
-		oProp.setProperty(pre+P_BODY+"."+clsMeatBody.P_MAXWEIGHT, 1);
+		oProp.setProperty(pre+P_BODY+"."+clsMeatBody.P_MAXWEIGHT, Double.MAX_VALUE);
 		oProp.setProperty(pre+P_BODY+"."+clsMeatBody.P_REGROWRATE, 0);		
 		
 		return oProp;

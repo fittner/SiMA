@@ -51,7 +51,7 @@ public class clsContentColumn {
 		clsBWProperties oProp = new clsBWProperties();
 		
 		oProp.setProperty(pre+P_MAXCONTENT, new Double(java.lang.Double.MAX_VALUE).toString());
-		oProp.setProperty(pre+P_CONTENT, "0");
+		oProp.setProperty(pre+P_CONTENT, 0);
 		
 		return oProp;
 	}	

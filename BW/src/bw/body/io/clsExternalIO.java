@@ -95,27 +95,27 @@ public class clsExternalIO extends clsBaseIO {
 		
 		oProp.putAll( clsSensorAcceleration.getDefaultProperties( pre+"0") );
 		oProp.setProperty(pre+"0."+P_SENSORACTIVE, true);
-		oProp.setProperty(pre+"0."+P_SENSORTYPE, eSensorExtType.ACCELERATION.toString());
+		oProp.setProperty(pre+"0."+P_SENSORTYPE, eSensorExtType.ACCELERATION.name());
 				
 		oProp.putAll( clsSensorBump.getDefaultProperties( pre+"1") );
 		oProp.setProperty(pre+"1."+P_SENSORACTIVE, true);
-		oProp.setProperty(pre+"1."+P_SENSORTYPE, eSensorExtType.BUMP.toString());
+		oProp.setProperty(pre+"1."+P_SENSORTYPE, eSensorExtType.BUMP.name());
 				
 		oProp.putAll( clsSensorVision.getDefaultProperties( pre+"2") );
 		oProp.setProperty(pre+"2."+P_SENSORACTIVE, true);
-		oProp.setProperty(pre+"2."+P_SENSORTYPE, eSensorExtType.VISION.toString());
+		oProp.setProperty(pre+"2."+P_SENSORTYPE, eSensorExtType.VISION.name());
 		
 		oProp.putAll( clsSensorRadiation.getDefaultProperties( pre+"3") );
 		oProp.setProperty(pre+"3."+P_SENSORACTIVE, true);
-		oProp.setProperty(pre+"3."+P_SENSORTYPE, eSensorExtType.RADIATION.toString());
+		oProp.setProperty(pre+"3."+P_SENSORTYPE, eSensorExtType.RADIATION.name());
 		
 		oProp.putAll( clsSensorEatableArea.getDefaultProperties( pre+"4") );
 		oProp.setProperty(pre+"4."+P_SENSORACTIVE, true);
-		oProp.setProperty(pre+"4."+P_SENSORTYPE, eSensorExtType.EATABLE_AREA.toString());
+		oProp.setProperty(pre+"4."+P_SENSORTYPE, eSensorExtType.EATABLE_AREA.name());
 		
 		oProp.putAll( clsSensorPositionChange.getDefaultProperties( pre+"5") );
 		oProp.setProperty(pre+"5."+P_SENSORACTIVE, true);
-		oProp.setProperty(pre+"5."+P_SENSORTYPE, eSensorExtType.POSITIONCHANGE.toString());		
+		oProp.setProperty(pre+"5."+P_SENSORTYPE, eSensorExtType.POSITIONCHANGE.name());		
 				
 		return oProp;
 	}	

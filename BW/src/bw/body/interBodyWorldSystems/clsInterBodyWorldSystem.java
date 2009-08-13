@@ -21,10 +21,14 @@ public class clsInterBodyWorldSystem implements itfStepUpdateInternalState {
 	public static final String P_CONSUMEFOOD = "consumefood";	
 	public static final String P_DAMAGEBUMP = "damagebump";	
 	public static final String P_DAMAGELIGHTNING = "damagelightning";	
+	public static final String P_EFFECTKISS = "effectkiss";
+	public static final String P_CREATEEXCREMENT = "createexcrement";
 	
 	private clsConsumeFood moConsumeFood;
 	private clsDamageBump moDamageBump;
 	private clsDamageLightning moDamageLightning;
+	private clsCreateExcrement moCreateExcrement;
+	private clsEffectKiss moEffectKiss;
     
 	public clsInterBodyWorldSystem(String poPrefix, clsBWProperties poProp, clsInternalSystem poInternalSystem) {
 		applyProperties(poPrefix, poProp, poInternalSystem);
@@ -38,6 +42,8 @@ public class clsInterBodyWorldSystem implements itfStepUpdateInternalState {
 		oProp.putAll( clsConsumeFood.getDefaultProperties(pre+P_CONSUMEFOOD) );
 		oProp.putAll( clsDamageBump.getDefaultProperties(pre+P_DAMAGEBUMP) );
 		oProp.putAll( clsDamageLightning.getDefaultProperties(pre+P_DAMAGELIGHTNING) );
+		oProp.putAll( clsCreateExcrement.getDefaultProperties(pre+P_CREATEEXCREMENT) );
+		oProp.putAll( clsEffectKiss.getDefaultProperties(pre+P_EFFECTKISS) );
 				
 		return oProp;
 	}	
@@ -46,6 +52,7 @@ public class clsInterBodyWorldSystem implements itfStepUpdateInternalState {
 		String pre = clsBWProperties.addDot(poPrefix);
 
 		moConsumeFood 		= new clsConsumeFood(pre+P_CONSUMEFOOD, poProp, poInternalSystem.getStomachSystem());
+		moCreateExcrement 		= new clsCreateExcrement(pre+P_CREATEEXCREMENT, poProp, poInternalSystem.getStomachSystem());		
 		moDamageBump 		= new clsDamageBump(pre+P_DAMAGEBUMP, poProp, poInternalSystem.getHealthSystem(), poInternalSystem.getFastMessengerSystem());
 		moDamageLightning 	= new clsDamageLightning(pre+P_DAMAGELIGHTNING, poProp, poInternalSystem.getHealthSystem(), poInternalSystem.getFastMessengerSystem());
 	}		
@@ -60,6 +67,14 @@ public class clsInterBodyWorldSystem implements itfStepUpdateInternalState {
 	
 	public clsDamageLightning getDamageLightning() {
 		return moDamageLightning;
+	}
+	
+	public clsCreateExcrement getCreateExcrement() {
+		return moCreateExcrement;
+	}
+	
+	public clsEffectKiss getEffectKiss() {
+		return moEffectKiss;
 	}
 	
 	/* (non-Javadoc)
