@@ -6,6 +6,9 @@
  */
 package bw.body.interBodyWorldSystems;
 
+import bw.body.internalSystems.clsFastMessengerSystem;
+import bw.body.internalSystems.clsSlowMessengerSystem;
+import bw.utils.enums.eBodyParts;
 import config.clsBWProperties;
 
 /**
@@ -16,8 +19,16 @@ import config.clsBWProperties;
  * 
  */
 public class clsEffectKiss {
-//TODO Muchitsch
-	public clsEffectKiss(String poPrefix, clsBWProperties poProp) {
+	
+	private clsFastMessengerSystem moFastMessengerSystem; // reference
+	private clsSlowMessengerSystem moSlowMessengerSystem; // reference
+	
+	
+
+	public clsEffectKiss(String poPrefix, clsBWProperties poProp, clsFastMessengerSystem poFastMessengerSystem, clsSlowMessengerSystem poSlowMessengerSystem) {
+		moFastMessengerSystem = poFastMessengerSystem;
+		moSlowMessengerSystem = poSlowMessengerSystem;
+		
 		applyProperties(poPrefix, poProp);
 	}
 
@@ -35,5 +46,21 @@ public class clsEffectKiss {
 //		String pre = clsBWProperties.addDot(poPrefix);
 		// nothing to do
 
+	}
+	
+	/**
+	 * DOCUMENT (muchitsch) - insert description
+	 *
+	 * @author muchitsch
+	 * Aug 13, 2009, 11:54:10 AM
+	 *
+	 */
+	public void kiss(eBodyParts poSource, double prIntensity)
+	{
+		
+		moFastMessengerSystem.addMessage(poSource, eBodyParts.BRAIN, prIntensity);
+		
+		//moSlowMessengerSystem.addSlowMessenger(poMessengerId, prDefaultContent, prDefaultMaxContent, prDefaultIncreaseRate, prDefaultDecayRate)
+		
 	}
 }
