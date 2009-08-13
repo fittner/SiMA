@@ -296,4 +296,16 @@ public class clsProcessor {
 		moE31NeuroDeSymbolization.step();
 		moE32Actuators.step();
 	}
+
+	/**
+	 * DOCUMENT (langr) - insert description
+	 *
+	 * @author langr
+	 * 13.08.2009, 00:08:10
+	 *
+	 * @return
+	 */
+	public C00_PsychicApparatus getPsychicApparatus() {
+		return moPsychicApparatus;
+	}
 }

@@ -57,7 +57,7 @@ public class clsInspectorSensorData extends Inspector {
         
         setLayout(new BorderLayout());
     	moHTMLPane = new HTMLBrowser(contentData);
-		add(moHTMLPane, BorderLayout.WEST);
+		add(moHTMLPane, BorderLayout.CENTER);
 	}
 	
 	/* (non-Javadoc)

@@ -117,5 +117,4 @@ public class E01_Homeostases extends clsModuleBase implements itfProcessHomeosta
 	protected void send() {
 		((I1_1)moEnclosingContainer).receive_I1_1(moHomeostasis);		
 	}
-
 }

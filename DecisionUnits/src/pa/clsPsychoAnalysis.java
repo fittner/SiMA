@@ -61,4 +61,16 @@ public class clsPsychoAnalysis extends clsBaseDecisionUnit {
 
 	}
 
+	/**
+	 * DOCUMENT (langr) - insert description
+	 *
+	 * @author langr
+	 * 13.08.2009, 00:07:30
+	 *
+	 * @return
+	 */
+	public clsProcessor getProcessor() {
+		return moProcessor;
+	}
+
 }

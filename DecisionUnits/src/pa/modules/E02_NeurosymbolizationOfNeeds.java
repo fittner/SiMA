@@ -120,4 +120,14 @@ public class E02_NeurosymbolizationOfNeeds extends clsModuleBase implements I1_1
 		
 	}
 
+	/**
+	 * @author langr
+	 * 13.08.2009, 02:14:56
+	 * 
+	 * @return the moHomeostasis
+	 */
+	public HashMap<eSensorIntType, clsDataBase> getHomeostasisData() {
+		return moHomeostasis;
+	}
+
 }

@@ -8,9 +8,11 @@
  */
 package inspectors;
 
+import pa.clsPsychoAnalysis;
 import decisionunit.clsBaseDecisionUnit;
 import inspectors.mind.clsDumbBrainInspector;
 import inspectors.mind.clsRemoteControlInspector;
+import inspectors.mind.pa.clsPsychoAnalysisInspector;
 import sim.display.GUIState;
 import sim.portrayal.Inspector;
 import sim.portrayal.LocationWrapper;
@@ -56,6 +58,9 @@ public class clsInspectorMappingDecision {
         else if( poDU instanceof clsRemoteControl) {
         	oRetVal.addInspector( new clsRemoteControlInspector(poSuperInspector, poWrapper, poState, (clsRemoteControl) poDU), "Brain Insp.");
         }
+      else if (poDU instanceof clsPsychoAnalysis ) {
+    	oRetVal.addInspector( new clsPsychoAnalysisInspector(poSuperInspector, poWrapper, poState, (clsPsychoAnalysis) poDU), "PA-Decision");
+   }
 //        else if (poEntity instanceof clsMyNewClass ) {
 //        	oRetVal.addInspector( new clsMyNewInspector(poSuperInspector, poWrapper, poState), "Name of Inspector-Tab");
 //       }
@@ -70,4 +75,5 @@ public class clsInspectorMappingDecision {
         
 	    return oRetVal;
 	}
+
 }
