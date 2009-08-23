@@ -7,12 +7,11 @@
 package bw.body.io.sensors.ext;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 
 import config.clsBWProperties;
 
-import sim.physics2D.physicalObject.PhysicalObject2D;
 import sim.physics2D.util.Double2D;
+import ARSsim.physics2D.physicalObject.clsCollidingObject;
 import bw.body.io.clsBaseIO;
 import bw.body.io.clsExternalIO;
 import bw.entities.clsEntity;
@@ -118,8 +117,7 @@ public class clsSensorAcceleration extends clsSensorExt{
 	 */
 	@Override
 	public void setDetectedObjectsList(Double pnAreaRange,
-			ArrayList<PhysicalObject2D> peObjInAreaList,
-			HashMap<Integer, Double2D> peCollisionPointList) {
+			ArrayList<clsCollidingObject> peObjInAreaList) {
 		// TODO (zeilinger) - Auto-generated method stub
 		
 	}
@@ -133,8 +131,7 @@ public class clsSensorAcceleration extends clsSensorExt{
 	 */
 	@Override
 	public void updateSensorData(Double pnAreaRange,
-			ArrayList<PhysicalObject2D> peDetectedObjInAreaList,
-			HashMap<Integer, Double2D> peCollisionPointList) {
+			ArrayList<clsCollidingObject> peDetectedObjInAreaList) {
 		// TODO (zeilinger) - Auto-generated method stub
 		
 	}

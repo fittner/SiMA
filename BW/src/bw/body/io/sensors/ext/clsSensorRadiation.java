@@ -13,15 +13,16 @@ import java.util.HashMap;
 import java.util.Iterator;
 
 import config.clsBWProperties;
-
 import enums.eEntityType;
 
+import ARSsim.physics2D.physicalObject.clsCollidingObject;
 import ARSsim.physics2D.physicalObject.clsMobileObject2D;
 import ARSsim.physics2D.physicalObject.clsStationaryObject2D;
 import bw.body.io.clsBaseIO;
 import bw.body.io.clsExternalIO;
 import bw.entities.clsEntity;
-import bw.entities.clsUraniumOre;
+
+//import bw.entities.clsUraniumOre;
 import bw.utils.enums.eBodyParts;
 
 import sim.physics2D.physicalObject.PhysicalObject2D;
@@ -82,8 +83,7 @@ public class clsSensorRadiation extends clsSensorExt {
 	 */
 	@Override
 	public void setDetectedObjectsList(Double pnAreaRange,
-			ArrayList<PhysicalObject2D> peObjInAreaList,
-			HashMap<Integer, Double2D> peCollisionPointList) {
+			ArrayList<clsCollidingObject> peObjInAreaList) {
 		// TODO Auto-generated method stub
 		
 	}
@@ -97,13 +97,9 @@ public class clsSensorRadiation extends clsSensorExt {
 	 */
 	@Override
 	public void updateSensorData(Double pnAreaRange,
-			ArrayList<PhysicalObject2D> peDetectedObjInAreaList,
-			HashMap<Integer, Double2D> peCollisionPointList) {
+			ArrayList<clsCollidingObject> peDetectedObjInAreaList) {
 		
-		// TODO Auto-generated method stub
-		
-		//System.out.println("Range " + pnRange + "  " + peObj.size());
-		setDetectedObjectsList(pnAreaRange, peDetectedObjInAreaList, peCollisionPointList);
+		setDetectedObjectsList(pnAreaRange, peDetectedObjInAreaList);
 		//computeDataDeliveredToDU();
 		computeRadiation(); 
 	}
@@ -112,19 +108,33 @@ public class clsSensorRadiation extends clsSensorExt {
 		double rDistance;
 		// clear radiation information before new value calculation
 		mrRadiation = 0;
-		HashMap<Double, ArrayList<PhysicalObject2D>> eDetectedObjectList = moSensorData.getMeDetectedObject();
+		HashMap<Double, ArrayList<clsCollidingObject>> eDetectedObjectList = moSensorData.getMeDetectedObject();
 		
-		for(ArrayList<PhysicalObject2D> element : eDetectedObjectList.values())
+		for(ArrayList<clsCollidingObject> element : eDetectedObjectList.values())
 		{
-			Iterator <PhysicalObject2D> itr = element.iterator(); 
+			Iterator <clsCollidingObject> itr = element.iterator(); 
 			while(itr.hasNext()){
-				clsEntity oEntity = getEntity(itr.next()); 
+				clsCollidingObject oCollidingObject = itr.next();  
+				clsEntity oEntity = getEntity(oCollidingObject.moCollider); 
 				
 				if(oEntity.getEntityType() == eEntityType.URANIUM && oEntity.isRegistered()){
-					//throw new java.lang.NoSuchMethodError();
-					rDistance = getDistance(oEntity.getUniqueId());
-					// calculate radiation contribution of the selected uranium ore 
-					mrRadiation = mrRadiation + ((clsUraniumOre)oEntity).mrRadiationIntensity / Math.pow(rDistance, 2);
+//FIXME  this calculation has to be adapted to the actual Radiation calculation
+//					rDistance = getDistance(getEntity(getViewObj().get(oKey)).getPosition());
+				// calculate radiation contribution of the selected uranium ore 
+//					mrRadiation = mrRadiation + ((clsUraniumOre)getEntity(getViewObj().get(oKey))).mrRadiationIntensity / Math.pow(rDistance, 2);	
+					
+//					rDistance = getDistance(oCollidingObject.mrColPoint);
+//					mrRadiation = mrRadiation + ((clsUraniumOre)oEntity).mrRadiationIntensity / Math.pow(rDistance, 2);
+//
+////	throw new java.lang.NoSuchMethodError();	
+//// FIXME (horvath) - getId is unsafe and does not guarantee a unique value! please change code. TD
+////					rDistance = getDistance(oEntity.getId());
+//
+//					//throw new java.lang.NoSuchMethodError();
+////					rDistance = getDistance(oEntity.getUniqueId());
+//
+//					// calculate radiation contribution of the selected uranium ore 
+//					mrRadiation = mrRadiation + ((clsUraniumOre)oEntity).mrRadiationIntensity / Math.pow(rDistance, 2);
 				}
 			}
 		}
@@ -143,26 +153,17 @@ public class clsSensorRadiation extends clsSensorExt {
 	}
 	
 	// returns distance of the sensor (bubble) from an entity 
-	private double getDistance(Integer pnEntityID){
-		
-		Double2D oCollisionPoint = getCollisionPoint(pnEntityID); 
-		double rDistance = oCollisionPoint.length(); 
+	private double getDistance(Double2D poCollisionPoint){
+		double rDistance = poCollisionPoint.length(); 
 		
 		return rDistance;
 	}
 	
-	private Double2D getCollisionPoint(Integer pnEntityID){
-		HashMap<Double, HashMap<Integer,Double2D>> eDetectedObjectCollisionPointList 
-																		= moSensorData.getMeCollisionPointList(); 
-		for(HashMap<Integer,Double2D> element : eDetectedObjectCollisionPointList.values())
-		{
-			if(element.containsValue(pnEntityID)){
-				return element.get(pnEntityID); 
-			}
-		}
-		return null; //HZ - Dirty, very dirty. Integrate an Exception here as 
-					 // a return value - null -  must not occur.
+	// returns measured radiation intensity
+	public double getMrRadiation(){
+		return mrRadiation;		
 	}
+		
 	/* (non-Javadoc)
 	 *
 	 * @author zeilinger
@@ -197,7 +198,5 @@ public class clsSensorRadiation extends clsSensorExt {
 	@Override
 	public void updateSensorData() {
 		// TODO Auto-generated method stub
-		
 	}
-
 }

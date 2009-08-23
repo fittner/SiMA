@@ -13,9 +13,8 @@ import java.util.HashMap;
 import java.util.Iterator;
 
 import config.clsBWProperties;
-
-import sim.physics2D.physicalObject.PhysicalObject2D;
 import sim.physics2D.util.Double2D;
+import ARSsim.physics2D.physicalObject.clsCollidingObject;
 import bw.body.io.clsBaseIO;
 import bw.body.io.clsExternalIO;
 import bw.utils.enums.eBodyParts;
@@ -30,7 +29,7 @@ import bw.body.io.sensors.ext.clsSensorExt;
  */
 public class clsSensorVision extends clsSensorExt {
 
-   private ArrayList<PhysicalObject2D> meSensorDataDeliveredToDU = new ArrayList<PhysicalObject2D>(); 	
+   private ArrayList<clsCollidingObject> meSensorDataDeliveredToDU = new ArrayList<clsCollidingObject>(); 	
 	
    public clsSensorVision(String poPrefix, clsBWProperties poProp, clsBaseIO poBaseIO) {
 		super(poPrefix, poProp, poBaseIO);
@@ -42,7 +41,7 @@ public class clsSensorVision extends clsSensorExt {
 		
 		clsBWProperties oProp = new clsBWProperties();
 		oProp.putAll(clsSensorExt.getDefaultProperties(pre));
-		
+		oProp.setProperty(pre+P_SENSOR_FIELD_OF_VIEW, Math.PI);
 		return oProp;
 	}	
 
@@ -62,27 +61,22 @@ public class clsSensorVision extends clsSensorExt {
 	 * one ArrayList are returned. 
 	 * TODO: imply the sensor specific computation  
      */	
-	public ArrayList<PhysicalObject2D> getSensorData(){
+	public ArrayList<clsCollidingObject> getSensorData(){
 		return meSensorDataDeliveredToDU; 
 	}
 
 	@Override
 	public void updateSensorData(Double pnAreaRange, 
-										ArrayList<PhysicalObject2D> peDetectedObjInAreaList, 
-										HashMap<Integer, Double2D> peCollisionPointList) {
+										ArrayList<clsCollidingObject> peDetectedObjInAreaList) {
 		// TODO (zeilinger) - Auto-generated method stub
-	
-		//System.out.println("Range " + pnRange + "  " + peObj.size());
-		setDetectedObjectsList(pnAreaRange, peDetectedObjInAreaList, peCollisionPointList);
+		setDetectedObjectsList(pnAreaRange, peDetectedObjInAreaList);
 		computeDataDeliveredToDU(); 
     }
 	
 	@Override
 	public void setDetectedObjectsList(Double pnAreaRange,
-										ArrayList<PhysicalObject2D> peDetectedObjInAreaList, 
-										HashMap<Integer, Double2D> peCollisionPointList){
-		
-		calculateObjInFieldOfView(pnAreaRange, peDetectedObjInAreaList, peCollisionPointList); 
+								ArrayList<clsCollidingObject> peDetectedObjInAreaList){
+		calculateObjInFieldOfView(pnAreaRange, peDetectedObjInAreaList); 
 	}
 	
 	/*has to be implemented - return SensorData to Decision Unit,
@@ -92,15 +86,19 @@ public class clsSensorVision extends clsSensorExt {
      */	
 	public void computeDataDeliveredToDU(){
 		meSensorDataDeliveredToDU.clear(); 
-		HashMap<Double, ArrayList<PhysicalObject2D>> eDetectedObjectList = moSensorData.getMeDetectedObject(); 
-		for(ArrayList<PhysicalObject2D> element : eDetectedObjectList.values())
+		HashMap<Double, ArrayList<clsCollidingObject>> eDetectedObjectList = moSensorData.getMeDetectedObject(); 
+		
+		Iterator <Double>itrRange = eDetectedObjectList.keySet().iterator(); 
+		while(itrRange.hasNext())
 		{
-			Iterator <PhysicalObject2D> itr = element.iterator(); 
+			Double oKey = itrRange.next();
+			Iterator <clsCollidingObject> itr = eDetectedObjectList.get(oKey).iterator(); 
 			while(itr.hasNext()){
 				meSensorDataDeliveredToDU.add(itr.next()); 
 			}
 		}
 	}
+	
 	
 	/* (non-Javadoc)
 	 *

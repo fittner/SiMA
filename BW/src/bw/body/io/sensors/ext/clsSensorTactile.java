@@ -9,15 +9,14 @@
 package bw.body.io.sensors.ext;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 
+import ARSsim.physics2D.physicalObject.clsCollidingObject;
 import config.clsBWProperties;
 
 import bw.body.io.clsBaseIO;
 import bw.body.io.clsExternalIO;
 import bw.utils.enums.eBodyParts;
 
-import sim.physics2D.physicalObject.PhysicalObject2D;
 import sim.physics2D.util.Double2D;
 
 /**
@@ -62,9 +61,8 @@ public class clsSensorTactile extends clsSensorExt {
 	 */
 	@Override
 	public void setDetectedObjectsList(Double pnAreaRange,
-			ArrayList<PhysicalObject2D> peDetectedObjInAreaList,
-			HashMap<Integer, Double2D> peCollisionPointList) {
-		calculateObjInFieldOfView(pnAreaRange, peDetectedObjInAreaList, peCollisionPointList); 
+			ArrayList<clsCollidingObject> peDetectedObjInAreaList) {
+		calculateObjInFieldOfView(pnAreaRange, peDetectedObjInAreaList); 
 	}
 
 	/* (non-Javadoc)
@@ -76,10 +74,9 @@ public class clsSensorTactile extends clsSensorExt {
 	 */
 	@Override
 	public void updateSensorData(Double pnAreaRange,
-			ArrayList<PhysicalObject2D> peDetectedObjInAreaList,
-			HashMap<Integer, Double2D> peCollisionPointList) {
+			ArrayList<clsCollidingObject> peDetectedObjInAreaList) {
 		
-		setDetectedObjectsList(pnAreaRange, peDetectedObjInAreaList, peCollisionPointList);
+		setDetectedObjectsList(pnAreaRange, peDetectedObjInAreaList);
 	}
 
 	/* (non-Javadoc)

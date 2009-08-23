@@ -13,15 +13,16 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.TreeMap;
 
-import config.clsBWProperties;
-
-import enums.eSensorExtType;
 
 import sim.physics2D.physicalObject.PhysicalObject2D;
-import sim.physics2D.util.Double2D;
+import config.clsBWProperties;
+import enums.eSensorExtType;
+
+import ARSsim.physics2D.physicalObject.clsCollidingObject;
 import bw.body.io.clsBaseIO;
 import bw.body.io.clsExternalIO;
 import bw.entities.clsEntity;
+import bw.entities.clsMobile;
 import bw.physicalObjects.sensors.clsEntitySensorEngine;
 import bw.exceptions.exInvalidSensorRange;
 
@@ -44,40 +45,43 @@ import bw.exceptions.exInvalidSensorRange;
 	 * 					integrated
  */
 public class clsSensorEngine{
+	public static final String P_MAX_RANGE = "maxrange";
+	public static final String P_RANGEDIVISION = "rangedivision";
 	
+	private HashMap <Double,ArrayList<clsCollidingObject>> meDetectedObj;
 	private HashMap<eSensorExtType,clsSensorExt> meRegisteredSensors; 
 	private HashMap<Double,ArrayList<clsSensorExt>> meRegisteredSensorAtRange;
-	private HashMap <Double,ArrayList<PhysicalObject2D>> meDetectedObj;
-	private HashMap <Double, HashMap<Integer, Double2D>> meCollisionPoints;
 	private TreeMap<Double,clsEntitySensorEngine> meEntities;
-	private double[] mnRange; //HZ -- has to be set in increasing sequence
+	private double[] mnRange; 
+	private clsEntity moHostEntity; 
 		
 	public clsSensorEngine(String poPrefix, clsBWProperties poProp, clsBaseIO poBaseIO){
 		meRegisteredSensors = new HashMap<eSensorExtType,clsSensorExt>();
 		meRegisteredSensorAtRange = new HashMap<Double,ArrayList<clsSensorExt>>();
-		meDetectedObj = new HashMap <Double,ArrayList<PhysicalObject2D>>();
-		meCollisionPoints = new HashMap<Double,HashMap <Integer, Double2D>>(); 
+		meDetectedObj = new HashMap <Double,ArrayList<clsCollidingObject>>();
 		meEntities = new TreeMap<Double, clsEntitySensorEngine>(); 
+		moHostEntity = ((clsExternalIO)poBaseIO).moEntity; 
 		
 		applyProperties(poPrefix, poProp);
-		registerEngineEntity(((clsExternalIO)poBaseIO).moEntity); 
+		registerEngineEntity(); 
 	}
 	
 	public static clsBWProperties getDefaultProperties(String poPrefix) {
 		String pre = clsBWProperties.addDot(poPrefix);
 		
 		clsBWProperties oProp = new clsBWProperties();
-		oProp.putAll(clsExternalIO.getDefaultProperties(pre));
+		oProp.setProperty(pre + P_MAX_RANGE, 60.0);
+		oProp.setProperty(pre + P_RANGEDIVISION, 3);
 		
 		return oProp;
 	}	
 
 	private void applyProperties(String poPrefix, clsBWProperties poProp) {
-//		String pre = clsBWProperties.addDot(poPrefix);
+		String pre = clsBWProperties.addDot(poPrefix);
 		
-//		int nNumSteps = poProp.getPropertyInt(pre+clsExternalIO.P_NUMSTEPS);
-//		double nStepRange = poProp.getPropertyDouble(pre+clsExternalIO.P_MAX_RANGE)/nNumSteps;
-//		adaptSensorEngineRange(nNumSteps, nStepRange); 
+		int nNumSteps = poProp.getPropertyInt(pre+P_RANGEDIVISION);
+		double nStepRange = poProp.getPropertyDouble(pre+P_MAX_RANGE)/nNumSteps;
+		adaptSensorEngineRange(nNumSteps, nStepRange); 
 	}
 	
 	/*The default diameters of the sensor-engine entities are defined in mnRange. 
@@ -86,17 +90,22 @@ public class clsSensorEngine{
 	 * the initialization.    
 	 * 
 	 */
-//	private void adaptSensorEngineRange(Integer pnNumSteps, Double pnStepRange){
-//		mnRange = new double[pnNumSteps];
-//		
-//		for(int index = 0;index < pnNumSteps; index++){
-//			mnRange[index] = pnStepRange * (index+1); 
-//		}
-//	}
+
+	private void adaptSensorEngineRange(Integer pnNumSteps, Double pnStepRange){
+		mnRange = new double[pnNumSteps+1];
+		
+		for(int index = 0;index < mnRange.length; index++){
+			mnRange[index] = pnStepRange * (index); 
+		}
+	}
+
 	
-	private void registerEngineEntity(clsEntity poHostEntity){
-		for(int index=0; index < mnRange.length; index++){
-			meEntities.put(mnRange[index],new clsEntitySensorEngine(poHostEntity,mnRange[index]));
+	private void registerEngineEntity(){
+		/*index = 0 => delivers the data of the objects, colliding with the HostEntity 
+		 * required for e. g. Bump Sensor			
+		*/
+		for(int index=1; index < mnRange.length; index++){
+			meEntities.put(mnRange[index],new clsEntitySensorEngine(moHostEntity,mnRange[index]));
 		} 
 	}
 	
@@ -133,10 +142,19 @@ public class clsSensorEngine{
 	public void registerSensorAtRanges(clsSensorExt poSensor){
 		double maxSensorRange = poSensor.moSensorData.mnRange; 
 				
-		for(int index = 0; index< mnRange.length; index++){
-			if(mnRange[index]>maxSensorRange)
-				fillMeRegisteredSensor(poSensor, mnRange[index]); 
+		if(maxSensorRange == 0.0){
+			fillMeRegisteredSensor(poSensor, mnRange[0]);
 		}
+		else{
+			iterateThroughRanges(maxSensorRange, poSensor); 
+		}
+	}
+	
+	private void iterateThroughRanges(double nMaxSensorRange, clsSensorExt poSensor){
+		for(int index = 1; index< mnRange.length; index++){
+			if(mnRange[index]<=nMaxSensorRange)
+				fillMeRegisteredSensor(poSensor, mnRange[index]);
+			}
 	}
 	
 	private void fillMeRegisteredSensor(clsSensorExt poSensor, double pnRange){
@@ -149,7 +167,7 @@ public class clsSensorEngine{
 		}
 	}
 	
-	public void registerSensorToExistingRange(clsSensorExt poSensor, double pnRange){
+	private void registerSensorToExistingRange(clsSensorExt poSensor, double pnRange){
 		((ArrayList<clsSensorExt>)this.meRegisteredSensorAtRange.get(pnRange)).add(poSensor);
 	}
 	
@@ -160,29 +178,29 @@ public class clsSensorEngine{
 	}
 	
 	public void updateSensorData() {
-		// TODO (zeilinger) - Auto-generated method stub
 		clearActualCollisonAndDetectedObjList();
 		requestSensorData(); 
 		updateSensorDataAtRanges(); 
 	}
 	
-	public void clearActualCollisonAndDetectedObjList(){
+	private void clearActualCollisonAndDetectedObjList(){
 		meDetectedObj.clear(); 
-		meCollisionPoints.clear();
 	}
 	
 	public void requestSensorData(){
 		getSensorData(); 
 		sortOutData(); 
 	}
-	
+	/*Cast to clsMobile! no clsStationary
+	 * mnRange[0] => List of objects colliding with the entity itself
+	 * */
 	private void getSensorData(){
-//		for(int index=0; index < mnRange.length; index++){
-//			meDetectedObj.put(mnRange[index], 
-//						      meEntities.get(mnRange[index]).requestDetectedObjList());
-//			meCollisionPoints.put(mnRange[index],
-//								  meEntities.get(mnRange[index]).requestCollisionPointMap());
-//		}
+		meDetectedObj.put(mnRange[0], ((clsMobile)moHostEntity).getMobileObject2D().moCollisionList);
+		
+		for(int index=1; index < mnRange.length; index++){
+			meDetectedObj.put(mnRange[index],meEntities.get(mnRange[index]).requestDetectedObjList());
+		}
+
 	}
 	
 	/* The SensorEngine works on the base of three entities which cover a different range
@@ -196,29 +214,93 @@ public class clsSensorEngine{
 	 */
 	private void sortOutData(){
 				
-		for(int index=mnRange.length-1; index > 0; index--){
-			ArrayList <PhysicalObject2D> eObjectList = meDetectedObj.get(mnRange[index]);
-						
-			eObjectList.removeAll(meDetectedObj.get(mnRange[index-1])); 
+		sortOutDuplicatedObjects(); 
+		sortOutNoCollisionObjects(); 
+	}
+	
+	private void sortOutDuplicatedObjects(){
+		ArrayList <clsCollidingObject> eObjectList; 
+		
+		for(int index=mnRange.length-1; index > 1; index--){
+			eObjectList = meDetectedObj.get(mnRange[index]);
+			removeListEntries(eObjectList, meDetectedObj.get(mnRange[index-1])); 
 			meDetectedObj.put(mnRange[index],eObjectList);
 		}
 	}
 	
-	public void updateSensorDataAtRanges(){
-		Iterator <Double> rangeItr = meRegisteredSensorAtRange.keySet().iterator();
+	private void sortOutNoCollisionObjects(){
+		ArrayList <clsCollidingObject> eObjectList; 
 		
+		for(int index=mnRange.length-1; index > 0; index--){
+			eObjectList = meDetectedObj.get(mnRange[index]);
+			removeNoCollisionListEntries(eObjectList); 
+			meDetectedObj.put(mnRange[index],eObjectList);
+		}
+	}
+	
+	/**
+	 * DOCUMENT (zeilinger) - 
+	 * This method is for comparing two objects of type ArrayList with each other and
+	 * remove objects from list 1 which are contained in list 2 too. In this particular 
+	 * case all objects which are contained in poObjectToRemoveList and in poObjectList 
+	 * are removed from poObjectList. Remind that the ArrayList class already provides 
+	 * a method removeAll() for such a task. However this does not work in this case 
+	 * as the objects of type clsCollidingObjects are build independent from each other.
+	 * hence, even they may contain the same objects of type PhysicalObject2D, these 
+	 * accordances will not be shown in the lists themselves.       
+	 *
+	 * @author zeilinger
+	 * 20.08.2009, 11:09:25
+	 *
+	 * @param poObjectList
+	 * @param poObjectToRemoveList
+	 */
+	private void removeListEntries(ArrayList <clsCollidingObject> poObjectList, 
+														ArrayList <clsCollidingObject> poObjectToRemoveList){
+		ArrayList <PhysicalObject2D> oPhysicalObjectList = getPhysicalObjectList(poObjectToRemoveList); 
+		Iterator <clsCollidingObject> itr = poObjectList.iterator(); 
+				
+		while (itr.hasNext()) {
+			PhysicalObject2D collider = itr.next().moCollider; 
+		    if (oPhysicalObjectList.contains(collider)) {
+		    	itr.remove();
+			}
+		}
+	}
+	
+	private void removeNoCollisionListEntries(ArrayList <clsCollidingObject> poObjectList){
+	   Iterator <clsCollidingObject> itr = poObjectList.iterator(); 
+	
+	   while (itr.hasNext()) {
+			PhysicalObject2D collider = itr.next().moCollider; 
+			if (collider instanceof clsEntitySensorEngine) {
+					itr.remove();
+			}
+	   }
+	}
+	
+	private ArrayList<PhysicalObject2D> getPhysicalObjectList(ArrayList<clsCollidingObject> poObjectToRemoveList){
+		ArrayList<PhysicalObject2D> oList = new ArrayList<PhysicalObject2D>();
+		Iterator <clsCollidingObject> itr = poObjectToRemoveList.iterator(); 
+		
+		while(itr.hasNext()){
+			oList.add(itr.next().moCollider); 
+		}
+		return oList; 
+	}
+	
+	private void updateSensorDataAtRanges(){
+		Iterator <Double> rangeItr = meRegisteredSensorAtRange.keySet().iterator();
 		while(rangeItr.hasNext()){
 			double nRange = rangeItr.next();
 			updateSensorDataAtSpecificRange(nRange);
 		}
 	}
 	
-	public void updateSensorDataAtSpecificRange(double pnRange){
+	private void updateSensorDataAtSpecificRange(double pnRange){
 		Iterator <clsSensorExt> itr = ((ArrayList<clsSensorExt>)meRegisteredSensorAtRange.get(pnRange)).iterator();
-	
 		while(itr.hasNext()){
-			((clsSensorExt)itr.next()).updateSensorData(pnRange, meDetectedObj.get(pnRange),
-														        meCollisionPoints.get(pnRange)); 
+			((clsSensorExt)itr.next()).updateSensorData(pnRange, new ArrayList<clsCollidingObject>(meDetectedObj.get(pnRange))); 
 		}
 	}
 	
@@ -233,5 +315,5 @@ public class clsSensorEngine{
 			e.printStackTrace();
 		}
 	}
-	
 }
+

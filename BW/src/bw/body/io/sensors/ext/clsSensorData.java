@@ -8,11 +8,12 @@
  */
 package bw.body.io.sensors.ext;
 
+import ARSsim.physics2D.physicalObject.clsCollidingObject;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 
 import bw.utils.sensors.clsSensorDataCalculation;
-import sim.physics2D.physicalObject.PhysicalObject2D;
 import sim.physics2D.util.Double2D;
 
 /**
@@ -27,33 +28,21 @@ public class clsSensorData extends clsSensorDataCalculation{
 	protected Double mnRange;
 	protected Double mnFieldOfView;
 	protected Double2D moSensorOffset; 
-	private HashMap<Double, ArrayList<PhysicalObject2D>> meDetectedObjects; 
-	private HashMap<Double, HashMap<Integer, Double2D>> meCollisionPoints; 
-	
+	private HashMap<Double, ArrayList<clsCollidingObject>> meDetectedObjects; 
+		
 	public clsSensorData(Double2D poSensorOffset,Double pnSensorRange, Double pnFieldOfview)
 	{		
 		moSensorOffset = poSensorOffset;
 		mnFieldOfView = pnFieldOfview; 
 		mnRange = pnSensorRange;
-		meDetectedObjects = new HashMap<Double, ArrayList<PhysicalObject2D>>();
-		meCollisionPoints = new HashMap<Double, HashMap<Integer, Double2D>>(); 
+		meDetectedObjects = new HashMap<Double, ArrayList<clsCollidingObject>>();
 	}
-
 	
-	public void setMeDetectedObjectList(Double pnAreaRange,ArrayList<PhysicalObject2D> pePhysicalObject){
+	public void setMeDetectedObjectList(Double pnAreaRange,ArrayList<clsCollidingObject> pePhysicalObject){
 		meDetectedObjects.put(pnAreaRange, pePhysicalObject); 
 	}
 	
-	public void setMeCollisionPointList(Double poSensorRange, HashMap<Integer,Double2D> poCollisionPointList){
-		meCollisionPoints.put(poSensorRange, poCollisionPointList); 
-	}
-	
-	public HashMap <Double, ArrayList<PhysicalObject2D>> getMeDetectedObject(){
+	public HashMap <Double, ArrayList<clsCollidingObject>> getMeDetectedObject(){
 		return meDetectedObjects;
 	}
-	
-	public HashMap<Double,HashMap<Integer, Double2D>> getMeCollisionPointList(){
-		return meCollisionPoints;
-	}
-	
 }

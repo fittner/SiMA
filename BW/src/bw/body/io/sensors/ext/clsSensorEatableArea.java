@@ -12,12 +12,13 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 
+
+import ARSsim.physics2D.physicalObject.clsCollidingObject;
 import config.clsBWProperties;
 
 import bw.body.io.clsBaseIO;
 import bw.body.io.clsExternalIO;
 import bw.utils.enums.eBodyParts;
-import sim.physics2D.physicalObject.PhysicalObject2D;
 import sim.physics2D.util.Double2D;
 
 /**
@@ -30,7 +31,7 @@ import sim.physics2D.util.Double2D;
 
 public class clsSensorEatableArea extends clsSensorExt{
 
-   private ArrayList<PhysicalObject2D> meSensorDataDeliveredToDU = new ArrayList<PhysicalObject2D>(); 	
+   private ArrayList<clsCollidingObject> meSensorDataDeliveredToDU = new ArrayList<clsCollidingObject>(); 	
 
 	/**
 	 * DOCUMENT (zeilinger) - insert description 
@@ -70,7 +71,7 @@ public class clsSensorEatableArea extends clsSensorExt{
 		assignSensorData(oOffset, nRange, nFieldOfView);		
 	}	
 	
-	public ArrayList<PhysicalObject2D> getSensorData(){
+	public ArrayList<clsCollidingObject> getSensorData(){
 		return meSensorDataDeliveredToDU; 
 	}
 	
@@ -96,10 +97,9 @@ public class clsSensorEatableArea extends clsSensorExt{
 	 */
 	@Override
 	public void updateSensorData(Double pnAreaRange,
-			ArrayList<PhysicalObject2D> peDetectedObjInAreaList,
-			HashMap<Integer, Double2D> peCollisionPointList) {
+			ArrayList<clsCollidingObject> peDetectedObjInAreaList) {
 		// TODO (zeilinger) - Auto-generated method stub
-		setDetectedObjectsList(pnAreaRange, peDetectedObjInAreaList, peCollisionPointList);
+		setDetectedObjectsList(pnAreaRange, peDetectedObjInAreaList);
 		computeDataDeliveredToDU(); 
 	}
 
@@ -112,18 +112,17 @@ public class clsSensorEatableArea extends clsSensorExt{
 	 */
 	@Override
 	public void setDetectedObjectsList(Double pnAreaRange,
-			ArrayList<PhysicalObject2D> peDetectedObjInAreaList,
-			HashMap<Integer, Double2D> peCollisionPointList) {
+			ArrayList<clsCollidingObject> peDetectedObjInAreaList) {
 		// TODO (zeilinger) - Auto-generated method stub
 		
 	}
 	
 	public void computeDataDeliveredToDU(){
 		meSensorDataDeliveredToDU.clear(); 
-		HashMap<Double, ArrayList<PhysicalObject2D>> eDetectedObjectList = moSensorData.getMeDetectedObject(); 
-		for(ArrayList<PhysicalObject2D> element : eDetectedObjectList.values())
+		HashMap<Double, ArrayList<clsCollidingObject>> eDetectedObjectList = moSensorData.getMeDetectedObject(); 
+		for(ArrayList<clsCollidingObject> element : eDetectedObjectList.values())
 		{
-			Iterator <PhysicalObject2D> itr = element.iterator(); 
+			Iterator <clsCollidingObject> itr = element.iterator(); 
 			while(itr.hasNext()){
 				meSensorDataDeliveredToDU.add(itr.next()); 
 			}
