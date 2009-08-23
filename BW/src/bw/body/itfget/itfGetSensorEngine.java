@@ -9,6 +9,8 @@
 package bw.body.itfget;
 
 import java.util.TreeMap;
+
+import bw.body.io.sensors.ext.clsSensorEngine;
 import bw.physicalObjects.sensors.clsEntitySensorEngine;;
 
 /**
@@ -21,4 +23,5 @@ import bw.physicalObjects.sensors.clsEntitySensorEngine;;
 
 public interface itfGetSensorEngine {
 	public TreeMap<Double, clsEntitySensorEngine> getSensorEngineAreas();
+	public clsSensorEngine getSensorEngine();
 }

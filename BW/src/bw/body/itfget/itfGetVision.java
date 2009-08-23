@@ -17,6 +17,7 @@ import bw.physicalObjects.sensors.clsEntityPartVision;
  * 12.05.2009, 20:51:08
  * 
  */
+
 public interface itfGetVision {
 	public clsEntityPartVision getVision();
 }

@@ -17,6 +17,7 @@ import bw.physicalObjects.sensors.clsEntityPartVision;
  * 12.05.2009, 20:53:49
  * 
  */
+
 public interface itfGetEatableArea {
 	public clsEntityPartVision getEatableArea();
 }
