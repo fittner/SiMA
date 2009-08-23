@@ -8,6 +8,7 @@
 package bw.body.brainsocket;
 
 import java.awt.Color;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 
@@ -38,17 +39,21 @@ import decisionunit.itf.sensors.clsVisionEntry;
 import enums.eFastMessengerSources;
 import enums.eSensorIntType;
 import enums.eSensorExtType;
+import ARSsim.physics2D.physicalObject.clsCollidingObject;
 import ARSsim.physics2D.physicalObject.clsMobileObject2D;
 import ARSsim.physics2D.physicalObject.clsStationaryObject2D;
-import bfg.tools.shapes.clsPolarcoordinate;
 import bw.body.itfStepProcessing;
+
+import bw.body.io.sensors.ext.clsSensorVision;
+import bw.body.io.sensors.ext.clsSensorEatableArea;
+import bw.body.io.sensors.ext.clsSensorBump;
+import bw.body.io.sensors.ext.clsSensorPositionChange;
+import bw.body.io.sensors.ext.clsSensorRadiation;
+
 import bw.body.internalSystems.clsFastMessengerEntry;
-import bw.body.io.sensors.external.clsSensorBump;
-import bw.body.io.sensors.external.clsSensorEatableArea;
+//import bw.body.io.sensors.external.clsSensorBump;
+//import bw.body.io.sensors.external.clsSensorEatableArea;
 import bw.body.io.sensors.external.clsSensorExt;
-import bw.body.io.sensors.external.clsSensorPositionChange;
-import bw.body.io.sensors.external.clsSensorVision;
-import bw.body.io.sensors.external.clsSensorRadiation;
 import bw.body.io.sensors.internal.clsEnergyConsumptionSensor;
 import bw.body.io.sensors.internal.clsEnergySensor;
 import bw.body.io.sensors.internal.clsFastMessengerSensor;
@@ -117,12 +122,12 @@ public class clsBrainSocket implements itfStepProcessing {
 	private clsSensorData convertSensorData() {
 		clsSensorData oData = new clsSensorData();
 		
+		//ZEILINGER - Integration of the Sensor Engine
 		oData.addSensorExt(eSensorExtType.BUMP, convertBumpSensor() );
 		oData.addSensorExt(eSensorExtType.POSITIONCHANGE, convertPositionChangeSensor() );
-		oData.addSensorExt(eSensorExtType.EATABLE_AREA, convertEatAbleAreaSensor() );
-		oData.addSensorExt(eSensorExtType.VISION, convertVisionSensor() );
 		oData.addSensorExt(eSensorExtType.RADIATION, convertRadiationSensor() );
-		
+		oData.addSensorExt(eSensorExtType.VISION, convertVisionSensor() );
+		oData.addSensorExt(eSensorExtType.EATABLE_AREA, convertEatAbleAreaSensor() );
 		//ad homeostasis sensor data
 		oData.addSensorInt(eSensorIntType.ENERGY_CONSUMPTION, convertEnergySystem() );
 		oData.addSensorInt(eSensorIntType.HEALTH, convertHealthSystem() );
@@ -285,36 +290,49 @@ public class clsBrainSocket implements itfStepProcessing {
 		
 	}
 
+
+   //ZEILINGER Integration of the SensorEngine
 	private clsVision convertVisionSensor() {
 		clsVision oData = new clsVision();
-		
 		clsSensorVision oVision = (clsSensorVision)(moSensorsExt.get(eSensorExtType.VISION));
+		ArrayList<clsCollidingObject> eDetectedObjectList = oVision.getSensorData();
 		
-		Iterator<Integer> i = oVision.getViewObj().keySet().iterator();
-		while (i.hasNext()) {
-			Integer oKey = i.next();
-			PhysicalObject2D visionObj = oVision.getViewObj().get(oKey);
-			ARSsim.physics2D.util.clsPolarcoordinate visionDir = oVision.getViewObjDir().get(oKey);
-			clsVisionEntry oEntry = convertVisionEntry(visionObj, visionDir);
+		Iterator <clsCollidingObject> i = eDetectedObjectList.iterator(); 
+		while(i.hasNext()){
+			clsVisionEntry oEntry = convertVisionEntry(i.next().moCollider);
+			
 			if (oEntry != null) {
-			  oData.add(oEntry);
-			}
+				oData.add(oEntry);
+			}	
 		}
-		
 		return oData;
 	}
-	
+
 	private clsRadiation convertRadiationSensor() {
 		clsRadiation oData = new clsRadiation();
-		clsSensorRadiation oRadiationSensor = (clsSensorRadiation) moSensorsExt.get(eSensorExtType.RADIATION);		
+    	clsSensorRadiation oRadiationSensor = (clsSensorRadiation) moSensorsExt.get(eSensorExtType.RADIATION);
+		
+//		Iterator<Integer> i = oRadiationSensor.getViewObj().keySet().iterator();
+//		
+//		while (i.hasNext()) {
+//			Integer oKey = i.next();
+//			oData.mnNumEntitiesPresent = oRadiationSensor.getViewObj().size();
+//			oData.mnTypeOfFirstEntity = getEntityType( oRadiationSensor.getViewObj().get(oKey) );
+//			
+//			if (oData.mnTypeOfFirstEntity != eEntityType.UNDEFINED) {
+//				break;
+//			}
+//		}
+	
 		oRadiationSensor.updateSensorData();		
 		oData.mrIntensity = oRadiationSensor.getMrRadiation();		
+
 		return oData;
 	}
 	
 	
 
-	private clsVisionEntry convertVisionEntry(PhysicalObject2D visionObj, ARSsim.physics2D.util.clsPolarcoordinate visionDir) {
+	private clsVisionEntry convertVisionEntry(PhysicalObject2D visionObj) {
 		clsEntity oEntity = getEntity(visionObj);
 		if (oEntity == null) {
 			return null;
@@ -324,33 +342,34 @@ public class clsBrainSocket implements itfStepProcessing {
 		
 		oData.mnEntityType = getEntityType(visionObj);		
 		oData.mnShapeType = getShapeType(visionObj);
-		oData.moPolarcoordinate = new clsPolarcoordinate(visionDir.mrLength, visionDir.moAzimuth.radians);
 		oData.moColor = (Color) oEntity.getShape().getPaint();
 		
 		if( oEntity instanceof clsAnimal )
 		{
 			oData.mnAlive = ((clsAnimal)oEntity).isAlive();
 		}
-		
-	
-		oData.moEntityId = oEntity.getId();
+
+		//oData.moEntityId = oEntity.getUniqueId();
 		
 		return oData;
 	}
 
 
+
+	//ZEILINGER Integration of the SensorEngine
 	private clsEatableArea convertEatAbleAreaSensor() {
 		clsEatableArea oData = new clsEatableArea();
 		
 		clsSensorEatableArea oEatableSensor = (clsSensorEatableArea) moSensorsExt.get(eSensorExtType.EATABLE_AREA);
+		ArrayList<clsCollidingObject> eDetectedObjectList = oEatableSensor.getSensorData();
 		
-		Iterator<Integer> i = oEatableSensor.getViewObj().keySet().iterator();
+		Iterator<clsCollidingObject> i = eDetectedObjectList.iterator();
 		
 		while (i.hasNext()) {
-			Integer oKey = i.next();
-			oData.mnNumEntitiesPresent = oEatableSensor.getViewObj().size();
-			oData.mnTypeOfFirstEntity = getEntityType( oEatableSensor.getViewObj().get(oKey) );
-			oData.moColorOfFirstEntity = getEntityColor( oEatableSensor.getViewObj().get(oKey) );
+			PhysicalObject2D oCollider = i.next().moCollider; 
+			oData.mnNumEntitiesPresent = eDetectedObjectList.size();
+			oData.mnTypeOfFirstEntity = getEntityType(oCollider);
+			oData.moColorOfFirstEntity = getEntityColor(oCollider);
 						
 			if (oData.mnTypeOfFirstEntity != eEntityType.UNDEFINED) {
 				break;
