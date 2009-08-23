@@ -12,7 +12,7 @@ import bw.body.clsBaseBody;
 import bw.body.clsComplexBody;
 import bw.body.clsMeatBody;
 //import bw.entities.clsBubble;
-import bw.entities.clsAnimal;
+
 import bw.entities.clsBubble;
 import bw.entities.clsFungusEater;
 import bw.entities.clsBase;
@@ -78,10 +78,7 @@ public class clsInspectorMappingEntity {
     	//change the default inspector to the one you created for the entity if you want more inspected
     	if( poEntity instanceof clsMobile )
     	{
-	    	if( poEntity instanceof clsAnimal) {
-	    		oRetVal.addInspector( new clsInspectorDefault(poSuperInspector, poWrapper, poState, poEntity), "Animal");
-	    	}
-	    	else if( poEntity instanceof clsBubble) {
+	    	if( poEntity instanceof clsBubble) {
 	    		oRetVal.addInspector( new clsInspectorBubble(poSuperInspector, poWrapper, poState, (clsBubble)poEntity), "Bubble");
 	    	}
 	    	else if( poEntity instanceof clsFungusEater) {
@@ -100,7 +97,8 @@ public class clsInspectorMappingEntity {
 	    		oRetVal.addInspector( new clsInspectorFungus(poSuperInspector, poWrapper, poState, (clsFungus)poEntity), "Fungus");
 	    	}
 	    	else if( poEntity instanceof clsHare) {
-	    		oRetVal.addInspector( new clsInspectorDefault(poSuperInspector, poWrapper, poState, poEntity), "Hare");
+	    		oRetVal.addInspector(new clsInspectorSensor(poSuperInspector, poWrapper,poState,poEntity), "Hare");
+	    		//oRetVal.addInspector( new clsInspectorDefault(poSuperInspector, poWrapper, poState, poEntity), "Hare");
 	    	}
 	    	else if( poEntity instanceof clsLynx) {
 	    		oRetVal.addInspector( new clsInspectorDefault(poSuperInspector, poWrapper, poState, poEntity), "Lynx");
