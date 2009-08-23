@@ -18,8 +18,7 @@ import javax.imageio.ImageIO;
  *///
 public class clsCircleImage extends Circle
     {
-	
-    
+	    
 	double mrRadius; 
 	BufferedImage moImage = null;
 	private boolean mbShowSimple = false; //can be used for testing, no image is rendered
@@ -38,7 +37,7 @@ public class clsCircleImage extends Circle
     {
 		super(prRadius, poPaint);
 		this.mrRadius = prRadius; 
-       
+      
     	File oFile = new File( psImageFilePath ); 
 
 	   	try
