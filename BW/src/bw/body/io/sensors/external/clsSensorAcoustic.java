@@ -16,6 +16,8 @@ import bw.utils.enums.eBodyParts;
  * @author zeilinger
  * 
  */
+
+@Deprecated
 public class clsSensorAcoustic extends clsSensorExt {
 
 	public clsSensorAcoustic(String poPrefix, clsBWProperties poProp) {

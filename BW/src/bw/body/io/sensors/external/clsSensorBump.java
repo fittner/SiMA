@@ -25,6 +25,7 @@ import bw.utils.enums.eBodyParts;
  * @author muchitsch
  * 
  */
+@Deprecated
 public class clsSensorBump extends clsSensorExt {
 
 	private clsEntity moEntity;

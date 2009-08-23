@@ -22,6 +22,7 @@ import bw.entities.clsMobile;
  * @author langr
  * 
  */
+@Deprecated
 public class clsSensorAcceleration extends clsSensorExt{
 
 	public static final String P_START_VELOCITY_X = "start_velocity_x";

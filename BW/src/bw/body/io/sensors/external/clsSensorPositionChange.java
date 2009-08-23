@@ -21,6 +21,7 @@ import bw.utils.enums.eBodyParts;
  * 24.06.2009, 11:33:38
  * 
  */
+@Deprecated
 public class clsSensorPositionChange extends clsSensorExt {
 
 	private clsPose moLastPos;

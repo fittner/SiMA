@@ -20,6 +20,8 @@ import bw.utils.enums.eBodyParts;
  * 26.02.2009, 10:21:40
  * 
  */
+
+@Deprecated 
 public class clsSensorEatableArea extends clsSensorVision {
 	
 	public clsSensorEatableArea(String poPrefix, clsBWProperties poProp, clsBaseIO poBaseIO, clsEntity poEntity)	{

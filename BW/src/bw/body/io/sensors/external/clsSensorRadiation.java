@@ -26,6 +26,7 @@ import bw. entities.clsUraniumOre;
  * 20.07.2009, 14:43:49
  *
  */
+@Deprecated
 public class clsSensorRadiation extends clsSensorVision {
 		
 	private double mrRadiation;

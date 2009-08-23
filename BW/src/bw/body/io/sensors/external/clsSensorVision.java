@@ -32,6 +32,8 @@ import bw.utils.sensors.clsSensorDataCalculation;
  * @author zeilinger
  * 
  */
+
+@Deprecated 
 public class clsSensorVision extends clsSensorExt {
 	public static final String P_SENSOR_ANGLE = "sensor_angle";
 	public static final String P_SENSOR_RANGE = "sensor_range";
@@ -61,7 +63,7 @@ public class clsSensorVision extends clsSensorExt {
 		moViewObj = new HashMap<Integer, PhysicalObject2D>(); 
 		moCollisionPoint = new HashMap<Integer, Double2D>();
 		moViewObjDir = new HashMap<Integer, clsPolarcoordinate>();
-		
+			
 		moEntity = poEntity;
 		 
 		applyProperties(poPrefix, poProp);
@@ -76,12 +78,12 @@ public class clsSensorVision extends clsSensorExt {
 		
 		clsBWProperties oProp = new clsBWProperties();
 		
-		oProp.setProperty(pre+P_SENSOR_ANGLE, (5*Math.PI/3) );
-		oProp.setProperty(pre+P_SENSOR_RANGE, 60.0 );
+		oProp.setProperty(pre+P_SENSOR_ANGLE, (Math.PI) );
 		oProp.setProperty(pre+P_SENSOR_OFFSET, 0.0 );		
-				
+		
 		return oProp;
 	}	
+	
 
 	private void applyProperties(String poPrefix, clsBWProperties poProp) {
 		String pre = clsBWProperties.addDot(poPrefix);

@@ -16,6 +16,7 @@ import bw.utils.enums.eBodyParts;
  * @author zeilinger
  * 
  */
+@Deprecated
 public class clsSensorOlfactoric extends clsSensorExt {
 
 	public clsSensorOlfactoric(String poPrefix, clsBWProperties poProp) {

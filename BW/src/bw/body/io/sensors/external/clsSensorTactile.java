@@ -16,6 +16,7 @@ import bw.utils.enums.eBodyParts;
  * @author zeilinger
  * 
  */
+@Deprecated 
 public class clsSensorTactile extends clsSensorExt {
 
 	public clsSensorTactile(String poPrefix, clsBWProperties poProp) {
