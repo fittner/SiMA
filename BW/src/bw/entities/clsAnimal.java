@@ -13,9 +13,9 @@ import config.clsBWProperties;
 
 import du.utils.enums.eDecisionType;
 
-import bw.body.itfget.itfGetEatableArea;
+
+import bw.body.itfget.itfGetSensorEngine;
 import bw.body.itfget.itfGetRadiation;
-import bw.body.itfget.itfGetVision;
 import bw.entities.tools.clsShapeCreator;
 import bw.utils.enums.eShapeType;
 import enums.eEntityType;
@@ -31,7 +31,9 @@ import enums.eEntityType;
  * @author langr
  * 
  */
-public class clsAnimal extends clsAnimate implements itfGetRadiation, itfGetVision, itfGetEatableArea{
+
+public class clsAnimal extends clsAnimate implements itfGetRadiation, itfGetSensorEngine{
+
 	private boolean mnAlive;
 	
 	public clsAnimal(String poPrefix, clsBWProperties poProp) {

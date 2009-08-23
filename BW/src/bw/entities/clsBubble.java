@@ -15,10 +15,9 @@ import du.utils.enums.eDecisionType;
 
 import bw.body.clsComplexBody;
 import bw.body.itfGetExternalIO;
-import bw.body.itfget.itfGetEatableArea;
 import bw.body.itfget.itfGetInternalEnergyConsumption;
 import bw.body.itfget.itfGetRadiation;
-import bw.body.itfget.itfGetVision;
+import bw.body.itfget.itfGetSensorEngine;
 import bw.entities.tools.clsShapeCreator;
 import bw.entities.tools.eImagePositioning;
 import bw.utils.enums.eBodyType;
@@ -33,7 +32,7 @@ import enums.eEntityType;
  * @author langr
  * 
  */
-public class clsBubble extends clsAnimate implements itfGetVision, itfGetEatableArea, itfGetRadiation {
+public class clsBubble extends clsAnimate implements itfGetSensorEngine, itfGetRadiation {
 
 	public clsBubble(String poPrefix, clsBWProperties poProp) {
 		super(poPrefix, poProp);
@@ -92,7 +91,6 @@ public class clsBubble extends clsAnimate implements itfGetVision, itfGetEatable
 	protected void setEntityType() {
 		meEntityType = eEntityType.BUBBLE;
 	}
-	
 	/* (non-Javadoc)
 	 *
 	 * @author langr

@@ -58,7 +58,7 @@ public class clsLynx extends clsAnimal {
 		String pre = clsBWProperties.addDot(poPrefix);
 
 		clsBWProperties oProp = new clsBWProperties();
-		oProp.putAll( clsAnimate.getDefaultProperties(pre) );
+		oProp.putAll( clsAnimal.getDefaultProperties(pre) );
 		//TODO: (langr) - should pass the config to the decision unit!
 		//oProp.putAll( clsDumbMindA.getDefaultProperties(pre) ); //clsDumbMindA.getDefaultProperties(pre)
 		

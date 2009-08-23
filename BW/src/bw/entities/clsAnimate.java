@@ -22,9 +22,7 @@ import bw.body.clsMeatBody;
 import bw.body.itfGetBrain;
 import bw.body.itfGetExternalIO;
 import bw.body.io.sensors.ext.clsSensorEngine;
-import bw.body.io.sensors.external.clsSensorEatableArea;
-import bw.body.io.sensors.external.clsSensorVision;
-import bw.body.io.sensors.external.clsSensorRadiation;
+//import bw.body.io.sensors.external.clsSensorRadiation;
 import bw.body.itfget.itfGetBody;
 import bw.physicalObjects.sensors.clsEntityPartVision;
 import bw.physicalObjects.sensors.clsEntitySensorEngine;
@@ -193,15 +191,10 @@ public abstract class clsAnimate extends clsMobile implements itfGetBody {
 		}
 	}
 	
+	@Deprecated
 	public clsEntityPartVision getVision()
 	{
-		if (moBody instanceof itfGetExternalIO) {		
-			return ((clsSensorVision)
-					(((itfGetExternalIO)moBody).getExternalIO().moSensorExternal
-					.get(enums.eSensorExtType.VISION))).getMoVisionArea();
-		} else {
-			return null;
-		}		
+		return null; 
 	}
 	
 	/**
@@ -213,38 +206,54 @@ public abstract class clsAnimate extends clsMobile implements itfGetBody {
 	 *
 	 * @return clsEntityPartRadiation
 	 */
+	
 	public clsEntityPartVision getRadiation()
 	{
+//		if (moBody instanceof itfGetExternalIO) {
+//			return ((clsSensorRadiation)
+//					(((itfGetExternalIO)moBody).getExternalIO().moSensorExternal
+//					.get(enums.eSensorExtType.RADIATION))).getMoVisionArea();
+//		} else {
+			return null;
+		//}
+	}
+	
+	
+	/* (non-Javadoc)
+	 *
+	 * @author zeilinger
+	 * 28.07.2009, 11:30:28 Integrate SensorEngine 
+	 * 
+	 * @see bw.body.itfget.itfGetSensorEngine#getSensorEngineAreas()
+	 */
+	
+	public TreeMap<Double, clsEntitySensorEngine> getSensorEngineAreas() {
 		if (moBody instanceof itfGetExternalIO) {
-			return ((clsSensorRadiation)
-					(((itfGetExternalIO)moBody).getExternalIO().moSensorExternal
-					.get(enums.eSensorExtType.RADIATION))).getMoVisionArea();
+			return ((itfGetExternalIO)moBody).getExternalIO().moSensorEngine.getMeSensorAreas();
 		} else {
 			return null;
 		}
 	}
 	
-		
+	public clsSensorEngine getSensorEngine() {
+		if (moBody instanceof itfGetExternalIO) {
+			return ((itfGetExternalIO)moBody).getExternalIO().moSensorEngine;
+		} else {
+			return null;
+		}
+	}
+	
+	@Deprecated	
 	public clsEntityPartVision getEatableArea()
 	{
-		if (moBody instanceof itfGetExternalIO) {		
-			return ((clsSensorEatableArea)
-					(((itfGetExternalIO)moBody).getExternalIO().moSensorExternal
-					.get(enums.eSensorExtType.EATABLE_AREA))).getMoVisionArea(); 
-		} else {
-			return null;
-		}			
+		return null; 
+//		if (moBody instanceof itfGetExternalIO) {		
+//			return ((clsSensorEatableArea)
+//					(((itfGetExternalIO)moBody).getExternalIO().
+//					.get(enums.eSensorExtType.EATABLE_AREA))).getMoVisionArea(); 
+//		} else {
+//			return null;
+//		}			
 	}	
 	
-	//ZEILINGER - integrate SensorEngine 
-	public TreeMap<Double, clsEntitySensorEngine> getSensorEngineAreas()
-	{
-		if (moBody instanceof itfGetExternalIO) {		
-			return ((clsSensorEngine)
-					(((itfGetExternalIO)moBody)
-					.getExternalIO().moSensorEngine)).getMeSensorAreas();
-		} else {
-			return null;
-		}			
-	}
 }

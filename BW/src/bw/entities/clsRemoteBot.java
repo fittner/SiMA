@@ -15,11 +15,12 @@ import bw.physicalObjects.bodyparts.clsBotHands;
 import bw.utils.enums.eBodyType;
 import bw.utils.enums.eShapeType;
 import bw.body.clsComplexBody;
+
 import bw.body.itfGetBrain;
 import bw.body.brainsocket.clsBrainSocket;
-import bw.body.itfget.itfGetEatableArea;
+
 import bw.body.itfget.itfGetRadiation;
-import bw.body.itfget.itfGetVision;
+import bw.body.itfget.itfGetSensorEngine;
 import bw.entities.tools.clsShapeCreator;
 import enums.eEntityType;
 import sim.display.clsKeyListener;
@@ -35,7 +36,7 @@ import sim.physics2D.util.Angle;
  * 
  */
 
-public class clsRemoteBot extends clsAnimate implements itfGetVision, itfGetRadiation, itfGetEatableArea  {
+public class clsRemoteBot extends clsAnimate implements itfGetSensorEngine, itfGetRadiation  {
     private clsBotHands moBotHand1;
     private clsBotHands moBotHand2;
 	
@@ -72,7 +73,7 @@ public class clsRemoteBot extends clsAnimate implements itfGetVision, itfGetRadi
 		oProp.setProperty(pre+P_SHAPE+"."+P_SHAPENAME+"."+clsShapeCreator.P_COLOR, Color.CYAN);
 
 		oProp.setProperty(pre+P_STRUCTURALWEIGHT, 50.0);
-		
+				
 		return oProp;
 	}
 	
@@ -125,21 +126,11 @@ public class clsRemoteBot extends clsAnimate implements itfGetVision, itfGetRadi
 		}
 	}
 		
-	//ZEILINGER Has to be Integrated to Animated too
-	/*returns the Vision Sensor*/
-//	public clsSensorVisionNEW getVision_new()
-//	{
-//		return (clsSensorVisionNEW)moBody
-//					.getExternalIO().moSensorExternal
-//					.get(enums.eSensorExtType.VISION_new); 
-//	}
-//	
 	/* (non-Javadoc)
 	 * @see bw.clsEntity#setEntityType()
 	 */
 	@Override
 	protected void setEntityType() {
 		meEntityType = eEntityType.REMOTEBOT;
-	}
-
+	}	
 }
