@@ -123,7 +123,8 @@ import bw.factories.clsSingletonMasonGetter;
 		public void addContact(PhysicalObject2D poCollidingObj,
 									 Double2D poCollisionPoint){
 			//FIXME colPoint not used
-			if (poCollisionPoint != null){
+			
+			if (poCollisionPoint != null && poCollisionPoint.length()>= 0){
 				meDetectedObjList.add(new clsCollidingObject(poCollidingObj, poCollisionPoint));
 			}				
 		}
