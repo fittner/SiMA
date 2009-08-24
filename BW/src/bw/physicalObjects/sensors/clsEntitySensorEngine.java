@@ -76,11 +76,12 @@ import bw.factories.clsSingletonMasonGetter;
 		}
 		
 		public void setDrawOptions(double pnRadius){
-			 double pnAngle = 0.0;
+			 double pnAngle = 0.001;
 			 Color oColor = Color.RED;
 			 
-			 if(clsSingletonProperties.drawSensors())
+			 if(clsSingletonProperties.drawSensors()){
 				 pnAngle = 2*Math.PI; 
+			 }
 			
 			 moShape = new clsCircleBorder(pnRadius, pnAngle, oColor);		
 		}
