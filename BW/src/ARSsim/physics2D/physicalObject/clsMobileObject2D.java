@@ -299,7 +299,7 @@ public class clsMobileObject2D extends
 			sim.physics2D.util.Double2D colPoint) {
 		if (!(other instanceof clsEntityPartVision)) {
 
-			moCollisionList.add(new clsCollidingObject(other, colPoint));
+			//moCollisionList.add(new clsCollidingObject(other, colPoint));
 		}
 
 		// return 2; // sticky collision

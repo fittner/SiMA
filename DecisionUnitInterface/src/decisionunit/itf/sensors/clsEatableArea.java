@@ -1,12 +1,13 @@
 package decisionunit.itf.sensors;
 
 import java.awt.Color;
-
+import java.util.HashSet;
 import enums.eEntityType;
 
 public class clsEatableArea extends clsSensorExtern {
 	public int mnNumEntitiesPresent = 0;
 	public eEntityType mnTypeOfFirstEntity = eEntityType.UNDEFINED;
+	public HashSet<eEntityType> moEntityTypesPresent = new HashSet();
 	public Color moColorOfFirstEntity = null;
 	
 	@Override

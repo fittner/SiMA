@@ -9,15 +9,13 @@
 package bw.body.io.actuators.actionExecutors;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 
-import sim.physics2D.physicalObject.PhysicalObject2D;
-
+import ARSsim.physics2D.physicalObject.clsCollidingObject;
 import bw.body.clsComplexBody;
 import bw.body.io.actuators.clsActionExecutor;
 import bw.body.io.actuators.actionProxies.*;
 import decisionunit.itf.actions.*;
-import bw.body.io.sensors.external.clsSensorVision;
+import bw.body.io.sensors.ext.clsSensorEatableArea;
 import bw.entities.clsMobile;
 import bw.utils.enums.eBindingState;
 import enums.eSensorExtType;
@@ -84,7 +82,7 @@ public class clsExecutorPickUp  extends clsActionExecutor {
 
 		//Is something in range
 		clsComplexBody oBody = (clsComplexBody) ((itfGetBody)moEntity).getBody();
-		HashMap<Integer, PhysicalObject2D>  oSearch = ((clsSensorVision) oBody.getExternalIO().moSensorExternal.get(moRangeSensor)).getViewObj();
+		ArrayList<clsCollidingObject>  oSearch = ((clsSensorEatableArea) oBody.getExternalIO().moSensorExternal.get(moRangeSensor)).getSensorData();
 		itfAPCarryable oEntity = (itfAPCarryable) findSingleEntityInRange(oSearch,itfAPCarryable.class) ;
 
 		//nothing there = waste energy
@@ -106,7 +104,7 @@ public class clsExecutorPickUp  extends clsActionExecutor {
 		//Is something in range
 		clsComplexBody oBody = (clsComplexBody) ((itfGetBody)moEntity).getBody();
 
-		HashMap<Integer, PhysicalObject2D>  oSearch = ((clsSensorVision) oBody.getExternalIO().moSensorExternal.get(moRangeSensor)).getViewObj();
+		ArrayList<clsCollidingObject>  oSearch  = ((clsSensorEatableArea) oBody.getExternalIO().moSensorExternal.get(moRangeSensor)).getSensorData();
 		itfAPCarryable oEntity = (itfAPCarryable) findSingleEntityInRange(oSearch,itfAPCarryable.class) ;
 		if (oEntity==null) return false;
 

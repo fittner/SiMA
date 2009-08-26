@@ -15,10 +15,9 @@ import du.utils.enums.eDecisionType;
 
 import bw.body.clsComplexBody;
 import bw.body.itfGetExternalIO;
-import bw.body.itfget.itfGetEatableArea;
 import bw.body.itfget.itfGetInternalEnergyConsumption;
 import bw.body.itfget.itfGetRadiation;
-import bw.body.itfget.itfGetVision;
+import bw.body.itfget.itfGetSensorEngine;
 import bw.entities.tools.clsShapeCreator;
 import bw.entities.tools.eImagePositioning;
 import bw.utils.enums.eBodyType;
@@ -33,7 +32,7 @@ import enums.eEntityType;
  * @author horvath
  * 
  */
-public class clsFungusEater extends clsAnimate implements itfGetVision, itfGetEatableArea, itfGetRadiation {
+public class clsFungusEater extends clsAnimate implements itfGetSensorEngine, itfGetRadiation {
 
 	public clsFungusEater(String poPrefix, clsBWProperties poProp) {
 		super(poPrefix, poProp);

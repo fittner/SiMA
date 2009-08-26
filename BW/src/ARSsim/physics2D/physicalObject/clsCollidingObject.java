@@ -7,8 +7,8 @@
  */
 package ARSsim.physics2D.physicalObject;
 
+import ARSsim.physics2D.util.clsPolarcoordinate;
 import sim.physics2D.physicalObject.PhysicalObject2D;
-import sim.physics2D.util.Double2D;
 
 /**
  * Used in the handleCollision method of clsMobileObject2D
@@ -23,11 +23,11 @@ public class clsCollidingObject {
 	 * @param moCollider
 	 * @param mrColPoint
 	 */
-	public clsCollidingObject(PhysicalObject2D poCollider, Double2D prColPoint) {
+	public clsCollidingObject(PhysicalObject2D poCollider, clsPolarcoordinate prColPoint) {
 		this.moCollider = poCollider;
 		this.mrColPoint = prColPoint;
 	}
 	public PhysicalObject2D moCollider;
-	public Double2D mrColPoint;
+	public clsPolarcoordinate mrColPoint;
 	
 }

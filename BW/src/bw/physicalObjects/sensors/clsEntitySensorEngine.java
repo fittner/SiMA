@@ -21,6 +21,7 @@ import sim.portrayal.DrawInfo2D;
 import ARSsim.physics2D.physicalObject.clsCollidingObject;
 import ARSsim.physics2D.physicalObject.clsMobileObject2D;
 import ARSsim.physics2D.shape.clsCircleBorder;
+import ARSsim.physics2D.util.clsPolarcoordinate;
 import bw.entities.clsEntity;
 import bw.entities.clsMobile;
 import bw.factories.clsSingletonProperties;
@@ -126,7 +127,9 @@ import bw.factories.clsSingletonMasonGetter;
 			//FIXME colPoint not used
 			
 			if (poCollisionPoint != null && poCollisionPoint.length()>= 0){
-				meDetectedObjList.add(new clsCollidingObject(poCollidingObj, poCollisionPoint));
+				
+				clsPolarcoordinate oCoord = new clsPolarcoordinate( moHostEntity.getPosition(), poCollidingObj.getPosition() ); 
+				meDetectedObjList.add(new clsCollidingObject(poCollidingObj, oCoord ));
 			}				
 		}
 

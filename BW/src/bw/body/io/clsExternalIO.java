@@ -15,7 +15,7 @@ import bw.body.clsBaseBody;
 import bw.body.io.actuators.clsActionProcessor;
 import bw.body.io.actuators.actionExecutors.*;
 import decisionunit.itf.actions.*; 
-import bw.body.io.sensors.external.clsSensorExt;
+import bw.body.io.sensors.ext.clsSensorExt;
 
 //ZEILINGER  -- integration Sensor Engine
 import bw.body.io.sensors.ext.clsSensorBump;

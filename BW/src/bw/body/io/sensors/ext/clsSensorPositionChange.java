@@ -88,6 +88,9 @@ public class clsSensorPositionChange extends clsSensorExt{
 	}
 	
 	public clsPose getPositionChange() {return moDiv;}
+	
+	// FIXME (horvath) - returns last position
+	public clsPose getLastPosition() {return moLastPos;}
 
 	/* (non-Javadoc)
 	 *

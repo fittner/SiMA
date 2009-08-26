@@ -16,7 +16,7 @@ import config.clsBWProperties;
 
 import sim.physics2D.physicalObject.PhysicalObject2D;
 import sim.physics2D.shape.*;
-//import sim.physics2D.util.Double2D;
+import sim.physics2D.util.Angle;
 import simple.remotecontrol.clsRemoteControl;
 
 import decisionunit.clsBaseDecisionUnit;
@@ -42,6 +42,7 @@ import enums.eSensorExtType;
 import ARSsim.physics2D.physicalObject.clsCollidingObject;
 import ARSsim.physics2D.physicalObject.clsMobileObject2D;
 import ARSsim.physics2D.physicalObject.clsStationaryObject2D;
+import ARSsim.physics2D.util.clsPolarcoordinate;
 import bw.body.itfStepProcessing;
 
 import bw.body.io.sensors.ext.clsSensorVision;
@@ -51,9 +52,7 @@ import bw.body.io.sensors.ext.clsSensorPositionChange;
 import bw.body.io.sensors.ext.clsSensorRadiation;
 
 import bw.body.internalSystems.clsFastMessengerEntry;
-//import bw.body.io.sensors.external.clsSensorBump;
-//import bw.body.io.sensors.external.clsSensorEatableArea;
-import bw.body.io.sensors.external.clsSensorExt;
+import bw.body.io.sensors.ext.clsSensorExt;
 import bw.body.io.sensors.internal.clsEnergyConsumptionSensor;
 import bw.body.io.sensors.internal.clsEnergySensor;
 import bw.body.io.sensors.internal.clsFastMessengerSensor;
@@ -65,6 +64,7 @@ import bw.body.io.sensors.internal.clsStaminaSensor;
 import bw.entities.clsEntity;
 import bw.entities.clsAnimal;
 //import bw.entities.clsUraniumOre;
+import bw.utils.sensors.clsSensorDataCalculation;
 import enums.eEntityType;
 
 /**
@@ -81,12 +81,13 @@ public class clsBrainSocket implements itfStepProcessing {
 	private itfActionProcessor moActionProcessor; //reference
 	private HashMap<eSensorExtType, clsSensorExt> moSensorsExt; //reference
 	private HashMap<eSensorIntType, clsSensorInt> moSensorsInt; //reference
+	private clsSensorDataCalculation moSensorCalculation;
 	
 	public clsBrainSocket(String poPrefix, clsBWProperties poProp, HashMap<eSensorExtType, clsSensorExt> poSensorsExt, HashMap<eSensorIntType, clsSensorInt> poSensorsInt, itfActionProcessor poActionProcessor) {
 		moActionProcessor=poActionProcessor;
 		moSensorsExt = poSensorsExt;
 		moSensorsInt = poSensorsInt;
-		
+		moSensorCalculation = new clsSensorDataCalculation();
 		applyProperties(poPrefix, poProp);
 	}
 
@@ -296,10 +297,10 @@ public class clsBrainSocket implements itfStepProcessing {
 		clsVision oData = new clsVision();
 		clsSensorVision oVision = (clsSensorVision)(moSensorsExt.get(eSensorExtType.VISION));
 		ArrayList<clsCollidingObject> eDetectedObjectList = oVision.getSensorData();
-		
+
 		Iterator <clsCollidingObject> i = eDetectedObjectList.iterator(); 
 		while(i.hasNext()){
-			clsVisionEntry oEntry = convertVisionEntry(i.next().moCollider);
+			clsVisionEntry oEntry = convertVisionEntry(i.next());
 			
 			if (oEntry != null) {
 				oData.add(oEntry);
@@ -332,17 +333,26 @@ public class clsBrainSocket implements itfStepProcessing {
 	
 	
 
-	private clsVisionEntry convertVisionEntry(PhysicalObject2D visionObj) {
-		clsEntity oEntity = getEntity(visionObj);
+	private clsVisionEntry convertVisionEntry(clsCollidingObject collidingObj) {
+		clsEntity oEntity = getEntity(collidingObj.moCollider);
 		if (oEntity == null) {
 			return null;
 		}
 
 		clsVisionEntry oData = new clsVisionEntry();
 		
-		oData.mnEntityType = getEntityType(visionObj);		
-		oData.mnShapeType = getShapeType(visionObj);
+		oData.mnEntityType = getEntityType(collidingObj.moCollider);		
+		oData.mnShapeType = getShapeType(collidingObj.moCollider);
 		oData.moColor = (Color) oEntity.getShape().getPaint();
+		
+		// FIXME: (horvath) - temporary polar coordinates calculation
+		clsSensorPositionChange oSensor = (clsSensorPositionChange)(moSensorsExt.get(eSensorExtType.POSITIONCHANGE));
+		clsPolarcoordinate oRel = collidingObj.mrColPoint;
+		oRel.moAzimuth = new Angle(moSensorCalculation.normalizeRadian(oRel.moAzimuth.radians - oSensor.getLastPosition().getAngle().radians));
+				
+		oData.moPolarcoordinate = new bfg.tools.shapes.clsPolarcoordinate(oRel.mrLength,oRel.moAzimuth.radians);
+		
+		System.out.println(oRel.mrLength + "    " + oRel.moAzimuth.radians);
 		
 		if( oEntity instanceof clsAnimal )
 		{
@@ -375,7 +385,7 @@ public class clsBrainSocket implements itfStepProcessing {
 				break;
 			}
 		}
-			
+					
 		return oData;
 	}
 	

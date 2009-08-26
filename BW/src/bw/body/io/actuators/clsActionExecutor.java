@@ -9,10 +9,9 @@
 package bw.body.io.actuators;
 
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Iterator;
 
 import sim.physics2D.physicalObject.PhysicalObject2D;
+import ARSsim.physics2D.physicalObject.clsCollidingObject;
 import ARSsim.physics2D.physicalObject.clsMobileObject2D;
 import ARSsim.physics2D.physicalObject.clsStationaryObject2D;
 import bw.body.io.clsSensorActuatorBaseExt;
@@ -78,13 +77,11 @@ public abstract class clsActionExecutor extends clsSensorActuatorBaseExt {
 	/*
 	 * Support function for finding an entity in a given Range
 	 */
-	protected clsEntity findSingleEntityInRange(HashMap<Integer, PhysicalObject2D> poSearch, Class<?> poInterface) {
+	protected clsEntity findSingleEntityInRange(ArrayList<clsCollidingObject> poSearch, Class<?> poInterface) {
 		clsEntity oEntity=null;
 
-		Iterator<Integer> i = poSearch.keySet().iterator();
-		while (i.hasNext()) {
-			Integer oKey = i.next();
-			PhysicalObject2D poIntObject =(PhysicalObject2D) poSearch.get(oKey); 
+		for(int i=0; i<poSearch.size(); i++){
+			PhysicalObject2D poIntObject = poSearch.get(i).moCollider; 
 
 			clsEntity oIntEntity=null;
 			if (poIntObject instanceof clsMobileObject2D) {

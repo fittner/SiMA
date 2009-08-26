@@ -13,10 +13,8 @@ import java.util.Iterator;
 
 import config.clsBWProperties;
 
-import sim.physics2D.physicalObject.PhysicalObject2D;
 import sim.physics2D.util.Double2D;
 import ARSsim.physics2D.physicalObject.clsCollidingObject;
-import ARSsim.physics2D.util.clsPolarcoordinate;
 import bw.body.io.clsBaseIO;
 import bw.body.io.clsExternalIO;
 import bw.body.io.sensors.itfSensorUpdate;
@@ -98,23 +96,21 @@ public abstract class clsSensorExt extends bw.body.io.sensors.external.clsSensor
 		
 		while(itr.hasNext()){
 			clsCollidingObject oCollidingObject = itr.next(); 
-			clsPolarcoordinate oRel = getPolarCoordinates(oCollidingObject.mrColPoint);
-	     	if(!evaluateIfObjInFieldOfView(oRel.moAzimuth.radians, oCollidingObject.moCollider, oCollidingObject.mrColPoint)){
+			//TODO ()
+	     	if(!evaluateIfObjInFieldOfView(oCollidingObject)){ //.moCollider, oCollidingObject.moCollider.getPosition())){
 	     		itr.remove(); 
 	     	}
 		}
 	}
 	
-	private clsPolarcoordinate getPolarCoordinates (Double2D poCollisionPoint){
-		return moSensorData.getRelativeCollisionPosition(poCollisionPoint);
-	}
+//	private clsPolarcoordinate getPolarCoordinates (Double2D poCollisionPoint){
+//		return moSensorData.getRelativeCollisionPosition(poCollisionPoint);
+//	}
 	
-	private boolean evaluateIfObjInFieldOfView(double poRelativeCoordinatesRad, PhysicalObject2D poPhysicalObject,
-											Double2D poCollisionPoint){
-		double nOrientation = moSensorEngine.getMeSensorAreas().firstEntry()
-												.getValue().getOrientation().radians;
-		if(moSensorData.checkIfObjectInView(poRelativeCoordinatesRad, nOrientation, 
-											moSensorData.mnFieldOfView)){
+	private boolean evaluateIfObjInFieldOfView(clsCollidingObject poCollidingObject){
+		double nEntityOrientation =  moSensorEngine.getMeSensorAreas().firstEntry().getValue().getOrientation().radians;
+		if(moSensorData.checkIfObjectInView(poCollidingObject.mrColPoint.moAzimuth.radians, nEntityOrientation, 
+											moSensorData.mnFieldOfView)){	
 				return true;  
 		}
 		return false; 
