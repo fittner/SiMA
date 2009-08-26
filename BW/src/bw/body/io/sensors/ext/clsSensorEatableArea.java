@@ -55,7 +55,7 @@ public class clsSensorEatableArea extends clsSensorExt{
 		
 		clsBWProperties oProp = new clsBWProperties();
 		oProp.putAll(clsSensorExt.getDefaultProperties(pre) );
-		oProp.setProperty(pre+P_SENSOR_FIELD_OF_VIEW, 2*Math.PI);		// FIXME (horvath) - temporary restriction 
+		oProp.setProperty(pre+P_SENSOR_FIELD_OF_VIEW, Math.PI/4);		// FIXME (horvath) - temporary restriction 
 																	//                   of eatable area from Math.PI to Math.PI/4  
 		
 		return oProp;
@@ -117,8 +117,9 @@ public class clsSensorEatableArea extends clsSensorExt{
 			ArrayList<clsCollidingObject> peDetectedObjInAreaList) {
 		// TODO (zeilinger) - Auto-generated method stub
 		
-		// FIXME (horvath) - temporary solution
-		calculateObjInFieldOfView(pnAreaRange, peDetectedObjInAreaList); 
+		calculateObjInFieldOfView(pnAreaRange, peDetectedObjInAreaList);
+		// FIXME (horvath)
+		calculateRegisteredObjects(peDetectedObjInAreaList);
 	}
 	
 	public void computeDataDeliveredToDU(){

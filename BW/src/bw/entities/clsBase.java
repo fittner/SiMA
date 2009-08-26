@@ -63,7 +63,7 @@ public class clsBase extends clsStationary {
 		
 		oProp.putAll(clsStationary.getDefaultProperties(pre) );
 
-		oProp.setProperty(pre+P_SENSOR+"."+clsSensorVision.P_SENSOR_ANGLE, 1.99 * Math.PI );
+		oProp.setProperty(pre+P_SENSOR+"."+clsSensorVision.P_SENSOR_ANGLE, 2 * Math.PI );
 		oProp.setProperty(pre+P_SENSOR+"."+clsSensorVision.P_SENSOR_RANGE, 25.0 );
 		oProp.setProperty(pre+P_SENSOR+"."+clsSensorVision.P_SENSOR_OFFSET, 0.0 );				
 		

@@ -13,7 +13,6 @@ public class clsVisionEntry {
 	public eEntityType mnEntityType = eEntityType.UNDEFINED;
 	public eShapeType mnShapeType = eShapeType.UNDEFINED;
 	public String moEntityId = "";
-	public boolean mnRegistered = false;
 	public boolean mnAlive = false;
 	public Color moColor = null;
 	

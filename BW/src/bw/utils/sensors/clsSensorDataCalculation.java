@@ -32,36 +32,15 @@ public class clsSensorDataCalculation {
 	 * 						 angle in radians  
 	 * @return boolean
 	 */
-	public boolean checkIfObjectInView(double pnColPointOrientation, double pnEntityOrientation, 
-								       double pnAreaOfViewRadians){
+	public boolean checkIfObjectInView(double pnColPointOrientation, double pnEntityOrientation, double pnAreaOfViewRadians){
 		
-		double nEntityOrientation = pnEntityOrientation;
-		double nMinBorder; 
-		double nMaxBorder; 
+		//(horvath) - fixed
+		double nColPointOrientation = this.normalizeRadian(pnColPointOrientation);
+		double nEntityOrientation = this.normalizeRadian(pnEntityOrientation);
 		
-		nEntityOrientation = this.normalizeRadian(nEntityOrientation);
-		nMinBorder = nEntityOrientation -  pnAreaOfViewRadians/2; 
-		nMaxBorder = nEntityOrientation +  pnAreaOfViewRadians/2; 
-		
-		if(pnAreaOfViewRadians == 2*Math.PI) // => nMinBorder == nMaxBorder, 360-degrees view    
-			return true; 
-		if(nMaxBorder>2*Math.PI)
-			nMaxBorder-=2*Math.PI; 
-		if(nMinBorder<0)
-			nMinBorder+=2*Math.PI; 
-		
-		if(nMaxBorder > nMinBorder && 
-				pnColPointOrientation <= nMaxBorder &&
-				pnColPointOrientation >= nMinBorder)
+		if(Math.abs(nEntityOrientation - nColPointOrientation) <= pnAreaOfViewRadians/2)
 		{
 			return true;  
-		}
-		else if (nMaxBorder < nMinBorder && 
-				(pnColPointOrientation <= nMaxBorder || 
-				 pnColPointOrientation >= nMinBorder))
-		{
-			
-			return true; 
 		}
 		return false; 
 	}

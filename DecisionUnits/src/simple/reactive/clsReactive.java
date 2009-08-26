@@ -23,7 +23,6 @@ import enums.eEntityType;
 import enums.eSensorExtType;
 import enums.eSensorIntType;
 import decisionunit.itf.sensors.clsEatableArea;
-import decisionunit.itf.sensors.clsBump;
 import decisionunit.itf.sensors.clsSensorData;
 import decisionunit.itf.sensors.clsRadiation;
 import decisionunit.itf.sensors.clsEnergy;
@@ -35,6 +34,7 @@ import java.util.Random;
 import java.util.HashSet;
 import java.util.Arrays;
 import java.util.ArrayList;
+import java.util.Iterator;
 
 /**
  * DOCUMENT (horvath) - insert description 
@@ -61,20 +61,22 @@ public class clsReactive extends clsBaseDecisionUnit {
 	private final double mrMAX_URANIUM = 10;
 	private final double mrINRANGE_AZIMUTH = 0.1;
 	private final double mrFORWARD_STEP = 0.6;
-	private final double mrAT_ENTITY_MAX = 20;
+	private final double mrAT_BASE_MAX = 40;
+	private final double mrAT_ENTITY_MAX = 17;
+	private final double mrOBSTACLE_DIST_MAX = 40;
 	private final int mnRANDOM_TIME = 100;
 	private final double mrRANDOM_TURN = Math.PI/2;
 	private final long mnSEED = 1234;
 	private final int mnAVOIDANCE_DISTANCE = 50;
 	private final int mnAVOIDANCE_ANGLE = 150;
-	private final int mnMAX_COLLECTED_URANIUM = 1;
+	private final int mnCOLLECTED_URANIUM_MAX = 1;
 	
-	private final HashSet moOBSTACLES_NOURANIUM = new HashSet(Arrays.asList(	
+	private final HashSet<eEntityType> moOBSTACLES_NOURANIUM = new HashSet<eEntityType>(Arrays.asList(	
 			eEntityType.BASE,					
 			eEntityType.FUNGUS,					
 			eEntityType.STONE,						
 			eEntityType.WALL));
-	private final HashSet moOBSTACLES_NOURANIUMBASE = new HashSet(Arrays.asList(	
+	private final HashSet<eEntityType> moOBSTACLES_NOURANIUMBASE = new HashSet<eEntityType>(Arrays.asList(	
 			eEntityType.FUNGUS,					
 			eEntityType.STONE,						
 			eEntityType.WALL));
@@ -125,49 +127,49 @@ public class clsReactive extends clsBaseDecisionUnit {
 				
 				if(mnInventorySize == 0){
 				if(isVisibleEntityInRange(inputs,eEntityType.URANIUM)){
-					if(isAtEntity(eEntityType.URANIUM, 11)){
-						harvest(inputs, poActionProcessor);
+					if(isAtEntity(eEntityType.URANIUM, mrAT_ENTITY_MAX)){
 						System.out.println("harvest");
+						harvest(inputs, poActionProcessor);
 					}else if(isObstacle(moOBSTACLES_NOURANIUM)){
-						avoidObstacle(poActionProcessor, moOBSTACLES_NOURANIUM);
 						System.out.println("avoid obstacle");
+						avoidObstacle(poActionProcessor, moOBSTACLES_NOURANIUM);						
 					}else{
-						goToEntity(poActionProcessor, eEntityType.URANIUM);
 						System.out.println("go to entity");
+						goToEntity(poActionProcessor, eEntityType.URANIUM);
 					}
 				}else{
 					if(isObstacle(moOBSTACLES_NOURANIUM)){
-						avoidObstacle(poActionProcessor, moOBSTACLES_NOURANIUM);
 						System.out.println("avoid obstacle");
+						avoidObstacle(poActionProcessor, moOBSTACLES_NOURANIUM);
 					}else{
 						if(moActionQueue.size() == 0){
-							goRandom(poActionProcessor);
 							System.out.println("go random");
+							goRandom(poActionProcessor);
 						}
 					}
 				}
 				}
-				if(mnInventorySize == mnMAX_COLLECTED_URANIUM){	
+				if(mnInventorySize == mnCOLLECTED_URANIUM_MAX){	
 					if(isVisibleEntityInRange(inputs,eEntityType.BASE)){
-						if(isAtEntity(eEntityType.BASE, mrAT_ENTITY_MAX)){
-							//release(poActionProcessor);
+						if(isAtEntity(eEntityType.BASE, mrAT_BASE_MAX)){
 							System.out.println("homing: release");
+							release(poActionProcessor);
 						}else if(isObstacle(moOBSTACLES_NOURANIUMBASE)){
-							avoidObstacle(poActionProcessor,moOBSTACLES_NOURANIUMBASE);
 							System.out.println("homing: avoid obstacle");
+							avoidObstacle(poActionProcessor,moOBSTACLES_NOURANIUMBASE);
 						}
 						else{
-							goToEntity(poActionProcessor, eEntityType.BASE);
 							System.out.println("homing: go to entity");
+							goToEntity(poActionProcessor, eEntityType.BASE);
 						}
 					}else{
 						if(isObstacle(moOBSTACLES_NOURANIUMBASE)){
-							avoidObstacle(poActionProcessor,moOBSTACLES_NOURANIUMBASE);
 							System.out.println("homing: avoid obstacle");
+							avoidObstacle(poActionProcessor,moOBSTACLES_NOURANIUMBASE);
 						}else{
 							if(moActionQueue.size() == 0){
-								goRandom(poActionProcessor);
 								System.out.println("homing: go random");
+								goRandom(poActionProcessor);
 							}
 						}
 					}
@@ -309,14 +311,13 @@ public class clsReactive extends clsBaseDecisionUnit {
 	 * (horvath) - if distance of an object from the fungus eater is less than a predefined value, returns true, 
 	 * 			   otherwise returns false
 	 */
-	private boolean isObstacle(HashSet poObstacleTypes){
-		clsEatableArea oEatArea = (clsEatableArea) getSensorData().getSensorExt(eSensorExtType.EATABLE_AREA);	
-
-		HashSet intersection = (HashSet)poObstacleTypes.clone();
-		intersection.retainAll(oEatArea.moEntityTypesPresent);	// calculate intersection of seen object types and obstacle types
-		if( intersection.size() != 0){							// if the intersection is not empty -> there is an obstacle
-			return true;	
-		}				
+	private boolean isObstacle(HashSet<eEntityType> poObstacleTypes){
+		Iterator<eEntityType> itr = poObstacleTypes.iterator();
+		while(itr.hasNext()){
+			if(isAtEntity(itr.next(),mrOBSTACLE_DIST_MAX)){
+				return true;
+			}
+		}
 		return false;
 	}
 	
@@ -338,28 +339,11 @@ public class clsReactive extends clsBaseDecisionUnit {
 	/*
 	 * (horvath) - if distance of an entity from the fungus eater is less than a predefined value, returns true, 
 	 * 			   otherwise returns false
-	 */
-	/*private boolean isAtEntity(eEntityType poEntityType, boolean pbCloseDist){
-		clsEatableArea oEatArea = (clsEatableArea) getSensorData().getSensorExt(eSensorExtType.EATABLE_AREA);
-		clsBump oBumper = (clsBump)getSensorData().getSensorExt(eSensorExtType.BUMP);
-		if(oEatArea.moEntityTypesPresent.contains(poEntityType)){
-			if(pbCloseDist){
-				if(oBumper.mnBumped){
-					return true;
-				}
-			}else{
-				return true;
-			}
-		}		
-		return false;
-	}*/
-	
+	 */	
 	private boolean isAtEntity(eEntityType poEntityType, double pnDistance){
 		clsVision oVision = (clsVision) getSensorData().getSensorExt(eSensorExtType.VISION);
-		clsBump oBumper = (clsBump)getSensorData().getSensorExt(eSensorExtType.BUMP);
-		// Find the closest fungus 
+		// Find the closest entity 
 		for( clsVisionEntry oVisionObj : oVision.getList() ) {
-			
 			if (oVisionObj.mnEntityType == poEntityType){
 				if(oVisionObj.moPolarcoordinate.mrLength <= pnDistance){
 					return true;

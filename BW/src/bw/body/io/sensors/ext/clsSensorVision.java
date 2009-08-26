@@ -41,7 +41,7 @@ public class clsSensorVision extends clsSensorExt {
 		
 		clsBWProperties oProp = new clsBWProperties();
 		oProp.putAll(clsSensorExt.getDefaultProperties(pre));
-		oProp.setProperty(pre+P_SENSOR_FIELD_OF_VIEW, 2*Math.PI);
+		oProp.setProperty(pre+P_SENSOR_FIELD_OF_VIEW, Math.PI);
 		return oProp;
 	}	
 
@@ -76,7 +76,10 @@ public class clsSensorVision extends clsSensorExt {
 	@Override
 	public void setDetectedObjectsList(Double pnAreaRange,
 								ArrayList<clsCollidingObject> peDetectedObjInAreaList){
-		calculateObjInFieldOfView(pnAreaRange, peDetectedObjInAreaList); 
+		calculateObjInFieldOfView(pnAreaRange, peDetectedObjInAreaList);
+		
+		// FIXME (horvath)
+		calculateRegisteredObjects(peDetectedObjInAreaList);
 	}
 	
 	/*has to be implemented - return SensorData to Decision Unit,

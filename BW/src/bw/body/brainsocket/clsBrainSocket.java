@@ -352,8 +352,6 @@ public class clsBrainSocket implements itfStepProcessing {
 				
 		oData.moPolarcoordinate = new bfg.tools.shapes.clsPolarcoordinate(oRel.mrLength,oRel.moAzimuth.radians);
 		
-		System.out.println(oRel.mrLength + "    " + oRel.moAzimuth.radians);
-		
 		if( oEntity instanceof clsAnimal )
 		{
 			oData.mnAlive = ((clsAnimal)oEntity).isAlive();
@@ -385,7 +383,7 @@ public class clsBrainSocket implements itfStepProcessing {
 				break;
 			}
 		}
-					
+				
 		return oData;
 	}
 	
