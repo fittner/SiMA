@@ -41,7 +41,7 @@ public class clsSensorVision extends clsSensorExt {
 		
 		clsBWProperties oProp = new clsBWProperties();
 		oProp.putAll(clsSensorExt.getDefaultProperties(pre));
-		oProp.setProperty(pre+P_SENSOR_FIELD_OF_VIEW, Math.PI);
+		oProp.setProperty(pre+P_SENSOR_FIELD_OF_VIEW, 2*Math.PI);
 		return oProp;
 	}	
 

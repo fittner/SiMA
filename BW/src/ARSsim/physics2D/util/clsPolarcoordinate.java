@@ -43,10 +43,7 @@ public class clsPolarcoordinate {
 	  }
 	  
 	  private static Double2D diffAtoB(Double2D poFrom, Double2D poTo) {
-		  Double2D oTemp = new Double2D(poTo.x, poTo.x);
-		  oTemp.subtract(poFrom);
-		  
-		  return oTemp;
+		  return poTo.subtract(poFrom);
 	  }
 	  
 	  private static Angle angleToPoint(Double2D poTo) {
