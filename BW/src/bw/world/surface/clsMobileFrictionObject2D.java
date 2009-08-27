@@ -4,6 +4,9 @@ import sim.physics2D.PhysicsState;
 import sim.physics2D.physicalObject.MobileObject2D;
 import sim.physics2D.util.Double2D;
 
+//@deprecated
+//content of this class will be moved to ARSsim.physics2D.physicalObject.clsMobileObject2D
+
 /**
  * This class is used for mobile objects which are not agents. It updates the friction depending on what surface this object is moved.
  * @author kohlhauser

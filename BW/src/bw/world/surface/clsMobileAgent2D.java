@@ -4,7 +4,7 @@ import sim.physics2D.PhysicsState;
 import sim.physics2D.physicalObject.MobileObject2D;
 import sim.physics2D.util.Double2D;
 
-//@deprecated
+@Deprecated
 //the learning which distinguishes this class from clsMobileFrictionObject2D is not needed anymore
 // therefore clsMobileFrictionObject2D is to be used for all Objects and agents. 
 

@@ -23,6 +23,7 @@ import bw.entities.clsEntity;
 import bw.factories.clsSingletonMasonGetter;
 import bw.physicalObjects.sensors.clsEntityPartVision;
 import bw.utils.inspectors.entity.clsInspectorEntity;
+import bw.world.surface.clsSurfaceHandler;
 
 /**
  * Our representative of the mason physics class
@@ -48,6 +49,16 @@ public class clsMobileObject2D extends
 
 	private TabbedInspector moMasonInspector = null;
 
+	//added by SK: the following members are used for surfaces
+	//values identical to superclass but are declared private there 
+	protected final double mrZeroVelocity = 0.01;
+	protected final double mrGravity = 0.1;
+	protected double mrNormalForce = 80 * mrGravity; //assumes a bubble with 80kg and the given gravity resulting in N = 8
+	//other things used for friction
+	protected clsSurfaceHandler moSurfaceHandler = clsSurfaceHandler.getInstance();
+	protected boolean mbUseSurfaces = true;
+	protected int nCurrentPositionX = 0, nCurrentPositionY = 0;
+	
 	public clsMobileObject2D(clsEntity poEntity) {
 		moEntity = poEntity;
 		moMotionPlatform = new clsMotionPlatform(this);
@@ -267,6 +278,10 @@ public class clsMobileObject2D extends
 	public void postprocessStep() {
 		// correct rotation-force to emulate static friction for rotation
 		addAngularFriction();
+		
+		//Added by SK: adding friction from the surfaces
+		//if (mbUseSurfaces == true)
+		//	addFrictionForce();
 
 		// with these 2, physics work!
 		sim.physics2D.util.Double2D position = getPosition();
@@ -320,12 +335,16 @@ public class clsMobileObject2D extends
 		// if(moEntity instanceof clsRemoteBot)
 		{
 			double nAngularVel = getAngularVelocity();
-			double nToAdd = 0;
+			double nToAdd = 0.3;
+			//added by SK: dynamic friction calculation
+			if (mbUseSurfaces == true)
+				nToAdd = mrNormalForce * moSurfaceHandler.getKineticFriction(nCurrentPositionX, nCurrentPositionY);
 			if (nAngularVel > 0.002d) {
-				nToAdd = -0.3;
+				//nToAdd = -0.3;
+				nToAdd *= -1;
 				addTorqueComponent(nToAdd);
 			} else if (nAngularVel < -0.002d) {
-				nToAdd = 0.3;
+				//nToAdd = 0.3;
 				addTorqueComponent(nToAdd);
 			} else {
 				setAngularVelocity(0.0);
@@ -358,5 +377,78 @@ public class clsMobileObject2D extends
 		}
 
 		return moMasonInspector;
+	}
+	
+    /** Calculates and adds the static and dynamic friction forces on the object
+     * based on the coefficients of friction.
+     * Overwrites inherited method. 
+     * 
+     * @author kohlhauser
+     */
+	@Override
+	public void addFrictionForce()
+	{	
+		if (mbUseSurfaces == true)
+		{
+			//getting necessary information for the calculation
+			Double2D oVelocity = this.getVelocity(); 
+	    	double rVelLength = oVelocity.length();
+	    	Double2D oPosition = physicsState.getPosition(this.index);
+		    	
+	    	//calculate if position has changed enough to poll again for the friction coefficient
+	    	//may speed it up a little
+	    	nCurrentPositionX = (int) oPosition.getX();
+	    	nCurrentPositionY = (int) oPosition.getY();
+		    	
+	    	if (rVelLength < mrZeroVelocity)
+	        {
+		    	//get static friction from surface and add the own friction
+		    	//setCoefficientOfStaticFriction(moSurfaceHandler.getStaticFriction(nCurrentPositionX, nCurrentPositionY) + mrStaticObjectFriction);
+	            Double2D externalForce = this.getForceAccumulator();
+	            //if external force on sitting object can overcome the normal Force (keeping it on its spot), the object 
+	            //moves according to the force
+	            if (mrNormalForce * moSurfaceHandler.getStaticFriction(nCurrentPositionX, nCurrentPositionY) > externalForce.length())
+	                this.addForceComponent(new Double2D(-externalForce.x, -externalForce.y));
+	        }
+	    	
+	    	if (rVelLength > 0)
+		    {
+		    	//get dynamic friction from surface and add the own friction
+		    	//setCoefficientOfFriction(moSurfaceHandler.getKineticFriction(nCurrentPositionX, nCurrentPositionY) + mrKineticObjectFriction);
+		    	Double2D velRot = new Double2D(-oVelocity.x, -oVelocity.y);
+	            this.addForceComponent(velRot.scalarMult(mrNormalForce * moSurfaceHandler.getKineticFriction(nCurrentPositionX, nCurrentPositionY)));
+	        }
+		}
+		else
+			super.addFrictionForce();
+	}
+	
+	/**
+	 * 
+	 * Set to true if surfaces should be used.
+	 *
+	 * @author kohlhauser
+	 * 12.08.2009, 13:01:14
+	 *
+	 * @param useSurfaces
+	 */
+	public void setUseSurfaces(boolean useSurfaces)
+	{
+		this.mbUseSurfaces = useSurfaces;
+	}
+	
+	/**
+	 * 
+	 * This function assumes that the setMass function of the superclass is ignored.
+	 * This allows an avoidance of the mass moment of inertia which is not defined for all shapes.
+	 *
+	 * @author kohlhauser
+	 * 19.08.2009, 12:30:26
+	 *
+	 * @param prMass
+	 */
+	public void setNormalForce(double prMass)
+	{
+		mrNormalForce = prMass * mrGravity; 
 	}
 }

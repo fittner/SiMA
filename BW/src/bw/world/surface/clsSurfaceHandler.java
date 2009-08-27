@@ -167,6 +167,21 @@ public class clsSurfaceHandler implements itfSurface
 		moSurfaceGrid.set(pnX, pnY, pnSurface);
 	}
 	
+	public void setSurface(int pnStartX, int pnStartY, int pnEndX, int pnEndY, int pnSurface)
+	{
+		pnEndX--;
+		pnEndY--;
+		//check the boundaries of the world and set the surfaces
+		if (pnStartX >= 0 && pnStartY >= 0 && pnEndX >= 0 && pnEndY >= 0 && 
+				pnStartX < mnWidth && pnStartY < mnHeight && pnEndX <= mnWidth && 
+				pnEndY <= mnHeight && pnSurface >= 0 && pnSurface < itfSurface.NUMBEROFSURFACES)
+		{
+			for (int i = pnStartX; i < pnEndX; i++)
+				for (int j = pnStartY; j < pnEndY; j++)
+					moSurfaceGrid.set(i, j, pnSurface);
+		}
+	}
+	
 	public double getStaticFriction(int pnX, int pnY)
 	{
 		//check if the coordinates are within the boundaries of the world

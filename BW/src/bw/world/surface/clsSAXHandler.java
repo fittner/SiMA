@@ -6,7 +6,7 @@ import org.xml.sax.helpers.DefaultHandler;
 
 import sim.field.grid.IntGrid2D;
 
-//@deprecated
+@Deprecated
 //Properties are to be used instead of XML-files
 
 /**
