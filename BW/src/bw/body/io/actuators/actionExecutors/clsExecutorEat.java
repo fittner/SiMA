@@ -14,7 +14,7 @@ import ARSsim.physics2D.physicalObject.clsCollidingObject;
 import bw.body.clsComplexBody;
 import bw.body.internalSystems.clsFastMessengerSystem;
 import bw.body.io.actuators.clsActionExecutor;
-import bw.body.io.sensors.ext.clsSensorVision;
+import bw.body.io.sensors.ext.clsSensorEatableArea;
 import bw.entities.clsEntity;
 import bw.utils.enums.eBodyParts;
 import bw.utils.tools.clsFood;
@@ -92,8 +92,8 @@ public class clsExecutorEat extends clsActionExecutor{
 		clsComplexBody oBody = (clsComplexBody) ((itfGetBody)moEntity).getBody();
 		
 		//Is something in range
-		ArrayList<clsCollidingObject>  oSearch = ((clsSensorVision) oBody.getExternalIO().moSensorExternal.get(moRangeSensor)).getSensorData();
-		itfAPEatable oEatenEntity = (itfAPEatable) findSingleEntityInRange(oSearch,itfAPEatable.class) ;
+		ArrayList<clsCollidingObject>  oSearch = ((clsSensorEatableArea) oBody.getExternalIO().moSensorExternal.get(moRangeSensor)).getSensorData();
+		clsEntity oEatenEntity = (clsEntity) findSingleEntityInRange(oSearch,itfAPEatable.class) ;
 		
 		if (oEatenEntity==null) {
 			//Nothing in range then send fast Messenger
@@ -103,16 +103,21 @@ public class clsExecutorEat extends clsActionExecutor{
 		} 
 
 		//Check if eating is ok
-		double rDamage = oEatenEntity.tryEat();
+		double rDamage = ((itfAPEatable)oEatenEntity).tryEat();
 		if (rDamage>0) {
 			oBody.getInternalSystem().getHealthSystem().hurt(rDamage);
 			return false;
 		}
 		
 		//Eat!
-        clsFood oReturnedFood =oEatenEntity.Eat(mrBiteSize);
+        clsFood oReturnedFood =((itfAPEatable)oEatenEntity).Eat(mrBiteSize);
         if(oReturnedFood != null) {                
         	oBody.getInterBodyWorldSystem().getConsumeFood().digest(oReturnedFood);
+        }
+        
+        //FIXME (horvath) - "unregister" eaten entity
+        if(oReturnedFood.getWeight() <= 0){
+        	oEatenEntity.setRegistered(false);
         }
 		
 		return true;

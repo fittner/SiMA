@@ -12,6 +12,7 @@ import pa.clsPsychoAnalysis;
 import decisionunit.clsBaseDecisionUnit;
 import inspectors.mind.clsDumbBrainInspector;
 import inspectors.mind.clsRemoteControlInspector;
+import inspectors.mind.clsReactiveInspector;
 import inspectors.mind.pa.clsPsychoAnalysisInspector;
 import sim.display.GUIState;
 import sim.portrayal.Inspector;
@@ -19,6 +20,7 @@ import sim.portrayal.LocationWrapper;
 import sim.portrayal.inspector.TabbedInspector;
 import simple.dumbmind.clsDumbMindA;
 import simple.remotecontrol.clsRemoteControl;
+import simple.reactive.clsReactive;
 
 /**
  * assigns the required decision inspector class to the object extending the clsEntity-class 
@@ -60,6 +62,8 @@ public class clsInspectorMappingDecision {
         }
       else if (poDU instanceof clsPsychoAnalysis ) {
     	oRetVal.addInspector( new clsPsychoAnalysisInspector(poSuperInspector, poWrapper, poState, (clsPsychoAnalysis) poDU), "PA-Decision");
+   }else if( poDU instanceof clsReactive) {
+   	oRetVal.addInspector( new clsReactiveInspector(poSuperInspector, poWrapper, poState, (clsReactive) poDU), "Reactive DU Insp.");
    }
 //        else if (poEntity instanceof clsMyNewClass ) {
 //        	oRetVal.addInspector( new clsMyNewInspector(poSuperInspector, poWrapper, poState), "Name of Inspector-Tab");

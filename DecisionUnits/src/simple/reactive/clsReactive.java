@@ -52,50 +52,55 @@ public class clsReactive extends clsBaseDecisionUnit {
 		PICKUP,
 		DROP,
 		TO_INVENTORY,
-		FROM_INVENTORY
+		FROM_INVENTORY,
+		EAT
 	}	
 	
 	
 	// constants
-	private final double mrMIN_ENERGY = 0.2;
-	private final double mrMAX_URANIUM = 10;
+	private final double mrENERGY_LOWER = 0;
+	private final double mrENERGY_UPPER = 2.4;
+	private final double mrMAX_URANIUM = 1;
 	private final double mrINRANGE_AZIMUTH = 0.1;
 	private final double mrFORWARD_STEP = 0.6;
 	private final double mrAT_BASE_MAX = 40;
 	private final double mrAT_ENTITY_MAX = 17;
-	private final double mrOBSTACLE_DIST_MAX = 40;
+	private final double mrAT_FUNGUS_MAX = 25;
+	private final double mrATENTITY_ANGLE_TOLERANCE = Math.PI / 4;
+	private final double mrOBSTACLE_DIST_MAX = 30;
 	private final int mnRANDOM_TIME = 100;
 	private final double mrRANDOM_TURN = Math.PI/2;
 	private final long mnSEED = 1234;
-	private final int mnAVOIDANCE_DISTANCE = 50;
+	private final int mnAVOIDANCE_DISTANCE = 40;
 	private final int mnAVOIDANCE_ANGLE = 150;
-	private final int mnCOLLECTED_URANIUM_MAX = 1;
 	
-	private final HashSet<eEntityType> moOBSTACLES_NOURANIUM = new HashSet<eEntityType>(Arrays.asList(	
+	private final HashSet<eEntityType> moOBSTACLES = new HashSet<eEntityType>(Arrays.asList(	
 			eEntityType.BASE,					
-			eEntityType.FUNGUS,					
 			eEntityType.STONE,						
 			eEntityType.WALL));
-	private final HashSet<eEntityType> moOBSTACLES_NOURANIUMBASE = new HashSet<eEntityType>(Arrays.asList(	
-			eEntityType.FUNGUS,					
+	private final HashSet<eEntityType> moOBSTACLES_NOBASE = new HashSet<eEntityType>(Arrays.asList(	
 			eEntityType.STONE,						
 			eEntityType.WALL));
 
 	
 	private Random moRand;
-	private boolean mbTriedToMove;
 	private ArrayList<Action> moActionQueue = new ArrayList<Action>();
+	private Action moActionInProgress;
 	private int mnInventorySize;
-	
+	private boolean mbHungry;
 	private double mrTurnForce;
 	private eActionTurnDirection meTurnDirection;
 	private double mrGoForce;
 	private eActionMoveDirection meGoDirection;
+	private String moMode;
+	private String moLayer;
 	
 	public clsReactive() {
 		moRand = new Random(mnSEED);
-		mbTriedToMove = false;
 		mnInventorySize = 0;
+		mbHungry = false;
+		moMode = "";
+		moLayer = "";
 	}
 	
 	// the main run method
@@ -104,11 +109,13 @@ public class clsReactive extends clsBaseDecisionUnit {
 			moActionQueue.add(Action.NONE);
 		}
 		
-		Action oActionInProgress = moActionQueue.get(0); 
+		moActionInProgress = moActionQueue.get(0); 
 		moActionQueue.remove(0);
 		
+		// get sensor data at the moment
+		clsSensorData inputs = getSensorData();
 		
-		switch(oActionInProgress){
+		switch(moActionInProgress){
 			case TURN: 	turn(poActionProcessor);
 						break;
 			case GO: 	go(poActionProcessor);
@@ -121,26 +128,32 @@ public class clsReactive extends clsBaseDecisionUnit {
 						break;
 			case FROM_INVENTORY: poActionProcessor.call(new clsActionFromInventory() );
 						break;
+			case EAT:	eat(inputs, poActionProcessor);
+						break;
 			case NONE:				
-				// get sensor data at the moment
-				clsSensorData inputs = getSensorData();
+				
+				/*if(isEnoughEnergy(inputs)){
+					System.out.println("is enough energy");					
+				}else{
+					System.out.println("is not enough energy");
+				}
 				
 				if(mnInventorySize == 0){
 				if(isVisibleEntityInRange(inputs,eEntityType.URANIUM)){
-					if(isAtEntity(eEntityType.URANIUM, mrAT_ENTITY_MAX)){
+					if(isAtEntity(inputs, eEntityType.URANIUM, mrAT_ENTITY_MAX)){
 						System.out.println("harvest");
 						harvest(inputs, poActionProcessor);
-					}else if(isObstacle(moOBSTACLES_NOURANIUM)){
+					}else if(isObstacle(inputs, moOBSTACLES_NOURANIUM)){
 						System.out.println("avoid obstacle");
-						avoidObstacle(poActionProcessor, moOBSTACLES_NOURANIUM);						
+						avoidObstacle(inputs, poActionProcessor, moOBSTACLES_NOURANIUM);						
 					}else{
 						System.out.println("go to entity");
-						goToEntity(poActionProcessor, eEntityType.URANIUM);
+						goToEntity(inputs, poActionProcessor, eEntityType.URANIUM);
 					}
 				}else{
-					if(isObstacle(moOBSTACLES_NOURANIUM)){
+					if(isObstacle(inputs, moOBSTACLES_NOURANIUM)){
 						System.out.println("avoid obstacle");
-						avoidObstacle(poActionProcessor, moOBSTACLES_NOURANIUM);
+						avoidObstacle(inputs, poActionProcessor, moOBSTACLES_NOURANIUM);
 					}else{
 						if(moActionQueue.size() == 0){
 							System.out.println("go random");
@@ -151,21 +164,21 @@ public class clsReactive extends clsBaseDecisionUnit {
 				}
 				if(mnInventorySize == mnCOLLECTED_URANIUM_MAX){	
 					if(isVisibleEntityInRange(inputs,eEntityType.BASE)){
-						if(isAtEntity(eEntityType.BASE, mrAT_BASE_MAX)){
+						if(isAtEntity(inputs, eEntityType.BASE, mrAT_BASE_MAX)){
 							System.out.println("homing: release");
 							release(poActionProcessor);
-						}else if(isObstacle(moOBSTACLES_NOURANIUMBASE)){
+						}else if(isObstacle(inputs, moOBSTACLES_NOURANIUMBASE)){
 							System.out.println("homing: avoid obstacle");
-							avoidObstacle(poActionProcessor,moOBSTACLES_NOURANIUMBASE);
+							avoidObstacle(inputs, poActionProcessor,moOBSTACLES_NOURANIUMBASE);
 						}
 						else{
 							System.out.println("homing: go to entity");
-							goToEntity(poActionProcessor, eEntityType.BASE);
+							goToEntity(inputs, poActionProcessor, eEntityType.BASE);
 						}
 					}else{
-						if(isObstacle(moOBSTACLES_NOURANIUMBASE)){
+						if(isObstacle(inputs, moOBSTACLES_NOURANIUMBASE)){
 							System.out.println("homing: avoid obstacle");
-							avoidObstacle(poActionProcessor,moOBSTACLES_NOURANIUMBASE);
+							avoidObstacle(inputs, poActionProcessor,moOBSTACLES_NOURANIUMBASE);
 						}else{
 							if(moActionQueue.size() == 0){
 								System.out.println("homing: go random");
@@ -173,113 +186,143 @@ public class clsReactive extends clsBaseDecisionUnit {
 							}
 						}
 					}
-				}
-				/*
+				}*/
+				
+				
 				// If there is enough energy, do the job (collect uranium), if not, find something to eat.
 				if(!isEnoughEnergy(inputs)){
 					if(isVisibleEntityInRange(inputs, eEntityType.FUNGUS)){
 						// go to fungus and eat it
+						moMode = "Eating";
 						eating(inputs, poActionProcessor);
 					}else{
 						// desperately search for fungi
-						exploring(inputs, poActionProcessor);
+						moMode = "Exploring <Eating>";
+						exploring(inputs, poActionProcessor, moOBSTACLES);
 					}	
+					if(mnInventorySize != 0){
+						moActionQueue.set(0, Action.DROP);
+						mnInventorySize = 0;
+					}
 				// If the uranium container is full, go home and release it there 
 				}else if(isUraniumCollected(inputs)){
 					if(isVisibleEntityInRange(inputs, eEntityType.BASE)){
 						// go to base and release ore
+						moMode = "Homing";
 						homing(inputs, poActionProcessor);
 					}else{
 						// search for base
-						exploring(inputs, poActionProcessor);
+						moMode = "Exploring <Homing>";
+						exploring(inputs, poActionProcessor, moOBSTACLES_NOBASE);
 					}
 				// If an uranium ore is detected, move towards it
-				}else if(isUraniumInRange(inputs)){
+				}else if(isVisibleEntityInRange(inputs, eEntityType.URANIUM)){
+					moMode = "Harvesting";
 					harvesting(inputs, poActionProcessor);
 				// if there's nothing else to do, explore
 				}else{
-					exploring(inputs, poActionProcessor);
-				}*/
+					moMode = "Exploring <Harvesting>";
+					exploring(inputs, poActionProcessor, moOBSTACLES);
+				}
+				
 				break;
 		}
 	}
 	
 	
-	/*private void homing(clsSensorData inputs, itfActionProcessor poActionProcessor){
-		if(isAtEntity(inputs, eEntityType.BASE)){
+	private void homing(clsSensorData poInputs, itfActionProcessor poActionProcessor){
+		if(isAtEntity(poInputs, eEntityType.BASE,mrAT_BASE_MAX)){
+			moLayer = "Release";
 			release(poActionProcessor);
-		}else if(isObstacle(inputs)){
-			if(isObstacleMovable(inputs)){
-				moveObstacle(inputs, poActionProcessor);
-			}else{
-				avoidObstacle(inputs, poActionProcessor);
-			}
+		}else if(isObstacle(poInputs, moOBSTACLES_NOBASE)){
+			moLayer = "Obstacle avoidance";
+			avoidObstacle(poInputs, poActionProcessor,moOBSTACLES_NOBASE);
 		}else{
-			goToEntity(inputs, poActionProcessor, eEntityType.BASE);
+			moLayer = "Go to entity <BASE>";
+			goToEntity(poInputs, poActionProcessor, eEntityType.BASE);
 		}
-	}*/
+	}
 	
 	
-	/*private void eating(clsSensorData inputs, itfActionProcessor poActionProcessor){
-		if(isAtEntity(inputs, eEntityType.FUNGUS)){
-			eat(poActionProcessor);
-		}else if(isObstacle(inputs)){
-			if(isObstacleMovable(inputs)){
-				moveObstacle(inputs, poActionProcessor);
-			}else{
-				avoidObstacle(inputs, poActionProcessor);
-			}
+	private void eating(clsSensorData poInputs, itfActionProcessor poActionProcessor){
+		
+		if(isAtEntity(poInputs, eEntityType.FUNGUS, mrAT_FUNGUS_MAX) && isFirstInEatableArea(poInputs, eEntityType.FUNGUS)){
+			moLayer = "Eat";
+			moActionQueue.add(Action.EAT);
+		}else if(isObstacle(poInputs, moOBSTACLES)){
+			moLayer = "Obstacle avoidance";
+			avoidObstacle(poInputs, poActionProcessor, moOBSTACLES);	
 		}else{
-			goToEntity(inputs, poActionProcessor, eEntityType.FUNGUS);
+			moLayer = "Go to entity <FUNGUS>";
+			goToEntity(poInputs, poActionProcessor, eEntityType.FUNGUS);
 		}
-	}*/
+	}
 	
 	
-	/*private void exploring(clsSensorData inputs, itfActionProcessor poActionProcessor){
-		if(isObstacle(inputs)){
-			if(isObstacleMovable(inputs)){
-				moveObstacle(inputs, poActionProcessor);
-			}else{
-				avoidObstacle(inputs, poActionProcessor);
-			}
+	private void exploring(clsSensorData poInputs, itfActionProcessor poActionProcessor, HashSet<eEntityType> poObstacles){
+		if(isObstacle(poInputs, poObstacles)){
+			moLayer = "Obstacle avoidance";
+			avoidObstacle(poInputs, poActionProcessor, poObstacles);	
 		}else{
-			goRandom(poActionProcessor);
-		}
-	}*/
-	
-	
-	/*private void harvesting(clsSensorData inputs, itfActionProcessor poActionProcessor){
-		if(isAtEntity(inputs, eEntityType.URANIUM)){
-			harvest(inputs, poActionProcessor);
-		}else if(isObstacle(inputs)){
-			if(isObstacleMovable(inputs)){
-				moveObstacle(inputs, poActionProcessor);
-			}else{
-				avoidObstacle(inputs, poActionProcessor);
+			if(moActionQueue.size() == 0){
+				moLayer = "Random walk";
+				if(moActionQueue.size() == 0){
+					//turnCheck(eActionTurnDirection.TURN_RIGHT, mrRANDOM_TURN, 4*mnRANDOM_TIME);
+					goRandom(poActionProcessor);
+				}
 			}
-		}else{
-			goToEntity(inputs, poActionProcessor, eEntityType.URANIUM);
 		}
-	}*/
+	}
+	
+	
+	private void harvesting(clsSensorData poInputs, itfActionProcessor poActionProcessor){
+		if(isAtEntity(poInputs, eEntityType.URANIUM, mrAT_ENTITY_MAX) && isFirstInEatableArea(poInputs, eEntityType.URANIUM)){
+			moLayer = "Harvest";
+			harvest(poInputs, poActionProcessor);
+		}else if(isObstacle(poInputs, moOBSTACLES)){
+			moLayer = "Obstacle avoidance";
+			avoidObstacle(poInputs, poActionProcessor, moOBSTACLES);	
+		}else{
+			moLayer = "Go to entity <URANIUM>";
+			goToEntity(poInputs, poActionProcessor, eEntityType.URANIUM);
+		}
+	}
 	
 	
 	/*
 	 * (horvath) - if the fungus eater has enough energy, returns true, if not, returns false
 	 */
-	private boolean isEnoughEnergy(clsSensorData inputs){
-		clsEnergy oStomach = (clsEnergy) getSensorData().getSensorInt(eSensorIntType.STOMACH);
-		if (oStomach.mrEnergy <= mrMIN_ENERGY ){
+	private boolean isEnoughEnergy(clsSensorData poInputs){
+		clsEnergy oStomach = (clsEnergy) poInputs.getSensorInt(eSensorIntType.ENERGY);
+		
+		if(oStomach.mrEnergy >= mrENERGY_UPPER){
+			mbHungry = false;
+		}
+		if(oStomach.mrEnergy <= mrENERGY_LOWER){
+			mbHungry = true;
+		}	
+		
+		if (mbHungry){			
 			return false;	
-		}else{	
+		}else{
 			return true;
 		}
 	}
+	
+	private boolean isFirstInEatableArea(clsSensorData poInputs, eEntityType poEntityType){
+		clsEatableArea oEatArea = (clsEatableArea) poInputs.getSensorExt(eSensorExtType.EATABLE_AREA);
+		if(oEatArea.mnTypeOfFirstEntity == poEntityType){
+			return true;
+		}
+		return false;		
+	}
+	
 	
 	/*
 	 * (horvath) - if there's some fungus in the visible range, returns true, if not, returns false
 	 */
 	private boolean isVisibleEntityInRange(clsSensorData inputs, eEntityType entityType){
-		clsVision oVision = (clsVision) getSensorData().getSensorExt(eSensorExtType.VISION);
+		clsVision oVision = (clsVision) inputs.getSensorExt(eSensorExtType.VISION);
 		for( clsVisionEntry oVisionObj : oVision.getList() ){
 			if( oVisionObj.mnEntityType == entityType){
 				return true;
@@ -292,7 +335,7 @@ public class clsReactive extends clsBaseDecisionUnit {
 	 * (horvath) - if there's some uranium in the sensible range, returns true, if not, returns false
 	 */
 	private boolean isUraniumInRange(clsSensorData inputs){
-		clsRadiation oRadiation = (clsRadiation) getSensorData().getSensorExt(eSensorExtType.RADIATION);
+		clsRadiation oRadiation = (clsRadiation) inputs.getSensorExt(eSensorExtType.RADIATION);
 		if(oRadiation.mrIntensity == 0){
 			return false;	
 		}else{	
@@ -311,41 +354,31 @@ public class clsReactive extends clsBaseDecisionUnit {
 	 * (horvath) - if distance of an object from the fungus eater is less than a predefined value, returns true, 
 	 * 			   otherwise returns false
 	 */
-	private boolean isObstacle(HashSet<eEntityType> poObstacleTypes){
+	private boolean isObstacle(clsSensorData poInputs, HashSet<eEntityType> poObstacleTypes){
 		Iterator<eEntityType> itr = poObstacleTypes.iterator();
 		while(itr.hasNext()){
-			if(isAtEntity(itr.next(),mrOBSTACLE_DIST_MAX)){
+			if(isAtEntity(poInputs, itr.next(),mrOBSTACLE_DIST_MAX)){
 				return true;
 			}
 		}
 		return false;
 	}
-	
-	/*
-	 * (horvath) - if the agent tried to move an obstacle, and the obstacle is still there 
-	 * (the function isObstacleMovable was called again), then the obstacle is not movable 
-	 * 
-	 */
-	private boolean isObstacleMovable(clsSensorData inputs){
-		if(mbTriedToMove){
-			return false;
-		}else{
-			return true;
-		}
-	}
-	
+		
 	
 
 	/*
 	 * (horvath) - if distance of an entity from the fungus eater is less than a predefined value, returns true, 
 	 * 			   otherwise returns false
 	 */	
-	private boolean isAtEntity(eEntityType poEntityType, double pnDistance){
-		clsVision oVision = (clsVision) getSensorData().getSensorExt(eSensorExtType.VISION);
+	private boolean isAtEntity(clsSensorData poInputs, eEntityType poEntityType, double pnDistance){
+		clsVision oVision = (clsVision) poInputs.getSensorExt(eSensorExtType.VISION);
 		// Find the closest entity 
 		for( clsVisionEntry oVisionObj : oVision.getList() ) {
 			if (oVisionObj.mnEntityType == poEntityType){
 				if(oVisionObj.moPolarcoordinate.mrLength <= pnDistance){
+					if(oVisionObj.moPolarcoordinate.moAzimuth.mrAlpha <= mrATENTITY_ANGLE_TOLERANCE && oVisionObj.moPolarcoordinate.moAzimuth.mrAlpha <= 2*Math.PI - mrATENTITY_ANGLE_TOLERANCE){
+						
+					}				
 					return true;
 				}
 			}
@@ -353,33 +386,14 @@ public class clsReactive extends clsBaseDecisionUnit {
 		return false;
 	}
 	
-	/*private void moveObstacle(clsSensorData inputs, itfActionProcessor poActionProcessor){
-		
-		switch(mnMoveStep){
-			case 0: // pick up the obstacle
-					poActionProcessor.call(new clsActionPickUp() );
-					break;
-			case 1:	// turn 90deg to some side
-					poActionProcessor.call(new clsActionTurn(eActionTurnDirection.TURN_LEFT));
-					break;
-			case 2: // drop the obstacle
-					poActionProcessor.call(new clsActionDrop() );
-					break;
-			case 3: // turn back ; end of try to move an obstacle
-					poActionProcessor.call(new clsActionTurn(eActionTurnDirection.TURN_RIGHT));
-					break;
-		}
-		mnMoveStep++;		
-	}*/
 	
 	/*
 	 * (horvath) - This method navigates the Fungus-Eater to avoid obstacle
 	 * 
 	 */
-	private void avoidObstacle(itfActionProcessor poActionProcessor, HashSet poObstacleTypes){
+	private void avoidObstacle(clsSensorData poInputs, itfActionProcessor poActionProcessor, HashSet poObstacleTypes){
 			moActionQueue.clear();
-			if (isObstacle(poObstacleTypes)) {
-						go(eActionMoveDirection.MOVE_BACKWARD, mrFORWARD_STEP, 10);
+			if (isObstacle(poInputs, poObstacleTypes)) {
 						switch (moRand.nextInt(2)) {
 							case 0: // fungus eater is facing the original obstacle and will turn left
 									turn(eActionTurnDirection.TURN_LEFT, 1, mnAVOIDANCE_ANGLE);
@@ -389,7 +403,7 @@ public class clsReactive extends clsBaseDecisionUnit {
 									turn(eActionTurnDirection.TURN_RIGHT, 1, mnAVOIDANCE_ANGLE);
 									break;
 						}
-						goCheck(eActionMoveDirection.MOVE_FORWARD, mrFORWARD_STEP, mnAVOIDANCE_DISTANCE);
+						go(eActionMoveDirection.MOVE_FORWARD, mrFORWARD_STEP, mnAVOIDANCE_DISTANCE);
 			}
 	}	
 	
@@ -402,6 +416,14 @@ public class clsReactive extends clsBaseDecisionUnit {
 		meTurnDirection = peDirection;
 		mrTurnForce = prForce;
 		for(int i=0; i<pnRepetitions; i++){
+			moActionQueue.add(Action.TURN);
+		}
+	}
+	private void turnCheck(eActionTurnDirection peDirection, double prForce, int pnRepetitions){
+		meTurnDirection = peDirection;
+		mrTurnForce = prForce;
+		for(int i=0; i<pnRepetitions; i++){
+			moActionQueue.add(Action.NONE);
 			moActionQueue.add(Action.TURN);
 		}
 	}
@@ -432,12 +454,12 @@ public class clsReactive extends clsBaseDecisionUnit {
 	 * (horvath) - Fungus eater - go to an entity of the defined type
 	 * 
 	 */
-	private void goToEntity(itfActionProcessor poActionProcessor, eEntityType entityType){		
+	private void goToEntity(clsSensorData poInputs, itfActionProcessor poActionProcessor, eEntityType entityType){		
 		moActionQueue.clear();
 		clsPolarcoordinate closest = new clsPolarcoordinate();
 		closest.mrLength = -1;
 		
-		clsVision oVision = (clsVision) getSensorData().getSensorExt(eSensorExtType.VISION);
+		clsVision oVision = (clsVision) poInputs.getSensorExt(eSensorExtType.VISION);
 		
 		// Find the closest fungus 
 		for( clsVisionEntry oVisionObj : oVision.getList() ) {
@@ -480,12 +502,11 @@ public class clsReactive extends clsBaseDecisionUnit {
 	 * 
 	 */
 	private void goRandom(itfActionProcessor poActionProcessor){ 	
-		moActionQueue.clear();
 		switch(moRand.nextInt(2)){
-			case(0):	turn(eActionTurnDirection.TURN_RIGHT, mrRANDOM_TURN, mnRANDOM_TIME);
+			case(0):	turnCheck(eActionTurnDirection.TURN_RIGHT, mrRANDOM_TURN, mnRANDOM_TIME);
 						goCheck(eActionMoveDirection.MOVE_FORWARD, mrFORWARD_STEP, mnRANDOM_TIME);
 						break;
-			case(1):	turn(eActionTurnDirection.TURN_LEFT, mrRANDOM_TURN, mnRANDOM_TIME);
+			case(1):	turnCheck(eActionTurnDirection.TURN_LEFT, mrRANDOM_TURN, mnRANDOM_TIME);
 						goCheck(eActionMoveDirection.MOVE_FORWARD, mrFORWARD_STEP, mnRANDOM_TIME);
 						break;
 		}
@@ -506,7 +527,7 @@ public class clsReactive extends clsBaseDecisionUnit {
 	 * 
 	 */
 	private void harvest(clsSensorData inputs, itfActionProcessor poActionProcessor){
-		clsEatableArea oEatArea = (clsEatableArea) getSensorData().getSensorExt(eSensorExtType.EATABLE_AREA);
+		clsEatableArea oEatArea = (clsEatableArea) inputs.getSensorExt(eSensorExtType.EATABLE_AREA);
 		if(oEatArea.mnNumEntitiesPresent > 0){
 			if( oEatArea.mnTypeOfFirstEntity == eEntityType.URANIUM ){
 				moActionQueue.add(Action.PICKUP);
@@ -521,12 +542,11 @@ public class clsReactive extends clsBaseDecisionUnit {
 	 * (horvath) - Fungus eater - eat fungus in the eatable area
 	 * 
 	 */	
-	private void eat(itfActionProcessor poActionProcessor) {
+	private void eat(clsSensorData poInputs, itfActionProcessor poActionProcessor) {
 		//eat
-		clsEatableArea oEatArea = (clsEatableArea) getSensorData().getSensorExt(eSensorExtType.EATABLE_AREA);
+		clsEatableArea oEatArea = (clsEatableArea) poInputs.getSensorExt(eSensorExtType.EATABLE_AREA);
 		if(oEatArea.mnNumEntitiesPresent > 0)
 		{
-
 				if( oEatArea.mnTypeOfFirstEntity == eEntityType.FUNGUS )
 				{
 						//clsEatAction oEatAction = new clsEatAction();
@@ -550,6 +570,20 @@ public class clsReactive extends clsBaseDecisionUnit {
 		//oCommands.addMoveAction( clsMotionAction.creatAction(eActionCommandMotion.MOVE_FORWARD));
 		
 	}
-
-
+	
+	
+	
+	// Inspection methods
+	
+	public String getMode(){
+		return moMode;
+	}
+	
+	public String getLayer(){
+		return moLayer;
+	}
+	
+	public Action geActionInProgress(){
+		return moActionInProgress;		
+	}
 }
