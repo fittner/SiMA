@@ -278,10 +278,6 @@ public class clsMobileObject2D extends
 	public void postprocessStep() {
 		// correct rotation-force to emulate static friction for rotation
 		addAngularFriction();
-		
-		//Added by SK: adding friction from the surfaces
-		//if (mbUseSurfaces == true)
-		//	addFrictionForce();
 
 		// with these 2, physics work!
 		sim.physics2D.util.Double2D position = getPosition();
@@ -335,16 +331,16 @@ public class clsMobileObject2D extends
 		// if(moEntity instanceof clsRemoteBot)
 		{
 			double nAngularVel = getAngularVelocity();
-			double nToAdd = 0.3;
+			double nToAdd;
 			//added by SK: dynamic friction calculation
 			if (mbUseSurfaces == true)
 				nToAdd = mrNormalForce * moSurfaceHandler.getKineticFriction(nCurrentPositionX, nCurrentPositionY);
+			else
+				nToAdd = 0.3;
 			if (nAngularVel > 0.002d) {
-				//nToAdd = -0.3;
 				nToAdd *= -1;
 				addTorqueComponent(nToAdd);
 			} else if (nAngularVel < -0.002d) {
-				//nToAdd = 0.3;
 				addTorqueComponent(nToAdd);
 			} else {
 				setAngularVelocity(0.0);
@@ -394,9 +390,7 @@ public class clsMobileObject2D extends
 			Double2D oVelocity = this.getVelocity(); 
 	    	double rVelLength = oVelocity.length();
 	    	Double2D oPosition = physicsState.getPosition(this.index);
-		    	
-	    	//calculate if position has changed enough to poll again for the friction coefficient
-	    	//may speed it up a little
+	    	
 	    	nCurrentPositionX = (int) oPosition.getX();
 	    	nCurrentPositionY = (int) oPosition.getY();
 		    	
