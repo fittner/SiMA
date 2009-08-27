@@ -130,64 +130,7 @@ public class clsReactive extends clsBaseDecisionUnit {
 						break;
 			case EAT:	eat(inputs, poActionProcessor);
 						break;
-			case NONE:				
-				
-				/*if(isEnoughEnergy(inputs)){
-					System.out.println("is enough energy");					
-				}else{
-					System.out.println("is not enough energy");
-				}
-				
-				if(mnInventorySize == 0){
-				if(isVisibleEntityInRange(inputs,eEntityType.URANIUM)){
-					if(isAtEntity(inputs, eEntityType.URANIUM, mrAT_ENTITY_MAX)){
-						System.out.println("harvest");
-						harvest(inputs, poActionProcessor);
-					}else if(isObstacle(inputs, moOBSTACLES_NOURANIUM)){
-						System.out.println("avoid obstacle");
-						avoidObstacle(inputs, poActionProcessor, moOBSTACLES_NOURANIUM);						
-					}else{
-						System.out.println("go to entity");
-						goToEntity(inputs, poActionProcessor, eEntityType.URANIUM);
-					}
-				}else{
-					if(isObstacle(inputs, moOBSTACLES_NOURANIUM)){
-						System.out.println("avoid obstacle");
-						avoidObstacle(inputs, poActionProcessor, moOBSTACLES_NOURANIUM);
-					}else{
-						if(moActionQueue.size() == 0){
-							System.out.println("go random");
-							goRandom(poActionProcessor);
-						}
-					}
-				}
-				}
-				if(mnInventorySize == mnCOLLECTED_URANIUM_MAX){	
-					if(isVisibleEntityInRange(inputs,eEntityType.BASE)){
-						if(isAtEntity(inputs, eEntityType.BASE, mrAT_BASE_MAX)){
-							System.out.println("homing: release");
-							release(poActionProcessor);
-						}else if(isObstacle(inputs, moOBSTACLES_NOURANIUMBASE)){
-							System.out.println("homing: avoid obstacle");
-							avoidObstacle(inputs, poActionProcessor,moOBSTACLES_NOURANIUMBASE);
-						}
-						else{
-							System.out.println("homing: go to entity");
-							goToEntity(inputs, poActionProcessor, eEntityType.BASE);
-						}
-					}else{
-						if(isObstacle(inputs, moOBSTACLES_NOURANIUMBASE)){
-							System.out.println("homing: avoid obstacle");
-							avoidObstacle(inputs, poActionProcessor,moOBSTACLES_NOURANIUMBASE);
-						}else{
-							if(moActionQueue.size() == 0){
-								System.out.println("homing: go random");
-								goRandom(poActionProcessor);
-							}
-						}
-					}
-				}*/
-				
+			case NONE:								
 				
 				// If there is enough energy, do the job (collect uranium), if not, find something to eat.
 				if(!isEnoughEnergy(inputs)){
@@ -267,7 +210,6 @@ public class clsReactive extends clsBaseDecisionUnit {
 			if(moActionQueue.size() == 0){
 				moLayer = "Random walk";
 				if(moActionQueue.size() == 0){
-					//turnCheck(eActionTurnDirection.TURN_RIGHT, mrRANDOM_TURN, 4*mnRANDOM_TIME);
 					goRandom(poActionProcessor);
 				}
 			}
@@ -464,11 +406,9 @@ public class clsReactive extends clsBaseDecisionUnit {
 		// Find the closest fungus 
 		for( clsVisionEntry oVisionObj : oVision.getList() ) {
 			if(oVisionObj.mnEntityType == entityType){
-				//if(oVisionObj.mnRegistered){
 				if(closest.mrLength < 0 || closest.mrLength > oVisionObj.moPolarcoordinate.mrLength){
 					closest.mrLength = oVisionObj.moPolarcoordinate.mrLength;
 					closest.moAzimuth = oVisionObj.moPolarcoordinate.moAzimuth;
-				//}
 				}
 			}			
 		}
@@ -517,7 +457,7 @@ public class clsReactive extends clsBaseDecisionUnit {
 	 * 
 	 */
 	private void release(itfActionProcessor poActionProcessor){
-		//moActionQueue.add(Action.FROM_INVENTORY);
+		// FIXME (horvath) moActionQueue.add(Action.FROM_INVENTORY);
 		moActionQueue.add(Action.DROP);
 		mnInventorySize = 0;
 	}
@@ -531,7 +471,7 @@ public class clsReactive extends clsBaseDecisionUnit {
 		if(oEatArea.mnNumEntitiesPresent > 0){
 			if( oEatArea.mnTypeOfFirstEntity == eEntityType.URANIUM ){
 				moActionQueue.add(Action.PICKUP);
-				//moActionQueue.add(Action.TO_INVENTORY);
+				// FIXME (horvath) moActionQueue.add(Action.TO_INVENTORY);
 				mnInventorySize++;
 			}
 		}
@@ -549,8 +489,6 @@ public class clsReactive extends clsBaseDecisionUnit {
 		{
 				if( oEatArea.mnTypeOfFirstEntity == eEntityType.FUNGUS )
 				{
-						//clsEatAction oEatAction = new clsEatAction();
-						//poActionList.addEatAction(oEatAction);
 						poActionProcessor.call(new clsActionEat());	
 						
 						// stop the agent
@@ -564,11 +502,7 @@ public class clsReactive extends clsBaseDecisionUnit {
 
 	@Override
 	public void process() { 
-		stepProcessing( getActionProcessor() );
-		
-		//clsActionCommandContainer oCommands = new clsActionCommandContainer();
-		//oCommands.addMoveAction( clsMotionAction.creatAction(eActionCommandMotion.MOVE_FORWARD));
-		
+		stepProcessing( getActionProcessor() );		
 	}
 	
 	
