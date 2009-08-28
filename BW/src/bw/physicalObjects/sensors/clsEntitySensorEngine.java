@@ -45,7 +45,6 @@ import bw.factories.clsSingletonMasonGetter;
 	 * @author zeilinger
 	 * 
 	 */
-
 	public class clsEntitySensorEngine extends MobileObject2D implements Steppable{
 
 		private static final long serialVersionUID = 1L;
@@ -122,12 +121,8 @@ import bw.factories.clsSingletonMasonGetter;
 		}
 		
 		@Override
-		public void addContact(PhysicalObject2D poCollidingObj,
-									 Double2D poCollisionPoint){
-			//FIXME colPoint not used
-			
+		public void addContact(PhysicalObject2D poCollidingObj,Double2D poCollisionPoint){
 			if (poCollisionPoint != null && poCollisionPoint.length()>= 0){
-				
 				clsPolarcoordinate oCoord = new clsPolarcoordinate( moHostEntity.getPosition(), poCollidingObj.getPosition() ); 
 				meDetectedObjList.add(new clsCollidingObject(poCollidingObj, oCoord ));
 			}				
