@@ -113,7 +113,6 @@ public abstract class clsSensorExt extends bw.body.io.sensors.external.clsSensor
 	
 	private void updateDetectedObjAndCollisionPointList(ArrayList<clsCollidingObject> peDetectedObjectList){
 		if(moSensorData.mnFieldOfView<2*Math.PI){
-			System.out.println(" Angle of View " + moSensorData.mnFieldOfView); 
 			processObjInAreaList(peDetectedObjectList); 
 		}
 	}
