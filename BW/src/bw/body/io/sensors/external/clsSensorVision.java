@@ -131,10 +131,6 @@ public class clsSensorVision extends clsSensorExt {
 			oEntityPos = ((clsStationary)poEntity).getStationaryObject2D().getPosition(); 
 		}
 			
-		//if we have a offset, change the center point. this is only for initializing, see step of entitypartvision for more
-		if(pnRadiusOffsetVisionArea != 0)
-			//oEntityPos = oEntityPos.add(pnRadiusOffsetVisionArea);
-		
 		try
 		{
 			moVisionArea.setPose(oEntityPos, poVisionOrientation);
@@ -165,12 +161,12 @@ public class clsSensorVision extends clsSensorExt {
 											 .getRelativeCollisionPosition(moCollisionPoint
 											 .get(oPhysicalObject.getIndex())); 
 					
-					if(moCalculationObj.checkIfObjectInView(oRel.moAzimuth.radians, 
-												moVisionArea.getOrientation().radians, mnViewRad)){
-						addViewObj(oPhysicalObject); 
-						oRel.rotateBy(moVisionArea.getOrientation(), true);
-						addViewObjDir(oRel, oPhysicalObject.getIndex());
-					}
+//					if(moCalculationObj.checkIfObjectInView(, 
+//												moVisionArea.getOrientation().radians, mnViewRad)){
+//						addViewObj(oPhysicalObject); 
+//						oRel.rotateBy(moVisionArea.getOrientation(), true);
+//						addViewObjDir(oRel, oPhysicalObject.getIndex());
+//					}
 			     }
 		 }
 	}
