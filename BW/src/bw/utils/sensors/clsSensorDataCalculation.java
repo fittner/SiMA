@@ -9,6 +9,7 @@
 package bw.utils.sensors;
 
 import sim.physics2D.util.Double2D;
+import ARSsim.physics2D.physicalObject.clsCollidingObject;
 import ARSsim.physics2D.util.clsPolarcoordinate;
 
 /**
@@ -32,15 +33,22 @@ public class clsSensorDataCalculation {
 	 * 						 angle in radians  
 	 * @return boolean
 	 */
-	public boolean checkIfObjectInView(double pnColPointOrientation, double pnEntityOrientation, double pnAreaOfViewRadians){
+	public boolean checkIfObjectInView(clsCollidingObject pnCollidingObject, double pnEntityOrientation, double pnAreaOfViewRadians){
 		
-		//(horvath) - fixed
-		double nColPointOrientation = this.normalizeRadian(pnColPointOrientation);
-		double nEntityOrientation = this.normalizeRadian(pnEntityOrientation);
+		double nAngleDiff = 0; 
+		double nColObjX = Math.cos(pnCollidingObject.mrColPoint.moAzimuth.radians); 
+		double nColObjY = Math.sin(pnCollidingObject.mrColPoint.moAzimuth.radians); 
+		System.out.println(nColObjX +" "+ nColObjY); 
+		double nEntObjX = Math.cos(pnEntityOrientation); 
+		double nEntObjY = Math.sin(pnEntityOrientation);
 		
-		if(Math.abs(nEntityOrientation - nColPointOrientation) <= pnAreaOfViewRadians/2)
-		{
-			return true;  
+		Double2D oVecColObj = new Double2D(nColObjX, nColObjY); 
+		Double2D oVecEntObj = new Double2D(nEntObjX, nEntObjY); 
+		
+		nAngleDiff = Math.acos(oVecEntObj.dotProduct(oVecColObj)/(oVecColObj.length()*oVecEntObj.length())); 
+		
+		if(nAngleDiff <=pnAreaOfViewRadians/2){
+			return true; 
 		}
 		return false; 
 	}
@@ -80,11 +88,9 @@ public class clsSensorDataCalculation {
 				
 		nOrientation = Math.atan2(poCollisionPosition.y, 
 				                  poCollisionPosition.x);
-		
 		if(nOrientation < 0)
 			nOrientation = 2*Math.PI+nOrientation; 
 		
-		return new clsPolarcoordinate(poCollisionPosition.length(), 
-				                                	nOrientation); 
+		return new clsPolarcoordinate(poCollisionPosition.length(), nOrientation); 
 	}
 }
