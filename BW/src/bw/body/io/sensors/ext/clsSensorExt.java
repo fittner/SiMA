@@ -62,7 +62,6 @@ public abstract class clsSensorExt extends bw.body.io.sensors.external.clsSensor
 
 	private void applyProperties(String poPrefix, clsBWProperties poProp) {
 		//String pre = clsBWProperties.addDot(poPrefix);
-		
 	}		
 	
 	public void assignSensorData(Double2D poSensorOffset,Double pnRange, Double pnAngle){
@@ -76,7 +75,6 @@ public abstract class clsSensorExt extends bw.body.io.sensors.external.clsSensor
 	public abstract void updateSensorData(Double pnAreaRange, 
 			  							   ArrayList<clsCollidingObject> peDetectedObjInAreaList);
 
-	
 	//FIXME (horvath): - this function checks whether an object is registered employing a boolean variable in clsEntity - because 
 	// 					 unregistering of objects does not work reliably
 	public void calculateRegisteredObjects(ArrayList<clsCollidingObject> peDetectedObjectList){
@@ -104,23 +102,18 @@ public abstract class clsSensorExt extends bw.body.io.sensors.external.clsSensor
 		}
 	}
 	
-	
-	
-	
 	/* The methods calculateObjInFieldOfView, processObjInAreaList, getPolarCoordinates, and
 	 * evaluateIfObjInFieldOfView are sensor specific methods which need not to be  
 	 * */
 	
-	public void calculateObjInFieldOfView(Double pnAreaRange, 
-										   ArrayList<clsCollidingObject> peDetectedObjectList){
- 			//if(peDetectedObjectList.size()>0){
-				updateDetectedObjAndCollisionPointList(peDetectedObjectList);	
+	public void calculateObjInFieldOfView(Double pnAreaRange, ArrayList<clsCollidingObject> peDetectedObjectList){
+ 				updateDetectedObjAndCollisionPointList(peDetectedObjectList);	
 				moSensorData.setMeDetectedObjectList(pnAreaRange, peDetectedObjectList); 
-			//}
 	}
 	
 	private void updateDetectedObjAndCollisionPointList(ArrayList<clsCollidingObject> peDetectedObjectList){
 		if(moSensorData.mnFieldOfView<2*Math.PI){
+			System.out.println(" Angle of View " + moSensorData.mnFieldOfView); 
 			processObjInAreaList(peDetectedObjectList); 
 		}
 	}
@@ -131,19 +124,15 @@ public abstract class clsSensorExt extends bw.body.io.sensors.external.clsSensor
 		while(itr.hasNext()){
 			clsCollidingObject oCollidingObject = itr.next(); 
 			//TODO ()
-	     	if(!evaluateIfObjInFieldOfView(oCollidingObject)){ //.moCollider, oCollidingObject.moCollider.getPosition())){
+	     	if(!evaluateIfObjInFieldOfView(oCollidingObject)){ 
 	     		itr.remove(); 
 	     	}
 		}
 	}
 	
-//	private clsPolarcoordinate getPolarCoordinates (Double2D poCollisionPoint){
-//		return moSensorData.getRelativeCollisionPosition(poCollisionPoint);
-//	}
-	
 	private boolean evaluateIfObjInFieldOfView(clsCollidingObject poCollidingObject){
 		double nEntityOrientation =  moSensorEngine.getMeSensorAreas().firstEntry().getValue().getOrientation().radians;
-		if(moSensorData.checkIfObjectInView(poCollidingObject.mrColPoint.moAzimuth.radians, nEntityOrientation, 
+		if(moSensorData.checkIfObjectInView(poCollidingObject, nEntityOrientation, 
 											moSensorData.mnFieldOfView)){	
 				return true;  
 		}
