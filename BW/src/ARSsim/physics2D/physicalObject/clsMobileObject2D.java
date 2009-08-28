@@ -56,7 +56,7 @@ public class clsMobileObject2D extends
 	protected double mrNormalForce = 80 * mrGravity; //assumes a bubble with 80kg and the given gravity resulting in N = 8
 	//other things used for friction
 	protected clsSurfaceHandler moSurfaceHandler = clsSurfaceHandler.getInstance();
-	protected boolean mbUseSurfaces = true;
+	protected boolean mbUseSurfaces = false;
 	protected int nCurrentPositionX = 0, nCurrentPositionY = 0;
 	
 	public clsMobileObject2D(clsEntity poEntity) {
