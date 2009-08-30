@@ -9,7 +9,7 @@
 package enums;
 
 /**
- * Direction to move. @See bw.body.io.actuators.actionCommands.clsMoveAction 
+ * Direction to move. @See decisionUnitInterfaceitf.actions.clsActionMove 
  * 
  * @author Benny Dönz
  * 15.04.2009, 16:42:25

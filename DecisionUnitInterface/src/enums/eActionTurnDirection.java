@@ -9,7 +9,7 @@
 package enums;
 
 /**
- * Direction to turn. @See bw.body.io.actuators.actionCommands.clsTurnAction
+ * Direction to turn. @See decisionUnitInterfaceitf.actions.clsActionTurn
  * 
  * @author Benny Dönz
  * 15.04.2009, 16:59:58
