@@ -11,6 +11,8 @@ import statictools.clsSingletonUniqueIdGenerator;
 import decisionunit.clsBaseDecisionUnit;
 import decisionunit.itf.actions.*;
 import decisionunit.itf.sensors.clsEatableArea;
+import decisionunit.itf.sensors.clsVision;
+import enums.eActionKissIntensity;
 import enums.eActionMoveDirection;
 import enums.eActionTurnDirection;
 import enums.eEntityType;
@@ -21,7 +23,7 @@ public class clsRemoteControl extends clsBaseDecisionUnit  {
 	private int moKeyPressed;
 	private int moPrevKeyPressed;	// previous key pressed
 
-		private boolean mnLogXML = false;
+	private boolean mnLogXML = false;
 	private int mnStepsToSkip = 1;
 	private int mnStepCounter = 0;
 	private String moFileName;
@@ -107,8 +109,6 @@ public class clsRemoteControl extends clsBaseDecisionUnit  {
     		//moActionList.addMoveAction(clsMotionAction.creatAction(eActionCommandMotion.ROTATE_RIGHT) );
     		poActionProcessor.call(new clsActionTurn(eActionTurnDirection.TURN_RIGHT));
     		break;
-    	case 65: //'A'
-    		break;
     	case 69: //'E'
     		eat(poActionProcessor, eEntityType.CAKE);
     		break;
@@ -128,6 +128,38 @@ public class clsRemoteControl extends clsBaseDecisionUnit  {
     	case 106: // '*'
     		poActionProcessor.call(new clsActionToInventory() );
     		break;
+
+    	case 65: //'A'
+    		attack(poActionProcessor,	eEntityType.BUBBLE);
+    		break;
+    		
+    	case 88: //'X'
+    		poActionProcessor.call(new clsActionExcrement(1) );
+    		break;
+    		
+    	case 77: //'M'
+    		poActionProcessor.call(new clsActionMoveToEatableArea(4));
+    		break;
+    		
+    	case 66: //'B'
+    		poActionProcessor.call(new clsActionKiss(eActionKissIntensity.MIDDLE));
+    		break;
+    		
+    	case 67: //'C'
+    		poActionProcessor.call(new clsActionCultivate(1) );
+    		break;
+
+    	case 49: //1
+    		if (moPrevKeyPressed!=moKeyPressed) poActionProcessor.call(clsActionSequenceFactory.getSalsaSequence(2, 2));
+    		break;
+    		
+    	case 50: //2
+    		if (moPrevKeyPressed!=moKeyPressed) poActionProcessor.call(clsActionSequenceFactory.getTangoSequence(2,2));
+    		break;
+    		
+    	case 51: //3
+    		if (moPrevKeyPressed!=moKeyPressed) poActionProcessor.call(clsActionSequenceFactory.getWalzSequence(2,2));
+    		break;
     		
     	case 83: //'S'
 //            if(botState==HAVECAN)
@@ -141,7 +173,6 @@ public class clsRemoteControl extends clsBaseDecisionUnit  {
 //            }
     		break;
     	}
-		
 	   	if (mnLogXML) {
 	   		goLogging(poActionProcessor);
 	   	}
@@ -161,8 +192,19 @@ public class clsRemoteControl extends clsBaseDecisionUnit  {
 		}
 //		poActionProcessor.call(new clsActionEat());	
 	}
-	
-	
+
+	protected void attack(itfActionProcessor poActionProcessor, enums.eEntityType peEntityType) {
+		clsVision oVis = (clsVision) getSensorData().getSensorExt(eSensorExtType.VISION);
+
+		for(int i=0; i<oVis.getList().size(); i++){
+			if (oVis.getList().get(i).mnEntityType == peEntityType) {
+				poActionProcessor.call(new clsActionAttack(4, oVis.getList().get(i).moEntityId));	
+			}
+		}
+
+	}
+
+
 	/**
 	 * Hurts the entity with 4 hit-points - using calsActionKill as command-processor interface 
 	 * 
