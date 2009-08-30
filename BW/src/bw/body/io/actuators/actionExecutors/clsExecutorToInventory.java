@@ -8,6 +8,7 @@
  */
 package bw.body.io.actuators.actionExecutors;
 
+import config.clsBWProperties;
 import java.util.ArrayList;
 
 import bw.body.io.actuators.clsActionExecutor;
@@ -29,7 +30,7 @@ public class clsExecutorToInventory extends clsActionExecutor {
 
 	private ArrayList<Class<?>> moMutEx = new ArrayList<Class<?>>();
 
-	public clsExecutorToInventory(clsMobile poEntity) {
+	public clsExecutorToInventory(String poPrefix, clsBWProperties poProp, clsMobile poEntity) {
 		moEntity=poEntity;
 		
 		moMutEx.add(clsActionDrop.class);
@@ -37,6 +38,13 @@ public class clsExecutorToInventory extends clsActionExecutor {
 		moMutEx.add(clsActionPickUp.class);
 	}
 
+	public static clsBWProperties getDefaultProperties(String poPrefix) {
+		//String pre = clsBWProperties.addDot(poPrefix);
+		clsBWProperties oProp = new clsBWProperties();
+
+		return oProp;
+	}
+	
 	/*
 	 * Set values for SensorActuator base-class
 	 */

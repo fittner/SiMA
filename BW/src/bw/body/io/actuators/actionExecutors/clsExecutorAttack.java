@@ -1,10 +1,8 @@
 /**
- * @author Benny Dï¿½nz
- * 21.06.2009, 13:13:07
+ * clsExecutorAttack.java: BW - bw.body.io.actuators.actionExecutors
  * 
- * $Rev::                      $: Revision of last commit
- * $Author::                   $: Author of last commit
- * $Date::                     $: Date of last commit
+ * @author Benny Dönz
+ * 28.08.2009, 18:30:17
  */
 package bw.body.io.actuators.actionExecutors;
 
@@ -12,30 +10,29 @@ import config.clsBWProperties;
 import java.util.ArrayList;
 
 import bw.body.clsComplexBody;
-import bw.body.internalSystems.clsFastMessengerSystem;
 import bw.body.io.actuators.clsActionExecutor;
 import bw.entities.clsEntity;
-import bw.utils.enums.eBodyParts;
 import bw.body.io.actuators.actionProxies.*;
 import bw.body.itfget.itfGetBody;
 import decisionunit.itf.actions.*;
 import enums.eSensorExtType;
 
 /**
- * Action Executor for killing
+ * Action Executor for attacking
  * Proxy itfAPKillable
  * Parameters:
  *   poRangeSensor = Visionsensor to use
- * 	 prForceScalingFactor = Scales the force applied to the force felt by the entity to be killed (default = 1)
+ * 	 prForceScalingFactor = Scales the force applied to the force felt by the attacked entity (default = 1)
  * 
  * @author Benny Dï¿½nz
  * 15.04.2009, 16:31:13
  * 
  */
-public class clsExecutorKill extends clsActionExecutor{
 
-	static double srStaminaBase = 4f;			//Stamina demand =srStaminaScalingFactor*pow(srStaminaBase,Force) ; 			
-	static double srStaminaScalingFactor = 0; //0.001f;  
+public class clsExecutorAttack extends clsActionExecutor{
+
+	static double srStaminaBase = 1f;			//Stamina demand =srStaminaBase*Force*srStaminaScalingFactor; 			
+	static double srStaminaScalingFactor = 0.05;  
 
 	private ArrayList<Class<?>> moMutEx = new ArrayList<Class<?>>();
 
@@ -47,10 +44,13 @@ public class clsExecutorKill extends clsActionExecutor{
 	public static final String P_RANGESENSOR = "rangesensor";
 	public static final String P_FORCECALINGFACTOR = "forcescalingfactor";
 
-	public clsExecutorKill(String poPrefix, clsBWProperties poProp, clsEntity poEntity) {
+	public clsExecutorAttack(String poPrefix, clsBWProperties poProp, clsEntity poEntity) {
 		moEntity=poEntity;
 		
 		moMutEx.add(clsActionEat.class);
+		moMutEx.add(clsActionKill.class);
+		moMutEx.add(clsActionKiss.class);
+		moMutEx.add(clsActionCultivate.class);
 
 		applyProperties(poPrefix,poProp);
 	}
@@ -58,7 +58,7 @@ public class clsExecutorKill extends clsActionExecutor{
 	public static clsBWProperties getDefaultProperties(String poPrefix) {
 		String pre = clsBWProperties.addDot(poPrefix);
 		clsBWProperties oProp = new clsBWProperties();
-		oProp.setProperty(pre+P_RANGESENSOR, eSensorExtType.EATABLE_AREA.toString());
+		oProp.setProperty(pre+P_RANGESENSOR, eSensorExtType.VISION.toString());
 		oProp.setProperty(pre+P_FORCECALINGFACTOR, 1f);
 		
 		return oProp;
@@ -75,12 +75,13 @@ public class clsExecutorKill extends clsActionExecutor{
 	 */
 	@Override
 	protected void setBodyPartId() {
-		mePartId = bw.utils.enums.eBodyParts.ACTIONEX_KILL;
+		mePartId = bw.utils.enums.eBodyParts.ACTIONEX_ATTACK;
 	}
 	@Override
 	protected void setName() {
-		moName="Kill executor";	
+		moName="Attack executor";	
 	}
+
 
 	/*
 	 * Mutual exclusions (are bi-directional, so only need to be added in order of creation 
@@ -99,39 +100,31 @@ public class clsExecutorKill extends clsActionExecutor{
 	}
 	@Override
 	public double getStaminaDemand(itfActionCommand poCommand) {
-		clsActionKill oCommand =(clsActionKill) poCommand;
-		return srStaminaScalingFactor* Math.pow(srStaminaBase,oCommand.getForce()) ;
+		clsActionAttack oCommand =(clsActionAttack) poCommand;
+		return srStaminaScalingFactor* srStaminaBase*oCommand.getForce() ;
 	}
+
 
 	/*
 	 * Executor 
 	 */
 	@Override
 	public boolean execute(itfActionCommand poCommand) {
-		clsActionKill oCommand =(clsActionKill) poCommand; 
+		clsActionAttack oCommand =(clsActionAttack) poCommand; 
 		clsComplexBody oBody = (clsComplexBody) ((itfGetBody)moEntity).getBody();
 
 		//Is something in range
-		itfAPKillable oKilledEntity = (itfAPKillable) findSingleEntityInRange(moEntity, oBody, moRangeSensor ,itfAPKillable.class) ;
+		itfAPKillable oAttackEntity = (itfAPKillable) findNamedEntityInRange(oCommand.getOpponentID() , oBody, moRangeSensor ,itfAPKillable.class) ;
 
-		if (oKilledEntity==null) {
-			//Nothing in range then send fast Messenger
-			clsFastMessengerSystem oFastMessengerSystem = oBody.getInternalSystem().getFastMessengerSystem();
-			oFastMessengerSystem.addMessage(mePartId, eBodyParts.BRAIN, 1);
+		if (oAttackEntity==null) {
+			//Nothing in range
 			return false;
 		} 
 
-		//Check if killing is ok
-		double rDamage = oKilledEntity.tryKill(oCommand.getForce()*mrForceScalingFactor);
-		if (rDamage>0) {
-			oBody.getInternalSystem().getHealthSystem().hurt(rDamage);
-			return false;
-		}
-
-		//Kill!
-		oKilledEntity.kill(oCommand.getForce()*mrForceScalingFactor);
+		//Attack!
+		oAttackEntity.attack(oCommand.getForce()*mrForceScalingFactor);
 		
 		return true;
 	}	
-
+	
 }

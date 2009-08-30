@@ -12,6 +12,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 
+import config.clsBWProperties;
+
 import statictools.clsSingletonUniqueIdGenerator;
 import decisionunit.itf.actions.*;
 import enums.eCallPriority;
@@ -51,10 +53,17 @@ public class clsActionProcessor implements itfActionProcessor {
 		return mnUniqueId;
 	 }
 	 
-	 public clsActionProcessor(clsEntity poEntity) {
+	 public clsActionProcessor(String poPrefix, clsBWProperties poProp, clsEntity poEntity) {
 		 moEntity=poEntity;	 
 	 }
-	 
+
+	public static clsBWProperties getDefaultProperties(String poPrefix) {
+		//String pre = clsBWProperties.addDot(poPrefix);
+		clsBWProperties oProp = new clsBWProperties();
+
+		return oProp;
+	}
+
 	 /*
 	  * Function for resetting the processor and clearing the action stack
 	  */

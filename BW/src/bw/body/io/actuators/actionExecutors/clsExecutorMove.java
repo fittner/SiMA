@@ -8,6 +8,7 @@
  */
 package bw.body.io.actuators.actionExecutors;
 
+import config.clsBWProperties;
 import java.util.ArrayList;
 
 import bw.body.io.actuators.clsActionExecutor;
@@ -34,9 +35,24 @@ public class clsExecutorMove extends clsActionExecutor{
 	private clsEntity moEntity;
 	private double mrSpeedScalingFactor;
 	
-	public clsExecutorMove(clsEntity poEntity,double prSpeedScalingFactor) {
+	public static final String P_SPEEDCALINGFACTOR = "speedcalingfactor";
+
+	public clsExecutorMove(String poPrefix, clsBWProperties poProp, clsEntity poEntity) {
 		moEntity=poEntity;
-		mrSpeedScalingFactor=prSpeedScalingFactor;
+		applyProperties(poPrefix,poProp);
+	}
+	
+	public static clsBWProperties getDefaultProperties(String poPrefix) {
+		String pre = clsBWProperties.addDot(poPrefix);
+		clsBWProperties oProp = new clsBWProperties();
+		oProp.setProperty(pre+P_SPEEDCALINGFACTOR, 10f);
+		
+		return oProp;
+	}
+	
+	private void applyProperties(String poPrefix, clsBWProperties poProp) {
+		String pre = clsBWProperties.addDot(poPrefix);
+		mrSpeedScalingFactor=poProp.getPropertyFloat(pre+P_SPEEDCALINGFACTOR);
 	}
 	
 	/*

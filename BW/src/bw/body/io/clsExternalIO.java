@@ -62,10 +62,20 @@ public class clsExternalIO extends clsBaseIO {
 	public static final String P_SENSORACTIVE = "sensoractive";
 	public static final String P_SENSORRANGE = "sensorrange";
 	public static final String P_SENSORENGINE = "sensorengine";
+	public static final String P_ACTIONPROCESSOR = "actionprocessor";
+	public static final String P_ACTIONAVAILABLE = "actionavailable";
+	public static final String P_ACTIONEX = "actionexecutor";
+	public static final String P_ACTIONEX_FEX_LENSSHAPE = "lensshape";
+	public static final String P_ACTIONEX_FEX_LENSSIZE = "lenssize";
+	public static final String P_ACTIONEX_FEX_EYESIZE = "eyesize";
+	public static final String P_ACTIONEX_FEX_LEFTANT = "leftant";
+	public static final String P_ACTIONEX_FEX_RIGHTANT = "rightant";
+	public static final String P_ACTIONEX_BODYCOLORRED = "red";
+	public static final String P_ACTIONEX_BODYCOLORGREEN = "green";
+	public static final String P_ACTIONEX_BODYCOLORBLUE = "blue";
 
-	
 	private clsActionProcessor moProcessor; 
-	public  clsSensorEngine moSensorEngine; 
+	public clsSensorEngine moSensorEngine; 
 	public HashMap<eSensorExtType, clsSensorExt> moSensorExternal;
 	public clsEntity moEntity;
 
@@ -74,20 +84,8 @@ public class clsExternalIO extends clsBaseIO {
 		moEntity = poEntity; //the entity for physics engine access
 
 		moSensorExternal = new HashMap<eSensorExtType, clsSensorExt>();
-		moProcessor = new clsActionProcessor(poEntity);
-				
-		moProcessor.addCommand(clsActionMove.class, new clsExecutorMove(poEntity, 10));
-		moProcessor.addCommand(clsActionTurn.class, new clsExecutorTurn(poEntity));
-		moProcessor.addCommand(clsActionEat.class, new clsExecutorEat(poEntity,eSensorExtType.EATABLE_AREA,0.3));
-		moProcessor.addCommand(clsActionKill.class, new clsExecutorKill(poEntity,eSensorExtType.EATABLE_AREA,1));
-		
-		if (poEntity instanceof clsMobile) {
-			moProcessor.addCommand(clsActionPickUp.class, new clsExecutorPickUp((clsMobile) poEntity,eSensorExtType.EATABLE_AREA ,0.01f));
-			moProcessor.addCommand(clsActionDrop.class, new clsExecutorDrop((clsMobile) poEntity));
-			moProcessor.addCommand(clsActionFromInventory.class, new clsExecutorFromInventory((clsMobile) poEntity));
-			moProcessor.addCommand(clsActionToInventory.class, new clsExecutorToInventory((clsMobile) poEntity));
-		}
-
+		moProcessor = new clsActionProcessor(poPrefix,poProp,poEntity);
+	
 		applyProperties(poPrefix, poProp);
 	}
 	
@@ -130,8 +128,61 @@ public class clsExternalIO extends clsBaseIO {
 		oProp.setProperty(pre+"5."+P_SENSORACTIVE, true);
 		oProp.setProperty(pre+"5."+P_SENSORTYPE, eSensorExtType.POSITIONCHANGE.name());		
 		oProp.setProperty(pre+"5."+P_SENSORRANGE, 0.0);
+		
+		oProp.putAll( clsActionProcessor.getDefaultProperties( pre+P_ACTIONPROCESSOR) );
 
-				
+		oProp.setProperty(pre+P_ACTIONAVAILABLE	+"."+bw.utils.enums.eBodyParts.ACTIONEX_DROP,1);
+		oProp.putAll( clsExecutorDrop.getDefaultProperties( pre+P_ACTIONEX	+"."+bw.utils.enums.eBodyParts.ACTIONEX_DROP) );
+
+		oProp.setProperty(pre+P_ACTIONAVAILABLE	+"."+bw.utils.enums.eBodyParts.ACTIONEX_EAT,1);
+		oProp.putAll( clsExecutorEat.getDefaultProperties( pre+P_ACTIONEX	+"."+bw.utils.enums.eBodyParts.ACTIONEX_EAT) );
+		
+		oProp.setProperty(pre+P_ACTIONAVAILABLE	+"."+bw.utils.enums.eBodyParts.ACTIONEX_FROMINVENTORY,1);
+		oProp.putAll( clsExecutorFromInventory.getDefaultProperties( pre+P_ACTIONEX	+"."+bw.utils.enums.eBodyParts.ACTIONEX_FROMINVENTORY) );
+		
+		oProp.setProperty(pre+P_ACTIONAVAILABLE	+"."+bw.utils.enums.eBodyParts.ACTIONEX_TOINVENTORY,1);
+		oProp.putAll( clsExecutorToInventory.getDefaultProperties( pre+P_ACTIONEX	+"."+bw.utils.enums.eBodyParts.ACTIONEX_TOINVENTORY) );
+		
+		oProp.setProperty(pre+P_ACTIONAVAILABLE	+"."+bw.utils.enums.eBodyParts.ACTIONEX_KILL,1);
+		oProp.putAll( clsExecutorKill.getDefaultProperties( pre+P_ACTIONEX	+"."+bw.utils.enums.eBodyParts.ACTIONEX_KILL) );
+		
+		oProp.setProperty(pre+P_ACTIONAVAILABLE	+"."+bw.utils.enums.eBodyParts.ACTIONEX_MOVE,1);
+		oProp.putAll( clsExecutorMove.getDefaultProperties( pre+P_ACTIONEX	+"."+bw.utils.enums.eBodyParts.ACTIONEX_MOVE) );
+		
+		oProp.setProperty(pre+P_ACTIONAVAILABLE	+"."+bw.utils.enums.eBodyParts.ACTIONEX_PICKUP,1);
+		oProp.putAll( clsExecutorPickUp.getDefaultProperties( pre+P_ACTIONEX	+"."+bw.utils.enums.eBodyParts.ACTIONEX_PICKUP) );
+		
+		oProp.setProperty(pre+P_ACTIONAVAILABLE	+"."+bw.utils.enums.eBodyParts.ACTIONEX_TURN,1);
+		oProp.putAll( clsExecutorTurn.getDefaultProperties( pre+P_ACTIONEX	+"."+bw.utils.enums.eBodyParts.ACTIONEX_TURN) );
+		
+		oProp.setProperty(pre+P_ACTIONAVAILABLE	+"."+bw.utils.enums.eBodyParts.ACTIONEX_CULTIVATE,1);
+		oProp.putAll( clsExecutorCultivate.getDefaultProperties( pre+P_ACTIONEX	+"."+bw.utils.enums.eBodyParts.ACTIONEX_CULTIVATE) );
+		
+		oProp.setProperty(pre+P_ACTIONAVAILABLE	+"."+bw.utils.enums.eBodyParts.ACTIONEX_KISS,1);
+		oProp.putAll( clsExecutorKiss.getDefaultProperties( pre+P_ACTIONEX	+"."+bw.utils.enums.eBodyParts.ACTIONEX_KISS) );
+
+		oProp.setProperty(pre+P_ACTIONAVAILABLE	+"."+bw.utils.enums.eBodyParts.ACTIONEX_ATTACK,1);
+		oProp.putAll( clsExecutorAttack.getDefaultProperties( pre+P_ACTIONEX	+"."+bw.utils.enums.eBodyParts.ACTIONEX_ATTACK) );
+
+		oProp.setProperty(pre+P_ACTIONAVAILABLE	+"."+bw.utils.enums.eBodyParts.ACTIONEX_MOVETOAREA,1);
+		oProp.putAll( clsExecutorMoveToArea.getDefaultProperties( pre+P_ACTIONEX	+"."+bw.utils.enums.eBodyParts.ACTIONEX_MOVETOAREA) );
+
+		oProp.setProperty(pre+P_ACTIONAVAILABLE	+"."+bw.utils.enums.eBodyParts.ACTIONEX_EXCREMENT,1);
+		oProp.putAll( clsExecutorExcrement.getDefaultProperties( pre+P_ACTIONEX	+"."+bw.utils.enums.eBodyParts.ACTIONEX_EXCREMENT) );
+
+		oProp.setProperty(pre+P_ACTIONAVAILABLE	+"."+bw.utils.enums.eBodyParts.ACTIONEX_BODYCOLOR,1);
+		oProp.setProperty(pre+P_ACTIONAVAILABLE	+"."+bw.utils.enums.eBodyParts.ACTIONEX_BODYCOLOR + P_ACTIONEX_BODYCOLORRED,1);
+		oProp.setProperty(pre+P_ACTIONAVAILABLE	+"."+bw.utils.enums.eBodyParts.ACTIONEX_BODYCOLOR + P_ACTIONEX_BODYCOLORGREEN,1);
+		oProp.setProperty(pre+P_ACTIONAVAILABLE	+"."+bw.utils.enums.eBodyParts.ACTIONEX_BODYCOLOR + P_ACTIONEX_BODYCOLORBLUE,1);
+		oProp.putAll( clsExecutorBodyColor.getDefaultProperties( pre+P_ACTIONEX	+"."+bw.utils.enums.eBodyParts.ACTIONEX_BODYCOLOR) );
+
+		oProp.setProperty(pre+P_ACTIONAVAILABLE	+"."+bw.utils.enums.eBodyParts.ACTIONEX_FACIALEXPRESSIONS + P_ACTIONEX_FEX_LENSSHAPE,1);
+		oProp.setProperty(pre+P_ACTIONAVAILABLE	+"."+bw.utils.enums.eBodyParts.ACTIONEX_FACIALEXPRESSIONS + P_ACTIONEX_FEX_LENSSIZE,1);
+		oProp.setProperty(pre+P_ACTIONAVAILABLE	+"."+bw.utils.enums.eBodyParts.ACTIONEX_FACIALEXPRESSIONS + P_ACTIONEX_FEX_EYESIZE,1);
+		oProp.setProperty(pre+P_ACTIONAVAILABLE	+"."+bw.utils.enums.eBodyParts.ACTIONEX_FACIALEXPRESSIONS + P_ACTIONEX_FEX_LEFTANT,1);
+		oProp.setProperty(pre+P_ACTIONAVAILABLE	+"."+bw.utils.enums.eBodyParts.ACTIONEX_FACIALEXPRESSIONS + P_ACTIONEX_FEX_RIGHTANT,1);
+		oProp.putAll( clsExecutorFacialExpressions.getDefaultProperties( pre+P_ACTIONEX	+"."+bw.utils.enums.eBodyParts.ACTIONEX_FACIALEXPRESSIONS) );
+		
 		return oProp;
 	}	
 
@@ -190,8 +241,41 @@ public class clsExternalIO extends clsBaseIO {
 					}
 			}
 		}
-	}	
+
+		//Register actionexecutors
+		if (poProp.getPropertyInt( pre+P_ACTIONAVAILABLE	+"."+bw.utils.enums.eBodyParts.ACTIONEX_DROP)==1) moProcessor.addCommand(clsActionMove.class, new clsExecutorMove(poPrefix+"." + P_ACTIONEX	+"."+bw.utils.enums.eBodyParts.ACTIONEX_MOVE,poProp,moEntity));
+		if (poProp.getPropertyInt( pre+P_ACTIONAVAILABLE	+"."+bw.utils.enums.eBodyParts.ACTIONEX_TURN)==1) moProcessor.addCommand(clsActionTurn.class, new clsExecutorTurn(poPrefix+"." + P_ACTIONEX	+"."+bw.utils.enums.eBodyParts.ACTIONEX_TURN,poProp,moEntity));
+		if (poProp.getPropertyInt( pre+P_ACTIONAVAILABLE	+"."+bw.utils.enums.eBodyParts.ACTIONEX_EAT)==1) moProcessor.addCommand(clsActionEat.class, new clsExecutorEat(poPrefix+"." + P_ACTIONEX	+"."+bw.utils.enums.eBodyParts.ACTIONEX_EAT,poProp,moEntity));
+		if (poProp.getPropertyInt( pre+P_ACTIONAVAILABLE	+"."+bw.utils.enums.eBodyParts.ACTIONEX_KILL)==1) moProcessor.addCommand(clsActionKill.class, new clsExecutorKill(poPrefix+"." + P_ACTIONEX	+"."+bw.utils.enums.eBodyParts.ACTIONEX_KILL,poProp,moEntity));
+		if (poProp.getPropertyInt( pre+P_ACTIONAVAILABLE	+"."+bw.utils.enums.eBodyParts.ACTIONEX_PICKUP)==1) moProcessor.addCommand(clsActionPickUp.class, new clsExecutorPickUp(poPrefix+"." + P_ACTIONEX	+"."+bw.utils.enums.eBodyParts.ACTIONEX_PICKUP,poProp,(clsMobile) moEntity));
+		if (poProp.getPropertyInt( pre+P_ACTIONAVAILABLE	+"."+bw.utils.enums.eBodyParts.ACTIONEX_DROP)==1) moProcessor.addCommand(clsActionDrop.class, new clsExecutorDrop(poPrefix+"." + P_ACTIONEX	+"."+bw.utils.enums.eBodyParts.ACTIONEX_DROP,poProp,(clsMobile) moEntity));
+		if (poProp.getPropertyInt( pre+P_ACTIONAVAILABLE	+"."+bw.utils.enums.eBodyParts.ACTIONEX_FROMINVENTORY)==1) moProcessor.addCommand(clsActionFromInventory.class, new clsExecutorFromInventory(poPrefix+"." + P_ACTIONEX	+"."+bw.utils.enums.eBodyParts.ACTIONEX_FROMINVENTORY,poProp,(clsMobile) moEntity));
+		if (poProp.getPropertyInt( pre+P_ACTIONAVAILABLE	+"."+bw.utils.enums.eBodyParts.ACTIONEX_TOINVENTORY)==1) moProcessor.addCommand(clsActionToInventory.class, new clsExecutorToInventory(poPrefix+"." + P_ACTIONEX	+"."+bw.utils.enums.eBodyParts.ACTIONEX_TOINVENTORY,poProp,(clsMobile) moEntity));
+		if (poProp.getPropertyInt( pre+P_ACTIONAVAILABLE	+"."+bw.utils.enums.eBodyParts.ACTIONEX_CULTIVATE)==1) moProcessor.addCommand(clsActionCultivate.class, new clsExecutorCultivate(poPrefix+"." + P_ACTIONEX	+"."+bw.utils.enums.eBodyParts.ACTIONEX_CULTIVATE,poProp,(clsMobile) moEntity));
+		if (poProp.getPropertyInt( pre+P_ACTIONAVAILABLE	+"."+bw.utils.enums.eBodyParts.ACTIONEX_KISS)==1) moProcessor.addCommand(clsActionKiss.class, new clsExecutorKiss(poPrefix+"." + P_ACTIONEX	+"."+bw.utils.enums.eBodyParts.ACTIONEX_KISS,poProp,(clsMobile) moEntity));
+		if (poProp.getPropertyInt( pre+P_ACTIONAVAILABLE	+"."+bw.utils.enums.eBodyParts.ACTIONEX_ATTACK)==1) moProcessor.addCommand(clsActionAttack.class, new clsExecutorAttack(poPrefix+"." + P_ACTIONEX	+"."+bw.utils.enums.eBodyParts.ACTIONEX_ATTACK,poProp,(clsMobile) moEntity));
+		if (poProp.getPropertyInt( pre+P_ACTIONAVAILABLE	+"."+bw.utils.enums.eBodyParts.ACTIONEX_MOVETOAREA)==1) moProcessor.addCommand(clsActionMoveToEatableArea.class, new clsExecutorMoveToArea(poPrefix+"." + P_ACTIONEX	+"."+bw.utils.enums.eBodyParts.ACTIONEX_MOVETOAREA,poProp,(clsMobile) moEntity));
+		if (poProp.getPropertyInt( pre+P_ACTIONAVAILABLE	+"."+bw.utils.enums.eBodyParts.ACTIONEX_EXCREMENT)==1) moProcessor.addCommand(clsActionExcrement.class, new clsExecutorExcrement(poPrefix+"." + P_ACTIONEX	+"."+bw.utils.enums.eBodyParts.ACTIONEX_EXCREMENT,poProp,(clsMobile) moEntity));
+
+		if (poProp.getPropertyInt( pre+P_ACTIONAVAILABLE	+"."+bw.utils.enums.eBodyParts.ACTIONEX_BODYCOLOR)==1) moProcessor.addCommand(clsActionBodyColor.class, new clsExecutorBodyColor(poPrefix+"." + P_ACTIONEX	+"."+bw.utils.enums.eBodyParts.ACTIONEX_BODYCOLOR,poProp,(clsMobile) moEntity));
+		if (poProp.getPropertyInt( pre+P_ACTIONAVAILABLE	+"."+bw.utils.enums.eBodyParts.ACTIONEX_BODYCOLOR + P_ACTIONEX_BODYCOLORRED)==1) moProcessor.addCommand(clsActionBodyColorRed.class, new clsExecutorBodyColor(poPrefix+"." + P_ACTIONEX	+"."+bw.utils.enums.eBodyParts.ACTIONEX_BODYCOLOR,poProp,(clsMobile) moEntity));
+		if (poProp.getPropertyInt( pre+P_ACTIONAVAILABLE	+"."+bw.utils.enums.eBodyParts.ACTIONEX_BODYCOLOR + P_ACTIONEX_BODYCOLORGREEN)==1) moProcessor.addCommand(clsActionBodyColorGreen.class, new clsExecutorBodyColor(poPrefix+"." + P_ACTIONEX	+"."+bw.utils.enums.eBodyParts.ACTIONEX_BODYCOLOR,poProp,(clsMobile) moEntity));
+		if (poProp.getPropertyInt( pre+P_ACTIONAVAILABLE	+"."+bw.utils.enums.eBodyParts.ACTIONEX_BODYCOLOR + P_ACTIONEX_BODYCOLORBLUE)==1) moProcessor.addCommand(clsActionBodyColorBlue.class, new clsExecutorBodyColor(poPrefix+"." + P_ACTIONEX	+"."+bw.utils.enums.eBodyParts.ACTIONEX_BODYCOLOR,poProp,(clsMobile) moEntity));
+
+		if (poProp.getPropertyInt( pre+P_ACTIONAVAILABLE	+"."+bw.utils.enums.eBodyParts.ACTIONEX_FACIALEXPRESSIONS + P_ACTIONEX_FEX_LENSSHAPE)==1) moProcessor.addCommand(clsActionFacialExLensShape.class, new clsExecutorFacialExpressions(poPrefix+"." + P_ACTIONEX	+"."+bw.utils.enums.eBodyParts.ACTIONEX_FACIALEXPRESSIONS,poProp,(clsMobile) moEntity));
+		if (poProp.getPropertyInt( pre+P_ACTIONAVAILABLE	+"."+bw.utils.enums.eBodyParts.ACTIONEX_FACIALEXPRESSIONS + P_ACTIONEX_FEX_LENSSIZE)==1) moProcessor.addCommand(clsActionFacialExLensSize.class, new clsExecutorFacialExpressions(poPrefix+"." + P_ACTIONEX	+"."+bw.utils.enums.eBodyParts.ACTIONEX_FACIALEXPRESSIONS,poProp,(clsMobile) moEntity));
+		if (poProp.getPropertyInt( pre+P_ACTIONAVAILABLE	+"."+bw.utils.enums.eBodyParts.ACTIONEX_FACIALEXPRESSIONS + P_ACTIONEX_FEX_EYESIZE)==1) moProcessor.addCommand(clsActionFacialExEyeSize.class, new clsExecutorFacialExpressions(poPrefix+"." + P_ACTIONEX	+"."+bw.utils.enums.eBodyParts.ACTIONEX_FACIALEXPRESSIONS,poProp,(clsMobile) moEntity));
+		if (poProp.getPropertyInt( pre+P_ACTIONAVAILABLE	+"."+bw.utils.enums.eBodyParts.ACTIONEX_FACIALEXPRESSIONS + P_ACTIONEX_FEX_LEFTANT)==1) moProcessor.addCommand(clsActionFacialExLeftAntennaPosition.class, new clsExecutorFacialExpressions(poPrefix+"." + P_ACTIONEX	+"."+bw.utils.enums.eBodyParts.ACTIONEX_FACIALEXPRESSIONS,poProp,(clsMobile) moEntity));
+		if (poProp.getPropertyInt( pre+P_ACTIONAVAILABLE	+"."+bw.utils.enums.eBodyParts.ACTIONEX_FACIALEXPRESSIONS + P_ACTIONEX_FEX_RIGHTANT)==1) moProcessor.addCommand(clsActionFacialExRightAntennaPosition.class, new clsExecutorFacialExpressions(poPrefix+"." + P_ACTIONEX	+"."+bw.utils.enums.eBodyParts.ACTIONEX_FACIALEXPRESSIONS,poProp,(clsMobile) moEntity));
+
+		//clsActionAttack
+		//clsActionExcrement
+		//clsAction
+		//clsActionSleep
+		//clsActionWakeUp
+		//clsActionMoveToEatableArea
 		
+	}	
 	
 	public clsActionProcessor getActionProcessor() {
 		return moProcessor;

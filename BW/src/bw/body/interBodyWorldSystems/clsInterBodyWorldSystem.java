@@ -55,6 +55,7 @@ public class clsInterBodyWorldSystem implements itfStepUpdateInternalState {
 		moCreateExcrement 		= new clsCreateExcrement(pre+P_CREATEEXCREMENT, poProp, poInternalSystem.getStomachSystem());		
 		moDamageBump 		= new clsDamageBump(pre+P_DAMAGEBUMP, poProp, poInternalSystem.getHealthSystem(), poInternalSystem.getFastMessengerSystem());
 		moDamageLightning 	= new clsDamageLightning(pre+P_DAMAGELIGHTNING, poProp, poInternalSystem.getHealthSystem(), poInternalSystem.getFastMessengerSystem());
+		moEffectKiss 		= new clsEffectKiss(pre+P_EFFECTKISS, poProp,  poInternalSystem.getFastMessengerSystem(),poInternalSystem.getSlowMessengerSystem());
 	}		
 		
 	public clsConsumeFood getConsumeFood() {

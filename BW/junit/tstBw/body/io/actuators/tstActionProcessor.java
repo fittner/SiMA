@@ -67,7 +67,7 @@ public class tstActionProcessor {
 	 * Create a processor and register testcommands
 	 */
 	private clsActionProcessor getActionProcessor() {
-		clsActionProcessor oProcessor = new clsActionProcessor(null);
+		clsActionProcessor oProcessor = new clsActionProcessor("",null,null);
 		clsActionExecutor oExecutor = new tstTestExecutor();
 		oProcessor.addCommand(tstTestCommand.class, oExecutor);
 		oProcessor.addCommand(tstTestCommand_A.class, oExecutor);

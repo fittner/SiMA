@@ -22,7 +22,9 @@ import bw.entities.tools.clsShapeCreator;
 import bw.entities.tools.eImagePositioning;
 import bw.utils.enums.eBodyType;
 import bw.utils.enums.eShapeType;
+import enums.eActionKissIntensity;
 import enums.eEntityType;
+import bw.body.io.actuators.actionProxies.itfAPKissable;
 
 //import tstBw.*;
 
@@ -32,7 +34,7 @@ import enums.eEntityType;
  * @author langr
  * 
  */
-public class clsBubble extends clsAnimate implements itfGetSensorEngine, itfGetRadiation {
+public class clsBubble extends clsAnimate implements itfGetSensorEngine, itfGetRadiation, itfAPKissable {
 
 	public clsBubble(String poPrefix, clsBWProperties poProp) {
 		super(poPrefix, poProp);
@@ -104,4 +106,24 @@ public class clsBubble extends clsAnimate implements itfGetSensorEngine, itfGetR
 //	    ((clsRemoteControl)(moBody.getBrain().getDecisionUnit())).setKeyPressed(clsKeyListener.getKeyPressed());		
 		super.processing();
 	}
+
+	/*
+	 * (non-Javadoc)
+	 *
+	 * @author Benny Dönz
+	 * 28.08.2009, 18:16:17
+	 * 
+	 * @see bw.body.io.actuators.actionProxies.itfAPKissable#tryKiss(enums.eActionKissIntensity)
+	 */
+	public boolean tryKiss(eActionKissIntensity peIntensity) {
+		return true;
+	}
+	public void kiss(eActionKissIntensity peIntensity) {
+		double rIntensity=1;
+		if (peIntensity==eActionKissIntensity.MIDDLE) rIntensity=2;
+		if (peIntensity==eActionKissIntensity.STRONG) rIntensity=4;
+
+		((clsComplexBody) this.getBody()).getInterBodyWorldSystem().getEffectKiss().kiss(null, rIntensity);
+	}
+	
 }

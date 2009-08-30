@@ -14,9 +14,13 @@ import sim.physics2D.physicalObject.PhysicalObject2D;
 import ARSsim.physics2D.physicalObject.clsCollidingObject;
 import ARSsim.physics2D.physicalObject.clsMobileObject2D;
 import ARSsim.physics2D.physicalObject.clsStationaryObject2D;
+import bw.body.clsComplexBody;
 import bw.body.io.clsSensorActuatorBaseExt;
 import bw.entities.clsEntity;
 import decisionunit.itf.actions.itfActionCommand;
+import enums.eSensorExtType;
+import bw.body.io.sensors.ext.clsSensorEatableArea;
+import bw.body.io.sensors.ext.clsSensorVision;
 
 /**
  * This abstract class must be inherited by all actions commands so they 
@@ -75,13 +79,19 @@ public abstract class clsActionExecutor extends clsSensorActuatorBaseExt {
 	}	
 
 	/*
-	 * Support function for finding an entity in a given Range
+	 * Support function for finding an entity in a given Range (Self-Referenced passed so entities own body can be ignored)
 	 */
-	protected clsEntity findSingleEntityInRange(ArrayList<clsCollidingObject> poSearch, Class<?> poInterface) {
+	protected clsEntity findSingleEntityInRange(clsEntity poSelfReference, clsComplexBody poBody, eSensorExtType peSensor, Class<?> poInterface) {
+
+		ArrayList<clsCollidingObject> oSearch=null;
+		if (peSensor== eSensorExtType.EATABLE_AREA) oSearch = ((clsSensorEatableArea) poBody.getExternalIO().moSensorExternal.get(peSensor)).getSensorData();
+		if (peSensor== eSensorExtType.VISION) oSearch = ((clsSensorVision) poBody.getExternalIO().moSensorExternal.get(peSensor)).getSensorData();
+		if (oSearch==null) return null;
+		
 		clsEntity oEntity=null;
 
-		for(int i=0; i<poSearch.size(); i++){
-			PhysicalObject2D poIntObject = poSearch.get(i).moCollider; 
+		for(int i=0; i<oSearch.size(); i++){
+			PhysicalObject2D poIntObject = oSearch.get(i).moCollider; 
 
 			clsEntity oIntEntity=null;
 			if (poIntObject instanceof clsMobileObject2D) {
@@ -90,9 +100,8 @@ public abstract class clsActionExecutor extends clsSensorActuatorBaseExt {
 				oIntEntity = ((clsStationaryObject2D) poIntObject).getEntity();
 			}
 			
-			if (oIntEntity !=null ) {
+			if (oIntEntity !=null && oIntEntity != poSelfReference) {
 				if (poInterface.isAssignableFrom(oIntEntity.getClass())  ) {
-//FIXME (dönz) - e.g. one hare, one carrot, one eatable ares. null is returned if the eatable area overlaps with its own hare body. correct return value should be carrot. TD 					
 					if (oEntity !=null) return null;
 					oEntity=oIntEntity;
 				}
@@ -101,5 +110,39 @@ public abstract class clsActionExecutor extends clsSensorActuatorBaseExt {
 
 		return oEntity;
 	}
-	
+
+	/*
+	 * Support function for finding an entity in a given Range
+	 */
+	protected clsEntity findNamedEntityInRange(String EntityID, clsComplexBody poBody, eSensorExtType peSensor, Class<?> poInterface) {
+
+		ArrayList<clsCollidingObject> oSearch=null;
+		if (peSensor== eSensorExtType.EATABLE_AREA) oSearch = ((clsSensorEatableArea) poBody.getExternalIO().moSensorExternal.get(peSensor)).getSensorData();
+		if (peSensor== eSensorExtType.VISION) oSearch = ((clsSensorVision) poBody.getExternalIO().moSensorExternal.get(peSensor)).getSensorData();
+		if (oSearch==null) return null;
+		
+		clsEntity oEntity=null;
+
+		for(int i=0; i<oSearch.size(); i++){
+			clsCollidingObject poObject = oSearch.get(i);
+			PhysicalObject2D poIntObject = poObject.moCollider; 
+
+			clsEntity oIntEntity=null;
+			if (poIntObject instanceof clsMobileObject2D) {
+				oIntEntity = ((clsMobileObject2D) poIntObject).getEntity();
+			} else if (poIntObject instanceof clsStationaryObject2D) {
+				oIntEntity = ((clsStationaryObject2D) poIntObject).getEntity();
+			}
+			
+			if (oIntEntity !=null) {
+				if (poInterface.isAssignableFrom(oIntEntity.getClass()) && oIntEntity.getId()==EntityID  ) {
+					if (oEntity !=null) return null;
+					oEntity=oIntEntity;
+				}
+			}
+		}
+
+		return oEntity;
+	}
+
 }

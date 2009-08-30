@@ -8,6 +8,7 @@
  */
 package bw.body.io.actuators.actionExecutors;
 
+import config.clsBWProperties;
 import java.util.ArrayList;
 
 import sim.physics2D.util.Angle;
@@ -27,16 +28,23 @@ import enums.eActionTurnDirection;
  */
 public class clsExecutorTurn extends clsActionExecutor{
 
-	static double srStaminaBase = 2f;			//Stamina demand =srStaminaScalingFactor*pow(srStaminaBase,Angle) ; 			
+	static double srStaminaBase = 1.1f;			//Stamina demand =srStaminaScalingFactor*pow(srStaminaBase,Angle) ; 			
 	static double srStaminaScalingFactor = 0.001f;   
 
 	private ArrayList<Class<?>> moMutEx = new ArrayList<Class<?>>();
 	private clsEntity moEntity;
 	
-	public clsExecutorTurn(clsEntity poEntity) {
+	public clsExecutorTurn(String poPrefix, clsBWProperties poProp, clsEntity poEntity) {
 		moEntity=poEntity;
 	}
 
+	public static clsBWProperties getDefaultProperties(String poPrefix) {
+		//String pre = clsBWProperties.addDot(poPrefix);
+		clsBWProperties oProp = new clsBWProperties();
+
+		return oProp;
+	}
+	
 	/*
 	 * Set values for SensorActuator base-class
 	 */

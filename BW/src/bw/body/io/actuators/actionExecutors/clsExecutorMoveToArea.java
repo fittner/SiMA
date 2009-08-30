@@ -1,10 +1,8 @@
 /**
- * @author Benny Dï¿½nz
- * 21.06.2009, 13:13:07
+ * clsExecutorMoveToEatableArea.java: BW - bw.body.io.actuators.actionExecutors
  * 
- * $Rev::                      $: Revision of last commit
- * $Author::                   $: Author of last commit
- * $Date::                     $: Date of last commit
+ * @author Benny Dönz
+ * 29.08.2009, 09:58:37
  */
 package bw.body.io.actuators.actionExecutors;
 
@@ -12,53 +10,61 @@ import config.clsBWProperties;
 import java.util.ArrayList;
 
 import bw.body.clsComplexBody;
-import bw.body.internalSystems.clsFastMessengerSystem;
 import bw.body.io.actuators.clsActionExecutor;
 import bw.entities.clsEntity;
-import bw.utils.enums.eBodyParts;
 import bw.body.io.actuators.actionProxies.*;
 import bw.body.itfget.itfGetBody;
 import decisionunit.itf.actions.*;
 import enums.eSensorExtType;
 
 /**
- * Action Executor for killing
- * Proxy itfAPKillable
- * Parameters:
- *   poRangeSensor = Visionsensor to use
- * 	 prForceScalingFactor = Scales the force applied to the force felt by the entity to be killed (default = 1)
+ * Action Executor for moving objects from one area to another
+ * Parameters: none
+ *   mrForceScalingFactor = Relation of Force to energy  (Default=1)
+ * 	 poRangeSource = Range to search for the object
+ *   poRangeDest = Range to move the object to
  * 
  * @author Benny Dï¿½nz
  * 15.04.2009, 16:31:13
  * 
  */
-public class clsExecutorKill extends clsActionExecutor{
 
-	static double srStaminaBase = 4f;			//Stamina demand =srStaminaScalingFactor*pow(srStaminaBase,Force) ; 			
-	static double srStaminaScalingFactor = 0; //0.001f;  
+public class clsExecutorMoveToArea extends clsActionExecutor{
+
+	static double srStaminaBase = 2f;			//Stamina demand =srStaminaScalingFactor*pow(srStaminaBase,Speed) ; 			
+	static double srStaminaScalingFactor = 0.01f;  
 
 	private ArrayList<Class<?>> moMutEx = new ArrayList<Class<?>>();
 
 	private clsEntity moEntity;
-	private eSensorExtType moRangeSensor;
+	private eSensorExtType moRangeSource;
+	private eSensorExtType moRangeDest;
 	
 	private double mrForceScalingFactor;
 
-	public static final String P_RANGESENSOR = "rangesensor";
+	public static final String P_RANGESOURCE = "rangesource";
+	public static final String P_RANGEDEST = "rangedest";
 	public static final String P_FORCECALINGFACTOR = "forcescalingfactor";
 
-	public clsExecutorKill(String poPrefix, clsBWProperties poProp, clsEntity poEntity) {
+	public clsExecutorMoveToArea(String poPrefix, clsBWProperties poProp, clsEntity poEntity) {
 		moEntity=poEntity;
 		
-		moMutEx.add(clsActionEat.class);
+		moMutEx.add(clsActionCultivate.class);
+		moMutEx.add(clsActionDrop.class);
+		moMutEx.add(clsActionFromInventory.class);
+		moMutEx.add(clsActionToInventory.class);
+		moMutEx.add(clsActionMove.class);
+		moMutEx.add(clsActionTurn.class);
 
 		applyProperties(poPrefix,poProp);
 	}
+
 	
 	public static clsBWProperties getDefaultProperties(String poPrefix) {
 		String pre = clsBWProperties.addDot(poPrefix);
 		clsBWProperties oProp = new clsBWProperties();
-		oProp.setProperty(pre+P_RANGESENSOR, eSensorExtType.EATABLE_AREA.toString());
+		oProp.setProperty(pre+P_RANGESOURCE, eSensorExtType.VISION.toString());
+		oProp.setProperty(pre+P_RANGEDEST, eSensorExtType.VISION.toString());
 		oProp.setProperty(pre+P_FORCECALINGFACTOR, 1f);
 		
 		return oProp;
@@ -66,7 +72,8 @@ public class clsExecutorKill extends clsActionExecutor{
 	
 	private void applyProperties(String poPrefix, clsBWProperties poProp) {
 		String pre = clsBWProperties.addDot(poPrefix);
-		moRangeSensor=eSensorExtType.valueOf(poProp.getPropertyString(pre+P_RANGESENSOR));
+		moRangeSource=eSensorExtType.valueOf(poProp.getPropertyString(pre+P_RANGESOURCE));
+		moRangeDest=eSensorExtType.valueOf(poProp.getPropertyString(pre+P_RANGEDEST));
 		mrForceScalingFactor=poProp.getPropertyFloat(pre+P_FORCECALINGFACTOR);
 	}
 
@@ -75,12 +82,13 @@ public class clsExecutorKill extends clsActionExecutor{
 	 */
 	@Override
 	protected void setBodyPartId() {
-		mePartId = bw.utils.enums.eBodyParts.ACTIONEX_KILL;
+		mePartId = bw.utils.enums.eBodyParts.ACTIONEX_MOVETOAREA;
 	}
 	@Override
 	protected void setName() {
-		moName="Kill executor";	
+		moName="Move to area executor";	
 	}
+
 
 	/*
 	 * Mutual exclusions (are bi-directional, so only need to be added in order of creation 
@@ -89,7 +97,7 @@ public class clsExecutorKill extends clsActionExecutor{
 	public ArrayList<Class<?>> getMutualExclusions(itfActionCommand poCommand) {
 		return moMutEx; 
 	}
-	
+
 	/*
 	 * Energy and stamina demand 
 	 */
@@ -99,7 +107,7 @@ public class clsExecutorKill extends clsActionExecutor{
 	}
 	@Override
 	public double getStaminaDemand(itfActionCommand poCommand) {
-		clsActionKill oCommand =(clsActionKill) poCommand;
+		clsActionMoveToEatableArea oCommand =(clsActionMoveToEatableArea) poCommand;
 		return srStaminaScalingFactor* Math.pow(srStaminaBase,oCommand.getForce()) ;
 	}
 
@@ -108,30 +116,13 @@ public class clsExecutorKill extends clsActionExecutor{
 	 */
 	@Override
 	public boolean execute(itfActionCommand poCommand) {
-		clsActionKill oCommand =(clsActionKill) poCommand; 
+		clsActionMoveToEatableArea oCommand =(clsActionMoveToEatableArea) poCommand; 
 		clsComplexBody oBody = (clsComplexBody) ((itfGetBody)moEntity).getBody();
 
 		//Is something in range
-		itfAPKillable oKilledEntity = (itfAPKillable) findSingleEntityInRange(moEntity, oBody, moRangeSensor ,itfAPKillable.class) ;
-
-		if (oKilledEntity==null) {
-			//Nothing in range then send fast Messenger
-			clsFastMessengerSystem oFastMessengerSystem = oBody.getInternalSystem().getFastMessengerSystem();
-			oFastMessengerSystem.addMessage(mePartId, eBodyParts.BRAIN, 1);
-			return false;
-		} 
-
-		//Check if killing is ok
-		double rDamage = oKilledEntity.tryKill(oCommand.getForce()*mrForceScalingFactor);
-		if (rDamage>0) {
-			oBody.getInternalSystem().getHealthSystem().hurt(rDamage);
-			return false;
-		}
-
-		//Kill!
-		oKilledEntity.kill(oCommand.getForce()*mrForceScalingFactor);
+		itfAPCarryable oEntity = (itfAPCarryable) findSingleEntityInRange(moEntity , oBody, moRangeSource  ,itfAPCarryable.class) ;
 		
 		return true;
 	}	
-
+	
 }

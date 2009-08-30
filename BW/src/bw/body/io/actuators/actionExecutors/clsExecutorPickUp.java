@@ -8,14 +8,13 @@
  */
 package bw.body.io.actuators.actionExecutors;
 
+import config.clsBWProperties;
 import java.util.ArrayList;
 
-import ARSsim.physics2D.physicalObject.clsCollidingObject;
 import bw.body.clsComplexBody;
 import bw.body.io.actuators.clsActionExecutor;
 import bw.body.io.actuators.actionProxies.*;
 import decisionunit.itf.actions.*;
-import bw.body.io.sensors.ext.clsSensorEatableArea;
 import bw.entities.clsMobile;
 import bw.utils.enums.eBindingState;
 import enums.eSensorExtType;
@@ -41,15 +40,34 @@ public class clsExecutorPickUp  extends clsActionExecutor {
 
 	private double mrMassScalingFactor;
 	
-	public clsExecutorPickUp(clsMobile poEntity,eSensorExtType poRangeSensor, double prMassScalingFactor) {
+	public static final String P_RANGESENSOR = "rangesensor";
+	public static final String P_MASSSCALINGFACTOR = "massscalingfactor";
+
+	public clsExecutorPickUp(String poPrefix, clsBWProperties poProp, clsMobile poEntity) {
 		moEntity=poEntity;
-		moRangeSensor=poRangeSensor;
-		mrMassScalingFactor=prMassScalingFactor;
-		
+
 		moMutEx.add(clsActionDrop.class);
 		moMutEx.add(clsActionFromInventory.class);
 		moMutEx.add(clsActionToInventory.class);
+		
+		applyProperties(poPrefix,poProp);
 	}
+	
+	public static clsBWProperties getDefaultProperties(String poPrefix) {
+		String pre = clsBWProperties.addDot(poPrefix);
+		clsBWProperties oProp = new clsBWProperties();
+		oProp.setProperty(pre+P_RANGESENSOR, eSensorExtType.EATABLE_AREA.toString());
+		oProp.setProperty(pre+P_MASSSCALINGFACTOR, 0.01f);
+		
+		return oProp;
+	}
+	
+	private void applyProperties(String poPrefix, clsBWProperties poProp) {
+		String pre = clsBWProperties.addDot(poPrefix);
+		moRangeSensor=eSensorExtType.valueOf(poProp.getPropertyString(pre+P_RANGESENSOR));
+		mrMassScalingFactor=poProp.getPropertyFloat(pre+P_MASSSCALINGFACTOR);
+	}
+	
 	/*
 	 * Set values for SensorActuator base-class
 	 */
@@ -82,13 +100,11 @@ public class clsExecutorPickUp  extends clsActionExecutor {
 
 		//Is something in range
 		clsComplexBody oBody = (clsComplexBody) ((itfGetBody)moEntity).getBody();
-		ArrayList<clsCollidingObject>  oSearch = ((clsSensorEatableArea) oBody.getExternalIO().moSensorExternal.get(moRangeSensor)).getSensorData();
-		itfAPCarryable oEntity = (itfAPCarryable) findSingleEntityInRange(oSearch,itfAPCarryable.class) ;
+		itfAPCarryable oEntity = (itfAPCarryable) findSingleEntityInRange(moEntity, oBody, moRangeSensor,itfAPCarryable.class) ;
 
 		//nothing there = waste energy
 		if (oEntity==null) return 0;
 		if (oEntity.getCarryableEntity() ==null) return 0;
-
 		//Calculate stamina from mass/maxmass relation
 		return  (mrMassScalingFactor * oEntity.getCarryableEntity().getTotalWeight()); 
 	}
@@ -103,9 +119,7 @@ public class clsExecutorPickUp  extends clsActionExecutor {
 		
 		//Is something in range
 		clsComplexBody oBody = (clsComplexBody) ((itfGetBody)moEntity).getBody();
-
-		ArrayList<clsCollidingObject>  oSearch  = ((clsSensorEatableArea) oBody.getExternalIO().moSensorExternal.get(moRangeSensor)).getSensorData();
-		itfAPCarryable oEntity = (itfAPCarryable) findSingleEntityInRange(oSearch,itfAPCarryable.class) ;
+		itfAPCarryable oEntity = (itfAPCarryable) findSingleEntityInRange(moEntity, oBody, moRangeSensor,itfAPCarryable.class) ;
 		if (oEntity==null) return false;
 
 		//Try to pick it up

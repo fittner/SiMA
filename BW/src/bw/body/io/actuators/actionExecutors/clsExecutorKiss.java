@@ -1,10 +1,8 @@
 /**
- * @author Benny Dï¿½nz
- * 13.05.2009, 21:44:44
+ * clsExecutorKiss.java: BW - bw.body.io.actuators.actionExecutors
  * 
- * $Rev::                      $: Revision of last commit
- * $Author::                   $: Author of last commit
- * $Date::                     $: Date of last commit
+ * @author Benny Dönz
+ * 28.08.2009, 18:02:30
  */
 package bw.body.io.actuators.actionExecutors;
 
@@ -12,53 +10,55 @@ import config.clsBWProperties;
 import java.util.ArrayList;
 
 import bw.body.clsComplexBody;
-import bw.body.internalSystems.clsFastMessengerSystem;
 import bw.body.io.actuators.clsActionExecutor;
 import bw.entities.clsEntity;
-import bw.utils.enums.eBodyParts;
-import bw.utils.tools.clsFood;
 import bw.body.io.actuators.actionProxies.*;
 import bw.body.itfget.itfGetBody;
 import decisionunit.itf.actions.*;
+import enums.eActionKissIntensity;
 import enums.eSensorExtType;
 
 /**
- * Action Executor for eating
- * Proxy itfAPEatable
- * Parameters:
- *   poRangeSensor = Visionsensor to use
- * 	 prBiteSize = Size of bite taken when eating (default = weight 1)
+ * Action Executor for Kissing
+ * Proxy itfAPKissable
+ * Parameters: 
+ *  poRangeSensor = Visionsensor to use
  * 
  * @author Benny Dï¿½nz
  * 15.04.2009, 16:31:13
  * 
  */
-public class clsExecutorEat extends clsActionExecutor{
 
-	static double srStaminaDemand = 0; //0.5f;		//Stamina demand 			
-	
+public class clsExecutorKiss extends clsActionExecutor{
+
+	static double srStaminaBase = 2f;			//Stamina demand =srStaminaScalingFactor*(1..3=LOW...STRONG) ; 			
+	static double srStaminaScalingFactor = 0.001f;  
+
 	private ArrayList<Class<?>> moMutEx = new ArrayList<Class<?>>();
-	private double mrBiteSize;
+
 	private clsEntity moEntity;
 	private eSensorExtType moRangeSensor;
 
 	public static final String P_RANGESENSOR = "rangesensor";
-	public static final String P_BIZESIZE = "bitesize";
 
-	public clsExecutorEat(String poPrefix, clsBWProperties poProp, clsEntity poEntity) {
+
+	public clsExecutorKiss(String poPrefix, clsBWProperties poProp, clsEntity poEntity) {
 		moEntity=poEntity;
 		
 		moMutEx.add(clsActionMove.class);
 		moMutEx.add(clsActionTurn.class);
-
+		moMutEx.add(clsActionEat.class);
+		moMutEx.add(clsActionKill.class);
+		moMutEx.add(clsActionAttack.class);
+		moMutEx.add(clsActionCultivate.class);
+		
 		applyProperties(poPrefix,poProp);
 	}
-
+	
 	public static clsBWProperties getDefaultProperties(String poPrefix) {
 		String pre = clsBWProperties.addDot(poPrefix);
 		clsBWProperties oProp = new clsBWProperties();
 		oProp.setProperty(pre+P_RANGESENSOR, eSensorExtType.EATABLE_AREA.toString());
-		oProp.setProperty(pre+P_BIZESIZE, 0.3f);
 		
 		return oProp;
 	}
@@ -66,7 +66,6 @@ public class clsExecutorEat extends clsActionExecutor{
 	private void applyProperties(String poPrefix, clsBWProperties poProp) {
 		String pre = clsBWProperties.addDot(poPrefix);
 		moRangeSensor=eSensorExtType.valueOf(poProp.getPropertyString(pre+P_RANGESENSOR));
-		mrBiteSize=poProp.getPropertyFloat(pre+P_BIZESIZE);
 	}
 	
 	/*
@@ -74,13 +73,12 @@ public class clsExecutorEat extends clsActionExecutor{
 	 */
 	@Override
 	protected void setBodyPartId() {
-		mePartId = bw.utils.enums.eBodyParts.ACTIONEX_EAT;
+		mePartId = bw.utils.enums.eBodyParts.ACTIONEX_KISS;
 	}
 	@Override
 	protected void setName() {
-		moName="Eat executor";	
+		moName="Kissing executor";	
 	}
-
 	/*
 	 * Mutual exclusions (are bi-directional, so only need to be added in order of creation 
 	 */
@@ -98,45 +96,42 @@ public class clsExecutorEat extends clsActionExecutor{
 	}
 	@Override
 	public double getStaminaDemand(itfActionCommand poCommand) {
-		return srStaminaDemand;
+		clsActionKiss oCommand =(clsActionKiss) poCommand;
+		double rIntensity=1;
+		if (oCommand.getIntensity()==eActionKissIntensity.MIDDLE) rIntensity=2;
+		if (oCommand.getIntensity()==eActionKissIntensity.STRONG) rIntensity=4;
+		return srStaminaScalingFactor* (srStaminaBase*rIntensity) ;
 	}
+
 
 	/*
 	 * Executor 
 	 */
 	@Override
 	public boolean execute(itfActionCommand poCommand) {
+		clsActionKiss oCommand =(clsActionKiss) poCommand; 
+
 		clsComplexBody oBody = (clsComplexBody) ((itfGetBody)moEntity).getBody();
-		
 		//Is something in range
-		clsEntity oEatenEntity = (clsEntity) findSingleEntityInRange(moEntity, oBody, moRangeSensor ,itfAPEatable.class) ;
-		
-		if (oEatenEntity==null) {
-			//Nothing in range then send fast Messenger
-			clsFastMessengerSystem oFastMessengerSystem = oBody.getInternalSystem().getFastMessengerSystem();
-			oFastMessengerSystem.addMessage(mePartId, eBodyParts.BRAIN, 1);
+		itfAPKissable oKissedEntity = (itfAPKissable) findSingleEntityInRange(moEntity, oBody, moRangeSensor ,itfAPKissable.class) ;
+
+		if (oKissedEntity==null) {
+			//Nothing in range then nothing happens
 			return false;
 		} 
 
-		//Check if eating is ok
-		double rDamage = ((itfAPEatable)oEatenEntity).tryEat();
-		if (rDamage>0) {
-			oBody.getInternalSystem().getHealthSystem().hurt(rDamage);
-			return false;
-		}
+		//Try
+		if (oKissedEntity.tryKiss(oCommand.getIntensity())==false) return false; 
 		
-		//Eat!
-        clsFood oReturnedFood =((itfAPEatable)oEatenEntity).Eat(mrBiteSize);
-        if(oReturnedFood != null) {                
-        	oBody.getInterBodyWorldSystem().getConsumeFood().digest(oReturnedFood);
-        }
-        
-        //FIXME (horvath) - "unregister" eaten entity
-        if(oReturnedFood.getWeight() <= 0){
-        	oEatenEntity.setRegistered(false);
-        }
+		//Kiss!
+		double rIntensity=1;
+		if (oCommand.getIntensity()==eActionKissIntensity.MIDDLE) rIntensity=2;
+		if (oCommand.getIntensity()==eActionKissIntensity.STRONG) rIntensity=4;
+
+		oKissedEntity.kiss(oCommand.getIntensity());
+		oBody.getInterBodyWorldSystem().getEffectKiss().kiss(mePartId, rIntensity);
 		
 		return true;
 	}	
-
+	
 }
