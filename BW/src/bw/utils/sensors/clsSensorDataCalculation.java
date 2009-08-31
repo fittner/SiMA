@@ -38,7 +38,7 @@ public class clsSensorDataCalculation {
 		double nAngleDiff = 0; 
 		double nColObjX = Math.cos(pnCollidingObject.mrColPoint.moAzimuth.radians); 
 		double nColObjY = Math.sin(pnCollidingObject.mrColPoint.moAzimuth.radians); 
-		System.out.println(nColObjX +" "+ nColObjY); 
+		//System.out.println(nColObjX +" "+ nColObjY); 
 		double nEntObjX = Math.cos(pnEntityOrientation); 
 		double nEntObjY = Math.sin(pnEntityOrientation);
 		
