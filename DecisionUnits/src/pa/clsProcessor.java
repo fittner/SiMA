@@ -191,7 +191,8 @@ public class clsProcessor {
 	 */
 	private HashMap<eSensorExtType, clsDataBase> separateEnvironmentalData(clsSensorData poData) {
 		HashMap<eSensorExtType, clsDataBase> oResult = new HashMap<eSensorExtType, clsDataBase>();
-
+//      |
+		
 		//collect environmental data only
 		oResult.put(eSensorExtType.ACCELERATION, poData.getSensorExt(eSensorExtType.ACCELERATION));
 		oResult.put(eSensorExtType.ACOUSTIC, poData.getSensorExt(eSensorExtType.ACOUSTIC));
