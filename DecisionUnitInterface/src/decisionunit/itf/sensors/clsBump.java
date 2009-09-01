@@ -2,6 +2,13 @@ package decisionunit.itf.sensors;
 
 public class clsBump extends clsSensorExtern {
 	public boolean mnBumped = false;
+	
+	public clsBump() {
+	}
+	
+	public clsBump(boolean nBumped) {
+		mnBumped = nBumped;
+	}
 
 	@Override
 	public String logXML() {

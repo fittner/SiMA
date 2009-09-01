@@ -8,10 +8,11 @@ package bfg.symbolization.ruletree;
 // Imports
 import org.w3c.dom.Node;
 import org.w3c.dom.NamedNodeMap;
+
+import decisionunit.itf.sensors.clsSensorData;
 import bfg.symbolization.brainimages.clsIdentity;
 import bfg.symbolization.brainimages.clsImagePerception;
 import bfg.symbolization.brainimages.clsImageAbstract;
-import bfg.symbolization.brainimages.clsContainerPerceptions;
 import bfg.symbolization.brainimages.clsPerceptionAboveLandscape;
 import bfg.utils.enums.enumOptionalType;
 import bfg.utils.enums.enumTypeLandscape;
@@ -49,7 +50,9 @@ class clsLeafAboveLandscape extends clsRuleTreeLeaf
 
   //---------------------------------------------------------------------------                                    
   @Override
-  public boolean evaluateTree(clsImagePerception poImage, clsImageAbstract poAbstractImage, int[] poCompareResult, /*clsContainerComplexEmotion poBrainsComplexEmotions,*/ clsContainerPerceptions poBrainsPerceptions, clsIdentity poBrainsIdentity)
+  public boolean evaluateTree( clsSensorData poPerception, 
+			  				   clsIdentity poBrainsIdentity, 
+			  				   int[] poCompareResult)
   //---------------------------------------------------------------------------
   {
 //    Engine.log.println("clsLeafAboveEnergySource::evaluateTree");
@@ -60,7 +63,7 @@ class clsLeafAboveLandscape extends clsRuleTreeLeaf
       poCompareResult[1]++;
     }
     boolean oResult = false;
-    if( compare( poBrainsPerceptions.get(poBrainsPerceptions.moPerceptions.size()-1).moAboveLandscape ) )
+    if( compare( new clsPerceptionAboveLandscape() ) )
     {
       //Engine.log.println( "Match with leaf: " + this.toString() );
       poCompareResult[0]++;

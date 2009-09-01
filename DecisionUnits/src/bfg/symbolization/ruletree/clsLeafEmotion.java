@@ -8,6 +8,8 @@ package bfg.symbolization.ruletree;
 // Imports
 import org.w3c.dom.Node;
 import org.w3c.dom.NamedNodeMap;
+
+import decisionunit.itf.sensors.clsSensorData;
 import bfg.tools.xmltools.clsXMLAbstractImageReader;
 import bfg.utils.enums.enumOptionalType;
 import bfg.utils.enums.enumTypeEmotion;
@@ -15,7 +17,6 @@ import bfg.utils.enums.enumTypeLevelEmotion;
 import bfg.symbolization.brainimages.clsIdentity;
 import bfg.symbolization.brainimages.clsImagePerception;
 import bfg.symbolization.brainimages.clsImageAbstract;
-import bfg.symbolization.brainimages.clsContainerPerceptions;
 
 //import pkgBrainEmotion.clsEmotion;
 //import pkgBrainEmotion.clsContainerEmotion;
@@ -54,7 +55,9 @@ class clsLeafEmotion extends clsRuleTreeLeaf
 
   //---------------------------------------------------------------------------                                    
   @Override
-  public boolean evaluateTree(clsImagePerception poImage, clsImageAbstract poAbstractImage, int[] poCompareResult, /*clsContainerComplexEmotion poBrainsComplexEmotions,*/ clsContainerPerceptions poBrainsPerceptions, clsIdentity poBrainsIdentity  )
+  public boolean evaluateTree(clsSensorData poPerception, 
+		  clsIdentity poBrainsIdentity, 
+		  int[] poCompareResult)
   //---------------------------------------------------------------------------
   {
     if( meOptionalType != enumOptionalType.TOPT_OPTIONAL )
@@ -123,6 +126,7 @@ class clsLeafEmotion extends clsRuleTreeLeaf
     oRetValue += " levelEmotion:"+enumTypeLevelEmotion.getString(meTypeLevelEmotion);
     return oRetValue;
   }
+
 };
 
 

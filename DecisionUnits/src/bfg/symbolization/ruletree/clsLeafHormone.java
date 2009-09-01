@@ -8,10 +8,11 @@ package bfg.symbolization.ruletree;
 // Imports
 import org.w3c.dom.Node;
 import org.w3c.dom.NamedNodeMap;
+
+import decisionunit.itf.sensors.clsSensorData;
 import bfg.symbolization.brainimages.clsIdentity;
 import bfg.symbolization.brainimages.clsImagePerception;
 import bfg.symbolization.brainimages.clsImageAbstract;
-import bfg.symbolization.brainimages.clsContainerPerceptions;
 import bfg.symbolization.brainimages.clsContainerPercHormones;
 import bfg.symbolization.brainimages.clsPerceptionHormone;
 import bfg.tools.xmltools.clsXMLAbstractImageReader;
@@ -53,7 +54,9 @@ class clsLeafHormone extends clsRuleTreeLeaf
 
   //---------------------------------------------------------------------------
   @Override
-  public boolean evaluateTree(clsImagePerception poImage, clsImageAbstract poAbstractImage, int[] poCompareResult, /*clsContainerComplexEmotion poBrainsComplexEmotions,*/ clsContainerPerceptions poBrainsPerceptions, clsIdentity poBrainsIdentity)
+  public boolean evaluateTree(clsSensorData poPerception, 
+		  clsIdentity poBrainsIdentity, 
+		  int[] poCompareResult)
   //---------------------------------------------------------------------------
   {
     if( meOptionalType != enumOptionalType.TOPT_OPTIONAL )
@@ -63,7 +66,7 @@ class clsLeafHormone extends clsRuleTreeLeaf
       poCompareResult[1]++;
     }
     boolean nResult = false;
-    if( compare( poImage.moHormonesList ) )
+    if( compare( new clsContainerPercHormones() ) )
     {
       //Engine.log.println( "Match with leaf: " + this.toString() );
       poCompareResult[0]++;

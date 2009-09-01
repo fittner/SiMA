@@ -8,10 +8,11 @@ package bfg.symbolization.ruletree;
 // Imports
 import org.w3c.dom.Node;
 import org.w3c.dom.NamedNodeMap;
+
+import decisionunit.itf.sensors.clsSensorData;
 import bfg.symbolization.brainimages.clsIdentity;
 import bfg.symbolization.brainimages.clsImagePerception;
 import bfg.symbolization.brainimages.clsImageAbstract;
-import bfg.symbolization.brainimages.clsContainerPerceptions;
 import bfg.symbolization.brainimages.clsPerceptionAboveEnergySource;
 import bfg.utils.enums.enumOptionalType;
 import bfg.utils.enums.enumTypeTrippleState;
@@ -53,7 +54,9 @@ class clsLeafAboveEnergySource extends clsRuleTreeLeaf
 
   //---------------------------------------------------------------------------                                    
   @Override
-  public boolean evaluateTree(clsImagePerception poImage, clsImageAbstract poAbstractImage, int[] poCompareResult, /*clsContainerComplexEmotion poBrainsComplexEmotions,*/ clsContainerPerceptions poBrainsPerceptions, clsIdentity poBrainsIdentity)
+  public boolean evaluateTree( clsSensorData poPerception, 
+			   				   clsIdentity poBrainsIdentity, 
+			   				   int[] poCompareResult )
   //---------------------------------------------------------------------------
   {
 //    Engine.log.println("clsLeafAboveEnergySource::evaluateTree");
@@ -64,7 +67,8 @@ class clsLeafAboveEnergySource extends clsRuleTreeLeaf
       poCompareResult[1]++;
     }
     boolean oResult = false;
-    if( compare( poBrainsPerceptions.get(poBrainsPerceptions.moPerceptions.size()-1).moAboveES ) )
+    //TODO - (langr): make sensor! 
+    if( compare( new clsPerceptionAboveEnergySource() ) )
     {
       //Engine.log.println( "Match with leaf: " + this.toString() );
       poCompareResult[0]++;
@@ -117,6 +121,7 @@ class clsLeafAboveEnergySource extends clsRuleTreeLeaf
     oRetValue += " isAbove="+enumTypeTrippleState.getString(meAboveEnergySource);
     return oRetValue;
   }
+
 };
 
 

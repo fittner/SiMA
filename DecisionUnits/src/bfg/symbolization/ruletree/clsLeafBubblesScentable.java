@@ -8,10 +8,11 @@ package bfg.symbolization.ruletree;
 // Imports
 import org.w3c.dom.Node;
 import org.w3c.dom.NamedNodeMap;
+
+import decisionunit.itf.sensors.clsSensorData;
 import bfg.symbolization.brainimages.clsIdentity;
 import bfg.symbolization.brainimages.clsImagePerception;
 import bfg.symbolization.brainimages.clsImageAbstract;
-import bfg.symbolization.brainimages.clsContainerPerceptions;
 import bfg.symbolization.brainimages.clsPerceptionSmellOMat;
 import bfg.symbolization.brainimages.clsContainerPercSmellOMats;
 import bfg.tools.xmltools.clsXMLAbstractImageReader;
@@ -58,7 +59,9 @@ class clsLeafBubblesScentable extends clsRuleTreeLeaf
 
   //---------------------------------------------------------------------------
   @Override
-  public boolean evaluateTree(clsImagePerception poImage, clsImageAbstract poAbstractImage, int[] poCompareResult, /*clsContainerComplexEmotion poBrainsComplexEmotions,*/ clsContainerPerceptions poBrainsPerceptions, clsIdentity poBrainsIdentity )
+  public boolean evaluateTree(clsSensorData poPerception, 
+		  clsIdentity poBrainsIdentity, 
+		  int[] poCompareResult)
   //---------------------------------------------------------------------------
   {
     if( meOptionalType != enumOptionalType.TOPT_OPTIONAL )
@@ -67,7 +70,7 @@ class clsLeafBubblesScentable extends clsRuleTreeLeaf
       // compareResultValue increases if optional leafs match (can lead to more than 100% )
       poCompareResult[1]++;
     }    boolean retVal = false;
-    if( compare( poImage.moSmellingList, poBrainsIdentity ) )
+    if( compare( new clsContainerPercSmellOMats(), poBrainsIdentity ) )
     {
       //Engine.log.println( "Match with leaf: " + this.toString() );
       poCompareResult[0]++;
@@ -126,6 +129,7 @@ class clsLeafBubblesScentable extends clsRuleTreeLeaf
     oRetValue += " teamMate:"+enumTypeTrippleState.getString(mnTeammate);
     return oRetValue;
   }
+
 };
 
 

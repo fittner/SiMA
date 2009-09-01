@@ -10,6 +10,8 @@ import java.util.Vector;
 import org.w3c.dom.Node;
 import org.w3c.dom.NamedNodeMap;
 
+import decisionunit.itf.sensors.clsSensorData;
+
 import bfg.tools.cls0to1;
 import bfg.tools.xmltools.XMLException;
 import bfg.tools.xmltools.clsXMLConfiguration;
@@ -185,16 +187,16 @@ public class clsImageAbstract // extends clsImageGeneric //uncommented at import
 
     return oResult;
   }
-
+  
   //---------------------------------------------------------------------------
-  public cls0to1 evaluateTree(clsImagePerception poImagePerception, /*clsContainerComplexEmotion poBrainsComplexEmotions,*/ clsContainerPerceptions poBrainsPerceptions, clsIdentity poBrainsIdentity) 
+  public cls0to1 evaluateTree(clsSensorData poPerception, /*clsContainerComplexEmotion poBrainsComplexEmotions,*/ clsIdentity poBrainsIdentity) 
   //---------------------------------------------------------------------------
   {
      float eps = 0.05f;
 
-     int[] oNodeCount = {0,0};
-     moRuleRoot.evaluateTree(poImagePerception, this, oNodeCount, poBrainsPerceptions, poBrainsIdentity); //poBrainsComplexEmotions,
-     cls0to1 oResult = new cls0to1( ((float)(100/oNodeCount[1])*oNodeCount[0])/100 );
+     int[] poCompareResult = {0,0};
+     moRuleRoot.evaluateTree(poPerception, poBrainsIdentity, poCompareResult); //poBrainsComplexEmotions,
+     cls0to1 oResult = new cls0to1( ((float)(100/poCompareResult[1])*poCompareResult[0])/100 );
      if( mnFullMatchRequired && oResult.get() < (1-eps) )
      {
 //        Engine.log.println("reset match to 0 from "+oResult.get()+" under eps:"+eps);
@@ -205,16 +207,11 @@ public class clsImageAbstract // extends clsImageGeneric //uncommented at import
   }
 
   //---------------------------------------------------------------------------
-  public clsRuleCompareResult getCompareResult(clsImagePerception poImagePerception, 
-                              /*clsScenarioContainer poBrainsScenarioList,
-                              clsDesireContainer poBrainsDesireList,
-                              clsContainerComplexEmotion poBrainsComplexEmotions,*/ 
-                              clsContainerPerceptions poBrainsPerceptions, 
-                              clsIdentity poBrainsIdentity
-                              ) 
+  public clsRuleCompareResult getCompareResult( clsSensorData poPerception, 
+		  										clsIdentity poBrainsIdentity ) 
   //---------------------------------------------------------------------------
   {
-    clsRuleCompareResult oResult = new clsRuleCompareResult(this, (evaluateTree(poImagePerception, /*poBrainsComplexEmotions,*/ poBrainsPerceptions, poBrainsIdentity )).get());
+    clsRuleCompareResult oResult = new clsRuleCompareResult(this, (evaluateTree(poPerception, poBrainsIdentity )).get());
 
 //    oResult.setTargetDrives(moDriveList);
 //    oResult.setTargetEmotions(moEmotionList);

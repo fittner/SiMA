@@ -8,7 +8,12 @@ package bfg.symbolization.brainimages;
 // Imports
 //import com.xj.anylogic.*;
 
+import java.util.ArrayList;
 import java.util.TreeMap;
+
+import bfg.symbolization.ruletree.clsRuleCompareResult;
+
+import decisionunit.itf.sensors.clsSensorData;
 
 
 
@@ -44,26 +49,16 @@ public class clsContainerAbstractImages {
     return moAbstractImageList.get(pnPos);
   }
 
- /* public clsContainerCompareResults associate(clsImagePerception iPerception,                         
-                                              clsScenarioContainer poBrainsScenarioList,
-                                              clsDesireContainer poBrainsDesireList,
-                                              clsContainerComplexEmotion poBrainsComplexEmotions, 
-                                              clsContainerPerceptions poBrainsPerceptions, 
+  public ArrayList<clsRuleCompareResult> associate(clsSensorData poSensorData,
                                               clsIdentity poBrainsIdentity
                                               ) {
-    clsContainerCompareResults oResult = new clsContainerCompareResults();
+    ArrayList<clsRuleCompareResult> oResult = new ArrayList<clsRuleCompareResult>();
 
-    Set oKeySet = keySet();
-    Iterator i = oKeySet.iterator();
-    while (i.hasNext()) {
-      Integer oKey = (Integer)i.next();
-
-      clsImageAbstract oAI = (clsImageAbstract)moContainer.get(oKey);
-      oResult.add(oAI.getCompareResult(iPerception, poBrainsScenarioList, 
-                                       poBrainsDesireList, poBrainsComplexEmotions, poBrainsPerceptions, poBrainsIdentity ));    
+    for(clsImageAbstract oAI : moAbstractImageList.values() ) {
+      oResult.add( oAI.getCompareResult(poSensorData, poBrainsIdentity  ));    
     }
     return oResult;
-  }*/
+  }
 
   protected String gettoString(Object poObject) {
     return ((clsImageAbstract)poObject).toString();

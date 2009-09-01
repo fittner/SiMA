@@ -9,12 +9,11 @@ package bfg.symbolization.ruletree;
 import java.util.Vector;
 import org.w3c.dom.Node;
 import org.w3c.dom.NamedNodeMap;
+
+import decisionunit.itf.sensors.clsSensorData;
 import bfg.tools.xmltools.clsXMLAbstractImageReader;
 import bfg.utils.enums.enumBooleanOperator;
 import bfg.symbolization.brainimages.clsIdentity;
-import bfg.symbolization.brainimages.clsImagePerception;
-import bfg.symbolization.brainimages.clsImageAbstract;
-import bfg.symbolization.brainimages.clsContainerPerceptions;
 
 //no emotions - prohibitet in import from langr
 //import pkgBrainComplexEmotion.clsContainerComplexEmotion;
@@ -52,20 +51,16 @@ public class clsRuleTreeNode extends clsRuleTreeElement {
 
   //---------------------------------------------------------------------------
   @Override
-  public boolean evaluateTree(clsImagePerception poImage, 
-                              clsImageAbstract poAbstractImage, 
-                              int[] poCompareResult, 
-                              //clsContainerComplexEmotion poBrainsComplexEmotions, 
-                              clsContainerPerceptions poBrainsPerceptions, 
-                              clsIdentity poBrainsIdentity
-                              )
+  public boolean evaluateTree(clsSensorData poPerception, 
+		  					  clsIdentity poBrainsIdentity, 
+		  					  int[] poCompareResult )
   //---------------------------------------------------------------------------
   {
     boolean nAnyTrue = false;
     boolean nAllTrue = true;
     for( int i=0; i<moSubList.size();i++)
     {
-      boolean nMatch = ((clsRuleTreeElement)moSubList.elementAt(i)).evaluateTree(poImage, poAbstractImage, poCompareResult, /*poBrainsComplexEmotions,*/ poBrainsPerceptions, poBrainsIdentity);
+      boolean nMatch = ((clsRuleTreeElement)moSubList.elementAt(i)).evaluateTree(poPerception, poBrainsIdentity, poCompareResult);
       if( nMatch ) 
         nAnyTrue = true;
       if( !nMatch)
@@ -118,8 +113,3 @@ public class clsRuleTreeNode extends clsRuleTreeElement {
     return oRetValue;
   }
 };
-
-
-
-
-

@@ -8,6 +8,8 @@ package bfg.symbolization.ruletree;
 // Imports
 import org.w3c.dom.Node;
 import org.w3c.dom.NamedNodeMap;
+
+import decisionunit.itf.sensors.clsSensorData;
 import bfg.tools.xmltools.clsXMLAbstractImageReader;
 import bfg.utils.enums.enumOptionalType;
 import bfg.utils.enums.enumTypeCount;
@@ -19,7 +21,6 @@ import bfg.utils.enums.enumTypeTrippleState;
 import bfg.symbolization.brainimages.clsIdentity;
 import bfg.symbolization.brainimages.clsImagePerception;
 import bfg.symbolization.brainimages.clsImageAbstract;
-import bfg.symbolization.brainimages.clsContainerPerceptions;
 import bfg.symbolization.brainimages.clsContainerPercVisionsObstacles;
 import bfg.symbolization.brainimages.clsPerceptionVisionObstacle;
 
@@ -63,7 +64,9 @@ class clsLeafObstaclesVisible extends clsRuleTreeLeaf
 
   //---------------------------------------------------------------------------
   @Override
-  public boolean evaluateTree(clsImagePerception poImage, clsImageAbstract poAbstractImage, int[] poCompareResult, /*clsContainerComplexEmotion poBrainsComplexEmotions,*/ clsContainerPerceptions poBrainsPerceptions, clsIdentity poBrainsIdentity)
+  public boolean evaluateTree(clsSensorData poPerception, 
+		  clsIdentity poBrainsIdentity, 
+		  int[] poCompareResult)
   //---------------------------------------------------------------------------
   {
     if( meOptionalType != enumOptionalType.TOPT_OPTIONAL )
@@ -73,7 +76,7 @@ class clsLeafObstaclesVisible extends clsRuleTreeLeaf
       poCompareResult[1]++;
     }    
     boolean retVal = false;
-    if( compare( poImage.moVisionObstaclesList, poBrainsIdentity ) )
+    if( compare( new clsContainerPercVisionsObstacles(), poBrainsIdentity ) )
     {
       //Engine.log.println( "Match with leaf: " + this.toString() );
       poCompareResult[0]++;

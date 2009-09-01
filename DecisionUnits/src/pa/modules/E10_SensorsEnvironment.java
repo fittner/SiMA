@@ -119,6 +119,4 @@ public class E10_SensorsEnvironment extends clsModuleBase implements itfProcessS
 		((I2_1)moEnclosingContainer).receive_I2_1(moEnvironmentalData);
 		
 	}
-
-
 }

@@ -8,14 +8,12 @@ package bfg.symbolization.ruletree;
 // Imports
 import org.w3c.dom.Node;
 import org.w3c.dom.NamedNodeMap;
+
+
+import decisionunit.itf.sensors.clsSensorData;
 import bfg.tools.xmltools.clsXMLAbstractImageReader;
 import bfg.utils.enums.enumOptionalType;
 import bfg.symbolization.brainimages.clsIdentity;
-
-//import pkgBrainComplexEmotion.clsContainerComplexEmotion;
-import bfg.symbolization.brainimages.clsImagePerception;
-import bfg.symbolization.brainimages.clsImageAbstract;
-import bfg.symbolization.brainimages.clsContainerPerceptions;
 
 /**
  *
@@ -82,12 +80,8 @@ public abstract class clsRuleTreeElement {
   }
 
   //ABSTRACT FUNCTION DECLARATIONS
-  public abstract boolean evaluateTree(clsImagePerception poImage, 
-                                       clsImageAbstract poAbstractImage, 
-                                       int[] poCompareResult, 
-                                       //clsContainerComplexEmotion poBrainsComplexEmotions, 
-                                       clsContainerPerceptions poBrainsPerceptions, 
-                                       clsIdentity poBrainsIdentity
-                                       );
+  public abstract boolean evaluateTree(clsSensorData poPerception, 
+		  							   clsIdentity poBrainsIdentity, 
+		  							   int[] poCompareResult );
 
 };

@@ -8,11 +8,13 @@ package bfg.symbolization.ruletree;
 // Imports
 import org.w3c.dom.Node;
 import org.w3c.dom.NamedNodeMap;
+
+import decisionunit.itf.sensors.clsBump;
+import decisionunit.itf.sensors.clsSensorData;
+import enums.eSensorExtType;
 import bfg.symbolization.brainimages.clsIdentity;
 import bfg.symbolization.brainimages.clsImagePerception;
 import bfg.symbolization.brainimages.clsImageAbstract;
-import bfg.symbolization.brainimages.clsContainerPerceptions;
-import bfg.symbolization.brainimages.clsPerceptionBumped;
 import bfg.utils.enums.enumOptionalType;
 import bfg.utils.enums.enumTypeTrippleState;
 
@@ -49,7 +51,9 @@ class clsLeafBumped extends clsRuleTreeLeaf
 
   //---------------------------------------------------------------------------
   @Override
-  public boolean evaluateTree(clsImagePerception poImage, clsImageAbstract poAbstractImage, int[] poCompareResult, /*clsContainerComplexEmotion poBrainsComplexEmotions,*/ clsContainerPerceptions poBrainsPerceptions, clsIdentity poBrainsIdentity)
+  public boolean evaluateTree(clsSensorData poPerception, 
+		  clsIdentity poBrainsIdentity, 
+		  int[] poCompareResult)
   //---------------------------------------------------------------------------
   {
     if( meOptionalType != enumOptionalType.TOPT_OPTIONAL )
@@ -59,7 +63,7 @@ class clsLeafBumped extends clsRuleTreeLeaf
       poCompareResult[1]++;
     }
     boolean oResult = false;
-    if( compare( poBrainsPerceptions.get(poBrainsPerceptions.moPerceptions.size()-1).moBumped ) )
+    if( compare( (clsBump)poPerception.getSensorExt(eSensorExtType.BUMP) ) )
     {
       //Engine.log.println( "Match with leaf: " + this.toString() );
       poCompareResult[0]++;
@@ -77,14 +81,14 @@ class clsLeafBumped extends clsRuleTreeLeaf
   }
 
   //---------------------------------------------------------------------------
-  public boolean compare(clsPerceptionBumped poBumped)
+  public boolean compare(clsBump poBumped)
   //---------------------------------------------------------------------------
   {
     //leafBubblesVisible info:
     boolean nResult = false;
 
     int nIsBumped = 0; 
-    if( poBumped.isBumped() ) nIsBumped = 1;
+    if( poBumped.mnBumped ) nIsBumped = 1;
 
     if( meCompareOperator.compareInteger(nIsBumped, meBumped) )
     {
@@ -107,5 +111,6 @@ class clsLeafBumped extends clsRuleTreeLeaf
     oRetValue += " isBumped="+enumTypeTrippleState.getString(meBumped);
     return oRetValue;
   }
+
 };
 

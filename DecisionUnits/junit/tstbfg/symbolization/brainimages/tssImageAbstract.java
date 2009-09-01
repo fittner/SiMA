@@ -10,6 +10,7 @@ package tstbfg.symbolization.brainimages;
 
 import static org.junit.Assert.*;
 
+import java.util.ArrayList;
 import java.util.Vector;
 
 import org.junit.After;
@@ -18,14 +19,16 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
+import decisionunit.itf.sensors.clsBump;
+import decisionunit.itf.sensors.clsSensorData;
+import enums.eSensorExtType;
+
 import bfg.symbolization.brainimages.clsContainerAbstractImages;
 import bfg.symbolization.brainimages.clsContainerPerceptions;
 import bfg.symbolization.brainimages.clsIdentity;
 import bfg.symbolization.brainimages.clsImageAbstract;
 import bfg.symbolization.brainimages.clsImagePerception;
-import bfg.symbolization.brainimages.clsPerceptionVisionEntity;
-import bfg.tools.cls0to1;
-import bfg.tools.shapes.clsPoint;
+import bfg.symbolization.ruletree.clsRuleCompareResult;
 import bfg.tools.xmltools.clsXMLConfiguration;
 
 /**
@@ -59,7 +62,7 @@ public class tssImageAbstract {
 	@Test
 	public void testEvaluateTree() {
 		
-		cls0to1 oMatch = new cls0to1();
+		ArrayList<clsRuleCompareResult> oMatch = null;
 		
 		clsContainerPerceptions oPercCont = new clsContainerPerceptions(); 
 		clsImagePerception oPerception = new clsImagePerception();
@@ -68,24 +71,22 @@ public class tssImageAbstract {
 		oFilePaths.add("PSY_10");
 		clsContainerAbstractImages moTestImages = clsImageAbstract.createImageAbstractList(oFilePaths, 1);
 		
-		
+		clsSensorData oSensorData = new clsSensorData();
 		//add bump info
-		oPerception.moBumped.set(true);
+		oSensorData.addSensorExt(eSensorExtType.BUMP, new clsBump(true));
 		
 		//add vision info (agent at 10/10)
-		clsPerceptionVisionEntity oVision = new clsPerceptionVisionEntity(new clsPoint(10, 10), 1, 1, true, false, 0);
-		oPerception.moVisionEntitiesList.moEntities.add(oVision);
-		
-		oPercCont.moPerceptions.add(oPerception);
+		//clsPerceptionVisionEntity oVision = new clsPerceptionVisionEntity(new clsPoint(10, 10), 1, 1, true, false, 0);
+
 		try
 		{
-			oMatch = moTestImages.moAbstractImageList.get(105).evaluateTree(oPerception, oPercCont, new clsIdentity());
+			oMatch = moTestImages.associate(oSensorData, new clsIdentity());
 		}catch(Exception e)
 		{
 			e.getMessage();
 		}
 		
-		assertTrue( (oMatch.get() > 0.1) );
+		assertTrue( (oMatch.get(0).moMatch.get() > 0.1) );
 }
 	
 //	/**
