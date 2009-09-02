@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<AbstractImages xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:noNamespaceSchemaLocation="../xsd/AbstractImage.xsd">
+
+	 <AbstractImage ID="100" name="Hunger leads to desire" fullMatchRequired="false">
+		 <Description>Hunger leads to desire</Description>
+        <TreeRoot optional="mandatory" booleanOperator="AND" negated="false">
+			  <leafDrive compare=">=" level="Normal">
+                <drive>Hunger</drive>
+            </leafDrive>
+        </TreeRoot>
+    </AbstractImage>
+
+	 <AbstractImage ID="101" name="search for energy" fullMatchRequired="false">
+		 <Description>search for energy</Description>
+        <TreeRoot optional="mandatory" booleanOperator="AND" negated="false">
+			  <leafDrive compare=">=" level="Normal">
+                <drive>Hunger</drive>
+            </leafDrive>
+        </TreeRoot>
+    </AbstractImage>
+
+	 <AbstractImage ID="102" name="wait until energy source is reached" fullMatchRequired="false">
+		 <Description>wait until energy source is reached</Description>
+        <TreeRoot optional="mandatory" booleanOperator="AND" negated="false">
+			  <leafAboveEnergySource compare="==" value="true" consumable="true"/>
+        </TreeRoot>
+    </AbstractImage>
+
+	 <AbstractImage ID="103" name="wait for help response" fullMatchRequired="false">
+		 <Description>wait for help response</Description>
+        <TreeRoot optional="mandatory" booleanOperator="AND" negated="false">
+			  <leafAcoustics compare="==" EntityMessage="idancewithyou" />
+        </TreeRoot>
+    </AbstractImage>
+	 
+	 <AbstractImage ID="104" name="wait for help response" fullMatchRequired="false">
+		 <Description>wait for help response</Description>
+        <TreeRoot optional="mandatory" booleanOperator="AND" negated="false">
+			  <leafAboveEnergySource compare="==" value="true" consumable="true" />
+        </TreeRoot>
+    </AbstractImage>
+
+    	 <AbstractImage ID="105" name="help me - my head bumped against something" fullMatchRequired="false">
+		 <Description>help me - my head bumped against something</Description>
+        <TreeRoot optional="mandatory" booleanOperator="AND" negated="false">
+			  <leafBumped compare="==" value="true" />
+        </TreeRoot>
+    </AbstractImage>
+
+</AbstractImages>
