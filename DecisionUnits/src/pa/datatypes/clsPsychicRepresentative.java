@@ -6,6 +6,8 @@
  */
 package pa.datatypes;
 
+import java.util.ArrayList;
+
 /**
  * DOCUMENT (langr) - insert description 
  * 
@@ -15,4 +17,6 @@ package pa.datatypes;
  */
 public class clsPsychicRepresentative {
 
+	public ArrayList<Integer> meDriveContentCathegory = new ArrayList<Integer>(); //oral, anal, phallic or genital --> has to be predefined
+	
 }

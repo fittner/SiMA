@@ -24,10 +24,8 @@ import decisionunit.itf.sensors.clsSensorData;
 import enums.eSensorExtType;
 
 import bfg.symbolization.brainimages.clsContainerAbstractImages;
-import bfg.symbolization.brainimages.clsContainerPerceptions;
 import bfg.symbolization.brainimages.clsIdentity;
 import bfg.symbolization.brainimages.clsImageAbstract;
-import bfg.symbolization.brainimages.clsImagePerception;
 import bfg.symbolization.ruletree.clsRuleCompareResult;
 import bfg.tools.xmltools.clsXMLConfiguration;
 
@@ -41,36 +39,34 @@ import bfg.tools.xmltools.clsXMLConfiguration;
 public class tssImageAbstract {
 
 	
-	clsContainerAbstractImages moTestImages;
-	
 	/**
 	 * Test method for {@link bfg.symbolization.brainimages.clsImageAbstract#createImageAbstractList(java.util.Vector, int)}.
 	 */
 	@Test
 	public void testCreateImageAbstractList() {
 		
+		//tests the loading of the AbstractImage Database (due to invalid characters, this could be not so easy...)
 		Vector<String> oFilePaths = new Vector<String>(); 
 		oFilePaths.add("PSY_10");
-		clsContainerAbstractImages moTestImages = clsImageAbstract.createImageAbstractList(oFilePaths, 1);
+		clsContainerAbstractImages oTestImages = clsImageAbstract.createImageAbstractList(oFilePaths, 1);
 		
-		assertTrue(moTestImages.moAbstractImageList.size() > 0);
+		assertTrue(oTestImages.moAbstractImageList.size() > 0);
 	}
 	
 	/**
 	 * Test method for {@link bfg.symbolization.brainimages.clsImageAbstract#createImageAbstractList(java.util.Vector, int)}.
 	 */
 	@Test
-	public void testEvaluateTree() {
-		
+	public void testEvaluateTreeBump() {
+		//The list of abstract images that are matching
 		ArrayList<clsRuleCompareResult> oMatch = null;
-		
-		clsContainerPerceptions oPercCont = new clsContainerPerceptions(); 
-		clsImagePerception oPerception = new clsImagePerception();
-		
+
+		//load the abstract images for the bubble of type PSY_10 (incl. AI's from parent xml's) into memory
 		Vector<String> oFilePaths = new Vector<String>(); 
 		oFilePaths.add("PSY_10");
-		clsContainerAbstractImages moTestImages = clsImageAbstract.createImageAbstractList(oFilePaths, 1);
+		clsContainerAbstractImages oTestImages = clsImageAbstract.createImageAbstractList(oFilePaths, 1);
 		
+		//create the container for the simulated sensor data (normaly this comes into the DecisionUnitInterface) 
 		clsSensorData oSensorData = new clsSensorData();
 		//add bump info
 		oSensorData.addSensorExt(eSensorExtType.BUMP, new clsBump(true));
@@ -78,15 +74,17 @@ public class tssImageAbstract {
 		//add vision info (agent at 10/10)
 		//clsPerceptionVisionEntity oVision = new clsPerceptionVisionEntity(new clsPoint(10, 10), 1, 1, true, false, 0);
 
-		try
-		{
-			oMatch = moTestImages.associate(oSensorData, new clsIdentity());
-		}catch(Exception e)
-		{
-			e.getMessage();
-		}
+		//add other info for test purposes (maybe you want to write your own JUnit and leave this as an example...)
+		//clsPerceptionVisionEntity oVision = new clsPerceptionVisionEntity(new clsPoint(10, 10), 1, 1, true, false, 0);
+
+		//trigger the comparison between defined AbstractImages and the created incoming data
+		oMatch = oTestImages.associate(oSensorData, new clsIdentity());
+
+		//print it in the system-output (it is only for the bump sensor, which is on the 5th place... I know it...)
+		System.out.println(oMatch.get(5).toString());
 		
-		assertTrue( (oMatch.get(0).moMatch.get() > 0.1) );
+		//complete the JUnit test 
+		assertTrue( (oMatch.get(5).moMatch.get() == 1) );
 }
 	
 //	/**
@@ -107,8 +105,8 @@ public class tssImageAbstract {
 	 */
 	@BeforeClass
 	public static void setUpBeforeClass() throws Exception {
-		clsImageAbstract moTestImage = new clsImageAbstract(1, "TEAM_PSY10", "Description");
-		clsXMLConfiguration.moConfigurationPath = "S:\\ARS\\PA\\BFG\\xml";
+		//TODO - (langr): Add the OS-independent path here!!! 
+		clsXMLConfiguration.moConfigurationPath = "S:\\ARS\\PA\\BWv1\\DecisionUnits\\src\\bfg\\xml";
 	}
 
 	/**
