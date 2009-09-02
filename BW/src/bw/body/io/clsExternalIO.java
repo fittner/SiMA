@@ -228,10 +228,6 @@ public class clsExternalIO extends clsBaseIO {
 						break;
 					case EATABLE_AREA:
 						moSensorEngine.registerSensor(eType,new clsSensorEatableArea(tmp_pre, poProp, this)); 
-						/*HZ 28.07.2009- This part serves as interim solution as long as all sensors are implied
-						 * to the sensor engine. For now it has to be done, as the reference would
-						 * miss in clsBrainSocket
-						 * */
 						moSensorExternal.put(eType, moSensorEngine.getMeRegisteredSensors().get(eType)); 
 						break;
 					case POSITIONCHANGE:
@@ -292,12 +288,7 @@ public class clsExternalIO extends clsBaseIO {
 	 * @see bw.body.itfStepSensing#stepSensing()
 	 */
 	public void stepSensing() {
-		// ZEILINGER integration of the Sensor Engine
 		moSensorEngine.updateSensorData(); 
-		
-		for (clsSensorExt sensor : moSensorExternal.values()) {
-			sensor.updateSensorData();
-		}
 	}
 	
 	/* (non-Javadoc)
