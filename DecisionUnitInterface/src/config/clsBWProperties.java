@@ -1,6 +1,5 @@
 package config;
 
-import java.awt.Color;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.FileInputStream;
@@ -19,6 +18,11 @@ import java.util.List;
 import java.util.Properties;
 import java.util.Set;
 
+import java.awt.Color;
+import config.clsRandomProperties;
+import config.clsColorParser;
+import java.util.regex.Matcher;
+
 /**
  * clsBWProperties is a specialization of the java.util.Properties class. 
  * 
@@ -35,7 +39,7 @@ import java.util.Set;
  * added as prefix to each key of the other file. finally the properties of the other file are merged into the current file and the include line is 
  * removed. this works recursively.
  * 
- * Generate Random Number "some.key = $L1;10" each time the value of some.key is read, a new random value is returned. four different types of random 
+ * Generate Random Number "some.key = §L1;10" each time the value of some.key is read, a new random value is returned. four different types of random 
  * number generators are available. See clsRandomProperties for details. 
  * 
  * @author deutsch
@@ -73,8 +77,7 @@ public class clsBWProperties extends Properties {
 	 * @author deutsch
 	 * 22.07.2009, 09:55:35
 	 */
-	private static final String P_RANDOM = "�"; //don't blame me - roland states that the law is pure random
-	private static final String P_RANDOM_ANSI = "\u00A7";
+	private static final String P_RANDOM = "§"; //don't blame me - roland states that the law is pure random
 	
 	/**
 	 * TAG denoting that the following value is a hex color #01AFB2 
@@ -159,16 +162,18 @@ public class clsBWProperties extends Properties {
 	 * @return escaped string
 	 */
 	private static String escapeDelim(String value) {
-		if (value.contains(P_DELIMITER)) {
-			throw new java.lang.UnsupportedOperationException("escaping of strings currently buggy - please don't use the delimiter "+P_DELIMITER+" in your strings");
-		}
 		//TODO implement correct escaping and unescaping
-	//	value = value.replaceAll(P_REGEXP_ESCAPE, P_ESCAPE+P_ESCAPE); // escape the escape sequence - \\ is converted to \\\\
-	//	value = value.replaceAll(P_DELIMITER, P_ESCAPE+P_DELIMITER); // escape the delimiter - ; is converted to \\;
+		value = Matcher.quoteReplacement(value); //
+		//value = value.replaceAll(P_REGEXP_ESCAPE, P_ESCAPE+P_ESCAPE); // escape the escape sequence - \\ is converted to \\\\
+		//value = value.replaceAll(P_DELIMITER, P_ESCAPE+P_DELIMITER); // escape the delimiter - ; is converted to \\;
 		// note: "\\;" is converted to "\\\\\\;" - this has to dealt with in unescape Delim und the regexp has to deal with "\\". this is converted
 		// to "\\\\" and in the imploded string the value has a ; attached. e.g. "a", "\\", and "c" are imploded to "a;\\\\;c". thus. the 
 		// regexp used for split has to include all cases where an even number of escape sequence in front of a delimiter is found.  
 		// "a;\\\\\\;c" equals "a" and "\\;c". "a;\\\\;c" equals "a", "\\", and "c".
+		if (value.contains(P_DELIMITER)) {
+			value = P_ESCAPE + value;
+	//		throw new java.lang.UnsupportedOperationException("escaping of strings currently buggy - please don't use the delimiter "+P_DELIMITER+" in your strings");
+		}
 		return value;
 	}
 
@@ -208,12 +213,44 @@ public class clsBWProperties extends Properties {
 	 * @return list of unescaped string parts
 	 */
 	public static List<String> StringToList(String value) {
-		String[] r = value.split(P_REGEXP_DELIMITER);
+		// The split function cannot be applied 
+		//String[] r = value.split(P_REGEXP_DELIMITER);
+		
 		List<String> res = new ArrayList<String>();
 		
-		for (String s:r) {
+		int i,pi; //Index and previous Index 
+		i=pi=0;
+		while((i=value.indexOf(P_DELIMITER, pi))!=-1) {
+			String s = value.substring(pi, i) ;
+			
+			if(s.equals(P_REGEXP_ESCAPE+P_ESCAPE)) { //The big one \\\\\\
+				int i2 = value.indexOf(P_DELIMITER, i+1);
+				if(i2!=-1) {
+					s = "\\" + value.substring(i, i2);
+					pi = i2+1;
+				}
+				else {
+					s = "\\" + value.substring(i);
+					pi = value.length();
+				}
+			}
+			else if(s.equals(P_REGEXP_ESCAPE)) { // 
+				pi = i+1;
+			}
+			else if(s.equals(P_ESCAPE)) { // 
+				pi += 3;
+			}
+			else
+				pi = i+1;
+			
 			res.add( unescapeDelim(s) );
-		}
+		};
+		if (pi<value.length()) 
+			res.add(unescapeDelim(value.substring(pi)));
+		
+	/*	for (String s:r) {
+			res.add( unescapeDelim(s) );
+		}*/
 		
 		return res;
 	}
@@ -221,8 +258,15 @@ public class clsBWProperties extends Properties {
 	private static String unescapeDelim(String value) {
 		//TODO implement correct escaping and unescaping		
 		// reverse escapeDelim
-	//	value = value.replaceAll(P_REGEXP_ESCAPE+P_DELIMITER, P_DELIMITER);
-	//	value = value.replaceAll(P_REGEXP_ESCAPE, P_ESCAPE);
+//		value = value.replaceAll(P_REGEXP_ESCAPE+P_DELIMITER, P_DELIMITER);
+//		value = value.replaceAll(P_REGEXP_ESCAPE, P_ESCAPE);
+		 
+		if (value.equals(P_ESCAPE)) {
+			value = P_DELIMITER; }
+		
+		if (value.equals(P_REGEXP_ESCAPE)) {
+			value = P_ESCAPE; }
+		
 		return value;
 	}
 	
@@ -244,7 +288,6 @@ public class clsBWProperties extends Properties {
 		if (poFilename.length()>0) {
 	    try
 	    {
-	    	System.out.println("reading property file '"+poFilename+"'");
 	        FileInputStream propInFile = new FileInputStream( poFilename );
 	        p2.load( propInFile );
 	        
@@ -359,8 +402,6 @@ public class clsBWProperties extends Properties {
 			//insuperior approach - a double value is converted to a string and to a double back again. 
 			//(usually, getPropertyDouble is called in case of random values)
 			res = new Double(clsRandomProperties.getRandom( res.substring( P_RANDOM.length() ))).toString();
-		} else if (res.startsWith(P_RANDOM_ANSI)) {
-			res = new Double(clsRandomProperties.getRandom( res.substring( P_RANDOM_ANSI.length() ))).toString();
 		} else {
 			res = unescapeTag(res);
 		}
@@ -754,8 +795,6 @@ public class clsBWProperties extends Properties {
 			value = P_ESCAPE+value;
 		} else if (value.startsWith(P_RANDOM)) {
 			value = P_ESCAPE+value;
-		} else if (value.startsWith(P_RANDOM_ANSI)) {
-			value = P_ESCAPE+value;			
 		} else if (value.startsWith(P_ESCAPE)) {
 			value = P_ESCAPE+value;
 		}		
@@ -790,12 +829,6 @@ public class clsBWProperties extends Properties {
 	 * @param poPrefix
 	 */
 	public void removeKeysStartingWith(String poPrefix) {
-		
-		//ensure, that tailing dots are removed.
-		if (poPrefix.endsWith(".")) {
-			poPrefix = poPrefix.substring(0, poPrefix.length()-1);
-		}
-		
 		//remove direct match
 		this.remove(poPrefix);
 		
@@ -870,3 +903,4 @@ public class clsBWProperties extends Properties {
 		return nResult;
 	}
 }
+
