@@ -13,7 +13,6 @@ import ARSsim.physics2D.physicalObject.clsCollidingObject;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-import bw.utils.sensors.clsSensorDataCalculation;
 import sim.physics2D.util.Double2D;
 
 /**
@@ -23,7 +22,7 @@ import sim.physics2D.util.Double2D;
  * 13.07.2009, 11:34:52
  * 
  */
-public class clsSensorData extends clsSensorDataCalculation{
+public class clsSensorData {
 	
 	protected Double mnRange;
 	protected Double mnFieldOfView;

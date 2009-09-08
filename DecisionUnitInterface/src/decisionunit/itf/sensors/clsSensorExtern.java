@@ -1,5 +1,7 @@
 package decisionunit.itf.sensors;
 
+import enums.eSensorExtType;
+
 /**
  * @author langr
  *
@@ -8,4 +10,6 @@ package decisionunit.itf.sensors;
  */
 abstract public class clsSensorExtern extends clsDataBase{
 
+	public eSensorExtType moVisionType;
+	
 }

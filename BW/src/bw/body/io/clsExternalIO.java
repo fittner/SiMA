@@ -219,6 +219,9 @@ public class clsExternalIO extends clsBaseIO {
 						moSensorExternal.put(eType, moSensorEngine.getMeRegisteredSensors().get(eType)); 
 						break;
 					case VISION:
+					case VISION_NEAR:
+					case VISION_MEDIUM:
+					case VISION_FAR:
 						moSensorEngine.registerSensor(eType,new clsSensorVision(tmp_pre, poProp, this)); 
 						moSensorExternal.put(eType, moSensorEngine.getMeRegisteredSensors().get(eType)); 
 						break;

@@ -33,7 +33,7 @@ public class clsSensorDataCalculation {
 	 * 						 angle in radians  
 	 * @return boolean
 	 */
-	public boolean checkIfObjectInView(clsCollidingObject pnCollidingObject, double pnEntityOrientation, double pnAreaOfViewRadians){
+	public static  boolean checkIfObjectInView(clsCollidingObject pnCollidingObject, double pnEntityOrientation, double pnAreaOfViewRadians){
 		
 		double nAngleDiff = 0; 
 		double nColObjX = Math.cos(pnCollidingObject.mrColPoint.moAzimuth.radians); 
@@ -62,7 +62,7 @@ public class clsSensorDataCalculation {
 	 * @param pnOrientation
 	 * @return
 	 */
-	public double normalizeRadian(double pnEntityOrientation){
+	public static double normalizeRadian(double pnEntityOrientation){
 		double newVal =  pnEntityOrientation; 
 		double twoPI = 2* Math.PI; 
 		
@@ -82,7 +82,7 @@ public class clsSensorDataCalculation {
 	 * @return nOrientation 
 	 */
 	
-	public clsPolarcoordinate getRelativeCollisionPosition(Double2D poCollisionPosition){   
+	public static clsPolarcoordinate getRelativeCollisionPosition(Double2D poCollisionPosition){   
 		
 		double nOrientation;
 				

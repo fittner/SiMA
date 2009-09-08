@@ -22,6 +22,7 @@ import bw.body.io.clsBaseIO;
 import bw.body.io.clsExternalIO;
 import bw.body.io.sensors.itfSensorUpdate;
 import bw.entities.clsEntity;
+import bw.utils.sensors.clsSensorDataCalculation;
 
 
 /**
@@ -131,7 +132,7 @@ public abstract class clsSensorExt extends bw.body.io.sensors.external.clsSensor
 	
 	private boolean evaluateIfObjInFieldOfView(clsCollidingObject poCollidingObject){
 		double nEntityOrientation =  moSensorEngine.getMeSensorAreas().firstEntry().getValue().getOrientation().radians;
-		if(moSensorData.checkIfObjectInView(poCollidingObject, nEntityOrientation, 
+		if(clsSensorDataCalculation.checkIfObjectInView(poCollidingObject, nEntityOrientation, 
 											moSensorData.mnFieldOfView)){	
 				return true;  
 		}

@@ -29,7 +29,10 @@ import bw.body.io.sensors.ext.clsSensorExt;
  */
 public class clsSensorVision extends clsSensorExt {
 
-   private ArrayList<clsCollidingObject> meSensorDataDeliveredToDU = new ArrayList<clsCollidingObject>(); 	
+	public static final String P_SENSOR_MIN_DISTANCE = "sensor_field_of_view";
+	
+   private ArrayList<clsCollidingObject> meSensorDataDeliveredToDU = new ArrayList<clsCollidingObject>();
+   private double mrMinDistance;
 	
    public clsSensorVision(String poPrefix, clsBWProperties poProp, clsBaseIO poBaseIO) {
 		super(poPrefix, poProp, poBaseIO);
@@ -42,6 +45,7 @@ public class clsSensorVision extends clsSensorExt {
 		clsBWProperties oProp = new clsBWProperties();
 		oProp.putAll(clsSensorExt.getDefaultProperties(pre));
 		oProp.setProperty(pre+P_SENSOR_FIELD_OF_VIEW, Math.PI);
+		oProp.setProperty(pre+P_SENSOR_MIN_DISTANCE, 0);
 		return oProp;
 	}	
 
@@ -50,10 +54,11 @@ public class clsSensorVision extends clsSensorExt {
 		
 		double nFieldOfView= poProp.getPropertyDouble(pre+P_SENSOR_FIELD_OF_VIEW);
 		double nRange = poProp.getPropertyDouble(pre+clsExternalIO.P_SENSORRANGE);
+		mrMinDistance = poProp.getPropertyDouble(pre+P_SENSOR_MIN_DISTANCE);
 		Double2D oOffset =  new Double2D(poProp.getPropertyDouble(pre+P_SENSOR_OFFSET_X),
 										 poProp.getPropertyDouble(pre+P_SENSOR_OFFSET_Y));
 	
-		//HZ -- initialise sensor engine - defines the maximum sensor range
+		//HZ -- initialize sensor engine - defines the maximum sensor range
 		assignSensorData(oOffset, nRange, nFieldOfView);			
 	}
 	/*has to be implemented - return SensorData to Decision Unit,
@@ -68,7 +73,6 @@ public class clsSensorVision extends clsSensorExt {
 	@Override
 	public void updateSensorData(Double pnAreaRange, 
 										ArrayList<clsCollidingObject> peDetectedObjInAreaList) {
-		// TODO (zeilinger) - Auto-generated method stub
 		setDetectedObjectsList(pnAreaRange, peDetectedObjInAreaList);
 		computeDataDeliveredToDU(); 
     }
@@ -77,11 +81,33 @@ public class clsSensorVision extends clsSensorExt {
 	public void setDetectedObjectsList(Double pnAreaRange,
 								ArrayList<clsCollidingObject> peDetectedObjInAreaList){
 		calculateObjInFieldOfView(pnAreaRange, peDetectedObjInAreaList);
-		
+		calculateObjBelowMinRange(peDetectedObjInAreaList);
+
 		// FIXME (horvath)
 		calculateRegisteredObjects(peDetectedObjInAreaList);
 	}
 	
+	/**
+	 * Removes vision entries that are below the min-range of the vision sensor 
+	 * Purpose: Realization of vision-sensors valid from e.g. range 40 to 60
+	 *
+	 * @author langr
+	 * 07.09.2009, 14:25:38
+	 *
+	 * @param peDetectedObjInAreaList
+	 */
+	private void calculateObjBelowMinRange(
+			ArrayList<clsCollidingObject> peDetectedObjInAreaList) {
+		
+		for( Iterator<clsCollidingObject> it = peDetectedObjInAreaList.iterator(); it.hasNext(); ) {
+			clsCollidingObject oVisionEntry = it.next();
+			//get colliding objects position relative to THIS object
+			if(oVisionEntry.mrColPoint.mrLength < mrMinDistance) {
+				it.remove();
+			}
+		}
+	}
+
 	/*has to be implemented - return SensorData to Decision Unit,
 	 * Actual, only the detected physical objects summarized in 
 	 * one ArrayList are returned. 

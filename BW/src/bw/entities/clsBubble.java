@@ -24,7 +24,11 @@ import bw.utils.enums.eBodyType;
 import bw.utils.enums.eShapeType;
 import enums.eActionKissIntensity;
 import enums.eEntityType;
+import enums.eSensorExtType;
+import bw.body.io.clsExternalIO;
 import bw.body.io.actuators.actionProxies.itfAPKissable;
+import bw.body.io.sensors.ext.clsSensorEngine;
+import bw.body.io.sensors.ext.clsSensorVision;
 
 //import tstBw.*;
 
@@ -53,6 +57,29 @@ public class clsBubble extends clsAnimate implements itfGetSensorEngine, itfGetR
 		oProp.putAll( clsComplexBody.getDefaultProperties(pre+P_BODY) );
 		oProp.setProperty(pre+P_BODY_TYPE, eBodyType.COMPLEX.toString());
 		
+		// removes standard vision from complex body and adds the 3-range-vision
+		oProp.setProperty(pre+clsAnimate.P_BODY+"."+clsComplexBody.P_SENSORSEXT+"."+"2."+clsExternalIO.P_SENSORACTIVE, false);
+		oProp.setProperty(pre+clsAnimate.P_BODY+"."+clsComplexBody.P_SENSORSEXT+"."+clsExternalIO.P_NUMSENSORS, 9);
+		//add 3-range-vision
+		oProp.putAll( clsSensorVision.getDefaultProperties( pre+clsAnimate.P_BODY+"."+clsComplexBody.P_SENSORSEXT+"."+"6") );
+		oProp.setProperty(pre+clsAnimate.P_BODY+"."+clsComplexBody.P_SENSORSEXT+"."+"6."+clsExternalIO.P_SENSORACTIVE, true);
+		oProp.setProperty(pre+clsAnimate.P_BODY+"."+clsComplexBody.P_SENSORSEXT+"."+"6."+clsExternalIO.P_SENSORTYPE, eSensorExtType.VISION_NEAR.name());
+		oProp.setProperty(pre+clsAnimate.P_BODY+"."+clsComplexBody.P_SENSORSEXT+"."+"6."+clsExternalIO.P_SENSORRANGE, oProp.getProperty(pre+clsAnimate.P_BODY+"."+clsComplexBody.P_SENSORSEXT+"."+clsExternalIO.P_SENSORENGINE+"."+clsSensorEngine.P_MAX_RANGE));
+		oProp.setProperty(pre+clsAnimate.P_BODY+"."+clsComplexBody.P_SENSORSEXT+"."+"6."+clsSensorVision.P_SENSOR_MIN_DISTANCE, 0 );
+
+		oProp.putAll( clsSensorVision.getDefaultProperties( pre+clsAnimate.P_BODY+"."+clsComplexBody.P_SENSORSEXT+"."+"7") );
+		oProp.setProperty(pre+clsAnimate.P_BODY+"."+clsComplexBody.P_SENSORSEXT+"."+"7."+clsExternalIO.P_SENSORACTIVE, true);
+		oProp.setProperty(pre+clsAnimate.P_BODY+"."+clsComplexBody.P_SENSORSEXT+"."+"7."+clsExternalIO.P_SENSORTYPE, eSensorExtType.VISION_MEDIUM.name());
+		oProp.setProperty(pre+clsAnimate.P_BODY+"."+clsComplexBody.P_SENSORSEXT+"."+"7."+clsExternalIO.P_SENSORRANGE, oProp.getProperty(pre+clsAnimate.P_BODY+"."+clsComplexBody.P_SENSORSEXT+"."+clsExternalIO.P_SENSORENGINE+"."+clsSensorEngine.P_MAX_RANGE));
+		oProp.setProperty(pre+clsAnimate.P_BODY+"."+clsComplexBody.P_SENSORSEXT+"."+"7."+clsSensorVision.P_SENSOR_MIN_DISTANCE, 20 );
+
+		oProp.putAll( clsSensorVision.getDefaultProperties( pre+clsAnimate.P_BODY+"."+clsComplexBody.P_SENSORSEXT+"."+"8") );
+		oProp.setProperty(pre+clsAnimate.P_BODY+"."+clsComplexBody.P_SENSORSEXT+"."+"8."+clsExternalIO.P_SENSORACTIVE, true);
+		oProp.setProperty(pre+clsAnimate.P_BODY+"."+clsComplexBody.P_SENSORSEXT+"."+"8."+clsExternalIO.P_SENSORTYPE, eSensorExtType.VISION_FAR.name());
+		oProp.setProperty(pre+clsAnimate.P_BODY+"."+clsComplexBody.P_SENSORSEXT+"."+"8."+clsExternalIO.P_SENSORRANGE, oProp.getProperty(pre+clsAnimate.P_BODY+"."+clsComplexBody.P_SENSORSEXT+"."+clsExternalIO.P_SENSORENGINE+"."+clsSensorEngine.P_MAX_RANGE));
+		oProp.setProperty(pre+clsAnimate.P_BODY+"."+clsComplexBody.P_SENSORSEXT+"."+"8."+clsSensorVision.P_SENSOR_MIN_DISTANCE, 40 );
+
+
 		//TODO: (langr) - should pass the config to the decision unit!
 		//oProp.putAll( clsDumbMindA.getDefaultProperties(pre) ); //clsDumbMindA.getDefaultProperties(pre)
 		oProp.setProperty(pre+P_DECISION_TYPE, eDecisionType.PA.name());

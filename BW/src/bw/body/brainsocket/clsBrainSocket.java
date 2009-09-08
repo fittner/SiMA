@@ -127,7 +127,10 @@ public class clsBrainSocket implements itfStepProcessing {
 		oData.addSensorExt(eSensorExtType.BUMP, convertBumpSensor() );
 		oData.addSensorExt(eSensorExtType.POSITIONCHANGE, convertPositionChangeSensor() );
 		oData.addSensorExt(eSensorExtType.RADIATION, convertRadiationSensor() );
-		oData.addSensorExt(eSensorExtType.VISION, convertVisionSensor() );
+		oData.addSensorExt(eSensorExtType.VISION, convertVisionSensor(eSensorExtType.VISION) );
+		oData.addSensorExt(eSensorExtType.VISION_NEAR, convertVisionSensor(eSensorExtType.VISION_NEAR) );
+		oData.addSensorExt(eSensorExtType.VISION_MEDIUM, convertVisionSensor(eSensorExtType.VISION_MEDIUM) );
+		oData.addSensorExt(eSensorExtType.VISION_FAR, convertVisionSensor(eSensorExtType.VISION_FAR) );
 		oData.addSensorExt(eSensorExtType.EATABLE_AREA, convertEatAbleAreaSensor() );
 		//ad homeostasis sensor data
 		oData.addSensorInt(eSensorIntType.ENERGY_CONSUMPTION, convertEnergySystem() );
@@ -293,18 +296,21 @@ public class clsBrainSocket implements itfStepProcessing {
 
 
    //ZEILINGER Integration of the SensorEngine
-	private clsVision convertVisionSensor() {
+	private clsVision convertVisionSensor(eSensorExtType poVisionType) {
 		clsVision oData = new clsVision();
-		clsSensorVision oVision = (clsSensorVision)(moSensorsExt.get(eSensorExtType.VISION));
-		ArrayList<clsCollidingObject> eDetectedObjectList = oVision.getSensorData();
-
-		Iterator <clsCollidingObject> i = eDetectedObjectList.iterator(); 
-		while(i.hasNext()){
-			clsVisionEntry oEntry = convertVisionEntry(i.next());
-			
-			if (oEntry != null) {
-				oData.add(oEntry);
-			}	
+		oData.moVisionType = poVisionType;
+		clsSensorVision oVision = (clsSensorVision)(moSensorsExt.get(poVisionType));
+		if(oVision != null) {
+			ArrayList<clsCollidingObject> eDetectedObjectList = oVision.getSensorData();
+	
+			Iterator <clsCollidingObject> i = eDetectedObjectList.iterator(); 
+			while(i.hasNext()){
+				clsVisionEntry oEntry = convertVisionEntry(i.next());
+				
+				if (oEntry != null) {
+					oData.add(oEntry);
+				}	
+			}
 		}
 		return oData;
 	}
