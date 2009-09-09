@@ -24,6 +24,7 @@ import bw.entities.tools.clsShapeCreator;
 import bw.entities.tools.eImagePositioning;
 import bw.exceptions.exFoodWeightBelowZero;
 import bw.utils.enums.eBindingState;
+import bw.utils.enums.eBodyType;
 import bw.utils.enums.eNutritions;
 import bw.utils.enums.eShapeType;
 import bw.utils.tools.clsFood;
@@ -51,8 +52,6 @@ public class clsCarrot extends clsInanimate implements itfGetFlesh, itfAPEatable
 	private int mnRegrowRate;
 	private int mnStepsUntilRegrow;
 	
-	private clsMeatBody moBody;
-
 	/**
 	 * DOCUMENT (deutsch) - insert description 
 	 * 
@@ -88,8 +87,6 @@ public class clsCarrot extends clsInanimate implements itfGetFlesh, itfAPEatable
 		
 		mrInitialFleshWeight = poProp.getPropertyDouble(pre+P_BODY+"."+clsFlesh.P_WEIGHT);
 				
-		moBody = new clsMeatBody(poPrefix+P_BODY, poProp);
-		
 		setVariableWeight(getFlesh().getWeight());		
 	}	
 		
@@ -101,7 +98,12 @@ public class clsCarrot extends clsInanimate implements itfGetFlesh, itfAPEatable
 		
 		oProp.putAll(clsInanimate.getDefaultProperties(pre) );
 		
-		oProp.putAll(clsInanimate.getDefaultProperties(pre) );
+		// remove whatever body has been assigned by getDefaultProperties
+		oProp.removeKeysStartingWith(pre+clsAnimate.P_BODY);
+		//add correct body
+		oProp.putAll( clsMeatBody.getDefaultProperties(pre+P_BODY) );
+		oProp.setProperty(pre+P_BODY_TYPE, eBodyType.MEAT.toString());
+		
 		oProp.setProperty(pre+P_STRUCTURALWEIGHT, 5000);
 
 		oProp.setProperty(pre+P_SHAPE+"."+clsShapeCreator.P_DEFAULT_SHAPE, P_SHAPE_FRESH);
@@ -150,8 +152,7 @@ public class clsCarrot extends clsInanimate implements itfGetFlesh, itfAPEatable
 	 * @see bw.body.itfget.itfGetFlesh#getFlesh()
 	 */
 	public clsFlesh getFlesh() {
-		// TODO (deutsch) - Auto-generated method stub
-		return this.moBody.getFlesh();
+		return ((clsMeatBody)moBody).getFlesh();
 	}
 
 	/* (non-Javadoc)
@@ -222,7 +223,7 @@ public class clsCarrot extends clsInanimate implements itfGetFlesh, itfAPEatable
 	 */
 	@Override
 	public void execution() {
-		// TODO (deutsch) - Auto-generated method stub
+		// nothing to do
 		
 	}
 
@@ -235,7 +236,7 @@ public class clsCarrot extends clsInanimate implements itfGetFlesh, itfAPEatable
 	 */
 	@Override
 	public void processing() {
-		// TODO (deutsch) - Auto-generated method stub
+		// nothing to do
 		
 	}
 
@@ -248,7 +249,7 @@ public class clsCarrot extends clsInanimate implements itfGetFlesh, itfAPEatable
 	 */
 	@Override
 	public void sensing() {
-		// TODO (deutsch) - Auto-generated method stub
+		// nothing to do
 		
 	}
 

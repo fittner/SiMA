@@ -106,4 +106,56 @@ public class tstBWProperties {
 	    assertTrue(t.equals("[a, \\;c]"));	 	    
 	}
 
+	/**
+	 * Test method for {@link config.clsBWProperties#StringToList(java.lang.String)}.
+	 */
+	@Test
+	public void testStringToListX() {
+		//	value = value.replaceAll(P_REGEXP_ESCAPE, P_ESCAPE+P_ESCAPE); // escape the escape sequence - \\ is converted to \\\\
+		//	value = value.replaceAll(P_DELIMITER, P_ESCAPE+P_DELIMITER); // escape the delimiter - ; is converted to \\;
+			// note: "\\;" is converted to "\\\\\\;" - this has to dealt with in unescape Delim und the regexp has to deal with "\\". this is converted
+			// to "\\\\" and in the imploded string the value has a ; attached. e.g. "a", "\\", and "c" are imploded to "a;\\\\;c". thus. the 
+			// regexp used for split has to include all cases where an even number of escape sequence in front of a delimiter is found.  
+			// "a;\\\\\\;c" equals "a" and "\\;c". "a;\\\\;c" equals "a", "\\", and "c".
+		
+	    ArrayList<String> res = new ArrayList<String>(); 
+	    String oA = "";
+	    String t = "";
+	    
+	    oA = "1;2;x\\;;3";
+	    res = (ArrayList<String>) clsBWProperties.StringToList(oA);
+	    t = res.toString();
+	    assertTrue(t.equals("[1, 2, x;, 3]"));	    
+
+	    oA = "1;2;x\\;;3;x\\\\\\;;4";
+	    res = (ArrayList<String>) clsBWProperties.StringToList(oA);
+	    t = res.toString();
+	    assertTrue(t.equals("[1, 2, x;, 3, x\\;, 4]"));
+	    
+	    oA = "a;x\\\\;c";
+	    res = (ArrayList<String>) clsBWProperties.StringToList(oA);
+	    t = res.toString();
+	    assertTrue(t.equals("[a, x\\, c]"));	   
+	    
+	    oA = "a;x\\\\\\;c";
+	    res = (ArrayList<String>) clsBWProperties.StringToList(oA);
+	    t = res.toString();
+	    assertTrue(t.equals("[a, x\\;c]"));
+	    
+	    oA = "1;2;x\\;y;3";
+	    res = (ArrayList<String>) clsBWProperties.StringToList(oA);
+	    t = res.toString();
+	    assertTrue(t.equals("[1, 2, x;y, 3]"));	    
+
+	    oA = "1;2;x\\;y;3;x\\\\\\;y;4";
+	    res = (ArrayList<String>) clsBWProperties.StringToList(oA);
+	    t = res.toString();
+	    assertTrue(t.equals("[1, 2, x;y, 3, x\\;y, 4]"));
+	    
+	    oA = "a;x\\\\y;c";
+	    res = (ArrayList<String>) clsBWProperties.StringToList(oA);
+	    t = res.toString();
+	    assertTrue(t.equals("[a, x\\y, c]"));	   
+	}
+	
 }

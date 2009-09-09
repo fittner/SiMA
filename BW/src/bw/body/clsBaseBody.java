@@ -8,6 +8,8 @@
  */
 package bw.body;
 
+import bw.body.attributes.clsAttributes;
+import bw.entities.clsEntity;
 import config.clsBWProperties;
 
 /**
@@ -20,25 +22,33 @@ import config.clsBWProperties;
 public abstract class clsBaseBody implements 	itfStepSensing, itfStepUpdateInternalState, 
 												itfStepProcessing, itfStepExecution {
 
+	public static final String P_ATTRIBUTES     = "attributes";
+    protected clsAttributes  moAttributes;
 	
-	public clsBaseBody(String poPrefix, clsBWProperties poProp) {
-		applyProperties(poPrefix, poProp);	
+	
+	public clsBaseBody(String poPrefix, clsBWProperties poProp, clsEntity poEntity) {
+		applyProperties(poPrefix, poProp, poEntity);	
 	}
 
+	private void applyProperties(String poPrefix, clsBWProperties poProp, clsEntity poEntity) {
+		String pre = clsBWProperties.addDot(poPrefix);
+
+		moAttributes    = new clsAttributes(pre+P_ATTRIBUTES, poProp, poEntity);
+	}
+	
 	public static clsBWProperties getDefaultProperties(String poPrefix) {
-		//String pre = clsBWProperties.addDot(poPrefix);
+		String pre = clsBWProperties.addDot(poPrefix);
 		
 		clsBWProperties oProp = new clsBWProperties();
 		
-		// nothing to do
-				
+		oProp.putAll( clsAttributes.getDefaultProperties(pre+P_ATTRIBUTES) );
+			
 		return oProp;
 	}	
 
-	private void applyProperties(String poPrefix, clsBWProperties poProp) {
-		//String pre = clsBWProperties.addDot(poPrefix);
-
-		//nothing to do ...
-	}	
+	public clsAttributes getAttributes() {
+		   return moAttributes;
+	}
+		
 	
 }

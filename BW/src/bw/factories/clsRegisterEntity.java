@@ -117,14 +117,14 @@ public final class clsRegisterEntity {
 		
 	   	registerSensorEngine(((itfGetSensorEngine)poEntity).getSensorEngineAreas()); 
 		
-	   	registerBotHands(poEntity.getBotHand1());
-		registerBotHands(poEntity.getBotHand2());
+	   	registerBotHands(poEntity.getBotHandLeft());
+		registerBotHands(poEntity.getBotHandRight());
 	
-		clsSingletonMasonGetter.getPhysicsEngine2D().setNoCollisions(poEntity.getMobileObject2D(), poEntity.getBotHand1());
-		clsSingletonMasonGetter.getPhysicsEngine2D().setNoCollisions(poEntity.getMobileObject2D(), poEntity.getBotHand2());
+		clsSingletonMasonGetter.getPhysicsEngine2D().setNoCollisions(poEntity.getMobileObject2D(), poEntity.getBotHandLeft());
+		clsSingletonMasonGetter.getPhysicsEngine2D().setNoCollisions(poEntity.getMobileObject2D(), poEntity.getBotHandRight());
 
-        PinJoint oPJ1 = new PinJoint(poEntity.getBotHand1().getPosition(), poEntity.getBotHand1(), poEntity.getMobileObject2D());
-        PinJoint oPJ2 = new PinJoint(poEntity.getBotHand2().getPosition(), poEntity.getBotHand2(), poEntity.getMobileObject2D());
+        PinJoint oPJ1 = new PinJoint(poEntity.getBotHandLeft().getPosition(), poEntity.getBotHandLeft(), poEntity.getMobileObject2D());
+        PinJoint oPJ2 = new PinJoint(poEntity.getBotHandRight().getPosition(), poEntity.getBotHandRight(), poEntity.getMobileObject2D());
            
         clsSingletonMasonGetter.getPhysicsEngine2D().register(oPJ1);
         clsSingletonMasonGetter.getPhysicsEngine2D().register(oPJ2);

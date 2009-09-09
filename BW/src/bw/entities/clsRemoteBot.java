@@ -12,13 +12,19 @@ import java.awt.Color;
 import config.clsBWProperties;
 import du.utils.enums.eDecisionType;
 import bw.physicalObjects.bodyparts.clsBotHands;
+import bw.utils.enums.eBodyAttributes;
 import bw.utils.enums.eBodyType;
 import bw.utils.enums.eShapeType;
 import bw.body.clsComplexBody;
 
 import bw.body.itfGetBrain;
+import bw.body.attributes.clsAttributeAntenna;
+import bw.body.attributes.clsAttributeEye;
+import bw.body.attributes.clsAttributeHand;
+import bw.body.attributes.clsAttributes;
 import bw.body.brainsocket.clsBrainSocket;
 
+import bw.body.itfget.itfGetBotHand;
 import bw.body.itfget.itfGetRadiation;
 import bw.body.itfget.itfGetSensorEngine;
 import bw.entities.tools.clsShapeCreator;
@@ -36,7 +42,11 @@ import sim.physics2D.util.Angle;
  * 
  */
 
-public class clsRemoteBot extends clsAnimate implements itfGetSensorEngine, itfGetRadiation  {
+public class clsRemoteBot extends clsAnimate implements itfGetSensorEngine, itfGetRadiation, itfGetBotHand  {
+	public static final String P_HANDSIZE = "handsize";
+	public static final String P_HANDOFFSETX = "handoffsetx";
+	public static final String P_HANDOFFSETY = "handoffsety";
+	
     private clsBotHands moBotHand1;
     private clsBotHands moBotHand2;
 	
@@ -48,7 +58,7 @@ public class clsRemoteBot extends clsAnimate implements itfGetSensorEngine, itfG
 	private void applyProperties(String poPrefix, clsBWProperties poProp) {
 		String pre = clsBWProperties.addDot(poPrefix);
 	
-		addBotHands( poProp.getPropertyColor(pre+P_SHAPE+"."+P_SHAPENAME+"."+clsShapeCreator.P_COLOR) ); 
+		addBotHands( pre, poProp ); 
 	}
 	
 	public static clsBWProperties getDefaultProperties(String poPrefix) {
@@ -73,20 +83,56 @@ public class clsRemoteBot extends clsAnimate implements itfGetSensorEngine, itfG
 		oProp.setProperty(pre+P_SHAPE+"."+P_SHAPENAME+"."+clsShapeCreator.P_COLOR, Color.CYAN);
 
 		oProp.setProperty(pre+P_STRUCTURALWEIGHT, 50.0);
+		
+		oProp.setProperty(pre+P_HANDSIZE, 1.0);
+		oProp.setProperty(pre+P_HANDOFFSETX, 12.0);
+		oProp.setProperty(pre+P_HANDOFFSETY, 6.0);		
 				
+		
+		//add attributes
+		String att_pre = pre+P_BODY+"."+clsComplexBody.P_ATTRIBUTES+".";
+		int num = oProp.getPropertyInt(att_pre+clsAttributes.P_NUMATTRIBUTES);
+		
+		oProp.putAll( clsAttributeAntenna.getDefaultProperties( att_pre+num) );
+		oProp.setProperty(att_pre+num+"."+clsAttributes.P_ATTRIBUTETYPE, eBodyAttributes.ANTENNA_LEFT.name());
+		oProp.setProperty(att_pre+num+"."+clsAttributes.P_ATTRIBUTEACTIVE, true);
+		num++;
+
+		oProp.putAll( clsAttributeAntenna.getDefaultProperties( att_pre+num) );
+		oProp.setProperty(att_pre+num+"."+clsAttributes.P_ATTRIBUTETYPE, eBodyAttributes.ANTENNA_RIGHT.name());
+		oProp.setProperty(att_pre+num+"."+clsAttributes.P_ATTRIBUTEACTIVE, true);
+		num++;
+
+		oProp.putAll( clsAttributeEye.getDefaultProperties( att_pre+num) );
+		oProp.setProperty(att_pre+num+"."+clsAttributes.P_ATTRIBUTETYPE, eBodyAttributes.EYE.name());
+		oProp.setProperty(att_pre+num+"."+clsAttributes.P_ATTRIBUTEACTIVE, true);
+		num++;
+		
+		oProp.putAll( clsAttributeHand.getDefaultProperties( att_pre+num) );
+		oProp.setProperty(att_pre+num+"."+clsAttributes.P_ATTRIBUTETYPE, eBodyAttributes.HAND_LEFT.name());
+		oProp.setProperty(att_pre+num+"."+clsAttributes.P_ATTRIBUTEACTIVE, true);
+		num++;
+		
+		oProp.putAll( clsAttributeHand.getDefaultProperties( att_pre+num) );
+		oProp.setProperty(att_pre+num+"."+clsAttributes.P_ATTRIBUTETYPE, eBodyAttributes.HAND_RIGHT.name());
+		oProp.setProperty(att_pre+num+"."+clsAttributes.P_ATTRIBUTEACTIVE, true);
+		num++;
+		
+		oProp.setProperty(att_pre+clsAttributes.P_NUMATTRIBUTES, num);	
+		
 		return oProp;
 	}
 	
 
 	
-	private clsBotHands addHand(double offsetX, double offsetY, Color poColor) {
+	private clsBotHands addHand(double offsetX, double offsetY, double radius, Color poColor) {
         double x = getPosition().x;
         double y = getPosition().y;
         sim.physics2D.util.Double2D oPos;
                     
         oPos = new sim.physics2D.util.Double2D(x + offsetX, y + offsetY);
         
-        clsBotHands oHand = new clsBotHands(oPos, new sim.physics2D.util.Double2D(0, 0), 1, poColor);
+        clsBotHands oHand = new clsBotHands(oPos, new sim.physics2D.util.Double2D(0, 0), radius, poColor);
         
         return oHand;
 	}
@@ -100,20 +146,27 @@ public class clsRemoteBot extends clsAnimate implements itfGetSensorEngine, itfG
 	 * 26.02.2009, 11:38:59
 	 *
 	 */
-	private void addBotHands(Color poColor) {
+	private void addBotHands(String poPrefix, clsBWProperties poProp) {
+		String pre = clsBWProperties.addDot(poPrefix);
+		
 		//FIXME hands are only added correctly if - and only if - direction of bot is 0 ...
 		//Angle oDirection = new Angle(getMobileObject2D().getOrientation().radians); //TODO add getDirection to clsEntity
 		getMobileObject2D().setPose(getPosition(), new Angle(0));
-		
-		moBotHand1 = addHand(12, 6, poColor);
-		moBotHand2 = addHand(12, -6, poColor);
+
+		Color oColor = poProp.getPropertyColor(pre+P_SHAPE+"."+P_SHAPENAME+"."+clsShapeCreator.P_COLOR); 
+		double offsetX = poProp.getPropertyDouble(pre+P_HANDOFFSETX); 
+		double offsetY = poProp.getPropertyDouble(pre+P_HANDOFFSETY); 
+		double radius = poProp.getPropertyDouble(pre+P_HANDSIZE); 
+
+		moBotHand1 = addHand(offsetX, offsetY, radius, oColor);
+		moBotHand2 = addHand(offsetX, -offsetY, radius, oColor);
 
 	}
 	
-	public clsBotHands getBotHand1() {
+	public clsBotHands getBotHandLeft() {
 		return moBotHand1;
 	}
-	public clsBotHands getBotHand2() {
+	public clsBotHands getBotHandRight() {
 		return moBotHand2;
 	}
 	

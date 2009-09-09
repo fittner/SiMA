@@ -17,6 +17,7 @@ import bw.body.internalSystems.clsFlesh;
 import bw.entities.tools.clsShapeCreator;
 import bw.entities.tools.eImagePositioning;
 import bw.exceptions.exFoodWeightBelowZero;
+import bw.utils.enums.eBodyType;
 import bw.utils.enums.eNutritions;
 import bw.utils.enums.eShapeType;
 
@@ -30,8 +31,6 @@ import bw.utils.enums.eShapeType;
 public class clsSmartExcrement extends clsInanimate {
 	public static final String P_BODY = "body";
 	
-	private clsMeatBody moBody;
-		
 	public clsSmartExcrement(String poPrefix, clsBWProperties poProp, double prWeight)
     {
 		super(poPrefix, poProp);		
@@ -46,9 +45,7 @@ public class clsSmartExcrement extends clsInanimate {
     } 
 	
 	private void applyProperties(String poPrefix, clsBWProperties poProp){		
-		String pre = clsBWProperties.addDot(poPrefix);
-		
-		moBody = new clsMeatBody(pre+P_BODY, poProp);
+//		String pre = clsBWProperties.addDot(poPrefix);
 		
 		setVariableWeight(getFlesh().getWeight());
 	}	
@@ -59,6 +56,13 @@ public class clsSmartExcrement extends clsInanimate {
 		clsBWProperties oProp = new clsBWProperties();
 			
 		oProp.putAll(clsInanimate.getDefaultProperties(pre) );
+		
+		// remove whatever body has been assigned by getDefaultProperties
+		oProp.removeKeysStartingWith(pre+clsAnimate.P_BODY);
+		//add correct body
+		oProp.putAll( clsMeatBody.getDefaultProperties(pre+P_BODY) );
+		oProp.setProperty(pre+P_BODY_TYPE, eBodyType.MEAT.toString());
+		
 		oProp.setProperty(pre+P_STRUCTURALWEIGHT, 0.0);
 		
 		oProp.setProperty(pre+P_SHAPE+"."+clsShapeCreator.P_DEFAULT_SHAPE, P_SHAPENAME);
@@ -86,7 +90,7 @@ public class clsSmartExcrement extends clsInanimate {
 	 * @see bw.body.itfget.itfGetFlesh#getFlesh()
 	 */
 	public clsFlesh getFlesh() {
-		return this.moBody.getFlesh();
+		return ((clsMeatBody)moBody).getFlesh();
 	}
 	
 	/* (non-Javadoc)

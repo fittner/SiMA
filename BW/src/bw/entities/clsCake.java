@@ -10,13 +10,17 @@ package bw.entities;
 import java.awt.Color;
 
 import config.clsBWProperties;
+import bw.body.clsBaseBody;
 import bw.body.clsMeatBody;
+import bw.body.attributes.clsAttributes;
 import bw.body.internalSystems.clsFlesh;
+import bw.body.itfget.itfGetBody;
 import bw.body.itfget.itfGetFlesh;
 import bw.entities.tools.clsShapeCreator;
 import bw.entities.tools.eImagePositioning;
 import bw.factories.clsRegisterEntity;
 import bw.utils.enums.eBindingState;
+import bw.utils.enums.eBodyType;
 import bw.utils.enums.eNutritions;
 import bw.utils.enums.eShapeType;
 import bw.utils.tools.clsFood;
@@ -30,11 +34,9 @@ import enums.eEntityType;
  * Jul 24, 2009, 10:15:27 PM
  * 
  */
-public class clsCake extends clsInanimate implements itfGetFlesh, itfAPEatable, itfAPCarryable {
+public class clsCake extends clsInanimate implements itfGetFlesh, itfAPEatable, itfAPCarryable, itfGetBody {
 	public static final String P_BODY = "body";
 	
-	private clsMeatBody moBody;
-		
 	public clsCake(String poPrefix, clsBWProperties poProp)
     {
 		super(poPrefix, poProp);		
@@ -42,9 +44,7 @@ public class clsCake extends clsInanimate implements itfGetFlesh, itfAPEatable, 
     } 
 	
 	private void applyProperties(String poPrefix, clsBWProperties poProp){		
-		String pre = clsBWProperties.addDot(poPrefix);
-		
-		moBody = new clsMeatBody(pre+P_BODY, poProp);
+//		String pre = clsBWProperties.addDot(poPrefix);
 		
 		setVariableWeight(getFlesh().getWeight());
 	}	
@@ -55,6 +55,13 @@ public class clsCake extends clsInanimate implements itfGetFlesh, itfAPEatable, 
 		clsBWProperties oProp = new clsBWProperties();
 			
 		oProp.putAll(clsInanimate.getDefaultProperties(pre) );
+		
+		// remove whatever body has been assigned by getDefaultProperties
+		oProp.removeKeysStartingWith(pre+clsAnimate.P_BODY);
+		//add correct body
+		oProp.putAll( clsMeatBody.getDefaultProperties(pre+P_BODY) );
+		oProp.setProperty(pre+P_BODY_TYPE, eBodyType.MEAT.toString());
+		
 		oProp.setProperty(pre+P_STRUCTURALWEIGHT, 1.0);
 		
 		oProp.setProperty(pre+P_SHAPE+"."+clsShapeCreator.P_DEFAULT_SHAPE, P_SHAPENAME);
@@ -72,6 +79,7 @@ public class clsCake extends clsInanimate implements itfGetFlesh, itfAPEatable, 
 		oProp.setProperty(pre+P_BODY+"."+"1."+clsFlesh.P_NUTRITIONFRACTION, 1.0);
 		oProp.setProperty(pre+P_BODY+"."+clsMeatBody.P_MAXWEIGHT, 15);
 		oProp.setProperty(pre+P_BODY+"."+clsMeatBody.P_REGROWRATE, 0);		
+		oProp.putAll( clsAttributes.getDefaultProperties(pre+P_BODY+"."+clsBaseBody.P_ATTRIBUTES) );
 		
 		return oProp;
 	}
@@ -148,7 +156,7 @@ public class clsCake extends clsInanimate implements itfGetFlesh, itfAPEatable, 
 	 * @see bw.body.itfget.itfGetFlesh#getFlesh()
 	 */
 	public clsFlesh getFlesh() {
-		return this.moBody.getFlesh();
+		return ((clsMeatBody)moBody).getFlesh();
 	}
 	
 	/*
@@ -176,6 +184,18 @@ public class clsCake extends clsInanimate implements itfGetFlesh, itfAPEatable, 
 	}
 	public void setCarriedBindingState(eBindingState pBindingState) {
 		//handle binding-state implications 
+	}
+
+	/* (non-Javadoc)
+	 *
+	 * @author deutsch
+	 * 08.09.2009, 17:25:18
+	 * 
+	 * @see bw.body.itfget.itfGetBody#getBody()
+	 */
+	@Override
+	public clsBaseBody getBody() {
+		return moBody;
 	}
 	
 }

@@ -15,11 +15,15 @@ import du.utils.enums.eDecisionType;
 
 import bw.body.clsComplexBody;
 import bw.body.itfGetExternalIO;
+import bw.body.attributes.clsAttributeAntenna;
+import bw.body.attributes.clsAttributeEye;
+import bw.body.attributes.clsAttributes;
 import bw.body.itfget.itfGetInternalEnergyConsumption;
 import bw.body.itfget.itfGetRadiation;
 import bw.body.itfget.itfGetSensorEngine;
 import bw.entities.tools.clsShapeCreator;
 import bw.entities.tools.eImagePositioning;
+import bw.utils.enums.eBodyAttributes;
 import bw.utils.enums.eBodyType;
 import bw.utils.enums.eShapeType;
 import enums.eActionKissIntensity;
@@ -71,6 +75,27 @@ public class clsBubble extends clsAnimate implements itfGetSensorEngine, itfGetR
 		oProp.setProperty(pre+P_SHAPE+"."+P_SHAPENAME+"."+clsShapeCreator.P_IMAGE_POSITIONING, eImagePositioning.DEFAULT.name());		
 		
 		oProp.setProperty(pre+P_STRUCTURALWEIGHT, 50.0);
+		
+		//add attributes
+		String att_pre = pre+P_BODY+"."+clsComplexBody.P_ATTRIBUTES+".";
+		int num = oProp.getPropertyInt(att_pre+clsAttributes.P_NUMATTRIBUTES);
+		
+		oProp.putAll( clsAttributeAntenna.getDefaultProperties( att_pre+num) );
+		oProp.setProperty(att_pre+num+"."+clsAttributes.P_ATTRIBUTETYPE, eBodyAttributes.ANTENNA_LEFT.name());
+		oProp.setProperty(att_pre+num+"."+clsAttributes.P_ATTRIBUTEACTIVE, true);
+		num++;
+
+		oProp.putAll( clsAttributeAntenna.getDefaultProperties( att_pre+num) );
+		oProp.setProperty(att_pre+num+"."+clsAttributes.P_ATTRIBUTETYPE, eBodyAttributes.ANTENNA_RIGHT.name());
+		oProp.setProperty(att_pre+num+"."+clsAttributes.P_ATTRIBUTEACTIVE, true);
+		num++;
+
+		oProp.putAll( clsAttributeEye.getDefaultProperties( att_pre+num) );
+		oProp.setProperty(att_pre+num+"."+clsAttributes.P_ATTRIBUTETYPE, eBodyAttributes.EYE.name());
+		oProp.setProperty(att_pre+num+"."+clsAttributes.P_ATTRIBUTEACTIVE, true);
+		num++;
+		
+		oProp.setProperty(att_pre+clsAttributes.P_NUMATTRIBUTES, num);		
 		
 		return oProp;
 	}

@@ -19,6 +19,7 @@ public enum eBodyType {
 
 	BASE,		//its only the baseclass of all
 	MEAT,
-	COMPLEX
+	COMPLEX,
+	SIMPLE
 	
 }

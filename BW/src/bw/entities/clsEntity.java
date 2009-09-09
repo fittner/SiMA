@@ -7,6 +7,11 @@
  */
 package bw.entities;
 
+import bw.body.clsBaseBody;
+import bw.body.clsComplexBody;
+import bw.body.clsMeatBody;
+import bw.body.clsSimpleBody;
+import bw.utils.enums.eBodyType;
 import config.clsBWProperties;
 import sim.physics2D.physicalObject.PhysicalObject2D;
 import sim.physics2D.shape.Shape;
@@ -45,6 +50,8 @@ public abstract class clsEntity {
 	//public static final String P_ENTITY_COLOR_RGB = "color_rgb"; // TD - moved to clsShapeCreator. if a differentiation between the color of the shape and the color of the agent is necessary - reactivate this property
 	public static final String P_SHAPE = "shape"; //prefix used for shape definitions
 	public static final String P_SHAPENAME = "_";
+	public static final String P_BODY_TYPE = "body_type";
+	public static final String P_BODY = "body";
 	
 	protected PhysicalObject2D moPhysicalObject2D;
 	
@@ -56,6 +63,8 @@ public abstract class clsEntity {
 	private boolean mnRegistered;
 	
 	private int mnUniqueId = clsSingletonUniqueIdGenerator.getUniqueId();
+	
+	protected clsBaseBody moBody; // the instance of a body	
 	
 	public clsEntity(String poPrefix, clsBWProperties poProp) {
 		setEntityType();
@@ -74,6 +83,9 @@ public abstract class clsEntity {
 		oProp.setProperty(pre+P_STRUCTURALWEIGHT, 1.0);
 		oProp.setProperty(pre+P_ID, -1);
 		
+		oProp.putAll( clsSimpleBody.getDefaultProperties(pre+P_BODY) );
+		oProp.setProperty(pre+P_BODY_TYPE, eBodyType.SIMPLE.toString());
+		
 		return oProp;
 	}	
 
@@ -82,7 +94,45 @@ public abstract class clsEntity {
 
 		setId( poProp.getPropertyString(pre+P_ID ) );
 		setStructuralWeight(poProp.getPropertyDouble(pre+P_STRUCTURALWEIGHT));
+		//setBody( createBody(pre, poProp) ); // has to be called AFTER the shape has been created. thus, moved to clsMobile and clsStationary.
 	}
+	
+	protected void setBody(clsBaseBody poBody) {
+		moBody = poBody;
+	}
+	
+	protected clsBaseBody createBody(String poPrefix, clsBWProperties poProp) {
+		String pre = clsBWProperties.addDot(poPrefix);
+		eBodyType oBodyType = eBodyType.valueOf( poProp.getPropertyString(pre+P_BODY_TYPE) );
+		
+		clsBaseBody oRetVal = null;
+		switch( oBodyType ) {
+		case MEAT:
+			oRetVal = new clsMeatBody(pre+P_BODY, poProp, this);
+			break;
+		case COMPLEX:
+			oRetVal = new clsComplexBody(pre+P_BODY, poProp, this);
+			break;
+		case SIMPLE:
+		default:
+			oRetVal = new clsSimpleBody(pre+P_BODY, poProp, this);
+			break;
+		}
+		
+		return oRetVal;	
+	}
+	
+
+	/* (non-Javadoc)
+	 *
+	 * @author deutsch
+	 * 11.05.2009, 18:40:22
+	 * 
+	 * @see bw.body.itfGetBody#getBody()
+	 */
+	public clsBaseBody getBody() {
+		return moBody;
+	}	
 	
 	/**
 	 * the entities cycle for perception-deliberation-action

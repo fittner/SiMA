@@ -16,8 +16,6 @@ import du.utils.enums.eDecisionType;
 import simple.dumbmind.clsDumbMindA;
 import simple.reactive.clsReactive;
 import simple.remotecontrol.clsRemoteControl;
-import bw.body.clsBaseBody;
-import bw.body.clsComplexBody;
 import bw.body.clsMeatBody;
 import bw.body.itfGetBrain;
 import bw.body.itfGetExternalIO;
@@ -36,12 +34,10 @@ import bw.utils.enums.eBodyType;
  */
 public abstract class clsAnimate extends clsMobile implements itfGetBody {
 
-	public static final String P_BODY_TYPE = "body_type";
-	public static final String P_BODY = "body";
 	public static final String P_DECISION_TYPE = "decisionunit_type";
 	public static final String P_DU_PROPERTIES = "decisionunit_props";
 	
-	protected clsBaseBody moBody; // the instance of a body
+
 	
 	public clsAnimate(String poPrefix, clsBWProperties poProp) {
 		super(poPrefix, poProp);
@@ -62,33 +58,10 @@ public abstract class clsAnimate extends clsMobile implements itfGetBody {
 	private void applyProperties(String poPrefix, clsBWProperties poProp) {
 		String pre 	= clsBWProperties.addDot(poPrefix);
 
-		setBody( createBody(pre, poProp) );
 		setDecisionUnit( createDecisionUnit(pre, poProp) );		
 	}	
 
-	private void setBody(clsBaseBody poBody) {
-		moBody = poBody;
-	}
 	
-	private clsBaseBody createBody(String poPrefix, clsBWProperties poProp) {
-		String pre = clsBWProperties.addDot(poPrefix);
-		eBodyType oBodyType = eBodyType.valueOf( poProp.getPropertyString(pre+P_BODY_TYPE) );
-		
-		clsBaseBody oRetVal = null;
-		switch( oBodyType ) {
-		case MEAT:
-			oRetVal = new clsMeatBody(pre+P_BODY, poProp);
-			break;
-		case COMPLEX:
-			oRetVal = new clsComplexBody(pre+P_BODY, poProp, this);
-			break;
-		default:
-			oRetVal = new clsMeatBody(pre+P_BODY, poProp);
-			break;
-		}
-		
-		return oRetVal;
-	}
 	
 	private clsBaseDecisionUnit createDecisionUnit(String poPrefix, clsBWProperties poProp) {
 		String pre = clsBWProperties.addDot(poPrefix);
@@ -164,17 +137,6 @@ public abstract class clsAnimate extends clsMobile implements itfGetBody {
 	@Override
 	public void updateInternalState() {
 		moBody.stepUpdateInternalState();
-	}	
-
-	/* (non-Javadoc)
-	 *
-	 * @author deutsch
-	 * 11.05.2009, 18:40:22
-	 * 
-	 * @see bw.body.itfGetBody#getBody()
-	 */
-	public clsBaseBody getBody() {
-		return moBody;
 	}	
 	
 	/* (non-Javadoc)

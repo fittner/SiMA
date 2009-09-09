@@ -8,6 +8,7 @@
 package bw.body;
 
 import config.clsBWProperties;
+import bw.body.attributes.clsAttributes;
 import bw.body.brainsocket.clsBrainSocket;
 import bw.body.interBodyWorldSystems.clsInterBodyWorldSystem;
 import bw.body.internalSystems.clsInternalEnergyConsumption;
@@ -38,15 +39,15 @@ public class clsComplexBody extends clsBaseBody implements
 	public static final String P_BRAINSOCKET 	= "brainsocket";
 	
 	protected clsBrainSocket moBrain;
-    protected clsExternalIO moExternalIO;
-    protected clsInternalIO moInternalIO;
+    protected clsExternalIO  moExternalIO;
+    protected clsInternalIO  moInternalIO;
     
     private clsInternalSystem moInternalSystem;
     private clsIntraBodySystem moIntraBodySystem;
     private clsInterBodyWorldSystem moInterBodyWorldSystem;
        
     public clsComplexBody(String poPrefix, clsBWProperties poProp, clsEntity poEntity) {
-		super(poPrefix, poProp);
+		super(poPrefix, poProp, poEntity);
 		applyProperties(poPrefix, poProp, poEntity);
 	}
     
@@ -59,7 +60,7 @@ public class clsComplexBody extends clsBaseBody implements
 		
 		moExternalIO	= new clsExternalIO(pre+P_SENSORSEXT, poProp, this, poEntity);
 		moInternalIO 	= new clsInternalIO(pre+P_SENSORSINT, poProp, this);
-		moBrain 		= new clsBrainSocket(pre+P_BRAINSOCKET, poProp, moExternalIO.moSensorExternal, moInternalIO.moSensorInternal, moExternalIO.getActionProcessor());				
+		moBrain 		= new clsBrainSocket(pre+P_BRAINSOCKET, poProp, moExternalIO.moSensorExternal, moInternalIO.moSensorInternal, moExternalIO.getActionProcessor());
 	}	    
 
 	public static clsBWProperties getDefaultProperties(String poPrefix) {
@@ -73,6 +74,7 @@ public class clsComplexBody extends clsBaseBody implements
 		oProp.putAll( clsInternalSystem.getDefaultProperties(pre+P_INTERNAL) );
 		oProp.putAll( clsIntraBodySystem.getDefaultProperties(pre+P_INTRABODY) );
 		oProp.putAll( clsInterBodyWorldSystem.getDefaultProperties(pre+P_BODYWORLD) );
+		oProp.putAll( clsAttributes.getDefaultProperties(pre+P_ATTRIBUTES) );
 				
 		return oProp;
 	}	
@@ -104,7 +106,6 @@ public class clsComplexBody extends clsBaseBody implements
 	public clsInterBodyWorldSystem getInterBodyWorldSystem() {
 		return moInterBodyWorldSystem;
 	}
-
 
 
 	/* (non-Javadoc)

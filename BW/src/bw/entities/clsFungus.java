@@ -17,6 +17,7 @@ import bw.entities.tools.clsShapeCreator;
 import bw.entities.tools.eImagePositioning;
 import bw.factories.clsRegisterEntity;
 import bw.utils.enums.eBindingState;
+import bw.utils.enums.eBodyType;
 import bw.utils.enums.eNutritions;
 import bw.utils.enums.eShapeType;
 import bw.utils.tools.clsFood;
@@ -39,8 +40,6 @@ import enums.eEntityType;
 public class clsFungus extends clsInanimate implements itfGetFlesh, itfAPEatable, itfAPCarryable{
 	public static final String P_BODY = "body";
 		
-	private clsMeatBody moBody;
-
 	public clsFungus(String poPrefix, clsBWProperties poProp)
     {
 		super(poPrefix, poProp);
@@ -49,11 +48,9 @@ public class clsFungus extends clsInanimate implements itfGetFlesh, itfAPEatable
     } 
 	
 	private void applyProperties(String poPrefix, clsBWProperties poProp){		
-		String pre = clsBWProperties.addDot(poPrefix);
-
-		moBody = new clsMeatBody(pre+P_BODY, poProp);
-		
-		setVariableWeight(moBody.getFlesh().getWeight());
+//		String pre = clsBWProperties.addDot(poPrefix);
+	
+		setVariableWeight(getFlesh().getWeight());
 	}	
 		
 	public static clsBWProperties getDefaultProperties(String poPrefix) {
@@ -62,6 +59,13 @@ public class clsFungus extends clsInanimate implements itfGetFlesh, itfAPEatable
 		clsBWProperties oProp = new clsBWProperties();
 		
 		oProp.putAll(clsInanimate.getDefaultProperties(pre) );
+		
+		// remove whatever body has been assigned by getDefaultProperties
+		oProp.removeKeysStartingWith(pre+clsAnimate.P_BODY);
+		//add correct body
+		oProp.putAll( clsMeatBody.getDefaultProperties(pre+P_BODY) );
+		oProp.setProperty(pre+P_BODY_TYPE, eBodyType.MEAT.toString());
+		
 		oProp.setProperty(pre+P_STRUCTURALWEIGHT, 15.0);
 		
 		oProp.setProperty(pre+P_SHAPE+"."+clsShapeCreator.P_DEFAULT_SHAPE, P_SHAPENAME);
@@ -155,7 +159,7 @@ public class clsFungus extends clsInanimate implements itfGetFlesh, itfAPEatable
 	 * @see bw.body.itfget.itfGetFlesh#getFlesh()
 	 */
 	public clsFlesh getFlesh() {
-		return this.moBody.getFlesh();
+		return ((clsMeatBody)moBody).getFlesh();
 	}
 
 
@@ -168,7 +172,7 @@ public class clsFungus extends clsInanimate implements itfGetFlesh, itfAPEatable
 	public clsFood Eat(double prBiteSize) {
 		clsFood oFood = getFlesh().withdraw(prBiteSize);
 		
-		setVariableWeight(moBody.getFlesh().getWeight());
+		setVariableWeight(getFlesh().getWeight());
 		
 		return oFood;
 	}

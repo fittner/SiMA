@@ -11,6 +11,7 @@ import java.awt.Paint;
 import sim.engine.SimState;
 import sim.engine.Steppable;
 import sim.physics2D.physicalObject.MobileObject2D;
+import sim.physics2D.shape.Shape;
 import sim.physics2D.util.Angle;
 import bw.factories.clsSingletonMasonGetter;
 
@@ -32,14 +33,18 @@ public class clsBotHands extends MobileObject2D implements Steppable
 	// public double radius;
     public clsBotHands(sim.physics2D.util.Double2D pos, sim.physics2D.util.Double2D vel, double radius, Paint paint)
         {
-        this.setVelocity(vel);
-        this.setPose(pos, new Angle(0));
+        setVelocity(vel);
+        setPose(pos, new Angle(0));
 
-        this.setShape(new sim.physics2D.shape.Circle(radius, paint), 0.1);
+        setShape(new sim.physics2D.shape.Circle(radius, paint));
 
-        this.setCoefficientOfFriction(0);
-        this.setCoefficientOfRestitution(1);
+        setCoefficientOfFriction(0);
+        setCoefficientOfRestitution(1);
         }
+
+	public void setShape(Shape shape) {
+        setShape(shape, 0.0001); // if weight is set to 0, physic engine crashes ...
+    }
  
     public void step(SimState state)
         {

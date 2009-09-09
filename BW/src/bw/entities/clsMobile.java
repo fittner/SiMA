@@ -86,6 +86,8 @@ public abstract class clsMobile extends clsEntity {
 		String oDefaultShape = poProp.getPropertyString(pre+P_SHAPE+"."+clsShapeCreator.P_DEFAULT_SHAPE);
 		Shape oShape = clsShapeCreator.createShape(pre+P_SHAPE+"."+oDefaultShape, poProp);
 		initPhysicalObject2D(new clsPose(oPosX, oPosY, oPosAngle), oVelocity, oShape, getTotalWeight());
+		
+		setBody( createBody(pre, poProp) ); // has to be called AFTER the shape has been created. thus, moved to clsMobile and clsStationary.
 	}
 
 	/*

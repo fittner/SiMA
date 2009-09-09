@@ -9,7 +9,9 @@
 package bw.body;
 
 import config.clsBWProperties;
+import bw.body.attributes.clsAttributes;
 import bw.body.internalSystems.clsFlesh;
+import bw.entities.clsEntity;
 
 /**
  * DOCUMENT (deutsch) - insert description 
@@ -26,8 +28,8 @@ public class clsMeatBody extends clsBaseBody {
 	private double mrRegrowRate;
 	private double mrMaxWeight;
 
-	public clsMeatBody(String poPrefix, clsBWProperties poProp) {
-		super(poPrefix, poProp);
+	public clsMeatBody(String poPrefix, clsBWProperties poProp, clsEntity poEntity) {
+		super(poPrefix, poProp, poEntity);
 		applyProperties(poPrefix, poProp);
 	}
 
@@ -39,6 +41,8 @@ public class clsMeatBody extends clsBaseBody {
 		oProp.putAll( clsFlesh.getDefaultProperties(pre) );
 		oProp.setProperty(pre+P_REGROWRATE, 0);
 		oProp.setProperty(pre+P_MAXWEIGHT, 100);
+		
+		oProp.putAll( clsAttributes.getDefaultProperties(pre+P_ATTRIBUTES) );
 				
 		return oProp;
 	}	
