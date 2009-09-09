@@ -35,6 +35,7 @@ public class clsSensorRingSegment extends clsSensorExt {
    private ArrayList<clsCollidingObject> meSensorDataDeliveredToDU = new ArrayList<clsCollidingObject>();
    private double mrMinDistance;
    private double mrMaxDistance;
+   private double mrOffsetX;
 	
    public clsSensorRingSegment(String poPrefix, clsBWProperties poProp, clsBaseIO poBaseIO) {
 		super(poPrefix, poProp, poBaseIO);
@@ -62,12 +63,38 @@ public class clsSensorRingSegment extends clsSensorExt {
 		if(mrMaxDistance < 0) {
 			mrMaxDistance = nRange;
 		}
+		if (mrMinDistance > mrMaxDistance) {
+			throw new java.lang.IllegalArgumentException("min > max");
+		}
 		Double2D oOffset =  new Double2D(poProp.getPropertyDouble(pre+P_SENSOR_OFFSET_X),
 										 poProp.getPropertyDouble(pre+P_SENSOR_OFFSET_Y));
 	
 		//HZ -- initialize sensor engine - defines the maximum sensor range
-		assignSensorData(oOffset, nRange, nFieldOfView);			
+		assignSensorData(oOffset, nRange, nFieldOfView);		
+		
+		assignCenterOfField(nFieldOfView, mrMinDistance, mrMaxDistance);
 	}
+	
+	private void assignCenterOfField(double prFieldOfView, double prMin, double prMax) {
+		//NOTE: this is a rough estimation!
+		
+		double epsilon=0.000000001;
+		
+		if (prFieldOfView >= (Math.PI - epsilon)) {
+			mrOffsetX = 0;
+		} else {
+			double einheitsoffset = ( (2*Math.PI - prFieldOfView) / (2*Math.PI) ) * 0.5;
+			double maxoffset = einheitsoffset * prMax;
+			double minoffset = einheitsoffset * prMin;
+			mrOffsetX = (maxoffset+minoffset) / 2;
+		}
+	}
+	
+	public double getOffsetX() {
+		//value is in "Roboterkoordinaten" not "worldkoordinaten"
+		return mrOffsetX;
+	}
+	
 	/*has to be implemented - return SensorData to Decision Unit,
 	 * Actual, only the detected physical objects summarized in 
 	 * one ArrayList are returned. 
