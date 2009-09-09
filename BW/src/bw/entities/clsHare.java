@@ -262,8 +262,10 @@ public class clsHare extends clsAnimal implements itfGetFlesh, itfAPEatable, itf
 			//This command removes the cake from the playground
 			//clsRegisterEntity.unRegisterPhysicalObject2D(getMobileObject2D());
 			setShape(moDeadAndEaten, getTotalWeight());
+			((clsComplexBody)moBody).getIntraBodySystem().getColorSystem().setNormColor();
 		} else if (!isAlive()) {
 			setShape(moDead, getTotalWeight());
+			((clsComplexBody)moBody).getIntraBodySystem().getColorSystem().setNormColor();
 		}		
 	}
 	

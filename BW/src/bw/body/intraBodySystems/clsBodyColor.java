@@ -104,42 +104,44 @@ public class clsBodyColor implements itfStepUpdateInternalState {
 		
 		Color moActualColor = (Color)moEntity.getShape().getPaint();
 		
-		int nRed = calcNewValue(moNormColor.getRed(), moActualColor.getRed(), mnRedResetRate);
-		int nBlue = calcNewValue(moNormColor.getBlue(), moActualColor.getBlue(), mnGreenResetRate);
-		int nGreen = calcNewValue(moNormColor.getGreen(), moActualColor.getGreen(), mnBlueResetRate);
+		if (!moActualColor.equals(moActualColor)) {
+			int nRed = calcNewValue(moNormColor.getRed(), moActualColor.getRed(), mnRedResetRate);
+			int nGreen = calcNewValue(moNormColor.getGreen(), moActualColor.getGreen(), mnBlueResetRate);
+			int nBlue = calcNewValue(moNormColor.getBlue(), moActualColor.getBlue(), mnGreenResetRate);
 		
-		moEntity.getShape().setPaint(new Color(nRed, nGreen, nBlue));
+			moEntity.getShape().setPaint(new Color(nRed, nGreen, nBlue));
+		}
 	}	
 	
 	public void changeRed(int pnColorChange) {
 		Color moActualColor = (Color)moEntity.getShape().getPaint();
 		int nRed = moActualColor.getRed() + pnColorChange;
-		int nBlue = moActualColor.getBlue();
 		int nGreen = moActualColor.getGreen();
+		int nBlue = moActualColor.getBlue();
 		moEntity.getShape().setPaint(new Color(nRed, nGreen, nBlue));
 	}
 	
 	public void changeGreen(int pnColorChange) {
 		Color moActualColor = (Color)moEntity.getShape().getPaint();
 		int nRed = moActualColor.getRed();
-		int nBlue = moActualColor.getBlue();
 		int nGreen = moActualColor.getGreen() + pnColorChange;
+		int nBlue = moActualColor.getBlue();
 		moEntity.getShape().setPaint(new Color(nRed, nGreen, nBlue));
 	}
 	
 	public void changeBlue(int pnColorChange) {
 		Color moActualColor = (Color)moEntity.getShape().getPaint();
 		int nRed = moActualColor.getRed();
-		int nBlue = moActualColor.getBlue();
 		int nGreen = moActualColor.getGreen() + pnColorChange;
+		int nBlue = moActualColor.getBlue();
 		moEntity.getShape().setPaint(new Color(nRed, nGreen, nBlue));
 	}	
 	
 	public void changeColor(int pnChangeRed, int pnChangeGreen, int pnChangeBlue) {
 		Color moActualColor = (Color)moEntity.getShape().getPaint();
 		int nRed = moActualColor.getRed() + pnChangeRed;
-		int nBlue = moActualColor.getBlue() + pnChangeBlue;
 		int nGreen = moActualColor.getGreen() + pnChangeGreen;
+		int nBlue = moActualColor.getBlue() + pnChangeBlue;
 		moEntity.getShape().setPaint(new Color(nRed, nGreen, nBlue));
 	}		
 

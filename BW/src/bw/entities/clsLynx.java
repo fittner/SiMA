@@ -186,6 +186,7 @@ public class clsLynx extends clsAnimal {
 	private void updateShape() {
 		if (!isAlive()) {
 			setShape(moDead, getTotalWeight());
+			((clsComplexBody)moBody).getIntraBodySystem().getColorSystem().setNormColor();
 		}		
 	}
 	
