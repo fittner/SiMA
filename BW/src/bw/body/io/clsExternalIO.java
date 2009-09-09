@@ -20,6 +20,7 @@ import bw.body.io.sensors.ext.clsSensorExt;
 //ZEILINGER  -- integration Sensor Engine
 import bw.body.io.sensors.ext.clsSensorBump;
 import bw.body.io.sensors.ext.clsSensorEngine;
+import bw.body.io.sensors.ext.clsSensorManipulateArea;
 import bw.body.io.sensors.ext.clsSensorVision;
 import bw.body.io.sensors.ext.clsSensorEatableArea;
 import bw.body.io.sensors.ext.clsSensorPositionChange;
@@ -96,7 +97,7 @@ public class clsExternalIO extends clsBaseIO {
 		oProp.putAll( clsSensorEngine.getDefaultProperties(pre+P_SENSORENGINE) );
 		oProp.setProperty(pre+P_SENSORRANGE, 0.0); // Default - changed later on
 
-		oProp.setProperty(pre+P_NUMSENSORS, 6);
+		oProp.setProperty(pre+P_NUMSENSORS, 7);
 				
 		oProp.putAll( clsSensorAcceleration.getDefaultProperties( pre+"0") );
 		oProp.setProperty(pre+"0."+P_SENSORACTIVE, true);
@@ -112,6 +113,7 @@ public class clsExternalIO extends clsBaseIO {
 		oProp.setProperty(pre+"2."+P_SENSORACTIVE, true);
 		oProp.setProperty(pre+"2."+P_SENSORTYPE, eSensorExtType.VISION.name());
 		oProp.setProperty(pre+"2."+P_SENSORRANGE, oProp.getProperty(pre+P_SENSORENGINE+"."+clsSensorEngine.P_MAX_RANGE));
+		oProp.setProperty(pre+"2."+clsSensorVision.P_SENSOR_MAX_DISTANCE, oProp.getProperty(pre+P_SENSORENGINE+"."+clsSensorEngine.P_MAX_RANGE));
 		
 		oProp.putAll( clsSensorRadiation.getDefaultProperties( pre+"3") );
 		oProp.setProperty(pre+"3."+P_SENSORACTIVE, true);
@@ -128,6 +130,12 @@ public class clsExternalIO extends clsBaseIO {
 		oProp.setProperty(pre+"5."+P_SENSORACTIVE, true);
 		oProp.setProperty(pre+"5."+P_SENSORTYPE, eSensorExtType.POSITIONCHANGE.name());		
 		oProp.setProperty(pre+"5."+P_SENSORRANGE, 0.0);
+
+		oProp.putAll( clsSensorManipulateArea.getDefaultProperties( pre+"6") );
+		oProp.setProperty(pre+"6."+P_SENSORACTIVE, true);
+		oProp.setProperty(pre+"6."+P_SENSORTYPE, eSensorExtType.MANIPULATE_AREA.name());
+		oProp.setProperty(pre+"6."+P_SENSORRANGE, oProp.getPropertyDouble(pre+P_SENSORENGINE+"."+clsSensorEngine.P_MAX_RANGE)/
+												  oProp.getPropertyInt(pre+P_SENSORENGINE+"."+clsSensorEngine.P_RANGEDIVISION));
 		
 		oProp.putAll( clsActionProcessor.getDefaultProperties( pre+P_ACTIONPROCESSOR) );
 
@@ -231,6 +239,10 @@ public class clsExternalIO extends clsBaseIO {
 						break;
 					case EATABLE_AREA:
 						moSensorEngine.registerSensor(eType,new clsSensorEatableArea(tmp_pre, poProp, this)); 
+						moSensorExternal.put(eType, moSensorEngine.getMeRegisteredSensors().get(eType)); 
+						break;
+					case MANIPULATE_AREA:
+						moSensorEngine.registerSensor(eType,new clsSensorManipulateArea(tmp_pre, poProp, this)); 
 						moSensorExternal.put(eType, moSensorEngine.getMeRegisteredSensors().get(eType)); 
 						break;
 					case POSITIONCHANGE:

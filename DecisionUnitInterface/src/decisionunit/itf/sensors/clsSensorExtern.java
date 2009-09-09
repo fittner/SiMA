@@ -10,6 +10,6 @@ import enums.eSensorExtType;
  */
 abstract public class clsSensorExtern extends clsDataBase{
 
-	public eSensorExtType moVisionType;
+	public eSensorExtType moSensorType;
 	
 }

@@ -113,28 +113,28 @@ public class clsBubble extends clsAnimate implements itfGetSensorEngine, itfGetR
 			clsBWProperties poProp) {
 		// removes standard vision from complex body and adds the 3-range-vision
 		poProp.setProperty(poPre+clsAnimate.P_BODY+"."+clsComplexBody.P_SENSORSEXT+"."+"2."+clsExternalIO.P_SENSORACTIVE, false);
-		poProp.setProperty(poPre+clsAnimate.P_BODY+"."+clsComplexBody.P_SENSORSEXT+"."+clsExternalIO.P_NUMSENSORS, 9);
+		poProp.setProperty(poPre+clsAnimate.P_BODY+"."+clsComplexBody.P_SENSORSEXT+"."+clsExternalIO.P_NUMSENSORS, 10);
 		//add 3-range-vision
-		poProp.putAll( clsSensorVision.getDefaultProperties( poPre+clsAnimate.P_BODY+"."+clsComplexBody.P_SENSORSEXT+"."+"6") );
-		poProp.setProperty(poPre+clsAnimate.P_BODY+"."+clsComplexBody.P_SENSORSEXT+"."+"6."+clsExternalIO.P_SENSORACTIVE, true);
-		poProp.setProperty(poPre+clsAnimate.P_BODY+"."+clsComplexBody.P_SENSORSEXT+"."+"6."+clsExternalIO.P_SENSORTYPE, eSensorExtType.VISION_NEAR.name());
-		poProp.setProperty(poPre+clsAnimate.P_BODY+"."+clsComplexBody.P_SENSORSEXT+"."+"6."+clsExternalIO.P_SENSORRANGE, 20);
-		poProp.setProperty(poPre+clsAnimate.P_BODY+"."+clsComplexBody.P_SENSORSEXT+"."+"6."+clsSensorVision.P_SENSOR_MIN_DISTANCE, 0 );
-		poProp.setProperty(poPre+clsAnimate.P_BODY+"."+clsComplexBody.P_SENSORSEXT+"."+"6."+clsSensorVision.P_SENSOR_FIELD_OF_VIEW, Math.PI );
-
 		poProp.putAll( clsSensorVision.getDefaultProperties( poPre+clsAnimate.P_BODY+"."+clsComplexBody.P_SENSORSEXT+"."+"7") );
 		poProp.setProperty(poPre+clsAnimate.P_BODY+"."+clsComplexBody.P_SENSORSEXT+"."+"7."+clsExternalIO.P_SENSORACTIVE, true);
-		poProp.setProperty(poPre+clsAnimate.P_BODY+"."+clsComplexBody.P_SENSORSEXT+"."+"7."+clsExternalIO.P_SENSORTYPE, eSensorExtType.VISION_MEDIUM.name());
-		poProp.setProperty(poPre+clsAnimate.P_BODY+"."+clsComplexBody.P_SENSORSEXT+"."+"7."+clsExternalIO.P_SENSORRANGE, 40 );
-		poProp.setProperty(poPre+clsAnimate.P_BODY+"."+clsComplexBody.P_SENSORSEXT+"."+"7."+clsSensorVision.P_SENSOR_MIN_DISTANCE, 20 );
+		poProp.setProperty(poPre+clsAnimate.P_BODY+"."+clsComplexBody.P_SENSORSEXT+"."+"7."+clsExternalIO.P_SENSORTYPE, eSensorExtType.VISION_NEAR.name());
+		poProp.setProperty(poPre+clsAnimate.P_BODY+"."+clsComplexBody.P_SENSORSEXT+"."+"7."+clsExternalIO.P_SENSORRANGE, 20);
+		poProp.setProperty(poPre+clsAnimate.P_BODY+"."+clsComplexBody.P_SENSORSEXT+"."+"7."+clsSensorVision.P_SENSOR_MIN_DISTANCE, 0 );
 		poProp.setProperty(poPre+clsAnimate.P_BODY+"."+clsComplexBody.P_SENSORSEXT+"."+"7."+clsSensorVision.P_SENSOR_FIELD_OF_VIEW, Math.PI );
 
 		poProp.putAll( clsSensorVision.getDefaultProperties( poPre+clsAnimate.P_BODY+"."+clsComplexBody.P_SENSORSEXT+"."+"8") );
 		poProp.setProperty(poPre+clsAnimate.P_BODY+"."+clsComplexBody.P_SENSORSEXT+"."+"8."+clsExternalIO.P_SENSORACTIVE, true);
-		poProp.setProperty(poPre+clsAnimate.P_BODY+"."+clsComplexBody.P_SENSORSEXT+"."+"8."+clsExternalIO.P_SENSORTYPE, eSensorExtType.VISION_FAR.name());
-		poProp.setProperty(poPre+clsAnimate.P_BODY+"."+clsComplexBody.P_SENSORSEXT+"."+"8."+clsExternalIO.P_SENSORRANGE, 60);
-		poProp.setProperty(poPre+clsAnimate.P_BODY+"."+clsComplexBody.P_SENSORSEXT+"."+"8."+clsSensorVision.P_SENSOR_MIN_DISTANCE, 40 );
+		poProp.setProperty(poPre+clsAnimate.P_BODY+"."+clsComplexBody.P_SENSORSEXT+"."+"8."+clsExternalIO.P_SENSORTYPE, eSensorExtType.VISION_MEDIUM.name());
+		poProp.setProperty(poPre+clsAnimate.P_BODY+"."+clsComplexBody.P_SENSORSEXT+"."+"8."+clsExternalIO.P_SENSORRANGE, 40 );
+		poProp.setProperty(poPre+clsAnimate.P_BODY+"."+clsComplexBody.P_SENSORSEXT+"."+"8."+clsSensorVision.P_SENSOR_MIN_DISTANCE, 20 );
 		poProp.setProperty(poPre+clsAnimate.P_BODY+"."+clsComplexBody.P_SENSORSEXT+"."+"8."+clsSensorVision.P_SENSOR_FIELD_OF_VIEW, Math.PI );
+
+		poProp.putAll( clsSensorVision.getDefaultProperties( poPre+clsAnimate.P_BODY+"."+clsComplexBody.P_SENSORSEXT+"."+"9") );
+		poProp.setProperty(poPre+clsAnimate.P_BODY+"."+clsComplexBody.P_SENSORSEXT+"."+"9."+clsExternalIO.P_SENSORACTIVE, true);
+		poProp.setProperty(poPre+clsAnimate.P_BODY+"."+clsComplexBody.P_SENSORSEXT+"."+"9."+clsExternalIO.P_SENSORTYPE, eSensorExtType.VISION_FAR.name());
+		poProp.setProperty(poPre+clsAnimate.P_BODY+"."+clsComplexBody.P_SENSORSEXT+"."+"9."+clsExternalIO.P_SENSORRANGE, 60);
+		poProp.setProperty(poPre+clsAnimate.P_BODY+"."+clsComplexBody.P_SENSORSEXT+"."+"9."+clsSensorVision.P_SENSOR_MIN_DISTANCE, 40 );
+		poProp.setProperty(poPre+clsAnimate.P_BODY+"."+clsComplexBody.P_SENSORSEXT+"."+"9."+clsSensorVision.P_SENSOR_FIELD_OF_VIEW, Math.PI );
 	}
 	
 	private void applyProperties(String poPrefix, clsBWProperties poProp) {

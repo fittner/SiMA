@@ -6,6 +6,7 @@ public enum eSensorExtType {
 	ACOUSTIC,
 	BUMP,
 	EATABLE_AREA,
+	MANIPULATE_AREA,
 	OLFACTORIC,
 	TACTILE,
 	VISION,

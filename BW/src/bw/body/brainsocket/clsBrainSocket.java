@@ -27,6 +27,7 @@ import decisionunit.itf.sensors.clsEatableArea;
 import decisionunit.itf.sensors.clsEnergyConsumption;
 import decisionunit.itf.sensors.clsFastMessenger;
 import decisionunit.itf.sensors.clsHealthSystem;
+import decisionunit.itf.sensors.clsSensorManipulateArea;
 import decisionunit.itf.sensors.clsStomachTension;
 import decisionunit.itf.sensors.clsTemperatureSystem;
 import decisionunit.itf.sensors.clsPositionChange;
@@ -132,6 +133,7 @@ public class clsBrainSocket implements itfStepProcessing {
 		oData.addSensorExt(eSensorExtType.VISION_MEDIUM, convertVisionSensor(eSensorExtType.VISION_MEDIUM) );
 		oData.addSensorExt(eSensorExtType.VISION_FAR, convertVisionSensor(eSensorExtType.VISION_FAR) );
 		oData.addSensorExt(eSensorExtType.EATABLE_AREA, convertEatAbleAreaSensor() );
+		oData.addSensorExt(eSensorExtType.MANIPULATE_AREA, convertManipulateSensor(eSensorExtType.MANIPULATE_AREA) );
 		//ad homeostasis sensor data
 		oData.addSensorInt(eSensorIntType.ENERGY_CONSUMPTION, convertEnergySystem() );
 		oData.addSensorInt(eSensorIntType.HEALTH, convertHealthSystem() );
@@ -298,10 +300,30 @@ public class clsBrainSocket implements itfStepProcessing {
    //ZEILINGER Integration of the SensorEngine
 	private clsVision convertVisionSensor(eSensorExtType poVisionType) {
 		clsVision oData = new clsVision();
-		oData.moVisionType = poVisionType;
+		oData.moSensorType = poVisionType;
 		clsSensorVision oVision = (clsSensorVision)(moSensorsExt.get(poVisionType));
 		if(oVision != null) {
 			ArrayList<clsCollidingObject> eDetectedObjectList = oVision.getSensorData();
+	
+			Iterator <clsCollidingObject> i = eDetectedObjectList.iterator(); 
+			while(i.hasNext()){
+				clsVisionEntry oEntry = convertVisionEntry(i.next());
+				
+				if (oEntry != null) {
+					oData.add(oEntry);
+				}	
+			}
+		}
+		return oData;
+	}
+	
+	   //ZEILINGER Integration of the SensorEngine
+	private clsSensorManipulateArea convertManipulateSensor(eSensorExtType poVisionType) {
+		clsSensorManipulateArea oData = new clsSensorManipulateArea();
+		oData.moSensorType = poVisionType;
+		bw.body.io.sensors.ext.clsSensorManipulateArea oManip = (bw.body.io.sensors.ext.clsSensorManipulateArea)(moSensorsExt.get(poVisionType));
+		if(oManip != null) {
+			ArrayList<clsCollidingObject> eDetectedObjectList = oManip.getSensorData();
 	
 			Iterator <clsCollidingObject> i = eDetectedObjectList.iterator(); 
 			while(i.hasNext()){
