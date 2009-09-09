@@ -288,6 +288,7 @@ public class clsBWProperties extends Properties {
 		if (poFilename.length()>0) {
 	    try
 	    {
+	    	System.out.println("reading property file '"+poFilename+"'");
 	        FileInputStream propInFile = new FileInputStream( poFilename );
 	        p2.load( propInFile );
 	        
