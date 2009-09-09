@@ -55,7 +55,7 @@ public class clsComplexBody extends clsBaseBody implements
 		String pre = clsBWProperties.addDot(poPrefix);
 
 		moInternalSystem 		= new clsInternalSystem(pre+P_INTERNAL, poProp);
-		moIntraBodySystem 		= new clsIntraBodySystem(pre+P_INTRABODY, poProp, moInternalSystem);
+		moIntraBodySystem 		= new clsIntraBodySystem(pre+P_INTRABODY, poProp, moInternalSystem, poEntity);
 		moInterBodyWorldSystem 	= new clsInterBodyWorldSystem(pre+P_BODYWORLD, poProp, moInternalSystem);
 		
 		moExternalIO	= new clsExternalIO(pre+P_SENSORSEXT, poProp, this, poEntity);

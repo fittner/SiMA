@@ -10,6 +10,7 @@ package bw.body.intraBodySystems;
 import config.clsBWProperties;
 import bw.body.itfStepUpdateInternalState;
 import bw.body.internalSystems.clsInternalSystem;
+import bw.entities.clsEntity;
 
 /**
  * DOCUMENT (deutsch) - insert description 
@@ -23,13 +24,13 @@ public class clsIntraBodySystem implements itfStepUpdateInternalState{
 	public static final String P_DAMAGENUTRITION = "damagenutrition";	
 	public static final String P_DAMAGETEMPERATURE = "damagetemperature";	
 	
-    private clsBodyColor moBioSystem;
+    private clsBodyColor moColorSystem;
     private clsGrowth moGrowthSystem;
     private clsDamageNutrition moDamageNutrition;
     private clsDamageTemperature moDamageTemperature;
     
-    public clsIntraBodySystem(String poPrefix, clsBWProperties poProp, clsInternalSystem poInternalSystem) {
-		applyProperties(poPrefix, poProp, poInternalSystem);
+    public clsIntraBodySystem(String poPrefix, clsBWProperties poProp, clsInternalSystem poInternalSystem, clsEntity poEntity) {
+		applyProperties(poPrefix, poProp, poInternalSystem, poEntity);
 	}
 
 	public static clsBWProperties getDefaultProperties(String poPrefix) {
@@ -45,10 +46,10 @@ public class clsIntraBodySystem implements itfStepUpdateInternalState{
 		return oProp;
 	}	
 
-	private void applyProperties(String poPrefix, clsBWProperties poProp, clsInternalSystem poInternalSystem) {
+	private void applyProperties(String poPrefix, clsBWProperties poProp, clsInternalSystem poInternalSystem, clsEntity poEntity) {
 		String pre = clsBWProperties.addDot(poPrefix);
 
-		moBioSystem 		= new clsBodyColor(pre+P_BODYCOLOR, poProp);
+		moColorSystem 		= new clsBodyColor(pre+P_BODYCOLOR, poProp, poEntity);
 		moGrowthSystem 		= new clsGrowth(pre+P_GROWTHSYSTEM, poProp);
 		moDamageNutrition 		= new clsDamageNutrition(pre+P_DAMAGENUTRITION, poProp, poInternalSystem.getHealthSystem(), poInternalSystem.getStomachSystem(), poInternalSystem.getFastMessengerSystem());
 		moDamageTemperature 	= new clsDamageTemperature(pre+P_DAMAGETEMPERATURE, poProp, poInternalSystem.getHealthSystem(), poInternalSystem.getTemperatureSystem(), poInternalSystem.getFastMessengerSystem());
@@ -57,8 +58,8 @@ public class clsIntraBodySystem implements itfStepUpdateInternalState{
     /**
 	 * @return the moBioSystem
 	 */
-	public clsBodyColor getBioSystem() {
-		return moBioSystem;
+	public clsBodyColor getColorSystem() {
+		return moColorSystem;
 	}
 
 
@@ -94,7 +95,7 @@ public class clsIntraBodySystem implements itfStepUpdateInternalState{
      *
      */
     public void stepUpdateInternalState() {
-    	moBioSystem.stepUpdateInternalState();
+    	moColorSystem.stepUpdateInternalState();
     	moGrowthSystem.stepUpdateInternalState();
      	moDamageNutrition.stepUpdateInternalState();
     	moDamageTemperature.stepUpdateInternalState();
