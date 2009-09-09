@@ -29,7 +29,7 @@ import bw.body.io.sensors.ext.clsSensorExt;
  */
 public class clsSensorVision extends clsSensorExt {
 
-	public static final String P_SENSOR_MIN_DISTANCE = "sensor_field_of_view";
+	public static final String P_SENSOR_MIN_DISTANCE = "sensor_min_distance";
 	
    private ArrayList<clsCollidingObject> meSensorDataDeliveredToDU = new ArrayList<clsCollidingObject>();
    private double mrMinDistance;
