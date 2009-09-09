@@ -23,11 +23,13 @@ public class clsIntraBodySystem implements itfStepUpdateInternalState{
 	public static final String P_GROWTHSYSTEM = "growthsystem";	
 	public static final String P_DAMAGENUTRITION = "damagenutrition";	
 	public static final String P_DAMAGETEMPERATURE = "damagetemperature";	
+	public static final String P_FACIALEXPRESSION = "facialexpression";
 	
     private clsBodyColor moColorSystem;
     private clsGrowth moGrowthSystem;
     private clsDamageNutrition moDamageNutrition;
     private clsDamageTemperature moDamageTemperature;
+    private clsFacialExpression moFacialExpression;
     
     public clsIntraBodySystem(String poPrefix, clsBWProperties poProp, clsInternalSystem poInternalSystem, clsEntity poEntity) {
 		applyProperties(poPrefix, poProp, poInternalSystem, poEntity);
@@ -42,6 +44,7 @@ public class clsIntraBodySystem implements itfStepUpdateInternalState{
 		oProp.putAll( clsGrowth.getDefaultProperties(pre+P_GROWTHSYSTEM) );
 		oProp.putAll( clsDamageNutrition.getDefaultProperties(pre+P_DAMAGENUTRITION) );
 		oProp.putAll( clsDamageTemperature.getDefaultProperties(pre+P_DAMAGETEMPERATURE) );
+		oProp.putAll( clsFacialExpression.getDefaultProperties(pre+P_FACIALEXPRESSION) );
 				
 		return oProp;
 	}	
@@ -51,6 +54,7 @@ public class clsIntraBodySystem implements itfStepUpdateInternalState{
 
 		moColorSystem 		= new clsBodyColor(pre+P_BODYCOLOR, poProp, poEntity);
 		moGrowthSystem 		= new clsGrowth(pre+P_GROWTHSYSTEM, poProp);
+		moFacialExpression 		= new clsFacialExpression(pre+P_FACIALEXPRESSION, poProp, poEntity);
 		moDamageNutrition 		= new clsDamageNutrition(pre+P_DAMAGENUTRITION, poProp, poInternalSystem.getHealthSystem(), poInternalSystem.getStomachSystem(), poInternalSystem.getFastMessengerSystem());
 		moDamageTemperature 	= new clsDamageTemperature(pre+P_DAMAGETEMPERATURE, poProp, poInternalSystem.getHealthSystem(), poInternalSystem.getTemperatureSystem(), poInternalSystem.getFastMessengerSystem());
 	}	
@@ -88,6 +92,9 @@ public class clsIntraBodySystem implements itfStepUpdateInternalState{
 		return moDamageTemperature;
 	}
 
+	public clsFacialExpression getFacialExpression()  {
+		return moFacialExpression;
+	}
 
 
 	/**
@@ -95,6 +102,7 @@ public class clsIntraBodySystem implements itfStepUpdateInternalState{
      *
      */
     public void stepUpdateInternalState() {
+    	//moFacialExpression.stepUpdateInternalState(); - nothing to do!!!
     	moColorSystem.stepUpdateInternalState();
     	moGrowthSystem.stepUpdateInternalState();
      	moDamageNutrition.stepUpdateInternalState();
