@@ -18,6 +18,7 @@ import bw.body.io.sensors.itfSensorUpdate;
  * @author zeilinger
  * 
  */
+@Deprecated 
 public abstract class clsSensorExt extends clsSensorActuatorBaseExt implements itfSensorUpdate {
 
 

@@ -20,6 +20,7 @@ import ARSsim.physics2D.physicalObject.clsMobileObject2D;
 import ARSsim.physics2D.physicalObject.clsStationaryObject2D;
 import bw.body.io.clsBaseIO;
 import bw.body.io.clsExternalIO;
+import bw.body.io.clsSensorActuatorBaseExt;
 import bw.body.io.sensors.itfSensorUpdate;
 import bw.entities.clsEntity;
 import bw.utils.sensors.clsSensorDataCalculation;
@@ -32,7 +33,8 @@ import bw.utils.sensors.clsSensorDataCalculation;
  * 18.07.2009, 09:28:39
  * 
  */
-public abstract class clsSensorExt extends bw.body.io.sensors.external.clsSensorExt implements itfSensorUpdate {//clsSensorActuatorBaseExt implements itfSensorUpdate {
+
+public abstract class clsSensorExt extends clsSensorActuatorBaseExt implements itfSensorUpdate {//extends bw.body.io.sensors.external.clsSensorExt implements itfSensorUpdate {//clsSensorActuatorBaseExt implements itfSensorUpdate {
 
 	public static final String P_SENSOR_FIELD_OF_VIEW = "sensor_field_of_view";
 	public static final String P_SENSOR_OFFSET_X = "sensor_offset_X";
@@ -46,7 +48,7 @@ public abstract class clsSensorExt extends bw.body.io.sensors.external.clsSensor
 	 */
 	public clsSensorExt(String poPrefix, clsBWProperties poProp,  
 						clsBaseIO poBaseIO) {
-		super(poPrefix, poProp);
+		super(poBaseIO);
 		applyProperties(poPrefix, poProp);
 		moSensorEngine = ((clsExternalIO)poBaseIO).moSensorEngine; 			
 	}
