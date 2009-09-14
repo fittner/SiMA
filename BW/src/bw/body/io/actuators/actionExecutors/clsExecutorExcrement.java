@@ -107,7 +107,7 @@ public class clsExecutorExcrement extends clsActionExecutor{
 		if (oEx==null) return false; 
 		
 		//Drop it in Mason
-		clsRegisterEntity.registerPhysicalObject2D(oEx.getMobileObject2D());
+		clsRegisterEntity.registerEntity(oEx);
 		oEx.setRegistered(true);
 		
 		return true;

@@ -63,7 +63,7 @@ public class clsSmartExcrement extends clsInanimate {
 		oProp.putAll( clsMeatBody.getDefaultProperties(pre+P_BODY) );
 		oProp.setProperty(pre+P_BODY_TYPE, eBodyType.MEAT.toString());
 		
-		oProp.setProperty(pre+P_STRUCTURALWEIGHT, 0.0);
+		oProp.setProperty(pre+P_STRUCTURALWEIGHT, 0.0001);
 		
 		oProp.setProperty(pre+P_SHAPE+"."+clsShapeCreator.P_DEFAULT_SHAPE, P_SHAPENAME);
 		oProp.setProperty(pre+P_SHAPE+"."+P_SHAPENAME+"."+clsShapeCreator.P_TYPE, eShapeType.CIRCLE.name());

@@ -97,7 +97,7 @@ public double mrLength;
   public void rotateBy(clsAngle poAngle) {
     moAzimuth.add(poAngle);
   }
-
+  
   public clsPoint getVector() {
     clsPoint oResult = new clsPoint(mrLength, 0);
     

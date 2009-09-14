@@ -9,7 +9,6 @@
 package ARSsim.physics2D.util;
 
 import java.text.NumberFormat;
-
 import sim.physics2D.util.Angle;
 import sim.physics2D.util.Double2D;
 
@@ -40,6 +39,40 @@ public class clsPolarcoordinate {
 	  public clsPolarcoordinate(Double2D poTo) {
 		mrLength = poTo.length();
 	    moAzimuth = angleToPoint(poTo);
+	  }
+	  
+	  private double getNormalizedAngle(double prAlpha) {
+		    while (prAlpha<0) {
+		      prAlpha+=2*Math.PI;
+		    }
+		    
+		    while (prAlpha>=2*Math.PI) {
+		      prAlpha-=2*Math.PI;
+		    }
+		    
+		    return prAlpha;
+		  }
+	  
+	  public Double2D toDouble2D() {
+		double x = 0;
+		double y = 0;
+		double a = getNormalizedAngle(moAzimuth.radians);
+	    
+	    x = Math.cos(a) * mrLength;
+   
+	    y = Math.sqrt(Math.pow(mrLength,2) - Math.pow(x,2));
+	    
+	    if (a > Math.PI) {
+	      y = -y;
+	    }
+	    
+	    if (a > Math.PI/2 && a < Math.PI*3/2) {
+	    	x = -Math.abs(x);
+	    } else {
+	    	x = Math.abs(x);
+	    }
+
+	    return new Double2D(x, y);		  
 	  }
 	  
 	  private static Double2D diffAtoB(Double2D poFrom, Double2D poTo) {

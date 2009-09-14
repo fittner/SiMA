@@ -56,7 +56,7 @@ public class clsComplexBody extends clsBaseBody implements
 
 		moInternalSystem 		= new clsInternalSystem(pre+P_INTERNAL, poProp);
 		moIntraBodySystem 		= new clsIntraBodySystem(pre+P_INTRABODY, poProp, moInternalSystem, poEntity);
-		moInterBodyWorldSystem 	= new clsInterBodyWorldSystem(pre+P_BODYWORLD, poProp, moInternalSystem);
+		moInterBodyWorldSystem 	= new clsInterBodyWorldSystem(pre+P_BODYWORLD, poProp, moInternalSystem, poEntity);
 		
 		moExternalIO	= new clsExternalIO(pre+P_SENSORSEXT, poProp, this, poEntity);
 		moInternalIO 	= new clsInternalIO(pre+P_SENSORSINT, poProp, this);
