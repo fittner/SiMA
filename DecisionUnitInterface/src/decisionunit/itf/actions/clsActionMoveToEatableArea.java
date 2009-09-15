@@ -24,7 +24,7 @@ public class clsActionMoveToEatableArea implements itfActionCommand {
 	}
 	
 	public String getLog() {
-		return "<Kill>" + mrForce + "</Kill>"; 
+		return "<MoveToEatableArea>" + mrForce + "</MoveToEatableArea>"; 
 	}
 
 	public double getForce() {

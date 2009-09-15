@@ -19,11 +19,11 @@ package decisionunit.itf.actions;
  */
 public class clsActionBodyColor implements itfActionCommand {
 
-	private double mrRed;
-	private double mrGreen;
-	private double mrBlue;
+	private int mrRed;
+	private int mrGreen;
+	private int mrBlue;
 
-	public clsActionBodyColor(double prRed,double prGreen,double prBlue) {
+	public clsActionBodyColor(int prRed,int prGreen,int prBlue) {
 		mrRed=prRed;
 		mrGreen=prGreen;
 		mrBlue=prBlue;
@@ -33,24 +33,24 @@ public class clsActionBodyColor implements itfActionCommand {
 		return "<BodyColor>" + mrRed + '/' +  mrGreen + '/' +  mrBlue + "</BodyColor>"; 
 	}
 
-	public double getRed() {
+	public int getRed() {
 		return mrRed;
 	}
-	public void setRed(double prRed) {
+	public void setRed(int prRed) {
 		mrRed=prRed;
 	}
 
-	public double getGreen() {
+	public int getGreen() {
 		return mrGreen;
 	}
-	public void setGreen(double prGreen) {
+	public void setGreen(int prGreen) {
 		mrGreen=prGreen;
 	}
 	
-	public double getBlue() {
+	public int getBlue() {
 		return mrBlue;
 	}
-	public void setBlue(double prBlue) {
+	public void setBlue(int prBlue) {
 		mrBlue=prBlue;
 	}
 }

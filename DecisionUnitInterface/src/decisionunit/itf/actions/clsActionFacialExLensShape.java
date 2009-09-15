@@ -26,7 +26,7 @@ public class clsActionFacialExLensShape implements itfActionCommand {
 	}
 	
 	public String getLog() {
-		return "<FacialExLensSize>" + meShape.toString() + "</FacialExLensSize>"; 
+		return "<FacialExLensShape>" + meShape.toString() + "</FacialExLensShape>"; 
 	}
 
 	public eActionFacialExLensShape getShape() {

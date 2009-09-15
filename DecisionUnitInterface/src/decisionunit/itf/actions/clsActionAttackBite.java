@@ -1,24 +1,24 @@
 package decisionunit.itf.actions;
 
 /**
- * Kill command
+ * Attack/Bite command
  * Parameters
- * 	prForce = The force used to kill the entity   (Default ~4)
+ * 	prForce = The force used to attack the entity   (Default ~4)
  * 
  * @author Benny Dönz
  * 20.06.2009, 15:31:13
  * 
  */
-public class clsActionKill implements itfActionCommand {
+public class clsActionAttackBite implements itfActionCommand {
 
 	private double mrForce;
 
-	public clsActionKill(double prForce) {
+	public clsActionAttackBite(double prForce) {
 		mrForce=prForce;
 	}
 	
 	public String getLog() {
-		return "<Kill>" + mrForce + "</Kill>"; 
+		return "<AttackBite>" + mrForce + "</AttackBite>"; 
 	}
 
 	public double getForce() {

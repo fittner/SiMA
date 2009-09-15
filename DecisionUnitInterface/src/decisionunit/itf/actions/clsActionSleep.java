@@ -26,7 +26,7 @@ public class clsActionSleep implements itfActionCommand {
 	}
 	
 	public String getLog() {
-		return "<Kiss>" + meIntensity.toString() + "</Kiss>"; 
+		return "<Sleep>" + meIntensity.toString() + "</Sleep>"; 
 	}
 
 	public eActionSleepIntensity getIntensity() {

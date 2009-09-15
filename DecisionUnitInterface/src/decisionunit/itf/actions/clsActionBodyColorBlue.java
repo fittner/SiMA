@@ -17,9 +17,9 @@ package decisionunit.itf.actions;
  */
 public class clsActionBodyColorBlue implements itfActionCommand {
 
-	private double mrBlue;
+	private int mrBlue;
 
-	public clsActionBodyColorBlue(double prBlue) {
+	public clsActionBodyColorBlue(int prBlue) {
 		mrBlue=prBlue;
 	}
 	
@@ -27,10 +27,10 @@ public class clsActionBodyColorBlue implements itfActionCommand {
 		return "<BodyColorBlue>" + mrBlue + "</BodyColorBlue>"; 
 	}
 
-	public double getBlue() {
+	public int getBlue() {
 		return mrBlue;
 	}
-	public void setBlue(double prBlue) {
+	public void setBlue(int prBlue) {
 		mrBlue=prBlue;
 	}
 }
