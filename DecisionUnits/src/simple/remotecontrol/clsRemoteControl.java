@@ -14,6 +14,7 @@ import decisionunit.itf.sensors.clsEatableArea;
 import decisionunit.itf.sensors.clsVision;
 import enums.eActionKissIntensity;
 import enums.eActionMoveDirection;
+import enums.eActionSleepIntensity;
 import enums.eActionTurnDirection;
 import enums.eEntityType;
 import enums.eSensorExtType;
@@ -91,6 +92,11 @@ public class clsRemoteControl extends clsBaseDecisionUnit  {
 	public void process() {
 		 itfActionProcessor poActionProcessor = getActionProcessor();
 		//the processing is taken over by the user via keyboard
+		 
+		 if (moKeyPressed!=0) {
+			 moKeyPressed=moKeyPressed;
+		 }
+		 
 	   	switch( moKeyPressed )
     	{
     	case 38: //up
@@ -129,8 +135,12 @@ public class clsRemoteControl extends clsBaseDecisionUnit  {
     		poActionProcessor.call(new clsActionToInventory() );
     		break;
 
-    	case 65: //'A'
+    	case 76: //'L'
     		attack(poActionProcessor,	eEntityType.BUBBLE);
+    		break;
+
+    	case 66: //'B'
+    		kill(poActionProcessor,	eEntityType.BUBBLE);
     		break;
     		
     	case 88: //'X'
@@ -141,7 +151,7 @@ public class clsRemoteControl extends clsBaseDecisionUnit  {
     		poActionProcessor.call(new clsActionMoveToEatableArea(4));
     		break;
     		
-    	case 66: //'B'
+    	case 75: //'K'
     		poActionProcessor.call(new clsActionKiss(eActionKissIntensity.MIDDLE));
     		break;
     		
@@ -160,8 +170,17 @@ public class clsRemoteControl extends clsBaseDecisionUnit  {
     	case 51: //3
     		if (moPrevKeyPressed!=moKeyPressed) poActionProcessor.call(clsActionSequenceFactory.getWalzSequence(2,2));
     		break;
-    		
+
+    	case 70: //f
+    		if (moPrevKeyPressed!=moKeyPressed) {
+    			poActionProcessor.call(new clsActionBodyColor (10,-10,-10));
+    		}
+    	
     	case 83: //'S'
+    		poActionProcessor.call(new clsActionSleep (eActionSleepIntensity.DEEP));
+    		break;
+    		
+//    	case 83: //'S'
 //            if(botState==HAVECAN)
 //            {
 //	    		objCE.unRegisterForceConstraint(pj);                            
@@ -171,7 +190,9 @@ public class clsRemoteControl extends clsBaseDecisionUnit  {
 //	            objCE.removeNoCollisions(e2, currentCan.getMobile());
 //	            currentCan.visible = true;
 //            }
-    		break;
+//    		break;
+
+   	
     	}
 	   	if (mnLogXML) {
 	   		goLogging(poActionProcessor);
@@ -198,7 +219,7 @@ public class clsRemoteControl extends clsBaseDecisionUnit  {
 
 		for(int i=0; i<oVis.getList().size(); i++){
 			if (oVis.getList().get(i).mnEntityType == peEntityType) {
-				poActionProcessor.call(new clsActionAttack(4, oVis.getList().get(i).moEntityId));	
+				poActionProcessor.call(new clsActionAttackLightning(4, oVis.getList().get(i).moEntityId));	
 			}
 		}
 
@@ -206,7 +227,7 @@ public class clsRemoteControl extends clsBaseDecisionUnit  {
 
 
 	/**
-	 * Hurts the entity with 4 hit-points - using calsActionKill as command-processor interface 
+	 * Hurts the entity with 4 hit-points - using calsActionAttackBite as command-processor interface 
 	 * 
 	 * @param poActionProcessor
 	 */
@@ -216,7 +237,7 @@ public class clsRemoteControl extends clsBaseDecisionUnit  {
 		{
 			if( oEatArea.mnTypeOfFirstEntity == peEntityType )
 			{
-				poActionProcessor.call(new clsActionKill(4));	
+				poActionProcessor.call(new clsActionAttackBite(4));	
 			}
 		}
 //		poActionProcessor.call(new clsActionEat());	
