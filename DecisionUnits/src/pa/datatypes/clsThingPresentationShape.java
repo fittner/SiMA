@@ -13,6 +13,6 @@ package pa.datatypes;
  * 15.09.2009, 09:28:10
  * 
  */
-public class clsThingPresentationShape extends clsThingPresentationDriveObject {
+public class clsThingPresentationShape extends clsThingPresentationSingle {
 
 }

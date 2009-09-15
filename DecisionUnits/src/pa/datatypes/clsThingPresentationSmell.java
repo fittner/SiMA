@@ -13,6 +13,6 @@ package pa.datatypes;
  * 15.09.2009, 09:34:48
  * 
  */
-public class clsThingPresentationSmell extends clsThingPresentationDriveObject {
+public class clsThingPresentationSmell extends clsThingPresentationSingle {
 
 }

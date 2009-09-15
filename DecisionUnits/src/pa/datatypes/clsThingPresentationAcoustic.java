@@ -14,6 +14,6 @@ package pa.datatypes;
  * 
  */
 public class clsThingPresentationAcoustic extends
-		clsThingPresentationDriveObject {
+		clsThingPresentationSingle {
 
 }

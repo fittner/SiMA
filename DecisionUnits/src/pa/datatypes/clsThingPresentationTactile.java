@@ -14,6 +14,6 @@ package pa.datatypes;
  * 
  */
 public class clsThingPresentationTactile extends
-		clsThingPresentationDriveObject {
+				clsThingPresentationSingle {
 
 }
