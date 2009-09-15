@@ -8,7 +8,6 @@ package bw.body.io.actuators.actionExecutors;
 
 import config.clsBWProperties;
 import java.util.ArrayList;
-
 import bw.body.clsComplexBody;
 import bw.body.io.actuators.clsActionExecutor;
 import bw.entities.clsEntity;
@@ -51,6 +50,7 @@ public class clsExecutorMoveToArea extends clsActionExecutor{
 		
 		moMutEx.add(clsActionCultivate.class);
 		moMutEx.add(clsActionDrop.class);
+		moMutEx.add(clsActionPickUp.class);
 		moMutEx.add(clsActionFromInventory.class);
 		moMutEx.add(clsActionToInventory.class);
 		moMutEx.add(clsActionMove.class);
@@ -63,8 +63,8 @@ public class clsExecutorMoveToArea extends clsActionExecutor{
 	public static clsBWProperties getDefaultProperties(String poPrefix) {
 		String pre = clsBWProperties.addDot(poPrefix);
 		clsBWProperties oProp = new clsBWProperties();
-		oProp.setProperty(pre+P_RANGESOURCE, eSensorExtType.VISION.toString());
-		oProp.setProperty(pre+P_RANGEDEST, eSensorExtType.VISION.toString());
+		oProp.setProperty(pre+P_RANGESOURCE, eSensorExtType.MANIPULATE_AREA.toString());
+		oProp.setProperty(pre+P_RANGEDEST, eSensorExtType.EATABLE_AREA.toString());
 		oProp.setProperty(pre+P_FORCECALINGFACTOR, 1f);
 		
 		return oProp;
@@ -121,7 +121,14 @@ public class clsExecutorMoveToArea extends clsActionExecutor{
 
 		//Is something in range
 		itfAPCarryable oEntity = (itfAPCarryable) findSingleEntityInRange(moEntity , oBody, moRangeSource  ,itfAPCarryable.class) ;
-		
+		if (oEntity==null) return false;
+
+		//If the entity is already in the destination-range then don't do anything
+		if (findNamedEntityInRange(oEntity.getCarryableEntity().getId(), oBody, moRangeDest, itfAPCarryable.class) !=null) return false;
+
+		//Move it!
+        //Double2D oForce =  
+        //oEntity.getCarryableEntity().getMobileObject2D().addForceComponent(oForce);		
 		return true;
 	}	
 	

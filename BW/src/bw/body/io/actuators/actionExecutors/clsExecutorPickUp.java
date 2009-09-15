@@ -56,7 +56,7 @@ public class clsExecutorPickUp  extends clsActionExecutor {
 	public static clsBWProperties getDefaultProperties(String poPrefix) {
 		String pre = clsBWProperties.addDot(poPrefix);
 		clsBWProperties oProp = new clsBWProperties();
-		oProp.setProperty(pre+P_RANGESENSOR, eSensorExtType.EATABLE_AREA.toString());
+		oProp.setProperty(pre+P_RANGESENSOR, eSensorExtType.MANIPULATE_AREA.toString());
 		oProp.setProperty(pre+P_MASSSCALINGFACTOR, 0.01f);
 		
 		return oProp;

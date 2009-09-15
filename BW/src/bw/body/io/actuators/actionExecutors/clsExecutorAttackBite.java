@@ -22,8 +22,8 @@ import decisionunit.itf.actions.*;
 import enums.eSensorExtType;
 
 /**
- * Action Executor for killing
- * Proxy itfAPKillable
+ * Action Executor for attack/bite
+ * Proxy itfAPAttackableBite
  * Parameters:
  *   poRangeSensor = Visionsensor to use
  * 	 prForceScalingFactor = Scales the force applied to the force felt by the entity to be killed (default = 1)
@@ -32,7 +32,7 @@ import enums.eSensorExtType;
  * 15.04.2009, 16:31:13
  * 
  */
-public class clsExecutorKill extends clsActionExecutor{
+public class clsExecutorAttackBite extends clsActionExecutor{
 
 	static double srStaminaBase = 4f;			//Stamina demand =srStaminaScalingFactor*pow(srStaminaBase,Force) ; 			
 	static double srStaminaScalingFactor = 0; //0.001f;  
@@ -47,7 +47,7 @@ public class clsExecutorKill extends clsActionExecutor{
 	public static final String P_RANGESENSOR = "rangesensor";
 	public static final String P_FORCECALINGFACTOR = "forcescalingfactor";
 
-	public clsExecutorKill(String poPrefix, clsBWProperties poProp, clsEntity poEntity) {
+	public clsExecutorAttackBite(String poPrefix, clsBWProperties poProp, clsEntity poEntity) {
 		moEntity=poEntity;
 		
 		moMutEx.add(clsActionEat.class);
@@ -75,11 +75,11 @@ public class clsExecutorKill extends clsActionExecutor{
 	 */
 	@Override
 	protected void setBodyPartId() {
-		mePartId = bw.utils.enums.eBodyParts.ACTIONEX_KILL;
+		mePartId = bw.utils.enums.eBodyParts.ACTIONEX_ATTACKBITE;
 	}
 	@Override
 	protected void setName() {
-		moName="Kill executor";	
+		moName="Attack/Bite executor";	
 	}
 
 	/*
@@ -99,7 +99,7 @@ public class clsExecutorKill extends clsActionExecutor{
 	}
 	@Override
 	public double getStaminaDemand(itfActionCommand poCommand) {
-		clsActionKill oCommand =(clsActionKill) poCommand;
+		clsActionAttackBite oCommand =(clsActionAttackBite) poCommand;
 		return srStaminaScalingFactor* Math.pow(srStaminaBase,oCommand.getForce()) ;
 	}
 
@@ -108,28 +108,28 @@ public class clsExecutorKill extends clsActionExecutor{
 	 */
 	@Override
 	public boolean execute(itfActionCommand poCommand) {
-		clsActionKill oCommand =(clsActionKill) poCommand; 
+		clsActionAttackBite oCommand =(clsActionAttackBite) poCommand; 
 		clsComplexBody oBody = (clsComplexBody) ((itfGetBody)moEntity).getBody();
 
 		//Is something in range
-		itfAPKillable oKilledEntity = (itfAPKillable) findSingleEntityInRange(moEntity, oBody, moRangeSensor ,itfAPKillable.class) ;
+		itfAPAttackableBite oOpponent = (itfAPAttackableBite) findSingleEntityInRange(moEntity, oBody, moRangeSensor ,itfAPAttackableBite.class) ;
 
-		if (oKilledEntity==null) {
+		if (oOpponent==null) {
 			//Nothing in range then send fast Messenger
 			clsFastMessengerSystem oFastMessengerSystem = oBody.getInternalSystem().getFastMessengerSystem();
 			oFastMessengerSystem.addMessage(mePartId, eBodyParts.BRAIN, 1);
 			return false;
 		} 
 
-		//Check if killing is ok
-		double rDamage = oKilledEntity.tryKill(oCommand.getForce()*mrForceScalingFactor);
+		//Check if biting is ok
+		double rDamage = oOpponent.tryBite(oCommand.getForce()*mrForceScalingFactor);
 		if (rDamage>0) {
 			oBody.getInternalSystem().getHealthSystem().hurt(rDamage);
 			return false;
 		}
 
-		//Kill!
-		oKilledEntity.kill(oCommand.getForce()*mrForceScalingFactor);
+		//Bite!
+		oOpponent.bite(oCommand.getForce()*mrForceScalingFactor);
 		
 		return true;
 	}	

@@ -18,8 +18,8 @@ import decisionunit.itf.actions.*;
 import enums.eSensorExtType;
 
 /**
- * Action Executor for attacking
- * Proxy itfAPKillable
+ * Action Executor for attack/lightning
+ * Proxy itfAPAttackableLightning
  * Parameters:
  *   poRangeSensor = Visionsensor to use
  * 	 prForceScalingFactor = Scales the force applied to the force felt by the attacked entity (default = 1)
@@ -29,7 +29,7 @@ import enums.eSensorExtType;
  * 
  */
 
-public class clsExecutorAttack extends clsActionExecutor{
+public class clsExecutorAttackLightning extends clsActionExecutor{
 
 	static double srStaminaBase = 1f;			//Stamina demand =srStaminaBase*Force*srStaminaScalingFactor; 			
 	static double srStaminaScalingFactor = 0.05;  
@@ -44,11 +44,11 @@ public class clsExecutorAttack extends clsActionExecutor{
 	public static final String P_RANGESENSOR = "rangesensor";
 	public static final String P_FORCECALINGFACTOR = "forcescalingfactor";
 
-	public clsExecutorAttack(String poPrefix, clsBWProperties poProp, clsEntity poEntity) {
+	public clsExecutorAttackLightning(String poPrefix, clsBWProperties poProp, clsEntity poEntity) {
 		moEntity=poEntity;
 		
 		moMutEx.add(clsActionEat.class);
-		moMutEx.add(clsActionKill.class);
+		moMutEx.add(clsActionAttackLightning.class);
 		moMutEx.add(clsActionKiss.class);
 		moMutEx.add(clsActionCultivate.class);
 
@@ -75,11 +75,11 @@ public class clsExecutorAttack extends clsActionExecutor{
 	 */
 	@Override
 	protected void setBodyPartId() {
-		mePartId = bw.utils.enums.eBodyParts.ACTIONEX_ATTACK;
+		mePartId = bw.utils.enums.eBodyParts.ACTIONEX_ATTACKLIGHTNING;
 	}
 	@Override
 	protected void setName() {
-		moName="Attack executor";	
+		moName="Attack/Lightning executor";	
 	}
 
 
@@ -100,7 +100,7 @@ public class clsExecutorAttack extends clsActionExecutor{
 	}
 	@Override
 	public double getStaminaDemand(itfActionCommand poCommand) {
-		clsActionAttack oCommand =(clsActionAttack) poCommand;
+		clsActionAttackLightning oCommand =(clsActionAttackLightning) poCommand;
 		return srStaminaScalingFactor* srStaminaBase*oCommand.getForce() ;
 	}
 
@@ -110,11 +110,11 @@ public class clsExecutorAttack extends clsActionExecutor{
 	 */
 	@Override
 	public boolean execute(itfActionCommand poCommand) {
-		clsActionAttack oCommand =(clsActionAttack) poCommand; 
+		clsActionAttackLightning oCommand =(clsActionAttackLightning) poCommand; 
 		clsComplexBody oBody = (clsComplexBody) ((itfGetBody)moEntity).getBody();
 
 		//Is something in range
-		itfAPKillable oAttackEntity = (itfAPKillable) findNamedEntityInRange(oCommand.getOpponentID() , oBody, moRangeSensor ,itfAPKillable.class) ;
+		itfAPAttackableLightning oAttackEntity = (itfAPAttackableLightning) findNamedEntityInRange(oCommand.getOpponentID() , oBody, moRangeSensor ,itfAPAttackableLightning.class) ;
 
 		if (oAttackEntity==null) {
 			//Nothing in range
@@ -122,7 +122,7 @@ public class clsExecutorAttack extends clsActionExecutor{
 		} 
 
 		//Attack!
-		oAttackEntity.attack(oCommand.getForce()*mrForceScalingFactor);
+		oAttackEntity.attackLightning(oCommand.getForce()*mrForceScalingFactor);
 		
 		return true;
 	}	

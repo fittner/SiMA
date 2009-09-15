@@ -48,8 +48,8 @@ public class clsExecutorKiss extends clsActionExecutor{
 		moMutEx.add(clsActionMove.class);
 		moMutEx.add(clsActionTurn.class);
 		moMutEx.add(clsActionEat.class);
-		moMutEx.add(clsActionKill.class);
-		moMutEx.add(clsActionAttack.class);
+		moMutEx.add(clsActionAttackBite.class);
+		moMutEx.add(clsActionAttackLightning.class);
 		moMutEx.add(clsActionCultivate.class);
 		
 		applyProperties(poPrefix,poProp);

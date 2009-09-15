@@ -178,7 +178,7 @@ public class clsBrainSocket implements itfStepProcessing {
 			case INTER_DAMAGE_LIGHTNING:oSource=eFastMessengerSources.LIGHTNING;
 				break;
 			
-			case ACTIONEX_KILL:oSource=eFastMessengerSources.MANIPULATION_AREA;
+			case ACTIONEX_ATTACKBITE:oSource=eFastMessengerSources.MANIPULATION_AREA;
 				break;
 			
 			case ACTIONEX_EAT:oSource=eFastMessengerSources.EATABLE_AREA;

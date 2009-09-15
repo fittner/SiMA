@@ -20,8 +20,9 @@ import bw.body.clsComplexBody;
 import bw.body.internalSystems.clsFlesh;
 import bw.body.internalSystems.clsInternalSystem;
 import bw.body.internalSystems.clsStomachSystem;
+import bw.body.io.actuators.actionProxies.itfAPAttackableBite;
 import bw.body.io.actuators.actionProxies.itfAPEatable;
-import bw.body.io.actuators.actionProxies.itfAPKillable;
+import bw.body.io.actuators.actionProxies.itfAPAttackableLightning;
 import bw.body.itfget.itfGetFlesh;
 import bw.entities.tools.clsShapeCreator;
 import bw.entities.tools.eImagePositioning;
@@ -38,7 +39,7 @@ import bw.utils.tools.clsNutritionLevel;
  * 12.05.2009, 19:30:22
  * 
  */
-public class clsHare extends clsAnimal implements itfGetFlesh, itfAPEatable, itfAPKillable {
+public class clsHare extends clsAnimal implements itfGetFlesh, itfAPEatable, itfAPAttackableLightning, itfAPAttackableBite {
 	public static final String P_SHAPE_ALIVE		= "shape_alive";
 	public static final String P_SHAPE_DEAD 		= "shape_dead";
 	public static final String P_SHAPE_DEADANDEATEN 		= "shape_deadandeaten";
@@ -213,7 +214,7 @@ public class clsHare extends clsAnimal implements itfGetFlesh, itfAPEatable, itf
 	 * 
 	 * @see bw.body.io.actuators.actionProxies.itfAPKillable#kill(float)
 	 */
-	public void kill(double pfForce) {
+	public void bite(double pfForce) {
 		setAlive(false);
 		updateShape();
 	}
@@ -226,7 +227,7 @@ public class clsHare extends clsAnimal implements itfGetFlesh, itfAPEatable, itf
 	 * 
 	 * @see bw.body.io.actuators.actionProxies.itfAPKillable#kill(double)
 	 */
-	public void attack(double pfForce) {
+	public void attackLightning(double pfForce) {
 	}
 
 
@@ -238,7 +239,7 @@ public class clsHare extends clsAnimal implements itfGetFlesh, itfAPEatable, itf
 	 * 
 	 * @see bw.body.io.actuators.actionProxies.itfAPKillable#tryKill(float)
 	 */
-	public double tryKill(double pfForce) {
+	public double tryBite(double pfForce) {
 		return 0;
 	}
 

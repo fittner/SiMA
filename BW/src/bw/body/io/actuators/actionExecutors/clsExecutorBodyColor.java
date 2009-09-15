@@ -11,6 +11,7 @@ import config.clsBWProperties;
 import java.util.ArrayList;
 
 import bw.body.clsComplexBody;
+import bw.body.intraBodySystems.clsBodyColor;
 import bw.body.io.actuators.clsActionExecutor;
 import bw.body.itfget.itfGetBody;
 import bw.entities.clsEntity;
@@ -78,28 +79,26 @@ public class clsExecutorBodyColor extends clsActionExecutor{
 	public boolean execute(itfActionCommand poCommand) {
 
 		clsComplexBody oBody = (clsComplexBody) ((itfGetBody)moEntity).getBody();
-		//clsBodyColor oBColor = oBody.getIntraBodySystem().getBioSystem();
+		clsBodyColor oBColor = oBody.getIntraBodySystem().getColorSystem();
 		
 		if (poCommand instanceof clsActionBodyColor) {
 			clsActionBodyColor oCmd = (clsActionBodyColor) poCommand;
-			//oBColor.setRed(oCmd.getRed());
-			//oBColor.setGreen(oCmd.getGreen());
-			//oBColor.setBlue(oCmd.getBlue());			
+			oBColor.changeColor(oCmd.getRed(), oCmd.getGreen(), oCmd.getBlue());
 		}
 			
 		if (poCommand instanceof clsActionBodyColorRed) {
 			clsActionBodyColorRed oCmd = (clsActionBodyColorRed) poCommand;
-			//oBColor.setRed(oCmd.getRed());
+			oBColor.changeRed(oCmd.getRed());
 		}
 		
 		if (poCommand instanceof clsActionBodyColorGreen) {
 			clsActionBodyColorGreen oCmd = (clsActionBodyColorGreen) poCommand;
-			//oBColor.setGreen(oCmd.getGreen());
+			oBColor.changeGreen(oCmd.getGreen());
 		}
 
 		if (poCommand instanceof clsActionBodyColorBlue) {
 			clsActionBodyColorBlue oCmd = (clsActionBodyColorBlue) poCommand;
-			//oBColor.setBlue(oCmd.getBlue());			
+			oBColor.changeBlue(oCmd.getBlue());			
 		}
 
 		return true;

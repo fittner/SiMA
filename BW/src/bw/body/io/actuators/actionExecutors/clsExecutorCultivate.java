@@ -46,8 +46,8 @@ public class clsExecutorCultivate extends clsActionExecutor{
 		moMutEx.add(clsActionMove.class);
 		moMutEx.add(clsActionTurn.class);
 		moMutEx.add(clsActionEat.class);
-		moMutEx.add(clsActionKill.class);
-		moMutEx.add(clsActionAttack.class);
+		moMutEx.add(clsActionAttackBite.class);
+		moMutEx.add(clsActionAttackLightning.class);
 		moMutEx.add(clsActionKiss.class);
 		
 		applyProperties(poPrefix,poProp);
@@ -56,7 +56,7 @@ public class clsExecutorCultivate extends clsActionExecutor{
 	public static clsBWProperties getDefaultProperties(String poPrefix) {
 		String pre = clsBWProperties.addDot(poPrefix);
 		clsBWProperties oProp = new clsBWProperties();
-		oProp.setProperty(pre+P_RANGESENSOR, eSensorExtType.EATABLE_AREA.toString());
+		oProp.setProperty(pre+P_RANGESENSOR, eSensorExtType.MANIPULATE_AREA.toString());
 		
 		return oProp;
 	}

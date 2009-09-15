@@ -20,6 +20,7 @@ import bw.entities.clsEntity;
 import decisionunit.itf.actions.itfActionCommand;
 import enums.eSensorExtType;
 import bw.body.io.sensors.ext.clsSensorEatableArea;
+import bw.body.io.sensors.ext.clsSensorManipulateArea;
 import bw.body.io.sensors.ext.clsSensorVision;
 
 /**
@@ -85,6 +86,7 @@ public abstract class clsActionExecutor extends clsSensorActuatorBaseExt {
 
 		ArrayList<clsCollidingObject> oSearch=null;
 		if (peSensor== eSensorExtType.EATABLE_AREA) oSearch = ((clsSensorEatableArea) poBody.getExternalIO().moSensorExternal.get(peSensor)).getSensorData();
+		if (peSensor== eSensorExtType.MANIPULATE_AREA) oSearch = ((clsSensorManipulateArea) poBody.getExternalIO().moSensorExternal.get(peSensor)).getSensorData();
 		if (peSensor== eSensorExtType.VISION) oSearch = ((clsSensorVision) poBody.getExternalIO().moSensorExternal.get(peSensor)).getSensorData();
 		if (oSearch==null) return null;
 		
