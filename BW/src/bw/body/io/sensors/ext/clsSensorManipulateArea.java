@@ -29,11 +29,7 @@ public class clsSensorManipulateArea extends clsSensorRingSegment {
 		clsBWProperties oProp = new clsBWProperties( );
 		oProp.putAll( clsSensorRingSegment.getDefaultProperties(pre) );
 		oProp.setProperty(pre+P_SENSOR_FIELD_OF_VIEW, Math.PI/4);
-		
-		//Added by BD, because otherwise no entities are found by the sensor
-		oProp.setProperty(pre+P_SENSOR_MIN_DISTANCE, 0);
-		oProp.setProperty(pre+P_SENSOR_MAX_DISTANCE, 25);
-		
+			
 		return oProp;
 	}	
 
