@@ -9,6 +9,7 @@ package bfg.symbolization.ruletree;
 import org.w3c.dom.Node;
 import org.w3c.dom.NamedNodeMap;
 
+import decisionunit.itf.sensors.clsDataBase;
 import decisionunit.itf.sensors.clsSensorData;
 import bfg.tools.xmltools.clsXMLAbstractImageReader;
 import bfg.utils.enums.enumTypeCompareOperator;
@@ -124,4 +125,7 @@ public abstract class clsRuleTreeLeaf extends clsRuleTreeElement{
   public abstract void weight( clsImagePerception poImage, 
 		  					   clsImageAbstract poAbstractImage, 
 		  					   clsRuleCompareResult compareResult);
-};
+
+  public abstract boolean compare(clsDataBase poData); 
+ 
+}

@@ -10,6 +10,7 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NamedNodeMap;
 
 import decisionunit.itf.sensors.clsBump;
+import decisionunit.itf.sensors.clsDataBase;
 import decisionunit.itf.sensors.clsSensorData;
 import enums.eSensorExtType;
 import bfg.symbolization.brainimages.clsIdentity;
@@ -80,26 +81,6 @@ class clsLeafBumped extends clsRuleTreeLeaf
     //return E_NOTIMPL; ;-)
   }
 
-  //---------------------------------------------------------------------------
-  public boolean compare(clsBump poBumped)
-  //---------------------------------------------------------------------------
-  {
-    //leafBubblesVisible info:
-    boolean nResult = false;
-
-    int nIsBumped = 0; 
-    if( poBumped.mnBumped ) nIsBumped = 1;
-
-    if( meCompareOperator.compareInteger(nIsBumped, meBumped) )
-    {
-      nResult = true;
-    }
-    if( mnNegated )
-    {
-      nResult = !nResult;
-    }
-    return nResult;
-  }
 
   //---------------------------------------------------------------------------
   @Override
@@ -111,6 +92,32 @@ class clsLeafBumped extends clsRuleTreeLeaf
     oRetValue += " isBumped="+enumTypeTrippleState.getString(meBumped);
     return oRetValue;
   }
+
+/* (non-Javadoc)
+ *
+ * @author zeilinger
+ * 15.09.2009, 13:32:11
+ * 
+ * @see bfg.symbolization.ruletree.clsRuleTreeLeaf#compare(decisionunit.itf.sensors.clsDataBase)
+ */
+	@Override
+	public boolean compare(clsDataBase poData) {
+		//leafBubblesVisible info:
+	    boolean nResult = false;
+	
+	    int nIsBumped = 0; 
+	    if( ((clsBump)poData).mnBumped ) nIsBumped = 1;
+	
+	    if( meCompareOperator.compareInteger(nIsBumped, meBumped) )
+	    {
+	      nResult = true;
+	    }
+	    if( mnNegated )
+	    {
+	      nResult = !nResult;
+	    }
+	    return nResult;
+	}
 
 };
 
