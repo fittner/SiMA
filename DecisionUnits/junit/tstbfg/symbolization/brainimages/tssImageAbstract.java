@@ -81,10 +81,10 @@ public class tssImageAbstract {
 		oMatch = oTestImages.associate(oSensorData, new clsIdentity());
 
 		//print it in the system-output (it is only for the bump sensor, which is on the 5th place... I know it...)
-		System.out.println(oMatch.get(5).toString());
+		System.out.println(oMatch.get(0).toString());
 		
 		//complete the JUnit test 
-		assertTrue( (oMatch.get(5).moMatch.get() == 1) );
+		assertTrue( (oMatch.get(0).moMatch.get() == 1) );
 }
 	
 //	/**
