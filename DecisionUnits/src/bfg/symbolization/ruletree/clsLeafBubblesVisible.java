@@ -9,6 +9,7 @@ package bfg.symbolization.ruletree;
 import org.w3c.dom.Node;
 import org.w3c.dom.NamedNodeMap;
 
+import decisionunit.itf.sensors.clsDataBase;
 import decisionunit.itf.sensors.clsSensorData;
 import bfg.tools.xmltools.clsXMLAbstractImageReader;
 import bfg.utils.enums.enumOptionalType;
@@ -79,7 +80,7 @@ class clsLeafBubblesVisible extends clsRuleTreeLeaf
       poCompareResult[1]++;
     }    
     boolean retVal = false;
-    if( compare( new clsContainerPercVisionsEntities(), poBrainsIdentity ) )
+    if( compare( null))//new clsContainerPercVisionsEntities(), poBrainsIdentity ) )
     {
       //Engine.log.println( "Match with leaf: " + this.toString() );
       poCompareResult[0]++;
@@ -96,17 +97,22 @@ class clsLeafBubblesVisible extends clsRuleTreeLeaf
     //return E_NOTIMPL; ;-)
   }
 
-  //---------------------------------------------------------------------------
-  public boolean compare(clsContainerPercVisionsEntities poVisionList, clsIdentity poIdentity)
-  //---------------------------------------------------------------------------
-  {
-    boolean nResult = compare2(poVisionList, poIdentity);
+  /* (non-Javadoc)
+  *
+  * @author langr
+  * 15.09.2009, 13:45:21
+  * 
+  * @see bfg.symbolization.ruletree.clsRuleTreeLeaf#compare(decisionunit.itf.sensors.clsDataBase)
+  */
+ @Override
+ public boolean compare(clsDataBase poData) {
+    boolean nResult = false; //compare2(poVisionList, poIdentity);
     if( mnNegated )
     {
       nResult = !nResult;
     }
     return nResult;
-  }
+ }
 
   //---------------------------------------------------------------------------
   public boolean compare2(clsContainerPercVisionsEntities visionList, clsIdentity poIdentity)

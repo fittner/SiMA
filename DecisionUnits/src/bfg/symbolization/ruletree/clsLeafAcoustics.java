@@ -9,12 +9,13 @@ package bfg.symbolization.ruletree;
 import org.w3c.dom.Node;
 import org.w3c.dom.NamedNodeMap;
 
+import decisionunit.itf.sensors.clsDataBase;
 import decisionunit.itf.sensors.clsSensorData;
 import bfg.symbolization.brainimages.clsIdentity;
 import bfg.symbolization.brainimages.clsImagePerception;
 import bfg.symbolization.brainimages.clsImageAbstract;
-import bfg.symbolization.brainimages.clsPerceptionAcoustic;
-import bfg.symbolization.brainimages.clsContainerPercAcoustics;
+//import bfg.symbolization.brainimages.clsPerceptionAcoustic;
+//import bfg.symbolization.brainimages.clsContainerPercAcoustics;
 import bfg.utils.enums.enumOptionalType;
 import bfg.utils.enums.enumTypeEntityMessages;
 
@@ -61,7 +62,7 @@ class clsLeafAcoustics extends clsRuleTreeLeaf
       poCompareResult[1]++;
     }
     boolean oResult = false;
-    if( compare( new clsContainerPercAcoustics() ) )
+    if( compare( null))//new clsContainerPercAcoustics() ) )
     {
       //Engine.log.println( "Match with leaf: " + this.toString() );
       poCompareResult[0]++;
@@ -78,31 +79,37 @@ class clsLeafAcoustics extends clsRuleTreeLeaf
     //return E_NOTIMPL; ;-)
   }
 
-  //---------------------------------------------------------------------------
-  public boolean compare(clsContainerPercAcoustics poAcoustics)
-  //---------------------------------------------------------------------------
-  {
+  /* (non-Javadoc)
+  *
+  * @author langr
+  * 15.09.2009, 13:40:23
+  * 
+  * @see bfg.symbolization.ruletree.clsRuleTreeLeaf#compare(decisionunit.itf.sensors.clsDataBase)
+  */
+ @Override
+ public boolean compare(clsDataBase poData) {
     //leafBubblesVisible info:
     boolean nResult = false;
-
-//    Engine.log.println("acoustics perception:" + poAcoustics.size() );
-
-    for( int i=0; i<poAcoustics.moAcoustics.size(); ++i )
-    {
-      clsPerceptionAcoustic oAcoustic = poAcoustics.moAcoustics.get(i);
-//      Engine.log.println(oAcoustic.getMessageType()+"==" +  meEntityMessage);
-      if( meCompareOperator.compareInteger(oAcoustic.getMessageType(), meEntityMessage) )
-      {
-        nResult = true;
-//        Engine.log.println("WE HAVE A MATCH");
-      }
-    }
-    if( mnNegated )
-    {
-      nResult = !nResult;;
-    }
-    return nResult;
+//
+////	    Engine.log.println("acoustics perception:" + poAcoustics.size() );
+//
+//    for( int i=0; i<poAcoustics.moAcoustics.size(); ++i )
+//    {
+//      clsPerceptionAcoustic oAcoustic = poAcoustics.moAcoustics.get(i);
+////	      Engine.log.println(oAcoustic.getMessageType()+"==" +  meEntityMessage);
+//      if( meCompareOperator.compareInteger(oAcoustic.getMessageType(), meEntityMessage) )
+//      {
+//        nResult = true;
+////	        Engine.log.println("WE HAVE A MATCH");
+//      }
+//    }
+//    if( mnNegated )
+//    {
+//      nResult = !nResult;;
+//    }
+    return nResult; 
   }
+
 
   //---------------------------------------------------------------------------
   @Override

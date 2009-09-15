@@ -145,7 +145,7 @@ public class clsSensorRingSegment extends clsSensorExt {
 	/*has to be implemented - return SensorData to Decision Unit,
 	 * Actual, only the detected physical objects summarized in 
 	 * one ArrayList are returned. 
-	 * TODO: imply the sensor specific computation  
+	 * TODO: implement the sensor specific computation  
      */	
 	public void computeDataDeliveredToDU(){
 		meSensorDataDeliveredToDU.clear(); 

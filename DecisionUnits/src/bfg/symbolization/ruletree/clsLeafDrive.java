@@ -9,6 +9,7 @@ package bfg.symbolization.ruletree;
 import org.w3c.dom.Node;
 import org.w3c.dom.NamedNodeMap;
 
+import decisionunit.itf.sensors.clsDataBase;
 import decisionunit.itf.sensors.clsSensorData;
 import bfg.tools.xmltools.clsXMLAbstractImageReader;
 import bfg.utils.enums.enumOptionalType;
@@ -86,6 +87,19 @@ class clsLeafDrive extends clsRuleTreeLeaf
   {
     //return E_NOTIMPL; ;-)
   }
+  
+  /* (non-Javadoc)
+  *
+  * @author langr
+  * 15.09.2009, 13:42:43
+  * 
+  * @see bfg.symbolization.ruletree.clsRuleTreeLeaf#compare(decisionunit.itf.sensors.clsDataBase)
+  */
+ @Override
+ public boolean compare(clsDataBase poData) {
+ 	// TODO (langr) - Auto-generated method stub
+ 	return false;
+ }
   
 //  //---------------------------------------------------------------------------
 //  public boolean compare(clsContainerDrive poDriveList)

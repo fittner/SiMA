@@ -9,6 +9,7 @@ package bfg.symbolization.ruletree;
 import org.w3c.dom.Node;
 import org.w3c.dom.NamedNodeMap;
 
+import decisionunit.itf.sensors.clsDataBase;
 import decisionunit.itf.sensors.clsSensorData;
 import bfg.symbolization.brainimages.clsIdentity;
 import bfg.symbolization.brainimages.clsImagePerception;
@@ -68,7 +69,7 @@ class clsLeafAboveEnergySource extends clsRuleTreeLeaf
     }
     boolean oResult = false;
     //TODO - (langr): make sensor! 
-    if( compare( new clsPerceptionAboveEnergySource() ) )
+    if( compare( null ) )
     {
       //Engine.log.println( "Match with leaf: " + this.toString() );
       poCompareResult[0]++;
@@ -86,17 +87,20 @@ class clsLeafAboveEnergySource extends clsRuleTreeLeaf
   }
 
   //---------------------------------------------------------------------------
-  public boolean compare(clsPerceptionAboveEnergySource poAboveEs)
+  @Override
+  public boolean compare(clsDataBase poData)
   //---------------------------------------------------------------------------
   {
+	clsPerceptionAboveEnergySource oAboveES = new clsPerceptionAboveEnergySource();//(clsPerceptionAboveEnergySource)poData;
+	  
     //leafBubblesVisible info:
     boolean nResult = false;
 
     int nIsAbove = 0; 
-    if( poAboveEs.isAbove() ) nIsAbove = 1;
+    if( oAboveES.isAbove() ) nIsAbove = 1;
 
     int nIsConsumable = 0;
-    if( poAboveEs.isConsumable() ) nIsConsumable = 1;
+    if( oAboveES.isConsumable() ) nIsConsumable = 1;
 
 //    Engine.log.println(" - "+ nIsAbove + "<-->" + meAboveEnergySource);
 

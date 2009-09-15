@@ -9,12 +9,11 @@ package bfg.symbolization.ruletree;
 import org.w3c.dom.Node;
 import org.w3c.dom.NamedNodeMap;
 
+import decisionunit.itf.sensors.clsDataBase;
 import decisionunit.itf.sensors.clsSensorData;
 import bfg.symbolization.brainimages.clsIdentity;
 import bfg.symbolization.brainimages.clsImagePerception;
 import bfg.symbolization.brainimages.clsImageAbstract;
-import bfg.symbolization.brainimages.clsContainerPercHormones;
-import bfg.symbolization.brainimages.clsPerceptionHormone;
 import bfg.tools.xmltools.clsXMLAbstractImageReader;
 import bfg.utils.enums.enumOptionalType;
 import bfg.utils.enums.enumTypeHormone;
@@ -66,7 +65,7 @@ class clsLeafHormone extends clsRuleTreeLeaf
       poCompareResult[1]++;
     }
     boolean nResult = false;
-    if( compare( new clsContainerPercHormones() ) )
+    if( compare( null))//new clsContainerPercHormones() ) )
     {
       //Engine.log.println( "Match with leaf: " + this.toString() );
       poCompareResult[0]++;
@@ -83,27 +82,33 @@ class clsLeafHormone extends clsRuleTreeLeaf
     //return E_NOTIMPL; ;-)
   }
   
-  //---------------------------------------------------------------------------
-  public boolean compare(clsContainerPercHormones poHormoneList)
-  //---------------------------------------------------------------------------
-  {
-    //leafBubblesVisible info:
-    boolean nResult = false;
-    for( int i=0; i<poHormoneList.moHormones.size(); i++)
-    {
-      clsPerceptionHormone oHormone = (clsPerceptionHormone)poHormoneList.moHormones.get(i);
-      if( meTypeHormone != oHormone.getType() )
-        continue;
 
-      if(  !meCompareOperator.compareInteger(oHormone.getLevel(), meTypeLevelHormone) )
-        continue;
-      nResult = true;
-      break;  //not weighted now, if more than one perception exists!
-    }
-    if( mnNegated ) nResult = !nResult;
-    return nResult;
+  /* (non-Javadoc)
+   *
+   * @author langr
+   * 15.09.2009, 13:43:25
+   * 
+   * @see bfg.symbolization.ruletree.clsRuleTreeLeaf#compare(decisionunit.itf.sensors.clsDataBase)
+   */
+  @Override
+  public boolean compare(clsDataBase poData) {
+	    //leafBubblesVisible info:
+	    boolean nResult = false;
+//	    for( int i=0; i<poHormoneList.moHormones.size(); i++)
+//	    {
+//	      clsPerceptionHormone oHormone = (clsPerceptionHormone)poHormoneList.moHormones.get(i);
+//	      if( meTypeHormone != oHormone.getType() )
+//	        continue;
+//
+//	      if(  !meCompareOperator.compareInteger(oHormone.getLevel(), meTypeLevelHormone) )
+//	        continue;
+//	      nResult = true;
+//	      break;  //not weighted now, if more than one perception exists!
+//	    }
+//	    if( mnNegated ) nResult = !nResult;
+	    return nResult;
   }
-
+  
   //---------------------------------------------------------------------------
   @Override
   public String toString() 
@@ -115,5 +120,6 @@ class clsLeafHormone extends clsRuleTreeLeaf
     oRetValue += " levelHormone:"+enumTypeLevelHormone.getString(meTypeLevelHormone);
     return oRetValue;
   }
+
 };
 

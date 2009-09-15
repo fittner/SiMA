@@ -9,6 +9,7 @@ package bfg.symbolization.ruletree;
 import org.w3c.dom.Node;
 import org.w3c.dom.NamedNodeMap;
 
+import decisionunit.itf.sensors.clsDataBase;
 import decisionunit.itf.sensors.clsSensorData;
 import bfg.tools.xmltools.clsXMLAbstractImageReader;
 import bfg.utils.enums.enumOptionalType;
@@ -76,7 +77,7 @@ class clsLeafObstaclesVisible extends clsRuleTreeLeaf
       poCompareResult[1]++;
     }    
     boolean retVal = false;
-    if( compare( new clsContainerPercVisionsObstacles(), poBrainsIdentity ) )
+    if( compare( null))//new clsContainerPercVisionsObstacles(), poBrainsIdentity ) )
     {
       //Engine.log.println( "Match with leaf: " + this.toString() );
       poCompareResult[0]++;
@@ -93,11 +94,16 @@ class clsLeafObstaclesVisible extends clsRuleTreeLeaf
     //return E_NOTIMPL; ;-)
   }
 
-  //---------------------------------------------------------------------------
-  public boolean compare(clsContainerPercVisionsObstacles poVisionList, clsIdentity poIdentity)
-  //---------------------------------------------------------------------------
-  {
-    boolean nResult = compare2(poVisionList, poIdentity);
+  /* (non-Javadoc)
+  *
+  * @author langr
+  * 15.09.2009, 16:36:03
+  * 
+  * @see bfg.symbolization.ruletree.clsRuleTreeLeaf#compare(decisionunit.itf.sensors.clsDataBase)
+  */
+ @Override
+ public boolean compare(clsDataBase poData) {
+    boolean nResult = false;//compare2(poVisionList, poIdentity);
     if( mnNegated )
     {
       nResult = !nResult;
@@ -161,5 +167,6 @@ class clsLeafObstaclesVisible extends clsRuleTreeLeaf
     oRetValue += " obstacletype:"+enumTypeTrippleState.getString(meObstacleType);
     return oRetValue;
   }
+
 };
 

@@ -9,12 +9,13 @@ package bfg.symbolization.ruletree;
 import org.w3c.dom.Node;
 import org.w3c.dom.NamedNodeMap;
 
+import decisionunit.itf.sensors.clsDataBase;
 import decisionunit.itf.sensors.clsSensorData;
 import bfg.symbolization.brainimages.clsIdentity;
 import bfg.symbolization.brainimages.clsImagePerception;
 import bfg.symbolization.brainimages.clsImageAbstract;
-import bfg.symbolization.brainimages.clsPerceptionSmellOMat;
-import bfg.symbolization.brainimages.clsContainerPercSmellOMats;
+//import bfg.symbolization.brainimages.clsPerceptionSmellOMat;
+//import bfg.symbolization.brainimages.clsContainerPercSmellOMats;
 import bfg.tools.xmltools.clsXMLAbstractImageReader;
 import bfg.utils.enums.enumOptionalType;
 import bfg.utils.enums.enumTypeScentIntensity;
@@ -70,7 +71,7 @@ class clsLeafBubblesScentable extends clsRuleTreeLeaf
       // compareResultValue increases if optional leafs match (can lead to more than 100% )
       poCompareResult[1]++;
     }    boolean retVal = false;
-    if( compare( new clsContainerPercSmellOMats(), poBrainsIdentity ) )
+    if( compare( null))//new clsContainerPercSmellOMats(), poBrainsIdentity ) )
     {
       //Engine.log.println( "Match with leaf: " + this.toString() );
       poCompareResult[0]++;
@@ -87,34 +88,38 @@ class clsLeafBubblesScentable extends clsRuleTreeLeaf
     //return E_NOTIMPL; ;-)
   }
 
-  //---------------------------------------------------------------------------
-  public boolean compare(clsContainerPercSmellOMats perceptionList, clsIdentity poIdentity)
-  //---------------------------------------------------------------------------
-  {
-    boolean retVal = false;
+  /* (non-Javadoc)
+  *
+  * @author langr
+  * 15.09.2009, 13:41:48
+  * 
+  * @see bfg.symbolization.ruletree.clsRuleTreeLeaf#compare(decisionunit.itf.sensors.clsDataBase)
+  */
+ @Override
+ public boolean compare(clsDataBase poData) {
+	    boolean retVal = false;
 
-    if( mnIntensity == enumTypeScentIntensity.TSCENTINT_NONE && perceptionList.moSmells.size() == 0 ) {
-      retVal = true;
-    } else {
-      for( int i=0; i<perceptionList.moSmells.size(); i++)
-      {
-        clsPerceptionSmellOMat smell = perceptionList.moSmells.get(i);
-
-        if( !meCompareOperator.compareInteger( smell.meScentIntensity, mnIntensity) )
-          continue;
-        if( mnEnergyConsumer != enumTypeTrippleState.TTRIPPLE_UNDEFINED && (mnEnergyConsumer==enumTypeTrippleState.TTRIPPLE_TRUE) != smell.mnEnergyConsumer)
-          continue;
-        if( mnEnergyProducer != enumTypeTrippleState.TTRIPPLE_UNDEFINED && (mnEnergyProducer==enumTypeTrippleState.TTRIPPLE_TRUE) != smell.mnEnergyProducer)
-          continue;
-        if( mnTeammate != enumTypeTrippleState.TTRIPPLE_UNDEFINED && (mnTeammate==enumTypeTrippleState.TTRIPPLE_TRUE) != smell.mnTeamMate )
-          continue;
-        retVal = true;
-        break;  //not weighted now, if more than one perception exists!
-      }
-    }
-    if( mnNegated ) retVal = !retVal;
-    return retVal;
-  }
+//	    if( mnIntensity == enumTypeScentIntensity.TSCENTINT_NONE && perceptionList.moSmells.size() == 0 ) {
+//	      retVal = true;
+//	    } else {
+//	      for( int i=0; i<perceptionList.moSmells.size(); i++)
+//	      {
+//	        clsPerceptionSmellOMat smell = perceptionList.moSmells.get(i);
+//
+//	        if( !meCompareOperator.compareInteger( smell.meScentIntensity, mnIntensity) )
+//	          continue;
+//	        if( mnEnergyConsumer != enumTypeTrippleState.TTRIPPLE_UNDEFINED && (mnEnergyConsumer==enumTypeTrippleState.TTRIPPLE_TRUE) != smell.mnEnergyConsumer)
+//	          continue;
+//	        if( mnEnergyProducer != enumTypeTrippleState.TTRIPPLE_UNDEFINED && (mnEnergyProducer==enumTypeTrippleState.TTRIPPLE_TRUE) != smell.mnEnergyProducer)
+//	          continue;
+//	        if( mnTeammate != enumTypeTrippleState.TTRIPPLE_UNDEFINED && (mnTeammate==enumTypeTrippleState.TTRIPPLE_TRUE) != smell.mnTeamMate )
+//	          continue;
+//	        retVal = true;
+//	        break;  //not weighted now, if more than one perception exists!
+//	      }
+//	    }
+//	    if( mnNegated ) retVal = !retVal;
+	    return retVal; }
 
   //---------------------------------------------------------------------------
   @Override
@@ -129,7 +134,6 @@ class clsLeafBubblesScentable extends clsRuleTreeLeaf
     oRetValue += " teamMate:"+enumTypeTrippleState.getString(mnTeammate);
     return oRetValue;
   }
-
 };
 
 

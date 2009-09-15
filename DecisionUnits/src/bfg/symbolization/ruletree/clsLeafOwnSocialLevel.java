@@ -9,6 +9,7 @@ package bfg.symbolization.ruletree;
 import org.w3c.dom.Node;
 import org.w3c.dom.NamedNodeMap;
 
+import decisionunit.itf.sensors.clsDataBase;
 import decisionunit.itf.sensors.clsSensorData;
 import bfg.symbolization.brainimages.clsIdentity;
 import bfg.symbolization.brainimages.clsImagePerception;
@@ -54,7 +55,7 @@ class clsLeafOwnSocialLevel extends clsRuleTreeLeaf
       poCompareResult[1]++;
     }
     boolean oResult = false;
-    if( compare( 1 ) )
+    if( compare( null ) )
     {
       //Engine.log.println( "Match with leaf: " + this.toString() );
       poCompareResult[0]++;
@@ -71,26 +72,31 @@ class clsLeafOwnSocialLevel extends clsRuleTreeLeaf
     //return E_NOTIMPL; ;-)
   }
 
-  //---------------------------------------------------------------------------
-  public boolean compare(int pnSocialLevel)
-  //---------------------------------------------------------------------------
-  {
-    boolean nResult = false;
-
-//    Engine.log.println("soz.lvl2: "+toString());
-
-    if( meCompareOperator.compareInteger(pnSocialLevel, meSocialLevel) )
-    {
-      nResult = true;
-//        Engine.log.println("WE HAVE A MATCH");
-    }
-    if( mnNegated )
-    {
-      nResult = !nResult;;
-    }
-    return nResult;
+  /* (non-Javadoc)
+  *
+  * @author langr
+  * 15.09.2009, 16:37:28
+  * 
+  * @see bfg.symbolization.ruletree.clsRuleTreeLeaf#compare(decisionunit.itf.sensors.clsDataBase)
+  */
+ @Override
+ public boolean compare(clsDataBase poData) {
+	    boolean nResult = false;
+//
+////	    Engine.log.println("soz.lvl2: "+toString());
+//
+//	    if( meCompareOperator.compareInteger(pnSocialLevel, meSocialLevel) )
+//	    {
+//	      nResult = true;
+////	        Engine.log.println("WE HAVE A MATCH");
+//	    }
+//	    if( mnNegated )
+//	    {
+//	      nResult = !nResult;;
+//	    }
+	    return nResult;
   }
-
+  
   //---------------------------------------------------------------------------
   @Override
   public String toString() 
@@ -101,7 +107,5 @@ class clsLeafOwnSocialLevel extends clsRuleTreeLeaf
     oRetValue += " typeSocialLevel:"+enumTypeSocialLevel.getString(meSocialLevel);
     return oRetValue;
   }
-
-
 };
 

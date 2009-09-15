@@ -9,11 +9,12 @@ package bfg.symbolization.ruletree;
 import org.w3c.dom.Node;
 import org.w3c.dom.NamedNodeMap;
 
+import decisionunit.itf.sensors.clsDataBase;
 import decisionunit.itf.sensors.clsSensorData;
 import bfg.symbolization.brainimages.clsIdentity;
 import bfg.symbolization.brainimages.clsImagePerception;
 import bfg.symbolization.brainimages.clsImageAbstract;
-import bfg.symbolization.brainimages.clsPerceptionAboveLandscape;
+//import bfg.symbolization.brainimages.clsPerceptionAboveLandscape;
 import bfg.utils.enums.enumOptionalType;
 import bfg.utils.enums.enumTypeLandscape;
 import bfg.utils.enums.enumTypeTrippleState;
@@ -63,7 +64,7 @@ class clsLeafAboveLandscape extends clsRuleTreeLeaf
       poCompareResult[1]++;
     }
     boolean oResult = false;
-    if( compare( new clsPerceptionAboveLandscape() ) )
+    if( compare( null))//new clsPerceptionAboveLandscape() ) )
     {
       //Engine.log.println( "Match with leaf: " + this.toString() );
       poCompareResult[0]++;
@@ -80,23 +81,30 @@ class clsLeafAboveLandscape extends clsRuleTreeLeaf
     //return E_NOTIMPL; ;-)
   }
 
-  //---------------------------------------------------------------------------
-  public boolean compare(clsPerceptionAboveLandscape poAboveLandscape)
-  //---------------------------------------------------------------------------
-  {
-    //leafBubblesVisible info:
-    boolean nResult = false;
 
-    if( meCompareOperator.compareInteger(poAboveLandscape.mnLandscapeType, meAboveLandscape) )
-    {
-      nResult = true;
-    }
-    if( mnNegated )
-    {
-      nResult = !nResult;
-    }
-    return nResult;
+  /* (non-Javadoc)
+   *
+   * @author langr
+   * 15.09.2009, 13:39:07
+   * 
+   * @see bfg.symbolization.ruletree.clsRuleTreeLeaf#compare(decisionunit.itf.sensors.clsDataBase)
+   */
+  @Override
+  public boolean compare(clsDataBase poData) {
+//    //leafBubblesVisible info:
+//    boolean nResult = false;
+//
+//    if( meCompareOperator.compareInteger(poAboveLandscape.mnLandscapeType, meAboveLandscape) )
+//    {
+//      nResult = true;
+//    }
+//    if( mnNegated )
+//    {
+//      nResult = !nResult;
+//    }
+  	return false;
   }
+
 
   //---------------------------------------------------------------------------
   @Override
@@ -108,6 +116,7 @@ class clsLeafAboveLandscape extends clsRuleTreeLeaf
     oRetValue += " isAbove="+enumTypeTrippleState.getString(meAboveLandscape);
     return oRetValue;
   }
+
 };
 
 
