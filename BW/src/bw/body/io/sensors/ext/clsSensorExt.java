@@ -41,7 +41,7 @@ public abstract class clsSensorExt extends clsSensorActuatorBaseExt implements i
 	public static final String P_SENSOR_OFFSET_Y = "sensor_offset_Y";
 	
 	public clsSensorData moSensorData; 
-	private clsSensorEngine moSensorEngine;  
+	protected clsSensorEngine moSensorEngine;  
 	
 	/**
 	 * @param poBaseIO

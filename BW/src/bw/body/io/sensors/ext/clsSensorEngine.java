@@ -15,6 +15,8 @@ import java.util.TreeMap;
 
 
 import sim.physics2D.physicalObject.PhysicalObject2D;
+import sim.physics2D.shape.Circle;
+import sim.physics2D.util.Double2D;
 import config.clsBWProperties;
 import enums.eSensorExtType;
 
@@ -216,8 +218,41 @@ public class clsSensorEngine{
 				
 		sortOutDuplicatedObjects(); 
 		sortOutNoCollisionObjects(); 
+		updateCollisionDistance();
 	}
 	
+	/**
+	 * DOCUMENT (zeilinger) - insert description
+	 *
+	 * @author zeilinger
+	 * 15.09.2009, 15:56:54
+	 *
+	 */
+	private void updateCollisionDistance() {
+		ArrayList <clsCollidingObject> eObjectList; 
+		
+		for(int index=mnRange.length-1; index > 1; index--){
+			eObjectList = meDetectedObj.get(mnRange[index]);
+
+			for( clsCollidingObject oCollision : eObjectList ) {
+				if(oCollision.moCollider.getShape() instanceof Circle) {
+					//FIXME (langr) - hack to get the actual distance. only valid for circle!!!
+					Double2D oCurrentPosition = moHostEntity.getPosition();
+					Double2D oObjectPosition = oCollision.moCollider.getPosition();
+					Double2D oDiffer = oCurrentPosition.subtract(oObjectPosition);
+					
+					if( oDiffer.length() > mnRange[index]+oCollision.moCollider.getShape().getMaxXDistanceFromCenter() ) {
+						oCollision.mrColPoint.mrLength = mnRange[index]; 
+					}
+					else {
+						double rDistance = oDiffer.length() - oCollision.moCollider.getShape().getMaxXDistanceFromCenter();
+						oCollision.mrColPoint.mrLength = rDistance;
+					}
+				}
+			}
+		}
+	}
+
 	private void sortOutDuplicatedObjects(){
 		ArrayList <clsCollidingObject> eObjectList; 
 		
@@ -307,7 +342,7 @@ public class clsSensorEngine{
 	public TreeMap<Double, clsEntitySensorEngine> getMeSensorAreas(){
 		return meEntities; 
 	}
-	
+
 	private void throwExInvalidSensorRange(double pnSensorRange){
 		try {
 			throw new exInvalidSensorRange(mnRange,pnSensorRange);

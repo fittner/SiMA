@@ -13,6 +13,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 
 import config.clsBWProperties;
+import sim.physics2D.shape.Circle;
 import sim.physics2D.util.Double2D;
 import ARSsim.physics2D.physicalObject.clsCollidingObject;
 import bw.body.io.clsBaseIO;
@@ -115,7 +116,7 @@ public class clsSensorRingSegment extends clsSensorExt {
 	public void setDetectedObjectsList(Double pnAreaRange,
 								ArrayList<clsCollidingObject> peDetectedObjInAreaList){
 		calculateObjInFieldOfView(pnAreaRange, peDetectedObjInAreaList);
-		//calculateObjWithinDistance(peDetectedObjInAreaList);
+		calculateObjWithinDistance(peDetectedObjInAreaList);
 
 		// FIXME (horvath)
 		calculateRegisteredObjects(peDetectedObjInAreaList);
@@ -136,7 +137,7 @@ public class clsSensorRingSegment extends clsSensorExt {
 		for( Iterator<clsCollidingObject> it = peDetectedObjInAreaList.iterator(); it.hasNext(); ) {
 			clsCollidingObject oVisionEntry = it.next();
 			//get colliding objects position relative to THIS object
-			if(oVisionEntry.mrColPoint.mrLength < mrMinDistance || oVisionEntry.mrColPoint.mrLength > mrMaxDistance ) {
+			if(oVisionEntry.moCollider.getShape() instanceof Circle && (oVisionEntry.mrColPoint.mrLength < mrMinDistance || oVisionEntry.mrColPoint.mrLength >= mrMaxDistance) ) {
 				it.remove();
 			}
 		}
