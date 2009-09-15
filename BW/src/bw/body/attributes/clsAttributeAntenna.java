@@ -6,9 +6,9 @@
  */
 package bw.body.attributes;
 
-import bw.utils.enums.eAntennaPositions;
 import bw.utils.enums.eBodyAttributes;
 import config.clsBWProperties;
+import enums.eAntennaPositions;
 
 /**
  * DOCUMENT (deutsch) - insert description 

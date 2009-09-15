@@ -9,11 +9,11 @@ package bw.body.intraBodySystems;
 import bw.body.attributes.clsAttributeAntenna;
 import bw.body.attributes.clsAttributeEye;
 import bw.entities.clsEntity;
-import bw.utils.enums.eAntennaPositions;
-import bw.utils.enums.eEyeSize;
-import bw.utils.enums.eLensShape;
-import bw.utils.enums.eLensSize;
 import config.clsBWProperties;
+import enums.eAntennaPositions;
+import enums.eEyeSize;
+import enums.eLensShape;
+import enums.eLensSize;
 
 /**
  * DOCUMENT (deutsch) - insert description 

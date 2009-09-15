@@ -4,7 +4,7 @@
  * @author deutsch
  * 08.09.2009, 15:22:02
  */
-package bw.utils.enums;
+package enums;
 
 /**
  * DOCUMENT (deutsch) - insert description 

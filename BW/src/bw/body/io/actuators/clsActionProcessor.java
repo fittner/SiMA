@@ -95,7 +95,7 @@ public class clsActionProcessor implements itfActionProcessor {
 	  */
   	 public void addCommand(Class<?> poCommand, clsActionExecutor poExecutor) {
   		 moMap.put(poCommand.getName(), poExecutor);
-	 }
+ 	 }
 	 
 	 /*
 	  * Adds the given command to the inhibition-list. The given command will be inhibited for the number of cycles given as duration.
@@ -342,15 +342,18 @@ public class clsActionProcessor implements itfActionProcessor {
 			Iterator<clsProcessorResult> oItInner = opExecutionStack.iterator();
 			while (oItInner.hasNext()) {
 				clsProcessorResult oInner = oItInner.next();
-				//both commands are active and inner command is excluded by the outer command
-				if (oOuter.getActive() && oInner.getActive() && oOuter.getExecutor().getMutualExclusions(oOuter.getCommand()).contains(oInner.getCommand().getClass())) {
-					//different priorities=>Disable lower, equal priorities=>Disable both (Never disable State-Updates!)
-					if (oOuter.getCall().getCallPriority()==oInner.getCall().getCallPriority()) {
-						if (oOuter.getCall().getCallPriority()!=eCallPriority.CALLPRIORITY_STATEUPDATE) oOuter.setResult(eExecutionResult.EXECUTIONRESULT_MUTUALEXCLUSION);
-						if (oInner.getCall().getCallPriority()!=eCallPriority.CALLPRIORITY_STATEUPDATE) oInner.setResult(eExecutionResult.EXECUTIONRESULT_MUTUALEXCLUSION);
-					} else {
-						if ((oOuter.getCall().getCallPriority()==eCallPriority.CALLPRIORITY_STATEUPDATE || oOuter.getCall().getCallPriority()==eCallPriority.CALLPRIORITY_REFLEX) && oInner.getCall().getCallPriority()!=eCallPriority.CALLPRIORITY_STATEUPDATE) oInner.setResult(eExecutionResult.EXECUTIONRESULT_MUTUALEXCLUSION);
-						if ((oInner.getCall().getCallPriority()==eCallPriority.CALLPRIORITY_STATEUPDATE || oInner.getCall().getCallPriority()==eCallPriority.CALLPRIORITY_REFLEX) && oOuter.getCall().getCallPriority()!=eCallPriority.CALLPRIORITY_STATEUPDATE) oOuter.setResult(eExecutionResult.EXECUTIONRESULT_MUTUALEXCLUSION);
+				//both commands are active 
+				if (oOuter != oInner && oOuter.getActive() && oInner.getActive()) {
+					//inner command is excluded by the outer command or inner and outer command are the same
+					if (oInner.getCommand().getClass() == oOuter.getCommand().getClass() || oOuter.getExecutor().getMutualExclusions(oOuter.getCommand()).contains(oInner.getCommand().getClass())) {
+						//different priorities=>Disable lower, equal priorities=>Disable both (Never disable State-Updates!)
+						if (oOuter.getCall().getCallPriority()==oInner.getCall().getCallPriority()) {
+							if (oOuter.getCall().getCallPriority()!=eCallPriority.CALLPRIORITY_STATEUPDATE) oOuter.setResult(eExecutionResult.EXECUTIONRESULT_MUTUALEXCLUSION);
+							if (oInner.getCall().getCallPriority()!=eCallPriority.CALLPRIORITY_STATEUPDATE) oInner.setResult(eExecutionResult.EXECUTIONRESULT_MUTUALEXCLUSION);
+						} else {
+							if ((oOuter.getCall().getCallPriority()==eCallPriority.CALLPRIORITY_STATEUPDATE || oOuter.getCall().getCallPriority()==eCallPriority.CALLPRIORITY_REFLEX) && oInner.getCall().getCallPriority()!=eCallPriority.CALLPRIORITY_STATEUPDATE) oInner.setResult(eExecutionResult.EXECUTIONRESULT_MUTUALEXCLUSION);
+							if ((oInner.getCall().getCallPriority()==eCallPriority.CALLPRIORITY_STATEUPDATE || oInner.getCall().getCallPriority()==eCallPriority.CALLPRIORITY_REFLEX) && oOuter.getCall().getCallPriority()!=eCallPriority.CALLPRIORITY_STATEUPDATE) oOuter.setResult(eExecutionResult.EXECUTIONRESULT_MUTUALEXCLUSION);
+						}
 					}
 				}
 			}

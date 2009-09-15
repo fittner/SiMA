@@ -7,10 +7,10 @@
 package bw.body.attributes;
 
 import bw.utils.enums.eBodyAttributes;
-import bw.utils.enums.eEyeSize;
-import bw.utils.enums.eLensShape;
-import bw.utils.enums.eLensSize;
 import config.clsBWProperties;
+import enums.eEyeSize;
+import enums.eLensShape;
+import enums.eLensSize;
 
 /**
  * DOCUMENT (deutsch) - insert description 

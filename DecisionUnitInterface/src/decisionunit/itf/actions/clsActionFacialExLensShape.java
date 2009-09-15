@@ -6,7 +6,7 @@
  */
 package decisionunit.itf.actions;
 
-import enums.eActionFacialExLensShape;
+import enums.eLensShape;
 
 /**
  * Facial expression command: Lens Shape
@@ -19,9 +19,9 @@ import enums.eActionFacialExLensShape;
  */
 public class clsActionFacialExLensShape implements itfActionCommand {
 
-	private eActionFacialExLensShape meShape;
+	private eLensShape meShape;
 
-	public clsActionFacialExLensShape(eActionFacialExLensShape peShape) {
+	public clsActionFacialExLensShape(eLensShape peShape) {
 		meShape=peShape;
 	}
 	
@@ -29,10 +29,10 @@ public class clsActionFacialExLensShape implements itfActionCommand {
 		return "<FacialExLensShape>" + meShape.toString() + "</FacialExLensShape>"; 
 	}
 
-	public eActionFacialExLensShape getShape() {
+	public eLensShape getShape() {
 		return meShape;
 	}
-	public void setShape(eActionFacialExLensShape peShape) {
+	public void setShape(eLensShape peShape) {
 		meShape=peShape;
 	}
 }

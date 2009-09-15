@@ -6,7 +6,7 @@
  */
 package decisionunit.itf.actions;
 
-import enums.eActionFacialExLensSize;
+import enums.eLensSize;
 
 /**
  * Facial expression command: Lens size
@@ -19,9 +19,9 @@ import enums.eActionFacialExLensSize;
  */
 public class clsActionFacialExLensSize implements itfActionCommand {
 
-	private eActionFacialExLensSize meSize;
+	private eLensSize meSize;
 
-	public clsActionFacialExLensSize(eActionFacialExLensSize peSize) {
+	public clsActionFacialExLensSize(eLensSize peSize) {
 		meSize=peSize;
 	}
 	
@@ -29,10 +29,10 @@ public class clsActionFacialExLensSize implements itfActionCommand {
 		return "<FacialExLensSize>" + meSize.toString() + "</FacialExLensSize>"; 
 	}
 
-	public eActionFacialExLensSize getSize() {
+	public eLensSize getSize() {
 		return meSize;
 	}
-	public void setSize(eActionFacialExLensSize peSize) {
+	public void setSize(eLensSize peSize) {
 		meSize=peSize;
 	}
 }

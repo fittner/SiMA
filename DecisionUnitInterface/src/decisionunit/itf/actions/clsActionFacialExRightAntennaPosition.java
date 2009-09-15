@@ -6,7 +6,7 @@
  */
 package decisionunit.itf.actions;
 
-import enums.eActionFacialExAntennaPosition;
+import enums.eAntennaPositions;
 
 /**
  * Facial expression command: Right antenna position
@@ -19,9 +19,9 @@ import enums.eActionFacialExAntennaPosition;
  */
 public class clsActionFacialExRightAntennaPosition implements itfActionCommand {
 
-	private eActionFacialExAntennaPosition mePosition;
+	private eAntennaPositions mePosition;
 
-	public clsActionFacialExRightAntennaPosition(eActionFacialExAntennaPosition pePosition) {
+	public clsActionFacialExRightAntennaPosition(eAntennaPositions pePosition) {
 		mePosition=pePosition;
 	}
 	
@@ -29,10 +29,10 @@ public class clsActionFacialExRightAntennaPosition implements itfActionCommand {
 		return "<FacialExRightAntennaPosition>" + mePosition.toString() + "</FacialExRightAntennaPosition>"; 
 	}
 
-	public eActionFacialExAntennaPosition getPosition() {
+	public eAntennaPositions getPosition() {
 		return mePosition;
 	}
-	public void setPosition(eActionFacialExAntennaPosition pePosition) {
+	public void setPosition(eAntennaPositions pePosition) {
 		mePosition=pePosition;
 	}
 }
