@@ -12,7 +12,7 @@ import org.w3c.dom.NamedNodeMap;
 
 import decisionunit.itf.sensors.clsSensorData;
 import bfg.tools.xmltools.clsXMLAbstractImageReader;
-import bfg.utils.enums.enumBooleanOperator;
+import bfg.utils.enumsOld.enumBooleanOperator;
 import bfg.symbolization.brainimages.clsIdentity;
 
 //no emotions - prohibitet in import from langr

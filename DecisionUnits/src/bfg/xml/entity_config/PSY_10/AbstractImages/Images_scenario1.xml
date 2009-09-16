@@ -5,39 +5,25 @@
     <AbstractImage ID="105" name="help me - my head bumped against something" fullMatchRequired="false">
 		 <Description>help me - my head bumped against something</Description>
         <TreeRoot optional="mandatory" booleanOperator="AND" negated="false">
-			  <leafBumped compare="==" value="true" />
+	    <leafBumped compare="==" value="true" />
         </TreeRoot>
     </AbstractImage>
 
-	 <AbstractImage ID="106" name="one bad bubble" fullMatchRequired="false">
-		 <Description>wait holy cross is visible</Description>
-		 <TreeRoot optional="mandatory" booleanOperator="OR" negated="false">
-			  <leafBubblesVisible compare="==" number="1">
-				  <side>undefined</side>
-				  <distance>undefined</distance>
-				  <energyconsumer></energyconsumer>
-				  <energyproducer></energyproducer>
-				  <teammate>false</teammate>
-			  </leafBubblesVisible>
+    <AbstractImage ID="107" name="onebadbubble" fullMatchRequired="false">
+        <Description>one bad bubble in left close field</Description>
+	<TreeRoot optional="mandatory" booleanOperator="OR" negated="false">
+            <leafVisible compare=">=" number="1">
+	        <sensortype>VISION_NEAR</sensortype>
+                <distancecompare>==</distancecompare>
+                <orientation>left</orientation>
+                <entitytype>bubble</entitytype>
+                <shapetype>circle</shapetype>
+                <alive>left</alive>
+                <color>FF0000</color>
+                <antennapos>UPRIGHT<antennapos>
+                <side>undefined</side>
+	    </leafVisible>
         </TreeRoot>
-	  </AbstractImage>
-
-	 <AbstractImage ID="107" name="frontalCross" fullMatchRequired="false">
-		 <Description>wait holy cross is visible</Description>
-		 <TreeRoot optional="mandatory" booleanOperator="OR" negated="false">
-
-			  <leafObstaclesVisible compare=">=" number="1">
-				  <side>undefined</side>
-				  <distance>short</distance>
-				  <obstacletype>holycross</obstacletype>
-			  </leafObstaclesVisible>
-
-			  <leafObstaclesVisible compare=">=" number="1">
-				  <side>undefined</side>
-				  <distance>veryshort</distance>
-				  <obstacletype>holycross</obstacletype>
-            </leafObstaclesVisible>
-        </TreeRoot>
-	  </AbstractImage>
+    </AbstractImage>
 
 </AbstractImages>

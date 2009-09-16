@@ -12,9 +12,15 @@ import org.w3c.dom.Node;
 import bfg.symbolization.brainimages.clsIdentity;
 import bfg.symbolization.brainimages.clsImageAbstract;
 import bfg.symbolization.brainimages.clsImagePerception;
+import bfg.utils.enumsOld.enumTypeCompareOperator;
+import bfg.utils.enumsOld.enumTypeCount;
+//import bfg.utils.enumsOld.enumTypeSide;
+import bfg.utils.enumsOld.enumTypeTrippleState;
 import decisionunit.itf.sensors.clsDataBase;
 import decisionunit.itf.sensors.clsSensorData;
+import enums.eAntennaPositions;
 import enums.eEntityType;
+import enums.eSensorExtType;
 import enums.eShapeType;
 
 /**
@@ -26,10 +32,17 @@ import enums.eShapeType;
  */
 public class clsLeafVision extends clsRuleTreeLeaf {
 
-	public eEntityType meEntityType = eEntityType.UNDEFINED;
-	public eShapeType meShapeType = eShapeType.UNDEFINED; 
-	//public eShapeColor meShapeColor = eShapeColor.UNDEFINED; 
-		
+	  public int mnNumber = enumTypeCount.TCOUNT_NONE;
+	  public eSensorExtType meSensorType = eSensorExtType.UNDEFINED;
+	  public enumTypeCompareOperator meDistanceCompare;// = "==";
+//	  public enumTypeSide meLocation = enumTypeSide.TSIDE_UNDEFINED;
+	  public eEntityType meEntityType = eEntityType.UNDEFINED;
+	  public eShapeType meShapeType = eShapeType.UNDEFINED;
+	  public int moAlive = enumTypeTrippleState.TTRIPPLE_UNDEFINED;
+	  public java.awt.Color moColour = java.awt.Color.WHITE;
+	  public eAntennaPositions moAntennaPos = eAntennaPositions.UNDEFINED; 
+	  public int meOwnTeam = enumTypeTrippleState.TTRIPPLE_UNDEFINED; //
+	
 
 //	String oOrienation; 
 	

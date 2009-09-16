@@ -7,7 +7,7 @@ package bfg.symbolization.brainimages;
 
 // Imports
 import bfg.tools.clsId;
-import bfg.utils.enums.enumTypeScentIntensity;
+import bfg.utils.enumsOld.enumTypeScentIntensity;
 
 /**
  *

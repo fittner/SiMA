@@ -71,16 +71,22 @@
     </xsd:complexType>
 
 
-     <xsd:complexType name="LeafVision">
+     <xsd:complexType name="LeafSegment">
         <xsd:complexContent>
             <xsd:extension base="RuleTreeLeaf">
                 <xsd:sequence>
-                    <xsd:element name="drive" type="typeDrive"/>
+                    <xsd:element name="segmentname" type="xsd:string"/>
+                    <xsd:element name="distancecompare" type="typeCompareOperator">
+                    <xsd:element name="orientation" type="xsd:string"/>
+                    <xsd:element name="entitytype" type="xsd:string"/>
+                    <xsd:element name="shapetype" type="xsd:string"/>
+                    <xsd:element name="alive" type="xsd:string"/>
+                    <xsd:element name="color" type="xsd:string"/>
                 </xsd:sequence>
-                <xsd:attribute name="level" type="typeLevelDrive"></xsd:attribute>
+                <!--xsd:attribute name="level" type="typeLevelDrive"></xsd:attribute-->
             </xsd:extension>
         </xsd:complexContent>
-    </xsd:complexType>
+    </xsd:complexType> 
 
 <!--    <xsd:complexType name="LeafDrive">
         <xsd:complexContent>

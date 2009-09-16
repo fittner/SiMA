@@ -9,9 +9,9 @@ package bfg.symbolization.brainimages;
 import bfg.tools.shapes.clsAngle;
 import bfg.tools.shapes.clsPolarcoordinate;
 import bfg.tools.shapes.clsPoint;
-import bfg.utils.enums.enumTypeDistance;
-import bfg.utils.enums.enumTypeRotation;
-import bfg.utils.enums.enumTypeSide;
+import bfg.utils.enumsOld.enumTypeDistance;
+import bfg.utils.enumsOld.enumTypeRotation;
+import bfg.utils.enumsOld.enumTypeSide;
 
 /**
  *

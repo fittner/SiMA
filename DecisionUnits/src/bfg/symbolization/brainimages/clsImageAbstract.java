@@ -16,7 +16,7 @@ import bfg.tools.cls0to1;
 import bfg.tools.xmltools.XMLException;
 import bfg.tools.xmltools.clsXMLConfiguration;
 import bfg.tools.xmltools.clsXMLAbstractImageReader;
-import bfg.utils.enums.enumTypeTrippleState;
+import bfg.utils.enumsOld.enumTypeTrippleState;
 //import bfg.symbolization.recognition.clsScenarioContainer;
 //import bfg.symbolization.recognition.clsSuperEgoAction;
 //import bfg.symbolization.recognition.clsDesireContainer;

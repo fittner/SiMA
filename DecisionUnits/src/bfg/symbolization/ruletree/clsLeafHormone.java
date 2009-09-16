@@ -15,9 +15,9 @@ import bfg.symbolization.brainimages.clsIdentity;
 import bfg.symbolization.brainimages.clsImagePerception;
 import bfg.symbolization.brainimages.clsImageAbstract;
 import bfg.tools.xmltools.clsXMLAbstractImageReader;
-import bfg.utils.enums.enumOptionalType;
-import bfg.utils.enums.enumTypeHormone;
-import bfg.utils.enums.enumTypeLevelHormone;
+import bfg.utils.enumsOld.enumOptionalType;
+import bfg.utils.enumsOld.enumTypeHormone;
+import bfg.utils.enumsOld.enumTypeLevelHormone;
 
 /**
  *

@@ -9,10 +9,10 @@ package bfg.symbolization.brainimages;
 //import pkgTools.clsCloneable;
 import bfg.tools.shapes.clsPolarcoordinate;
 import bfg.tools.shapes.clsPoint;
-import bfg.utils.enums.enumTypeDistance;
-import bfg.utils.enums.enumTypeHealthState;
-import bfg.utils.enums.enumTypeSide;
-import bfg.utils.enums.enumTypeSocialLevel;
+import bfg.utils.enumsOld.enumTypeDistance;
+import bfg.utils.enumsOld.enumTypeHealthState;
+import bfg.utils.enumsOld.enumTypeSide;
+import bfg.utils.enumsOld.enumTypeSocialLevel;
 
 /**
  *

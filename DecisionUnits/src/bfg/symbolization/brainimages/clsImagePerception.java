@@ -6,7 +6,7 @@
 package bfg.symbolization.brainimages;
 
 // Imports
-import bfg.utils.enums.enumTypeSocialLevel;
+import bfg.utils.enumsOld.enumTypeSocialLevel;
 
 // --> adjust to new structure!
 //import pkgBrainAction.clsActionContainer;

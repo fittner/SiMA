@@ -7,8 +7,8 @@ package bfg.symbolization.brainimages;
 
 // Imports
 import bfg.tools.clsValueExponential;
-import bfg.utils.enums.enumTypeHormone;
-import bfg.utils.enums.enumTypeLevelHormone;
+import bfg.utils.enumsOld.enumTypeHormone;
+import bfg.utils.enumsOld.enumTypeLevelHormone;
 
 /**
  *

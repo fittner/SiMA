@@ -16,8 +16,8 @@ import enums.eSensorExtType;
 import bfg.symbolization.brainimages.clsIdentity;
 import bfg.symbolization.brainimages.clsImagePerception;
 import bfg.symbolization.brainimages.clsImageAbstract;
-import bfg.utils.enums.enumOptionalType;
-import bfg.utils.enums.enumTypeTrippleState;
+import bfg.utils.enumsOld.enumOptionalType;
+import bfg.utils.enumsOld.enumTypeTrippleState;
 
 //import pkgBrainComplexEmotion.clsContainerComplexEmotion;
 

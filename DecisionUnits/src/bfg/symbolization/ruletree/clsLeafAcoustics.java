@@ -16,8 +16,8 @@ import bfg.symbolization.brainimages.clsImagePerception;
 import bfg.symbolization.brainimages.clsImageAbstract;
 //import bfg.symbolization.brainimages.clsPerceptionAcoustic;
 //import bfg.symbolization.brainimages.clsContainerPercAcoustics;
-import bfg.utils.enums.enumOptionalType;
-import bfg.utils.enums.enumTypeEntityMessages;
+import bfg.utils.enumsOld.enumOptionalType;
+import bfg.utils.enumsOld.enumTypeEntityMessages;
 
 /**
  *

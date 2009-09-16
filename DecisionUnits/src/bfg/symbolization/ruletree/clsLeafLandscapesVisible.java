@@ -17,11 +17,11 @@ import bfg.symbolization.brainimages.clsImageAbstract;
 import bfg.symbolization.brainimages.clsContainerPercVisionsLandscapes;
 import bfg.symbolization.brainimages.clsPerceptionVisionLandscape;
 import bfg.tools.xmltools.clsXMLAbstractImageReader;
-import bfg.utils.enums.enumOptionalType;
-import bfg.utils.enums.enumTypeCount;
-import bfg.utils.enums.enumTypeDistance;
-import bfg.utils.enums.enumTypeSide;
-import bfg.utils.enums.enumTypeTrippleState;
+import bfg.utils.enumsOld.enumOptionalType;
+import bfg.utils.enumsOld.enumTypeCount;
+import bfg.utils.enumsOld.enumTypeDistance;
+import bfg.utils.enumsOld.enumTypeSide;
+import bfg.utils.enumsOld.enumTypeTrippleState;
 
 /**
  *

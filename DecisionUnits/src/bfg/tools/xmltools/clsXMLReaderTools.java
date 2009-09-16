@@ -9,7 +9,7 @@ package bfg.tools.xmltools;
 import org.w3c.dom.Node;
 import org.w3c.dom.NamedNodeMap;
 
-import bfg.utils.enums.enumTypeTrippleState;
+import bfg.utils.enumsOld.enumTypeTrippleState;
 
 /**
  *

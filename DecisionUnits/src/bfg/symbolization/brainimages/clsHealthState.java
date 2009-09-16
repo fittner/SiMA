@@ -7,8 +7,8 @@ package bfg.symbolization.brainimages;
 
 // Imports
 import bfg.tools.clsCloneable;
-import bfg.utils.enums.enumTypeHealthState;
-import bfg.utils.enums.enumTypeLevelHealthState;
+import bfg.utils.enumsOld.enumTypeHealthState;
+import bfg.utils.enumsOld.enumTypeLevelHealthState;
 
 /**
  *

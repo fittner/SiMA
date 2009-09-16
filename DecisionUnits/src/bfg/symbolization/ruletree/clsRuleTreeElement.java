@@ -12,7 +12,7 @@ import org.w3c.dom.NamedNodeMap;
 
 import decisionunit.itf.sensors.clsSensorData;
 import bfg.tools.xmltools.clsXMLAbstractImageReader;
-import bfg.utils.enums.enumOptionalType;
+import bfg.utils.enumsOld.enumOptionalType;
 import bfg.symbolization.brainimages.clsIdentity;
 
 /**
