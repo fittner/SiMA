@@ -11,7 +11,10 @@ import java.util.ArrayList;
 import bw.body.clsComplexBody;
 import bw.body.io.actuators.clsActionExecutor;
 import bw.entities.clsEntity;
+import bw.entities.clsMobile;
 import bw.body.io.actuators.actionProxies.*;
+import bw.body.io.sensors.ext.clsSensorExt;
+import bw.body.io.sensors.ext.clsSensorRingSegment;
 import bw.body.itfget.itfGetBody;
 import decisionunit.itf.actions.*;
 import enums.eSensorExtType;
@@ -30,20 +33,14 @@ import enums.eSensorExtType;
 
 public class clsExecutorMoveToArea extends clsActionExecutor{
 
-	static double srStaminaBase = 2f;			//Stamina demand =srStaminaScalingFactor*pow(srStaminaBase,Speed) ; 			
-	static double srStaminaScalingFactor = 0.01f;  
+	static double srStaminaBase = 0.05f;			//Stamina demand 			
 
 	private ArrayList<Class<?>> moMutEx = new ArrayList<Class<?>>();
 
 	private clsEntity moEntity;
-	private eSensorExtType moRangeSource;
 	private eSensorExtType moRangeDest;
 	
-	private double mrForceScalingFactor;
-
-	public static final String P_RANGESOURCE = "rangesource";
 	public static final String P_RANGEDEST = "rangedest";
-	public static final String P_FORCECALINGFACTOR = "forcescalingfactor";
 
 	public clsExecutorMoveToArea(String poPrefix, clsBWProperties poProp, clsEntity poEntity) {
 		moEntity=poEntity;
@@ -63,18 +60,14 @@ public class clsExecutorMoveToArea extends clsActionExecutor{
 	public static clsBWProperties getDefaultProperties(String poPrefix) {
 		String pre = clsBWProperties.addDot(poPrefix);
 		clsBWProperties oProp = new clsBWProperties();
-		oProp.setProperty(pre+P_RANGESOURCE, eSensorExtType.MANIPULATE_AREA.toString());
 		oProp.setProperty(pre+P_RANGEDEST, eSensorExtType.EATABLE_AREA.toString());
-		oProp.setProperty(pre+P_FORCECALINGFACTOR, 1f);
 		
 		return oProp;
 	}
 	
 	private void applyProperties(String poPrefix, clsBWProperties poProp) {
 		String pre = clsBWProperties.addDot(poPrefix);
-		moRangeSource=eSensorExtType.valueOf(poProp.getPropertyString(pre+P_RANGESOURCE));
 		moRangeDest=eSensorExtType.valueOf(poProp.getPropertyString(pre+P_RANGEDEST));
-		mrForceScalingFactor=poProp.getPropertyFloat(pre+P_FORCECALINGFACTOR);
 	}
 
 	/*
@@ -107,8 +100,7 @@ public class clsExecutorMoveToArea extends clsActionExecutor{
 	}
 	@Override
 	public double getStaminaDemand(itfActionCommand poCommand) {
-		clsActionMoveToEatableArea oCommand =(clsActionMoveToEatableArea) poCommand;
-		return srStaminaScalingFactor* Math.pow(srStaminaBase,oCommand.getForce()) ;
+		return srStaminaBase ;
 	}
 
 	/*
@@ -116,20 +108,23 @@ public class clsExecutorMoveToArea extends clsActionExecutor{
 	 */
 	@Override
 	public boolean execute(itfActionCommand poCommand) {
-		clsActionMoveToEatableArea oCommand =(clsActionMoveToEatableArea) poCommand; 
 		clsComplexBody oBody = (clsComplexBody) ((itfGetBody)moEntity).getBody();
+		clsMobile oMEntity = (clsMobile) moEntity;
 
-		//Is something in range
-		itfAPCarryable oEntity = (itfAPCarryable) findSingleEntityInRange(moEntity , oBody, moRangeSource  ,itfAPCarryable.class) ;
+		//Am I carrying something?
+		itfAPCarryable oEntity=(itfAPCarryable) oMEntity.getInventory().getCarriedEntity();
 		if (oEntity==null) return false;
+		
+		//Get Destination
+		clsSensorExt oSensor = (clsSensorExt) oBody.getExternalIO().moSensorExternal.get(moRangeDest);
+		if (!(oSensor instanceof clsSensorRingSegment))  return false;
 
-		//If the entity is already in the destination-range then don't do anything
-		if (findNamedEntityInRange(oEntity.getCarryableEntity().getId(), oBody, moRangeDest, itfAPCarryable.class) !=null) return false;
-
-		//Move it!
-        //Double2D oForce =  
-        //oEntity.getCarryableEntity().getMobileObject2D().addForceComponent(oForce);		
-		return true;
+		//sim.physics2D.util.Double2D oDest = new sim.physics2D.util.Double2D(((clsSensorRingSegment)oSensor).getOffsetX(),0);
+		sim.physics2D.util.Double2D oDest = new sim.physics2D.util.Double2D(moEntity.getPosition().x+((clsSensorRingSegment)oSensor).getOffsetX(),moEntity.getPosition().y);
+		
+		//Move
+		oMEntity.getInventory().moveCarriedEntity(oDest);
+	return true;
 	}	
 	
 }

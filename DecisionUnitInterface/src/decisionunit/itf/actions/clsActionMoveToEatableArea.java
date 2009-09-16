@@ -17,20 +17,11 @@ package decisionunit.itf.actions;
  */
 public class clsActionMoveToEatableArea implements itfActionCommand {
 
-	private double mrForce;
-
-	public clsActionMoveToEatableArea(double prForce) {
-		mrForce=prForce;
+	public clsActionMoveToEatableArea() {
 	}
 	
 	public String getLog() {
-		return "<MoveToEatableArea>" + mrForce + "</MoveToEatableArea>"; 
+		return "<MoveToEatableArea></MoveToEatableArea>"; 
 	}
 
-	public double getForce() {
-		return mrForce;
-	}
-	public void setForce(double prForce) {
-		mrForce=prForce;
-	}
 }

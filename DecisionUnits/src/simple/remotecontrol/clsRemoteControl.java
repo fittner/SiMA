@@ -148,7 +148,7 @@ public class clsRemoteControl extends clsBaseDecisionUnit  {
     		break;
     		
     	case 77: //'M'
-    		poActionProcessor.call(new clsActionMoveToEatableArea(4));
+    		poActionProcessor.call(new clsActionMoveToEatableArea());
     		break;
     		
     	case 75: //'K'

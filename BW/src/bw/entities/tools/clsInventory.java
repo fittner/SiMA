@@ -104,6 +104,18 @@ public class clsInventory {
 		moJoint= new PinJoint(poEntity.getPosition(), (moEntity).getMobileObject2D(), poEntity.getMobileObject2D());
         clsSingletonMasonGetter.getPhysicsEngine2D().register(moJoint);
 	}
+	
+	/*
+	 * Changes the pinjoint of the carried object so it will be dragged to a given relative position
+	 */
+	public void moveCarriedEntity(sim.physics2D.util.Double2D poDestination) {
+		if (moJoint == null) return;
+
+		clsSingletonMasonGetter.getPhysicsEngine2D().unRegister(moJoint);
+		moJoint = new PinJoint(poDestination ,  (moEntity).getMobileObject2D(),moCarriedEntity.getMobileObject2D());
+        clsSingletonMasonGetter.getPhysicsEngine2D().register(moJoint);
+		
+	}
 
 	/*
 	 * Inventory items
