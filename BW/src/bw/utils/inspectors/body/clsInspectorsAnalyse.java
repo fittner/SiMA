@@ -26,7 +26,7 @@ import bw.utils.tools.clsNutritionLevel;
  * 
  * @author kilic
  * 15.05.2009, 10:21:47
- * 
+ * @deprecated 
  */
 public class clsInspectorsAnalyse extends JComponent{
 	
