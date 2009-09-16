@@ -16,7 +16,9 @@
 //
 
 // Belongs to package
-package bfg.utils.enumsOld;
+package bfg.utils.enums;
+
+import bfg.utils.enums.enumClass;
 
 // Imports
 
@@ -24,26 +26,24 @@ package bfg.utils.enumsOld;
  *
  * This is the class description ...
  *
- * @deprecated
- * 
  * $Revision: 1825 $:  Revision of last commit
  * $Author: deutsch $: Author of last commit
  * $Date: 2009-01-27 19:59:35 +0100 (Di, 27 Jän 2009) $: Date of last commit
  *
  */
-public class enumTypeCompareOperator extends enumClass {
+public class clsTypeCompareOperator extends enumClass {
 
   private String moCompareOperator = new String("NOT_DEFINED"); //default is type NOT_DEFINED
 
   //---------------------------------------------------------------------------
-  public enumTypeCompareOperator() 
+  public clsTypeCompareOperator() 
   //---------------------------------------------------------------------------
   {
     moCompareOperator = "NOT_DEFINED";
   }
 
   //---------------------------------------------------------------------------
-  public enumTypeCompareOperator(String compareOperator) 
+  public clsTypeCompareOperator(String compareOperator) 
   //---------------------------------------------------------------------------
   {
     if( compareOperator.equals("==") ||
@@ -133,13 +133,26 @@ public class enumTypeCompareOperator extends enumClass {
   {
     boolean retVal = false;
 
-    if( poType.toLowerCase().equals("complexemotion") )
-    {
-      int poA = (int)(a*100);
-      int poB = (int)( (100f/enumTypeLevelComplexEmotion.TLEVELCEMOTION_VERYHIGH)*b );
-      retVal = compareInteger( poA, poB );
-    }
+//    if( poType.toLowerCase().equals("complexemotion") )
+//    {
+//      int poA = (int)(a*100);
+//      int poB = (int)( (100f/enumTypeLevelComplexEmotion.TLEVELCEMOTION_VERYHIGH)*b );
+//      retVal = compareInteger( poA, poB );
+//    }
 
     return retVal;
+  }
+  
+  public boolean compare(boolean pnBool, eTrippleState peTrip) {
+	
+	  boolean oRetVal = false;
+	  
+	  if(peTrip != eTrippleState.UNDEFINED){
+		if( (peTrip == eTrippleState.FALSE && !pnBool) ||
+			(peTrip == eTrippleState.TRUE  &&  pnBool) ) {
+			oRetVal = true;
+		}
+	  }
+	  return oRetVal;
   }
 };

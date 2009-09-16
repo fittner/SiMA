@@ -22,7 +22,7 @@ import decisionunit.itf.sensors.clsBump;
 import decisionunit.itf.sensors.clsEatableArea;
 import decisionunit.itf.sensors.clsStaminaSystem;
 import decisionunit.itf.sensors.clsVision;
-import decisionunit.itf.sensors.clsVisionEntry;
+import decisionunit.itf.sensors.clsSensorRingSegmentEntries;
 
 /**
  * DOCUMENT (langr) - insert description 
@@ -74,7 +74,7 @@ public class clsDumbMindA extends clsBaseDecisionUnit {
 	{
 		clsVision oVision = (clsVision) getSensorData().getSensorExt(eSensorExtType.VISION);
 		
-		for( clsVisionEntry oVisionObj : oVision.getList() ) {
+		for( clsSensorRingSegmentEntries oVisionObj : oVision.getList() ) {
 			
 				if( oVisionObj.mnEntityType == eEntityType.CAKE)
 				{

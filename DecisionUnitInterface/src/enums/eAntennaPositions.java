@@ -14,6 +14,7 @@ package enums;
  * 
  */
 public enum eAntennaPositions {
+	UNDEFINED,
 	UPRIGHT, 
 	INTERMEDIATE,
 	HORIZONTAL,

@@ -11,7 +11,7 @@ import decisionunit.itf.sensors.clsBump;
 import decisionunit.itf.sensors.clsEatableArea;
 import decisionunit.itf.sensors.clsEnergy;
 import decisionunit.itf.sensors.clsVision;
-import decisionunit.itf.sensors.clsVisionEntry;
+import decisionunit.itf.sensors.clsSensorRingSegmentEntries;
 import enums.eActionMoveDirection;
 import enums.eActionTurnDirection;
 import enums.eEntityType;
@@ -50,7 +50,7 @@ public class clsLynxMind extends clsRemoteControl  {
 	private static double mnHungryThreasholed = 7; //energy level, where hare gets hungry
 	
 	public void doLynxThinking(itfActionProcessor poActionProcessor) {
-		clsVisionEntry oVisibleHare = checkVision();
+		clsSensorRingSegmentEntries oVisibleHare = checkVision();
 		clsBump oBump = (clsBump) getSensorData().getSensorExt(eSensorExtType.BUMP);
 		
 		if( checkEatableArea() && isHungry() ) {
@@ -78,10 +78,10 @@ public class clsLynxMind extends clsRemoteControl  {
 		return nRetVal;
 	}
 	
-	public clsVisionEntry checkVision() {
-		clsVisionEntry oRetVal = null;
+	public clsSensorRingSegmentEntries checkVision() {
+		clsSensorRingSegmentEntries oRetVal = null;
 		clsVision oVision = (clsVision) getSensorData().getSensorExt(eSensorExtType.VISION);
-		for( clsVisionEntry oVisionObj : oVision.getList() ) {
+		for( clsSensorRingSegmentEntries oVisionObj : oVision.getList() ) {
 			if( oVisionObj.mnEntityType == eEntityType.HARE && !oVisionObj.moColor.equals(Color.BLACK))
 			{
 				oRetVal = oVisionObj;
@@ -140,7 +140,7 @@ public class clsLynxMind extends clsRemoteControl  {
 		mnStepCounter++;		
 	}
 	
-	public void followHare(itfActionProcessor poActionProcessor, clsVisionEntry poVisionObj) {
+	public void followHare(itfActionProcessor poActionProcessor, clsSensorRingSegmentEntries poVisionObj) {
 		
 		double rAngle = poVisionObj.moPolarcoordinate.moAzimuth.mrAlpha;
 		

@@ -15,7 +15,7 @@ import bfg.symbolization.brainimages.clsIdentity;
 import bfg.symbolization.brainimages.clsImagePerception;
 import bfg.symbolization.brainimages.clsImageAbstract;
 import bfg.tools.xmltools.clsXMLAbstractImageReader;
-import bfg.utils.enumsOld.enumOptionalType;
+import bfg.utils.enums.eOptional;
 import bfg.utils.enumsOld.enumTypeHormone;
 import bfg.utils.enumsOld.enumTypeLevelHormone;
 
@@ -58,7 +58,7 @@ class clsLeafHormone extends clsRuleTreeLeaf
 		  int[] poCompareResult)
   //---------------------------------------------------------------------------
   {
-    if( meOptionalType != enumOptionalType.TOPT_OPTIONAL )
+    if( meOptionalType != eOptional.OPTIONAL )
     {
       // for optional leafes we get a counter in the match list, but not in the list of all entries -->
       // compareResultValue increases if optional leafs match (can lead to more than 100% )

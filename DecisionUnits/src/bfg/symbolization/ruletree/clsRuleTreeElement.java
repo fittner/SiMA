@@ -12,7 +12,7 @@ import org.w3c.dom.NamedNodeMap;
 
 import decisionunit.itf.sensors.clsSensorData;
 import bfg.tools.xmltools.clsXMLAbstractImageReader;
-import bfg.utils.enumsOld.enumOptionalType;
+import bfg.utils.enums.eOptional;
 import bfg.symbolization.brainimages.clsIdentity;
 
 /**
@@ -26,7 +26,7 @@ import bfg.symbolization.brainimages.clsIdentity;
  */
 public abstract class clsRuleTreeElement {
 
-  public int meOptionalType = enumOptionalType.TOPT_UNDEFINED;
+  public eOptional meOptionalType = eOptional.UNDEFINED;
   public boolean mnNegated = false;
 
   //---------------------------------------------------------------------------
@@ -56,8 +56,7 @@ public abstract class clsRuleTreeElement {
       //could be optional
       if( oAttributes.getNamedItem("optional") != null )
       {
-        String oOptional  = oAttributes.getNamedItem("optional").getNodeValue();
-        oResult.meOptionalType = enumOptionalType.getInteger(oOptional);
+    	oResult.meOptionalType  = eOptional.valueOf(oAttributes.getNamedItem("optional").getNodeValue());
       }
 
       if( oAttributes.getNamedItem("negated") != null )
@@ -74,7 +73,7 @@ public abstract class clsRuleTreeElement {
   public String toString() 
   //---------------------------------------------------------------------------
   {
-    String oRetValue = " optionalType:"+enumOptionalType.getString(meOptionalType);
+    String oRetValue = " optionalType:"+meOptionalType.toString();
     oRetValue += " negated:"+mnNegated;
     return oRetValue;
   }

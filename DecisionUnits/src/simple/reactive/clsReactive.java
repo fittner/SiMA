@@ -27,7 +27,7 @@ import decisionunit.itf.sensors.clsSensorData;
 import decisionunit.itf.sensors.clsRadiation;
 import decisionunit.itf.sensors.clsEnergy;
 import decisionunit.itf.sensors.clsVision;
-import decisionunit.itf.sensors.clsVisionEntry;
+import decisionunit.itf.sensors.clsSensorRingSegmentEntries;
 import bfg.tools.shapes.clsPolarcoordinate;
 
 import java.util.Random;
@@ -265,7 +265,7 @@ public class clsReactive extends clsBaseDecisionUnit {
 	 */
 	private boolean isVisibleEntityInRange(clsSensorData inputs, eEntityType entityType){
 		clsVision oVision = (clsVision) inputs.getSensorExt(eSensorExtType.VISION);
-		for( clsVisionEntry oVisionObj : oVision.getList() ){
+		for( clsSensorRingSegmentEntries oVisionObj : oVision.getList() ){
 			if( oVisionObj.mnEntityType == entityType){
 				return true;
 			}
@@ -315,7 +315,7 @@ public class clsReactive extends clsBaseDecisionUnit {
 	private boolean isAtEntity(clsSensorData poInputs, eEntityType poEntityType, double pnDistance){
 		clsVision oVision = (clsVision) poInputs.getSensorExt(eSensorExtType.VISION);
 		// Find the closest entity 
-		for( clsVisionEntry oVisionObj : oVision.getList() ) {
+		for( clsSensorRingSegmentEntries oVisionObj : oVision.getList() ) {
 			if (oVisionObj.mnEntityType == poEntityType){
 				if(oVisionObj.moPolarcoordinate.mrLength <= pnDistance){
 					if(oVisionObj.moPolarcoordinate.moAzimuth.mrAlpha <= mrATENTITY_ANGLE_TOLERANCE && oVisionObj.moPolarcoordinate.moAzimuth.mrAlpha <= 2*Math.PI - mrATENTITY_ANGLE_TOLERANCE){
@@ -404,7 +404,7 @@ public class clsReactive extends clsBaseDecisionUnit {
 		clsVision oVision = (clsVision) poInputs.getSensorExt(eSensorExtType.VISION);
 		
 		// Find the closest fungus 
-		for( clsVisionEntry oVisionObj : oVision.getList() ) {
+		for( clsSensorRingSegmentEntries oVisionObj : oVision.getList() ) {
 			if(oVisionObj.mnEntityType == entityType){
 				if(closest.mrLength < 0 || closest.mrLength > oVisionObj.moPolarcoordinate.mrLength){
 					closest.mrLength = oVisionObj.moPolarcoordinate.mrLength;

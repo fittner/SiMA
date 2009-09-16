@@ -16,7 +16,7 @@
 //
 
 // Belongs to package
-package bfg.utils.enumsOld;
+package bfg.utils.enums;
 
 // Imports
 
@@ -24,14 +24,12 @@ package bfg.utils.enumsOld;
  *
  * Abstract base class for all enum classes. Gurantees that the static methods getString and getInteger are declared.
  *
- * @deprecated
- *
  * $Revision: 1825 $:  Revision of last commit
  * $Author: deutsch $: Author of last commit
  * $Date: 2009-01-27 19:59:35 +0100 (Di, 27 Jän 2009) $: Date of last commit
  *
  */
-abstract class enumClass  {
+public abstract class enumClass  {
   public final static int TENUM_UNDEFINED    = Integer.MIN_VALUE;
 
   /** 

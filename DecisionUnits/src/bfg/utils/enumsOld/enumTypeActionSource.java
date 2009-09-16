@@ -18,6 +18,8 @@
 // Belongs to package
 package bfg.utils.enumsOld;
 
+import bfg.utils.enums.enumClass;
+
 // Imports
 
 // Class definition

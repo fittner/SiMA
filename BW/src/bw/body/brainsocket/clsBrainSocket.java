@@ -36,7 +36,7 @@ import decisionunit.itf.sensors.clsStaminaSystem;
 import decisionunit.itf.sensors.clsEnergy;
 import decisionunit.itf.sensors.clsVision;
 import decisionunit.itf.sensors.clsRadiation;
-import decisionunit.itf.sensors.clsVisionEntry;
+import decisionunit.itf.sensors.clsSensorRingSegmentEntries;
 import enums.eFastMessengerSources;
 import enums.eSensorIntType;
 import enums.eSensorExtType;
@@ -307,7 +307,7 @@ public class clsBrainSocket implements itfStepProcessing {
 	
 			Iterator <clsCollidingObject> i = eDetectedObjectList.iterator(); 
 			while(i.hasNext()){
-				clsVisionEntry oEntry = convertVisionEntry(i.next());
+				clsSensorRingSegmentEntries oEntry = convertVisionEntry(i.next());
 				
 				if (oEntry != null) {
 					oData.add(oEntry);
@@ -327,7 +327,7 @@ public class clsBrainSocket implements itfStepProcessing {
 	
 			Iterator <clsCollidingObject> i = eDetectedObjectList.iterator(); 
 			while(i.hasNext()){
-				clsVisionEntry oEntry = convertVisionEntry(i.next());
+				clsSensorRingSegmentEntries oEntry = convertVisionEntry(i.next());
 				
 				if (oEntry != null) {
 					oData.add(oEntry);
@@ -361,13 +361,13 @@ public class clsBrainSocket implements itfStepProcessing {
 	
 	
 
-	private clsVisionEntry convertVisionEntry(clsCollidingObject collidingObj) {
+	private clsSensorRingSegmentEntries convertVisionEntry(clsCollidingObject collidingObj) {
 		clsEntity oEntity = getEntity(collidingObj.moCollider);
 		if (oEntity == null) {
 			return null;
 		}
 
-		clsVisionEntry oData = new clsVisionEntry();
+		clsSensorRingSegmentEntries oData = new clsSensorRingSegmentEntries();
 		
 		oData.mnEntityType = getEntityType(collidingObj.moCollider);		
 		oData.mnShapeType = getShapeType(collidingObj.moCollider);

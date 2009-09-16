@@ -12,10 +12,13 @@ import org.w3c.dom.Node;
 import bfg.symbolization.brainimages.clsIdentity;
 import bfg.symbolization.brainimages.clsImageAbstract;
 import bfg.symbolization.brainimages.clsImagePerception;
-import bfg.utils.enumsOld.enumTypeCompareOperator;
-import bfg.utils.enumsOld.enumTypeCount;
-//import bfg.utils.enumsOld.enumTypeSide;
-import bfg.utils.enumsOld.enumTypeTrippleState;
+import bfg.tools.clsColorParse;
+import bfg.tools.xmltools.clsXMLAbstractImageReader;
+import bfg.utils.enums.clsTypeCompareOperator;
+import bfg.utils.enums.eCount;
+import bfg.utils.enums.eOptional;
+import bfg.utils.enums.eSide;
+import bfg.utils.enums.eTrippleState;
 import decisionunit.itf.sensors.clsDataBase;
 import decisionunit.itf.sensors.clsSensorData;
 import enums.eAntennaPositions;
@@ -30,33 +33,40 @@ import enums.eShapeType;
  * 15.09.2009, 13:23:15
  * 
  */
-public class clsLeafVision extends clsRuleTreeLeaf {
+public class clsLeafSegment extends clsRuleTreeLeaf {
 
-	  public int mnNumber = enumTypeCount.TCOUNT_NONE;
+	  public eCount mnNumber = eCount.UNDEFINED;
 	  public eSensorExtType meSensorType = eSensorExtType.UNDEFINED;
-	  public enumTypeCompareOperator meDistanceCompare;// = "==";
-//	  public enumTypeSide meLocation = enumTypeSide.TSIDE_UNDEFINED;
+	  public clsTypeCompareOperator meDistanceCompare;// = "==";
+	  public eSide meLocation = eSide.UNDEFINED;
 	  public eEntityType meEntityType = eEntityType.UNDEFINED;
 	  public eShapeType meShapeType = eShapeType.UNDEFINED;
-	  public int moAlive = enumTypeTrippleState.TTRIPPLE_UNDEFINED;
+	  public eTrippleState moAlive = eTrippleState.UNDEFINED;
 	  public java.awt.Color moColour = java.awt.Color.WHITE;
 	  public eAntennaPositions moAntennaPos = eAntennaPositions.UNDEFINED; 
-	  public int meOwnTeam = enumTypeTrippleState.TTRIPPLE_UNDEFINED; //
-	
-
-//	String oOrienation; 
+	  public eTrippleState meOwnTeam = eTrippleState.UNDEFINED; //
 	
 	public static clsRuleTreeElement create(Node poNode) {
-	    clsLeafVision oResult = new clsLeafVision();
+	    clsLeafSegment oResult = new clsLeafSegment();
 	   
 	    if( oResult != null ){
 	      NamedNodeMap oAttributes = poNode.getAttributes();
 	     
-	      if( oAttributes.getNamedItem("value") != null )
-	      {
-	    
-
+	      if( oAttributes.getNamedItem("number") != null ) {
+	    	  String value  = oAttributes.getNamedItem("number").getNodeValue();
+	          oResult.mnNumber = eCount.valueOf(value);
 	      }
+
+	      oResult.meSensorType = eSensorExtType.valueOf( clsXMLAbstractImageReader.getTagStringValue(poNode, "sensortype") );
+	      oResult.meDistanceCompare = new clsTypeCompareOperator( clsXMLAbstractImageReader.getTagStringValue(poNode, "distancecompare") );
+	      oResult.meLocation = eSide.valueOf( clsXMLAbstractImageReader.getTagStringValue(poNode, "location") );
+	      oResult.meShapeType = eShapeType.valueOf( clsXMLAbstractImageReader.getTagStringValue(poNode, "shapetype") );
+	      oResult.moAlive = eTrippleState.valueOf( clsXMLAbstractImageReader.getTagStringValue(poNode, "alive") );
+	      oResult.moColour = clsColorParse.parseHashHexa( clsXMLAbstractImageReader.getTagStringValue(poNode, "color") );
+	      oResult.moAntennaPos = eAntennaPositions.valueOf( clsXMLAbstractImageReader.getTagStringValue(poNode, "antennapos") );
+	      oResult.meOwnTeam = eTrippleState.valueOf( clsXMLAbstractImageReader.getTagStringValue(poNode, "ownteam") );
+	      
+
 	    }
 	    return oResult;
 	  }
@@ -71,9 +81,21 @@ public class clsLeafVision extends clsRuleTreeLeaf {
 	@Override
 	public boolean evaluateTree(clsSensorData poPerception,
 			clsIdentity poBrainsIdentity, int[] poCompareResult) {
-		// TODO (zeilinger) - Auto-generated method stub
-		return false;
-	}
+	    if( meOptionalType != eOptional.OPTIONAL )
+	    {
+	      // for optional leafs we get a counter in the match list, but not in the list of all entries -->
+	      // compareResultValue increases if optional leafs match (can lead to more than 100% )
+	      poCompareResult[1]++;
+	    }
+	    boolean oResult = false;
+	    //TODO (Zeilinger) - implement the complex compare operator and listen some cool Hip-Hop (the music - not the Bewegung) or Rap...
+	    if( false )//compare( (clsVision)poPerception.getSensorExt(eSensorExtType.VISION) ) )
+	    {
+	      //Engine.log.println( "Match with leaf: " + this.toString() );
+	      poCompareResult[0]++;
+	      oResult = true;
+	    }
+	    return oResult;	}
 
 	/* (non-Javadoc)
 	 *

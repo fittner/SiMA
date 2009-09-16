@@ -4,25 +4,25 @@
 
     <AbstractImage ID="105" name="help me - my head bumped against something" fullMatchRequired="false">
 		 <Description>help me - my head bumped against something</Description>
-        <TreeRoot optional="mandatory" booleanOperator="AND" negated="false">
-	    <leafBumped compare="==" value="true" />
+        <TreeRoot optional="MANDATORY" booleanOperator="AND" negated="false">
+	    <leafBumped compare="==" value="TRUE" />
         </TreeRoot>
     </AbstractImage>
 
     <AbstractImage ID="107" name="onebadbubble" fullMatchRequired="false">
         <Description>one bad bubble in left close field</Description>
-	<TreeRoot optional="mandatory" booleanOperator="OR" negated="false">
-            <leafVisible compare=">=" number="1">
+	<TreeRoot optional="MANDATORY" booleanOperator="OR" negated="false">
+            <leafSegment compare=">=" number="ONE">
 	        <sensortype>VISION_NEAR</sensortype>
                 <distancecompare>==</distancecompare>
-                <orientation>left</orientation>
-                <entitytype>bubble</entitytype>
-                <shapetype>circle</shapetype>
-                <alive>left</alive>
-                <color>FF0000</color>
-                <antennapos>UPRIGHT<antennapos>
-                <side>undefined</side>
-	    </leafVisible>
+                <location>LEFT</location>
+                <entitytype>BUBBLE</entitytype>
+                <shapetype>CIRCLE</shapetype>
+                <alive>TRUE</alive>
+                <color>#FF0000</color>
+                <antennapos>UPRIGHT</antennapos>
+                <ownteam>UNDEFINED</ownteam>
+	    </leafSegment>
         </TreeRoot>
     </AbstractImage>
 

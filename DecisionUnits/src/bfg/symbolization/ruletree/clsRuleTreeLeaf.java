@@ -12,7 +12,7 @@ import org.w3c.dom.NamedNodeMap;
 import decisionunit.itf.sensors.clsDataBase;
 import decisionunit.itf.sensors.clsSensorData;
 import bfg.tools.xmltools.clsXMLAbstractImageReader;
-import bfg.utils.enumsOld.enumTypeCompareOperator;
+import bfg.utils.enums.clsTypeCompareOperator;
 import bfg.symbolization.brainimages.clsIdentity;
 import bfg.symbolization.brainimages.clsImagePerception;
 import bfg.symbolization.brainimages.clsImageAbstract;
@@ -32,7 +32,7 @@ import bfg.symbolization.brainimages.clsImageAbstract;
  */
 public abstract class clsRuleTreeLeaf extends clsRuleTreeElement{
 
-  enumTypeCompareOperator  meCompareOperator = null;
+  clsTypeCompareOperator  meCompareOperator = null;
 
   //---------------------------------------------------------------------------
   public static clsRuleTreeElement createRuleTreeLeaf(Node poNode)
@@ -43,7 +43,11 @@ public abstract class clsRuleTreeLeaf extends clsRuleTreeElement{
 
 //    Engine.log.println(" Node Name "+oName);
 
-    if( oName == "leafDrive" )
+    if( oName == "leafSegment" )
+    {
+      oResult = (clsRuleTreeLeaf)clsLeafSegment.create(poNode);
+    }
+    else if( oName == "leafDrive" )
     {
       oResult = (clsRuleTreeLeaf)clsLeafDrive.create(poNode);
     }
@@ -101,7 +105,7 @@ public abstract class clsRuleTreeLeaf extends clsRuleTreeElement{
     {
        NamedNodeMap oAttributes = poNode.getAttributes();
        String oComp  = oAttributes.getNamedItem("compare").getNodeValue();
-       oResult.meCompareOperator = new enumTypeCompareOperator(oComp);
+       oResult.meCompareOperator = new clsTypeCompareOperator(oComp);
     }
     
     return oResult;

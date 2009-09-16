@@ -10,7 +10,7 @@ import decisionunit.itf.sensors.clsBump;
 import decisionunit.itf.sensors.clsEatableArea;
 import decisionunit.itf.sensors.clsEnergy;
 import decisionunit.itf.sensors.clsVision;
-import decisionunit.itf.sensors.clsVisionEntry;
+import decisionunit.itf.sensors.clsSensorRingSegmentEntries;
 import enums.eActionMoveDirection;
 import enums.eActionTurnDirection;
 import enums.eEntityType;
@@ -49,7 +49,7 @@ public class clsHareMind extends clsRemoteControl { //should be derived from cls
 	
 	public void doHareThinking(itfActionProcessor poActionProcessor) {
 		
-		clsVisionEntry oVisibleCarrot = checkVision();
+		clsSensorRingSegmentEntries oVisibleCarrot = checkVision();
 		clsBump oBump = (clsBump) getSensorData().getSensorExt(eSensorExtType.BUMP);
 		
 		if( checkEatableArea() && isHungry() ) {
@@ -75,7 +75,7 @@ public class clsHareMind extends clsRemoteControl { //should be derived from cls
 		return nRetVal;
 	}
 	
-	private boolean isCarrotOrange(clsVisionEntry oVisionObj) {
+	private boolean isCarrotOrange(clsSensorRingSegmentEntries oVisionObj) {
 		if (oVisionObj.mnEntityType == eEntityType.CARROT && 
 				oVisionObj.moColor != null &&
 				oVisionObj.moColor.equals(Color.orange) 
@@ -86,10 +86,10 @@ public class clsHareMind extends clsRemoteControl { //should be derived from cls
 		return false;
 	}
 	
-	public clsVisionEntry checkVision() {
-		clsVisionEntry oRetVal = null;
+	public clsSensorRingSegmentEntries checkVision() {
+		clsSensorRingSegmentEntries oRetVal = null;
 		clsVision oVision = (clsVision) getSensorData().getSensorExt(eSensorExtType.VISION);
-		for( clsVisionEntry oVisionObj : oVision.getList() ) {
+		for( clsSensorRingSegmentEntries oVisionObj : oVision.getList() ) {
 			if( isCarrotOrange(oVisionObj) )
 			{
 				oRetVal = oVisionObj;
@@ -149,7 +149,7 @@ public class clsHareMind extends clsRemoteControl { //should be derived from cls
 		mnStepCounter++;		
 	}
 	
-	public void reachCarrot(itfActionProcessor poActionProcessor, clsVisionEntry poVisionObj) {
+	public void reachCarrot(itfActionProcessor poActionProcessor, clsSensorRingSegmentEntries poVisionObj) {
 		
 		double rAngle = poVisionObj.moPolarcoordinate.moAzimuth.mrAlpha;
 		

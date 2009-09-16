@@ -21,12 +21,17 @@ import org.junit.Test;
 
 import decisionunit.itf.sensors.clsBump;
 import decisionunit.itf.sensors.clsSensorData;
+import decisionunit.itf.sensors.clsSensorRingSegment;
+import decisionunit.itf.sensors.clsSensorRingSegmentEntries;
+import enums.eEntityType;
 import enums.eSensorExtType;
+import enums.eShapeType;
 
 import bfg.symbolization.brainimages.clsContainerAbstractImages;
 import bfg.symbolization.brainimages.clsIdentity;
 import bfg.symbolization.brainimages.clsImageAbstract;
 import bfg.symbolization.ruletree.clsRuleCompareResult;
+import bfg.tools.shapes.clsPolarcoordinate;
 import bfg.tools.xmltools.clsXMLConfiguration;
 
 /**
@@ -86,6 +91,46 @@ public class tssImageAbstract {
 		//complete the JUnit test 
 		assertTrue( (oMatch.get(0).moMatch.get() == 1) );
 }
+	
+	/**
+	 * Test method for {@link bfg.symbolization.brainimages.clsImageAbstract#createImageAbstractList(java.util.Vector, int)}.
+	 */
+	@Test
+	public void testEvaluateTreeSegment() {
+		//The list of abstract images that are matching
+		ArrayList<clsRuleCompareResult> oMatch = null;
+
+		//load the abstract images for the bubble of type PSY_10 (incl. AI's from parent xml's) into memory
+		Vector<String> oFilePaths = new Vector<String>(); 
+		oFilePaths.add("PSY_10");
+		clsContainerAbstractImages oTestImages = clsImageAbstract.createImageAbstractList(oFilePaths, 1);
+		
+		//create the container for the simulated sensor data (normaly this comes into the DecisionUnitInterface) 
+		clsSensorData oSensorData = new clsSensorData();
+		//add bump info
+		
+		clsSensorRingSegment oRingSeg = new clsSensorRingSegment();
+		oRingSeg.moSensorType = eSensorExtType.VISION_NEAR;
+		clsSensorRingSegmentEntries oRingEntry = new clsSensorRingSegmentEntries();
+		oRingEntry.mnAlive = true;
+		oRingEntry.mnEntityType = eEntityType.BUBBLE;
+		oRingEntry.mnShapeType = eShapeType.CIRCLE;
+		oRingEntry.moColor = java.awt.Color.WHITE;
+		oRingEntry.moEntityId = "1";
+		oRingEntry.moPolarcoordinate = new clsPolarcoordinate(8.0, 0.1);
+		oRingSeg.add(oRingEntry);
+		
+		oSensorData.addSensorExt(eSensorExtType.VISION_NEAR, oRingSeg);
+
+		//trigger the comparison between defined AbstractImages and the created incoming data
+		oMatch = oTestImages.associate(oSensorData, new clsIdentity());
+
+		//print it in the system-output (it is only for the bump sensor, which is on the 5th place... I know it...)
+		System.out.println(oMatch.get(1).toString());
+		
+		//complete the JUnit test 
+		assertTrue( (oMatch.get(1).moMatch.get() == 1) );
+}	
 	
 //	/**
 //	 * Test method for {@link bfg.symbolization.brainimages.clsImageAbstract#clsImageAbstract(int, java.lang.String, java.lang.String)}.
