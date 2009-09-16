@@ -1,0 +1,208 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+
+    <xsd:include schemaLocation="SimpleTypeDefinitions.xsd"/> 
+    <xsd:include schemaLocation="ComplexTypeDefinitions.xsd"/> 
+    
+    <!-- ################################## ELEMENTS ############################### -->
+
+    <xsd:element name="AbstractImages">
+        <xsd:complexType>
+            <xsd:sequence minOccurs="1" maxOccurs="unbounded">
+                <xsd:element name="AbstractImage" type="AbstractImage"/>
+            </xsd:sequence>
+        </xsd:complexType>
+    </xsd:element>
+
+    <!-- ################################## COMPLEX TYPES ######################### -->
+
+    <xsd:complexType name="AbstractImage">
+        <xsd:sequence>
+            <xsd:element name="Description" type="xsd:string"/>
+            <xsd:element name="TreeRoot" type="RuleTreeNode"/>
+            <!--xsd:element name="TargetLevels" type="TargetLevels"/-->
+            <!--xsd:element name="ActionPlan" type="ActionPlan" minOccurs="0" maxOccurs="unbounded"/-->
+	    <!--xsd:element name="SuperEgoAction" type="SuperEgoAction" minOccurs="0" maxOccurs="1"/-->
+	</xsd:sequence>
+        <xsd:attribute name="id" type="xsd:nonNegativeInteger" use="required"/>
+        <xsd:attribute name="name" type="xsd:string" use="required"/>
+        <xsd:attribute name="fullMatchRequired" use="optional" type="xsd:boolean" default="false"/>        
+    </xsd:complexType>
+
+<!--    <xsd:complexType name="TargetLevels">
+        <xsd:sequence minOccurs="0" maxOccurs="unbounded">
+            <xsd:choice>
+                <xsd:element name="Emotion" type="Emotion"/>
+                <xsd:element name="Drive" type="Drive"/>
+            </xsd:choice>
+        </xsd:sequence>
+    </xsd:complexType>
+-->
+    <xsd:complexType name="RuleTreeElement">
+        <xsd:attribute name="optional" use="optional" type="typeOptional" default="mandatory"/>
+        <xsd:attribute name="negated" use="optional" type="xsd:boolean" default="false"/>
+    </xsd:complexType>
+
+    <xsd:complexType name="RuleTreeNode">
+        <xsd:complexContent>
+            <xsd:extension base="RuleTreeElement">
+                    <xsd:sequence minOccurs="0" maxOccurs="unbounded">
+                        <xsd:choice>
+                            <xsd:element name="node" type="RuleTreeNode"/>                           
+<!--                        <xsd:element name="leafDrive" type="LeafDrive"/>
+                            <xsd:element name="leafEmotion" type="LeafEmotion"/>
+                            <xsd:element name="leafBubblesVisible" type="LeafBubblesVisible"/>
+                            <xsd:element name="leafBubblesScentable" type="LeafBubblesScentable"/>
+-->                        </xsd:choice>                      
+                    </xsd:sequence>
+                <xsd:attribute name="booleanOperator" type="typeBooleanOperator"/>
+            </xsd:extension>
+        </xsd:complexContent>
+    </xsd:complexType>
+
+    <!-- ++++++++++++++++++++++++++++++++++ LEAF DEFINITIONS +++++++++++++++++++++++++++++ -->
+
+    <xsd:complexType name="RuleTreeLeaf" abstract="true">
+        <xsd:complexContent>
+            <xsd:extension base="RuleTreeElement">
+                <xsd:attribute name="compare" type="typeCompareOperator" use="required"/>
+            </xsd:extension>
+        </xsd:complexContent>
+    </xsd:complexType>
+
+
+     <xsd:complexType name="LeafVision">
+        <xsd:complexContent>
+            <xsd:extension base="RuleTreeLeaf">
+                <xsd:sequence>
+                    <xsd:element name="drive" type="typeDrive"/>
+                </xsd:sequence>
+                <xsd:attribute name="level" type="typeLevelDrive"></xsd:attribute>
+            </xsd:extension>
+        </xsd:complexContent>
+    </xsd:complexType>
+
+<!--    <xsd:complexType name="LeafDrive">
+        <xsd:complexContent>
+            <xsd:extension base="RuleTreeLeaf">
+                <xsd:sequence>
+                    <xsd:element name="drive" type="typeDrive"/>
+                </xsd:sequence>
+                <xsd:attribute name="level" type="typeLevelDrive"></xsd:attribute>
+            </xsd:extension>
+        </xsd:complexContent>
+    </xsd:complexType>
+
+    <xsd:complexType name="LeafEmotion">
+        <xsd:complexContent>
+            <xsd:extension base="RuleTreeLeaf">
+                <xsd:sequence>
+                    <xsd:element name="emotion" type="typeEmotion"/>
+                </xsd:sequence>
+                <xsd:attribute name="level" type="typeLevelEmotion"/>
+            </xsd:extension>
+        </xsd:complexContent>
+    </xsd:complexType>
+
+    <xsd:complexType name="LeafComplexEmotion">
+        <xsd:complexContent>
+            <xsd:extension base="RuleTreeLeaf">
+                <xsd:sequence>
+                    <xsd:element name="ComplexEmotionID" type="xsd:nonNegativeInteger"/>
+                </xsd:sequence>
+                <xsd:attribute name="level" type="typeLevelComplexEmotion"/>
+            </xsd:extension>
+        </xsd:complexContent>
+    </xsd:complexType>
+-->
+
+    
+<!--
+	 <xsd:complexType name="LeafBelowEnergyConsumer">
+        <xsd:complexContent>
+            <xsd:extension base="RuleTreeLeaf">
+                <xsd:attribute name="value" type="typeTrippleState"/>
+            </xsd:extension>
+        </xsd:complexContent>
+    </xsd:complexType>
+-->    
+
+<!--
+	 <xsd:complexType name="LeafOdometry">
+        <xsd:complexContent>
+            <xsd:extension base="RuleTreeLeaf">
+                <xsd:attribute name="value" type="typeTrippleState"/>
+            </xsd:extension>
+        </xsd:complexContent>
+    </xsd:complexType>
+-->  
+
+<!--    <xsd:complexType name="LeafAboveEnergySource">
+        <xsd:complexContent>
+            <xsd:extension base="RuleTreeLeaf">
+                <xsd:attribute name="value" type="typeTrippleState"/>
+                <xsd:attribute name="consumable" type="typeTrippleState"/>
+            </xsd:extension>
+        </xsd:complexContent>
+    </xsd:complexType>
+
+	 <xsd:complexType name="LeafBumped">
+        <xsd:complexContent>
+            <xsd:extension base="RuleTreeLeaf">
+                <xsd:attribute name="value" type="typeTrippleState"/>
+            </xsd:extension>
+        </xsd:complexContent>
+    </xsd:complexType>
+
+    <xsd:complexType name="LeafBubblesVisible">
+        <xsd:complexContent>
+            <xsd:extension base="RuleTreeLeaf">
+                <xsd:sequence>
+                  
+                    <xsd:element name="side" type="typeSide" minOccurs="0" maxOccurs="1"/>
+                    <xsd:element name="distance" type="typeDistance" minOccurs="0" maxOccurs="1"/>
+                    <xsd:element name="energyconsumer" type="typeTrippleState" minOccurs="0"
+                        maxOccurs="1"/>
+                    <xsd:element name="energyproducer" type="typeTrippleState" minOccurs="0"
+                        maxOccurs="1"/>
+                    <xsd:element name="teammate" type="typeTrippleState" minOccurs="0" maxOccurs="1"
+                    />
+                </xsd:sequence>
+                <xsd:attribute name="number" type="typeCount"/>
+            </xsd:extension>
+        </xsd:complexContent>
+    </xsd:complexType>
+
+    <xsd:complexType name="LeafBubblesScentable">
+        <xsd:complexContent>
+            <xsd:extension base="RuleTreeLeaf">
+                <xsd:sequence>
+                    <xsd:element name="energyconsumer" type="typeTrippleState" minOccurs="0"
+                        maxOccurs="1"/>
+                    <xsd:element name="energyproducer" type="typeTrippleState" minOccurs="0"
+                        maxOccurs="1"/>
+                    <xsd:element name="teammate" type="typeTrippleState" minOccurs="0" maxOccurs="1"
+                    />
+                </xsd:sequence>
+                <xsd:attribute name="intensity" type="typeScentintensity"/>
+            </xsd:extension>
+        </xsd:complexContent>
+    </xsd:complexType>
+
+    <xsd:complexType name="LeafOwnSocialLevel">
+        <xsd:complexContent>
+            <xsd:extension base="RuleTreeLeaf">
+                <xsd:attribute name="value" type="typeOwnSocialLevel"/>
+            </xsd:extension>
+        </xsd:complexContent>
+    </xsd:complexType>
+    
+    <xsd:complexType name="LeafAcoustics">
+        <xsd:complexContent>
+            <xsd:extension base="RuleTreeLeaf">
+                <xsd:attribute name="EntityMessage" type="typeEntityMessages"/>
+            </xsd:extension>
+        </xsd:complexContent>
+    </xsd:complexType>
+-->
+ </xsd:schema>
