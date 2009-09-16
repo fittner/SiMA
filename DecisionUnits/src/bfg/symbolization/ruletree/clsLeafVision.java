@@ -14,6 +14,8 @@ import bfg.symbolization.brainimages.clsImageAbstract;
 import bfg.symbolization.brainimages.clsImagePerception;
 import decisionunit.itf.sensors.clsDataBase;
 import decisionunit.itf.sensors.clsSensorData;
+import enums.eEntityType;
+import enums.eShapeType;
 
 /**
  * DOCUMENT (zeilinger) - insert description 
@@ -24,17 +26,24 @@ import decisionunit.itf.sensors.clsSensorData;
  */
 public class clsLeafVision extends clsRuleTreeLeaf {
 
-	public static clsRuleTreeElement create(Node poNode)
-	  //---------------------------------------------------------------------------
-	  {
+	public eEntityType meEntityType = eEntityType.UNDEFINED;
+	public eShapeType meShapeType = eShapeType.UNDEFINED; 
+	//public eShapeColor meShapeColor = eShapeColor.UNDEFINED; 
+		
+
+//	String oOrienation; 
+	
+	public static clsRuleTreeElement create(Node poNode) {
 	    clsLeafVision oResult = new clsLeafVision();
-	    if( oResult != null )
-	    {
+	   
+	    if( oResult != null ){
 	      NamedNodeMap oAttributes = poNode.getAttributes();
-//	      if( oAttributes.getNamedItem("value") != null )
-//	      {
-//	        oResult.meBumped = enumTypeTrippleState.getInteger( oAttributes.getNamedItem("value").getNodeValue() );
-//	      }
+	     
+	      if( oAttributes.getNamedItem("value") != null )
+	      {
+	    
+
+	      }
 	    }
 	    return oResult;
 	  }
@@ -76,7 +85,34 @@ public class clsLeafVision extends clsRuleTreeLeaf {
 	 */
 	@Override
 	public boolean compare(clsDataBase poData) {
-		// TODO (zeilinger) - Auto-generated method stub
+			
+//		Color oColor; 
+//		eShapeType nShapeType; 
+//		eEntityType nEntityType; 
+//		String oOrienation; 
+//		ArrayList <clsSensorRingSegmentEntries> oRingSegementEntries = ((clsVision)poData).getList();
+//		
+//		for (clsSensorRingSegmentEntries element : oRingSegementEntries){
+//			nEntityType = element.mnEntityType; 
+//			nShapeType = element.mnShapeType; 
+//			oColor = element.moColor; 
+//			
+//		}
+		
+	
+//	    boolean nResult = false;
+//	
+//	    int nIsBumped = 0; 
+//	    if( ((clsBump)poData).mnBumped ) nIsBumped = 1;
+//	
+//	    if( meCompareOperator.compareInteger(nIsBumped, meBumped) )
+//	    {
+//	      nResult = true;
+//	    }
+//	    if( mnNegated )
+//	    {
+//	      nResult = !nResult;
+//	    }
 		return false;
 	}
 }

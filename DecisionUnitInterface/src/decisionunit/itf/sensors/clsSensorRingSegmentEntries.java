@@ -8,7 +8,7 @@ import enums.eEntityType;
 import enums.eShapeType;
 import bfg.tools.shapes.clsPolarcoordinate;
 
-public class clsVisionEntry {
+public class clsSensorRingSegmentEntries {
 	public clsPolarcoordinate moPolarcoordinate = new clsPolarcoordinate();
 	public eEntityType mnEntityType = eEntityType.UNDEFINED;
 	public eShapeType mnShapeType = eShapeType.UNDEFINED;
@@ -23,7 +23,7 @@ public class clsVisionEntry {
 	
 	protected String moClassName;
 	
-	public clsVisionEntry() {
+	public clsSensorRingSegmentEntries() {
 		moClassName = "VisionEntry";
 	}
 	

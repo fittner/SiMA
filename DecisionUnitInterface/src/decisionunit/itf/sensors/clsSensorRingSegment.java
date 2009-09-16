@@ -17,13 +17,13 @@ import java.util.ArrayList;
  */
 public class clsSensorRingSegment extends clsSensorExtern {
 
-	private ArrayList<clsVisionEntry> moEntries = new ArrayList<clsVisionEntry>();
+	private ArrayList<clsSensorRingSegmentEntries> moEntries = new ArrayList<clsSensorRingSegmentEntries>();
 	
-	public void add(clsVisionEntry poEntry) {
+	public void add(clsSensorRingSegmentEntries poEntry) {
 		moEntries.add(poEntry);
 	}
 	
-	public ArrayList<clsVisionEntry> getList() {
+	public ArrayList<clsSensorRingSegmentEntries> getList() {
 		return moEntries;
 	}
 	
@@ -32,7 +32,7 @@ public class clsSensorRingSegment extends clsSensorExtern {
 		String logEntry = "";
 		int id = 0;
 		
-		for (clsVisionEntry oEntry:moEntries) {
+		for (clsSensorRingSegmentEntries oEntry:moEntries) {
 			logEntry += addXMLTag("Entry", oEntry.logXML(id));
 			id++;
 		}
@@ -46,7 +46,7 @@ public class clsSensorRingSegment extends clsSensorExtern {
 		
 		int i = 0;
 		
-		for (clsVisionEntry oEntry:moEntries) {
+		for (clsSensorRingSegmentEntries oEntry:moEntries) {
 			oResult += i+". "+oEntry+" >> ";
 
 			i++;
@@ -65,7 +65,7 @@ public class clsSensorRingSegment extends clsSensorExtern {
 		String oRetVal = "";
 		
 		int i = 0;
-		for (clsVisionEntry oEntry:moEntries) {
+		for (clsSensorRingSegmentEntries oEntry:moEntries) {
 			oRetVal += "<tr><td align='right'>"+i+"</td><td>"+oEntry.logHTML()+"</td></tr>";
 			i++;
 		}
