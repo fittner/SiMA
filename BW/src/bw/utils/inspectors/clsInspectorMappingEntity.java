@@ -11,6 +11,7 @@ package bw.utils.inspectors;
 import bw.body.clsBaseBody;
 import bw.body.clsComplexBody;
 import bw.body.clsMeatBody;
+import bw.body.clsSimpleBody;
 //import bw.entities.clsBubble;
 
 import bw.entities.clsBubble;
@@ -33,6 +34,7 @@ import bw.entities.clsStationary;
 import bw.utils.inspectors.body.clsInspectorFastMessengers;
 import bw.utils.inspectors.body.clsInspectorFillLevel;
 import bw.utils.inspectors.body.clsInspectorAttributes;
+import bw.utils.inspectors.body.clsInspectorFlesh;
 import bw.utils.inspectors.body.clsInspectorInternalEnergyConsumption;
 import bw.utils.inspectors.body.clsInspectorInternalSystems;
 import bw.utils.inspectors.body.clsInspectorSlowMessengers;
@@ -149,15 +151,22 @@ public class clsInspectorMappingEntity {
 		TabbedInspector oRetVal = new TabbedInspector();
 
     	if( poBody instanceof clsComplexBody) {
-    		oRetVal.addInspector( new clsInspectorFillLevel(poSuperInspector, poWrapper, poState, ((clsComplexBody)poBody).getInternalSystem().getStomachSystem()), "Stomach System");
-    		oRetVal.addInspector( new clsInspectorInternalSystems(poSuperInspector, poWrapper, poState, ((clsComplexBody)poBody).getInternalSystem()), "Internal System");
+    		oRetVal.addInspector( new clsInspectorFillLevel(poSuperInspector, poWrapper, poState, ((clsComplexBody)poBody).getInternalSystem().getStomachSystem()), "Stomach");
+    		oRetVal.addInspector( new clsInspectorInternalSystems(poSuperInspector, poWrapper, poState, ((clsComplexBody)poBody).getInternalSystem()), "Internal");
     		oRetVal.addInspector( new clsInspectorSlowMessengers(poSuperInspector, poWrapper, poState, ((clsComplexBody)poBody).getInternalSystem().getSlowMessengerSystem()), "Slow Messengers");
     		oRetVal.addInspector( new clsInspectorFastMessengers(poSuperInspector, poWrapper, poState, ((clsComplexBody)poBody).getInternalSystem().getFastMessengerSystem()), "Fast Messengers");    		
-    		oRetVal.addInspector( new clsInspectorAttributes(poSuperInspector, poWrapper, poState, poBody.getAttributes()), "Body Attributes");    		
-    		oRetVal.addInspector( new clsInspectorInternalEnergyConsumption(poSuperInspector, poWrapper, poState, ((clsComplexBody) poBody).getInternalEnergyConsumption()), "Int.Energy Consumption");
+    		oRetVal.addInspector( new clsInspectorAttributes(poSuperInspector, poWrapper, poState, poBody.getAttributes()), "Attributes");    		
+    		oRetVal.addInspector( new clsInspectorFlesh(poSuperInspector, poWrapper, poState, ((clsComplexBody) poBody).getInternalSystem().getFlesh()), "Flesh");    		
+    		oRetVal.addInspector( new clsInspectorInternalEnergyConsumption(poSuperInspector, poWrapper, poState, ((clsComplexBody) poBody).getInternalEnergyConsumption()), "Int.Energy Cons.");
+    	} else if( poBody instanceof clsMeatBody ) {
+    		oRetVal.addInspector( new clsInspectorAttributes(poSuperInspector, poWrapper, poState, poBody.getAttributes()), "Attributes");    		
+    		oRetVal.addInspector( new clsInspectorFlesh(poSuperInspector, poWrapper, poState, ((clsMeatBody) poBody).getFlesh()), "Flesh");
+    	} else if (poBody instanceof clsSimpleBody) {
+    		oRetVal.addInspector( new clsInspectorAttributes(poSuperInspector, poWrapper, poState, poBody.getAttributes()), "Attributes");    		
+    	} else {
+    		throw new java.lang.Error("unkown body type "+poBody.getClass().getName());
     	}
-    	else if( poBody instanceof clsMeatBody ) {
-    	}
+    	
 
     	//add standard inspector if nothing happened
     	if(oRetVal.inspectors.size() == 0)  {

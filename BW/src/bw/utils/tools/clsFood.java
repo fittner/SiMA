@@ -9,6 +9,7 @@ package bw.utils.tools;
 
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.Map;
 
 import config.clsBWProperties;
 
@@ -282,4 +283,15 @@ public class clsFood {
 		mnFinalized = true;
 	}
 
+	@Override
+	public String toString() {
+		String oR = "";
+		
+		oR += "weight:"+mrWeight+" | ";
+		for (Map.Entry<eNutritions, clsMutableDouble> entry: moComposition.entrySet()) {
+			oR+=entry.getKey().name()+":"+entry.getValue()+", ";
+		}
+		oR = oR.substring(0, oR.length()-2);
+		return oR;	
+	}
 }

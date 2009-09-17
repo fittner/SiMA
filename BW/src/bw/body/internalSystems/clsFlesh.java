@@ -111,4 +111,11 @@ public class clsFlesh extends clsFood {
 			mnTotallyConsumed = false;
 		}		
 	}
+	
+	@Override
+	public String toString() {
+		String oR = super.toString();
+		oR+=" | totally consumed:"+mnTotallyConsumed;
+		return oR;
+	}
 }
