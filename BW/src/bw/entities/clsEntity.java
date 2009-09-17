@@ -11,6 +11,7 @@ import bw.body.clsBaseBody;
 import bw.body.clsComplexBody;
 import bw.body.clsMeatBody;
 import bw.body.clsSimpleBody;
+import bw.body.itfget.itfGetBody;
 import bw.utils.enums.eBodyType;
 import config.clsBWProperties;
 import sim.physics2D.physicalObject.PhysicalObject2D;
@@ -44,7 +45,7 @@ import enums.eEntityType;
  * @author langr
  * 
  */
-public abstract class clsEntity {
+public abstract class clsEntity implements itfGetBody {
 	public static final String P_ID = "id";
 	public static final String P_STRUCTURALWEIGHT = "weight_structural";
 	//public static final String P_ENTITY_COLOR_RGB = "color_rgb"; // TD - moved to clsShapeCreator. if a differentiation between the color of the shape and the color of the agent is necessary - reactivate this property

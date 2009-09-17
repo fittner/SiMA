@@ -21,7 +21,6 @@ import bw.body.itfGetBrain;
 import bw.body.itfGetExternalIO;
 import bw.body.io.sensors.ext.clsSensorEngine;
 //import bw.body.io.sensors.external.clsSensorRadiation;
-import bw.body.itfget.itfGetBody;
 import bw.physicalObjects.sensors.clsEntityPartVision;
 import bw.physicalObjects.sensors.clsEntitySensorEngine;
 import bw.utils.enums.eBodyType;
@@ -32,7 +31,7 @@ import bw.utils.enums.eBodyType;
  * @author langr
  * 
  */
-public abstract class clsAnimate extends clsMobile implements itfGetBody {
+public abstract class clsAnimate extends clsMobile {
 
 	public static final String P_DECISION_TYPE = "decisionunit_type";
 	public static final String P_DU_PROPERTIES = "decisionunit_props";
