@@ -31,6 +31,7 @@ import bw.entities.clsUraniumOre;
 //import bw.entities.clsRemoteBot;
 import bw.entities.clsStationary;
 import bw.utils.inspectors.body.clsFillLevelInspector;
+import bw.utils.inspectors.body.clsInspectorAttributes;
 import bw.utils.inspectors.body.clsInspectorInternalSystems;
 import bw.utils.inspectors.body.clsInspectorSlowMessengers;
 import bw.utils.inspectors.entity.clsInspectorBubble;
@@ -149,6 +150,7 @@ public class clsInspectorMappingEntity {
     		oRetVal.addInspector( new clsFillLevelInspector(poSuperInspector, poWrapper, poState, ((clsComplexBody)poBody).getInternalSystem().getStomachSystem()), "Stomach System");
     		oRetVal.addInspector( new clsInspectorInternalSystems(poSuperInspector, poWrapper, poState, ((clsComplexBody)poBody).getInternalSystem()), "Internal System");
     		oRetVal.addInspector( new clsInspectorSlowMessengers(poSuperInspector, poWrapper, poState, ((clsComplexBody)poBody).getInternalSystem().getSlowMessengerSystem()), "Slow Messengers");
+    		oRetVal.addInspector( new clsInspectorAttributes(poSuperInspector, poWrapper, poState, poBody.getAttributes()), "Body Attributes");    		
     	}
     	else if( poBody instanceof clsMeatBody ) {
     	}

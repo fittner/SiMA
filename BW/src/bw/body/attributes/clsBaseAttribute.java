@@ -39,4 +39,5 @@ public abstract class  clsBaseAttribute {
 	
 	
 	protected abstract void setBodyAttribute();
+	
 }
