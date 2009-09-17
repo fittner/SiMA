@@ -115,12 +115,12 @@ public class tssImageAbstract {
 		oRingEntry.mnAlive = true;
 		oRingEntry.mnEntityType = eEntityType.BUBBLE;
 		oRingEntry.mnShapeType = eShapeType.CIRCLE;
-		oRingEntry.moColor = java.awt.Color.WHITE;
+		oRingEntry.moColor = java.awt.Color.RED;
 		oRingEntry.moEntityId = "1";
 		oRingEntry.moPolarcoordinate = new clsPolarcoordinate(8.0, 0.1);
 		oRingSeg.add(oRingEntry);
 		
-		oSensorData.addSensorExt(eSensorExtType.VISION_NEAR, oRingSeg);
+		oSensorData.addSensorExt(eSensorExtType.VISION, oRingSeg);
 
 		//trigger the comparison between defined AbstractImages and the created incoming data
 		oMatch = oTestImages.associate(oSensorData, new clsIdentity());

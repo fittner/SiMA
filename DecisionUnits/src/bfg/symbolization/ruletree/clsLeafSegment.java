@@ -6,6 +6,8 @@
  */
 package bfg.symbolization.ruletree;
 
+import java.util.ArrayList;
+
 import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
 
@@ -21,6 +23,8 @@ import bfg.utils.enums.eSide;
 import bfg.utils.enums.eTrippleState;
 import decisionunit.itf.sensors.clsDataBase;
 import decisionunit.itf.sensors.clsSensorData;
+import decisionunit.itf.sensors.clsSensorRingSegment;
+import decisionunit.itf.sensors.clsSensorRingSegmentEntries;
 import enums.eAntennaPositions;
 import enums.eEntityType;
 import enums.eSensorExtType;
@@ -35,38 +39,37 @@ import enums.eShapeType;
  */
 public class clsLeafSegment extends clsRuleTreeLeaf {
 
-	  public eCount mnNumber = eCount.UNDEFINED;
+	  public eCount meNumber = eCount.UNDEFINED;
 	  public eSensorExtType meSensorType = eSensorExtType.UNDEFINED;
 	  public clsTypeCompareOperator meDistanceCompare;// = "==";
 	  public eSide meLocation = eSide.UNDEFINED;
 	  public eEntityType meEntityType = eEntityType.UNDEFINED;
 	  public eShapeType meShapeType = eShapeType.UNDEFINED;
 	  public eTrippleState moAlive = eTrippleState.UNDEFINED;
-	  public java.awt.Color moColour = java.awt.Color.WHITE;
+	  public java.awt.Color moColor = java.awt.Color.WHITE;
 	  public eAntennaPositions moAntennaPos = eAntennaPositions.UNDEFINED; 
 	  public eTrippleState meOwnTeam = eTrippleState.UNDEFINED; //
 	
 	public static clsRuleTreeElement create(Node poNode) {
 	    clsLeafSegment oResult = new clsLeafSegment();
-	   
+	 
 	    if( oResult != null ){
 	      NamedNodeMap oAttributes = poNode.getAttributes();
 	     
 	      if( oAttributes.getNamedItem("number") != null ) {
 	    	  String value  = oAttributes.getNamedItem("number").getNodeValue();
-	          oResult.mnNumber = eCount.valueOf(value);
+	          oResult.meNumber = eCount.valueOf(value);
 	      }
 
+	      oResult.meEntityType = eEntityType.valueOf(clsXMLAbstractImageReader.getTagStringValue(poNode, "entitytype")); 
 	      oResult.meSensorType = eSensorExtType.valueOf( clsXMLAbstractImageReader.getTagStringValue(poNode, "sensortype") );
 	      oResult.meDistanceCompare = new clsTypeCompareOperator( clsXMLAbstractImageReader.getTagStringValue(poNode, "distancecompare") );
 	      oResult.meLocation = eSide.valueOf( clsXMLAbstractImageReader.getTagStringValue(poNode, "location") );
 	      oResult.meShapeType = eShapeType.valueOf( clsXMLAbstractImageReader.getTagStringValue(poNode, "shapetype") );
 	      oResult.moAlive = eTrippleState.valueOf( clsXMLAbstractImageReader.getTagStringValue(poNode, "alive") );
-	      oResult.moColour = clsColorParse.parseHashHexa( clsXMLAbstractImageReader.getTagStringValue(poNode, "color") );
+	      oResult.moColor = clsColorParse.parseHashHexa( clsXMLAbstractImageReader.getTagStringValue(poNode, "color") );
 	      oResult.moAntennaPos = eAntennaPositions.valueOf( clsXMLAbstractImageReader.getTagStringValue(poNode, "antennapos") );
 	      oResult.meOwnTeam = eTrippleState.valueOf( clsXMLAbstractImageReader.getTagStringValue(poNode, "ownteam") );
-	      
-
 	    }
 	    return oResult;
 	  }
@@ -89,14 +92,16 @@ public class clsLeafSegment extends clsRuleTreeLeaf {
 	    }
 	    boolean oResult = false;
 	    //TODO (Zeilinger) - implement the complex compare operator and listen some cool Hip-Hop (the music - not the Bewegung) or Rap...
-	    if( false )//compare( (clsVision)poPerception.getSensorExt(eSensorExtType.VISION) ) )
 	    {
-	      //Engine.log.println( "Match with leaf: " + this.toString() );
-	      poCompareResult[0]++;
-	      oResult = true;
+	    	if( compare((clsSensorRingSegment)poPerception.getSensorExt(eSensorExtType.VISION))){
+	          poCompareResult[0]++;
+		      oResult = true;
+	    	}
 	    }
-	    return oResult;	}
-
+	    return oResult;	
+}
+	
+	
 	/* (non-Javadoc)
 	 *
 	 * @author zeilinger
@@ -121,33 +126,35 @@ public class clsLeafSegment extends clsRuleTreeLeaf {
 	@Override
 	public boolean compare(clsDataBase poData) {
 			
-//		Color oColor; 
-//		eShapeType nShapeType; 
-//		eEntityType nEntityType; 
-//		String oOrienation; 
-//		ArrayList <clsSensorRingSegmentEntries> oRingSegementEntries = ((clsVision)poData).getList();
-//		
-//		for (clsSensorRingSegmentEntries element : oRingSegementEntries){
-//			nEntityType = element.mnEntityType; 
-//			nShapeType = element.mnShapeType; 
-//			oColor = element.moColor; 
-//			
-//		}
+//		 public eCount mnNumber = eCount.UNDEFINED;
+//		  public eSensorExtType meSensorType = eSensorExtType.UNDEFINED;
+//		  public clsTypeCompareOperator meDistanceCompare;// = "==";
+//		  public eSide meLocation = eSide.UNDEFINED;
+//		  public eEntityType meEntityType = eEntityType.UNDEFINED;
+//		  public eShapeType meShapeType = eShapeType.UNDEFINED;
+//		  public eTrippleState moAlive = eTrippleState.UNDEFINED;
+//		  public java.awt.Color moColour = java.awt.Color.WHITE;
+//		  public eAntennaPositions moAntennaPos = eAntennaPositions.UNDEFINED; 
+//		  public eTrippleState meOwnTeam = eTrippleState.UNDEFINED; //
 		
-	
-//	    boolean nResult = false;
-//	
-//	    int nIsBumped = 0; 
-//	    if( ((clsBump)poData).mnBumped ) nIsBumped = 1;
-//	
-//	    if( meCompareOperator.compareInteger(nIsBumped, meBumped) )
-//	    {
-//	      nResult = true;
-//	    }
-//	    if( mnNegated )
-//	    {
-//	      nResult = !nResult;
-//	    }
-		return false;
+		
+		boolean nResult = false; 
+		
+		if(poData != null){
+			ArrayList <clsSensorRingSegmentEntries> oRingSegementEntries = ((clsSensorRingSegment)poData).getList();
+			
+			for (clsSensorRingSegmentEntries element : oRingSegementEntries){
+				if(element.mnEntityType == meEntityType
+					&& element.mnShapeType == meShapeType
+				    && element.moColor.equals(moColor)
+				    && meCompareOperator.compare(element.mnAlive, moAlive)){
+					
+					nResult = true;
+					break; 
+				}
+			}
+		}
+		
+		return nResult; 
 	}
 }
