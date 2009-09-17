@@ -26,15 +26,14 @@ import sim.util.gui.HTMLBrowser;
  * 
  */
 public class clsInspectorSensorData extends Inspector {
-    
-	
+
 	/**
-	 * DOCUMENT (langr) - insert description 
+	 * DOCUMENT (deutsch) - insert description 
 	 * 
-	 * @author langr
-	 * 03.08.2009, 14:32:39
+	 * @author deutsch
+	 * 17.09.2009, 09:56:49
 	 */
-	private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = 205969537561647102L;
 	
 	public Inspector moOriginalInspector;
 	private clsBaseDecisionUnit moDU;
