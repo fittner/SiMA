@@ -17,6 +17,7 @@ import config.clsBWProperties;
 
 import bw.body.internalSystems.clsInternalEnergyConsumption;
 import bw.utils.datatypes.clsMutableDouble;
+import bw.utils.enums.eBodyParts;
 
 /**
  * DOCUMENT (deutsch) - insert description 
@@ -45,23 +46,23 @@ public class tstInternalEnergyConsumption {
 	public void testGetList() {
 		clsInternalEnergyConsumption moIEC = new clsInternalEnergyConsumption("", new clsBWProperties());
 	
-		moIEC.setValue(new Integer(1), new clsMutableDouble(1.0f));
-		moIEC.setValue(new Integer(2), new clsMutableDouble(2.0f));
-		moIEC.setValue(new Integer(3), new clsMutableDouble(3.0f));
-		moIEC.setValue(new Integer(4), new clsMutableDouble(4.0f));
-		moIEC.setValue(new Integer(5), new clsMutableDouble(5.0f));
+		moIEC.setValue(eBodyParts.INTSYS, new clsMutableDouble(1.0f));
+		moIEC.setValue(eBodyParts.INTRA, new clsMutableDouble(2.0f));
+		moIEC.setValue(eBodyParts.INTER, new clsMutableDouble(3.0f));
+		moIEC.setValue(eBodyParts.EXTERNAL_IO, new clsMutableDouble(4.0f));
+		moIEC.setValue(eBodyParts.INTERNAL_IO, new clsMutableDouble(5.0f));
 		
-		HashMap<Integer, clsMutableDouble> moTemp = moIEC.getMergedList();
+		HashMap<eBodyParts, clsMutableDouble> moTemp = moIEC.getMergedList();
 		
 		assertNotNull(moTemp);
 		
 		assertEquals(moTemp.size(), 5.0f, 0.00001f);
 
-		moIEC.setValue(new Integer(6), new clsMutableDouble(6.0f));
+		moIEC.setValue(eBodyParts.SENSOR_EXT, new clsMutableDouble(6.0f));
 		
 		assertEquals(moTemp.size(), 5.0f, 0.00001f);
 		
-		HashMap<Integer, clsMutableDouble> moTemp2 = moIEC.getMergedList();
+		HashMap<eBodyParts, clsMutableDouble> moTemp2 = moIEC.getMergedList();
 		
 		assertNotNull(moTemp2);
 		
@@ -77,17 +78,17 @@ public class tstInternalEnergyConsumption {
 	public void testSetValueIntInt() {
 		clsInternalEnergyConsumption moIEC = new clsInternalEnergyConsumption("", new clsBWProperties());
 		
-		moIEC.setValue(1, new clsMutableDouble(2.0f));
+		moIEC.setValue(eBodyParts.INTSYS, new clsMutableDouble(2.0f));
 		
 		clsMutableDouble oTemp;
 		
-		oTemp = moIEC.getValue(1);	
+		oTemp = moIEC.getValue(eBodyParts.INTSYS);	
 		assertNotNull(oTemp);
 		assertEquals(oTemp.doubleValue(), 2.0f, 0.00001f);
 		
-		moIEC.setValue(1, new clsMutableDouble(3.0f));
+		moIEC.setValue(eBodyParts.INTSYS, new clsMutableDouble(3.0f));
 
-		oTemp = moIEC.getValue(1);	
+		oTemp = moIEC.getValue(eBodyParts.INTSYS);	
 		assertNotNull(oTemp);
 		assertEquals(oTemp.doubleValue(), 3.0f, 0.00001f);
 	}
@@ -109,7 +110,7 @@ public class tstInternalEnergyConsumption {
 		
 		assertFalse(moIEC.hasChanged());
 		
-		moIEC.setValue(1, new clsMutableDouble(2.0f));
+		moIEC.setValue(eBodyParts.INTSYS, new clsMutableDouble(2.0f));
 
 		assertTrue(moIEC.hasChanged());
 		
@@ -125,7 +126,7 @@ public class tstInternalEnergyConsumption {
 	public void testSetValueIntegerInt() {
 		clsInternalEnergyConsumption moIEC = new clsInternalEnergyConsumption("", new clsBWProperties());
 		
-		Integer oKey = new Integer(1);
+		eBodyParts oKey = eBodyParts.INTSYS;
 		
 		moIEC.setValue(oKey, new clsMutableDouble(2.0f));
 		
@@ -149,11 +150,11 @@ public class tstInternalEnergyConsumption {
 	public void testKeyExistsInt() {
 		clsInternalEnergyConsumption moIEC = new clsInternalEnergyConsumption("", new clsBWProperties());
 
-		assertFalse(moIEC.keyExists(0));
+		assertFalse(moIEC.keyExists(eBodyParts.INTSYS));
 		
-		moIEC.setValue(0, new clsMutableDouble(1.0f));
+		moIEC.setValue(eBodyParts.INTSYS, new clsMutableDouble(1.0f));
 		
-		assertTrue(moIEC.keyExists(0));
+		assertTrue(moIEC.keyExists(eBodyParts.INTSYS));
 	}
 
 	/**
@@ -163,7 +164,7 @@ public class tstInternalEnergyConsumption {
 	public void testKeyExistsInteger() {
 		clsInternalEnergyConsumption moIEC = new clsInternalEnergyConsumption("", new clsBWProperties());
 
-		Integer oKey = new Integer(1);
+		eBodyParts oKey = eBodyParts.INTSYS;
 		
 		assertFalse(moIEC.keyExists(oKey));
 		
@@ -179,13 +180,13 @@ public class tstInternalEnergyConsumption {
 	public void testGetValueInt() {
 		clsInternalEnergyConsumption moIEC = new clsInternalEnergyConsumption("", new clsBWProperties());
 
-		assertNull(moIEC.getValue(1));
+		assertNull(moIEC.getValue(eBodyParts.INTSYS));
 		
-		moIEC.setValue(1, new clsMutableDouble(2.0f));
+		moIEC.setValue(eBodyParts.INTSYS, new clsMutableDouble(2.0f));
 		
-		assertNotNull(moIEC.getValue(1));
+		assertNotNull(moIEC.getValue(eBodyParts.INTSYS));
 		
-		assertEquals(moIEC.getValue(1).doubleValue(), 2.0f, 0.00001f);
+		assertEquals(moIEC.getValue(eBodyParts.INTSYS).doubleValue(), 2.0f, 0.00001f);
 	}
 
 	/**
@@ -195,7 +196,7 @@ public class tstInternalEnergyConsumption {
 	public void testGetValueInteger() {
 		clsInternalEnergyConsumption moIEC = new clsInternalEnergyConsumption("", new clsBWProperties());
 
-		Integer oKey = new Integer(1);
+		eBodyParts oKey = eBodyParts.INTSYS;
 		
 		assertNull(moIEC.getValue(oKey));
 		
@@ -215,15 +216,15 @@ public class tstInternalEnergyConsumption {
 
 		assertEquals(moIEC.getSum(), 0.0f, 0.00001f);
 		
-		moIEC.setValue(1, new clsMutableDouble(1.0f));
-		moIEC.setValue(2, new clsMutableDouble(2.0f));
-		moIEC.setValue(3, new clsMutableDouble(3.0f));
-		moIEC.setValue(4, new clsMutableDouble(4.0f));
-		moIEC.setValue(5, new clsMutableDouble(5.0f));
+		moIEC.setValue(eBodyParts.INTSYS , new clsMutableDouble(1.0f));
+		moIEC.setValue(eBodyParts.INTRA, new clsMutableDouble(2.0f));
+		moIEC.setValue(eBodyParts.INTER, new clsMutableDouble(3.0f));
+		moIEC.setValue(eBodyParts.EXTERNAL_IO, new clsMutableDouble(4.0f));
+		moIEC.setValue(eBodyParts.INTERNAL_IO, new clsMutableDouble(5.0f));
 		
 		assertEquals(moIEC.getSum(), 15.0f, 0.00001f);
 		
-		moIEC.setValue(5, new clsMutableDouble(0.0f));
+		moIEC.setValue(eBodyParts.INTERNAL_IO, new clsMutableDouble(0.0f));
 		
 		assertEquals(moIEC.getSum(), 10.0f, 0.00001f);
 	}

@@ -15,6 +15,7 @@ import config.clsBWProperties;
 import bw.body.itfStep;
 
 import bw.utils.datatypes.clsMutableDouble;
+import bw.utils.enums.eBodyParts;
 
 /**
  * The class energy consumption maintains a list where all active objects of the agent 
@@ -31,8 +32,8 @@ import bw.utils.datatypes.clsMutableDouble;
 public class clsInternalEnergyConsumption implements itfStep {
     // private clsConfigMap moConfig;	// EH - make warning free
     
-	private HashMap<Integer, clsMutableDouble> moList; // this list stores all registered values.
-	private HashMap<Integer, clsMutableDouble> moListOnce; // this list stores all registered values.
+	private HashMap<eBodyParts, clsMutableDouble> moList; // this list stores all registered values.
+	private HashMap<eBodyParts, clsMutableDouble> moListOnce; // this list stores all registered values.
 	double mrSum; 											// stores the sum of all values within moList.
 	boolean mnDirtyFlag; 								// set to true if moList has been changed.
 	
@@ -40,8 +41,8 @@ public class clsInternalEnergyConsumption implements itfStep {
 	 * This constructor initializes moList with an empty HashMap, mnDirtyFlag is set to true, and mnSum is set to 0.
 	 */
 	public clsInternalEnergyConsumption(String poPrefix, clsBWProperties poProp) {
-		moList = new HashMap<Integer, clsMutableDouble>();
-		moListOnce = new HashMap<Integer, clsMutableDouble>();
+		moList = new HashMap<eBodyParts, clsMutableDouble>();
+		moListOnce = new HashMap<eBodyParts, clsMutableDouble>();
 		mnDirtyFlag = true;
 		mrSum = 0.0f;
 		
@@ -63,13 +64,13 @@ public class clsInternalEnergyConsumption implements itfStep {
 	}	
 	
 	
-	public HashMap<Integer, clsMutableDouble> getMergedList() {
-		HashMap<Integer, clsMutableDouble> oTemp = new HashMap<Integer, clsMutableDouble>(moList);
+	public HashMap<eBodyParts, clsMutableDouble> getMergedList() {
+		HashMap<eBodyParts, clsMutableDouble> oTemp = new HashMap<eBodyParts, clsMutableDouble>(moList);
 		
-		Iterator<Integer> i = moListOnce.keySet().iterator();
+		Iterator<eBodyParts> i = moListOnce.keySet().iterator();
 		
 		while (i.hasNext()) {
-			Integer oKey = i.next();
+			eBodyParts oKey = i.next();
 			oTemp.put(oKey, moListOnce.get(oKey));
 		}
 		
@@ -92,24 +93,24 @@ public class clsInternalEnergyConsumption implements itfStep {
 	 * @param poKey - the key
 	 * @param pnValue - the value
 	 */
-	public void setValue(Integer poKey, clsMutableDouble poValue) {
+	public void setValue(eBodyParts poKey, clsMutableDouble poValue) {
 		mnDirtyFlag = true;
 	
 		moList.put(poKey, poValue);
 	}
 	
-	public void setValueOnce(Integer poKey, clsMutableDouble poValue) {
+	public void setValueOnce(eBodyParts poKey, clsMutableDouble poValue) {
 		mnDirtyFlag = true;
 		
 		moListOnce.put(poKey, poValue);
 		
 	}
 	
-	public clsMutableDouble getValue(Integer poKey) {
+	public clsMutableDouble getValue(eBodyParts poKey) {
 		return moList.get(poKey);
 	}
 
-	public clsMutableDouble getValueOnce(Integer poKey) {
+	public clsMutableDouble getValueOnce(eBodyParts poKey) {
 		return moListOnce.get(poKey);
 	}
 		
@@ -119,7 +120,7 @@ public class clsInternalEnergyConsumption implements itfStep {
 	 * @param poKey - the key
 	 * @return true if this key is in the list
 	 */
-	public boolean keyExists(Integer poKey) {
+	public boolean keyExists(eBodyParts poKey) {
 		return moList.containsKey(poKey);
 	}
 
@@ -129,7 +130,7 @@ public class clsInternalEnergyConsumption implements itfStep {
 	 * @param poKey - the key
 	 * @return true if this key is in the list
 	 */
-	public boolean keyExistsOnce(Integer poKey) {
+	public boolean keyExistsOnce(eBodyParts poKey) {
 		return moListOnce.containsKey(poKey);
 	}
 	
@@ -143,7 +144,7 @@ public class clsInternalEnergyConsumption implements itfStep {
 		double rSum = 0;
 		
 		if (mnDirtyFlag) {
-			Iterator<Integer> i = getMergedList().keySet().iterator();
+			Iterator<eBodyParts> i = getMergedList().keySet().iterator();
 			
 			while (i.hasNext()) {
 				clsMutableDouble oValue = getMergedList().get(i.next());

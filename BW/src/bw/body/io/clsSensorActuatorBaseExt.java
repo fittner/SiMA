@@ -38,14 +38,14 @@ public abstract class clsSensorActuatorBaseExt extends clsSensorActuatorBase{
 	 */
 	protected void registerEnergyConsumption(double prValue) {
 		if(!moBaseIO.equals(null)){
-			moBaseIO.registerEnergyConsumption(getUniqueId(), prValue);
+			moBaseIO.registerEnergyConsumption(getBodyPartId(), prValue);
 		}else{
 			throw new NullPointerException();			
 		}
 	}
 	protected void registerEnergyConsumptionOnce(double prValue) {
 		if(!moBaseIO.equals(null)){
-			moBaseIO.registerEnergyConsumptionOnce(getUniqueId(), prValue);
+			moBaseIO.registerEnergyConsumptionOnce(getBodyPartId(), prValue);
 		}else{
 			throw new NullPointerException();			
 		}

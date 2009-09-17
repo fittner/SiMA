@@ -14,6 +14,7 @@ import bw.body.itfStepSensing;
 import bw.body.internalSystems.clsInternalEnergyConsumption;
 import bw.body.itfget.itfGetInternalEnergyConsumption;
 import bw.utils.datatypes.clsMutableDouble;
+import bw.utils.enums.eBodyParts;
 
 /**
  * DOCUMENT (deutsch) - insert description 
@@ -50,15 +51,15 @@ public abstract class clsBaseIO implements itfStepSensing, itfStepExecution  {
 		//nothing to do
 	}	
 	
-	public void registerEnergyConsumption(int pnId, double prValue) {
+	public void registerEnergyConsumption(eBodyParts pnId, double prValue) {
 		if (moInternalEnergyConsumption != null) {
-			moInternalEnergyConsumption.setValue(new Integer(pnId), new clsMutableDouble(prValue));
+			moInternalEnergyConsumption.setValue(pnId, new clsMutableDouble(prValue));
 		}
 	}
 
-	public void registerEnergyConsumptionOnce(int pnId, double prValue) {
+	public void registerEnergyConsumptionOnce(eBodyParts pnId, double prValue) {
 		if (moInternalEnergyConsumption != null) {
-			moInternalEnergyConsumption.setValueOnce(new Integer(pnId), new clsMutableDouble(prValue));
+			moInternalEnergyConsumption.setValueOnce(pnId, new clsMutableDouble(prValue));
 		}
 	}
 }

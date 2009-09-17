@@ -290,7 +290,7 @@ public class clsActionProcessor implements itfActionProcessor {
 
 		//Consume
 		if (rStaminaDemand>0) oBody.getInternalSystem().getStaminaSystem().consumeStamina(rStaminaDemand);
-		if (rEnergyDemand>0) oBody.getInternalEnergyConsumption().setValueOnce(new Integer(clsSingletonUniqueIdGenerator.getUniqueId()), new clsMutableDouble(rEnergyDemand));		
+		if (rEnergyDemand>0) oBody.getInternalEnergyConsumption().setValueOnce(eBodyParts.ACTIONEX_BINDING, new clsMutableDouble(rEnergyDemand));		
 		
 	}
 
@@ -317,10 +317,10 @@ public class clsActionProcessor implements itfActionProcessor {
 					rStaminaDemand =rStaminaAvailable;
 					oExRes.setResult(eExecutionResult.EXECUTIONRESULT_NOSTAMINA );
 				}
-
+				
 				//Consume
 				if (rStaminaDemand>0) oBody.getInternalSystem().getStaminaSystem().consumeStamina(rStaminaDemand);
-				if (rEnergyDemand>0) oBody.getInternalEnergyConsumption().setValueOnce(new Integer(clsSingletonUniqueIdGenerator.getUniqueId()), new clsMutableDouble(rEnergyDemand));
+				if (rEnergyDemand>0) oBody.getInternalEnergyConsumption().setValueOnce(oExRes.getExecutor().getBodyPartId(), new clsMutableDouble(rEnergyDemand));
 				
 			}
 		}
