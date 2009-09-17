@@ -10,12 +10,9 @@ package bw.entities;
 
 import java.awt.Color;
 import java.util.Random;
-
 import config.clsBWProperties;
-
 import sim.physics2D.shape.Shape;
 import enums.eEntityType;
-import bw.body.clsComplexBody;
 import bw.body.clsMeatBody;
 import bw.body.internalSystems.clsFlesh;
 import bw.body.io.actuators.actionProxies.itfAPCarryable;
@@ -260,13 +257,11 @@ public class clsCarrot extends clsInanimate implements itfGetFlesh, itfAPEatable
 			// update shape to the gray carrot
 			mnShapeUpdated = true;
 			setShape(moDead, getTotalWeight());		
-			((clsComplexBody)moBody).getIntraBodySystem().getColorSystem().setNormColor();
 		} else if (!getFlesh().getTotallyConsumed() && !mnShapeUpdated) {
 			// state has changed recently to food_available
 			// update shape to the orange carrot
 			mnShapeUpdated = true;
 			setShape(moFresh, getTotalWeight());
-			((clsComplexBody)moBody).getIntraBodySystem().getColorSystem().setNormColor();
 		}		
 	}
 	

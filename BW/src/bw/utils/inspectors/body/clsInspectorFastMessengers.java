@@ -79,8 +79,9 @@ public class clsInspectorFastMessengers  extends Inspector{
 	private static final int mnMediumPeriod = 100;
 	private static final int mnLongPeriod = 500;
 	
-	private static final int mnMediumUpdateInterval = 5;
-	private static final int mnLongUpdateInterval = 10;
+	private static final int mnShortUpdateInterval = 5;	
+	private static final int mnMediumUpdateInterval = 10;
+	private static final int mnLongUpdateInterval = 50;
     
     public clsInspectorFastMessengers(sim.portrayal.Inspector originalInspector,
             LocationWrapper wrapper,
@@ -148,14 +149,14 @@ public class clsInspectorFastMessengers  extends Inspector{
     	for (clsFastMessengerEntry entry:currentEntries) {
     		clsMutableDouble oValue = moActive.get(entry.getFromTo());
     		if (oValue == null) {
-    			moActive.put(entry.getFromTo(), new clsMutableDouble(1));
+    			moActive.put(entry.getFromTo(), new clsMutableDouble(entry.getIntensity()));
     		} else {
-    			oValue.set(1);
+    			oValue.set(entry.getIntensity());
     		}
     	}
     }
     
-    private void updateHistory(long step, boolean updatemedium, boolean updatelong) {
+    private void updateHistory(long step, boolean updateshort, boolean updatemedium, boolean updatelong) {
     	ArrayList<clsFastMessengerEntry> currentEntries = getCurrentEntries();
     	
     	updateActive(currentEntries);
@@ -164,8 +165,8 @@ public class clsInspectorFastMessengers  extends Inspector{
     	purgeOldEntries(step, mnLongPeriod);
     	
     	resetCount(moCountShort);
-    	resetCount(moCountLong);
     	resetCount(moCountMedium);
+    	resetCount(moCountLong);
     	
     	long nMinLongKey = step - mnLongPeriod;
     	long nMinMediumKey = step - mnMediumPeriod;
@@ -175,7 +176,7 @@ public class clsInspectorFastMessengers  extends Inspector{
     	while ( (oCurrentKey = moHistory.lowerKey(oCurrentKey)) != null) {
     		ArrayList<clsFastMessengerEntry> stepEntries = moHistory.get(oCurrentKey);
     		
-    		boolean nShort = oCurrentKey.longValue() >= nMinShortKey;
+    		boolean nShort = updateshort && oCurrentKey.longValue() >= nMinShortKey;
     		boolean nMedium = updatemedium && oCurrentKey.longValue() >= nMinMediumKey;
     		boolean nLong = updatelong && oCurrentKey.longValue() >= nMinLongKey;
     		
@@ -185,10 +186,10 @@ public class clsInspectorFastMessengers  extends Inspector{
     				updateCount(moCountShort, key);
     			}
     			if (nMedium) {
-    				updateCount(moCountShort, key);
+    				updateCount(moCountMedium, key);
     			}
     			if (nLong) {
-    				updateCount(moCountShort, key);
+    				updateCount(moCountLong, key);
     			}
     		}
     	}
@@ -207,15 +208,19 @@ public class clsInspectorFastMessengers  extends Inspector{
     
     private void updateHistory() {
     	long step =  getStep();
+    	boolean updateshort = false;
     	boolean updatemedium = false;
     	boolean updatelong = false;
+    	if (step % mnShortUpdateInterval == 0) {
+    		updateshort = true;
+    	}
     	if (step % mnMediumUpdateInterval == 0) {
     		updatemedium = true;
     	}
     	if (step % mnLongUpdateInterval == 0) {
     		updatelong = true;
     	}
-    	updateHistory(step, updatemedium, updatelong);
+    	updateHistory(step, updateshort, updatemedium, updatelong);
     }
     
 	/**

@@ -28,4 +28,24 @@ public class clsFastMessengerKeyTuple {
 	public String toString() {
 		return meSource.name()+" -> "+meTarget.name();
 	}
+	
+	@Override
+	public boolean equals(Object obj) {
+		boolean result = false;
+		
+		if (obj != null && obj instanceof clsFastMessengerKeyTuple) {
+			clsFastMessengerKeyTuple other = (clsFastMessengerKeyTuple)obj;
+			if (other.meSource == this.meSource && other.meTarget == this.meTarget) {
+				result = true;
+			}
+		}
+		
+		return result;
+	}
+	
+	@Override
+	public int hashCode() {
+		return meSource.hashCode() + meTarget.hashCode();
+	}
+
 }

@@ -76,4 +76,9 @@ public class clsFastMessengerEntry {
 		return mrIntensity;
 	}
 	
+	@Override
+	public String toString() {
+		return moFromTo+": "+mrIntensity+" ("+mnCountDown+")";
+	}
+	
 }
