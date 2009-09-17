@@ -7,6 +7,7 @@
  */
 package bw.body.internalSystems;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 
@@ -34,6 +35,7 @@ public class clsInternalEnergyConsumption implements itfStep {
     
 	private HashMap<eBodyParts, clsMutableDouble> moList; // this list stores all registered values.
 	private HashMap<eBodyParts, clsMutableDouble> moListOnce; // this list stores all registered values.
+	private ArrayList<eBodyParts> moPartList;
 	double mrSum; 											// stores the sum of all values within moList.
 	boolean mnDirtyFlag; 								// set to true if moList has been changed.
 	
@@ -43,6 +45,7 @@ public class clsInternalEnergyConsumption implements itfStep {
 	public clsInternalEnergyConsumption(String poPrefix, clsBWProperties poProp) {
 		moList = new HashMap<eBodyParts, clsMutableDouble>();
 		moListOnce = new HashMap<eBodyParts, clsMutableDouble>();
+		moPartList = new ArrayList<eBodyParts>();
 		mnDirtyFlag = true;
 		mrSum = 0.0f;
 		
@@ -76,7 +79,12 @@ public class clsInternalEnergyConsumption implements itfStep {
 		
 		return oTemp;
 	}
-	
+	public HashMap<eBodyParts, clsMutableDouble> getListConstant() {
+		return moList;
+	}
+	public HashMap<eBodyParts, clsMutableDouble> getListOnce() {
+		return moListOnce;
+	}
 	/**
 	 * returns true if a value has been added or stored.
 	 *
@@ -84,6 +92,12 @@ public class clsInternalEnergyConsumption implements itfStep {
 	 */
 	public boolean hasChanged() {
 		return mnDirtyFlag;
+	}
+	
+	private void addKey(eBodyParts poKey) {
+		if (!moPartList.contains(poKey)) {
+			moPartList.add(poKey);
+		}
 	}
 	
 	/**
@@ -94,12 +108,14 @@ public class clsInternalEnergyConsumption implements itfStep {
 	 * @param pnValue - the value
 	 */
 	public void setValue(eBodyParts poKey, clsMutableDouble poValue) {
+		addKey(poKey);
 		mnDirtyFlag = true;
 	
 		moList.put(poKey, poValue);
 	}
 	
 	public void setValueOnce(eBodyParts poKey, clsMutableDouble poValue) {
+		addKey(poKey);
 		mnDirtyFlag = true;
 		
 		moListOnce.put(poKey, poValue);
@@ -168,5 +184,9 @@ public class clsInternalEnergyConsumption implements itfStep {
 			moListOnce.clear();
 			mnDirtyFlag = true;
 		}
+	}
+	
+	public ArrayList<eBodyParts> getPartList() {
+		return moPartList;
 	}
 }

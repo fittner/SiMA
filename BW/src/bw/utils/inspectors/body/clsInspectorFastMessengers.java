@@ -77,11 +77,11 @@ public class clsInspectorFastMessengers  extends Inspector{
 	
 	private static final int mnShortPeriod = 20;
 	private static final int mnMediumPeriod = 100;
-	private static final int mnLongPeriod = 500;
+	private static final int mnLongPeriod = 200;
 	
 	private static final int mnShortUpdateInterval = 5;	
 	private static final int mnMediumUpdateInterval = 10;
-	private static final int mnLongUpdateInterval = 50;
+	private static final int mnLongUpdateInterval = 20;
     
     public clsInspectorFastMessengers(sim.portrayal.Inspector originalInspector,
             LocationWrapper wrapper,
@@ -179,6 +179,10 @@ public class clsInspectorFastMessengers  extends Inspector{
     		boolean nShort = updateshort && oCurrentKey.longValue() >= nMinShortKey;
     		boolean nMedium = updatemedium && oCurrentKey.longValue() >= nMinMediumKey;
     		boolean nLong = updatelong && oCurrentKey.longValue() >= nMinLongKey;
+    		
+    		if (!(nShort || nMedium || nLong)) {
+    			break;
+    		}
     		
     		for (clsFastMessengerEntry entry:stepEntries) {
     			clsFastMessengerKeyTuple key = entry.getFromTo();

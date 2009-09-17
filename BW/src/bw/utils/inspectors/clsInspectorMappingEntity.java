@@ -33,6 +33,7 @@ import bw.entities.clsStationary;
 import bw.utils.inspectors.body.clsInspectorFastMessengers;
 import bw.utils.inspectors.body.clsInspectorFillLevel;
 import bw.utils.inspectors.body.clsInspectorAttributes;
+import bw.utils.inspectors.body.clsInspectorInternalEnergyConsumption;
 import bw.utils.inspectors.body.clsInspectorInternalSystems;
 import bw.utils.inspectors.body.clsInspectorSlowMessengers;
 import bw.utils.inspectors.entity.clsInspectorBubble;
@@ -153,6 +154,7 @@ public class clsInspectorMappingEntity {
     		oRetVal.addInspector( new clsInspectorSlowMessengers(poSuperInspector, poWrapper, poState, ((clsComplexBody)poBody).getInternalSystem().getSlowMessengerSystem()), "Slow Messengers");
     		oRetVal.addInspector( new clsInspectorFastMessengers(poSuperInspector, poWrapper, poState, ((clsComplexBody)poBody).getInternalSystem().getFastMessengerSystem()), "Fast Messengers");    		
     		oRetVal.addInspector( new clsInspectorAttributes(poSuperInspector, poWrapper, poState, poBody.getAttributes()), "Body Attributes");    		
+    		oRetVal.addInspector( new clsInspectorInternalEnergyConsumption(poSuperInspector, poWrapper, poState, ((clsComplexBody) poBody).getInternalEnergyConsumption()), "Int.Energy Consumption");
     	}
     	else if( poBody instanceof clsMeatBody ) {
     	}
