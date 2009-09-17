@@ -15,6 +15,7 @@ import bw.body.itfStepUpdateInternalState;
 import bw.exceptions.exContentColumnMaxContentExceeded;
 import bw.exceptions.exContentColumnMinContentUnderrun;
 import bw.utils.enums.eNutritions;
+import bw.utils.tools.clsFillLevel;
 import bw.utils.tools.clsNutritionLevel;
 
 /**
@@ -101,6 +102,7 @@ public class clsStomachSystem implements itfStepUpdateInternalState {
 		oProp.setProperty(pre+i+"."+P_NUTRITIONEFFICIENCY, 0);
 		oProp.setProperty(pre+i+"."+P_NUTRITIONMETABOLISMFACTOR, 0);
 		oProp.putAll( clsNutritionLevel.getDefaultProperties(pre+i+".") );
+		oProp.setProperty(pre+i+"."+clsFillLevel.P_LOWERBOUND, 0.0);
 		i++;
 
 		oProp.setProperty(pre+P_NUMNUTRITIONS, i);
@@ -371,5 +373,10 @@ public class clsStomachSystem implements itfStepUpdateInternalState {
 	
 	public double getWeight() {
 		return mrWeight;
+	}
+	
+	@Override
+	public String toString() {
+		return "energy:"+mrEnergy+"; weight:"+getWeight()+"; maxweight:"+getMaxWeight()+" | nutritions:"+moNutritions+" | efficiency:"+moEnergyEfficiency+" | factor:"+moEnergyMetabolismFactor;
 	}
 }

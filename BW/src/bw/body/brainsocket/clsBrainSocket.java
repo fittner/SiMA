@@ -82,13 +82,13 @@ public class clsBrainSocket implements itfStepProcessing {
 	private itfActionProcessor moActionProcessor; //reference
 	private HashMap<eSensorExtType, clsSensorExt> moSensorsExt; //reference
 	private HashMap<eSensorIntType, clsSensorInt> moSensorsInt; //reference
-	private clsSensorDataCalculation moSensorCalculation;
+//	private clsSensorDataCalculation moSensorCalculation;
 	
 	public clsBrainSocket(String poPrefix, clsBWProperties poProp, HashMap<eSensorExtType, clsSensorExt> poSensorsExt, HashMap<eSensorIntType, clsSensorInt> poSensorsInt, itfActionProcessor poActionProcessor) {
 		moActionProcessor=poActionProcessor;
 		moSensorsExt = poSensorsExt;
 		moSensorsInt = poSensorsInt;
-		moSensorCalculation = new clsSensorDataCalculation();
+//		moSensorCalculation = new clsSensorDataCalculation();
 		applyProperties(poPrefix, poProp);
 	}
 
@@ -376,7 +376,7 @@ public class clsBrainSocket implements itfStepProcessing {
 		// FIXME: (horvath) - temporary polar coordinates calculation
 		clsSensorPositionChange oSensor = (clsSensorPositionChange)(moSensorsExt.get(eSensorExtType.POSITIONCHANGE));
 		clsPolarcoordinate oRel = collidingObj.mrColPoint;
-		oRel.moAzimuth = new Angle(moSensorCalculation.normalizeRadian(oRel.moAzimuth.radians - oSensor.getLastPosition().getAngle().radians));
+		oRel.moAzimuth = new Angle(clsSensorDataCalculation.normalizeRadian(oRel.moAzimuth.radians - oSensor.getLastPosition().getAngle().radians));
 				
 		oData.moPolarcoordinate = new bfg.tools.shapes.clsPolarcoordinate(oRel.mrLength,oRel.moAzimuth.radians);
 		

@@ -27,12 +27,12 @@ public class clsContentColumn {
 	/**
 	 * mgMaxContent is the maximum amount which the column can be filled with.
 	 */
-	private double mrMaxContent = java.lang.Double.MAX_VALUE;
+	protected double mrMaxContent = java.lang.Double.MAX_VALUE;
 	
 	/**
 	 * mgContent is the current fill level
 	 */
-	private double mrContent = 0.0;
+	protected double mrContent = 0.0;
 	
 	
 	/**
@@ -183,5 +183,9 @@ public class clsContentColumn {
 		return this.getMaxContent();
 	}
 
+	@Override
+	public String toString() {
+		return mrContent+" / "+mrMaxContent;
+	}
 	
 }

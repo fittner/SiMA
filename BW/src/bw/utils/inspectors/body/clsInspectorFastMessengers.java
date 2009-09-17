@@ -164,9 +164,9 @@ public class clsInspectorFastMessengers  extends Inspector{
     	moHistory.put(step, currentEntries);
     	purgeOldEntries(step, mnLongPeriod);
     	
-    	resetCount(moCountShort);
-    	resetCount(moCountMedium);
-    	resetCount(moCountLong);
+    	if (updateshort) {resetCount(moCountShort);}
+    	if (updatemedium) {resetCount(moCountMedium);}
+    	if (updatelong) {resetCount(moCountLong);}
     	
     	long nMinLongKey = step - mnLongPeriod;
     	long nMinMediumKey = step - mnMediumPeriod;
@@ -223,6 +223,46 @@ public class clsInspectorFastMessengers  extends Inspector{
     	updateHistory(step, updateshort, updatemedium, updatelong);
     }
     
+    private void fillDataSets() {
+		String oShortPeriod = new Integer(mnShortPeriod).toString();
+		String oMediumPeriod = new Integer(mnMediumPeriod).toString();
+		String oLongPeriod = new Integer(mnLongPeriod).toString();
+
+		for(clsFastMessengerKeyTuple oKey : moFromToMapping ) {
+			String oKeyName = oKey.toString();
+			
+			double rActive = 0;
+			try {
+				rActive = moActive.get(oKey).doubleValue();
+			} catch (java.lang.NullPointerException e) {
+				//do nothing
+			}
+			double rShort = 0;
+			try {
+				rShort = (double)(moCountShort.get(oKey).intValue()) / (double)mnShortPeriod;
+			} catch (java.lang.NullPointerException e) {
+				//do nothing
+			}
+			double rMedium = 0;
+			try {
+				rMedium = (double)(moCountMedium.get(oKey).intValue()) / (double)mnMediumPeriod;
+			} catch (java.lang.NullPointerException e) {
+				//do nothing
+			}			
+			double rLong = 0;
+			try {
+				rLong = (double)(moCountLong.get(oKey).intValue()) / (double)mnLongPeriod;
+			} catch (java.lang.NullPointerException e) {
+				//do nothing
+			}	
+			
+			moDatasetActive.addValue( rActive, "Active", oKeyName); 
+			moDatasetShort.addValue( rShort, oShortPeriod, oKeyName); 
+			moDatasetMedium.addValue( rMedium, oMediumPeriod, oKeyName); 
+			moDatasetLong.addValue( rLong, oLongPeriod, oKeyName); 
+		}    	
+    }
+    
 	/**
 	 * DOCUMENT (langr) - insert description
 	 *
@@ -237,18 +277,8 @@ public class clsInspectorFastMessengers  extends Inspector{
 		moDatasetMedium = new DefaultCategoryDataset();
 		moDatasetLong = new DefaultCategoryDataset();
 		
-		String oShortPeriod = new Integer(mnShortPeriod).toString();
-		String oMediumPeriod = new Integer(mnMediumPeriod).toString();
-		String oLongPeriod = new Integer(mnLongPeriod).toString();
+		fillDataSets();
 
-		for(clsFastMessengerKeyTuple oKey : moFromToMapping ) {
-			String oKeyName = oKey.toString();
-			
-			moDatasetActive.addValue( moActive.get(oKey).doubleValue(), "Active", oKeyName); 
-			moDatasetShort.addValue( moCountShort.get(oKey).intValue() / mnShortPeriod, oShortPeriod, oKeyName); 
-			moDatasetMedium.addValue( moCountMedium.get(oKey).intValue() / mnMediumPeriod, oMediumPeriod, oKeyName); 
-			moDatasetLong.addValue( moCountLong.get(oKey).intValue() / mnLongPeriod, oLongPeriod, oKeyName); 
-		}
 				
         JFreeChart oChartPanel = ChartFactory.createBarChart(
                 "Fast Messenger System",     // chart title
@@ -325,18 +355,7 @@ public class clsInspectorFastMessengers  extends Inspector{
 	public void updateInspector() {
 		updateHistory();
 
-		String oShortPeriod = new Integer(mnShortPeriod).toString();
-		String oMediumPeriod = new Integer(mnMediumPeriod).toString();
-		String oLongPeriod = new Integer(mnLongPeriod).toString();
-
-		for(clsFastMessengerKeyTuple oKey : moFromToMapping ) {
-			String oKeyName = oKey.toString();
-			
-			moDatasetActive.addValue( moActive.get(oKey).doubleValue(), "Active", oKeyName); 
-			moDatasetShort.addValue( moCountShort.get(oKey).intValue() / mnShortPeriod, oShortPeriod, oKeyName); 
-			moDatasetMedium.addValue( moCountMedium.get(oKey).intValue() / mnMediumPeriod, oMediumPeriod, oKeyName); 
-			moDatasetLong.addValue( moCountLong.get(oKey).intValue() / mnLongPeriod, oLongPeriod, oKeyName); 
-		}
+		fillDataSets();
 		
 		this.repaint();
 	}

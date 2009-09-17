@@ -296,4 +296,10 @@ public class clsFillLevel extends clsContentColumn {
 		checkLowerBound();
 		checkUpperBound();
 	}
+	
+	@Override
+	public String toString() {
+		return mrContent + " (max:"+mrMaxContent+"; lower:"+mrLowerBound+"; upper:"+mrUpperBound+"; change:"+mrChange+")";
+	}
 }
+

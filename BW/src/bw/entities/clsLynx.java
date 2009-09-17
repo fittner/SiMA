@@ -120,8 +120,8 @@ public class clsLynx extends clsAnimal {
 		oProp.setProperty(stomach_pre+i+"."+clsStomachSystem.P_NUTRITIONMETABOLISMFACTOR, 0);
 		oProp.putAll( clsNutritionLevel.getDefaultProperties(stomach_pre+i+".") );	
 		oProp.setProperty(stomach_pre+i+"."+clsNutritionLevel.P_MAXCONTENT, 6);
-		oProp.setProperty(stomach_pre+i+"."+clsNutritionLevel.P_UPPERBOUND, 6);
-		oProp.setProperty(stomach_pre+i+"."+clsNutritionLevel.P_LOWERBOUND, 0.5);
+		oProp.setProperty(stomach_pre+i+"."+clsNutritionLevel.P_UPPERBOUND, 5);
+		oProp.setProperty(stomach_pre+i+"."+clsNutritionLevel.P_LOWERBOUND, 0);
 		oProp.setProperty(stomach_pre+i+"."+clsNutritionLevel.P_CONTENT, 0);
 		i++;
 		
