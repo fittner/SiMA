@@ -21,7 +21,7 @@ import javax.swing.border.TitledBorder;
  * Diese Klasse beschreibt den einzelnen F�llstand der Nutrition
  * 
  * @author kilic 26.05.2009, 12:36:41
- * 
+ * @deprecated
  */
 public class clsSingleFillLevel extends JPanel {
 

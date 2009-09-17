@@ -30,7 +30,8 @@ import bw.entities.clsStone;
 import bw.entities.clsUraniumOre;
 //import bw.entities.clsRemoteBot;
 import bw.entities.clsStationary;
-import bw.utils.inspectors.body.clsFillLevelInspector;
+import bw.utils.inspectors.body.clsInspectorFastMessengers;
+import bw.utils.inspectors.body.clsInspectorFillLevel;
 import bw.utils.inspectors.body.clsInspectorAttributes;
 import bw.utils.inspectors.body.clsInspectorInternalSystems;
 import bw.utils.inspectors.body.clsInspectorSlowMessengers;
@@ -147,9 +148,10 @@ public class clsInspectorMappingEntity {
 		TabbedInspector oRetVal = new TabbedInspector();
 
     	if( poBody instanceof clsComplexBody) {
-    		oRetVal.addInspector( new clsFillLevelInspector(poSuperInspector, poWrapper, poState, ((clsComplexBody)poBody).getInternalSystem().getStomachSystem()), "Stomach System");
+    		oRetVal.addInspector( new clsInspectorFillLevel(poSuperInspector, poWrapper, poState, ((clsComplexBody)poBody).getInternalSystem().getStomachSystem()), "Stomach System");
     		oRetVal.addInspector( new clsInspectorInternalSystems(poSuperInspector, poWrapper, poState, ((clsComplexBody)poBody).getInternalSystem()), "Internal System");
     		oRetVal.addInspector( new clsInspectorSlowMessengers(poSuperInspector, poWrapper, poState, ((clsComplexBody)poBody).getInternalSystem().getSlowMessengerSystem()), "Slow Messengers");
+    		oRetVal.addInspector( new clsInspectorFastMessengers(poSuperInspector, poWrapper, poState, ((clsComplexBody)poBody).getInternalSystem().getFastMessengerSystem()), "Fast Messengers");    		
     		oRetVal.addInspector( new clsInspectorAttributes(poSuperInspector, poWrapper, poState, poBody.getAttributes()), "Body Attributes");    		
     	}
     	else if( poBody instanceof clsMeatBody ) {

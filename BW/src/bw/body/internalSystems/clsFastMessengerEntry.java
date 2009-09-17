@@ -16,8 +16,7 @@ import bw.utils.enums.eBodyParts;
  * 
  */
 public class clsFastMessengerEntry {
-	private eBodyParts moSource;
-	private eBodyParts moTarget;
+	private clsFastMessengerKeyTuple moFromTo;
 	private double mrIntensity;
 	private int mnCountDown;
 	
@@ -27,8 +26,7 @@ public class clsFastMessengerEntry {
 	 * @param prIntensity
 	 */
 	public clsFastMessengerEntry(eBodyParts poSource, eBodyParts poTarget, double prIntensity, int pnStartTimerValue) {
-		moSource = poSource;
-		moTarget = poTarget;
+		moFromTo = new clsFastMessengerKeyTuple(poSource, poTarget);
 		mrIntensity = prIntensity;
 		mnCountDown = pnStartTimerValue;
 	}
@@ -55,7 +53,7 @@ public class clsFastMessengerEntry {
 	 * @return
 	 */
 	public eBodyParts getTarget() {
-		return moTarget;
+		return moFromTo.meTarget;
 	}
 	/**
 	 * DOCUMENT (deutsch) - insert description
@@ -63,8 +61,12 @@ public class clsFastMessengerEntry {
 	 * @return
 	 */
 	public eBodyParts getSource() {
-		return moSource;
+		return moFromTo.meSource;
 	}	
+	
+	public clsFastMessengerKeyTuple getFromTo() {
+		return moFromTo;
+	}
 	/**
 	 * DOCUMENT (deutsch) - insert description
 	 *

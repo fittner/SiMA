@@ -45,7 +45,7 @@ import sim.portrayal.LocationWrapper;
  * 25.03.2009, 09:52:20
  * 
  */
-public class clsFillLevelInspector extends Inspector{
+public class clsInspectorFillLevel extends Inspector{
 
 	/**
 	 * DOCUMENT (tobias) - insert description 
@@ -64,7 +64,7 @@ public class clsFillLevelInspector extends Inspector{
 	private DefaultCategoryDataset moDatasetLowerBounds;
 	private DefaultCategoryDataset moDatasetMaxValue;
     
-    public clsFillLevelInspector(sim.portrayal.Inspector originalInspector,
+    public clsInspectorFillLevel(sim.portrayal.Inspector originalInspector,
             LocationWrapper wrapper,
             GUIState guiState,
             clsStomachSystem poStomachSystem)

@@ -97,8 +97,8 @@ public class clsInspectorSlowMessengers extends Inspector {
 		
         JFreeChart oChartPanel = ChartFactory.createXYLineChart(
                 "Slow Messengers",     // chart title
-                "Amount",               // domain axis label
-                "Steps",                  // range axis label
+                "Steps",               // domain axis label
+                "Amount",                  // range axis label
                 moDataset,                  // data
                 PlotOrientation.VERTICAL, // orientation
                 true,                     // include legend

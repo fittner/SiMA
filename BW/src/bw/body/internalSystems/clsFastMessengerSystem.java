@@ -25,12 +25,14 @@ import bw.utils.enums.eBodyParts;
 public class clsFastMessengerSystem implements itfStepUpdateInternalState {
 	public static final String P_EXPIRETIME = "expiretime";
 	
+	private ArrayList<clsFastMessengerKeyTuple> moFromToMapping;
 	private HashMap<eBodyParts, HashMap<eBodyParts, clsFastMessengerEntry>> moTargetList;
 
 	private int mnDefaultExpireTime;
 
 	public clsFastMessengerSystem(String poPrefix, clsBWProperties poProp) {
-		moTargetList = new HashMap<eBodyParts, HashMap<eBodyParts, clsFastMessengerEntry>>();		
+		moTargetList = new HashMap<eBodyParts, HashMap<eBodyParts, clsFastMessengerEntry>>();
+		moFromToMapping = new ArrayList<clsFastMessengerKeyTuple>();
 		applyProperties(poPrefix, poProp);
 	}
 
@@ -87,6 +89,10 @@ public class clsFastMessengerSystem implements itfStepUpdateInternalState {
 	 * @param poMessage
 	 */
 	public void addMessage(clsFastMessengerEntry poMessage) {
+		if (!moFromToMapping.contains(poMessage.getFromTo())) {
+			moFromToMapping.add(poMessage.getFromTo());
+		}
+		
 		eBodyParts oTarget = poMessage.getTarget();
 		HashMap<eBodyParts, clsFastMessengerEntry> oList = moTargetList.get(oTarget);
 		
@@ -127,6 +133,20 @@ public class clsFastMessengerSystem implements itfStepUpdateInternalState {
 		}
 		
 	}
-
 	
+	public clsFastMessengerEntry getEntry(eBodyParts peSource, eBodyParts peTarget) {
+		clsFastMessengerEntry oResult = null;
+		
+		oResult = (moTargetList.get(peTarget)).get(peSource);
+		
+		return oResult;
+	}
+	
+	public ArrayList<clsFastMessengerKeyTuple> getFromToMapping() {
+		return moFromToMapping;
+	}
+	
+	public HashMap<eBodyParts, HashMap<eBodyParts, clsFastMessengerEntry>> getTargetList() {
+		return moTargetList;
+	}
 }
