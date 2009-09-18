@@ -131,7 +131,7 @@ public class clsBWFastEntityAdapter extends JDialog {
 					mnCount--;
 				}
 				else {
-					mnCount=mnInitCount;
+					mnCount=0;
 				}
 			}
 			else {
