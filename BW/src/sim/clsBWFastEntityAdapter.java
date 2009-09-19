@@ -79,7 +79,7 @@ public class clsBWFastEntityAdapter extends JDialog {
 			moCountPath = poCountPath;
 			
 			//create the entity icon
-			String oButtonPath = clsGetARSPath.getArsPath()+"\\BW\\src\\resources\\images\\EntitySelectorIcon\\"+poEntityName+".png";
+			String oButtonPath = clsGetARSPath.getIconPath()+poEntityName+".png";
 		    ImageIcon oEntityIcon = new ImageIcon(oButtonPath);
 		    JButton buttonEntity = new JButton(poEntityName, oEntityIcon);
 		    buttonEntity.setSize(500, buttonEntity.getSize().height);
@@ -95,13 +95,13 @@ public class clsBWFastEntityAdapter extends JDialog {
 			JPanel oPanel = new JPanel();
 			oPanel.setLayout(new GridLayout(0,1));
 			
-			String oPath = clsGetARSPath.getArsPath()+"\\BW\\src\\resources\\images\\EntitySelectorIcon\\arrow_up.png";
+			String oPath = clsGetARSPath.getIconPath()+"arrow_up.png";
 		    ImageIcon oBtnUpImg = new ImageIcon(oPath);
 		    JButton oBtnUp = new JButton(oBtnUpImg);
 		    oBtnUp.setActionCommand("up");
 		    oBtnUp.addActionListener(this);
 			
-			oPath = clsGetARSPath.getArsPath()+"\\BW\\src\\resources\\images\\EntitySelectorIcon\\arrow_down.png";
+			oPath = clsGetARSPath.getIconPath()+"arrow_down.png";
 		    ImageIcon oBtnDownImg = new ImageIcon(oPath);
 		    JButton oBtnDown = new JButton(oBtnDownImg);
 		    oBtnDown.setActionCommand("down");
