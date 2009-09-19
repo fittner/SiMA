@@ -18,7 +18,7 @@ import java.util.Iterator;
  * 15.04.2009, 18:13:36
  * 
  */
-public class clsActionSequence {
+public class clsActionSequence implements itfActionCommand {
 
 	private ArrayList<clsSequencedAction> moCommands = new ArrayList<clsSequencedAction>();
 	
