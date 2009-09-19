@@ -49,14 +49,15 @@ public class clsActionSequence extends clsActionCommand {
 	 * Returns the number of rounds the sequence contains
 	 */
 	@Override
-	public int getRounds() {
+	public boolean isComplete(int pnRound) {
 		int nMaxRounds = 0;
 		Iterator<clsSequencedAction> oItSeq = moCommands.iterator();
 		while (oItSeq.hasNext()) {
 			clsSequencedAction oSeqAction = oItSeq.next();
 			if (nMaxRounds<(oSeqAction.getRound() + oSeqAction.getDuration())) nMaxRounds=(oSeqAction.getRound() + oSeqAction.getDuration()); 
 		}
-		return nMaxRounds;
+		 if (nMaxRounds<(pnRound+1)) return false;
+		 return true;
 	}
 	
 	/*

@@ -423,7 +423,7 @@ public class clsActionProcessor implements itfActionProcessor {
 		 //Returns if the sequence is still active (not disposed and contains commands)
 		 public boolean getActive() {
 			 if (mbDispose) return false;
-			 if (moCommand.getRounds()<(mnRound+1)) return false;
+			 if (moCommand.isComplete(mnRound)) return false;
 			 return true;
 		 }		 		 
 	 }

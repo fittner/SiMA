@@ -14,10 +14,11 @@ public abstract class clsActionCommand {
 	public abstract String getLog();
 
 	/*
-	 * Returns the number of rounds the sequence contains (1 for simple commands)
+	 * returns true if the command was completed and false if it is to continue to the next round  
 	 */
-	public int getRounds() {
-		return 1;
+	public boolean isComplete(int pnRound) {
+		if (pnRound>=1) return true;
+		return false;
 	}
 	
 	/*
