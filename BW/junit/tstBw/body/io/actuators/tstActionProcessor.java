@@ -134,13 +134,15 @@ public class tstActionProcessor {
 		tstTestCommand_A oCmd_A2 = new tstTestCommand_A();
 		tstTestCommand_A oCmd_A3 = new tstTestCommand_A();
 		tstTestCommand_B oCmd_B = new tstTestCommand_B();
-		clsActionSequence oSeq = new clsActionSequence();
-		oSeq.add(0, oCmd_A0, 1);
-		oSeq.add(1, oCmd_A1, 1);
-		oSeq.add(2, oCmd_A2, 1);
-		oSeq.add(3, oCmd_A3, 1);
-		oAPr.call(oSeq, eCallPriority.CALLPRIORITY_NORMAL);
-		oAPr.call(oCmd_B, eCallPriority.CALLPRIORITY_NORMAL,4);
+		clsActionSequence oSeq1 = new clsActionSequence();
+		clsActionSequence oSeq2 = new clsActionSequence();
+		oSeq1.add(0, oCmd_A0, 1);
+		oSeq1.add(1, oCmd_A1, 1);
+		oSeq1.add(2, oCmd_A2, 1);
+		oSeq1.add(3, oCmd_A3, 1);
+		oAPr.call(oSeq1, eCallPriority.CALLPRIORITY_NORMAL);
+		oSeq2.add(0,oCmd_B,4);
+		oAPr.call(oSeq2, eCallPriority.CALLPRIORITY_NORMAL);
 		
 		//Round 1 - A0 + B should be performed
 		oAPr.dispatch();
@@ -230,14 +232,14 @@ public class tstActionProcessor {
 		}
 		
 		@Override
-		public boolean execute(itfActionCommand poCommand) {
+		public boolean execute(clsActionCommand poCommand) {
 			tstTestCommand oCommand = (tstTestCommand) poCommand;
 			oCommand.setExecuted(true);
 			return true;
 		}
 
 		@Override
-		public ArrayList<Class<?>> getMutualExclusions(itfActionCommand poCommand) {
+		public ArrayList<Class<?>> getMutualExclusions(clsActionCommand poCommand) {
 			return ((tstTestCommand) poCommand).getMutualExclusions(); 
 		}
 }
@@ -246,7 +248,7 @@ public class tstActionProcessor {
 	 * test-command for processor. Can check if it was executed and mutual exclusions 
 	 * can be set externally. Also energy/stamina demands can be set externally 
 	 */
-	private class tstTestCommand implements itfActionCommand {
+	private class tstTestCommand extends clsActionCommand {
 		private boolean mbExecuted=false;
 		private ArrayList<Class<?>> moMutEx = new ArrayList<Class<?>>();
 		double mnEnergy;
@@ -285,7 +287,8 @@ public class tstActionProcessor {
 		public void setExecuted(boolean pbExecuted) {
 			mbExecuted=pbExecuted;
 		}
-		
+
+		@Override
 		public String getLog() {
 			return "";
 		}

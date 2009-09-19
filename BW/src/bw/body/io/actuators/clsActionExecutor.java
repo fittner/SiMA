@@ -17,7 +17,7 @@ import ARSsim.physics2D.physicalObject.clsStationaryObject2D;
 import bw.body.clsComplexBody;
 import bw.body.io.clsSensorActuatorBaseExt;
 import bw.entities.clsEntity;
-import decisionunit.itf.actions.itfActionCommand;
+import decisionunit.itf.actions.clsActionCommand;
 import enums.eSensorExtType;
 import bw.body.io.sensors.ext.clsSensorEatableArea;
 import bw.body.io.sensors.ext.clsSensorManipulateArea;
@@ -50,7 +50,7 @@ public abstract class clsActionExecutor extends clsSensorActuatorBaseExt {
 	 * themselves, i.e. no two commands of the same type can be executed 
 	 * in the same round.
 	 */
-	public ArrayList<Class<?>> getMutualExclusions(itfActionCommand poCommand) {
+	public ArrayList<Class<?>> getMutualExclusions(clsActionCommand poCommand) {
 		return new ArrayList<Class<?>>(); 
 	}
 	
@@ -58,7 +58,7 @@ public abstract class clsActionExecutor extends clsSensorActuatorBaseExt {
 	 * Get the amount of energy needed per round to perform the action. Even 
 	 * if the action can not be performed this amount of energy will be consumed.
 	 */
-	public double getEnergyDemand(itfActionCommand poCommand) {
+	public double getEnergyDemand(clsActionCommand poCommand) {
 		return 0;
 	}
 
@@ -66,7 +66,7 @@ public abstract class clsActionExecutor extends clsSensorActuatorBaseExt {
 	 * Get the amount of stamina needed per round to perform the action. Even 
 	 * if the action can not be performed this amount of stamina will be consumed.
 	 */
-	public double getStaminaDemand(itfActionCommand poCommand) {
+	public double getStaminaDemand(clsActionCommand poCommand) {
 		return 0;
 	}
 
@@ -75,7 +75,7 @@ public abstract class clsActionExecutor extends clsSensorActuatorBaseExt {
 	 * e.g. no injuries, enough stamina, etc. and then executes the command.
 	 * Returns true/false depending on if the action was successful.
 	 */
-	public boolean execute(itfActionCommand poCommand) {
+	public boolean execute(clsActionCommand poCommand) {
 		return false;
 	}	
 

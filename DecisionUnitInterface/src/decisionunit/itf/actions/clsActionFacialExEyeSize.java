@@ -17,7 +17,7 @@ import enums.eEyeSize;
  * 20.06.2009, 15:31:13
  * 
  */
-public class clsActionFacialExEyeSize implements itfActionCommand {
+public class clsActionFacialExEyeSize extends clsActionCommand {
 
 	private eEyeSize meSize;
 
@@ -25,6 +25,7 @@ public class clsActionFacialExEyeSize implements itfActionCommand {
 		meSize=peSize;
 	}
 	
+	@Override
 	public String getLog() {
 		return "<FacialExEyeSize>" + meSize.toString() + "</FacialExEyeSize>"; 
 	}

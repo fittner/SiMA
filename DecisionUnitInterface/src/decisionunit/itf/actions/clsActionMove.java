@@ -11,7 +11,7 @@ import enums.eActionMoveDirection;
  * 15.04.2009, 16:31:13
  * 
  */
-public class clsActionMove implements itfActionCommand {
+public class clsActionMove extends clsActionCommand {
 	private eActionMoveDirection meDirection;
 	private double mrSpeed;
 
@@ -42,6 +42,7 @@ public class clsActionMove implements itfActionCommand {
 		meDirection=peDirection;
 	}
 
+	@Override
 	public String getLog() {
 		return "<Move>" + meDirection.toString() + "@" + mrSpeed  + "</Move>"; 
 	}

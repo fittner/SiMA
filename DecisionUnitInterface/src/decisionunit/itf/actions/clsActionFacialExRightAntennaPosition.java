@@ -17,7 +17,7 @@ import enums.eAntennaPositions;
  * 20.06.2009, 15:31:13
  * 
  */
-public class clsActionFacialExRightAntennaPosition implements itfActionCommand {
+public class clsActionFacialExRightAntennaPosition extends clsActionCommand {
 
 	private eAntennaPositions mePosition;
 
@@ -25,6 +25,7 @@ public class clsActionFacialExRightAntennaPosition implements itfActionCommand {
 		mePosition=pePosition;
 	}
 	
+	@Override
 	public String getLog() {
 		return "<FacialExRightAntennaPosition>" + mePosition.toString() + "</FacialExRightAntennaPosition>"; 
 	}

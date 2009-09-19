@@ -1,6 +1,6 @@
 package decisionunit.itf.actions;
 
-public class clsActionToInventory implements itfActionCommand {
+public class clsActionToInventory extends clsActionCommand {
 
 	/**
 	 * To Inventory command
@@ -11,6 +11,7 @@ public class clsActionToInventory implements itfActionCommand {
 	 * 
 	 */
 	
+	@Override
 	public String getLog() {
 		return "<ToInventory></ToInventory>"; 
 	}

@@ -10,7 +10,7 @@ package decisionunit.itf.actions;
  * 
  */
 
-public class clsActionExcrement implements itfActionCommand {
+public class clsActionExcrement extends clsActionCommand {
 
 	private double mrIntensity;
 
@@ -18,6 +18,7 @@ public class clsActionExcrement implements itfActionCommand {
 		mrIntensity=prIntensity;
 	}
 	
+	@Override
 	public String getLog() {
 		return "<Excrement>" + mrIntensity + "</Kill>"; 
 	}

@@ -15,11 +15,12 @@ package decisionunit.itf.actions;
  * 20.06.2009, 15:31:13
  * 
  */
-public class clsActionMoveToEatableArea implements itfActionCommand {
+public class clsActionMoveToEatableArea extends clsActionCommand {
 
 	public clsActionMoveToEatableArea() {
 	}
 	
+	@Override
 	public String getLog() {
 		return "<MoveToEatableArea></MoveToEatableArea>"; 
 	}

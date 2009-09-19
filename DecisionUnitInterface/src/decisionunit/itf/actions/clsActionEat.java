@@ -8,8 +8,9 @@ package decisionunit.itf.actions;
  * 15.04.2009, 16:31:13
  * 
  */
-public class clsActionEat implements itfActionCommand {
+public class clsActionEat extends clsActionCommand {
 
+	@Override
 	public String getLog() {
 		return "<Eat></Eat>"; 
 	}

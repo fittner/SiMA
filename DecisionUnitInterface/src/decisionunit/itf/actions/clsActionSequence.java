@@ -18,7 +18,7 @@ import java.util.Iterator;
  * 15.04.2009, 18:13:36
  * 
  */
-public class clsActionSequence implements itfActionCommand {
+public class clsActionSequence extends clsActionCommand {
 
 	private ArrayList<clsSequencedAction> moCommands = new ArrayList<clsSequencedAction>();
 	
@@ -28,13 +28,11 @@ public class clsActionSequence implements itfActionCommand {
 	 * be set to any number greater or equal to one and defines the number of simulation 
 	 * cycles the command should be executed for
 	 */
-	public void add(int pnRound, itfActionCommand poAction, int pnDuration) {
+	public void add(int pnRound, clsActionCommand poAction, int pnDuration) {
 		moCommands.add(new clsSequencedAction(pnRound,poAction,pnDuration));
 	}
 	
-	/*
-	 * 
-	 */
+	@Override
 	public String getLog() {
 		String sLog = "";
 		
@@ -50,6 +48,7 @@ public class clsActionSequence implements itfActionCommand {
 	/*
 	 * Returns the number of rounds the sequence contains
 	 */
+	@Override
 	public int getRounds() {
 		int nMaxRounds = 0;
 		Iterator<clsSequencedAction> oItSeq = moCommands.iterator();
@@ -63,8 +62,9 @@ public class clsActionSequence implements itfActionCommand {
 	/*
 	 * Returns an Array of commands which should be executed in the given round (Starts with round "0") 
 	 */
-	public ArrayList<itfActionCommand> getCommands(int pnRound) {
-		ArrayList<itfActionCommand> oReturnList = new ArrayList<itfActionCommand>();
+	@Override
+	public ArrayList<clsActionCommand> getCommands(int pnRound) {
+		ArrayList<clsActionCommand> oReturnList = new ArrayList<clsActionCommand>();
 
 		Iterator<clsSequencedAction> oItSeq = moCommands.iterator();
 		while (oItSeq.hasNext()) {
@@ -81,10 +81,10 @@ public class clsActionSequence implements itfActionCommand {
 	 * Private class used for storing sequenced actions
 	 */
 	private class clsSequencedAction {
-		private itfActionCommand moAction;
+		private clsActionCommand moAction;
 		private int mnDuration;
 		private int mnRound;
-		public clsSequencedAction(int pnRound, itfActionCommand poAction,int pnDuration) {
+		public clsSequencedAction(int pnRound, clsActionCommand poAction,int pnDuration) {
 			if (pnDuration<0) pnDuration=0; //MinDuration=0 (no execution)
 			if (pnRound<-1) pnRound=-1; //MinRound=-1 (no execution)
 			moAction=poAction;
@@ -100,7 +100,7 @@ public class clsActionSequence implements itfActionCommand {
 			return mnRound;
 		}
 
-		public itfActionCommand getAction() {
+		public clsActionCommand getAction() {
 			return moAction;
 		}
 	

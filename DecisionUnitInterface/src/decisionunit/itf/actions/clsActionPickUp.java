@@ -9,8 +9,9 @@ package decisionunit.itf.actions;
  * 
  */
 
-public class clsActionPickUp implements itfActionCommand {
+public class clsActionPickUp extends clsActionCommand {
 
+	@Override
 	public String getLog() {
 		return "<PickUp></PickUp>"; 
 	}

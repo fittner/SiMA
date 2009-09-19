@@ -17,7 +17,7 @@ import enums.eLensShape;
  * 20.06.2009, 15:31:13
  * 
  */
-public class clsActionFacialExLensShape implements itfActionCommand {
+public class clsActionFacialExLensShape extends clsActionCommand {
 
 	private eLensShape meShape;
 
@@ -25,6 +25,7 @@ public class clsActionFacialExLensShape implements itfActionCommand {
 		meShape=peShape;
 	}
 	
+	@Override
 	public String getLog() {
 		return "<FacialExLensShape>" + meShape.toString() + "</FacialExLensShape>"; 
 	}

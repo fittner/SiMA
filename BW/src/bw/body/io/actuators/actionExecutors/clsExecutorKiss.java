@@ -83,7 +83,7 @@ public class clsExecutorKiss extends clsActionExecutor{
 	 * Mutual exclusions (are bi-directional, so only need to be added in order of creation 
 	 */
 	@Override
-	public ArrayList<Class<?>> getMutualExclusions(itfActionCommand poCommand) {
+	public ArrayList<Class<?>> getMutualExclusions(clsActionCommand poCommand) {
 		return moMutEx; 
 	}
 	
@@ -91,11 +91,11 @@ public class clsExecutorKiss extends clsActionExecutor{
 	 * Energy and stamina demand 
 	 */
 	@Override
-	public double getEnergyDemand(itfActionCommand poCommand) {
+	public double getEnergyDemand(clsActionCommand poCommand) {
 		return getStaminaDemand(poCommand)*srEnergyRelation;
 	}
 	@Override
-	public double getStaminaDemand(itfActionCommand poCommand) {
+	public double getStaminaDemand(clsActionCommand poCommand) {
 		clsActionKiss oCommand =(clsActionKiss) poCommand;
 		double rIntensity=1;
 		if (oCommand.getIntensity()==eActionKissIntensity.MIDDLE) rIntensity=2;
@@ -108,7 +108,7 @@ public class clsExecutorKiss extends clsActionExecutor{
 	 * Executor 
 	 */
 	@Override
-	public boolean execute(itfActionCommand poCommand) {
+	public boolean execute(clsActionCommand poCommand) {
 		clsActionKiss oCommand =(clsActionKiss) poCommand; 
 
 		clsComplexBody oBody = (clsComplexBody) ((itfGetBody)moEntity).getBody();

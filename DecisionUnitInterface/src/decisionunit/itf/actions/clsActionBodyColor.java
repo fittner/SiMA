@@ -17,7 +17,7 @@ package decisionunit.itf.actions;
  * 20.06.2009, 15:31:13
  * 
  */
-public class clsActionBodyColor implements itfActionCommand {
+public class clsActionBodyColor extends clsActionCommand {
 
 	private int mrRed;
 	private int mrGreen;
@@ -29,6 +29,7 @@ public class clsActionBodyColor implements itfActionCommand {
 		mrBlue=prBlue;
 	}
 	
+	@Override
 	public String getLog() {
 		return "<BodyColor>" + mrRed + '/' +  mrGreen + '/' +  mrBlue + "</BodyColor>"; 
 	}

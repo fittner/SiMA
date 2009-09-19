@@ -17,7 +17,7 @@ import enums.eActionSleepIntensity;
  * 20.06.2009, 15:31:13
  * 
  */
-public class clsActionSleep implements itfActionCommand {
+public class clsActionSleep extends clsActionCommand {
 
 	private eActionSleepIntensity meIntensity;
 
@@ -25,6 +25,7 @@ public class clsActionSleep implements itfActionCommand {
 		meIntensity=peIntensity;
 	}
 	
+	@Override
 	public String getLog() {
 		return "<Sleep>" + meIntensity.toString() + "</Sleep>"; 
 	}

@@ -16,7 +16,7 @@ package decisionunit.itf.actions;
  * 20.06.2009, 15:31:13
  * 
  */
-public class clsActionCultivate implements itfActionCommand {
+public class clsActionCultivate extends clsActionCommand {
 
 	private double mrAmount;
 
@@ -24,6 +24,7 @@ public class clsActionCultivate implements itfActionCommand {
 		mrAmount=prAmount;
 	}
 	
+	@Override
 	public String getLog() {
 		return "<Cultivate>" + mrAmount + "</Cultivate>"; 
 	}

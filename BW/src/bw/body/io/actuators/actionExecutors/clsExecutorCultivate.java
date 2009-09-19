@@ -81,7 +81,7 @@ public class clsExecutorCultivate extends clsActionExecutor{
 	 * Mutual exclusions (are bi-directional, so only need to be added in order of creation 
 	 */
 	@Override
-	public ArrayList<Class<?>> getMutualExclusions(itfActionCommand poCommand) {
+	public ArrayList<Class<?>> getMutualExclusions(clsActionCommand poCommand) {
 		return moMutEx; 
 	}
 	
@@ -89,11 +89,11 @@ public class clsExecutorCultivate extends clsActionExecutor{
 	 * Energy and stamina demand 
 	 */
 	@Override
-	public double getEnergyDemand(itfActionCommand poCommand) {
+	public double getEnergyDemand(clsActionCommand poCommand) {
 		return getStaminaDemand(poCommand)*srEnergyRelation;
 	}
 	@Override
-	public double getStaminaDemand(itfActionCommand poCommand) {
+	public double getStaminaDemand(clsActionCommand poCommand) {
 		clsActionCultivate oCommand =(clsActionCultivate) poCommand;
 		return srStaminaScalingFactor* Math.pow(srStaminaBase,oCommand.getAmount()) ;
 	}
@@ -102,7 +102,7 @@ public class clsExecutorCultivate extends clsActionExecutor{
 	 * Executor 
 	 */
 	@Override
-	public boolean execute(itfActionCommand poCommand) {
+	public boolean execute(clsActionCommand poCommand) {
 		clsActionCultivate oCommand =(clsActionCultivate) poCommand; 
 
 		clsComplexBody oBody = (clsComplexBody) ((itfGetBody)moEntity).getBody();

@@ -16,7 +16,7 @@ package decisionunit.itf.actions;
  * 20.06.2009, 15:31:13
  * 
  */
-public class clsActionAttackLightning implements itfActionCommand {
+public class clsActionAttackLightning extends clsActionCommand {
 
 	private double mrForce;
 	private String moOpponentID;
@@ -26,6 +26,7 @@ public class clsActionAttackLightning implements itfActionCommand {
 		moOpponentID=poOpponentID;
 	}
 	
+	@Override
 	public String getLog() {
 		return "<AttackLightning>" + moOpponentID + '@' + mrForce + "</AttackLightning>"; 
 	}

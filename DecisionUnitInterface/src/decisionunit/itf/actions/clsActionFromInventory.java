@@ -1,6 +1,6 @@
 package decisionunit.itf.actions;
 
-public class clsActionFromInventory implements itfActionCommand {
+public class clsActionFromInventory extends clsActionCommand {
 
 	/**
 	 * From Inventory
@@ -28,6 +28,7 @@ public class clsActionFromInventory implements itfActionCommand {
 		mnIndex=pnIndex;
 	}
 	
+	@Override
 	public String getLog() {
 		return "<FromInventory>" + mnIndex + "</FromInventory>"; 
 	}

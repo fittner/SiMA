@@ -9,8 +9,9 @@ package decisionunit.itf.actions;
  * 
  */
 
-public class clsActionDrop  implements itfActionCommand {
+public class clsActionDrop  extends clsActionCommand {
 
+	@Override
 	public String getLog() {
 		return "<Drop></Drop>"; 
 	}

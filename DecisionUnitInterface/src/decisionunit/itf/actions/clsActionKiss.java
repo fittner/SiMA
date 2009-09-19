@@ -17,7 +17,7 @@ import enums.eActionKissIntensity;
  * 20.06.2009, 15:31:13
  * 
  */
-public class clsActionKiss implements itfActionCommand {
+public class clsActionKiss extends clsActionCommand {
 
 	private eActionKissIntensity meIntensity;
 
@@ -25,6 +25,7 @@ public class clsActionKiss implements itfActionCommand {
 		meIntensity=peIntensity;
 	}
 	
+	@Override
 	public String getLog() {
 		return "<Kiss>" + meIntensity.toString() + "</Kiss>"; 
 	}

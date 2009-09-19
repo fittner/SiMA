@@ -87,7 +87,7 @@ public class clsExecutorMoveToArea extends clsActionExecutor{
 	 * Mutual exclusions (are bi-directional, so only need to be added in order of creation 
 	 */
 	@Override
-	public ArrayList<Class<?>> getMutualExclusions(itfActionCommand poCommand) {
+	public ArrayList<Class<?>> getMutualExclusions(clsActionCommand poCommand) {
 		return moMutEx; 
 	}
 
@@ -95,11 +95,11 @@ public class clsExecutorMoveToArea extends clsActionExecutor{
 	 * Energy and stamina demand 
 	 */
 	@Override
-	public double getEnergyDemand(itfActionCommand poCommand) {
+	public double getEnergyDemand(clsActionCommand poCommand) {
 		return getStaminaDemand(poCommand)*srEnergyRelation;
 	}
 	@Override
-	public double getStaminaDemand(itfActionCommand poCommand) {
+	public double getStaminaDemand(clsActionCommand poCommand) {
 		return srStaminaBase ;
 	}
 
@@ -107,7 +107,7 @@ public class clsExecutorMoveToArea extends clsActionExecutor{
 	 * Executor 
 	 */
 	@Override
-	public boolean execute(itfActionCommand poCommand) {
+	public boolean execute(clsActionCommand poCommand) {
 		clsComplexBody oBody = (clsComplexBody) ((itfGetBody)moEntity).getBody();
 		clsMobile oMEntity = (clsMobile) moEntity;
 

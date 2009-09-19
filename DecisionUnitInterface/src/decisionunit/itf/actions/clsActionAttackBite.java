@@ -9,7 +9,7 @@ package decisionunit.itf.actions;
  * 20.06.2009, 15:31:13
  * 
  */
-public class clsActionAttackBite implements itfActionCommand {
+public class clsActionAttackBite extends clsActionCommand {
 
 	private double mrForce;
 
@@ -17,6 +17,7 @@ public class clsActionAttackBite implements itfActionCommand {
 		mrForce=prForce;
 	}
 	
+	@Override
 	public String getLog() {
 		return "<AttackBite>" + mrForce + "</AttackBite>"; 
 	}

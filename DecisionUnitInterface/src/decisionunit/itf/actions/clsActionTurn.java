@@ -11,7 +11,7 @@ import enums.eActionTurnDirection;
  * 15.04.2009, 16:31:13
  * 
  */
-public class clsActionTurn implements itfActionCommand {
+public class clsActionTurn extends clsActionCommand {
 
 	private eActionTurnDirection meDirection;
 	private double mnAngle; //in degrees, will automatically be transformed to rad 
@@ -42,6 +42,7 @@ public class clsActionTurn implements itfActionCommand {
 		meDirection=peDirection;
 	}
 	
+	@Override
 	public String getLog() {
 		return "<Turn>" + meDirection.toString() + "@" + mnAngle + "</Turn>"; 
 	}
