@@ -124,7 +124,7 @@ import bw.factories.clsSingletonMasonGetter;
 		public void addContact(PhysicalObject2D poCollidingObj,Double2D poCollisionPoint){
 			if (poCollisionPoint != null && poCollisionPoint.length()>= 0){
 				clsPolarcoordinate oCoord = new clsPolarcoordinate( moHostEntity.getPosition(), poCollidingObj.getPosition() ); 
-				meDetectedObjList.add(new clsCollidingObject(poCollidingObj, oCoord ));
+				meDetectedObjList.add(new clsCollidingObject(poCollidingObj, oCoord, null ));
 			}				
 		}
 

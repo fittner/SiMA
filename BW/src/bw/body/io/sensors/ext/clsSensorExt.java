@@ -136,10 +136,26 @@ public abstract class clsSensorExt extends clsSensorActuatorBaseExt implements i
 		double nEntityOrientation =  moSensorEngine.getMeSensorAreas().firstEntry().getValue().getOrientation().radians;
 		if(clsSensorDataCalculation.checkIfObjectInView(poCollidingObject, nEntityOrientation, 
 											moSensorData.mnFieldOfView)){	
+				setCollidingObjectRelativePosition(poCollidingObject); 
 				return true;  
 		}
 		return false; 
 	}
 	
+	/**
+	 * DOCUMENT (zeilinger) - insert description
+	 *
+	 * @author zeilinger
+	 * 21.09.2009, 16:24:27
+	 *
+	 * @param poCollidingObject
+	 */
+	private void setCollidingObjectRelativePosition(clsCollidingObject poCollidingObject) {
+//		eSide ePosition = eSide.UNDEFINED; 
+//		Double nFieldOfView = moSensorData.mnFieldOfView; 
+		
+		
+	}
+
 	public abstract void setDetectedObjectsList(Double pnAreaRange,ArrayList<clsCollidingObject> peObjInAreaList);  
 }

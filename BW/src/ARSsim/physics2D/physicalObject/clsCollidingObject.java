@@ -7,6 +7,7 @@
  */
 package ARSsim.physics2D.physicalObject;
 
+import bfg.utils.enums.eSide;
 import ARSsim.physics2D.util.clsPolarcoordinate;
 import sim.physics2D.physicalObject.PhysicalObject2D;
 
@@ -23,11 +24,12 @@ public class clsCollidingObject {
 	 * @param moCollider
 	 * @param mrColPoint
 	 */
-	public clsCollidingObject(PhysicalObject2D poCollider, clsPolarcoordinate prColPoint) {
+	public clsCollidingObject(PhysicalObject2D poCollider, clsPolarcoordinate prColPoint, eSide peColPos) {
 		this.moCollider = poCollider;
 		this.mrColPoint = prColPoint;
+		this.meColPos = peColPos; 
 	}
 	public PhysicalObject2D moCollider;
 	public clsPolarcoordinate mrColPoint;
-	
+	public eSide meColPos; 	
 }

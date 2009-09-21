@@ -37,6 +37,7 @@ import decisionunit.itf.sensors.clsEnergy;
 import decisionunit.itf.sensors.clsVision;
 import decisionunit.itf.sensors.clsRadiation;
 import decisionunit.itf.sensors.clsSensorRingSegmentEntries;
+import enums.eAntennaPositions;
 import enums.eFastMessengerSources;
 import enums.eSensorIntType;
 import enums.eSensorExtType;
@@ -62,6 +63,7 @@ import bw.body.io.sensors.internal.clsStomachTensionSensor;
 import bw.body.io.sensors.internal.clsTemperatureSensor;
 import bw.body.io.sensors.internal.clsSensorInt;
 import bw.body.io.sensors.internal.clsStaminaSensor;
+import bw.entities.clsBubble;
 import bw.entities.clsEntity;
 import bw.entities.clsAnimal;
 //import bw.entities.clsUraniumOre;
@@ -369,7 +371,9 @@ public class clsBrainSocket implements itfStepProcessing {
 		oData.mnEntityType = getEntityType(collidingObj.moCollider);		
 		oData.mnShapeType = getShapeType(collidingObj.moCollider);
 		oData.moColor = (Color) oEntity.getShape().getPaint();
-		
+		oData.moEntityId = oEntity.getId();
+		oData.moObjectPosition = collidingObj.meColPos;  
+				
 		// FIXME: (horvath) - temporary polar coordinates calculation
 		clsSensorPositionChange oSensor = (clsSensorPositionChange)(moSensorsExt.get(eSensorExtType.POSITIONCHANGE));
 		clsPolarcoordinate oRel = collidingObj.mrColPoint;
@@ -381,8 +385,11 @@ public class clsBrainSocket implements itfStepProcessing {
 		{
 			oData.mnAlive = ((clsAnimal)oEntity).isAlive();
 		}
-
-		//oData.moEntityId = oEntity.getUniqueId();
+		
+		/*FIXME HZ actually the antenna positions are undefined*/
+		if (oEntity instanceof clsBubble){
+			oData.moAntennaPosition = eAntennaPositions.UNDEFINED; 
+		}
 		
 		return oData;
 	}
