@@ -43,9 +43,9 @@ public abstract class clsRuleTreeLeaf extends clsRuleTreeElement{
 
 //    Engine.log.println(" Node Name "+oName);
 
-    if( oName == "leafSegment" )
+    if( oName == "leafVisionSegment" )
     {
-      oResult = (clsRuleTreeLeaf)clsLeafSegment.create(poNode);
+      oResult = (clsRuleTreeLeaf)clsLeafVisionSegment.create(poNode);
     }
     else if( oName == "leafDrive" )
     {
