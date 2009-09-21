@@ -12,8 +12,8 @@
     <AbstractImage ID="107" name="onebadbubble" fullMatchRequired="false">
         <Description>one bad bubble in left close field</Description>
 	<TreeRoot optional="MANDATORY" booleanOperator="OR" negated="false">
-            <leafSegment compare=">=" number="ONE">
-	        <sensortype>VISION_NEAR</sensortype>
+            <leafVisionSegment compare=">=" count="ONE">
+	        	<sensortype>VISION_NEAR</sensortype>
                 <distancecompare>==</distancecompare>
                 <location>LEFT</location>
                 <entitytype>BUBBLE</entitytype>
@@ -22,7 +22,7 @@
                 <color>#FF0000</color>
                 <antennapos>UPRIGHT</antennapos>
                 <ownteam>UNDEFINED</ownteam>
-	    </leafSegment>
+	    </leafVisionSegment>
         </TreeRoot>
     </AbstractImage>
 
