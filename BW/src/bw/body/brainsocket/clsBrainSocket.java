@@ -296,8 +296,6 @@ public class clsBrainSocket implements itfStepProcessing {
 		
 	}
 
-
-   //ZEILINGER Integration of the SensorEngine
 	private clsVision convertVisionSensor(eSensorExtType poVisionType) {
 		clsVision oData = new clsVision();
 		oData.moSensorType = poVisionType;
@@ -317,7 +315,6 @@ public class clsBrainSocket implements itfStepProcessing {
 		return oData;
 	}
 	
-	   //ZEILINGER Integration of the SensorEngine
 	private clsSensorManipulateArea convertManipulateSensor(eSensorExtType poVisionType) {
 		clsSensorManipulateArea oData = new clsSensorManipulateArea();
 		oData.moSensorType = poVisionType;
