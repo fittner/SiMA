@@ -4,9 +4,11 @@ package decisionunit.itf.sensors;
 import java.awt.Color;
 import java.util.Formatter;
 
+import enums.eAntennaPositions;
 import enums.eEntityType;
 import enums.eShapeType;
 import bfg.tools.shapes.clsPolarcoordinate;
+import bfg.utils.enums.eSide;
 
 public class clsSensorRingSegmentEntries {
 	public clsPolarcoordinate moPolarcoordinate = new clsPolarcoordinate();
@@ -15,7 +17,9 @@ public class clsSensorRingSegmentEntries {
 	public String moEntityId = "";
 	public boolean mnAlive = false;
 	public Color moColor = null;
-	
+	public eAntennaPositions moAntennaPosition = eAntennaPositions.UNDEFINED; 
+	public eSide moObjectPosition = eSide.UNDEFINED; 
+		
 //	public eShapeType moShapeType = eShapeType.UNDEFINED;
 	//	public double mrWidth = -1;
 	//	public double mrLength = -1;
