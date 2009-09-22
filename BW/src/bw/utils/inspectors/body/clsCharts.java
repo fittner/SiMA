@@ -24,7 +24,7 @@ import sim.clsBWMain;
  * To add another Chart you have to add the chart definition here and also add some code in clsBWMainWithUI.addChartPanel()
  * 
  * @author muchitsch
- * 
+ * @deprecated
  */
 
 

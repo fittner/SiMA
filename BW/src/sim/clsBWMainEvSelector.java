@@ -28,7 +28,7 @@ import java.awt.event.ActionEvent;
  * 
  * @author andi
  * 16.07.2009, 11:17:25
- * 
+ * @deprecated
  */
 
 

@@ -89,12 +89,11 @@ public class clsBWMainWithUI extends GUIState {
 	 * @param args
 	 */
 	public static void main(String[] args){
-		String oPath = clsGetARSPath.getConfigPath();
-		try {
-			oPath = args[1];
-		} catch (java.lang.ArrayIndexOutOfBoundsException e) {
-			//do nothing 
-		}		
+		String oPath = clsBWMain.argumentForKey("-path", args, 0);
+		if (oPath == null) {
+			oPath = clsGetARSPath.getConfigPath();
+		}
+		
 		clsBWProperties oProp = clsBWProperties.readProperties(oPath, F_CONFIGFILENAME);
 		clsSingletonProperties.setSystemProperties(oProp);
 		

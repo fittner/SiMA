@@ -8,9 +8,7 @@
 package sim;
 
 import javax.swing.JDialog;
-
 import org.jfree.data.xy.XYSeries;
-
 import config.clsBWProperties;
 import ec.util.MersenneTwisterFast;
 import sim.creation.clsLoader;
@@ -38,6 +36,7 @@ public class clsBWMain extends SimState{
 	 * TODO clemens: deactivated for now, has to set by config.xml later! */
 	//commented by TD
 	private boolean mbChartDisplay = false;
+
 	private XYSeries moTestSeries = new XYSeries("Agents"); //TODO clemens name passt nicht, muss erst schauen wof�r das genau ist!
 	
 //	private JFreeChart  moTestChart;
@@ -62,7 +61,7 @@ public class clsBWMain extends SimState{
 	public void start()
 	{
 		super.start();
-		
+			
 		//IMPORTANT: do not change anything here just to run the configuration
 		//you like! you can change the command line arguments easily:
 		//  1. right click on clsBWMainWithUI.java in the package explorer.
@@ -76,35 +75,42 @@ public class clsBWMain extends SimState{
 		// the only thing which is allowed is to add another file in the switch statement.
 		
 		//creating and registering objects...
-		String oFilename = "";		
-		try {
-			int i = Integer.valueOf( moArgs[0] );
-			switch(i) {
-				case 0: oFilename = "testsetup.main.properties"; break;
-				case 1: oFilename = "funguseater.main.properties"; break;
-				case 2: oFilename = "hare_vs_lynx.main.properties"; break;
-				case 3: oFilename = "one_bubble.properties"; break;
-				default: oFilename = "testsetup.main.properties"; break;
+		
+		String oFilename = argumentForKey("-config", moArgs, 0);
+		
+		if (oFilename != null) {
+			try {
+				int i = Integer.valueOf( oFilename );
+				switch(i) {
+					case 0: oFilename = "testsetup.main.properties"; break;
+					case 1: oFilename = "funguseater.main.properties"; break;
+					case 2: oFilename = "hare_vs_lynx.main.properties"; break;
+					case 3: oFilename = "one_bubble.properties"; break;
+					default: oFilename = "testsetup.main.properties"; break;
+				}
+			} catch (NumberFormatException e) {
+				oFilename = "testsetup.main.properties"; // no parameters given - used default config
 			}
-		} catch (NumberFormatException e) {
-			oFilename = moArgs[0]; // given parameter is not an index number. it is probably a filename
-		} catch (java.lang.ArrayIndexOutOfBoundsException e) {
-			oFilename = "testsetup.main.properties"; // no parameters given - used default config
+		} else {
+			oFilename = "testsetup.main.properties"; // no parameters given - used default config			
 		}
 		
-		String oPath = clsGetARSPath.getConfigPath();
-		try {
-			oPath = moArgs[1];
-		} catch (java.lang.ArrayIndexOutOfBoundsException e) {
-			//do nothing 
+		String oAdapter = argumentForKey("-adapter", moArgs, 0);
+		Boolean nAdapter = new Boolean(oAdapter);
+		
+		String oPath = argumentForKey("-path", moArgs, 0);
+		if (oPath == null) {
+			oPath = clsGetARSPath.getConfigPath();
 		}
 	
 		clsBWProperties oProp = clsBWProperties.readProperties(oPath, oFilename);
 		
-		clsBWFastEntityAdapter oAdapterFrame = new clsBWFastEntityAdapter(null, "BWv1 - Fast Entity Adapter", oProp);
-		oAdapterFrame.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
-		oAdapterFrame.setModal(true);
-		oAdapterFrame.setVisible(true);
+		if (nAdapter) {
+			clsBWFastEntityAdapter oAdapterFrame = new clsBWFastEntityAdapter(null, "BWv1 - Fast Entity Adapter", oProp);
+			oAdapterFrame.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
+			oAdapterFrame.setModal(true);
+			oAdapterFrame.setVisible(true);
+		}
 		
 		clsLoader oLoader = new clsSimplePropertyLoader(this, oProp);
 		oLoader.loadObjects();
@@ -114,7 +120,22 @@ public class clsBWMain extends SimState{
 		//TODO clemens: add charts/statistics to schedule here 
 	}
 
-
+    static String argumentForKey(String key, String[] args, int startingAt)
+    {
+    	for(int x=0;x<args.length-1;x++)  // key can't be the last string
+    		if (args[x].equalsIgnoreCase(key))
+    			return args[x + 1];
+    	return null;
+    }
+    
+    static boolean keyExists(String key, String[] args, int startingAt)
+    {
+    	for(int x=0;x<args.length;x++)  // key can't be the last string
+        	if (args[x].equalsIgnoreCase(key))
+        		return true;
+    	return false;
+    }
+    
 	/**
 	 * main - starts the simulation without gui
 	 *
@@ -142,6 +163,7 @@ public class clsBWMain extends SimState{
 	 * 25.02.2009, 15:03:11
 	 * 
 	 * @return the moTestSeries
+	 * @deprecated
 	 */
 	public XYSeries getMoTestSeries() {
 		return moTestSeries;
