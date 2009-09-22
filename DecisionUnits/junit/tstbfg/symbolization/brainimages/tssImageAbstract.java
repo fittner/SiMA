@@ -21,8 +21,8 @@ import org.junit.Test;
 
 import decisionunit.itf.sensors.clsBump;
 import decisionunit.itf.sensors.clsSensorData;
-import decisionunit.itf.sensors.clsSensorRingSegment;
-import decisionunit.itf.sensors.clsSensorRingSegmentEntries;
+import decisionunit.itf.sensors.clsVision;
+import decisionunit.itf.sensors.clsVisionEntries;
 import enums.eEntityType;
 import enums.eSensorExtType;
 import enums.eShapeType;
@@ -110,19 +110,19 @@ public class tssImageAbstract {
 		clsSensorData oSensorData = new clsSensorData();
 		//add bump info
 		
-		clsSensorRingSegment oRingSeg = new clsSensorRingSegment();
-		oRingSeg.moSensorType = eSensorExtType.VISION_NEAR;
-		clsSensorRingSegmentEntries oRingEntry = new clsSensorRingSegmentEntries();
-		oRingEntry.mnAlive = true;
-		oRingEntry.mnEntityType = eEntityType.BUBBLE;
-		oRingEntry.mnShapeType = eShapeType.CIRCLE;
-		oRingEntry.moColor = java.awt.Color.RED;
-		oRingEntry.moEntityId = "1";
-		oRingEntry.moPolarcoordinate = new clsPolarcoordinate(8.0, 0.1);
-		oRingEntry.moObjectPosition = eSide.LEFT; 
-		oRingSeg.add(oRingEntry);
+		clsVision oVision = new clsVision();
+		oVision.moSensorType = eSensorExtType.VISION_NEAR;
+		clsVisionEntries oVisionEntries = new clsVisionEntries();
+		oVisionEntries.mnAlive = true;
+		oVisionEntries.mnEntityType = eEntityType.BUBBLE;
+		oVisionEntries.mnShapeType = eShapeType.CIRCLE;
+		oVisionEntries.moColor = java.awt.Color.RED;
+		oVisionEntries.moEntityId = "1";
+		oVisionEntries.moPolarcoordinate = new clsPolarcoordinate(8.0, 0.1);
+		oVisionEntries.moObjectPosition = eSide.LEFT; 
+		oVision.add(oVisionEntries);
 		
-		oSensorData.addSensorExt(eSensorExtType.VISION, oRingSeg);
+		oSensorData.addSensorExt(eSensorExtType.VISION, oVision);
 
 		//trigger the comparison between defined AbstractImages and the created incoming data
 		oMatch = oTestImages.associate(oSensorData, new clsIdentity());
