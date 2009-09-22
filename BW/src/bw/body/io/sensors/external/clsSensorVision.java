@@ -157,9 +157,9 @@ public class clsSensorVision extends clsSensorExt {
 			moViewObj.clear(); 
 
 			for(PhysicalObject2D oPhysicalObject : moCollidingObj.values()){
-					clsPolarcoordinate oRel = moCalculationObj
-											 .getRelativeCollisionPosition(moCollisionPoint
-											 .get(oPhysicalObject.getIndex())); 
+//					clsPolarcoordinate oRel = moCalculationObj
+//											 .getRelativeCollisionPosition(moCollisionPoint
+//											 .get(oPhysicalObject.getIndex())); 
 					
 //					if(moCalculationObj.checkIfObjectInView(, 
 //												moVisionArea.getOrientation().radians, mnViewRad)){

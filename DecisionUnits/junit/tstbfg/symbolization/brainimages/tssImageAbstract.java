@@ -33,6 +33,7 @@ import bfg.symbolization.brainimages.clsImageAbstract;
 import bfg.symbolization.ruletree.clsRuleCompareResult;
 import bfg.tools.shapes.clsPolarcoordinate;
 import bfg.tools.xmltools.clsXMLConfiguration;
+import bfg.utils.enums.eSide;
 
 /**
  * DOCUMENT (langr) - insert description 
@@ -118,6 +119,7 @@ public class tssImageAbstract {
 		oRingEntry.moColor = java.awt.Color.RED;
 		oRingEntry.moEntityId = "1";
 		oRingEntry.moPolarcoordinate = new clsPolarcoordinate(8.0, 0.1);
+		oRingEntry.moObjectPosition = eSide.LEFT; 
 		oRingSeg.add(oRingEntry);
 		
 		oSensorData.addSensorExt(eSensorExtType.VISION, oRingSeg);

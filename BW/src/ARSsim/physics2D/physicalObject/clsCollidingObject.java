@@ -23,6 +23,7 @@ public class clsCollidingObject {
 	/**
 	 * @param moCollider
 	 * @param mrColPoint
+	 * @param meColPos  stores the position of the colliding object relative to the object
 	 */
 	public clsCollidingObject(PhysicalObject2D poCollider, clsPolarcoordinate prColPoint, eSide peColPos) {
 		this.moCollider = poCollider;

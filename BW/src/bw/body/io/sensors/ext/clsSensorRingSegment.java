@@ -117,7 +117,6 @@ public class clsSensorRingSegment extends clsSensorExt {
 								ArrayList<clsCollidingObject> peDetectedObjInAreaList){
 		calculateObjInFieldOfView(pnAreaRange, peDetectedObjInAreaList);
 		calculateObjWithinDistance(peDetectedObjInAreaList);
-
 		// FIXME (horvath)
 		calculateRegisteredObjects(peDetectedObjInAreaList);
 	}
