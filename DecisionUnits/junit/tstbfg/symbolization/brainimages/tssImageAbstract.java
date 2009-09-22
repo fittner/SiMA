@@ -20,6 +20,8 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 
 import decisionunit.itf.sensors.clsBump;
+import decisionunit.itf.sensors.clsEatableArea;
+import decisionunit.itf.sensors.clsEatableEntries;
 import decisionunit.itf.sensors.clsSensorData;
 import decisionunit.itf.sensors.clsVision;
 import decisionunit.itf.sensors.clsVisionEntries;
@@ -117,13 +119,20 @@ public class tssImageAbstract {
 		oVisionEntries.mnEntityType = eEntityType.BUBBLE;
 		oVisionEntries.mnShapeType = eShapeType.CIRCLE;
 		oVisionEntries.moColor = java.awt.Color.RED;
-		oVisionEntries.moEntityId = "1";
 		oVisionEntries.moPolarcoordinate = new clsPolarcoordinate(8.0, 0.1);
 		oVisionEntries.moObjectPosition = eSide.LEFT; 
 		oVision.add(oVisionEntries);
 		
-		oSensorData.addSensorExt(eSensorExtType.VISION, oVision);
-
+		oSensorData.addSensorExt(oVision.moSensorType, oVision);
+		
+		clsEatableArea oEatableArea = new clsEatableArea(); 
+		oEatableArea.moSensorType = eSensorExtType.EATABLE_AREA; 
+		clsEatableEntries oEatableEntries = new clsEatableEntries();
+		oEatableEntries.mnEntityType = eEntityType.BUBBLE;
+		oEatableArea.add(oEatableEntries);
+		
+		oSensorData.addSensorExt(oEatableArea.moSensorType, oEatableArea);
+		
 		//trigger the comparison between defined AbstractImages and the created incoming data
 		oMatch = oTestImages.associate(oSensorData, new clsIdentity());
 
@@ -133,6 +142,7 @@ public class tssImageAbstract {
 		//complete the JUnit test 
 		assertTrue( (oMatch.get(1).moMatch.get() == 1) );
 }	
+	
 	
 //	/**
 //	 * Test method for {@link bfg.symbolization.brainimages.clsImageAbstract#clsImageAbstract(int, java.lang.String, java.lang.String)}.
