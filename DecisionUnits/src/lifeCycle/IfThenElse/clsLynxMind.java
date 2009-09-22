@@ -12,6 +12,7 @@ import decisionunit.itf.sensors.clsEatableArea;
 import decisionunit.itf.sensors.clsEnergy;
 import decisionunit.itf.sensors.clsVision;
 import decisionunit.itf.sensors.clsSensorRingSegmentEntries;
+import decisionunit.itf.sensors.clsVisionEntries;
 import enums.eActionMoveDirection;
 import enums.eActionTurnDirection;
 import enums.eEntityType;
@@ -54,7 +55,7 @@ public class clsLynxMind extends clsRemoteControl  {
 		clsBump oBump = (clsBump) getSensorData().getSensorExt(eSensorExtType.BUMP);
 		
 		if( checkEatableArea() && isHungry() ) {
-			if(oVisibleHare.moColor.equals(Color.red)) {
+			if(((clsVisionEntries)oVisibleHare).moColor.equals(Color.red)) {
 				eatHare(poActionProcessor);
 			} else {				
 				killHare(poActionProcessor);
@@ -82,7 +83,7 @@ public class clsLynxMind extends clsRemoteControl  {
 		clsSensorRingSegmentEntries oRetVal = null;
 		clsVision oVision = (clsVision) getSensorData().getSensorExt(eSensorExtType.VISION);
 		for( clsSensorRingSegmentEntries oVisionObj : oVision.getList() ) {
-			if( oVisionObj.mnEntityType == eEntityType.HARE && !oVisionObj.moColor.equals(Color.BLACK))
+			if( oVisionObj.mnEntityType == eEntityType.HARE && !((clsVisionEntries)oVisionObj).moColor.equals(Color.BLACK))
 			{
 				oRetVal = oVisionObj;
 				break;

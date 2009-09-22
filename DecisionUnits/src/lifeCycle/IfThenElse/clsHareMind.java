@@ -11,6 +11,7 @@ import decisionunit.itf.sensors.clsEatableArea;
 import decisionunit.itf.sensors.clsEnergy;
 import decisionunit.itf.sensors.clsVision;
 import decisionunit.itf.sensors.clsSensorRingSegmentEntries;
+import decisionunit.itf.sensors.clsVisionEntries;
 import enums.eActionMoveDirection;
 import enums.eActionTurnDirection;
 import enums.eEntityType;
@@ -77,8 +78,8 @@ public class clsHareMind extends clsRemoteControl { //should be derived from cls
 	
 	private boolean isCarrotOrange(clsSensorRingSegmentEntries oVisionObj) {
 		if (oVisionObj.mnEntityType == eEntityType.CARROT && 
-				oVisionObj.moColor != null &&
-				oVisionObj.moColor.equals(Color.orange) 
+				((clsVisionEntries)oVisionObj).moColor != null &&
+				((clsVisionEntries)oVisionObj).moColor.equals(Color.orange) 
 				) {
 			return true;
 		}
