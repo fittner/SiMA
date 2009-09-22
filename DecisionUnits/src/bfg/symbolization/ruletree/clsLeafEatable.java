@@ -17,8 +17,6 @@ import bfg.symbolization.brainimages.clsImagePerception;
 import bfg.tools.xmltools.clsXMLAbstractImageReader;
 import bfg.utils.enums.eCount;
 import bfg.utils.enums.eOptional;
-import bfg.utils.enums.eSide;
-import bfg.utils.enums.eTrippleState;
 import decisionunit.itf.sensors.clsDataBase;
 import decisionunit.itf.sensors.clsEatableArea;
 import decisionunit.itf.sensors.clsEatableEntries;
@@ -37,11 +35,8 @@ import enums.eSensorExtType;
 public class clsLeafEatable extends clsRuleTreeLeaf {
 	  public eCount meNumber = eCount.UNDEFINED;
 	  public eSensorExtType meSensorType = eSensorExtType.UNDEFINED;
-	  public eSide meLocation = eSide.UNDEFINED;
 	  public eEntityType meEntityType = eEntityType.UNDEFINED;
-	  public eTrippleState moAlive = eTrippleState.UNDEFINED;
-	  public eTrippleState moEatable = eTrippleState.UNDEFINED; 
-	  	 	
+		 	  	 	
 	public static clsRuleTreeElement create(Node poNode) {
 	    clsLeafEatable oResult = new clsLeafEatable();
 	 
@@ -55,9 +50,6 @@ public class clsLeafEatable extends clsRuleTreeLeaf {
 	      
 	      oResult.meEntityType = eEntityType.valueOf(clsXMLAbstractImageReader.getTagStringValue(poNode, "entitytype")); 
 	      oResult.meSensorType = eSensorExtType.valueOf( clsXMLAbstractImageReader.getTagStringValue(poNode, "sensortype") );
-	      oResult.meLocation = eSide.valueOf( clsXMLAbstractImageReader.getTagStringValue(poNode, "location") );
-	      oResult.moAlive = eTrippleState.valueOf( clsXMLAbstractImageReader.getTagStringValue(poNode, "alive") );
-	      oResult.moEatable = eTrippleState.valueOf( clsXMLAbstractImageReader.getTagStringValue(poNode, "eatable") );
 	    }
 	    return oResult;
 	  }
@@ -108,9 +100,7 @@ public class clsLeafEatable extends clsRuleTreeLeaf {
 			for (clsSensorRingSegmentEntries element : oRingSegmentEntries){
 				clsEatableEntries oElement = (clsEatableEntries)element; 
 				if( oElement.mnEntityType == meEntityType
-					&& oElement.moObjectPosition == meLocation 
-					&& meCompareOperator.compare(oElement.mnAlive, moAlive)
-				    && oNumber == meNumber){
+					&& oNumber == meNumber){
 					
 					nResult = true;
 					break; 

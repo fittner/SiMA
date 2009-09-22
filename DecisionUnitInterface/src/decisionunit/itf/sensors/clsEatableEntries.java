@@ -8,9 +8,6 @@ package decisionunit.itf.sensors;
 
 import java.util.Formatter;
 
-import bfg.utils.enums.eSide;
-
-
 /**
  * DOCUMENT (zeilinger) - insert description 
  * 
@@ -19,15 +16,6 @@ import bfg.utils.enums.eSide;
  * 
  */
 public class clsEatableEntries extends clsSensorRingSegmentEntries {
-
-	public boolean mnAlive = false;
-	public eSide moObjectPosition = eSide.UNDEFINED; 
-
-//	public clsPolarcoordinate moPolarcoordinate = new clsPolarcoordinate();
-//	public eEntityType mnEntityType = eEntityType.UNDEFINED;
-//	public eShapeType mnShapeType = eShapeType.UNDEFINED;
-   
-
 	
 	/* (non-Javadoc)
 	 *
