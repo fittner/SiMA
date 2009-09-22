@@ -22,8 +22,9 @@ import bfg.utils.enums.eSide;
 import bfg.utils.enums.eTrippleState;
 import decisionunit.itf.sensors.clsDataBase;
 import decisionunit.itf.sensors.clsSensorData;
-import decisionunit.itf.sensors.clsSensorRingSegment;
 import decisionunit.itf.sensors.clsSensorRingSegmentEntries;
+import decisionunit.itf.sensors.clsVision;
+import decisionunit.itf.sensors.clsVisionEntries;
 import enums.eAntennaPositions;
 import enums.eEntityType;
 import enums.eSensorExtType;
@@ -92,7 +93,7 @@ public class clsLeafVisionSegment extends clsRuleTreeLeaf {
 	    boolean oResult = false;
 	    //TODO (Zeilinger) - implement the complex compare operator and listen some cool Hip-Hop (the music - not the Bewegung) or Rap...
 	    {
-	    	if( compare((clsSensorRingSegment)poPerception.getSensorExt(meSensorType))){
+	    	if( compare((clsVision)poPerception.getSensorExt(meSensorType))){
 	          poCompareResult[0]++;
 		      oResult = true;
 	    	}
@@ -127,18 +128,20 @@ public class clsLeafVisionSegment extends clsRuleTreeLeaf {
 	  	boolean nResult = false; 
 		
 		if(poData != null){
-			ArrayList <clsSensorRingSegmentEntries> oRingSegmentEntries = ((clsSensorRingSegment)poData).getList();
-			eCount oNumber = setMeNumber(oRingSegmentEntries); 
+			ArrayList <clsSensorRingSegmentEntries>  oVisionEntries = ((clsVision)poData).getList();
+			eCount oNumber = setMeNumber(oVisionEntries); 
 			
 			/*FIXME HZ Antenna positions have not been implemented yet, as the value is set to undefined
 			 * 		The same is for the team ID*/			
-			for (clsSensorRingSegmentEntries element : oRingSegmentEntries){
-				if( element.mnEntityType == meEntityType
-					&& element.moObjectPosition == meLocation 
-					&& element.mnShapeType == meShapeType
-				    && element.moColor.equals(moColor)
-				    && meCompareOperator.compare(element.mnAlive, moAlive)
-				    && oNumber == meNumber){
+			for (clsSensorRingSegmentEntries element : oVisionEntries){
+				clsVisionEntries oElement = (clsVisionEntries)element; 
+				if( oElement.mnEntityType == meEntityType
+					&& oElement.moObjectPosition == meLocation 
+					&& oElement.mnShapeType == meShapeType
+				    && oElement.moColor.equals(moColor)
+				    && meCompareOperator.compare(oElement.mnAlive, moAlive)
+				    && oNumber == meNumber
+				 ){
 					
 					nResult = true;
 					break; 
@@ -156,28 +159,28 @@ public class clsLeafVisionSegment extends clsRuleTreeLeaf {
 	 * 17.09.2009, 16:31:19
 	 *
 	 */
-	private eCount setMeNumber(ArrayList <clsSensorRingSegmentEntries> poRingSegmentEntries) {
-		if(poRingSegmentEntries == null){
+	private eCount setMeNumber(ArrayList <clsSensorRingSegmentEntries> poVisionEntries) {
+		if(poVisionEntries == null){
 			new java.lang.ArrayIndexOutOfBoundsException(" The ArrayList oRingSegmentEntries does not" +
 													     " include any entries"); 
 		}
-		
-		if(poRingSegmentEntries.size()==0){
+		else if(poVisionEntries.size()==0){
 			return eCount.NONE; 
 		}
-		else if (poRingSegmentEntries.size()==1){
+		else if (poVisionEntries.size()==1){
 			return eCount.ONE; 
 		}
-		else if (poRingSegmentEntries.size()==2){
+		else if (poVisionEntries.size()==2){
 			return eCount.TWO; 
 		}
-		else if (poRingSegmentEntries.size()> 2){
+		else if (poVisionEntries.size()> 2){
 			return eCount.MANY; 
 		}
 		else{
 			new java.lang.NullPointerException (" element number is undefined \n");
 			return null; 
 		}
-	
+		
+		return null; 	
 	}
 }

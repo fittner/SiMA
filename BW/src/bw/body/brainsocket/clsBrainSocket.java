@@ -36,7 +36,7 @@ import decisionunit.itf.sensors.clsStaminaSystem;
 import decisionunit.itf.sensors.clsEnergy;
 import decisionunit.itf.sensors.clsVision;
 import decisionunit.itf.sensors.clsRadiation;
-import decisionunit.itf.sensors.clsSensorRingSegmentEntries;
+import decisionunit.itf.sensors.clsVisionEntries;
 import enums.eAntennaPositions;
 import enums.eFastMessengerSources;
 import enums.eSensorIntType;
@@ -307,7 +307,7 @@ public class clsBrainSocket implements itfStepProcessing {
 	
 			Iterator <clsCollidingObject> i = eDetectedObjectList.iterator(); 
 			while(i.hasNext()){
-				clsSensorRingSegmentEntries oEntry = convertVisionEntry(i.next());
+				clsVisionEntries oEntry = convertVisionEntry(i.next());
 				
 				if (oEntry != null) {
 					oData.add(oEntry);
@@ -326,7 +326,7 @@ public class clsBrainSocket implements itfStepProcessing {
 	
 			Iterator <clsCollidingObject> i = eDetectedObjectList.iterator(); 
 			while(i.hasNext()){
-				clsSensorRingSegmentEntries oEntry = convertVisionEntry(i.next());
+				clsVisionEntries oEntry = convertVisionEntry(i.next());
 				
 				if (oEntry != null) {
 					oData.add(oEntry);
@@ -360,13 +360,13 @@ public class clsBrainSocket implements itfStepProcessing {
 	
 	
 
-	private clsSensorRingSegmentEntries convertVisionEntry(clsCollidingObject collidingObj) {
+	private clsVisionEntries convertVisionEntry(clsCollidingObject collidingObj) {
 		clsEntity oEntity = getEntity(collidingObj.moCollider);
 		if (oEntity == null) {
 			return null;
 		}
 
-		clsSensorRingSegmentEntries oData = new clsSensorRingSegmentEntries();
+		clsVisionEntries oData = new clsVisionEntries();
 		
 		oData.mnEntityType = getEntityType(collidingObj.moCollider);		
 		oData.mnShapeType = getShapeType(collidingObj.moCollider);
@@ -410,7 +410,7 @@ public class clsBrainSocket implements itfStepProcessing {
 			oData.mnNumEntitiesPresent = eDetectedObjectList.size();
 			oData.mnTypeOfFirstEntity = getEntityType(oCollider);
 			oData.moColorOfFirstEntity = getEntityColor(oCollider);
-						
+									
 			if (oData.mnTypeOfFirstEntity != eEntityType.UNDEFINED) {
 				break;
 			}
