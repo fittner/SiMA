@@ -7,7 +7,7 @@
  */
 package sim;
 
-import javax.swing.JDialog;
+//import javax.swing.JDialog;
 import org.jfree.data.xy.XYSeries;
 import config.clsBWProperties;
 import ec.util.MersenneTwisterFast;
@@ -106,10 +106,11 @@ public class clsBWMain extends SimState{
 		clsBWProperties oProp = clsBWProperties.readProperties(oPath, oFilename);
 		
 		if (nAdapter) {
+			@SuppressWarnings("unused")
 			clsBWFastEntityAdapter oAdapterFrame = new clsBWFastEntityAdapter(null, "BWv1 - Fast Entity Adapter", oProp);
-			oAdapterFrame.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
-			oAdapterFrame.setModal(true);
-			oAdapterFrame.setVisible(true);
+//			oAdapterFrame.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
+//			oAdapterFrame.setModal(true);
+//			oAdapterFrame.setVisible(true);
 		}
 		
 		clsLoader oLoader = new clsSimplePropertyLoader(this, oProp);

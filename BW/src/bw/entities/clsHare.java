@@ -23,6 +23,7 @@ import bw.body.internalSystems.clsStomachSystem;
 import bw.body.io.actuators.actionProxies.itfAPAttackableBite;
 import bw.body.io.actuators.actionProxies.itfAPEatable;
 import bw.body.io.actuators.actionProxies.itfAPAttackableLightning;
+import bw.body.itfget.itfIsConsumeable;
 import bw.body.itfget.itfGetFlesh;
 import bw.entities.tools.clsShapeCreator;
 import bw.entities.tools.eImagePositioning;
@@ -39,7 +40,7 @@ import bw.utils.tools.clsNutritionLevel;
  * 12.05.2009, 19:30:22
  * 
  */
-public class clsHare extends clsAnimal implements itfGetFlesh, itfAPEatable, itfAPAttackableLightning, itfAPAttackableBite {
+public class clsHare extends clsAnimal implements itfGetFlesh, itfAPEatable, itfAPAttackableLightning, itfAPAttackableBite, itfIsConsumeable {
 	public static final String P_SHAPE_ALIVE		= "shape_alive";
 	public static final String P_SHAPE_DEAD 		= "shape_dead";
 	public static final String P_SHAPE_DEADANDEATEN 		= "shape_deadandeaten";
@@ -298,5 +299,17 @@ public class clsHare extends clsAnimal implements itfGetFlesh, itfAPEatable, itf
 			setAlive(false);
 		}
 		updateShape();
+	}
+
+	/* (non-Javadoc)
+	 *
+	 * @author deutsch
+	 * 23.09.2009, 11:36:06
+	 * 
+	 * @see bw.body.itfget.itfGetConsumeable#isConsumable()
+	 */
+	@Override
+	public boolean isConsumable() {
+		return getFlesh().getTotallyConsumed();
 	}
 }

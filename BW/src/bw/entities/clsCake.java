@@ -15,6 +15,7 @@ import bw.body.clsMeatBody;
 import bw.body.attributes.clsAttributes;
 import bw.body.internalSystems.clsFlesh;
 import bw.body.itfget.itfGetBody;
+import bw.body.itfget.itfIsConsumeable;
 import bw.body.itfget.itfGetFlesh;
 import bw.entities.tools.clsShapeCreator;
 import bw.entities.tools.eImagePositioning;
@@ -34,7 +35,7 @@ import enums.eEntityType;
  * Jul 24, 2009, 10:15:27 PM
  * 
  */
-public class clsCake extends clsInanimate implements itfGetFlesh, itfAPEatable, itfAPCarryable, itfGetBody {
+public class clsCake extends clsInanimate implements itfGetFlesh, itfAPEatable, itfAPCarryable, itfGetBody, itfIsConsumeable {
 	public static final String P_BODY = "body";
 	
 	public clsCake(String poPrefix, clsBWProperties poProp)
@@ -196,6 +197,18 @@ public class clsCake extends clsInanimate implements itfGetFlesh, itfAPEatable, 
 	@Override
 	public clsBaseBody getBody() {
 		return moBody;
+	}
+
+	/* (non-Javadoc)
+	 *
+	 * @author deutsch
+	 * 23.09.2009, 11:36:06
+	 * 
+	 * @see bw.body.itfget.itfGetConsumeable#isConsumable()
+	 */
+	@Override
+	public boolean isConsumable() {
+		return getFlesh().getTotallyConsumed();
 	}
 	
 }

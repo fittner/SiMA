@@ -76,6 +76,8 @@ public class clsAttributes {
 					case HEIGHT:
 						moAttributes.put(eType, new clsAttributeHeight(tmp_pre, poProp));
 						break;
+					case ALIVE:
+						moAttributes.put(eType, new clsAttributeAlive(tmp_pre, poProp, poEntity));
 					default:
 						throw new java.lang.IllegalArgumentException("don't know how to handle attribute type "+eType);
 				}
@@ -87,20 +89,30 @@ public class clsAttributes {
 		String pre = clsBWProperties.addDot(poPrefix);
 		
 		clsBWProperties oProp = new clsBWProperties();
-		
-		oProp.setProperty(pre+P_NUMATTRIBUTES, 3);
-		
-		oProp.putAll( clsAttributeShape.getDefaultProperties( pre+"0") );
-		oProp.setProperty(pre+"0."+P_ATTRIBUTETYPE, eBodyAttributes.SHAPE.name());
-		oProp.setProperty(pre+"0."+P_ATTRIBUTEACTIVE, true);
 
-		oProp.putAll( clsAttributeColor.getDefaultProperties( pre+"1") );
-		oProp.setProperty(pre+"1."+P_ATTRIBUTETYPE, eBodyAttributes.COLOR.name());
-		oProp.setProperty(pre+"1."+P_ATTRIBUTEACTIVE, true);		
+		int i = 0;
+		
+		oProp.putAll( clsAttributeShape.getDefaultProperties( pre+i) );
+		oProp.setProperty(pre+i+"."+P_ATTRIBUTETYPE, eBodyAttributes.SHAPE.name());
+		oProp.setProperty(pre+i+"."+P_ATTRIBUTEACTIVE, true);
+		i++;
 
-		oProp.putAll( clsAttributeHeight.getDefaultProperties( pre+"2") );
-		oProp.setProperty(pre+"2."+P_ATTRIBUTETYPE, eBodyAttributes.HEIGHT.name());
-		oProp.setProperty(pre+"2."+P_ATTRIBUTEACTIVE, true);		
+		oProp.putAll( clsAttributeColor.getDefaultProperties( pre+i) );
+		oProp.setProperty(pre+i+"."+P_ATTRIBUTETYPE, eBodyAttributes.COLOR.name());
+		oProp.setProperty(pre+i+"."+P_ATTRIBUTEACTIVE, true);
+		i++;
+
+		oProp.putAll( clsAttributeHeight.getDefaultProperties( pre+i) );
+		oProp.setProperty(pre+i+"."+P_ATTRIBUTETYPE, eBodyAttributes.HEIGHT.name());
+		oProp.setProperty(pre+i+"."+P_ATTRIBUTEACTIVE, true);
+		i++;
+		
+		oProp.putAll( clsAttributeHeight.getDefaultProperties( pre+i) );
+		oProp.setProperty(pre+i+"."+P_ATTRIBUTETYPE, eBodyAttributes.ALIVE.name());
+		oProp.setProperty(pre+i+"."+P_ATTRIBUTEACTIVE, true);
+		i++;		
+
+		oProp.setProperty(pre+P_NUMATTRIBUTES, i);
 		
 		return oProp;
 	}	

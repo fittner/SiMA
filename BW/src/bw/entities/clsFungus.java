@@ -12,6 +12,7 @@ import java.awt.Color;
 import config.clsBWProperties;
 import bw.body.clsMeatBody;
 import bw.body.internalSystems.clsFlesh;
+import bw.body.itfget.itfIsConsumeable;
 import bw.body.itfget.itfGetFlesh;
 import bw.entities.tools.clsShapeCreator;
 import bw.entities.tools.eImagePositioning;
@@ -37,7 +38,7 @@ import enums.eEntityType;
  * 08.07.2009, 14:48:08
  * 
  */
-public class clsFungus extends clsInanimate implements itfGetFlesh, itfAPEatable, itfAPCarryable{
+public class clsFungus extends clsInanimate implements itfGetFlesh, itfAPEatable, itfAPCarryable, itfIsConsumeable {
 	public static final String P_BODY = "body";
 		
 	public clsFungus(String poPrefix, clsBWProperties poProp)
@@ -186,4 +187,16 @@ public class clsFungus extends clsInanimate implements itfGetFlesh, itfAPEatable
 	public void setCarriedBindingState(eBindingState pBindingState) {
 		//handle binding-state implications 
 	}
+	
+	/* (non-Javadoc)
+	 *
+	 * @author deutsch
+	 * 23.09.2009, 11:36:06
+	 * 
+	 * @see bw.body.itfget.itfGetConsumeable#isConsumable()
+	 */
+	@Override
+	public boolean isConsumable() {
+		return getFlesh().getTotallyConsumed();
+	}	
 }

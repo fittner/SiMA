@@ -17,6 +17,7 @@ import bw.body.clsMeatBody;
 import bw.body.internalSystems.clsFlesh;
 import bw.body.io.actuators.actionProxies.itfAPCarryable;
 import bw.body.io.actuators.actionProxies.itfAPEatable;
+import bw.body.itfget.itfIsConsumeable;
 import bw.body.itfget.itfGetFlesh;
 import bw.entities.tools.clsShapeCreator;
 import bw.entities.tools.eImagePositioning;
@@ -34,7 +35,7 @@ import bw.utils.tools.clsFood;
  * 08.07.2009, 10:33:20
  * 
  */
-public class clsCarrot extends clsInanimate implements itfGetFlesh, itfAPEatable, itfAPCarryable {
+public class clsCarrot extends clsInanimate implements itfGetFlesh, itfAPEatable, itfAPCarryable, itfIsConsumeable {
 	public static final String P_BODY 				= "body";
 	public static final String P_SHAPE_FRESH 		= "shape_fresh";
 	public static final String P_SHAPE_DEAD 		= "shape_dead";
@@ -292,5 +293,17 @@ public class clsCarrot extends clsInanimate implements itfGetFlesh, itfAPEatable
 		updateShape();
 		regrowIt();
 	}
+	
+	/* (non-Javadoc)
+	 *
+	 * @author deutsch
+	 * 23.09.2009, 11:36:06
+	 * 
+	 * @see bw.body.itfget.itfGetConsumeable#isConsumable()
+	 */
+	@Override
+	public boolean isConsumable() {
+		return getFlesh().getTotallyConsumed();
+	}	
 
 }

@@ -14,6 +14,7 @@ import config.clsBWProperties;
 import du.utils.enums.eDecisionType;
 
 
+import bw.body.itfget.itfIsAlive;
 import bw.body.itfget.itfGetSensorEngine;
 import bw.body.itfget.itfGetRadiation;
 import bw.entities.tools.clsShapeCreator;
@@ -32,7 +33,7 @@ import enums.eEntityType;
  * 
  */
 
-public class clsAnimal extends clsAnimate implements itfGetRadiation, itfGetSensorEngine{
+public class clsAnimal extends clsAnimate implements itfGetRadiation, itfGetSensorEngine, itfIsAlive {
 
 	private boolean mnAlive;
 	
@@ -150,6 +151,7 @@ public class clsAnimal extends clsAnimate implements itfGetRadiation, itfGetSens
 		if (isAlive()) {
 			super.updateInternalState();
 		}
-	}	
+	}
+	
 
 }

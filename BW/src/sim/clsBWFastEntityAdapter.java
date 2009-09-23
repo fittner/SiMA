@@ -12,7 +12,8 @@ import java.awt.GridLayout;
 import java.awt.Point;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JDialog;
@@ -33,39 +34,66 @@ import config.clsBWProperties;
  */
 public class clsBWFastEntityAdapter extends JDialog {
 
-	private static final long serialVersionUID = 1L;
+	/**
+	 * DOCUMENT (deutsch) - insert description 
+	 * 
+	 * @author deutsch
+	 * 23.09.2009, 10:34:02
+	 */
+	private static final long serialVersionUID = -8502114600901820076L;
 	
-	public String moTest = "noone";
-
+	private clsBWProperties moPropOriginal;
+	
 	public clsBWFastEntityAdapter(JFrame poParent, String poTitle, clsBWProperties poProp) {
 		
 	    super(poParent, poTitle, true);
+	    
 	    if (poParent != null) {
 	      Dimension parentSize = poParent.getSize(); 
 	      Point p = poParent.getLocation(); 
 	      setLocation(p.x + parentSize.width / 4, p.y + parentSize.height / 4);
 	    }
-		
+
+	    moPropOriginal = poProp;
+	    
 		setSize(500, 600);
 		setLayout(new GridLayout(0,1));
-		int i=0;
-		try{
-			while(true) {
-				String oCountPath = "entitygroups."+i+".numentities";
-				clsEntitySelector oEntitySelector = new clsEntitySelector(Integer.parseInt(poProp.getProperty(oCountPath)), poProp.getProperty("entitygroups."+i+".entitygrouptype"), oCountPath, poProp );
-				oEntitySelector.setSize(400, oEntitySelector.getSize().height);
-				add( oEntitySelector);
-				i++;
-			}
-		}
-		catch(Exception e) {
+		int numGroups = poProp.getPropertyInt("entitygroups.numentitygroups");
+		for (int i=0;i<numGroups;i++) {
+			String oCountPath = "entitygroups."+i+".numentities";
+			clsEntitySelector oEntitySelector = new clsEntitySelector(poProp.getPropertyInt(oCountPath), poProp.getProperty("entitygroups."+i+".entitygrouptype"), oCountPath, poProp );
+			oEntitySelector.setSize(400, oEntitySelector.getSize().height);
+			add( oEntitySelector);
 		}
 		
 	    pack();
+	    
+		setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
+		setModal(true);
+		//setVisible(true);
+		
+	    addKeyListener(new KeyAdapter() {
+		    @Override
+			public void keyPressed(KeyEvent e)
+			    {
+			    if (e.getKeyCode() == KeyEvent.VK_ESCAPE) {
+			    	dispose();
+			    }
+		    }
+	    });
+	    
+	    setVisible(true); 
 	}
 
 	class clsEntitySelector extends JPanel implements ActionListener {
 		
+		/**
+		 * DOCUMENT (deutsch) - insert description 
+		 * 
+		 * @author deutsch
+		 * 23.09.2009, 10:20:08
+		 */
+		private static final long serialVersionUID = -294815264176233253L;
 		private int mnInitCount;
 		private int mnCount;
 		private clsBWProperties moProp;
@@ -118,6 +146,7 @@ public class clsBWFastEntityAdapter extends JDialog {
 			oPanelSel.add(moCountLabel);
 			
 			add(oPanelSel);
+	
 		}
 
 		@Override

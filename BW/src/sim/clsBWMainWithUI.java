@@ -14,24 +14,18 @@ import sim.engine.SimState;
 import sim.portrayal.Inspector;
 import sim.portrayal.continuous.ContinuousPortrayal2D;
 import statictools.clsGetARSPath;
-
 import java.awt.Color;
 import java.awt.Container;
 import java.awt.Dimension;
 import org.jfree.chart.ChartPanel;
-
 import config.clsBWProperties;
-
 import enums.eEntityType;
-
 import bw.factories.clsSingletonProperties;
 import bw.factories.clsSingletonMasonGetter;
 import bw.utils.visualization.clsCharts;
-
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.util.ArrayList;
-
 import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.JFrame;

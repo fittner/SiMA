@@ -22,5 +22,6 @@ public enum eBodyAttributes {
 	ANTENNA_RIGHT,
 	EYE,
 	SHAPE,
-	HEIGHT
+	HEIGHT,
+	ALIVE,
 }
