@@ -11,6 +11,8 @@ import statictools.clsSingletonUniqueIdGenerator;
 import decisionunit.clsBaseDecisionUnit;
 import decisionunit.itf.actions.*;
 import decisionunit.itf.sensors.clsEatableArea;
+import decisionunit.itf.sensors.clsEatableAreaEntries;
+import decisionunit.itf.sensors.clsSensorRingSegmentEntries;
 import decisionunit.itf.sensors.clsVision;
 import enums.eActionKissIntensity;
 import enums.eActionMoveDirection;
@@ -201,15 +203,17 @@ public class clsRemoteControl extends clsBaseDecisionUnit  {
 
 	protected void eat(itfActionProcessor poActionProcessor, enums.eEntityType peEntityType) {
 		clsEatableArea oEatArea = (clsEatableArea) getSensorData().getSensorExt(eSensorExtType.EATABLE_AREA);
-		if(oEatArea.mnNumEntitiesPresent > 0)
-		{
-
-				if( oEatArea.mnTypeOfFirstEntity == peEntityType )
-				{
-						//clsEatAction oEatAction = new clsEatAction();
-						//poActionList.addEatAction(oEatAction);
-						poActionProcessor.call(new clsActionEat());	
-				}
+		for( clsSensorRingSegmentEntries oEatAreaObj : oEatArea.getList() ) {
+			if(((clsEatableAreaEntries)oEatAreaObj).mnNumEntitiesPresent.ordinal() > 0)
+			{
+	
+					if(((clsEatableAreaEntries)oEatAreaObj).mnTypeOfFirstEntity == peEntityType )
+					{
+							//clsEatAction oEatAction = new clsEatAction();
+							//poActionList.addEatAction(oEatAction);
+							poActionProcessor.call(new clsActionEat());	
+					}
+			}
 		}
 //		poActionProcessor.call(new clsActionEat());	
 	}
@@ -233,11 +237,13 @@ public class clsRemoteControl extends clsBaseDecisionUnit  {
 	 */
 	protected void kill(itfActionProcessor poActionProcessor, enums.eEntityType peEntityType) {
 		clsEatableArea oEatArea = (clsEatableArea) getSensorData().getSensorExt(eSensorExtType.EATABLE_AREA);
-		if(oEatArea.mnNumEntitiesPresent > 0)
-		{
-			if( oEatArea.mnTypeOfFirstEntity == peEntityType )
+		for( clsSensorRingSegmentEntries oEatAreaObj : oEatArea.getList() ) {
+			if(((clsEatableAreaEntries)oEatAreaObj).mnNumEntitiesPresent.ordinal() > 0)
 			{
-				poActionProcessor.call(new clsActionAttackBite(4));	
+				if( ((clsEatableAreaEntries)oEatAreaObj).mnTypeOfFirstEntity == peEntityType )
+				{
+					poActionProcessor.call(new clsActionAttackBite(4));	
+				}
 			}
 		}
 //		poActionProcessor.call(new clsActionEat());	
