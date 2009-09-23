@@ -12,20 +12,17 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
-
 import config.clsBWProperties;
-
 import sim.physics2D.physicalObject.PhysicalObject2D;
 import sim.physics2D.shape.*;
 import sim.physics2D.util.Angle;
 import simple.remotecontrol.clsRemoteControl;
-
 import decisionunit.clsBaseDecisionUnit;
 import decisionunit.itf.actions.itfActionProcessor;
 import decisionunit.itf.sensors.clsBump;
 import decisionunit.itf.sensors.clsDataBase;
 import decisionunit.itf.sensors.clsEatableArea;
-import decisionunit.itf.sensors.clsEatableAreaEntries;
+import decisionunit.itf.sensors.clsEatableAreaEntry;
 import decisionunit.itf.sensors.clsEnergyConsumption;
 import decisionunit.itf.sensors.clsFastMessenger;
 import decisionunit.itf.sensors.clsHealthSystem;
@@ -51,13 +48,12 @@ import ARSsim.physics2D.physicalObject.clsStationaryObject2D;
 import ARSsim.physics2D.util.clsPolarcoordinate;
 import bfg.utils.enums.eCount;
 import bw.body.itfStepProcessing;
-
+import bw.body.attributes.clsAttributeAlive;
 import bw.body.io.sensors.ext.clsSensorVision;
 import bw.body.io.sensors.ext.clsSensorEatableArea;
 import bw.body.io.sensors.ext.clsSensorBump;
 import bw.body.io.sensors.ext.clsSensorPositionChange;
 import bw.body.io.sensors.ext.clsSensorRadiation;
-
 import bw.body.internalSystems.clsFastMessengerEntry;
 import bw.body.io.sensors.ext.clsSensorExt;
 import bw.body.io.sensors.internal.clsEnergyConsumptionSensor;
@@ -72,9 +68,8 @@ import bw.body.io.sensors.internal.clsStaminaSensor;
 import bw.entities.clsBubble;
 import bw.entities.clsEntity;
 import bw.entities.clsAnimal;
-//import bw.entities.clsUraniumOre;
+import bw.utils.enums.eBodyAttributes;
 import bw.utils.sensors.clsSensorDataCalculation;
-import enums.eEntityType;
 
 /**
  * The brain is the container for the mind and has a direct connection to external and internal IO.
@@ -424,31 +419,28 @@ public class clsBrainSocket implements itfStepProcessing {
 		Iterator<clsCollidingObject> i = eDetectedObjectList.iterator();
 		
 		while (i.hasNext()) {
-			clsEatableAreaEntries oEntry = convertEatableAreaEntry(i.next());
+			clsEatableAreaEntry oEntry = convertEatableAreaEntry(i.next());
 			
 			if (oEntry != null) {
-				oEntry.mnNumEntitiesPresent = setMeNumber(eDetectedObjectList.size());
-				oData.add(oEntry);
+				oData.moEntries.add(oEntry);
 			}	
-			
-			if (oEntry.mnTypeOfFirstEntity != eEntityType.UNDEFINED) {
-				break;
-			}
 		}
 		return oData;
 	}
 	
-	private clsEatableAreaEntries convertEatableAreaEntry(clsCollidingObject collidingObj) {
+	private clsEatableAreaEntry convertEatableAreaEntry(clsCollidingObject collidingObj) {
 		clsEntity oEntity = getEntity(collidingObj.moCollider);
 		if (oEntity == null) {
 			return null;
 		}
 
-		clsEatableAreaEntries oData = new clsEatableAreaEntries();
-		oData.mnTypeOfFirstEntity = oEntity.getEntityType();
-		// HZ will be handled by the attributes - concept
-		//oData.moColorOfFirstEntity = getEntityColor(oCollider);
-						
+		clsEatableAreaEntry oData = new clsEatableAreaEntry(oEntity.getEntityType());
+		clsAttributeAlive oAlive = (clsAttributeAlive)oEntity.getBody().getAttributes().getAttribute(eBodyAttributes.ALIVE);
+		if (oAlive != null) {
+			oData.mnIsAlive = oAlive.isAlive();
+			oData.mnIsConsumeable = oAlive.isConsumeable();
+		}
+			
 		return oData;
 	}
 	
