@@ -129,8 +129,7 @@ public class clsLeafVisionSegment extends clsRuleTreeLeaf {
 		
 		if(poData != null){
 			ArrayList <clsSensorRingSegmentEntries>  oVisionEntries = ((clsVision)poData).getList();
-			eCount oNumber = setMeNumber(oVisionEntries); 
-			
+		
 			/*FIXME HZ Antenna positions have not been implemented yet, as the value is set to undefined
 			 * 		The same is for the team ID*/			
 			for (clsSensorRingSegmentEntries element : oVisionEntries){
@@ -140,8 +139,7 @@ public class clsLeafVisionSegment extends clsRuleTreeLeaf {
 					&& oElement.mnShapeType == meShapeType
 				    && oElement.moColor.equals(moColor)
 				    && meCompareOperator.compare(oElement.mnAlive, moAlive)
-				    && oNumber == meNumber
-				 ){
+				    && oElement.mnNumEntitiesPresent == meNumber){
 					
 					nResult = true;
 					break; 
@@ -150,37 +148,5 @@ public class clsLeafVisionSegment extends clsRuleTreeLeaf {
 		}
 		
 		return nResult; 
-	}
-
-	/**
-	 * DOCUMENT (zeilinger) - insert description
-	 *
-	 * @author zeilinger
-	 * 17.09.2009, 16:31:19
-	 *
-	 */
-	private eCount setMeNumber(ArrayList <clsSensorRingSegmentEntries> poVisionEntries) {
-		if(poVisionEntries == null){
-			new java.lang.ArrayIndexOutOfBoundsException(" The ArrayList oRingSegmentEntries does not" +
-													     " include any entries"); 
-		}
-		else if(poVisionEntries.size()==0){
-			return eCount.NONE; 
-		}
-		else if (poVisionEntries.size()==1){
-			return eCount.ONE; 
-		}
-		else if (poVisionEntries.size()==2){
-			return eCount.TWO; 
-		}
-		else if (poVisionEntries.size()> 2){
-			return eCount.MANY; 
-		}
-		else{
-			new java.lang.NullPointerException (" element number is undefined \n");
-			return null; 
-		}
-		
-		return null; 	
 	}
 }

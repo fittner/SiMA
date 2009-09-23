@@ -21,7 +21,7 @@ import org.junit.Test;
 
 import decisionunit.itf.sensors.clsBump;
 import decisionunit.itf.sensors.clsEatableArea;
-import decisionunit.itf.sensors.clsEatableEntries;
+import decisionunit.itf.sensors.clsEatableAreaEntries;
 import decisionunit.itf.sensors.clsSensorData;
 import decisionunit.itf.sensors.clsVision;
 import decisionunit.itf.sensors.clsVisionEntries;
@@ -127,7 +127,7 @@ public class tssImageAbstract {
 		
 		clsEatableArea oEatableArea = new clsEatableArea(); 
 		oEatableArea.moSensorType = eSensorExtType.EATABLE_AREA; 
-		clsEatableEntries oEatableEntries = new clsEatableEntries();
+		clsEatableAreaEntries oEatableEntries = new clsEatableAreaEntries();
 		oEatableEntries.mnEntityType = eEntityType.BUBBLE;
 		oEatableArea.add(oEatableEntries);
 		

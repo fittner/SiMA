@@ -9,6 +9,8 @@ package decisionunit.itf.sensors;
 import java.awt.Color;
 import java.util.Formatter;
 
+import bfg.utils.enums.eSide;
+
 import enums.eAntennaPositions;
 
 /**
@@ -22,6 +24,7 @@ public class clsVisionEntries extends clsSensorRingSegmentEntries {
 	
 	public boolean mnAlive = false;
 	public Color moColor = null;
+	public eSide moObjectPosition = eSide.UNDEFINED; 
 	public eAntennaPositions moAntennaPosition = eAntennaPositions.UNDEFINED; 
 			
 

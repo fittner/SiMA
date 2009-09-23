@@ -25,6 +25,7 @@ import decisionunit.itf.actions.itfActionProcessor;
 import decisionunit.itf.sensors.clsBump;
 import decisionunit.itf.sensors.clsDataBase;
 import decisionunit.itf.sensors.clsEatableArea;
+import decisionunit.itf.sensors.clsEatableAreaEntries;
 import decisionunit.itf.sensors.clsEnergyConsumption;
 import decisionunit.itf.sensors.clsFastMessenger;
 import decisionunit.itf.sensors.clsHealthSystem;
@@ -48,6 +49,7 @@ import ARSsim.physics2D.physicalObject.clsCollidingObject;
 import ARSsim.physics2D.physicalObject.clsMobileObject2D;
 import ARSsim.physics2D.physicalObject.clsStationaryObject2D;
 import ARSsim.physics2D.util.clsPolarcoordinate;
+import bfg.utils.enums.eCount;
 import bw.body.itfStepProcessing;
 
 import bw.body.io.sensors.ext.clsSensorVision;
@@ -329,6 +331,7 @@ public class clsBrainSocket implements itfStepProcessing {
 				clsVisionEntries oEntry = convertVisionEntry(i.next());
 				
 				if (oEntry != null) {
+					oEntry.mnNumEntitiesPresent = setMeNumber(eDetectedObjectList.size());
 					oData.add(oEntry);
 				}	
 			}
@@ -386,7 +389,6 @@ public class clsBrainSocket implements itfStepProcessing {
 		}
 
 		clsVisionEntries oData = new clsVisionEntries();
-		
 		oData.mnEntityType = getEntityType(collidingObj.moCollider);		
 		oData.mnShapeType = getShapeType(collidingObj.moCollider);
 		oData.moColor = (Color) oEntity.getShape().getPaint();
@@ -413,9 +415,6 @@ public class clsBrainSocket implements itfStepProcessing {
 		return oData;
 	}
 
-
-
-	//ZEILINGER Integration of the SensorEngine
 	private clsEatableArea convertEatAbleAreaSensor() {
 		clsEatableArea oData = new clsEatableArea();
 		
@@ -425,17 +424,53 @@ public class clsBrainSocket implements itfStepProcessing {
 		Iterator<clsCollidingObject> i = eDetectedObjectList.iterator();
 		
 		while (i.hasNext()) {
-			PhysicalObject2D oCollider = i.next().moCollider; 
-			oData.mnNumEntitiesPresent = eDetectedObjectList.size();
-			oData.mnTypeOfFirstEntity = getEntityType(oCollider);
-			oData.moColorOfFirstEntity = getEntityColor(oCollider);
-									
-			if (oData.mnTypeOfFirstEntity != eEntityType.UNDEFINED) {
+			clsEatableAreaEntries oEntry = convertEatableAreaEntry(i.next());
+			
+			if (oEntry != null) {
+				oEntry.mnNumEntitiesPresent = setMeNumber(eDetectedObjectList.size());
+				oData.add(oEntry);
+			}	
+			
+			if (oEntry.mnTypeOfFirstEntity != eEntityType.UNDEFINED) {
 				break;
 			}
 		}
-				
 		return oData;
+	}
+	
+	private clsEatableAreaEntries convertEatableAreaEntry(clsCollidingObject collidingObj) {
+		clsEntity oEntity = getEntity(collidingObj.moCollider);
+		if (oEntity == null) {
+			return null;
+		}
+
+		clsEatableAreaEntries oData = new clsEatableAreaEntries();
+		oData.mnTypeOfFirstEntity = oEntity.getEntityType();
+		// HZ will be handled by the attributes - concept
+		//oData.moColorOfFirstEntity = getEntityColor(oCollider);
+						
+		return oData;
+	}
+	
+	/**
+	 * DOCUMENT (zeilinger) - insert description
+	 *
+	 * @author zeilinger
+	 * 17.09.2009, 16:31:19
+	 *
+	 */
+	private eCount setMeNumber(int pnEntryCount) {
+				
+		switch (pnEntryCount){
+			case 0: 
+				return eCount.NONE;
+			case 1:
+				return eCount.ONE; 
+			case 2:
+				return eCount.TWO;
+			default:
+				return eCount.MANY; 
+		}
 	}
 	
 	private  Color getEntityColor(PhysicalObject2D poObject) {

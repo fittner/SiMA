@@ -20,6 +20,7 @@ import enums.eSensorExtType;
 import enums.eSensorIntType;
 import decisionunit.itf.sensors.clsBump;
 import decisionunit.itf.sensors.clsEatableArea;
+import decisionunit.itf.sensors.clsEatableAreaEntries;
 import decisionunit.itf.sensors.clsStaminaSystem;
 import decisionunit.itf.sensors.clsVision;
 import decisionunit.itf.sensors.clsSensorRingSegmentEntries;
@@ -112,20 +113,19 @@ public class clsDumbMindA extends clsBaseDecisionUnit {
 	private void eat(itfActionProcessor poActionProcessor) {
 		//eat
 		clsEatableArea oEatArea = (clsEatableArea) getSensorData().getSensorExt(eSensorExtType.EATABLE_AREA);
-		if(oEatArea.mnNumEntitiesPresent > 0)
-		{
-
-				if( oEatArea.mnTypeOfFirstEntity == eEntityType.CAKE )
-				{
-						//clsEatAction oEatAction = new clsEatAction();
-						//poActionList.addEatAction(oEatAction);
-						poActionProcessor.call(new clsActionEat());	
-						
-						// Roland: when the agent reaches the cake - ist stops 
-						// (deactivating the following-the-food logic)
-						setCollisionAvoidance(false);
-
-				}
+		
+	
+		for( clsSensorRingSegmentEntries oEatAreaObj : oEatArea.getList() ) {
+			if( ((clsEatableAreaEntries)oEatAreaObj).mnTypeOfFirstEntity == eEntityType.CAKE ){
+			   //&& ((clsEatableAreaEntries)oEatAreaObj). .moColorOfFirstEntity != null && oEatArea.moColorOfFirstEntity.equals(Color.orange))
+				//clsEatAction oEatAction = new clsEatAction();
+				//poActionList.addEatAction(oEatAction);
+				poActionProcessor.call(new clsActionEat());	 
+				
+				// Roland: when the agent reaches the cake - ist stops 
+				// (deactivating the following-the-food logic)
+				setCollisionAvoidance(false);
+			}
 		}
 	}	
 	
