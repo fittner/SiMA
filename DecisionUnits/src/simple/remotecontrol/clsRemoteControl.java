@@ -5,14 +5,12 @@ import java.io.FileWriter;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-
 import statictools.clsGetARSPath;
 import statictools.clsSingletonUniqueIdGenerator;
 import decisionunit.clsBaseDecisionUnit;
 import decisionunit.itf.actions.*;
 import decisionunit.itf.sensors.clsEatableArea;
-import decisionunit.itf.sensors.clsEatableAreaEntries;
-import decisionunit.itf.sensors.clsSensorRingSegmentEntries;
+import decisionunit.itf.sensors.clsEatableAreaEntry;
 import decisionunit.itf.sensors.clsVision;
 import enums.eActionKissIntensity;
 import enums.eActionMoveDirection;
@@ -203,19 +201,12 @@ public class clsRemoteControl extends clsBaseDecisionUnit  {
 
 	protected void eat(itfActionProcessor poActionProcessor, enums.eEntityType peEntityType) {
 		clsEatableArea oEatArea = (clsEatableArea) getSensorData().getSensorExt(eSensorExtType.EATABLE_AREA);
-		for( clsSensorRingSegmentEntries oEatAreaObj : oEatArea.getList() ) {
-			if(((clsEatableAreaEntries)oEatAreaObj).mnNumEntitiesPresent.ordinal() > 0)
-			{
-	
-					if(((clsEatableAreaEntries)oEatAreaObj).mnTypeOfFirstEntity == peEntityType )
-					{
-							//clsEatAction oEatAction = new clsEatAction();
-							//poActionList.addEatAction(oEatAction);
-							poActionProcessor.call(new clsActionEat());	
-					}
+		if (oEatArea.moEntries.size() > 0) {
+			clsEatableAreaEntry oEntry = oEatArea.moEntries.get(0);
+			if (oEntry.mnEntityType == peEntityType) {
+				poActionProcessor.call(new clsActionEat());	
 			}
 		}
-//		poActionProcessor.call(new clsActionEat());	
 	}
 
 	protected void attack(itfActionProcessor poActionProcessor, enums.eEntityType peEntityType) {
@@ -237,16 +228,12 @@ public class clsRemoteControl extends clsBaseDecisionUnit  {
 	 */
 	protected void kill(itfActionProcessor poActionProcessor, enums.eEntityType peEntityType) {
 		clsEatableArea oEatArea = (clsEatableArea) getSensorData().getSensorExt(eSensorExtType.EATABLE_AREA);
-		for( clsSensorRingSegmentEntries oEatAreaObj : oEatArea.getList() ) {
-			if(((clsEatableAreaEntries)oEatAreaObj).mnNumEntitiesPresent.ordinal() > 0)
-			{
-				if( ((clsEatableAreaEntries)oEatAreaObj).mnTypeOfFirstEntity == peEntityType )
-				{
-					poActionProcessor.call(new clsActionAttackBite(4));	
-				}
+		if (oEatArea.moEntries.size() > 0) {
+			clsEatableAreaEntry oEntry = oEatArea.moEntries.get(0);
+			if (oEntry.mnEntityType == peEntityType) {
+				poActionProcessor.call(new clsActionAttackBite(4));	
 			}
-		}
-//		poActionProcessor.call(new clsActionEat());	
+		}		
 	}
 	
 	private void startFile() {
