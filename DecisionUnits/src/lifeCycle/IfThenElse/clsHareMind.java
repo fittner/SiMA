@@ -8,7 +8,7 @@ import decisionunit.itf.actions.clsActionTurn;
 import decisionunit.itf.actions.itfActionProcessor;
 import decisionunit.itf.sensors.clsBump;
 import decisionunit.itf.sensors.clsEatableArea;
-import decisionunit.itf.sensors.clsEatableAreaEntries;
+import decisionunit.itf.sensors.clsEatableAreaEntry;
 import decisionunit.itf.sensors.clsEnergy;
 import decisionunit.itf.sensors.clsVision;
 import decisionunit.itf.sensors.clsSensorRingSegmentEntries;
@@ -18,6 +18,7 @@ import enums.eActionTurnDirection;
 import enums.eEntityType;
 import enums.eSensorExtType;
 import enums.eSensorIntType;
+import enums.eTriState;
 
 import simple.remotecontrol.clsRemoteControl; //for testing purpose only! remove after test
 
@@ -69,18 +70,16 @@ public class clsHareMind extends clsRemoteControl { //should be derived from cls
 	public boolean checkEatableArea() 	{
 		
 		boolean nRetVal = false;
+
 		clsEatableArea oEatArea = (clsEatableArea) getSensorData().getSensorExt(eSensorExtType.EATABLE_AREA);
-		for( clsSensorRingSegmentEntries oEatAreaObj : oEatArea.getList() ) {
-			if( ((clsEatableAreaEntries)oEatAreaObj).mnTypeOfFirstEntity == eEntityType.CARROT ){
-//			   //&& ((clsEatableAreaEntries)oEatAreaObj). .moColorOfFirstEntity != null && oEatArea.moColorOfFirstEntity.equals(Color.orange))
-				nRetVal = true; 
+		
+		if (oEatArea.moEntries.size() > 0) {
+			clsEatableAreaEntry oEntry = oEatArea.moEntries.get(0);
+			if (oEntry.mnEntityType == eEntityType.CARROT && oEntry.mnIsConsumeable == eTriState.TRUE) {
+				nRetVal = true;
 			}
 		}
 		return nRetVal;
-		
-	//		if(oEatArea.mnNumEntitiesPresent > 0 && oEatArea.mnTypeOfFirstEntity == eEntityType.CARROT &&
-//				oEatArea.moColorOfFirstEntity != null && oEatArea.moColorOfFirstEntity.equals(Color.orange))
-//		{
 	}
 	
 	private boolean isCarrotOrange(clsSensorRingSegmentEntries oVisionObj) {
