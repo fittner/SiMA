@@ -12,8 +12,8 @@ import java.awt.GridLayout;
 import java.awt.Point;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.KeyAdapter;
-import java.awt.event.KeyEvent;
+//import java.awt.event.KeyAdapter;
+//import java.awt.event.KeyEvent;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JDialog;
@@ -71,7 +71,7 @@ public class clsBWFastEntityAdapter extends JDialog {
 		setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 		setModal(true);
 		//setVisible(true);
-		
+/*		
 	    addKeyListener(new KeyAdapter() {
 		    @Override
 			public void keyPressed(KeyEvent e)
@@ -81,7 +81,7 @@ public class clsBWFastEntityAdapter extends JDialog {
 			    }
 		    }
 	    });
-	    
+*/	    
 	    setVisible(true); 
 	}
 
