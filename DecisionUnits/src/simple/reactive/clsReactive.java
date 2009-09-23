@@ -23,7 +23,7 @@ import enums.eEntityType;
 import enums.eSensorExtType;
 import enums.eSensorIntType;
 import decisionunit.itf.sensors.clsEatableArea;
-import decisionunit.itf.sensors.clsEatableAreaEntries;
+import decisionunit.itf.sensors.clsEatableAreaEntry;
 import decisionunit.itf.sensors.clsSensorData;
 import decisionunit.itf.sensors.clsRadiation;
 import decisionunit.itf.sensors.clsEnergy;
@@ -255,8 +255,8 @@ public class clsReactive extends clsBaseDecisionUnit {
 	private boolean isFirstInEatableArea(clsSensorData poInputs, eEntityType poEntityType){
 		clsEatableArea oEatArea = (clsEatableArea) poInputs.getSensorExt(eSensorExtType.EATABLE_AREA);
 		
-		for( clsSensorRingSegmentEntries oEatAreaObj : oEatArea.getList() ) {
-			if(((clsEatableAreaEntries)oEatAreaObj).mnTypeOfFirstEntity == poEntityType){
+		for(clsEatableAreaEntry oEatAreaObj : oEatArea.moEntries ) {
+			if(oEatAreaObj.mnEntityType == poEntityType){
 				return true;
 			}
 		}
@@ -472,14 +472,12 @@ public class clsReactive extends clsBaseDecisionUnit {
 	 */
 	private void harvest(clsSensorData inputs, itfActionProcessor poActionProcessor){
 		clsEatableArea oEatArea = (clsEatableArea) inputs.getSensorExt(eSensorExtType.EATABLE_AREA);
-		for( clsSensorRingSegmentEntries oEatAreaObj : oEatArea.getList() ) {
-			if(((clsEatableAreaEntries)oEatAreaObj).mnNumEntitiesPresent.ordinal() > 0){
-				if( ((clsEatableAreaEntries)oEatAreaObj).mnTypeOfFirstEntity == eEntityType.URANIUM ){
+		for(clsEatableAreaEntry oEatAreaObj : oEatArea.moEntries ) {
+				if( oEatAreaObj.mnEntityType == eEntityType.URANIUM ){
 					moActionQueue.add(Action.PICKUP);
 					// FIXME (horvath) moActionQueue.add(Action.TO_INVENTORY);
 					mnInventorySize++;
 				}
-			}
 		}
 		
 	}
@@ -492,17 +490,14 @@ public class clsReactive extends clsBaseDecisionUnit {
 		//eat
 		clsEatableArea oEatArea = (clsEatableArea) poInputs.getSensorExt(eSensorExtType.EATABLE_AREA);
 		
-		for( clsSensorRingSegmentEntries oEatAreaObj : oEatArea.getList() ) {
-			if(((clsEatableAreaEntries)oEatAreaObj).mnNumEntitiesPresent.ordinal() > 0)
-			{
-					if(((clsEatableAreaEntries)oEatAreaObj).mnTypeOfFirstEntity == eEntityType.FUNGUS )
+		for(clsEatableAreaEntry oEatAreaObj : oEatArea.moEntries ) {
+					if(oEatAreaObj.mnEntityType == eEntityType.FUNGUS )
 					{
 							poActionProcessor.call(new clsActionEat());	
 							
 							// stop the agent
 	
 					}
-			}
 		}
 	}	
 	

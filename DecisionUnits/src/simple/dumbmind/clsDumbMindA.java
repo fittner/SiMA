@@ -20,7 +20,7 @@ import enums.eSensorExtType;
 import enums.eSensorIntType;
 import decisionunit.itf.sensors.clsBump;
 import decisionunit.itf.sensors.clsEatableArea;
-import decisionunit.itf.sensors.clsEatableAreaEntries;
+import decisionunit.itf.sensors.clsEatableAreaEntry;
 import decisionunit.itf.sensors.clsStaminaSystem;
 import decisionunit.itf.sensors.clsVision;
 import decisionunit.itf.sensors.clsSensorRingSegmentEntries;
@@ -115,8 +115,8 @@ public class clsDumbMindA extends clsBaseDecisionUnit {
 		clsEatableArea oEatArea = (clsEatableArea) getSensorData().getSensorExt(eSensorExtType.EATABLE_AREA);
 		
 	
-		for( clsSensorRingSegmentEntries oEatAreaObj : oEatArea.getList() ) {
-			if( ((clsEatableAreaEntries)oEatAreaObj).mnTypeOfFirstEntity == eEntityType.CAKE ){
+		for(clsEatableAreaEntry oEatAreaObj : oEatArea.moEntries ) {
+			if( oEatAreaObj.mnEntityType == eEntityType.CAKE ){
 			   //&& ((clsEatableAreaEntries)oEatAreaObj). .moColorOfFirstEntity != null && oEatArea.moColorOfFirstEntity.equals(Color.orange))
 				//clsEatAction oEatAction = new clsEatAction();
 				//poActionList.addEatAction(oEatAction);
