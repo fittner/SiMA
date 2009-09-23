@@ -19,9 +19,8 @@ import bfg.utils.enums.eCount;
 import bfg.utils.enums.eOptional;
 import decisionunit.itf.sensors.clsDataBase;
 import decisionunit.itf.sensors.clsEatableArea;
-import decisionunit.itf.sensors.clsEatableAreaEntries;
+import decisionunit.itf.sensors.clsEatableAreaEntry;
 import decisionunit.itf.sensors.clsSensorData;
-import decisionunit.itf.sensors.clsSensorRingSegmentEntries;
 import enums.eEntityType;
 import enums.eSensorExtType;
 
@@ -94,13 +93,11 @@ public class clsLeafEatableAreaSegment extends clsRuleTreeLeaf {
 		boolean nResult = false; 
 		
 		if(poData != null){
-			ArrayList <clsSensorRingSegmentEntries> oRingSegmentEntries = ((clsEatableArea)poData).getList();
+			ArrayList <clsEatableAreaEntry> oEatableAreaEntry = ((clsEatableArea)poData).moEntries;
 						
-			for (clsSensorRingSegmentEntries element : oRingSegmentEntries){
-				clsEatableAreaEntries oElement = (clsEatableAreaEntries)element; 
-				if( oElement.mnTypeOfFirstEntity == meTypeOfFirstEntity
-					&& oElement.mnNumEntitiesPresent == meNumber){
-					
+			for (clsEatableAreaEntry element : oEatableAreaEntry){
+				if(  element.mnEntityType == meTypeOfFirstEntity ){
+						//&& element. .mnNumEntitiesPresent == meNumber){
 					nResult = true;
 					break; 
 				}
