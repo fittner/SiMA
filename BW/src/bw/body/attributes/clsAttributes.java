@@ -78,6 +78,7 @@ public class clsAttributes {
 						break;
 					case ALIVE:
 						moAttributes.put(eType, new clsAttributeAlive(tmp_pre, poProp, poEntity));
+						break;
 					default:
 						throw new java.lang.IllegalArgumentException("don't know how to handle attribute type "+eType);
 				}
