@@ -21,7 +21,7 @@ import org.junit.Test;
 
 import decisionunit.itf.sensors.clsBump;
 import decisionunit.itf.sensors.clsEatableArea;
-import decisionunit.itf.sensors.clsEatableAreaEntries;
+import decisionunit.itf.sensors.clsEatableAreaEntry;
 import decisionunit.itf.sensors.clsSensorData;
 import decisionunit.itf.sensors.clsVision;
 import decisionunit.itf.sensors.clsVisionEntries;
@@ -126,12 +126,10 @@ public class tssImageAbstract {
 		oSensorData.addSensorExt(oVision.moSensorType, oVision);
 		
 		clsEatableArea oEatableArea = new clsEatableArea(); 
-		oEatableArea.moSensorType = eSensorExtType.EATABLE_AREA; 
-		clsEatableAreaEntries oEatableEntries = new clsEatableAreaEntries();
-		oEatableEntries.mnEntityType = eEntityType.BUBBLE;
-		oEatableArea.add(oEatableEntries);
+		clsEatableAreaEntry oEatableEntry = new clsEatableAreaEntry(eEntityType.BUBBLE);
+		oEatableArea.moEntries.add(oEatableEntry);
 		
-		oSensorData.addSensorExt(oEatableArea.moSensorType, oEatableArea);
+		oSensorData.addSensorExt(eSensorExtType.EATABLE_AREA, oEatableArea);
 		
 		//trigger the comparison between defined AbstractImages and the created incoming data
 		oMatch = oTestImages.associate(oSensorData, new clsIdentity());
