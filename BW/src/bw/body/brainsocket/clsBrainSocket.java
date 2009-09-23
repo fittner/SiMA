@@ -26,7 +26,7 @@ import decisionunit.itf.sensors.clsEatableAreaEntry;
 import decisionunit.itf.sensors.clsEnergyConsumption;
 import decisionunit.itf.sensors.clsFastMessenger;
 import decisionunit.itf.sensors.clsHealthSystem;
-import decisionunit.itf.sensors.clsSensorManipulateArea;
+import decisionunit.itf.sensors.clsManipulateArea;
 import decisionunit.itf.sensors.clsSlowMessenger;
 import decisionunit.itf.sensors.clsStomachTension;
 import decisionunit.itf.sensors.clsTemperatureSystem;
@@ -334,8 +334,8 @@ public class clsBrainSocket implements itfStepProcessing {
 		return oData;
 	}
 	
-	private clsSensorManipulateArea convertManipulateSensor(eSensorExtType poVisionType) {
-		clsSensorManipulateArea oData = new clsSensorManipulateArea();
+	private clsManipulateArea convertManipulateSensor(eSensorExtType poVisionType) {
+		clsManipulateArea oData = new clsManipulateArea();
 		oData.moSensorType = poVisionType;
 		bw.body.io.sensors.ext.clsSensorManipulateArea oManip = (bw.body.io.sensors.ext.clsSensorManipulateArea)(moSensorsExt.get(poVisionType));
 		if(oManip != null) {
