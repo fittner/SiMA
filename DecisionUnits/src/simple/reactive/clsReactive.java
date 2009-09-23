@@ -23,6 +23,7 @@ import enums.eEntityType;
 import enums.eSensorExtType;
 import enums.eSensorIntType;
 import decisionunit.itf.sensors.clsEatableArea;
+import decisionunit.itf.sensors.clsEatableAreaEntries;
 import decisionunit.itf.sensors.clsSensorData;
 import decisionunit.itf.sensors.clsRadiation;
 import decisionunit.itf.sensors.clsEnergy;
@@ -253,10 +254,13 @@ public class clsReactive extends clsBaseDecisionUnit {
 	
 	private boolean isFirstInEatableArea(clsSensorData poInputs, eEntityType poEntityType){
 		clsEatableArea oEatArea = (clsEatableArea) poInputs.getSensorExt(eSensorExtType.EATABLE_AREA);
-		if(oEatArea.mnTypeOfFirstEntity == poEntityType){
-			return true;
+		
+		for( clsSensorRingSegmentEntries oEatAreaObj : oEatArea.getList() ) {
+			if(((clsEatableAreaEntries)oEatAreaObj).mnTypeOfFirstEntity == poEntityType){
+				return true;
+			}
 		}
-		return false;		
+		return false;	
 	}
 	
 	
@@ -468,11 +472,13 @@ public class clsReactive extends clsBaseDecisionUnit {
 	 */
 	private void harvest(clsSensorData inputs, itfActionProcessor poActionProcessor){
 		clsEatableArea oEatArea = (clsEatableArea) inputs.getSensorExt(eSensorExtType.EATABLE_AREA);
-		if(oEatArea.mnNumEntitiesPresent > 0){
-			if( oEatArea.mnTypeOfFirstEntity == eEntityType.URANIUM ){
-				moActionQueue.add(Action.PICKUP);
-				// FIXME (horvath) moActionQueue.add(Action.TO_INVENTORY);
-				mnInventorySize++;
+		for( clsSensorRingSegmentEntries oEatAreaObj : oEatArea.getList() ) {
+			if(((clsEatableAreaEntries)oEatAreaObj).mnNumEntitiesPresent.ordinal() > 0){
+				if( ((clsEatableAreaEntries)oEatAreaObj).mnTypeOfFirstEntity == eEntityType.URANIUM ){
+					moActionQueue.add(Action.PICKUP);
+					// FIXME (horvath) moActionQueue.add(Action.TO_INVENTORY);
+					mnInventorySize++;
+				}
 			}
 		}
 		
@@ -485,15 +491,18 @@ public class clsReactive extends clsBaseDecisionUnit {
 	private void eat(clsSensorData poInputs, itfActionProcessor poActionProcessor) {
 		//eat
 		clsEatableArea oEatArea = (clsEatableArea) poInputs.getSensorExt(eSensorExtType.EATABLE_AREA);
-		if(oEatArea.mnNumEntitiesPresent > 0)
-		{
-				if( oEatArea.mnTypeOfFirstEntity == eEntityType.FUNGUS )
-				{
-						poActionProcessor.call(new clsActionEat());	
-						
-						// stop the agent
-
-				}
+		
+		for( clsSensorRingSegmentEntries oEatAreaObj : oEatArea.getList() ) {
+			if(((clsEatableAreaEntries)oEatAreaObj).mnNumEntitiesPresent.ordinal() > 0)
+			{
+					if(((clsEatableAreaEntries)oEatAreaObj).mnTypeOfFirstEntity == eEntityType.FUNGUS )
+					{
+							poActionProcessor.call(new clsActionEat());	
+							
+							// stop the agent
+	
+					}
+			}
 		}
 	}	
 	
