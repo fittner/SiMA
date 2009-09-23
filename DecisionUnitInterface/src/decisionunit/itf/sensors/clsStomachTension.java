@@ -15,7 +15,7 @@ import java.util.Formatter;
  * 10.08.2009, 16:09:01
  * 
  */
-public class clsStomachTension extends clsSensorHomeostasis {
+public class clsStomachTension extends clsSensorIntern {
 
 	public double mrTension;
 	

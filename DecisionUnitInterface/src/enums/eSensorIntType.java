@@ -28,4 +28,5 @@ public enum eSensorIntType {
 	FASTMESSENGER,
 	ENERGY,
 	STOMACHTENSION,
+	SLOWMESSENGER,
 }

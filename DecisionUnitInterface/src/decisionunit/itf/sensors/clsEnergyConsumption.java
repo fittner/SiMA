@@ -11,7 +11,7 @@ import java.util.Formatter;
  * Actual energy consumption - the sum of all consumers
  *
  */
-public class clsEnergyConsumption extends clsSensorHomeostasis {
+public class clsEnergyConsumption extends clsSensorExtern {
 
 	public double mrEnergy;
 	

@@ -11,6 +11,7 @@ import java.awt.Color;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.Map;
 
 import config.clsBWProperties;
 
@@ -28,6 +29,7 @@ import decisionunit.itf.sensors.clsEnergyConsumption;
 import decisionunit.itf.sensors.clsFastMessenger;
 import decisionunit.itf.sensors.clsHealthSystem;
 import decisionunit.itf.sensors.clsSensorManipulateArea;
+import decisionunit.itf.sensors.clsSlowMessenger;
 import decisionunit.itf.sensors.clsStomachTension;
 import decisionunit.itf.sensors.clsTemperatureSystem;
 import decisionunit.itf.sensors.clsPositionChange;
@@ -41,6 +43,7 @@ import enums.eAntennaPositions;
 import enums.eFastMessengerSources;
 import enums.eSensorIntType;
 import enums.eSensorExtType;
+import enums.eSlowMessenger;
 import ARSsim.physics2D.physicalObject.clsCollidingObject;
 import ARSsim.physics2D.physicalObject.clsMobileObject2D;
 import ARSsim.physics2D.physicalObject.clsStationaryObject2D;
@@ -59,6 +62,7 @@ import bw.body.io.sensors.internal.clsEnergyConsumptionSensor;
 import bw.body.io.sensors.internal.clsEnergySensor;
 import bw.body.io.sensors.internal.clsFastMessengerSensor;
 import bw.body.io.sensors.internal.clsHealthSensor;
+import bw.body.io.sensors.internal.clsSlowMessengerSensor;
 import bw.body.io.sensors.internal.clsStomachTensionSensor;
 import bw.body.io.sensors.internal.clsTemperatureSensor;
 import bw.body.io.sensors.internal.clsSensorInt;
@@ -144,8 +148,23 @@ public class clsBrainSocket implements itfStepProcessing {
 		oData.addSensorInt(eSensorIntType.STOMACHTENSION, convertStomachSystem_Tension() );
 		oData.addSensorInt(eSensorIntType.TEMPERATURE, convertTemperatureSystem() );
 		oData.addSensorInt(eSensorIntType.FASTMESSENGER, convertFastMessengerSystem() );
+		oData.addSensorInt(eSensorIntType.SLOWMESSENGER, convertSlowMessengerSystem() );
 		
 		return oData;
+	}
+	
+	private clsDataBase convertSlowMessengerSystem() {
+
+		clsSlowMessenger oRetVal = new clsSlowMessenger();
+		clsSlowMessengerSensor oSensor = (clsSlowMessengerSensor)(moSensorsInt.get(eSensorIntType.SLOWMESSENGER));
+		
+		if (oSensor.getSlowMessages() != null) {
+			for(Map.Entry<eSlowMessenger, Double> oEntry:oSensor.getSlowMessages().entrySet()) {
+				oRetVal.moSlowMessengerValues.put( oEntry.getKey(), oEntry.getValue());
+			}
+		}
+		
+		return oRetVal;
 	}
 	
 	private clsDataBase convertFastMessengerSystem() {
@@ -155,7 +174,7 @@ public class clsBrainSocket implements itfStepProcessing {
 
 		if (oSensor.getFastMessages() != null) {
 			for(clsFastMessengerEntry oEntry:oSensor.getFastMessages()) {
-				oRetVal.add( convertFastMessengerEntry(oEntry) );
+				oRetVal.moEntries.add( convertFastMessengerEntry(oEntry) );
 			}
 		}
 		

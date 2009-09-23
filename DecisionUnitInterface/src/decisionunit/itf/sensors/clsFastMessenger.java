@@ -14,14 +14,6 @@ import java.util.ArrayList;
 public class clsFastMessenger extends clsSensorIntern {
 	public ArrayList<clsFastMessengerEntry> moEntries = new ArrayList<clsFastMessengerEntry>();
 	
-	public void add(clsFastMessengerEntry poEntry) {
-		moEntries.add(poEntry);
-	}
-	
-	public ArrayList<clsFastMessengerEntry> getList() {
-		return moEntries;
-	}
-	
 	@Override
 	public String logXML() {
 		String logEntry = "";

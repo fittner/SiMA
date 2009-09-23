@@ -9,7 +9,7 @@ import java.util.Formatter;
  * @author langr
  *
  */
-public class clsStaminaSystem extends clsSensorHomeostasis {
+public class clsStaminaSystem extends clsSensorIntern {
 
 	public double mrStaminaValue;
 

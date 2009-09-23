@@ -76,7 +76,7 @@ public class clsFastMessengerSensor extends clsSensorInt {
 	 */
 	@Override
 	protected void setBodyPartId() {
-		mePartId = eBodyParts.SENSOR_INT_HEALTH;
+		mePartId = eBodyParts.SENSOR_INT_FASTMESSENGER;
 	}
 
 	/* (non-Javadoc)

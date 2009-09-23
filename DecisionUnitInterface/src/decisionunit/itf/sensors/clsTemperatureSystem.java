@@ -2,7 +2,7 @@ package decisionunit.itf.sensors;
 
 import java.util.Formatter;
 
-public class clsTemperatureSystem  extends clsSensorHomeostasis {
+public class clsTemperatureSystem  extends clsSensorIntern {
 	
 	public double mrTemperatureValue;
 	

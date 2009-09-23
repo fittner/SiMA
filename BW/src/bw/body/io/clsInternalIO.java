@@ -16,6 +16,7 @@ import bw.body.io.sensors.internal.clsEnergyConsumptionSensor;
 import bw.body.io.sensors.internal.clsEnergySensor;
 import bw.body.io.sensors.internal.clsFastMessengerSensor;
 import bw.body.io.sensors.internal.clsHealthSensor;
+import bw.body.io.sensors.internal.clsSlowMessengerSensor;
 import bw.body.io.sensors.internal.clsStomachTensionSensor;
 import bw.body.io.sensors.internal.clsTemperatureSensor;
 import bw.body.io.sensors.internal.clsSensorInt;
@@ -92,6 +93,11 @@ public class clsInternalIO extends clsBaseIO{
 		oProp.setProperty(pre+i+"."+P_SENSORACTIVE, true);
 		oProp.setProperty(pre+i+"."+P_SENSORTYPE, eSensorIntType.STOMACHTENSION.name());
 		i++;		
+
+		oProp.putAll( clsSlowMessengerSensor.getDefaultProperties( pre+i) );
+		oProp.setProperty(pre+i+"."+P_SENSORACTIVE, true);
+		oProp.setProperty(pre+i+"."+P_SENSORTYPE, eSensorIntType.SLOWMESSENGER.name());
+		i++;		
 		
 		oProp.setProperty(pre+P_NUMSENSORS, i);
 		
@@ -134,6 +140,9 @@ public class clsInternalIO extends clsBaseIO{
 						break;		
 					case STOMACHTENSION:
 						moSensorInternal.put(eType, new clsStomachTensionSensor(tmp_pre, poProp, this, poBody));
+						break;
+					case SLOWMESSENGER:
+						moSensorInternal.put(eType, new clsSlowMessengerSensor(tmp_pre, poProp, this, poBody));
 						break;
 						
 					default:

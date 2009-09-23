@@ -20,10 +20,11 @@ import org.jfree.chart.plot.XYPlot;
 import org.jfree.data.xy.XYSeries;
 import org.jfree.data.xy.XYSeriesCollection;
 import org.jfree.ui.RectangleInsets;
+
+import enums.eSlowMessenger;
 import bw.body.internalSystems.clsSlowMessengerSystem;
 import bw.exceptions.exSlowMessengerDoesNotExist;
 import bw.factories.clsSingletonMasonGetter;
-import bw.utils.enums.eSlowMessenger;
 import sim.display.GUIState;
 import sim.portrayal.Inspector;
 import sim.portrayal.LocationWrapper;

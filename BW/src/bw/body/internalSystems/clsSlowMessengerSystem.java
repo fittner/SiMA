@@ -11,13 +11,13 @@ import java.util.HashMap;
 import java.util.Iterator;
 
 import config.clsBWProperties;
+import enums.eSlowMessenger;
 import bw.body.itfStepUpdateInternalState;
 import bw.exceptions.exContentColumnMaxContentExceeded;
 import bw.exceptions.exContentColumnMinContentUnderrun;
 import bw.exceptions.exSlowMessengerAlreadyExists;
 import bw.exceptions.exSlowMessengerDoesNotExist;
 import bw.exceptions.exValueNotWithinRange;
-import bw.utils.enums.eSlowMessenger;
 import bw.utils.tools.clsDecayColumn;
 
 /**
