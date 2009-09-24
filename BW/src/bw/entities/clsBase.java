@@ -8,18 +8,17 @@
 package bw.entities;
 
 import java.awt.Color;
-import java.util.Iterator;
 
 import config.clsBWProperties;
 import sim.engine.SimState;
 import sim.physics2D.physicalObject.PhysicalObject2D;
+import ARSsim.physics2D.physicalObject.clsCollidingObject;
 import ARSsim.physics2D.physicalObject.clsMobileObject2D;
 import ARSsim.physics2D.physicalObject.clsStationaryObject2D;
-import bw.body.io.sensors.external.clsSensorEatableArea;
-import bw.body.io.sensors.external.clsSensorVision;
+import bw.body.io.sensors.ext.clsSensorEatableArea;
+import bw.body.io.sensors.ext.clsSensorVision;
 import bw.entities.tools.clsShapeCreator;
 import bw.entities.tools.eImagePositioning;
-import bw.physicalObjects.sensors.clsEntityPartVision;
 import bw.utils.enums.eShapeType;
 import enums.eEntityType;
 
@@ -53,7 +52,7 @@ public class clsBase extends clsStationary {
 		String pre = clsBWProperties.addDot(poPrefix);
 		
     	// null - Stationary objects don't have a body, therefore can't have an instance of clsBaseIO 
-    	moSensorEatable = new clsSensorEatableArea(pre+P_SENSOR, poProp, null,this);		
+    	moSensorEatable = new clsSensorEatableArea(pre+P_SENSOR, poProp, null);		
 	}	
     
     public static clsBWProperties getDefaultProperties(String poPrefix) {
@@ -63,9 +62,11 @@ public class clsBase extends clsStationary {
 		
 		oProp.putAll(clsStationary.getDefaultProperties(pre) );
 
-		oProp.setProperty(pre+P_SENSOR+"."+clsSensorVision.P_SENSOR_ANGLE, 2 * Math.PI );
-		oProp.setProperty(pre+P_SENSOR+"."+clsSensorVision.P_SENSOR_RANGE, 25.0 );
-		oProp.setProperty(pre+P_SENSOR+"."+clsSensorVision.P_SENSOR_OFFSET, 0.0 );				
+		oProp.setProperty(pre+P_SENSOR+"."+clsSensorVision.P_SENSOR_FIELD_OF_VIEW, 2 * Math.PI );
+		oProp.setProperty(pre+P_SENSOR+"."+clsSensorVision.P_SENSOR_MAX_DISTANCE, 25.0 );
+		oProp.setProperty(pre+P_SENSOR+"."+clsSensorVision.P_SENSOR_MIN_DISTANCE, 0.0 );
+		oProp.setProperty(pre+P_SENSOR+"."+clsSensorVision.P_SENSOR_OFFSET_X , 0.0 );
+		oProp.setProperty(pre+P_SENSOR+"."+clsSensorVision.P_SENSOR_OFFSET_Y , 0.0 );
 		
 		oProp.setProperty(pre+P_SHAPE+"."+clsShapeCreator.P_DEFAULT_SHAPE, P_SHAPENAME);		
 		oProp.setProperty(pre+P_SHAPE+"."+P_SHAPENAME+"."+clsShapeCreator.P_TYPE, eShapeType.CIRCLE.name());
@@ -118,23 +119,20 @@ public class clsBase extends clsStationary {
 	 */
 	@Override
 	public void processing() {
-		Iterator<Integer> i = moSensorEatable.getViewObj().keySet().iterator();
-		while (i.hasNext()) {
-			Integer oKey = i.next();
-			// check if the entity is uranium
-			if (getEntityType(moSensorEatable.getViewObj().get(oKey)) == eEntityType.URANIUM) {
-				// check if the entity is registered - 'exists'
-				if(getEntity(moSensorEatable.getViewObj().get(oKey)).isRegistered()){
-					// check if the entity is not carried by any bubble
-					if(((clsUraniumOre)getEntity(moSensorEatable.getViewObj().get(oKey))).getHolders() == 0){
-						// 'eat' the entity
-						getEntity(moSensorEatable.getViewObj().get(oKey)).setRegistered(false);
-						bw.factories.clsRegisterEntity.unRegisterPhysicalObject2D(moSensorEatable.getViewObj().get(oKey));
+		
+		for(Double element : moSensorEatable.moSensorData.getMeDetectedObject().keySet()){
+			for(clsCollidingObject oColObj : moSensorEatable.moSensorData.getMeDetectedObject().get(element)){
+				clsEntity oEntityObj = getEntity(oColObj.moCollider); 
+				
+				if(oEntityObj.isRegistered() && oEntityObj.meEntityType == eEntityType.URANIUM){
+					if(((clsUraniumOre)oEntityObj).getHolders() == 0){
+						oEntityObj.setRegistered(false); 
+						bw.factories.clsRegisterEntity.unRegisterPhysicalObject2D(oColObj.moCollider);
 						mnStoredOre++;
 					}
 				}
 			}
-		}		
+		}
 	}
 	/* (non-Javadoc)
 	 *
@@ -148,23 +146,6 @@ public class clsBase extends clsStationary {
 		
 		// TODO (horvath) - Auto-generated method stub
 		
-	}
-	
-	
-	public clsEntityPartVision getEatableAreaVision()
-	{
-		return ((clsSensorEatableArea)moSensorEatable).getMoVisionArea();
-	}
-	
-	
-	private  enums.eEntityType getEntityType(PhysicalObject2D poObject) {
-		clsEntity oEntity = getEntity(poObject);
-		
-		if (oEntity != null) {
-		  return getEntity(poObject).getEntityType();
-		} else {
-			return enums.eEntityType.UNDEFINED;
-		}
 	}
 	
 	private clsEntity getEntity(PhysicalObject2D poObject) {

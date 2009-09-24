@@ -8,7 +8,6 @@
  */
 package bw.body.itfget;
 
-import bw.physicalObjects.sensors.clsEntityPartVision;
 
 /**
  * DOCUMENT (deutsch) - insert description 
@@ -19,5 +18,5 @@ import bw.physicalObjects.sensors.clsEntityPartVision;
  */
 
 public interface itfGetEatableArea {
-	public clsEntityPartVision getEatableArea();
+	//public clsEntityPartVision getEatableArea();
 }

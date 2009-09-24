@@ -465,16 +465,6 @@ public class clsBrainSocket implements itfStepProcessing {
 		}
 	}
 	
-	private  Color getEntityColor(PhysicalObject2D poObject) {
-		clsEntity oEntity = getEntity(poObject);
-		
-		if (oEntity != null) {
-		  return  (Color) oEntity.getShape().getPaint();
-		} else {
-			return null;
-		}
-	}	
-	
 	private  enums.eEntityType getEntityType(PhysicalObject2D poObject) {
 		clsEntity oEntity = getEntity(poObject);
 		

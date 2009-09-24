@@ -20,8 +20,6 @@ import bw.body.clsMeatBody;
 import bw.body.itfGetBrain;
 import bw.body.itfGetExternalIO;
 import bw.body.io.sensors.ext.clsSensorEngine;
-//import bw.body.io.sensors.external.clsSensorRadiation;
-import bw.physicalObjects.sensors.clsEntityPartVision;
 import bw.physicalObjects.sensors.clsEntitySensorEngine;
 import bw.utils.enums.eBodyType;
 
@@ -152,32 +150,27 @@ public abstract class clsAnimate extends clsMobile {
 		}
 	}
 	
-	@Deprecated
-	public clsEntityPartVision getVision()
-	{
-		return null; 
-	}
-	
 	/**
 	 * 
 	 * (horvath) - returns the radiation sensor
-	 *
+	 *  (zeilinger) - this methos is deprecated - stays within the code due to clarify if the method 
+	 *  has to be adapted as it is needed by other classes, or can be deleted
 	 * @author horvath
 	 * 16.07.2009, 12:11:00
 	 *
 	 * @return clsEntityPartRadiation
 	 */
 	
-	public clsEntityPartVision getRadiation()
-	{
+//	public clsEntityPartVision getRadiation()
+//	{
 //		if (moBody instanceof itfGetExternalIO) {
 //			return ((clsSensorRadiation)
 //					(((itfGetExternalIO)moBody).getExternalIO().moSensorExternal
 //					.get(enums.eSensorExtType.RADIATION))).getMoVisionArea();
 //		} else {
-			return null;
-		//}
-	}
+//			return null;
+//		}
+//	}
 	
 	
 	/* (non-Javadoc)
@@ -204,10 +197,11 @@ public abstract class clsAnimate extends clsMobile {
 		}
 	}
 	
-	@Deprecated	
-	public clsEntityPartVision getEatableArea()
-	{
-		return null; 
+//	@Deprecated	
+	// - HZ same as for getRadiation()
+//	public clsEntityPartVision getEatableArea()
+//	{
+//		return null; 
 //		if (moBody instanceof itfGetExternalIO) {		
 //			return ((clsSensorEatableArea)
 //					(((itfGetExternalIO)moBody).getExternalIO().
@@ -215,6 +209,6 @@ public abstract class clsAnimate extends clsMobile {
 //		} else {
 //			return null;
 //		}			
-	}	
+//	}	
 	
 }

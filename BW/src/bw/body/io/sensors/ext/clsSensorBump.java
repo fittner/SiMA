@@ -11,10 +11,12 @@ import java.util.ArrayList;
 
 import ARSsim.physics2D.physicalObject.clsCollidingObject;
 import config.clsBWProperties;
+import bw.body.clsComplexBody;
 import bw.body.io.clsBaseIO;
 import bw.body.io.clsExternalIO;
+import bw.body.itfget.itfGetBody;
+import bw.entities.clsEntity;
 import bw.utils.enums.eBodyParts;
-//import bw.utils.enums.partclass.clsPartSensorBump;
 
 import sim.physics2D.util.Double2D;
 
@@ -25,12 +27,12 @@ import sim.physics2D.util.Double2D;
  * 30.07.2009, 11:29:42
  * 
  */
-public class clsSensorBump extends clsSensorExt{
+
+public class clsSensorBump extends clsSensorRingSegment{
 	public static final String P_BUMPED = "bumped"; 
-	//private clsEntity moEntity;
 	private boolean mnBumped;
-//	public ArrayList<clsCollidingObject> moCollisionList; 
-//	private clsPartSensorBump moPartSensorBump;
+	private static clsEntity moHostEntity; 
+
 	/**
 	 * DOCUMENT (zeilinger) - insert description 
 	 * 
@@ -44,8 +46,6 @@ public class clsSensorBump extends clsSensorExt{
 	public clsSensorBump(String poPrefix, clsBWProperties poProp,
 			clsBaseIO poBaseIO) {
 		super(poPrefix, poProp, poBaseIO);
-		
-		//moPartSensorBump = new clsPartSensorBump();
 		applyProperties(poPrefix, poProp);
 	}
 	
@@ -56,6 +56,11 @@ public class clsSensorBump extends clsSensorExt{
 		oProp.putAll(clsSensorExt.getDefaultProperties(pre));
 		oProp.setProperty(pre+P_BUMPED, false );
 		
+		//FIXME HZ - min and max distance should be variable and adapt themselves to the 
+		//			 shape size of the entity
+		oProp.setProperty(pre+P_SENSOR_MIN_DISTANCE, 10.0);
+		oProp.setProperty(pre+P_SENSOR_MAX_DISTANCE, 11.0);
+		
 		return oProp;
 	}	
 
@@ -65,9 +70,8 @@ public class clsSensorBump extends clsSensorExt{
 		double nFieldOfView= poProp.getPropertyDouble(pre+P_SENSOR_FIELD_OF_VIEW);
 		double nRange = poProp.getPropertyDouble(pre+clsExternalIO.P_SENSORRANGE);
 		Double2D oOffset =  new Double2D(poProp.getPropertyDouble(pre+P_SENSOR_OFFSET_X),
-																 poProp.getPropertyDouble(pre+P_SENSOR_OFFSET_Y));
+													poProp.getPropertyDouble(pre+P_SENSOR_OFFSET_Y));
 		mnBumped = poProp.getPropertyBoolean(pre+P_BUMPED);
-				
 		assignSensorData(oOffset, nRange, nFieldOfView);		
 	}
 	
@@ -89,14 +93,6 @@ public class clsSensorBump extends clsSensorExt{
 	public boolean isBumped() {
 		return mnBumped;
 	}
-	
-//	/**
-//	 * returns the collision list of the actual bumped objects
-//	 * @return the moCollisionList
-//	 */
-//	public ArrayList<clsCollidingObject> getMoCollisionList() {
-//		return moCollisionList;
-//	}
 	
 	/* (non-Javadoc)
 	 *
@@ -121,7 +117,8 @@ public class clsSensorBump extends clsSensorExt{
 	@Override
 	public void updateSensorData(Double pnAreaRange,
 			ArrayList<clsCollidingObject> peDetectedObjInAreaList) {
-		// TODO (zeilinger) - Auto-generated method stub
+		
+		moSensorData.setMeDetectedObjectList(pnAreaRange,  peDetectedObjInAreaList); 
 	}
 
 	/* (non-Javadoc)
@@ -157,22 +154,22 @@ public class clsSensorBump extends clsSensorExt{
 	 */
 	@Override
 	public void updateSensorData() {
-//		clsMobileObject2D oMobile = ((clsAnimate)moEntity).getMobileObject2D();
-//		moCollisionList = oMobile.moCollisionList;
-//		if(moCollisionList.isEmpty()) {
-//			mnBumped = false;
-//		}
-//		else {
-//			mnBumped = true;
-//		}
-//		
-//		if (mnBumped) {
-//			if ( ((itfGetBody)moEntity).getBody() instanceof clsComplexBody) {
-//				//TODO calculate true force
-//				double rForce = 1.0;
-//				((clsComplexBody)((itfGetBody)moEntity).getBody()).getInterBodyWorldSystem().getDamageBump().bumped(moPartSensorBump, rForce);
-//			}
-//		}
+		//FIXME HZ In this case it is supposed that the bumpsensor is registered for 
+		//mnRange 0 only; 
+		if(moSensorData.getMeDetectedObject().get(0)!= null) {
+			mnBumped = false;
+		}
+		else {
+			mnBumped = true;
+		}
+		
+		if (mnBumped) {
+			if ( ((itfGetBody)moHostEntity).getBody() instanceof clsComplexBody) {
+				//TODO calculate true force
+				double rForce = 1.0;
+				((clsComplexBody)((itfGetBody)moHostEntity).getBody()).getInterBodyWorldSystem().getDamageBump().bumped(eBodyParts.SENSOR_EXT_TACTILE_BUMP, rForce);
+			}
+		}
 	}
 
 }

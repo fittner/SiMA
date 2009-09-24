@@ -8,7 +8,7 @@
  */
 package bw.body.itfget;
 
-import bw.physicalObjects.sensors.clsEntityPartVision;
+//import bw.physicalObjects.sensors.clsEntityPartVision;
 
 /**
  * DOCUMENT (deutsch) - insert description 
@@ -18,5 +18,5 @@ import bw.physicalObjects.sensors.clsEntityPartVision;
  * 
  */
 public interface itfGetRadiation {
-	public clsEntityPartVision getRadiation();
+//	public clsEntityPartVision getRadiation();
 }

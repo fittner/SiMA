@@ -21,7 +21,6 @@ import ARSsim.physics2D.util.clsPose;
 
 import bw.entities.clsEntity;
 import bw.factories.clsSingletonMasonGetter;
-import bw.physicalObjects.sensors.clsEntityPartVision;
 import bw.utils.inspectors.entity.clsInspectorEntity;
 import bw.world.surface.clsSurfaceHandler;
 
@@ -308,11 +307,6 @@ public class clsMobileObject2D extends
 	@Override
 	public int handleCollision(PhysicalObject2D other,
 			sim.physics2D.util.Double2D colPoint) {
-		if (!(other instanceof clsEntityPartVision)) {
-
-			//moCollisionList.add(new clsCollidingObject(other, colPoint));
-		}
-
 		// return 2; // sticky collision
 		// return 1; // regular collision
 		// return 0; //happy guessing!

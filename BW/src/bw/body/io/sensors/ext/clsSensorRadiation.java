@@ -152,14 +152,7 @@ public class clsSensorRadiation extends clsSensorExt {
 		return oResult;
 	}
 	
-	// returns distance of the sensor (bubble) from an entity 
-	private double getDistance(Double2D poCollisionPoint){
-		double rDistance = poCollisionPoint.length(); 
-		
-		return rDistance;
-	}
-	
-	// returns measured radiation intensity
+   // returns measured radiation intensity
 	public double getMrRadiation(){
 		return mrRadiation;		
 	}

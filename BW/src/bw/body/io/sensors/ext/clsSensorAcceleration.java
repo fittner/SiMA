@@ -21,6 +21,10 @@ import bw.utils.enums.eBodyParts;
 /**
  * DOCUMENT (zeilinger) - insert description 
  * 
+ * use this sensor to get the current forces affecting the owner
+ * CurrentVelocity - directing to vector er
+ * AngularVelocity - directing to vector ephi (polar coordinates)
+ * 
  * @author zeilinger
  * 30.07.2009, 10:51:00
  * 

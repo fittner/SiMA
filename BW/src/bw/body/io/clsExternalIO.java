@@ -105,11 +105,11 @@ public class clsExternalIO extends clsBaseIO {
 		oProp.setProperty(pre+"0."+P_SENSORACTIVE, true);
 		oProp.setProperty(pre+"0."+P_SENSORTYPE, eSensorExtType.ACCELERATION.name());
 		oProp.setProperty(pre+"0."+P_SENSORRANGE, 0.0);
-				
+			
 		oProp.putAll( clsSensorBump.getDefaultProperties( pre+"1") );
 		oProp.setProperty(pre+"1."+P_SENSORACTIVE, true);
 		oProp.setProperty(pre+"1."+P_SENSORTYPE, eSensorExtType.BUMP.name());
-		oProp.setProperty(pre+"1."+P_SENSORRANGE, 0.0);
+		oProp.setProperty(pre+"1."+P_SENSORRANGE, 20.0);
 				
 		oProp.putAll( clsSensorVision.getDefaultProperties( pre+"2") );
 		oProp.setProperty(pre+"2."+P_SENSORACTIVE, true);
