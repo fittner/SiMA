@@ -22,6 +22,7 @@ public class clsCircleImage extends Circle
 	double mrRadius; 
 	BufferedImage moImage = null;
 	private boolean mbShowSimple = false; //can be used for testing, no image is rendered
+	double fMinImageSize = 15;  //minimal Image size to be shown
 
 	
 	/**
@@ -68,19 +69,22 @@ public class clsCircleImage extends Circle
 
         //displays the physical circle
         graphics.fillOval(nxArc, nyArc, nwArc, nhArc); //fillOval(x,y,w,h); //scale automatic by mason
+        
 
         if (!mbShowSimple)
 	        {
-        		
-		        int nScaledWidth = (int) (fWidthArc  ); //here the with of the arc should be used
-		        int nScaledHeight = (int) (fHeightArc );
-
-		   	
-		        //AffineTransform affe = AffineTransform.getRotateInstance(getOrientation().radians);
-		        moImage.getGraphics();
-		        //imgGra.rotate(getOrientation().radians);
-		        
-		        graphics.drawImage(moImage, nxArc , nyArc, nScaledWidth, nScaledHeight, null );
+	        	if(!(fWidthArc < fMinImageSize || fHeightArc < fMinImageSize)) //dont show images if scale to small -> perfomance
+	        	{
+			        int nScaledWidth = (int) (fWidthArc  ); //here the with of the arc should be used
+			        int nScaledHeight = (int) (fHeightArc );
+	
+			   	
+			        //AffineTransform affe = AffineTransform.getRotateInstance(getOrientation().radians);
+			        moImage.getGraphics();
+			        //imgGra.rotate(getOrientation().radians);
+			        
+			        graphics.drawImage(moImage, nxArc , nyArc, nScaledWidth, nScaledHeight, null );
+	        	}
 	        }
         }
    

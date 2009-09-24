@@ -32,6 +32,7 @@ public class clsRectangleImage extends sim.physics2D.shape.Rectangle
 		private Paint moDefaultColor = null; //color of the physical square underneath
 		private boolean mbShowSimple = false; //can be used for testing, no image is rendered
 		private eImagePositioning mImagePositioning = eImagePositioning.STRETCHING;
+		double fMinImageSize = 15; //minimal Image size to be shown
 		
 	
 	/**
@@ -133,9 +134,12 @@ public class clsRectangleImage extends sim.physics2D.shape.Rectangle
         final int y = (int)(info.draw.y - height / 2.0);
         final int w = (int)(width);
         final int h = (int)(height);
-
-        // draw centered on the origin
-        graphics.drawImage(moImage,x,y,w,h,null);
+        
+        if(!(w < fMinImageSize || h < fMinImageSize)) //dont show images if scale to small -> perfomance
+    	{
+	        // draw centered on the origin
+	        graphics.drawImage(moImage,x,y,w,h,null);
+    	}
 	}
 	
 	private void drawImageStreched(Graphics2D graphics, DrawInfo2D info)
@@ -162,9 +166,12 @@ public class clsRectangleImage extends sim.physics2D.shape.Rectangle
         final int y = (int)(info.draw.y - height / 2.0);
         final int w = (int)(width);
         final int h = (int)(height);
-
-        // draw centered on the origin
-        graphics.drawImage(moImage,x,y,w,h,null);
+        
+        if(!(w < fMinImageSize || h < fMinImageSize)) //dont show images if scale to small -> perfomance
+    	{
+	        // draw centered on the origin
+	        graphics.drawImage(moImage,x,y,w,h,null);
+    	}
 	}
 	
 	
