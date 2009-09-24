@@ -60,11 +60,12 @@ public class clsInspectorMappingDecision {
         else if( poDU instanceof clsRemoteControl) {
         	oRetVal.addInspector( new clsRemoteControlInspector(poSuperInspector, poWrapper, poState, (clsRemoteControl) poDU), "Brain Insp.");
         }
-      else if (poDU instanceof clsPsychoAnalysis ) {
-    	oRetVal.addInspector( new clsPsychoAnalysisInspector(poSuperInspector, poWrapper, poState, (clsPsychoAnalysis) poDU), "PA-Decision");
-   }else if( poDU instanceof clsReactive) {
-   	oRetVal.addInspector( new clsReactiveInspector(poSuperInspector, poWrapper, poState, (clsReactive) poDU), "Reactive DU Insp.");
-   }
+        else if (poDU instanceof clsPsychoAnalysis ) {
+        	oRetVal.addInspector( new clsPsychoAnalysisInspector(poSuperInspector, poWrapper, poState, (clsPsychoAnalysis) poDU), "PA-Decision");
+        } 
+        else if( poDU instanceof clsReactive) {
+        	oRetVal.addInspector( new clsReactiveInspector(poSuperInspector, poWrapper, poState, (clsReactive) poDU), "Reactive DU Insp.");
+        }
 //        else if (poEntity instanceof clsMyNewClass ) {
 //        	oRetVal.addInspector( new clsMyNewInspector(poSuperInspector, poWrapper, poState), "Name of Inspector-Tab");
 //       }

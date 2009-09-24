@@ -41,6 +41,9 @@ public class clsInspectorMappingPA {
 			oRetVal.addInspector( new clsPAInspectorFuncModel(poSuperInspector, poWrapper, poState, moPA), "Functional Model");
 			oRetVal.addInspector( new clsPAInspectorTopDown(poSuperInspector, poWrapper, poState, moPA), "Top-Down Design");
 		}
+		else if(poModuleName.equals("E26DecisionMaking")) {
+			oRetVal.addInspector( new clsE26DecisionCalculation(poSuperInspector, poWrapper, poState, moPA.moC03Ego.moC08PsychicMediator.moC10SecondaryProcessor.moC16Deliberation.moE26DecisionMaking), "Decision Calculation");
+		}
 		else {
 			
 		}
