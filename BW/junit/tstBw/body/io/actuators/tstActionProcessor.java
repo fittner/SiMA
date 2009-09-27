@@ -242,6 +242,11 @@ public class tstActionProcessor {
 		public ArrayList<Class<?>> getMutualExclusions(clsActionCommand poCommand) {
 			return ((tstTestCommand) poCommand).getMutualExclusions(); 
 		}
+		
+		@Override
+		public double getStaminaDemand(clsActionCommand poCommand) {
+			return 0;
+		}
 }
 	
 	/*

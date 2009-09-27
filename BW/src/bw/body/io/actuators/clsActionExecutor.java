@@ -41,7 +41,6 @@ public abstract class clsActionExecutor extends clsSensorActuatorBaseExt {
 	@Override
 	protected abstract void setName();
 	
-
 	
 	/*
 	 * Array of types of action commands which can not be performed at the 
@@ -53,21 +52,19 @@ public abstract class clsActionExecutor extends clsSensorActuatorBaseExt {
 	public ArrayList<Class<?>> getMutualExclusions(clsActionCommand poCommand) {
 		return new ArrayList<Class<?>>(); 
 	}
+
+	/*
+	 * Get the amount of stamina needed per round to perform the action. Even 
+	 * if the action can not be performed this amount of stamina will be consumed.
+	 */
+	public abstract double getStaminaDemand(clsActionCommand poCommand);
 	
 	/*
 	 * Get the amount of energy needed per round to perform the action. Even 
 	 * if the action can not be performed this amount of energy will be consumed.
 	 */
 	public double getEnergyDemand(clsActionCommand poCommand) {
-		return 0;
-	}
-
-	/*
-	 * Get the amount of stamina needed per round to perform the action. Even 
-	 * if the action can not be performed this amount of stamina will be consumed.
-	 */
-	public double getStaminaDemand(clsActionCommand poCommand) {
-		return 0;
+		return getStaminaDemand(poCommand)*srEnergyRelation;
 	}
 
 	/*
@@ -75,9 +72,7 @@ public abstract class clsActionExecutor extends clsSensorActuatorBaseExt {
 	 * e.g. no injuries, enough stamina, etc. and then executes the command.
 	 * Returns true/false depending on if the action was successful.
 	 */
-	public boolean execute(clsActionCommand poCommand) {
-		return false;
-	}	
+	public abstract boolean execute(clsActionCommand poCommand); 
 
 	/*
 	 * Support function for finding an entity in a given Range (Self-Referenced passed so entities own body can be ignored)
