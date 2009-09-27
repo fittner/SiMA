@@ -23,14 +23,14 @@ public class clsActionSequenceFactory {
 		clsActionSequence oSeq = new clsActionSequence();
 		
 		for (int i=0;i<piDuration;i++) {
-			oSeq.add(i*110, new clsActionMove(eActionMoveDirection.MOVE_FORWARD, prSpeed),15);
-			oSeq.add(i*110+20, new clsActionTurn(eActionTurnDirection.TURN_RIGHT,18),10);
-			oSeq.add(i*110+30, new clsActionMove(eActionMoveDirection.MOVE_FORWARD, prSpeed),15);
-			oSeq.add(i*110+50, new clsActionTurn(eActionTurnDirection.TURN_RIGHT,18),10);
-			oSeq.add(i*110+60, new clsActionMove(eActionMoveDirection.MOVE_FORWARD, prSpeed),15);
-			oSeq.add(i*110+80, new clsActionTurn(eActionTurnDirection.TURN_RIGHT,18),10);
-			oSeq.add(i*110+90, new clsActionMove(eActionMoveDirection.MOVE_FORWARD, prSpeed),15);
-			oSeq.add(i*110+110, new clsActionTurn(eActionTurnDirection.TURN_RIGHT,18),10);
+			oSeq.add(i*120, new clsActionMove(eActionMoveDirection.MOVE_FORWARD, prSpeed),15);
+			oSeq.add(i*120+20, new clsActionTurn(eActionTurnDirection.TURN_RIGHT,18),10);
+			oSeq.add(i*120+30, new clsActionMove(eActionMoveDirection.MOVE_FORWARD, prSpeed),15);
+			oSeq.add(i*120+50, new clsActionTurn(eActionTurnDirection.TURN_RIGHT,18),10);
+			oSeq.add(i*120+60, new clsActionMove(eActionMoveDirection.MOVE_FORWARD, prSpeed),15);
+			oSeq.add(i*120+80, new clsActionTurn(eActionTurnDirection.TURN_RIGHT,18),10);
+			oSeq.add(i*120+90, new clsActionMove(eActionMoveDirection.MOVE_FORWARD, prSpeed),15);
+			oSeq.add(i*120+110, new clsActionTurn(eActionTurnDirection.TURN_RIGHT,18),10);
 		}
 		
 		return oSeq;
