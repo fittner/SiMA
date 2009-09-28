@@ -6,9 +6,14 @@
  */
 package pa.modules;
 
+import java.util.HashMap;
+
+import pa.datatypes.clsTPDrive;
 import pa.interfaces.I1_2;
 import pa.interfaces.I1_3;
+import pa.loader.clsDriveLoader;
 import config.clsBWProperties;
+import enums.pa.eDriveContent;
 
 /**
  * DOCUMENT (deutsch) - insert description 
@@ -18,6 +23,19 @@ import config.clsBWProperties;
  * 
  */
 public class E03_GenerationOfDrives extends clsModuleBase implements I1_2 {
+
+	
+	private HashMap<eDriveContent, clsTPDrive> moDriveDefinition = null;
+	
+	/**
+	 * @author langr
+	 * 28.09.2009, 19:21:32
+	 * 
+	 * @return the moDriveDefinition
+	 */
+	public HashMap<eDriveContent, clsTPDrive> getDriveDefinition() {
+		return moDriveDefinition;
+	}
 
 	/**
 	 * DOCUMENT (deutsch) - insert description 
@@ -33,9 +51,24 @@ public class E03_GenerationOfDrives extends clsModuleBase implements I1_2 {
 			clsModuleContainer poEnclosingContainer) {
 		super(poPrefix, poProp, poEnclosingContainer);
 
-		applyProperties(poPrefix, poProp);		
+		applyProperties(poPrefix, poProp);	
+		loadDriveDefinition(poPrefix, poProp);
 	}
 	
+	/**
+	 * DOCUMENT (langr) - insert description
+	 *
+	 * @author langr
+	 * 23.09.2009, 14:31:31
+	 *
+	 */
+	private void loadDriveDefinition(String poPrefix, clsBWProperties poProp) {
+	      
+		//TODO - (langr): read from property file!
+		moDriveDefinition = clsDriveLoader.createDriveList("1", "PSY_10");
+
+	}
+
 	public static clsBWProperties getDefaultProperties(String poPrefix) {
 		// String pre = clsBWProperties.addDot(poPrefix);
 		

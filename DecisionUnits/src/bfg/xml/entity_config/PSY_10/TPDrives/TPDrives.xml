@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<TPDrives xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:noNamespaceSchemaLocation="../xsd/ComplexEmotion.xsd">
+
+	<TPDrive ID="1" name="eat">
+		<Description>definition of drive-sources</Description>
+		<Drivecontent>EAT</Drivecontent>
+
+                <DriveSourceList>
+                    <DriveSource SensorType="SLOWMESSENGER" ValueType="BLOODSUGAR" Ratio="0.6" ></DriveSource>
+                    <DriveSource SensorType="STOMACHTENSION" Ratio="0.4"></DriveSource>
+                </DriveSourceList>
+
+                <LifeInstinctList>
+                    <LifeInstinctRatio context="DEFAULT" oral="0.9" anal="0" phallic="0.1" genital="0"></LifeInstinctRatio>
+                </LifeInstinctList>
+
+                <DriveObjectList>
+                    <DriveObject type="LYNX" context="DEFAULT"></DriveObject>
+                    <DriveObject type="CARROT" context="DEFAULT"></DriveObject>
+                </DriveObjectList>
+
+
+        </TPDrive>
+
+	<TPDrive ID="2" name="excrete">
+		<Description>fill level of stomachs</Description>
+		<Drivecontent>EXCRETE</Drivecontent>
+
+                <DriveSourceList>
+                    <DriveSource SensorType="STOMACH" ValueType="UNDIGESTABLE" Ratio="1" ></DriveSource>
+                 </DriveSourceList>
+
+                 <LifeInstinctList>
+                     <LifeInstinctRatio context="DEFAULT" oral="0" anal="1" phallic="0" genital="0"></LifeInstinctRatio>
+                </LifeInstinctList>
+        </TPDrive>
+
+        <TPDrive ID="3" name="sleep">
+		<Description></Description>
+		<Drivecontent>SLEEP</Drivecontent>
+
+                <DriveSourceList>
+                    <DriveSource SensorType="STAMINA" Ratio="0.5" ></DriveSource>
+                    <DriveSource SensorType="ENERGY_CONSUMPTION" Ratio="0.5" ></DriveSource>
+                </DriveSourceList>
+
+                <LifeInstinctList>
+                    <LifeInstinctRatio context="DEFAULT" oral="0.2" anal="0.8" phallic="0" genital="0"></LifeInstinctRatio>
+                </LifeInstinctList>
+            </TPDrive>
+
+        <TPDrive ID="4" name="breath">
+		<Description></Description>
+		<Drivecontent>BREATH</Drivecontent>
+
+                <!--DriveSource SensorType="STAMINA" Ratio="0.5" ></DriveSource-->
+            <!--DriveSource SensorType="ENERGY_CONSUMPTION" Ratio="0.5" ></DriveSource-->
+
+            <LifeInstinctList>
+                <LifeInstinctRatio context="DEFAULT" oral="0.2" anal="0.8" phallic="0" genital="0"></LifeInstinctRatio>
+            </LifeInstinctList>
+        </TPDrive>
+
+        <TPDrive ID="5" name="health">
+		<Description></Description>
+		<Drivecontent>RELAX</Drivecontent>
+
+                <DriveSourceList>
+                    <DriveSource SensorType="HEALTH" Ratio="0.4" ></DriveSource>
+                    <DriveSource SensorType="STAMINA" Ratio="0.3" ></DriveSource>
+                    <DriveSource SensorType="ENERGY_CONSUMPTION" Ratio="0.3" ></DriveSource>
+                </DriveSourceList>
+
+            <LifeInstinctList>
+                <LifeInstinctRatio context="DEFAULT" oral="0.2" anal="0.8" phallic="0" genital="0"></LifeInstinctRatio>
+            </LifeInstinctList>
+        </TPDrive>
+
+        <TPDrive ID="6" name="sexual_arousal">
+		<Description></Description>
+		<Drivecontent>SEXUAL_AROUSAL</Drivecontent>
+
+                <!--DriveSource SensorType="" Ratio="1" ></DriveSource-->
+            <LifeInstinctList>
+                <LifeInstinctRatio context="DEFAULT" oral="0.2" anal="0.8" phallic="0" genital="0"></LifeInstinctRatio>
+            </LifeInstinctList>
+        </TPDrive>
+
+        <TPDrive ID="7" name="aggression">
+		<Description></Description>
+		<Drivecontent>AGGRESSION</Drivecontent>
+
+                <!--DriveSource SensorType="" Ratio="1" ></DriveSource-->
+            <LifeInstinctList>
+                <LifeInstinctRatio context="DEFAULT" oral="0.2" anal="0.8" phallic="0" genital="0"></LifeInstinctRatio>
+            </LifeInstinctList>
+        </TPDrive>
+
+
+</TPDrives>

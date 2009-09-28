@@ -11,6 +11,9 @@ package bfg.tools.xmltools;
 
 //import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
+
+import statictools.clsGetARSPath;
+
 import java.util.TreeMap;
 import java.util.Vector;
 import java.util.ArrayList;
@@ -581,7 +584,7 @@ public class clsXMLConfiguration
     }
     return oResult;
   }
-
+  
   //---------------------------------------------------------------------------
   public static Vector getAbstractImageFileList( Vector poTeamPath, int pnTeamId )
   //---------------------------------------------------------------------------
@@ -709,6 +712,58 @@ public class clsXMLConfiguration
     }
   }
 */
+  
+  //---------------------------------------------------------------------------
+  public static ArrayList<String> getFileList( String poAgentId, String poGroupName, String poQueryType )
+  //---------------------------------------------------------------------------
+  {
+	  ArrayList<String> oRetVal = new ArrayList<String>();
+	
+	  String oPath = clsGetARSPath.getXMLPathEntity()+poQueryType;
+	  
+		try
+		{
+			File aiDir = new File(oPath);
+			List generalQueryFiles = getFilesInDirectory( aiDir );
+			Iterator filesIter = generalQueryFiles.iterator();
+			while( filesIter.hasNext() ){
+				oRetVal.add( ((File)filesIter.next()).toString() );
+			}
+		}
+	  catch( FileNotFoundException ex)
+	  {
+	    ////Engine.log.println( ex.getMessage() );
+	  }
+
+	  oPath += clsGetARSPath.getSeperator() + poGroupName;
+      try
+      {
+    	List teamQueryFiles = getFilesInDirectory( new File( oPath ) );
+        Iterator filesIter = teamQueryFiles.iterator();
+        while( filesIter.hasNext() ){
+        	oRetVal.add( ((File)filesIter.next()).toString() );
+        }
+      }
+      catch( FileNotFoundException ex)
+      {
+        ////Engine.log.println( ex.getMessage() );
+      }
+	  oPath += clsGetARSPath.getSeperator() + poAgentId;
+      try
+      {
+        List agentQueryFiles = getFileListingRecursive( new File( oPath ) );
+        Iterator filesIter = agentQueryFiles.iterator();
+        while( filesIter.hasNext() ){
+        	oRetVal.add( ((File)filesIter.next()).toString() );
+        }
+      }
+      catch( FileNotFoundException ex)
+      {
+        ////Engine.log.println( ex.getMessage() );
+      }
+      return oRetVal;
+  }
+  
     //---------------------------------------------------------------------------
   public static void getFileList( int pnBubbleId, String poTeamPath, String poDirectoryPath, Vector poOutputVector )
   //---------------------------------------------------------------------------

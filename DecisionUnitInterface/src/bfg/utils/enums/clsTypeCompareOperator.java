@@ -128,6 +128,56 @@ public class clsTypeCompareOperator extends enumClass {
   }
 
   //---------------------------------------------------------------------------
+  public boolean compareDouble( double a, double b )
+  //---------------------------------------------------------------------------
+  {
+    boolean retVal = false;
+    if( moCompareOperator.equals("==") )
+    {
+      if( a == b )
+      {
+        retVal = true;
+      }
+    }
+    else if( moCompareOperator.equals("!=") )
+    {
+      if( a != b )
+      {
+        retVal = true;
+      }
+    }
+    else if( moCompareOperator.equals(">=") )
+    {
+      if( a >= b )
+      {
+        retVal = true;
+      }
+    }
+    else if( moCompareOperator.equals("<=") )
+    {
+      if( a <= b )
+      {
+        retVal = true;
+      }
+    }
+    else if( moCompareOperator.equals(">") )
+    {
+      if( a > b )
+      {
+        retVal = true;
+      }
+    }
+    else if( moCompareOperator.equals("<") )
+    {
+      if( a < b )
+      {
+        retVal = true;
+      }
+    }
+    return retVal;
+  }
+  
+  //---------------------------------------------------------------------------
   public boolean compare( float a, int b, String poType )
   //---------------------------------------------------------------------------
   {

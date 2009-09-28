@@ -405,7 +405,18 @@ public class clsXMLAbstractImageReader // extends clsCloneable
   }
 
 
+  //helper to get the attribute value from an element - if not defined return an empty string
+  //---------------------------------------------------------------------------
+	public static String getAtributeValue(NamedNodeMap poAtrib, String poName) {
+  //---------------------------------------------------------------------------
 
+		String oRetVal = "";
+		Node oNode = poAtrib.getNamedItem(poName);
+		if(oNode != null) {
+			oRetVal = oNode.getNodeValue();
+		}
+		return oRetVal;
+	}
 
 
 };
