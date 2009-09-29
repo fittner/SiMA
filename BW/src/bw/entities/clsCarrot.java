@@ -36,7 +36,6 @@ import bw.utils.tools.clsFood;
  * 
  */
 public class clsCarrot extends clsInanimate implements itfGetFlesh, itfAPEatable, itfAPCarryable, itfIsConsumeable {
-	public static final String P_BODY 				= "body";
 	public static final String P_SHAPE_FRESH 		= "shape_fresh";
 	public static final String P_SHAPE_DEAD 		= "shape_dead";
 	public static final String P_REGROW_STEPS_MIN 	= "regrow_steps_min";

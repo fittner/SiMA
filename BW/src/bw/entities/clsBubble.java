@@ -28,10 +28,8 @@ import bw.utils.enums.eBodyType;
 import bw.utils.enums.eShapeType;
 import enums.eActionKissIntensity;
 import enums.eEntityType;
-import enums.eSensorExtType;
 import bw.body.io.clsExternalIO;
 import bw.body.io.actuators.actionProxies.itfAPKissable;
-import bw.body.io.sensors.ext.clsSensorVision;
 
 //import tstBw.*;
 
@@ -55,12 +53,14 @@ public class clsBubble extends clsAnimate implements itfGetSensorEngine, itfGetR
 		oProp.putAll( clsAnimate.getDefaultProperties(pre) );
 		
 		// remove whatever body has been assigned by getDefaultProperties
-		oProp.removeKeysStartingWith(pre+clsAnimate.P_BODY);
+		oProp.removeKeysStartingWith(pre+clsEntity.P_BODY);
 		//add correct body
 		oProp.putAll( clsComplexBody.getDefaultProperties(pre+P_BODY) );
 		oProp.setProperty(pre+P_BODY_TYPE, eBodyType.COMPLEX.toString());
 		
-		clsAddThreeRangeVision(pre, oProp);
+		//add correct default sensor values (three range vision)
+		oProp.removeKeysStartingWith(pre+clsEntity.P_BODY+"."+clsComplexBody.P_EXTERNALIO+"."+clsExternalIO.P_SENSORS);
+		oProp.putAll( clsExternalIO.getDefaultSensorProperties(pre+clsEntity.P_BODY+"."+clsComplexBody.P_EXTERNALIO+"."+clsExternalIO.P_SENSORS, true));
 
 		//TODO: (langr) - should pass the config to the decision unit!
 		//oProp.putAll( clsDumbMindA.getDefaultProperties(pre) ); //clsDumbMindA.getDefaultProperties(pre)
@@ -100,42 +100,7 @@ public class clsBubble extends clsAnimate implements itfGetSensorEngine, itfGetR
 		return oProp;
 	}
 
-	/**
-	 * DOCUMENT (langr) - insert description
-	 *
-	 * @author langr
-	 * 09.09.2009, 10:08:50
-	 *
-	 * @param poPre
-	 * @param poProp
-	 */
-	private static void clsAddThreeRangeVision(String poPre,
-			clsBWProperties poProp) {
-		// removes standard vision from complex body and adds the 3-range-vision
-		poProp.setProperty(poPre+clsAnimate.P_BODY+"."+clsComplexBody.P_SENSORSEXT+"."+"2."+clsExternalIO.P_SENSORACTIVE, false);
-		poProp.setProperty(poPre+clsAnimate.P_BODY+"."+clsComplexBody.P_SENSORSEXT+"."+clsExternalIO.P_NUMSENSORS, 10);
-		//add 3-range-vision
-		poProp.putAll( clsSensorVision.getDefaultProperties( poPre+clsAnimate.P_BODY+"."+clsComplexBody.P_SENSORSEXT+"."+"7") );
-		poProp.setProperty(poPre+clsAnimate.P_BODY+"."+clsComplexBody.P_SENSORSEXT+"."+"7."+clsExternalIO.P_SENSORACTIVE, true);
-		poProp.setProperty(poPre+clsAnimate.P_BODY+"."+clsComplexBody.P_SENSORSEXT+"."+"7."+clsExternalIO.P_SENSORTYPE, eSensorExtType.VISION_NEAR.name());
-		poProp.setProperty(poPre+clsAnimate.P_BODY+"."+clsComplexBody.P_SENSORSEXT+"."+"7."+clsExternalIO.P_SENSORRANGE, 20);
-		poProp.setProperty(poPre+clsAnimate.P_BODY+"."+clsComplexBody.P_SENSORSEXT+"."+"7."+clsSensorVision.P_SENSOR_MIN_DISTANCE, 0 );
-		poProp.setProperty(poPre+clsAnimate.P_BODY+"."+clsComplexBody.P_SENSORSEXT+"."+"7."+clsSensorVision.P_SENSOR_FIELD_OF_VIEW, Math.PI );
 
-		poProp.putAll( clsSensorVision.getDefaultProperties( poPre+clsAnimate.P_BODY+"."+clsComplexBody.P_SENSORSEXT+"."+"8") );
-		poProp.setProperty(poPre+clsAnimate.P_BODY+"."+clsComplexBody.P_SENSORSEXT+"."+"8."+clsExternalIO.P_SENSORACTIVE, true);
-		poProp.setProperty(poPre+clsAnimate.P_BODY+"."+clsComplexBody.P_SENSORSEXT+"."+"8."+clsExternalIO.P_SENSORTYPE, eSensorExtType.VISION_MEDIUM.name());
-		poProp.setProperty(poPre+clsAnimate.P_BODY+"."+clsComplexBody.P_SENSORSEXT+"."+"8."+clsExternalIO.P_SENSORRANGE, 40 );
-		poProp.setProperty(poPre+clsAnimate.P_BODY+"."+clsComplexBody.P_SENSORSEXT+"."+"8."+clsSensorVision.P_SENSOR_MIN_DISTANCE, 20 );
-		poProp.setProperty(poPre+clsAnimate.P_BODY+"."+clsComplexBody.P_SENSORSEXT+"."+"8."+clsSensorVision.P_SENSOR_FIELD_OF_VIEW, Math.PI );
-
-		poProp.putAll( clsSensorVision.getDefaultProperties( poPre+clsAnimate.P_BODY+"."+clsComplexBody.P_SENSORSEXT+"."+"9") );
-		poProp.setProperty(poPre+clsAnimate.P_BODY+"."+clsComplexBody.P_SENSORSEXT+"."+"9."+clsExternalIO.P_SENSORACTIVE, true);
-		poProp.setProperty(poPre+clsAnimate.P_BODY+"."+clsComplexBody.P_SENSORSEXT+"."+"9."+clsExternalIO.P_SENSORTYPE, eSensorExtType.VISION_FAR.name());
-		poProp.setProperty(poPre+clsAnimate.P_BODY+"."+clsComplexBody.P_SENSORSEXT+"."+"9."+clsExternalIO.P_SENSORRANGE, 60);
-		poProp.setProperty(poPre+clsAnimate.P_BODY+"."+clsComplexBody.P_SENSORSEXT+"."+"9."+clsSensorVision.P_SENSOR_MIN_DISTANCE, 40 );
-		poProp.setProperty(poPre+clsAnimate.P_BODY+"."+clsComplexBody.P_SENSORSEXT+"."+"9."+clsSensorVision.P_SENSOR_FIELD_OF_VIEW, Math.PI );
-	}
 	
 	private void applyProperties(String poPrefix, clsBWProperties poProp) {
 		// String pre = clsBWProperties.addDot(poPrefix);

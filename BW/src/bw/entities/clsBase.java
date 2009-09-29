@@ -15,12 +15,15 @@ import sim.physics2D.physicalObject.PhysicalObject2D;
 import ARSsim.physics2D.physicalObject.clsCollidingObject;
 import ARSsim.physics2D.physicalObject.clsMobileObject2D;
 import ARSsim.physics2D.physicalObject.clsStationaryObject2D;
+import bw.body.io.clsExternalIO;
 import bw.body.io.sensors.ext.clsSensorEatableArea;
+import bw.body.io.sensors.ext.clsSensorEngine;
 import bw.body.io.sensors.ext.clsSensorVision;
 import bw.entities.tools.clsShapeCreator;
 import bw.entities.tools.eImagePositioning;
 import bw.utils.enums.eShapeType;
 import enums.eEntityType;
+import enums.eSensorExtType;
 
 /**
  * 
@@ -33,7 +36,7 @@ import enums.eEntityType;
  * 
  */
 public class clsBase extends clsStationary {
-	public static final String P_SENSOR = "sensor";
+	public static String P_SENSOR = "sensor";
 	
 	private int mnStoredOre;	// stored ore counter
 	private clsSensorEatableArea moSensorEatable;	// 'eatability' sensor
@@ -61,13 +64,25 @@ public class clsBase extends clsStationary {
 		clsBWProperties oProp = new clsBWProperties();
 		
 		oProp.putAll(clsStationary.getDefaultProperties(pre) );
-
+/*
 		oProp.setProperty(pre+P_SENSOR+"."+clsSensorVision.P_SENSOR_FIELD_OF_VIEW, 2 * Math.PI );
 		oProp.setProperty(pre+P_SENSOR+"."+clsSensorVision.P_SENSOR_MAX_DISTANCE, 25.0 );
 		oProp.setProperty(pre+P_SENSOR+"."+clsSensorVision.P_SENSOR_MIN_DISTANCE, 0.0 );
 		oProp.setProperty(pre+P_SENSOR+"."+clsSensorVision.P_SENSOR_OFFSET_X , 0.0 );
 		oProp.setProperty(pre+P_SENSOR+"."+clsSensorVision.P_SENSOR_OFFSET_Y , 0.0 );
+	*/
+
+		String tmp_pre = pre+P_SENSOR+".";
 		
+		oProp.putAll( clsSensorEngine.getDefaultProperties(tmp_pre+clsExternalIO.P_SENSORENGINE) );
+		oProp.setProperty(tmp_pre+clsExternalIO.P_SENSORRANGE, 0.0); // Default - changed later on
+		
+		oProp.putAll( clsSensorVision.getDefaultProperties( tmp_pre) );
+		oProp.setProperty(tmp_pre+clsExternalIO.P_SENSORACTIVE, true);
+		oProp.setProperty(tmp_pre+clsExternalIO.P_SENSORTYPE, eSensorExtType.VISION.name());
+		oProp.setProperty(tmp_pre+clsExternalIO.P_SENSORRANGE, oProp.getProperty(tmp_pre+clsExternalIO.P_SENSORENGINE+"."+clsSensorEngine.P_MAX_RANGE));
+		oProp.setProperty(tmp_pre+clsSensorVision.P_SENSOR_MAX_DISTANCE, oProp.getProperty(tmp_pre+clsExternalIO.P_SENSORENGINE+"."+clsSensorEngine.P_MAX_RANGE));
+
 		oProp.setProperty(pre+P_SHAPE+"."+clsShapeCreator.P_DEFAULT_SHAPE, P_SHAPENAME);		
 		oProp.setProperty(pre+P_SHAPE+"."+P_SHAPENAME+"."+clsShapeCreator.P_TYPE, eShapeType.CIRCLE.name());
 		oProp.setProperty(pre+P_SHAPE+"."+P_SHAPENAME+"."+clsShapeCreator.P_RADIUS, 17);

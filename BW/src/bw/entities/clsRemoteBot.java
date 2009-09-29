@@ -24,6 +24,7 @@ import bw.body.attributes.clsAttributeHand;
 import bw.body.attributes.clsAttributes;
 import bw.body.brainsocket.clsBrainSocket;
 
+import bw.body.io.clsExternalIO;
 import bw.body.itfget.itfGetBotHand;
 import bw.body.itfget.itfGetRadiation;
 import bw.body.itfget.itfGetSensorEngine;
@@ -76,6 +77,9 @@ public class clsRemoteBot extends clsAnimate implements itfGetSensorEngine, itfG
 		oProp.setProperty(pre+P_BODY_TYPE, eBodyType.COMPLEX.toString());
 		oProp.setProperty(pre+P_DECISION_TYPE, eDecisionType.REMOTE.name());
 		
+		//add correct default sensor values (three range vision)
+		oProp.removeKeysStartingWith(pre+clsEntity.P_BODY+"."+clsComplexBody.P_EXTERNALIO+"."+clsExternalIO.P_SENSORS);
+		oProp.putAll( clsExternalIO.getDefaultSensorProperties(pre+clsEntity.P_BODY+"."+clsComplexBody.P_EXTERNALIO+"."+clsExternalIO.P_SENSORS, true));
 		
 		oProp.setProperty(pre+P_SHAPE+"."+clsShapeCreator.P_DEFAULT_SHAPE, P_SHAPENAME);
 		oProp.setProperty(pre+P_SHAPE+"."+P_SHAPENAME+"."+clsShapeCreator.P_TYPE, eShapeType.CIRCLE.name());

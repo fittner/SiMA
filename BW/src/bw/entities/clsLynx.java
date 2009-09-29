@@ -71,10 +71,10 @@ public class clsLynx extends clsAnimal {
 		oProp.setProperty(pre+P_BODY_TYPE, eBodyType.COMPLEX.toString());
 		
 		//FIXME (deutsch) - .4. is not guaranteed - has to be changed!
-		oProp.setProperty(pre+"body.sensorsext.4.offset", 11);
-		oProp.setProperty(pre+"body.sensorsext.4.sensor_range", 2);
-		oProp.setProperty(pre+"body.sensorsext.2.sensor_range", 45.0);
-		oProp.setProperty(pre+"body.sensorsext.3.sensor_range", 45.0);		
+		oProp.setProperty(pre+"body.externalio.sensors.4.offset", 11);
+		oProp.setProperty(pre+"body.externalio.sensors.4.sensor_range", 2);
+		oProp.setProperty(pre+"body.externalio.sensors.2.sensor_range", 45.0);
+		oProp.setProperty(pre+"body.externalio.sensors.3.sensor_range", 45.0);		
 		
 		oProp.setProperty(pre+P_STRUCTURALWEIGHT, 600.0);
 		

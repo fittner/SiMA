@@ -36,8 +36,6 @@ import enums.eEntityType;
  * 
  */
 public class clsCake extends clsInanimate implements itfGetFlesh, itfAPEatable, itfAPCarryable, itfGetBody, itfIsConsumeable {
-	public static final String P_BODY = "body";
-	
 	public clsCake(String poPrefix, clsBWProperties poProp)
     {
 		super(poPrefix, poProp);		

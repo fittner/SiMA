@@ -76,6 +76,8 @@ public class clsExternalIO extends clsBaseIO {
 	public static final String P_ACTIONEX_BODYCOLORRED = "red";
 	public static final String P_ACTIONEX_BODYCOLORGREEN = "green";
 	public static final String P_ACTIONEX_BODYCOLORBLUE = "blue";
+	public static final String P_ACTIONS = "actions";
+	public static final String P_SENSORS = "sensors";
 
 	private clsActionProcessor moProcessor; 
 	public clsSensorEngine moSensorEngine; 
@@ -92,52 +94,97 @@ public class clsExternalIO extends clsBaseIO {
 		applyProperties(poPrefix, poProp);
 	}
 	
-	public static clsBWProperties getDefaultProperties(String poPrefix) {
+	public static clsBWProperties getDefaultSensorProperties(String poPrefix, boolean pnThreeRangeVision) {
 		String pre = clsBWProperties.addDot(poPrefix);
 		
-		clsBWProperties oProp = new clsBWProperties();
+		clsBWProperties oProp = new clsBWProperties();		
+
 		oProp.putAll( clsSensorEngine.getDefaultProperties(pre+P_SENSORENGINE) );
 		oProp.setProperty(pre+P_SENSORRANGE, 0.0); // Default - changed later on
 
-		oProp.setProperty(pre+P_NUMSENSORS, 7);
+		int numsensors = 0;
 				
-		oProp.putAll( clsSensorAcceleration.getDefaultProperties( pre+"0") );
-		oProp.setProperty(pre+"0."+P_SENSORACTIVE, true);
-		oProp.setProperty(pre+"0."+P_SENSORTYPE, eSensorExtType.ACCELERATION.name());
-		oProp.setProperty(pre+"0."+P_SENSORRANGE, 0.0);
+		oProp.putAll( clsSensorAcceleration.getDefaultProperties( pre+numsensors) );
+		oProp.setProperty(pre+numsensors+"."+P_SENSORACTIVE, true);
+		oProp.setProperty(pre+numsensors+"."+P_SENSORTYPE, eSensorExtType.ACCELERATION.name());
+		oProp.setProperty(pre+numsensors+"."+P_SENSORRANGE, 0.0);
+		numsensors++;
 			
-		oProp.putAll( clsSensorBump.getDefaultProperties( pre+"1") );
-		oProp.setProperty(pre+"1."+P_SENSORACTIVE, true);
-		oProp.setProperty(pre+"1."+P_SENSORTYPE, eSensorExtType.BUMP.name());
-		oProp.setProperty(pre+"1."+P_SENSORRANGE, 20.0);
+		oProp.putAll( clsSensorBump.getDefaultProperties( pre+numsensors) );
+		oProp.setProperty(pre+numsensors+"."+P_SENSORACTIVE, true);
+		oProp.setProperty(pre+numsensors+"."+P_SENSORTYPE, eSensorExtType.BUMP.name());
+		oProp.setProperty(pre+numsensors+"."+P_SENSORRANGE, 20.0);
+		numsensors++;
 				
-		oProp.putAll( clsSensorVision.getDefaultProperties( pre+"2") );
-		oProp.setProperty(pre+"2."+P_SENSORACTIVE, true);
-		oProp.setProperty(pre+"2."+P_SENSORTYPE, eSensorExtType.VISION.name());
-		oProp.setProperty(pre+"2."+P_SENSORRANGE, oProp.getProperty(pre+P_SENSORENGINE+"."+clsSensorEngine.P_MAX_RANGE));
-		oProp.setProperty(pre+"2."+clsSensorVision.P_SENSOR_MAX_DISTANCE, oProp.getProperty(pre+P_SENSORENGINE+"."+clsSensorEngine.P_MAX_RANGE));
+		if (pnThreeRangeVision) {
+			//add 3-range-vision
+			oProp.putAll( clsSensorVision.getDefaultProperties( pre+numsensors) );
+			oProp.setProperty(pre+numsensors+"."+clsExternalIO.P_SENSORACTIVE, true);
+			oProp.setProperty(pre+numsensors+"."+clsExternalIO.P_SENSORTYPE, eSensorExtType.VISION_NEAR.name());
+			oProp.setProperty(pre+numsensors+"."+clsExternalIO.P_SENSORRANGE, 20);
+			oProp.setProperty(pre+numsensors+"."+clsSensorVision.P_SENSOR_MIN_DISTANCE, 0 );
+			oProp.setProperty(pre+numsensors+"."+clsSensorVision.P_SENSOR_FIELD_OF_VIEW, Math.PI );
+			numsensors++;
+	
+			oProp.putAll( clsSensorVision.getDefaultProperties( pre+numsensors) );
+			oProp.setProperty(pre+numsensors+"."+clsExternalIO.P_SENSORACTIVE, true);
+			oProp.setProperty(pre+numsensors+"."+clsExternalIO.P_SENSORTYPE, eSensorExtType.VISION_MEDIUM.name());
+			oProp.setProperty(pre+numsensors+"."+clsExternalIO.P_SENSORRANGE, 40 );
+			oProp.setProperty(pre+numsensors+"."+clsSensorVision.P_SENSOR_MIN_DISTANCE, 20 );
+			oProp.setProperty(pre+numsensors+"."+clsSensorVision.P_SENSOR_FIELD_OF_VIEW, Math.PI );
+			numsensors++;
+	
+			oProp.putAll( clsSensorVision.getDefaultProperties( pre+numsensors) );
+			oProp.setProperty(pre+numsensors+"."+clsExternalIO.P_SENSORACTIVE, true);
+			oProp.setProperty(pre+numsensors+"."+clsExternalIO.P_SENSORTYPE, eSensorExtType.VISION_FAR.name());
+			oProp.setProperty(pre+numsensors+"."+clsExternalIO.P_SENSORRANGE, 60);
+			oProp.setProperty(pre+numsensors+"."+clsSensorVision.P_SENSOR_MIN_DISTANCE, 40 );
+			oProp.setProperty(pre+numsensors+"."+clsSensorVision.P_SENSOR_FIELD_OF_VIEW, Math.PI );
+			numsensors++;
+		} else {
+			oProp.putAll( clsSensorVision.getDefaultProperties( pre+numsensors) );
+			oProp.setProperty(pre+numsensors+"."+P_SENSORACTIVE, true);
+			oProp.setProperty(pre+numsensors+"."+P_SENSORTYPE, eSensorExtType.VISION.name());
+			oProp.setProperty(pre+numsensors+"."+P_SENSORRANGE, oProp.getProperty(pre+P_SENSORENGINE+"."+clsSensorEngine.P_MAX_RANGE));
+			oProp.setProperty(pre+numsensors+"."+clsSensorVision.P_SENSOR_MAX_DISTANCE, oProp.getProperty(pre+P_SENSORENGINE+"."+clsSensorEngine.P_MAX_RANGE));
+			numsensors++;
+		}
 		
-		oProp.putAll( clsSensorRadiation.getDefaultProperties( pre+"3") );
-		oProp.setProperty(pre+"3."+P_SENSORACTIVE, true);
-		oProp.setProperty(pre+"3."+P_SENSORTYPE, eSensorExtType.RADIATION.name());
-		oProp.setProperty(pre+"3."+P_SENSORRANGE, oProp.getProperty(pre+P_SENSORENGINE+"."+clsSensorEngine.P_MAX_RANGE));
+		oProp.putAll( clsSensorRadiation.getDefaultProperties( pre+numsensors) );
+		oProp.setProperty(pre+numsensors+"."+P_SENSORACTIVE, true);
+		oProp.setProperty(pre+numsensors+"."+P_SENSORTYPE, eSensorExtType.RADIATION.name());
+		oProp.setProperty(pre+numsensors+"."+P_SENSORRANGE, oProp.getProperty(pre+P_SENSORENGINE+"."+clsSensorEngine.P_MAX_RANGE));
+		numsensors++;
 		
-		oProp.putAll( clsSensorEatableArea.getDefaultProperties( pre+"4") );
-		oProp.setProperty(pre+"4."+P_SENSORACTIVE, true);
-		oProp.setProperty(pre+"4."+P_SENSORTYPE, eSensorExtType.EATABLE_AREA.name());
-		oProp.setProperty(pre+"4."+P_SENSORRANGE, oProp.getPropertyDouble(pre+P_SENSORENGINE+"."+clsSensorEngine.P_MAX_RANGE)/
+		oProp.putAll( clsSensorEatableArea.getDefaultProperties( pre+numsensors) );
+		oProp.setProperty(pre+numsensors+"."+P_SENSORACTIVE, true);
+		oProp.setProperty(pre+numsensors+"."+P_SENSORTYPE, eSensorExtType.EATABLE_AREA.name());
+		oProp.setProperty(pre+numsensors+"."+P_SENSORRANGE, oProp.getPropertyDouble(pre+P_SENSORENGINE+"."+clsSensorEngine.P_MAX_RANGE)/
 												  oProp.getPropertyInt(pre+P_SENSORENGINE+"."+clsSensorEngine.P_RANGEDIVISION));
+		numsensors++;
 		
-		oProp.putAll( clsSensorPositionChange.getDefaultProperties( pre+"5") );
-		oProp.setProperty(pre+"5."+P_SENSORACTIVE, true);
-		oProp.setProperty(pre+"5."+P_SENSORTYPE, eSensorExtType.POSITIONCHANGE.name());		
-		oProp.setProperty(pre+"5."+P_SENSORRANGE, 0.0);
+		oProp.putAll( clsSensorPositionChange.getDefaultProperties( pre+numsensors) );
+		oProp.setProperty(pre+numsensors+"."+P_SENSORACTIVE, true);
+		oProp.setProperty(pre+numsensors+"."+P_SENSORTYPE, eSensorExtType.POSITIONCHANGE.name());		
+		oProp.setProperty(pre+numsensors+"."+P_SENSORRANGE, 0.0);
+		numsensors++;
 
-		oProp.putAll( clsSensorManipulateArea.getDefaultProperties( pre+"6") );
-		oProp.setProperty(pre+"6."+P_SENSORACTIVE, true);
-		oProp.setProperty(pre+"6."+P_SENSORTYPE, eSensorExtType.MANIPULATE_AREA.name());
-		oProp.setProperty(pre+"6."+P_SENSORRANGE, oProp.getPropertyDouble(pre+P_SENSORENGINE+"."+clsSensorEngine.P_MAX_RANGE)/
+		oProp.putAll( clsSensorManipulateArea.getDefaultProperties( pre+numsensors) );
+		oProp.setProperty(pre+numsensors+"."+P_SENSORACTIVE, true);
+		oProp.setProperty(pre+numsensors+"."+P_SENSORTYPE, eSensorExtType.MANIPULATE_AREA.name());
+		oProp.setProperty(pre+numsensors+"."+P_SENSORRANGE, oProp.getPropertyDouble(pre+P_SENSORENGINE+"."+clsSensorEngine.P_MAX_RANGE)/
 												  oProp.getPropertyInt(pre+P_SENSORENGINE+"."+clsSensorEngine.P_RANGEDIVISION));
+		numsensors++;
+		
+		oProp.setProperty(pre+P_NUMSENSORS, numsensors);
+		
+		return oProp;
+	}
+	
+	public static clsBWProperties getDefaultActionProperties(String poPrefix) {
+		String pre = clsBWProperties.addDot(poPrefix);
+		
+		clsBWProperties oProp = new clsBWProperties();
 		
 		oProp.putAll( clsActionProcessor.getDefaultProperties( pre+P_ACTIONPROCESSOR) );
 
@@ -196,10 +243,21 @@ public class clsExternalIO extends clsBaseIO {
 		oProp.setProperty(pre+P_ACTIONAVAILABLE	+"."+bw.utils.enums.eBodyParts.ACTIONEX_SLEEP,1);
 		oProp.putAll( clsExecutorSleep.getDefaultProperties( pre+P_ACTIONEX	+"."+bw.utils.enums.eBodyParts.ACTIONEX_SLEEP) );
 
+		return oProp;		
+	}
+		
+	public static clsBWProperties getDefaultProperties(String poPrefix) {
+		String pre = clsBWProperties.addDot(poPrefix);
+		
+		clsBWProperties oProp = new clsBWProperties();
+		
+		oProp.putAll(getDefaultSensorProperties(pre+P_SENSORS, false));
+		oProp.putAll(getDefaultActionProperties(pre+P_ACTIONS));
+		
 		return oProp;
-	}	
-
-	private void applyProperties(String poPrefix, clsBWProperties poProp) {
+	}
+	
+	private void applySensorProperties(String poPrefix, clsBWProperties poProp) {
 		String pre = clsBWProperties.addDot(poPrefix);
 		moSensorEngine = new clsSensorEngine(pre+P_SENSORENGINE, poProp, this); 
 		
@@ -256,7 +314,11 @@ public class clsExternalIO extends clsBaseIO {
 						break;
 					}
 			}
-		}
+		}		
+	}
+	
+	private void applyActionProperties(String poPrefix, clsBWProperties poProp) {
+		String pre = clsBWProperties.addDot(poPrefix);
 
 		//Register actionexecutors
 		if (poProp.getPropertyInt( pre+P_ACTIONAVAILABLE	+"."+bw.utils.enums.eBodyParts.ACTIONEX_DROP)==1) moProcessor.addCommand(clsActionMove.class, new clsExecutorMove(poPrefix+"." + P_ACTIONEX	+"."+bw.utils.enums.eBodyParts.ACTIONEX_MOVE,poProp,moEntity));
@@ -291,8 +353,14 @@ public class clsExternalIO extends clsBaseIO {
 			//oNotifyListLight.add(xxxxx);
 			//oNotifyListDeep.add(xxxxx);			
 			moProcessor.addCommand(clsActionSleep.class, new clsExecutorSleep(poPrefix+"." + P_ACTIONEX	+"."+bw.utils.enums.eBodyParts.ACTIONEX_EXCREMENT,poProp,(clsMobile) moEntity,oNotifyListLight,oNotifyListDeep));
-		}
-
+		}		
+	}
+	
+	private void applyProperties(String poPrefix, clsBWProperties poProp) {
+		String pre = clsBWProperties.addDot(poPrefix);
+		
+		applySensorProperties(pre+P_SENSORS, poProp);
+		applyActionProperties(pre+P_ACTIONS, poProp);
 	}	
 	
 	public clsActionProcessor getActionProcessor() {

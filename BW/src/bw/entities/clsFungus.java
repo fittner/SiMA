@@ -39,8 +39,6 @@ import enums.eEntityType;
  * 
  */
 public class clsFungus extends clsInanimate implements itfGetFlesh, itfAPEatable, itfAPCarryable, itfIsConsumeable {
-	public static final String P_BODY = "body";
-		
 	public clsFungus(String poPrefix, clsBWProperties poProp)
     {
 		super(poPrefix, poProp);
