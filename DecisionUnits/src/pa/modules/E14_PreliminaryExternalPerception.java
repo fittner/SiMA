@@ -10,13 +10,13 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import config.clsBWProperties;
-import decisionunit.itf.sensors.clsDataBase;
+import decisionunit.itf.sensors.clsSensorExtern;
 import enums.eSensorExtType;
 import pa.datatypes.clsThingPresentationMesh;
 import pa.interfaces.I2_2;
 import pa.interfaces.I2_4;
 import pa.interfaces.I2_5;
-import pa.interfaces.I2_6;
+import pa.tools.clsTPGenerator;
 
 /**
  * DOCUMENT (deutsch) - insert description 
@@ -27,11 +27,12 @@ import pa.interfaces.I2_6;
  */
 public class E14_PreliminaryExternalPerception extends clsModuleBase implements 
 					I2_2, 
-					I2_4,
-					I2_6
+					I2_4
 					{
 	
-	HashMap<eSensorExtType, clsDataBase> moEnvironmentalData;
+	HashMap<eSensorExtType, clsSensorExtern> moEnvironmentalData;
+	HashMap<eSensorExtType, clsSensorExtern> moBodyData;
+	
 	ArrayList<clsThingPresentationMesh> moEnvironmentalTP;
 
 	/**
@@ -98,9 +99,8 @@ public class E14_PreliminaryExternalPerception extends clsModuleBase implements
 	 * @see pa.interfaces.I2_2#receive_I2_2(int)
 	 */
 	@Override
-	public void receive_I2_2(int pnData) {
-		mnTest += pnData;
-		
+	public void receive_I2_2(HashMap<eSensorExtType, clsSensorExtern> poEnvironmentalData) {
+		moEnvironmentalData = poEnvironmentalData;
 	}
 
 	/* (non-Javadoc)
@@ -111,8 +111,8 @@ public class E14_PreliminaryExternalPerception extends clsModuleBase implements
 	 * @see pa.interfaces.I2_4#receive_I2_4(int)
 	 */
 	@Override
-	public void receive_I2_4(int pnData) {
-		mnTest += pnData;
+	public void receive_I2_4(HashMap<eSensorExtType, clsSensorExtern> poBodyData) {
+		moBodyData = poBodyData;
 		
 	}
 
@@ -125,10 +125,7 @@ public class E14_PreliminaryExternalPerception extends clsModuleBase implements
 	 */
 	@Override
 	protected void process() {
-		mnTest++;
-		
-		
-		
+		moEnvironmentalTP = clsTPGenerator.convertSensorToTP(moEnvironmentalData);		
 	}
 
 	/* (non-Javadoc)
@@ -142,18 +139,4 @@ public class E14_PreliminaryExternalPerception extends clsModuleBase implements
 	protected void send() {
 		((I2_5)moEnclosingContainer).receive_I2_5(mnTest);
 	}
-
-	/* (non-Javadoc)
-	 *
-	 * @author langr
-	 * 11.08.2009, 17:08:46
-	 * 
-	 * @see pa.interfaces.I2_6#receive_I2_6(int)
-	 */
-	@Override
-	public void receive_I2_6(int pnData) {
-		mnTest+=pnData;
-	}
-
-
 }

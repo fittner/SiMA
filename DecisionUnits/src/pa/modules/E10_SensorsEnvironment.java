@@ -10,7 +10,7 @@ import java.util.HashMap;
 
 import config.clsBWProperties;
 import pa.interfaces.I2_1;
-import decisionunit.itf.sensors.clsDataBase;
+import decisionunit.itf.sensors.clsSensorExtern;
 import enums.eSensorExtType;
 import pa.interfaces.itfProcessSensorEnvironment;
 
@@ -23,7 +23,7 @@ import pa.interfaces.itfProcessSensorEnvironment;
  */
 public class E10_SensorsEnvironment extends clsModuleBase implements itfProcessSensorEnvironment {
 
-	HashMap<eSensorExtType, clsDataBase> moEnvironmentalData;
+	HashMap<eSensorExtType, clsSensorExtern> moEnvironmentalData;
 	
 	/**
 	 * DOCUMENT (deutsch) - insert description 
@@ -90,7 +90,7 @@ public class E10_SensorsEnvironment extends clsModuleBase implements itfProcessS
 	 * @see pa.interfaces.itfProcessSensorEnvironment#receiveEnvironment(java.util.HashMap)
 	 */
 	@Override
-	public void receiveEnvironment(HashMap<eSensorExtType, clsDataBase> poData) {
+	public void receiveEnvironment(HashMap<eSensorExtType, clsSensorExtern> poData) {
 		moEnvironmentalData = poData;
 	}
 

@@ -22,8 +22,8 @@ public class clsSensorData {
 		moSensorDataExt.put(pnType, poData);
 	}
 	
-	public clsDataBase getSensorExt(eSensorExtType pnType) {
-		return moSensorDataExt.get(pnType);
+	public clsSensorExtern getSensorExt(eSensorExtType pnType) {
+		return (clsSensorExtern)moSensorDataExt.get(pnType);
 	}
 	
 	public void addSensorInt(eSensorIntType pnType, clsDataBase poData) {

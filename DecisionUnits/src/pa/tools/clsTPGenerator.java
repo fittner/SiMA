@@ -11,7 +11,9 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import pa.datatypes.clsThingPresentationMesh;
-import decisionunit.itf.sensors.clsDataBase;
+import pa.datatypes.clsThingPresentationSingle;
+import pa.memory.clsAssociationContext;
+import decisionunit.itf.sensors.clsSensorExtern;
 import enums.eSensorExtType;
 
 /**
@@ -23,19 +25,55 @@ import enums.eSensorExtType;
  */
 public class clsTPGenerator {
 
-	public static ArrayList<clsThingPresentationMesh> convertSensorToTP(HashMap<eSensorExtType, clsDataBase> poSensorDataExt) {
+	public static ArrayList<clsThingPresentationMesh> convertSensorToTP(HashMap<eSensorExtType, clsSensorExtern> poSensorDataExt) {
 		
 		ArrayList<clsThingPresentationMesh> oResult = new ArrayList<clsThingPresentationMesh>();
 		
-		for( clsDataBase oSensorData : poSensorDataExt.values() ) {
+		for( clsSensorExtern oSensorData : poSensorDataExt.values() ) {
 			
-			if( oSensorData )
-			
-			Field[] oFields = oSensorData.getClass().getDeclaredFields(); //get members of class
-			for(Field oField : oFields) { //for each member
+			ArrayList<clsSensorExtern> oDataObjectList = oSensorData.getDataObjects();
+			for(clsSensorExtern oDataObject : oDataObjectList) {
 
+				clsThingPresentationMesh oTPMesh = new clsThingPresentationMesh();
 				
-				
+				String oMeshAttributeName = oDataObject.getMeshAttributeName();
+				Field[] oFields = oDataObject.getClass().getDeclaredFields(); //get members of class
+				for(Field oField : oFields) { //for each (public) member of the sensordata-class
+
+					if( oField.getName().equals(oMeshAttributeName) ) { //this is the mesh-content
+						
+						oTPMesh.meContentName = oField.getName();
+						oTPMesh.meContentType = oField.getClass().getName();
+						try {
+							oTPMesh.moContent = oField.get(oDataObject);
+						} catch (IllegalArgumentException e) {
+							e.printStackTrace();
+						} catch (IllegalAccessException e) {
+							e.printStackTrace();
+						}
+						
+					} else { //this is a connected TP-Single
+						//creating the thing presentation of the attribute 
+						clsThingPresentationSingle oTPSingle = new clsThingPresentationSingle();
+						
+						oTPSingle.meContentName = oField.getName();
+						oTPSingle.meContentType = oField.getClass().getName();
+						try {
+							oTPSingle.moContent = oField.get(oDataObject);
+						} catch (IllegalArgumentException e) {
+							e.printStackTrace();
+						} catch (IllegalAccessException e) {
+							e.printStackTrace();
+						}
+						
+						//creating the association between the mesh and the attribute
+						clsAssociationContext oAssoc = new clsAssociationContext();
+						oAssoc.moElementA = oTPMesh;
+						oAssoc.moElementB = oTPSingle;
+						//storing the association in the mesh
+						oTPMesh.moAssociations.add(oAssoc);
+					}
+				}
 			}
 		}
 		

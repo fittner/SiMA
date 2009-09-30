@@ -6,13 +6,11 @@
  */
 package pa.modules;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 
 import config.clsBWProperties;
-import decisionunit.itf.sensors.clsDataBase;
+import decisionunit.itf.sensors.clsSensorExtern;
 import enums.eSensorExtType;
-import pa.datatypes.clsThingPresentationMesh;
 import pa.interfaces.I2_1;
 import pa.interfaces.I2_2;
 
@@ -25,8 +23,8 @@ import pa.interfaces.I2_2;
  */
 public class E11_NeuroSymbolsEnvironment extends clsModuleBase implements I2_1 {
 
-	HashMap<eSensorExtType, clsDataBase> moEnvironmentalData;
-	ArrayList<clsThingPresentationMesh> moEnvironmentalTP;
+	HashMap<eSensorExtType, clsSensorExtern> moEnvironmentalData;
+	HashMap<eSensorExtType, clsSensorExtern> moBodyData;
 	
 	/**
 	 * DOCUMENT (deutsch) - insert description 
@@ -92,7 +90,7 @@ public class E11_NeuroSymbolsEnvironment extends clsModuleBase implements I2_1 {
 	 * @see pa.interfaces.I2_1#receive_I2_1(HashMap<eSensorExtType, clsDataBase>)
 	 */
 	@Override
-	public void receive_I2_1(HashMap<eSensorExtType, clsDataBase> poData) {
+	public void receive_I2_1(HashMap<eSensorExtType, clsSensorExtern> poData) {
 		moEnvironmentalData = poData;
 		
 	}
@@ -119,8 +117,7 @@ public class E11_NeuroSymbolsEnvironment extends clsModuleBase implements I2_1 {
 	 */
 	@Override
 	protected void send() {
-		((I2_2)moEnclosingContainer).receive_I2_2(mnTest);
+		((I2_2)moEnclosingContainer).receive_I2_2(moEnvironmentalData);
 		
 	}
-
 }

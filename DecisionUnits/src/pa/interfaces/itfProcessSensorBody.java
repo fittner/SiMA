@@ -8,7 +8,7 @@ package pa.interfaces;
 
 import java.util.HashMap;
 
-import decisionunit.itf.sensors.clsDataBase;
+import decisionunit.itf.sensors.clsSensorExtern;
 import enums.eSensorExtType;
 
 /**
@@ -19,5 +19,5 @@ import enums.eSensorExtType;
  * 
  */
 public interface itfProcessSensorBody {
-	public void receiveBody(HashMap<eSensorExtType, clsDataBase> poData);
+	public void receiveBody(HashMap<eSensorExtType, clsSensorExtern> poData);
 }

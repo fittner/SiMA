@@ -12,6 +12,7 @@ import config.clsBWProperties;
 import decisionunit.itf.actions.itfActionProcessor;
 import decisionunit.itf.sensors.clsDataBase;
 import decisionunit.itf.sensors.clsSensorData;
+import decisionunit.itf.sensors.clsSensorExtern;
 import enums.eSensorExtType;
 import enums.eSensorIntType;
 import pa.modules.C00_PsychicApparatus;
@@ -189,8 +190,8 @@ public class clsProcessor {
 	 * @param poData
 	 * @return
 	 */
-	private HashMap<eSensorExtType, clsDataBase> separateEnvironmentalData(clsSensorData poData) {
-		HashMap<eSensorExtType, clsDataBase> oResult = new HashMap<eSensorExtType, clsDataBase>();
+	private HashMap<eSensorExtType, clsSensorExtern> separateEnvironmentalData(clsSensorData poData) {
+		HashMap<eSensorExtType, clsSensorExtern> oResult = new HashMap<eSensorExtType, clsSensorExtern>();
 //      |
 		
 		//collect environmental data only
@@ -216,8 +217,8 @@ public class clsProcessor {
 	 * @param poData
 	 * @return
 	 */
-	private HashMap<eSensorExtType, clsDataBase> separateBodyData(clsSensorData poData) {
-		HashMap<eSensorExtType, clsDataBase> oResult = new HashMap<eSensorExtType, clsDataBase>();
+	private HashMap<eSensorExtType, clsSensorExtern> separateBodyData(clsSensorData poData) {
+		HashMap<eSensorExtType, clsSensorExtern> oResult = new HashMap<eSensorExtType, clsSensorExtern>();
 		
 //		//TODO: (all) collect (but first generate) bodily data only
 //		oResult.put(eSensorExtType., poData.getSensorInt(eSensorExtType.));

@@ -9,7 +9,7 @@ package pa.modules;
 import java.util.HashMap;
 
 import config.clsBWProperties;
-import decisionunit.itf.sensors.clsDataBase;
+import decisionunit.itf.sensors.clsSensorExtern;
 import enums.eSensorExtType;
 import pa.interfaces.I2_4;
 import pa.interfaces.I2_3;
@@ -23,7 +23,7 @@ import pa.interfaces.I2_3;
  */
 public class E13_NeuroSymbolsBody extends clsModuleBase implements I2_3  {
 
-	private HashMap<eSensorExtType, clsDataBase> moBodyData;
+	private HashMap<eSensorExtType, clsSensorExtern> moBodyData;
 	
 	/**
 	 * DOCUMENT (deutsch) - insert description 
@@ -89,7 +89,7 @@ public class E13_NeuroSymbolsBody extends clsModuleBase implements I2_3  {
 	 * @see pa.interfaces.I2_3#receive_I2_3(int)
 	 */
 	@Override
-	public void receive_I2_3(HashMap<eSensorExtType, clsDataBase> poData) {
+	public void receive_I2_3(HashMap<eSensorExtType, clsSensorExtern> poData) {
 		moBodyData = poData;
 	}
 
@@ -115,7 +115,7 @@ public class E13_NeuroSymbolsBody extends clsModuleBase implements I2_3  {
 	 */
 	@Override
 	protected void send() {
-		((I2_4)moEnclosingContainer).receive_I2_4(mnTest);
+		((I2_4)moEnclosingContainer).receive_I2_4(moBodyData);
 		
 	}
 

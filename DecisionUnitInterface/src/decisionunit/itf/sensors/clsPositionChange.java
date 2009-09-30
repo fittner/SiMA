@@ -51,8 +51,10 @@ public class clsPositionChange extends clsSensorExtern {
 	 */
 	@Override
 	public ArrayList<clsSensorExtern> getDataObjects() {
-		// TODO (zeilinger) - Auto-generated method stub
-		return null;
+
+		ArrayList<clsSensorExtern> oRetVal = new ArrayList<clsSensorExtern>();
+		oRetVal.add(this);
+		return oRetVal;
 	}
 
 	/* (non-Javadoc)

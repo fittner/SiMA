@@ -33,6 +33,7 @@ import pa.memory.clsMemory;
 import config.clsBWProperties;
 import decisionunit.itf.actions.itfActionProcessor;
 import decisionunit.itf.sensors.clsDataBase;
+import decisionunit.itf.sensors.clsSensorExtern;
 import enums.eSensorExtType;
 import enums.eSensorIntType;
 
@@ -139,7 +140,7 @@ public class C00_PsychicApparatus extends clsModuleContainer implements
 	 * @see pa.interfaces.itfProcessSensorEnvironment#receiveEnvironment(java.util.HashMap)
 	 */
 	@Override
-	public void receiveEnvironment(HashMap<eSensorExtType, clsDataBase> poData) {
+	public void receiveEnvironment(HashMap<eSensorExtType, clsSensorExtern> poData) {
 		moC01Body.receiveEnvironment(poData);		
 	}
 
@@ -151,7 +152,7 @@ public class C00_PsychicApparatus extends clsModuleContainer implements
 	 * @see pa.interfaces.itfProcessSensorBody#receiveBody(java.util.HashMap)
 	 */
 	@Override
-	public void receiveBody(HashMap<eSensorExtType, clsDataBase> poData) {
+	public void receiveBody(HashMap<eSensorExtType, clsSensorExtern> poData) {
 		moC01Body.receiveBody(poData);
 	}
 
@@ -176,9 +177,8 @@ public class C00_PsychicApparatus extends clsModuleContainer implements
 	 * @see pa.interfaces.I2_2#receive_I2_2(int)
 	 */
 	@Override
-	public void receive_I2_2(int pnData) {
-		moC03Ego.receive_I2_2(pnData);
-		
+	public void receive_I2_2(HashMap<eSensorExtType, clsSensorExtern> poEnvironmentalData) {
+		moC03Ego.receive_I2_2(poEnvironmentalData);
 	}
 
 	/* (non-Javadoc)
@@ -189,8 +189,8 @@ public class C00_PsychicApparatus extends clsModuleContainer implements
 	 * @see pa.interfaces.I2_4#receive_I2_4(int)
 	 */
 	@Override
-	public void receive_I2_4(int pnData) {
-		moC03Ego.receive_I2_4(pnData);
+	public void receive_I2_4(HashMap<eSensorExtType, clsSensorExtern> poBodyData ) {
+		moC03Ego.receive_I2_4(poBodyData);
 		
 	}
 

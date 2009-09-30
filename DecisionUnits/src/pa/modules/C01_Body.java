@@ -24,6 +24,7 @@ import pa.memory.clsMemory;
 import config.clsBWProperties;
 import decisionunit.itf.actions.itfActionProcessor;
 import decisionunit.itf.sensors.clsDataBase;
+import decisionunit.itf.sensors.clsSensorExtern;
 import enums.eSensorExtType;
 import enums.eSensorIntType;
 
@@ -120,7 +121,7 @@ public class C01_Body extends clsModuleContainer implements
 	 * @see pa.interfaces.itfProcessSensorEnvironment#receiveEnvironment(java.util.HashMap)
 	 */
 	@Override
-	public void receiveEnvironment(HashMap<eSensorExtType, clsDataBase> poData) {
+	public void receiveEnvironment(HashMap<eSensorExtType, clsSensorExtern> poData) {
 		moE10SensorsEnvironment.receiveEnvironment(poData);		
 	}
 
@@ -144,7 +145,7 @@ public class C01_Body extends clsModuleContainer implements
 	 * @see pa.interfaces.itfProcessSensorBody#receiveBody(java.util.HashMap)
 	 */
 	@Override
-	public void receiveBody(HashMap<eSensorExtType, clsDataBase> poData) {
+	public void receiveBody(HashMap<eSensorExtType, clsSensorExtern> poData) {
 		moE12SensorsBody.receiveBody(poData);		
 	}
 
@@ -168,7 +169,7 @@ public class C01_Body extends clsModuleContainer implements
 	 * @see pa.interfaces.I2_1#receive_I2_1(int)
 	 */
 	@Override
-	public void receive_I2_1(HashMap<eSensorExtType, clsDataBase> pnData) {
+	public void receive_I2_1(HashMap<eSensorExtType, clsSensorExtern> pnData) {
 		moE11NeuroSymbolsEnvironment.receive_I2_1(pnData);
 		
 	}
@@ -181,7 +182,7 @@ public class C01_Body extends clsModuleContainer implements
 	 * @see pa.interfaces.I2_3#receive_I2_3(int)
 	 */
 	@Override
-	public void receive_I2_3(HashMap<eSensorExtType, clsDataBase> pnData) {
+	public void receive_I2_3(HashMap<eSensorExtType, clsSensorExtern> pnData) {
 		moE13NeuroSymbolsBody.receive_I2_3(pnData);
 		
 	}
@@ -245,8 +246,8 @@ public class C01_Body extends clsModuleContainer implements
 	 * @see pa.interfaces.I2_2#receive_I2_2(int)
 	 */
 	@Override
-	public void receive_I2_2(int pnData) {
-		((I2_2)moEnclosingContainer).receive_I2_2(pnData);
+	public void receive_I2_2(HashMap<eSensorExtType, clsSensorExtern> poEnvironmentalData) {
+		((I2_2)moEnclosingContainer).receive_I2_2(poEnvironmentalData);
 		
 	}
 
@@ -258,8 +259,8 @@ public class C01_Body extends clsModuleContainer implements
 	 * @see pa.interfaces.I2_4#receive_I2_4(int)
 	 */
 	@Override
-	public void receive_I2_4(int pnData) {
-		((I2_4)moEnclosingContainer).receive_I2_4(pnData);
+	public void receive_I2_4(HashMap<eSensorExtType, clsSensorExtern> poBodyData) {
+		((I2_4)moEnclosingContainer).receive_I2_4(poBodyData);
 		
 	}
 }

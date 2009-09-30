@@ -6,6 +6,8 @@
  */
 package pa.modules;
 
+import java.util.HashMap;
+
 import pa.interfaces.I1_5;
 import pa.interfaces.I1_7;
 import pa.interfaces.I2_11;
@@ -25,6 +27,8 @@ import pa.interfaces.I7_4;
 import pa.memory.clsMemory;
 import pa.interfaces.I8_1;
 import config.clsBWProperties;
+import decisionunit.itf.sensors.clsSensorExtern;
+import enums.eSensorExtType;
 
 /**
  * DOCUMENT (deutsch) - insert description 
@@ -101,8 +105,8 @@ public class C03_Ego extends clsModuleContainer implements
 	 * @see pa.interfaces.I2_2#receive_I2_2(int)
 	 */
 	@Override
-	public void receive_I2_2(int pnData) {
-		moC07EnvironmentalInterfaceFunctions.receive_I2_2(pnData);
+	public void receive_I2_2(HashMap<eSensorExtType, clsSensorExtern> poEnvironmentalData) {
+		moC07EnvironmentalInterfaceFunctions.receive_I2_2(poEnvironmentalData);
 	}
 
 	/* (non-Javadoc)
@@ -113,8 +117,8 @@ public class C03_Ego extends clsModuleContainer implements
 	 * @see pa.interfaces.I2_4#receive_I2_4(int)
 	 */
 	@Override
-	public void receive_I2_4(int pnData) {
-		moC07EnvironmentalInterfaceFunctions.receive_I2_4(pnData);
+	public void receive_I2_4(HashMap<eSensorExtType, clsSensorExtern> poBodyData) {
+		moC07EnvironmentalInterfaceFunctions.receive_I2_4(poBodyData);
 	}
 
 	/* (non-Javadoc)

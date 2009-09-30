@@ -6,14 +6,17 @@
  */
 package pa.modules;
 
+import java.util.HashMap;
+
 import pa.interfaces.I2_2;
 import pa.interfaces.I2_4;
 import pa.interfaces.I2_5;
-import pa.interfaces.I2_6;
 import pa.interfaces.I7_4;
 import pa.memory.clsMemory;
 import pa.interfaces.I8_1;
 import config.clsBWProperties;
+import decisionunit.itf.sensors.clsSensorExtern;
+import enums.eSensorExtType;
 
 /**
  * DOCUMENT (langr) - insert description 
@@ -26,7 +29,6 @@ public class C07_EnvironmentalInterfaceFunctions extends clsModuleContainer impl
 						I2_2,
 						I2_4,
 						I2_5,
-						I2_6,
 						I7_4,
 						I8_1
 						{
@@ -74,25 +76,13 @@ public class C07_EnvironmentalInterfaceFunctions extends clsModuleContainer impl
 	/* (non-Javadoc)
 	 *
 	 * @author langr
-	 * 11.08.2009, 17:07:36
-	 * 
-	 * @see pa.interfaces.I2_6#receive_I2_6(int)
-	 */
-	@Override
-	public void receive_I2_6(int pnData) {
-		moE14PreliminaryExternalPerception.receive_I2_6(pnData);
-	}
-
-	/* (non-Javadoc)
-	 *
-	 * @author langr
 	 * 12.08.2009, 10:01:47
 	 * 
 	 * @see pa.interfaces.I2_2#receive_I2_2(int)
 	 */
 	@Override
-	public void receive_I2_2(int pnData) {
-		moE14PreliminaryExternalPerception.receive_I2_2(pnData);		
+	public void receive_I2_2(HashMap<eSensorExtType, clsSensorExtern> poEnvironmentalData) {
+		moE14PreliminaryExternalPerception.receive_I2_2(poEnvironmentalData);		
 	}
 
 	/* (non-Javadoc)
@@ -103,8 +93,8 @@ public class C07_EnvironmentalInterfaceFunctions extends clsModuleContainer impl
 	 * @see pa.interfaces.I2_4#receive_I2_4(int)
 	 */
 	@Override
-	public void receive_I2_4(int pnData) {
-		moE14PreliminaryExternalPerception.receive_I2_4(pnData);
+	public void receive_I2_4(HashMap<eSensorExtType, clsSensorExtern> poBodyData) {
+		moE14PreliminaryExternalPerception.receive_I2_4(poBodyData);
 	}
 
 	/* (non-Javadoc)

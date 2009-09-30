@@ -10,7 +10,7 @@ import java.util.HashMap;
 
 import config.clsBWProperties;
 import pa.interfaces.I2_3;
-import decisionunit.itf.sensors.clsDataBase;
+import decisionunit.itf.sensors.clsSensorExtern;
 import enums.eSensorExtType;
 import pa.interfaces.itfProcessSensorBody;
 
@@ -23,7 +23,7 @@ import pa.interfaces.itfProcessSensorBody;
  */
 public class E12_SensorsBody extends clsModuleBase implements itfProcessSensorBody {
 
-	private HashMap<eSensorExtType, clsDataBase> moBodyData;
+	private HashMap<eSensorExtType, clsSensorExtern> moBodyData;
 	
 	/**
 	 * DOCUMENT (deutsch) - insert description 
@@ -89,7 +89,7 @@ public class E12_SensorsBody extends clsModuleBase implements itfProcessSensorBo
 	 * @see pa.interfaces.itfProcessSensorBody#receiveBody(java.util.HashMap)
 	 */
 	@Override
-	public void receiveBody(HashMap<eSensorExtType, clsDataBase> poData) {
+	public void receiveBody(HashMap<eSensorExtType, clsSensorExtern> poData) {
 		moBodyData = poData;		
 	}
 
