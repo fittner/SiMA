@@ -29,7 +29,7 @@ public class clsVisionEntries extends clsSensorRingSegmentEntries {
 			
 
 	public clsVisionEntries() {
-		moClassName = "SegmentEntry";
+
 	}
 	
 	@Override
@@ -78,7 +78,7 @@ public class clsVisionEntries extends clsSensorRingSegmentEntries {
 	@Override
 	public String toString() {
 		String oResult = "";
-		oResult += moClassName+": type "+mnEntityType+" | id "+moEntityId+" | direction "+moPolarcoordinate+ "| alive " + mnAlive;
+		oResult += this.getClass().getName()+": type "+mnEntityType+" | id "+moEntityId+" | direction "+moPolarcoordinate+ "| alive " + mnAlive;
 		if (moColor != null) {
 		  oResult += " | color "+moColor;
 		}

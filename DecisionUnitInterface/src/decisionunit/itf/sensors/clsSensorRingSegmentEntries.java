@@ -13,10 +13,7 @@ public abstract class clsSensorRingSegmentEntries {
 	public String moEntityId = "";
 	public eCount mnNumEntitiesPresent = eCount.UNDEFINED; 
 		
-	protected String moClassName;
-	
 	public clsSensorRingSegmentEntries() {
-		moClassName = "SegmentEntry";
 	}
 	
 	public abstract String logXML(int pnId); 
