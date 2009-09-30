@@ -1,7 +1,10 @@
-package decisionunit.itf.sensors;
+package symbolization.representationsysmbol;
 
 import java.util.ArrayList;
 import java.util.Formatter;
+
+import decisionunit.itf.sensors.clsDataBase;
+import decisionunit.itf.sensors.clsSensorExtern;
 
 import bfg.tools.shapes.clsAngle;
 

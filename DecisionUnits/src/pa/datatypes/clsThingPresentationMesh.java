@@ -19,6 +19,10 @@ import pa.memory.clsAssociationContext;
  */
 public class clsThingPresentationMesh extends clsThingPresentation {
 	
+	public clsThingPresentationMesh() {
+		moAssociations = new ArrayList<clsAssociationContext>();
+	}
+	
 	public String meContentName;
 	public String meContentType = "";
 	public Object moContent = null;

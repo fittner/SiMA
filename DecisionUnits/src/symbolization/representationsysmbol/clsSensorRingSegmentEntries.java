@@ -1,18 +1,17 @@
-package decisionunit.itf.sensors;
+package symbolization.representationsysmbol;
 
 
 import java.util.ArrayList;
 
+import decisionunit.itf.sensors.clsSensorExtern;
+
 import enums.eEntityType;
 import enums.eShapeType;
-import bfg.tools.shapes.clsPolarcoordinate;
 import bfg.utils.enums.eCount;
 
 public abstract class clsSensorRingSegmentEntries extends clsSensorExtern{
-	public clsPolarcoordinate moPolarcoordinate = new clsPolarcoordinate();
 	public eEntityType mnEntityType = eEntityType.UNDEFINED;
 	public eShapeType mnShapeType = eShapeType.UNDEFINED;
-	public String moEntityId = "";
 	public eCount mnNumEntitiesPresent = eCount.UNDEFINED; 
 		
 	public clsSensorRingSegmentEntries() {

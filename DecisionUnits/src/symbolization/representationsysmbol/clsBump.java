@@ -1,6 +1,8 @@
-package decisionunit.itf.sensors;
+package symbolization.representationsysmbol;
 
 import java.util.ArrayList;
+
+import decisionunit.itf.sensors.clsSensorExtern;
 
 public class clsBump extends clsSensorExtern {
 	public boolean mnBumped = false;
