@@ -46,7 +46,14 @@ public class clsLeafVisionSegment extends clsRuleTreeLeaf {
 	  public eShapeType meShapeType = eShapeType.UNDEFINED;
 	  public eTrippleState moAlive = eTrippleState.UNDEFINED;
 	  public java.awt.Color moColor = java.awt.Color.WHITE;
-	  public eAntennaPositions meAntennaPos = eAntennaPositions.UNDEFINED; 
+	  public eAntennaPositions meAntennaPos = eAntennaPositions.UNDEFINED;
+	  
+	  public String getMeshContent() {
+		  return "meEntityType";
+	  }
+	  public boolean createMesh() {
+		  return false;
+	  }
 	  
 	  /*FIXME HZ: Actually there is no team ID defined for agents*/
 	  public eTrippleState meOwnTeam = eTrippleState.UNDEFINED; 

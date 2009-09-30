@@ -6,6 +6,7 @@
  */
 package pa.datatypes;
 
+
 /**
  * DOCUMENT (zeilinger) - insert description 
  * 
@@ -15,4 +16,7 @@ package pa.datatypes;
  */
 public class clsThingPresentationSingle extends clsThingPresentation {
 
+	public String meContentName;
+	public String meContentType = "";
+	public Object moContent = null;
 }

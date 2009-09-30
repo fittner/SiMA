@@ -6,7 +6,13 @@
  */
 package pa.modules;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+
 import config.clsBWProperties;
+import decisionunit.itf.sensors.clsDataBase;
+import enums.eSensorExtType;
+import pa.datatypes.clsThingPresentationMesh;
 import pa.interfaces.I2_2;
 import pa.interfaces.I2_4;
 import pa.interfaces.I2_5;
@@ -24,6 +30,9 @@ public class E14_PreliminaryExternalPerception extends clsModuleBase implements
 					I2_4,
 					I2_6
 					{
+	
+	HashMap<eSensorExtType, clsDataBase> moEnvironmentalData;
+	ArrayList<clsThingPresentationMesh> moEnvironmentalTP;
 
 	/**
 	 * DOCUMENT (deutsch) - insert description 

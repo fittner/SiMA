@@ -6,6 +6,10 @@
  */
 package pa.datatypes;
 
+import java.util.ArrayList;
+
+import pa.memory.clsAssociationContext;
+
 /**
  * DOCUMENT (zeilinger) - insert description 
  * 
@@ -15,4 +19,10 @@ package pa.datatypes;
  */
 public class clsThingPresentationMesh extends clsThingPresentation {
 	
+	public String meContentName;
+	public String meContentType = "";
+	public Object moContent = null;
+	
+	public ArrayList<clsAssociationContext> moAssociations;
+
 }
