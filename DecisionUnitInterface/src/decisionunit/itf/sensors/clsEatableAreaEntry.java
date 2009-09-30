@@ -16,8 +16,8 @@ import enums.eTriState;
  * 22.09.2009, 13:09:45
  * 
  */
-public class clsEatableAreaEntry {
-	public eEntityType mnEntityType = eEntityType.UNDEFINED;
+public class clsEatableAreaEntry extends clsSensorRingSegmentEntries{
+	public eEntityType mnEntityType = eEntityType.UNDEFINED; // Identifier
 	public eTriState mnIsAlive = eTriState.UNDEFINED;
 	public eTriState mnIsConsumeable = eTriState.UNDEFINED;
 	
@@ -31,12 +31,14 @@ public class clsEatableAreaEntry {
 	
 	public clsEatableAreaEntry(eEntityType pnEntityType) {
 		mnEntityType = pnEntityType;
-
-		moClassName="EatableAreaEntry";
+     	moClassName="EatableAreaEntry";
 	}
+	
+	
 	
 	protected String moClassName;
 	
+	@Override
 	public String logXML(int pnId) {
 		String logEntry = "<Entry>";
 		
@@ -49,6 +51,7 @@ public class clsEatableAreaEntry {
 		return logEntry;		
 	}
 	
+	@Override
 	public String logHTML() {
 		String oResult = "";
 
@@ -63,5 +66,4 @@ public class clsEatableAreaEntry {
 		oResult += moClassName+": type "+mnEntityType.name()+" | alive "+mnIsAlive.name()+" | consumeable "+mnIsConsumeable.name();
 		return oResult;
 	}
-
 }

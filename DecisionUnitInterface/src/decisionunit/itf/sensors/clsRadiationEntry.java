@@ -7,7 +7,7 @@ import enums.eEntityType;
 import enums.eShapeType;
 import bfg.tools.shapes.clsPolarcoordinate;
 
-public class clsRadiationEntry {
+public class clsRadiationEntry extends clsSensorRingSegmentEntries{
 	public clsPolarcoordinate moPolarcoordinate = new clsPolarcoordinate();
 	public eEntityType mnEntityType = eEntityType.UNDEFINED;
 	public eShapeType mnShapeType = eShapeType.UNDEFINED;
@@ -30,6 +30,7 @@ public class clsRadiationEntry {
 		moClassName = "RadiationEntry";
 	}
 	
+	@Override
 	public String logXML(int pnId) {
 		String logEntry = "<Entry id=\""+pnId+"\">";
 		
@@ -54,5 +55,18 @@ public class clsRadiationEntry {
 		  oResult += " | color "+moColor;
 		}
 		return oResult;
+	}
+
+	/* (non-Javadoc)
+	 *
+	 * @author zeilinger
+	 * 30.09.2009, 14:31:56
+	 * 
+	 * @see decisionunit.itf.sensors.clsDataBase#logHTML()
+	 */
+	@Override
+	public String logHTML() {
+		// TODO (zeilinger) - Auto-generated method stub
+		return null;
 	}
 }

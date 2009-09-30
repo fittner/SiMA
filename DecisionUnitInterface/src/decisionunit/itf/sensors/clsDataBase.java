@@ -1,7 +1,5 @@
 package decisionunit.itf.sensors;
 
-import java.util.ArrayList;
-
 public abstract class clsDataBase {
 	abstract public String logXML();
 	abstract public String logHTML();
@@ -44,22 +42,5 @@ public abstract class clsDataBase {
 		
 		return tag;
 	}
-	
-	public abstract boolean isContainer(); 
-//	{
-//		return false;
-//	}
-
-	public abstract ArrayList<clsDataBase> getDataObjects(); 
-//	{
-//		ArrayList<clsDataBase> oRetVal = new ArrayList<clsDataBase>();
-//		oRetVal.add(this);
-//		return oRetVal;
-//	}
-
-	public abstract String getMeshAttributeName() ;
-//	{
-//		
-//	}
 
 }

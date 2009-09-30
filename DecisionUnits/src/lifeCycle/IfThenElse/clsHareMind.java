@@ -10,6 +10,7 @@ import decisionunit.itf.sensors.clsBump;
 import decisionunit.itf.sensors.clsEatableArea;
 import decisionunit.itf.sensors.clsEatableAreaEntry;
 import decisionunit.itf.sensors.clsEnergy;
+import decisionunit.itf.sensors.clsSensorExtern;
 import decisionunit.itf.sensors.clsVision;
 import decisionunit.itf.sensors.clsSensorRingSegmentEntries;
 import decisionunit.itf.sensors.clsVisionEntries;
@@ -74,7 +75,7 @@ public class clsHareMind extends clsRemoteControl { //should be derived from cls
 		clsEatableArea oEatArea = (clsEatableArea) getSensorData().getSensorExt(eSensorExtType.EATABLE_AREA);
 		
 		if (oEatArea.moEntries.size() > 0) {
-			clsEatableAreaEntry oEntry = oEatArea.moEntries.get(0);
+			clsEatableAreaEntry oEntry = (clsEatableAreaEntry)oEatArea.moEntries.get(0);
 			if (oEntry.mnEntityType == eEntityType.CARROT && oEntry.mnIsConsumeable == eTriState.TRUE) {
 				nRetVal = true;
 			}
@@ -96,10 +97,10 @@ public class clsHareMind extends clsRemoteControl { //should be derived from cls
 	public clsSensorRingSegmentEntries checkVision() {
 		clsSensorRingSegmentEntries oRetVal = null;
 		clsVision oVision = (clsVision) getSensorData().getSensorExt(eSensorExtType.VISION);
-		for( clsSensorRingSegmentEntries oVisionObj : oVision.getList() ) {
-			if( isCarrotOrange(oVisionObj) )
+		for( clsSensorExtern oVisionObj : oVision.getList() ) {
+			if( isCarrotOrange((clsEatableAreaEntry)oVisionObj) )
 			{
-				oRetVal = oVisionObj;
+				oRetVal = (clsEatableAreaEntry)oVisionObj;
 				break;
 			}
 		}

@@ -11,6 +11,7 @@ import decisionunit.clsBaseDecisionUnit;
 import decisionunit.itf.actions.*;
 import decisionunit.itf.sensors.clsEatableArea;
 import decisionunit.itf.sensors.clsEatableAreaEntry;
+import decisionunit.itf.sensors.clsSensorRingSegmentEntries;
 import decisionunit.itf.sensors.clsVision;
 import enums.eActionKissIntensity;
 import enums.eActionMoveDirection;
@@ -213,8 +214,8 @@ public class clsRemoteControl extends clsBaseDecisionUnit  {
 		clsVision oVis = (clsVision) getSensorData().getSensorExt(eSensorExtType.VISION);
 
 		for(int i=0; i<oVis.getList().size(); i++){
-			if (oVis.getList().get(i).mnEntityType == peEntityType) {
-				poActionProcessor.call(new clsActionAttackLightning(4, oVis.getList().get(i).moEntityId));	
+			if (((clsSensorRingSegmentEntries)oVis.getList().get(i)).mnEntityType == peEntityType) {
+				poActionProcessor.call(new clsActionAttackLightning(4, ((clsSensorRingSegmentEntries)oVis.getList().get(i)).moEntityId));	
 			}
 		}
 

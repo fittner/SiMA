@@ -2,7 +2,7 @@ package decisionunit.itf.sensors;
 
 import java.util.ArrayList;
 
-public class clsEatableArea extends clsSensorIntern {
+public class clsEatableArea extends clsSensorRingSegment{
 	public ArrayList<clsEatableAreaEntry> moEntries = new ArrayList<clsEatableAreaEntry>();
 	
 	@Override
@@ -10,8 +10,8 @@ public class clsEatableArea extends clsSensorIntern {
 		String logEntry = "";
 		int id = 0;
 		
-		for (clsEatableAreaEntry oEntry:moEntries) {
-			logEntry += addXMLTag("Entry", oEntry.logXML(id));
+		for (clsDataBase oEntry:moEntries) {
+			logEntry += addXMLTag("Entry", ((clsEatableAreaEntry)oEntry).logXML(id));
 			id++;
 		}
 		
@@ -24,7 +24,7 @@ public class clsEatableArea extends clsSensorIntern {
 		
 		int i = 0;
 		
-		for (clsEatableAreaEntry oEntry:moEntries) {
+		for (clsDataBase oEntry:moEntries) {
 			oResult += i+". "+oEntry+" >> ";
 
 			i++;
@@ -43,11 +43,11 @@ public class clsEatableArea extends clsSensorIntern {
 		String oRetVal = "<tr><td>"+getClassName()+"</td><td></td></tr>";
 		
 		int i = 0;
-		for (clsEatableAreaEntry oEntry:moEntries) {
+		for (clsDataBase oEntry:moEntries) {
 			oRetVal += "<tr><td align='right'>"+i+"</td><td>"+oEntry.logHTML()+"</td></tr>";
 			i++;
 		}
 		
 		return oRetVal;
-	}	
+	}
 }

@@ -22,7 +22,7 @@ import bfg.utils.enums.eSide;
 import bfg.utils.enums.eTrippleState;
 import decisionunit.itf.sensors.clsDataBase;
 import decisionunit.itf.sensors.clsSensorData;
-import decisionunit.itf.sensors.clsSensorRingSegmentEntries;
+import decisionunit.itf.sensors.clsSensorExtern;
 import decisionunit.itf.sensors.clsVision;
 import decisionunit.itf.sensors.clsVisionEntries;
 import enums.eAntennaPositions;
@@ -135,11 +135,11 @@ public class clsLeafVisionSegment extends clsRuleTreeLeaf {
 	  	boolean nResult = false; 
 		
 		if(poData != null){
-			ArrayList <clsSensorRingSegmentEntries>  oVisionEntries = ((clsVision)poData).getList();
+			ArrayList<clsSensorExtern>  oVisionEntries = ((clsVision)poData).getList();
 		
 			/*FIXME HZ Antenna positions have not been implemented yet, as the value is set to undefined
 			 * 		The same is for the team ID*/			
-			for (clsSensorRingSegmentEntries element : oVisionEntries){
+			for (clsSensorExtern element : oVisionEntries){
 				clsVisionEntries oElement = (clsVisionEntries)element; 
 				if( oElement.mnEntityType == meEntityType
 					&& oElement.moObjectPosition == meLocation 

@@ -21,6 +21,8 @@ import decisionunit.itf.sensors.clsDataBase;
 import decisionunit.itf.sensors.clsEatableArea;
 import decisionunit.itf.sensors.clsEatableAreaEntry;
 import decisionunit.itf.sensors.clsSensorData;
+import decisionunit.itf.sensors.clsSensorExtern;
+import decisionunit.itf.sensors.clsSensorRingSegment;
 import enums.eEntityType;
 import enums.eSensorExtType;
 
@@ -93,10 +95,10 @@ public class clsLeafEatableAreaSegment extends clsRuleTreeLeaf {
 		boolean nResult = false; 
 		
 		if(poData != null){
-			ArrayList <clsEatableAreaEntry> oEatableAreaEntry = ((clsEatableArea)poData).moEntries;
+			ArrayList <clsSensorExtern> oEatableAreaEntry = ((clsSensorRingSegment)poData).getDataObjects();
 						
-			for (clsEatableAreaEntry element : oEatableAreaEntry){
-				if(  element.mnEntityType == meTypeOfFirstEntity ){
+			for (clsSensorExtern element : oEatableAreaEntry){
+				if(  ((clsEatableAreaEntry)element).mnEntityType == meTypeOfFirstEntity ){
 						//&& element. .mnNumEntitiesPresent == meNumber){
 					nResult = true;
 					break; 

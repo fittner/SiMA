@@ -58,5 +58,6 @@ public class clsFastMessenger extends clsSensorIntern {
 		}
 		
 		return oRetVal;
-	}	
+	}
+
 }

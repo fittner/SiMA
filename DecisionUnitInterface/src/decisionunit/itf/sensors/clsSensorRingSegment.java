@@ -17,13 +17,13 @@ import java.util.ArrayList;
  */
 public class clsSensorRingSegment extends clsSensorExtern {
 
-	private ArrayList<clsSensorRingSegmentEntries> moEntries = new ArrayList<clsSensorRingSegmentEntries>();
+	private ArrayList<clsSensorExtern> moEntries = new ArrayList<clsSensorExtern>();
 	
 	public void add(clsSensorRingSegmentEntries poEntry) {
 		moEntries.add(poEntry);
 	}
 	
-	public ArrayList<clsSensorRingSegmentEntries> getList() {
+	public ArrayList<clsSensorExtern> getList() {
 		return moEntries;
 	}
 	
@@ -32,8 +32,8 @@ public class clsSensorRingSegment extends clsSensorExtern {
 		String logEntry = "";
 		int id = 0;
 		
-		for (clsSensorRingSegmentEntries oEntry:moEntries) {
-			logEntry += addXMLTag("Entry", oEntry.logXML(id));
+		for (clsSensorExtern oEntry:moEntries) {
+			logEntry += addXMLTag("Entry", ((clsSensorRingSegmentEntries)oEntry).logXML(id));
 			id++;
 		}
 		
@@ -46,7 +46,7 @@ public class clsSensorRingSegment extends clsSensorExtern {
 		
 		int i = 0;
 		
-		for (clsSensorRingSegmentEntries oEntry:moEntries) {
+		for (clsSensorExtern oEntry:moEntries) {
 			oResult += i+". "+oEntry+" >> ";
 
 			i++;
@@ -65,11 +65,50 @@ public class clsSensorRingSegment extends clsSensorExtern {
 		String oRetVal = "";
 		
 		int i = 0;
-		for (clsSensorRingSegmentEntries oEntry:moEntries) {
+		for (clsSensorExtern oEntry:moEntries) {
 			oRetVal += "<tr><td align='right'>"+i+"</td><td>"+oEntry.logHTML()+"</td></tr>";
 			i++;
 		}
 		
 		return oRetVal;
+	}
+
+	/* (non-Javadoc)
+	 *
+	 * @author zeilinger
+	 * 30.09.2009, 13:58:18
+	 * 
+	 * @see decisionunit.itf.sensors.clsDataBase#getDataObjects()
+	 */
+	@Override
+	public ArrayList<clsSensorExtern> getDataObjects() {
+		// TODO (zeilinger) - Auto-generated method stub
+		return moEntries;
+	}
+
+	/* (non-Javadoc)
+	 *
+	 * @author zeilinger
+	 * 30.09.2009, 13:58:18
+	 * 
+	 * @see decisionunit.itf.sensors.clsDataBase#getMeshAttributeName()
+	 */
+	@Override
+	public String getMeshAttributeName() {
+		// TODO (zeilinger) - Auto-generated method stub
+		return null;
+	}
+
+	/* (non-Javadoc)
+	 *
+	 * @author zeilinger
+	 * 30.09.2009, 13:58:18
+	 * 
+	 * @see decisionunit.itf.sensors.clsDataBase#isContainer()
+	 */
+	@Override
+	public boolean isContainer() {
+		// TODO (zeilinger) - Auto-generated method stub
+		return true;
 	}
 }

@@ -1,13 +1,12 @@
 package decisionunit.itf.sensors;
 
 
-
 /*
  * 
  * (horvath) - Radiation sensor provides just radiation intensity
  * 
  */
-public class clsRadiation extends clsSensorExtern {
+public class clsRadiation extends clsSensorRingSegment {
 	public double mrIntensity;
 	
 	@Override

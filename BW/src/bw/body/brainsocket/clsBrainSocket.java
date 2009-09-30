@@ -129,7 +129,7 @@ public class clsBrainSocket implements itfStepProcessing {
 		
 		//ZEILINGER - Integration of the Sensor Engine
 		oData.addSensorExt(eSensorExtType.BUMP, convertBumpSensor() );
-		oData.addSensorExt(eSensorExtType.POSITIONCHANGE, convertPositionChangeSensor() );
+		oData.addSensorExt(eSensorExtType.POSITIONCHANGE, convertPositionChangeSensor(eSensorExtType.POSITIONCHANGE) );
 		oData.addSensorExt(eSensorExtType.RADIATION, convertRadiationSensor() );
 		oData.addSensorExt(eSensorExtType.VISION, convertVisionSensor(eSensorExtType.VISION) );
 		oData.addSensorExt(eSensorExtType.VISION_NEAR, convertVisionSensor(eSensorExtType.VISION_NEAR) );
@@ -209,15 +209,15 @@ public class clsBrainSocket implements itfStepProcessing {
 		return oRes;
 	}
 	
-	private clsPositionChange convertPositionChangeSensor() {
+	private clsPositionChange convertPositionChangeSensor(eSensorExtType poSensorType) {
 		clsPositionChange oData = new clsPositionChange();
-		
-		clsSensorPositionChange oSensor = (clsSensorPositionChange)(moSensorsExt.get(eSensorExtType.POSITIONCHANGE));
+		oData.moSensorType = poSensorType; 
+		clsSensorPositionChange oSensor = (clsSensorPositionChange)(moSensorsExt.get(poSensorType));
 		
 		oData.x = oSensor.getPositionChange().getPosition().x;
 		oData.y = oSensor.getPositionChange().getPosition().y;
 		oData.a = oSensor.getPositionChange().getAngle().radians;
-		
+	
 		return oData;
 	}
 	

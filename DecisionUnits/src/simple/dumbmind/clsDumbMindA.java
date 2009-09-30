@@ -21,9 +21,10 @@ import enums.eSensorIntType;
 import decisionunit.itf.sensors.clsBump;
 import decisionunit.itf.sensors.clsEatableArea;
 import decisionunit.itf.sensors.clsEatableAreaEntry;
+import decisionunit.itf.sensors.clsSensorExtern;
 import decisionunit.itf.sensors.clsStaminaSystem;
 import decisionunit.itf.sensors.clsVision;
-import decisionunit.itf.sensors.clsSensorRingSegmentEntries;
+import decisionunit.itf.sensors.clsVisionEntries;
 
 /**
  * DOCUMENT (langr) - insert description 
@@ -75,12 +76,12 @@ public class clsDumbMindA extends clsBaseDecisionUnit {
 	{
 		clsVision oVision = (clsVision) getSensorData().getSensorExt(eSensorExtType.VISION);
 		
-		for( clsSensorRingSegmentEntries oVisionObj : oVision.getList() ) {
+		for( clsSensorExtern oVisionObj : oVision.getList() ) {
 			
-				if( oVisionObj.mnEntityType == eEntityType.CAKE)
+				if(((clsVisionEntries)oVisionObj).mnEntityType == eEntityType.CAKE)
 				{
 
-					double rAngle = oVisionObj.moPolarcoordinate.moAzimuth.mrAlpha;
+					double rAngle = ((clsVisionEntries)oVisionObj).moPolarcoordinate.moAzimuth.mrAlpha;
 
 					
 					if( rAngle < 0.1 || rAngle > (2*Math.PI - 0.1))
@@ -115,8 +116,8 @@ public class clsDumbMindA extends clsBaseDecisionUnit {
 		clsEatableArea oEatArea = (clsEatableArea) getSensorData().getSensorExt(eSensorExtType.EATABLE_AREA);
 		
 	
-		for(clsEatableAreaEntry oEatAreaObj : oEatArea.moEntries ) {
-			if( oEatAreaObj.mnEntityType == eEntityType.CAKE ){
+		for(clsSensorExtern oEatAreaObj : oEatArea.moEntries ) {
+			if( ((clsEatableAreaEntry)oEatAreaObj).mnEntityType == eEntityType.CAKE ){
 			   //&& ((clsEatableAreaEntries)oEatAreaObj). .moColorOfFirstEntity != null && oEatArea.moColorOfFirstEntity.equals(Color.orange))
 				//clsEatAction oEatAction = new clsEatAction();
 				//poActionList.addEatAction(oEatAction);

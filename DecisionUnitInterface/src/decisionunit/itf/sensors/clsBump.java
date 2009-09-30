@@ -1,8 +1,10 @@
 package decisionunit.itf.sensors;
 
+import java.util.ArrayList;
+
 public class clsBump extends clsSensorExtern {
 	public boolean mnBumped = false;
-	
+		
 	public clsBump() {
 	}
 	
@@ -34,5 +36,41 @@ public class clsBump extends clsSensorExtern {
 			
 		
 		return oRetVal;
+	}
+
+	/* (non-Javadoc)
+	 *
+	 * @author zeilinger
+	 * 30.09.2009, 13:41:13
+	 * 
+	 * @see decisionunit.itf.sensors.clsDataBase#getDataObjects()
+	 */
+	@Override
+	public ArrayList<clsSensorExtern> getDataObjects() {
+		return null;
+	}
+
+	/* (non-Javadoc)
+	 *
+	 * @author zeilinger
+	 * 30.09.2009, 13:41:13
+	 * 
+	 * @see decisionunit.itf.sensors.clsDataBase#getMeshAttributeName()
+	 */
+	@Override
+	public String getMeshAttributeName() {
+		return "mnBumped"; 
+	}
+
+	/* (non-Javadoc)
+	 *
+	 * @author zeilinger
+	 * 30.09.2009, 13:41:13
+	 * 
+	 * @see decisionunit.itf.sensors.clsDataBase#isContainer()
+	 */
+	@Override
+	public boolean isContainer() {
+		return false;
 	}
 }

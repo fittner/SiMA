@@ -27,6 +27,7 @@ import decisionunit.itf.sensors.clsEatableAreaEntry;
 import decisionunit.itf.sensors.clsSensorData;
 import decisionunit.itf.sensors.clsRadiation;
 import decisionunit.itf.sensors.clsEnergy;
+import decisionunit.itf.sensors.clsSensorExtern;
 import decisionunit.itf.sensors.clsVision;
 import decisionunit.itf.sensors.clsSensorRingSegmentEntries;
 import bfg.tools.shapes.clsPolarcoordinate;
@@ -255,8 +256,8 @@ public class clsReactive extends clsBaseDecisionUnit {
 	private boolean isFirstInEatableArea(clsSensorData poInputs, eEntityType poEntityType){
 		clsEatableArea oEatArea = (clsEatableArea) poInputs.getSensorExt(eSensorExtType.EATABLE_AREA);
 		
-		for(clsEatableAreaEntry oEatAreaObj : oEatArea.moEntries ) {
-			if(oEatAreaObj.mnEntityType == poEntityType){
+		for(clsSensorExtern oEatAreaObj : oEatArea.getList() ) {
+			if(((clsSensorRingSegmentEntries)oEatAreaObj).mnEntityType == poEntityType){
 				return true;
 			}
 		}
@@ -269,8 +270,8 @@ public class clsReactive extends clsBaseDecisionUnit {
 	 */
 	private boolean isVisibleEntityInRange(clsSensorData inputs, eEntityType entityType){
 		clsVision oVision = (clsVision) inputs.getSensorExt(eSensorExtType.VISION);
-		for( clsSensorRingSegmentEntries oVisionObj : oVision.getList() ){
-			if( oVisionObj.mnEntityType == entityType){
+		for( clsSensorExtern oVisionObj : oVision.getList() ){
+			if(((clsSensorRingSegmentEntries)oVisionObj).mnEntityType == entityType){
 				return true;
 			}
 		}
@@ -319,10 +320,11 @@ public class clsReactive extends clsBaseDecisionUnit {
 	private boolean isAtEntity(clsSensorData poInputs, eEntityType poEntityType, double pnDistance){
 		clsVision oVision = (clsVision) poInputs.getSensorExt(eSensorExtType.VISION);
 		// Find the closest entity 
-		for( clsSensorRingSegmentEntries oVisionObj : oVision.getList() ) {
-			if (oVisionObj.mnEntityType == poEntityType){
-				if(oVisionObj.moPolarcoordinate.mrLength <= pnDistance){
-					if(oVisionObj.moPolarcoordinate.moAzimuth.mrAlpha <= mrATENTITY_ANGLE_TOLERANCE && oVisionObj.moPolarcoordinate.moAzimuth.mrAlpha <= 2*Math.PI - mrATENTITY_ANGLE_TOLERANCE){
+		for( clsSensorExtern oVisionObj : oVision.getList() ) {
+			clsSensorRingSegmentEntries oVisionObjTemp = (clsSensorRingSegmentEntries)oVisionObj; 
+			if (oVisionObjTemp.mnEntityType == poEntityType){
+				if(oVisionObjTemp.moPolarcoordinate.mrLength <= pnDistance){
+					if(oVisionObjTemp.moPolarcoordinate.moAzimuth.mrAlpha <= mrATENTITY_ANGLE_TOLERANCE && oVisionObjTemp.moPolarcoordinate.moAzimuth.mrAlpha <= 2*Math.PI - mrATENTITY_ANGLE_TOLERANCE){
 						
 					}				
 					return true;
@@ -408,11 +410,12 @@ public class clsReactive extends clsBaseDecisionUnit {
 		clsVision oVision = (clsVision) poInputs.getSensorExt(eSensorExtType.VISION);
 		
 		// Find the closest fungus 
-		for( clsSensorRingSegmentEntries oVisionObj : oVision.getList() ) {
-			if(oVisionObj.mnEntityType == entityType){
-				if(closest.mrLength < 0 || closest.mrLength > oVisionObj.moPolarcoordinate.mrLength){
-					closest.mrLength = oVisionObj.moPolarcoordinate.mrLength;
-					closest.moAzimuth = oVisionObj.moPolarcoordinate.moAzimuth;
+		for( clsSensorExtern oVisionObj : oVision.getList() ) {
+			clsSensorRingSegmentEntries oVisionObjTemp = (clsSensorRingSegmentEntries)oVisionObj; 
+			if(oVisionObjTemp.mnEntityType == entityType){
+				if(closest.mrLength < 0 || closest.mrLength > oVisionObjTemp.moPolarcoordinate.mrLength){
+					closest.mrLength = oVisionObjTemp.moPolarcoordinate.mrLength;
+					closest.moAzimuth = oVisionObjTemp.moPolarcoordinate.moAzimuth;
 				}
 			}			
 		}

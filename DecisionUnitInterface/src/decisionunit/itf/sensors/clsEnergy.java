@@ -11,7 +11,7 @@ import java.util.Formatter;
  * Holds the information about the actual energy level within the stomach
  *
  */
-public class clsEnergy extends clsSensorExtern {
+public class clsEnergy extends clsSensorIntern {
 
 	public double mrEnergy;
 	
@@ -33,5 +33,6 @@ public class clsEnergy extends clsSensorExtern {
 	public String logHTML() {
 		Formatter oDoubleFormatter = new Formatter();
 		return "<tr><td>"+getClassName()+"</td>"+oDoubleFormatter .format("%.5f",mrEnergy)+"<td></td></tr>";
-	}	
+	}
+
 }

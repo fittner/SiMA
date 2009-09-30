@@ -11,7 +11,7 @@ import java.util.Formatter;
  * Actual energy consumption - the sum of all consumers
  *
  */
-public class clsEnergyConsumption extends clsSensorExtern {
+public class clsEnergyConsumption extends clsSensorIntern {
 
 	public double mrEnergy;
 	
@@ -33,5 +33,5 @@ public class clsEnergyConsumption extends clsSensorExtern {
 	public String logHTML() {
 		Formatter oDoubleFormatter = new Formatter();
 		return "<tr><td>"+getClassName()+"</td><td>"+oDoubleFormatter .format("%.5f",mrEnergy)+"</td></tr>";
-	}		
+	}
 }
