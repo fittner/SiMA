@@ -13,6 +13,7 @@ import decisionunit.itf.sensors.clsSensorExtern;
 import enums.eSensorExtType;
 import pa.interfaces.I2_1;
 import pa.interfaces.I2_2;
+import symbolization.representationsysmbol.clsMemberTransfer;
 
 /**
  * DOCUMENT (deutsch) - insert description 
@@ -104,8 +105,7 @@ public class E11_NeuroSymbolsEnvironment extends clsModuleBase implements I2_1 {
 	 */
 	@Override
 	protected void process() {
-		mnTest++;
-		
+		moBodyData = clsMemberTransfer.createSymbolData(moEnvironmentalData);
 	}
 
 	/* (non-Javadoc)
@@ -117,7 +117,7 @@ public class E11_NeuroSymbolsEnvironment extends clsModuleBase implements I2_1 {
 	 */
 	@Override
 	protected void send() {
-		((I2_2)moEnclosingContainer).receive_I2_2(moEnvironmentalData);
+		((I2_2)moEnclosingContainer).receive_I2_2(moBodyData);
 		
 	}
 }

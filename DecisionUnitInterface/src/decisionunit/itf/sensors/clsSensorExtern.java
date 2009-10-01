@@ -30,4 +30,10 @@ abstract public class clsSensorExtern extends clsDataBase{
 //	{
 //		
 //	}
+
+	public abstract boolean setDataObjects(ArrayList<clsSensorExtern> poSymbolData); 
+//	{
+//		moDataList = poSymbolData; 
+//		return true;
+//	}
 }

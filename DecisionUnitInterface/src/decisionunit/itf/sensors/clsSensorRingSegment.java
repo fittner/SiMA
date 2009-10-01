@@ -111,4 +111,9 @@ public class clsSensorRingSegment extends clsSensorExtern {
 		// TODO (zeilinger) - Auto-generated method stub
 		return true;
 	}
+
+	@Override
+	public boolean setDataObjects(ArrayList<clsSensorExtern> poSymbolData) {
+		return false;
+	}
 }

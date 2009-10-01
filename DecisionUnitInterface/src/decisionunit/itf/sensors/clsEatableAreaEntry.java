@@ -6,6 +6,8 @@
  */
 package decisionunit.itf.sensors;
 
+import java.util.ArrayList;
+
 import enums.eEntityType;
 import enums.eTriState;
 
@@ -65,5 +67,17 @@ public class clsEatableAreaEntry extends clsSensorRingSegmentEntries{
 		String oResult = "";
 		oResult += moClassName+": type "+mnEntityType.name()+" | alive "+mnIsAlive.name()+" | consumeable "+mnIsConsumeable.name();
 		return oResult;
+	}
+
+	/* (non-Javadoc)
+	 *
+	 * @author langr
+	 * 01.10.2009, 14:47:24
+	 * 
+	 * @see decisionunit.itf.sensors.clsSensorExtern#setDataObjects(java.util.ArrayList)
+	 */
+	@Override
+	public boolean setDataObjects(ArrayList<clsSensorExtern> poSymbolData) {
+		return false;
 	}
 }

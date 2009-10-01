@@ -2,6 +2,7 @@ package symbolization.representationsysmbol;
 
 public class clsVision extends clsSensorRingSegment {
 	
+	
 	@Override
 	public String logHTML() {
 		

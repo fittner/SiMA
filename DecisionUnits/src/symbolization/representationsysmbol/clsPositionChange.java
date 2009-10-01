@@ -86,4 +86,16 @@ public class clsPositionChange extends clsSensorExtern {
 		return false;
 	}
 
+	/* (non-Javadoc)
+	 *
+	 * @author langr
+	 * 01.10.2009, 14:45:56
+	 * 
+	 * @see decisionunit.itf.sensors.clsSensorExtern#setDataObjects(java.util.ArrayList)
+	 */
+	@Override
+	public boolean setDataObjects(ArrayList<clsSensorExtern> poSymbolData) {
+		return false;
+	}
+
 }

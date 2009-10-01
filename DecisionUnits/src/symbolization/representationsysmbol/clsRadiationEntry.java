@@ -2,8 +2,10 @@ package symbolization.representationsysmbol;
 
 
 import java.awt.Color;
+import java.util.ArrayList;
 
 import decisionunit.itf.sensors.clsDataBase;
+import decisionunit.itf.sensors.clsSensorExtern;
 
 import enums.eEntityType;
 import enums.eShapeType;
@@ -62,5 +64,17 @@ public class clsRadiationEntry extends clsSensorRingSegmentEntries{
 	public String logHTML() {
 		// TODO (zeilinger) - Auto-generated method stub
 		return null;
+	}
+
+	/* (non-Javadoc)
+	 *
+	 * @author langr
+	 * 01.10.2009, 14:46:34
+	 * 
+	 * @see decisionunit.itf.sensors.clsSensorExtern#setDataObjects(java.util.ArrayList)
+	 */
+	@Override
+	public boolean setDataObjects(ArrayList<clsSensorExtern> poSymbolData) {
+		return false;
 	}
 }

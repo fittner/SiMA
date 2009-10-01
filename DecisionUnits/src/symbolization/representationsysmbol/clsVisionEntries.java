@@ -7,9 +7,11 @@
 package symbolization.representationsysmbol;
 
 import java.awt.Color;
+import java.util.ArrayList;
 import java.util.Formatter;
 
 import decisionunit.itf.sensors.clsDataBase;
+import decisionunit.itf.sensors.clsSensorExtern;
 
 import bfg.utils.enums.eSide;
 
@@ -74,5 +76,17 @@ public class clsVisionEntries extends clsSensorRingSegmentEntries {
 		  oResult += " | color "+moColor;
 		}
 		return oResult;
+	}
+
+	/* (non-Javadoc)
+	 *
+	 * @author langr
+	 * 01.10.2009, 14:46:54
+	 * 
+	 * @see decisionunit.itf.sensors.clsSensorExtern#setDataObjects(java.util.ArrayList)
+	 */
+	@Override
+	public boolean setDataObjects(ArrayList<clsSensorExtern> poSymbolData) {
+		return false;
 	}
 }

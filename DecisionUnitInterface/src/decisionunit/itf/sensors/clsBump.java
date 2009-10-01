@@ -75,4 +75,16 @@ public class clsBump extends clsSensorExtern {
 	public boolean isContainer() {
 		return false;
 	}
+
+	/* (non-Javadoc)
+	 *
+	 * @author langr
+	 * 01.10.2009, 14:47:13
+	 * 
+	 * @see decisionunit.itf.sensors.clsSensorExtern#setDataObjects(java.util.ArrayList)
+	 */
+	@Override
+	public boolean setDataObjects(ArrayList<clsSensorExtern> poSymbolData) {
+		return false;
+	}
 }
