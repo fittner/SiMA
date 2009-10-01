@@ -74,6 +74,7 @@ public class clsMemberTransfer {
 					
 					ArrayList<clsSensorExtern> oListEntries = oSensorExt.getDataObjects();
 					oTarget.setDataObjects( createSymbolData(oListEntries) );
+					oRetVal.put(pairs.getKey(), oTarget);
 				}
 				else {
 					String oClassName = "symbolization.representationsysmbol" + oSensorExt.getClass().getName().substring(24);
