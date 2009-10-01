@@ -25,7 +25,7 @@ import symbolization.representationsysmbol.clsMemberTransfer;
 public class E11_NeuroSymbolsEnvironment extends clsModuleBase implements I2_1 {
 
 	HashMap<eSensorExtType, clsSensorExtern> moEnvironmentalData;
-	HashMap<eSensorExtType, clsSensorExtern> moBodyData;
+	HashMap<eSensorExtType, clsSensorExtern> moSymbolData;
 	
 	/**
 	 * DOCUMENT (deutsch) - insert description 
@@ -105,7 +105,7 @@ public class E11_NeuroSymbolsEnvironment extends clsModuleBase implements I2_1 {
 	 */
 	@Override
 	protected void process() {
-		moBodyData = clsMemberTransfer.createSymbolData(moEnvironmentalData);
+		moSymbolData = clsMemberTransfer.createSymbolData(moEnvironmentalData);
 	}
 
 	/* (non-Javadoc)
@@ -117,7 +117,7 @@ public class E11_NeuroSymbolsEnvironment extends clsModuleBase implements I2_1 {
 	 */
 	@Override
 	protected void send() {
-		((I2_2)moEnclosingContainer).receive_I2_2(moBodyData);
+		((I2_2)moEnclosingContainer).receive_I2_2(moSymbolData);
 		
 	}
 }
