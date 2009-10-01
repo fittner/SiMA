@@ -1,10 +1,7 @@
 package bw.world.surface;
 
 
-import java.io.File;
-
-import javax.xml.parsers.SAXParser;
-import javax.xml.parsers.SAXParserFactory;
+import config.clsBWProperties;
 
 import sim.field.grid.IntGrid2D;
 import sim.physics2D.util.Double2D;
@@ -23,6 +20,12 @@ public class clsSurfaceHandler implements itfSurface
 	private static final clsSurfaceHandler soInstance = new clsSurfaceHandler();
 	protected IntGrid2D moSurfaceGrid;
 	int mnWidth, mnHeight;
+	
+	//for properties
+	public static final String P_NUMSURFACES = "numsurfaces";
+	public static final String P_STATICFRICTION = "staticfriction";
+	public static final String P_KINETICFRICTION = "kineticfriction";
+	public static final String P_SURFACECOLOR = "surfacecolor";
 	
 	private clsSurfaceHandler()
 	{
@@ -70,50 +73,11 @@ public class clsSurfaceHandler implements itfSurface
 		return moSurfaceGrid;
 	}
 	
-	/**
-	 * Creates a new world from an XML-File.
-	 * @param poXmlFile
-	 * @return
-	 */
+
 	//TODO: Rewrite: Use properties
-	public IntGrid2D createWorld(File poXmlFile)
+	public void createWorld(String poPrefix, clsBWProperties poProp)
 	{
-		SAXParserFactory oSpf = SAXParserFactory.newInstance();
-		SAXParser oParser = null;
-		
-		System.out.println("Creating parser...");
-		try
-		{
-			oParser = oSpf.newSAXParser();
-		}
-		catch (Exception e)
-		{
-			e.printStackTrace(System.err);
-			System.exit(1);
-		}
-		System.out.println("Parser created.");
-		
-		clsSAXHandler moHandler = new clsSAXHandler();
-		
-		System.out.println("Calling parser...");
-		try
-		{
-			oParser.parse(poXmlFile, moHandler);
-		}
-		catch (Exception e)
-		{
-			e.printStackTrace(System.err);
-		}
-		System.out.println("Done parsing.");
-		
-		System.out.println("Receiving the world...");
-		moSurfaceGrid = moHandler.getSurfaceGrid();
-		mnWidth = moSurfaceGrid.getWidth();
-		mnHeight = moSurfaceGrid.getHeight();
-		if (moSurfaceGrid != null)
-			System.out.println("Got it!");
-		
-		return moSurfaceGrid;
+		String pre = clsBWProperties.addDot(poPrefix);
 	}
 	
 	public IntGrid2D getGrid()
@@ -164,7 +128,8 @@ public class clsSurfaceHandler implements itfSurface
 	
 	public void setSurface(int pnX, int pnY, int pnSurface)
 	{
-		moSurfaceGrid.set(pnX, pnY, pnSurface);
+		if(pnX >= 0 && pnX <= mnWidth && pnY >= 0 && pnY <= mnHeight)
+			moSurfaceGrid.set(pnX, pnY, pnSurface);
 	}
 	
 	public void setSurface(int pnStartX, int pnStartY, int pnEndX, int pnEndY, int pnSurface)
@@ -252,5 +217,10 @@ public class clsSurfaceHandler implements itfSurface
 			nY = 0;
 		
 		return itfSurface.FRICTIONTABLE[moSurfaceGrid.get(nX, nY)][KINETICFRICTION];
+	}
+	
+	public int getHeight()
+	{
+		return mnHeight;
 	}
 }
