@@ -296,7 +296,7 @@ public class clsBrainSocket implements itfStepProcessing {
 	}
 
 	/**
-	 * DOCUMENT (langr) - insert description
+	 * transforms energy information from the sensor into the sensordata class, used as input by the decision unit 
 	 *
 	 * @author langr
 	 * 11.05.2009, 17:43:58
@@ -323,7 +323,7 @@ public class clsBrainSocket implements itfStepProcessing {
 	
 			Iterator <clsCollidingObject> i = eDetectedObjectList.iterator(); 
 			while(i.hasNext()){
-				clsVisionEntries oEntry = convertVisionEntry(i.next());
+				clsVisionEntries oEntry = convertVisionEntry(i.next(), poVisionType);
 				
 				if (oEntry != null) {
 					oEntry.mnNumEntitiesPresent = setMeNumber(eDetectedObjectList.size());
@@ -343,7 +343,7 @@ public class clsBrainSocket implements itfStepProcessing {
 	
 			Iterator <clsCollidingObject> i = eDetectedObjectList.iterator(); 
 			while(i.hasNext()){
-				clsVisionEntries oEntry = convertVisionEntry(i.next());
+				clsVisionEntries oEntry = convertVisionEntry(i.next(), poVisionType);
 				
 				if (oEntry != null) {
 					oData.add(oEntry);
@@ -377,7 +377,7 @@ public class clsBrainSocket implements itfStepProcessing {
 	
 	
 
-	private clsVisionEntries convertVisionEntry(clsCollidingObject collidingObj) {
+	private clsVisionEntries convertVisionEntry(clsCollidingObject collidingObj, eSensorExtType poSensorType) {
 		clsEntity oEntity = getEntity(collidingObj.moCollider);
 		if (oEntity == null) {
 			return null;
@@ -389,6 +389,7 @@ public class clsBrainSocket implements itfStepProcessing {
 		oData.moColor = (Color) oEntity.getShape().getPaint();
 		oData.moEntityId = oEntity.getId();
 		oData.moObjectPosition = collidingObj.meColPos;  
+		oData.moSensorType = poSensorType;
 				
 		// FIXME: (horvath) - temporary polar coordinates calculation
 		clsSensorPositionChange oSensor = (clsSensorPositionChange)(moSensorsExt.get(eSensorExtType.POSITIONCHANGE));
@@ -419,7 +420,7 @@ public class clsBrainSocket implements itfStepProcessing {
 		Iterator<clsCollidingObject> i = eDetectedObjectList.iterator();
 		
 		while (i.hasNext()) {
-			clsEatableAreaEntry oEntry = convertEatableAreaEntry(i.next());
+			clsEatableAreaEntry oEntry = convertEatableAreaEntry(i.next(), eSensorExtType.EATABLE_AREA);
 			
 			if (oEntry != null) {
 				oData.moEntries.add(oEntry);
@@ -428,7 +429,7 @@ public class clsBrainSocket implements itfStepProcessing {
 		return oData;
 	}
 	
-	private clsEatableAreaEntry convertEatableAreaEntry(clsCollidingObject collidingObj) {
+	private clsEatableAreaEntry convertEatableAreaEntry(clsCollidingObject collidingObj, eSensorExtType poSensorType) {
 		clsEntity oEntity = getEntity(collidingObj.moCollider);
 		if (oEntity == null) {
 			return null;
@@ -439,6 +440,7 @@ public class clsBrainSocket implements itfStepProcessing {
 		if (oAlive != null) {
 			oData.mnIsAlive = oAlive.isAlive();
 			oData.mnIsConsumeable = oAlive.isConsumeable();
+			oData.moSensorType = poSensorType;
 		}
 			
 		return oData;
