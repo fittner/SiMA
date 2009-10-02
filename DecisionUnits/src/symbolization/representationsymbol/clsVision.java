@@ -1,4 +1,4 @@
-package symbolization.representationsysmbol;
+package symbolization.representationsymbol;
 
 public class clsVision extends clsSensorRingSegment {
 	

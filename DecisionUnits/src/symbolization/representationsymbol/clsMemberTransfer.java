@@ -4,7 +4,7 @@
  * @author langr
  * 01.10.2009, 13:15:58
  */
-package symbolization.representationsysmbol;
+package symbolization.representationsymbol;
 
 import java.lang.reflect.Field;
 import java.util.ArrayList;
@@ -24,6 +24,8 @@ import enums.eSensorExtType;
  */
 public class clsMemberTransfer {
 
+	public static String moTransferPath = "symbolization.representationsymbol";
+	
 	public static void transferMembers( Object poSource, Object poTarget ) {
 		
 		Field[] oFields = poTarget.getClass().getFields(); //get members of class
@@ -52,7 +54,7 @@ public class clsMemberTransfer {
 		
 //		for( clsSensorExtern oSensorExt : poSensorDataExt.values() ) {
 	
-	    Iterator it = poSensorDataExt.entrySet().iterator();
+	    Iterator <Map.Entry<eSensorExtType, clsSensorExtern>> it = poSensorDataExt.entrySet().iterator();
 	    while (it.hasNext()) {
 	        Map.Entry<eSensorExtType, clsSensorExtern> pairs = (Map.Entry<eSensorExtType, clsSensorExtern>)it.next();
 
@@ -60,7 +62,7 @@ public class clsMemberTransfer {
 	        if(oSensorExt != null) {
 				if(oSensorExt.isContainer()) {
 					
-					String oClassName = "symbolization.representationsysmbol" + oSensorExt.getClass().getName().substring(24);
+					String oClassName = moTransferPath + oSensorExt.getClass().getName().substring(24);
 					clsSensorExtern oTarget = null;
 					try {
 						oTarget = (clsSensorExtern)Class.forName(oClassName).newInstance();
@@ -77,7 +79,7 @@ public class clsMemberTransfer {
 					oRetVal.put(pairs.getKey(), oTarget);
 				}
 				else {
-					String oClassName = "symbolization.representationsysmbol" + oSensorExt.getClass().getName().substring(24);
+					String oClassName = moTransferPath + oSensorExt.getClass().getName().substring(24);
 					try {
 						
 						clsSensorExtern oTarget = (clsSensorExtern)Class.forName(oClassName).newInstance();
@@ -104,7 +106,7 @@ public class clsMemberTransfer {
 		
 		for( clsSensorExtern oSensorData : poSensorDataExt ) {
 			
-			String oClassName = "symbolization.representationsysmbol" + oSensorData.getClass().getName().substring(24);
+			String oClassName = moTransferPath + oSensorData.getClass().getName().substring(24);
 			try {
 				
 				clsSensorExtern oTarget = (clsSensorExtern)Class.forName(oClassName).newInstance();

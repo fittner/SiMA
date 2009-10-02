@@ -4,7 +4,7 @@
  * @author langr
  * 09.09.2009, 14:04:06
  */
-package symbolization.representationsysmbol;
+package symbolization.representationsymbol;
 
 /**
  * DOCUMENT (langr) - insert description 

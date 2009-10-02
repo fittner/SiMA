@@ -4,7 +4,7 @@
  * @author langr
  * 09.09.2009, 13:56:28
  */
-package symbolization.representationsysmbol;
+package symbolization.representationsymbol;
 
 import java.util.ArrayList;
 

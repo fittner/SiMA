@@ -1,4 +1,4 @@
-package symbolization.representationsysmbol;
+package symbolization.representationsymbol;
 
 
 import java.awt.Color;
