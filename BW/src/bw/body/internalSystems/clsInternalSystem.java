@@ -9,6 +9,8 @@ package bw.body.internalSystems;
 
 import config.clsBWProperties;
 import bw.body.itfStepUpdateInternalState;
+import bw.utils.datatypes.clsMutableDouble;
+import bw.utils.enums.eBodyParts;
 
 /**
  * DOCUMENT (deutsch) - insert description 
@@ -26,6 +28,7 @@ public class clsInternalSystem implements itfStepUpdateInternalState {
 	public static final String P_STAMINA = "stamina";
 	public static final String P_STOMACH = "stomach";
 	public static final String P_INTENERGYCONSUMPTION = "intenergyconsumption";
+	public static final String P_BASEENERGYCONSUMPTION = "baseenergyconsumption";
 	
     private clsFlesh moFlesh;
     private clsSlowMessengerSystem moSlowMessengerSystem;
@@ -35,6 +38,8 @@ public class clsInternalSystem implements itfStepUpdateInternalState {
     private clsStaminaSystem moStaminaSystem;
     private clsStomachSystem moStomachSystem;
     private clsInternalEnergyConsumption moInternalEnergyConsumption; // list of all the bodies energy consumers
+    
+    private double mrBaseEnergyConsumption;
     
 	public clsInternalSystem(String poPrefix, clsBWProperties poProp) {
 		applyProperties(poPrefix, poProp);
@@ -53,6 +58,8 @@ public class clsInternalSystem implements itfStepUpdateInternalState {
 		oProp.putAll( clsStaminaSystem.getDefaultProperties(pre+P_STAMINA) );
 		oProp.putAll( clsStomachSystem.getDefaultProperties(pre+P_STOMACH) );
 		oProp.putAll( clsInternalEnergyConsumption.getDefaultProperties(pre+P_INTENERGYCONSUMPTION) );
+		
+		oProp.setProperty(pre+P_BASEENERGYCONSUMPTION, 1.0);
 				
 		return oProp;
 	}	
@@ -67,7 +74,11 @@ public class clsInternalSystem implements itfStepUpdateInternalState {
 		moHealthSystem 			= new clsHealthSystem(pre+P_HEALTH, poProp);
 		moStaminaSystem			= new clsStaminaSystem(pre+P_STAMINA, poProp);
 		moStomachSystem 		= new clsStomachSystem(pre+P_STOMACH, poProp);
-   	    moInternalEnergyConsumption = new clsInternalEnergyConsumption(pre+P_INTENERGYCONSUMPTION, poProp);	
+   	    moInternalEnergyConsumption = new clsInternalEnergyConsumption(pre+P_INTENERGYCONSUMPTION, poProp);
+   	    
+   	    mrBaseEnergyConsumption = poProp.getPropertyDouble(pre+P_BASEENERGYCONSUMPTION);
+   	    
+   	 	moInternalEnergyConsumption.setValue(eBodyParts.INTSYS, new clsMutableDouble(mrBaseEnergyConsumption));
 	}	
 		
 	/**
