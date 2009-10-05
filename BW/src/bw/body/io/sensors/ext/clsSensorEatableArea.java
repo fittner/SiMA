@@ -24,6 +24,7 @@ public class clsSensorEatableArea extends clsSensorRingSegment{
 
 	public clsSensorEatableArea(String poPrefix, clsBWProperties poProp,clsBaseIO poBaseIO) {
 		super(poPrefix, poProp, poBaseIO);
+		applyProperties(poPrefix, poProp);
 	}
 
 	public static clsBWProperties getDefaultProperties(String poPrefix) {
@@ -35,9 +36,16 @@ public class clsSensorEatableArea extends clsSensorRingSegment{
 
 		oProp.setProperty(pre+P_SENSOR_MIN_DISTANCE, 0);
 		oProp.setProperty(pre+P_SENSOR_MAX_DISTANCE, 15);
-
+		oProp.setProperty(pre+P_BASEENERGYCONSUMPTION, 0.0);
+		
 		return oProp;
 	}	
+	
+	private void applyProperties(String poPrefix, clsBWProperties poProp) {
+		//String pre = clsBWProperties.addDot(poPrefix);
+		
+		//nothing to do
+	}
 
 	@Override
 	protected void setBodyPartId() {

@@ -21,10 +21,14 @@ import bw.utils.enums.eBodyParts;
  *   BD (21.6.) Moved moBaseIO and registerEnergyconsumption to clsSensorActuatorBaseInt/-Ext
  */
 public abstract class clsSensorActuatorBase {
+	public static final String P_BASEENERGYCONSUMPTION = "baseenergyconsumption";
+	
 	private static final int mnUniqueId = clsSingletonUniqueIdGenerator.getUniqueId();
 	protected eBodyParts mePartId;
 	protected String moName;
 	private clsBaseIO moBaseIO; // reference
+	
+	protected double mrBaseEnergyConsumption;
 	
 	public clsSensorActuatorBase(String poPrefix, clsBWProperties poProp, clsBaseIO poBaseIO) {
 		setBodyPartId();
@@ -32,18 +36,24 @@ public abstract class clsSensorActuatorBase {
 		moBaseIO = poBaseIO;
 		
 		applyProperties(poPrefix, poProp);
-	}
+	}		
 
 	public static clsBWProperties getDefaultProperties(String poPrefix) {
-//		String pre = clsBWProperties.addDot(poPrefix);
+		String pre = clsBWProperties.addDot(poPrefix);
 		
 		clsBWProperties oProp = new clsBWProperties();
+		
+		oProp.setProperty(pre+P_BASEENERGYCONSUMPTION, 0);
 
 		return oProp;
 	}	
 
 	private void applyProperties(String poPrefix, clsBWProperties poProp) {
-		//String pre = clsBWProperties.addDot(poPrefix);
+		String pre = clsBWProperties.addDot(poPrefix);
+		
+		mrBaseEnergyConsumption = poProp.getPropertyDouble(pre+P_BASEENERGYCONSUMPTION);
+		
+		registerEnergyConsumption(mrBaseEnergyConsumption);
 	}		
 	
 	protected abstract void setBodyPartId();

@@ -56,7 +56,7 @@ public class clsSensorPositionChange extends clsSensorExt{
 		
 		clsBWProperties oProp = new clsBWProperties();
 		oProp.putAll(clsSensorExt.getDefaultProperties(pre));
-		//nothing to do
+		oProp.setProperty(pre+P_BASEENERGYCONSUMPTION, 0.0);
 				
 		return oProp;
 	}	

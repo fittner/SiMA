@@ -56,10 +56,12 @@ public abstract class clsSensorExt extends clsSensorActuatorBaseExt implements i
 	public static clsBWProperties getDefaultProperties(String poPrefix) {
 		String pre = clsBWProperties.addDot(poPrefix);
 		
-		clsBWProperties oProp = new clsBWProperties();
+		clsBWProperties oProp = clsSensorActuatorBaseExt.getDefaultProperties(pre);
+		
 		oProp.setProperty(pre+P_SENSOR_FIELD_OF_VIEW, 2*Math.PI);
 		oProp.setProperty(pre+P_SENSOR_OFFSET_X, 0.0);
 		oProp.setProperty(pre+P_SENSOR_OFFSET_Y, 0.0);
+		
 		return oProp;
 	}	
 

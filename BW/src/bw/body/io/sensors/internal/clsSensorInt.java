@@ -27,11 +27,11 @@ public abstract class clsSensorInt extends clsSensorActuatorBaseInt implements i
 	}
 
 	public static clsBWProperties getDefaultProperties(String poPrefix) {
-		// String pre = clsBWProperties.addDot(poPrefix);
+		String pre = clsBWProperties.addDot(poPrefix);
 		
-		clsBWProperties oProp = new clsBWProperties();
+		clsBWProperties oProp = clsSensorActuatorBaseInt.getDefaultProperties(poPrefix);
 		
-		//nothing to do
+		oProp.setProperty(pre+P_BASEENERGYCONSUMPTION, 0.0);
 				
 		return oProp;
 	}	

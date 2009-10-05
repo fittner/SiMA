@@ -74,6 +74,7 @@ public class clsSensorAcceleration extends clsSensorExt{
 		oProp.putAll(clsSensorExt.getDefaultProperties(pre));
 		oProp.setProperty(pre+P_START_VELOCITY_X, 0.0);
 		oProp.setProperty(pre+P_START_VELOCITY_Y, 0.0);
+		oProp.setProperty(pre+P_BASEENERGYCONSUMPTION, 0.0);
 				
 		return oProp;
 	}	

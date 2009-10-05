@@ -60,6 +60,7 @@ public class clsSensorBump extends clsSensorRingSegment{
 		//			 shape size of the entity
 		oProp.setProperty(pre+P_SENSOR_MIN_DISTANCE, 10.0);
 		oProp.setProperty(pre+P_SENSOR_MAX_DISTANCE, 11.0);
+		oProp.setProperty(pre+P_BASEENERGYCONSUMPTION, 0.0);
 		
 		return oProp;
 	}	

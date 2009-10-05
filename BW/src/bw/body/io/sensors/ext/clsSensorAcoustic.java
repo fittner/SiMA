@@ -53,7 +53,8 @@ public class clsSensorAcoustic extends clsSensorExt{
 		
 		clsBWProperties oProp = new clsBWProperties();
 		oProp.putAll(clsSensorExt.getDefaultProperties(pre) );
-
+		oProp.setProperty(pre+P_BASEENERGYCONSUMPTION, 0.0);
+		
 		return oProp;
 	}	
 

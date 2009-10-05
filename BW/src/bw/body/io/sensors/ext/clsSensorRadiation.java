@@ -59,6 +59,8 @@ public class clsSensorRadiation extends clsSensorExt {
 		
 		clsBWProperties oProp = new clsBWProperties();
 		oProp.putAll(clsSensorExt.getDefaultProperties(pre));
+		oProp.setProperty(pre+P_BASEENERGYCONSUMPTION, 0.0);
+		
 		return oProp;
 	}	
 
@@ -105,7 +107,7 @@ public class clsSensorRadiation extends clsSensorExt {
 	}
 	
     public void computeRadiation(){
-		double rDistance;
+		//double rDistance;
 		// clear radiation information before new value calculation
 		mrRadiation = 0;
 		HashMap<Double, ArrayList<clsCollidingObject>> eDetectedObjectList = moSensorData.getMeDetectedObject();
