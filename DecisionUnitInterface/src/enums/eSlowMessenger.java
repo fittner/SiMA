@@ -16,6 +16,6 @@ package enums;
  * 
  */
 public enum eSlowMessenger {
-	TESTOSTERON,
+	ADREANLIN,
 	BLOODSUGAR,
 }
