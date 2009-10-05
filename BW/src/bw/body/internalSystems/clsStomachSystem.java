@@ -165,6 +165,14 @@ public class clsStomachSystem implements itfStepUpdateInternalState {
 		updateMaxWeight();
 	}
 	
+	public Double getEnergyEfficency(eNutritions poId) {
+		return moEnergyEfficiency.get(poId);
+	}
+	
+	public Double getEnergyMetabolismFactor(eNutritions poId) {
+		return moEnergyMetabolismFactor.get(poId);
+	}
+	
 	private void updateMaxWeight() {
 		mrMaxWeight = 0;
 		

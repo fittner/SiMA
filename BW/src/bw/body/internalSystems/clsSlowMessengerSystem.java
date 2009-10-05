@@ -45,11 +45,13 @@ public class clsSlowMessengerSystem implements itfStepUpdateInternalState {
 		
 		oProp.setProperty(pre+P_NUMSLOWMESSENGERS, 2);
 		
-		oProp.setProperty(pre+"0."+P_SLOWMESSENGERTYPE, eSlowMessenger.TESTOSTERON.toString());
+		oProp.setProperty(pre+"0."+P_SLOWMESSENGERTYPE, eSlowMessenger.ADREANLIN.toString());
 		oProp.putAll( clsDecayColumn.getDefaultProperties(pre+"0") );
+		oProp.setProperty(pre+"0."+clsDecayColumn.P_MAXCONTENT, 1.0);
 
 		oProp.setProperty(pre+"1."+P_SLOWMESSENGERTYPE, eSlowMessenger.BLOODSUGAR.toString());
 		oProp.putAll( clsDecayColumn.getDefaultProperties(pre+"1") );
+		oProp.setProperty(pre+"1."+clsDecayColumn.P_MAXCONTENT, 1.0);
 		
 		return oProp;
 	}	
@@ -145,6 +147,16 @@ public class clsSlowMessengerSystem implements itfStepUpdateInternalState {
 		clsDecayColumn oSlowMessenger = moSlowMessengerContainer.get(poMessengerId);
 		
 		oSlowMessenger.inject(prAmount);
+	}
+	
+	public void setInjectionValue(eSlowMessenger poMessengerId, double prValue) throws exSlowMessengerDoesNotExist, exValueNotWithinRange {
+		if (!moSlowMessengerContainer.containsKey(poMessengerId)) {
+			throw new bw.exceptions.exSlowMessengerDoesNotExist(poMessengerId);
+		}
+		
+		clsDecayColumn oSlowMessenger = moSlowMessengerContainer.get(poMessengerId);
+		
+		oSlowMessenger.setInjectionValue(prValue);		
 	}
 	
 	/* (non-Javadoc)

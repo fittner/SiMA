@@ -26,7 +26,7 @@ import bw.utils.tools.clsNutritionLevel;
  * @author deutsch
  * 
  */
-public class clsDamageNutrition implements itfStepUpdateInternalState {
+public class clsStomachDamageNutrition implements itfStepUpdateInternalState {
 	public static final String P_PAINTHRESHOLD = "painthreshold";
 	public static final String P_PAINFACTOR = "painfactor";
 	public static final String P_HEALTHPENALTY = "healthpenalty";
@@ -39,7 +39,7 @@ public class clsDamageNutrition implements itfStepUpdateInternalState {
 	private clsHealthSystem moHealthSystem;
 	private clsFastMessengerSystem moFastMessengerSystem;
 
-	public clsDamageNutrition(String poPrefix, clsBWProperties poProp, clsHealthSystem poHealthSystem, clsStomachSystem poStomachSystem, clsFastMessengerSystem poFastMessengerSystem) {
+	public clsStomachDamageNutrition(String poPrefix, clsBWProperties poProp, clsHealthSystem poHealthSystem, clsStomachSystem poStomachSystem, clsFastMessengerSystem poFastMessengerSystem) {
 		moHealthSystem = poHealthSystem;
 		moStomachSystem = poStomachSystem;		
 		moFastMessengerSystem = poFastMessengerSystem;

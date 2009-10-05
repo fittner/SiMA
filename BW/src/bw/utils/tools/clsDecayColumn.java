@@ -177,7 +177,7 @@ public class clsDecayColumn extends clsContentColumn {
 	 * @throws exValueNotWithinRange
 	 */
 	public void inject(double prAmount) throws exValueNotWithinRange {
-		if (prAmount < 0.0f || prAmount > this.getMaxContent()) {
+		if (prAmount < 0.0f) {
 			throw new bw.exceptions.exValueNotWithinRange(0.0f, prAmount, this.getMaxContent());
 		}
 		setInjectionValue(mrInjectionValue + prAmount);
@@ -198,8 +198,10 @@ public class clsDecayColumn extends clsContentColumn {
 	 * @throws exValueNotWithinRange
 	 */
 	public void setInjectionValue(double prInjectionValue) throws exValueNotWithinRange {
-		if (prInjectionValue < 0.0f || prInjectionValue > this.getMaxContent()) {
+		if (prInjectionValue < 0.0f) {
 			throw new bw.exceptions.exValueNotWithinRange(0.0f, prInjectionValue, this.getMaxContent());
+		} else if  (prInjectionValue > getMaxContent()) {
+			prInjectionValue = getMaxContent();
 		}
 
 		this.mrInjectionValue = prInjectionValue;

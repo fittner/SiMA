@@ -8,9 +8,13 @@
 package bw.body.interBodyWorldSystems;
 
 import config.clsBWProperties;
+import enums.eSlowMessenger;
 import bw.body.itfStep;
 import bw.body.internalSystems.clsFastMessengerSystem;
 import bw.body.internalSystems.clsHealthSystem;
+import bw.body.internalSystems.clsSlowMessengerSystem;
+import bw.exceptions.exSlowMessengerDoesNotExist;
+import bw.exceptions.exValueNotWithinRange;
 import bw.utils.enums.eBodyParts;
 
 
@@ -25,18 +29,25 @@ public class clsDamageBump implements itfStep {
 	public static final String P_PAINFACTOR = "painfactor";
 	public static final String P_HEALTHPENALTY = "healthpenalty";
 	public static final String P_HURTTHRESHOLD = "hurthreshold";
+	public static final String P_ADRENALINFACTOR = "adrenalinfactor";
+	public static final String P_ADRENALINTHRESHOLD = "adrenalinthreshold";
 	
 	private double mrPainThreshold;
 	private double mrPainFactor;	
 	private double mrHealthPenalty;
 	private double mrHurtThreshold;
+	private double mrAdrenalinFactor;
+	private double mrAdrenalinThreshold;
+
 
 	private clsHealthSystem moHealthSystem; // reference
 	private clsFastMessengerSystem moFastMessengerSystem; // reference
+	private clsSlowMessengerSystem moSlowMessengerSystem;
 	
-	public clsDamageBump(String poPrefix, clsBWProperties poProp, clsHealthSystem poHealthSystem, clsFastMessengerSystem poFastMessengerSystem) {
+	public clsDamageBump(String poPrefix, clsBWProperties poProp, clsHealthSystem poHealthSystem, clsFastMessengerSystem poFastMessengerSystem, clsSlowMessengerSystem poSlowMessengerSystem) {
 		moHealthSystem = poHealthSystem;
 		moFastMessengerSystem = poFastMessengerSystem;
+		moSlowMessengerSystem = poSlowMessengerSystem;
 		
 		applyProperties(poPrefix, poProp);
 	}
@@ -50,7 +61,9 @@ public class clsDamageBump implements itfStep {
 		oProp.setProperty(pre+P_PAINFACTOR, 1);
 		oProp.setProperty(pre+P_HURTTHRESHOLD, 0);
 		oProp.setProperty(pre+P_HEALTHPENALTY, 1);
-				
+		oProp.setProperty(pre+P_ADRENALINFACTOR, 1);
+		oProp.setProperty(pre+P_ADRENALINTHRESHOLD, 0);
+		
 		return oProp;
 	}	
 
@@ -61,7 +74,8 @@ public class clsDamageBump implements itfStep {
 		mrPainFactor = poProp.getPropertyDouble(pre+P_PAINFACTOR);
 		mrHealthPenalty = poProp.getPropertyDouble(pre+P_HURTTHRESHOLD);
 		mrHurtThreshold = poProp.getPropertyDouble(pre+P_HEALTHPENALTY);
-
+		mrAdrenalinFactor = poProp.getPropertyDouble(pre+P_ADRENALINFACTOR);
+		mrAdrenalinThreshold = poProp.getPropertyDouble(pre+P_ADRENALINTHRESHOLD);
 	}	
 		
 	/**
@@ -93,9 +107,23 @@ public class clsDamageBump implements itfStep {
 		}
 	}
 	
+	private void adrenalin(double prPenaltySum) {
+		if (prPenaltySum > mrAdrenalinThreshold) {
+			double rDiff = prPenaltySum - mrAdrenalinThreshold;
+			try {
+				moSlowMessengerSystem.inject(eSlowMessenger.ADREANLIN, rDiff * mrAdrenalinFactor);
+			} catch (exSlowMessengerDoesNotExist e) {
+				// nothing to do
+			} catch (exValueNotWithinRange e) {
+				// nothing to do
+			}
+		}
+	}	
+	
 	public void bumped(eBodyParts poSource, double prForce) {
 		hurt(prForce);
 		pain(poSource, prForce);
+		adrenalin(prForce);
 	}
 	
 	
