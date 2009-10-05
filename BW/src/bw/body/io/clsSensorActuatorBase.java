@@ -84,17 +84,13 @@ public abstract class clsSensorActuatorBase {
 	 * 
 	 */
 	protected void registerEnergyConsumption(double prValue) {
-		if(!moBaseIO.equals(null)){
+		if(moBaseIO != null){
 			moBaseIO.registerEnergyConsumption(getBodyPartId(), prValue);
-		}else{
-			throw new NullPointerException();			
 		}
 	}
 	protected void registerEnergyConsumptionOnce(double prValue) {
-		if(!moBaseIO.equals(null)){
+		if(moBaseIO != null){
 			moBaseIO.registerEnergyConsumptionOnce(getBodyPartId(), prValue);
-		}else{
-			throw new NullPointerException();			
 		}
 	}
 	
