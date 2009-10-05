@@ -98,9 +98,9 @@ public class clsHareMind extends clsRemoteControl { //should be derived from cls
 		clsSensorRingSegmentEntries oRetVal = null;
 		clsVision oVision = (clsVision) getSensorData().getSensorExt(eSensorExtType.VISION);
 		for( clsSensorExtern oVisionObj : oVision.getList() ) {
-			if( isCarrotOrange((clsEatableAreaEntry)oVisionObj) )
+			if( isCarrotOrange((clsSensorRingSegmentEntries)oVisionObj) )
 			{
-				oRetVal = (clsEatableAreaEntry)oVisionObj;
+				oRetVal = (clsSensorRingSegmentEntries)oVisionObj;
 				break;
 			}
 		}
