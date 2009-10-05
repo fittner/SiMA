@@ -48,7 +48,7 @@ public abstract class clsSensorExt extends clsSensorActuatorBaseExt implements i
 	 */
 	public clsSensorExt(String poPrefix, clsBWProperties poProp,  
 						clsBaseIO poBaseIO) {
-		super(poBaseIO);
+		super(poPrefix, poProp, poBaseIO);
 		applyProperties(poPrefix, poProp);
 		moSensorEngine = ((clsExternalIO)poBaseIO).moSensorEngine; 			
 	}

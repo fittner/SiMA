@@ -41,6 +41,8 @@ public class clsExecutorCultivate extends clsActionExecutor{
 	public static final String P_RANGESENSOR = "rangesensor";
 
 	public clsExecutorCultivate(String poPrefix, clsBWProperties poProp, clsEntity poEntity) {
+		super(poPrefix, poProp);
+		
 		moEntity=poEntity;
 		
 		moMutEx.add(clsActionMove.class);
@@ -55,7 +57,7 @@ public class clsExecutorCultivate extends clsActionExecutor{
 	
 	public static clsBWProperties getDefaultProperties(String poPrefix) {
 		String pre = clsBWProperties.addDot(poPrefix);
-		clsBWProperties oProp = new clsBWProperties();
+		clsBWProperties oProp = clsActionExecutor.getDefaultProperties(pre);
 		oProp.setProperty(pre+P_RANGESENSOR, eSensorExtType.MANIPULATE_AREA.toString());
 		
 		return oProp;

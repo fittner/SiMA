@@ -43,6 +43,8 @@ public class clsExecutorMoveToArea extends clsActionExecutor{
 	public static final String P_RANGEDEST = "rangedest";
 
 	public clsExecutorMoveToArea(String poPrefix, clsBWProperties poProp, clsEntity poEntity) {
+		super(poPrefix, poProp);
+		
 		moEntity=poEntity;
 		
 		moMutEx.add(clsActionCultivate.class);
@@ -59,7 +61,7 @@ public class clsExecutorMoveToArea extends clsActionExecutor{
 	
 	public static clsBWProperties getDefaultProperties(String poPrefix) {
 		String pre = clsBWProperties.addDot(poPrefix);
-		clsBWProperties oProp = new clsBWProperties();
+		clsBWProperties oProp = clsActionExecutor.getDefaultProperties(pre);
 		oProp.setProperty(pre+P_RANGEDEST, eSensorExtType.EATABLE_AREA.toString());
 		
 		return oProp;

@@ -34,6 +34,8 @@ public class clsExecutorSleep extends clsActionExecutor{
 	private ArrayList<itfAPSleep> moNotifyDeep;
 
 	public clsExecutorSleep(String poPrefix, clsBWProperties poProp, clsEntity poEntity, ArrayList<itfAPSleep> poNotifyLight, ArrayList<itfAPSleep> poNotifyDeep ) {
+		super(poPrefix, poProp);
+		
 		//moEntity=poEntity;
 		moNotifyLight=poNotifyLight;
 		moNotifyDeep=poNotifyDeep;
@@ -57,7 +59,7 @@ public class clsExecutorSleep extends clsActionExecutor{
 
 	public static clsBWProperties getDefaultProperties(String poPrefix) {
 		//String pre = clsBWProperties.addDot(poPrefix);
-		clsBWProperties oProp = new clsBWProperties();
+		clsBWProperties oProp = clsActionExecutor.getDefaultProperties(poPrefix);
 		
 		return oProp;
 	}

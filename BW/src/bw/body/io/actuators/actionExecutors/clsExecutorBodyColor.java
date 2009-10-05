@@ -33,12 +33,14 @@ public class clsExecutorBodyColor extends clsActionExecutor{
 	private clsEntity moEntity;
 
 	public clsExecutorBodyColor(String poPrefix, clsBWProperties poProp, clsEntity poEntity) {
+		super(poPrefix, poProp);
+		
 		moEntity=poEntity;
 	}
 	
 	public static clsBWProperties getDefaultProperties(String poPrefix) {
 		//String pre = clsBWProperties.addDot(poPrefix);
-		clsBWProperties oProp = new clsBWProperties();
+		clsBWProperties oProp = clsActionExecutor.getDefaultProperties(poPrefix);
 
 		return oProp;
 	}

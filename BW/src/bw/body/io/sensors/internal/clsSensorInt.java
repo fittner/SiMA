@@ -22,7 +22,7 @@ public abstract class clsSensorInt extends clsSensorActuatorBaseInt implements i
 
 	
 	public clsSensorInt(String poPrefix, clsBWProperties poProp, clsBaseIO poBaseIO) {
-		super(poBaseIO);
+		super(poPrefix, poProp, poBaseIO);
 		applyProperties(poPrefix, poProp);
 	}
 

@@ -46,6 +46,8 @@ public class clsExecutorEat extends clsActionExecutor{
 	public static final String P_BIZESIZE = "bitesize";
 
 	public clsExecutorEat(String poPrefix, clsBWProperties poProp, clsEntity poEntity) {
+		super(poPrefix, poProp);
+		
 		moEntity=poEntity;
 		
 		moMutEx.add(clsActionMove.class);
@@ -56,7 +58,7 @@ public class clsExecutorEat extends clsActionExecutor{
 
 	public static clsBWProperties getDefaultProperties(String poPrefix) {
 		String pre = clsBWProperties.addDot(poPrefix);
-		clsBWProperties oProp = new clsBWProperties();
+		clsBWProperties oProp = clsActionExecutor.getDefaultProperties(pre);
 		oProp.setProperty(pre+P_RANGESENSOR, eSensorExtType.EATABLE_AREA.toString());
 		oProp.setProperty(pre+P_BIZESIZE, 0.3f);
 		

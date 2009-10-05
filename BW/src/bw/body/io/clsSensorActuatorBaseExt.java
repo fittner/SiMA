@@ -7,6 +7,8 @@
  */
 package bw.body.io;
 
+import config.clsBWProperties;
+
 /**
  * DOCUMENT (zeilinger) - insert description 
  * 
@@ -16,50 +18,27 @@ package bw.body.io;
  * 
  */
 public abstract class clsSensorActuatorBaseExt extends clsSensorActuatorBase{
-
-	private clsBaseIO moBaseIO;
 	
-	public clsSensorActuatorBaseExt(clsBaseIO poBaseIO) {
-		super();
-		moBaseIO=poBaseIO;
+	public clsSensorActuatorBaseExt(String poPrefix, clsBWProperties poProp, clsBaseIO poBaseIO) {
+		super(poPrefix, poProp, poBaseIO);
+		applyProperties(poPrefix, poProp);
 	}
 	
-	public clsSensorActuatorBaseExt() {
-		super();
-		moBaseIO = null;
+	public clsSensorActuatorBaseExt(String poPrefix, clsBWProperties poProp) {
+		super(poPrefix, poProp, null);
+		applyProperties(poPrefix, poProp);
 	}
-
 	
-	/*
-	 * If these two methods of an object which does not have body (e.g. Base) are called, moBaseIO is null and therefore an exception is thrown
-	 * 
-	 * @author horvath
-	 * 
-	 */
-	protected void registerEnergyConsumption(double prValue) {
-		if(!moBaseIO.equals(null)){
-			moBaseIO.registerEnergyConsumption(getBodyPartId(), prValue);
-		}else{
-			throw new NullPointerException();			
-		}
-	}
-	protected void registerEnergyConsumptionOnce(double prValue) {
-		if(!moBaseIO.equals(null)){
-			moBaseIO.registerEnergyConsumptionOnce(getBodyPartId(), prValue);
-		}else{
-			throw new NullPointerException();			
-		}
-	}
 
-	/**
-	 * needed for access from actuator-classes to the PhysicalObject2D via the clsEntity
-	 * 
-	 * @author langr
-	 * 25.02.2009, 17:45:01
-	 * 
-	 * @return the moBaseIO
-	 */
-	public clsBaseIO getBaseIO() {
-		return moBaseIO;
-	}
+	public static clsBWProperties getDefaultProperties(String poPrefix) {
+//		String pre = clsBWProperties.addDot(poPrefix);
+		
+		clsBWProperties oProp = clsSensorActuatorBase.getDefaultProperties(poPrefix);
+
+		return oProp;
+	}	
+
+	private void applyProperties(String poPrefix, clsBWProperties poProp) {
+		//String pre = clsBWProperties.addDot(poPrefix);
+	}		
 }

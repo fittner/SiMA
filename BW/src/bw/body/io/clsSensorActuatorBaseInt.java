@@ -7,6 +7,8 @@
  */
 package bw.body.io;
 
+import config.clsBWProperties;
+
 /**
  * DOCUMENT (zeilinger) - insert description 
  * 
@@ -16,36 +18,27 @@ package bw.body.io;
  * 
  */
 public abstract class clsSensorActuatorBaseInt extends clsSensorActuatorBase{
-
-	private clsBaseIO moBaseIO; // reference
+	public clsSensorActuatorBaseInt(String poPrefix, clsBWProperties poProp, clsBaseIO poBaseIO) {
+		super(poPrefix, poProp, poBaseIO);
+		applyProperties(poPrefix, poProp);
+	}
 	
-	/**
-	 * @param poBaseIO
-	 */
-	public clsSensorActuatorBaseInt(clsBaseIO poBaseIO) {
-		super();
-		moBaseIO=poBaseIO;
-		// TODO (zeilinger) - Auto-generated constructor stub
+	public clsSensorActuatorBaseInt(String poPrefix, clsBWProperties poProp) {
+		super(poPrefix, poProp, null);
+		applyProperties(poPrefix, poProp);
 	}
-
-
-	protected void registerEnergyConsumption(double prValue) {
-		moBaseIO.registerEnergyConsumption(getBodyPartId(), prValue);
-	}
-	protected void registerEnergyConsumptionOnce(double prValue) {
-		moBaseIO.registerEnergyConsumptionOnce(getBodyPartId(), prValue);
-	}
-
 	
-	/**
-	 * needed for access from actuator-classes to the PhysicalObject2D via the clsEntity
-	 * 
-	 * @author langr
-	 * 25.02.2009, 17:45:01
-	 * 
-	 * @return the moBaseIO
-	 */
-	public clsBaseIO getBaseIO() {
-		return moBaseIO;
+
+	public static clsBWProperties getDefaultProperties(String poPrefix) {
+//		String pre = clsBWProperties.addDot(poPrefix);
+		
+		clsBWProperties oProp = clsSensorActuatorBase.getDefaultProperties(poPrefix);
+
+		return oProp;
+	}	
+
+	private void applyProperties(String poPrefix, clsBWProperties poProp) {
+		//String pre = clsBWProperties.addDot(poPrefix);
 	}
+
 }

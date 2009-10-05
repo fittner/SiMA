@@ -11,6 +11,8 @@ package tstBw.body.io.actuators;
 import static org.junit.Assert.*;
 import org.junit.Test;
 
+import config.clsBWProperties;
+
 import decisionunit.itf.actions.*;
 
 import enums.eCallPriority;
@@ -221,6 +223,19 @@ public class tstActionProcessor {
 	 * can be set externally. Also energy/stamina demands can be set externally 
 	 */
 	private class tstTestExecutor extends clsActionExecutor {
+
+		/**
+		 * DOCUMENT (deutsch) - insert description 
+		 * 
+		 * @author deutsch
+		 * 05.10.2009, 19:39:01
+		 *
+		 * @param poPrefix
+		 * @param poProp
+		 */
+		public tstTestExecutor() {
+			super("", new clsBWProperties());
+		}
 
 		@Override
 		protected void setBodyPartId() {

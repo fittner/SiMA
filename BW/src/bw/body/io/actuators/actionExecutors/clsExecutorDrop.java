@@ -31,6 +31,8 @@ public class clsExecutorDrop  extends clsActionExecutor{
 	private ArrayList<Class<?>> moMutEx = new ArrayList<Class<?>>();
 
 	public clsExecutorDrop(String poPrefix, clsBWProperties poProp, clsMobile poEntity) {
+		super(poPrefix, poProp);
+		
 		moEntity=poEntity;
 		
 		moMutEx.add(clsActionPickUp.class);
@@ -40,7 +42,7 @@ public class clsExecutorDrop  extends clsActionExecutor{
 
 	public static clsBWProperties getDefaultProperties(String poPrefix) {
 		//String pre = clsBWProperties.addDot(poPrefix);
-		clsBWProperties oProp = new clsBWProperties();
+		clsBWProperties oProp = clsActionExecutor.getDefaultProperties(poPrefix);
 
 		return oProp;
 	}
