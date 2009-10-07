@@ -6,9 +6,8 @@
  */
 package pa.memory;
 
+import java.util.HashMap;
 import java.util.Map;
-import java.util.TreeMap;
-
 import bfg.tools.clsMutableDouble;
 import pa.datatypes.clsThingPresentationSingle;
 import config.clsBWProperties;
@@ -22,10 +21,10 @@ import enums.pa.eContext;
  * 
  */
 public class clsCurrentContextStorage {
-	private TreeMap<clsThingPresentationSingle, clsMutableDouble> moStorage; 
+	private HashMap<clsThingPresentationSingle, clsMutableDouble> moStorage; 
 	
 	public clsCurrentContextStorage(String poPrefix, clsBWProperties poProp) {
-		moStorage = new TreeMap<clsThingPresentationSingle, clsMutableDouble>();
+		moStorage = new HashMap<clsThingPresentationSingle, clsMutableDouble>();
 		applyProperties(poPrefix, poProp);
     }
     
@@ -79,15 +78,15 @@ public class clsCurrentContextStorage {
     	return oResult;
     }
     
-    public TreeMap<clsThingPresentationSingle, clsMutableDouble> getContextRatios() {
+    public HashMap<clsThingPresentationSingle, clsMutableDouble> getContextRatios() {
     	return moStorage;
     }
     
-    public TreeMap<clsThingPresentationSingle, clsMutableDouble> getContextRatios(double prThreshold) {
+    public HashMap<clsThingPresentationSingle, clsMutableDouble> getContextRatios(double prThreshold) {
     	if (prThreshold == 0) {
     		return getContextRatios();
     	} else {
-    		TreeMap<clsThingPresentationSingle, clsMutableDouble> oResult = new TreeMap<clsThingPresentationSingle, clsMutableDouble>();
+    		HashMap<clsThingPresentationSingle, clsMutableDouble> oResult = new HashMap<clsThingPresentationSingle, clsMutableDouble>();
         	for (Map.Entry<clsThingPresentationSingle, clsMutableDouble> oEntry:moStorage.entrySet()) {
         		if (oEntry.getValue().doubleValue()>=prThreshold) {
         			oResult.put(oEntry.getKey(), oEntry.getValue());
