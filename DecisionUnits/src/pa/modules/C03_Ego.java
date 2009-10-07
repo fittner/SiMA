@@ -8,7 +8,9 @@ package pa.modules;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
+import pa.datatypes.clsPrimaryInformation;
 import pa.datatypes.clsThingPresentationMesh;
 import pa.interfaces.I1_5;
 import pa.interfaces.I1_7;
@@ -131,8 +133,8 @@ public class C03_Ego extends clsModuleContainer implements
 	 * @see pa.interfaces.I1_5#receive_I1_5(int)
 	 */
 	@Override
-	public void receive_I1_5(int pnData) {
-		moC08PsychicMediator.receive_I1_5(pnData);
+	public void receive_I1_5(List<clsPrimaryInformation> poData) {
+		moC08PsychicMediator.receive_I1_5(poData);
 	}
 
 	/* (non-Javadoc)

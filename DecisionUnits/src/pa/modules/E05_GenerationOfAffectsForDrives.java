@@ -6,6 +6,9 @@
  */
 package pa.modules;
 
+import java.util.ArrayList;
+
+import pa.datatypes.clsPrimaryInformation;
 import pa.interfaces.I1_4;
 import pa.interfaces.I1_5;
 import config.clsBWProperties;
@@ -110,7 +113,7 @@ public class E05_GenerationOfAffectsForDrives extends clsModuleBase implements I
 	 */
 	@Override
 	protected void send() {
-		((I1_5)moEnclosingContainer).receive_I1_5(mnTest);
+		((I1_5)moEnclosingContainer).receive_I1_5(new ArrayList<clsPrimaryInformation>());
 		
 	}
 

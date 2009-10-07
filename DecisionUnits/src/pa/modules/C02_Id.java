@@ -8,7 +8,9 @@ package pa.modules;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
+import pa.datatypes.clsPrimaryInformation;
 import pa.datatypes.clsThingPresentationMesh;
 import pa.interfaces.I1_2;
 import pa.interfaces.I1_4;
@@ -122,8 +124,8 @@ public class C02_Id extends clsModuleContainer implements
 	 * @see pa.interfaces.I1_5#receive_I1_5(int)
 	 */
 	@Override
-	public void receive_I1_5(int pnData) {
-		((I1_5)moEnclosingContainer).receive_I1_5(pnData);
+	public void receive_I1_5(List<clsPrimaryInformation> poData) {
+		((I1_5)moEnclosingContainer).receive_I1_5(poData);
 		
 	}
 

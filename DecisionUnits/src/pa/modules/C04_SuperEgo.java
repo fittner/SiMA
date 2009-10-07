@@ -6,6 +6,9 @@
  */
 package pa.modules;
 
+import java.util.List;
+
+import pa.datatypes.clsPrimaryInformation;
 import pa.interfaces.I1_5;
 import pa.interfaces.I1_7;
 import pa.interfaces.I2_11;
@@ -80,8 +83,8 @@ public class C04_SuperEgo extends clsModuleContainer implements
 	 * @see pa.interfaces.I1_5#receive_I1_5(int)
 	 */
 	@Override
-	public void receive_I1_5(int pnData) {
-		moE07SuperEgoUnconscious.receive_I1_5(pnData);
+	public void receive_I1_5(List<clsPrimaryInformation> poData) {
+		moE07SuperEgoUnconscious.receive_I1_5(poData);
 		
 	}
 

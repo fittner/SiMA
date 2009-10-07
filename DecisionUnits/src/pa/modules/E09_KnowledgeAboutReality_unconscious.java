@@ -6,7 +6,10 @@
  */
 package pa.modules;
 
+import java.util.List;
+
 import config.clsBWProperties;
+import pa.datatypes.clsPrimaryInformation;
 import pa.interfaces.I1_5;
 import pa.interfaces.I6_3;
 
@@ -83,8 +86,8 @@ public class E09_KnowledgeAboutReality_unconscious extends clsModuleBase impleme
 	 * @see pa.interfaces.I1_5#receive_I1_5(int)
 	 */
 	@Override
-	public void receive_I1_5(int pnData) {
-		mnTest += pnData;
+	public void receive_I1_5(List<clsPrimaryInformation> poData) {
+		//TODO handle poData
 		
 	}
 

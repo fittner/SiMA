@@ -6,6 +6,9 @@
  */
 package pa.modules;
 
+import java.util.List;
+
+import pa.datatypes.clsPrimaryInformation;
 import pa.interfaces.I1_5;
 import pa.interfaces.I2_6;
 import pa.interfaces.I2_7;
@@ -87,8 +90,8 @@ public class C13_PrimaryKnowledgeUtilizer extends clsModuleContainer implements
 	 * @see pa.interfaces.I1_5#receive_I1_5(int)
 	 */
 	@Override
-	public void receive_I1_5(int pnData) {
-		moE09KnowledgeAboutReality_unconscious.receive_I1_5(pnData);
+	public void receive_I1_5(List<clsPrimaryInformation> poData) {
+		moE09KnowledgeAboutReality_unconscious.receive_I1_5(poData);
 	}
 
 	/* (non-Javadoc)

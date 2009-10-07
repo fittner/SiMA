@@ -8,7 +8,9 @@ package pa.modules;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
+import pa.datatypes.clsPrimaryInformation;
 import pa.datatypes.clsThingPresentationMesh;
 import pa.interfaces.I1_2;
 import pa.interfaces.I1_5;
@@ -273,9 +275,9 @@ public class C00_PsychicApparatus extends clsModuleContainer implements
 	 * @see pa.interfaces.I1_5#receive_I1_5(int)
 	 */
 	@Override
-	public void receive_I1_5(int pnData) {
-		moC03Ego.receive_I1_5(pnData);
-		moC04SuperEgo.receive_I1_5(pnData);
+	public void receive_I1_5(List<clsPrimaryInformation> poData) {
+		moC03Ego.receive_I1_5(poData);
+		moC04SuperEgo.receive_I1_5(poData);
 		
 	}
 

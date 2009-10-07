@@ -7,7 +7,9 @@
 package pa.modules;
 
 import java.util.ArrayList;
+import java.util.List;
 
+import pa.datatypes.clsPrimaryInformation;
 import pa.datatypes.clsThingPresentationMesh;
 import pa.interfaces.I1_5;
 import pa.interfaces.I1_6;
@@ -214,9 +216,9 @@ public class C09_PrimaryProcessor extends clsModuleContainer implements
 	 * @see pa.interfaces.I1_5#receive_I1_5(int)
 	 */
 	@Override
-	public void receive_I1_5(int pnData) {
-		moC13PrimaryDecision.receive_I1_5(pnData);
-		moC14PrimaryKnowledgeUtilizer.receive_I1_5(pnData);
+	public void receive_I1_5(List<clsPrimaryInformation> poData) {
+		moC13PrimaryDecision.receive_I1_5(poData);
+		moC14PrimaryKnowledgeUtilizer.receive_I1_5(poData);
 		
 	}
 
