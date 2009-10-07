@@ -1,8 +1,8 @@
 /**
- * RepressedContentsStore.java: DecisionUnits - pa.memory
+ * clsCurrentContextStorage.java: DecisionUnits - pa.memory
  * 
  * @author deutsch
- * 07.10.2009, 12:39:50
+ * 07.10.2009, 15:41:12
  */
 package pa.memory;
 
@@ -12,11 +12,11 @@ import config.clsBWProperties;
  * DOCUMENT (deutsch) - insert description 
  * 
  * @author deutsch
- * 07.10.2009, 12:39:50
+ * 07.10.2009, 15:41:12
  * 
  */
-public class clsRepressedContentsStore {
-	public clsRepressedContentsStore(String poPrefix, clsBWProperties poProp) {
+public class clsCurrentContextStorage {
+	public clsCurrentContextStorage(String poPrefix, clsBWProperties poProp) {
 		
 		applyProperties(poPrefix, poProp);
     }
@@ -38,5 +38,4 @@ public class clsRepressedContentsStore {
 		
 		return oProp;
     }
-	
 }
