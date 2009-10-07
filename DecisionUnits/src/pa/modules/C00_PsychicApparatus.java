@@ -45,6 +45,36 @@ import enums.eSensorIntType;
  * @author deutsch
  * 11.08.2009, 15:06:02
  * 
+ * 
+ * 
+ *       
+                       wAQWHHHWWUUVOCtOwuXXzu
+                      XHHHXZOwOv1+?+!+1OOZXwzX
+                  wWHfyuzvOz1+!`^^^^^^^^?=wZWWWmk
+                   HpfWXXOz+;!`^^^^^^^^^`+OwWWqHHX
+                  gHbfXZOz++:^^^^^..^^^^::+dWqHmHku
+                  @gkpkI??;;+?+:^^^^.^^^::+wWHHqkk
+                  @gqHkXO+;+;?+;:^^^^^.?;+.jXHHHHk
+                  HgmqpXwtz11+;+;:^:::++1++zXWHpWSV
+                  H@gHWWXI=z+1+;++++.+1z=???zXyUCjQmX
+                 |@MgqqWkkz+l=zlOusss&zrOOz+zwXwZTwWX
+                  MM@HHHHWHkzXAQWgHmgdWWkwlzz=dWWkwwu
+                 |qHHMNMMMNNS?WHMHHM8dVUUOtrOzZ+zw0u
+                  qHMMM@gHHMI:zvXpWU01z++1zrvvOzI1O
+                   gHHHmH@gHv:?1+?TUZzz++OwuZ=zzzIz
+                   @@HHmmgHSo:??zo?1zzOvuwwOI?zXkXz
+                    MM@ggHHky,?++zX++zzOOvzz1=zXWWX
+                     @@@@MMNHkXH9z+vkz??z+111lOwXyXr
+                     @@@MWHHHW0VC+;!?Uz?+???zwOruX+WkO
+                     M@MWWkkkkku&oo+,JtI?z?1wZzOw:.Wkkyv
+                     @HHHMMMMMHHWHW9Wz?1+1=jZOOv! dbkqqHkXz
+                      MqHHWUZ6OZv1Olz1+1;+1wrI!  JbkkqqqqqHkkX
+                        WWXz+++;!+?!?!+?+OzZC   .pkkqqqmmmmgg@Hk
+                         Wkw=+;?^:^`.`.z=zv`   .bbqqmgmmmqgmm@@ggmm
+                          kwzz+++^.?.+uuC`  `.dqkqqmgg@ggggggg@@gggggmmq
+                          gHWkXwAagkHg9!``  .WHgqmg@@@@@@@gg@@@@@@ggggmm
+                         @@HMMMMMM@@#^``  .jbH@gmg@@@@@@H@HH@M@@@@@gggmH
+                        HMMMMMHVWkH3```  .dbkHMgg@@@@HM@HM@gMM@@@@@@@gH@
  */
 public class C00_PsychicApparatus extends clsModuleContainer implements 
 							itfProcessSensorEnvironment, 
