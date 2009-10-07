@@ -6,6 +6,10 @@
  */
 package pa.datatypes;
 
+import java.util.HashMap;
+
+import enums.pa.eContext;
+
 import pa.interfaces.itfPrimaryProcessComparabelTP;
 
 /**
@@ -17,7 +21,7 @@ import pa.interfaces.itfPrimaryProcessComparabelTP;
  */
 public class clsThingPresentation extends clsPsychicRepresentative implements itfPrimaryProcessComparabelTP {
 
-	clsLifeInstinctCathegories moLifeInstinctCathegories = null;
+	public HashMap<eContext, clsLifeInstinctCathegories> moLifeInstinctCathegories = null;
 	
 	/* (non-Javadoc)
 	 *

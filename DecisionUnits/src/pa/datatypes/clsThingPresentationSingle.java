@@ -19,4 +19,14 @@ public class clsThingPresentationSingle extends clsThingPresentation {
 	public String meContentName;
 	public String meContentType = "";
 	public Object moContent = null;
+	
+	public clsThingPresentationSingle() {
+		
+	}
+	
+	public clsThingPresentationSingle(String poName, String poType, Object poContenObject) {
+		meContentName = poName;
+		meContentType = poType;
+		moContent = poContenObject;		
+	}
 }

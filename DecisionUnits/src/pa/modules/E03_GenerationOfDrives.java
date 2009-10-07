@@ -8,9 +8,15 @@ package pa.modules;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Map;
+import java.util.Map.Entry;
 
 import pa.datatypes.clsAffectCandidatePart;
+import pa.datatypes.clsAssociationContext;
+import pa.datatypes.clsDriveObject;
 import pa.datatypes.clsTemplateDrive;
+import pa.datatypes.clsThingPresentation;
+import pa.datatypes.clsThingPresentationMesh;
 import pa.datatypes.clsThingPresentationSingle;
 import pa.interfaces.I1_2;
 import pa.interfaces.I1_3;
@@ -30,6 +36,8 @@ import enums.pa.eDriveContent;
  */
 public class E03_GenerationOfDrives extends clsModuleBase implements I1_2 {
 
+	public static String moDriveObjectType = "DriveObject";
+	
 	public HashMap<eDriveContent, clsTemplateDrive> moDriveDefinition = null;
 	public HashMap<eSensorIntType, clsDataBase> moHomeostasisSymbols = null;
 	
@@ -139,23 +147,54 @@ public class E03_GenerationOfDrives extends clsModuleBase implements I1_2 {
 	protected void process() {
 
 
-//		for( Map.Entry<eDriveContent, clsTPDrive> oDriveDef : moDriveDefinition.entrySet() ) {
-//			
-//			eDriveContent oContent = oDriveDef.getKey();
-//			clsTPDrive oTPDrive = oDriveDef.getValue();
-//			
-//			
-//			clsThingPresentationSingle oDriveMesh = new clsThingPresentationSingle();
-//			clsAffectCandidatePart oAffectCandidatePart = new clsAffectCandidatePart();
-//			
-//			oDriveMesh.meContentName = oTPDrive.meContentType;
-//		}
-//		
-//		
+		for( Map.Entry<eDriveContent, clsTemplateDrive> oDriveDef : moDriveDefinition.entrySet() ) {
+			
+			eDriveContent oContent = oDriveDef.getKey();
+			clsTemplateDrive oTPDrive = oDriveDef.getValue();
+			
+			clsThingPresentationMesh oDriveMesh = new clsThingPresentationMesh();
+			clsAffectCandidatePart oAffectCandidatePart = null;
+			
+			oDriveMesh.meContentName = oTPDrive.moName;
+			oDriveMesh.meContentType = oTPDrive.meDriveContent.getClass().getName();
+			oDriveMesh.moContent = oTPDrive.meDriveContent;
+			
+			oDriveMesh.moLifeInstinctCathegories = oTPDrive.moLifeInstinctRatio;
+			
+			for( clsDriveObject oDriveObject : oTPDrive.moDriveObjects ) {
+				clsThingPresentationSingle oTPSingle = new clsThingPresentationSingle();
+				oTPSingle.meContentName = moDriveObjectType;
+				oTPSingle.meContentType = oDriveObject.meType.getClass().getName();
+				oTPSingle.moContent = oDriveObject.meType;
+				
+				//creating the association between the mesh and the attribute
+				clsAssociationContext<clsThingPresentation> oAssoc = new clsAssociationContext<clsThingPresentation>();
+				oAssoc.moElementA = oDriveMesh;
+				oAssoc.moElementB = oTPSingle;
+				oAssoc.moAssociationContext = new clsThingPresentationSingle(moDriveObjectType, oDriveObject.meContext.getClass().getName(), oDriveObject.meContext); 
+				//storing the association in the mesh
+				oDriveMesh.moAssociations.add(oAssoc);
+			}
+			
+			oAffectCandidatePart = createDriveMesh( oDriveDef );
+			
+		}
+		
+		
 //		moEnvironmentalTP;
 //		moHomeostasisSymbols;
 //		moDriveDefinition;
 		
+	}
+
+	private clsAffectCandidatePart createDriveMesh(
+			Entry<eDriveContent, clsTemplateDrive> driveDef) {
+
+		clsAffectCandidatePart oRetVal = new clsAffectCandidatePart();
+		
+		
+		
+		return oRetVal;
 	}
 
 	/* (non-Javadoc)

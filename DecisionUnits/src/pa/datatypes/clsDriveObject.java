@@ -20,5 +20,5 @@ public class clsDriveObject extends clsThingPresentationSingle {
 
 	public eEntityType meType;
 	public eContext meContext;
-	
+
 }
