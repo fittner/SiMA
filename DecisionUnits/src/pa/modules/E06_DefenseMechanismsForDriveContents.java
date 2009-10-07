@@ -103,7 +103,7 @@ public class E06_DefenseMechanismsForDriveContents extends clsModuleBase impleme
 	 */
 	@Override
 	public void receive_I1_5(List<clsPrimaryInformation> poData) {
-		moPrimaryInformation = (ArrayList<clsPrimaryInformation>) poData;
+		moPrimaryInformation.addAll((ArrayList<clsPrimaryInformation>) poData);
 		
 	}
 
@@ -128,8 +128,8 @@ public class E06_DefenseMechanismsForDriveContents extends clsModuleBase impleme
 	 * @see pa.interfaces.I4_3#receive_I4_3(int)
 	 */
 	@Override
-	public void receive_I4_3(int pnData) {
-		mnTest += pnData;
+	public void receive_I4_3(List<clsPrimaryInformation> poPIs) {
+		moPrimaryInformation.addAll((ArrayList<clsPrimaryInformation>) poPIs);
 		
 	}
 
@@ -171,5 +171,9 @@ public class E06_DefenseMechanismsForDriveContents extends clsModuleBase impleme
 		((I1_6)moEnclosingContainer).receive_I1_6(mnTest);
 		((I4_1)moEnclosingContainer).receive_I4_1(moPrimaryInformation, moThingPresentations, moAffects);
 		((I5_1)moEnclosingContainer).receive_I5_1(mnTest);	
+		
+		moPrimaryInformation.clear();
+		moThingPresentations.clear();
+		moAffects.clear();
 	}
 }

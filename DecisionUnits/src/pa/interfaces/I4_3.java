@@ -6,6 +6,10 @@
  */
 package pa.interfaces;
 
+import java.util.List;
+
+import pa.datatypes.clsPrimaryInformation;
+
 /**
  * DOCUMENT (deutsch) - insert description 
  * 
@@ -14,5 +18,5 @@ package pa.interfaces;
  * 
  */
 public interface I4_3 {
-	public void receive_I4_3(int pnData);
+	public void receive_I4_3(List<clsPrimaryInformation> poPIs);
 }

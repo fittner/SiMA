@@ -217,8 +217,8 @@ public class C02_Id extends clsModuleContainer implements
 	 * @see pa.interfaces.I4_3#receive_I4_3(int)
 	 */
 	@Override
-	public void receive_I4_3(int pnData) {
-		((I4_3)moEnclosingContainer).receive_I4_3(pnData);
+	public void receive_I4_3(List<clsPrimaryInformation> poPIs) {
+		((I4_3)moEnclosingContainer).receive_I4_3(poPIs);
 		
 	}
 

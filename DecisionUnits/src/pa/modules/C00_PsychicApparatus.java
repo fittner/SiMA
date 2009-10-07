@@ -344,8 +344,8 @@ public class C00_PsychicApparatus extends clsModuleContainer implements
 	 * @see pa.interfaces.I4_3#receive_I4_3(int)
 	 */
 	@Override
-	public void receive_I4_3(int pnData) {
-		moC03Ego.receive_I4_3(pnData);
+	public void receive_I4_3(List<clsPrimaryInformation> poPIs) {
+		moC03Ego.receive_I4_3(poPIs);
 		
 	}
 

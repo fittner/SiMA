@@ -6,6 +6,7 @@
  */
 package pa.modules;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import config.clsBWProperties;
@@ -24,7 +25,8 @@ import pa.interfaces.I4_3;
  * 
  */
 public class E15_2_ManagementOfRepressedContents extends clsModuleBase implements I4_1, I4_2 {
-
+	ArrayList<clsPrimaryInformation> moPrimaryInformation;
+	
 	/**
 	 * DOCUMENT (deutsch) - insert description 
 	 * 
@@ -67,8 +69,15 @@ public class E15_2_ManagementOfRepressedContents extends clsModuleBase implement
 	 */
 	@Override
 	public void receive_I4_1(List<clsPrimaryInformation> poPIs, List<clsThingPresentation> poTPs, List<clsAffect> poAffects) {
-		//TODO handle data
+		if (poTPs.size() > 0) {
+			throw new java.lang.IllegalArgumentException("thing presentations without attached affect not supported, currently.");
+		}
+		if (poAffects.size() > 0) {
+			throw new java.lang.IllegalArgumentException("affects not attached tothing presentations not supported, currently.");
+		}
 		
+		moPrimaryInformation.addAll((ArrayList<clsPrimaryInformation>) poPIs);
+	
 	}
 
 	/* (non-Javadoc)
@@ -106,8 +115,9 @@ public class E15_2_ManagementOfRepressedContents extends clsModuleBase implement
 	 */
 	@Override
 	protected void send() {
-		((I4_3)moEnclosingContainer).receive_I4_3(mnTest);
+		((I4_3)moEnclosingContainer).receive_I4_3(new ArrayList<clsPrimaryInformation>());
 		
+		moPrimaryInformation.clear();
 	}
 
 	/* (non-Javadoc)

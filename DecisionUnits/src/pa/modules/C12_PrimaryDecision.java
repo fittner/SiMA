@@ -181,8 +181,8 @@ public class C12_PrimaryDecision extends clsModuleContainer implements
 	 * @see pa.interfaces.I4_3#receive_I4_3(int)
 	 */
 	@Override
-	public void receive_I4_3(int pnData) {
-		moE06DefenseMechanismsForDriveContents.receive_I4_3(pnData);	
+	public void receive_I4_3(List<clsPrimaryInformation> poPIs) {
+		moE06DefenseMechanismsForDriveContents.receive_I4_3(poPIs);	
 	}
 
 	/* (non-Javadoc)
