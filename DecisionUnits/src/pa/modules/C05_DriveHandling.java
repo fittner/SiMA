@@ -6,11 +6,15 @@
  */
 package pa.modules;
 
+import java.util.HashMap;
+
 import pa.interfaces.I1_2;
 import pa.interfaces.I1_3;
 import pa.interfaces.I1_4;
 import pa.memory.clsMemory;
 import config.clsBWProperties;
+import decisionunit.itf.sensors.clsDataBase;
+import enums.eSensorIntType;
 
 /**
  * DOCUMENT (deutsch) - insert description 
@@ -72,8 +76,8 @@ public class C05_DriveHandling extends clsModuleContainer implements
 	 * @see pa.interfaces.I1_2#receive_I1_2(int)
 	 */
 	@Override
-	public void receive_I1_2(int pnData) {
-		moE03GenerationOfDrives.receive_I1_2(pnData);
+	public void receive_I1_2(HashMap<eSensorIntType, clsDataBase> poHomeostasisSymbols) {
+		moE03GenerationOfDrives.receive_I1_2(poHomeostasisSymbols);
 		
 	}
 

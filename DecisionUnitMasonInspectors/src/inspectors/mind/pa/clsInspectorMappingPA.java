@@ -35,10 +35,12 @@ public class clsInspectorMappingPA {
 		
 		if(poModuleName.equals("E02NeurosymbolizationOfNeeds")) {
 			oRetVal.addInspector( new clsE02InspectorInput(poSuperInspector, poWrapper, poState, moPA.moC01Body.moE02NeurosymbolizationOfNeeds), "Input");
-			oRetVal.addInspector( new clsE02InspectorOutput(poSuperInspector, poWrapper, poState, moPA.moC01Body.moE02NeurosymbolizationOfNeeds), "Output");
+			oRetVal.addInspector( new clsE02InspectorOutput(poSuperInspector, poWrapper, poState, moPA.moC01Body.moE02NeurosymbolizationOfNeeds), "Output (same as Input)");
 		}
 		else if(poModuleName.equals("E03GenerationOfDrives")) {
+			oRetVal.addInspector( new clsE03InspectorInput(poSuperInspector, poWrapper, poState, moPA.moC02Id.moC05DriveHandling.moE03GenerationOfDrives), "Input");
 			oRetVal.addInspector( new clsE03InspectorDriveDefinitions(poSuperInspector, poWrapper, poState, moPA.moC02Id.moC05DriveHandling.moE03GenerationOfDrives), "Drive Definitions");
+			oRetVal.addInspector( new clsE03InspectorOutput(poSuperInspector, poWrapper, poState, moPA.moC02Id.moC05DriveHandling.moE03GenerationOfDrives), "Output");
 		}
 		else if(poModuleName.equals("Psychic Apparatus")) {
 			oRetVal.addInspector( new clsPAInspectorFuncModel(poSuperInspector, poWrapper, poState, moPA), "Functional Model");

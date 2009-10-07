@@ -6,13 +6,19 @@
  */
 package pa.modules;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 
+import pa.datatypes.clsAffectCandidatePart;
 import pa.datatypes.clsTPDrive;
+import pa.datatypes.clsThingPresentationMesh;
 import pa.interfaces.I1_2;
 import pa.interfaces.I1_3;
 import pa.loader.clsDriveLoader;
+import pa.tools.clsPair;
 import config.clsBWProperties;
+import decisionunit.itf.sensors.clsDataBase;
+import enums.eSensorIntType;
 import enums.pa.eDriveContent;
 
 /**
@@ -24,8 +30,10 @@ import enums.pa.eDriveContent;
  */
 public class E03_GenerationOfDrives extends clsModuleBase implements I1_2 {
 
+	public HashMap<eDriveContent, clsTPDrive> moDriveDefinition = null;
+	public HashMap<eSensorIntType, clsDataBase> moHomeostasisSymbols = null;
 	
-	private HashMap<eDriveContent, clsTPDrive> moDriveDefinition = null;
+	ArrayList<clsPair<clsThingPresentationMesh, clsAffectCandidatePart>> moEnvironmentalTP;
 	
 	/**
 	 * @author langr
@@ -64,9 +72,8 @@ public class E03_GenerationOfDrives extends clsModuleBase implements I1_2 {
 	 */
 	private void loadDriveDefinition(String poPrefix, clsBWProperties poProp) {
 	      
-		//TODO - (langr): read from property file!
+		//TODO - (langr): read team-name from property file!
 		moDriveDefinition = clsDriveLoader.createDriveList("1", "PSY_10");
-
 	}
 
 	public static clsBWProperties getDefaultProperties(String poPrefix) {
@@ -117,9 +124,8 @@ public class E03_GenerationOfDrives extends clsModuleBase implements I1_2 {
 	 * @see pa.interfaces.I1_2#receive_I1_2(int)
 	 */
 	@Override
-	public void receive_I1_2(int pnData) {
-		mnTest += pnData;
-		
+	public void receive_I1_2(HashMap<eSensorIntType, clsDataBase> poHomeostasisSymbols) {
+		moHomeostasisSymbols = poHomeostasisSymbols;
 	}
 
 	/* (non-Javadoc)
@@ -131,7 +137,8 @@ public class E03_GenerationOfDrives extends clsModuleBase implements I1_2 {
 	 */
 	@Override
 	protected void process() {
-		mnTest++;
+
+
 		
 	}
 

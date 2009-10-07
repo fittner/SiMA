@@ -221,8 +221,8 @@ public class C01_Body extends clsModuleContainer implements
 	 * @see pa.interfaces.I1_2#receive_I1_2(int)
 	 */
 	@Override
-	public void receive_I1_2(int pnData) {
-		((I1_2)moEnclosingContainer).receive_I1_2(pnData);
+	public void receive_I1_2(HashMap<eSensorIntType, clsDataBase> poHomeostasisSymbols) {
+		((I1_2)moEnclosingContainer).receive_I1_2(poHomeostasisSymbols);
 		
 	}
 

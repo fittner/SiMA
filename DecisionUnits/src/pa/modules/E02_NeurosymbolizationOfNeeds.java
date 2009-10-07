@@ -116,7 +116,7 @@ public class E02_NeurosymbolizationOfNeeds extends clsModuleBase implements I1_1
 	 */
 	@Override
 	protected void send() {
-		((I1_2)moEnclosingContainer).receive_I1_2(mnTest);
+		((I1_2)moEnclosingContainer).receive_I1_2(moHomeostasis);
 		
 	}
 

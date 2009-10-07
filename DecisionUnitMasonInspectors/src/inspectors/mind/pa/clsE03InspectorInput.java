@@ -1,18 +1,17 @@
 /**
- * clsE02InspectorInput.java: DecisionUnitMasonInspectors - inspectors.mind.pa
+ * clsE03InspectorInput.java: DecisionUnitMasonInspectors - inspectors.mind.pa
  * 
  * @author langr
- * 13.08.2009, 01:46:21
+ * 06.10.2009, 18:36:01
  */
 package inspectors.mind.pa;
 
 import java.awt.BorderLayout;
 import java.util.HashMap;
 
+import pa.modules.E03_GenerationOfDrives;
 import decisionunit.itf.sensors.clsDataBase;
 import enums.eSensorIntType;
-
-import pa.modules.E02_NeurosymbolizationOfNeeds;
 import sim.display.GUIState;
 import sim.portrayal.Inspector;
 import sim.portrayal.LocationWrapper;
@@ -22,25 +21,25 @@ import sim.util.gui.HTMLBrowser;
  * DOCUMENT (langr) - insert description 
  * 
  * @author langr
- * 13.08.2009, 01:46:21
+ * 06.10.2009, 18:36:01
  * 
  */
-public class clsE02InspectorInput extends Inspector {
+public class clsE03InspectorInput extends Inspector {
 
-	private static final long serialVersionUID = 3331975073925689043L;
+	private static final long serialVersionUID = 586283139693057158L;
 	public Inspector moOriginalInspector;
-	private E02_NeurosymbolizationOfNeeds moE02;
+	private E03_GenerationOfDrives moGenDrive;
 	HTMLBrowser moHTMLPane;
 	
-    public clsE02InspectorInput(Inspector originalInspector,
+    public clsE03InspectorInput(Inspector originalInspector,
             LocationWrapper wrapper,
             GUIState guiState,
-            E02_NeurosymbolizationOfNeeds poNeuroNeeds)
+            E03_GenerationOfDrives poGenDrive)
     {
 		moOriginalInspector = originalInspector;
-		moE02= poNeuroNeeds;
+		moGenDrive= poGenDrive;
 		
-		HashMap<eSensorIntType, clsDataBase> oHomeo = moE02.getHomeostasisData();
+		HashMap<eSensorIntType, clsDataBase> oHomeo = poGenDrive.moHomeostasisSymbols;
 		
         String contentData = "<html><head></head><body><p>test homeo input";
 		for( clsDataBase oDataBase : oHomeo.values() ) {
@@ -64,7 +63,7 @@ public class clsE02InspectorInput extends Inspector {
 	 */
 	@Override
 	public void updateInspector() {
-		HashMap<eSensorIntType, clsDataBase> oHomeo = moE02.getHomeostasisData();
+		HashMap<eSensorIntType, clsDataBase> oHomeo = moGenDrive.moHomeostasisSymbols;
         String contentData = "<html><head></head><body><p>test homeo input";
 		for( clsDataBase oDataBase : oHomeo.values() ) {
 			if(oDataBase != null) {
