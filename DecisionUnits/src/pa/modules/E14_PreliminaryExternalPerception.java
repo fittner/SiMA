@@ -12,6 +12,8 @@ import java.util.HashMap;
 import config.clsBWProperties;
 import decisionunit.itf.sensors.clsSensorExtern;
 import enums.eSensorExtType;
+import pa.datatypes.clsAssociationContext;
+import pa.datatypes.clsPrimaryInformation;
 import pa.datatypes.clsThingPresentationMesh;
 import pa.interfaces.I2_2;
 import pa.interfaces.I2_4;
@@ -34,6 +36,7 @@ public class E14_PreliminaryExternalPerception extends clsModuleBase implements
 	HashMap<eSensorExtType, clsSensorExtern> moBodyData;
 	
 	ArrayList<clsThingPresentationMesh> moEnvironmentalTP;
+	ArrayList<clsAssociationContext<clsPrimaryInformation>> moAssociationContext;  
 
 	/**
 	 * DOCUMENT (deutsch) - insert description 
@@ -137,6 +140,6 @@ public class E14_PreliminaryExternalPerception extends clsModuleBase implements
 	 */
 	@Override
 	protected void send() {
-		((I2_5)moEnclosingContainer).receive_I2_5(mnTest);
+		((I2_5)moEnclosingContainer).receive_I2_5(moEnvironmentalTP);
 	}
 }

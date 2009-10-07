@@ -6,8 +6,10 @@
  */
 package pa.modules;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 
+import pa.datatypes.clsThingPresentationMesh;
 import pa.interfaces.I1_2;
 import pa.interfaces.I1_5;
 import pa.interfaces.I1_7;
@@ -282,8 +284,8 @@ public class C00_PsychicApparatus extends clsModuleContainer implements
 	 * @see pa.interfaces.I2_5#receive_I2_5(int)
 	 */
 	@Override
-	public void receive_I2_5(int pnData) {
-		moC02Id.receive_I2_5(pnData);
+	public void receive_I2_5(ArrayList<clsThingPresentationMesh> poEnvironmentalTP) {
+		moC02Id.receive_I2_5(poEnvironmentalTP);
 		
 	}
 
