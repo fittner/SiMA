@@ -61,7 +61,8 @@ public class SimLifeArena extends SimState
 	    {
 	    	if (xmlFile.exists())
 	    	{
-	    		surfaceGrid = clsSurfaceHandler.getInstance().createWorld(xmlFile);
+	    		//commmented by heimo & roland because of error
+	    		//surfaceGrid = clsSurfaceHandler.getInstance().createWorld(xmlFile);
 	    	}
 	    	else
 	    	{
