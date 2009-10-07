@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<TPMeshes xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+	<TPMesh name="can">
+		<Description> Definition of associated context</Description>
+		<ContextAssoziations>
+			<Context ContextType="EAT">
+				<Association weight="0.5" pleasure="0.5"/>
+			</Context>
+			<Context ContextType="EXCRETE"/>
+				<Association weight="0" pleasure="0.0"/>
+			<Context ContextType="SLEEP">
+				<Association weight="0" pleasure="0.0"/>
+			</Context>
+			<Context ContextType="BREATH">
+				<Association weight="0" pleasure="0.0"/>
+			</Context>
+			<Context ContextType="HEALTH">
+				<Association weight="0" pleasure="0.0"/>
+			</Context>
+			<Context ContextType="AGGRESSION">
+				<Association weight="0" pleasure="0.0"/>
+			</Context>
+		</ContextAssoziations>
+	</TPMesh>
+	<TPMesh name="cake">
+		<Description> Definition of associated context</Description>
+		<ContextAssoziations>
+			<Context ContextType="EAT">
+				<Association weight="0.9" pleasure="0.8"/>
+				<Association weight="0.1" pleasure="-0.1"/>
+			</Context>
+			<Context ContextType="EXCRETE"/>
+				<Association weight="0" pleasure="0.0"/>
+			<Context ContextType="SLEEP">
+				<Association weight="0" pleasure="0.0"/>
+			</Context>
+			<Context ContextType="BREATH">
+				<Association weight="0" pleasure="0.0"/>
+			</Context>
+			<Context ContextType="HEALTH">
+				<Association weight="0" pleasure="0.0"/>
+			</Context>
+			<Context ContextType="AGGRESSION">
+				<Association weight="0" pleasure="0.0"/>
+			</Context>
+		</ContextAssoziations>		
+	</TPMesh>
+	<TPMesh name="bubble">
+		<Description> Definition of the associated context</Description>
+	</TPMesh>
+	<TPMesh name="remotebot">
+		<Description> Definition of associated context</Description>
+	</TPMesh>
+</TPMeshes>
