@@ -28,6 +28,9 @@ public class clsMemory implements
 	itfSecondaryProcessAssociation, itfSecondaryProcessRetrieval, itfSecondaryProcessStorage	//SecondaryProcess access interfaces
 	{
 	
+	public static final String P_REPRESSEDCONTENTSSTORAGE = "repressedcontentsstorage";
+	
+	public clsRepressedContentsStore moRepressedContentsStore;
 	
 	
 	/**
@@ -45,7 +48,7 @@ public class clsMemory implements
     private void applyProperties(String poPrefix, clsBWProperties poProp){		
 		String pre = clsBWProperties.addDot(poPrefix);
     	 
-    	//moVariable = new clsClass(pre+P_KEY, poProp, null,this);		
+		moRepressedContentsStore = new clsRepressedContentsStore(pre+P_REPRESSEDCONTENTSSTORAGE, poProp);		
 	}	
     
     public static clsBWProperties getDefaultProperties(String poPrefix) {
@@ -53,8 +56,7 @@ public class clsMemory implements
     	
     	clsBWProperties oProp = new clsBWProperties();
 		
-		//oProp.putAll(clsOtherClass.getDefaultProperties(pre) );
-		//oProp.setProperty(pre+P_SENSOR+"."+clsSensorVision.P_SENSOR_ANGLE, 1.99 * Math.PI );
+		oProp.putAll(clsRepressedContentsStore.getDefaultProperties(pre+P_REPRESSEDCONTENTSSTORAGE) );
 		
 		return oProp;
     }
