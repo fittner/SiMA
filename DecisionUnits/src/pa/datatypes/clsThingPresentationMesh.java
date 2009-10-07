@@ -19,13 +19,13 @@ import java.util.ArrayList;
 public class clsThingPresentationMesh extends clsThingPresentation {
 	
 	public clsThingPresentationMesh() {
-		moAssociations = new ArrayList<clsAssociationContext>();
+		moAssociations = new ArrayList<clsAssociationContext<clsThingPresentation>>();
 	}
 	
 	public String meContentName;
 	public String meContentType = "";
 	public Object moContent = null;
 	
-	public ArrayList<clsAssociationContext> moAssociations;
+	public ArrayList<clsAssociationContext<clsThingPresentation>> moAssociations;
 
 }
