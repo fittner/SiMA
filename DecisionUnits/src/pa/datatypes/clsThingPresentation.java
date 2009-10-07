@@ -17,6 +17,8 @@ import pa.interfaces.itfPrimaryProcessComparabelTP;
  */
 public class clsThingPresentation extends clsPsychicRepresentative implements itfPrimaryProcessComparabelTP {
 
+	clsLifeInstinctCathegories moLifeInstinctCathegories = null;
+	
 	/* (non-Javadoc)
 	 *
 	 * @author langr

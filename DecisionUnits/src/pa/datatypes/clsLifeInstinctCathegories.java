@@ -13,13 +13,13 @@ package pa.datatypes;
  * 28.09.2009, 16:52:49
  * 
  */
-public class clsLifeInstinctRatio {
+public class clsLifeInstinctCathegories {
 	private double mrOral;
 	private double mrAnal;
 	private double mrGenital;
 	private double mrPhallic;
 	
-	public clsLifeInstinctRatio(double prOral, double prAnal, double prGenital, double prPhallisch) {
+	public clsLifeInstinctCathegories(double prOral, double prAnal, double prGenital, double prPhallisch) {
 		setRatio(prOral, prAnal, prGenital, prPhallisch);
 	}
 	
@@ -69,7 +69,7 @@ public class clsLifeInstinctRatio {
 		return mrPhallic;
 	}
 	
-	public double distance(clsLifeInstinctRatio poOther) {
+	public double distance(clsLifeInstinctCathegories poOther) {
 		double rResult = 0;
 		
 		double rDiOral = Math.abs(mrOral - poOther.mrOral);

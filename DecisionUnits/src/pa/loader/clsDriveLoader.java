@@ -23,7 +23,7 @@ import bfg.tools.xmltools.clsXMLConfiguration;
 
 import pa.datatypes.clsAffectCandidatePart;
 import pa.datatypes.clsDriveObject;
-import pa.datatypes.clsLifeInstinctRatio;
+import pa.datatypes.clsLifeInstinctCathegories;
 import pa.datatypes.clsTemplateDrive;
 
 /**
@@ -158,7 +158,7 @@ public class clsDriveLoader {
 			for(Node oNode : oNodes)                       
 			{
 				NamedNodeMap oAtrib = oNode.getAttributes();
-				clsLifeInstinctRatio oRatio = new clsLifeInstinctRatio(
+				clsLifeInstinctCathegories oRatio = new clsLifeInstinctCathegories(
 						Double.parseDouble( clsXMLAbstractImageReader.getAtributeValue(oAtrib,"oral")),
 						Double.parseDouble( clsXMLAbstractImageReader.getAtributeValue(oAtrib,"anal")),
 						Double.parseDouble( clsXMLAbstractImageReader.getAtributeValue(oAtrib,"phallic")),

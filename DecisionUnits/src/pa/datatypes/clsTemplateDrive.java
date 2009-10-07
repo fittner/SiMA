@@ -28,7 +28,7 @@ public class clsTemplateDrive {
 	public eDriveContent meDriveContent;
 	
 	public ArrayList<clsAffectCandidatePart> moAffectCandidate = new ArrayList<clsAffectCandidatePart>();
-	public HashMap<eContext, clsLifeInstinctRatio> moLifeInstinctRatio = new HashMap<eContext, clsLifeInstinctRatio>();
+	public HashMap<eContext, clsLifeInstinctCathegories> moLifeInstinctRatio = new HashMap<eContext, clsLifeInstinctCathegories>();
 	public ArrayList<clsDriveObject> moDriveObjects = new ArrayList<clsDriveObject>();
 	
 	public String logHTML() {
@@ -48,7 +48,7 @@ public class clsTemplateDrive {
 
 		oLogStream += "<table>";
 		oLogStream += "<thead><tr align=\"center\"><th>Context</th><th>Anal</th><th>Genital</th><th>Oral</th><th>Phallic</th></tr></thead>";
-		for( Map.Entry<eContext, clsLifeInstinctRatio> oIR : moLifeInstinctRatio.entrySet()) {
+		for( Map.Entry<eContext, clsLifeInstinctCathegories> oIR : moLifeInstinctRatio.entrySet()) {
 			oLogStream += "<tr><td>";
 			oLogStream += oIR.getKey() + "</td><td>" + oIR.getValue().getAnal() + "</td><td>" + oIR.getValue().getGenital() + "</td><td>" + oIR.getValue().getOral() + "</td><td>" + oIR.getValue().getPhallic();
 			oLogStream += "</td></tr>";
