@@ -47,7 +47,7 @@ public class clsTPDrive extends clsThingPresentationMesh {
 		oLogStream += "<thead><tr align=\"center\"><th>Context</th><th>Anal</th><th>Genital</th><th>Oral</th><th>Phallic</th></tr></thead>";
 		for( clsLifeInstinctRatio oIR :moLifeInstinctRatio) {
 			oLogStream += "<tr><td>";
-			oLogStream += oIR.meContext + "</td><td>" + oIR.mrAnal + "</td><td>" + oIR.mrGenital + "</td><td>" + oIR.mrOral + "</td><td>" + oIR.mrPhallic;
+			oLogStream += oIR.getContext() + "</td><td>" + oIR.getAnal() + "</td><td>" + oIR.getGenital() + "</td><td>" + oIR.getOral() + "</td><td>" + oIR.getPhallic();
 			oLogStream += "</td></tr>";
 		}
 		oLogStream += "</table></td><td>";

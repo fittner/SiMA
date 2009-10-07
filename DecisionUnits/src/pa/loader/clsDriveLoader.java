@@ -158,12 +158,13 @@ public class clsDriveLoader {
 			for(Node oNode : oNodes)                       
 			{
 				NamedNodeMap oAtrib = oNode.getAttributes();
-				clsLifeInstinctRatio oRatio = new clsLifeInstinctRatio();
-				oRatio.meContext =  eContext.valueOf( clsXMLAbstractImageReader.getAtributeValue(oAtrib,"context") );
-				oRatio.mrOral = Double.parseDouble( clsXMLAbstractImageReader.getAtributeValue(oAtrib,"oral") );
-				oRatio.mrAnal =  Double.parseDouble( clsXMLAbstractImageReader.getAtributeValue(oAtrib,"anal") );
-				oRatio.mrPhallic =  Double.parseDouble( clsXMLAbstractImageReader.getAtributeValue(oAtrib,"phallic") );
-				oRatio.mrGenital =  Double.parseDouble( clsXMLAbstractImageReader.getAtributeValue(oAtrib,"genital") );
+				clsLifeInstinctRatio oRatio = new clsLifeInstinctRatio(
+						eContext.valueOf( clsXMLAbstractImageReader.getAtributeValue(oAtrib,"context") ),
+						Double.parseDouble( clsXMLAbstractImageReader.getAtributeValue(oAtrib,"oral")),
+						Double.parseDouble( clsXMLAbstractImageReader.getAtributeValue(oAtrib,"anal")),
+						Double.parseDouble( clsXMLAbstractImageReader.getAtributeValue(oAtrib,"phallic")),
+						Double.parseDouble( clsXMLAbstractImageReader.getAtributeValue(oAtrib,"genital"))
+						);
 				
 				poDrive.moLifeInstinctRatio.add(oRatio);
 			}
