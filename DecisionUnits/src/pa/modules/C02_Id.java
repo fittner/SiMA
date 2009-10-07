@@ -79,7 +79,7 @@ public class C02_Id extends clsModuleContainer implements
 	
 		moC05DriveHandling = new C05_DriveHandling(pre+P_C05, poProp, this, moMemory);
 		moC06AffectGeneration = new C06_AffectGeneration(pre+P_C06, poProp, this, moMemory);
-		moE15ManagementOfRepressedContents = new E15_ManagementOfRepressedContents(pre+P_E15, poProp, this);
+		moE15ManagementOfRepressedContents = new E15_ManagementOfRepressedContents(pre+P_E15, poProp, this, moMemory);
 	}
 
 	/* (non-Javadoc)
