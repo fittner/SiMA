@@ -10,7 +10,9 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import pa.datatypes.clsAffect;
 import pa.datatypes.clsPrimaryInformation;
+import pa.datatypes.clsThingPresentation;
 import pa.datatypes.clsThingPresentationMesh;
 import pa.interfaces.I1_2;
 import pa.interfaces.I1_5;
@@ -380,8 +382,8 @@ public class C00_PsychicApparatus extends clsModuleContainer implements
 	 * @see pa.interfaces.I4_1#receive_I4_1(int)
 	 */
 	@Override
-	public void receive_I4_1(int pnData) {
-		moC02Id.receive_I4_1(pnData);
+	public void receive_I4_1(List<clsPrimaryInformation> poPIs, List<clsThingPresentation> poTPs, List<clsAffect> poAffects) {
+		moC02Id.receive_I4_1(poPIs, poTPs, poAffects);
 	}
 
 	/* (non-Javadoc)

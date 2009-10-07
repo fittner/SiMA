@@ -8,7 +8,9 @@ package pa.modules;
 
 import java.util.List;
 
+import pa.datatypes.clsAffect;
 import pa.datatypes.clsPrimaryInformation;
+import pa.datatypes.clsThingPresentation;
 import pa.interfaces.I1_5;
 import pa.interfaces.I1_6;
 import pa.interfaces.I2_10;
@@ -155,8 +157,8 @@ public class C12_PrimaryDecision extends clsModuleContainer implements
 	 * @see pa.interfaces.I4_1#receive_I4_1(int)
 	 */
 	@Override
-	public void receive_I4_1(int pnData) {
-		((I4_1)moEnclosingContainer).receive_I4_1(pnData);	
+	public void receive_I4_1(List<clsPrimaryInformation> poPIs, List<clsThingPresentation> poTPs, List<clsAffect> poAffects) {
+		((I4_1)moEnclosingContainer).receive_I4_1(poPIs, poTPs, poAffects);	
 	}
 
 	/* (non-Javadoc)

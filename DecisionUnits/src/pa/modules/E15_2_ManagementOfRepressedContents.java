@@ -6,7 +6,12 @@
  */
 package pa.modules;
 
+import java.util.List;
+
 import config.clsBWProperties;
+import pa.datatypes.clsAffect;
+import pa.datatypes.clsPrimaryInformation;
+import pa.datatypes.clsThingPresentation;
 import pa.interfaces.I4_1;
 import pa.interfaces.I4_2;
 import pa.interfaces.I4_3;
@@ -61,8 +66,8 @@ public class E15_2_ManagementOfRepressedContents extends clsModuleBase implement
 	 * @see pa.interfaces.I4_1#receive_I4_1(int)
 	 */
 	@Override
-	public void receive_I4_1(int pnData) {
-		mnTest += pnData;
+	public void receive_I4_1(List<clsPrimaryInformation> poPIs, List<clsThingPresentation> poTPs, List<clsAffect> poAffects) {
+		//TODO handle data
 		
 	}
 

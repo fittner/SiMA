@@ -6,9 +6,12 @@
  */
 package pa.modules;
 
+import java.util.ArrayList;
 import java.util.List;
 
+import pa.datatypes.clsAffect;
 import pa.datatypes.clsPrimaryInformation;
+import pa.datatypes.clsThingPresentation;
 import pa.interfaces.I1_5;
 import pa.interfaces.I1_6;
 import pa.interfaces.I3_1;
@@ -26,7 +29,10 @@ import config.clsBWProperties;
  * 
  */
 public class E06_DefenseMechanismsForDriveContents extends clsModuleBase implements I1_5, I3_1, I4_3, I6_3 {
-
+	ArrayList<clsPrimaryInformation> moPrimaryInformation;
+	ArrayList<clsThingPresentation> moThingPresentations; 
+	ArrayList<clsAffect> moAffects;
+	
 	/**
 	 * DOCUMENT (deutsch) - insert description 
 	 * 
@@ -40,6 +46,11 @@ public class E06_DefenseMechanismsForDriveContents extends clsModuleBase impleme
 	public E06_DefenseMechanismsForDriveContents(String poPrefix,
 			clsBWProperties poProp, clsModuleContainer poEnclosingContainer) {
 		super(poPrefix, poProp, poEnclosingContainer);
+		
+		moPrimaryInformation = new ArrayList<clsPrimaryInformation>();
+		moThingPresentations = new ArrayList<clsThingPresentation>();
+		moAffects = new ArrayList<clsAffect>();
+		
 		applyProperties(poPrefix, poProp);		
 	}
 	
@@ -92,7 +103,7 @@ public class E06_DefenseMechanismsForDriveContents extends clsModuleBase impleme
 	 */
 	@Override
 	public void receive_I1_5(List<clsPrimaryInformation> poData) {
-		//TODO handle data
+		moPrimaryInformation = (ArrayList<clsPrimaryInformation>) poData;
 		
 	}
 
@@ -158,7 +169,7 @@ public class E06_DefenseMechanismsForDriveContents extends clsModuleBase impleme
 	@Override
 	protected void send() {
 		((I1_6)moEnclosingContainer).receive_I1_6(mnTest);
-		((I4_1)moEnclosingContainer).receive_I4_1(mnTest);
+		((I4_1)moEnclosingContainer).receive_I4_1(moPrimaryInformation, moThingPresentations, moAffects);
 		((I5_1)moEnclosingContainer).receive_I5_1(mnTest);	
 	}
 }
