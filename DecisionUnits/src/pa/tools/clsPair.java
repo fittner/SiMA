@@ -15,16 +15,8 @@ package pa.tools;
  */
 public class clsPair<L, R> {
  
-    private final L left;
-    private final R right;
- 
-    public R getRight() {
-        return right;
-    }
- 
-    public L getLeft() {
-        return left;
-    }
+	public final L left;
+	public final R right;
  
     public clsPair(final L left, final R right) {
         this.left = left;
@@ -35,13 +27,14 @@ public class clsPair<L, R> {
         return new clsPair<A, B>(left, right);
     }
  
-    @Override
+    @SuppressWarnings("unchecked")
+	@Override
 	public final boolean equals(Object o) {
         if (!(o instanceof clsPair))
             return false;
  
         final clsPair<?, ?> other = (clsPair) o;
-        return equal(getLeft(), other.getLeft()) && equal(getRight(), other.getRight());
+        return equal(left, other.left) && equal(right, other.right);
     }
     
     public static final boolean equal(Object o1, Object o2) {
@@ -53,9 +46,9 @@ public class clsPair<L, R> {
  
     @Override
 	public int hashCode() {
-        int hLeft = getLeft() == null ? 0 : getLeft().hashCode();
-        int hRight = getRight() == null ? 0 : getRight().hashCode();
+        int hLeft = left == null ? 0 : left.hashCode();
+        int hRight = right == null ? 0 : right.hashCode();
  
-        return hLeft + (57 * hRight);
+        return hLeft + (37 * hRight);
     }
 }
