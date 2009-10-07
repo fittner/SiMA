@@ -28,7 +28,7 @@ public class clsGetARSPath {
 	{
 		return getArsPath()+System.getProperty("file.separator")+
 							"DecisionUnits"+System.getProperty("file.separator")+
-							"src"+System.getProperty("file.separator")+
+							"config"+System.getProperty("file.separator")+
 							"bfg"+System.getProperty("file.separator")+
 							"xml"+System.getProperty("file.separator");
 	}
@@ -41,5 +41,14 @@ public class clsGetARSPath {
 	public static String getLogPath()
 	{
 		return getArsPath()+System.getProperty("file.separator")+"BW"+System.getProperty("file.separator")+"log";
-	}	
+	}
+	
+	public static String getXMLPathMemory()
+	{
+		return getArsPath()+System.getProperty("file.separator")+
+							"DecisionUnits"+System.getProperty("file.separator")+
+							"config"+System.getProperty("file.separator")+
+							"pa.memory"+System.getProperty("file.separator");
+	}
+	
 }
