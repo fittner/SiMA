@@ -11,6 +11,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import pa.datatypes.clsAssociationContext;
+import pa.datatypes.clsThingPresentation;
 import pa.datatypes.clsThingPresentationMesh;
 import pa.datatypes.clsThingPresentationSingle;
 import decisionunit.itf.sensors.clsSensorExtern;
@@ -72,7 +73,7 @@ public class clsTPGenerator {
 							}
 							
 							//creating the association between the mesh and the attribute
-							clsAssociationContext oAssoc = new clsAssociationContext();
+							clsAssociationContext<clsThingPresentation> oAssoc = new clsAssociationContext<clsThingPresentation>();
 							oAssoc.moElementA = oTPMesh;
 							oAssoc.moElementB = oTPSingle;
 							//storing the association in the mesh
