@@ -10,8 +10,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import pa.datatypes.clsAffectCandidatePart;
-import pa.datatypes.clsTPDrive;
-import pa.datatypes.clsThingPresentationMesh;
+import pa.datatypes.clsTemplateDrive;
+import pa.datatypes.clsThingPresentationSingle;
 import pa.interfaces.I1_2;
 import pa.interfaces.I1_3;
 import pa.loader.clsDriveLoader;
@@ -30,10 +30,10 @@ import enums.pa.eDriveContent;
  */
 public class E03_GenerationOfDrives extends clsModuleBase implements I1_2 {
 
-	public HashMap<eDriveContent, clsTPDrive> moDriveDefinition = null;
+	public HashMap<eDriveContent, clsTemplateDrive> moDriveDefinition = null;
 	public HashMap<eSensorIntType, clsDataBase> moHomeostasisSymbols = null;
 	
-	ArrayList<clsPair<clsThingPresentationMesh, clsAffectCandidatePart>> moEnvironmentalTP;
+	ArrayList<clsPair<clsThingPresentationSingle, clsAffectCandidatePart>> moEnvironmentalTP;
 	
 	/**
 	 * @author langr
@@ -41,7 +41,7 @@ public class E03_GenerationOfDrives extends clsModuleBase implements I1_2 {
 	 * 
 	 * @return the moDriveDefinition
 	 */
-	public HashMap<eDriveContent, clsTPDrive> getDriveDefinition() {
+	public HashMap<eDriveContent, clsTemplateDrive> getDriveDefinition() {
 		return moDriveDefinition;
 	}
 
@@ -139,7 +139,22 @@ public class E03_GenerationOfDrives extends clsModuleBase implements I1_2 {
 	protected void process() {
 
 
-		
+//		for( Map.Entry<eDriveContent, clsTPDrive> oDriveDef : moDriveDefinition.entrySet() ) {
+//			
+//			eDriveContent oContent = oDriveDef.getKey();
+//			clsTPDrive oTPDrive = oDriveDef.getValue();
+//			
+//			
+//			clsThingPresentationSingle oDriveMesh = new clsThingPresentationSingle();
+//			clsAffectCandidatePart oAffectCandidatePart = new clsAffectCandidatePart();
+//			
+//			oDriveMesh.meContentName = oTPDrive.meContentType;
+//		}
+//		
+//		
+//		moEnvironmentalTP;
+//		moHomeostasisSymbols;
+//		moDriveDefinition;
 		
 	}
 

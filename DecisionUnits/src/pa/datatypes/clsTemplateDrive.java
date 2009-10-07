@@ -7,7 +7,10 @@
 package pa.datatypes;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
+import enums.pa.eContext;
 import enums.pa.eDriveContent;
 
 /**
@@ -17,7 +20,7 @@ import enums.pa.eDriveContent;
  * 28.09.2009, 14:32:21
  * 
  */
-public class clsTPDrive extends clsThingPresentationMesh {
+public class clsTemplateDrive {
 
 	public int mnId;
 	public String moName;
@@ -25,7 +28,7 @@ public class clsTPDrive extends clsThingPresentationMesh {
 	public eDriveContent meDriveContent;
 	
 	public ArrayList<clsAffectCandidatePart> moAffectCandidate = new ArrayList<clsAffectCandidatePart>();
-	public ArrayList<clsLifeInstinctRatio> moLifeInstinctRatio = new ArrayList<clsLifeInstinctRatio>();
+	public HashMap<eContext, clsLifeInstinctRatio> moLifeInstinctRatio = new HashMap<eContext, clsLifeInstinctRatio>();
 	public ArrayList<clsDriveObject> moDriveObjects = new ArrayList<clsDriveObject>();
 	
 	public String logHTML() {
@@ -45,9 +48,9 @@ public class clsTPDrive extends clsThingPresentationMesh {
 
 		oLogStream += "<table>";
 		oLogStream += "<thead><tr align=\"center\"><th>Context</th><th>Anal</th><th>Genital</th><th>Oral</th><th>Phallic</th></tr></thead>";
-		for( clsLifeInstinctRatio oIR :moLifeInstinctRatio) {
+		for( Map.Entry<eContext, clsLifeInstinctRatio> oIR : moLifeInstinctRatio.entrySet()) {
 			oLogStream += "<tr><td>";
-			oLogStream += oIR.getContext() + "</td><td>" + oIR.getAnal() + "</td><td>" + oIR.getGenital() + "</td><td>" + oIR.getOral() + "</td><td>" + oIR.getPhallic();
+			oLogStream += oIR.getKey() + "</td><td>" + oIR.getValue().getAnal() + "</td><td>" + oIR.getValue().getGenital() + "</td><td>" + oIR.getValue().getOral() + "</td><td>" + oIR.getValue().getPhallic();
 			oLogStream += "</td></tr>";
 		}
 		oLogStream += "</table></td><td>";

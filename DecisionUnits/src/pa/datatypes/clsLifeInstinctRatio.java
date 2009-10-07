@@ -6,8 +6,6 @@
  */
 package pa.datatypes;
 
-import enums.pa.eContext;
-
 /**
  * DOCUMENT (langr) - insert description 
  * 
@@ -16,14 +14,12 @@ import enums.pa.eContext;
  * 
  */
 public class clsLifeInstinctRatio {
-	private eContext meContext;
 	private double mrOral;
 	private double mrAnal;
 	private double mrGenital;
 	private double mrPhallic;
 	
-	public clsLifeInstinctRatio(eContext peContext, double prOral, double prAnal, double prGenital, double prPhallisch) {
-		meContext = peContext;
+	public clsLifeInstinctRatio(double prOral, double prAnal, double prGenital, double prPhallisch) {
 		setRatio(prOral, prAnal, prGenital, prPhallisch);
 	}
 	
@@ -73,10 +69,6 @@ public class clsLifeInstinctRatio {
 		return mrPhallic;
 	}
 	
-	public eContext getContext() {
-		return meContext;
-	}
-	
 	public double distance(clsLifeInstinctRatio poOther) {
 		double rResult = 0;
 		
@@ -85,12 +77,7 @@ public class clsLifeInstinctRatio {
 		double rDiGenital = Math.abs(mrGenital - poOther.mrGenital);
 		double rDiPhallic = Math.abs(mrPhallic - poOther.mrPhallic);
 		
-		double rDiContext = 2;
-		if (meContext == poOther.meContext) {
-			rDiContext = 1;
-		}
-		
-		rResult = (rDiOral+rDiAnal+rDiGenital+rDiPhallic) * rDiContext;
+		rResult = rDiOral+rDiAnal+rDiGenital+rDiPhallic;
 		
 		return rResult;
 	}
@@ -99,7 +86,7 @@ public class clsLifeInstinctRatio {
 	public String toString() {
 		String oResult = "";
 		
-		oResult = "context: "+meContext+" / oral: "+mrOral+" / anal: "+mrAnal+" / genital: "+mrGenital+" / phallic: "+mrPhallic;
+		oResult = "oral: "+mrOral+" / anal: "+mrAnal+" / genital: "+mrGenital+" / phallic: "+mrPhallic;
 		
 		return oResult;
 	}

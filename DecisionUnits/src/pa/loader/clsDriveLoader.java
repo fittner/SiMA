@@ -24,7 +24,7 @@ import bfg.tools.xmltools.clsXMLConfiguration;
 import pa.datatypes.clsAffectCandidatePart;
 import pa.datatypes.clsDriveObject;
 import pa.datatypes.clsLifeInstinctRatio;
-import pa.datatypes.clsTPDrive;
+import pa.datatypes.clsTemplateDrive;
 
 /**
  * DOCUMENT (langr) - insert description 
@@ -47,9 +47,9 @@ public class clsDriveLoader {
 
 	
 	
-	public static HashMap<eDriveContent, clsTPDrive> createDriveList(String poAgentId, String poAgentGroup) {
+	public static HashMap<eDriveContent, clsTemplateDrive> createDriveList(String poAgentId, String poAgentGroup) {
 		
-		HashMap<eDriveContent, clsTPDrive> oRetVal = new HashMap<eDriveContent, clsTPDrive>();
+		HashMap<eDriveContent, clsTemplateDrive> oRetVal = new HashMap<eDriveContent, clsTemplateDrive>();
 
 		try {
 			
@@ -67,7 +67,7 @@ public class clsDriveLoader {
 				{
 					Node oDriveNode = (Node)oNodes.get(i);
 	
-					clsTPDrive oDrive = createDrive( oDriveNode );
+					clsTemplateDrive oDrive = createDrive( oDriveNode );
 			  
 					oRetVal.put( oDrive.meDriveContent, oDrive );
 			    }
@@ -87,9 +87,9 @@ public class clsDriveLoader {
 	 * @param driveNode
 	 * @return
 	 */
-	private static clsTPDrive createDrive(Node poDriveNode) {
+	private static clsTemplateDrive createDrive(Node poDriveNode) {
 
-		clsTPDrive oRetVal = new clsTPDrive();
+		clsTemplateDrive oRetVal = new clsTemplateDrive();
 
 		oRetVal.meDriveContent = eDriveContent.valueOf( clsXMLAbstractImageReader.getTagStringValue(poDriveNode, moDriveContentName ) );
 		Node oReaderNode = null;
@@ -117,7 +117,7 @@ public class clsDriveLoader {
 	 * @param poDrive
 	 */
 	private static void createDriveObjectList(Node poDriveNode,
-			clsTPDrive poDrive) {
+			clsTemplateDrive poDrive) {
 		Node oReaderNode;
 		Vector<Node> oNodes;
 		oReaderNode = clsXMLAbstractImageReader.getNextNodeElementByName(poDriveNode, moDriveObjectListName);
@@ -147,7 +147,7 @@ public class clsDriveLoader {
 	 * @param poDrive
 	 */
 	private static void createLifeInstinctList(Node poDriveNode,
-			clsTPDrive poDrive) {
+			clsTemplateDrive poDrive) {
 		Node oReaderNode;
 		Vector<Node> oNodes;
 		oReaderNode = clsXMLAbstractImageReader.getNextNodeElementByName(poDriveNode, moLifeInstinctListName);
@@ -159,14 +159,14 @@ public class clsDriveLoader {
 			{
 				NamedNodeMap oAtrib = oNode.getAttributes();
 				clsLifeInstinctRatio oRatio = new clsLifeInstinctRatio(
-						eContext.valueOf( clsXMLAbstractImageReader.getAtributeValue(oAtrib,"context") ),
 						Double.parseDouble( clsXMLAbstractImageReader.getAtributeValue(oAtrib,"oral")),
 						Double.parseDouble( clsXMLAbstractImageReader.getAtributeValue(oAtrib,"anal")),
 						Double.parseDouble( clsXMLAbstractImageReader.getAtributeValue(oAtrib,"phallic")),
 						Double.parseDouble( clsXMLAbstractImageReader.getAtributeValue(oAtrib,"genital"))
 						);
 				
-				poDrive.moLifeInstinctRatio.add(oRatio);
+				eContext eCurrentCont = eContext.valueOf( clsXMLAbstractImageReader.getAtributeValue(oAtrib,"context") );
+				poDrive.moLifeInstinctRatio.put(eCurrentCont, oRatio);
 			}
 		}
 	}
@@ -180,7 +180,7 @@ public class clsDriveLoader {
 	 * @param poDriveNode
 	 * @param poDrive
 	 */
-	private static void createDriveSources(Node poDriveNode, clsTPDrive poDrive) {
+	private static void createDriveSources(Node poDriveNode, clsTemplateDrive poDrive) {
 		Node oReaderNode;
 		Vector<Node> oNodes;
 		oReaderNode = clsXMLAbstractImageReader.getNextNodeElementByName(poDriveNode, moDriveSourceListName);

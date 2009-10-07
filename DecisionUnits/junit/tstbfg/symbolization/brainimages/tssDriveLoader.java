@@ -18,7 +18,7 @@ import org.junit.Test;
 
 import enums.pa.eDriveContent;
 
-import pa.datatypes.clsTPDrive;
+import pa.datatypes.clsTemplateDrive;
 import pa.loader.clsDriveLoader;
 
 
@@ -37,7 +37,7 @@ public class tssDriveLoader {
 	@Test
 	public void testDriveLoader() {
 
-		HashMap<eDriveContent, clsTPDrive> oDriveList = clsDriveLoader.createDriveList("1", "PSY_10");
+		HashMap<eDriveContent, clsTemplateDrive> oDriveList = clsDriveLoader.createDriveList("1", "PSY_10");
 		
 		assertTrue(oDriveList.size() > 0);
 	}
