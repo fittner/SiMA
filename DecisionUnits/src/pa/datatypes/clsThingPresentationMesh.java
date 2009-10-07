@@ -8,7 +8,6 @@ package pa.datatypes;
 
 import java.util.ArrayList;
 
-import pa.memory.clsAssociationContext;
 
 /**
  * DOCUMENT (zeilinger) - insert description 

@@ -10,9 +10,9 @@ import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import pa.datatypes.clsAssociationContext;
 import pa.datatypes.clsThingPresentationMesh;
 import pa.datatypes.clsThingPresentationSingle;
-import pa.memory.clsAssociationContext;
 import decisionunit.itf.sensors.clsSensorExtern;
 import enums.eSensorExtType;
 
