@@ -41,6 +41,8 @@ public class E15_2_ManagementOfRepressedContents extends clsModuleBase implement
 			clsModuleContainer poEnclosingContainer) {
 		super(poPrefix, poProp, poEnclosingContainer);
 		applyProperties(poPrefix, poProp);	
+		
+		moPrimaryInformation = new ArrayList<clsPrimaryInformation>();
 	}
 	
 	
