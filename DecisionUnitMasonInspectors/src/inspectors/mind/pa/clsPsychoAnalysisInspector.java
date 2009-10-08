@@ -99,7 +99,7 @@ public class clsPsychoAnalysisInspector extends Inspector implements TreeSelecti
 		
 		Field[] oFields = poPAModule.getClass().getDeclaredFields(); //get members of class
 		for(Field oField : oFields) { //for each member
-			if(oField.getName().startsWith("moC")) { //case clsModuleContainer (C00-C16)
+			if(oField.getType().getSuperclass().getName().equals("pa.modules.clsModuleContainer")) { //case clsModuleContainer (C00-C16)
 				//create a new tree-element with the name of the public member variable without mo-prefix 
 				DefaultMutableTreeNode child = new DefaultMutableTreeNode(oField.getName().substring(2));  
 				
@@ -116,7 +116,7 @@ public class clsPsychoAnalysisInspector extends Inspector implements TreeSelecti
 				//add the filled treenode for the current clsModuleContainer
 				poParentTreeNode.add(child);
 			}
-			else if(oField.getName().startsWith("moE")) { //case clsMuduleBase (E01-E32)
+			else if(oField.getType().getSuperclass().getName().equals("pa.modules.clsModuleBase")) { //case clsMuduleBase (E01-E32)
 				DefaultMutableTreeNode child = new DefaultMutableTreeNode(oField.getName().substring(2));
 				poParentTreeNode.add(child);
 			}
