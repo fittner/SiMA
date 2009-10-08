@@ -1,18 +1,24 @@
 /**
  * clsMemory.java: DecisionUnits - pa.memory
- * 
+ 
  * @author langr
  * 11.08.2009, 11:17:10
  */
 package pa.memory;
 
+import java.util.ArrayList;
+
+import pa.datatypes.clsAssociationContext;
+import pa.datatypes.clsThingPresentationSingle;
 import pa.interfaces.itfPrimaryProcessAssociation;
 import pa.interfaces.itfPrimaryProcessRetrieval;
 import pa.interfaces.itfPrimaryProcessStorage;
 import pa.interfaces.itfSecondaryProcessAssociation;
 import pa.interfaces.itfSecondaryProcessRetrieval;
 import pa.interfaces.itfSecondaryProcessStorage;
+import pa.loader.clsContextLoader;
 import config.clsBWProperties;
+import enums.eEntityType;
 
 //import pa.datatypes.clsBWProperties;
 
@@ -64,5 +70,9 @@ public class clsMemory implements
 		
 		return oProp;
     }
-	
+    
+    public static ArrayList<clsAssociationContext<clsThingPresentationSingle>> getAssociatedContext(eEntityType poEntityType){
+    	ArrayList<clsAssociationContext<clsThingPresentationSingle>> oAssociatedContextList = clsContextLoader.createContext(poEntityType.toString()); 
+    	return oAssociatedContextList; 
+    }
 }
