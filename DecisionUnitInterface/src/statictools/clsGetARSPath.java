@@ -45,10 +45,7 @@ public class clsGetARSPath {
 	
 	public static String getXMLPathMemory()
 	{
-		return getArsPath()+System.getProperty("file.separator")+
-							"DecisionUnits"+System.getProperty("file.separator")+
-							"config"+System.getProperty("file.separator")+
-							"pa.memory"+System.getProperty("file.separator");
+		return getXMLPath()+System.getProperty("file.separator")+"pa.memory";
 	}
 	
 }
