@@ -16,7 +16,6 @@ import pa.datatypes.clsAssociationContext;
 import pa.datatypes.clsThingPresentationSingle;
 import statictools.clsGetARSPath;
 import bfg.tools.xmltools.clsXMLContextReader;
-import enums.pa.eContext;
 
 /**
  * DOCUMENT (zeilinger) - insert description 
@@ -26,7 +25,7 @@ import enums.pa.eContext;
  * 
  */
 public class clsContextLoader {
-	public static String moAttributeName = "TPMeshes"; //denotes the directory name and the first element name in xml
+	public static String moFileName = "TPContext"; //denotes the directory name and the first element name in xml
 	public static String moNodeName = "TPMesh"; //denotes one single entry for a drive
 	public static String moContextList = "ContextList";
 	public static String moContext = "Context"; 
@@ -35,21 +34,19 @@ public class clsContextLoader {
 	
 	public static ArrayList<clsAssociationContext<clsThingPresentationSingle>> createContext(String poEntityType) {
 		
-		  String xmlFileName = clsGetARSPath.getXMLPathMemory(); 
+		  String oXmlPath = clsGetARSPath.getXMLPathMemory();
 		  Vector<Node>oNodes = new Vector<Node>(); 
 		  ArrayList<clsAssociationContext<clsThingPresentationSingle>> oRetVal = 
 			  							new ArrayList<clsAssociationContext<clsThingPresentationSingle>>();
-		  
-	      try{
-	    	  clsXMLContextReader oReader = new clsXMLContextReader(xmlFileName);
+		  try{
+			  oXmlPath += moFileName + ".xml";
+	    	  clsXMLContextReader oReader = new clsXMLContextReader(oXmlPath);
 	    	  clsXMLContextReader.getNodeElementByName((Node)oReader.getDocument().getDocumentElement(), 
 																moNodeName, 1, oNodes);
-	    	  
 	    	  for(Node element : oNodes){
-	    		  Node oContextNode = element; 
-	    		  clsAssociationContext <clsThingPresentationSingle> oContext = createContextList(oContextNode);
-	    		  oRetVal.add(oContext); 
+	    		  creatTPMesh(element, oRetVal, poEntityType);  	 
 	    	  }
+	    	  
  	      }catch(Exception e) {
 				System.out.println("Error reading the context: "+e.getMessage());
 	  	 }
@@ -61,26 +58,57 @@ public class clsContextLoader {
 	 * DOCUMENT (zeilinger) - insert description
 	 *
 	 * @author zeilinger
+	 * 08.10.2009, 20:43:12
+	 * @param element 
+	 *
+	 * @param retVal
+	 * @param poEntityType
+	 */
+	private static void creatTPMesh( Node element,
+									 ArrayList<clsAssociationContext<clsThingPresentationSingle>> poRetVal,
+									 String poEntityType) {
+			
+			  NamedNodeMap oAtrib = element.getAttributes();
+						    		  
+	  		  if(clsXMLContextReader.getAttributeValue(oAtrib,"name").equals(poEntityType)){ 
+		    		  createContextList(poRetVal, element);
+		      }
+	}
+
+	/**
+	 * DOCUMENT (zeilinger) - insert description
+	 *
+	 * @author zeilinger
 	 * 07.10.2009, 20:56:45
+	 * @param poRetVal 
 	 *
 	 * @param contextNode
 	 * @return
 	 */
-	private static clsAssociationContext<clsThingPresentationSingle> createContextList(Node poContextNode) {
+	private static void createContextList(ArrayList<clsAssociationContext<clsThingPresentationSingle>> poRetVal, Node poContextNode) {
 		Node oReaderNode;
-		clsAssociationContext<clsThingPresentationSingle> oRetVal = null; 
+		String oContextName; 
+		String oContextType;
+		Double oContextContent; 
+		
+		clsAssociationContext<clsThingPresentationSingle> oContext = null; 
 		Vector<Node> oNodes = new Vector<Node>();
 		oReaderNode = clsXMLContextReader.getNextNodeElementByName(poContextNode, moContextList);	
 		clsXMLContextReader.getNodeElementByName(oReaderNode, moContext, 1, oNodes);
-		
-		for(Node element : oNodes){
-			oRetVal = new clsAssociationContext<clsThingPresentationSingle>();
-			NamedNodeMap oAtrib = element.getAttributes();
-			oRetVal.moAssociationContext.meContentType = eContext.valueOf(clsXMLContextReader.getAttributeValue(oAtrib, "type")).toString(); 
-			oRetVal.moAssociationContext.moContent = Double.parseDouble(clsXMLContextReader.getAttributeValue(oAtrib, "pleasure")); 
-			oRetVal.moWeight = Double.parseDouble(clsXMLContextReader.getAttributeValue(oAtrib, "weight"));
-  	  	}
-		
-		return oRetVal;
+		try{
+			for(Node element : oNodes){
+				oContext = new clsAssociationContext<clsThingPresentationSingle>();
+				NamedNodeMap oAtrib = element.getAttributes();
+				oContextName = clsXMLContextReader.getAttributeValue(oAtrib, "type");
+				oContextType = clsXMLContextReader.getAttributeValue(oAtrib, "type"); 
+				oContextContent = Double.parseDouble(clsXMLContextReader.getAttributeValue(oAtrib, "pleasure"));
+				
+				oContext.moAssociationContext = new clsThingPresentationSingle(oContextName, oContextType,oContextContent); 
+				oContext.moWeight = Double.parseDouble(clsXMLContextReader.getAttributeValue(oAtrib, "weight"));
+				poRetVal.add(oContext); 
+	  	  	}
+		}catch(Exception e){
+			System.out.println("Wrong data type is present");
+		}
 	}
 }

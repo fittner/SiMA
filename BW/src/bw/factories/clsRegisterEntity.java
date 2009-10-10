@@ -98,12 +98,12 @@ public final class clsRegisterEntity {
 	 * @param poEntity
 	 */
 	public static void registerEntity(clsBase poEntity) {
-		registerStationaryObject2D(poEntity.getStationaryObject2D());
-		poEntity.setRegistered(true);		
-					
-//		registerPhysicalObject2D(poEntity. .getEatableAreaVision() );
-//		clsSingletonMasonGetter.getFieldEnvironment().setObjectLocation(poEntity.getEatableAreaVision(), new sim.util.Double2D(poEntity.getPosition().x, poEntity.getPosition().y));
-//		clsSingletonMasonGetter.getSimState().schedule.scheduleRepeating(poEntity.getEatableAreaVision(), 6, defaultScheduleStepWidth);
+		registerPhysicalObject2D(poEntity.getStationaryObject2D());		
+		Schedule s = clsSingletonMasonGetter.getSimState().schedule;
+		s.scheduleRepeating(poEntity.getStationaryObject2D().getSteppableSensing(), 2, defaultScheduleStepWidth); 
+		s.scheduleRepeating(poEntity.getStationaryObject2D().getSteppableProcessing(), 4, defaultScheduleStepWidth);
+		registerSensorEngine(((itfGetSensorEngine)poEntity).getSensorEngineAreas());
+		poEntity.setRegistered(true);
 	}
 
 	public static void registerBotHands(clsBotHands poBotHand) {

@@ -71,7 +71,25 @@ public class clsMemory implements
 		return oProp;
     }
     
+    
+    /**
+     * DOCUMENT (zeilinger) - 
+     * 
+     * This method receives the type of an entity which is received by the agent's sensor. It forwards it to create
+     * Context and gets a List of the context which is associated to the entity. Currently a group ID has to be 
+     * forwarded to createContext - PSY_10. However this is hard coded now and should be change when we know 
+     * hoe to deal with different agents - will they get the same default memory which changes during runtime
+     * or do we need variable default parameters for every agent.  
+     *
+     * @author zeilinger
+     * 08.10.2009, 21:16:48
+     *
+     * @param poEntityType
+     * @return
+     */
     public static ArrayList<clsAssociationContext<clsThingPresentationSingle>> getAssociatedContext(eEntityType poEntityType){
+    	//FIXME: HZ - change PSY_10 to a generic variable or get rid of it. It depends on the use of group IDs within the 
+    	//			  XML paths.
     	ArrayList<clsAssociationContext<clsThingPresentationSingle>> oAssociatedContextList = clsContextLoader.createContext(poEntityType.toString()); 
     	return oAssociatedContextList; 
     }
