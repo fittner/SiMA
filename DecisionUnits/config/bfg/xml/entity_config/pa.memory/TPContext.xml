@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<TPMeshes xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-	<TPMesh name="can">
+<TPContext xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+	<TPMesh name="CAN">
 		<Description> Definition of associated context</Description>
 		<ContextList>
 			<Context type="EAT"     weight="0.5" pleasure="0.5"/>
@@ -11,7 +11,7 @@
 			<Context type="AGGRESSION" weight="0" pleasure="0.0"/>
 		</ContextList>
 	</TPMesh>
-	<TPMesh name="cake">
+	<TPMesh name="CAKE">
 		<Description> Definition of associated context</Description>
 		<ContextList>
 			<Context type ="EAT"  		weight="0.9" pleasure="0.8"/>
@@ -23,10 +23,10 @@
 			<Context type ="AGGRESSION" weight="0" pleasure="0.0"/>
 		</ContextList>		
 	</TPMesh>
-	<TPMesh name="bubble">
+	<TPMesh name="BUBBLE">
 		<Description> Definition of the associated context</Description>
 	</TPMesh>
-	<TPMesh name="remotebot">
+	<TPMesh name="REMOTEBOT">
 		<Description> Definition of associated context</Description>
 	</TPMesh>
-</TPMeshes>
+</TPContext>
