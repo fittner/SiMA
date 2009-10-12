@@ -188,19 +188,16 @@ public class E03_GenerationOfDrives extends clsModuleBase implements I1_2 {
 	private clsAffectCandidate createDriveMesh(
 			Entry<eDriveContent, clsTemplateDrive> driveDef) {
 
-//		clsAffectCandidate oRetVal = new clsAffectCandidate();
-//		
-//		for( clsAffectCandidateDefinition oCandidateDef : driveDef.getValue().moAffectCandidate ) {
-//			
+		clsAffectCandidate oRetVal = new clsAffectCandidate();
+		
+		for( clsAffectCandidateDefinition oCandidateDef : driveDef.getValue().moAffectCandidate ) {
+			
 //			clsSensorIntern oData = (clsSensorIntern)moHomeostasisSymbols.get( oCandidateDef.meSensorType );
 //			oData.
-//			
-//		}
+			
+		}
 		
-		//moHomeostasisSymbols
-		
-		
-		return null;//oRetVal;
+		return oRetVal;  //null;
 	}
 
 	/* (non-Javadoc)
