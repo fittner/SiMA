@@ -4,7 +4,7 @@
  * @author langr
  * 28.09.2009, 16:48:26
  */
-package pa.datatypes;
+package pa.loader;
 
 import enums.eSensorIntType;
 
@@ -15,7 +15,7 @@ import enums.eSensorIntType;
  * 28.09.2009, 16:48:26
  * 
  */
-public class clsAffectCandidatePart {
+public class clsAffectCandidateDefinition {
 
 	public eSensorIntType meSensorType;
 	public String moValueType;

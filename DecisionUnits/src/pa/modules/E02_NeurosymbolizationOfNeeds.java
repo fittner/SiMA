@@ -7,12 +7,18 @@
 package pa.modules;
 
 import java.util.HashMap;
+import java.util.Map;
 
 import pa.interfaces.I1_1;
 import pa.interfaces.I1_2;
 import config.clsBWProperties;
 import decisionunit.itf.sensors.clsDataBase;
+import decisionunit.itf.sensors.clsFastMessenger;
+import decisionunit.itf.sensors.clsFastMessengerEntry;
+import decisionunit.itf.sensors.clsSlowMessenger;
+import decisionunit.itf.sensors.clsStomachTension;
 import enums.eSensorIntType;
+import enums.eSlowMessenger;
 
 /**
  * DOCUMENT (deutsch) - insert description 
@@ -24,6 +30,7 @@ import enums.eSensorIntType;
 public class E02_NeurosymbolizationOfNeeds extends clsModuleBase implements I1_1 {
 
 	private HashMap<eSensorIntType, clsDataBase> moHomeostasis;
+	private HashMap<String, Double> moHomeostaticSymbol;
 	
 	/**
 	 * DOCUMENT (deutsch) - insert description 
@@ -38,6 +45,7 @@ public class E02_NeurosymbolizationOfNeeds extends clsModuleBase implements I1_1
 	public E02_NeurosymbolizationOfNeeds(String poPrefix,
 			clsBWProperties poProp, clsModuleContainer poEnclosingContainer) {
 		super(poPrefix, poProp, poEnclosingContainer);
+		moHomeostaticSymbol = new HashMap<String, Double>();
 		applyProperties(poPrefix, poProp);		
 	}
 	
@@ -103,8 +111,18 @@ public class E02_NeurosymbolizationOfNeeds extends clsModuleBase implements I1_1
 	 */
 	@Override
 	protected void process() {
-		mnTest++;
 		
+		clsSlowMessenger oSlowMessengerSystem = (clsSlowMessenger)moHomeostasis.get(eSensorIntType.SLOWMESSENGER);
+		for(  Map.Entry< eSlowMessenger, Double > oSlowMessenger : oSlowMessengerSystem.moSlowMessengerValues.entrySet() ) {
+			moHomeostaticSymbol.put(oSlowMessenger.getKey().name(), oSlowMessenger.getValue());
+		}
+		
+		clsFastMessenger oFastMessengerSystem = (clsFastMessenger)moHomeostasis.get(eSensorIntType.FASTMESSENGER);
+		for(  clsFastMessengerEntry oFastMessenger : oFastMessengerSystem.moEntries ) {
+			moHomeostaticSymbol.put(oFastMessenger.moSource.name(), oFastMessenger.mrIntensity);
+		}
+	
+		moHomeostaticSymbol.put(eSensorIntType.STOMACHTENSION.name(), ((clsStomachTension)moHomeostasis.get(eSensorIntType.STOMACHTENSION)).mrTension );
 	}
 
 	/* (non-Javadoc)
@@ -116,7 +134,7 @@ public class E02_NeurosymbolizationOfNeeds extends clsModuleBase implements I1_1
 	 */
 	@Override
 	protected void send() {
-		((I1_2)moEnclosingContainer).receive_I1_2(moHomeostasis);
+		((I1_2)moEnclosingContainer).receive_I1_2(moHomeostaticSymbol);
 		
 	}
 

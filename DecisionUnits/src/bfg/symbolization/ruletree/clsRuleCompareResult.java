@@ -32,7 +32,7 @@ public class clsRuleCompareResult { //extends clsCloneable
 //  clsContainerDrive moTargetDrives;
 //  clsContainerEmotion moTargetEmotions;
 
-  public clsRuleCompareResult(clsImageAbstract poAbstractImage, float prMatch) {
+  public clsRuleCompareResult(clsImageAbstract poAbstractImage, double prMatch) {
     moAbstractImage = poAbstractImage;
     moAbstractImageId = new Integer(poAbstractImage.mnImageId);
     moMatch = new cls0to1(prMatch);

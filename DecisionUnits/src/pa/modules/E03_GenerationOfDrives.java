@@ -11,20 +11,19 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
 
-import pa.datatypes.clsAffectCandidatePart;
+import pa.datatypes.clsAffectCandidate;
 import pa.datatypes.clsAssociationContext;
 import pa.datatypes.clsDriveObject;
-import pa.datatypes.clsTemplateDrive;
 import pa.datatypes.clsThingPresentation;
 import pa.datatypes.clsThingPresentationMesh;
 import pa.datatypes.clsThingPresentationSingle;
 import pa.interfaces.I1_2;
 import pa.interfaces.I1_3;
+import pa.loader.clsAffectCandidateDefinition;
 import pa.loader.clsDriveLoader;
+import pa.loader.clsTemplateDrive;
 import pa.tools.clsPair;
 import config.clsBWProperties;
-import decisionunit.itf.sensors.clsDataBase;
-import enums.eSensorIntType;
 import enums.pa.eDriveContent;
 
 /**
@@ -39,9 +38,9 @@ public class E03_GenerationOfDrives extends clsModuleBase implements I1_2 {
 	public static String moDriveObjectType = "DriveObject";
 	
 	public HashMap<eDriveContent, clsTemplateDrive> moDriveDefinition = null;
-	public HashMap<eSensorIntType, clsDataBase> moHomeostasisSymbols = null;
+	public HashMap<String, Double> moHomeostasisSymbols = null;
 	
-	ArrayList<clsPair<clsThingPresentationSingle, clsAffectCandidatePart>> moEnvironmentalTP;
+	ArrayList<clsPair<clsThingPresentationSingle, clsAffectCandidateDefinition>> moEnvironmentalTP;
 	
 	/**
 	 * @author langr
@@ -132,7 +131,7 @@ public class E03_GenerationOfDrives extends clsModuleBase implements I1_2 {
 	 * @see pa.interfaces.I1_2#receive_I1_2(int)
 	 */
 	@Override
-	public void receive_I1_2(HashMap<eSensorIntType, clsDataBase> poHomeostasisSymbols) {
+	public void receive_I1_2(HashMap<String, Double> poHomeostasisSymbols) {
 		moHomeostasisSymbols = poHomeostasisSymbols;
 	}
 
@@ -153,7 +152,7 @@ public class E03_GenerationOfDrives extends clsModuleBase implements I1_2 {
 			clsTemplateDrive oTPDrive = oDriveDef.getValue();
 			
 			clsThingPresentationMesh oDriveMesh = new clsThingPresentationMesh();
-			clsAffectCandidatePart oAffectCandidatePart = null;
+			clsAffectCandidate oAffectCandidate = null;
 			
 			oDriveMesh.meContentName = oTPDrive.moName;
 			oDriveMesh.meContentType = oTPDrive.meDriveContent.getClass().getName();
@@ -176,8 +175,7 @@ public class E03_GenerationOfDrives extends clsModuleBase implements I1_2 {
 				oDriveMesh.moAssociations.add(oAssoc);
 			}
 			
-			oAffectCandidatePart = createDriveMesh( oDriveDef );
-			
+			oAffectCandidate = createDriveMesh( oDriveDef );
 		}
 		
 		
@@ -187,14 +185,22 @@ public class E03_GenerationOfDrives extends clsModuleBase implements I1_2 {
 		
 	}
 
-	private clsAffectCandidatePart createDriveMesh(
+	private clsAffectCandidate createDriveMesh(
 			Entry<eDriveContent, clsTemplateDrive> driveDef) {
 
-		clsAffectCandidatePart oRetVal = new clsAffectCandidatePart();
+//		clsAffectCandidate oRetVal = new clsAffectCandidate();
+//		
+//		for( clsAffectCandidateDefinition oCandidateDef : driveDef.getValue().moAffectCandidate ) {
+//			
+//			clsSensorIntern oData = (clsSensorIntern)moHomeostasisSymbols.get( oCandidateDef.meSensorType );
+//			oData.
+//			
+//		}
+		
+		//moHomeostasisSymbols
 		
 		
-		
-		return oRetVal;
+		return null;//oRetVal;
 	}
 
 	/* (non-Javadoc)

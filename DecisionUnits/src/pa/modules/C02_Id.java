@@ -26,9 +26,6 @@ import pa.interfaces.I4_2;
 import pa.interfaces.I4_3;
 import pa.memory.clsMemory;
 import config.clsBWProperties;
-import decisionunit.itf.sensors.clsDataBase;
-import enums.eSensorIntType;
-
 /**
  * DOCUMENT (deutsch) - insert description 
  * 
@@ -100,7 +97,7 @@ public class C02_Id extends clsModuleContainer implements
 	 * @see pa.interfaces.I1_2#receive_I1_2(int)
 	 */
 	@Override
-	public void receive_I1_2(HashMap<eSensorIntType, clsDataBase> poHomeostasisSymbols) {
+	public void receive_I1_2(HashMap<String, Double> poHomeostasisSymbols) {
 		moC05DriveHandling.receive_I1_2(poHomeostasisSymbols);
 		
 	}

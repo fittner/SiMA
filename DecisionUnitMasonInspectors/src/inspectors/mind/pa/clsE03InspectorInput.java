@@ -8,10 +8,9 @@ package inspectors.mind.pa;
 
 import java.awt.BorderLayout;
 import java.util.HashMap;
+import java.util.Map;
 
 import pa.modules.E03_GenerationOfDrives;
-import decisionunit.itf.sensors.clsDataBase;
-import enums.eSensorIntType;
 import sim.display.GUIState;
 import sim.portrayal.Inspector;
 import sim.portrayal.LocationWrapper;
@@ -39,14 +38,13 @@ public class clsE03InspectorInput extends Inspector {
 		moOriginalInspector = originalInspector;
 		moGenDrive= poGenDrive;
 		
-		HashMap<eSensorIntType, clsDataBase> oHomeo = poGenDrive.moHomeostasisSymbols;
+		HashMap<String, Double> oHomeo = poGenDrive.moHomeostasisSymbols;
 		
         String contentData = "<html><head></head><body><p>test homeo input";
-		for( clsDataBase oDataBase : oHomeo.values() ) {
-			if(oDataBase != null) {
-				contentData += oDataBase.logHTML();
-			}
+		for( Map.Entry<String, Double> oDataBase : oHomeo.entrySet() ) {
+				contentData += "<b>"+oDataBase.getKey() + ":</b>"+ oDataBase.getValue() + "<br>";
 		}
+
         contentData+="</p></body></html>";
         
         setLayout(new BorderLayout());
@@ -63,12 +61,10 @@ public class clsE03InspectorInput extends Inspector {
 	 */
 	@Override
 	public void updateInspector() {
-		HashMap<eSensorIntType, clsDataBase> oHomeo = moGenDrive.moHomeostasisSymbols;
+		HashMap<String, Double> oHomeo = moGenDrive.moHomeostasisSymbols;
         String contentData = "<html><head></head><body><p>test homeo input";
-		for( clsDataBase oDataBase : oHomeo.values() ) {
-			if(oDataBase != null) {
-				contentData += oDataBase.logHTML();
-			}
+		for( Map.Entry<String, Double> oDataBase : oHomeo.entrySet() ) {
+			contentData += "<b>"+oDataBase.getKey() + ":</b>"+ oDataBase.getValue() + "<br>";
 		}
         contentData+="</p></body></html>";
 		moHTMLPane.setText(contentData);

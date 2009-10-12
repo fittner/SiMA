@@ -18,8 +18,8 @@ import org.junit.Test;
 
 import enums.pa.eDriveContent;
 
-import pa.datatypes.clsTemplateDrive;
 import pa.loader.clsDriveLoader;
+import pa.loader.clsTemplateDrive;
 
 
 /**

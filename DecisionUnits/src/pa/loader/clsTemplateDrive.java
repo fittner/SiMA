@@ -4,11 +4,14 @@
  * @author langr
  * 28.09.2009, 14:32:21
  */
-package pa.datatypes;
+package pa.loader;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+
+import pa.datatypes.clsDriveObject;
+import pa.datatypes.clsLifeInstinctCathegories;
 
 import enums.pa.eContext;
 import enums.pa.eDriveContent;
@@ -27,7 +30,7 @@ public class clsTemplateDrive {
 	public String moDescription;
 	public eDriveContent meDriveContent;
 	
-	public ArrayList<clsAffectCandidatePart> moAffectCandidate = new ArrayList<clsAffectCandidatePart>();
+	public ArrayList<clsAffectCandidateDefinition> moAffectCandidate = new ArrayList<clsAffectCandidateDefinition>();
 	public HashMap<eContext, clsLifeInstinctCathegories> moLifeInstinctRatio = new HashMap<eContext, clsLifeInstinctCathegories>();
 	public ArrayList<clsDriveObject> moDriveObjects = new ArrayList<clsDriveObject>();
 	
@@ -39,7 +42,7 @@ public class clsTemplateDrive {
 		
 		oLogStream += "<table>";
 		oLogStream += "<thead><tr align=\"center\"><th>SensorType</th><th>ValueType</th><th>Ratio</th></tr></thead>";
-		for( clsAffectCandidatePart oAC :moAffectCandidate) {
+		for( clsAffectCandidateDefinition oAC :moAffectCandidate) {
 			oLogStream += "<tr><td>";
 			oLogStream += oAC.meSensorType + "</td><td>" + oAC.moValueType + "</td><td>" + oAC.moRatio;
 			oLogStream += "</td></tr>";

@@ -21,10 +21,8 @@ import enums.pa.eDriveContent;
 import bfg.tools.xmltools.clsXMLAbstractImageReader;
 import bfg.tools.xmltools.clsXMLConfiguration;
 
-import pa.datatypes.clsAffectCandidatePart;
 import pa.datatypes.clsDriveObject;
 import pa.datatypes.clsLifeInstinctCathegories;
-import pa.datatypes.clsTemplateDrive;
 
 /**
  * DOCUMENT (langr) - insert description 
@@ -191,7 +189,7 @@ public class clsDriveLoader {
 			for(Node oNode : oNodes)                       
 			{
 				NamedNodeMap oAtrib = oNode.getAttributes();
-				clsAffectCandidatePart oCandidate = new clsAffectCandidatePart();
+				clsAffectCandidateDefinition oCandidate = new clsAffectCandidateDefinition();
 				oCandidate.meSensorType =  eSensorIntType.valueOf( clsXMLAbstractImageReader.getAtributeValue(oAtrib,"SensorType") );
 				oCandidate.moValueType =  clsXMLAbstractImageReader.getAtributeValue(oAtrib,"ValueType");
 				oCandidate.moRatio =  Double.parseDouble( clsXMLAbstractImageReader.getAtributeValue(oAtrib,"Ratio") );

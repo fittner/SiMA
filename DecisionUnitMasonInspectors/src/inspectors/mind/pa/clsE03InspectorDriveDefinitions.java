@@ -9,7 +9,7 @@ package inspectors.mind.pa;
 import java.awt.BorderLayout;
 import java.util.HashMap;
 
-import pa.datatypes.clsTemplateDrive;
+import pa.loader.clsTemplateDrive;
 import pa.modules.E03_GenerationOfDrives;
 import enums.pa.eDriveContent;
 import sim.display.GUIState;

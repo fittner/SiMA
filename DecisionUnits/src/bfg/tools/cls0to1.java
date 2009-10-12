@@ -18,9 +18,9 @@ import java.io.Serializable;
  *
  */
 public class cls0to1 extends clsCloneable implements Serializable {
-  float mrValue = 0;
-  float mrMinValue = 0;
-  float mrMaxValue = 1;
+  double mrValue = 0;
+  double mrMinValue = 0;
+  double mrMaxValue = 1;
 
   public cls0to1() {
   }
@@ -29,19 +29,19 @@ public class cls0to1 extends clsCloneable implements Serializable {
     set(poValue);
   }
 
-    public cls0to1(float prValue) {
+    public cls0to1(double prValue) {
 	  if (prValue <= 1 && prValue >= 0)  
 		  set(prValue);
   }  
   
-  public cls0to1(Float prValue) {
-	  new cls0to1(prValue.floatValue());
+  public cls0to1(Double prValue) {
+	  new cls0to1(prValue.doubleValue());
   }
  
-  public float set(cls0to1 poValue) {
+  public double set(cls0to1 poValue) {
     return set(poValue.get());
   }
-  public float set(float prValue) {
+  public double set(double prValue) {
     if (prValue > mrMaxValue) {
       mrValue = mrMaxValue;
     } else if (prValue < mrMinValue) {
@@ -53,7 +53,7 @@ public class cls0to1 extends clsCloneable implements Serializable {
     return mrValue;
   }
 
-  public float get() {
+  public double get() {
     return mrValue;
   }
 

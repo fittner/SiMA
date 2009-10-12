@@ -200,7 +200,7 @@ public class C00_PsychicApparatus extends clsModuleContainer implements
 	 * @see pa.interfaces.I1_2#receive_I1_2(int)
 	 */
 	@Override
-	public void receive_I1_2(HashMap<eSensorIntType, clsDataBase> poHomeostasisSymbols) {
+	public void receive_I1_2(HashMap<String, Double> poHomeostasisSymbols) {
 		moC02Id.receive_I1_2(poHomeostasisSymbols);
 		
 	}

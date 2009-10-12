@@ -8,9 +8,6 @@ package pa.interfaces;
 
 import java.util.HashMap;
 
-import decisionunit.itf.sensors.clsDataBase;
-import enums.eSensorIntType;
-
 /**
  * DOCUMENT (deutsch) - insert description 
  * 
@@ -19,5 +16,5 @@ import enums.eSensorIntType;
  * 
  */
 public interface I1_2 {
-	public void receive_I1_2(HashMap<eSensorIntType, clsDataBase> poHomeostasisSymbols);
+	public void receive_I1_2(HashMap<String, Double> poHomeostasisSymbols);
 }

@@ -6,6 +6,8 @@
  */
 package pa.datatypes;
 
+import bfg.tools.cls0to1;
+
 /**
  * DOCUMENT (langr) - insert description 
  * 
@@ -15,4 +17,14 @@ package pa.datatypes;
  */
 public class clsAffect extends clsPsychicRepresentative {
 
+	public cls0to1 moValue;
+	
+	public clsAffect() {
+		moValue = new cls0to1();
+	}
+	
+	public clsAffect(double poValue) {
+		moValue = new cls0to1(poValue);
+	}
+	
 }
