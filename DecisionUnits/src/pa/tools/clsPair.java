@@ -23,8 +23,8 @@ public class clsPair<L, R> {
         this.right = right;
     }
     
-    public static <A, B> clsPair<A, B> create(A left, B right) {
-        return new clsPair<A, B>(left, right);
+    public static <L, R> clsPair<L, R> create(L left, R right) {
+        return new clsPair<L, R>(left, right);
     }
  
     @SuppressWarnings("unchecked")

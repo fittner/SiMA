@@ -45,7 +45,6 @@ public class E02_NeurosymbolizationOfNeeds extends clsModuleBase implements I1_1
 	public E02_NeurosymbolizationOfNeeds(String poPrefix,
 			clsBWProperties poProp, clsModuleContainer poEnclosingContainer) {
 		super(poPrefix, poProp, poEnclosingContainer);
-		moHomeostaticSymbol = new HashMap<String, Double>();
 		applyProperties(poPrefix, poProp);		
 	}
 	
@@ -111,6 +110,8 @@ public class E02_NeurosymbolizationOfNeeds extends clsModuleBase implements I1_1
 	 */
 	@Override
 	protected void process() {
+		
+		moHomeostaticSymbol = new HashMap<String, Double>();
 		
 		clsSlowMessenger oSlowMessengerSystem = (clsSlowMessenger)moHomeostasis.get(eSensorIntType.SLOWMESSENGER);
 		for(  Map.Entry< eSlowMessenger, Double > oSlowMessenger : oSlowMessengerSystem.moSlowMessengerValues.entrySet() ) {

@@ -40,7 +40,7 @@ public class E03_GenerationOfDrives extends clsModuleBase implements I1_2 {
 	public HashMap<eDriveContent, clsTemplateDrive> moDriveDefinition = null;
 	public HashMap<String, Double> moHomeostasisSymbols = null;
 	
-	ArrayList<clsPair<clsThingPresentationSingle, clsAffectCandidateDefinition>> moEnvironmentalTP;
+	ArrayList<clsPair<clsThingPresentationMesh, clsAffectCandidate>> moEnvironmentalTP;
 	
 	/**
 	 * @author langr
@@ -65,7 +65,7 @@ public class E03_GenerationOfDrives extends clsModuleBase implements I1_2 {
 	public E03_GenerationOfDrives(String poPrefix, clsBWProperties poProp,
 			clsModuleContainer poEnclosingContainer) {
 		super(poPrefix, poProp, poEnclosingContainer);
-
+		
 		applyProperties(poPrefix, poProp);	
 		loadDriveDefinition(poPrefix, poProp);
 	}
@@ -145,10 +145,10 @@ public class E03_GenerationOfDrives extends clsModuleBase implements I1_2 {
 	@Override
 	protected void process() {
 
-
+		moEnvironmentalTP = new ArrayList<clsPair<clsThingPresentationMesh,clsAffectCandidate>>();
+		
 		for( Map.Entry<eDriveContent, clsTemplateDrive> oDriveDef : moDriveDefinition.entrySet() ) {
 			
-			eDriveContent oContent = oDriveDef.getKey();
 			clsTemplateDrive oTPDrive = oDriveDef.getValue();
 			
 			clsThingPresentationMesh oDriveMesh = new clsThingPresentationMesh();
@@ -175,28 +175,41 @@ public class E03_GenerationOfDrives extends clsModuleBase implements I1_2 {
 				oDriveMesh.moAssociations.add(oAssoc);
 			}
 			
-			oAffectCandidate = createDriveMesh( oDriveDef );
+			oAffectCandidate = createAffectCandidate( oDriveDef );
+			
+			moEnvironmentalTP.add(new clsPair<clsThingPresentationMesh, clsAffectCandidate>(oDriveMesh, oAffectCandidate));
 		}
-		
-		
-//		moEnvironmentalTP;
-//		moHomeostasisSymbols;
-//		moDriveDefinition;
-		
 	}
 
-	private clsAffectCandidate createDriveMesh(
+	/**
+	 * DOCUMENT (langr) - calculates the current value of the drive-tension for one drive. 
+	 * can be originated in several 'organs' = internal-sensor values 
+	 *
+	 * @author langr
+	 * 13.10.2009, 16:33:56
+	 *
+	 * @param driveDef
+	 * @return
+	 */
+	private clsAffectCandidate createAffectCandidate(
 			Entry<eDriveContent, clsTemplateDrive> driveDef) {
 
 		clsAffectCandidate oRetVal = new clsAffectCandidate();
-		
+
 		for( clsAffectCandidateDefinition oCandidateDef : driveDef.getValue().moAffectCandidate ) {
 			
-//			clsSensorIntern oData = (clsSensorIntern)moHomeostasisSymbols.get( oCandidateDef.meSensorType );
-//			oData.
-			
+			if( moHomeostasisSymbols.containsKey(oCandidateDef.moSensorType) ) {
+				double rValue = moHomeostasisSymbols.get( oCandidateDef.moSensorType );
+				
+				if(oCandidateDef.mnInverse) {
+					oRetVal.mrTensionValue += ((oCandidateDef.mrMaxValue-rValue) / oCandidateDef.mrMaxValue)*oCandidateDef.mrRatio;
+				} 
+				else {
+					oRetVal.mrTensionValue += (rValue / oCandidateDef.mrMaxValue) * oCandidateDef.mrRatio;
+				}
+			}
 		}
-		
+
 		return oRetVal;  //null;
 	}
 
@@ -209,8 +222,7 @@ public class E03_GenerationOfDrives extends clsModuleBase implements I1_2 {
 	 */
 	@Override
 	protected void send() {
-		((I1_3)moEnclosingContainer).receive_I1_3(mnTest);
-		
+		((I1_3)moEnclosingContainer).receive_I1_3(moEnvironmentalTP);
 	}
 
 }

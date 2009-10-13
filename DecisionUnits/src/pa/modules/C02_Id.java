@@ -11,6 +11,7 @@ import java.util.HashMap;
 import java.util.List;
 
 import pa.datatypes.clsAffect;
+import pa.datatypes.clsAffectCandidate;
 import pa.datatypes.clsPrimaryInformation;
 import pa.datatypes.clsThingPresentation;
 import pa.datatypes.clsThingPresentationMesh;
@@ -25,6 +26,7 @@ import pa.interfaces.I4_1;
 import pa.interfaces.I4_2;
 import pa.interfaces.I4_3;
 import pa.memory.clsMemory;
+import pa.tools.clsPair;
 import config.clsBWProperties;
 /**
  * DOCUMENT (deutsch) - insert description 
@@ -110,8 +112,8 @@ public class C02_Id extends clsModuleContainer implements
 	 * @see pa.interfaces.I1_4#receive_I1_4(int)
 	 */
 	@Override
-	public void receive_I1_4(int pnData) {
-		moC06AffectGeneration.receive_I1_4(pnData);
+	public void receive_I1_4(ArrayList<clsPair<clsThingPresentationMesh, clsAffectCandidate>> poDriveCandidate) {
+		moC06AffectGeneration.receive_I1_4(poDriveCandidate);
 		
 	}
 

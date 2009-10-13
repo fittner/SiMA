@@ -8,9 +8,13 @@ package pa.modules;
 
 import java.util.ArrayList;
 
+import pa.datatypes.clsAffect;
+import pa.datatypes.clsAffectCandidate;
 import pa.datatypes.clsPrimaryInformation;
+import pa.datatypes.clsThingPresentationMesh;
 import pa.interfaces.I1_4;
 import pa.interfaces.I1_5;
+import pa.tools.clsPair;
 import config.clsBWProperties;
 
 /**
@@ -22,6 +26,9 @@ import config.clsBWProperties;
  */
 public class E05_GenerationOfAffectsForDrives extends clsModuleBase implements I1_4 {
 
+	ArrayList<clsPair<clsThingPresentationMesh, clsAffectCandidate>> moDriveCandidate;
+	ArrayList<clsPrimaryInformation> moDriveList;
+	
 	/**
 	 * DOCUMENT (deutsch) - insert description 
 	 * 
@@ -86,8 +93,8 @@ public class E05_GenerationOfAffectsForDrives extends clsModuleBase implements I
 	 * @see pa.interfaces.I1_3#receive_I1_3(int)
 	 */
 	@Override
-	public void receive_I1_4(int pnData) {
-		mnTest += pnData;
+	public void receive_I1_4(ArrayList<clsPair<clsThingPresentationMesh, clsAffectCandidate>> poDriveCandidate) {
+		moDriveCandidate = poDriveCandidate;
 		
 	}
 
@@ -100,8 +107,19 @@ public class E05_GenerationOfAffectsForDrives extends clsModuleBase implements I
 	 */
 	@Override
 	protected void process() {
-		mnTest++;
+
+		moDriveList = new ArrayList<clsPrimaryInformation>();
 		
+		for( clsPair<clsThingPresentationMesh, clsAffectCandidate> oDriveCandidate : moDriveCandidate ) {
+			clsThingPresentationMesh oTPMesh = oDriveCandidate.left;
+			clsAffectCandidate oAffectCandidate = oDriveCandidate.right;
+			
+			clsPrimaryInformation oPrimaryInformation = new clsPrimaryInformation();
+			oPrimaryInformation.moTP = oTPMesh;
+			oPrimaryInformation.moAffect = new clsAffect(oAffectCandidate);
+			
+			moDriveList.add(oPrimaryInformation);
+		}
 	}
 
 	/* (non-Javadoc)
@@ -113,7 +131,7 @@ public class E05_GenerationOfAffectsForDrives extends clsModuleBase implements I
 	 */
 	@Override
 	protected void send() {
-		((I1_5)moEnclosingContainer).receive_I1_5(new ArrayList<clsPrimaryInformation>());
+		((I1_5)moEnclosingContainer).receive_I1_5(moDriveList);
 		
 	}
 

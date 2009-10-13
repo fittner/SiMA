@@ -6,8 +6,6 @@
  */
 package pa.loader;
 
-import enums.eSensorIntType;
-
 /**
  * DOCUMENT (langr) - insert description 
  * 
@@ -17,8 +15,9 @@ import enums.eSensorIntType;
  */
 public class clsAffectCandidateDefinition {
 
-	public eSensorIntType meSensorType;
-	public String moValueType;
-	public double moRatio;
+	public String moSensorType;
+	public double mrRatio;
+	public double mrMaxValue;
+	public boolean mnInverse;
 
 }

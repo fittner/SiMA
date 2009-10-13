@@ -15,6 +15,26 @@ package pa.datatypes;
  */
 public class clsAffectCandidate {
 
-	
+	public double mrTensionValue = 0;
+
+	/**
+	 * @author langr
+	 * 13.10.2009, 16:32:29
+	 * 
+	 * @param mrTensionValue the mrTensionValue to set
+	 */
+	public void setTensionValue(double mrTensionValue) {
+		this.mrTensionValue = mrTensionValue;
+	}
+
+	/**
+	 * @author langr
+	 * 13.10.2009, 16:32:29
+	 * 
+	 * @return the mrTensionValue
+	 */
+	public double getTensionValue() {
+		return mrTensionValue;
+	}
 	
 }

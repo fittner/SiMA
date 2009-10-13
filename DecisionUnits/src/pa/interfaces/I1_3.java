@@ -6,6 +6,12 @@
  */
 package pa.interfaces;
 
+import java.util.ArrayList;
+
+import pa.datatypes.clsAffectCandidate;
+import pa.datatypes.clsThingPresentationMesh;
+import pa.tools.clsPair;
+
 /**
  * DOCUMENT (deutsch) - insert description 
  * 
@@ -14,5 +20,5 @@ package pa.interfaces;
  * 
  */
 public interface I1_3 {
-	public void receive_I1_3(int pnData);
+	public void receive_I1_3(ArrayList<clsPair<clsThingPresentationMesh, clsAffectCandidate>> poDriveCandidate);
 }

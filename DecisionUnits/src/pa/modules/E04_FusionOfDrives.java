@@ -6,8 +6,13 @@
  */
 package pa.modules;
 
+import java.util.ArrayList;
+
+import pa.datatypes.clsAffectCandidate;
+import pa.datatypes.clsThingPresentationMesh;
 import pa.interfaces.I1_3;
 import pa.interfaces.I1_4;
+import pa.tools.clsPair;
 import config.clsBWProperties;
 
 /**
@@ -19,6 +24,8 @@ import config.clsBWProperties;
  */
 public class E04_FusionOfDrives extends clsModuleBase implements I1_3 {
 
+	ArrayList<clsPair<clsThingPresentationMesh, clsAffectCandidate>> moDriveCandidate;
+	
 	/**
 	 * DOCUMENT (deutsch) - insert description 
 	 * 
@@ -83,8 +90,8 @@ public class E04_FusionOfDrives extends clsModuleBase implements I1_3 {
 	 * @see pa.interfaces.I1_3#receive_I1_3(int)
 	 */
 	@Override
-	public void receive_I1_3(int pnData) {
-		mnTest += pnData;
+	public void receive_I1_3(ArrayList<clsPair<clsThingPresentationMesh, clsAffectCandidate>> poDriveCandidate) {
+		moDriveCandidate = poDriveCandidate;
 		
 	}
 
@@ -110,7 +117,7 @@ public class E04_FusionOfDrives extends clsModuleBase implements I1_3 {
 	 */
 	@Override
 	protected void send() {
-		((I1_4)moEnclosingContainer).receive_I1_4(mnTest);
+		((I1_4)moEnclosingContainer).receive_I1_4(moDriveCandidate);
 		
 	}
 

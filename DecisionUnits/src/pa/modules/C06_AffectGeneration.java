@@ -6,14 +6,18 @@
  */
 package pa.modules;
 
+import java.util.ArrayList;
 import java.util.List;
 
+import pa.datatypes.clsAffectCandidate;
 import pa.datatypes.clsPrimaryInformation;
+import pa.datatypes.clsThingPresentationMesh;
 import pa.interfaces.I1_4;
 import pa.interfaces.I1_5;
 import pa.interfaces.I2_8;
 import pa.interfaces.I2_9;
 import pa.memory.clsMemory;
+import pa.tools.clsPair;
 import config.clsBWProperties;
 
 /**
@@ -77,8 +81,8 @@ public class C06_AffectGeneration extends clsModuleContainer implements
 	 * @see pa.interfaces.I1_4#receive_I1_4(int)
 	 */
 	@Override
-	public void receive_I1_4(int pnData) {
-		moE05GenerationOfAffectsForDrives.receive_I1_4(pnData);
+	public void receive_I1_4(ArrayList<clsPair<clsThingPresentationMesh, clsAffectCandidate>> poDriveCandidate) {
+		moE05GenerationOfAffectsForDrives.receive_I1_4(poDriveCandidate);
 		
 	}
 

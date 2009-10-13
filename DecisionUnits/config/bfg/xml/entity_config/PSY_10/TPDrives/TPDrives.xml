@@ -7,8 +7,8 @@
 		<Drivecontent>EAT</Drivecontent>
 
                 <DriveSourceList>
-                    <DriveSource SensorType="SLOWMESSENGER" ValueType="BLOODSUGAR" Ratio="0.6" ></DriveSource>
-                    <DriveSource SensorType="STOMACHTENSION" Ratio="0.4"></DriveSource>
+                    <DriveSource SensorType="BLOODSUGAR" Ratio="0.6" MaxValue="1" Inverse="true"></DriveSource>
+                    <DriveSource SensorType="STOMACHTENSION" Ratio="0.4" MaxValue="1"></DriveSource>
                 </DriveSourceList>
 
                 <LifeInstinctList>
@@ -28,7 +28,7 @@
 		<Drivecontent>EXCRETE</Drivecontent>
 
                 <DriveSourceList>
-                    <DriveSource SensorType="STOMACH" ValueType="UNDIGESTABLE" Ratio="1" ></DriveSource>
+                    <DriveSource SensorType="STOMACHTENSION" Ratio="0.4" MaxValue="100"></DriveSource>
                  </DriveSourceList>
 
                  <LifeInstinctList>
@@ -41,8 +41,8 @@
 		<Drivecontent>SLEEP</Drivecontent>
 
                 <DriveSourceList>
-                    <DriveSource SensorType="STAMINA" Ratio="0.5" ></DriveSource>
-                    <DriveSource SensorType="ENERGY_CONSUMPTION" Ratio="0.5" ></DriveSource>
+                    <DriveSource SensorType="STAMINA" Ratio="0.5"  MaxValue="100"></DriveSource>
+                    <DriveSource SensorType="ENERGY_CONSUMPTION" Ratio="0.5"  MaxValue="100"></DriveSource>
                 </DriveSourceList>
 
                 <LifeInstinctList>
@@ -54,8 +54,8 @@
 		<Description></Description>
 		<Drivecontent>BREATH</Drivecontent>
 
-                <!--DriveSource SensorType="STAMINA" Ratio="0.5" ></DriveSource-->
-            <!--DriveSource SensorType="ENERGY_CONSUMPTION" Ratio="0.5" ></DriveSource-->
+                <!--DriveSource SensorType="STAMINA" Ratio="0.5"  MaxValue="100"></DriveSource-->
+            <!--DriveSource SensorType="ENERGY_CONSUMPTION" Ratio="0.5"  MaxValue="100"></DriveSource-->
 
             <LifeInstinctList>
                 <LifeInstinctRatio context="DEFAULT" oral="0.2" anal="0.8" phallic="0" genital="0"></LifeInstinctRatio>
@@ -67,9 +67,9 @@
 		<Drivecontent>RELAX</Drivecontent>
 
                 <DriveSourceList>
-                    <DriveSource SensorType="HEALTH" Ratio="0.4" ></DriveSource>
-                    <DriveSource SensorType="STAMINA" Ratio="0.3" ></DriveSource>
-                    <DriveSource SensorType="ENERGY_CONSUMPTION" Ratio="0.3" ></DriveSource>
+                    <DriveSource SensorType="HEALTH" Ratio="0.4"  MaxValue="100"></DriveSource>
+                    <DriveSource SensorType="STAMINA" Ratio="0.3"  MaxValue="100"></DriveSource>
+                    <DriveSource SensorType="ENERGY_CONSUMPTION" Ratio="0.3"  MaxValue="100"></DriveSource>
                 </DriveSourceList>
 
             <LifeInstinctList>
@@ -81,7 +81,7 @@
 		<Description></Description>
 		<Drivecontent>SEXUAL_AROUSAL</Drivecontent>
 
-                <!--DriveSource SensorType="" Ratio="1" ></DriveSource-->
+                <!--DriveSource SensorType="" Ratio="1"  MaxValue="100"></DriveSource-->
             <LifeInstinctList>
                 <LifeInstinctRatio context="DEFAULT" oral="0.2" anal="0.8" phallic="0" genital="0"></LifeInstinctRatio>
             </LifeInstinctList>
@@ -91,11 +91,10 @@
 		<Description></Description>
 		<Drivecontent>AGGRESSION</Drivecontent>
 
-                <!--DriveSource SensorType="" Ratio="1" ></DriveSource-->
+                <!--DriveSource SensorType="" Ratio="1"  MaxValue="100"></DriveSource-->
             <LifeInstinctList>
                 <LifeInstinctRatio context="DEFAULT" oral="0.2" anal="0.8" phallic="0" genital="0"></LifeInstinctRatio>
             </LifeInstinctList>
         </TPDrive>
-
 
 </TPDrives>

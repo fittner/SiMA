@@ -14,7 +14,6 @@ import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
 
 import enums.eEntityType;
-import enums.eSensorIntType;
 import enums.pa.eContext;
 import enums.pa.eDriveContent;
 
@@ -190,9 +189,14 @@ public class clsDriveLoader {
 			{
 				NamedNodeMap oAtrib = oNode.getAttributes();
 				clsAffectCandidateDefinition oCandidate = new clsAffectCandidateDefinition();
-				oCandidate.meSensorType =  eSensorIntType.valueOf( clsXMLAbstractImageReader.getAtributeValue(oAtrib,"SensorType") );
-				oCandidate.moValueType =  clsXMLAbstractImageReader.getAtributeValue(oAtrib,"ValueType");
-				oCandidate.moRatio =  Double.parseDouble( clsXMLAbstractImageReader.getAtributeValue(oAtrib,"Ratio") );
+				oCandidate.moSensorType =  clsXMLAbstractImageReader.getAtributeValue(oAtrib,"SensorType");
+				oCandidate.mrRatio =  Double.parseDouble( clsXMLAbstractImageReader.getAtributeValue(oAtrib,"Ratio") );
+				oCandidate.mrMaxValue =  Double.parseDouble( clsXMLAbstractImageReader.getAtributeValue(oAtrib,"MaxValue") );
+				
+				if( oAtrib.getNamedItem("Inverse") != null ) {
+					oCandidate.mnInverse =  Boolean.parseBoolean( clsXMLAbstractImageReader.getAtributeValue(oAtrib,"Inverse") );
+				}
+				
 				poDrive.moAffectCandidate.add(oCandidate);
 			}
 		}

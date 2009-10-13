@@ -44,7 +44,7 @@ public class clsTemplateDrive {
 		oLogStream += "<thead><tr align=\"center\"><th>SensorType</th><th>ValueType</th><th>Ratio</th></tr></thead>";
 		for( clsAffectCandidateDefinition oAC :moAffectCandidate) {
 			oLogStream += "<tr><td>";
-			oLogStream += oAC.meSensorType + "</td><td>" + oAC.moValueType + "</td><td>" + oAC.moRatio;
+			oLogStream += oAC.moSensorType + "</td><td>" + oAC.mrRatio + "</td><td>" + oAC.mrMaxValue;
 			oLogStream += "</td></tr>";
 		}
 		oLogStream += "</table></td><td>";
