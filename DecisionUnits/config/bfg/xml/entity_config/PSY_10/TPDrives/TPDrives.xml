@@ -28,7 +28,7 @@
 		<Drivecontent>EXCRETE</Drivecontent>
 
                 <DriveSourceList>
-                    <DriveSource SensorType="STOMACHTENSION" Ratio="0.4" MaxValue="100"></DriveSource>
+                    <DriveSource SensorType="STOMACHTENSION" Ratio="0.4" MaxValue="1"></DriveSource>
                  </DriveSourceList>
 
                  <LifeInstinctList>

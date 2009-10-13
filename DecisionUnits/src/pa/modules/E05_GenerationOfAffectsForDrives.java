@@ -26,8 +26,8 @@ import config.clsBWProperties;
  */
 public class E05_GenerationOfAffectsForDrives extends clsModuleBase implements I1_4 {
 
-	ArrayList<clsPair<clsThingPresentationMesh, clsAffectCandidate>> moDriveCandidate;
-	ArrayList<clsPrimaryInformation> moDriveList;
+	public ArrayList<clsPair<clsThingPresentationMesh, clsAffectCandidate>> moDriveCandidate;
+	public ArrayList<clsPrimaryInformation> moDriveList;
 	
 	/**
 	 * DOCUMENT (deutsch) - insert description 

@@ -35,7 +35,7 @@ public class E14_PreliminaryExternalPerception extends clsModuleBase implements
 	HashMap<eSensorExtType, clsSensorExtern> moEnvironmentalData;
 	HashMap<eSensorExtType, clsSensorExtern> moBodyData;
 	
-	ArrayList<clsThingPresentationMesh> moEnvironmentalTP;
+	public ArrayList<clsThingPresentationMesh> moEnvironmentalTP;
 	ArrayList<clsAssociationContext<clsPrimaryInformation>> moAssociationContext;  
 
 	/**

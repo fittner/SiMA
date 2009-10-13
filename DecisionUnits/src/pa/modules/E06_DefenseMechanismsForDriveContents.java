@@ -172,7 +172,7 @@ public class E06_DefenseMechanismsForDriveContents extends clsModuleBase impleme
 		((I4_1)moEnclosingContainer).receive_I4_1(moPrimaryInformation, moThingPresentations, moAffects);
 		((I5_1)moEnclosingContainer).receive_I5_1(mnTest);	
 		
-		moPrimaryInformation.clear();
+		//FIXME (langr) - moPrimaryInformation.clear();
 		moThingPresentations.clear();
 		moAffects.clear();
 	}
