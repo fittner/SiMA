@@ -103,9 +103,7 @@ public class E06_DefenseMechanismsForDriveContents extends clsModuleBase impleme
 	 */
 	@Override
 	public void receive_I1_5(List<clsPrimaryInformation> poData) {
-		
-		moPrimaryInformation.clear(); //FIXME: added by (langr) - otherwise: crash
-		moPrimaryInformation.addAll((ArrayList<clsPrimaryInformation>) poData);
+		moPrimaryInformation = (ArrayList<clsPrimaryInformation>)poData;
 		
 	}
 
