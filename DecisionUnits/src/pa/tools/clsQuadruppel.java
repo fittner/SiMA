@@ -6,6 +6,8 @@
  */
 package pa.tools;
 
+import java.lang.reflect.Method;
+
 /**
  * DOCUMENT (deutsch) - insert description 
  * 
@@ -13,11 +15,11 @@ package pa.tools;
  * 07.10.2009, 18:52:03
  * 
  */
-public class clsQuadruppel<A, B, C, D> {
-	public final A a;
-	public final B b;
-	public final C c;	
-	public final D d;
+public class clsQuadruppel<A, B, C, D> implements Cloneable  {
+	public A a;
+	public B b;
+	public C c;	
+	public D d;
  
     public clsQuadruppel(final A a, final B b, final C c, final D d) {
         this.a = a;
@@ -56,4 +58,49 @@ public class clsQuadruppel<A, B, C, D> {
  
         return hA + (37 * hB) + (183 * hC) + (969 * hD);
     }
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public Object clone() throws CloneNotSupportedException {
+		clsQuadruppel<A, B, C, D> clon = null;
+	     try { 
+	       clon = (clsQuadruppel<A, B, C, D>) super.clone(); // unchecked warning
+	     } catch (CloneNotSupportedException e) { 
+	       throw e; 
+	     }
+	     try { 
+	       Class<?> clzz = this.a.getClass();
+	       Method   meth = clzz.getMethod("clone", new Class[0]);
+	       Object   dupl = meth.invoke(this.a, new Object[0]);
+	       clon.a = (A) dupl; // unchecked warning
+	     } catch (Exception e) {
+	       //...
+	     }
+	     try {
+	       Class<?> clzz = this.b.getClass();
+	       Method   meth = clzz.getMethod("clone", new Class[0]);
+	       Object   dupl = meth.invoke(this.b, new Object[0]);
+	       clon.b = (B) dupl; // unchecked warning
+	     } catch (Exception e) {
+	       //...
+	     } 
+	     try {
+	       Class<?> clzz = this.c.getClass();
+	       Method   meth = clzz.getMethod("clone", new Class[0]);
+	       Object   dupl = meth.invoke(this.c, new Object[0]);
+	       clon.c = (C) dupl; // unchecked warning
+	     } catch (Exception e) {
+	       //...
+	     }	     
+	     try {
+	       Class<?> clzz = this.d.getClass();
+	       Method   meth = clzz.getMethod("clone", new Class[0]);
+	       Object   dupl = meth.invoke(this.d, new Object[0]);
+	       clon.d = (D) dupl; // unchecked warning
+	     } catch (Exception e) {
+	       //...
+	     }	     
+					
+	     return clon;
+	}    
 }

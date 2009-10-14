@@ -13,7 +13,7 @@ package pa.datatypes;
  * 08.10.2009, 14:59:55
  * 
  */
-public class clsTrialActionPlan extends clsSecondaryInformation {
+public class clsTrialActionPlan extends clsSecondaryInformation implements Cloneable {
 
 	/**
 	 * DOCUMENT (langr) - insert description 
@@ -30,5 +30,16 @@ public class clsTrialActionPlan extends clsSecondaryInformation {
 		super(poWP, poTP, poAffect);
 		// TODO (langr) - Auto-generated constructor stub
 	}
+	
+	@Override
+	public Object clone() throws CloneNotSupportedException {
+        try {
+        	clsTrialActionPlan oClone = (clsTrialActionPlan)super.clone();
+        	
+        	return oClone;
+        } catch (CloneNotSupportedException e) {
+           return e;
+        }
+	}	
 
 }

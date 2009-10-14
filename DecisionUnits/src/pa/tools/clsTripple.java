@@ -6,6 +6,8 @@
  */
 package pa.tools;
 
+import java.lang.reflect.Method;
+
 /**
  * DOCUMENT (deutsch) - insert description 
  * 
@@ -13,10 +15,10 @@ package pa.tools;
  * 07.10.2009, 18:45:06
  * 
  */
-public class clsTripple<A, B, C> {
-	public final A a;
-	public final B b;
-	public final C c;	
+public class clsTripple<A, B, C> implements Cloneable {
+	public A a;
+	public B b;
+	public C c;	
  
     public clsTripple(final A a, final B b, final C c) {
         this.a = a;
@@ -53,4 +55,41 @@ public class clsTripple<A, B, C> {
  
         return hA + (37 * hB) + (183 * hC);
     }
+    
+	@SuppressWarnings("unchecked")
+	@Override
+	public Object clone() throws CloneNotSupportedException {
+		clsTripple<A, B, C> clon = null;
+	     try { 
+	       clon = (clsTripple<A, B, C>) super.clone(); // unchecked warning
+	     } catch (CloneNotSupportedException e) { 
+	       throw e; 
+	     }
+	     try { 
+	       Class<?> clzz = this.a.getClass();
+	       Method   meth = clzz.getMethod("clone", new Class[0]);
+	       Object   dupl = meth.invoke(this.a, new Object[0]);
+	       clon.a = (A) dupl; // unchecked warning
+	     } catch (Exception e) {
+	       //...
+	     }
+	     try {
+	       Class<?> clzz = this.b.getClass();
+	       Method   meth = clzz.getMethod("clone", new Class[0]);
+	       Object   dupl = meth.invoke(this.b, new Object[0]);
+	       clon.b = (B) dupl; // unchecked warning
+	     } catch (Exception e) {
+	       //...
+	     } 
+	     try {
+	       Class<?> clzz = this.c.getClass();
+	       Method   meth = clzz.getMethod("clone", new Class[0]);
+	       Object   dupl = meth.invoke(this.c, new Object[0]);
+	       clon.c = (C) dupl; // unchecked warning
+	     } catch (Exception e) {
+	       //...
+	     }	     
+		
+	     return clon;
+	}    
 }

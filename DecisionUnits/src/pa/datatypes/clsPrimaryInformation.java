@@ -16,7 +16,7 @@ import pa.interfaces.itfPrimaryProcessComparable;
  * 11.08.2009, 11:48:23
  * 
  */
-public class clsPrimaryInformation extends clsPsychicRepresentative implements itfPrimaryProcessComparable, itfPrimaryProcessComparabelTP{
+public class clsPrimaryInformation extends clsPsychicRepresentative implements itfPrimaryProcessComparable, itfPrimaryProcessComparabelTP, Cloneable {
 
 	public clsThingPresentation moTP;
 	public clsAffect moAffect;
@@ -45,6 +45,17 @@ public class clsPrimaryInformation extends clsPsychicRepresentative implements i
 		return 0;
 	}
 
-
+	@Override
+	public Object clone() throws CloneNotSupportedException{
+        try {
+        	clsPrimaryInformation oClone = (clsPrimaryInformation)super.clone();
+        	oClone.moTP = (clsThingPresentation)moTP.clone();
+        	oClone.moAffect = (clsAffect)moAffect.clone();        	
+        	return oClone;
+        } catch (CloneNotSupportedException e) {
+            return e;
+        }
+		
+	}
 	
 }

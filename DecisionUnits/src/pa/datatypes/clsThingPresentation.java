@@ -7,6 +7,7 @@
 package pa.datatypes;
 
 import java.util.HashMap;
+import java.util.Map;
 
 import enums.pa.eContext;
 
@@ -19,7 +20,7 @@ import pa.interfaces.itfPrimaryProcessComparabelTP;
  * 11.08.2009, 11:16:10
  * 
  */
-public class clsThingPresentation extends clsPsychicRepresentative implements itfPrimaryProcessComparabelTP {
+public class clsThingPresentation extends clsPsychicRepresentative implements itfPrimaryProcessComparabelTP, Cloneable {
 
 	public HashMap<eContext, clsLifeInstinctCathegories> moLifeInstinctCathegories = null;
 	
@@ -35,5 +36,23 @@ public class clsThingPresentation extends clsPsychicRepresentative implements it
 		// TODO (langr) - Auto-generated method stub
 		return 0;
 	}
+	
+	@Override
+	public Object clone() throws CloneNotSupportedException {
+        try {
+        	clsThingPresentation oClone = (clsThingPresentation)super.clone();
+        	
+        	if (moLifeInstinctCathegories != null) { 
+        		oClone.moLifeInstinctCathegories = new HashMap<eContext, clsLifeInstinctCathegories>();   	
+        		for (Map.Entry<eContext, clsLifeInstinctCathegories> oValue:moLifeInstinctCathegories.entrySet()) {
+        			oClone.moLifeInstinctCathegories.put(oValue.getKey(), (clsLifeInstinctCathegories) (oValue.getValue()).clone());
+        		}
+        	}
+        	
+        	return oClone;
+        } catch (CloneNotSupportedException e) {
+           return e;
+        }
+	}		
 
 }

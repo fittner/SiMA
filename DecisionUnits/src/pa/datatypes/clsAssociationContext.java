@@ -6,6 +6,8 @@
  */
 package pa.datatypes;
 
+import java.lang.reflect.Method;
+
 
 /**
  *                  moAssociationContext
@@ -18,8 +20,30 @@ package pa.datatypes;
  * 11.08.2009, 15:04:24
  * 
  */
-public class clsAssociationContext<TYPE> extends clsAssociationWeighted<TYPE>{
+public class clsAssociationContext<TYPE> extends clsAssociationWeighted<TYPE> implements Cloneable {
 
 	public TYPE moAssociationContext;
 	
+	@SuppressWarnings("unchecked")
+	@Override
+	public Object clone() throws CloneNotSupportedException {
+		clsAssociationContext<TYPE> clon = null;
+	     try { 
+	       clon = (clsAssociationContext<TYPE>) super.clone(); // unchecked warning
+	     } catch (CloneNotSupportedException e) { 
+	       throw e; 
+	     }
+	     try { 
+	       Class<?> clzz = this.moAssociationContext.getClass();
+	       Method   meth = clzz.getMethod("clone", new Class[0]);
+	       Object   dupl = meth.invoke(this.moAssociationContext, new Object[0]);
+	       clon.moAssociationContext = (TYPE) dupl; // unchecked warning
+	     } catch (Exception e) {
+	       //...
+	     }
+
+		
+	     return clon;
+	}
+		
 }

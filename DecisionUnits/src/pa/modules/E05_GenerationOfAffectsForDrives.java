@@ -111,8 +111,8 @@ public class E05_GenerationOfAffectsForDrives extends clsModuleBase implements I
 		moDriveList = new ArrayList<clsPrimaryInformation>();
 		
 		for( clsPair<clsThingPresentationMesh, clsAffectCandidate> oDriveCandidate : moDriveCandidate ) {
-			clsThingPresentationMesh oTPMesh = oDriveCandidate.left;
-			clsAffectCandidate oAffectCandidate = oDriveCandidate.right;
+			clsThingPresentationMesh oTPMesh = oDriveCandidate.a;
+			clsAffectCandidate oAffectCandidate = oDriveCandidate.b;
 			
 			clsPrimaryInformation oPrimaryInformation = new clsPrimaryInformation();
 			oPrimaryInformation.moTP = oTPMesh;

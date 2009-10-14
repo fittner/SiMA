@@ -13,7 +13,7 @@ package pa.datatypes;
  * 08.10.2009, 10:01:36
  * 
  */
-public class clsAffectCandidate {
+public class clsAffectCandidate implements Cloneable{
 
 	public double mrTensionValue = 0;
 
@@ -36,5 +36,16 @@ public class clsAffectCandidate {
 	public double getTensionValue() {
 		return mrTensionValue;
 	}
+	
+	@Override
+	public Object clone() throws CloneNotSupportedException {
+        try {
+        	clsAffectCandidate oClone = (clsAffectCandidate)super.clone();
+
+        	return oClone;
+        } catch (CloneNotSupportedException e) {
+           return e;
+        }
+	}	
 	
 }

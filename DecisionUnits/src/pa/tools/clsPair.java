@@ -6,6 +6,8 @@
  */
 package pa.tools;
 
+import java.lang.reflect.Method;
+
 /**
  * DOCUMENT (langr) - insert description 
  * 
@@ -13,14 +15,14 @@ package pa.tools;
  * 07.10.2009, 12:51:03
  * 
  */
-public class clsPair<L, R> {
+public class clsPair<A, B> implements Cloneable {
  
-	public final L left;
-	public final R right;
+	public A a;
+	public B b;
  
-    public clsPair(final L left, final R right) {
-        this.left = left;
-        this.right = right;
+    public clsPair(final A left, final B right) {
+        this.a = left;
+        this.b = right;
     }
     
     public static <L, R> clsPair<L, R> create(L left, R right) {
@@ -34,7 +36,7 @@ public class clsPair<L, R> {
             return false;
  
         final clsPair<?, ?> other = (clsPair) o;
-        return equal(left, other.left) && equal(right, other.right);
+        return equal(a, other.a) && equal(b, other.b);
     }
     
     public static final boolean equal(Object o1, Object o2) {
@@ -46,9 +48,40 @@ public class clsPair<L, R> {
  
     @Override
 	public int hashCode() {
-        int hLeft = left == null ? 0 : left.hashCode();
-        int hRight = right == null ? 0 : right.hashCode();
+        int hLeft = a == null ? 0 : a.hashCode();
+        int hRight = b == null ? 0 : b.hashCode();
  
         return hLeft + (37 * hRight);
     }
+    
+	
+	@SuppressWarnings("unchecked")
+	@Override
+	public Object clone() throws CloneNotSupportedException {
+		 clsPair<A, B> clon = null;
+	     try { 
+	       clon = (clsPair<A, B>) super.clone(); // unchecked warning
+	     } catch (CloneNotSupportedException e) { 
+	       throw e; 
+	     }
+	     try { 
+	       Class<?> clzz = this.a.getClass();
+	       Method   meth = clzz.getMethod("clone", new Class[0]);
+	       Object   dupl = meth.invoke(this.a, new Object[0]);
+	       clon.a = (A) dupl; // unchecked warning
+	     } catch (Exception e) {
+	       //...
+	     }
+	     try {
+	       Class<?> clzz = this.b.getClass();
+	       Method   meth = clzz.getMethod("clone", new Class[0]);
+	       Object   dupl = meth.invoke(this.b, new Object[0]);
+	       clon.b = (B) dupl; // unchecked warning
+	     } catch (Exception e) {
+	       //...
+	     } 
+		
+	     return clon;
+	}
+	    
 }

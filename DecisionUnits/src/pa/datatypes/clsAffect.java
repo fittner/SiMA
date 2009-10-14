@@ -15,7 +15,7 @@ import bfg.tools.cls0to1;
  * 11.08.2009, 11:16:41
  * 
  */
-public class clsAffect extends clsPsychicRepresentative {
+public class clsAffect extends clsPsychicRepresentative implements Cloneable {
 
 	public cls0to1 moValue;
 	
@@ -37,6 +37,18 @@ public class clsAffect extends clsPsychicRepresentative {
 	 */
 	public clsAffect(clsAffectCandidate poAffectCandidate) {
 		moValue = new cls0to1(poAffectCandidate.getTensionValue());
+	}
+	
+	@Override
+	public Object clone() throws CloneNotSupportedException{
+        try {
+        	clsAffect oClone = (clsAffect)super.clone();
+        	oClone.moValue = (cls0to1)moValue.clone();
+        	return oClone;
+        } catch (CloneNotSupportedException e) {
+            return e;
+        }
+		
 	}
 	
 }

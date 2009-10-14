@@ -13,7 +13,7 @@ package pa.datatypes;
  * 28.09.2009, 16:52:49
  * 
  */
-public class clsLifeInstinctCathegories {
+public class clsLifeInstinctCathegories implements Cloneable {
 	private double mrOral;
 	private double mrAnal;
 	private double mrGenital;
@@ -90,4 +90,15 @@ public class clsLifeInstinctCathegories {
 		
 		return oResult;
 	}
+	
+	@Override
+	public Object clone() throws CloneNotSupportedException {
+        try {
+        	clsLifeInstinctCathegories oClone = (clsLifeInstinctCathegories)super.clone();
+
+        	return oClone;
+        } catch (CloneNotSupportedException e) {
+           return e;
+        }
+	}	
 }

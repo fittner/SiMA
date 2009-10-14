@@ -15,7 +15,7 @@ import pa.interfaces.itfSecondaryProcessComparableWP;
  * 11.08.2009, 11:16:20
  * 
  */
-public class clsWordPresentation extends clsPsychicRepresentative implements itfSecondaryProcessComparableWP {
+public class clsWordPresentation extends clsPsychicRepresentative implements itfSecondaryProcessComparableWP, Cloneable {
 
 	/* (non-Javadoc)
 	 *
@@ -30,4 +30,15 @@ public class clsWordPresentation extends clsPsychicRepresentative implements itf
 		return 0;
 	}
 
+	
+	@Override
+	public Object clone() throws CloneNotSupportedException {
+        try {
+        	clsWordPresentation oClone = (clsWordPresentation)super.clone();
+        	
+        	return oClone;
+        } catch (CloneNotSupportedException e) {
+           return e;
+        }
+	}	
 }

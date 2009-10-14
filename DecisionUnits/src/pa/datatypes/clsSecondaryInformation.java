@@ -16,7 +16,7 @@ import pa.interfaces.itfSecondaryProcessComparableWP;
  * 11.08.2009, 11:48:35
  * 
  */
-public class clsSecondaryInformation extends clsPsychicRepresentative implements itfSecondaryProcessComparable, itfSecondaryProcessComparableWP {
+public class clsSecondaryInformation extends clsPsychicRepresentative implements itfSecondaryProcessComparable, itfSecondaryProcessComparableWP, Cloneable {
 
 	public clsWordPresentation moWP;
 	public clsThingPresentation moTP;
@@ -53,5 +53,19 @@ public class clsSecondaryInformation extends clsPsychicRepresentative implements
 		// TODO (langr) - Auto-generated method stub
 		return 0;
 	}
+
+	@Override
+	public Object clone() throws CloneNotSupportedException{
+        try {
+        	clsSecondaryInformation oClone = (clsSecondaryInformation)super.clone();
+        	oClone.moWP = (clsWordPresentation)moWP.clone();
+        	oClone.moTP = (clsThingPresentation)moTP.clone();
+        	oClone.moAffect = (clsAffect)moAffect.clone();        	
+        	return oClone;
+        } catch (CloneNotSupportedException e) {
+            return e;
+        }
+		
+	}	
 
 }
