@@ -8,10 +8,13 @@ package inspectors.mind.pa;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
 import java.util.Map;
 
+import javax.swing.JButton;
 import javax.swing.SwingConstants;
 
 import org.jgraph.JGraph;
@@ -44,7 +47,7 @@ import sim.portrayal.LocationWrapper;
  * 13.10.2009, 21:53:56
  * 
  */
-public class clsTPMeshListInspector extends Inspector {
+public class clsTPMeshListInspector extends Inspector implements ActionListener {
 
 	private static final long serialVersionUID = 586283139693057158L;
 	public Inspector moOriginalInspector;
@@ -52,6 +55,8 @@ public class clsTPMeshListInspector extends Inspector {
 	private String moMeshListMemberName;
 	private ArrayList<clsThingPresentationMesh> moMesh;
 	JGraph moGraph = null;
+	
+	private JButton moBtnUpdate;
 	
     public clsTPMeshListInspector(Inspector originalInspector,
             LocationWrapper wrapper,
@@ -65,7 +70,11 @@ public class clsTPMeshListInspector extends Inspector {
 		
 		updateControl();
 	
+		moBtnUpdate = new JButton("Update graph...");
+		moBtnUpdate.addActionListener(this);
+		
         setLayout(new BorderLayout());
+        add(moBtnUpdate, BorderLayout.NORTH);
 		add(moGraph, BorderLayout.CENTER);
     }
 
@@ -238,5 +247,21 @@ public class clsTPMeshListInspector extends Inspector {
 		cell.addPort();
 
 		return cell;
+	}
+
+	/* (non-Javadoc)
+	 *
+	 * @author langr
+	 * 14.10.2009, 19:59:28
+	 * 
+	 * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
+	 */
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		Object source = e.getSource();
+		
+		if( source == moBtnUpdate) {
+			updateControl();
+		}
 	}
 }
