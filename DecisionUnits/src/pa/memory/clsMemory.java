@@ -37,7 +37,7 @@ public class clsMemory implements
 	public static final String P_REPRESSEDCONTENTSSTORAGE = "repressedcontentsstorage";
 	public static final String P_CURRENTCONTEXT = "currentcontext";
 	
-	public clsRepressedContentsStore moRepressedContentsStore;
+	public clsRepressedContentsStorage moRepressedContentsStore;
 	public clsCurrentContextStorage moCurrentContextStorage;
 	
 	
@@ -56,7 +56,7 @@ public class clsMemory implements
     private void applyProperties(String poPrefix, clsBWProperties poProp){		
 		String pre = clsBWProperties.addDot(poPrefix);
     	 
-		moRepressedContentsStore = new clsRepressedContentsStore(pre+P_REPRESSEDCONTENTSSTORAGE, poProp);	
+		moRepressedContentsStore = new clsRepressedContentsStorage(pre+P_REPRESSEDCONTENTSSTORAGE, poProp);	
 		moCurrentContextStorage  = new clsCurrentContextStorage(pre+P_CURRENTCONTEXT, poProp);
 	}	
     
@@ -65,7 +65,7 @@ public class clsMemory implements
     	
     	clsBWProperties oProp = new clsBWProperties();
 		
-		oProp.putAll(clsRepressedContentsStore.getDefaultProperties(pre+P_REPRESSEDCONTENTSSTORAGE) );
+		oProp.putAll(clsRepressedContentsStorage.getDefaultProperties(pre+P_REPRESSEDCONTENTSSTORAGE) );
 		oProp.putAll(clsCurrentContextStorage.getDefaultProperties(pre+P_CURRENTCONTEXT) );		
 		
 		return oProp;

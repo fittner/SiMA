@@ -15,8 +15,8 @@ import config.clsBWProperties;
  * 07.10.2009, 12:39:50
  * 
  */
-public class clsRepressedContentsStore {
-	public clsRepressedContentsStore(String poPrefix, clsBWProperties poProp) {
+public class clsRepressedContentsStorage {
+	public clsRepressedContentsStorage(String poPrefix, clsBWProperties poProp) {
 		
 		applyProperties(poPrefix, poProp);
     }
