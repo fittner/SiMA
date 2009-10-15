@@ -13,7 +13,9 @@ package pa.datatypes;
  * 09.09.2009, 16:59:46
  * 
  */
+
 public class clsAssoziationSecondary implements Cloneable {
+
 	public clsWordPresentation A;
 	public clsWordPresentation B;
 	public double strength;
