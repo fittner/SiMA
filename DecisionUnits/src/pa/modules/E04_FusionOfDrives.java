@@ -89,8 +89,10 @@ public class E04_FusionOfDrives extends clsModuleBase implements I1_3 {
 	 * 
 	 * @see pa.interfaces.I1_3#receive_I1_3(int)
 	 */
+	@SuppressWarnings("unchecked")
 	@Override
 	public void receive_I1_3(ArrayList<clsPair<clsThingPresentationMesh, clsAffectCandidate>> poDriveCandidate) {
+		//moDriveCandidate = (ArrayList<clsPair<clsThingPresentationMesh,		clsAffectCandidate>>)deepCopy(poDriveCandidate);
 		moDriveCandidate = poDriveCandidate;
 		
 	}

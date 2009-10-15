@@ -6,7 +6,10 @@
  */
 package pa.modules;
 
+import java.lang.reflect.Method;
+import java.util.Iterator;
 import config.clsBWProperties;
+
 
 /**
  * DOCUMENT (deutsch) - insert description 
@@ -57,4 +60,68 @@ public abstract class clsModuleBase {
 	
 	protected abstract void setProcessType();
 	protected abstract void setPsychicInstances();	
+
+	
+	@SuppressWarnings("unchecked")
+	protected java.util.ArrayList deepCopy(java.util.ArrayList other) {
+		java.util.ArrayList clone = null;
+		if (other != null) {
+			clone = new java.util.ArrayList();
+			
+			for (Object entry:other) {
+				try { 
+					Class<?> clzz = entry.getClass();
+				    Method   meth = clzz.getMethod("clone", new Class[0]);
+				    Object   dupl = meth.invoke(entry, new Object[0]);
+				    clone.add(dupl);
+				} catch (Exception e) {
+					clone.add(entry);
+					// no deep copy possible.
+				}
+			}
+		}
+				
+		return clone;
+	}	
+	
+	@SuppressWarnings("unchecked")
+	protected java.util.HashMap deepCopy(java.util.HashMap other) {
+		java.util.HashMap clone = null;
+		if (other != null) {
+			clone = new java.util.HashMap();
+			
+			Iterator i = other.keySet().iterator();
+			
+			while (i.hasNext()) {
+				Object key = i.next();
+				Object value = other.get(key);
+				
+				Object clone_key = null;
+				Object clone_value = null;
+				
+				try { 
+					Class<?> clzz = key.getClass();
+				    Method   meth = clzz.getMethod("clone", new Class[0]);
+				    clone_key = meth.invoke(key, new Object[0]);
+				} catch (Exception e) {
+					clone_key = key;
+					// no deep copy possible.
+				}				
+				
+				try { 
+					Class<?> clzz = value.getClass();
+				    Method   meth = clzz.getMethod("clone", new Class[0]);
+				    clone_value = meth.invoke(value, new Object[0]);
+				} catch (Exception e) {
+					clone_value = value;
+					// no deep copy possible.
+				}		
+				
+				clone.put(clone_key, clone_value);
+			}
+		}
+				
+		return clone;
+	}	
+	
 }
