@@ -55,5 +55,24 @@ public class clsThingPresentationMesh extends clsThingPresentation implements Cl
            return e;
         }
 	}
+	
+	@Override
+	public String toString() {
+		String oResult = super.toString();
+		
+		oResult += " name:"+moContent+" type:"+meContentType+" content:"+moContent+" assoc:";
+		
+		for (clsAssociationContext<clsThingPresentation> entry:moAssociations) {
+			oResult += " ("+entry+") / ";
+		}
+		
+		if (moAssociations.size() > 0) {
+			oResult = oResult.substring(0, oResult.length()-3);
+		}
+		
+		oResult = "::TPM::"+oResult.substring(6);
+		
+		return oResult;
+	}
 
 }

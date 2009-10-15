@@ -54,5 +54,20 @@ public class clsThingPresentation extends clsPsychicRepresentative implements it
            return e;
         }
 	}		
+	
+	@Override
+	public String toString() {
+		String oResult = "::TP:: LIC: ";
+	
+		for (Map.Entry<eContext, clsLifeInstinctCathegories> entry:moLifeInstinctCathegories.entrySet()) {
+			oResult += entry.getKey().name()+" ("+entry.getValue()+") / ";
+		}
+		
+		if (oResult.length() > 4) {
+			oResult = oResult.substring(0, oResult.length()-3);
+		}
+		
+		return oResult;
+	}
 
 }

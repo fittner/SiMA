@@ -69,15 +69,20 @@ public abstract class clsModuleBase {
 			clone = new java.util.ArrayList();
 			
 			for (Object entry:other) {
-				try { 
-					Class<?> clzz = entry.getClass();
-				    Method   meth = clzz.getMethod("clone", new Class[0]);
-				    Object   dupl = meth.invoke(entry, new Object[0]);
-				    clone.add(dupl);
+				try {
+					if (!(entry instanceof Cloneable)) {
+						clone.add(entry);
+					} else {
+						Class<?> clzz = entry.getClass();
+				    	Method   meth = clzz.getMethod("clone", new Class[0]);
+				    	Object   dupl = meth.invoke(entry, new Object[0]);
+				    	clone.add(dupl);
+					}
 				} catch (Exception e) {
 					clone.add(entry);
 					// no deep copy possible.
 				}
+			
 			}
 		}
 				

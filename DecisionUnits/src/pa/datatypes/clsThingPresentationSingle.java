@@ -52,4 +52,15 @@ public class clsThingPresentationSingle extends clsThingPresentation implements 
            return e;
         }
 	}	
+	
+	@Override
+	public String toString() {
+		String oResult = super.toString();
+		
+		oResult += " name:"+moContent+" type:"+meContentType+" content:"+moContent;
+		
+		oResult = "::TPS::"+oResult.substring(6);
+		
+		return oResult;
+	}	
 }

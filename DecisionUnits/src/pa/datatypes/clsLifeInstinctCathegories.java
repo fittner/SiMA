@@ -86,7 +86,7 @@ public class clsLifeInstinctCathegories implements Cloneable {
 	public String toString() {
 		String oResult = "";
 		
-		oResult = "oral: "+mrOral+" / anal: "+mrAnal+" / genital: "+mrGenital+" / phallic: "+mrPhallic;
+		oResult = "o:"+mrOral+"; a:"+mrAnal+"; g:"+mrGenital+"; p:"+mrPhallic;
 		
 		return oResult;
 	}
