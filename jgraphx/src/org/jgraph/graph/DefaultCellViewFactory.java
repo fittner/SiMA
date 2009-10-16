@@ -8,6 +8,8 @@ package org.jgraph.graph;
 
 import java.io.Serializable;
 
+import com.jgraph.components.labels.MultiLineVertexView;
+
 /**
  * The default implementation of a cell view factory that returns the default
  * views for vertices, edges and ports.
@@ -41,7 +43,7 @@ public class DefaultCellViewFactory implements CellViewFactory, Serializable {
 	 * Constructs a VertexView view for the specified object.
 	 */
 	protected VertexView createVertexView(Object cell) {
-		return new VertexView(cell);
+		return new MultiLineVertexView(cell);//VertexView(cell);
 	}
 
 	/**
