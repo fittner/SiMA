@@ -88,6 +88,10 @@ public class clsDriveLoader {
 
 		clsTemplateDrive oRetVal = new clsTemplateDrive();
 
+//		NamedNodeMap oAtrib = poDriveNode.getAttributes();
+//		oRetVal.moName =  clsXMLAbstractImageReader.getAtributeValue(oAtrib,"name");
+		oRetVal.moName = "Drive";
+		
 		oRetVal.meDriveContent = eDriveContent.valueOf( clsXMLAbstractImageReader.getTagStringValue(poDriveNode, moDriveContentName ) );
 		Node oReaderNode = null;
 		Vector<Node> oNodes = null;

@@ -21,17 +21,22 @@ import org.jgraph.JGraph;
 import org.jgraph.graph.DefaultCellViewFactory;
 import org.jgraph.graph.DefaultEdge;
 import org.jgraph.graph.DefaultGraphCell;
-import org.jgraph.graph.DefaultGraphModel;
 import org.jgraph.graph.GraphConstants;
 import org.jgraph.graph.GraphLayoutCache;
 import org.jgraph.graph.GraphModel;
+import org.jgraph.graph.VertexView;
 
+import com.jgraph.components.labels.MultiLineVertexView;
+import com.jgraph.components.labels.RichTextBusinessObject;
+import com.jgraph.components.labels.RichTextGraphModel;
+import com.jgraph.components.labels.RichTextValue;
 import com.jgraph.example.JGraphGraphFactory;
 import com.jgraph.layout.DataGraphLayoutCache;
 import com.jgraph.layout.JGraphFacade;
 import com.jgraph.layout.JGraphModelFacade;
 import com.jgraph.layout.tree.JGraphCompactTreeLayout;
 
+import pa.datatypes.clsAffect;
 import pa.datatypes.clsAssociationContext;
 import pa.datatypes.clsPrimaryInformation;
 import pa.datatypes.clsThingPresentation;
@@ -42,13 +47,11 @@ import sim.portrayal.Inspector;
 import sim.portrayal.LocationWrapper;
 
 /**
- * Inspector to draw a tree-graph of an ArrayList<clsThingPresentationMesh>
+ * Inspector to draw a tree-graph of an ArrayList<clsPrimaryInformation>
  * One root node gets each element within the list as child. Childs can be either 
  * TPMeshes (and will get further child nodes) or TPSingles (the deepest element in the tree)
  * 
- * The construct of passing the containing class and the name of the member-variable that is the ArrayList
- * is necessary to get the correct reference in each simulation step (the ArrayList itself is re-created 
- * in every step and therefore the data would not be changed)
+ * for more docu see the clsTPMeshListInspector
  * 
  * @author langr
  * 13.10.2009, 21:53:56
@@ -114,7 +117,7 @@ public class clsPrimaryInformationInspector  extends Inspector implements Action
 	 *
 	 */
 	@SuppressWarnings("unchecked")
-	private void updateTPMeshData() {
+	private void updatePrimInfoData() {
 		try {
 			Object oMeshList = moMeshContainer.getClass().getField(moMeshListMemberName).get(moMeshContainer);
 			moPrimary = (ArrayList<clsPrimaryInformation>)oMeshList;
@@ -146,15 +149,20 @@ public class clsPrimaryInformationInspector  extends Inspector implements Action
 	public void updateControl() {
 
 		// fetch the new ArrayList from the containing class
-		updateTPMeshData();
+		updatePrimInfoData();
 
 		// Construct Model and GraphLayoutCache
-		GraphModel model = new DefaultGraphModel();
+		GraphModel model = new RichTextGraphModel();
 		// When not using a JGraph instance, a GraphLayoutCache does not
 		// automatically listen to model changes. Therefore, use a special
 		// layout cache with a built-in listener
 		GraphLayoutCache cache = new DataGraphLayoutCache(model,
-				new DefaultCellViewFactory());
+				new DefaultCellViewFactory() {
+			@Override
+			protected VertexView createVertexView(Object cell) {
+				return new MultiLineVertexView(cell);
+			}
+		}, true);
 		
 		//helper array-list to collect each created cell in the right order for the registration later on
 		//without knowing the total number of elements
@@ -180,7 +188,7 @@ public class clsPrimaryInformationInspector  extends Inspector implements Action
 		// Create the layout to be applied (Tree)
 		JGraphCompactTreeLayout layout = new JGraphCompactTreeLayout();
 		layout.setNodeDistance(15); //minimal distance from node to node horizontal
-		layout.setLevelDistance(15); //minimal distance from node to node vertical
+		layout.setLevelDistance(30); //minimal distance from node to node vertical
 		layout.setOrientation(SwingConstants.NORTH);
 		// Run the layout, the facade holds the results
 		layout.run(facade);
@@ -218,7 +226,7 @@ public class clsPrimaryInformationInspector  extends Inspector implements Action
 	}	
 	
 	/**
-	 * DOCUMENT (langr) - insert description
+	 * creates either the graph for a mesh or the singel, but adds the affect too.
 	 *
 	 * @author langr
 	 * 15.10.2009, 22:56:34
@@ -231,8 +239,15 @@ public class clsPrimaryInformationInspector  extends Inspector implements Action
 	private void readPrim(ArrayList<DefaultGraphCell> poCellList,
 			DefaultGraphCell poParent, clsPrimaryInformation prim,
 			String poAssociationName) {
-		// TODO (langr) - Auto-generated method stub
-		
+
+		if(prim.moTP instanceof clsThingPresentationMesh) {
+			DefaultGraphCell oCell = readMesh(poCellList, poParent, (clsThingPresentationMesh)prim.moTP, poAssociationName);
+			readAffect(poCellList, oCell, prim.moAffect, "affect_assoc");
+		}
+		else if(prim.moTP instanceof clsThingPresentationSingle) {
+			DefaultGraphCell oCell = readSingle(poCellList, poParent, (clsThingPresentationSingle)prim.moTP, poAssociationName);
+			readAffect(poCellList, oCell, prim.moAffect, "affect_assoc");
+		}
 	}
 
 	/**
@@ -247,7 +262,7 @@ public class clsPrimaryInformationInspector  extends Inspector implements Action
 	 * @param poTPMesh
 	 * @param poAssociationName
 	 */
-	private void readMesh(ArrayList<DefaultGraphCell> poCellList,
+	private DefaultGraphCell readMesh(ArrayList<DefaultGraphCell> poCellList,
 			DefaultGraphCell poParent, clsThingPresentationMesh poTPMesh, String poAssociationName) {
 
 			String oVertexName = poTPMesh.meContentName + ":\n" + poTPMesh.moContent;
@@ -265,7 +280,7 @@ public class clsPrimaryInformationInspector  extends Inspector implements Action
 
 				String oName = ""; //the edge will get the name of the association context
 				if(oChildTPAssoc.moAssociationContext != null && oChildTPAssoc.moAssociationContext.meDriveContentCathegory != null) {
-					oName+=oChildTPAssoc.moAssociationContext.meDriveContentCathegory.toString();	
+					oName+=oChildTPAssoc.moAssociationContext.toStringGraphDisplay();	
 				}
 				
 				if(oChildTPAssoc.moElementB instanceof clsThingPresentationSingle) {
@@ -276,6 +291,7 @@ public class clsPrimaryInformationInspector  extends Inspector implements Action
 					readMesh(poCellList, oCurrentVertex, (clsThingPresentationMesh)oChildTPAssoc.moElementB, oName );
 				}
 			}
+			return oCurrentVertex;
 	}
 	
 	/**
@@ -290,7 +306,7 @@ public class clsPrimaryInformationInspector  extends Inspector implements Action
 	 * @param poTPSingle
 	 * @param poAssociationName
 	 */
-	private void readSingle(ArrayList<DefaultGraphCell> poCellList,
+	private DefaultGraphCell readSingle(ArrayList<DefaultGraphCell> poCellList,
 			DefaultGraphCell poParent, clsThingPresentationSingle poTPSingle, String poAssociationName) {
 
 		String oVertexName = poTPSingle.meContentName + ": \n " + poTPSingle.moContent;
@@ -302,6 +318,34 @@ public class clsPrimaryInformationInspector  extends Inspector implements Action
 		poCellList.add(edge);
 		GraphConstants.setLineEnd(edge.getAttributes(), GraphConstants.ARROW_CLASSIC);
 		GraphConstants.setEndFill(edge.getAttributes(), true);
+		return oCurrentVertex;
+	}
+	
+	/**
+	 * Creates a graph-cell for the clsAffect and connects the graph-cell 
+	 * with an arrowed edge to the parent
+	 *
+	 * @author langr
+	 * 15.10.2009, 22:29:11
+	 *
+	 * @param poCellList
+	 * @param poParent
+	 * @param poAffecte
+	 * @param poAssociationName
+	 */
+	private DefaultGraphCell readAffect(ArrayList<DefaultGraphCell> poCellList,
+			DefaultGraphCell poParent, clsAffect poAffect, String poAssociationName) {
+
+		String oVertexName =  "Affect: \n " + poAffect.moValue;
+		DefaultGraphCell oCurrentVertex = createVertex(oVertexName, 20, 20, 150, 40);
+		poCellList.add( oCurrentVertex );
+		DefaultEdge edge = new DefaultEdge(poAssociationName);
+		edge.setSource(poParent.getChildAt(0));
+		edge.setTarget(oCurrentVertex.getChildAt(0));
+		poCellList.add(edge);
+		GraphConstants.setLineEnd(edge.getAttributes(), GraphConstants.ARROW_CLASSIC);
+		GraphConstants.setEndFill(edge.getAttributes(), true);
+		return oCurrentVertex;
 	}
 	
 	/**
@@ -320,15 +364,25 @@ public class clsPrimaryInformationInspector  extends Inspector implements Action
 	public static DefaultGraphCell createVertex(String name, double x,
 			double y, double w, double h) {
 
+		//Richtext to enable linebreaks
+		RichTextBusinessObject userObject = new RichTextBusinessObject();
+		RichTextValue textValue = new RichTextValue(name);
+		userObject.setValue(textValue);
+		
 		// Create vertex with the given name
-		DefaultGraphCell cell = new DefaultGraphCell(name);
+		DefaultGraphCell cell = new DefaultGraphCell(userObject);
 
 		// Set bounds
 		GraphConstants.setBounds(cell.getAttributes(), new Rectangle2D.Double(x, y, w, h));
 		GraphConstants.setGradientColor( cell.getAttributes(), Color.LIGHT_GRAY);
-		GraphConstants.setInset(cell.getAttributes(), 2);
-		//GraphConstants.setAutoSize(cell.getAttributes(), true);
+		//GraphConstants.setInset(cell.getAttributes(), 10);
+		// Make sure the cell is resized on insert
+		GraphConstants.setResize(cell.getAttributes(), true);
+		GraphConstants.setAutoSize(cell.getAttributes(), true);
 		GraphConstants.setOpaque(cell.getAttributes(), true);
+		GraphConstants.setBorderColor(cell.getAttributes(), Color.black);
+		GraphConstants.setBackground(cell.getAttributes(), new Color(240,240,240));
+		
 		// Add a Port
 		cell.addPort();
 

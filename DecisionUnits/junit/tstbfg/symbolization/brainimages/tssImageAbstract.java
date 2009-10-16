@@ -113,7 +113,7 @@ public class tssImageAbstract {
 		//add bump info
 		
 		clsVision oVision = new clsVision();
-		oVision.moSensorType = eSensorExtType.VISION_NEAR;
+		oVision.setSensorType(eSensorExtType.VISION_NEAR);
 		clsVisionEntries oVisionEntries = new clsVisionEntries();
 		oVisionEntries.mnAlive = true;
 		oVisionEntries.mnEntityType = eEntityType.BUBBLE;
@@ -123,7 +123,7 @@ public class tssImageAbstract {
 		oVisionEntries.moObjectPosition = eSide.LEFT; 
 		oVision.add(oVisionEntries);
 		
-		oSensorData.addSensorExt(oVision.moSensorType, oVision);
+		oSensorData.addSensorExt(oVision.getSensorType(), oVision);
 		
 		clsEatableArea oEatableArea = new clsEatableArea(); 
 		clsEatableAreaEntry oEatableEntry = new clsEatableAreaEntry(eEntityType.BUBBLE);

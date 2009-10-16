@@ -44,6 +44,7 @@ public class clsInspectorMappingPA {
 		}
 		else if(poModuleName.equals("E05GenerationOfAffectsForDrives")) {
 			oRetVal.addInspector( new clsE05InspectorOutput(poSuperInspector, poWrapper, poState, moPA.moC02Id.moC06AffectGeneration.moE05GenerationOfAffectsForDrives), "Current Drives");
+			oRetVal.addInspector( new clsPrimaryInformationInspector(poSuperInspector, poWrapper, poState, moPA.moC02Id.moC06AffectGeneration.moE05GenerationOfAffectsForDrives, "moDriveList"), "Current Drives (Graph)");
 		}		
 		else if(poModuleName.equals("E14PreliminaryExternalPerception")) {
 			oRetVal.addInspector( new clsTPMeshListInspector(poSuperInspector, poWrapper, poState, moPA.moC03Ego.moC07EnvironmentalInterfaceFunctions.moE14PreliminaryExternalPerception, "moEnvironmentalTP" ), "Generated Thing Presentations");

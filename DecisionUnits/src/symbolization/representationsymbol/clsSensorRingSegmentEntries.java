@@ -59,7 +59,7 @@ public abstract class clsSensorRingSegmentEntries extends clsSensorExtern{
 	@Override
 	public boolean isContainer() {
 		// TODO (zeilinger) - Auto-generated method stub
-		return false;
+		return true;
 	}
 
 	/* (non-Javadoc)

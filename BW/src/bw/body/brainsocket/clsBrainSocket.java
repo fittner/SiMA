@@ -211,7 +211,7 @@ public class clsBrainSocket implements itfStepProcessing {
 	
 	private clsPositionChange convertPositionChangeSensor(eSensorExtType poSensorType) {
 		clsPositionChange oData = new clsPositionChange();
-		oData.moSensorType = poSensorType; 
+		oData.setSensorType(poSensorType); 
 		clsSensorPositionChange oSensor = (clsSensorPositionChange)(moSensorsExt.get(poSensorType));
 		
 		oData.x = oSensor.getPositionChange().getPosition().x;
@@ -316,7 +316,7 @@ public class clsBrainSocket implements itfStepProcessing {
 
 	private clsVision convertVisionSensor(eSensorExtType poVisionType) {
 		clsVision oData = new clsVision();
-		oData.moSensorType = poVisionType;
+		oData.setSensorType(poVisionType);
 		clsSensorVision oVision = (clsSensorVision)(moSensorsExt.get(poVisionType));
 		if(oVision != null) {
 			ArrayList<clsCollidingObject> eDetectedObjectList = oVision.getSensorData();
@@ -336,7 +336,7 @@ public class clsBrainSocket implements itfStepProcessing {
 	
 	private clsManipulateArea convertManipulateSensor(eSensorExtType poVisionType) {
 		clsManipulateArea oData = new clsManipulateArea();
-		oData.moSensorType = poVisionType;
+		oData.setSensorType(poVisionType);
 		bw.body.io.sensors.ext.clsSensorManipulateArea oManip = (bw.body.io.sensors.ext.clsSensorManipulateArea)(moSensorsExt.get(poVisionType));
 		if(oManip != null) {
 			ArrayList<clsCollidingObject> eDetectedObjectList = oManip.getSensorData();
@@ -389,7 +389,7 @@ public class clsBrainSocket implements itfStepProcessing {
 		oData.moColor = (Color) oEntity.getShape().getPaint();
 		oData.moEntityId = oEntity.getId();
 		oData.moObjectPosition = collidingObj.meColPos;  
-		oData.moSensorType = poSensorType;
+		oData.setSensorType(poSensorType);
 				
 		// FIXME: (horvath) - temporary polar coordinates calculation
 		clsSensorPositionChange oSensor = (clsSensorPositionChange)(moSensorsExt.get(eSensorExtType.POSITIONCHANGE));
@@ -440,7 +440,7 @@ public class clsBrainSocket implements itfStepProcessing {
 		if (oAlive != null) {
 			oData.mnIsAlive = oAlive.isAlive();
 			oData.mnIsConsumeable = oAlive.isConsumeable();
-			oData.moSensorType = poSensorType;
+			oData.setSensorType(poSensorType);
 		}
 			
 		return oData;

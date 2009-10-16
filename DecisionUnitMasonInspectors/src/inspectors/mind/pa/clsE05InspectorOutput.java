@@ -6,9 +6,9 @@
  */
 package inspectors.mind.pa;
 
-import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.FlowLayout;
 import java.awt.GradientPaint;
 
 import org.jfree.chart.ChartFactory;
@@ -20,7 +20,7 @@ import org.jfree.chart.axis.NumberAxis;
 import org.jfree.chart.plot.CategoryPlot;
 import org.jfree.chart.plot.DatasetRenderingOrder;
 import org.jfree.chart.plot.PlotOrientation;
-import org.jfree.chart.renderer.category.BarRenderer;
+import org.jfree.chart.renderer.category.LayeredBarRenderer;
 import org.jfree.data.category.DefaultCategoryDataset;
 
 import pa.datatypes.clsPrimaryInformation;
@@ -69,8 +69,8 @@ public class clsE05InspectorOutput extends Inspector{
     	initChart();
 	
     	// set up our inspector: keep the properties inspector around too
-    	setLayout(new BorderLayout());
-    	add(moChartPanel, BorderLayout.NORTH);
+    	setLayout(new FlowLayout(FlowLayout.LEFT));
+    	add(moChartPanel);
     }
 
 	/**
@@ -94,7 +94,7 @@ public class clsE05InspectorOutput extends Inspector{
                 "Affect",                  // range axis label
                 moDataset,                  // data
                 PlotOrientation.VERTICAL, // orientation
-                true,                     // include legend
+                false,                     // include legend
                 true,                     // tooltips?
                 false                     // URLs?
             );
@@ -103,6 +103,8 @@ public class clsE05InspectorOutput extends Inspector{
 
         // get a reference to the plot for further customisation...
         CategoryPlot plot = (CategoryPlot) oChartPanel.getPlot();
+        plot.setRenderer(new LayeredBarRenderer());
+        plot.setBackgroundPaint(Color.white);
 
         // set the range axis to display integers only...
         NumberAxis rangeAxis = (NumberAxis) plot.getRangeAxis();
@@ -110,12 +112,13 @@ public class clsE05InspectorOutput extends Inspector{
         rangeAxis.setUpperBound(1.5); //set the max value for the energy/nutrition
 
         // disable bar outlines...
-        BarRenderer renderer = (BarRenderer) plot.getRenderer();
+        LayeredBarRenderer renderer = (LayeredBarRenderer) plot.getRenderer();
         renderer.setDrawBarOutline(false);
+        renderer.setSeriesBarWidth(0, 0.4);
 
         // set up gradient paints for series...
-        GradientPaint gp0 = new GradientPaint(0.0f, 0.0f, Color.blue,
-                0.0f, 0.0f, new Color(0, 0, 64));
+        GradientPaint gp0 = new GradientPaint(0.0f, 0.0f, new Color(150, 150, 150),
+                0.0f, 0.0f, new Color(64, 64, 64));
         renderer.setSeriesPaint(0, gp0);
  
         CategoryAxis domainAxis = plot.getDomainAxis();

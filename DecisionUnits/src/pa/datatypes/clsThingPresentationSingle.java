@@ -63,4 +63,10 @@ public class clsThingPresentationSingle extends clsThingPresentation implements 
 		
 		return oResult;
 	}	
+	
+	@Override
+	public String toStringGraphDisplay() {
+		return moContent.toString();
+	}
+
 }

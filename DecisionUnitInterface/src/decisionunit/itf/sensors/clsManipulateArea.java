@@ -18,7 +18,7 @@ public class clsManipulateArea extends clsSensorRingSegment {
 	@Override
 	public String logHTML() {
 		
-		String oRetVal = "<tr><td>"+moSensorType.toString().toUpperCase()+"</td><td></td></tr>";
+		String oRetVal = "<tr><td>"+getSensorType().toString().toUpperCase()+"</td><td></td></tr>";
 		
 		oRetVal += super.logHTML();
 		

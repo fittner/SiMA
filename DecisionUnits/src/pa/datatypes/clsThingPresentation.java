@@ -69,5 +69,9 @@ public class clsThingPresentation extends clsPsychicRepresentative implements it
 		
 		return oResult;
 	}
+	
+	public String toStringGraphDisplay() {
+		return "";
+	}
 
 }

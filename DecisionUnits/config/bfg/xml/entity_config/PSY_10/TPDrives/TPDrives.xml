@@ -2,7 +2,7 @@
 <TPDrives xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:noNamespaceSchemaLocation="../xsd/ComplexEmotion.xsd">
 
-	<TPDrive ID="1" name="eat">
+	<TPDrive ID="1" name="Drive eat">
 		<Description>definition of drive-sources</Description>
 		<Drivecontent>EAT</Drivecontent>
 
@@ -23,7 +23,7 @@
 
         </TPDrive>
 
-	<TPDrive ID="2" name="excrete">
+	<TPDrive ID="2" name="Drive excrete">
 		<Description>fill level of stomachs</Description>
 		<Drivecontent>EXCRETE</Drivecontent>
 
@@ -36,12 +36,12 @@
                 </LifeInstinctList>
         </TPDrive>
 
-        <TPDrive ID="3" name="sleep">
+        <TPDrive ID="3" name="Drive sleep">
 		<Description></Description>
 		<Drivecontent>SLEEP</Drivecontent>
 
                 <DriveSourceList>
-                    <DriveSource SensorType="STAMINA" Ratio="0.5"  MaxValue="100"></DriveSource>
+                    <DriveSource SensorType="STAMINA" Ratio="0.5"  MaxValue="10" Inverse="true"></DriveSource>
                     <DriveSource SensorType="ENERGY_CONSUMPTION" Ratio="0.5"  MaxValue="100"></DriveSource>
                 </DriveSourceList>
 
@@ -50,7 +50,7 @@
                 </LifeInstinctList>
             </TPDrive>
 
-        <TPDrive ID="4" name="breath">
+        <TPDrive ID="4" name="Drive breath">
 		<Description></Description>
 		<Drivecontent>BREATH</Drivecontent>
 
@@ -62,14 +62,14 @@
             </LifeInstinctList>
         </TPDrive>
 
-        <TPDrive ID="5" name="health">
+        <TPDrive ID="5" name="Drive health">
 		<Description></Description>
 		<Drivecontent>RELAX</Drivecontent>
 
                 <DriveSourceList>
-                    <DriveSource SensorType="HEALTH" Ratio="0.4"  MaxValue="100"></DriveSource>
-                    <DriveSource SensorType="STAMINA" Ratio="0.3"  MaxValue="100"></DriveSource>
-                    <DriveSource SensorType="ENERGY_CONSUMPTION" Ratio="0.3"  MaxValue="100"></DriveSource>
+                    <DriveSource SensorType="HEALTH" Ratio="1.5"  MaxValue="100" Inverse="true"></DriveSource>
+                    <!--DriveSource SensorType="STAMINA" Ratio="0.3"  MaxValue="1"></DriveSource-->
+                    <!--DriveSource SensorType="ENERGY_CONSUMPTION" Ratio="0.3"  MaxValue="1"></DriveSource-->
                 </DriveSourceList>
 
             <LifeInstinctList>
@@ -77,7 +77,7 @@
             </LifeInstinctList>
         </TPDrive>
 
-        <TPDrive ID="6" name="sexual_arousal">
+        <TPDrive ID="6" name="Drive sexual_arousal">
 		<Description></Description>
 		<Drivecontent>SEXUAL_AROUSAL</Drivecontent>
 
@@ -87,7 +87,7 @@
             </LifeInstinctList>
         </TPDrive>
 
-        <TPDrive ID="7" name="aggression">
+        <TPDrive ID="7" name="Drive aggression">
 		<Description></Description>
 		<Drivecontent>AGGRESSION</Drivecontent>
 

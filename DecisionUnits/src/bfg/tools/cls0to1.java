@@ -30,7 +30,7 @@ public class cls0to1 extends clsCloneable implements Serializable {
   }
 
     public cls0to1(double prValue) {
-	  if (prValue <= 1 && prValue >= 0)  
+	  //if (prValue <= 1 && prValue >= 0) commented (langr) -> check already done in set-method  
 		  set(prValue);
   }  
   

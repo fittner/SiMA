@@ -15,7 +15,9 @@ import config.clsBWProperties;
 import decisionunit.itf.sensors.clsDataBase;
 import decisionunit.itf.sensors.clsFastMessenger;
 import decisionunit.itf.sensors.clsFastMessengerEntry;
+import decisionunit.itf.sensors.clsHealthSystem;
 import decisionunit.itf.sensors.clsSlowMessenger;
+import decisionunit.itf.sensors.clsStaminaSystem;
 import decisionunit.itf.sensors.clsStomachTension;
 import enums.eSensorIntType;
 import enums.eSlowMessenger;
@@ -124,6 +126,8 @@ public class E02_NeurosymbolizationOfNeeds extends clsModuleBase implements I1_1
 		}
 	
 		moHomeostaticSymbol.put(eSensorIntType.STOMACHTENSION.name(), ((clsStomachTension)moHomeostasis.get(eSensorIntType.STOMACHTENSION)).mrTension );
+		moHomeostaticSymbol.put(eSensorIntType.HEALTH.name(), ((clsHealthSystem)moHomeostasis.get(eSensorIntType.HEALTH)).mrHealthValue );
+		moHomeostaticSymbol.put(eSensorIntType.STAMINA.name(), ((clsStaminaSystem)moHomeostasis.get(eSensorIntType.STAMINA)).mrStaminaValue );
 	}
 
 	/* (non-Javadoc)

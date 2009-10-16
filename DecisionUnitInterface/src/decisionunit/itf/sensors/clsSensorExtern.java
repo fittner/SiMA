@@ -36,4 +36,24 @@ abstract public class clsSensorExtern extends clsDataBase{
 //		moDataList = poSymbolData; 
 //		return true;
 //	}
+
+	/**
+	 * @author langr
+	 * 16.10.2009, 14:54:33
+	 * 
+	 * @param moSensorType the moSensorType to set
+	 */
+	public void setSensorType(eSensorExtType moSensorType) {
+		this.moSensorType = moSensorType;
+	}
+
+	/**
+	 * @author langr
+	 * 16.10.2009, 14:54:33
+	 * 
+	 * @return the moSensorType
+	 */
+	public eSensorExtType getSensorType() {
+		return moSensorType;
+	}
 }

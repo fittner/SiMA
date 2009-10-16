@@ -74,5 +74,10 @@ public class clsThingPresentationMesh extends clsThingPresentation implements Cl
 		
 		return oResult;
 	}
+	
+	@Override
+	public String toStringGraphDisplay() {
+		return moContent.toString();
+	}
 
 }

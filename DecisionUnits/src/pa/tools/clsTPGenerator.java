@@ -42,46 +42,69 @@ public class clsTPGenerator {
 					clsThingPresentationMesh oTPMesh = new clsThingPresentationMesh();
 					
 					String oMeshAttributeName = oDataObject.getMeshAttributeName();
-					Field[] oFields = oDataObject.getClass().getFields(); //get members of class
-					for(Field oField : oFields) { //for each (public) member of the sensordata-class
-	
-						if( oField.getName().equals(oMeshAttributeName) ) { //this is the mesh-content
-							
-							oTPMesh.meContentName = oField.getName();
-							oTPMesh.meContentType = oField.getClass().getName();
-							try {
-								oTPMesh.moContent = oField.get(oDataObject);
-							} catch (IllegalArgumentException e) {
-								e.printStackTrace();
-							} catch (IllegalAccessException e) {
-								e.printStackTrace();
+					if(oDataObject.isContainer()) {
+						Field[] oFields = oDataObject.getClass().getFields(); //get members of class
+						for(Field oField : oFields) { //for each (public) member of the sensordata-class
+		
+							if( oField.getName().equals(oMeshAttributeName) ) { //this is the mesh-content
+								
+								oTPMesh.meContentName = oField.getName();
+								oTPMesh.meContentType = oField.getClass().getName();
+								try {
+									oTPMesh.moContent = oField.get(oDataObject);
+								} catch (IllegalArgumentException e) {
+									e.printStackTrace();
+								} catch (IllegalAccessException e) {
+									e.printStackTrace();
+								}
+								oResult.add(oTPMesh);
+								
+							} else if(oField.getName().startsWith("m")) { //this is a connected TP-Single
+								//creating the thing presentation of the attribute 
+								clsThingPresentationSingle oTPSingle = new clsThingPresentationSingle();
+								
+								oTPSingle.meContentName = oField.getName();
+								oTPSingle.meContentType = oField.getClass().getName();
+								try {
+									oTPSingle.moContent = oField.get(oDataObject);
+								} catch (IllegalArgumentException e) {
+									e.printStackTrace();
+								} catch (IllegalAccessException e) {
+									e.printStackTrace();
+								}
+								
+								//creating the association between the mesh and the attribute
+								clsAssociationContext<clsThingPresentation> oAssoc = new clsAssociationContext<clsThingPresentation>();
+								oAssoc.moElementA = oTPMesh;
+								oAssoc.moElementB = oTPSingle;
+								//storing the association in the mesh
+								oTPMesh.moAssociations.add(oAssoc);
+								oSingle = true;
 							}
-							oMesh = true;
-							
-						} else if(oField.getName().startsWith("m")) { //this is a connected TP-Single
-							//creating the thing presentation of the attribute 
-							clsThingPresentationSingle oTPSingle = new clsThingPresentationSingle();
-							
-							oTPSingle.meContentName = oField.getName();
-							oTPSingle.meContentType = oField.getClass().getName();
-							try {
-								oTPSingle.moContent = oField.get(oDataObject);
-							} catch (IllegalArgumentException e) {
-								e.printStackTrace();
-							} catch (IllegalAccessException e) {
-								e.printStackTrace();
-							}
-							
-							//creating the association between the mesh and the attribute
-							clsAssociationContext<clsThingPresentation> oAssoc = new clsAssociationContext<clsThingPresentation>();
-							oAssoc.moElementA = oTPMesh;
-							oAssoc.moElementB = oTPSingle;
-							//storing the association in the mesh
-							oTPMesh.moAssociations.add(oAssoc);
-							oSingle = true;
 						}
-					}
-					if( oMesh || oSingle ) {
+					} 
+					else //no container - just create an empty mesh
+					{
+						//creating the thing presentation of the attribute 
+						clsThingPresentationSingle oTPSingle = new clsThingPresentationSingle();
+						
+						oTPMesh.meContentName = oDataObject.getMeshAttributeName();
+
+						try {
+							Field oField = oDataObject.getClass().getField(oTPMesh.meContentName);
+							oTPMesh.meContentType = oField.getClass().getName();
+							oTPMesh.moContent = oField.get(oDataObject);
+						} catch (IllegalArgumentException e) {
+							e.printStackTrace();
+						} catch (IllegalAccessException e) {
+							e.printStackTrace();
+						} catch (SecurityException e) {
+							// TODO (langr) - Auto-generated catch block
+							e.printStackTrace();
+						} catch (NoSuchFieldException e) {
+							// TODO (langr) - Auto-generated catch block
+							e.printStackTrace();
+						}
 						oResult.add(oTPMesh);
 					}
 				}
