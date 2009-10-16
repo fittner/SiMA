@@ -53,6 +53,11 @@ import sim.portrayal.LocationWrapper;
  * is necessary to get the correct reference in each simulation step (the ArrayList itself is re-created 
  * in every step and therefore the data would not be changed)
  * 
+ * ATTENTION-NOTE: To display Multiline-Lables, the DefaultCellViewFactory is used. However, overriding the 
+ * createVertexView()-method does not work (don't know where else the viewfactory has to be registered). 
+ * Therefore, the method was changed in the jgraphx-source and returns the RichText-Control there: 
+ * return new MultiLineVertexView(cell);
+ * 
  * @author langr
  * 13.10.2009, 21:53:56
  * 
