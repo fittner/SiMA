@@ -18,8 +18,13 @@ import pa.interfaces.itfPrimaryProcessComparable;
  */
 public class clsPrimaryInformation extends clsPsychicRepresentative implements itfPrimaryProcessComparable, itfPrimaryProcessComparabelTP, Cloneable {
 
-	public clsThingPresentation moTP;
+	public clsThingPresentationSingle moTP;
 	public clsAffect moAffect;
+
+	public clsPrimaryInformation(clsThingPresentationSingle poSingle) {
+		moTP = poSingle;
+		moAffect = null;
+	}
 	/* (non-Javadoc)
 	 *
 	 * @author langr
@@ -49,13 +54,24 @@ public class clsPrimaryInformation extends clsPsychicRepresentative implements i
 	public Object clone() throws CloneNotSupportedException{
         try {
         	clsPrimaryInformation oClone = (clsPrimaryInformation)super.clone();
-        	oClone.moTP = (clsThingPresentation)moTP.clone();
+        	oClone.moTP = (clsThingPresentationSingle)moTP.clone();
         	oClone.moAffect = (clsAffect)moAffect.clone();        	
         	return oClone;
         } catch (CloneNotSupportedException e) {
             return e;
         }
 		
+	}
+	/**
+	 * DOCUMENT (langr) - insert description
+	 *
+	 * @author langr
+	 * 16.10.2009, 19:35:07
+	 *
+	 * @return
+	 */
+	public String toGraphDisplayString() {
+		return moTP.toStringGraphDisplay();
 	}
 	
 }

@@ -39,9 +39,8 @@ import com.jgraph.layout.tree.JGraphCompactTreeLayout;
 import pa.datatypes.clsAffect;
 import pa.datatypes.clsAssociationContext;
 import pa.datatypes.clsPrimaryInformation;
-import pa.datatypes.clsThingPresentation;
-import pa.datatypes.clsThingPresentationMesh;
-import pa.datatypes.clsThingPresentationSingle;
+import pa.datatypes.clsPrimaryInformationMesh;
+
 import sim.display.GUIState;
 import sim.portrayal.Inspector;
 import sim.portrayal.LocationWrapper;
@@ -49,9 +48,17 @@ import sim.portrayal.LocationWrapper;
 /**
  * Inspector to draw a tree-graph of an ArrayList<clsPrimaryInformation>
  * One root node gets each element within the list as child. Childs can be either 
- * TPMeshes (and will get further child nodes) or TPSingles (the deepest element in the tree)
+ * PI-Meshes (and will get further child nodes) or PI's only (and will get an affect if available)
+ * PI = PrimaryInformation
  * 
- * for more docu see the clsTPMeshListInspector
+ * The construct of passing the containing class and the name of the member-variable that is the ArrayList
+ * is necessary to get the correct reference in each simulation step (the ArrayList itself is re-created 
+ * in every step and therefore the data would not be changed)
+ * 
+ * ATTENTION-NOTE: To display Multiline-Lables, the DefaultCellViewFactory is used. However, overriding the 
+ * createVertexView()-method does not work (don't know where else the viewfactory has to be registered). 
+ * Therefore, the method was changed in the jgraphx-source and returns the RichText-Control there: 
+ * return new MultiLineVertexView(cell);
  * 
  * @author langr
  * 13.10.2009, 21:53:56
@@ -240,12 +247,12 @@ public class clsPrimaryInformationInspector  extends Inspector implements Action
 			DefaultGraphCell poParent, clsPrimaryInformation prim,
 			String poAssociationName) {
 
-		if(prim.moTP instanceof clsThingPresentationMesh) {
-			DefaultGraphCell oCell = readMesh(poCellList, poParent, (clsThingPresentationMesh)prim.moTP, poAssociationName);
+		if(prim instanceof clsPrimaryInformationMesh) {
+			DefaultGraphCell oCell = readMesh(poCellList, poParent, (clsPrimaryInformationMesh)prim, poAssociationName);
 			readAffect(poCellList, oCell, prim.moAffect, "affect_assoc");
 		}
-		else if(prim.moTP instanceof clsThingPresentationSingle) {
-			DefaultGraphCell oCell = readSingle(poCellList, poParent, (clsThingPresentationSingle)prim.moTP, poAssociationName);
+		else if(prim instanceof clsPrimaryInformation) {
+			DefaultGraphCell oCell = readSingle(poCellList, poParent, (clsPrimaryInformation)prim, poAssociationName);
 			readAffect(poCellList, oCell, prim.moAffect, "affect_assoc");
 		}
 	}
@@ -259,13 +266,13 @@ public class clsPrimaryInformationInspector  extends Inspector implements Action
 	 *
 	 * @param poCellList
 	 * @param poParent
-	 * @param poTPMesh
+	 * @param poPrimMesh
 	 * @param poAssociationName
 	 */
 	private DefaultGraphCell readMesh(ArrayList<DefaultGraphCell> poCellList,
-			DefaultGraphCell poParent, clsThingPresentationMesh poTPMesh, String poAssociationName) {
+			DefaultGraphCell poParent, clsPrimaryInformationMesh poPrimMesh, String poAssociationName) {
 
-			String oVertexName = poTPMesh.meContentName + ":\n" + poTPMesh.moContent;
+			String oVertexName = poPrimMesh.moTP.meContentName + ":\n" + poPrimMesh.moTP.moContent;
 			DefaultGraphCell oCurrentVertex = createVertex(oVertexName, 20, 20, 150, 40);
 			poCellList.add( oCurrentVertex );
 			DefaultEdge edge = new DefaultEdge(poAssociationName);
@@ -276,19 +283,19 @@ public class clsPrimaryInformationInspector  extends Inspector implements Action
 			GraphConstants.setLineEnd(edge.getAttributes(), GraphConstants.ARROW_CLASSIC);
 			GraphConstants.setEndFill(edge.getAttributes(), true);
 			
-			for( clsAssociationContext<clsThingPresentation> oChildTPAssoc :  poTPMesh.moAssociations) {
+			for( clsAssociationContext<clsPrimaryInformation> oChildAssoc :  poPrimMesh.moAssociations) {
 
 				String oName = ""; //the edge will get the name of the association context
-				if(oChildTPAssoc.moAssociationContext != null && oChildTPAssoc.moAssociationContext.meDriveContentCathegory != null) {
-					oName+=oChildTPAssoc.moAssociationContext.toStringGraphDisplay();	
+				if(oChildAssoc.moAssociationContext != null && oChildAssoc.moAssociationContext.meDriveContentCathegory != null) {
+					oName+=oChildAssoc.moAssociationContext.toGraphDisplayString();	
 				}
 				
-				if(oChildTPAssoc.moElementB instanceof clsThingPresentationSingle) {
-					readSingle(poCellList, oCurrentVertex, (clsThingPresentationSingle)oChildTPAssoc.moElementB, oName );
+				if(oChildAssoc.moElementB instanceof clsPrimaryInformationMesh) {
+					readMesh(poCellList, oCurrentVertex, (clsPrimaryInformationMesh)oChildAssoc.moElementB, oName );
 				} 
-				else if( oChildTPAssoc.moElementB instanceof clsThingPresentationMesh ) {
-
-					readMesh(poCellList, oCurrentVertex, (clsThingPresentationMesh)oChildTPAssoc.moElementB, oName );
+				else if( oChildAssoc.moElementB instanceof clsPrimaryInformation ) {
+					readSingle(poCellList, oCurrentVertex, (clsPrimaryInformation)oChildAssoc.moElementB, oName );
+					
 				}
 			}
 			return oCurrentVertex;
@@ -303,13 +310,13 @@ public class clsPrimaryInformationInspector  extends Inspector implements Action
 	 *
 	 * @param poCellList
 	 * @param poParent
-	 * @param poTPSingle
+	 * @param poPrimSingle
 	 * @param poAssociationName
 	 */
 	private DefaultGraphCell readSingle(ArrayList<DefaultGraphCell> poCellList,
-			DefaultGraphCell poParent, clsThingPresentationSingle poTPSingle, String poAssociationName) {
+			DefaultGraphCell poParent, clsPrimaryInformation poPrimSingle, String poAssociationName) {
 
-		String oVertexName = poTPSingle.meContentName + ": \n " + poTPSingle.moContent;
+		String oVertexName = poPrimSingle.moTP.meContentName + ": \n " + poPrimSingle.moTP.moContent;
 		DefaultGraphCell oCurrentVertex = createVertex(oVertexName, 20, 20, 150, 40);
 		poCellList.add( oCurrentVertex );
 		DefaultEdge edge = new DefaultEdge(poAssociationName);
@@ -336,15 +343,19 @@ public class clsPrimaryInformationInspector  extends Inspector implements Action
 	private DefaultGraphCell readAffect(ArrayList<DefaultGraphCell> poCellList,
 			DefaultGraphCell poParent, clsAffect poAffect, String poAssociationName) {
 
-		String oVertexName =  "Affect: \n " + poAffect.moValue;
-		DefaultGraphCell oCurrentVertex = createVertex(oVertexName, 20, 20, 150, 40);
-		poCellList.add( oCurrentVertex );
-		DefaultEdge edge = new DefaultEdge(poAssociationName);
-		edge.setSource(poParent.getChildAt(0));
-		edge.setTarget(oCurrentVertex.getChildAt(0));
-		poCellList.add(edge);
-		GraphConstants.setLineEnd(edge.getAttributes(), GraphConstants.ARROW_CLASSIC);
-		GraphConstants.setEndFill(edge.getAttributes(), true);
+		DefaultGraphCell oCurrentVertex = null;
+		
+		if(poAffect != null ) {
+			String oVertexName =  "Affect: \n " + poAffect.moValue;
+			oCurrentVertex = createVertex(oVertexName, 20, 20, 150, 40);
+			poCellList.add( oCurrentVertex );
+			DefaultEdge edge = new DefaultEdge(poAssociationName);
+			edge.setSource(poParent.getChildAt(0));
+			edge.setTarget(oCurrentVertex.getChildAt(0));
+			poCellList.add(edge);
+			GraphConstants.setLineEnd(edge.getAttributes(), GraphConstants.ARROW_CLASSIC);
+			GraphConstants.setEndFill(edge.getAttributes(), true);
+		}
 		return oCurrentVertex;
 	}
 	

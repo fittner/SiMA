@@ -11,7 +11,7 @@ import java.util.ArrayList;
 import pa.datatypes.clsAffect;
 import pa.datatypes.clsAffectCandidate;
 import pa.datatypes.clsPrimaryInformation;
-import pa.datatypes.clsThingPresentationMesh;
+import pa.datatypes.clsPrimaryInformationMesh;
 import pa.interfaces.I1_4;
 import pa.interfaces.I1_5;
 import pa.tools.clsPair;
@@ -26,7 +26,7 @@ import config.clsBWProperties;
  */
 public class E05_GenerationOfAffectsForDrives extends clsModuleBase implements I1_4 {
 
-	public ArrayList<clsPair<clsThingPresentationMesh, clsAffectCandidate>> moDriveCandidate;
+	public ArrayList<clsPair<clsPrimaryInformationMesh, clsAffectCandidate>> moDriveCandidate;
 	public ArrayList<clsPrimaryInformation> moDriveList;
 	
 	/**
@@ -93,7 +93,7 @@ public class E05_GenerationOfAffectsForDrives extends clsModuleBase implements I
 	 * @see pa.interfaces.I1_3#receive_I1_3(int)
 	 */
 	@Override
-	public void receive_I1_4(ArrayList<clsPair<clsThingPresentationMesh, clsAffectCandidate>> poDriveCandidate) {
+	public void receive_I1_4(ArrayList<clsPair<clsPrimaryInformationMesh, clsAffectCandidate>> poDriveCandidate) {
 		moDriveCandidate = poDriveCandidate;
 		
 	}
@@ -110,15 +110,11 @@ public class E05_GenerationOfAffectsForDrives extends clsModuleBase implements I
 
 		moDriveList = new ArrayList<clsPrimaryInformation>();
 		
-		for( clsPair<clsThingPresentationMesh, clsAffectCandidate> oDriveCandidate : moDriveCandidate ) {
-			clsThingPresentationMesh oTPMesh = oDriveCandidate.a;
-			clsAffectCandidate oAffectCandidate = oDriveCandidate.b;
-			
-			clsPrimaryInformation oPrimaryInformation = new clsPrimaryInformation();
-			oPrimaryInformation.moTP = oTPMesh;
-			oPrimaryInformation.moAffect = new clsAffect(oAffectCandidate);
-			
-			moDriveList.add(oPrimaryInformation);
+		for( clsPair<clsPrimaryInformationMesh, clsAffectCandidate> oDriveCandidate : moDriveCandidate ) {
+
+			//finally create the affect in the primary-mesh using the affect candidate 
+			oDriveCandidate.a.moAffect = new clsAffect(oDriveCandidate.b);
+			moDriveList.add(oDriveCandidate.a);
 		}
 	}
 

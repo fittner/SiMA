@@ -8,7 +8,7 @@ package pa.interfaces;
 
 import java.util.ArrayList;
 
-import pa.datatypes.clsThingPresentationMesh;
+import pa.datatypes.clsPrimaryInformation;
 
 /**
  * DOCUMENT (deutsch) - insert description 
@@ -18,5 +18,5 @@ import pa.datatypes.clsThingPresentationMesh;
  * 
  */
 public interface I2_5 {
-	public void receive_I2_5(ArrayList<clsThingPresentationMesh> poEnvironmentalTP);
+	public void receive_I2_5(ArrayList<clsPrimaryInformation> poEnvironmentalTP);
 }

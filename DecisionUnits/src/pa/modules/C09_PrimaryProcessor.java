@@ -12,7 +12,6 @@ import java.util.List;
 import pa.datatypes.clsAffect;
 import pa.datatypes.clsPrimaryInformation;
 import pa.datatypes.clsThingPresentation;
-import pa.datatypes.clsThingPresentationMesh;
 import pa.interfaces.I1_5;
 import pa.interfaces.I1_6;
 import pa.interfaces.I2_10;
@@ -110,7 +109,7 @@ public class C09_PrimaryProcessor extends clsModuleContainer implements
 	 * @see pa.interfaces.I2_5#receive_I2_5(int)
 	 */
 	@Override
-	public void receive_I2_5(ArrayList<clsThingPresentationMesh> poEnvironmentalTP) {
+	public void receive_I2_5(ArrayList<clsPrimaryInformation> poEnvironmentalTP) {
 		((I2_5)moEnclosingContainer).receive_I2_5(poEnvironmentalTP);
 	}
 

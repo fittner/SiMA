@@ -9,7 +9,7 @@ package pa.interfaces;
 import java.util.ArrayList;
 
 import pa.datatypes.clsAffectCandidate;
-import pa.datatypes.clsThingPresentationMesh;
+import pa.datatypes.clsPrimaryInformationMesh;
 import pa.tools.clsPair;
 
 /**
@@ -20,5 +20,5 @@ import pa.tools.clsPair;
  * 
  */
 public interface I1_4 {
-	public void receive_I1_4(ArrayList<clsPair<clsThingPresentationMesh, clsAffectCandidate>> poDriveCandidate);
+	public void receive_I1_4(ArrayList<clsPair<clsPrimaryInformationMesh, clsAffectCandidate>> poDriveCandidate);
 }

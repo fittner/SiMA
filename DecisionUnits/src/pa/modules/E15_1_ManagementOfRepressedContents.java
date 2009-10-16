@@ -9,7 +9,7 @@ package pa.modules;
 import java.util.ArrayList;
 
 import config.clsBWProperties;
-import pa.datatypes.clsThingPresentationMesh;
+import pa.datatypes.clsPrimaryInformation;
 import pa.interfaces.I2_5;
 import pa.interfaces.I2_6;
 
@@ -62,7 +62,7 @@ public class E15_1_ManagementOfRepressedContents extends clsModuleBase implement
 	 * @see pa.interfaces.I2_5#receive_I2_5(int)
 	 */
 	@Override
-	public void receive_I2_5(ArrayList<clsThingPresentationMesh> poEnvironmentalTP) {
+	public void receive_I2_5(ArrayList<clsPrimaryInformation> poEnvironmentalTP) {
 		//mnTest += pnData;
 	}
 

@@ -16,6 +16,9 @@ import java.lang.reflect.Method;
  *               moWeight   |
  *    moElementA  <---------------------> moElementB
  * 
+ * The TYPE of this association can be either 
+ * clsPrimaryInformation (incl. Mesh) or clsSecondaryInformation (incl. Mesh)
+ * 
  * @author langr
  * 11.08.2009, 15:04:24
  * 
@@ -44,6 +47,11 @@ public class clsAssociationContext<TYPE> extends clsAssociationWeighted<TYPE> im
 
 		
 	     return clon;
+	}
+	
+	@Override
+	public String toString() {
+		return moAssociationContext.toString();
 	}
 		
 }

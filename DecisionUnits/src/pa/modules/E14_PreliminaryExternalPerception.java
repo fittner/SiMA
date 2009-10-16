@@ -14,7 +14,6 @@ import decisionunit.itf.sensors.clsSensorExtern;
 import enums.eSensorExtType;
 import pa.datatypes.clsAssociationContext;
 import pa.datatypes.clsPrimaryInformation;
-import pa.datatypes.clsThingPresentationMesh;
 import pa.interfaces.I2_2;
 import pa.interfaces.I2_4;
 import pa.interfaces.I2_5;
@@ -35,7 +34,7 @@ public class E14_PreliminaryExternalPerception extends clsModuleBase implements
 	HashMap<eSensorExtType, clsSensorExtern> moEnvironmentalData;
 	HashMap<eSensorExtType, clsSensorExtern> moBodyData;
 	
-	public ArrayList<clsThingPresentationMesh> moEnvironmentalTP;
+	public ArrayList<clsPrimaryInformation> moEnvironmentalTP;
 	ArrayList<clsAssociationContext<clsPrimaryInformation>> moAssociationContext;  
 
 	/**

@@ -11,8 +11,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import pa.datatypes.clsAssociationContext;
-import pa.datatypes.clsThingPresentation;
-import pa.datatypes.clsThingPresentationMesh;
+import pa.datatypes.clsPrimaryInformation;
+import pa.datatypes.clsPrimaryInformationMesh;
 import pa.datatypes.clsThingPresentationSingle;
 import decisionunit.itf.sensors.clsSensorExtern;
 import enums.eSensorExtType;
@@ -26,9 +26,9 @@ import enums.eSensorExtType;
  */
 public class clsTPGenerator {
 
-	public static ArrayList<clsThingPresentationMesh> convertSensorToTP(HashMap<eSensorExtType, clsSensorExtern> poSensorDataExt) {
+	public static ArrayList<clsPrimaryInformation> convertSensorToTP(HashMap<eSensorExtType, clsSensorExtern> poSensorDataExt) {
 		
-		ArrayList<clsThingPresentationMesh> oResult = new ArrayList<clsThingPresentationMesh>();
+		ArrayList<clsPrimaryInformation> oResult = new ArrayList<clsPrimaryInformation>();
 		
 		for( clsSensorExtern oSensorData : poSensorDataExt.values() ) {
 			
@@ -37,9 +37,7 @@ public class clsTPGenerator {
 				ArrayList<clsSensorExtern> oDataObjectList = oSensorData.getDataObjects();
 				for(clsSensorExtern oDataObject : oDataObjectList) {
 	
-					boolean oMesh = false;
-					boolean oSingle = false;
-					clsThingPresentationMesh oTPMesh = new clsThingPresentationMesh();
+					clsPrimaryInformationMesh oPrimMesh = new clsPrimaryInformationMesh(new clsThingPresentationSingle());
 					
 					String oMeshAttributeName = oDataObject.getMeshAttributeName();
 					if(oDataObject.isContainer()) {
@@ -48,25 +46,25 @@ public class clsTPGenerator {
 		
 							if( oField.getName().equals(oMeshAttributeName) ) { //this is the mesh-content
 								
-								oTPMesh.meContentName = oField.getName();
-								oTPMesh.meContentType = oField.getClass().getName();
+								oPrimMesh.moTP.meContentName = oField.getName();
+								oPrimMesh.moTP.meContentType = oField.getClass().getName();
 								try {
-									oTPMesh.moContent = oField.get(oDataObject);
+									oPrimMesh.moTP.moContent = oField.get(oDataObject);
 								} catch (IllegalArgumentException e) {
 									e.printStackTrace();
 								} catch (IllegalAccessException e) {
 									e.printStackTrace();
 								}
-								oResult.add(oTPMesh);
+								oResult.add(oPrimMesh);
 								
 							} else if(oField.getName().startsWith("m")) { //this is a connected TP-Single
 								//creating the thing presentation of the attribute 
-								clsThingPresentationSingle oTPSingle = new clsThingPresentationSingle();
+								clsPrimaryInformation oPrimSingle = new clsPrimaryInformation(new clsThingPresentationSingle());
 								
-								oTPSingle.meContentName = oField.getName();
-								oTPSingle.meContentType = oField.getClass().getName();
+								oPrimSingle.moTP.meContentName = oField.getName();
+								oPrimSingle.moTP.meContentType = oField.getClass().getName();
 								try {
-									oTPSingle.moContent = oField.get(oDataObject);
+									oPrimSingle.moTP.moContent = oField.get(oDataObject);
 								} catch (IllegalArgumentException e) {
 									e.printStackTrace();
 								} catch (IllegalAccessException e) {
@@ -74,38 +72,35 @@ public class clsTPGenerator {
 								}
 								
 								//creating the association between the mesh and the attribute
-								clsAssociationContext<clsThingPresentation> oAssoc = new clsAssociationContext<clsThingPresentation>();
-								oAssoc.moElementA = oTPMesh;
-								oAssoc.moElementB = oTPSingle;
+								clsAssociationContext<clsPrimaryInformation> oAssoc = new clsAssociationContext<clsPrimaryInformation>();
+								oAssoc.moElementA = oPrimMesh;
+								oAssoc.moElementB = oPrimSingle;
 								//storing the association in the mesh
-								oTPMesh.moAssociations.add(oAssoc);
-								oSingle = true;
+								oPrimMesh.moAssociations.add(oAssoc);
 							}
 						}
 					} 
 					else //no container - just create an empty mesh
 					{
 						//creating the thing presentation of the attribute 
-						clsThingPresentationSingle oTPSingle = new clsThingPresentationSingle();
+						clsPrimaryInformation oPrimSingle = new clsPrimaryInformation(new clsThingPresentationSingle());
 						
-						oTPMesh.meContentName = oDataObject.getMeshAttributeName();
+						oPrimSingle.moTP.meContentName = oDataObject.getMeshAttributeName();
 
 						try {
-							Field oField = oDataObject.getClass().getField(oTPMesh.meContentName);
-							oTPMesh.meContentType = oField.getClass().getName();
-							oTPMesh.moContent = oField.get(oDataObject);
+							Field oField = oDataObject.getClass().getField(oPrimSingle.moTP.meContentName);
+							oPrimSingle.moTP.meContentType = oField.getClass().getName();
+							oPrimSingle.moTP.moContent = oField.get(oDataObject);
 						} catch (IllegalArgumentException e) {
 							e.printStackTrace();
 						} catch (IllegalAccessException e) {
 							e.printStackTrace();
 						} catch (SecurityException e) {
-							// TODO (langr) - Auto-generated catch block
 							e.printStackTrace();
 						} catch (NoSuchFieldException e) {
-							// TODO (langr) - Auto-generated catch block
 							e.printStackTrace();
 						}
-						oResult.add(oTPMesh);
+						oResult.add(oPrimSingle);
 					}
 				}
 			}

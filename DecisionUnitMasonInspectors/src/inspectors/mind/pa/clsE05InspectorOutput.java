@@ -24,7 +24,7 @@ import org.jfree.chart.renderer.category.LayeredBarRenderer;
 import org.jfree.data.category.DefaultCategoryDataset;
 
 import pa.datatypes.clsPrimaryInformation;
-import pa.datatypes.clsThingPresentationMesh;
+import pa.datatypes.clsThingPresentationSingle;
 import pa.modules.E05_GenerationOfAffectsForDrives;
 
 import sim.display.GUIState;
@@ -85,7 +85,7 @@ public class clsE05InspectorOutput extends Inspector{
 		moDataset = new DefaultCategoryDataset();
 
 		for(clsPrimaryInformation oDriveTP : moE05AffectsForDrives.moDriveList ) {
-			moDataset.addValue( oDriveTP.moAffect.moValue.get(), "Drive", ((clsThingPresentationMesh)oDriveTP.moTP).moContent.toString()); 
+			moDataset.addValue( oDriveTP.moAffect.moValue.get(), "Drive", ((clsThingPresentationSingle)oDriveTP.moTP).moContent.toString()); 
 		}
 		
         JFreeChart oChartPanel = ChartFactory.createBarChart(
@@ -167,8 +167,8 @@ public class clsE05InspectorOutput extends Inspector{
 		
 		moDataset = new DefaultCategoryDataset();
 
-		for(clsPrimaryInformation oDriveTP : moE05AffectsForDrives.moDriveList ) {
-			moDataset.addValue( oDriveTP.moAffect.moValue.get(), "Drive", ((clsThingPresentationMesh)oDriveTP.moTP).moContent.toString()); 
+		for(clsPrimaryInformation oPrimInfo : moE05AffectsForDrives.moDriveList ) {
+			moDataset.addValue( oPrimInfo.moAffect.moValue.get(), "Drive", ((clsThingPresentationSingle)oPrimInfo.moTP).moContent.toString()); 
 		}
 		
 		moChartPanel.getChart().getCategoryPlot().setDataset(moDataset);

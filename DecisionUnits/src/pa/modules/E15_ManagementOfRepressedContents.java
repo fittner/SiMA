@@ -13,7 +13,6 @@ import config.clsBWProperties;
 import pa.datatypes.clsAffect;
 import pa.datatypes.clsPrimaryInformation;
 import pa.datatypes.clsThingPresentation;
-import pa.datatypes.clsThingPresentationMesh;
 import pa.interfaces.I2_5;
 import pa.interfaces.I2_6;
 import pa.interfaces.I4_1;
@@ -82,7 +81,7 @@ public class E15_ManagementOfRepressedContents extends clsModuleContainer implem
 	 * @see pa.interfaces.I2_5#receive_I2_5(int)
 	 */
 	@Override
-	public void receive_I2_5(ArrayList<clsThingPresentationMesh> poEnvironmentalTP) {
+	public void receive_I2_5(ArrayList<clsPrimaryInformation> poEnvironmentalTP) {
 		moE15_1_ManagementOfRepressedContents.receive_I2_5(poEnvironmentalTP);
 	}
 

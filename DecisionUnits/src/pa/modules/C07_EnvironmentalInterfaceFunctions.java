@@ -9,7 +9,7 @@ package pa.modules;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-import pa.datatypes.clsThingPresentationMesh;
+import pa.datatypes.clsPrimaryInformation;
 import pa.interfaces.I2_2;
 import pa.interfaces.I2_4;
 import pa.interfaces.I2_5;
@@ -119,7 +119,7 @@ public class C07_EnvironmentalInterfaceFunctions extends clsModuleContainer impl
 	 * @see pa.interfaces.I2_5#receive_I2_5(int)
 	 */
 	@Override
-	public void receive_I2_5(ArrayList<clsThingPresentationMesh> poEnvironmentalTP) {
+	public void receive_I2_5(ArrayList<clsPrimaryInformation> poEnvironmentalTP) {
 		((I2_5)moEnclosingContainer).receive_I2_5(poEnvironmentalTP);
 		
 	}

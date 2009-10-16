@@ -13,8 +13,8 @@ import java.util.List;
 import pa.datatypes.clsAffect;
 import pa.datatypes.clsAffectCandidate;
 import pa.datatypes.clsPrimaryInformation;
+import pa.datatypes.clsPrimaryInformationMesh;
 import pa.datatypes.clsThingPresentation;
-import pa.datatypes.clsThingPresentationMesh;
 import pa.interfaces.I1_2;
 import pa.interfaces.I1_4;
 import pa.interfaces.I1_5;
@@ -112,7 +112,7 @@ public class C02_Id extends clsModuleContainer implements
 	 * @see pa.interfaces.I1_4#receive_I1_4(int)
 	 */
 	@Override
-	public void receive_I1_4(ArrayList<clsPair<clsThingPresentationMesh, clsAffectCandidate>> poDriveCandidate) {
+	public void receive_I1_4(ArrayList<clsPair<clsPrimaryInformationMesh, clsAffectCandidate>> poDriveCandidate) {
 		moC06AffectGeneration.receive_I1_4(poDriveCandidate);
 		
 	}
@@ -164,7 +164,7 @@ public class C02_Id extends clsModuleContainer implements
 	 * @see pa.interfaces.I2_5#receive_I2_5(int)
 	 */
 	@Override
-	public void receive_I2_5(ArrayList<clsThingPresentationMesh> poEnvironmentalTP) {
+	public void receive_I2_5(ArrayList<clsPrimaryInformation> poEnvironmentalTP) {
 		moE15ManagementOfRepressedContents.receive_I2_5(poEnvironmentalTP);
 		
 	}

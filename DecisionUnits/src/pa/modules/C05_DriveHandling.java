@@ -10,7 +10,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import pa.datatypes.clsAffectCandidate;
-import pa.datatypes.clsThingPresentationMesh;
+import pa.datatypes.clsPrimaryInformationMesh;
 import pa.interfaces.I1_2;
 import pa.interfaces.I1_3;
 import pa.interfaces.I1_4;
@@ -91,7 +91,7 @@ public class C05_DriveHandling extends clsModuleContainer implements
 	 * @see pa.interfaces.I1_3#receive_I1_3(int)
 	 */
 	@Override
-	public void receive_I1_3(ArrayList<clsPair<clsThingPresentationMesh, clsAffectCandidate>> poDriveCandidate) {
+	public void receive_I1_3(ArrayList<clsPair<clsPrimaryInformationMesh, clsAffectCandidate>> poDriveCandidate) {
 		moE04FusionOfDrives.receive_I1_3(poDriveCandidate);
 		
 	}
@@ -104,7 +104,7 @@ public class C05_DriveHandling extends clsModuleContainer implements
 	 * @see pa.interfaces.I1_4#receive_I1_4(int)
 	 */
 	@Override
-	public void receive_I1_4(ArrayList<clsPair<clsThingPresentationMesh, clsAffectCandidate>> poDriveCandidate) {
+	public void receive_I1_4(ArrayList<clsPair<clsPrimaryInformationMesh, clsAffectCandidate>> poDriveCandidate) {
 		((I1_4)moEnclosingContainer).receive_I1_4(poDriveCandidate);
 		
 	}

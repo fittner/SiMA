@@ -9,7 +9,7 @@ package pa.modules;
 import java.util.ArrayList;
 
 import pa.datatypes.clsAffectCandidate;
-import pa.datatypes.clsThingPresentationMesh;
+import pa.datatypes.clsPrimaryInformationMesh;
 import pa.interfaces.I1_3;
 import pa.interfaces.I1_4;
 import pa.tools.clsPair;
@@ -24,7 +24,7 @@ import config.clsBWProperties;
  */
 public class E04_FusionOfDrives extends clsModuleBase implements I1_3 {
 
-	ArrayList<clsPair<clsThingPresentationMesh, clsAffectCandidate>> moDriveCandidate;
+	ArrayList<clsPair<clsPrimaryInformationMesh, clsAffectCandidate>> moDriveCandidate;
 	
 	/**
 	 * DOCUMENT (deutsch) - insert description 
@@ -91,7 +91,7 @@ public class E04_FusionOfDrives extends clsModuleBase implements I1_3 {
 	 */
 	@SuppressWarnings("unchecked")
 	@Override
-	public void receive_I1_3(ArrayList<clsPair<clsThingPresentationMesh, clsAffectCandidate>> poDriveCandidate) {
+	public void receive_I1_3(ArrayList<clsPair<clsPrimaryInformationMesh, clsAffectCandidate>> poDriveCandidate) {
 		//moDriveCandidate = (ArrayList<clsPair<clsThingPresentationMesh,		clsAffectCandidate>>)deepCopy(poDriveCandidate);
 		moDriveCandidate = poDriveCandidate;
 		
