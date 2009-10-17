@@ -8,7 +8,7 @@ package pa.modules;
 
 import java.util.ArrayList;
 
-import pa.datatypes.clsAffect;
+import pa.datatypes.clsAffectTension;
 import pa.datatypes.clsAffectCandidate;
 import pa.datatypes.clsPrimaryInformation;
 import pa.datatypes.clsPrimaryInformationMesh;
@@ -113,7 +113,7 @@ public class E05_GenerationOfAffectsForDrives extends clsModuleBase implements I
 		for( clsPair<clsPrimaryInformationMesh, clsAffectCandidate> oDriveCandidate : moDriveCandidate ) {
 
 			//finally create the affect in the primary-mesh using the affect candidate 
-			oDriveCandidate.a.moAffect = new clsAffect(oDriveCandidate.b);
+			oDriveCandidate.a.moAffect = new clsAffectTension(oDriveCandidate.b);
 			moDriveList.add(oDriveCandidate.a);
 		}
 	}

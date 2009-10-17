@@ -6,7 +6,10 @@
  */
 package pa.datatypes;
 
-import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
+
+import enums.pa.eContext;
 
 /**
  * DOCUMENT (langr) - insert description 
@@ -17,16 +20,16 @@ import java.util.ArrayList;
  */
 public class clsPsychicRepresentative implements Cloneable {
 
-	public ArrayList<Integer> meDriveContentCathegory = new ArrayList<Integer>(); //oral, anal, phallic or genital --> has to be predefined
+	public HashMap<eContext, clsDriveContentCathegories> meDriveContentCathegory = new HashMap<eContext, clsDriveContentCathegories>();
 	
 	@Override
 	public Object clone() throws CloneNotSupportedException {
         try {
         	clsPsychicRepresentative oClone = (clsPsychicRepresentative)super.clone();
         	
-        	oClone.meDriveContentCathegory = new ArrayList<Integer>();   	
-        	for (Integer oValue:meDriveContentCathegory) {
-        		oClone.meDriveContentCathegory.add(oValue);
+        	oClone.meDriveContentCathegory = new HashMap<eContext, clsDriveContentCathegories>();   	
+        	for (Map.Entry<eContext, clsDriveContentCathegories> oValue:meDriveContentCathegory.entrySet()) {
+        		oClone.meDriveContentCathegory.put(oValue.getKey(), oValue.getValue());
         	}
         	
         	return oClone;

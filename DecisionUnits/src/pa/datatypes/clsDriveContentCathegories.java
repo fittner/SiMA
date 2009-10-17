@@ -13,13 +13,13 @@ package pa.datatypes;
  * 28.09.2009, 16:52:49
  * 
  */
-public class clsLifeInstinctCathegories implements Cloneable {
+public class clsDriveContentCathegories implements Cloneable {
 	private double mrOral;
 	private double mrAnal;
 	private double mrGenital;
 	private double mrPhallic;
 	
-	public clsLifeInstinctCathegories(double prOral, double prAnal, double prGenital, double prPhallisch) {
+	public clsDriveContentCathegories(double prOral, double prAnal, double prGenital, double prPhallisch) {
 		setRatio(prOral, prAnal, prGenital, prPhallisch);
 	}
 	
@@ -69,7 +69,7 @@ public class clsLifeInstinctCathegories implements Cloneable {
 		return mrPhallic;
 	}
 	
-	public double distance(clsLifeInstinctCathegories poOther) {
+	public double distance(clsDriveContentCathegories poOther) {
 		double rResult = 0;
 		
 		double rDiOral = Math.abs(mrOral - poOther.mrOral);
@@ -94,7 +94,7 @@ public class clsLifeInstinctCathegories implements Cloneable {
 	@Override
 	public Object clone() throws CloneNotSupportedException {
         try {
-        	clsLifeInstinctCathegories oClone = (clsLifeInstinctCathegories)super.clone();
+        	clsDriveContentCathegories oClone = (clsDriveContentCathegories)super.clone();
 
         	return oClone;
         } catch (CloneNotSupportedException e) {

@@ -9,7 +9,7 @@ package pa.modules;
 import java.util.ArrayList;
 import java.util.List;
 
-import pa.datatypes.clsAffect;
+import pa.datatypes.clsAffectTension;
 import pa.datatypes.clsPrimaryInformation;
 import pa.datatypes.clsThingPresentation;
 import pa.interfaces.I1_5;
@@ -31,7 +31,7 @@ import config.clsBWProperties;
 public class E06_DefenseMechanismsForDriveContents extends clsModuleBase implements I1_5, I3_1, I4_3, I6_3 {
 	ArrayList<clsPrimaryInformation> moPrimaryInformation;
 	ArrayList<clsThingPresentation> moThingPresentations; 
-	ArrayList<clsAffect> moAffects;
+	ArrayList<clsAffectTension> moAffects;
 	
 	/**
 	 * DOCUMENT (deutsch) - insert description 
@@ -49,7 +49,7 @@ public class E06_DefenseMechanismsForDriveContents extends clsModuleBase impleme
 		
 		moPrimaryInformation = new ArrayList<clsPrimaryInformation>();
 		moThingPresentations = new ArrayList<clsThingPresentation>();
-		moAffects = new ArrayList<clsAffect>();
+		moAffects = new ArrayList<clsAffectTension>();
 		
 		applyProperties(poPrefix, poProp);		
 	}

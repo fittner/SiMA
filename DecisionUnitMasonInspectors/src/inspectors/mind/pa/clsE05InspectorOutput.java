@@ -85,7 +85,7 @@ public class clsE05InspectorOutput extends Inspector{
 		moDataset = new DefaultCategoryDataset();
 
 		for(clsPrimaryInformation oDriveTP : moE05AffectsForDrives.moDriveList ) {
-			moDataset.addValue( oDriveTP.moAffect.moValue.get(), "Drive", ((clsThingPresentationSingle)oDriveTP.moTP).moContent.toString()); 
+			moDataset.addValue( oDriveTP.moAffect.getValue(), "Drive", ((clsThingPresentationSingle)oDriveTP.moTP).moContent.toString()); 
 		}
 		
         JFreeChart oChartPanel = ChartFactory.createBarChart(
@@ -168,7 +168,7 @@ public class clsE05InspectorOutput extends Inspector{
 		moDataset = new DefaultCategoryDataset();
 
 		for(clsPrimaryInformation oPrimInfo : moE05AffectsForDrives.moDriveList ) {
-			moDataset.addValue( oPrimInfo.moAffect.moValue.get(), "Drive", ((clsThingPresentationSingle)oPrimInfo.moTP).moContent.toString()); 
+			moDataset.addValue( oPrimInfo.moAffect.getValue(), "Drive", ((clsThingPresentationSingle)oPrimInfo.moTP).moContent.toString()); 
 		}
 		
 		moChartPanel.getChart().getCategoryPlot().setDataset(moDataset);

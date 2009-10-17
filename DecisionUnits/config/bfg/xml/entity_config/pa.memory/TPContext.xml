@@ -9,24 +9,40 @@
 			<Context type="BREATH"  weight="0" pleasure="0.0"/>
 			<Context type="HEALTH"  weight="0" pleasure="0.0"/>
 			<Context type="AGGRESSION" weight="0" pleasure="0.0"/>
+			<Context type="SEXUAL_AROUSAL" weight="0" pleasure="0.0"/>
 		</ContextList>
+		<DriveContentList>
+			<DriveContent context="SEXUAL_AROUSAL" oral="0" anal="0" phallic="0.7" genital="0.3">
+		</DriveContentList>
 	</TPMesh>
 	<TPMesh name="CAKE">
 		<Description> Definition of associated context</Description>
 		<ContextList>
 			<Context type ="EAT"  		weight="0.9" pleasure="0.8"/>
-			<Context type ="EAT" 		weight="0.1" pleasure="-0.1"/>
-			<Context type ="EXCRETE"	weight="0" pleasure="0.0"/>
+			<Context type ="EXCRETE"	weight="0.1" pleasure="-0.1"/>
 			<Context type ="SLEEP"  	weight="0" pleasure="0.0"/>
 			<Context type ="BREATH"   	weight="0" pleasure="0.0"/>
 			<Context type ="HEALTH"   	weight="0" pleasure="0.0"/>
 			<Context type ="AGGRESSION" weight="0" pleasure="0.0"/>
-		</ContextList>		
+			<Context type="SEXUAL_AROUSAL" weight="0" pleasure="0.0"/>
+		</ContextList>	
+		<DriveContentList>
+			<DriveContent context="EAT" oral="1" anal="0" phallic="0" genital="0">
+		</DriveContentList>	
 	</TPMesh>
 	<TPMesh name="BUBBLE">
 		<Description> Definition of the associated context</Description>
+		<DriveContentList>
+			<DriveContent context="EAT" oral="0.2" anal="0" phallic="0.4" genital="0.4">
+			<DriveContent context="AGGRESSION" oral="0" anal="0" phallic="0.8" genital="0.4">
+			<DriveContent context="SEXUAL_AROUSAL" oral="0" anal="0" phallic="0.2" genital="0.8">
+		</DriveContentList>	
 	</TPMesh>
 	<TPMesh name="REMOTEBOT">
 		<Description> Definition of associated context</Description>
+		<DriveContentList>
+			<DriveContent context="EAT" oral="1" anal="0" phallic="0" genital="0">
+			<DriveContent context="AGGRESSION" oral="0" anal="0" phallic="1" genital="0">
+		</DriveContentList>	
 	</TPMesh>
 </TPContext>

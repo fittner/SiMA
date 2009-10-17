@@ -35,9 +35,15 @@ public class clsMemory implements
 	{
 	
 	public static final String P_REPRESSEDCONTENTSSTORAGE = "repressedcontentsstorage";
+	public static final String P_OBJECTSEMANTICSTORAGE = "objectsemanticstorage";
 	public static final String P_CURRENTCONTEXT = "currentcontext";
 	
-	public clsRepressedContentsStorage moRepressedContentsStore;
+	//repressed content accummulated during the development of the young bubble (these are the init-values)
+	public clsRepressedContentStorage moRepressedContentsStore;
+	//mapping between 'real-world'-entities and other things - e.g. the driveContentCathegory
+	public clsObjectSemanticsStorage moObjectSemanticsStorage;
+	
+	// ???
 	public clsCurrentContextStorage moCurrentContextStorage;
 	
 	
@@ -56,8 +62,9 @@ public class clsMemory implements
     private void applyProperties(String poPrefix, clsBWProperties poProp){		
 		String pre = clsBWProperties.addDot(poPrefix);
     	 
-		moRepressedContentsStore = new clsRepressedContentsStorage(pre+P_REPRESSEDCONTENTSSTORAGE, poProp);	
+		moRepressedContentsStore = new clsRepressedContentStorage(pre+P_REPRESSEDCONTENTSSTORAGE, poProp);	
 		moCurrentContextStorage  = new clsCurrentContextStorage(pre+P_CURRENTCONTEXT, poProp);
+		moObjectSemanticsStorage  = new clsObjectSemanticsStorage(pre+P_OBJECTSEMANTICSTORAGE, poProp);
 	}	
     
     public static clsBWProperties getDefaultProperties(String poPrefix) {
@@ -65,8 +72,9 @@ public class clsMemory implements
     	
     	clsBWProperties oProp = new clsBWProperties();
 		
-		oProp.putAll(clsRepressedContentsStorage.getDefaultProperties(pre+P_REPRESSEDCONTENTSSTORAGE) );
+		oProp.putAll(clsRepressedContentStorage.getDefaultProperties(pre+P_REPRESSEDCONTENTSSTORAGE) );
 		oProp.putAll(clsCurrentContextStorage.getDefaultProperties(pre+P_CURRENTCONTEXT) );		
+		oProp.putAll(clsObjectSemanticsStorage.getDefaultProperties(pre+P_OBJECTSEMANTICSTORAGE) );		
 		
 		return oProp;
     }

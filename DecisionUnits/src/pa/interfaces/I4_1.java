@@ -8,7 +8,7 @@ package pa.interfaces;
 
 import java.util.List;
 
-import pa.datatypes.clsAffect;
+import pa.datatypes.clsAffectTension;
 import pa.datatypes.clsPrimaryInformation;
 import pa.datatypes.clsThingPresentation;
 
@@ -20,5 +20,5 @@ import pa.datatypes.clsThingPresentation;
  * 
  */
 public interface I4_1 {
-	public void receive_I4_1(List<clsPrimaryInformation> poPIs, List<clsThingPresentation> poTPs, List<clsAffect> poAffects);
+	public void receive_I4_1(List<clsPrimaryInformation> poPIs, List<clsThingPresentation> poTPs, List<clsAffectTension> poAffects);
 }

@@ -6,6 +6,10 @@
  */
 package pa.memory;
 
+import java.util.ArrayList;
+
+import pa.datatypes.clsPrimaryInformation;
+import pa.loader.clsRepressedContentLoader;
 import config.clsBWProperties;
 
 /**
@@ -15,12 +19,15 @@ import config.clsBWProperties;
  * 07.10.2009, 12:39:50
  * 
  */
-public class clsRepressedContentsStorage {
-	public clsRepressedContentsStorage(String poPrefix, clsBWProperties poProp) {
+public class clsRepressedContentStorage {
+	
+	public ArrayList<clsPrimaryInformation> moRepressedContent;
+	
+	public clsRepressedContentStorage(String poPrefix, clsBWProperties poProp) {
 		
 		applyProperties(poPrefix, poProp);
+		moRepressedContent = clsRepressedContentLoader.createRepressedList("1", "PSY_10");
     }
-    
     
     private void applyProperties(String poPrefix, clsBWProperties poProp){		
 //		String pre = clsBWProperties.addDot(poPrefix);

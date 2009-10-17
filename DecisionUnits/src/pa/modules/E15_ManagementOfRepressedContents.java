@@ -10,7 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import config.clsBWProperties;
-import pa.datatypes.clsAffect;
+import pa.datatypes.clsAffectTension;
 import pa.datatypes.clsPrimaryInformation;
 import pa.datatypes.clsThingPresentation;
 import pa.interfaces.I2_5;
@@ -94,7 +94,7 @@ public class E15_ManagementOfRepressedContents extends clsModuleContainer implem
 	 * @see pa.interfaces.I4_1#receive_I4_1(int)
 	 */
 	@Override
-	public void receive_I4_1(List<clsPrimaryInformation> poPIs, List<clsThingPresentation> poTPs, List<clsAffect> poAffects) {
+	public void receive_I4_1(List<clsPrimaryInformation> poPIs, List<clsThingPresentation> poTPs, List<clsAffectTension> poAffects) {
 		moE15_2_ManagementOfRepressedContents.receive_I4_1(poPIs, poTPs, poAffects);
 	}
 

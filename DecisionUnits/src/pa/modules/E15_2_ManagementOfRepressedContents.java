@@ -10,7 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import config.clsBWProperties;
-import pa.datatypes.clsAffect;
+import pa.datatypes.clsAffectTension;
 import pa.datatypes.clsPrimaryInformation;
 import pa.datatypes.clsThingPresentation;
 import pa.interfaces.I4_1;
@@ -70,7 +70,7 @@ public class E15_2_ManagementOfRepressedContents extends clsModuleBase implement
 	 * @see pa.interfaces.I4_1#receive_I4_1(int)
 	 */
 	@Override
-	public void receive_I4_1(List<clsPrimaryInformation> poPIs, List<clsThingPresentation> poTPs, List<clsAffect> poAffects) {
+	public void receive_I4_1(List<clsPrimaryInformation> poPIs, List<clsThingPresentation> poTPs, List<clsAffectTension> poAffects) {
 		if (poTPs.size() > 0) {
 			throw new java.lang.IllegalArgumentException("thing presentations without attached affect not supported, currently.");
 		}

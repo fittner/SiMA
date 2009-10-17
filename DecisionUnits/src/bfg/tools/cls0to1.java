@@ -35,7 +35,8 @@ public class cls0to1 extends clsCloneable implements Serializable {
   }  
   
   public cls0to1(Double prValue) {
-	  new cls0to1(prValue.doubleValue());
+	  set(prValue.doubleValue());
+	  //line above was former: "new cls0to1(prValue.doubleValue());" -- (langr) changed it
   }
  
   public double set(cls0to1 poValue) {

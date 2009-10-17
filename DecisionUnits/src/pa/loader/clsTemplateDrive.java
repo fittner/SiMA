@@ -11,7 +11,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import pa.datatypes.clsDriveObject;
-import pa.datatypes.clsLifeInstinctCathegories;
+import pa.datatypes.clsDriveContentCathegories;
 
 import enums.pa.eContext;
 import enums.pa.eDriveContent;
@@ -31,7 +31,7 @@ public class clsTemplateDrive {
 	public eDriveContent meDriveContent;
 	
 	public ArrayList<clsAffectCandidateDefinition> moAffectCandidate = new ArrayList<clsAffectCandidateDefinition>();
-	public HashMap<eContext, clsLifeInstinctCathegories> moLifeInstinctRatio = new HashMap<eContext, clsLifeInstinctCathegories>();
+	public HashMap<eContext, clsDriveContentCathegories> moDriveCintentRatio = new HashMap<eContext, clsDriveContentCathegories>();
 	public ArrayList<clsDriveObject> moDriveObjects = new ArrayList<clsDriveObject>();
 	
 	public String logHTML() {
@@ -51,7 +51,7 @@ public class clsTemplateDrive {
 
 		oLogStream += "<table>";
 		oLogStream += "<thead><tr align=\"center\"><th>Context</th><th>Anal</th><th>Genital</th><th>Oral</th><th>Phallic</th></tr></thead>";
-		for( Map.Entry<eContext, clsLifeInstinctCathegories> oIR : moLifeInstinctRatio.entrySet()) {
+		for( Map.Entry<eContext, clsDriveContentCathegories> oIR : moDriveCintentRatio.entrySet()) {
 			oLogStream += "<tr><td>";
 			oLogStream += oIR.getKey() + "</td><td>" + oIR.getValue().getAnal() + "</td><td>" + oIR.getValue().getGenital() + "</td><td>" + oIR.getValue().getOral() + "</td><td>" + oIR.getValue().getPhallic();
 			oLogStream += "</td></tr>";

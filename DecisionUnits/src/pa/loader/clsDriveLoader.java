@@ -21,7 +21,7 @@ import bfg.tools.xmltools.clsXMLAbstractImageReader;
 import bfg.tools.xmltools.clsXMLConfiguration;
 
 import pa.datatypes.clsDriveObject;
-import pa.datatypes.clsLifeInstinctCathegories;
+import pa.datatypes.clsDriveContentCathegories;
 
 /**
  * DOCUMENT (langr) - insert description 
@@ -159,7 +159,7 @@ public class clsDriveLoader {
 			for(Node oNode : oNodes)                       
 			{
 				NamedNodeMap oAtrib = oNode.getAttributes();
-				clsLifeInstinctCathegories oRatio = new clsLifeInstinctCathegories(
+				clsDriveContentCathegories oRatio = new clsDriveContentCathegories(
 						Double.parseDouble( clsXMLAbstractImageReader.getAtributeValue(oAtrib,"oral")),
 						Double.parseDouble( clsXMLAbstractImageReader.getAtributeValue(oAtrib,"anal")),
 						Double.parseDouble( clsXMLAbstractImageReader.getAtributeValue(oAtrib,"phallic")),
@@ -167,7 +167,7 @@ public class clsDriveLoader {
 						);
 				
 				eContext eCurrentCont = eContext.valueOf( clsXMLAbstractImageReader.getAtributeValue(oAtrib,"context") );
-				poDrive.moLifeInstinctRatio.put(eCurrentCont, oRatio);
+				poDrive.moDriveCintentRatio.put(eCurrentCont, oRatio);
 			}
 		}
 	}

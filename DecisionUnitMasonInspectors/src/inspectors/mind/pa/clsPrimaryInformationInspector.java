@@ -36,7 +36,7 @@ import com.jgraph.layout.JGraphFacade;
 import com.jgraph.layout.JGraphModelFacade;
 import com.jgraph.layout.tree.JGraphCompactTreeLayout;
 
-import pa.datatypes.clsAffect;
+import pa.datatypes.clsAffectTension;
 import pa.datatypes.clsAssociationContext;
 import pa.datatypes.clsPrimaryInformation;
 import pa.datatypes.clsPrimaryInformationMesh;
@@ -249,11 +249,11 @@ public class clsPrimaryInformationInspector  extends Inspector implements Action
 
 		if(prim instanceof clsPrimaryInformationMesh) {
 			DefaultGraphCell oCell = readMesh(poCellList, poParent, (clsPrimaryInformationMesh)prim, poAssociationName);
-			readAffect(poCellList, oCell, prim.moAffect, "affect_assoc");
+			readAffect(poCellList, oCell, (clsAffectTension)prim.moAffect, "affect_assoc");
 		}
 		else if(prim instanceof clsPrimaryInformation) {
 			DefaultGraphCell oCell = readSingle(poCellList, poParent, (clsPrimaryInformation)prim, poAssociationName);
-			readAffect(poCellList, oCell, prim.moAffect, "affect_assoc");
+			readAffect(poCellList, oCell, (clsAffectTension)prim.moAffect, "affect_assoc");
 		}
 	}
 
@@ -341,7 +341,7 @@ public class clsPrimaryInformationInspector  extends Inspector implements Action
 	 * @param poAssociationName
 	 */
 	private DefaultGraphCell readAffect(ArrayList<DefaultGraphCell> poCellList,
-			DefaultGraphCell poParent, clsAffect poAffect, String poAssociationName) {
+			DefaultGraphCell poParent, clsAffectTension poAffect, String poAssociationName) {
 
 		DefaultGraphCell oCurrentVertex = null;
 		
