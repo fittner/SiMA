@@ -54,7 +54,7 @@ public class clsObjectSemanticsLoader {
 	
 					clsPrimaryInformation oSem = createSemanticsList( oDriveNode );
 					if(oRetVal.containsKey(oSem.moTP.moContent)) { //if already exist --> add the driveContentCathegories
-						oRetVal.get(oSem.moTP.moContent).moTP.meDriveContentCathegory.putAll(oSem.moTP.meDriveContentCathegory);
+						oRetVal.get(oSem.moTP.moContent).moTP.moDriveContentCathegory.putAll(oSem.moTP.moDriveContentCathegory);
 					}
 					else {	//add a new primary information
 						oRetVal.put((eEntityType)oSem.moTP.moContent, oSem);

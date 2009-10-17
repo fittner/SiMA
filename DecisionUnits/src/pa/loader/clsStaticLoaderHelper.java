@@ -40,7 +40,7 @@ public class clsStaticLoaderHelper {
 				);
 		
 		eContext eCurrentCont = eContext.valueOf( clsXMLAbstractImageReader.getAtributeValue(oAtrib,"context") );
-		oRetVal.moTP.meDriveContentCathegory.put(eCurrentCont, oRatio);
+		oRetVal.moTP.moDriveContentCathegory.put(eCurrentCont, oRatio);
 		
 		oRetVal.moAffect = new clsAffectMemory(
 				Double.parseDouble( clsXMLAbstractImageReader.getAtributeValue(oAtrib,"affect_memory")));
@@ -72,7 +72,7 @@ public class clsStaticLoaderHelper {
 					);
 			
 			eContext eCurrentCont = eContext.valueOf( clsXMLAbstractImageReader.getAtributeValue(oAtrib,"context") );
-			oRetVal.moTP.meDriveContentCathegory.put(eCurrentCont, oRatio);
+			oRetVal.moTP.moDriveContentCathegory.put(eCurrentCont, oRatio);
 		}
 		
 		return oRetVal;

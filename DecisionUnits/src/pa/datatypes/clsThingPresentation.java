@@ -22,8 +22,8 @@ import pa.interfaces.itfPrimaryProcessComparabelTP;
  */
 public class clsThingPresentation extends clsPsychicRepresentative implements itfPrimaryProcessComparabelTP, Cloneable {
 
-	public HashMap<eContext, clsDriveContentCathegories> moLifeInstinctCathegories = null;
-	
+	public HashMap<eContext, clsDriveContentCathegories> moDriveContentCathegory = new HashMap<eContext, clsDriveContentCathegories>();
+
 	/* (non-Javadoc)
 	 *
 	 * @author langr
@@ -42,11 +42,9 @@ public class clsThingPresentation extends clsPsychicRepresentative implements it
         try {
         	clsThingPresentation oClone = (clsThingPresentation)super.clone();
         	
-        	if (moLifeInstinctCathegories != null) { 
-        		oClone.moLifeInstinctCathegories = new HashMap<eContext, clsDriveContentCathegories>();   	
-        		for (Map.Entry<eContext, clsDriveContentCathegories> oValue:moLifeInstinctCathegories.entrySet()) {
-        			oClone.moLifeInstinctCathegories.put(oValue.getKey(), (clsDriveContentCathegories) (oValue.getValue()).clone());
-        		}
+        	oClone.moDriveContentCathegory = new HashMap<eContext, clsDriveContentCathegories>();   	
+        	for (Map.Entry<eContext, clsDriveContentCathegories> oValue:moDriveContentCathegory.entrySet()) {
+        		oClone.moDriveContentCathegory.put(oValue.getKey(), oValue.getValue());
         	}
         	
         	return oClone;
@@ -59,7 +57,7 @@ public class clsThingPresentation extends clsPsychicRepresentative implements it
 	public String toString() {
 		String oResult = "::TP:: LIC: ";
 	
-		for (Map.Entry<eContext, clsDriveContentCathegories> entry:moLifeInstinctCathegories.entrySet()) {
+		for (Map.Entry<eContext, clsDriveContentCathegories> entry:moDriveContentCathegory.entrySet()) {
 			oResult += entry.getKey().name()+" ("+entry.getValue()+") / ";
 		}
 		

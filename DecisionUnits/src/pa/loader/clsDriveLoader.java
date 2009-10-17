@@ -167,7 +167,7 @@ public class clsDriveLoader {
 						);
 				
 				eContext eCurrentCont = eContext.valueOf( clsXMLAbstractImageReader.getAtributeValue(oAtrib,"context") );
-				poDrive.moDriveCintentRatio.put(eCurrentCont, oRatio);
+				poDrive.moDriveContentRatio.put(eCurrentCont, oRatio);
 			}
 		}
 	}

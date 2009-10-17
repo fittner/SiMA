@@ -286,7 +286,7 @@ public class clsPrimaryInformationInspector  extends Inspector implements Action
 			for( clsAssociationContext<clsPrimaryInformation> oChildAssoc :  poPrimMesh.moAssociations) {
 
 				String oName = ""; //the edge will get the name of the association context
-				if(oChildAssoc.moAssociationContext != null && oChildAssoc.moAssociationContext.meDriveContentCathegory != null) {
+				if(oChildAssoc.moAssociationContext != null) {
 					oName+=oChildAssoc.moAssociationContext.toGraphDisplayString();	
 				}
 				
