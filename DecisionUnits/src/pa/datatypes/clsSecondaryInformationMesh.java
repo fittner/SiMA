@@ -15,14 +15,14 @@ import java.util.ArrayList;
  * 09.09.2009, 17:00:29
  * 
  */
-public class clsSecondaryWithAssoziations implements Cloneable {
+public class clsSecondaryInformationMesh implements Cloneable {
 	public clsSecondaryInformation moSecondaryInformation;
 	public ArrayList<clsAssoziationSecondary> moAssoziations;
 	
 	@Override
 	public Object clone() throws CloneNotSupportedException {
         try {
-        	clsSecondaryWithAssoziations oClone = (clsSecondaryWithAssoziations)super.clone();
+        	clsSecondaryInformationMesh oClone = (clsSecondaryInformationMesh)super.clone();
         	oClone.moSecondaryInformation = (clsSecondaryInformation)moSecondaryInformation.clone();
         	
         	oClone.moAssoziations = new ArrayList<clsAssoziationSecondary>();   	

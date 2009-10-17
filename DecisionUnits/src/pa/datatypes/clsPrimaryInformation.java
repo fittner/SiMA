@@ -25,6 +25,10 @@ public class clsPrimaryInformation extends clsPsychicRepresentative implements i
 		moTP = poSingle;
 		moAffect = null;
 	}
+	public clsPrimaryInformation(clsThingPresentationSingle poSingle, clsAffect poAffect) {
+		moTP = poSingle;
+		moAffect = poAffect;
+	}
 	/* (non-Javadoc)
 	 *
 	 * @author langr

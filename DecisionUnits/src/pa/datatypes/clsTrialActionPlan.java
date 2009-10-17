@@ -26,7 +26,7 @@ public class clsTrialActionPlan extends clsSecondaryInformation implements Clone
 	 * @param poAffect
 	 */
 	public clsTrialActionPlan(clsWordPresentation poWP,
-			clsThingPresentation poTP, clsAffect poAffect) {
+			clsThingPresentationSingle poTP, clsAffect poAffect) {
 		super(poWP, poTP, poAffect);
 		// TODO (langr) - Auto-generated constructor stub
 	}
