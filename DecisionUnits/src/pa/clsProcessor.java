@@ -32,7 +32,7 @@ import pa.modules.E13_NeuroSymbolsBody;
 import pa.modules.E14_PreliminaryExternalPerception;
 import pa.modules.E15_1_ManagementOfRepressedContents;
 import pa.modules.E15_2_ManagementOfRepressedContents;
-import pa.modules.E16_ManagmentOfMemoryTraces;
+import pa.modules.E16_ManagementOfMemoryTraces;
 import pa.modules.E17_FusionOfExternalPerceptionAndMemoryTraces;
 import pa.modules.E18_GenerationOfAffectsForPerception;
 import pa.modules.E19_DefenseMechanismsForPerception;
@@ -78,7 +78,7 @@ public class clsProcessor {
 	private E14_PreliminaryExternalPerception moE14PreliminaryExternalPerception;
 	private E15_1_ManagementOfRepressedContents moE15_1_ManagementOfRepressedContents;
 	private E15_2_ManagementOfRepressedContents moE15_2_ManagementOfRepressedContents;	
-	private E16_ManagmentOfMemoryTraces moE16ManagmentOfMemoryTraces;
+	private E16_ManagementOfMemoryTraces moE16ManagementOfMemoryTraces;
 	private E17_FusionOfExternalPerceptionAndMemoryTraces moE17FusionOfExternalPerceptionAndMemoryTraces;
 	private E18_GenerationOfAffectsForPerception moE18GenerationOfAffectsForPerception;
 	private E19_DefenseMechanismsForPerception moE19DefenseMechanismsForPerception;
@@ -135,7 +135,7 @@ public class clsProcessor {
 		moE14PreliminaryExternalPerception = moPsychicApparatus.moC03Ego.moC07EnvironmentalInterfaceFunctions.moE14PreliminaryExternalPerception;
 		moE15_1_ManagementOfRepressedContents = moPsychicApparatus.moC02Id.moE15ManagementOfRepressedContents.moE15_1_ManagementOfRepressedContents;
 		moE15_2_ManagementOfRepressedContents = moPsychicApparatus.moC02Id.moE15ManagementOfRepressedContents.moE15_2_ManagementOfRepressedContents;
-		moE16ManagmentOfMemoryTraces = moPsychicApparatus.moC03Ego.moC08PsychicMediator.moC09PrimaryProcessor.moC14PrimaryKnowledgeUtilizer.moE16ManagmentOfMemoryTraces;
+		moE16ManagementOfMemoryTraces = moPsychicApparatus.moC03Ego.moC08PsychicMediator.moC09PrimaryProcessor.moC14PrimaryKnowledgeUtilizer.moE16ManagementOfMemoryTraces;
 		moE17FusionOfExternalPerceptionAndMemoryTraces = moPsychicApparatus.moC03Ego.moC08PsychicMediator.moC09PrimaryProcessor.moE17FusionOfExternalPerceptionAndMemoryTraces;
 		moE18GenerationOfAffectsForPerception = moPsychicApparatus.moC02Id.moC06AffectGeneration.moE18GenerationOfAffectsForPerception;
 		moE19DefenseMechanismsForPerception = moPsychicApparatus.moC03Ego.moC08PsychicMediator.moC09PrimaryProcessor.moC13PrimaryDecision.moE19DefenseMechanismsForPerception;
@@ -268,7 +268,7 @@ public class clsProcessor {
 		moE14PreliminaryExternalPerception.step();
 		moE15_1_ManagementOfRepressedContents.step();
 		moE15_2_ManagementOfRepressedContents.step();
-		moE16ManagmentOfMemoryTraces.step();
+		moE16ManagementOfMemoryTraces.step();
 		moE17FusionOfExternalPerceptionAndMemoryTraces.step();
 		moE18GenerationOfAffectsForPerception.step();
 

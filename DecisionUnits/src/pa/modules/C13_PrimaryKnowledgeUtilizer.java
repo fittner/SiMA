@@ -34,7 +34,7 @@ public class C13_PrimaryKnowledgeUtilizer extends clsModuleContainer implements
 	public static final String P_E16 = "E16";
 	
 	public E09_KnowledgeAboutReality_unconscious moE09KnowledgeAboutReality_unconscious;
-	public E16_ManagmentOfMemoryTraces moE16ManagmentOfMemoryTraces;
+	public E16_ManagementOfMemoryTraces moE16ManagementOfMemoryTraces;
 
 	/**
 	 * DOCUMENT (deutsch) - insert description 
@@ -58,7 +58,7 @@ public class C13_PrimaryKnowledgeUtilizer extends clsModuleContainer implements
 		clsBWProperties oProp = new clsBWProperties();
 		
 		oProp.putAll( E09_KnowledgeAboutReality_unconscious.getDefaultProperties(pre+P_E09) );
-		oProp.putAll( E16_ManagmentOfMemoryTraces.getDefaultProperties(pre+P_E16) );
+		oProp.putAll( E16_ManagementOfMemoryTraces.getDefaultProperties(pre+P_E16) );
 				
 		return oProp;
 	}
@@ -67,7 +67,7 @@ public class C13_PrimaryKnowledgeUtilizer extends clsModuleContainer implements
 		String pre = clsBWProperties.addDot(poPrefix);
 	
 		moE09KnowledgeAboutReality_unconscious = new E09_KnowledgeAboutReality_unconscious(pre+P_E09, poProp, this);
-		moE16ManagmentOfMemoryTraces = new E16_ManagmentOfMemoryTraces(pre+P_E16, poProp, this);
+		moE16ManagementOfMemoryTraces = new E16_ManagementOfMemoryTraces(pre+P_E16, poProp, this);
 	}
 
 	/* (non-Javadoc)
@@ -79,7 +79,7 @@ public class C13_PrimaryKnowledgeUtilizer extends clsModuleContainer implements
 	 */
 	@Override
 	public void receive_I2_6(int pnData) {
-		moE16ManagmentOfMemoryTraces.receive_I2_6(pnData);
+		moE16ManagementOfMemoryTraces.receive_I2_6(pnData);
 	}
 
 	/* (non-Javadoc)
