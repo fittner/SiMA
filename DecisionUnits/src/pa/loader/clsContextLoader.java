@@ -101,11 +101,14 @@ public class clsContextLoader {
 				NamedNodeMap oAtrib = element.getAttributes();
 				oContextName = clsXMLContextReader.getAttributeValue(oAtrib, "type");
 				oContextType = clsXMLContextReader.getAttributeValue(oAtrib, "type"); 
-				oContextContent = Double.parseDouble(clsXMLContextReader.getAttributeValue(oAtrib, "pleasure"));
+				oContextContent = Double.parseDouble(clsXMLContextReader.getAttributeValue(oAtrib, "affect_memory="));
 				
 				oContext.moAssociationContext = new clsThingPresentationSingle(oContextName, oContextType,oContextContent); 
 				oContext.moWeight = Double.parseDouble(clsXMLContextReader.getAttributeValue(oAtrib, "weight"));
-				poRetVal.add(oContext); 
+				
+				if(oContext.moWeight>0){
+					poRetVal.add(oContext); 
+				}
 	  	  	}
 		}catch(Exception e){
 			System.out.println("Wrong data type is present");
