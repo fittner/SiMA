@@ -22,12 +22,12 @@ import enums.eEntityType;
  */
 public class clsObjectSemanticsStorage {
 	
-	public HashMap<eEntityType, clsPrimaryInformation> moRepressedContent;
+	public HashMap<eEntityType, clsPrimaryInformation> moObjectSemantics;
 	
 	public clsObjectSemanticsStorage(String poPrefix, clsBWProperties poProp) {
 		
 		applyProperties(poPrefix, poProp);
-		moRepressedContent = clsObjectSemanticsLoader.createSemanticsList("1", "PSY_10");
+		moObjectSemantics = clsObjectSemanticsLoader.createSemanticsList("1", "PSY_10");
     }
     
     

@@ -20,9 +20,9 @@ public class clsSecondaryInformation extends clsPrimaryInformation implements it
 
 	public clsWordPresentation moWP;
 	
-	public clsSecondaryInformation(clsWordPresentation poWP, clsThingPresentationSingle poTP, clsAffectTension poAffect) {
+	public clsSecondaryInformation(clsWordPresentation poWP, clsThingPresentationSingle poTP, clsAffect poAffect) {
 		super(poTP, poAffect);
-		moAffect = poAffect;
+		moWP = poWP;
 	}
 	
 	/* (non-Javadoc)

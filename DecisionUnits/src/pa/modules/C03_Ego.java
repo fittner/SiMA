@@ -30,6 +30,7 @@ import pa.interfaces.I4_2;
 import pa.interfaces.I4_3;
 import pa.interfaces.I7_4;
 import pa.memory.clsMemory;
+import pa.tools.clsPair;
 import pa.interfaces.I8_1;
 import config.clsBWProperties;
 import decisionunit.itf.sensors.clsSensorExtern;
@@ -183,8 +184,8 @@ public class C03_Ego extends clsModuleContainer implements
 	 * @see pa.interfaces.I2_6#receive_I2_6(int)
 	 */
 	@Override
-	public void receive_I2_6(int pnData) {
-		moC08PsychicMediator.receive_I2_6(pnData);
+	public void receive_I2_6(ArrayList<clsPair<clsPrimaryInformation, clsPrimaryInformation>> poPerceptPlusRepressed) {
+		moC08PsychicMediator.receive_I2_6(poPerceptPlusRepressed);
 	}
 
 	/* (non-Javadoc)

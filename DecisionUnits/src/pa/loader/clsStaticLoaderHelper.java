@@ -15,7 +15,7 @@ import bfg.tools.xmltools.clsXMLAbstractImageReader;
 import enums.pa.eContext;
 
 import pa.datatypes.clsAffectMemory;
-import pa.datatypes.clsDriveContentCathegories;
+import pa.datatypes.clsDriveContentCategories;
 import pa.datatypes.clsPrimaryInformation;
 
 /**
@@ -32,7 +32,7 @@ public class clsStaticLoaderHelper {
 		clsPrimaryInformation oRetVal = new clsPrimaryInformation();
 		NamedNodeMap oAtrib = primaryNode.getAttributes();
 		
-		clsDriveContentCathegories oRatio = new clsDriveContentCathegories(
+		clsDriveContentCategories oRatio = new clsDriveContentCategories(
 				Double.parseDouble( clsXMLAbstractImageReader.getAtributeValue(oAtrib,"oral")),
 				Double.parseDouble( clsXMLAbstractImageReader.getAtributeValue(oAtrib,"anal")),
 				Double.parseDouble( clsXMLAbstractImageReader.getAtributeValue(oAtrib,"phallic")),
@@ -40,7 +40,7 @@ public class clsStaticLoaderHelper {
 				);
 		
 		eContext eCurrentCont = eContext.valueOf( clsXMLAbstractImageReader.getAtributeValue(oAtrib,"context") );
-		oRetVal.moTP.moDriveContentCathegory.put(eCurrentCont, oRatio);
+		oRetVal.moTP.moDriveContentCategory.put(eCurrentCont, oRatio);
 		
 		oRetVal.moAffect = new clsAffectMemory(
 				Double.parseDouble( clsXMLAbstractImageReader.getAtributeValue(oAtrib,"affect_memory")));
@@ -62,9 +62,10 @@ public class clsStaticLoaderHelper {
 	    Vector<Node> oNodes  = new Vector<Node>();
 		clsXMLAbstractImageReader.getNodeElementByName( oDCCListNode, poDCCEntry, 1, oNodes);
 
-		for(int i=0;i<oNodes.size();i++)                       
+		for(Node oCatNode : oNodes)                       
 		{
-			clsDriveContentCathegories oRatio = new clsDriveContentCathegories(
+			oAtrib = oCatNode.getAttributes();
+			clsDriveContentCategories oRatio = new clsDriveContentCategories(
 					Double.parseDouble( clsXMLAbstractImageReader.getAtributeValue(oAtrib,"oral")),
 					Double.parseDouble( clsXMLAbstractImageReader.getAtributeValue(oAtrib,"anal")),
 					Double.parseDouble( clsXMLAbstractImageReader.getAtributeValue(oAtrib,"phallic")),
@@ -72,7 +73,7 @@ public class clsStaticLoaderHelper {
 					);
 			
 			eContext eCurrentCont = eContext.valueOf( clsXMLAbstractImageReader.getAtributeValue(oAtrib,"context") );
-			oRetVal.moTP.moDriveContentCathegory.put(eCurrentCont, oRatio);
+			oRetVal.moTP.moDriveContentCategory.put(eCurrentCont, oRatio);
 		}
 		
 		return oRetVal;

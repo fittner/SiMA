@@ -22,7 +22,7 @@ import pa.interfaces.itfPrimaryProcessComparabelTP;
  */
 public class clsThingPresentation extends clsPsychicRepresentative implements itfPrimaryProcessComparabelTP, Cloneable {
 
-	public HashMap<eContext, clsDriveContentCathegories> moDriveContentCathegory = new HashMap<eContext, clsDriveContentCathegories>();
+	public HashMap<eContext, clsDriveContentCategories> moDriveContentCategory = new HashMap<eContext, clsDriveContentCategories>();
 
 	/* (non-Javadoc)
 	 *
@@ -42,9 +42,9 @@ public class clsThingPresentation extends clsPsychicRepresentative implements it
         try {
         	clsThingPresentation oClone = (clsThingPresentation)super.clone();
         	
-        	oClone.moDriveContentCathegory = new HashMap<eContext, clsDriveContentCathegories>();   	
-        	for (Map.Entry<eContext, clsDriveContentCathegories> oValue:moDriveContentCathegory.entrySet()) {
-        		oClone.moDriveContentCathegory.put(oValue.getKey(), oValue.getValue());
+        	oClone.moDriveContentCategory = new HashMap<eContext, clsDriveContentCategories>();   	
+        	for (Map.Entry<eContext, clsDriveContentCategories> oValue:moDriveContentCategory.entrySet()) {
+        		oClone.moDriveContentCategory.put(oValue.getKey(), oValue.getValue());
         	}
         	
         	return oClone;
@@ -57,7 +57,7 @@ public class clsThingPresentation extends clsPsychicRepresentative implements it
 	public String toString() {
 		String oResult = "::TP:: LIC: ";
 	
-		for (Map.Entry<eContext, clsDriveContentCathegories> entry:moDriveContentCathegory.entrySet()) {
+		for (Map.Entry<eContext, clsDriveContentCategories> entry:moDriveContentCategory.entrySet()) {
 			oResult += entry.getKey().name()+" ("+entry.getValue()+") / ";
 		}
 		

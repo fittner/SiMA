@@ -203,8 +203,8 @@ public class C02_Id extends clsModuleContainer implements
 	 * @see pa.interfaces.I2_6#receive_I2_6(int)
 	 */
 	@Override
-	public void receive_I2_6(int pnData) {
-		((I2_6)moEnclosingContainer).receive_I2_6(pnData);
+	public void receive_I2_6(ArrayList<clsPair<clsPrimaryInformation, clsPrimaryInformation>> poPerceptPlusRepressed) {
+		((I2_6)moEnclosingContainer).receive_I2_6(poPerceptPlusRepressed);
 		
 	}
 

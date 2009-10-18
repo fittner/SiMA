@@ -19,6 +19,7 @@ import pa.interfaces.I4_1;
 import pa.interfaces.I4_2;
 import pa.interfaces.I4_3;
 import pa.memory.clsMemory;
+import pa.tools.clsPair;
 
 /**
  * DOCUMENT (deutsch) - insert description 
@@ -120,8 +121,8 @@ public class E15_ManagementOfRepressedContents extends clsModuleContainer implem
 	 * @see pa.interfaces.I2_6#receive_I2_6(int)
 	 */
 	@Override
-	public void receive_I2_6(int pnData) {
-		((I2_6)moEnclosingContainer).receive_I2_6(pnData);		
+	public void receive_I2_6(ArrayList<clsPair<clsPrimaryInformation, clsPrimaryInformation>> poPerceptPlusRepressed) {
+		((I2_6)moEnclosingContainer).receive_I2_6(poPerceptPlusRepressed);		
 	}
 
 

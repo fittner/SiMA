@@ -42,9 +42,10 @@ public class clsRepressedContentLoader {
 				String xmlFileName = (String)imageFileList.get(fileCount);
 		        clsXMLAbstractImageReader oReader = new clsXMLAbstractImageReader(xmlFileName);
 	
+		        Node oRepNode = clsXMLAbstractImageReader.getNextNodeElementByName((Node)oReader.getDocument().getDocumentElement(), moNodeName);
+		        
 		        Vector<Node> oNodes  = new Vector<Node>();
-				clsXMLAbstractImageReader.getNodeElementByName( (Node)oReader.getDocument().getDocumentElement(), 
-						moNodeName, 1, oNodes);
+				clsXMLAbstractImageReader.getNodeElementByName( oRepNode, moEntryType, 1, oNodes);
 			
 				for(int i=0;i<oNodes.size();i++)                       
 				{

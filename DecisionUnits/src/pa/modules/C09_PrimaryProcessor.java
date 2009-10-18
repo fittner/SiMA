@@ -29,6 +29,7 @@ import pa.interfaces.I5_1;
 import pa.interfaces.I5_2;
 import pa.interfaces.I6_3;
 import pa.memory.clsMemory;
+import pa.tools.clsPair;
 import config.clsBWProperties;
 
 /**
@@ -145,8 +146,8 @@ public class C09_PrimaryProcessor extends clsModuleContainer implements
 	 * @see pa.interfaces.I2_6#receive_I2_6(int)
 	 */
 	@Override
-	public void receive_I2_6(int pnData) {
-		moC14PrimaryKnowledgeUtilizer.receive_I2_6(pnData);
+	public void receive_I2_6(ArrayList<clsPair<clsPrimaryInformation, clsPrimaryInformation>> poPerceptPlusRepressed) {
+		moC14PrimaryKnowledgeUtilizer.receive_I2_6(poPerceptPlusRepressed);
 	}
 
 	/* (non-Javadoc)

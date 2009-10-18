@@ -7,10 +7,14 @@
 package pa.memory;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
+import pa.datatypes.clsDriveContentCategories;
 import pa.datatypes.clsPrimaryInformation;
 import pa.loader.clsRepressedContentLoader;
 import config.clsBWProperties;
+import enums.pa.eContext;
 
 /**
  * DOCUMENT (deutsch) - insert description 
@@ -45,5 +49,39 @@ public class clsRepressedContentStorage {
 		
 		return oProp;
     }
+
+	/**
+	 * searches for the entry that matches best to the DriveContent distribution
+	 *
+	 * @author langr
+	 * 18.10.2009, 01:42:27
+	 *
+	 * @param input
+	 * @return
+	 */
+	public clsPrimaryInformation getBestMatch(
+			HashMap<eContext, clsDriveContentCategories> poDrvContent) {
+
+		clsPrimaryInformation oRetVal = null;
+		double rHighestMatch = 0;
+
+		for( clsPrimaryInformation oRep : moRepressedContent ) {
+			for( Map.Entry<eContext, clsDriveContentCategories> oDrvContCat : poDrvContent.entrySet() ) {
+				
+				clsDriveContentCategories oCatRep = oRep.moTP.moDriveContentCategory.get(oDrvContCat.getKey());
+				if(oCatRep != null) { //in case, there is an entry
+					double match = oCatRep.match( oDrvContCat.getValue() );
+					
+					if(match > rHighestMatch) {
+						rHighestMatch = match;
+						oRetVal = oRep;
+					}
+					if(rHighestMatch >= 1) { break;	} //do the doublebreak to abort search --> first come first serve
+				}
+			}
+			if(rHighestMatch >= 1) { break;	}
+		}
+		return oRetVal;
+	}
 	
 }

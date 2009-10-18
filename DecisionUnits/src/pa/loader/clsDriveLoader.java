@@ -21,7 +21,7 @@ import bfg.tools.xmltools.clsXMLAbstractImageReader;
 import bfg.tools.xmltools.clsXMLConfiguration;
 
 import pa.datatypes.clsDriveObject;
-import pa.datatypes.clsDriveContentCathegories;
+import pa.datatypes.clsDriveContentCategories;
 
 /**
  * DOCUMENT (langr) - insert description 
@@ -159,7 +159,7 @@ public class clsDriveLoader {
 			for(Node oNode : oNodes)                       
 			{
 				NamedNodeMap oAtrib = oNode.getAttributes();
-				clsDriveContentCathegories oRatio = new clsDriveContentCathegories(
+				clsDriveContentCategories oRatio = new clsDriveContentCategories(
 						Double.parseDouble( clsXMLAbstractImageReader.getAtributeValue(oAtrib,"oral")),
 						Double.parseDouble( clsXMLAbstractImageReader.getAtributeValue(oAtrib,"anal")),
 						Double.parseDouble( clsXMLAbstractImageReader.getAtributeValue(oAtrib,"phallic")),

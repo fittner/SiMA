@@ -30,7 +30,7 @@ public class clsObjectSemanticsLoader {
 	public static String moAttributeName = "ObjectSemanticsInit"; //denotes the directory name and the first element name in xml
 	public static String moNodeName = "ObjectSemantics"; //denotes one single entry for a drive
 	public static String moEntryType = "PrimaryInfoObject";
-	public static String moDriveContentCathegoryList = "PrimaryInfoObject";
+	public static String moDriveContentCathegoryList = "DriveContentCathegoryList";
 	public static String moDriveContentCathegory = "DriveContentCathegory";
 	
 	public static HashMap<eEntityType, clsPrimaryInformation> createSemanticsList(String poAgentId, String poAgentGroup) {
@@ -50,11 +50,13 @@ public class clsObjectSemanticsLoader {
 			
 				for(int i=0;i<oNodes.size();i++)                       
 				{
-					Node oDriveNode = (Node)oNodes.get(i);
+					Node oObjSemNode = (Node)oNodes.get(i);
+					
+					Node oPrimInfoNode = clsXMLAbstractImageReader.getNextNodeElementByName(oObjSemNode, moEntryType);
 	
-					clsPrimaryInformation oSem = createSemanticsList( oDriveNode );
+					clsPrimaryInformation oSem = createSemanticsList( oPrimInfoNode );
 					if(oRetVal.containsKey(oSem.moTP.moContent)) { //if already exist --> add the driveContentCathegories
-						oRetVal.get(oSem.moTP.moContent).moTP.moDriveContentCathegory.putAll(oSem.moTP.moDriveContentCathegory);
+						oRetVal.get(oSem.moTP.moContent).moTP.moDriveContentCategory.putAll(oSem.moTP.moDriveContentCategory);
 					}
 					else {	//add a new primary information
 						oRetVal.put((eEntityType)oSem.moTP.moContent, oSem);

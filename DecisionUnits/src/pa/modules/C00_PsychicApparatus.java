@@ -35,6 +35,7 @@ import pa.interfaces.itfProcessSensorBody;
 import pa.interfaces.itfProcessSensorEnvironment;
 import pa.interfaces.itfReturnActionCommands;
 import pa.memory.clsMemory;
+import pa.tools.clsPair;
 import config.clsBWProperties;
 import decisionunit.itf.actions.itfActionProcessor;
 import decisionunit.itf.sensors.clsDataBase;
@@ -153,6 +154,10 @@ public class C00_PsychicApparatus extends clsModuleContainer implements
 		moC03Ego = new C03_Ego(pre+P_C03, poProp, this, moMemory);
 		moC04SuperEgo = new C04_SuperEgo(pre+P_C04, poProp, this, moMemory);
 
+	}
+	
+	public clsMemory getMemoryForInspector() {
+		return moMemory;
 	}
 
 	/* (non-Javadoc)
@@ -329,8 +334,8 @@ public class C00_PsychicApparatus extends clsModuleContainer implements
 	 * @see pa.interfaces.I2_6#receive_I2_6(int)
 	 */
 	@Override
-	public void receive_I2_6(int pnData) {
-		moC03Ego.receive_I2_6(pnData);
+	public void receive_I2_6(ArrayList<clsPair<clsPrimaryInformation, clsPrimaryInformation>> poPerceptPlusRepressed) {
+		moC03Ego.receive_I2_6(poPerceptPlusRepressed);
 		
 	}
 

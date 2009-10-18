@@ -9,6 +9,7 @@ package pa.memory;
 import java.util.HashMap;
 import java.util.Map;
 import bfg.tools.clsMutableDouble;
+import pa.datatypes.clsAffectMemory;
 import pa.datatypes.clsPrimaryInformation;
 import pa.datatypes.clsSecondaryInformation;
 import pa.datatypes.clsThingPresentationSingle;
@@ -41,10 +42,31 @@ public class clsCurrentContextStorage implements itfContextAccessPrimary, itfCon
 	
 	public clsCurrentContextStorage(String poPrefix, clsBWProperties poProp) {
 		moStorage = new HashMap<clsSecondaryInformation, clsMutableDouble>();
+		moStorageHelperPrim = new HashMap<clsThingPresentationSingle, clsSecondaryInformation>();
+		moStorageHelperSec = new HashMap<clsWordPresentation, clsSecondaryInformation>();
 		applyProperties(poPrefix, poProp);
+		
+		testInit();
     }
     
-    private void applyProperties(String poPrefix, clsBWProperties poProp){		
+    /**
+	 * DOCUMENT (langr) - insert description
+	 *
+	 * @author langr
+	 * 18.10.2009, 13:38:50
+	 *
+	 */
+	private void testInit() {
+		
+		clsSecondaryInformation oSecInfo = new clsSecondaryInformation(
+				new clsWordPresentation(), 
+				new clsThingPresentationSingle("Context", eContext.class.getName(), eContext.EAT),
+				new clsAffectMemory(0.8) );
+		
+		this.setContextRatio(oSecInfo, 1.0);
+	}
+
+	private void applyProperties(String poPrefix, clsBWProperties poProp){		
 //		String pre = clsBWProperties.addDot(poPrefix);
     	 
     	//moVariable = new clsClass(pre+P_KEY, poProp, null,this);		

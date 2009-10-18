@@ -6,6 +6,7 @@
  */
 package pa.modules;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import pa.datatypes.clsAffectTension;
@@ -31,6 +32,7 @@ import pa.interfaces.I5_5;
 import pa.interfaces.I6_3;
 import pa.interfaces.I7_4;
 import pa.memory.clsMemory;
+import pa.tools.clsPair;
 import config.clsBWProperties;
 
 /**
@@ -114,8 +116,8 @@ public class C08_PsychicMediator extends clsModuleContainer implements
 	 * @see pa.interfaces.I2_6#receive_I2_6(int)
 	 */
 	@Override
-	public void receive_I2_6(int pnData) {
-		moC09PrimaryProcessor.receive_I2_6(pnData);
+	public void receive_I2_6(ArrayList<clsPair<clsPrimaryInformation, clsPrimaryInformation>> poPerceptPlusRepressed) {
+		moC09PrimaryProcessor.receive_I2_6(poPerceptPlusRepressed);
 		
 	}
 

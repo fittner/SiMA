@@ -6,6 +6,11 @@
  */
 package pa.interfaces;
 
+import java.util.ArrayList;
+
+import pa.datatypes.clsPrimaryInformation;
+import pa.tools.clsPair;
+
 /**
  * DOCUMENT (deutsch) - insert description 
  * 
@@ -14,5 +19,7 @@ package pa.interfaces;
  * 
  */
 public interface I2_6 {
-	public void receive_I2_6(int pnData);
+	//first element: perceived clsPrimaryInformation
+	//second element (optional): attached repressed content 
+	public void receive_I2_6(ArrayList<clsPair<clsPrimaryInformation, clsPrimaryInformation>> poPerceptPlusRepressed);
 }

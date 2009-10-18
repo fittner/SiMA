@@ -6,6 +6,7 @@
  */
 package pa.modules;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import pa.datatypes.clsPrimaryInformation;
@@ -14,6 +15,7 @@ import pa.interfaces.I2_6;
 import pa.interfaces.I2_7;
 import pa.interfaces.I6_3;
 import pa.memory.clsMemory;
+import pa.tools.clsPair;
 import config.clsBWProperties;
 
 /**
@@ -78,8 +80,8 @@ public class C13_PrimaryKnowledgeUtilizer extends clsModuleContainer implements
 	 * @see pa.interfaces.I2_6#receive_I2_6(int)
 	 */
 	@Override
-	public void receive_I2_6(int pnData) {
-		moE16ManagementOfMemoryTraces.receive_I2_6(pnData);
+	public void receive_I2_6(ArrayList<clsPair<clsPrimaryInformation, clsPrimaryInformation>> poPerceptPlusRepressed) {
+		moE16ManagementOfMemoryTraces.receive_I2_6(poPerceptPlusRepressed);
 	}
 
 	/* (non-Javadoc)

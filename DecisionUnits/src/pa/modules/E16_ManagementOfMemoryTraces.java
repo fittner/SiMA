@@ -6,9 +6,13 @@
  */
 package pa.modules;
 
+import java.util.ArrayList;
+
 import config.clsBWProperties;
+import pa.datatypes.clsPrimaryInformation;
 import pa.interfaces.I2_6;
 import pa.interfaces.I2_7;
+import pa.tools.clsPair;
 
 /**
  * DOCUMENT (deutsch) - insert description 
@@ -19,6 +23,9 @@ import pa.interfaces.I2_7;
  */
 public class E16_ManagementOfMemoryTraces extends clsModuleBase implements I2_6 {
 
+	public ArrayList<clsPair<clsPrimaryInformation, clsPrimaryInformation>> moPerceptPlusRepressed_Input;
+	public ArrayList<clsPair<clsPrimaryInformation, clsPrimaryInformation>> moPerceptPlusMemories_Output;
+	
 	/**
 	 * DOCUMENT (deutsch) - insert description 
 	 * 
@@ -82,10 +89,10 @@ public class E16_ManagementOfMemoryTraces extends clsModuleBase implements I2_6 
 	 * 
 	 * @see pa.interfaces.I2_6#receive_I2_6(int)
 	 */
+	@SuppressWarnings("unchecked")
 	@Override
-	public void receive_I2_6(int pnData) {
-		mnTest += pnData;
-		
+	public void receive_I2_6(ArrayList<clsPair<clsPrimaryInformation, clsPrimaryInformation>> poPerceptPlusRepressed) {
+		moPerceptPlusRepressed_Input = (ArrayList<clsPair<clsPrimaryInformation, clsPrimaryInformation>>)deepCopy(poPerceptPlusRepressed);
 	}
 
 	/* (non-Javadoc)

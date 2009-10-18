@@ -7,9 +7,15 @@
 package pa.modules;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
+
+import bfg.tools.clsMutableDouble;
 
 import config.clsBWProperties;
-import pa.datatypes.clsDriveContentCathegories;
+import enums.eEntityType;
+import enums.pa.eContext;
+import pa.datatypes.clsDriveContentCategories;
 import pa.datatypes.clsPrimaryInformation;
 import pa.interfaces.I2_5;
 import pa.interfaces.I2_6;
@@ -24,8 +30,11 @@ import pa.tools.clsPair;
  */
 public class E15_1_ManagementOfRepressedContents extends clsModuleBase implements I2_5 {
 
-	ArrayList<clsPrimaryInformation> moEnvironmentalTP_Input;
-	ArrayList<clsPair<clsPrimaryInformation, clsPrimaryInformation>> moAttachedRepressed_Output;
+	public ArrayList<clsPrimaryInformation> moEnvironmentalTP_Input;
+	public ArrayList<clsPair<clsPrimaryInformation, clsPrimaryInformation>> moAttachedRepressed_Output;
+	private double mrContextSensitivity = 0.8;
+	
+	public static String P_CONTEXT_SENSTITIVITY = "CONTEXT_SENSITIVITY"; 
 	
 	
 	public E15_1_ManagementOfRepressedContents(String poPrefix, clsBWProperties poProp,
@@ -35,19 +44,16 @@ public class E15_1_ManagementOfRepressedContents extends clsModuleBase implement
 	}
 	
 	public static clsBWProperties getDefaultProperties(String poPrefix) {
-		// String pre = clsBWProperties.addDot(poPrefix);
+		String pre = clsBWProperties.addDot(poPrefix);
 		
 		clsBWProperties oProp = new clsBWProperties();
-		
-		//nothing to do
-				
+		oProp.setProperty(pre+P_CONTEXT_SENSTITIVITY, 0.8);	
 		return oProp;
 	}	
 	
 	private void applyProperties(String poPrefix, clsBWProperties poProp) {
-		//String pre = clsBWProperties.addDot(poPrefix);
-	
-		//nothing to do
+		String pre = clsBWProperties.addDot(poPrefix);
+		mrContextSensitivity = poProp.getPropertyDouble(pre+P_CONTEXT_SENSTITIVITY);
 	}
 	
 	/* (non-Javadoc)
@@ -73,10 +79,37 @@ public class E15_1_ManagementOfRepressedContents extends clsModuleBase implement
 	@Override
 	protected void process() {
 		
-		clsPair<clsDriveContentCathegories, clsPrimaryInformation> oCathInput;
-		oCathInput = cathegorize( moEnvironmentalTP_Input );
+		cathegorize( moEnvironmentalTP_Input );
+		moAttachedRepressed_Output = matchWithRepressedContent(moEnvironmentalTP_Input);
+	}
+
+	/**
+	 * returns the corresponding driveContentCategories in the current context
+	 *
+	 * @author langr
+	 * 17.10.2009, 18:52:32
+	 *
+	 * @param moEnvironmentalTP_Input2
+	 * @return
+	 */
+	private void cathegorize(
+			ArrayList<clsPrimaryInformation> poEnvironmentalTP) {
+
+		HashMap<eEntityType, clsPrimaryInformation> oSemanticWeb = this.moEnclosingContainer.moMemory.moObjectSemanticsStorage.moObjectSemantics;
 		
-		moAttachedRepressed_Output = matchWithRepressedContent(oCathInput);
+		//get current contexts and attach drvContCat to TP of incoming PrimInfo
+		HashMap<clsPrimaryInformation, clsMutableDouble> oContextResult = moEnclosingContainer.moMemory.moCurrentContextStorage.getContextRatiosPrim(mrContextSensitivity); 
+		for(clsPrimaryInformation oInfo : poEnvironmentalTP) {
+			for( Map.Entry<clsPrimaryInformation, clsMutableDouble> oContextPrim : oContextResult.entrySet() ) {
+				eContext oContext = (eContext)oContextPrim.getKey().moTP.moContent;
+				if( oSemanticWeb.containsKey(oInfo.moTP.moContent) ) {
+					clsDriveContentCategories oCathegory = new clsDriveContentCategories( oSemanticWeb.get(oInfo.moTP.moContent).moTP.moDriveContentCategory.get(oContext) );
+					oCathegory.adaptToContextRatio(oContextPrim.getValue().doubleValue());	//lower the category-ratio according to the match of the context
+					oInfo.moTP.moDriveContentCategory.put(oContext, oCathegory);
+				}
+			}
+		}
+		return;
 	}
 
 	/**
@@ -85,30 +118,23 @@ public class E15_1_ManagementOfRepressedContents extends clsModuleBase implement
 	 * @author langr
 	 * 17.10.2009, 18:54:27
 	 *
-	 * @param cathInput
+	 * @param poCategorizedInput
 	 * @return
 	 */
 	private ArrayList<clsPair<clsPrimaryInformation, clsPrimaryInformation>> matchWithRepressedContent(
-			clsPair<clsDriveContentCathegories, clsPrimaryInformation> cathInput) {
-		// TODO (langr) - Auto-generated method stub
-		return null;
-	}
+			ArrayList<clsPrimaryInformation> poCategorizedInput) {
+		
+		ArrayList<clsPair<clsPrimaryInformation, clsPrimaryInformation>> oRetVal = new ArrayList<clsPair<clsPrimaryInformation,clsPrimaryInformation>>();
 
-	/**
-	 * DOCUMENT (langr) - insert description
-	 *
-	 * @author langr
-	 * 17.10.2009, 18:52:32
-	 *
-	 * @param moEnvironmentalTP_Input2
-	 * @return
-	 */
-	private clsPair<clsDriveContentCathegories, clsPrimaryInformation> cathegorize(
-			ArrayList<clsPrimaryInformation> poEnvironmentalTP) {
-		// TODO (langr) - Auto-generated method stub
-		return null;
+		for(clsPrimaryInformation oInput : poCategorizedInput) {
+			
+			clsPrimaryInformation oRep = moEnclosingContainer.moMemory.moRepressedContentsStore.getBestMatch(oInput.moTP.moDriveContentCategory);
+			oRetVal.add(new clsPair<clsPrimaryInformation, clsPrimaryInformation>(oInput, oRep));
+		}
+		
+		return oRetVal;
 	}
-
+	
 	/* (non-Javadoc)
 	 *
 	 * @author deutsch
@@ -118,7 +144,7 @@ public class E15_1_ManagementOfRepressedContents extends clsModuleBase implement
 	 */
 	@Override
 	protected void send() {
-		((I2_6)moEnclosingContainer).receive_I2_6(mnTest);
+		((I2_6)moEnclosingContainer).receive_I2_6(moAttachedRepressed_Output);
 		
 	}
 

@@ -157,7 +157,7 @@ public class E03_GenerationOfDrives extends clsModuleBase implements I1_2 {
 			oDriveMesh.moTP.meContentName = oTPDrive.moName;
 			oDriveMesh.moTP.meContentType = oTPDrive.meDriveContent.getClass().getName();
 			oDriveMesh.moTP.moContent = oTPDrive.meDriveContent;
-			oDriveMesh.moTP.moDriveContentCathegory = oTPDrive.moDriveContentRatio;
+			oDriveMesh.moTP.moDriveContentCategory = oTPDrive.moDriveContentRatio;
 			
 			for( clsDriveObject oDriveObject : oTPDrive.moDriveObjects ) {
 				clsThingPresentationSingle oTPSingle = new clsThingPresentationSingle();

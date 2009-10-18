@@ -32,7 +32,7 @@ public class clsPrimaryInformation extends clsPsychicRepresentative implements i
 		moTP = poSingle;
 		moAffect = null;
 	}
-	public clsPrimaryInformation(clsThingPresentationSingle poSingle, clsAffectTension poAffect) {
+	public clsPrimaryInformation(clsThingPresentationSingle poSingle, clsAffect poAffect) {
 		moTP = poSingle;
 		moAffect = poAffect;
 	}
@@ -67,7 +67,7 @@ public class clsPrimaryInformation extends clsPsychicRepresentative implements i
         try {
         	clsPrimaryInformation oClone = (clsPrimaryInformation)super.clone();
         	oClone.moTP = (clsThingPresentationSingle)moTP.clone();
-        	oClone.moAffect = (clsAffectTension)moAffect.clone();        	
+        	oClone.moAffect = (clsAffect)moAffect.clone();        	
         	return oClone;
         } catch (CloneNotSupportedException e) {
             return e;
