@@ -31,4 +31,29 @@ public class clsAssociationWeighted<TYPE> extends clsAssociation<TYPE> implement
         }
 	}		
 	
+	/**
+	 * special clone method. prevents infinite loops while cloning object A which has association X with object B.
+	 * A.clone() calls X.clone() which - consecutively - creates a new clone from A ... Thus, references to A and its clone A' 
+	 * are passed to the clone method from X. If X.moA refers to A, it is redirected to A'; if X.moB refers to B, it is 
+	 * redirected to A'.
+	 *
+	 * @author deutsch
+	 * 19.10.2009, 16:17:12
+	 *
+	 * @param obj_orig
+	 * @param obj_clon
+	 * @return clone
+	 * @throws CloneNotSupportedException
+	 */	
+	@Override
+	@SuppressWarnings("unchecked")
+	public Object clone(Object obj_orig, Object obj_clon) throws CloneNotSupportedException {	
+        try {
+        	clsAssociationWeighted<TYPE> oClone = (clsAssociationWeighted<TYPE>)super.clone(obj_orig, obj_clon);
+
+        	return oClone;
+        } catch (CloneNotSupportedException e) {
+           return e;
+        }
+	}
 }

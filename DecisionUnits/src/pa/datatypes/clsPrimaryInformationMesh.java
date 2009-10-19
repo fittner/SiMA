@@ -34,7 +34,7 @@ public class clsPrimaryInformationMesh extends clsPrimaryInformation implements 
         	
         	oClone.moAssociations = new ArrayList<clsAssociationContext<clsPrimaryInformation>>();   	
         	for (clsAssociationContext<clsPrimaryInformation> oValue:moAssociations) {
-        		oClone.moAssociations.add((clsAssociationContext<clsPrimaryInformation>) oValue.clone());
+        		oClone.moAssociations.add((clsAssociationContext<clsPrimaryInformation>) oValue.clone(this, oClone));
         	}
         	
         	return oClone;

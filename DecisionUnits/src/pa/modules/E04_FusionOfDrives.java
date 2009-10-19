@@ -92,8 +92,8 @@ public class E04_FusionOfDrives extends clsModuleBase implements I1_3 {
 	@SuppressWarnings("unchecked")
 	@Override
 	public void receive_I1_3(ArrayList<clsPair<clsPrimaryInformationMesh, clsAffectCandidate>> poDriveCandidate) {
-		//moDriveCandidate = (ArrayList<clsPair<clsThingPresentationMesh,		clsAffectCandidate>>)deepCopy(poDriveCandidate);
-		moDriveCandidate = poDriveCandidate;
+		moDriveCandidate = (ArrayList<clsPair<clsPrimaryInformationMesh,		clsAffectCandidate>>)deepCopy(poDriveCandidate);
+		//moDriveCandidate = poDriveCandidate;
 		
 	}
 

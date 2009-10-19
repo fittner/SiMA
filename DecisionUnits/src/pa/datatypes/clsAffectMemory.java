@@ -15,21 +15,21 @@ package pa.datatypes;
  */
 public class clsAffectMemory extends clsAffect implements Cloneable {
 
-	public clsMinu1to1 moValue;
+	public clsMinus1to1 moValue;
 	
 	public clsAffectMemory() {
-		moValue = new clsMinu1to1();
+		moValue = new clsMinus1to1();
 	}
 	
 	public clsAffectMemory(double poValue) {
-		moValue = new clsMinu1to1(poValue);
+		moValue = new clsMinus1to1(poValue);
 	}
 	
 	@Override
 	public Object clone() throws CloneNotSupportedException{
         try {
         	clsAffectMemory oClone = (clsAffectMemory)super.clone();
-        	oClone.moValue = (clsMinu1to1)moValue.clone();
+        	oClone.moValue = (clsMinus1to1)moValue.clone();
         	return oClone;
         } catch (CloneNotSupportedException e) {
             return e;

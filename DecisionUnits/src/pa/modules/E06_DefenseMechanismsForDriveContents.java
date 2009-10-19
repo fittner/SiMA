@@ -101,9 +101,10 @@ public class E06_DefenseMechanismsForDriveContents extends clsModuleBase impleme
 	 * 
 	 * @see pa.interfaces.I1_3#receive_I1_3(int)
 	 */
+	@SuppressWarnings("unchecked")
 	@Override
 	public void receive_I1_5(List<clsPrimaryInformation> poData) {
-		moPrimaryInformation = (ArrayList<clsPrimaryInformation>)poData;
+		moPrimaryInformation = (ArrayList<clsPrimaryInformation>)deepCopy( (ArrayList<clsPrimaryInformation>)poData);
 		
 	}
 
@@ -127,10 +128,10 @@ public class E06_DefenseMechanismsForDriveContents extends clsModuleBase impleme
 	 * 
 	 * @see pa.interfaces.I4_3#receive_I4_3(int)
 	 */
+	@SuppressWarnings("unchecked")
 	@Override
 	public void receive_I4_3(List<clsPrimaryInformation> poPIs) {
-		moPrimaryInformation.addAll((ArrayList<clsPrimaryInformation>) poPIs);
-		
+		moPrimaryInformation.addAll( (ArrayList<clsPrimaryInformation>)deepCopy( (ArrayList<clsPrimaryInformation>)poPIs) );
 	}
 
 	/* (non-Javadoc)
