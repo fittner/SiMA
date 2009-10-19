@@ -22,13 +22,47 @@ import enums.eAntennaPositions;
  * 
  */
 public class clsVisionEntries extends clsSensorRingSegmentEntries {
-	
-	public boolean mnAlive = false;
-	public Color moColor = null;
-	public eSide moObjectPosition = eSide.UNDEFINED; 
-	public eAntennaPositions moAntennaPosition = eAntennaPositions.UNDEFINED; 
-			
+	protected boolean mnAlive = false;
+	protected Color moColor = null;
+	protected eSide moObjectPosition = eSide.UNDEFINED; 
+	protected eAntennaPositions moAntennaPositionLeft = eAntennaPositions.UNDEFINED; 
+	protected eAntennaPositions moAntennaPositionRight = eAntennaPositions.UNDEFINED;	
 
+	public boolean getAlive() {
+		return mnAlive;
+	}
+	public void setAlive(boolean pnAlive) {
+		mnAlive=pnAlive;
+	}
+	
+	public Color getColor() {
+		return moColor;
+	}
+	public void setColor(Color poColor) {
+		moColor = poColor;
+	}
+	
+	public eSide getObjectPosition() {
+		return moObjectPosition;
+	}
+	public void setObjectPosition(eSide poObjectPosition) {
+		moObjectPosition = poObjectPosition;
+	}
+	
+	public eAntennaPositions getAntennaPositionLeft() {
+		return moAntennaPositionLeft;
+	}
+	public void setAntennaPositionLeft(eAntennaPositions poAntennaPositionLeft) {
+		moAntennaPositionLeft = poAntennaPositionLeft;
+	}
+	
+	public eAntennaPositions getAntennaPositionRight() {
+		return moAntennaPositionRight;
+	}
+	public void setAntennaPositionRight(eAntennaPositions poAntennaPositionRight) {
+		moAntennaPositionRight = poAntennaPositionRight;
+	}	
+	
 	public clsVisionEntries() {
 
 	}

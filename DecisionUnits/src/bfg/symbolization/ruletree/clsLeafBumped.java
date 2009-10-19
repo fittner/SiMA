@@ -105,7 +105,7 @@ class clsLeafBumped extends clsRuleTreeLeaf
 		//leafBubblesVisible info:
 	    boolean nResult = false;
 	
-	    if( poData != null && meCompareOperator.compare(((clsBump)poData).mnBumped, meBumped) )
+	    if( poData != null && meCompareOperator.compare(((clsBump)poData).getBumped(), meBumped) )
 	    {
 	      nResult = true;
 	    }

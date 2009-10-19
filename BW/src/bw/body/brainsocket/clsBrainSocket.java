@@ -157,7 +157,7 @@ public class clsBrainSocket implements itfStepProcessing {
 		
 		if (oSensor.getSlowMessages() != null) {
 			for(Map.Entry<eSlowMessenger, Double> oEntry:oSensor.getSlowMessages().entrySet()) {
-				oRetVal.moSlowMessengerValues.put( oEntry.getKey(), oEntry.getValue());
+				oRetVal.getSlowMessengerValues().put( oEntry.getKey(), oEntry.getValue());
 			}
 		}
 		
@@ -171,7 +171,7 @@ public class clsBrainSocket implements itfStepProcessing {
 
 		if (oSensor.getFastMessages() != null) {
 			for(clsFastMessengerEntry oEntry:oSensor.getFastMessages()) {
-				oRetVal.moEntries.add( convertFastMessengerEntry(oEntry) );
+				oRetVal.getEntries().add( convertFastMessengerEntry(oEntry) );
 			}
 		}
 		
@@ -214,9 +214,9 @@ public class clsBrainSocket implements itfStepProcessing {
 		oData.setSensorType(poSensorType); 
 		clsSensorPositionChange oSensor = (clsSensorPositionChange)(moSensorsExt.get(poSensorType));
 		
-		oData.x = oSensor.getPositionChange().getPosition().x;
-		oData.y = oSensor.getPositionChange().getPosition().y;
-		oData.a = oSensor.getPositionChange().getAngle().radians;
+		oData.setX(oSensor.getPositionChange().getPosition().x);
+		oData.setY(oSensor.getPositionChange().getPosition().y);
+		oData.setA(oSensor.getPositionChange().getAngle().radians);
 	
 		return oData;
 	}
@@ -226,7 +226,7 @@ public class clsBrainSocket implements itfStepProcessing {
 		clsEnergy oRetVal = new clsEnergy();
 		clsEnergySensor oStomachSensor = (clsEnergySensor)(moSensorsInt.get(eSensorIntType.ENERGY));
 
-		oRetVal.mrEnergy = oStomachSensor.getEnergy();
+		oRetVal.setEnergy(oStomachSensor.getEnergy());
 		
 		return oRetVal;
 	}
@@ -236,7 +236,7 @@ public class clsBrainSocket implements itfStepProcessing {
 		clsStomachTension oRetVal = new clsStomachTension();
 		clsStomachTensionSensor oStomachSensor = (clsStomachTensionSensor)(moSensorsInt.get(eSensorIntType.STOMACHTENSION));
 
-		oRetVal.mrTension = oStomachSensor.getTension();
+		oRetVal.setTension(oStomachSensor.getTension());
 		
 		return oRetVal;
 	}
@@ -254,7 +254,7 @@ public class clsBrainSocket implements itfStepProcessing {
 		clsStaminaSystem oRetVal = new clsStaminaSystem();
 		clsStaminaSensor oStaminaSensor = (clsStaminaSensor)(moSensorsInt.get(eSensorIntType.STAMINA));
 
-		oRetVal.mrStaminaValue = oStaminaSensor.getStaminaValue();
+		oRetVal.setStaminaValue( oStaminaSensor.getStaminaValue() );
 		
 		return oRetVal;	
 	}
@@ -272,7 +272,7 @@ public class clsBrainSocket implements itfStepProcessing {
 		clsHealthSystem oRetVal = new clsHealthSystem();
 		clsHealthSensor oHealthSensor = (clsHealthSensor)(moSensorsInt.get(eSensorIntType.HEALTH));
 
-		oRetVal.mrHealthValue = oHealthSensor.getHealthValue();
+		oRetVal.setHealthValue( oHealthSensor.getHealthValue() );
 		
 		return oRetVal;	
 	}
@@ -290,7 +290,7 @@ public class clsBrainSocket implements itfStepProcessing {
 		clsTemperatureSystem oRetVal = new clsTemperatureSystem();
 		clsTemperatureSensor oTemperatureSensor = (clsTemperatureSensor)(moSensorsInt.get(eSensorIntType.TEMPERATURE));
 
-		oRetVal.mrTemperatureValue = oTemperatureSensor.getTemperatureValue();
+		oRetVal.setTemperatureValue( oTemperatureSensor.getTemperatureValue() );
 		
 		return oRetVal;	
 	}
@@ -308,7 +308,7 @@ public class clsBrainSocket implements itfStepProcessing {
 		clsEnergyConsumption oRetVal = new clsEnergyConsumption();
 		clsEnergyConsumptionSensor oEnergySensor = (clsEnergyConsumptionSensor)(moSensorsInt.get(eSensorIntType.ENERGY_CONSUMPTION));
 
-		oRetVal.mrEnergy = oEnergySensor.getEnergy();
+		oRetVal.setEnergy( oEnergySensor.getEnergy() );
 		
 		return oRetVal;
 		
@@ -326,7 +326,7 @@ public class clsBrainSocket implements itfStepProcessing {
 				clsVisionEntries oEntry = convertVisionEntry(i.next(), poVisionType);
 				
 				if (oEntry != null) {
-					oEntry.mnNumEntitiesPresent = setMeNumber(eDetectedObjectList.size());
+					oEntry.setNumEntitiesPresent( setMeNumber(eDetectedObjectList.size()) );
 					oData.add(oEntry);
 				}	
 			}
@@ -370,7 +370,7 @@ public class clsBrainSocket implements itfStepProcessing {
 //		}
 	
 		oRadiationSensor.updateSensorData();		
-		oData.mrIntensity = oRadiationSensor.getMrRadiation();		
+		oData.setIntensity( oRadiationSensor.getMrRadiation() );		
 
 		return oData;
 	}
@@ -384,11 +384,11 @@ public class clsBrainSocket implements itfStepProcessing {
 		}
 
 		clsVisionEntries oData = new clsVisionEntries();
-		oData.mnEntityType = getEntityType(collidingObj.moCollider);		
-		oData.mnShapeType = getShapeType(collidingObj.moCollider);
-		oData.moColor = (Color) oEntity.getShape().getPaint();
-		oData.moEntityId = oEntity.getId();
-		oData.moObjectPosition = collidingObj.meColPos;  
+		oData.setEntityType( getEntityType(collidingObj.moCollider));		
+		oData.setShapeType( getShapeType(collidingObj.moCollider));
+		oData.setColor( (Color) oEntity.getShape().getPaint());
+		oData.setEntityId(oEntity.getId());
+		oData.setObjectPosition( collidingObj.meColPos);  
 		oData.setSensorType(poSensorType);
 				
 		// FIXME: (horvath) - temporary polar coordinates calculation
@@ -396,16 +396,17 @@ public class clsBrainSocket implements itfStepProcessing {
 		clsPolarcoordinate oRel = collidingObj.mrColPoint;
 		oRel.moAzimuth = new Angle(clsSensorDataCalculation.normalizeRadian(oRel.moAzimuth.radians - oSensor.getLastPosition().getAngle().radians));
 				
-		oData.moPolarcoordinate = new bfg.tools.shapes.clsPolarcoordinate(oRel.mrLength,oRel.moAzimuth.radians);
+		oData.setPolarcoordinate( new bfg.tools.shapes.clsPolarcoordinate(oRel.mrLength,oRel.moAzimuth.radians) );
 		
 		if( oEntity instanceof clsAnimal )
 		{
-			oData.mnAlive = ((clsAnimal)oEntity).isAlive();
+			oData.setAlive( ((clsAnimal)oEntity).isAlive() );
 		}
 		
 		/*FIXME HZ actually the antenna positions are undefined*/
 		if (oEntity instanceof clsBubble){
-			oData.moAntennaPosition = eAntennaPositions.UNDEFINED; 
+			oData.setAntennaPositionLeft(eAntennaPositions.UNDEFINED); 
+			oData.setAntennaPositionRight(eAntennaPositions.UNDEFINED);
 		}
 		
 		return oData;
@@ -423,7 +424,7 @@ public class clsBrainSocket implements itfStepProcessing {
 			clsEatableAreaEntry oEntry = convertEatableAreaEntry(i.next(), eSensorExtType.EATABLE_AREA);
 			
 			if (oEntry != null) {
-				oData.moEntries.add(oEntry);
+				oData.getEntries().add(oEntry);
 			}	
 		}
 		return oData;
@@ -438,8 +439,8 @@ public class clsBrainSocket implements itfStepProcessing {
 		clsEatableAreaEntry oData = new clsEatableAreaEntry(oEntity.getEntityType());
 		clsAttributeAlive oAlive = (clsAttributeAlive)oEntity.getBody().getAttributes().getAttribute(eBodyAttributes.ALIVE);
 		if (oAlive != null) {
-			oData.mnIsAlive = oAlive.isAlive();
-			oData.mnIsConsumeable = oAlive.isConsumeable();
+			oData.setIsAlive( oAlive.isAlive());
+			oData.setIsConsumeable( oAlive.isConsumeable());
 			oData.setSensorType(poSensorType);
 		}
 			
@@ -505,7 +506,7 @@ public class clsBrainSocket implements itfStepProcessing {
 		clsBump oData = new clsBump();
 		
 		clsSensorBump oBumpSensor = (clsSensorBump) moSensorsExt.get(eSensorExtType.BUMP);	
-		oData.mnBumped = oBumpSensor.isBumped();
+		oData.setBumped( oBumpSensor.isBumped());
 
 		return oData;
 	}

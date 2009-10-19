@@ -98,7 +98,7 @@ public class clsLeafEatableAreaSegment extends clsRuleTreeLeaf {
 			ArrayList <clsSensorExtern> oEatableAreaEntry = ((clsSensorRingSegment)poData).getDataObjects();
 						
 			for (clsSensorExtern element : oEatableAreaEntry){
-				if(  ((clsEatableAreaEntry)element).mnEntityType == meTypeOfFirstEntity ){
+				if(  ((clsEatableAreaEntry)element).getEntityType() == meTypeOfFirstEntity ){
 						//&& element. .mnNumEntitiesPresent == meNumber){
 					nResult = true;
 					break; 

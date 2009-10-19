@@ -1,15 +1,14 @@
 package pa.symbolization.representationsymbol;
 
-public class clsVision extends clsSensorRingSegment {
-	
-	
+public class clsVision extends decisionunit.itf.sensors.clsVision implements itfGetMeshAttributeName, itfGetSymInterface, itfSymVision {
 	@Override
-	public String logHTML() {
-		
-		String oRetVal = "<tr><td>"+getSensorType().toString().toUpperCase()+"</td><td></td></tr>";
-		
-		oRetVal += super.logHTML();
-		
-		return oRetVal;
-	}	
+	public String getMeshAttributeName() {
+		return null;
+	}
+
+	@Override
+	public String getSymInterface() {
+		return "itfSymEatableArea";
+	}
+
 }

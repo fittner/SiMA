@@ -94,7 +94,7 @@ public class clsLeafTemperature  extends clsRuleTreeLeaf
 		public boolean compare(clsDataBase poData) {
 			//leafBubblesVisible info:
 		    boolean nResult = false;
-		    double oTension = ((decisionunit.itf.sensors.clsStomachTension)poData).mrTension;
+		    double oTension = ((decisionunit.itf.sensors.clsStomachTension)poData).getTension();
 		    if( poData != null && meCompareOperator.compareDouble(oTension, mrTension) )
 		    {
 		      nResult = true;

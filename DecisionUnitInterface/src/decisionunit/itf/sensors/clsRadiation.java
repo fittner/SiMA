@@ -7,7 +7,14 @@ package decisionunit.itf.sensors;
  * 
  */
 public class clsRadiation extends clsSensorRingSegment {
-	public double mrIntensity;
+	protected double mrIntensity;
+	
+	public double getIntensity() {
+		return mrIntensity;
+	}
+	public void setIntensity(double prIntensity) {
+		mrIntensity = prIntensity;
+	}
 	
 	@Override
 	public String logXML() {

@@ -11,8 +11,15 @@ import java.util.ArrayList;
  * TODO - deutsch : what shall we do with all that arrays in the BW.FastMessengerClass???
  *
  */
-public class clsFastMessenger extends clsSensorIntern {
-	public ArrayList<clsFastMessengerEntry> moEntries = new ArrayList<clsFastMessengerEntry>();
+public class clsFastMessenger extends clsSensorIntern implements Cloneable {
+	protected ArrayList<clsFastMessengerEntry> moEntries = new ArrayList<clsFastMessengerEntry>();
+	
+	public ArrayList<clsFastMessengerEntry> getEntries() {
+		return moEntries;
+	}
+	public void setEntries(ArrayList<clsFastMessengerEntry> poEntries) {
+		moEntries = poEntries;
+	}	
 	
 	@Override
 	public String logXML() {
@@ -59,5 +66,23 @@ public class clsFastMessenger extends clsSensorIntern {
 		
 		return oRetVal;
 	}
+	
+	@Override
+	public Object clone() throws CloneNotSupportedException {
+        try {
+        	clsFastMessenger oClone = (clsFastMessenger)super.clone();
+        	
+        	if (moEntries != null) {
+        		oClone.moEntries = new ArrayList<clsFastMessengerEntry>();
+	    		for (clsFastMessengerEntry oEntry:moEntries) {
+	    			moEntries.add( (clsFastMessengerEntry)oEntry.clone() );
+	    		}
+        	}
+    		
+        	return oClone;
+        } catch (CloneNotSupportedException e) {
+           return e;
+        }
+	}	
 
 }

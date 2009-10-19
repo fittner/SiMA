@@ -6,26 +6,30 @@ package pa.symbolization.representationsymbol;
  * (horvath) - Radiation sensor provides just radiation intensity
  * 
  */
-public class clsRadiation extends clsSensorRingSegment {
-	public double mrIntensity;
-	
-	@Override
-	public String logXML() {
-		String logEntry = "";
-		
-		logEntry += addXMLTag("mrIntensity", new Double(mrIntensity).toString()); 
+public class clsRadiation extends decisionunit.itf.sensors.clsRadiation  implements itfGetMeshAttributeName, itfGetSymInterface, itfSymRadiation {
 
-		return addXMLTag(logEntry);
-	}
-	
+	/* (non-Javadoc)
+	 *
+	 * @author deutsch
+	 * 19.10.2009, 20:00:50
+	 * 
+	 * @see pa.symbolization.representationsymbol.itfGetMeshAttributeName#getMeshAttributeName()
+	 */
 	@Override
-	public String toString() {
-		return getClassName()+": intensity "+mrIntensity;
+	public String getMeshAttributeName() {
+		return "";
 	}
 
+	/* (non-Javadoc)
+	 *
+	 * @author deutsch
+	 * 19.10.2009, 20:00:50
+	 * 
+	 * @see pa.symbolization.representationsymbol.itfGetSymInterface#getSymInterface()
+	 */
 	@Override
-	public String logHTML() {
-		return "<tr><td>"+getClassName()+"</td><td>"+mrIntensity+"</td></tr>";
+	public String getSymInterface() {
+		return "itfSymRadiation";
 	}
 }
 

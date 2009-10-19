@@ -15,8 +15,7 @@ import java.util.ArrayList;
  * 09.09.2009, 13:56:28
  * 
  */
-public class clsSensorRingSegment extends clsSensorExtern {
-
+public class clsSensorRingSegment extends clsSensorExtern implements Cloneable, itfIsContainer {
 	private ArrayList<clsSensorExtern> moEntries = new ArrayList<clsSensorExtern>();
 	
 	public void add(clsSensorRingSegmentEntries poEntry) {
@@ -86,34 +85,25 @@ public class clsSensorRingSegment extends clsSensorExtern {
 		return moEntries;
 	}
 
-	/* (non-Javadoc)
-	 *
-	 * @author zeilinger
-	 * 30.09.2009, 13:58:18
-	 * 
-	 * @see decisionunit.itf.sensors.clsDataBase#getMeshAttributeName()
-	 */
-	@Override
-	public String getMeshAttributeName() {
-		// TODO (zeilinger) - Auto-generated method stub
-		return null;
-	}
-
-	/* (non-Javadoc)
-	 *
-	 * @author zeilinger
-	 * 30.09.2009, 13:58:18
-	 * 
-	 * @see decisionunit.itf.sensors.clsDataBase#isContainer()
-	 */
-	@Override
-	public boolean isContainer() {
-		// TODO (zeilinger) - Auto-generated method stub
-		return true;
-	}
-
 	@Override
 	public boolean setDataObjects(ArrayList<clsSensorExtern> poSymbolData) {
 		return false;
 	}
+	
+	@Override
+	public Object clone() throws CloneNotSupportedException {
+        try {
+        	clsSensorRingSegment oClone = (clsSensorRingSegment)super.clone();
+
+        	if (moEntries!=null) {
+        		oClone.moEntries = new ArrayList<clsSensorExtern>();
+        		for (clsSensorExtern oEntry:moEntries) {
+        			oClone.moEntries.add( (clsSensorExtern)oEntry.clone());
+        		}
+        	}
+        	return oClone;
+        } catch (CloneNotSupportedException e) {
+           return e;
+        }
+	}	
 }

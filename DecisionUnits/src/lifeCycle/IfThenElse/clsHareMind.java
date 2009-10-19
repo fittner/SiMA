@@ -61,7 +61,7 @@ public class clsHareMind extends clsRemoteControl { //should be derived from cls
 		} else if( oVisibleCarrot != null && isHungry()) {
 			reachCarrot(poActionProcessor, oVisibleCarrot);
 			//todo: flee when lynx in range!!!
-		} else if( oBump.mnBumped ) {
+		} else if( oBump.getBumped() ) {
 			handleColision(poActionProcessor);
 		} else {
 			seekCarrot(poActionProcessor);
@@ -74,9 +74,9 @@ public class clsHareMind extends clsRemoteControl { //should be derived from cls
 
 		clsEatableArea oEatArea = (clsEatableArea) getSensorData().getSensorExt(eSensorExtType.EATABLE_AREA);
 		
-		if (oEatArea.moEntries.size() > 0) {
-			clsEatableAreaEntry oEntry = (clsEatableAreaEntry)oEatArea.moEntries.get(0);
-			if (oEntry.mnEntityType == eEntityType.CARROT && oEntry.mnIsConsumeable == eTriState.TRUE) {
+		if (oEatArea.getEntries().size() > 0) {
+			clsEatableAreaEntry oEntry = (clsEatableAreaEntry)oEatArea.getEntries().get(0);
+			if (oEntry.getEntityType() == eEntityType.CARROT && oEntry.getIsConsumeable() == eTriState.TRUE) {
 				nRetVal = true;
 			}
 		}
@@ -84,9 +84,9 @@ public class clsHareMind extends clsRemoteControl { //should be derived from cls
 	}
 	
 	private boolean isCarrotOrange(clsSensorRingSegmentEntries oVisionObj) {
-		if (oVisionObj.mnEntityType == eEntityType.CARROT && 
-				((clsVisionEntries)oVisionObj).moColor != null &&
-				((clsVisionEntries)oVisionObj).moColor.equals(Color.orange) 
+		if (oVisionObj.getEntityType() == eEntityType.CARROT && 
+				((clsVisionEntries)oVisionObj).getColor() != null &&
+				((clsVisionEntries)oVisionObj).getColor().equals(Color.orange) 
 				) {
 			return true;
 		}
@@ -112,7 +112,7 @@ public class clsHareMind extends clsRemoteControl { //should be derived from cls
 		boolean nRetVal = false;
 		clsEnergy oStomach = (clsEnergy) getSensorData().getSensorInt(eSensorIntType.ENERGY);
 
-		if( oStomach.mrEnergy <= mnHungryThreasholed ) {
+		if( oStomach.getEnergy() <= mnHungryThreasholed ) {
 			nRetVal = true;
 		}
 		
@@ -159,7 +159,7 @@ public class clsHareMind extends clsRemoteControl { //should be derived from cls
 	
 	public void reachCarrot(itfActionProcessor poActionProcessor, clsSensorRingSegmentEntries poVisionObj) {
 		
-		double rAngle = poVisionObj.moPolarcoordinate.moAzimuth.mrAlpha;
+		double rAngle = poVisionObj.getPolarcoordinate().moAzimuth.mrAlpha;
 		
 		if( rAngle < 0.1 || rAngle > (2*Math.PI - 0.1))
 		{

@@ -141,12 +141,12 @@ public class clsLeafVisionSegment extends clsRuleTreeLeaf {
 			 * 		The same is for the team ID*/			
 			for (clsSensorExtern element : oVisionEntries){
 				clsVisionEntries oElement = (clsVisionEntries)element; 
-				if( oElement.mnEntityType == meEntityType
-					&& oElement.moObjectPosition == meLocation 
-					&& oElement.mnShapeType == meShapeType
-				    && oElement.moColor.equals(moColor)
-				    && meCompareOperator.compare(oElement.mnAlive, moAlive)
-				    && oElement.mnNumEntitiesPresent == meNumber){
+				if( oElement.getEntityType() == meEntityType
+					&& oElement.getObjectPosition() == meLocation 
+					&& oElement.getShapeType() == meShapeType
+				    && oElement.getColor().equals(moColor)
+				    && meCompareOperator.compare(oElement.getAlive(), moAlive)
+				    && oElement.getNumEntitiesPresent() == meNumber){
 					
 					nResult = true;
 					break; 

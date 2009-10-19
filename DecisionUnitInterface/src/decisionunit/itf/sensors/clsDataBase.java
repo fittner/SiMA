@@ -1,8 +1,9 @@
 package decisionunit.itf.sensors;
 
-public abstract class clsDataBase {
+public abstract class clsDataBase implements Cloneable {
 	abstract public String logXML();
 	abstract public String logHTML();
+	
 	@Override
 	abstract public String toString();
 		
@@ -43,4 +44,14 @@ public abstract class clsDataBase {
 		return tag;
 	}
 
+	@Override
+	public Object clone() throws CloneNotSupportedException {
+        try {
+        	clsDataBase oClone = (clsDataBase)super.clone();
+
+        	return oClone;
+        } catch (CloneNotSupportedException e) {
+           return e;
+        }
+	}	
 }

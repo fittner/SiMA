@@ -2,8 +2,8 @@ package decisionunit.itf.sensors;
 
 import java.util.ArrayList;
 
-public class clsBump extends clsSensorExtern {
-	public boolean mnBumped = false;
+public class clsBump extends clsSensorExtern implements Cloneable {
+	protected boolean mnBumped = false;
 		
 	public clsBump() {
 	}
@@ -12,6 +12,13 @@ public class clsBump extends clsSensorExtern {
 		mnBumped = nBumped;
 	}
 
+	public boolean getBumped() {
+		return mnBumped;
+	}
+	public void setBumped(boolean pnBumped) {
+		mnBumped =pnBumped;
+	}
+	
 	@Override
 	public String logXML() {
 		return addXMLTag(new Boolean(mnBumped).toString());
@@ -54,30 +61,6 @@ public class clsBump extends clsSensorExtern {
 
 	/* (non-Javadoc)
 	 *
-	 * @author zeilinger
-	 * 30.09.2009, 13:41:13
-	 * 
-	 * @see decisionunit.itf.sensors.clsDataBase#getMeshAttributeName()
-	 */
-	@Override
-	public String getMeshAttributeName() {
-		return "mnBumped"; 
-	}
-
-	/* (non-Javadoc)
-	 *
-	 * @author zeilinger
-	 * 30.09.2009, 13:41:13
-	 * 
-	 * @see decisionunit.itf.sensors.clsDataBase#isContainer()
-	 */
-	@Override
-	public boolean isContainer() {
-		return false;
-	}
-
-	/* (non-Javadoc)
-	 *
 	 * @author langr
 	 * 01.10.2009, 14:47:13
 	 * 
@@ -87,4 +70,15 @@ public class clsBump extends clsSensorExtern {
 	public boolean setDataObjects(ArrayList<clsSensorExtern> poSymbolData) {
 		return false;
 	}
+	
+	@Override
+	public Object clone() throws CloneNotSupportedException {
+        try {
+        	clsBump oClone = (clsBump)super.clone();
+
+        	return oClone;
+        } catch (CloneNotSupportedException e) {
+           return e;
+        }
+	}	
 }

@@ -16,9 +16,23 @@ import enums.eFastMessengerSources;
  * @author deutsch
  * 
  */
-public class clsFastMessengerEntry {
-	public eFastMessengerSources moSource;
-	public double mrIntensity;
+public class clsFastMessengerEntry implements Cloneable {
+	protected eFastMessengerSources moSource;
+	protected double mrIntensity;
+	
+	public double getIntensity() {
+		return mrIntensity;
+	}
+	public void setIntensity(double prIntensity) {
+		mrIntensity = prIntensity;
+	}
+	
+	public eFastMessengerSources getSource() {
+		return moSource;
+	}
+	public void setSourc(eFastMessengerSources poSource) {
+		moSource = poSource;
+	}
 	
 	public clsFastMessengerEntry(eFastMessengerSources poSource, double prIntensity) {
 		moSource = poSource;
@@ -57,5 +71,15 @@ public class clsFastMessengerEntry {
 		return oResult;
 	}	
 	
-	
+	@Override
+	public Object clone() throws CloneNotSupportedException {
+        try {
+        	clsFastMessengerEntry oClone = (clsFastMessengerEntry)super.clone();
+        	oClone.moSource = moSource;
+
+        	return oClone;
+        } catch (CloneNotSupportedException e) {
+           return e;
+        }
+	}	
 }

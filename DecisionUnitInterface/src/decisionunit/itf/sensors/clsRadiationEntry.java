@@ -4,28 +4,32 @@ package decisionunit.itf.sensors;
 import java.awt.Color;
 import java.util.ArrayList;
 
-import enums.eEntityType;
-import enums.eShapeType;
-import bfg.tools.shapes.clsPolarcoordinate;
-
 public class clsRadiationEntry extends clsSensorRingSegmentEntries{
-	public clsPolarcoordinate moPolarcoordinate = new clsPolarcoordinate();
-	public eEntityType mnEntityType = eEntityType.UNDEFINED;
-	public eShapeType mnShapeType = eShapeType.UNDEFINED;
+	protected boolean mnAlive = false;
+	protected Color moColor = null;
+	protected String moClassName = "";
 	
-	// (horvath) - as in the vision sensor
-	//public int moEntityId = -1;
-	public String moEntityId = "";
+	public boolean getAlive() {
+		return mnAlive;
+	}
+	public void setAlive(boolean pnAlive) {
+		mnAlive = pnAlive;
+	}
 	
-	public boolean mnAlive = false;
-	public Color moColor = null;
+	public Color getColor() {
+		return moColor;
+	}
+	public void setColor(Color poColor) {
+		moColor = poColor;
+	}
 	
-//	public eShapeType moShapeType = eShapeType.UNDEFINED;
-	//	public double mrWidth = -1;
-	//	public double mrLength = -1;
-	//	public HashMap<Integer, Object> moVisibleAttributes = new HashMap<Integer, Object>();
-	
-	protected String moClassName;
+	@Override
+	public String getClassName() {
+		return moClassName;
+	}
+	public void setClassName(String poClassName) {
+		moClassName = poClassName;
+	}
 	
 	public clsRadiationEntry() {
 		moClassName = "RadiationEntry";

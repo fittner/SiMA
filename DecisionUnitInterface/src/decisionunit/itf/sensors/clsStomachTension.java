@@ -15,9 +15,15 @@ import java.util.Formatter;
  * 10.08.2009, 16:09:01
  * 
  */
-public class clsStomachTension extends clsSensorIntern {
-
-	public double mrTension;
+public class clsStomachTension extends clsSensorIntern implements Cloneable {
+	protected double mrTension;
+	
+	public double getTension() {
+		return mrTension;
+	}
+	public void setTension(double prTension) {
+		mrTension = prTension;
+	}
 	
 	@Override
 	public String logXML() {
@@ -37,5 +43,16 @@ public class clsStomachTension extends clsSensorIntern {
 	public String logHTML() {
 		Formatter oDoubleFormatter = new Formatter();
 		return "<tr><td>"+getClassName()+"</td>"+oDoubleFormatter .format("%.5f",mrTension)+"<td></td></tr>";
+	}	
+	
+	@Override
+	public Object clone() throws CloneNotSupportedException {
+        try {
+        	clsStomachTension oClone = (clsStomachTension)super.clone();
+
+        	return oClone;
+        } catch (CloneNotSupportedException e) {
+           return e;
+        }
 	}	
 }

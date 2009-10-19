@@ -5,11 +5,31 @@ import java.util.Formatter;
 
 import bfg.tools.shapes.clsAngle;
 
-public class clsPositionChange extends clsSensorExtern {
-
-	public double x=0;
-	public double y=0;
-	public double a=0;
+public class clsPositionChange extends clsSensorExtern implements Cloneable {
+	protected double x=0;
+	protected double y=0;
+	protected double a=0;
+	
+	public double getX() {
+		return x;
+	}
+	public void setX(double prX) {
+		x = prX;
+	}
+	
+	public double getY() {
+		return y;
+	}
+	public void setY(double prY) {
+		y = prY;
+	}
+	
+	public double getA() {
+		return a;
+	}
+	public void setA(double prA) {
+		a = prA;
+	}
 	
 	@Override
 	public String logXML() {
@@ -59,32 +79,6 @@ public class clsPositionChange extends clsSensorExtern {
 
 	/* (non-Javadoc)
 	 *
-	 * @author zeilinger
-	 * 30.09.2009, 15:37:35
-	 * 
-	 * @see decisionunit.itf.sensors.clsSensorExtern#getMeshAttributeName()
-	 */
-	@Override
-	public String getMeshAttributeName() {
-		// TODO (zeilinger) - Auto-generated method stub
-		return "moSensorType";
-	}
-
-	/* (non-Javadoc)
-	 *
-	 * @author zeilinger
-	 * 30.09.2009, 15:37:35
-	 * 
-	 * @see decisionunit.itf.sensors.clsSensorExtern#isContainer()
-	 */
-	@Override
-	public boolean isContainer() {
-		// TODO (zeilinger) - Auto-generated method stub
-		return false;
-	}
-
-	/* (non-Javadoc)
-	 *
 	 * @author langr
 	 * 01.10.2009, 14:47:33
 	 * 
@@ -95,4 +89,14 @@ public class clsPositionChange extends clsSensorExtern {
 		return false;
 	}
 
+	@Override
+	public Object clone() throws CloneNotSupportedException {
+        try {
+        	clsPositionChange oClone = (clsPositionChange)super.clone();
+
+        	return oClone;
+        } catch (CloneNotSupportedException e) {
+           return e;
+        }
+	}		
 }

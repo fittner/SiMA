@@ -78,10 +78,10 @@ public class clsDumbMindA extends clsBaseDecisionUnit {
 		
 		for( clsSensorExtern oVisionObj : oVision.getList() ) {
 			
-				if(((clsVisionEntries)oVisionObj).mnEntityType == eEntityType.CAKE)
+				if(((clsVisionEntries)oVisionObj).getEntityType() == eEntityType.CAKE)
 				{
 
-					double rAngle = ((clsVisionEntries)oVisionObj).moPolarcoordinate.moAzimuth.mrAlpha;
+					double rAngle = ((clsVisionEntries)oVisionObj).getPolarcoordinate().moAzimuth.mrAlpha;
 
 					
 					if( rAngle < 0.1 || rAngle > (2*Math.PI - 0.1))
@@ -116,8 +116,8 @@ public class clsDumbMindA extends clsBaseDecisionUnit {
 		clsEatableArea oEatArea = (clsEatableArea) getSensorData().getSensorExt(eSensorExtType.EATABLE_AREA);
 		
 	
-		for(clsSensorExtern oEatAreaObj : oEatArea.moEntries ) {
-			if( ((clsEatableAreaEntry)oEatAreaObj).mnEntityType == eEntityType.CAKE ){
+		for(clsSensorExtern oEatAreaObj : oEatArea.getEntries() ) {
+			if( ((clsEatableAreaEntry)oEatAreaObj).getEntityType() == eEntityType.CAKE ){
 			   //&& ((clsEatableAreaEntries)oEatAreaObj). .moColorOfFirstEntity != null && oEatArea.moColorOfFirstEntity.equals(Color.orange))
 				//clsEatAction oEatAction = new clsEatAction();
 				//poActionList.addEatAction(oEatAction);
@@ -136,9 +136,9 @@ public class clsDumbMindA extends clsBaseDecisionUnit {
 		clsBump oBump = (clsBump) getSensorData().getSensorExt(eSensorExtType.BUMP);
 		clsStaminaSystem oSSys = (clsStaminaSystem) getSensorData().getSensorInt(eSensorIntType.STAMINA);
 		
-		if (oSSys.mrStaminaValue<0.2) return;
+		if (oSSys.getStaminaValue()<0.2) return;
 		
-		if( oBump.mnBumped )
+		if( oBump.getBumped() )
 		{
 			//poActionList.addMoveAction(clsMotionAction.creatAction(eActionCommandMotion.MOVE_BACKWARD) );
 			//poActionList.addMoveAction(clsMotionAction.creatAction(eActionCommandMotion.ROTATE_LEFT) );

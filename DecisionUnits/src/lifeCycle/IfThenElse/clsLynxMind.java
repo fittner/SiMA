@@ -58,14 +58,14 @@ public class clsLynxMind extends clsRemoteControl  {
 		clsBump oBump = (clsBump) getSensorData().getSensorExt(eSensorExtType.BUMP);
 		
 		if( checkEatableArea() && isHungry() ) {
-			if(((clsVisionEntries)oVisibleHare).moColor.equals(Color.red)) {
+			if(((clsVisionEntries)oVisibleHare).getColor().equals(Color.red)) {
 				eatHare(poActionProcessor);
 			} else {				
 				killHare(poActionProcessor);
 			}
 		} else if( oVisibleHare != null && isHungry() ) {
 			followHare(poActionProcessor, oVisibleHare);
-		} else if( oBump.mnBumped )	{
+		} else if( oBump.getBumped() )	{
 			handleColision(poActionProcessor);
 		} else {
 			seekHare(poActionProcessor);
@@ -76,9 +76,9 @@ public class clsLynxMind extends clsRemoteControl  {
 		boolean nRetVal = false;
 		clsEatableArea oEatArea = (clsEatableArea) getSensorData().getSensorExt(eSensorExtType.EATABLE_AREA);
 		
-		if (oEatArea.moEntries.size() > 0) {
-			clsEatableAreaEntry oEntry = (clsEatableAreaEntry)oEatArea.moEntries.get(0);
-			if (oEntry.mnEntityType == eEntityType.HARE && oEntry.mnIsConsumeable == eTriState.TRUE) {
+		if (oEatArea.getEntries().size() > 0) {
+			clsEatableAreaEntry oEntry = (clsEatableAreaEntry)oEatArea.getEntries().get(0);
+			if (oEntry.getEntityType() == eEntityType.HARE && oEntry.getIsConsumeable() == eTriState.TRUE) {
 				nRetVal = true;
 			}
 		}		
@@ -89,7 +89,7 @@ public class clsLynxMind extends clsRemoteControl  {
 		clsSensorRingSegmentEntries oRetVal = null;
 		clsVision oVision = (clsVision) getSensorData().getSensorExt(eSensorExtType.VISION);
 		for( clsSensorExtern oVisionObj : oVision.getList() ) {
-			if( ((clsVisionEntries)oVisionObj).mnEntityType == eEntityType.HARE && !((clsVisionEntries)oVisionObj).moColor.equals(Color.BLACK))
+			if( ((clsVisionEntries)oVisionObj).getEntityType() == eEntityType.HARE && !((clsVisionEntries)oVisionObj).getColor().equals(Color.BLACK))
 			{
 				oRetVal = (clsVisionEntries)oVisionObj;
 				break;
@@ -102,7 +102,7 @@ public class clsLynxMind extends clsRemoteControl  {
 		boolean nRetVal = false;
 		clsEnergy oStomach = (clsEnergy) getSensorData().getSensorInt(eSensorIntType.ENERGY);
 
-		if( oStomach.mrEnergy <= mnHungryThreasholed ) {
+		if( oStomach.getEnergy() <= mnHungryThreasholed ) {
 			nRetVal = true;
 		}
 		
@@ -149,7 +149,7 @@ public class clsLynxMind extends clsRemoteControl  {
 	
 	public void followHare(itfActionProcessor poActionProcessor, clsSensorRingSegmentEntries poVisionObj) {
 		
-		double rAngle = poVisionObj.moPolarcoordinate.moAzimuth.mrAlpha;
+		double rAngle = poVisionObj.getPolarcoordinate().moAzimuth.mrAlpha;
 		
 		if( rAngle < 0.1 || rAngle > (2*Math.PI - 0.1))
 		{

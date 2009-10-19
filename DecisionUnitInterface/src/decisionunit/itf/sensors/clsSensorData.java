@@ -2,13 +2,14 @@ package decisionunit.itf.sensors;
 
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.Map;
 
 import enums.eSensorExtType;
 import enums.eSensorIntType;
 
 
 
-public class clsSensorData {
+public class clsSensorData implements Cloneable {
 	private HashMap<eSensorExtType, clsDataBase> moSensorDataExt;
 	private HashMap<eSensorIntType, clsDataBase> moSensorDataInt;
 	
@@ -87,5 +88,32 @@ public class clsSensorData {
 		return "SensorData: External "+toStringSensors(moSensorDataExt.values())+" $$ Internal "+toStringSensors(moSensorDataInt.values());
 	}
 
+	@Override
+	public Object clone() throws CloneNotSupportedException {
+        try {
+        	clsSensorData oClone = (clsSensorData)super.clone();
 
+        	//private HashMap<eSensorExtType, clsDataBase> moSensorDataExt;
+        	if (moSensorDataExt != null) {
+        		oClone.moSensorDataExt = new HashMap<eSensorExtType, clsDataBase>();
+        		
+        		for (Map.Entry<eSensorExtType, clsDataBase> entry:moSensorDataExt.entrySet()) {
+        			oClone.moSensorDataExt.put(entry.getKey(), (clsDataBase)entry.getValue().clone());
+        		}
+        	}
+        	
+        	//private HashMap<eSensorIntType, clsDataBase> moSensorDataInt;
+        	if (moSensorDataInt != null) {
+        		oClone.moSensorDataInt = new HashMap<eSensorIntType, clsDataBase>();
+        		
+        		for (Map.Entry<eSensorIntType, clsDataBase> entry:moSensorDataInt.entrySet()) {
+        			oClone.moSensorDataInt.put(entry.getKey(), (clsDataBase)entry.getValue().clone());
+        		}
+        	}        	
+        	
+        	return oClone;
+        } catch (CloneNotSupportedException e) {
+           return e;
+        }
+	}
 }

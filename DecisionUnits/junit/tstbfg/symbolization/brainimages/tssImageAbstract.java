@@ -115,19 +115,19 @@ public class tssImageAbstract {
 		clsVision oVision = new clsVision();
 		oVision.setSensorType(eSensorExtType.VISION_NEAR);
 		clsVisionEntries oVisionEntries = new clsVisionEntries();
-		oVisionEntries.mnAlive = true;
-		oVisionEntries.mnEntityType = eEntityType.BUBBLE;
-		oVisionEntries.mnShapeType = eShapeType.CIRCLE;
-		oVisionEntries.moColor = java.awt.Color.RED;
-		oVisionEntries.moPolarcoordinate = new clsPolarcoordinate(8.0, 0.1);
-		oVisionEntries.moObjectPosition = eSide.LEFT; 
+		oVisionEntries.setAlive( true);
+		oVisionEntries.setEntityType(eEntityType.BUBBLE);
+		oVisionEntries.setShapeType( eShapeType.CIRCLE);
+		oVisionEntries.setColor( java.awt.Color.RED);
+		oVisionEntries.setPolarcoordinate( new clsPolarcoordinate(8.0, 0.1));
+		oVisionEntries.setObjectPosition( eSide.LEFT); 
 		oVision.add(oVisionEntries);
 		
 		oSensorData.addSensorExt(oVision.getSensorType(), oVision);
 		
 		clsEatableArea oEatableArea = new clsEatableArea(); 
 		clsEatableAreaEntry oEatableEntry = new clsEatableAreaEntry(eEntityType.BUBBLE);
-		oEatableArea.moEntries.add(oEatableEntry);
+		oEatableArea.getEntries().add(oEatableEntry);
 		
 		oSensorData.addSensorExt(eSensorExtType.EATABLE_AREA, oEatableArea);
 		

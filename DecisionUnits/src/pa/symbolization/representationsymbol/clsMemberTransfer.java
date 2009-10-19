@@ -13,6 +13,7 @@ import java.util.Iterator;
 import java.util.Map;
 
 import decisionunit.itf.sensors.clsSensorExtern;
+import decisionunit.itf.sensors.itfIsContainer;
 import enums.eSensorExtType;
 
 /**
@@ -24,29 +25,7 @@ import enums.eSensorExtType;
  */
 public class clsMemberTransfer {
 
-	public static String moTransferPath = "symbolization.representationsymbol";
-	
-	public static void transferMembers( Object poSource, Object poTarget ) {
-		
-		Field[] oFields = poTarget.getClass().getFields(); //get members of class
-		for(Field oField : oFields) { //for each (public) member of the sensordata-class
-
-			String oAttributeName = oField.getName();
-			Object oAttributeValue;
-			try {
-				oAttributeValue = poSource.getClass().getField(oAttributeName).get(poSource);
-				oField.set(poTarget, oAttributeValue);
-			} catch (IllegalArgumentException e) {
-				e.printStackTrace();
-			} catch (IllegalAccessException e) {
-				e.printStackTrace();
-			} catch (SecurityException e) {
-				e.printStackTrace();
-			} catch (NoSuchFieldException e) {
-				e.printStackTrace();
-			}
-		}
-	}
+	public static String moTransferPath = "pa.symbolization.representationsymbol";
 	
 	public static HashMap<eSensorExtType, clsSensorExtern> createSymbolData( HashMap<eSensorExtType, clsSensorExtern> poSensorDataExt ) {
 		
@@ -60,7 +39,7 @@ public class clsMemberTransfer {
 
 	        clsSensorExtern oSensorExt = pairs.getValue();
 	        if(oSensorExt != null) {
-				if(oSensorExt.isContainer()) {
+				if(oSensorExt instanceof itfIsContainer) {
 					
 					String oClassName = moTransferPath + oSensorExt.getClass().getName().substring(24);
 					clsSensorExtern oTarget = null;
@@ -123,6 +102,27 @@ public class clsMemberTransfer {
 		}
 		
 		return oRetVal;
+	}
+	
+	public static void transferMembers( Object poSource, Object poTarget ) {
+		
+		Field[] oFields = poTarget.getClass().getFields(); //get members of class
+		for(Field oField : oFields) { //for each (public) member of the sensordata-class
 
+			String oAttributeName = oField.getName();
+			Object oAttributeValue;
+			try {
+				oAttributeValue = poSource.getClass().getField(oAttributeName).get(poSource);
+				oField.set(poTarget, oAttributeValue);
+			} catch (IllegalArgumentException e) {
+				e.printStackTrace();
+			} catch (IllegalAccessException e) {
+				e.printStackTrace();
+			} catch (SecurityException e) {
+				e.printStackTrace();
+			} catch (NoSuchFieldException e) {
+				e.printStackTrace();
+			}
+		}
 	}
 }

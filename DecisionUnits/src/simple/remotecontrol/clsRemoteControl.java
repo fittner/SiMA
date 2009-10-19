@@ -202,9 +202,9 @@ public class clsRemoteControl extends clsBaseDecisionUnit  {
 
 	protected void eat(itfActionProcessor poActionProcessor, enums.eEntityType peEntityType) {
 		clsEatableArea oEatArea = (clsEatableArea) getSensorData().getSensorExt(eSensorExtType.EATABLE_AREA);
-		if (oEatArea.moEntries.size() > 0) {
-			clsEatableAreaEntry oEntry = oEatArea.moEntries.get(0);
-			if (oEntry.mnEntityType == peEntityType) {
+		if (oEatArea.getEntries().size() > 0) {
+			clsEatableAreaEntry oEntry = oEatArea.getEntries().get(0);
+			if (oEntry.getEntityType() == peEntityType) {
 				poActionProcessor.call(new clsActionEat());	
 			}
 		}
@@ -214,8 +214,8 @@ public class clsRemoteControl extends clsBaseDecisionUnit  {
 		clsVision oVis = (clsVision) getSensorData().getSensorExt(eSensorExtType.VISION);
 
 		for(int i=0; i<oVis.getList().size(); i++){
-			if (((clsSensorRingSegmentEntries)oVis.getList().get(i)).mnEntityType == peEntityType) {
-				poActionProcessor.call(new clsActionAttackLightning(4, ((clsSensorRingSegmentEntries)oVis.getList().get(i)).moEntityId));	
+			if (((clsSensorRingSegmentEntries)oVis.getList().get(i)).getEntityType() == peEntityType) {
+				poActionProcessor.call(new clsActionAttackLightning(4, ((clsSensorRingSegmentEntries)oVis.getList().get(i)).getEntityId()));	
 			}
 		}
 
@@ -229,9 +229,9 @@ public class clsRemoteControl extends clsBaseDecisionUnit  {
 	 */
 	protected void kill(itfActionProcessor poActionProcessor, enums.eEntityType peEntityType) {
 		clsEatableArea oEatArea = (clsEatableArea) getSensorData().getSensorExt(eSensorExtType.EATABLE_AREA);
-		if (oEatArea.moEntries.size() > 0) {
-			clsEatableAreaEntry oEntry = oEatArea.moEntries.get(0);
-			if (oEntry.mnEntityType == peEntityType) {
+		if (oEatArea.getEntries().size() > 0) {
+			clsEatableAreaEntry oEntry = oEatArea.getEntries().get(0);
+			if (oEntry.getEntityType() == peEntityType) {
 				poActionProcessor.call(new clsActionAttackBite(4));	
 			}
 		}		

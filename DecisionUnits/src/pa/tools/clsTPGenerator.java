@@ -14,7 +14,9 @@ import pa.datatypes.clsAssociationContext;
 import pa.datatypes.clsPrimaryInformation;
 import pa.datatypes.clsPrimaryInformationMesh;
 import pa.datatypes.clsThingPresentationSingle;
+import pa.symbolization.representationsymbol.itfGetMeshAttributeName;
 import decisionunit.itf.sensors.clsSensorExtern;
+import decisionunit.itf.sensors.itfIsContainer;
 import enums.eSensorExtType;
 
 /**
@@ -39,8 +41,12 @@ public class clsTPGenerator {
 	
 					clsPrimaryInformationMesh oPrimMesh = new clsPrimaryInformationMesh(new clsThingPresentationSingle());
 					
-					String oMeshAttributeName = oDataObject.getMeshAttributeName();
-					if(oDataObject.isContainer()) {
+					String oMeshAttributeName = "";
+					if (oDataObject instanceof itfGetMeshAttributeName) {
+						oMeshAttributeName = ((itfGetMeshAttributeName)oDataObject).getMeshAttributeName();
+					}
+					
+					if(oDataObject instanceof itfIsContainer) {
 						Field[] oFields = oDataObject.getClass().getFields(); //get members of class
 						for(Field oField : oFields) { //for each (public) member of the sensordata-class
 		

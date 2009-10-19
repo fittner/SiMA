@@ -116,18 +116,18 @@ public class E02_NeurosymbolizationOfNeeds extends clsModuleBase implements I1_1
 		moHomeostaticSymbol = new HashMap<String, Double>();
 		
 		clsSlowMessenger oSlowMessengerSystem = (clsSlowMessenger)moHomeostasis.get(eSensorIntType.SLOWMESSENGER);
-		for(  Map.Entry< eSlowMessenger, Double > oSlowMessenger : oSlowMessengerSystem.moSlowMessengerValues.entrySet() ) {
+		for(  Map.Entry< eSlowMessenger, Double > oSlowMessenger : oSlowMessengerSystem.getSlowMessengerValues().entrySet() ) {
 			moHomeostaticSymbol.put(oSlowMessenger.getKey().name(), oSlowMessenger.getValue());
 		}
 		
 		clsFastMessenger oFastMessengerSystem = (clsFastMessenger)moHomeostasis.get(eSensorIntType.FASTMESSENGER);
-		for(  clsFastMessengerEntry oFastMessenger : oFastMessengerSystem.moEntries ) {
-			moHomeostaticSymbol.put(oFastMessenger.moSource.name(), oFastMessenger.mrIntensity);
+		for(  clsFastMessengerEntry oFastMessenger : oFastMessengerSystem.getEntries() ) {
+			moHomeostaticSymbol.put(oFastMessenger.getSource().name(), oFastMessenger.getIntensity());
 		}
 	
-		moHomeostaticSymbol.put(eSensorIntType.STOMACHTENSION.name(), ((clsStomachTension)moHomeostasis.get(eSensorIntType.STOMACHTENSION)).mrTension );
-		moHomeostaticSymbol.put(eSensorIntType.HEALTH.name(), ((clsHealthSystem)moHomeostasis.get(eSensorIntType.HEALTH)).mrHealthValue );
-		moHomeostaticSymbol.put(eSensorIntType.STAMINA.name(), ((clsStaminaSystem)moHomeostasis.get(eSensorIntType.STAMINA)).mrStaminaValue );
+		moHomeostaticSymbol.put(eSensorIntType.STOMACHTENSION.name(), ((clsStomachTension)moHomeostasis.get(eSensorIntType.STOMACHTENSION)).getTension() );
+		moHomeostaticSymbol.put(eSensorIntType.HEALTH.name(), ((clsHealthSystem)moHomeostasis.get(eSensorIntType.HEALTH)).getHealthValue() );
+		moHomeostaticSymbol.put(eSensorIntType.STAMINA.name(), ((clsStaminaSystem)moHomeostasis.get(eSensorIntType.STAMINA)).getStaminaValue() );
 	}
 
 	/* (non-Javadoc)

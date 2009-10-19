@@ -11,9 +11,15 @@ import java.util.Formatter;
  * Holds the information about the actual energy level within the stomach
  *
  */
-public class clsEnergy extends clsSensorIntern {
-
-	public double mrEnergy;
+public class clsEnergy extends clsSensorIntern implements Cloneable{
+	protected double mrEnergy;
+	
+	public double getEnergy() {
+		return mrEnergy;
+	}
+	public void setEnergy(double prEnergy) {
+		mrEnergy = prEnergy;
+	}
 	
 	@Override
 	public String logXML() {
@@ -35,4 +41,14 @@ public class clsEnergy extends clsSensorIntern {
 		return "<tr><td>"+getClassName()+"</td>"+oDoubleFormatter .format("%.5f",mrEnergy)+"<td></td></tr>";
 	}
 
+	@Override
+	public Object clone() throws CloneNotSupportedException {
+        try {
+        	clsEnergy oClone = (clsEnergy)super.clone();
+
+        	return oClone;
+        } catch (CloneNotSupportedException e) {
+           return e;
+        }
+	}
 }

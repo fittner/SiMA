@@ -18,9 +18,15 @@ import enums.eSlowMessenger;
  * 23.09.2009, 13:21:28
  * 
  */
-public class clsSlowMessenger extends clsSensorIntern {
-	public HashMap<eSlowMessenger, Double> moSlowMessengerValues = new HashMap<eSlowMessenger, Double>();
+public class clsSlowMessenger extends clsSensorIntern implements Cloneable {
+	protected HashMap<eSlowMessenger, Double> moSlowMessengerValues = new HashMap<eSlowMessenger, Double>();
 
+	public HashMap<eSlowMessenger, Double> getSlowMessengerValues() {
+		return moSlowMessengerValues;
+	}
+	public void setSlowMessengerValues(HashMap<eSlowMessenger, Double> poSlowMessengerValues) {
+		moSlowMessengerValues = poSlowMessengerValues;
+	}
 	
 	/* (non-Javadoc)
 	 *
@@ -87,4 +93,22 @@ public class clsSlowMessenger extends clsSensorIntern {
 		return oResult;
 	}
 
+	@Override
+	public Object clone() throws CloneNotSupportedException {
+        try {
+        	clsSlowMessenger oClone = (clsSlowMessenger)super.clone();
+        	
+        	if (moSlowMessengerValues != null) {
+        		oClone.moSlowMessengerValues = new HashMap<eSlowMessenger, Double>();
+        		
+        		for (Map.Entry<eSlowMessenger, Double> entry:moSlowMessengerValues.entrySet()) {
+        			oClone.moSlowMessengerValues.put(entry.getKey(), entry.getValue());
+        		}        		
+        	}
+
+        	return oClone;
+        } catch (CloneNotSupportedException e) {
+           return e;
+        }
+	}	
 }

@@ -11,9 +11,15 @@ import java.util.Formatter;
  * Actual energy consumption - the sum of all consumers
  *
  */
-public class clsEnergyConsumption extends clsSensorIntern {
-
-	public double mrEnergy;
+public class clsEnergyConsumption extends clsSensorIntern implements Cloneable {
+	protected double mrEnergy;
+	
+	public double getEnergy() {
+		return mrEnergy;
+	}
+	public void setEnergy(double prEnergy) {
+		mrEnergy = prEnergy;
+	}
 	
 	@Override
 	public String logXML() {
@@ -34,4 +40,15 @@ public class clsEnergyConsumption extends clsSensorIntern {
 		Formatter oDoubleFormatter = new Formatter();
 		return "<tr><td>"+getClassName()+"</td><td>"+oDoubleFormatter .format("%.5f",mrEnergy)+"</td></tr>";
 	}
+	
+	@Override
+	public Object clone() throws CloneNotSupportedException {
+        try {
+        	clsEnergyConsumption oClone = (clsEnergyConsumption)super.clone();
+
+        	return oClone;
+        } catch (CloneNotSupportedException e) {
+           return e;
+        }
+	}	
 }

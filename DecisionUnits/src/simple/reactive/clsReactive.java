@@ -239,10 +239,10 @@ public class clsReactive extends clsBaseDecisionUnit {
 	private boolean isEnoughEnergy(clsSensorData poInputs){
 		clsEnergy oStomach = (clsEnergy) poInputs.getSensorInt(eSensorIntType.ENERGY);
 		
-		if(oStomach.mrEnergy >= mrENERGY_UPPER){
+		if(oStomach.getEnergy() >= mrENERGY_UPPER){
 			mbHungry = false;
 		}
-		if(oStomach.mrEnergy <= mrENERGY_LOWER){
+		if(oStomach.getEnergy() <= mrENERGY_LOWER){
 			mbHungry = true;
 		}	
 		
@@ -257,7 +257,7 @@ public class clsReactive extends clsBaseDecisionUnit {
 		clsEatableArea oEatArea = (clsEatableArea) poInputs.getSensorExt(eSensorExtType.EATABLE_AREA);
 		
 		for(clsSensorExtern oEatAreaObj : oEatArea.getList() ) {
-			if(((clsSensorRingSegmentEntries)oEatAreaObj).mnEntityType == poEntityType){
+			if(((clsSensorRingSegmentEntries)oEatAreaObj).getEntityType() == poEntityType){
 				return true;
 			}
 		}
@@ -271,7 +271,7 @@ public class clsReactive extends clsBaseDecisionUnit {
 	private boolean isVisibleEntityInRange(clsSensorData inputs, eEntityType entityType){
 		clsVision oVision = (clsVision) inputs.getSensorExt(eSensorExtType.VISION);
 		for( clsSensorExtern oVisionObj : oVision.getList() ){
-			if(((clsSensorRingSegmentEntries)oVisionObj).mnEntityType == entityType){
+			if(((clsSensorRingSegmentEntries)oVisionObj).getEntityType() == entityType){
 				return true;
 			}
 		}
@@ -283,7 +283,7 @@ public class clsReactive extends clsBaseDecisionUnit {
 	 */
 	private boolean isUraniumInRange(clsSensorData inputs){
 		clsRadiation oRadiation = (clsRadiation) inputs.getSensorExt(eSensorExtType.RADIATION);
-		if(oRadiation.mrIntensity == 0){
+		if(oRadiation.getIntensity() == 0){
 			return false;	
 		}else{	
 			return true;
@@ -322,9 +322,9 @@ public class clsReactive extends clsBaseDecisionUnit {
 		// Find the closest entity 
 		for( clsSensorExtern oVisionObj : oVision.getList() ) {
 			clsSensorRingSegmentEntries oVisionObjTemp = (clsSensorRingSegmentEntries)oVisionObj; 
-			if (oVisionObjTemp.mnEntityType == poEntityType){
-				if(oVisionObjTemp.moPolarcoordinate.mrLength <= pnDistance){
-					if(oVisionObjTemp.moPolarcoordinate.moAzimuth.mrAlpha <= mrATENTITY_ANGLE_TOLERANCE && oVisionObjTemp.moPolarcoordinate.moAzimuth.mrAlpha <= 2*Math.PI - mrATENTITY_ANGLE_TOLERANCE){
+			if (oVisionObjTemp.getEntityType() == poEntityType){
+				if(oVisionObjTemp.getPolarcoordinate().mrLength <= pnDistance){
+					if(oVisionObjTemp.getPolarcoordinate().moAzimuth.mrAlpha <= mrATENTITY_ANGLE_TOLERANCE && oVisionObjTemp.getPolarcoordinate().moAzimuth.mrAlpha <= 2*Math.PI - mrATENTITY_ANGLE_TOLERANCE){
 						
 					}				
 					return true;
@@ -412,10 +412,10 @@ public class clsReactive extends clsBaseDecisionUnit {
 		// Find the closest fungus 
 		for( clsSensorExtern oVisionObj : oVision.getList() ) {
 			clsSensorRingSegmentEntries oVisionObjTemp = (clsSensorRingSegmentEntries)oVisionObj; 
-			if(oVisionObjTemp.mnEntityType == entityType){
-				if(closest.mrLength < 0 || closest.mrLength > oVisionObjTemp.moPolarcoordinate.mrLength){
-					closest.mrLength = oVisionObjTemp.moPolarcoordinate.mrLength;
-					closest.moAzimuth = oVisionObjTemp.moPolarcoordinate.moAzimuth;
+			if(oVisionObjTemp.getEntityType() == entityType){
+				if(closest.mrLength < 0 || closest.mrLength > oVisionObjTemp.getPolarcoordinate().mrLength){
+					closest.mrLength = oVisionObjTemp.getPolarcoordinate().mrLength;
+					closest.moAzimuth = oVisionObjTemp.getPolarcoordinate().moAzimuth;
 				}
 			}			
 		}
@@ -475,8 +475,8 @@ public class clsReactive extends clsBaseDecisionUnit {
 	 */
 	private void harvest(clsSensorData inputs, itfActionProcessor poActionProcessor){
 		clsEatableArea oEatArea = (clsEatableArea) inputs.getSensorExt(eSensorExtType.EATABLE_AREA);
-		for(clsEatableAreaEntry oEatAreaObj : oEatArea.moEntries ) {
-				if( oEatAreaObj.mnEntityType == eEntityType.URANIUM ){
+		for(clsEatableAreaEntry oEatAreaObj : oEatArea.getEntries() ) {
+				if( oEatAreaObj.getEntityType() == eEntityType.URANIUM ){
 					moActionQueue.add(Action.PICKUP);
 					// FIXME (horvath) moActionQueue.add(Action.TO_INVENTORY);
 					mnInventorySize++;
@@ -493,8 +493,8 @@ public class clsReactive extends clsBaseDecisionUnit {
 		//eat
 		clsEatableArea oEatArea = (clsEatableArea) poInputs.getSensorExt(eSensorExtType.EATABLE_AREA);
 		
-		for(clsEatableAreaEntry oEatAreaObj : oEatArea.moEntries ) {
-					if(oEatAreaObj.mnEntityType == eEntityType.FUNGUS )
+		for(clsEatableAreaEntry oEatAreaObj : oEatArea.getEntries() ) {
+					if(oEatAreaObj.getEntityType() == eEntityType.FUNGUS )
 					{
 							poActionProcessor.call(new clsActionEat());	
 							
