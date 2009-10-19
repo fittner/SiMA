@@ -11,7 +11,7 @@ package pa.datatypes;
  * 
  * @author deutsch
  * 09.09.2009, 16:54:33
- * 
+ * @deprecated
  */
 public class clsAssoziationPrimary implements Cloneable {
 	public clsPrimaryInformation A;
