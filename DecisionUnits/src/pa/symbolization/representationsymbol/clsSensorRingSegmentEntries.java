@@ -1,4 +1,4 @@
-package symbolization.representationsymbol;
+package pa.symbolization.representationsymbol;
 
 
 import java.util.ArrayList;

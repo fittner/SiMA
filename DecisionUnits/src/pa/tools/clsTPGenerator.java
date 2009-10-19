@@ -85,7 +85,7 @@ public class clsTPGenerator {
 						//creating the thing presentation of the attribute 
 						clsPrimaryInformation oPrimSingle = new clsPrimaryInformation(new clsThingPresentationSingle());
 						
-						oPrimSingle.moTP.meContentName = oDataObject.getMeshAttributeName();
+						oPrimSingle.moTP.meContentName = oMeshAttributeName;
 
 						try {
 							Field oField = oDataObject.getClass().getField(oPrimSingle.moTP.meContentName);

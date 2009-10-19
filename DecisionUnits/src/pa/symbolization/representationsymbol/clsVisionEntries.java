@@ -4,7 +4,7 @@
  * @author zeilinger
  * 22.09.2009, 13:09:00
  */
-package symbolization.representationsymbol;
+package pa.symbolization.representationsymbol;
 
 import java.awt.Color;
 import java.util.ArrayList;

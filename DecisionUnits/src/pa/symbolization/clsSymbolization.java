@@ -6,7 +6,7 @@
  * $Author::                   $: Author of last commit
  * $Date::                     $: Date of last commit
  */
-package symbolization;
+package pa.symbolization;
 
 /**
  * Superclass of all symbolization frameworks that are and will be implemented. 

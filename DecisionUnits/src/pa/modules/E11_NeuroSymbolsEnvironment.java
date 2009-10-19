@@ -13,7 +13,7 @@ import decisionunit.itf.sensors.clsSensorExtern;
 import enums.eSensorExtType;
 import pa.interfaces.I2_1;
 import pa.interfaces.I2_2;
-import symbolization.representationsymbol.clsMemberTransfer;
+import pa.symbolization.representationsymbol.clsMemberTransfer;
 
 /**
  * DOCUMENT (deutsch) - insert description 

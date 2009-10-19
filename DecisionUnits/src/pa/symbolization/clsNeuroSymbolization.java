@@ -6,7 +6,7 @@
  * $Author::                   $: Author of last commit
  * $Date::                     $: Date of last commit
  */
-package symbolization;
+package pa.symbolization;
 
 /**
  * Implementation for symbolization of sensory data using R. Velik's implementation

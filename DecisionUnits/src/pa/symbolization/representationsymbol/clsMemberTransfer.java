@@ -4,7 +4,7 @@
  * @author langr
  * 01.10.2009, 13:15:58
  */
-package symbolization.representationsymbol;
+package pa.symbolization.representationsymbol;
 
 import java.lang.reflect.Field;
 import java.util.ArrayList;

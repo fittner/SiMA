@@ -6,7 +6,7 @@
  * $Author::                   $: Author of last commit
  * $Date::                     $: Date of last commit
  */
-package symbolization;
+package pa.symbolization;
 
 import java.util.ArrayList;
 import java.util.Vector;

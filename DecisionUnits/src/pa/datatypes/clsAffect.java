@@ -15,4 +15,15 @@ package pa.datatypes;
  */
 public abstract class clsAffect extends clsPsychicRepresentative implements Cloneable { 
 	public abstract double getValue();
+	
+	@Override
+	public Object clone() throws CloneNotSupportedException {
+        try {
+        	clsAffect oClone = (clsAffect)super.clone();
+
+        	return oClone;
+        } catch (CloneNotSupportedException e) {
+           return e;
+        }
+	}	
 }
