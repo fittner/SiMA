@@ -6,6 +6,7 @@
  */
 package pa.modules;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import pa.datatypes.clsPrimaryInformation;
@@ -23,7 +24,8 @@ import config.clsBWProperties;
  * 
  */
 public class E07_SuperEgo_unconscious extends clsModuleBase implements I1_5, I2_9 {
-
+	ArrayList<clsPrimaryInformation> moPrimaryInformation;
+	
 	/**
 	 * DOCUMENT (deutsch) - insert description 
 	 * 
@@ -87,9 +89,10 @@ public class E07_SuperEgo_unconscious extends clsModuleBase implements I1_5, I2_
 	 * 
 	 * @see pa.interfaces.I1_3#receive_I1_3(int)
 	 */
+	@SuppressWarnings("unchecked")
 	@Override
 	public void receive_I1_5(List<clsPrimaryInformation> poData) {
-		//TODO handle poData
+		moPrimaryInformation = (ArrayList<clsPrimaryInformation>)deepCopy( (ArrayList<clsPrimaryInformation>)poData);
 		
 	}
 

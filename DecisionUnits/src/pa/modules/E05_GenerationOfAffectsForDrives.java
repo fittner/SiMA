@@ -92,10 +92,10 @@ public class E05_GenerationOfAffectsForDrives extends clsModuleBase implements I
 	 * 
 	 * @see pa.interfaces.I1_3#receive_I1_3(int)
 	 */
+	@SuppressWarnings("unchecked")
 	@Override
 	public void receive_I1_4(ArrayList<clsPair<clsPrimaryInformationMesh, clsAffectCandidate>> poDriveCandidate) {
-		moDriveCandidate = poDriveCandidate;
-		
+		moDriveCandidate = (ArrayList<clsPair<clsPrimaryInformationMesh, clsAffectCandidate>>) deepCopy( poDriveCandidate);
 	}
 
 	/* (non-Javadoc)

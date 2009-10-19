@@ -6,6 +6,7 @@
  */
 package pa.modules;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import config.clsBWProperties;
@@ -21,7 +22,8 @@ import pa.interfaces.I6_3;
  * 
  */
 public class E09_KnowledgeAboutReality_unconscious extends clsModuleBase implements I1_5 {
-
+	ArrayList<clsPrimaryInformation> moPrimaryInformation;
+	
 	/**
 	 * DOCUMENT (deutsch) - insert description 
 	 * 
@@ -85,10 +87,10 @@ public class E09_KnowledgeAboutReality_unconscious extends clsModuleBase impleme
 	 * 
 	 * @see pa.interfaces.I1_5#receive_I1_5(int)
 	 */
+	@SuppressWarnings("unchecked")
 	@Override
 	public void receive_I1_5(List<clsPrimaryInformation> poData) {
-		//TODO handle poData
-		
+		moPrimaryInformation = (ArrayList<clsPrimaryInformation>)deepCopy( (ArrayList<clsPrimaryInformation>)poData);
 	}
 
 	/* (non-Javadoc)

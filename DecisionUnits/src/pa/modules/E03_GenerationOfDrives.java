@@ -130,9 +130,10 @@ public class E03_GenerationOfDrives extends clsModuleBase implements I1_2 {
 	 * 
 	 * @see pa.interfaces.I1_2#receive_I1_2(int)
 	 */
+	@SuppressWarnings("unchecked")
 	@Override
 	public void receive_I1_2(HashMap<String, Double> poHomeostasisSymbols) {
-		moHomeostasisSymbols = poHomeostasisSymbols;
+		moHomeostasisSymbols = (HashMap<String, Double>)deepCopy(poHomeostasisSymbols);
 	}
 
 	/* (non-Javadoc)

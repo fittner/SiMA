@@ -69,6 +69,7 @@ public class E15_2_ManagementOfRepressedContents extends clsModuleBase implement
 	 * 
 	 * @see pa.interfaces.I4_1#receive_I4_1(int)
 	 */
+	@SuppressWarnings("unchecked")
 	@Override
 	public void receive_I4_1(List<clsPrimaryInformation> poPIs, List<clsThingPresentation> poTPs, List<clsAffectTension> poAffects) {
 		if (poTPs.size() > 0) {
@@ -78,7 +79,7 @@ public class E15_2_ManagementOfRepressedContents extends clsModuleBase implement
 			throw new java.lang.IllegalArgumentException("affects not attached tothing presentations not supported, currently.");
 		}
 		
-		moPrimaryInformation.addAll((ArrayList<clsPrimaryInformation>) poPIs);
+		moPrimaryInformation.addAll((ArrayList<clsPrimaryInformation>) deepCopy((ArrayList) poPIs) );
 	
 	}
 
