@@ -17,10 +17,18 @@ import java.lang.reflect.Method;
  * 
  */
 public class clsAssociation<TYPE>  implements Cloneable {
+	static final long mrMaxStackDepth = 5000;
 
 	public TYPE moElementA;
 	public TYPE moElementB;
 	
+	private void checkStackDepth() {
+		long depth = Thread.currentThread().getStackTrace().length;
+		
+		if (depth > mrMaxStackDepth) {
+			throw new StackOverflowError("max. call stack for clsAssociation<TYPE>.clone reached. either increase threshold constant or check code for an infinite clone loop. ("+depth+">"+mrMaxStackDepth+")");
+		}
+	}
 	
 	/* (non-Javadoc)
 	 *
@@ -34,6 +42,8 @@ public class clsAssociation<TYPE>  implements Cloneable {
 	@SuppressWarnings("unchecked")
 	@Override
 	public Object clone() throws CloneNotSupportedException {
+		checkStackDepth();
+		
 		clsAssociation<TYPE> clon = null;
 	     try { 
 	       clon = (clsAssociation<TYPE>) super.clone(); // unchecked warning
@@ -76,6 +86,8 @@ public class clsAssociation<TYPE>  implements Cloneable {
 	 */
 	@SuppressWarnings("unchecked")
 	public Object clone(Object obj_orig, Object obj_clon) throws CloneNotSupportedException {
+		checkStackDepth();
+		
 		clsAssociation<TYPE> clon = null;
 	    try { 
 	    	clon = (clsAssociation<TYPE>) super.clone(); // unchecked warning
