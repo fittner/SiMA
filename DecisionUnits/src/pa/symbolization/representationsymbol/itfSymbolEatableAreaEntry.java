@@ -18,7 +18,7 @@ import enums.eTriState;
  * 19.10.2009, 19:38:07
  * 
  */
-public interface itfSymEatableAreaEntry {
+public interface itfSymbolEatableAreaEntry extends itfSymbol {
 	public eShapeType getShapeType();
 	public eCount getNumEntitiesPresent();	
 	public eTriState getIsAlive();

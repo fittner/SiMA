@@ -15,7 +15,7 @@ import bfg.utils.enums.eCount;
  * 09.09.2009, 13:56:28
  * 
  */
-public abstract class clsSensorRingSegmentEntries extends clsSensorExtern {
+public abstract class clsSensorRingSegmentEntry extends clsSensorExtern {
 	protected clsPolarcoordinate moPolarcoordinate = new clsPolarcoordinate();
 	protected eEntityType mnEntityType = eEntityType.UNDEFINED;
 	protected eShapeType mnShapeType = eShapeType.UNDEFINED;
@@ -57,7 +57,7 @@ public abstract class clsSensorRingSegmentEntries extends clsSensorExtern {
 		mnNumEntitiesPresent = pnNumEntitiesPresent;
 	}
 		 
-	public clsSensorRingSegmentEntries() {
+	public clsSensorRingSegmentEntry() {
 	}
 	
 	public abstract String logXML(int pnId); 

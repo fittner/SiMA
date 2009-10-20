@@ -27,6 +27,7 @@ import decisionunit.itf.sensors.clsEnergyConsumption;
 import decisionunit.itf.sensors.clsFastMessenger;
 import decisionunit.itf.sensors.clsHealthSystem;
 import decisionunit.itf.sensors.clsManipulateArea;
+import decisionunit.itf.sensors.clsManipulateAreaEntry;
 import decisionunit.itf.sensors.clsSlowMessenger;
 import decisionunit.itf.sensors.clsStomachTension;
 import decisionunit.itf.sensors.clsTemperatureSystem;
@@ -36,7 +37,7 @@ import decisionunit.itf.sensors.clsStaminaSystem;
 import decisionunit.itf.sensors.clsEnergy;
 import decisionunit.itf.sensors.clsVision;
 import decisionunit.itf.sensors.clsRadiation;
-import decisionunit.itf.sensors.clsVisionEntries;
+import decisionunit.itf.sensors.clsVisionEntry;
 import enums.eAntennaPositions;
 import enums.eFastMessengerSources;
 import enums.eSensorIntType;
@@ -323,7 +324,7 @@ public class clsBrainSocket implements itfStepProcessing {
 	
 			Iterator <clsCollidingObject> i = eDetectedObjectList.iterator(); 
 			while(i.hasNext()){
-				clsVisionEntries oEntry = convertVisionEntry(i.next(), poVisionType);
+				clsVisionEntry oEntry = convertVisionEntry(i.next(), poVisionType);
 				
 				if (oEntry != null) {
 					oEntry.setNumEntitiesPresent( setMeNumber(eDetectedObjectList.size()) );
@@ -343,7 +344,7 @@ public class clsBrainSocket implements itfStepProcessing {
 	
 			Iterator <clsCollidingObject> i = eDetectedObjectList.iterator(); 
 			while(i.hasNext()){
-				clsVisionEntries oEntry = convertVisionEntry(i.next(), poVisionType);
+				clsManipulateAreaEntry oEntry = (clsManipulateAreaEntry)convertVisionEntry(i.next(), poVisionType);
 				
 				if (oEntry != null) {
 					oData.add(oEntry);
@@ -377,13 +378,13 @@ public class clsBrainSocket implements itfStepProcessing {
 	
 	
 
-	private clsVisionEntries convertVisionEntry(clsCollidingObject collidingObj, eSensorExtType poSensorType) {
+	private clsVisionEntry convertVisionEntry(clsCollidingObject collidingObj, eSensorExtType poSensorType) {
 		clsEntity oEntity = getEntity(collidingObj.moCollider);
 		if (oEntity == null) {
 			return null;
 		}
 
-		clsVisionEntries oData = new clsVisionEntries();
+		clsVisionEntry oData = new clsVisionEntry();
 		oData.setEntityType( getEntityType(collidingObj.moCollider));		
 		oData.setShapeType( getShapeType(collidingObj.moCollider));
 		oData.setColor( (Color) oEntity.getShape().getPaint());

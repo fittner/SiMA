@@ -6,7 +6,6 @@
  */
 package pa.symbolization.representationsymbol;
 
-
 /**
  * DOCUMENT (zeilinger) - insert description 
  * 
@@ -14,8 +13,24 @@ package pa.symbolization.representationsymbol;
  * 22.09.2009, 13:09:00
  * 
  */
-public class clsVisionEntries extends decisionunit.itf.sensors.clsVisionEntries implements itfGetMeshAttributeName, itfSymVisionEntries, itfGetSymInterface  {
-
+public class clsSymbolVisionEntry extends decisionunit.itf.sensors.clsVisionEntry implements itfGetMeshAttributeName, itfSymbolVisionEntry, itfGetSymInterface  {
+	public clsSymbolVisionEntry(decisionunit.itf.sensors.clsVisionEntry poSensor) {
+		super();
+		
+		moSensorType = poSensor.getSensorType();
+		
+		moPolarcoordinate = poSensor.getPolarcoordinate();
+		mnEntityType = poSensor.getEntityType();
+		mnShapeType = poSensor.getShapeType();
+		moEntityId = poSensor.getEntityId();
+		mnNumEntitiesPresent = poSensor.getNumEntitiesPresent(); 
+		
+		mnAlive = poSensor.getAlive();
+		moColor = poSensor.getColor();
+		moObjectPosition = poSensor.getObjectPosition(); 
+		moAntennaPositionLeft = poSensor.getAntennaPositionLeft(); 
+		moAntennaPositionRight = poSensor.getAntennaPositionRight();			
+	}
 	/* (non-Javadoc)
 	 *
 	 * @author deutsch

@@ -18,7 +18,7 @@ import enums.eTriState;
  * 22.09.2009, 13:09:45
  * 
  */
-public class clsEatableAreaEntry extends clsSensorRingSegmentEntries{
+public class clsEatableAreaEntry extends clsSensorRingSegmentEntry{
 	protected eTriState mnIsAlive = eTriState.UNDEFINED;
 	protected eTriState mnIsConsumeable = eTriState.UNDEFINED;
 	protected String moClassName;

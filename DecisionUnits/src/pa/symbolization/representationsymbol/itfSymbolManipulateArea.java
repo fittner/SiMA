@@ -1,8 +1,8 @@
 /**
- * itfSymSensorRingSegment.java: DecisionUnits - pa.symbolization.representationsymbol
+ * itfManipulateArea.java: DecisionUnits - pa.symbolization.representationsymbol
  * 
  * @author deutsch
- * 19.10.2009, 19:39:48
+ * 19.10.2009, 19:38:17
  */
 package pa.symbolization.representationsymbol;
 
@@ -14,9 +14,9 @@ import decisionunit.itf.sensors.clsSensorExtern;
  * DOCUMENT (deutsch) - insert description 
  * 
  * @author deutsch
- * 19.10.2009, 19:39:48
+ * 19.10.2009, 19:38:17
  * 
  */
-public interface itfSymSensorRingSegment {
+public interface itfSymbolManipulateArea extends itfSymbol {
 	public ArrayList<clsSensorExtern> getDataObjects();
 }

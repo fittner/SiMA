@@ -13,7 +13,6 @@ import java.util.Iterator;
 import java.util.Map;
 
 import decisionunit.itf.sensors.clsSensorExtern;
-import decisionunit.itf.sensors.itfIsContainer;
 import enums.eSensorExtType;
 
 /**
@@ -21,7 +20,7 @@ import enums.eSensorExtType;
  * 
  * @author langr
  * 01.10.2009, 13:15:58
- * 
+ * @deprectaed
  */
 public class clsMemberTransfer {
 

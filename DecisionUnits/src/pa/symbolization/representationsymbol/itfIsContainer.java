@@ -4,7 +4,7 @@
  * @author deutsch
  * 19.10.2009, 18:29:32
  */
-package decisionunit.itf.sensors;
+package pa.symbolization.representationsymbol;
 
 /**
  * DOCUMENT (deutsch) - insert description 

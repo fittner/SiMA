@@ -12,8 +12,8 @@ import decisionunit.itf.sensors.clsEatableAreaEntry;
 import decisionunit.itf.sensors.clsEnergy;
 import decisionunit.itf.sensors.clsSensorExtern;
 import decisionunit.itf.sensors.clsVision;
-import decisionunit.itf.sensors.clsSensorRingSegmentEntries;
-import decisionunit.itf.sensors.clsVisionEntries;
+import decisionunit.itf.sensors.clsSensorRingSegmentEntry;
+import decisionunit.itf.sensors.clsVisionEntry;
 import enums.eActionMoveDirection;
 import enums.eActionTurnDirection;
 import enums.eEntityType;
@@ -53,7 +53,7 @@ public class clsHareMind extends clsRemoteControl { //should be derived from cls
 	
 	public void doHareThinking(itfActionProcessor poActionProcessor) {
 		
-		clsSensorRingSegmentEntries oVisibleCarrot = checkVision();
+		clsSensorRingSegmentEntry oVisibleCarrot = checkVision();
 		clsBump oBump = (clsBump) getSensorData().getSensorExt(eSensorExtType.BUMP);
 		
 		if( checkEatableArea() && isHungry() ) {
@@ -83,10 +83,10 @@ public class clsHareMind extends clsRemoteControl { //should be derived from cls
 		return nRetVal;
 	}
 	
-	private boolean isCarrotOrange(clsSensorRingSegmentEntries oVisionObj) {
+	private boolean isCarrotOrange(clsSensorRingSegmentEntry oVisionObj) {
 		if (oVisionObj.getEntityType() == eEntityType.CARROT && 
-				((clsVisionEntries)oVisionObj).getColor() != null &&
-				((clsVisionEntries)oVisionObj).getColor().equals(Color.orange) 
+				((clsVisionEntry)oVisionObj).getColor() != null &&
+				((clsVisionEntry)oVisionObj).getColor().equals(Color.orange) 
 				) {
 			return true;
 		}
@@ -94,13 +94,13 @@ public class clsHareMind extends clsRemoteControl { //should be derived from cls
 		return false;
 	}
 	
-	public clsSensorRingSegmentEntries checkVision() {
-		clsSensorRingSegmentEntries oRetVal = null;
+	public clsSensorRingSegmentEntry checkVision() {
+		clsSensorRingSegmentEntry oRetVal = null;
 		clsVision oVision = (clsVision) getSensorData().getSensorExt(eSensorExtType.VISION);
 		for( clsSensorExtern oVisionObj : oVision.getList() ) {
-			if( isCarrotOrange((clsSensorRingSegmentEntries)oVisionObj) )
+			if( isCarrotOrange((clsSensorRingSegmentEntry)oVisionObj) )
 			{
-				oRetVal = (clsSensorRingSegmentEntries)oVisionObj;
+				oRetVal = (clsSensorRingSegmentEntry)oVisionObj;
 				break;
 			}
 		}
@@ -157,7 +157,7 @@ public class clsHareMind extends clsRemoteControl { //should be derived from cls
 		mnStepCounter++;		
 	}
 	
-	public void reachCarrot(itfActionProcessor poActionProcessor, clsSensorRingSegmentEntries poVisionObj) {
+	public void reachCarrot(itfActionProcessor poActionProcessor, clsSensorRingSegmentEntry poVisionObj) {
 		
 		double rAngle = poVisionObj.getPolarcoordinate().moAzimuth.mrAlpha;
 		

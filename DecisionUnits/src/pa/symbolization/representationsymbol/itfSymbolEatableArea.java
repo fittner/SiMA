@@ -18,7 +18,7 @@ import decisionunit.itf.sensors.clsSensorExtern;
  * 19.10.2009, 19:37:54
  * 
  */
-public interface itfSymEatableArea {
+public interface itfSymbolEatableArea extends itfSymbol {
 	public ArrayList<clsSensorExtern> getDataObjects();
 	public ArrayList<clsEatableAreaEntry> getEntries();
 }

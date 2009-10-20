@@ -15,15 +15,15 @@ import java.util.ArrayList;
  * 09.09.2009, 13:56:28
  * 
  */
-public class clsSensorRingSegment extends clsSensorExtern implements Cloneable, itfIsContainer {
-	private ArrayList<clsSensorExtern> moEntries = new ArrayList<clsSensorExtern>();
+abstract public class clsSensorRingSegment extends clsSensorExtern implements Cloneable {
+	protected ArrayList<clsSensorExtern> moEntries = new ArrayList<clsSensorExtern>();
 	
-	public void add(clsSensorRingSegmentEntries poEntry) {
+	public void add(clsSensorRingSegmentEntry poEntry) {
 		moEntries.add(poEntry);
 	}
 	
 	public ArrayList<clsSensorExtern> getList() {
-		return moEntries;
+		return getDataObjects();
 	}
 	
 	@Override
@@ -32,7 +32,7 @@ public class clsSensorRingSegment extends clsSensorExtern implements Cloneable, 
 		int id = 0;
 		
 		for (clsSensorExtern oEntry:moEntries) {
-			logEntry += addXMLTag("Entry", ((clsSensorRingSegmentEntries)oEntry).logXML(id));
+			logEntry += addXMLTag("Entry", ((clsSensorRingSegmentEntry)oEntry).logXML(id));
 			id++;
 		}
 		

@@ -31,7 +31,7 @@ public class clsEatableArea extends clsSensorRingSegment{
 		
 		int i = 0;
 		
-		for (clsDataBase oEntry:moEntries) {
+		for (clsEatableAreaEntry oEntry:moEntries) {
 			oResult += i+". "+oEntry+" >> ";
 
 			i++;
@@ -50,7 +50,7 @@ public class clsEatableArea extends clsSensorRingSegment{
 		String oRetVal = "<tr><td>"+getClassName()+"</td><td></td></tr>";
 		
 		int i = 0;
-		for (clsDataBase oEntry:moEntries) {
+		for (clsEatableAreaEntry oEntry:moEntries) {
 			oRetVal += "<tr><td align='right'>"+i+"</td><td>"+oEntry.logHTML()+"</td></tr>";
 			i++;
 		}

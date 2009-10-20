@@ -13,8 +13,19 @@ package pa.symbolization.representationsymbol;
  * 09.09.2009, 14:04:06
  * 
  */
-public class clsManipulateArea extends decisionunit.itf.sensors.clsManipulateArea  implements itfGetMeshAttributeName, itfGetSymInterface, itfSymManipulateArea {
+public class clsSymbolManipulateArea extends decisionunit.itf.sensors.clsManipulateArea  implements itfIsContainer, itfGetMeshAttributeName, itfGetSymInterface, itfSymbolManipulateArea {
 
+	public clsSymbolManipulateArea(decisionunit.itf.sensors.clsManipulateArea poSensor) {
+		super();
+		
+		moSensorType = poSensor.getSensorType();
+		
+		for (decisionunit.itf.sensors.clsSensorExtern oEntry:poSensor.getList()) {
+			clsSymbolManipulateAreaEntry oE = new clsSymbolManipulateAreaEntry( (decisionunit.itf.sensors.clsManipulateAreaEntry)oEntry);
+			moEntries.add(oE);
+		}
+	}
+	
 	/* (non-Javadoc)
 	 *
 	 * @author deutsch

@@ -13,7 +13,7 @@ package pa.symbolization.representationsymbol;
  * 19.10.2009, 19:39:20
  * 
  */
-public interface itfSymPositionChange {
+public interface itfSymbolPositionChange extends itfSymbol {
 	public double getX();
 	public double getY();
 	public double getA();

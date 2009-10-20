@@ -24,7 +24,7 @@ import decisionunit.itf.sensors.clsEatableAreaEntry;
 import decisionunit.itf.sensors.clsSensorExtern;
 import decisionunit.itf.sensors.clsStaminaSystem;
 import decisionunit.itf.sensors.clsVision;
-import decisionunit.itf.sensors.clsVisionEntries;
+import decisionunit.itf.sensors.clsVisionEntry;
 
 /**
  * DOCUMENT (langr) - insert description 
@@ -78,10 +78,10 @@ public class clsDumbMindA extends clsBaseDecisionUnit {
 		
 		for( clsSensorExtern oVisionObj : oVision.getList() ) {
 			
-				if(((clsVisionEntries)oVisionObj).getEntityType() == eEntityType.CAKE)
+				if(((clsVisionEntry)oVisionObj).getEntityType() == eEntityType.CAKE)
 				{
 
-					double rAngle = ((clsVisionEntries)oVisionObj).getPolarcoordinate().moAzimuth.mrAlpha;
+					double rAngle = ((clsVisionEntry)oVisionObj).getPolarcoordinate().moAzimuth.mrAlpha;
 
 					
 					if( rAngle < 0.1 || rAngle > (2*Math.PI - 0.1))

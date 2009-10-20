@@ -17,6 +17,6 @@ import decisionunit.itf.sensors.clsSensorExtern;
  * 19.10.2009, 19:40:08
  * 
  */
-public interface itfSymVision {
+public interface itfSymbolVision extends itfSymbol {
 	public ArrayList<clsSensorExtern> getDataObjects();
 }

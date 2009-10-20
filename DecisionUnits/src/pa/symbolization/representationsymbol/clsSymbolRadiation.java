@@ -6,8 +6,14 @@ package pa.symbolization.representationsymbol;
  * (horvath) - Radiation sensor provides just radiation intensity
  * 
  */
-public class clsRadiation extends decisionunit.itf.sensors.clsRadiation  implements itfGetMeshAttributeName, itfGetSymInterface, itfSymRadiation {
-
+public class clsSymbolRadiation extends decisionunit.itf.sensors.clsRadiation  implements itfGetMeshAttributeName, itfGetSymInterface, itfSymbolRadiation {
+	public clsSymbolRadiation(decisionunit.itf.sensors.clsRadiation poSensor) {
+		super();
+		moSensorType = poSensor.getSensorType();
+		
+		mrIntensity = poSensor.getIntensity();
+	}
+	
 	/* (non-Javadoc)
 	 *
 	 * @author deutsch

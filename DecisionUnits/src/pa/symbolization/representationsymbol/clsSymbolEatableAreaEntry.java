@@ -6,8 +6,6 @@
  */
 package pa.symbolization.representationsymbol;
 
-import enums.eEntityType;
-
 /**
  * DOCUMENT (zeilinger) - insert description 
  * 
@@ -15,7 +13,7 @@ import enums.eEntityType;
  * 22.09.2009, 13:09:45
  * 
  */
-public class clsEatableAreaEntry extends decisionunit.itf.sensors.clsEatableAreaEntry implements itfGetMeshAttributeName, itfGetSymInterface, itfSymEatableAreaEntry {
+public class clsSymbolEatableAreaEntry extends decisionunit.itf.sensors.clsEatableAreaEntry implements itfGetMeshAttributeName, itfGetSymInterface, itfSymbolEatableAreaEntry {
 
 	/**
 	 * DOCUMENT (deutsch) - insert description 
@@ -25,8 +23,20 @@ public class clsEatableAreaEntry extends decisionunit.itf.sensors.clsEatableArea
 	 *
 	 * @param pnEntityType
 	 */
-	public clsEatableAreaEntry(eEntityType pnEntityType) {
-		super(pnEntityType);
+	public clsSymbolEatableAreaEntry(decisionunit.itf.sensors.clsEatableAreaEntry poSensor) {
+		super(poSensor.getEntityType());
+		
+		moSensorType = poSensor.getSensorType();
+		
+		moPolarcoordinate = poSensor.getPolarcoordinate();
+		mnEntityType = poSensor.getEntityType();
+		mnShapeType = poSensor.getShapeType();
+		moEntityId = poSensor.getEntityId();
+		mnNumEntitiesPresent = poSensor.getNumEntitiesPresent(); 
+		
+		mnIsAlive = poSensor.getIsAlive();
+		mnIsConsumeable = poSensor.getIsConsumeable();
+		moClassName = poSensor.getClassName();
 	}
 
 	/* (non-Javadoc)

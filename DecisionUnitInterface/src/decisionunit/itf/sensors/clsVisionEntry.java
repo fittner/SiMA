@@ -21,7 +21,7 @@ import enums.eAntennaPositions;
  * 22.09.2009, 13:09:00
  * 
  */
-public class clsVisionEntries extends clsSensorRingSegmentEntries {
+public class clsVisionEntry extends clsSensorRingSegmentEntry {
 	protected boolean mnAlive = false;
 	protected Color moColor = null;
 	protected eSide moObjectPosition = eSide.UNDEFINED; 
@@ -63,7 +63,7 @@ public class clsVisionEntries extends clsSensorRingSegmentEntries {
 		moAntennaPositionRight = poAntennaPositionRight;
 	}	
 	
-	public clsVisionEntries() {
+	public clsVisionEntry() {
 
 	}
 	

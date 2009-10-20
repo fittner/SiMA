@@ -13,6 +13,6 @@ package pa.symbolization.representationsymbol;
  * 19.10.2009, 19:37:25
  * 
  */
-public interface itfSymBump {
+public interface itfSymbolBump extends itfSymbol {
 	public boolean getBumped();
 }

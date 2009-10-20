@@ -24,7 +24,7 @@ import decisionunit.itf.sensors.clsEatableArea;
 import decisionunit.itf.sensors.clsEatableAreaEntry;
 import decisionunit.itf.sensors.clsSensorData;
 import decisionunit.itf.sensors.clsVision;
-import decisionunit.itf.sensors.clsVisionEntries;
+import decisionunit.itf.sensors.clsVisionEntry;
 import enums.eEntityType;
 import enums.eSensorExtType;
 import enums.eShapeType;
@@ -114,7 +114,7 @@ public class tssImageAbstract {
 		
 		clsVision oVision = new clsVision();
 		oVision.setSensorType(eSensorExtType.VISION_NEAR);
-		clsVisionEntries oVisionEntries = new clsVisionEntries();
+		clsVisionEntry oVisionEntries = new clsVisionEntry();
 		oVisionEntries.setAlive( true);
 		oVisionEntries.setEntityType(eEntityType.BUBBLE);
 		oVisionEntries.setShapeType( eShapeType.CIRCLE);

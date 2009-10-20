@@ -15,8 +15,8 @@ import pa.datatypes.clsPrimaryInformation;
 import pa.datatypes.clsPrimaryInformationMesh;
 import pa.datatypes.clsThingPresentationSingle;
 import pa.symbolization.representationsymbol.itfGetMeshAttributeName;
+import pa.symbolization.representationsymbol.itfIsContainer;
 import decisionunit.itf.sensors.clsSensorExtern;
-import decisionunit.itf.sensors.itfIsContainer;
 import enums.eSensorExtType;
 
 /**

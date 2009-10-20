@@ -24,7 +24,7 @@ import decisionunit.itf.sensors.clsDataBase;
 import decisionunit.itf.sensors.clsSensorData;
 import decisionunit.itf.sensors.clsSensorExtern;
 import decisionunit.itf.sensors.clsVision;
-import decisionunit.itf.sensors.clsVisionEntries;
+import decisionunit.itf.sensors.clsVisionEntry;
 import enums.eAntennaPositions;
 import enums.eEntityType;
 import enums.eSensorExtType;
@@ -140,7 +140,7 @@ public class clsLeafVisionSegment extends clsRuleTreeLeaf {
 			/*FIXME HZ Antenna positions have not been implemented yet, as the value is set to undefined
 			 * 		The same is for the team ID*/			
 			for (clsSensorExtern element : oVisionEntries){
-				clsVisionEntries oElement = (clsVisionEntries)element; 
+				clsVisionEntry oElement = (clsVisionEntry)element; 
 				if( oElement.getEntityType() == meEntityType
 					&& oElement.getObjectPosition() == meLocation 
 					&& oElement.getShapeType() == meShapeType

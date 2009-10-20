@@ -2,8 +2,16 @@ package pa.symbolization.representationsymbol;
 
 
 
-public class clsPositionChange extends decisionunit.itf.sensors.clsPositionChange  implements itfGetMeshAttributeName, itfSymPositionChange, itfGetSymInterface {
-
+public class clsSymbolPositionChange extends decisionunit.itf.sensors.clsPositionChange  implements itfGetMeshAttributeName, itfSymbolPositionChange, itfGetSymInterface {
+	public clsSymbolPositionChange(decisionunit.itf.sensors.clsPositionChange poSensor) {
+		super();
+		moSensorType = poSensor.getSensorType();
+		
+		a = poSensor.getA();
+		x = poSensor.getX();
+		y = poSensor.getY();
+	}
+	
 	/* (non-Javadoc)
 	 *
 	 * @author deutsch

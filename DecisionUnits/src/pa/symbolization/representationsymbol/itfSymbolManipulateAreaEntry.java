@@ -21,7 +21,7 @@ import enums.eShapeType;
  * 19.10.2009, 19:40:17
  * 
  */
-public interface itfSymVisionEntries {
+public interface itfSymbolManipulateAreaEntry extends itfSymbol {
 	public eEntityType getEntityType();
 	public eShapeType getShapeType();
 	public eCount getNumEntitiesPresent();

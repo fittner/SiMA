@@ -13,6 +13,6 @@ package pa.symbolization.representationsymbol;
  * 19.10.2009, 19:39:28
  * 
  */
-public interface itfSymRadiation {
+public interface itfSymbolRadiation extends itfSymbol {
 	public double getIntensity();
 }

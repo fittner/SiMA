@@ -13,8 +13,8 @@ import decisionunit.itf.sensors.clsEatableAreaEntry;
 import decisionunit.itf.sensors.clsEnergy;
 import decisionunit.itf.sensors.clsSensorExtern;
 import decisionunit.itf.sensors.clsVision;
-import decisionunit.itf.sensors.clsSensorRingSegmentEntries;
-import decisionunit.itf.sensors.clsVisionEntries;
+import decisionunit.itf.sensors.clsSensorRingSegmentEntry;
+import decisionunit.itf.sensors.clsVisionEntry;
 import enums.eActionMoveDirection;
 import enums.eActionTurnDirection;
 import enums.eEntityType;
@@ -54,11 +54,11 @@ public class clsLynxMind extends clsRemoteControl  {
 	private static double mnHungryThreasholed = 7; //energy level, where hare gets hungry
 	
 	public void doLynxThinking(itfActionProcessor poActionProcessor) {
-		clsSensorRingSegmentEntries oVisibleHare = checkVision();
+		clsSensorRingSegmentEntry oVisibleHare = checkVision();
 		clsBump oBump = (clsBump) getSensorData().getSensorExt(eSensorExtType.BUMP);
 		
 		if( checkEatableArea() && isHungry() ) {
-			if(((clsVisionEntries)oVisibleHare).getColor().equals(Color.red)) {
+			if(((clsVisionEntry)oVisibleHare).getColor().equals(Color.red)) {
 				eatHare(poActionProcessor);
 			} else {				
 				killHare(poActionProcessor);
@@ -85,13 +85,13 @@ public class clsLynxMind extends clsRemoteControl  {
 		return nRetVal;
 	}
 	
-	public clsSensorRingSegmentEntries checkVision() {
-		clsSensorRingSegmentEntries oRetVal = null;
+	public clsSensorRingSegmentEntry checkVision() {
+		clsSensorRingSegmentEntry oRetVal = null;
 		clsVision oVision = (clsVision) getSensorData().getSensorExt(eSensorExtType.VISION);
 		for( clsSensorExtern oVisionObj : oVision.getList() ) {
-			if( ((clsVisionEntries)oVisionObj).getEntityType() == eEntityType.HARE && !((clsVisionEntries)oVisionObj).getColor().equals(Color.BLACK))
+			if( ((clsVisionEntry)oVisionObj).getEntityType() == eEntityType.HARE && !((clsVisionEntry)oVisionObj).getColor().equals(Color.BLACK))
 			{
-				oRetVal = (clsVisionEntries)oVisionObj;
+				oRetVal = (clsVisionEntry)oVisionObj;
 				break;
 			}
 		}
@@ -147,7 +147,7 @@ public class clsLynxMind extends clsRemoteControl  {
 		mnStepCounter++;		
 	}
 	
-	public void followHare(itfActionProcessor poActionProcessor, clsSensorRingSegmentEntries poVisionObj) {
+	public void followHare(itfActionProcessor poActionProcessor, clsSensorRingSegmentEntry poVisionObj) {
 		
 		double rAngle = poVisionObj.getPolarcoordinate().moAzimuth.mrAlpha;
 		
