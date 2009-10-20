@@ -17,7 +17,7 @@ package pa.symbolization;
  * 
  * @author langr
  * 21.04.2009, 11:55:31
- * 
+ * @deprecated
  */
 public abstract class clsSymbolization {
 

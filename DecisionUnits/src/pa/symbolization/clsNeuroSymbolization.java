@@ -14,7 +14,7 @@ package pa.symbolization;
  * 
  * @author langr
  * 21.04.2009, 12:00:34
- * 
+ * @deprecated
  */
 public class clsNeuroSymbolization extends clsSymbolization {
 

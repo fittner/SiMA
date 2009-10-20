@@ -25,7 +25,7 @@ import decisionunit.itf.sensors.clsSensorData;
  * 
  * @author langr
  * 21.04.2009, 11:58:35
- * 
+ * @deprecated
  */
 public class clsImageSymbolization extends clsSymbolization {
 
