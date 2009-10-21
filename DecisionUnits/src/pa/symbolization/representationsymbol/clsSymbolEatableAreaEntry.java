@@ -84,4 +84,16 @@ public class clsSymbolEatableAreaEntry extends decisionunit.itf.sensors.clsEatab
 	public String getSymbolType() {
 		return "Entity";
 	}
+
+	/* (non-Javadoc)
+	 *
+	 * @author langr
+	 * 21.10.2009, 21:34:32
+	 * 
+	 * @see pa.symbolization.representationsymbol.itfIsContainer#getSymbolMeshContent()
+	 */
+	@Override
+	public Object getSymbolMeshContent() {
+		return mnEntityType;
+	}
 }

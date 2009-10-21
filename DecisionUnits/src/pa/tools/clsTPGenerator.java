@@ -68,7 +68,7 @@ public class clsTPGenerator {
 		
 		oPrimMesh.moTP.meContentName = ((itfGetSymbolName)poDataObject).getSymbolType();
 		oPrimMesh.moTP.meContentType = ((itfGetSymbolName)poDataObject).getSymbolType();
-		oPrimMesh.moTP.moContent = ((itfGetSymbolName)poDataObject).getSymbolName();
+		oPrimMesh.moTP.moContent = ((itfIsContainer)poDataObject).getSymbolMeshContent();
 
 		Method[] oMethods = ((itfGetDataAccessMethods)poDataObject).getDataAccessMethods();
 		int i=0;

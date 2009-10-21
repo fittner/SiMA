@@ -14,5 +14,5 @@ package pa.symbolization.representationsymbol;
  * 
  */
 public interface itfIsContainer {
-
+	Object getSymbolMeshContent();
 }

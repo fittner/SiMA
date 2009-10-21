@@ -48,4 +48,16 @@ public class clsSymbolPositionChange extends decisionunit.itf.sensors.clsPositio
 		oRetVal.add(this);
 		return oRetVal;
 	}
+
+	/* (non-Javadoc)
+	 *
+	 * @author langr
+	 * 21.10.2009, 21:35:26
+	 * 
+	 * @see pa.symbolization.representationsymbol.itfIsContainer#getSymbolMeshContent()
+	 */
+	@Override
+	public Object getSymbolMeshContent() {
+		return "PositionChange";
+	}
 }

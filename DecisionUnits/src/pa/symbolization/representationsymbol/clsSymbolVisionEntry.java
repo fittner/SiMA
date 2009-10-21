@@ -73,4 +73,15 @@ public class clsSymbolVisionEntry extends decisionunit.itf.sensors.clsVisionEntr
 		oRetVal.add(this);
 		return oRetVal;
 	}
+	/* (non-Javadoc)
+	 *
+	 * @author langr
+	 * 21.10.2009, 21:36:06
+	 * 
+	 * @see pa.symbolization.representationsymbol.itfIsContainer#getSymbolMeshContent()
+	 */
+	@Override
+	public Object getSymbolMeshContent() {
+		return mnEntityType;
+	}
 }

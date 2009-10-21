@@ -77,4 +77,16 @@ public class clsSymbolManipulateAreaEntry extends decisionunit.itf.sensors.clsMa
 		oRetVal.add(this);
 		return oRetVal;
 	}
+
+	/* (non-Javadoc)
+	 *
+	 * @author langr
+	 * 21.10.2009, 21:35:01
+	 * 
+	 * @see pa.symbolization.representationsymbol.itfIsContainer#getSymbolMeshContent()
+	 */
+	@Override
+	public Object getSymbolMeshContent() {
+		return mnEntityType;
+	}
 }
