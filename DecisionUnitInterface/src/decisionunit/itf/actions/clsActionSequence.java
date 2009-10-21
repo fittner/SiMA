@@ -56,8 +56,8 @@ public class clsActionSequence extends clsActionCommand {
 			clsSequencedAction oSeqAction = oItSeq.next();
 			if (nMaxRounds<(oSeqAction.getRound() + oSeqAction.getDuration())) nMaxRounds=(oSeqAction.getRound() + oSeqAction.getDuration()); 
 		}
-		 if (nMaxRounds<(pnRound+1)) return false;
-		 return true;
+		 if (nMaxRounds<(pnRound+1)) return true;
+		 return false;
 	}
 	
 	/*
