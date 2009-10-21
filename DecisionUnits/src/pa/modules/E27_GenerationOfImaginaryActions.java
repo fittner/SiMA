@@ -6,7 +6,10 @@
  */
 package pa.modules;
 
+import java.util.ArrayList;
+
 import config.clsBWProperties;
+import pa.datatypes.clsSecondaryInformation;
 import pa.interfaces.I6_2;
 import pa.interfaces.I7_1;
 import pa.interfaces.I7_3;
@@ -20,6 +23,8 @@ import pa.interfaces.I7_3;
  */
 public class E27_GenerationOfImaginaryActions extends clsModuleBase implements I6_2, I7_1{
 
+	ArrayList<clsSecondaryInformation> moEnvironmentalPerception;
+	
 	/**
 	 * DOCUMENT (deutsch) - insert description 
 	 * 

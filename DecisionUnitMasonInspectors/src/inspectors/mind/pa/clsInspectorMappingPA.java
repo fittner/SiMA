@@ -56,6 +56,9 @@ public class clsInspectorMappingPA {
 		else if(poModuleName.equals("E16ManagementOfMemoryTraces")) {
 			oRetVal.addInspector( new clsPrimaryInformationPairInspector(poSuperInspector, poWrapper, poState, moPA.moC03Ego.moC08PsychicMediator.moC09PrimaryProcessor.moC14PrimaryKnowledgeUtilizer.moE16ManagementOfMemoryTraces, "moPerceptPlusRepressed_Input" ), "Input: TP + Attached Repressed TP");
 		}
+		else if(poModuleName.equals("E18GenerationOfAffectsForPerception")) {
+			oRetVal.addInspector( new clsPrimaryInformationInspector(poSuperInspector, poWrapper, poState, moPA.moC02Id.moC06AffectGeneration.moE18GenerationOfAffectsForPerception, "moMergedPrimaryInformation_Output" ), "Output: Final TP+Affect");
+		}
 		else if(poModuleName.equals("Psychic Apparatus")) {
 			oRetVal.addInspector( new clsPAInspectorFuncModel(poSuperInspector, poWrapper, poState, moPA), "Functional Model");
 			oRetVal.addInspector( new clsPAInspectorTopDown(poSuperInspector, poWrapper, poState, moPA), "Top-Down Design");

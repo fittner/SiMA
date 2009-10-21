@@ -6,7 +6,10 @@
  */
 package pa.modules;
 
+import java.util.ArrayList;
+
 import config.clsBWProperties;
+import pa.datatypes.clsSecondaryInformation;
 import pa.interfaces.I1_7;
 import pa.interfaces.I2_13;
 import pa.interfaces.I3_3;
@@ -23,6 +26,8 @@ import pa.interfaces.I7_2;
  */
 public class E26_DecisionMaking extends clsModuleBase implements I1_7, I2_13, I3_3, I5_5 {
 
+	ArrayList<clsSecondaryInformation> moEnvironmentalPerception;
+	
 	/**
 	 * DOCUMENT (deutsch) - insert description 
 	 * 
