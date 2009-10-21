@@ -45,7 +45,9 @@ public class E16_ManagementOfMemoryTraces extends clsModuleBase implements I2_6 
 	public E16_ManagementOfMemoryTraces(String poPrefix, clsBWProperties poProp,
 			clsModuleContainer poEnclosingContainer) {
 		super(poPrefix, poProp, poEnclosingContainer);
-		applyProperties(poPrefix, poProp);		
+		applyProperties(poPrefix, poProp);	
+		
+		moPerceptPlusMemories_Output = new ArrayList<clsPair<clsPrimaryInformation,ArrayList<clsPrimaryInformation>>>();
 	}
 	
 	public static clsBWProperties getDefaultProperties(String poPrefix) {

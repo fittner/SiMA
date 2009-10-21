@@ -66,7 +66,7 @@ public class E15_1_ManagementOfRepressedContents extends clsModuleBase implement
 	@SuppressWarnings("unchecked")
 	@Override
 	public void receive_I2_5(ArrayList<clsPrimaryInformation> poEnvironmentalTP) {
-		moEnvironmentalTP_Input = poEnvironmentalTP;//(ArrayList<clsPrimaryInformation>)deepCopy( poEnvironmentalTP );
+		moEnvironmentalTP_Input = (ArrayList<clsPrimaryInformation>)deepCopy( poEnvironmentalTP );
 	}
 
 	/* (non-Javadoc)
