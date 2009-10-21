@@ -202,8 +202,8 @@ public class clsRemoteControl extends clsBaseDecisionUnit  {
 
 	protected void eat(itfActionProcessor poActionProcessor, enums.eEntityType peEntityType) {
 		clsEatableArea oEatArea = (clsEatableArea) getSensorData().getSensorExt(eSensorExtType.EATABLE_AREA);
-		if (oEatArea.getEntries().size() > 0) {
-			clsEatableAreaEntry oEntry = oEatArea.getEntries().get(0);
+		if (oEatArea.getDataObjects().size() > 0) {
+			clsEatableAreaEntry oEntry = (clsEatableAreaEntry) oEatArea.getDataObjects().get(0);
 			if (oEntry.getEntityType() == peEntityType) {
 				poActionProcessor.call(new clsActionEat());	
 			}
@@ -213,9 +213,9 @@ public class clsRemoteControl extends clsBaseDecisionUnit  {
 	protected void attack(itfActionProcessor poActionProcessor, enums.eEntityType peEntityType) {
 		clsVision oVis = (clsVision) getSensorData().getSensorExt(eSensorExtType.VISION);
 
-		for(int i=0; i<oVis.getList().size(); i++){
-			if (((clsSensorRingSegmentEntry)oVis.getList().get(i)).getEntityType() == peEntityType) {
-				poActionProcessor.call(new clsActionAttackLightning(4, ((clsSensorRingSegmentEntry)oVis.getList().get(i)).getEntityId()));	
+		for(int i=0; i<oVis.getDataObjects().size(); i++){
+			if (((clsSensorRingSegmentEntry)oVis.getDataObjects().get(i)).getEntityType() == peEntityType) {
+				poActionProcessor.call(new clsActionAttackLightning(4, ((clsSensorRingSegmentEntry)oVis.getDataObjects().get(i)).getEntityId()));	
 			}
 		}
 
@@ -229,8 +229,8 @@ public class clsRemoteControl extends clsBaseDecisionUnit  {
 	 */
 	protected void kill(itfActionProcessor poActionProcessor, enums.eEntityType peEntityType) {
 		clsEatableArea oEatArea = (clsEatableArea) getSensorData().getSensorExt(eSensorExtType.EATABLE_AREA);
-		if (oEatArea.getEntries().size() > 0) {
-			clsEatableAreaEntry oEntry = oEatArea.getEntries().get(0);
+		if (oEatArea.getDataObjects().size() > 0) {
+			clsEatableAreaEntry oEntry = (clsEatableAreaEntry) oEatArea.getDataObjects().get(0);
 			if (oEntry.getEntityType() == peEntityType) {
 				poActionProcessor.call(new clsActionAttackBite(4));	
 			}

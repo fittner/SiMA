@@ -14,9 +14,11 @@ import decisionunit.itf.sensors.clsSensorExtern;
 import enums.eSensorExtType;
 import pa.datatypes.clsAssociationContext;
 import pa.datatypes.clsPrimaryInformation;
+import pa.enums.eSymbolExtType;
 import pa.interfaces.I2_2;
 import pa.interfaces.I2_4;
 import pa.interfaces.I2_5;
+import pa.symbolization.representationsymbol.itfSymbol;
 import pa.tools.clsTPGenerator;
 
 /**
@@ -31,7 +33,7 @@ public class E14_PreliminaryExternalPerception extends clsModuleBase implements
 					I2_4
 					{
 	
-	HashMap<eSensorExtType, clsSensorExtern> moEnvironmentalData;
+	HashMap<eSymbolExtType, itfSymbol> moEnvironmentalData;
 	HashMap<eSensorExtType, clsSensorExtern> moBodyData;
 	
 	public ArrayList<clsPrimaryInformation> moEnvironmentalTP;
@@ -101,7 +103,7 @@ public class E14_PreliminaryExternalPerception extends clsModuleBase implements
 	 * @see pa.interfaces.I2_2#receive_I2_2(int)
 	 */
 	@Override
-	public void receive_I2_2(HashMap<eSensorExtType, clsSensorExtern> poEnvironmentalData) {
+	public void receive_I2_2(HashMap<eSymbolExtType, itfSymbol> poEnvironmentalData) {
 		moEnvironmentalData = poEnvironmentalData;
 	}
 

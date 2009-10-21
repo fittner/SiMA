@@ -13,6 +13,7 @@ import java.util.List;
 import pa.datatypes.clsAffectTension;
 import pa.datatypes.clsPrimaryInformation;
 import pa.datatypes.clsThingPresentation;
+import pa.enums.eSymbolExtType;
 import pa.interfaces.I1_2;
 import pa.interfaces.I1_5;
 import pa.interfaces.I1_7;
@@ -35,6 +36,7 @@ import pa.interfaces.itfProcessSensorBody;
 import pa.interfaces.itfProcessSensorEnvironment;
 import pa.interfaces.itfReturnActionCommands;
 import pa.memory.clsMemory;
+import pa.symbolization.representationsymbol.itfSymbol;
 import pa.tools.clsPair;
 import config.clsBWProperties;
 import decisionunit.itf.actions.itfActionProcessor;
@@ -217,7 +219,7 @@ public class C00_PsychicApparatus extends clsModuleContainer implements
 	 * @see pa.interfaces.I2_2#receive_I2_2(int)
 	 */
 	@Override
-	public void receive_I2_2(HashMap<eSensorExtType, clsSensorExtern> poEnvironmentalData) {
+	public void receive_I2_2(HashMap<eSymbolExtType, itfSymbol> poEnvironmentalData) {
 		moC03Ego.receive_I2_2(poEnvironmentalData);
 	}
 

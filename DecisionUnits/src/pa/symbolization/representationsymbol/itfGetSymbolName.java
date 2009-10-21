@@ -13,6 +13,6 @@ package pa.symbolization.representationsymbol;
  * 19.10.2009, 18:17:12
  * 
  */
-public interface itfGetMeshAttributeName {
-	public String getMeshAttributeName();
+public interface itfGetSymbolName {
+	public String getSymbolName();
 }

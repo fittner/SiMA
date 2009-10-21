@@ -22,10 +22,6 @@ abstract public class clsSensorRingSegment extends clsSensorExtern implements Cl
 		moEntries.add(poEntry);
 	}
 	
-	public ArrayList<clsSensorExtern> getList() {
-		return getDataObjects();
-	}
-	
 	@Override
 	public String logXML() {
 		String logEntry = "";

@@ -76,7 +76,7 @@ public class clsDumbMindA extends clsBaseDecisionUnit {
 	{
 		clsVision oVision = (clsVision) getSensorData().getSensorExt(eSensorExtType.VISION);
 		
-		for( clsSensorExtern oVisionObj : oVision.getList() ) {
+		for( clsSensorExtern oVisionObj : oVision.getDataObjects() ) {
 			
 				if(((clsVisionEntry)oVisionObj).getEntityType() == eEntityType.CAKE)
 				{
@@ -116,7 +116,7 @@ public class clsDumbMindA extends clsBaseDecisionUnit {
 		clsEatableArea oEatArea = (clsEatableArea) getSensorData().getSensorExt(eSensorExtType.EATABLE_AREA);
 		
 	
-		for(clsSensorExtern oEatAreaObj : oEatArea.getEntries() ) {
+		for(clsSensorExtern oEatAreaObj : oEatArea.getDataObjects() ) {
 			if( ((clsEatableAreaEntry)oEatAreaObj).getEntityType() == eEntityType.CAKE ){
 			   //&& ((clsEatableAreaEntries)oEatAreaObj). .moColorOfFirstEntity != null && oEatArea.moColorOfFirstEntity.equals(Color.orange))
 				//clsEatAction oEatAction = new clsEatAction();

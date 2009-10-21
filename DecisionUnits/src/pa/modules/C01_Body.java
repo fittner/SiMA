@@ -8,6 +8,7 @@ package pa.modules;
 
 import java.util.HashMap;
 
+import pa.enums.eSymbolExtType;
 import pa.interfaces.I1_1;
 import pa.interfaces.I1_2;
 import pa.interfaces.I2_1;
@@ -21,6 +22,7 @@ import pa.interfaces.itfProcessSensorBody;
 import pa.interfaces.itfProcessSensorEnvironment;
 import pa.interfaces.itfReturnActionCommands;
 import pa.memory.clsMemory;
+import pa.symbolization.representationsymbol.itfSymbol;
 import config.clsBWProperties;
 import decisionunit.itf.actions.itfActionProcessor;
 import decisionunit.itf.sensors.clsDataBase;
@@ -246,7 +248,7 @@ public class C01_Body extends clsModuleContainer implements
 	 * @see pa.interfaces.I2_2#receive_I2_2(int)
 	 */
 	@Override
-	public void receive_I2_2(HashMap<eSensorExtType, clsSensorExtern> poEnvironmentalData) {
+	public void receive_I2_2(HashMap<eSymbolExtType, itfSymbol> poEnvironmentalData) {
 		((I2_2)moEnclosingContainer).receive_I2_2(poEnvironmentalData);
 		
 	}

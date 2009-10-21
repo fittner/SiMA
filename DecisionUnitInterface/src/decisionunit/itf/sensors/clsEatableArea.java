@@ -5,13 +5,6 @@ import java.util.ArrayList;
 public class clsEatableArea extends clsSensorRingSegment{
 	protected ArrayList<clsEatableAreaEntry> moEntries = new ArrayList<clsEatableAreaEntry>();
 	
-	public ArrayList<clsEatableAreaEntry> getEntries() {
-		return moEntries;
-	}
-	public void setEntries(ArrayList<clsEatableAreaEntry> poEntries) {
-		moEntries = poEntries;
-	}
-	
 	@Override
 	public String logXML() {
 		String logEntry = "";

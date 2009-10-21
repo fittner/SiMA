@@ -135,7 +135,7 @@ public class clsLeafVisionSegment extends clsRuleTreeLeaf {
 	  	boolean nResult = false; 
 		
 		if(poData != null){
-			ArrayList<clsSensorExtern>  oVisionEntries = ((clsVision)poData).getList();
+			ArrayList<clsSensorExtern>  oVisionEntries = ((clsVision)poData).getDataObjects();
 		
 			/*FIXME HZ Antenna positions have not been implemented yet, as the value is set to undefined
 			 * 		The same is for the team ID*/			

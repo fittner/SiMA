@@ -1,25 +1,67 @@
 package pa.symbolization.representationsymbol;
 
-public class clsSymbolEatableArea extends decisionunit.itf.sensors.clsEatableArea implements itfIsContainer, itfGetMeshAttributeName, itfGetSymInterface, itfSymbolEatableArea {
+import java.lang.reflect.Method;
+import java.util.ArrayList;
+import decisionunit.itf.sensors.clsEatableAreaEntry;
+import decisionunit.itf.sensors.clsSensorExtern;
+
+public class clsSymbolEatableArea extends decisionunit.itf.sensors.clsEatableArea implements itfIsContainer, itfGetSymbolName, itfGetDataAccessMethods, itfSymbolEatableArea {
 	
 	public clsSymbolEatableArea(decisionunit.itf.sensors.clsEatableArea poSensor) {
 		super();
 		
 		moSensorType = poSensor.getSensorType();
 		
-		for (decisionunit.itf.sensors.clsEatableAreaEntry oEntry:poSensor.getEntries()) {
-			clsSymbolEatableAreaEntry oE = new clsSymbolEatableAreaEntry(oEntry);
+		for (clsSensorExtern oEntry:poSensor.getDataObjects()) {
+			clsSymbolEatableAreaEntry oE = new clsSymbolEatableAreaEntry((clsEatableAreaEntry) oEntry);
 			moEntries.add(oE);
 		}		
 	}
 	
 	@Override
-	public String getMeshAttributeName() {
+	public String getSymbolName() {
 		return null;
 	}
 
+	public Method[] getDataAccessMethods() {
+		return itfSymbolEatableArea.class.getMethods();
+	}
+
+	/* (non-Javadoc)
+	 *
+	 * @author deutsch
+	 * 21.10.2009, 12:43:37
+	 * 
+	 * @see pa.symbolization.representationsymbol.itfSymbol#getSymbolObjects()
+	 */
 	@Override
-	public String getSymInterface() {
-		return "itfSymEatableArea";
+	public ArrayList<itfSymbol> getSymbolObjects() {
+		ArrayList<clsSensorExtern> oSE = getDataObjects();
+		ArrayList<itfSymbol> oResult =  new ArrayList<itfSymbol>();
+		
+		for (clsSensorExtern oEntry:oSE) {
+			oResult.add( new clsSymbolEatableAreaEntry( (clsEatableAreaEntry)oEntry) );
+		}
+		
+		return oResult;
+	}
+
+	/* (non-Javadoc)
+	 *
+	 * @author deutsch
+	 * 21.10.2009, 13:41:44
+	 * 
+	 * @see pa.symbolization.representationsymbol.itfSymbolEatableArea#getEntries()
+	 */
+	@Override
+	public ArrayList<itfSymbolEatableAreaEntry> getEntries() {
+		ArrayList<clsSensorExtern> oSE = getDataObjects();
+		ArrayList<itfSymbolEatableAreaEntry> oResult =  new ArrayList<itfSymbolEatableAreaEntry>();
+		
+		for (clsSensorExtern oEntry:oSE) {
+			oResult.add( new clsSymbolEatableAreaEntry( (clsEatableAreaEntry)oEntry) );
+		}
+		
+		return oResult;
 	}
 }

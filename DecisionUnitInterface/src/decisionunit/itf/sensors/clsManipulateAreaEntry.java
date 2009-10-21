@@ -6,6 +6,8 @@
  */
 package decisionunit.itf.sensors;
 
+import java.lang.reflect.Field;
+
 /**
  * DOCUMENT (deutsch) - insert description 
  * 
@@ -14,5 +16,27 @@ package decisionunit.itf.sensors;
  * 
  */
 public class clsManipulateAreaEntry extends clsVisionEntry {
-
+	public clsManipulateAreaEntry() {
+		super();
+	}
+	
+	public clsManipulateAreaEntry(clsVisionEntry poEntry) {
+		super();
+		
+		Field[] oFields = clsVisionEntry.class.getDeclaredFields();
+		
+		for (Field oF:oFields) {
+			Object value;
+			try {
+				value = oF.get(poEntry);
+				oF.set(this, value);
+			} catch (IllegalArgumentException e) {
+				// TODO (deutsch) - Auto-generated catch block
+				e.printStackTrace();
+			} catch (IllegalAccessException e) {
+				// TODO (deutsch) - Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+	}
 }

@@ -6,6 +6,9 @@
  */
 package pa.symbolization.representationsymbol;
 
+import java.lang.reflect.Method;
+import java.util.ArrayList;
+
 /**
  * DOCUMENT (zeilinger) - insert description 
  * 
@@ -13,7 +16,7 @@ package pa.symbolization.representationsymbol;
  * 22.09.2009, 13:09:00
  * 
  */
-public class clsSymbolVisionEntry extends decisionunit.itf.sensors.clsVisionEntry implements itfGetMeshAttributeName, itfSymbolVisionEntry, itfGetSymInterface  {
+public class clsSymbolVisionEntry extends decisionunit.itf.sensors.clsVisionEntry implements itfGetSymbolName, itfSymbolVisionEntry, itfGetDataAccessMethods  {
 	public clsSymbolVisionEntry(decisionunit.itf.sensors.clsVisionEntry poSensor) {
 		super();
 		
@@ -39,21 +42,25 @@ public class clsSymbolVisionEntry extends decisionunit.itf.sensors.clsVisionEntr
 	 * @see pa.symbolization.representationsymbol.itfGetMeshAttributeName#getMeshAttributeName()
 	 */
 	@Override
-	public String getMeshAttributeName() {
-		return "mnEntityType";
+	public String getSymbolName() {
+		return mnEntityType.name();
+	}
+
+	public Method[] getDataAccessMethods() {
+		return itfSymbolVisionEntry.class.getMethods();
 	}
 
 	/* (non-Javadoc)
 	 *
 	 * @author deutsch
-	 * 19.10.2009, 20:16:15
+	 * 21.10.2009, 12:34:45
 	 * 
-	 * @see pa.symbolization.representationsymbol.itfGetSymInterface#getSymInterface()
+	 * @see pa.symbolization.representationsymbol.itfSymbol#getSymbolObjects()
 	 */
 	@Override
-	public String getSymInterface() {
-		return "itfSymVisionEntries";
+	public ArrayList<itfSymbol> getSymbolObjects() {
+		ArrayList<itfSymbol> oRetVal = new ArrayList<itfSymbol>();
+		oRetVal.add(this);
+		return oRetVal;
 	}
-
-
 }

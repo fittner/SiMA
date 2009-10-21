@@ -11,9 +11,11 @@ import java.util.HashMap;
 import config.clsBWProperties;
 import decisionunit.itf.sensors.clsSensorExtern;
 import enums.eSensorExtType;
+import pa.enums.eSymbolExtType;
 import pa.interfaces.I2_1;
 import pa.interfaces.I2_2;
-import pa.symbolization.representationsymbol.clsMemberTransfer;
+import pa.symbolization.clsSensorToSymbolConverter;
+import pa.symbolization.representationsymbol.itfSymbol;
 
 /**
  * DOCUMENT (deutsch) - insert description 
@@ -25,7 +27,7 @@ import pa.symbolization.representationsymbol.clsMemberTransfer;
 public class E11_NeuroSymbolsEnvironment extends clsModuleBase implements I2_1 {
 
 	HashMap<eSensorExtType, clsSensorExtern> moEnvironmentalData;
-	HashMap<eSensorExtType, clsSensorExtern> moSymbolData;
+	HashMap<eSymbolExtType, itfSymbol> moSymbolData;
 	
 	/**
 	 * DOCUMENT (deutsch) - insert description 
@@ -105,7 +107,7 @@ public class E11_NeuroSymbolsEnvironment extends clsModuleBase implements I2_1 {
 	 */
 	@Override
 	protected void process() {
-		moSymbolData = clsMemberTransfer.createSymbolData(moEnvironmentalData);
+		moSymbolData = clsSensorToSymbolConverter.convertExtSensorToSymbol(moEnvironmentalData);
 	}
 
 	/* (non-Javadoc)

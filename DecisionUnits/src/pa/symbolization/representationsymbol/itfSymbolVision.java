@@ -8,8 +8,6 @@ package pa.symbolization.representationsymbol;
 
 import java.util.ArrayList;
 
-import decisionunit.itf.sensors.clsSensorExtern;
-
 /**
  * DOCUMENT (deutsch) - insert description 
  * 
@@ -18,5 +16,5 @@ import decisionunit.itf.sensors.clsSensorExtern;
  * 
  */
 public interface itfSymbolVision extends itfSymbol {
-	public ArrayList<clsSensorExtern> getDataObjects();
+	public ArrayList<itfSymbolVisionEntry> getEntries();
 }

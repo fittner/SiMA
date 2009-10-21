@@ -76,8 +76,8 @@ public class clsLynxMind extends clsRemoteControl  {
 		boolean nRetVal = false;
 		clsEatableArea oEatArea = (clsEatableArea) getSensorData().getSensorExt(eSensorExtType.EATABLE_AREA);
 		
-		if (oEatArea.getEntries().size() > 0) {
-			clsEatableAreaEntry oEntry = (clsEatableAreaEntry)oEatArea.getEntries().get(0);
+		if (oEatArea.getDataObjects().size() > 0) {
+			clsEatableAreaEntry oEntry = (clsEatableAreaEntry)oEatArea.getDataObjects().get(0);
 			if (oEntry.getEntityType() == eEntityType.HARE && oEntry.getIsConsumeable() == eTriState.TRUE) {
 				nRetVal = true;
 			}
@@ -88,7 +88,7 @@ public class clsLynxMind extends clsRemoteControl  {
 	public clsSensorRingSegmentEntry checkVision() {
 		clsSensorRingSegmentEntry oRetVal = null;
 		clsVision oVision = (clsVision) getSensorData().getSensorExt(eSensorExtType.VISION);
-		for( clsSensorExtern oVisionObj : oVision.getList() ) {
+		for( clsSensorExtern oVisionObj : oVision.getDataObjects() ) {
 			if( ((clsVisionEntry)oVisionObj).getEntityType() == eEntityType.HARE && !((clsVisionEntry)oVisionObj).getColor().equals(Color.BLACK))
 			{
 				oRetVal = (clsVisionEntry)oVisionObj;

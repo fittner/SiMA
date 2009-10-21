@@ -74,8 +74,8 @@ public class clsHareMind extends clsRemoteControl { //should be derived from cls
 
 		clsEatableArea oEatArea = (clsEatableArea) getSensorData().getSensorExt(eSensorExtType.EATABLE_AREA);
 		
-		if (oEatArea.getEntries().size() > 0) {
-			clsEatableAreaEntry oEntry = (clsEatableAreaEntry)oEatArea.getEntries().get(0);
+		if (oEatArea.getDataObjects().size() > 0) {
+			clsEatableAreaEntry oEntry = (clsEatableAreaEntry)oEatArea.getDataObjects().get(0);
 			if (oEntry.getEntityType() == eEntityType.CARROT && oEntry.getIsConsumeable() == eTriState.TRUE) {
 				nRetVal = true;
 			}
@@ -97,7 +97,7 @@ public class clsHareMind extends clsRemoteControl { //should be derived from cls
 	public clsSensorRingSegmentEntry checkVision() {
 		clsSensorRingSegmentEntry oRetVal = null;
 		clsVision oVision = (clsVision) getSensorData().getSensorExt(eSensorExtType.VISION);
-		for( clsSensorExtern oVisionObj : oVision.getList() ) {
+		for( clsSensorExtern oVisionObj : oVision.getDataObjects() ) {
 			if( isCarrotOrange((clsSensorRingSegmentEntry)oVisionObj) )
 			{
 				oRetVal = (clsSensorRingSegmentEntry)oVisionObj;

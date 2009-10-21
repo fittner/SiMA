@@ -344,7 +344,8 @@ public class clsBrainSocket implements itfStepProcessing {
 	
 			Iterator <clsCollidingObject> i = eDetectedObjectList.iterator(); 
 			while(i.hasNext()){
-				clsManipulateAreaEntry oEntry = (clsManipulateAreaEntry)convertVisionEntry(i.next(), poVisionType);
+				clsVisionEntry oTemp = convertVisionEntry(i.next(), poVisionType);
+				clsManipulateAreaEntry oEntry = new clsManipulateAreaEntry(oTemp);
 				
 				if (oEntry != null) {
 					oData.add(oEntry);
@@ -425,7 +426,7 @@ public class clsBrainSocket implements itfStepProcessing {
 			clsEatableAreaEntry oEntry = convertEatableAreaEntry(i.next(), eSensorExtType.EATABLE_AREA);
 			
 			if (oEntry != null) {
-				oData.getEntries().add(oEntry);
+				oData.getDataObjects().add(oEntry);
 			}	
 		}
 		return oData;

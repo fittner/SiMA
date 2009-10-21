@@ -20,7 +20,7 @@ import enums.eSensorExtType;
  * 
  * @author langr
  * 01.10.2009, 13:15:58
- * @deprectaed
+ * @deprecated
  */
 public class clsMemberTransfer {
 

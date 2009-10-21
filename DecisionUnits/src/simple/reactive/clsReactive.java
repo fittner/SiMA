@@ -23,7 +23,6 @@ import enums.eEntityType;
 import enums.eSensorExtType;
 import enums.eSensorIntType;
 import decisionunit.itf.sensors.clsEatableArea;
-import decisionunit.itf.sensors.clsEatableAreaEntry;
 import decisionunit.itf.sensors.clsSensorData;
 import decisionunit.itf.sensors.clsRadiation;
 import decisionunit.itf.sensors.clsEnergy;
@@ -256,7 +255,7 @@ public class clsReactive extends clsBaseDecisionUnit {
 	private boolean isFirstInEatableArea(clsSensorData poInputs, eEntityType poEntityType){
 		clsEatableArea oEatArea = (clsEatableArea) poInputs.getSensorExt(eSensorExtType.EATABLE_AREA);
 		
-		for(clsSensorExtern oEatAreaObj : oEatArea.getList() ) {
+		for(clsSensorExtern oEatAreaObj : oEatArea.getDataObjects() ) {
 			if(((clsSensorRingSegmentEntry)oEatAreaObj).getEntityType() == poEntityType){
 				return true;
 			}
@@ -270,7 +269,7 @@ public class clsReactive extends clsBaseDecisionUnit {
 	 */
 	private boolean isVisibleEntityInRange(clsSensorData inputs, eEntityType entityType){
 		clsVision oVision = (clsVision) inputs.getSensorExt(eSensorExtType.VISION);
-		for( clsSensorExtern oVisionObj : oVision.getList() ){
+		for( clsSensorExtern oVisionObj : oVision.getDataObjects() ){
 			if(((clsSensorRingSegmentEntry)oVisionObj).getEntityType() == entityType){
 				return true;
 			}
@@ -320,7 +319,7 @@ public class clsReactive extends clsBaseDecisionUnit {
 	private boolean isAtEntity(clsSensorData poInputs, eEntityType poEntityType, double pnDistance){
 		clsVision oVision = (clsVision) poInputs.getSensorExt(eSensorExtType.VISION);
 		// Find the closest entity 
-		for( clsSensorExtern oVisionObj : oVision.getList() ) {
+		for( clsSensorExtern oVisionObj : oVision.getDataObjects() ) {
 			clsSensorRingSegmentEntry oVisionObjTemp = (clsSensorRingSegmentEntry)oVisionObj; 
 			if (oVisionObjTemp.getEntityType() == poEntityType){
 				if(oVisionObjTemp.getPolarcoordinate().mrLength <= pnDistance){
@@ -410,7 +409,7 @@ public class clsReactive extends clsBaseDecisionUnit {
 		clsVision oVision = (clsVision) poInputs.getSensorExt(eSensorExtType.VISION);
 		
 		// Find the closest fungus 
-		for( clsSensorExtern oVisionObj : oVision.getList() ) {
+		for( clsSensorExtern oVisionObj : oVision.getDataObjects() ) {
 			clsSensorRingSegmentEntry oVisionObjTemp = (clsSensorRingSegmentEntry)oVisionObj; 
 			if(oVisionObjTemp.getEntityType() == entityType){
 				if(closest.mrLength < 0 || closest.mrLength > oVisionObjTemp.getPolarcoordinate().mrLength){
@@ -475,8 +474,8 @@ public class clsReactive extends clsBaseDecisionUnit {
 	 */
 	private void harvest(clsSensorData inputs, itfActionProcessor poActionProcessor){
 		clsEatableArea oEatArea = (clsEatableArea) inputs.getSensorExt(eSensorExtType.EATABLE_AREA);
-		for(clsEatableAreaEntry oEatAreaObj : oEatArea.getEntries() ) {
-				if( oEatAreaObj.getEntityType() == eEntityType.URANIUM ){
+		for(clsSensorExtern oEatAreaObj : oEatArea.getDataObjects() ) {
+				if( ((clsSensorRingSegmentEntry) oEatAreaObj).getEntityType() == eEntityType.URANIUM ){
 					moActionQueue.add(Action.PICKUP);
 					// FIXME (horvath) moActionQueue.add(Action.TO_INVENTORY);
 					mnInventorySize++;
@@ -493,8 +492,8 @@ public class clsReactive extends clsBaseDecisionUnit {
 		//eat
 		clsEatableArea oEatArea = (clsEatableArea) poInputs.getSensorExt(eSensorExtType.EATABLE_AREA);
 		
-		for(clsEatableAreaEntry oEatAreaObj : oEatArea.getEntries() ) {
-					if(oEatAreaObj.getEntityType() == eEntityType.FUNGUS )
+		for(clsSensorExtern oEatAreaObj : oEatArea.getDataObjects() ) {
+					if(((clsSensorRingSegmentEntry) oEatAreaObj).getEntityType() == eEntityType.FUNGUS )
 					{
 							poActionProcessor.call(new clsActionEat());	
 							

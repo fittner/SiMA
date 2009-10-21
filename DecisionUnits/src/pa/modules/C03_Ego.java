@@ -30,11 +30,13 @@ import pa.interfaces.I4_2;
 import pa.interfaces.I4_3;
 import pa.interfaces.I7_4;
 import pa.memory.clsMemory;
+import pa.symbolization.representationsymbol.itfSymbol;
 import pa.tools.clsPair;
 import pa.interfaces.I8_1;
 import config.clsBWProperties;
 import decisionunit.itf.sensors.clsSensorExtern;
 import enums.eSensorExtType;
+import pa.enums.eSymbolExtType;
 
 /**
  * DOCUMENT (deutsch) - insert description 
@@ -111,7 +113,7 @@ public class C03_Ego extends clsModuleContainer implements
 	 * @see pa.interfaces.I2_2#receive_I2_2(int)
 	 */
 	@Override
-	public void receive_I2_2(HashMap<eSensorExtType, clsSensorExtern> poEnvironmentalData) {
+	public void receive_I2_2(HashMap<eSymbolExtType, itfSymbol> poEnvironmentalData) {
 		moC07EnvironmentalInterfaceFunctions.receive_I2_2(poEnvironmentalData);
 	}
 

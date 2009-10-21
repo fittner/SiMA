@@ -127,7 +127,7 @@ public class tssImageAbstract {
 		
 		clsEatableArea oEatableArea = new clsEatableArea(); 
 		clsEatableAreaEntry oEatableEntry = new clsEatableAreaEntry(eEntityType.BUBBLE);
-		oEatableArea.getEntries().add(oEatableEntry);
+		oEatableArea.getDataObjects().add(oEatableEntry);
 		
 		oSensorData.addSensorExt(eSensorExtType.EATABLE_AREA, oEatableArea);
 		

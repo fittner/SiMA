@@ -6,6 +6,8 @@
  */
 package pa.symbolization.representationsymbol;
 
+import java.util.ArrayList;
+
 /**
  * DOCUMENT (deutsch) - insert description 
  * 
@@ -14,5 +16,5 @@ package pa.symbolization.representationsymbol;
  * 
  */
 public interface itfSymbol {
-
+	public ArrayList<itfSymbol> getSymbolObjects();
 }
