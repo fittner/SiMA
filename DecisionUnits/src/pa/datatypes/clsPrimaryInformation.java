@@ -27,6 +27,7 @@ public class clsPrimaryInformation extends clsPsychicRepresentative implements i
 		moAffect = new clsAffectTension();
 
 	}
+
 	
 	public clsPrimaryInformation(clsThingPresentationSingle poSingle) {
 		moTP = poSingle;
@@ -86,4 +87,12 @@ public class clsPrimaryInformation extends clsPsychicRepresentative implements i
 		return moTP.toStringGraphDisplay();
 	}
 	
+	@Override
+	public String toString() {
+		String oResult = "";
+		
+		oResult = "PIs :: "+moTP+" | "+moAffect;
+		
+		return oResult;
+	}	
 }

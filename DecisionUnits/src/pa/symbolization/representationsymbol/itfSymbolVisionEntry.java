@@ -11,7 +11,6 @@ import java.awt.Color;
 import bfg.utils.enums.eCount;
 import bfg.utils.enums.eSide;
 import enums.eAntennaPositions;
-import enums.eEntityType;
 import enums.eShapeType;
 
 /**
@@ -22,7 +21,6 @@ import enums.eShapeType;
  * 
  */
 public interface itfSymbolVisionEntry extends itfSymbol {
-	public eEntityType getEntityType();
 	public eShapeType getShapeType();
 	public eCount getNumEntitiesPresent();
 	

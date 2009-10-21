@@ -28,6 +28,10 @@ public class clsSymbolRadiation extends decisionunit.itf.sensors.clsRadiation  i
 	public String getSymbolName() {
 		return "Radiation";
 	}
+	
+	public String getSymbolType() {
+		return "Radiation";
+	}
 
 	public Method[] getDataAccessMethods() {
 		return itfSymbolRadiation.class.getMethods();

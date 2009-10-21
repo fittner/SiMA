@@ -5,7 +5,7 @@ import java.util.ArrayList;
 
 
 
-public class clsSymbolPositionChange extends decisionunit.itf.sensors.clsPositionChange  implements itfGetSymbolName, itfSymbolPositionChange, itfGetDataAccessMethods {
+public class clsSymbolPositionChange extends decisionunit.itf.sensors.clsPositionChange  implements itfIsContainer, itfGetSymbolName, itfSymbolPositionChange, itfGetDataAccessMethods {
 	public clsSymbolPositionChange(decisionunit.itf.sensors.clsPositionChange poSensor) {
 		super();
 		moSensorType = poSensor.getSensorType();
@@ -26,6 +26,10 @@ public class clsSymbolPositionChange extends decisionunit.itf.sensors.clsPositio
 	public String getSymbolName() {
 		return "PositionChange";
 	}
+	
+	public String getSymbolType() {
+		return "PositionChange";
+	}	
 
 	public Method[] getDataAccessMethods() {
 		return itfSymbolPositionChange.class.getMethods();

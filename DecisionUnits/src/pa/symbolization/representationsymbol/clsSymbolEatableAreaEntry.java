@@ -9,6 +9,7 @@ package pa.symbolization.representationsymbol;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 
+
 /**
  * DOCUMENT (zeilinger) - insert description 
  * 
@@ -16,7 +17,7 @@ import java.util.ArrayList;
  * 22.09.2009, 13:09:45
  * 
  */
-public class clsSymbolEatableAreaEntry extends decisionunit.itf.sensors.clsEatableAreaEntry implements itfGetSymbolName, itfGetDataAccessMethods, itfSymbolEatableAreaEntry {
+public class clsSymbolEatableAreaEntry extends decisionunit.itf.sensors.clsEatableAreaEntry implements itfIsContainer, itfGetSymbolName, itfGetDataAccessMethods, itfSymbolEatableAreaEntry {
 
 	/**
 	 * DOCUMENT (deutsch) - insert description 
@@ -70,5 +71,17 @@ public class clsSymbolEatableAreaEntry extends decisionunit.itf.sensors.clsEatab
 		ArrayList<itfSymbol> oRetVal = new ArrayList<itfSymbol>();
 		oRetVal.add(this);
 		return oRetVal;
+	}
+
+	/* (non-Javadoc)
+	 *
+	 * @author deutsch
+	 * 21.10.2009, 15:09:46
+	 * 
+	 * @see pa.symbolization.representationsymbol.itfGetSymbolName#getSymbolType()
+	 */
+	@Override
+	public String getSymbolType() {
+		return "Entity";
 	}
 }

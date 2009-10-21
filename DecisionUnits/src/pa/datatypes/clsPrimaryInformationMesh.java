@@ -41,5 +41,19 @@ public class clsPrimaryInformationMesh extends clsPrimaryInformation implements 
         } catch (CloneNotSupportedException e) {
            return e;
         }
-	}		
+	}
+	
+	
+	@Override
+	public String toString() {
+		String oResult = "";
+		
+		oResult = "PIm :: "+moTP+" | "+moAffect+" | assoc: ";
+		
+		for (clsAssociationContext<clsPrimaryInformation> oEntry:moAssociations) {
+			oResult += oEntry+"; ";
+		}
+		
+		return oResult;
+	}	
 }

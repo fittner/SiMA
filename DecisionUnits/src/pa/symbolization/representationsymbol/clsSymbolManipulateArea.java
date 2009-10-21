@@ -18,7 +18,7 @@ import decisionunit.itf.sensors.clsSensorExtern;
  * 09.09.2009, 14:04:06
  * 
  */
-public class clsSymbolManipulateArea extends decisionunit.itf.sensors.clsManipulateArea  implements itfIsContainer, itfGetSymbolName, itfGetDataAccessMethods, itfSymbolManipulateArea {
+public class clsSymbolManipulateArea extends decisionunit.itf.sensors.clsManipulateArea  implements itfGetDataAccessMethods, itfSymbolManipulateArea {
 
 	public clsSymbolManipulateArea(decisionunit.itf.sensors.clsManipulateArea poSensor) {
 		super();
@@ -29,18 +29,6 @@ public class clsSymbolManipulateArea extends decisionunit.itf.sensors.clsManipul
 			clsSymbolManipulateAreaEntry oE = new clsSymbolManipulateAreaEntry( (decisionunit.itf.sensors.clsManipulateAreaEntry)oEntry);
 			moEntries.add(oE);
 		}
-	}
-	
-	/* (non-Javadoc)
-	 *
-	 * @author deutsch
-	 * 19.10.2009, 19:53:18
-	 * 
-	 * @see pa.symbolization.representationsymbol.itfGetMeshAttributeName#getMeshAttributeName()
-	 */
-	@Override
-	public String getSymbolName() {
-		return "";
 	}
 
 	public Method[] getDataAccessMethods() {

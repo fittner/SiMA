@@ -15,4 +15,5 @@ package pa.symbolization.representationsymbol;
  */
 public interface itfGetSymbolName {
 	public String getSymbolName();
+	public String getSymbolType();
 }

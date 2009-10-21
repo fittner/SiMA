@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import decisionunit.itf.sensors.clsSensorExtern;
 import decisionunit.itf.sensors.clsVisionEntry;
 
-public class clsSymbolVision extends decisionunit.itf.sensors.clsVision implements itfIsContainer, itfGetSymbolName, itfGetDataAccessMethods, itfSymbolVision {
+public class clsSymbolVision extends decisionunit.itf.sensors.clsVision implements itfGetDataAccessMethods, itfSymbolVision {
 	
 	public clsSymbolVision(decisionunit.itf.sensors.clsVision poSensor) {
 		super();
@@ -16,12 +16,6 @@ public class clsSymbolVision extends decisionunit.itf.sensors.clsVision implemen
 			clsSymbolVisionEntry oE = new clsSymbolVisionEntry( (decisionunit.itf.sensors.clsVisionEntry)oEntry);
 			moEntries.add(oE);
 		}		
-	}
-	
-	
-	@Override
-	public String getSymbolName() {
-		return null;
 	}
 
 	public Method[] getDataAccessMethods() {

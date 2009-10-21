@@ -14,6 +14,10 @@ public class clsSymbolBump extends decisionunit.itf.sensors.clsBump implements i
 	public String getSymbolName() {
 		return "Bump"; 
 	}
+	
+	public String getSymbolType() {
+		return "Bump";
+	}
 
 	public Method[] getDataAccessMethods() {
 		return itfSymbolBump.class.getMethods();

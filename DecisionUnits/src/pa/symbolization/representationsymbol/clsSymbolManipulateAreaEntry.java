@@ -18,7 +18,7 @@ import java.util.ArrayList;
  * 
  */
 public class clsSymbolManipulateAreaEntry extends decisionunit.itf.sensors.clsManipulateAreaEntry 
-											implements itfGetSymbolName, itfSymbolManipulateAreaEntry, itfGetDataAccessMethods  {
+											implements itfIsContainer, itfGetSymbolName, itfSymbolManipulateAreaEntry, itfGetDataAccessMethods  {
 
 	public clsSymbolManipulateAreaEntry(decisionunit.itf.sensors.clsManipulateAreaEntry poSensor) {
 		super();
@@ -49,7 +49,17 @@ public class clsSymbolManipulateAreaEntry extends decisionunit.itf.sensors.clsMa
 	public String getSymbolName() {
 		return mnEntityType.name();
 	}
-
+	/* (non-Javadoc)
+	 *
+	 * @author deutsch
+	 * 21.10.2009, 15:09:46
+	 * 
+	 * @see pa.symbolization.representationsymbol.itfGetSymbolName#getSymbolType()
+	 */
+	@Override
+	public String getSymbolType() {
+		return "Entity";
+	}
 	public Method[] getDataAccessMethods() {
 		return itfSymbolManipulateAreaEntry.class.getMethods();
 	}

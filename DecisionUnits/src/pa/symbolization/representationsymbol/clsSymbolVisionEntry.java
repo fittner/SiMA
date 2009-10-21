@@ -16,7 +16,7 @@ import java.util.ArrayList;
  * 22.09.2009, 13:09:00
  * 
  */
-public class clsSymbolVisionEntry extends decisionunit.itf.sensors.clsVisionEntry implements itfGetSymbolName, itfSymbolVisionEntry, itfGetDataAccessMethods  {
+public class clsSymbolVisionEntry extends decisionunit.itf.sensors.clsVisionEntry implements itfIsContainer, itfGetSymbolName, itfSymbolVisionEntry, itfGetDataAccessMethods  {
 	public clsSymbolVisionEntry(decisionunit.itf.sensors.clsVisionEntry poSensor) {
 		super();
 		
@@ -45,7 +45,17 @@ public class clsSymbolVisionEntry extends decisionunit.itf.sensors.clsVisionEntr
 	public String getSymbolName() {
 		return mnEntityType.name();
 	}
-
+	/* (non-Javadoc)
+	 *
+	 * @author deutsch
+	 * 21.10.2009, 15:09:46
+	 * 
+	 * @see pa.symbolization.representationsymbol.itfGetSymbolName#getSymbolType()
+	 */
+	@Override
+	public String getSymbolType() {
+		return "Entity";
+	}
 	public Method[] getDataAccessMethods() {
 		return itfSymbolVisionEntry.class.getMethods();
 	}

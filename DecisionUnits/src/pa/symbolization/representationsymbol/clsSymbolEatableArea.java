@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import decisionunit.itf.sensors.clsEatableAreaEntry;
 import decisionunit.itf.sensors.clsSensorExtern;
 
-public class clsSymbolEatableArea extends decisionunit.itf.sensors.clsEatableArea implements itfIsContainer, itfGetSymbolName, itfGetDataAccessMethods, itfSymbolEatableArea {
+public class clsSymbolEatableArea extends decisionunit.itf.sensors.clsEatableArea implements itfGetDataAccessMethods, itfSymbolEatableArea {
 	
 	public clsSymbolEatableArea(decisionunit.itf.sensors.clsEatableArea poSensor) {
 		super();
@@ -16,11 +16,6 @@ public class clsSymbolEatableArea extends decisionunit.itf.sensors.clsEatableAre
 			clsSymbolEatableAreaEntry oE = new clsSymbolEatableAreaEntry((clsEatableAreaEntry) oEntry);
 			moEntries.add(oE);
 		}		
-	}
-	
-	@Override
-	public String getSymbolName() {
-		return null;
 	}
 
 	public Method[] getDataAccessMethods() {
