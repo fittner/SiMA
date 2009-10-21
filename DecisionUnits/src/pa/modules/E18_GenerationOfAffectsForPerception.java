@@ -103,8 +103,8 @@ public class E18_GenerationOfAffectsForPerception extends clsModuleBase implemen
 	 */
 	@Override
 	protected void process() {
+		//FIXME HZ  Nice try, however, there shoul dbe some kind of mechanism in here
 		moMergedPrimaryInformation_Output = moMergedPrimaryInformation_Input; 
-		
 	}
 
 	/* (non-Javadoc)
