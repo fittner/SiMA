@@ -66,11 +66,12 @@ public class clsTPGenerator {
 		//creating the thing presentation of the attribute 
 		clsPrimaryInformationMesh oPrimMesh = new clsPrimaryInformationMesh(new clsThingPresentationSingle());
 		
-		oPrimMesh.moTP.meContentName = ((itfGetSymbolName)poDataObject).getSymbolName();
+		oPrimMesh.moTP.meContentName = ((itfGetSymbolName)poDataObject).getSymbolType();
 		oPrimMesh.moTP.meContentType = ((itfGetSymbolName)poDataObject).getSymbolType();
+		oPrimMesh.moTP.moContent = ((itfGetSymbolName)poDataObject).getSymbolName();
 
 		Method[] oMethods = ((itfGetDataAccessMethods)poDataObject).getDataAccessMethods();
-			
+		int i=0;
 		for (Method oM : oMethods) {
 			if (oM.getName().equals("getSymbolObjects")) {
 				continue;
@@ -81,7 +82,7 @@ public class clsTPGenerator {
 			oPrimSingle.moTP.meContentName = removePrefix(oM.getName());
 			oPrimSingle.moTP.meContentType = oM.getClass().getName();		
 			try {
-				oPrimSingle.moTP.moContent = oMethods[0].invoke(poDataObject,  new Object[0]);
+				oPrimSingle.moTP.moContent = oMethods[i].invoke(poDataObject,  new Object[0]);
 			} catch (IllegalArgumentException e) {
 				e.printStackTrace();
 			} catch (IllegalAccessException e) {
@@ -95,7 +96,8 @@ public class clsTPGenerator {
 			oAssoc.moElementA = oPrimMesh;
 			oAssoc.moElementB = oPrimSingle;
 			//storing the association in the mesh
-			oPrimMesh.moAssociations.add(oAssoc);			
+			oPrimMesh.moAssociations.add(oAssoc);		
+			i++;
 		}
 		
 		return oPrimMesh;
