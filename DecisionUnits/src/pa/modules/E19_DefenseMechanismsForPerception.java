@@ -6,7 +6,10 @@
  */
 package pa.modules;
 
+import java.util.ArrayList;
+
 import config.clsBWProperties;
+import pa.datatypes.clsPrimaryInformationMesh;
 import pa.interfaces.I2_10;
 import pa.interfaces.I2_9;
 import pa.interfaces.I3_2;
@@ -86,8 +89,8 @@ public class E19_DefenseMechanismsForPerception extends clsModuleBase implements
 	 * @see pa.interfaces.I2_9#receive_I2_9(int)
 	 */
 	@Override
-	public void receive_I2_9(int pnData) {
-		mnTest += pnData;
+	public void receive_I2_9(ArrayList<clsPrimaryInformationMesh> poMergedPrimaryInformation) {
+		//DEEPCOPY!!!!
 		
 	}
 

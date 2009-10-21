@@ -6,7 +6,10 @@
  */
 package pa.modules;
 
+import java.util.ArrayList;
+
 import config.clsBWProperties;
+import pa.datatypes.clsPrimaryInformationMesh;
 import pa.interfaces.I2_9;
 import pa.interfaces.I2_8;
 
@@ -29,6 +32,10 @@ public class E18_GenerationOfAffectsForPerception extends clsModuleBase implemen
 	 * @param poProp
 	 * @param poEnclosingContainer
 	 */
+	
+	public ArrayList<clsPrimaryInformationMesh> moMergedPrimaryInformation_Input; 
+	public ArrayList<clsPrimaryInformationMesh> moMergedPrimaryInformation_Output; 
+	
 	public E18_GenerationOfAffectsForPerception(String poPrefix,
 			clsBWProperties poProp, clsModuleContainer poEnclosingContainer) {
 		super(poPrefix, poProp, poEnclosingContainer);
@@ -83,9 +90,8 @@ public class E18_GenerationOfAffectsForPerception extends clsModuleBase implemen
 	 * @see pa.interfaces.I2_8#receive_I2_8(int)
 	 */
 	@Override
-	public void receive_I2_8(int pnData) {
-		mnTest += pnData;
-		
+	public void receive_I2_8(ArrayList<clsPrimaryInformationMesh> poMergedPrimaryInformationMesh) {
+		moMergedPrimaryInformation_Input = poMergedPrimaryInformationMesh;
 	}
 
 	/* (non-Javadoc)
@@ -97,7 +103,7 @@ public class E18_GenerationOfAffectsForPerception extends clsModuleBase implemen
 	 */
 	@Override
 	protected void process() {
-		mnTest++;
+		moMergedPrimaryInformation_Output = moMergedPrimaryInformation_Input; 
 		
 	}
 
@@ -110,7 +116,7 @@ public class E18_GenerationOfAffectsForPerception extends clsModuleBase implemen
 	 */
 	@Override
 	protected void send() {
-		((I2_9)moEnclosingContainer).receive_I2_9(mnTest);
+		((I2_9)moEnclosingContainer).receive_I2_9(moMergedPrimaryInformation_Output);
 		
 	}
 }

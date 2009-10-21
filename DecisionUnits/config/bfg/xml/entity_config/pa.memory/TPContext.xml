@@ -16,7 +16,8 @@
 	<TPMesh name="CAKE">
 		<Description> Definition of associated context</Description>
 		<ContextList>
-			<Context type ="EAT"  		weight="1.0" affect_memory="0.8"/>
+			<Context type ="EAT"  		weight="0.8" affect_memory="0.8"/>
+			<Context type ="EAT"     	weight="0.1" affect_memory="-0.1"/>
 			<Context type ="EXCRETE"	weight="1.0" affect_memory="-0.1"/>
 			<Context type ="SLEEP"  	weight="0" affect_memory="0.0"/>
 			<Context type ="BREATH"   	weight="0" affect_memory="0.0"/>
@@ -24,11 +25,6 @@
 			<Context type ="AGGRESSION" weight="1.0" affect_memory="0.2"/>
 			<Context type="SEXUAL_AROUSAL" weight="0" affect_memory="0.0"/>
 		</ContextList>	
-		<DriveContentCathegoryList> <!-- HZ Sollten oral, anal und co nicht in prozent angegeben werden? -->
-                            <DriveContentCathegory context="AGGRESSION" oral="0.0" anal="0" phallic="80" genital="20"/>
-                            <DriveContentCathegory context="EAT" oral="30" anal="70" phallic="0" genital="0"/>
-                            <DriveContentCathegory context="EXCRETE" oral="0.0" anal="70" phallic="30" genital="0"/>
-        </DriveContentCathegoryList>
 	</TPMesh>
 	<TPMesh name="BUBBLE">
 		<Description> Definition of the associated context</Description>

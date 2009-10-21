@@ -12,6 +12,7 @@ import java.util.List;
 
 import pa.datatypes.clsAffectTension;
 import pa.datatypes.clsPrimaryInformation;
+import pa.datatypes.clsPrimaryInformationMesh;
 import pa.datatypes.clsThingPresentation;
 import pa.interfaces.I1_5;
 import pa.interfaces.I1_7;
@@ -149,8 +150,8 @@ public class C03_Ego extends clsModuleContainer implements
 	 * @see pa.interfaces.I2_9#receive_I2_9(int)
 	 */
 	@Override
-	public void receive_I2_9(int pnData) {
-		moC08PsychicMediator.receive_I2_9(pnData);
+	public void receive_I2_9(ArrayList<clsPrimaryInformationMesh> poMergedPrimaryInformation) {
+		moC08PsychicMediator.receive_I2_9(poMergedPrimaryInformation);
 	}
 
 	/* (non-Javadoc)
@@ -222,8 +223,8 @@ public class C03_Ego extends clsModuleContainer implements
 	 * @see pa.interfaces.I2_8#receive_I2_8(int)
 	 */
 	@Override
-	public void receive_I2_8(int pnData) {
-		((I2_8)moEnclosingContainer).receive_I2_8(pnData);
+	public void receive_I2_8(ArrayList<clsPrimaryInformationMesh> poMergedPrimaryInformationMesh) {
+		((I2_8)moEnclosingContainer).receive_I2_8(poMergedPrimaryInformationMesh);
 	}
 
 	/* (non-Javadoc)

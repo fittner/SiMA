@@ -6,6 +6,11 @@
  */
 package pa.interfaces;
 
+import java.util.ArrayList;
+
+import pa.datatypes.clsPrimaryInformation;
+import pa.tools.clsPair;
+
 /**
  * DOCUMENT (deutsch) - insert description 
  * 
@@ -14,5 +19,5 @@ package pa.interfaces;
  * 
  */
 public interface I2_7 {
-	public void receive_I2_7(int pnData);
+	public void receive_I2_7(ArrayList<clsPair<clsPrimaryInformation, ArrayList<clsPrimaryInformation>>> poPerceptPlusMemories_Output);
 }

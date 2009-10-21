@@ -24,6 +24,7 @@ import bfg.tools.xmltools.clsXMLContextReader;
  * 07.10.2009, 16:16:22|
  * 
  */
+@Deprecated
 public class clsContextLoader {
 	public static String moFileName = "TPContext"; //denotes the directory name and the first element name in xml
 	public static String moNodeName = "TPMesh"; //denotes one single entry for a drive
@@ -43,8 +44,8 @@ public class clsContextLoader {
 	    	  clsXMLContextReader oReader = new clsXMLContextReader(oXmlPath);
 	    	  clsXMLContextReader.getNodeElementByName((Node)oReader.getDocument().getDocumentElement(), 
 																moNodeName, 1, oNodes);
-	    	  for(Node element : oNodes){
-	    		  creatTPMesh(element, oRetVal, poEntityType);  	 
+	    	  for(Node oElement : oNodes){
+	    		  creatTPMesh(oElement, oRetVal, poEntityType);  	 
 	    	  }
 	    	  
  	      }catch(Exception e) {
@@ -64,14 +65,14 @@ public class clsContextLoader {
 	 * @param retVal
 	 * @param poEntityType
 	 */
-	private static void creatTPMesh( Node element,
+	private static void creatTPMesh( Node poElement,
 									 ArrayList<clsAssociationContext<clsThingPresentationSingle>> poRetVal,
 									 String poEntityType) {
 			
-			  NamedNodeMap oAtrib = element.getAttributes();
+			  NamedNodeMap oAtrib = poElement.getAttributes();
 						    		  
 	  		  if(clsXMLContextReader.getAttributeValue(oAtrib,"name").equals(poEntityType)){ 
-		    		  createContextList(poRetVal, element);
+		    		  createContextList(poRetVal, poElement);
 		      }
 	}
 
@@ -101,7 +102,7 @@ public class clsContextLoader {
 				NamedNodeMap oAtrib = element.getAttributes();
 				oContextName = clsXMLContextReader.getAttributeValue(oAtrib, "type");
 				oContextType = clsXMLContextReader.getAttributeValue(oAtrib, "type"); 
-				oContextContent = Double.parseDouble(clsXMLContextReader.getAttributeValue(oAtrib, "affect_memory="));
+				oContextContent = Double.parseDouble(clsXMLContextReader.getAttributeValue(oAtrib, "affect_memory"));
 				
 				oContext.moAssociationContext = new clsThingPresentationSingle(oContextName, oContextType,oContextContent); 
 				oContext.moWeight = Double.parseDouble(clsXMLContextReader.getAttributeValue(oAtrib, "weight"));

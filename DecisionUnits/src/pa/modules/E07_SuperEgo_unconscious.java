@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import pa.datatypes.clsPrimaryInformation;
+import pa.datatypes.clsPrimaryInformationMesh;
 import pa.interfaces.I1_5;
 import pa.interfaces.I3_1;
 import pa.interfaces.I3_2;
@@ -104,9 +105,9 @@ public class E07_SuperEgo_unconscious extends clsModuleBase implements I1_5, I2_
 	 * @see pa.interfaces.I2_9#receive_I2_9(int)
 	 */
 	@Override
-	public void receive_I2_9(int pnData) {
-		mnTest += pnData;
+	public void receive_I2_9(ArrayList<clsPrimaryInformationMesh> poMergedPrimaryInformation) {
 		
+		//DEEPCOPY
 	}
 
 	/* (non-Javadoc)

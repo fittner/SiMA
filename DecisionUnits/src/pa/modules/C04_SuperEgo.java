@@ -6,9 +6,11 @@
  */
 package pa.modules;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import pa.datatypes.clsPrimaryInformation;
+import pa.datatypes.clsPrimaryInformationMesh;
 import pa.interfaces.I1_5;
 import pa.interfaces.I1_7;
 import pa.interfaces.I2_11;
@@ -122,8 +124,8 @@ public class C04_SuperEgo extends clsModuleContainer implements
 	 * @see pa.interfaces.I2_9#receive_I2_9(int)
 	 */
 	@Override
-	public void receive_I2_9(int pnData) {
-		moE07SuperEgoUnconscious.receive_I2_9(pnData);
+	public void receive_I2_9(ArrayList<clsPrimaryInformationMesh> poMergedPrimaryInformation) {
+		moE07SuperEgoUnconscious.receive_I2_9(poMergedPrimaryInformation);
 		
 	}
 

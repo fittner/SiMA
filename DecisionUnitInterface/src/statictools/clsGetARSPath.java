@@ -35,7 +35,7 @@ public class clsGetARSPath {
 	
 	public static String getXMLPathEntity()
 	{
-		return getXMLPath()+System.getProperty("file.separator")+"entity_config"+System.getProperty("file.separator");
+		return getXMLPath()+"entity_config"+System.getProperty("file.separator");
 	}
 	
 	public static String getLogPath()

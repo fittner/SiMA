@@ -6,9 +6,15 @@
  */
 package pa.modules;
 
+import java.util.ArrayList;
+
 import config.clsBWProperties;
+import pa.datatypes.clsAssociationContext;
+import pa.datatypes.clsPrimaryInformation;
+import pa.datatypes.clsPrimaryInformationMesh;
 import pa.interfaces.I2_7;
 import pa.interfaces.I2_8;
+import pa.tools.clsPair;
 
 /**
  * DOCUMENT (deutsch) - insert description 
@@ -31,6 +37,9 @@ public class E17_FusionOfExternalPerceptionAndMemoryTraces extends clsModuleBase
 	 * @param poProp
 	 * @param poEnclosingContainer
 	 */
+	ArrayList<clsPair<clsPrimaryInformation, ArrayList<clsPrimaryInformation>>> moPerceptPlusAwareContent_Input;
+	ArrayList<clsPrimaryInformationMesh> moMergedPrimaryInformation_Output; 
+		
 	public E17_FusionOfExternalPerceptionAndMemoryTraces(String poPrefix,
 			clsBWProperties poProp, clsModuleContainer poEnclosingContainer) {
 		super(poPrefix, poProp, poEnclosingContainer);
@@ -85,9 +94,8 @@ public class E17_FusionOfExternalPerceptionAndMemoryTraces extends clsModuleBase
 	 * @see pa.interfaces.I2_7#receive_I2_7(int)
 	 */
 	@Override
-	public void receive_I2_7(int pnData) {
-		mnTest += pnData;
-		
+	public void receive_I2_7(ArrayList<clsPair<clsPrimaryInformation, ArrayList<clsPrimaryInformation>>> poPerceptPlusAwareContent_Input) {
+		moPerceptPlusAwareContent_Input = poPerceptPlusAwareContent_Input; 
 	}
 
 	/* (non-Javadoc)
@@ -99,8 +107,69 @@ public class E17_FusionOfExternalPerceptionAndMemoryTraces extends clsModuleBase
 	 */
 	@Override
 	protected void process() {
-		mnTest++;
+		moMergedPrimaryInformation_Output = new ArrayList<clsPrimaryInformationMesh>(); 
+		mergePrimaryInformation(); 
+	}
+
+	/**
+	 * DOCUMENT (zeilinger) - insert description
+	 *
+	 * @author zeilinger
+	 * 21.10.2009, 12:23:40
+	 *
+	 */
+	private void mergePrimaryInformation() {
+		for(clsPair<clsPrimaryInformation, ArrayList<clsPrimaryInformation>> oElement : moPerceptPlusAwareContent_Input){
+			moMergedPrimaryInformation_Output.add(getMergedMesh(oElement)); 
+		}
+	}
+
+	/**
+	 * DOCUMENT (zeilinger) - insert description
+	 *
+	 * @author zeilinger
+	 * 21.10.2009, 14:32:20
+	 *
+	 * @param element
+	 * @return
+	 */
+	private clsPrimaryInformationMesh getMergedMesh(clsPair<clsPrimaryInformation, ArrayList<clsPrimaryInformation>> poElement) {
+			
+		clsPrimaryInformationMesh oMergedMesh = getNewMesh(poElement.a); 
+			
+	    for(clsPrimaryInformation oAwareContent : poElement.b){
+			clsAssociationContext<clsPrimaryInformation> oAssociationContext = new clsAssociationContext<clsPrimaryInformation>(); 
+			oAssociationContext.moElementA = oMergedMesh; 
+			oAssociationContext.moElementB = oAwareContent; 
+			//FIXME HZ Define Weight and Context, respectively a new type of association
+			//oAssociationContext.moWeight =
+			//oAssociationContext.moAssociationContext =
+			oMergedMesh.moAssociations.add(oAssociationContext);
+		}
+		return oMergedMesh;
+	}
+
+	
+	/**
+	 * DOCUMENT (zeilinger) - insert description
+	 *
+	 * @author zeilinger
+	 * 21.10.2009, 15:43:17
+	 *
+	 * @param a
+	 * @return
+	 */
+	private clsPrimaryInformationMesh getNewMesh(clsPrimaryInformation poPerceivedObject) {
+		clsPrimaryInformationMesh oMergedMesh; 
 		
+		if(poPerceivedObject instanceof clsPrimaryInformationMesh){
+			oMergedMesh =(clsPrimaryInformationMesh)poPerceivedObject; 
+		}
+		else{
+			oMergedMesh = new clsPrimaryInformationMesh(poPerceivedObject.moTP); 
+			oMergedMesh.moAffect = poPerceivedObject.moAffect; 
+		}
+		return oMergedMesh;
 	}
 
 	/* (non-Javadoc)
@@ -112,7 +181,7 @@ public class E17_FusionOfExternalPerceptionAndMemoryTraces extends clsModuleBase
 	 */
 	@Override
 	protected void send() {
-		((I2_8)moEnclosingContainer).receive_I2_8(mnTest);
+		((I2_8)moEnclosingContainer).receive_I2_8(moMergedPrimaryInformation_Output);
 	}
 
 }

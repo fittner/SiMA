@@ -107,8 +107,8 @@ public class C06_AffectGeneration extends clsModuleContainer implements
 	 * @see pa.interfaces.I2_8#receive_I2_8(int)
 	 */
 	@Override
-	public void receive_I2_8(int pnData) {
-		moE18GenerationOfAffectsForPerception.receive_I2_8(pnData);
+	public void receive_I2_8(ArrayList<clsPrimaryInformationMesh> poMergedPrimaryInformationMesh) {
+		moE18GenerationOfAffectsForPerception.receive_I2_8(poMergedPrimaryInformationMesh);
 		
 	}
 
@@ -120,8 +120,8 @@ public class C06_AffectGeneration extends clsModuleContainer implements
 	 * @see pa.interfaces.I2_9#receive_I2_9(int)
 	 */
 	@Override
-	public void receive_I2_9(int pnData) {
-		((I2_9)moEnclosingContainer).receive_I2_9(pnData);
+	public void receive_I2_9(ArrayList<clsPrimaryInformationMesh> poMergedPrimaryInformation) {
+		((I2_9)moEnclosingContainer).receive_I2_9(poMergedPrimaryInformation);
 		
 	}
 }
