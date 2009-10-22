@@ -22,6 +22,7 @@ import bfg.tools.xmltools.clsXMLConfiguration;
 
 import pa.datatypes.clsDriveObject;
 import pa.datatypes.clsDriveContentCategories;
+import pa.enums.eDriveType;
 
 /**
  * DOCUMENT (langr) - insert description 
@@ -41,6 +42,7 @@ public class clsDriveLoader {
 	public static String moLifeInstinctRatioName = "LifeInstinctRatio";
 	public static String moDriveObjectListName = "DriveObjectList";
 	public static String moDriveObjectName = "DriveObject";
+	public static String moDriveTypeName = "DriveType";
 
 	
 	
@@ -93,6 +95,7 @@ public class clsDriveLoader {
 		oRetVal.moName = "Drive";
 		
 		oRetVal.meDriveContent = eDriveContent.valueOf( clsXMLAbstractImageReader.getTagStringValue(poDriveNode, moDriveContentName ) );
+		oRetVal.meDriveType = eDriveType.valueOf( clsXMLAbstractImageReader.getTagStringValue(poDriveNode, moDriveTypeName ) );
 		Node oReaderNode = null;
 		Vector<Node> oNodes = null;
 		

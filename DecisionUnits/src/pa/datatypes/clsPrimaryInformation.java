@@ -67,8 +67,12 @@ public class clsPrimaryInformation extends clsPsychicRepresentative implements i
 	public Object clone() throws CloneNotSupportedException{
         try {
         	clsPrimaryInformation oClone = (clsPrimaryInformation)super.clone();
-        	oClone.moTP = (clsThingPresentationSingle)moTP.clone();
-        	oClone.moAffect = (clsAffect)moAffect.clone();        	
+        	if(moTP!=null) {
+        		oClone.moTP = (clsThingPresentationSingle)moTP.clone();
+        	}
+        	if(moAffect!=null) {
+        		oClone.moAffect = (clsAffect)moAffect.clone();	
+        	}
         	return oClone;
         } catch (CloneNotSupportedException e) {
             return e;

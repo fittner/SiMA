@@ -12,6 +12,7 @@ import java.util.Map;
 
 import pa.datatypes.clsDriveObject;
 import pa.datatypes.clsDriveContentCategories;
+import pa.enums.eDriveType;
 
 import enums.pa.eContext;
 import enums.pa.eDriveContent;
@@ -28,6 +29,7 @@ public class clsTemplateDrive {
 	public int mnId;
 	public String moName;
 	public String moDescription;
+	public eDriveType meDriveType;
 	public eDriveContent meDriveContent;
 	
 	public ArrayList<clsAffectCandidateDefinition> moAffectCandidate = new ArrayList<clsAffectCandidateDefinition>();

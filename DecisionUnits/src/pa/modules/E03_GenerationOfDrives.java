@@ -13,6 +13,7 @@ import java.util.Map.Entry;
 
 import pa.datatypes.clsAffectCandidate;
 import pa.datatypes.clsAssociationContext;
+import pa.datatypes.clsDriveMesh;
 import pa.datatypes.clsDriveObject;
 import pa.datatypes.clsPrimaryInformation;
 import pa.datatypes.clsPrimaryInformationMesh;
@@ -40,7 +41,7 @@ public class E03_GenerationOfDrives extends clsModuleBase implements I1_2 {
 	public HashMap<eDriveContent, clsTemplateDrive> moDriveDefinition = null;
 	public HashMap<String, Double> moHomeostasisSymbols = null;
 	
-	ArrayList<clsPair<clsPrimaryInformationMesh, clsAffectCandidate>> moEnvironmentalTP;
+	ArrayList<clsPair<clsPrimaryInformationMesh, clsAffectCandidate>> moHomeostaticTP;
 	
 	/**
 	 * @author langr
@@ -146,19 +147,22 @@ public class E03_GenerationOfDrives extends clsModuleBase implements I1_2 {
 	@Override
 	protected void process() {
 
-		moEnvironmentalTP = new ArrayList<clsPair<clsPrimaryInformationMesh,clsAffectCandidate>>();
+		moHomeostaticTP = new ArrayList<clsPair<clsPrimaryInformationMesh,clsAffectCandidate>>();
 		
 		for( Map.Entry<eDriveContent, clsTemplateDrive> oDriveDef : moDriveDefinition.entrySet() ) {
 			
 			clsTemplateDrive oTPDrive = oDriveDef.getValue();
 			
-			clsPrimaryInformationMesh oDriveMesh = new clsPrimaryInformationMesh(new clsThingPresentationSingle());
+			clsDriveMesh oDriveMesh = new clsDriveMesh(new clsThingPresentationSingle());
 			clsAffectCandidate oAffectCandidate = null;
 			
 			oDriveMesh.moTP.meContentName = oTPDrive.moName;
 			oDriveMesh.moTP.meContentType = oTPDrive.meDriveContent.getClass().getName();
 			oDriveMesh.moTP.moContent = oTPDrive.meDriveContent;
 			oDriveMesh.moTP.moDriveContentCategory = oTPDrive.moDriveContentRatio;
+			
+			oDriveMesh.meDriveType = oTPDrive.meDriveType;
+			
 			
 			for( clsDriveObject oDriveObject : oTPDrive.moDriveObjects ) {
 				clsThingPresentationSingle oTPSingle = new clsThingPresentationSingle();
@@ -178,7 +182,7 @@ public class E03_GenerationOfDrives extends clsModuleBase implements I1_2 {
 			
 			oAffectCandidate = createAffectCandidate( oDriveDef );
 			
-			moEnvironmentalTP.add(new clsPair<clsPrimaryInformationMesh, clsAffectCandidate>(oDriveMesh, oAffectCandidate));
+			moHomeostaticTP.add(new clsPair<clsPrimaryInformationMesh, clsAffectCandidate>(oDriveMesh, oAffectCandidate));
 		}
 	}
 
@@ -223,7 +227,7 @@ public class E03_GenerationOfDrives extends clsModuleBase implements I1_2 {
 	 */
 	@Override
 	protected void send() {
-		((I1_3)moEnclosingContainer).receive_I1_3(moEnvironmentalTP);
+		((I1_3)moEnclosingContainer).receive_I1_3(moHomeostaticTP);
 	}
 
 }
