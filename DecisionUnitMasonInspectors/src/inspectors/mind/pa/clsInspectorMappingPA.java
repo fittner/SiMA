@@ -65,9 +65,9 @@ public class clsInspectorMappingPA {
 			oRetVal.addInspector( new clsPrimaryInformationInspector(poSuperInspector, poWrapper, poState, moPA.moC02Id.moC06AffectGeneration.moE18GenerationOfAffectsForPerception, "moMergedPrimaryInformation_Output" ), "Output: Final TP+Affect");
 		}
 		else if(poModuleName.equals("Psychic Apparatus")) {
-			oRetVal.addInspector( new clsPAInspectorFuncModel(poSuperInspector, poWrapper, poState, moPA), "Functional View");
-			oRetVal.addInspector( new clsPAInspectorTopDown(poSuperInspector, poWrapper, poState, moPA), "Top-Down Design");
 			oRetVal.addInspector( new clsPAInspectorFunctional(poSuperInspector, poWrapper, poState), "Functional Model");
+			oRetVal.addInspector( new clsPAInspectorTopDown(poSuperInspector, poWrapper, poState, moPA), "Top-Down Design");
+			oRetVal.addInspector( new clsPAInspectorFuncModel(poSuperInspector, poWrapper, poState, moPA), "Functional View");
 		}
 		else if(poModuleName.equals("E26DecisionMaking")) {
 			oRetVal.addInspector( new clsE26DecisionCalculation(poSuperInspector, poWrapper, poState, moPA.moC03Ego.moC08PsychicMediator.moC10SecondaryProcessor.moC16Deliberation.moE26DecisionMaking), "Decision Calculation");
