@@ -10,12 +10,15 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseEvent;
 import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
 import javax.swing.JButton;
+import javax.swing.event.MouseInputAdapter;
+
 import org.jgraph.JGraph;
 import org.jgraph.graph.DefaultCellViewFactory;
 import org.jgraph.graph.DefaultEdge;
@@ -34,6 +37,7 @@ import com.jgraph.components.labels.RichTextBusinessObject;
 import com.jgraph.components.labels.RichTextGraphModel;
 import com.jgraph.components.labels.RichTextValue;
 import com.jgraph.example.JGraphGraphFactory;
+//import com.jgraph.example.GraphSelectionDemo.SyncGraphSelectionListener;
 import com.jgraph.layout.DataGraphLayoutCache;
 import com.jgraph.layout.JGraphFacade;
 import com.jgraph.layout.JGraphModelFacade;
@@ -49,7 +53,7 @@ public class clsPAInspectorFunctional extends Inspector implements ActionListene
 
 	private static final long serialVersionUID = -1191073481242249784L;
 	public Inspector moOriginalInspector;
-	JGraph moGraph = null;
+	static JGraph moGraph = null;
 	ArrayList<clsNode> moRootNodes;
 	private JButton moBtnUpdate;
 	
@@ -88,7 +92,7 @@ public class clsPAInspectorFunctional extends Inspector implements ActionListene
 		
         setLayout(new BorderLayout());
         add(moBtnUpdate, BorderLayout.NORTH);
-		add(moGraph, BorderLayout.CENTER);
+		add(moGraph, BorderLayout.WEST);
     }
 
 	/* (non-Javadoc)
@@ -144,9 +148,15 @@ public class clsPAInspectorFunctional extends Inspector implements ActionListene
 
 		if(moGraph==null) {
 			moGraph = new JGraph(model);
+			moGraph.addMouseListener(new MyMouseListener());
 		} else {
 			moGraph.setModel(model);	
 		}
+		
+		moGraph.setEditable(false);
+		moGraph.setConnectable(false);
+		moGraph.setDisconnectable(false);
+		
 		moGraph.getGraphLayoutCache().edit(nested); // Apply the results to the actual graph
 		moGraph.updateUI();
 	}
@@ -203,8 +213,8 @@ public class clsPAInspectorFunctional extends Inspector implements ActionListene
 		userObject.setValue(textValue);
 		
 		// Create vertex with the given name
-		DefaultGraphCell cell = new DefaultGraphCell(userObject);
-
+		NodeCell cell = new NodeCell(userObject, poNode.moId);
+		
 		// Set bounds
 		int x = poNode.mnCol*x_mult + x_offset;
 		int y = poNode.mnRow*y_mult + y_offset;
@@ -251,4 +261,23 @@ public class clsPAInspectorFunctional extends Inspector implements ActionListene
 			updateControl();
 		}
 	}
+	
+	/**
+	 * Prevent from loosing the synchronisation after a graph element is dragged
+	 */
+	public static class MyMouseListener extends MouseInputAdapter {
+        @Override
+		public void mouseReleased(MouseEvent e) {
+            if (e.getSource() instanceof JGraph) {
+            	Object[] selection = moGraph.getSelectionModel().getSelectionCells();
+    			if (selection != null) {
+    				for (Object s:selection) {
+    					if (s instanceof NodeCell) {
+    						System.out.println( s );
+    					}
+    				}
+    			}
+            }
+        }
+    }	
 }
