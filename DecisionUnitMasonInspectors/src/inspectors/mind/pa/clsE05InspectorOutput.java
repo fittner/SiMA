@@ -23,8 +23,10 @@ import org.jfree.chart.plot.PlotOrientation;
 import org.jfree.chart.renderer.category.LayeredBarRenderer;
 import org.jfree.data.category.DefaultCategoryDataset;
 
+import pa.datatypes.clsDriveMesh;
 import pa.datatypes.clsPrimaryInformation;
 import pa.datatypes.clsThingPresentationSingle;
+import pa.enums.eDriveType;
 import pa.modules.E05_GenerationOfAffectsForDrives;
 
 import sim.display.GUIState;
@@ -85,7 +87,14 @@ public class clsE05InspectorOutput extends Inspector{
 		moDataset = new DefaultCategoryDataset();
 
 		for(clsPrimaryInformation oDriveTP : moE05AffectsForDrives.moDriveList ) {
-			moDataset.addValue( oDriveTP.moAffect.getValue(), "Drive", ((clsThingPresentationSingle)oDriveTP.moTP).moContent.toString()); 
+			if(oDriveTP instanceof clsDriveMesh) {
+				clsDriveMesh oDrvMesh = (clsDriveMesh)oDriveTP;
+				if(oDrvMesh.meDriveType == eDriveType.LIFE) {
+					moDataset.addValue( oDriveTP.moAffect.getValue(), "0", ((clsThingPresentationSingle)oDriveTP.moTP).moContent.toString());
+				} else if (oDrvMesh.meDriveType == eDriveType.DEATH) {
+					moDataset.addValue( oDriveTP.moAffect.getValue(), "1", ((clsThingPresentationSingle)oDriveTP.moTP).moContent.toString());
+				}
+			}
 		}
 		
         JFreeChart oChartPanel = ChartFactory.createBarChart(
@@ -94,7 +103,7 @@ public class clsE05InspectorOutput extends Inspector{
                 "Affect",                  // range axis label
                 moDataset,                  // data
                 PlotOrientation.VERTICAL, // orientation
-                false,                     // include legend
+                true,                     // include legend
                 true,                     // tooltips?
                 false                     // URLs?
             );
@@ -113,40 +122,34 @@ public class clsE05InspectorOutput extends Inspector{
 
         // disable bar outlines...
         LayeredBarRenderer renderer = (LayeredBarRenderer) plot.getRenderer();
-        renderer.setDrawBarOutline(false);
-        renderer.setSeriesBarWidth(0, 0.4);
-
+        //renderer.setDrawBarOutline(false);
         // set up gradient paints for series...
         GradientPaint gp0 = new GradientPaint(0.0f, 0.0f, new Color(150, 150, 150),
                 0.0f, 0.0f, new Color(64, 64, 64));
         renderer.setSeriesPaint(0, gp0);
- 
+        
+        GradientPaint gp1 = new GradientPaint(0.0f, 0.0f, new Color(255, 100, 100),
+                0.0f, 0.0f, new Color(150, 64, 64));
+        renderer.setSeriesPaint(1, gp1);
+        
+        renderer.setSeriesBarWidth(0, 0.5);
+        renderer.setSeriesBarWidth(1, 0.5);
+        
+//        // disable bar outlines...
+//        LayeredBarRenderer renderer2 = new LayeredBarRenderer();
+//        //renderer2.setDrawBarOutline(false);
+//        renderer2.setSeriesBarWidth(0, 0.1);
+//        // set up gradient paints for series...
+//        GradientPaint gp1 = new GradientPaint(0.0f, 0.0f, new Color(255, 100, 100),
+//                0.0f, 0.0f, new Color(150, 64, 64));
+//        renderer2.setSeriesPaint(1, gp1);
+//        plot.setRenderer(1,renderer2);
+        
+        //45deg. nomination
         CategoryAxis domainAxis = plot.getDomainAxis();
         domainAxis.setCategoryLabelPositions(
                 CategoryLabelPositions.createUpRotationLabelPositions(
                         Math.PI / 6.0));
-        
-//        //adds the lower limits to the chart
-//        CategoryItemRenderer renderer2 = new LevelRenderer();
-//        renderer2.setSeriesStroke(0, new BasicStroke(2.0f));
-//        renderer2.setSeriesStroke(1, new BasicStroke(2.0f));
-//        plot.setDataset(1, moDatasetLowerBounds);
-//        plot.setRenderer(1, renderer2);
-//        
-//        //adds the upper limits to the chart
-//        CategoryItemRenderer renderer3 = new LevelRenderer();
-//        renderer3.setSeriesStroke(0, new BasicStroke(2.0f));
-//        renderer3.setSeriesStroke(1, new BasicStroke(2.0f));
-//        plot.setDataset(2, moDatasetUpperBounds);
-//        plot.setRenderer(2, renderer3);
-//        
-//        //adds the max value to the chart
-//        CategoryItemRenderer renderer4 = new LevelRenderer();
-//        renderer4.setSeriesStroke(0, new BasicStroke(2.0f));
-//        renderer4.setSeriesStroke(1, new BasicStroke(2.0f));
-//        plot.setDataset(3, moDatasetMaxValue);
-//        plot.setRenderer(3, renderer4);        
-        
         plot.setDatasetRenderingOrder(DatasetRenderingOrder.FORWARD);
         
         moChartPanel = new ChartPanel(oChartPanel);
@@ -167,8 +170,16 @@ public class clsE05InspectorOutput extends Inspector{
 		
 		moDataset = new DefaultCategoryDataset();
 
-		for(clsPrimaryInformation oPrimInfo : moE05AffectsForDrives.moDriveList ) {
-			moDataset.addValue( oPrimInfo.moAffect.getValue(), "Drive", ((clsThingPresentationSingle)oPrimInfo.moTP).moContent.toString()); 
+		for(clsPrimaryInformation oDriveTP : moE05AffectsForDrives.moDriveList ) {
+			
+			if(oDriveTP instanceof clsDriveMesh) {
+				clsDriveMesh oDrvMesh = (clsDriveMesh)oDriveTP;
+				if(oDrvMesh.meDriveType == eDriveType.LIFE) {
+					moDataset.addValue( oDriveTP.moAffect.getValue(), "Drive (Live)", ((clsThingPresentationSingle)oDriveTP.moTP).moContent.toString());
+				} else if (oDrvMesh.meDriveType == eDriveType.DEATH) {
+					moDataset.addValue( oDriveTP.moAffect.getValue(), "Drive (Death)", ((clsThingPresentationSingle)oDriveTP.moTP).moContent.toString());
+				}
+			}
 		}
 		
 		moChartPanel.getChart().getCategoryPlot().setDataset(moDataset);
