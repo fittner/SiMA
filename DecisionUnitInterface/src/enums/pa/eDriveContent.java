@@ -14,11 +14,12 @@ package enums.pa;
  * 
  */
 public enum eDriveContent {
-	EAT,
+	NOURISH,
 	EXCRETE,
 	SLEEP,
 	BREATH,
 	RELAX,
 	SEXUAL_AROUSAL,
+	BITE,
 	AGGRESSION
 }
