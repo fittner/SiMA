@@ -17,7 +17,11 @@ import java.util.HashMap;
 import java.util.Map;
 
 import javax.swing.JButton;
+import javax.swing.JTree;
 import javax.swing.event.MouseInputAdapter;
+import javax.swing.tree.DefaultMutableTreeNode;
+import javax.swing.tree.TreeNode;
+import javax.swing.tree.TreePath;
 
 import org.jgraph.JGraph;
 import org.jgraph.graph.DefaultCellViewFactory;
@@ -56,6 +60,7 @@ public class clsPAInspectorFunctional extends Inspector implements ActionListene
 	static JGraph moGraph = null;
 	ArrayList<clsNode> moRootNodes;
 	private JButton moBtnUpdate;
+	static JTree moTree;
 	
     /**
      * Constructs a treegraph in the inspector that represents the ArrayList of clsThingPresentationMeshes
@@ -80,8 +85,9 @@ public class clsPAInspectorFunctional extends Inspector implements ActionListene
      */
     public clsPAInspectorFunctional(Inspector originalInspector,
             LocationWrapper wrapper,
-            GUIState guiState)
+            GUIState guiState, JTree poTree)
     {
+    	moTree = poTree;
 		moOriginalInspector = originalInspector;
 		moRootNodes = clsGenerateFunctionalModel.getRootNodes();
 		
@@ -113,6 +119,7 @@ public class clsPAInspectorFunctional extends Inspector implements ActionListene
 		}
 	}
 	
+	@SuppressWarnings({ "serial", "unchecked" })
 	public void updateControl() {
 		GraphModel model = new RichTextGraphModel();
 		GraphLayoutCache cache = new DataGraphLayoutCache(model,
@@ -135,14 +142,7 @@ public class clsPAInspectorFunctional extends Inspector implements ActionListene
 		
 		JGraphGraphFactory.insert(model, cells);
 		JGraphFacade facade = new JGraphModelFacade(model, roots);
-/*		
-		JGraphCompactTreeLayout layout = new JGraphCompactTreeLayout();
-		layout.setNodeDistance(50); //minimal distance from node to node horizontal
-		layout.setLevelDistance(25); //minimal distance from node to node vertical
 
-		layout.setOrientation(SwingConstants.WEST);
-		layout.run(facade);
-		*/
 		Map nested = facade.createNestedMap(true, true);
 		cache.edit(nested);
 
@@ -273,11 +273,47 @@ public class clsPAInspectorFunctional extends Inspector implements ActionListene
     			if (selection != null) {
     				for (Object s:selection) {
     					if (s instanceof NodeCell) {
-    						System.out.println( s );
+    						selectNodeInTree( (NodeCell)s );
     					}
     				}
     			}
             }
         }
-    }	
+        
+        private void selectNodeInTree(NodeCell poNode) {
+        	TreePath oPath = findNode(poNode.getId());
+        	moTree.setSelectionPath(oPath);  
+        	moTree.expandPath(oPath);  
+        	moTree.makeVisible(oPath); 
+        }
+        
+        private TreePath findNode( String nodeName ) {
+        	TreeNode[] oPath = findNodeRecursive( (DefaultMutableTreeNode) moTree.getModel().getRoot(), nodeName );
+        	return new TreePath(oPath);
+        	   
+        }
+		
+		private TreeNode[] findNodeRecursive( DefaultMutableTreeNode node, String nodeName ) {
+			TreeNode[] result = null;
+			
+			if ( node.getUserObject().toString().startsWith( nodeName ) ) {
+				result = node.getPath(); 
+			}
+			
+			for ( int i=0; i<node.getChildCount(); i++ ) {
+				DefaultMutableTreeNode child = (DefaultMutableTreeNode)node.getChildAt( i );
+				
+				result = findNodeRecursive( child, nodeName );
+				if (result != null) {
+					break;
+				}
+			}
+			
+			return result;
+		} 
+        
+    }
+	
+	
+
 }

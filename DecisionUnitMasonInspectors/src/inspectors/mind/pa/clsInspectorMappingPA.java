@@ -6,6 +6,8 @@
  */
 package inspectors.mind.pa;
 
+import javax.swing.JTree;
+
 import inspectors.mind.pa.functionalmodel.clsPAInspectorFunctional;
 import pa.modules.C00_PsychicApparatus;
 import sim.display.GUIState;
@@ -31,7 +33,8 @@ public class clsInspectorMappingPA {
 	 * @param moPA
 	 * @param poModuleName
 	 */
-	public static TabbedInspector getPAInspector(Inspector poSuperInspector, LocationWrapper poWrapper, GUIState poState, C00_PsychicApparatus moPA, String poModuleName) {
+	public static TabbedInspector getPAInspector(Inspector poSuperInspector, LocationWrapper poWrapper, GUIState poState, 
+													C00_PsychicApparatus moPA, String poModuleName, JTree poTree) {
 		TabbedInspector oRetVal = new TabbedInspector();
 		
 		if(poModuleName.equals("E02NeurosymbolizationOfNeeds")) {
@@ -65,7 +68,7 @@ public class clsInspectorMappingPA {
 			oRetVal.addInspector( new clsPrimaryInformationInspector(poSuperInspector, poWrapper, poState, moPA.moC02Id.moC06AffectGeneration.moE18GenerationOfAffectsForPerception, "moMergedPrimaryInformation_Output" ), "Output: Final TP+Affect");
 		}
 		else if(poModuleName.equals("Psychic Apparatus")) {
-			oRetVal.addInspector( new clsPAInspectorFunctional(poSuperInspector, poWrapper, poState), "Functional Model");
+			oRetVal.addInspector( new clsPAInspectorFunctional(poSuperInspector, poWrapper, poState, poTree), "Functional Model");
 			oRetVal.addInspector( new clsPAInspectorTopDown(poSuperInspector, poWrapper, poState, moPA), "Top-Down Design");
 			oRetVal.addInspector( new clsPAInspectorFuncModel(poSuperInspector, poWrapper, poState, moPA), "Functional View");
 		}
