@@ -89,9 +89,10 @@ public class E18_GenerationOfAffectsForPerception extends clsModuleBase implemen
 	 * 
 	 * @see pa.interfaces.I2_8#receive_I2_8(int)
 	 */
+	@SuppressWarnings("unchecked")
 	@Override
 	public void receive_I2_8(ArrayList<clsPrimaryInformationMesh> poMergedPrimaryInformationMesh) {
-		moMergedPrimaryInformation_Input = poMergedPrimaryInformationMesh;
+		moMergedPrimaryInformation_Input = (ArrayList<clsPrimaryInformationMesh>)deepCopy(poMergedPrimaryInformationMesh);
 	}
 
 	/* (non-Javadoc)

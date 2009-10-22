@@ -54,7 +54,7 @@ public class clsAwareContentLoader {
 		    	  }
 		    	  
 	 	      }catch(Exception e) {
-					System.out.println("Error reading the context: "+e.getMessage());
+					System.out.println("Error reading the content: "+e.getMessage());
 		  	 }
 			
 			return oRetVal;
@@ -96,25 +96,27 @@ public class clsAwareContentLoader {
 									= new ArrayList<clsTripple<clsPrimaryInformation, clsPrimaryInformation, clsPrimaryInformation>>(); 
 			
 			oReaderNode = clsXMLContextReader.getNextNodeElementByName(poAwareContentNode, moAwareContentList);	
-			clsXMLContextReader.getNodeElementByName(oReaderNode, moAwareContent, 1, oNodes);
-			try{
-				for(Node element : oNodes){
-					NamedNodeMap oAtrib = element.getAttributes();
-					
-					clsPrimaryInformation oAwareContent = clsStaticLoaderHelper.loadPrimaryInformation(element);
-					oAwareContent.moTP.meContentName = "Aware Content";
-					oAwareContent.moTP.meContentType = eRepressedContentType.class.getName();
-					/*FIXME HZ no enumerator defined for awareContent - look at TPAwareContent.xml - AwareContent Names have to 
-					 * 		be redefined*/
-					oAwareContent.moTP.moContent = clsXMLAbstractImageReader.getAtributeValue(oAtrib, "content");
-					
-					oAwareContentList.add(new clsTripple<clsPrimaryInformation, clsPrimaryInformation, clsPrimaryInformation>
-																	(getSearchContext(oAtrib), getSearchContent(oAtrib), oAwareContent));
-				}
-			}catch(Exception e){
-				System.out.println("Wrong data type is present");
-			}
 			
+			if(oReaderNode!= null){
+				clsXMLContextReader.getNodeElementByName(oReaderNode, moAwareContent, 1, oNodes);
+				try{
+					for(Node element : oNodes){
+						NamedNodeMap oAtrib = element.getAttributes();
+						
+						clsPrimaryInformation oAwareContent = clsStaticLoaderHelper.loadPrimaryInformation(element);
+						oAwareContent.moTP.meContentName = "Aware Content";
+						oAwareContent.moTP.meContentType = eRepressedContentType.class.getName();
+						/*FIXME HZ no enumerator defined for awareContent - look at TPAwareContent.xml - AwareContent Names have to 
+						 * 		be redefined*/
+						oAwareContent.moTP.moContent = clsXMLAbstractImageReader.getAtributeValue(oAtrib, "content");
+						
+						oAwareContentList.add(new clsTripple<clsPrimaryInformation, clsPrimaryInformation, clsPrimaryInformation>
+																		(getSearchContext(oAtrib), getSearchContent(oAtrib), oAwareContent));
+					}
+				}catch(Exception e){
+					System.out.println("Wrong data type is present");
+				}
+			}
 			return oAwareContentList; 
 		}
 

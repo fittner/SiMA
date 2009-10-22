@@ -93,9 +93,10 @@ public class E17_FusionOfExternalPerceptionAndMemoryTraces extends clsModuleBase
 	 * 
 	 * @see pa.interfaces.I2_7#receive_I2_7(int)
 	 */
+	@SuppressWarnings("unchecked")
 	@Override
 	public void receive_I2_7(ArrayList<clsPair<clsPrimaryInformation, ArrayList<clsPrimaryInformation>>> poPerceptPlusAwareContent_Input) {
-		moPerceptPlusAwareContent_Input = poPerceptPlusAwareContent_Input; 
+		moPerceptPlusAwareContent_Input = (ArrayList<clsPair<clsPrimaryInformation, ArrayList<clsPrimaryInformation>>>)deepCopy(poPerceptPlusAwareContent_Input); 
 	}
 
 	/* (non-Javadoc)
