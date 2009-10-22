@@ -10,8 +10,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import config.clsBWProperties;
-import decisionunit.itf.sensors.clsSensorExtern;
-import enums.eSensorExtType;
+
 import pa.datatypes.clsAssociationContext;
 import pa.datatypes.clsPrimaryInformation;
 import pa.enums.eSymbolExtType;
@@ -34,7 +33,7 @@ public class E14_PreliminaryExternalPerception extends clsModuleBase implements
 					{
 	
 	HashMap<eSymbolExtType, itfSymbol> moEnvironmentalData;
-	HashMap<eSensorExtType, clsSensorExtern> moBodyData;
+	HashMap<eSymbolExtType, itfSymbol> moBodyData;
 	
 	public ArrayList<clsPrimaryInformation> moEnvironmentalTP;
 	ArrayList<clsAssociationContext<clsPrimaryInformation>> moAssociationContext;  
@@ -115,7 +114,7 @@ public class E14_PreliminaryExternalPerception extends clsModuleBase implements
 	 * @see pa.interfaces.I2_4#receive_I2_4(int)
 	 */
 	@Override
-	public void receive_I2_4(HashMap<eSensorExtType, clsSensorExtern> poBodyData) {
+	public void receive_I2_4(HashMap<eSymbolExtType, itfSymbol> poBodyData) {
 		moBodyData = poBodyData;
 		
 	}

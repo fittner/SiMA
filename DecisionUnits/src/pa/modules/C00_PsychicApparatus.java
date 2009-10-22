@@ -232,7 +232,7 @@ public class C00_PsychicApparatus extends clsModuleContainer implements
 	 * @see pa.interfaces.I2_4#receive_I2_4(int)
 	 */
 	@Override
-	public void receive_I2_4(HashMap<eSensorExtType, clsSensorExtern> poBodyData ) {
+	public void receive_I2_4(HashMap<eSymbolExtType, itfSymbol> poBodyData ) {
 		moC03Ego.receive_I2_4(poBodyData);
 		
 	}

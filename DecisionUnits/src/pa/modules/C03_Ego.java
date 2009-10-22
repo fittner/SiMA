@@ -35,8 +35,6 @@ import pa.symbolization.representationsymbol.itfSymbol;
 import pa.tools.clsPair;
 import pa.interfaces.I8_1;
 import config.clsBWProperties;
-import decisionunit.itf.sensors.clsSensorExtern;
-import enums.eSensorExtType;
 import pa.enums.eSymbolExtType;
 
 /**
@@ -126,7 +124,7 @@ public class C03_Ego extends clsModuleContainer implements
 	 * @see pa.interfaces.I2_4#receive_I2_4(int)
 	 */
 	@Override
-	public void receive_I2_4(HashMap<eSensorExtType, clsSensorExtern> poBodyData) {
+	public void receive_I2_4(HashMap<eSymbolExtType, itfSymbol> poBodyData) {
 		moC07EnvironmentalInterfaceFunctions.receive_I2_4(poBodyData);
 	}
 

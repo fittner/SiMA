@@ -11,8 +11,11 @@ import java.util.HashMap;
 import config.clsBWProperties;
 import decisionunit.itf.sensors.clsSensorExtern;
 import enums.eSensorExtType;
+import pa.enums.eSymbolExtType;
 import pa.interfaces.I2_4;
 import pa.interfaces.I2_3;
+import pa.symbolization.clsSensorToSymbolConverter;
+import pa.symbolization.representationsymbol.itfSymbol;
 
 /**
  * DOCUMENT (deutsch) - insert description 
@@ -24,6 +27,7 @@ import pa.interfaces.I2_3;
 public class E13_NeuroSymbolsBody extends clsModuleBase implements I2_3  {
 
 	private HashMap<eSensorExtType, clsSensorExtern> moBodyData;
+	private HashMap<eSymbolExtType, itfSymbol> moSymbolData;	
 	
 	/**
 	 * DOCUMENT (deutsch) - insert description 
@@ -102,7 +106,7 @@ public class E13_NeuroSymbolsBody extends clsModuleBase implements I2_3  {
 	 */
 	@Override
 	protected void process() {
-		mnTest++;
+		moSymbolData = clsSensorToSymbolConverter.convertExtSensorToSymbol(moBodyData);
 		
 	}
 
@@ -115,7 +119,7 @@ public class E13_NeuroSymbolsBody extends clsModuleBase implements I2_3  {
 	 */
 	@Override
 	protected void send() {
-		((I2_4)moEnclosingContainer).receive_I2_4(moBodyData);
+		((I2_4)moEnclosingContainer).receive_I2_4(moSymbolData);
 		
 	}
 

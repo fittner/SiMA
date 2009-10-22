@@ -8,8 +8,8 @@ package pa.interfaces;
 
 import java.util.HashMap;
 
-import decisionunit.itf.sensors.clsSensorExtern;
-import enums.eSensorExtType;
+import pa.enums.eSymbolExtType;
+import pa.symbolization.representationsymbol.itfSymbol;
 
 /**
  * DOCUMENT (deutsch) - insert description 
@@ -19,5 +19,5 @@ import enums.eSensorExtType;
  * 
  */
 public interface I2_4 {
-	public void receive_I2_4(HashMap<eSensorExtType, clsSensorExtern> poBodyData);
+	public void receive_I2_4(HashMap<eSymbolExtType, itfSymbol> poBodyData);
 }
