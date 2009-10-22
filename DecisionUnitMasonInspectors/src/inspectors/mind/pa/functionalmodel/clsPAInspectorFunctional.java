@@ -61,7 +61,7 @@ public class clsPAInspectorFunctional extends Inspector implements ActionListene
 	private ArrayList<clsNode> moRootNodes;
 	private JButton moBtnUpdate;
 	
-	static boolean mnCompact;
+	boolean mnCompact;
 	int w;
 	int h;
 	int x_mult;
@@ -229,7 +229,7 @@ public class clsPAInspectorFunctional extends Inspector implements ActionListene
 		return cell;
 	}
 	
-	private static DefaultEdge createConnection(clsConnection poConnection, DefaultGraphCell poSource, DefaultGraphCell poTarget) {
+	private DefaultEdge createConnection(clsConnection poConnection, DefaultGraphCell poSource, DefaultGraphCell poTarget) {
 		String name = "";
 		if (!mnCompact) {
 			name = poConnection.toString();
