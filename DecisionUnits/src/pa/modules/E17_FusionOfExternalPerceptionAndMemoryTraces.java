@@ -140,13 +140,13 @@ public class E17_FusionOfExternalPerceptionAndMemoryTraces extends clsModuleBase
 	    for(clsPrimaryInformation oAwareContent : poElement.b){
 	    	oMergedMesh.moTP.meContentName = oMergedMesh.moTP.meContentName + "_" + oAwareContent.moTP.meContentName;
 	    	oMergedMesh.moTP.moContent = oMergedMesh.moTP.moContent +"_" + oAwareContent.moTP.moContent; 
-			clsAssociationContent<clsPrimaryInformation> oAssociationContent = new clsAssociationContent<clsPrimaryInformation>(); 
-			oAssociationContent.moElementA = oMergedMesh; 
-			oAssociationContent.moElementB = oAwareContent; 
+			clsAssociationContent<clsPrimaryInformation> oAssociationContent_AC = new clsAssociationContent<clsPrimaryInformation>(); 
+			oAssociationContent_AC.moElementA = oMergedMesh; 
+			oAssociationContent_AC.moElementB = oAwareContent; 
 			//FIXME HZ Define Weight and Context, respectively a new type of association
 			//oAssociationContext.moWeight =
 			//oAssociationContent.moAssociationContent;  
-			oMergedMesh.moAssociations.add(oAssociationContent);
+			oMergedMesh.moAssociations.add(oAssociationContent_AC);
 		}
 		return oMergedMesh;
 	}

@@ -282,13 +282,13 @@ public class clsPrimaryInformationPairInspector extends Inspector implements Act
 			for( clsAssociation<clsPrimaryInformation> oChildAssoc :  poPrimMesh.moAssociations) {
 				String oName = ""; //the edge will get the name of the association context
 				
-				if(((clsAssociationContext<clsPrimaryInformation>)oChildAssoc).moAssociationContext != null) {
-						if(oChildAssoc instanceof clsAssociationContext){
-							oName+=((clsAssociationContext<clsPrimaryInformation>)oChildAssoc).moAssociationContext.toGraphDisplayString();	
-						}
-						else if (((clsAssociationContent<clsPrimaryInformation>)oChildAssoc).moAssociationContent != null){
-							oName+=((clsAssociationContent<clsPrimaryInformation>)oChildAssoc).moAssociationContent.toGraphDisplayString();
-						}
+				if(oChildAssoc instanceof clsAssociationContext 
+						&& ((clsAssociationContext<clsPrimaryInformation>)oChildAssoc).moAssociationContext != null) {
+					oName+=((clsAssociationContext<clsPrimaryInformation>)oChildAssoc).moAssociationContext.toGraphDisplayString();	
+				}
+				else if(oChildAssoc instanceof clsAssociationContent 
+						&& ((clsAssociationContent<clsPrimaryInformation>)oChildAssoc).moAssociationContent != null){
+					oName+=((clsAssociationContent<clsPrimaryInformation>)oChildAssoc).moAssociationContent.toGraphDisplayString();
 				}
 							
 				if(oChildAssoc.moElementB instanceof clsPrimaryInformationMesh) {
