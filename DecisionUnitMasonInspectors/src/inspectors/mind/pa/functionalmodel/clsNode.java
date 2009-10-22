@@ -48,6 +48,14 @@ public class clsNode {
 		moNextModules.add(poConnection);
 	}
 	
+	public String getName(boolean pnShort) {
+		if (pnShort) {
+			return "E"+moId;
+		} else {
+			return "E"+moId+": "+moName;
+		}
+	}
+	
 	@Override
 	public String toString() {
 		return "E"+moId+": "+moName;

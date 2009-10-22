@@ -57,39 +57,33 @@ public class clsPAInspectorFunctional extends Inspector implements ActionListene
 
 	private static final long serialVersionUID = -1191073481242249784L;
 	public Inspector moOriginalInspector;
-	static JGraph moGraph = null;
-	ArrayList<clsNode> moRootNodes;
+	private JGraph moGraph;
+	private ArrayList<clsNode> moRootNodes;
 	private JButton moBtnUpdate;
-	static JTree moTree;
 	
-    /**
-     * Constructs a treegraph in the inspector that represents the ArrayList of clsThingPresentationMeshes
-     * poMeshContainer is the class-instance that contains the ArrayList
-     * poMeshListMemberName holds the name of the member-variable that is the ArrayList
-     * 
-     * When updateControl() is called (e.g. by clicking the update-button) this inspector is able to get the 
-     * current AND actual ArrayList directly from the container.
-     * 
-     *  NOTE: The Method updateInspector() is implemented empty. If you want the inspector to update 
-     *  automatically in each step, extend this class and override the updateInspector()-method and call 
-     *  updateControl().
-     * 
-     * @author langr
-     * 15.10.2009, 22:17:47
-     *
-     * @param originalInspector
-     * @param wrapper
-     * @param guiState
-     * @param poMeshContainer
-     * @param poMeshListMemberName
-     */
+	static boolean mnCompact;
+	int w;
+	int h;
+	int x_mult;
+	int x_offset;
+	int y_mult;
+	int y_offset;	
+
     public clsPAInspectorFunctional(Inspector originalInspector,
             LocationWrapper wrapper,
-            GUIState guiState, JTree poTree)
+            GUIState guiState, JTree poTree, boolean pnCompact)
     {
-    	moTree = poTree;
 		moOriginalInspector = originalInspector;
 		moRootNodes = clsGenerateFunctionalModel.getRootNodes();
+		mnCompact = pnCompact;
+		
+		setDisplayValues();
+		
+		moGraph = new JGraph();
+		moGraph.addMouseListener(new MyMouseListener(poTree, moGraph));
+		moGraph.setEditable(false);
+		moGraph.setConnectable(false);
+		moGraph.setDisconnectable(false);
 		
 		updateControl();	//loading data into the graph
 	
@@ -99,6 +93,24 @@ public class clsPAInspectorFunctional extends Inspector implements ActionListene
         setLayout(new BorderLayout());
         add(moBtnUpdate, BorderLayout.NORTH);
 		add(moGraph, BorderLayout.WEST);
+    }
+    
+    private void setDisplayValues() {
+    	if (mnCompact) {
+    		w = 30;
+    		h = 30;
+    		x_mult = w + w/2;
+    		x_offset = 10;
+    		y_mult = h + h/2;
+    		y_offset = 10;        		
+    	} else {
+    		w = 120;
+    		h = 65;
+    		x_mult = w + w/2;
+    		x_offset = 10;
+    		y_mult = h + h/2;
+    		y_offset = 10;    		
+    	}
     }
 
 	/* (non-Javadoc)
@@ -146,17 +158,7 @@ public class clsPAInspectorFunctional extends Inspector implements ActionListene
 		Map nested = facade.createNestedMap(true, true);
 		cache.edit(nested);
 
-		if(moGraph==null) {
-			moGraph = new JGraph(model);
-			moGraph.addMouseListener(new MyMouseListener());
-		} else {
-			moGraph.setModel(model);	
-		}
-		
-		moGraph.setEditable(false);
-		moGraph.setConnectable(false);
-		moGraph.setDisconnectable(false);
-		
+		moGraph.setModel(model);	
 		moGraph.getGraphLayoutCache().edit(nested); // Apply the results to the actual graph
 		moGraph.updateUI();
 	}
@@ -199,17 +201,10 @@ public class clsPAInspectorFunctional extends Inspector implements ActionListene
 		}
 	}
 	
-	private static DefaultGraphCell createNode(clsNode poNode) {
-		final int w = 120;
-		final int h = 65;
-		final int x_mult = w + w/2;
-		final int x_offset = 10;
-		final int y_mult = h + h/2;
-		final int y_offset = 10;
-
+	private DefaultGraphCell createNode(clsNode poNode) {
 		//Richtext to enable linebreaks
 		RichTextBusinessObject userObject = new RichTextBusinessObject();
-		RichTextValue textValue = new RichTextValue(poNode.toString());
+		RichTextValue textValue = new RichTextValue(poNode.getName(mnCompact));
 		userObject.setValue(textValue);
 		
 		// Create vertex with the given name
@@ -235,7 +230,11 @@ public class clsPAInspectorFunctional extends Inspector implements ActionListene
 	}
 	
 	private static DefaultEdge createConnection(clsConnection poConnection, DefaultGraphCell poSource, DefaultGraphCell poTarget) {
-		DefaultEdge edge = new DefaultEdge(poConnection.toString());
+		String name = "";
+		if (!mnCompact) {
+			name = poConnection.toString();
+		}
+		DefaultEdge edge = new DefaultEdge(name);
 		
 		edge.setSource(poSource.getChildAt(0));
 		edge.setTarget(poTarget.getChildAt(0));
@@ -266,10 +265,18 @@ public class clsPAInspectorFunctional extends Inspector implements ActionListene
 	 * Prevent from loosing the synchronisation after a graph element is dragged
 	 */
 	public static class MyMouseListener extends MouseInputAdapter {
-        @Override
+		protected JTree moMyTree;
+		private JGraph moMyGraph;
+		
+		public MyMouseListener(JTree poTree, JGraph poGraph) {
+			moMyTree = poTree;
+			moMyGraph = poGraph;
+		}
+		
+		@Override
 		public void mouseReleased(MouseEvent e) {
             if (e.getSource() instanceof JGraph) {
-            	Object[] selection = moGraph.getSelectionModel().getSelectionCells();
+            	Object[] selection = moMyGraph.getSelectionModel().getSelectionCells();
     			if (selection != null) {
     				for (Object s:selection) {
     					if (s instanceof NodeCell) {
@@ -282,13 +289,13 @@ public class clsPAInspectorFunctional extends Inspector implements ActionListene
         
         private void selectNodeInTree(NodeCell poNode) {
         	TreePath oPath = findNode(poNode.getId());
-        	moTree.setSelectionPath(oPath);  
-        	moTree.expandPath(oPath);  
-        	moTree.makeVisible(oPath); 
+        	moMyTree.setSelectionPath(oPath);  
+        	moMyTree.expandPath(oPath);  
+        	moMyTree.makeVisible(oPath); 
         }
         
         private TreePath findNode( String nodeName ) {
-        	TreeNode[] oPath = findNodeRecursive( (DefaultMutableTreeNode) moTree.getModel().getRoot(), nodeName );
+        	TreeNode[] oPath = findNodeRecursive( (DefaultMutableTreeNode) moMyTree.getModel().getRoot(), nodeName );
         	return new TreePath(oPath);
         	   
         }
