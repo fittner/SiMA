@@ -9,7 +9,7 @@ package pa.modules;
 import java.util.ArrayList;
 
 import config.clsBWProperties;
-import pa.datatypes.clsAssociationContext;
+import pa.datatypes.clsAssociationContent;
 import pa.datatypes.clsPrimaryInformation;
 import pa.datatypes.clsPrimaryInformationMesh;
 import pa.interfaces.I2_7;
@@ -138,13 +138,15 @@ public class E17_FusionOfExternalPerceptionAndMemoryTraces extends clsModuleBase
 		clsPrimaryInformationMesh oMergedMesh = getNewMesh(poElement.a); 
 			
 	    for(clsPrimaryInformation oAwareContent : poElement.b){
-			clsAssociationContext<clsPrimaryInformation> oAssociationContext = new clsAssociationContext<clsPrimaryInformation>(); 
-			oAssociationContext.moElementA = oMergedMesh; 
-			oAssociationContext.moElementB = oAwareContent; 
+	    	oMergedMesh.moTP.meContentName = oMergedMesh.moTP.meContentName + "_" + oAwareContent.moTP.meContentName;
+	    	oMergedMesh.moTP.moContent = oMergedMesh.moTP.moContent +"_" + oAwareContent.moTP.moContent; 
+			clsAssociationContent<clsPrimaryInformation> oAssociationContent = new clsAssociationContent<clsPrimaryInformation>(); 
+			oAssociationContent.moElementA = oMergedMesh; 
+			oAssociationContent.moElementB = oAwareContent; 
 			//FIXME HZ Define Weight and Context, respectively a new type of association
 			//oAssociationContext.moWeight =
-			//oAssociationContext.moAssociationContext =
-			oMergedMesh.moAssociations.add(oAssociationContext);
+			//oAssociationContent.moAssociationContent;  
+			oMergedMesh.moAssociations.add(oAssociationContent);
 		}
 		return oMergedMesh;
 	}

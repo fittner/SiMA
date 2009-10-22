@@ -27,6 +27,8 @@ import org.jgraph.graph.GraphModel;
 import org.jgraph.graph.VertexView;
 
 import pa.datatypes.clsAffect;
+import pa.datatypes.clsAssociation;
+import pa.datatypes.clsAssociationContent;
 import pa.datatypes.clsAssociationContext;
 import pa.datatypes.clsPrimaryInformation;
 import pa.datatypes.clsPrimaryInformationMesh;
@@ -277,13 +279,18 @@ public class clsPrimaryInformationPairInspector extends Inspector implements Act
 			GraphConstants.setLineEnd(edge.getAttributes(), GraphConstants.ARROW_CLASSIC);
 			GraphConstants.setEndFill(edge.getAttributes(), true);
 			
-			for( clsAssociationContext<clsPrimaryInformation> oChildAssoc :  poPrimMesh.moAssociations) {
-
+			for( clsAssociation<clsPrimaryInformation> oChildAssoc :  poPrimMesh.moAssociations) {
 				String oName = ""; //the edge will get the name of the association context
-				if(oChildAssoc.moAssociationContext != null) {
-					oName+=oChildAssoc.moAssociationContext.toGraphDisplayString();	
-				}
 				
+				if(((clsAssociationContext<clsPrimaryInformation>)oChildAssoc).moAssociationContext != null) {
+						if(oChildAssoc instanceof clsAssociationContext){
+							oName+=((clsAssociationContext<clsPrimaryInformation>)oChildAssoc).moAssociationContext.toGraphDisplayString();	
+						}
+						else if (((clsAssociationContent<clsPrimaryInformation>)oChildAssoc).moAssociationContent != null){
+							oName+=((clsAssociationContent<clsPrimaryInformation>)oChildAssoc).moAssociationContent.toGraphDisplayString();
+						}
+				}
+							
 				if(oChildAssoc.moElementB instanceof clsPrimaryInformationMesh) {
 					readMesh(poCellList, oCurrentVertex, (clsPrimaryInformationMesh)oChildAssoc.moElementB, oName, poNodeColor );
 				} 

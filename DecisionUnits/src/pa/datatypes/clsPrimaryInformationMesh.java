@@ -17,13 +17,13 @@ import java.util.ArrayList;
  */
 public class clsPrimaryInformationMesh extends clsPrimaryInformation implements Cloneable {
 
-	public  ArrayList<clsAssociationContext<clsPrimaryInformation>> moAssociations;
+	public  ArrayList<clsAssociation<clsPrimaryInformation>> moAssociations;
 	
 
 	public clsPrimaryInformationMesh(
 			clsThingPresentationSingle poThingPresentationSingle) {
 		super(poThingPresentationSingle);
-		moAssociations = new ArrayList<clsAssociationContext<clsPrimaryInformation>>();
+		moAssociations = new ArrayList<clsAssociation<clsPrimaryInformation>>();
 	}
 
 	@SuppressWarnings("unchecked")
@@ -32,9 +32,9 @@ public class clsPrimaryInformationMesh extends clsPrimaryInformation implements 
         try {
         	clsPrimaryInformationMesh oClone = (clsPrimaryInformationMesh)super.clone();
         	
-        	oClone.moAssociations = new ArrayList<clsAssociationContext<clsPrimaryInformation>>();   	
-        	for (clsAssociationContext<clsPrimaryInformation> oValue:moAssociations) {
-        		oClone.moAssociations.add((clsAssociationContext<clsPrimaryInformation>) oValue.clone(this, oClone));
+        	oClone.moAssociations = new ArrayList<clsAssociation<clsPrimaryInformation>>();   	
+        	for (clsAssociation<clsPrimaryInformation> oValue:moAssociations) {
+        		oClone.moAssociations.add((clsAssociation<clsPrimaryInformation>) oValue.clone(this, oClone));
         	}
         	
         	return oClone;
@@ -50,7 +50,7 @@ public class clsPrimaryInformationMesh extends clsPrimaryInformation implements 
 		
 		oResult = "PIm :: "+moTP+" | "+moAffect+" | assoc: ";
 		
-		for (clsAssociationContext<clsPrimaryInformation> oEntry:moAssociations) {
+		for (clsAssociation<clsPrimaryInformation> oEntry:moAssociations) {
 			oResult += oEntry+"; ";
 		}
 		
