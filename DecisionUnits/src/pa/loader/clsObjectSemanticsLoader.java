@@ -28,7 +28,7 @@ import enums.eEntityType;
 public class clsObjectSemanticsLoader {
 
 	public static String moAttributeName = "ObjectSemanticsInit"; //denotes the directory name and the first element name in xml
-	public static String moNodeName = "ObjectSemantics"; //denotes one single entry for a drive
+	public static String moNodeName = "ObjectSemantics"; //denotes one single entry for an object
 	public static String moEntryType = "PrimaryInfoObject";
 	public static String moDriveContentCathegoryList = "DriveContentCathegoryList";
 	public static String moDriveContentCathegory = "DriveContentCathegory";
@@ -64,7 +64,7 @@ public class clsObjectSemanticsLoader {
 			    }
 			}
 		} catch(Exception e) {
-			System.out.println("Error reading Drives: "+e.getMessage());
+			System.out.println("Error reading ObjectSemantics: "+e.getMessage());
 		}
 		return oRetVal;		
 	}

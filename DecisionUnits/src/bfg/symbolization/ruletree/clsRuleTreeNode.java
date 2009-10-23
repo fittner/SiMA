@@ -10,9 +10,10 @@ import java.util.Vector;
 import org.w3c.dom.Node;
 import org.w3c.dom.NamedNodeMap;
 
+import pa.loader.templateimage.enumBooleanOperator;
+
 import decisionunit.itf.sensors.clsSensorData;
 import bfg.tools.xmltools.clsXMLAbstractImageReader;
-import bfg.utils.enumsOld.enumBooleanOperator;
 import bfg.symbolization.brainimages.clsIdentity;
 
 //no emotions - prohibitet in import from langr

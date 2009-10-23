@@ -16,7 +16,7 @@
 //
 
 // Belongs to package
-package bfg.utils.enumsOld;
+package pa.loader.templateimage;
 
 import bfg.utils.enums.enumClass;
 
@@ -25,8 +25,6 @@ import bfg.utils.enums.enumClass;
 /**
  *
  * Represents the boolean operators "and" and "or".
- *
- * @deprecated
  *
  * $Revision: 1825 $:  Revision of last commit
  * $Author: deutsch $: Author of last commit

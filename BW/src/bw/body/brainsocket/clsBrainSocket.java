@@ -345,11 +345,13 @@ public class clsBrainSocket implements itfStepProcessing {
 			Iterator <clsCollidingObject> i = eDetectedObjectList.iterator(); 
 			while(i.hasNext()){
 				clsVisionEntry oTemp = convertVisionEntry(i.next(), poVisionType);
-				clsManipulateAreaEntry oEntry = new clsManipulateAreaEntry(oTemp);
+				if (oTemp != null) {
+					clsManipulateAreaEntry oEntry = new clsManipulateAreaEntry(oTemp);
 				
-				if (oEntry != null) {
-					oData.add(oEntry);
-				}	
+					if (oEntry != null) {
+						oData.add(oEntry);
+					}	
+				}
 			}
 		}
 		return oData;
