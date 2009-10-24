@@ -29,8 +29,16 @@ import java.lang.reflect.Method;
 
 public class clsAssociationContent<TYPE> extends clsAssociationWeighted<TYPE> implements Cloneable{
 
-public TYPE moAssociationContent;
+	public TYPE moAssociationContent;
 	
+	public clsAssociationContent() {
+		super();
+	}
+
+	public clsAssociationContent(TYPE a, TYPE b) {
+		super(a, b);
+	}
+
 	@SuppressWarnings("unchecked")
 	@Override
 	public Object clone() throws CloneNotSupportedException {

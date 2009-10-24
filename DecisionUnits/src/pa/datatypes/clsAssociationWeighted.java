@@ -16,9 +16,17 @@ package pa.datatypes;
  * 
  */
 public class clsAssociationWeighted<TYPE> extends clsAssociation<TYPE> implements Cloneable {
-
+	
 	public double moWeight;
 	
+	public clsAssociationWeighted() {
+		super();
+	}
+
+	public clsAssociationWeighted(TYPE a, TYPE b) {
+		super(a, b);
+	}
+
 	@SuppressWarnings("unchecked")
 	@Override
 	public Object clone() throws CloneNotSupportedException {

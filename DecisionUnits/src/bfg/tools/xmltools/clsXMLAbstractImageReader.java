@@ -153,6 +153,22 @@ public class clsXMLAbstractImageReader // extends clsCloneable
     return;
   }
 
+	  //optional scan (recursive or not)
+	  //---------------------------------------------------------------------------
+		public static void getSubNodesByName(Node docElement, String detectionName, Vector resultList) 
+	  //---------------------------------------------------------------------------
+	  {
+		Node n = null;
+
+     	NodeList nl = docElement.getChildNodes();
+  		Node child = null;
+  		for (int i=0; i<nl.getLength(); i++) 
+  		{
+  			getNodeElementByName(nl.item(i), detectionName, 0, resultList);		
+  		}
+	    return;
+	  }
+	
 
   //optional scan (recursive or not)
   //---------------------------------------------------------------------------

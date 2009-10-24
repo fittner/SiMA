@@ -26,6 +26,15 @@ import java.lang.reflect.Method;
 public class clsAssociationContext<TYPE> extends clsAssociationWeighted<TYPE> implements Cloneable {
 
 	public TYPE moAssociationContext;
+
+	public clsAssociationContext() {
+		super();
+	}
+	
+	public clsAssociationContext(TYPE a, TYPE b) {
+		super(a, b);
+	}
+
 	
 	@SuppressWarnings("unchecked")
 	@Override

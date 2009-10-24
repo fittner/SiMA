@@ -21,7 +21,15 @@ public class clsAssociation<TYPE>  implements Cloneable {
 
 	public TYPE moElementA;
 	public TYPE moElementB;
+	
+	public clsAssociation() {
+	}
 			
+	public clsAssociation(TYPE a, TYPE b) {
+		moElementA = a;
+		moElementB = b;
+	}
+	
 	private void checkStackDepth() {
 		long depth = Thread.currentThread().getStackTrace().length;
 		

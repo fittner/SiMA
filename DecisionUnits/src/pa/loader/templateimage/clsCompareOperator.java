@@ -42,9 +42,17 @@ public class clsCompareOperator {
 	     {
 	        moCompareOperator = "<=";
 	     }
-	     else if ( compareOperator.equals("&lt;") )
+	     else if ( compareOperator.equals("&gt;=") )
 	     {
 	        moCompareOperator = ">=";
+	     }
+	     else if ( compareOperator.equals("&lt;") )
+	     {
+	        moCompareOperator = "<";
+	     }
+	     else if ( compareOperator.equals("&gt;") )
+	     {
+	        moCompareOperator = ">";
 	     }
 	     else
 	     {

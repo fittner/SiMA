@@ -9,6 +9,7 @@ package pa.loader.templateimage;
 import java.util.ArrayList;
 
 import pa.datatypes.clsPrimaryInformation;
+import pa.datatypes.clsThingPresentationSingle;
 
 /**
  * DOCUMENT (langr) - insert description 
@@ -21,6 +22,11 @@ public class clsTemplatePrimaryInfo extends clsPrimaryInformation implements itf
 
 	public clsCompareOperator moCompareOperator;
 
+	public clsTemplatePrimaryInfo(
+			clsThingPresentationSingle poThingPresentationSingle) {
+		super(poThingPresentationSingle);
+	}
+	
 	/* (non-Javadoc)
 	 *
 	 * @author langr

@@ -9,10 +9,18 @@ package pa.loader.templateimage;
 import java.util.ArrayList;
 import java.util.Vector;
 
+import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
+
+import enums.eTriState;
+
+import pa.datatypes.clsAssociation;
+import pa.datatypes.clsPrimaryInformation;
+import pa.datatypes.clsThingPresentationSingle;
 
 import bfg.tools.xmltools.clsXMLAbstractImageReader;
 import bfg.tools.xmltools.clsXMLConfiguration;
+import bfg.utils.enums.eOptional;
 
 /**
  * DOCUMENT (langr) - insert description 
@@ -25,10 +33,14 @@ public class clsTemplateImageLoader {
 
 	private static String moAttributeName = "TemplateImages"; //denotes the directory name and the first element name in xml
 	public static String moNodeName = "TemplateImage"; //denotes one single entry for an object
+	private static String moPrimMeshName = "PrimMesh";
+	private static String moPrimInfoName = "PrimInfo";
+	private static String moAffectName = "Affect";
+	private static String moDriveMeshName = "DriveMesh";
 	
-	public static ArrayList<itfTemplateComparable> createTemplateImageList(String poAgentId, String poAgentGroup) {
+	public static ArrayList<clsPrimaryInformation> createTemplateImageList(String poAgentId, String poAgentGroup) {
 
-		ArrayList<itfTemplateComparable> oRetVal = new ArrayList<itfTemplateComparable>();
+		ArrayList<clsPrimaryInformation> oRetVal = new ArrayList<clsPrimaryInformation>();
 		
 		try {
 			
@@ -49,7 +61,7 @@ public class clsTemplateImageLoader {
 			    }
 			}
 		} catch(Exception e) {
-			System.out.println("Error reading Drives: "+e.getMessage());
+			System.out.println("Error reading Template Images: "+e.getMessage());
 		}
 		
 		return oRetVal;
@@ -63,12 +75,121 @@ public class clsTemplateImageLoader {
 	 *
 	 * @param objTemImage
 	 */
-	private static itfTemplateComparable createTemplateImage(Node objTemImage) {
-		itfTemplateComparable oRetVal = null;
-		
-		//create the TemplateImageBase and put in the fine tree!
-		
-		return oRetVal;
+	private static clsPrimaryInformation createTemplateImage(Node oNode) {
+
+		clsTemplatePrimaryMesh oTempMesh = new clsTemplatePrimaryMesh( new clsThingPresentationSingle() );
+		readContent(oNode, oTempMesh);
+		readNodeLogic(oNode, oTempMesh);
+
+		createSubMeshes(oNode, oTempMesh);
+		createSubInfos(oNode, oTempMesh);
+		createSubDrives(oNode, oTempMesh);
+
+		return oTempMesh;
 	}
+
+	private static void createSubMeshes(Node poTempImageNode,
+			clsTemplatePrimaryMesh poPrimMesh) {
+        
+		Vector<Node> oNodes  = new Vector<Node>();
+		clsXMLAbstractImageReader.getSubNodesByName( poTempImageNode, 
+				moPrimMeshName, oNodes);
+	
+		for(Node oNode : oNodes)                       
+		{
+			clsTemplatePrimaryMesh oTempMesh = new clsTemplatePrimaryMesh( new clsThingPresentationSingle() );
+			readContent(oNode, oTempMesh);
+			readNodeLogic(oNode, oTempMesh);
+			readRelationalOperator(oNode, oTempMesh);
+			
+			createAffect(oNode, oTempMesh);
+			
+			createSubMeshes(oNode, oTempMesh);
+			createSubInfos(oNode, oTempMesh);
+			//createSubDrives(oNode, oTempMesh); --> driveMeshes are supposed to be on top level!
+			
+			poPrimMesh.moAssociations.add(new clsAssociation<clsPrimaryInformation>(poPrimMesh, oTempMesh) );
+		}
+	}
+
+	private static void createSubInfos(Node poTempImageNode,
+			clsTemplatePrimaryMesh poPrimMesh) {
+		Vector<Node> oNodes  = new Vector<Node>();
+		clsXMLAbstractImageReader.getSubNodesByName( poTempImageNode, 
+				moPrimInfoName, oNodes);
+	
+		for(Node oNode : oNodes)                       
+		{
+			clsTemplatePrimaryInfo oTempPrimInfo = new clsTemplatePrimaryInfo( new clsThingPresentationSingle() );
+			readPrimInfo(oNode, oTempPrimInfo);
+			
+			poPrimMesh.moAssociations.add(new clsAssociation<clsPrimaryInformation>(poPrimMesh, oTempPrimInfo) );
+		}
+	}
+
+	private static void createSubDrives(Node poTempImageNode,
+			clsTemplatePrimaryMesh poPrimMesh) {
+		Vector<Node> oNodes  = new Vector<Node>();
+		clsXMLAbstractImageReader.getSubNodesByName( poTempImageNode, 
+				moDriveMeshName, oNodes);
+	
+		for(Node oNode : oNodes)                       
+		{
+			clsTemplatePrimaryMesh oTempMesh = new clsTemplatePrimaryMesh( new clsThingPresentationSingle() );
+			readContent(oNode, oTempMesh);
+			readNodeLogic(oNode, oTempMesh);
+			readRelationalOperator(oNode, oTempMesh);
+			
+			createAffect(oNode, oTempMesh);
+		
+			poPrimMesh.moAssociations.add(new clsAssociation<clsPrimaryInformation>(poPrimMesh, oTempMesh) );
+		}
+	}
+
+	private static void createAffect(Node node, clsTemplatePrimaryMesh tempMesh) {
+		Node oNode = clsXMLAbstractImageReader.getNextNodeElementByName(node, moAffectName);
+		if(oNode != null) {
+			clsTemplateAffect oAffect = new clsTemplateAffect();
+			NamedNodeMap oAttrib = oNode.getAttributes();
+			oAffect.moValue = Double.parseDouble(clsXMLAbstractImageReader.getAtributeValue(oAttrib,"value"));
+			oAffect.moCompareOperator = new clsCompareOperator( clsXMLAbstractImageReader.getAtributeValue(oAttrib,"compare") );
+			tempMesh.moAffect = oAffect;
+		}
+	}
+	
+
+	private static void readPrimInfo(Node poNode,
+			clsTemplatePrimaryInfo poPrimInfo) {
+
+		NamedNodeMap oAttrib = poNode.getAttributes();
+		poPrimInfo.moTP.meContentName = clsXMLAbstractImageReader.getAtributeValue(oAttrib,"name");
+		poPrimInfo.moTP.meContentType = clsXMLAbstractImageReader.getAtributeValue(oAttrib,"type");
+		poPrimInfo.moTP.moContent = clsXMLAbstractImageReader.getAtributeValue(oAttrib,"value");
+		poPrimInfo.moCompareOperator = new clsCompareOperator( clsXMLAbstractImageReader.getAtributeValue(oAttrib,"compare") );
+	}
+	
+	private static void readContent(Node poTempImageNode,
+			clsTemplatePrimaryMesh poPrimMesh) {
+
+		NamedNodeMap oAttrib = poTempImageNode.getAttributes();
+		poPrimMesh.moTP.meContentName = clsXMLAbstractImageReader.getAtributeValue(oAttrib,"name");
+		poPrimMesh.moTP.meContentType = clsXMLAbstractImageReader.getAtributeValue(oAttrib,"type");
+		poPrimMesh.moTP.moContent = clsXMLAbstractImageReader.getAtributeValue(oAttrib,"value");
+	}
+	
+	private static void readNodeLogic(Node poTempImageNode,
+			clsTemplatePrimaryMesh poPrimMesh) {
+		NamedNodeMap oAttrib = poTempImageNode.getAttributes();
+		poPrimMesh.meOptional = eOptional.valueOf( clsXMLAbstractImageReader.getAtributeValue(oAttrib,"optional") );
+		poPrimMesh.meOperator = eBooleanOperator.valueOf( clsXMLAbstractImageReader.getAtributeValue(oAttrib,"booleanOperator"));
+		poPrimMesh.meNegated = eTriState.valueOf( clsXMLAbstractImageReader.getAtributeValue(oAttrib,"negated"));
+	}
+	
+	private static void readRelationalOperator(Node poTempImageNode,
+			clsTemplatePrimaryMesh poPrimMesh) {
+		NamedNodeMap oAttrib = poTempImageNode.getAttributes();
+		poPrimMesh.moCompareOperator = new clsCompareOperator( clsXMLAbstractImageReader.getAtributeValue(oAttrib,"compare") );		
+	}
+
 
 }

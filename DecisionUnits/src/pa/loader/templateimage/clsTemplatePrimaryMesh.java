@@ -25,7 +25,7 @@ import pa.datatypes.clsThingPresentationSingle;
 public class clsTemplatePrimaryMesh extends clsPrimaryInformationMesh implements itfTemplateComparable{
 
 	public eOptional meOptional;
-	public enumBooleanOperator meOperator;
+	public eBooleanOperator meOperator;
 	public eTriState meNegated;
 	
 	public clsCompareOperator moCompareOperator;

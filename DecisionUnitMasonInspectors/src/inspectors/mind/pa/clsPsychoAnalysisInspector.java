@@ -19,6 +19,7 @@ import javax.swing.event.TreeSelectionListener;
 import javax.swing.tree.DefaultMutableTreeNode;
 
 import pa.clsPsychoAnalysis;
+import pa.memory.clsMemory;
 import pa.modules.C00_PsychicApparatus;
 
 import sim.display.GUIState;
@@ -65,6 +66,7 @@ public class clsPsychoAnalysisInspector extends Inspector implements TreeSelecti
 		C00_PsychicApparatus oPsyApp = poPA.getProcessor().getPsychicApparatus();
 		//build a tree with all members that start either with moC for clsModuleContainer or moE for clsModuleBase
 		getTree( oPsyApp, root );
+		addKnowledge(oPsyApp, root);
 
 		moModuleTree = new JTree(root);
 		moModuleTree.addTreeSelectionListener(this);
@@ -123,7 +125,23 @@ public class clsPsychoAnalysisInspector extends Inspector implements TreeSelecti
 		}
 	}
 
-
+	private void addKnowledge(C00_PsychicApparatus poPAModule,
+			DefaultMutableTreeNode poParentTreeNode) {
+		
+		DefaultMutableTreeNode oMemoryNode = new DefaultMutableTreeNode("Knowledge Base");
+		
+		clsMemory oMemory = poPAModule.getMemoryForInspector();
+		
+		Field[] oFields = oMemory.getClass().getFields();
+		for(Field oField : oFields) {
+			
+			if(oField.getName().startsWith("mo")) {
+				DefaultMutableTreeNode child = new DefaultMutableTreeNode(oField.getName().substring(2));
+				oMemoryNode.add(child);
+			}
+		}
+		poParentTreeNode.add(oMemoryNode);
+	}
 
 	/* (non-Javadoc)
 	 *
