@@ -17,7 +17,7 @@ import pa.datatypes.clsPrimaryInformation;
  * 23.10.2009, 12:13:41
  * 
  */
-public interface itfTemplateComparable {
+public interface itfPrimaryTemplateComparable {
 
 	public void compareTemplateWith(clsPrimaryInformation poCurrentPrim, ArrayList<Boolean> poMatchList);
 	public boolean checkType(clsPrimaryInformation poCurrentPrim);

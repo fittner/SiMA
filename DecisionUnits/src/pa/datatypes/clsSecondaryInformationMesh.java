@@ -33,6 +33,19 @@ public class clsSecondaryInformationMesh extends clsSecondaryInformation impleme
 		}
 	}
 	
+	/**
+	 * DOCUMENT (langr) - insert description 
+	 * 
+	 * @author langr
+	 * 24.10.2009, 23:48:18
+	 *
+	 * @param poWordPresentation
+	 */
+	public clsSecondaryInformationMesh(clsWordPresentation poWordPresentation) {
+		super(poWordPresentation);
+		moAssociations = new ArrayList<clsAssociation<clsSecondaryInformation>>();
+	}
+
 	@SuppressWarnings("unchecked")
 	@Override
 	public Object clone() throws CloneNotSupportedException {

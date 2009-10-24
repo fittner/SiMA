@@ -30,6 +30,20 @@ public class clsSecondaryInformation extends clsPrimaryInformation implements it
 		this(new clsWordPresentation(poPrim.moTP), poPrim.moTP, poPrim.moAffect);
 	}
 	
+	/**
+	 * DOCUMENT (langr) - insert description 
+	 * 
+	 * @author langr
+	 * 24.10.2009, 23:49:11
+	 *
+	 * @param poWordPresentation
+	 */
+	public clsSecondaryInformation(clsWordPresentation poWordPresentation) {
+		moWP = poWordPresentation;
+		moAffect = null;
+		moTP = null;
+	}
+
 	/* (non-Javadoc)
 	 *
 	 * @author langr

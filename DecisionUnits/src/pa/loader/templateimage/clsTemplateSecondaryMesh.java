@@ -11,9 +11,9 @@ import java.util.ArrayList;
 import enums.eTriState;
 import bfg.utils.enums.eOptional;
 import pa.datatypes.clsAssociation;
-import pa.datatypes.clsPrimaryInformation;
-import pa.datatypes.clsPrimaryInformationMesh;
-import pa.datatypes.clsThingPresentationSingle;
+import pa.datatypes.clsSecondaryInformation;
+import pa.datatypes.clsSecondaryInformationMesh;
+import pa.datatypes.clsWordPresentation;
 
 /**
  * DOCUMENT (langr) - insert description 
@@ -22,7 +22,7 @@ import pa.datatypes.clsThingPresentationSingle;
  * 23.10.2009, 12:12:24
  * 
  */
-public class clsTemplatePrimaryMesh extends clsPrimaryInformationMesh implements itfPrimaryTemplateComparable{
+public class clsTemplateSecondaryMesh extends clsSecondaryInformationMesh implements itfSecondaryTemplateCompare{
 
 	public eOptional meOptional;
 	public eBooleanOperator meOperator;
@@ -36,13 +36,11 @@ public class clsTemplatePrimaryMesh extends clsPrimaryInformationMesh implements
 	 * @author langr
 	 * 23.10.2009, 12:13:04
 	 *
-	 * @param poThingPresentationSingle
+	 * @param poWordPresentation
 	 */
-	public clsTemplatePrimaryMesh(
-			clsThingPresentationSingle poThingPresentationSingle) {
-		super(poThingPresentationSingle);
-		
-		
+	public clsTemplateSecondaryMesh(
+			clsWordPresentation poWordPresentation) {
+		super(poWordPresentation);
 	}
 
 	/* (non-Javadoc)
@@ -53,24 +51,24 @@ public class clsTemplatePrimaryMesh extends clsPrimaryInformationMesh implements
 	 * @see pa.loader.templateimage.itfTemplateComparable#compareTemplateWith(pa.datatypes.clsPrimaryInformation, java.util.ArrayList)
 	 */
 	@Override
-	public void compareTemplateWith(clsPrimaryInformation poCurrentPrim,
+	public void compareTemplateWith(clsSecondaryInformation poCurrentSec,
 			ArrayList<Boolean> poMatchList) {
 
 		//check this TP
-		if( checkType(poCurrentPrim) ) {
-			poMatchList.add( moCompareOperator.compare(moTP.moContent, poCurrentPrim.moTP.moContent) );
+		if( checkType(poCurrentSec) ) {
+			poMatchList.add( moCompareOperator.compare(moTP.moContent, poCurrentSec.moWP.moContent) );
 		
 			//check this Affect
 			if(moAffect!=null && moAffect instanceof clsTemplateAffect) {
 				clsTemplateAffect oTempAff = (clsTemplateAffect)moAffect;
-				poMatchList.add( oTempAff.moCompareOperator.compare(oTempAff.getValue(), poCurrentPrim.moAffect.getValue()));
+				poMatchList.add( oTempAff.moCompareOperator.compare(oTempAff.getValue(), poCurrentSec.moAffect.getValue()));
 			}
 	
 			//check match of childs
 			ArrayList<Boolean> poChildMatch = new ArrayList<Boolean>();
-			for(clsAssociation<clsPrimaryInformation> oAssocTemp : moAssociations) {
+			for(clsAssociation<clsSecondaryInformation> oAssocTemp : moAssociations) {
 				
-				for( clsAssociation<clsPrimaryInformation> oAssocComp : ((clsTemplatePrimaryMesh)poCurrentPrim).moAssociations) {
+				for( clsAssociation<clsSecondaryInformation> oAssocComp : ((clsTemplateSecondaryMesh)poCurrentSec).moAssociations) {
 					((itfPrimaryTemplateComparable)oAssocTemp.moElementB).compareTemplateWith(oAssocComp.moElementB, poChildMatch);
 				}
 			}
@@ -128,13 +126,13 @@ public class clsTemplatePrimaryMesh extends clsPrimaryInformationMesh implements
 	 * @param poCurrentPrim
 	 * @return
 	 */
-	public boolean checkType(clsPrimaryInformation poCurrentPrim) {
+	public boolean checkType(clsSecondaryInformation poCurrentSec) {
 
 
-		if( poCurrentPrim instanceof clsTemplatePrimaryMesh &&
-			(moTP != null && poCurrentPrim.moTP != null ) && 
-			 moTP.meContentName == poCurrentPrim.moTP.meContentName &&
-			 moTP.meContentType == poCurrentPrim.moTP.meContentType ) {
+		if( poCurrentSec instanceof clsTemplateSecondaryMesh &&
+			(moWP != null && poCurrentSec.moWP != null ) && 
+			 moWP.moContentName == poCurrentSec.moWP.moContentName &&
+			 moWP.moContentType == poCurrentSec.moWP.moContentType ) {
 			return true;
 		}
 		

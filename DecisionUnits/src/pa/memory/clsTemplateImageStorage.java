@@ -8,7 +8,7 @@ package pa.memory;
 
 import java.util.ArrayList;
 
-import pa.datatypes.clsPrimaryInformation;
+import pa.datatypes.clsSecondaryInformation;
 import pa.loader.templateimage.clsTemplateImageLoader;
 import config.clsBWProperties;
 
@@ -22,7 +22,7 @@ import config.clsBWProperties;
 public class clsTemplateImageStorage {
 	
 	//these PrimaryInfos implement the itfTemplateComparable!!!!
-	public ArrayList<clsPrimaryInformation> moTemplateImages;
+	public ArrayList<clsSecondaryInformation> moTemplateImages;
 	
 	public clsTemplateImageStorage(String poPrefix, clsBWProperties poProp) {
 		

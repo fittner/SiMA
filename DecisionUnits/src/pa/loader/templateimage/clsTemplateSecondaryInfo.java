@@ -8,8 +8,8 @@ package pa.loader.templateimage;
 
 import java.util.ArrayList;
 
-import pa.datatypes.clsPrimaryInformation;
-import pa.datatypes.clsThingPresentationSingle;
+import pa.datatypes.clsSecondaryInformation;
+import pa.datatypes.clsWordPresentation;
 
 /**
  * DOCUMENT (langr) - insert description 
@@ -18,13 +18,13 @@ import pa.datatypes.clsThingPresentationSingle;
  * 23.10.2009, 12:12:56
  * 
  */
-public class clsTemplatePrimaryInfo extends clsPrimaryInformation implements itfPrimaryTemplateComparable {
+public class clsTemplateSecondaryInfo extends clsSecondaryInformation implements itfSecondaryTemplateCompare {
 
 	public clsCompareOperator moCompareOperator;
 
-	public clsTemplatePrimaryInfo(
-			clsThingPresentationSingle poThingPresentationSingle) {
-		super(poThingPresentationSingle);
+	public clsTemplateSecondaryInfo(
+			clsWordPresentation poWordPresentation) {
+		super(poWordPresentation);
 	}
 	
 	/* (non-Javadoc)
@@ -35,15 +35,15 @@ public class clsTemplatePrimaryInfo extends clsPrimaryInformation implements itf
 	 * @see pa.loader.templateimage.itfTemplateComparable#compareTemplateWith(pa.datatypes.clsPrimaryInformation, java.util.ArrayList)
 	 */
 	@Override
-	public void compareTemplateWith(clsPrimaryInformation poCurrentPrim,
+	public void compareTemplateWith(clsSecondaryInformation poCurrentSec,
 			ArrayList<Boolean> poMatchList) {
 		
-		if(checkType(poCurrentPrim)) {
-			poMatchList.add( moCompareOperator.compare(moTP.moContent, poCurrentPrim.moTP.moContent) );
+		if(checkType(poCurrentSec)) {
+			poMatchList.add( moCompareOperator.compare(moWP.moContent, poCurrentSec.moWP.moContent) );
 		
 			if(moAffect!=null && moAffect instanceof clsTemplateAffect) {
 				clsTemplateAffect oTempAff = (clsTemplateAffect)moAffect;
-				poMatchList.add( oTempAff.moCompareOperator.compare(oTempAff.getValue(), poCurrentPrim.moAffect.getValue()));
+				poMatchList.add( oTempAff.moCompareOperator.compare(oTempAff.getValue(), poCurrentSec.moAffect.getValue()));
 			}
 		}
 	}
@@ -56,11 +56,11 @@ public class clsTemplatePrimaryInfo extends clsPrimaryInformation implements itf
 	 * @see pa.loader.templateimage.itfTemplateComparable#checkType(pa.datatypes.clsPrimaryInformation)
 	 */
 	@Override
-	public boolean checkType(clsPrimaryInformation poCurrentPrim) {
+	public boolean checkType(clsSecondaryInformation poCurrentSec) {
 
-		if( (moTP != null && poCurrentPrim.moTP != null ) &&
-			 moTP.meContentName == poCurrentPrim.moTP.meContentName &&
-			 moTP.meContentType == poCurrentPrim.moTP.meContentType ) {
+		if( (moWP != null && poCurrentSec.moWP != null ) &&
+			 moWP.moContentName == poCurrentSec.moWP.moContentName &&
+			 moWP.moContentType == poCurrentSec.moWP.moContentType ) {
 			return true;
 		}
 
