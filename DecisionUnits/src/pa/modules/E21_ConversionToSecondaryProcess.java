@@ -10,7 +10,9 @@ import java.util.ArrayList;
 
 import config.clsBWProperties;
 import pa.datatypes.clsPrimaryInformation;
+import pa.datatypes.clsPrimaryInformationMesh;
 import pa.datatypes.clsSecondaryInformation;
+import pa.datatypes.clsSecondaryInformationMesh;
 import pa.interfaces.I5_4;
 import pa.interfaces.I2_10;
 import pa.interfaces.I2_11;
@@ -109,8 +111,12 @@ public class E21_ConversionToSecondaryProcess extends clsModuleBase implements I
 		moPerception_Output = new ArrayList<clsSecondaryInformation>();
 		for( clsPrimaryInformation oPriminfo : moGrantedPerception_Input ) {
 
-			moPerception_Output.add(new clsSecondaryInformation(oPriminfo));
-
+			if(oPriminfo instanceof clsPrimaryInformationMesh) {
+				moPerception_Output.add(new clsSecondaryInformationMesh(oPriminfo));
+			}
+			else if(oPriminfo instanceof clsPrimaryInformation) {
+				moPerception_Output.add(new clsSecondaryInformation(oPriminfo));
+			}
 		}
 	}
 

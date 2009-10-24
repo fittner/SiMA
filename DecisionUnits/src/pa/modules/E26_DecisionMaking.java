@@ -10,12 +10,14 @@ import java.util.ArrayList;
 
 import config.clsBWProperties;
 import pa.datatypes.clsSecondaryInformation;
+import pa.datatypes.clsSecondaryInformationMesh;
 import pa.interfaces.I1_7;
 import pa.interfaces.I2_13;
 import pa.interfaces.I3_3;
 import pa.interfaces.I5_5;
 import pa.interfaces.I7_1;
 import pa.interfaces.I7_2;
+import pa.tools.clsPair;
 
 /**
  * DOCUMENT (deutsch) - insert description 
@@ -28,6 +30,7 @@ public class E26_DecisionMaking extends clsModuleBase implements I1_7, I2_13, I3
 
 	ArrayList<clsSecondaryInformation> moEnvironmentalPerception;
 	private ArrayList<clsSecondaryInformation> moDriveList;
+	private ArrayList<clsPair<clsSecondaryInformation, clsSecondaryInformationMesh>> moRealityPerception;
 	
 	/**
 	 * DOCUMENT (deutsch) - insert description 
@@ -106,10 +109,10 @@ public class E26_DecisionMaking extends clsModuleBase implements I1_7, I2_13, I3
 	 * 
 	 * @see pa.interfaces.I2_13#receive_I2_13(int)
 	 */
+	@SuppressWarnings("unchecked")
 	@Override
-	public void receive_I2_13(int pnData) {
-		mnTest += pnData;
-		
+	public void receive_I2_13(ArrayList<clsPair<clsSecondaryInformation, clsSecondaryInformationMesh>> poRealityPerception) {
+		moRealityPerception = (ArrayList<clsPair<clsSecondaryInformation, clsSecondaryInformationMesh>>)deepCopy(poRealityPerception);
 	}
 
 	/* (non-Javadoc)

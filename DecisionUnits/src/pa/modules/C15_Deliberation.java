@@ -9,6 +9,7 @@ package pa.modules;
 import java.util.ArrayList;
 
 import pa.datatypes.clsSecondaryInformation;
+import pa.datatypes.clsSecondaryInformationMesh;
 import pa.interfaces.I1_7;
 import pa.interfaces.I2_13;
 import pa.interfaces.I3_3;
@@ -19,6 +20,7 @@ import pa.interfaces.I7_2;
 import pa.interfaces.I7_3;
 import pa.interfaces.I7_4;
 import pa.memory.clsMemory;
+import pa.tools.clsPair;
 import config.clsBWProperties;
 
 /**
@@ -130,8 +132,8 @@ public class C15_Deliberation extends clsModuleContainer implements
 	 * @see pa.interfaces.I2_13#receive_I2_13(int)
 	 */
 	@Override
-	public void receive_I2_13(int pnData) {
-		moE26DecisionMaking.receive_I2_13(pnData);
+	public void receive_I2_13(ArrayList<clsPair<clsSecondaryInformation, clsSecondaryInformationMesh>> poRealityPerception) {
+		moE26DecisionMaking.receive_I2_13(poRealityPerception);
 	}
 
 	/* (non-Javadoc)

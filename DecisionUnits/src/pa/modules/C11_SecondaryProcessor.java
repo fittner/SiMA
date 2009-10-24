@@ -9,6 +9,7 @@ package pa.modules;
 import java.util.ArrayList;
 
 import pa.datatypes.clsSecondaryInformation;
+import pa.datatypes.clsSecondaryInformationMesh;
 import pa.interfaces.I1_7;
 import pa.interfaces.I2_11;
 import pa.interfaces.I2_12;
@@ -20,6 +21,7 @@ import pa.interfaces.I6_2;
 import pa.interfaces.I7_2;
 import pa.interfaces.I7_4;
 import pa.memory.clsMemory;
+import pa.tools.clsPair;
 import config.clsBWProperties;
 
 /**
@@ -143,8 +145,8 @@ public class C11_SecondaryProcessor extends clsModuleContainer implements
 	 * @see pa.interfaces.I2_12#receive_I2_12(int)
 	 */
 	@Override
-	public void receive_I2_12(int pnData) {
-		moC17SecondaryKnowledgeUtilizer.receive_I2_12(pnData);
+	public void receive_I2_12(ArrayList<clsSecondaryInformation> poFocusedPerception) {
+		moC17SecondaryKnowledgeUtilizer.receive_I2_12(poFocusedPerception);
 	}
 
 	/* (non-Javadoc)
@@ -155,8 +157,8 @@ public class C11_SecondaryProcessor extends clsModuleContainer implements
 	 * @see pa.interfaces.I2_13#receive_I2_13(int)
 	 */
 	@Override
-	public void receive_I2_13(int pnData) {
-		moC16Deliberation.receive_I2_13(pnData);
+	public void receive_I2_13(ArrayList<clsPair<clsSecondaryInformation, clsSecondaryInformationMesh>> poRealityPerception) {
+		moC16Deliberation.receive_I2_13(poRealityPerception);
 	}
 
 	/* (non-Javadoc)

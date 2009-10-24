@@ -22,6 +22,7 @@ public class clsSecondaryInformationMesh extends clsSecondaryInformation impleme
 	//transforms a primary information into a secondary information - stupid copy of content from Thin->WordPresentation
 	public clsSecondaryInformationMesh(clsPrimaryInformation poPrim) {
 		super(poPrim);
+		moAssociations = new ArrayList<clsAssociation<clsSecondaryInformation>>();
 		
 		if(poPrim instanceof clsPrimaryInformationMesh) {
 		

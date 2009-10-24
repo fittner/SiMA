@@ -10,7 +10,6 @@ import java.util.ArrayList;
 
 import config.clsBWProperties;
 import pa.datatypes.clsSecondaryInformation;
-import pa.datatypes.clsSecondaryInformationMesh;
 import pa.interfaces.I1_7;
 import pa.interfaces.I2_11;
 import pa.interfaces.I2_12;
@@ -24,9 +23,10 @@ import pa.interfaces.I2_12;
  */
 public class E23_ExternalPerception_focused extends clsModuleBase implements I2_11, I1_7 {
 
-	private ArrayList<clsSecondaryInformationMesh> moPerception;
+	private ArrayList<clsSecondaryInformation> moPerception;
 	private ArrayList<clsSecondaryInformation> moDriveList;
 
+	private ArrayList<clsSecondaryInformation> moFocusedPerception_Output;
 	/**
 	 * DOCUMENT (deutsch) - insert description 
 	 * 
@@ -93,7 +93,7 @@ public class E23_ExternalPerception_focused extends clsModuleBase implements I2_
 	@SuppressWarnings("unchecked")
 	@Override
 	public void receive_I2_11(ArrayList<clsSecondaryInformation> poPerception) {
-		moPerception = (ArrayList<clsSecondaryInformationMesh>)this.deepCopy(poPerception);
+		moPerception = (ArrayList<clsSecondaryInformation>)this.deepCopy(poPerception);
 		
 	}
 
@@ -120,8 +120,8 @@ public class E23_ExternalPerception_focused extends clsModuleBase implements I2_
 	 */
 	@Override
 	protected void process() {
-		mnTest++;
-		
+		moFocusedPerception_Output = moPerception; //simply forward
+
 	}
 
 	/* (non-Javadoc)
@@ -133,7 +133,6 @@ public class E23_ExternalPerception_focused extends clsModuleBase implements I2_
 	 */
 	@Override
 	protected void send() {
-		((I2_12)moEnclosingContainer).receive_I2_12(mnTest);
-		
+		((I2_12)moEnclosingContainer).receive_I2_12(moFocusedPerception_Output);
 	}
 }

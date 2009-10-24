@@ -10,7 +10,9 @@ import java.util.ArrayList;
 
 import config.clsBWProperties;
 import pa.datatypes.clsPrimaryInformation;
+import pa.datatypes.clsPrimaryInformationMesh;
 import pa.datatypes.clsSecondaryInformation;
+import pa.datatypes.clsSecondaryInformationMesh;
 import pa.interfaces.I1_6;
 import pa.interfaces.I1_7;
 import pa.interfaces.I5_3;
@@ -108,7 +110,12 @@ public class E08_ConversionToSecondaryProcess extends clsModuleBase implements I
 		moDriveList_Output = new ArrayList<clsSecondaryInformation>();
 		for( clsPrimaryInformation oPriminfo : moDriveList_Input ) {
 			
-			moDriveList_Output.add(new clsSecondaryInformation(oPriminfo));
+			if(oPriminfo instanceof clsPrimaryInformationMesh) {
+				moDriveList_Output.add(new clsSecondaryInformationMesh(oPriminfo));
+			}
+			else if(oPriminfo instanceof clsPrimaryInformation) {
+				moDriveList_Output.add(new clsSecondaryInformation(oPriminfo));
+			}
 			
 		}
 		

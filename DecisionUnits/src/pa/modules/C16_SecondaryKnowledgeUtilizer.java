@@ -6,6 +6,9 @@
  */
 package pa.modules;
 
+import java.util.ArrayList;
+
+import pa.datatypes.clsSecondaryInformation;
 import pa.interfaces.I2_12;
 import pa.interfaces.I6_1;
 import pa.interfaces.I6_2;
@@ -75,8 +78,8 @@ public class C16_SecondaryKnowledgeUtilizer extends clsModuleContainer implement
 	 * @see pa.interfaces.I2_12#receive_I2_12(int)
 	 */
 	@Override
-	public void receive_I2_12(int pnData) {
-		moE25KnowledgeAboutReality.receive_I2_12(pnData);
+	public void receive_I2_12(ArrayList<clsSecondaryInformation> poFocusedPerception) {
+		moE25KnowledgeAboutReality.receive_I2_12(poFocusedPerception);
 	}
 
 	/* (non-Javadoc)

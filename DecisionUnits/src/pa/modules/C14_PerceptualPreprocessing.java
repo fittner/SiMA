@@ -9,12 +9,14 @@ package pa.modules;
 import java.util.ArrayList;
 
 import pa.datatypes.clsSecondaryInformation;
+import pa.datatypes.clsSecondaryInformationMesh;
 import pa.interfaces.I1_7;
 import pa.interfaces.I2_11;
 import pa.interfaces.I2_12;
 import pa.interfaces.I2_13;
 import pa.interfaces.I6_1;
 import pa.memory.clsMemory;
+import pa.tools.clsPair;
 import config.clsBWProperties;
 
 /**
@@ -104,9 +106,9 @@ public class C14_PerceptualPreprocessing extends clsModuleContainer implements
 	 * @see pa.interfaces.I2_12#receive_I2_12(int)
 	 */
 	@Override
-	public void receive_I2_12(int pnData) {
-		((I2_12)moEnclosingContainer).receive_I2_12(pnData); //to e25 (know. real)
-		moE24RealityCheck.receive_I2_12(pnData);
+	public void receive_I2_12(ArrayList<clsSecondaryInformation> poFocusedPerception) {
+		((I2_12)moEnclosingContainer).receive_I2_12(poFocusedPerception); //to e25 (know. real)
+		moE24RealityCheck.receive_I2_12(poFocusedPerception);
 	}
 
 	/* (non-Javadoc)
@@ -117,8 +119,8 @@ public class C14_PerceptualPreprocessing extends clsModuleContainer implements
 	 * @see pa.interfaces.I2_13#receive_I2_13(int)
 	 */
 	@Override
-	public void receive_I2_13(int pnData) {
-		((I2_13)moEnclosingContainer).receive_I2_13(pnData);
+	public void receive_I2_13(ArrayList<clsPair<clsSecondaryInformation, clsSecondaryInformationMesh>> poRealityPerception) {
+		((I2_13)moEnclosingContainer).receive_I2_13(poRealityPerception);
 	}
 
 	/* (non-Javadoc)

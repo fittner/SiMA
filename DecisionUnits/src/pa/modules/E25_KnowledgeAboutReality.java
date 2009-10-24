@@ -6,7 +6,10 @@
  */
 package pa.modules;
 
+import java.util.ArrayList;
+
 import config.clsBWProperties;
+import pa.datatypes.clsSecondaryInformation;
 import pa.interfaces.I2_12;
 import pa.interfaces.I6_1;
 
@@ -18,6 +21,8 @@ import pa.interfaces.I6_1;
  * 
  */
 public class E25_KnowledgeAboutReality extends clsModuleBase implements I2_12 {
+
+	private ArrayList<clsSecondaryInformation> moFocusedPerception;
 
 	/**
 	 * DOCUMENT (deutsch) - insert description 
@@ -82,10 +87,10 @@ public class E25_KnowledgeAboutReality extends clsModuleBase implements I2_12 {
 	 * 
 	 * @see pa.interfaces.I2_12#receive_I2_12(int)
 	 */
+	@SuppressWarnings("unchecked")
 	@Override
-	public void receive_I2_12(int pnData) {
-		mnTest += pnData;
-		
+	public void receive_I2_12(ArrayList<clsSecondaryInformation> poFocusedPerception) {
+		moFocusedPerception = (ArrayList<clsSecondaryInformation>)this.deepCopy(poFocusedPerception);
 	}
 
 	/* (non-Javadoc)

@@ -6,10 +6,15 @@
  */
 package pa.modules;
 
+import java.util.ArrayList;
+
 import config.clsBWProperties;
+import pa.datatypes.clsSecondaryInformation;
+import pa.datatypes.clsSecondaryInformationMesh;
 import pa.interfaces.I2_12;
 import pa.interfaces.I2_13;
 import pa.interfaces.I6_1;
+import pa.tools.clsPair;
 
 /**
  * DOCUMENT (deutsch) - insert description 
@@ -19,6 +24,10 @@ import pa.interfaces.I6_1;
  * 
  */
 public class E24_RealityCheck extends clsModuleBase implements I2_12, I6_1 {
+
+	private ArrayList<clsSecondaryInformation> moFocusedPerception_Input;
+	
+	private ArrayList<clsPair<clsSecondaryInformation, clsSecondaryInformationMesh>> moRealityPerception_Output;
 
 	/**
 	 * DOCUMENT (deutsch) - insert description 
@@ -83,10 +92,10 @@ public class E24_RealityCheck extends clsModuleBase implements I2_12, I6_1 {
 	 * 
 	 * @see pa.interfaces.I2_12#receive_I2_12(int)
 	 */
+	@SuppressWarnings("unchecked")
 	@Override
-	public void receive_I2_12(int pnData) {
-		mnTest += pnData;
-		
+	public void receive_I2_12(ArrayList<clsSecondaryInformation> poFocusedPerception) {
+		moFocusedPerception_Input = (ArrayList<clsSecondaryInformation>)deepCopy( poFocusedPerception );
 	}
 
 	/* (non-Javadoc)
@@ -111,7 +120,13 @@ public class E24_RealityCheck extends clsModuleBase implements I2_12, I6_1 {
 	 */
 	@Override
 	protected void process() {
-		mnTest++;
+
+		moRealityPerception_Output = new ArrayList<clsPair<clsSecondaryInformation,clsSecondaryInformationMesh>>();
+		for(clsSecondaryInformation oSec : moFocusedPerception_Input) {
+			
+			moRealityPerception_Output.add( new clsPair<clsSecondaryInformation, clsSecondaryInformationMesh>(oSec, null));
+			
+		}
 		
 	}
 
@@ -124,7 +139,7 @@ public class E24_RealityCheck extends clsModuleBase implements I2_12, I6_1 {
 	 */
 	@Override
 	protected void send() {
-		((I2_13)moEnclosingContainer).receive_I2_13(mnTest);
+		((I2_13)moEnclosingContainer).receive_I2_13(moRealityPerception_Output);
 		
 	}
 }
