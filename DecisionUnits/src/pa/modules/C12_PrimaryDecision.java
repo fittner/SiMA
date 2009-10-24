@@ -11,7 +11,6 @@ import java.util.List;
 
 import pa.datatypes.clsAffectTension;
 import pa.datatypes.clsPrimaryInformation;
-import pa.datatypes.clsPrimaryInformationMesh;
 import pa.datatypes.clsThingPresentation;
 import pa.interfaces.I1_5;
 import pa.interfaces.I1_6;
@@ -123,7 +122,7 @@ public class C12_PrimaryDecision extends clsModuleContainer implements
 	 * @see pa.interfaces.I2_9#receive_I2_9(int)
 	 */
 	@Override
-	public void receive_I2_9(ArrayList<clsPrimaryInformationMesh> poMergedPrimaryInformation) {
+	public void receive_I2_9(ArrayList<clsPrimaryInformation> poMergedPrimaryInformation) {
 		moE19DefenseMechanismsForPerception.receive_I2_9(poMergedPrimaryInformation);
 	}
 

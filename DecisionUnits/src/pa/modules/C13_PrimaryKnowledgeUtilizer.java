@@ -16,6 +16,7 @@ import pa.interfaces.I2_7;
 import pa.interfaces.I6_3;
 import pa.memory.clsMemory;
 import pa.tools.clsPair;
+import pa.tools.clsTripple;
 import config.clsBWProperties;
 
 /**
@@ -104,7 +105,7 @@ public class C13_PrimaryKnowledgeUtilizer extends clsModuleContainer implements
 	 * @see pa.interfaces.I2_7#receive_I2_7(int)
 	 */
 	@Override
-	public void receive_I2_7(ArrayList<clsPair<clsPrimaryInformation, ArrayList<clsPrimaryInformation>>> poPerceptPlusMemories_Output) {
+	public void receive_I2_7(ArrayList<clsTripple<clsPrimaryInformation, clsPrimaryInformation, ArrayList<clsPrimaryInformation>>> poPerceptPlusMemories_Output) {
 		((I2_7)moEnclosingContainer).receive_I2_7(poPerceptPlusMemories_Output);
 	}
 

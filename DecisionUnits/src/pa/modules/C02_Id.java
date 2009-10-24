@@ -138,7 +138,7 @@ public class C02_Id extends clsModuleContainer implements
 	 * @see pa.interfaces.I2_8#receive_I2_8(int)
 	 */
 	@Override
-	public void receive_I2_8(ArrayList<clsPrimaryInformationMesh> poMergedPrimaryInformationMesh) {
+	public void receive_I2_8(ArrayList<clsPair<clsPrimaryInformation,clsPrimaryInformation>> poMergedPrimaryInformationMesh) {
 		moC06AffectGeneration.receive_I2_8(poMergedPrimaryInformationMesh);
 		
 	}
@@ -151,7 +151,7 @@ public class C02_Id extends clsModuleContainer implements
 	 * @see pa.interfaces.I2_9#receive_I2_9(int)
 	 */
 	@Override
-	public void receive_I2_9(ArrayList<clsPrimaryInformationMesh> poMergedPrimaryInformation) {
+	public void receive_I2_9(ArrayList<clsPrimaryInformation> poMergedPrimaryInformation) {
 		((I2_9)moEnclosingContainer).receive_I2_9(poMergedPrimaryInformation);
 		
 	}

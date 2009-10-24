@@ -11,7 +11,6 @@ import java.util.List;
 
 import pa.datatypes.clsAffectTension;
 import pa.datatypes.clsPrimaryInformation;
-import pa.datatypes.clsPrimaryInformationMesh;
 import pa.datatypes.clsThingPresentation;
 import pa.interfaces.I1_5;
 import pa.interfaces.I1_6;
@@ -31,6 +30,7 @@ import pa.interfaces.I5_2;
 import pa.interfaces.I6_3;
 import pa.memory.clsMemory;
 import pa.tools.clsPair;
+import pa.tools.clsTripple;
 import config.clsBWProperties;
 
 /**
@@ -123,7 +123,7 @@ public class C09_PrimaryProcessor extends clsModuleContainer implements
 	 * @see pa.interfaces.I2_7#receive_I2_7(int)
 	 */
 	@Override
-	public void receive_I2_7(ArrayList<clsPair<clsPrimaryInformation, ArrayList<clsPrimaryInformation>>> poPerceptPlusMemories_Output) {
+	public void receive_I2_7(ArrayList<clsTripple<clsPrimaryInformation, clsPrimaryInformation, ArrayList<clsPrimaryInformation>>> poPerceptPlusMemories_Output) {
 		moE17FusionOfExternalPerceptionAndMemoryTraces.receive_I2_7(poPerceptPlusMemories_Output);
 	}
 
@@ -135,7 +135,7 @@ public class C09_PrimaryProcessor extends clsModuleContainer implements
 	 * @see pa.interfaces.I2_8#receive_I2_8(int)
 	 */
 	@Override
-	public void receive_I2_8(ArrayList<clsPrimaryInformationMesh> poMergedPrimaryInformationMesh) {
+	public void receive_I2_8(ArrayList<clsPair<clsPrimaryInformation,clsPrimaryInformation>> poMergedPrimaryInformationMesh) {
 		((I2_8)moEnclosingContainer).receive_I2_8(poMergedPrimaryInformationMesh);		
 	}
 
@@ -233,7 +233,7 @@ public class C09_PrimaryProcessor extends clsModuleContainer implements
 	 * @see pa.interfaces.I2_9#receive_I2_9(int)
 	 */
 	@Override
-	public void receive_I2_9(ArrayList<clsPrimaryInformationMesh> poMergedPrimaryInformation) {
+	public void receive_I2_9(ArrayList<clsPrimaryInformation> poMergedPrimaryInformation) {
 		moC13PrimaryDecision.receive_I2_9(poMergedPrimaryInformation);		
 	}
 

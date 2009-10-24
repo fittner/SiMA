@@ -30,7 +30,7 @@ import pa.tools.clsTripple;
 public class E16_ManagementOfMemoryTraces extends clsModuleBase implements I2_6 {
 
 	public ArrayList<clsPair<clsPrimaryInformation, clsPrimaryInformation>> moPerceptPlusRepressed_Input;
-	public ArrayList<clsPair<clsPrimaryInformation, ArrayList<clsPrimaryInformation>>> moPerceptPlusMemories_Output;
+	public ArrayList<clsTripple<clsPrimaryInformation, clsPrimaryInformation, ArrayList<clsPrimaryInformation>>> moPerceptPlusMemories_Output;
 	
 	/**
 	 * DOCUMENT (deutsch) - insert description 
@@ -47,7 +47,7 @@ public class E16_ManagementOfMemoryTraces extends clsModuleBase implements I2_6 
 		super(poPrefix, poProp, poEnclosingContainer);
 		applyProperties(poPrefix, poProp);	
 		
-		moPerceptPlusMemories_Output = new ArrayList<clsPair<clsPrimaryInformation,ArrayList<clsPrimaryInformation>>>();
+		moPerceptPlusMemories_Output = new ArrayList<clsTripple<clsPrimaryInformation, clsPrimaryInformation,ArrayList<clsPrimaryInformation>>>();
 	}
 	
 	public static clsBWProperties getDefaultProperties(String poPrefix) {
@@ -124,11 +124,11 @@ public class E16_ManagementOfMemoryTraces extends clsModuleBase implements I2_6 
 	 * @param moPerceptPlusRepressed_Input2
 	 * @return
 	 */
-	private ArrayList<clsPair<clsPrimaryInformation, ArrayList<clsPrimaryInformation>>> getOutput(
+	private ArrayList<clsTripple<clsPrimaryInformation, clsPrimaryInformation, ArrayList<clsPrimaryInformation>>> getOutput(
 			         ArrayList<clsPair<clsPrimaryInformation, clsPrimaryInformation>> poPerceptPlusRepressed_Input) {
 		
-		ArrayList<clsPair<clsPrimaryInformation, ArrayList<clsPrimaryInformation>>> oRetVal
-								= new ArrayList<clsPair<clsPrimaryInformation, ArrayList<clsPrimaryInformation>>>(); 
+		ArrayList<clsTripple<clsPrimaryInformation, clsPrimaryInformation,ArrayList<clsPrimaryInformation>>> oRetVal
+								= new ArrayList<clsTripple<clsPrimaryInformation, clsPrimaryInformation, ArrayList<clsPrimaryInformation>>>(); 
 		
 		for(clsPair<clsPrimaryInformation, clsPrimaryInformation>element : poPerceptPlusRepressed_Input){
 			oRetVal.add(changeRepressedContent(element)); 
@@ -145,16 +145,16 @@ public class E16_ManagementOfMemoryTraces extends clsModuleBase implements I2_6 
 	 * @param element
 	 * @return
 	 */
-	private clsPair<clsPrimaryInformation, ArrayList<clsPrimaryInformation>> changeRepressedContent(
+	private clsTripple<clsPrimaryInformation, clsPrimaryInformation, ArrayList<clsPrimaryInformation>> changeRepressedContent(
 					clsPair<clsPrimaryInformation, clsPrimaryInformation> poInputElement) {
 		
 		ArrayList<clsPrimaryInformation> oAwareContentList = new ArrayList<clsPrimaryInformation>(); 
 		
 		if(poInputElement.a != null && poInputElement.b != null){
 			oAwareContentList = getAwareContentList(poInputElement); 
-			return new clsPair<clsPrimaryInformation, ArrayList<clsPrimaryInformation>>(poInputElement.a, oAwareContentList); 
+			return new clsTripple<clsPrimaryInformation, clsPrimaryInformation, ArrayList<clsPrimaryInformation>>(poInputElement.a, poInputElement.b, oAwareContentList); 
 		}
-		return new clsPair<clsPrimaryInformation, ArrayList<clsPrimaryInformation>>(poInputElement.a, oAwareContentList); 
+		return new clsTripple<clsPrimaryInformation, clsPrimaryInformation, ArrayList<clsPrimaryInformation>>(poInputElement.a, poInputElement.b, oAwareContentList); 
 	}
 
 	/**
@@ -170,9 +170,10 @@ public class E16_ManagementOfMemoryTraces extends clsModuleBase implements I2_6 
 	//HashMap<clsPrimaryInformation, clsMutableDouble> oContextResult = moEnclosingContainer.moMemory.moCurrentContextStorage.getContextRatiosPrim(mrContextSensitivity);
 	
 	private ArrayList<clsPrimaryInformation> getAwareContentList(clsPair<clsPrimaryInformation, clsPrimaryInformation> poInputElement) {
+
+		HashMap<clsPrimaryInformation, clsMutableDouble> oCurrentContextMap = this.moEnclosingContainer.moMemory.moCurrentContextStorage.getContextRatiosPrim(1); 
 		ArrayList <clsPrimaryInformation> oAwareContent = new ArrayList<clsPrimaryInformation>(); 
 		eEntityType oEntityType = eEntityType.valueOf(poInputElement.a.moTP.moContent.toString()); 
-		HashMap<clsPrimaryInformation, clsMutableDouble> oCurrentContextMap = this.moEnclosingContainer.moMemory.moCurrentContextStorage.getContextRatiosPrim(1); 
 		eRepressedContentType oRepressedContentType = eRepressedContentType.valueOf(poInputElement.b.moTP.moContent.toString()); 
 		
 		for(clsPrimaryInformation oContextName : oCurrentContextMap.keySet()){

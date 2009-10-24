@@ -12,7 +12,6 @@ import java.util.List;
 
 import pa.datatypes.clsAffectTension;
 import pa.datatypes.clsPrimaryInformation;
-import pa.datatypes.clsPrimaryInformationMesh;
 import pa.datatypes.clsThingPresentation;
 import pa.enums.eSymbolExtType;
 import pa.interfaces.I1_2;
@@ -298,7 +297,7 @@ public class C00_PsychicApparatus extends clsModuleContainer implements
 	 * @see pa.interfaces.I2_8#receive_I2_8(int)
 	 */
 	@Override
-	public void receive_I2_8(ArrayList<clsPrimaryInformationMesh> poMergedPrimaryInformationMesh) {
+	public void receive_I2_8(ArrayList<clsPair<clsPrimaryInformation,clsPrimaryInformation>> poMergedPrimaryInformationMesh) {
 		moC02Id.receive_I2_8(poMergedPrimaryInformationMesh);
 		
 	}
@@ -311,7 +310,7 @@ public class C00_PsychicApparatus extends clsModuleContainer implements
 	 * @see pa.interfaces.I2_9#receive_I2_9(int)
 	 */
 	@Override
-	public void receive_I2_9(ArrayList<clsPrimaryInformationMesh> poMergedPrimaryInformation) {
+	public void receive_I2_9(ArrayList<clsPrimaryInformation> poMergedPrimaryInformation) {
 		moC03Ego.receive_I2_9(poMergedPrimaryInformation);
 		moC04SuperEgo.receive_I2_9(poMergedPrimaryInformation);
 		

@@ -15,6 +15,7 @@ import pa.datatypes.clsPrimaryInformationMesh;
 import pa.interfaces.I2_7;
 import pa.interfaces.I2_8;
 import pa.tools.clsPair;
+import pa.tools.clsTripple;
 
 /**
  * DOCUMENT (deutsch) - insert description 
@@ -37,8 +38,8 @@ public class E17_FusionOfExternalPerceptionAndMemoryTraces extends clsModuleBase
 	 * @param poProp
 	 * @param poEnclosingContainer
 	 */
-	ArrayList<clsPair<clsPrimaryInformation, ArrayList<clsPrimaryInformation>>> moPerceptPlusAwareContent_Input;
-	ArrayList<clsPrimaryInformationMesh> moMergedPrimaryInformation_Output; 
+	ArrayList<clsTripple<clsPrimaryInformation, clsPrimaryInformation, ArrayList<clsPrimaryInformation>>> moPerceptPlusAwareContent_Input;
+	ArrayList<clsPair<clsPrimaryInformation, clsPrimaryInformation>> moMergedPrimaryInformation_Output; 
 		
 	public E17_FusionOfExternalPerceptionAndMemoryTraces(String poPrefix,
 			clsBWProperties poProp, clsModuleContainer poEnclosingContainer) {
@@ -95,8 +96,8 @@ public class E17_FusionOfExternalPerceptionAndMemoryTraces extends clsModuleBase
 	 */
 	@SuppressWarnings("unchecked")
 	@Override
-	public void receive_I2_7(ArrayList<clsPair<clsPrimaryInformation, ArrayList<clsPrimaryInformation>>> poPerceptPlusAwareContent_Input) {
-		moPerceptPlusAwareContent_Input = (ArrayList<clsPair<clsPrimaryInformation, ArrayList<clsPrimaryInformation>>>)deepCopy(poPerceptPlusAwareContent_Input); 
+	public void receive_I2_7(ArrayList<clsTripple<clsPrimaryInformation, clsPrimaryInformation,ArrayList<clsPrimaryInformation>>> poPerceptPlusAwareContent_Input) {
+		moPerceptPlusAwareContent_Input = (ArrayList<clsTripple<clsPrimaryInformation, clsPrimaryInformation, ArrayList<clsPrimaryInformation>>>)deepCopy(poPerceptPlusAwareContent_Input); 
 	}
 
 	/* (non-Javadoc)
@@ -108,20 +109,29 @@ public class E17_FusionOfExternalPerceptionAndMemoryTraces extends clsModuleBase
 	 */
 	@Override
 	protected void process() {
-		moMergedPrimaryInformation_Output = new ArrayList<clsPrimaryInformationMesh>(); 
-		mergePrimaryInformation(); 
+		moMergedPrimaryInformation_Output = new ArrayList<clsPair<clsPrimaryInformation, clsPrimaryInformation>>(); 
+		for(clsTripple<clsPrimaryInformation, clsPrimaryInformation,ArrayList<clsPrimaryInformation>> oElement : moPerceptPlusAwareContent_Input){
+			defineOutput(oElement); 
+		}
 	}
 
 	/**
 	 * DOCUMENT (zeilinger) - insert description
 	 *
 	 * @author zeilinger
-	 * 21.10.2009, 12:23:40
+	 * 24.10.2009, 18:23:08
 	 *
+	 * @param element
 	 */
-	private void mergePrimaryInformation() {
-		for(clsPair<clsPrimaryInformation, ArrayList<clsPrimaryInformation>> oElement : moPerceptPlusAwareContent_Input){
-			moMergedPrimaryInformation_Output.add(getMergedMesh(oElement)); 
+	private void defineOutput(
+			clsTripple<clsPrimaryInformation, clsPrimaryInformation, ArrayList<clsPrimaryInformation>> poElement) {
+		if(poElement.b != null){
+			clsPrimaryInformationMesh oMergedMesh = (clsPrimaryInformationMesh)poElement.a; 
+			mergeMesh(oMergedMesh, poElement); 
+			moMergedPrimaryInformation_Output.add(new clsPair<clsPrimaryInformation, clsPrimaryInformation>(oMergedMesh, poElement.b)); 
+		}
+		else{
+			moMergedPrimaryInformation_Output.add(new clsPair<clsPrimaryInformation, clsPrimaryInformation>(poElement.a, poElement.b)); 
 		}
 	}
 
@@ -130,49 +140,41 @@ public class E17_FusionOfExternalPerceptionAndMemoryTraces extends clsModuleBase
 	 *
 	 * @author zeilinger
 	 * 21.10.2009, 14:32:20
+	 * @param poMergedMesh 
 	 *
 	 * @param element
 	 * @return
 	 */
-	private clsPrimaryInformationMesh getMergedMesh(clsPair<clsPrimaryInformation, ArrayList<clsPrimaryInformation>> poElement) {
-			
-		clsPrimaryInformationMesh oMergedMesh = getNewMesh(poElement.a); 
-			
-	    for(clsPrimaryInformation oAwareContent : poElement.b){
-	    	oMergedMesh.moTP.meContentName = oMergedMesh.moTP.meContentName + "_" + oAwareContent.moTP.meContentName;
-	    	oMergedMesh.moTP.moContent = oMergedMesh.moTP.moContent +"_" + oAwareContent.moTP.moContent; 
-			clsAssociationContent<clsPrimaryInformation> oAssociationContent_AC = new clsAssociationContent<clsPrimaryInformation>(); 
-			oAssociationContent_AC.moElementA = oMergedMesh; 
-			oAssociationContent_AC.moElementB = oAwareContent; 
-			//FIXME HZ Define Weight and Context, respectively a new type of association
-			//oAssociationContext.moWeight =
-			//oAssociationContent.moAssociationContent;  
-			oMergedMesh.moAssociations.add(oAssociationContent_AC);
-		}
-		return oMergedMesh;
+	private void mergeMesh(clsPrimaryInformationMesh poMergedMesh, clsTripple<clsPrimaryInformation, clsPrimaryInformation,ArrayList<clsPrimaryInformation>> poElement) {
+		getAwareContent(poMergedMesh, poElement.c); 
 	}
 
+	
 	
 	/**
 	 * DOCUMENT (zeilinger) - insert description
 	 *
 	 * @author zeilinger
-	 * 21.10.2009, 15:43:17
+	 * 24.10.2009, 09:33:07
 	 *
-	 * @param a
-	 * @return
+	 * @param mergedMesh
+	 * @param c
 	 */
-	private clsPrimaryInformationMesh getNewMesh(clsPrimaryInformation poPerceivedObject) {
-		clsPrimaryInformationMesh oMergedMesh; 
+	private void getAwareContent(clsPrimaryInformationMesh poMergedMesh,
+			ArrayList<clsPrimaryInformation> poAwareContentList) {
 		
-		if(poPerceivedObject instanceof clsPrimaryInformationMesh){
-			oMergedMesh =(clsPrimaryInformationMesh)poPerceivedObject; 
+		for(clsPrimaryInformation oAwareContent : poAwareContentList){
+			poMergedMesh.moTP.meContentName = poMergedMesh.moTP.meContentName + "_" + oAwareContent.moTP.meContentName;
+			poMergedMesh.moTP.moContent = poMergedMesh.moTP.moContent +"_" + oAwareContent.moTP.moContent; 
+			clsAssociationContent<clsPrimaryInformation> oAssociationContent = new clsAssociationContent<clsPrimaryInformation>(); 
+			 
+			
+			oAssociationContent.moElementA = poMergedMesh; 
+			oAssociationContent.moElementB = oAwareContent; 
+			oAssociationContent.moWeight = 1.0; 
+		
+			poMergedMesh.moAssociations.add(oAssociationContent);
 		}
-		else{
-			oMergedMesh = new clsPrimaryInformationMesh(poPerceivedObject.moTP); 
-			oMergedMesh.moAffect = poPerceivedObject.moAffect; 
-		}
-		return oMergedMesh;
 	}
 
 	/* (non-Javadoc)

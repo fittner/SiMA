@@ -65,7 +65,7 @@ public class clsInspectorMappingPA {
 			//oRetVal.addInspector( new clsTPMeshListInspector(poSuperInspector, poWrapper, poState, moPA.moC03Ego.moC07EnvironmentalInterfaceFunctions.moE14PreliminaryExternalPerception, "moEnvironmentalTP" ), "Generated Thing Presentations");
 		}
 		else if(poModuleName.equals("E18GenerationOfAffectsForPerception")) {
-			oRetVal.addInspector( new clsPrimaryInformationInspector(poSuperInspector, poWrapper, poState, moPA.moC02Id.moC06AffectGeneration.moE18GenerationOfAffectsForPerception, "moMergedPrimaryInformation_Output" ), "Output: Final TP+Affect");
+			oRetVal.addInspector( new clsPrimaryInformationInspector(poSuperInspector, poWrapper, poState, moPA.moC02Id.moC06AffectGeneration.moE18GenerationOfAffectsForPerception, "moNewPrimaryInformation" ), "Output: Final TP+Affect");
 		}
 		else if(poModuleName.equals("Psychic Apparatus")) {
 			oRetVal.addInspector( new clsPAInspectorFunctional(poSuperInspector, poWrapper, poState, poTree, true), "FM Compact");

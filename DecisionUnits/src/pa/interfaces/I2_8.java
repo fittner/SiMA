@@ -8,7 +8,8 @@ package pa.interfaces;
 
 import java.util.ArrayList;
 
-import pa.datatypes.clsPrimaryInformationMesh;
+import pa.datatypes.clsPrimaryInformation;
+import pa.tools.clsPair;
 
 /**
  * DOCUMENT (deutsch) - insert description 
@@ -18,5 +19,5 @@ import pa.datatypes.clsPrimaryInformationMesh;
  * 
  */
 public interface I2_8 {
-	public void receive_I2_8(ArrayList<clsPrimaryInformationMesh> poMergedPrimaryInformation);
+	public void receive_I2_8(ArrayList<clsPair<clsPrimaryInformation, clsPrimaryInformation>> poMergedPrimaryInformation);
 }
