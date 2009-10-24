@@ -88,7 +88,7 @@ public class clsInspectorMappingPA {
 		else if(poModuleName.equals("CurrentContextStorage")) {
 		}
 		else if(poModuleName.equals("TemplateImageStorage")) {
-			oRetVal.addInspector( new clsPrimaryInformationInspector(poSuperInspector, poWrapper, poState, moPA.getMemoryForInspector().moTemplateImageStorage, "moTemplateImages" ), "Template Images");		
+			oRetVal.addInspector( new clsSecondaryInformationIspector(poSuperInspector, poWrapper, poState, moPA.getMemoryForInspector().moTemplateImageStorage, "moTemplateImages" ), "Template Images");		
 		}
 		
 		
