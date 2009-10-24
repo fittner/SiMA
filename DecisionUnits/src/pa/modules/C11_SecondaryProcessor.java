@@ -6,6 +6,9 @@
  */
 package pa.modules;
 
+import java.util.ArrayList;
+
+import pa.datatypes.clsSecondaryInformation;
 import pa.interfaces.I1_7;
 import pa.interfaces.I2_11;
 import pa.interfaces.I2_12;
@@ -103,9 +106,9 @@ public class C11_SecondaryProcessor extends clsModuleContainer implements
 	 * @see pa.interfaces.I1_7#receive_I1_7(int)
 	 */
 	@Override
-	public void receive_I1_7(int pnData) {
-		moC16Deliberation.receive_I1_7(pnData);
-		moC15PerceptualPreprocessing.receive_I1_7(pnData);
+	public void receive_I1_7(ArrayList<clsSecondaryInformation> poDriveList) {
+		moC16Deliberation.receive_I1_7(poDriveList);
+		moC15PerceptualPreprocessing.receive_I1_7(poDriveList);
 	}
 
 	/* (non-Javadoc)
@@ -116,8 +119,8 @@ public class C11_SecondaryProcessor extends clsModuleContainer implements
 	 * @see pa.interfaces.I2_11#receive_I2_11(int)
 	 */
 	@Override
-	public void receive_I2_11(int pnData) {
-		moC15PerceptualPreprocessing.receive_I2_11(pnData);
+	public void receive_I2_11(ArrayList<clsSecondaryInformation> poPerception) {
+		moC15PerceptualPreprocessing.receive_I2_11(poPerception);
 	}
 
 	/* (non-Javadoc)

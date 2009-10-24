@@ -6,6 +6,11 @@
  */
 package pa.modules;
 
+import java.util.ArrayList;
+
+import pa.datatypes.clsAffectTension;
+import pa.datatypes.clsPrimaryInformation;
+import pa.datatypes.clsSecondaryInformation;
 import pa.interfaces.I1_6;
 import pa.interfaces.I1_7;
 import pa.interfaces.I2_10;
@@ -89,8 +94,8 @@ public class C10_PrimaryToSecondaryInterface extends clsModuleContainer implemen
 	 * @see pa.interfaces.I1_6#receive_I1_6(int)
 	 */
 	@Override
-	public void receive_I1_6(int pnData) {
-		moE08ConversionToSecondaryProcess.receive_I1_6(pnData);		
+	public void receive_I1_6(ArrayList<clsPrimaryInformation> poDriveList) {
+		moE08ConversionToSecondaryProcess.receive_I1_6(poDriveList);		
 	}
 
 	/* (non-Javadoc)
@@ -101,8 +106,8 @@ public class C10_PrimaryToSecondaryInterface extends clsModuleContainer implemen
 	 * @see pa.interfaces.I5_1#receive_I5_1(int)
 	 */
 	@Override
-	public void receive_I5_1(int pnData) {
-		moE20InnerPerception_Affects.receive_I5_1(pnData);
+	public void receive_I5_1(ArrayList<clsAffectTension> poAffectOnlyList) {
+		moE20InnerPerception_Affects.receive_I5_1(poAffectOnlyList);
 	}
 
 	/* (non-Javadoc)
@@ -113,8 +118,8 @@ public class C10_PrimaryToSecondaryInterface extends clsModuleContainer implemen
 	 * @see pa.interfaces.I5_2#receive_I5_2(int)
 	 */
 	@Override
-	public void receive_I5_2(int pnData) {
-		moE20InnerPerception_Affects.receive_I5_2(pnData);		
+	public void receive_I5_2(ArrayList<clsAffectTension> poDeniedAffects) {
+		moE20InnerPerception_Affects.receive_I5_2(poDeniedAffects);		
 	}
 
 	/* (non-Javadoc)
@@ -125,8 +130,8 @@ public class C10_PrimaryToSecondaryInterface extends clsModuleContainer implemen
 	 * @see pa.interfaces.I1_7#receive_I1_7(int)
 	 */
 	@Override
-	public void receive_I1_7(int pnData) {
-		((I1_7)moEnclosingContainer).receive_I1_7(pnData); //to e22 (super ego)
+	public void receive_I1_7(ArrayList<clsSecondaryInformation> poDriveList) {
+		((I1_7)moEnclosingContainer).receive_I1_7(poDriveList); //to e22 (super ego)
 	}
 
 	/* (non-Javadoc)
@@ -137,8 +142,8 @@ public class C10_PrimaryToSecondaryInterface extends clsModuleContainer implemen
 	 * @see pa.interfaces.I2_10#receive_I2_10(int)
 	 */
 	@Override
-	public void receive_I2_10(int pnData) {
-		moE21ConversionToSecondaryProcess.receive_I2_10(pnData);		
+	public void receive_I2_10(ArrayList<clsPrimaryInformation> poGrantedPerception) {
+		moE21ConversionToSecondaryProcess.receive_I2_10(poGrantedPerception);		
 	}
 
 	/* (non-Javadoc)
@@ -149,8 +154,8 @@ public class C10_PrimaryToSecondaryInterface extends clsModuleContainer implemen
 	 * @see pa.interfaces.I2_11#receive_I2_11(int)
 	 */
 	@Override
-	public void receive_I2_11(int pnData) {
-		((I2_11)moEnclosingContainer).receive_I2_11(pnData);
+	public void receive_I2_11(ArrayList<clsSecondaryInformation> poPerception) {
+		((I2_11)moEnclosingContainer).receive_I2_11(poPerception);
 	}
 
 	/* (non-Javadoc)
@@ -161,20 +166,8 @@ public class C10_PrimaryToSecondaryInterface extends clsModuleContainer implemen
 	 * @see pa.interfaces.I5_3#receive_I5_3(int)
 	 */
 	@Override
-	public void receive_I5_3(int pnData) {
-		moE20InnerPerception_Affects.receive_I5_3(pnData);
-	}
-
-	/* (non-Javadoc)
-	 *
-	 * @author langr
-	 * 12.08.2009, 10:39:12
-	 * 
-	 * @see pa.interfaces.I5_4#receive_I5_4(int)
-	 */
-	@Override
-	public void receive_I5_4(int pnData) {
-		moE20InnerPerception_Affects.receive_I5_4(pnData);
+	public void receive_I5_3(ArrayList<clsSecondaryInformation> poDriveList) {
+		moE20InnerPerception_Affects.receive_I5_3(poDriveList);
 	}
 
 	/* (non-Javadoc)
@@ -187,5 +180,17 @@ public class C10_PrimaryToSecondaryInterface extends clsModuleContainer implemen
 	@Override
 	public void receive_I5_5(int pnData) {
 		((I5_5)moEnclosingContainer).receive_I5_5(pnData);
+	}
+
+	/* (non-Javadoc)
+	 *
+	 * @author langr
+	 * 24.10.2009, 20:12:57
+	 * 
+	 * @see pa.interfaces.I5_4#receive_I5_4(java.util.ArrayList)
+	 */
+	@Override
+	public void receive_I5_4(ArrayList<clsSecondaryInformation> poPerception) {
+		moE20InnerPerception_Affects.receive_I5_4(poPerception);
 	}
 }

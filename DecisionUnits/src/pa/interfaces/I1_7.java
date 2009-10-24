@@ -6,6 +6,10 @@
  */
 package pa.interfaces;
 
+import java.util.ArrayList;
+
+import pa.datatypes.clsSecondaryInformation;
+
 /**
  * DOCUMENT (deutsch) - insert description 
  * 
@@ -14,5 +18,5 @@ package pa.interfaces;
  * 
  */
 public interface I1_7 {
-	public void receive_I1_7(int pnData);
+	public void receive_I1_7(ArrayList<clsSecondaryInformation> poDriveList);
 }

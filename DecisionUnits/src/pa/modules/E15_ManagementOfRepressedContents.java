@@ -108,8 +108,8 @@ public class E15_ManagementOfRepressedContents extends clsModuleContainer implem
 	 * @see pa.interfaces.I4_2#receive_I4_2(int)
 	 */
 	@Override
-	public void receive_I4_2(int pnData) {
-		moE15_2_ManagementOfRepressedContents.receive_I4_2(pnData);
+	public void receive_I4_2(ArrayList<clsPrimaryInformation> poPIs, ArrayList<clsThingPresentation> poTPs, ArrayList<clsAffectTension> poAffects) {
+		moE15_2_ManagementOfRepressedContents.receive_I4_2(poPIs, poTPs, poAffects);
 	}
 
 

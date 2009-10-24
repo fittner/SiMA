@@ -6,7 +6,11 @@
  */
 package pa.modules;
 
+import java.util.ArrayList;
+
 import config.clsBWProperties;
+import pa.datatypes.clsPrimaryInformation;
+import pa.datatypes.clsSecondaryInformation;
 import pa.interfaces.I5_4;
 import pa.interfaces.I2_10;
 import pa.interfaces.I2_11;
@@ -19,6 +23,9 @@ import pa.interfaces.I2_11;
  * 
  */
 public class E21_ConversionToSecondaryProcess extends clsModuleBase implements I2_10 {
+
+	private ArrayList<clsPrimaryInformation> moGrantedPerception_Input;
+	private ArrayList<clsSecondaryInformation> moPerception_Output;
 
 	/**
 	 * DOCUMENT (deutsch) - insert description 
@@ -83,9 +90,10 @@ public class E21_ConversionToSecondaryProcess extends clsModuleBase implements I
 	 * 
 	 * @see pa.interfaces.I2_10#receive_I2_10(int)
 	 */
+	@SuppressWarnings("unchecked")
 	@Override
-	public void receive_I2_10(int pnData) {
-		mnTest += pnData;
+	public void receive_I2_10(ArrayList<clsPrimaryInformation> poGrantedPerception) {
+		moGrantedPerception_Input = (ArrayList<clsPrimaryInformation>)this.deepCopy(poGrantedPerception);
 		
 	}
 
@@ -98,8 +106,12 @@ public class E21_ConversionToSecondaryProcess extends clsModuleBase implements I
 	 */
 	@Override
 	protected void process() {
-		mnTest++;
-		
+		moPerception_Output = new ArrayList<clsSecondaryInformation>();
+		for( clsPrimaryInformation oPriminfo : moGrantedPerception_Input ) {
+
+			moPerception_Output.add(new clsSecondaryInformation(oPriminfo));
+
+		}
 	}
 
 	/* (non-Javadoc)
@@ -111,9 +123,8 @@ public class E21_ConversionToSecondaryProcess extends clsModuleBase implements I
 	 */
 	@Override
 	protected void send() {
-		((I2_11)moEnclosingContainer).receive_I2_11(mnTest);
-		((I5_4)moEnclosingContainer).receive_I5_4(mnTest);
-		
+		((I2_11)moEnclosingContainer).receive_I2_11(moPerception_Output);
+		((I5_4)moEnclosingContainer).receive_I5_4(moPerception_Output);
 	}
 
 }

@@ -26,6 +26,25 @@ public class clsAssociationWeighted<TYPE> extends clsAssociation<TYPE> implement
 	public clsAssociationWeighted(TYPE a, TYPE b) {
 		super(a, b);
 	}
+	
+	@Override
+	public clsAssociation<clsSecondaryInformation> convertToSecondary(
+			clsSecondaryInformationMesh poA) {
+		
+		clsAssociationWeighted<clsSecondaryInformation> oRetVal = null;
+		
+		if(moElementB instanceof clsPrimaryInformationMesh) {
+			oRetVal = new clsAssociationWeighted<clsSecondaryInformation>(poA, new clsSecondaryInformationMesh( (clsPrimaryInformationMesh)moElementB ) );
+		}
+		else if(moElementB instanceof clsPrimaryInformation) {
+			oRetVal = new clsAssociationWeighted<clsSecondaryInformation>(poA, new clsSecondaryInformationMesh( (clsPrimaryInformation)moElementB ) );
+		}
+		if(oRetVal != null) {
+			oRetVal.moWeight = moWeight;
+		}
+		
+		return oRetVal;
+	}	
 
 	@SuppressWarnings("unchecked")
 	@Override

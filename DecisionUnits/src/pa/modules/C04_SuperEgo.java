@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import pa.datatypes.clsPrimaryInformation;
+import pa.datatypes.clsSecondaryInformation;
 import pa.interfaces.I1_5;
 import pa.interfaces.I1_7;
 import pa.interfaces.I2_11;
@@ -97,8 +98,8 @@ public class C04_SuperEgo extends clsModuleContainer implements
 	 * @see pa.interfaces.I1_7#receive_I1_7(int)
 	 */
 	@Override
-	public void receive_I1_7(int pnData) {
-		moE22SuperEgoPreconscious.receive_I1_7(pnData);
+	public void receive_I1_7(ArrayList<clsSecondaryInformation> poDriveList) {
+		moE22SuperEgoPreconscious.receive_I1_7(poDriveList);
 		
 	}
 
@@ -136,8 +137,8 @@ public class C04_SuperEgo extends clsModuleContainer implements
 	 * @see pa.interfaces.I2_11#receive_I2_11(int)
 	 */
 	@Override
-	public void receive_I2_11(int pnData) {
-		moE22SuperEgoPreconscious.receive_I2_11(pnData);
+	public void receive_I2_11(ArrayList<clsSecondaryInformation> poPerception) {
+		moE22SuperEgoPreconscious.receive_I2_11(poPerception);
 		
 	}
 

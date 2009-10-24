@@ -6,6 +6,9 @@
  */
 package pa.modules;
 
+import java.util.ArrayList;
+
+import pa.datatypes.clsSecondaryInformation;
 import pa.interfaces.I1_7;
 import pa.interfaces.I2_13;
 import pa.interfaces.I3_3;
@@ -102,8 +105,8 @@ public class C15_Deliberation extends clsModuleContainer implements
 	 * @see pa.interfaces.I1_7#receive_I1_7(int)
 	 */
 	@Override
-	public void receive_I1_7(int pnData) {
-		moE26DecisionMaking.receive_I1_7(pnData);
+	public void receive_I1_7(ArrayList<clsSecondaryInformation> poDriveList) {
+		moE26DecisionMaking.receive_I1_7(poDriveList);
 	}
 
 	/* (non-Javadoc)

@@ -190,8 +190,8 @@ public class C02_Id extends clsModuleContainer implements
 	 * @see pa.interfaces.I4_2#receive_I4_2(int)
 	 */
 	@Override
-	public void receive_I4_2(int pnData) {
-		moE15ManagementOfRepressedContents.receive_I4_2(pnData);
+	public void receive_I4_2(ArrayList<clsPrimaryInformation> poPIs, ArrayList<clsThingPresentation> poTPs, ArrayList<clsAffectTension> poAffects) {
+		moE15ManagementOfRepressedContents.receive_I4_2(poPIs, poTPs, poAffects);
 		
 	}
 

@@ -39,6 +39,32 @@ public class clsAssociationContent<TYPE> extends clsAssociationWeighted<TYPE> im
 		super(a, b);
 	}
 
+	@Override
+	public clsAssociation<clsSecondaryInformation> convertToSecondary(
+			clsSecondaryInformationMesh poA) {
+		
+		clsAssociationContent<clsSecondaryInformation> oRetVal = null;
+		
+		if(moElementB instanceof clsPrimaryInformationMesh) {
+			oRetVal = new clsAssociationContent<clsSecondaryInformation>(poA, new clsSecondaryInformationMesh( (clsPrimaryInformationMesh)moElementB ) );
+		}
+		else if(moElementB instanceof clsPrimaryInformation) {
+			oRetVal = new clsAssociationContent<clsSecondaryInformation>(poA, new clsSecondaryInformationMesh( (clsPrimaryInformation)moElementB ) );
+		}
+		if(oRetVal != null) {
+			oRetVal.moWeight = moWeight;
+			
+			if(moAssociationContent instanceof clsPrimaryInformationMesh) {
+				oRetVal.moAssociationContent = new clsSecondaryInformationMesh( (clsPrimaryInformationMesh)moAssociationContent );
+			}
+			else if(moAssociationContent instanceof clsPrimaryInformation) {
+				oRetVal.moAssociationContent = new clsSecondaryInformationMesh( (clsPrimaryInformation)moAssociationContent );
+			}
+		}
+		
+		return oRetVal;
+	}
+	
 	@SuppressWarnings("unchecked")
 	@Override
 	public Object clone() throws CloneNotSupportedException {

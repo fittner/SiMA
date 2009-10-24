@@ -6,7 +6,11 @@
  */
 package pa.modules;
 
+import java.util.ArrayList;
+
 import config.clsBWProperties;
+import pa.datatypes.clsPrimaryInformation;
+import pa.datatypes.clsSecondaryInformation;
 import pa.interfaces.I1_6;
 import pa.interfaces.I1_7;
 import pa.interfaces.I5_3;
@@ -20,6 +24,9 @@ import pa.interfaces.I5_3;
  */
 public class E08_ConversionToSecondaryProcess extends clsModuleBase implements I1_6 {
 
+	public  ArrayList<clsPrimaryInformation> moDriveList_Input;
+	public  ArrayList<clsSecondaryInformation> moDriveList_Output;
+	
 	/**
 	 * DOCUMENT (deutsch) - insert description 
 	 * 
@@ -84,9 +91,8 @@ public class E08_ConversionToSecondaryProcess extends clsModuleBase implements I
 	 * @see pa.interfaces.I1_6#receive_I1_6(int)
 	 */
 	@Override
-	public void receive_I1_6(int pnData) {
-		mnTest += pnData;
-		
+	public void receive_I1_6(ArrayList<clsPrimaryInformation> poDriveList) {
+		moDriveList_Input = this.deepCopy(poDriveList);
 	}
 
 	/* (non-Javadoc)
@@ -98,7 +104,13 @@ public class E08_ConversionToSecondaryProcess extends clsModuleBase implements I
 	 */
 	@Override
 	protected void process() {
-		mnTest++;
+		
+		moDriveList_Output = new ArrayList<clsSecondaryInformation>();
+		for( clsPrimaryInformation oPriminfo : moDriveList_Input ) {
+			
+			moDriveList_Output.add(new clsSecondaryInformation(oPriminfo));
+			
+		}
 		
 	}
 
@@ -111,7 +123,7 @@ public class E08_ConversionToSecondaryProcess extends clsModuleBase implements I
 	 */
 	@Override
 	protected void send() {
-		((I1_7)moEnclosingContainer).receive_I1_7(mnTest);
-		((I5_3)moEnclosingContainer).receive_I5_3(mnTest);	
+		((I1_7)moEnclosingContainer).receive_I1_7(moDriveList_Output);
+		((I5_3)moEnclosingContainer).receive_I5_3(moDriveList_Output);	
 	}
 }

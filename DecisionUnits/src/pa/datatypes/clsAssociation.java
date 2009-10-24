@@ -30,6 +30,21 @@ public class clsAssociation<TYPE>  implements Cloneable {
 		moElementB = b;
 	}
 	
+	public clsAssociation<clsSecondaryInformation> convertToSecondary(
+			clsSecondaryInformationMesh poA ) {
+		
+		clsAssociation<clsSecondaryInformation> oRetVal = null;
+		if(moElementB instanceof clsPrimaryInformationMesh) {
+			oRetVal = new clsAssociation<clsSecondaryInformation>(poA, new clsSecondaryInformationMesh( (clsPrimaryInformationMesh)moElementB ) );
+		}
+		else if(moElementB instanceof clsPrimaryInformation) {
+			oRetVal = new clsAssociation<clsSecondaryInformation>(poA, new clsSecondaryInformationMesh( (clsPrimaryInformation)moElementB ) );
+		}
+		
+		return oRetVal;
+		
+	}
+	
 	private void checkStackDepth() {
 		long depth = Thread.currentThread().getStackTrace().length;
 		
@@ -128,5 +143,5 @@ public class clsAssociation<TYPE>  implements Cloneable {
 	    } 
 		
 	    return clon;
-	}	
+	}
 }

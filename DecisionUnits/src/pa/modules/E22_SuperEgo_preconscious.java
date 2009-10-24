@@ -6,7 +6,11 @@
  */
 package pa.modules;
 
+import java.util.ArrayList;
+
 import config.clsBWProperties;
+import pa.datatypes.clsSecondaryInformation;
+import pa.datatypes.clsSecondaryInformationMesh;
 import pa.interfaces.I1_7;
 import pa.interfaces.I2_11;
 import pa.interfaces.I3_3;
@@ -19,6 +23,9 @@ import pa.interfaces.I3_3;
  * 
  */
 public class E22_SuperEgo_preconscious extends clsModuleBase implements I1_7, I2_11 {
+
+	private ArrayList<clsSecondaryInformationMesh> moPerception;
+	private ArrayList<clsSecondaryInformation> moDriveList;
 
 	/**
 	 * DOCUMENT (deutsch) - insert description 
@@ -83,9 +90,10 @@ public class E22_SuperEgo_preconscious extends clsModuleBase implements I1_7, I2
 	 * 
 	 * @see pa.interfaces.I1_7#receive_I1_7(int)
 	 */
+	@SuppressWarnings("unchecked")
 	@Override
-	public void receive_I1_7(int pnData) {
-		mnTest += pnData;
+	public void receive_I1_7(ArrayList<clsSecondaryInformation> poDriveList) {
+		moDriveList = (ArrayList<clsSecondaryInformation>)this.deepCopy(poDriveList);
 		
 	}
 
@@ -96,10 +104,10 @@ public class E22_SuperEgo_preconscious extends clsModuleBase implements I1_7, I2
 	 * 
 	 * @see pa.interfaces.I2_11#receive_I2_11(int)
 	 */
+	@SuppressWarnings("unchecked")
 	@Override
-	public void receive_I2_11(int pnData) {
-		mnTest += pnData;
-		
+	public void receive_I2_11(ArrayList<clsSecondaryInformation> poPerception) {
+		moPerception = (ArrayList<clsSecondaryInformationMesh>)this.deepCopy(poPerception);	
 	}
 
 	/* (non-Javadoc)

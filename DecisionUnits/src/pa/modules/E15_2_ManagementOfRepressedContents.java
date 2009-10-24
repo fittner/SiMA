@@ -91,8 +91,8 @@ public class E15_2_ManagementOfRepressedContents extends clsModuleBase implement
 	 * @see pa.interfaces.I4_2#receive_I4_2(int)
 	 */
 	@Override
-	public void receive_I4_2(int pnData) {
-		mnTest += pnData;
+	public void receive_I4_2(ArrayList<clsPrimaryInformation> poPIs, ArrayList<clsThingPresentation> poTPs, ArrayList<clsAffectTension> poAffects) {
+		//mnTest += pnData;
 		
 	}
 

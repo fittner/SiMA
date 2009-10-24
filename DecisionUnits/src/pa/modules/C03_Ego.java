@@ -12,6 +12,7 @@ import java.util.List;
 
 import pa.datatypes.clsAffectTension;
 import pa.datatypes.clsPrimaryInformation;
+import pa.datatypes.clsSecondaryInformation;
 import pa.datatypes.clsThingPresentation;
 import pa.interfaces.I1_5;
 import pa.interfaces.I1_7;
@@ -256,8 +257,8 @@ public class C03_Ego extends clsModuleContainer implements
 	 * @see pa.interfaces.I4_2#receive_I4_2(int)
 	 */
 	@Override
-	public void receive_I4_2(int pnData) {
-		((I4_2)moEnclosingContainer).receive_I4_2(pnData);
+	public void receive_I4_2(ArrayList<clsPrimaryInformation> poPIs, ArrayList<clsThingPresentation> poTPs, ArrayList<clsAffectTension> poAffects) {
+		((I4_2)moEnclosingContainer).receive_I4_2(poPIs, poTPs, poAffects);
 	}
 
 	/* (non-Javadoc)
@@ -268,8 +269,8 @@ public class C03_Ego extends clsModuleContainer implements
 	 * @see pa.interfaces.I1_7#receive_I1_7(int)
 	 */
 	@Override
-	public void receive_I1_7(int pnData) {
-		((I1_7)moEnclosingContainer).receive_I1_7(pnData);
+	public void receive_I1_7(ArrayList<clsSecondaryInformation> poDriveList) {
+		((I1_7)moEnclosingContainer).receive_I1_7(poDriveList);
 	}
 
 	/* (non-Javadoc)
@@ -292,8 +293,8 @@ public class C03_Ego extends clsModuleContainer implements
 	 * @see pa.interfaces.I2_11#receive_I2_11(int)
 	 */
 	@Override
-	public void receive_I2_11(int pnData) {
-		((I2_11)moEnclosingContainer).receive_I2_11(pnData);
+	public void receive_I2_11(ArrayList<clsSecondaryInformation> poPerception) {
+		((I2_11)moEnclosingContainer).receive_I2_11(poPerception);
 		
 	}
 

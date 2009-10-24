@@ -6,6 +6,12 @@
  */
 package pa.interfaces;
 
+import java.util.ArrayList;
+
+import pa.datatypes.clsAffectTension;
+import pa.datatypes.clsPrimaryInformation;
+import pa.datatypes.clsThingPresentation;
+
 /**
  * DOCUMENT (deutsch) - insert description 
  * 
@@ -14,5 +20,5 @@ package pa.interfaces;
  * 
  */
 public interface I4_2 {
-	public void receive_I4_2(int pnData);
+	public void receive_I4_2(ArrayList<clsPrimaryInformation> poPIs, ArrayList<clsThingPresentation> poTPs, ArrayList<clsAffectTension> poAffects);
 }

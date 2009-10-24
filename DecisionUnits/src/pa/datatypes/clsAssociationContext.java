@@ -35,6 +35,31 @@ public class clsAssociationContext<TYPE> extends clsAssociationWeighted<TYPE> im
 		super(a, b);
 	}
 
+	@Override
+	public clsAssociation<clsSecondaryInformation> convertToSecondary(
+			clsSecondaryInformationMesh poA) {
+		
+		clsAssociationContext<clsSecondaryInformation> oRetVal = null;
+		
+		if(moElementB instanceof clsPrimaryInformationMesh) {
+			oRetVal = new clsAssociationContext<clsSecondaryInformation>(poA, new clsSecondaryInformationMesh( (clsPrimaryInformationMesh)moElementB ) );
+		}
+		else if(moElementB instanceof clsPrimaryInformation) {
+			oRetVal = new clsAssociationContext<clsSecondaryInformation>(poA, new clsSecondaryInformationMesh( (clsPrimaryInformation)moElementB ) );
+		}
+		if(oRetVal != null) {
+			oRetVal.moWeight = moWeight;
+			
+			if(moAssociationContext instanceof clsPrimaryInformationMesh) {
+				oRetVal.moAssociationContext = new clsSecondaryInformationMesh( (clsPrimaryInformationMesh)moAssociationContext );
+			}
+			else if(moAssociationContext instanceof clsPrimaryInformation) {
+				oRetVal.moAssociationContext = new clsSecondaryInformationMesh( (clsPrimaryInformation)moAssociationContext );
+			}
+		}
+		
+		return oRetVal;
+	}
 	
 	@SuppressWarnings("unchecked")
 	@Override

@@ -76,14 +76,14 @@ public class clsInspectorMappingPA {
 		else if(poModuleName.equals("E26DecisionMaking")) {
 			oRetVal.addInspector( new clsE26DecisionCalculation(poSuperInspector, poWrapper, poState, moPA.moC03Ego.moC08PsychicMediator.moC10SecondaryProcessor.moC16Deliberation.moE26DecisionMaking), "Decision Calculation");
 		}
-		
+		//========== MEMORY ==============
 		else if(poModuleName.equals("RepressedContentsStore")) {
 			oRetVal.addInspector( new clsPrimaryInformationInspector(poSuperInspector, poWrapper, poState, moPA.getMemoryForInspector().moRepressedContentsStore, "moRepressedContent" ), "Repressed Content");
 		}
 		else if(poModuleName.equals("AwareContentsStore")) {
 		}
 		else if(poModuleName.equals("ObjectSemanticsStorage")) {
-			oRetVal.addInspector( new clsPrimaryInformationInspector(poSuperInspector, poWrapper, poState, moPA.getMemoryForInspector().moRepressedContentsStore, "moRepressedContent" ), "Repressed Content");
+			//oRetVal.addInspector( new clsPrimaryInformationInspector(poSuperInspector, poWrapper, poState, moPA.getMemoryForInspector().moRepressedContentsStore, "moRepressedContent" ), "Repressed Content");
 		}
 		else if(poModuleName.equals("CurrentContextStorage")) {
 		}

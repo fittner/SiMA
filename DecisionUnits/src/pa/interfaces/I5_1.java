@@ -6,6 +6,10 @@
  */
 package pa.interfaces;
 
+import java.util.ArrayList;
+
+import pa.datatypes.clsAffectTension;
+
 /**
  * DOCUMENT (deutsch) - insert description 
  * 
@@ -14,5 +18,5 @@ package pa.interfaces;
  * 
  */
 public interface I5_1 {
-	public void receive_I5_1(int pnData);
+	public void receive_I5_1(ArrayList<clsAffectTension> poAffectOnlyList);
 }

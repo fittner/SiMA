@@ -13,4 +13,16 @@
 	</DriveMesh>
     </TemplateImage>
 
+        <TemplateImage name="Template Image" type="TempImage" value="CAKE_NOHUNGER" optional="MANDATORY" booleanOperator="AND" negated="FALSE" description="big red cake and very hungry">
+        <PrimInfo name="Bump" type="Bump" compare="==" value="FALSE" />
+	<PrimMesh name="Entity" type="Entity" compare="==" value="CAKE" optional="MANDATORY" booleanOperator="AND" negated="FALSE">
+            <Affect compare="&lt;" value="0.5" />
+    	    <PrimInfo name="Color" type="Color" compare="==" value="#FF00FF" />
+        </PrimMesh>
+        <PrimInfo name="Test" type="Test" compare="==" value="TestValue" />
+	<DriveMesh name="Drive" type="Drive" compare="==" value="NOURISH" optional="MANDATORY" booleanOperator="AND" negated="FALSE">
+            <Affect compare="&lt;" value="0.6" />
+	</DriveMesh>
+    </TemplateImage>
+
 </TemplateImages>

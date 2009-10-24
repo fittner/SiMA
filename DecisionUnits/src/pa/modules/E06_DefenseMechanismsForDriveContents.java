@@ -29,9 +29,13 @@ import config.clsBWProperties;
  * 
  */
 public class E06_DefenseMechanismsForDriveContents extends clsModuleBase implements I1_5, I3_1, I4_3, I6_3 {
-	ArrayList<clsPrimaryInformation> moPrimaryInformation;
-	ArrayList<clsThingPresentation> moThingPresentations; 
-	ArrayList<clsAffectTension> moAffects;
+	ArrayList<clsPrimaryInformation> moDriveList_Input;
+	ArrayList<clsPrimaryInformation> moDriveList_Output;
+	
+	ArrayList<clsPrimaryInformation> moRepressedRetry_Input;
+	
+	ArrayList<clsThingPresentation> moDeniedThingPresentations; 
+	ArrayList<clsAffectTension> moDeniedAffects;
 	
 	/**
 	 * DOCUMENT (deutsch) - insert description 
@@ -47,9 +51,10 @@ public class E06_DefenseMechanismsForDriveContents extends clsModuleBase impleme
 			clsBWProperties poProp, clsModuleContainer poEnclosingContainer) {
 		super(poPrefix, poProp, poEnclosingContainer);
 		
-		moPrimaryInformation = new ArrayList<clsPrimaryInformation>();
-		moThingPresentations = new ArrayList<clsThingPresentation>();
-		moAffects = new ArrayList<clsAffectTension>();
+		moDriveList_Input = new ArrayList<clsPrimaryInformation>();
+		moDriveList_Output = new ArrayList<clsPrimaryInformation>();
+		moDeniedThingPresentations = new ArrayList<clsThingPresentation>();
+		moDeniedAffects = new ArrayList<clsAffectTension>();
 		
 		applyProperties(poPrefix, poProp);		
 	}
@@ -104,11 +109,11 @@ public class E06_DefenseMechanismsForDriveContents extends clsModuleBase impleme
 	@SuppressWarnings("unchecked")
 	@Override
 	public void receive_I1_5(List<clsPrimaryInformation> poData) {
-		moPrimaryInformation = (ArrayList<clsPrimaryInformation>)deepCopy( (ArrayList<clsPrimaryInformation>)poData);
+		moDriveList_Input = (ArrayList<clsPrimaryInformation>)deepCopy( (ArrayList<clsPrimaryInformation>)poData);
 		
 	}
 
-	/* (non-Javadoc)
+	/* Input from Super-Ego = E7
 	 *
 	 * @author deutsch
 	 * 11.08.2009, 14:07:30
@@ -121,7 +126,7 @@ public class E06_DefenseMechanismsForDriveContents extends clsModuleBase impleme
 		
 	}
 
-	/* (non-Javadoc)
+	/* Input from Repressed Content E15
 	 *
 	 * @author deutsch
 	 * 11.08.2009, 14:07:30
@@ -131,10 +136,10 @@ public class E06_DefenseMechanismsForDriveContents extends clsModuleBase impleme
 	@SuppressWarnings("unchecked")
 	@Override
 	public void receive_I4_3(List<clsPrimaryInformation> poPIs) {
-		moPrimaryInformation.addAll( (ArrayList<clsPrimaryInformation>)deepCopy( (ArrayList<clsPrimaryInformation>)poPIs) );
+		moRepressedRetry_Input = (ArrayList<clsPrimaryInformation>)deepCopy( (ArrayList<clsPrimaryInformation>)poPIs);
 	}
 
-	/* (non-Javadoc)
+	/* Input from Knowledge about Reality E9
 	 *
 	 * @author deutsch
 	 * 11.08.2009, 14:07:36
@@ -156,8 +161,7 @@ public class E06_DefenseMechanismsForDriveContents extends clsModuleBase impleme
 	 */
 	@Override
 	protected void process() {
-		mnTest++;
-		
+		moDriveList_Output = moDriveList_Input; //pass everything through (deepCopy is called in the next module)
 	}
 
 	/* (non-Javadoc)
@@ -169,12 +173,12 @@ public class E06_DefenseMechanismsForDriveContents extends clsModuleBase impleme
 	 */
 	@Override
 	protected void send() {
-		((I1_6)moEnclosingContainer).receive_I1_6(mnTest);
-		((I4_1)moEnclosingContainer).receive_I4_1(moPrimaryInformation, moThingPresentations, moAffects);
-		((I5_1)moEnclosingContainer).receive_I5_1(mnTest);	
+		((I1_6)moEnclosingContainer).receive_I1_6(moDriveList_Output);
+		((I4_1)moEnclosingContainer).receive_I4_1(moDriveList_Input, moDeniedThingPresentations, moDeniedAffects);
+		((I5_1)moEnclosingContainer).receive_I5_1(moDeniedAffects);	
 		
 		//FIXME (langr) - moPrimaryInformation.clear();
-		moThingPresentations.clear();
-		moAffects.clear();
+		moDeniedThingPresentations.clear();
+		moDeniedAffects.clear();
 	}
 }

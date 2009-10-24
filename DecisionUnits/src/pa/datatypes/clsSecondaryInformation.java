@@ -25,6 +25,11 @@ public class clsSecondaryInformation extends clsPrimaryInformation implements it
 		moWP = poWP;
 	}
 	
+	//transforms a primary information into a secondary information - stupid copy of content from Thin->WordPresentation
+	public clsSecondaryInformation(clsPrimaryInformation poPrim) {
+		this(new clsWordPresentation(poPrim.moTP), poPrim.moTP, poPrim.moAffect);
+	}
+	
 	/* (non-Javadoc)
 	 *
 	 * @author langr

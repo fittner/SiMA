@@ -17,6 +17,32 @@ import pa.interfaces.itfSecondaryProcessComparableWP;
  */
 public class clsWordPresentation extends clsPsychicRepresentative implements itfSecondaryProcessComparableWP, Cloneable {
 
+	public String moContentName;
+	public String moContentType = "";
+	public Object moContent = null;
+	
+
+	public clsWordPresentation() {
+
+	}
+	
+	/**
+	 * just takes the values from the thin presentation --> 
+	 * remove this when you know what the difference is (TP/WP) except of the associations!
+	 * 
+	 * @author langr
+	 * 24.10.2009, 18:31:01
+	 *
+	 * @param poTP
+	 */
+	public clsWordPresentation(clsThingPresentationSingle poTP) {
+		
+		moContent = poTP.moContent;
+		moContentType = poTP.meContentType;
+		moContentName = poTP.meContentName;
+		
+	}
+
 	/* (non-Javadoc)
 	 *
 	 * @author langr

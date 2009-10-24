@@ -12,6 +12,7 @@ import java.util.List;
 
 import pa.datatypes.clsAffectTension;
 import pa.datatypes.clsPrimaryInformation;
+import pa.datatypes.clsSecondaryInformation;
 import pa.datatypes.clsThingPresentation;
 import pa.enums.eSymbolExtType;
 import pa.interfaces.I1_2;
@@ -399,8 +400,8 @@ public class C00_PsychicApparatus extends clsModuleContainer implements
 	 * @see pa.interfaces.I4_2#receive_I4_2(int)
 	 */
 	@Override
-	public void receive_I4_2(int pnData) {
-		moC02Id.receive_I4_2(pnData);
+	public void receive_I4_2(ArrayList<clsPrimaryInformation> poPIs, ArrayList<clsThingPresentation> poTPs, ArrayList<clsAffectTension> poAffects) {
+		moC02Id.receive_I4_2(poPIs, poTPs, poAffects);
 	}
 
 	/* (non-Javadoc)
@@ -411,8 +412,8 @@ public class C00_PsychicApparatus extends clsModuleContainer implements
 	 * @see pa.interfaces.I1_7#receive_I1_7(int)
 	 */
 	@Override
-	public void receive_I1_7(int pnData) {
-		moC04SuperEgo.receive_I1_7(pnData);
+	public void receive_I1_7(ArrayList<clsSecondaryInformation> poDriveList) {
+		moC04SuperEgo.receive_I1_7(poDriveList);
 	}
 
 	/* (non-Javadoc)
@@ -423,8 +424,8 @@ public class C00_PsychicApparatus extends clsModuleContainer implements
 	 * @see pa.interfaces.I2_11#receive_I2_11(int)
 	 */
 	@Override
-	public void receive_I2_11(int pnData) {
-		moC04SuperEgo.receive_I2_11(pnData);
+	public void receive_I2_11(ArrayList<clsSecondaryInformation> poPerception) {
+		moC04SuperEgo.receive_I2_11(poPerception);
 		
 	}
 }

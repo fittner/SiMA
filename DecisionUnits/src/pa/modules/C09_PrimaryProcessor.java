@@ -159,8 +159,8 @@ public class C09_PrimaryProcessor extends clsModuleContainer implements
 	 * @see pa.interfaces.I1_6#receive_I1_6(int)
 	 */
 	@Override
-	public void receive_I1_6(int pnData) {
-		((I1_6)moEnclosingContainer).receive_I1_6(pnData);	
+	public void receive_I1_6(ArrayList<clsPrimaryInformation> poDriveList) {
+		((I1_6)moEnclosingContainer).receive_I1_6(poDriveList);	
 	}
 
 	/* (non-Javadoc)
@@ -171,8 +171,8 @@ public class C09_PrimaryProcessor extends clsModuleContainer implements
 	 * @see pa.interfaces.I2_10#receive_I2_10(int)
 	 */
 	@Override
-	public void receive_I2_10(int pnData) {
-		((I2_10)moEnclosingContainer).receive_I2_10(pnData);
+	public void receive_I2_10(ArrayList<clsPrimaryInformation> poGrantedPerception) {
+		((I2_10)moEnclosingContainer).receive_I2_10(poGrantedPerception);
 	}
 
 	/* (non-Javadoc)
@@ -195,8 +195,8 @@ public class C09_PrimaryProcessor extends clsModuleContainer implements
 	 * @see pa.interfaces.I4_2#receive_I4_2(int)
 	 */
 	@Override
-	public void receive_I4_2(int pnData) {
-		((I4_2)moEnclosingContainer).receive_I4_2(pnData);
+	public void receive_I4_2(ArrayList<clsPrimaryInformation> poPIs, ArrayList<clsThingPresentation> poTPs, ArrayList<clsAffectTension> poAffects) {
+		((I4_2)moEnclosingContainer).receive_I4_2(poPIs, poTPs, poAffects);
 	}
 
 	/* (non-Javadoc)
@@ -207,8 +207,8 @@ public class C09_PrimaryProcessor extends clsModuleContainer implements
 	 * @see pa.interfaces.I5_1#receive_I5_1(int)
 	 */
 	@Override
-	public void receive_I5_1(int pnData) {
-		((I5_1)moEnclosingContainer).receive_I5_1(pnData);
+	public void receive_I5_1(ArrayList<clsAffectTension> poAffectOnlyList) {
+		((I5_1)moEnclosingContainer).receive_I5_1(poAffectOnlyList);
 	}
 
 	/* (non-Javadoc)
@@ -294,8 +294,8 @@ public class C09_PrimaryProcessor extends clsModuleContainer implements
 	 * @see pa.interfaces.I5_2#receive_I5_2(int)
 	 */
 	@Override
-	public void receive_I5_2(int pnData) {
-		((I5_2)moEnclosingContainer).receive_I5_2(pnData);
+	public void receive_I5_2(ArrayList<clsAffectTension> poDeniedAffects) {
+		((I5_2)moEnclosingContainer).receive_I5_2(poDeniedAffects);
 		
 	}
 }

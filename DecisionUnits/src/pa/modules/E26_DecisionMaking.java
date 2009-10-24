@@ -27,6 +27,7 @@ import pa.interfaces.I7_2;
 public class E26_DecisionMaking extends clsModuleBase implements I1_7, I2_13, I3_3, I5_5 {
 
 	ArrayList<clsSecondaryInformation> moEnvironmentalPerception;
+	private ArrayList<clsSecondaryInformation> moDriveList;
 	
 	/**
 	 * DOCUMENT (deutsch) - insert description 
@@ -91,9 +92,10 @@ public class E26_DecisionMaking extends clsModuleBase implements I1_7, I2_13, I3
 	 * 
 	 * @see pa.interfaces.I1_7#receive_I1_7(int)
 	 */
+	@SuppressWarnings("unchecked")
 	@Override
-	public void receive_I1_7(int pnData) {
-		mnTest += pnData;
+	public void receive_I1_7(ArrayList<clsSecondaryInformation> poDriveList) {
+		moDriveList = (ArrayList<clsSecondaryInformation>)this.deepCopy(poDriveList);
 		
 	}
 
