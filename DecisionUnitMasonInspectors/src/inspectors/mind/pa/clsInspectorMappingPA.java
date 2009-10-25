@@ -10,6 +10,7 @@ import javax.swing.JTree;
 
 import inspectors.mind.pa.functionalmodel.clsPAInspectorFunctional;
 import pa.datatypes.clsSecondaryInformation;
+import pa.loader.plan.clsPlanBaseMesh;
 import pa.loader.scenario.clsScenarioBaseMesh;
 import pa.modules.C00_PsychicApparatus;
 import sim.display.GUIState;
@@ -96,6 +97,12 @@ public class clsInspectorMappingPA {
 			
 			for(clsSecondaryInformation oScenario : moPA.getMemoryForInspector().moTemplateScenarioStorage.moTemplateScenarios) {
 				oRetVal.addInspector( new clsScenarioInspector(poSuperInspector, poWrapper, poState, (clsScenarioBaseMesh)oScenario ), oScenario.moWP.moContent.toString());
+			}
+		}
+		else if(poModuleName.equals("TemplatePlanStorage")) {
+			
+			for(clsSecondaryInformation oScenario : moPA.getMemoryForInspector().moTemplatePlanStorage.moTemplatePlans) {
+				oRetVal.addInspector( new clsPlanInspector(poSuperInspector, poWrapper, poState, (clsPlanBaseMesh)oScenario ), oScenario.moWP.moContent.toString());
 			}
 		}
 		

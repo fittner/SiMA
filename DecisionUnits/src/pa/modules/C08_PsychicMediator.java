@@ -32,6 +32,7 @@ import pa.interfaces.I5_2;
 import pa.interfaces.I5_5;
 import pa.interfaces.I6_3;
 import pa.interfaces.I7_4;
+import pa.loader.plan.clsPlanAction;
 import pa.memory.clsMemory;
 import pa.tools.clsPair;
 import config.clsBWProperties;
@@ -325,8 +326,8 @@ public class C08_PsychicMediator extends clsModuleContainer implements
 	 * @see pa.interfaces.I7_4#receive_I7_4(int)
 	 */
 	@Override
-	public void receive_I7_4(int pnData) {
-		((I7_4)moEnclosingContainer).receive_I7_4(pnData);
+	public void receive_I7_4(ArrayList<clsPlanAction> poActionCommands) {
+		((I7_4)moEnclosingContainer).receive_I7_4(poActionCommands);
 	}
 
 	/* (non-Javadoc)

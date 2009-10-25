@@ -33,7 +33,8 @@ public class clsMemory implements
 	public static final String P_OBJECTSEMANTICSTORAGE = "objectsemanticstorage";
 	public static final String P_CURRENTCONTEXT = "currentcontext";
 	public static final String P_TEMPLATEIMAGESTORAGE = "templateimagestorage";
-	public static final String P_TEMPLATESCENARIOTORAGE = "templatescenariostorage";
+	public static final String P_TEMPLATESCENARIOSTORAGE = "templatescenariostorage";
+	public static final String P_TEMPLATEPLANSTORAGE = "templatescenariostorage";
 	
 	//repressed content accummulated during the development of the young bubble (these are the init-values)
 	public clsRepressedContentStorage moRepressedContentsStore;
@@ -46,8 +47,8 @@ public class clsMemory implements
 	public clsCurrentContextStorage moCurrentContextStorage;
 	
 	public clsTemplateImageStorage moTemplateImageStorage;
-	
 	public clsTemplateScenarioStorage moTemplateScenarioStorage;
+	public clsTemplatePlanStorage moTemplatePlanStorage;
 	
 
 	/**
@@ -70,7 +71,8 @@ public class clsMemory implements
 		moCurrentContextStorage  = new clsCurrentContextStorage(pre+P_CURRENTCONTEXT, poProp);
 		moObjectSemanticsStorage  = new clsObjectSemanticsStorage(pre+P_OBJECTSEMANTICSTORAGE, poProp);
 		moTemplateImageStorage = new clsTemplateImageStorage(pre+P_OBJECTSEMANTICSTORAGE, poProp);
-		moTemplateScenarioStorage = new clsTemplateScenarioStorage(pre+P_TEMPLATESCENARIOTORAGE, poProp);
+		moTemplateScenarioStorage = new clsTemplateScenarioStorage(pre+P_TEMPLATESCENARIOSTORAGE, poProp);
+		moTemplatePlanStorage = new clsTemplatePlanStorage(pre+P_TEMPLATEPLANSTORAGE, poProp);
 		
 	}	
     
@@ -84,7 +86,8 @@ public class clsMemory implements
 		oProp.putAll(clsCurrentContextStorage.getDefaultProperties(pre+P_CURRENTCONTEXT) );		
 		oProp.putAll(clsObjectSemanticsStorage.getDefaultProperties(pre+P_OBJECTSEMANTICSTORAGE) );
 		oProp.putAll(clsTemplateImageStorage .getDefaultProperties(pre+P_TEMPLATEIMAGESTORAGE) );
-		oProp.putAll(clsTemplateScenarioStorage.getDefaultProperties(pre+P_TEMPLATESCENARIOTORAGE) );
+		oProp.putAll(clsTemplateScenarioStorage.getDefaultProperties(pre+P_TEMPLATESCENARIOSTORAGE) );
+		oProp.putAll(clsTemplatePlanStorage.getDefaultProperties(pre+P_TEMPLATEPLANSTORAGE) );
 		
 		return oProp;
     }

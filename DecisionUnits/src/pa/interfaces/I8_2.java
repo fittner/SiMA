@@ -6,6 +6,10 @@
  */
 package pa.interfaces;
 
+import java.util.ArrayList;
+
+import decisionunit.itf.actions.clsActionCommand;
+
 /**
  * DOCUMENT (deutsch) - insert description 
  * 
@@ -14,5 +18,5 @@ package pa.interfaces;
  * 
  */
 public interface I8_2 {
-	public void receive_I8_2(int pnData);
+	public void receive_I8_2(ArrayList<clsActionCommand> poActionCommandList);
 }

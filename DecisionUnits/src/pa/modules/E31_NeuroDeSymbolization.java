@@ -6,9 +6,15 @@
  */
 package pa.modules;
 
+import java.util.ArrayList;
+
 import config.clsBWProperties;
+import decisionunit.itf.actions.clsActionCommand;
+import decisionunit.itf.actions.clsActionMove;
+import enums.eActionMoveDirection;
 import pa.interfaces.I8_1;
 import pa.interfaces.I8_2;
+import pa.loader.plan.clsPlanAction;
 
 /**
  * DOCUMENT (deutsch) - insert description 
@@ -18,6 +24,9 @@ import pa.interfaces.I8_2;
  * 
  */
 public class E31_NeuroDeSymbolization extends clsModuleBase implements I8_1 {
+
+	private ArrayList<clsPlanAction> moActionCommands_Input;
+	private ArrayList<clsActionCommand> moActionCommandList_Output;
 
 	/**
 	 * DOCUMENT (deutsch) - insert description 
@@ -33,6 +42,8 @@ public class E31_NeuroDeSymbolization extends clsModuleBase implements I8_1 {
 			clsModuleContainer poEnclosingContainer) {
 		super(poPrefix, poProp, poEnclosingContainer);
 		applyProperties(poPrefix, poProp);		
+		
+		moActionCommandList_Output = new ArrayList<clsActionCommand>();
 	}
 	
 	public static clsBWProperties getDefaultProperties(String poPrefix) {
@@ -82,10 +93,10 @@ public class E31_NeuroDeSymbolization extends clsModuleBase implements I8_1 {
 	 * 
 	 * @see pa.interfaces.I8_1#receive_I8_1(int)
 	 */
+	@SuppressWarnings("unchecked")
 	@Override
-	public void receive_I8_1(int pnData) {
-		mnTest += pnData;
-		
+	public void receive_I8_1(ArrayList<clsPlanAction> poActionCommands) {
+		moActionCommands_Input = (ArrayList<clsPlanAction>)deepCopy(poActionCommands);
 	}
 
 	/* (non-Javadoc)
@@ -97,7 +108,17 @@ public class E31_NeuroDeSymbolization extends clsModuleBase implements I8_1 {
 	 */
 	@Override
 	protected void process() {
-		mnTest++;
+		
+		for(clsPlanAction oAction : moActionCommands_Input) {
+			
+			if(oAction.moWP.moContent.equals("MOVE_FORWARD")) {
+				
+				moActionCommandList_Output.add( new clsActionMove(eActionMoveDirection.MOVE_FORWARD,1.0) );
+				
+			}
+
+		}
+		
 		
 	}
 
@@ -110,7 +131,7 @@ public class E31_NeuroDeSymbolization extends clsModuleBase implements I8_1 {
 	 */
 	@Override
 	protected void send() {
-		((I8_2)moEnclosingContainer).receive_I8_2(mnTest);
+		((I8_2)moEnclosingContainer).receive_I8_2(moActionCommandList_Output);
 		
 	}
 

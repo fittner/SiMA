@@ -5,12 +5,12 @@
     <TemplateImage name="Template Image" type="TempImage" value="CAKE_HUNGER" optional="MANDATORY" booleanOperator="AND" negated="FALSE" description="big red cake and very hungry">
         <PrimInfo name="Bump" type="Bump" compare="==" value="TRUE" />
 		<PrimMesh name="Entity" type="Entity" compare="==" value="CAKE_UNGREEDY" optional="MANDATORY" booleanOperator="AND" negated="FALSE">
-            <Affect compare="&lt;" value="0.5" />
+            <!--Affect compare="&lt;" value="0.5" /-->
     	    <PrimInfo name="Color" type="Color" compare="==" value="#FFAFAF" />
 	</PrimMesh>
-	<DriveMesh name="Drive" type="Drive" compare="==" value="NOURISH" optional="MANDATORY" booleanOperator="AND" negated="FALSE">
-            <Affect compare="&gt;" value="0.6" />
-	</DriveMesh>
+	<!--DriveMesh name="Drive" type="Drive" compare="==" value="NOURISH" optional="MANDATORY" booleanOperator="AND" negated="FALSE"-->
+            <!--Affect compare="&gt;" value="0.6" /-->
+	<!--/DriveMesh-->
     </TemplateImage>
 
 </TemplateImages>

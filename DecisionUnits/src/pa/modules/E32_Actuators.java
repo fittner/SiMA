@@ -6,7 +6,10 @@
  */
 package pa.modules;
 
+import java.util.ArrayList;
+
 import config.clsBWProperties;
+import decisionunit.itf.actions.clsActionCommand;
 import decisionunit.itf.actions.itfActionProcessor;
 import pa.interfaces.I8_2;
 import pa.interfaces.itfReturnActionCommands;
@@ -19,6 +22,8 @@ import pa.interfaces.itfReturnActionCommands;
  * 
  */
 public class E32_Actuators extends clsModuleBase implements I8_2, itfReturnActionCommands {
+
+	private ArrayList<clsActionCommand> moActionCommandList_Input;
 
 	/**
 	 * DOCUMENT (deutsch) - insert description 
@@ -34,6 +39,8 @@ public class E32_Actuators extends clsModuleBase implements I8_2, itfReturnActio
 			clsModuleContainer poEnclosingContainer) {
 		super(poPrefix, poProp, poEnclosingContainer);
 		applyProperties(poPrefix, poProp);		
+		
+		moActionCommandList_Input = new ArrayList<clsActionCommand>();
 	}
 	
 	public static clsBWProperties getDefaultProperties(String poPrefix) {
@@ -84,8 +91,8 @@ public class E32_Actuators extends clsModuleBase implements I8_2, itfReturnActio
 	 * @see pa.interfaces.I8_2#receive_I8_2(int)
 	 */
 	@Override
-	public void receive_I8_2(int pnData) {
-		mnTest += pnData;
+	public void receive_I8_2(ArrayList<clsActionCommand> poActionCommandList) {
+		moActionCommandList_Input = (ArrayList<clsActionCommand>) deepCopy(poActionCommandList);
 		
 	}
 
@@ -98,7 +105,11 @@ public class E32_Actuators extends clsModuleBase implements I8_2, itfReturnActio
 	 */
 	@Override
 	public void getActionCommands(itfActionProcessor poActionContainer) {
-		//TODO
+
+		for( clsActionCommand oCmd : moActionCommandList_Input ) {
+			poActionContainer.call(oCmd);
+		}
+		
 	}
 
 	/* (non-Javadoc)

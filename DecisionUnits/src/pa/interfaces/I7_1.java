@@ -6,6 +6,11 @@
  */
 package pa.interfaces;
 
+import java.util.HashMap;
+
+import pa.datatypes.clsSecondaryInformation;
+import pa.tools.clsPair;
+
 /**
  * DOCUMENT (deutsch) - insert description 
  * 
@@ -14,5 +19,5 @@ package pa.interfaces;
  * 
  */
 public interface I7_1 {
-	public void receive_I7_1(int pnData);
+	public void receive_I7_1(HashMap<String, clsPair<clsSecondaryInformation, Double>> poTemplateResult);
 }

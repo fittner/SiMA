@@ -7,6 +7,7 @@
 package pa.modules;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import pa.datatypes.clsSecondaryInformation;
 import pa.datatypes.clsSecondaryInformationMesh;
@@ -19,6 +20,7 @@ import pa.interfaces.I7_1;
 import pa.interfaces.I7_2;
 import pa.interfaces.I7_3;
 import pa.interfaces.I7_4;
+import pa.loader.plan.clsPlanAction;
 import pa.memory.clsMemory;
 import pa.tools.clsPair;
 import config.clsBWProperties;
@@ -156,8 +158,8 @@ public class C15_Deliberation extends clsModuleContainer implements
 	 * @see pa.interfaces.I7_1#receive_I7_1(int)
 	 */
 	@Override
-	public void receive_I7_1(int pnData) {
-		moE27GenerationOfImaginaryActions.receive_I7_1(pnData);
+	public void receive_I7_1(HashMap<String, clsPair<clsSecondaryInformation, Double>> poTemplateResult) {
+		moE27GenerationOfImaginaryActions.receive_I7_1(poTemplateResult);
 	}
 
 	/* (non-Javadoc)
@@ -180,8 +182,8 @@ public class C15_Deliberation extends clsModuleContainer implements
 	 * @see pa.interfaces.I7_3#receive_I7_3(int)
 	 */
 	@Override
-	public void receive_I7_3(int pnData) {
-		moE29EvaluationOfImaginaryActions.receive_I7_3(pnData);
+	public void receive_I7_3(ArrayList<clsPlanAction> poActionCommands) {
+		moE29EvaluationOfImaginaryActions.receive_I7_3(poActionCommands);
 	}
 
 	/* (non-Javadoc)
@@ -192,7 +194,7 @@ public class C15_Deliberation extends clsModuleContainer implements
 	 * @see pa.interfaces.I7_4#receive_I7_4(int)
 	 */
 	@Override
-	public void receive_I7_4(int pnData) {
-		((I7_4)moEnclosingContainer).receive_I7_4(pnData);
+	public void receive_I7_4(ArrayList<clsPlanAction> poActionCommands) {
+		((I7_4)moEnclosingContainer).receive_I7_4(poActionCommands);
 	}
 }

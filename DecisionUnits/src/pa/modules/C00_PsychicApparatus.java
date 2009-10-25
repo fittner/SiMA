@@ -36,6 +36,7 @@ import pa.interfaces.itfProcessHomeostases;
 import pa.interfaces.itfProcessSensorBody;
 import pa.interfaces.itfProcessSensorEnvironment;
 import pa.interfaces.itfReturnActionCommands;
+import pa.loader.plan.clsPlanAction;
 import pa.memory.clsMemory;
 import pa.symbolization.representationsymbol.itfSymbol;
 import pa.tools.clsPair;
@@ -363,8 +364,8 @@ public class C00_PsychicApparatus extends clsModuleContainer implements
 	 * @see pa.interfaces.I8_1#receive_I8_1(int)
 	 */
 	@Override
-	public void receive_I8_1(int pnData) {
-		moC01Body.receive_I8_1(pnData);
+	public void receive_I8_1(ArrayList<clsPlanAction> poActionCommands) {
+		moC01Body.receive_I8_1(poActionCommands);
 		
 	}
 

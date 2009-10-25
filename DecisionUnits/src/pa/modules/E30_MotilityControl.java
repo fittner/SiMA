@@ -6,9 +6,12 @@
  */
 package pa.modules;
 
+import java.util.ArrayList;
+
 import config.clsBWProperties;
 import pa.interfaces.I7_4;
 import pa.interfaces.I8_1;
+import pa.loader.plan.clsPlanAction;
 
 /**
  * DOCUMENT (deutsch) - insert description 
@@ -18,6 +21,9 @@ import pa.interfaces.I8_1;
  * 
  */
 public class E30_MotilityControl extends clsModuleBase implements I7_4 {
+
+	private ArrayList<clsPlanAction> moActionCommands_Input;
+	private ArrayList<clsPlanAction> moActionCommands_Output;
 
 	/**
 	 * DOCUMENT (deutsch) - insert description 
@@ -32,7 +38,9 @@ public class E30_MotilityControl extends clsModuleBase implements I7_4 {
 	public E30_MotilityControl(String poPrefix, clsBWProperties poProp,
 			clsModuleContainer poEnclosingContainer) {
 		super(poPrefix, poProp, poEnclosingContainer);
-		applyProperties(poPrefix, poProp);		
+		applyProperties(poPrefix, poProp);	
+		
+		moActionCommands_Output = new ArrayList<clsPlanAction>();
 	}
 	
 	public static clsBWProperties getDefaultProperties(String poPrefix) {
@@ -82,10 +90,10 @@ public class E30_MotilityControl extends clsModuleBase implements I7_4 {
 	 * 
 	 * @see pa.interfaces.I7_4#receive_I7_4(int)
 	 */
+	@SuppressWarnings("unchecked")
 	@Override
-	public void receive_I7_4(int pnData) {
-		mnTest += pnData;
-		
+	public void receive_I7_4(ArrayList<clsPlanAction> poActionCommands) {
+		moActionCommands_Input = (ArrayList<clsPlanAction>) deepCopy(poActionCommands);
 	}
 
 	/* (non-Javadoc)
@@ -97,7 +105,7 @@ public class E30_MotilityControl extends clsModuleBase implements I7_4 {
 	 */
 	@Override
 	protected void process() {
-		mnTest++;
+		moActionCommands_Output = moActionCommands_Input;
 		
 	}
 
@@ -110,7 +118,7 @@ public class E30_MotilityControl extends clsModuleBase implements I7_4 {
 	 */
 	@Override
 	protected void send() {
-		((I8_1)moEnclosingContainer).receive_I8_1(mnTest);
+		((I8_1)moEnclosingContainer).receive_I8_1(moActionCommands_Output);
 		
 	}
 }

@@ -6,10 +6,13 @@
  */
 package pa.modules;
 
+import java.util.ArrayList;
+
 import config.clsBWProperties;
 import pa.interfaces.I5_5;
 import pa.interfaces.I7_3;
 import pa.interfaces.I7_4;
+import pa.loader.plan.clsPlanAction;
 
 /**
  * DOCUMENT (deutsch) - insert description 
@@ -19,6 +22,9 @@ import pa.interfaces.I7_4;
  * 
  */
 public class E29_EvaluationOfImaginaryActions extends clsModuleBase implements I5_5, I7_3 {
+
+	private ArrayList<clsPlanAction> moActionCommands_Input;
+	private ArrayList<clsPlanAction> moActionCommands_Output;
 
 	/**
 	 * DOCUMENT (deutsch) - insert description 
@@ -33,7 +39,9 @@ public class E29_EvaluationOfImaginaryActions extends clsModuleBase implements I
 	public E29_EvaluationOfImaginaryActions(String poPrefix,
 			clsBWProperties poProp, clsModuleContainer poEnclosingContainer) {
 		super(poPrefix, poProp, poEnclosingContainer);
-		applyProperties(poPrefix, poProp);		
+		applyProperties(poPrefix, poProp);	
+		
+		moActionCommands_Output = new ArrayList<clsPlanAction>();
 	}
 	
 	public static clsBWProperties getDefaultProperties(String poPrefix) {
@@ -97,9 +105,8 @@ public class E29_EvaluationOfImaginaryActions extends clsModuleBase implements I
 	 * @see pa.interfaces.I7_3#receive_I7_3(int)
 	 */
 	@Override
-	public void receive_I7_3(int pnData) {
-		mnTest += pnData;
-		
+	public void receive_I7_3(ArrayList<clsPlanAction> poActionCommands) {
+		moActionCommands_Input = (ArrayList<clsPlanAction>)deepCopy(poActionCommands);
 	}
 
 	/* (non-Javadoc)
@@ -111,8 +118,7 @@ public class E29_EvaluationOfImaginaryActions extends clsModuleBase implements I
 	 */
 	@Override
 	protected void process() {
-		mnTest++;
-		
+		moActionCommands_Output = moActionCommands_Input;		
 	}
 
 	/* (non-Javadoc)
@@ -124,7 +130,7 @@ public class E29_EvaluationOfImaginaryActions extends clsModuleBase implements I
 	 */
 	@Override
 	protected void send() {
-		((I7_4)moEnclosingContainer).receive_I7_4(mnTest);
+		((I7_4)moEnclosingContainer).receive_I7_4(moActionCommands_Output);
 		
 	}
 }

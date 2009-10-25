@@ -35,6 +35,8 @@ public class E26_DecisionMaking extends clsModuleBase implements I1_7, I2_13, I3
 	HashMap<String, clsPair<clsSecondaryInformation, Double>> moTemplateImageResult;
 	HashMap<String, clsPair<clsSecondaryInformation, Double>> moTemplateScenarioResult;
 	
+	HashMap<String, clsPair<clsSecondaryInformation, Double>> moTemplateResult_Output;
+	
 	/**
 	 * DOCUMENT (deutsch) - insert description 
 	 * 
@@ -48,7 +50,11 @@ public class E26_DecisionMaking extends clsModuleBase implements I1_7, I2_13, I3
 	public E26_DecisionMaking(String poPrefix, clsBWProperties poProp,
 			clsModuleContainer poEnclosingContainer) {
 		super(poPrefix, poProp, poEnclosingContainer);
-		applyProperties(poPrefix, poProp);		
+		applyProperties(poPrefix, poProp);	
+		
+		moTemplateImageResult = new HashMap<String, clsPair<clsSecondaryInformation, Double>>();
+		moTemplateScenarioResult = new HashMap<String, clsPair<clsSecondaryInformation, Double>>();
+		moTemplateResult_Output = new HashMap<String, clsPair<clsSecondaryInformation, Double>>();
 	}
 	
 	public static clsBWProperties getDefaultProperties(String poPrefix) {
@@ -165,6 +171,8 @@ public class E26_DecisionMaking extends clsModuleBase implements I1_7, I2_13, I3
 		
 		moTemplateScenarioResult = moEnclosingContainer.moMemory.moTemplateScenarioStorage.getReognitionUpdate(moTemplateImageResult);
 		
+		moTemplateResult_Output.putAll(	moTemplateImageResult ); 
+		moTemplateResult_Output.putAll(	moTemplateScenarioResult );
 	}
 
 	/* (non-Javadoc)
@@ -176,7 +184,10 @@ public class E26_DecisionMaking extends clsModuleBase implements I1_7, I2_13, I3
 	 */
 	@Override
 	protected void send() {
-		((I7_1)moEnclosingContainer).receive_I7_1(mnTest);
+		
+
+		
+		((I7_1)moEnclosingContainer).receive_I7_1(moTemplateResult_Output);
 		((I7_2)moEnclosingContainer).receive_I7_2(mnTest);		
 	}
 }

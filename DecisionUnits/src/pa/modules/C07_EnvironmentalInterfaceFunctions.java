@@ -14,6 +14,7 @@ import pa.interfaces.I2_2;
 import pa.interfaces.I2_4;
 import pa.interfaces.I2_5;
 import pa.interfaces.I7_4;
+import pa.loader.plan.clsPlanAction;
 import pa.memory.clsMemory;
 import pa.symbolization.representationsymbol.itfSymbol;
 import pa.interfaces.I8_1;
@@ -107,8 +108,8 @@ public class C07_EnvironmentalInterfaceFunctions extends clsModuleContainer impl
 	 * @see pa.interfaces.I7_4#receive_I7_4(int)
 	 */
 	@Override
-	public void receive_I7_4(int pnData) {
-		moE30MotilityControl.receive_I7_4(pnData);
+	public void receive_I7_4(ArrayList<clsPlanAction> poActionCommands) {
+		moE30MotilityControl.receive_I7_4(poActionCommands);
 	}
 
 	/* (non-Javadoc)
@@ -132,8 +133,8 @@ public class C07_EnvironmentalInterfaceFunctions extends clsModuleContainer impl
 	 * @see pa.interfaces.I8_1#receive_I8_1(int)
 	 */
 	@Override
-	public void receive_I8_1(int pnData) {
-		((I8_1)moEnclosingContainer).receive_I8_1(pnData);
+	public void receive_I8_1(ArrayList<clsPlanAction> poActionCommands) {
+		((I8_1)moEnclosingContainer).receive_I8_1(poActionCommands);
 		
 	}
 }

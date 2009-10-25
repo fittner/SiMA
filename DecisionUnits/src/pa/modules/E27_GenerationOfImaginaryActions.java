@@ -7,12 +7,15 @@
 package pa.modules;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import config.clsBWProperties;
 import pa.datatypes.clsSecondaryInformation;
 import pa.interfaces.I6_2;
 import pa.interfaces.I7_1;
 import pa.interfaces.I7_3;
+import pa.loader.plan.clsPlanAction;
+import pa.tools.clsPair;
 
 /**
  * DOCUMENT (deutsch) - insert description 
@@ -24,6 +27,9 @@ import pa.interfaces.I7_3;
 public class E27_GenerationOfImaginaryActions extends clsModuleBase implements I6_2, I7_1{
 
 	ArrayList<clsSecondaryInformation> moEnvironmentalPerception;
+	private HashMap<String, clsPair<clsSecondaryInformation, Double>> moTemplateResult_Input;
+	
+	ArrayList<clsPlanAction> moActions_Output;
 	
 	/**
 	 * DOCUMENT (deutsch) - insert description 
@@ -38,7 +44,9 @@ public class E27_GenerationOfImaginaryActions extends clsModuleBase implements I
 	public E27_GenerationOfImaginaryActions(String poPrefix,
 			clsBWProperties poProp, clsModuleContainer poEnclosingContainer) {
 		super(poPrefix, poProp, poEnclosingContainer);
-		applyProperties(poPrefix, poProp);		
+		applyProperties(poPrefix, poProp);	
+		
+		ArrayList<clsPlanAction> moActions_Output = new ArrayList<clsPlanAction>();
 	}
 	
 	public static clsBWProperties getDefaultProperties(String poPrefix) {
@@ -101,9 +109,10 @@ public class E27_GenerationOfImaginaryActions extends clsModuleBase implements I
 	 * 
 	 * @see pa.interfaces.I7_1#receive_I7_1(int)
 	 */
+	@SuppressWarnings("unchecked")
 	@Override
-	public void receive_I7_1(int pnData) {
-		mnTest += pnData;
+	public void receive_I7_1(HashMap<String, clsPair<clsSecondaryInformation, Double>> poTemplateResult) {
+		moTemplateResult_Input = ( HashMap<String, clsPair<clsSecondaryInformation, Double>>) deepCopy( poTemplateResult );
 		
 	}
 
@@ -116,8 +125,9 @@ public class E27_GenerationOfImaginaryActions extends clsModuleBase implements I
 	 */
 	@Override
 	protected void process() {
-		mnTest++;
-		
+
+		moActions_Output = this.moEnclosingContainer.moMemory.moTemplatePlanStorage.getReognitionUpdate(moTemplateResult_Input);
+
 	}
 
 	/* (non-Javadoc)
@@ -129,7 +139,7 @@ public class E27_GenerationOfImaginaryActions extends clsModuleBase implements I
 	 */
 	@Override
 	protected void send() {
-		((I7_3)moEnclosingContainer).receive_I7_3(mnTest);
+		((I7_3)moEnclosingContainer).receive_I7_3(moActions_Output);
 		
 	}
 }

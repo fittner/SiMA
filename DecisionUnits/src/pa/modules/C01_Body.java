@@ -6,6 +6,7 @@
  */
 package pa.modules;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 
 import pa.enums.eSymbolExtType;
@@ -21,9 +22,11 @@ import pa.interfaces.itfProcessHomeostases;
 import pa.interfaces.itfProcessSensorBody;
 import pa.interfaces.itfProcessSensorEnvironment;
 import pa.interfaces.itfReturnActionCommands;
+import pa.loader.plan.clsPlanAction;
 import pa.memory.clsMemory;
 import pa.symbolization.representationsymbol.itfSymbol;
 import config.clsBWProperties;
+import decisionunit.itf.actions.clsActionCommand;
 import decisionunit.itf.actions.itfActionProcessor;
 import decisionunit.itf.sensors.clsDataBase;
 import decisionunit.itf.sensors.clsSensorExtern;
@@ -197,8 +200,8 @@ public class C01_Body extends clsModuleContainer implements
 	 * @see pa.interfaces.I8_1#receive_I8_1(int)
 	 */
 	@Override
-	public void receive_I8_1(int pnData) {
-		moE31NeuroDeSymbolization.receive_I8_1(pnData);
+	public void receive_I8_1(ArrayList<clsPlanAction> poActionCommands) {
+		moE31NeuroDeSymbolization.receive_I8_1(poActionCommands);
 		
 	}
 
@@ -210,8 +213,8 @@ public class C01_Body extends clsModuleContainer implements
 	 * @see pa.interfaces.I8_2#receive_I8_2(int)
 	 */
 	@Override
-	public void receive_I8_2(int pnData) {
-		moE32Actuators.receive_I8_2(pnData);
+	public void receive_I8_2(ArrayList<clsActionCommand> poActionCommandList) {
+		moE32Actuators.receive_I8_2(poActionCommandList);
 		
 	}
 

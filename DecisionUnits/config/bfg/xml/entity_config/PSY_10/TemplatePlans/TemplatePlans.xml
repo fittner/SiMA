@@ -1,14 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<TemplateScenarios xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+<TemplatePlans xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:noNamespaceSchemaLocation="../xsd/AbstractImage.xsd">
 
-    <TemplateScenario name="Scenario" type="Scenario" value="CAKE_HUNGER" description="big red cake and very hungry">
+    <TemplatePlan name="Scenario" type="Scenario" value="CAKE_HUNGER" description="big red cake and very hungry">
 
 		<State id="0" name="ScenarioState" type="ScenarioState" value="NO_CAKE">
 			<Transition targetid="1" match="0.4" name="TemplateImage" type="TemplateImage" value="CAKE_HUNGER"/>
 		</State>
 
 		<State id="1" name="ScenarioState" type="ScenarioState" value="CAKE_FAR_VISIBLE">
+			<Action once="false" finish="false" name="Action" type="Action" value="MOVE_FORWARD" />
 			<Transition targetid="-1" match="1" name="TemplateImage" type="TemplateImage" value="CAKE_FAR_VISIBLE_CENTER"/>
 			<Transition targetid="-1" match="1" name="TemplateImage" type="TemplateImage" value="CAKE_MEDIUM_VISIBLE"/>
 		</State>
@@ -16,9 +17,9 @@
 		<State id="-1" name="ScenarioState" type="ScenarioState" value="ScenarioAccomplished">
 		</State>
 
-    </TemplateScenario>
+    </TemplatePlan>
 
-    <TemplateScenario name="Scenario2" type="Scenario" value="CAKE_HUNGER_2" description="big red cake and very hungry">
+    <TemplatePlan name="Scenario2" type="Scenario" value="CAKE_HUNGER_2" description="big red cake and very hungry">
 
 		<State id="0" name="ScenarioState" type="ScenarioState" value="NO_CAKE">
 			<Transition targetid="1" match="1" name="TemplateImage" type="TemplateImage" value="CAKE_FAR_VISIBLE"/>
@@ -40,6 +41,6 @@
 		<State id="-1" name="ScenarioState" type="ScenarioState" value="ScenarioAccomplished">
 		</State>
 
-    </TemplateScenario>
+    </TemplatePlan>
 
-</TemplateScenarios>
+</TemplatePlans>

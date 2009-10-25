@@ -20,6 +20,7 @@ import pa.interfaces.I6_1;
 import pa.interfaces.I6_2;
 import pa.interfaces.I7_2;
 import pa.interfaces.I7_4;
+import pa.loader.plan.clsPlanAction;
 import pa.memory.clsMemory;
 import pa.tools.clsPair;
 import config.clsBWProperties;
@@ -205,7 +206,7 @@ public class C11_SecondaryProcessor extends clsModuleContainer implements
 	 * @see pa.interfaces.I7_4#receive_I7_4(int)
 	 */
 	@Override
-	public void receive_I7_4(int pnData) {
-		((I7_4)moEnclosingContainer).receive_I7_4(pnData);
+	public void receive_I7_4(ArrayList<clsPlanAction> poActionCommands) {
+		((I7_4)moEnclosingContainer).receive_I7_4(poActionCommands);
 	}
 }

@@ -6,6 +6,10 @@
  */
 package pa.interfaces;
 
+import java.util.ArrayList;
+
+import pa.loader.plan.clsPlanAction;
+
 /**
  * DOCUMENT (deutsch) - insert description 
  * 
@@ -14,5 +18,5 @@ package pa.interfaces;
  * 
  */
 public interface I7_4 {
-	public void receive_I7_4(int pnData);
+	public void receive_I7_4(ArrayList<clsPlanAction> poActionCommands);
 }

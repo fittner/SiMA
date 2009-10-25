@@ -30,6 +30,7 @@ import pa.interfaces.I4_1;
 import pa.interfaces.I4_2;
 import pa.interfaces.I4_3;
 import pa.interfaces.I7_4;
+import pa.loader.plan.clsPlanAction;
 import pa.memory.clsMemory;
 import pa.symbolization.representationsymbol.itfSymbol;
 import pa.tools.clsPair;
@@ -281,8 +282,8 @@ public class C03_Ego extends clsModuleContainer implements
 	 * @see pa.interfaces.I7_4#receive_I7_4(int)
 	 */
 	@Override
-	public void receive_I7_4(int pnData) {
-		moC07EnvironmentalInterfaceFunctions.receive_I7_4(pnData);
+	public void receive_I7_4(ArrayList<clsPlanAction> poActionCommands) {
+		moC07EnvironmentalInterfaceFunctions.receive_I7_4(poActionCommands);
 	}
 
 	/* (non-Javadoc)
@@ -306,8 +307,8 @@ public class C03_Ego extends clsModuleContainer implements
 	 * @see pa.interfaces.I8_1#receive_I8_1(int)
 	 */
 	@Override
-	public void receive_I8_1(int pnData) {
-		((I8_1)moEnclosingContainer).receive_I8_1(pnData);
+	public void receive_I8_1(ArrayList<clsPlanAction> poActionCommands) {
+		((I8_1)moEnclosingContainer).receive_I8_1(poActionCommands);
 		
 	}
 
