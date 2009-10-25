@@ -18,4 +18,28 @@
 
     </TemplateScenario>
 
+    <TemplateScenario name="Scenario2" type="Scenario" value="CAKE_HUNGER_2" description="big red cake and very hungry">
+
+		<State id="0" name="ScenarioState" type="ScenarioState" value="NO_CAKE">
+			<Transition targetid="1" match="1" name="TemplateImage" type="TemplateImage" value="CAKE_FAR_VISIBLE"/>
+		</State>
+
+		<State id="1" name="ScenarioState" type="ScenarioState" value="CAKE_FAR_VISIBLE">
+			<Transition targetid="-1" match="1" name="TemplateImage" type="TemplateImage" value="CAKE_FAR_VISIBLE_CENTER"/>
+			<Transition targetid="2" match="1" name="TemplateImage" type="TemplateImage" value="CAKE_MEDIUM_VISIBLE"/>
+                </State>
+
+        	<State id="2" name="ScenarioState" type="ScenarioState" value="CAKE_FAR_VISIBLE">
+			<Transition targetid="3" match="1" name="TemplateImage" type="TemplateImage" value="CAKE_FAR_VISIBLE_CENTER"/>
+                    </State>
+
+    		<State id="3" name="ScenarioState" type="ScenarioState" value="CAKE_FAR_VISIBLE">
+			<Transition targetid="-1" match="1" name="TemplateImage" type="TemplateImage" value="CAKE_MEDIUM_VISIBLE"/>
+		</State>
+
+		<State id="-1" name="ScenarioState" type="ScenarioState" value="ScenarioAccomplished">
+		</State>
+
+    </TemplateScenario>            
+
 </TemplateScenarios>

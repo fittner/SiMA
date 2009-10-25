@@ -18,7 +18,8 @@ import pa.datatypes.clsWordPresentation;
  */
 public class clsScenarioTransition extends clsSecondaryInformation {
 
-	public int moTargetId;
+	public int mnTargetId;
+	public double mrMatch;
 
 	public clsScenarioTransition(clsWordPresentation poWordPresentation) {
 		super(poWordPresentation);

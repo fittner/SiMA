@@ -121,7 +121,8 @@ public class clsScenarioLoader {
 			clsScenarioTransition poTansition) {
 		readContent(poScenarioNode, poTansition);
 		NamedNodeMap oAttrib = poScenarioNode.getAttributes();
-		poTansition.moTargetId = Integer.parseInt(clsXMLAbstractImageReader.getAtributeValue(oAttrib,"targetid"));
+		poTansition.mnTargetId = Integer.parseInt(clsXMLAbstractImageReader.getAtributeValue(oAttrib,"targetid"));
+		poTansition.mrMatch = Double.parseDouble(clsXMLAbstractImageReader.getAtributeValue(oAttrib,"match"));
 	}
 
 

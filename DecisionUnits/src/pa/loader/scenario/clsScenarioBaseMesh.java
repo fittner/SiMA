@@ -22,7 +22,8 @@ import pa.datatypes.clsWordPresentation;
  */
 public class clsScenarioBaseMesh extends clsSecondaryInformationMesh{
 
-	HashMap<Integer, clsScenarioStateMesh> moStates;
+	public HashMap<Integer, clsScenarioStateMesh> moStates;
+	public int mnCurrentState = 0;
 
 	public clsScenarioBaseMesh(clsWordPresentation poWordPresentation) {
 		super(poWordPresentation);
