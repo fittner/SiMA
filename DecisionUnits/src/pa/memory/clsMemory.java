@@ -33,6 +33,7 @@ public class clsMemory implements
 	public static final String P_OBJECTSEMANTICSTORAGE = "objectsemanticstorage";
 	public static final String P_CURRENTCONTEXT = "currentcontext";
 	public static final String P_TEMPLATEIMAGESTORAGE = "templateimagestorage";
+	public static final String P_TEMPLATESCENARIOTORAGE = "templatescenariostorage";
 	
 	//repressed content accummulated during the development of the young bubble (these are the init-values)
 	public clsRepressedContentStorage moRepressedContentsStore;
@@ -45,6 +46,8 @@ public class clsMemory implements
 	public clsCurrentContextStorage moCurrentContextStorage;
 	
 	public clsTemplateImageStorage moTemplateImageStorage;
+	
+	public clsTemplateScenarioStorage moTemplateScenarioStorage;
 	
 
 	/**
@@ -67,6 +70,8 @@ public class clsMemory implements
 		moCurrentContextStorage  = new clsCurrentContextStorage(pre+P_CURRENTCONTEXT, poProp);
 		moObjectSemanticsStorage  = new clsObjectSemanticsStorage(pre+P_OBJECTSEMANTICSTORAGE, poProp);
 		moTemplateImageStorage = new clsTemplateImageStorage(pre+P_OBJECTSEMANTICSTORAGE, poProp);
+		moTemplateScenarioStorage = new clsTemplateScenarioStorage(pre+P_TEMPLATESCENARIOTORAGE, poProp);
+		
 	}	
     
     public static clsBWProperties getDefaultProperties(String poPrefix) {
@@ -78,7 +83,8 @@ public class clsMemory implements
 		oProp.putAll(clsAwareContentStorage.getDefaultProperties(pre+P_AWARECONTENTSSTORAGE) );
 		oProp.putAll(clsCurrentContextStorage.getDefaultProperties(pre+P_CURRENTCONTEXT) );		
 		oProp.putAll(clsObjectSemanticsStorage.getDefaultProperties(pre+P_OBJECTSEMANTICSTORAGE) );
-		oProp.putAll(clsObjectSemanticsStorage.getDefaultProperties(pre+P_TEMPLATEIMAGESTORAGE) );
+		oProp.putAll(clsTemplateImageStorage .getDefaultProperties(pre+P_TEMPLATEIMAGESTORAGE) );
+		oProp.putAll(clsTemplateScenarioStorage.getDefaultProperties(pre+P_TEMPLATESCENARIOTORAGE) );
 		
 		return oProp;
     }

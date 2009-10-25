@@ -90,6 +90,10 @@ public class clsInspectorMappingPA {
 		else if(poModuleName.equals("TemplateImageStorage")) {
 			oRetVal.addInspector( new clsSecondaryInformationIspector(poSuperInspector, poWrapper, poState, moPA.getMemoryForInspector().moTemplateImageStorage, "moTemplateImages" ), "Template Images");		
 		}
+		else if(poModuleName.equals("TemplateScenarioStorage")) {
+			oRetVal.addInspector( new clsSecondaryInformationIspector(poSuperInspector, poWrapper, poState, moPA.getMemoryForInspector().moTemplateScenarioStorage, "moTemplateScenarios" ), "Template Images");		
+		}
+		
 		
 		
 		
