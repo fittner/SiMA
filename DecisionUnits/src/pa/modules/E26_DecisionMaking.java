@@ -33,6 +33,7 @@ public class E26_DecisionMaking extends clsModuleBase implements I1_7, I2_13, I3
 	private ArrayList<clsPair<clsSecondaryInformation, clsSecondaryInformationMesh>> moRealityPerception;
 	
 	HashMap<String, clsPair<clsSecondaryInformation, Double>> moTemplateImageResult;
+	HashMap<String, clsPair<clsSecondaryInformation, Double>> moTemplateScenarioResult;
 	
 	/**
 	 * DOCUMENT (deutsch) - insert description 
@@ -162,7 +163,7 @@ public class E26_DecisionMaking extends clsModuleBase implements I1_7, I2_13, I3
 		
 		moTemplateImageResult = moEnclosingContainer.moMemory.moTemplateImageStorage.compare(oCompletePerception);
 		
-		
+		moTemplateScenarioResult = moEnclosingContainer.moMemory.moTemplateScenarioStorage.getReognitionUpdate(moTemplateImageResult);
 		
 	}
 
