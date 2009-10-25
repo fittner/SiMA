@@ -7,6 +7,7 @@
 package pa.modules;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import config.clsBWProperties;
 import pa.datatypes.clsSecondaryInformation;
@@ -28,9 +29,10 @@ import pa.tools.clsPair;
  */
 public class E26_DecisionMaking extends clsModuleBase implements I1_7, I2_13, I3_3, I5_5 {
 
-	ArrayList<clsSecondaryInformation> moEnvironmentalPerception;
 	private ArrayList<clsSecondaryInformation> moDriveList;
 	private ArrayList<clsPair<clsSecondaryInformation, clsSecondaryInformationMesh>> moRealityPerception;
+	
+	HashMap<String, clsPair<clsSecondaryInformation, Double>> moTemplateImageResult;
 	
 	/**
 	 * DOCUMENT (deutsch) - insert description 
@@ -150,7 +152,17 @@ public class E26_DecisionMaking extends clsModuleBase implements I1_7, I2_13, I3
 	 */
 	@Override
 	protected void process() {
-		mnTest++;
+
+		ArrayList<clsSecondaryInformation> oCompletePerception = new ArrayList<clsSecondaryInformation>();
+		
+		oCompletePerception.addAll(moDriveList);
+		for(clsPair<clsSecondaryInformation, clsSecondaryInformationMesh> oReal :moRealityPerception) {
+			oCompletePerception.add(oReal.a);
+		}
+		
+		moTemplateImageResult = moEnclosingContainer.moMemory.moTemplateImageStorage.compare(oCompletePerception);
+		
+		
 		
 	}
 

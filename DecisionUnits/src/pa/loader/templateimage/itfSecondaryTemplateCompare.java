@@ -6,8 +6,6 @@
  */
 package pa.loader.templateimage;
 
-import java.util.ArrayList;
-
 import pa.datatypes.clsSecondaryInformation;
 
 /**
@@ -18,6 +16,8 @@ import pa.datatypes.clsSecondaryInformation;
  * 
  */
 public interface itfSecondaryTemplateCompare {
-	public void compareTemplateWith(clsSecondaryInformation poCurrentSec, ArrayList<Boolean> poMatchList);
+	public void compareTemplateWith(clsSecondaryInformation poCurrentSec, Integer[] pnMatches);
 	public boolean checkType(clsSecondaryInformation poCurrentSec);
+	public int getNodeCount();
+	public void getNodeCountRecursive(Integer[] poNodeCount);
 }

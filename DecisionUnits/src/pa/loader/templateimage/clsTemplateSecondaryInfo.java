@@ -36,14 +36,18 @@ public class clsTemplateSecondaryInfo extends clsSecondaryInformation implements
 	 */
 	@Override
 	public void compareTemplateWith(clsSecondaryInformation poCurrentSec,
-			ArrayList<Boolean> poMatchList) {
+			Integer[] pnMatches) {
 		
 		if(checkType(poCurrentSec)) {
-			poMatchList.add( moCompareOperator.compare(moWP.moContent, poCurrentSec.moWP.moContent) );
+			if( moCompareOperator.compare(moWP.moContent, poCurrentSec.moWP.moContent) ) {
+				pnMatches[0]++;
 		
-			if(moAffect!=null && moAffect instanceof clsTemplateAffect) {
-				clsTemplateAffect oTempAff = (clsTemplateAffect)moAffect;
-				poMatchList.add( oTempAff.moCompareOperator.compare(oTempAff.getValue(), poCurrentSec.moAffect.getValue()));
+				if(moAffect!=null && moAffect instanceof clsTemplateAffect) {
+					clsTemplateAffect oTempAff = (clsTemplateAffect)moAffect;
+					if( oTempAff.moCompareOperator.compare(oTempAff.getValue(), poCurrentSec.moAffect.getValue())) {
+						pnMatches[0]++;
+					}
+				}
 			}
 		}
 	}
@@ -59,12 +63,65 @@ public class clsTemplateSecondaryInfo extends clsSecondaryInformation implements
 	public boolean checkType(clsSecondaryInformation poCurrentSec) {
 
 		if( (moWP != null && poCurrentSec.moWP != null ) &&
-			 moWP.moContentName == poCurrentSec.moWP.moContentName &&
-			 moWP.moContentType == poCurrentSec.moWP.moContentType ) {
+			//&& moWP.moContentType.equals(poCurrentSec.moWP.moContentType.toString())
+			moWP.moContentName.equals(poCurrentSec.moWP.moContentName) ) { 
 			return true;
 		}
 
 		return false;
+	}
+
+	/**
+	 * DOCUMENT (langr) - insert description
+	 *
+	 * @author langr
+	 * 25.10.2009, 00:27:03
+	 *
+	 * @param poCompletePerception
+	 * @return
+	 */
+	public double compareTo(
+		ArrayList<clsSecondaryInformation> poCompletePerception) {
+
+		double oRetVal = 0;
+		Integer[] nMatches = new Integer[]{0};
+		for(clsSecondaryInformation oSecPerc : poCompletePerception) {
+			
+			compareTemplateWith(oSecPerc, nMatches);
+			oRetVal += getMatchRatio(nMatches[0]);
+		}
+		
+		return oRetVal;
+	}
+
+	/**
+	 * DOCUMENT (langr) - insert description
+	 *
+	 * @author langr
+	 * 25.10.2009, 00:31:51
+	 *
+	 * @param matchList
+	 * @return
+	 */
+	public double getMatchRatio(int pnMatches) {
+
+		double oRetVal = 0;
+
+		if(getNodeCount() > 0) {
+			oRetVal = (double)pnMatches/getNodeCount();
+		}
+		
+		return oRetVal;
+	}
+	
+	public int getNodeCount() {
+		int nRetVal = 0;
+		if(moWP!=null) { nRetVal++; }
+		if(moAffect!=null) { nRetVal++; }
+		return nRetVal;
+	}
+	public void getNodeCountRecursive(Integer[] poNodeCount){
+		poNodeCount[0]+=getNodeCount();
 	}
 	
 }

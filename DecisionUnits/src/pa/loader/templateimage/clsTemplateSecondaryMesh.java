@@ -52,27 +52,36 @@ public class clsTemplateSecondaryMesh extends clsSecondaryInformationMesh implem
 	 */
 	@Override
 	public void compareTemplateWith(clsSecondaryInformation poCurrentSec,
-			ArrayList<Boolean> poMatchList) {
-
+			Integer[] pnMatches) {
+		
 		//check this TP
 		if( checkType(poCurrentSec) ) {
-			poMatchList.add( moCompareOperator.compare(moTP.moContent, poCurrentSec.moWP.moContent) );
+			if( moCompareOperator.compare(moWP.moContent, poCurrentSec.moWP.moContent) ) {
+				pnMatches[0]++;
+			
 		
-			//check this Affect
-			if(moAffect!=null && moAffect instanceof clsTemplateAffect) {
-				clsTemplateAffect oTempAff = (clsTemplateAffect)moAffect;
-				poMatchList.add( oTempAff.moCompareOperator.compare(oTempAff.getValue(), poCurrentSec.moAffect.getValue()));
-			}
+				//check this Affect
+				if(moAffect!=null && poCurrentSec.moAffect != null && moAffect instanceof clsTemplateAffect) {
+					clsTemplateAffect oTempAff = (clsTemplateAffect)moAffect;
+					if( oTempAff.moCompareOperator.compare(oTempAff.getValue(), poCurrentSec.moAffect.getValue())) {
+						pnMatches[0]++;
+					}
+				}
+		
+				//check match of childs
 	
-			//check match of childs
-			ArrayList<Boolean> poChildMatch = new ArrayList<Boolean>();
-			for(clsAssociation<clsSecondaryInformation> oAssocTemp : moAssociations) {
-				
-				for( clsAssociation<clsSecondaryInformation> oAssocComp : ((clsTemplateSecondaryMesh)poCurrentSec).moAssociations) {
-					((itfPrimaryTemplateComparable)oAssocTemp.moElementB).compareTemplateWith(oAssocComp.moElementB, poChildMatch);
+				Integer[] nMatches = new Integer[]{0};
+	
+				for(clsAssociation<clsSecondaryInformation> oAssocTemp : moAssociations) {
+					
+					for( clsAssociation<clsSecondaryInformation> oAssocComp : ((clsSecondaryInformationMesh)poCurrentSec).moAssociations) {
+						((itfSecondaryTemplateCompare)oAssocTemp.moElementB).compareTemplateWith(oAssocComp.moElementB, nMatches);
+					}
+				}
+				if(moAssociations.size() > 0 && verifyNodeOperatorsOnChilds(nMatches[0])) {
+					pnMatches[0]++;
 				}
 			}
-			verifyNodeOperators(poChildMatch, poMatchList);
 		}
 	}
 
@@ -85,28 +94,17 @@ public class clsTemplateSecondaryMesh extends clsSecondaryInformationMesh implem
 	 * @param poChildMatch
 	 * @return
 	 */
-	private void verifyNodeOperators(ArrayList<Boolean> poChildMatch, ArrayList<Boolean> poMatchList) {
-		boolean match = false;
-		int nTrueCount = 0;
-		int nFalseCount = 0;
+	private boolean verifyNodeOperatorsOnChilds(int pnMatches) {
+		boolean match = false;		
+		int nNodeCount = moAssociations.size();
 		
-		for(Boolean oVal : poChildMatch) {
-			if(oVal) {
-				nTrueCount++;
-			}
-			else {
-				nFalseCount++;
-			}
-		}
-		
-		
-		if(meOptional == eOptional.OPTIONAL) { //at least one match
-			if( nTrueCount > 0 ) {
+		if(meOperator == eBooleanOperator.OR) { //at least one match
+			if( pnMatches > 0 ) {
 				match = true;
 			}
 		}
-		else if(meOptional == eOptional.MANDATORY) {	//everything has to match
-			if( nFalseCount == 0 && nTrueCount > 0) {
+		else if(meOperator == eBooleanOperator.AND) {	//everything has to match
+			if( pnMatches >= nNodeCount) {
 				match = true;
 			}
 		}
@@ -114,7 +112,7 @@ public class clsTemplateSecondaryMesh extends clsSecondaryInformationMesh implem
 		if(meNegated == eTriState.TRUE) {
 			match = !match;
 		}
-		poMatchList.add(match);
+		return match;
 	}
 
 	/**
@@ -129,14 +127,96 @@ public class clsTemplateSecondaryMesh extends clsSecondaryInformationMesh implem
 	public boolean checkType(clsSecondaryInformation poCurrentSec) {
 
 
-		if( poCurrentSec instanceof clsTemplateSecondaryMesh &&
+		if( poCurrentSec instanceof clsSecondaryInformationMesh &&
 			(moWP != null && poCurrentSec.moWP != null ) && 
-			 moWP.moContentName == poCurrentSec.moWP.moContentName &&
-			 moWP.moContentType == poCurrentSec.moWP.moContentType ) {
+			 moWP.moContentName.equals(poCurrentSec.moWP.moContentName) ) {
+			//&& moWP.moContentType.equals(poCurrentSec.moWP.moContentType.toString()) ) {
 			return true;
 		}
 		
 		return false;
 	}
 
+	/**
+	 * DOCUMENT (langr) - insert description
+	 *
+	 * @author langr
+	 * 25.10.2009, 00:34:48
+	 *
+	 * @param poCompletePerception
+	 * @return
+	 */
+	public double compareTo( ArrayList<clsSecondaryInformation> poCompletePerception) {
+
+		Integer[] nMatches = new Integer[]{0};
+		for(clsAssociation<clsSecondaryInformation> oAssoc : moAssociations) {
+
+			if( oAssoc.moElementB instanceof clsTemplateSecondaryMesh ) {
+
+				for( clsSecondaryInformation oSec : poCompletePerception ) {
+					
+					((clsTemplateSecondaryMesh)oAssoc.moElementB).compareTemplateWith(oSec, nMatches);
+
+				}
+			}
+			if( oAssoc.moElementB instanceof clsTemplateSecondaryInfo ) {
+
+				for( clsSecondaryInformation oSec : poCompletePerception ) {
+
+					((clsTemplateSecondaryInfo)oAssoc.moElementB).compareTemplateWith(oSec, nMatches);					
+
+				}
+			}
+	
+		}
+		return getMatchRatio(nMatches[0], this.meOperator);
+	}
+
+	public double getMatchRatio(int pnMatches, eBooleanOperator peOperator) {
+
+		double oRetVal = 0.0;
+		Integer[] oNodeCount = new Integer[]{-1};
+		getNodeCountRecursive(oNodeCount);
+		
+		//add comapre operator logic here:
+//		if(peOperator == eBooleanOperator.OR) { //at least one match
+//			if( pnMatches > 0 && oNodeCount[0] > 0) {
+//				oRetVal = (double)pnMatches/oNodeCount[0];
+//			}
+//		}
+//		else if(peOperator == eBooleanOperator.AND) {	//everything has to match
+//			if( pnMatches >= oNodeCount[0] ) {
+//				oRetVal=1;
+//			}
+//		}
+
+
+		if( oNodeCount[0] > 0) {
+			oRetVal = (double)pnMatches/oNodeCount[0];
+		}
+		
+		return oRetVal;
+	}
+	
+	public int getNodeCount() {
+		int nRetVal = 0;
+		if(moWP!=null) { nRetVal++; }
+		if(moAffect!=null) { nRetVal++; }
+		nRetVal+=moAssociations.size();
+		return nRetVal;
+	}
+	
+	public void getNodeCountRecursive(Integer[] poNodeCount){
+		if(moWP!=null) { poNodeCount[0]++; }
+		if(moAffect!=null) { poNodeCount[0]++; }
+		for(clsAssociation<clsSecondaryInformation> oSec : moAssociations) {
+			if( oSec.moElementB instanceof clsTemplateSecondaryMesh ) {
+				((clsTemplateSecondaryMesh)oSec.moElementB).getNodeCountRecursive(poNodeCount);
+			}
+			if( oSec.moElementB instanceof clsTemplateSecondaryInfo ) {
+				((clsTemplateSecondaryInfo)oSec.moElementB).getNodeCountRecursive(poNodeCount);
+			}
+		}
+	}
+	
 }

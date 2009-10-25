@@ -6,6 +6,8 @@
  */
 package pa.loader.templateimage;
 
+import java.awt.Color;
+
 import bfg.utils.enums.eTrippleState;
 
 /**
@@ -77,31 +79,39 @@ public class clsCompareOperator {
 		if( a.getClass().getName().equals( b.getClass().getName()) ) { //same instances
 			
 			if(a instanceof Integer) {
-				compare( (Integer)a, (Integer)b );
+				oRetVal = compare( (Integer)a, (Integer)b );
 			}
 			if(a instanceof Enum) {
-				compare( ((Enum)a).ordinal(), ((Enum)b).ordinal());
+				oRetVal = compare( ((Enum)a).ordinal(), ((Enum)b).ordinal());
 			}
 			else if(a instanceof Double) {
-				compare( (Double)a, (Double)b );
+				oRetVal = compare( (Double)a, (Double)b );
 			}
 			else if(a instanceof String) {
-				compare( (Double)a, (Double)b );
+				oRetVal = compare( (String)a, (String)b );
 			}
 			else if(a instanceof Boolean && b instanceof Boolean) {
-				compare( (Boolean)a, (Boolean)b );
-			}
-			else if(a instanceof Boolean && b instanceof eTrippleState) {
-				compare( (Boolean)a, (eTrippleState)b );
-			}
-			else if(a instanceof eTrippleState && b instanceof Boolean ) {
-				compare( (Boolean)b, (eTrippleState)a );
+				oRetVal = compare( (Boolean)a, (Boolean)b );
 			}
 			else {
 				System.out.println("Error in Template Compare Operator\n -- Cannot compare " 
 						+ a.getClass().getName() + " with " + b.getClass().getName() + " - not Supported!");
 			}
 			
+		}
+		else {
+			if(a instanceof Boolean && b instanceof eTrippleState) {
+				oRetVal = compare( (Boolean)a, (eTrippleState)b );
+			}
+			else if(a instanceof eTrippleState && b instanceof Boolean ) {
+				oRetVal = compare( (Boolean)b, (eTrippleState)a );
+			}
+			else if(a instanceof String && b instanceof Color ) {
+				oRetVal = compare( (String)a, "#"+Integer.toString(((Color)b).getRGB() & 0xffffff, 16).toUpperCase() );
+			}
+			else if(a instanceof String && b instanceof Enum) {
+				oRetVal = compare( a, ((Enum)b).name());
+			}
 		}
 		  
 		return oRetVal;
@@ -256,14 +266,14 @@ public class clsCompareOperator {
 		  
 		  if( moCompareOperator.equals("==") )
 		    {
-		      if( a == b )
+		      if( a.equals(b) )
 		      {
 		    	  oRetVal = true;
 		      }
 		    }
 		    else if( moCompareOperator.equals("!=") )
 		    {
-		      if( a != b )
+		      if( !a.equals(b) )
 		      {
 		    	  oRetVal = true;
 		      }

@@ -164,7 +164,7 @@ public class E17_FusionOfExternalPerceptionAndMemoryTraces extends clsModuleBase
 			ArrayList<clsPrimaryInformation> poAwareContentList) {
 		
 		for(clsPrimaryInformation oAwareContent : poAwareContentList){
-			poMergedMesh.moTP.meContentName = poMergedMesh.moTP.meContentName + "_" + oAwareContent.moTP.meContentName;
+			poMergedMesh.moTP.meContentName = poMergedMesh.moTP.meContentName; // + "_" + oAwareContent.moTP.meContentName;
 			poMergedMesh.moTP.moContent = poMergedMesh.moTP.moContent +"_" + oAwareContent.moTP.moContent; 
 			clsAssociationContent<clsPrimaryInformation> oAssociationContent = new clsAssociationContent<clsPrimaryInformation>(); 
 			 

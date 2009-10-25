@@ -7,9 +7,13 @@
 package pa.memory;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import pa.datatypes.clsSecondaryInformation;
 import pa.loader.templateimage.clsTemplateImageLoader;
+import pa.loader.templateimage.clsTemplateSecondaryInfo;
+import pa.loader.templateimage.clsTemplateSecondaryMesh;
+import pa.tools.clsPair;
 import config.clsBWProperties;
 
 /**
@@ -47,4 +51,30 @@ public class clsTemplateImageStorage {
 		
 		return oProp;
     }
+
+
+	/**
+	 * DOCUMENT (langr) - insert description
+	 *
+	 * @author langr
+	 * 25.10.2009, 00:11:33
+	 *
+	 * @param completePerception
+	 */
+	public HashMap<String, clsPair<clsSecondaryInformation, Double>> compare(ArrayList<clsSecondaryInformation> poCompletePerception) {
+
+		HashMap<String, clsPair<clsSecondaryInformation, Double>> oRetVal = new HashMap<String, clsPair<clsSecondaryInformation, Double>>();
+	
+		 for(clsSecondaryInformation oTempImage : moTemplateImages) {
+			 double match = 0.0;
+			 if (oTempImage instanceof clsTemplateSecondaryMesh) {
+				 match = ((clsTemplateSecondaryMesh)oTempImage).compareTo(poCompletePerception);
+			 } else if(oTempImage instanceof clsTemplateSecondaryInfo) {
+				 match = ((clsTemplateSecondaryInfo)oTempImage).compareTo(poCompletePerception);
+			 }
+			 oRetVal.put(oTempImage.moWP.moContent.toString(), new clsPair<clsSecondaryInformation, Double>(oTempImage,match)); 
+		 }
+		 
+		 return oRetVal;
+	}
 }

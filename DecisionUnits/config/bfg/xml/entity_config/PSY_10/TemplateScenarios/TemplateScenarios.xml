@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<TemplateImages xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+<TemplateScenarios xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:noNamespaceSchemaLocation="../xsd/AbstractImage.xsd">
 
-    <TemplateImage name="Template Image" type="TempImage" value="CAKE_HUNGER" optional="MANDATORY" booleanOperator="AND" negated="FALSE" description="big red cake and very hungry">
+    <TemplateScenario name="Template Image" type="TempImage" value="CAKE_HUNGER" description="big red cake and very hungry">
         <PrimInfo name="Bump" type="Bump" compare="==" value="TRUE" />
 		<PrimMesh name="Entity" type="Entity" compare="==" value="CAKE_UNGREEDY" optional="MANDATORY" booleanOperator="AND" negated="FALSE">
             <Affect compare="&lt;" value="0.5" />
