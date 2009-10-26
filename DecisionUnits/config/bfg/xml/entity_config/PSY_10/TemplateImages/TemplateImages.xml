@@ -12,5 +12,9 @@
             <!--Affect compare="&gt;" value="0.6" /-->
 	<!--/DriveMesh-->
     </TemplateImage>
+    
+    <TemplateImage name="Template Image" type="TempImage" value="BUMPED" optional="MANDATORY" booleanOperator="AND" negated="FALSE" description="big red cake and very hungry">
+        <PrimInfo name="Bump" type="Bump" compare="==" value="true" />
+    </TemplateImage>
 
 </TemplateImages>
