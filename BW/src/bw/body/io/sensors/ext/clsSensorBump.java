@@ -11,10 +11,8 @@ import java.util.ArrayList;
 
 import ARSsim.physics2D.physicalObject.clsCollidingObject;
 import config.clsBWProperties;
-import bw.body.clsComplexBody;
 import bw.body.io.clsBaseIO;
 import bw.body.io.clsExternalIO;
-import bw.body.itfget.itfGetBody;
 import bw.entities.clsEntity;
 import bw.utils.enums.eBodyParts;
 
@@ -119,7 +117,10 @@ public class clsSensorBump extends clsSensorRingSegment{
 	public void updateSensorData(Double pnAreaRange,
 			ArrayList<clsCollidingObject> peDetectedObjInAreaList) {
 		
-		moSensorData.setMeDetectedObjectList(pnAreaRange,  peDetectedObjInAreaList); 
+		if(pnAreaRange == 20 && peDetectedObjInAreaList!= null){
+			moSensorData.setMeDetectedObjectList(pnAreaRange,  peDetectedObjInAreaList); 
+			setBumpStatus();
+		}
 	}
 
 	/* (non-Javadoc)
@@ -146,31 +147,21 @@ public class clsSensorBump extends clsSensorRingSegment{
 		moName = "ext. Bumpsensor";
 	}
 
-	/* (non-Javadoc)
-	 *
-	 * @author zeilinger
-	 * 30.07.2009, 11:29:54
-	 * 
-	 * @see bw.body.io.sensors.itfSensorUpdate#updateSensorData()
-	 */
-	@Override
-	public void updateSensorData() {
+	
+	public void setBumpStatus() {
 		//FIXME HZ In this case it is supposed that the bumpsensor is registered for 
 		//mnRange 0 only; 
-		if(moSensorData.getMeDetectedObject().get(0)!= null) {
-			mnBumped = false;
-		}
-		else {
+		if(moSensorData.getMeDetectedObject().get(20.0).size()> 0) {
 			mnBumped = true;
 		}
-		
-		if (mnBumped) {
-			if ( ((itfGetBody)moHostEntity).getBody() instanceof clsComplexBody) {
-				//TODO calculate true force
-				double rForce = 1.0;
-				((clsComplexBody)((itfGetBody)moHostEntity).getBody()).getInterBodyWorldSystem().getDamageBump().bumped(eBodyParts.SENSOR_EXT_TACTILE_BUMP, rForce);
-			}
+		else {
+			mnBumped = false;
 		}
-	}
-
+		
+		//if ( ((itfGetBody)moHostEntity).getBody() instanceof clsComplexBody) {
+			//TODO calculate true force
+//			double rForce = 1.0;
+//			((clsComplexBody)((itfGetBody)moHostEntity).getBody()).getInterBodyWorldSystem().getDamageBump().bumped(eBodyParts.SENSOR_EXT_TACTILE_BUMP, rForce);
+		//}
+	}		
 }
