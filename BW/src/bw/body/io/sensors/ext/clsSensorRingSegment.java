@@ -134,9 +134,9 @@ public class clsSensorRingSegment extends clsSensorExt {
 			ArrayList<clsCollidingObject> peDetectedObjInAreaList) {
 		
 		for( Iterator<clsCollidingObject> it = peDetectedObjInAreaList.iterator(); it.hasNext(); ) {
-			clsCollidingObject oVisionEntry = it.next();
+			clsCollidingObject oSensorEntry = it.next();
 			//get colliding objects position relative to THIS object
-			if(oVisionEntry.moCollider.getShape() instanceof Circle && (oVisionEntry.mrColPoint.mrLength < mrMinDistance || oVisionEntry.mrColPoint.mrLength >= mrMaxDistance) ) {
+			if(oSensorEntry.moCollider.getShape() instanceof Circle && (oSensorEntry.mrColPoint.mrLength < mrMinDistance || oSensorEntry.mrColPoint.mrLength >= mrMaxDistance) ) {
 				it.remove();
 			}
 		}

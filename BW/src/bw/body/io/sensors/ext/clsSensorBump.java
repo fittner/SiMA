@@ -6,10 +6,6 @@
  */
 package bw.body.io.sensors.ext;
 
-import java.util.ArrayList;
-
-
-import ARSsim.physics2D.physicalObject.clsCollidingObject;
 import config.clsBWProperties;
 import bw.body.io.clsBaseIO;
 import bw.body.io.clsExternalIO;
@@ -56,7 +52,7 @@ public class clsSensorBump extends clsSensorRingSegment{
 		
 		//FIXME HZ - min and max distance should be variable and adapt themselves to the 
 		//			 shape size of the entity
-		oProp.setProperty(pre+P_SENSOR_MIN_DISTANCE, 10.0);
+		oProp.setProperty(pre+P_SENSOR_MIN_DISTANCE, 0.0);
 		oProp.setProperty(pre+P_SENSOR_MAX_DISTANCE, 11.0);
 		oProp.setProperty(pre+P_BASEENERGYCONSUMPTION, 0.0);
 		
@@ -90,39 +86,13 @@ public class clsSensorBump extends clsSensorRingSegment{
 	 * @return the mnBumped
 	 */
 	public boolean isBumped() {
+		
+		setBumpStatus();
+	
 		return mnBumped;
 	}
 	
-	/* (non-Javadoc)
-	 *
-	 * @author zeilinger
-	 * 30.07.2009, 11:29:54
-	 * 
-	 * @see bw.body.io.sensors.ext.clsSensorExt#setDetectedObjectsList(java.lang.Double, java.util.ArrayList, java.util.HashMap)
-	 */
-	@Override
-	public void setDetectedObjectsList(Double pnAreaRange,
-			ArrayList<clsCollidingObject> peObjInAreaList) {
-		// TODO (zeilinger) - Auto-generated method stub
-	}
-
-	/* (non-Javadoc)
-	 *
-	 * @author zeilinger
-	 * 30.07.2009, 11:29:54
-	 * 
-	 * @see bw.body.io.sensors.ext.clsSensorExt#updateSensorData(java.lang.Double, java.util.ArrayList, java.util.HashMap)
-	 */
-	@Override
-	public void updateSensorData(Double pnAreaRange,
-			ArrayList<clsCollidingObject> peDetectedObjInAreaList) {
-		
-		if(pnAreaRange == 20 && peDetectedObjInAreaList!= null){
-			moSensorData.setMeDetectedObjectList(pnAreaRange,  peDetectedObjInAreaList); 
-			setBumpStatus();
-		}
-	}
-
+	
 	/* (non-Javadoc)
 	 *
 	 * @author zeilinger
@@ -151,7 +121,7 @@ public class clsSensorBump extends clsSensorRingSegment{
 	public void setBumpStatus() {
 		//FIXME HZ In this case it is supposed that the bumpsensor is registered for 
 		//mnRange 0 only; 
-		if(moSensorData.getMeDetectedObject().get(20.0).size()> 0) {
+		if(moSensorData.getMeDetectedObject().get(20.0) != null && moSensorData.getMeDetectedObject().get(20.0).size()> 0) {
 			mnBumped = true;
 		}
 		else {
