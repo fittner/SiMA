@@ -109,6 +109,9 @@ public class clsCompareOperator {
 			else if(a instanceof String && b instanceof Color ) {
 				oRetVal = compare( (String)a, "#"+Integer.toString(((Color)b).getRGB() & 0xffffff, 16).toUpperCase() );
 			}
+			else if(a instanceof String && b instanceof Boolean ) {
+				oRetVal = compare( Boolean.parseBoolean(a.toString()), b );
+			}
 			else if(a instanceof String && b instanceof Enum) {
 				oRetVal = compare( a, ((Enum)b).name());
 			}
@@ -236,6 +239,11 @@ public class clsCompareOperator {
 
 		  return oRetVal;
 	  }
+	  
+	  public boolean compare(Boolean a, Boolean b) {
+		  return compare(a.booleanValue(), b.booleanValue());
+	  }
+			
 	  
 	  public boolean compare(boolean pnBool, eTrippleState peTrip) {
 		

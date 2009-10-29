@@ -109,6 +109,8 @@ public class E31_NeuroDeSymbolization extends clsModuleBase implements I8_1 {
 	@Override
 	protected void process() {
 		
+		moActionCommandList_Output.clear();
+		
 		for(clsPlanAction oAction : moActionCommands_Input) {
 			
 			if(oAction.moWP.moContent.equals("MOVE_FORWARD")) {
