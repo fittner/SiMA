@@ -23,7 +23,13 @@ public class clsManipulateAreaEntry extends clsVisionEntry {
 	public clsManipulateAreaEntry(clsVisionEntry poEntry) {
 		super();
 		
-		Field[] oFields = clsVisionEntry.class.getDeclaredFields();
+		//ATTENTION: getDeclaredFields ONLY returns the member of the given class - NOT THE SUPERCLASSES!!!!
+		Field[] oFields1 = clsVisionEntry.class.getDeclaredFields();
+		Field[] oFields2 = clsSensorRingSegmentEntry.class.getDeclaredFields();
+		
+		Field[] oFields = new Field[oFields1.length+oFields2.length];
+		for(int i=0; i<oFields1.length; i++) { oFields[i]=oFields1[i]; }
+		for(int i=0; i<oFields2.length; i++) { oFields[i+oFields1.length]=oFields2[i]; }
 		
 		for (Field oF:oFields) {
 			Object value;

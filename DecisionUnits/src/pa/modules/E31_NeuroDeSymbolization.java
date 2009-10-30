@@ -10,7 +10,11 @@ import java.util.ArrayList;
 
 import config.clsBWProperties;
 import decisionunit.itf.actions.clsActionCommand;
+import decisionunit.itf.actions.clsActionDrop;
+import decisionunit.itf.actions.clsActionEat;
 import decisionunit.itf.actions.clsActionMove;
+import decisionunit.itf.actions.clsActionPickUp;
+import decisionunit.itf.actions.clsActionSequenceFactory;
 import enums.eActionMoveDirection;
 import pa.interfaces.I8_1;
 import pa.interfaces.I8_2;
@@ -116,6 +120,29 @@ public class E31_NeuroDeSymbolization extends clsModuleBase implements I8_1 {
 			if(oAction.moWP.moContent.equals("MOVE_FORWARD")) {
 				
 				moActionCommandList_Output.add( new clsActionMove(eActionMoveDirection.MOVE_FORWARD,1.0) );
+				System.out.println("cmd: move_forward");
+			}
+			else if(oAction.moWP.moContent.equals("PICKUP")) {
+				
+				moActionCommandList_Output.add( new clsActionPickUp() );
+				System.out.println("cmd: pickup");
+			}
+			else if(oAction.moWP.moContent.equals("DROP")) {
+				
+				moActionCommandList_Output.add( new clsActionDrop() );
+				System.out.println("cmd: drop");
+				
+			}
+			else if(oAction.moWP.moContent.equals("EAT")) {
+				
+				moActionCommandList_Output.add( new clsActionEat() );
+				System.out.println("cmd: eat");
+				
+			}
+			else if(oAction.moWP.moContent.equals("DANCE_1")) {
+				
+				moActionCommandList_Output.add( clsActionSequenceFactory.getWalzSequence(2,2) );
+				System.out.println("cmd: dance");
 				
 			}
 

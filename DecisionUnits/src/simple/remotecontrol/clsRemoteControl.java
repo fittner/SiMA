@@ -96,6 +96,7 @@ public class clsRemoteControl extends clsBaseDecisionUnit  {
 		 
 		 if (moKeyPressed!=0) {
 			 moKeyPressed=moKeyPressed;
+	    	//System.out.println("key:" + moKeyPressed);
 		 }
 		 
 	   	switch( moKeyPressed )
@@ -119,11 +120,13 @@ public class clsRemoteControl extends clsBaseDecisionUnit  {
     	case 69: //'E'
     		eat(poActionProcessor, eEntityType.CAKE);
     		break;
+    	case 521:
     	case 107: // '+'
     		if(moPrevKeyPressed != 107){	// the '+' key has to be released 
     			poActionProcessor.call(new clsActionPickUp() );
     		}
     		break;
+    	case 45:
     	case 109: // '-'
     		if(moPrevKeyPressed != 109){	// the '-' key has to be released 
     			poActionProcessor.call(new clsActionDrop() );
