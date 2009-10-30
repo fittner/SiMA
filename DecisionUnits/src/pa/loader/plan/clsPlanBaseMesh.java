@@ -63,6 +63,10 @@ public class clsPlanBaseMesh extends clsSecondaryInformationMesh{
 
 		ArrayList<clsPlanAction> oRetVal = new ArrayList<clsPlanAction>();
 		
+		if(mnCurrentState < 0) {	//reset the plan state in case of already finished plan
+			mnCurrentState = 0;
+		}
+		
 		clsPlanStateMesh oCurrentState = moStates.get(mnCurrentState);
 		for( clsAssociation<clsSecondaryInformation> oAssoc : oCurrentState.moAssociations) {
 			if( oAssoc.moElementB instanceof clsPlanTransition ){
