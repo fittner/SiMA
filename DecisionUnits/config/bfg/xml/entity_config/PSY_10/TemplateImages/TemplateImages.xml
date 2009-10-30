@@ -7,6 +7,17 @@
 		<PrimMesh name="Entity" type="Entity" compare="==" value="CAKE_UNGREEDY" optional="MANDATORY" booleanOperator="AND" negated="FALSE">
             <!--Affect compare="&lt;" value="0.5" /-->
     	    <PrimInfo name="Color" type="Color" compare="==" value="#FFAFAF" />
+    	    <PrimInfo name="Distance" type="Distance" compare="==" value="FAR" />
+	</PrimMesh>
+	<!--DriveMesh name="Drive" type="Drive" compare="==" value="NOURISH" optional="MANDATORY" booleanOperator="AND" negated="FALSE"-->
+            <!--Affect compare="&gt;" value="0.6" /-->
+	<!--/DriveMesh-->
+    </TemplateImage>
+    
+    <TemplateImage name="Template Image" type="TempImage" value="CAKE_FRONTAL" optional="MANDATORY" booleanOperator="AND" negated="FALSE" description="big red cake and very hungry">
+		<PrimMesh name="Entity" type="Entity" compare="==" value="CAKE_UNGREEDY" optional="MANDATORY" booleanOperator="OR" negated="FALSE">
+    	    <PrimInfo name="Distance" type="Distance" compare="==" value="NEAR" />
+    	    <PrimInfo name="Distance" type="Distance" compare="==" value="MANIPULATE" />
 	</PrimMesh>
 	<!--DriveMesh name="Drive" type="Drive" compare="==" value="NOURISH" optional="MANDATORY" booleanOperator="AND" negated="FALSE"-->
             <!--Affect compare="&gt;" value="0.6" /-->

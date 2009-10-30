@@ -9,6 +9,8 @@ package pa.symbolization.representationsymbol;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 
+import enums.eDistance;
+
 
 /**
  * DOCUMENT (zeilinger) - insert description 
@@ -88,5 +90,17 @@ public class clsSymbolManipulateAreaEntry extends decisionunit.itf.sensors.clsMa
 	@Override
 	public Object getSymbolMeshContent() {
 		return mnEntityType;
+	}
+
+	/* (non-Javadoc)
+	 *
+	 * @author langr
+	 * 30.10.2009, 12:31:49
+	 * 
+	 * @see pa.symbolization.representationsymbol.itfSymbolManipulateAreaEntry#getDistance()
+	 */
+	@Override
+	public eDistance getDistance() {
+		return eDistance.MANIPULATEABLE;
 	}
 }

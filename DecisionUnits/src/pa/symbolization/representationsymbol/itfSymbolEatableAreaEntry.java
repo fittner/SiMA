@@ -7,6 +7,7 @@
 package pa.symbolization.representationsymbol;
 
 import bfg.utils.enums.eCount;
+import enums.eDistance;
 import enums.eShapeType;
 import enums.eTriState;
 
@@ -22,4 +23,5 @@ public interface itfSymbolEatableAreaEntry extends itfSymbol {
 	public eCount getNumEntitiesPresent();	
 	public eTriState getIsAlive();
 	public eTriState getIsConsumeable();
+	public eDistance getDistance();
 }

@@ -9,6 +9,9 @@ package pa.symbolization.representationsymbol;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 
+import enums.eDistance;
+import enums.eSensorExtType;
+
 /**
  * DOCUMENT (zeilinger) - insert description 
  * 
@@ -83,5 +86,28 @@ public class clsSymbolVisionEntry extends decisionunit.itf.sensors.clsVisionEntr
 	@Override
 	public Object getSymbolMeshContent() {
 		return mnEntityType;
+	}
+	/* (non-Javadoc)
+	 *
+	 * @author langr
+	 * 30.10.2009, 12:32:29
+	 * 
+	 * @see pa.symbolization.representationsymbol.itfSymbolVisionEntry#getDistance()
+	 */
+	@Override
+	public eDistance getDistance() {
+
+		eDistance oRetVal = eDistance.UNDEFINED;
+		
+		if(moSensorType == eSensorExtType.VISION_FAR) {
+			oRetVal = eDistance.FAR;
+		} 
+		else if(moSensorType == eSensorExtType.VISION_MEDIUM) {
+			oRetVal = eDistance.MEDIUM;
+		} 
+		else if(moSensorType == eSensorExtType.VISION_NEAR) {
+			oRetVal = eDistance.NEAR;
+		}		
+		return oRetVal;
 	}
 }

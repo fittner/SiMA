@@ -11,6 +11,7 @@ import java.awt.Color;
 import bfg.utils.enums.eCount;
 import bfg.utils.enums.eSide;
 import enums.eAntennaPositions;
+import enums.eDistance;
 import enums.eShapeType;
 
 /**
@@ -29,4 +30,5 @@ public interface itfSymbolVisionEntry extends itfSymbol {
 	public eSide getObjectPosition(); 
 	public eAntennaPositions getAntennaPositionLeft();
 	public eAntennaPositions getAntennaPositionRight();
+	public eDistance getDistance();
 }

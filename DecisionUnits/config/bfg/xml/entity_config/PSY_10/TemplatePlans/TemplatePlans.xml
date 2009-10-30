@@ -11,7 +11,7 @@
 		<State id="1" name="ScenarioState" type="ScenarioState" value="CAKE_FAR_VISIBLE">
 			<Action once="false" finish="false" name="Action" type="Action" value="MOVE_FORWARD" />
 			<Transition targetid="-1" match="1" name="TemplateImage" type="TemplateImage" value="BUMPED"/>
-			<Transition targetid="-1" match="1" name="TemplateImage" type="TemplateImage" value="CAKE_MEDIUM_VISIBLE"/>
+			<Transition targetid="-1" match="0.5" name="TemplateImage" type="TemplateImage" value="CAKE_FRONTAL"/>
 		</State>
 
 		<State id="-1" name="ScenarioState" type="ScenarioState" value="ScenarioAccomplished">

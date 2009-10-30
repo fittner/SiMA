@@ -79,7 +79,7 @@ public class clsTemplateSecondaryMesh extends clsSecondaryInformationMesh implem
 					}
 				}
 				if(moAssociations.size() > 0 && verifyNodeOperatorsOnChilds(nMatches[0])) {
-					pnMatches[0]++;
+					pnMatches[0] += nMatches[0]; //normaly only ONE value should be added - indicating wether this node has a match or not.
 				}
 			}
 		}

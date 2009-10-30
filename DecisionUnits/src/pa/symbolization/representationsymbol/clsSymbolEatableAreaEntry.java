@@ -9,6 +9,8 @@ package pa.symbolization.representationsymbol;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 
+import enums.eDistance;
+
 
 /**
  * DOCUMENT (zeilinger) - insert description 
@@ -95,5 +97,17 @@ public class clsSymbolEatableAreaEntry extends decisionunit.itf.sensors.clsEatab
 	@Override
 	public Object getSymbolMeshContent() {
 		return mnEntityType;
+	}
+
+	/* (non-Javadoc)
+	 *
+	 * @author langr
+	 * 30.10.2009, 12:30:41
+	 * 
+	 * @see pa.symbolization.representationsymbol.itfSymbolEatableAreaEntry#getDistance()
+	 */
+	@Override
+	public eDistance getDistance() {
+		return eDistance.EATABLE;
 	}
 }
