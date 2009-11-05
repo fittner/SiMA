@@ -9,7 +9,6 @@ package inspectors.mind.pa;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
-import java.awt.TextField;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -37,7 +36,7 @@ import sim.portrayal.LocationWrapper;
  * 04.11.2009, 18:54:38
  * 
  */
-public class clsMatchController extends Inspector{
+public class clsTimingDiagramInspector extends Inspector{
 
 	private static final long serialVersionUID = 7987322176593478683L;
 
@@ -51,10 +50,8 @@ public class clsMatchController extends Inspector{
 	
 	private long moCurrentTime;
 	private int mnHistoryLength;
-	
-	private TextField moRichText;
     
-    public clsMatchController(sim.portrayal.Inspector originalInspector,
+    public clsTimingDiagramInspector(sim.portrayal.Inspector originalInspector,
             LocationWrapper wrapper,
             GUIState guiState,
             itfTimeChartInformationContainer poTimeingContainer,
@@ -67,15 +64,12 @@ public class clsMatchController extends Inspector{
     	moCurrentTime = 0;
     	
     	moFirstOrder = new ArrayList<String>(); 
-    	
-    	moRichText = new TextField();
 
     	initChart(poChartName);
 	
     	// set up our inspector: keep the properties inspector around too
     	setLayout(new FlowLayout(FlowLayout.LEFT));
     	add(moChartPanel);
-    	add(moRichText);
     }
 
 	private void initChart(String poChartName) {
@@ -99,8 +93,6 @@ public class clsMatchController extends Inspector{
 			
 			nOffeset+=2;
 		}
-
-		moRichText.setText(oInputOrder);
 		
         JFreeChart oChartPanel = ChartFactory.createXYStepChart(
                 poChartName,     // chart title
