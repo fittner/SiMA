@@ -81,7 +81,8 @@ public class C06_AffectGeneration extends clsModuleContainer implements
 	 * @see pa.interfaces.I1_4#receive_I1_4(int)
 	 */
 	@Override
-	public void receive_I1_4(ArrayList<clsPair<clsPrimaryInformationMesh, clsAffectCandidate>> poDriveCandidate) {
+	public void receive_I1_4(ArrayList<clsPair<clsPair<clsPrimaryInformationMesh, clsAffectCandidate>, 
+	  		  clsPair<clsPrimaryInformationMesh, clsAffectCandidate>>> poDriveCandidate) {
 		moE05GenerationOfAffectsForDrives.receive_I1_4(poDriveCandidate);
 		
 	}

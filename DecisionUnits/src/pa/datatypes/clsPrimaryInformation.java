@@ -88,7 +88,12 @@ public class clsPrimaryInformation extends clsPsychicRepresentative implements i
 	 * @return
 	 */
 	public String toGraphDisplayString() {
-		return moTP.toStringGraphDisplay();
+		String oRetVal = "";
+		
+		if ( moTP != null ) {
+			oRetVal = moTP.toStringGraphDisplay();
+		}
+		return oRetVal;
 	}
 	
 	@Override

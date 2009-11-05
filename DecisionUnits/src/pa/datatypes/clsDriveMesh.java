@@ -18,6 +18,7 @@ import pa.enums.eDriveType;
 public class clsDriveMesh extends clsPrimaryInformationMesh {
 
 	public eDriveType meDriveType;
+	public clsDriveMesh moCounterDrive;
 
 	public eDriveType getDriveType() {
 		return meDriveType;

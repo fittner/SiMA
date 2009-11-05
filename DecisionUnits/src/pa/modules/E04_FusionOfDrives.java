@@ -24,7 +24,8 @@ import config.clsBWProperties;
  */
 public class E04_FusionOfDrives extends clsModuleBase implements I1_3 {
 
-	ArrayList<clsPair<clsPrimaryInformationMesh, clsAffectCandidate>> moDriveCandidate;
+	ArrayList<clsPair<clsPair<clsPrimaryInformationMesh, clsAffectCandidate>, 
+	  clsPair<clsPrimaryInformationMesh, clsAffectCandidate>>> moDriveCandidate;
 	
 	/**
 	 * DOCUMENT (deutsch) - insert description 
@@ -91,8 +92,10 @@ public class E04_FusionOfDrives extends clsModuleBase implements I1_3 {
 	 */
 	@SuppressWarnings("unchecked")
 	@Override
-	public void receive_I1_3(ArrayList<clsPair<clsPrimaryInformationMesh, clsAffectCandidate>> poDriveCandidate) {
-		moDriveCandidate = (ArrayList<clsPair<clsPrimaryInformationMesh,		clsAffectCandidate>>)deepCopy(poDriveCandidate);
+	public void receive_I1_3(ArrayList<clsPair<clsPair<clsPrimaryInformationMesh, clsAffectCandidate>, 
+	  		  clsPair<clsPrimaryInformationMesh, clsAffectCandidate>>> poDriveCandidate) {
+		moDriveCandidate = (ArrayList<clsPair<clsPair<clsPrimaryInformationMesh, clsAffectCandidate>, 
+		  		  clsPair<clsPrimaryInformationMesh, clsAffectCandidate>>>)deepCopy(poDriveCandidate);
 	}
 
 	/* (non-Javadoc)

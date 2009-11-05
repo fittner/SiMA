@@ -3,9 +3,9 @@
     xsi:noNamespaceSchemaLocation="">
 
 		<RepressedContent>
-                    <PrimaryInfo content="PUNCH" context="AGGRESSION" oral="0.0" anal="0" phallic="0.8" genital="0.2" affect_memory="-0.5"/>
-                    <PrimaryInfo content="GREEDY" context="EAT" oral="0.3" anal="0.7" phallic="0" genital="0" affect_memory="-0.3"/>
-                    <PrimaryInfo content="DIRTY" context="EXCRETE" oral="0.0" anal="0.7" phallic="0.3" genital="0" affect_memory="-0.7"/>
+                    <PrimaryInfo content="PUNCH" context="BITE" oral="0.0" anal="0" phallic="0.8" genital="0.2" affect_memory="-0.5"/>
+                    <PrimaryInfo content="GREEDY" context="NOURISH" oral="0.8" anal="0.2" phallic="0" genital="0" affect_memory="-0.3"/>
+                    <PrimaryInfo content="DIRTY" context="DEPOSIT" oral="0.0" anal="0.7" phallic="0.3" genital="0" affect_memory="-0.7"/>
 		</RepressedContent>
 		
 </RepressedContentInit>

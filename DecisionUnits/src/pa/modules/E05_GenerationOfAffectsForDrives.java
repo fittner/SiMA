@@ -26,8 +26,10 @@ import config.clsBWProperties;
  */
 public class E05_GenerationOfAffectsForDrives extends clsModuleBase implements I1_4 {
 
-	public ArrayList<clsPair<clsPrimaryInformationMesh, clsAffectCandidate>> moDriveCandidate;
-	public ArrayList<clsPrimaryInformation> moDriveList;
+	public ArrayList<clsPair<clsPair<clsPrimaryInformationMesh, clsAffectCandidate>, 
+	clsPair<clsPrimaryInformationMesh, clsAffectCandidate>>> moDriveCandidate;
+	
+	public ArrayList<clsPair<clsPrimaryInformation, clsPrimaryInformation>> moDriveList;
 	
 	/**
 	 * DOCUMENT (deutsch) - insert description 
@@ -94,8 +96,10 @@ public class E05_GenerationOfAffectsForDrives extends clsModuleBase implements I
 	 */
 	@SuppressWarnings("unchecked")
 	@Override
-	public void receive_I1_4(ArrayList<clsPair<clsPrimaryInformationMesh, clsAffectCandidate>> poDriveCandidate) {
-		moDriveCandidate = (ArrayList<clsPair<clsPrimaryInformationMesh, clsAffectCandidate>>) deepCopy( poDriveCandidate);
+	public void receive_I1_4(ArrayList<clsPair<clsPair<clsPrimaryInformationMesh, clsAffectCandidate>, 
+	  		  clsPair<clsPrimaryInformationMesh, clsAffectCandidate>>> poDriveCandidate) {
+		moDriveCandidate = (ArrayList<clsPair<clsPair<clsPrimaryInformationMesh, clsAffectCandidate>, 
+		  		  clsPair<clsPrimaryInformationMesh, clsAffectCandidate>>>) deepCopy( poDriveCandidate);
 	}
 
 	/* (non-Javadoc)
@@ -108,13 +112,16 @@ public class E05_GenerationOfAffectsForDrives extends clsModuleBase implements I
 	@Override
 	protected void process() {
 
-		moDriveList = new ArrayList<clsPrimaryInformation>();
+		moDriveList = new ArrayList<clsPair<clsPrimaryInformation, clsPrimaryInformation>>();
 		
-		for( clsPair<clsPrimaryInformationMesh, clsAffectCandidate> oDriveCandidate : moDriveCandidate ) {
+		for( clsPair<clsPair<clsPrimaryInformationMesh, clsAffectCandidate>, 
+		  		     clsPair<clsPrimaryInformationMesh, clsAffectCandidate>> oDriveCandidate : moDriveCandidate ) {
 
 			//finally create the affect in the primary-mesh using the affect candidate 
-			oDriveCandidate.a.moAffect = new clsAffectTension(oDriveCandidate.b);
-			moDriveList.add(oDriveCandidate.a);
+			oDriveCandidate.a.a.moAffect = new clsAffectTension(oDriveCandidate.a.b);
+			oDriveCandidate.b.a.moAffect = new clsAffectTension(oDriveCandidate.b.b);
+			
+			moDriveList.add(new clsPair<clsPrimaryInformation, clsPrimaryInformation>(oDriveCandidate.a.a, oDriveCandidate.b.a));
 		}
 	}
 
@@ -127,7 +134,15 @@ public class E05_GenerationOfAffectsForDrives extends clsModuleBase implements I
 	 */
 	@Override
 	protected void send() {
-		((I1_5)moEnclosingContainer).receive_I1_5(moDriveList);
+		
+		//now decoupling drives from list - information still in clsDrive
+		ArrayList<clsPrimaryInformation> oOutput = new ArrayList<clsPrimaryInformation>();
+		for( clsPair<clsPrimaryInformation, clsPrimaryInformation> oPair : moDriveList ) {
+			oOutput.add(oPair.a);
+			oOutput.add(oPair.b);
+		}
+		
+		((I1_5)moEnclosingContainer).receive_I1_5(oOutput);
 		
 	}
 

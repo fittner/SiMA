@@ -66,7 +66,13 @@ public class clsThingPresentationSingle extends clsThingPresentation implements 
 	
 	@Override
 	public String toStringGraphDisplay() {
-		return moContent.toString();
+		
+		String oRetVal = "";
+		
+		if ( moContent != null ) {
+			oRetVal = moContent.toString();
+		}
+		return oRetVal;
 	}
 
 }

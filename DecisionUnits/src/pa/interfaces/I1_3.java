@@ -20,5 +20,6 @@ import pa.tools.clsPair;
  * 
  */
 public interface I1_3 {
-	public void receive_I1_3(ArrayList<clsPair<clsPrimaryInformationMesh, clsAffectCandidate>> poDriveCandidate);
+	public void receive_I1_3(ArrayList<clsPair<clsPair<clsPrimaryInformationMesh, clsAffectCandidate>, 
+	  		  						   clsPair<clsPrimaryInformationMesh, clsAffectCandidate>>> poDriveCandidate);
 }

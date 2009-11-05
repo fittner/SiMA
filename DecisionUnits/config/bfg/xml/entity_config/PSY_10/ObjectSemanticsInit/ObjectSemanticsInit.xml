@@ -5,11 +5,12 @@
 		<ObjectSemantics>
                     <PrimaryInfoObject content="CAKE" affect_memory="1">
                         <DriveContentCathegoryList>
-                            <DriveContentCathegory context="AGGRESSION" oral="0.0" anal="0" phallic="0.8" genital="0.2"/>
-                            <DriveContentCathegory context="EAT" oral="0.7" anal="0.3" phallic="0" genital="0"/>
-                            <DriveContentCathegory context="EXCRETE" oral="0.0" anal="0.7" phallic="0.3" genital="0"/>
+                            <DriveContentCathegory context="NOURISH" oral="0.7" anal="0.3" phallic="0" genital="0"/>
+                            <DriveContentCathegory context="BITE" oral="0.7" anal="0.3" phallic="0.2" genital="0"/>
+                            <DriveContentCathegory context="REPRESS" oral="0.0" anal="1" phallic="0" genital="0.1"/>
+                            <DriveContentCathegory context="DEPOSIT" oral="0.0" anal="1" phallic="0.5" genital="0.1"/>
                         </DriveContentCathegoryList>
                     </PrimaryInfoObject>
                     <!-- add more semantic meaning here-->
-                </ObjectSemantics>
+        </ObjectSemantics>
 </ObjectSemanticsInit>

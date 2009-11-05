@@ -2,10 +2,11 @@
 <TPDrives xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:noNamespaceSchemaLocation="../xsd/ComplexEmotion.xsd">
 
-	<TPDrive ID="1" name="Drive-content=nourish">
-		<Description>definition of drive-sources</Description>
-		<Drivecontent>NOURISH</Drivecontent>
-		<DriveType>LIFE</DriveType>
+	<DrivePair>
+		<TPDrive ID="1" name="Drive-content=nourish">
+			<Description>definition of drive-sources</Description>
+			<Drivecontent>NOURISH</Drivecontent>
+			<DriveType>LIFE</DriveType>
 
                 <DriveSourceList>
                     <DriveSource SensorType="BLOODSUGAR" Ratio="0.6" MaxValue="1" Inverse="true"></DriveSource>
@@ -17,82 +18,13 @@
                 </LifeInstinctList>
 
                 <DriveObjectList>
-                    <DriveObject type="LYNX" context="DEFAULT"></DriveObject>
-                    <DriveObject type="CARROT" context="DEFAULT"></DriveObject>
+                	<DriveObject type="CAKE" context="NOURISH"></DriveObject>
+                    <DriveObject type="FOOD" context="NOURISH"></DriveObject>
+                    <DriveObject type="CARROT" context="NOURISH"></DriveObject>
                 </DriveObjectList>
-
         </TPDrive>
 
-	<TPDrive ID="2" name="Drive excrete">
-		<Description>fill level of stomachs</Description>
-		<Drivecontent>EXCRETE</Drivecontent>
-		<DriveType>LIFE</DriveType>
-
-                <DriveSourceList>
-                    <DriveSource SensorType="STOMACHTENSION" Ratio="0.4" MaxValue="1"></DriveSource>
-                 </DriveSourceList>
-
-                 <LifeInstinctList>
-                     <LifeInstinctRatio context="DEFAULT" oral="0" anal="1" phallic="0" genital="0"></LifeInstinctRatio>
-                </LifeInstinctList>
-        </TPDrive>
-
-        <TPDrive ID="3" name="Drive sleep">
-		<Description></Description>
-		<Drivecontent>SLEEP</Drivecontent>
-		<DriveType>LIFE</DriveType>
-
-                <DriveSourceList>
-                    <DriveSource SensorType="STAMINA" Ratio="0.5"  MaxValue="10" Inverse="true"></DriveSource>
-                    <DriveSource SensorType="ENERGY_CONSUMPTION" Ratio="0.5"  MaxValue="100"></DriveSource>
-                </DriveSourceList>
-
-                <LifeInstinctList>
-                    <LifeInstinctRatio context="DEFAULT" oral="0.2" anal="0.8" phallic="0" genital="0"></LifeInstinctRatio>
-                </LifeInstinctList>
-            </TPDrive>
-
-        <TPDrive ID="4" name="Drive breath">
-		<Description></Description>
-		<Drivecontent>BREATH</Drivecontent>
-		<DriveType>LIFE</DriveType>
-
-                <!--DriveSource SensorType="STAMINA" Ratio="0.5"  MaxValue="100"></DriveSource-->
-            <!--DriveSource SensorType="ENERGY_CONSUMPTION" Ratio="0.5"  MaxValue="100"></DriveSource-->
-
-            <LifeInstinctList>
-                <LifeInstinctRatio context="DEFAULT" oral="0.2" anal="0.8" phallic="0" genital="0"></LifeInstinctRatio>
-            </LifeInstinctList>
-        </TPDrive>
-
-        <TPDrive ID="5" name="Drive health">
-		<Description></Description>
-		<Drivecontent>RELAX</Drivecontent>
-		<DriveType>LIFE</DriveType>
-
-                <DriveSourceList>
-                    <DriveSource SensorType="HEALTH" Ratio="1.5"  MaxValue="100" Inverse="true"></DriveSource>
-                    <!--DriveSource SensorType="STAMINA" Ratio="0.3"  MaxValue="1"></DriveSource-->
-                    <!--DriveSource SensorType="ENERGY_CONSUMPTION" Ratio="0.3"  MaxValue="1"></DriveSource-->
-                </DriveSourceList>
-
-            <LifeInstinctList>
-                <LifeInstinctRatio context="DEFAULT" oral="0.2" anal="0.8" phallic="0" genital="0"></LifeInstinctRatio>
-            </LifeInstinctList>
-        </TPDrive>
-
-        <TPDrive ID="6" name="Drive sexual_arousal">
-		<Description></Description>
-		<Drivecontent>SEXUAL_AROUSAL</Drivecontent>
-		<DriveType>LIFE</DriveType>
-
-                <!--DriveSource SensorType="" Ratio="1"  MaxValue="100"></DriveSource-->
-            <LifeInstinctList>
-                <LifeInstinctRatio context="DEFAULT" oral="0.2" anal="0.8" phallic="0" genital="0"></LifeInstinctRatio>
-            </LifeInstinctList>
-        </TPDrive>
-
-	<TPDrive ID="7" name="Drive-content bite">
+	<TPDrive ID="2" name="Drive-content bite">
 		<Description>definition of drive-sources</Description>
 		<Drivecontent>BITE</Drivecontent>
 		<DriveType>DEATH</DriveType>
@@ -107,21 +39,48 @@
                 </LifeInstinctList>
 
                 <DriveObjectList>
-                    <DriveObject type="LYNX" context="DEFAULT"></DriveObject>
-                    <DriveObject type="CARROT" context="DEFAULT"></DriveObject>
+                	<DriveObject type="CAKE" context="BITE"></DriveObject>
+                    <DriveObject type="FOOD" context="BITE"></DriveObject>
+                    <DriveObject type="CARROT" context="BITE"></DriveObject>
                 </DriveObjectList>
-
         </TPDrive>
+	</DrivePair>
 
-        <TPDrive ID="8" name="Drive aggression">
-		<Description></Description>
-		<Drivecontent>AGGRESSION</Drivecontent>
-		<DriveType>DEATH</DriveType>
+	<DrivePair>	
+		<TPDrive ID="3" name="Drive repress">
+			<Description>fill level of stomachs</Description>
+			<Drivecontent>REPRESS</Drivecontent>
+			<DriveType>LIFE</DriveType>
+            <DriveSourceList>
+                <DriveSource SensorType="STOMACHTENSION" Ratio="0.4" MaxValue="1"></DriveSource>
+            </DriveSourceList>
 
-                <!--DriveSource SensorType="" Ratio="1"  MaxValue="100"></DriveSource-->
             <LifeInstinctList>
-                <LifeInstinctRatio context="DEFAULT" oral="0.2" anal="0.8" phallic="0" genital="0"></LifeInstinctRatio>
-            </LifeInstinctList>
+                 <LifeInstinctRatio context="DEFAULT" oral="0" anal="1" phallic="0" genital="0"></LifeInstinctRatio>
+			</LifeInstinctList>
+			
+		    <DriveObjectList>
+	        	<DriveObject type="EXCREMENT" context="DEFAULT"></DriveObject>
+	        </DriveObjectList>
         </TPDrive>
+	
+	
+		<TPDrive ID="4" name="Drive deposite">
+			<Description>fill level of stomachs</Description>
+			<Drivecontent>DEPOSITE</Drivecontent>
+			<DriveType>DEATH</DriveType>
+            <DriveSourceList>
+                <DriveSource SensorType="STOMACHTENSION" Ratio="0.4" MaxValue="1"></DriveSource>
+            </DriveSourceList>
+
+            <LifeInstinctList>
+                 <LifeInstinctRatio context="DEFAULT" oral="0" anal="1" phallic="0" genital="0" Inverse="true"></LifeInstinctRatio>
+			</LifeInstinctList>
+			
+			<DriveObjectList>
+	        	<DriveObject type="EXCREMENT" context="DEFAULT"></DriveObject>
+	        </DriveObjectList>
+        </TPDrive>
+    </DrivePair>
 
 </TPDrives>

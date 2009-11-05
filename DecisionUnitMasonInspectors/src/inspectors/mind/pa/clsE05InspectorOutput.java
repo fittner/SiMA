@@ -26,8 +26,8 @@ import org.jfree.data.category.DefaultCategoryDataset;
 import pa.datatypes.clsDriveMesh;
 import pa.datatypes.clsPrimaryInformation;
 import pa.datatypes.clsThingPresentationSingle;
-import pa.enums.eDriveType;
 import pa.modules.E05_GenerationOfAffectsForDrives;
+import pa.tools.clsPair;
 
 import sim.display.GUIState;
 import sim.portrayal.Inspector;
@@ -86,14 +86,10 @@ public class clsE05InspectorOutput extends Inspector{
 		
 		moDataset = new DefaultCategoryDataset();
 
-		for(clsPrimaryInformation oDriveTP : moE05AffectsForDrives.moDriveList ) {
-			if(oDriveTP instanceof clsDriveMesh) {
-				clsDriveMesh oDrvMesh = (clsDriveMesh)oDriveTP;
-				if(oDrvMesh.meDriveType == eDriveType.LIFE) {
-					moDataset.addValue( oDriveTP.moAffect.getValue(), "0", ((clsThingPresentationSingle)oDriveTP.moTP).moContent.toString());
-				} else if (oDrvMesh.meDriveType == eDriveType.DEATH) {
-					moDataset.addValue( oDriveTP.moAffect.getValue(), "1", ((clsThingPresentationSingle)oDriveTP.moTP).moContent.toString());
-				}
+		for(clsPair<clsPrimaryInformation, clsPrimaryInformation> oDriveTP : moE05AffectsForDrives.moDriveList ) {
+			if(oDriveTP.a instanceof clsDriveMesh && oDriveTP.b instanceof clsDriveMesh) {
+				moDataset.addValue( oDriveTP.a.moAffect.getValue(), "Drive (Live)", ((clsThingPresentationSingle)oDriveTP.a.moTP).moContent.toString());
+				moDataset.addValue( oDriveTP.b.moAffect.getValue(), "Drive (Death)", ((clsThingPresentationSingle)oDriveTP.b.moTP).moContent.toString());
 			}
 		}
 		
@@ -170,15 +166,11 @@ public class clsE05InspectorOutput extends Inspector{
 		
 		moDataset = new DefaultCategoryDataset();
 
-		for(clsPrimaryInformation oDriveTP : moE05AffectsForDrives.moDriveList ) {
-			
-			if(oDriveTP instanceof clsDriveMesh) {
-				clsDriveMesh oDrvMesh = (clsDriveMesh)oDriveTP;
-				if(oDrvMesh.meDriveType == eDriveType.LIFE) {
-					moDataset.addValue( oDriveTP.moAffect.getValue(), "Drive (Live)", ((clsThingPresentationSingle)oDriveTP.moTP).moContent.toString());
-				} else if (oDrvMesh.meDriveType == eDriveType.DEATH) {
-					moDataset.addValue( oDriveTP.moAffect.getValue(), "Drive (Death)", ((clsThingPresentationSingle)oDriveTP.moTP).moContent.toString());
-				}
+		
+		for(clsPair<clsPrimaryInformation, clsPrimaryInformation> oDriveTP : moE05AffectsForDrives.moDriveList ) {
+			if(oDriveTP.a instanceof clsDriveMesh && oDriveTP.b instanceof clsDriveMesh) {
+				moDataset.addValue( oDriveTP.a.moAffect.getValue(), "Drive (Live)", ((clsThingPresentationSingle)oDriveTP.a.moTP).moContent.toString());
+				moDataset.addValue( oDriveTP.b.moAffect.getValue(), "Drive (Death)", ((clsThingPresentationSingle)oDriveTP.b.moTP).moContent.toString());
 			}
 		}
 		

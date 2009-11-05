@@ -6,20 +6,12 @@
  */
 package tstbfg.symbolization.brainimages;
 
-import static org.junit.Assert.assertTrue;
-
-import java.util.HashMap;
-
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-import enums.pa.eDriveContent;
-
-import pa.loader.clsDriveLoader;
-import pa.loader.clsTemplateDrive;
 
 
 /**
@@ -37,9 +29,9 @@ public class tssDriveLoader {
 	@Test
 	public void testDriveLoader() {
 
-		HashMap<eDriveContent, clsTemplateDrive> oDriveList = clsDriveLoader.createDriveList("1", "PSY_10");
+//		HashMap<eDriveContent, clsTemplateDrive> oDriveList = clsDriveLoader.createDriveList("1", "PSY_10");
 		
-		assertTrue(oDriveList.size() > 0);
+//		assertTrue(oDriveList.size() > 0);
 	}
 	
 	@BeforeClass

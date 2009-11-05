@@ -103,9 +103,13 @@ public class E15_1_ManagementOfRepressedContents extends clsModuleBase implement
 			for( Map.Entry<clsPrimaryInformation, clsMutableDouble> oContextPrim : oContextResult.entrySet() ) {
 				eContext oContext = (eContext)oContextPrim.getKey().moTP.moContent;
 				if( oSemanticWeb.containsKey(oInfo.moTP.moContent) ) {
-					clsDriveContentCategories oCathegory = new clsDriveContentCategories( oSemanticWeb.get(oInfo.moTP.moContent).moTP.moDriveContentCategory.get(oContext) );
+					clsDriveContentCategories oCath = oSemanticWeb.get(oInfo.moTP.moContent).moTP.moDriveContentCategory.get(oContext);
+					if(oCath != null) { //cathegory does not exist here
+					clsDriveContentCategories oCathegory = new clsDriveContentCategories( oCath );
 					oCathegory.adaptToContextRatio(oContextPrim.getValue().doubleValue());	//lower the category-ratio according to the match of the context
 					oInfo.moTP.moDriveContentCategory.put(oContext, oCathegory);
+					}
+
 				}
 			}
 		}

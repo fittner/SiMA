@@ -15,11 +15,15 @@ package enums.pa;
  */
 public enum eDriveContent {
 	NOURISH,
+	BITE,
+	REPRESS,
+	DEPOSITE, 
+	
+	//old values...
 	EXCRETE,
 	SLEEP,
 	BREATH,
 	RELAX,
 	SEXUAL_AROUSAL,
-	BITE,
 	AGGRESSION
 }

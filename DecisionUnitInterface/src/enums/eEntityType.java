@@ -23,6 +23,7 @@ public enum eEntityType {
 	FUNGUS,
 	URANIUM,
 	CARROT,
-	SMARTEXCREMENT,
+	SMARTEXCREMENT, //shoud REALLY be renamed!
+	EXCREMENT
 }
 

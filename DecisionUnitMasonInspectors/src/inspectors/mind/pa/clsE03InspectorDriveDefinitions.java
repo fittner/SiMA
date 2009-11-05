@@ -7,11 +7,11 @@
 package inspectors.mind.pa;
 
 import java.awt.BorderLayout;
-import java.util.HashMap;
+import java.util.ArrayList;
 
 import pa.loader.clsTemplateDrive;
 import pa.modules.E03_GenerationOfDrives;
-import enums.pa.eDriveContent;
+import pa.tools.clsPair;
 import sim.display.GUIState;
 import sim.portrayal.Inspector;
 import sim.portrayal.LocationWrapper;
@@ -40,12 +40,13 @@ public class clsE03InspectorDriveDefinitions extends Inspector {
 		moOriginalInspector = originalInspector;
 		moGenDrive= poGenDrive;
 		
-		HashMap<eDriveContent, clsTemplateDrive> oDriveList = moGenDrive.getDriveDefinition();
+		ArrayList<clsPair<clsTemplateDrive, clsTemplateDrive>> oDriveList = moGenDrive.getDriveDefinition();
 		
         String contentData = "<html><head></head><body><p>";
-		for( clsTemplateDrive oDrv : oDriveList.values() ) {
-			if(oDrv != null) {
-				contentData += oDrv.logHTML();
+		for( clsPair<clsTemplateDrive, clsTemplateDrive> oDrvPair : oDriveList ) {
+			if(oDrvPair != null) {
+				contentData += oDrvPair.a.logHTML();
+				contentData += oDrvPair.b.logHTML();
 			}
 		}
         contentData+="</p></body></html>";

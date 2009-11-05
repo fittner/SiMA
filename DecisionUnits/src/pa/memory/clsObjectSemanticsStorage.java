@@ -6,7 +6,9 @@
  */
 package pa.memory;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Map;
 
 import pa.datatypes.clsPrimaryInformation;
 import pa.loader.clsObjectSemanticsLoader;
@@ -23,11 +25,17 @@ import enums.eEntityType;
 public class clsObjectSemanticsStorage {
 	
 	public HashMap<eEntityType, clsPrimaryInformation> moObjectSemantics;
+	public ArrayList<clsPrimaryInformation> moObjectSemanticsArray;
 	
 	public clsObjectSemanticsStorage(String poPrefix, clsBWProperties poProp) {
 		
 		applyProperties(poPrefix, poProp);
 		moObjectSemantics = clsObjectSemanticsLoader.createSemanticsList("1", "PSY_10");
+		
+		moObjectSemanticsArray = new ArrayList<clsPrimaryInformation>();
+		for(Map.Entry<eEntityType, clsPrimaryInformation> oEntry : moObjectSemantics.entrySet()) {
+			moObjectSemanticsArray.add( oEntry.getValue() );
+		}
     }
     
     

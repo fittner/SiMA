@@ -3,16 +3,16 @@
 	<TPMesh name="CAN">
 		<Description> Definition of associated aware content</Description>
 		<AwareContentMatchList>
-			<AwareContentMatch search_rep_content="GREEDY" search_context="EAT" content="UNGREEDY" context="EAT" oral="0.0" anal="0" phallic="0.8" genital="0.2" affect_memory="-0.5"/>
+			<AwareContentMatch search_rep_content="GREEDY" search_context="NOURISH" content="UNGREEDY" context="EAT" oral="0.0" anal="0" phallic="0.8" genital="0.2" affect_memory="-0.5"/>
 		</AwareContentMatchList>
-		<!-- Info search_rep_content="GREEDY" search_ext_context="CAKE" search_context="EAT" content="UNGREEDY CAKE" context="EAT" oral="0.0" anal="0" phallic="0.8" genital="0.2" affect_memory="-0.5"/>
-		<Info search_rep_content="GREEDY" search_ext_context="CAKE" search_context="EAT" content="UNGREEDY CAKE" context="EAT" oral="0.0" anal="0" phallic="0.8" genital="0.2" affect_memory="-0.5"/>
-		<Info search_rep_content="GREEDY" search_ext_context="CAKE" search_context="EAT" content="UNGREEDY CAKE" context="EAT" oral="0.0" anal="0" phallic="0.8" genital="0.2" affect_memory="-0.5"/-->
+		<!-- Info search_rep_content="GREEDY" search_ext_context="CAKE" search_context="NOURISH" content="UNGREEDY CAKE" context="NOURISH" oral="0.0" anal="0" phallic="0.8" genital="0.2" affect_memory="-0.5"/>
+		<Info search_rep_content="GREEDY" search_ext_context="CAKE" search_context="NOURISH" content="UNGREEDY CAKE" context="NOURISH" oral="0.0" anal="0" phallic="0.8" genital="0.2" affect_memory="-0.5"/>
+		<Info search_rep_content="GREEDY" search_ext_context="CAKE" search_context="NOURISH" content="UNGREEDY CAKE" context="NOURISH" oral="0.0" anal="0" phallic="0.8" genital="0.2" affect_memory="-0.5"/-->
 	</TPMesh>
 	<TPMesh name="CAKE">
 		<Description> Definition of associated aware content</Description>
 		<AwareContentMatchList>
-			<AwareContentMatch search_rep_content="GREEDY" search_context="EAT" content="UNGREEDY" context="EAT" oral="0.0" anal="0" phallic="0.8" genital="0.2" affect_memory="-0.5"/>
+			<AwareContentMatch search_rep_content="GREEDY" search_context="NOURISH" content="UNGREEDY" context="NOURISH" oral="0.0" anal="0" phallic="0.8" genital="0.2" affect_memory="-0.5"/>
 		</AwareContentMatchList>
 	</TPMesh>
 	<TPMesh name="BUBBLE">

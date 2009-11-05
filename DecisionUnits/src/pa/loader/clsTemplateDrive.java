@@ -38,15 +38,22 @@ public class clsTemplateDrive {
 	
 	public String logHTML() {
 		
+		String moHighlightColor = "00AA00";
+		String moDriveType = "(Libido / Life instinct)";
+		if(meDriveType == eDriveType.DEATH) {
+			moHighlightColor = "888888";
+			moDriveType = "(Death instinct)";
+		}
+		
 		String oLogStream = "";
-		oLogStream += "<b color='FF0000'>Content: " + meDriveContent.toString() + "</b><br><table width=\"600px\">";
-		oLogStream += "<thead><tr align=\"center\"><th width=\"250px\">Affect candidates</th><th width=\"250px\">Life instinct ratio</th><th>Drive objects</th></tr></thead><tr><td>";
+		oLogStream += "<b color='"+moHighlightColor+"'>Content: " + meDriveContent.toString() + " " + moDriveType +"</b><br><table width=\"600px\">";
+		oLogStream += "<thead><tr align=\"center\"><th width=\"250px\">Drive sources (Affect candidates)</th><th width=\"250px\">Drive content category</th><th>Drive objects</th></tr></thead><tr><td>";
 		
 		oLogStream += "<table>";
-		oLogStream += "<thead><tr align=\"center\"><th>SensorType</th><th>ValueType</th><th>Ratio</th></tr></thead>";
+		oLogStream += "<thead><tr align=\"center\"><th>SensorType</th><th>Ratio</th><th>Max.value</th><th>Inverse</th></tr></thead>";
 		for( clsAffectCandidateDefinition oAC :moAffectCandidate) {
 			oLogStream += "<tr><td>";
-			oLogStream += oAC.moSensorType + "</td><td>" + oAC.mrRatio + "</td><td>" + oAC.mrMaxValue;
+			oLogStream += oAC.moSensorType + "</td><td>" + oAC.mrRatio + "</td><td>" + oAC.mrMaxValue + "</td><td>" + oAC.mnInverse;
 			oLogStream += "</td></tr>";
 		}
 		oLogStream += "</table></td><td>";

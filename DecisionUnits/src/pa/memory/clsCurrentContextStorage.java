@@ -60,7 +60,7 @@ public class clsCurrentContextStorage implements itfContextAccessPrimary, itfCon
 		
 		clsSecondaryInformation oSecInfo = new clsSecondaryInformation(
 				new clsWordPresentation(), 
-				new clsThingPresentationSingle("Context", eContext.class.getName(), eContext.EAT),
+				new clsThingPresentationSingle("Context", eContext.class.getName(), eContext.NOURISH),
 				new clsAffectMemory(0.8) );
 		
 		this.setContextRatio(oSecInfo, 1.0);

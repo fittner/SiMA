@@ -7,7 +7,6 @@
 package pa.loader;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.Vector;
 
 import org.w3c.dom.NamedNodeMap;
@@ -23,6 +22,7 @@ import bfg.tools.xmltools.clsXMLConfiguration;
 import pa.datatypes.clsDriveObject;
 import pa.datatypes.clsDriveContentCategories;
 import pa.enums.eDriveType;
+import pa.tools.clsPair;
 
 /**
  * DOCUMENT (langr) - insert description 
@@ -34,6 +34,7 @@ import pa.enums.eDriveType;
 public class clsDriveLoader {
 
 	public static String moAttributeName = "TPDrives"; //denotes the directory name and the first element name in xml
+	public static String moPairName = "DrivePair"; //denotes one single entry for a drive
 	public static String moNodeName = "TPDrive"; //denotes one single entry for a drive
 	public static String moDriveContentName = "Drivecontent"; 
 	public static String moDriveSourceListName = "DriveSourceList";
@@ -44,11 +45,9 @@ public class clsDriveLoader {
 	public static String moDriveObjectName = "DriveObject";
 	public static String moDriveTypeName = "DriveType";
 
-	
-	
-	public static HashMap<eDriveContent, clsTemplateDrive> createDriveList(String poAgentId, String poAgentGroup) {
+	public static ArrayList<clsPair<clsTemplateDrive, clsTemplateDrive>> createDriveList(String poAgentId, String poAgentGroup) {
 		
-		HashMap<eDriveContent, clsTemplateDrive> oRetVal = new HashMap<eDriveContent, clsTemplateDrive>();
+		ArrayList<clsPair<clsTemplateDrive, clsTemplateDrive>> oRetVal = new ArrayList<clsPair<clsTemplateDrive, clsTemplateDrive>>();
 
 		try {
 			
@@ -60,15 +59,15 @@ public class clsDriveLoader {
 	
 		        Vector<Node> oNodes  = new Vector<Node>();
 				clsXMLAbstractImageReader.getNodeElementByName( (Node)oReader.getDocument().getDocumentElement(), 
-						moNodeName, 1, oNodes);
+						moPairName, 1, oNodes);
 			
 				for(int i=0;i<oNodes.size();i++)                       
 				{
 					Node oDriveNode = (Node)oNodes.get(i);
 	
-					clsTemplateDrive oDrive = createDrive( oDriveNode );
+					clsPair<clsTemplateDrive, clsTemplateDrive> oPair = createDrivePair( oDriveNode);
 			  
-					oRetVal.put( oDrive.meDriveContent, oDrive );
+					oRetVal.add( oPair );
 			    }
 			}
 		} catch(Exception e) {
@@ -86,10 +85,34 @@ public class clsDriveLoader {
 	 * @param driveNode
 	 * @return
 	 */
-	private static clsTemplateDrive createDrive(Node poDriveNode) {
+	private static clsPair<clsTemplateDrive, clsTemplateDrive> createDrivePair(Node poDriveNode) {
 
+		clsPair<clsTemplateDrive, clsTemplateDrive> oRetVal = new clsPair<clsTemplateDrive, clsTemplateDrive>(null, null);
+		
+		Vector<Node> oNodes  = new Vector<Node>();
+		clsXMLAbstractImageReader.getSubNodesByName(poDriveNode, moNodeName, oNodes);
+
+		for(int i=0; i<oNodes.size(); i++) {
+
+			clsTemplateDrive oTempDrive = createDrive( oNodes.get(i) );
+
+			if(oTempDrive.meDriveType == eDriveType.LIFE) {
+				oRetVal.a = oTempDrive;
+			}
+			else {
+				oRetVal.b = oTempDrive;
+			}
+			
+			if(i==1) {
+				break;
+			}
+		}
+		return oRetVal;
+	}
+
+	public static clsTemplateDrive createDrive(Node poDriveNode) {
+		
 		clsTemplateDrive oRetVal = new clsTemplateDrive();
-
 //		NamedNodeMap oAtrib = poDriveNode.getAttributes();
 //		oRetVal.moName =  clsXMLAbstractImageReader.getAtributeValue(oAtrib,"name");
 		oRetVal.moName = "Drive";
@@ -109,8 +132,9 @@ public class clsDriveLoader {
 		createDriveObjectList(poDriveNode, oRetVal);
 		
 		return oRetVal;
+		
 	}
-
+	
 	/**
 	 * read drive sources
 	 *
