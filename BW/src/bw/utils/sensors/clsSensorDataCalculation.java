@@ -75,8 +75,13 @@ public class clsSensorDataCalculation {
 		double nAngleDiff = calculateAngleDifference(pnCollidingObject, pnEntityOrientation);
 		eSide eRelativePos = eSide.UNDEFINED; 
 				
-		if(nAngleDiff <= pnAreaOfViewRadians/4){
-				eRelativePos = eSide.MIDDLE; 
+		if (nAngleDiff <= pnAreaOfViewRadians/18)
+			eRelativePos = eSide.CENTER;
+		else if(nAngleDiff <= pnAreaOfViewRadians/4){
+			if (getPosOrNegOrientation()<0)
+				eRelativePos = eSide.MIDDLE_LEFT;
+			else
+				eRelativePos = eSide.MIDDLE_RIGHT;
 		}
 		else {
 				if(getPosOrNegOrientation()<0){

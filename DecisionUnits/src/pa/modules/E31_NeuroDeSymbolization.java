@@ -15,7 +15,9 @@ import decisionunit.itf.actions.clsActionEat;
 import decisionunit.itf.actions.clsActionMove;
 import decisionunit.itf.actions.clsActionPickUp;
 import decisionunit.itf.actions.clsActionSequenceFactory;
+import decisionunit.itf.actions.clsActionTurn;
 import enums.eActionMoveDirection;
+import enums.eActionTurnDirection;
 import pa.interfaces.I8_1;
 import pa.interfaces.I8_2;
 import pa.loader.plan.clsPlanAction;
@@ -122,6 +124,18 @@ public class E31_NeuroDeSymbolization extends clsModuleBase implements I8_1 {
 				moActionCommandList_Output.add( new clsActionMove(eActionMoveDirection.MOVE_FORWARD,1.0) );
 				System.out.println("cmd: move_forward");
 			}
+			//added by SK
+			else if (oAction.moWP.moContent.equals("TURN_LEFT"))
+			{
+				moActionCommandList_Output.add(new clsActionTurn(eActionTurnDirection.TURN_LEFT, 1.0));
+				System.out.println("cmd: turn_left");
+			}
+			else if (oAction.moWP.moContent.equals("TURN_RIGHT"))
+			{
+				moActionCommandList_Output.add(new clsActionTurn(eActionTurnDirection.TURN_RIGHT, 1.0));
+				System.out.println("cmd: turn_right");
+			}
+			//end add
 			else if(oAction.moWP.moContent.equals("PICKUP")) {
 				
 				moActionCommandList_Output.add( new clsActionPickUp() );

@@ -17,6 +17,9 @@ public enum eSide {
 	  UNDEFINED,
 	  EVERYWHERE,
 	  LEFT,
-	  MIDDLE,
-	  RIGHT
+	  MIDDLE, //to be deleted
+	  MIDDLE_LEFT,
+	  MIDDLE_RIGHT,
+	  RIGHT,
+	  CENTER
 }
