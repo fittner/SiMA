@@ -89,7 +89,7 @@ public class clsSensorTactile extends clsSensorExt {
 	 */
 	@Override
 	protected void setBodyPartId() {
-		mePartId = eBodyParts.SENSOR_EXT_ACOUSTIC;
+		mePartId = eBodyParts.SENSOR_EXT_TACTITLE;
 	}
 
 	/* (non-Javadoc)
@@ -101,7 +101,7 @@ public class clsSensorTactile extends clsSensorExt {
 	 */
 	@Override
 	protected void setName() {
-		moName = "ext. Sensor Acoustic";
+		moName = "ext. Sensor Tactile";
 	}
 
 	/* (non-Javadoc)
