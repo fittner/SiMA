@@ -53,7 +53,7 @@ import bw.factories.clsSingletonMasonGetter;
 		private ArrayList <clsCollidingObject>  meDetectedObjList;
 		private clsCircleBorder moShape;
 		private clsEntity moHostEntity;
-				
+
 		/**
 		 * @param poEntity
 		 * @param pnRad
@@ -106,6 +106,17 @@ import bw.factories.clsSingletonMasonGetter;
 		private void clearList(){
 			meDetectedObjList.clear(); 
 		}
+		
+		/**
+		 * @author kohlhauser
+		 * 18 Nov 2009, 11:51:29
+		 * 
+		 * @return the moHostEntity
+		 */
+		public clsEntity getEntity() {
+			return moHostEntity;
+		}
+		
 		//--------------------------------------------------------------------------------------------------
 		// Methods from PhysicalObject2D which have to be overwritten
 		//-------------------------------------------------------------------------------------------------

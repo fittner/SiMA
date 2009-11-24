@@ -4,6 +4,10 @@ import sim.physics2D.shape.Circle;
 import sim.portrayal.*;
 import java.awt.*;
 
+import bw.entities.clsEntity;
+//import bw.factories.clsSingletonDisplay2D;
+import bw.physicalObjects.sensors.clsEntitySensorEngine;;
+
 /** The Circle class is used by a circular physical object to store the attributes
  * of its appearance and size
  */
@@ -24,7 +28,7 @@ public class clsCircleBorder extends Circle
     /** Display the circle */
 	@Override
     public void draw(Object object, Graphics2D graphics, DrawInfo2D info)
-        {
+    {
         final double width = info.draw.width * radius * 2;
         final double height = info.draw.height  * radius * 2;
 
@@ -38,9 +42,40 @@ public class clsCircleBorder extends Circle
        
         // draw centered on the origin
         graphics.drawArc(x,y,w, h, start_angle,angle);
-        }
+        
+        //added by SK: draw line of sights
+        clsEntity oTempEntity = ((clsEntitySensorEngine)object).getEntity();
+        double currentAngle = oTempEntity.getPose().getAngle().radians;
+        //draw line separating front and back (end point up)
+        graphics.drawLine((int) (info.draw.x + radius * info.draw.width * Math.sin(currentAngle)),
+        	(int) (info.draw.y - radius * info.draw.height  * Math.cos(currentAngle)),
+        	(int) (info.draw.x - radius * info.draw.width * Math.sin(currentAngle)),
+        	(int) (info.draw.y + radius * info.draw.height  * Math.cos(currentAngle)));
+        //draw middle lines
+        //left side of bubble
+        graphics.drawLine((int) info.draw.x, 
+            	(int) info.draw.y, 
+            	(int) (info.draw.x + radius * info.draw.width * Math.sin(currentAngle + 1 * Math.PI/4)), 
+            	(int) (info.draw.y - radius * info.draw.height  * Math.cos(currentAngle + 1 * Math.PI/4)));
+        //right side of bubble
+        graphics.drawLine((int) info.draw.x, 
+            	(int) info.draw.y, 
+            	(int) (info.draw.x + radius * info.draw.width * Math.sin(currentAngle + 3 * Math.PI/4)), 
+            	(int) (info.draw.y - radius * info.draw.height  * Math.cos(currentAngle + 3 * Math.PI/4)));
+        //draw center lines
+        //left side of bubble
+        graphics.drawLine((int) info.draw.x, 
+        	(int) info.draw.y, 
+        	(int) (info.draw.x + radius * info.draw.width * Math.sin(currentAngle + 17 * Math.PI/36)), 
+        	(int) (info.draw.y - radius * info.draw.height  * Math.cos(currentAngle + 17 * Math.PI/36)));
+        //right side of bubble
+        graphics.drawLine((int) info.draw.x, 
+            (int) info.draw.y, 
+            (int) (info.draw.x + radius * info.draw.width * Math.sin(currentAngle + 19 * Math.PI/36)), 
+            (int) (info.draw.y - radius * info.draw.height  * Math.cos(currentAngle + 19 * Math.PI/36)));
+    }
    
-		public int getStartAngle(){
-			return 360-angle/2; 
-		}
-	 }
+	public int getStartAngle(){
+		return 360-angle/2; 
+	}
+}
