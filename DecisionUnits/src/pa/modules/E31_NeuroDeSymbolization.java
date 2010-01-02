@@ -34,6 +34,8 @@ public class E31_NeuroDeSymbolization extends clsModuleBase implements I8_1 {
 	private ArrayList<clsPlanAction> moActionCommands_Input;
 	private ArrayList<clsActionCommand> moActionCommandList_Output;
 
+	private int mnCounter = 0;
+	
 	/**
 	 * DOCUMENT (deutsch) - insert description 
 	 * 
@@ -117,49 +119,59 @@ public class E31_NeuroDeSymbolization extends clsModuleBase implements I8_1 {
 		
 		moActionCommandList_Output.clear();
 		
+		if( moActionCommands_Input.size() > 0 ) {
+			
 		for(clsPlanAction oAction : moActionCommands_Input) {
 			
 			if(oAction.moWP.moContent.equals("MOVE_FORWARD")) {
 				
 				moActionCommandList_Output.add( new clsActionMove(eActionMoveDirection.MOVE_FORWARD,1.0) );
-				System.out.println("cmd: move_forward");
+				//System.out.println("cmd: move_forward");
 			}
 			//added by SK
 			else if (oAction.moWP.moContent.equals("TURN_LEFT"))
 			{
 				moActionCommandList_Output.add(new clsActionTurn(eActionTurnDirection.TURN_LEFT, 1.0));
-				System.out.println("cmd: turn_left");
+				//System.out.println("cmd: turn_left");
 			}
 			else if (oAction.moWP.moContent.equals("TURN_RIGHT"))
 			{
 				moActionCommandList_Output.add(new clsActionTurn(eActionTurnDirection.TURN_RIGHT, 1.0));
-				System.out.println("cmd: turn_right");
+				//System.out.println("cmd: turn_right");
 			}
 			//end add
 			else if(oAction.moWP.moContent.equals("PICKUP")) {
 				
 				moActionCommandList_Output.add( new clsActionPickUp() );
-				System.out.println("cmd: pickup");
+				//System.out.println("cmd: pickup");
 			}
 			else if(oAction.moWP.moContent.equals("DROP")) {
 				
 				moActionCommandList_Output.add( new clsActionDrop() );
-				System.out.println("cmd: drop");
+				//System.out.println("cmd: drop");
 				
 			}
 			else if(oAction.moWP.moContent.equals("EAT")) {
 				
 				moActionCommandList_Output.add( new clsActionEat() );
-				System.out.println("cmd: eat");
+				//System.out.println("cmd: eat");
 				
 			}
 			else if(oAction.moWP.moContent.equals("DANCE_1")) {
 				
 				moActionCommandList_Output.add( clsActionSequenceFactory.getWalzSequence(2,2) );
-				System.out.println("cmd: dance");
+				//System.out.println("cmd: dance");
 				
 			}
-
+		}
+		}
+		else {
+			if( mnCounter > 50) {
+				moActionCommandList_Output.add( clsActionSequenceFactory.getSeekingSequence(1f,2) );
+				mnCounter = 0;
+			}
+			mnCounter++;
+			//System.out.println("cmd: seek");
 		}
 		
 		

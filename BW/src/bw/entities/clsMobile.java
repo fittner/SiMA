@@ -83,6 +83,7 @@ public abstract class clsMobile extends clsEntity {
 		Double2D oVelocity = new Double2D(  poProp.getPropertyDouble(pre+P_START_VELOCITY_X), 
 											poProp.getPropertyDouble(pre+P_START_VELOCITY_Y) );
 		
+		
 		String oDefaultShape = poProp.getPropertyString(pre+P_SHAPE+"."+clsShapeCreator.P_DEFAULT_SHAPE);
 		Shape oShape = clsShapeCreator.createShape(pre+P_SHAPE+"."+oDefaultShape, poProp);
 		initPhysicalObject2D(new clsPose(oPosX, oPosY, oPosAngle), oVelocity, oShape, getTotalWeight());

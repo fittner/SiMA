@@ -58,43 +58,43 @@ public class clsStomachSystem implements itfStepUpdateInternalState {
 		
 		oProp.setProperty(pre+i+"."+P_NUTRITIONTYPE, eNutritions.FAT.toString());
 		oProp.setProperty(pre+i+"."+P_NUTRITIONEFFICIENCY, 1);
-		oProp.setProperty(pre+i+"."+P_NUTRITIONMETABOLISMFACTOR, 1);
+		oProp.setProperty(pre+i+"."+P_NUTRITIONMETABOLISMFACTOR, 0.1);
 		oProp.putAll( clsNutritionLevel.getDefaultProperties(pre+i+".") );
 		i++;
 
 		oProp.setProperty(pre+i+"."+P_NUTRITIONTYPE, eNutritions.PROTEIN.toString());
 		oProp.setProperty(pre+i+"."+P_NUTRITIONEFFICIENCY, 1);
-		oProp.setProperty(pre+i+"."+P_NUTRITIONMETABOLISMFACTOR, 1);
+		oProp.setProperty(pre+i+"."+P_NUTRITIONMETABOLISMFACTOR, 0.1);
 		oProp.putAll( clsNutritionLevel.getDefaultProperties(pre+i+".") );
 		i++;
 
 		oProp.setProperty(pre+i+"."+P_NUTRITIONTYPE, eNutritions.VITAMIN.toString());
 		oProp.setProperty(pre+i+"."+P_NUTRITIONEFFICIENCY, 1);
-		oProp.setProperty(pre+i+"."+P_NUTRITIONMETABOLISMFACTOR, 1);
+		oProp.setProperty(pre+i+"."+P_NUTRITIONMETABOLISMFACTOR, 0.1);
 		oProp.putAll( clsNutritionLevel.getDefaultProperties(pre+i+".") );
 		i++;
 
 		oProp.setProperty(pre+i+"."+P_NUTRITIONTYPE, eNutritions.CARBOHYDRATE.toString());
 		oProp.setProperty(pre+i+"."+P_NUTRITIONEFFICIENCY, 1);
-		oProp.setProperty(pre+i+"."+P_NUTRITIONMETABOLISMFACTOR, 1);
+		oProp.setProperty(pre+i+"."+P_NUTRITIONMETABOLISMFACTOR, 0.1);
 		oProp.putAll( clsNutritionLevel.getDefaultProperties(pre+i+".") );
 		i++;
 
 		oProp.setProperty(pre+i+"."+P_NUTRITIONTYPE, eNutritions.WATER.toString());
 		oProp.setProperty(pre+i+"."+P_NUTRITIONEFFICIENCY, 1);
-		oProp.setProperty(pre+i+"."+P_NUTRITIONMETABOLISMFACTOR, 1);
+		oProp.setProperty(pre+i+"."+P_NUTRITIONMETABOLISMFACTOR, 0.1);
 		oProp.putAll( clsNutritionLevel.getDefaultProperties(pre+i+".") );
 		i++;
 
 		oProp.setProperty(pre+i+"."+P_NUTRITIONTYPE, eNutritions.MINERAL.toString());
 		oProp.setProperty(pre+i+"."+P_NUTRITIONEFFICIENCY, 1);
-		oProp.setProperty(pre+i+"."+P_NUTRITIONMETABOLISMFACTOR, 1);
+		oProp.setProperty(pre+i+"."+P_NUTRITIONMETABOLISMFACTOR, 0.1);
 		oProp.putAll( clsNutritionLevel.getDefaultProperties(pre+i+".") );
 		i++;
 
 		oProp.setProperty(pre+i+"."+P_NUTRITIONTYPE, eNutritions.TRACEELEMENT.toString());
 		oProp.setProperty(pre+i+"."+P_NUTRITIONEFFICIENCY, 1);
-		oProp.setProperty(pre+i+"."+P_NUTRITIONMETABOLISMFACTOR, 1);
+		oProp.setProperty(pre+i+"."+P_NUTRITIONMETABOLISMFACTOR, 0.1);
 		oProp.putAll( clsNutritionLevel.getDefaultProperties(pre+i+".") );
 		i++;
 

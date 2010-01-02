@@ -60,7 +60,7 @@ public class clsExecutorEat extends clsActionExecutor{
 		String pre = clsBWProperties.addDot(poPrefix);
 		clsBWProperties oProp = clsActionExecutor.getDefaultProperties(pre);
 		oProp.setProperty(pre+P_RANGESENSOR, eSensorExtType.EATABLE_AREA.toString());
-		oProp.setProperty(pre+P_BIZESIZE, 0.3f);
+		oProp.setProperty(pre+P_BIZESIZE, 3f); //0.3f
 		
 		return oProp;
 	}

@@ -14,6 +14,7 @@ import pa.datatypes.clsPrimaryInformation;
 import pa.datatypes.clsPrimaryInformationMesh;
 import pa.interfaces.I1_4;
 import pa.interfaces.I1_5;
+import pa.interfaces.itfTimeChartInformationContainer;
 import pa.tools.clsPair;
 import config.clsBWProperties;
 
@@ -24,7 +25,7 @@ import config.clsBWProperties;
  * 11.08.2009, 13:58:45
  * 
  */
-public class E05_GenerationOfAffectsForDrives extends clsModuleBase implements I1_4 {
+public class E05_GenerationOfAffectsForDrives extends clsModuleBase implements I1_4, itfTimeChartInformationContainer {
 
 	public ArrayList<clsPair<clsPair<clsPrimaryInformationMesh, clsAffectCandidate>, 
 	clsPair<clsPrimaryInformationMesh, clsAffectCandidate>>> moDriveCandidate;
@@ -117,9 +118,16 @@ public class E05_GenerationOfAffectsForDrives extends clsModuleBase implements I
 		for( clsPair<clsPair<clsPrimaryInformationMesh, clsAffectCandidate>, 
 		  		     clsPair<clsPrimaryInformationMesh, clsAffectCandidate>> oDriveCandidate : moDriveCandidate ) {
 
+			//for a constant increase of the affect values, the following function is implemented:
+			//1.: life-instinct increases faster than death-instinct
+			//2.: life-instinct reaches maximum (death-instinct at 50%) and decreases
+			//3.: death-instinct reaches maximum (--> should result in deatch)
+			double oLiveAffect  = Math.sin(Math.PI*oDriveCandidate.a.b.getTensionValue());
+			double oDeathAffect = (2-(Math.cos(Math.PI*oDriveCandidate.b.b.getTensionValue())+1))/2;
+			
 			//finally create the affect in the primary-mesh using the affect candidate 
-			oDriveCandidate.a.a.moAffect = new clsAffectTension(oDriveCandidate.a.b);
-			oDriveCandidate.b.a.moAffect = new clsAffectTension(oDriveCandidate.b.b);
+			oDriveCandidate.a.a.moAffect = new clsAffectTension(oLiveAffect);
+			oDriveCandidate.b.a.moAffect = new clsAffectTension(oDeathAffect);
 			
 			moDriveList.add(new clsPair<clsPrimaryInformation, clsPrimaryInformation>(oDriveCandidate.a.a, oDriveCandidate.b.a));
 		}
@@ -144,6 +152,29 @@ public class E05_GenerationOfAffectsForDrives extends clsModuleBase implements I
 		
 		((I1_5)moEnclosingContainer).receive_I1_5(oOutput);
 		
+	}
+
+	/* (non-Javadoc)
+	 *
+	 * @author langr
+	 * 23.12.2009, 10:50:36
+	 * 
+	 * @see pa.interfaces.itfTimeChartInformationContainer#getTimeChartData()
+	 */
+	@Override
+	public ArrayList<clsPair<String, Double>> getTimeChartData() {
+
+		//public ArrayList<clsPair<clsPrimaryInformation, clsPrimaryInformation>> moDriveList;
+		ArrayList<clsPair<String, Double>> oTimingValues = new ArrayList<clsPair<String,Double>>();
+		for( clsPair<clsPrimaryInformation, clsPrimaryInformation> oPair : moDriveList ) {
+			
+			clsPair<String, Double> oLibi = new clsPair<String, Double>(oPair.a.moTP.moContent.toString(), oPair.a.moAffect.getValue());
+			clsPair<String, Double> oDeath = new clsPair<String, Double>(oPair.b.moTP.moContent.toString(), oPair.b.moAffect.getValue());
+			
+			oTimingValues.add(oLibi);
+			oTimingValues.add(oDeath);
+		}
+		return oTimingValues;
 	}
 
 }

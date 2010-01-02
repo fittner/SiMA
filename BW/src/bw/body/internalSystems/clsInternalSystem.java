@@ -59,7 +59,7 @@ public class clsInternalSystem implements itfStepUpdateInternalState {
 		oProp.putAll( clsStomachSystem.getDefaultProperties(pre+P_STOMACH) );
 		oProp.putAll( clsInternalEnergyConsumption.getDefaultProperties(pre+P_INTENERGYCONSUMPTION) );
 		
-		oProp.setProperty(pre+P_BASEENERGYCONSUMPTION, 1.0);
+		oProp.setProperty(pre+P_BASEENERGYCONSUMPTION, 0.02);
 				
 		return oProp;
 	}	
