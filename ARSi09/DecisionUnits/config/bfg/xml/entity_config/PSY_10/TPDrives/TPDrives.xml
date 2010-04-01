@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<TPDrives xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:noNamespaceSchemaLocation="../xsd/ComplexEmotion.xsd">
+
+	<DrivePair>
+		<TPDrive ID="1" name="Drive-content=nourish">
+			<Description>definition of drive-sources</Description>
+			<Drivecontent>NOURISH</Drivecontent>
+			<DriveType>LIFE</DriveType>
+
+                <DriveSourceList>
+                    <DriveSource SensorType="BLOODSUGAR" Ratio="1" MaxValue="0.5" Inverse="true"></DriveSource>
+                    <!--DriveSource SensorType="STOMACHTENSION" Ratio="0.4" MaxValue="1"></DriveSource-->
+                </DriveSourceList>
+
+                <LifeInstinctList>
+                    <LifeInstinctRatio context="DEFAULT" oral="0.9" anal="0" phallic="0.1" genital="0"></LifeInstinctRatio>
+                </LifeInstinctList>
+
+                <DriveObjectList>
+                	<DriveObject type="CAKE" context="NOURISH"></DriveObject>
+                    <DriveObject type="FOOD" context="NOURISH"></DriveObject>
+                    <DriveObject type="CARROT" context="NOURISH"></DriveObject>
+                </DriveObjectList>
+        </TPDrive>
+
+	<TPDrive ID="2" name="Drive-content bite">
+		<Description>definition of drive-sources</Description>
+		<Drivecontent>BITE</Drivecontent>
+		<DriveType>DEATH</DriveType>
+
+                <DriveSourceList>
+                    <DriveSource SensorType="BLOODSUGAR" Ratio="1" MaxValue="0.5" Inverse="true"></DriveSource>
+                    <!--DriveSource SensorType="STOMACHTENSION" Ratio="0.4" MaxValue="1" Inverse="true"></DriveSource-->
+                </DriveSourceList>
+
+                <LifeInstinctList>
+                    <LifeInstinctRatio context="DEFAULT" oral="0.9" anal="0" phallic="0.1" genital="0"></LifeInstinctRatio>
+                </LifeInstinctList>
+
+                <DriveObjectList>
+                	<DriveObject type="CAKE" context="BITE"></DriveObject>
+                    <DriveObject type="FOOD" context="BITE"></DriveObject>
+                    <DriveObject type="CARROT" context="BITE"></DriveObject>
+                </DriveObjectList>
+        </TPDrive>
+	</DrivePair>
+
+	<!--DrivePair>	
+		<TPDrive ID="3" name="Drive repress">
+			<Description>fill level of stomachs</Description>
+			<Drivecontent>REPRESS</Drivecontent>
+			<DriveType>LIFE</DriveType>
+            <DriveSourceList>
+                <DriveSource SensorType="STOMACHTENSION" Ratio="0.4" MaxValue="1"></DriveSource>
+            </DriveSourceList>
+
+            <LifeInstinctList>
+                 <LifeInstinctRatio context="DEFAULT" oral="0" anal="1" phallic="0" genital="0"></LifeInstinctRatio>
+			</LifeInstinctList>
+			
+		    <DriveObjectList>
+	        	<DriveObject type="EXCREMENT" context="DEFAULT"></DriveObject>
+	        </DriveObjectList>
+        </TPDrive>
+	
+	
+		<TPDrive ID="4" name="Drive deposite">
+			<Description>fill level of stomachs</Description>
+			<Drivecontent>DEPOSITE</Drivecontent>
+			<DriveType>DEATH</DriveType>
+            <DriveSourceList>
+                <DriveSource SensorType="STOMACHTENSION" Ratio="0.4" MaxValue="1"></DriveSource>
+            </DriveSourceList>
+
+            <LifeInstinctList>
+                 <LifeInstinctRatio context="DEFAULT" oral="0" anal="1" phallic="0" genital="0" Inverse="true"></LifeInstinctRatio>
+			</LifeInstinctList>
+			
+			<DriveObjectList>
+	        	<DriveObject type="EXCREMENT" context="DEFAULT"></DriveObject>
+	        </DriveObjectList>
+        </TPDrive>
+    </DrivePair-->
+
+</TPDrives>

@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ObjectSemanticsInit xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:noNamespaceSchemaLocation="">
+
+		<ObjectSemantics>
+                    <PrimaryInfoObject content="CAKE" affect_memory="1">
+                        <DriveContentCathegoryList>
+                            <DriveContentCathegory context="NOURISH" oral="0.7" anal="0.3" phallic="0" genital="0"/>
+                            <DriveContentCathegory context="BITE" oral="0.7" anal="0.3" phallic="0.2" genital="0"/>
+                            <DriveContentCathegory context="REPRESS" oral="0.0" anal="1" phallic="0" genital="0.1"/>
+                            <DriveContentCathegory context="DEPOSIT" oral="0.0" anal="1" phallic="0.5" genital="0.1"/>
+                        </DriveContentCathegoryList>
+                    </PrimaryInfoObject>
+                    <!-- add more semantic meaning here-->
+        </ObjectSemantics>
+</ObjectSemanticsInit>

@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<TemplatePlans xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:noNamespaceSchemaLocation="../xsd/AbstractImage.xsd">
+
+    <TemplatePlan name="Scenario" type="Scenario" value="CAKE_HUNGER" description="big red cake and very hungry">
+
+		<State id="0" name="ScenarioState" type="ScenarioState" value="NO_CAKE">
+			<Transition targetid="1" match="1" name="TemplateImage" type="TemplateImage" value="CAKE_HUNGER"/>
+			<Transition targetid="6" match="1" name="TemplateImage" type="TemplateImage" value="CAKE_LEFT" />
+			<Transition targetid="6" match="1" name="TemplateImage" type="TemplateImage" value="CAKE_MIDDLE_LEFT" />
+			<Transition targetid="7" match="1" name="TemplateImage" type="TemplateImage" value="CAKE_RIGHT" />
+			<Transition targetid="7" match="1" name="TemplateImage" type="TemplateImage" value="CAKE_MIDDLE_RIGHT" />
+		</State>
+		
+		<State id="6" name="ScenarioState" type="ScenarioState" value="CAKE_FAR_VISIBLE_LEFT">
+			<Action once="false" finish="false" name="Action" type="Action" value="TURN_LEFT" />
+			<Transition targetid="1" match="1" name="TemplateImage" type="TemplateImage" value="CAKE_HUNGER" />
+		</State>
+
+		<State id="7" name="ScenarioState" type="ScenarioState" value="CAKE_FAR_VISIBLE_RIGHT">
+			<Action once="false" finish="false" name="Action" type="Action" value="TURN_RIGHT" />
+			<Transition targetid="1" match="1" name="TemplateImage" type="TemplateImage" value="CAKE_HUNGER" />
+		</State>
+		
+		<State id="1" name="ScenarioState" type="ScenarioState" value="CAKE_FAR_VISIBLE">
+			<Action once="false" finish="false" name="Action" type="Action" value="MOVE_FORWARD" />
+			<Transition targetid="2" match="0.5" name="TemplateImage" type="TemplateImage" value="CAKE_FRONTAL"/>
+			<Transition targetid="-1" match="1" name="TemplateImage" type="TemplateImage" value="NO_CAKE"/>
+		</State>
+		
+		<State id="2" name="ScenarioState" type="ScenarioState" value="CAKE_MANIPULATE">
+			<Transition targetid="3" match="1" name="TemplateImage" type="TemplateImage" value="CAKE_MANIPULATE"/>
+		</State>
+		
+		<State id="3" name="ScenarioState" type="ScenarioState" value="CAKE_PICKUP">
+			<Action once="false" finish="false" name="Action" type="Action" value="PICKUP" />
+			<Transition targetid="4" match="1" name="TemplateImage" type="TemplateImage" value="CAKE_MANIPULATE"/>
+		</State>
+		
+		<State id="4" name="ScenarioState" type="ScenarioState" value="EAT">
+			<Action once="false" finish="false" name="Action" type="Action" value="EAT" />
+			<Transition targetid="5" match="0" name="TemplateImage" type="TemplateImage" value="CAKE_MANIPULATE"/>
+		</State>
+		
+		<State id="5" name="ScenarioState" type="ScenarioState" value="DROP">
+			<Action once="false" finish="false" name="Action" type="Action" value="DROP" />
+			<Transition targetid="-1" match="0" name="TemplateImage" type="TemplateImage" value="CAKE_MANIPULATE"/>
+		</State>
+
+		<State id="-1" name="ScenarioState" type="ScenarioState" value="ScenarioAccomplished">
+		</State>
+
+    </TemplatePlan>
+
+    <TemplatePlan name="Scenario2" type="Scenario" value="CAKE_HUNGER_2" description="big red cake and very hungry">
+
+		<State id="0" name="ScenarioState" type="ScenarioState" value="NO_CAKE">
+			<Transition targetid="1" match="1" name="TemplateImage" type="TemplateImage" value="CAKE_FAR_VISIBLE"/>
+		</State>
+
+		<State id="1" name="ScenarioState" type="ScenarioState" value="CAKE_FAR_VISIBLE">
+			<Transition targetid="-1" match="1" name="TemplateImage" type="TemplateImage" value="CAKE_FAR_VISIBLE_CENTER"/>
+			<Transition targetid="2" match="1" name="TemplateImage" type="TemplateImage" value="CAKE_MEDIUM_VISIBLE"/>
+                </State>
+
+        	<State id="2" name="ScenarioState" type="ScenarioState" value="CAKE_FAR_VISIBLE">
+			<Transition targetid="3" match="1" name="TemplateImage" type="TemplateImage" value="CAKE_FAR_VISIBLE_CENTER"/>
+                    </State>
+
+    		<State id="3" name="ScenarioState" type="ScenarioState" value="CAKE_FAR_VISIBLE">
+			<Transition targetid="-1" match="1" name="TemplateImage" type="TemplateImage" value="CAKE_MEDIUM_VISIBLE"/>
+		</State>
+
+		<State id="-1" name="ScenarioState" type="ScenarioState" value="ScenarioAccomplished">
+		</State>
+
+    </TemplatePlan>
+
+</TemplatePlans>
