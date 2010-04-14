@@ -118,7 +118,7 @@ public class clsExecutorMoveToArea extends clsActionExecutor{
 		if (oEntity==null) return false;
 		
 		//Get Destination
-		clsSensorExt oSensor = (clsSensorExt) oBody.getExternalIO().moSensorExternal.get(moRangeDest);
+		clsSensorExt oSensor = (clsSensorExt) oBody.getExternalIO().moSensorEngine.getMeRegisteredSensors().get(moRangeDest);
 		if (!(oSensor instanceof clsSensorRingSegment))  return false;
 
 		//sim.physics2D.util.Double2D oDest = new sim.physics2D.util.Double2D(((clsSensorRingSegment)oSensor).getOffsetX(),0);

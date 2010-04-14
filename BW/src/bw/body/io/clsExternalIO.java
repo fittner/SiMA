@@ -8,7 +8,7 @@
 package bw.body.io;
 
 import java.util.ArrayList;
-import java.util.HashMap;
+//import java.util.HashMap;
 
 import config.clsBWProperties;
 
@@ -79,16 +79,16 @@ public class clsExternalIO extends clsBaseIO {
 	public static final String P_ACTIONS = "actions";
 	public static final String P_SENSORS = "sensors";
 
-	private clsActionProcessor moProcessor; 
 	public clsSensorEngine moSensorEngine; 
-	public HashMap<eSensorExtType, clsSensorExt> moSensorExternal;
+	private clsActionProcessor moProcessor; 
+	//public HashMap<eSensorExtType, clsSensorExt> moSensorExternal;
 	public clsEntity moEntity;
 
 	public clsExternalIO(String poPrefix, clsBWProperties poProp, clsBaseBody poBody, clsEntity poEntity) {
 		super(poPrefix, poProp, poBody);
 		moEntity = poEntity; //the entity for physics engine access
 
-		moSensorExternal = new HashMap<eSensorExtType, clsSensorExt>();
+		//moSensorExternal = new HashMap<eSensorExtType, clsSensorExt>();
 		moProcessor = new clsActionProcessor(poPrefix,poProp,poEntity);
 	
 		applyProperties(poPrefix, poProp);
@@ -259,7 +259,8 @@ public class clsExternalIO extends clsBaseIO {
 	
 	private void applySensorProperties(String poPrefix, clsBWProperties poProp) {
 		String pre = clsBWProperties.addDot(poPrefix);
-		moSensorEngine = new clsSensorEngine(pre+P_SENSORENGINE, poProp, this); 
+		moSensorEngine = new clsSensorEngine(pre+P_SENSORENGINE, poProp, this);
+		clsSensorExt sensorExt = null; 
 		
 		int num = poProp.getPropertyInt(pre+P_NUMSENSORS);
 		for (int i=0; i<num; i++) {
@@ -267,8 +268,7 @@ public class clsExternalIO extends clsBaseIO {
 			
 			boolean nActive = poProp.getPropertyBoolean(tmp_pre+P_SENSORACTIVE);
 			if (nActive) {
-				String oType = poProp.getPropertyString(tmp_pre+P_SENSORTYPE);
-				eSensorExtType eType = eSensorExtType.valueOf(oType);
+				eSensorExtType eType = eSensorExtType.valueOf(poProp.getPropertyString(tmp_pre+P_SENSORTYPE));
 				
 			
 					/*TODO: HZ 28.07.2009 - This part serves as interim solution as long as all sensors are implied
@@ -278,41 +278,20 @@ public class clsExternalIO extends clsBaseIO {
 					 * The basic idea is to integrate the switch statement to the sensor engine or
 					 * get rid of the Hashmap moSensorExternal
 					 * */
+					if(eType.name().equals(eSensorExtType.ACCELERATION.name())) sensorExt=new clsSensorAcceleration(tmp_pre, poProp, this); 
+					if(eType.name().equals(eSensorExtType.BUMP.name()))sensorExt=new clsSensorBump(tmp_pre, poProp, this);
+					if(eType.name().equals(eSensorExtType.VISION_NEAR.name()))sensorExt=new clsSensorVision(tmp_pre, poProp, this);
+					if(eType.name().equals(eSensorExtType.VISION_MEDIUM.name()))sensorExt=new clsSensorVision(tmp_pre, poProp, this);
+					if(eType.name().equals(eSensorExtType.VISION_FAR.name()))sensorExt=new clsSensorVision(tmp_pre, poProp, this);
+					if(eType.name().equals(eSensorExtType.VISION.name()))sensorExt=new clsSensorVision(tmp_pre, poProp, this); 
+					if(eType.name().equals(eSensorExtType.RADIATION.name()))sensorExt=new clsSensorRadiation(tmp_pre, poProp, this); 
+					if(eType.name().equals(eSensorExtType.EATABLE_AREA.name()))sensorExt=new clsSensorEatableArea(tmp_pre, poProp, this); 
+					if(eType.name().equals(eSensorExtType.MANIPULATE_AREA.name()))sensorExt=new clsSensorManipulateArea(tmp_pre, poProp, this); 
+					if(eType.name().equals(eSensorExtType.POSITIONCHANGE.name()))sensorExt=new clsSensorPositionChange(tmp_pre, poProp, this); 
 					
-					switch(eType) {
-				
-					case ACCELERATION:
-						moSensorEngine.registerSensor(eType,new clsSensorAcceleration(tmp_pre, poProp, this));
-						moSensorExternal.put(eType, moSensorEngine.getMeRegisteredSensors().get(eType)); 
-						break;
-					case BUMP:
-						moSensorEngine.registerSensor(eType,new clsSensorBump(tmp_pre, poProp, this));
-						moSensorExternal.put(eType, moSensorEngine.getMeRegisteredSensors().get(eType)); 
-						break;
-					case VISION:
-					case VISION_NEAR:
-					case VISION_MEDIUM:
-					case VISION_FAR:
-						moSensorEngine.registerSensor(eType,new clsSensorVision(tmp_pre, poProp, this)); 
-						moSensorExternal.put(eType, moSensorEngine.getMeRegisteredSensors().get(eType)); 
-						break;
-					case RADIATION:
-						moSensorEngine.registerSensor(eType,new clsSensorRadiation(tmp_pre, poProp, this));
-						moSensorExternal.put(eType, moSensorEngine.getMeRegisteredSensors().get(eType)); 
-						break;
-					case EATABLE_AREA:
-						moSensorEngine.registerSensor(eType,new clsSensorEatableArea(tmp_pre, poProp, this)); 
-						moSensorExternal.put(eType, moSensorEngine.getMeRegisteredSensors().get(eType)); 
-						break;
-					case MANIPULATE_AREA:
-						moSensorEngine.registerSensor(eType,new clsSensorManipulateArea(tmp_pre, poProp, this)); 
-						moSensorExternal.put(eType, moSensorEngine.getMeRegisteredSensors().get(eType)); 
-						break;
-					case POSITIONCHANGE:
-						moSensorEngine.registerSensor(eType, new clsSensorPositionChange(tmp_pre, poProp, this)); 
-						moSensorExternal.put(eType, moSensorEngine.getMeRegisteredSensors().get(eType)); 
-						break;
-					}
+					
+					moSensorEngine.registerSensor(eType, sensorExt);
+					//moSensorExternal.put(eType, sensorExt);
 			}
 		}		
 	}

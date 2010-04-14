@@ -77,7 +77,7 @@ public class clsFungusEater extends clsAnimate implements itfGetSensorEngine, it
 	public Object[] getInternalEnergyConsumption() { return ((itfGetInternalEnergyConsumption)moBody).getInternalEnergyConsumption().getMergedList().values().toArray();	}
 	public Object[] getSensorExternal() {
 		if (moBody instanceof itfGetExternalIO) {
-			return ((itfGetExternalIO)moBody).getExternalIO().moSensorExternal.values().toArray();
+			return ((itfGetExternalIO)moBody).getExternalIO().moSensorEngine.getMeRegisteredSensors().values().toArray();
 		} else {
 			return null;
 		}

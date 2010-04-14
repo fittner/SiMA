@@ -60,7 +60,7 @@ public class clsComplexBody extends clsBaseBody implements
 		
 		moExternalIO	= new clsExternalIO(pre+P_EXTERNALIO, poProp, this, poEntity);
 		moInternalIO 	= new clsInternalIO(pre+P_INTERNALIO, poProp, this);
-		moBrain 		= new clsBrainSocket(pre+P_BRAINSOCKET, poProp, moExternalIO.moSensorExternal, moInternalIO.moSensorInternal, moExternalIO.getActionProcessor());
+		moBrain 		= new clsBrainSocket(pre+P_BRAINSOCKET, poProp, moExternalIO.moSensorEngine.getMeRegisteredSensors(), moInternalIO.moSensorInternal, moExternalIO.getActionProcessor());
 	}	    
 
 	public static clsBWProperties getDefaultProperties(String poPrefix) {

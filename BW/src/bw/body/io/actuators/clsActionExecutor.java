@@ -115,9 +115,9 @@ public abstract class clsActionExecutor extends clsSensorActuatorBaseExt {
 	protected clsEntity findSingleEntityInRange(clsEntity poSelfReference, clsComplexBody poBody, eSensorExtType peSensor, Class<?> poInterface) {
 
 		ArrayList<clsCollidingObject> oSearch=null;
-		if (peSensor== eSensorExtType.EATABLE_AREA) oSearch = ((clsSensorEatableArea) poBody.getExternalIO().moSensorExternal.get(peSensor)).getSensorData();
-		if (peSensor== eSensorExtType.MANIPULATE_AREA) oSearch = ((clsSensorManipulateArea) poBody.getExternalIO().moSensorExternal.get(peSensor)).getSensorData();
-		if (peSensor== eSensorExtType.VISION) oSearch = ((clsSensorVision) poBody.getExternalIO().moSensorExternal.get(peSensor)).getSensorData();
+		if (peSensor== eSensorExtType.EATABLE_AREA) oSearch = ((clsSensorEatableArea) poBody.getExternalIO().moSensorEngine.getMeRegisteredSensors().get(peSensor)).getSensorData();
+		if (peSensor== eSensorExtType.MANIPULATE_AREA) oSearch = ((clsSensorManipulateArea) poBody.getExternalIO().moSensorEngine.getMeRegisteredSensors().get(peSensor)).getSensorData();
+		if (peSensor== eSensorExtType.VISION) oSearch = ((clsSensorVision) poBody.getExternalIO().moSensorEngine.getMeRegisteredSensors().get(peSensor)).getSensorData();
 		if (oSearch==null) return null;
 		
 		clsEntity oEntity=null;
@@ -149,8 +149,8 @@ public abstract class clsActionExecutor extends clsSensorActuatorBaseExt {
 	protected clsEntity findNamedEntityInRange(String EntityID, clsComplexBody poBody, eSensorExtType peSensor, Class<?> poInterface) {
 
 		ArrayList<clsCollidingObject> oSearch=null;
-		if (peSensor== eSensorExtType.EATABLE_AREA) oSearch = ((clsSensorEatableArea) poBody.getExternalIO().moSensorExternal.get(peSensor)).getSensorData();
-		if (peSensor== eSensorExtType.VISION) oSearch = ((clsSensorVision) poBody.getExternalIO().moSensorExternal.get(peSensor)).getSensorData();
+		if (peSensor== eSensorExtType.EATABLE_AREA) oSearch = ((clsSensorEatableArea) poBody.getExternalIO().moSensorEngine.getMeRegisteredSensors().get(peSensor)).getSensorData();
+		if (peSensor== eSensorExtType.VISION) oSearch = ((clsSensorVision) poBody.getExternalIO().moSensorEngine.getMeRegisteredSensors().get(peSensor)).getSensorData();
 		if (oSearch==null) return null;
 		
 		clsEntity oEntity=null;

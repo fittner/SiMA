@@ -7,6 +7,7 @@ import sim.physics2D.physicalObject.PhysicalObject2D;
 import ARSsim.physics2D.physicalObject.clsMobileObject2D;
 import ARSsim.physics2D.shape.clsCircleImage;
 
+@Deprecated
 public class clsObject {
 	public Object moObject;
 	public int ID;

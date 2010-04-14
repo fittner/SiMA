@@ -9,6 +9,7 @@ package bw.body.io.sensors.external.visionAnalysis;
 
 import sim.util.Bag;
 
+@Deprecated
 /**
  * Saves a list of Areas and provides search function for best matching  area for the previously observed situation.
  * @author  borer
