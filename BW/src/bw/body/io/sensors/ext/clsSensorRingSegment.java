@@ -84,7 +84,7 @@ public class clsSensorRingSegment extends clsSensorExt {
 		if (prFieldOfView >= (Math.PI - epsilon)) {
 			mrOffsetX = 0;
 		} else {
-			double einheitsoffset = ( (2*Math.PI - prFieldOfView) / (2*Math.PI) ) * 0.5;
+			double einheitsoffset = ((2*Math.PI - prFieldOfView) / (2*Math.PI) ) * 0.5;
 			double maxoffset = einheitsoffset * prMax;
 			double minoffset = einheitsoffset * prMin;
 			mrOffsetX = (maxoffset+minoffset) / 2;

@@ -291,7 +291,6 @@ public class clsExternalIO extends clsBaseIO {
 					
 					
 					moSensorEngine.registerSensor(eType, sensorExt);
-					//moSensorExternal.put(eType, sensorExt);
 			}
 		}		
 	}
