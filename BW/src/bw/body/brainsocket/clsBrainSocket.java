@@ -69,6 +69,7 @@ import bw.body.io.sensors.internal.clsStaminaSensor;
 import bw.entities.clsBubble;
 import bw.entities.clsEntity;
 import bw.entities.clsAnimal;
+import bw.entities.clsRemoteBot;
 import bw.utils.enums.eBodyAttributes;
 import bw.utils.sensors.clsSensorDataCalculation;
 
@@ -408,7 +409,7 @@ public class clsBrainSocket implements itfStepProcessing {
 		}
 		
 		/*FIXME HZ actually the antenna positions are undefined*/
-		if (oEntity instanceof clsBubble){
+		if (oEntity instanceof clsBubble || oEntity instanceof  clsRemoteBot){
 			oData.setAntennaPositionLeft(eAntennaPositions.UNDEFINED); 
 			oData.setAntennaPositionRight(eAntennaPositions.UNDEFINED);
 		}
