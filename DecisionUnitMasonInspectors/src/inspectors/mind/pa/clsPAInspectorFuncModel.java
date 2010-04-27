@@ -13,7 +13,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JScrollPane;
 
-import pa.modules.C00_PsychicApparatus;
+import pa.modules.G00_PsychicApparatus;
 import sim.display.GUIState;
 import sim.portrayal.Inspector;
 import sim.portrayal.LocationWrapper;
@@ -31,13 +31,13 @@ public class clsPAInspectorFuncModel extends Inspector {
 	private static final long serialVersionUID = 1L;
 	
 	public Inspector moOriginalInspector;
-	private C00_PsychicApparatus moPsychicApparatus;
+	private G00_PsychicApparatus moPsychicApparatus;
 	private JScrollPane moScrollPane;
 
     public clsPAInspectorFuncModel(Inspector originalInspector,
             LocationWrapper wrapper,
             GUIState guiState,
-            C00_PsychicApparatus poPsychicApparatus)
+            G00_PsychicApparatus poPsychicApparatus)
     {
 		moOriginalInspector = originalInspector;
 		moPsychicApparatus = poPsychicApparatus;

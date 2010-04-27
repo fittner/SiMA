@@ -12,7 +12,7 @@ import inspectors.mind.pa.functionalmodel.clsPAInspectorFunctional;
 import pa.datatypes.clsSecondaryInformation;
 import pa.loader.plan.clsPlanBaseMesh;
 import pa.loader.scenario.clsScenarioBaseMesh;
-import pa.modules.C00_PsychicApparatus;
+import pa.modules.G00_PsychicApparatus;
 import sim.display.GUIState;
 import sim.portrayal.Inspector;
 import sim.portrayal.LocationWrapper;
@@ -37,39 +37,39 @@ public class clsInspectorMappingPA {
 	 * @param poModuleName
 	 */
 	public static TabbedInspector getPAInspector(Inspector poSuperInspector, LocationWrapper poWrapper, GUIState poState, 
-													C00_PsychicApparatus moPA, String poModuleName, JTree poTree) {
+													G00_PsychicApparatus moPA, String poModuleName, JTree poTree) {
 		TabbedInspector oRetVal = new TabbedInspector();
 		
 		if(poModuleName.equals("E02NeurosymbolizationOfNeeds")) {
-			oRetVal.addInspector( new clsE02InspectorInput(poSuperInspector, poWrapper, poState, moPA.moC01Body.moE02NeurosymbolizationOfNeeds), "Input");
-			oRetVal.addInspector( new clsE02InspectorOutput(poSuperInspector, poWrapper, poState, moPA.moC01Body.moE02NeurosymbolizationOfNeeds), "Output (same as Input)");
+			oRetVal.addInspector( new clsE02InspectorInput(poSuperInspector, poWrapper, poState, moPA.moG01Body.moE02NeurosymbolizationOfNeeds), "Input");
+			oRetVal.addInspector( new clsE02InspectorOutput(poSuperInspector, poWrapper, poState, moPA.moG01Body.moE02NeurosymbolizationOfNeeds), "Output (same as Input)");
 		}
 		else if(poModuleName.equals("E03GenerationOfDrives")) {
-			oRetVal.addInspector( new clsE03InspectorInput(poSuperInspector, poWrapper, poState, moPA.moC02Id.moC05DriveHandling.moE03GenerationOfDrives), "Input");
-			oRetVal.addInspector( new clsE03InspectorDriveDefinitions(poSuperInspector, poWrapper, poState, moPA.moC02Id.moC05DriveHandling.moE03GenerationOfDrives), "Drive Definitions");
-			oRetVal.addInspector( new clsE03InspectorOutput(poSuperInspector, poWrapper, poState, moPA.moC02Id.moC05DriveHandling.moE03GenerationOfDrives), "Output");
+			oRetVal.addInspector( new clsE03InspectorInput(poSuperInspector, poWrapper, poState, moPA.moG02Id.moG05DriveHandling.moE03GenerationOfDrives), "Input");
+			oRetVal.addInspector( new clsE03InspectorDriveDefinitions(poSuperInspector, poWrapper, poState, moPA.moG02Id.moG05DriveHandling.moE03GenerationOfDrives), "Drive Definitions");
+			oRetVal.addInspector( new clsE03InspectorOutput(poSuperInspector, poWrapper, poState, moPA.moG02Id.moG05DriveHandling.moE03GenerationOfDrives), "Output");
 		}
 		else if(poModuleName.equals("E05GenerationOfAffectsForDrives")) {
-			oRetVal.addInspector( new clsE05InspectorOutput(poSuperInspector, poWrapper, poState, moPA.moC02Id.moC06AffectGeneration.moE05GenerationOfAffectsForDrives), "Current Drives");
-			oRetVal.addInspector( new clsE05DriveInspector(poSuperInspector, poWrapper, poState, moPA.moC02Id.moC06AffectGeneration.moE05GenerationOfAffectsForDrives, "moDriveList"), "Current Drives (Graph)");
-			oRetVal.addInspector( new clsE05DriveTiming(poSuperInspector, poWrapper, poState, moPA.moC02Id.moC06AffectGeneration.moE05GenerationOfAffectsForDrives, 150, "Drive-Affect Chart"), "Drive-Affect Chart");
+			oRetVal.addInspector( new clsE05InspectorOutput(poSuperInspector, poWrapper, poState, moPA.moG02Id.moG06AffectGeneration.moE05GenerationOfAffectsForDrives), "Current Drives");
+			oRetVal.addInspector( new clsE05DriveInspector(poSuperInspector, poWrapper, poState, moPA.moG02Id.moG06AffectGeneration.moE05GenerationOfAffectsForDrives, "moDriveList"), "Current Drives (Graph)");
+			oRetVal.addInspector( new clsE05DriveTiming(poSuperInspector, poWrapper, poState, moPA.moG02Id.moG06AffectGeneration.moE05GenerationOfAffectsForDrives, 150, "Drive-Affect Chart"), "Drive-Affect Chart");
 		}		
 		else if(poModuleName.equals("E14PreliminaryExternalPerception")) {
-			oRetVal.addInspector( new clsPrimaryInformationInspector(poSuperInspector, poWrapper, poState, moPA.moC03Ego.moC07EnvironmentalInterfaceFunctions.moE14PreliminaryExternalPerception, "moEnvironmentalTP", false ), "Generated Thing Presentations");
+			oRetVal.addInspector( new clsPrimaryInformationInspector(poSuperInspector, poWrapper, poState, moPA.moG03Ego.moG07EnvironmentalInterfaceFunctions.moE14PreliminaryExternalPerception, "moEnvironmentalTP", false ), "Generated Thing Presentations");
 		}
 		else if(poModuleName.equals("E15_1_ManagementOfRepressedContents")) {
-			oRetVal.addInspector( new clsPrimaryInformationPairInspector(poSuperInspector, poWrapper, poState, moPA.moC02Id.moE15ManagementOfRepressedContents.moE15_1_ManagementOfRepressedContents, "moAttachedRepressed_Output" ), "Output: TP + Attached Repressed TP");
+			oRetVal.addInspector( new clsPrimaryInformationPairInspector(poSuperInspector, poWrapper, poState, moPA.moG02Id.moE15ManagementOfRepressedContents.moS_ManagementOfRepressedContents_1, "moAttachedRepressed_Output" ), "Output: TP + Attached Repressed TP");
 			oRetVal.addInspector( new clsPrimaryInformationInspector(poSuperInspector, poWrapper, poState, moPA.getMemoryForInspector().moRepressedContentsStore, "moRepressedContent", false ), "Repressed Content");
 		}
 		else if(poModuleName.equals("E16ManagementOfMemoryTraces")) {
-			oRetVal.addInspector( new clsPrimaryInformationPairInspector(poSuperInspector, poWrapper, poState, moPA.moC03Ego.moC08PsychicMediator.moC09PrimaryProcessor.moC14PrimaryKnowledgeUtilizer.moE16ManagementOfMemoryTraces, "moPerceptPlusRepressed_Input" ), "Input: TP + Attached Repressed TP");
+			oRetVal.addInspector( new clsPrimaryInformationPairInspector(poSuperInspector, poWrapper, poState, moPA.moG03Ego.moG08PsychicMediator.moG09PrimaryProcessor.moG14PrimaryKnowledgeUtilizer.moE16ManagementOfMemoryTraces, "moPerceptPlusRepressed_Input" ), "Input: TP + Attached Repressed TP");
 		}
 		else if(poModuleName.equals("E17FusionOfExternalPerceptionAndMemoryTraces")) {
 			// FIXME HZ
 			//oRetVal.addInspector( new clsTPMeshListInspector(poSuperInspector, poWrapper, poState, moPA.moC03Ego.moC07EnvironmentalInterfaceFunctions.moE14PreliminaryExternalPerception, "moEnvironmentalTP" ), "Generated Thing Presentations");
 		}
 		else if(poModuleName.equals("E18GenerationOfAffectsForPerception")) {
-			oRetVal.addInspector( new clsPrimaryInformationInspector(poSuperInspector, poWrapper, poState, moPA.moC02Id.moC06AffectGeneration.moE18GenerationOfAffectsForPerception, "moNewPrimaryInformation", false ), "Output: Final TP+Affect");
+			oRetVal.addInspector( new clsPrimaryInformationInspector(poSuperInspector, poWrapper, poState, moPA.moG02Id.moG06AffectGeneration.moE18GenerationOfAffectsForPerception, "moNewPrimaryInformation", false ), "Output: Final TP+Affect");
 		}
 		else if(poModuleName.equals("Psychic Apparatus")) {
 			oRetVal.addInspector( new clsPAInspectorFunctional(poSuperInspector, poWrapper, poState, poTree, true), "FM Compact");
@@ -78,10 +78,10 @@ public class clsInspectorMappingPA {
 			oRetVal.addInspector( new clsPAInspectorFuncModel(poSuperInspector, poWrapper, poState, moPA), "Functional View");
 		}
 		else if(poModuleName.equals("E26DecisionMaking")) {
-			oRetVal.addInspector( new clsE26DecisionCalculation(poSuperInspector, poWrapper, poState, moPA.moC03Ego.moC08PsychicMediator.moC11SecondaryProcessor.moC15Deliberation.moE26DecisionMaking), "Decision Calculation");
+			oRetVal.addInspector( new clsE26DecisionCalculation(poSuperInspector, poWrapper, poState, moPA.moG03Ego.moG08PsychicMediator.moG11SecondaryProcessor.moG15Deliberation.moE26DecisionMaking), "Decision Calculation");
 		}
 		else if(poModuleName.equals("E27GenerationOfImaginaryActions")) {
-			oRetVal.addInspector( new clsTimingDiagramInspector(poSuperInspector, poWrapper, poState, moPA.moC03Ego.moC08PsychicMediator.moC11SecondaryProcessor.moC15Deliberation.moE27GenerationOfImaginaryActions, 150, "Template Matches (Word Presentations)"), "Decision Calculation");
+			oRetVal.addInspector( new clsTimingDiagramInspector(poSuperInspector, poWrapper, poState, moPA.moG03Ego.moG08PsychicMediator.moG11SecondaryProcessor.moG15Deliberation.moE27GenerationOfImaginaryActions, 150, "Template Matches (Word Presentations)"), "Decision Calculation");
 		}
 		//========== MEMORY ==============
 		else if(poModuleName.equals("RepressedContentsStore")) {
