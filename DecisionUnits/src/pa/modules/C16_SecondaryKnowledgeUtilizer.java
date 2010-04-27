@@ -13,6 +13,9 @@ import pa.interfaces.I2_12;
 import pa.interfaces.I6_1;
 import pa.interfaces.I6_2;
 import pa.interfaces.I7_2;
+import pa.interfaces.I7_3;
+import pa.interfaces.I7_5;
+import pa.loader.plan.clsPlanAction;
 import pa.memory.clsMemory;
 import config.clsBWProperties;
 
@@ -27,14 +30,18 @@ public class C16_SecondaryKnowledgeUtilizer extends clsModuleContainer implement
 					I2_12,
 					I6_1,
 					I6_2,
-					I7_2
+					I7_2,
+					I7_3,
+					I7_5
 					{
 
 	public static final String P_E25 = "E25";
 	public static final String P_E28 = "E28";
+	public static final String P_E34 = "E34";
 	
 	public E25_KnowledgeAboutReality moE25KnowledgeAboutReality;
 	public E28_KnowledgeBase_StoredScenarios moE28KnowledgeBase_StoredScenarios;
+	public E34_KnowledgeAboutReality2 moE34KnowledgeAboutReality2;
 
 	/**
 	 * DOCUMENT (deutsch) - insert description 
@@ -59,6 +66,7 @@ public class C16_SecondaryKnowledgeUtilizer extends clsModuleContainer implement
 		
 		oProp.putAll( E25_KnowledgeAboutReality.getDefaultProperties(pre+P_E25) );
 		oProp.putAll( E28_KnowledgeBase_StoredScenarios.getDefaultProperties(pre+P_E28) );
+		oProp.putAll( E34_KnowledgeAboutReality2.getDefaultProperties(P_E34));
 				
 		return oProp;
 	}
@@ -68,6 +76,7 @@ public class C16_SecondaryKnowledgeUtilizer extends clsModuleContainer implement
 	
 		moE25KnowledgeAboutReality = new E25_KnowledgeAboutReality(pre+P_E25, poProp, this);
 		moE28KnowledgeBase_StoredScenarios = new E28_KnowledgeBase_StoredScenarios(pre+P_E28, poProp, this);
+		moE34KnowledgeAboutReality2 = new E34_KnowledgeAboutReality2(pre+P_E34, poProp, this);
 	}
 
 	/* (non-Javadoc)
@@ -116,6 +125,32 @@ public class C16_SecondaryKnowledgeUtilizer extends clsModuleContainer implement
 	@Override
 	public void receive_I7_2(int pnData) {
 		moE28KnowledgeBase_StoredScenarios.receive_I7_2(pnData);
+	}
+
+	/* (non-Javadoc)
+	 *
+	 * @author deutsch
+	 * 27.04.2010, 10:51:37
+	 * 
+	 * @see pa.interfaces.I7_3#receive_I7_3(java.util.ArrayList)
+	 */
+	@Override
+	public void receive_I7_3(ArrayList<clsPlanAction> poActionCommands) {
+		moE34KnowledgeAboutReality2.receive_I7_3(poActionCommands);
+		
+	}
+
+	/* (non-Javadoc)
+	 *
+	 * @author deutsch
+	 * 27.04.2010, 10:59:08
+	 * 
+	 * @see pa.interfaces.I7_5#receive_I7_5(int)
+	 */
+	@Override
+	public void receive_I7_5(int pnData) {
+		((I7_5)moEnclosingContainer).receive_I7_5(pnData);
+		
 	}
 
 }

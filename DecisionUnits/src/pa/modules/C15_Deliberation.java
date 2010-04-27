@@ -20,6 +20,8 @@ import pa.interfaces.I7_1;
 import pa.interfaces.I7_2;
 import pa.interfaces.I7_3;
 import pa.interfaces.I7_4;
+import pa.interfaces.I7_5;
+import pa.interfaces.I7_6;
 import pa.loader.plan.clsPlanAction;
 import pa.memory.clsMemory;
 import pa.tools.clsPair;
@@ -41,17 +43,23 @@ public class C15_Deliberation extends clsModuleContainer implements
 					I7_1,
 					I7_2,
 					I7_3,
-					I7_4
+					I7_4,
+					I7_5,
+					I7_6
 					{
 
 	public static final String P_E26 = "E26";
 	public static final String P_E27 = "E27";
 	public static final String P_E29 = "E29";
+	public static final String P_E33 = "E33";
+	public static final String P_E34 = "E34";
 	
 	public E26_DecisionMaking moE26DecisionMaking;
 	public E27_GenerationOfImaginaryActions moE27GenerationOfImaginaryActions;
 	public E29_EvaluationOfImaginaryActions moE29EvaluationOfImaginaryActions;
-
+	public E33_RealityCheck2 moE33RealityCheck2;
+	public E34_KnowledgeAboutReality2 moE34KnowledgeAboutReality2;
+	
 	/**
 	 * DOCUMENT (deutsch) - insert description 
 	 * 
@@ -76,6 +84,8 @@ public class C15_Deliberation extends clsModuleContainer implements
 		oProp.putAll( E26_DecisionMaking.getDefaultProperties(pre+P_E26) );
 		oProp.putAll( E27_GenerationOfImaginaryActions.getDefaultProperties(pre+P_E27) );
 		oProp.putAll( E29_EvaluationOfImaginaryActions.getDefaultProperties(pre+P_E29) );
+		oProp.putAll( E33_RealityCheck2.getDefaultProperties(pre+P_E33) );
+		oProp.putAll( E34_KnowledgeAboutReality2.getDefaultProperties(pre+P_E34) );
 				
 		return oProp;
 	}
@@ -86,6 +96,8 @@ public class C15_Deliberation extends clsModuleContainer implements
 		moE26DecisionMaking = new E26_DecisionMaking(pre+P_E26, poProp, this);
 		moE27GenerationOfImaginaryActions = new E27_GenerationOfImaginaryActions(pre+P_E27, poProp, this);
 		moE29EvaluationOfImaginaryActions = new E29_EvaluationOfImaginaryActions(pre+P_E29, poProp, this);
+		moE33RealityCheck2 = new E33_RealityCheck2(pre+P_E33, poProp, this);
+		moE34KnowledgeAboutReality2 = new E34_KnowledgeAboutReality2(pre+P_E34, poProp, this);
 	}
 
 	/* (non-Javadoc)
@@ -184,6 +196,8 @@ public class C15_Deliberation extends clsModuleContainer implements
 	@Override
 	public void receive_I7_3(ArrayList<clsPlanAction> poActionCommands) {
 		moE29EvaluationOfImaginaryActions.receive_I7_3(poActionCommands);
+		moE33RealityCheck2.receive_I7_3(poActionCommands);
+		moE34KnowledgeAboutReality2.receive_I7_3(poActionCommands);
 	}
 
 	/* (non-Javadoc)
@@ -196,5 +210,31 @@ public class C15_Deliberation extends clsModuleContainer implements
 	@Override
 	public void receive_I7_4(ArrayList<clsPlanAction> poActionCommands) {
 		((I7_4)moEnclosingContainer).receive_I7_4(poActionCommands);
+	}
+
+	/* (non-Javadoc)
+	 *
+	 * @author deutsch
+	 * 27.04.2010, 10:46:30
+	 * 
+	 * @see pa.interfaces.I7_6#receive_I7_6(int)
+	 */
+	@Override
+	public void receive_I7_6(int pnData) {
+		moE29EvaluationOfImaginaryActions.receive_I7_6(pnData);
+		
+	}
+
+	/* (non-Javadoc)
+	 *
+	 * @author deutsch
+	 * 27.04.2010, 10:54:28
+	 * 
+	 * @see pa.interfaces.I7_5#receive_I7_5(int)
+	 */
+	@Override
+	public void receive_I7_5(int pnData) {
+		moE33RealityCheck2.receive_I7_5(pnData);
+		
 	}
 }

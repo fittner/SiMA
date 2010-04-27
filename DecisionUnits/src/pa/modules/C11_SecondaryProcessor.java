@@ -19,7 +19,9 @@ import pa.interfaces.I5_5;
 import pa.interfaces.I6_1;
 import pa.interfaces.I6_2;
 import pa.interfaces.I7_2;
+import pa.interfaces.I7_3;
 import pa.interfaces.I7_4;
+import pa.interfaces.I7_5;
 import pa.loader.plan.clsPlanAction;
 import pa.memory.clsMemory;
 import pa.tools.clsPair;
@@ -42,7 +44,9 @@ public class C11_SecondaryProcessor extends clsModuleContainer implements
 				I6_1,
 				I6_2,
 				I7_2,
-				I7_4
+				I7_3,
+				I7_4,
+				I7_5
 				{
 
 	public static final String P_C15 = "C15";
@@ -208,5 +212,31 @@ public class C11_SecondaryProcessor extends clsModuleContainer implements
 	@Override
 	public void receive_I7_4(ArrayList<clsPlanAction> poActionCommands) {
 		((I7_4)moEnclosingContainer).receive_I7_4(poActionCommands);
+	}
+
+	/* (non-Javadoc)
+	 *
+	 * @author deutsch
+	 * 27.04.2010, 10:51:20
+	 * 
+	 * @see pa.interfaces.I7_3#receive_I7_3(java.util.ArrayList)
+	 */
+	@Override
+	public void receive_I7_3(ArrayList<clsPlanAction> poActionCommands) {
+		// TODO (deutsch) - Auto-generated method stub
+		
+	}
+
+	/* (non-Javadoc)
+	 *
+	 * @author deutsch
+	 * 27.04.2010, 10:54:56
+	 * 
+	 * @see pa.interfaces.I7_5#receive_I7_5(int)
+	 */
+	@Override
+	public void receive_I7_5(int pnData) {
+		moC16Deliberation.receive_I7_5(pnData);
+		
 	}
 }

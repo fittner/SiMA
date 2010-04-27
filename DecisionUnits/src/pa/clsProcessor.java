@@ -49,6 +49,8 @@ import pa.modules.E29_EvaluationOfImaginaryActions;
 import pa.modules.E30_MotilityControl;
 import pa.modules.E31_NeuroDeSymbolization;
 import pa.modules.E32_Actuators;
+import pa.modules.E33_RealityCheck2;
+import pa.modules.E34_KnowledgeAboutReality2;
 
 /**
  * DOCUMENT (deutsch) - insert description 
@@ -95,6 +97,8 @@ public class clsProcessor {
 	private E30_MotilityControl moE30MotilityControl;
 	private E31_NeuroDeSymbolization moE31NeuroDeSymbolization;
 	private E32_Actuators moE32Actuators;
+	private E33_RealityCheck2 moE33RealityCheck2;
+	private E34_KnowledgeAboutReality2 moE34KnowledgeAboutReality2;
 	
 	public clsProcessor(String poPrefix, clsBWProperties poProp) {
 		applyProperties(poPrefix, poProp);
@@ -152,6 +156,8 @@ public class clsProcessor {
 		moE30MotilityControl = moPsychicApparatus.moC03Ego.moC07EnvironmentalInterfaceFunctions.moE30MotilityControl;
 		moE31NeuroDeSymbolization = moPsychicApparatus.moC01Body.moE31NeuroDeSymbolization;
 		moE32Actuators = moPsychicApparatus.moC01Body.moE32Actuators;
+		moE33RealityCheck2 = moPsychicApparatus.moC03Ego.moC08PsychicMediator.moC10SecondaryProcessor.moC16Deliberation.moE33RealityCheck2;
+		moE34KnowledgeAboutReality2 = moPsychicApparatus.moC03Ego.moC08PsychicMediator.moC10SecondaryProcessor.moC17SecondaryKnowledgeUtilizer.moE34KnowledgeAboutReality2;
 	}
 	
 	public void applySensorData(clsSensorData poData) {
@@ -299,6 +305,8 @@ public class clsProcessor {
 		moE27GenerationOfImaginaryActions.step();
 		
 		//evaluation and pre-execution
+		moE34KnowledgeAboutReality2.step();
+		moE33RealityCheck2.step();
 		moE29EvaluationOfImaginaryActions.step();
 		moE30MotilityControl.step();
 		

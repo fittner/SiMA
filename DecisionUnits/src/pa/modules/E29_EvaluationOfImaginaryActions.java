@@ -12,6 +12,7 @@ import config.clsBWProperties;
 import pa.interfaces.I5_5;
 import pa.interfaces.I7_3;
 import pa.interfaces.I7_4;
+import pa.interfaces.I7_6;
 import pa.loader.plan.clsPlanAction;
 
 /**
@@ -21,7 +22,7 @@ import pa.loader.plan.clsPlanAction;
  * 11.08.2009, 14:57:10
  * 
  */
-public class E29_EvaluationOfImaginaryActions extends clsModuleBase implements I5_5, I7_3 {
+public class E29_EvaluationOfImaginaryActions extends clsModuleBase implements I5_5, I7_3, I7_6 {
 
 	private ArrayList<clsPlanAction> moActionCommands_Input;
 	private ArrayList<clsPlanAction> moActionCommands_Output;
@@ -131,6 +132,19 @@ public class E29_EvaluationOfImaginaryActions extends clsModuleBase implements I
 	@Override
 	protected void send() {
 		((I7_4)moEnclosingContainer).receive_I7_4(moActionCommands_Output);
+		
+	}
+
+	/* (non-Javadoc)
+	 *
+	 * @author deutsch
+	 * 27.04.2010, 10:43:32
+	 * 
+	 * @see pa.interfaces.I7_6#receive_I7_6(java.util.ArrayList)
+	 */
+	@Override
+	public void receive_I7_6(int pnData) {
+		// TODO (deutsch) - Auto-generated method stub
 		
 	}
 }
