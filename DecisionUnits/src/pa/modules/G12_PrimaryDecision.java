@@ -34,7 +34,7 @@ import config.clsBWProperties;
  * 11.08.2009, 15:40:41
  * 
  */
-public class C12_PrimaryDecision extends clsModuleContainer implements 
+public class G12_PrimaryDecision extends clsModuleContainer implements 
 					I1_5,
 					I1_6,
 					I2_9,
@@ -53,7 +53,7 @@ public class C12_PrimaryDecision extends clsModuleContainer implements
 	public static final String P_E19 = "E19";
 	
 	public E06_DefenseMechanismsForDriveContents moE06DefenseMechanismsForDriveContents;
-	public E19_DefenseMechanismsForPerception moE19DefenseMechanismsForPerception;
+	public E19_DefenseMechanismsForPerception    moE19DefenseMechanismsForPerception;
 
 	/**
 	 * DOCUMENT (deutsch) - insert description 
@@ -65,7 +65,7 @@ public class C12_PrimaryDecision extends clsModuleContainer implements
 	 * @param poProp
 	 * @param poEnclosingContainer
 	 */
-	public C12_PrimaryDecision(String poPrefix, clsBWProperties poProp,
+	public G12_PrimaryDecision(String poPrefix, clsBWProperties poProp,
 			clsModuleContainer poEnclosingContainer, clsMemory poMemory) {
 		super(poPrefix, poProp, poEnclosingContainer, poMemory);
 		applyProperties(poPrefix, poProp);

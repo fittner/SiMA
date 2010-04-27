@@ -45,7 +45,7 @@ import pa.enums.eSymbolExtType;
  * 11.08.2009, 15:11:09
  * 
  */
-public class C03_Ego extends clsModuleContainer implements
+public class G03_Ego extends clsModuleContainer implements
 				I1_7,
 				I2_2,
 				I2_4,
@@ -65,11 +65,11 @@ public class C03_Ego extends clsModuleContainer implements
 				I8_1
 				{
 
-	public static final String P_C07 = "C07";
-	public static final String P_C08 = "C08";
+	public static final String P_G07 = "G07";
+	public static final String P_G08 = "G08";
 	
-	public C07_EnvironmentalInterfaceFunctions moC07EnvironmentalInterfaceFunctions;
-	public C08_PsychicMediator moC08PsychicMediator;
+	public G07_EnvironmentalInterfaceFunctions moG07EnvironmentalInterfaceFunctions;
+	public G08_PsychicMediator 				   moG08PsychicMediator;
 	
 	/**
 	 * DOCUMENT (deutsch) - insert description 
@@ -81,7 +81,7 @@ public class C03_Ego extends clsModuleContainer implements
 	 * @param poProp
 	 * @param poEnclosingContainer
 	 */
-	public C03_Ego(String poPrefix, clsBWProperties poProp,
+	public G03_Ego(String poPrefix, clsBWProperties poProp,
 			clsModuleContainer poEnclosingContainer, clsMemory poMemory) {
 		super(poPrefix, poProp, poEnclosingContainer, poMemory);
 		applyProperties(poPrefix, poProp);
@@ -92,8 +92,8 @@ public class C03_Ego extends clsModuleContainer implements
 		
 		clsBWProperties oProp = new clsBWProperties();
 		
-		oProp.putAll( C07_EnvironmentalInterfaceFunctions.getDefaultProperties(pre+P_C07) );
-		oProp.putAll( C08_PsychicMediator.getDefaultProperties(pre+P_C08) );
+		oProp.putAll( G07_EnvironmentalInterfaceFunctions.getDefaultProperties(pre+P_G07) );
+		oProp.putAll( G08_PsychicMediator.getDefaultProperties(pre+P_G08) );
 				
 		return oProp;
 	}	
@@ -101,8 +101,8 @@ public class C03_Ego extends clsModuleContainer implements
 	private void applyProperties(String poPrefix, clsBWProperties poProp) {
 		String pre = clsBWProperties.addDot(poPrefix);
 	
-		moC07EnvironmentalInterfaceFunctions = new C07_EnvironmentalInterfaceFunctions(pre+P_C07, poProp, this, moMemory);
-		moC08PsychicMediator = new C08_PsychicMediator(pre+P_C07, poProp, this, moMemory);
+		moG07EnvironmentalInterfaceFunctions = new G07_EnvironmentalInterfaceFunctions(pre+P_G07, poProp, this, moMemory);
+		moG08PsychicMediator = new G08_PsychicMediator(pre+P_G07, poProp, this, moMemory);
 	}
 
 	/* (non-Javadoc)
@@ -114,7 +114,7 @@ public class C03_Ego extends clsModuleContainer implements
 	 */
 	@Override
 	public void receive_I2_2(HashMap<eSymbolExtType, itfSymbol> poEnvironmentalData) {
-		moC07EnvironmentalInterfaceFunctions.receive_I2_2(poEnvironmentalData);
+		moG07EnvironmentalInterfaceFunctions.receive_I2_2(poEnvironmentalData);
 	}
 
 	/* (non-Javadoc)
@@ -126,7 +126,7 @@ public class C03_Ego extends clsModuleContainer implements
 	 */
 	@Override
 	public void receive_I2_4(HashMap<eSymbolExtType, itfSymbol> poBodyData) {
-		moC07EnvironmentalInterfaceFunctions.receive_I2_4(poBodyData);
+		moG07EnvironmentalInterfaceFunctions.receive_I2_4(poBodyData);
 	}
 
 	/* (non-Javadoc)
@@ -138,7 +138,7 @@ public class C03_Ego extends clsModuleContainer implements
 	 */
 	@Override
 	public void receive_I1_5(List<clsPrimaryInformation> poData) {
-		moC08PsychicMediator.receive_I1_5(poData);
+		moG08PsychicMediator.receive_I1_5(poData);
 	}
 
 	/* (non-Javadoc)
@@ -150,7 +150,7 @@ public class C03_Ego extends clsModuleContainer implements
 	 */
 	@Override
 	public void receive_I2_9(ArrayList<clsPrimaryInformation> poMergedPrimaryInformation) {
-		moC08PsychicMediator.receive_I2_9(poMergedPrimaryInformation);
+		moG08PsychicMediator.receive_I2_9(poMergedPrimaryInformation);
 	}
 
 	/* (non-Javadoc)
@@ -162,7 +162,7 @@ public class C03_Ego extends clsModuleContainer implements
 	 */
 	@Override
 	public void receive_I3_1(int pnData) {
-		moC08PsychicMediator.receive_I3_1(pnData);
+		moG08PsychicMediator.receive_I3_1(pnData);
 	}
 
 	/* (non-Javadoc)
@@ -174,7 +174,7 @@ public class C03_Ego extends clsModuleContainer implements
 	 */
 	@Override
 	public void receive_I3_2(int pnData) {
-		moC08PsychicMediator.receive_I3_2(pnData);
+		moG08PsychicMediator.receive_I3_2(pnData);
 		
 	}
 
@@ -187,7 +187,7 @@ public class C03_Ego extends clsModuleContainer implements
 	 */
 	@Override
 	public void receive_I2_6(ArrayList<clsPair<clsPrimaryInformation, clsPrimaryInformation>> poPerceptPlusRepressed) {
-		moC08PsychicMediator.receive_I2_6(poPerceptPlusRepressed);
+		moG08PsychicMediator.receive_I2_6(poPerceptPlusRepressed);
 	}
 
 	/* (non-Javadoc)
@@ -199,7 +199,7 @@ public class C03_Ego extends clsModuleContainer implements
 	 */
 	@Override
 	public void receive_I4_3(List<clsPrimaryInformation> poPIs) {
-		moC08PsychicMediator.receive_I4_3(poPIs);
+		moG08PsychicMediator.receive_I4_3(poPIs);
 	}
 
 	/* (non-Javadoc)
@@ -235,7 +235,7 @@ public class C03_Ego extends clsModuleContainer implements
 	 */
 	@Override
 	public void receive_I3_3(int pnData) {
-		moC08PsychicMediator.receive_I3_3(pnData);
+		moG08PsychicMediator.receive_I3_3(pnData);
 	}
 
 	/* (non-Javadoc)
@@ -283,7 +283,7 @@ public class C03_Ego extends clsModuleContainer implements
 	 */
 	@Override
 	public void receive_I7_4(ArrayList<clsPlanAction> poActionCommands) {
-		moC07EnvironmentalInterfaceFunctions.receive_I7_4(poActionCommands);
+		moG07EnvironmentalInterfaceFunctions.receive_I7_4(poActionCommands);
 	}
 
 	/* (non-Javadoc)

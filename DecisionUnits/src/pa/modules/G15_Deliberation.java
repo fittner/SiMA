@@ -34,7 +34,7 @@ import config.clsBWProperties;
  * 11.08.2009, 15:42:32
  * 
  */
-public class C15_Deliberation extends clsModuleContainer implements
+public class G15_Deliberation extends clsModuleContainer implements
 					I1_7,
 					I2_13,
 					I3_3,
@@ -53,10 +53,10 @@ public class C15_Deliberation extends clsModuleContainer implements
 	public static final String P_E29 = "E29";
 	public static final String P_E33 = "E33";
 	
-	public E26_DecisionMaking moE26DecisionMaking;
+	public E26_DecisionMaking               moE26DecisionMaking;
 	public E27_GenerationOfImaginaryActions moE27GenerationOfImaginaryActions;
 	public E29_EvaluationOfImaginaryActions moE29EvaluationOfImaginaryActions;
-	public E33_RealityCheck2 moE33RealityCheck2;
+	public E33_RealityCheck2                moE33RealityCheck2;
 	
 	/**
 	 * DOCUMENT (deutsch) - insert description 
@@ -68,7 +68,7 @@ public class C15_Deliberation extends clsModuleContainer implements
 	 * @param poProp
 	 * @param poEnclosingContainer
 	 */
-	public C15_Deliberation(String poPrefix, clsBWProperties poProp,
+	public G15_Deliberation(String poPrefix, clsBWProperties poProp,
 			clsModuleContainer poEnclosingContainer, clsMemory poMemory) {
 		super(poPrefix, poProp, poEnclosingContainer, poMemory);
 		applyProperties(poPrefix, poProp);

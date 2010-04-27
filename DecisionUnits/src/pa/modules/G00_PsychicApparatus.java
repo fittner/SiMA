@@ -84,7 +84,7 @@ import enums.eSensorIntType;
                          @@HMMMMMM@@#^``  .jbH@gmg@@@@@@H@HH@M@@@@@gggmH
                         HMMMMMHVWkH3```  .dbkHMgg@@@@HM@HM@gMM@@@@@@@gH@
  */
-public class C00_PsychicApparatus extends clsModuleContainer implements 
+public class G00_PsychicApparatus extends clsModuleContainer implements 
 							itfProcessSensorEnvironment, 
 							itfProcessHomeostases, 
 							itfProcessSensorBody,
@@ -107,16 +107,16 @@ public class C00_PsychicApparatus extends clsModuleContainer implements
 							I4_3,
 							I8_1
 							{
-	public static final String P_C01 = "C01";
-	public static final String P_C02 = "C02";
-	public static final String P_C03 = "C03";
-	public static final String P_C04 = "C04";
+	public static final String P_G01 = "G01";
+	public static final String P_G02 = "G02";
+	public static final String P_G03 = "G03";
+	public static final String P_G04 = "G04";
 	public static final String P_MEMORY = "MEMORY";
 	
-	public C01_Body moC01Body;
-	public C02_Id moC02Id;
-	public C03_Ego moC03Ego;
-	public C04_SuperEgo moC04SuperEgo;
+	public G01_Body     moG01Body;
+	public G02_Id       moG02Id;
+	public G03_Ego      moG03Ego;
+	public G04_SuperEgo moG04SuperEgo;
 
 	/**
 	 * DOCUMENT (deutsch) - insert description 
@@ -128,7 +128,7 @@ public class C00_PsychicApparatus extends clsModuleContainer implements
 	 * @param poProp
 	 * @param poEnclosingContainer
 	 */
-	public C00_PsychicApparatus(String poPrefix, clsBWProperties poProp) {
+	public G00_PsychicApparatus(String poPrefix, clsBWProperties poProp) {
 		super(poPrefix, poProp, null, null);
 		applyProperties(poPrefix, poProp);
 	}
@@ -138,10 +138,10 @@ public class C00_PsychicApparatus extends clsModuleContainer implements
 		
 		clsBWProperties oProp = new clsBWProperties();
 		
-		oProp.putAll( C01_Body.getDefaultProperties(pre+P_C01) );
-		oProp.putAll( C02_Id.getDefaultProperties(pre+P_C02) );
-		oProp.putAll( C03_Ego.getDefaultProperties(pre+P_C03) );
-		oProp.putAll( C04_SuperEgo.getDefaultProperties(pre+P_C04) );
+		oProp.putAll( G01_Body.getDefaultProperties(pre+P_G01) );
+		oProp.putAll( G02_Id.getDefaultProperties(pre+P_G02) );
+		oProp.putAll( G03_Ego.getDefaultProperties(pre+P_G03) );
+		oProp.putAll( G04_SuperEgo.getDefaultProperties(pre+P_G04) );
 		oProp.putAll( clsMemory.getDefaultProperties(pre+P_MEMORY) );
 		
 				
@@ -153,10 +153,10 @@ public class C00_PsychicApparatus extends clsModuleContainer implements
 	
 		moMemory = new clsMemory(pre+P_MEMORY, poProp);
 		
-		moC01Body = new C01_Body(pre+P_C01, poProp, this, moMemory);
-		moC02Id = new C02_Id(pre+P_C02, poProp, this, moMemory);
-		moC03Ego = new C03_Ego(pre+P_C03, poProp, this, moMemory);
-		moC04SuperEgo = new C04_SuperEgo(pre+P_C04, poProp, this, moMemory);
+		moG01Body = new G01_Body(pre+P_G01, poProp, this, moMemory);
+		moG02Id = new G02_Id(pre+P_G02, poProp, this, moMemory);
+		moG03Ego = new G03_Ego(pre+P_G03, poProp, this, moMemory);
+		moG04SuperEgo = new G04_SuperEgo(pre+P_G04, poProp, this, moMemory);
 
 	}
 	
@@ -173,7 +173,7 @@ public class C00_PsychicApparatus extends clsModuleContainer implements
 	 */
 	@Override
 	public void receiveHomeostases(HashMap<eSensorIntType, clsDataBase> poData) {
-		moC01Body.receiveHomeostases(poData);		
+		moG01Body.receiveHomeostases(poData);		
 	}
 	
 	/* (non-Javadoc)
@@ -185,7 +185,7 @@ public class C00_PsychicApparatus extends clsModuleContainer implements
 	 */
 	@Override
 	public void receiveEnvironment(HashMap<eSensorExtType, clsSensorExtern> poData) {
-		moC01Body.receiveEnvironment(poData);		
+		moG01Body.receiveEnvironment(poData);		
 	}
 
 	/* (non-Javadoc)
@@ -197,7 +197,7 @@ public class C00_PsychicApparatus extends clsModuleContainer implements
 	 */
 	@Override
 	public void receiveBody(HashMap<eSensorExtType, clsSensorExtern> poData) {
-		moC01Body.receiveBody(poData);
+		moG01Body.receiveBody(poData);
 	}
 
 	/* (non-Javadoc)
@@ -209,7 +209,7 @@ public class C00_PsychicApparatus extends clsModuleContainer implements
 	 */
 	@Override
 	public void receive_I1_2(HashMap<String, Double> poHomeostasisSymbols) {
-		moC02Id.receive_I1_2(poHomeostasisSymbols);
+		moG02Id.receive_I1_2(poHomeostasisSymbols);
 		
 	}
 
@@ -222,7 +222,7 @@ public class C00_PsychicApparatus extends clsModuleContainer implements
 	 */
 	@Override
 	public void receive_I2_2(HashMap<eSymbolExtType, itfSymbol> poEnvironmentalData) {
-		moC03Ego.receive_I2_2(poEnvironmentalData);
+		moG03Ego.receive_I2_2(poEnvironmentalData);
 	}
 
 	/* (non-Javadoc)
@@ -234,7 +234,7 @@ public class C00_PsychicApparatus extends clsModuleContainer implements
 	 */
 	@Override
 	public void receive_I2_4(HashMap<eSymbolExtType, itfSymbol> poBodyData ) {
-		moC03Ego.receive_I2_4(poBodyData);
+		moG03Ego.receive_I2_4(poBodyData);
 		
 	}
 
@@ -247,7 +247,7 @@ public class C00_PsychicApparatus extends clsModuleContainer implements
 	 */
 	@Override
 	public void receive_I3_1(int pnData) {
-		moC03Ego.receive_I3_1(pnData);
+		moG03Ego.receive_I3_1(pnData);
 		
 	}
 
@@ -260,7 +260,7 @@ public class C00_PsychicApparatus extends clsModuleContainer implements
 	 */
 	@Override
 	public void receive_I3_2(int pnData) {
-		moC03Ego.receive_I3_2(pnData);
+		moG03Ego.receive_I3_2(pnData);
 		
 	}
 
@@ -273,7 +273,7 @@ public class C00_PsychicApparatus extends clsModuleContainer implements
 	 */
 	@Override
 	public void receive_I3_3(int pnData) {
-		moC03Ego.receive_I3_3(pnData);
+		moG03Ego.receive_I3_3(pnData);
 		
 	}
 
@@ -286,8 +286,8 @@ public class C00_PsychicApparatus extends clsModuleContainer implements
 	 */
 	@Override
 	public void receive_I1_5(List<clsPrimaryInformation> poData) {
-		moC03Ego.receive_I1_5(poData);
-		moC04SuperEgo.receive_I1_5(poData);
+		moG03Ego.receive_I1_5(poData);
+		moG04SuperEgo.receive_I1_5(poData);
 		
 	}
 
@@ -300,7 +300,7 @@ public class C00_PsychicApparatus extends clsModuleContainer implements
 	 */
 	@Override
 	public void receive_I2_8(ArrayList<clsPair<clsPrimaryInformation,clsPrimaryInformation>> poMergedPrimaryInformationMesh) {
-		moC02Id.receive_I2_8(poMergedPrimaryInformationMesh);
+		moG02Id.receive_I2_8(poMergedPrimaryInformationMesh);
 		
 	}
 
@@ -313,8 +313,8 @@ public class C00_PsychicApparatus extends clsModuleContainer implements
 	 */
 	@Override
 	public void receive_I2_9(ArrayList<clsPrimaryInformation> poMergedPrimaryInformation) {
-		moC03Ego.receive_I2_9(poMergedPrimaryInformation);
-		moC04SuperEgo.receive_I2_9(poMergedPrimaryInformation);
+		moG03Ego.receive_I2_9(poMergedPrimaryInformation);
+		moG04SuperEgo.receive_I2_9(poMergedPrimaryInformation);
 		
 	}
 
@@ -327,7 +327,7 @@ public class C00_PsychicApparatus extends clsModuleContainer implements
 	 */
 	@Override
 	public void receive_I2_5(ArrayList<clsPrimaryInformation> poEnvironmentalTP) {
-		moC02Id.receive_I2_5(poEnvironmentalTP);
+		moG02Id.receive_I2_5(poEnvironmentalTP);
 	}
 
 	/* (non-Javadoc)
@@ -339,7 +339,7 @@ public class C00_PsychicApparatus extends clsModuleContainer implements
 	 */
 	@Override
 	public void receive_I2_6(ArrayList<clsPair<clsPrimaryInformation, clsPrimaryInformation>> poPerceptPlusRepressed) {
-		moC03Ego.receive_I2_6(poPerceptPlusRepressed);
+		moG03Ego.receive_I2_6(poPerceptPlusRepressed);
 		
 	}
 
@@ -352,7 +352,7 @@ public class C00_PsychicApparatus extends clsModuleContainer implements
 	 */
 	@Override
 	public void receive_I4_3(List<clsPrimaryInformation> poPIs) {
-		moC03Ego.receive_I4_3(poPIs);
+		moG03Ego.receive_I4_3(poPIs);
 		
 	}
 
@@ -365,7 +365,7 @@ public class C00_PsychicApparatus extends clsModuleContainer implements
 	 */
 	@Override
 	public void receive_I8_1(ArrayList<clsPlanAction> poActionCommands) {
-		moC01Body.receive_I8_1(poActionCommands);
+		moG01Body.receive_I8_1(poActionCommands);
 		
 	}
 
@@ -378,7 +378,7 @@ public class C00_PsychicApparatus extends clsModuleContainer implements
 	 */
 	@Override
 	public void getActionCommands(itfActionProcessor poActionContainer) {
-		moC01Body.getActionCommands(poActionContainer);
+		moG01Body.getActionCommands(poActionContainer);
 	}
 
 	/* (non-Javadoc)
@@ -390,7 +390,7 @@ public class C00_PsychicApparatus extends clsModuleContainer implements
 	 */
 	@Override
 	public void receive_I4_1(List<clsPrimaryInformation> poPIs, List<clsThingPresentation> poTPs, List<clsAffectTension> poAffects) {
-		moC02Id.receive_I4_1(poPIs, poTPs, poAffects);
+		moG02Id.receive_I4_1(poPIs, poTPs, poAffects);
 	}
 
 	/* (non-Javadoc)
@@ -402,7 +402,7 @@ public class C00_PsychicApparatus extends clsModuleContainer implements
 	 */
 	@Override
 	public void receive_I4_2(ArrayList<clsPrimaryInformation> poPIs, ArrayList<clsThingPresentation> poTPs, ArrayList<clsAffectTension> poAffects) {
-		moC02Id.receive_I4_2(poPIs, poTPs, poAffects);
+		moG02Id.receive_I4_2(poPIs, poTPs, poAffects);
 	}
 
 	/* (non-Javadoc)
@@ -414,7 +414,7 @@ public class C00_PsychicApparatus extends clsModuleContainer implements
 	 */
 	@Override
 	public void receive_I1_7(ArrayList<clsSecondaryInformation> poDriveList) {
-		moC04SuperEgo.receive_I1_7(poDriveList);
+		moG04SuperEgo.receive_I1_7(poDriveList);
 	}
 
 	/* (non-Javadoc)
@@ -426,7 +426,7 @@ public class C00_PsychicApparatus extends clsModuleContainer implements
 	 */
 	@Override
 	public void receive_I2_11(ArrayList<clsSecondaryInformation> poPerception) {
-		moC04SuperEgo.receive_I2_11(poPerception);
+		moG04SuperEgo.receive_I2_11(poPerception);
 		
 	}
 }

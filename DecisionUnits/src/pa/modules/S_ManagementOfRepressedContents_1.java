@@ -28,7 +28,7 @@ import pa.tools.clsPair;
  * 07.10.2009, 11:16:58
  * 
  */
-public class E15_1_ManagementOfRepressedContents extends clsModuleBase implements I2_5 {
+public class S_ManagementOfRepressedContents_1 extends clsModuleBase implements I2_5 {
 
 	public ArrayList<clsPrimaryInformation> moEnvironmentalTP_Input;
 	public ArrayList<clsPair<clsPrimaryInformation, clsPrimaryInformation>> moAttachedRepressed_Output;
@@ -37,7 +37,7 @@ public class E15_1_ManagementOfRepressedContents extends clsModuleBase implement
 	public static String P_CONTEXT_SENSTITIVITY = "CONTEXT_SENSITIVITY"; 
 	
 	
-	public E15_1_ManagementOfRepressedContents(String poPrefix, clsBWProperties poProp,
+	public S_ManagementOfRepressedContents_1(String poPrefix, clsBWProperties poProp,
 			clsModuleContainer poEnclosingContainer) {
 		super(poPrefix, poProp, poEnclosingContainer);
 		applyProperties(poPrefix, poProp);	

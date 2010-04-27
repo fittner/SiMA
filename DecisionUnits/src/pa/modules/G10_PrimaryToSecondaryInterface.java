@@ -30,7 +30,7 @@ import config.clsBWProperties;
  * 11.08.2009, 15:37:27
  * 
  */
-public class C10_PrimaryToSecondaryInterface extends clsModuleContainer implements
+public class G10_PrimaryToSecondaryInterface extends clsModuleContainer implements
 						I1_6,
 						I1_7,
 						I2_10,
@@ -47,7 +47,7 @@ public class C10_PrimaryToSecondaryInterface extends clsModuleContainer implemen
 	public static final String P_E21 = "E21";
 	
 	public E08_ConversionToSecondaryProcess moE08ConversionToSecondaryProcess;
-	public E20_InnerPerception_Affects moE20InnerPerception_Affects;
+	public E20_InnerPerception_Affects      moE20InnerPerception_Affects;
 	public E21_ConversionToSecondaryProcess moE21ConversionToSecondaryProcess;
 
 	/**
@@ -60,7 +60,7 @@ public class C10_PrimaryToSecondaryInterface extends clsModuleContainer implemen
 	 * @param poProp
 	 * @param poEnclosingContainer
 	 */
-	public C10_PrimaryToSecondaryInterface(String poPrefix, clsBWProperties poProp,
+	public G10_PrimaryToSecondaryInterface(String poPrefix, clsBWProperties poProp,
 			clsModuleContainer poEnclosingContainer, clsMemory poMemory) {
 		super(poPrefix, poProp, poEnclosingContainer, poMemory);
 		applyProperties(poPrefix, poProp);

@@ -40,7 +40,7 @@ import enums.eSensorIntType;
  * 11.08.2009, 15:09:50
  * 
  */
-public class C01_Body extends clsModuleContainer implements 
+public class G01_Body extends clsModuleContainer implements 
 						itfProcessSensorEnvironment, 
 						itfProcessHomeostases, 
 						itfProcessSensorBody,
@@ -63,14 +63,14 @@ public class C01_Body extends clsModuleContainer implements
 	public static final String P_E31 = "E31";
 	public static final String P_E32 = "E32";
 	
-	public E01_Homeostases moE01Homeostases;
-	public E02_NeurosymbolizationOfNeeds moE02NeurosymbolizationOfNeeds;
-	public E10_SensorsEnvironment moE10SensorsEnvironment;
-	public E11_NeuroSymbolsEnvironment moE11NeuroSymbolsEnvironment;
-	public E12_SensorsBody moE12SensorsBody;
-	public E13_NeuroSymbolsBody moE13NeuroSymbolsBody;
-	public E31_NeuroDeSymbolization moE31NeuroDeSymbolization;
-	public E32_Actuators moE32Actuators;
+	public E01_Homeostases 					moE01Homeostases;
+	public E02_NeurosymbolizationOfNeeds 	moE02NeurosymbolizationOfNeeds;
+	public E10_SensorsEnvironment 			moE10SensorsEnvironment;
+	public E11_NeuroSymbolsEnvironment		moE11NeuroSymbolsEnvironment;
+	public E12_SensorsBody					moE12SensorsBody;
+	public E13_NeuroSymbolsBody 			moE13NeuroSymbolsBody;
+	public E31_NeuroDeSymbolization 		moE31NeuroDeSymbolization;
+	public E32_Actuators 					moE32Actuators;
 
 	/**
 	 * DOCUMENT (deutsch) - insert description 
@@ -82,7 +82,7 @@ public class C01_Body extends clsModuleContainer implements
 	 * @param poProp
 	 * @param poEnclosingContainer
 	 */
-	public C01_Body(String poPrefix, clsBWProperties poProp,
+	public G01_Body(String poPrefix, clsBWProperties poProp,
 			clsModuleContainer poEnclosingContainer, clsMemory poMemory) {
 		super(poPrefix, poProp, poEnclosingContainer, poMemory);
 		applyProperties(poPrefix, poProp);

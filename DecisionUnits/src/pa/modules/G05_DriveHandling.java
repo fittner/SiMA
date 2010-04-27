@@ -25,7 +25,7 @@ import config.clsBWProperties;
  * 11.08.2009, 15:28:05
  * 
  */
-public class C05_DriveHandling extends clsModuleContainer implements
+public class G05_DriveHandling extends clsModuleContainer implements
 							I1_2,
 							I1_3,
 							I1_4
@@ -34,7 +34,7 @@ public class C05_DriveHandling extends clsModuleContainer implements
 	public static final String P_E04 = "E04";
 	
 	public E03_GenerationOfDrives moE03GenerationOfDrives;
-	public E04_FusionOfDrives moE04FusionOfDrives;
+	public E04_FusionOfDrives     moE04FusionOfDrives;
 
 	/**
 	 * DOCUMENT (deutsch) - insert description 
@@ -46,7 +46,7 @@ public class C05_DriveHandling extends clsModuleContainer implements
 	 * @param poProp
 	 * @param poEnclosingContainer
 	 */
-	public C05_DriveHandling(String poPrefix, clsBWProperties poProp,
+	public G05_DriveHandling(String poPrefix, clsBWProperties poProp,
 			clsModuleContainer poEnclosingContainer, clsMemory poMemory) {
 		super(poPrefix, poProp, poEnclosingContainer, poMemory);
 		applyProperties(poPrefix, poProp);

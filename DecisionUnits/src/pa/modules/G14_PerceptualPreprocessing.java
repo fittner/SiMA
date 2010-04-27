@@ -26,7 +26,7 @@ import config.clsBWProperties;
  * 11.08.2009, 15:42:06
  * 
  */
-public class C14_PerceptualPreprocessing extends clsModuleContainer implements
+public class G14_PerceptualPreprocessing extends clsModuleContainer implements
 						I1_7,
 						I2_11,
 						I2_12,
@@ -38,7 +38,7 @@ public class C14_PerceptualPreprocessing extends clsModuleContainer implements
 	public static final String P_E24 = "E24";
 	
 	public E23_ExternalPerception_focused moE23ExternalPerception_focused;
-	public E24_RealityCheck moE24RealityCheck;
+	public E24_RealityCheck               moE24RealityCheck;
 
 	/**
 	 * DOCUMENT (deutsch) - insert description 
@@ -50,7 +50,7 @@ public class C14_PerceptualPreprocessing extends clsModuleContainer implements
 	 * @param poProp
 	 * @param poEnclosingContainer
 	 */
-	public C14_PerceptualPreprocessing(String poPrefix, clsBWProperties poProp,
+	public G14_PerceptualPreprocessing(String poPrefix, clsBWProperties poProp,
 			clsModuleContainer poEnclosingContainer, clsMemory poMemory) {
 		super(poPrefix, poProp, poEnclosingContainer, poMemory);
 		applyProperties(poPrefix, poProp);

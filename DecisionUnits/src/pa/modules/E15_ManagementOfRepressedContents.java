@@ -30,11 +30,11 @@ import pa.tools.clsPair;
  */
 public class E15_ManagementOfRepressedContents extends clsModuleContainer implements I2_5, I4_1, I4_2, I2_6, I4_3 {
 
-	public static final String P_E15_1 = "E15_1";
-	public static final String P_E15_2 = "E15_2";
+	public static final String P_S_1 = "S_1";
+	public static final String P_S_2 = "S_2";
 	
-	public E15_1_ManagementOfRepressedContents moE15_1_ManagementOfRepressedContents;
-	public E15_2_ManagementOfRepressedContents moE15_2_ManagementOfRepressedContents;
+	public S_ManagementOfRepressedContents_1 moS_ManagementOfRepressedContents_1;
+	public S_ManagementOfRepressedContents_2 moS_ManagementOfRepressedContents_2;
 	
 	/**
 	 * DOCUMENT (deutsch) - insert description 
@@ -60,8 +60,8 @@ public class E15_ManagementOfRepressedContents extends clsModuleContainer implem
 		
 		clsBWProperties oProp = new clsBWProperties();
 
-		oProp.putAll(E15_1_ManagementOfRepressedContents.getDefaultProperties(pre+P_E15_1));
-		oProp.putAll(E15_2_ManagementOfRepressedContents.getDefaultProperties(pre+P_E15_2));
+		oProp.putAll(S_ManagementOfRepressedContents_1.getDefaultProperties(pre+P_S_1));
+		oProp.putAll(S_ManagementOfRepressedContents_2.getDefaultProperties(pre+P_S_2));
 				
 		return oProp;
 	}	
@@ -69,8 +69,8 @@ public class E15_ManagementOfRepressedContents extends clsModuleContainer implem
 	private void applyProperties(String poPrefix, clsBWProperties poProp) {
 		String pre = clsBWProperties.addDot(poPrefix);
 	
-		moE15_1_ManagementOfRepressedContents = new E15_1_ManagementOfRepressedContents(pre+P_E15_1, poProp, this);
-		moE15_2_ManagementOfRepressedContents = new E15_2_ManagementOfRepressedContents(pre+P_E15_2, poProp, this);
+		moS_ManagementOfRepressedContents_1 = new S_ManagementOfRepressedContents_1(pre+P_S_1, poProp, this);
+		moS_ManagementOfRepressedContents_2 = new S_ManagementOfRepressedContents_2(pre+P_S_2, poProp, this);
 	}
 
 
@@ -83,7 +83,7 @@ public class E15_ManagementOfRepressedContents extends clsModuleContainer implem
 	 */
 	@Override
 	public void receive_I2_5(ArrayList<clsPrimaryInformation> poEnvironmentalTP) {
-		moE15_1_ManagementOfRepressedContents.receive_I2_5(poEnvironmentalTP);
+		moS_ManagementOfRepressedContents_1.receive_I2_5(poEnvironmentalTP);
 	}
 
 
@@ -96,7 +96,7 @@ public class E15_ManagementOfRepressedContents extends clsModuleContainer implem
 	 */
 	@Override
 	public void receive_I4_1(List<clsPrimaryInformation> poPIs, List<clsThingPresentation> poTPs, List<clsAffectTension> poAffects) {
-		moE15_2_ManagementOfRepressedContents.receive_I4_1(poPIs, poTPs, poAffects);
+		moS_ManagementOfRepressedContents_2.receive_I4_1(poPIs, poTPs, poAffects);
 	}
 
 
@@ -109,7 +109,7 @@ public class E15_ManagementOfRepressedContents extends clsModuleContainer implem
 	 */
 	@Override
 	public void receive_I4_2(ArrayList<clsPrimaryInformation> poPIs, ArrayList<clsThingPresentation> poTPs, ArrayList<clsAffectTension> poAffects) {
-		moE15_2_ManagementOfRepressedContents.receive_I4_2(poPIs, poTPs, poAffects);
+		moS_ManagementOfRepressedContents_2.receive_I4_2(poPIs, poTPs, poAffects);
 	}
 
 

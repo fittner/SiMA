@@ -26,7 +26,7 @@ import config.clsBWProperties;
  * 11.08.2009, 15:43:00
  * 
  */
-public class C16_SecondaryKnowledgeUtilizer extends clsModuleContainer implements
+public class G16_SecondaryKnowledgeUtilizer extends clsModuleContainer implements
 					I2_12,
 					I6_1,
 					I6_2,
@@ -39,9 +39,9 @@ public class C16_SecondaryKnowledgeUtilizer extends clsModuleContainer implement
 	public static final String P_E28 = "E28";
 	public static final String P_E34 = "E34";
 	
-	public E25_KnowledgeAboutReality moE25KnowledgeAboutReality;
+	public E25_KnowledgeAboutReality         moE25KnowledgeAboutReality;
 	public E28_KnowledgeBase_StoredScenarios moE28KnowledgeBase_StoredScenarios;
-	public E34_KnowledgeAboutReality2 moE34KnowledgeAboutReality2;
+	public E34_KnowledgeAboutReality2        moE34KnowledgeAboutReality2;
 
 	/**
 	 * DOCUMENT (deutsch) - insert description 
@@ -53,7 +53,7 @@ public class C16_SecondaryKnowledgeUtilizer extends clsModuleContainer implement
 	 * @param poProp
 	 * @param poEnclosingContainer
 	 */
-	public C16_SecondaryKnowledgeUtilizer(String poPrefix, clsBWProperties poProp,
+	public G16_SecondaryKnowledgeUtilizer(String poPrefix, clsBWProperties poProp,
 			clsModuleContainer poEnclosingContainer, clsMemory poMemory) {
 		super(poPrefix, poProp, poEnclosingContainer, poMemory);
 		applyProperties(poPrefix, poProp);

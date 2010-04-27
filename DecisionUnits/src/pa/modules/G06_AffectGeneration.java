@@ -27,7 +27,7 @@ import config.clsBWProperties;
  * 11.08.2009, 15:28:15
  * 
  */
-public class C06_AffectGeneration extends clsModuleContainer implements
+public class G06_AffectGeneration extends clsModuleContainer implements
                            I1_4,
                            I1_5,
                            I2_8,
@@ -36,7 +36,7 @@ public class C06_AffectGeneration extends clsModuleContainer implements
 	public static final String P_E05 = "E05";
 	public static final String P_E18 = "E18";
 	
-	public E05_GenerationOfAffectsForDrives moE05GenerationOfAffectsForDrives;
+	public E05_GenerationOfAffectsForDrives     moE05GenerationOfAffectsForDrives;
 	public E18_GenerationOfAffectsForPerception moE18GenerationOfAffectsForPerception;
 
 	/**
@@ -49,7 +49,7 @@ public class C06_AffectGeneration extends clsModuleContainer implements
 	 * @param poProp
 	 * @param poEnclosingContainer
 	 */
-	public C06_AffectGeneration(String poPrefix, clsBWProperties poProp,
+	public G06_AffectGeneration(String poPrefix, clsBWProperties poProp,
 			clsModuleContainer poEnclosingContainer, clsMemory poMemory) {
 		super(poPrefix, poProp, poEnclosingContainer, poMemory);
 		applyProperties(poPrefix, poProp);

@@ -35,7 +35,7 @@ import config.clsBWProperties;
  * 11.08.2009, 15:10:40
  * 
  */
-public class C02_Id extends clsModuleContainer implements
+public class G02_Id extends clsModuleContainer implements
 								I1_2,
 								I1_4,
 								I1_5,
@@ -48,11 +48,11 @@ public class C02_Id extends clsModuleContainer implements
 								I4_3
 								{
 	public static final String P_E15 = "E15";
-	public static final String P_C05 = "C05";
-	public static final String P_C06 = "C06";
+	public static final String P_G05 = "G05";
+	public static final String P_G06 = "G06";
 	
-	public C05_DriveHandling moC05DriveHandling;
-	public C06_AffectGeneration moC06AffectGeneration;
+	public G05_DriveHandling 				 moG05DriveHandling;
+	public G06_AffectGeneration 			 moG06AffectGeneration;
 	public E15_ManagementOfRepressedContents moE15ManagementOfRepressedContents;
 
 	/**
@@ -65,7 +65,7 @@ public class C02_Id extends clsModuleContainer implements
 	 * @param poProp
 	 * @param poEnclosingContainer
 	 */
-	public C02_Id(String poPrefix, clsBWProperties poProp,
+	public G02_Id(String poPrefix, clsBWProperties poProp,
 			clsModuleContainer poEnclosingContainer, clsMemory poMemory) {
 		super(poPrefix, poProp, poEnclosingContainer, poMemory);
 		applyProperties(poPrefix, poProp);
@@ -76,8 +76,8 @@ public class C02_Id extends clsModuleContainer implements
 		
 		clsBWProperties oProp = new clsBWProperties();
 		
-		oProp.putAll( C05_DriveHandling.getDefaultProperties(pre+P_C05) );
-		oProp.putAll( C06_AffectGeneration.getDefaultProperties(pre+P_C06) );
+		oProp.putAll( G05_DriveHandling.getDefaultProperties(pre+P_G05) );
+		oProp.putAll( G06_AffectGeneration.getDefaultProperties(pre+P_G06) );
 		oProp.putAll( E15_ManagementOfRepressedContents.getDefaultProperties(pre+P_E15) );		
 				
 		return oProp;
@@ -86,8 +86,8 @@ public class C02_Id extends clsModuleContainer implements
 	private void applyProperties(String poPrefix, clsBWProperties poProp) {
 		String pre = clsBWProperties.addDot(poPrefix);
 	
-		moC05DriveHandling = new C05_DriveHandling(pre+P_C05, poProp, this, moMemory);
-		moC06AffectGeneration = new C06_AffectGeneration(pre+P_C06, poProp, this, moMemory);
+		moG05DriveHandling = new G05_DriveHandling(pre+P_G05, poProp, this, moMemory);
+		moG06AffectGeneration = new G06_AffectGeneration(pre+P_G06, poProp, this, moMemory);
 		moE15ManagementOfRepressedContents = new E15_ManagementOfRepressedContents(pre+P_E15, poProp, this, moMemory);
 	}
 
@@ -100,7 +100,7 @@ public class C02_Id extends clsModuleContainer implements
 	 */
 	@Override
 	public void receive_I1_2(HashMap<String, Double> poHomeostasisSymbols) {
-		moC05DriveHandling.receive_I1_2(poHomeostasisSymbols);
+		moG05DriveHandling.receive_I1_2(poHomeostasisSymbols);
 		
 	}
 
@@ -114,7 +114,7 @@ public class C02_Id extends clsModuleContainer implements
 	@Override
 	public void receive_I1_4(ArrayList<clsPair<clsPair<clsPrimaryInformationMesh, clsAffectCandidate>, 
 	  		  clsPair<clsPrimaryInformationMesh, clsAffectCandidate>>> poDriveCandidate) {
-		moC06AffectGeneration.receive_I1_4(poDriveCandidate);
+		moG06AffectGeneration.receive_I1_4(poDriveCandidate);
 		
 	}
 
@@ -140,7 +140,7 @@ public class C02_Id extends clsModuleContainer implements
 	 */
 	@Override
 	public void receive_I2_8(ArrayList<clsPair<clsPrimaryInformation,clsPrimaryInformation>> poMergedPrimaryInformationMesh) {
-		moC06AffectGeneration.receive_I2_8(poMergedPrimaryInformationMesh);
+		moG06AffectGeneration.receive_I2_8(poMergedPrimaryInformationMesh);
 		
 	}
 

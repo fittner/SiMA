@@ -24,7 +24,7 @@ import pa.interfaces.I4_3;
  * 07.10.2009, 11:18:15
  * 
  */
-public class E15_2_ManagementOfRepressedContents extends clsModuleBase implements I4_1, I4_2 {
+public class S_ManagementOfRepressedContents_2 extends clsModuleBase implements I4_1, I4_2 {
 	ArrayList<clsPrimaryInformation> moPrimaryInformation;
 	
 	/**
@@ -37,7 +37,7 @@ public class E15_2_ManagementOfRepressedContents extends clsModuleBase implement
 	 * @param poProp
 	 * @param poEnclosingContainer
 	 */
-	public E15_2_ManagementOfRepressedContents(String poPrefix, clsBWProperties poProp,
+	public S_ManagementOfRepressedContents_2(String poPrefix, clsBWProperties poProp,
 			clsModuleContainer poEnclosingContainer) {
 		super(poPrefix, poProp, poEnclosingContainer);
 		applyProperties(poPrefix, poProp);	

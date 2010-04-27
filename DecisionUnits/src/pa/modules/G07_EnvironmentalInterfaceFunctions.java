@@ -28,7 +28,7 @@ import pa.enums.eSymbolExtType;
  * 11.08.2009, 15:32:50
  * 
  */
-public class C07_EnvironmentalInterfaceFunctions extends clsModuleContainer implements
+public class G07_EnvironmentalInterfaceFunctions extends clsModuleContainer implements
 						I2_2,
 						I2_4,
 						I2_5,
@@ -40,7 +40,7 @@ public class C07_EnvironmentalInterfaceFunctions extends clsModuleContainer impl
 	public static final String P_E30 = "E30";
 	
 	public E14_PreliminaryExternalPerception moE14PreliminaryExternalPerception;
-	public E30_MotilityControl moE30MotilityControl;
+	public E30_MotilityControl               moE30MotilityControl;
 
 	/**
 	 * DOCUMENT (deutsch) - insert description 
@@ -52,7 +52,7 @@ public class C07_EnvironmentalInterfaceFunctions extends clsModuleContainer impl
 	 * @param poProp
 	 * @param poEnclosingContainer
 	 */
-	public C07_EnvironmentalInterfaceFunctions(String poPrefix, clsBWProperties poProp,
+	public G07_EnvironmentalInterfaceFunctions(String poPrefix, clsBWProperties poProp,
 			clsModuleContainer poEnclosingContainer, clsMemory poMemory) {
 		super(poPrefix, poProp, poEnclosingContainer, poMemory);
 		applyProperties(poPrefix, poProp);

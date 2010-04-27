@@ -28,7 +28,7 @@ import config.clsBWProperties;
  * 11.08.2009, 15:11:20
  * 
  */
-public class C04_SuperEgo extends clsModuleContainer implements
+public class G04_SuperEgo extends clsModuleContainer implements
 						I1_5,
 						I1_7,
 						I3_1,
@@ -40,7 +40,7 @@ public class C04_SuperEgo extends clsModuleContainer implements
 	public static final String P_E07 = "E07";
 	public static final String P_E22 = "E22";
 	
-	public E07_SuperEgo_unconscious moE07SuperEgoUnconscious;
+	public E07_SuperEgo_unconscious  moE07SuperEgoUnconscious;
 	public E22_SuperEgo_preconscious moE22SuperEgoPreconscious;
 
 	/**
@@ -53,7 +53,7 @@ public class C04_SuperEgo extends clsModuleContainer implements
 	 * @param poProp
 	 * @param poEnclosingContainer
 	 */
-	public C04_SuperEgo(String poPrefix, clsBWProperties poProp,
+	public G04_SuperEgo(String poPrefix, clsBWProperties poProp,
 			clsModuleContainer poEnclosingContainer, clsMemory poMemory) {
 		super(poPrefix, poProp, poEnclosingContainer, poMemory);
 		applyProperties(poPrefix, poProp);

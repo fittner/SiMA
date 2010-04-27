@@ -26,7 +26,7 @@ import config.clsBWProperties;
  * 11.08.2009, 15:41:11
  * 
  */
-public class C13_PrimaryKnowledgeUtilizer extends clsModuleContainer implements
+public class G13_PrimaryKnowledgeUtilizer extends clsModuleContainer implements
 					I1_5,
 					I2_6,
 					I2_7,
@@ -37,7 +37,7 @@ public class C13_PrimaryKnowledgeUtilizer extends clsModuleContainer implements
 	public static final String P_E16 = "E16";
 	
 	public E09_KnowledgeAboutReality_unconscious moE09KnowledgeAboutReality_unconscious;
-	public E16_ManagementOfMemoryTraces moE16ManagementOfMemoryTraces;
+	public E16_ManagementOfMemoryTraces          moE16ManagementOfMemoryTraces;
 
 	/**
 	 * DOCUMENT (deutsch) - insert description 
@@ -49,7 +49,7 @@ public class C13_PrimaryKnowledgeUtilizer extends clsModuleContainer implements
 	 * @param poProp
 	 * @param poEnclosingContainer
 	 */
-	public C13_PrimaryKnowledgeUtilizer(String poPrefix, clsBWProperties poProp,
+	public G13_PrimaryKnowledgeUtilizer(String poPrefix, clsBWProperties poProp,
 			clsModuleContainer poEnclosingContainer, clsMemory poMemory) {
 		super(poPrefix, poProp, poEnclosingContainer, poMemory);
 		applyProperties(poPrefix, poProp);
