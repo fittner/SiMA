@@ -78,10 +78,10 @@ public class clsInspectorMappingPA {
 			oRetVal.addInspector( new clsPAInspectorFuncModel(poSuperInspector, poWrapper, poState, moPA), "Functional View");
 		}
 		else if(poModuleName.equals("E26DecisionMaking")) {
-			oRetVal.addInspector( new clsE26DecisionCalculation(poSuperInspector, poWrapper, poState, moPA.moC03Ego.moC08PsychicMediator.moC10SecondaryProcessor.moC16Deliberation.moE26DecisionMaking), "Decision Calculation");
+			oRetVal.addInspector( new clsE26DecisionCalculation(poSuperInspector, poWrapper, poState, moPA.moC03Ego.moC08PsychicMediator.moC11SecondaryProcessor.moC15Deliberation.moE26DecisionMaking), "Decision Calculation");
 		}
 		else if(poModuleName.equals("E27GenerationOfImaginaryActions")) {
-			oRetVal.addInspector( new clsTimingDiagramInspector(poSuperInspector, poWrapper, poState, moPA.moC03Ego.moC08PsychicMediator.moC10SecondaryProcessor.moC16Deliberation.moE27GenerationOfImaginaryActions, 150, "Template Matches (Word Presentations)"), "Decision Calculation");
+			oRetVal.addInspector( new clsTimingDiagramInspector(poSuperInspector, poWrapper, poState, moPA.moC03Ego.moC08PsychicMediator.moC11SecondaryProcessor.moC15Deliberation.moE27GenerationOfImaginaryActions, 150, "Template Matches (Word Presentations)"), "Decision Calculation");
 		}
 		//========== MEMORY ==============
 		else if(poModuleName.equals("RepressedContentsStore")) {

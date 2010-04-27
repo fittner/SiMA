@@ -49,13 +49,13 @@ public class C11_SecondaryProcessor extends clsModuleContainer implements
 				I7_5
 				{
 
+	public static final String P_C14 = "C14";
 	public static final String P_C15 = "C15";
 	public static final String P_C16 = "C16";
-	public static final String P_C17 = "C17";
 	
-	public C14_PerceptualPreprocessing moC15PerceptualPreprocessing;
-	public C15_Deliberation moC16Deliberation;
-	public C16_SecondaryKnowledgeUtilizer moC17SecondaryKnowledgeUtilizer;
+	public C14_PerceptualPreprocessing moC14PerceptualPreprocessing;
+	public C15_Deliberation moC15Deliberation;
+	public C16_SecondaryKnowledgeUtilizer moC16SecondaryKnowledgeUtilizer;
 
 	/**
 	 * DOCUMENT (deutsch) - insert description 
@@ -78,9 +78,9 @@ public class C11_SecondaryProcessor extends clsModuleContainer implements
 		
 		clsBWProperties oProp = new clsBWProperties();
 		
-		oProp.putAll( C14_PerceptualPreprocessing.getDefaultProperties(pre+P_C15) );
-		oProp.putAll( C15_Deliberation.getDefaultProperties(pre+P_C16) );
-		oProp.putAll( C16_SecondaryKnowledgeUtilizer.getDefaultProperties(pre+P_C17) );
+		oProp.putAll( C14_PerceptualPreprocessing.getDefaultProperties(pre+P_C14) );
+		oProp.putAll( C15_Deliberation.getDefaultProperties(pre+P_C15) );
+		oProp.putAll( C16_SecondaryKnowledgeUtilizer.getDefaultProperties(pre+P_C16) );
 				
 		return oProp;
 	}
@@ -88,9 +88,9 @@ public class C11_SecondaryProcessor extends clsModuleContainer implements
 	private void applyProperties(String poPrefix, clsBWProperties poProp) {
 		String pre = clsBWProperties.addDot(poPrefix);
 	
-		moC15PerceptualPreprocessing = new C14_PerceptualPreprocessing(pre+P_C15, poProp, this, moMemory);
-		moC16Deliberation = new C15_Deliberation(pre+P_C16, poProp, this, moMemory);
-		moC17SecondaryKnowledgeUtilizer = new C16_SecondaryKnowledgeUtilizer(pre+P_C17, poProp, this, moMemory);
+		moC14PerceptualPreprocessing = new C14_PerceptualPreprocessing(pre+P_C14, poProp, this, moMemory);
+		moC15Deliberation = new C15_Deliberation(pre+P_C15, poProp, this, moMemory);
+		moC16SecondaryKnowledgeUtilizer = new C16_SecondaryKnowledgeUtilizer(pre+P_C16, poProp, this, moMemory);
 	}
 
 	/* (non-Javadoc)
@@ -102,7 +102,7 @@ public class C11_SecondaryProcessor extends clsModuleContainer implements
 	 */
 	@Override
 	public void receive_I3_3(int pnData) {
-		moC16Deliberation.receive_I3_3(pnData);
+		moC15Deliberation.receive_I3_3(pnData);
 	}
 
 	/* (non-Javadoc)
@@ -114,8 +114,8 @@ public class C11_SecondaryProcessor extends clsModuleContainer implements
 	 */
 	@Override
 	public void receive_I1_7(ArrayList<clsSecondaryInformation> poDriveList) {
-		moC16Deliberation.receive_I1_7(poDriveList);
-		moC15PerceptualPreprocessing.receive_I1_7(poDriveList);
+		moC15Deliberation.receive_I1_7(poDriveList);
+		moC14PerceptualPreprocessing.receive_I1_7(poDriveList);
 	}
 
 	/* (non-Javadoc)
@@ -127,7 +127,7 @@ public class C11_SecondaryProcessor extends clsModuleContainer implements
 	 */
 	@Override
 	public void receive_I2_11(ArrayList<clsSecondaryInformation> poPerception) {
-		moC15PerceptualPreprocessing.receive_I2_11(poPerception);
+		moC14PerceptualPreprocessing.receive_I2_11(poPerception);
 	}
 
 	/* (non-Javadoc)
@@ -139,7 +139,7 @@ public class C11_SecondaryProcessor extends clsModuleContainer implements
 	 */
 	@Override
 	public void receive_I5_5(int pnData) {
-		moC16Deliberation.receive_I5_5(pnData);
+		moC15Deliberation.receive_I5_5(pnData);
 	}
 
 	/* (non-Javadoc)
@@ -151,7 +151,7 @@ public class C11_SecondaryProcessor extends clsModuleContainer implements
 	 */
 	@Override
 	public void receive_I2_12(ArrayList<clsSecondaryInformation> poFocusedPerception) {
-		moC17SecondaryKnowledgeUtilizer.receive_I2_12(poFocusedPerception);
+		moC16SecondaryKnowledgeUtilizer.receive_I2_12(poFocusedPerception);
 	}
 
 	/* (non-Javadoc)
@@ -163,7 +163,7 @@ public class C11_SecondaryProcessor extends clsModuleContainer implements
 	 */
 	@Override
 	public void receive_I2_13(ArrayList<clsPair<clsSecondaryInformation, clsSecondaryInformationMesh>> poRealityPerception) {
-		moC16Deliberation.receive_I2_13(poRealityPerception);
+		moC15Deliberation.receive_I2_13(poRealityPerception);
 	}
 
 	/* (non-Javadoc)
@@ -175,7 +175,7 @@ public class C11_SecondaryProcessor extends clsModuleContainer implements
 	 */
 	@Override
 	public void receive_I6_1(int pnData) {
-		moC15PerceptualPreprocessing.receive_I6_1(pnData);
+		moC14PerceptualPreprocessing.receive_I6_1(pnData);
 	}
 
 	/* (non-Javadoc)
@@ -187,7 +187,7 @@ public class C11_SecondaryProcessor extends clsModuleContainer implements
 	 */
 	@Override
 	public void receive_I6_2(int pnData) {
-		moC16Deliberation.receive_I6_2(pnData);
+		moC15Deliberation.receive_I6_2(pnData);
 	}
 
 	/* (non-Javadoc)
@@ -199,7 +199,7 @@ public class C11_SecondaryProcessor extends clsModuleContainer implements
 	 */
 	@Override
 	public void receive_I7_2(int pnData) {
-		moC17SecondaryKnowledgeUtilizer.receive_I7_2(pnData);
+		moC16SecondaryKnowledgeUtilizer.receive_I7_2(pnData);
 	}
 
 	/* (non-Javadoc)
@@ -236,7 +236,7 @@ public class C11_SecondaryProcessor extends clsModuleContainer implements
 	 */
 	@Override
 	public void receive_I7_5(int pnData) {
-		moC16Deliberation.receive_I7_5(pnData);
+		moC15Deliberation.receive_I7_5(pnData);
 		
 	}
 }
