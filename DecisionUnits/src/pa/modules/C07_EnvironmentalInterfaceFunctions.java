@@ -37,7 +37,7 @@ public class C07_EnvironmentalInterfaceFunctions extends clsModuleContainer impl
 						{
 
 	public static final String P_E14 = "E14";
-	public static final String P_E30 = "E308";
+	public static final String P_E30 = "E30";
 	
 	public E14_PreliminaryExternalPerception moE14PreliminaryExternalPerception;
 	public E30_MotilityControl moE30MotilityControl;
