@@ -60,12 +60,12 @@ public class G09_PrimaryProcessor extends clsModuleContainer implements
 					{
 
 	public static final String P_E17 = "E17";
+	public static final String P_G12 = "G12";
 	public static final String P_G13 = "G13";
-	public static final String P_G14 = "G14";
 	
 	public E17_FusionOfExternalPerceptionAndMemoryTraces moE17FusionOfExternalPerceptionAndMemoryTraces;
-	public G12_PrimaryDecision                           moG13PrimaryDecision;
-	public G13_PrimaryKnowledgeUtilizer                  moG14PrimaryKnowledgeUtilizer;
+	public G12_PrimaryDecision                           moG12PrimaryDecision;
+	public G13_PrimaryKnowledgeUtilizer                  moG13PrimaryKnowledgeUtilizer;
 
 	/**
 	 * DOCUMENT (deutsch) - insert description 
@@ -89,8 +89,8 @@ public class G09_PrimaryProcessor extends clsModuleContainer implements
 		clsBWProperties oProp = new clsBWProperties();
 		
 		oProp.putAll( E17_FusionOfExternalPerceptionAndMemoryTraces.getDefaultProperties(pre+P_E17) );
-		oProp.putAll( G12_PrimaryDecision.getDefaultProperties(pre+P_G13) );
-		oProp.putAll( G13_PrimaryKnowledgeUtilizer.getDefaultProperties(pre+P_G14) );
+		oProp.putAll( G12_PrimaryDecision.getDefaultProperties(pre+P_G12) );
+		oProp.putAll( G13_PrimaryKnowledgeUtilizer.getDefaultProperties(pre+P_G13) );
 				
 		return oProp;
 	}
@@ -99,8 +99,8 @@ public class G09_PrimaryProcessor extends clsModuleContainer implements
 		String pre = clsBWProperties.addDot(poPrefix);
 	
 		moE17FusionOfExternalPerceptionAndMemoryTraces = new E17_FusionOfExternalPerceptionAndMemoryTraces(pre+P_E17, poProp, this);
-		moG13PrimaryDecision = new G12_PrimaryDecision(pre+P_G13, poProp, this, moMemory);
-		moG14PrimaryKnowledgeUtilizer = new G13_PrimaryKnowledgeUtilizer(pre+P_G14, poProp, this, moMemory);
+		moG12PrimaryDecision = new G12_PrimaryDecision(pre+P_G12, poProp, this, moMemory);
+		moG13PrimaryKnowledgeUtilizer = new G13_PrimaryKnowledgeUtilizer(pre+P_G13, poProp, this, moMemory);
 	}
 
 	/* (non-Javadoc)
@@ -148,7 +148,7 @@ public class G09_PrimaryProcessor extends clsModuleContainer implements
 	 */
 	@Override
 	public void receive_I2_6(ArrayList<clsPair<clsPrimaryInformation, clsPrimaryInformation>> poPerceptPlusRepressed) {
-		moG14PrimaryKnowledgeUtilizer.receive_I2_6(poPerceptPlusRepressed);
+		moG13PrimaryKnowledgeUtilizer.receive_I2_6(poPerceptPlusRepressed);
 	}
 
 	/* (non-Javadoc)
@@ -220,8 +220,8 @@ public class G09_PrimaryProcessor extends clsModuleContainer implements
 	 */
 	@Override
 	public void receive_I1_5(List<clsPrimaryInformation> poData) {
-		moG13PrimaryDecision.receive_I1_5(poData);
-		moG14PrimaryKnowledgeUtilizer.receive_I1_5(poData);
+		moG12PrimaryDecision.receive_I1_5(poData);
+		moG13PrimaryKnowledgeUtilizer.receive_I1_5(poData);
 		
 	}
 
@@ -234,7 +234,7 @@ public class G09_PrimaryProcessor extends clsModuleContainer implements
 	 */
 	@Override
 	public void receive_I2_9(ArrayList<clsPrimaryInformation> poMergedPrimaryInformation) {
-		moG13PrimaryDecision.receive_I2_9(poMergedPrimaryInformation);		
+		moG12PrimaryDecision.receive_I2_9(poMergedPrimaryInformation);		
 	}
 
 	/* (non-Javadoc)
@@ -246,7 +246,7 @@ public class G09_PrimaryProcessor extends clsModuleContainer implements
 	 */
 	@Override
 	public void receive_I3_2(int pnData) {
-		moG13PrimaryDecision.receive_I3_2(pnData);
+		moG12PrimaryDecision.receive_I3_2(pnData);
 		
 	}
 
@@ -259,7 +259,7 @@ public class G09_PrimaryProcessor extends clsModuleContainer implements
 	 */
 	@Override
 	public void receive_I4_3(List<clsPrimaryInformation> poPIs) {
-		moG13PrimaryDecision.receive_I4_3(poPIs);
+		moG12PrimaryDecision.receive_I4_3(poPIs);
 	}
 
 	/* (non-Javadoc)
@@ -271,7 +271,7 @@ public class G09_PrimaryProcessor extends clsModuleContainer implements
 	 */
 	@Override
 	public void receive_I3_1(int pnData) {
-		moG13PrimaryDecision.receive_I3_1(pnData);		
+		moG12PrimaryDecision.receive_I3_1(pnData);		
 	}
 
 	/* (non-Javadoc)
@@ -283,7 +283,7 @@ public class G09_PrimaryProcessor extends clsModuleContainer implements
 	 */
 	@Override
 	public void receive_I6_3(int pnData) {
-		moG13PrimaryDecision.receive_I6_3(pnData);
+		moG12PrimaryDecision.receive_I6_3(pnData);
 	}
 
 	/* (non-Javadoc)
