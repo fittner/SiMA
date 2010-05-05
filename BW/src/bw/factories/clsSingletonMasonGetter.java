@@ -41,17 +41,17 @@ public class clsSingletonMasonGetter {
 		return clsSingletonSimState.getSimState();
 	}
 	
-	public static void setDisplay2D(ARSsim.display.Display2D poDisplay2D) {
+	public static void setDisplay2D(sim.display.Display2D poDisplay2D) {
 		clsSingletonDisplay2D.setDisplay2D(poDisplay2D);
 	}
-	public static ARSsim.display.Display2D getDisplay2D() {
+	public static sim.display.Display2D getDisplay2D() {
 		return clsSingletonDisplay2D.getDisplay2D();
 	}
 	
-	public static void setConsole(ARSsim.display.Console poConsole) {
+	public static void setConsole(sim.display.Console poConsole) {
 		clsSingletonConsole.setDisplay2D(poConsole);
 	}
-	public static ARSsim.display.Console getConsole() {
+	public static sim.display.Console getConsole() {
 		return clsSingletonConsole.getDisplay2D();
 	}
 

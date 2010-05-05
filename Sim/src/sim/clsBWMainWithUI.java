@@ -22,7 +22,7 @@ import config.clsBWProperties;
 import enums.eEntityType;
 import bw.factories.clsSingletonProperties;
 import bw.factories.clsSingletonMasonGetter;
-import bw.utils.visualization.clsCharts;
+//import bw.utils.visualization.clsCharts;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.util.ArrayList;
@@ -61,7 +61,7 @@ public class clsBWMainWithUI extends GUIState {
 	 * objects stored within them */
 	private ContinuousPortrayal2D moGameGridPortrayal = new ContinuousPortrayal2D();
 	/** holds all charts if charting is activated in startup */
-	private clsCharts moCharts = null;
+	//private clsCharts moCharts = null;
 	
 	public clsBWMainWithUI(String[] args) { 
 		super(new clsBWMain( System.currentTimeMillis(), args) ); 
@@ -89,7 +89,7 @@ public class clsBWMainWithUI extends GUIState {
 		}
 		
 		clsBWProperties oProp = clsBWProperties.readProperties(oPath, F_CONFIGFILENAME);
-		clsSingletonProperties.setSystemProperties(oProp);
+		clsSingletonProperties.setSystemProperties(oProp, P_DRAWIMAGES, P_DRAWSENSORS);
 		
 		clsBWMainWithUI oMainWithUI = new clsBWMainWithUI(args);
 		clsSingletonMasonGetter.setConsole( new ARSsim.display.Console(oMainWithUI) );
@@ -112,7 +112,7 @@ public class clsBWMainWithUI extends GUIState {
 		oTestPaneBub2.setName("Bubble Tab 2");
 		oTabView.add(oTestPaneBub1);
 		oTabView.add(oTestPaneBub2);
-		clsSingletonMasonGetter.getConsole().addTabbSetup(eEntityType.BUBBLE.hashCode(), oTabView);
+		((ARSsim.display.Console)(clsSingletonMasonGetter.getConsole())).addTabbSetup(eEntityType.BUBBLE.hashCode(), oTabView);
 		
 		ArrayList<JTabbedPane> oTabView2 = new ArrayList<JTabbedPane> ();
 		JTabbedPane oTestPaneBot1 = new JTabbedPane();
@@ -121,11 +121,11 @@ public class clsBWMainWithUI extends GUIState {
 		oTestPaneBot2.setName("RemoteBot Tab 2");
 		oTabView2.add(oTestPaneBot1);
 		oTabView2.add(oTestPaneBot2);
-		clsSingletonMasonGetter.getConsole().addTabbSetup(eEntityType.REMOTEBOT.hashCode(), oTabView2);
+		((ARSsim.display.Console)(clsSingletonMasonGetter.getConsole())).addTabbSetup(eEntityType.REMOTEBOT.hashCode(), oTabView2);
 		
 		
-		clsSingletonMasonGetter.getConsole().setView(eEntityType.BUBBLE.hashCode());
-		clsSingletonMasonGetter.getConsole().setView(eEntityType.REMOTEBOT.hashCode());
+		((ARSsim.display.Console)(clsSingletonMasonGetter.getConsole())).setView(eEntityType.BUBBLE.hashCode());
+		((ARSsim.display.Console)(clsSingletonMasonGetter.getConsole())).setView(eEntityType.REMOTEBOT.hashCode());
 	}
 	
 	/** returns the title bar of the console
@@ -303,12 +303,14 @@ public class clsBWMainWithUI extends GUIState {
 	public void addChartPanel( Controller poController, clsBWMain poMainModelClass ) {
 		
 		// add all charts from clsCharts
-		moCharts = new clsCharts(poMainModelClass);
+		// FIXME - are these chart panels still needed? clsCharts has been deleted!
+//		moCharts = new clsCharts(poMainModelClass);
 		ChartPanel oTestPanel = null;
 		
 		//create charts
 		if (true) { // TODO clemens: do we want to ad this chart? maybe read from config file? for testing.. always yes
-			oTestPanel = new ChartPanel(moCharts.createTestChart());
+			// FIXME - are these chart panels still needed? clsCharts has been deleted!
+//			oTestPanel = new ChartPanel(moCharts.createTestChart());
         }
 		
 		// create the chart frame

@@ -9,7 +9,6 @@
 package bw.factories;
 
 import config.clsBWProperties;
-import sim.clsBWMainWithUI;
 
 /**
  * DOCUMENT (deutsch) - insert description 
@@ -52,10 +51,10 @@ public class clsSingletonProperties {
 		return (clsSingletonProperties.instance()).moSystemProperties;
 	}
 	
-	static public void setSystemProperties(clsBWProperties poProperties) {
+	static public void setSystemProperties(clsBWProperties poProperties, String P_DRAWIMAGES, String P_DRAWSENSORS) {
 		(clsSingletonProperties.instance()).moSystemProperties = poProperties;
-		(clsSingletonProperties.instance()).mnDrawImages = poProperties.getPropertyBoolean(clsBWMainWithUI.P_DRAWIMAGES);
-		(clsSingletonProperties.instance()).mnDrawSensors = poProperties.getPropertyBoolean(clsBWMainWithUI.P_DRAWSENSORS);
+		(clsSingletonProperties.instance()).mnDrawImages = poProperties.getPropertyBoolean(P_DRAWIMAGES);
+		(clsSingletonProperties.instance()).mnDrawSensors = poProperties.getPropertyBoolean(P_DRAWSENSORS);
 	}	
 	
 	static public boolean drawImages() {

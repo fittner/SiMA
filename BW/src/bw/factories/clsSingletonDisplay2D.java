@@ -16,7 +16,7 @@ package bw.factories;
  */
 public class clsSingletonDisplay2D {
     private static clsSingletonDisplay2D instance = null;
-    private ARSsim.display.Display2D moDisplay2D = null;    
+    private sim.display.Display2D moDisplay2D = null;    
     private clsSingletonDisplay2D() {}    
     private static clsSingletonDisplay2D getInstance() {
        if (instance == null) {
@@ -24,10 +24,10 @@ public class clsSingletonDisplay2D {
        }
        return instance;
     }
-	public static void setDisplay2D(ARSsim.display.Display2D poDisplay2D) {
+	public static void setDisplay2D(sim.display.Display2D poDisplay2D) {
 		clsSingletonDisplay2D.getInstance().moDisplay2D = poDisplay2D;
 	}    
-	public static ARSsim.display.Display2D getDisplay2D() {
+	public static sim.display.Display2D getDisplay2D() {
 		return clsSingletonDisplay2D.getInstance().moDisplay2D;
 	}    
 }
