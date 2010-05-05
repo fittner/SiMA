@@ -1,4 +1,4 @@
-package lifeCycle.JADEX;
+package students.lifeCycle.JAM;
 
 import decisionunit.clsBaseDecisionUnit;
 

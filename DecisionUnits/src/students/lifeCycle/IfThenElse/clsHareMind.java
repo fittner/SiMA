@@ -1,7 +1,6 @@
-package lifeCycle.IfThenElse;
+package students.lifeCycle.IfThenElse;
 
-//import decisionunit.itf.actions.clsActionEat;
-//import decisionunit.itf.actions.clsActionKill;
+
 import java.awt.Color;
 
 import decisionunit.itf.actions.clsActionMove;
@@ -21,77 +20,87 @@ import enums.eEntityType;
 import enums.eSensorExtType;
 import enums.eSensorIntType;
 import enums.eTriState;
-//import sim.display.clsKeyListener;
+
 import simple.remotecontrol.clsRemoteControl; //for testing purpose only! remove after test
 
-
-public class clsLynxMind extends clsRemoteControl  {
+public class clsHareMind extends clsRemoteControl { //should be derived from clsBaseDecisionUit
 
 	@Override
 	public void process() {
 
 //		//===========USE THIS CODE FOR REMOTE CONTROL
+//		super.process(poActionProcessor);
+//		
 //	   	switch( getKeyPressed() )
 //    	{
 //    	case 75: //'K'
-//    		killHare(poActionProcessor);
-//    		break;
-//    	default:
-//    		super.process(poActionProcessor);
 //    		break;
 //    	}
-//	  	//=========== END
-		
+//	  //=========== END
+	   	
 		//===========USE THIS CODE FOR AUTOMATIC IF/THEN-ACTION
-		doLynxThinking( getActionProcessor() );
+		doHareThinking(  getActionProcessor() );
 		//=========== END
 	}
+	
+	
 	
 	private int mnStepCounter = 0; //local step counter to measure the steps until the next action has to be selected
 	private int mnStepsToRepeatLastAction = 20; //after these steps the next action is considered
 	private  static int mnRepeatRange = 100; //random generator goes from 0 to mnRepeatRange
 	private int mnCurrentActionCode = 0; //default move forward
-	private static double mnHungryThreasholed = 7; //energy level, where hare gets hungry
+	private static double mnHungryThreasholed = 4.5; //energy level, where hare gets hungry
 	
-	public void doLynxThinking(itfActionProcessor poActionProcessor) {
-		clsSensorRingSegmentEntry oVisibleHare = checkVision();
+	public void doHareThinking(itfActionProcessor poActionProcessor) {
+		
+		clsSensorRingSegmentEntry oVisibleCarrot = checkVision();
 		clsBump oBump = (clsBump) getSensorData().getSensorExt(eSensorExtType.BUMP);
 		
 		if( checkEatableArea() && isHungry() ) {
-			if(((clsVisionEntry)oVisibleHare).getColor().equals(Color.red)) {
-				eatHare(poActionProcessor);
-			} else {				
-				killHare(poActionProcessor);
-			}
-		} else if( oVisibleHare != null && isHungry() ) {
-			followHare(poActionProcessor, oVisibleHare);
-		} else if( oBump.getBumped() )	{
+			eatCarrot(poActionProcessor);
+		} else if( oVisibleCarrot != null && isHungry()) {
+			reachCarrot(poActionProcessor, oVisibleCarrot);
+			//todo: flee when lynx in range!!!
+		} else if( oBump.getBumped() ) {
 			handleColision(poActionProcessor);
 		} else {
-			seekHare(poActionProcessor);
+			seekCarrot(poActionProcessor);
 		}
 	}
 	
 	public boolean checkEatableArea() 	{
+		
 		boolean nRetVal = false;
+
 		clsEatableArea oEatArea = (clsEatableArea) getSensorData().getSensorExt(eSensorExtType.EATABLE_AREA);
 		
 		if (oEatArea.getDataObjects().size() > 0) {
 			clsEatableAreaEntry oEntry = (clsEatableAreaEntry)oEatArea.getDataObjects().get(0);
-			if (oEntry.getEntityType() == eEntityType.HARE && oEntry.getIsConsumeable() == eTriState.TRUE) {
+			if (oEntry.getEntityType() == eEntityType.CARROT && oEntry.getIsConsumeable() == eTriState.TRUE) {
 				nRetVal = true;
 			}
-		}		
+		}
 		return nRetVal;
+	}
+	
+	private boolean isCarrotOrange(clsSensorRingSegmentEntry oVisionObj) {
+		if (oVisionObj.getEntityType() == eEntityType.CARROT && 
+				((clsVisionEntry)oVisionObj).getColor() != null &&
+				((clsVisionEntry)oVisionObj).getColor().equals(Color.orange) 
+				) {
+			return true;
+		}
+		
+		return false;
 	}
 	
 	public clsSensorRingSegmentEntry checkVision() {
 		clsSensorRingSegmentEntry oRetVal = null;
 		clsVision oVision = (clsVision) getSensorData().getSensorExt(eSensorExtType.VISION);
 		for( clsSensorExtern oVisionObj : oVision.getDataObjects() ) {
-			if( ((clsVisionEntry)oVisionObj).getEntityType() == eEntityType.HARE && !((clsVisionEntry)oVisionObj).getColor().equals(Color.BLACK))
+			if( isCarrotOrange((clsSensorRingSegmentEntry)oVisionObj) )
 			{
-				oRetVal = (clsVisionEntry)oVisionObj;
+				oRetVal = (clsSensorRingSegmentEntry)oVisionObj;
 				break;
 			}
 		}
@@ -99,6 +108,7 @@ public class clsLynxMind extends clsRemoteControl  {
 	}
 	
 	private boolean isHungry() {
+
 		boolean nRetVal = false;
 		clsEnergy oStomach = (clsEnergy) getSensorData().getSensorInt(eSensorIntType.ENERGY);
 
@@ -109,7 +119,7 @@ public class clsLynxMind extends clsRemoteControl  {
 		return nRetVal;
 	}
 	
-	public void seekHare(itfActionProcessor poActionProcessor) {
+	public void seekCarrot(itfActionProcessor poActionProcessor) {
 		
 		if(	mnStepCounter >= mnStepsToRepeatLastAction ) {
 			mnStepCounter = 0; //reset stepcounter
@@ -147,7 +157,7 @@ public class clsLynxMind extends clsRemoteControl  {
 		mnStepCounter++;		
 	}
 	
-	public void followHare(itfActionProcessor poActionProcessor, clsSensorRingSegmentEntry poVisionObj) {
+	public void reachCarrot(itfActionProcessor poActionProcessor, clsSensorRingSegmentEntry poVisionObj) {
 		
 		double rAngle = poVisionObj.getPolarcoordinate().moAzimuth.mrAlpha;
 		
@@ -181,16 +191,8 @@ public class clsLynxMind extends clsRemoteControl  {
 	 * 
 	 * @param poActionProcessor
 	 */
-	public void eatHare(itfActionProcessor poActionProcessor) {
-		super.eat(poActionProcessor, eEntityType.HARE);
+	public void eatCarrot(itfActionProcessor poActionProcessor) {
+		super.eat(poActionProcessor, eEntityType.CARROT);
 	}
 	
-	/**
-	 * Hurts the entity with 4 hit-points - using calsActionKill as command-processor interface 
-	 * 
-	 * @param poActionProcessor
-	 */
-	protected void killHare(itfActionProcessor poActionProcessor) {
-		super.kill(poActionProcessor, eEntityType.HARE);
-	}
 }
