@@ -79,22 +79,22 @@ public abstract class clsAnimate extends clsMobile {
 				oDecisionUnit = new clsRemoteControl();
 				break;
 			case HARE_JADEX:
-				oDecisionUnit = new lifeCycle.JADEX.clsHareMind();
+				oDecisionUnit = new students.lifeCycle.JADEX.clsHareMind();
 				break;			
 			case HARE_JAM:
-				oDecisionUnit = new lifeCycle.JAM.clsHareMind();
+				oDecisionUnit = new students.lifeCycle.JAM.clsHareMind();
 				break;		
 			case HARE_IFTHENELSE:
-				oDecisionUnit = new lifeCycle.IfThenElse.clsHareMind();
+				oDecisionUnit = new students.lifeCycle.IfThenElse.clsHareMind();
 				break;	
 			case LYNX_JADEX:
-				oDecisionUnit = new lifeCycle.JADEX.clsLynxMind();
+				oDecisionUnit = new students.lifeCycle.JADEX.clsLynxMind();
 				break;			
 			case LYNX_JAM:
-				oDecisionUnit = new lifeCycle.JAM.clsLynxMind();
+				oDecisionUnit = new students.lifeCycle.JAM.clsLynxMind();
 				break;	
 			case LYNX_IFTHENELSE:
-				oDecisionUnit = new lifeCycle.IfThenElse.clsLynxMind();
+				oDecisionUnit = new students.lifeCycle.IfThenElse.clsLynxMind();
 				break;	
 			case PA:
 				oDecisionUnit = new pa.clsPsychoAnalysis(pre+P_DU_PROPERTIES, poProp);
