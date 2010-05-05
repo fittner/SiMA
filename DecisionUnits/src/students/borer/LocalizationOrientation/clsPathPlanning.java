@@ -3,7 +3,7 @@
  */
 package students.borer.LocalizationOrientation;
 
-import sim.util.Bag;
+import students.borer.Mason.Bag;
 
 /**
  * here the actual path planing is done based on the Event stream

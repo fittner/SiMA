@@ -4,7 +4,7 @@
 package students.borer.LocalizationOrientation;
 
 import enums.eEntityType;
-import sim.util.Bag;
+import students.borer.Mason.Bag;
 import students.borer.episodicMemory.*;
 
 /**

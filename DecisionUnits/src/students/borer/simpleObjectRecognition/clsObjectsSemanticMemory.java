@@ -3,7 +3,7 @@
  */
 package students.borer.simpleObjectRecognition;
 
-import sim.util.Bag;
+import students.borer.Mason.Bag;
 
 /**
  * A semantic memory for objects. includes a remember function for retrieval.

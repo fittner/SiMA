@@ -5,7 +5,7 @@ package students.borer.LocalizationOrientation;
 
 import java.util.Comparator;
 
-import sim.util.Bag;
+import students.borer.Mason.Bag;
 
 /**
  * Semantic memory for the Area knowledge

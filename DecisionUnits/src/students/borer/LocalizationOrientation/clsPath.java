@@ -4,7 +4,7 @@
  
 package students.borer.LocalizationOrientation;
 
-import sim.util.Bag;
+import students.borer.Mason.Bag;
 
 /**
  * holds the data of a path. a list of steps and functions to recall the steps and calculate the path quality

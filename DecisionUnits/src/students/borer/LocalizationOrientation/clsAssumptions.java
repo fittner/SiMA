@@ -3,7 +3,7 @@
  */
 package students.borer.LocalizationOrientation;
 
-import sim.util.Bag;
+import students.borer.Mason.Bag;
 
 /**
  *  based on the provided environmental information it
