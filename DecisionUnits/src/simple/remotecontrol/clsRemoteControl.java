@@ -8,6 +8,7 @@ import java.util.Date;
 import statictools.clsGetARSPath;
 import statictools.clsSingletonUniqueIdGenerator;
 import decisionunit.clsBaseDecisionUnit;
+import decisionunit.itfProcessKeyPressed;
 import decisionunit.itf.actions.*;
 import decisionunit.itf.sensors.clsEatableArea;
 import decisionunit.itf.sensors.clsEatableAreaEntry;
@@ -20,7 +21,7 @@ import enums.eActionTurnDirection;
 import enums.eEntityType;
 import enums.eSensorExtType;
 
-public class clsRemoteControl extends clsBaseDecisionUnit  {
+public class clsRemoteControl extends clsBaseDecisionUnit implements itfProcessKeyPressed {
 	private int mnUniqueId;
 	private int moKeyPressed;
 	private int moPrevKeyPressed;	// previous key pressed

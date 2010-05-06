@@ -16,8 +16,8 @@ import config.clsBWProperties;
 import sim.physics2D.physicalObject.PhysicalObject2D;
 import sim.physics2D.shape.*;
 import sim.physics2D.util.Angle;
-import simple.remotecontrol.clsRemoteControl;
 import decisionunit.clsBaseDecisionUnit;
+import decisionunit.itfProcessKeyPressed;
 import decisionunit.itf.actions.itfActionProcessor;
 import decisionunit.itf.sensors.clsBump;
 import decisionunit.itf.sensors.clsDataBase;
@@ -538,8 +538,8 @@ public class clsBrainSocket implements itfStepProcessing {
 	 * @param keyPressed
 	 */
 	public void setKeyPressed(int keyPressed) {
-		if( moDecisionUnit instanceof clsRemoteControl) {
-			((clsRemoteControl) moDecisionUnit).setKeyPressed(keyPressed);
+		if( moDecisionUnit instanceof itfProcessKeyPressed) {
+			((itfProcessKeyPressed) moDecisionUnit).setKeyPressed(keyPressed);
 		}
 		
 	}
