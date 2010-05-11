@@ -13,7 +13,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 
 import config.clsBWProperties;
-import enums.eEntityType;
+import du.enums.eEntityType;
 
 import ARSsim.physics2D.physicalObject.clsCollidingObject;
 import ARSsim.physics2D.physicalObject.clsMobileObject2D;

@@ -2,12 +2,13 @@ package pa.symbolization.representationsymbol;
 
 import java.lang.reflect.Method;
 import java.util.ArrayList;
-import decisionunit.itf.sensors.clsEatableAreaEntry;
-import decisionunit.itf.sensors.clsSensorExtern;
 
-public class clsSymbolEatableArea extends decisionunit.itf.sensors.clsEatableArea implements itfGetDataAccessMethods, itfSymbolEatableArea {
+import du.itf.sensors.clsEatableAreaEntry;
+import du.itf.sensors.clsSensorExtern;
+
+public class clsSymbolEatableArea extends du.itf.sensors.clsEatableArea implements itfGetDataAccessMethods, itfSymbolEatableArea {
 	
-	public clsSymbolEatableArea(decisionunit.itf.sensors.clsEatableArea poSensor) {
+	public clsSymbolEatableArea(du.itf.sensors.clsEatableArea poSensor) {
 		super();
 		
 		moSensorType = poSensor.getSensorType();

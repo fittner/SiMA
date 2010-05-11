@@ -3,8 +3,8 @@ package pa.symbolization.representationsymbol;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 
-public class clsSymbolBump extends decisionunit.itf.sensors.clsBump implements itfGetSymbolName, itfGetDataAccessMethods, itfSymbolBump {
-	public clsSymbolBump(decisionunit.itf.sensors.clsBump poSensor) {
+public class clsSymbolBump extends du.itf.sensors.clsBump implements itfGetSymbolName, itfGetDataAccessMethods, itfSymbolBump {
+	public clsSymbolBump(du.itf.sensors.clsBump poSensor) {
 		super();
 		moSensorType = poSensor.getSensorType();
 		

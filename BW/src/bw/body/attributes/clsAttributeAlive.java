@@ -7,7 +7,7 @@
 package bw.body.attributes;
 
 import config.clsBWProperties;
-import enums.eTriState;
+import du.enums.eTriState;
 import bw.body.itfget.itfIsAlive;
 import bw.body.itfget.itfIsConsumeable;
 import bw.entities.clsEntity;

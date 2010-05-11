@@ -12,15 +12,15 @@ import java.util.Map;
 import pa.interfaces.I1_1;
 import pa.interfaces.I1_2;
 import config.clsBWProperties;
-import decisionunit.itf.sensors.clsDataBase;
-import decisionunit.itf.sensors.clsFastMessenger;
-import decisionunit.itf.sensors.clsFastMessengerEntry;
-import decisionunit.itf.sensors.clsHealthSystem;
-import decisionunit.itf.sensors.clsSlowMessenger;
-import decisionunit.itf.sensors.clsStaminaSystem;
-import decisionunit.itf.sensors.clsStomachTension;
-import enums.eSensorIntType;
-import enums.eSlowMessenger;
+import du.enums.eSensorIntType;
+import du.enums.eSlowMessenger;
+import du.itf.sensors.clsDataBase;
+import du.itf.sensors.clsFastMessenger;
+import du.itf.sensors.clsFastMessengerEntry;
+import du.itf.sensors.clsHealthSystem;
+import du.itf.sensors.clsSlowMessenger;
+import du.itf.sensors.clsStaminaSystem;
+import du.itf.sensors.clsStomachTension;
 
 /**
  * DOCUMENT (deutsch) - insert description 

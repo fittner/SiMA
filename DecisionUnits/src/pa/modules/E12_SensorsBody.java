@@ -10,8 +10,8 @@ import java.util.HashMap;
 
 import config.clsBWProperties;
 import pa.interfaces.I2_3;
-import decisionunit.itf.sensors.clsSensorExtern;
-import enums.eSensorExtType;
+import du.enums.eSensorExtType;
+import du.itf.sensors.clsSensorExtern;
 import pa.interfaces.itfProcessSensorBody;
 
 /**

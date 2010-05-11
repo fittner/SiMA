@@ -12,8 +12,11 @@ import java.util.Vector;
 import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
 
-import enums.eTriState;
+import du.enums.eTriState;
 
+
+import pa.bfg.tools.xmltools.clsXMLAbstractImageReader;
+import pa.bfg.tools.xmltools.clsXMLConfiguration;
 import pa.datatypes.clsAssociation;
 import pa.datatypes.clsPrimaryInformation;
 import pa.datatypes.clsThingPresentationSingle;
@@ -23,8 +26,6 @@ import pa.loader.templateimage.clsTemplatePrimaryInfo;
 import pa.loader.templateimage.clsTemplatePrimaryMesh;
 import pa.loader.templateimage.eBooleanOperator;
 
-import bfg.tools.xmltools.clsXMLAbstractImageReader;
-import bfg.tools.xmltools.clsXMLConfiguration;
 import bfg.utils.enums.eOptional;
 
 /**

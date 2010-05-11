@@ -5,9 +5,9 @@ package students.borer.simpleObjectRecognition;
 
 import java.awt.Color;
 
-import decisionunit.itf.sensors.clsVisionEntry;
-import enums.eEntityType;
-import enums.eShapeType;
+import du.enums.eEntityType;
+import du.enums.eShapeType;
+import du.itf.sensors.clsVisionEntry;
 
 
 

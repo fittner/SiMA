@@ -14,7 +14,7 @@ import pa.datatypes.clsDriveContentCategories;
 import pa.datatypes.clsPrimaryInformation;
 import pa.loader.clsRepressedContentLoader;
 import config.clsBWProperties;
-import enums.pa.eContext;
+import du.enums.pa.eContext;
 
 /**
  * DOCUMENT (deutsch) - insert description 

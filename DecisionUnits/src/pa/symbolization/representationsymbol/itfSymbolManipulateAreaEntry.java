@@ -8,11 +8,12 @@ package pa.symbolization.representationsymbol;
 
 import java.awt.Color;
 
+import du.enums.eAntennaPositions;
+import du.enums.eDistance;
+import du.enums.eShapeType;
+
 import bfg.utils.enums.eCount;
 import bfg.utils.enums.eSide;
-import enums.eAntennaPositions;
-import enums.eDistance;
-import enums.eShapeType;
 
 /**
  * DOCUMENT (deutsch) - insert description 

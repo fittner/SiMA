@@ -14,7 +14,7 @@ import bw.body.intraBodySystems.clsFacialExpression;
 import bw.body.io.actuators.clsActionExecutor;
 import bw.body.itfget.itfGetBody;
 import bw.entities.clsEntity;
-import decisionunit.itf.actions.*;
+import du.itf.actions.*;
 
 /**
  * Action Executor for facial expressions (1 executor for several commands)

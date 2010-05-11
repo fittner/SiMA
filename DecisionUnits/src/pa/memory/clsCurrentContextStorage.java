@@ -15,7 +15,7 @@ import pa.datatypes.clsSecondaryInformation;
 import pa.datatypes.clsThingPresentationSingle;
 import pa.datatypes.clsWordPresentation;
 import config.clsBWProperties;
-import enums.pa.eContext;
+import du.enums.pa.eContext;
 
 /**
  * As part of the clsMemory, this class contains the currently predominant context (always a secondary information).

@@ -9,7 +9,8 @@ package pa.symbolization.representationsymbol;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 
-import enums.eDistance;
+import du.enums.eDistance;
+
 
 
 /**
@@ -19,10 +20,10 @@ import enums.eDistance;
  * 22.09.2009, 13:09:00
  * 
  */
-public class clsSymbolManipulateAreaEntry extends decisionunit.itf.sensors.clsManipulateAreaEntry 
+public class clsSymbolManipulateAreaEntry extends du.itf.sensors.clsManipulateAreaEntry 
 											implements itfIsContainer, itfGetSymbolName, itfSymbolManipulateAreaEntry, itfGetDataAccessMethods  {
 
-	public clsSymbolManipulateAreaEntry(decisionunit.itf.sensors.clsManipulateAreaEntry poSensor) {
+	public clsSymbolManipulateAreaEntry(du.itf.sensors.clsManipulateAreaEntry poSensor) {
 		super();
 		
 		moSensorType = poSensor.getSensorType();

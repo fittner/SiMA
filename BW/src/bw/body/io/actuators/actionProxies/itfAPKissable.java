@@ -6,7 +6,7 @@
  */
 package bw.body.io.actuators.actionProxies;
 
-import enums.eActionKissIntensity;
+import du.enums.eActionKissIntensity;
 
 /**
  * Proxy-Interface for action Kiss

@@ -11,8 +11,9 @@ import java.awt.Color;
 
 import config.clsBWProperties;
 
-import du.utils.enums.eDecisionType;
-
+import du.enums.eActionKissIntensity;
+import du.enums.eEntityType;
+import du.itf.itfDecisionUnit;
 import bw.body.clsComplexBody;
 import bw.body.itfGetExternalIO;
 import bw.body.attributes.clsAttributeAntenna;
@@ -26,8 +27,6 @@ import bw.entities.tools.eImagePositioning;
 import bw.utils.enums.eBodyAttributes;
 import bw.utils.enums.eBodyType;
 import bw.utils.enums.eShapeType;
-import enums.eActionKissIntensity;
-import enums.eEntityType;
 import bw.body.io.clsExternalIO;
 import bw.body.io.actuators.actionProxies.itfAPKissable;
 
@@ -41,8 +40,8 @@ import bw.body.io.actuators.actionProxies.itfAPKissable;
  */
 public class clsBubble extends clsAnimate implements itfGetSensorEngine, itfGetRadiation, itfAPKissable {
 
-	public clsBubble(String poPrefix, clsBWProperties poProp) {
-		super(poPrefix, poProp);
+	public clsBubble(itfDecisionUnit poDU, String poPrefix, clsBWProperties poProp) {
+		super(poDU, poPrefix, poProp);
 		applyProperties(poPrefix, poProp);
 	}
 	
@@ -62,11 +61,7 @@ public class clsBubble extends clsAnimate implements itfGetSensorEngine, itfGetR
 		oProp.removeKeysStartingWith(pre+clsEntity.P_BODY+"."+clsComplexBody.P_EXTERNALIO+"."+clsExternalIO.P_SENSORS);
 		oProp.putAll( clsExternalIO.getDefaultSensorProperties(pre+clsEntity.P_BODY+"."+clsComplexBody.P_EXTERNALIO+"."+clsExternalIO.P_SENSORS, true));
 
-		//TODO: (langr) - should pass the config to the decision unit!
-		//oProp.putAll( clsDumbMindA.getDefaultProperties(pre) ); //clsDumbMindA.getDefaultProperties(pre)
-		oProp.setProperty(pre+P_DECISION_TYPE, eDecisionType.PA.name());
-		oProp.putAll( pa.clsPsychoAnalysis.getDefaultProperties(pre+P_DU_PROPERTIES) );
-		
+	
 		oProp.setProperty(pre+P_SHAPE+"."+clsShapeCreator.P_DEFAULT_SHAPE, P_SHAPENAME);
 		oProp.setProperty(pre+P_SHAPE+"."+P_SHAPENAME+"."+clsShapeCreator.P_TYPE, eShapeType.CIRCLE.name());
 		oProp.setProperty(pre+P_SHAPE+"."+P_SHAPENAME+"."+clsShapeCreator.P_RADIUS, 10.0);

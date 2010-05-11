@@ -9,8 +9,8 @@ package pa.modules;
 import java.util.HashMap;
 
 import config.clsBWProperties;
-import decisionunit.itf.sensors.clsSensorExtern;
-import enums.eSensorExtType;
+import du.enums.eSensorExtType;
+import du.itf.sensors.clsSensorExtern;
 import pa.enums.eSymbolExtType;
 import pa.interfaces.I2_1;
 import pa.interfaces.I2_2;

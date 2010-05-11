@@ -3,7 +3,7 @@
  */
 package students.borer.LocalizationOrientation;
 
-import enums.eEntityType;
+import du.enums.eEntityType;
 import students.borer.Mason.Bag;
 import students.borer.episodicMemory.*;
 

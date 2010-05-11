@@ -8,7 +8,7 @@
 package bw.body.interBodyWorldSystems;
 
 import config.clsBWProperties;
-import enums.eSlowMessenger;
+import du.enums.eSlowMessenger;
 import bw.body.itfStep;
 import bw.body.internalSystems.clsFastMessengerSystem;
 import bw.body.internalSystems.clsHealthSystem;

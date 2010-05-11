@@ -7,10 +7,10 @@ package students.borer.simpleObjectRecognition;
 import students.borer.LocalizationOrientation.clsPerceivedObj;
 
 
-import decisionunit.itf.sensors.clsSensorExtern;
-import decisionunit.itf.sensors.clsVision;
-import decisionunit.itf.sensors.clsVisionEntry;
-import enums.eEntityType;
+import du.enums.eEntityType;
+import du.itf.sensors.clsSensorExtern;
+import du.itf.sensors.clsVision;
+import du.itf.sensors.clsVisionEntry;
 
 /**
  * performs a simple object recognition

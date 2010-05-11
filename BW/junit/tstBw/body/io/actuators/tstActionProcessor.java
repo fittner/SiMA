@@ -13,9 +13,9 @@ import org.junit.Test;
 
 import config.clsBWProperties;
 
-import decisionunit.itf.actions.*;
+import du.enums.eCallPriority;
+import du.itf.actions.*;
 
-import enums.eCallPriority;
 
 import java.util.ArrayList;
 import bw.body.io.actuators.*;

@@ -16,7 +16,7 @@ import bw.entities.clsEntity;
 import bw.entities.clsSmartExcrement;
 import bw.factories.clsRegisterEntity;
 import bw.body.itfget.itfGetBody;
-import decisionunit.itf.actions.*;
+import du.itf.actions.*;
 
 /**
  * Action Executor for excrementing

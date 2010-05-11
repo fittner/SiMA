@@ -2,18 +2,19 @@ package pa.symbolization.representationsymbol;
 
 import java.lang.reflect.Method;
 import java.util.ArrayList;
-import decisionunit.itf.sensors.clsSensorExtern;
-import decisionunit.itf.sensors.clsVisionEntry;
 
-public class clsSymbolVision extends decisionunit.itf.sensors.clsVision implements itfGetDataAccessMethods, itfSymbolVision {
+import du.itf.sensors.clsSensorExtern;
+import du.itf.sensors.clsVisionEntry;
+
+public class clsSymbolVision extends du.itf.sensors.clsVision implements itfGetDataAccessMethods, itfSymbolVision {
 	
-	public clsSymbolVision(decisionunit.itf.sensors.clsVision poSensor) {
+	public clsSymbolVision(du.itf.sensors.clsVision poSensor) {
 		super();
 		
 		moSensorType = poSensor.getSensorType();
 		
-		for (decisionunit.itf.sensors.clsSensorExtern oEntry:poSensor.getDataObjects()) {
-			clsSymbolVisionEntry oE = new clsSymbolVisionEntry( (decisionunit.itf.sensors.clsVisionEntry)oEntry);
+		for (du.itf.sensors.clsSensorExtern oEntry:poSensor.getDataObjects()) {
+			clsSymbolVisionEntry oE = new clsSymbolVisionEntry( (du.itf.sensors.clsVisionEntry)oEntry);
 			moEntries.add(oE);
 		}		
 	}

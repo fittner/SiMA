@@ -10,6 +10,7 @@ package bw.entities;
 import java.awt.Color;
 
 import config.clsBWProperties;
+import du.enums.eEntityType;
 import bw.body.clsMeatBody;
 import bw.body.internalSystems.clsFlesh;
 import bw.body.itfget.itfIsConsumeable;
@@ -24,7 +25,6 @@ import bw.utils.enums.eShapeType;
 import bw.utils.tools.clsFood;
 import bw.body.io.actuators.actionProxies.itfAPEatable;
 import bw.body.io.actuators.actionProxies.itfAPCarryable;
-import enums.eEntityType;
 
 
 /**

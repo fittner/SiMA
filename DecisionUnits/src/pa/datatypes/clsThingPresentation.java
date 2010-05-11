@@ -9,7 +9,8 @@ package pa.datatypes;
 import java.util.HashMap;
 import java.util.Map;
 
-import enums.pa.eContext;
+import du.enums.pa.eContext;
+
 
 import pa.interfaces.itfPrimaryProcessComparabelTP;
 

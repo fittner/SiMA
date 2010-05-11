@@ -8,9 +8,11 @@
 package sim.creation.simpleLoader;
 
 import java.awt.Color;
-
+import pa.clsPsychoAnalysis;
 import config.clsBWProperties;
 import sim.creation.clsLoader;
+import simple.reactive.clsReactive;
+import simple.remotecontrol.clsRemoteControl;
 import ARSsim.physics2D.util.clsPose;
 import bw.entities.clsBubble;
 import bw.entities.clsFungusEater;
@@ -33,7 +35,6 @@ public class clsAgentLoader {
 	}
 	
 	public static void loadBubbles(int pnNumAgents){	
-		
 		Color[] oColors = {Color.green, Color.ORANGE, Color.yellow};
 		
 		 for (int i = 0; i < pnNumAgents; i++)
@@ -47,14 +48,16 @@ public class clsAgentLoader {
 	         oProp.setProperty("Bubble."+clsEntity.P_ID, i);
 	         
 	         oProp.setProperty("Bubble."+clsEntity.P_SHAPE+"."+clsShapeCreator.P_COLOR, oColor);
-	         clsBubble oBubble = new clsBubble( "Bubble.", oProp );
+	         
+	         clsPsychoAnalysis oBrain = new clsPsychoAnalysis("", clsPsychoAnalysis.getDefaultProperties("") );
+	         
+	         clsBubble oBubble = new clsBubble(oBrain, "Bubble.", oProp );
 
 		  	 clsRegisterEntity.registerEntity(oBubble);
          }
 	}
 	
 	public static void loadFungusEaters(int pnNumAgents){	
-		
 		Color[] oColors = {Color.green, Color.ORANGE, Color.yellow};
 		
 		 for (int i = 0; i < pnNumAgents; i++)
@@ -68,7 +71,10 @@ public class clsAgentLoader {
 	         oProp.setProperty("Fungus Eater."+clsEntity.P_ID, i);
 	         
 	         oProp.setProperty("Fungus Eater."+clsEntity.P_SHAPE+"."+clsShapeCreator.P_COLOR, oColor);
-	         clsFungusEater oFungusEater = new clsFungusEater( "Fungus Eater.", oProp );
+	         
+	         clsReactive oBrain = new clsReactive("", clsReactive.getDefaultProperties("") );
+	         
+	         clsFungusEater oFungusEater = new clsFungusEater(oBrain, "Fungus Eater.", oProp );
 
 		  	 clsRegisterEntity.registerEntity(oFungusEater);
          }
@@ -90,8 +96,10 @@ public class clsAgentLoader {
 			 oProp.putAll( clsLoader.generateRandomPose("RemoteBot.", clsPose.P_POS_X, clsPose.P_POS_Y, clsPose.P_POS_ANGLE) );	         
 	         
 	         oProp.setProperty("RemoteBot."+clsEntity.P_ID, i);
+	         
+	         clsRemoteControl oBrain = new clsRemoteControl("", clsRemoteControl.getDefaultProperties("") );	         
 
- 			clsRemoteBot oBot = new clsRemoteBot("RemoteBot.", oProp);
+ 			clsRemoteBot oBot = new clsRemoteBot(oBrain, "RemoteBot.", oProp);
 
  			clsRegisterEntity.registerEntity(oBot);
         }

@@ -8,18 +8,14 @@
 package bw.entities;
 
 import java.awt.Color;
-
 import config.clsBWProperties;
-
-import du.utils.enums.eDecisionType;
-
-
+import du.enums.eEntityType;
+import du.itf.itfDecisionUnit;
 import bw.body.itfget.itfIsAlive;
 import bw.body.itfget.itfGetSensorEngine;
 import bw.body.itfget.itfGetRadiation;
 import bw.entities.tools.clsShapeCreator;
 import bw.utils.enums.eShapeType;
-import enums.eEntityType;
 
 /**
  * Preliminary simple moving entities with the 'ability' to be eaten.
@@ -37,8 +33,8 @@ public class clsAnimal extends clsAnimate implements itfGetRadiation, itfGetSens
 
 	private boolean mnAlive;
 	
-	public clsAnimal(String poPrefix, clsBWProperties poProp) {
-		super(poPrefix, poProp );
+	public clsAnimal(itfDecisionUnit poDU, String poPrefix, clsBWProperties poProp) {
+		super(poDU, poPrefix, poProp );
 		applyProperties(poPrefix, poProp);
 		setAlive(true);
 	}
@@ -55,8 +51,6 @@ public class clsAnimal extends clsAnimate implements itfGetRadiation, itfGetSens
 		clsBWProperties oProp = new clsBWProperties();
 		oProp.putAll( clsAnimate.getDefaultProperties(pre) );
 
-		oProp.setProperty(pre+P_DECISION_TYPE, eDecisionType.DUMB_MIND_A.name());
-		
 		oProp.setProperty(pre+P_SHAPE+"."+clsShapeCreator.P_DEFAULT_SHAPE, P_SHAPENAME);
 		oProp.setProperty(pre+P_SHAPE+"."+P_SHAPENAME+"."+clsShapeCreator.P_TYPE, eShapeType.CIRCLE.name());
 		oProp.setProperty(pre+P_SHAPE+"."+P_SHAPENAME+"."+clsShapeCreator.P_RADIUS, "10.0");

@@ -10,6 +10,7 @@ package inspectors;
 
 import pa.clsPsychoAnalysis;
 import decisionunit.clsBaseDecisionUnit;
+import du.itf.itfDecisionUnit;
 import inspectors.mind.clsDumbBrainInspector;
 import inspectors.mind.clsRemoteControlInspector;
 import inspectors.mind.clsReactiveInspector;
@@ -49,8 +50,10 @@ public class clsInspectorMappingDecision {
 	 * @param poEntity - the agent-object to distinguish between the classes... 
 	 * @return - the new inspector with the defined look and feel
 	 */
-	public static TabbedInspector getInspector(Inspector poSuperInspector, LocationWrapper poWrapper, GUIState poState, clsBaseDecisionUnit poDU)
+	public static TabbedInspector getInspector(Inspector poSuperInspector, LocationWrapper poWrapper, GUIState poState, itfDecisionUnit poItfDU)
 	{
+		clsBaseDecisionUnit poDU = (clsBaseDecisionUnit) poItfDU;
+		
     	TabbedInspector oRetVal = new TabbedInspector();
     	
         //extend this if-statement with your new clsEntity-classes or inspectors

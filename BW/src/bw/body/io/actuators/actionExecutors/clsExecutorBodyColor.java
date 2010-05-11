@@ -15,7 +15,7 @@ import bw.body.intraBodySystems.clsBodyColor;
 import bw.body.io.actuators.clsActionExecutor;
 import bw.body.itfget.itfGetBody;
 import bw.entities.clsEntity;
-import decisionunit.itf.actions.*;
+import du.itf.actions.*;
 
 /**
  * Action Executor for changing body-colors

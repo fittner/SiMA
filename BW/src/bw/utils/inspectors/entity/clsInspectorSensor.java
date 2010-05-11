@@ -15,7 +15,8 @@ import java.util.Iterator;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
 
-import enums.eSensorExtType;
+import du.enums.eSensorExtType;
+
 import sim.display.GUIState;
 import sim.physics2D.physicalObject.PhysicalObject2D;
 import sim.portrayal.Inspector;

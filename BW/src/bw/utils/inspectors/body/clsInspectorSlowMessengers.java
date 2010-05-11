@@ -21,7 +21,8 @@ import org.jfree.data.xy.XYSeries;
 import org.jfree.data.xy.XYSeriesCollection;
 import org.jfree.ui.RectangleInsets;
 
-import enums.eSlowMessenger;
+import du.enums.eSlowMessenger;
+
 import bw.body.internalSystems.clsSlowMessengerSystem;
 import bw.exceptions.exSlowMessengerDoesNotExist;
 import bw.factories.clsSingletonMasonGetter;

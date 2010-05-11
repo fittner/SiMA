@@ -11,8 +11,8 @@ import java.util.HashMap;
 import pa.interfaces.I1_1;
 import pa.interfaces.itfProcessHomeostases;
 import config.clsBWProperties;
-import decisionunit.itf.sensors.clsDataBase;
-import enums.eSensorIntType;
+import du.enums.eSensorIntType;
+import du.itf.sensors.clsDataBase;
 
 /**
  * DOCUMENT (deutsch) - insert description 

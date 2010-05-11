@@ -10,6 +10,7 @@ package bw.entities;
 import java.awt.Color;
 
 import config.clsBWProperties;
+import du.enums.eEntityType;
 import bw.body.clsBaseBody;
 import bw.body.clsMeatBody;
 import bw.body.attributes.clsAttributes;
@@ -26,7 +27,6 @@ import bw.utils.enums.eNutritions;
 import bw.utils.enums.eShapeType;
 import bw.utils.tools.clsFood;
 import bw.body.io.actuators.actionProxies.*;
-import enums.eEntityType;
 
 /**
  * DOCUMENT (tobias) - insert description 

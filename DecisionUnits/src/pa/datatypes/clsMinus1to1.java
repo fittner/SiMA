@@ -8,7 +8,8 @@ package pa.datatypes;
 
 import java.io.Serializable;
 
-import bfg.tools.clsCloneable;
+import pa.bfg.tools.clsCloneable;
+
 
 /**
  * DOCUMENT (langr) - insert description 

@@ -10,11 +10,11 @@ package bw.entities;
 import java.awt.Color;
 
 import config.clsBWProperties;
+import du.enums.eEntityType;
 
 import bw.entities.tools.clsShapeCreator;
 import bw.entities.tools.eImagePositioning;
 import bw.utils.enums.eShapeType;
-import enums.eEntityType;
 
 /**
  * Mason representative (physics+renderOnScreen) for a stone. 

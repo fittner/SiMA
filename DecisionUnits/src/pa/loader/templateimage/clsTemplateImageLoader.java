@@ -12,14 +12,15 @@ import java.util.Vector;
 import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
 
-import enums.eTriState;
+import du.enums.eTriState;
 
+
+import pa.bfg.tools.xmltools.clsXMLAbstractImageReader;
+import pa.bfg.tools.xmltools.clsXMLConfiguration;
 import pa.datatypes.clsAssociation;
 import pa.datatypes.clsSecondaryInformation;
 import pa.datatypes.clsWordPresentation;
 
-import bfg.tools.xmltools.clsXMLAbstractImageReader;
-import bfg.tools.xmltools.clsXMLConfiguration;
 import bfg.utils.enums.eOptional;
 
 /**

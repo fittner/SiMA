@@ -41,11 +41,11 @@ import pa.memory.clsMemory;
 import pa.symbolization.representationsymbol.itfSymbol;
 import pa.tools.clsPair;
 import config.clsBWProperties;
-import decisionunit.itf.actions.itfActionProcessor;
-import decisionunit.itf.sensors.clsDataBase;
-import decisionunit.itf.sensors.clsSensorExtern;
-import enums.eSensorExtType;
-import enums.eSensorIntType;
+import du.enums.eSensorExtType;
+import du.enums.eSensorIntType;
+import du.itf.actions.itfActionProcessor;
+import du.itf.sensors.clsDataBase;
+import du.itf.sensors.clsSensorExtern;
 
 /**
  * DOCUMENT (deutsch) - insert description 

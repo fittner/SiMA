@@ -8,8 +8,8 @@ package pa.interfaces;
 
 import java.util.HashMap;
 
-import decisionunit.itf.sensors.clsSensorExtern;
-import enums.eSensorExtType;
+import du.enums.eSensorExtType;
+import du.itf.sensors.clsSensorExtern;
 
 /**
  * DOCUMENT (deutsch) - insert description 

@@ -8,9 +8,9 @@ package bw.body.attributes;
 
 import bw.utils.enums.eBodyAttributes;
 import config.clsBWProperties;
-import enums.eEyeSize;
-import enums.eLensShape;
-import enums.eLensSize;
+import du.enums.eEyeSize;
+import du.enums.eLensShape;
+import du.enums.eLensSize;
 
 /**
  * DOCUMENT (deutsch) - insert description 

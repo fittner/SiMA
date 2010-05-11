@@ -9,10 +9,11 @@
 package sim.creation.lifeCycle;
 
 import config.clsBWProperties;
-import du.utils.enums.eDecisionType;
+import decisionunit.clsDecisionUnitFactory;
+import du.enums.eDecisionType;
+import du.itf.itfDecisionUnit;
 import sim.creation.clsLoader;
 import ARSsim.physics2D.util.clsPose;
-import bw.entities.clsAnimate;
 import bw.entities.clsCarrot;
 import bw.entities.clsEntity;
 import bw.entities.clsHare;
@@ -58,30 +59,32 @@ public class clsEntityLoader {
         }
  	}	
 	
-	public static void loadHares(int pnNum, eDecisionType peDU){
+	public static void loadHares(int pnNum, eDecisionType peDU){	
         for (int i = 0; i < pnNum; i++)
         {
         	clsBWProperties oProp = clsHare.getDefaultProperties("");
 
         	oProp.putAll( clsLoader.generateRandomPose("", clsPose.P_POS_X, clsPose.P_POS_Y, clsPose.P_POS_ANGLE) );
 			oProp.setProperty(""+clsEntity.P_ID, i);
-			oProp.setProperty(""+clsAnimate.P_DECISION_TYPE, peDU.toString());
+			
+			itfDecisionUnit oDU = clsDecisionUnitFactory.createDecisionUnit_static(peDU, "", clsDecisionUnitFactory.getDefaultProperties(peDU, ""));
 	                	
-			clsHare oHare = new clsHare("", oProp);
+			clsHare oHare = new clsHare(oDU, "", oProp);
 	        clsRegisterEntity.registerEntity(oHare);
         }
  	}	
 	
 	public static void loadLynx(int pnNum, eDecisionType peDU){
-        for (int i = 0; i < pnNum; i++)        
+		for (int i = 0; i < pnNum; i++)        
         {
         	clsBWProperties oProp = clsLynx.getDefaultProperties("");
 
         	oProp.putAll( clsLoader.generateRandomPose("", clsPose.P_POS_X, clsPose.P_POS_Y, clsPose.P_POS_ANGLE) );
-			oProp.setProperty(""+clsEntity.P_ID, i);
-			oProp.setProperty(""+clsAnimate.P_DECISION_TYPE, peDU.toString());
-			
-			clsLynx oLynx = new clsLynx("", oProp);		        
+        	oProp.setProperty(""+clsEntity.P_ID, i);
+		
+        	itfDecisionUnit oDU = clsDecisionUnitFactory.createDecisionUnit_static(peDU, "", clsDecisionUnitFactory.getDefaultProperties(peDU, ""));
+    		
+			clsLynx oLynx = new clsLynx(oDU, "", oProp);		        
 	        clsRegisterEntity.registerEntity(oLynx);
         }
  	}		

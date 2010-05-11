@@ -11,13 +11,14 @@ package pa.symbolization;
 import java.util.ArrayList;
 import java.util.Vector;
 
-import bfg.symbolization.brainimages.clsContainerAbstractImages;
-import bfg.symbolization.brainimages.clsIdentity;
-import bfg.symbolization.brainimages.clsImageAbstract;
-import bfg.symbolization.ruletree.clsRuleCompareResult;
+import pa.bfg.symbolization.brainimages.clsContainerAbstractImages;
+import pa.bfg.symbolization.brainimages.clsIdentity;
+import pa.bfg.symbolization.brainimages.clsImageAbstract;
+import pa.bfg.symbolization.ruletree.clsRuleCompareResult;
+import pa.bfg.tools.xmltools.clsXMLConfiguration;
 
-import bfg.tools.xmltools.clsXMLConfiguration;
-import decisionunit.itf.sensors.clsSensorData;
+
+import du.itf.sensors.clsSensorData;
 
 /**
  * Implementation for symbolization of sensory data using the Anylogic-based 

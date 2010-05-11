@@ -9,8 +9,8 @@ import java.util.ArrayList;
  * (horvath) - Radiation sensor provides just radiation intensity
  * 
  */
-public class clsSymbolRadiation extends decisionunit.itf.sensors.clsRadiation  implements itfGetSymbolName, itfGetDataAccessMethods, itfSymbolRadiation {
-	public clsSymbolRadiation(decisionunit.itf.sensors.clsRadiation poSensor) {
+public class clsSymbolRadiation extends du.itf.sensors.clsRadiation  implements itfGetSymbolName, itfGetDataAccessMethods, itfSymbolRadiation {
+	public clsSymbolRadiation(du.itf.sensors.clsRadiation poSensor) {
 		super();
 		moSensorType = poSensor.getSensorType();
 		

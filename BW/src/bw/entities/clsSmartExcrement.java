@@ -9,8 +9,8 @@ package bw.entities;
 import java.awt.Color;
 
 import config.clsBWProperties;
+import du.enums.eEntityType;
 
-import enums.eEntityType;
 
 import bw.body.clsMeatBody;
 import bw.body.internalSystems.clsFlesh;

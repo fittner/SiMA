@@ -11,7 +11,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 
 import config.clsBWProperties;
-import enums.eSlowMessenger;
+import du.enums.eSlowMessenger;
 import bw.body.itfStepUpdateInternalState;
 import bw.exceptions.exContentColumnMaxContentExceeded;
 import bw.exceptions.exContentColumnMinContentUnderrun;

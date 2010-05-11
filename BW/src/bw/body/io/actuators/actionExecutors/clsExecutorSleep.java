@@ -12,8 +12,8 @@ import java.util.ArrayList;
 import bw.body.io.actuators.clsActionExecutor;
 import bw.entities.clsEntity;
 import bw.body.io.actuators.actionProxies.*;
-import decisionunit.itf.actions.*;
-import enums.eActionSleepIntensity;
+import du.enums.eActionSleepIntensity;
+import du.itf.actions.*;
 
 /**
  * Action Executor for Sleeping

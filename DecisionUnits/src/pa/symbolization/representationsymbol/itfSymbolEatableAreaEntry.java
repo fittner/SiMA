@@ -6,10 +6,10 @@
  */
 package pa.symbolization.representationsymbol;
 
+import du.enums.eDistance;
+import du.enums.eShapeType;
+import du.enums.eTriState;
 import bfg.utils.enums.eCount;
-import enums.eDistance;
-import enums.eShapeType;
-import enums.eTriState;
 
 /**
  * DOCUMENT (deutsch) - insert description 

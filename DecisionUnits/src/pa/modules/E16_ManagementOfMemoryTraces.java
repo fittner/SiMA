@@ -12,8 +12,8 @@ import java.util.HashMap;
 import bfg.tools.clsMutableDouble;
 
 import config.clsBWProperties;
-import enums.eEntityType;
-import enums.pa.eRepressedContentType;
+import du.enums.eEntityType;
+import du.enums.pa.eRepressedContentType;
 import pa.datatypes.clsPrimaryInformation;
 import pa.interfaces.I2_6;
 import pa.interfaces.I2_7;

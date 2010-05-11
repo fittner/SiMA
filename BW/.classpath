@@ -10,6 +10,5 @@
 	<classpathentry combineaccessrules="false" kind="src" path="/DecisionUnitMasonInspectors"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/Mason"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/MasonPhysics2D"/>
-	<classpathentry combineaccessrules="false" kind="src" path="/DecisionUnits"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

@@ -10,6 +10,8 @@ package bw.entities;
 import java.awt.Color;
 
 import config.clsBWProperties;
+import du.enums.eEntityType;
+import du.enums.eSensorExtType;
 import sim.engine.SimState;
 import sim.physics2D.physicalObject.PhysicalObject2D;
 import ARSsim.physics2D.physicalObject.clsCollidingObject;
@@ -22,8 +24,6 @@ import bw.body.io.sensors.ext.clsSensorVision;
 import bw.entities.tools.clsShapeCreator;
 import bw.entities.tools.eImagePositioning;
 import bw.utils.enums.eShapeType;
-import enums.eEntityType;
-import enums.eSensorExtType;
 
 /**
  * 

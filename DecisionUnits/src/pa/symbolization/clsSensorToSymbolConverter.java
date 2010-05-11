@@ -16,14 +16,14 @@ import pa.symbolization.representationsymbol.clsSymbolPositionChange;
 import pa.symbolization.representationsymbol.clsSymbolRadiation;
 import pa.symbolization.representationsymbol.clsSymbolVision;
 import pa.symbolization.representationsymbol.itfSymbol;
-import decisionunit.itf.sensors.clsBump;
-import decisionunit.itf.sensors.clsEatableArea;
-import decisionunit.itf.sensors.clsManipulateArea;
-import decisionunit.itf.sensors.clsPositionChange;
-import decisionunit.itf.sensors.clsRadiation;
-import decisionunit.itf.sensors.clsSensorExtern;
-import decisionunit.itf.sensors.clsVision;
-import enums.eSensorExtType;
+import du.enums.eSensorExtType;
+import du.itf.sensors.clsBump;
+import du.itf.sensors.clsEatableArea;
+import du.itf.sensors.clsManipulateArea;
+import du.itf.sensors.clsPositionChange;
+import du.itf.sensors.clsRadiation;
+import du.itf.sensors.clsSensorExtern;
+import du.itf.sensors.clsVision;
 
 /**
  * DOCUMENT (deutsch) - insert description 

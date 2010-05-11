@@ -8,23 +8,24 @@
  */
 package simple.dumbmind;
 
+import config.clsBWProperties;
 import decisionunit.clsBaseDecisionUnit;
-import decisionunit.itf.actions.clsActionEat;
-import decisionunit.itf.actions.clsActionMove;
-import decisionunit.itf.actions.clsActionTurn;
-import decisionunit.itf.actions.itfActionProcessor;
-import enums.eActionMoveDirection;
-import enums.eActionTurnDirection;
-import enums.eEntityType;
-import enums.eSensorExtType;
-import enums.eSensorIntType;
-import decisionunit.itf.sensors.clsBump;
-import decisionunit.itf.sensors.clsEatableArea;
-import decisionunit.itf.sensors.clsEatableAreaEntry;
-import decisionunit.itf.sensors.clsSensorExtern;
-import decisionunit.itf.sensors.clsStaminaSystem;
-import decisionunit.itf.sensors.clsVision;
-import decisionunit.itf.sensors.clsVisionEntry;
+import du.enums.eActionMoveDirection;
+import du.enums.eActionTurnDirection;
+import du.enums.eEntityType;
+import du.enums.eSensorExtType;
+import du.enums.eSensorIntType;
+import du.itf.actions.clsActionEat;
+import du.itf.actions.clsActionMove;
+import du.itf.actions.clsActionTurn;
+import du.itf.actions.itfActionProcessor;
+import du.itf.sensors.clsBump;
+import du.itf.sensors.clsEatableArea;
+import du.itf.sensors.clsEatableAreaEntry;
+import du.itf.sensors.clsSensorExtern;
+import du.itf.sensors.clsStaminaSystem;
+import du.itf.sensors.clsVision;
+import du.itf.sensors.clsVisionEntry;
 
 /**
  * DOCUMENT (langr) - insert description 
@@ -38,7 +39,25 @@ public class clsDumbMindA extends clsBaseDecisionUnit {
 	private boolean mnRoombaIntelligence = true;
 	private boolean mnCollisionAvoidance = false;
 	
-	public clsDumbMindA() {
+	public clsDumbMindA(String poPrefix, clsBWProperties poProp) {
+		super(poPrefix, poProp);
+		
+		applyProperties(poPrefix, poProp);		
+	}
+	
+	public static clsBWProperties getDefaultProperties(String poPrefix) {
+//		String pre = clsBWProperties.addDot(poPrefix);
+
+		clsBWProperties oProp = new clsBWProperties();
+		
+		oProp.putAll( clsBaseDecisionUnit.getDefaultProperties(poPrefix) );
+		
+		return oProp;
+	}	
+
+	private void applyProperties(String poPrefix, clsBWProperties poProp) {
+//		String pre = clsBWProperties.addDot(poPrefix);
+
 	}
 	
 //	//TODO: (langr) new config

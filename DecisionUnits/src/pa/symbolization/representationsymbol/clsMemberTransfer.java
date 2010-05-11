@@ -12,8 +12,8 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 
-import decisionunit.itf.sensors.clsSensorExtern;
-import enums.eSensorExtType;
+import du.enums.eSensorExtType;
+import du.itf.sensors.clsSensorExtern;
 
 /**
  * DOCUMENT (langr) - insert description 

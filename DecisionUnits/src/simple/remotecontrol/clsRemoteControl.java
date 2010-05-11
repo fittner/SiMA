@@ -5,21 +5,23 @@ import java.io.FileWriter;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+
+import config.clsBWProperties;
 import statictools.clsGetARSPath;
 import statictools.clsSingletonUniqueIdGenerator;
 import decisionunit.clsBaseDecisionUnit;
-import decisionunit.itfProcessKeyPressed;
-import decisionunit.itf.actions.*;
-import decisionunit.itf.sensors.clsEatableArea;
-import decisionunit.itf.sensors.clsEatableAreaEntry;
-import decisionunit.itf.sensors.clsSensorRingSegmentEntry;
-import decisionunit.itf.sensors.clsVision;
-import enums.eActionKissIntensity;
-import enums.eActionMoveDirection;
-import enums.eActionSleepIntensity;
-import enums.eActionTurnDirection;
-import enums.eEntityType;
-import enums.eSensorExtType;
+import du.enums.eActionKissIntensity;
+import du.enums.eActionMoveDirection;
+import du.enums.eActionSleepIntensity;
+import du.enums.eActionTurnDirection;
+import du.enums.eEntityType;
+import du.enums.eSensorExtType;
+import du.itf.itfProcessKeyPressed;
+import du.itf.actions.*;
+import du.itf.sensors.clsEatableArea;
+import du.itf.sensors.clsEatableAreaEntry;
+import du.itf.sensors.clsSensorRingSegmentEntry;
+import du.itf.sensors.clsVision;
 
 public class clsRemoteControl extends clsBaseDecisionUnit implements itfProcessKeyPressed {
 	private int mnUniqueId;
@@ -37,14 +39,30 @@ public class clsRemoteControl extends clsBaseDecisionUnit implements itfProcessK
         return dateFormat.format(date);
     }
     
-	public clsRemoteControl() {
-		super();
+	public clsRemoteControl(String poPrefix, clsBWProperties poProp) {
+		super(poPrefix, poProp);
 		
 		mnUniqueId = clsSingletonUniqueIdGenerator.getUniqueId();
 		moFileName = clsGetARSPath.getArsPath()+"/remotebotlog_"+getDateTime()+"_"+mnUniqueId+".xml";
 		
+		applyProperties(poPrefix, poProp);
 
 	}
+	
+	public static clsBWProperties getDefaultProperties(String poPrefix) {
+//		String pre = clsBWProperties.addDot(poPrefix);
+
+		clsBWProperties oProp = new clsBWProperties();
+		
+		oProp.putAll( clsBaseDecisionUnit.getDefaultProperties(poPrefix) );
+		
+		return oProp;
+	}	
+
+	private void applyProperties(String poPrefix, clsBWProperties poProp) {
+//		String pre = clsBWProperties.addDot(poPrefix);
+
+	}	
 	
 	@Override
 	protected void finalize() throws Throwable
@@ -96,7 +114,7 @@ public class clsRemoteControl extends clsBaseDecisionUnit implements itfProcessK
 		//the processing is taken over by the user via keyboard
 		 
 		 if (moKeyPressed!=0) {
-			 moKeyPressed=moKeyPressed;
+			// moKeyPressed=moKeyPressed;
 	    	//System.out.println("key:" + moKeyPressed);
 		 }
 		 
@@ -204,7 +222,7 @@ public class clsRemoteControl extends clsBaseDecisionUnit implements itfProcessK
 	   	}
 	}
 
-	protected void eat(itfActionProcessor poActionProcessor, enums.eEntityType peEntityType) {
+	protected void eat(itfActionProcessor poActionProcessor, du.enums.eEntityType peEntityType) {
 		clsEatableArea oEatArea = (clsEatableArea) getSensorData().getSensorExt(eSensorExtType.EATABLE_AREA);
 		if (oEatArea.getDataObjects().size() > 0) {
 			clsEatableAreaEntry oEntry = (clsEatableAreaEntry) oEatArea.getDataObjects().get(0);
@@ -214,7 +232,7 @@ public class clsRemoteControl extends clsBaseDecisionUnit implements itfProcessK
 		}
 	}
 
-	protected void attack(itfActionProcessor poActionProcessor, enums.eEntityType peEntityType) {
+	protected void attack(itfActionProcessor poActionProcessor, du.enums.eEntityType peEntityType) {
 		clsVision oVis = (clsVision) getSensorData().getSensorExt(eSensorExtType.VISION);
 
 		for(int i=0; i<oVis.getDataObjects().size(); i++){
@@ -231,7 +249,7 @@ public class clsRemoteControl extends clsBaseDecisionUnit implements itfProcessK
 	 * 
 	 * @param poActionProcessor
 	 */
-	protected void kill(itfActionProcessor poActionProcessor, enums.eEntityType peEntityType) {
+	protected void kill(itfActionProcessor poActionProcessor, du.enums.eEntityType peEntityType) {
 		clsEatableArea oEatArea = (clsEatableArea) getSensorData().getSensorExt(eSensorExtType.EATABLE_AREA);
 		if (oEatArea.getDataObjects().size() > 0) {
 			clsEatableAreaEntry oEntry = (clsEatableAreaEntry) oEatArea.getDataObjects().get(0);

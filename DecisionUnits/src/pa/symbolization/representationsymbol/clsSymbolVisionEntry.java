@@ -9,8 +9,9 @@ package pa.symbolization.representationsymbol;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 
-import enums.eDistance;
-import enums.eSensorExtType;
+import du.enums.eDistance;
+import du.enums.eSensorExtType;
+
 
 /**
  * DOCUMENT (zeilinger) - insert description 
@@ -19,8 +20,8 @@ import enums.eSensorExtType;
  * 22.09.2009, 13:09:00
  * 
  */
-public class clsSymbolVisionEntry extends decisionunit.itf.sensors.clsVisionEntry implements itfIsContainer, itfGetSymbolName, itfSymbolVisionEntry, itfGetDataAccessMethods  {
-	public clsSymbolVisionEntry(decisionunit.itf.sensors.clsVisionEntry poSensor) {
+public class clsSymbolVisionEntry extends du.itf.sensors.clsVisionEntry implements itfIsContainer, itfGetSymbolName, itfSymbolVisionEntry, itfGetDataAccessMethods  {
+	public clsSymbolVisionEntry(du.itf.sensors.clsVisionEntry poSensor) {
 		super();
 		
 		moSensorType = poSensor.getSensorType();

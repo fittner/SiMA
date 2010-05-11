@@ -9,7 +9,7 @@
 package sim.creation.lifeCycle;
 
 import config.clsBWProperties;
-import du.utils.enums.eDecisionType;
+import du.enums.eDecisionType;
 import sim.creation.clsLoader;
 import sim.engine.SimState;
 

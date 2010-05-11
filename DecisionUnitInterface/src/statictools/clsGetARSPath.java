@@ -16,7 +16,7 @@ public class clsGetARSPath {
 	
 	public static String getConfigPath()
 	{
-		return getArsPath()+System.getProperty("file.separator")+"BW"+System.getProperty("file.separator")+"config";
+		return getArsPath()+System.getProperty("file.separator")+"Sim"+System.getProperty("file.separator")+"config";
 	}
 	
 	public static String getIconPath()

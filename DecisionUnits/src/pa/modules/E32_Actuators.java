@@ -9,8 +9,8 @@ package pa.modules;
 import java.util.ArrayList;
 
 import config.clsBWProperties;
-import decisionunit.itf.actions.clsActionCommand;
-import decisionunit.itf.actions.itfActionProcessor;
+import du.itf.actions.clsActionCommand;
+import du.itf.actions.itfActionProcessor;
 import pa.interfaces.I8_2;
 import pa.interfaces.itfReturnActionCommands;
 

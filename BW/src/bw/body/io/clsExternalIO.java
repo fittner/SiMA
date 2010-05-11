@@ -16,7 +16,8 @@ import bw.body.clsBaseBody;
 import bw.body.io.actuators.clsActionProcessor;
 import bw.body.io.actuators.actionExecutors.*;
 import bw.body.io.actuators.actionProxies.itfAPSleep;
-import decisionunit.itf.actions.*; 
+import du.enums.eSensorExtType;
+import du.itf.actions.*;
 import bw.body.io.sensors.ext.clsSensorExt;
 
 //ZEILINGER  -- integration Sensor Engine
@@ -31,7 +32,6 @@ import bw.body.io.sensors.ext.clsSensorAcceleration;
 
 import bw.entities.clsEntity;
 import bw.entities.clsMobile;
-import enums.eSensorExtType;
 
 /**
  * TODO (langr) - THIS CLASS NEEDS A REFACTORING - reason: not every

@@ -9,26 +9,26 @@
 package simple.reactive;
 
 import decisionunit.clsBaseDecisionUnit;
-import decisionunit.itf.actions.clsActionDrop;
-import decisionunit.itf.actions.clsActionEat;
-import decisionunit.itf.actions.clsActionFromInventory;
-import decisionunit.itf.actions.clsActionMove;
-import decisionunit.itf.actions.clsActionPickUp;
-import decisionunit.itf.actions.clsActionToInventory;
-import decisionunit.itf.actions.clsActionTurn;
-import decisionunit.itf.actions.itfActionProcessor;
-import enums.eActionMoveDirection;
-import enums.eActionTurnDirection;
-import enums.eEntityType;
-import enums.eSensorExtType;
-import enums.eSensorIntType;
-import decisionunit.itf.sensors.clsEatableArea;
-import decisionunit.itf.sensors.clsSensorData;
-import decisionunit.itf.sensors.clsRadiation;
-import decisionunit.itf.sensors.clsEnergy;
-import decisionunit.itf.sensors.clsSensorExtern;
-import decisionunit.itf.sensors.clsVision;
-import decisionunit.itf.sensors.clsSensorRingSegmentEntry;
+import du.enums.eActionMoveDirection;
+import du.enums.eActionTurnDirection;
+import du.enums.eEntityType;
+import du.enums.eSensorExtType;
+import du.enums.eSensorIntType;
+import du.itf.actions.clsActionDrop;
+import du.itf.actions.clsActionEat;
+import du.itf.actions.clsActionFromInventory;
+import du.itf.actions.clsActionMove;
+import du.itf.actions.clsActionPickUp;
+import du.itf.actions.clsActionToInventory;
+import du.itf.actions.clsActionTurn;
+import du.itf.actions.itfActionProcessor;
+import du.itf.sensors.clsEatableArea;
+import du.itf.sensors.clsEnergy;
+import du.itf.sensors.clsRadiation;
+import du.itf.sensors.clsSensorData;
+import du.itf.sensors.clsSensorExtern;
+import du.itf.sensors.clsSensorRingSegmentEntry;
+import du.itf.sensors.clsVision;
 import bfg.tools.shapes.clsPolarcoordinate;
 
 import java.util.Random;
@@ -36,6 +36,8 @@ import java.util.HashSet;
 import java.util.Arrays;
 import java.util.ArrayList;
 import java.util.Iterator;
+
+import config.clsBWProperties;
 
 /**
  * DOCUMENT (horvath) - insert description 
@@ -96,12 +98,31 @@ public class clsReactive extends clsBaseDecisionUnit {
 	private String moMode;
 	private String moLayer;
 	
-	public clsReactive() {
+	public clsReactive(String poPrefix, clsBWProperties poProp) {
+		super(poPrefix, poProp);
+		
 		moRand = new Random(mnSEED);
 		mnInventorySize = 0;
 		mbHungry = false;
 		moMode = "";
 		moLayer = "";
+		
+		applyProperties(poPrefix, poProp);			
+	}
+	
+	public static clsBWProperties getDefaultProperties(String poPrefix) {
+//		String pre = clsBWProperties.addDot(poPrefix);
+
+		clsBWProperties oProp = new clsBWProperties();
+		
+		oProp.putAll( clsBaseDecisionUnit.getDefaultProperties(poPrefix) );
+		
+		return oProp;
+	}	
+
+	private void applyProperties(String poPrefix, clsBWProperties poProp) {
+//		String pre = clsBWProperties.addDot(poPrefix);
+
 	}
 	
 	// the main run method

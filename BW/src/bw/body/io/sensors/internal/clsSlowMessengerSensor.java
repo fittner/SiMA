@@ -15,7 +15,7 @@ import bw.body.io.clsBaseIO;
 import bw.utils.enums.eBodyParts;
 import bw.utils.tools.clsDecayColumn;
 import config.clsBWProperties;
-import enums.eSlowMessenger;
+import du.enums.eSlowMessenger;
 
 /**
  * DOCUMENT (deutsch) - insert description 

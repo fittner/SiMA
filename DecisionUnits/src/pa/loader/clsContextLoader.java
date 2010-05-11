@@ -12,10 +12,10 @@ import java.util.Vector;
 import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
 
+import pa.bfg.tools.xmltools.clsXMLContextReader;
 import pa.datatypes.clsAssociationContext;
 import pa.datatypes.clsThingPresentationSingle;
 import statictools.clsGetARSPath;
-import bfg.tools.xmltools.clsXMLContextReader;
 
 /**
  * DOCUMENT (zeilinger) - insert description 

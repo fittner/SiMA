@@ -11,9 +11,10 @@ import java.util.Vector;
 import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
 
-import bfg.tools.xmltools.clsXMLAbstractImageReader;
-import enums.pa.eContext;
+import du.enums.pa.eContext;
 
+
+import pa.bfg.tools.xmltools.clsXMLAbstractImageReader;
 import pa.datatypes.clsAffectMemory;
 import pa.datatypes.clsDriveContentCategories;
 import pa.datatypes.clsPrimaryInformation;

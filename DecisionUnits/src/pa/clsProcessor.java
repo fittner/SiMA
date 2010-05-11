@@ -9,12 +9,12 @@ package pa;
 import java.util.HashMap;
 
 import config.clsBWProperties;
-import decisionunit.itf.actions.itfActionProcessor;
-import decisionunit.itf.sensors.clsDataBase;
-import decisionunit.itf.sensors.clsSensorData;
-import decisionunit.itf.sensors.clsSensorExtern;
-import enums.eSensorExtType;
-import enums.eSensorIntType;
+import du.enums.eSensorExtType;
+import du.enums.eSensorIntType;
+import du.itf.actions.itfActionProcessor;
+import du.itf.sensors.clsDataBase;
+import du.itf.sensors.clsSensorData;
+import du.itf.sensors.clsSensorExtern;
 import pa.modules.G00_PsychicApparatus;
 import pa.modules.E01_Homeostases;
 import pa.modules.E02_NeurosymbolizationOfNeeds;

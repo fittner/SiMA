@@ -13,7 +13,7 @@ import java.util.Map;
 import pa.datatypes.clsPrimaryInformation;
 import pa.loader.clsObjectSemanticsLoader;
 import config.clsBWProperties;
-import enums.eEntityType;
+import du.enums.eEntityType;
 
 /**
  * DOCUMENT (langr) - insert description 

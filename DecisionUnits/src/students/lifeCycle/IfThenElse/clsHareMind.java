@@ -3,28 +3,52 @@ package students.lifeCycle.IfThenElse;
 
 import java.awt.Color;
 
-import decisionunit.itf.actions.clsActionMove;
-import decisionunit.itf.actions.clsActionTurn;
-import decisionunit.itf.actions.itfActionProcessor;
-import decisionunit.itf.sensors.clsBump;
-import decisionunit.itf.sensors.clsEatableArea;
-import decisionunit.itf.sensors.clsEatableAreaEntry;
-import decisionunit.itf.sensors.clsEnergy;
-import decisionunit.itf.sensors.clsSensorExtern;
-import decisionunit.itf.sensors.clsVision;
-import decisionunit.itf.sensors.clsSensorRingSegmentEntry;
-import decisionunit.itf.sensors.clsVisionEntry;
-import enums.eActionMoveDirection;
-import enums.eActionTurnDirection;
-import enums.eEntityType;
-import enums.eSensorExtType;
-import enums.eSensorIntType;
-import enums.eTriState;
+import config.clsBWProperties;
+
+import decisionunit.clsBaseDecisionUnit;
+import du.enums.eActionMoveDirection;
+import du.enums.eActionTurnDirection;
+import du.enums.eEntityType;
+import du.enums.eSensorExtType;
+import du.enums.eSensorIntType;
+import du.enums.eTriState;
+import du.itf.actions.clsActionMove;
+import du.itf.actions.clsActionTurn;
+import du.itf.actions.itfActionProcessor;
+import du.itf.sensors.clsBump;
+import du.itf.sensors.clsEatableArea;
+import du.itf.sensors.clsEatableAreaEntry;
+import du.itf.sensors.clsEnergy;
+import du.itf.sensors.clsSensorExtern;
+import du.itf.sensors.clsSensorRingSegmentEntry;
+import du.itf.sensors.clsVision;
+import du.itf.sensors.clsVisionEntry;
 
 import simple.remotecontrol.clsRemoteControl; //for testing purpose only! remove after test
 
 public class clsHareMind extends clsRemoteControl { //should be derived from clsBaseDecisionUit
+	
+	public clsHareMind(String poPrefix, clsBWProperties poProp) {
+		super(poPrefix, poProp);
+		
+		applyProperties(poPrefix, poProp);		
+	}
+	
+	public static clsBWProperties getDefaultProperties(String poPrefix) {
+//		String pre = clsBWProperties.addDot(poPrefix);
 
+		clsBWProperties oProp = new clsBWProperties();
+		
+		oProp.putAll( clsBaseDecisionUnit.getDefaultProperties(poPrefix) );
+		
+		return oProp;
+	}	
+
+	private void applyProperties(String poPrefix, clsBWProperties poProp) {
+//		String pre = clsBWProperties.addDot(poPrefix);
+
+	}
+	
 	@Override
 	public void process() {
 

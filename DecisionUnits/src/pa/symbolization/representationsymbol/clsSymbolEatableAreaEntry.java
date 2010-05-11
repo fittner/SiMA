@@ -9,7 +9,8 @@ package pa.symbolization.representationsymbol;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 
-import enums.eDistance;
+import du.enums.eDistance;
+
 
 
 /**
@@ -19,7 +20,7 @@ import enums.eDistance;
  * 22.09.2009, 13:09:45
  * 
  */
-public class clsSymbolEatableAreaEntry extends decisionunit.itf.sensors.clsEatableAreaEntry implements itfIsContainer, itfGetSymbolName, itfGetDataAccessMethods, itfSymbolEatableAreaEntry {
+public class clsSymbolEatableAreaEntry extends du.itf.sensors.clsEatableAreaEntry implements itfIsContainer, itfGetSymbolName, itfGetDataAccessMethods, itfSymbolEatableAreaEntry {
 
 	/**
 	 * DOCUMENT (deutsch) - insert description 
@@ -29,7 +30,7 @@ public class clsSymbolEatableAreaEntry extends decisionunit.itf.sensors.clsEatab
 	 *
 	 * @param pnEntityType
 	 */
-	public clsSymbolEatableAreaEntry(decisionunit.itf.sensors.clsEatableAreaEntry poSensor) {
+	public clsSymbolEatableAreaEntry(du.itf.sensors.clsEatableAreaEntry poSensor) {
 		super(poSensor.getEntityType());
 		
 		moSensorType = poSensor.getSensorType();

@@ -53,36 +53,48 @@ public class clsMainGetDefaultConfig {
 	 */
 	public static void main(String[] args) {
 		String oBaseDir = clsGetARSPath.getConfigPath()+System.getProperty("file.separator")+"default";
+		String oEntityDir = oBaseDir+System.getProperty("file.separator")+"entity";
+		String oDecisionUnitDir = oBaseDir+System.getProperty("file.separator")+"du";
+		
 		String oSubExt = ".default.properties";
 		String oMainExt = ".main.properties";
 		String oSystemFile = "system.default.properties";
 		
-		clsBWProperties.writeProperties(clsAnimal.getDefaultProperties(""), oBaseDir, "animal"+oSubExt, "");
-		clsBWProperties.writeProperties(clsAnimate.getDefaultProperties(""), oBaseDir, "animate"+oSubExt, "");
-		clsBWProperties.writeProperties(clsBase.getDefaultProperties(""), oBaseDir, "base"+oSubExt, "");
-		clsBWProperties.writeProperties(clsBubble.getDefaultProperties(""), oBaseDir, "bubble"+oSubExt, "");
-		clsBWProperties.writeProperties(clsFungusEater.getDefaultProperties(""), oBaseDir, "funguseater"+oSubExt, "");
-		clsBWProperties.writeProperties(clsCake.getDefaultProperties(""), oBaseDir, "cake"+oSubExt, "");
-		clsBWProperties.writeProperties(clsCan.getDefaultProperties(""), oBaseDir, "can"+oSubExt, "");
-		clsBWProperties.writeProperties(clsCarrot.getDefaultProperties(""), oBaseDir, "carrot"+oSubExt, "");
-		clsBWProperties.writeProperties(clsEntity.getDefaultProperties(""), oBaseDir, "entity"+oSubExt, "");
-		clsBWProperties.writeProperties(clsFungus.getDefaultProperties(""), oBaseDir, "fungus"+oSubExt, "");
-		clsBWProperties.writeProperties(clsHare.getDefaultProperties(""), oBaseDir, "hare"+oSubExt, "");
-		clsBWProperties.writeProperties(clsInanimate.getDefaultProperties(""), oBaseDir, "inanimate"+oSubExt, "");
-		clsBWProperties.writeProperties(clsLynx.getDefaultProperties(""), oBaseDir, "lynx"+oSubExt, "");
-		clsBWProperties.writeProperties(clsMobile.getDefaultProperties(""), oBaseDir, "mobile"+oSubExt, "");
-		clsBWProperties.writeProperties(clsPlant.getDefaultProperties(""), oBaseDir, "plant"+oSubExt, "");
-		clsBWProperties.writeProperties(clsRemoteBot.getDefaultProperties(""), oBaseDir, "remotebot"+oSubExt, "");
-		clsBWProperties.writeProperties(clsStationary.getDefaultProperties(""), oBaseDir, "stationary"+oSubExt, "");
-		clsBWProperties.writeProperties(clsStone.getDefaultProperties(""), oBaseDir, "stone"+oSubExt, "");
-		clsBWProperties.writeProperties(clsUraniumOre.getDefaultProperties(""), oBaseDir, "uraniumore"+oSubExt, "");
-		clsBWProperties.writeProperties(clsWallAxisAlign.getDefaultProperties(""), oBaseDir, "wall_axis"+oSubExt, "");
-		clsBWProperties.writeProperties(clsWallHorizontal.getDefaultProperties(""), oBaseDir, "wall_hor"+oSubExt, "");
-		clsBWProperties.writeProperties(clsWallVertical.getDefaultProperties(""), oBaseDir, "wall_ver"+oSubExt, "");
+		clsBWProperties.writeProperties(clsAnimal.getDefaultProperties(""), oEntityDir, "animal"+oSubExt, "");
+		clsBWProperties.writeProperties(clsAnimate.getDefaultProperties(""), oEntityDir, "animate"+oSubExt, "");
+		clsBWProperties.writeProperties(clsBase.getDefaultProperties(""), oEntityDir, "base"+oSubExt, "");
+		clsBWProperties.writeProperties(clsBubble.getDefaultProperties(""), oEntityDir, "bubble"+oSubExt, "");
+		clsBWProperties.writeProperties(clsFungusEater.getDefaultProperties(""), oEntityDir, "funguseater"+oSubExt, "");
+		clsBWProperties.writeProperties(clsCake.getDefaultProperties(""), oEntityDir, "cake"+oSubExt, "");
+		clsBWProperties.writeProperties(clsCan.getDefaultProperties(""), oEntityDir, "can"+oSubExt, "");
+		clsBWProperties.writeProperties(clsCarrot.getDefaultProperties(""), oEntityDir, "carrot"+oSubExt, "");
+		clsBWProperties.writeProperties(clsEntity.getDefaultProperties(""), oEntityDir, "entity"+oSubExt, "");
+		clsBWProperties.writeProperties(clsFungus.getDefaultProperties(""), oEntityDir, "fungus"+oSubExt, "");
+		clsBWProperties.writeProperties(clsHare.getDefaultProperties(""), oEntityDir, "hare"+oSubExt, "");
+		clsBWProperties.writeProperties(clsInanimate.getDefaultProperties(""), oEntityDir, "inanimate"+oSubExt, "");
+		clsBWProperties.writeProperties(clsLynx.getDefaultProperties(""), oEntityDir, "lynx"+oSubExt, "");
+		clsBWProperties.writeProperties(clsMobile.getDefaultProperties(""), oEntityDir, "mobile"+oSubExt, "");
+		clsBWProperties.writeProperties(clsPlant.getDefaultProperties(""), oEntityDir, "plant"+oSubExt, "");
+		clsBWProperties.writeProperties(clsRemoteBot.getDefaultProperties(""), oEntityDir, "remotebot"+oSubExt, "");
+		clsBWProperties.writeProperties(clsStationary.getDefaultProperties(""), oEntityDir, "stationary"+oSubExt, "");
+		clsBWProperties.writeProperties(clsStone.getDefaultProperties(""), oEntityDir, "stone"+oSubExt, "");
+		clsBWProperties.writeProperties(clsUraniumOre.getDefaultProperties(""), oEntityDir, "uraniumore"+oSubExt, "");
+		clsBWProperties.writeProperties(clsWallAxisAlign.getDefaultProperties(""), oEntityDir, "wall_axis"+oSubExt, "");
+		clsBWProperties.writeProperties(clsWallHorizontal.getDefaultProperties(""), oEntityDir, "wall_hor"+oSubExt, "");
+		clsBWProperties.writeProperties(clsWallVertical.getDefaultProperties(""), oEntityDir, "wall_ver"+oSubExt, "");
 
-		clsBWProperties.writeProperties(pa.clsPsychoAnalysis.getDefaultProperties(""), oBaseDir, "du_pa"+oSubExt, "");
+		clsBWProperties.writeProperties(simple.dumbmind.clsDumbMindA.getDefaultProperties(""), oDecisionUnitDir, "dumbminda"+oSubExt, "");
+		clsBWProperties.writeProperties(simple.reactive.clsReactive.getDefaultProperties(""), oDecisionUnitDir, "reactive"+oSubExt, "");
+		clsBWProperties.writeProperties(simple.remotecontrol.clsRemoteControl.getDefaultProperties(""), oDecisionUnitDir, "remotecontrol"+oSubExt, "");
+		clsBWProperties.writeProperties(students.lifeCycle.JADEX.clsHareMind.getDefaultProperties(""), oDecisionUnitDir, "jadex_hare"+oSubExt, "");
+		clsBWProperties.writeProperties(students.lifeCycle.JAM.clsHareMind.getDefaultProperties(""), oDecisionUnitDir, "jam_hare"+oSubExt, "");
+		clsBWProperties.writeProperties(students.lifeCycle.IfThenElse.clsHareMind.getDefaultProperties(""), oDecisionUnitDir, "ifthenelse_hare"+oSubExt, "");
+		clsBWProperties.writeProperties(students.lifeCycle.JADEX.clsLynxMind.getDefaultProperties(""), oDecisionUnitDir, "jadex_lynx"+oSubExt, "");
+		clsBWProperties.writeProperties(students.lifeCycle.JAM.clsLynxMind.getDefaultProperties(""), oDecisionUnitDir, "jam_lynx"+oSubExt, "");
+		clsBWProperties.writeProperties(students.lifeCycle.IfThenElse.clsLynxMind.getDefaultProperties(""), oDecisionUnitDir, "itthenelse_lynx"+oSubExt, "");
+		clsBWProperties.writeProperties(pa.clsPsychoAnalysis.getDefaultProperties(""), oDecisionUnitDir, "psychoanalysis"+oSubExt, "");
 		
-		clsBWProperties.writeProperties(clsSimplePropertyLoader.getDefaultProperties("", true), clsGetARSPath.getConfigPath(), "simplePropertyLoader"+oMainExt, "");
+		clsBWProperties.writeProperties(clsSimplePropertyLoader.getDefaultProperties("", true, true), clsGetARSPath.getConfigPath(), "simplePropertyLoader"+oMainExt, "");
 		
 		clsBWProperties.writeProperties(clsBWMainWithUI.getDefaultProperties(""),  clsGetARSPath.getConfigPath(), oSystemFile, "");
 		

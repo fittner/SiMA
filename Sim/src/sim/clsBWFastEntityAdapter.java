@@ -42,8 +42,6 @@ public class clsBWFastEntityAdapter extends JDialog {
 	 */
 	private static final long serialVersionUID = -8502114600901820076L;
 	
-	private clsBWProperties moPropOriginal;
-	
 	public clsBWFastEntityAdapter(JFrame poParent, String poTitle, clsBWProperties poProp) {
 		
 	    super(poParent, poTitle, true);
@@ -54,14 +52,12 @@ public class clsBWFastEntityAdapter extends JDialog {
 	      setLocation(p.x + parentSize.width / 4, p.y + parentSize.height / 4);
 	    }
 
-	    moPropOriginal = poProp;
-	    
-		setSize(500, 600);
+	    setSize(500, 600);
 		setLayout(new GridLayout(0,1));
 		int numGroups = poProp.getPropertyInt("entitygroups.numentitygroups");
 		for (int i=0;i<numGroups;i++) {
 			String oCountPath = "entitygroups."+i+".numentities";
-			clsEntitySelector oEntitySelector = new clsEntitySelector(poProp.getPropertyInt(oCountPath), poProp.getProperty("entitygroups."+i+".entitygrouptype"), oCountPath, poProp );
+			clsEntitySelector oEntitySelector = new clsEntitySelector(poProp.getPropertyInt(oCountPath), poProp.getProperty("entitygroups."+i+".groupentitytype"), oCountPath, poProp );
 			oEntitySelector.setSize(400, oEntitySelector.getSize().height);
 			add( oEntitySelector);
 		}

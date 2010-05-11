@@ -18,7 +18,7 @@ import sim.physics2D.physicalObject.PhysicalObject2D;
 import sim.physics2D.shape.Circle;
 import sim.physics2D.util.Double2D;
 import config.clsBWProperties;
-import enums.eSensorExtType;
+import du.enums.eSensorExtType;
 
 import ARSsim.physics2D.physicalObject.clsCollidingObject;
 import bw.body.io.clsBaseIO;

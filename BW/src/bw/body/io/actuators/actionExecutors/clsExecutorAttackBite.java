@@ -17,8 +17,8 @@ import bw.entities.clsEntity;
 import bw.utils.enums.eBodyParts;
 import bw.body.io.actuators.actionProxies.*;
 import bw.body.itfget.itfGetBody;
-import decisionunit.itf.actions.*;
-import enums.eSensorExtType;
+import du.enums.eSensorExtType;
+import du.itf.actions.*;
 
 /**
  * Action Executor for attack/bite

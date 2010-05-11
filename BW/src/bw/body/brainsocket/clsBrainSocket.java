@@ -16,33 +16,33 @@ import config.clsBWProperties;
 import sim.physics2D.physicalObject.PhysicalObject2D;
 import sim.physics2D.shape.*;
 import sim.physics2D.util.Angle;
-import decisionunit.clsBaseDecisionUnit;
-import decisionunit.itfProcessKeyPressed;
-import decisionunit.itf.actions.itfActionProcessor;
-import decisionunit.itf.sensors.clsBump;
-import decisionunit.itf.sensors.clsDataBase;
-import decisionunit.itf.sensors.clsEatableArea;
-import decisionunit.itf.sensors.clsEatableAreaEntry;
-import decisionunit.itf.sensors.clsEnergyConsumption;
-import decisionunit.itf.sensors.clsFastMessenger;
-import decisionunit.itf.sensors.clsHealthSystem;
-import decisionunit.itf.sensors.clsManipulateArea;
-import decisionunit.itf.sensors.clsManipulateAreaEntry;
-import decisionunit.itf.sensors.clsSlowMessenger;
-import decisionunit.itf.sensors.clsStomachTension;
-import decisionunit.itf.sensors.clsTemperatureSystem;
-import decisionunit.itf.sensors.clsPositionChange;
-import decisionunit.itf.sensors.clsSensorData;
-import decisionunit.itf.sensors.clsStaminaSystem;
-import decisionunit.itf.sensors.clsEnergy;
-import decisionunit.itf.sensors.clsVision;
-import decisionunit.itf.sensors.clsRadiation;
-import decisionunit.itf.sensors.clsVisionEntry;
-import enums.eAntennaPositions;
-import enums.eFastMessengerSources;
-import enums.eSensorIntType;
-import enums.eSensorExtType;
-import enums.eSlowMessenger;
+import du.enums.eAntennaPositions;
+import du.enums.eFastMessengerSources;
+import du.enums.eSensorExtType;
+import du.enums.eSensorIntType;
+import du.enums.eSlowMessenger;
+import du.itf.itfDecisionUnit;
+import du.itf.itfProcessKeyPressed;
+import du.itf.actions.itfActionProcessor;
+import du.itf.sensors.clsBump;
+import du.itf.sensors.clsDataBase;
+import du.itf.sensors.clsEatableArea;
+import du.itf.sensors.clsEatableAreaEntry;
+import du.itf.sensors.clsEnergy;
+import du.itf.sensors.clsEnergyConsumption;
+import du.itf.sensors.clsFastMessenger;
+import du.itf.sensors.clsHealthSystem;
+import du.itf.sensors.clsManipulateArea;
+import du.itf.sensors.clsManipulateAreaEntry;
+import du.itf.sensors.clsPositionChange;
+import du.itf.sensors.clsRadiation;
+import du.itf.sensors.clsSensorData;
+import du.itf.sensors.clsSlowMessenger;
+import du.itf.sensors.clsStaminaSystem;
+import du.itf.sensors.clsStomachTension;
+import du.itf.sensors.clsTemperatureSystem;
+import du.itf.sensors.clsVision;
+import du.itf.sensors.clsVisionEntry;
 import ARSsim.physics2D.physicalObject.clsCollidingObject;
 import ARSsim.physics2D.physicalObject.clsMobileObject2D;
 import ARSsim.physics2D.physicalObject.clsStationaryObject2D;
@@ -83,7 +83,7 @@ import bw.utils.sensors.clsSensorDataCalculation;
  */
 public class clsBrainSocket implements itfStepProcessing {
 
-	private clsBaseDecisionUnit moDecisionUnit; //reference
+	private itfDecisionUnit moDecisionUnit; //reference
 	private itfActionProcessor moActionProcessor; //reference
 	private HashMap<eSensorExtType, clsSensorExt> moSensorsExt; //reference
 	private HashMap<eSensorIntType, clsSensorInt> moSensorsInt; //reference
@@ -180,7 +180,7 @@ public class clsBrainSocket implements itfStepProcessing {
 		return oRetVal;
 	}
 	
-	private decisionunit.itf.sensors.clsFastMessengerEntry convertFastMessengerEntry(bw.body.internalSystems.clsFastMessengerEntry poEntry) {
+	private du.itf.sensors.clsFastMessengerEntry convertFastMessengerEntry(bw.body.internalSystems.clsFastMessengerEntry poEntry) {
 		eFastMessengerSources oSource;
 
 		switch(poEntry.getSource()) {
@@ -207,7 +207,7 @@ public class clsBrainSocket implements itfStepProcessing {
 			default:throw new java.lang.NullPointerException("unkown fast messenger source: "+poEntry.getSource());
 		}
 		
-		decisionunit.itf.sensors.clsFastMessengerEntry oRes = new decisionunit.itf.sensors.clsFastMessengerEntry(oSource, poEntry.getIntensity());
+		du.itf.sensors.clsFastMessengerEntry oRes = new du.itf.sensors.clsFastMessengerEntry(oSource, poEntry.getIntensity());
 		return oRes;
 	}
 	
@@ -473,13 +473,13 @@ public class clsBrainSocket implements itfStepProcessing {
 		}
 	}
 	
-	private  enums.eEntityType getEntityType(PhysicalObject2D poObject) {
+	private  du.enums.eEntityType getEntityType(PhysicalObject2D poObject) {
 		clsEntity oEntity = getEntity(poObject);
 		
 		if (oEntity != null) {
 		  return getEntity(poObject).getEntityType();
 		} else {
-			return enums.eEntityType.UNDEFINED;
+			return du.enums.eEntityType.UNDEFINED;
 		}
 	}
 	
@@ -495,14 +495,14 @@ public class clsBrainSocket implements itfStepProcessing {
 		return oResult;
 	}
 	
-	private  enums.eShapeType getShapeType(PhysicalObject2D poObject) {
+	private  du.enums.eShapeType getShapeType(PhysicalObject2D poObject) {
 		
 		if (poObject.getShape() instanceof  Circle) {
-			return enums.eShapeType.CIRCLE;
+			return du.enums.eShapeType.CIRCLE;
 		}else if(poObject.getShape() instanceof  Rectangle){
-			return enums.eShapeType.SQUARE;
+			return du.enums.eShapeType.SQUARE;
 		} else {
-			return enums.eShapeType.UNDEFINED;
+			return du.enums.eShapeType.UNDEFINED;
 		}
 	}
 	
@@ -520,11 +520,11 @@ public class clsBrainSocket implements itfStepProcessing {
 	 *         GETTER & SETTER
 	 ************************************************/
 
-	public clsBaseDecisionUnit getDecisionUnit() {
+	public itfDecisionUnit getDecisionUnit() {
 		return moDecisionUnit;		
 	}
 
-	public void setDecisionUnit(clsBaseDecisionUnit poDecisionUnit) {
+	public void setDecisionUnit(itfDecisionUnit poDecisionUnit) {
 		moDecisionUnit = poDecisionUnit;
 		moDecisionUnit.setActionProcessor(moActionProcessor);
 	}

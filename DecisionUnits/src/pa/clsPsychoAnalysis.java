@@ -23,7 +23,7 @@ public class clsPsychoAnalysis extends clsBaseDecisionUnit {
 	private clsProcessor moProcessor;
 	
 	public clsPsychoAnalysis(String poPrefix, clsBWProperties poProp) {
-		super();
+		super(poPrefix, poProp);
 		
 		applyProperties(poPrefix, poProp);
 	}

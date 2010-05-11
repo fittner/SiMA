@@ -12,13 +12,14 @@ import java.util.Vector;
 import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
 
-import enums.eEntityType;
-import enums.pa.eContext;
-import enums.pa.eDriveContent;
+import du.enums.eEntityType;
+import du.enums.pa.eContext;
+import du.enums.pa.eDriveContent;
 
-import bfg.tools.xmltools.clsXMLAbstractImageReader;
-import bfg.tools.xmltools.clsXMLConfiguration;
 
+
+import pa.bfg.tools.xmltools.clsXMLAbstractImageReader;
+import pa.bfg.tools.xmltools.clsXMLConfiguration;
 import pa.datatypes.clsDriveObject;
 import pa.datatypes.clsDriveContentCategories;
 import pa.enums.eDriveType;

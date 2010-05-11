@@ -8,8 +8,9 @@ package pa.symbolization.representationsymbol;
 
 import java.lang.reflect.Method;
 import java.util.ArrayList;
-import decisionunit.itf.sensors.clsManipulateAreaEntry;
-import decisionunit.itf.sensors.clsSensorExtern;
+
+import du.itf.sensors.clsManipulateAreaEntry;
+import du.itf.sensors.clsSensorExtern;
 
 /**
  * DOCUMENT (langr) - insert description 
@@ -18,15 +19,15 @@ import decisionunit.itf.sensors.clsSensorExtern;
  * 09.09.2009, 14:04:06
  * 
  */
-public class clsSymbolManipulateArea extends decisionunit.itf.sensors.clsManipulateArea  implements itfGetDataAccessMethods, itfSymbolManipulateArea {
+public class clsSymbolManipulateArea extends du.itf.sensors.clsManipulateArea  implements itfGetDataAccessMethods, itfSymbolManipulateArea {
 
-	public clsSymbolManipulateArea(decisionunit.itf.sensors.clsManipulateArea poSensor) {
+	public clsSymbolManipulateArea(du.itf.sensors.clsManipulateArea poSensor) {
 		super();
 		
 		moSensorType = poSensor.getSensorType();
 		
-		for (decisionunit.itf.sensors.clsSensorExtern oEntry:poSensor.getDataObjects()) {
-			clsSymbolManipulateAreaEntry oE = new clsSymbolManipulateAreaEntry( (decisionunit.itf.sensors.clsManipulateAreaEntry)oEntry);
+		for (du.itf.sensors.clsSensorExtern oEntry:poSensor.getDataObjects()) {
+			clsSymbolManipulateAreaEntry oE = new clsSymbolManipulateAreaEntry( (du.itf.sensors.clsManipulateAreaEntry)oEntry);
 			moEntries.add(oE);
 		}
 	}

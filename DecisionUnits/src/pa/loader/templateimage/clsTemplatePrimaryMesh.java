@@ -8,7 +8,8 @@ package pa.loader.templateimage;
 
 import java.util.ArrayList;
 
-import enums.eTriState;
+import du.enums.eTriState;
+
 import bfg.utils.enums.eOptional;
 import pa.datatypes.clsAssociation;
 import pa.datatypes.clsPrimaryInformation;

@@ -13,8 +13,8 @@ import java.util.Map;
 import bfg.tools.clsMutableDouble;
 
 import config.clsBWProperties;
-import enums.eEntityType;
-import enums.pa.eContext;
+import du.enums.eEntityType;
+import du.enums.pa.eContext;
 import pa.datatypes.clsDriveContentCategories;
 import pa.datatypes.clsPrimaryInformation;
 import pa.interfaces.I2_5;

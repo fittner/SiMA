@@ -331,7 +331,7 @@ public class clsBWProperties extends Properties {
 	      lines = sortLines(lines, "#");
 	      writeLines(lines, poBaseDir+poFilename);
 	    } catch ( FileNotFoundException e ) {
-          System.err.println( "Can�t find " + poFilename );
+          System.err.println( "Can't find " + poBaseDir+poFilename );
         } catch ( IOException e ) {
 	      System.err.println( "I/O failed." );
 	    }

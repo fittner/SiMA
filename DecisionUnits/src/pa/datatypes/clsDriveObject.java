@@ -6,8 +6,8 @@
  */
 package pa.datatypes;
 
-import enums.eEntityType;
-import enums.pa.eContext;
+import du.enums.eEntityType;
+import du.enums.pa.eContext;
 
 /**
  * DOCUMENT (langr) - insert description 

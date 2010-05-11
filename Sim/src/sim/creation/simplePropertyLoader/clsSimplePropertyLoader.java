@@ -10,10 +10,11 @@ package sim.creation.simplePropertyLoader;
 
 import java.awt.Color;
 import java.util.List;
-
 import config.clsBWProperties;
-import du.utils.enums.eDecisionType;
-import enums.eEntityType;
+import decisionunit.clsDecisionUnitFactory;
+import du.enums.eDecisionType;
+import du.enums.eEntityType;
+import du.itf.itfDecisionUnit;
 import ARSsim.physics2D.util.clsPose;
 import bw.body.clsComplexBody;
 import bw.body.clsMeatBody;
@@ -57,22 +58,26 @@ import sim.engine.SimState;
  */
 public class clsSimplePropertyLoader extends clsLoader {
 	public static final String P_WORLDBOUNDARYWALLS = "worldboundarywalls";
-	public static final String P_REMOVEDEFAULTS = "removedefaults";	
-	public static final String P_OVERWRITEDEFAULTS = "overwritedefaults";
+	public static final String P_REMOVEENTITYDEFAULTS = "removeentitydefaults";	
+	public static final String P_OVERWRITEENTITYDEFAULTS = "overwriteentitydefaults";
+	public static final String P_REMOVEDECISIONUNITDEFAULTS = "removedecisionunitdefaults";	
+	public static final String P_OVERWRITEDECISIONUNITDEFAULTS = "overwritedecisionunitdefaults";
 	public static final String P_ENTITYGROUPS = "entitygroups";
 	public static final String P_NUMENTITYGROUPS = "numentitygroups";
 	public static final String P_NUMENTITES = "numentities";
-	public static final String P_ENTITYGROUPTYPE = "entitygrouptype";
+	public static final String P_GROUPENTITYTYPE = "groupentitytype";
+	public static final String P_GROUPDECISIONUNITTYPE = "groupdecisionunittype";
 	public static final String P_POSITIONTYPE = "positiontype";
 	public static final String P_POSITIONS = "positions";
-
-	
-	public static final String P_ENTITYDEFAULTS  = "entitydefaults";
+	public static final String P_DEFAULTSENTITY  = "defaultsentity";
+	public static final String P_DEFAULTSDECISIONUNIT  = "defaultsdecisionunit";
+	public static final String P_ENTITY = "entity";
+	public static final String P_DECISIONUNIT = "decisionunit";
 
 	private int numentitygroups;
 	
-	public static final int mnVersion = 2;
-	public static final int mnDownCompatibility = -1; // can read any old version
+	public static final int mnVersion = 3;
+	public static final int mnDownCompatibility = 3; // can read 3 and newer
 	
 	public clsSimplePropertyLoader(SimState poSimState, clsBWProperties poProperties) {
 		super(poSimState, poProperties);
@@ -85,9 +90,12 @@ public class clsSimplePropertyLoader extends clsLoader {
     	
     	numentitygroups = poProp.getPropertyInt(pre+P_ENTITYGROUPS+"."+P_NUMENTITYGROUPS);
     	
-    	if (!poProp.existsPrefix(pre+P_ENTITYDEFAULTS)) {
-    		poProp.putAll( getEntityDefaults(pre+P_ENTITYDEFAULTS) );
+    	if (!poProp.existsPrefix(pre+P_DEFAULTSENTITY)) {
+    		poProp.putAll( getEntityDefaults(pre+P_DEFAULTSENTITY) );
     	}
+    	if (!poProp.existsPrefix(pre+P_DEFAULTSDECISIONUNIT)) {
+    		poProp.putAll( getDecisionUnitDefaults(pre+P_DEFAULTSDECISIONUNIT) );
+    	}    	
 	}	
 	
     private static clsBWProperties getEntityDefaults(String poPrefix) {
@@ -95,28 +103,47 @@ public class clsSimplePropertyLoader extends clsLoader {
 		
 		clsBWProperties oProp = new clsBWProperties();
 		
-		oProp.putAll( clsBubble.getDefaultProperties	(pre+eEntityType.BUBBLE.name()) );
+		oProp.putAll( clsBubble.getDefaultProperties		(pre+eEntityType.BUBBLE.name()) );
 		oProp.putAll( clsFungusEater.getDefaultProperties	(pre+eEntityType.FUNGUS_EATER.name()) );
-		oProp.putAll( clsRemoteBot.getDefaultProperties	(pre+eEntityType.REMOTEBOT.name()) );
-		oProp.putAll( clsPlant.getDefaultProperties		(pre+eEntityType.PLANT.name()) );
-		oProp.putAll( clsHare.getDefaultProperties		(pre+eEntityType.HARE.name()) );		
-		oProp.putAll( clsLynx.getDefaultProperties		(pre+eEntityType.LYNX.name()) );
-		oProp.putAll( clsBase.getDefaultProperties		(pre+eEntityType.BASE.name()) );
-		oProp.putAll( clsCan.getDefaultProperties		(pre+eEntityType.CAN.name()) );
-		oProp.putAll( clsCake.getDefaultProperties		(pre+eEntityType.CAKE.name()) );
-		oProp.putAll( clsStone.getDefaultProperties		(pre+eEntityType.STONE.name()) );
-		oProp.putAll( clsFungus.getDefaultProperties	(pre+eEntityType.FUNGUS.name()) );
-		oProp.putAll( clsUraniumOre.getDefaultProperties(pre+eEntityType.URANIUM.name()) );
-		oProp.putAll( clsCarrot.getDefaultProperties	(pre+eEntityType.CARROT.name()) );
+		oProp.putAll( clsRemoteBot.getDefaultProperties		(pre+eEntityType.REMOTEBOT.name()) );
+		oProp.putAll( clsPlant.getDefaultProperties			(pre+eEntityType.PLANT.name()) );
+		oProp.putAll( clsHare.getDefaultProperties			(pre+eEntityType.HARE.name()) );		
+		oProp.putAll( clsLynx.getDefaultProperties			(pre+eEntityType.LYNX.name()) );
+		oProp.putAll( clsBase.getDefaultProperties			(pre+eEntityType.BASE.name()) );
+		oProp.putAll( clsCan.getDefaultProperties			(pre+eEntityType.CAN.name()) );
+		oProp.putAll( clsCake.getDefaultProperties			(pre+eEntityType.CAKE.name()) );
+		oProp.putAll( clsStone.getDefaultProperties			(pre+eEntityType.STONE.name()) );
+		oProp.putAll( clsFungus.getDefaultProperties		(pre+eEntityType.FUNGUS.name()) );
+		oProp.putAll( clsUraniumOre.getDefaultProperties	(pre+eEntityType.URANIUM.name()) );
+		oProp.putAll( clsCarrot.getDefaultProperties		(pre+eEntityType.CARROT.name()) );
+		
+		return oProp;
+    }
+    
+    private static clsBWProperties getDecisionUnitDefaults(String poPrefix) {
+		String pre = clsBWProperties.addDot(poPrefix);
+		
+		clsBWProperties oProp = new clsBWProperties();
+		
+		oProp.putAll( simple.dumbmind.clsDumbMindA.getDefaultProperties				(pre+eDecisionType.DUMB_MIND_A.name()) );
+		oProp.putAll( simple.reactive.clsReactive.getDefaultProperties				(pre+eDecisionType.FUNGUS_EATER.name()) );
+		oProp.putAll( simple.remotecontrol.clsRemoteControl.getDefaultProperties	(pre+eDecisionType.REMOTE.name()) );
+		oProp.putAll( students.lifeCycle.JADEX.clsHareMind.getDefaultProperties		(pre+eDecisionType.HARE_JADEX.name()) );
+		oProp.putAll( students.lifeCycle.JAM.clsHareMind.getDefaultProperties		(pre+eDecisionType.HARE_JAM.name()) );
+		oProp.putAll( students.lifeCycle.IfThenElse.clsHareMind.getDefaultProperties(pre+eDecisionType.HARE_IFTHENELSE.name()) );
+		oProp.putAll( students.lifeCycle.JADEX.clsLynxMind.getDefaultProperties		(pre+eDecisionType.LYNX_JADEX.name()) );
+		oProp.putAll( students.lifeCycle.JAM.clsLynxMind.getDefaultProperties		(pre+eDecisionType.LYNX_JAM.name()) );
+		oProp.putAll( students.lifeCycle.IfThenElse.clsLynxMind.getDefaultProperties(pre+eDecisionType.LYNX_IFTHENELSE.name()) );
+		oProp.putAll( pa.clsPsychoAnalysis.getDefaultProperties						(pre+eDecisionType.PA.name()) );
 		
 		return oProp;
     }
     
     public static clsBWProperties getDefaultProperties(String poPrefix) {
-    	return getDefaultProperties(poPrefix, false);
+    	return getDefaultProperties(poPrefix, false, false);
     }
     
-    public static clsBWProperties getDefaultProperties(String poPrefix, boolean pnAddDefaultEntities) {
+    public static clsBWProperties getDefaultProperties(String poPrefix, boolean pnAddDefaultEntities, boolean pnAddDefaultDecisionUnits) {
 		String pre = clsBWProperties.addDot(poPrefix);
 
 		clsBWProperties oProp = new clsBWProperties();
@@ -128,11 +155,16 @@ public class clsSimplePropertyLoader extends clsLoader {
 		oProp.setProperty(pre+P_TITLE, "default simple property loader");
 		
 		if (pnAddDefaultEntities) {
-			oProp.putAll( getEntityDefaults(pre+P_ENTITYDEFAULTS) );
+			oProp.putAll( getEntityDefaults(pre+P_DEFAULTSENTITY) );
+		}	
+		if (pnAddDefaultDecisionUnits) {
+			oProp.putAll( getDecisionUnitDefaults(pre+P_DEFAULTSDECISIONUNIT) );
 		}
+		
 
 		int i=0;
-		oProp.setProperty(pre+P_ENTITYGROUPS+"."+i+"."+P_ENTITYGROUPTYPE, eEntityType.BUBBLE.name());
+		oProp.setProperty(pre+P_ENTITYGROUPS+"."+i+"."+P_GROUPENTITYTYPE, eEntityType.BUBBLE.name());
+		oProp.setProperty(pre+P_ENTITYGROUPS+"."+i+"."+P_GROUPDECISIONUNITTYPE, eDecisionType.PA.name());
 		oProp.setProperty(pre+P_ENTITYGROUPS+"."+i+"."+P_NUMENTITES, 3);
 		oProp.setProperty(pre+P_ENTITYGROUPS+"."+i+"."+P_POSITIONS+"."+P_POSITIONTYPE, ePositionType.LIST.name());
 		oProp.setProperty(pre+P_ENTITYGROUPS+"."+i+"."+P_POSITIONS+"."+"0."+clsPose.P_POS_X, 10);
@@ -144,12 +176,13 @@ public class clsSimplePropertyLoader extends clsLoader {
 		oProp.setProperty(pre+P_ENTITYGROUPS+"."+i+"."+P_POSITIONS+"."+"2."+clsPose.P_POS_X, 100);
 		oProp.setProperty(pre+P_ENTITYGROUPS+"."+i+"."+P_POSITIONS+"."+"2."+clsPose.P_POS_Y, 100);
 		oProp.setProperty(pre+P_ENTITYGROUPS+"."+i+"."+P_POSITIONS+"."+"2."+clsPose.P_POS_ANGLE, Math.PI*2/3);
-		oProp.setProperty(pre+P_ENTITYGROUPS+"."+i+"."+P_OVERWRITEDEFAULTS+"."+clsAnimate.P_BODY+"."+clsComplexBody.P_INTERNAL+"."+
+		oProp.setProperty(pre+P_ENTITYGROUPS+"."+i+"."+P_OVERWRITEENTITYDEFAULTS+"."+clsAnimate.P_BODY+"."+clsComplexBody.P_INTERNAL+"."+
 														clsInternalSystem.P_FLESH+"."+clsFlesh.P_WEIGHT, 15);
-		oProp.setProperty(pre+P_ENTITYGROUPS+"."+i+"."+P_OVERWRITEDEFAULTS+"."+clsShapeCreator.P_COLOR, Color.RED);
+		oProp.setProperty(pre+P_ENTITYGROUPS+"."+i+"."+P_OVERWRITEENTITYDEFAULTS+"."+clsShapeCreator.P_COLOR, Color.RED);
 		
 		i++;
-		oProp.setProperty(pre+P_ENTITYGROUPS+"."+i+"."+P_ENTITYGROUPTYPE, eEntityType.REMOTEBOT.name());
+		oProp.setProperty(pre+P_ENTITYGROUPS+"."+i+"."+P_GROUPENTITYTYPE, eEntityType.REMOTEBOT.name());
+		oProp.setProperty(pre+P_ENTITYGROUPS+"."+i+"."+P_GROUPDECISIONUNITTYPE, eDecisionType.REMOTE.name());
 		oProp.setProperty(pre+P_ENTITYGROUPS+"."+i+"."+P_NUMENTITES, 1);
 		oProp.setProperty(pre+P_ENTITYGROUPS+"."+i+"."+P_POSITIONS+"."+P_POSITIONTYPE, ePositionType.LIST.name());
 		oProp.setProperty(pre+P_ENTITYGROUPS+"."+i+"."+P_POSITIONS+"."+"0."+clsPose.P_POS_X, 50);
@@ -157,74 +190,74 @@ public class clsSimplePropertyLoader extends clsLoader {
 		oProp.setProperty(pre+P_ENTITYGROUPS+"."+i+"."+P_POSITIONS+"."+"0."+clsPose.P_POS_ANGLE, 0);
 		
 		i++;
-		oProp.setProperty(pre+P_ENTITYGROUPS+"."+i+"."+P_ENTITYGROUPTYPE, eEntityType.PLANT.name());
+		oProp.setProperty(pre+P_ENTITYGROUPS+"."+i+"."+P_GROUPENTITYTYPE, eEntityType.PLANT.name());
 		oProp.setProperty(pre+P_ENTITYGROUPS+"."+i+"."+P_NUMENTITES, 1);
 		oProp.setProperty(pre+P_ENTITYGROUPS+"."+i+"."+P_POSITIONS+"."+P_POSITIONTYPE, ePositionType.RANDOM.name());
-		oProp.setProperty(pre+P_ENTITYGROUPS+"."+i+"."+P_REMOVEDEFAULTS, "shape, body");
-		oProp.setProperty(pre+P_ENTITYGROUPS+"."+i+"."+P_OVERWRITEDEFAULTS+"."+clsEntity.P_SHAPE+"."+clsShapeCreator.P_DEFAULT_SHAPE, clsEntity.P_SHAPENAME);
-		oProp.setProperty(pre+P_ENTITYGROUPS+"."+i+"."+P_OVERWRITEDEFAULTS+"."+clsEntity.P_SHAPE+"."+clsEntity.P_SHAPENAME+"."+clsShapeCreator.P_TYPE, eShapeType.CIRCLE.name());
-		oProp.setProperty(pre+P_ENTITYGROUPS+"."+i+"."+P_OVERWRITEDEFAULTS+"."+clsEntity.P_SHAPE+"."+clsEntity.P_SHAPENAME+"."+clsShapeCreator.P_RADIUS, "1.5");
-		oProp.setProperty(pre+P_ENTITYGROUPS+"."+i+"."+P_OVERWRITEDEFAULTS+"."+clsEntity.P_SHAPE+"."+clsEntity.P_SHAPENAME+"."+clsShapeCreator.P_COLOR, Color.orange);
-		oProp.setProperty(pre+P_ENTITYGROUPS+"."+i+"."+P_OVERWRITEDEFAULTS+"."+clsEntity.P_SHAPE+"."+clsEntity.P_SHAPENAME+"."+clsShapeCreator.P_IMAGE_PATH, "/BW/src/resources/images/carrot_clipart.png");
-		oProp.setProperty(pre+P_ENTITYGROUPS+"."+i+"."+P_OVERWRITEDEFAULTS+"."+clsEntity.P_SHAPE+"."+clsEntity.P_SHAPENAME+"."+clsShapeCreator.P_IMAGE_POSITIONING, eImagePositioning.DEFAULT.name());		
-		oProp.setProperty(pre+P_ENTITYGROUPS+"."+i+"."+P_OVERWRITEDEFAULTS+"."+clsAnimate.P_BODY_TYPE, eBodyType.MEAT.toString());
-		oProp.setProperty(pre+P_ENTITYGROUPS+"."+i+"."+P_OVERWRITEDEFAULTS+"."+clsAnimate.P_BODY+"."+clsMeatBody.P_REGROWRATE, 1);
-		oProp.setProperty(pre+P_ENTITYGROUPS+"."+i+"."+P_OVERWRITEDEFAULTS+"."+clsAnimate.P_BODY+"."+clsMeatBody.P_MAXWEIGHT, 100);
-		oProp.setProperty(pre+P_ENTITYGROUPS+"."+i+"."+P_OVERWRITEDEFAULTS+"."+clsAnimate.P_BODY+"."+clsFlesh.P_WEIGHT, 50 );
-		oProp.setProperty(pre+P_ENTITYGROUPS+"."+i+"."+P_OVERWRITEDEFAULTS+"."+clsAnimate.P_BODY+"."+clsFlesh.P_NUMNUTRITIONS, 4 );
-		oProp.setProperty(pre+P_ENTITYGROUPS+"."+i+"."+P_OVERWRITEDEFAULTS+"."+clsAnimate.P_BODY+"."+"0."+clsFlesh.P_NUTRITIONTYPE, eNutritions.PROTEIN.name());
-		oProp.setProperty(pre+P_ENTITYGROUPS+"."+i+"."+P_OVERWRITEDEFAULTS+"."+clsAnimate.P_BODY+"."+"0."+clsFlesh.P_NUTRITIONFRACTION, 0.5);
-		oProp.setProperty(pre+P_ENTITYGROUPS+"."+i+"."+P_OVERWRITEDEFAULTS+"."+clsAnimate.P_BODY+"."+"1."+clsFlesh.P_NUTRITIONTYPE, eNutritions.VITAMIN.name());
-		oProp.setProperty(pre+P_ENTITYGROUPS+"."+i+"."+P_OVERWRITEDEFAULTS+"."+clsAnimate.P_BODY+"."+"1."+clsFlesh.P_NUTRITIONFRACTION, 0.5);
-		oProp.setProperty(pre+P_ENTITYGROUPS+"."+i+"."+P_OVERWRITEDEFAULTS+"."+clsAnimate.P_BODY+"."+"2."+clsFlesh.P_NUTRITIONTYPE, eNutritions.WATER.name());
-		oProp.setProperty(pre+P_ENTITYGROUPS+"."+i+"."+P_OVERWRITEDEFAULTS+"."+clsAnimate.P_BODY+"."+"2."+clsFlesh.P_NUTRITIONFRACTION, 4);
-		oProp.setProperty(pre+P_ENTITYGROUPS+"."+i+"."+P_OVERWRITEDEFAULTS+"."+clsAnimate.P_BODY+"."+"3."+clsFlesh.P_NUTRITIONTYPE, eNutritions.UNDIGESTABLE.toString());
-		oProp.setProperty(pre+P_ENTITYGROUPS+"."+i+"."+P_OVERWRITEDEFAULTS+"."+clsAnimate.P_BODY+"."+"3."+clsFlesh.P_NUTRITIONFRACTION, 8);		
+		oProp.setProperty(pre+P_ENTITYGROUPS+"."+i+"."+P_REMOVEENTITYDEFAULTS, "shape, body");
+		oProp.setProperty(pre+P_ENTITYGROUPS+"."+i+"."+P_OVERWRITEENTITYDEFAULTS+"."+clsEntity.P_SHAPE+"."+clsShapeCreator.P_DEFAULT_SHAPE, clsEntity.P_SHAPENAME);
+		oProp.setProperty(pre+P_ENTITYGROUPS+"."+i+"."+P_OVERWRITEENTITYDEFAULTS+"."+clsEntity.P_SHAPE+"."+clsEntity.P_SHAPENAME+"."+clsShapeCreator.P_TYPE, eShapeType.CIRCLE.name());
+		oProp.setProperty(pre+P_ENTITYGROUPS+"."+i+"."+P_OVERWRITEENTITYDEFAULTS+"."+clsEntity.P_SHAPE+"."+clsEntity.P_SHAPENAME+"."+clsShapeCreator.P_RADIUS, "1.5");
+		oProp.setProperty(pre+P_ENTITYGROUPS+"."+i+"."+P_OVERWRITEENTITYDEFAULTS+"."+clsEntity.P_SHAPE+"."+clsEntity.P_SHAPENAME+"."+clsShapeCreator.P_COLOR, Color.orange);
+		oProp.setProperty(pre+P_ENTITYGROUPS+"."+i+"."+P_OVERWRITEENTITYDEFAULTS+"."+clsEntity.P_SHAPE+"."+clsEntity.P_SHAPENAME+"."+clsShapeCreator.P_IMAGE_PATH, "/BW/src/resources/images/carrot_clipart.png");
+		oProp.setProperty(pre+P_ENTITYGROUPS+"."+i+"."+P_OVERWRITEENTITYDEFAULTS+"."+clsEntity.P_SHAPE+"."+clsEntity.P_SHAPENAME+"."+clsShapeCreator.P_IMAGE_POSITIONING, eImagePositioning.DEFAULT.name());		
+		oProp.setProperty(pre+P_ENTITYGROUPS+"."+i+"."+P_OVERWRITEENTITYDEFAULTS+"."+clsAnimate.P_BODY_TYPE, eBodyType.MEAT.toString());
+		oProp.setProperty(pre+P_ENTITYGROUPS+"."+i+"."+P_OVERWRITEENTITYDEFAULTS+"."+clsAnimate.P_BODY+"."+clsMeatBody.P_REGROWRATE, 1);
+		oProp.setProperty(pre+P_ENTITYGROUPS+"."+i+"."+P_OVERWRITEENTITYDEFAULTS+"."+clsAnimate.P_BODY+"."+clsMeatBody.P_MAXWEIGHT, 100);
+		oProp.setProperty(pre+P_ENTITYGROUPS+"."+i+"."+P_OVERWRITEENTITYDEFAULTS+"."+clsAnimate.P_BODY+"."+clsFlesh.P_WEIGHT, 50 );
+		oProp.setProperty(pre+P_ENTITYGROUPS+"."+i+"."+P_OVERWRITEENTITYDEFAULTS+"."+clsAnimate.P_BODY+"."+clsFlesh.P_NUMNUTRITIONS, 4 );
+		oProp.setProperty(pre+P_ENTITYGROUPS+"."+i+"."+P_OVERWRITEENTITYDEFAULTS+"."+clsAnimate.P_BODY+"."+"0."+clsFlesh.P_NUTRITIONTYPE, eNutritions.PROTEIN.name());
+		oProp.setProperty(pre+P_ENTITYGROUPS+"."+i+"."+P_OVERWRITEENTITYDEFAULTS+"."+clsAnimate.P_BODY+"."+"0."+clsFlesh.P_NUTRITIONFRACTION, 0.5);
+		oProp.setProperty(pre+P_ENTITYGROUPS+"."+i+"."+P_OVERWRITEENTITYDEFAULTS+"."+clsAnimate.P_BODY+"."+"1."+clsFlesh.P_NUTRITIONTYPE, eNutritions.VITAMIN.name());
+		oProp.setProperty(pre+P_ENTITYGROUPS+"."+i+"."+P_OVERWRITEENTITYDEFAULTS+"."+clsAnimate.P_BODY+"."+"1."+clsFlesh.P_NUTRITIONFRACTION, 0.5);
+		oProp.setProperty(pre+P_ENTITYGROUPS+"."+i+"."+P_OVERWRITEENTITYDEFAULTS+"."+clsAnimate.P_BODY+"."+"2."+clsFlesh.P_NUTRITIONTYPE, eNutritions.WATER.name());
+		oProp.setProperty(pre+P_ENTITYGROUPS+"."+i+"."+P_OVERWRITEENTITYDEFAULTS+"."+clsAnimate.P_BODY+"."+"2."+clsFlesh.P_NUTRITIONFRACTION, 4);
+		oProp.setProperty(pre+P_ENTITYGROUPS+"."+i+"."+P_OVERWRITEENTITYDEFAULTS+"."+clsAnimate.P_BODY+"."+"3."+clsFlesh.P_NUTRITIONTYPE, eNutritions.UNDIGESTABLE.toString());
+		oProp.setProperty(pre+P_ENTITYGROUPS+"."+i+"."+P_OVERWRITEENTITYDEFAULTS+"."+clsAnimate.P_BODY+"."+"3."+clsFlesh.P_NUTRITIONFRACTION, 8);		
 		
 		i++;
-		oProp.setProperty(pre+P_ENTITYGROUPS+"."+i+"."+P_ENTITYGROUPTYPE, eEntityType.HARE.name());
+		oProp.setProperty(pre+P_ENTITYGROUPS+"."+i+"."+P_GROUPENTITYTYPE, eEntityType.HARE.name());
 		oProp.setProperty(pre+P_ENTITYGROUPS+"."+i+"."+P_NUMENTITES, 1);
 		oProp.setProperty(pre+P_ENTITYGROUPS+"."+i+"."+P_POSITIONS+"."+P_POSITIONTYPE, ePositionType.RANDOM.name());
-		oProp.setProperty(pre+P_ENTITYGROUPS+"."+i+"."+P_OVERWRITEDEFAULTS+"."+clsAnimate.P_DECISION_TYPE, eDecisionType.HARE_JADEX.name());
+		oProp.setProperty(pre+P_ENTITYGROUPS+"."+i+"."+P_GROUPDECISIONUNITTYPE, eDecisionType.HARE_JADEX.name());
 		
 		i++;
-		oProp.setProperty(pre+P_ENTITYGROUPS+"."+i+"."+P_ENTITYGROUPTYPE, eEntityType.LYNX.name());
+		oProp.setProperty(pre+P_ENTITYGROUPS+"."+i+"."+P_GROUPENTITYTYPE, eEntityType.LYNX.name());
 		oProp.setProperty(pre+P_ENTITYGROUPS+"."+i+"."+P_NUMENTITES, 1);
 		oProp.setProperty(pre+P_ENTITYGROUPS+"."+i+"."+P_POSITIONS+"."+P_POSITIONTYPE, ePositionType.RANDOM.name());
-		oProp.setProperty(pre+P_ENTITYGROUPS+"."+i+"."+P_OVERWRITEDEFAULTS+"."+clsAnimate.P_DECISION_TYPE, eDecisionType.LYNX_JAM.name());
+		oProp.setProperty(pre+P_ENTITYGROUPS+"."+i+"."+P_GROUPDECISIONUNITTYPE, eDecisionType.LYNX_JAM.name());
 		
 		i++;
-		oProp.setProperty(pre+P_ENTITYGROUPS+"."+i+"."+P_ENTITYGROUPTYPE, eEntityType.BASE.name());
+		oProp.setProperty(pre+P_ENTITYGROUPS+"."+i+"."+P_GROUPENTITYTYPE, eEntityType.BASE.name());
 		oProp.setProperty(pre+P_ENTITYGROUPS+"."+i+"."+P_NUMENTITES, 1);
 		oProp.setProperty(pre+P_ENTITYGROUPS+"."+i+"."+P_POSITIONS+"."+P_POSITIONTYPE, ePositionType.RANDOM.name());		
 		
 		i++;
-		oProp.setProperty(pre+P_ENTITYGROUPS+"."+i+"."+P_ENTITYGROUPTYPE, eEntityType.CAN.name());
+		oProp.setProperty(pre+P_ENTITYGROUPS+"."+i+"."+P_GROUPENTITYTYPE, eEntityType.CAN.name());
 		oProp.setProperty(pre+P_ENTITYGROUPS+"."+i+"."+P_NUMENTITES, 1);
 		oProp.setProperty(pre+P_ENTITYGROUPS+"."+i+"."+P_POSITIONS+"."+P_POSITIONTYPE, ePositionType.RANDOM.name());
 		
 		i++;
-		oProp.setProperty(pre+P_ENTITYGROUPS+"."+i+"."+P_ENTITYGROUPTYPE, eEntityType.CAKE.name());
+		oProp.setProperty(pre+P_ENTITYGROUPS+"."+i+"."+P_GROUPENTITYTYPE, eEntityType.CAKE.name());
 		oProp.setProperty(pre+P_ENTITYGROUPS+"."+i+"."+P_NUMENTITES, 1);
 		oProp.setProperty(pre+P_ENTITYGROUPS+"."+i+"."+P_POSITIONS+"."+P_POSITIONTYPE, ePositionType.RANDOM.name());
 		
 		i++;
-		oProp.setProperty(pre+P_ENTITYGROUPS+"."+i+"."+P_ENTITYGROUPTYPE, eEntityType.STONE.name());
+		oProp.setProperty(pre+P_ENTITYGROUPS+"."+i+"."+P_GROUPENTITYTYPE, eEntityType.STONE.name());
 		oProp.setProperty(pre+P_ENTITYGROUPS+"."+i+"."+P_NUMENTITES, 1);
 		oProp.setProperty(pre+P_ENTITYGROUPS+"."+i+"."+P_POSITIONS+"."+P_POSITIONTYPE, ePositionType.RANDOM.name());
 		
 		i++;
-		oProp.setProperty(pre+P_ENTITYGROUPS+"."+i+"."+P_ENTITYGROUPTYPE, eEntityType.FUNGUS.name());
+		oProp.setProperty(pre+P_ENTITYGROUPS+"."+i+"."+P_GROUPENTITYTYPE, eEntityType.FUNGUS.name());
 		oProp.setProperty(pre+P_ENTITYGROUPS+"."+i+"."+P_NUMENTITES, 1);
 		oProp.setProperty(pre+P_ENTITYGROUPS+"."+i+"."+P_POSITIONS+"."+P_POSITIONTYPE, ePositionType.RANDOM.name());	
 
 		i++;
-		oProp.setProperty(pre+P_ENTITYGROUPS+"."+i+"."+P_ENTITYGROUPTYPE, eEntityType.URANIUM.name());
+		oProp.setProperty(pre+P_ENTITYGROUPS+"."+i+"."+P_GROUPENTITYTYPE, eEntityType.URANIUM.name());
 		oProp.setProperty(pre+P_ENTITYGROUPS+"."+i+"."+P_NUMENTITES, 1);
 		oProp.setProperty(pre+P_ENTITYGROUPS+"."+i+"."+P_POSITIONS+"."+P_POSITIONTYPE, ePositionType.RANDOM.name());
 		
 		i++;
-		oProp.setProperty(pre+P_ENTITYGROUPS+"."+i+"."+P_ENTITYGROUPTYPE, eEntityType.CARROT.name());
+		oProp.setProperty(pre+P_ENTITYGROUPS+"."+i+"."+P_GROUPENTITYTYPE, eEntityType.CARROT.name());
 		oProp.setProperty(pre+P_ENTITYGROUPS+"."+i+"."+P_NUMENTITES, 1);
 		oProp.setProperty(pre+P_ENTITYGROUPS+"."+i+"."+P_POSITIONS+"."+P_POSITIONTYPE, ePositionType.RANDOM.name());	
 		
@@ -237,11 +270,17 @@ public class clsSimplePropertyLoader extends clsLoader {
     
     private clsBWProperties getEntityProperties(eEntityType pnType) {
     	String pre = clsBWProperties.addDot( getPrefix() );    	
-    	String oKey = pre+P_ENTITYDEFAULTS+"."+pnType.name();
+    	String oKey = pre+P_DEFAULTSENTITY+"."+pnType.name();
     	clsBWProperties oResult = getProperties().getSubset(oKey);
     	return oResult;
-    	
     }
+    
+    private clsBWProperties getDecisionUnitProperties(eDecisionType pnType) {
+    	String pre = clsBWProperties.addDot( getPrefix() );    	
+    	String oKey = pre+P_DEFAULTSDECISIONUNIT+"."+pnType.name();
+    	clsBWProperties oResult = getProperties().getSubset(oKey);
+    	return oResult;
+    }    
     
     private clsBWProperties getPosition(String poPrefix, clsBWProperties poProp, String poPositionPrefix, int pnNumber) {
     	String pre = clsBWProperties.addDot(poPrefix)+P_POSITIONS+".";
@@ -266,66 +305,71 @@ public class clsSimplePropertyLoader extends clsLoader {
     	return oPos;
     }
     
-    private void createEntity(String poPrefix, clsBWProperties poProp, eEntityType pnType) {
-    	String pre = clsBWProperties.addDot(poPrefix);
+    private void createEntity(clsBWProperties poPropEntity, clsBWProperties poPropDecisionUnit, eEntityType pnEntityType, eDecisionType pnDecisionType) {
+    	String pre = clsBWProperties.addDot("");
 
+    	itfDecisionUnit oDU = null;
+    	if (pnDecisionType != eDecisionType.NONE) {
+    			oDU = clsDecisionUnitFactory.createDecisionUnit_static(pnDecisionType, pre, poPropDecisionUnit);
+    	}
+    	
     	clsEntity oEntity = null;
     	
-    	switch(pnType) {
+    	switch(pnEntityType) {
     		case BUBBLE:
-    			oEntity = new clsBubble(pre, poProp);
+    			oEntity = new clsBubble(oDU, pre, poPropEntity);
     			clsRegisterEntity.registerEntity((clsBubble)oEntity);		
     			break;
     		case FUNGUS_EATER:
-    			oEntity = new clsFungusEater(pre, poProp);
+    			oEntity = new clsFungusEater(oDU, pre, poPropEntity);
     			clsRegisterEntity.registerEntity((clsFungusEater)oEntity);		
     			break;
     		case REMOTEBOT:
-    			oEntity = new clsRemoteBot(pre, poProp);
+    			oEntity = new clsRemoteBot(oDU, pre, poPropEntity);
     			clsRegisterEntity.registerEntity((clsRemoteBot)oEntity);		
     			break;
     		case PLANT:
-    			oEntity = new clsPlant(pre, poProp);
+    			oEntity = new clsPlant(pre, poPropEntity);
     			clsRegisterEntity.registerEntity((clsPlant)oEntity);		
     			break;
     		case HARE:
-    			oEntity = new clsHare(pre, poProp);
+    			oEntity = new clsHare(oDU, pre, poPropEntity);
     			clsRegisterEntity.registerEntity((clsHare)oEntity);		
     			break;
     		case LYNX:
-    			oEntity = new clsLynx(pre, poProp);
+    			oEntity = new clsLynx(oDU, pre, poPropEntity);
     			clsRegisterEntity.registerEntity((clsLynx)oEntity);		
     			break;
     		case BASE:
-    			oEntity = new clsBase(pre, poProp);
+    			oEntity = new clsBase(pre, poPropEntity);
     			clsRegisterEntity.registerEntity((clsBase)oEntity);		
     			break;
     		case CAN:
-    			oEntity = new clsCan(pre, poProp);
+    			oEntity = new clsCan(pre, poPropEntity);
     			clsRegisterEntity.registerEntity((clsCan)oEntity);		
     			break;
     		case CAKE:
-    			oEntity = new clsCake(pre, poProp);
+    			oEntity = new clsCake(pre, poPropEntity);
     			clsRegisterEntity.registerEntity((clsCake)oEntity);		
     			break;
     		case STONE:
-    			oEntity = new clsStone(pre, poProp);
+    			oEntity = new clsStone(pre, poPropEntity);
     			clsRegisterEntity.registerEntity((clsStone)oEntity);		
     			break;
     		case FUNGUS:
-    			oEntity = new clsFungus(pre, poProp);
+    			oEntity = new clsFungus(pre, poPropEntity);
     			clsRegisterEntity.registerEntity((clsFungus)oEntity);		
     			break;
     		case URANIUM:
-    			oEntity = new clsUraniumOre(pre, poProp);
+    			oEntity = new clsUraniumOre(pre, poPropEntity);
     			clsRegisterEntity.registerEntity((clsUraniumOre)oEntity);		
     			break;    			
     		case CARROT:
-    			oEntity = new clsCarrot(pre, poProp);
+    			oEntity = new clsCarrot(pre, poPropEntity);
     			clsRegisterEntity.registerEntity((clsCarrot)oEntity);		
     			break;     			
 			default:
-				throw new java.lang.IllegalArgumentException("eEntityType."+pnType.toString());    	
+				throw new java.lang.IllegalArgumentException("eEntityType."+pnEntityType.toString());    	
     	}
     	
 		
@@ -333,30 +377,55 @@ public class clsSimplePropertyLoader extends clsLoader {
     
     private void createEntityGroup(String poPrefix, clsBWProperties poProp) {
     	String pre = clsBWProperties.addDot(poPrefix);
-    	eEntityType nType = eEntityType.valueOf(poProp.getPropertyString(pre+P_ENTITYGROUPTYPE));
-    	clsBWProperties oOverwrite = poProp.getSubset(pre+P_OVERWRITEDEFAULTS);
-    	List<String> oRemove = null;
     	
+    	eEntityType nEntityType = eEntityType.valueOf(poProp.getPropertyString(pre+P_GROUPENTITYTYPE));
+    	
+    	eDecisionType nDecisionType = eDecisionType.NONE;
     	try {
-    		poProp.getPropertyList(pre+P_REMOVEDEFAULTS);
+    		nDecisionType = eDecisionType.valueOf(poProp.getPropertyString(pre+P_GROUPDECISIONUNITTYPE));
+    	} catch (java.lang.NullPointerException e) {
+    		// do nothing
+    	}
+    		
+    	
+    	clsBWProperties oOverwriteEntityDefaults = poProp.getSubset(pre+P_OVERWRITEENTITYDEFAULTS);
+    	clsBWProperties oOverwriteDecisionUnitDefaults = poProp.getSubset(pre+P_OVERWRITEDECISIONUNITDEFAULTS);
+
+    	List<String> oRemoveEntityDefaults = null;
+    	try {
+    		oRemoveEntityDefaults = poProp.getPropertyList(pre+P_REMOVEENTITYDEFAULTS);
+    	} catch (java.lang.NullPointerException e) {
+    		// do nothing
+    	}
+
+    	List<String> oRemoveDecisionUnitDefaults = null;
+    	try {
+    		oRemoveDecisionUnitDefaults = poProp.getPropertyList(pre+P_REMOVEDECISIONUNITDEFAULTS);
     	} catch (java.lang.NullPointerException e) {
     		// do nothing
     	}
     	
     	int num = poProp.getPropertyInt(pre+P_NUMENTITES);
     	for (int i=0; i<num; i++) {
-    		clsBWProperties oEntityProperties = getEntityProperties(nType);
-    		oEntityProperties.put( clsEntity.P_ID, nType.name()+"_"+i );
-    		
-    		if (oRemove != null) {
-	    		for (String oRemoveKey:oRemove) {
+    		clsBWProperties oEntityProperties = getEntityProperties(nEntityType);
+    		oEntityProperties.put( clsEntity.P_ID, nEntityType.name()+"_"+i );
+    		if (oRemoveEntityDefaults != null) {
+	    		for (String oRemoveKey:oRemoveEntityDefaults) {
 	    			oEntityProperties.removeKeysStartingWith(oRemoveKey);
 	    		}
     		}
-    		
-    		oEntityProperties.putAll( oOverwrite );
+    		oEntityProperties.putAll( oOverwriteEntityDefaults );
     		oEntityProperties.putAll( getPosition(pre, poProp, "", i) );    		
-    		createEntity("", oEntityProperties, nType);
+    		
+    		clsBWProperties oDecisionUnitProperties = getDecisionUnitProperties(nDecisionType);
+    		if (oRemoveDecisionUnitDefaults != null) {
+	    		for (String oRemoveKey:oRemoveDecisionUnitDefaults) {
+	    			oDecisionUnitProperties.removeKeysStartingWith(oRemoveKey);
+	    		}
+    		}    		    		
+    		oDecisionUnitProperties.putAll( oOverwriteDecisionUnitDefaults );
+    		
+    		createEntity(oEntityProperties, oDecisionUnitProperties, nEntityType, nDecisionType);
     	}
     }
     

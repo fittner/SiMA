@@ -14,10 +14,10 @@ import java.util.ArrayList;
 import bw.body.clsComplexBody;
 import bw.body.io.actuators.clsActionExecutor;
 import bw.body.io.actuators.actionProxies.*;
-import decisionunit.itf.actions.*;
+import du.enums.eSensorExtType;
+import du.itf.actions.*;
 import bw.entities.clsMobile;
 import bw.utils.enums.eBindingState;
-import enums.eSensorExtType;
 import bw.body.itfget.itfGetBody;
 
 /**

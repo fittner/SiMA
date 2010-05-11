@@ -15,8 +15,8 @@ import java.util.Iterator;
 import config.clsBWProperties;
 
 import statictools.clsSingletonUniqueIdGenerator;
-import decisionunit.itf.actions.*;
-import enums.eCallPriority;
+import du.enums.eCallPriority;
+import du.itf.actions.*;
 import bw.body.clsComplexBody;
 import bw.body.itfget.itfGetBody;
 import bw.entities.clsEntity;

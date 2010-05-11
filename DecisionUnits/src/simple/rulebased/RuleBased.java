@@ -8,9 +8,31 @@
  */
 package simple.rulebased;
 
+import config.clsBWProperties;
 import decisionunit.clsBaseDecisionUnit;
 
 public class RuleBased extends clsBaseDecisionUnit {
+	public RuleBased(String poPrefix, clsBWProperties poProp) {
+		super(poPrefix, poProp);
+		
+		applyProperties(poPrefix, poProp);		
+	}
+	
+	public static clsBWProperties getDefaultProperties(String poPrefix) {
+//		String pre = clsBWProperties.addDot(poPrefix);
+
+		clsBWProperties oProp = new clsBWProperties();
+		
+		oProp.putAll( clsBaseDecisionUnit.getDefaultProperties(poPrefix) );
+		
+		return oProp;
+	}	
+
+	private void applyProperties(String poPrefix, clsBWProperties poProp) {
+//		String pre = clsBWProperties.addDot(poPrefix);
+
+	}
+	
 /*	
 	public clsBrainAction doThinking(clsSensorData Input) {
 		clsBrainAction Result = null;

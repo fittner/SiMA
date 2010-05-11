@@ -8,7 +8,7 @@ package pa.interfaces;
 
 import java.util.ArrayList;
 
-import decisionunit.itf.actions.clsActionCommand;
+import du.itf.actions.clsActionCommand;
 
 /**
  * DOCUMENT (deutsch) - insert description 

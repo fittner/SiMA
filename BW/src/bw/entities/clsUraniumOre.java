@@ -10,12 +10,12 @@ package bw.entities;
 import java.awt.Color;
 
 import config.clsBWProperties;
+import du.enums.eEntityType;
 import bw.utils.enums.eBindingState;
 import bw.utils.enums.eShapeType;
 import bw.body.io.actuators.actionProxies.itfAPCarryable;
 import bw.entities.tools.clsShapeCreator;
 import bw.entities.tools.eImagePositioning;
-import enums.eEntityType;
 
 /**
  * 

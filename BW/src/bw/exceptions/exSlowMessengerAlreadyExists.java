@@ -7,7 +7,7 @@
  */
 package bw.exceptions;
 
-import enums.eSlowMessenger;
+import du.enums.eSlowMessenger;
 
 /**
  * DOCUMENT (deutsch) - insert description 

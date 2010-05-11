@@ -9,7 +9,7 @@ package bw.body.intraBodySystems;
 import java.util.HashMap;
 import java.util.Map;
 import config.clsBWProperties;
-import enums.eSlowMessenger;
+import du.enums.eSlowMessenger;
 import bw.body.itfStepUpdateInternalState;
 import bw.body.internalSystems.clsSlowMessengerSystem;
 import bw.body.internalSystems.clsStomachSystem;

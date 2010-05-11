@@ -11,12 +11,13 @@ import java.util.Vector;
 
 import org.w3c.dom.Node;
 
+import du.enums.pa.eRepressedContentType;
+
+import pa.bfg.tools.xmltools.clsXMLAbstractImageReader;
+import pa.bfg.tools.xmltools.clsXMLConfiguration;
 import pa.datatypes.clsPrimaryInformation;
 
-import bfg.tools.xmltools.clsXMLAbstractImageReader;
-import bfg.tools.xmltools.clsXMLConfiguration;
 
-import enums.pa.eRepressedContentType;
 
 /**
  * DOCUMENT (langr) - insert description 

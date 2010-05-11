@@ -13,13 +13,14 @@ import java.util.Vector;
 import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
 
-import enums.pa.eContext;
-import enums.pa.eRepressedContentType;
+import du.enums.pa.eContext;
+import du.enums.pa.eRepressedContentType;
+
+import pa.bfg.tools.xmltools.clsXMLAbstractImageReader;
+import pa.bfg.tools.xmltools.clsXMLContextReader;
 import pa.datatypes.clsPrimaryInformation;
 import pa.tools.clsTripple;
 import statictools.clsGetARSPath;
-import bfg.tools.xmltools.clsXMLAbstractImageReader;
-import bfg.tools.xmltools.clsXMLContextReader;
 
 /**
  * DOCUMENT (zeilinger) - insert description 

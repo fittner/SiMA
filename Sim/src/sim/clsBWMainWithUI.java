@@ -19,7 +19,7 @@ import java.awt.Container;
 import java.awt.Dimension;
 import org.jfree.chart.ChartPanel;
 import config.clsBWProperties;
-import enums.eEntityType;
+import du.enums.eEntityType;
 import bw.factories.clsSingletonProperties;
 import bw.factories.clsSingletonMasonGetter;
 //import bw.utils.visualization.clsCharts;

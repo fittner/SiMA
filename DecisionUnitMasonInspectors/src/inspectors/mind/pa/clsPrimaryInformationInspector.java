@@ -36,7 +36,8 @@ import com.jgraph.layout.JGraphFacade;
 import com.jgraph.layout.JGraphModelFacade;
 import com.jgraph.layout.tree.JGraphCompactTreeLayout;
 
-import enums.pa.eContext;
+import du.enums.pa.eContext;
+
 
 import pa.datatypes.clsAffect;
 import pa.datatypes.clsAssociation;

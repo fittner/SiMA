@@ -10,10 +10,10 @@ import bw.body.attributes.clsAttributeAntenna;
 import bw.body.attributes.clsAttributeEye;
 import bw.entities.clsEntity;
 import config.clsBWProperties;
-import enums.eAntennaPositions;
-import enums.eEyeSize;
-import enums.eLensShape;
-import enums.eLensSize;
+import du.enums.eAntennaPositions;
+import du.enums.eEyeSize;
+import du.enums.eLensShape;
+import du.enums.eLensSize;
 
 /**
  * DOCUMENT (deutsch) - insert description 

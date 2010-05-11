@@ -11,11 +11,7 @@ package bw.entities;
 import java.util.TreeMap;
 
 import config.clsBWProperties;
-import decisionunit.clsBaseDecisionUnit;
-import du.utils.enums.eDecisionType;
-import simple.dumbmind.clsDumbMindA;
-import simple.reactive.clsReactive;
-import simple.remotecontrol.clsRemoteControl;
+import du.itf.itfDecisionUnit;
 import bw.body.clsMeatBody;
 import bw.body.itfGetBrain;
 import bw.body.itfGetExternalIO;
@@ -31,15 +27,10 @@ import bw.utils.enums.eBodyType;
  */
 public abstract class clsAnimate extends clsMobile {
 
-	public static final String P_DECISION_TYPE = "decisionunit_type";
-	public static final String P_DU_PROPERTIES = "decisionunit_props";
-	
-
-	
-	public clsAnimate(String poPrefix, clsBWProperties poProp) {
+	public clsAnimate(itfDecisionUnit poDU, String poPrefix, clsBWProperties poProp) {
 		super(poPrefix, poProp);
 		
-		applyProperties(poPrefix, poProp);
+		applyProperties(poDU, poPrefix, poProp);
 	}
 
 	public static clsBWProperties getDefaultProperties(String poPrefix) {
@@ -52,62 +43,13 @@ public abstract class clsAnimate extends clsMobile {
 		return oProp;
 	}	
 	
-	private void applyProperties(String poPrefix, clsBWProperties poProp) {
-		String pre 	= clsBWProperties.addDot(poPrefix);
+	private void applyProperties(itfDecisionUnit poDU, String poPrefix, clsBWProperties poProp) {
+	//	String pre 	= clsBWProperties.addDot(poPrefix);
 
-		setDecisionUnit( createDecisionUnit(pre, poProp) );		
+		setDecisionUnit( poDU );		
 	}	
-
 	
-	
-	private clsBaseDecisionUnit createDecisionUnit(String poPrefix, clsBWProperties poProp) {
-		String pre = clsBWProperties.addDot(poPrefix);
-		
-		eDecisionType nDecisionType = eDecisionType.valueOf( poProp.getPropertyString(pre+P_DECISION_TYPE) );
-		
-		clsBaseDecisionUnit oDecisionUnit = null;
-		
-		//create the defined decision unit...
-		switch(nDecisionType) {
-			case DUMB_MIND_A:
-				oDecisionUnit = new clsDumbMindA();
-				break;
-			case FUNGUS_EATER:
-				oDecisionUnit = new clsReactive();
-				break;
-			case REMOTE:
-				oDecisionUnit = new clsRemoteControl();
-				break;
-			case HARE_JADEX:
-				oDecisionUnit = new students.lifeCycle.JADEX.clsHareMind();
-				break;			
-			case HARE_JAM:
-				oDecisionUnit = new students.lifeCycle.JAM.clsHareMind();
-				break;		
-			case HARE_IFTHENELSE:
-				oDecisionUnit = new students.lifeCycle.IfThenElse.clsHareMind();
-				break;	
-			case LYNX_JADEX:
-				oDecisionUnit = new students.lifeCycle.JADEX.clsLynxMind();
-				break;			
-			case LYNX_JAM:
-				oDecisionUnit = new students.lifeCycle.JAM.clsLynxMind();
-				break;	
-			case LYNX_IFTHENELSE:
-				oDecisionUnit = new students.lifeCycle.IfThenElse.clsLynxMind();
-				break;	
-			case PA:
-				oDecisionUnit = new pa.clsPsychoAnalysis(pre+P_DU_PROPERTIES, poProp);
-				break;
-			default:
-				oDecisionUnit = null;
-			break;
-		}
-		
-		return oDecisionUnit;
-	}
-	
-	public void setDecisionUnit(clsBaseDecisionUnit poDecisionUnit) {
+	public void setDecisionUnit(itfDecisionUnit poDecisionUnit) {
 		if (moBody instanceof itfGetBrain && poDecisionUnit != null) {
 			((itfGetBrain)moBody).getBrain().setDecisionUnit(poDecisionUnit);
 		}

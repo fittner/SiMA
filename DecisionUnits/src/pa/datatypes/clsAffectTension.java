@@ -6,7 +6,7 @@
  */
 package pa.datatypes;
 
-import bfg.tools.cls0to1;
+import pa.bfg.tools.cls0to1;
 
 /**
  * DOCUMENT (langr) - insert description 

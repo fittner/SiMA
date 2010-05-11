@@ -8,28 +8,25 @@
 package bw.entities;
 
 import java.awt.Color;
-
 import config.clsBWProperties;
-import du.utils.enums.eDecisionType;
+import du.enums.eEntityType;
+import du.itf.itfDecisionUnit;
 import bw.physicalObjects.bodyparts.clsBotHands;
 import bw.utils.enums.eBodyAttributes;
 import bw.utils.enums.eBodyType;
 import bw.utils.enums.eShapeType;
 import bw.body.clsComplexBody;
-
 import bw.body.itfGetBrain;
 import bw.body.attributes.clsAttributeAntenna;
 import bw.body.attributes.clsAttributeEye;
 import bw.body.attributes.clsAttributeHand;
 import bw.body.attributes.clsAttributes;
 import bw.body.brainsocket.clsBrainSocket;
-
 import bw.body.io.clsExternalIO;
 import bw.body.itfget.itfGetBotHand;
 import bw.body.itfget.itfGetRadiation;
 import bw.body.itfget.itfGetSensorEngine;
 import bw.entities.tools.clsShapeCreator;
-import enums.eEntityType;
 import sim.display.clsKeyListener;
 import sim.physics2D.util.Angle;
 
@@ -51,8 +48,8 @@ public class clsRemoteBot extends clsAnimate implements itfGetSensorEngine, itfG
     private clsBotHands moBotHand1;
     private clsBotHands moBotHand2;
 	
-    public clsRemoteBot(String poPrefix, clsBWProperties poProp) {
-		super(poPrefix, poProp);
+    public clsRemoteBot(itfDecisionUnit poDU, String poPrefix, clsBWProperties poProp) {
+		super(poDU, poPrefix, poProp);
 		applyProperties(poPrefix, poProp);
 	}
 	
@@ -69,13 +66,8 @@ public class clsRemoteBot extends clsAnimate implements itfGetSensorEngine, itfG
 		
 		oProp.putAll( clsAnimate.getDefaultProperties(pre) );
 		
-		//TODO: (langr) - should pass the config to the decision unit!
-		//oProp.putAll( clsDumbMindA.getDefaultProperties(pre) ); //clsDumbMindA.getDefaultProperties(pre)
-		//SET the Bdy type... otherwise an exception will occur as moBody will be null
-		//TODO: Make sure that the Body type is the right one
 		oProp.putAll( clsComplexBody.getDefaultProperties(pre+P_BODY) ); 
 		oProp.setProperty(pre+P_BODY_TYPE, eBodyType.COMPLEX.toString());
-		oProp.setProperty(pre+P_DECISION_TYPE, eDecisionType.REMOTE.name());
 		
 		//add correct default sensor values (three range vision)
 		oProp.removeKeysStartingWith(pre+clsEntity.P_BODY+"."+clsComplexBody.P_EXTERNALIO+"."+clsExternalIO.P_SENSORS);

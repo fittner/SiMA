@@ -14,12 +14,12 @@ import bw.body.clsSimpleBody;
 import bw.body.itfget.itfGetBody;
 import bw.utils.enums.eBodyType;
 import config.clsBWProperties;
+import du.enums.eEntityType;
 import sim.physics2D.physicalObject.PhysicalObject2D;
 import sim.physics2D.shape.Shape;
 import statictools.clsSingletonUniqueIdGenerator;
 import ARSsim.physics2D.physicalObject.itfSetupFunctions;
 import ARSsim.physics2D.util.clsPose;
-import enums.eEntityType;
 
 /**
  * Entity is the base class of any object in the BubbleWorld.

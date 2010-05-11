@@ -9,8 +9,8 @@ package inspectors.mind.pa;
 import java.awt.BorderLayout;
 import java.util.HashMap;
 
-import decisionunit.itf.sensors.clsDataBase;
-import enums.eSensorIntType;
+import du.enums.eSensorIntType;
+import du.itf.sensors.clsDataBase;
 
 import pa.modules.E02_NeurosymbolizationOfNeeds;
 import sim.display.GUIState;

@@ -10,7 +10,7 @@ package bw.body.io;
 import java.util.HashMap;
 
 import config.clsBWProperties;
-import enums.eSensorIntType;
+import du.enums.eSensorIntType;
 import bw.body.clsBaseBody;
 import bw.body.io.sensors.internal.clsEnergyConsumptionSensor;
 import bw.body.io.sensors.internal.clsEnergySensor;
