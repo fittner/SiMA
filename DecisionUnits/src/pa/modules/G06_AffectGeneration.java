@@ -9,13 +9,14 @@ package pa.modules;
 import java.util.ArrayList;
 import java.util.List;
 
+import pa.clsInterfaceHandler;
 import pa.datatypes.clsAffectCandidate;
 import pa.datatypes.clsPrimaryInformation;
 import pa.datatypes.clsPrimaryInformationMesh;
-import pa.interfaces.I1_4;
-import pa.interfaces.I1_5;
-import pa.interfaces.I2_8;
-import pa.interfaces.I2_9;
+import pa.interfaces.receive.I1_4_receive;
+import pa.interfaces.receive.I1_5_receive;
+import pa.interfaces.receive.I2_8_receive;
+import pa.interfaces.receive.I2_9_receive;
 import pa.memory.clsMemory;
 import pa.tools.clsPair;
 import config.clsBWProperties;
@@ -28,10 +29,10 @@ import config.clsBWProperties;
  * 
  */
 public class G06_AffectGeneration extends clsModuleContainer implements
-                           I1_4,
-                           I1_5,
-                           I2_8,
-                           I2_9
+                           I1_4_receive,
+                           I1_5_receive,
+                           I2_8_receive,
+                           I2_9_receive
                            {
 	public static final String P_E05 = "E05";
 	public static final String P_E18 = "E18";
@@ -50,8 +51,8 @@ public class G06_AffectGeneration extends clsModuleContainer implements
 	 * @param poEnclosingContainer
 	 */
 	public G06_AffectGeneration(String poPrefix, clsBWProperties poProp,
-			clsModuleContainer poEnclosingContainer, clsMemory poMemory) {
-		super(poPrefix, poProp, poEnclosingContainer, poMemory);
+			clsModuleContainer poEnclosingContainer, clsInterfaceHandler poInterfaceHandler, clsMemory poMemory) {
+		super(poPrefix, poProp, poEnclosingContainer, poInterfaceHandler, poMemory);
 		applyProperties(poPrefix, poProp);
 	}
 	
@@ -69,8 +70,8 @@ public class G06_AffectGeneration extends clsModuleContainer implements
 	private void applyProperties(String poPrefix, clsBWProperties poProp) {
 		String pre = clsBWProperties.addDot(poPrefix);
 	
-		moE05GenerationOfAffectsForDrives = new E05_GenerationOfAffectsForDrives(pre+P_E05, poProp, this);
-		moE18GenerationOfAffectsForPerception = new E18_GenerationOfAffectsForPerception(pre+P_E18, poProp, this);
+		moE05GenerationOfAffectsForDrives = new E05_GenerationOfAffectsForDrives(pre+P_E05, poProp, this, moInterfaceHandler);
+		moE18GenerationOfAffectsForPerception = new E18_GenerationOfAffectsForPerception(pre+P_E18, poProp, this, moInterfaceHandler);
 	}
 
 	/* (non-Javadoc)
@@ -96,7 +97,7 @@ public class G06_AffectGeneration extends clsModuleContainer implements
 	 */
 	@Override
 	public void receive_I1_5(List<clsPrimaryInformation> poData) {
-		((I1_5)moEnclosingContainer).receive_I1_5(poData);
+		((I1_5_receive)moEnclosingContainer).receive_I1_5(poData);
 		
 	}
 
@@ -122,7 +123,7 @@ public class G06_AffectGeneration extends clsModuleContainer implements
 	 */
 	@Override
 	public void receive_I2_9(ArrayList<clsPrimaryInformation> poMergedPrimaryInformation) {
-		((I2_9)moEnclosingContainer).receive_I2_9(poMergedPrimaryInformation);
+		((I2_9_receive)moEnclosingContainer).receive_I2_9(poMergedPrimaryInformation);
 		
 	}
 }

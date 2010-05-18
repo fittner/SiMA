@@ -9,8 +9,9 @@ package pa.modules;
 import java.util.ArrayList;
 
 import config.clsBWProperties;
-import pa.interfaces.I7_4;
-import pa.interfaces.I8_1;
+import pa.clsInterfaceHandler;
+import pa.interfaces.receive.I7_4_receive;
+import pa.interfaces.receive.I8_1_receive;
 import pa.loader.plan.clsPlanAction;
 
 /**
@@ -20,7 +21,7 @@ import pa.loader.plan.clsPlanAction;
  * 11.08.2009, 14:58:20
  * 
  */
-public class E30_MotilityControl extends clsModuleBase implements I7_4 {
+public class E30_MotilityControl extends clsModuleBase implements I7_4_receive {
 
 	private ArrayList<clsPlanAction> moActionCommands_Input;
 	private ArrayList<clsPlanAction> moActionCommands_Output;
@@ -36,8 +37,8 @@ public class E30_MotilityControl extends clsModuleBase implements I7_4 {
 	 * @param poEnclosingContainer
 	 */
 	public E30_MotilityControl(String poPrefix, clsBWProperties poProp,
-			clsModuleContainer poEnclosingContainer) {
-		super(poPrefix, poProp, poEnclosingContainer);
+			clsModuleContainer poEnclosingContainer, clsInterfaceHandler poInterfaceHandler) {
+		super(poPrefix, poProp, poEnclosingContainer, poInterfaceHandler);
 		applyProperties(poPrefix, poProp);	
 		
 		moActionCommands_Output = new ArrayList<clsPlanAction>();
@@ -118,7 +119,7 @@ public class E30_MotilityControl extends clsModuleBase implements I7_4 {
 	 */
 	@Override
 	protected void send() {
-		((I8_1)moEnclosingContainer).receive_I8_1(moActionCommands_Output);
+		((I8_1_receive)moEnclosingContainer).receive_I8_1(moActionCommands_Output);
 		
 	}
 }

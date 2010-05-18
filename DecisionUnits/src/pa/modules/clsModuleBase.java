@@ -8,6 +8,8 @@ package pa.modules;
 
 import java.lang.reflect.Method;
 import java.util.Iterator;
+
+import pa.clsInterfaceHandler;
 import config.clsBWProperties;
 
 
@@ -25,8 +27,11 @@ public abstract class clsModuleBase {
 	
 	protected int mnTest = 0;
 	
-	public clsModuleBase(String poPrefix, clsBWProperties poProp, clsModuleContainer poEnclosingContainer) {
+	protected clsInterfaceHandler moInterfaceHandler;
+	
+	public clsModuleBase(String poPrefix, clsBWProperties poProp, clsModuleContainer poEnclosingContainer, clsInterfaceHandler poInterfaceHandler) {
 		moEnclosingContainer = poEnclosingContainer;
+		moInterfaceHandler = poInterfaceHandler;
 		
 		setProcessType();
 		setPsychicInstances();

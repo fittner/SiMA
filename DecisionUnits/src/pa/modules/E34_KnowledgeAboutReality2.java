@@ -9,8 +9,9 @@ package pa.modules;
 import java.util.ArrayList;
 
 import config.clsBWProperties;
-import pa.interfaces.I7_3;
-import pa.interfaces.I7_5;
+import pa.clsInterfaceHandler;
+import pa.interfaces.receive.I7_3_receive;
+import pa.interfaces.receive.I7_5_receive;
 import pa.loader.plan.clsPlanAction;
 
 /**
@@ -20,7 +21,7 @@ import pa.loader.plan.clsPlanAction;
  * 27.04.2010, 10:38:16
  * 
  */
-public class E34_KnowledgeAboutReality2 extends clsModuleBase implements I7_3  {
+public class E34_KnowledgeAboutReality2 extends clsModuleBase implements I7_3_receive {
 
 	/**
 	 * DOCUMENT (deutsch) - insert description 
@@ -33,8 +34,8 @@ public class E34_KnowledgeAboutReality2 extends clsModuleBase implements I7_3  {
 	 * @param poEnclosingContainer
 	 */
 	public E34_KnowledgeAboutReality2(String poPrefix, clsBWProperties poProp,
-			clsModuleContainer poEnclosingContainer) {
-		super(poPrefix, poProp, poEnclosingContainer);
+			clsModuleContainer poEnclosingContainer, clsInterfaceHandler poInterfaceHandler) {
+		super(poPrefix, poProp, poEnclosingContainer, poInterfaceHandler);
 		// TODO (deutsch) - Auto-generated constructor stub
 	}
 
@@ -60,7 +61,7 @@ public class E34_KnowledgeAboutReality2 extends clsModuleBase implements I7_3  {
 	 */
 	@Override
 	protected void send() {
-		((I7_5)moEnclosingContainer).receive_I7_5(1);
+		((I7_5_receive)moEnclosingContainer).receive_I7_5(1);
 		
 	}
 

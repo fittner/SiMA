@@ -11,9 +11,10 @@ import java.util.HashMap;
 import config.clsBWProperties;
 import du.enums.eSensorExtType;
 import du.itf.sensors.clsSensorExtern;
+import pa.clsInterfaceHandler;
 import pa.enums.eSymbolExtType;
-import pa.interfaces.I2_4;
-import pa.interfaces.I2_3;
+import pa.interfaces.receive.I2_3_receive;
+import pa.interfaces.receive.I2_4_receive;
 import pa.symbolization.clsSensorToSymbolConverter;
 import pa.symbolization.representationsymbol.itfSymbol;
 
@@ -24,7 +25,7 @@ import pa.symbolization.representationsymbol.itfSymbol;
  * 11.08.2009, 14:24:29
  * 
  */
-public class E13_NeuroSymbolsBody extends clsModuleBase implements I2_3  {
+public class E13_NeuroSymbolsBody extends clsModuleBase implements I2_3_receive  {
 
 	private HashMap<eSensorExtType, clsSensorExtern> moBodyData;
 	private HashMap<eSymbolExtType, itfSymbol> moSymbolData;	
@@ -40,8 +41,8 @@ public class E13_NeuroSymbolsBody extends clsModuleBase implements I2_3  {
 	 * @param poEnclosingContainer
 	 */
 	public E13_NeuroSymbolsBody(String poPrefix, clsBWProperties poProp,
-			clsModuleContainer poEnclosingContainer) {
-		super(poPrefix, poProp, poEnclosingContainer);
+			clsModuleContainer poEnclosingContainer, clsInterfaceHandler poInterfaceHandler) {
+		super(poPrefix, poProp, poEnclosingContainer, poInterfaceHandler);
 		applyProperties(poPrefix, poProp);		
 	}
 	
@@ -119,7 +120,7 @@ public class E13_NeuroSymbolsBody extends clsModuleBase implements I2_3  {
 	 */
 	@Override
 	protected void send() {
-		((I2_4)moEnclosingContainer).receive_I2_4(moSymbolData);
+		((I2_4_receive)moEnclosingContainer).receive_I2_4(moSymbolData);
 		
 	}
 

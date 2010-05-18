@@ -9,10 +9,11 @@ package pa.modules;
 import java.util.ArrayList;
 
 import config.clsBWProperties;
+import pa.clsInterfaceHandler;
 import pa.datatypes.clsSecondaryInformation;
-import pa.interfaces.I1_7;
-import pa.interfaces.I2_11;
-import pa.interfaces.I2_12;
+import pa.interfaces.receive.I1_7_receive;
+import pa.interfaces.receive.I2_11_receive;
+import pa.interfaces.receive.I2_12_receive;
 
 /**
  * DOCUMENT (deutsch) - insert description 
@@ -21,7 +22,7 @@ import pa.interfaces.I2_12;
  * 11.08.2009, 14:46:53
  * 
  */
-public class E23_ExternalPerception_focused extends clsModuleBase implements I2_11, I1_7 {
+public class E23_ExternalPerception_focused extends clsModuleBase implements I2_11_receive, I1_7_receive {
 
 	private ArrayList<clsSecondaryInformation> moPerception;
 	private ArrayList<clsSecondaryInformation> moDriveList;
@@ -38,8 +39,8 @@ public class E23_ExternalPerception_focused extends clsModuleBase implements I2_
 	 * @param poEnclosingContainer
 	 */
 	public E23_ExternalPerception_focused(String poPrefix,
-			clsBWProperties poProp, clsModuleContainer poEnclosingContainer) {
-		super(poPrefix, poProp, poEnclosingContainer);
+			clsBWProperties poProp, clsModuleContainer poEnclosingContainer, clsInterfaceHandler poInterfaceHandler) {
+		super(poPrefix, poProp, poEnclosingContainer, poInterfaceHandler);
 		applyProperties(poPrefix, poProp);		
 	}
 	
@@ -133,6 +134,6 @@ public class E23_ExternalPerception_focused extends clsModuleBase implements I2_
 	 */
 	@Override
 	protected void send() {
-		((I2_12)moEnclosingContainer).receive_I2_12(moFocusedPerception_Output);
+		((I2_12_receive)moEnclosingContainer).receive_I2_12(moFocusedPerception_Output);
 	}
 }

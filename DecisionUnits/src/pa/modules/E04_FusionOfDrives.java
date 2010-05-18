@@ -8,10 +8,11 @@ package pa.modules;
 
 import java.util.ArrayList;
 
+import pa.clsInterfaceHandler;
 import pa.datatypes.clsAffectCandidate;
 import pa.datatypes.clsPrimaryInformationMesh;
-import pa.interfaces.I1_3;
-import pa.interfaces.I1_4;
+import pa.interfaces.receive.I1_3_receive;
+import pa.interfaces.receive.I1_4_receive;
 import pa.tools.clsPair;
 import config.clsBWProperties;
 
@@ -22,7 +23,7 @@ import config.clsBWProperties;
  * 11.08.2009, 13:40:06
  * 
  */
-public class E04_FusionOfDrives extends clsModuleBase implements I1_3 {
+public class E04_FusionOfDrives extends clsModuleBase implements I1_3_receive {
 
 	ArrayList<clsPair<clsPair<clsPrimaryInformationMesh, clsAffectCandidate>, 
 	  clsPair<clsPrimaryInformationMesh, clsAffectCandidate>>> moDriveCandidate;
@@ -38,8 +39,8 @@ public class E04_FusionOfDrives extends clsModuleBase implements I1_3 {
 	 * @param poEnclosingContainer
 	 */
 	public E04_FusionOfDrives(String poPrefix, clsBWProperties poProp,
-			clsModuleContainer poEnclosingContainer) {
-		super(poPrefix, poProp, poEnclosingContainer);
+			clsModuleContainer poEnclosingContainer, clsInterfaceHandler poInterfaceHandler) {
+		super(poPrefix, poProp, poEnclosingContainer, poInterfaceHandler);
 		applyProperties(poPrefix, poProp);		
 	}
 	
@@ -120,7 +121,7 @@ public class E04_FusionOfDrives extends clsModuleBase implements I1_3 {
 	 */
 	@Override
 	protected void send() {
-		((I1_4)moEnclosingContainer).receive_I1_4(moDriveCandidate);
+		((I1_4_receive)moEnclosingContainer).receive_I1_4(moDriveCandidate);
 		
 	}
 

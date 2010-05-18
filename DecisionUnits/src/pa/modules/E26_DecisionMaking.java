@@ -10,14 +10,15 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import config.clsBWProperties;
+import pa.clsInterfaceHandler;
 import pa.datatypes.clsSecondaryInformation;
 import pa.datatypes.clsSecondaryInformationMesh;
-import pa.interfaces.I1_7;
-import pa.interfaces.I2_13;
-import pa.interfaces.I3_3;
-import pa.interfaces.I5_5;
-import pa.interfaces.I7_1;
-import pa.interfaces.I7_2;
+import pa.interfaces.receive.I1_7_receive;
+import pa.interfaces.receive.I2_13_receive;
+import pa.interfaces.receive.I3_3_receive;
+import pa.interfaces.receive.I5_5_receive;
+import pa.interfaces.receive.I7_1_receive;
+import pa.interfaces.receive.I7_2_receive;
 import pa.tools.clsPair;
 
 /**
@@ -27,7 +28,7 @@ import pa.tools.clsPair;
  * 11.08.2009, 14:51:57
  * 
  */
-public class E26_DecisionMaking extends clsModuleBase implements I1_7, I2_13, I3_3, I5_5 {
+public class E26_DecisionMaking extends clsModuleBase implements I1_7_receive, I2_13_receive, I3_3_receive, I5_5_receive {
 
 	private ArrayList<clsSecondaryInformation> moDriveList;
 	private ArrayList<clsPair<clsSecondaryInformation, clsSecondaryInformationMesh>> moRealityPerception;
@@ -48,8 +49,8 @@ public class E26_DecisionMaking extends clsModuleBase implements I1_7, I2_13, I3
 	 * @param poEnclosingContainer
 	 */
 	public E26_DecisionMaking(String poPrefix, clsBWProperties poProp,
-			clsModuleContainer poEnclosingContainer) {
-		super(poPrefix, poProp, poEnclosingContainer);
+			clsModuleContainer poEnclosingContainer, clsInterfaceHandler poInterfaceHandler) {
+		super(poPrefix, poProp, poEnclosingContainer, poInterfaceHandler);
 		applyProperties(poPrefix, poProp);	
 		
 		moTemplateImageResult = new HashMap<String, clsPair<clsSecondaryInformation, Double>>();
@@ -187,8 +188,8 @@ public class E26_DecisionMaking extends clsModuleBase implements I1_7, I2_13, I3
 		
 
 		
-		((I7_1)moEnclosingContainer).receive_I7_1(moTemplateResult_Output);
-		((I7_2)moEnclosingContainer).receive_I7_2(mnTest);		
+		((I7_1_receive)moEnclosingContainer).receive_I7_1(moTemplateResult_Output);
+		((I7_2_receive)moEnclosingContainer).receive_I7_2(mnTest);		
 	}
 }
 

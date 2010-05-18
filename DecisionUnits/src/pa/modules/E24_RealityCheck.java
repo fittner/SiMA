@@ -9,11 +9,12 @@ package pa.modules;
 import java.util.ArrayList;
 
 import config.clsBWProperties;
+import pa.clsInterfaceHandler;
 import pa.datatypes.clsSecondaryInformation;
 import pa.datatypes.clsSecondaryInformationMesh;
-import pa.interfaces.I2_12;
-import pa.interfaces.I2_13;
-import pa.interfaces.I6_1;
+import pa.interfaces.receive.I2_12_receive;
+import pa.interfaces.receive.I2_13_receive;
+import pa.interfaces.receive.I6_1_receive;
 import pa.tools.clsPair;
 
 /**
@@ -23,7 +24,7 @@ import pa.tools.clsPair;
  * 11.08.2009, 14:49:09
  * 
  */
-public class E24_RealityCheck extends clsModuleBase implements I2_12, I6_1 {
+public class E24_RealityCheck extends clsModuleBase implements I2_12_receive, I6_1_receive {
 
 	private ArrayList<clsSecondaryInformation> moFocusedPerception_Input;
 	
@@ -40,8 +41,8 @@ public class E24_RealityCheck extends clsModuleBase implements I2_12, I6_1 {
 	 * @param poEnclosingContainer
 	 */
 	public E24_RealityCheck(String poPrefix, clsBWProperties poProp,
-			clsModuleContainer poEnclosingContainer) {
-		super(poPrefix, poProp, poEnclosingContainer);
+			clsModuleContainer poEnclosingContainer, clsInterfaceHandler poInterfaceHandler) {
+		super(poPrefix, poProp, poEnclosingContainer, poInterfaceHandler);
 		applyProperties(poPrefix, poProp);		
 	}
 	
@@ -139,7 +140,7 @@ public class E24_RealityCheck extends clsModuleBase implements I2_12, I6_1 {
 	 */
 	@Override
 	protected void send() {
-		((I2_13)moEnclosingContainer).receive_I2_13(moRealityPerception_Output);
+		((I2_13_receive)moEnclosingContainer).receive_I2_13(moRealityPerception_Output);
 		
 	}
 }

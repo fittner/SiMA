@@ -9,8 +9,9 @@ package pa.modules;
 import java.util.HashMap;
 import java.util.Map;
 
-import pa.interfaces.I1_1;
-import pa.interfaces.I1_2;
+import pa.clsInterfaceHandler;
+import pa.interfaces.receive.I1_1_receive;
+import pa.interfaces.receive.I1_2_receive;
 import config.clsBWProperties;
 import du.enums.eSensorIntType;
 import du.enums.eSlowMessenger;
@@ -29,7 +30,7 @@ import du.itf.sensors.clsStomachTension;
  * 11.08.2009, 12:12:02
  * 
  */
-public class E02_NeurosymbolizationOfNeeds extends clsModuleBase implements I1_1 {
+public class E02_NeurosymbolizationOfNeeds extends clsModuleBase implements I1_1_receive {
 
 	private HashMap<eSensorIntType, clsDataBase> moHomeostasis;
 	private HashMap<String, Double> moHomeostaticSymbol;
@@ -45,8 +46,8 @@ public class E02_NeurosymbolizationOfNeeds extends clsModuleBase implements I1_1
 	 * @param poEnclosingContainer
 	 */
 	public E02_NeurosymbolizationOfNeeds(String poPrefix,
-			clsBWProperties poProp, clsModuleContainer poEnclosingContainer) {
-		super(poPrefix, poProp, poEnclosingContainer);
+			clsBWProperties poProp, clsModuleContainer poEnclosingContainer, clsInterfaceHandler poInterfaceHandler) {
+		super(poPrefix, poProp, poEnclosingContainer, poInterfaceHandler);
 		applyProperties(poPrefix, poProp);		
 	}
 	
@@ -139,7 +140,7 @@ public class E02_NeurosymbolizationOfNeeds extends clsModuleBase implements I1_1
 	 */
 	@Override
 	protected void send() {
-		((I1_2)moEnclosingContainer).receive_I1_2(moHomeostaticSymbol);
+		((I1_2_receive)moEnclosingContainer).receive_I1_2(moHomeostaticSymbol);
 		
 	}
 

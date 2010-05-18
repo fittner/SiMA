@@ -8,18 +8,19 @@ package pa.modules;
 
 import java.util.ArrayList;
 
+import pa.clsInterfaceHandler;
 import pa.datatypes.clsAffectTension;
 import pa.datatypes.clsPrimaryInformation;
 import pa.datatypes.clsSecondaryInformation;
-import pa.interfaces.I1_6;
-import pa.interfaces.I1_7;
-import pa.interfaces.I2_10;
-import pa.interfaces.I2_11;
-import pa.interfaces.I5_1;
-import pa.interfaces.I5_2;
-import pa.interfaces.I5_3;
-import pa.interfaces.I5_4;
-import pa.interfaces.I5_5;
+import pa.interfaces.receive.I1_6_receive;
+import pa.interfaces.receive.I1_7_receive;
+import pa.interfaces.receive.I2_10_receive;
+import pa.interfaces.receive.I2_11_receive;
+import pa.interfaces.receive.I5_1_receive;
+import pa.interfaces.receive.I5_2_receive;
+import pa.interfaces.receive.I5_3_receive;
+import pa.interfaces.receive.I5_4_receive;
+import pa.interfaces.receive.I5_5_receive;
 import pa.memory.clsMemory;
 import config.clsBWProperties;
 
@@ -31,15 +32,15 @@ import config.clsBWProperties;
  * 
  */
 public class G10_PrimaryToSecondaryInterface extends clsModuleContainer implements
-						I1_6,
-						I1_7,
-						I2_10,
-						I2_11,
-						I5_1,
-						I5_2,
-						I5_3,
-						I5_4,
-						I5_5
+						I1_6_receive,
+						I1_7_receive,
+						I2_10_receive,
+						I2_11_receive,
+						I5_1_receive,
+						I5_2_receive,
+						I5_3_receive,
+						I5_4_receive,
+						I5_5_receive
 						{
 
 	public static final String P_E08 = "E08";
@@ -61,8 +62,8 @@ public class G10_PrimaryToSecondaryInterface extends clsModuleContainer implemen
 	 * @param poEnclosingContainer
 	 */
 	public G10_PrimaryToSecondaryInterface(String poPrefix, clsBWProperties poProp,
-			clsModuleContainer poEnclosingContainer, clsMemory poMemory) {
-		super(poPrefix, poProp, poEnclosingContainer, poMemory);
+			clsModuleContainer poEnclosingContainer, clsInterfaceHandler poInterfaceHandler, clsMemory poMemory) {
+		super(poPrefix, poProp, poEnclosingContainer, poInterfaceHandler, poMemory);
 		applyProperties(poPrefix, poProp);
 	}
 	
@@ -81,9 +82,9 @@ public class G10_PrimaryToSecondaryInterface extends clsModuleContainer implemen
 	private void applyProperties(String poPrefix, clsBWProperties poProp) {
 		String pre = clsBWProperties.addDot(poPrefix);
 	
-		moE08ConversionToSecondaryProcess = new E08_ConversionToSecondaryProcess(pre+P_E08, poProp, this);
-		moE20InnerPerception_Affects = new E20_InnerPerception_Affects(pre+P_E20, poProp, this);
-		moE21ConversionToSecondaryProcess = new E21_ConversionToSecondaryProcess(pre+P_E21, poProp, this);
+		moE08ConversionToSecondaryProcess = new E08_ConversionToSecondaryProcess(pre+P_E08, poProp, this, moInterfaceHandler);
+		moE20InnerPerception_Affects = new E20_InnerPerception_Affects(pre+P_E20, poProp, this, moInterfaceHandler);
+		moE21ConversionToSecondaryProcess = new E21_ConversionToSecondaryProcess(pre+P_E21, poProp, this, moInterfaceHandler);
 	}
 
 	/* (non-Javadoc)
@@ -131,7 +132,7 @@ public class G10_PrimaryToSecondaryInterface extends clsModuleContainer implemen
 	 */
 	@Override
 	public void receive_I1_7(ArrayList<clsSecondaryInformation> poDriveList) {
-		((I1_7)moEnclosingContainer).receive_I1_7(poDriveList); //to e22 (super ego)
+		((I1_7_receive)moEnclosingContainer).receive_I1_7(poDriveList); //to e22 (super ego)
 	}
 
 	/* (non-Javadoc)
@@ -155,7 +156,7 @@ public class G10_PrimaryToSecondaryInterface extends clsModuleContainer implemen
 	 */
 	@Override
 	public void receive_I2_11(ArrayList<clsSecondaryInformation> poPerception) {
-		((I2_11)moEnclosingContainer).receive_I2_11(poPerception);
+		((I2_11_receive)moEnclosingContainer).receive_I2_11(poPerception);
 	}
 
 	/* (non-Javadoc)
@@ -179,7 +180,7 @@ public class G10_PrimaryToSecondaryInterface extends clsModuleContainer implemen
 	 */
 	@Override
 	public void receive_I5_5(int pnData) {
-		((I5_5)moEnclosingContainer).receive_I5_5(pnData);
+		((I5_5_receive)moEnclosingContainer).receive_I5_5(pnData);
 	}
 
 	/* (non-Javadoc)

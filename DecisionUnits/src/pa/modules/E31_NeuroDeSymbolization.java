@@ -18,8 +18,9 @@ import du.itf.actions.clsActionMove;
 import du.itf.actions.clsActionPickUp;
 import du.itf.actions.clsActionSequenceFactory;
 import du.itf.actions.clsActionTurn;
-import pa.interfaces.I8_1;
-import pa.interfaces.I8_2;
+import pa.clsInterfaceHandler;
+import pa.interfaces.receive.I8_1_receive;
+import pa.interfaces.receive.I8_2_receive;
 import pa.loader.plan.clsPlanAction;
 
 /**
@@ -29,7 +30,7 @@ import pa.loader.plan.clsPlanAction;
  * 11.08.2009, 14:59:58
  * 
  */
-public class E31_NeuroDeSymbolization extends clsModuleBase implements I8_1 {
+public class E31_NeuroDeSymbolization extends clsModuleBase implements I8_1_receive {
 
 	private ArrayList<clsPlanAction> moActionCommands_Input;
 	private ArrayList<clsActionCommand> moActionCommandList_Output;
@@ -47,8 +48,8 @@ public class E31_NeuroDeSymbolization extends clsModuleBase implements I8_1 {
 	 * @param poEnclosingContainer
 	 */
 	public E31_NeuroDeSymbolization(String poPrefix, clsBWProperties poProp,
-			clsModuleContainer poEnclosingContainer) {
-		super(poPrefix, poProp, poEnclosingContainer);
+			clsModuleContainer poEnclosingContainer, clsInterfaceHandler poInterfaceHandler) {
+		super(poPrefix, poProp, poEnclosingContainer, poInterfaceHandler);
 		applyProperties(poPrefix, poProp);		
 		
 		moActionCommandList_Output = new ArrayList<clsActionCommand>();
@@ -186,7 +187,7 @@ public class E31_NeuroDeSymbolization extends clsModuleBase implements I8_1 {
 	 */
 	@Override
 	protected void send() {
-		((I8_2)moEnclosingContainer).receive_I8_2(moActionCommandList_Output);
+		((I8_2_receive)moEnclosingContainer).receive_I8_2(moActionCommandList_Output);
 		
 	}
 

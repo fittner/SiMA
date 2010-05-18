@@ -10,12 +10,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 import config.clsBWProperties;
+import pa.clsInterfaceHandler;
 import pa.datatypes.clsAffectTension;
 import pa.datatypes.clsPrimaryInformation;
 import pa.datatypes.clsThingPresentation;
-import pa.interfaces.I4_1;
-import pa.interfaces.I4_2;
-import pa.interfaces.I4_3;
+import pa.interfaces.receive.I4_1_receive;
+import pa.interfaces.receive.I4_2_receive;
+import pa.interfaces.receive.I4_3_receive;
 
 /**
  * DOCUMENT (deutsch) - insert description 
@@ -24,7 +25,7 @@ import pa.interfaces.I4_3;
  * 07.10.2009, 11:18:15
  * 
  */
-public class S_ManagementOfRepressedContents_2 extends clsModuleBase implements I4_1, I4_2 {
+public class S_ManagementOfRepressedContents_2 extends clsModuleBase implements I4_1_receive, I4_2_receive {
 	ArrayList<clsPrimaryInformation> moPrimaryInformation;
 	
 	/**
@@ -38,8 +39,8 @@ public class S_ManagementOfRepressedContents_2 extends clsModuleBase implements 
 	 * @param poEnclosingContainer
 	 */
 	public S_ManagementOfRepressedContents_2(String poPrefix, clsBWProperties poProp,
-			clsModuleContainer poEnclosingContainer) {
-		super(poPrefix, poProp, poEnclosingContainer);
+			clsModuleContainer poEnclosingContainer, clsInterfaceHandler poInterfaceHandler) {
+		super(poPrefix, poProp, poEnclosingContainer, poInterfaceHandler);
 		applyProperties(poPrefix, poProp);	
 		
 		moPrimaryInformation = new ArrayList<clsPrimaryInformation>();
@@ -118,7 +119,7 @@ public class S_ManagementOfRepressedContents_2 extends clsModuleBase implements 
 	 */
 	@Override
 	protected void send() {
-		((I4_3)moEnclosingContainer).receive_I4_3(new ArrayList<clsPrimaryInformation>());
+		((I4_3_receive)moEnclosingContainer).receive_I4_3(new ArrayList<clsPrimaryInformation>());
 		
 		moPrimaryInformation.clear();
 	}

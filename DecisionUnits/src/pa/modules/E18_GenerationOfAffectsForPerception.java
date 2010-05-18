@@ -9,13 +9,14 @@ package pa.modules;
 import java.util.ArrayList;
 
 import config.clsBWProperties;
+import pa.clsInterfaceHandler;
 import pa.datatypes.clsAffectMemory;
 import pa.datatypes.clsAssociation;
 import pa.datatypes.clsAssociationContent;
 import pa.datatypes.clsPrimaryInformation;
 import pa.datatypes.clsPrimaryInformationMesh;
-import pa.interfaces.I2_9;
-import pa.interfaces.I2_8;
+import pa.interfaces.receive.I2_8_receive;
+import pa.interfaces.receive.I2_9_receive;
 import pa.tools.clsPair;
 
 /**
@@ -25,7 +26,7 @@ import pa.tools.clsPair;
  * 11.08.2009, 14:33:54
  * 
  */
-public class E18_GenerationOfAffectsForPerception extends clsModuleBase implements I2_8 {
+public class E18_GenerationOfAffectsForPerception extends clsModuleBase implements I2_8_receive {
 
 	/**
 	 * DOCUMENT (deutsch) - insert description 
@@ -42,8 +43,8 @@ public class E18_GenerationOfAffectsForPerception extends clsModuleBase implemen
 	public ArrayList<clsPrimaryInformation> moNewPrimaryInformation; 
 	
 	public E18_GenerationOfAffectsForPerception(String poPrefix,
-			clsBWProperties poProp, clsModuleContainer poEnclosingContainer) {
-		super(poPrefix, poProp, poEnclosingContainer);
+			clsBWProperties poProp, clsModuleContainer poEnclosingContainer, clsInterfaceHandler poInterfaceHandler) {
+		super(poPrefix, poProp, poEnclosingContainer, poInterfaceHandler);
 		applyProperties(poPrefix, poProp);		
 	}
 	
@@ -166,7 +167,7 @@ public class E18_GenerationOfAffectsForPerception extends clsModuleBase implemen
 	 */
 	@Override
 	protected void send() {
-		((I2_9)moEnclosingContainer).receive_I2_9(moNewPrimaryInformation);
+		((I2_9_receive)moEnclosingContainer).receive_I2_9(moNewPrimaryInformation);
 		
 	}
 }

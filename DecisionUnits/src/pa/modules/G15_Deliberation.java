@@ -9,19 +9,20 @@ package pa.modules;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import pa.clsInterfaceHandler;
 import pa.datatypes.clsSecondaryInformation;
 import pa.datatypes.clsSecondaryInformationMesh;
-import pa.interfaces.I1_7;
-import pa.interfaces.I2_13;
-import pa.interfaces.I3_3;
-import pa.interfaces.I5_5;
-import pa.interfaces.I6_2;
-import pa.interfaces.I7_1;
-import pa.interfaces.I7_2;
-import pa.interfaces.I7_3;
-import pa.interfaces.I7_4;
-import pa.interfaces.I7_5;
-import pa.interfaces.I7_6;
+import pa.interfaces.receive.I1_7_receive;
+import pa.interfaces.receive.I2_13_receive;
+import pa.interfaces.receive.I3_3_receive;
+import pa.interfaces.receive.I5_5_receive;
+import pa.interfaces.receive.I6_2_receive;
+import pa.interfaces.receive.I7_1_receive;
+import pa.interfaces.receive.I7_2_receive;
+import pa.interfaces.receive.I7_3_receive;
+import pa.interfaces.receive.I7_4_receive;
+import pa.interfaces.receive.I7_5_receive;
+import pa.interfaces.receive.I7_6_receive;
 import pa.loader.plan.clsPlanAction;
 import pa.memory.clsMemory;
 import pa.tools.clsPair;
@@ -35,17 +36,17 @@ import config.clsBWProperties;
  * 
  */
 public class G15_Deliberation extends clsModuleContainer implements
-					I1_7,
-					I2_13,
-					I3_3,
-					I5_5,
-					I6_2,
-					I7_1,
-					I7_2,
-					I7_3,
-					I7_4,
-					I7_5,
-					I7_6
+					I1_7_receive,
+					I2_13_receive,
+					I3_3_receive,
+					I5_5_receive,
+					I6_2_receive,
+					I7_1_receive,
+					I7_2_receive,
+					I7_3_receive,
+					I7_4_receive,
+					I7_5_receive,
+					I7_6_receive
 					{
 
 	public static final String P_E26 = "E26";
@@ -69,8 +70,8 @@ public class G15_Deliberation extends clsModuleContainer implements
 	 * @param poEnclosingContainer
 	 */
 	public G15_Deliberation(String poPrefix, clsBWProperties poProp,
-			clsModuleContainer poEnclosingContainer, clsMemory poMemory) {
-		super(poPrefix, poProp, poEnclosingContainer, poMemory);
+			clsModuleContainer poEnclosingContainer, clsInterfaceHandler poInterfaceHandler, clsMemory poMemory) {
+		super(poPrefix, poProp, poEnclosingContainer, poInterfaceHandler, poMemory);
 		applyProperties(poPrefix, poProp);
 	}
 	
@@ -90,10 +91,10 @@ public class G15_Deliberation extends clsModuleContainer implements
 	private void applyProperties(String poPrefix, clsBWProperties poProp) {
 		String pre = clsBWProperties.addDot(poPrefix);
 	
-		moE26DecisionMaking = new E26_DecisionMaking(pre+P_E26, poProp, this);
-		moE27GenerationOfImaginaryActions = new E27_GenerationOfImaginaryActions(pre+P_E27, poProp, this);
-		moE29EvaluationOfImaginaryActions = new E29_EvaluationOfImaginaryActions(pre+P_E29, poProp, this);
-		moE33RealityCheck2 = new E33_RealityCheck2(pre+P_E33, poProp, this);
+		moE26DecisionMaking = new E26_DecisionMaking(pre+P_E26, poProp, this, moInterfaceHandler);
+		moE27GenerationOfImaginaryActions = new E27_GenerationOfImaginaryActions(pre+P_E27, poProp, this, moInterfaceHandler);
+		moE29EvaluationOfImaginaryActions = new E29_EvaluationOfImaginaryActions(pre+P_E29, poProp, this, moInterfaceHandler);
+		moE33RealityCheck2 = new E33_RealityCheck2(pre+P_E33, poProp, this, moInterfaceHandler);
 	}
 
 	/* (non-Javadoc)
@@ -179,7 +180,7 @@ public class G15_Deliberation extends clsModuleContainer implements
 	 */
 	@Override
 	public void receive_I7_2(int pnData) {
-		((I7_2)moEnclosingContainer).receive_I7_2(pnData);
+		((I7_2_receive)moEnclosingContainer).receive_I7_2(pnData);
 	}
 
 	/* (non-Javadoc)
@@ -193,7 +194,7 @@ public class G15_Deliberation extends clsModuleContainer implements
 	public void receive_I7_3(ArrayList<clsPlanAction> poActionCommands) {
 		moE29EvaluationOfImaginaryActions.receive_I7_3(poActionCommands);
 		moE33RealityCheck2.receive_I7_3(poActionCommands);
-		((I7_3)moEnclosingContainer).receive_I7_3(poActionCommands);
+		((I7_3_receive)moEnclosingContainer).receive_I7_3(poActionCommands);
 	}
 
 	/* (non-Javadoc)
@@ -205,7 +206,7 @@ public class G15_Deliberation extends clsModuleContainer implements
 	 */
 	@Override
 	public void receive_I7_4(ArrayList<clsPlanAction> poActionCommands) {
-		((I7_4)moEnclosingContainer).receive_I7_4(poActionCommands);
+		((I7_4_receive)moEnclosingContainer).receive_I7_4(poActionCommands);
 	}
 
 	/* (non-Javadoc)

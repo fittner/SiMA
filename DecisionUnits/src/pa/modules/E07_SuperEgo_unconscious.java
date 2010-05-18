@@ -9,11 +9,12 @@ package pa.modules;
 import java.util.ArrayList;
 import java.util.List;
 
+import pa.clsInterfaceHandler;
 import pa.datatypes.clsPrimaryInformation;
-import pa.interfaces.I1_5;
-import pa.interfaces.I3_1;
-import pa.interfaces.I3_2;
-import pa.interfaces.I2_9;
+import pa.interfaces.receive.I1_5_receive;
+import pa.interfaces.receive.I2_9_receive;
+import pa.interfaces.receive.I3_1_receive;
+import pa.interfaces.receive.I3_2_receive;
 import config.clsBWProperties;
 
 /**
@@ -23,7 +24,7 @@ import config.clsBWProperties;
  * 11.08.2009, 14:03:35
  * 
  */
-public class E07_SuperEgo_unconscious extends clsModuleBase implements I1_5, I2_9 {
+public class E07_SuperEgo_unconscious extends clsModuleBase implements I1_5_receive, I2_9_receive {
 	ArrayList<clsPrimaryInformation> moPrimaryInformation;
 	
 	/**
@@ -37,8 +38,8 @@ public class E07_SuperEgo_unconscious extends clsModuleBase implements I1_5, I2_
 	 * @param poEnclosingContainer
 	 */
 	public E07_SuperEgo_unconscious(String poPrefix, clsBWProperties poProp,
-			clsModuleContainer poEnclosingContainer) {
-		super(poPrefix, poProp, poEnclosingContainer);
+			clsModuleContainer poEnclosingContainer, clsInterfaceHandler poInterfaceHandler) {
+		super(poPrefix, poProp, poEnclosingContainer, poInterfaceHandler);
 		applyProperties(poPrefix, poProp);		
 	}
 	
@@ -131,8 +132,8 @@ public class E07_SuperEgo_unconscious extends clsModuleBase implements I1_5, I2_
 	 */
 	@Override
 	protected void send() {
-		((I3_1)moEnclosingContainer).receive_I3_1(mnTest);
-		((I3_2)moEnclosingContainer).receive_I3_2(mnTest);
+		((I3_1_receive)moEnclosingContainer).receive_I3_1(mnTest);
+		((I3_2_receive)moEnclosingContainer).receive_I3_2(mnTest);
 		
 	}
 

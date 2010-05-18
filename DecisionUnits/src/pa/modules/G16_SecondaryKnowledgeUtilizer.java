@@ -8,13 +8,14 @@ package pa.modules;
 
 import java.util.ArrayList;
 
+import pa.clsInterfaceHandler;
 import pa.datatypes.clsSecondaryInformation;
-import pa.interfaces.I2_12;
-import pa.interfaces.I6_1;
-import pa.interfaces.I6_2;
-import pa.interfaces.I7_2;
-import pa.interfaces.I7_3;
-import pa.interfaces.I7_5;
+import pa.interfaces.receive.I2_12_receive;
+import pa.interfaces.receive.I6_1_receive;
+import pa.interfaces.receive.I6_2_receive;
+import pa.interfaces.receive.I7_2_receive;
+import pa.interfaces.receive.I7_3_receive;
+import pa.interfaces.receive.I7_5_receive;
 import pa.loader.plan.clsPlanAction;
 import pa.memory.clsMemory;
 import config.clsBWProperties;
@@ -27,12 +28,12 @@ import config.clsBWProperties;
  * 
  */
 public class G16_SecondaryKnowledgeUtilizer extends clsModuleContainer implements
-					I2_12,
-					I6_1,
-					I6_2,
-					I7_2,
-					I7_3,
-					I7_5
+					I2_12_receive,
+					I6_1_receive,
+					I6_2_receive,
+					I7_2_receive,
+					I7_3_receive,
+					I7_5_receive
 					{
 
 	public static final String P_E25 = "E25";
@@ -54,8 +55,8 @@ public class G16_SecondaryKnowledgeUtilizer extends clsModuleContainer implement
 	 * @param poEnclosingContainer
 	 */
 	public G16_SecondaryKnowledgeUtilizer(String poPrefix, clsBWProperties poProp,
-			clsModuleContainer poEnclosingContainer, clsMemory poMemory) {
-		super(poPrefix, poProp, poEnclosingContainer, poMemory);
+			clsModuleContainer poEnclosingContainer, clsInterfaceHandler poInterfaceHandler, clsMemory poMemory) {
+		super(poPrefix, poProp, poEnclosingContainer, poInterfaceHandler, poMemory);
 		applyProperties(poPrefix, poProp);
 	}
 	
@@ -74,9 +75,9 @@ public class G16_SecondaryKnowledgeUtilizer extends clsModuleContainer implement
 	private void applyProperties(String poPrefix, clsBWProperties poProp) {
 		String pre = clsBWProperties.addDot(poPrefix);
 	
-		moE25KnowledgeAboutReality = new E25_KnowledgeAboutReality(pre+P_E25, poProp, this);
-		moE28KnowledgeBase_StoredScenarios = new E28_KnowledgeBase_StoredScenarios(pre+P_E28, poProp, this);
-		moE34KnowledgeAboutReality2 = new E34_KnowledgeAboutReality2(pre+P_E34, poProp, this);
+		moE25KnowledgeAboutReality = new E25_KnowledgeAboutReality(pre+P_E25, poProp, this, moInterfaceHandler);
+		moE28KnowledgeBase_StoredScenarios = new E28_KnowledgeBase_StoredScenarios(pre+P_E28, poProp, this, moInterfaceHandler);
+		moE34KnowledgeAboutReality2 = new E34_KnowledgeAboutReality2(pre+P_E34, poProp, this, moInterfaceHandler);
 	}
 
 	/* (non-Javadoc)
@@ -100,7 +101,7 @@ public class G16_SecondaryKnowledgeUtilizer extends clsModuleContainer implement
 	 */
 	@Override
 	public void receive_I6_1(int pnData) {
-		((I6_1)moEnclosingContainer).receive_I6_1(pnData);
+		((I6_1_receive)moEnclosingContainer).receive_I6_1(pnData);
 	}
 
 	/* (non-Javadoc)
@@ -112,7 +113,7 @@ public class G16_SecondaryKnowledgeUtilizer extends clsModuleContainer implement
 	 */
 	@Override
 	public void receive_I6_2(int pnData) {
-		((I6_2)moEnclosingContainer).receive_I6_2(pnData);
+		((I6_2_receive)moEnclosingContainer).receive_I6_2(pnData);
 	}
 
 	/* (non-Javadoc)
@@ -149,7 +150,7 @@ public class G16_SecondaryKnowledgeUtilizer extends clsModuleContainer implement
 	 */
 	@Override
 	public void receive_I7_5(int pnData) {
-		((I7_5)moEnclosingContainer).receive_I7_5(pnData);
+		((I7_5_receive)moEnclosingContainer).receive_I7_5(pnData);
 		
 	}
 

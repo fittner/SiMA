@@ -9,16 +9,17 @@ package pa.modules;
 import java.util.ArrayList;
 import java.util.List;
 
+import pa.clsInterfaceHandler;
 import pa.datatypes.clsAffectTension;
 import pa.datatypes.clsPrimaryInformation;
 import pa.datatypes.clsThingPresentation;
-import pa.interfaces.I1_5;
-import pa.interfaces.I1_6;
-import pa.interfaces.I3_1;
-import pa.interfaces.I4_1;
-import pa.interfaces.I4_3;
-import pa.interfaces.I5_1;
-import pa.interfaces.I6_3;
+import pa.interfaces.receive.I1_5_receive;
+import pa.interfaces.receive.I1_6_receive;
+import pa.interfaces.receive.I3_1_receive;
+import pa.interfaces.receive.I4_1_receive;
+import pa.interfaces.receive.I4_3_receive;
+import pa.interfaces.receive.I5_1_receive;
+import pa.interfaces.receive.I6_3_receive;
 import config.clsBWProperties;
 
 /**
@@ -28,7 +29,7 @@ import config.clsBWProperties;
  * 11.08.2009, 14:01:06
  * 
  */
-public class E06_DefenseMechanismsForDriveContents extends clsModuleBase implements I1_5, I3_1, I4_3, I6_3 {
+public class E06_DefenseMechanismsForDriveContents extends clsModuleBase implements I1_5_receive, I3_1_receive, I4_3_receive, I6_3_receive {
 	ArrayList<clsPrimaryInformation> moDriveList_Input;
 	ArrayList<clsPrimaryInformation> moDriveList_Output;
 	
@@ -48,8 +49,8 @@ public class E06_DefenseMechanismsForDriveContents extends clsModuleBase impleme
 	 * @param poEnclosingContainer
 	 */
 	public E06_DefenseMechanismsForDriveContents(String poPrefix,
-			clsBWProperties poProp, clsModuleContainer poEnclosingContainer) {
-		super(poPrefix, poProp, poEnclosingContainer);
+			clsBWProperties poProp, clsModuleContainer poEnclosingContainer, clsInterfaceHandler poInterfaceHandler) {
+		super(poPrefix, poProp, poEnclosingContainer, poInterfaceHandler);
 		
 		moDriveList_Input = new ArrayList<clsPrimaryInformation>();
 		moDriveList_Output = new ArrayList<clsPrimaryInformation>();
@@ -173,9 +174,9 @@ public class E06_DefenseMechanismsForDriveContents extends clsModuleBase impleme
 	 */
 	@Override
 	protected void send() {
-		((I1_6)moEnclosingContainer).receive_I1_6(moDriveList_Output);
-		((I4_1)moEnclosingContainer).receive_I4_1(moDriveList_Input, moDeniedThingPresentations, moDeniedAffects);
-		((I5_1)moEnclosingContainer).receive_I5_1(moDeniedAffects);	
+		((I1_6_receive)moEnclosingContainer).receive_I1_6(moDriveList_Output);
+		((I4_1_receive)moEnclosingContainer).receive_I4_1(moDriveList_Input, moDeniedThingPresentations, moDeniedAffects);
+		((I5_1_receive)moEnclosingContainer).receive_I5_1(moDeniedAffects);	
 		
 		//FIXME (langr) - moPrimaryInformation.clear();
 		moDeniedThingPresentations.clear();

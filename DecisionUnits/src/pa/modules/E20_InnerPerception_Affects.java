@@ -9,13 +9,14 @@ package pa.modules;
 import java.util.ArrayList;
 
 import config.clsBWProperties;
+import pa.clsInterfaceHandler;
 import pa.datatypes.clsAffectTension;
 import pa.datatypes.clsSecondaryInformation;
-import pa.interfaces.I5_1;
-import pa.interfaces.I5_2;
-import pa.interfaces.I5_3;
-import pa.interfaces.I5_4;
-import pa.interfaces.I5_5;
+import pa.interfaces.receive.I5_1_receive;
+import pa.interfaces.receive.I5_2_receive;
+import pa.interfaces.receive.I5_3_receive;
+import pa.interfaces.receive.I5_4_receive;
+import pa.interfaces.receive.I5_5_receive;
 
 /**
  * DOCUMENT (deutsch) - insert description 
@@ -24,7 +25,7 @@ import pa.interfaces.I5_5;
  * 11.08.2009, 14:40:29
  * 
  */
-public class E20_InnerPerception_Affects extends clsModuleBase implements I5_1, I5_2, I5_3, I5_4 {
+public class E20_InnerPerception_Affects extends clsModuleBase implements I5_1_receive, I5_2_receive, I5_3_receive, I5_4_receive {
 
 	private ArrayList<clsAffectTension> moAffectOnlyList;
 	private ArrayList<clsAffectTension> moDeniedAffects_Input;
@@ -42,8 +43,8 @@ public class E20_InnerPerception_Affects extends clsModuleBase implements I5_1, 
 	 * @param poEnclosingContainer
 	 */
 	public E20_InnerPerception_Affects(String poPrefix, clsBWProperties poProp,
-			clsModuleContainer poEnclosingContainer) {
-		super(poPrefix, poProp, poEnclosingContainer);
+			clsModuleContainer poEnclosingContainer, clsInterfaceHandler poInterfaceHandler) {
+		super(poPrefix, poProp, poEnclosingContainer, poInterfaceHandler);
 		applyProperties(poPrefix, poProp);		
 	}
 	
@@ -164,7 +165,7 @@ public class E20_InnerPerception_Affects extends clsModuleBase implements I5_1, 
 	 */
 	@Override
 	protected void send() {
-		((I5_5)moEnclosingContainer).receive_I5_5(mnTest);
+		((I5_5_receive)moEnclosingContainer).receive_I5_5(mnTest);
 		
 	}
 

@@ -10,32 +10,33 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import pa.clsInterfaceHandler;
 import pa.datatypes.clsAffectTension;
 import pa.datatypes.clsPrimaryInformation;
 import pa.datatypes.clsSecondaryInformation;
 import pa.datatypes.clsThingPresentation;
 import pa.enums.eSymbolExtType;
-import pa.interfaces.I1_2;
-import pa.interfaces.I1_5;
-import pa.interfaces.I1_7;
-import pa.interfaces.I2_11;
-import pa.interfaces.I2_2;
-import pa.interfaces.I2_4;
-import pa.interfaces.I2_5;
-import pa.interfaces.I2_6;
-import pa.interfaces.I2_8;
-import pa.interfaces.I2_9;
-import pa.interfaces.I3_1;
-import pa.interfaces.I3_2;
-import pa.interfaces.I3_3;
-import pa.interfaces.I4_1;
-import pa.interfaces.I4_2;
-import pa.interfaces.I4_3;
-import pa.interfaces.I8_1;
 import pa.interfaces.itfProcessHomeostases;
 import pa.interfaces.itfProcessSensorBody;
 import pa.interfaces.itfProcessSensorEnvironment;
 import pa.interfaces.itfReturnActionCommands;
+import pa.interfaces.receive.I1_2_receive;
+import pa.interfaces.receive.I1_5_receive;
+import pa.interfaces.receive.I1_7_receive;
+import pa.interfaces.receive.I2_11_receive;
+import pa.interfaces.receive.I2_2_receive;
+import pa.interfaces.receive.I2_4_receive;
+import pa.interfaces.receive.I2_5_receive;
+import pa.interfaces.receive.I2_6_receive;
+import pa.interfaces.receive.I2_8_receive;
+import pa.interfaces.receive.I2_9_receive;
+import pa.interfaces.receive.I3_1_receive;
+import pa.interfaces.receive.I3_2_receive;
+import pa.interfaces.receive.I3_3_receive;
+import pa.interfaces.receive.I4_1_receive;
+import pa.interfaces.receive.I4_2_receive;
+import pa.interfaces.receive.I4_3_receive;
+import pa.interfaces.receive.I8_1_receive;
 import pa.loader.plan.clsPlanAction;
 import pa.memory.clsMemory;
 import pa.symbolization.representationsymbol.itfSymbol;
@@ -89,23 +90,23 @@ public class G00_PsychicApparatus extends clsModuleContainer implements
 							itfProcessHomeostases, 
 							itfProcessSensorBody,
 							itfReturnActionCommands,
-							I1_2,
-							I1_5,
-							I1_7,
-							I2_2,
-							I2_4,
-							I2_5,
-							I2_6,
-							I2_8,
-							I2_9,
-							I2_11,
-							I3_1,
-							I3_2,
-							I3_3,
-							I4_1,
-							I4_2,
-							I4_3,
-							I8_1
+							I1_2_receive,
+							I1_5_receive,
+							I1_7_receive,
+							I2_2_receive,
+							I2_4_receive,
+							I2_5_receive,
+							I2_6_receive,
+							I2_8_receive,
+							I2_9_receive,
+							I2_11_receive,
+							I3_1_receive,
+							I3_2_receive,
+							I3_3_receive,
+							I4_1_receive,
+							I4_2_receive,
+							I4_3_receive,
+							I8_1_receive
 							{
 	public static final String P_G01 = "G01";
 	public static final String P_G02 = "G02";
@@ -128,8 +129,8 @@ public class G00_PsychicApparatus extends clsModuleContainer implements
 	 * @param poProp
 	 * @param poEnclosingContainer
 	 */
-	public G00_PsychicApparatus(String poPrefix, clsBWProperties poProp) {
-		super(poPrefix, poProp, null, null);
+	public G00_PsychicApparatus(String poPrefix, clsBWProperties poProp, clsInterfaceHandler poInterfaceHandler) {
+		super(poPrefix, poProp, null, poInterfaceHandler, null);
 		applyProperties(poPrefix, poProp);
 	}
 	
@@ -153,10 +154,10 @@ public class G00_PsychicApparatus extends clsModuleContainer implements
 	
 		moMemory = new clsMemory(pre+P_MEMORY, poProp);
 		
-		moG01Body = new G01_Body(pre+P_G01, poProp, this, moMemory);
-		moG02Id = new G02_Id(pre+P_G02, poProp, this, moMemory);
-		moG03Ego = new G03_Ego(pre+P_G03, poProp, this, moMemory);
-		moG04SuperEgo = new G04_SuperEgo(pre+P_G04, poProp, this, moMemory);
+		moG01Body = new G01_Body(pre+P_G01, poProp, this, moInterfaceHandler, moMemory);
+		moG02Id = new G02_Id(pre+P_G02, poProp, this, moInterfaceHandler, moMemory);
+		moG03Ego = new G03_Ego(pre+P_G03, poProp, this, moInterfaceHandler, moMemory);
+		moG04SuperEgo = new G04_SuperEgo(pre+P_G04, poProp, this, moInterfaceHandler, moMemory);
 
 	}
 	

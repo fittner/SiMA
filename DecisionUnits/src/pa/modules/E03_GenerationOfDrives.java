@@ -9,6 +9,7 @@ package pa.modules;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import pa.clsInterfaceHandler;
 import pa.datatypes.clsAffectCandidate;
 import pa.datatypes.clsAssociationContext;
 import pa.datatypes.clsDriveMesh;
@@ -16,8 +17,8 @@ import pa.datatypes.clsDriveObject;
 import pa.datatypes.clsPrimaryInformation;
 import pa.datatypes.clsPrimaryInformationMesh;
 import pa.datatypes.clsThingPresentationSingle;
-import pa.interfaces.I1_2;
-import pa.interfaces.I1_3;
+import pa.interfaces.receive.I1_2_receive;
+import pa.interfaces.receive.I1_3_receive;
 import pa.loader.clsAffectCandidateDefinition;
 import pa.loader.clsDriveLoader;
 import pa.loader.clsTemplateDrive;
@@ -31,7 +32,7 @@ import config.clsBWProperties;
  * 11.08.2009, 12:19:04
  * 
  */
-public class E03_GenerationOfDrives extends clsModuleBase implements I1_2 {
+public class E03_GenerationOfDrives extends clsModuleBase implements I1_2_receive {
 
 	public static String moDriveObjectType = "DriveObject";
 	
@@ -62,8 +63,8 @@ public class E03_GenerationOfDrives extends clsModuleBase implements I1_2 {
 	 * @param poEnclosingContainer
 	 */
 	public E03_GenerationOfDrives(String poPrefix, clsBWProperties poProp,
-			clsModuleContainer poEnclosingContainer) {
-		super(poPrefix, poProp, poEnclosingContainer);
+			clsModuleContainer poEnclosingContainer, clsInterfaceHandler poInterfaceHandler) {
+		super(poPrefix, poProp, poEnclosingContainer, poInterfaceHandler);
 		
 		applyProperties(poPrefix, poProp);	
 		loadDriveDefinition(poPrefix, poProp);
@@ -250,7 +251,7 @@ public class E03_GenerationOfDrives extends clsModuleBase implements I1_2 {
 	 */
 	@Override
 	protected void send() {
-		((I1_3)moEnclosingContainer).receive_I1_3(moHomeostaticTP);
+		((I1_3_receive)moEnclosingContainer).receive_I1_3(moHomeostaticTP);
 	}
 
 }

@@ -6,6 +6,7 @@
  */
 package pa.modules;
 
+import pa.clsInterfaceHandler;
 import pa.memory.clsMemory;
 import config.clsBWProperties;
 
@@ -19,10 +20,12 @@ import config.clsBWProperties;
 public abstract class clsModuleContainer {
 	protected clsModuleContainer moEnclosingContainer;
 	protected clsMemory moMemory;
+	protected clsInterfaceHandler moInterfaceHandler;	
 	
-	public clsModuleContainer(String poPrefix, clsBWProperties poProp, clsModuleContainer poEnclosingContainer, clsMemory poMemory) {
+	public clsModuleContainer(String poPrefix, clsBWProperties poProp, clsModuleContainer poEnclosingContainer, clsInterfaceHandler poInterfaceHandler, clsMemory poMemory) {
 		moEnclosingContainer = poEnclosingContainer;
 		moMemory = poMemory;
+		moInterfaceHandler = poInterfaceHandler;
 		
 		applyProperties(poPrefix, poProp);
 	}

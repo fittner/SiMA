@@ -9,11 +9,12 @@ package pa.modules;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import pa.clsInterfaceHandler;
 import pa.datatypes.clsAffectCandidate;
 import pa.datatypes.clsPrimaryInformationMesh;
-import pa.interfaces.I1_2;
-import pa.interfaces.I1_3;
-import pa.interfaces.I1_4;
+import pa.interfaces.receive.I1_2_receive;
+import pa.interfaces.receive.I1_3_receive;
+import pa.interfaces.receive.I1_4_receive;
 import pa.memory.clsMemory;
 import pa.tools.clsPair;
 import config.clsBWProperties;
@@ -26,9 +27,9 @@ import config.clsBWProperties;
  * 
  */
 public class G05_DriveHandling extends clsModuleContainer implements
-							I1_2,
-							I1_3,
-							I1_4
+							I1_2_receive,
+							I1_3_receive,
+							I1_4_receive
 							{
 	public static final String P_E03 = "E03";
 	public static final String P_E04 = "E04";
@@ -47,8 +48,8 @@ public class G05_DriveHandling extends clsModuleContainer implements
 	 * @param poEnclosingContainer
 	 */
 	public G05_DriveHandling(String poPrefix, clsBWProperties poProp,
-			clsModuleContainer poEnclosingContainer, clsMemory poMemory) {
-		super(poPrefix, poProp, poEnclosingContainer, poMemory);
+			clsModuleContainer poEnclosingContainer, clsInterfaceHandler poInterfaceHandler, clsMemory poMemory) {
+		super(poPrefix, poProp, poEnclosingContainer, poInterfaceHandler, poMemory);
 		applyProperties(poPrefix, poProp);
 	}
 	
@@ -66,8 +67,8 @@ public class G05_DriveHandling extends clsModuleContainer implements
 	private void applyProperties(String poPrefix, clsBWProperties poProp) {
 		String pre = clsBWProperties.addDot(poPrefix);
 	
-		moE03GenerationOfDrives = new E03_GenerationOfDrives(pre+P_E03, poProp, this);
-		moE04FusionOfDrives = new E04_FusionOfDrives(pre+P_E04, poProp, this);
+		moE03GenerationOfDrives = new E03_GenerationOfDrives(pre+P_E03, poProp, this, moInterfaceHandler);
+		moE04FusionOfDrives = new E04_FusionOfDrives(pre+P_E04, poProp, this, moInterfaceHandler);
 	}
 
 	/* (non-Javadoc)
@@ -106,7 +107,7 @@ public class G05_DriveHandling extends clsModuleContainer implements
 	@Override
 	public void receive_I1_4(ArrayList<clsPair<clsPair<clsPrimaryInformationMesh, clsAffectCandidate>, 
 	  		  clsPair<clsPrimaryInformationMesh, clsAffectCandidate>>> poDriveCandidate) {
-		((I1_4)moEnclosingContainer).receive_I1_4(poDriveCandidate);
+		((I1_4_receive)moEnclosingContainer).receive_I1_4(poDriveCandidate);
 		
 	}
 

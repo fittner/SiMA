@@ -9,11 +9,12 @@ package pa.modules;
 import java.util.ArrayList;
 
 import config.clsBWProperties;
+import pa.clsInterfaceHandler;
 import pa.datatypes.clsAssociationContent;
 import pa.datatypes.clsPrimaryInformation;
 import pa.datatypes.clsPrimaryInformationMesh;
-import pa.interfaces.I2_7;
-import pa.interfaces.I2_8;
+import pa.interfaces.receive.I2_7_receive;
+import pa.interfaces.receive.I2_8_receive;
 import pa.tools.clsPair;
 import pa.tools.clsTripple;
 
@@ -25,7 +26,7 @@ import pa.tools.clsTripple;
  * 
  */
 public class E17_FusionOfExternalPerceptionAndMemoryTraces extends clsModuleBase implements 
-						I2_7
+						I2_7_receive
 						{
 
 	/**
@@ -42,8 +43,8 @@ public class E17_FusionOfExternalPerceptionAndMemoryTraces extends clsModuleBase
 	ArrayList<clsPair<clsPrimaryInformation, clsPrimaryInformation>> moMergedPrimaryInformation_Output; 
 		
 	public E17_FusionOfExternalPerceptionAndMemoryTraces(String poPrefix,
-			clsBWProperties poProp, clsModuleContainer poEnclosingContainer) {
-		super(poPrefix, poProp, poEnclosingContainer);
+			clsBWProperties poProp, clsModuleContainer poEnclosingContainer, clsInterfaceHandler poInterfaceHandler) {
+		super(poPrefix, poProp, poEnclosingContainer, poInterfaceHandler);
 		applyProperties(poPrefix, poProp);		
 	}
 	
@@ -186,7 +187,7 @@ public class E17_FusionOfExternalPerceptionAndMemoryTraces extends clsModuleBase
 	 */
 	@Override
 	protected void send() {
-		((I2_8)moEnclosingContainer).receive_I2_8(moMergedPrimaryInformation_Output);
+		((I2_8_receive)moEnclosingContainer).receive_I2_8(moMergedPrimaryInformation_Output);
 	}
 
 }

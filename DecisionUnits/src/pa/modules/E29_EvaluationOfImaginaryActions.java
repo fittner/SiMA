@@ -9,10 +9,11 @@ package pa.modules;
 import java.util.ArrayList;
 
 import config.clsBWProperties;
-import pa.interfaces.I5_5;
-import pa.interfaces.I7_3;
-import pa.interfaces.I7_4;
-import pa.interfaces.I7_6;
+import pa.clsInterfaceHandler;
+import pa.interfaces.receive.I5_5_receive;
+import pa.interfaces.receive.I7_3_receive;
+import pa.interfaces.receive.I7_4_receive;
+import pa.interfaces.receive.I7_6_receive;
 import pa.loader.plan.clsPlanAction;
 
 /**
@@ -22,7 +23,7 @@ import pa.loader.plan.clsPlanAction;
  * 11.08.2009, 14:57:10
  * 
  */
-public class E29_EvaluationOfImaginaryActions extends clsModuleBase implements I5_5, I7_3, I7_6 {
+public class E29_EvaluationOfImaginaryActions extends clsModuleBase implements I5_5_receive, I7_3_receive, I7_6_receive {
 
 	private ArrayList<clsPlanAction> moActionCommands_Input;
 	private ArrayList<clsPlanAction> moActionCommands_Output;
@@ -38,8 +39,8 @@ public class E29_EvaluationOfImaginaryActions extends clsModuleBase implements I
 	 * @param poEnclosingContainer
 	 */
 	public E29_EvaluationOfImaginaryActions(String poPrefix,
-			clsBWProperties poProp, clsModuleContainer poEnclosingContainer) {
-		super(poPrefix, poProp, poEnclosingContainer);
+			clsBWProperties poProp, clsModuleContainer poEnclosingContainer, clsInterfaceHandler poInterfaceHandler) {
+		super(poPrefix, poProp, poEnclosingContainer, poInterfaceHandler);
 		applyProperties(poPrefix, poProp);	
 		
 		moActionCommands_Output = new ArrayList<clsPlanAction>();
@@ -131,7 +132,7 @@ public class E29_EvaluationOfImaginaryActions extends clsModuleBase implements I
 	 */
 	@Override
 	protected void send() {
-		((I7_4)moEnclosingContainer).receive_I7_4(moActionCommands_Output);
+		((I7_4_receive)moEnclosingContainer).receive_I7_4(moActionCommands_Output);
 		
 	}
 

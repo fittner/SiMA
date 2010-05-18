@@ -9,9 +9,10 @@ package pa.modules;
 import java.util.ArrayList;
 
 import config.clsBWProperties;
+import pa.clsInterfaceHandler;
 import pa.datatypes.clsSecondaryInformation;
-import pa.interfaces.I2_12;
-import pa.interfaces.I6_1;
+import pa.interfaces.receive.I2_12_receive;
+import pa.interfaces.receive.I6_1_receive;
 
 /**
  * DOCUMENT (deutsch) - insert description 
@@ -20,7 +21,7 @@ import pa.interfaces.I6_1;
  * 11.08.2009, 14:50:27
  * 
  */
-public class E25_KnowledgeAboutReality extends clsModuleBase implements I2_12 {
+public class E25_KnowledgeAboutReality extends clsModuleBase implements I2_12_receive {
 
 	private ArrayList<clsSecondaryInformation> moFocusedPerception;
 
@@ -35,8 +36,8 @@ public class E25_KnowledgeAboutReality extends clsModuleBase implements I2_12 {
 	 * @param poEnclosingContainer
 	 */
 	public E25_KnowledgeAboutReality(String poPrefix, clsBWProperties poProp,
-			clsModuleContainer poEnclosingContainer) {
-		super(poPrefix, poProp, poEnclosingContainer);
+			clsModuleContainer poEnclosingContainer, clsInterfaceHandler poInterfaceHandler) {
+		super(poPrefix, poProp, poEnclosingContainer, poInterfaceHandler);
 		applyProperties(poPrefix, poProp);		
 	}
 	
@@ -115,7 +116,7 @@ public class E25_KnowledgeAboutReality extends clsModuleBase implements I2_12 {
 	 */
 	@Override
 	protected void send() {
-		((I6_1)moEnclosingContainer).receive_I6_1(mnTest);
+		((I6_1_receive)moEnclosingContainer).receive_I6_1(mnTest);
 		
 	}
 }

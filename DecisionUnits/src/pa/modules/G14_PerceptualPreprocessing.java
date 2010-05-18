@@ -8,13 +8,14 @@ package pa.modules;
 
 import java.util.ArrayList;
 
+import pa.clsInterfaceHandler;
 import pa.datatypes.clsSecondaryInformation;
 import pa.datatypes.clsSecondaryInformationMesh;
-import pa.interfaces.I1_7;
-import pa.interfaces.I2_11;
-import pa.interfaces.I2_12;
-import pa.interfaces.I2_13;
-import pa.interfaces.I6_1;
+import pa.interfaces.receive.I1_7_receive;
+import pa.interfaces.receive.I2_11_receive;
+import pa.interfaces.receive.I2_12_receive;
+import pa.interfaces.receive.I2_13_receive;
+import pa.interfaces.receive.I6_1_receive;
 import pa.memory.clsMemory;
 import pa.tools.clsPair;
 import config.clsBWProperties;
@@ -27,11 +28,11 @@ import config.clsBWProperties;
  * 
  */
 public class G14_PerceptualPreprocessing extends clsModuleContainer implements
-						I1_7,
-						I2_11,
-						I2_12,
-						I2_13,
-						I6_1
+						I1_7_receive,
+						I2_11_receive,
+						I2_12_receive,
+						I2_13_receive,
+						I6_1_receive
 						{
 
 	public static final String P_E23 = "E23";
@@ -51,8 +52,8 @@ public class G14_PerceptualPreprocessing extends clsModuleContainer implements
 	 * @param poEnclosingContainer
 	 */
 	public G14_PerceptualPreprocessing(String poPrefix, clsBWProperties poProp,
-			clsModuleContainer poEnclosingContainer, clsMemory poMemory) {
-		super(poPrefix, poProp, poEnclosingContainer, poMemory);
+			clsModuleContainer poEnclosingContainer, clsInterfaceHandler poInterfaceHandler, clsMemory poMemory) {
+		super(poPrefix, poProp, poEnclosingContainer, poInterfaceHandler, poMemory);
 		applyProperties(poPrefix, poProp);
 	}
 	
@@ -70,8 +71,8 @@ public class G14_PerceptualPreprocessing extends clsModuleContainer implements
 	private void applyProperties(String poPrefix, clsBWProperties poProp) {
 		String pre = clsBWProperties.addDot(poPrefix);
 	
-		moE23ExternalPerception_focused = new E23_ExternalPerception_focused(pre+P_E24, poProp, this);
-		moE24RealityCheck = new E24_RealityCheck(pre+P_E23, poProp, this);
+		moE23ExternalPerception_focused = new E23_ExternalPerception_focused(pre+P_E24, poProp, this, moInterfaceHandler);
+		moE24RealityCheck = new E24_RealityCheck(pre+P_E23, poProp, this, moInterfaceHandler);
 	}
 
 	/* (non-Javadoc)
@@ -107,7 +108,7 @@ public class G14_PerceptualPreprocessing extends clsModuleContainer implements
 	 */
 	@Override
 	public void receive_I2_12(ArrayList<clsSecondaryInformation> poFocusedPerception) {
-		((I2_12)moEnclosingContainer).receive_I2_12(poFocusedPerception); //to e25 (know. real)
+		((I2_12_receive)moEnclosingContainer).receive_I2_12(poFocusedPerception); //to e25 (know. real)
 		moE24RealityCheck.receive_I2_12(poFocusedPerception);
 	}
 
@@ -120,7 +121,7 @@ public class G14_PerceptualPreprocessing extends clsModuleContainer implements
 	 */
 	@Override
 	public void receive_I2_13(ArrayList<clsPair<clsSecondaryInformation, clsSecondaryInformationMesh>> poRealityPerception) {
-		((I2_13)moEnclosingContainer).receive_I2_13(poRealityPerception);
+		((I2_13_receive)moEnclosingContainer).receive_I2_13(poRealityPerception);
 	}
 
 	/* (non-Javadoc)

@@ -9,14 +9,15 @@ package pa.modules;
 import java.util.ArrayList;
 
 import config.clsBWProperties;
+import pa.clsInterfaceHandler;
 import pa.datatypes.clsAffectTension;
 import pa.datatypes.clsPrimaryInformation;
 import pa.datatypes.clsThingPresentation;
-import pa.interfaces.I2_10;
-import pa.interfaces.I2_9;
-import pa.interfaces.I3_2;
-import pa.interfaces.I4_2;
-import pa.interfaces.I5_2;
+import pa.interfaces.receive.I2_10_receive;
+import pa.interfaces.receive.I2_9_receive;
+import pa.interfaces.receive.I3_2_receive;
+import pa.interfaces.receive.I4_2_receive;
+import pa.interfaces.receive.I5_2_receive;
 
 /**
  * DOCUMENT (deutsch) - insert description 
@@ -25,7 +26,7 @@ import pa.interfaces.I5_2;
  * 11.08.2009, 14:35:08
  * 
  */
-public class E19_DefenseMechanismsForPerception extends clsModuleBase implements I2_9, I3_2 {
+public class E19_DefenseMechanismsForPerception extends clsModuleBase implements I2_9_receive, I3_2_receive {
 
 	public ArrayList<clsPrimaryInformation> moSubjectivePerception_Input;
 	public ArrayList<clsPrimaryInformation> moFilteredPerception_Output;
@@ -44,8 +45,8 @@ public class E19_DefenseMechanismsForPerception extends clsModuleBase implements
 	 * @param poEnclosingContainer
 	 */
 	public E19_DefenseMechanismsForPerception(String poPrefix,
-			clsBWProperties poProp, clsModuleContainer poEnclosingContainer) {
-		super(poPrefix, poProp, poEnclosingContainer);
+			clsBWProperties poProp, clsModuleContainer poEnclosingContainer, clsInterfaceHandler poInterfaceHandler) {
+		super(poPrefix, poProp, poEnclosingContainer, poInterfaceHandler);
 		applyProperties(poPrefix, poProp);		
 	}
 	
@@ -111,9 +112,9 @@ public class E19_DefenseMechanismsForPerception extends clsModuleBase implements
 	 */
 	@Override
 	protected void send() {
-		((I4_2)moEnclosingContainer).receive_I4_2(moFilteredPerception_Output, moDeniedThingPresentations, moDeniedAffects);
-		((I2_10)moEnclosingContainer).receive_I2_10(moFilteredPerception_Output);
-		((I5_2)moEnclosingContainer).receive_I5_2(moDeniedAffects);	
+		((I4_2_receive)moEnclosingContainer).receive_I4_2(moFilteredPerception_Output, moDeniedThingPresentations, moDeniedAffects);
+		((I2_10_receive)moEnclosingContainer).receive_I2_10(moFilteredPerception_Output);
+		((I5_2_receive)moEnclosingContainer).receive_I5_2(moDeniedAffects);	
 	}
 
 	/* (non-Javadoc)

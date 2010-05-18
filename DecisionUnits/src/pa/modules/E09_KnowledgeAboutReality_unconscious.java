@@ -10,9 +10,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 import config.clsBWProperties;
+import pa.clsInterfaceHandler;
 import pa.datatypes.clsPrimaryInformation;
-import pa.interfaces.I1_5;
-import pa.interfaces.I6_3;
+import pa.interfaces.receive.I1_5_receive;
+import pa.interfaces.receive.I6_3_receive;
 
 /**
  * DOCUMENT (deutsch) - insert description 
@@ -21,7 +22,7 @@ import pa.interfaces.I6_3;
  * 11.08.2009, 14:09:09
  * 
  */
-public class E09_KnowledgeAboutReality_unconscious extends clsModuleBase implements I1_5 {
+public class E09_KnowledgeAboutReality_unconscious extends clsModuleBase implements I1_5_receive {
 	ArrayList<clsPrimaryInformation> moPrimaryInformation;
 	
 	/**
@@ -35,8 +36,8 @@ public class E09_KnowledgeAboutReality_unconscious extends clsModuleBase impleme
 	 * @param poEnclosingContainer
 	 */
 	public E09_KnowledgeAboutReality_unconscious(String poPrefix,
-			clsBWProperties poProp, clsModuleContainer poEnclosingContainer) {
-		super(poPrefix, poProp, poEnclosingContainer);
+			clsBWProperties poProp, clsModuleContainer poEnclosingContainer, clsInterfaceHandler poInterfaceHandler) {
+		super(poPrefix, poProp, poEnclosingContainer, poInterfaceHandler);
 		applyProperties(poPrefix, poProp);		
 	}
 	
@@ -115,6 +116,6 @@ public class E09_KnowledgeAboutReality_unconscious extends clsModuleBase impleme
 	 */
 	@Override
 	protected void send() {
-		((I6_3)moEnclosingContainer).receive_I6_3(mnTest);			
+		((I6_3_receive)moEnclosingContainer).receive_I6_3(mnTest);			
 	}
 }

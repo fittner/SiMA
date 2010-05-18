@@ -10,21 +10,22 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import pa.clsInterfaceHandler;
 import pa.datatypes.clsAffectTension;
 import pa.datatypes.clsAffectCandidate;
 import pa.datatypes.clsPrimaryInformation;
 import pa.datatypes.clsPrimaryInformationMesh;
 import pa.datatypes.clsThingPresentation;
-import pa.interfaces.I1_2;
-import pa.interfaces.I1_4;
-import pa.interfaces.I1_5;
-import pa.interfaces.I2_5;
-import pa.interfaces.I2_6;
-import pa.interfaces.I2_8;
-import pa.interfaces.I2_9;
-import pa.interfaces.I4_1;
-import pa.interfaces.I4_2;
-import pa.interfaces.I4_3;
+import pa.interfaces.receive.I1_2_receive;
+import pa.interfaces.receive.I1_4_receive;
+import pa.interfaces.receive.I1_5_receive;
+import pa.interfaces.receive.I2_5_receive;
+import pa.interfaces.receive.I2_6_receive;
+import pa.interfaces.receive.I2_8_receive;
+import pa.interfaces.receive.I2_9_receive;
+import pa.interfaces.receive.I4_1_receive;
+import pa.interfaces.receive.I4_2_receive;
+import pa.interfaces.receive.I4_3_receive;
 import pa.memory.clsMemory;
 import pa.tools.clsPair;
 import config.clsBWProperties;
@@ -36,16 +37,16 @@ import config.clsBWProperties;
  * 
  */
 public class G02_Id extends clsModuleContainer implements
-								I1_2,
-								I1_4,
-								I1_5,
-								I2_5,
-								I2_6,
-								I2_8,
-								I2_9,
-								I4_1,
-								I4_2,
-								I4_3
+								I1_2_receive,
+								I1_4_receive,
+								I1_5_receive,
+								I2_5_receive,
+								I2_6_receive,
+								I2_8_receive,
+								I2_9_receive,
+								I4_1_receive,
+								I4_2_receive,
+								I4_3_receive
 								{
 	public static final String P_E15 = "E15";
 	public static final String P_G05 = "G05";
@@ -66,8 +67,8 @@ public class G02_Id extends clsModuleContainer implements
 	 * @param poEnclosingContainer
 	 */
 	public G02_Id(String poPrefix, clsBWProperties poProp,
-			clsModuleContainer poEnclosingContainer, clsMemory poMemory) {
-		super(poPrefix, poProp, poEnclosingContainer, poMemory);
+			clsModuleContainer poEnclosingContainer, clsInterfaceHandler poInterfaceHandler, clsMemory poMemory) {
+		super(poPrefix, poProp, poEnclosingContainer, poInterfaceHandler, poMemory);
 		applyProperties(poPrefix, poProp);
 	}
 	
@@ -86,9 +87,9 @@ public class G02_Id extends clsModuleContainer implements
 	private void applyProperties(String poPrefix, clsBWProperties poProp) {
 		String pre = clsBWProperties.addDot(poPrefix);
 	
-		moG05DriveHandling = new G05_DriveHandling(pre+P_G05, poProp, this, moMemory);
-		moG06AffectGeneration = new G06_AffectGeneration(pre+P_G06, poProp, this, moMemory);
-		moE15ManagementOfRepressedContents = new E15_ManagementOfRepressedContents(pre+P_E15, poProp, this, moMemory);
+		moG05DriveHandling = new G05_DriveHandling(pre+P_G05, poProp, this, moInterfaceHandler, moMemory);
+		moG06AffectGeneration = new G06_AffectGeneration(pre+P_G06, poProp, this, moInterfaceHandler, moMemory);
+		moE15ManagementOfRepressedContents = new E15_ManagementOfRepressedContents(pre+P_E15, poProp, this, moInterfaceHandler, moMemory);
 	}
 
 	/* (non-Javadoc)
@@ -127,7 +128,7 @@ public class G02_Id extends clsModuleContainer implements
 	 */
 	@Override
 	public void receive_I1_5(List<clsPrimaryInformation> poData) {
-		((I1_5)moEnclosingContainer).receive_I1_5(poData);
+		((I1_5_receive)moEnclosingContainer).receive_I1_5(poData);
 		
 	}
 
@@ -153,7 +154,7 @@ public class G02_Id extends clsModuleContainer implements
 	 */
 	@Override
 	public void receive_I2_9(ArrayList<clsPrimaryInformation> poMergedPrimaryInformation) {
-		((I2_9)moEnclosingContainer).receive_I2_9(poMergedPrimaryInformation);
+		((I2_9_receive)moEnclosingContainer).receive_I2_9(poMergedPrimaryInformation);
 		
 	}
 
@@ -205,7 +206,7 @@ public class G02_Id extends clsModuleContainer implements
 	 */
 	@Override
 	public void receive_I2_6(ArrayList<clsPair<clsPrimaryInformation, clsPrimaryInformation>> poPerceptPlusRepressed) {
-		((I2_6)moEnclosingContainer).receive_I2_6(poPerceptPlusRepressed);
+		((I2_6_receive)moEnclosingContainer).receive_I2_6(poPerceptPlusRepressed);
 		
 	}
 
@@ -218,7 +219,7 @@ public class G02_Id extends clsModuleContainer implements
 	 */
 	@Override
 	public void receive_I4_3(List<clsPrimaryInformation> poPIs) {
-		((I4_3)moEnclosingContainer).receive_I4_3(poPIs);
+		((I4_3_receive)moEnclosingContainer).receive_I4_3(poPIs);
 		
 	}
 

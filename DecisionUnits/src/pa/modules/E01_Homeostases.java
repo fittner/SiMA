@@ -8,8 +8,9 @@ package pa.modules;
 
 import java.util.HashMap;
 
-import pa.interfaces.I1_1;
+import pa.clsInterfaceHandler;
 import pa.interfaces.itfProcessHomeostases;
+import pa.interfaces.receive.I1_1_receive;
 import config.clsBWProperties;
 import du.enums.eSensorIntType;
 import du.itf.sensors.clsDataBase;
@@ -36,8 +37,8 @@ public class E01_Homeostases extends clsModuleBase implements itfProcessHomeosta
 	 * @param poEnclosingContainer
 	 */
 	public E01_Homeostases(String poPrefix, clsBWProperties poProp,
-			clsModuleContainer poEnclosingContainer) {
-		super(poPrefix, poProp, poEnclosingContainer);
+			clsModuleContainer poEnclosingContainer, clsInterfaceHandler poInterfaceHandler) {
+		super(poPrefix, poProp, poEnclosingContainer, poInterfaceHandler);
 
 		applyProperties(poPrefix, poProp);		
 	}
@@ -115,6 +116,6 @@ public class E01_Homeostases extends clsModuleBase implements itfProcessHomeosta
 	 */
 	@Override
 	protected void send() {
-		((I1_1)moEnclosingContainer).receive_I1_1(moHomeostasis);		
+		((I1_1_receive)moEnclosingContainer).receive_I1_1(moHomeostasis);		
 	}
 }

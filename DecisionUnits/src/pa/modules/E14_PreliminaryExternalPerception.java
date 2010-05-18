@@ -11,12 +11,13 @@ import java.util.HashMap;
 
 import config.clsBWProperties;
 
+import pa.clsInterfaceHandler;
 import pa.datatypes.clsAssociationContext;
 import pa.datatypes.clsPrimaryInformation;
 import pa.enums.eSymbolExtType;
-import pa.interfaces.I2_2;
-import pa.interfaces.I2_4;
-import pa.interfaces.I2_5;
+import pa.interfaces.receive.I2_2_receive;
+import pa.interfaces.receive.I2_4_receive;
+import pa.interfaces.receive.I2_5_receive;
 import pa.symbolization.representationsymbol.itfSymbol;
 import pa.tools.clsTPGenerator;
 
@@ -28,8 +29,8 @@ import pa.tools.clsTPGenerator;
  * 
  */
 public class E14_PreliminaryExternalPerception extends clsModuleBase implements 
-					I2_2, 
-					I2_4
+					I2_2_receive, 
+					I2_4_receive
 					{
 	
 	HashMap<eSymbolExtType, itfSymbol> moEnvironmentalData;
@@ -49,8 +50,8 @@ public class E14_PreliminaryExternalPerception extends clsModuleBase implements
 	 * @param poEnclosingContainer
 	 */
 	public E14_PreliminaryExternalPerception(String poPrefix,
-			clsBWProperties poProp, clsModuleContainer poEnclosingContainer) {
-		super(poPrefix, poProp, poEnclosingContainer);
+			clsBWProperties poProp, clsModuleContainer poEnclosingContainer, clsInterfaceHandler poInterfaceHandler) {
+		super(poPrefix, poProp, poEnclosingContainer, poInterfaceHandler);
 		applyProperties(poPrefix, poProp);		
 	}
 	
@@ -140,6 +141,6 @@ public class E14_PreliminaryExternalPerception extends clsModuleBase implements
 	 */
 	@Override
 	protected void send() {
-		((I2_5)moEnclosingContainer).receive_I2_5(moEnvironmentalTP);
+		((I2_5_receive)moEnclosingContainer).receive_I2_5(moEnvironmentalTP);
 	}
 }

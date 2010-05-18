@@ -8,20 +8,21 @@ package pa.modules;
 
 import java.util.ArrayList;
 
+import pa.clsInterfaceHandler;
 import pa.datatypes.clsSecondaryInformation;
 import pa.datatypes.clsSecondaryInformationMesh;
-import pa.interfaces.I1_7;
-import pa.interfaces.I2_11;
-import pa.interfaces.I2_12;
-import pa.interfaces.I2_13;
-import pa.interfaces.I3_3;
-import pa.interfaces.I5_5;
-import pa.interfaces.I6_1;
-import pa.interfaces.I6_2;
-import pa.interfaces.I7_2;
-import pa.interfaces.I7_3;
-import pa.interfaces.I7_4;
-import pa.interfaces.I7_5;
+import pa.interfaces.receive.I1_7_receive;
+import pa.interfaces.receive.I2_11_receive;
+import pa.interfaces.receive.I2_12_receive;
+import pa.interfaces.receive.I2_13_receive;
+import pa.interfaces.receive.I3_3_receive;
+import pa.interfaces.receive.I5_5_receive;
+import pa.interfaces.receive.I6_1_receive;
+import pa.interfaces.receive.I6_2_receive;
+import pa.interfaces.receive.I7_2_receive;
+import pa.interfaces.receive.I7_3_receive;
+import pa.interfaces.receive.I7_4_receive;
+import pa.interfaces.receive.I7_5_receive;
 import pa.loader.plan.clsPlanAction;
 import pa.memory.clsMemory;
 import pa.tools.clsPair;
@@ -35,18 +36,18 @@ import config.clsBWProperties;
  * 
  */
 public class G11_SecondaryProcessor extends clsModuleContainer implements 
-				I1_7,
-				I2_11,
-				I2_12,
-				I2_13,
-				I3_3,
-				I5_5,
-				I6_1,
-				I6_2,
-				I7_2,
-				I7_3,
-				I7_4,
-				I7_5
+				I1_7_receive,
+				I2_11_receive,
+				I2_12_receive,
+				I2_13_receive,
+				I3_3_receive,
+				I5_5_receive,
+				I6_1_receive,
+				I6_2_receive,
+				I7_2_receive,
+				I7_3_receive,
+				I7_4_receive,
+				I7_5_receive
 				{
 
 	public static final String P_G14 = "G14";
@@ -68,8 +69,8 @@ public class G11_SecondaryProcessor extends clsModuleContainer implements
 	 * @param poEnclosingContainer
 	 */
 	public G11_SecondaryProcessor(String poPrefix, clsBWProperties poProp,
-			clsModuleContainer poEnclosingContainer, clsMemory poMemory) {
-		super(poPrefix, poProp, poEnclosingContainer, poMemory);
+			clsModuleContainer poEnclosingContainer, clsInterfaceHandler poInterfaceHandler, clsMemory poMemory) {
+		super(poPrefix, poProp, poEnclosingContainer, poInterfaceHandler, poMemory);
 		applyProperties(poPrefix, poProp);
 	}
 	
@@ -88,9 +89,9 @@ public class G11_SecondaryProcessor extends clsModuleContainer implements
 	private void applyProperties(String poPrefix, clsBWProperties poProp) {
 		String pre = clsBWProperties.addDot(poPrefix);
 	
-		moG14PerceptualPreprocessing = new G14_PerceptualPreprocessing(pre+P_G14, poProp, this, moMemory);
-		moG15Deliberation = new G15_Deliberation(pre+P_G15, poProp, this, moMemory);
-		moG16SecondaryKnowledgeUtilizer = new G16_SecondaryKnowledgeUtilizer(pre+P_G16, poProp, this, moMemory);
+		moG14PerceptualPreprocessing = new G14_PerceptualPreprocessing(pre+P_G14, poProp, this, moInterfaceHandler, moMemory);
+		moG15Deliberation = new G15_Deliberation(pre+P_G15, poProp, this, moInterfaceHandler, moMemory);
+		moG16SecondaryKnowledgeUtilizer = new G16_SecondaryKnowledgeUtilizer(pre+P_G16, poProp, this, moInterfaceHandler, moMemory);
 	}
 
 	/* (non-Javadoc)
@@ -211,7 +212,7 @@ public class G11_SecondaryProcessor extends clsModuleContainer implements
 	 */
 	@Override
 	public void receive_I7_4(ArrayList<clsPlanAction> poActionCommands) {
-		((I7_4)moEnclosingContainer).receive_I7_4(poActionCommands);
+		((I7_4_receive)moEnclosingContainer).receive_I7_4(poActionCommands);
 	}
 
 	/* (non-Javadoc)

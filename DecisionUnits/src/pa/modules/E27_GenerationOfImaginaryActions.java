@@ -11,11 +11,12 @@ import java.util.HashMap;
 import java.util.Map;
 
 import config.clsBWProperties;
+import pa.clsInterfaceHandler;
 import pa.datatypes.clsSecondaryInformation;
-import pa.interfaces.I6_2;
-import pa.interfaces.I7_1;
-import pa.interfaces.I7_3;
 import pa.interfaces.itfTimeChartInformationContainer;
+import pa.interfaces.receive.I6_2_receive;
+import pa.interfaces.receive.I7_1_receive;
+import pa.interfaces.receive.I7_3_receive;
 import pa.loader.plan.clsPlanAction;
 import pa.loader.plan.clsPlanBaseMesh;
 import pa.loader.plan.clsPlanStateMesh;
@@ -28,7 +29,7 @@ import pa.tools.clsPair;
  * 11.08.2009, 14:55:01
  * 
  */
-public class E27_GenerationOfImaginaryActions extends clsModuleBase implements I6_2, I7_1, itfTimeChartInformationContainer {
+public class E27_GenerationOfImaginaryActions extends clsModuleBase implements I6_2_receive, I7_1_receive, itfTimeChartInformationContainer {
 
 	ArrayList<clsSecondaryInformation> moEnvironmentalPerception;
 	private HashMap<String, clsPair<clsSecondaryInformation, Double>> moTemplateResult_Input;
@@ -46,8 +47,8 @@ public class E27_GenerationOfImaginaryActions extends clsModuleBase implements I
 	 * @param poEnclosingContainer
 	 */
 	public E27_GenerationOfImaginaryActions(String poPrefix,
-			clsBWProperties poProp, clsModuleContainer poEnclosingContainer) {
-		super(poPrefix, poProp, poEnclosingContainer);
+			clsBWProperties poProp, clsModuleContainer poEnclosingContainer, clsInterfaceHandler poInterfaceHandler) {
+		super(poPrefix, poProp, poEnclosingContainer, poInterfaceHandler);
 		applyProperties(poPrefix, poProp);	
 		
 		ArrayList<clsPlanAction> moActions_Output = new ArrayList<clsPlanAction>();
@@ -143,7 +144,7 @@ public class E27_GenerationOfImaginaryActions extends clsModuleBase implements I
 	 */
 	@Override
 	protected void send() {
-		((I7_3)moEnclosingContainer).receive_I7_3(moActions_Output);
+		((I7_3_receive)moEnclosingContainer).receive_I7_3(moActions_Output);
 		
 	}
 

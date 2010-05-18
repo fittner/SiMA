@@ -9,10 +9,11 @@ package pa.modules;
 import java.util.HashMap;
 
 import config.clsBWProperties;
-import pa.interfaces.I2_3;
 import du.enums.eSensorExtType;
 import du.itf.sensors.clsSensorExtern;
+import pa.clsInterfaceHandler;
 import pa.interfaces.itfProcessSensorBody;
+import pa.interfaces.receive.I2_3_receive;
 
 /**
  * DOCUMENT (deutsch) - insert description 
@@ -36,8 +37,8 @@ public class E12_SensorsBody extends clsModuleBase implements itfProcessSensorBo
 	 * @param poEnclosingContainer
 	 */
 	public E12_SensorsBody(String poPrefix, clsBWProperties poProp,
-			clsModuleContainer poEnclosingContainer) {
-		super(poPrefix, poProp, poEnclosingContainer);
+			clsModuleContainer poEnclosingContainer, clsInterfaceHandler poInterfaceHandler) {
+		super(poPrefix, poProp, poEnclosingContainer, poInterfaceHandler);
 		applyProperties(poPrefix, poProp);		
 	}
 	
@@ -115,7 +116,7 @@ public class E12_SensorsBody extends clsModuleBase implements itfProcessSensorBo
 	 */
 	@Override
 	protected void send() {
-		((I2_3)moEnclosingContainer).receive_I2_3(moBodyData);
+		((I2_3_receive)moEnclosingContainer).receive_I2_3(moBodyData);
 		
 	}
 

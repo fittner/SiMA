@@ -9,19 +9,20 @@ package pa.modules;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import pa.clsInterfaceHandler;
 import pa.enums.eSymbolExtType;
-import pa.interfaces.I1_1;
-import pa.interfaces.I1_2;
-import pa.interfaces.I2_1;
-import pa.interfaces.I2_2;
-import pa.interfaces.I2_3;
-import pa.interfaces.I2_4;
-import pa.interfaces.I8_1;
-import pa.interfaces.I8_2;
 import pa.interfaces.itfProcessHomeostases;
 import pa.interfaces.itfProcessSensorBody;
 import pa.interfaces.itfProcessSensorEnvironment;
 import pa.interfaces.itfReturnActionCommands;
+import pa.interfaces.receive.I1_1_receive;
+import pa.interfaces.receive.I1_2_receive;
+import pa.interfaces.receive.I2_1_receive;
+import pa.interfaces.receive.I2_2_receive;
+import pa.interfaces.receive.I2_3_receive;
+import pa.interfaces.receive.I2_4_receive;
+import pa.interfaces.receive.I8_1_receive;
+import pa.interfaces.receive.I8_2_receive;
 import pa.loader.plan.clsPlanAction;
 import pa.memory.clsMemory;
 import pa.symbolization.representationsymbol.itfSymbol;
@@ -45,14 +46,14 @@ public class G01_Body extends clsModuleContainer implements
 						itfProcessHomeostases, 
 						itfProcessSensorBody,
 						itfReturnActionCommands,
-						I1_1,
-						I1_2,
-						I2_1,
-						I2_2,
-						I2_3,
-						I2_4,
-						I8_1,
-						I8_2
+						I1_1_receive,
+						I1_2_receive,
+						I2_1_receive,
+						I2_2_receive,
+						I2_3_receive,
+						I2_4_receive,
+						I8_1_receive,
+						I8_2_receive
 						{
 	public static final String P_E01 = "E01";
 	public static final String P_E02 = "E02";
@@ -83,8 +84,8 @@ public class G01_Body extends clsModuleContainer implements
 	 * @param poEnclosingContainer
 	 */
 	public G01_Body(String poPrefix, clsBWProperties poProp,
-			clsModuleContainer poEnclosingContainer, clsMemory poMemory) {
-		super(poPrefix, poProp, poEnclosingContainer, poMemory);
+			clsModuleContainer poEnclosingContainer, clsInterfaceHandler poInterfaceHandler, clsMemory poMemory) {
+		super(poPrefix, poProp, poEnclosingContainer, poInterfaceHandler, poMemory);
 		applyProperties(poPrefix, poProp);
 	}
 	
@@ -108,14 +109,14 @@ public class G01_Body extends clsModuleContainer implements
 	private void applyProperties(String poPrefix, clsBWProperties poProp) {
 		String pre = clsBWProperties.addDot(poPrefix);
 	
-		moE01Homeostases = new E01_Homeostases(pre+P_E01, poProp, this);
-		moE02NeurosymbolizationOfNeeds = new E02_NeurosymbolizationOfNeeds(pre+P_E02, poProp, this);
-		moE10SensorsEnvironment = new E10_SensorsEnvironment(pre+P_E10, poProp, this);
-		moE11NeuroSymbolsEnvironment = new E11_NeuroSymbolsEnvironment(pre+P_E11, poProp, this);
-		moE12SensorsBody = new E12_SensorsBody(pre+P_E12, poProp, this);
-		moE13NeuroSymbolsBody = new E13_NeuroSymbolsBody(pre+P_E13, poProp, this);
-		moE31NeuroDeSymbolization = new E31_NeuroDeSymbolization(pre+P_E31, poProp, this);
-		moE32Actuators = new E32_Actuators(pre+P_E32, poProp, this);
+		moE01Homeostases = new E01_Homeostases(pre+P_E01, poProp, this, moInterfaceHandler);
+		moE02NeurosymbolizationOfNeeds = new E02_NeurosymbolizationOfNeeds(pre+P_E02, poProp, this, moInterfaceHandler);
+		moE10SensorsEnvironment = new E10_SensorsEnvironment(pre+P_E10, poProp, this, moInterfaceHandler);
+		moE11NeuroSymbolsEnvironment = new E11_NeuroSymbolsEnvironment(pre+P_E11, poProp, this, moInterfaceHandler);
+		moE12SensorsBody = new E12_SensorsBody(pre+P_E12, poProp, this, moInterfaceHandler);
+		moE13NeuroSymbolsBody = new E13_NeuroSymbolsBody(pre+P_E13, poProp, this, moInterfaceHandler);
+		moE31NeuroDeSymbolization = new E31_NeuroDeSymbolization(pre+P_E31, poProp, this, moInterfaceHandler);
+		moE32Actuators = new E32_Actuators(pre+P_E32, poProp, this, moInterfaceHandler);
 	}
 
 	/* (non-Javadoc)
@@ -227,7 +228,7 @@ public class G01_Body extends clsModuleContainer implements
 	 */
 	@Override
 	public void receive_I1_2(HashMap<String, Double> poHomeostasisSymbols) {
-		((I1_2)moEnclosingContainer).receive_I1_2(poHomeostasisSymbols);
+		((I1_2_receive)moEnclosingContainer).receive_I1_2(poHomeostasisSymbols);
 		
 	}
 
@@ -252,7 +253,7 @@ public class G01_Body extends clsModuleContainer implements
 	 */
 	@Override
 	public void receive_I2_2(HashMap<eSymbolExtType, itfSymbol> poEnvironmentalData) {
-		((I2_2)moEnclosingContainer).receive_I2_2(poEnvironmentalData);
+		((I2_2_receive)moEnclosingContainer).receive_I2_2(poEnvironmentalData);
 		
 	}
 
@@ -265,7 +266,7 @@ public class G01_Body extends clsModuleContainer implements
 	 */
 	@Override
 	public void receive_I2_4(HashMap<eSymbolExtType, itfSymbol> poBodyData) {
-		((I2_4)moEnclosingContainer).receive_I2_4(poBodyData);
+		((I2_4_receive)moEnclosingContainer).receive_I2_4(poBodyData);
 		
 	}
 }

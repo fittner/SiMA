@@ -9,21 +9,22 @@ package pa.modules;
 import java.util.ArrayList;
 import java.util.List;
 
+import pa.clsInterfaceHandler;
 import pa.datatypes.clsAffectTension;
 import pa.datatypes.clsPrimaryInformation;
 import pa.datatypes.clsThingPresentation;
-import pa.interfaces.I1_5;
-import pa.interfaces.I1_6;
-import pa.interfaces.I2_10;
-import pa.interfaces.I2_9;
-import pa.interfaces.I3_1;
-import pa.interfaces.I3_2;
-import pa.interfaces.I4_1;
-import pa.interfaces.I4_2;
-import pa.interfaces.I4_3;
-import pa.interfaces.I5_1;
-import pa.interfaces.I5_2;
-import pa.interfaces.I6_3;
+import pa.interfaces.receive.I1_5_receive;
+import pa.interfaces.receive.I1_6_receive;
+import pa.interfaces.receive.I2_10_receive;
+import pa.interfaces.receive.I2_9_receive;
+import pa.interfaces.receive.I3_1_receive;
+import pa.interfaces.receive.I3_2_receive;
+import pa.interfaces.receive.I4_1_receive;
+import pa.interfaces.receive.I4_2_receive;
+import pa.interfaces.receive.I4_3_receive;
+import pa.interfaces.receive.I5_1_receive;
+import pa.interfaces.receive.I5_2_receive;
+import pa.interfaces.receive.I6_3_receive;
 import pa.memory.clsMemory;
 import config.clsBWProperties;
 
@@ -35,18 +36,18 @@ import config.clsBWProperties;
  * 
  */
 public class G12_PrimaryDecision extends clsModuleContainer implements 
-					I1_5,
-					I1_6,
-					I2_9,
-					I2_10,
-					I3_1,
-					I3_2,
-					I4_1,
-					I4_2,
-					I4_3,
-					I5_1,
-					I5_2,
-					I6_3
+					I1_5_receive,
+					I1_6_receive,
+					I2_9_receive,
+					I2_10_receive,
+					I3_1_receive,
+					I3_2_receive,
+					I4_1_receive,
+					I4_2_receive,
+					I4_3_receive,
+					I5_1_receive,
+					I5_2_receive,
+					I6_3_receive
 					{
 
 	public static final String P_E06 = "E06";
@@ -66,8 +67,8 @@ public class G12_PrimaryDecision extends clsModuleContainer implements
 	 * @param poEnclosingContainer
 	 */
 	public G12_PrimaryDecision(String poPrefix, clsBWProperties poProp,
-			clsModuleContainer poEnclosingContainer, clsMemory poMemory) {
-		super(poPrefix, poProp, poEnclosingContainer, poMemory);
+			clsModuleContainer poEnclosingContainer, clsInterfaceHandler poInterfaceHandler, clsMemory poMemory) {
+		super(poPrefix, poProp, poEnclosingContainer, poInterfaceHandler, poMemory);
 		applyProperties(poPrefix, poProp);
 	}
 	
@@ -85,8 +86,8 @@ public class G12_PrimaryDecision extends clsModuleContainer implements
 	private void applyProperties(String poPrefix, clsBWProperties poProp) {
 		String pre = clsBWProperties.addDot(poPrefix);
 	
-		moE06DefenseMechanismsForDriveContents = new E06_DefenseMechanismsForDriveContents(pre+P_E06, poProp, this);
-		moE19DefenseMechanismsForPerception = new E19_DefenseMechanismsForPerception(pre+P_E19, poProp, this);
+		moE06DefenseMechanismsForDriveContents = new E06_DefenseMechanismsForDriveContents(pre+P_E06, poProp, this, moInterfaceHandler);
+		moE19DefenseMechanismsForPerception = new E19_DefenseMechanismsForPerception(pre+P_E19, poProp, this, moInterfaceHandler);
 	}
 
 	/* (non-Javadoc)
@@ -111,7 +112,7 @@ public class G12_PrimaryDecision extends clsModuleContainer implements
 	 */
 	@Override
 	public void receive_I1_6(ArrayList<clsPrimaryInformation> poDriveList) {
-		((I1_6)moEnclosingContainer).receive_I1_6(poDriveList);
+		((I1_6_receive)moEnclosingContainer).receive_I1_6(poDriveList);
 	}
 
 	/* (non-Javadoc)
@@ -135,7 +136,7 @@ public class G12_PrimaryDecision extends clsModuleContainer implements
 	 */
 	@Override
 	public void receive_I2_10(ArrayList<clsPrimaryInformation> poGrantedPerception) {
-		((I2_10)moEnclosingContainer).receive_I2_10(poGrantedPerception);
+		((I2_10_receive)moEnclosingContainer).receive_I2_10(poGrantedPerception);
 	}
 
 	/* (non-Javadoc)
@@ -159,7 +160,7 @@ public class G12_PrimaryDecision extends clsModuleContainer implements
 	 */
 	@Override
 	public void receive_I4_1(List<clsPrimaryInformation> poPIs, List<clsThingPresentation> poTPs, List<clsAffectTension> poAffects) {
-		((I4_1)moEnclosingContainer).receive_I4_1(poPIs, poTPs, poAffects);	
+		((I4_1_receive)moEnclosingContainer).receive_I4_1(poPIs, poTPs, poAffects);	
 	}
 
 	/* (non-Javadoc)
@@ -171,7 +172,7 @@ public class G12_PrimaryDecision extends clsModuleContainer implements
 	 */
 	@Override
 	public void receive_I4_2(ArrayList<clsPrimaryInformation> poPIs, ArrayList<clsThingPresentation> poTPs, ArrayList<clsAffectTension> poAffects) {
-		((I4_2)moEnclosingContainer).receive_I4_2(poPIs, poTPs, poAffects);			
+		((I4_2_receive)moEnclosingContainer).receive_I4_2(poPIs, poTPs, poAffects);			
 	}
 
 	/* (non-Javadoc)
@@ -195,7 +196,7 @@ public class G12_PrimaryDecision extends clsModuleContainer implements
 	 */
 	@Override
 	public void receive_I5_1(ArrayList<clsAffectTension> poAffectOnlyList) {
-		((I5_1)moEnclosingContainer).receive_I5_1(poAffectOnlyList);	
+		((I5_1_receive)moEnclosingContainer).receive_I5_1(poAffectOnlyList);	
 	}
 
 	/* (non-Javadoc)
@@ -207,7 +208,7 @@ public class G12_PrimaryDecision extends clsModuleContainer implements
 	 */
 	@Override
 	public void receive_I5_2(ArrayList<clsAffectTension> poDeniedAffects) {
-		((I5_2)moEnclosingContainer).receive_I5_2(poDeniedAffects);	
+		((I5_2_receive)moEnclosingContainer).receive_I5_2(poDeniedAffects);	
 	}
 
 	/* (non-Javadoc)

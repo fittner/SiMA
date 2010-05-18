@@ -8,13 +8,14 @@ package pa.modules;
 
 import java.util.ArrayList;
 
+import pa.clsInterfaceHandler;
 import pa.datatypes.clsAffectTension;
 import pa.datatypes.clsAffectCandidate;
 import pa.datatypes.clsPrimaryInformation;
 import pa.datatypes.clsPrimaryInformationMesh;
-import pa.interfaces.I1_4;
-import pa.interfaces.I1_5;
 import pa.interfaces.itfTimeChartInformationContainer;
+import pa.interfaces.receive.I1_4_receive;
+import pa.interfaces.receive.I1_5_receive;
 import pa.tools.clsPair;
 import config.clsBWProperties;
 
@@ -25,7 +26,7 @@ import config.clsBWProperties;
  * 11.08.2009, 13:58:45
  * 
  */
-public class E05_GenerationOfAffectsForDrives extends clsModuleBase implements I1_4, itfTimeChartInformationContainer {
+public class E05_GenerationOfAffectsForDrives extends clsModuleBase implements I1_4_receive, itfTimeChartInformationContainer {
 
 	public ArrayList<clsPair<clsPair<clsPrimaryInformationMesh, clsAffectCandidate>, 
 	clsPair<clsPrimaryInformationMesh, clsAffectCandidate>>> moDriveCandidate;
@@ -43,8 +44,8 @@ public class E05_GenerationOfAffectsForDrives extends clsModuleBase implements I
 	 * @param poEnclosingContainer
 	 */
 	public E05_GenerationOfAffectsForDrives(String poPrefix,
-			clsBWProperties poProp, clsModuleContainer poEnclosingContainer) {
-		super(poPrefix, poProp, poEnclosingContainer);
+			clsBWProperties poProp, clsModuleContainer poEnclosingContainer, clsInterfaceHandler poInterfaceHandler) {
+		super(poPrefix, poProp, poEnclosingContainer, poInterfaceHandler);
 		applyProperties(poPrefix, poProp);		
 	}
 	
@@ -150,7 +151,7 @@ public class E05_GenerationOfAffectsForDrives extends clsModuleBase implements I
 			oOutput.add(oPair.b);
 		}
 		
-		((I1_5)moEnclosingContainer).receive_I1_5(oOutput);
+		((I1_5_receive)moEnclosingContainer).receive_I1_5(oOutput);
 		
 	}
 

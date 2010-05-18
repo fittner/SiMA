@@ -7,8 +7,9 @@
 package pa.modules;
 
 import config.clsBWProperties;
-import pa.interfaces.I7_2;
-import pa.interfaces.I6_2;
+import pa.clsInterfaceHandler;
+import pa.interfaces.receive.I6_2_receive;
+import pa.interfaces.receive.I7_2_receive;
 
 /**
  * DOCUMENT (deutsch) - insert description 
@@ -17,7 +18,7 @@ import pa.interfaces.I6_2;
  * 11.08.2009, 14:56:22
  * 
  */
-public class E28_KnowledgeBase_StoredScenarios extends clsModuleBase implements I7_2 {
+public class E28_KnowledgeBase_StoredScenarios extends clsModuleBase implements I7_2_receive {
 
 	/**
 	 * DOCUMENT (deutsch) - insert description 
@@ -30,8 +31,8 @@ public class E28_KnowledgeBase_StoredScenarios extends clsModuleBase implements 
 	 * @param poEnclosingContainer
 	 */
 	public E28_KnowledgeBase_StoredScenarios(String poPrefix,
-			clsBWProperties poProp, clsModuleContainer poEnclosingContainer) {
-		super(poPrefix, poProp, poEnclosingContainer);
+			clsBWProperties poProp, clsModuleContainer poEnclosingContainer, clsInterfaceHandler poInterfaceHandler) {
+		super(poPrefix, poProp, poEnclosingContainer, poInterfaceHandler);
 		applyProperties(poPrefix, poProp);		
 	}
 	
@@ -110,7 +111,7 @@ public class E28_KnowledgeBase_StoredScenarios extends clsModuleBase implements 
 	 */
 	@Override
 	protected void send() {
-		((I6_2)moEnclosingContainer).receive_I6_2(mnTest);
+		((I6_2_receive)moEnclosingContainer).receive_I6_2(mnTest);
 		
 	}
 

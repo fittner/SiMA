@@ -10,14 +10,15 @@ import java.util.ArrayList;
 import java.util.List;
 
 import config.clsBWProperties;
+import pa.clsInterfaceHandler;
 import pa.datatypes.clsAffectTension;
 import pa.datatypes.clsPrimaryInformation;
 import pa.datatypes.clsThingPresentation;
-import pa.interfaces.I2_5;
-import pa.interfaces.I2_6;
-import pa.interfaces.I4_1;
-import pa.interfaces.I4_2;
-import pa.interfaces.I4_3;
+import pa.interfaces.receive.I2_5_receive;
+import pa.interfaces.receive.I2_6_receive;
+import pa.interfaces.receive.I4_1_receive;
+import pa.interfaces.receive.I4_2_receive;
+import pa.interfaces.receive.I4_3_receive;
 import pa.memory.clsMemory;
 import pa.tools.clsPair;
 
@@ -28,7 +29,7 @@ import pa.tools.clsPair;
  * 11.08.2009, 14:28:49
  * 
  */
-public class E15_ManagementOfRepressedContents extends clsModuleContainer implements I2_5, I4_1, I4_2, I2_6, I4_3 {
+public class E15_ManagementOfRepressedContents extends clsModuleContainer implements I2_5_receive, I4_1_receive, I4_2_receive, I2_6_receive, I4_3_receive {
 
 	public static final String P_S_1 = "S_1";
 	public static final String P_S_2 = "S_2";
@@ -49,8 +50,8 @@ public class E15_ManagementOfRepressedContents extends clsModuleContainer implem
 	 */
 	public E15_ManagementOfRepressedContents(String poPrefix,
 			clsBWProperties poProp, clsModuleContainer poEnclosingContainer,
-			clsMemory poMemory) {
-		super(poPrefix, poProp, poEnclosingContainer, poMemory);
+			clsInterfaceHandler poInterfaceHandler, clsMemory poMemory) {
+		super(poPrefix, poProp, poEnclosingContainer, poInterfaceHandler, poMemory);
 		applyProperties(poPrefix, poProp);
 	}
 
@@ -69,8 +70,8 @@ public class E15_ManagementOfRepressedContents extends clsModuleContainer implem
 	private void applyProperties(String poPrefix, clsBWProperties poProp) {
 		String pre = clsBWProperties.addDot(poPrefix);
 	
-		moS_ManagementOfRepressedContents_1 = new S_ManagementOfRepressedContents_1(pre+P_S_1, poProp, this);
-		moS_ManagementOfRepressedContents_2 = new S_ManagementOfRepressedContents_2(pre+P_S_2, poProp, this);
+		moS_ManagementOfRepressedContents_1 = new S_ManagementOfRepressedContents_1(pre+P_S_1, poProp, this, moInterfaceHandler);
+		moS_ManagementOfRepressedContents_2 = new S_ManagementOfRepressedContents_2(pre+P_S_2, poProp, this, moInterfaceHandler);
 	}
 
 
@@ -122,7 +123,7 @@ public class E15_ManagementOfRepressedContents extends clsModuleContainer implem
 	 */
 	@Override
 	public void receive_I2_6(ArrayList<clsPair<clsPrimaryInformation, clsPrimaryInformation>> poPerceptPlusRepressed) {
-		((I2_6)moEnclosingContainer).receive_I2_6(poPerceptPlusRepressed);		
+		((I2_6_receive)moEnclosingContainer).receive_I2_6(poPerceptPlusRepressed);		
 	}
 
 
@@ -135,7 +136,7 @@ public class E15_ManagementOfRepressedContents extends clsModuleContainer implem
 	 */
 	@Override
 	public void receive_I4_3(List<clsPrimaryInformation> poPIs) {
-		((I4_3)moEnclosingContainer).receive_I4_3(poPIs);
+		((I4_3_receive)moEnclosingContainer).receive_I4_3(poPIs);
 	}
 
 }

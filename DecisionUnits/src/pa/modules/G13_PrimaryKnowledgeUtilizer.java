@@ -9,11 +9,12 @@ package pa.modules;
 import java.util.ArrayList;
 import java.util.List;
 
+import pa.clsInterfaceHandler;
 import pa.datatypes.clsPrimaryInformation;
-import pa.interfaces.I1_5;
-import pa.interfaces.I2_6;
-import pa.interfaces.I2_7;
-import pa.interfaces.I6_3;
+import pa.interfaces.receive.I1_5_receive;
+import pa.interfaces.receive.I2_6_receive;
+import pa.interfaces.receive.I2_7_receive;
+import pa.interfaces.receive.I6_3_receive;
 import pa.memory.clsMemory;
 import pa.tools.clsPair;
 import pa.tools.clsTripple;
@@ -27,10 +28,10 @@ import config.clsBWProperties;
  * 
  */
 public class G13_PrimaryKnowledgeUtilizer extends clsModuleContainer implements
-					I1_5,
-					I2_6,
-					I2_7,
-					I6_3
+					I1_5_receive,
+					I2_6_receive,
+					I2_7_receive,
+					I6_3_receive
 					{
 
 	public static final String P_E09 = "E09";
@@ -50,8 +51,8 @@ public class G13_PrimaryKnowledgeUtilizer extends clsModuleContainer implements
 	 * @param poEnclosingContainer
 	 */
 	public G13_PrimaryKnowledgeUtilizer(String poPrefix, clsBWProperties poProp,
-			clsModuleContainer poEnclosingContainer, clsMemory poMemory) {
-		super(poPrefix, poProp, poEnclosingContainer, poMemory);
+			clsModuleContainer poEnclosingContainer, clsInterfaceHandler poInterfaceHandler, clsMemory poMemory) {
+		super(poPrefix, poProp, poEnclosingContainer, poInterfaceHandler, poMemory);
 		applyProperties(poPrefix, poProp);
 	}
 	
@@ -69,8 +70,8 @@ public class G13_PrimaryKnowledgeUtilizer extends clsModuleContainer implements
 	private void applyProperties(String poPrefix, clsBWProperties poProp) {
 		String pre = clsBWProperties.addDot(poPrefix);
 	
-		moE09KnowledgeAboutReality_unconscious = new E09_KnowledgeAboutReality_unconscious(pre+P_E09, poProp, this);
-		moE16ManagementOfMemoryTraces = new E16_ManagementOfMemoryTraces(pre+P_E16, poProp, this);
+		moE09KnowledgeAboutReality_unconscious = new E09_KnowledgeAboutReality_unconscious(pre+P_E09, poProp, this, moInterfaceHandler);
+		moE16ManagementOfMemoryTraces = new E16_ManagementOfMemoryTraces(pre+P_E16, poProp, this, moInterfaceHandler);
 	}
 
 	/* (non-Javadoc)
@@ -106,7 +107,7 @@ public class G13_PrimaryKnowledgeUtilizer extends clsModuleContainer implements
 	 */
 	@Override
 	public void receive_I2_7(ArrayList<clsTripple<clsPrimaryInformation, clsPrimaryInformation, ArrayList<clsPrimaryInformation>>> poPerceptPlusMemories_Output) {
-		((I2_7)moEnclosingContainer).receive_I2_7(poPerceptPlusMemories_Output);
+		((I2_7_receive)moEnclosingContainer).receive_I2_7(poPerceptPlusMemories_Output);
 	}
 
 	/* (non-Javadoc)
@@ -118,7 +119,7 @@ public class G13_PrimaryKnowledgeUtilizer extends clsModuleContainer implements
 	 */
 	@Override
 	public void receive_I6_3(int pnData) {
-		((I6_3)moEnclosingContainer).receive_I6_3(pnData);
+		((I6_3_receive)moEnclosingContainer).receive_I6_3(pnData);
 	}
 
 }

@@ -10,31 +10,32 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import pa.clsInterfaceHandler;
 import pa.datatypes.clsAffectTension;
 import pa.datatypes.clsPrimaryInformation;
 import pa.datatypes.clsSecondaryInformation;
 import pa.datatypes.clsThingPresentation;
-import pa.interfaces.I1_5;
-import pa.interfaces.I1_7;
-import pa.interfaces.I2_11;
-import pa.interfaces.I2_2;
-import pa.interfaces.I2_4;
-import pa.interfaces.I2_5;
-import pa.interfaces.I2_6;
-import pa.interfaces.I2_8;
-import pa.interfaces.I2_9;
-import pa.interfaces.I3_1;
-import pa.interfaces.I3_2;
-import pa.interfaces.I3_3;
-import pa.interfaces.I4_1;
-import pa.interfaces.I4_2;
-import pa.interfaces.I4_3;
-import pa.interfaces.I7_4;
 import pa.loader.plan.clsPlanAction;
 import pa.memory.clsMemory;
 import pa.symbolization.representationsymbol.itfSymbol;
 import pa.tools.clsPair;
-import pa.interfaces.I8_1;
+import pa.interfaces.receive.I1_5_receive;
+import pa.interfaces.receive.I1_7_receive;
+import pa.interfaces.receive.I2_11_receive;
+import pa.interfaces.receive.I2_2_receive;
+import pa.interfaces.receive.I2_4_receive;
+import pa.interfaces.receive.I2_5_receive;
+import pa.interfaces.receive.I2_6_receive;
+import pa.interfaces.receive.I2_8_receive;
+import pa.interfaces.receive.I2_9_receive;
+import pa.interfaces.receive.I3_1_receive;
+import pa.interfaces.receive.I3_2_receive;
+import pa.interfaces.receive.I3_3_receive;
+import pa.interfaces.receive.I4_1_receive;
+import pa.interfaces.receive.I4_2_receive;
+import pa.interfaces.receive.I4_3_receive;
+import pa.interfaces.receive.I7_4_receive;
+import pa.interfaces.receive.I8_1_receive;
 import config.clsBWProperties;
 import pa.enums.eSymbolExtType;
 
@@ -46,23 +47,23 @@ import pa.enums.eSymbolExtType;
  * 
  */
 public class G03_Ego extends clsModuleContainer implements
-				I1_7,
-				I2_2,
-				I2_4,
-				I2_5,
-				I2_6,
-				I2_11,
-				I1_5,
-				I2_8,
-				I2_9,
-				I3_1,
-				I3_2,
-				I3_3,
-				I4_1,
-				I4_2,
-				I4_3,
-				I7_4,
-				I8_1
+				I1_7_receive,
+				I2_2_receive,
+				I2_4_receive,
+				I2_5_receive,
+				I2_6_receive,
+				I2_11_receive,
+				I1_5_receive,
+				I2_8_receive,
+				I2_9_receive,
+				I3_1_receive,
+				I3_2_receive,
+				I3_3_receive,
+				I4_1_receive,
+				I4_2_receive,
+				I4_3_receive,
+				I7_4_receive,
+				I8_1_receive
 				{
 
 	public static final String P_G07 = "G07";
@@ -82,8 +83,8 @@ public class G03_Ego extends clsModuleContainer implements
 	 * @param poEnclosingContainer
 	 */
 	public G03_Ego(String poPrefix, clsBWProperties poProp,
-			clsModuleContainer poEnclosingContainer, clsMemory poMemory) {
-		super(poPrefix, poProp, poEnclosingContainer, poMemory);
+			clsModuleContainer poEnclosingContainer, clsInterfaceHandler poInterfaceHandler, clsMemory poMemory) {
+		super(poPrefix, poProp, poEnclosingContainer, poInterfaceHandler, poMemory);
 		applyProperties(poPrefix, poProp);
 	}
 	
@@ -101,8 +102,8 @@ public class G03_Ego extends clsModuleContainer implements
 	private void applyProperties(String poPrefix, clsBWProperties poProp) {
 		String pre = clsBWProperties.addDot(poPrefix);
 	
-		moG07EnvironmentalInterfaceFunctions = new G07_EnvironmentalInterfaceFunctions(pre+P_G07, poProp, this, moMemory);
-		moG08PsychicMediator = new G08_PsychicMediator(pre+P_G07, poProp, this, moMemory);
+		moG07EnvironmentalInterfaceFunctions = new G07_EnvironmentalInterfaceFunctions(pre+P_G07, poProp, this, moInterfaceHandler, moMemory);
+		moG08PsychicMediator = new G08_PsychicMediator(pre+P_G07, poProp, this, moInterfaceHandler, moMemory);
 	}
 
 	/* (non-Javadoc)
@@ -211,7 +212,7 @@ public class G03_Ego extends clsModuleContainer implements
 	 */
 	@Override
 	public void receive_I2_5(ArrayList<clsPrimaryInformation> poEnvironmentalTP) {
-		((I2_5)moEnclosingContainer).receive_I2_5(poEnvironmentalTP);
+		((I2_5_receive)moEnclosingContainer).receive_I2_5(poEnvironmentalTP);
 	}
 
 	/* (non-Javadoc)
@@ -223,7 +224,7 @@ public class G03_Ego extends clsModuleContainer implements
 	 */
 	@Override
 	public void receive_I2_8(ArrayList<clsPair<clsPrimaryInformation,clsPrimaryInformation>> poMergedPrimaryInformationMesh) {
-		((I2_8)moEnclosingContainer).receive_I2_8(poMergedPrimaryInformationMesh);
+		((I2_8_receive)moEnclosingContainer).receive_I2_8(poMergedPrimaryInformationMesh);
 	}
 
 	/* (non-Javadoc)
@@ -247,7 +248,7 @@ public class G03_Ego extends clsModuleContainer implements
 	 */
 	@Override
 	public void receive_I4_1(List<clsPrimaryInformation> poPIs, List<clsThingPresentation> poTPs, List<clsAffectTension> poAffects) {
-		((I4_1)moEnclosingContainer).receive_I4_1(poPIs, poTPs, poAffects);
+		((I4_1_receive)moEnclosingContainer).receive_I4_1(poPIs, poTPs, poAffects);
 	}
 
 	/* (non-Javadoc)
@@ -259,7 +260,7 @@ public class G03_Ego extends clsModuleContainer implements
 	 */
 	@Override
 	public void receive_I4_2(ArrayList<clsPrimaryInformation> poPIs, ArrayList<clsThingPresentation> poTPs, ArrayList<clsAffectTension> poAffects) {
-		((I4_2)moEnclosingContainer).receive_I4_2(poPIs, poTPs, poAffects);
+		((I4_2_receive)moEnclosingContainer).receive_I4_2(poPIs, poTPs, poAffects);
 	}
 
 	/* (non-Javadoc)
@@ -271,7 +272,7 @@ public class G03_Ego extends clsModuleContainer implements
 	 */
 	@Override
 	public void receive_I1_7(ArrayList<clsSecondaryInformation> poDriveList) {
-		((I1_7)moEnclosingContainer).receive_I1_7(poDriveList);
+		((I1_7_receive)moEnclosingContainer).receive_I1_7(poDriveList);
 	}
 
 	/* (non-Javadoc)
@@ -295,7 +296,7 @@ public class G03_Ego extends clsModuleContainer implements
 	 */
 	@Override
 	public void receive_I2_11(ArrayList<clsSecondaryInformation> poPerception) {
-		((I2_11)moEnclosingContainer).receive_I2_11(poPerception);
+		((I2_11_receive)moEnclosingContainer).receive_I2_11(poPerception);
 		
 	}
 
@@ -308,7 +309,7 @@ public class G03_Ego extends clsModuleContainer implements
 	 */
 	@Override
 	public void receive_I8_1(ArrayList<clsPlanAction> poActionCommands) {
-		((I8_1)moEnclosingContainer).receive_I8_1(poActionCommands);
+		((I8_1_receive)moEnclosingContainer).receive_I8_1(poActionCommands);
 		
 	}
 

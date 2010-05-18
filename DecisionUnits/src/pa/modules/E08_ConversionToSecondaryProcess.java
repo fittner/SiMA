@@ -9,13 +9,14 @@ package pa.modules;
 import java.util.ArrayList;
 
 import config.clsBWProperties;
+import pa.clsInterfaceHandler;
 import pa.datatypes.clsPrimaryInformation;
 import pa.datatypes.clsPrimaryInformationMesh;
 import pa.datatypes.clsSecondaryInformation;
 import pa.datatypes.clsSecondaryInformationMesh;
-import pa.interfaces.I1_6;
-import pa.interfaces.I1_7;
-import pa.interfaces.I5_3;
+import pa.interfaces.receive.I1_6_receive;
+import pa.interfaces.receive.I1_7_receive;
+import pa.interfaces.receive.I5_3_receive;
 
 /**
  * DOCUMENT (deutsch) - insert description 
@@ -24,7 +25,7 @@ import pa.interfaces.I5_3;
  * 11.08.2009, 14:11:38
  * 
  */
-public class E08_ConversionToSecondaryProcess extends clsModuleBase implements I1_6 {
+public class E08_ConversionToSecondaryProcess extends clsModuleBase implements I1_6_receive {
 
 	public  ArrayList<clsPrimaryInformation> moDriveList_Input;
 	public  ArrayList<clsSecondaryInformation> moDriveList_Output;
@@ -40,8 +41,8 @@ public class E08_ConversionToSecondaryProcess extends clsModuleBase implements I
 	 * @param poEnclosingContainer
 	 */
 	public E08_ConversionToSecondaryProcess(String poPrefix,
-			clsBWProperties poProp, clsModuleContainer poEnclosingContainer) {
-		super(poPrefix, poProp, poEnclosingContainer);
+			clsBWProperties poProp, clsModuleContainer poEnclosingContainer, clsInterfaceHandler poInterfaceHandler) {
+		super(poPrefix, poProp, poEnclosingContainer, poInterfaceHandler);
 		applyProperties(poPrefix, poProp);		
 	}
 	
@@ -130,7 +131,7 @@ public class E08_ConversionToSecondaryProcess extends clsModuleBase implements I
 	 */
 	@Override
 	protected void send() {
-		((I1_7)moEnclosingContainer).receive_I1_7(moDriveList_Output);
-		((I5_3)moEnclosingContainer).receive_I5_3(moDriveList_Output);	
+		((I1_7_receive)moEnclosingContainer).receive_I1_7(moDriveList_Output);
+		((I5_3_receive)moEnclosingContainer).receive_I5_3(moDriveList_Output);	
 	}
 }

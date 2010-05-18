@@ -15,10 +15,11 @@ import bfg.tools.clsMutableDouble;
 import config.clsBWProperties;
 import du.enums.eEntityType;
 import du.enums.pa.eContext;
+import pa.clsInterfaceHandler;
 import pa.datatypes.clsDriveContentCategories;
 import pa.datatypes.clsPrimaryInformation;
-import pa.interfaces.I2_5;
-import pa.interfaces.I2_6;
+import pa.interfaces.receive.I2_5_receive;
+import pa.interfaces.receive.I2_6_receive;
 import pa.tools.clsPair;
 
 /**
@@ -28,7 +29,7 @@ import pa.tools.clsPair;
  * 07.10.2009, 11:16:58
  * 
  */
-public class S_ManagementOfRepressedContents_1 extends clsModuleBase implements I2_5 {
+public class S_ManagementOfRepressedContents_1 extends clsModuleBase implements I2_5_receive {
 
 	public ArrayList<clsPrimaryInformation> moEnvironmentalTP_Input;
 	public ArrayList<clsPair<clsPrimaryInformation, clsPrimaryInformation>> moAttachedRepressed_Output;
@@ -38,8 +39,8 @@ public class S_ManagementOfRepressedContents_1 extends clsModuleBase implements 
 	
 	
 	public S_ManagementOfRepressedContents_1(String poPrefix, clsBWProperties poProp,
-			clsModuleContainer poEnclosingContainer) {
-		super(poPrefix, poProp, poEnclosingContainer);
+			clsModuleContainer poEnclosingContainer, clsInterfaceHandler poInterfaceHandler) {
+		super(poPrefix, poProp, poEnclosingContainer, poInterfaceHandler);
 		applyProperties(poPrefix, poProp);	
 	}
 	
@@ -148,7 +149,7 @@ public class S_ManagementOfRepressedContents_1 extends clsModuleBase implements 
 	 */
 	@Override
 	protected void send() {
-		((I2_6)moEnclosingContainer).receive_I2_6(moAttachedRepressed_Output);
+		((I2_6_receive)moEnclosingContainer).receive_I2_6(moAttachedRepressed_Output);
 		
 	}
 

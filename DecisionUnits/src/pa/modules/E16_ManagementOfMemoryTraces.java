@@ -14,9 +14,10 @@ import bfg.tools.clsMutableDouble;
 import config.clsBWProperties;
 import du.enums.eEntityType;
 import du.enums.pa.eRepressedContentType;
+import pa.clsInterfaceHandler;
 import pa.datatypes.clsPrimaryInformation;
-import pa.interfaces.I2_6;
-import pa.interfaces.I2_7;
+import pa.interfaces.receive.I2_6_receive;
+import pa.interfaces.receive.I2_7_receive;
 import pa.tools.clsPair;
 import pa.tools.clsTripple;
 
@@ -27,7 +28,7 @@ import pa.tools.clsTripple;
  * 11.08.2009, 14:31:19
  * 
  */
-public class E16_ManagementOfMemoryTraces extends clsModuleBase implements I2_6 {
+public class E16_ManagementOfMemoryTraces extends clsModuleBase implements I2_6_receive {
 
 	public ArrayList<clsPair<clsPrimaryInformation, clsPrimaryInformation>> moPerceptPlusRepressed_Input;
 	public ArrayList<clsTripple<clsPrimaryInformation, clsPrimaryInformation, ArrayList<clsPrimaryInformation>>> moPerceptPlusMemories_Output;
@@ -43,8 +44,8 @@ public class E16_ManagementOfMemoryTraces extends clsModuleBase implements I2_6 
 	 * @param poEnclosingContainer
 	 */
 	public E16_ManagementOfMemoryTraces(String poPrefix, clsBWProperties poProp,
-			clsModuleContainer poEnclosingContainer) {
-		super(poPrefix, poProp, poEnclosingContainer);
+			clsModuleContainer poEnclosingContainer, clsInterfaceHandler poInterfaceHandler) {
+		super(poPrefix, poProp, poEnclosingContainer, poInterfaceHandler);
 		applyProperties(poPrefix, poProp);	
 		
 		moPerceptPlusMemories_Output = new ArrayList<clsTripple<clsPrimaryInformation, clsPrimaryInformation,ArrayList<clsPrimaryInformation>>>();
@@ -197,6 +198,6 @@ public class E16_ManagementOfMemoryTraces extends clsModuleBase implements I2_6 
 	 */
 	@Override
 	protected void send() {
-		((I2_7)moEnclosingContainer).receive_I2_7(moPerceptPlusMemories_Output);
+		((I2_7_receive)moEnclosingContainer).receive_I2_7(moPerceptPlusMemories_Output);
 	}
 }

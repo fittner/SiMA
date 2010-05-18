@@ -9,9 +9,10 @@ package pa.modules;
 import java.util.ArrayList;
 
 import config.clsBWProperties;
-import pa.interfaces.I7_3;
-import pa.interfaces.I7_5;
-import pa.interfaces.I7_6;
+import pa.clsInterfaceHandler;
+import pa.interfaces.receive.I7_3_receive;
+import pa.interfaces.receive.I7_5_receive;
+import pa.interfaces.receive.I7_6_receive;
 import pa.loader.plan.clsPlanAction;
 
 /**
@@ -21,7 +22,7 @@ import pa.loader.plan.clsPlanAction;
  * 27.04.2010, 10:18:11
  * 
  */
-public class E33_RealityCheck2 extends clsModuleBase implements I7_3, I7_5 {
+public class E33_RealityCheck2 extends clsModuleBase implements I7_3_receive, I7_5_receive {
 
 	/**
 	 * DOCUMENT (deutsch) - insert description 
@@ -34,8 +35,8 @@ public class E33_RealityCheck2 extends clsModuleBase implements I7_3, I7_5 {
 	 * @param poEnclosingContainer
 	 */
 	public E33_RealityCheck2(String poPrefix, clsBWProperties poProp,
-			clsModuleContainer poEnclosingContainer) {
-		super(poPrefix, poProp, poEnclosingContainer);
+			clsModuleContainer poEnclosingContainer, clsInterfaceHandler poInterfaceHandler) {
+		super(poPrefix, poProp, poEnclosingContainer, poInterfaceHandler);
 		// TODO (deutsch) - Auto-generated constructor stub
 	}
 
@@ -61,7 +62,7 @@ public class E33_RealityCheck2 extends clsModuleBase implements I7_3, I7_5 {
 	 */
 	@Override
 	protected void send() {
-		((I7_6)moEnclosingContainer).receive_I7_6(1);
+		((I7_6_receive)moEnclosingContainer).receive_I7_6(1);
 
 	}
 

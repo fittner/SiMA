@@ -11,8 +11,9 @@ import java.util.ArrayList;
 import config.clsBWProperties;
 import du.itf.actions.clsActionCommand;
 import du.itf.actions.itfActionProcessor;
-import pa.interfaces.I8_2;
+import pa.clsInterfaceHandler;
 import pa.interfaces.itfReturnActionCommands;
+import pa.interfaces.receive.I8_2_receive;
 
 /**
  * DOCUMENT (deutsch) - insert description 
@@ -21,7 +22,7 @@ import pa.interfaces.itfReturnActionCommands;
  * 11.08.2009, 15:00:44
  * 
  */
-public class E32_Actuators extends clsModuleBase implements I8_2, itfReturnActionCommands {
+public class E32_Actuators extends clsModuleBase implements I8_2_receive, itfReturnActionCommands {
 
 	private ArrayList<clsActionCommand> moActionCommandList_Input;
 
@@ -36,8 +37,8 @@ public class E32_Actuators extends clsModuleBase implements I8_2, itfReturnActio
 	 * @param poEnclosingContainer
 	 */
 	public E32_Actuators(String poPrefix, clsBWProperties poProp,
-			clsModuleContainer poEnclosingContainer) {
-		super(poPrefix, poProp, poEnclosingContainer);
+			clsModuleContainer poEnclosingContainer, clsInterfaceHandler poInterfaceHandler) {
+		super(poPrefix, poProp, poEnclosingContainer, poInterfaceHandler);
 		applyProperties(poPrefix, poProp);		
 		
 		moActionCommandList_Input = new ArrayList<clsActionCommand>();

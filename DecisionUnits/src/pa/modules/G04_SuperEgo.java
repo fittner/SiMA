@@ -9,15 +9,16 @@ package pa.modules;
 import java.util.ArrayList;
 import java.util.List;
 
+import pa.clsInterfaceHandler;
 import pa.datatypes.clsPrimaryInformation;
 import pa.datatypes.clsSecondaryInformation;
-import pa.interfaces.I1_5;
-import pa.interfaces.I1_7;
-import pa.interfaces.I2_11;
-import pa.interfaces.I2_9;
-import pa.interfaces.I3_1;
-import pa.interfaces.I3_2;
-import pa.interfaces.I3_3;
+import pa.interfaces.receive.I1_5_receive;
+import pa.interfaces.receive.I1_7_receive;
+import pa.interfaces.receive.I2_11_receive;
+import pa.interfaces.receive.I2_9_receive;
+import pa.interfaces.receive.I3_1_receive;
+import pa.interfaces.receive.I3_2_receive;
+import pa.interfaces.receive.I3_3_receive;
 import pa.memory.clsMemory;
 import config.clsBWProperties;
 
@@ -29,13 +30,13 @@ import config.clsBWProperties;
  * 
  */
 public class G04_SuperEgo extends clsModuleContainer implements
-						I1_5,
-						I1_7,
-						I3_1,
-						I3_2,
-						I2_9,
-						I2_11,
-						I3_3
+						I1_5_receive,
+						I1_7_receive,
+						I3_1_receive,
+						I3_2_receive,
+						I2_9_receive,
+						I2_11_receive,
+						I3_3_receive
 						{
 	public static final String P_E07 = "E07";
 	public static final String P_E22 = "E22";
@@ -54,8 +55,8 @@ public class G04_SuperEgo extends clsModuleContainer implements
 	 * @param poEnclosingContainer
 	 */
 	public G04_SuperEgo(String poPrefix, clsBWProperties poProp,
-			clsModuleContainer poEnclosingContainer, clsMemory poMemory) {
-		super(poPrefix, poProp, poEnclosingContainer, poMemory);
+			clsModuleContainer poEnclosingContainer, clsInterfaceHandler poInterfaceHandler, clsMemory poMemory) {
+		super(poPrefix, poProp, poEnclosingContainer, poInterfaceHandler, poMemory);
 		applyProperties(poPrefix, poProp);
 	}
 	
@@ -73,8 +74,8 @@ public class G04_SuperEgo extends clsModuleContainer implements
 	private void applyProperties(String poPrefix, clsBWProperties poProp) {
 		String pre = clsBWProperties.addDot(poPrefix);
 	
-		moE07SuperEgoUnconscious = new E07_SuperEgo_unconscious(pre+P_E07, poProp, this);
-		moE22SuperEgoPreconscious = new E22_SuperEgo_preconscious(pre+P_E22, poProp, this);
+		moE07SuperEgoUnconscious = new E07_SuperEgo_unconscious(pre+P_E07, poProp, this, moInterfaceHandler);
+		moE22SuperEgoPreconscious = new E22_SuperEgo_preconscious(pre+P_E22, poProp, this, moInterfaceHandler);
 	}
 
 	/* (non-Javadoc)
@@ -112,7 +113,7 @@ public class G04_SuperEgo extends clsModuleContainer implements
 	 */
 	@Override
 	public void receive_I3_1(int pnData) {
-		((I3_1)moEnclosingContainer).receive_I3_1(pnData);
+		((I3_1_receive)moEnclosingContainer).receive_I3_1(pnData);
 		
 	}
 
@@ -151,7 +152,7 @@ public class G04_SuperEgo extends clsModuleContainer implements
 	 */
 	@Override
 	public void receive_I3_3(int pnData) {
-		((I3_3)moEnclosingContainer).receive_I3_3(pnData);
+		((I3_3_receive)moEnclosingContainer).receive_I3_3(pnData);
 		
 	}
 
@@ -164,7 +165,7 @@ public class G04_SuperEgo extends clsModuleContainer implements
 	 */
 	@Override
 	public void receive_I3_2(int pnData) {
-		((I3_2)moEnclosingContainer).receive_I3_2(pnData);
+		((I3_2_receive)moEnclosingContainer).receive_I3_2(pnData);
 		
 	}
 

@@ -9,11 +9,12 @@ package pa.modules;
 import java.util.ArrayList;
 
 import config.clsBWProperties;
+import pa.clsInterfaceHandler;
 import pa.datatypes.clsSecondaryInformation;
 import pa.datatypes.clsSecondaryInformationMesh;
-import pa.interfaces.I1_7;
-import pa.interfaces.I2_11;
-import pa.interfaces.I3_3;
+import pa.interfaces.receive.I1_7_receive;
+import pa.interfaces.receive.I2_11_receive;
+import pa.interfaces.receive.I3_3_receive;
 
 /**
  * DOCUMENT (deutsch) - insert description 
@@ -22,7 +23,7 @@ import pa.interfaces.I3_3;
  * 11.08.2009, 14:45:01
  * 
  */
-public class E22_SuperEgo_preconscious extends clsModuleBase implements I1_7, I2_11 {
+public class E22_SuperEgo_preconscious extends clsModuleBase implements I1_7_receive, I2_11_receive {
 
 	private ArrayList<clsSecondaryInformationMesh> moPerception;
 	private ArrayList<clsSecondaryInformation> moDriveList;
@@ -38,8 +39,8 @@ public class E22_SuperEgo_preconscious extends clsModuleBase implements I1_7, I2
 	 * @param poEnclosingContainer
 	 */
 	public E22_SuperEgo_preconscious(String poPrefix, clsBWProperties poProp,
-			clsModuleContainer poEnclosingContainer) {
-		super(poPrefix, poProp, poEnclosingContainer);
+			clsModuleContainer poEnclosingContainer, clsInterfaceHandler poInterfaceHandler) {
+		super(poPrefix, poProp, poEnclosingContainer, poInterfaceHandler);
 		applyProperties(poPrefix, poProp);		
 	}
 	
@@ -132,7 +133,7 @@ public class E22_SuperEgo_preconscious extends clsModuleBase implements I1_7, I2
 	 */
 	@Override
 	protected void send() {
-		((I3_3)moEnclosingContainer).receive_I3_3(mnTest);
+		((I3_3_receive)moEnclosingContainer).receive_I3_3(mnTest);
 		
 	}
 }

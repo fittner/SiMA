@@ -9,15 +9,16 @@ package pa.modules;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import pa.clsInterfaceHandler;
 import pa.datatypes.clsPrimaryInformation;
-import pa.interfaces.I2_2;
-import pa.interfaces.I2_4;
-import pa.interfaces.I2_5;
-import pa.interfaces.I7_4;
 import pa.loader.plan.clsPlanAction;
 import pa.memory.clsMemory;
 import pa.symbolization.representationsymbol.itfSymbol;
-import pa.interfaces.I8_1;
+import pa.interfaces.receive.I2_2_receive;
+import pa.interfaces.receive.I2_4_receive;
+import pa.interfaces.receive.I2_5_receive;
+import pa.interfaces.receive.I7_4_receive;
+import pa.interfaces.receive.I8_1_receive;
 import config.clsBWProperties;
 import pa.enums.eSymbolExtType;
 
@@ -29,11 +30,11 @@ import pa.enums.eSymbolExtType;
  * 
  */
 public class G07_EnvironmentalInterfaceFunctions extends clsModuleContainer implements
-						I2_2,
-						I2_4,
-						I2_5,
-						I7_4,
-						I8_1
+						I2_2_receive,
+						I2_4_receive,
+						I2_5_receive,
+						I7_4_receive,
+						I8_1_receive
 						{
 
 	public static final String P_E14 = "E14";
@@ -53,8 +54,8 @@ public class G07_EnvironmentalInterfaceFunctions extends clsModuleContainer impl
 	 * @param poEnclosingContainer
 	 */
 	public G07_EnvironmentalInterfaceFunctions(String poPrefix, clsBWProperties poProp,
-			clsModuleContainer poEnclosingContainer, clsMemory poMemory) {
-		super(poPrefix, poProp, poEnclosingContainer, poMemory);
+			clsModuleContainer poEnclosingContainer, clsInterfaceHandler poInterfaceHandler, clsMemory poMemory) {
+		super(poPrefix, poProp, poEnclosingContainer, poInterfaceHandler, poMemory);
 		applyProperties(poPrefix, poProp);
 	}
 	
@@ -72,8 +73,8 @@ public class G07_EnvironmentalInterfaceFunctions extends clsModuleContainer impl
 	private void applyProperties(String poPrefix, clsBWProperties poProp) {
 		String pre = clsBWProperties.addDot(poPrefix);
 	
-		moE14PreliminaryExternalPerception = new E14_PreliminaryExternalPerception(pre+P_E14, poProp, this);
-		moE30MotilityControl = new E30_MotilityControl(pre+P_E30, poProp, this);
+		moE14PreliminaryExternalPerception = new E14_PreliminaryExternalPerception(pre+P_E14, poProp, this, moInterfaceHandler);
+		moE30MotilityControl = new E30_MotilityControl(pre+P_E30, poProp, this, moInterfaceHandler);
 	}
 
 	/* (non-Javadoc)
@@ -121,7 +122,7 @@ public class G07_EnvironmentalInterfaceFunctions extends clsModuleContainer impl
 	 */
 	@Override
 	public void receive_I2_5(ArrayList<clsPrimaryInformation> poEnvironmentalTP) {
-		((I2_5)moEnclosingContainer).receive_I2_5(poEnvironmentalTP);
+		((I2_5_receive)moEnclosingContainer).receive_I2_5(poEnvironmentalTP);
 		
 	}
 
@@ -134,7 +135,7 @@ public class G07_EnvironmentalInterfaceFunctions extends clsModuleContainer impl
 	 */
 	@Override
 	public void receive_I8_1(ArrayList<clsPlanAction> poActionCommands) {
-		((I8_1)moEnclosingContainer).receive_I8_1(poActionCommands);
+		((I8_1_receive)moEnclosingContainer).receive_I8_1(poActionCommands);
 		
 	}
 }
