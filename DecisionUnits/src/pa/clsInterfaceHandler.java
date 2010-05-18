@@ -76,14 +76,14 @@ public class clsInterfaceHandler {
 		moMethods.put(poInterface, oMethod);
 	}
 	
-	public void sendData(Class poReceiverInterface, Object[] args) throws IllegalArgumentException, IllegalAccessException, InvocationTargetException {
+	public void sendData(Class poReceiverInterface, Object... args) throws IllegalArgumentException, IllegalAccessException, InvocationTargetException {
 		if (poReceiverInterface.getSuperclass() != I_BaseInterface.class) {
 			throw new java.lang.IllegalArgumentException("poReceiverInterface ("+poReceiverInterface.getName()+") is not a specialization of interface I_BaseInterface.");
 		}
-		
+
 		ArrayList<clsModuleBase> oModules = moInterfaceModuleMap.get(poReceiverInterface);
 		Method oMethod = moMethods.get(poReceiverInterface);
-			
+
 		for (clsModuleBase oModule : oModules) {
 			oMethod.invoke(oModule, args);
 		}
