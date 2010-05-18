@@ -10,6 +10,7 @@ import config.clsBWProperties;
 import pa.clsInterfaceHandler;
 import pa.interfaces.receive.I6_2_receive;
 import pa.interfaces.receive.I7_2_receive;
+import pa.interfaces.send.I6_2_send;
 
 /**
  * DOCUMENT (deutsch) - insert description 
@@ -18,7 +19,7 @@ import pa.interfaces.receive.I7_2_receive;
  * 11.08.2009, 14:56:22
  * 
  */
-public class E28_KnowledgeBase_StoredScenarios extends clsModuleBase implements I7_2_receive {
+public class E28_KnowledgeBase_StoredScenarios extends clsModuleBase implements I7_2_receive, I6_2_send {
 
 	/**
 	 * DOCUMENT (deutsch) - insert description 
@@ -111,6 +112,19 @@ public class E28_KnowledgeBase_StoredScenarios extends clsModuleBase implements 
 	 */
 	@Override
 	protected void send() {
+		send_I6_2(mnTest);
+		
+	}
+
+	/* (non-Javadoc)
+	 *
+	 * @author deutsch
+	 * 18.05.2010, 17:56:52
+	 * 
+	 * @see pa.interfaces.send.I6_2_send#send_I6_2(int)
+	 */
+	@Override
+	public void send_I6_2(int pnData) {
 		((I6_2_receive)moEnclosingContainer).receive_I6_2(mnTest);
 		
 	}

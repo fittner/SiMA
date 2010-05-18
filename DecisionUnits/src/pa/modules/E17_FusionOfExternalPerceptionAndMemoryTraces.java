@@ -15,6 +15,7 @@ import pa.datatypes.clsPrimaryInformation;
 import pa.datatypes.clsPrimaryInformationMesh;
 import pa.interfaces.receive.I2_7_receive;
 import pa.interfaces.receive.I2_8_receive;
+import pa.interfaces.send.I2_8_send;
 import pa.tools.clsPair;
 import pa.tools.clsTripple;
 
@@ -26,7 +27,7 @@ import pa.tools.clsTripple;
  * 
  */
 public class E17_FusionOfExternalPerceptionAndMemoryTraces extends clsModuleBase implements 
-						I2_7_receive
+						I2_7_receive, I2_8_send
 						{
 
 	/**
@@ -187,7 +188,21 @@ public class E17_FusionOfExternalPerceptionAndMemoryTraces extends clsModuleBase
 	 */
 	@Override
 	protected void send() {
+		send_I2_8(moMergedPrimaryInformation_Output);
+	}
+
+	/* (non-Javadoc)
+	 *
+	 * @author deutsch
+	 * 18.05.2010, 16:57:08
+	 * 
+	 * @see pa.interfaces.send.I2_8_send#send_I2_8(java.util.ArrayList)
+	 */
+	@Override
+	public void send_I2_8(
+			ArrayList<clsPair<clsPrimaryInformation, clsPrimaryInformation>> poMergedPrimaryInformation) {
 		((I2_8_receive)moEnclosingContainer).receive_I2_8(moMergedPrimaryInformation_Output);
+		
 	}
 
 }

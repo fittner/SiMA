@@ -15,6 +15,8 @@ import pa.interfaces.receive.I1_5_receive;
 import pa.interfaces.receive.I2_9_receive;
 import pa.interfaces.receive.I3_1_receive;
 import pa.interfaces.receive.I3_2_receive;
+import pa.interfaces.send.I3_1_send;
+import pa.interfaces.send.I3_2_send;
 import config.clsBWProperties;
 
 /**
@@ -24,7 +26,7 @@ import config.clsBWProperties;
  * 11.08.2009, 14:03:35
  * 
  */
-public class E07_SuperEgo_unconscious extends clsModuleBase implements I1_5_receive, I2_9_receive {
+public class E07_SuperEgo_unconscious extends clsModuleBase implements I1_5_receive, I2_9_receive, I3_1_send, I3_2_send {
 	ArrayList<clsPrimaryInformation> moPrimaryInformation;
 	
 	/**
@@ -132,9 +134,32 @@ public class E07_SuperEgo_unconscious extends clsModuleBase implements I1_5_rece
 	 */
 	@Override
 	protected void send() {
+		send_I3_1(mnTest);
+		send_I3_2(mnTest);
+	}
+
+	/* (non-Javadoc)
+	 *
+	 * @author deutsch
+	 * 18.05.2010, 16:50:09
+	 * 
+	 * @see pa.interfaces.send.I3_1_send#send_I3_1(int)
+	 */
+	@Override
+	public void send_I3_1(int pnData) {
 		((I3_1_receive)moEnclosingContainer).receive_I3_1(mnTest);
+	}
+
+	/* (non-Javadoc)
+	 *
+	 * @author deutsch
+	 * 18.05.2010, 16:50:09
+	 * 
+	 * @see pa.interfaces.send.I3_2_send#send_I3_2(int)
+	 */
+	@Override
+	public void send_I3_2(int pnData) {
 		((I3_2_receive)moEnclosingContainer).receive_I3_2(mnTest);
-		
 	}
 
 }

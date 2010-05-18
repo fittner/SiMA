@@ -17,6 +17,8 @@ import pa.datatypes.clsSecondaryInformationMesh;
 import pa.interfaces.receive.I1_6_receive;
 import pa.interfaces.receive.I1_7_receive;
 import pa.interfaces.receive.I5_3_receive;
+import pa.interfaces.send.I1_7_send;
+import pa.interfaces.send.I5_3_send;
 
 /**
  * DOCUMENT (deutsch) - insert description 
@@ -25,7 +27,7 @@ import pa.interfaces.receive.I5_3_receive;
  * 11.08.2009, 14:11:38
  * 
  */
-public class E08_ConversionToSecondaryProcess extends clsModuleBase implements I1_6_receive {
+public class E08_ConversionToSecondaryProcess extends clsModuleBase implements I1_6_receive, I1_7_send, I5_3_send {
 
 	public  ArrayList<clsPrimaryInformation> moDriveList_Input;
 	public  ArrayList<clsSecondaryInformation> moDriveList_Output;
@@ -131,7 +133,34 @@ public class E08_ConversionToSecondaryProcess extends clsModuleBase implements I
 	 */
 	@Override
 	protected void send() {
+		send_I1_7(moDriveList_Output);
+		send_I5_3(moDriveList_Output);
+		
+	}
+
+	/* (non-Javadoc)
+	 *
+	 * @author deutsch
+	 * 18.05.2010, 16:51:16
+	 * 
+	 * @see pa.interfaces.send.I1_7_send#send_I1_7(java.util.ArrayList)
+	 */
+	@Override
+	public void send_I1_7(ArrayList<clsSecondaryInformation> poDriveList) {
 		((I1_7_receive)moEnclosingContainer).receive_I1_7(moDriveList_Output);
+		
+	}
+
+	/* (non-Javadoc)
+	 *
+	 * @author deutsch
+	 * 18.05.2010, 16:51:16
+	 * 
+	 * @see pa.interfaces.send.I5_3_send#send_I5_3(java.util.ArrayList)
+	 */
+	@Override
+	public void send_I5_3(ArrayList<clsSecondaryInformation> poDriveList) {
 		((I5_3_receive)moEnclosingContainer).receive_I5_3(moDriveList_Output);	
+		
 	}
 }

@@ -20,6 +20,9 @@ import pa.interfaces.receive.I4_1_receive;
 import pa.interfaces.receive.I4_3_receive;
 import pa.interfaces.receive.I5_1_receive;
 import pa.interfaces.receive.I6_3_receive;
+import pa.interfaces.send.I1_6_send;
+import pa.interfaces.send.I4_1_send;
+import pa.interfaces.send.I5_1_send;
 import config.clsBWProperties;
 
 /**
@@ -29,7 +32,7 @@ import config.clsBWProperties;
  * 11.08.2009, 14:01:06
  * 
  */
-public class E06_DefenseMechanismsForDriveContents extends clsModuleBase implements I1_5_receive, I3_1_receive, I4_3_receive, I6_3_receive {
+public class E06_DefenseMechanismsForDriveContents extends clsModuleBase implements I1_5_receive, I3_1_receive, I4_3_receive, I6_3_receive, I1_6_send, I4_1_send, I5_1_send {
 	ArrayList<clsPrimaryInformation> moDriveList_Input;
 	ArrayList<clsPrimaryInformation> moDriveList_Output;
 	
@@ -174,12 +177,49 @@ public class E06_DefenseMechanismsForDriveContents extends clsModuleBase impleme
 	 */
 	@Override
 	protected void send() {
-		((I1_6_receive)moEnclosingContainer).receive_I1_6(moDriveList_Output);
-		((I4_1_receive)moEnclosingContainer).receive_I4_1(moDriveList_Input, moDeniedThingPresentations, moDeniedAffects);
-		((I5_1_receive)moEnclosingContainer).receive_I5_1(moDeniedAffects);	
+		send_I1_6(moDriveList_Output);
+		send_I4_1(moDriveList_Input, moDeniedThingPresentations, moDeniedAffects);
+		send_I5_1(moDeniedAffects);
 		
 		//FIXME (langr) - moPrimaryInformation.clear();
 		moDeniedThingPresentations.clear();
 		moDeniedAffects.clear();
+	}
+
+	/* (non-Javadoc)
+	 *
+	 * @author deutsch
+	 * 18.05.2010, 16:48:13
+	 * 
+	 * @see pa.interfaces.send.I1_6_send#send_I1_6(java.util.ArrayList)
+	 */
+	@Override
+	public void send_I1_6(ArrayList<clsPrimaryInformation> poDriveList) {
+		((I1_6_receive)moEnclosingContainer).receive_I1_6(moDriveList_Output);
+	}
+
+	/* (non-Javadoc)
+	 *
+	 * @author deutsch
+	 * 18.05.2010, 16:48:13
+	 * 
+	 * @see pa.interfaces.send.I4_1_send#send_I4_1(java.util.List, java.util.List, java.util.List)
+	 */
+	@Override
+	public void send_I4_1(List<clsPrimaryInformation> poPIs,
+			List<clsThingPresentation> poTPs, List<clsAffectTension> poAffects) {
+		((I4_1_receive)moEnclosingContainer).receive_I4_1(moDriveList_Input, moDeniedThingPresentations, moDeniedAffects);
+	}
+
+	/* (non-Javadoc)
+	 *
+	 * @author deutsch
+	 * 18.05.2010, 16:48:13
+	 * 
+	 * @see pa.interfaces.send.I5_1_send#send_I5_1(java.util.ArrayList)
+	 */
+	@Override
+	public void send_I5_1(ArrayList<clsAffectTension> poAffectOnlyList) {
+		((I5_1_receive)moEnclosingContainer).receive_I5_1(moDeniedAffects);	
 	}
 }

@@ -18,6 +18,7 @@ import pa.clsInterfaceHandler;
 import pa.datatypes.clsPrimaryInformation;
 import pa.interfaces.receive.I2_6_receive;
 import pa.interfaces.receive.I2_7_receive;
+import pa.interfaces.send.I2_7_send;
 import pa.tools.clsPair;
 import pa.tools.clsTripple;
 
@@ -28,7 +29,7 @@ import pa.tools.clsTripple;
  * 11.08.2009, 14:31:19
  * 
  */
-public class E16_ManagementOfMemoryTraces extends clsModuleBase implements I2_6_receive {
+public class E16_ManagementOfMemoryTraces extends clsModuleBase implements I2_6_receive, I2_7_send {
 
 	public ArrayList<clsPair<clsPrimaryInformation, clsPrimaryInformation>> moPerceptPlusRepressed_Input;
 	public ArrayList<clsTripple<clsPrimaryInformation, clsPrimaryInformation, ArrayList<clsPrimaryInformation>>> moPerceptPlusMemories_Output;
@@ -198,6 +199,20 @@ public class E16_ManagementOfMemoryTraces extends clsModuleBase implements I2_6_
 	 */
 	@Override
 	protected void send() {
+		send_I2_7(moPerceptPlusMemories_Output);
+	}
+
+	/* (non-Javadoc)
+	 *
+	 * @author deutsch
+	 * 18.05.2010, 16:56:27
+	 * 
+	 * @see pa.interfaces.send.I2_7_send#send_I2_7(java.util.ArrayList)
+	 */
+	@Override
+	public void send_I2_7(
+			ArrayList<clsTripple<clsPrimaryInformation, clsPrimaryInformation, ArrayList<clsPrimaryInformation>>> poPerceptPlusMemoriesOutput) {
 		((I2_7_receive)moEnclosingContainer).receive_I2_7(moPerceptPlusMemories_Output);
+		
 	}
 }

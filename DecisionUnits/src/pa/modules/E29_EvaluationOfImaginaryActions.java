@@ -14,6 +14,7 @@ import pa.interfaces.receive.I5_5_receive;
 import pa.interfaces.receive.I7_3_receive;
 import pa.interfaces.receive.I7_4_receive;
 import pa.interfaces.receive.I7_6_receive;
+import pa.interfaces.send.I7_4_send;
 import pa.loader.plan.clsPlanAction;
 
 /**
@@ -23,7 +24,7 @@ import pa.loader.plan.clsPlanAction;
  * 11.08.2009, 14:57:10
  * 
  */
-public class E29_EvaluationOfImaginaryActions extends clsModuleBase implements I5_5_receive, I7_3_receive, I7_6_receive {
+public class E29_EvaluationOfImaginaryActions extends clsModuleBase implements I5_5_receive, I7_3_receive, I7_6_receive, I7_4_send {
 
 	private ArrayList<clsPlanAction> moActionCommands_Input;
 	private ArrayList<clsPlanAction> moActionCommands_Output;
@@ -132,7 +133,7 @@ public class E29_EvaluationOfImaginaryActions extends clsModuleBase implements I
 	 */
 	@Override
 	protected void send() {
-		((I7_4_receive)moEnclosingContainer).receive_I7_4(moActionCommands_Output);
+		send_I7_4(moActionCommands_Output);
 		
 	}
 
@@ -146,6 +147,19 @@ public class E29_EvaluationOfImaginaryActions extends clsModuleBase implements I
 	@Override
 	public void receive_I7_6(int pnData) {
 		// TODO (deutsch) - Auto-generated method stub
+		
+	}
+
+	/* (non-Javadoc)
+	 *
+	 * @author deutsch
+	 * 18.05.2010, 17:58:21
+	 * 
+	 * @see pa.interfaces.send.I7_4_send#send_I7_4(java.util.ArrayList)
+	 */
+	@Override
+	public void send_I7_4(ArrayList<clsPlanAction> poActionCommands) {
+		((I7_4_receive)moEnclosingContainer).receive_I7_4(moActionCommands_Output);
 		
 	}
 }

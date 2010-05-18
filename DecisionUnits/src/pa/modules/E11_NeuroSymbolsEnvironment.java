@@ -15,6 +15,7 @@ import pa.clsInterfaceHandler;
 import pa.enums.eSymbolExtType;
 import pa.interfaces.receive.I2_1_receive;
 import pa.interfaces.receive.I2_2_receive;
+import pa.interfaces.send.I2_2_send;
 import pa.symbolization.clsSensorToSymbolConverter;
 import pa.symbolization.representationsymbol.itfSymbol;
 
@@ -25,7 +26,7 @@ import pa.symbolization.representationsymbol.itfSymbol;
  * 11.08.2009, 14:19:23
  * 
  */
-public class E11_NeuroSymbolsEnvironment extends clsModuleBase implements I2_1_receive {
+public class E11_NeuroSymbolsEnvironment extends clsModuleBase implements I2_1_receive, I2_2_send {
 
 	HashMap<eSensorExtType, clsSensorExtern> moEnvironmentalData;
 	HashMap<eSymbolExtType, itfSymbol> moSymbolData;
@@ -120,6 +121,19 @@ public class E11_NeuroSymbolsEnvironment extends clsModuleBase implements I2_1_r
 	 */
 	@Override
 	protected void send() {
+		send_I2_2(moSymbolData);
+		
+	}
+
+	/* (non-Javadoc)
+	 *
+	 * @author deutsch
+	 * 18.05.2010, 16:53:57
+	 * 
+	 * @see pa.interfaces.send.I2_2_send#send_I2_2(java.util.HashMap)
+	 */
+	@Override
+	public void send_I2_2(HashMap<eSymbolExtType, itfSymbol> poEnvironmentalData) {
 		((I2_2_receive)moEnclosingContainer).receive_I2_2(moSymbolData);
 		
 	}

@@ -11,6 +11,7 @@ import java.util.HashMap;
 import pa.clsInterfaceHandler;
 import pa.interfaces.itfProcessHomeostases;
 import pa.interfaces.receive.I1_1_receive;
+import pa.interfaces.send.I1_1_send;
 import config.clsBWProperties;
 import du.enums.eSensorIntType;
 import du.itf.sensors.clsDataBase;
@@ -22,7 +23,7 @@ import du.itf.sensors.clsDataBase;
  * 11.08.2009, 12:09:14
  * 
  */
-public class E01_Homeostases extends clsModuleBase implements itfProcessHomeostases {
+public class E01_Homeostases extends clsModuleBase implements itfProcessHomeostases, I1_1_send {
 
 	private HashMap<eSensorIntType, clsDataBase> moHomeostasis;
 	
@@ -116,6 +117,18 @@ public class E01_Homeostases extends clsModuleBase implements itfProcessHomeosta
 	 */
 	@Override
 	protected void send() {
+		send_I1_1(moHomeostasis);
+	}
+
+	/* (non-Javadoc)
+	 *
+	 * @author deutsch
+	 * 18.05.2010, 16:42:45
+	 * 
+	 * @see pa.interfaces.send.I1_1_send#send_I1_1(java.util.HashMap)
+	 */
+	@Override
+	public void send_I1_1(HashMap<eSensorIntType, clsDataBase> pnData) {
 		((I1_1_receive)moEnclosingContainer).receive_I1_1(moHomeostasis);		
 	}
 }

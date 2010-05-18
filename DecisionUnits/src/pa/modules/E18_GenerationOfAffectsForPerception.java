@@ -17,6 +17,7 @@ import pa.datatypes.clsPrimaryInformation;
 import pa.datatypes.clsPrimaryInformationMesh;
 import pa.interfaces.receive.I2_8_receive;
 import pa.interfaces.receive.I2_9_receive;
+import pa.interfaces.send.I2_9_send;
 import pa.tools.clsPair;
 
 /**
@@ -26,7 +27,7 @@ import pa.tools.clsPair;
  * 11.08.2009, 14:33:54
  * 
  */
-public class E18_GenerationOfAffectsForPerception extends clsModuleBase implements I2_8_receive {
+public class E18_GenerationOfAffectsForPerception extends clsModuleBase implements I2_8_receive, I2_9_send {
 
 	/**
 	 * DOCUMENT (deutsch) - insert description 
@@ -167,6 +168,20 @@ public class E18_GenerationOfAffectsForPerception extends clsModuleBase implemen
 	 */
 	@Override
 	protected void send() {
+		send_I2_9(moNewPrimaryInformation);
+		
+	}
+
+	/* (non-Javadoc)
+	 *
+	 * @author deutsch
+	 * 18.05.2010, 17:38:33
+	 * 
+	 * @see pa.interfaces.send.I2_9_send#send_I2_9(java.util.ArrayList)
+	 */
+	@Override
+	public void send_I2_9(
+			ArrayList<clsPrimaryInformation> poMergedPrimaryInformation) {
 		((I2_9_receive)moEnclosingContainer).receive_I2_9(moNewPrimaryInformation);
 		
 	}

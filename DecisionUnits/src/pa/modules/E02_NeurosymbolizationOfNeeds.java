@@ -12,6 +12,7 @@ import java.util.Map;
 import pa.clsInterfaceHandler;
 import pa.interfaces.receive.I1_1_receive;
 import pa.interfaces.receive.I1_2_receive;
+import pa.interfaces.send.I1_2_send;
 import config.clsBWProperties;
 import du.enums.eSensorIntType;
 import du.enums.eSlowMessenger;
@@ -30,7 +31,7 @@ import du.itf.sensors.clsStomachTension;
  * 11.08.2009, 12:12:02
  * 
  */
-public class E02_NeurosymbolizationOfNeeds extends clsModuleBase implements I1_1_receive {
+public class E02_NeurosymbolizationOfNeeds extends clsModuleBase implements I1_1_receive, I1_2_send {
 
 	private HashMap<eSensorIntType, clsDataBase> moHomeostasis;
 	private HashMap<String, Double> moHomeostaticSymbol;
@@ -140,8 +141,7 @@ public class E02_NeurosymbolizationOfNeeds extends clsModuleBase implements I1_1
 	 */
 	@Override
 	protected void send() {
-		((I1_2_receive)moEnclosingContainer).receive_I1_2(moHomeostaticSymbol);
-		
+		send_I1_2(moHomeostaticSymbol);		
 	}
 
 	/**
@@ -152,6 +152,18 @@ public class E02_NeurosymbolizationOfNeeds extends clsModuleBase implements I1_1
 	 */
 	public HashMap<eSensorIntType, clsDataBase> getHomeostasisData() {
 		return moHomeostasis;
+	}
+
+	/* (non-Javadoc)
+	 *
+	 * @author deutsch
+	 * 18.05.2010, 16:43:46
+	 * 
+	 * @see pa.interfaces.send.I1_2_send#send_I1_2(java.util.HashMap)
+	 */
+	@Override
+	public void send_I1_2(HashMap<String, Double> poHomeostasisSymbols) {
+		((I1_2_receive)moEnclosingContainer).receive_I1_2(moHomeostaticSymbol);
 	}
 
 }

@@ -160,6 +160,8 @@ public class E05_GenerationOfAffectsForDrives extends clsModuleBase implements I
 	 * @author langr
 	 * 23.12.2009, 10:50:36
 	 * 
+	 * FIXME (deutsch) what is the purpose of this function? can it be replaced by something which accesses the interface handler?
+	 * 
 	 * @see pa.interfaces.itfTimeChartInformationContainer#getTimeChartData()
 	 */
 	@Override

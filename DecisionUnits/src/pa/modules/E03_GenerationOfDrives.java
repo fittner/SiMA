@@ -19,6 +19,7 @@ import pa.datatypes.clsPrimaryInformationMesh;
 import pa.datatypes.clsThingPresentationSingle;
 import pa.interfaces.receive.I1_2_receive;
 import pa.interfaces.receive.I1_3_receive;
+import pa.interfaces.send.I1_3_send;
 import pa.loader.clsAffectCandidateDefinition;
 import pa.loader.clsDriveLoader;
 import pa.loader.clsTemplateDrive;
@@ -32,7 +33,7 @@ import config.clsBWProperties;
  * 11.08.2009, 12:19:04
  * 
  */
-public class E03_GenerationOfDrives extends clsModuleBase implements I1_2_receive {
+public class E03_GenerationOfDrives extends clsModuleBase implements I1_2_receive, I1_3_send {
 
 	public static String moDriveObjectType = "DriveObject";
 	
@@ -251,7 +252,21 @@ public class E03_GenerationOfDrives extends clsModuleBase implements I1_2_receiv
 	 */
 	@Override
 	protected void send() {
+		send_I1_3(moHomeostaticTP);
+	}
+
+	/* (non-Javadoc)
+	 *
+	 * @author deutsch
+	 * 18.05.2010, 16:44:46
+	 * 
+	 * @see pa.interfaces.send.I1_3_send#send_I1_3(java.util.ArrayList)
+	 */
+	@Override
+	public void send_I1_3(
+			ArrayList<clsPair<clsPair<clsPrimaryInformationMesh, clsAffectCandidate>, clsPair<clsPrimaryInformationMesh, clsAffectCandidate>>> poDriveCandidate) {
 		((I1_3_receive)moEnclosingContainer).receive_I1_3(moHomeostaticTP);
+		
 	}
 
 }

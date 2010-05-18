@@ -17,6 +17,7 @@ import pa.interfaces.receive.I5_2_receive;
 import pa.interfaces.receive.I5_3_receive;
 import pa.interfaces.receive.I5_4_receive;
 import pa.interfaces.receive.I5_5_receive;
+import pa.interfaces.send.I5_5_send;
 
 /**
  * DOCUMENT (deutsch) - insert description 
@@ -25,7 +26,7 @@ import pa.interfaces.receive.I5_5_receive;
  * 11.08.2009, 14:40:29
  * 
  */
-public class E20_InnerPerception_Affects extends clsModuleBase implements I5_1_receive, I5_2_receive, I5_3_receive, I5_4_receive {
+public class E20_InnerPerception_Affects extends clsModuleBase implements I5_1_receive, I5_2_receive, I5_3_receive, I5_4_receive, I5_5_send {
 
 	private ArrayList<clsAffectTension> moAffectOnlyList;
 	private ArrayList<clsAffectTension> moDeniedAffects_Input;
@@ -165,6 +166,19 @@ public class E20_InnerPerception_Affects extends clsModuleBase implements I5_1_r
 	 */
 	@Override
 	protected void send() {
+		send_I5_5(mnTest);
+		
+	}
+
+	/* (non-Javadoc)
+	 *
+	 * @author deutsch
+	 * 18.05.2010, 17:46:11
+	 * 
+	 * @see pa.interfaces.send.I5_5_send#send_I5_5(int)
+	 */
+	@Override
+	public void send_I5_5(int pnData) {
 		((I5_5_receive)moEnclosingContainer).receive_I5_5(mnTest);
 		
 	}

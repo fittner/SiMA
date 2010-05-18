@@ -13,6 +13,7 @@ import pa.clsInterfaceHandler;
 import pa.datatypes.clsSecondaryInformation;
 import pa.interfaces.receive.I2_12_receive;
 import pa.interfaces.receive.I6_1_receive;
+import pa.interfaces.send.I6_1_send;
 
 /**
  * DOCUMENT (deutsch) - insert description 
@@ -21,7 +22,7 @@ import pa.interfaces.receive.I6_1_receive;
  * 11.08.2009, 14:50:27
  * 
  */
-public class E25_KnowledgeAboutReality extends clsModuleBase implements I2_12_receive {
+public class E25_KnowledgeAboutReality extends clsModuleBase implements I2_12_receive, I6_1_send {
 
 	private ArrayList<clsSecondaryInformation> moFocusedPerception;
 
@@ -116,6 +117,19 @@ public class E25_KnowledgeAboutReality extends clsModuleBase implements I2_12_re
 	 */
 	@Override
 	protected void send() {
+		send_I6_1(mnTest);
+		
+	}
+
+	/* (non-Javadoc)
+	 *
+	 * @author deutsch
+	 * 18.05.2010, 17:51:50
+	 * 
+	 * @see pa.interfaces.send.I6_1_send#send_I6_1(int)
+	 */
+	@Override
+	public void send_I6_1(int pnData) {
 		((I6_1_receive)moEnclosingContainer).receive_I6_1(mnTest);
 		
 	}

@@ -17,6 +17,7 @@ import pa.interfaces.itfTimeChartInformationContainer;
 import pa.interfaces.receive.I6_2_receive;
 import pa.interfaces.receive.I7_1_receive;
 import pa.interfaces.receive.I7_3_receive;
+import pa.interfaces.send.I7_3_send;
 import pa.loader.plan.clsPlanAction;
 import pa.loader.plan.clsPlanBaseMesh;
 import pa.loader.plan.clsPlanStateMesh;
@@ -29,7 +30,7 @@ import pa.tools.clsPair;
  * 11.08.2009, 14:55:01
  * 
  */
-public class E27_GenerationOfImaginaryActions extends clsModuleBase implements I6_2_receive, I7_1_receive, itfTimeChartInformationContainer {
+public class E27_GenerationOfImaginaryActions extends clsModuleBase implements I6_2_receive, I7_1_receive, I7_3_send, itfTimeChartInformationContainer {
 
 	ArrayList<clsSecondaryInformation> moEnvironmentalPerception;
 	private HashMap<String, clsPair<clsSecondaryInformation, Double>> moTemplateResult_Input;
@@ -137,19 +138,6 @@ public class E27_GenerationOfImaginaryActions extends clsModuleBase implements I
 
 	/* (non-Javadoc)
 	 *
-	 * @author deutsch
-	 * 11.08.2009, 16:16:38
-	 * 
-	 * @see pa.modules.clsModuleBase#send()
-	 */
-	@Override
-	protected void send() {
-		((I7_3_receive)moEnclosingContainer).receive_I7_3(moActions_Output);
-		
-	}
-
-	/* (non-Javadoc)
-	 *
 	 * @author langr
 	 * 04.11.2009, 19:37:55
 	 * 
@@ -184,4 +172,31 @@ public class E27_GenerationOfImaginaryActions extends clsModuleBase implements I
 		
 		return oRetVal;
 	}
+	
+
+	/* (non-Javadoc)
+	 *
+	 * @author deutsch
+	 * 11.08.2009, 16:16:38
+	 * 
+	 * @see pa.modules.clsModuleBase#send()
+	 */
+	@Override
+	protected void send() {
+		send_I7_3(moActions_Output);
+		
+	}
+
+	/* (non-Javadoc)
+	 *
+	 * @author deutsch
+	 * 18.05.2010, 17:56:21
+	 * 
+	 * @see pa.interfaces.send.I7_3_send#send_I7_3(java.util.ArrayList)
+	 */
+	@Override
+	public void send_I7_3(ArrayList<clsPlanAction> poActionCommands) {
+		((I7_3_receive)moEnclosingContainer).receive_I7_3(moActions_Output);
+		
+	}	
 }

@@ -14,6 +14,7 @@ import du.itf.sensors.clsSensorExtern;
 import pa.clsInterfaceHandler;
 import pa.interfaces.itfProcessSensorEnvironment;
 import pa.interfaces.receive.I2_1_receive;
+import pa.interfaces.send.I2_1_send;
 
 /**
  * DOCUMENT (deutsch) - insert description 
@@ -22,7 +23,7 @@ import pa.interfaces.receive.I2_1_receive;
  * 11.08.2009, 14:13:27
  * 
  */
-public class E10_SensorsEnvironment extends clsModuleBase implements itfProcessSensorEnvironment {
+public class E10_SensorsEnvironment extends clsModuleBase implements itfProcessSensorEnvironment, I2_1_send {
 
 	HashMap<eSensorExtType, clsSensorExtern> moEnvironmentalData;
 	
@@ -117,6 +118,19 @@ public class E10_SensorsEnvironment extends clsModuleBase implements itfProcessS
 	 */
 	@Override
 	protected void send() {
+		send_I2_1(moEnvironmentalData);
+		
+	}
+
+	/* (non-Javadoc)
+	 *
+	 * @author deutsch
+	 * 18.05.2010, 16:53:14
+	 * 
+	 * @see pa.interfaces.send.I2_1_send#send_I2_1(java.util.HashMap)
+	 */
+	@Override
+	public void send_I2_1(HashMap<eSensorExtType, clsSensorExtern> pnData) {
 		((I2_1_receive)moEnclosingContainer).receive_I2_1(moEnvironmentalData);
 		
 	}

@@ -14,6 +14,7 @@ import pa.clsInterfaceHandler;
 import pa.datatypes.clsPrimaryInformation;
 import pa.interfaces.receive.I1_5_receive;
 import pa.interfaces.receive.I6_3_receive;
+import pa.interfaces.send.I6_3_send;
 
 /**
  * DOCUMENT (deutsch) - insert description 
@@ -22,7 +23,7 @@ import pa.interfaces.receive.I6_3_receive;
  * 11.08.2009, 14:09:09
  * 
  */
-public class E09_KnowledgeAboutReality_unconscious extends clsModuleBase implements I1_5_receive {
+public class E09_KnowledgeAboutReality_unconscious extends clsModuleBase implements I1_5_receive, I6_3_send {
 	ArrayList<clsPrimaryInformation> moPrimaryInformation;
 	
 	/**
@@ -116,6 +117,19 @@ public class E09_KnowledgeAboutReality_unconscious extends clsModuleBase impleme
 	 */
 	@Override
 	protected void send() {
-		((I6_3_receive)moEnclosingContainer).receive_I6_3(mnTest);			
+		send_I6_3(mnTest);
+	}
+
+	/* (non-Javadoc)
+	 *
+	 * @author deutsch
+	 * 18.05.2010, 16:52:35
+	 * 
+	 * @see pa.interfaces.send.I6_3_send#send_I6_3(int)
+	 */
+	@Override
+	public void send_I6_3(int pnData) {
+		((I6_3_receive)moEnclosingContainer).receive_I6_3(mnTest);
+		
 	}
 }

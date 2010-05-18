@@ -21,6 +21,7 @@ import du.itf.actions.clsActionTurn;
 import pa.clsInterfaceHandler;
 import pa.interfaces.receive.I8_1_receive;
 import pa.interfaces.receive.I8_2_receive;
+import pa.interfaces.send.I8_2_send;
 import pa.loader.plan.clsPlanAction;
 
 /**
@@ -30,7 +31,7 @@ import pa.loader.plan.clsPlanAction;
  * 11.08.2009, 14:59:58
  * 
  */
-public class E31_NeuroDeSymbolization extends clsModuleBase implements I8_1_receive {
+public class E31_NeuroDeSymbolization extends clsModuleBase implements I8_1_receive, I8_2_send {
 
 	private ArrayList<clsPlanAction> moActionCommands_Input;
 	private ArrayList<clsActionCommand> moActionCommandList_Output;
@@ -187,6 +188,19 @@ public class E31_NeuroDeSymbolization extends clsModuleBase implements I8_1_rece
 	 */
 	@Override
 	protected void send() {
+		send_I8_2(moActionCommandList_Output);
+		
+	}
+
+	/* (non-Javadoc)
+	 *
+	 * @author deutsch
+	 * 18.05.2010, 17:59:41
+	 * 
+	 * @see pa.interfaces.send.I8_2_send#send_I8_2(java.util.ArrayList)
+	 */
+	@Override
+	public void send_I8_2(ArrayList<clsActionCommand> poActionCommandList) {
 		((I8_2_receive)moEnclosingContainer).receive_I8_2(moActionCommandList_Output);
 		
 	}

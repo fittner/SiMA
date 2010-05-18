@@ -15,6 +15,7 @@ import pa.datatypes.clsSecondaryInformationMesh;
 import pa.interfaces.receive.I1_7_receive;
 import pa.interfaces.receive.I2_11_receive;
 import pa.interfaces.receive.I3_3_receive;
+import pa.interfaces.send.I3_3_send;
 
 /**
  * DOCUMENT (deutsch) - insert description 
@@ -23,7 +24,7 @@ import pa.interfaces.receive.I3_3_receive;
  * 11.08.2009, 14:45:01
  * 
  */
-public class E22_SuperEgo_preconscious extends clsModuleBase implements I1_7_receive, I2_11_receive {
+public class E22_SuperEgo_preconscious extends clsModuleBase implements I1_7_receive, I2_11_receive, I3_3_send {
 
 	private ArrayList<clsSecondaryInformationMesh> moPerception;
 	private ArrayList<clsSecondaryInformation> moDriveList;
@@ -133,6 +134,19 @@ public class E22_SuperEgo_preconscious extends clsModuleBase implements I1_7_rec
 	 */
 	@Override
 	protected void send() {
+		send_I3_3(mnTest);
+		
+	}
+
+	/* (non-Javadoc)
+	 *
+	 * @author deutsch
+	 * 18.05.2010, 17:50:01
+	 * 
+	 * @see pa.interfaces.send.I3_3_send#send_I3_3(int)
+	 */
+	@Override
+	public void send_I3_3(int pnData) {
 		((I3_3_receive)moEnclosingContainer).receive_I3_3(mnTest);
 		
 	}

@@ -19,6 +19,8 @@ import pa.interfaces.receive.I3_3_receive;
 import pa.interfaces.receive.I5_5_receive;
 import pa.interfaces.receive.I7_1_receive;
 import pa.interfaces.receive.I7_2_receive;
+import pa.interfaces.send.I7_1_send;
+import pa.interfaces.send.I7_2_send;
 import pa.tools.clsPair;
 
 /**
@@ -28,7 +30,7 @@ import pa.tools.clsPair;
  * 11.08.2009, 14:51:57
  * 
  */
-public class E26_DecisionMaking extends clsModuleBase implements I1_7_receive, I2_13_receive, I3_3_receive, I5_5_receive {
+public class E26_DecisionMaking extends clsModuleBase implements I1_7_receive, I2_13_receive, I3_3_receive, I5_5_receive, I7_1_send, I7_2_send {
 
 	private ArrayList<clsSecondaryInformation> moDriveList;
 	private ArrayList<clsPair<clsSecondaryInformation, clsSecondaryInformationMesh>> moRealityPerception;
@@ -185,11 +187,35 @@ public class E26_DecisionMaking extends clsModuleBase implements I1_7_receive, I
 	 */
 	@Override
 	protected void send() {
-		
+		send_I7_1(moTemplateResult_Output);
+		send_I7_2(mnTest);
+	}
 
-		
+	/* (non-Javadoc)
+	 *
+	 * @author deutsch
+	 * 18.05.2010, 17:55:10
+	 * 
+	 * @see pa.interfaces.send.I7_1_send#send_I7_1(java.util.HashMap)
+	 */
+	@Override
+	public void send_I7_1(
+			HashMap<String, clsPair<clsSecondaryInformation, Double>> poTemplateResult) {
 		((I7_1_receive)moEnclosingContainer).receive_I7_1(moTemplateResult_Output);
-		((I7_2_receive)moEnclosingContainer).receive_I7_2(mnTest);		
+		
+	}
+
+	/* (non-Javadoc)
+	 *
+	 * @author deutsch
+	 * 18.05.2010, 17:55:10
+	 * 
+	 * @see pa.interfaces.send.I7_2_send#send_I7_2(int)
+	 */
+	@Override
+	public void send_I7_2(int pnData) {
+		((I7_2_receive)moEnclosingContainer).receive_I7_2(mnTest);
+		
 	}
 }
 

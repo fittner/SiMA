@@ -13,6 +13,7 @@ import pa.datatypes.clsAffectCandidate;
 import pa.datatypes.clsPrimaryInformationMesh;
 import pa.interfaces.receive.I1_3_receive;
 import pa.interfaces.receive.I1_4_receive;
+import pa.interfaces.send.I1_4_send;
 import pa.tools.clsPair;
 import config.clsBWProperties;
 
@@ -23,7 +24,7 @@ import config.clsBWProperties;
  * 11.08.2009, 13:40:06
  * 
  */
-public class E04_FusionOfDrives extends clsModuleBase implements I1_3_receive {
+public class E04_FusionOfDrives extends clsModuleBase implements I1_3_receive, I1_4_send {
 
 	ArrayList<clsPair<clsPair<clsPrimaryInformationMesh, clsAffectCandidate>, 
 	  clsPair<clsPrimaryInformationMesh, clsAffectCandidate>>> moDriveCandidate;
@@ -121,8 +122,20 @@ public class E04_FusionOfDrives extends clsModuleBase implements I1_3_receive {
 	 */
 	@Override
 	protected void send() {
+		send_I1_4(moDriveCandidate);		
+	}
+
+	/* (non-Javadoc)
+	 *
+	 * @author deutsch
+	 * 18.05.2010, 16:45:32
+	 * 
+	 * @see pa.interfaces.send.I1_4_send#send_I1_4(java.util.ArrayList)
+	 */
+	@Override
+	public void send_I1_4(
+			ArrayList<clsPair<clsPair<clsPrimaryInformationMesh, clsAffectCandidate>, clsPair<clsPrimaryInformationMesh, clsAffectCandidate>>> poDriveCandidate) {
 		((I1_4_receive)moEnclosingContainer).receive_I1_4(moDriveCandidate);
-		
 	}
 
 }

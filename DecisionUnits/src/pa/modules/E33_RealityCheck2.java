@@ -13,6 +13,7 @@ import pa.clsInterfaceHandler;
 import pa.interfaces.receive.I7_3_receive;
 import pa.interfaces.receive.I7_5_receive;
 import pa.interfaces.receive.I7_6_receive;
+import pa.interfaces.send.I7_6_send;
 import pa.loader.plan.clsPlanAction;
 
 /**
@@ -22,7 +23,7 @@ import pa.loader.plan.clsPlanAction;
  * 27.04.2010, 10:18:11
  * 
  */
-public class E33_RealityCheck2 extends clsModuleBase implements I7_3_receive, I7_5_receive {
+public class E33_RealityCheck2 extends clsModuleBase implements I7_3_receive, I7_5_receive, I7_6_send {
 
 	/**
 	 * DOCUMENT (deutsch) - insert description 
@@ -62,7 +63,7 @@ public class E33_RealityCheck2 extends clsModuleBase implements I7_3_receive, I7
 	 */
 	@Override
 	protected void send() {
-		((I7_6_receive)moEnclosingContainer).receive_I7_6(1);
+		send_I7_6(1);
 
 	}
 
@@ -113,6 +114,19 @@ public class E33_RealityCheck2 extends clsModuleBase implements I7_3_receive, I7
 	@Override
 	public void receive_I7_5(int pnData) {
 		// TODO (deutsch) - Auto-generated method stub
+		
+	}
+
+	/* (non-Javadoc)
+	 *
+	 * @author deutsch
+	 * 18.05.2010, 18:00:41
+	 * 
+	 * @see pa.interfaces.send.I7_6_send#send_I7_6(int)
+	 */
+	@Override
+	public void send_I7_6(int pnData) {
+		((I7_6_receive)moEnclosingContainer).receive_I7_6(1);
 		
 	}
 

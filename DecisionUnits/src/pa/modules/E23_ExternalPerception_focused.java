@@ -14,6 +14,7 @@ import pa.datatypes.clsSecondaryInformation;
 import pa.interfaces.receive.I1_7_receive;
 import pa.interfaces.receive.I2_11_receive;
 import pa.interfaces.receive.I2_12_receive;
+import pa.interfaces.send.I2_12_send;
 
 /**
  * DOCUMENT (deutsch) - insert description 
@@ -22,7 +23,7 @@ import pa.interfaces.receive.I2_12_receive;
  * 11.08.2009, 14:46:53
  * 
  */
-public class E23_ExternalPerception_focused extends clsModuleBase implements I2_11_receive, I1_7_receive {
+public class E23_ExternalPerception_focused extends clsModuleBase implements I2_11_receive, I1_7_receive, I2_12_send {
 
 	private ArrayList<clsSecondaryInformation> moPerception;
 	private ArrayList<clsSecondaryInformation> moDriveList;
@@ -134,6 +135,20 @@ public class E23_ExternalPerception_focused extends clsModuleBase implements I2_
 	 */
 	@Override
 	protected void send() {
+		send_I2_12(moFocusedPerception_Output);
+	}
+
+	/* (non-Javadoc)
+	 *
+	 * @author deutsch
+	 * 18.05.2010, 17:50:35
+	 * 
+	 * @see pa.interfaces.send.I2_12_send#send_I2_12(java.util.ArrayList)
+	 */
+	@Override
+	public void send_I2_12(
+			ArrayList<clsSecondaryInformation> poFocusedPerception) {
 		((I2_12_receive)moEnclosingContainer).receive_I2_12(moFocusedPerception_Output);
+		
 	}
 }

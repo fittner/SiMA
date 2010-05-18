@@ -14,6 +14,7 @@ import du.itf.sensors.clsSensorExtern;
 import pa.clsInterfaceHandler;
 import pa.interfaces.itfProcessSensorBody;
 import pa.interfaces.receive.I2_3_receive;
+import pa.interfaces.send.I2_3_send;
 
 /**
  * DOCUMENT (deutsch) - insert description 
@@ -22,7 +23,7 @@ import pa.interfaces.receive.I2_3_receive;
  * 11.08.2009, 14:20:47
  * 
  */
-public class E12_SensorsBody extends clsModuleBase implements itfProcessSensorBody {
+public class E12_SensorsBody extends clsModuleBase implements itfProcessSensorBody, I2_3_send {
 
 	private HashMap<eSensorExtType, clsSensorExtern> moBodyData;
 	
@@ -116,6 +117,19 @@ public class E12_SensorsBody extends clsModuleBase implements itfProcessSensorBo
 	 */
 	@Override
 	protected void send() {
+		send_I2_3(moBodyData);
+		
+	}
+
+	/* (non-Javadoc)
+	 *
+	 * @author deutsch
+	 * 18.05.2010, 16:54:43
+	 * 
+	 * @see pa.interfaces.send.I2_3_send#send_I2_3(java.util.HashMap)
+	 */
+	@Override
+	public void send_I2_3(HashMap<eSensorExtType, clsSensorExtern> pnData) {
 		((I2_3_receive)moEnclosingContainer).receive_I2_3(moBodyData);
 		
 	}

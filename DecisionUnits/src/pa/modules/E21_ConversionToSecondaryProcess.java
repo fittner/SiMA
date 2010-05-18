@@ -17,6 +17,8 @@ import pa.datatypes.clsSecondaryInformationMesh;
 import pa.interfaces.receive.I2_10_receive;
 import pa.interfaces.receive.I2_11_receive;
 import pa.interfaces.receive.I5_4_receive;
+import pa.interfaces.send.I2_11_send;
+import pa.interfaces.send.I5_4_send;
 
 /**
  * DOCUMENT (deutsch) - insert description 
@@ -25,7 +27,7 @@ import pa.interfaces.receive.I5_4_receive;
  * 11.08.2009, 14:38:29
  * 
  */
-public class E21_ConversionToSecondaryProcess extends clsModuleBase implements I2_10_receive {
+public class E21_ConversionToSecondaryProcess extends clsModuleBase implements I2_10_receive, I2_11_send, I5_4_send {
 
 	private ArrayList<clsPrimaryInformation> moGrantedPerception_Input;
 	private ArrayList<clsSecondaryInformation> moPerception_Output;
@@ -130,8 +132,35 @@ public class E21_ConversionToSecondaryProcess extends clsModuleBase implements I
 	 */
 	@Override
 	protected void send() {
+		send_I2_11(moPerception_Output);
+		send_I5_4(moPerception_Output);
+		
+	}
+
+	/* (non-Javadoc)
+	 *
+	 * @author deutsch
+	 * 18.05.2010, 17:48:18
+	 * 
+	 * @see pa.interfaces.send.I2_11_send#send_I2_11(java.util.ArrayList)
+	 */
+	@Override
+	public void send_I2_11(ArrayList<clsSecondaryInformation> poPerception) {
 		((I2_11_receive)moEnclosingContainer).receive_I2_11(moPerception_Output);
+		
+	}
+
+	/* (non-Javadoc)
+	 *
+	 * @author deutsch
+	 * 18.05.2010, 17:48:18
+	 * 
+	 * @see pa.interfaces.send.I5_4_send#send_I5_4(java.util.ArrayList)
+	 */
+	@Override
+	public void send_I5_4(ArrayList<clsSecondaryInformation> poPerception) {
 		((I5_4_receive)moEnclosingContainer).receive_I5_4(moPerception_Output);
+		
 	}
 
 }

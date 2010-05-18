@@ -18,6 +18,9 @@ import pa.interfaces.receive.I2_9_receive;
 import pa.interfaces.receive.I3_2_receive;
 import pa.interfaces.receive.I4_2_receive;
 import pa.interfaces.receive.I5_2_receive;
+import pa.interfaces.send.I2_10_send;
+import pa.interfaces.send.I4_2_send;
+import pa.interfaces.send.I5_2_send;
 
 /**
  * DOCUMENT (deutsch) - insert description 
@@ -26,7 +29,7 @@ import pa.interfaces.receive.I5_2_receive;
  * 11.08.2009, 14:35:08
  * 
  */
-public class E19_DefenseMechanismsForPerception extends clsModuleBase implements I2_9_receive, I3_2_receive {
+public class E19_DefenseMechanismsForPerception extends clsModuleBase implements I2_9_receive, I3_2_receive, I4_2_send, I2_10_send, I5_2_send {
 
 	public ArrayList<clsPrimaryInformation> moSubjectivePerception_Input;
 	public ArrayList<clsPrimaryInformation> moFilteredPerception_Output;
@@ -106,20 +109,6 @@ public class E19_DefenseMechanismsForPerception extends clsModuleBase implements
 	/* (non-Javadoc)
 	 *
 	 * @author deutsch
-	 * 11.08.2009, 16:16:03
-	 * 
-	 * @see pa.modules.clsModuleBase#send()
-	 */
-	@Override
-	protected void send() {
-		((I4_2_receive)moEnclosingContainer).receive_I4_2(moFilteredPerception_Output, moDeniedThingPresentations, moDeniedAffects);
-		((I2_10_receive)moEnclosingContainer).receive_I2_10(moFilteredPerception_Output);
-		((I5_2_receive)moEnclosingContainer).receive_I5_2(moDeniedAffects);	
-	}
-
-	/* (non-Javadoc)
-	 *
-	 * @author deutsch
 	 * 11.08.2009, 16:28:09
 	 * 
 	 * @see pa.interfaces.I3_2#receive_I3_2(int)
@@ -143,6 +132,61 @@ public class E19_DefenseMechanismsForPerception extends clsModuleBase implements
 
 		moSubjectivePerception_Input = (ArrayList<clsPrimaryInformation>)this.deepCopy(poMergedPrimaryInformation);
 
+	}
+
+	/* (non-Javadoc)
+	 *
+	 * @author deutsch
+	 * 11.08.2009, 16:16:03
+	 * 
+	 * @see pa.modules.clsModuleBase#send()
+	 */
+	@Override
+	protected void send() {
+		send_I4_2(moFilteredPerception_Output, moDeniedThingPresentations, moDeniedAffects);
+		send_I2_10(moFilteredPerception_Output);
+		send_I5_2(moDeniedAffects);
+	}
+	
+	/* (non-Javadoc)
+	 *
+	 * @author deutsch
+	 * 18.05.2010, 17:40:12
+	 * 
+	 * @see pa.interfaces.send.I4_2_send#send_I4_2(java.util.ArrayList, java.util.ArrayList, java.util.ArrayList)
+	 */
+	@Override
+	public void send_I4_2(ArrayList<clsPrimaryInformation> poPIs,
+			ArrayList<clsThingPresentation> poTPs,
+			ArrayList<clsAffectTension> poAffects) {
+		((I4_2_receive)moEnclosingContainer).receive_I4_2(moFilteredPerception_Output, moDeniedThingPresentations, moDeniedAffects);
+		
+	}
+
+	/* (non-Javadoc)
+	 *
+	 * @author deutsch
+	 * 18.05.2010, 17:40:12
+	 * 
+	 * @see pa.interfaces.send.I2_10_send#send_I2_10(java.util.ArrayList)
+	 */
+	@Override
+	public void send_I2_10(ArrayList<clsPrimaryInformation> poGrantedPerception) {
+		((I2_10_receive)moEnclosingContainer).receive_I2_10(moFilteredPerception_Output);
+		
+	}
+
+	/* (non-Javadoc)
+	 *
+	 * @author deutsch
+	 * 18.05.2010, 17:40:12
+	 * 
+	 * @see pa.interfaces.send.I5_2_send#send_I5_2(java.util.ArrayList)
+	 */
+	@Override
+	public void send_I5_2(ArrayList<clsAffectTension> poDeniedAffects) {
+		((I5_2_receive)moEnclosingContainer).receive_I5_2(moDeniedAffects);
+		
 	}
 
 }

@@ -18,6 +18,7 @@ import pa.enums.eSymbolExtType;
 import pa.interfaces.receive.I2_2_receive;
 import pa.interfaces.receive.I2_4_receive;
 import pa.interfaces.receive.I2_5_receive;
+import pa.interfaces.send.I2_5_send;
 import pa.symbolization.representationsymbol.itfSymbol;
 import pa.tools.clsTPGenerator;
 
@@ -30,7 +31,8 @@ import pa.tools.clsTPGenerator;
  */
 public class E14_PreliminaryExternalPerception extends clsModuleBase implements 
 					I2_2_receive, 
-					I2_4_receive
+					I2_4_receive,
+					I2_5_send
 					{
 	
 	HashMap<eSymbolExtType, itfSymbol> moEnvironmentalData;
@@ -141,6 +143,19 @@ public class E14_PreliminaryExternalPerception extends clsModuleBase implements
 	 */
 	@Override
 	protected void send() {
+		send_I2_5(moEnvironmentalTP);
+	}
+
+	/* (non-Javadoc)
+	 *
+	 * @author deutsch
+	 * 18.05.2010, 16:55:55
+	 * 
+	 * @see pa.interfaces.send.I2_5_send#send_I2_5(java.util.ArrayList)
+	 */
+	@Override
+	public void send_I2_5(ArrayList<clsPrimaryInformation> poEnvironmentalTP) {
 		((I2_5_receive)moEnclosingContainer).receive_I2_5(moEnvironmentalTP);
+		
 	}
 }
