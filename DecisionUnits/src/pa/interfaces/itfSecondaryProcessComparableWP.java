@@ -15,6 +15,7 @@ import pa.datatypes.clsWordPresentation;
  * 11.08.2009, 12:41:47
  * 
  */
+
 public interface itfSecondaryProcessComparableWP {
 
 	public int compareTo( clsWordPresentation poWordPresentation );

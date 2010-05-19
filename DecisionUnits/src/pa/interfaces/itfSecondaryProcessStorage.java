@@ -13,6 +13,7 @@ package pa.interfaces;
  * 11.08.2009, 11:37:37
  * 
  */
+@Deprecated
 public interface itfSecondaryProcessStorage {
 
 }

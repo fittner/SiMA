@@ -15,6 +15,7 @@ import pa.datatypes.clsThingPresentation;
  * 11.08.2009, 12:02:38
  * 
  */
+@Deprecated
 public interface itfPrimaryProcessComparabelTP {
 
 	public int compareTo( clsThingPresentation poPrimaryInformation);

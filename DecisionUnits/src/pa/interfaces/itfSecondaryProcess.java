@@ -13,6 +13,7 @@ package pa.interfaces;
  * 11.08.2009, 11:18:37
  * 
  */
+
 public interface itfSecondaryProcess {
 
 }
