@@ -23,6 +23,7 @@ import config.clsBWProperties;
  * 25.10.2009, 16:05:39
  * 
  */
+@Deprecated
 public class clsTemplatePlanStorage {
 
 	public ArrayList<clsSecondaryInformation> moTemplatePlans;

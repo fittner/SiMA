@@ -21,6 +21,7 @@ import config.clsBWProperties;
  * 20.10.2009, 22:40:09
  * 
  */
+@Deprecated
 public class clsAwareContentStorage {
 	public HashMap<String,ArrayList<clsTripple<clsPrimaryInformation,clsPrimaryInformation,clsPrimaryInformation>>> moAwareContent;
 	

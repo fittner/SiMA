@@ -26,6 +26,7 @@ import du.enums.pa.eContext;
  * 07.10.2009, 15:41:12
  * 
  */
+@Deprecated
 public class clsCurrentContextStorage implements itfContextAccessPrimary, itfContentAccessSecondary{
 	private HashMap<clsSecondaryInformation, clsMutableDouble> moStorage; 
 	

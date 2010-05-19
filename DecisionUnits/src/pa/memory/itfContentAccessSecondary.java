@@ -13,6 +13,7 @@ package pa.memory;
  * 17.10.2009, 10:33:31
  * 
  */
+@Deprecated
 public interface itfContentAccessSecondary {
 
 }

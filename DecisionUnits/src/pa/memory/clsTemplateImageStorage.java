@@ -23,6 +23,7 @@ import config.clsBWProperties;
  * 24.10.2009, 12:47:19
  * 
  */
+@Deprecated
 public class clsTemplateImageStorage {
 	
 	//these PrimaryInfos implement the itfTemplateComparable!!!!

@@ -23,6 +23,7 @@ import config.clsBWProperties;
  * 11.08.2009, 11:17:10
  * 
  */
+@Deprecated
 public class clsMemory implements 
 	itfPrimaryProcessAssociation, itfPrimaryProcessRetrieval, itfPrimaryProcessStorage, 		//PrimaryProcess access interfaces
 	itfSecondaryProcessAssociation, itfSecondaryProcessRetrieval, itfSecondaryProcessStorage	//SecondaryProcess access interfaces

@@ -23,6 +23,7 @@ import pa.tools.clsPair;
  * 25.10.2009, 13:26:03
  * 
  */
+@Deprecated
 public class clsTemplateScenarioStorage {
 
 	public ArrayList<clsSecondaryInformation> moTemplateScenarios;

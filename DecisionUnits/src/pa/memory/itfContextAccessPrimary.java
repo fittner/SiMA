@@ -16,6 +16,7 @@ import bfg.tools.clsMutableDouble;
  * 17.10.2009, 10:33:14
  * 
  */
+@Deprecated
 public interface itfContextAccessPrimary {
 	 public clsMutableDouble getContextRatioPrim(clsThingPresentationSingle poTPContext);
 	 

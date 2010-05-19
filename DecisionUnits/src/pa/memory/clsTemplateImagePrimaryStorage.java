@@ -35,6 +35,7 @@ import bfg.utils.enums.eOptional;
  * 24.10.2009, 23:54:45
  * 
  */
+@Deprecated
 public class clsTemplateImagePrimaryStorage  {
 
 	private static String moAttributeName = "TemplateImages"; //denotes the directory name and the first element name in xml

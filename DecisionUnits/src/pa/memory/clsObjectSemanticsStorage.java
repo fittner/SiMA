@@ -22,6 +22,7 @@ import du.enums.eEntityType;
  * 17.10.2009, 20:29:25
  * 
  */
+@Deprecated
 public class clsObjectSemanticsStorage {
 	
 	public HashMap<eEntityType, clsPrimaryInformation> moObjectSemantics;

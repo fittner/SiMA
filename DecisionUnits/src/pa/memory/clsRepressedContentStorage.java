@@ -23,6 +23,7 @@ import du.enums.pa.eContext;
  * 07.10.2009, 12:39:50
  * 
  */
+@Deprecated
 public class clsRepressedContentStorage {
 	
 	public ArrayList<clsPrimaryInformation> moRepressedContent;
