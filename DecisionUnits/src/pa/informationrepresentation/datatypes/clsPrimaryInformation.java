@@ -14,8 +14,8 @@ package pa.informationrepresentation.datatypes;
  * 
  */
 public class clsPrimaryInformation extends clsDataStructureContainer{
-	public clsExternalRepresentation moExternalRepresetnationDataStructure; 
-	public clsInternalRepresentation moInternalRepresentationDataStructure; 
+	public clsPhysicalRepresentation moExternalRepresetnationDataStructure; 
+	public clsHomeostaticRepresentation moInternalRepresentationDataStructure; 
 	
 	public clsPrimaryInformation(){
 		moExternalRepresetnationDataStructure = null; 

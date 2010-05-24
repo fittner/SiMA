@@ -6,6 +6,7 @@
  */
 package pa.informationrepresentation.modules;
 
+import pa.informationrepresentation.clsSearchSpaceHandler;
 import pa.informationrepresentation.datatypes.clsDataStructureContainer;
 
 /**
@@ -24,10 +25,11 @@ public class KB02_InternalPerceptionMgmt extends clsInformationRepresentationMod
 	 * 23.05.2010, 22:59:15
 	 *
 	 * @param poInformationRepresentationModulesContainer
+	 * @param poSearchSpaceHandler 
 	 */
 	public KB02_InternalPerceptionMgmt(
-			clsInformationRepresentationModuleContainer poInformationRepresentationModulesContainer) {
-		super(poInformationRepresentationModulesContainer);
+			clsInformationRepresentationModuleContainer poInformationRepresentationModulesContainer, clsSearchSpaceHandler poSearchSpaceHandler) {
+		super(poInformationRepresentationModulesContainer, poSearchSpaceHandler);
 		// TODO (zeilinger) - Auto-generated constructor stub
 	}
 

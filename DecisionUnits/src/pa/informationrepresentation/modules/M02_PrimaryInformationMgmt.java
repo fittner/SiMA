@@ -6,6 +6,7 @@
  */
 package pa.informationrepresentation.modules;
 
+import pa.informationrepresentation.clsSearchSpaceHandler;
 import pa.informationrepresentation.datatypes.clsDataStructureContainer;
 import pa.informationrepresentation.datatypes.clsPrimaryInformation;
 
@@ -28,12 +29,13 @@ public class M02_PrimaryInformationMgmt extends clsInformationRepresentationModu
 	 * 23.05.2010, 22:58:39
 	 *
 	 * @param poInformationRepresentationModulesContainer
+	 * @param poSearchSpaceHandler 
 	 */
 	public M02_PrimaryInformationMgmt(
-			clsInformationRepresentationModuleContainer poInformationRepresentationModulesContainer) {
-		super(poInformationRepresentationModulesContainer);
-		moKB02InternalPerceptionMgmt = new KB02_InternalPerceptionMgmt(poInformationRepresentationModulesContainer);
-		moKB03ExternalPerceptionMgmt = new KB03_ExternalPerceptionMgmt(poInformationRepresentationModulesContainer); 
+			clsInformationRepresentationModuleContainer poInformationRepresentationModulesContainer, clsSearchSpaceHandler poSearchSpaceHandler) {
+		super(poInformationRepresentationModulesContainer, poSearchSpaceHandler);
+		moKB02InternalPerceptionMgmt = new KB02_InternalPerceptionMgmt(poInformationRepresentationModulesContainer, poSearchSpaceHandler);
+		moKB03ExternalPerceptionMgmt = new KB03_ExternalPerceptionMgmt(poInformationRepresentationModulesContainer, poSearchSpaceHandler); 
 	}
 
 	/* (non-Javadoc)

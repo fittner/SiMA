@@ -6,6 +6,7 @@
  */
 package pa.informationrepresentation.modules;
 
+import pa.informationrepresentation.clsSearchSpaceHandler;
 import pa.informationrepresentation.datatypes.clsDataStructureContainer;
 
 /**
@@ -17,17 +18,19 @@ import pa.informationrepresentation.datatypes.clsDataStructureContainer;
  */
 public abstract class clsInformationRepresentationModuleBase {
 	protected clsInformationRepresentationModuleContainer moInformationRepresentationModulesContainer; 
+	protected clsSearchSpaceHandler moSearchSpaceHandler; 
 	
 	/**
 	 * DOCUMENT (zeilinger) - insert description 
 	 * 
 	 * @author zeilinger
 	 * 23.05.2010, 22:45:28
+	 * @param poSearchSpaceHandler 
 	 *
 	 */
-	public clsInformationRepresentationModuleBase(clsInformationRepresentationModuleContainer poInformationRepresentationModulesContainer) {
-		// TODO (zeilinger) - Auto-generated constructor stub
-		moInformationRepresentationModulesContainer = poInformationRepresentationModulesContainer; 
+	public clsInformationRepresentationModuleBase(clsInformationRepresentationModuleContainer poInformationRepresentationModulesContainer, clsSearchSpaceHandler poSearchSpaceHandler) {
+		moInformationRepresentationModulesContainer = poInformationRepresentationModulesContainer;
+		moSearchSpaceHandler = poSearchSpaceHandler; 
 	}
 
 	/**

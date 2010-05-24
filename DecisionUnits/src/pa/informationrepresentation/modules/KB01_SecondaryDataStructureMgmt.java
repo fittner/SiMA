@@ -6,6 +6,7 @@
  */
 package pa.informationrepresentation.modules;
 
+import pa.informationrepresentation.clsSearchSpaceHandler;
 import pa.informationrepresentation.datatypes.clsDataStructureContainer;
 
 /**
@@ -24,10 +25,11 @@ public class KB01_SecondaryDataStructureMgmt extends clsInformationRepresentatio
 	 * 23.05.2010, 22:47:52
 	 *
 	 * @param poInformationRepresentationModulesContainer
+	 * @param poSearchSpaceHandler 
 	 */
 	public KB01_SecondaryDataStructureMgmt(
-			clsInformationRepresentationModuleContainer poInformationRepresentationModulesContainer) {
-		super(poInformationRepresentationModulesContainer);
+			clsInformationRepresentationModuleContainer poInformationRepresentationModulesContainer, clsSearchSpaceHandler poSearchSpaceHandler) {
+		super(poInformationRepresentationModulesContainer, poSearchSpaceHandler);
 		// TODO (zeilinger) - Auto-generated constructor stub
 	}
 

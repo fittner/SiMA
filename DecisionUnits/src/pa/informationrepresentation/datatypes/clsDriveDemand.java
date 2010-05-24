@@ -14,5 +14,16 @@ package pa.informationrepresentation.datatypes;
  * 
  */
 public class clsDriveDemand extends clsDataStructurePA{
-
+	public double mnDriveDemandIntensity; 
+	
+	/**
+	 * DOCUMENT (zeilinger) - insert description 
+	 * 
+	 * @author zeilinger
+	 * 24.05.2010, 13:24:07
+	 *
+	 */
+	public clsDriveDemand(double pnDriveDemandIntensity) {
+		mnDriveDemandIntensity = pnDriveDemandIntensity; 
+	}
 }

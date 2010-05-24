@@ -6,6 +6,8 @@
  */
 package pa.informationrepresentation.datatypes;
 
+import pa.informationrepresentation.enums.eAssociationType;
+
 /**
  * DOCUMENT (zeilinger) - insert description 
  * 
@@ -15,4 +17,21 @@ package pa.informationrepresentation.datatypes;
  */
 public class clsAssociationWordPresentation extends clsAssociation{
 
+	/**
+	 * DOCUMENT (zeilinger) - insert description 
+	 * 
+	 * @author zeilinger
+	 * 24.05.2010, 13:32:59
+	 *
+	 * @param clsDataStructurePA
+	 * @param poWordPresentation
+	 */
+	public clsAssociationWordPresentation(
+			clsDataStructurePA poAssociationElementA,
+			clsWordPresentation poAssociationElementB,
+			String poAssociationID) {
+			super(poAssociationElementA, poAssociationElementB, poAssociationID, 
+								eAssociationType.WORDPRESENTATION.toString()); 
+		// TODO (zeilinger) - Auto-generated constructor stub
+	}
 }

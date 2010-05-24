@@ -25,8 +25,8 @@ public class clsInformationRepresentationManagment {
 	public ArrayList<clsDataStructureContainer> moSearchResult; 
 	
 	public clsInformationRepresentationManagment(){
-		moM01InformationRepresentationMgmt = new M01_InformationRepresentationMgmt(); 
 		moSearchSpaceHandler.createSearchSpaceList();
+		moM01InformationRepresentationMgmt = new M01_InformationRepresentationMgmt(moSearchSpaceHandler); 
 	}
 	
 	public ArrayList<clsDataStructureContainer> searchDataStructure(ArrayList<clsDataStructureContainer> poSearchPatternContainer){

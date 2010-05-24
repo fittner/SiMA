@@ -15,4 +15,5 @@ package pa.informationrepresentation.datatypes;
  */
 public class clsAffect extends clsDataStructurePA{
 
+	
 }

@@ -6,6 +6,10 @@
  */
 package pa.informationrepresentation.datatypes;
 
+import java.util.ArrayList;
+
+import pa.tools.clsPair;
+
 /**
  * DOCUMENT (zeilinger) - insert description 
  * 
@@ -13,6 +17,20 @@ package pa.informationrepresentation.datatypes;
  * 23.05.2010, 21:48:16
  * 
  */
-public class clsThingPresentation extends clsExternalRepresentation{
+public class clsThingPresentation extends clsPhysicalRepresentation{
+
+	/**
+	 * DOCUMENT (zeilinger) - insert description 
+	 * 
+	 * @author zeilinger
+	 * 24.05.2010, 12:43:50
+	 *
+	 * @param poWordPresentationAssociation
+	 */
+	public clsThingPresentation(
+			clsPair<String, ArrayList<clsWordPresentation>> poAssociatedWordPresentations) {
+		super(poAssociatedWordPresentations);
+		// TODO (zeilinger) - Auto-generated constructor stub
+	}
 
 }

@@ -8,6 +8,7 @@ package pa.informationrepresentation;
 
 import java.util.Hashtable;
 
+import pa.informationrepresentation.enums.eSearchSpace;
 import pa.informationrepresentation.searchspace.clsSearchSpaceBase;
 import pa.informationrepresentation.searchspace.clsSearchSpaceCreator;
 
@@ -19,20 +20,20 @@ import pa.informationrepresentation.searchspace.clsSearchSpaceCreator;
  * 
  */
 public class clsSearchSpaceHandler {
-	private Hashtable <SearchSpaceEnums, clsSearchSpaceBase> moSearchSpaceList; 
+	private Hashtable <eSearchSpace, clsSearchSpaceBase> moSearchSpaceList; 
 	
 	public clsSearchSpaceHandler(){
-		moSearchSpaceList = new Hashtable<SearchSpaceEnums, clsSearchSpaceBase>(); 
+		moSearchSpaceList = new Hashtable<eSearchSpace, clsSearchSpaceBase>(); 
 	}
 	
 	public void createSearchSpaceList(){
-		for (Object element : SearchSpaceEnums.values()){
-			SearchSpaceEnums enumerator = (SearchSpaceEnums)element; 
+		for (Object element : eSearchSpace.values()){
+			eSearchSpace enumerator = (eSearchSpace)element; 
 			moSearchSpaceList.put(enumerator, clsSearchSpaceCreator.createSearchSpace(enumerator)); 
 		}
 	}
 	
-	public clsSearchSpaceBase returnSearchSpace(SearchSpaceEnums peSearchSpaceEnum){
+	public clsSearchSpaceBase returnSearchSpace(eSearchSpace peSearchSpaceEnum){
 		/*TODO HZ 
 		 * Introduce searchspace search */
 		return moSearchSpaceList.get(peSearchSpaceEnum); 

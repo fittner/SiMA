@@ -13,6 +13,6 @@ package pa.informationrepresentation.datatypes;
  * 24.05.2010, 10:42:44
  * 
  */
-public class clsSecondaryDataStructure extends clsDataStructurePA{
+public abstract class clsSecondaryDataStructure extends clsDataStructurePA{
 
 }

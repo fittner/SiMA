@@ -6,6 +6,7 @@
  */
 package pa.informationrepresentation.modules;
 
+import pa.informationrepresentation.clsSearchSpaceHandler;
 import pa.informationrepresentation.datatypes.clsDataStructureContainer;
 import pa.informationrepresentation.datatypes.clsSecondaryInformation;
 import pa.informationrepresentation.datatypes.clsPrimaryInformation;
@@ -21,9 +22,10 @@ public class M01_InformationRepresentationMgmt extends clsInformationRepresentat
 	public KB01_SecondaryDataStructureMgmt moKB01SecondaryDataStructureMgmt; 
 	public M02_PrimaryInformationMgmt moM02PrimaryInformationMgmt;
 	
-	public M01_InformationRepresentationMgmt(){
-		moKB01SecondaryDataStructureMgmt = new KB01_SecondaryDataStructureMgmt(this); 
-		moM02PrimaryInformationMgmt = new M02_PrimaryInformationMgmt(this); 
+	public M01_InformationRepresentationMgmt(clsSearchSpaceHandler poSearchSpaceHandler){
+		super(null, poSearchSpaceHandler);
+		moKB01SecondaryDataStructureMgmt = new KB01_SecondaryDataStructureMgmt(this, poSearchSpaceHandler); 
+		moM02PrimaryInformationMgmt = new M02_PrimaryInformationMgmt(this, poSearchSpaceHandler); 
 	}
 
 	/**

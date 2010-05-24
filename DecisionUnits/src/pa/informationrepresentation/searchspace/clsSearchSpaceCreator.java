@@ -6,7 +6,7 @@
  */
 package pa.informationrepresentation.searchspace;
 
-import pa.informationrepresentation.SearchSpaceEnums;
+import pa.informationrepresentation.enums.eSearchSpace;
 
 /**
  * DOCUMENT (zeilinger) - insert description 
@@ -17,11 +17,11 @@ import pa.informationrepresentation.SearchSpaceEnums;
  */
 public class clsSearchSpaceCreator {
 		
-	public static clsSearchSpaceBase createSearchSpace(SearchSpaceEnums peSearchSpaceType){
-		if(peSearchSpaceType.equals(SearchSpaceEnums.ThingPresentation))return new clsSearchSpaceTP();
-		if(peSearchSpaceType.equals(SearchSpaceEnums.ThingPresentationMesh))return new clsSearchSpaceTPM();
-		if(peSearchSpaceType.equals(SearchSpaceEnums.DriveMesh))return new clsSearchSpaceDM();
-		if(peSearchSpaceType.equals(SearchSpaceEnums.WordPresentation))return new clsSearchSpaceWP();
+	public static clsSearchSpaceBase createSearchSpace(eSearchSpace peSearchSpaceType){
+		if(peSearchSpaceType.equals(eSearchSpace.ThingPresentation))return new clsSearchSpaceTP();
+		if(peSearchSpaceType.equals(eSearchSpace.ThingPresentationMesh))return new clsSearchSpaceTPM();
+		if(peSearchSpaceType.equals(eSearchSpace.DriveMesh))return new clsSearchSpaceDM();
+		if(peSearchSpaceType.equals(eSearchSpace.WordPresentation))return new clsSearchSpaceWP();
 		
 		throw new java.lang.NullPointerException("unkown searchspace type: " + peSearchSpaceType.toString()); 
 	}
