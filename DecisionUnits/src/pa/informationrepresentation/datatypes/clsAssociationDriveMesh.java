@@ -13,6 +13,6 @@ package pa.informationrepresentation.datatypes;
  * 23.05.2010, 21:54:11
  * 
  */
-public class clsAssociationDriveMesh {
+public class clsAssociationDriveMesh extends clsAssociation{
 
 }

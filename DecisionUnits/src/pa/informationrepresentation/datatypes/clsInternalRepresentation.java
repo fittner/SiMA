@@ -13,6 +13,6 @@ package pa.informationrepresentation.datatypes;
  * 23.05.2010, 21:42:59
  * 
  */
-public class clsHomeostaticRepresentation extends clsPrimaryInformation{
+public class clsInternalRepresentation extends clsDataStructurePA{
 
 }

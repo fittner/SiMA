@@ -13,6 +13,12 @@ package pa.informationrepresentation.datatypes;
  * 23.05.2010, 21:42:21
  * 
  */
-public class clsPrimaryInformation extends clsDatastructure{
-
+public class clsPrimaryInformation extends clsDataStructureContainer{
+	public clsExternalRepresentation moExternalRepresetnationDataStructure; 
+	public clsInternalRepresentation moInternalRepresentationDataStructure; 
+	
+	public clsPrimaryInformation(){
+		moExternalRepresetnationDataStructure = null; 
+		moInternalRepresentationDataStructure = null; 
+	}
 }

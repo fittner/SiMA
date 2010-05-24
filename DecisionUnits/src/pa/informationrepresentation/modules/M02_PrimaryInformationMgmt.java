@@ -6,12 +6,8 @@
  */
 package pa.informationrepresentation.modules;
 
-import java.util.ArrayList;
-
-import pa.informationrepresentation.datatypes.clsDataStructureComposition;
-import pa.informationrepresentation.datatypes.clsDatastructure;
-import pa.informationrepresentation.datatypes.clsHomeostaticRepresentation;
-import pa.informationrepresentation.datatypes.clsPhysicalRepresentation;
+import pa.informationrepresentation.datatypes.clsDataStructureContainer;
+import pa.informationrepresentation.datatypes.clsPrimaryInformation;
 
 /**
  * DOCUMENT (zeilinger) - insert description 
@@ -48,9 +44,9 @@ public class M02_PrimaryInformationMgmt extends clsInformationRepresentationModu
 	 * @see pa.informationrepresentation.modules.clsInformationRepresentationModuleBase#searchDataStructure(java.util.ArrayList)
 	 */
 	@Override
-	public ArrayList<clsDataStructureComposition> searchDataStructure(ArrayList<clsDatastructure> poSearchPattern) {
-		if(((clsDatastructure)poSearchPattern.get(0))instanceof clsHomeostaticRepresentation)	return moKB02InternalPerceptionMgmt.searchDataStructure(poSearchPattern);
-		if(((clsDatastructure)poSearchPattern.get(0))instanceof clsPhysicalRepresentation)	return moKB03ExternalPerceptionMgmt.searchDataStructure(poSearchPattern);
+	public clsDataStructureContainer searchDataStructure(clsDataStructureContainer poSearchPatternContainer) {
+		if(((clsPrimaryInformation)poSearchPatternContainer).moInternalRepresentationDataStructure != null)	return moKB02InternalPerceptionMgmt.searchDataStructure(poSearchPatternContainer);
+		if(((clsPrimaryInformation)poSearchPatternContainer).moExternalRepresetnationDataStructure != null) return moKB03ExternalPerceptionMgmt.searchDataStructure(poSearchPatternContainer);
 		
 		throw new NullPointerException("clsDataStructure unknown ");
 	}

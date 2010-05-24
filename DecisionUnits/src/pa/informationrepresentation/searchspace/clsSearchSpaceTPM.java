@@ -14,7 +14,16 @@ package pa.informationrepresentation.searchspace;
  * 
  */
 public class clsSearchSpaceTPM extends clsSearchSpaceBase{
-
+	/**
+	 * DOCUMENT (zeilinger) - insert description 
+	 * 
+	 * @author zeilinger
+	 * 24.05.2010, 12:12:55
+	 *
+	 */
+	public clsSearchSpaceTPM() {
+		super(); 
+	}
 	/* (non-Javadoc)
 	 *
 	 * @author zeilinger

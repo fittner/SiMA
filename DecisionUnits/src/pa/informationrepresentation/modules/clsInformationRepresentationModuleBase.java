@@ -6,10 +6,7 @@
  */
 package pa.informationrepresentation.modules;
 
-import java.util.ArrayList;
-
-import pa.informationrepresentation.datatypes.clsDataStructureComposition;
-import pa.informationrepresentation.datatypes.clsDatastructure;
+import pa.informationrepresentation.datatypes.clsDataStructureContainer;
 
 /**
  * DOCUMENT (zeilinger) - insert description 
@@ -32,6 +29,15 @@ public abstract class clsInformationRepresentationModuleBase {
 		// TODO (zeilinger) - Auto-generated constructor stub
 		moInformationRepresentationModulesContainer = poInformationRepresentationModulesContainer; 
 	}
-	
-	public abstract ArrayList<clsDataStructureComposition> searchDataStructure(ArrayList<clsDatastructure> poSearchPattern); 
+
+	/**
+	 * DOCUMENT (zeilinger) - insert description
+	 *
+	 * @author zeilinger
+	 * 24.05.2010, 09:40:10
+	 *
+	 * @param poSearchPattern
+	 * @return
+	 */
+	public abstract clsDataStructureContainer searchDataStructure(clsDataStructureContainer poSearchPatternContainer);
 }

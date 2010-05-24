@@ -13,6 +13,6 @@ package pa.informationrepresentation.datatypes;
  * 23.05.2010, 21:48:16
  * 
  */
-public class clsThingPresentation {
+public class clsThingPresentation extends clsExternalRepresentation{
 
 }

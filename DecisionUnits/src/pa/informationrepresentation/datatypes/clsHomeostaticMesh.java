@@ -13,6 +13,6 @@ package pa.informationrepresentation.datatypes;
  * 23.05.2010, 21:50:26
  * 
  */
-public class clsHomeostaticMesh {
+public class clsHomeostaticMesh extends clsInternalRepresentation{
 
 }

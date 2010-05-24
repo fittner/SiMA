@@ -13,6 +13,6 @@ package pa.informationrepresentation.datatypes;
  * 23.05.2010, 21:52:50
  * 
  */
-public class clsAssociationTime {
+public class clsAssociationTime extends clsAssociation{
 
 }

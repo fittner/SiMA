@@ -6,9 +6,6 @@
  */
 package pa.informationrepresentation.searchspace;
 
-import java.util.ArrayList;
-
-import pa.informationrepresentation.datatypes.clsDataStructureComposition;
 
 /**
  * DOCUMENT (zeilinger) - insert description 
@@ -18,9 +15,16 @@ import pa.informationrepresentation.datatypes.clsDataStructureComposition;
  * 
  */
 public class clsSearchSpaceDM extends clsSearchSpaceBase{
-
-	public clsSearchSpaceDM(){
-		moSearchSpaceEntries = new ArrayList<clsDataStructureComposition>(); 
+	
+	/**
+	 * DOCUMENT (zeilinger) - insert description 
+	 * 
+	 * @author zeilinger
+	 * 24.05.2010, 12:11:55
+	 *
+	 */
+	public clsSearchSpaceDM() {
+		super(); 
 	}
 	/* (non-Javadoc)
 	 *

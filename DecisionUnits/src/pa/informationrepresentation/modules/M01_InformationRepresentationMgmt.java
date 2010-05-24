@@ -6,11 +6,8 @@
  */
 package pa.informationrepresentation.modules;
 
-import java.util.ArrayList;
-
+import pa.informationrepresentation.datatypes.clsDataStructureContainer;
 import pa.informationrepresentation.datatypes.clsSecondaryInformation;
-import pa.informationrepresentation.datatypes.clsDataStructureComposition;
-import pa.informationrepresentation.datatypes.clsDatastructure;
 import pa.informationrepresentation.datatypes.clsPrimaryInformation;
 
 /**
@@ -35,13 +32,15 @@ public class M01_InformationRepresentationMgmt extends clsInformationRepresentat
 	 * @author zeilinger
 	 * 23.05.2010, 23:21:26
 	 * @param poSearchPattern 
+	 * @return 
 	 *
 	 * @return
 	 */
-	public ArrayList<clsDataStructureComposition> searchDataStructure(ArrayList<clsDatastructure> poSearchPattern) {
-		if(((clsDatastructure)poSearchPattern.get(0))instanceof clsPrimaryInformation)	return moKB01SecondaryDataStructureMgmt.searchDataStructure(poSearchPattern); 
-		if(((clsDatastructure)poSearchPattern.get(0))instanceof clsSecondaryInformation)	return moM02PrimaryInformationMgmt.searchDataStructure(poSearchPattern); 
+	public clsDataStructureContainer searchDataStructure(clsDataStructureContainer poSearchPatternContainer) {
 		
+			if(poSearchPatternContainer instanceof clsSecondaryInformation)return moKB01SecondaryDataStructureMgmt.searchDataStructure(poSearchPatternContainer); 
+			if(poSearchPatternContainer instanceof clsPrimaryInformation)return moM02PrimaryInformationMgmt.searchDataStructure(poSearchPatternContainer); 
+						
 		throw new NullPointerException("clsDataStructure unknown ");
 	}
 }

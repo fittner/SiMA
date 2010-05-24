@@ -14,7 +14,16 @@ package pa.informationrepresentation.searchspace;
  * 
  */
 public class clsSearchSpaceWP extends clsSearchSpaceBase{
-	
+	/**
+	 * DOCUMENT (zeilinger) - insert description 
+	 * 
+	 * @author zeilinger
+	 * 24.05.2010, 12:13:10
+	 *
+	 */
+	public clsSearchSpaceWP() {
+		super(); 
+	}
 	/* (non-Javadoc)
 	 *
 	 * @author zeilinger

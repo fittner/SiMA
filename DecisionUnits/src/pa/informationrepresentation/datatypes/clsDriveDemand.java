@@ -13,6 +13,6 @@ package pa.informationrepresentation.datatypes;
  * 23.05.2010, 21:40:24
  * 
  */
-public class clsDriveDemand {
+public class clsDriveDemand extends clsDataStructurePA{
 
 }

@@ -13,6 +13,6 @@ package pa.informationrepresentation.datatypes;
  * 23.05.2010, 21:43:40
  * 
  */
-public class clsWordPresentation {
+public class clsWordPresentation extends clsSecondaryDataStructure{
 
 }

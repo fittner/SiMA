@@ -13,6 +13,6 @@ package pa.informationrepresentation.datatypes;
  * 23.05.2010, 21:40:16
  * 
  */
-public class clsAffect {
+public class clsAffect extends clsDataStructurePA{
 
 }

@@ -6,10 +6,7 @@
  */
 package pa.informationrepresentation.modules;
 
-import java.util.ArrayList;
-
-import pa.informationrepresentation.datatypes.clsDataStructureComposition;
-import pa.informationrepresentation.datatypes.clsDatastructure;
+import pa.informationrepresentation.datatypes.clsDataStructureContainer;
 
 /**
  * DOCUMENT (zeilinger) - insert description 
@@ -37,15 +34,15 @@ public class KB01_SecondaryDataStructureMgmt extends clsInformationRepresentatio
 	/* (non-Javadoc)
 	 *
 	 * @author zeilinger
-	 * 23.05.2010, 23:33:09
+	 * 24.05.2010, 11:41:28
 	 * 
-	 * @see pa.informationrepresentation.modules.clsInformationRepresentationModuleBase#searchDataStructure(java.util.ArrayList)
+	 * @see pa.informationrepresentation.modules.clsInformationRepresentationModuleBase#searchDataStructure(pa.informationrepresentation.datatypes.clsDataStructureContainer)
 	 */
 	@Override
-	public ArrayList<clsDataStructureComposition> searchDataStructure(
-			ArrayList<clsDatastructure> poSearchPattern) {
+	public clsDataStructureContainer searchDataStructure(
+			clsDataStructureContainer poSearchPatternContainer) {
 		// TODO (zeilinger) - Auto-generated method stub
 		return null;
 	}
-
+	
 }

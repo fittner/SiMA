@@ -13,6 +13,6 @@ package pa.informationrepresentation.datatypes;
  * 23.05.2010, 21:50:53
  * 
  */
-public class clsAssociationWordPresentation {
+public class clsAssociationWordPresentation extends clsAssociation{
 
 }

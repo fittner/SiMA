@@ -13,6 +13,6 @@ package pa.informationrepresentation.datatypes;
  * 23.05.2010, 21:42:44
  * 
  */
-public class clsPhysicalRepresentation extends clsPrimaryInformation{
+public class clsExternalRepresentation extends clsDataStructurePA{
 
 }

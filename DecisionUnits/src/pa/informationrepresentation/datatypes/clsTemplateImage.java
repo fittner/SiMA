@@ -13,6 +13,6 @@ package pa.informationrepresentation.datatypes;
  * 23.05.2010, 21:49:45
  * 
  */
-public class clsTemplateImage {
+public class clsTemplateImage extends clsPhysicalStructureComposition{
 
 }

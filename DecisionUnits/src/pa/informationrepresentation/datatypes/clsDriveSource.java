@@ -13,6 +13,6 @@ package pa.informationrepresentation.datatypes;
  * 23.05.2010, 21:50:12
  * 
  */
-public class clsDriveSource {
+public class clsDriveSource extends clsInternalRepresentation{
 
 }

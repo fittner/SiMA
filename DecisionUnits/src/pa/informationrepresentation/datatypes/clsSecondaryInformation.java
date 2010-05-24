@@ -13,6 +13,10 @@ package pa.informationrepresentation.datatypes;
  * 23.05.2010, 21:42:31
  * 
  */
-public class clsSecondaryInformation extends clsDatastructure{
-
+public class clsSecondaryInformation extends clsDataStructureContainer{
+	public clsSecondaryDataStructure moSecondaryDataStructure; 
+	
+	public clsSecondaryInformation(){
+		moSecondaryDataStructure = null; 
+	}
 }

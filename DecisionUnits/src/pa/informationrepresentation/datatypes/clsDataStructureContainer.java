@@ -1,8 +1,8 @@
 /**
- * clsDatastructure.java: DecisionUnits - pa.informationrepresentation.datatypes
+ * clsDataStructureContainer.java: DecisionUnits - pa.informationrepresentation.datatypes
  * 
  * @author zeilinger
- * 23.05.2010, 21:40:06
+ * 24.05.2010, 10:38:31
  */
 package pa.informationrepresentation.datatypes;
 
@@ -10,9 +10,9 @@ package pa.informationrepresentation.datatypes;
  * DOCUMENT (zeilinger) - insert description 
  * 
  * @author zeilinger
- * 23.05.2010, 21:40:06
+ * 24.05.2010, 10:38:31
  * 
  */
-public class clsDatastructure {
+public class clsDataStructureContainer{
 
 }

@@ -13,6 +13,6 @@ package pa.informationrepresentation.datatypes;
  * 23.05.2010, 21:53:16
  * 
  */
-public class clsAssociationAttribute {
+public class clsAssociationAttribute extends clsAssociation{
 
 }

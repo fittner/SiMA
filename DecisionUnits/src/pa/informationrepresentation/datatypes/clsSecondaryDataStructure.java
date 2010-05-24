@@ -1,0 +1,18 @@
+/**
+ * clsSecondaryDataStructure.java: DecisionUnits - pa.informationrepresentation.datatypes
+ * 
+ * @author zeilinger
+ * 24.05.2010, 10:42:44
+ */
+package pa.informationrepresentation.datatypes;
+
+/**
+ * DOCUMENT (zeilinger) - insert description 
+ * 
+ * @author zeilinger
+ * 24.05.2010, 10:42:44
+ * 
+ */
+public class clsSecondaryDataStructure extends clsDataStructurePA{
+
+}
