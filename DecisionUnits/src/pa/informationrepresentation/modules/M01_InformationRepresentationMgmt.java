@@ -7,10 +7,6 @@
 package pa.informationrepresentation.modules;
 
 import pa.informationrepresentation.clsSearchSpaceHandler;
-import pa.informationrepresentation.datatypes.clsDataStructureContainer;
-import pa.informationrepresentation.datatypes.clsSecondaryInformation;
-import pa.informationrepresentation.datatypes.clsPrimaryInformation;
-
 /**
  * DOCUMENT (zeilinger) - insert description 
  * 
@@ -28,21 +24,4 @@ public class M01_InformationRepresentationMgmt extends clsInformationRepresentat
 		moM02PrimaryInformationMgmt = new M02_PrimaryInformationMgmt(this, poSearchSpaceHandler); 
 	}
 
-	/**
-	 * DOCUMENT (zeilinger) - insert description
-	 *
-	 * @author zeilinger
-	 * 23.05.2010, 23:21:26
-	 * @param poSearchPattern 
-	 * @return 
-	 *
-	 * @return
-	 */
-	public clsDataStructureContainer searchDataStructure(clsDataStructureContainer poSearchPatternContainer) {
-		
-			if(poSearchPatternContainer instanceof clsSecondaryInformation)return moKB01SecondaryDataStructureMgmt.searchDataStructure(poSearchPatternContainer); 
-			if(poSearchPatternContainer instanceof clsPrimaryInformation)return moM02PrimaryInformationMgmt.searchDataStructure(poSearchPatternContainer); 
-						
-		throw new NullPointerException("clsDataStructure unknown ");
-	}
 }

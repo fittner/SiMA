@@ -7,8 +7,6 @@
 package pa.informationrepresentation.modules;
 
 import pa.informationrepresentation.clsSearchSpaceHandler;
-import pa.informationrepresentation.datatypes.clsDataStructureContainer;
-import pa.informationrepresentation.datatypes.clsPrimaryInformation;
 
 /**
  * DOCUMENT (zeilinger) - insert description 
@@ -17,7 +15,7 @@ import pa.informationrepresentation.datatypes.clsPrimaryInformation;
  * 23.05.2010, 21:37:54
  * 
  */
-public class M02_PrimaryInformationMgmt extends clsInformationRepresentationModuleBase{
+public class M02_PrimaryInformationMgmt extends clsInformationRepresentationModuleContainer{
 	
 	public KB02_InternalPerceptionMgmt moKB02InternalPerceptionMgmt;
 	public KB03_ExternalPerceptionMgmt moKB03ExternalPerceptionMgmt;
@@ -33,23 +31,9 @@ public class M02_PrimaryInformationMgmt extends clsInformationRepresentationModu
 	 */
 	public M02_PrimaryInformationMgmt(
 			clsInformationRepresentationModuleContainer poInformationRepresentationModulesContainer, clsSearchSpaceHandler poSearchSpaceHandler) {
-		super(poInformationRepresentationModulesContainer, poSearchSpaceHandler);
+		super(null, poSearchSpaceHandler);
 		moKB02InternalPerceptionMgmt = new KB02_InternalPerceptionMgmt(poInformationRepresentationModulesContainer, poSearchSpaceHandler);
 		moKB03ExternalPerceptionMgmt = new KB03_ExternalPerceptionMgmt(poInformationRepresentationModulesContainer, poSearchSpaceHandler); 
 	}
-
-	/* (non-Javadoc)
-	 *
-	 * @author zeilinger
-	 * 23.05.2010, 23:33:55
-	 * 
-	 * @see pa.informationrepresentation.modules.clsInformationRepresentationModuleBase#searchDataStructure(java.util.ArrayList)
-	 */
-	@Override
-	public clsDataStructureContainer searchDataStructure(clsDataStructureContainer poSearchPatternContainer) {
-		if(((clsPrimaryInformation)poSearchPatternContainer).moInternalRepresentationDataStructure != null)	return moKB02InternalPerceptionMgmt.searchDataStructure(poSearchPatternContainer);
-		if(((clsPrimaryInformation)poSearchPatternContainer).moExternalRepresetnationDataStructure != null) return moKB03ExternalPerceptionMgmt.searchDataStructure(poSearchPatternContainer);
 		
-		throw new NullPointerException("clsDataStructure unknown ");
-	}
 }
