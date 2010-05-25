@@ -43,12 +43,20 @@ public class clsInterfaceHandler {
 					continue;
 				}
 				
+				Method oMethod = null;
+				try {
+					oMethod = extractInterfaceMethod(oI);
+				} catch (java.lang.IllegalArgumentException e) {
+					continue;
+				}
+				
 				ArrayList<clsModuleBase> oM = moInterfaceModuleMap.get(oI);
 				
-				if (oI == null) {
+				if (oM == null) {
 					oM = new ArrayList<clsModuleBase>();
 					moInterfaceModuleMap.put(oI, oM);
-					addInterfaceMethod(oI);
+					
+					moMethods.put(oI, oMethod);
 				}
 				
 				oM.add(oModule);
@@ -56,7 +64,7 @@ public class clsInterfaceHandler {
 		}		
 	}
 	
-	private void addInterfaceMethod(Class poInterface) {
+	private Method extractInterfaceMethod(Class poInterface) {
 		ArrayList<Method> oMethods = new ArrayList<Method>();
 		
 		for (Method oM:poInterface.getMethods()) {
@@ -68,12 +76,10 @@ public class clsInterfaceHandler {
 		if (oMethods.size() == 0) {
 			throw new java.lang.IllegalArgumentException("poInterface ("+poInterface.getName()+") does not contain a method which starts with '"+P_METHODPREFIX+"'.");
 		} else if (oMethods.size() > 1) {
-			throw new java.lang.IllegalArgumentException("poInterface ("+poInterface.getName()+") contains more than one method which starts with '"+P_METHODPREFIX+"'.");			
-		}
-
-		Method oMethod = oMethods.get(0);
+			throw new java.lang.IllegalArgumentException("poInterface ("+poInterface.getName()+") contains more than one method which starts with '"+P_METHODPREFIX+"'.");
+		}		
 		
-		moMethods.put(poInterface, oMethod);
+		return oMethods.get(0);
 	}
 	
 	public void sendData(Class poReceiverInterface, Object... args) throws IllegalArgumentException, IllegalAccessException, InvocationTargetException {
