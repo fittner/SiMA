@@ -17,9 +17,9 @@ import pa.informationrepresentation.datatypes.clsDataStructurePA;
  * 23.05.2010, 18:30:20
  * 
  */
-public class clsSubSearchSpaceTP extends clsSearchSpaceBase{
+public class clsSearchSpaceTP extends clsSearchSpaceBase{
 	
-	public clsSubSearchSpaceTP(){
+	public clsSearchSpaceTP(){
 		super(); 
 	}
 	/* (non-Javadoc)

@@ -13,7 +13,7 @@ package pa.informationrepresentation.ARSi10.enums;
  * 23.05.2010, 19:01:22
  * 
  */
-public enum eSearchSpace {
+public enum eSearchSpaceType {
 	THINGPRESENTATION,
 	THINGPRESENTATIONMESH,
 	TEMPLATEIMAGE, 

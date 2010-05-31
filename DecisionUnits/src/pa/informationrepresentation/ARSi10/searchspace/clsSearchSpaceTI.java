@@ -1,8 +1,8 @@
 /**
- * clsSearchSpaceWP.java: DecisionUnits - pa.informationrepresentation.searchspaces
+ * clsSearchSpaceTI.java: DecisionUnits - pa.informationrepresentation.searchspace
  * 
  * @author zeilinger
- * 23.05.2010, 18:30:08
+ * 24.05.2010, 12:13:46
  */
 package pa.informationrepresentation.ARSi10.searchspace;
 
@@ -14,24 +14,24 @@ import pa.informationrepresentation.datatypes.clsDataStructurePA;
  * DOCUMENT (zeilinger) - insert description 
  * 
  * @author zeilinger
- * 23.05.2010, 18:30:08
+ * 24.05.2010, 12:13:46
  * 
  */
-public class clsSubSearchSpaceWP extends clsSearchSpaceBase{
+public class clsSearchSpaceTI extends clsSearchSpaceBase{
 	/**
 	 * DOCUMENT (zeilinger) - insert description 
 	 * 
 	 * @author zeilinger
-	 * 24.05.2010, 12:13:10
+	 * 24.05.2010, 12:14:05
 	 *
 	 */
-	public clsSubSearchSpaceWP() {
+	public clsSearchSpaceTI() {
 		super(); 
 	}
 	/* (non-Javadoc)
 	 *
 	 * @author zeilinger
-	 * 23.05.2010, 20:26:22
+	 * 24.05.2010, 12:14:00
 	 * 
 	 * @see pa.informationrepresentation.searchspace.clsSearchSpaceBase#loadSearchSpace()
 	 */
@@ -43,7 +43,7 @@ public class clsSubSearchSpaceWP extends clsSearchSpaceBase{
 	/* (non-Javadoc)
 	 *
 	 * @author zeilinger
-	 * 31.05.2010, 08:52:25
+	 * 31.05.2010, 08:51:45
 	 * 
 	 * @see pa.informationrepresentation.ARSi10.searchspace.clsSearchSpaceBase#returnSearchSpace(java.lang.String)
 	 */

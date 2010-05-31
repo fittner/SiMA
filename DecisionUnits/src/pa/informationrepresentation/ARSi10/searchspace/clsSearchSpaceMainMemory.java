@@ -9,7 +9,7 @@ package pa.informationrepresentation.ARSi10.searchspace;
 import java.util.ArrayList;
 import java.util.Hashtable;
 
-import pa.informationrepresentation.ARSi10.enums.eSearchSpace;
+import pa.informationrepresentation.ARSi10.enums.eSearchSpaceType;
 import pa.informationrepresentation.datatypes.clsDataStructurePA;
 
 /**
@@ -20,7 +20,7 @@ import pa.informationrepresentation.datatypes.clsDataStructurePA;
  * 
  */
 public class clsSearchSpaceMainMemory extends clsSearchSpaceBase{
-	Hashtable <eSearchSpace, clsSearchSpaceBase> moSearchSpaceList;
+	Hashtable <eSearchSpaceType, clsSearchSpaceBase> moSearchSpaceList;
 	/* (non-Javadoc)
 	 *
 	 * @author zeilinger
@@ -30,14 +30,14 @@ public class clsSearchSpaceMainMemory extends clsSearchSpaceBase{
 	 */
 	@Override
 	protected void loadSearchSpace() {
-		for (Object element : eSearchSpace.values()){
-			eSearchSpace enumerator = (eSearchSpace)element; 
+		for (Object element : eSearchSpaceType.values()){
+			eSearchSpaceType enumerator = (eSearchSpaceType)element; 
 			
-			if(enumerator.equals(eSearchSpace.THINGPRESENTATION))moSearchSpaceList.put(enumerator, new clsSubSearchSpaceTPM()); 
-			else if(enumerator.equals(eSearchSpace.THINGPRESENTATIONMESH))moSearchSpaceList.put(enumerator,new clsSubSearchSpaceTPM());
-			else if(enumerator.equals(eSearchSpace.TEMPLATEIMAGE))moSearchSpaceList.put(enumerator,new clsSubSearchSpaceTI());
-			else if(enumerator.equals(eSearchSpace.DRIVEMESH))moSearchSpaceList.put(enumerator,new clsSubSearchSpaceDM());
-			else if(enumerator.equals(eSearchSpace.WORDPRESENTATION))moSearchSpaceList.put(enumerator, new clsSubSearchSpaceWP());
+			if(enumerator.equals(eSearchSpaceType.THINGPRESENTATION))moSearchSpaceList.put(enumerator, new clsSearchSpaceTPM()); 
+			else if(enumerator.equals(eSearchSpaceType.THINGPRESENTATIONMESH))moSearchSpaceList.put(enumerator,new clsSearchSpaceTPM());
+			else if(enumerator.equals(eSearchSpaceType.TEMPLATEIMAGE))moSearchSpaceList.put(enumerator,new clsSearchSpaceTI());
+			else if(enumerator.equals(eSearchSpaceType.DRIVEMESH))moSearchSpaceList.put(enumerator,new clsSearchSpaceDM());
+			else if(enumerator.equals(eSearchSpaceType.WORDPRESENTATION))moSearchSpaceList.put(enumerator, new clsSearchSpaceWP());
 			else throw new java.lang.NullPointerException("unkown searchspace type: " + enumerator.toString());
 		}
 	}
