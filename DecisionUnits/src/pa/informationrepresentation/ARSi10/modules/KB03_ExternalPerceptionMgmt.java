@@ -1,33 +1,33 @@
 /**
- * clsSecondaryDataStructureMgmt.java: DecisionUnits - pa.informationrepresentation
+ * KB03_ExternalPerceptionMgmt.java: DecisionUnits - pa.informationrepresentation
  * 
  * @author zeilinger
- * 19.05.2010, 07:47:02
+ * 19.05.2010, 07:50:02
  */
-package pa.informationrepresentation.modules;
+package pa.informationrepresentation.ARSi10.modules;
 
-import pa.informationrepresentation.clsSearchSpaceHandler;
+import pa.informationrepresentation.ARSi10.clsSearchSpaceHandler;
 import pa.informationrepresentation.datatypes.clsDataStructureContainer;
 
 /**
  * DOCUMENT (zeilinger) - insert description 
  * 
  * @author zeilinger
- * 19.05.2010, 07:47:02
+ * 19.05.2010, 07:50:02
  * 
  */
-public class KB01_SecondaryDataStructureMgmt extends clsInformationRepresentationModuleBase{
+public class KB03_ExternalPerceptionMgmt extends clsInformationRepresentationModuleBase{
 
 	/**
 	 * DOCUMENT (zeilinger) - insert description 
 	 * 
 	 * @author zeilinger
-	 * 23.05.2010, 22:47:52
+	 * 23.05.2010, 22:59:07
 	 *
 	 * @param poInformationRepresentationModulesContainer
 	 * @param poSearchSpaceHandler 
 	 */
-	public KB01_SecondaryDataStructureMgmt(
+	public KB03_ExternalPerceptionMgmt(
 			clsInformationRepresentationModuleContainer poInformationRepresentationModulesContainer, clsSearchSpaceHandler poSearchSpaceHandler) {
 		super(poInformationRepresentationModulesContainer, poSearchSpaceHandler);
 		// TODO (zeilinger) - Auto-generated constructor stub
@@ -36,7 +36,7 @@ public class KB01_SecondaryDataStructureMgmt extends clsInformationRepresentatio
 	/* (non-Javadoc)
 	 *
 	 * @author zeilinger
-	 * 24.05.2010, 11:41:28
+	 * 24.05.2010, 11:43:07
 	 * 
 	 * @see pa.informationrepresentation.modules.clsInformationRepresentationModuleBase#searchDataStructure(pa.informationrepresentation.datatypes.clsDataStructureContainer)
 	 */
@@ -46,5 +46,4 @@ public class KB01_SecondaryDataStructureMgmt extends clsInformationRepresentatio
 		// TODO (zeilinger) - Auto-generated method stub
 		return null;
 	}
-	
 }

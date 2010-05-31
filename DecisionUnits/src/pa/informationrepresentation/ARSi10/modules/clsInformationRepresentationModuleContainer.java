@@ -4,9 +4,9 @@
  * @author zeilinger
  * 19.05.2010, 07:45:02
  */
-package pa.informationrepresentation.modules;
+package pa.informationrepresentation.ARSi10.modules;
 
-import pa.informationrepresentation.clsSearchSpaceHandler;
+import pa.informationrepresentation.ARSi10.clsSearchSpaceHandler;
 import pa.modules.clsModuleContainer;
 
 /**

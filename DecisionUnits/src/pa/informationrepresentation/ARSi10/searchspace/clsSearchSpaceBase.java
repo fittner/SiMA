@@ -4,7 +4,7 @@
  * @author zeilinger
  * 23.05.2010, 18:29:05
  */
-package pa.informationrepresentation.searchspace;
+package pa.informationrepresentation.ARSi10.searchspace;
 
 import java.util.ArrayList;
 
@@ -26,5 +26,5 @@ public abstract class clsSearchSpaceBase {
 	}
 	
 	protected abstract void loadSearchSpace(); 
-	protected abstract void returnSearchSpace();  
+	public abstract ArrayList<clsDataStructurePA> returnSearchSpace(String poSearchSpaceType);  
 }

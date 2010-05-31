@@ -4,7 +4,11 @@
  * @author zeilinger
  * 24.05.2010, 12:13:46
  */
-package pa.informationrepresentation.searchspace;
+package pa.informationrepresentation.ARSi10.searchspace;
+
+import java.util.ArrayList;
+
+import pa.informationrepresentation.datatypes.clsDataStructurePA;
 
 /**
  * DOCUMENT (zeilinger) - insert description 
@@ -13,7 +17,7 @@ package pa.informationrepresentation.searchspace;
  * 24.05.2010, 12:13:46
  * 
  */
-public class clsSearchSpaceTI extends clsSearchSpaceBase{
+public class clsSubSearchSpaceTI extends clsSearchSpaceBase{
 	/**
 	 * DOCUMENT (zeilinger) - insert description 
 	 * 
@@ -21,7 +25,7 @@ public class clsSearchSpaceTI extends clsSearchSpaceBase{
 	 * 24.05.2010, 12:14:05
 	 *
 	 */
-	public clsSearchSpaceTI() {
+	public clsSubSearchSpaceTI() {
 		super(); 
 	}
 	/* (non-Javadoc)
@@ -36,18 +40,17 @@ public class clsSearchSpaceTI extends clsSearchSpaceBase{
 		// TODO (zeilinger) - Auto-generated method stub
 		
 	}
-
 	/* (non-Javadoc)
 	 *
 	 * @author zeilinger
-	 * 24.05.2010, 12:14:00
+	 * 31.05.2010, 08:51:45
 	 * 
-	 * @see pa.informationrepresentation.searchspace.clsSearchSpaceBase#returnSearchSpace()
+	 * @see pa.informationrepresentation.ARSi10.searchspace.clsSearchSpaceBase#returnSearchSpace(java.lang.String)
 	 */
 	@Override
-	protected void returnSearchSpace() {
+	public ArrayList<clsDataStructurePA> returnSearchSpace(
+			String poSearchSpaceType) {
 		// TODO (zeilinger) - Auto-generated method stub
-		
+		return null;
 	}
-
 }
