@@ -7,6 +7,7 @@
 package pa.informationrepresentation.datatypes;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import pa.tools.clsPair;
 
@@ -18,7 +19,7 @@ import pa.tools.clsPair;
  * 
  */
 public class clsThingPresentationMesh extends clsPhysicalStructureComposition{
-	protected ArrayList <clsAssociationAttribute> moAttributeAssociations; 
+	protected List <clsAssociationAttribute> moAttributeAssociations; 
 	/**
 	 * DOCUMENT (zeilinger) - insert description 
 	 * 
@@ -29,9 +30,9 @@ public class clsThingPresentationMesh extends clsPhysicalStructureComposition{
 	 * @param poDriveMeshAssociation
 	 */
 	public clsThingPresentationMesh(
-			clsPair<String, ArrayList<clsWordPresentation>> poAssociatedWordPresentations,
-			clsPair<String, ArrayList<clsDriveSource>> poAssociatedDriveSources,
-			clsPair<String,ArrayList<clsPhysicalRepresentation>> poAssociatedPhysicalRepresentations) {
+			clsPair<String,List<clsWordPresentation>> poAssociatedWordPresentations,
+			clsPair<String,List<clsDriveSource>> poAssociatedDriveSources,
+			clsPair<String,List<clsPhysicalRepresentation>> poAssociatedPhysicalRepresentations) {
 		super(poAssociatedWordPresentations, poAssociatedDriveSources);
 		
 		moAttributeAssociations = new ArrayList<clsAssociationAttribute>(); 
@@ -46,7 +47,7 @@ public class clsThingPresentationMesh extends clsPhysicalStructureComposition{
 	 * @param poAssociatedPhysicalRepresentations
 	 */
 	private void applyAssociations(
-			clsPair<String, ArrayList<clsPhysicalRepresentation>> poAssociatedPhysicalRepresentations) {
+			clsPair<String, List<clsPhysicalRepresentation>> poAssociatedPhysicalRepresentations) {
 		// TODO (zeilinger) - Auto-generated method stub
 		
 	}

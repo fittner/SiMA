@@ -7,6 +7,7 @@
 package pa.informationrepresentation.datatypes;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import pa.tools.clsPair;
 
@@ -17,8 +18,8 @@ import pa.tools.clsPair;
  * 23.05.2010, 21:42:44
  * 
  */
-public abstract class clsPhysicalRepresentation extends clsDataStructurePA{
-	protected ArrayList<clsAssociationWordPresentation> moWordPresentationAssociations; 
+public abstract class clsPhysicalRepresentation extends clsPrimaryDataStructure{
+	protected List<clsAssociationWordPresentation> moWordPresentationAssociations; 
 	
 	/**
 	 * DOCUMENT (zeilinger) - insert description 
@@ -28,7 +29,7 @@ public abstract class clsPhysicalRepresentation extends clsDataStructurePA{
 	 * @param poWordPresentationAssociation 
 	 *
 	 */
-	public clsPhysicalRepresentation(clsPair<String, ArrayList<clsWordPresentation>> poAssociatedWordPresentations) {
+	public clsPhysicalRepresentation(clsPair<String, List<clsWordPresentation>> poAssociatedWordPresentations) {
 		moWordPresentationAssociations = new ArrayList <clsAssociationWordPresentation>(); 
 		applyAssociations(poAssociatedWordPresentations); 
 	}
@@ -42,7 +43,7 @@ public abstract class clsPhysicalRepresentation extends clsDataStructurePA{
 	 * @param poAssociatedWordPresentations
 	 */
 	private void applyAssociations(
-			clsPair<String, ArrayList<clsWordPresentation>> poAssociatedWordPresentations) {
+			clsPair<String, List<clsWordPresentation>> poAssociatedWordPresentations) {
 		// TODO (zeilinger) - Auto-generated method stub
 		
 	}

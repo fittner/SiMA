@@ -7,6 +7,7 @@
 package pa.informationrepresentation.datatypes;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import pa.tools.clsPair;
 
@@ -19,7 +20,7 @@ import pa.tools.clsPair;
  * 
  */
 public class clsTemplateImage extends clsPhysicalStructureComposition{
-	protected ArrayList<clsAssociationTime> moTimeAssociations;
+	protected List<clsAssociationTime> moTimeAssociations;
 	
 	/**
 	 * DOCUMENT (zeilinger) - insert description 
@@ -28,9 +29,9 @@ public class clsTemplateImage extends clsPhysicalStructureComposition{
 	 * 24.05.2010, 12:41:23
 	 *
 	 */
-	public clsTemplateImage(clsPair<String, ArrayList<clsWordPresentation>> poAssociatedWordPresentations,
-							clsPair<String,ArrayList<clsDriveSource>> poAssociatedDriveSources,
-							clsPair<String,ArrayList<clsPhysicalStructureComposition>> poAssociatedTemporalStructures) {
+	public clsTemplateImage(clsPair<String,List<clsWordPresentation>> poAssociatedWordPresentations,
+							clsPair<String,List<clsDriveSource>> poAssociatedDriveSources,
+							clsPair<String,List<clsPhysicalStructureComposition>> poAssociatedTemporalStructures) {
 		super(poAssociatedWordPresentations, poAssociatedDriveSources); 
 		moTimeAssociations = new ArrayList<clsAssociationTime>(); 
 		
@@ -46,7 +47,7 @@ public class clsTemplateImage extends clsPhysicalStructureComposition{
 	 * @param poAssociatedTemporalStructures
 	 */
 	private void applyAssociations(
-			clsPair<String, ArrayList<clsPhysicalStructureComposition>> poAssociatedTemporalStructures) {
+			clsPair<String, List<clsPhysicalStructureComposition>> poAssociatedTemporalStructures) {
 		// TODO (zeilinger) - Auto-generated method stub
 		
 	}

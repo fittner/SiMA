@@ -7,6 +7,7 @@
 package pa.informationrepresentation.datatypes;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import pa.informationrepresentation.enums.eHomeostaticSources;
 import pa.tools.clsPair;
@@ -19,8 +20,8 @@ import pa.tools.clsPair;
  * 
  */
 public class clsDriveSource extends clsHomeostaticRepresentation{
-	protected ArrayList<clsAssociationWordPresentation> moWordPresentationAssociations; 
-	protected ArrayList<clsAssociationDriveMesh> moDriveMeshAssociations; 
+	protected List<clsAssociationWordPresentation> moWordPresentationAssociations; 
+	protected List<clsAssociationDriveMesh> moDriveMeshAssociations; 
 	/**
 	 * DOCUMENT (zeilinger) - insert description 
 	 * 
@@ -31,8 +32,8 @@ public class clsDriveSource extends clsHomeostaticRepresentation{
 	 */
 	public clsDriveSource(
 			eHomeostaticSources poHomeoStaticSource, 
-			clsPair<String,ArrayList<clsWordPresentation>> poAssociatedWordPresentations,
-			clsPair<String,ArrayList<clsDataStructurePA>> poAssociatedDataStructures) {
+			clsPair<String,List<clsWordPresentation>> poAssociatedWordPresentations,
+			clsPair<String,List<clsDataStructurePA>> poAssociatedDataStructures) {
 		super(poHomeoStaticSource);
 		moWordPresentationAssociations = new ArrayList<clsAssociationWordPresentation>(); 
 		moDriveMeshAssociations = new ArrayList<clsAssociationDriveMesh>(); 
@@ -49,8 +50,8 @@ public class clsDriveSource extends clsHomeostaticRepresentation{
 	 * @param poAssociatedDataStructures
 	 */
 	private void applyAssociations(
-			clsPair<String, ArrayList<clsWordPresentation>> poAssociatedWordPresentations,
-			clsPair<String, ArrayList<clsDataStructurePA>> poAssociatedDataStructures) {
+			clsPair<String, List<clsWordPresentation>> poAssociatedWordPresentations,
+			clsPair<String, List<clsDataStructurePA>> poAssociatedDataStructures) {
 		// TODO (zeilinger) - Auto-generated method stub
 		/*Be aware that poAssociatedDataStrucutres must not contain SecondaryDataStructures*/
 		

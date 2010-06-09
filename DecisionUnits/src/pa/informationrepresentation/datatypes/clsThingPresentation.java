@@ -6,7 +6,7 @@
  */
 package pa.informationrepresentation.datatypes;
 
-import java.util.ArrayList;
+import java.util.List;
 
 import pa.tools.clsPair;
 
@@ -28,7 +28,7 @@ public class clsThingPresentation extends clsPhysicalRepresentation{
 	 * @param poWordPresentationAssociation
 	 */
 	public clsThingPresentation(
-			clsPair<String, ArrayList<clsWordPresentation>> poAssociatedWordPresentations) {
+			clsPair<String, List<clsWordPresentation>> poAssociatedWordPresentations) {
 		super(poAssociatedWordPresentations);
 		// TODO (zeilinger) - Auto-generated constructor stub
 	}

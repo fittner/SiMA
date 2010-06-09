@@ -15,7 +15,7 @@ import pa.informationrepresentation.enums.eHomeostaticSources;
  * 23.05.2010, 21:42:59
  * 
  */
-public abstract class clsHomeostaticRepresentation extends clsDataStructurePA{
+public abstract class clsHomeostaticRepresentation extends clsPrimaryDataStructure{
 	protected String moHomeostaticSource; 	
 	/**
 	 * DOCUMENT (zeilinger) - insert description 

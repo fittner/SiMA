@@ -7,6 +7,7 @@
 package pa.informationrepresentation.datatypes;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import pa.tools.clsPair;
 
@@ -19,7 +20,7 @@ import pa.tools.clsPair;
  * 
  */
 public abstract class clsPhysicalStructureComposition extends clsPhysicalRepresentation {
-	protected ArrayList<clsAssociationDriveMesh> moDriveMeshAssociations; 
+	protected List<clsAssociationDriveMesh> moDriveMeshAssociations; 
 	
 	/**
 	 * DOCUMENT (zeilinger) - insert description 
@@ -30,8 +31,8 @@ public abstract class clsPhysicalStructureComposition extends clsPhysicalReprese
 	 * @param object 
 	 *
 	 */
-	public clsPhysicalStructureComposition(clsPair<String, ArrayList<clsWordPresentation>> poAssociatedWordPresentations,
-											clsPair<String, ArrayList<clsDriveSource>> poAssociatedDriveSources) {
+	public clsPhysicalStructureComposition(clsPair<String, List<clsWordPresentation>> poAssociatedWordPresentations,
+											clsPair<String, List<clsDriveSource>> poAssociatedDriveSources) {
 		super(poAssociatedWordPresentations);
 		moDriveMeshAssociations = new ArrayList<clsAssociationDriveMesh>();
 		applyAssociations(poAssociatedDriveSources); 
@@ -46,7 +47,7 @@ public abstract class clsPhysicalStructureComposition extends clsPhysicalReprese
 	 * @param poAssociatedDriveSources
 	 */
 	private void applyAssociations(
-			clsPair<String, ArrayList<clsDriveSource>> poAssociatedDriveSources) {
+			clsPair<String, List<clsDriveSource>> poAssociatedDriveSources) {
 		// TODO (zeilinger) - Auto-generated method stub
 		
 	}
