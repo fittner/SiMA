@@ -6,7 +6,7 @@
  */
 package pa.informationrepresentation;
 
-import java.util.ArrayList;
+import java.util.List;
 
 import pa.informationrepresentation.datatypes.clsDataStructureContainer;
 
@@ -18,5 +18,5 @@ import pa.informationrepresentation.datatypes.clsDataStructureContainer;
  * 
  */
 public interface itfÍnformationRepresentationManagement {
-	public ArrayList<clsDataStructureContainer> searchDataStructure(ArrayList<clsDataStructureContainer> poSearchPatternContainer);
+	public List<clsDataStructureContainer> searchDataStructure(String poReturnType, List<clsDataStructureContainer> poSearchPatternContainer);
 }

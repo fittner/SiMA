@@ -6,7 +6,7 @@
  */
 package pa.informationrepresentation;
 
-import pa.informationrepresentation.ARSi10.clsInformationRepresentationManagementARSi10;
+import pa.informationrepresentation.bwsearch.clsInformationRepresentationManagementARSi10;
 import pa.informationrepresentation.enums.eInformationRepresentationManagementType;
 import config.clsBWProperties;
 
