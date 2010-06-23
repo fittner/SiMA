@@ -27,8 +27,21 @@ public class clsWordPresentation extends clsSecondaryDataStructure{
 	 * @param poDataStructureType
 	 */
 	public clsWordPresentation(String poAssociationID, eDataType peAssociationType) {
-		super(poAssociationID, peAssociationType);
+		super(null, poAssociationID, peAssociationType);
 		// TODO (zeilinger) - Auto-generated constructor stub
+	}
+
+	/* (non-Javadoc)
+	 *
+	 * @author zeilinger
+	 * 23.06.2010, 22:03:13
+	 * 
+	 * @see pa.memorymgmt.datatypes.clsSecondaryDataStructure#assignDataStructure(pa.memorymgmt.datatypes.clsAssociation)
+	 */
+	@Override
+	public void assignDataStructure(clsAssociation poDataStructurePA) {
+		// TODO (zeilinger) - Auto-generated method stub
+		
 	}
 
 }

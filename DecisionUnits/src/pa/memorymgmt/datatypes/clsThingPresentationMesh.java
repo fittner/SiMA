@@ -50,9 +50,9 @@ public class clsThingPresentationMesh extends clsPhysicalStructureComposition{
 	 * @see pa.memorymgmt.datatypes.clsDataStructurePA#assignDataStructure(pa.memorymgmt.datatypes.clsDataStructurePA)
 	 */
 	@Override
-	public void assignDataStructure(clsDataStructurePA poDataStructurePA) {
+	public void assignDataStructure(clsAssociation poDataStructurePA) {
 		ArrayList <clsAssociation> oDataStructureList = new ArrayList<clsAssociation>();
-		oDataStructureList.add((clsAssociation)poDataStructurePA); 
+		oDataStructureList.add(poDataStructurePA); 
 		
 		applyAssociations(poDataStructurePA.oDataStructureType, oDataStructureList);
 	}

@@ -43,7 +43,7 @@ public class clsThingPresentation extends clsPhysicalRepresentation{
 	 * @see pa.memorymgmt.datatypes.clsDataStructurePA#assignDataStructure(pa.memorymgmt.datatypes.clsDataStructurePA)
 	 */
 	@Override
-	public void assignDataStructure(clsDataStructurePA poDataStructurePA) {
+	public void assignDataStructure(clsAssociation poDataStructurePA) {
 		// TODO (zeilinger) - Auto-generated method stub
 		
 	}

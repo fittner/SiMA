@@ -23,7 +23,7 @@ public class clsAssociationAttribute extends clsAssociation{
 	 * 24.05.2010, 15:53:46
 	 *
 	 */
-	public clsAssociationAttribute(clsPhysicalRepresentation poAssociationElementA, 
+	public clsAssociationAttribute(clsThingPresentationMesh poAssociationElementA, 
 								   clsPhysicalRepresentation poAssociationElementB,
 								   String poAssociationID,
 								   eDataType peAssociationType) {

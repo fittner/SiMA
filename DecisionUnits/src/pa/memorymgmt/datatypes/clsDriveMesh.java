@@ -1,8 +1,8 @@
 /**
- * clsHomeostaticMesh.java: DecisionUnits - pa.informationrepresentation.datatypes
+ * clsDriveMesh.java: DecisionUnits - pa.memorymgmt.datatypes
  * 
  * @author zeilinger
- * 23.05.2010, 21:50:26
+ * 23.06.2010, 20:36:25
  */
 package pa.memorymgmt.datatypes;
 
@@ -13,30 +13,33 @@ import pa.memorymgmt.enums.eHomeostaticSources;
  * DOCUMENT (zeilinger) - insert description 
  * 
  * @author zeilinger
- * 23.05.2010, 21:50:26
+ * 23.06.2010, 20:36:25
  * 
  */
-public abstract class clsHomeostaticMesh extends clsHomeostaticRepresentation{
-	clsDriveDemand moDriveDemand; 
+public class clsDriveMesh extends clsHomeostaticRepresentation{
+
 	/**
 	 * DOCUMENT (zeilinger) - insert description 
 	 * 
 	 * @author zeilinger
-	 * 24.05.2010, 13:21:21
+	 * 23.06.2010, 20:37:07
 	 *
 	 * @param poHomeostaticSource
+	 * @param poAssociationID
+	 * @param peAssociationType
 	 */
-	public clsHomeostaticMesh(eHomeostaticSources poHomeostaticSource, double pnDriveDemandIntensity, 
-							  String poAssociationID, eDataType peAssociationType) {
+	public clsDriveMesh(eHomeostaticSources poHomeostaticSource,
+			String poAssociationID, eDataType peAssociationType) {
 		super(poHomeostaticSource, poAssociationID, peAssociationType);
-		//moDriveDemand = new clsDriveDemand(pnDriveDemandIntensity); 
+		// TODO (zeilinger) - Auto-generated constructor stub
 	}
+
 	/* (non-Javadoc)
 	 *
 	 * @author zeilinger
-	 * 22.06.2010, 20:02:38
+	 * 23.06.2010, 22:00:22
 	 * 
-	 * @see pa.memorymgmt.datatypes.clsPrimaryDataStructure#assignDataStructure(pa.memorymgmt.datatypes.clsDataStructurePA)
+	 * @see pa.memorymgmt.datatypes.clsPrimaryDataStructure#assignDataStructure(pa.memorymgmt.datatypes.clsAssociation)
 	 */
 	@Override
 	public void assignDataStructure(clsAssociation poDataStructurePA) {

@@ -28,8 +28,8 @@ public class clsAssociationTime extends clsAssociation{
 	 * @param poAssociationID
 	 * @param poAssociationType
 	 */
-	public clsAssociationTime(clsDataStructurePA poAssociationElementA,
-			clsDataStructurePA poAssociationElementB, String poAssociationID, eDataType peAssociationType) {
+	public clsAssociationTime(clsTemplateImage poAssociationElementA,
+			clsPhysicalRepresentation poAssociationElementB, String poAssociationID, eDataType peAssociationType) {
 		
 		super(poAssociationElementA, poAssociationElementB, 
 				poAssociationID, peAssociationType);

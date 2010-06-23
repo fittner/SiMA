@@ -6,6 +6,10 @@
  */
 package pa.memorymgmt.datatypes;
 
+import java.util.ArrayList;
+import java.util.Hashtable;
+import java.util.Map;
+
 import pa.memorymgmt.enums.eDataType;
 
 /**
@@ -16,7 +20,7 @@ import pa.memorymgmt.enums.eDataType;
  * 
  */
 public abstract class clsSecondaryDataStructure extends clsDataStructurePA{
-
+	public Map<eDataType, ArrayList<clsAssociation>> moAssociations;
 	/**
 	 * DOCUMENT (zeilinger) - insert description 
 	 * 
@@ -26,9 +30,13 @@ public abstract class clsSecondaryDataStructure extends clsDataStructurePA{
 	 * @param poDataStructureName
 	 * @param poDataStructureType
 	 */
-	public clsSecondaryDataStructure(String poDataStructureName, eDataType poDataStructureType) {
+	public clsSecondaryDataStructure(ArrayList<clsAssociation> poAssociatedWordPresentations, 
+										String poDataStructureName, 
+										eDataType poDataStructureType) {
 		super(poDataStructureName, poDataStructureType);
-		// TODO (zeilinger) - Auto-generated constructor stub
+		moAssociations = new Hashtable<eDataType, ArrayList<clsAssociation>>(); 
 	}
+	
+	public abstract void assignDataStructure(clsAssociation poDataStructurePA);
 
 }

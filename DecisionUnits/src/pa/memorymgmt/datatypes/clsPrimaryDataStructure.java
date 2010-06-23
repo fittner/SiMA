@@ -35,6 +35,8 @@ public abstract class clsPrimaryDataStructure extends clsDataStructurePA{
 		
 		moAssociations = new Hashtable <eDataType, ArrayList<clsAssociation>>();
 	}
+	
+	public abstract void assignDataStructure(clsAssociation poDataStructurePA);
 	/**
 	 * DOCUMENT (zeilinger) - insert description
 	 *
@@ -43,8 +45,7 @@ public abstract class clsPrimaryDataStructure extends clsDataStructurePA{
 	 *
 	 * @param poAssociatedWordPresentations
 	 */
-	public abstract void assignDataStructure(clsDataStructurePA poDataStructurePA);
-	
+		
 	protected void applyAssociations(eDataType poDataType, ArrayList<clsAssociation> poAssociatedDataStructures) {
 		if(moAssociations.get(poDataType)== null) moAssociations.put(poDataType, poAssociatedDataStructures);
 		else moAssociations.get(poDataType).addAll(poAssociatedDataStructures); 

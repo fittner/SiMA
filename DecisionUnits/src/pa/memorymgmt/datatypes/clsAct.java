@@ -6,6 +6,8 @@
  */
 package pa.memorymgmt.datatypes;
 
+import java.util.ArrayList;
+
 import pa.memorymgmt.enums.eDataType;
 
 /**
@@ -26,9 +28,23 @@ public class clsAct extends clsSecondaryDataStructure{
 	 * @param poDataStructureName
 	 * @param poDataStructureType
 	 */
-	public clsAct(String poAssociationID, eDataType peAssociationType) {
-		super(poAssociationID, peAssociationType);
+	public clsAct(ArrayList<clsAssociation> poAssociatedWordPresentations,String poAssociationID, 
+											eDataType peAssociationType) {
+		super(poAssociatedWordPresentations, poAssociationID, peAssociationType);
 		// TODO (zeilinger) - Auto-generated constructor stub
+	}
+
+	/* (non-Javadoc)
+	 *
+	 * @author zeilinger
+	 * 23.06.2010, 22:03:23
+	 * 
+	 * @see pa.memorymgmt.datatypes.clsSecondaryDataStructure#assignDataStructure(pa.memorymgmt.datatypes.clsAssociation)
+	 */
+	@Override
+	public void assignDataStructure(clsAssociation dataStructureAssociation) {
+		// TODO (zeilinger) - Auto-generated method stub
+		
 	}
 
 	/* (non-Javadoc)

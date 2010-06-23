@@ -27,8 +27,8 @@ public class clsAssociationWordPresentation extends clsAssociation{
 	 * @param poWordPresentation
 	 */
 	public clsAssociationWordPresentation(
-			clsDataStructurePA poAssociationElementA,
-			clsWordPresentation poAssociationElementB,
+			clsWordPresentation poAssociationElementA,
+			clsDataStructurePA poAssociationElementB,
 			String poAssociationID, 
 			eDataType peAssociationType) {
 			
