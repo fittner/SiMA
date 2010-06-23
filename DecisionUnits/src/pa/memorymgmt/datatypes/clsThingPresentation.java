@@ -6,9 +6,10 @@
  */
 package pa.memorymgmt.datatypes;
 
-import java.util.List;
+import java.util.ArrayList;
 
-import pa.tools.clsPair;
+import pa.memorymgmt.enums.eDataType;
+
 
 /**
  * DOCUMENT (zeilinger) - insert description 
@@ -27,10 +28,24 @@ public class clsThingPresentation extends clsPhysicalRepresentation{
 	 *
 	 * @param poWordPresentationAssociation
 	 */
-	public clsThingPresentation(
-			clsPair<String, List<clsWordPresentation>> poAssociatedWordPresentations) {
-		super(poAssociatedWordPresentations);
+	public clsThingPresentation(ArrayList<clsAssociation> poAssociatedWordPresentations, 
+								String poDataStructureName,
+								eDataType poDataStructureType) {
+		super(poAssociatedWordPresentations, poDataStructureName, poDataStructureType);
 		// TODO (zeilinger) - Auto-generated constructor stub
+	}
+
+	/* (non-Javadoc)
+	 *
+	 * @author zeilinger
+	 * 22.06.2010, 17:41:38
+	 * 
+	 * @see pa.memorymgmt.datatypes.clsDataStructurePA#assignDataStructure(pa.memorymgmt.datatypes.clsDataStructurePA)
+	 */
+	@Override
+	public void assignDataStructure(clsDataStructurePA poDataStructurePA) {
+		// TODO (zeilinger) - Auto-generated method stub
+		
 	}
 
 }

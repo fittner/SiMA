@@ -7,9 +7,8 @@
 package pa.memorymgmt.datatypes;
 
 import java.util.ArrayList;
-import java.util.List;
 
-import pa.tools.clsPair;
+import pa.memorymgmt.enums.eDataType;
 
 
 /**
@@ -20,8 +19,7 @@ import pa.tools.clsPair;
  * 
  */
 public class clsTemplateImage extends clsPhysicalStructureComposition{
-	protected List<clsAssociationTime> moTimeAssociations;
-	
+		
 	/**
 	 * DOCUMENT (zeilinger) - insert description 
 	 * 
@@ -29,27 +27,28 @@ public class clsTemplateImage extends clsPhysicalStructureComposition{
 	 * 24.05.2010, 12:41:23
 	 *
 	 */
-	public clsTemplateImage(clsPair<String,List<clsWordPresentation>> poAssociatedWordPresentations,
-							clsPair<String,List<clsDriveSource>> poAssociatedDriveSources,
-							clsPair<String,List<clsPhysicalStructureComposition>> poAssociatedTemporalStructures) {
-		super(poAssociatedWordPresentations, poAssociatedDriveSources); 
-		moTimeAssociations = new ArrayList<clsAssociationTime>(); 
-		
-		applyAssociations(poAssociatedTemporalStructures); 
+	public clsTemplateImage(ArrayList<clsAssociation> poAssociatedWordPresentations,
+							ArrayList<clsAssociation> poAssociatedDriveSources,
+							ArrayList<clsAssociation> poAssociatedTemporalStructures,
+							String poDataStructureName,
+							eDataType poDataStructureType) {
+		super(poAssociatedWordPresentations, poAssociatedDriveSources, poDataStructureName, poDataStructureType); 
+		 
+		applyAssociations(eDataType.ASSOCIATIONTEMP, poAssociatedTemporalStructures);
 	}
 
-	/**
-	 * DOCUMENT (zeilinger) - insert description
+	/* (non-Javadoc)
 	 *
 	 * @author zeilinger
-	 * 24.05.2010, 14:31:50
-	 *
-	 * @param poAssociatedTemporalStructures
+	 * 22.06.2010, 16:19:32
+	 * 
+	 * @see pa.memorymgmt.datatypes.clsDataStructurePA#assignDataStructure(pa.memorymgmt.datatypes.clsDataStructurePA)
 	 */
-	private void applyAssociations(
-			clsPair<String, List<clsPhysicalStructureComposition>> poAssociatedTemporalStructures) {
-		// TODO (zeilinger) - Auto-generated method stub
+	@Override
+	public void assignDataStructure(clsDataStructurePA poDataStructurePA) {
+		ArrayList <clsAssociation> oDataStructureList = new ArrayList<clsAssociation>();
+		oDataStructureList.add((clsAssociation)poDataStructurePA); 
 		
+		applyAssociations(poDataStructurePA.oDataStructureType, oDataStructureList);
 	}
-	
 }

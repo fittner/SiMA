@@ -7,9 +7,8 @@
 package pa.memorymgmt.datatypes;
 
 import java.util.ArrayList;
-import java.util.List;
 
-import pa.tools.clsPair;
+import pa.memorymgmt.enums.eDataType;
 
 /**
  * DOCUMENT (zeilinger) - insert description 
@@ -19,8 +18,7 @@ import pa.tools.clsPair;
  * 
  */
 public abstract class clsPhysicalRepresentation extends clsPrimaryDataStructure{
-	protected List<clsAssociationWordPresentation> moWordPresentationAssociations; 
-	
+		
 	/**
 	 * DOCUMENT (zeilinger) - insert description 
 	 * 
@@ -29,22 +27,10 @@ public abstract class clsPhysicalRepresentation extends clsPrimaryDataStructure{
 	 * @param poWordPresentationAssociation 
 	 *
 	 */
-	public clsPhysicalRepresentation(clsPair<String, List<clsWordPresentation>> poAssociatedWordPresentations) {
-		moWordPresentationAssociations = new ArrayList <clsAssociationWordPresentation>(); 
-		applyAssociations(poAssociatedWordPresentations); 
-	}
-
-	/**
-	 * DOCUMENT (zeilinger) - insert description
-	 *
-	 * @author zeilinger
-	 * 24.05.2010, 14:40:45
-	 *
-	 * @param poAssociatedWordPresentations
-	 */
-	private void applyAssociations(
-			clsPair<String, List<clsWordPresentation>> poAssociatedWordPresentations) {
-		// TODO (zeilinger) - Auto-generated method stub
-		
+	public clsPhysicalRepresentation(ArrayList<clsAssociation> poAssociatedWordPresentations,
+									String poDataStructureName,
+									eDataType peDataStructureType) {
+		super(poDataStructureName, peDataStructureType); 
+		applyAssociations(eDataType.ASSOCIATIONWP, poAssociatedWordPresentations); 
 	}
 }

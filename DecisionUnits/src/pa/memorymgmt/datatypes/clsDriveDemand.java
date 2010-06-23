@@ -6,6 +6,8 @@
  */
 package pa.memorymgmt.datatypes;
 
+import pa.memorymgmt.enums.eDataType;
+
 /**
  * DOCUMENT (zeilinger) - insert description 
  * 
@@ -23,7 +25,8 @@ public class clsDriveDemand extends clsDataStructurePA{
 	 * 24.05.2010, 13:24:07
 	 *
 	 */
-	public clsDriveDemand(double pnDriveDemandIntensity) {
+	public clsDriveDemand(double pnDriveDemandIntensity, String poAssociationID, eDataType peAssociationType) {
+		super(poAssociationID, peAssociationType); 
 		mnDriveDemandIntensity = pnDriveDemandIntensity; 
 	}
 }

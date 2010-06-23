@@ -6,6 +6,7 @@
  */
 package pa.memorymgmt.datatypes;
 
+import pa.memorymgmt.enums.eDataType;
 import pa.memorymgmt.enums.eHomeostaticSources;
 
 /**
@@ -24,7 +25,11 @@ public abstract class clsHomeostaticRepresentation extends clsPrimaryDataStructu
 	 * 24.05.2010, 12:57:01
 	 *
 	 */
-	public clsHomeostaticRepresentation(eHomeostaticSources poHomeostaticSource) {
+	public clsHomeostaticRepresentation(eHomeostaticSources poHomeostaticSource, 
+										String poAssociationID, 
+										eDataType peAssociationType) {
+		
+		super(poAssociationID, peAssociationType); 
 		moHomeostaticSource = poHomeostaticSource.toString(); 
 	}
 	

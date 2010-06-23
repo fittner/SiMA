@@ -6,7 +6,7 @@
  */
 package pa.memorymgmt.datatypes;
 
-import pa.memorymgmt.enums.eAssociationType;
+import pa.memorymgmt.enums.eDataType;
 
 /**
  * DOCUMENT (zeilinger) - insert description 
@@ -29,9 +29,10 @@ public class clsAssociationWordPresentation extends clsAssociation{
 	public clsAssociationWordPresentation(
 			clsDataStructurePA poAssociationElementA,
 			clsWordPresentation poAssociationElementB,
-			String poAssociationID) {
-			super(poAssociationElementA, poAssociationElementB, poAssociationID, 
-								eAssociationType.WORDPRESENTATION.toString()); 
+			String poAssociationID, 
+			eDataType peAssociationType) {
+			
+			super(poAssociationElementA, poAssociationElementB, poAssociationID, peAssociationType); 
 		// TODO (zeilinger) - Auto-generated constructor stub
 	}
 }

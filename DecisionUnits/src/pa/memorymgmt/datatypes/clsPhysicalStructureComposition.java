@@ -7,9 +7,8 @@
 package pa.memorymgmt.datatypes;
 
 import java.util.ArrayList;
-import java.util.List;
 
-import pa.tools.clsPair;
+import pa.memorymgmt.enums.eDataType;
 
 
 /**
@@ -20,8 +19,7 @@ import pa.tools.clsPair;
  * 
  */
 public abstract class clsPhysicalStructureComposition extends clsPhysicalRepresentation {
-	protected List<clsAssociationDriveMesh> moDriveMeshAssociations; 
-	
+		
 	/**
 	 * DOCUMENT (zeilinger) - insert description 
 	 * 
@@ -31,24 +29,11 @@ public abstract class clsPhysicalStructureComposition extends clsPhysicalReprese
 	 * @param object 
 	 *
 	 */
-	public clsPhysicalStructureComposition(clsPair<String, List<clsWordPresentation>> poAssociatedWordPresentations,
-											clsPair<String, List<clsDriveSource>> poAssociatedDriveSources) {
-		super(poAssociatedWordPresentations);
-		moDriveMeshAssociations = new ArrayList<clsAssociationDriveMesh>();
-		applyAssociations(poAssociatedDriveSources); 
-	}
-
-	/**
-	 * DOCUMENT (zeilinger) - insert description
-	 *
-	 * @author zeilinger
-	 * 24.05.2010, 14:35:20
-	 *
-	 * @param poAssociatedDriveSources
-	 */
-	private void applyAssociations(
-			clsPair<String, List<clsDriveSource>> poAssociatedDriveSources) {
-		// TODO (zeilinger) - Auto-generated method stub
-		
+	public clsPhysicalStructureComposition(ArrayList<clsAssociation> poAssociatedWordPresentations,
+										   ArrayList<clsAssociation> poAssociatedDriveSources,
+										   String poDataStructureName,
+										   eDataType poDataStructureType) {
+		super(poAssociatedWordPresentations, poDataStructureName, poDataStructureType);
+		applyAssociations(eDataType.ASSOCIATIONDM, poAssociatedDriveSources);  
 	}
 }

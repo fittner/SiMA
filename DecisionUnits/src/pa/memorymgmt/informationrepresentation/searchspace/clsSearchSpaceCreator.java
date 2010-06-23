@@ -6,7 +6,12 @@
  */
 package pa.memorymgmt.informationrepresentation.searchspace;
 
-import pa.memorymgmt.informationrepresentation.enums.eDataSources;
+import java.util.Hashtable;
+import java.util.List;
+
+import pa.memorymgmt.datatypes.clsDataStructurePA;
+import pa.memorymgmt.enums.eDataType;
+import pa.memorymgmt.informationrepresentation.enums.eSearchSpaceType;
 
 /**
  * DOCUMENT (zeilinger) - insert description 
@@ -16,9 +21,24 @@ import pa.memorymgmt.informationrepresentation.enums.eDataSources;
  * 
  */
 public class clsSearchSpaceCreator {
-	public static clsSearchSpaceBase createSearchSpace(String poDataBaseSource){
-		if(poDataBaseSource.equals(eDataSources.MAINMEMORY)){return new clsSearchSpaceMainMemory();}
-		else if(poDataBaseSource.equals(eDataSources.DATABASE)){/*TODO define database access*/ return new clsSearchSpaceDB();}
-		else {throw new NullPointerException("database source not found " + poDataBaseSource);}		 
+		
+	public static Hashtable <eSearchSpaceType, clsSearchSpaceBase> createSearchSpace(){
+		Hashtable <eSearchSpaceType, clsSearchSpaceBase> oSearchSpaceList = new Hashtable<eSearchSpaceType, clsSearchSpaceBase>();
+		Hashtable <eDataType, List<clsDataStructurePA>> oDataStructureList = new Hashtable<eDataType, List<clsDataStructurePA>>(); 
+		
+		clsOntologyLoader.loadOntology(oDataStructureList); 
+		
+		for (Object element : eSearchSpaceType.values()){
+				eSearchSpaceType enumerator = (eSearchSpaceType)element; 
+				
+				if(enumerator.equals(eSearchSpaceType.THINGPRESENTATION))oSearchSpaceList.put(enumerator, new clsSearchSpaceTPM(oDataStructureList)); 
+				else if(enumerator.equals(eSearchSpaceType.THINGPRESENTATIONMESH))oSearchSpaceList.put(enumerator,new clsSearchSpaceTPM(oDataStructureList));
+				else if(enumerator.equals(eSearchSpaceType.TEMPLATEIMAGE))oSearchSpaceList.put(enumerator,new clsSearchSpaceTI(oDataStructureList));
+				else if(enumerator.equals(eSearchSpaceType.DRIVEMESH))oSearchSpaceList.put(enumerator,new clsSearchSpaceDM(oDataStructureList));
+				else if(enumerator.equals(eSearchSpaceType.WORDPRESENTATION))oSearchSpaceList.put(enumerator, new clsSearchSpaceWP(oDataStructureList));
+				else throw new java.lang.NullPointerException("unkown searchspace type: " + enumerator.toString());
+			}
+				
+		return oSearchSpaceList;	
 	}
 }

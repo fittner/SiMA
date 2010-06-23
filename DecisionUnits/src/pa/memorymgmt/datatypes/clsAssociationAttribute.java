@@ -6,7 +6,7 @@
  */
 package pa.memorymgmt.datatypes;
 
-import pa.memorymgmt.enums.eAssociationType;
+import pa.memorymgmt.enums.eDataType;
 
 /**
  * DOCUMENT (zeilinger) - insert description 
@@ -23,9 +23,10 @@ public class clsAssociationAttribute extends clsAssociation{
 	 * 24.05.2010, 15:53:46
 	 *
 	 */
-	public clsAssociationAttribute(clsThingPresentationMesh poAssociationElementA, 
+	public clsAssociationAttribute(clsPhysicalRepresentation poAssociationElementA, 
 								   clsPhysicalRepresentation poAssociationElementB,
-								   String poAssociationID) {
-		super(poAssociationElementA, poAssociationElementB, poAssociationID, eAssociationType.ATTRIBUTE.toString());		
+								   String poAssociationID,
+								   eDataType peAssociationType) {
+		super(poAssociationElementA, poAssociationElementB, poAssociationID, peAssociationType);		
 	}
 }

@@ -7,10 +7,9 @@
 package pa.memorymgmt.datatypes;
 
 import java.util.ArrayList;
-import java.util.List;
 
+import pa.memorymgmt.enums.eDataType;
 import pa.memorymgmt.enums.eHomeostaticSources;
-import pa.tools.clsPair;
 
 /**
  * DOCUMENT (zeilinger) - insert description 
@@ -20,8 +19,7 @@ import pa.tools.clsPair;
  * 
  */
 public class clsDriveSource extends clsHomeostaticRepresentation{
-	protected List<clsAssociationWordPresentation> moWordPresentationAssociations; 
-	protected List<clsAssociationDriveMesh> moDriveMeshAssociations; 
+	
 	/**
 	 * DOCUMENT (zeilinger) - insert description 
 	 * 
@@ -32,28 +30,27 @@ public class clsDriveSource extends clsHomeostaticRepresentation{
 	 */
 	public clsDriveSource(
 			eHomeostaticSources poHomeoStaticSource, 
-			clsPair<String,List<clsWordPresentation>> poAssociatedWordPresentations,
-			clsPair<String,List<clsDataStructurePA>> poAssociatedDataStructures) {
-		super(poHomeoStaticSource);
-		moWordPresentationAssociations = new ArrayList<clsAssociationWordPresentation>(); 
-		moDriveMeshAssociations = new ArrayList<clsAssociationDriveMesh>(); 
+			ArrayList<clsAssociation> poAssociatedWordPresentations,
+			ArrayList<clsAssociation> poAssociatedDataStructures, 
+			String poDataStructureName,
+			eDataType peDataStructureType) {
 		
-		applyAssociations(poAssociatedWordPresentations, poAssociatedDataStructures); 
+		super(poHomeoStaticSource, poDataStructureName, peDataStructureType);
+		
+		applyAssociations(eDataType.ASSOCIATIONWP, poAssociatedWordPresentations);
+		applyAssociations(eDataType.ASSCOCIATIONATTRIBUTE, poAssociatedDataStructures); 
 	}
-	/**
-	 * DOCUMENT (zeilinger) - insert description
+	
+	/* (non-Javadoc)
 	 *
 	 * @author zeilinger
-	 * 24.05.2010, 14:47:42
-	 *
-	 * @param poAssociatedWordPresentations
-	 * @param poAssociatedDataStructures
+	 * 22.06.2010, 19:59:30
+	 * 
+	 * @see pa.memorymgmt.datatypes.clsPrimaryDataStructure#assignDataStructure(pa.memorymgmt.datatypes.clsDataStructurePA)
 	 */
-	private void applyAssociations(
-			clsPair<String, List<clsWordPresentation>> poAssociatedWordPresentations,
-			clsPair<String, List<clsDataStructurePA>> poAssociatedDataStructures) {
+	@Override
+	public void assignDataStructure(clsDataStructurePA poDataStructurePA) {
 		// TODO (zeilinger) - Auto-generated method stub
-		/*Be aware that poAssociatedDataStrucutres must not contain SecondaryDataStructures*/
 		
 	}
 	

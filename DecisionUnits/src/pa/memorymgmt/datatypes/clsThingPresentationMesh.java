@@ -9,7 +9,7 @@ package pa.memorymgmt.datatypes;
 import java.util.ArrayList;
 import java.util.List;
 
-import pa.tools.clsPair;
+import pa.memorymgmt.enums.eDataType;
 
 /**
  * DOCUMENT (zeilinger) - insert description 
@@ -29,27 +29,32 @@ public class clsThingPresentationMesh extends clsPhysicalStructureComposition{
 	 * @param poWordPresentationAssociation
 	 * @param poDriveMeshAssociation
 	 */
-	public clsThingPresentationMesh(
-			clsPair<String,List<clsWordPresentation>> poAssociatedWordPresentations,
-			clsPair<String,List<clsDriveSource>> poAssociatedDriveSources,
-			clsPair<String,List<clsPhysicalRepresentation>> poAssociatedPhysicalRepresentations) {
-		super(poAssociatedWordPresentations, poAssociatedDriveSources);
+	public clsThingPresentationMesh( ArrayList<clsAssociation> poAssociatedWordPresentations,
+									 ArrayList<clsAssociation> poAssociatedDriveSources,
+									 ArrayList<clsAssociation> poAssociatedPhysicalRepresentations,
+									 String poDataStructureName,
+									 eDataType poDataStructureType) {
 		
-		moAttributeAssociations = new ArrayList<clsAssociationAttribute>(); 
-		applyAssociations(poAssociatedPhysicalRepresentations); 
+		super(poAssociatedWordPresentations, poAssociatedDriveSources, poDataStructureName, poDataStructureType);
+		
+		//applyAssociations(poAssociatedPhysicalRepresentations); 
 	}
-	/**
-	 * DOCUMENT (zeilinger) - insert description
+	
+									 /**
+	
+	/* (non-Javadoc)
 	 *
 	 * @author zeilinger
-	 * 24.05.2010, 14:29:44
-	 *
-	 * @param poAssociatedPhysicalRepresentations
+	 * 22.06.2010, 17:46:07
+	 * 
+	 * @see pa.memorymgmt.datatypes.clsDataStructurePA#assignDataStructure(pa.memorymgmt.datatypes.clsDataStructurePA)
 	 */
-	private void applyAssociations(
-			clsPair<String, List<clsPhysicalRepresentation>> poAssociatedPhysicalRepresentations) {
-		// TODO (zeilinger) - Auto-generated method stub
+	@Override
+	public void assignDataStructure(clsDataStructurePA poDataStructurePA) {
+		ArrayList <clsAssociation> oDataStructureList = new ArrayList<clsAssociation>();
+		oDataStructureList.add((clsAssociation)poDataStructurePA); 
 		
+		applyAssociations(poDataStructurePA.oDataStructureType, oDataStructureList);
 	}
 
 }

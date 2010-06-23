@@ -6,9 +6,11 @@
  */
 package pa.memorymgmt.informationrepresentation.searchspace;
 
+import java.util.Hashtable;
 import java.util.List;
 
 import pa.memorymgmt.datatypes.clsDataStructurePA;
+import pa.memorymgmt.enums.eDataType;
 
 /**
  * DOCUMENT (zeilinger) - insert description 
@@ -19,8 +21,8 @@ import pa.memorymgmt.datatypes.clsDataStructurePA;
  */
 public class clsSearchSpaceTP extends clsSearchSpaceBase{
 	
-	public clsSearchSpaceTP(){
-		super(); 
+	public clsSearchSpaceTP(Hashtable <eDataType, List<clsDataStructurePA>> poDataStructureList){
+		super(poDataStructureList); 
 	}
 	/* (non-Javadoc)
 	 *

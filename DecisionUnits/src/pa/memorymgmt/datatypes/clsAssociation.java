@@ -6,6 +6,8 @@
  */
 package pa.memorymgmt.datatypes;
 
+import pa.memorymgmt.enums.eDataType;
+
 /**
  * DOCUMENT (zeilinger) - insert description 
  * 
@@ -14,9 +16,6 @@ package pa.memorymgmt.datatypes;
  * 
  */
 public abstract class clsAssociation extends clsDataStructurePA{
-	public String moAssociationID; 
-	public String moAssociationType;  
-	
 	public clsDataStructurePA moAssociationElementA;
 	public clsDataStructurePA moAssociationElementB;
 
@@ -28,10 +27,10 @@ public abstract class clsAssociation extends clsDataStructurePA{
 	 *
 	 */
 	public clsAssociation(clsDataStructurePA poAssociationElementA, clsDataStructurePA poAssociationElementB, 
-						  String poAssociationID, String poAssociationType) {
+						  String poAssociationID, eDataType poAssociationType) {
+		super(poAssociationID, poAssociationType);
+		
 		moAssociationElementA = poAssociationElementA; 
 		moAssociationElementB = poAssociationElementB; 
-		moAssociationID = poAssociationID; 
-		moAssociationType = poAssociationType; 
 	}
 }

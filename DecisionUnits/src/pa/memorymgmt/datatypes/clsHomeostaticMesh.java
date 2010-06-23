@@ -6,6 +6,7 @@
  */
 package pa.memorymgmt.datatypes;
 
+import pa.memorymgmt.enums.eDataType;
 import pa.memorymgmt.enums.eHomeostaticSources;
 
 /**
@@ -25,9 +26,22 @@ public class clsHomeostaticMesh extends clsHomeostaticRepresentation{
 	 *
 	 * @param poHomeostaticSource
 	 */
-	public clsHomeostaticMesh(eHomeostaticSources poHomeostaticSource, double pnDriveDemandIntensity) {
-		super(poHomeostaticSource);
-		moDriveDemand = new clsDriveDemand(pnDriveDemandIntensity); 
+	public clsHomeostaticMesh(eHomeostaticSources poHomeostaticSource, double pnDriveDemandIntensity, 
+							  String poAssociationID, eDataType peAssociationType) {
+		super(poHomeostaticSource, poAssociationID, peAssociationType);
+		//moDriveDemand = new clsDriveDemand(pnDriveDemandIntensity); 
+	}
+	/* (non-Javadoc)
+	 *
+	 * @author zeilinger
+	 * 22.06.2010, 20:02:38
+	 * 
+	 * @see pa.memorymgmt.datatypes.clsPrimaryDataStructure#assignDataStructure(pa.memorymgmt.datatypes.clsDataStructurePA)
+	 */
+	@Override
+	public void assignDataStructure(clsDataStructurePA poDataStructurePA) {
+		// TODO (zeilinger) - Auto-generated method stub
+		
 	}
 
 }

@@ -6,7 +6,7 @@
  */
 package pa.memorymgmt.datatypes;
 
-import pa.memorymgmt.enums.eAssociationType;
+import pa.memorymgmt.enums.eDataType;
 
 
 /**
@@ -29,9 +29,10 @@ public class clsAssociationDriveMesh extends clsAssociation{
 	 */
 	public clsAssociationDriveMesh(clsDataStructurePA poAssociationElementA,
 			clsDriveSource poAssociationElementB,
-			String poAssociationID) {
+			String poAssociationID,
+			eDataType peAssociationType){
 		
-		super(poAssociationElementA, poAssociationElementB, poAssociationID, eAssociationType.DRIVEMESH.toString());		
+		super(poAssociationElementA, poAssociationElementB, poAssociationID, peAssociationType);		
 		// TODO (zeilinger) - Auto-generated constructor stub
 	}
 

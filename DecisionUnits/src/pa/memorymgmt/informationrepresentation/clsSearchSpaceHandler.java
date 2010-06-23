@@ -6,9 +6,10 @@
  */
 package pa.memorymgmt.informationrepresentation;
 
-import java.util.List;
+import java.util.Hashtable;
 
-import pa.memorymgmt.datatypes.clsDataStructurePA;
+import pa.memorymgmt.informationrepresentation.enums.eDataSources;
+import pa.memorymgmt.informationrepresentation.enums.eSearchSpaceType;
 import pa.memorymgmt.informationrepresentation.searchspace.clsSearchSpaceBase;
 import pa.memorymgmt.informationrepresentation.searchspace.clsSearchSpaceCreator;
 
@@ -20,19 +21,21 @@ import pa.memorymgmt.informationrepresentation.searchspace.clsSearchSpaceCreator
  * 
  */
 public class clsSearchSpaceHandler {
-	private clsSearchSpaceBase moSearchSpace; 
+	public Hashtable <eSearchSpaceType, clsSearchSpaceBase> moSearchSpaceList; 
 	
 	public clsSearchSpaceHandler(String poDatabaseSource){
 		createSearchSpace(poDatabaseSource);
 	}
 	
-	public void createSearchSpace(String poDatabaseSource){
-		clsSearchSpaceCreator.createSearchSpace(poDatabaseSource); 
+	private void createSearchSpace(String poDatabaseSource){
+		if(poDatabaseSource.equals(eDataSources.MAINMEMORY)){moSearchSpaceList = clsSearchSpaceCreator.createSearchSpace();}
+		else if(poDatabaseSource.equals(eDataSources.DATABASE)){/*TODO define database creator access */ ;}
+		else {throw new NullPointerException("database source not found " + poDatabaseSource);}
 	}
 	
-	public List<clsDataStructurePA> returnSearchSpace(String poSearchSpaceType){
+	public clsSearchSpaceBase returnSearchSpace(String poSearchSpaceType){
 		/*TODO HZ 
 		 * Introduce searchspace search */
-		return moSearchSpace.returnSearchSpace(poSearchSpaceType); 
+		return moSearchSpaceList.get(poSearchSpaceType); 
 	}
 }

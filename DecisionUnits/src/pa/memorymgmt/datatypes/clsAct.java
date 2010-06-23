@@ -6,6 +6,8 @@
  */
 package pa.memorymgmt.datatypes;
 
+import pa.memorymgmt.enums.eDataType;
+
 /**
  * DOCUMENT (zeilinger) - insert description 
  * 
@@ -15,4 +17,25 @@ package pa.memorymgmt.datatypes;
  */
 public class clsAct extends clsSecondaryDataStructure{
 
+	/**
+	 * DOCUMENT (zeilinger) - insert description 
+	 * 
+	 * @author zeilinger
+	 * 22.06.2010, 20:01:13
+	 *
+	 * @param poDataStructureName
+	 * @param poDataStructureType
+	 */
+	public clsAct(String poAssociationID, eDataType peAssociationType) {
+		super(poAssociationID, peAssociationType);
+		// TODO (zeilinger) - Auto-generated constructor stub
+	}
+
+	/* (non-Javadoc)
+	 *
+	 * @author zeilinger
+	 * 22.06.2010, 17:51:27
+	 * 
+	 * @see pa.memorymgmt.datatypes.clsDataStructurePA#assignDataStructure(pa.memorymgmt.datatypes.clsDataStructurePA)
+	 */
 }

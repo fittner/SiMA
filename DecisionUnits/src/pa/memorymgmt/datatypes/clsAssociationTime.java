@@ -6,7 +6,7 @@
  */
 package pa.memorymgmt.datatypes;
 
-import pa.memorymgmt.enums.eAssociationType;
+import pa.memorymgmt.enums.eDataType;
 
 /**
  * DOCUMENT (zeilinger) - insert description 
@@ -29,10 +29,10 @@ public class clsAssociationTime extends clsAssociation{
 	 * @param poAssociationType
 	 */
 	public clsAssociationTime(clsDataStructurePA poAssociationElementA,
-			clsDataStructurePA poAssociationElementB, String poAssociationID) {
+			clsDataStructurePA poAssociationElementB, String poAssociationID, eDataType peAssociationType) {
 		
 		super(poAssociationElementA, poAssociationElementB, 
-				poAssociationID, eAssociationType.TEMPORAL.toString());
+				poAssociationID, peAssociationType);
 		// TODO (zeilinger) - Auto-generated constructor stub
 	}
 	
