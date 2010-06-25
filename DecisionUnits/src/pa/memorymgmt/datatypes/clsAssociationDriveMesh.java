@@ -28,7 +28,7 @@ public class clsAssociationDriveMesh extends clsAssociation{
 	 * @param poDriveMesh
 	 */
 	public clsAssociationDriveMesh(clsDriveMesh poAssociationElementA, 
-			clsDataStructurePA poAssociationElementB,
+			clsPrimaryDataStructure poAssociationElementB,
 			String poAssociationID,
 			eDataType peAssociationType){
 		

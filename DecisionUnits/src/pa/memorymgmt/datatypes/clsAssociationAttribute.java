@@ -23,8 +23,8 @@ public class clsAssociationAttribute extends clsAssociation{
 	 * 24.05.2010, 15:53:46
 	 *
 	 */
-	public clsAssociationAttribute(clsThingPresentationMesh poAssociationElementA, 
-								   clsPhysicalRepresentation poAssociationElementB,
+	public clsAssociationAttribute(clsPrimaryDataStructure poAssociationElementA, 
+								   clsPrimaryDataStructure poAssociationElementB,
 								   String poAssociationID,
 								   eDataType peAssociationType) {
 		super(poAssociationElementA, poAssociationElementB, poAssociationID, peAssociationType);		

@@ -15,7 +15,6 @@ package pa.memorymgmt.enums;
  */
 public enum eDataType {
 	ACT,
-	ASSOCIATION,
 	ASSOCIATIONTEMP,
 	ASSCOCIATIONATTRIBUTE,
 	ASSOCIATIONWP,

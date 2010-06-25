@@ -47,7 +47,8 @@ public abstract class clsPrimaryDataStructure extends clsDataStructurePA{
 	 */
 		
 	protected void applyAssociations(eDataType poDataType, ArrayList<clsAssociation> poAssociatedDataStructures) {
-		if(moAssociations.get(poDataType)== null) moAssociations.put(poDataType, poAssociatedDataStructures);
-		else moAssociations.get(poDataType).addAll(poAssociatedDataStructures); 
+		ArrayList <clsAssociation> oStructureList = moAssociations.get(poDataType); 
+		if(oStructureList == null) {moAssociations.put(poDataType, poAssociatedDataStructures);} 
+		else {oStructureList.addAll(poAssociatedDataStructures);} 
 	}
 }

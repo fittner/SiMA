@@ -6,8 +6,9 @@
  */
 package pa.memorymgmt.datatypes;
 
+import java.util.ArrayList;
+
 import pa.memorymgmt.enums.eDataType;
-import pa.memorymgmt.enums.eHomeostaticSources;
 
 /**
  * DOCUMENT (zeilinger) - insert description 
@@ -26,10 +27,11 @@ public abstract class clsHomeostaticMesh extends clsHomeostaticRepresentation{
 	 *
 	 * @param poHomeostaticSource
 	 */
-	public clsHomeostaticMesh(eHomeostaticSources poHomeostaticSource, double pnDriveDemandIntensity, 
+	public clsHomeostaticMesh(ArrayList<clsAssociation> poAssociatedDriveSource, double pnDriveDemandIntensity, 
 							  String poAssociationID, eDataType peAssociationType) {
-		super(poHomeostaticSource, poAssociationID, peAssociationType);
-		//moDriveDemand = new clsDriveDemand(pnDriveDemandIntensity); 
+		super(poAssociatedDriveSource,poAssociationID, peAssociationType);
+		//FIXME HZ Is clsDrieDemand required? 
+		//moDriveDemand = new clsDriveDemand(pnDriveDemandIntensity, null, null); 
 	}
 	/* (non-Javadoc)
 	 *

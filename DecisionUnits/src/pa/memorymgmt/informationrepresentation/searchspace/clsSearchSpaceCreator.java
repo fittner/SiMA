@@ -11,7 +11,6 @@ import java.util.List;
 
 import pa.memorymgmt.datatypes.clsDataStructurePA;
 import pa.memorymgmt.enums.eDataType;
-import pa.memorymgmt.informationrepresentation.enums.eSearchSpaceType;
 
 /**
  * DOCUMENT (zeilinger) - insert description 
@@ -22,23 +21,10 @@ import pa.memorymgmt.informationrepresentation.enums.eSearchSpaceType;
  */
 public class clsSearchSpaceCreator {
 		
-	public static Hashtable <eSearchSpaceType, clsSearchSpaceBase> createSearchSpace(){
-		Hashtable <eSearchSpaceType, clsSearchSpaceBase> oSearchSpaceList = new Hashtable<eSearchSpaceType, clsSearchSpaceBase>();
-		Hashtable <eDataType, List<clsDataStructurePA>> oDataStructureList = new Hashtable<eDataType, List<clsDataStructurePA>>(); 
+	public static clsSearchSpaceBase createSearchSpace(){
+		Hashtable <eDataType, List<clsDataStructurePA>> oDataStructureTable = new Hashtable<eDataType, List<clsDataStructurePA>>(); 
 		
-		clsOntologyLoader.loadOntology(oDataStructureList); 
-		
-		for (Object element : eSearchSpaceType.values()){
-				eSearchSpaceType enumerator = (eSearchSpaceType)element; 
-				
-				if(enumerator.equals(eSearchSpaceType.THINGPRESENTATION))oSearchSpaceList.put(enumerator, new clsSearchSpaceTPM(oDataStructureList)); 
-				else if(enumerator.equals(eSearchSpaceType.THINGPRESENTATIONMESH))oSearchSpaceList.put(enumerator,new clsSearchSpaceTPM(oDataStructureList));
-				else if(enumerator.equals(eSearchSpaceType.TEMPLATEIMAGE))oSearchSpaceList.put(enumerator,new clsSearchSpaceTI(oDataStructureList));
-				else if(enumerator.equals(eSearchSpaceType.DRIVEMESH))oSearchSpaceList.put(enumerator,new clsSearchSpaceDM(oDataStructureList));
-				else if(enumerator.equals(eSearchSpaceType.WORDPRESENTATION))oSearchSpaceList.put(enumerator, new clsSearchSpaceWP(oDataStructureList));
-				else throw new java.lang.NullPointerException("unkown searchspace type: " + enumerator.toString());
-			}
-				
-		return oSearchSpaceList;	
+		clsOntologyLoader.loadOntology(oDataStructureTable); 
+		return new clsSearchSpaceOntologyLoader(oDataStructureTable);	
 	}
 }

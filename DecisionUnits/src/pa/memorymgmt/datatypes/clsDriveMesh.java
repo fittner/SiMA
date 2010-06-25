@@ -6,8 +6,9 @@
  */
 package pa.memorymgmt.datatypes;
 
+import java.util.ArrayList;
+
 import pa.memorymgmt.enums.eDataType;
-import pa.memorymgmt.enums.eHomeostaticSources;
 
 /**
  * DOCUMENT (zeilinger) - insert description 
@@ -28,10 +29,11 @@ public class clsDriveMesh extends clsHomeostaticRepresentation{
 	 * @param poAssociationID
 	 * @param peAssociationType
 	 */
-	public clsDriveMesh(eHomeostaticSources poHomeostaticSource,
+	public clsDriveMesh(ArrayList<clsAssociation> poAssociatedWordPresentations,
+			ArrayList<clsAssociation> poAssociatedDriveSource,
 			String poAssociationID, eDataType peAssociationType) {
-		super(poHomeostaticSource, poAssociationID, peAssociationType);
-		// TODO (zeilinger) - Auto-generated constructor stub
+		super(poAssociatedDriveSource, poAssociationID, peAssociationType); 
+		applyAssociations(eDataType.ASSOCIATIONWP, poAssociatedWordPresentations);  
 	}
 
 	/* (non-Javadoc)
@@ -44,7 +46,6 @@ public class clsDriveMesh extends clsHomeostaticRepresentation{
 	@Override
 	public void assignDataStructure(clsAssociation poDataStructurePA) {
 		// TODO (zeilinger) - Auto-generated method stub
-		
 	}
 
 }

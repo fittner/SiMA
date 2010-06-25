@@ -6,8 +6,9 @@
  */
 package pa.memorymgmt.datatypes;
 
+import java.util.ArrayList;
+
 import pa.memorymgmt.enums.eDataType;
-import pa.memorymgmt.enums.eHomeostaticSources;
 
 /**
  * DOCUMENT (zeilinger) - insert description 
@@ -17,7 +18,7 @@ import pa.memorymgmt.enums.eHomeostaticSources;
  * 
  */
 public abstract class clsHomeostaticRepresentation extends clsPrimaryDataStructure{
-	protected String moHomeostaticSource; 	
+	protected eDataType moHomeostaticType; 	
 	/**
 	 * DOCUMENT (zeilinger) - insert description 
 	 * 
@@ -25,12 +26,12 @@ public abstract class clsHomeostaticRepresentation extends clsPrimaryDataStructu
 	 * 24.05.2010, 12:57:01
 	 *
 	 */
-	public clsHomeostaticRepresentation(eHomeostaticSources poHomeostaticSource, 
+	public clsHomeostaticRepresentation(ArrayList<clsAssociation> poAssociatedDriveSource,
 										String poAssociationID, 
 										eDataType peAssociationType) {
 		
 		super(poAssociationID, peAssociationType); 
-		moHomeostaticSource = poHomeostaticSource.toString(); 
+		applyAssociations(eDataType.ASSCOCIATIONATTRIBUTE, poAssociatedDriveSource);  
 	}
 	
 }
