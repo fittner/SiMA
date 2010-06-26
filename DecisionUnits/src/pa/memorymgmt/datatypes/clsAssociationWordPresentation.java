@@ -33,6 +33,5 @@ public class clsAssociationWordPresentation extends clsAssociation{
 			eDataType peAssociationType) {
 			
 			super(poAssociationElementA, poAssociationElementB, poAssociationID, peAssociationType); 
-		// TODO (zeilinger) - Auto-generated constructor stub
 	}
 }

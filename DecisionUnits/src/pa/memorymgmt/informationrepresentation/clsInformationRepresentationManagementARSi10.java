@@ -72,7 +72,6 @@ public class clsInformationRepresentationManagementARSi10 extends clsKnowledgeBa
 		moM01InformationRepresentationMgmt = new M01_InformationRepresentationMgmt(moSearchSpaceHandler, moSearchMethod); 
 	}
 
-
 	private void applyProperties(String poPrefix, clsBWProperties poProp){		
 		String pre = clsBWProperties.addDot(poPrefix);
 		moDatabaseSource = poProp.getProperty(pre+P_DATABASE_SOURCE);

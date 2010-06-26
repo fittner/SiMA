@@ -42,8 +42,7 @@ public class KB03_ExternalPerceptionMgmt extends clsInformationRepresentationMod
 	 * @see pa.informationrepresentation.ARSi10.modules.clsInformationRepresentationModuleBase#listSearch(java.lang.String, pa.informationrepresentation.datatypes.clsDataStructureContainer)
 	 */
 	@Override
-	public clsDataStructureContainer listSearch(String poReturnType,
-			clsDataStructureContainer poSearchPatternContainer) {
+	public clsDataStructureContainer listSearch(String poReturnType, clsDataStructureContainer poSearchPatternContainer) {
 		// TODO (zeilinger) - Auto-generated method stub
 		return null;
 	}

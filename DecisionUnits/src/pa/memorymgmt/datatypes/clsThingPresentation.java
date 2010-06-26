@@ -31,7 +31,7 @@ public class clsThingPresentation extends clsPhysicalRepresentation{
 	public clsThingPresentation(ArrayList<clsAssociation> poAssociatedWordPresentations, 
 								String poDataStructureName,
 								eDataType poDataStructureType) {
-		super(poAssociatedWordPresentations, poDataStructureName, poDataStructureType);
+		super(poDataStructureName, poDataStructureType);
 		// TODO (zeilinger) - Auto-generated constructor stub
 	}
 

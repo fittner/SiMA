@@ -6,8 +6,6 @@
  */
 package pa.memorymgmt.datatypes;
 
-import java.util.ArrayList;
-
 import pa.memorymgmt.enums.eDataType;
 
 /**
@@ -27,10 +25,8 @@ public abstract class clsPhysicalRepresentation extends clsPrimaryDataStructure{
 	 * @param poWordPresentationAssociation 
 	 *
 	 */
-	public clsPhysicalRepresentation(ArrayList<clsAssociation> poAssociatedWordPresentations,
-									String poDataStructureName,
+	public clsPhysicalRepresentation(String poDataStructureName,
 									eDataType peDataStructureType) {
 		super(poDataStructureName, peDataStructureType); 
-		applyAssociations(eDataType.ASSOCIATIONWP, poAssociatedWordPresentations); 
 	}
 }

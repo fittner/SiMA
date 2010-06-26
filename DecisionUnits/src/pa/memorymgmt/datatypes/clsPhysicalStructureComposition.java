@@ -29,11 +29,10 @@ public abstract class clsPhysicalStructureComposition extends clsPhysicalReprese
 	 * @param object 
 	 *
 	 */
-	public clsPhysicalStructureComposition(ArrayList<clsAssociation> poAssociatedWordPresentations,
-										   ArrayList<clsAssociation> poAssociatedDriveSources,
+	public clsPhysicalStructureComposition(ArrayList<clsAssociation> poAssociatedDriveSources,
 										   String poDataStructureName,
 										   eDataType poDataStructureType) {
-		super(poAssociatedWordPresentations, poDataStructureName, poDataStructureType);
+		super(poDataStructureName, poDataStructureType);
 		applyAssociations(eDataType.ASSOCIATIONDM, poAssociatedDriveSources);  
 	}
 }

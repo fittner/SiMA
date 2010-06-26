@@ -6,6 +6,9 @@
  */
 package pa.memorymgmt.enums;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+
 /**
  * DOCUMENT (zeilinger) - insert description 
  * 
@@ -24,4 +27,9 @@ public enum eDataType {
 	TP,
 	TPM,
 	WP; 
+	
+	public static ArrayList<eDataType> returnInitValues(){
+		eDataType [] oDataArray = {ACT,DM,TI,TP,TPM,WP}; 
+		return new ArrayList<eDataType>(Arrays.asList(oDataArray));  
+	}
 }

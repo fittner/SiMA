@@ -32,9 +32,6 @@ public class clsSearchSpaceHandler {
 	}
 	
 	public clsSearchSpaceBase returnSearchSpace(eDataType poDataStructureType){
-		/*TODO HZ 
-		 * Introduce searchspace search */
-		//return moSearchSpace.get(poSearchSpaceType);
-		return null; 
+		return moSearchSpace;
 	}
 }
