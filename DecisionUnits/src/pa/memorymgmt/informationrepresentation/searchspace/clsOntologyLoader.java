@@ -72,7 +72,9 @@ public class clsOntologyLoader {
 	  //FIXME HZ: Optimize the initialization process => Builder
 		for(eDataType oDataType : eDataType.returnInitValues())	{
 			for(Instance oDataElement : oFrameKB.getCls(oDataType.name()).getInstances()){
-				createDataStructuresPA(eDataType.valueOf(oDataType.toString()), new clsPair <clsDataStructurePA, Instance>(null, oDataElement), oFrameKB, poDataStructureList); 
+				if(retrieveDataStructure(oDataType, oDataElement.getName(),poDataStructureList)== null){
+					createDataStructuresPA(eDataType.valueOf(oDataType.toString()), new clsPair <clsDataStructurePA, Instance>(null, oDataElement), oFrameKB, poDataStructureList);
+				}
 			}
 		}
 }
@@ -146,20 +148,9 @@ public class clsOntologyLoader {
 	private static void createWP(clsPair<clsDataStructurePA, Instance> poDataElements, 
 			KnowledgeBase poFrameKB, Hashtable<eDataType, List<clsDataStructurePA>> poDataStructurePA) {
 		
-		clsWordPresentation oDataStructure = new clsWordPresentation(new ArrayList<clsAssociation>(),
-																	poDataElements.b.getName(),
+		clsWordPresentation oDataStructure = new clsWordPresentation(poDataElements.b.getName(),
 																	eDataType.WP);
-		Instance oDataElement = poDataElements.b; 
-		ArrayList <clsAssociation> oAssociationList = loadInstanceAssociations(oDataElement, oDataStructure, poFrameKB, poDataStructurePA); 
-		
-		//HZ Has to be verified if associations of type clsAssociationWP should be assigned to a
-		// data structure of type word presentation. Another possibility would be to leave it 
-		// unassigned and add it to poDataStructurePA only => see the loading of clsAssociationWP 
-		// as class associations. 
-		
-		for(clsAssociation element : oAssociationList){
-			oDataStructure.assignDataStructure(element);
-		}
+		//HZ Word Presentation does not obey of any associations
 		//TODO HZ: Define other attributes!! 
 		poDataStructurePA.get(eDataType.WP).add(oDataStructure);
 		
@@ -181,16 +172,14 @@ public class clsOntologyLoader {
 			Hashtable<eDataType, List<clsDataStructurePA>> poDataStructurePA) {
 
 		clsDriveMesh oDataStructure = new clsDriveMesh(new ArrayList<clsAssociation>(),
-											new ArrayList<clsAssociation>(),
 											poDataElements.b.getName(),
 											eDataType.DM);
 		Instance oDataElement = poDataElements.b; 
 		ArrayList <clsAssociation> oAssociationList = loadInstanceAssociations(oDataElement, oDataStructure, poFrameKB, poDataStructurePA); 
 				
 		for(clsAssociation element : oAssociationList){
-			oDataStructure.assignDataStructure(element);
+			if(element instanceof clsAssociationAttribute){oDataStructure.assignDataStructure(element);}
 		}
-		
 		//TODO HZ: Define other attributes!! 
 		poDataStructurePA.get(eDataType.DM).add(oDataStructure);
 	}
@@ -209,15 +198,11 @@ public class clsOntologyLoader {
 			clsPair<clsDataStructurePA, Instance> poDataElements,KnowledgeBase poFrameKB,
 						Hashtable<eDataType, List<clsDataStructurePA>> poDataStructurePA) {
 		
-		clsThingPresentation oDataStructure = new clsThingPresentation(new ArrayList<clsAssociation>(), 
-																		poDataElements.b.getName(),
+		clsThingPresentation oDataStructure = new clsThingPresentation(poDataElements.b.getName(),
 																		eDataType.TP);
 		Instance oDataElement = poDataElements.b; 
-		ArrayList <clsAssociation> oAssociationList = loadInstanceAssociations(oDataElement, oDataStructure, poFrameKB, poDataStructurePA);
-				
-		for(clsAssociation element : oAssociationList){
-			oDataStructure.assignDataStructure(element);
-		}
+		loadInstanceAssociations(oDataElement, oDataStructure, poFrameKB, poDataStructurePA);
+		//HZ TP does not obey of any associations 		
 		//TODO HZ: Define other attributes!! 
 		poDataStructurePA.get(eDataType.TP).add(oDataStructure);
 	}
@@ -237,8 +222,7 @@ public class clsOntologyLoader {
 			KnowledgeBase poFrameKB,
 			Hashtable<eDataType, List<clsDataStructurePA>> poDataStructurePA) {
 
-		clsThingPresentationMesh oDataStructure = new clsThingPresentationMesh(new ArrayList<clsAssociation>(), 
-				new ArrayList<clsAssociation>(),
+		clsThingPresentationMesh oDataStructure = new clsThingPresentationMesh(new ArrayList<clsAssociation>(),
 				poDataElements.b.getName(),
 				eDataType.TPM);
 		
@@ -247,9 +231,8 @@ public class clsOntologyLoader {
 		oAssociationList.addAll(loadClassAssociations(oDataElement, oDataStructure, poFrameKB, poDataStructurePA));
 		
 		for(clsAssociation element : oAssociationList){
-			oDataStructure.assignDataStructure(element);
+			if(element instanceof clsAssociationAttribute){ oDataStructure.assignDataStructure(element);}
 		}
-		
 		poDataStructurePA.get(eDataType.TPM).add(oDataStructure);
 	}
 
@@ -273,14 +256,16 @@ public class clsOntologyLoader {
 	    Collection <?> oElements = getSlotValues("element", oDataElement);
 	    for(Object element : oElements ){
 		    	Instance oElementB = (Instance) element; 
-		    	
-		    	if(!(oElementB.getName().equals(poDataElements.a.oDataStructureID))){
+		    	String oElementBName = oElementB.getName(); 
+		    	if(!(oElementBName.equals(poDataElements.a.oDataStructureID))){
 					 eDataType eElementTypeB = getElementDataType(oElementB);
-		    		 createDataStructuresPA(eElementTypeB,new clsPair<clsDataStructurePA, Instance>(null, oElementB), poFrameKB, poDataStructurePA);
-		    		 clsDataStructurePA oDataStructureB = retrieveDataStructure(eElementTypeB, oElementB.getName(),poDataStructurePA);
+					 
+					 if(retrieveDataStructure(eElementTypeB, oElementBName,poDataStructurePA)== null){
+						 createDataStructuresPA(eElementTypeB,new clsPair<clsDataStructurePA, Instance>(null, oElementB), poFrameKB, poDataStructurePA);
+					 }
+		    		 clsDataStructurePA oDataStructureB = retrieveDataStructure(eElementTypeB, oElementBName,poDataStructurePA);
 		    		 oDataStructure = getNewAssociation(eAssociationType, poDataElements, oDataStructureB);  
 		    	}
-		    	
 	    }
     	//TODO HZ: Define other attributes!!
 		poDataStructurePA.get(eAssociationType).add(oDataStructure);
@@ -389,9 +374,7 @@ public class clsOntologyLoader {
 	 * @param poDataStructurePA
 	 */
 	private static void createTI(clsPair<clsDataStructurePA, Instance> poDataElements, KnowledgeBase poFrameKB,Hashtable<eDataType, List<clsDataStructurePA>> poDataStructurePA) {
-		clsTemplateImage oDataStructure = new clsTemplateImage(new ArrayList<clsAssociation>(), 
-													new ArrayList<clsAssociation>(), 
-													new ArrayList<clsAssociation>(),
+		clsTemplateImage oDataStructure = new clsTemplateImage(new ArrayList<clsAssociation>(),
 													poDataElements.b.getName(),
 													eDataType.TI);
 				
@@ -399,9 +382,8 @@ public class clsOntologyLoader {
 		ArrayList <clsAssociation> oAssociationList = loadInstanceAssociations(oDataElement, oDataStructure, poFrameKB, poDataStructurePA); 
 		
 		for(clsAssociation element : oAssociationList){
-			oDataStructure.assignDataStructure(element);
+			if(element instanceof clsAssociationTime){oDataStructure.assignDataStructure(element);}
 		}
-			
 		poDataStructurePA.get(eDataType.TI).add(oDataStructure); 
 	}
 	
@@ -446,37 +428,36 @@ public class clsOntologyLoader {
 			KnowledgeBase poFrameKB, Hashtable<eDataType, List<clsDataStructurePA>> poDataStructurePA) {
 
 		Collection <?> oClassAssociations = getSlotValues("class_association", poDataElementA);
-		ArrayList <clsAssociation> oAssociationList = new ArrayList<clsAssociation>(); 
+		ArrayList <clsAssociation> oAssociationList = new ArrayList<clsAssociation>();
+		Instance oAssociationElement = null; 
 	
 		for(Object element : oClassAssociations){
 				Instance oDataElementB = (Instance)element; 
 				String oAssociationName = "class_association_" + poDataElementA.getName() + "_"+ ((Instance)oDataElementB).getName();
 				String oDataElementTypeA = poDataElementA.getOwnSlotValue(poFrameKB.getSlot("type")).toString();
 				String oDataElementTypeB = oDataElementB.getOwnSlotValue(poFrameKB.getSlot("type")).toString(); 
-			
+								
 				if(poFrameKB.getInstance(oAssociationName)!=null)break; 
 				
-				if(oDataElementTypeA.equals("thing_presentation")){
-					Instance oAssociationElement = poFrameKB.createInstance(oAssociationName, poFrameKB.getCls("AssociationAttribute"));
+				if(oDataElementTypeB.equals("thing_presentation")){
+					oAssociationElement = poFrameKB.createInstance(oAssociationName, poFrameKB.getCls("AssociationAttribute"));
 					createClassAssociation(oAssociationElement, poDataElementA, oDataElementB, poFrameKB); 
-					oAssociationList.add(loadAssociation(oAssociationElement, poDataStructureA, poFrameKB, poDataStructurePA)); 
 				}
-				if(oDataElementTypeA.equals("thing_presentation_mesh")&& oDataElementTypeB.equals("thing_presentation_mesh")){
-					Instance oAssociationElement = poFrameKB.createInstance(oAssociationName, poFrameKB.getCls("AssociationAttribute"));
+				else if(oDataElementTypeA.equals("thing_presentation_mesh")&& oDataElementTypeB.equals("thing_presentation_mesh")){
+					oAssociationElement = poFrameKB.createInstance(oAssociationName, poFrameKB.getCls("AssociationAttribute"));
 					createClassAssociation(oAssociationElement, poDataElementA, oDataElementB, poFrameKB);
-					oAssociationList.add(loadAssociation(oAssociationElement, poDataStructureA, poFrameKB, poDataStructurePA)); 
 				}
-				if(oDataElementTypeA.equals("template_image")&& oDataElementTypeB.equals("thing_presentation_mesh")){
-					Instance oAssociationElement = poFrameKB.createInstance(oAssociationName, poFrameKB.getCls("AssociationTemporal"));
-					createClassAssociation(oAssociationElement, poDataElementA, oDataElementB, poFrameKB);
-					oAssociationList.add(loadAssociation(oAssociationElement, poDataStructureA, poFrameKB, poDataStructurePA)); 
+				else if(oDataElementTypeA.equals("template_image")&& oDataElementTypeB.equals("thing_presentation_mesh")){
+					oAssociationElement = poFrameKB.createInstance(oAssociationName, poFrameKB.getCls("AssociationTemporal"));
 				}
-				if(oDataElementTypeB.equals("word_presentation")){
-					Instance oAssociationElement = poFrameKB.createInstance(oAssociationName, poFrameKB.getCls("AssociationWordPresentation"));
+				else if(oDataElementTypeB.equals("word_presentation")){
+					oAssociationElement = poFrameKB.createInstance(oAssociationName, poFrameKB.getCls("AssociationWordPresentation"));
 					createClassAssociation(oAssociationElement, poDataElementA, oDataElementB, poFrameKB);
 					//HZ - be careful - the word presentation association is not added to
 					//the root element => it is added as data structure to poDataStructurePA
 				}
+				//HZ drive mesh associations are not handled up to now 
+				oAssociationList.add(loadAssociation(oAssociationElement, poDataStructureA, poFrameKB, poDataStructurePA));
 		}
 		return oAssociationList;
 	}

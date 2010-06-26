@@ -6,8 +6,6 @@
  */
 package pa.memorymgmt.datatypes;
 
-import java.util.ArrayList;
-
 import pa.memorymgmt.enums.eDataType;
 
 /**
@@ -28,9 +26,8 @@ public class clsWordPresentation extends clsSecondaryDataStructure{
 	 * @param poDataStructureName
 	 * @param poDataStructureType
 	 */
-	public clsWordPresentation(ArrayList<clsAssociation> poAssociatedWordPresentations,String poAssociationID, eDataType peAssociationType) {
+	public clsWordPresentation(String poAssociationID, eDataType peAssociationType) {
 		super(null, poAssociationID, peAssociationType);
-		applyAssociations(eDataType.ASSOCIATIONWP, poAssociatedWordPresentations);
 	}
 
 	/* (non-Javadoc)

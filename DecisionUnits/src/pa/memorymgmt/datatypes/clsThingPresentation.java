@@ -6,8 +6,6 @@
  */
 package pa.memorymgmt.datatypes;
 
-import java.util.ArrayList;
-
 import pa.memorymgmt.enums.eDataType;
 
 
@@ -28,8 +26,7 @@ public class clsThingPresentation extends clsPhysicalRepresentation{
 	 *
 	 * @param poWordPresentationAssociation
 	 */
-	public clsThingPresentation(ArrayList<clsAssociation> poAssociatedWordPresentations, 
-								String poDataStructureName,
+	public clsThingPresentation(String poDataStructureName,
 								eDataType poDataStructureType) {
 		super(poDataStructureName, poDataStructureType);
 		// TODO (zeilinger) - Auto-generated constructor stub

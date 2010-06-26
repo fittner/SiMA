@@ -6,8 +6,6 @@
  */
 package pa.memorymgmt.datatypes;
 
-import java.util.ArrayList;
-
 import pa.memorymgmt.enums.eDataType;
 
 
@@ -29,10 +27,8 @@ public abstract class clsPhysicalStructureComposition extends clsPhysicalReprese
 	 * @param object 
 	 *
 	 */
-	public clsPhysicalStructureComposition(ArrayList<clsAssociation> poAssociatedDriveSources,
-										   String poDataStructureName,
+	public clsPhysicalStructureComposition(String poDataStructureName,
 										   eDataType poDataStructureType) {
 		super(poDataStructureName, poDataStructureType);
-		applyAssociations(eDataType.ASSOCIATIONDM, poAssociatedDriveSources);  
 	}
 }

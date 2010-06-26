@@ -29,11 +29,9 @@ public class clsDriveMesh extends clsHomeostaticRepresentation{
 	 * @param poAssociationID
 	 * @param peAssociationType
 	 */
-	public clsDriveMesh(ArrayList<clsAssociation> poAssociatedWordPresentations,
-			ArrayList<clsAssociation> poAssociatedDriveSource,
+	public clsDriveMesh(ArrayList<clsAssociation> poAssociatedDriveSource,
 			String poAssociationID, eDataType peAssociationType) {
 		super(poAssociatedDriveSource, poAssociationID, peAssociationType); 
-		applyAssociations(eDataType.ASSOCIATIONWP, poAssociatedWordPresentations);  
 	}
 
 	/* (non-Javadoc)

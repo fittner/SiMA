@@ -27,12 +27,10 @@ public class clsTemplateImage extends clsPhysicalStructureComposition{
 	 * 24.05.2010, 12:41:23
 	 *
 	 */
-	public clsTemplateImage(ArrayList<clsAssociation> poAssociatedWordPresentations,
-							ArrayList<clsAssociation> poAssociatedDriveSources,
-							ArrayList<clsAssociation> poAssociatedTemporalStructures,
+	public clsTemplateImage(ArrayList<clsAssociation> poAssociatedTemporalStructures,
 							String poDataStructureName,
 							eDataType poDataStructureType) {
-		super(poAssociatedDriveSources, poDataStructureName, poDataStructureType); 
+		super(poDataStructureName, poDataStructureType); 
 		 
 		applyAssociations(eDataType.ASSOCIATIONTEMP, poAssociatedTemporalStructures);
 	}

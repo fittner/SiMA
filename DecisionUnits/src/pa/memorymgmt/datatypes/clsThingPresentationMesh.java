@@ -29,12 +29,11 @@ public class clsThingPresentationMesh extends clsPhysicalStructureComposition{
 	 * @param poWordPresentationAssociation
 	 * @param poDriveMeshAssociation
 	 */
-	public clsThingPresentationMesh( ArrayList<clsAssociation> poAssociatedDriveSources,
-									 ArrayList<clsAssociation> poAssociatedPhysicalRepresentations,
+	public clsThingPresentationMesh( ArrayList<clsAssociation> poAssociatedPhysicalRepresentations,
 									 String poDataStructureName,
 									 eDataType poDataStructureType) {
 		
-		super(poAssociatedDriveSources, poDataStructureName, poDataStructureType);
+		super(poDataStructureName,poDataStructureType);
 		applyAssociations(eDataType.ASSCOCIATIONATTRIBUTE, poAssociatedPhysicalRepresentations); 
 	}
 	
