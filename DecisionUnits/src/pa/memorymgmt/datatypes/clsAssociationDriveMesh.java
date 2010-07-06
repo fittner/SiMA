@@ -17,7 +17,7 @@ import pa.memorymgmt.enums.eDataType;
  * 
  */
 public class clsAssociationDriveMesh extends clsAssociation{
-
+	private Object moContent = null; 
 	/**
 	 * DOCUMENT (zeilinger) - insert description 
 	 * 
@@ -29,11 +29,14 @@ public class clsAssociationDriveMesh extends clsAssociation{
 	 */
 	public clsAssociationDriveMesh(clsDriveMesh poAssociationElementA, 
 			clsPrimaryDataStructure poAssociationElementB,
-			String poAssociationID,
-			eDataType peAssociationType){
+			String poDataStructureName,
+			eDataType peDataStructureType){
 		
-		super(poAssociationElementA, poAssociationElementB, poAssociationID, peAssociationType);		
-		// TODO (zeilinger) - Auto-generated constructor stub
+		super(poAssociationElementA, poAssociationElementB, poDataStructureName, peDataStructureType);		
+		//HZ moContent defines the association weight => also defines the affect!
+		//It has to be defined if an affect is required and how the affect's minus values
+		//should be represented in case the affect is the same as the clsAssociation's weight 
+		moContent = 1.0; 
 	}
 
 }

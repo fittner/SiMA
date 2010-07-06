@@ -6,16 +6,20 @@
  */
 package pa.memorymgmt.informationrepresentation;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import config.clsBWProperties;
 import pa.memorymgmt.clsKnowledgeBaseHandler;
 import pa.memorymgmt.datatypes.clsDataStructureContainer;
+import pa.memorymgmt.datatypes.clsHomeostaticRepresentation;
+import pa.memorymgmt.datatypes.clsPhysicalRepresentation;
 import pa.memorymgmt.datatypes.clsPrimaryInformation;
 import pa.memorymgmt.datatypes.clsSecondaryInformation;
 import pa.memorymgmt.informationrepresentation.enums.eDataSources;
 import pa.memorymgmt.informationrepresentation.enums.eSearchMethod;
 import pa.memorymgmt.informationrepresentation.modules.M01_InformationRepresentationMgmt;
+import pa.tools.clsPair;
 
 /**
  * DOCUMENT (zeilinger) - insert description 
@@ -86,18 +90,7 @@ public class clsInformationRepresentationManagementARSi10 extends clsKnowledgeBa
 	    	oProp.setProperty(pre+P_SEARCH_METHOD, eSearchMethod.LISTSEARCH.toString());
 	    	return oProp;
 	 }
-		
-	@Override
-	public List<clsDataStructureContainer> searchDataStructure(String poReturnType, List<clsDataStructureContainer> poSearchPatternContainer){
-		moSearchResult.clear(); 
-		
-		for(clsDataStructureContainer element:poSearchPatternContainer){
-			triggerInformationRepresentationManagementModules(poReturnType, element);
-		}
-			
-		return moSearchResult;  
-	}
-
+	
 	/**
 	 * DOCUMENT (zeilinger) - insert description
 	 *
@@ -106,14 +99,58 @@ public class clsInformationRepresentationManagementARSi10 extends clsKnowledgeBa
 	 *
 	 * @param next
 	 */
-	private void triggerInformationRepresentationManagementModules(String poReturnType, clsDataStructureContainer poSearchPatternContainer) {
+	private void triggerInformationRepresentationManagementModules(int poReturnType, clsDataStructureContainer poSearchPatternContainer) {
 		
 		if(poSearchPatternContainer instanceof clsSecondaryInformation) moSearchResult.add(moM01InformationRepresentationMgmt.moKB01SecondaryDataStructureMgmt.searchDataStructure(poReturnType, poSearchPatternContainer)); 
 		else if(poSearchPatternContainer instanceof clsPrimaryInformation){
-			if(((clsPrimaryInformation)poSearchPatternContainer).moInternalRepresentationDataStructure != null) moSearchResult.add(moM01InformationRepresentationMgmt.moM02PrimaryInformationMgmt.moKB02InternalPerceptionMgmt.searchDataStructure(poReturnType, poSearchPatternContainer));
-			if(((clsPrimaryInformation)poSearchPatternContainer).moExternalRepresetnationDataStructure != null) moSearchResult.add(moM01InformationRepresentationMgmt.moM02PrimaryInformationMgmt.moKB03ExternalPerceptionMgmt.searchDataStructure(poReturnType,poSearchPatternContainer));
+			if(((clsPrimaryInformation)poSearchPatternContainer).moDataStructure instanceof clsPhysicalRepresentation) 
+						moSearchResult.add(moM01InformationRepresentationMgmt.moM02PrimaryInformationMgmt.moKB02InternalPerceptionMgmt.searchDataStructure(poReturnType, poSearchPatternContainer));
+			if(((clsPrimaryInformation)poSearchPatternContainer).moDataStructure instanceof clsHomeostaticRepresentation) 
+						moSearchResult.add(moM01InformationRepresentationMgmt.moM02PrimaryInformationMgmt.moKB03ExternalPerceptionMgmt.searchDataStructure(poReturnType,poSearchPatternContainer));
 		}
 		else{ throw new IllegalArgumentException("DataStructureContainerUnknown unknown ");}
+	}
+
+	/* (non-Javadoc)
+	 * THis method initializes the search process. The method receives an ArrayList that is
+	 * assembled of the search pattern that is represented by a data structure and an integer 
+	 * (binary number) that introduces the filter-mechanism for special eDataTypes. The binaries 
+	 * are set in the enum eDataType.
+	 * 
+	 * 
+	 *
+	 * @author zeilinger
+	 * 28.06.2010, 20:41:07
+	 * 
+	 * @see pa.memorymgmt.itfKnowledgeBaseHandler#searchDataStructure(java.util.ArrayList)
+	 */
+	@Override
+	public List<clsDataStructureContainer> searchDataStructure(
+			ArrayList<clsPair<Integer, clsDataStructureContainer>> poSearchPatternContainer) {
+		
+		moSearchResult.clear(); 
+		
+		for(clsPair<Integer, clsDataStructureContainer> element:poSearchPatternContainer){
+			triggerInformationRepresentationManagementModules((int)element.a, element.b);
+		}
+			
+		return moSearchResult;
+	}
+	
+	public void testSearch(){
+		testSearchTP(); 
+	}
+
+	/**
+	 * DOCUMENT (zeilinger) - insert description
+	 *
+	 * @author zeilinger
+	 * 30.06.2010, 07:09:30
+	 *
+	 */
+	private void testSearchTP() {
+		//clsThingPresentation oTestTP =(clsThingPresentation)((ArrayList <clsDataStructurePA>) moSearchSpaceHandler.moSearchSpace.returnSearchSpace(eDataType.TP).keySet()).get(0);
+		 
 	}
 
 }

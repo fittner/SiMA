@@ -17,16 +17,23 @@ import java.util.Arrays;
  * 
  */
 public enum eDataType {
-	ACT,
-	ASSOCIATIONTEMP,
-	ASSCOCIATIONATTRIBUTE,
-	ASSOCIATIONWP,
-	ASSOCIATIONDM,
-	DM,
-	TI,
-	TP,
-	TPM,
-	WP; 
+	ACT						(0x000001),
+	ASSOCIATIONTEMP 		(0x000000),
+	ASSCOCIATIONATTRIBUTE	(0x000000),
+	ASSOCIATIONWP			(0x000000),
+	ASSOCIATIONDM			(0x000000),
+	DM						(0x000010),
+	TI						(0x000100),
+	TP						(0x001000),
+	TPM						(0x010000),
+	WP						(0x100000); 
+	
+	
+	public int nBinaryValue; 
+	
+	eDataType(int pnBinaryValue){
+		nBinaryValue = pnBinaryValue;
+	}
 	
 	public static ArrayList<eDataType> returnInitValues(){
 		eDataType [] oDataArray = {ACT,DM,TI,TP,TPM,WP}; 

@@ -6,6 +6,8 @@
  */
 package pa.memorymgmt.datatypes;
 
+import java.util.ArrayList;
+
 /**
  * DOCUMENT (zeilinger) - insert description 
  * 
@@ -14,11 +16,13 @@ package pa.memorymgmt.datatypes;
  * 
  */
 public class clsPrimaryInformation extends clsDataStructureContainer{
-	public clsPhysicalRepresentation moExternalRepresetnationDataStructure; 
-	public clsHomeostaticRepresentation moInternalRepresentationDataStructure; 
+	public clsPrimaryDataStructure moDataStructure; 
+	public ArrayList<clsAssociation> moAssociatedDataStructures; 
+//	public clsPhysicalRepresentation moExternalRepresetnationDataStructure; 
+//	public clsHomeostaticRepresentation moInternalRepresentationDataStructure; 
 	
 	public clsPrimaryInformation(){
-		moExternalRepresetnationDataStructure = null; 
-		moInternalRepresentationDataStructure = null; 
+		moDataStructure = null; 
+		moAssociatedDataStructures = null; 
 	}
 }

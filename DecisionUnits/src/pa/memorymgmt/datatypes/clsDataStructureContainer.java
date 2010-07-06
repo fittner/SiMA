@@ -14,5 +14,5 @@ package pa.memorymgmt.datatypes;
  * 
  */
 public class clsDataStructureContainer{
-
+	 
 }

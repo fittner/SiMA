@@ -35,5 +35,5 @@ public abstract class clsSearchSpaceBase {
 	 * 09.06.2010, 22:04:04
 	 *
 	 */
-	public abstract Hashtable<clsDataStructurePA, ArrayList<clsAssociation>> returnSearchSpace(eDataType poDataStructureType);  
+	public abstract Hashtable<clsDataStructurePA, ArrayList<clsAssociation>> returnSearchSpaceTable(eDataType poDataStructureType);  
 }

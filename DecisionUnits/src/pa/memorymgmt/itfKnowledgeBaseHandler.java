@@ -6,9 +6,11 @@
  */
 package pa.memorymgmt;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import pa.memorymgmt.datatypes.clsDataStructureContainer;
+import pa.tools.clsPair;
 
 /**
  * DOCUMENT (zeilinger) - insert description 
@@ -18,5 +20,5 @@ import pa.memorymgmt.datatypes.clsDataStructureContainer;
  * 
  */
 public interface itfKnowledgeBaseHandler {
-	public List<clsDataStructureContainer> searchDataStructure(String poReturnType, List<clsDataStructureContainer> poSearchPatternContainer);
+	public List<clsDataStructureContainer> searchDataStructure(ArrayList<clsPair<Integer,clsDataStructureContainer>> poSearchPatternContainer);
 }

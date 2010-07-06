@@ -17,7 +17,9 @@ import pa.memorymgmt.enums.eDataType;
  * 
  */
 public class clsThingPresentation extends clsPhysicalRepresentation{
-
+	
+	public String moContentName = "";
+	public Object moContent = null;
 	/**
 	 * DOCUMENT (zeilinger) - insert description 
 	 * 
@@ -27,22 +29,13 @@ public class clsThingPresentation extends clsPhysicalRepresentation{
 	 * @param poWordPresentationAssociation
 	 */
 	public clsThingPresentation(String poDataStructureName,
-								eDataType poDataStructureType) {
-		super(poDataStructureName, poDataStructureType);
-		// TODO (zeilinger) - Auto-generated constructor stub
-	}
-
-	/* (non-Javadoc)
-	 *
-	 * @author zeilinger
-	 * 22.06.2010, 17:41:38
-	 * 
-	 * @see pa.memorymgmt.datatypes.clsDataStructurePA#assignDataStructure(pa.memorymgmt.datatypes.clsDataStructurePA)
-	 */
-	@Override
-	public void assignDataStructure(clsAssociation poDataStructurePA) {
-		// TODO (zeilinger) - Auto-generated method stub
+								eDataType poDataStructureType, 
+								String poContentName,
+								Object poContent) {
 		
+		super(poDataStructureName, poDataStructureType);
+		
+		moContentName = poContentName; 
+		moContent = poContent;
 	}
-
 }

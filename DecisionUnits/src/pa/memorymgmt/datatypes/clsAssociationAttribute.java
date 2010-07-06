@@ -16,6 +16,7 @@ import pa.memorymgmt.enums.eDataType;
  * 
  */
 public class clsAssociationAttribute extends clsAssociation{
+	private double mnWeight = 1.0; 
 	/**
 	 * DOCUMENT (zeilinger) - insert description 
 	 * 

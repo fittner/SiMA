@@ -18,7 +18,6 @@ import pa.memorymgmt.enums.eDataType;
  * 
  */
 public class clsDriveMesh extends clsHomeostaticRepresentation{
-
 	/**
 	 * DOCUMENT (zeilinger) - insert description 
 	 * 
@@ -31,9 +30,11 @@ public class clsDriveMesh extends clsHomeostaticRepresentation{
 	 */
 	public clsDriveMesh(ArrayList<clsAssociation> poAssociatedDriveSource,
 			String poAssociationID, eDataType peAssociationType) {
-		super(poAssociatedDriveSource, poAssociationID, peAssociationType); 
+		super(poAssociationID, peAssociationType); 
+		
+		applyAssociations(eDataType.ASSCOCIATIONATTRIBUTE, poAssociatedDriveSource);
 	}
-
+	
 	/* (non-Javadoc)
 	 *
 	 * @author zeilinger
@@ -43,7 +44,10 @@ public class clsDriveMesh extends clsHomeostaticRepresentation{
 	 */
 	@Override
 	public void assignDataStructure(clsAssociation poDataStructurePA) {
-		// TODO (zeilinger) - Auto-generated method stub
+		ArrayList <clsAssociation> oDataStructureList = new ArrayList<clsAssociation>();
+		oDataStructureList.add(poDataStructurePA); 
+		
+		applyAssociations(poDataStructurePA.oDataStructureType, oDataStructureList);
 	}
 
 }

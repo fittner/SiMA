@@ -7,7 +7,6 @@
 package pa.memorymgmt.datatypes;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import pa.memorymgmt.enums.eDataType;
 
@@ -19,7 +18,6 @@ import pa.memorymgmt.enums.eDataType;
  * 
  */
 public class clsThingPresentationMesh extends clsPhysicalStructureComposition{
-	protected List <clsAssociationAttribute> moAttributeAssociations; 
 	/**
 	 * DOCUMENT (zeilinger) - insert description 
 	 * 
@@ -53,5 +51,4 @@ public class clsThingPresentationMesh extends clsPhysicalStructureComposition{
 		
 		applyAssociations(poDataStructurePA.oDataStructureType, oDataStructureList);
 	}
-
 }

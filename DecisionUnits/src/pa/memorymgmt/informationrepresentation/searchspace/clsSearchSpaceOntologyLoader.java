@@ -132,7 +132,7 @@ public class clsSearchSpaceOntologyLoader extends clsSearchSpaceBase{
 	 * @see pa.memorymgmt.informationrepresentation.searchspace.clsSearchSpaceBase#returnSearchSpace(java.lang.String)
 	 */
 	@Override
-	public Hashtable<clsDataStructurePA, ArrayList<clsAssociation>> returnSearchSpace(eDataType poDataStructureType) {
+	public Hashtable<clsDataStructurePA, ArrayList<clsAssociation>> returnSearchSpaceTable(eDataType poDataStructureType) {
 		return moSearchSpaceContent.get(poDataStructureType);
 	}
 

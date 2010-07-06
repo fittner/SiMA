@@ -16,7 +16,6 @@ import pa.memorymgmt.enums.eDataType;
  * 
  */
 public class clsWordPresentation extends clsSecondaryDataStructure{
-
 	/**
 	 * DOCUMENT (zeilinger) - insert description 
 	 * 
@@ -26,8 +25,8 @@ public class clsWordPresentation extends clsSecondaryDataStructure{
 	 * @param poDataStructureName
 	 * @param poDataStructureType
 	 */
-	public clsWordPresentation(String poAssociationID, eDataType peAssociationType) {
-		super(null, poAssociationID, peAssociationType);
+	public clsWordPresentation(String poDataStructureID, eDataType poDataStructureType) {
+		super(null, poDataStructureID, poDataStructureType);
 	}
 
 	/* (non-Javadoc)

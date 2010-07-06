@@ -6,8 +6,14 @@
  */
 package pa.memorymgmt.informationrepresentation.modules;
 
+import java.util.ArrayList;
+
 import pa.memorymgmt.datatypes.clsDataStructureContainer;
+import pa.memorymgmt.datatypes.clsDataStructurePA;
+import pa.memorymgmt.datatypes.clsPrimaryInformation;
+import pa.memorymgmt.enums.eDataType;
 import pa.memorymgmt.informationrepresentation.clsSearchSpaceHandler;
+import pa.tools.clsPair;
 
 /**
  * DOCUMENT (zeilinger) - insert description 
@@ -42,9 +48,34 @@ public class KB02_InternalPerceptionMgmt extends clsInformationRepresentationMod
 	 * @see pa.informationrepresentation.ARSi10.modules.clsInformationRepresentationModuleBase#listSearch(java.lang.String, pa.informationrepresentation.datatypes.clsDataStructureContainer)
 	 */
 	@Override
-	public clsDataStructureContainer listSearch(String poReturnType,
-			clsDataStructureContainer poSearchPatternContainer) {
-		// TODO (zeilinger) - Auto-generated method stub
-		return null;
+	public clsDataStructureContainer listSearch(int poReturnType,clsDataStructureContainer poSearchPatternContainer) {
+
+		clsDataStructureContainer oDataStructureContainer = null; 
+		ArrayList<clsPair<Double,clsDataStructurePA>> oMatchedDataStructures = compareELements(poSearchPatternContainer); 
+		
+		for(eDataType element : eDataType.values()){
+			if((poReturnType & element.nBinaryValue) != 0x0){
+					//loadSearchBuffer(element, (clsSecondaryInformation)poSearchPatternContainer); 
+			} 
+		}
+		//Hashtable
+		//getDataStructureType
+		//compare?
+		return oDataStructureContainer;
+	}
+
+	/**
+	 * DOCUMENT (zeilinger) - insert description
+	 *
+	 * @author zeilinger
+	 * 02.07.2010, 07:12:23
+	 *
+	 * @param moDataStructure
+	 * @return
+	 */
+	private ArrayList<clsPair<Double,clsDataStructurePA>> compareELements(clsDataStructureContainer poSearchPatternContainer) {
+		clsDataStructurePA oDataStructureSearchPattern = ((clsPrimaryInformation)poSearchPatternContainer).moDataStructure;
+				
+		return clsDataStructureComparison.compareDataStructures(oDataStructureSearchPattern, moSearchSpaceHandler.returnSearchSpace());
 	}
 }

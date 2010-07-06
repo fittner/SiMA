@@ -16,9 +16,9 @@ import pa.memorymgmt.enums.eDataType;
  * 23.05.2010, 21:40:06
  * 
  */
-public abstract class clsDataStructurePA {
+public abstract class clsDataStructurePA implements Cloneable{
 	public String oDataStructureID;
-	public eDataType oDataStructureType; 
+	public eDataType oDataStructureType;
 	
 	/**
 	 * DOCUMENT (zeilinger) - insert description 

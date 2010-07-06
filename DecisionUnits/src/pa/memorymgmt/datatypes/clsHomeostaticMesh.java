@@ -18,7 +18,7 @@ import pa.memorymgmt.enums.eDataType;
  * 
  */
 public abstract class clsHomeostaticMesh extends clsHomeostaticRepresentation{
-	clsDriveDemand moDriveDemand; 
+	clsDriveDemand moDriveDemand = null;
 	/**
 	 * DOCUMENT (zeilinger) - insert description 
 	 * 
@@ -29,21 +29,11 @@ public abstract class clsHomeostaticMesh extends clsHomeostaticRepresentation{
 	 */
 	public clsHomeostaticMesh(ArrayList<clsAssociation> poAssociatedDriveSource, double pnDriveDemandIntensity, 
 							  String poAssociationID, eDataType peAssociationType) {
-		super(poAssociatedDriveSource,poAssociationID, peAssociationType);
+		super(poAssociationID, peAssociationType);
+		
+		moDriveDemand = new clsDriveDemand(pnDriveDemandIntensity, null, null); 
+		applyAssociations(eDataType.ASSCOCIATIONATTRIBUTE, poAssociatedDriveSource);
 		//FIXME HZ Is clsDrieDemand required? 
 		//moDriveDemand = new clsDriveDemand(pnDriveDemandIntensity, null, null); 
 	}
-	/* (non-Javadoc)
-	 *
-	 * @author zeilinger
-	 * 22.06.2010, 20:02:38
-	 * 
-	 * @see pa.memorymgmt.datatypes.clsPrimaryDataStructure#assignDataStructure(pa.memorymgmt.datatypes.clsDataStructurePA)
-	 */
-	@Override
-	public void assignDataStructure(clsAssociation poDataStructurePA) {
-		// TODO (zeilinger) - Auto-generated method stub
-		
-	}
-
 }

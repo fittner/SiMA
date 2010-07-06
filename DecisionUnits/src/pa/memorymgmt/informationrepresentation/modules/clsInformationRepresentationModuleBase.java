@@ -46,7 +46,7 @@ public abstract class clsInformationRepresentationModuleBase {
 	 * @param poSearchPattern
 	 * @return
 	 */
-	public clsDataStructureContainer searchDataStructure(String poReturnType, clsDataStructureContainer poSearchPatternContainer){
+	public clsDataStructureContainer searchDataStructure(int poReturnType, clsDataStructureContainer poSearchPatternContainer){
 		if(moSearchMethod.equals(eSearchMethod.LISTSEARCH)) return listSearch(poReturnType, poSearchPatternContainer);
 		/*TODO - zeilinger 	here, additional search algorithms have to be initialized*/
 		/*TODO - actually the listSearch algorithm is defined in clsModuleBase - hence, there is 
@@ -54,5 +54,6 @@ public abstract class clsInformationRepresentationModuleBase {
 	throw new IllegalArgumentException(" defined search method unknown " + moSearchMethod);
 	}
 	
-	public abstract clsDataStructureContainer listSearch(String poReturnType, clsDataStructureContainer poSearchPatternContainer);
+	public abstract clsDataStructureContainer listSearch(int poReturnType, clsDataStructureContainer poSearchPatternContainer);
+
 }

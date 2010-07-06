@@ -6,7 +6,6 @@
  */
 package pa.memorymgmt.informationrepresentation;
 
-import pa.memorymgmt.enums.eDataType;
 import pa.memorymgmt.informationrepresentation.enums.eDataSources;
 import pa.memorymgmt.informationrepresentation.searchspace.clsSearchSpaceBase;
 import pa.memorymgmt.informationrepresentation.searchspace.clsSearchSpaceCreator;
@@ -31,7 +30,7 @@ public class clsSearchSpaceHandler {
 		else {throw new NullPointerException("database source not found " + poDatabaseSource);}
 	}
 	
-	public clsSearchSpaceBase returnSearchSpace(eDataType poDataStructureType){
+	public clsSearchSpaceBase returnSearchSpace(){
 		return moSearchSpace;
 	}
 }

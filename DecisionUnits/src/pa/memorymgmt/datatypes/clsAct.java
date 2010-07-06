@@ -17,7 +17,7 @@ import pa.memorymgmt.enums.eDataType;
  * 23.05.2010, 21:43:47
  * 
  */
-public class clsAct extends clsSecondaryDataStructure{
+public class clsAct extends clsSecondaryDataStructure {
 
 	/**
 	 * DOCUMENT (zeilinger) - insert description 
@@ -46,12 +46,5 @@ public class clsAct extends clsSecondaryDataStructure{
 		// TODO (zeilinger) - Auto-generated method stub
 		
 	}
-
-	/* (non-Javadoc)
-	 *
-	 * @author zeilinger
-	 * 22.06.2010, 17:51:27
-	 * 
-	 * @see pa.memorymgmt.datatypes.clsDataStructurePA#assignDataStructure(pa.memorymgmt.datatypes.clsDataStructurePA)
-	 */
 }
+

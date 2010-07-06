@@ -7,6 +7,8 @@
 package pa.memorymgmt.informationrepresentation.modules;
 
 import pa.memorymgmt.datatypes.clsDataStructureContainer;
+import pa.memorymgmt.datatypes.clsSecondaryInformation;
+import pa.memorymgmt.enums.eDataType;
 import pa.memorymgmt.informationrepresentation.clsSearchSpaceHandler;
 
 /**
@@ -42,9 +44,36 @@ public class KB01_SecondaryDataStructureMgmt extends clsInformationRepresentatio
 	 * @see pa.informationrepresentation.ARSi10.modules.clsInformationRepresentationModuleBase#listSearch(java.lang.String, pa.informationrepresentation.datatypes.clsDataStructureContainer)
 	 */
 	@Override
-	public clsDataStructureContainer listSearch(String poReturnType,
+	public clsDataStructureContainer listSearch(int poReturnType,
 			clsDataStructureContainer poSearchPatternContainer) {
-		// TODO (zeilinger) - Auto-generated method stub
-		return null;
+		
+		//HZ Find another initialization value; 
+		clsDataStructureContainer oDataStructureContainer = null; 
+		
+		for(eDataType element : eDataType.values()){
+			if((poReturnType & element.nBinaryValue) != 0x0){
+				//getSearchElement();  
+				//loadSearchBuffer(element, (clsSecondaryInformation)poSearchPatternContainer); 
+			} 
+		}
+		
+		//Hashtable
+		//getDataStructureType
+		//compare?
+		return oDataStructureContainer;
+	}
+
+	/**
+	 * DOCUMENT (zeilinger) - insert description
+	 *
+	 * @author zeilinger
+	 * 28.06.2010, 22:34:34
+	 *
+	 * @param element
+	 * @param poSearchPatternContainer
+	 */
+	private void loadSearchBuffer(eDataType element,
+			clsSecondaryInformation poSearchPatternContainer) {
+		//moSearchSpaceHandler.returnSearchSpace(		
 	}
 }
