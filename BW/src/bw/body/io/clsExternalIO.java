@@ -355,6 +355,7 @@ public class clsExternalIO extends clsBaseIO {
 	 * 
 	 * @see bw.body.itfStepSensing#stepSensing()
 	 */
+	@Override
 	public void stepSensing() {
 		moSensorEngine.updateSensorData(); 
 	}
@@ -369,6 +370,7 @@ public class clsExternalIO extends clsBaseIO {
 	 * 
 	 * @see bw.body.itfStepExecution#stepExecution()
 	 */
+	@Override
 	public void stepExecution() {
 		moProcessor.dispatch();
 	}

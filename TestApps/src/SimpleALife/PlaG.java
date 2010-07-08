@@ -27,6 +27,7 @@ public class PlaG implements Steppable
     	this.growCount = growCountStart;
 	}
 
+	@Override
 	public void step(SimState state)
 	{
 		if (currentMass <= 0)

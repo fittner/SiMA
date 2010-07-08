@@ -117,6 +117,7 @@ public class clsEpisode implements Comparable {
 	/**
 	 * Implemented method of the interface Compareable: Compares episodes according to the occurence of the end event
 	 */
+	@Override
 	public int compareTo(Object o1) {
 		clsEpisode oEpisode1 = (clsEpisode)o1;
 //		if(oResult1.moMemKey.intValue() == this.moMemKey.intValue()) return 0;

@@ -21,7 +21,8 @@ public class Head extends MobileObject2D implements Steppable
         this.setCoefficientOfRestitution(1);
 	}
 
-    public void step(SimState state)
+    @Override
+	public void step(SimState state)
     {
         Double2D position = this.getPosition();
 		SimLifeArena.fieldEnvironment.setObjectLocation(this, new sim.util.Double2D(position.x, position.y));

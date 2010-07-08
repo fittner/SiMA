@@ -32,6 +32,7 @@ public class clsSymbolManipulateArea extends du.itf.sensors.clsManipulateArea  i
 		}
 	}
 
+	@Override
 	public Method[] getDataAccessMethods() {
 		return itfSymbolManipulateArea.class.getMethods();
 	}

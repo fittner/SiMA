@@ -60,11 +60,13 @@ public class clsAreaSemanticMemory {
 			return PotentialAreas;
 		}else{	//if there are potential areas, sort them and compare the similar objects locations.
 		
-			PotentialAreas.sort(new Comparator<clsArea>() { public int compare(clsArea A1, clsArea A2) {return A1.ObjectsSimilarity<=A2.ObjectsSimilarity?1:0;}});
+			PotentialAreas.sort(new Comparator<clsArea>() { @Override
+			public int compare(clsArea A1, clsArea A2) {return A1.ObjectsSimilarity<=A2.ObjectsSimilarity?1:0;}});
 			
 			checkForSimilarPosition(PotentialAreas, tempArea,ObjcetbeeringTolerance);
 			
-			PotentialAreas.sort(new Comparator<clsArea>() { public int compare(clsArea A1, clsArea A2) {return (A1.ObjectsSimilarity*A1.PositionSimilarity)<=(A2.ObjectsSimilarity*A2.PositionSimilarity)?1:0;}});
+			PotentialAreas.sort(new Comparator<clsArea>() { @Override
+			public int compare(clsArea A1, clsArea A2) {return (A1.ObjectsSimilarity*A1.PositionSimilarity)<=(A2.ObjectsSimilarity*A2.PositionSimilarity)?1:0;}});
 			
 			if (PotentialAreas.numObjs>0){
 				//If the best result from both comparison steps does not fit perfectly, the area is also saved as a new one because the result still has some tolerance and might not be the correct one.

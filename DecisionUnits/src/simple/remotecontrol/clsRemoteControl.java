@@ -72,6 +72,7 @@ public class clsRemoteControl extends clsBaseDecisionUnit implements itfProcessK
 	  super.finalize(); //not necessary if extending Object.
 	} 
 	
+	@Override
 	public void setKeyPressed(int i) {
 		moPrevKeyPressed = moKeyPressed;
 		moKeyPressed = i;

@@ -106,6 +106,7 @@ public class clsRemoteControlInspector extends Inspector implements ItemListener
 	 * 
 	 * @see java.awt.event.ItemListener#itemStateChanged(java.awt.event.ItemEvent)
 	 */
+	@Override
 	public void itemStateChanged(ItemEvent e) {
 
 		Object source = e.getItemSelectable();
@@ -118,6 +119,7 @@ public class clsRemoteControlInspector extends Inspector implements ItemListener
 		moConsole.refresh();
 	}
 
+	@Override
 	public void stateChanged(ChangeEvent arg0) {
 
 		Object source = arg0.getSource();

@@ -159,9 +159,11 @@ public class clsRemoteBot extends clsAnimate implements itfGetSensorEngine, itfG
 
 	}
 	
+	@Override
 	public clsBotHands getBotHandLeft() {
 		return moBotHand1;
 	}
+	@Override
 	public clsBotHands getBotHandRight() {
 		return moBotHand2;
 	}

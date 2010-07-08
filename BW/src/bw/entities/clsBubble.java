@@ -142,9 +142,11 @@ public class clsBubble extends clsAnimate implements itfGetSensorEngine, itfGetR
 	 * 
 	 * @see bw.body.io.actuators.actionProxies.itfAPKissable#tryKiss(enums.eActionKissIntensity)
 	 */
+	@Override
 	public boolean tryKiss(eActionKissIntensity peIntensity) {
 		return true;
 	}
+	@Override
 	public void kiss(eActionKissIntensity peIntensity) {
 		double rIntensity=1;
 		if (peIntensity==eActionKissIntensity.MIDDLE) rIntensity=2;

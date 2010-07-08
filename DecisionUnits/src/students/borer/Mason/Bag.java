@@ -55,17 +55,20 @@ public class Bag implements java.util.Collection, java.io.Serializable, Cloneabl
         System.arraycopy(other.objs,0,objs,0,numObjs);
         }
     
-    public int size()
+    @Override
+	public int size()
         {
         return numObjs;
         }
     
-    public boolean isEmpty()
+    @Override
+	public boolean isEmpty()
         {
         return (numObjs<= 0);
         }
     
-    public boolean addAll(final Collection other) 
+    @Override
+	public boolean addAll(final Collection other) 
         { 
         if (other instanceof Bag) return addAll((Bag)other);  // avoid an array build
         return addAll(numObjs, other.toArray()); 
@@ -179,7 +182,8 @@ public class Bag implements java.util.Collection, java.io.Serializable, Cloneabl
         return true;
         }
         
-    public boolean add(final Object obj)
+    @Override
+	public boolean add(final Object obj)
         {
         // this curious arrangement makes me small enough to be inlined (35 bytes)
         int numObjs = this.numObjs;
@@ -198,7 +202,8 @@ public class Bag implements java.util.Collection, java.io.Serializable, Cloneabl
         objs=newobjs;
         }
 
-    public boolean contains(final Object o)
+    @Override
+	public boolean contains(final Object o)
         {
         int numObjs = this.numObjs;
         Object[] objs = this.objs;
@@ -207,7 +212,8 @@ public class Bag implements java.util.Collection, java.io.Serializable, Cloneabl
         return false;
         }
         
-    public boolean containsAll(final Collection c)
+    @Override
+	public boolean containsAll(final Collection c)
         {
         Iterator iterator = c.iterator();
         while(iterator.hasNext())
@@ -223,7 +229,8 @@ public class Bag implements java.util.Collection, java.io.Serializable, Cloneabl
         }
 
     /** identical to get(index) */
-    public Object getValue(final int index)
+    @Override
+	public Object getValue(final int index)
         {
         if (index>=numObjs) // || index < 0)
             throwIndexOutOfBoundsException(index);
@@ -240,7 +247,8 @@ public class Bag implements java.util.Collection, java.io.Serializable, Cloneabl
         }
 
     /** identical to set(index, element) */
-    public Object setValue(final int index, final Object element)
+    @Override
+	public Object setValue(final int index, final Object element)
         {
         if (index>=numObjs) // || index < 0)
             throwIndexOutOfBoundsException(index);
@@ -249,7 +257,8 @@ public class Bag implements java.util.Collection, java.io.Serializable, Cloneabl
         return returnval;
         }
 
-    public boolean removeAll(final Collection c)
+    @Override
+	public boolean removeAll(final Collection c)
         {
         boolean flag = false;
         Iterator iterator = c.iterator();
@@ -258,7 +267,8 @@ public class Bag implements java.util.Collection, java.io.Serializable, Cloneabl
         return flag;
         }
 
-    public boolean retainAll(final Collection c)
+    @Override
+	public boolean retainAll(final Collection c)
         {
         boolean flag = false;
         for(int x=0;x<numObjs;x++)
@@ -285,7 +295,8 @@ public class Bag implements java.util.Collection, java.io.Serializable, Cloneabl
         }
     
     /** Removes the object, moving the topmost object into its position. */
-    public boolean remove(final Object o)
+    @Override
+	public boolean remove(final Object o)
         {
         int numObjs = this.numObjs;
         Object[] objs = this.objs;
@@ -333,7 +344,8 @@ public class Bag implements java.util.Collection, java.io.Serializable, Cloneabl
         throw new IndexOutOfBoundsException(""+index);
         }
                         
-    public void clear()
+    @Override
+	public void clear()
         {
         // local variables are faster
         int len = numObjs;
@@ -345,7 +357,8 @@ public class Bag implements java.util.Collection, java.io.Serializable, Cloneabl
         numObjs = 0;
         }
         
-    public Object[] toArray()
+    @Override
+	public Object[] toArray()
         {
         Object[] o = new Object[numObjs];
         System.arraycopy(objs,0,o,0,numObjs);
@@ -354,7 +367,8 @@ public class Bag implements java.util.Collection, java.io.Serializable, Cloneabl
     
     // ArrayList.toArray(Object[]) generates an error if the array passed in is null.
     // So I do the same thing.
-    public Object[] toArray(Object[] o)
+    @Override
+	public Object[] toArray(Object[] o)
         {
         if (o.length < numObjs)
             // make a new array of same type
@@ -369,13 +383,15 @@ public class Bag implements java.util.Collection, java.io.Serializable, Cloneabl
 
     /** NOT fail-fast.  Use this method only if you're
         concerned about accessing numObjs and objs directly.  */
-    public Iterator iterator()
+    @Override
+	public Iterator iterator()
         {
         return new BagIterator(this);
         }
     
     /** Always returns null.  This method is to adhere to Indexed. */
-    public Class componentType()
+    @Override
+	public Class componentType()
         {
         return null;
         }
@@ -457,17 +473,20 @@ public class Bag implements java.util.Collection, java.io.Serializable, Cloneabl
         
         public BagIterator(Bag bag) { this.bag = bag; }
         
-        public boolean hasNext()
+        @Override
+		public boolean hasNext()
             {
             return (obj < bag.numObjs);
             }
-        public Object next()
+        @Override
+		public Object next()
             {
             if (obj >= bag.numObjs) throw new NoSuchElementException("No More Elements");
             canRemove = true;
             return bag.objs[obj++];
             }
-        public void remove()
+        @Override
+		public void remove()
             {
             if (!canRemove) throw new IllegalStateException("remove() before next(), or remove() called twice");
             // more consistent with the following line than 'obj > bag.numObjs' would be...

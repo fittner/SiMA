@@ -11,14 +11,17 @@ public class clsSymbolBump extends du.itf.sensors.clsBump implements itfGetSymbo
 		mnBumped = poSensor.getBumped();
 	}
 	
+	@Override
 	public String getSymbolName() {
 		return "Bump"; 
 	}
 	
+	@Override
 	public String getSymbolType() {
 		return "Bump";
 	}
 
+	@Override
 	public Method[] getDataAccessMethods() {
 		return itfSymbolBump.class.getMethods();
 	}

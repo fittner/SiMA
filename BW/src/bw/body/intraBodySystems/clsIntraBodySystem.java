@@ -116,7 +116,8 @@ public class clsIntraBodySystem implements itfStepUpdateInternalState{
      * DOCUMENT (deutsch) - insert description
      *
      */
-    public void stepUpdateInternalState() {
+    @Override
+	public void stepUpdateInternalState() {
     	//moFacialExpression.stepUpdateInternalState(); - nothing to do!!!
     	moColorSystem.stepUpdateInternalState();
     	moGrowthSystem.stepUpdateInternalState();

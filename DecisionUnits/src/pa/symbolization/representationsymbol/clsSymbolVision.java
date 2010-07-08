@@ -19,6 +19,7 @@ public class clsSymbolVision extends du.itf.sensors.clsVision implements itfGetD
 		}		
 	}
 
+	@Override
 	public Method[] getDataAccessMethods() {
 		return itfSymbolVision.class.getMethods();
 	}

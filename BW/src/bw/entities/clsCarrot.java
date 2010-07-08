@@ -149,6 +149,7 @@ public class clsCarrot extends clsInanimate implements itfGetFlesh, itfAPEatable
 	 * 
 	 * @see bw.body.itfget.itfGetFlesh#getFlesh()
 	 */
+	@Override
 	public clsFlesh getFlesh() {
 		return ((clsMeatBody)moBody).getFlesh();
 	}
@@ -161,6 +162,7 @@ public class clsCarrot extends clsInanimate implements itfGetFlesh, itfAPEatable
 
 	 * @see bw.body.io.actuators.actionProxies.itfAPEatable#Eat(float)
 	 */
+	@Override
 	public clsFood Eat(double prBiteSize) {
 		//withdraw from the flesh the food corresponding the bite size in weight
 		clsFood oFood = getFlesh().withdraw(prBiteSize);
@@ -182,6 +184,7 @@ public class clsCarrot extends clsInanimate implements itfGetFlesh, itfAPEatable
 	 * 
 	 * @see bw.body.io.actuators.actionProxies.itfAPEatable#tryEat()
 	 */
+	@Override
 	public double tryEat() {
 		if (getFlesh().getTotallyConsumed()) {
 			return 1;
@@ -197,6 +200,7 @@ public class clsCarrot extends clsInanimate implements itfGetFlesh, itfAPEatable
 	 * 
 	 * @see bw.body.io.actuators.actionProxies.itfAPCarryable#getCarryableEntity()
 	 */
+	@Override
 	public clsMobile getCarryableEntity() {
 		return this;
 	}
@@ -208,6 +212,7 @@ public class clsCarrot extends clsInanimate implements itfGetFlesh, itfAPEatable
 	 * 
 	 * @see bw.body.io.actuators.actionProxies.itfAPCarryable#setCarriedBindingState(bw.utils.enums.eBindingState)
 	 */
+	@Override
 	public void setCarriedBindingState(eBindingState bindingState) {
 		//handle binding-state implications 		
 	}

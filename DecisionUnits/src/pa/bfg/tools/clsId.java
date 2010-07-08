@@ -82,7 +82,8 @@ public class clsId implements Serializable, java.lang.Comparable {
     return Color.black;
   }
 
-  public final int compareTo( Object poId )
+  @Override
+public final int compareTo( Object poId )
   { 
     int nResult = -1;
 

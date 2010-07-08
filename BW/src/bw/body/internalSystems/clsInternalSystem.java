@@ -146,6 +146,7 @@ public class clsInternalSystem implements itfStepUpdateInternalState {
 	 * DOCUMENT (deutsch) - insert description
 	 *
 	 */
+	@Override
 	public void stepUpdateInternalState() {	
 		moStomachSystem.stepUpdateInternalState();
 		moStaminaSystem.stepUpdateInternalState();

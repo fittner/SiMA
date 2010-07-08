@@ -137,7 +137,8 @@ public class clsBWPropEditor extends JPanel implements TreeSelectionListener, Ac
 	  }
 	  
 	  /** Required by TreeSelectionListener interface. */
-	    public void valueChanged(TreeSelectionEvent e) {
+	    @Override
+		public void valueChanged(TreeSelectionEvent e) {
 	        DefaultMutableTreeNode node = (DefaultMutableTreeNode)
 	                           tree.getLastSelectedPathComponent();
 
@@ -151,7 +152,8 @@ public class clsBWPropEditor extends JPanel implements TreeSelectionListener, Ac
 	    }
 	    
 	    /** Required by ActionListener interface. */
-	    public void actionPerformed(ActionEvent e) {
+	    @Override
+		public void actionPerformed(ActionEvent e) {
 	    	if (e.getSource() == pbOpenFile) { // Open the file and create nodes   
 	    		int returnVal = fc.showOpenDialog(clsBWPropEditor.this);
 	    		if (returnVal == JFileChooser.APPROVE_OPTION) {

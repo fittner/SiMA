@@ -65,6 +65,7 @@ import bw.factories.clsSingletonMasonGetter;
 		   setShape(pnRadius); 
 		 }
 	
+		@Override
 		public void step(SimState state){
 			setOrientationAndPosition();
 			clearList();

@@ -121,7 +121,8 @@ public class clsStomachDamageNutrition implements itfStepUpdateInternalState {
 		}
 	}
 	
-    public void stepUpdateInternalState() {
+    @Override
+	public void stepUpdateInternalState() {
     	double rPenaltySum = nutritionPenaltySum();
     	
     	hurt(rPenaltySum);

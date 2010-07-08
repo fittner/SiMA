@@ -38,7 +38,8 @@ public class Bubble extends FrictionRobot implements Steppable, ForceGenerator
 		faceTowards(new Angle(Math.PI + Angle.halfPI));
 	}
         
-    public void step(SimState state)
+    @Override
+	public void step(SimState state)
 	{
 		Double2D position = this.getPosition();
 		bubbleRace = (BubbleRace)state;
@@ -48,7 +49,8 @@ public class Bubble extends FrictionRobot implements Steppable, ForceGenerator
 		//test
 	}
         
-    public void addForce()
+    @Override
+	public void addForce()
 	{
     	//the agent goes to the coordinates (x|20) and then stops.
     	if (getPosition().y > 40)

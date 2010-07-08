@@ -88,6 +88,7 @@ public class clsHeartbeatSensor  extends clsSensorInt {
 	 * 
 	 * @see bw.body.io.sensors.itfSensorUpdate#updateSensorData()
 	 */
+	@Override
 	public void updateSensorData() {
 
 		if ( moBody instanceof clsComplexBody) {

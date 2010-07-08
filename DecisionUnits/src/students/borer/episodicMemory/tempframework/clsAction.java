@@ -106,7 +106,8 @@ public class clsAction
   public static class PriorityComparer implements Comparator 
   {
     //---------------------------------------------------------------------------
-    public int compare(Object obj1, Object obj2)
+    @Override
+	public int compare(Object obj1, Object obj2)
     //---------------------------------------------------------------------------
     {
             float i1 = ((clsAction)obj1).mrEffectivePriority;

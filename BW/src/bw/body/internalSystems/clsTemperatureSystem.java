@@ -95,6 +95,7 @@ public class clsTemperatureSystem implements itfStepUpdateInternalState {
 		return moTemperature.percentageHigh();
 	}
 	
+	@Override
 	public void stepUpdateInternalState() {
 		setChange();
 		

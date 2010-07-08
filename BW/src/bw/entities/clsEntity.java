@@ -131,6 +131,7 @@ public abstract class clsEntity implements itfGetBody {
 	 * 
 	 * @see bw.body.itfGetBody#getBody()
 	 */
+	@Override
 	public clsBaseBody getBody() {
 		return moBody;
 	}	

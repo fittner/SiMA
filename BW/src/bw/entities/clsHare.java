@@ -182,6 +182,7 @@ public class clsHare extends clsAnimal implements itfGetFlesh, itfAPEatable, itf
 	 * 						clsComplexBody to clsMeatBody 
 	 * @see bw.body.itfget.itfGetFlesh#getFlesh()
 	 */
+	@Override
 	public clsFlesh getFlesh() {
 		clsFlesh oResult = ((clsComplexBody)moBody).getInternalSystem().getFlesh();
 		return oResult;
@@ -194,6 +195,7 @@ public class clsHare extends clsAnimal implements itfGetFlesh, itfAPEatable, itf
 	 * 
 	 * @see bw.body.io.actuators.actionProxies.itfAPEatable#Eat(float)
 	 */
+	@Override
 	public clsFood Eat(double prBiteSize) {
 		clsFood oResult = getFlesh().withdraw(prBiteSize);
 		updateShape();
@@ -210,6 +212,7 @@ public class clsHare extends clsAnimal implements itfGetFlesh, itfAPEatable, itf
 	 * 
 	 * @see bw.body.io.actuators.actionProxies.itfAPKillable#kill(float)
 	 */
+	@Override
 	public void bite(double pfForce) {
 		setAlive(false);
 		updateShape();
@@ -223,6 +226,7 @@ public class clsHare extends clsAnimal implements itfGetFlesh, itfAPEatable, itf
 	 * 
 	 * @see bw.body.io.actuators.actionProxies.itfAPKillable#kill(double)
 	 */
+	@Override
 	public void attackLightning(double pfForce) {
 	}
 
@@ -235,6 +239,7 @@ public class clsHare extends clsAnimal implements itfGetFlesh, itfAPEatable, itf
 	 * 
 	 * @see bw.body.io.actuators.actionProxies.itfAPKillable#tryKill(float)
 	 */
+	@Override
 	public double tryBite(double pfForce) {
 		return 0;
 	}
@@ -246,6 +251,7 @@ public class clsHare extends clsAnimal implements itfGetFlesh, itfAPEatable, itf
 	 * 
 	 * @see bw.body.io.actuators.actionProxies.itfAPEatable#tryEat()
 	 */
+	@Override
 	public double tryEat() {
 		if (!isAlive()){
   		  return 0;

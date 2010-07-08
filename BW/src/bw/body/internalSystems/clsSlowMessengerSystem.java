@@ -162,6 +162,7 @@ public class clsSlowMessengerSystem implements itfStepUpdateInternalState {
 	/* (non-Javadoc)
 	 * @see bw.body.itfStep#step()
 	 */
+	@Override
 	public void stepUpdateInternalState() {
 		Iterator<eSlowMessenger> i = moSlowMessengerContainer.keySet().iterator();
 		

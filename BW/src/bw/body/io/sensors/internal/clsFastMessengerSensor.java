@@ -100,6 +100,7 @@ public class clsFastMessengerSensor extends clsSensorInt {
 	 * 
 	 * @see bw.body.io.sensors.itfSensorUpdate#updateSensorData()
 	 */
+	@Override
 	public void updateSensorData() {
 
 		if ( moFMS != null) {

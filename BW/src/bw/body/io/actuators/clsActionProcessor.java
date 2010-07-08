@@ -100,7 +100,8 @@ public class clsActionProcessor implements itfActionProcessor {
 	 /*
 	  * Adds the given command to the inhibition-list. The given command will be inhibited for the number of cycles given as duration.
 	  */
-	 public void inhibitCommand(Class<?> poCommand, int pnDuration) {
+	 @Override
+	public void inhibitCommand(Class<?> poCommand, int pnDuration) {
 		 moInhibitedCommands.add(new clsProcessorInhibition(poCommand,pnDuration));	 
 	 }
 	 
@@ -109,9 +110,11 @@ public class clsActionProcessor implements itfActionProcessor {
 	 * The duration can be set to any number greater or equal to one and defines the 
 	 * number of simulation cycles the command should be executed for.
 	 */
+	@Override
 	public void call(clsActionCommand poCommand) {
 		call(poCommand, eCallPriority.CALLPRIORITY_NORMAL);
 	}
+	@Override
 	public void call(clsActionCommand poCommand, eCallPriority pePriority) {
 		//Explicit exception was disabled because having to use try/catch blocks when calling is annoying...
 		//if (moDisabledCommands.contains(poCommand.getClass())) throw (new exCommandDisabled());
@@ -160,6 +163,7 @@ public class clsActionProcessor implements itfActionProcessor {
 	/*
 	 * Returns a XML-log containing the dispatched calls of the current simulation cycle
 	 */
+	@Override
 	public String logXML() {
 		return "<Actions>" + msLogXML + "</Actions>";
 	}

@@ -42,7 +42,8 @@ public class clsGrowth implements itfStepUpdateInternalState {
      * DOCUMENT (deutsch) - insert description
      *
      */
-    public void stepUpdateInternalState() {
+    @Override
+	public void stepUpdateInternalState() {
     	
     }
 }

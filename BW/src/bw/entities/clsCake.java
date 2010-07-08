@@ -158,6 +158,7 @@ public class clsCake extends clsInanimate implements itfGetFlesh, itfAPEatable, 
 	 * 
 	 * @see bw.body.itfget.itfGetFlesh#getFlesh()
 	 */
+	@Override
 	public clsFlesh getFlesh() {
 		return ((clsMeatBody)moBody).getFlesh();
 	}
@@ -165,9 +166,11 @@ public class clsCake extends clsInanimate implements itfGetFlesh, itfAPEatable, 
 	/*
 	 * Interface Eatable
 	 */
+	@Override
 	public double tryEat() {
 		return 0;
 	}
+	@Override
 	public clsFood Eat(double prBiteSize) {
 		//withdraw from the flesh the food corresponding the bite size in weight
 		clsFood oFood = getFlesh().withdraw(prBiteSize);
@@ -182,9 +185,11 @@ public class clsCake extends clsInanimate implements itfGetFlesh, itfAPEatable, 
 	/*
 	 * Interface Carryable
 	 */
+	@Override
 	public clsMobile getCarryableEntity() {
 		return this;	
 	}
+	@Override
 	public void setCarriedBindingState(eBindingState pBindingState) {
 		//handle binding-state implications 
 	}

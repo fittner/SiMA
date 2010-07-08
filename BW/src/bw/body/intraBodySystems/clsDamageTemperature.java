@@ -104,7 +104,8 @@ public class clsDamageTemperature implements itfStepUpdateInternalState {
 		}
 	}
 	
-    public void stepUpdateInternalState() {
+    @Override
+	public void stepUpdateInternalState() {
     	double rPenaltySum = temperaturePenalty();
     	
     	hurt(rPenaltySum);

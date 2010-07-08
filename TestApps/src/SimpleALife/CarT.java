@@ -58,7 +58,8 @@ public class CarT extends TestApps.Physics2D.BubbleRace.FrictionRobot implements
 	}
 
 	// function for "thinking" states
-    public void step(SimState state)
+    @Override
+	public void step(SimState state)
 	{
     	steps++;
 //    	if (SimLifeMath.modulo(steps, 100) == 0)
@@ -174,7 +175,8 @@ public class CarT extends TestApps.Physics2D.BubbleRace.FrictionRobot implements
 	}
 
     // function for "doing" states
-    public void addForce()
+    @Override
+	public void addForce()
 	{
     	double actualVelocity = this.getVelocity().length();
 		if (actualVelocity > maxVelocity)

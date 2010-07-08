@@ -47,6 +47,7 @@ public class Display2D extends sim.display.Display2D {
 		{
 
 			
+			@Override
 			public void mouseDragged(MouseEvent e) {
 
 				Point oPoint = e.getPoint();
@@ -55,6 +56,7 @@ public class Display2D extends sim.display.Display2D {
 			}
 
 			
+			@Override
 			public void mouseMoved(MouseEvent arg0) {
 			
 			}

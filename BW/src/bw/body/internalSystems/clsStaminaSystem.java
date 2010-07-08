@@ -85,6 +85,7 @@ public class clsStaminaSystem implements itfStepUpdateInternalState {
 		moStamina.setChange(prRecoveryRate);
 	}
 	
+	@Override
 	public void stepUpdateInternalState() {
 		try {
 			moStamina.update();

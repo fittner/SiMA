@@ -97,6 +97,7 @@ public class clsHealthSystem implements itfStepUpdateInternalState {
 		}
 	}
 	
+	@Override
 	public void stepUpdateInternalState() {
 		try {
 			moHealth.update();

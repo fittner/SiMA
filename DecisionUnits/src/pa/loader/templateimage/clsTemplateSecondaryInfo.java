@@ -114,12 +114,14 @@ public class clsTemplateSecondaryInfo extends clsSecondaryInformation implements
 		return oRetVal;
 	}
 	
+	@Override
 	public int getNodeCount() {
 		int nRetVal = 0;
 		if(moWP!=null) { nRetVal++; }
 		if(moAffect!=null) { nRetVal++; }
 		return nRetVal;
 	}
+	@Override
 	public void getNodeCountRecursive(Integer[] poNodeCount){
 		poNodeCount[0]+=getNodeCount();
 	}

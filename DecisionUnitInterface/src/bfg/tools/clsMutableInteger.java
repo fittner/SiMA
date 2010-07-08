@@ -209,6 +209,7 @@ public class clsMutableInteger implements Serializable, Comparable<clsMutableInt
 	 * 
 	 * @see java.lang.Comparable#compareTo(java.lang.Object)
 	 */
+	@Override
 	public int compareTo(clsMutableInteger arg0) {
 		if (arg0.intValue() == m_value) {
 			return 0;

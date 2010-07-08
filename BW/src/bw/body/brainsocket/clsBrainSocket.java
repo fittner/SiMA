@@ -117,6 +117,7 @@ public class clsBrainSocket implements itfStepProcessing {
 	 * @see bw.body.itfStep#step()
 	 */
 //	public void stepProcessing(clsAnimate poAnimate, clsBrainActionContainer poActionList) {
+	@Override
 	public void stepProcessing() {
 		if (moDecisionUnit != null) {
 			moDecisionUnit.update(convertSensorData());

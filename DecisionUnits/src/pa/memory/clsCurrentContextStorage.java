@@ -103,7 +103,8 @@ public class clsCurrentContextStorage implements itfContextAccessPrimary, itfCon
     	}
     }
 
-    public clsMutableDouble getContextRatioPrim(clsThingPresentationSingle poTPContext) {
+    @Override
+	public clsMutableDouble getContextRatioPrim(clsThingPresentationSingle poTPContext) {
      	if (!poTPContext.meContentType.equals(eContext.class.getName())) {
     		throw new java.lang.IllegalArgumentException("TP not of type "+eContext.class.getName());
     	}    	

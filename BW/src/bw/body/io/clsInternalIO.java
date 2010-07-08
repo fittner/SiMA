@@ -159,6 +159,7 @@ public class clsInternalIO extends clsBaseIO{
 	 * 
 	 * @see bw.body.itfStepSensing#stepSensing()
 	 */
+	@Override
 	public void stepSensing() {
 		for (clsSensorInt sensor : moSensorInternal.values()) {
 			sensor.updateSensorData();

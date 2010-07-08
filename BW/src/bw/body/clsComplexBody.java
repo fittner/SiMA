@@ -115,6 +115,7 @@ public class clsComplexBody extends clsBaseBody implements
 	 * 
 	 * @see bw.body.itfInternalEnergyConsumption#getInternalEnergyConsumption()
 	 */
+	@Override
 	public clsInternalEnergyConsumption getInternalEnergyConsumption() {
 		return moInternalSystem.getInternalEnergyConsumption();
 	}
@@ -122,6 +123,7 @@ public class clsComplexBody extends clsBaseBody implements
 	/**
 	 * @return the moExternalIO
 	 */
+	@Override
 	public clsExternalIO getExternalIO() {
 		return moExternalIO;
 	}
@@ -129,31 +131,37 @@ public class clsComplexBody extends clsBaseBody implements
 	/**
 	 * @return the moInternalIO
 	 */
+	@Override
 	public clsInternalIO getInternalIO() {
 		return moInternalIO;
 	}
 	/**
 	 * @return the moBrain
 	 */
+	@Override
 	public clsBrainSocket getBrain() {
 		return moBrain;
 	}	
 	
+	@Override
 	public void stepSensing() {
 		moExternalIO.stepSensing();
 		moInternalIO.stepSensing();
 	}
 	
+	@Override
 	public void stepUpdateInternalState() {
 		moInternalSystem.stepUpdateInternalState(); //call first!
 		moIntraBodySystem.stepUpdateInternalState();
 		moInterBodyWorldSystem.stepUpdateInternalState();
 	}
 	
+	@Override
 	public void stepProcessing(){
 		moBrain.stepProcessing();
 	}	
 
+	@Override
 	public void stepExecution() {
 		moExternalIO.stepExecution();
 		moInternalIO.stepExecution();

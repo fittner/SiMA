@@ -27,7 +27,8 @@ public class Effector extends MobileObject2D implements Steppable
         setCoefficientOfRestitution(1);
     }
  
-    public void step(SimState state)
+    @Override
+	public void step(SimState state)
     {
         Double2D position = this.getPosition();
         BubbleRace bubbleRace = (BubbleRace)state;

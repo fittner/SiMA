@@ -14,10 +14,12 @@ public abstract class clsBaseDecisionUnit implements itfDecisionUnit {
 		applyProperties(poPrefix, poProp);
 	}
 	
+	@Override
 	public void update(clsSensorData poSensorData) {
 		setSensorData(poSensorData);		
 	}
 	
+	@Override
 	public abstract void process();
 
 	/**
@@ -27,6 +29,7 @@ public abstract class clsBaseDecisionUnit implements itfDecisionUnit {
 		this.moSensorData = poSensorData;
 	}
 	
+	@Override
 	public void setActionProcessor(itfActionProcessor poActionProcessor) {
 		this.moActionProcessor = poActionProcessor;
 	}
@@ -46,6 +49,7 @@ public abstract class clsBaseDecisionUnit implements itfDecisionUnit {
 		return moActionProcessorToHTML;
 	}
 	
+	@Override
 	public void updateActionProcessorToHTML() {
 		moActionProcessorToHTML = moActionProcessor.logXML();
 	}

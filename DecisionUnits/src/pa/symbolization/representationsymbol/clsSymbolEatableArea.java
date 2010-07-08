@@ -19,6 +19,7 @@ public class clsSymbolEatableArea extends du.itf.sensors.clsEatableArea implemen
 		}		
 	}
 
+	@Override
 	public Method[] getDataAccessMethods() {
 		return itfSymbolEatableArea.class.getMethods();
 	}

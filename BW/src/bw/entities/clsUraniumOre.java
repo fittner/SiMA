@@ -114,9 +114,11 @@ public class clsUraniumOre extends clsInanimate implements itfAPCarryable {
 	/*
 	 * Interface Carryable
 	 */
+	@Override
 	public clsMobile getCarryableEntity() {
 		return this;	
 	}
+	@Override
 	public void setCarriedBindingState(eBindingState pBindingState) {
 		//handle binding-state implications 
 	}

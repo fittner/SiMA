@@ -125,6 +125,7 @@ public class clsTemplateSecondaryMesh extends clsSecondaryInformationMesh implem
 	 * @param poCurrentPrim
 	 * @return
 	 */
+	@Override
 	public boolean checkType(clsSecondaryInformation poCurrentSec) {
 
 
@@ -199,6 +200,7 @@ public class clsTemplateSecondaryMesh extends clsSecondaryInformationMesh implem
 		return oRetVal;
 	}
 	
+	@Override
 	public int getNodeCount() {
 		int nRetVal = 0;
 		if(moWP!=null) { nRetVal++; }
@@ -207,6 +209,7 @@ public class clsTemplateSecondaryMesh extends clsSecondaryInformationMesh implem
 		return nRetVal;
 	}
 	
+	@Override
 	public void getNodeCountRecursive(Integer[] poNodeCount){
 		if(moWP!=null) { poNodeCount[0]++; }
 		if(moAffect!=null) { poNodeCount[0]++; }

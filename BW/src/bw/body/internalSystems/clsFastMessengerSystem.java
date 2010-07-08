@@ -111,6 +111,7 @@ public class clsFastMessengerSystem implements itfStepUpdateInternalState {
 	 * 
 	 * @see bw.body.itfStep#step()
 	 */
+	@Override
 	public void stepUpdateInternalState() {
 		Iterator<eBodyParts> i = moTargetList.keySet().iterator();
 		

@@ -129,6 +129,7 @@ public class clsTemplatePrimaryMesh extends clsPrimaryInformationMesh implements
 	 * @param poCurrentPrim
 	 * @return
 	 */
+	@Override
 	public boolean checkType(clsPrimaryInformation poCurrentPrim) {
 
 

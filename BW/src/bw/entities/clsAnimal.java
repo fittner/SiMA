@@ -85,6 +85,7 @@ public class clsAnimal extends clsAnimate implements itfGetRadiation, itfGetSens
 	 * 
 	 * @return the mnAlive
 	 */
+	@Override
 	public boolean isAlive() {
 		return mnAlive;
 	}

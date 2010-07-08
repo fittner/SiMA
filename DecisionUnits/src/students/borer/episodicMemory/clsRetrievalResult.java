@@ -60,6 +60,7 @@ public class clsRetrievalResult implements Comparable{
 	/**
 	 * Retrieval results are compared according their result value.
 	 */
+	@Override
 	public int compareTo(Object o1) {
 		clsRetrievalResult oResult1 = (clsRetrievalResult)o1;
 		if(oResult1.moEvent.moMemoryKey.intValue() == this.moEvent.moMemoryKey.intValue()) return 0;

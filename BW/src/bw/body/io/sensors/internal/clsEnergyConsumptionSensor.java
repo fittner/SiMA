@@ -102,6 +102,7 @@ public class clsEnergyConsumptionSensor extends clsSensorInt {
 	 * 
 	 * @see bw.body.io.sensors.itfSensorUpdate#updateSensorData()
 	 */
+	@Override
 	public void updateSensorData() {
 
 		if ( moBody instanceof clsComplexBody) {

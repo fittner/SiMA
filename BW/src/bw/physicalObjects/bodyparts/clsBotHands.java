@@ -46,7 +46,8 @@ public class clsBotHands extends MobileObject2D implements Steppable
         setShape(shape, 0.0001); // if weight is set to 0, physic engine crashes ...
     }
  
-    public void step(SimState state)
+    @Override
+	public void step(SimState state)
         {
     	sim.physics2D.util.Double2D position = this.getPosition();
         clsSingletonMasonGetter.getFieldEnvironment().setObjectLocation(this, new sim.util.Double2D(position.x, position.y));

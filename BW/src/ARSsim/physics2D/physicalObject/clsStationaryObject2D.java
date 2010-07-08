@@ -43,11 +43,13 @@ public class clsStationaryObject2D extends sim.physics2D.physicalObject.Stationa
 	 *
 	 * @return
 	 */
+	@Override
 	public clsEntity getEntity() {
 		// TODO (muchitsch) - Auto-generated method stub
 		return moEntity;
 	}	
 	
+	@Override
 	public void setPose(clsPose poPose) {
 		clsSingletonMasonGetter.getFieldEnvironment().setObjectLocation( this, new sim.util.Double2D(poPose.getPosition().getX(), poPose.getPosition().getY()) );
 		setPose(poPose.getPosition(), poPose.getAngle());
@@ -59,6 +61,7 @@ public class clsStationaryObject2D extends sim.physics2D.physicalObject.Stationa
 	 * 
 	 * @see ARSsim.physics2D.physicalObject.itfSetupFunctions#getPose()
 	 */
+	@Override
 	public clsPose getPose() {
 		return new clsPose(this.getPosition(), this.getOrientation());
 	}
@@ -66,6 +69,7 @@ public class clsStationaryObject2D extends sim.physics2D.physicalObject.Stationa
 	/* (non-Javadoc)
 	 * @see ARSsim.physics2D.physicalObject.itfSetupFunctions#setShape(sim.physics2D.shape.Shape, double)
 	 */
+	@Override
 	public void setShape(Shape poShape, double ignored) {
 		// TODO Why is there no setShape - corresponding to clsMobileObject2D. Adopt it!
 		setShape(poShape);
@@ -76,6 +80,7 @@ public class clsStationaryObject2D extends sim.physics2D.physicalObject.Stationa
 	 * Note: Stationary objects don't support friction and staticFriction, only restitution.
 	 *       Use NaN for the former two.
 	 */
+	@Override
 	public void setCoefficients(double mustBeNaN1, double mustBeNaN2,
 			double poRestitution) {
 		if (! Double.isNaN(mustBeNaN1) || ! Double.isNaN(mustBeNaN2))
@@ -83,6 +88,7 @@ public class clsStationaryObject2D extends sim.physics2D.physicalObject.Stationa
 		setCoefficientOfRestitution(poRestitution);
 	}
 
+	@Override
 	public void step(SimState state) {
 		//this block should be distributed to different steps
 		moEntity.sensing();
@@ -94,6 +100,7 @@ public class clsStationaryObject2D extends sim.physics2D.physicalObject.Stationa
 	public Steppable getSteppableSensing() {
 		return new Steppable() {
 			private static final long serialVersionUID = 6889902215107604312L;
+			@Override
 			public void step(SimState state) {
 				moEntity.sensing();
 			}
@@ -103,6 +110,7 @@ public class clsStationaryObject2D extends sim.physics2D.physicalObject.Stationa
 	public Steppable getSteppableProcessing() {
 		return new Steppable() {
 			private static final long serialVersionUID = -5218583360606426073L;
+			@Override
 			public void step(SimState state) {
 				moEntity.processing();
 			}

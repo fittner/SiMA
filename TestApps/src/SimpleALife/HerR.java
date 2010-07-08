@@ -63,6 +63,7 @@ public class HerR extends TestApps.Physics2D.BubbleRace.FrictionRobot implements
 	}
 
 	// function for "thinking" states
+	@Override
 	public void step(SimState state)
 	{
 		steps++;
@@ -149,6 +150,7 @@ public class HerR extends TestApps.Physics2D.BubbleRace.FrictionRobot implements
 	}
 
 	// function for "doing" states
+	@Override
 	public void addForce()
 	{
 		double actualVelocity = this.getVelocity().length();

@@ -157,6 +157,7 @@ public class clsFungus extends clsInanimate implements itfGetFlesh, itfAPEatable
 	 * 
 	 * @see bw.body.itfget.itfGetFlesh#getFlesh()
 	 */
+	@Override
 	public clsFlesh getFlesh() {
 		return ((clsMeatBody)moBody).getFlesh();
 	}
@@ -165,9 +166,11 @@ public class clsFungus extends clsInanimate implements itfGetFlesh, itfAPEatable
 	/*
 	 * Interface Eatable
 	 */
+	@Override
 	public double tryEat() {
 		return 0;
 	}
+	@Override
 	public clsFood Eat(double prBiteSize) {
 		clsFood oFood = getFlesh().withdraw(prBiteSize);
 		
@@ -179,9 +182,11 @@ public class clsFungus extends clsInanimate implements itfGetFlesh, itfAPEatable
 	/*
 	 * Interface Carryable
 	 */
+	@Override
 	public clsMobile getCarryableEntity() {
 		return this;	
 	}
+	@Override
 	public void setCarriedBindingState(eBindingState pBindingState) {
 		//handle binding-state implications 
 	}
