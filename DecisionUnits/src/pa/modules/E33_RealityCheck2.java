@@ -38,8 +38,24 @@ public class E33_RealityCheck2 extends clsModuleBase implements I7_3_receive, I7
 	public E33_RealityCheck2(String poPrefix, clsBWProperties poProp,
 			clsModuleContainer poEnclosingContainer, clsInterfaceHandler poInterfaceHandler) {
 		super(poPrefix, poProp, poEnclosingContainer, poInterfaceHandler);
+		applyProperties(poPrefix, poProp);	
 		// TODO (deutsch) - Auto-generated constructor stub
 	}
+	
+	public static clsBWProperties getDefaultProperties(String poPrefix) {
+		String pre = clsBWProperties.addDot(poPrefix);
+		
+		clsBWProperties oProp = new clsBWProperties();
+		oProp.setProperty(pre+P_PROCESS_IMPLEMENTATION_STAGE, eImplementationStage.BASIC.toString());
+				
+		return oProp;
+	}	
+	
+	private void applyProperties(String poPrefix, clsBWProperties poProp) {
+		//String pre = clsBWProperties.addDot(poPrefix);
+	
+		//nothing to do
+	}	
 
 	/* (non-Javadoc)
 	 *

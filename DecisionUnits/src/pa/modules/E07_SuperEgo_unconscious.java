@@ -46,11 +46,10 @@ public class E07_SuperEgo_unconscious extends clsModuleBase implements I1_5_rece
 	}
 	
 	public static clsBWProperties getDefaultProperties(String poPrefix) {
-		// String pre = clsBWProperties.addDot(poPrefix);
+		String pre = clsBWProperties.addDot(poPrefix);
 		
 		clsBWProperties oProp = new clsBWProperties();
-		
-		//nothing to do
+		oProp.setProperty(pre+P_PROCESS_IMPLEMENTATION_STAGE, eImplementationStage.BASIC.toString());
 				
 		return oProp;
 	}	

@@ -67,7 +67,7 @@ public class G16_SecondaryKnowledgeUtilizer extends clsModuleContainer implement
 		
 		oProp.putAll( E25_KnowledgeAboutReality.getDefaultProperties(pre+P_E25) );
 		oProp.putAll( E28_KnowledgeBase_StoredScenarios.getDefaultProperties(pre+P_E28) );
-		oProp.putAll( E34_KnowledgeAboutReality2.getDefaultProperties(P_E34));
+		oProp.putAll( E34_KnowledgeAboutReality2.getDefaultProperties(pre+P_E34));
 				
 		return oProp;
 	}

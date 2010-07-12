@@ -103,7 +103,7 @@ public class G03_Ego extends clsModuleContainer implements
 		String pre = clsBWProperties.addDot(poPrefix);
 	
 		moG07EnvironmentalInterfaceFunctions = new G07_EnvironmentalInterfaceFunctions(pre+P_G07, poProp, this, moInterfaceHandler, moMemory);
-		moG08PsychicMediator = new G08_PsychicMediator(pre+P_G07, poProp, this, moInterfaceHandler, moMemory);
+		moG08PsychicMediator = new G08_PsychicMediator(pre+P_G08, poProp, this, moInterfaceHandler, moMemory);
 	}
 
 	/* (non-Javadoc)

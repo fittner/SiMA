@@ -48,7 +48,9 @@ public class S_ManagementOfRepressedContents_1 extends clsModuleBase implements 
 		String pre = clsBWProperties.addDot(poPrefix);
 		
 		clsBWProperties oProp = new clsBWProperties();
-		oProp.setProperty(pre+P_CONTEXT_SENSTITIVITY, 0.8);	
+		oProp.setProperty(pre+P_CONTEXT_SENSTITIVITY, 0.8);
+		oProp.setProperty(pre+P_PROCESS_IMPLEMENTATION_STAGE, eImplementationStage.BASIC.toString());
+
 		return oProp;
 	}	
 	

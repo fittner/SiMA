@@ -21,6 +21,8 @@ import config.clsBWProperties;
  * 
  */
 public abstract class clsModuleBase {
+	public static String P_PROCESS_IMPLEMENTATION_STAGE = "IMP_STAGE"; 
+	
 	protected clsModuleContainer moEnclosingContainer;
 	protected eProcessType mnProcessType;
 	protected ePsychicInstances mnPsychicInstances;
@@ -52,10 +54,9 @@ public abstract class clsModuleBase {
 	}	
 	
 	private void applyProperties(String poPrefix, clsBWProperties poProp) {
-		mnImplementationStage = eImplementationStage.BASIC;
-		//String pre = clsBWProperties.addDot(poPrefix);
-	
-		//nothing to do
+		String pre = clsBWProperties.addDot(poPrefix);
+		
+		mnImplementationStage = eImplementationStage.valueOf(poProp.getPropertyString(pre+P_PROCESS_IMPLEMENTATION_STAGE));	
 	}
 	
 	private void process() {
