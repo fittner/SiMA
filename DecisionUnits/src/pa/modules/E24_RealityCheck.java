@@ -121,7 +121,7 @@ public class E24_RealityCheck extends clsModuleBase implements I2_12_receive, I6
 	 * @see pa.modules.clsModuleBase#process()
 	 */
 	@Override
-	protected void process() {
+	protected void process_basic() {
 
 		moRealityPerception_Output = new ArrayList<clsPair<clsSecondaryInformation,clsSecondaryInformationMesh>>();
 		for(clsSecondaryInformation oSec : moFocusedPerception_Input) {
@@ -157,5 +157,31 @@ public class E24_RealityCheck extends clsModuleBase implements I2_12_receive, I6
 			ArrayList<clsPair<clsSecondaryInformation, clsSecondaryInformationMesh>> poRealityPerception) {
 		((I2_13_receive)moEnclosingContainer).receive_I2_13(moRealityPerception_Output);
 		
+	}
+
+	/* (non-Javadoc)
+	 *
+	 * @author deutsch
+	 * 12.07.2010, 10:47:25
+	 * 
+	 * @see pa.modules.clsModuleBase#process_draft()
+	 */
+	@Override
+	protected void process_draft() {
+		// TODO (deutsch) - Auto-generated method stub
+		throw new java.lang.NoSuchMethodError();
+	}
+
+	/* (non-Javadoc)
+	 *
+	 * @author deutsch
+	 * 12.07.2010, 10:47:25
+	 * 
+	 * @see pa.modules.clsModuleBase#process_final()
+	 */
+	@Override
+	protected void process_final() {
+		// TODO (deutsch) - Auto-generated method stub
+		throw new java.lang.NoSuchMethodError();
 	}
 }

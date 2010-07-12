@@ -105,7 +105,7 @@ public class S_ManagementOfRepressedContents_2 extends clsModuleBase implements 
 	 * @see pa.modules.clsModuleBase#process()
 	 */
 	@Override
-	protected void process() {
+	protected void process_basic() {
 		mnTest++;
 		
 	}
@@ -148,6 +148,34 @@ public class S_ManagementOfRepressedContents_2 extends clsModuleBase implements 
 	protected void setPsychicInstances() {
 		mnPsychicInstances = ePsychicInstances.EGO;
 		
+	}
+
+
+	/* (non-Javadoc)
+	 *
+	 * @author deutsch
+	 * 12.07.2010, 10:52:51
+	 * 
+	 * @see pa.modules.clsModuleBase#process_draft()
+	 */
+	@Override
+	protected void process_draft() {
+		// TODO (deutsch) - Auto-generated method stub
+		throw new java.lang.NoSuchMethodError();
+	}
+
+
+	/* (non-Javadoc)
+	 *
+	 * @author deutsch
+	 * 12.07.2010, 10:52:51
+	 * 
+	 * @see pa.modules.clsModuleBase#process_final()
+	 */
+	@Override
+	protected void process_final() {
+		// TODO (deutsch) - Auto-generated method stub
+		throw new java.lang.NoSuchMethodError();
 	}
 
 }

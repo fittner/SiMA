@@ -108,7 +108,7 @@ public class E11_NeuroSymbolsEnvironment extends clsModuleBase implements I2_1_r
 	 * @see pa.modules.clsModuleBase#process()
 	 */
 	@Override
-	protected void process() {
+	protected void process_basic() {
 		moSymbolData = clsSensorToSymbolConverter.convertExtSensorToSymbol(moEnvironmentalData);
 	}
 
@@ -136,5 +136,31 @@ public class E11_NeuroSymbolsEnvironment extends clsModuleBase implements I2_1_r
 	public void send_I2_2(HashMap<eSymbolExtType, itfSymbol> poEnvironmentalData) {
 		((I2_2_receive)moEnclosingContainer).receive_I2_2(moSymbolData);
 		
+	}
+
+	/* (non-Javadoc)
+	 *
+	 * @author deutsch
+	 * 12.07.2010, 10:46:14
+	 * 
+	 * @see pa.modules.clsModuleBase#process_draft()
+	 */
+	@Override
+	protected void process_draft() {
+		// TODO (deutsch) - Auto-generated method stub
+		throw new java.lang.NoSuchMethodError();
+	}
+
+	/* (non-Javadoc)
+	 *
+	 * @author deutsch
+	 * 12.07.2010, 10:46:14
+	 * 
+	 * @see pa.modules.clsModuleBase#process_final()
+	 */
+	@Override
+	protected void process_final() {
+		// TODO (deutsch) - Auto-generated method stub
+		throw new java.lang.NoSuchMethodError();
 	}
 }

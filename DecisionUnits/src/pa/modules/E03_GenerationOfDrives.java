@@ -146,7 +146,7 @@ public class E03_GenerationOfDrives extends clsModuleBase implements I1_2_receiv
 	 */
 	@SuppressWarnings("unchecked")
 	@Override
-	protected void process() {
+	protected void process_basic() {
 
 		moHomeostaticTP = new ArrayList<clsPair<clsPair<clsPrimaryInformationMesh, clsAffectCandidate>, 
 		  clsPair<clsPrimaryInformationMesh, clsAffectCandidate>>>();
@@ -267,6 +267,32 @@ public class E03_GenerationOfDrives extends clsModuleBase implements I1_2_receiv
 			ArrayList<clsPair<clsPair<clsPrimaryInformationMesh, clsAffectCandidate>, clsPair<clsPrimaryInformationMesh, clsAffectCandidate>>> poDriveCandidate) {
 		((I1_3_receive)moEnclosingContainer).receive_I1_3(moHomeostaticTP);
 		
+	}
+
+	/* (non-Javadoc)
+	 *
+	 * @author deutsch
+	 * 12.07.2010, 10:42:01
+	 * 
+	 * @see pa.modules.clsModuleBase#process_draft()
+	 */
+	@Override
+	protected void process_draft() {
+		// TODO (deutsch) - Auto-generated method stub
+		throw new java.lang.NoSuchMethodError();
+	}
+
+	/* (non-Javadoc)
+	 *
+	 * @author deutsch
+	 * 12.07.2010, 10:42:01
+	 * 
+	 * @see pa.modules.clsModuleBase#process_final()
+	 */
+	@Override
+	protected void process_final() {
+		// TODO (deutsch) - Auto-generated method stub
+		throw new java.lang.NoSuchMethodError();
 	}
 
 }

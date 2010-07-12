@@ -103,7 +103,7 @@ public class E09_KnowledgeAboutReality_unconscious extends clsModuleBase impleme
 	 * @see pa.modules.clsModuleBase#process()
 	 */
 	@Override
-	protected void process() {
+	protected void process_basic() {
 		mnTest++;
 		
 	}
@@ -131,5 +131,31 @@ public class E09_KnowledgeAboutReality_unconscious extends clsModuleBase impleme
 	public void send_I6_3(int pnData) {
 		((I6_3_receive)moEnclosingContainer).receive_I6_3(mnTest);
 		
+	}
+
+	/* (non-Javadoc)
+	 *
+	 * @author deutsch
+	 * 12.07.2010, 10:45:59
+	 * 
+	 * @see pa.modules.clsModuleBase#process_draft()
+	 */
+	@Override
+	protected void process_draft() {
+		// TODO (deutsch) - Auto-generated method stub
+		throw new java.lang.NoSuchMethodError();
+	}
+
+	/* (non-Javadoc)
+	 *
+	 * @author deutsch
+	 * 12.07.2010, 10:45:59
+	 * 
+	 * @see pa.modules.clsModuleBase#process_final()
+	 */
+	@Override
+	protected void process_final() {
+		// TODO (deutsch) - Auto-generated method stub
+		throw new java.lang.NoSuchMethodError();
 	}
 }

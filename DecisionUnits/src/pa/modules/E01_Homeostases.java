@@ -104,7 +104,7 @@ public class E01_Homeostases extends clsModuleBase implements itfProcessHomeosta
 	 * @see pa.modules.clsModuleBase#process()
 	 */
 	@Override
-	protected void process() {
+	protected void process_basic() {
 		//add necessary preprocessing here
 	}
 
@@ -130,5 +130,31 @@ public class E01_Homeostases extends clsModuleBase implements itfProcessHomeosta
 	@Override
 	public void send_I1_1(HashMap<eSensorIntType, clsDataBase> pnData) {
 		((I1_1_receive)moEnclosingContainer).receive_I1_1(moHomeostasis);		
+	}
+
+	/* (non-Javadoc)
+	 *
+	 * @author deutsch
+	 * 12.07.2010, 10:41:32
+	 * 
+	 * @see pa.modules.clsModuleBase#process_draft()
+	 */
+	@Override
+	protected void process_draft() {
+		// TODO (deutsch) - Auto-generated method stub
+		throw new java.lang.NoSuchMethodError();
+	}
+
+	/* (non-Javadoc)
+	 *
+	 * @author deutsch
+	 * 12.07.2010, 10:41:32
+	 * 
+	 * @see pa.modules.clsModuleBase#process_final()
+	 */
+	@Override
+	protected void process_final() {
+		// TODO (deutsch) - Auto-generated method stub
+		throw new java.lang.NoSuchMethodError();		
 	}
 }

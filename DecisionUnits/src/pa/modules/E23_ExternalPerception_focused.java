@@ -121,7 +121,7 @@ public class E23_ExternalPerception_focused extends clsModuleBase implements I2_
 	 * @see pa.modules.clsModuleBase#process()
 	 */
 	@Override
-	protected void process() {
+	protected void process_basic() {
 		moFocusedPerception_Output = moPerception; //simply forward
 
 	}
@@ -150,5 +150,31 @@ public class E23_ExternalPerception_focused extends clsModuleBase implements I2_
 			ArrayList<clsSecondaryInformation> poFocusedPerception) {
 		((I2_12_receive)moEnclosingContainer).receive_I2_12(moFocusedPerception_Output);
 		
+	}
+
+	/* (non-Javadoc)
+	 *
+	 * @author deutsch
+	 * 12.07.2010, 10:47:20
+	 * 
+	 * @see pa.modules.clsModuleBase#process_draft()
+	 */
+	@Override
+	protected void process_draft() {
+		// TODO (deutsch) - Auto-generated method stub
+		throw new java.lang.NoSuchMethodError();
+	}
+
+	/* (non-Javadoc)
+	 *
+	 * @author deutsch
+	 * 12.07.2010, 10:47:20
+	 * 
+	 * @see pa.modules.clsModuleBase#process_final()
+	 */
+	@Override
+	protected void process_final() {
+		// TODO (deutsch) - Auto-generated method stub
+		throw new java.lang.NoSuchMethodError();
 	}
 }

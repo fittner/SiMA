@@ -130,7 +130,7 @@ public class E14_PreliminaryExternalPerception extends clsModuleBase implements
 	 * @see pa.modules.clsModuleBase#process()
 	 */
 	@Override
-	protected void process() {
+	protected void process_basic() {
 		moEnvironmentalTP = clsTPGenerator.convertSensorToTP(moEnvironmentalData);		
 	}
 
@@ -157,5 +157,31 @@ public class E14_PreliminaryExternalPerception extends clsModuleBase implements
 	public void send_I2_5(ArrayList<clsPrimaryInformation> poEnvironmentalTP) {
 		((I2_5_receive)moEnclosingContainer).receive_I2_5(moEnvironmentalTP);
 		
+	}
+
+	/* (non-Javadoc)
+	 *
+	 * @author deutsch
+	 * 12.07.2010, 10:46:34
+	 * 
+	 * @see pa.modules.clsModuleBase#process_draft()
+	 */
+	@Override
+	protected void process_draft() {
+		// TODO (deutsch) - Auto-generated method stub
+		throw new java.lang.NoSuchMethodError();
+	}
+
+	/* (non-Javadoc)
+	 *
+	 * @author deutsch
+	 * 12.07.2010, 10:46:34
+	 * 
+	 * @see pa.modules.clsModuleBase#process_final()
+	 */
+	@Override
+	protected void process_final() {
+		// TODO (deutsch) - Auto-generated method stub
+		throw new java.lang.NoSuchMethodError();
 	}
 }

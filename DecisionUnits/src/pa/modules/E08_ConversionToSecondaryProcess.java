@@ -108,7 +108,7 @@ public class E08_ConversionToSecondaryProcess extends clsModuleBase implements I
 	 * @see pa.modules.clsModuleBase#process()
 	 */
 	@Override
-	protected void process() {
+	protected void process_basic() {
 		
 		moDriveList_Output = new ArrayList<clsSecondaryInformation>();
 		for( clsPrimaryInformation oPriminfo : moDriveList_Input ) {
@@ -162,5 +162,31 @@ public class E08_ConversionToSecondaryProcess extends clsModuleBase implements I
 	public void send_I5_3(ArrayList<clsSecondaryInformation> poDriveList) {
 		((I5_3_receive)moEnclosingContainer).receive_I5_3(moDriveList_Output);	
 		
+	}
+
+	/* (non-Javadoc)
+	 *
+	 * @author deutsch
+	 * 12.07.2010, 10:45:47
+	 * 
+	 * @see pa.modules.clsModuleBase#process_draft()
+	 */
+	@Override
+	protected void process_draft() {
+		// TODO (deutsch) - Auto-generated method stub
+		throw new java.lang.NoSuchMethodError();
+	}
+
+	/* (non-Javadoc)
+	 *
+	 * @author deutsch
+	 * 12.07.2010, 10:45:47
+	 * 
+	 * @see pa.modules.clsModuleBase#process_final()
+	 */
+	@Override
+	protected void process_final() {
+		// TODO (deutsch) - Auto-generated method stub
+		throw new java.lang.NoSuchMethodError();
 	}
 }

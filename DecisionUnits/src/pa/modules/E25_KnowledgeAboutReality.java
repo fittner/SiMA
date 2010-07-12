@@ -103,7 +103,7 @@ public class E25_KnowledgeAboutReality extends clsModuleBase implements I2_12_re
 	 * @see pa.modules.clsModuleBase#process()
 	 */
 	@Override
-	protected void process() {
+	protected void process_basic() {
 		mnTest++;
 		
 	}
@@ -132,5 +132,31 @@ public class E25_KnowledgeAboutReality extends clsModuleBase implements I2_12_re
 	public void send_I6_1(int pnData) {
 		((I6_1_receive)moEnclosingContainer).receive_I6_1(mnTest);
 		
+	}
+
+	/* (non-Javadoc)
+	 *
+	 * @author deutsch
+	 * 12.07.2010, 10:47:31
+	 * 
+	 * @see pa.modules.clsModuleBase#process_draft()
+	 */
+	@Override
+	protected void process_draft() {
+		// TODO (deutsch) - Auto-generated method stub
+		throw new java.lang.NoSuchMethodError();
+	}
+
+	/* (non-Javadoc)
+	 *
+	 * @author deutsch
+	 * 12.07.2010, 10:47:31
+	 * 
+	 * @see pa.modules.clsModuleBase#process_final()
+	 */
+	@Override
+	protected void process_final() {
+		// TODO (deutsch) - Auto-generated method stub
+		throw new java.lang.NoSuchMethodError();
 	}
 }

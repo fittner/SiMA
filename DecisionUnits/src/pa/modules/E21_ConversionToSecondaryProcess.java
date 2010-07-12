@@ -110,7 +110,7 @@ public class E21_ConversionToSecondaryProcess extends clsModuleBase implements I
 	 * @see pa.modules.clsModuleBase#process()
 	 */
 	@Override
-	protected void process() {
+	protected void process_basic() {
 		moPerception_Output = new ArrayList<clsSecondaryInformation>();
 		for( clsPrimaryInformation oPriminfo : moGrantedPerception_Input ) {
 
@@ -161,6 +161,32 @@ public class E21_ConversionToSecondaryProcess extends clsModuleBase implements I
 	public void send_I5_4(ArrayList<clsSecondaryInformation> poPerception) {
 		((I5_4_receive)moEnclosingContainer).receive_I5_4(moPerception_Output);
 		
+	}
+
+	/* (non-Javadoc)
+	 *
+	 * @author deutsch
+	 * 12.07.2010, 10:47:07
+	 * 
+	 * @see pa.modules.clsModuleBase#process_draft()
+	 */
+	@Override
+	protected void process_draft() {
+		// TODO (deutsch) - Auto-generated method stub
+		throw new java.lang.NoSuchMethodError();
+	}
+
+	/* (non-Javadoc)
+	 *
+	 * @author deutsch
+	 * 12.07.2010, 10:47:07
+	 * 
+	 * @see pa.modules.clsModuleBase#process_final()
+	 */
+	@Override
+	protected void process_final() {
+		// TODO (deutsch) - Auto-generated method stub
+		throw new java.lang.NoSuchMethodError();
 	}
 
 }

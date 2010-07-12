@@ -110,7 +110,7 @@ public class E18_GenerationOfAffectsForPerception extends clsModuleBase implemen
 	 * @see pa.modules.clsModuleBase#process()
 	 */
 	@Override
-	protected void process() {
+	protected void process_basic() {
 		defineOutput(); 
 		//moMergedPrimaryInformation_Output = moMergedPrimaryInformation_Input; 
 	}
@@ -184,5 +184,31 @@ public class E18_GenerationOfAffectsForPerception extends clsModuleBase implemen
 			ArrayList<clsPrimaryInformation> poMergedPrimaryInformation) {
 		((I2_9_receive)moEnclosingContainer).receive_I2_9(moNewPrimaryInformation);
 		
+	}
+
+	/* (non-Javadoc)
+	 *
+	 * @author deutsch
+	 * 12.07.2010, 10:46:50
+	 * 
+	 * @see pa.modules.clsModuleBase#process_draft()
+	 */
+	@Override
+	protected void process_draft() {
+		// TODO (deutsch) - Auto-generated method stub
+		throw new java.lang.NoSuchMethodError();
+	}
+
+	/* (non-Javadoc)
+	 *
+	 * @author deutsch
+	 * 12.07.2010, 10:46:50
+	 * 
+	 * @see pa.modules.clsModuleBase#process_final()
+	 */
+	@Override
+	protected void process_final() {
+		// TODO (deutsch) - Auto-generated method stub
+		throw new java.lang.NoSuchMethodError();
 	}
 }

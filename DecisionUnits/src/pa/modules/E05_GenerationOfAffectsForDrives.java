@@ -112,7 +112,7 @@ public class E05_GenerationOfAffectsForDrives extends clsModuleBase implements I
 	 * @see pa.modules.clsModuleBase#process()
 	 */
 	@Override
-	protected void process() {
+	protected void process_basic() {
 
 		moDriveList = new ArrayList<clsPair<clsPrimaryInformation, clsPrimaryInformation>>();
 		
@@ -178,6 +178,32 @@ public class E05_GenerationOfAffectsForDrives extends clsModuleBase implements I
 			oTimingValues.add(oDeath);
 		}
 		return oTimingValues;
+	}
+
+	/* (non-Javadoc)
+	 *
+	 * @author deutsch
+	 * 12.07.2010, 10:42:16
+	 * 
+	 * @see pa.modules.clsModuleBase#process_draft()
+	 */
+	@Override
+	protected void process_draft() {
+		// TODO (deutsch) - Auto-generated method stub
+		throw new java.lang.NoSuchMethodError();
+	}
+
+	/* (non-Javadoc)
+	 *
+	 * @author deutsch
+	 * 12.07.2010, 10:42:16
+	 * 
+	 * @see pa.modules.clsModuleBase#process_final()
+	 */
+	@Override
+	protected void process_final() {
+		// TODO (deutsch) - Auto-generated method stub
+		throw new java.lang.NoSuchMethodError();
 	}
 
 }

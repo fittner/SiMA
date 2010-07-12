@@ -117,7 +117,7 @@ public class E31_NeuroDeSymbolization extends clsModuleBase implements I8_1_rece
 	 * @see pa.modules.clsModuleBase#process()
 	 */
 	@Override
-	protected void process() {
+	protected void process_basic() {
 		
 		moActionCommandList_Output.clear();
 		
@@ -203,6 +203,32 @@ public class E31_NeuroDeSymbolization extends clsModuleBase implements I8_1_rece
 	public void send_I8_2(ArrayList<clsActionCommand> poActionCommandList) {
 		((I8_2_receive)moEnclosingContainer).receive_I8_2(moActionCommandList_Output);
 		
+	}
+
+	/* (non-Javadoc)
+	 *
+	 * @author deutsch
+	 * 12.07.2010, 10:48:02
+	 * 
+	 * @see pa.modules.clsModuleBase#process_draft()
+	 */
+	@Override
+	protected void process_draft() {
+		// TODO (deutsch) - Auto-generated method stub
+		throw new java.lang.NoSuchMethodError();
+	}
+
+	/* (non-Javadoc)
+	 *
+	 * @author deutsch
+	 * 12.07.2010, 10:48:02
+	 * 
+	 * @see pa.modules.clsModuleBase#process_final()
+	 */
+	@Override
+	protected void process_final() {
+		// TODO (deutsch) - Auto-generated method stub
+		throw new java.lang.NoSuchMethodError();	
 	}
 
 }

@@ -113,7 +113,7 @@ public class E02_NeurosymbolizationOfNeeds extends clsModuleBase implements I1_1
 	 * @see pa.modules.clsModuleBase#process()
 	 */
 	@Override
-	protected void process() {
+	protected void process_basic() {
 		
 		moHomeostaticSymbol = new HashMap<String, Double>();
 		
@@ -164,6 +164,32 @@ public class E02_NeurosymbolizationOfNeeds extends clsModuleBase implements I1_1
 	@Override
 	public void send_I1_2(HashMap<String, Double> poHomeostasisSymbols) {
 		((I1_2_receive)moEnclosingContainer).receive_I1_2(moHomeostaticSymbol);
+	}
+
+	/* (non-Javadoc)
+	 *
+	 * @author deutsch
+	 * 12.07.2010, 10:41:52
+	 * 
+	 * @see pa.modules.clsModuleBase#process_draft()
+	 */
+	@Override
+	protected void process_draft() {
+		// TODO (deutsch) - Auto-generated method stub
+		throw new java.lang.NoSuchMethodError();
+	}
+
+	/* (non-Javadoc)
+	 *
+	 * @author deutsch
+	 * 12.07.2010, 10:41:52
+	 * 
+	 * @see pa.modules.clsModuleBase#process_final()
+	 */
+	@Override
+	protected void process_final() {
+		// TODO (deutsch) - Auto-generated method stub
+		throw new java.lang.NoSuchMethodError();
 	}
 
 }

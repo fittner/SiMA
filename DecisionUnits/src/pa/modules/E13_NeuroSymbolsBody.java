@@ -107,7 +107,7 @@ public class E13_NeuroSymbolsBody extends clsModuleBase implements I2_3_receive,
 	 * @see pa.modules.clsModuleBase#process()
 	 */
 	@Override
-	protected void process() {
+	protected void process_basic() {
 		moSymbolData = clsSensorToSymbolConverter.convertExtSensorToSymbol(moBodyData);
 		
 	}
@@ -136,6 +136,32 @@ public class E13_NeuroSymbolsBody extends clsModuleBase implements I2_3_receive,
 	public void send_I2_4(HashMap<eSymbolExtType, itfSymbol> poBodyData) {
 		((I2_4_receive)moEnclosingContainer).receive_I2_4(moSymbolData);
 		
+	}
+
+	/* (non-Javadoc)
+	 *
+	 * @author deutsch
+	 * 12.07.2010, 10:46:24
+	 * 
+	 * @see pa.modules.clsModuleBase#process_draft()
+	 */
+	@Override
+	protected void process_draft() {
+		// TODO (deutsch) - Auto-generated method stub
+		throw new java.lang.NoSuchMethodError();
+	}
+
+	/* (non-Javadoc)
+	 *
+	 * @author deutsch
+	 * 12.07.2010, 10:46:24
+	 * 
+	 * @see pa.modules.clsModuleBase#process_final()
+	 */
+	@Override
+	protected void process_final() {
+		// TODO (deutsch) - Auto-generated method stub
+		throw new java.lang.NoSuchMethodError();
 	}
 
 }

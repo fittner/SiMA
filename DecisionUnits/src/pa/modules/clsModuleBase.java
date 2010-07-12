@@ -29,6 +29,8 @@ public abstract class clsModuleBase {
 	
 	protected clsInterfaceHandler moInterfaceHandler;
 	
+	private eImplementationStage mnImplementationStage;
+	
 	public clsModuleBase(String poPrefix, clsBWProperties poProp, clsModuleContainer poEnclosingContainer, clsInterfaceHandler poInterfaceHandler) {
 		moEnclosingContainer = poEnclosingContainer;
 		moInterfaceHandler = poInterfaceHandler;
@@ -50,12 +52,25 @@ public abstract class clsModuleBase {
 	}	
 	
 	private void applyProperties(String poPrefix, clsBWProperties poProp) {
+		mnImplementationStage = eImplementationStage.BASIC;
 		//String pre = clsBWProperties.addDot(poPrefix);
 	
 		//nothing to do
 	}
 	
-	protected abstract void process();
+	private void process() {
+		switch(mnImplementationStage) {
+			case BASIC:	process_basic(); break;
+			case DRAFT: process_draft(); break;
+			case FINAL: process_final(); break;
+			default: throw new java.lang.IllegalArgumentException(mnImplementationStage+" not handeld in switch.");
+		}
+	}
+	
+	protected abstract void process_basic();
+	protected abstract void process_draft();
+	protected abstract void process_final();
+	
 	protected abstract void send();
 	
 	public final void step() {

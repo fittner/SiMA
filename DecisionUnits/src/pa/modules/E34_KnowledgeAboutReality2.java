@@ -48,7 +48,7 @@ public class E34_KnowledgeAboutReality2 extends clsModuleBase implements I7_3_re
 	 * @see pa.modules.clsModuleBase#process()
 	 */
 	@Override
-	protected void process() {
+	protected void process_basic() {
 		// TODO (deutsch) - Auto-generated method stub
 		
 	}
@@ -115,6 +115,32 @@ public class E34_KnowledgeAboutReality2 extends clsModuleBase implements I7_3_re
 	public void send_I7_5(int pnData) {
 		((I7_5_receive)moEnclosingContainer).receive_I7_5(1);
 		
+	}
+
+	/* (non-Javadoc)
+	 *
+	 * @author deutsch
+	 * 12.07.2010, 10:48:26
+	 * 
+	 * @see pa.modules.clsModuleBase#process_draft()
+	 */
+	@Override
+	protected void process_draft() {
+		// TODO (deutsch) - Auto-generated method stub
+		throw new java.lang.NoSuchMethodError();
+	}
+
+	/* (non-Javadoc)
+	 *
+	 * @author deutsch
+	 * 12.07.2010, 10:48:26
+	 * 
+	 * @see pa.modules.clsModuleBase#process_final()
+	 */
+	@Override
+	protected void process_final() {
+		// TODO (deutsch) - Auto-generated method stub
+		throw new java.lang.NoSuchMethodError();
 	}
 
 }

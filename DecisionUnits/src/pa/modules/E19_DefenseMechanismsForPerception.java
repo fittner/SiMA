@@ -102,7 +102,7 @@ public class E19_DefenseMechanismsForPerception extends clsModuleBase implements
 	 * @see pa.modules.clsModuleBase#process()
 	 */
 	@Override
-	protected void process() {
+	protected void process_basic() {
 		moFilteredPerception_Output = moSubjectivePerception_Input;		
 	}
 
@@ -187,6 +187,32 @@ public class E19_DefenseMechanismsForPerception extends clsModuleBase implements
 	public void send_I5_2(ArrayList<clsAffectTension> poDeniedAffects) {
 		((I5_2_receive)moEnclosingContainer).receive_I5_2(moDeniedAffects);
 		
+	}
+
+	/* (non-Javadoc)
+	 *
+	 * @author deutsch
+	 * 12.07.2010, 10:46:55
+	 * 
+	 * @see pa.modules.clsModuleBase#process_draft()
+	 */
+	@Override
+	protected void process_draft() {
+		// TODO (deutsch) - Auto-generated method stub
+		throw new java.lang.NoSuchMethodError();
+	}
+
+	/* (non-Javadoc)
+	 *
+	 * @author deutsch
+	 * 12.07.2010, 10:46:55
+	 * 
+	 * @see pa.modules.clsModuleBase#process_final()
+	 */
+	@Override
+	protected void process_final() {
+		// TODO (deutsch) - Auto-generated method stub
+		throw new java.lang.NoSuchMethodError();
 	}
 
 }

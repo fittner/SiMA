@@ -164,7 +164,7 @@ public class E06_DefenseMechanismsForDriveContents extends clsModuleBase impleme
 	 * @see pa.modules.clsModuleBase#process()
 	 */
 	@Override
-	protected void process() {
+	protected void process_basic() {
 		moDriveList_Output = moDriveList_Input; //pass everything through (deepCopy is called in the next module)
 	}
 
@@ -221,5 +221,31 @@ public class E06_DefenseMechanismsForDriveContents extends clsModuleBase impleme
 	@Override
 	public void send_I5_1(ArrayList<clsAffectTension> poAffectOnlyList) {
 		((I5_1_receive)moEnclosingContainer).receive_I5_1(moDeniedAffects);	
+	}
+
+	/* (non-Javadoc)
+	 *
+	 * @author deutsch
+	 * 12.07.2010, 10:45:33
+	 * 
+	 * @see pa.modules.clsModuleBase#process_draft()
+	 */
+	@Override
+	protected void process_draft() {
+		// TODO (deutsch) - Auto-generated method stub
+		throw new java.lang.NoSuchMethodError();
+	}
+
+	/* (non-Javadoc)
+	 *
+	 * @author deutsch
+	 * 12.07.2010, 10:45:33
+	 * 
+	 * @see pa.modules.clsModuleBase#process_final()
+	 */
+	@Override
+	protected void process_final() {
+		// TODO (deutsch) - Auto-generated method stub
+		throw new java.lang.NoSuchMethodError();
 	}
 }

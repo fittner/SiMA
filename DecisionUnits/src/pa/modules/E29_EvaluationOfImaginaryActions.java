@@ -120,7 +120,7 @@ public class E29_EvaluationOfImaginaryActions extends clsModuleBase implements I
 	 * @see pa.modules.clsModuleBase#process()
 	 */
 	@Override
-	protected void process() {
+	protected void process_basic() {
 		moActionCommands_Output = moActionCommands_Input;		
 	}
 
@@ -161,5 +161,31 @@ public class E29_EvaluationOfImaginaryActions extends clsModuleBase implements I
 	public void send_I7_4(ArrayList<clsPlanAction> poActionCommands) {
 		((I7_4_receive)moEnclosingContainer).receive_I7_4(moActionCommands_Output);
 		
+	}
+
+	/* (non-Javadoc)
+	 *
+	 * @author deutsch
+	 * 12.07.2010, 10:47:52
+	 * 
+	 * @see pa.modules.clsModuleBase#process_draft()
+	 */
+	@Override
+	protected void process_draft() {
+		// TODO (deutsch) - Auto-generated method stub
+		throw new java.lang.NoSuchMethodError();
+	}
+
+	/* (non-Javadoc)
+	 *
+	 * @author deutsch
+	 * 12.07.2010, 10:47:52
+	 * 
+	 * @see pa.modules.clsModuleBase#process_final()
+	 */
+	@Override
+	protected void process_final() {
+		// TODO (deutsch) - Auto-generated method stub
+		throw new java.lang.NoSuchMethodError();
 	}
 }

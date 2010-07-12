@@ -120,7 +120,7 @@ public class E22_SuperEgo_preconscious extends clsModuleBase implements I1_7_rec
 	 * @see pa.modules.clsModuleBase#process()
 	 */
 	@Override
-	protected void process() {
+	protected void process_basic() {
 		mnTest++;
 		
 	}
@@ -149,5 +149,31 @@ public class E22_SuperEgo_preconscious extends clsModuleBase implements I1_7_rec
 	public void send_I3_3(int pnData) {
 		((I3_3_receive)moEnclosingContainer).receive_I3_3(mnTest);
 		
+	}
+
+	/* (non-Javadoc)
+	 *
+	 * @author deutsch
+	 * 12.07.2010, 10:47:13
+	 * 
+	 * @see pa.modules.clsModuleBase#process_draft()
+	 */
+	@Override
+	protected void process_draft() {
+		// TODO (deutsch) - Auto-generated method stub
+		throw new java.lang.NoSuchMethodError();
+	}
+
+	/* (non-Javadoc)
+	 *
+	 * @author deutsch
+	 * 12.07.2010, 10:47:13
+	 * 
+	 * @see pa.modules.clsModuleBase#process_final()
+	 */
+	@Override
+	protected void process_final() {
+		// TODO (deutsch) - Auto-generated method stub
+		throw new java.lang.NoSuchMethodError();
 	}
 }

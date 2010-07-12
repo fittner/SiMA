@@ -113,7 +113,7 @@ public class E16_ManagementOfMemoryTraces extends clsModuleBase implements I2_6_
 	 * @see pa.modules.clsModuleBase#process()
 	 */
 	@Override
-	protected void process() {
+	protected void process_basic() {
 		moPerceptPlusMemories_Output = getOutput(moPerceptPlusRepressed_Input); 
 	}
 
@@ -214,5 +214,31 @@ public class E16_ManagementOfMemoryTraces extends clsModuleBase implements I2_6_
 			ArrayList<clsTripple<clsPrimaryInformation, clsPrimaryInformation, ArrayList<clsPrimaryInformation>>> poPerceptPlusMemoriesOutput) {
 		((I2_7_receive)moEnclosingContainer).receive_I2_7(moPerceptPlusMemories_Output);
 		
+	}
+
+	/* (non-Javadoc)
+	 *
+	 * @author deutsch
+	 * 12.07.2010, 10:46:39
+	 * 
+	 * @see pa.modules.clsModuleBase#process_draft()
+	 */
+	@Override
+	protected void process_draft() {
+		// TODO (deutsch) - Auto-generated method stub
+		throw new java.lang.NoSuchMethodError();
+	}
+
+	/* (non-Javadoc)
+	 *
+	 * @author deutsch
+	 * 12.07.2010, 10:46:39
+	 * 
+	 * @see pa.modules.clsModuleBase#process_final()
+	 */
+	@Override
+	protected void process_final() {
+		// TODO (deutsch) - Auto-generated method stub
+		throw new java.lang.NoSuchMethodError();
 	}
 }

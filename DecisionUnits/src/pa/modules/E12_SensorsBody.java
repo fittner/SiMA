@@ -103,7 +103,7 @@ public class E12_SensorsBody extends clsModuleBase implements itfProcessSensorBo
 	 * @see pa.modules.clsModuleBase#process()
 	 */
 	@Override
-	protected void process() {
+	protected void process_basic() {
 		mnTest++;
 		
 	}
@@ -132,6 +132,32 @@ public class E12_SensorsBody extends clsModuleBase implements itfProcessSensorBo
 	public void send_I2_3(HashMap<eSensorExtType, clsSensorExtern> pnData) {
 		((I2_3_receive)moEnclosingContainer).receive_I2_3(moBodyData);
 		
+	}
+
+	/* (non-Javadoc)
+	 *
+	 * @author deutsch
+	 * 12.07.2010, 10:46:19
+	 * 
+	 * @see pa.modules.clsModuleBase#process_draft()
+	 */
+	@Override
+	protected void process_draft() {
+		// TODO (deutsch) - Auto-generated method stub
+		throw new java.lang.NoSuchMethodError();
+	}
+
+	/* (non-Javadoc)
+	 *
+	 * @author deutsch
+	 * 12.07.2010, 10:46:19
+	 * 
+	 * @see pa.modules.clsModuleBase#process_final()
+	 */
+	@Override
+	protected void process_final() {
+		// TODO (deutsch) - Auto-generated method stub
+		throw new java.lang.NoSuchMethodError();
 	}
 
 }
