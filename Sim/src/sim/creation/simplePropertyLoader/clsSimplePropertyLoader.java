@@ -73,6 +73,7 @@ public class clsSimplePropertyLoader extends clsLoader {
 	public static final String P_DEFAULTSDECISIONUNIT  = "defaultsdecisionunit";
 	public static final String P_ENTITY = "entity";
 	public static final String P_DECISIONUNIT = "decisionunit";
+	public static final String P_USEDEFAULTS = "usedefaults";
 
 	private int numentitygroups;
 	
@@ -90,12 +91,18 @@ public class clsSimplePropertyLoader extends clsLoader {
     	
     	numentitygroups = poProp.getPropertyInt(pre+P_ENTITYGROUPS+"."+P_NUMENTITYGROUPS);
     	
-    	if (!poProp.existsPrefix(pre+P_DEFAULTSENTITY)) {
-    		poProp.putAll( getEntityDefaults(pre+P_DEFAULTSENTITY) );
-    	}
-    	if (!poProp.existsPrefix(pre+P_DEFAULTSDECISIONUNIT)) {
-    		poProp.putAll( getDecisionUnitDefaults(pre+P_DEFAULTSDECISIONUNIT) );
-    	}    	
+    	boolean usedefaults = poProp.getPropertyBoolean(pre+P_USEDEFAULTS); 
+    	
+    	if (usedefaults) {
+    		clsBWProperties oP = new clsBWProperties();
+
+    		oP.putAll( getEntityDefaults(pre+P_DEFAULTSENTITY) );
+    		oP.putAll( getDecisionUnitDefaults(pre+P_DEFAULTSDECISIONUNIT) );
+	    	oP.putAll(poProp);
+
+	    	poProp.clear();
+	    	poProp.putAll(oP);
+    	}	
 	}	
 	
     private static clsBWProperties getEntityDefaults(String poPrefix) {
@@ -153,6 +160,7 @@ public class clsSimplePropertyLoader extends clsLoader {
 		oProp.setProperty(pre+P_LOADER_TYPE, eLoader.SIMPLE_PROPERTY_LOADER.name());
 		oProp.setProperty(pre+P_LOADER_VERSION, mnVersion);
 		oProp.setProperty(pre+P_TITLE, "default simple property loader");
+		oProp.setProperty(pre+P_USEDEFAULTS, true);
 		
 		if (pnAddDefaultEntities) {
 			oProp.putAll( getEntityDefaults(pre+P_DEFAULTSENTITY) );

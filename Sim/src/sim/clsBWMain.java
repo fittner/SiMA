@@ -10,6 +10,7 @@ package sim;
 //import javax.swing.JDialog;
 import org.jfree.data.xy.XYSeries;
 import config.clsBWProperties;
+import du.enums.eDecisionType;
 import ec.util.MersenneTwisterFast;
 import sim.creation.clsLoader;
 import sim.creation.simplePropertyLoader.clsSimplePropertyLoader;
@@ -95,15 +96,35 @@ public class clsBWMain extends SimState{
 			oFilename = "testsetup.main.properties"; // no parameters given - used default config			
 		}
 		
+		// config file for selection of implementationstages of the various modules in PA decision unit
+		
+		String oImplementationStagesFile = argumentForKey("-impstages", moArgs, 0);
+		
+		// show fast config adapter
+		
 		String oAdapter = argumentForKey("-adapter", moArgs, 0);
 		Boolean nAdapter = new Boolean(oAdapter);
+		
+		//different path
 		
 		String oPath = argumentForKey("-path", moArgs, 0);
 		if (oPath == null) {
 			oPath = clsGetARSPath.getConfigPath();
 		}
 	
+		// read BW properties
+		
 		clsBWProperties oProp = clsBWProperties.readProperties(oPath, oFilename);
+		
+		if (oImplementationStagesFile != null) {
+			//read implementation stages file
+			clsBWProperties oPropImp = clsBWProperties.readProperties(oPath, oImplementationStagesFile);
+			oPropImp.addPrefix(clsSimplePropertyLoader.P_DEFAULTSDECISIONUNIT+"."+eDecisionType.PA);
+			//merge settings - overwrites exsiting entries
+			oProp.putAll(oPropImp);
+		}
+		
+		// show adapter if desired
 		
 		if (nAdapter) {
 			@SuppressWarnings("unused")
@@ -112,6 +133,8 @@ public class clsBWMain extends SimState{
 //			oAdapterFrame.setModal(true);
 //			oAdapterFrame.setVisible(true);
 		}
+		
+		// process config
 		
 		clsLoader oLoader = new clsSimplePropertyLoader(this, oProp);
 		oLoader.loadObjects();
