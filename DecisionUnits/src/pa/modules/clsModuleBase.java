@@ -8,7 +8,6 @@ package pa.modules;
 
 import java.lang.reflect.Method;
 import java.util.Iterator;
-
 import pa.clsInterfaceHandler;
 import config.clsBWProperties;
 
@@ -60,11 +59,12 @@ public abstract class clsModuleBase {
 	}
 	
 	private void process() {
-		switch(mnImplementationStage) {
-			case BASIC:	process_basic(); break;
-			case DRAFT: process_draft(); break;
-			case FINAL: process_final(); break;
-			default: throw new java.lang.IllegalArgumentException(mnImplementationStage+" not handeld in switch.");
+		if (mnImplementationStage == eImplementationStage.BASIC) {
+			process_basic();
+		} else if (mnImplementationStage == eImplementationStage.DRAFT) {
+			process_draft();
+		} else {
+			process_final();
 		}
 	}
 	
