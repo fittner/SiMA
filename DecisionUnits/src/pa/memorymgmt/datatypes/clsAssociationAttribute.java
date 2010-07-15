@@ -16,7 +16,6 @@ import pa.memorymgmt.enums.eDataType;
  * 
  */
 public class clsAssociationAttribute extends clsAssociation{
-	private double mnWeight = 1.0; 
 	/**
 	 * DOCUMENT (zeilinger) - insert description 
 	 * 
@@ -28,6 +27,19 @@ public class clsAssociationAttribute extends clsAssociation{
 								   clsPrimaryDataStructure poAssociationElementB,
 								   String poAssociationID,
 								   eDataType peAssociationType) {
-		super(poAssociationElementA, poAssociationElementB, poAssociationID, peAssociationType);		
+		super(poAssociationElementA, poAssociationElementB, poAssociationID, peAssociationType);
+	}
+	
+	/* (non-Javadoc)
+	 *
+	 * @author zeilinger
+	 * 13.07.2010, 20:58:01
+	 * 
+	 * @see java.lang.Comparable#compareTo(java.lang.Object)
+	 */
+	@Override
+	public double compareTo(clsDataStructurePA poDataStructure) {
+		// TODO (zeilinger) - Auto-generated method stub
+		return 0;
 	}
 }

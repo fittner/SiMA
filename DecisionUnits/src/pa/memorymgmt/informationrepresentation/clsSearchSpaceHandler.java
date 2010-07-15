@@ -6,6 +6,11 @@
  */
 package pa.memorymgmt.informationrepresentation;
 
+import java.util.ArrayList;
+import java.util.Collection;
+
+import pa.memorymgmt.datatypes.clsAssociation;
+import pa.memorymgmt.datatypes.clsDataStructurePA;
 import pa.memorymgmt.informationrepresentation.enums.eDataSources;
 import pa.memorymgmt.informationrepresentation.searchspace.clsSearchSpaceBase;
 import pa.memorymgmt.informationrepresentation.searchspace.clsSearchSpaceCreator;
@@ -32,5 +37,27 @@ public class clsSearchSpaceHandler {
 	
 	public clsSearchSpaceBase returnSearchSpace(){
 		return moSearchSpace;
+	}
+	
+	public Collection<? extends clsAssociation> readOutSearchSpace(int poReturnType, clsDataStructurePA poDataStructure){
+		ArrayList <clsAssociation> oAssociatedDataStructureList = new ArrayList<clsAssociation>();
+		ArrayList <clsAssociation> oList = moSearchSpace.returnSearchSpaceTable(poDataStructure.oDataStructureType).get(poDataStructure);
+		
+		for(clsAssociation oAssociationElement : oList){
+			clsDataStructurePA elementB; 
+			
+			if(oAssociationElement.moAssociationElementA.oDataStructureID.equals(poDataStructure.oDataStructureID)){ 
+				elementB = oAssociationElement.moAssociationElementB; 
+			}
+			else if(oAssociationElement.moAssociationElementB.oDataStructureID.equals(poDataStructure.oDataStructureID)){
+				elementB = oAssociationElement.moAssociationElementA;
+			}
+			else {throw new NoSuchFieldError("Association " + oAssociationElement.oDataStructureID + " does not contain data structure " + poDataStructure.oDataStructureID);}
+		
+			if((poReturnType & elementB.oDataStructureType.nBinaryValue) != 0x0){
+				oAssociatedDataStructureList.add(oAssociationElement); 
+			}
+		}
+		return oAssociatedDataStructureList; 
 	}
 }

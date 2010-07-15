@@ -6,6 +6,8 @@
  */
 package pa.memorymgmt.datatypes;
 
+import java.util.ArrayList;
+
 /**
  * DOCUMENT (zeilinger) - insert description 
  * 
@@ -15,6 +17,7 @@ package pa.memorymgmt.datatypes;
  */
 public class clsSecondaryInformation extends clsDataStructureContainer{
 	public clsSecondaryDataStructure moSecondaryDataStructure; 
+	public ArrayList<clsAssociation> moAssociatedDataStructures;
 	
 	public clsSecondaryInformation(){
 		moSecondaryDataStructure = null; 

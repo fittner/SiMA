@@ -21,7 +21,7 @@ public class clsThingPresentationMesh extends clsPhysicalStructureComposition{
 	/**
 	 * DOCUMENT (zeilinger) - insert description 
 	 * 
-	 * @author zeilinger
+	 * @author zeilingere
 	 * 24.05.2010, 12:51:22
 	 *
 	 * @param poWordPresentationAssociation
@@ -50,5 +50,35 @@ public class clsThingPresentationMesh extends clsPhysicalStructureComposition{
 		oDataStructureList.add(poDataStructurePA); 
 		
 		applyAssociations(poDataStructurePA.oDataStructureType, oDataStructureList);
+	}
+
+	/* (non-Javadoc)
+	*
+	* @author zeilinger
+	* 13.07.2010, 20:59:01
+	* 
+	* @see java.lang.Comparable#compareTo(java.lang.Object)
+	*/
+	@Override
+	public double compareTo(clsDataStructurePA poDataStructure) {
+		clsThingPresentationMesh oDataStructure = (clsThingPresentationMesh)poDataStructure;
+		double oMatchScore = 0;
+		//This if statement proofs if the compared datastructure does already have an ID =>
+		//the ID sepcifies that the data structure has been already compared with a stored
+		//data structure and replaced by it. Hence they can be compared by their IDs. 
+		if(oDataStructure.oDataStructureID != null){
+			if(compareDataStructureID(oDataStructure))return 9999; 
+			else return 0; 
+		}
+		else{
+			//In case the data structure does not have an ID, it has to be compared to a stored 
+			//data structure and replaced by it (the processes base on information that is already
+			//defined
+			//TPM content is represented by a list of attribute associations	
+			ArrayList <clsAssociation> oContentListTemplate = this.moContent.get(eDataType.ASSCOCIATIONATTRIBUTE); 
+			ArrayList <clsAssociation> oContentListUnknown = oDataStructure.moContent.get(eDataType.ASSCOCIATIONATTRIBUTE);
+			
+			return getCompareScore(oContentListTemplate, oContentListUnknown);
+	    }
 	}
 }

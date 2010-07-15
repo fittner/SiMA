@@ -6,6 +6,8 @@
  */
 package pa.memorymgmt.informationrepresentation.modules;
 
+import java.util.ArrayList;
+
 import pa.memorymgmt.datatypes.clsDataStructureContainer;
 import pa.memorymgmt.informationrepresentation.clsSearchSpaceHandler;
 import pa.memorymgmt.informationrepresentation.enums.eSearchMethod;
@@ -46,7 +48,7 @@ public abstract class clsInformationRepresentationModuleBase {
 	 * @param poSearchPattern
 	 * @return
 	 */
-	public clsDataStructureContainer searchDataStructure(int poReturnType, clsDataStructureContainer poSearchPatternContainer){
+	public ArrayList<clsDataStructureContainer> searchDataStructure(int poReturnType, clsDataStructureContainer poSearchPatternContainer){
 		if(moSearchMethod.equals(eSearchMethod.LISTSEARCH)) return listSearch(poReturnType, poSearchPatternContainer);
 		/*TODO - zeilinger 	here, additional search algorithms have to be initialized*/
 		/*TODO - actually the listSearch algorithm is defined in clsModuleBase - hence, there is 
@@ -54,6 +56,6 @@ public abstract class clsInformationRepresentationModuleBase {
 	throw new IllegalArgumentException(" defined search method unknown " + moSearchMethod);
 	}
 	
-	public abstract clsDataStructureContainer listSearch(int poReturnType, clsDataStructureContainer poSearchPatternContainer);
+	public abstract ArrayList<clsDataStructureContainer> listSearch(int poReturnType, clsDataStructureContainer poSearchPatternContainer);
 
 }

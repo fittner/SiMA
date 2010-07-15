@@ -35,6 +35,19 @@ public class clsAssociationTime extends clsAssociation{
 				poAssociationID, peAssociationType);
 		// TODO (zeilinger) - Auto-generated constructor stub
 	}
+
+	/* (non-Javadoc)
+	 *
+	 * @author zeilinger
+	 * 13.07.2010, 20:58:17
+	 * 
+	 * @see java.lang.Comparable#compareTo(java.lang.Object)
+	 */
+	@Override
+	public double compareTo(clsDataStructurePA o) {
+		// TODO (zeilinger) - Auto-generated method stub
+		return 0;
+	}
 	
 	
 }

@@ -34,7 +34,7 @@ public class clsInformationRepresentationManagementARSi10 extends clsKnowledgeBa
 	public String moSearchMethod; 
 	public M01_InformationRepresentationMgmt moM01InformationRepresentationMgmt;
 	public clsSearchSpaceHandler moSearchSpaceHandler; 
-	public List<clsDataStructureContainer> moSearchResult;
+	public List<List<clsDataStructureContainer>> moSearchResult;
 	/**
 	 * DOCUMENT (zeilinger) - insert description 
 	 * 
@@ -125,7 +125,7 @@ public class clsInformationRepresentationManagementARSi10 extends clsKnowledgeBa
 	 * @see pa.memorymgmt.itfKnowledgeBaseHandler#searchDataStructure(java.util.ArrayList)
 	 */
 	@Override
-	public List<clsDataStructureContainer> searchDataStructure(
+	public List<List<clsDataStructureContainer>> searchDataStructure(
 			ArrayList<clsPair<Integer, clsDataStructureContainer>> poSearchPatternContainer) {
 		
 		moSearchResult.clear(); 

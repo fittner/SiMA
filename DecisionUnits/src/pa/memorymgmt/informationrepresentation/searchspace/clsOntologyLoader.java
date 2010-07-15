@@ -30,6 +30,7 @@ import pa.memorymgmt.datatypes.clsThingPresentation;
 import pa.memorymgmt.datatypes.clsThingPresentationMesh;
 import pa.memorymgmt.datatypes.clsWordPresentation;
 import pa.memorymgmt.enums.eDataType;
+import pa.memorymgmt.informationrepresentation.enums.eDataStructureMatch;
 import pa.tools.clsPair;
 
 /**
@@ -40,7 +41,6 @@ import pa.tools.clsPair;
  * 
  */
 public class clsOntologyLoader {
-		
 	public static void loadOntology(Hashtable<eDataType, List<clsDataStructurePA>> poDataStructureList){
 		//TODO HZ: Configure the different ontologyTypes
 		initDataStructureList(poDataStructureList); 
@@ -299,19 +299,17 @@ public class clsOntologyLoader {
 	 * @param poDataElements
 	 * @return
 	 */
-	private static clsAssociation getNewAssociation(eDataType peElementType, 
-							clsPair<clsDataStructurePA, Instance> poDataElements,clsDataStructurePA poDataElementB) {
+	private static clsAssociation getNewAssociation(eDataType peElementType, clsPair<clsDataStructurePA, Instance> poDataElements,
+													clsDataStructurePA poDataElementB) {
 		
 		clsPair<clsDataStructurePA, clsDataStructurePA> oAssociationElements; 
 		
 		switch(peElementType){
 			case ASSCOCIATIONATTRIBUTE:
-				return new clsAssociationAttribute((clsPrimaryDataStructure)poDataElements.a, 
-													(clsPrimaryDataStructure)poDataElementB, 
+				return new clsAssociationAttribute((clsPrimaryDataStructure)poDataElements.a,(clsPrimaryDataStructure)poDataElementB, 
 												    poDataElements.b.getName(), peElementType); 
 			case ASSOCIATIONTEMP:
-				return new clsAssociationTime((clsPrimaryDataStructure)poDataElements.a, 
-						(clsPrimaryDataStructure)poDataElementB, 
+				return new clsAssociationTime((clsPrimaryDataStructure)poDataElements.a,(clsPrimaryDataStructure)poDataElementB, 
 					    poDataElements.b.getName(), peElementType); 
 			
 			case ASSOCIATIONDM:
@@ -422,9 +420,17 @@ public class clsOntologyLoader {
 		
 		Collection <?> oInstanceAssociations = getSlotValues("instance_association", poDataElement);
 		ArrayList <clsAssociation> oAssociationList = new ArrayList<clsAssociation>(); 
+		clsAssociation oAssociation = null; 
 		
 		for(Object element : oInstanceAssociations){
-				oAssociationList.add(loadAssociation((Instance) element, poDataStructure,poFrameKB, poDataStructurePA ));
+				oAssociation = loadAssociation((Instance) element, poDataStructure,poFrameKB, poDataStructurePA ); 
+				//Below the necessity of the association is defined. Entities are defined by their associations to different 
+				//types of data structures. Depending on their definition in the ontology (class_association or instance association)
+				//the necessity is defined as true (mandatory) or false (optional). E.g. an entity bubble has always the shape "circle"
+				//but can differ in its color => shape is defined as class association while color is defined as instance association. Here,
+				//the instance associations are defined => moAssociationImperative is set to false => optional.
+				oAssociation.mrImperativeFactor = eDataStructureMatch.OPTIONALMATCH.getMatchFactor(); 
+				oAssociationList.add(oAssociation);
 		}
 		return oAssociationList; 
 	}
@@ -447,6 +453,7 @@ public class clsOntologyLoader {
 		Collection <?> oClassAssociations = getSlotValues("class_association", poDataElementA);
 		ArrayList <clsAssociation> oAssociationList = new ArrayList<clsAssociation>();
 		Instance oAssociationElement = null; 
+		clsAssociation oAssociation = null; 
 	
 		for(Object element : oClassAssociations){
 				Instance oDataElementB = (Instance)element; 
@@ -471,8 +478,15 @@ public class clsOntologyLoader {
 					//the root element => it is added as data structure to poDataStructurePA
 				}
 				//HZ drive mesh associations are not handled up to now 
-				createClassAssociation(oAssociationElement, poDataElementA, oDataElementB, poFrameKB); 
-				oAssociationList.add(loadAssociation(oAssociationElement, poDataStructureA, poFrameKB, poDataStructurePA));
+				createClassAssociation(oAssociationElement, poDataElementA, oDataElementB, poFrameKB);
+				oAssociation = loadAssociation(oAssociationElement, poDataStructureA, poFrameKB, poDataStructurePA); 
+				//Below the necessity of the association is defined. Entities are defined by their associations to different 
+				//types of data structures. Depending on their definition in the ontology (class_association or instance association)
+				//the necessity is defined as true (mandatory) or false (optional). E.g. an entity bubble has always the shape "circle"
+				//but can differ in its color => shape is defined as class association while color is defined as instance association. Here,
+				//the class associations are defined => moAssociationImperative is set to true => mandatory. 
+				oAssociation.mrImperativeFactor = eDataStructureMatch.MANDATORYMATCH.getMatchFactor(); 
+				oAssociationList.add(oAssociation);
 		}
 		return oAssociationList;
 	}

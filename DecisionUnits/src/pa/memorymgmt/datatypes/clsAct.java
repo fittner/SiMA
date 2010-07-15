@@ -46,5 +46,26 @@ public class clsAct extends clsSecondaryDataStructure {
 		// TODO (zeilinger) - Auto-generated method stub
 		
 	}
+
+	/* (non-Javadoc)
+	 *
+	 * @author zeilinger
+	 * 13.07.2010, 20:57:48
+	 * 
+	 * @see java.lang.Comparable#compareTo(java.lang.Object)
+	 */
+	@Override
+	public double compareTo(clsDataStructurePA poDataStructure) {
+		clsAct oDataStructure = (clsAct)poDataStructure;
+		
+		//This if statement proofs if the compared datastructure does already have an ID =>
+		//the ID sepcifies that the data structure has been already compared with a stored
+		//data structure and replaced by it. Hence they can be compared by their IDs. 
+		if(oDataStructure.oDataStructureID != null){
+			if(compareDataStructureID(oDataStructure))return 9999; 
+			else return 0; 
+		}
+		return 0;
+	}
 }
 

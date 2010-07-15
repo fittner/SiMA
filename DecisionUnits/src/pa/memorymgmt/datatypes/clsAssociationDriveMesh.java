@@ -38,5 +38,17 @@ public class clsAssociationDriveMesh extends clsAssociation{
 		//should be represented in case the affect is the same as the clsAssociation's weight 
 		moContent = 1.0; 
 	}
+	/* (non-Javadoc)
+	 *
+	 * @author zeilinger
+	 * 13.07.2010, 20:58:09
+	 * 
+	 * @see java.lang.Comparable#compareTo(java.lang.Object)
+	 */
+	@Override
+	public double compareTo(clsDataStructurePA o) {
+		// TODO (zeilinger) - Auto-generated method stub
+		return 0;
+	}
 
 }

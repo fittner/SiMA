@@ -6,8 +6,16 @@
  */
 package pa.memorymgmt.informationrepresentation.modules;
 
+import java.util.ArrayList;
+import java.util.Collection;
+
+import pa.memorymgmt.datatypes.clsAssociation;
 import pa.memorymgmt.datatypes.clsDataStructureContainer;
+import pa.memorymgmt.datatypes.clsDataStructurePA;
+import pa.memorymgmt.datatypes.clsHomeostaticRepresentation;
+import pa.memorymgmt.datatypes.clsPrimaryInformation;
 import pa.memorymgmt.informationrepresentation.clsSearchSpaceHandler;
+import pa.tools.clsPair;
 
 /**
  * DOCUMENT (zeilinger) - insert description 
@@ -42,8 +50,62 @@ public class KB03_ExternalPerceptionMgmt extends clsInformationRepresentationMod
 	 * @see pa.informationrepresentation.ARSi10.modules.clsInformationRepresentationModuleBase#listSearch(java.lang.String, pa.informationrepresentation.datatypes.clsDataStructureContainer)
 	 */
 	@Override
-	public clsDataStructureContainer listSearch(int poReturnType, clsDataStructureContainer poSearchPatternContainer) {
-		// TODO (zeilinger) - Auto-generated method stub
-		return null;
+	public ArrayList<clsDataStructureContainer> listSearch(int poReturnType, clsDataStructureContainer poSearchPatternContainer) {
+		ArrayList<clsDataStructureContainer> oDataStructureContainerList = new ArrayList<clsDataStructureContainer>(); 
+		ArrayList<clsPair<Double,clsDataStructurePA>> oMatchedDataStructures = compareELements(poSearchPatternContainer); 
+		
+		for(clsPair<Double, clsDataStructurePA> oPatternElement : oMatchedDataStructures){
+			oDataStructureContainerList.add(getDataContainer(poReturnType, (clsHomeostaticRepresentation)oPatternElement.b));
+		}
+		return oDataStructureContainerList;
+	}
+	
+	/**
+	 * DOCUMENT (zeilinger) - insert description
+	 *
+	 * @author zeilinger
+	 * 12.07.2010, 12:58:02
+	 *
+	 * @param poReturnType
+	 * @param oPatternElement
+	 * @return
+	 */
+	private clsDataStructureContainer getDataContainer(int poReturnType, clsHomeostaticRepresentation poDataStructure) {
+		
+			clsPrimaryInformation oDataStructureContainer = new clsPrimaryInformation();
+			oDataStructureContainer.moDataStructure = poDataStructure; 
+			oDataStructureContainer.moAssociatedDataStructures.addAll(readOutSearchSpace(poReturnType, poDataStructure)); 
+			
+		return oDataStructureContainer;
+	}
+
+	/**
+	 * DOCUMENT (zeilinger) - insert description
+	 *
+	 * @author zeilinger
+	 * 12.07.2010, 13:52:24
+	 *
+	 * @param poReturnType
+	 * @param poDataStructure
+	 * @return
+	 */
+	private Collection<? extends clsAssociation> readOutSearchSpace(int poReturnType, clsHomeostaticRepresentation poDataStructure) {
+		
+		return moSearchSpaceHandler.readOutSearchSpace(poReturnType, poDataStructure);
+	}
+
+	/**
+	 * DOCUMENT (zeilinger) - insert description
+	 *
+	 * @author zeilinger
+	 * 02.07.2010, 07:12:23
+	 *
+	 * @param moDataStructure
+	 * @return
+	 */
+	private ArrayList<clsPair<Double,clsDataStructurePA>> compareELements(clsDataStructureContainer poSearchPatternContainer) {
+		clsDataStructurePA oDataStructureSearchPattern = ((clsPrimaryInformation)poSearchPatternContainer).moDataStructure;
+				
+		return clsDataStructureComparison.compareDataStructures(oDataStructureSearchPattern, moSearchSpaceHandler.returnSearchSpace());
 	}
 }

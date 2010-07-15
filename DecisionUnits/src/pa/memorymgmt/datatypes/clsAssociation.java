@@ -16,6 +16,8 @@ import pa.memorymgmt.enums.eDataType;
  * 
  */
 public abstract class clsAssociation extends clsDataStructurePA{
+	public double mrImperativeFactor; 
+	public double mrWeight; 
 	public clsDataStructurePA moAssociationElementA;
 	public clsDataStructurePA moAssociationElementB;
 
@@ -29,7 +31,8 @@ public abstract class clsAssociation extends clsDataStructurePA{
 	public clsAssociation(clsDataStructurePA poAssociationElementA, clsDataStructurePA poAssociationElementB, 
 						  String poAssociationID, eDataType poAssociationType) {
 		super(poAssociationID, poAssociationType);
-		
+		mrImperativeFactor = 1.0; 
+		mrWeight = 1.0; 
 		moAssociationElementA = poAssociationElementA; 
 		moAssociationElementB = poAssociationElementB; 
 	}

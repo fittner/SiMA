@@ -49,4 +49,34 @@ public class clsTemplateImage extends clsPhysicalStructureComposition{
 		
 		applyAssociations(poDataStructurePA.oDataStructureType, oDataStructureList);
 	}
+
+	/* (non-Javadoc)
+	 *
+	 * @author zeilinger
+	 * 13.07.2010, 20:58:48
+	 * 
+	 * @see java.lang.Comparable#compareTo(java.lang.Object)
+	 */
+	@Override
+	public double compareTo(clsDataStructurePA poDataStructure) {
+		clsTemplateImage oDataStructure = (clsTemplateImage)poDataStructure;
+		
+		//This if statement proofs if the compared datastructure does already have an ID =>
+		//the ID sepcifies that the data structure has been already compared with a stored
+		//data structure and replaced by it. Hence they can be compared by their IDs. 
+		if(oDataStructure.oDataStructureID != null){
+			if(compareDataStructureID(oDataStructure))return 9999; 
+			else return 0; 
+		}
+		else{
+			//In case the data structure does not have an ID, it has to be compared to a stored 
+			//data structure and replaced by it (the processes base on information that is already
+			//defined
+			//TI content is represented by a list of temporal associations	
+			ArrayList <clsAssociation> oContentListTemplate = this.moContent.get(eDataType.ASSOCIATIONTEMP); 
+			ArrayList <clsAssociation> oContentListUnknown = oDataStructure.moContent.get(eDataType.ASSOCIATIONTEMP);
+			
+			return getCompareScore(oContentListTemplate, oContentListUnknown); 
+		}
+	}
 }

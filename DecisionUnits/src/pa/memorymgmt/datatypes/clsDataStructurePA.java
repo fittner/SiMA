@@ -6,6 +6,8 @@
  */
 package pa.memorymgmt.datatypes;
 
+import java.util.ArrayList;
+
 import pa.memorymgmt.enums.eDataType;
 
 
@@ -16,7 +18,7 @@ import pa.memorymgmt.enums.eDataType;
  * 23.05.2010, 21:40:06
  * 
  */
-public abstract class clsDataStructurePA implements Cloneable{
+public abstract class clsDataStructurePA implements Cloneable, itfComparable{
 	public String oDataStructureID;
 	public eDataType oDataStructureType;
 	
@@ -30,5 +32,37 @@ public abstract class clsDataStructurePA implements Cloneable{
 	public clsDataStructurePA(String poDataStructureName, eDataType poDataStructureType) {
 		oDataStructureID = poDataStructureName; 
 		oDataStructureType = poDataStructureType;
+	}
+	
+	protected boolean compareDataStructureID(clsDataStructurePA poDataStructure) {
+		boolean oRetVal = false; 
+		if(this.oDataStructureID.equals(poDataStructure.oDataStructureID)){
+			oRetVal = true; 
+		}
+		return oRetVal;
+	}
+	
+	/**
+	 * DOCUMENT (zeilinger) - insert description
+	 *
+	 * @author zeilinger
+	 * 15.07.2010, 08:56:36
+	 *
+	 * @param oContentListTemplate
+	 * @param oContentListUnknown
+	 * @return
+	 */
+	protected double getCompareScore(ArrayList<clsAssociation> poContentListTemplate,ArrayList<clsAssociation> poContentListUnknown) {
+		double oMatchScore = 0; 
+		double oMatchScoreSingle = 0; 
+		for(clsAssociation oAssociationTemplate : poContentListTemplate){
+			for(clsAssociation oAssociationUnknown : poContentListUnknown){
+				if(oAssociationTemplate.moAssociationElementB.getClass().equals(oAssociationUnknown.moAssociationElementB.getClass())){
+					oMatchScoreSingle = oAssociationTemplate.moAssociationElementB.compareTo(oAssociationUnknown.moAssociationElementB); 
+					oMatchScore =+ oAssociationTemplate.mrImperativeFactor*oAssociationTemplate.mrWeight*oMatchScoreSingle;
+				}
+			}
+	}
+		return oMatchScore;
 	}
 }

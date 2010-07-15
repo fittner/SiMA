@@ -7,11 +7,13 @@
 package pa.memorymgmt.informationrepresentation.modules;
 
 import java.util.ArrayList;
+import java.util.Collection;
 
+import pa.memorymgmt.datatypes.clsAssociation;
 import pa.memorymgmt.datatypes.clsDataStructureContainer;
 import pa.memorymgmt.datatypes.clsDataStructurePA;
+import pa.memorymgmt.datatypes.clsPhysicalRepresentation;
 import pa.memorymgmt.datatypes.clsPrimaryInformation;
-import pa.memorymgmt.enums.eDataType;
 import pa.memorymgmt.informationrepresentation.clsSearchSpaceHandler;
 import pa.tools.clsPair;
 
@@ -48,20 +50,49 @@ public class KB02_InternalPerceptionMgmt extends clsInformationRepresentationMod
 	 * @see pa.informationrepresentation.ARSi10.modules.clsInformationRepresentationModuleBase#listSearch(java.lang.String, pa.informationrepresentation.datatypes.clsDataStructureContainer)
 	 */
 	@Override
-	public clsDataStructureContainer listSearch(int poReturnType,clsDataStructureContainer poSearchPatternContainer) {
+	public ArrayList<clsDataStructureContainer> listSearch(int poReturnType,clsDataStructureContainer poSearchPatternContainer) {
 
-		clsDataStructureContainer oDataStructureContainer = null; 
+		ArrayList<clsDataStructureContainer> oDataStructureContainerList = new ArrayList<clsDataStructureContainer>(); 
 		ArrayList<clsPair<Double,clsDataStructurePA>> oMatchedDataStructures = compareELements(poSearchPatternContainer); 
 		
-		for(eDataType element : eDataType.values()){
-			if((poReturnType & element.nBinaryValue) != 0x0){
-					//loadSearchBuffer(element, (clsSecondaryInformation)poSearchPatternContainer); 
-			} 
+		for(clsPair<Double, clsDataStructurePA> oPatternElement : oMatchedDataStructures){
+			oDataStructureContainerList.add(getDataContainer(poReturnType, (clsPhysicalRepresentation)oPatternElement.b));
 		}
-		//Hashtable
-		//getDataStructureType
-		//compare?
+		return oDataStructureContainerList;
+	}
+
+	/**
+	 * DOCUMENT (zeilinger) - insert description
+	 *
+	 * @author zeilinger
+	 * 12.07.2010, 12:58:02
+	 *
+	 * @param poReturnType
+	 * @param oPatternElement
+	 * @return
+	 */
+	private clsDataStructureContainer getDataContainer(int poReturnType, clsPhysicalRepresentation poDataStructure) {
+		
+			clsPrimaryInformation oDataStructureContainer = new clsPrimaryInformation();
+			oDataStructureContainer.moDataStructure = poDataStructure; 
+			oDataStructureContainer.moAssociatedDataStructures.addAll(readOutSearchSpace(poReturnType, poDataStructure)); 
+			
 		return oDataStructureContainer;
+	}
+
+	/**
+	 * DOCUMENT (zeilinger) - insert description
+	 *
+	 * @author zeilinger
+	 * 12.07.2010, 13:52:24
+	 *
+	 * @param poReturnType
+	 * @param poDataStructure
+	 * @return
+	 */
+	private Collection<? extends clsAssociation> readOutSearchSpace(int poReturnType, clsPhysicalRepresentation poDataStructure) {
+		
+		return moSearchSpaceHandler.readOutSearchSpace(poReturnType, poDataStructure);
 	}
 
 	/**
