@@ -26,7 +26,7 @@ public class clsWordPresentation extends clsSecondaryDataStructure{
 	 * @param poDataStructureType
 	 */
 	public clsWordPresentation(String poDataStructureID, eDataType poDataStructureType) {
-		super(null, poDataStructureID, poDataStructureType);
+		super(poDataStructureID, poDataStructureType);
 	}
 
 	/* (non-Javadoc)
@@ -51,23 +51,23 @@ public class clsWordPresentation extends clsSecondaryDataStructure{
 	 */
 	@Override
 	public double compareTo(clsDataStructurePA poDataStructure) {
-		clsWordPresentation oDataStructure = (clsWordPresentation)poDataStructure;
+		//clsWordPresentation oDataStructure = (clsWordPresentation)poDataStructure;
 		
-		//This if statement proofs if the compared datastructure does already have an ID =>
-		//the ID sepcifies that the data structure has been already compared with a stored
-		//data structure and replaced by it. Hence they can be compared by their IDs. 
-		if(oDataStructure.oDataStructureID != null){
-			if(compareDataStructureID(oDataStructure))return 9999; 
-			else return 0; 
-		}
-		else{
 		//In case the data structure does not have an ID, it has to be compared to a stored 
 		//data structure and replaced by it (the processes base on information that is already
 		//defined
 //			if(this.moContentName.equals(oDataStructure.moContentName)){
 //				if(this.moContent.equals(oDataStructure.moContent)){return 1;}
 //			}
-		}
-		return 0;
+
+		return 0.0;
+	}
+	
+	@Override
+	public String toString(){
+		String oResult = "::"+this.oDataStructureType+"::";  
+		if(this.oDataStructureID != null) oResult += this.oDataStructureID + ":";
+		//oResult += + moContentName +" " + moContent.toString();
+		return oResult; 
 	}
 }

@@ -24,7 +24,7 @@ public abstract class clsPrimaryDataStructure extends clsDataStructurePA{
 	 * 22.06.2010, 15:36:00
 	 *
 	 */
-	public clsPrimaryDataStructure(String poDataStructureName, eDataType poDataStructureType) {
-		super(poDataStructureName, poDataStructureType);  
+	public clsPrimaryDataStructure(String poDataStructureID, eDataType poDataStructureType) {
+		super(poDataStructureID, poDataStructureType);  
 	}
 }

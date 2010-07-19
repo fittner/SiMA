@@ -27,12 +27,12 @@ public class clsThingPresentationMesh extends clsPhysicalStructureComposition{
 	 * @param poWordPresentationAssociation
 	 * @param poDriveMeshAssociation
 	 */
-	public clsThingPresentationMesh( ArrayList<clsAssociation> poAssociatedPhysicalRepresentations,
-									 String poDataStructureName,
-									 eDataType poDataStructureType) {
+	public clsThingPresentationMesh(String poDataStructureID,
+			 						eDataType poDataStructureType,
+									ArrayList<clsAssociation> poAssociatedPhysicalRepresentations) {
 		
-		super(poDataStructureName,poDataStructureType);
-		applyAssociations(eDataType.ASSCOCIATIONATTRIBUTE, poAssociatedPhysicalRepresentations); 
+		super(poDataStructureID,poDataStructureType);
+		moContent = poAssociatedPhysicalRepresentations;  
 	}
 	
 									 /**
@@ -49,7 +49,7 @@ public class clsThingPresentationMesh extends clsPhysicalStructureComposition{
 		ArrayList <clsAssociation> oDataStructureList = new ArrayList<clsAssociation>();
 		oDataStructureList.add(poDataStructurePA); 
 		
-		applyAssociations(poDataStructurePA.oDataStructureType, oDataStructureList);
+		applyAssociations(oDataStructureList);
 	}
 
 	/* (non-Javadoc)
@@ -62,23 +62,65 @@ public class clsThingPresentationMesh extends clsPhysicalStructureComposition{
 	@Override
 	public double compareTo(clsDataStructurePA poDataStructure) {
 		clsThingPresentationMesh oDataStructure = (clsThingPresentationMesh)poDataStructure;
-		double oMatchScore = 0;
-		//This if statement proofs if the compared datastructure does already have an ID =>
+		ArrayList <clsAssociation> oContentListTemplate = this.moContent; 
+		ArrayList <clsAssociation> oContentListUnknown = oDataStructure.moContent;
+		
+		//This if statement proofs if the compared data structure does already have an ID =>
 		//the ID sepcifies that the data structure has been already compared with a stored
-		//data structure and replaced by it. Hence they can be compared by their IDs. 
-		if(oDataStructure.oDataStructureID != null){
-			if(compareDataStructureID(oDataStructure))return 9999; 
-			else return 0; 
+		//data structure and replaced by it. Hence they can be compared by their IDs.
+		if(oDataStructure.oDataStructureID!=null){
+			if(this.oDataStructureID.equals(oDataStructure.oDataStructureID)){
+				/*In case the DataStructureIDs are equal, the return value is the number 
+				 * of associated data structures and their number of associations. The idendityMatch number
+				 * is not used here as it would distort the result. getNumbAssociations has to be introduced
+				 * as TPMs can be associated to different types of data structures that can consist of associated
+				 * data structures too (TPMs can consist out of TPMs).  
+				 */
+				return oDataStructure.getNumbAssociations();
+			}
+			else{return 0.0;}
 		}
-		else{
-			//In case the data structure does not have an ID, it has to be compared to a stored 
-			//data structure and replaced by it (the processes base on information that is already
-			//defined
-			//TPM content is represented by a list of attribute associations	
-			ArrayList <clsAssociation> oContentListTemplate = this.moContent.get(eDataType.ASSCOCIATIONATTRIBUTE); 
-			ArrayList <clsAssociation> oContentListUnknown = oDataStructure.moContent.get(eDataType.ASSCOCIATIONATTRIBUTE);
+		
+		//In case the data structure does not have an ID, it has to be compared to a stored 
+		//data structure and replaced by it (the processes base on information that is already
+		//defined.
+		//TPM content is represented by a list of attribute associations	
+		return getCompareScore(oContentListTemplate, oContentListUnknown);
+	}
+	
+	/**
+	 * DOCUMENT (zeilinger) - insert description
+	 *
+	 * @author zeilinger
+	 * 18.07.2010, 16:12:00
+	 *
+	 * @return
+	 */
+	public double getNumbAssociations() {
+		double oResult = 0.0;
+			for(clsDataStructurePA oElement1 : moContent){
+				if(((clsAssociation)oElement1).moAssociationElementB.oDataStructureType == eDataType.TPM){
+					oResult +=((clsThingPresentationMesh)((clsAssociation)oElement1).moAssociationElementB).getNumbAssociations(); 
+				}
+				else {
+					oResult += 1.0; 
+				}
+			}
+		return oResult;
+	}
+	
+	@Override
+	public String toString(){
+		String oResult = "::"+this.oDataStructureType+"::";  
+		if(this.oDataStructureID != null) oResult += this.oDataStructureID + ":";
 			
-			return getCompareScore(oContentListTemplate, oContentListUnknown);
-	    }
+		for (clsAssociation oEntry : moContent) {
+			oResult += oEntry.toString() + " / "; 
+		}
+		
+		if (oResult.length() > 4) {
+			oResult = oResult.substring(0, oResult.length()-3);
+		}
+		return oResult; 
 	}
 }

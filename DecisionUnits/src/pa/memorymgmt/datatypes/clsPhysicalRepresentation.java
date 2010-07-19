@@ -25,8 +25,8 @@ public abstract class clsPhysicalRepresentation extends clsPrimaryDataStructure{
 	 * @param poWordPresentationAssociation 
 	 *
 	 */
-	public clsPhysicalRepresentation(String poDataStructureName,
+	public clsPhysicalRepresentation(String poDataStructureID,
 									eDataType peDataStructureType) {
-		super(poDataStructureName, peDataStructureType); 
+		super(poDataStructureID, peDataStructureType); 
 	}
 }

@@ -27,12 +27,12 @@ public class clsAssociationDriveMesh extends clsAssociation{
 	 * @param clsDataStructurePA
 	 * @param poDriveMesh
 	 */
-	public clsAssociationDriveMesh(clsDriveMesh poAssociationElementA, 
-			clsPrimaryDataStructure poAssociationElementB,
-			String poDataStructureName,
-			eDataType peDataStructureType){
+	public clsAssociationDriveMesh(String poDataStructureID,
+			eDataType peDataStructureType, 
+			clsDriveMesh poAssociationElementA, 
+			clsPrimaryDataStructure poAssociationElementB){
 		
-		super(poAssociationElementA, poAssociationElementB, poDataStructureName, peDataStructureType);		
+		super(poDataStructureID, peDataStructureType, poAssociationElementA, poAssociationElementB);		
 		//HZ moContent defines the association weight => also defines the affect!
 		//It has to be defined if an affect is required and how the affect's minus values
 		//should be represented in case the affect is the same as the clsAssociation's weight 

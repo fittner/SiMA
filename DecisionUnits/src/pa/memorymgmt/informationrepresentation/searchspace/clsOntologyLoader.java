@@ -167,9 +167,9 @@ public class clsOntologyLoader {
 			KnowledgeBase poFrameKB,
 			Hashtable<eDataType, List<clsDataStructurePA>> poDataStructurePA) {
 
-		clsDriveMesh oDataStructure = new clsDriveMesh(new ArrayList<clsAssociation>(),
-											poDataElements.b.getName(),
-											eDataType.DM);
+		clsDriveMesh oDataStructure = new clsDriveMesh(poDataElements.b.getName(),
+											eDataType.DM,
+											new ArrayList<clsAssociation>());
 		Instance oDataElement = poDataElements.b; 
 		ArrayList <clsAssociation> oAssociationList = loadInstanceAssociations(oDataElement, oDataStructure, poFrameKB, poDataStructurePA); 
 				
@@ -221,9 +221,9 @@ public class clsOntologyLoader {
 			KnowledgeBase poFrameKB,
 			Hashtable<eDataType, List<clsDataStructurePA>> poDataStructurePA) {
 
-		clsThingPresentationMesh oDataStructure = new clsThingPresentationMesh(new ArrayList<clsAssociation>(),
-				poDataElements.b.getName(),
-				eDataType.TPM);
+		clsThingPresentationMesh oDataStructure = new clsThingPresentationMesh(poDataElements.b.getName(),
+				eDataType.TPM,
+				new ArrayList<clsAssociation>());
 		
 		Instance oDataElement = poDataElements.b; 
 		ArrayList <clsAssociation> oAssociationList = loadInstanceAssociations(oDataElement, oDataStructure, poFrameKB, poDataStructurePA); 
@@ -306,24 +306,24 @@ public class clsOntologyLoader {
 		
 		switch(peElementType){
 			case ASSCOCIATIONATTRIBUTE:
-				return new clsAssociationAttribute((clsPrimaryDataStructure)poDataElements.a,(clsPrimaryDataStructure)poDataElementB, 
-												    poDataElements.b.getName(), peElementType); 
+				return new clsAssociationAttribute(poDataElements.b.getName(), peElementType,
+						(clsPrimaryDataStructure)poDataElements.a,(clsPrimaryDataStructure)poDataElementB); 
 			case ASSOCIATIONTEMP:
-				return new clsAssociationTime((clsPrimaryDataStructure)poDataElements.a,(clsPrimaryDataStructure)poDataElementB, 
-					    poDataElements.b.getName(), peElementType); 
+				return new clsAssociationTime(poDataElements.b.getName(), peElementType,
+						(clsPrimaryDataStructure)poDataElements.a,(clsPrimaryDataStructure)poDataElementB); 
 			
 			case ASSOCIATIONDM:
 				oAssociationElements = evaluateElementOrder(poDataElements.a, poDataElementB, eDataType.DM);
-				return new clsAssociationDriveMesh((clsDriveMesh)oAssociationElements.a, 
-												   (clsPrimaryDataStructure)oAssociationElements.b, 
-												    poDataElements.b.getName(), peElementType); 
+				return new clsAssociationDriveMesh( poDataElements.b.getName(), peElementType,
+												   (clsDriveMesh)oAssociationElements.a, 
+												   (clsPrimaryDataStructure)oAssociationElements.b); 
 			
 			case ASSOCIATIONWP:
 				oAssociationElements = evaluateElementOrder(poDataElements.a, poDataElementB, eDataType.WP);
 			
-				return new clsAssociationWordPresentation((clsWordPresentation)oAssociationElements.a, 
-						   (clsDataStructurePA)oAssociationElements.b, 
-						    poDataElements.b.getName(), peElementType); 
+				return new clsAssociationWordPresentation(poDataElements.b.getName(), peElementType,
+						   (clsWordPresentation)oAssociationElements.a, 
+						   (clsDataStructurePA)oAssociationElements.b); 
 		}
 		throw new NoSuchFieldError(" association of unknown type: " + peElementType.toString());
 	}
@@ -367,9 +367,8 @@ public class clsOntologyLoader {
 			KnowledgeBase poFrameKB,
 			Hashtable<eDataType, List<clsDataStructurePA>> poDataStructurePA) {
 
-		clsAct oDataStructure = new clsAct(new ArrayList<clsAssociation>(), 
-				poDataElements.b.getName(),
-				eDataType.ACT);
+		clsAct oDataStructure = new clsAct(poDataElements.b.getName(),eDataType.ACT,
+				new ArrayList<clsAssociation>());
 
 		Instance oDataElement = poDataElements.b; 
 		ArrayList <clsAssociation> oAssociationList = loadInstanceAssociations(oDataElement, oDataStructure, poFrameKB, poDataStructurePA); 
@@ -390,9 +389,9 @@ public class clsOntologyLoader {
 	 * @param poDataStructurePA
 	 */
 	private static void createTI(clsPair<clsDataStructurePA, Instance> poDataElements, KnowledgeBase poFrameKB,Hashtable<eDataType, List<clsDataStructurePA>> poDataStructurePA) {
-		clsTemplateImage oDataStructure = new clsTemplateImage(new ArrayList<clsAssociation>(),
-													poDataElements.b.getName(),
-													eDataType.TI);
+		clsTemplateImage oDataStructure = new clsTemplateImage(poDataElements.b.getName(),
+													eDataType.TI,
+													new ArrayList<clsAssociation>());
 				
 		Instance oDataElement = poDataElements.b; 
 		ArrayList <clsAssociation> oAssociationList = loadInstanceAssociations(oDataElement, oDataStructure, poFrameKB, poDataStructurePA); 

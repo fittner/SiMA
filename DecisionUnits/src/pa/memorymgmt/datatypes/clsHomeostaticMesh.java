@@ -27,12 +27,12 @@ public abstract class clsHomeostaticMesh extends clsHomeostaticRepresentation{
 	 *
 	 * @param poHomeostaticSource
 	 */
-	public clsHomeostaticMesh(ArrayList<clsAssociation> poAssociatedDriveSource, double pnDriveDemandIntensity, 
-							  String poAssociationID, eDataType peAssociationType) {
+	public clsHomeostaticMesh(String poAssociationID, eDataType peAssociationType, 
+			ArrayList<clsAssociation> poAssociatedDriveSource, double pnDriveDemandIntensity) {
 		super(poAssociationID, peAssociationType);
 		
-		moDriveDemand = new clsDriveDemand(pnDriveDemandIntensity, null, null); 
-		applyAssociations(eDataType.ASSCOCIATIONATTRIBUTE, poAssociatedDriveSource);
+		moDriveDemand = new clsDriveDemand(null, null, pnDriveDemandIntensity); 
+		moContent = poAssociatedDriveSource;
 		//FIXME HZ Is clsDrieDemand required? 
 		//moDriveDemand = new clsDriveDemand(pnDriveDemandIntensity, null, null); 
 	}

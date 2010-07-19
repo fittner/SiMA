@@ -20,5 +20,5 @@ import pa.tools.clsPair;
  * 
  */
 public interface itfKnowledgeBaseHandler {
-	public List<List<clsDataStructureContainer>> searchDataStructure(ArrayList<clsPair<Integer,clsDataStructureContainer>> poSearchPatternContainer);
+	public List<List<clsPair<Double,clsDataStructureContainer>>>  initMemorySearch(ArrayList<clsPair<Integer,clsDataStructureContainer>> poSearchPatternContainer);
 }

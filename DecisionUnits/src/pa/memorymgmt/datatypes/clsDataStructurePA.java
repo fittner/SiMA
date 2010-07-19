@@ -10,7 +10,6 @@ import java.util.ArrayList;
 
 import pa.memorymgmt.enums.eDataType;
 
-
 /**
  * DOCUMENT (zeilinger) - insert description 
  * 
@@ -29,17 +28,9 @@ public abstract class clsDataStructurePA implements Cloneable, itfComparable{
 	 * 22.06.2010, 15:50:02
 	 *
 	 */
-	public clsDataStructurePA(String poDataStructureName, eDataType poDataStructureType) {
-		oDataStructureID = poDataStructureName; 
+	public clsDataStructurePA(String poDataStructureID, eDataType poDataStructureType) {
+		oDataStructureID = poDataStructureID; 
 		oDataStructureType = poDataStructureType;
-	}
-	
-	protected boolean compareDataStructureID(clsDataStructurePA poDataStructure) {
-		boolean oRetVal = false; 
-		if(this.oDataStructureID.equals(poDataStructure.oDataStructureID)){
-			oRetVal = true; 
-		}
-		return oRetVal;
 	}
 	
 	/**
@@ -53,16 +44,21 @@ public abstract class clsDataStructurePA implements Cloneable, itfComparable{
 	 * @return
 	 */
 	protected double getCompareScore(ArrayList<clsAssociation> poContentListTemplate,ArrayList<clsAssociation> poContentListUnknown) {
-		double oMatchScore = 0; 
-		double oMatchScoreSingle = 0; 
-		for(clsAssociation oAssociationTemplate : poContentListTemplate){
-			for(clsAssociation oAssociationUnknown : poContentListUnknown){
+		double oMatchScore	 = 0.0; 
+		double oMatchScoreSingle = 0.0; 
+		
+		for(clsAssociation oAssociationUnknown : poContentListUnknown){
+			for(clsAssociation oAssociationTemplate : poContentListTemplate){
+				double oMatchScoreTemp = 0.0; 
 				if(oAssociationTemplate.moAssociationElementB.getClass().equals(oAssociationUnknown.moAssociationElementB.getClass())){
-					oMatchScoreSingle = oAssociationTemplate.moAssociationElementB.compareTo(oAssociationUnknown.moAssociationElementB); 
-					oMatchScore =+ oAssociationTemplate.mrImperativeFactor*oAssociationTemplate.mrWeight*oMatchScoreSingle;
+					oMatchScoreTemp = oAssociationTemplate.moAssociationElementB.compareTo(oAssociationUnknown.moAssociationElementB); 
+					if(oMatchScoreTemp > oMatchScoreSingle) {oMatchScoreSingle = oMatchScoreTemp;}
 				}
 			}
-	}
+			//Sums up the match score; Takes always the highest possible score 
+			oMatchScore += oMatchScoreSingle;
+			oMatchScoreSingle = 0.0; 
+		}
 		return oMatchScore;
 	}
 }

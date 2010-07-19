@@ -15,11 +15,9 @@ import java.util.ArrayList;
  * 23.05.2010, 21:42:31
  * 
  */
-public class clsSecondaryInformation extends clsDataStructureContainer{
-	public clsSecondaryDataStructure moSecondaryDataStructure; 
-	public ArrayList<clsAssociation> moAssociatedDataStructures;
-	
-	public clsSecondaryInformation(){
-		moSecondaryDataStructure = null; 
+public class clsSecondaryDataStructureContainer extends clsDataStructureContainer{
+		
+	public clsSecondaryDataStructureContainer(clsDataStructurePA poDataStructure, ArrayList<clsAssociation>poAssociationList){
+		super(poDataStructure, poAssociationList);  
 	}
 }

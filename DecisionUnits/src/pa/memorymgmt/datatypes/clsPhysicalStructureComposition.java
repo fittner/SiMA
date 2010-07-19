@@ -7,8 +7,6 @@
 package pa.memorymgmt.datatypes;
 
 import java.util.ArrayList;
-import java.util.Hashtable;
-import java.util.Map;
 
 import pa.memorymgmt.enums.eDataType;
 
@@ -21,7 +19,7 @@ import pa.memorymgmt.enums.eDataType;
  * 
  */
 public abstract class clsPhysicalStructureComposition extends clsPhysicalRepresentation {
-	public Map<eDataType, ArrayList<clsAssociation>> moContent; 	
+	public ArrayList<clsAssociation> moContent; 	
 	/**
 	 * DOCUMENT (zeilinger) - insert description 
 	 * 
@@ -31,10 +29,10 @@ public abstract class clsPhysicalStructureComposition extends clsPhysicalReprese
 	 * @param object 
 	 *
 	 */
-	public clsPhysicalStructureComposition(String poDataStructureName,
+	public clsPhysicalStructureComposition(String poDataStructureID,
 										   eDataType poDataStructureType) {
-		super(poDataStructureName, poDataStructureType);
-		moContent = new Hashtable<eDataType, ArrayList<clsAssociation>>(); 
+		super(poDataStructureID, poDataStructureType);
+		moContent = new ArrayList<clsAssociation>(); 
 	}
 	
 	/**
@@ -56,9 +54,7 @@ public abstract class clsPhysicalStructureComposition extends clsPhysicalReprese
 	 * @param poAssociatedWordPresentations
 	 */
 		
-	protected void applyAssociations(eDataType poDataType, ArrayList<clsAssociation> poAssociatedDataStructures) {
-		ArrayList <clsAssociation> oStructureList = ((Hashtable<eDataType, ArrayList<clsAssociation>>)moContent).get(poDataType); 
-		if(oStructureList == null) {moContent.put(poDataType, poAssociatedDataStructures);} 
-		else {oStructureList.addAll(poAssociatedDataStructures);} 
+	protected void applyAssociations(ArrayList<clsAssociation> poAssociatedDataStructures) {
+		moContent.addAll(poAssociatedDataStructures);  
 	}
 }

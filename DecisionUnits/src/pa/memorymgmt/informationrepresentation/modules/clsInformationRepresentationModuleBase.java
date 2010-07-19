@@ -9,8 +9,10 @@ package pa.memorymgmt.informationrepresentation.modules;
 import java.util.ArrayList;
 
 import pa.memorymgmt.datatypes.clsDataStructureContainer;
+import pa.memorymgmt.datatypes.clsDataStructurePA;
 import pa.memorymgmt.informationrepresentation.clsSearchSpaceHandler;
 import pa.memorymgmt.informationrepresentation.enums.eSearchMethod;
+import pa.tools.clsPair;
 
 /**
  * DOCUMENT (zeilinger) - insert description 
@@ -48,14 +50,14 @@ public abstract class clsInformationRepresentationModuleBase {
 	 * @param poSearchPattern
 	 * @return
 	 */
-	public ArrayList<clsDataStructureContainer> searchDataStructure(int poReturnType, clsDataStructureContainer poSearchPatternContainer){
-		if(moSearchMethod.equals(eSearchMethod.LISTSEARCH)) return listSearch(poReturnType, poSearchPatternContainer);
+	public ArrayList<clsPair<Double,clsDataStructureContainer>> searchDataStructure(int poReturnType, clsDataStructurePA poDataStructureUnknown){
+		if(moSearchMethod.equals(eSearchMethod.LISTSEARCH)) return listSearch(poReturnType, poDataStructureUnknown);
 		/*TODO - zeilinger 	here, additional search algorithms have to be initialized*/
 		/*TODO - actually the listSearch algorithm is defined in clsModuleBase - hence, there is 
 		 * 		 no difference made between the different modules*/
 	throw new IllegalArgumentException(" defined search method unknown " + moSearchMethod);
 	}
 	
-	public abstract ArrayList<clsDataStructureContainer> listSearch(int poReturnType, clsDataStructureContainer poSearchPatternContainer);
+	public abstract ArrayList<clsPair<Double,clsDataStructureContainer>> listSearch(int poReturnType, clsDataStructurePA poDataStructureUnknown);
 
 }

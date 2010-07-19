@@ -28,11 +28,11 @@ public class clsAssociationTime extends clsAssociation{
 	 * @param poAssociationID
 	 * @param poAssociationType
 	 */
-	public clsAssociationTime(clsPrimaryDataStructure poAssociationElementA,
-			clsPrimaryDataStructure poAssociationElementB, String poAssociationID, eDataType peAssociationType) {
+	public clsAssociationTime(String poAssociationID, eDataType peAssociationType,
+			clsPrimaryDataStructure poAssociationElementA,
+			clsPrimaryDataStructure poAssociationElementB) {
 		
-		super(poAssociationElementA, poAssociationElementB, 
-				poAssociationID, peAssociationType);
+		super(poAssociationID, peAssociationType, poAssociationElementA, poAssociationElementB);
 		// TODO (zeilinger) - Auto-generated constructor stub
 	}
 

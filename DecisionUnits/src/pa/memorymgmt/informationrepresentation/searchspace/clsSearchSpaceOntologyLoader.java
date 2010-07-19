@@ -49,26 +49,6 @@ public class clsSearchSpaceOntologyLoader extends clsSearchSpaceBase{
 	private void loadSearchSpace() {
 		convertArrayListToHashTable(); 
 		bindObjectsAndAssociations(); 
-		printSearchSpace(); 
-	}
-
-	/**
-	 * DOCUMENT (zeilinger) - insert description
-	 *
-	 * @author zeilinger
-	 * 25.06.2010, 22:01:13
-	 *
-	 */
-	private void printSearchSpace() {
-		for(eDataType oDataElement : moSearchSpaceContent.keySet()){
-			System.out.println("DataStructure " + oDataElement);
-			for(clsDataStructurePA oDataStructure : moSearchSpaceContent.get(oDataElement).keySet()){
-				System.out.println("	Object:	" + oDataStructure.oDataStructureID);
-				for(clsAssociation oAssociation : moSearchSpaceContent.get(oDataElement).get(oDataStructure)){
-					System.out.println("		Association: " + oAssociation.oDataStructureID); 
-				}
-			}
-		}
 	}
 
 	/**
@@ -134,6 +114,28 @@ public class clsSearchSpaceOntologyLoader extends clsSearchSpaceBase{
 	@Override
 	public Hashtable<clsDataStructurePA, ArrayList<clsAssociation>> returnSearchSpaceTable(eDataType poDataStructureType) {
 		return moSearchSpaceContent.get(poDataStructureType);
+	}
+	
+	/**
+	 * DOCUMENT (zeilinger) - insert description
+	 *
+	 * @author zeilinger
+	 * 25.06.2010, 22:01:13
+	 *
+	 */
+	@Override
+	public String toString() {
+		String oRetVal = ":Search space:"; 
+		for(eDataType oDataElement : moSearchSpaceContent.keySet()){
+			oRetVal += "DataStructure " + oDataElement;
+			for(clsDataStructurePA oDataStructure : moSearchSpaceContent.get(oDataElement).keySet()){
+				oRetVal +="	Object:	" + oDataStructure.oDataStructureID;
+				for(clsAssociation oAssociation : moSearchSpaceContent.get(oDataElement).get(oDataStructure)){
+					oRetVal +="		Association: " + oAssociation.oDataStructureID; 
+				}
+			}
+		}
+		return oRetVal; 
 	}
 
 }

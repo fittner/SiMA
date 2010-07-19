@@ -7,13 +7,12 @@
 package pa.memorymgmt.informationrepresentation.modules;
 
 import java.util.ArrayList;
-import java.util.Collection;
 
 import pa.memorymgmt.datatypes.clsAssociation;
 import pa.memorymgmt.datatypes.clsDataStructureContainer;
 import pa.memorymgmt.datatypes.clsDataStructurePA;
 import pa.memorymgmt.datatypes.clsSecondaryDataStructure;
-import pa.memorymgmt.datatypes.clsSecondaryInformation;
+import pa.memorymgmt.datatypes.clsSecondaryDataStructureContainer;
 import pa.memorymgmt.informationrepresentation.clsSearchSpaceHandler;
 import pa.tools.clsPair;
 
@@ -50,14 +49,15 @@ public class KB01_SecondaryDataStructureMgmt extends clsInformationRepresentatio
 	 * @see pa.informationrepresentation.ARSi10.modules.clsInformationRepresentationModuleBase#listSearch(java.lang.String, pa.informationrepresentation.datatypes.clsDataStructureContainer)
 	 */
 	@Override
-	public ArrayList<clsDataStructureContainer> listSearch(int poReturnType,
-			clsDataStructureContainer poSearchPatternContainer) {
+	public ArrayList<clsPair<Double,clsDataStructureContainer>> listSearch(int poReturnType,
+			clsDataStructurePA poDataStructureUnknown) {
 		
-			ArrayList<clsDataStructureContainer> oDataStructureContainerList = new ArrayList<clsDataStructureContainer>(); 
-			ArrayList<clsPair<Double,clsDataStructurePA>> oMatchedDataStructures = compareELements(poSearchPatternContainer); 
+			ArrayList<clsPair<Double,clsDataStructureContainer>> oDataStructureContainerList = new ArrayList<clsPair<Double,clsDataStructureContainer>>(); 
+			ArrayList<clsPair<Double,clsDataStructurePA>> oMatchedDataStructures = compareElements(poDataStructureUnknown); 
 			
 			for(clsPair<Double, clsDataStructurePA> oPatternElement : oMatchedDataStructures){
-				oDataStructureContainerList.add(getDataContainer(poReturnType, (clsSecondaryDataStructure)oPatternElement.b));
+				clsDataStructureContainer oDataStructureContainer = getDataContainer(poReturnType, (clsSecondaryDataStructure)oPatternElement.b);
+				oDataStructureContainerList.add(new clsPair<Double, clsDataStructureContainer>(oPatternElement.a, oDataStructureContainer));
 			}
 			return oDataStructureContainerList;
 	}
@@ -74,9 +74,9 @@ public class KB01_SecondaryDataStructureMgmt extends clsInformationRepresentatio
 	 */
 	private clsDataStructureContainer getDataContainer(int poReturnType, clsSecondaryDataStructure poDataStructure) {
 		
-			clsSecondaryInformation oDataStructureContainer = new clsSecondaryInformation();
-			oDataStructureContainer.moSecondaryDataStructure = poDataStructure; 
-			oDataStructureContainer.moAssociatedDataStructures.addAll(readOutSearchSpace(poReturnType, poDataStructure)); 
+			clsSecondaryDataStructureContainer oDataStructureContainer = new clsSecondaryDataStructureContainer(null, null);
+			oDataStructureContainer.moDataStructure = poDataStructure; 
+			oDataStructureContainer.moAssociatedDataStructures = readOutSearchSpace(poReturnType, poDataStructure); 
 			
 		return oDataStructureContainer;
 	}
@@ -91,8 +91,7 @@ public class KB01_SecondaryDataStructureMgmt extends clsInformationRepresentatio
 	 * @param poDataStructure
 	 * @return
 	 */
-	private Collection<? extends clsAssociation> readOutSearchSpace(int poReturnType, clsSecondaryDataStructure poDataStructure) {
-		
+	private ArrayList<clsAssociation> readOutSearchSpace(int poReturnType, clsSecondaryDataStructure poDataStructure) {
 		return moSearchSpaceHandler.readOutSearchSpace(poReturnType, poDataStructure);
 	}
 
@@ -105,9 +104,7 @@ public class KB01_SecondaryDataStructureMgmt extends clsInformationRepresentatio
 	 * @param moDataStructure
 	 * @return
 	 */
-	private ArrayList<clsPair<Double,clsDataStructurePA>> compareELements(clsDataStructureContainer poSearchPatternContainer) {
-		clsDataStructurePA oDataStructureSearchPattern = ((clsSecondaryInformation)poSearchPatternContainer).moSecondaryDataStructure;
-				
-		return clsDataStructureComparison.compareDataStructures(oDataStructureSearchPattern, moSearchSpaceHandler.returnSearchSpace());
+	private ArrayList<clsPair<Double,clsDataStructurePA>> compareElements(clsDataStructurePA poDataStructureUnknown) {
+		return clsDataStructureComparison.compareDataStructures(poDataStructureUnknown, moSearchSpaceHandler.returnSearchSpace());
 	}
 }

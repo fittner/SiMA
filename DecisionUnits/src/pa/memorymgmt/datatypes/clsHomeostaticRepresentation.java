@@ -7,8 +7,6 @@
 package pa.memorymgmt.datatypes;
 
 import java.util.ArrayList;
-import java.util.Hashtable;
-import java.util.Map;
 
 import pa.memorymgmt.enums.eDataType;
 
@@ -21,7 +19,7 @@ import pa.memorymgmt.enums.eDataType;
  */
 public abstract class clsHomeostaticRepresentation extends clsPrimaryDataStructure{
 	protected eDataType moHomeostaticType; 
-	public Map<eDataType, ArrayList<clsAssociation>> moContent; 
+	public ArrayList<clsAssociation> moContent; 
 	/**
 	 * DOCUMENT (zeilinger) - insert description 
 	 * 
@@ -29,10 +27,9 @@ public abstract class clsHomeostaticRepresentation extends clsPrimaryDataStructu
 	 * 24.05.2010, 12:57:01
 	 *
 	 */
-	public clsHomeostaticRepresentation(String poDataStructureName, 
+	public clsHomeostaticRepresentation(String poDataStructureID, 
 										eDataType peDataStructureType) {
-		
-		super(poDataStructureName, peDataStructureType); 
+		super(poDataStructureID, peDataStructureType); 
 	}
 	
 	/**
@@ -54,10 +51,8 @@ public abstract class clsHomeostaticRepresentation extends clsPrimaryDataStructu
 	 * @param poAssociatedWordPresentations
 	 */
 		
-	protected void applyAssociations(eDataType poDataType, ArrayList<clsAssociation> poAssociatedDataStructures) {
-		ArrayList <clsAssociation> oStructureList = ((Hashtable<eDataType, ArrayList<clsAssociation>>)moContent).get(poDataType); 
-		if(oStructureList == null) {moContent.put(poDataType, poAssociatedDataStructures);} 
-		else {oStructureList.addAll(poAssociatedDataStructures);} 
+	protected void applyAssociations(ArrayList<clsAssociation> poAssociatedDataStructures) {
+		moContent.addAll(poAssociatedDataStructures);  
 	}
 	
 }

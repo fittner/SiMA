@@ -12,10 +12,10 @@ import java.util.List;
 import config.clsBWProperties;
 import pa.memorymgmt.clsKnowledgeBaseHandler;
 import pa.memorymgmt.datatypes.clsDataStructureContainer;
+import pa.memorymgmt.datatypes.clsDataStructurePA;
 import pa.memorymgmt.datatypes.clsHomeostaticRepresentation;
 import pa.memorymgmt.datatypes.clsPhysicalRepresentation;
-import pa.memorymgmt.datatypes.clsPrimaryInformation;
-import pa.memorymgmt.datatypes.clsSecondaryInformation;
+import pa.memorymgmt.datatypes.clsSecondaryDataStructure;
 import pa.memorymgmt.informationrepresentation.enums.eDataSources;
 import pa.memorymgmt.informationrepresentation.enums.eSearchMethod;
 import pa.memorymgmt.informationrepresentation.modules.M01_InformationRepresentationMgmt;
@@ -34,7 +34,7 @@ public class clsInformationRepresentationManagementARSi10 extends clsKnowledgeBa
 	public String moSearchMethod; 
 	public M01_InformationRepresentationMgmt moM01InformationRepresentationMgmt;
 	public clsSearchSpaceHandler moSearchSpaceHandler; 
-	public List<List<clsDataStructureContainer>> moSearchResult;
+	public List<List<clsPair<Double,clsDataStructureContainer>>> moSearchResult;
 	/**
 	 * DOCUMENT (zeilinger) - insert description 
 	 * 
@@ -90,6 +90,32 @@ public class clsInformationRepresentationManagementARSi10 extends clsKnowledgeBa
 	    	oProp.setProperty(pre+P_SEARCH_METHOD, eSearchMethod.LISTSEARCH.toString());
 	    	return oProp;
 	 }
+	 
+	 /* (non-Javadoc)
+		 * THis method initializes the search process. The method receives an ArrayList that is
+		 * assembled of the search pattern that is represented by a data structure and an integer 
+		 * (binary number) that introduces the filter-mechanism for special eDataTypes. The binaries 
+		 * are set in the enum eDataType.
+		 * 
+		 * 
+		 *
+		 * @author zeilinger
+		 * 28.06.2010, 20:41:07
+		 * 
+		 * @see pa.memorymgmt.itfKnowledgeBaseHandler#searchDataStructure(java.util.ArrayList)
+		 */
+		@Override
+		public List<List<clsPair<Double,clsDataStructureContainer>>> initMemorySearch(
+				ArrayList<clsPair<Integer, clsDataStructureContainer>> poSearchPatternContainer) {
+			
+			moSearchResult.clear(); 
+			
+			for(clsPair<Integer, clsDataStructureContainer> element:poSearchPatternContainer){
+				triggerInformationRepresentationManagementModules((int)element.a, element.b.moDataStructure);
+			}
+				
+			return moSearchResult;
+		}
 	
 	/**
 	 * DOCUMENT (zeilinger) - insert description
@@ -99,44 +125,19 @@ public class clsInformationRepresentationManagementARSi10 extends clsKnowledgeBa
 	 *
 	 * @param next
 	 */
-	private void triggerInformationRepresentationManagementModules(int poReturnType, clsDataStructureContainer poSearchPatternContainer) {
-		
-		if(poSearchPatternContainer instanceof clsSecondaryInformation) moSearchResult.add(moM01InformationRepresentationMgmt.moKB01SecondaryDataStructureMgmt.searchDataStructure(poReturnType, poSearchPatternContainer)); 
-		else if(poSearchPatternContainer instanceof clsPrimaryInformation){
-			if(((clsPrimaryInformation)poSearchPatternContainer).moDataStructure instanceof clsPhysicalRepresentation) 
-						moSearchResult.add(moM01InformationRepresentationMgmt.moM02PrimaryInformationMgmt.moKB02InternalPerceptionMgmt.searchDataStructure(poReturnType, poSearchPatternContainer));
-			if(((clsPrimaryInformation)poSearchPatternContainer).moDataStructure instanceof clsHomeostaticRepresentation) 
-						moSearchResult.add(moM01InformationRepresentationMgmt.moM02PrimaryInformationMgmt.moKB03ExternalPerceptionMgmt.searchDataStructure(poReturnType,poSearchPatternContainer));
-		}
-		else{ throw new IllegalArgumentException("DataStructureContainerUnknown unknown ");}
+	private void triggerInformationRepresentationManagementModules(Integer poReturnType, clsDataStructurePA poDataStructure) {
+			if(poDataStructure instanceof clsSecondaryDataStructure){
+				moSearchResult.add(moM01InformationRepresentationMgmt.moKB01SecondaryDataStructureMgmt.searchDataStructure(poReturnType, poDataStructure));
+			}
+			else if(poDataStructure instanceof clsPhysicalRepresentation){
+				moSearchResult.add(moM01InformationRepresentationMgmt.moM02PrimaryInformationMgmt.moKB02InternalPerceptionMgmt.searchDataStructure(poReturnType, poDataStructure));
+			}
+			else if(poDataStructure instanceof clsHomeostaticRepresentation){
+				moSearchResult.add(moM01InformationRepresentationMgmt.moM02PrimaryInformationMgmt.moKB03ExternalPerceptionMgmt.searchDataStructure(poReturnType, poDataStructure));
+			}
+			else{ throw new IllegalArgumentException("DataStructureContainerUnknown unknown ");}
 	}
-
-	/* (non-Javadoc)
-	 * THis method initializes the search process. The method receives an ArrayList that is
-	 * assembled of the search pattern that is represented by a data structure and an integer 
-	 * (binary number) that introduces the filter-mechanism for special eDataTypes. The binaries 
-	 * are set in the enum eDataType.
-	 * 
-	 * 
-	 *
-	 * @author zeilinger
-	 * 28.06.2010, 20:41:07
-	 * 
-	 * @see pa.memorymgmt.itfKnowledgeBaseHandler#searchDataStructure(java.util.ArrayList)
-	 */
-	@Override
-	public List<List<clsDataStructureContainer>> searchDataStructure(
-			ArrayList<clsPair<Integer, clsDataStructureContainer>> poSearchPatternContainer) {
 		
-		moSearchResult.clear(); 
-		
-		for(clsPair<Integer, clsDataStructureContainer> element:poSearchPatternContainer){
-			triggerInformationRepresentationManagementModules((int)element.a, element.b);
-		}
-			
-		return moSearchResult;
-	}
-	
 	public void testSearch(){
 		testSearchTP(); 
 	}

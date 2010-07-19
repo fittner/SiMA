@@ -23,11 +23,11 @@ public class clsAssociationAttribute extends clsAssociation{
 	 * 24.05.2010, 15:53:46
 	 *
 	 */
-	public clsAssociationAttribute(clsPrimaryDataStructure poAssociationElementA, 
-								   clsPrimaryDataStructure poAssociationElementB,
-								   String poAssociationID,
-								   eDataType peAssociationType) {
-		super(poAssociationElementA, poAssociationElementB, poAssociationID, peAssociationType);
+	public clsAssociationAttribute(String poAssociationID,
+			   					    eDataType peAssociationType,
+									clsPrimaryDataStructure poAssociationElementA, 
+								    clsPrimaryDataStructure poAssociationElementB) {
+		super(poAssociationID, peAssociationType,poAssociationElementA, poAssociationElementB);
 	}
 	
 	/* (non-Javadoc)

@@ -6,6 +6,8 @@
  */
 package pa.memorymgmt.datatypes;
 
+import java.util.ArrayList;
+
 /**
  * DOCUMENT (zeilinger) - insert description 
  * 
@@ -14,5 +16,11 @@ package pa.memorymgmt.datatypes;
  * 
  */
 public class clsDataStructureContainer{
-	 
+	public clsDataStructurePA moDataStructure; 
+	public ArrayList<clsAssociation> moAssociatedDataStructures; 
+	
+	public clsDataStructureContainer(clsDataStructurePA poDataStructure, ArrayList<clsAssociation>poAssociationList){
+		moDataStructure = poDataStructure; 
+		moAssociatedDataStructures = poAssociationList;
+	}
 }

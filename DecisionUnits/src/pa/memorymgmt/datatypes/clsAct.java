@@ -18,7 +18,7 @@ import pa.memorymgmt.enums.eDataType;
  * 
  */
 public class clsAct extends clsSecondaryDataStructure {
-
+	public ArrayList<clsAssociation> moContent; 
 	/**
 	 * DOCUMENT (zeilinger) - insert description 
 	 * 
@@ -28,10 +28,9 @@ public class clsAct extends clsSecondaryDataStructure {
 	 * @param poDataStructureName
 	 * @param poDataStructureType
 	 */
-	public clsAct(ArrayList<clsAssociation> poAssociatedWordPresentations,String poAssociationID, 
-											eDataType peAssociationType) {
-		super(poAssociatedWordPresentations, poAssociationID, peAssociationType);
-		// TODO (zeilinger) - Auto-generated constructor stub
+	public clsAct(String poAssociationID,eDataType peAssociationType, ArrayList<clsAssociation> poAssociatedWordPresentations) {
+		super(poAssociationID, peAssociationType);
+		moContent = poAssociatedWordPresentations;
 	}
 
 	/* (non-Javadoc)
@@ -46,6 +45,20 @@ public class clsAct extends clsSecondaryDataStructure {
 		// TODO (zeilinger) - Auto-generated method stub
 		
 	}
+	
+	/**
+	 * DOCUMENT (zeilinger) - insert description
+	 *
+	 * @author zeilinger
+	 * 24.05.2010, 14:40:45
+	 *
+	 * @param poAssociatedWordPresentations
+	 */
+		
+	protected void applyAssociations(ArrayList<clsAssociation> poAssociatedDataStructures) {
+		moContent.addAll(poAssociatedDataStructures); 
+	}
+
 
 	/* (non-Javadoc)
 	 *
@@ -57,15 +70,67 @@ public class clsAct extends clsSecondaryDataStructure {
 	@Override
 	public double compareTo(clsDataStructurePA poDataStructure) {
 		clsAct oDataStructure = (clsAct)poDataStructure;
+		ArrayList <clsAssociation> oContentListTemplate = this.moContent; 
+		ArrayList <clsAssociation> oContentListUnknown = oDataStructure.moContent;
 		
 		//This if statement proofs if the compared datastructure does already have an ID =>
 		//the ID sepcifies that the data structure has been already compared with a stored
-		//data structure and replaced by it. Hence they can be compared by their IDs. 
-		if(oDataStructure.oDataStructureID != null){
-			if(compareDataStructureID(oDataStructure))return 9999; 
-			else return 0; 
+		//data structure and replaced by it. Hence they can be compared by their IDs.
+		if(oDataStructure.oDataStructureID!=null){
+			if(this.oDataStructureID.equals(oDataStructure.oDataStructureID)){
+				/*In case the DataStructureIDs are equal, the return value is the number 
+				 * of associated data structures and their number of associations. The idendityMatch number
+				 * is not used here as it would distort the result. getNumbAssociations has to be introduced
+				 * as ACTs can be associated to different types of data structures that can consist of associated
+				 * data structures too (ACTs can consist out of ACTs).  
+				 */
+				return oDataStructure.getNumbAssociations();
+			}
+			else{return 0.0;}
 		}
-		return 0;
+		//In case the data structure does not have an ID, it has to be compared to a stored 
+		//data structure and replaced by it (the processes base on information that is already
+		//defined
+		//ACT content is represented by a list of attribute associations	
+		return getCompareScore(oContentListTemplate, oContentListUnknown);
 	}
+	
+	
+	/**
+	 * DOCUMENT (zeilinger) - insert description
+	 *
+	 * @author zeilinger
+	 * 18.07.2010, 16:44:40
+	 *
+	 * @return
+	 */
+	private double getNumbAssociations() {
+		double oResult = 0.0;
+		for(clsDataStructurePA oElement1 : moContent){
+			if(((clsAssociation)oElement1).moAssociationElementB.oDataStructureType == eDataType.ACT){
+				oResult +=((clsAct)((clsAssociation)oElement1).moAssociationElementB).getNumbAssociations(); 
+			}
+			else {
+				oResult += 1.0; 
+			}
+		}
+		return oResult;
+	}
+
+	@Override
+	public String toString(){
+		String oResult = "::"+this.oDataStructureType+"::";  
+		if(this.oDataStructureID != null) oResult += this.oDataStructureID + ":";
+			
+		for (clsAssociation oEntry : moContent) {
+			oResult += oEntry.toString() + " / "; 
+		}
+		
+		if (oResult.length() > 4) {
+			oResult = oResult.substring(0, oResult.length()-3);
+		}
+		return oResult; 
+	}
+	
 }
 

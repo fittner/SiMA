@@ -27,12 +27,12 @@ public class clsAssociationWordPresentation extends clsAssociation{
 	 * @param poWordPresentation
 	 */
 	public clsAssociationWordPresentation(
-			clsWordPresentation poAssociationElementA,
-			clsDataStructurePA poAssociationElementB,
 			String poAssociationID, 
-			eDataType peAssociationType) {
+			eDataType peAssociationType,
+			clsWordPresentation poAssociationElementA,
+			clsDataStructurePA poAssociationElementB) {
 			
-			super(poAssociationElementA, poAssociationElementB, poAssociationID, peAssociationType); 
+			super(poAssociationID, peAssociationType, poAssociationElementA, poAssociationElementB); 
 	}
 
 	/* (non-Javadoc)

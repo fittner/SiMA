@@ -25,7 +25,7 @@ public class clsDriveDemand extends clsDataStructurePA{
 	 * 24.05.2010, 13:24:07
 	 *
 	 */
-	public clsDriveDemand(double pnDriveDemandIntensity, String poAssociationID, eDataType peAssociationType) {
+	public clsDriveDemand(String poAssociationID, eDataType peAssociationType, double pnDriveDemandIntensity) {
 		super(poAssociationID, peAssociationType); 
 		mnDriveDemandIntensity = pnDriveDemandIntensity; 
 	}
@@ -39,23 +39,23 @@ public class clsDriveDemand extends clsDataStructurePA{
 	 */
 	@Override
 	public double compareTo(clsDataStructurePA poDataStructure) {
-		clsDriveDemand oDataStructure = (clsDriveDemand)poDataStructure;
-		
-		//This if statement proofs if the compared datastructure does already have an ID =>
-		//the ID sepcifies that the data structure has been already compared with a stored
-		//data structure and replaced by it. Hence they can be compared by their IDs. 
-		if(oDataStructure.oDataStructureID != null){
-			if(compareDataStructureID(oDataStructure))return 9999; 
-			else return 0; 
-		}
-		else{
+		//clsDriveDemand oDataStructure = (clsDriveDemand)poDataStructure;
+	
 		//In case the data structure does not have an ID, it has to be compared to a stored 
 		//data structure and replaced by it (the processes base on information that is already
 		//defined
 //			if(this.moContentName.equals(oDataStructure.moContentName)){
 //				if(this.moContent.equals(oDataStructure.moContent)){return 1;}
 //			}
-		}
-		return 0;
+
+		return 0.0;
+	}
+	
+	@Override
+	public String toString(){
+		String oResult = "::"+this.oDataStructureType+"::";  
+		if(this.oDataStructureID != null) oResult += this.oDataStructureID + ":";
+		//oResult += moContentName +" " + moContent.toString();
+		return oResult; 
 	}
 }

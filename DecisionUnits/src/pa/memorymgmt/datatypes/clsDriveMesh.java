@@ -28,11 +28,9 @@ public class clsDriveMesh extends clsHomeostaticRepresentation{
 	 * @param poAssociationID
 	 * @param peAssociationType
 	 */
-	public clsDriveMesh(ArrayList<clsAssociation> poAssociatedDriveSource,
-			String poAssociationID, eDataType peAssociationType) {
+	public clsDriveMesh(String poAssociationID, eDataType peAssociationType, ArrayList<clsAssociation> poAssociatedDriveSource) {
 		super(poAssociationID, peAssociationType); 
-		
-		applyAssociations(eDataType.ASSCOCIATIONATTRIBUTE, poAssociatedDriveSource);
+		moContent = poAssociatedDriveSource;
 	}
 	
 	/* (non-Javadoc)
@@ -47,7 +45,7 @@ public class clsDriveMesh extends clsHomeostaticRepresentation{
 		ArrayList <clsAssociation> oDataStructureList = new ArrayList<clsAssociation>();
 		oDataStructureList.add(poDataStructurePA); 
 		
-		applyAssociations(poDataStructurePA.oDataStructureType, oDataStructureList);
+		applyAssociations(oDataStructureList);
 	}
 
 	/* (non-Javadoc)
@@ -60,24 +58,54 @@ public class clsDriveMesh extends clsHomeostaticRepresentation{
 	@Override
 	public double compareTo(clsDataStructurePA poDataStructure) {
 		clsDriveMesh oDataStructure = (clsDriveMesh)poDataStructure;
+		ArrayList <clsAssociation> oContentListTemplate = this.moContent; 
+		ArrayList <clsAssociation> oContentListUnknown = oDataStructure.moContent;
 		
 		//This if statement proofs if the compared datastructure does already have an ID =>
 		//the ID sepcifies that the data structure has been already compared with a stored
-		//data structure and replaced by it. Hence they can be compared by their IDs. 
-		if(oDataStructure.oDataStructureID != null){
-			if(compareDataStructureID(oDataStructure))return 9999; 
-			else return 0; 
+		//data structure and replaced by it. Hence they can be compared by their IDs.
+		if(oDataStructure.oDataStructureID!=null){
+			if(this.oDataStructureID.equals(oDataStructure.oDataStructureID)){
+				/*In case the DataStructureIDs are equal, the return value is the number 
+				 * of associated data structures and their number of associations. The idendityMatch number
+				 * is not used here as it would distort the result.   
+				 */
+				return oDataStructure.getNumbAssociations();
+			}
+			else{return 0.0;}
 		}
-		else{
-			//In case the data structure does not have an ID, it has to be compared to a stored 
-			//data structure and replaced by it (the processes base on information that is already
-			//defined
-			//TPM content is represented by a list of attribute associations	
-			ArrayList <clsAssociation> oContentListTemplate = this.moContent.get(eDataType.ASSCOCIATIONATTRIBUTE); 
-			ArrayList <clsAssociation> oContentListUnknown = oDataStructure.moContent.get(eDataType.ASSCOCIATIONATTRIBUTE);
+		//In case the data structure does not have an ID, it has to be compared to a stored 
+		//data structure and replaced by it (the processes base on information that is already
+		//defined
+		//Drive Mesh content is represented by a list of attribute associations	
+		return getCompareScore(oContentListTemplate, oContentListUnknown);
+	}
+	
+	/**
+	 * DOCUMENT (zeilinger) - insert description
+	 *
+	 * @author zeilinger
+	 * 18.07.2010, 16:38:20
+	 *
+	 * @return
+	 */
+	private double getNumbAssociations() {
+		return moContent.size();
+	}
+
+	@Override
+	public String toString(){
+		String oResult = "::"+this.oDataStructureType+"::";  
+		if(this.oDataStructureID != null) oResult += this.oDataStructureID + ":";
 			
-			return getCompareScore(oContentListTemplate, oContentListUnknown);
-	    }
+		for (clsAssociation oEntry : moContent) {
+			oResult += oEntry.toString() + " / "; 
+		}
+		
+		if (oResult.length() > 4) {
+			oResult = oResult.substring(0, oResult.length()-3);
+		}
+		return oResult; 
 	}
 
 }

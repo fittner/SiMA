@@ -7,7 +7,6 @@
 package pa.memorymgmt.informationrepresentation;
 
 import java.util.ArrayList;
-import java.util.Collection;
 
 import pa.memorymgmt.datatypes.clsAssociation;
 import pa.memorymgmt.datatypes.clsDataStructurePA;
@@ -39,7 +38,7 @@ public class clsSearchSpaceHandler {
 		return moSearchSpace;
 	}
 	
-	public Collection<? extends clsAssociation> readOutSearchSpace(int poReturnType, clsDataStructurePA poDataStructure){
+	public ArrayList <clsAssociation> readOutSearchSpace(int poReturnType, clsDataStructurePA poDataStructure){
 		ArrayList <clsAssociation> oAssociatedDataStructureList = new ArrayList<clsAssociation>();
 		ArrayList <clsAssociation> oList = moSearchSpace.returnSearchSpaceTable(poDataStructure.oDataStructureType).get(poDataStructure);
 		
