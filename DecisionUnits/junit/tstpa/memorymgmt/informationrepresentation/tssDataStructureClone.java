@@ -135,6 +135,8 @@ public class tssDataStructureClone {
 	
 	@Test
 	public void tssCloneDM(){
+		/*up to now these tests are not defined as the data structures Drive Mesh
+		 * is still in definition process - HZ 20.07.2010*/
 		assertTrue(false);
 	}
 	
@@ -150,6 +152,8 @@ public class tssDataStructureClone {
 	
 	@Test
 	public void tssCloneACT(){
+		/*up to now these tests are not defined as the data structures ACT
+		 * is still in definition process - HZ 20.07.2010*/
 		assertTrue(false);
 	}
 	
