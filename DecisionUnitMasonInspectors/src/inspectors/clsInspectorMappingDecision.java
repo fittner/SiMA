@@ -14,6 +14,7 @@ import du.itf.itfDecisionUnit;
 import inspectors.mind.clsDumbBrainInspector;
 import inspectors.mind.clsRemoteControlInspector;
 import inspectors.mind.clsReactiveInspector;
+import inspectors.mind.pa.clsMemoryInspector;
 import inspectors.mind.pa.clsPsychoAnalysisInspector;
 import sim.display.GUIState;
 import sim.portrayal.Inspector;
@@ -65,6 +66,7 @@ public class clsInspectorMappingDecision {
         }
         else if (poDU instanceof clsPsychoAnalysis ) {
         	oRetVal.addInspector( new clsPsychoAnalysisInspector(poSuperInspector, poWrapper, poState, (clsPsychoAnalysis) poDU), "PA-Decision");
+        	oRetVal.addInspector( new clsMemoryInspector(poSuperInspector, poWrapper, poState, (clsPsychoAnalysis) poDU), "PA-Memory");
         } 
         else if( poDU instanceof clsReactive) {
         	oRetVal.addInspector( new clsReactiveInspector(poSuperInspector, poWrapper, poState, (clsReactive) poDU), "Reactive DU Insp.");
