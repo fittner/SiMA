@@ -116,6 +116,28 @@ public class clsAct extends clsSecondaryDataStructure {
 		}
 		return oResult;
 	}
+	
+	@Override
+	public Object clone() throws CloneNotSupportedException {
+        try {
+        	clsAct oClone = (clsAct)super.clone();
+        	if (moContent != null) {
+        		oClone.moContent = new ArrayList<clsAssociation>(); 
+        		for(clsAssociation oAssociation : moContent){
+        			try { 
+    					Object dupl = oAssociation.clone(this, oClone); 
+    					oClone.moContent.add((clsAssociation)dupl); // unchecked warning
+    				} catch (Exception e) {
+    					return e;
+    				}
+        		}
+        	}
+        	
+          	return oClone;
+        } catch (CloneNotSupportedException e) {
+           return e;
+        }
+	}
 
 	@Override
 	public String toString(){

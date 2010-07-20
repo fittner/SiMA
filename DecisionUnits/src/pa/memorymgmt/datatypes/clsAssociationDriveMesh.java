@@ -49,6 +49,5 @@ public class clsAssociationDriveMesh extends clsAssociation{
 	public double compareTo(clsDataStructurePA o) {
 		// TODO (zeilinger) - Auto-generated method stub
 		return 0;
-	}
-
+	}		
 }

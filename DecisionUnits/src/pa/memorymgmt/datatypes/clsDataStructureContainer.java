@@ -15,7 +15,7 @@ import java.util.ArrayList;
  * 24.05.2010, 10:38:31
  * 
  */
-public class clsDataStructureContainer{
+public abstract class clsDataStructureContainer implements Cloneable{
 	public clsDataStructurePA moDataStructure; 
 	public ArrayList<clsAssociation> moAssociatedDataStructures; 
 	

@@ -32,7 +32,7 @@ public class clsDriveMesh extends clsHomeostaticRepresentation{
 		super(poAssociationID, peAssociationType); 
 		moContent = poAssociatedDriveSource;
 	}
-	
+
 	/* (non-Javadoc)
 	 *
 	 * @author zeilinger
@@ -92,6 +92,29 @@ public class clsDriveMesh extends clsHomeostaticRepresentation{
 	private double getNumbAssociations() {
 		return moContent.size();
 	}
+	
+	@Override
+	public Object clone() throws CloneNotSupportedException {
+        try {
+        	clsDriveMesh oClone = (clsDriveMesh)super.clone();
+        	if (moContent != null) {
+        		oClone.moContent = new ArrayList<clsAssociation>(); 
+        		
+        		for(clsAssociation oAssociation : moContent){
+        			try { 
+    					Object dupl = oAssociation.clone(this, oClone); 
+    					oClone.moContent.add((clsAssociation)dupl); // unchecked warning
+    				} catch (Exception e) {
+    					return e;
+    				}
+        		}
+        	}
+        	
+          	return oClone;
+        } catch (CloneNotSupportedException e) {
+           return e;
+        }
+	}		
 
 	@Override
 	public String toString(){

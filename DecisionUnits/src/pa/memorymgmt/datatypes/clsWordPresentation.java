@@ -64,6 +64,16 @@ public class clsWordPresentation extends clsSecondaryDataStructure{
 	}
 	
 	@Override
+	public Object clone() throws CloneNotSupportedException {
+        try {
+        	clsWordPresentation oClone = (clsWordPresentation)super.clone();
+           	return oClone;
+        } catch (CloneNotSupportedException e) {
+           return e;
+        }
+	}		
+	
+	@Override
 	public String toString(){
 		String oResult = "::"+this.oDataStructureType+"::";  
 		if(this.oDataStructureID != null) oResult += this.oDataStructureID + ":";

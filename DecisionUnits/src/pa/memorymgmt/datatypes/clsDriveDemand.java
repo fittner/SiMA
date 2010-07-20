@@ -52,6 +52,16 @@ public class clsDriveDemand extends clsDataStructurePA{
 	}
 	
 	@Override
+	public Object clone() throws CloneNotSupportedException {
+        try {
+        	clsThingPresentationMesh oClone = (clsThingPresentationMesh)super.clone();
+           	return oClone;
+        } catch (CloneNotSupportedException e) {
+           return e;
+        }
+	}	
+	
+	@Override
 	public String toString(){
 		String oResult = "::"+this.oDataStructureType+"::";  
 		if(this.oDataStructureID != null) oResult += this.oDataStructureID + ":";

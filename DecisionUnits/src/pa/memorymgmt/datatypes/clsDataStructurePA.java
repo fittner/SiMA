@@ -45,9 +45,9 @@ public abstract class clsDataStructurePA implements Cloneable, itfComparable{
 	 */
 	protected double getCompareScore(ArrayList<clsAssociation> poContentListTemplate,ArrayList<clsAssociation> poContentListUnknown) {
 		double oMatchScore	 = 0.0; 
-		double oMatchScoreSingle = 0.0; 
 		
 		for(clsAssociation oAssociationUnknown : poContentListUnknown){
+			double oMatchScoreSingle = 0.0;
 			for(clsAssociation oAssociationTemplate : poContentListTemplate){
 				double oMatchScoreTemp = 0.0; 
 				if(oAssociationTemplate.moAssociationElementB.getClass().equals(oAssociationUnknown.moAssociationElementB.getClass())){

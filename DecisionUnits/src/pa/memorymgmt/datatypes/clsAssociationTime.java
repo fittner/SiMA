@@ -48,6 +48,4 @@ public class clsAssociationTime extends clsAssociation{
 		// TODO (zeilinger) - Auto-generated method stub
 		return 0;
 	}
-	
-	
 }

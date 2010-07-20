@@ -17,7 +17,7 @@ import pa.memorymgmt.enums.eDataType;
  * 23.05.2010, 21:50:26
  * 
  */
-public abstract class clsHomeostaticMesh extends clsHomeostaticRepresentation{
+public class clsHomeostaticMesh extends clsHomeostaticRepresentation{
 	clsDriveDemand moDriveDemand = null;
 	/**
 	 * DOCUMENT (zeilinger) - insert description 
@@ -35,5 +35,56 @@ public abstract class clsHomeostaticMesh extends clsHomeostaticRepresentation{
 		moContent = poAssociatedDriveSource;
 		//FIXME HZ Is clsDrieDemand required? 
 		//moDriveDemand = new clsDriveDemand(pnDriveDemandIntensity, null, null); 
+	}
+	/* (non-Javadoc)
+	 *
+	 * @author zeilinger
+	 * 19.07.2010, 21:07:24
+	 * 
+	 * @see pa.memorymgmt.datatypes.itfComparable#compareTo(pa.memorymgmt.datatypes.clsDataStructurePA)
+	 */
+	@Override
+	public double compareTo(clsDataStructurePA poDataStructure) {
+		// TODO (zeilinger) - Auto-generated method stub
+		return 0;
+	}
+	
+	@Override
+	public Object clone() throws CloneNotSupportedException {
+        try {
+        	clsHomeostaticMesh oClone = (clsHomeostaticMesh)super.clone();
+        	
+        	if (moContent != null) {
+        		oClone.moContent = new ArrayList<clsAssociation>(); 
+        		
+        		for(clsAssociation oAssociation : moContent){
+        			try { 
+    					Object dupl = oAssociation.clone(this, oClone); 
+    					oClone.moContent.add((clsAssociation)dupl); // unchecked warning
+    				} catch (Exception e) {
+    					return e;
+    				}
+        		}
+        	}
+        	
+        	oClone.moDriveDemand = (clsDriveDemand)this.moDriveDemand.clone(); 
+        	
+           	return oClone;
+        } catch (CloneNotSupportedException e) {
+           return e;
+        }
+	}	
+	
+	/* (non-Javadoc)
+	 *
+	 * @author zeilinger
+	 * 19.07.2010, 21:07:24
+	 * 
+	 * @see pa.memorymgmt.datatypes.clsHomeostaticRepresentation#assignDataStructure(pa.memorymgmt.datatypes.clsAssociation)
+	 */
+	@Override
+	public void assignDataStructure(clsAssociation poDataStructurePA) {
+		// TODO (zeilinger) - Auto-generated method stub
+		
 	}
 }

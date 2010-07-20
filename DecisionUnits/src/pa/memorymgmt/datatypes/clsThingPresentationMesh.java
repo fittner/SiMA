@@ -110,6 +110,28 @@ public class clsThingPresentationMesh extends clsPhysicalStructureComposition{
 	}
 	
 	@Override
+	public Object clone() throws CloneNotSupportedException {
+        try {
+        	clsThingPresentationMesh oClone = (clsThingPresentationMesh)super.clone();
+        	if (moContent != null) {
+        		oClone.moContent = new ArrayList<clsAssociation>(); 
+        		for(clsAssociation oAssociation : moContent){
+        			try { 
+    					Object dupl = oAssociation.clone(this, oClone); 
+    					oClone.moContent.add((clsAssociation)dupl); // unchecked warning
+    				} catch (Exception e) {
+    					return e;
+    				}
+        		}
+        	}
+        	
+          	return oClone;
+        } catch (CloneNotSupportedException e) {
+           return e;
+        }
+	}		
+	
+	@Override
 	public String toString(){
 		String oResult = "::"+this.oDataStructureType+"::";  
 		if(this.oDataStructureID != null) oResult += this.oDataStructureID + ":";
