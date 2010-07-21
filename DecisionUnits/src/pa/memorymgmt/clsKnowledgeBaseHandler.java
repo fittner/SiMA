@@ -18,6 +18,7 @@ import config.clsBWProperties;
 public abstract class clsKnowledgeBaseHandler implements itfKnowledgeBaseHandler{
 	public static final String P_DATABASE_SOURCE = "database_source";
 	public static final String P_SEARCH_METHOD = "database_search";
+	public static final String P_SOURCE_NAME = "source_name";
 	
 	/**
 	 * DOCUMENT (zeilinger) - insert description 

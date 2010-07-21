@@ -80,7 +80,7 @@ public class clsThingPresentation extends clsPhysicalRepresentation{
 	@Override
 	public String toString(){
 		String oResult = "::"+this.oDataStructureType+"::";  
-		if(this.oDataStructureID != null) oResult += this.oDataStructureID + ":";
+		if(this.oDataStructureID != null){oResult += this.oDataStructureID + ":";}
 		oResult += moContentName +":" + moContent.toString();
 		return oResult; 
 	}

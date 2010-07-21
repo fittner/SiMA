@@ -22,20 +22,24 @@ import pa.memorymgmt.informationrepresentation.searchspace.clsSearchSpaceCreator
  * 
  */
 public class clsSearchSpaceHandler {
-	clsSearchSpaceBase moSearchSpace; 
+	private clsSearchSpaceBase moSearchSpace; 
 	
-	public clsSearchSpaceHandler(String poDatabaseSource){
-		createSearchSpace(poDatabaseSource);
+	public clsSearchSpaceHandler(String poDatabaseSource, String poSourceName){
+		createSearchSpace(poDatabaseSource, poSourceName);
 	}
 	
-	private void createSearchSpace(String poDatabaseSource){
-		if(poDatabaseSource.equals(eDataSources.MAINMEMORY)){moSearchSpace = clsSearchSpaceCreator.createSearchSpace();}
-		else if(poDatabaseSource.equals(eDataSources.DATABASE)){/*TODO define database creator access */ ;}
+	private void createSearchSpace(String poDatabaseSource, String poSourceName){
+		if(poDatabaseSource.equals(eDataSources.MAINMEMORY.name())){moSearchSpace = clsSearchSpaceCreator.createSearchSpace(poSourceName);}
+		else if(poDatabaseSource.equals(eDataSources.DATABASE.name())){/*TODO define database creator access */ ;}
 		else {throw new NullPointerException("database source not found " + poDatabaseSource);}
 	}
 	
 	public clsSearchSpaceBase returnSearchSpace(){
 		return moSearchSpace;
+	}
+	
+	public void setSearchSpace(clsSearchSpaceBase poSearchSpaceBase){
+		moSearchSpace = poSearchSpaceBase;
 	}
 	
 	public ArrayList <clsAssociation> readOutSearchSpace(int poReturnType, clsDataStructurePA poDataStructure){

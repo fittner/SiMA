@@ -41,10 +41,18 @@ import pa.tools.clsPair;
  * 
  */
 public class clsOntologyLoader {
-	public static void loadOntology(Hashtable<eDataType, List<clsDataStructurePA>> poDataStructureList){
+	public static void loadOntology(Hashtable<eDataType, List<clsDataStructurePA>> poDataStructureList, String poSourceName){
 		//TODO HZ: Configure the different ontologyTypes
-		initDataStructureList(poDataStructureList); 
-		loadProtegeOntology(poDataStructureList); 
+		initDataStructureList(poDataStructureList);
+		//FIXME HZ This if-statement is defined for testing reasons as the Search Space should be set for the 
+		// JUnit tests in order to be independent from changes in the ontology. Of cause an unchangeable test-ontology 
+		// is a possiblity to introduce a permanent solution.  
+		if(poSourceName != ""){
+			loadProtegeOntology(poDataStructureList, poSourceName); 
+		}
+		else{
+			System.out.println("The search space will be set manually"); 
+		}
 	}
 	
 	/**
@@ -61,11 +69,10 @@ public class clsOntologyLoader {
 		}
 	}
 
-	private static void loadProtegeOntology(Hashtable<eDataType, List<clsDataStructurePA>> poDataStructureList){
-		//TODO HZ: Make the project file-path configurable
+	private static void loadProtegeOntology(Hashtable<eDataType, List<clsDataStructurePA>> poDataStructureList, String poSourceName){
 		//FIXME HZ: Sorry for the "Object" parameter in ArrayList => however, this is a protege problem
 		Collection <?>oErrorList = new ArrayList<Object>(); 
-		Project oOntologyPrj = Project.loadProjectFromFile("S:/BWsimOnt/ARSi10rv2.pprj", oErrorList);
+		Project oOntologyPrj = Project.loadProjectFromFile(poSourceName, oErrorList);
 	    KnowledgeBase oFrameKB = oOntologyPrj.getKnowledgeBase();
 		    
 	  //FIXME HZ: Optimize the initialization process => Builder
@@ -146,7 +153,7 @@ public class clsOntologyLoader {
 			KnowledgeBase poFrameKB, Hashtable<eDataType, List<clsDataStructurePA>> poDataStructurePA) {
 		
 		clsWordPresentation oDataStructure = new clsWordPresentation(poDataElements.b.getName(),
-																	eDataType.WP);
+																	eDataType.WP, poDataElements.b.getName());
 		//HZ Word Presentation does not obey of any associations
 		//TODO HZ: Define other attributes!! 
 		poDataStructurePA.get(eDataType.WP).add(oDataStructure);

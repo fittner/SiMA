@@ -23,7 +23,7 @@ import pa.memorymgmt.informationrepresentation.searchspace.clsSearchSpaceCreator
 public class tssSearchSpaceCreator {
 	@Test
 	public void testCreateSearchSpace(){
-		clsSearchSpaceCreator.createSearchSpace(); 
+		clsSearchSpaceCreator.createSearchSpace("S:/BWsimOnt/ARSi10rv2.pprj"); 
 		assertTrue(true);
 	}
 }

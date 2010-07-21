@@ -8,6 +8,7 @@ package pa.memorymgmt.informationrepresentation;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.NoSuchElementException;
 
 import config.clsBWProperties;
 import pa.memorymgmt.clsKnowledgeBaseHandler;
@@ -32,9 +33,10 @@ public class clsInformationRepresentationManagementARSi10 extends clsKnowledgeBa
 		
 	public String moDatabaseSource; 
 	public String moSearchMethod; 
+	public String moSourceName; 
 	public M01_InformationRepresentationMgmt moM01InformationRepresentationMgmt;
 	public clsSearchSpaceHandler moSearchSpaceHandler; 
-	public List<List<clsPair<Double,clsDataStructureContainer>>> moSearchResult;
+	public List<ArrayList<clsPair<Double,clsDataStructureContainer>>> moSearchResult;
 	/**
 	 * DOCUMENT (zeilinger) - insert description 
 	 * 
@@ -62,7 +64,7 @@ public class clsInformationRepresentationManagementARSi10 extends clsKnowledgeBa
 	 *
 	 */
 	private void initSearchSpace() {
-		moSearchSpaceHandler = new clsSearchSpaceHandler(moDatabaseSource); 
+		moSearchSpaceHandler = new clsSearchSpaceHandler(moDatabaseSource, moSourceName); 
 	}
 	
 	/**
@@ -78,8 +80,11 @@ public class clsInformationRepresentationManagementARSi10 extends clsKnowledgeBa
 
 	private void applyProperties(String poPrefix, clsBWProperties poProp){		
 		String pre = clsBWProperties.addDot(poPrefix);
+		poProp.putAll(super.getDefaultProperties(poPrefix));
+		
 		moDatabaseSource = poProp.getProperty(pre+P_DATABASE_SOURCE);
 		moSearchMethod = poProp.getProperty(pre+P_SEARCH_METHOD);
+		moSourceName = poProp.getProperty(pre+P_SOURCE_NAME);
 	}
 	
 	 public static clsBWProperties getDefaultProperties(String poPrefix) {
@@ -88,6 +93,8 @@ public class clsInformationRepresentationManagementARSi10 extends clsKnowledgeBa
 			
 	    	oProp.setProperty(pre+P_DATABASE_SOURCE, eDataSources.MAINMEMORY.toString());
 	    	oProp.setProperty(pre+P_SEARCH_METHOD, eSearchMethod.LISTSEARCH.toString());
+	    	//TODO HZ: Make the project file-path configurable
+	    	oProp.setProperty(pre+P_SOURCE_NAME, "S:/BWsimOnt/ARSi10rv2.pprj");
 	    	return oProp;
 	 }
 	 
@@ -98,23 +105,27 @@ public class clsInformationRepresentationManagementARSi10 extends clsKnowledgeBa
 		 * are set in the enum eDataType.
 		 * 
 		 * 
-		 *
 		 * @author zeilinger
 		 * 28.06.2010, 20:41:07
 		 * 
 		 * @see pa.memorymgmt.itfKnowledgeBaseHandler#searchDataStructure(java.util.ArrayList)
 		 */
 		@Override
-		public List<List<clsPair<Double,clsDataStructureContainer>>> initMemorySearch(
-				ArrayList<clsPair<Integer, clsDataStructureContainer>> poSearchPatternContainer) {
-			
-			moSearchResult.clear(); 
+		public List<ArrayList<clsPair<Double,clsDataStructureContainer>>> initMemorySearch(
+				ArrayList<clsPair<Integer, clsDataStructureContainer>> poSearchPatternContainer){
+			moSearchResult = new ArrayList<ArrayList<clsPair<Double,clsDataStructureContainer>>>(); 
 			
 			for(clsPair<Integer, clsDataStructureContainer> element:poSearchPatternContainer){
 				triggerInformationRepresentationManagementModules((int)element.a, element.b.moDataStructure);
 			}
-				
-			return moSearchResult;
+			
+			try {
+				return this.cloneResult(moSearchResult);
+			} catch (CloneNotSupportedException e) {
+				// TODO (zeilinger) - Auto-generated catch block
+				e.printStackTrace();
+			}
+			throw new NoSuchElementException("No return value defined"); 
 		}
 	
 	/**
@@ -137,21 +148,29 @@ public class clsInformationRepresentationManagementARSi10 extends clsKnowledgeBa
 			}
 			else{ throw new IllegalArgumentException("DataStructureContainerUnknown unknown ");}
 	}
-		
-	public void testSearch(){
-		testSearchTP(); 
-	}
-
+	
 	/**
 	 * DOCUMENT (zeilinger) - insert description
 	 *
 	 * @author zeilinger
-	 * 30.06.2010, 07:09:30
+	 * 20.07.2010, 16:58:22
 	 *
+	 * @param moSearchResult2
+	 * @return
+	 * @throws CloneNotSupportedException 
 	 */
-	private void testSearchTP() {
-		//clsThingPresentation oTestTP =(clsThingPresentation)((ArrayList <clsDataStructurePA>) moSearchSpaceHandler.moSearchSpace.returnSearchSpace(eDataType.TP).keySet()).get(0);
-		 
+	@SuppressWarnings("unchecked")
+	private List<ArrayList<clsPair<Double, clsDataStructureContainer>>> cloneResult(
+				List<ArrayList<clsPair<Double, clsDataStructureContainer>>> poSearchResult) throws CloneNotSupportedException {
+		List<ArrayList<clsPair<Double, clsDataStructureContainer>>> oClone = new ArrayList<ArrayList<clsPair<Double, clsDataStructureContainer>>>(); 
+		
+		for(List<clsPair<Double, clsDataStructureContainer>> oListEntry : poSearchResult){
+			ArrayList<clsPair<Double, clsDataStructureContainer>> oClonedList = new ArrayList<clsPair<Double, clsDataStructureContainer>>();
+			for(clsPair<Double, clsDataStructureContainer> oPairEntry : oListEntry){
+				oClonedList.add((clsPair<Double, clsDataStructureContainer>) oPairEntry.clone()); //suppressed Warning
+			}
+			oClone.add(oClonedList); 
+		}
+		return oClone;
 	}
-
 }

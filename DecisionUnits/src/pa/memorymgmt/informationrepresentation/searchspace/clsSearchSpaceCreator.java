@@ -21,10 +21,10 @@ import pa.memorymgmt.enums.eDataType;
  */
 public class clsSearchSpaceCreator {
 		
-	public static clsSearchSpaceBase createSearchSpace(){
+	public static clsSearchSpaceBase createSearchSpace(String poSourceName){
 		Hashtable <eDataType, List<clsDataStructurePA>> oDataStructureTable = new Hashtable<eDataType, List<clsDataStructurePA>>(); 
 		
-		clsOntologyLoader.loadOntology(oDataStructureTable); 
+		clsOntologyLoader.loadOntology(oDataStructureTable, poSourceName); 
 		return new clsSearchSpaceOntologyLoader(oDataStructureTable);	
 	}
 }

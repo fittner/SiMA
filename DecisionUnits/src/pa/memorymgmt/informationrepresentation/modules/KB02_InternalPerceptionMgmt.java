@@ -11,7 +11,7 @@ import java.util.ArrayList;
 import pa.memorymgmt.datatypes.clsAssociation;
 import pa.memorymgmt.datatypes.clsDataStructureContainer;
 import pa.memorymgmt.datatypes.clsDataStructurePA;
-import pa.memorymgmt.datatypes.clsHomeostaticRepresentation;
+import pa.memorymgmt.datatypes.clsPhysicalRepresentation;
 import pa.memorymgmt.datatypes.clsPrimaryDataStructureContainer;
 import pa.memorymgmt.informationrepresentation.clsSearchSpaceHandler;
 import pa.tools.clsPair;
@@ -55,7 +55,7 @@ public class KB02_InternalPerceptionMgmt extends clsInformationRepresentationMod
 		ArrayList<clsPair<Double,clsDataStructurePA>> oMatchedDataStructures = compareElements(poDataStructureUnknown); 
 		
 		for(clsPair<Double, clsDataStructurePA> oPatternElement : oMatchedDataStructures){
-			clsDataStructureContainer oDataStructureContainer = getDataContainer(poReturnType, (clsHomeostaticRepresentation)oPatternElement.b);
+			clsDataStructureContainer oDataStructureContainer = getDataContainer(poReturnType, (clsPhysicalRepresentation)oPatternElement.b);
 			oDataStructureContainerList.add(new clsPair<Double, clsDataStructureContainer>(oPatternElement.a, oDataStructureContainer));
 		}
 		return oDataStructureContainerList;
@@ -71,7 +71,7 @@ public class KB02_InternalPerceptionMgmt extends clsInformationRepresentationMod
 	 * @param oPatternElement
 	 * @return
 	 */
-	private clsDataStructureContainer getDataContainer(int poReturnType, clsHomeostaticRepresentation poDataStructure) {
+	private clsDataStructureContainer getDataContainer(int poReturnType, clsPhysicalRepresentation poDataStructure) {
 		
 			clsPrimaryDataStructureContainer oDataStructureContainer = new clsPrimaryDataStructureContainer(null, null);
 			oDataStructureContainer.moDataStructure = poDataStructure; 
@@ -90,7 +90,7 @@ public class KB02_InternalPerceptionMgmt extends clsInformationRepresentationMod
 	 * @param poDataStructure
 	 * @return
 	 */
-	private ArrayList<clsAssociation> readOutSearchSpace(int poReturnType, clsHomeostaticRepresentation poDataStructure) {
+	private ArrayList<clsAssociation> readOutSearchSpace(int poReturnType, clsPhysicalRepresentation poDataStructure) {
 		return moSearchSpaceHandler.readOutSearchSpace(poReturnType, poDataStructure);
 	}
 

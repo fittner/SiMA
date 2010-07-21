@@ -84,7 +84,7 @@ public class tssDataStructureClone {
 		moAssociatedTemporalStructuresTI.add(new clsAssociationTime(null, eDataType.ASSOCIATIONTEMP, moTemplateImage, moThingPresentationMeshTPM2)); 
 		moAssociatedTemporalStructuresTI.add(new clsAssociationTime(null, eDataType.ASSOCIATIONTEMP, moTemplateImage, moThingPresentationMeshTPM3));
 		
-		moWordPresentation = new clsWordPresentation("WP:TEST", eDataType.WP); 
+		moWordPresentation = new clsWordPresentation("WP:TEST", eDataType.WP, "test"); 
 		
 		oPrimaryDataStructureContainer = new clsPrimaryDataStructureContainer(moThingPresentationMeshTPM1, moAssociatedTemporalStructuresPDSC);
 		moAssociatedTemporalStructuresPDSC.add(new clsAssociationAttribute(null, eDataType.ASSCOCIATIONATTRIBUTE, moThingPresentationMeshTPM1, moThingPresentationMeshTPM2)); 

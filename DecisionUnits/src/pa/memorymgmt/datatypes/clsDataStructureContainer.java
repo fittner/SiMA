@@ -21,6 +21,21 @@ public abstract class clsDataStructureContainer implements Cloneable{
 	
 	public clsDataStructureContainer(clsDataStructurePA poDataStructure, ArrayList<clsAssociation>poAssociationList){
 		moDataStructure = poDataStructure; 
-		moAssociatedDataStructures = poAssociationList;
+		moAssociatedDataStructures = new ArrayList<clsAssociation>(); 
+		
+		if(poAssociationList != null) {moAssociatedDataStructures = poAssociationList;}
+	}
+	
+	@Override
+	public String toString(){
+		String oRetVal = ""; 
+		
+		oRetVal += "DataStructureContainer:moDataStructure";
+		oRetVal += moDataStructure.toString();
+		for(clsAssociation oEntry : moAssociatedDataStructures){
+			oRetVal += "\n	:AssociatedDataStructures:" + oEntry.toString(); 
+		}
+	
+		return oRetVal;
 	}
 }

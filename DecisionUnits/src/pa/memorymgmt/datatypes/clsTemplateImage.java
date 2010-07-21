@@ -63,8 +63,6 @@ public class clsTemplateImage extends clsPhysicalStructureComposition{
 		ArrayList <clsAssociation> oContentListTemplate = this.moContent; 
 		ArrayList <clsAssociation> oContentListUnknown = oDataStructure.moContent;
 		
-		System.out.println("Search Element: " + this.toString() + "\n" + "Unknown element: " + oDataStructure.toString());
-		
 		//This if statement proofs if the compared datastructure does already have an ID =>
 		//the ID sepcifies that the data structure has been already compared with a stored
 		//data structure and replaced by it. Hence they can be compared by their IDs.
@@ -134,14 +132,10 @@ public class clsTemplateImage extends clsPhysicalStructureComposition{
 	@Override
 	public String toString(){
 		String oResult = "::"+this.oDataStructureType+"::";  
-		if(this.oDataStructureID != null) oResult += this.oDataStructureID + ":";
+		if(this.oDataStructureID != null){oResult += this.oDataStructureID + ":";}
 			
 		for (clsAssociation oEntry : moContent) {
-			oResult += oEntry.toString() + " / "; 
-		}
-		
-		if (oResult.length() > 4) {
-			oResult = oResult.substring(0, oResult.length()-3);
+			oResult += oEntry.toString() + ":"; 
 		}
 		return oResult; 
 	}

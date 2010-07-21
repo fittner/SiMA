@@ -40,6 +40,32 @@ public abstract class clsAssociation extends clsDataStructurePA{
 		moAssociationElementB = poAssociationElementB; 
 	}
 	
+	@Override
+	public Object clone() throws CloneNotSupportedException {
+		try {
+			clsAssociation oClone = (clsAssociation)super.clone();
+           	try {
+    	    		Class<?> clzz = this.moAssociationElementA.getClass();
+    	    		Method   meth = clzz.getMethod("clone", new Class[0]);
+    				Object   dupl = meth.invoke(this.moAssociationElementA, new Object[0]);
+    				oClone.moAssociationElementA = (clsDataStructurePA) dupl;
+       	    } catch (Exception e) {
+    	    	 //...
+    	    }
+    	    try {
+    	    		Class<?> clzz = this.moAssociationElementB.getClass();
+    	    		Method   meth = clzz.getMethod("clone", new Class[0]);
+    				Object   dupl = meth.invoke(this.moAssociationElementB, new Object[0]);
+    				oClone.moAssociationElementB = (clsDataStructurePA) dupl; 
+    	    } catch (Exception e) {
+    	    	 //...
+    	    }
+         	        	
+         	return oClone;
+		 } catch (CloneNotSupportedException e) {
+			 return e;
+		 }
+	}		
 	/**
 	 * special clone method. prevents infinite loops while cloning object A which has association X with object B.
 	 * A.clone() calls X.clone() which - consecutively - creates a new clone from A ... Thus, references to A and its clone A' 
@@ -103,12 +129,18 @@ public abstract class clsAssociation extends clsDataStructurePA{
 	@Override
 	public String toString(){
 		String oResult = "::"+this.oDataStructureType+"::";  
-		if(this.oDataStructureID != null) oResult += this.oDataStructureID + ":";
-			
-		oResult += "elementB " + moAssociationElementB.toString()+" / "; 
-			
-		if (oResult.length() > 4) {
-			oResult = oResult.substring(0, oResult.length()-3);
+		if(this.oDataStructureID != null){oResult += this.oDataStructureID + ":";}
+		
+		if(moAssociationElementA!=null){
+			oResult += "elementA:";
+			oResult += moAssociationElementA.oDataStructureType.toString() + ":";
+			if(moAssociationElementA.oDataStructureID != null){oResult += moAssociationElementA.oDataStructureID;}
+		}
+		oResult += ":"; 
+		if(moAssociationElementB!=null){
+			oResult += "elementB:";
+			oResult += moAssociationElementB.oDataStructureType.toString() + ":";
+			if(moAssociationElementB.oDataStructureID != null){oResult += moAssociationElementB.oDataStructureID;} 
 		}
 		return oResult; 
 	}

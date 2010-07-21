@@ -9,6 +9,7 @@ package pa.memorymgmt.datatypes;
 import java.util.ArrayList;
 
 import pa.memorymgmt.enums.eDataType;
+import pa.tools.clsPair;
 
 /**
  * DOCUMENT (zeilinger) - insert description 
@@ -45,20 +46,58 @@ public abstract class clsDataStructurePA implements Cloneable, itfComparable{
 	 */
 	protected double getCompareScore(ArrayList<clsAssociation> poContentListTemplate,ArrayList<clsAssociation> poContentListUnknown) {
 		double oMatchScore	 = 0.0; 
+		ArrayList<clsAssociation> oClonedTemplateList = this.cloneList(poContentListTemplate); 
 		
 		for(clsAssociation oAssociationUnknown : poContentListUnknown){
-			double oMatchScoreSingle = 0.0;
-			for(clsAssociation oAssociationTemplate : poContentListTemplate){
-				double oMatchScoreTemp = 0.0; 
+			/*oMatch defines an object of clsPair that contains the match-score (Double value) between two objects (moAssociationElementB of 
+			 * oAssociationUnknown and oAssociationTemplate) and the entry number where the best matching element is found in 
+			 * oClonedTemplateList. After it is selected as best match it is removed from the list in order to admit that the 
+			 * association element of the next association in poContentListUnknown is compared again with the same element.*/
+			clsPair <Double, Integer> oMatch = new clsPair<Double, Integer>(0.0,-1);
+			for(clsAssociation oAssociationTemplate : oClonedTemplateList){
+				
+				double rMatchScoreTemp = 0.0; 
 				if(oAssociationTemplate.moAssociationElementB.getClass().equals(oAssociationUnknown.moAssociationElementB.getClass())){
-					oMatchScoreTemp = oAssociationTemplate.moAssociationElementB.compareTo(oAssociationUnknown.moAssociationElementB); 
-					if(oMatchScoreTemp > oMatchScoreSingle) {oMatchScoreSingle = oMatchScoreTemp;}
+					rMatchScoreTemp = oAssociationTemplate.moAssociationElementB.compareTo(oAssociationUnknown.moAssociationElementB); 
+					
+					if(rMatchScoreTemp > oMatch.a){ 
+						oMatch.a = rMatchScoreTemp; 
+						oMatch.b = oClonedTemplateList.indexOf(oAssociationTemplate);
+					}
 				}
 			}
 			//Sums up the match score; Takes always the highest possible score 
-			oMatchScore += oMatchScoreSingle;
-			oMatchScoreSingle = 0.0; 
+			oMatchScore += oMatch.a;
+			
+			if(oMatch.a > 0.0){
+				try{
+					oClonedTemplateList.remove((int)oMatch.b);
+				}catch(Exception e){System.out.println("oMatch.b was set to an incorrect value " + e.toString());}} 
 		}
 		return oMatchScore;
+	}
+
+	/**
+	 * DOCUMENT (zeilinger) - insert description
+	 *
+	 * @author zeilinger
+	 * 20.07.2010, 16:02:43
+	 *
+	 * @param poContentListTemplate
+	 * @return
+	 */
+	private ArrayList<clsAssociation> cloneList(
+			ArrayList<clsAssociation> poContentListTemplate) {
+		
+		ArrayList<clsAssociation> oClone = new ArrayList<clsAssociation>(); 
+		for(clsAssociation oAssociation : poContentListTemplate){
+			try { 
+				Object dupl = oAssociation.clone(); 
+				oClone.add((clsAssociation)dupl); // unchecked warning
+			} catch (Exception e) {
+				//.....
+			}
+		}
+		return oClone;
 	}
 }
