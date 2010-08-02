@@ -3,16 +3,16 @@
     xsi:noNamespaceSchemaLocation="../xsd/AbstractImage.xsd">
 
     <AbstractImage ID="105" name="help me - my head bumped against something" fullMatchRequired="false">
-		 <Description>help me - my head bumped against something</Description>
+		<Description>help me - my head bumped against something</Description>
         <TreeRoot optional="MANDATORY" booleanOperator="AND" negated="false">
-	    <leafBumped compare="==" value="TRUE" />
+			<leafBumped compare="==" value="TRUE" />
         </TreeRoot>
     </AbstractImage>
 
     <AbstractImage ID="107" name="onebadbubble" fullMatchRequired="false">
         <Description>one bad bubble in left close field</Description>
-	<TreeRoot optional="MANDATORY" booleanOperator="OR" negated="false">
-          <leafVisionSegment compare=">=" count="ONE">
+		<TreeRoot optional="MANDATORY" booleanOperator="OR" negated="false">
+			<leafVisionSegment compare=">=" count="ONE">
 	        	<sensortype>VISION_NEAR</sensortype>
                 <location>LEFT</location>
                 <entitytype>BUBBLE</entitytype>
@@ -21,11 +21,11 @@
                 <color>#FF0000</color>
                 <antennapos>UPRIGHT</antennapos>
                 <ownteam>UNDEFINED</ownteam>
-	    </leafVisionSegment>
-	    <leafEatable compare=">=" count="ONE">
+			</leafVisionSegment>
+			<leafEatable compare=">=" count="ONE">
 	        	<sensortype>EATABLE_AREA</sensortype>
                 <entitytype>BUBBLE</entitytype>
-         </leafEatable>
-	  </TreeRoot>
+			</leafEatable>
+		</TreeRoot>
     </AbstractImage>
-</AbstractImages>
+

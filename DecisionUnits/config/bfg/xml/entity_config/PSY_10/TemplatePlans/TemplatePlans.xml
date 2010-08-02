@@ -61,13 +61,13 @@
 		<State id="1" name="ScenarioState" type="ScenarioState" value="CAKE_FAR_VISIBLE">
 			<Transition targetid="-1" match="1" name="TemplateImage" type="TemplateImage" value="CAKE_FAR_VISIBLE_CENTER"/>
 			<Transition targetid="2" match="1" name="TemplateImage" type="TemplateImage" value="CAKE_MEDIUM_VISIBLE"/>
-                </State>
+		</State>
 
-        	<State id="2" name="ScenarioState" type="ScenarioState" value="CAKE_FAR_VISIBLE">
+        <State id="2" name="ScenarioState" type="ScenarioState" value="CAKE_FAR_VISIBLE">
 			<Transition targetid="3" match="1" name="TemplateImage" type="TemplateImage" value="CAKE_FAR_VISIBLE_CENTER"/>
-                    </State>
+        </State>
 
-    		<State id="3" name="ScenarioState" type="ScenarioState" value="CAKE_FAR_VISIBLE">
+    	<State id="3" name="ScenarioState" type="ScenarioState" value="CAKE_FAR_VISIBLE">
 			<Transition targetid="-1" match="1" name="TemplateImage" type="TemplateImage" value="CAKE_MEDIUM_VISIBLE"/>
 		</State>
 

@@ -39,7 +39,7 @@
 		</PrimMesh>
     </TemplateImage>
 	
-		<TemplateImage name="Template Image" type="TempImage" value="CAKE_MIDDLE_RIGHT" optional="MANDATORY" booleanOperator="AND" negated="FALSE" description="big red cake and very hungry">
+	<TemplateImage name="Template Image" type="TempImage" value="CAKE_MIDDLE_RIGHT" optional="MANDATORY" booleanOperator="AND" negated="FALSE" description="big red cake and very hungry">
 		<PrimMesh name="Entity" type="Entity" compare="==" value="CAKE_UNGREEDY" optional="MANDATORY" booleanOperator="AND" negated="FALSE">
     	    <PrimInfo name="Color" type="Color" compare="==" value="#FFAFAF" />
     	    <PrimInfo name="Distance" type="Distance" compare="==" value="FAR" />
