@@ -66,7 +66,7 @@ public class clsInspectorMappingDecision {
         }
         else if (poDU instanceof clsPsychoAnalysis ) {
         	oRetVal.addInspector( new clsPsychoAnalysisInspector(poSuperInspector, poWrapper, poState, (clsPsychoAnalysis) poDU), "PA-Decision");
-        	oRetVal.addInspector( new clsMemoryInspector(poSuperInspector, poWrapper, poState, (clsPsychoAnalysis) poDU), "PA-Memory");
+        	oRetVal.addInspector( new clsMemoryInspector(poSuperInspector, poWrapper, poState, (clsPsychoAnalysis) poDU), "PA-Memory"); //shows a tab with the memory inspector
         } 
         else if( poDU instanceof clsReactive) {
         	oRetVal.addInspector( new clsReactiveInspector(poSuperInspector, poWrapper, poState, (clsReactive) poDU), "Reactive DU Insp.");

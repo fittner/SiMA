@@ -17,9 +17,11 @@ import javax.swing.JTree;
 import javax.swing.event.TreeSelectionEvent;
 import javax.swing.event.TreeSelectionListener;
 import javax.swing.tree.DefaultMutableTreeNode;
+import javax.swing.tree.MutableTreeNode;
+
 
 import pa.clsPsychoAnalysis;
-import pa.memory.clsMemory;
+
 import pa.modules.G00_PsychicApparatus;
 
 import sim.display.GUIState;
@@ -31,16 +33,17 @@ import sim.portrayal.inspector.TabbedInspector;
  * DOCUMENT (muchitsch) - Inspector instertion point to show the actual state of the semantic memory 
  * 
  * @author muchitsch
- * 20.07.2010, 14:50:56
+ * 03.08.2010, 13:58:44
  * 
  */
 public class clsMemoryInspector extends Inspector implements TreeSelectionListener {
 
 	/**
-	 * DOCUMENT (muchitsch) - insert description 
+	 * DOCUMENT (muchitsch) - a inspector for the memory. it displays the memory information on a tab in the inspectors.
+	 * different filters etc to come
 	 * 
 	 * @author muchitsch
-	 * 20.07.2010, 13:58:44
+	 * 03.08.2010, 13:58:44
 	 */
 	private static final long serialVersionUID = 2184733182638314059L;
 	public Inspector moOriginalInspector;
@@ -66,12 +69,16 @@ public class clsMemoryInspector extends Inspector implements TreeSelectionListen
 		Box oBox1 = new Box(BoxLayout.PAGE_AXIS);
 		
 		//set root tree manually
-		DefaultMutableTreeNode root = new DefaultMutableTreeNode("Memory - TODO");
+		DefaultMutableTreeNode root = new DefaultMutableTreeNode("Memory");
+		
+		
 		//grab the top element of the top-down design 
 		G00_PsychicApparatus oPsyApp = poPA.getProcessor().getPsychicApparatus();
 		//build a tree with all members that start either with moC for clsModuleContainer or moE for clsModuleBase
 		getTree( oPsyApp, root );
-		addKnowledge(oPsyApp, root);
+		
+		//create tree for all memory types
+		addAllMemoryTree(oPsyApp, root);
 
 		moModuleTree = new JTree(root);
 		moModuleTree.addTreeSelectionListener(this);
@@ -130,12 +137,17 @@ public class clsMemoryInspector extends Inspector implements TreeSelectionListen
 		}
 	}
 
-	private void addKnowledge(G00_PsychicApparatus poPAModule,
+	private void addAllMemoryTree(G00_PsychicApparatus poPAModule,
 			DefaultMutableTreeNode poParentTreeNode) {
 		
-		DefaultMutableTreeNode oMemoryNode = new DefaultMutableTreeNode("Knowledge Base");
+		DefaultMutableTreeNode oMemorRootNode = new DefaultMutableTreeNode("All Memory");
 		
-		clsMemory oMemory = poPAModule.getMemoryForInspector();
+		MutableTreeNode oNodeTPM = new DefaultMutableTreeNode("TPM");
+	    MutableTreeNode cNodeTP = new DefaultMutableTreeNode("TP");
+	    oMemorRootNode.insert(oNodeTPM, 0);
+	    oMemorRootNode.insert(cNodeTP, 1);
+		
+		/*clsMemory oMemory = poPAModule.getMemoryForInspector();
 		
 		Field[] oFields = oMemory.getClass().getFields();
 		for(Field oField : oFields) {
@@ -144,8 +156,8 @@ public class clsMemoryInspector extends Inspector implements TreeSelectionListen
 				DefaultMutableTreeNode child = new DefaultMutableTreeNode(oField.getName().substring(2));
 				oMemoryNode.add(child);
 			}
-		}
-		poParentTreeNode.add(oMemoryNode);
+		}*/
+		poParentTreeNode.add(oMemorRootNode);
 	}
 
 	/* (non-Javadoc)
