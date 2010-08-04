@@ -5,11 +5,11 @@
     <TemplatePlan name="Scenario" type="Scenario" value="CAKE_HUNGER" description="big red cake and very hungry">
 
 		<State id="0" name="ScenarioState" type="ScenarioState" value="NO_CAKE">
-			<Transition targetid="1" match="1" name="TemplateImage" type="TemplateImage" value="CAKE_HUNGER"/>
-			<Transition targetid="6" match="1" name="TemplateImage" type="TemplateImage" value="CAKE_LEFT" />
-			<Transition targetid="6" match="1" name="TemplateImage" type="TemplateImage" value="CAKE_MIDDLE_LEFT" />
-			<Transition targetid="7" match="1" name="TemplateImage" type="TemplateImage" value="CAKE_RIGHT" />
-			<Transition targetid="7" match="1" name="TemplateImage" type="TemplateImage" value="CAKE_MIDDLE_RIGHT" />
+			<Transition targetid="1" match="1" affect="0.2" name="TemplateImage" type="TemplateImage" value="CAKE_HUNGER"/>
+			<Transition targetid="6" match="1" affect="0.2" name="TemplateImage" type="TemplateImage" value="CAKE_LEFT" />
+			<Transition targetid="6" match="1" affect="0.2" name="TemplateImage" type="TemplateImage" value="CAKE_MIDDLE_LEFT" />
+			<Transition targetid="7" match="1" affect="0.2" name="TemplateImage" type="TemplateImage" value="CAKE_RIGHT" />
+			<Transition targetid="7" match="1" affect="0.2" name="TemplateImage" type="TemplateImage" value="CAKE_MIDDLE_RIGHT" />
 		</State>
 		
 		<State id="6" name="ScenarioState" type="ScenarioState" value="CAKE_FAR_VISIBLE_LEFT">
@@ -18,7 +18,7 @@
 		</State>
 
 		<State id="7" name="ScenarioState" type="ScenarioState" value="CAKE_FAR_VISIBLE_RIGHT">
-			<Action once="false" finish="false" name="Action" type="Action" value="TURN_RIGHT" />
+			<Action once="false" finish="false" affect="0.1" name="Action" type="Action" value="TURN_RIGHT" />
 			<Transition targetid="1" match="1" name="TemplateImage" type="TemplateImage" value="CAKE_HUNGER" />
 		</State>
 		

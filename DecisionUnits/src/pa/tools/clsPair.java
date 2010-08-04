@@ -14,6 +14,10 @@ import java.lang.reflect.Method;
  * @author langr
  * 07.10.2009, 12:51:03
  * 
+ * doucmentation by AP:
+ * Class Pair is a generic class that can be used to store two datatypes which are connected to each other by the context
+ * for example a word and a thing presentation can be stored as a unique data-set
+ * 
  */
 public class clsPair<A, B> implements Cloneable {
  

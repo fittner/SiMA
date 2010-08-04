@@ -130,7 +130,8 @@ public class E27_GenerationOfImaginaryActions extends clsModuleBase implements I
 	 */
 	@Override
 	protected void process_basic() {
-
+		
+		// 
 		moActions_Output = this.moEnclosingContainer.moMemory.moTemplatePlanStorage.getReognitionUpdate(moTemplateResult_Input);
 		
 	}

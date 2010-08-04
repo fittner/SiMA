@@ -95,6 +95,9 @@ public class E28_KnowledgeBase_StoredScenarios extends clsModuleBase implements 
 	 * 11.08.2009, 16:16:42
 	 * 
 	 * @see pa.modules.clsModuleBase#process()
+	 * 
+	 * does nothing, only a counter is sent to the next module
+	 * 
 	 */
 	@Override
 	protected void process_basic() {

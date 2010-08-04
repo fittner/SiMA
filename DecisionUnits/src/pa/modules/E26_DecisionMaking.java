@@ -105,6 +105,10 @@ public class E26_DecisionMaking extends clsModuleBase implements I1_7_receive, I
 	 * 11.08.2009, 14:52:37
 	 * 
 	 * @see pa.interfaces.I1_7#receive_I1_7(int)
+	 * 
+	 * by this interface a list of drives, which represent the current wishes
+	 * fills moDriveList
+	 *   
 	 */
 	@SuppressWarnings("unchecked")
 	@Override
@@ -119,6 +123,10 @@ public class E26_DecisionMaking extends clsModuleBase implements I1_7_receive, I
 	 * 11.08.2009, 14:52:37
 	 * 
 	 * @see pa.interfaces.I2_13#receive_I2_13(int)
+	 * 
+	 * by this interface a set of reality information, filtered by E24 (reality check), is received
+	 * fills moRealityPerception
+	 * 
 	 */
 	@SuppressWarnings("unchecked")
 	@Override
@@ -132,6 +140,9 @@ public class E26_DecisionMaking extends clsModuleBase implements I1_7_receive, I
 	 * 11.08.2009, 14:52:37
 	 * 
 	 * @see pa.interfaces.I3_3#receive_I3_3(int)
+	 * 
+	 * TODO cua implement
+	 * 
 	 */
 	@Override
 	public void receive_I3_3(int pnData) {
@@ -145,6 +156,9 @@ public class E26_DecisionMaking extends clsModuleBase implements I1_7_receive, I
 	 * 11.08.2009, 14:52:37
 	 * 
 	 * @see pa.interfaces.I5_5#receive_I5_5(int)
+	 * 
+	 * TODO cua implement
+	 * 
 	 */
 	@Override
 	public void receive_I5_5(int pnData) {
@@ -158,23 +172,40 @@ public class E26_DecisionMaking extends clsModuleBase implements I1_7_receive, I
 	 * 11.08.2009, 16:16:33
 	 * 
 	 * @see pa.modules.clsModuleBase#process()
+	 * 
+	 * this module sends the perception input to module E27, E28 just bypasses the information and sends an additional counter which is not used
+	 *  
+	 * 
 	 */
 	@Override
 	protected void process_basic() {
 
+		// moDriveList -> drives from primary process (wishes)
+		// moRealityPerception -> reality filtered by external perception
+		
 		ArrayList<clsSecondaryInformation> oCompletePerception = new ArrayList<clsSecondaryInformation>();
 		
+		// combine wishes and external perception
+		
+		// first wishes
 		oCompletePerception.addAll(moDriveList);
+		
+		// dirty hack -> moRealityPerception only contains "a" part of the clsPair
 		for(clsPair<clsSecondaryInformation, clsSecondaryInformationMesh> oReal :moRealityPerception) {
 			oCompletePerception.add(oReal.a);
 		}
 		
+		// compare perception with template images to map real perceptive input to stored template information 
+		// return value is a set of recognized and compared images weighted by a match-factor  
 		moTemplateImageResult = moEnclosingContainer.moMemory.moTemplateImageStorage.compare(oCompletePerception);
 		
+		// calculates (maybe) the current state of a matched scenario 
 		moTemplateScenarioResult = moEnclosingContainer.moMemory.moTemplateScenarioStorage.getReognitionUpdate(moTemplateImageResult);
 		
 		moTemplateResult_Output.putAll(	moTemplateImageResult ); 
 		moTemplateResult_Output.putAll(	moTemplateScenarioResult );
+		
+		int i =0;
 	}
 
 	/* (non-Javadoc)
