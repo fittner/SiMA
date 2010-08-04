@@ -100,7 +100,7 @@ public class clsMemoryInspector extends Inspector implements TreeSelectionListen
     }
     
 	/**
-	 * DOCUMENT (muchitsch) - insert description
+	 * DOCUMENT (muchitsch) - creates a tree for all modules and displays the memory within this modules. some my not have a connection to memory
 	 *
 	 * @author muchitsch
 	 * 13.08.2010, 00:52:09
@@ -115,7 +115,7 @@ public class clsMemoryInspector extends Inspector implements TreeSelectionListen
 		for(Field oField : oFields) { //for each member
 			if(oField.getType().getSuperclass().getName().equals("pa.modules.clsModuleContainer")) { //case clsModuleContainer (C00-C16)
 				//create a new tree-element with the name of the public member variable without mo-prefix 
-				DefaultMutableTreeNode child = new DefaultMutableTreeNode(oField.getName().substring(2));  
+				DefaultMutableTreeNode child = new DefaultMutableTreeNode(oField.getName().substring(2) + "MEM");  
 				
 				//get the content of the member (=the instance of the container module) and get the tree entries for it 
 				Object o = null;
@@ -131,7 +131,7 @@ public class clsMemoryInspector extends Inspector implements TreeSelectionListen
 				poParentTreeNode.add(child);
 			}
 			else if(oField.getType().getSuperclass().getName().equals("pa.modules.clsModuleBase")) { //case clsMuduleBase (E01-E32)
-				DefaultMutableTreeNode child = new DefaultMutableTreeNode(oField.getName().substring(2));
+				DefaultMutableTreeNode child = new DefaultMutableTreeNode(oField.getName().substring(2) + "MEM");
 				poParentTreeNode.add(child);
 			}
 		}
@@ -192,13 +192,13 @@ public class clsMemoryInspector extends Inspector implements TreeSelectionListen
 		return;
 		
 		Object nodeInfo = node.getUserObject();
-		//if (node.isLeaf()) {
-			moContentPane.remove(moContent);
-			moContent = clsInspectorMappingPA.getPAInspector( moOriginalInspector, moWrapper, moGuiState, 
-											moPA.getProcessor().getPsychicApparatus(), nodeInfo.toString(), moModuleTree);
-			moContentPane.add(moContent);
-			moContentPane.setViewportView(moContent);
-			moContentPane.repaint();
-		//}
+		
+		moContentPane.remove(moContent);
+		moContent = clsInspectorMappingPA.getPAInspector( moOriginalInspector, moWrapper, moGuiState, 
+										moPA.getProcessor().getPsychicApparatus(), nodeInfo.toString(), moModuleTree);
+		moContentPane.add(moContent);
+		moContentPane.setViewportView(moContent);
+		moContentPane.repaint();
+		
 	}
 }

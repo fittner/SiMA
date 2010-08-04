@@ -109,6 +109,10 @@ public class clsInspectorMappingPA {
 				oRetVal.addInspector( new clsPlanInspector(poSuperInspector, poWrapper, poState, (clsPlanBaseMesh)oScenario ), oScenario.moWP.moContent.toString());
 			}
 		}
+		//========== MEMORY 2.0 ===========
+		else if(poModuleName.equals("TPM")) {
+			oRetVal.addInspector( new clsSecondaryInformationIspector(poSuperInspector, poWrapper, poState, moPA.getMemoryForInspector().moTemplateImageStorage, "moTemplateImages" ), "Template Images TEST");		
+		}
 		
 		
 		
