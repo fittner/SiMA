@@ -9,6 +9,7 @@
 package bw.utils.inspectors.entity;
 
 import java.awt.BorderLayout;
+import java.awt.Dimension;
 
 import javax.swing.JFrame;
 
@@ -53,6 +54,7 @@ public class clsInspectorFrame extends JFrame implements Steppable {
 		oRetVal.pack();
 		oRetVal.setVisible(true);
 		oRetVal.setTitle(poName);
+		oRetVal.setSize(new Dimension(1024,768)); //set's the size of all TabbedInspector frames to this starting value
 		
 		//registers this frame as steppable and stores the stoppable for deregistration when the window is closed
         synchronized(clsSingletonMasonGetter.getSimState().schedule)  // //avoid deadlocks with MASON scheduler

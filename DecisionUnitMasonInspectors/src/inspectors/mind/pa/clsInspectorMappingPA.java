@@ -115,6 +115,7 @@ public class clsInspectorMappingPA {
 		else if(poModuleName.equals("TPM")) {
 			oRetVal.addInspector( new clsSemanticInformationIspector(poSuperInspector, poWrapper, poState, moPA.getMemoryForInspector().moTemplateImageStorage, "moTemplateImages" ), "Memory v2.0 TEST");		
 		}
+		//put all memory things here
 		
 		
 		

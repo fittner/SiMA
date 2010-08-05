@@ -13,19 +13,24 @@ import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
+import java.util.Hashtable;
 import java.util.Map;
 
 
 
 import javax.swing.AbstractAction;
 import javax.swing.BorderFactory;
-import javax.swing.JButton;
+import javax.swing.JCheckBox;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JScrollPane;
 import javax.swing.JSplitPane;
+import javax.swing.ProgressMonitor;
 import javax.swing.SwingConstants;
+import javax.swing.SwingUtilities;
 
 import org.jgraph.JGraph;
 import org.jgraph.graph.DefaultCellViewFactory;
@@ -57,9 +62,14 @@ import com.jgraph.layout.JGraphFacade;
 import com.jgraph.layout.JGraphLayout;
 import com.jgraph.layout.JGraphModelFacade;
 
+import com.jgraph.layout.demo.JGraphLayoutMorphingManager;
+import com.jgraph.layout.demo.JGraphLayoutProgressMonitor;
+import com.jgraph.layout.graph.JGraphSimpleLayout;
 import com.jgraph.layout.hierarchical.JGraphHierarchicalLayout;
 import com.jgraph.layout.organic.JGraphFastOrganicLayout;
 import com.jgraph.layout.tree.JGraphCompactTreeLayout;
+import com.jgraph.layout.tree.JGraphRadialTreeLayout;
+import com.jgraph.layout.tree.JGraphTreeLayout;
 import com.l2fprod.common.swing.JTaskPane;
 import com.l2fprod.common.swing.JTaskPaneGroup;
 
@@ -80,6 +90,11 @@ public class clsSemanticInformationIspector extends Inspector implements ActionL
 	protected JGraph moGraph = new JGraph(new DefaultGraphModel());
 	protected JTaskPane moTaskPane = new JTaskPane();
 	protected JLabel moLabelStatusBar = new JLabel("Status...");
+	
+	protected JCheckBox flushOriginCheckBox = new JCheckBox("Flush", true),	directedCheckBox = new JCheckBox("Directed", true);
+	//Holds the morphing manager.
+	protected JGraphLayoutMorphingManager moMorpher = new JGraphLayoutMorphingManager();
+
 	
 	public Inspector moOriginalInspector;
 	private Object moMeshContainer;
@@ -106,14 +121,16 @@ public class clsSemanticInformationIspector extends Inspector implements ActionL
             String poMeshListMemberName)
     {
  	
-		moOriginalInspector = originalInspector;
+		moOriginalInspector = originalInspector;		//
 		moMeshContainer = poMeshContainer;				//container class	
 		moMeshListMemberName = poMeshListMemberName;	//member name of the list within the containing class
 		
-		initializePanel();
+		initializePanel();	//put all components on the panel
 		
 		updateControl();	//loading data into the graph
 	
+		 
+		
 		/*
 		moBtnUpdate = new JButton("Update graph...");	//create an update-button
 		moBtnUpdate.addActionListener(this);
@@ -134,16 +151,18 @@ public class clsSemanticInformationIspector extends Inspector implements ActionL
     {
     	setLayout(new BorderLayout());
 		setBorder(BorderFactory.createLineBorder(Color.BLUE));
-		// Configures the graph
+		// Configures the jgraph
 		moGraph.setGridSize(4);
 		moGraph.setGridEnabled(true);
 		moGraph.setAntiAliased(true);
 		moGraph.setCloneable(true);
 		
+		// === LAYOUT ===
 		// ADD TaskPaneGroup for Layout
 		JTaskPaneGroup oTaskGroupLayout = new JTaskPaneGroup();
 		oTaskGroupLayout.setTitle("Graph Layout");
 		oTaskGroupLayout.add(new AbstractAction("Hierarchical") {
+			private static final long serialVersionUID = 1L;
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				performGraphLayoutChange(new JGraphHierarchicalLayout());
@@ -158,23 +177,80 @@ public class clsSemanticInformationIspector extends Inspector implements ActionL
 			}
 		});
 		
+		oTaskGroupLayout.add(new AbstractAction("Simple Circle") {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				performGraphLayoutChange(new JGraphSimpleLayout(JGraphSimpleLayout.TYPE_CIRCLE));
+			}
+		});
+		
+		oTaskGroupLayout.add(new AbstractAction("Simple Tilt") {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				performGraphLayoutChange(new JGraphSimpleLayout(JGraphSimpleLayout.TYPE_TILT));
+			}
+		});
+		
+		oTaskGroupLayout.add(new AbstractAction("Compact Tree") {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				performGraphLayoutChange(new JGraphCompactTreeLayout());
+			}
+		});
+		oTaskGroupLayout.add(new AbstractAction("Radialtree") {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				performGraphLayoutChange(new JGraphRadialTreeLayout());
+			}
+		});
+		oTaskGroupLayout.add(new AbstractAction("Tree") {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				performGraphLayoutChange(new JGraphTreeLayout());
+			}
+		});
+
 		moTaskPane.add(oTaskGroupLayout);
 		
+		
+		// === FILTER ===
 		// ADD TaskPaneGroup for Filters
 		JTaskPaneGroup oTaskGroupFilter = new JTaskPaneGroup();
 		oTaskGroupFilter.setTitle("Filter");
 		moTaskPane.add(oTaskGroupFilter);
 		
+		// === COMMAND ===
 		// ADD TaskPaneGroup for Commands
 		JTaskPaneGroup oTaskGroupCommands = new JTaskPaneGroup();
 		oTaskGroupCommands.setTitle("Commands");
-				
-		oTaskGroupCommands.add(new JButton("Refresh") {
+		
+		oTaskGroupCommands.add(new AbstractAction("Actual Size") {
+			@Override
 			public void actionPerformed(ActionEvent e) {
-				this.repaint();
+				moGraph.setScale(1);
+			}
+		});
+		oTaskGroupCommands.add(new AbstractAction("Fit Window") {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				JGraphLayoutMorphingManager.fitViewport(moGraph);
+			}
+		});
+				
+		oTaskGroupCommands.add(new AbstractAction("Reset") {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				reset();
 			}
 		});
 		
+		oTaskGroupCommands.add(new AbstractAction("Insert Test Data") {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				showTestData();
+			}
+		});
+
 		moTaskPane.add(oTaskGroupCommands);
 		
 		//create the SplitPane and add the two windows
@@ -189,10 +265,10 @@ public class clsSemanticInformationIspector extends Inspector implements ActionL
 		oMenuScrollPane.setMinimumSize(minimumSize);
 		oGraphScrollPane.setMinimumSize(minimumSize);
 		
-		//add the SplitPane to the Inspector
+		//add the SplitPane to the Inspector (final magic)
     	this.add(oSplitPane, BorderLayout.CENTER);
     	
-    	// Adds the status bar at bottom
+    	// Adds the status bar at bottom (final final)
 		moLabelStatusBar.setText(JGraphLayout.VERSION  +  " - Semantic Memory Inspector");
 		moLabelStatusBar.setBorder(BorderFactory.createEmptyBorder(2, 2, 2, 2));
 		moLabelStatusBar.setFont(moLabelStatusBar.getFont().deriveFont(Font.PLAIN));
@@ -216,9 +292,176 @@ public class clsSemanticInformationIspector extends Inspector implements ActionL
 		
 	}
 	
+	/**
+	 * Executes the current layout on the current graph by creating a facade and
+	 * progress monitor for the layout and invoking it's run method in a
+	 * separate thread so this method call returns immediately. To display the
+	 * result of the layout algorithm a {@link JGraphLayoutMorphingManager} is
+	 * used.
+	 */
 	public void performGraphLayoutChange(final JGraphLayout layout) 
 	{
-	//TODO
+		if (moGraph != null && moGraph.isEnabled() && moGraph.isMoveable()
+				&& layout != null) {
+			final JGraphFacade facade = createFacade(moGraph);
+
+			final ProgressMonitor progressMonitor = (layout instanceof JGraphLayout.Stoppable) ? createProgressMonitor(
+					moGraph, (JGraphLayout.Stoppable) layout)
+					: null;
+			new Thread() {
+				@Override
+				public void run() {
+					synchronized (this) {
+						try {
+							// Executes the layout and checks if the user has
+							// clicked
+							// on cancel during the layout run. If no progress
+							// monitor
+							// has been displayed or cancel has not been pressed
+							// then
+							// the result of the layout algorithm is processed.
+							layout.run(facade);
+
+							SwingUtilities.invokeLater(new Runnable() {
+								@Override
+								public void run() {
+									boolean ignoreResult = false;
+									if (progressMonitor != null) {
+										ignoreResult = progressMonitor
+												.isCanceled();
+										progressMonitor.close();
+									}
+									if (!ignoreResult) {
+
+										// Processes the result of the layout
+										// algorithm
+										// by creating a nested map based on the
+										// global
+										// settings and passing the map to a
+										// morpher
+										// for the graph that should be changed.
+										// The morpher will animate the change
+										// and then
+										// invoke the edit method on the graph
+										// layout
+										// cache.
+										Map map = facade.createNestedMap(true,
+												(flushOriginCheckBox
+														.isSelected()) ? true
+														: false);
+										moMorpher.morph(moGraph, map);
+										moGraph.requestFocus();
+									}
+								}
+							});
+						} catch (Exception e) {
+							e.printStackTrace();
+							JOptionPane.showMessageDialog(moGraph, e.getMessage());
+						}
+					}
+				}
+			}.start(); // fork
+		}
+	}
+	
+	/**
+	 * Creates a {@link JGraphFacade} and makes sure it contains a valid set of
+	 * root cells if the specified layout is a tree layout. A root cell in this
+	 * context is one that has no incoming edges.
+	 * 
+	 * @param graph
+	 *            The graph to use for the facade.
+	 * @return Returns a new facade for the specified layout and graph.
+	 */
+	protected JGraphFacade createFacade(JGraph graph) {
+		// Creates and configures the facade using the global switches
+		JGraphFacade facade = new JGraphFacade(graph, graph.getSelectionCells());
+		facade.setIgnoresUnconnectedCells(true);
+		facade.setIgnoresCellsInGroups(true);
+		facade.setIgnoresHiddenCells(true);
+		//facade.setDirected(directedCheckBox.isSelected()); need?
+
+		// Removes all existing control points from edges
+		facade.resetControlPoints();
+		return facade;
+	}
+	
+	/**
+	 * Creates a {@link JGraphLayoutProgressMonitor} for the specified layout.
+	 * 
+	 * @param graph
+	 *            The graph to use as the parent component.
+	 * @param layout
+	 *            The layout to create the progress monitor for.
+	 * @return Returns a new progress monitor.
+	 */
+	protected ProgressMonitor createProgressMonitor(JGraph graph,
+			JGraphLayout.Stoppable layout) {
+		ProgressMonitor monitor = new JGraphLayoutProgressMonitor(graph,
+				((JGraphLayout.Stoppable) layout).getProgress(),
+				"PerformingLayout");
+		monitor.setMillisToDecideToPopup(100);
+		monitor.setMillisToPopup(500);
+		return monitor;
+	}
+	
+	/**
+	 * Resets the graph to a circular layout.
+	 */
+	public void reset() {
+		performGraphLayoutChange(new JGraphSimpleLayout(JGraphSimpleLayout.TYPE_CIRCLE));
+		moGraph.clearSelection();
+		JGraphLayoutMorphingManager.fitViewport(moGraph);
+		
+		moLabelStatusBar.setText("JGraph reseted to start");
+	}
+	
+	@Deprecated
+	public void showTestData() {
+		moGraphFactory.insertConnectedGraphSampleData(moGraph,
+				createCellAttributes(new Point2D.Double(0, 0)),
+				createEdgeAttributes());
+		reset();
+	}
+	
+	/**
+	 * Hook from GraphEd to set attributes of a new cell
+	 */
+	public Map createCellAttributes(Point2D point) {
+		Map map = new Hashtable();
+		// Snap the Point to the Grid
+		point = moGraph.snap((Point2D) point.clone());
+		// Add a Bounds Attribute to the Map
+		GraphConstants.setBounds(map, new Rectangle2D.Double(point.getX(),
+				point.getY(), 0, 0));
+		// Make sure the cell is resized on insert
+		GraphConstants.setResize(map, true);
+		// Add a nice looking gradient background
+		GraphConstants.setGradientColor(map, Color.blue);
+		// Add a Border Color Attribute to the Map
+		GraphConstants.setBorderColor(map, Color.black);
+		// Add a White Background
+		GraphConstants.setBackground(map, Color.white);
+		// Make Vertex Opaque
+		GraphConstants.setOpaque(map, true);
+		GraphConstants.setInset(map, 2);
+		GraphConstants.setGradientColor(map, new Color(200, 200, 255));
+		return map;
+	}
+
+	/**
+	 * Hook from GraphEd to set attributes of a new edge
+	 */
+	public Map createEdgeAttributes() {
+		Map map = new Hashtable();
+		// Add a Line End Attribute
+		GraphConstants.setLineEnd(map, GraphConstants.ARROW_SIMPLE);
+		// Add a label along edge attribute
+		GraphConstants.setLabelAlongEdge(map, true);
+		// Adds a parallel edge router
+		GraphConstants.setLineStyle(map, GraphConstants.STYLE_SPLINE);
+		GraphConstants.setFont(map, GraphConstants.DEFAULTFONT.deriveFont(10f));
+		return map;
 	}
 	
 	/* (non-Javadoc)
