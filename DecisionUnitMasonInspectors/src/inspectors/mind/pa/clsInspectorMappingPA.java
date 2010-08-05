@@ -28,7 +28,9 @@ import sim.portrayal.inspector.TabbedInspector;
 public class clsInspectorMappingPA {
 
 	/**
-	 * DOCUMENT (langr) - insert description
+	 * In the valueChanged() method of a inspector panel this function is called and creates a inspector (which is a JPanel in the long term) 
+	 * according to the pressed tree or button or whatever 'poModulName' is given. PLEASE reuse Inspectors! as they only tell how to show some 
+	 * Information sometimes. So you can fill them with different Informations to show! cm
 	 *
 	 * @author langr
 	 * 13.08.2009, 01:32:58
@@ -111,7 +113,7 @@ public class clsInspectorMappingPA {
 		}
 		//========== MEMORY 2.0 ===========
 		else if(poModuleName.equals("TPM")) {
-			oRetVal.addInspector( new clsSecondaryInformationIspector(poSuperInspector, poWrapper, poState, moPA.getMemoryForInspector().moTemplateImageStorage, "moTemplateImages" ), "Template Images TEST");		
+			oRetVal.addInspector( new clsSemanticInformationIspector(poSuperInspector, poWrapper, poState, moPA.getMemoryForInspector().moTemplateImageStorage, "moTemplateImages" ), "Memory v2.0 TEST");		
 		}
 		
 		

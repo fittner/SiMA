@@ -49,6 +49,9 @@ public class clsMemoryInspector extends Inspector implements TreeSelectionListen
 	public Inspector moOriginalInspector;
 	private clsPsychoAnalysis moPA;
 	JTree moModuleTree;
+	/**
+	 * right panel. shows the inspector selected in the tree of the left panel
+	 */
 	JScrollPane moContentPane;
 	TabbedInspector moContent = new TabbedInspector();
 	JSplitPane moSplitPane;
@@ -88,10 +91,10 @@ public class clsMemoryInspector extends Inspector implements TreeSelectionListen
 		
 		moSplitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT,
 				oTreeScroll, moContentPane);
-		moSplitPane.setResizeWeight(0.5);
+		moSplitPane.setResizeWeight(0);
 		moSplitPane.setOneTouchExpandable(true);
 		moSplitPane.setContinuousLayout(true);
-		moSplitPane.setDividerLocation(200);
+		moSplitPane.setDividerLocation(150);
 		
 		oBox1.add(moSplitPane);
 		
@@ -131,7 +134,7 @@ public class clsMemoryInspector extends Inspector implements TreeSelectionListen
 				poParentTreeNode.add(child);
 			}
 			else if(oField.getType().getSuperclass().getName().equals("pa.modules.clsModuleBase")) { //case clsMuduleBase (E01-E32)
-				DefaultMutableTreeNode child = new DefaultMutableTreeNode(oField.getName().substring(2) + "MEM");
+				DefaultMutableTreeNode child = new DefaultMutableTreeNode(oField.getName().substring(2) + "MEM"); //"MEM" is needed to differentiate the tree nodes from RooL's in the inspector mapping
 				poParentTreeNode.add(child);
 			}
 		}
