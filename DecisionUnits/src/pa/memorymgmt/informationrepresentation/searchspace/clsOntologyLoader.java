@@ -77,11 +77,23 @@ public class clsOntologyLoader {
 	    KnowledgeBase oFrameKB = oOntologyPrj.getKnowledgeBase();
 		    
 	  //FIXME HZ: Optimize the initialization process => Builder
-		for(eDataType oDataType : eDataType.initValues())	{
+		for(eDataType oDataType : initValues())	{
 			for(Instance oDataElement : oFrameKB.getCls(oDataType.name()).getInstances()){
 				initDataStructure(null, oDataElement, new clsPair<KnowledgeBase, Hashtable<eDataType, List<clsDataStructurePA>>>(oFrameKB, poDataStructureList)); 
 			}
 		}
+	}
+	
+	public static eDataType[] initValues(){
+		eDataType [] oRetVal = {eDataType.ASSOCIATIONWP, 
+								eDataType.ASSOCIATIONDM, 
+								eDataType.ACT,
+								eDataType.DM,
+								eDataType.TI,
+								eDataType.TP,
+								eDataType.TPM,
+								eDataType.WP};
+		return oRetVal;
 	}
 	
 	/**

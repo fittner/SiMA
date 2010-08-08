@@ -28,11 +28,6 @@ public enum eDataType {
 	
 	public int nBinaryValue; 
 	
-	public static eDataType[] initValues(){
-		eDataType [] oRetVal = {ASSOCIATIONWP, ASSOCIATIONDM, ACT,DM,TI,TP,TPM,WP};
-		return oRetVal;
-	}
-	
 	eDataType(int pnBinaryValue){
 		nBinaryValue = pnBinaryValue;
 	}
