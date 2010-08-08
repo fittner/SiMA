@@ -23,6 +23,7 @@ import pa.memorymgmt.datatypes.clsThingPresentation;
 import pa.memorymgmt.datatypes.clsThingPresentationMesh;
 import pa.memorymgmt.datatypes.clsWordPresentation;
 import pa.memorymgmt.enums.eDataType;
+import pa.tools.clsTripple;
 
 
 /**
@@ -34,7 +35,7 @@ import pa.memorymgmt.enums.eDataType;
  */
 public class tssDataStructureClone {
 	//TEST TP
-	clsThingPresentation moThingPresentationTest = new clsThingPresentation("color:black", eDataType.TP, "color", "black"); 
+	clsThingPresentation moThingPresentationTest = new clsThingPresentation(new clsTripple<String, eDataType, String>("color:black", eDataType.TP, "color"), "black"); 
 	
 	//TEST TPM
 	clsThingPresentationMesh moThingPresentationMeshTPM1 = null; 
@@ -64,37 +65,37 @@ public class tssDataStructureClone {
 	
 		
 	public tssDataStructureClone(){
-		moThingPresentationMeshTPM1 = new clsThingPresentationMesh("TPM:TEST1", eDataType.TPM, moAssociatedDataStructureListTPM1);
-		moAssociatedDataStructureListTPM1.add(new clsAssociationAttribute(null, eDataType.ASSCOCIATIONATTRIBUTE, moThingPresentationMeshTPM1, new clsThingPresentation("shape:circle", eDataType.TP, "shape", "circle")));
-		moAssociatedDataStructureListTPM1.add(new clsAssociationAttribute(null, eDataType.ASSCOCIATIONATTRIBUTE, moThingPresentationMeshTPM1, new clsThingPresentation("color:red", eDataType.TP, "color", "red")));
-		moAssociatedDataStructureListTPM1.add(new clsAssociationAttribute(null, eDataType.ASSCOCIATIONATTRIBUTE, moThingPresentationMeshTPM1, new clsThingPresentation("taste:sweet", eDataType.TP, "taste", "sweet")));
+		moThingPresentationMeshTPM1 = new clsThingPresentationMesh(new clsTripple<String, eDataType, String>("TPM:TEST1", eDataType.TPM,""), moAssociatedDataStructureListTPM1);
+		moAssociatedDataStructureListTPM1.add(new clsAssociationAttribute(new clsTripple<String, eDataType, String>(null, eDataType.ASSOCIATIONATTRIBUTE,null), moThingPresentationMeshTPM1, new clsThingPresentation(new clsTripple<String, eDataType, String>("shape:circle", eDataType.TP, "shape"), "circle")));
+		moAssociatedDataStructureListTPM1.add(new clsAssociationAttribute(new clsTripple<String, eDataType, String>(null, eDataType.ASSOCIATIONATTRIBUTE,null), moThingPresentationMeshTPM1, new clsThingPresentation(new clsTripple<String, eDataType, String>("color:red", eDataType.TP, "color"), "red")));
+		moAssociatedDataStructureListTPM1.add(new clsAssociationAttribute(new clsTripple<String, eDataType, String>(null, eDataType.ASSOCIATIONATTRIBUTE,null), moThingPresentationMeshTPM1, new clsThingPresentation(new clsTripple<String, eDataType, String>("taste:sweet", eDataType.TP, "taste"), "sweet")));
 				
-		moThingPresentationMeshTPM2 = new clsThingPresentationMesh("TPM:TEST2", eDataType.TPM, moAssociatedDataStructureListTPM2);
-		moAssociatedDataStructureListTPM2.add(new clsAssociationAttribute(null, eDataType.ASSCOCIATIONATTRIBUTE, moThingPresentationMeshTPM2, new clsThingPresentation("shape:rectangle", eDataType.TP, "shape", "rectangle")));
-		moAssociatedDataStructureListTPM2.add(new clsAssociationAttribute(null, eDataType.ASSCOCIATIONATTRIBUTE, moThingPresentationMeshTPM2, new clsThingPresentation("color:black", eDataType.TP, "color", "black")));
-		moAssociatedDataStructureListTPM2.add(new clsAssociationAttribute(null, eDataType.ASSCOCIATIONATTRIBUTE, moThingPresentationMeshTPM2, new clsThingPresentation("taste:sweet", eDataType.TP, "taste", "sweet")));
+		moThingPresentationMeshTPM2 = new clsThingPresentationMesh(new clsTripple<String, eDataType, String>("TPM:TEST2", eDataType.TPM,""), moAssociatedDataStructureListTPM2);
+		moAssociatedDataStructureListTPM2.add(new clsAssociationAttribute(new clsTripple<String, eDataType, String>(null, eDataType.ASSOCIATIONATTRIBUTE,null), moThingPresentationMeshTPM2, new clsThingPresentation(new clsTripple<String, eDataType, String>("shape:rectangle", eDataType.TP, "shape"), "rectangle")));
+		moAssociatedDataStructureListTPM2.add(new clsAssociationAttribute(new clsTripple<String, eDataType, String>(null, eDataType.ASSOCIATIONATTRIBUTE,null), moThingPresentationMeshTPM2, new clsThingPresentation(new clsTripple<String, eDataType, String>("color:black", eDataType.TP, "color"), "black")));
+		moAssociatedDataStructureListTPM2.add(new clsAssociationAttribute(new clsTripple<String, eDataType, String>(null, eDataType.ASSOCIATIONATTRIBUTE,null), moThingPresentationMeshTPM2, new clsThingPresentation(new clsTripple<String, eDataType, String>("taste:sweet", eDataType.TP, "taste"), "sweet")));
 				
-		moThingPresentationMeshTPM3 = new clsThingPresentationMesh("TPM:TEST3", eDataType.TPM, moAssociatedDataStructureListTPM3); 
-		moAssociatedDataStructureListTPM3.add(new clsAssociationAttribute(null, eDataType.ASSCOCIATIONATTRIBUTE, moThingPresentationMeshTPM3, new clsThingPresentation("shape:circle", eDataType.TP, "shape", "circle")));
-		moAssociatedDataStructureListTPM3.add(new clsAssociationAttribute(null, eDataType.ASSCOCIATIONATTRIBUTE, moThingPresentationMeshTPM3, new clsThingPresentation("color:red", eDataType.TP, "color", "red")));
-		moAssociatedDataStructureListTPM3.add(new clsAssociationAttribute(null, eDataType.ASSCOCIATIONATTRIBUTE, moThingPresentationMeshTPM3, moThingPresentationMeshTPM1));
+		moThingPresentationMeshTPM3 = new clsThingPresentationMesh(new clsTripple<String, eDataType, String>("TPM:TEST3", eDataType.TPM,""), moAssociatedDataStructureListTPM3); 
+		moAssociatedDataStructureListTPM3.add(new clsAssociationAttribute(new clsTripple<String, eDataType, String>(null, eDataType.ASSOCIATIONATTRIBUTE,null), moThingPresentationMeshTPM3, new clsThingPresentation(new clsTripple<String, eDataType, String>("shape:circle", eDataType.TP, "shape"), "circle")));
+		moAssociatedDataStructureListTPM3.add(new clsAssociationAttribute(new clsTripple<String, eDataType, String>(null, eDataType.ASSOCIATIONATTRIBUTE,null), moThingPresentationMeshTPM3, new clsThingPresentation(new clsTripple<String, eDataType, String>("color:red", eDataType.TP, "color"), "red")));
+		moAssociatedDataStructureListTPM3.add(new clsAssociationAttribute(new clsTripple<String, eDataType, String>(null, eDataType.ASSOCIATIONATTRIBUTE,null), moThingPresentationMeshTPM3, moThingPresentationMeshTPM1));
 		
-		moTemplateImage = new clsTemplateImage("TI:TEST1", eDataType.TI,  moAssociatedTemporalStructuresTI);
-		moAssociatedTemporalStructuresTI.add(new clsAssociationTime(null, eDataType.ASSOCIATIONTEMP, moTemplateImage, moThingPresentationMeshTPM1)); 
-		moAssociatedTemporalStructuresTI.add(new clsAssociationTime(null, eDataType.ASSOCIATIONTEMP, moTemplateImage, moThingPresentationMeshTPM2)); 
-		moAssociatedTemporalStructuresTI.add(new clsAssociationTime(null, eDataType.ASSOCIATIONTEMP, moTemplateImage, moThingPresentationMeshTPM3));
+		moTemplateImage = new clsTemplateImage(new clsTripple<String, eDataType, String>("TI:TEST1", eDataType.TI,""),  moAssociatedTemporalStructuresTI);
+		moAssociatedTemporalStructuresTI.add(new clsAssociationTime(new clsTripple<String, eDataType, String>(null, eDataType.ASSOCIATIONTEMP,null), moTemplateImage, moThingPresentationMeshTPM1)); 
+		moAssociatedTemporalStructuresTI.add(new clsAssociationTime(new clsTripple<String, eDataType, String>(null, eDataType.ASSOCIATIONTEMP,null), moTemplateImage, moThingPresentationMeshTPM2)); 
+		moAssociatedTemporalStructuresTI.add(new clsAssociationTime(new clsTripple<String, eDataType, String>(null, eDataType.ASSOCIATIONTEMP,null), moTemplateImage, moThingPresentationMeshTPM3));
 		
-		moWordPresentation = new clsWordPresentation("WP:TEST", eDataType.WP, "test"); 
+		moWordPresentation = new clsWordPresentation(new clsTripple<String, eDataType, String>("WP:TEST", eDataType.WP,""), "test"); 
 		
 		oPrimaryDataStructureContainer = new clsPrimaryDataStructureContainer(moThingPresentationMeshTPM1, moAssociatedTemporalStructuresPDSC);
-		moAssociatedTemporalStructuresPDSC.add(new clsAssociationAttribute(null, eDataType.ASSCOCIATIONATTRIBUTE, moThingPresentationMeshTPM1, moThingPresentationMeshTPM2)); 
-		moAssociatedTemporalStructuresPDSC.add(new clsAssociationAttribute(null, eDataType.ASSCOCIATIONATTRIBUTE, moThingPresentationMeshTPM1, moThingPresentationMeshTPM3));
-		moAssociatedTemporalStructuresPDSC.add(new clsAssociationAttribute(null, eDataType.ASSCOCIATIONATTRIBUTE, moThingPresentationMeshTPM1, moTemplateImage));
+		moAssociatedTemporalStructuresPDSC.add(new clsAssociationAttribute(new clsTripple<String, eDataType, String>(null, eDataType.ASSOCIATIONATTRIBUTE,null), moThingPresentationMeshTPM1, moThingPresentationMeshTPM2)); 
+		moAssociatedTemporalStructuresPDSC.add(new clsAssociationAttribute(new clsTripple<String, eDataType, String>(null, eDataType.ASSOCIATIONATTRIBUTE,null), moThingPresentationMeshTPM1, moThingPresentationMeshTPM3));
+		moAssociatedTemporalStructuresPDSC.add(new clsAssociationAttribute(new clsTripple<String, eDataType, String>(null, eDataType.ASSOCIATIONATTRIBUTE,null), moThingPresentationMeshTPM1, moTemplateImage));
 		
 		oSecondaryDataStructureContainer = new clsSecondaryDataStructureContainer(moWordPresentation, moAssociatedTemporalStructuresSDSC);
-		moAssociatedTemporalStructuresSDSC.add(new clsAssociationWordPresentation(null, eDataType.ASSOCIATIONWP, moWordPresentation, moThingPresentationMeshTPM2)); 
-		moAssociatedTemporalStructuresSDSC.add(new clsAssociationWordPresentation(null, eDataType.ASSOCIATIONWP, moWordPresentation, moThingPresentationMeshTPM3));
-		moAssociatedTemporalStructuresSDSC.add(new clsAssociationWordPresentation(null, eDataType.ASSOCIATIONWP, moWordPresentation, moTemplateImage));
+		moAssociatedTemporalStructuresSDSC.add(new clsAssociationWordPresentation(new clsTripple<String, eDataType, String>(null, eDataType.ASSOCIATIONWP,null), moWordPresentation, moThingPresentationMeshTPM2)); 
+		moAssociatedTemporalStructuresSDSC.add(new clsAssociationWordPresentation(new clsTripple<String, eDataType, String>(null, eDataType.ASSOCIATIONWP,null), moWordPresentation, moThingPresentationMeshTPM3));
+		moAssociatedTemporalStructuresSDSC.add(new clsAssociationWordPresentation(new clsTripple<String, eDataType, String>(null, eDataType.ASSOCIATIONWP,null), moWordPresentation, moTemplateImage));
 	}
 	
 	@Test
@@ -111,10 +112,10 @@ public class tssDataStructureClone {
 	public void tssCloneTPM() throws CloneNotSupportedException{
 		clsThingPresentationMesh oClone = (clsThingPresentationMesh)moThingPresentationMeshTPM3.clone();
 		
-		oClone.oDataStructureID = "test_change_ID"; 
+		oClone.moDataStructureID = "test_change_ID"; 
 		oClone.moContent.remove(0); 
 		
-		if(!oClone.oDataStructureID.equals(moThingPresentationMeshTPM3.oDataStructureID) &&
+		if(!oClone.moDataStructureID.equals(moThingPresentationMeshTPM3.moDataStructureID) &&
 					oClone.moContent.size()== moThingPresentationMeshTPM3.moContent.size()-1){
 			assertTrue(true);
 		}
@@ -124,10 +125,10 @@ public class tssDataStructureClone {
 	public void tssCloneTI() throws CloneNotSupportedException{
 		clsTemplateImage oClone = (clsTemplateImage)moTemplateImage.clone();
 		
-		oClone.oDataStructureID = "test_change_ID"; 
+		oClone.moDataStructureID = "test_change_ID"; 
 		oClone.moContent.remove(0); 
 		
-		if(!oClone.oDataStructureID.equals(moTemplateImage.oDataStructureID) &&
+		if(!oClone.moDataStructureID.equals(moTemplateImage.moDataStructureID) &&
 					oClone.moContent.size()== moTemplateImage.moContent.size()-1){
 			assertTrue(true);
 		}
@@ -143,9 +144,9 @@ public class tssDataStructureClone {
 	@Test
 	public void tssCloneWP() throws CloneNotSupportedException{
 		clsWordPresentation oClone = (clsWordPresentation)moWordPresentation.clone();
-		oClone.oDataStructureID= "test_change_ID"; 
+		oClone.moDataStructureID= "test_change_ID"; 
 		
-		if(!oClone.oDataStructureID.equals(moWordPresentation.oDataStructureID)){
+		if(!oClone.moDataStructureID.equals(moWordPresentation.moDataStructureID)){
 			assertTrue(true);
 		}
 	}
@@ -161,10 +162,10 @@ public class tssDataStructureClone {
 	public void tssClonePrimaryDataStructureContainer() throws CloneNotSupportedException{
 		clsPrimaryDataStructureContainer oClone = (clsPrimaryDataStructureContainer)oPrimaryDataStructureContainer.clone(); 
 		oClone.moAssociatedDataStructures.clear(); 
-		oClone.moDataStructure.oDataStructureID = "test_change_ID"; 
+		oClone.moDataStructure.moDataStructureID = "test_change_ID"; 
 		
 		if(oClone.moAssociatedDataStructures.size() < oPrimaryDataStructureContainer.moAssociatedDataStructures.size()&&
-				!oPrimaryDataStructureContainer.moDataStructure.oDataStructureID.equals("test_change_ID")){
+				!oPrimaryDataStructureContainer.moDataStructure.moDataStructureID.equals("test_change_ID")){
 			assertTrue(true);
 		}
 	}
@@ -173,10 +174,10 @@ public class tssDataStructureClone {
 	public void tssCloneSecondaryDataStructureContainer() throws CloneNotSupportedException{
 		clsSecondaryDataStructureContainer oClone = (clsSecondaryDataStructureContainer)oSecondaryDataStructureContainer.clone(); 
 		oClone.moAssociatedDataStructures.clear(); 
-		oClone.moDataStructure.oDataStructureID = "test_change_ID"; 
+		oClone.moDataStructure.moDataStructureID = "test_change_ID"; 
 		
 		if(oClone.moAssociatedDataStructures.size() < oSecondaryDataStructureContainer.moAssociatedDataStructures.size()&&
-				!oSecondaryDataStructureContainer.moDataStructure.oDataStructureID.equals("test_change_ID")){
+				!oSecondaryDataStructureContainer.moDataStructure.moDataStructureID.equals("test_change_ID")){
 			assertTrue(true);
 		}
 	}
