@@ -9,6 +9,7 @@ package pa.memorymgmt.datatypes;
 import java.lang.reflect.Method;
 
 import pa.memorymgmt.enums.eDataType;
+import pa.tools.clsTripple;
 
 /**
  * DOCUMENT (zeilinger) - insert description 
@@ -32,8 +33,8 @@ public abstract class clsAssociation extends clsDataStructurePA{
 	 * 24.05.2010, 15:50:41
 	 *
 	 */
-	public clsAssociation(String poAssociationID, eDataType poAssociationType, clsDataStructurePA poAssociationElementA, clsDataStructurePA poAssociationElementB) {
-		super(poAssociationID, poAssociationType);
+	public clsAssociation(clsTripple<String, eDataType, String> poDataStructureIdentifier, clsDataStructurePA poAssociationElementA, clsDataStructurePA poAssociationElementB) {
+		super(poDataStructureIdentifier);
 		mrImperativeFactor = 1.0; 
 		mrWeight = 1.0; 
 		moAssociationElementA = poAssociationElementA; 
@@ -128,19 +129,19 @@ public abstract class clsAssociation extends clsDataStructurePA{
 	
 	@Override
 	public String toString(){
-		String oResult = "::"+this.oDataStructureType+"::";  
-		if(this.oDataStructureID != null){oResult += this.oDataStructureID + ":";}
+		String oResult = "::"+this.moDataStructureType+"::";  
+		if(this.moDataStructureID != null){oResult += this.moDataStructureID + ":";}
 		
 		if(moAssociationElementA!=null){
 			oResult += "elementA:";
-			oResult += moAssociationElementA.oDataStructureType.toString() + ":";
-			if(moAssociationElementA.oDataStructureID != null){oResult += moAssociationElementA.oDataStructureID;}
+			oResult += moAssociationElementA.moDataStructureType.toString() + ":";
+			if(moAssociationElementA.moDataStructureID != null){oResult += moAssociationElementA.moDataStructureID;}
 		}
 		oResult += ":"; 
 		if(moAssociationElementB!=null){
 			oResult += "elementB:";
-			oResult += moAssociationElementB.oDataStructureType.toString() + ":";
-			if(moAssociationElementB.oDataStructureID != null){oResult += moAssociationElementB.oDataStructureID;} 
+			oResult += moAssociationElementB.moDataStructureType.toString() + ":";
+			if(moAssociationElementB.moDataStructureID != null){oResult += moAssociationElementB.moDataStructureID;} 
 		}
 		return oResult; 
 	}

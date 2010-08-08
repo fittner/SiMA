@@ -7,6 +7,7 @@
 package pa.memorymgmt.datatypes;
 
 import pa.memorymgmt.enums.eDataType;
+import pa.tools.clsTripple;
 
 /**
  * DOCUMENT (zeilinger) - insert description 
@@ -25,8 +26,8 @@ public class clsDriveDemand extends clsDataStructurePA{
 	 * 24.05.2010, 13:24:07
 	 *
 	 */
-	public clsDriveDemand(String poAssociationID, eDataType peAssociationType, double pnDriveDemandIntensity) {
-		super(poAssociationID, peAssociationType); 
+	public clsDriveDemand(clsTripple<String, eDataType, String> poDataStructureIdentifier, double pnDriveDemandIntensity) {
+		super(poDataStructureIdentifier); 
 		mnDriveDemandIntensity = pnDriveDemandIntensity; 
 	}
 
@@ -63,8 +64,8 @@ public class clsDriveDemand extends clsDataStructurePA{
 	
 	@Override
 	public String toString(){
-		String oResult = "::"+this.oDataStructureType+"::";  
-		if(this.oDataStructureID != null){oResult += this.oDataStructureID + ":";}
+		String oResult = "::"+this.moDataStructureType+"::";  
+		if(this.moDataStructureID != null){oResult += this.moDataStructureID + ":";}
 		//oResult += moContentName +" " + moContent.toString();
 		return oResult; 
 	}

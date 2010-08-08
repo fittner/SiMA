@@ -7,6 +7,7 @@
 package pa.memorymgmt.datatypes;
 
 import pa.memorymgmt.enums.eDataType;
+import pa.tools.clsTripple;
 
 /**
  * DOCUMENT (zeilinger) - insert description 
@@ -25,8 +26,7 @@ public abstract class clsPhysicalRepresentation extends clsPrimaryDataStructure{
 	 * @param poWordPresentationAssociation 
 	 *
 	 */
-	public clsPhysicalRepresentation(String poDataStructureID,
-									eDataType peDataStructureType) {
-		super(poDataStructureID, peDataStructureType); 
+	public clsPhysicalRepresentation(clsTripple<String, eDataType, String> poDataStructureIdentifier) {
+		super(poDataStructureIdentifier); 
 	}
 }

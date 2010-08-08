@@ -7,6 +7,7 @@
 package pa.memorymgmt.datatypes;
 
 import pa.memorymgmt.enums.eDataType;
+import pa.tools.clsTripple;
 
 /**
  * DOCUMENT (zeilinger) - insert description 
@@ -26,8 +27,8 @@ public class clsWordPresentation extends clsSecondaryDataStructure{
 	 * @param poDataStructureName
 	 * @param poDataStructureType
 	 */
-	public clsWordPresentation(String poDataStructureID, eDataType poDataStructureType, Object poContent) {
-		super(poDataStructureID, poDataStructureType);
+	public clsWordPresentation(clsTripple<String, eDataType, String> poDataStructureIdentifier, Object poContent) {
+		super(poDataStructureIdentifier);
 		moContent = poContent; 
 	}
 
@@ -58,8 +59,8 @@ public class clsWordPresentation extends clsSecondaryDataStructure{
 		//In case the data structure does not have an ID, it has to be compared to a stored 
 		//data structure and replaced by it (the processes base on information that is already
 		//defined
-		if(oDataStructure.oDataStructureID!=null){
-			if(this.oDataStructureID.equals(oDataStructure.oDataStructureID)){return 1.0;}
+		if(oDataStructure.moDataStructureID!=null){
+			if(this.moDataStructureID.equals(oDataStructure.moDataStructureID)){return 1.0;}
 			else{return 0.0;}
 		}
 		if(this.moContent.equals(oDataStructure.moContent)){
@@ -80,8 +81,8 @@ public class clsWordPresentation extends clsSecondaryDataStructure{
 	
 	@Override
 	public String toString(){
-		String oResult = "::"+this.oDataStructureType+"::";  
-		if(this.oDataStructureID != null){oResult += this.oDataStructureID + ":";}
+		String oResult = "::"+this.moDataStructureType+"::";  
+		if(this.moDataStructureID != null){oResult += this.moDataStructureID + ":";}
 		oResult += moContent.toString();
 		
 		return oResult; 

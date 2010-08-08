@@ -9,6 +9,7 @@ package pa.memorymgmt.datatypes;
 import java.util.ArrayList;
 
 import pa.memorymgmt.enums.eDataType;
+import pa.tools.clsTripple;
 
 /**
  * DOCUMENT (zeilinger) - insert description 
@@ -28,9 +29,34 @@ public class clsDriveMesh extends clsHomeostaticRepresentation{
 	 * @param poAssociationID
 	 * @param peAssociationType
 	 */
-	public clsDriveMesh(String poAssociationID, eDataType peAssociationType, ArrayList<clsAssociation> poAssociatedDriveSource) {
-		super(poAssociationID, peAssociationType); 
+	private double mrCathegoryAnal = 0.0; 
+	private double mrCathegoryGenital = 0.0;
+	private double mrCathegoryOral = 0.0;
+	private double mrCathegoryPhalic = 0.0;
+	
+	public clsDriveMesh(clsTripple<String, eDataType, String> poDataStructureIdentifier, double[] poDriveCathegories, ArrayList<clsAssociation> poAssociatedDriveSource) {
+		super(poDataStructureIdentifier); 
 		moContent = poAssociatedDriveSource;
+		mrCathegoryAnal = poDriveCathegories[0]; 
+		mrCathegoryOral = poDriveCathegories[1]; 
+		mrCathegoryGenital = poDriveCathegories[2];
+		mrCathegoryPhalic = poDriveCathegories[3]; 
+	}
+	
+	public double getOral() {
+		return mrCathegoryOral;
+	}
+	
+	public double getAnal() {
+		return mrCathegoryAnal;
+	}
+	
+	public double getGenital() {
+		return mrCathegoryGenital;
+	}
+	
+	public double getPhallic() {
+		return mrCathegoryPhalic;
 	}
 
 	/* (non-Javadoc)
@@ -64,8 +90,8 @@ public class clsDriveMesh extends clsHomeostaticRepresentation{
 		//This if statement proofs if the compared datastructure does already have an ID =>
 		//the ID sepcifies that the data structure has been already compared with a stored
 		//data structure and replaced by it. Hence they can be compared by their IDs.
-		if(oDataStructure.oDataStructureID!=null){
-			if(this.oDataStructureID.equals(oDataStructure.oDataStructureID)){
+		if(oDataStructure.moDataStructureID!=null){
+			if(this.moDataStructureID.equals(oDataStructure.moDataStructureID)){
 				/*In case the DataStructureIDs are equal, the return value is the number 
 				 * of associated data structures and their number of associations. The idendityMatch number
 				 * is not used here as it would distort the result.   
@@ -118,12 +144,17 @@ public class clsDriveMesh extends clsHomeostaticRepresentation{
 
 	@Override
 	public String toString(){
-		String oResult = "::"+this.oDataStructureType+"::";  
-		if(this.oDataStructureID != null){oResult += this.oDataStructureID + ":";}
+		String oResult = "::"+this.moDataStructureType+"::";  
+		if(this.moDataStructureID != null){oResult += this.moDataStructureID + ":";}
 			
 		for (clsAssociation oEntry : moContent) {
 			oResult += oEntry.toString() + ":"; 
 		}
+		oResult += " a: " + mrCathegoryAnal; 
+		oResult += " o: " + mrCathegoryOral;
+		oResult += " g: " + mrCathegoryGenital;
+		oResult += " p: " + mrCathegoryPhalic;
+		
 		return oResult; 
 	}
 

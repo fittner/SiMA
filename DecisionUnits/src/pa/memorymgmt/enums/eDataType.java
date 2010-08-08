@@ -6,9 +6,6 @@
  */
 package pa.memorymgmt.enums;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-
 /**
  * DOCUMENT (zeilinger) - insert description 
  * 
@@ -19,7 +16,7 @@ import java.util.Arrays;
 public enum eDataType {
 	ACT						(0x000001),
 	ASSOCIATIONTEMP 		(0x000000),
-	ASSCOCIATIONATTRIBUTE	(0x000000),
+	ASSOCIATIONATTRIBUTE	(0x000000),
 	ASSOCIATIONWP			(0x000000),
 	ASSOCIATIONDM			(0x000000),
 	DM						(0x000010),
@@ -31,12 +28,12 @@ public enum eDataType {
 	
 	public int nBinaryValue; 
 	
-	eDataType(int pnBinaryValue){
-		nBinaryValue = pnBinaryValue;
+	public static eDataType[] initValues(){
+		eDataType [] oRetVal = {ASSOCIATIONWP, ASSOCIATIONDM, ACT,DM,TI,TP,TPM,WP};
+		return oRetVal;
 	}
 	
-	public static ArrayList<eDataType> returnInitValues(){
-		eDataType [] oDataArray = {ACT,DM,TI,TP,TPM,WP}; 
-		return new ArrayList<eDataType>(Arrays.asList(oDataArray));  
+	eDataType(int pnBinaryValue){
+		nBinaryValue = pnBinaryValue;
 	}
 }

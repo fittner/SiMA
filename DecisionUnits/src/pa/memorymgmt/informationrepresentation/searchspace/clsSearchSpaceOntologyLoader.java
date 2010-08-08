@@ -59,7 +59,7 @@ public class clsSearchSpaceOntologyLoader extends clsSearchSpaceBase{
 	 *
 	 */
 	private void convertArrayListToHashTable() {
-		for(eDataType oDataType : eDataType.returnInitValues()){
+		for(eDataType oDataType : eDataType.values()){
 			moSearchSpaceContent.put(eDataType.valueOf(oDataType.toString()), new Hashtable<clsDataStructurePA, ArrayList<clsAssociation>>()); 
 			for(clsDataStructurePA oDataStructure : moDataStructureTable.get(oDataType)){
 				moSearchSpaceContent.get(oDataType).put(oDataStructure, new ArrayList<clsAssociation>()); 
@@ -75,7 +75,7 @@ public class clsSearchSpaceOntologyLoader extends clsSearchSpaceBase{
 	 *
 	 */
 	private void bindObjectsAndAssociations() {
-		for(clsDataStructurePA oAssociation : moDataStructureTable.get(eDataType.ASSCOCIATIONATTRIBUTE)){
+		for(clsDataStructurePA oAssociation : moDataStructureTable.get(eDataType.ASSOCIATIONATTRIBUTE)){
 			defineElements(oAssociation); 
 		}	
 		for(clsDataStructurePA oAssociation : moDataStructureTable.get(eDataType.ASSOCIATIONDM)){
@@ -101,8 +101,8 @@ public class clsSearchSpaceOntologyLoader extends clsSearchSpaceBase{
 		clsDataStructurePA oElementA = ((clsAssociation)poAssociation).moAssociationElementA;
 		clsDataStructurePA oElementB = ((clsAssociation)poAssociation).moAssociationElementB;
 		
-		moSearchSpaceContent.get(oElementA.oDataStructureType).get(oElementA).add((clsAssociation)poAssociation);
-		moSearchSpaceContent.get(oElementB.oDataStructureType).get(oElementB).add((clsAssociation)poAssociation);	}
+		moSearchSpaceContent.get(oElementA.moDataStructureType).get(oElementA).add((clsAssociation)poAssociation);
+		moSearchSpaceContent.get(oElementB.moDataStructureType).get(oElementB).add((clsAssociation)poAssociation);	}
 
 	/* (non-Javadoc)
 	 *
@@ -125,13 +125,13 @@ public class clsSearchSpaceOntologyLoader extends clsSearchSpaceBase{
 	 */
 	@Override
 	public String toString() {
-		String oRetVal = ":Search space:"; 
+		String oRetVal = ":Search space: \n"; 
 		for(eDataType oDataElement : moSearchSpaceContent.keySet()){
-			oRetVal += "DataStructure " + oDataElement;
+			oRetVal += "DataStructure " + oDataElement + "\n";
 			for(clsDataStructurePA oDataStructure : moSearchSpaceContent.get(oDataElement).keySet()){
-				oRetVal +="	Object:	" + oDataStructure.oDataStructureID;
+				oRetVal +="	Object:	" + oDataStructure.moDataStructureID + "\n";
 				for(clsAssociation oAssociation : moSearchSpaceContent.get(oDataElement).get(oDataStructure)){
-					oRetVal +="		Association: " + oAssociation.oDataStructureID; 
+					oRetVal +="		Association: " + oAssociation.moDataStructureID +"\n"; 
 				}
 			}
 		}

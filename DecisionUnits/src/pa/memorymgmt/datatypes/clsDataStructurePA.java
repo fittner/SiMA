@@ -10,6 +10,7 @@ import java.util.ArrayList;
 
 import pa.memorymgmt.enums.eDataType;
 import pa.tools.clsPair;
+import pa.tools.clsTripple;
 
 /**
  * DOCUMENT (zeilinger) - insert description 
@@ -19,8 +20,9 @@ import pa.tools.clsPair;
  * 
  */
 public abstract class clsDataStructurePA implements Cloneable, itfComparable{
-	public String oDataStructureID;
-	public eDataType oDataStructureType;
+	public String moDataStructureID;
+	public eDataType moDataStructureType;
+	public String moContentType;
 	
 	/**
 	 * DOCUMENT (zeilinger) - insert description 
@@ -29,9 +31,10 @@ public abstract class clsDataStructurePA implements Cloneable, itfComparable{
 	 * 22.06.2010, 15:50:02
 	 *
 	 */
-	public clsDataStructurePA(String poDataStructureID, eDataType poDataStructureType) {
-		oDataStructureID = poDataStructureID; 
-		oDataStructureType = poDataStructureType;
+	public clsDataStructurePA(clsTripple<String, eDataType, String> poDataStructureIdentifier) {
+		moDataStructureID = poDataStructureIdentifier.a; 
+		moDataStructureType = poDataStructureIdentifier.b;
+		moContentType = poDataStructureIdentifier.c; 
 	}
 	
 	/**

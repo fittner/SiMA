@@ -44,20 +44,20 @@ public class clsSearchSpaceHandler {
 	
 	public ArrayList <clsAssociation> readOutSearchSpace(int poReturnType, clsDataStructurePA poDataStructure){
 		ArrayList <clsAssociation> oAssociatedDataStructureList = new ArrayList<clsAssociation>();
-		ArrayList <clsAssociation> oList = moSearchSpace.returnSearchSpaceTable(poDataStructure.oDataStructureType).get(poDataStructure);
+		ArrayList <clsAssociation> oList = moSearchSpace.returnSearchSpaceTable(poDataStructure.moDataStructureType).get(poDataStructure);
 		
 		for(clsAssociation oAssociationElement : oList){
 			clsDataStructurePA elementB; 
 			
-			if(oAssociationElement.moAssociationElementA.oDataStructureID.equals(poDataStructure.oDataStructureID)){ 
+			if(oAssociationElement.moAssociationElementA.moDataStructureID.equals(poDataStructure.moDataStructureID)){ 
 				elementB = oAssociationElement.moAssociationElementB; 
 			}
-			else if(oAssociationElement.moAssociationElementB.oDataStructureID.equals(poDataStructure.oDataStructureID)){
+			else if(oAssociationElement.moAssociationElementB.moDataStructureID.equals(poDataStructure.moDataStructureID)){
 				elementB = oAssociationElement.moAssociationElementA;
 			}
-			else {throw new NoSuchFieldError("Association " + oAssociationElement.oDataStructureID + " does not contain data structure " + poDataStructure.oDataStructureID);}
+			else {throw new NoSuchFieldError("Association " + oAssociationElement.moDataStructureID + " does not contain data structure " + poDataStructure.moDataStructureID);}
 		
-			if((poReturnType & elementB.oDataStructureType.nBinaryValue) != 0x0){
+			if((poReturnType & elementB.moDataStructureType.nBinaryValue) != 0x0){
 				oAssociatedDataStructureList.add(oAssociationElement); 
 			}
 		}

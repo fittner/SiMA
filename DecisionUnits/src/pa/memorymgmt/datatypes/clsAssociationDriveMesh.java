@@ -7,6 +7,7 @@
 package pa.memorymgmt.datatypes;
 
 import pa.memorymgmt.enums.eDataType;
+import pa.tools.clsTripple;
 
 
 /**
@@ -27,12 +28,11 @@ public class clsAssociationDriveMesh extends clsAssociation{
 	 * @param clsDataStructurePA
 	 * @param poDriveMesh
 	 */
-	public clsAssociationDriveMesh(String poDataStructureID,
-			eDataType peDataStructureType, 
+	public clsAssociationDriveMesh(clsTripple<String, eDataType, String> poDataStructureIdentifier, 
 			clsDriveMesh poAssociationElementA, 
 			clsPrimaryDataStructure poAssociationElementB){
 		
-		super(poDataStructureID, peDataStructureType, poAssociationElementA, poAssociationElementB);		
+		super(poDataStructureIdentifier, poAssociationElementA, poAssociationElementB);		
 		//HZ moContent defines the association weight => also defines the affect!
 		//It has to be defined if an affect is required and how the affect's minus values
 		//should be represented in case the affect is the same as the clsAssociation's weight 

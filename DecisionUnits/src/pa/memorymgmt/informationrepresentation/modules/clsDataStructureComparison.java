@@ -52,7 +52,7 @@ public abstract class clsDataStructureComparison {
 		double rMatchScore = 0.0; 
 		ArrayList<clsPair<Double, clsDataStructurePA>> oMatchingDataStructureList = new ArrayList<clsPair<Double, clsDataStructurePA>>();
 				
-		for(clsDataStructurePA oSearchSpaceElement : poSearchSpace.returnSearchSpaceTable(poDataStructureUnknown.oDataStructureType).keySet()){
+		for(clsDataStructurePA oSearchSpaceElement : poSearchSpace.returnSearchSpaceTable(poDataStructureUnknown.moDataStructureType).keySet()){
 			//System.out.println(" Unknown data structure " + poDataStructureUnknown.toString() + " \n search space element" + oSearchSpaceElement.toString());
 			rMatchScore = oSearchSpaceElement.compareTo(poDataStructureUnknown);
 			if(rMatchScore > eDataStructureMatch.THRESHOLDMATCH.getMatchFactor()){

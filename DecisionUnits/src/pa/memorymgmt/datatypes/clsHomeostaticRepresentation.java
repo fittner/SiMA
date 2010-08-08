@@ -9,6 +9,7 @@ package pa.memorymgmt.datatypes;
 import java.util.ArrayList;
 
 import pa.memorymgmt.enums.eDataType;
+import pa.tools.clsTripple;
 
 /**
  * DOCUMENT (zeilinger) - insert description 
@@ -27,9 +28,8 @@ public abstract class clsHomeostaticRepresentation extends clsPrimaryDataStructu
 	 * 24.05.2010, 12:57:01
 	 *
 	 */
-	public clsHomeostaticRepresentation(String poDataStructureID, 
-										eDataType peDataStructureType) {
-		super(poDataStructureID, peDataStructureType); 
+	public clsHomeostaticRepresentation(clsTripple<String, eDataType, String> poDataStructureIdentifier) {
+		super(poDataStructureIdentifier); 
 	}
 	
 	/**

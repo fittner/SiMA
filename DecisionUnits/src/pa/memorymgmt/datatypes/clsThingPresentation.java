@@ -7,6 +7,7 @@
 package pa.memorymgmt.datatypes;
 
 import pa.memorymgmt.enums.eDataType;
+import pa.tools.clsTripple;
 
 
 /**
@@ -18,7 +19,6 @@ import pa.memorymgmt.enums.eDataType;
  */
 public class clsThingPresentation extends clsPhysicalRepresentation{
 	
-	public String moContentName = "";
 	public Object moContent = null;
 	/**
 	 * DOCUMENT (zeilinger) - insert description 
@@ -28,14 +28,9 @@ public class clsThingPresentation extends clsPhysicalRepresentation{
 	 *
 	 * @param poWordPresentationAssociation
 	 */
-	public clsThingPresentation(String poDataStructureID,
-								eDataType poDataStructureType, 
-								String poContentName,
-								Object poContent) {
+	public clsThingPresentation(clsTripple<String, eDataType, String> poDataStructureIdentifier, Object poContent) {
 		
-		super(poDataStructureID, poDataStructureType);
-		
-		moContentName = poContentName; 
+		super(poDataStructureIdentifier);
 		moContent = poContent;
 	}
 	/* (non-Javadoc)
@@ -52,15 +47,15 @@ public class clsThingPresentation extends clsPhysicalRepresentation{
 		//This if statement proofs if the compared datastructure does already have an ID =>
 		//the ID sepcifies that the data structure has been already compared with a stored
 		//data structure and replaced by it. Hence they can be compared by their IDs.
-		if(oDataStructure.oDataStructureID!=null){
-			if(this.oDataStructureID.equals(oDataStructure.oDataStructureID)){return 1.0;}
+		if(oDataStructure.moDataStructureID!=null){
+			if(this.moDataStructureID.equals(oDataStructure.moDataStructureID)){return 1.0;}
 			else{return 0.0;}
 		}
 			
 		//In case the data structure does not have an ID, it has to be compared to a stored 
 		//data structure and replaced by it (the processes base on information that is already
 		//defined
-			if(this.moContentName.equals(oDataStructure.moContentName)){
+			if(moContentType.equals(oDataStructure.moContentType)){
 				if(this.moContent.equals(oDataStructure.moContent)){return 1;}
 			}
 		return 0;
@@ -79,9 +74,9 @@ public class clsThingPresentation extends clsPhysicalRepresentation{
 	
 	@Override
 	public String toString(){
-		String oResult = "::"+this.oDataStructureType+"::";  
-		if(this.oDataStructureID != null){oResult += this.oDataStructureID + ":";}
-		oResult += moContentName +":" + moContent.toString();
+		String oResult = "::"+this.moDataStructureType+"::";  
+		if(this.moDataStructureID != null){oResult += this.moDataStructureID + ":";}
+		oResult += moContentType +":" + moContent.toString();
 		return oResult; 
 	}
 }

@@ -7,6 +7,7 @@
 package pa.memorymgmt.datatypes;
 
 import pa.memorymgmt.enums.eDataType;
+import pa.tools.clsTripple;
 
 /**
  * DOCUMENT (zeilinger) - insert description 
@@ -24,7 +25,7 @@ public abstract class clsPrimaryDataStructure extends clsDataStructurePA{
 	 * 22.06.2010, 15:36:00
 	 *
 	 */
-	public clsPrimaryDataStructure(String poDataStructureID, eDataType poDataStructureType) {
-		super(poDataStructureID, poDataStructureType);  
+	public clsPrimaryDataStructure(clsTripple<String, eDataType, String> poDataStructureIdentifier) {
+		super(poDataStructureIdentifier);  
 	}
 }

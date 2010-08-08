@@ -9,6 +9,7 @@ package pa.memorymgmt.datatypes;
 import java.util.ArrayList;
 
 import pa.memorymgmt.enums.eDataType;
+import pa.tools.clsTripple;
 
 /**
  * DOCUMENT (zeilinger) - insert description 
@@ -27,15 +28,14 @@ public class clsThingPresentationMesh extends clsPhysicalStructureComposition{
 	 * @param poWordPresentationAssociation
 	 * @param poDriveMeshAssociation
 	 */
-	public clsThingPresentationMesh(String poDataStructureID,
-			 						eDataType poDataStructureType,
+	public clsThingPresentationMesh(clsTripple<String, eDataType, String> poDataStructureIdentifier,
 									ArrayList<clsAssociation> poAssociatedPhysicalRepresentations) {
 		
-		super(poDataStructureID,poDataStructureType);
+		super(poDataStructureIdentifier);
 		moContent = poAssociatedPhysicalRepresentations;  
 	}
 	
-									 /**
+	/**
 	
 	/* (non-Javadoc)
 	 *
@@ -68,8 +68,8 @@ public class clsThingPresentationMesh extends clsPhysicalStructureComposition{
 		//This if statement proofs if the compared data structure does already have an ID =>
 		//the ID sepcifies that the data structure has been already compared with a stored
 		//data structure and replaced by it. Hence they can be compared by their IDs.
-		if(oDataStructure.oDataStructureID!=null){
-			if(this.oDataStructureID.equals(oDataStructure.oDataStructureID)){
+		if(oDataStructure.moDataStructureID!=null){
+			if(this.moDataStructureID.equals(oDataStructure.moDataStructureID)){
 				/*In case the DataStructureIDs are equal, the return value is the number 
 				 * of associated data structures and their number of associations. The idendityMatch number
 				 * is not used here as it would distort the result. getNumbAssociations has to be introduced
@@ -99,7 +99,7 @@ public class clsThingPresentationMesh extends clsPhysicalStructureComposition{
 	public double getNumbAssociations() {
 		double oResult = 0.0;
 			for(clsDataStructurePA oElement1 : moContent){
-				if(((clsAssociation)oElement1).moAssociationElementB.oDataStructureType == eDataType.TPM){
+				if(((clsAssociation)oElement1).moAssociationElementB.moDataStructureType == eDataType.TPM){
 					oResult +=((clsThingPresentationMesh)((clsAssociation)oElement1).moAssociationElementB).getNumbAssociations(); 
 				}
 				else {
@@ -133,8 +133,8 @@ public class clsThingPresentationMesh extends clsPhysicalStructureComposition{
 	
 	@Override
 	public String toString(){
-		String oResult = "::"+this.oDataStructureType+"::";  
-		if(this.oDataStructureID != null){oResult += this.oDataStructureID + ":";}
+		String oResult = "::"+this.moDataStructureType+"::";  
+		if(this.moDataStructureID != null){oResult += this.moDataStructureID + ":";}
 			
 		for (clsAssociation oEntry : moContent) {
 			oResult += oEntry.toString() + "/"; 

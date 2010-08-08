@@ -9,6 +9,7 @@ package pa.memorymgmt.datatypes;
 import java.util.ArrayList;
 
 import pa.memorymgmt.enums.eDataType;
+import pa.tools.clsTripple;
 
 /**
  * DOCUMENT (zeilinger) - insert description 
@@ -27,11 +28,11 @@ public class clsHomeostaticMesh extends clsHomeostaticRepresentation{
 	 *
 	 * @param poHomeostaticSource
 	 */
-	public clsHomeostaticMesh(String poAssociationID, eDataType peAssociationType, 
+	public clsHomeostaticMesh(clsTripple<String, eDataType, String> poDataStructureIdentifier, 
 			ArrayList<clsAssociation> poAssociatedDriveSource, double pnDriveDemandIntensity) {
-		super(poAssociationID, peAssociationType);
+		super(poDataStructureIdentifier);
 		
-		moDriveDemand = new clsDriveDemand(null, null, pnDriveDemandIntensity); 
+		moDriveDemand = new clsDriveDemand(null,pnDriveDemandIntensity); 
 		moContent = poAssociatedDriveSource;
 		//FIXME HZ Is clsDrieDemand required? 
 		//moDriveDemand = new clsDriveDemand(pnDriveDemandIntensity, null, null); 

@@ -9,6 +9,7 @@ package pa.memorymgmt.datatypes;
 import java.util.ArrayList;
 
 import pa.memorymgmt.enums.eDataType;
+import pa.tools.clsTripple;
 
 
 /**
@@ -27,10 +28,9 @@ public class clsTemplateImage extends clsPhysicalStructureComposition{
 	 * 24.05.2010, 12:41:23
 	 *
 	 */
-	public clsTemplateImage(String poDataStructureID,
-			eDataType poDataStructureType,
+	public clsTemplateImage(clsTripple<String, eDataType, String> poDataStructureIdentifier,
 			ArrayList<clsAssociation> poAssociatedTemporalStructures) {
-		super(poDataStructureID, poDataStructureType); 
+		super(poDataStructureIdentifier); 
 		 
 		moContent = poAssociatedTemporalStructures; 
 	}
@@ -66,8 +66,8 @@ public class clsTemplateImage extends clsPhysicalStructureComposition{
 		//This if statement proofs if the compared datastructure does already have an ID =>
 		//the ID sepcifies that the data structure has been already compared with a stored
 		//data structure and replaced by it. Hence they can be compared by their IDs.
-		if(oDataStructure.oDataStructureID!=null){
-			if(this.oDataStructureID.equals(oDataStructure.oDataStructureID)){
+		if(oDataStructure.moDataStructureID!=null){
+			if(this.moDataStructureID.equals(oDataStructure.moDataStructureID)){
 				/*In case the DataStructureIDs are equal, the return value is the number 
 				 * of associated data structures and their number of associations. The idendityMatch number
 				 * is not used here as it would distort the result. getNumbAssociations has to be introduced
@@ -97,7 +97,7 @@ public class clsTemplateImage extends clsPhysicalStructureComposition{
 	private double getNumbAssociations() {
 		double oResult = 0.0;
 		for(clsDataStructurePA oElement1 : moContent){
-			if(((clsAssociation)oElement1).moAssociationElementB.oDataStructureType == eDataType.TI){
+			if(((clsAssociation)oElement1).moAssociationElementB.moDataStructureType == eDataType.TI){
 				oResult +=((clsTemplateImage)((clsAssociation)oElement1).moAssociationElementB).getNumbAssociations(); 
 			}
 			else {
@@ -131,8 +131,8 @@ public class clsTemplateImage extends clsPhysicalStructureComposition{
 
 	@Override
 	public String toString(){
-		String oResult = "::"+this.oDataStructureType+"::";  
-		if(this.oDataStructureID != null){oResult += this.oDataStructureID + ":";}
+		String oResult = "::"+this.moDataStructureType+"::";  
+		if(this.moDataStructureID != null){oResult += this.moDataStructureID + ":";}
 			
 		for (clsAssociation oEntry : moContent) {
 			oResult += oEntry.toString() + ":"; 

@@ -94,7 +94,7 @@ public class clsInformationRepresentationManagementARSi10 extends clsKnowledgeBa
 	    	oProp.setProperty(pre+P_DATABASE_SOURCE, eDataSources.MAINMEMORY.toString());
 	    	oProp.setProperty(pre+P_SEARCH_METHOD, eSearchMethod.LISTSEARCH.toString());
 	    	//TODO HZ: Make the project file-path configurable
-	    	oProp.setProperty(pre+P_SOURCE_NAME, "S:/BWsimOnt/ARSi10rv2.pprj");
+	    	oProp.setProperty(pre+P_SOURCE_NAME, "S:/BWsimOnt/ARSi10rv3.pprj");
 	    	return oProp;
 	 }
 	 

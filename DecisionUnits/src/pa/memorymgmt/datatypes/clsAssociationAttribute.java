@@ -7,6 +7,7 @@
 package pa.memorymgmt.datatypes;
 
 import pa.memorymgmt.enums.eDataType;
+import pa.tools.clsTripple;
 
 /**
  * DOCUMENT (zeilinger) - insert description 
@@ -23,11 +24,10 @@ public class clsAssociationAttribute extends clsAssociation{
 	 * 24.05.2010, 15:53:46
 	 *
 	 */
-	public clsAssociationAttribute(String poAssociationID,
-			   					    eDataType peAssociationType,
+	public clsAssociationAttribute(clsTripple<String, eDataType, String> poDataStructureIdentifier,
 									clsPrimaryDataStructure poAssociationElementA, 
 								    clsPrimaryDataStructure poAssociationElementB) {
-		super(poAssociationID, peAssociationType,poAssociationElementA, poAssociationElementB);
+		super(poDataStructureIdentifier,poAssociationElementA, poAssociationElementB);
 	}
 	
 	/* (non-Javadoc)
