@@ -16,6 +16,7 @@ import pa.interfaces.receive.I1_2_receive;
 import pa.interfaces.receive.I1_3_receive;
 import pa.interfaces.receive.I1_4_receive;
 import pa.memory.clsMemory;
+import pa.memorymgmt.informationrepresentation.clsInformationRepresentationManagement;
 import pa.tools.clsPair;
 import config.clsBWProperties;
 
@@ -48,8 +49,8 @@ public class G05_DriveHandling extends clsModuleContainer implements
 	 * @param poEnclosingContainer
 	 */
 	public G05_DriveHandling(String poPrefix, clsBWProperties poProp,
-			clsModuleContainer poEnclosingContainer, clsInterfaceHandler poInterfaceHandler, clsMemory poMemory) {
-		super(poPrefix, poProp, poEnclosingContainer, poInterfaceHandler, poMemory);
+			clsModuleContainer poEnclosingContainer, clsInterfaceHandler poInterfaceHandler, clsMemory poMemory, clsInformationRepresentationManagement poInformationRepresentationManagement) {
+		super(poPrefix, poProp, poEnclosingContainer, poInterfaceHandler, poMemory, poInformationRepresentationManagement);
 		applyProperties(poPrefix, poProp);
 	}
 	

@@ -17,6 +17,7 @@ import pa.datatypes.clsSecondaryInformation;
 import pa.datatypes.clsThingPresentation;
 import pa.loader.plan.clsPlanAction;
 import pa.memory.clsMemory;
+import pa.memorymgmt.informationrepresentation.clsInformationRepresentationManagement;
 import pa.symbolization.representationsymbol.itfSymbol;
 import pa.tools.clsPair;
 import pa.interfaces.receive.I1_5_receive;
@@ -83,8 +84,8 @@ public class G03_Ego extends clsModuleContainer implements
 	 * @param poEnclosingContainer
 	 */
 	public G03_Ego(String poPrefix, clsBWProperties poProp,
-			clsModuleContainer poEnclosingContainer, clsInterfaceHandler poInterfaceHandler, clsMemory poMemory) {
-		super(poPrefix, poProp, poEnclosingContainer, poInterfaceHandler, poMemory);
+			clsModuleContainer poEnclosingContainer, clsInterfaceHandler poInterfaceHandler, clsMemory poMemory, clsInformationRepresentationManagement poInformationRepresentationManagement) {
+		super(poPrefix, poProp, poEnclosingContainer, poInterfaceHandler, poMemory, poInformationRepresentationManagement);
 		applyProperties(poPrefix, poProp);
 	}
 	
@@ -102,8 +103,8 @@ public class G03_Ego extends clsModuleContainer implements
 	private void applyProperties(String poPrefix, clsBWProperties poProp) {
 		String pre = clsBWProperties.addDot(poPrefix);
 	
-		moG07EnvironmentalInterfaceFunctions = new G07_EnvironmentalInterfaceFunctions(pre+P_G07, poProp, this, moInterfaceHandler, moMemory);
-		moG08PsychicMediator = new G08_PsychicMediator(pre+P_G08, poProp, this, moInterfaceHandler, moMemory);
+		moG07EnvironmentalInterfaceFunctions = new G07_EnvironmentalInterfaceFunctions(pre+P_G07, poProp, this, moInterfaceHandler, moMemory, moInformationRepresentationManagement);
+		moG08PsychicMediator = new G08_PsychicMediator(pre+P_G08, poProp, this, moInterfaceHandler, moMemory, moInformationRepresentationManagement);
 	}
 
 	/* (non-Javadoc)

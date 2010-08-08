@@ -27,6 +27,7 @@ import pa.interfaces.receive.I4_1_receive;
 import pa.interfaces.receive.I4_2_receive;
 import pa.interfaces.receive.I4_3_receive;
 import pa.memory.clsMemory;
+import pa.memorymgmt.informationrepresentation.clsInformationRepresentationManagement;
 import pa.tools.clsPair;
 import config.clsBWProperties;
 /**
@@ -67,8 +68,8 @@ public class G02_Id extends clsModuleContainer implements
 	 * @param poEnclosingContainer
 	 */
 	public G02_Id(String poPrefix, clsBWProperties poProp,
-			clsModuleContainer poEnclosingContainer, clsInterfaceHandler poInterfaceHandler, clsMemory poMemory) {
-		super(poPrefix, poProp, poEnclosingContainer, poInterfaceHandler, poMemory);
+			clsModuleContainer poEnclosingContainer, clsInterfaceHandler poInterfaceHandler, clsMemory poMemory, clsInformationRepresentationManagement poInformationRepresentationManagement) {
+		super(poPrefix, poProp, poEnclosingContainer, poInterfaceHandler, poMemory, poInformationRepresentationManagement);
 		applyProperties(poPrefix, poProp);
 	}
 	
@@ -87,9 +88,9 @@ public class G02_Id extends clsModuleContainer implements
 	private void applyProperties(String poPrefix, clsBWProperties poProp) {
 		String pre = clsBWProperties.addDot(poPrefix);
 	
-		moG05DriveHandling = new G05_DriveHandling(pre+P_G05, poProp, this, moInterfaceHandler, moMemory);
-		moG06AffectGeneration = new G06_AffectGeneration(pre+P_G06, poProp, this, moInterfaceHandler, moMemory);
-		moE15ManagementOfRepressedContents = new E15_ManagementOfRepressedContents(pre+P_E15, poProp, this, moInterfaceHandler, moMemory);
+		moG05DriveHandling = new G05_DriveHandling(pre+P_G05, poProp, this, moInterfaceHandler, moMemory, moInformationRepresentationManagement);
+		moG06AffectGeneration = new G06_AffectGeneration(pre+P_G06, poProp, this, moInterfaceHandler, moMemory, moInformationRepresentationManagement);
+		moE15ManagementOfRepressedContents = new E15_ManagementOfRepressedContents(pre+P_E15, poProp, this, moInterfaceHandler, moMemory, moInformationRepresentationManagement);
 	}
 
 	/* (non-Javadoc)

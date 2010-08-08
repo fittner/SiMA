@@ -25,6 +25,7 @@ import pa.interfaces.receive.I7_4_receive;
 import pa.interfaces.receive.I7_5_receive;
 import pa.loader.plan.clsPlanAction;
 import pa.memory.clsMemory;
+import pa.memorymgmt.informationrepresentation.clsInformationRepresentationManagement;
 import pa.tools.clsPair;
 import config.clsBWProperties;
 
@@ -69,8 +70,8 @@ public class G11_SecondaryProcessor extends clsModuleContainer implements
 	 * @param poEnclosingContainer
 	 */
 	public G11_SecondaryProcessor(String poPrefix, clsBWProperties poProp,
-			clsModuleContainer poEnclosingContainer, clsInterfaceHandler poInterfaceHandler, clsMemory poMemory) {
-		super(poPrefix, poProp, poEnclosingContainer, poInterfaceHandler, poMemory);
+			clsModuleContainer poEnclosingContainer, clsInterfaceHandler poInterfaceHandler, clsMemory poMemory, clsInformationRepresentationManagement poInformationRepresentationManagement) {
+		super(poPrefix, poProp, poEnclosingContainer, poInterfaceHandler, poMemory, poInformationRepresentationManagement);
 		applyProperties(poPrefix, poProp);
 	}
 	
@@ -89,9 +90,9 @@ public class G11_SecondaryProcessor extends clsModuleContainer implements
 	private void applyProperties(String poPrefix, clsBWProperties poProp) {
 		String pre = clsBWProperties.addDot(poPrefix);
 	
-		moG14PerceptualPreprocessing = new G14_PerceptualPreprocessing(pre+P_G14, poProp, this, moInterfaceHandler, moMemory);
-		moG15Deliberation = new G15_Deliberation(pre+P_G15, poProp, this, moInterfaceHandler, moMemory);
-		moG16SecondaryKnowledgeUtilizer = new G16_SecondaryKnowledgeUtilizer(pre+P_G16, poProp, this, moInterfaceHandler, moMemory);
+		moG14PerceptualPreprocessing = new G14_PerceptualPreprocessing(pre+P_G14, poProp, this, moInterfaceHandler, moMemory, moInformationRepresentationManagement);
+		moG15Deliberation = new G15_Deliberation(pre+P_G15, poProp, this, moInterfaceHandler, moMemory, moInformationRepresentationManagement);
+		moG16SecondaryKnowledgeUtilizer = new G16_SecondaryKnowledgeUtilizer(pre+P_G16, poProp, this, moInterfaceHandler, moMemory, moInformationRepresentationManagement);
 	}
 
 	/* (non-Javadoc)

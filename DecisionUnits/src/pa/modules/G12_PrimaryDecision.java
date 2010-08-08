@@ -26,6 +26,7 @@ import pa.interfaces.receive.I5_1_receive;
 import pa.interfaces.receive.I5_2_receive;
 import pa.interfaces.receive.I6_3_receive;
 import pa.memory.clsMemory;
+import pa.memorymgmt.informationrepresentation.clsInformationRepresentationManagement;
 import config.clsBWProperties;
 
 /**
@@ -67,8 +68,8 @@ public class G12_PrimaryDecision extends clsModuleContainer implements
 	 * @param poEnclosingContainer
 	 */
 	public G12_PrimaryDecision(String poPrefix, clsBWProperties poProp,
-			clsModuleContainer poEnclosingContainer, clsInterfaceHandler poInterfaceHandler, clsMemory poMemory) {
-		super(poPrefix, poProp, poEnclosingContainer, poInterfaceHandler, poMemory);
+			clsModuleContainer poEnclosingContainer, clsInterfaceHandler poInterfaceHandler, clsMemory poMemory, clsInformationRepresentationManagement poInformationRepresentationManagement) {
+		super(poPrefix, poProp, poEnclosingContainer, poInterfaceHandler, poMemory, poInformationRepresentationManagement);
 		applyProperties(poPrefix, poProp);
 	}
 	

@@ -22,6 +22,7 @@ import pa.interfaces.receive.I5_3_receive;
 import pa.interfaces.receive.I5_4_receive;
 import pa.interfaces.receive.I5_5_receive;
 import pa.memory.clsMemory;
+import pa.memorymgmt.informationrepresentation.clsInformationRepresentationManagement;
 import config.clsBWProperties;
 
 /**
@@ -62,8 +63,8 @@ public class G10_PrimaryToSecondaryInterface extends clsModuleContainer implemen
 	 * @param poEnclosingContainer
 	 */
 	public G10_PrimaryToSecondaryInterface(String poPrefix, clsBWProperties poProp,
-			clsModuleContainer poEnclosingContainer, clsInterfaceHandler poInterfaceHandler, clsMemory poMemory) {
-		super(poPrefix, poProp, poEnclosingContainer, poInterfaceHandler, poMemory);
+			clsModuleContainer poEnclosingContainer, clsInterfaceHandler poInterfaceHandler, clsMemory poMemory, clsInformationRepresentationManagement poInformationRepresentationManagement) {
+		super(poPrefix, poProp, poEnclosingContainer, poInterfaceHandler, poMemory, poInformationRepresentationManagement);
 		applyProperties(poPrefix, poProp);
 	}
 	

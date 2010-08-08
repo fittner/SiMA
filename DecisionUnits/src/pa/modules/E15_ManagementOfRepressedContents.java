@@ -20,6 +20,7 @@ import pa.interfaces.receive.I4_1_receive;
 import pa.interfaces.receive.I4_2_receive;
 import pa.interfaces.receive.I4_3_receive;
 import pa.memory.clsMemory;
+import pa.memorymgmt.informationrepresentation.clsInformationRepresentationManagement;
 import pa.tools.clsPair;
 
 /**
@@ -50,8 +51,8 @@ public class E15_ManagementOfRepressedContents extends clsModuleContainer implem
 	 */
 	public E15_ManagementOfRepressedContents(String poPrefix,
 			clsBWProperties poProp, clsModuleContainer poEnclosingContainer,
-			clsInterfaceHandler poInterfaceHandler, clsMemory poMemory) {
-		super(poPrefix, poProp, poEnclosingContainer, poInterfaceHandler, poMemory);
+			clsInterfaceHandler poInterfaceHandler, clsMemory poMemory, clsInformationRepresentationManagement poInformationRepresentationManagement) {
+		super(poPrefix, poProp, poEnclosingContainer, poInterfaceHandler, poMemory, poInformationRepresentationManagement);
 		applyProperties(poPrefix, poProp);
 	}
 

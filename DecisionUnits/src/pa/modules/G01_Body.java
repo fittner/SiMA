@@ -25,6 +25,7 @@ import pa.interfaces.receive.I8_1_receive;
 import pa.interfaces.receive.I8_2_receive;
 import pa.loader.plan.clsPlanAction;
 import pa.memory.clsMemory;
+import pa.memorymgmt.informationrepresentation.clsInformationRepresentationManagement;
 import pa.symbolization.representationsymbol.itfSymbol;
 import config.clsBWProperties;
 import du.enums.eSensorExtType;
@@ -84,8 +85,8 @@ public class G01_Body extends clsModuleContainer implements
 	 * @param poEnclosingContainer
 	 */
 	public G01_Body(String poPrefix, clsBWProperties poProp,
-			clsModuleContainer poEnclosingContainer, clsInterfaceHandler poInterfaceHandler, clsMemory poMemory) {
-		super(poPrefix, poProp, poEnclosingContainer, poInterfaceHandler, poMemory);
+			clsModuleContainer poEnclosingContainer, clsInterfaceHandler poInterfaceHandler, clsMemory poMemory, clsInformationRepresentationManagement poInformationRepresentationManagement) {
+		super(poPrefix, poProp, poEnclosingContainer, poInterfaceHandler, poMemory, poInformationRepresentationManagement);
 		applyProperties(poPrefix, poProp);
 	}
 	

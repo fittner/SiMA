@@ -16,6 +16,7 @@ import pa.interfaces.receive.I2_6_receive;
 import pa.interfaces.receive.I2_7_receive;
 import pa.interfaces.receive.I6_3_receive;
 import pa.memory.clsMemory;
+import pa.memorymgmt.informationrepresentation.clsInformationRepresentationManagement;
 import pa.tools.clsPair;
 import pa.tools.clsTripple;
 import config.clsBWProperties;
@@ -51,8 +52,8 @@ public class G13_PrimaryKnowledgeUtilizer extends clsModuleContainer implements
 	 * @param poEnclosingContainer
 	 */
 	public G13_PrimaryKnowledgeUtilizer(String poPrefix, clsBWProperties poProp,
-			clsModuleContainer poEnclosingContainer, clsInterfaceHandler poInterfaceHandler, clsMemory poMemory) {
-		super(poPrefix, poProp, poEnclosingContainer, poInterfaceHandler, poMemory);
+			clsModuleContainer poEnclosingContainer, clsInterfaceHandler poInterfaceHandler, clsMemory poMemory, clsInformationRepresentationManagement poInformationRepresentationManagement) {
+		super(poPrefix, poProp, poEnclosingContainer, poInterfaceHandler, poMemory, poInformationRepresentationManagement);
 		applyProperties(poPrefix, poProp);
 	}
 	

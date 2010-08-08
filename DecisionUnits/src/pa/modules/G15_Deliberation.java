@@ -25,6 +25,7 @@ import pa.interfaces.receive.I7_5_receive;
 import pa.interfaces.receive.I7_6_receive;
 import pa.loader.plan.clsPlanAction;
 import pa.memory.clsMemory;
+import pa.memorymgmt.informationrepresentation.clsInformationRepresentationManagement;
 import pa.tools.clsPair;
 import config.clsBWProperties;
 
@@ -70,8 +71,8 @@ public class G15_Deliberation extends clsModuleContainer implements
 	 * @param poEnclosingContainer
 	 */
 	public G15_Deliberation(String poPrefix, clsBWProperties poProp,
-			clsModuleContainer poEnclosingContainer, clsInterfaceHandler poInterfaceHandler, clsMemory poMemory) {
-		super(poPrefix, poProp, poEnclosingContainer, poInterfaceHandler, poMemory);
+			clsModuleContainer poEnclosingContainer, clsInterfaceHandler poInterfaceHandler, clsMemory poMemory, clsInformationRepresentationManagement poInformationRepresentationManagement) {
+		super(poPrefix, poProp, poEnclosingContainer, poInterfaceHandler, poMemory, poInformationRepresentationManagement);
 		applyProperties(poPrefix, poProp);
 	}
 	

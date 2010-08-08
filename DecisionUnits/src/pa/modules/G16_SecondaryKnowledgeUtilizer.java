@@ -18,6 +18,7 @@ import pa.interfaces.receive.I7_3_receive;
 import pa.interfaces.receive.I7_5_receive;
 import pa.loader.plan.clsPlanAction;
 import pa.memory.clsMemory;
+import pa.memorymgmt.informationrepresentation.clsInformationRepresentationManagement;
 import config.clsBWProperties;
 
 /**
@@ -55,8 +56,8 @@ public class G16_SecondaryKnowledgeUtilizer extends clsModuleContainer implement
 	 * @param poEnclosingContainer
 	 */
 	public G16_SecondaryKnowledgeUtilizer(String poPrefix, clsBWProperties poProp,
-			clsModuleContainer poEnclosingContainer, clsInterfaceHandler poInterfaceHandler, clsMemory poMemory) {
-		super(poPrefix, poProp, poEnclosingContainer, poInterfaceHandler, poMemory);
+			clsModuleContainer poEnclosingContainer, clsInterfaceHandler poInterfaceHandler, clsMemory poMemory, clsInformationRepresentationManagement poInformationRepresentationManagement) {
+		super(poPrefix, poProp, poEnclosingContainer, poInterfaceHandler, poMemory, poInformationRepresentationManagement);
 		applyProperties(poPrefix, poProp);
 	}
 	

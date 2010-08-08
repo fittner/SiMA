@@ -39,6 +39,7 @@ import pa.interfaces.receive.I4_3_receive;
 import pa.interfaces.receive.I8_1_receive;
 import pa.loader.plan.clsPlanAction;
 import pa.memory.clsMemory;
+import pa.memorymgmt.informationrepresentation.clsInformationRepresentationManagement;
 import pa.symbolization.representationsymbol.itfSymbol;
 import pa.tools.clsPair;
 import config.clsBWProperties;
@@ -113,6 +114,7 @@ public class G00_PsychicApparatus extends clsModuleContainer implements
 	public static final String P_G03 = "G03";
 	public static final String P_G04 = "G04";
 	public static final String P_MEMORY = "MEMORY";
+	public static final String P_INFORMATIONREPRESENTATIONMGMT = "INFORMATIONREPRESENTATIONMGMT";
 	
 	public G01_Body     moG01Body;
 	public G02_Id       moG02Id;
@@ -130,7 +132,7 @@ public class G00_PsychicApparatus extends clsModuleContainer implements
 	 * @param poEnclosingContainer
 	 */
 	public G00_PsychicApparatus(String poPrefix, clsBWProperties poProp, clsInterfaceHandler poInterfaceHandler) {
-		super(poPrefix, poProp, null, poInterfaceHandler, null);
+		super(poPrefix, poProp, null, poInterfaceHandler, null, null);
 		applyProperties(poPrefix, poProp);
 	}
 	
@@ -153,11 +155,12 @@ public class G00_PsychicApparatus extends clsModuleContainer implements
 		String pre = clsBWProperties.addDot(poPrefix);
 	
 		moMemory = new clsMemory(pre+P_MEMORY, poProp);
+		moInformationRepresentationManagement = new clsInformationRepresentationManagement(pre+P_INFORMATIONREPRESENTATIONMGMT, poProp);
 		
-		moG01Body = new G01_Body(pre+P_G01, poProp, this, moInterfaceHandler, moMemory);
-		moG02Id = new G02_Id(pre+P_G02, poProp, this, moInterfaceHandler, moMemory);
-		moG03Ego = new G03_Ego(pre+P_G03, poProp, this, moInterfaceHandler, moMemory);
-		moG04SuperEgo = new G04_SuperEgo(pre+P_G04, poProp, this, moInterfaceHandler, moMemory);
+		moG01Body = new G01_Body(pre+P_G01, poProp, this, moInterfaceHandler, moMemory, moInformationRepresentationManagement);
+		moG02Id = new G02_Id(pre+P_G02, poProp, this, moInterfaceHandler, moMemory, moInformationRepresentationManagement);
+		moG03Ego = new G03_Ego(pre+P_G03, poProp, this, moInterfaceHandler, moMemory, moInformationRepresentationManagement);
+		moG04SuperEgo = new G04_SuperEgo(pre+P_G04, poProp, this, moInterfaceHandler, moMemory, moInformationRepresentationManagement);
 
 	}
 	

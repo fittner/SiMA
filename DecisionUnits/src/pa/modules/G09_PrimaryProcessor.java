@@ -30,6 +30,7 @@ import pa.interfaces.receive.I5_1_receive;
 import pa.interfaces.receive.I5_2_receive;
 import pa.interfaces.receive.I6_3_receive;
 import pa.memory.clsMemory;
+import pa.memorymgmt.informationrepresentation.clsInformationRepresentationManagement;
 import pa.tools.clsPair;
 import pa.tools.clsTripple;
 import config.clsBWProperties;
@@ -79,8 +80,8 @@ public class G09_PrimaryProcessor extends clsModuleContainer implements
 	 * @param poEnclosingContainer
 	 */
 	public G09_PrimaryProcessor(String poPrefix, clsBWProperties poProp,
-			clsModuleContainer poEnclosingContainer, clsInterfaceHandler poInterfaceHandler, clsMemory poMemory) {
-		super(poPrefix, poProp, poEnclosingContainer, poInterfaceHandler, poMemory);
+			clsModuleContainer poEnclosingContainer, clsInterfaceHandler poInterfaceHandler, clsMemory poMemory, clsInformationRepresentationManagement poInformationRepresentationManagement) {
+		super(poPrefix, poProp, poEnclosingContainer, poInterfaceHandler, poMemory, poInformationRepresentationManagement);
 		applyProperties(poPrefix, poProp);
 	}
 	
@@ -100,8 +101,8 @@ public class G09_PrimaryProcessor extends clsModuleContainer implements
 		String pre = clsBWProperties.addDot(poPrefix);
 	
 		moE17FusionOfExternalPerceptionAndMemoryTraces = new E17_FusionOfExternalPerceptionAndMemoryTraces(pre+P_E17, poProp, this, moInterfaceHandler);
-		moG12PrimaryDecision = new G12_PrimaryDecision(pre+P_G12, poProp, this, moInterfaceHandler, moMemory);
-		moG13PrimaryKnowledgeUtilizer = new G13_PrimaryKnowledgeUtilizer(pre+P_G13, poProp, this, moInterfaceHandler, moMemory);
+		moG12PrimaryDecision = new G12_PrimaryDecision(pre+P_G12, poProp, this, moInterfaceHandler, moMemory, moInformationRepresentationManagement);
+		moG13PrimaryKnowledgeUtilizer = new G13_PrimaryKnowledgeUtilizer(pre+P_G13, poProp, this, moInterfaceHandler, moMemory, moInformationRepresentationManagement);
 	}
 
 	/* (non-Javadoc)

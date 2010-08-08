@@ -18,6 +18,7 @@ import pa.interfaces.receive.I1_5_receive;
 import pa.interfaces.receive.I2_8_receive;
 import pa.interfaces.receive.I2_9_receive;
 import pa.memory.clsMemory;
+import pa.memorymgmt.informationrepresentation.clsInformationRepresentationManagement;
 import pa.tools.clsPair;
 import config.clsBWProperties;
 
@@ -51,8 +52,8 @@ public class G06_AffectGeneration extends clsModuleContainer implements
 	 * @param poEnclosingContainer
 	 */
 	public G06_AffectGeneration(String poPrefix, clsBWProperties poProp,
-			clsModuleContainer poEnclosingContainer, clsInterfaceHandler poInterfaceHandler, clsMemory poMemory) {
-		super(poPrefix, poProp, poEnclosingContainer, poInterfaceHandler, poMemory);
+			clsModuleContainer poEnclosingContainer, clsInterfaceHandler poInterfaceHandler, clsMemory poMemory, clsInformationRepresentationManagement poInformationRepresentationManagement) {
+		super(poPrefix, poProp, poEnclosingContainer, poInterfaceHandler, poMemory, poInformationRepresentationManagement);
 		applyProperties(poPrefix, poProp);
 	}
 	

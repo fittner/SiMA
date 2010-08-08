@@ -37,7 +37,6 @@ public class E06_DefenseMechanismsForDriveContents extends clsModuleBase impleme
 	ArrayList<clsPrimaryInformation> moDriveList_Output;
 	
 	ArrayList<clsPrimaryInformation> moRepressedRetry_Input;
-	
 	ArrayList<clsThingPresentation> moDeniedThingPresentations; 
 	ArrayList<clsAffectTension> moDeniedAffects;
 	

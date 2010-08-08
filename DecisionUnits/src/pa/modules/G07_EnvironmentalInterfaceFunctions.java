@@ -13,6 +13,7 @@ import pa.clsInterfaceHandler;
 import pa.datatypes.clsPrimaryInformation;
 import pa.loader.plan.clsPlanAction;
 import pa.memory.clsMemory;
+import pa.memorymgmt.informationrepresentation.clsInformationRepresentationManagement;
 import pa.symbolization.representationsymbol.itfSymbol;
 import pa.interfaces.receive.I2_2_receive;
 import pa.interfaces.receive.I2_4_receive;
@@ -54,8 +55,8 @@ public class G07_EnvironmentalInterfaceFunctions extends clsModuleContainer impl
 	 * @param poEnclosingContainer
 	 */
 	public G07_EnvironmentalInterfaceFunctions(String poPrefix, clsBWProperties poProp,
-			clsModuleContainer poEnclosingContainer, clsInterfaceHandler poInterfaceHandler, clsMemory poMemory) {
-		super(poPrefix, poProp, poEnclosingContainer, poInterfaceHandler, poMemory);
+			clsModuleContainer poEnclosingContainer, clsInterfaceHandler poInterfaceHandler, clsMemory poMemory, clsInformationRepresentationManagement poInformationRepresentationManagement) {
+		super(poPrefix, poProp, poEnclosingContainer, poInterfaceHandler, poMemory, poInformationRepresentationManagement);
 		applyProperties(poPrefix, poProp);
 	}
 	

@@ -17,6 +17,7 @@ import pa.interfaces.receive.I2_12_receive;
 import pa.interfaces.receive.I2_13_receive;
 import pa.interfaces.receive.I6_1_receive;
 import pa.memory.clsMemory;
+import pa.memorymgmt.informationrepresentation.clsInformationRepresentationManagement;
 import pa.tools.clsPair;
 import config.clsBWProperties;
 
@@ -52,8 +53,8 @@ public class G14_PerceptualPreprocessing extends clsModuleContainer implements
 	 * @param poEnclosingContainer
 	 */
 	public G14_PerceptualPreprocessing(String poPrefix, clsBWProperties poProp,
-			clsModuleContainer poEnclosingContainer, clsInterfaceHandler poInterfaceHandler, clsMemory poMemory) {
-		super(poPrefix, poProp, poEnclosingContainer, poInterfaceHandler, poMemory);
+			clsModuleContainer poEnclosingContainer, clsInterfaceHandler poInterfaceHandler, clsMemory poMemory, clsInformationRepresentationManagement poInformationRepresentationManagement) {
+		super(poPrefix, poProp, poEnclosingContainer, poInterfaceHandler, poMemory, poInformationRepresentationManagement);
 		applyProperties(poPrefix, poProp);
 	}
 	
