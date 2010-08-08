@@ -7,7 +7,7 @@
 package pa.memorymgmt;
 
 import pa.memorymgmt.enums.eInformationRepresentationManagementType;
-import pa.memorymgmt.informationrepresentation.clsInformationRepresentationManagementARSi10;
+import pa.memorymgmt.informationrepresentation.clsInformationRepresentationManagement;
 import config.clsBWProperties;
 
 /**
@@ -56,7 +56,7 @@ public class clsKnowledgeBaseHandlerFactory implements itfKnowledgeBaseHandlerFa
 				//TODO adapt ARSI09 to the actual InformationReprsentation Management 
 				break;
 			case ARSI10_MGMT:
-				oInformationRepresentationManagement = new clsInformationRepresentationManagementARSi10(poPrefix, poProp);  
+				oInformationRepresentationManagement = new clsInformationRepresentationManagement(poPrefix, poProp);  
 				break; 
 			default:
 				throw new java.lang.IllegalArgumentException("eInformationRepresentationManagement."+pnInformationRepresentationManagementType.name());
