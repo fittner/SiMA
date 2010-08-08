@@ -29,7 +29,7 @@ import pa.tools.clsPair;
  * 30.05.2010, 11:33:35
  * 
  */
-public class clsInformationRepresentationManagementARSi10 extends clsKnowledgeBaseHandler{
+public class clsInformationRepresentationManagement extends clsKnowledgeBaseHandler{
 		
 	public String moDatabaseSource; 
 	public String moSearchMethod; 
@@ -46,7 +46,7 @@ public class clsInformationRepresentationManagementARSi10 extends clsKnowledgeBa
 	 * @param poPrefix
 	 * @param poProp
 	 */
-	public clsInformationRepresentationManagementARSi10(String poPrefix,
+	public clsInformationRepresentationManagement(String poPrefix,
 			clsBWProperties poProp) {
 
 		super(poPrefix, poProp); 	
@@ -116,7 +116,7 @@ public class clsInformationRepresentationManagementARSi10 extends clsKnowledgeBa
 			moSearchResult = new ArrayList<ArrayList<clsPair<Double,clsDataStructureContainer>>>(); 
 			
 			for(clsPair<Integer, clsDataStructureContainer> element:poSearchPatternContainer){
-				triggerInformationRepresentationManagementModules((int)element.a, element.b.moDataStructure);
+				triggerModuleSearch((int)element.a, element.b.moDataStructure);
 			}
 			
 			try {
@@ -136,7 +136,7 @@ public class clsInformationRepresentationManagementARSi10 extends clsKnowledgeBa
 	 *
 	 * @param next
 	 */
-	private void triggerInformationRepresentationManagementModules(Integer poReturnType, clsDataStructurePA poDataStructure) {
+	private void triggerModuleSearch(Integer poReturnType, clsDataStructurePA poDataStructure) {
 			if(poDataStructure instanceof clsSecondaryDataStructure){
 				moSearchResult.add(moM01InformationRepresentationMgmt.moKB01SecondaryDataStructureMgmt.searchDataStructure(poReturnType, poDataStructure));
 			}
