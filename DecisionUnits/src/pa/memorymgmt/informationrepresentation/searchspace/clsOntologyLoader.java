@@ -210,11 +210,11 @@ public class clsOntologyLoader {
 
 		String oElementName = poElement.getName(); 
 		String oElementValueType = (String)poElement.getOwnSlotValue(poDataContainer.a.getSlot("value_type"));
-		double oDriveCathegoryAnal = (Double)poElement.getOwnSlotValue(poDataContainer.a.getSlot("cathegory:anal"));
-		double oDriveCathegoryOral = (Double)poElement.getOwnSlotValue(poDataContainer.a.getSlot("cathegory:oral"));
-		double oDriveCathegoryGenital = (Double)poElement.getOwnSlotValue(poDataContainer.a.getSlot("cathegory:genital"));
-		double oDriveCathegoryPhalic = (Double)poElement.getOwnSlotValue(poDataContainer.a.getSlot("cathegory:phalic"));
-		double [] oDriveCathegory = {oDriveCathegoryAnal, oDriveCathegoryOral, oDriveCathegoryGenital, oDriveCathegoryPhalic}; 
+		float rDriveCathegoryAnal = ((Float)poElement.getOwnSlotValue(poDataContainer.a.getSlot("cathegory:anal")));
+		float rDriveCathegoryOral = (Float)poElement.getOwnSlotValue(poDataContainer.a.getSlot("cathegory:oral"));
+		float rDriveCathegoryGenital = (Float)poElement.getOwnSlotValue(poDataContainer.a.getSlot("cathegory:genital"));
+		float rDriveCathegoryPhalic = (Float)poElement.getOwnSlotValue(poDataContainer.a.getSlot("cathegory:phalic"));
+		double [] oDriveCathegory = {rDriveCathegoryAnal, rDriveCathegoryOral, rDriveCathegoryGenital, rDriveCathegoryPhalic}; 
 				
 		clsDriveMesh oDataStructure = new clsDriveMesh(new clsTripple<String, eDataType, String>(oElementName,eDataType.DM,oElementValueType),oDriveCathegory, new ArrayList<clsAssociation>());
 		ArrayList <clsAssociation> oAssociationList = loadInstanceAssociations(poElement, oDataStructure, poDataContainer); 
