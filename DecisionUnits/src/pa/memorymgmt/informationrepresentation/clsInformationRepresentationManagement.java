@@ -94,7 +94,7 @@ public class clsInformationRepresentationManagement extends clsKnowledgeBaseHand
 	    	oProp.setProperty(pre+P_DATABASE_SOURCE, eDataSources.MAINMEMORY.toString());
 	    	oProp.setProperty(pre+P_SEARCH_METHOD, eSearchMethod.LISTSEARCH.toString());
 	    	//TODO HZ: Make the project file-path configurable
-	    	oProp.setProperty(pre+P_SOURCE_NAME, "./config/bw/pa.memory/AGENT_BASIC/ARSi10rv3.pprj");
+	    	oProp.setProperty(pre+P_SOURCE_NAME, "./config/bw/pa.memory/AGENT_BASIC/BASIC.pprj");
 	    	return oProp;
 	 }
 	 
