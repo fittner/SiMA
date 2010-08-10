@@ -192,11 +192,7 @@ public class clsRandomProperties {
 			throw new java.lang.UnsupportedOperationException();
 		}
 		
-		if (oRandom != null) {
-			result = oRandom.getValue();
-		} else {
-			throw new java.lang.NullPointerException();
-		}
+		result = oRandom.getValue();
 		
 		return result;
 	}
