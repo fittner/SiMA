@@ -1,13 +1,13 @@
-#Tue Aug 10 16:58:04 CEST 2010
+#Tue Aug 10 17:58:46 CEST 2010
 eclipse.preferences.version=1
 org.eclipse.jdt.core.compiler.problem.annotationSuperInterface=ignore
 org.eclipse.jdt.core.compiler.problem.autoboxing=ignore
 org.eclipse.jdt.core.compiler.problem.comparingIdentical=ignore
 org.eclipse.jdt.core.compiler.problem.deadCode=ignore
-org.eclipse.jdt.core.compiler.problem.deprecation=warning
+org.eclipse.jdt.core.compiler.problem.deprecation=ignore
 org.eclipse.jdt.core.compiler.problem.deprecationInDeprecatedCode=disabled
 org.eclipse.jdt.core.compiler.problem.deprecationWhenOverridingDeprecatedMethod=disabled
-org.eclipse.jdt.core.compiler.problem.discouragedReference=warning
+org.eclipse.jdt.core.compiler.problem.discouragedReference=ignore
 org.eclipse.jdt.core.compiler.problem.emptyStatement=ignore
 org.eclipse.jdt.core.compiler.problem.fallthroughCase=ignore
 org.eclipse.jdt.core.compiler.problem.fatalOptionalError=disabled
