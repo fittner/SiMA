@@ -81,6 +81,7 @@ public class clsElementCompareResult extends clsFeatureElement {
 			mnTrigger = true;
 		}
 	}
+	@SuppressWarnings("unused")
 	private void triggerOnThreshold(clsElementCompareResult poPrevCompResult) {
 		// trigger on change event...
 		if( moRuleCompareResult.getMatch().get() >= mrAIthreshold ) {  // trigger encoding of this TI if TI match is above a certain threshold
@@ -98,11 +99,13 @@ public class clsElementCompareResult extends clsFeatureElement {
 			}
 		}
 	}
+	@SuppressWarnings("unused")
 	private void triggerOnPrevSituation(clsElementCompareResult poPrevCompResult){
 		if(mrDeltaToPrevSituation >= 0.5f) {
 			mnTrigger = true;
 		}
 	}
+	@SuppressWarnings("unused")
 	private void triggerOnPrevEvent(clsElementCompareResult poPrevCompResult){
 		//calculates difference to the previous occurance of this type of RuleCompareResult that triggered an event
 		if(mnTrigger) {

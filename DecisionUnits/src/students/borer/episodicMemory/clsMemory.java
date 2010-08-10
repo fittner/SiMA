@@ -89,6 +89,7 @@ public class clsMemory {
 //		System.out.println(oRetrievalResults.moRetrievalCue.toString());
 		clsRecallAPI oRecallAPI = oRetrievalResults.retrieveFirstResult();
 		if(oRecallAPI != null){
+			@SuppressWarnings("unused")
 			clsRetrievalResult oResult = oRetrievalResults.getFirstResult();
 			oRecallAPI.getSituation(); // to simulate boost
 		}

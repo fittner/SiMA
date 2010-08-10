@@ -56,6 +56,7 @@ public class clsElementDrive extends clsFeatureElement {
 //		decaySalience(poPrevDrive);		
 		return mnTrigger;
 	}
+	@SuppressWarnings("unused")
 	private void triggerOnSalience(){
 		if(moSalience.get() > 0.5) {
 			mnTrigger = true;
@@ -90,11 +91,13 @@ public class clsElementDrive extends clsFeatureElement {
 			}
 		}
 	}
+	@SuppressWarnings("unused")
 	private void triggerOnPrevSituation(clsElementDrive poPrevDrive){
 		if(mrDeltaToPrevSituation >= 0.5f) {
 			mnTrigger = true;
 		}
 	}
+	@SuppressWarnings("unused")
 	private void triggerOnPrevEvent(clsElementDrive poPrevDrive){
 		//calculates difference to the previous occurance of this type of Drive that triggered an event
 		if(mnTrigger) {

@@ -79,6 +79,7 @@ public class clsElementEmotion extends clsFeatureElement {
 			mnTrigger = true;
 		}
 	}
+	@SuppressWarnings("unused")
 	private void triggerOnThreshold() {
 		// trigger on change event...
 		float rThreshold = 0.5f;
@@ -95,6 +96,7 @@ public class clsElementEmotion extends clsFeatureElement {
 			}
 		}
 	}
+	@SuppressWarnings("unused")
 	private void triggerOnPrevSituation(){
 		if(Math.abs( mrDeltaToPrevSituation ) > 0.02) {
 			mnTrigger = true;
