@@ -2,7 +2,7 @@ package ClemLife;
 
 
 
-import ARSsim.physics2D.util.clsPose;
+//import ARSsim.physics2D.util.clsPose;
 import ec.util.*;
 import sim.engine.*;
 import sim.field.continuous.*;
@@ -50,7 +50,7 @@ public class ClemLifeMain extends SimState
 
 		//create world 
 		Double2D pos = new Double2D(100, 100);
-		clsPose oPose = new clsPose(100, 0, 0);
+//		clsPose oPose = new clsPose(100, 0, 0);
 		
 		
 		
