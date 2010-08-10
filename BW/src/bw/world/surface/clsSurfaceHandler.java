@@ -77,7 +77,7 @@ public class clsSurfaceHandler implements itfSurface
 	//TODO: Rewrite: Use properties
 	public void createWorld(String poPrefix, clsBWProperties poProp)
 	{
-		String pre = clsBWProperties.addDot(poPrefix);
+		// String pre = clsBWProperties.addDot(poPrefix);
 	}
 	
 	public IntGrid2D getGrid()
