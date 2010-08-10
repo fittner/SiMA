@@ -127,7 +127,7 @@ public class clsXMLAbstractImageReader // extends clsCloneable
 	public static void getNodeElementByName(Node docElement, String detectionName, int recursive, Vector resultList) 
   //---------------------------------------------------------------------------
   {
-		Node n = null;
+		//Node n = null;
 		if (docElement.getNodeType() == Node.ELEMENT_NODE) 
     {
       String txt = docElement.getNodeName();
@@ -144,7 +144,7 @@ public class clsXMLAbstractImageReader // extends clsCloneable
     if(recursive>0)
     {
      	NodeList nl = docElement.getChildNodes();
-  		Node child = null;
+  		//Node child = null;
   		for (int i=0; i<nl.getLength(); i++) 
       {
   			getNodeElementByName(nl.item(i), detectionName, recursive--, resultList);		
@@ -158,10 +158,10 @@ public class clsXMLAbstractImageReader // extends clsCloneable
 		public static void getSubNodesByName(Node docElement, String detectionName, Vector resultList) 
 	  //---------------------------------------------------------------------------
 	  {
-		Node n = null;
+		//Node n = null;
 
      	NodeList nl = docElement.getChildNodes();
-  		Node child = null;
+  		//Node child = null;
   		for (int i=0; i<nl.getLength(); i++) 
   		{
   			getNodeElementByName(nl.item(i), detectionName, 0, resultList);		
@@ -175,7 +175,7 @@ public class clsXMLAbstractImageReader // extends clsCloneable
 	public static Node getNextNodeElementByName(Node docElement, String detectionName) 
   //---------------------------------------------------------------------------
   {
-		Node n = null;
+		//Node n = null;
 		if (docElement.getNodeType() == Node.ELEMENT_NODE) 
     {
       String txt = docElement.getNodeName();
@@ -206,7 +206,7 @@ public class clsXMLAbstractImageReader // extends clsCloneable
   {
     if( node == null ) return false;
 
-		Node n = null;
+		//Node n = null;
 		if (node.getNodeType() == Node.ELEMENT_NODE) 
     {
       nodeName[0] = node.getNodeName();
@@ -221,7 +221,7 @@ public class clsXMLAbstractImageReader // extends clsCloneable
 		}
 
 		NodeList nl = node.getChildNodes();
-		Node child = null;
+		//Node child = null;
 
     //node with one text-element must be a 'Data-Node'
     if ( nl.getLength() == 1 && ((Node)nl.item(0)).getNodeType() == Node.TEXT_NODE) 
@@ -240,7 +240,7 @@ public class clsXMLAbstractImageReader // extends clsCloneable
   public static String getNodeName(Node node)
   //---------------------------------------------------------------------------
   {
- 		Node n = null;
+ 		//Node n = null;
 		if (node.getNodeType() == Node.ELEMENT_NODE) 
     {
       return node.getNodeName();
@@ -363,7 +363,7 @@ public class clsXMLAbstractImageReader // extends clsCloneable
   {
     String retVal = "";
  		NodeList nl = currentNode.getChildNodes();
-		Node child = null;
+		//Node child = null;
 		
 		for (int i=0; i<nl.getLength(); i++) 
     {

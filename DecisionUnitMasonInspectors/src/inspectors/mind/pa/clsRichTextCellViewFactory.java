@@ -21,6 +21,14 @@ import com.jgraph.components.labels.MultiLineVertexView;
 public class clsRichTextCellViewFactory extends DefaultCellViewFactory {
 
 		/**
+	 * DOCUMENT (deutsch) - insert description 
+	 * 
+	 * @author deutsch
+	 * 10.08.2010, 18:01:08
+	 */
+	private static final long serialVersionUID = -4254080503279445738L;
+
+		/**
 		 * Constructs a VertexView view for the specified object.
 		 */
 		@Override

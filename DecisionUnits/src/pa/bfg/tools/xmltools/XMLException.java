@@ -15,7 +15,15 @@ package pa.bfg.tools.xmltools;
   public class XMLException extends Exception
   //---------------------------------------------------------------------------
   {
-    public XMLException(String msg){
+    /**
+	 * DOCUMENT (deutsch) - insert description 
+	 * 
+	 * @author deutsch
+	 * 10.08.2010, 18:01:26
+	 */
+	private static final long serialVersionUID = -2495199893859658867L;
+
+	public XMLException(String msg){
       super(msg);
     }
   };

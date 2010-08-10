@@ -131,7 +131,7 @@ public class clsPAInspectorFunctional extends Inspector implements ActionListene
 		}
 	}
 	
-	@SuppressWarnings({ "serial", "unchecked" })
+	@SuppressWarnings({ "serial" })
 	public void updateControl() {
 		GraphModel model = new RichTextGraphModel();
 		GraphLayoutCache cache = new DataGraphLayoutCache(model,

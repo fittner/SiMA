@@ -122,6 +122,14 @@ public class clsScenarioInspector  extends Inspector implements ActionListener {
 		// layout cache with a built-in listener
 		GraphLayoutCache cache = new DataGraphLayoutCache(model,
 				new DefaultCellViewFactory() {
+			/**
+					 * DOCUMENT (deutsch) - insert description 
+					 * 
+					 * @author deutsch
+					 * 10.08.2010, 18:00:19
+					 */
+					private static final long serialVersionUID = 5818008571373299403L;
+
 			@Override
 			protected VertexView createVertexView(Object cell) {
 				return new MultiLineVertexView(cell);

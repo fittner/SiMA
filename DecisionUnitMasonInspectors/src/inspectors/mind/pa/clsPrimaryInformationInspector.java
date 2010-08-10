@@ -174,6 +174,14 @@ public class clsPrimaryInformationInspector  extends Inspector implements Action
 		// layout cache with a built-in listener
 		GraphLayoutCache cache = new DataGraphLayoutCache(model,
 				new DefaultCellViewFactory() {
+			/**
+					 * DOCUMENT (deutsch) - insert description 
+					 * 
+					 * @author deutsch
+					 * 10.08.2010, 18:00:11
+					 */
+					private static final long serialVersionUID = -260918958901863208L;
+
 			@Override
 			protected VertexView createVertexView(Object cell) {
 				return new MultiLineVertexView(cell);

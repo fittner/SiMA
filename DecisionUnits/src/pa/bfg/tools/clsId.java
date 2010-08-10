@@ -19,7 +19,14 @@ import java.io.Serializable;
  * @deprecated
  */
 public class clsId implements Serializable, java.lang.Comparable {
-  public int mnTeamId;
+  /**
+	 * DOCUMENT (deutsch) - insert description 
+	 * 
+	 * @author deutsch
+	 * 10.08.2010, 18:01:04
+	 */
+	private static final long serialVersionUID = -5547763528253286813L;
+public int mnTeamId;
   public int mnEntityId;
 
   public clsId() {

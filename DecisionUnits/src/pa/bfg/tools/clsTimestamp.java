@@ -19,7 +19,14 @@ import java.io.Serializable;
  * @deprecated
  */
 public class clsTimestamp extends clsCloneable implements Serializable {
-  public float mrTimeStamp;
+  /**
+	 * DOCUMENT (deutsch) - insert description 
+	 * 
+	 * @author deutsch
+	 * 10.08.2010, 18:01:11
+	 */
+	private static final long serialVersionUID = -990881039543406174L;
+public float mrTimeStamp;
 
   public clsTimestamp() {
     super();

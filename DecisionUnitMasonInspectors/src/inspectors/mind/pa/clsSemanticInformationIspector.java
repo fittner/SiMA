@@ -85,6 +85,13 @@ import com.l2fprod.common.swing.JTaskPaneGroup;
  */
 public class clsSemanticInformationIspector extends Inspector implements ActionListener {
 	
+	/**
+	 * DOCUMENT (deutsch) - insert description 
+	 * 
+	 * @author deutsch
+	 * 10.08.2010, 17:54:49
+	 */
+	private static final long serialVersionUID = 1698933486037476484L;
 	//class members...
 	protected static JGraphGraphFactory moGraphFactory = new JGraphGraphFactory();
 	protected JGraph moGraph = new JGraph(new DefaultGraphModel());
@@ -169,6 +176,14 @@ public class clsSemanticInformationIspector extends Inspector implements ActionL
 			}
 		});
 		oTaskGroupLayout.add(new AbstractAction("Fast Organic") {
+			/**
+			 * DOCUMENT (deutsch) - insert description 
+			 * 
+			 * @author deutsch
+			 * 10.08.2010, 17:54:49
+			 */
+			private static final long serialVersionUID = 6447974553914052766L;
+
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				JGraphFastOrganicLayout layout = new JGraphFastOrganicLayout();
@@ -178,6 +193,14 @@ public class clsSemanticInformationIspector extends Inspector implements ActionL
 		});
 		
 		oTaskGroupLayout.add(new AbstractAction("Simple Circle") {
+			/**
+			 * DOCUMENT (deutsch) - insert description 
+			 * 
+			 * @author deutsch
+			 * 10.08.2010, 17:54:49
+			 */
+			private static final long serialVersionUID = -1444623169928884258L;
+
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				performGraphLayoutChange(new JGraphSimpleLayout(JGraphSimpleLayout.TYPE_CIRCLE));
@@ -185,6 +208,14 @@ public class clsSemanticInformationIspector extends Inspector implements ActionL
 		});
 		
 		oTaskGroupLayout.add(new AbstractAction("Simple Tilt") {
+			/**
+			 * DOCUMENT (deutsch) - insert description 
+			 * 
+			 * @author deutsch
+			 * 10.08.2010, 17:54:49
+			 */
+			private static final long serialVersionUID = -6513607636960953397L;
+
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				performGraphLayoutChange(new JGraphSimpleLayout(JGraphSimpleLayout.TYPE_TILT));
@@ -192,18 +223,42 @@ public class clsSemanticInformationIspector extends Inspector implements ActionL
 		});
 		
 		oTaskGroupLayout.add(new AbstractAction("Compact Tree") {
+			/**
+			 * DOCUMENT (deutsch) - insert description 
+			 * 
+			 * @author deutsch
+			 * 10.08.2010, 17:54:49
+			 */
+			private static final long serialVersionUID = -2811903925630396473L;
+
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				performGraphLayoutChange(new JGraphCompactTreeLayout());
 			}
 		});
 		oTaskGroupLayout.add(new AbstractAction("Radialtree") {
+			/**
+			 * DOCUMENT (deutsch) - insert description 
+			 * 
+			 * @author deutsch
+			 * 10.08.2010, 17:54:49
+			 */
+			private static final long serialVersionUID = -7537382541569261175L;
+
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				performGraphLayoutChange(new JGraphRadialTreeLayout());
 			}
 		});
 		oTaskGroupLayout.add(new AbstractAction("Tree") {
+			/**
+			 * DOCUMENT (deutsch) - insert description 
+			 * 
+			 * @author deutsch
+			 * 10.08.2010, 17:54:49
+			 */
+			private static final long serialVersionUID = 1618477318723383606L;
+
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				performGraphLayoutChange(new JGraphTreeLayout());
@@ -225,12 +280,28 @@ public class clsSemanticInformationIspector extends Inspector implements ActionL
 		oTaskGroupCommands.setTitle("Commands");
 		
 		oTaskGroupCommands.add(new AbstractAction("Actual Size") {
+			/**
+			 * DOCUMENT (deutsch) - insert description 
+			 * 
+			 * @author deutsch
+			 * 10.08.2010, 17:54:49
+			 */
+			private static final long serialVersionUID = -7683571637499420675L;
+
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				moGraph.setScale(1);
 			}
 		});
 		oTaskGroupCommands.add(new AbstractAction("Fit Window") {
+			/**
+			 * DOCUMENT (deutsch) - insert description 
+			 * 
+			 * @author deutsch
+			 * 10.08.2010, 17:54:49
+			 */
+			private static final long serialVersionUID = -4236402393050941924L;
+
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				JGraphLayoutMorphingManager.fitViewport(moGraph);
@@ -238,6 +309,14 @@ public class clsSemanticInformationIspector extends Inspector implements ActionL
 		});
 				
 		oTaskGroupCommands.add(new AbstractAction("Reset") {
+			/**
+			 * DOCUMENT (deutsch) - insert description 
+			 * 
+			 * @author deutsch
+			 * 10.08.2010, 17:54:49
+			 */
+			private static final long serialVersionUID = 4769006307236101696L;
+
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				reset();
@@ -245,6 +324,14 @@ public class clsSemanticInformationIspector extends Inspector implements ActionL
 		});
 		
 		oTaskGroupCommands.add(new AbstractAction("Insert Test Data") {
+			/**
+			 * DOCUMENT (deutsch) - insert description 
+			 * 
+			 * @author deutsch
+			 * 10.08.2010, 17:54:49
+			 */
+			private static final long serialVersionUID = 4963188240381232166L;
+
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				showTestData();
@@ -282,7 +369,6 @@ public class clsSemanticInformationIspector extends Inspector implements ActionL
 	 * 13.10.2009, 22:34:11
 	 *
 	 */
-	@SuppressWarnings("unchecked")
 	private void updateSecInfoData() {
 		
 		
@@ -488,6 +574,14 @@ public class clsSemanticInformationIspector extends Inspector implements ActionL
 		// layout cache with a built-in listener
 		GraphLayoutCache cache = new DataGraphLayoutCache(model,
 				new DefaultCellViewFactory() {
+			/**
+					 * DOCUMENT (deutsch) - insert description 
+					 * 
+					 * @author deutsch
+					 * 10.08.2010, 17:54:49
+					 */
+					private static final long serialVersionUID = 5527702598146461914L;
+
 			@Override
 			protected VertexView createVertexView(Object cell) {
 				return new MultiLineVertexView(cell);

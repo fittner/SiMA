@@ -147,7 +147,7 @@ public class clsImageAbstract // extends clsImageGeneric //uncommented at import
     String oFullMatchRequired = oAattribs.getNamedItem("fullMatchRequired").getNodeValue();
     String oDescription = clsXMLAbstractImageReader.getTagStringValue(poAbstractImageNode, "Description");
 
-    int nId = clsXMLAbstractImageReader.stringToInteger(oId);
+    //int nId = clsXMLAbstractImageReader.stringToInteger(oId);
 
     clsImageAbstract oResult = null;
 

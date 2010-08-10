@@ -155,6 +155,14 @@ public class clsE05DriveInspector extends Inspector implements ActionListener {
 		// layout cache with a built-in listener
 		GraphLayoutCache cache = new DataGraphLayoutCache(model,
 				new DefaultCellViewFactory() {
+			/**
+					 * DOCUMENT (deutsch) - insert description 
+					 * 
+					 * @author deutsch
+					 * 10.08.2010, 17:59:58
+					 */
+					private static final long serialVersionUID = -5401700040875345773L;
+
 			@Override
 			protected VertexView createVertexView(Object cell) {
 				return new MultiLineVertexView(cell);

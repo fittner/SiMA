@@ -19,7 +19,17 @@ import java.io.Serializable;
  */
 public class clsValueLinear extends clsValueFuzzy implements Serializable {
 
-  public clsValueLinear(float prValue, float prMinValue, float prMaxValue, float prSigma) {
+  /**
+	 * DOCUMENT (deutsch) - insert description 
+	 * 
+	 * @author deutsch
+	 * 10.08.2010, 18:01:22
+	 */
+	private static final long serialVersionUID = -8466913195899382219L;
+
+
+
+public clsValueLinear(float prValue, float prMinValue, float prMaxValue, float prSigma) {
     super(-prMinValue, prMaxValue, prSigma);
     setValue(prValue);
   }

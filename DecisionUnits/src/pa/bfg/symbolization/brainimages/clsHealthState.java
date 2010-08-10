@@ -20,7 +20,14 @@ import bfg.utils.enumsOld.enumTypeLevelHealthState;
  * @deprecated
  */
 public class clsHealthState extends clsCloneable {
-  int meType = -1; // enumHealthStates;
+  /**
+	 * DOCUMENT (deutsch) - insert description 
+	 * 
+	 * @author deutsch
+	 * 10.08.2010, 18:01:01
+	 */
+	private static final long serialVersionUID = -6436903739058378046L;
+int meType = -1; // enumHealthStates;
   int meState = enumTypeLevelHealthState.TLEVELHEALTHST_UNDEFINED; //enumTypeLevelHealthState
   float mrLevel = 0;
  

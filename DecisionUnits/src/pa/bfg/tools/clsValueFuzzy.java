@@ -18,7 +18,14 @@ import java.io.Serializable;
  * @deprecated
  */
 abstract class clsValueFuzzy extends clsCloneable implements Serializable {
-  float mrMinValue = 0;
+  /**
+	 * DOCUMENT (deutsch) - insert description 
+	 * 
+	 * @author deutsch
+	 * 10.08.2010, 18:01:18
+	 */
+	private static final long serialVersionUID = 5447997784570114779L;
+float mrMinValue = 0;
   float mrMaxValue = 0;
   float mrSigma = 0;
 

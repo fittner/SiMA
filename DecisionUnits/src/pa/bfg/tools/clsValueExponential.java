@@ -23,7 +23,14 @@ import java.io.Serializable;
  * @deprecated
  */
 public class clsValueExponential extends clsValueFuzzy implements Serializable {
-  float mrInternalValue = 0;
+  /**
+	 * DOCUMENT (deutsch) - insert description 
+	 * 
+	 * @author deutsch
+	 * 10.08.2010, 18:01:15
+	 */
+	private static final long serialVersionUID = -7378012234438187978L;
+float mrInternalValue = 0;
   static final float mrLinearPoint = 0.5f;
 
   public clsValueExponential(float prValue) {

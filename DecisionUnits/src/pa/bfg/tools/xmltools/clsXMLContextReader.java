@@ -73,7 +73,7 @@ public class clsXMLContextReader {
 
 	  //optional scan (recursive or not)
 	  public static void getNodeElementByName(Node docElement, String detectionName, int recursive, Vector resultList){
-			Node n = null;
+			//Node n = null;
 			
 			if (docElement.getNodeType() == Node.ELEMENT_NODE){
 		      String txt = docElement.getNodeName();
@@ -88,7 +88,7 @@ public class clsXMLContextReader {
 		    }
 	    if(recursive>0){
 	     	NodeList nl = docElement.getChildNodes();
-	  		Node child = null;
+	  		//Node child = null;
 	  		
 	  		for (int i=0; i<nl.getLength(); i++){
 	  			getNodeElementByName(nl.item(i), detectionName, recursive--, resultList);		
@@ -100,7 +100,7 @@ public class clsXMLContextReader {
 	  //optional scan (recursive or not)
 	   public static Node getNextNodeElementByName(Node docElement, String detectionName) 
 	   {
-			Node n = null;
+			//Node n = null;
 			if (docElement.getNodeType() == Node.ELEMENT_NODE){
 			  String txt = docElement.getNodeName();
 
