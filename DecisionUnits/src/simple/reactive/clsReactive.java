@@ -301,6 +301,7 @@ public class clsReactive extends clsBaseDecisionUnit {
 	/*
 	 * (horvath) - if there's some uranium in the sensible range, returns true, if not, returns false
 	 */
+	@SuppressWarnings("unused")
 	private boolean isUraniumInRange(clsSensorData inputs){
 		clsRadiation oRadiation = (clsRadiation) inputs.getSensorExt(eSensorExtType.RADIATION);
 		if(oRadiation.getIntensity() == 0){
