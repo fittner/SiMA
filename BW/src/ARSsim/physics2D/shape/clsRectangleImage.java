@@ -29,7 +29,7 @@ public class clsRectangleImage extends sim.physics2D.shape.Rectangle
 		double mrWidth; //wanted width and height
 		double mrHeight;
 		private BufferedImage moImage = null; //saves the image
-		private Paint moDefaultColor = null; //color of the physical square underneath
+//		private Paint moDefaultColor = null; //color of the physical square underneath
 		private boolean mbShowSimple = false; //can be used for testing, no image is rendered
 		private eImagePositioning mImagePositioning = eImagePositioning.STRETCHING;
 		double fMinImageSize = 15; //minimal Image size to be shown
@@ -50,7 +50,7 @@ public class clsRectangleImage extends sim.physics2D.shape.Rectangle
 		super(prWidth, prHeight, poDefaultColor);
 		this.mrWidth = prWidth; 
 		this.mrHeight = prHeight;
-		this.moDefaultColor = poDefaultColor;
+//		this.moDefaultColor = poDefaultColor;
 		
        
     	File oFile = new File( psImageFilePath );
