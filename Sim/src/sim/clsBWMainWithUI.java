@@ -26,7 +26,6 @@ import bw.factories.clsSingletonMasonGetter;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.util.ArrayList;
-import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.JFrame;
 import javax.swing.JTabbedPane;
@@ -323,14 +322,7 @@ public class clsBWMainWithUI extends GUIState {
         moContentpanel.setLayout(new BoxLayout(moContentpanel, BoxLayout.Y_AXIS));
 	    
         
-        
-        //add charts to panel
-        if (oTestPanel!=null) {
-        	moContentpanel.add(oTestPanel);
-        	moContentpanel.add(Box.createRigidArea(new Dimension(0, 6)));
-        }
-          
-        
+     
         // register frame and show the window
         moChartFrame.setTitle("Live Bubble Statistics");
         moChartFrame.pack();
