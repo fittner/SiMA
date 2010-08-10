@@ -32,7 +32,7 @@ import java.io.FileNotFoundException;
  * $Revision: 939 $:  Revision of last commit
  * $Author: gartner $: Author of last commit
  * $Date: 2008-02-28 18:57:23 +0100 (Do, 28 Feb 2008) $: Date of last commit
- *
+ * @deprecated
  */
 public class clsXMLConfiguration 
 {

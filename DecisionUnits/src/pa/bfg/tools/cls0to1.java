@@ -15,7 +15,7 @@ import java.io.Serializable;
  * $Revision: 956 $:  Revision of last commit
  * $Author: gartner $: Author of last commit
  * $Date: 2008-03-11 12:33:01 +0100 (Di, 11 Mär 2008) $: Date of last commit
- *
+ * @deprecated
  */
 public class cls0to1 extends clsCloneable implements Serializable {
   double mrValue = 0;

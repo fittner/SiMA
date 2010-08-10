@@ -23,7 +23,7 @@ import du.itf.sensors.clsSensorData;
  * 
  * @author langr
  * 22.09.2009, 15:02:59
- * 
+ *  @deprecated
  */
 public class clsLeafStomachTension extends clsRuleTreeLeaf
 {

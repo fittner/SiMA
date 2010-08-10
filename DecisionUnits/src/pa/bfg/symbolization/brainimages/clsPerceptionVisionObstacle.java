@@ -17,7 +17,7 @@ import bfg.utils.enumsOld.enumTypeObstacle;
  * $Revision: 729 $:  Revision of last commit
  * $Author: deutsch $: Author of last commit
  * $Date: 2007-07-17 21:42:21 +0200 (Di, 17 Jul 2007) $: Date of last commit
- *
+ * @deprecated
  */
 public class clsPerceptionVisionObstacle extends clsPerceptionVision {
   public int mnObstacleType = enumTypeObstacle.TOBSTACLE_UNDEFINED;

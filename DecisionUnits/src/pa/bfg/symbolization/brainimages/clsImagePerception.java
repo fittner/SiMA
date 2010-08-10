@@ -19,7 +19,7 @@ import bfg.utils.enumsOld.enumTypeSocialLevel;
  * $Revision: 953 $:  Revision of last commit
  * $Author: gartner $: Author of last commit
  * $Date: 2008-03-11 12:31:58 +0100 (Di, 11 Mär 2008) $: Date of last commit
- *
+ * @deprecated
  */
 public class clsImagePerception extends clsImageGeneric {
   public clsContainerHealthState    moHealthStateList;

@@ -13,7 +13,7 @@ import bfg.utils.enums.enumClass;
  * 
  * @author langr
  * 24.10.2009, 12:30:11
- * 
+ *  @deprecated
  */
 public class enumBooleanOperator extends enumClass {
 	  public final static int TBOOLOP_UNDEFINED  = -1; 

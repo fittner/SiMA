@@ -19,7 +19,14 @@ import bfg.utils.enums.eOptional;
 import bfg.utils.enumsOld.enumTypeEntityMessages;
 import bfg.utils.enumsOld.enumTypeSocialLevel;
 
-
+/**
+ * 
+ * DOCUMENT (deutsch) - insert description 
+ * 
+ * @author deutsch
+ * 10.08.2010, 17:27:43
+ * @deprecated
+ */
 class clsLeafOwnSocialLevel extends clsRuleTreeLeaf
 {
   public int meSocialLevel = enumTypeSocialLevel.TSOCIALLEVEL_UNDEFINED;

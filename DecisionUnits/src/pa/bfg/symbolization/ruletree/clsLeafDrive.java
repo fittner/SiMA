@@ -32,7 +32,7 @@ import bfg.utils.enumsOld.enumTypeLevelDrive;
  * $Revision: 768 $:  Revision of last commit
  * $Author: deutsch $: Author of last commit
  * $Date: 2007-07-19 23:12:25 +0200 (Do, 19 Jul 2007) $: Date of last commit
- *
+ * @deprecated
  */
 class clsLeafDrive extends clsRuleTreeLeaf
 {

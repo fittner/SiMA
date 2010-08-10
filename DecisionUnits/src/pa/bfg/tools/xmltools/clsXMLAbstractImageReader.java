@@ -27,7 +27,7 @@ import org.xml.sax.SAXException;
  * $Revision: 644 $:  Revision of last commit
  * $Author: deutsch $: Author of last commit
  * $Date: 2007-06-27 17:51:30 +0200 (Mi, 27 Jun 2007) $: Date of last commit
- *
+ * @deprecated
  */
 public class clsXMLAbstractImageReader // extends clsCloneable 
 {

@@ -30,7 +30,7 @@ import bfg.utils.enumsOld.enumTypeLevelEmotion;
  * $Revision: 791 $:  Revision of last commit
  * $Author: deutsch $: Author of last commit
  * $Date: 2007-07-20 04:09:01 +0200 (Fr, 20 Jul 2007) $: Date of last commit
- *
+ * @deprecated
  */
 class clsLeafEmotion extends clsRuleTreeLeaf
 {

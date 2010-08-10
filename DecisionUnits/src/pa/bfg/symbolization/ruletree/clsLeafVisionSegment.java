@@ -36,7 +36,7 @@ import du.itf.sensors.clsVisionEntry;
  * 
  * @author zeilinger
  * 15.09.2009, 13:23:15
- * 
+ *  @deprecated
  */
 public class clsLeafVisionSegment extends clsRuleTreeLeaf {
 

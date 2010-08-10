@@ -15,7 +15,7 @@ import java.io.Serializable;
  * 
  * @author tobias
  * Jul 29, 2009, 6:49:44 PM
- * 
+ *  @deprecated
  */
 public class clsMutableBoolean implements Serializable {
 	private static final long serialVersionUID = 729967101603040909L;

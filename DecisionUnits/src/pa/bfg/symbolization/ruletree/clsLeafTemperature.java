@@ -23,7 +23,7 @@ import du.itf.sensors.clsSensorData;
  * 
  * @author langr
  * 22.09.2009, 16:13:20
- * 
+ *  @deprecated
  */
 public class clsLeafTemperature  extends clsRuleTreeLeaf
 {

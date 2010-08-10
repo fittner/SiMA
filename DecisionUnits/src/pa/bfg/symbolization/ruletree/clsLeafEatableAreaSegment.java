@@ -32,7 +32,7 @@ import du.itf.sensors.clsSensorRingSegment;
  * 
  * @author zeilinger
  * 22.09.2009, 12:17:02
- * 
+ *  @deprecated
  */
 public class clsLeafEatableAreaSegment extends clsRuleTreeLeaf {
 	  public eCount meNumber = eCount.UNDEFINED;

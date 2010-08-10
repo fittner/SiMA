@@ -25,7 +25,7 @@ import org.xml.sax.SAXException;
  * 
  * @author zeilinger
  * 07.10.2009, 17:14:04
- * 
+ *  @deprecated
  */
 public class clsXMLContextReader {
 	

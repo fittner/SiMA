@@ -40,7 +40,7 @@ import bfg.utils.enumsOld.enumTypeTrippleState;
  * $Revision: 1097 $:  Revision of last commit
  * $Author: riediger $: Author of last commit
  * $Date: 2008-06-16 17:33:44 +0200 (Mo, 16 Jun 2008) $: Date of last commit
- *
+ * @deprecated
  */
 public class clsImageAbstract // extends clsImageGeneric //uncommented at import langr --> no drive/emotion 
 {

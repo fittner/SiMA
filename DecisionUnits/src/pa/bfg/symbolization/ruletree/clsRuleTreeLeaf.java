@@ -29,7 +29,7 @@ import bfg.utils.enums.clsTypeCompareOperator;
  * $Revision: 958 $:  Revision of last commit
  * $Author: gartner $: Author of last commit
  * $Date: 2008-03-11 12:53:54 +0100 (Di, 11 Mär 2008) $: Date of last commit
- *
+ * @deprecated
  */
 public abstract class clsRuleTreeLeaf extends clsRuleTreeElement{
 

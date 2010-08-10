@@ -14,7 +14,7 @@ package pa.bfg.symbolization.brainimages;
  * $Revision: 681 $:  Revision of last commit
  * $Author: deutsch $: Author of last commit
  * $Date: 2007-07-11 16:39:54 +0200 (Mi, 11 Jul 2007) $: Date of last commit
- *
+ * @deprecated
  */
 public class  clsIdentity
   {

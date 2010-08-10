@@ -28,7 +28,7 @@ package pa.bfg.symbolization.brainimages;
  * $Revision: 691 $:  Revision of last commit
  * $Author: langr $: Author of last commit
  * $Date: 2007-07-14 08:59:49 +0200 (Sa, 14 Jul 2007) $: Date of last commit
- *
+ * @deprecated
  */
 public class clsContainerCompareResults   { //extends clsContainerBaseVector
 //  public clsContainerCompareResults(int pnMaxSize) {

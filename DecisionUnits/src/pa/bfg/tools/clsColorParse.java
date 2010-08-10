@@ -13,7 +13,7 @@ import java.awt.Color;
  * 
  * @author langr
  * 16.09.2009, 20:47:54
- * 
+ *  @deprecated
  */
 public class clsColorParse {
 

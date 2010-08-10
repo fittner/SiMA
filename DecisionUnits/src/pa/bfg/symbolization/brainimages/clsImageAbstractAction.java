@@ -22,7 +22,7 @@ package pa.bfg.symbolization.brainimages;
  * $Revision: 682 $:  Revision of last commit
  * $Author: deutsch $: Author of last commit
  * $Date: 2007-07-11 16:48:22 +0200 (Mi, 11 Jul 2007) $: Date of last commit
- *
+ * @deprecated
  */
 public class clsImageAbstractAction {
 

@@ -35,7 +35,7 @@ import du.itf.sensors.clsSensorData;
  * $Revision: 627 $:  Revision of last commit
  * $Author: deutsch $: Author of last commit
  * $Date: 2007-06-25 12:20:22 +0200 (Mo, 25 Jun 2007) $: Date of last commit
- *
+ * @deprecated
  */
 public class clsContainerAbstractImages {
 

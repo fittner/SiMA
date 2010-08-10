@@ -9,6 +9,9 @@ package pa.bfg.tools.xmltools;
 
   //this classes exception
   //---------------------------------------------------------------------------
+/**
+ *  @deprecated
+ */
   public class XMLException extends Exception
   //---------------------------------------------------------------------------
   {

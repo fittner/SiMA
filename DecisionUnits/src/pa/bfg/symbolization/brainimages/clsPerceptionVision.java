@@ -20,7 +20,7 @@ import bfg.utils.enumsOld.enumTypeSide;
  * $Revision: 627 $:  Revision of last commit
  * $Author: deutsch $: Author of last commit
  * $Date: 2007-06-25 12:20:22 +0200 (Mo, 25 Jun 2007) $: Date of last commit
- *
+ * @deprecated
  */
 public class clsPerceptionVision {
   public clsPolarcoordinate moRelativePosition;

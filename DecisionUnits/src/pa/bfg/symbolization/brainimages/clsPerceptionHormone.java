@@ -17,7 +17,7 @@ import bfg.utils.enumsOld.enumTypeLevelHormone;
  * $Revision: 925 $:  Revision of last commit
  * $Author: gartner $: Author of last commit
  * $Date: 2008-02-26 14:34:28 +0100 (Di, 26 Feb 2008) $: Date of last commit
- *
+ * @deprecated
  */
 public class clsPerceptionHormone {
   int meTypeId = enumTypeHormone.THORMONE_UNDEFINED;

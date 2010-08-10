@@ -21,7 +21,7 @@ import bfg.utils.enumsOld.enumTypeSocialLevel;
  * $Revision: 627 $:  Revision of last commit
  * $Author: deutsch $: Author of last commit
  * $Date: 2007-06-25 12:20:22 +0200 (Mo, 25 Jun 2007) $: Date of last commit
- *
+ * @deprecated
  */
 public class clsPerceptionVisionEntity extends clsPerceptionVision {
   public boolean mnEnergyProducer = false;

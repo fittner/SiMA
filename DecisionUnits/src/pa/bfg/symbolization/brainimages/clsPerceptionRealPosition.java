@@ -11,6 +11,9 @@ package pa.bfg.symbolization.brainimages;
 //import pkgToolsShape.clsDirectedPosition;
 
 // Class definition
+/**
+ * @deprecated
+ */
 public class clsPerceptionRealPosition  { //extends clsCloneable
 //  clsDirectedPosition moRealPosition;
 //
