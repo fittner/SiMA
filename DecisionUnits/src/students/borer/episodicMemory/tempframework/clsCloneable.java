@@ -18,6 +18,14 @@ import java.io.Serializable;
  *
  */
 public class clsCloneable implements Cloneable, Serializable {
+	/**
+	 * DOCUMENT (deutsch) - insert description 
+	 * 
+	 * @author deutsch
+	 * 10.08.2010, 17:44:57
+	 */
+	private static final long serialVersionUID = 4911545859883706738L;
+
 	@Override
 	public Object clone() {
     try {

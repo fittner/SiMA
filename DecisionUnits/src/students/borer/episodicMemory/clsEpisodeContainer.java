@@ -21,6 +21,14 @@ import students.borer.episodicMemory.tempframework.clsContainerBaseTreeMap;
  */
 public class clsEpisodeContainer  extends clsContainerBaseTreeMap{
 	
+	/**
+	 * DOCUMENT (deutsch) - insert description 
+	 * 
+	 * @author deutsch
+	 * 10.08.2010, 17:44:22
+	 */
+	private static final long serialVersionUID = 7669363007485650414L;
+
 	public clsEpisodeContainer() {
 		super();
 	}
@@ -33,12 +41,13 @@ public class clsEpisodeContainer  extends clsContainerBaseTreeMap{
 		Integer oScenarioId = new Integer( poEpisode.getScenarioId() );
 		if( getKeySet().contains(oScenarioId) ) {
 			// there still exist episodes for this scenario
-			TreeSet oEpisodes = (TreeSet)this.getObject(oScenarioId);
+			@SuppressWarnings("unchecked")
+			TreeSet<clsEpisode> oEpisodes = (TreeSet<clsEpisode>)this.getObject(oScenarioId);
 			oEpisodes.add(poEpisode);
 		}
 		else {
 			// no Episode for this scenario exist -> generate new Set
-			TreeSet oEpisodes = new TreeSet();
+			TreeSet<clsEpisode> oEpisodes = new TreeSet<clsEpisode>();
 			oEpisodes.add(poEpisode);
 			
 			this.add(oEpisodes, oScenarioId);
@@ -55,9 +64,9 @@ public class clsEpisodeContainer  extends clsContainerBaseTreeMap{
 		clsContainerRetrievalResults oResultList = new clsContainerRetrievalResults(poCue); // maps the match of an Event to its MemoryElement entry-key
 		for(int i=0; i<poCue.moScenarios.size(); i++) {
 			Integer oScenarioId = (Integer)poCue.moScenarios.get(i);
-			TreeSet oEpisodes = (TreeSet)getContainer().get(oScenarioId);
+			TreeSet<?> oEpisodes = (TreeSet<?>)getContainer().get(oScenarioId);
 			if(oEpisodes == null) break; // no episodes of that scenarioId are in the episode container
-			Iterator oItEp = oEpisodes.iterator();
+			Iterator<?> oItEp = oEpisodes.iterator();
 			
 			while( oItEp.hasNext() ) {
 				clsEpisode oEpisode = (clsEpisode)oItEp.next();
@@ -103,11 +112,11 @@ public class clsEpisodeContainer  extends clsContainerBaseTreeMap{
 	 */
 	public int getEpisodeSize(){
 		int nSize = 0;
-		Iterator oIt = this.keySet().iterator(); 
+		Iterator<?> oIt = this.keySet().iterator(); 
 		while( oIt.hasNext() ){
 			// traverse all Episodes of all Scenarios
 			Integer oScenarioId = (Integer)oIt.next();
-			TreeSet oEpisodes = (TreeSet)getContainer().get(oScenarioId);
+			TreeSet<?> oEpisodes = (TreeSet<?>)getContainer().get(oScenarioId);
 			nSize+=oEpisodes.size();
 		}
 		return nSize;
@@ -118,10 +127,10 @@ public class clsEpisodeContainer  extends clsContainerBaseTreeMap{
 	 * @param poScenarioId The scenario Id
 	 * @return A TreeSet with the episodes of that scenario
 	 */
-	public TreeSet getEpisodesOfScenario(Integer poScenarioId){
+	public TreeSet<?> getEpisodesOfScenario(Integer poScenarioId){
 		if( getKeySet().contains(poScenarioId) ) {
 			// there exist episodes for this scenario
-			TreeSet oEpisodes = (TreeSet)this.getObject(poScenarioId);
+			TreeSet<?> oEpisodes = (TreeSet<?>)this.getObject(poScenarioId);
 			return oEpisodes;
 		}
 		return null; // no Episodes exist to this scenario id
@@ -132,12 +141,12 @@ public class clsEpisodeContainer  extends clsContainerBaseTreeMap{
 	 * @return A clsEpisode object if the episode exists, otherwise null
 	 */
 	public clsEpisode getEpisode(int pnEpId) {
-		Iterator oIt = this.keySet().iterator(); 
+		Iterator<?> oIt = this.keySet().iterator(); 
 		while( oIt.hasNext() ){
 			// traverse all Episodes of all Scenarios
 			Integer oScenarioId = (Integer)oIt.next();
-			TreeSet oEpisodes = (TreeSet)getContainer().get(oScenarioId);
-			Iterator oItEp = oEpisodes.iterator();
+			TreeSet<?> oEpisodes = (TreeSet<?>)getContainer().get(oScenarioId);
+			Iterator<?> oItEp = oEpisodes.iterator();
 			
 			while( oItEp.hasNext() ) {
 				clsEpisode oEpisode = (clsEpisode)oItEp.next();
@@ -152,13 +161,13 @@ public class clsEpisodeContainer  extends clsContainerBaseTreeMap{
 	 * Transforms the stored episodes into a vector indicated in the parameter
 	 * @param poVec The Vector, where the episodes of this container should be stored to
 	 */
-	public void getEpisodesInVector(Vector poVec) {
-		Iterator oIt = this.keySet().iterator(); 
+	public void getEpisodesInVector(Vector<clsEpisode> poVec) {
+		Iterator<?> oIt = this.keySet().iterator(); 
 		while( oIt.hasNext() ){
 			// traverse all Episodes of all Scenarios
 			Integer oScenarioId = (Integer)oIt.next();
-			TreeSet oEpisodes = (TreeSet)getContainer().get(oScenarioId);
-			Iterator oItEp = oEpisodes.iterator();
+			TreeSet<?> oEpisodes = (TreeSet<?>)getContainer().get(oScenarioId);
+			Iterator<?> oItEp = oEpisodes.iterator();
 			
 			while( oItEp.hasNext() ) {
 				clsEpisode oEpisode = (clsEpisode)oItEp.next();
@@ -178,11 +187,11 @@ public class clsEpisodeContainer  extends clsContainerBaseTreeMap{
 	@Override
 	public String toString() {
 		String oRetString = "";
-		Iterator oIt = keySet().iterator(); 
+		Iterator<?> oIt = keySet().iterator(); 
 		while( oIt.hasNext() ){
 			Integer oScenarioId = (Integer)oIt.next();
-			TreeSet oEpisodes = (TreeSet)getContainer().get(oScenarioId);
-			Iterator oItEp = oEpisodes.iterator();
+			TreeSet<?> oEpisodes = (TreeSet<?>)getContainer().get(oScenarioId);
+			Iterator<?> oItEp = oEpisodes.iterator();
 			String oScenName = null;
 			while( oItEp.hasNext() ) {
 				clsEpisode oEpisode = (clsEpisode)oItEp.next();

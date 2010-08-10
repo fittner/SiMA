@@ -13,12 +13,12 @@ import java.util.Vector;
  *  
  */
 public class clsSituation {
-	protected Vector moFeatures;
+	protected Vector<clsFeature> moFeatures;
 
 	public clsSituation() {
-		moFeatures = new Vector();  
+		moFeatures = new Vector<clsFeature>();  
 	}	
-	public clsSituation(Vector poFeatures) {
+	public clsSituation(Vector<clsFeature> poFeatures) {
 		moFeatures = poFeatures;  
 	}
 	
@@ -29,7 +29,7 @@ public class clsSituation {
 	public void addFeature(clsFeature poFeature) {
 		moFeatures.add(poFeature);
 	}
-	public Vector getFeatures() {
+	public Vector<clsFeature> getFeatures() {
 		return moFeatures;
 	}
 	
@@ -39,8 +39,8 @@ public class clsSituation {
 	 * have the following ordering:
 	 * [clsContainerDrives | clsContainerEmotions | clsContainerCompareResults | clsActionContainer]
 	 */
-	public Vector getSituationalData() {
-		Vector oSitData = new Vector();
+	public Vector<Object> getSituationalData() {
+		Vector<Object> oSitData = new Vector<Object>();
 		for(int i=0; i<moFeatures.size(); i++) {
 			clsFeature oFeat = (clsFeature)moFeatures.get(i);
 			oSitData.add( oFeat.getContainer() );

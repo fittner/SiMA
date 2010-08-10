@@ -17,7 +17,14 @@ package students.borer.episodicMemory.tempframework;
  *
  */
 public class enumTypeTrippleState extends enumClass {
-  public final static int TTRIPPLE_UNDEFINED = -1;
+  /**
+	 * DOCUMENT (deutsch) - insert description 
+	 * 
+	 * @author deutsch
+	 * 10.08.2010, 17:52:30
+	 */
+	private static final long serialVersionUID = -4397988151211420038L;
+public final static int TTRIPPLE_UNDEFINED = -1;
   public final static int TTRIPPLE_FALSE     = 0;
   public final static int TTRIPPLE_TRUE      = 1;
 

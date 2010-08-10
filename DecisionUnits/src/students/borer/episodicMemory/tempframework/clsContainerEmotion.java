@@ -22,7 +22,16 @@ import students.borer.episodicMemory.tempframework.clsContainerBaseTreeMap;
  */
 public class clsContainerEmotion extends clsContainerBaseTreeMap {
 
-  public void set(clsContainerEmotion poEmotions) {
+  /**
+	 * DOCUMENT (deutsch) - insert description 
+	 * 
+	 * @author deutsch
+	 * 10.08.2010, 17:50:19
+	 */
+	private static final long serialVersionUID = -887467857399638294L;
+
+@SuppressWarnings("rawtypes")
+public void set(clsContainerEmotion poEmotions) {
      moContainer.clear();
 
     Set oTemp = poEmotions.moContainer.keySet();
@@ -47,7 +56,8 @@ public class clsContainerEmotion extends clsContainerBaseTreeMap {
     return ((clsEmotion)poObject).toString();
   }
 
-  public void resetValues()
+  @SuppressWarnings("rawtypes")
+public void resetValues()
   {
     Set oTemp = moContainer.keySet();
 

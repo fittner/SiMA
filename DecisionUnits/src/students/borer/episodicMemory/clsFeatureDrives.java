@@ -15,6 +15,7 @@ public class clsFeatureDrives extends clsFeature  {
 	 * mnSpontaneousRetrievalEnabled have to be set false.
 	 * @param poDriveList The container with the individual drives of this situation
 	 */
+	@SuppressWarnings("unchecked")
 	public clsFeatureDrives(clsContainerDrive poDriveList) {
 		super();
 		mnTriggerEncodingEnabled = true;

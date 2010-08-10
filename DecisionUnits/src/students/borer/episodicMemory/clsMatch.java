@@ -12,7 +12,7 @@ public class clsMatch {
 	/**
 	 * The feature matches of the respective features that are indicated in the retrieval cue
 	 */
-	public Vector moFeatureMatches;
+	public Vector<clsMatchFeature> moFeatureMatches;
 	public cls0to1 moMatch;
 	/**
 	 * true: the value of clsMatch.moMatch is valid, otherwise the method calculateMatch() has to be called to derive a match
@@ -20,7 +20,7 @@ public class clsMatch {
 	public boolean mnValid;
 
 	public clsMatch() {
-		moFeatureMatches = new Vector();
+		moFeatureMatches = new Vector<clsMatchFeature>();
 		moMatch = new cls0to1();
 		mnValid = false;
 	}

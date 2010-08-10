@@ -36,7 +36,14 @@ import memory.tempframework.enumTypeActionSource;
  *
  */
 public class clsEmotion extends clsCloneable {
-  int meTypeId;
+  /**
+	 * DOCUMENT (deutsch) - insert description 
+	 * 
+	 * @author deutsch
+	 * 10.08.2010, 17:51:12
+	 */
+	private static final long serialVersionUID = -5248506288012290780L;
+int meTypeId;
   int meLevel = enumTypeLevelEmotion.TLEVELEMOTION_UNDEFINED;
   float moValue;
 

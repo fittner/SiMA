@@ -16,7 +16,7 @@ public class clsMatchFeature {
 	/**
 	 * The individual matches of the feature elements indicated in the cue feature
 	 */
-	public Vector moElementMatches;
+	public Vector<clsMatchFeatureElement> moElementMatches;
 	public cls0to1 moMatch;
 	/**
 	 * true: the value of clsMatchFeature.moMatch is valid, otherwise the method calculateMatch() has to be called to derive a match
@@ -25,7 +25,7 @@ public class clsMatchFeature {
 
 	public clsMatchFeature(clsFeature poFeature) {
 		moFeature = poFeature;
-		moElementMatches = new Vector();
+		moElementMatches = new Vector<clsMatchFeatureElement>();
 		moMatch = new cls0to1();
 		mnValid = false;
 	}

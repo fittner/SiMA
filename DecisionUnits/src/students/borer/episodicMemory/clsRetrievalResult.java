@@ -9,7 +9,7 @@ import students.borer.episodicMemory.tempframework.cls0to1;
 /**
  * The class clsRetrievalResult represents the retrieval result of a stored event to a certain retrieval cue. The retrieval result of an event is determined by matching of features to the cue and its activation level. This class implements the interface Comparable: retrieval results are compared according their result value. (Result = ALPHA*Match + BETA*Activation). $Revision: 572 $:  Revision of last commit $Author: deutsch $: Author of last commit $Date: 2007-05-31 10:56:07 +0200 (Do, 31 Mai 2007) $: Date of last commit
  */
-public class clsRetrievalResult implements Comparable{
+public class clsRetrievalResult implements Comparable<Object>{
 	public clsEvent moEvent;
 	public clsMatch moMatch;
 	public cls0to1 moResult;
@@ -75,12 +75,12 @@ public class clsRetrievalResult implements Comparable{
 	public String toString() {
 		String oRet = "Event "+moEvent.moMemoryKey.intValue()+ ":  RetrievRes="+getResult() + 
 		"   (Act="+ moEvent.getActivation().get() + "  ,Match="+moMatch.getMatch()+")";
-		Iterator oIt = moEvent.moRelatedEpisodes.keySet().iterator(); 
+		Iterator<?> oIt = moEvent.moRelatedEpisodes.keySet().iterator(); 
 		while( oIt.hasNext() ){
 			// traverse all Episodes of all Scenarios
 			Integer oScenarioId = (Integer)oIt.next();
-			TreeSet oEpisodes = (TreeSet)moEvent.moRelatedEpisodes.getContainer().get(oScenarioId);
-			Iterator oItEp = oEpisodes.iterator();
+			TreeSet<?> oEpisodes = (TreeSet<?>)moEvent.moRelatedEpisodes.getContainer().get(oScenarioId);
+			Iterator<?> oItEp = oEpisodes.iterator();
 			
 			while( oItEp.hasNext() ) {
 				clsEpisode oEpisode = (clsEpisode)oItEp.next();

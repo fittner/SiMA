@@ -20,6 +20,14 @@ package students.borer.episodicMemory.tempframework;
  *
  */
 public class clsImagePerception extends clsImageGeneric {
+
+	/**
+	 * DOCUMENT (deutsch) - insert description 
+	 * 
+	 * @author deutsch
+	 * 10.08.2010, 17:51:17
+	 */
+	private static final long serialVersionUID = 2854367310841116226L;
 //  public clsContainerHealthState    moHealthStateList;
 //  public clsContainerPercSmellOMats moSmellingList;
 //  public clsContainerPercAcoustics  moAcousticList;

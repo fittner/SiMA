@@ -9,14 +9,14 @@ import students.borer.episodicMemory.tempframework.clsScenario;
 /**
  * The class clsEpisode represents an episode as a realization of a scenario template. It consists of the series of events (the reference to the respective events in the memory container is stored) within which the respective scenario recognition process has been recognized. It implements the interface Comparable -- episodes are compared and may further be sorted according to the moment of their termination i.e. the occurence of the end event. $Revision: 572 $:  Revision of last commit $Author: deutsch $: Author of last commit $Date: 2007-05-31 10:56:07 +0200 (Do, 31 Mai 2007) $: Date of last commit
  */
-public class clsEpisode implements Comparable {
+public class clsEpisode implements Comparable<Object> {
 	public Integer moEpisodeId;
 	public clsEvent moStartEvent; 
 	public clsEvent moEndEvent;
 	/**
 	 * The content of the episode (the series of events within the recognition of a scenario)
 	 */
-	public Vector moEventList;
+	public Vector<clsEvent> moEventList;
 	/**
 	 * The context of the episode (the scenario template, the episode is a realization of)
 	 */
@@ -34,7 +34,7 @@ public class clsEpisode implements Comparable {
 		moRecognitionProcess = poRecognitionProcess;
 		moScenario = moRecognitionProcess.moRelativeScenario;
 		setStartEvent(poStartEvent);
-		moEventList = new Vector();
+		moEventList = new Vector<clsEvent>();
 	}
 	private void setStartEvent(clsEvent poStartEvent) {
 		moStartEvent = poStartEvent;		
@@ -91,7 +91,7 @@ public class clsEpisode implements Comparable {
 	 * @return The best retrieval result of the episode
 	 */
 	public clsRetrievalResult retrieve(clsRetrievalCue poCue){
-		Vector oCueFeatures = null;
+		Vector<?> oCueFeatures = null;
 		if(poCue.moEvent==null){
 			// the cue is constructed by an arbitrary selection of features
 			oCueFeatures = poCue.getArbitraryCue();

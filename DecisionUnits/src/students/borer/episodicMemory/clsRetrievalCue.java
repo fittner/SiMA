@@ -26,7 +26,7 @@ public class clsRetrievalCue {
 	public clsActionContainer moActionList = null;
 	
 	// use optionally an scenario as cue -> only the episodes that are realizations of the scenario are traversed
-	public Vector moScenarios = null;
+	public Vector<Integer> moScenarios = null;
 	
 	public clsRetrievalCue() {		
 	}
@@ -36,7 +36,7 @@ public class clsRetrievalCue {
 	 * @param poId The id of the scenario
 	 */
 	public void addScenarioId(Integer poId) {
-		if(moScenarios == null) moScenarios = new Vector();
+		if(moScenarios == null) moScenarios = new Vector<Integer>();
 		moScenarios.add(poId);
 	}
 	
@@ -80,11 +80,11 @@ public class clsRetrievalCue {
 	 * Returns the arbitrary constructed retrieval cue
 	 * @return The features used as cue in an unsorted list (java.util.Vector)
 	 */
-	public Vector getArbitraryCue() {
-		Vector oFeatures = null; 
+	public Vector<clsFeature> getArbitraryCue() {
+		Vector<clsFeature> oFeatures = null; 
 		if(moEvent == null) {
 			// cue with arbitrary feature selection
-			oFeatures = new Vector();
+			oFeatures = new Vector<clsFeature>();
 			if(moDriveList != null) {
 				// should retrieval for drives be supported???
 				if(moDriveList.size() > 0) {

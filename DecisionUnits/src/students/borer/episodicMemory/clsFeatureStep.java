@@ -4,6 +4,7 @@ import students.borer.LocalizationOrientation.clsStep;
 
 public class clsFeatureStep extends clsFeature {
 
+	@SuppressWarnings("unchecked")
 	public clsFeatureStep(clsStep Area){
 	super();
 	mnTriggerEncodingEnabled = true;

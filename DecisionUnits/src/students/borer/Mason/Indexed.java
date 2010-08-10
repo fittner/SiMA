@@ -12,7 +12,8 @@ public interface Indexed
     {
     /** Should return the base component type for this Indexed object, or
         null if the component type should be queried via getValue(index).getClass.getComponentType() */
-    public Class componentType();
+    @SuppressWarnings("rawtypes")
+	public Class componentType();
     public int size();
     /** Throws an IndexOutOfBoundsException if index is inappropriate, and IllegalArgumentException
         if the value is inappropriate.  Not called set() in order to be consistent with getValue(...)*/

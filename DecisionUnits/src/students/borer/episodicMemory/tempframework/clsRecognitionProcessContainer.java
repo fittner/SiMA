@@ -21,7 +21,15 @@ import students.borer.episodicMemory.tempframework.clsContainerBaseVector;
  */
 public class clsRecognitionProcessContainer extends clsContainerBaseVector
 {
-  //---------------------------------------------------------------------------
+  /**
+	 * DOCUMENT (deutsch) - insert description 
+	 * 
+	 * @author deutsch
+	 * 10.08.2010, 17:51:26
+	 */
+	private static final long serialVersionUID = 6157342565504183479L;
+
+//---------------------------------------------------------------------------
   public clsRecognitionProcess get(int pnPos) 
   //---------------------------------------------------------------------------
   {

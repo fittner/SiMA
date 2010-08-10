@@ -56,12 +56,14 @@ public class clsEvent extends clsSituation{
 	 * if set true: the history of the activation level is captured by the Vector moVisActHistory
 	 */
 	public static boolean mnVisualizeActivation; 
+	@SuppressWarnings("rawtypes")
 	public Vector moVisActHistory = new Vector();
 	public int mnVisActHistorySize = 130; // the size of the activation history vector
 	public int mnVisSampleRate = 40; // Record the Activation level every <mnVisSampleRate> simulation steps
 	public int mnVisCounter = 0;
 //	----------------------------------------------------	
 	
+	@SuppressWarnings({ "rawtypes", "unchecked" })
 	public clsEvent (Vector poFeatures) {
 		super(poFeatures);
 		moSalience = new cls0to1();
@@ -177,6 +179,7 @@ public class clsEvent extends clsSituation{
 	 * @param poCueFeatures An arbitrary selection of cue features 
 	 * @return An object of the class clsMatch representing the matching of features of this event to the cue features
 	 */
+	@SuppressWarnings("rawtypes")
 	public clsMatch getMatch(Vector poCueFeatures) {
 		clsMatch oMatch = new clsMatch();
 		for(int i=0; i<poCueFeatures.size(); i++) {
@@ -209,6 +212,7 @@ public class clsEvent extends clsSituation{
 	 * Boosts the activation of this event with the value defined by the parameter ACTIVATION_BOOST.
 	 * @param poBoostRelatedEpisodes If this parameter is set true, all episodes this event belongs to are further strenghtened
 	 */
+	@SuppressWarnings("rawtypes")
 	public void boost(boolean poBoostRelatedEpisodes) {
 		mnIntActValue-= getIntBoost();
 		if(mnIntActValue < 0) mnIntActValue=0;
@@ -241,6 +245,7 @@ public class clsEvent extends clsSituation{
 	 * Updates the activation of the event. Represents the decay of the activation level
 	 *
 	 */
+	@SuppressWarnings("unchecked")
 	public void updateActivation() {
 		if(mnIntActValue <= 30000) {
 			mnIntActValue+=2;

@@ -18,7 +18,15 @@ import students.borer.episodicMemory.tempframework.clsCloneable;
  *
  */
 abstract class clsContainerBase extends clsCloneable implements Cloneable  {
-  public clsContainerBase() {
+  /**
+	 * DOCUMENT (deutsch) - insert description 
+	 * 
+	 * @author deutsch
+	 * 10.08.2010, 17:45:11
+	 */
+	private static final long serialVersionUID = 2589696294238081991L;
+
+public clsContainerBase() {
   }
 
   abstract public void add(Object poObject);

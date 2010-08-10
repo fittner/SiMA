@@ -18,7 +18,14 @@ import students.borer.episodicMemory.tempframework.clsCloneable;
  *
  */
 abstract class enumClass extends clsCloneable {
-  public final static int TENUM_UNDEFINED    = Integer.MIN_VALUE;
+  /**
+	 * DOCUMENT (deutsch) - insert description 
+	 * 
+	 * @author deutsch
+	 * 10.08.2010, 17:51:32
+	 */
+	private static final long serialVersionUID = -266465548047124483L;
+public final static int TENUM_UNDEFINED    = Integer.MIN_VALUE;
 
   /** 
     * converts the enum value to a human readable string

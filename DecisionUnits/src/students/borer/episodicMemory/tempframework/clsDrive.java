@@ -25,7 +25,14 @@ import students.borer.episodicMemory.tempframework.enumTypeLevelDrive;
  *
  */
 public class clsDrive extends clsCloneable {
-  int meTypeId;
+  /**
+	 * DOCUMENT (deutsch) - insert description 
+	 * 
+	 * @author deutsch
+	 * 10.08.2010, 17:50:53
+	 */
+	private static final long serialVersionUID = -4062765581905197300L;
+int meTypeId;
   int meLevel = enumTypeLevelDrive.TLEVELDRIVE_UNDEFINED;
 
   float moValue;

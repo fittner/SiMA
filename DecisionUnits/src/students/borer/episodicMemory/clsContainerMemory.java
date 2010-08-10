@@ -9,6 +9,13 @@ import students.borer.episodicMemory.tempframework.clsContainerBaseVector;
  * The class clsContainerMemory represents the memory container that deposits all stored events chronologically ordered. The events are organized in a java.util.Vector data structure which is inherited from the class clsContainerBaseVector. It further incorporates an episode container which contains all stored episode which are stored according to its context. $Revision: 627 $:  Revision of last commit $Author: deutsch $: Author of last commit $Date: 2007-06-25 12:20:22 +0200 (Mo, 25 Jun 2007) $: Date of last commit
  */
 public class clsContainerMemory extends clsContainerBaseVector {
+	/**
+	 * DOCUMENT (deutsch) - insert description 
+	 * 
+	 * @author deutsch
+	 * 10.08.2010, 17:43:58
+	 */
+	private static final long serialVersionUID = 1833984411923037619L;
 	private int mnCurrentMemKey;
 	/**
 	 * The container with the stored episodes
@@ -79,6 +86,7 @@ public class clsContainerMemory extends clsContainerBaseVector {
  * @param poCue The retrieval cue that containing the retrieval information
  * @return A retrieval results container (clsContainerRetrievalResults)
  */	
+	@SuppressWarnings("rawtypes")
 	public clsContainerRetrievalResults retrieve(clsRetrievalCue poCue) {
 //		 make retrieval possible when at #MIN_EVENTS_FOR_RETRIEVAL events are in the memory
 		if (this.size() < MIN_EVENTS_FOR_RETRIEVAL) return null; 

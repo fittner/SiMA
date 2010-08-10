@@ -17,7 +17,15 @@ package students.borer.episodicMemory.tempframework;
  *
  */
 public class enumTypeLevelDrive extends enumClass {
-  public final static int TLEVELDRIVE_UNDEFINED = -1;
+  /**
+	 * DOCUMENT (deutsch) - insert description 
+	 * 
+	 * @author deutsch
+	 * 10.08.2010, 17:52:24
+	 */
+	private static final long serialVersionUID = 8573387752746960586L;
+
+public final static int TLEVELDRIVE_UNDEFINED = -1;
 
   public final static int TLEVELDRIVE_NORMAL    = 0;
   public final static int TLEVELDRIVE_VERYLOW   = 1;

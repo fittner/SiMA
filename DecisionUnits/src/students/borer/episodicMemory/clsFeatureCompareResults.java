@@ -15,6 +15,7 @@ public class clsFeatureCompareResults extends clsFeature  {
 	 * mnSpontaneousRetrievalEnabled have to be set false.
 	 * @param poImageCompareResults The container with the individual TI-matches of this situation
 	 */
+	@SuppressWarnings("unchecked")
 	public clsFeatureCompareResults(clsContainerCompareResults poImageCompareResults) {
 		super();
 		moContainerCompareResults = poImageCompareResults;

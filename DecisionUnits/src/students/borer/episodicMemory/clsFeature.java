@@ -9,6 +9,7 @@ import students.borer.episodicMemory.tempframework.cls0to1;
  * The class clsFeature suppports the functionalities which ar the same for each feature. It consists of various feature elements, which have to be of the same type as the respective feature. E.g. the feature elements for the feature emotions (clsFeatureEmotions) have to be of the type clsElementEmotion. The feature is rated by a salience value, which determines whether this feature is relevant in a situation. $Revision: 572 $:  Revision of last commit $Author: deutsch $: Author of last commit $Date: 2007-05-31 10:56:07 +0200 (Do, 31 Mai 2007) $: Date of last commit
  */
 abstract public class clsFeature {
+	@SuppressWarnings("rawtypes")
 	protected Vector moFeatureElements;  // contains the FeatureContent Objects
 	public cls0to1 moSalience;
 	/**
@@ -24,10 +25,12 @@ abstract public class clsFeature {
 	 */
 	public static float SALIENCE_THRESHOLD = 0.2f;
 
+	@SuppressWarnings("rawtypes")
 	public clsFeature() {
 		moFeatureElements = new Vector();
 		moSalience = new cls0to1(0);
 	}
+	@SuppressWarnings("rawtypes")
 	public Vector getFeatureElements() {
 		return moFeatureElements;
 	}

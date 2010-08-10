@@ -18,7 +18,14 @@ import java.io.Serializable;
  *
  */
 public class clsMutableInteger extends clsCloneable implements Serializable {
-    private int m_value;
+    /**
+	 * DOCUMENT (deutsch) - insert description 
+	 * 
+	 * @author deutsch
+	 * 10.08.2010, 17:51:20
+	 */
+	private static final long serialVersionUID = -3848858422506736204L;
+	private int m_value;
     
     /** Constructor */
     public clsMutableInteger(int value) {

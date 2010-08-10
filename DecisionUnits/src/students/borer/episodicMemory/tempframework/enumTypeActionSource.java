@@ -10,7 +10,15 @@ package students.borer.episodicMemory.tempframework;
 
 // Class definition
 public class enumTypeActionSource extends enumClass {
-  public final static int TACTIONSOURCE_UNDEFINED    = -1;
+  /**
+	 * DOCUMENT (deutsch) - insert description 
+	 * 
+	 * @author deutsch
+	 * 10.08.2010, 17:52:00
+	 */
+	private static final long serialVersionUID = 7672116296613522314L;
+
+public final static int TACTIONSOURCE_UNDEFINED    = -1;
 
   public final static int TACTIONSOURCE_NOTHING = 0;
   public final static int TACTIONSOURCE_OUTER   = 1;

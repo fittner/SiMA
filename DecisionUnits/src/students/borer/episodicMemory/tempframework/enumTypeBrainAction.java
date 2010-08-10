@@ -18,7 +18,15 @@ package students.borer.episodicMemory.tempframework;
  *
  */
 public class enumTypeBrainAction extends enumClass {
-  public final static int TBRAINACTION_UNDEFINED             = -1;
+  /**
+	 * DOCUMENT (deutsch) - insert description 
+	 * 
+	 * @author deutsch
+	 * 10.08.2010, 17:51:49
+	 */
+	private static final long serialVersionUID = 5862384332228803880L;
+
+public final static int TBRAINACTION_UNDEFINED             = -1;
 
   public final static int TBRAINACTION_NOTHING               = 0;
 

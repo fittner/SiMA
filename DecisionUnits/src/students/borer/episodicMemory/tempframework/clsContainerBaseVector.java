@@ -19,16 +19,23 @@ import java.util.Iterator;
  *
  */
 abstract public class clsContainerBaseVector extends clsContainerBase {
-  protected Vector moContainer;
+  /**
+	 * DOCUMENT (deutsch) - insert description 
+	 * 
+	 * @author deutsch
+	 * 10.08.2010, 17:45:19
+	 */
+	private static final long serialVersionUID = 2238360939922794076L;
+protected Vector<Object> moContainer;
   protected int mnMaxSize = -1;
 
   public clsContainerBaseVector() {
     super();
-    moContainer = new Vector();
+    moContainer = new Vector<Object>();
   }
   public clsContainerBaseVector(int pnMaxSize) {
     super();
-    moContainer = new Vector();
+    moContainer = new Vector<Object>();
     setMaxSize(pnMaxSize);
   }
 
@@ -69,7 +76,7 @@ abstract public class clsContainerBaseVector extends clsContainerBase {
     return oResult;
   }
 
-  public Vector getContainer() {
+  public Vector<Object> getContainer() {
     return moContainer;
   }
 
@@ -103,7 +110,7 @@ abstract public class clsContainerBaseVector extends clsContainerBase {
     oResult = "["+size()+"] ";
 
     if (moContainer.size()>0) {
-      Iterator oI = moContainer.iterator();
+      Iterator<Object> oI = moContainer.iterator();
       while (oI.hasNext()) {
         oResult += "\n "+gettoString(oI.next());
       }

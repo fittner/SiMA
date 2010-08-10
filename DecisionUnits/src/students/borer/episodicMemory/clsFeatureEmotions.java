@@ -16,6 +16,7 @@ public class clsFeatureEmotions extends clsFeature  {
 	 * mnSpontaneousRetrievalEnabled have to be set false.
 	 * @param poEmotions The container with the individual emotions of this situation
 	 */
+	@SuppressWarnings("unchecked")
 	public clsFeatureEmotions(clsContainerEmotion poEmotions) {
 		super();
 		moContainerEmotions = poEmotions;

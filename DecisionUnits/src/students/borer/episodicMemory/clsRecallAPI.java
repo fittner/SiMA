@@ -16,7 +16,7 @@ public class clsRecallAPI {
 	private clsContainerMemory moMemory; // 
 	private int mnCurrMemKey=0;
 	private clsEpisode moCurrEpisode = null;
-	private Iterator moIt = null;
+	private Iterator<?> moIt = null;
 	
 	/**
 	 * Standard constructor
@@ -42,7 +42,7 @@ public class clsRecallAPI {
 	 * have the following ordering:
 	 * [clsContainerDrives | clsContainerEmotions | clsContainerCompareResults | clsActionContainer]
 	 */
-	public Vector getSituation() {
+	public Vector<?> getSituation() {
 		mnCurrMemKey = moResult.moEvent.moMemoryKey.intValue();
 		moResult.moEvent.boost(true); // event is recalled -> true: boost events that belong to the same episode as well
 		return moResult.moEvent.getSituationalData();
@@ -54,7 +54,7 @@ public class clsRecallAPI {
 	 * have the following ordering:
 	 * [clsContainerDrives | clsContainerEmotions | clsContainerCompareResults | clsActionContainer]
 	 */
-	public Vector getNextSituation() {
+	public Vector<?> getNextSituation() {
 		mnCurrMemKey++;
 		clsEvent oEvent = (clsEvent)moMemory.getObject(mnCurrMemKey);
 		oEvent.boost(false); // event is recalled -> boost but do not boost related episodes
@@ -67,7 +67,7 @@ public class clsRecallAPI {
 	 * have the following ordering:
 	 * [clsContainerDrives | clsContainerEmotions | clsContainerCompareResults | clsActionContainer]
 	 */
-	public Vector getPrevSituation() {
+	public Vector<?> getPrevSituation() {
 		mnCurrMemKey--;
 		clsEvent oEvent = (clsEvent)moMemory.getObject(mnCurrMemKey);
 		oEvent.boost(false); // event is recalled -> boost but do not boost related episodes
@@ -78,9 +78,9 @@ public class clsRecallAPI {
 	 * Returns the scenario id's of the episodes, the retrieved event is related to. 
 	 * @return A java.util.Vector with the respective scenario id's.
 	 */
-	public Vector getScenarios() {
-		Vector oScenarios = new Vector();
-		Iterator oIt = moResult.moEvent.moRelatedEpisodes.keySet().iterator(); 
+	public Vector<Integer> getScenarios() {
+		Vector<Integer> oScenarios = new Vector<Integer>();
+		Iterator<?> oIt = moResult.moEvent.moRelatedEpisodes.keySet().iterator(); 
 		while( oIt.hasNext() ){
 			// traverse all Episodes of all Scenarios
 			Integer oScenarioId = (Integer)oIt.next();
@@ -99,7 +99,7 @@ public class clsRecallAPI {
 	public boolean nextEpisode(Integer poScenarioId){
 		// sets the moCurrEpisode to the next episode of the scenario indicated in the parameter
 		clsEpisodeContainer oEpisodeList = moResult.moEvent.moRelatedEpisodes;
-		TreeSet oEpisodes = (TreeSet)oEpisodeList.getContainer().get(poScenarioId);
+		TreeSet<?> oEpisodes = (TreeSet<?>)oEpisodeList.getContainer().get(poScenarioId);
 		if(oEpisodes == null)  return false; // does not contain any episode of that scenario
 		
 		if(moCurrEpisode == null){
@@ -138,7 +138,7 @@ public class clsRecallAPI {
 	 * [clsContainerDrives | clsContainerEmotions | clsContainerCompareResults | clsActionContainer].
 	 * The return value is null, if the last event of the episode is reached
 	 */
-	public Vector getNextSituationOfEpisode() {
+	public Vector<?> getNextSituationOfEpisode() {
 		if(moCurrEpisode==null) return null;
 		mnCurrMemKey++;
 		if( mnCurrMemKey > moCurrEpisode.moEndEvent.moMemoryKey.intValue() ) {
@@ -158,7 +158,7 @@ public class clsRecallAPI {
 	 * [clsContainerDrives | clsContainerEmotions | clsContainerCompareResults | clsActionContainer].
 	 * The return value is null, if the first event of the episode is reached
 	 */
-	public Vector getPrevSituationOfEpisode() {
+	public Vector<?> getPrevSituationOfEpisode() {
 		if(moCurrEpisode==null) return null;
 		mnCurrMemKey--;
 		if( mnCurrMemKey < moCurrEpisode.moStartEvent.moMemoryKey.intValue() ) {
@@ -177,7 +177,7 @@ public class clsRecallAPI {
 	 * [clsContainerDrives | clsContainerEmotions | clsContainerCompareResults | clsActionContainer].
 	 * The return value is null, no episode has been selected before by calling the method nextEpisode()
 	 */
-	public Vector getLastSituationOfEpisode() {
+	public Vector<?> getLastSituationOfEpisode() {
 		if(moCurrEpisode==null) return null;
 		clsEvent oEvent = moCurrEpisode.moEndEvent;
 		mnCurrMemKey = oEvent.moMemoryKey.intValue();
@@ -192,7 +192,7 @@ public class clsRecallAPI {
 	 * [clsContainerDrives | clsContainerEmotions | clsContainerCompareResults | clsActionContainer].
 	 * The return value is null, no episode has been selected before by calling the method nextEpisode()
 	 */
-	public Vector getFirstSituationOfEpisode() {
+	public Vector<?> getFirstSituationOfEpisode() {
 		if(moCurrEpisode==null) return null;
 		clsEvent oEvent = moCurrEpisode.moStartEvent;
 		mnCurrMemKey = oEvent.moMemoryKey.intValue();

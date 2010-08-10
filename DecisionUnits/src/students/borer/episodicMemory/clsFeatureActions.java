@@ -15,6 +15,7 @@ public class clsFeatureActions extends clsFeature{
 	 * mnSpontaneousRetrievalEnabled have to be set false.
 	 * @param poActionList The container with the individual actions of this situation
 	 */
+	@SuppressWarnings("unchecked")
 	public clsFeatureActions(clsActionContainer poActionList) {
 		super();
 		moContainerActions = poActionList;

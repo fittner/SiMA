@@ -15,12 +15,19 @@ import students.borer.episodicMemory.tempframework.clsMutableInteger;
  * This is the class description ... $Revision: 572 $:  Revision of last commit $Author: deutsch $: Author of last commit $Date: 2007-05-31 10:56:07 +0200 (Do, 31 Mai 2007) $: Date of last commit
  */
 abstract public class clsContainerBaseTreeMap extends clsContainerBase {
-  protected TreeMap moContainer;
+  /**
+	 * DOCUMENT (deutsch) - insert description 
+	 * 
+	 * @author deutsch
+	 * 10.08.2010, 17:45:02
+	 */
+	private static final long serialVersionUID = -5881821135473611729L;
+protected TreeMap<Integer, Object> moContainer;
   protected clsMutableInteger moMaxKey;
 
   public clsContainerBaseTreeMap() {
     super();
-    moContainer = new TreeMap();
+    moContainer = new TreeMap<Integer, Object>();
     moMaxKey = new clsMutableInteger(-1);
   }
 
@@ -48,19 +55,19 @@ abstract public class clsContainerBaseTreeMap extends clsContainerBase {
     return moContainer.get(poKey);
   }
 
-  public TreeMap getContainer() {
+  public TreeMap<Integer, Object> getContainer() {
     return moContainer;
   }
 
-  public Set keySet() {
+  public Set<Integer> keySet() {
     return moContainer.keySet();
   }
 
   @Override
   public void remove(Object poObject) {
-    Set oTemp = moContainer.keySet();
+    Set<Integer> oTemp = moContainer.keySet();
 
-    Iterator oI = oTemp.iterator();
+    Iterator<Integer> oI = oTemp.iterator();
     while (oI.hasNext()) {
       Integer oKey = (Integer)oI.next();
 
@@ -82,7 +89,7 @@ abstract public class clsContainerBaseTreeMap extends clsContainerBase {
     moContainer.clear();
   }
 
-  public Set getKeySet() {
+  public Set<Integer> getKeySet() {
     return moContainer.keySet();
   }
 
@@ -95,12 +102,12 @@ abstract public class clsContainerBaseTreeMap extends clsContainerBase {
   public String toString() {
     String oResult = "";
 
-    Set oTemp = moContainer.keySet();
+    Set<Integer> oTemp = moContainer.keySet();
 
     oResult = "["+size()+"]\n";
 
     if (oTemp.size()>0) {
-      Iterator oI = oTemp.iterator();
+      Iterator<Integer> oI = oTemp.iterator();
       while (oI.hasNext()) {
         Integer oKey = (Integer)oI.next();
 

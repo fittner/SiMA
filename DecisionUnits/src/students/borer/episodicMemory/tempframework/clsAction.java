@@ -103,7 +103,8 @@ public class clsAction
     return oResult;
   }
 
-  public static class PriorityComparer implements Comparator 
+  @SuppressWarnings("rawtypes")
+public static class PriorityComparer implements Comparator 
   {
     //---------------------------------------------------------------------------
     @Override

@@ -18,7 +18,14 @@ import java.io.Serializable;
  *
  */
 public class cls0to1 extends clsCloneable implements Serializable {
-  float mrValue = 0;
+  /**
+	 * DOCUMENT (deutsch) - insert description 
+	 * 
+	 * @author deutsch
+	 * 10.08.2010, 17:44:42
+	 */
+	private static final long serialVersionUID = 7209378841067978619L;
+float mrValue = 0;
   float mrMinValue = 0;
   float mrMaxValue = 1;
 

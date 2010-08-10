@@ -12,7 +12,14 @@ import students.borer.episodicMemory.tempframework.clsCloneable;
  * This is the class description ... $Revision: 572 $:  Revision of last commit $Author: deutsch $: Author of last commit $Date: 2007-05-31 10:56:07 +0200 (Do, 31 Mai 2007) $: Date of last commit
  */
 public class clsRuleCompareResult extends clsCloneable {
-  public cls0to1 moMatch;  //percent of coverage of imagePerception and imageAbstract
+  /**
+	 * DOCUMENT (deutsch) - insert description 
+	 * 
+	 * @author deutsch
+	 * 10.08.2010, 17:51:07
+	 */
+	private static final long serialVersionUID = 5658540169353787671L;
+public cls0to1 moMatch;  //percent of coverage of imagePerception and imageAbstract
   public Integer moAbstractImageId;
 //  public clsImageAbstract moAbstractImage;
 //

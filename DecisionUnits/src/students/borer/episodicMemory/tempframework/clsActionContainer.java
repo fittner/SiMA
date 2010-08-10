@@ -21,7 +21,15 @@ import students.borer.episodicMemory.tempframework.enumTypeTrippleState;
  */
 public class clsActionContainer extends clsContainerBaseVector
 {
-  public clsAction get(int pnPos) {
+  /**
+	 * DOCUMENT (deutsch) - insert description 
+	 * 
+	 * @author deutsch
+	 * 10.08.2010, 17:44:51
+	 */
+	private static final long serialVersionUID = 446418109514984548L;
+
+public clsAction get(int pnPos) {
     return (clsAction)getObject(pnPos);
   }
 

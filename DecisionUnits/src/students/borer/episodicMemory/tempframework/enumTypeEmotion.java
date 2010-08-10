@@ -17,7 +17,14 @@ package students.borer.episodicMemory.tempframework;
  *
  */
 public class enumTypeEmotion extends enumClass {
-  public final static int TEMOTION_UNDEFINED  = -1;
+  /**
+	 * DOCUMENT (deutsch) - insert description 
+	 * 
+	 * @author deutsch
+	 * 10.08.2010, 17:51:55
+	 */
+	private static final long serialVersionUID = 2827015607716475631L;
+public final static int TEMOTION_UNDEFINED  = -1;
   public final static int TEMOTION_ANY        = 0;
   public final static int TEMOTION_FEAR       = 1;
   public final static int TEMOTION_ANGER      = 2;

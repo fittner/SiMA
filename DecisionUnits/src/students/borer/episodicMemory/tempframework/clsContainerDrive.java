@@ -23,7 +23,15 @@ import students.borer.episodicMemory.tempframework.clsContainerBaseTreeMap;
  */
 public class clsContainerDrive extends clsContainerBaseTreeMap {
 
-  public clsDrive get(int pnKey) {
+  /**
+	 * DOCUMENT (deutsch) - insert description 
+	 * 
+	 * @author deutsch
+	 * 10.08.2010, 17:47:48
+	 */
+	private static final long serialVersionUID = 1696190007310637859L;
+
+public clsDrive get(int pnKey) {
     return (clsDrive)getObject(new Integer(pnKey));
   }
   public clsDrive get(Integer poKey) {
@@ -37,9 +45,9 @@ public class clsContainerDrive extends clsContainerBaseTreeMap {
 
   public void resetValues()
   {
-    Set oTemp = moContainer.keySet();
+    Set<?> oTemp = moContainer.keySet();
 
-    Iterator oI = oTemp.iterator();
+    Iterator<?> oI = oTemp.iterator();
     while (oI.hasNext()) {
       Integer oKey = (Integer)oI.next();
 

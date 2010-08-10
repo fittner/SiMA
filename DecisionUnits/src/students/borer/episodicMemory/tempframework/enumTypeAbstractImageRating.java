@@ -18,7 +18,15 @@ package students.borer.episodicMemory.tempframework;
  */
 public class enumTypeAbstractImageRating extends enumClass {
 
-  public final static int TAIRATING_UNDEFINED = -1;
+  /**
+	 * DOCUMENT (deutsch) - insert description 
+	 * 
+	 * @author deutsch
+	 * 10.08.2010, 17:51:38
+	 */
+	private static final long serialVersionUID = 5522241631274150280L;
+
+public final static int TAIRATING_UNDEFINED = -1;
 
   public final static int TAIRATING_NULL      = 0;
   public final static int TAIRATING_LOW       = 1;

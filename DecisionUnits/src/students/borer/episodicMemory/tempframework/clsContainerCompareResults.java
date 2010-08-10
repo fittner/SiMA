@@ -30,7 +30,15 @@ import students.borer.episodicMemory.tempframework.clsRuleCompareResult;
  *
  */
 public class clsContainerCompareResults  extends clsContainerBaseVector {
-  public clsContainerCompareResults(int pnMaxSize) {
+  /**
+	 * DOCUMENT (deutsch) - insert description 
+	 * 
+	 * @author deutsch
+	 * 10.08.2010, 17:45:29
+	 */
+	private static final long serialVersionUID = 1434376115842954246L;
+
+public clsContainerCompareResults(int pnMaxSize) {
     super(pnMaxSize);
   } 
   public clsContainerCompareResults() {
@@ -119,7 +127,8 @@ public class clsContainerCompareResults  extends clsContainerBaseVector {
     } else {
       String oResult = "";
 
-      Iterator i = moContainer.iterator();
+      @SuppressWarnings("rawtypes")
+	Iterator i = moContainer.iterator();
 
       while (i.hasNext()) {
         clsRuleCompareResult oCompResult = (clsRuleCompareResult)i.next();

@@ -35,9 +35,17 @@ import java.util.*;
     operation of course).
 */
 
+@SuppressWarnings("rawtypes")
 public class Bag implements java.util.Collection, java.io.Serializable, Cloneable, Indexed
     {
-    public Object[] objs;
+    /**
+	 * DOCUMENT (deutsch) - insert description 
+	 * 
+	 * @author deutsch
+	 * 10.08.2010, 17:43:48
+	 */
+	private static final long serialVersionUID = -4882400316818049082L;
+	public Object[] objs;
     public int numObjs;
     
     public Bag() { numObjs = 0; objs = new Object[1]; }
@@ -397,7 +405,8 @@ public class Bag implements java.util.Collection, java.io.Serializable, Cloneabl
         }
 
     /** Sorts the bag according to the provided comparator */
-    public void sort(Comparator c) 
+    @SuppressWarnings("unchecked")
+	public void sort(Comparator c) 
         {
         Arrays.sort(objs, 0, numObjs, c);
         }
@@ -467,7 +476,14 @@ public class Bag implements java.util.Collection, java.io.Serializable, Cloneabl
 
     static class BagIterator implements Iterator, java.io.Serializable
         {
-        int obj = 0;
+        /**
+		 * DOCUMENT (deutsch) - insert description 
+		 * 
+		 * @author deutsch
+		 * 10.08.2010, 17:43:48
+		 */
+		private static final long serialVersionUID = -3850185742551424155L;
+		int obj = 0;
         Bag bag;
         boolean canRemove = false;
         

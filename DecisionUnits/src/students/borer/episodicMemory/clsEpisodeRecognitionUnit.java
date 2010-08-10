@@ -13,12 +13,12 @@ public class clsEpisodeRecognitionUnit {
 	/**
 	 * Contains the not yet completed episodes to the scenario recognition processes
 	 */
-	public Vector moEpisodesInProgress; 
+	public Vector<clsEpisode> moEpisodesInProgress; 
 	private clsRecognitionProcessResult moScenarioRecogProcesses; // temporally stores the delivered scenario recog processes
 	private int mnCurrEpisodeId = 0;
 	
 	public clsEpisodeRecognitionUnit(){
-		moEpisodesInProgress = new Vector();
+		moEpisodesInProgress = new Vector<clsEpisode>();
 	}
 	
 	/**
@@ -85,9 +85,9 @@ public class clsEpisodeRecognitionUnit {
 	 * been completed
 	 * @return An unsorted list (java.util.Vector) of the episodes, that have currently been completed
 	 */
-	public Vector checkForRecognized(clsEvent poEvent){
+	public Vector<clsEpisode> checkForRecognized(clsEvent poEvent){
 		// return the recognized Episodes
-		Vector oRecognizedEpisodes = new Vector();
+		Vector<clsEpisode> oRecognizedEpisodes = new Vector<clsEpisode>();
 		for(int i=0; i < moScenarioRecogProcesses.moRecognized.size(); i++) {
 			clsRecognitionProcess oRecogProc = (clsRecognitionProcess)moScenarioRecogProcesses.moRecognized.get(i);
 			int j=0;
@@ -134,10 +134,10 @@ public class clsEpisodeRecognitionUnit {
 	 * Determines, which scenarios are currently in progress
 	 * @return A java.util.Vector with the sceanrios currently in progress
 	 */
-	public Vector getScenariosInProgress() {
-		Vector oScenarios=null;
+	public Vector<Integer> getScenariosInProgress() {
+		Vector<Integer> oScenarios=null;
 		for(int i=0; i<moEpisodesInProgress.size(); i++){
-			oScenarios=new Vector();
+			oScenarios=new Vector<Integer>();
 			clsEpisode oEp = (clsEpisode)moEpisodesInProgress.get(i);
 			Integer oScenId = new Integer(oEp.moScenario.mnId);
 			if (oScenarios.contains(oScenId) ==false) {

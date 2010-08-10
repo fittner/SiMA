@@ -15,7 +15,14 @@ import students.borer.episodicMemory.tempframework.clsEmotion;
  * This is the class description ... $Revision: 572 $:  Revision of last commit $Author: deutsch $: Author of last commit $Date: 2007-05-31 10:56:07 +0200 (Do, 31 Mai 2007) $: Date of last commit
  */
 abstract class clsImageGeneric extends clsCloneable {
-  public clsContainerDrive   moDriveList = new clsContainerDrive();
+  /**
+	 * DOCUMENT (deutsch) - insert description 
+	 * 
+	 * @author deutsch
+	 * 10.08.2010, 17:51:00
+	 */
+	private static final long serialVersionUID = -6108880079193606227L;
+public clsContainerDrive   moDriveList = new clsContainerDrive();
   public clsContainerEmotion moEmotionList = new clsContainerEmotion();
 
   @Override

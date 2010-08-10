@@ -11,8 +11,8 @@ public class clsContainerRetrievalResults {
 	 * The retrieval cue to which the results of the container belong to
 	 */
 	public clsRetrievalCue moRetrievalCue;
-	private TreeSet moRetrievalResults;
-	private Iterator moIt;
+	private TreeSet<clsRetrievalResult> moRetrievalResults;
+	private Iterator<clsRetrievalResult> moIt;
 	private clsRecallAPI moRecallAPI;
 	/**
 	 * The threshold a retrieval result must exceed to be accessible (Default value: 0.8) 
@@ -26,7 +26,7 @@ public class clsContainerRetrievalResults {
 	public clsContainerRetrievalResults(clsRetrievalCue poRetrievalCue) {
 		moRetrievalCue = poRetrievalCue;
 
-		moRetrievalResults = new TreeSet();
+		moRetrievalResults = new TreeSet<clsRetrievalResult>();
 		moIt = moRetrievalResults.iterator();
 	}
 	
@@ -110,7 +110,7 @@ public class clsContainerRetrievalResults {
 	public String toString() {
 		String oRetString = "";
 		int nNumber = 0;
-		Iterator oIt = moRetrievalResults.iterator(); 
+		Iterator<clsRetrievalResult> oIt = moRetrievalResults.iterator(); 
 		while( oIt.hasNext() ){
 			clsRetrievalResult oResult = (clsRetrievalResult)oIt.next();
 			oRetString+= oResult.toString();

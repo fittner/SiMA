@@ -17,7 +17,14 @@ package students.borer.episodicMemory.tempframework;
  *
  */
 public class enumTypeDrive extends enumClass {
-  public final static int TDRIVE_UNDEFINED  = -1;
+  /**
+	 * DOCUMENT (deutsch) - insert description 
+	 * 
+	 * @author deutsch
+	 * 10.08.2010, 17:52:12
+	 */
+	private static final long serialVersionUID = 6605254387804581794L;
+public final static int TDRIVE_UNDEFINED  = -1;
   public final static int TDRIVE_ANY  = 0;
   public final static int TDRIVE_HUNGER  = 1;
   public final static int TDRIVE_THIRST  = 2;

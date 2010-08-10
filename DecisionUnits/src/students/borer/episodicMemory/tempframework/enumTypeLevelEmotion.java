@@ -17,7 +17,14 @@ package students.borer.episodicMemory.tempframework;
  *
  */
 public class enumTypeLevelEmotion extends enumClass {
-  public final static int TLEVELEMOTION_UNDEFINED = -1;
+  /**
+	 * DOCUMENT (deutsch) - insert description 
+	 * 
+	 * @author deutsch
+	 * 10.08.2010, 17:52:06
+	 */
+	private static final long serialVersionUID = 2745023058763656665L;
+public final static int TLEVELEMOTION_UNDEFINED = -1;
   public final static int TLEVELEMOTION_NORMAL    = 0;
   public final static int TLEVELEMOTION_VERYLOW   = 1;
   public final static int TLEVELEMOTION_LOW       = 2;

@@ -36,7 +36,9 @@ public class clsAlarmSystem {
 	public boolean mnVisualization = true; // true: for visualization in AnyLogic
 	public boolean mnVisEncodedEpisode = false;
 	public boolean mnVisSpontRetrieval = false;
+	@SuppressWarnings("rawtypes")
 	public Vector moVisEpisodes = new Vector();
+	@SuppressWarnings("rawtypes")
 	public Vector moVisEncodedEpisodes = new Vector();
 	public clsEvent moVisEvent = null;
 	public boolean mnVisTrackRetrieval = true; // live mode/manual mode
@@ -74,6 +76,7 @@ public class clsAlarmSystem {
 	 * @param poScenarioRecogProcesses The scenario recognition process that are currently initialized, recognized or aborted
 	 * @return A container with the retrieval results if a spontaneous retrieval has been triggered; otherwise null
 	 */
+	@SuppressWarnings("rawtypes")
 	public clsContainerRetrievalResults perform(clsContainerDrive poDrives,
 			  clsContainerEmotion poEmotions,
 			  clsContainerCompareResults poImageCompareResults,
@@ -169,6 +172,7 @@ public class clsAlarmSystem {
 	/**
 	 * FOR VISUALIZATION OF THE RETRIEVED EPISODES
 	 */
+	@SuppressWarnings({ "unchecked", "rawtypes" })
 	public Vector createVisEpVector() {
 		moVisEpisodes.clear();
 		if(moVisEvent != null) {
@@ -176,6 +180,7 @@ public class clsAlarmSystem {
 		}
 		return moVisEpisodes;
 	}
+	@SuppressWarnings({ "rawtypes", "unchecked" })
 	private void addToVisEncodedEpisodes(Vector poRecognizedEpisodes){
 		for(int i=0; i<poRecognizedEpisodes.size(); i++) {
 			moVisEncodedEpisodes.add( poRecognizedEpisodes.get(i) );
