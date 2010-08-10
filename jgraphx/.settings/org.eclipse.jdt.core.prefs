@@ -1,4 +1,4 @@
-#Mon May 31 10:49:41 CEST 2010
+#Tue Aug 10 17:01:14 CEST 2010
 eclipse.preferences.version=1
 org.eclipse.jdt.core.compiler.problem.annotationSuperInterface=ignore
 org.eclipse.jdt.core.compiler.problem.autoboxing=ignore
@@ -24,6 +24,7 @@ org.eclipse.jdt.core.compiler.problem.methodWithConstructorName=ignore
 org.eclipse.jdt.core.compiler.problem.missingDeprecatedAnnotation=ignore
 org.eclipse.jdt.core.compiler.problem.missingHashCodeMethod=ignore
 org.eclipse.jdt.core.compiler.problem.missingOverrideAnnotation=ignore
+org.eclipse.jdt.core.compiler.problem.missingOverrideAnnotationForInterfaceMethodImplementation=enabled
 org.eclipse.jdt.core.compiler.problem.missingSerialVersion=ignore
 org.eclipse.jdt.core.compiler.problem.missingSynchronizedOnInheritedMethod=ignore
 org.eclipse.jdt.core.compiler.problem.noEffectAssignment=ignore
@@ -39,6 +40,7 @@ org.eclipse.jdt.core.compiler.problem.redundantNullCheck=ignore
 org.eclipse.jdt.core.compiler.problem.redundantSuperinterface=ignore
 org.eclipse.jdt.core.compiler.problem.specialParameterHidingField=disabled
 org.eclipse.jdt.core.compiler.problem.staticAccessReceiver=ignore
+org.eclipse.jdt.core.compiler.problem.suppressOptionalErrors=disabled
 org.eclipse.jdt.core.compiler.problem.suppressWarnings=enabled
 org.eclipse.jdt.core.compiler.problem.syntheticAccessEmulation=ignore
 org.eclipse.jdt.core.compiler.problem.typeParameterHiding=ignore
@@ -54,7 +56,8 @@ org.eclipse.jdt.core.compiler.problem.unusedDeclaredThrownExceptionIncludeDocCom
 org.eclipse.jdt.core.compiler.problem.unusedDeclaredThrownExceptionWhenOverriding=disabled
 org.eclipse.jdt.core.compiler.problem.unusedImport=ignore
 org.eclipse.jdt.core.compiler.problem.unusedLabel=ignore
-org.eclipse.jdt.core.compiler.problem.unusedLocal=warning
+org.eclipse.jdt.core.compiler.problem.unusedLocal=ignore
+org.eclipse.jdt.core.compiler.problem.unusedObjectAllocation=ignore
 org.eclipse.jdt.core.compiler.problem.unusedParameter=ignore
 org.eclipse.jdt.core.compiler.problem.unusedParameterIncludeDocCommentReference=enabled
 org.eclipse.jdt.core.compiler.problem.unusedParameterWhenImplementingAbstract=disabled
