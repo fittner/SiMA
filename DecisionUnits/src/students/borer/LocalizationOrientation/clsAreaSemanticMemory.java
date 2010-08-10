@@ -15,7 +15,9 @@ import students.borer.Mason.Bag;
 public class clsAreaSemanticMemory {
 
 	private Bag AreaEntries = new Bag();
-	private double similarObjectsTolerance,similarObjectBearingTolerance;
+	@SuppressWarnings("unused")
+	private double similarObjectsTolerance;
+	private double similarObjectBearingTolerance;
 	public boolean imperfectMatch;
 	public clsAreaSemanticMemory(){
 		
