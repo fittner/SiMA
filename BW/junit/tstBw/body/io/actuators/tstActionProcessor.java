@@ -271,23 +271,6 @@ public class tstActionProcessor {
 	private class tstTestCommand extends clsActionCommand {
 		private boolean mbExecuted=false;
 		private ArrayList<Class<?>> moMutEx = new ArrayList<Class<?>>();
-		double mnEnergy;
-		double mnStamina;
-
-		public void setEnergyDemand(double pnEnergy) {
-			mnEnergy=pnEnergy;
-		}
-		public double getEnergyDemand() {
-			return mnEnergy;
-		}
-
-		public void setStaminaDemand(double pnStamina) {
-			mnStamina=pnStamina;
-		}
-		public double getStaminaDemand() {
-			return mnStamina;
-		}
-		
 		public ArrayList<Class<?>> getMutualExclusions() {
 			return moMutEx; 
 		}
