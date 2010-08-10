@@ -25,7 +25,7 @@ import pa.datatypes.clsAssociationContext;
  * 
  * @author zeilinger
  * 08.10.2009, 10:18:13
- * 
+ *  @deprecated
  */
 public class tssContextLoader {
 	/**

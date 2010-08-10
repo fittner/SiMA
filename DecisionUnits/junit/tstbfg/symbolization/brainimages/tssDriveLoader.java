@@ -19,7 +19,7 @@ import org.junit.Test;
  * 
  * @author langr
  * 28.09.2009, 17:54:38
- * 
+ *  @deprecated
  */
 public class tssDriveLoader {
 

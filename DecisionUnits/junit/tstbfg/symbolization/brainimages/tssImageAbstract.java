@@ -43,7 +43,7 @@ import bfg.utils.enums.eSide;
  * 
  * @author langr
  * 22.04.2009, 10:39:13
- * 
+ *  @deprecated
  */
 public class tssImageAbstract {
 
