@@ -30,6 +30,7 @@ import du.itf.sensors.clsSensorData;
  */
 public class clsImageSymbolization extends clsSymbolization {
 
+	@SuppressWarnings("unused")
 	private clsImageAbstract moTestImage;
 	private clsContainerAbstractImages moTestImages;
 	
@@ -52,6 +53,7 @@ public class clsImageSymbolization extends clsSymbolization {
 
 	public void generateSymbols(clsSensorData poSensorData)
 	{
+		@SuppressWarnings("unused")
 		ArrayList<clsRuleCompareResult> oMatch = moTestImages.associate(poSensorData, new clsIdentity() );
 	}
 	
