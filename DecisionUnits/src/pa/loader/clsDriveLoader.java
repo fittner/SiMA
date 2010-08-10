@@ -120,8 +120,8 @@ public class clsDriveLoader {
 		
 		oRetVal.meDriveContent = eDriveContent.valueOf( clsXMLAbstractImageReader.getTagStringValue(poDriveNode, moDriveContentName ) );
 		oRetVal.meDriveType = eDriveType.valueOf( clsXMLAbstractImageReader.getTagStringValue(poDriveNode, moDriveTypeName ) );
-		Node oReaderNode = null;
-		Vector<Node> oNodes = null;
+		//Node oReaderNode = null;
+		//Vector<Node> oNodes = null;
 		
 		//read drive sources		
 		createDriveSources(poDriveNode, oRetVal);
