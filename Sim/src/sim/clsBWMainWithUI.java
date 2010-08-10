@@ -17,7 +17,7 @@ import statictools.clsGetARSPath;
 import java.awt.Color;
 import java.awt.Container;
 import java.awt.Dimension;
-import org.jfree.chart.ChartPanel;
+//import org.jfree.chart.ChartPanel;
 import config.clsBWProperties;
 import du.enums.eEntityType;
 import bw.factories.clsSingletonProperties;
@@ -307,7 +307,7 @@ public class clsBWMainWithUI extends GUIState {
 		// add all charts from clsCharts
 		// FIXME - are these chart panels still needed? clsCharts has been deleted!
 //		moCharts = new clsCharts(poMainModelClass);
-		ChartPanel oTestPanel = null;
+//		ChartPanel oTestPanel = null;
 		
 		//create charts
 		if (true) { // TODO clemens: do we want to ad this chart? maybe read from config file? for testing.. always yes
