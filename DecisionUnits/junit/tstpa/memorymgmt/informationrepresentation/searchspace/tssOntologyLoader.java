@@ -40,7 +40,7 @@ public class tssOntologyLoader {
 	
 	@Test
 	public void testProtegeDB(){
-		clsOntologyLoader.loadOntology(new Hashtable<eDataType, List<clsDataStructurePA>>(), "S:/BWsimOnt/ARSi10rv3.pprj");   
+		clsOntologyLoader.loadOntology(new Hashtable<eDataType, List<clsDataStructurePA>>(), "./config/bw/pa.memory/AGENT_BASIC/BASIC.pprj");   
 		assertTrue(true);
 	}
 }

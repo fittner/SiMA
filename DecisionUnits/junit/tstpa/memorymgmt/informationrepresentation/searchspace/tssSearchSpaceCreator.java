@@ -24,7 +24,7 @@ import pa.memorymgmt.informationrepresentation.searchspace.clsSearchSpaceOntolog
 public class tssSearchSpaceCreator {
 	@Test
 	public void testCreateSearchSpace(){
-		System.out.println(((clsSearchSpaceOntologyLoader)clsSearchSpaceCreator.createSearchSpace("S:/BWsimOnt/ARSi10rv3.pprj")).toString()); 
+		System.out.println(((clsSearchSpaceOntologyLoader)clsSearchSpaceCreator.createSearchSpace("./config/bw/pa.memory/AGENT_BASIC/BASIC.pprj")).toString()); 
 		assertTrue(true);
 	}
 }
