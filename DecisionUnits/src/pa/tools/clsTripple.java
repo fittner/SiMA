@@ -30,13 +30,12 @@ public class clsTripple<A, B, C> implements Cloneable {
         return new clsTripple<A, B, C>(a, b, c);
     }
  
-    @SuppressWarnings("unchecked")
 	@Override
 	public final boolean equals(Object o) {
         if (!(o instanceof clsPair))
             return false;
  
-        final clsTripple<?, ?, ?> other = (clsTripple) o;
+        final clsTripple<?, ?, ?> other = (clsTripple<?, ?, ?>) o;
         return equal(a, other.a) && equal(b, other.b) && equal(c, other.c);
     }
     

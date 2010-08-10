@@ -32,13 +32,12 @@ public class clsQuadruppel<A, B, C, D> implements Cloneable  {
         return new clsQuadruppel<A, B, C, D>(a, b, c, d);
     }
  
-    @SuppressWarnings("unchecked")
-	@Override
+ 	@Override
 	public final boolean equals(Object o) {
         if (!(o instanceof clsPair))
             return false;
  
-        final clsQuadruppel<?, ?, ?, ?> other = (clsQuadruppel) o;
+        final clsQuadruppel<?, ?, ?, ?> other = (clsQuadruppel<?, ?, ?, ?>) o;
         return equal(a, other.a) && equal(b, other.b) && equal(c, other.c) && equal(d, other.d);
     }
     

@@ -33,13 +33,12 @@ public class clsPair<A, B> implements Cloneable {
         return new clsPair<L, R>(left, right);
     }
  
-    @SuppressWarnings("unchecked")
-	@Override
+ 	@Override
 	public final boolean equals(Object o) {
         if (!(o instanceof clsPair))
             return false;
  
-        final clsPair<?, ?> other = (clsPair) o;
+        final clsPair<?, ?> other = (clsPair<?, ?>) o;
         return equal(a, other.a) && equal(b, other.b);
     }
     
