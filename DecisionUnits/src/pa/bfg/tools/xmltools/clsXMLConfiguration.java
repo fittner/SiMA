@@ -70,9 +70,9 @@ public class clsXMLConfiguration
 
   public static int mnTeamCount;
 
-  public static TreeMap moEnergySourcesList;
-  public static TreeMap moNormalTeamList;
-  public static TreeMap moPsychoTeamList;
+  public static TreeMap<Integer, clsXMLAbstractImageReader> moEnergySourcesList;
+  public static TreeMap<Integer, clsXMLAbstractImageReader> moNormalTeamList;
+  public static TreeMap<Integer, clsXMLAbstractImageReader> moPsychoTeamList;
 
   //basic XML-Nodes
 //  private static clsXMLAbstractImageReader moXml;
@@ -87,9 +87,9 @@ public class clsXMLConfiguration
   public static void initConfigValues()
   //---------------------------------------------------------------------------
   {
-      moEnergySourcesList = new TreeMap();
-      moNormalTeamList    = new TreeMap();
-      moPsychoTeamList    = new TreeMap();
+      moEnergySourcesList = new TreeMap<Integer, clsXMLAbstractImageReader>();
+      moNormalTeamList    = new TreeMap<Integer, clsXMLAbstractImageReader>();
+      moPsychoTeamList    = new TreeMap<Integer, clsXMLAbstractImageReader>();
 
       //Engine.log.println( "\n-------------------------------" );
       //Engine.log.println( "reading global configuration..." );
@@ -514,7 +514,7 @@ public class clsXMLConfiguration
 */
 
   //---------------------------------------------------------------------------
-  public static void getRelativeConfigs(String poPathToXMLConfigFile, Vector poRelativeConfigs)
+  public static void getRelativeConfigs(String poPathToXMLConfigFile, Vector<String> poRelativeConfigs)
   //---------------------------------------------------------------------------
   {
     try
@@ -544,10 +544,10 @@ public class clsXMLConfiguration
   }
 
   //---------------------------------------------------------------------------
-  public static Vector getReactiveActionsList( Vector poTeamPath, int pnTeamId )
+  public static Vector<String> getReactiveActionsList( Vector<?> poTeamPath, int pnTeamId )
   //---------------------------------------------------------------------------
   {
-    Vector oResult = new Vector();
+    Vector<String> oResult = new Vector<String>();
     for(int i=0; i<poTeamPath.size();++i)
     {
       String oReactiveActionsPath = moConfigurationPath + "\\entity_config\\"+(String)poTeamPath.get(i)+"\\ReactiveActions\\";
@@ -558,10 +558,10 @@ public class clsXMLConfiguration
   }
 
   //---------------------------------------------------------------------------
-  public static Vector getEmotionFileList( Vector poTeamPath, int pnTeamId )
+  public static Vector<String> getEmotionFileList( Vector<?> poTeamPath, int pnTeamId )
   //---------------------------------------------------------------------------
   {
-    Vector oResult = new Vector();
+    Vector<String> oResult = new Vector<String>();
 
     for(int i=0; i<poTeamPath.size();++i)
     {
@@ -572,10 +572,10 @@ public class clsXMLConfiguration
   }
 
   //---------------------------------------------------------------------------
-  public static Vector getComplexEmotionFileList( Vector poTeamPath, int pnTeamId )
+  public static Vector<String> getComplexEmotionFileList( Vector<?> poTeamPath, int pnTeamId )
   //---------------------------------------------------------------------------
   {
-    Vector oResult = new Vector();
+    Vector<String> oResult = new Vector<String>();
 
     for(int i=0; i<poTeamPath.size();++i)
     {
@@ -586,10 +586,10 @@ public class clsXMLConfiguration
   }
   
   //---------------------------------------------------------------------------
-  public static Vector getAbstractImageFileList( Vector poTeamPath, int pnTeamId )
+  public static Vector<String> getAbstractImageFileList( Vector<?> poTeamPath, int pnTeamId )
   //---------------------------------------------------------------------------
   {
-    Vector oResult = new Vector();
+    Vector<String> oResult = new Vector<String>();
 
     for(int i=0; i<poTeamPath.size();++i)
     {
@@ -600,10 +600,10 @@ public class clsXMLConfiguration
   }
 
   //---------------------------------------------------------------------------
-  public static Vector getRoutineFileList( Vector poTeamPath, int pnTeamId )
+  public static Vector<String> getRoutineFileList( Vector<?> poTeamPath, int pnTeamId )
   //---------------------------------------------------------------------------
   {
-    Vector oResult = new Vector();
+    Vector<String> oResult = new Vector<String>();
     for(int i=0; i<poTeamPath.size();++i)
     {
       String oRoutinePath = moConfigurationPath + "\\entity_config\\"+(String)poTeamPath.get(i)+"\\Routine\\";
@@ -613,10 +613,10 @@ public class clsXMLConfiguration
   }
 
   //---------------------------------------------------------------------------
-  public static Vector getScenarioFileList( Vector poTeamPath, int pnTeamId )
+  public static Vector<String> getScenarioFileList( Vector<?> poTeamPath, int pnTeamId )
   //---------------------------------------------------------------------------
   {
-    Vector oResult = new Vector();
+    Vector<String> oResult = new Vector<String>();
     for(int i=0; i<poTeamPath.size();++i)
     {
       String oScenarioPath = moConfigurationPath + "\\entity_config\\"+(String)poTeamPath.get(i)+"\\Scenario\\";
@@ -625,10 +625,10 @@ public class clsXMLConfiguration
     return oResult;     
   }
   //---------------------------------------------------------------------------
-  public static Vector getDesireFileList( Vector poTeamPath, int pnTeamId )
+  public static Vector<String> getDesireFileList( Vector<?> poTeamPath, int pnTeamId )
   //---------------------------------------------------------------------------
   {
-    Vector oResult = new Vector();
+    Vector<String> oResult = new Vector<String>();
     for(int i=0; i<poTeamPath.size();++i)
     {
       String oDesirePath = moConfigurationPath + "\\entity_config\\"+(String)poTeamPath.get(i)+"\\Desire\\";
@@ -638,10 +638,10 @@ public class clsXMLConfiguration
   }
   
   //---------------------------------------------------------------------------
-  public static Vector getAbilityFileList( Vector poTeamPath, int pnTeamId )
+  public static Vector<String> getAbilityFileList( Vector<?> poTeamPath, int pnTeamId )
   //---------------------------------------------------------------------------
   {
-    Vector oResult = new Vector();
+    Vector<String> oResult = new Vector<String>();
     for(int i=0; i<poTeamPath.size();++i)
     {
       String oAbilityPath = moConfigurationPath + "\\entity_config\\"+(String)poTeamPath.get(i)+"\\Ability\\";
@@ -724,8 +724,8 @@ public class clsXMLConfiguration
 		try
 		{
 			File aiDir = new File(oPath);
-			List generalQueryFiles = getFilesInDirectory( aiDir );
-			Iterator filesIter = generalQueryFiles.iterator();
+			List<File> generalQueryFiles = getFilesInDirectory( aiDir );
+			Iterator<File> filesIter = generalQueryFiles.iterator();
 			while( filesIter.hasNext() ){
 				oRetVal.add( ((File)filesIter.next()).toString() );
 			}
@@ -738,8 +738,8 @@ public class clsXMLConfiguration
 	  oPath += clsGetARSPath.getSeperator() + poGroupName;
       try
       {
-    	List teamQueryFiles = getFilesInDirectory( new File( oPath ) );
-        Iterator filesIter = teamQueryFiles.iterator();
+    	List<File> teamQueryFiles = getFilesInDirectory( new File( oPath ) );
+        Iterator<File> filesIter = teamQueryFiles.iterator();
         while( filesIter.hasNext() ){
         	oRetVal.add( ((File)filesIter.next()).toString() );
         }
@@ -751,8 +751,8 @@ public class clsXMLConfiguration
 	  oPath += clsGetARSPath.getSeperator() + poAgentId;
       try
       {
-        List agentQueryFiles = getFileListingRecursive( new File( oPath ) );
-        Iterator filesIter = agentQueryFiles.iterator();
+        List<File> agentQueryFiles = getFileListingRecursive( new File( oPath ) );
+        Iterator<File> filesIter = agentQueryFiles.iterator();
         while( filesIter.hasNext() ){
         	oRetVal.add( ((File)filesIter.next()).toString() );
         }
@@ -765,22 +765,22 @@ public class clsXMLConfiguration
   }
   
     //---------------------------------------------------------------------------
-  public static void getFileList( int pnBubbleId, String poTeamPath, String poDirectoryPath, Vector poOutputVector )
+  public static void getFileList( int pnBubbleId, String poTeamPath, String poDirectoryPath, Vector<String> poOutputVector )
   //---------------------------------------------------------------------------
   {
     File aiDir = new File(poDirectoryPath);
     try
     {
       //MUST EXIST!
-      List generalAbstractImages = getFilesInDirectory( aiDir );
-      Iterator filesIter = generalAbstractImages.iterator();
+      List<File> generalAbstractImages = getFilesInDirectory( aiDir );
+      Iterator<File> filesIter = generalAbstractImages.iterator();
       while( filesIter.hasNext() ){
         poOutputVector.add( ((File)filesIter.next()).toString() );
       }
 
       try
       {
-        List teamAbstractImages = getFilesInDirectory( new File( aiDir + File.separator + poTeamPath ) );
+        List<File> teamAbstractImages = getFilesInDirectory( new File( aiDir + File.separator + poTeamPath ) );
         filesIter = teamAbstractImages.iterator();
         while( filesIter.hasNext() ){
          poOutputVector.add( ((File)filesIter.next()).toString() );
@@ -792,7 +792,7 @@ public class clsXMLConfiguration
       }
       try
       {
-        List bubbleAbstractImages = getFileListingRecursive( new File( aiDir+File.separator+poTeamPath+File.separator+pnBubbleId ) );
+        List<File> bubbleAbstractImages = getFileListingRecursive( new File( aiDir+File.separator+poTeamPath+File.separator+pnBubbleId ) );
         filesIter = bubbleAbstractImages.iterator();
         while( filesIter.hasNext() ){
           poOutputVector.add( ((File)filesIter.next()).toString() );
@@ -814,21 +814,21 @@ public class clsXMLConfiguration
     }
   }
 
-  public static List getFileListingRecursive( File aStartingDir ) throws FileNotFoundException
+  public static List<File> getFileListingRecursive( File aStartingDir ) throws FileNotFoundException
   {
     validateDirectory(aStartingDir);
-    List result = new ArrayList();
+    List<File> result = new ArrayList<File>();
   
     File[] filesAndDirs = aStartingDir.listFiles();
-    List filesDirs = Arrays.asList(filesAndDirs);
-    Iterator filesIter = filesDirs.iterator();
+    List<File> filesDirs = Arrays.asList(filesAndDirs);
+    Iterator<File> filesIter = filesDirs.iterator();
     File file = null;
     while ( filesIter.hasNext() ) {
       file = (File)filesIter.next();
       if (!file.isFile()) {
         //must be a directory
         //recursive call!
-        List deeperList = getFileListingRecursive(file);
+        List<File> deeperList = getFileListingRecursive(file);
         result.addAll(deeperList);
       }
       else  //in case of real file only search xml-files
@@ -843,14 +843,14 @@ public class clsXMLConfiguration
     return result;
   }
 
-  public static List getFilesInDirectory( File aStartingDir ) throws FileNotFoundException
+  public static List<File> getFilesInDirectory( File aStartingDir ) throws FileNotFoundException
   {
     validateDirectory(aStartingDir);
-    List result = new ArrayList();
+    List<File> result = new ArrayList<File>();
   
     File[] filesAndDirs = aStartingDir.listFiles();
-    List filesDirs = Arrays.asList(filesAndDirs);
-    Iterator filesIter = filesDirs.iterator();
+    List<File> filesDirs = Arrays.asList(filesAndDirs);
+    Iterator<File> filesIter = filesDirs.iterator();
     File file = null;
     while ( filesIter.hasNext() ) {
       file = (File)filesIter.next();

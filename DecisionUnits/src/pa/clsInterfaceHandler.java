@@ -23,9 +23,12 @@ import pa.modules.clsModuleBase;
 public class clsInterfaceHandler {
 	private static String P_METHODPREFIX = "receive_I";
 	
+	@SuppressWarnings("rawtypes")
 	private HashMap<Class, ArrayList<clsModuleBase>> moInterfaceModuleMap;
+	@SuppressWarnings("rawtypes")
 	private HashMap<Class, Method> moMethods;
 	
+	@SuppressWarnings("rawtypes")
 	public clsInterfaceHandler() {
 		moMethods = new HashMap<Class, Method>();
 		moInterfaceModuleMap = new HashMap<Class,  ArrayList<clsModuleBase>>();
@@ -35,6 +38,7 @@ public class clsInterfaceHandler {
 		extractInterfaceModuleMapping(poModules);
 	}
 	
+	@SuppressWarnings("rawtypes")
 	private void extractInterfaceModuleMapping(ArrayList<clsModuleBase> poModules) {
 		for (clsModuleBase oModule:poModules) {
 			Class[] oInterfaces = oModule.getClass().getInterfaces();
@@ -64,6 +68,7 @@ public class clsInterfaceHandler {
 		}		
 	}
 	
+	@SuppressWarnings("rawtypes")
 	private Method extractInterfaceMethod(Class poInterface) {
 		ArrayList<Method> oMethods = new ArrayList<Method>();
 		
@@ -82,6 +87,7 @@ public class clsInterfaceHandler {
 		return oMethods.get(0);
 	}
 	
+	@SuppressWarnings("rawtypes")
 	public void sendData(Class poReceiverInterface, Object... args) throws IllegalArgumentException, IllegalAccessException, InvocationTargetException {
 		if (poReceiverInterface.getSuperclass() != I_BaseInterface.class) {
 			throw new java.lang.IllegalArgumentException("poReceiverInterface ("+poReceiverInterface.getName()+") is not a specialization of interface I_BaseInterface.");

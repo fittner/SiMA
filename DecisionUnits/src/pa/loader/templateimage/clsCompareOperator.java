@@ -71,7 +71,8 @@ public class clsCompareOperator {
 	  }
 
 	  //---------------------------------------------------------------------------
-	  public boolean compare( Object a, Object b ) {
+	  @SuppressWarnings("rawtypes")
+	public boolean compare( Object a, Object b ) {
 	  //---------------------------------------------------------------------------
 		boolean oRetVal = false;
 

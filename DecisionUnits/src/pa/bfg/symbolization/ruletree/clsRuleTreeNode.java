@@ -29,7 +29,7 @@ import du.itf.sensors.clsSensorData;
  */
 public class clsRuleTreeNode extends clsRuleTreeElement {
 
-  public Vector moSubList = new Vector();
+  public Vector<clsRuleTreeElement> moSubList = new Vector<clsRuleTreeElement>();
   public int meBooleanOperator = enumBooleanOperator.TBOOLOP_AND;
 
   //---------------------------------------------------------------------------
@@ -37,7 +37,7 @@ public class clsRuleTreeNode extends clsRuleTreeElement {
   //---------------------------------------------------------------------------
   {
       clsRuleTreeNode oResult = new clsRuleTreeNode();
-      Vector oSubNodes = clsXMLAbstractImageReader.getSubNodes(poNode);
+      Vector<?> oSubNodes = clsXMLAbstractImageReader.getSubNodes(poNode);
       for(int i=0; i<oSubNodes.size();i++)
       {
         oResult.moSubList.add( clsRuleTreeElement.createRuleTreeElement( (Node)oSubNodes.get(i)) );

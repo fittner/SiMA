@@ -79,7 +79,7 @@ public class S_ManagementOfRepressedContents_2 extends clsModuleBase implements 
 			throw new java.lang.IllegalArgumentException("affects not attached tothing presentations not supported, currently.");
 		}
 		
-		moPrimaryInformation.addAll((ArrayList<clsPrimaryInformation>) deepCopy((ArrayList) poPIs) );
+		moPrimaryInformation.addAll((ArrayList<clsPrimaryInformation>) deepCopy((ArrayList<clsPrimaryInformation>) poPIs) );
 	
 	}
 

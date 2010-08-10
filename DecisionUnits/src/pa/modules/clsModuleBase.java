@@ -83,7 +83,7 @@ public abstract class clsModuleBase {
 	protected abstract void setPsychicInstances();	
 
 	
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings({ "unchecked", "rawtypes" })
 	protected java.util.ArrayList deepCopy(java.util.ArrayList other) {
 		java.util.ArrayList clone = null;
 		if (other != null) {
@@ -110,7 +110,7 @@ public abstract class clsModuleBase {
 		return clone;
 	}	
 	
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings({ "unchecked", "rawtypes" })
 	protected java.util.HashMap deepCopy(java.util.HashMap other) {
 		java.util.HashMap clone = null;
 		if (other != null) {

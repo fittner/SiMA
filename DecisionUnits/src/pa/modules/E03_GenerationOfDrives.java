@@ -143,7 +143,6 @@ public class E03_GenerationOfDrives extends clsModuleBase implements I1_2_receiv
 	 * 
 	 * @see pa.modules.clsModuleBase#process()
 	 */
-	@SuppressWarnings("unchecked")
 	@Override
 	protected void process_basic() {
 

@@ -360,7 +360,7 @@ public class clsReactive extends clsBaseDecisionUnit {
 	 * (horvath) - This method navigates the Fungus-Eater to avoid obstacle
 	 * 
 	 */
-	private void avoidObstacle(clsSensorData poInputs, itfActionProcessor poActionProcessor, HashSet poObstacleTypes){
+	private void avoidObstacle(clsSensorData poInputs, itfActionProcessor poActionProcessor, HashSet<eEntityType> poObstacleTypes){
 			moActionQueue.clear();
 			if (isObstacle(poInputs, poObstacleTypes)) {
 						switch (moRand.nextInt(2)) {

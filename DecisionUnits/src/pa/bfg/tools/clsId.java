@@ -18,6 +18,7 @@ import java.io.Serializable;
  * $Date: 2007-05-31 10:56:07 +0200 (Do, 31 Mai 2007) $: Date of last commit
  * @deprecated
  */
+@SuppressWarnings("rawtypes")
 public class clsId implements Serializable, java.lang.Comparable {
   /**
 	 * DOCUMENT (deutsch) - insert description 

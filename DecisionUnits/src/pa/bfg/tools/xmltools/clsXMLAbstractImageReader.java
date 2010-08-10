@@ -116,7 +116,7 @@ public class clsXMLAbstractImageReader // extends clsCloneable
 
   //recursive scan
   //---------------------------------------------------------------------------
-	public static void getNodeElementByName(Node docElement, String detectionName, Vector resultList) 
+	public static void getNodeElementByName(Node docElement, String detectionName, Vector<Node> resultList) 
   //---------------------------------------------------------------------------
   {
   	getNodeElementByName(docElement, detectionName, -1, resultList);
@@ -124,7 +124,7 @@ public class clsXMLAbstractImageReader // extends clsCloneable
 
   //optional scan (recursive or not)
   //---------------------------------------------------------------------------
-	public static void getNodeElementByName(Node docElement, String detectionName, int recursive, Vector resultList) 
+	public static void getNodeElementByName(Node docElement, String detectionName, int recursive, Vector<Node> resultList) 
   //---------------------------------------------------------------------------
   {
 		//Node n = null;
@@ -155,7 +155,7 @@ public class clsXMLAbstractImageReader // extends clsCloneable
 
 	  //optional scan (recursive or not)
 	  //---------------------------------------------------------------------------
-		public static void getSubNodesByName(Node docElement, String detectionName, Vector resultList) 
+		public static void getSubNodesByName(Node docElement, String detectionName, Vector<Node> resultList) 
 	  //---------------------------------------------------------------------------
 	  {
 		//Node n = null;
@@ -253,10 +253,10 @@ public class clsXMLAbstractImageReader // extends clsCloneable
 
   //returns real subnodes - not text-nodes
   //---------------------------------------------------------------------------
-  public static Vector getSubNodes(Node node)
+  public static Vector<Node> getSubNodes(Node node)
   //---------------------------------------------------------------------------
   {
-    Vector retVal = new Vector();
+    Vector<Node> retVal = new Vector<Node>();
  		if (node.getNodeType() == Node.ELEMENT_NODE) 
     {
   		NodeList nl = node.getChildNodes();
