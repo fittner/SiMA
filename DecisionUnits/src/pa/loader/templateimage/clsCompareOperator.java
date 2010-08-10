@@ -71,8 +71,7 @@ public class clsCompareOperator {
 	  }
 
 	  //---------------------------------------------------------------------------
-	  @SuppressWarnings("unchecked")
-	public boolean compare( Object a, Object b ) {
+	  public boolean compare( Object a, Object b ) {
 	  //---------------------------------------------------------------------------
 		boolean oRetVal = false;
 
