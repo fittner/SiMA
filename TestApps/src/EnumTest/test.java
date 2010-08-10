@@ -27,6 +27,7 @@ public class test {
 		// TODO (deutsch) - Auto-generated method stub
 		
 //		eA test = (eA)(eA.ANGLAGE.MATRATZE); //wirft error
+		@SuppressWarnings("unused")
 		eA.ANGLAGE test2 = eA.ANGLAGE.MATRATZE;
 		
 
