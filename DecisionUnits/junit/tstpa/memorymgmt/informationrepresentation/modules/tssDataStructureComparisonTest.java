@@ -37,7 +37,7 @@ import tstpa.memorymgmt.informationrepresentation.tssTestSearchSpace;
  */
 public class tssDataStructureComparisonTest {
 	@Test
-	public void testcompareDataStructureTP_TESTSPACE(){
+	public static void testcompareDataStructureTP_TESTSPACE(){
 		clsDataStructurePA oDataStructureTestTP = defineTP();
 		clsSearchSpaceBase oSearchSpaceTest = tssTestSearchSpace.createTestSearchSpace();; 
 		ArrayList<clsPair<Double,clsDataStructurePA>> oTestResult = clsDataStructureComparison.compareDataStructures(oDataStructureTestTP, oSearchSpaceTest); 
@@ -51,7 +51,7 @@ public class tssDataStructureComparisonTest {
 	}
 	
 	@Test
-	public void testcompareDataStructureTPM_TESTSPACE(){
+	public static void testcompareDataStructureTPM_TESTSPACE(){
 		clsDataStructurePA oDataStructureTestTPM = defineTPM();
 		clsSearchSpaceBase oSearchSpaceTest = tssTestSearchSpace.createTestSearchSpace();; 
 		ArrayList<clsPair<Double,clsDataStructurePA>> oTestResult = clsDataStructureComparison.compareDataStructures(oDataStructureTestTPM, oSearchSpaceTest);
@@ -62,7 +62,7 @@ public class tssDataStructureComparisonTest {
 	}
 	
 	@Test
-	public void testcompareDataStructureTI_TESTSPACE(){
+	public static void testcompareDataStructureTI_TESTSPACE(){
 		clsDataStructurePA oDataStructureTestTI = defineTI();
 		clsSearchSpaceBase oSearchSpaceTest = tssTestSearchSpace.createTestSearchSpace();; 
 		//clsSearchSpaceBase oSearchSpaceTest = clsSearchSpaceCreator.createSearchSpace(); 
@@ -72,7 +72,7 @@ public class tssDataStructureComparisonTest {
 	}
 	
 	@Test
-	public void testcompareDataStructureWP_TESTSPACE(){
+	public static void testcompareDataStructureWP_TESTSPACE(){
 //		clsDataStructurePA oDataStructureTestWP = defineWP();
 //		clsSearchSpaceBase oSearchSpaceTest = this.createTestSearchSpace();; 
 //		clsDataStructureComparison.compareDataStructures(oDataStructureTestWP, oSearchSpaceTest); 
@@ -81,7 +81,7 @@ public class tssDataStructureComparisonTest {
 	}
 	
 	@Test
-	public void testcompareDataStructureDM_TESTSPACE(){
+	public static void testcompareDataStructureDM_TESTSPACE(){
 //		clsDataStructurePA oDataStructureTestDM = defineDM();
 //		clsSearchSpaceBase oSearchSpaceTest = this.createTestSearchSpace();; 
 //		clsDataStructureComparison.compareDataStructures(oDataStructureTestDM, oSearchSpaceTest); 
@@ -97,7 +97,7 @@ public class tssDataStructureComparisonTest {
 	 *
 	 * @return
 	 */
-	private clsDataStructurePA defineDM() {
+	private static clsDataStructurePA defineDM() {
 		// TODO (zeilinger) - Auto-generated method stub
 		return null;
 	}
@@ -110,7 +110,7 @@ public class tssDataStructureComparisonTest {
 	 *
 	 * @return
 	 */
-	private clsDataStructurePA defineWP() {
+	private static clsDataStructurePA defineWP() {
 		// TODO (zeilinger) - Auto-generated method stub
 		return null;
 	}
@@ -123,7 +123,7 @@ public class tssDataStructureComparisonTest {
 	 *
 	 * @return
 	 */
-	private clsDataStructurePA defineTI() {
+	private static clsDataStructurePA defineTI() {
 		clsTemplateImage oTemplateImage = null; 
 		ArrayList<clsAssociation> oAssociatedTemporalStructures = new ArrayList<clsAssociation>();
 		
@@ -165,7 +165,7 @@ public class tssDataStructureComparisonTest {
 	 *
 	 * @return
 	 */
-	private clsDataStructurePA defineTPM() {
+	private static clsDataStructurePA defineTPM() {
 		clsThingPresentationMesh oThingPresentationMesh = null; 
 		ArrayList<clsAssociation> oAssociatedDataStructureList = new ArrayList<clsAssociation>();
 
@@ -197,7 +197,7 @@ public class tssDataStructureComparisonTest {
 	 *
 	 * @return
 	 */
-	private clsDataStructurePA defineTP() {
+	private static clsDataStructurePA defineTP() {
 		clsThingPresentation oThingPresentation = 
 			new clsThingPresentation(new clsTripple<String, eDataType, String>(null, eDataType.TP, "color"), "blue");
 		return oThingPresentation;

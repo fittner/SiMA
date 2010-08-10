@@ -28,7 +28,7 @@ import pa.memorymgmt.datatypes.clsThingPresentation;
 import pa.memorymgmt.datatypes.clsThingPresentationMesh;
 import pa.memorymgmt.datatypes.clsWordPresentation;
 import pa.memorymgmt.enums.eDataType;
-import pa.memorymgmt.informationrepresentation.clsInformationRepresentationManagementARSi10;
+import pa.memorymgmt.informationrepresentation.clsInformationRepresentationManagement;
 import pa.memorymgmt.informationrepresentation.searchspace.clsSearchSpaceOntologyLoader;
 import pa.tools.clsPair;
 import pa.tools.clsTripple;
@@ -48,12 +48,12 @@ public class tssInformationRepresentationManagementARSi10 {
 		ArrayList<clsPair<Integer, clsDataStructureContainer>> oSearchPatternList = null;
 		List<ArrayList<clsPair<Double,clsDataStructureContainer>>> oResultList = null; 
 		clsBWProperties oProp = new clsBWProperties();
-		oProp.putAll(clsInformationRepresentationManagementARSi10.getDefaultProperties(""));
+		oProp.putAll(clsInformationRepresentationManagement.getDefaultProperties(""));
 		oProp.setProperty(clsKnowledgeBaseHandler.P_SOURCE_NAME, ""); 
-		clsKnowledgeBaseHandler oKnowledgeBaseTEST = new clsInformationRepresentationManagementARSi10("", oProp); 
+		clsKnowledgeBaseHandler oKnowledgeBaseTEST = new clsInformationRepresentationManagement("", oProp); 
 		clsSearchSpaceOntologyLoader oSearchSpace =  (clsSearchSpaceOntologyLoader)tssTestSearchSpace.createTestSearchSpace();
 		
-		((clsInformationRepresentationManagementARSi10)oKnowledgeBaseTEST).moSearchSpaceHandler.setSearchSpace(oSearchSpace);
+		((clsInformationRepresentationManagement)oKnowledgeBaseTEST).moSearchSpaceHandler.setSearchSpace(oSearchSpace);
 		oSearchPatternList = createSearchPattern();		
 		oResultList = oKnowledgeBaseTEST.initMemorySearch(oSearchPatternList);
 		
