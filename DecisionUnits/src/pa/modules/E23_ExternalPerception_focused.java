@@ -26,7 +26,7 @@ import pa.interfaces.send.I2_12_send;
 public class E23_ExternalPerception_focused extends clsModuleBase implements I2_11_receive, I1_7_receive, I2_12_send {
 
 	private ArrayList<clsSecondaryInformation> moPerception;
-	private ArrayList<clsSecondaryInformation> moDriveList;
+	//private ArrayList<clsSecondaryInformation> moDriveList;  //never used!
 
 	private ArrayList<clsSecondaryInformation> moFocusedPerception_Output;
 	/**
@@ -105,10 +105,9 @@ public class E23_ExternalPerception_focused extends clsModuleBase implements I2_
 	 * 
 	 * @see pa.interfaces.I1_7#receive_I1_7(int)
 	 */
-	@SuppressWarnings("unchecked")
 	@Override
 	public void receive_I1_7(ArrayList<clsSecondaryInformation> poDriveList) {
-		moDriveList = (ArrayList<clsSecondaryInformation>)this.deepCopy(poDriveList);
+		//moDriveList = (ArrayList<clsSecondaryInformation>)this.deepCopy(poDriveList); //never used!
 		
 	}
 

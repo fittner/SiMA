@@ -52,7 +52,7 @@ public class E27_GenerationOfImaginaryActions extends clsModuleBase implements I
 		super(poPrefix, poProp, poEnclosingContainer, poInterfaceHandler);
 		applyProperties(poPrefix, poProp);	
 		
-		ArrayList<clsPlanAction> moActions_Output = new ArrayList<clsPlanAction>();
+		//ArrayList<clsPlanAction> moActions_Output = new ArrayList<clsPlanAction>(); //never used!
 	}
 	
 	public static clsBWProperties getDefaultProperties(String poPrefix) {

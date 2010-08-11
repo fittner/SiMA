@@ -24,7 +24,7 @@ import pa.interfaces.send.I6_1_send;
  */
 public class E25_KnowledgeAboutReality extends clsModuleBase implements I2_12_receive, I6_1_send {
 
-	private ArrayList<clsSecondaryInformation> moFocusedPerception;
+	//private ArrayList<clsSecondaryInformation> moFocusedPerception; //never used!
 
 	/**
 	 * DOCUMENT (deutsch) - insert description 
@@ -88,10 +88,9 @@ public class E25_KnowledgeAboutReality extends clsModuleBase implements I2_12_re
 	 * 
 	 * @see pa.interfaces.I2_12#receive_I2_12(int)
 	 */
-	@SuppressWarnings("unchecked")
 	@Override
 	public void receive_I2_12(ArrayList<clsSecondaryInformation> poFocusedPerception) {
-		moFocusedPerception = (ArrayList<clsSecondaryInformation>)this.deepCopy(poFocusedPerception);
+		 //never used!moFocusedPerception = (ArrayList<clsSecondaryInformation>)this.deepCopy(poFocusedPerception); //never used!
 	}
 
 	/* (non-Javadoc)

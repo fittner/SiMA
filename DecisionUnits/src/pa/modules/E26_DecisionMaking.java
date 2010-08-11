@@ -205,7 +205,7 @@ public class E26_DecisionMaking extends clsModuleBase implements I1_7_receive, I
 		moTemplateResult_Output.putAll(	moTemplateImageResult ); 
 		moTemplateResult_Output.putAll(	moTemplateScenarioResult );
 		
-		int i =0;
+//		int i =0; //never used!
 	}
 
 	/* (non-Javadoc)
