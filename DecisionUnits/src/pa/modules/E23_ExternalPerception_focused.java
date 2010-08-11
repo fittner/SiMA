@@ -126,7 +126,7 @@ public class E23_ExternalPerception_focused extends clsModuleBase implements I2_
 	@Override
 	protected void process_basic() {
 		moFocusedPerception_Output_old = moPerception_old; //simply forward. really? cm
-		moFocusedPerception_Output = moFocusedPerception_Output; 
+		moFocusedPerception_Output = moPerception; 
 	}
 
 	/* (non-Javadoc)
