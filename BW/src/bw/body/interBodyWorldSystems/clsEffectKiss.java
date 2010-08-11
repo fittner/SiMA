@@ -21,13 +21,13 @@ import config.clsBWProperties;
 public class clsEffectKiss {
 	
 	private clsFastMessengerSystem moFastMessengerSystem; // reference
-	private clsSlowMessengerSystem moSlowMessengerSystem; // reference
+	//private clsSlowMessengerSystem moSlowMessengerSystem; // reference  //never used!
 	
 	
 
 	public clsEffectKiss(String poPrefix, clsBWProperties poProp, clsFastMessengerSystem poFastMessengerSystem, clsSlowMessengerSystem poSlowMessengerSystem) {
 		moFastMessengerSystem = poFastMessengerSystem;
-		moSlowMessengerSystem = poSlowMessengerSystem;
+		//moSlowMessengerSystem = poSlowMessengerSystem; //never used!
 		
 		applyProperties(poPrefix, poProp);
 	}
