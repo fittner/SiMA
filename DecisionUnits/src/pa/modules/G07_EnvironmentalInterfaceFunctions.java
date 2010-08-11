@@ -13,7 +13,8 @@ import pa.clsInterfaceHandler;
 import pa.datatypes.clsPrimaryInformation;
 import pa.loader.plan.clsPlanAction;
 import pa.memory.clsMemory;
-import pa.memorymgmt.informationrepresentation.clsInformationRepresentationManagement;
+import pa.memorymgmt.clsKnowledgeBaseHandler;
+import pa.memorymgmt.datatypes.clsPrimaryDataStructureContainer;
 import pa.symbolization.representationsymbol.itfSymbol;
 import pa.interfaces.receive.I2_2_receive;
 import pa.interfaces.receive.I2_4_receive;
@@ -55,8 +56,8 @@ public class G07_EnvironmentalInterfaceFunctions extends clsModuleContainer impl
 	 * @param poEnclosingContainer
 	 */
 	public G07_EnvironmentalInterfaceFunctions(String poPrefix, clsBWProperties poProp,
-			clsModuleContainer poEnclosingContainer, clsInterfaceHandler poInterfaceHandler, clsMemory poMemory, clsInformationRepresentationManagement poInformationRepresentationManagement) {
-		super(poPrefix, poProp, poEnclosingContainer, poInterfaceHandler, poMemory, poInformationRepresentationManagement);
+			clsModuleContainer poEnclosingContainer, clsInterfaceHandler poInterfaceHandler, clsMemory poMemory, clsKnowledgeBaseHandler poKnowledgeBase) {
+		super(poPrefix, poProp, poEnclosingContainer, poInterfaceHandler, poMemory, poKnowledgeBase);
 		applyProperties(poPrefix, poProp);
 	}
 	
@@ -122,8 +123,8 @@ public class G07_EnvironmentalInterfaceFunctions extends clsModuleContainer impl
 	 * @see pa.interfaces.I2_5#receive_I2_5(int)
 	 */
 	@Override
-	public void receive_I2_5(ArrayList<clsPrimaryInformation> poEnvironmentalTP) {
-		((I2_5_receive)moEnclosingContainer).receive_I2_5(poEnvironmentalTP);
+	public void receive_I2_5(ArrayList<clsPrimaryInformation> poEnvironmentalTP_old, ArrayList<clsPrimaryDataStructureContainer> poEnvironmentalTP) {
+		((I2_5_receive)moEnclosingContainer).receive_I2_5(poEnvironmentalTP_old, poEnvironmentalTP);
 		
 	}
 

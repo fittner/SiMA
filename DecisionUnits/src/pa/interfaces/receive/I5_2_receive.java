@@ -10,6 +10,7 @@ import java.util.ArrayList;
 
 import pa.datatypes.clsAffectTension;
 import pa.interfaces.I_BaseInterface;
+import pa.memorymgmt.datatypes.clsAssociationDriveMesh;
 
 /**
  * DOCUMENT (deutsch) - insert description 
@@ -19,5 +20,6 @@ import pa.interfaces.I_BaseInterface;
  * 
  */
 public interface I5_2_receive extends I_BaseInterface {
-	public void receive_I5_2(ArrayList<clsAffectTension> poDeniedAffects);
+	public void receive_I5_2(ArrayList<clsAffectTension> poDeniedAffects_old,
+							ArrayList<clsAssociationDriveMesh> poDeniedAffects);
 }

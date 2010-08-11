@@ -13,6 +13,7 @@ package pa.datatypes;
  * 08.10.2009, 10:01:36
  * 
  */
+@Deprecated
 public class clsAffectCandidate implements Cloneable{
 
 	public double mrTensionValue = 0;

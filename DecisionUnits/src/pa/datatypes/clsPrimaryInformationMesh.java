@@ -15,6 +15,7 @@ import java.util.ArrayList;
  * 09.09.2009, 16:50:56
  * 
  */
+@Deprecated
 public class clsPrimaryInformationMesh extends clsPrimaryInformation implements Cloneable {
 
 	public  ArrayList<clsAssociation<clsPrimaryInformation>> moAssociations;

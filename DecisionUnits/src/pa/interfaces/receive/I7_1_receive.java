@@ -10,6 +10,7 @@ import java.util.HashMap;
 
 import pa.datatypes.clsSecondaryInformation;
 import pa.interfaces.I_BaseInterface;
+import pa.memorymgmt.datatypes.clsSecondaryDataStructureContainer;
 import pa.tools.clsPair;
 
 /**
@@ -20,5 +21,6 @@ import pa.tools.clsPair;
  * 
  */
 public interface I7_1_receive extends I_BaseInterface {
-	public void receive_I7_1(HashMap<String, clsPair<clsSecondaryInformation, Double>> poTemplateResult);
+	public void receive_I7_1(HashMap<String, clsPair<clsSecondaryInformation, Double>> poTemplateResult_old, 
+			  				HashMap<String, clsPair<clsSecondaryDataStructureContainer,Double>> poTemplateResult);
 }

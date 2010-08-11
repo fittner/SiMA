@@ -16,6 +16,7 @@ import du.enums.pa.eContext;
  * 28.09.2009, 17:46:01
  * 
  */
+@Deprecated
 public class clsDriveObject extends clsThingPresentationSingle implements Cloneable {
 
 	public eEntityType meType;

@@ -13,6 +13,7 @@ package pa.datatypes;
  * 28.09.2009, 16:52:49
  * 
  */
+@Deprecated
 public class clsDriveContentCategories implements Cloneable {
 	//TODO: (ALL) probably better to change to cls0to1() !!!
 	private double mrOral;

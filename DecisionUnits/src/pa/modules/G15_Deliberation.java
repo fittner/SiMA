@@ -25,7 +25,8 @@ import pa.interfaces.receive.I7_5_receive;
 import pa.interfaces.receive.I7_6_receive;
 import pa.loader.plan.clsPlanAction;
 import pa.memory.clsMemory;
-import pa.memorymgmt.informationrepresentation.clsInformationRepresentationManagement;
+import pa.memorymgmt.clsKnowledgeBaseHandler;
+import pa.memorymgmt.datatypes.clsSecondaryDataStructureContainer;
 import pa.tools.clsPair;
 import config.clsBWProperties;
 
@@ -71,8 +72,8 @@ public class G15_Deliberation extends clsModuleContainer implements
 	 * @param poEnclosingContainer
 	 */
 	public G15_Deliberation(String poPrefix, clsBWProperties poProp,
-			clsModuleContainer poEnclosingContainer, clsInterfaceHandler poInterfaceHandler, clsMemory poMemory, clsInformationRepresentationManagement poInformationRepresentationManagement) {
-		super(poPrefix, poProp, poEnclosingContainer, poInterfaceHandler, poMemory, poInformationRepresentationManagement);
+			clsModuleContainer poEnclosingContainer, clsInterfaceHandler poInterfaceHandler, clsMemory poMemory, clsKnowledgeBaseHandler poKnowledgeBase) {
+		super(poPrefix, poProp, poEnclosingContainer, poInterfaceHandler, poMemory, poKnowledgeBase);
 		applyProperties(poPrefix, poProp);
 	}
 	
@@ -119,8 +120,9 @@ public class G15_Deliberation extends clsModuleContainer implements
 	 * @see pa.interfaces.I1_7#receive_I1_7(int)
 	 */
 	@Override
-	public void receive_I1_7(ArrayList<clsSecondaryInformation> poDriveList) {
-		moE26DecisionMaking.receive_I1_7(poDriveList);
+	public void receive_I1_7(ArrayList<clsSecondaryInformation> poDriveList_old,
+			  ArrayList<clsSecondaryDataStructureContainer> poDriveList) {
+		moE26DecisionMaking.receive_I1_7(poDriveList_old, poDriveList);
 	}
 
 	/* (non-Javadoc)
@@ -144,8 +146,9 @@ public class G15_Deliberation extends clsModuleContainer implements
 	 * @see pa.interfaces.I2_13#receive_I2_13(int)
 	 */
 	@Override
-	public void receive_I2_13(ArrayList<clsPair<clsSecondaryInformation, clsSecondaryInformationMesh>> poRealityPerception) {
-		moE26DecisionMaking.receive_I2_13(poRealityPerception);
+	public void receive_I2_13(ArrayList<clsPair<clsSecondaryInformation, clsSecondaryInformationMesh>> poRealityPerception_old,
+			   ArrayList<clsPair<clsSecondaryDataStructureContainer, clsSecondaryDataStructureContainer>> poRealityPerception) {
+		moE26DecisionMaking.receive_I2_13(poRealityPerception_old, poRealityPerception);
 	}
 
 	/* (non-Javadoc)
@@ -168,8 +171,9 @@ public class G15_Deliberation extends clsModuleContainer implements
 	 * @see pa.interfaces.I7_1#receive_I7_1(int)
 	 */
 	@Override
-	public void receive_I7_1(HashMap<String, clsPair<clsSecondaryInformation, Double>> poTemplateResult) {
-		moE27GenerationOfImaginaryActions.receive_I7_1(poTemplateResult);
+	public void receive_I7_1(HashMap<String, clsPair<clsSecondaryInformation, Double>> poTemplateResult_old, 
+			  HashMap<String, clsPair<clsSecondaryDataStructureContainer,Double>> poTemplateResult) {
+		moE27GenerationOfImaginaryActions.receive_I7_1(poTemplateResult_old, poTemplateResult);
 	}
 
 	/* (non-Javadoc)

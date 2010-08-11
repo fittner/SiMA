@@ -10,6 +10,7 @@ import java.util.ArrayList;
 
 import pa.datatypes.clsPrimaryInformation;
 import pa.interfaces.I_BaseInterface;
+import pa.memorymgmt.datatypes.clsPrimaryDataStructureContainer;
 import pa.tools.clsPair;
 
 /**
@@ -22,5 +23,6 @@ import pa.tools.clsPair;
 public interface I2_6_receive extends I_BaseInterface {
 	//first element: perceived clsPrimaryInformation
 	//second element (optional): attached repressed content 
-	public void receive_I2_6(ArrayList<clsPair<clsPrimaryInformation, clsPrimaryInformation>> poPerceptPlusRepressed);
+	public void receive_I2_6(ArrayList<clsPair<clsPrimaryInformation, clsPrimaryInformation>> poPerceptPlusRepressed_old,
+			  ArrayList<clsPair<clsPrimaryDataStructureContainer, clsPrimaryDataStructureContainer>> poPerceptPlusRepressed);
 }

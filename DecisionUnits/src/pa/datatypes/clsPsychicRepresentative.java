@@ -13,6 +13,7 @@ package pa.datatypes;
  * 11.08.2009, 12:54:29
  * 
  */
+@Deprecated
 public class clsPsychicRepresentative implements Cloneable {
 
 	@Override

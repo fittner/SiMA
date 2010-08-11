@@ -12,6 +12,8 @@ import pa.datatypes.clsAffectTension;
 import pa.datatypes.clsPrimaryInformation;
 import pa.datatypes.clsThingPresentation;
 import pa.interfaces.I_BaseInterface;
+import pa.memorymgmt.datatypes.clsAssociationDriveMesh;
+import pa.memorymgmt.datatypes.clsPrimaryDataStructureContainer;
 
 /**
  * DOCUMENT (deutsch) - insert description 
@@ -21,5 +23,6 @@ import pa.interfaces.I_BaseInterface;
  * 
  */
 public interface I4_2_receive extends I_BaseInterface {
-	public void receive_I4_2(ArrayList<clsPrimaryInformation> poPIs, ArrayList<clsThingPresentation> poTPs, ArrayList<clsAffectTension> poAffects);
+	public void receive_I4_2(ArrayList<clsPrimaryInformation> poPIs_old, ArrayList<clsThingPresentation> poTPs_old, ArrayList<clsAffectTension> poAffects_old,
+			  ArrayList<clsPrimaryDataStructureContainer> poPIs, ArrayList<pa.memorymgmt.datatypes.clsThingPresentation> poTPs, ArrayList<clsAssociationDriveMesh> poAffects);
 }

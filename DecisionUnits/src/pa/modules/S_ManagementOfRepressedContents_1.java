@@ -20,6 +20,7 @@ import pa.datatypes.clsDriveContentCategories;
 import pa.datatypes.clsPrimaryInformation;
 import pa.interfaces.receive.I2_5_receive;
 import pa.interfaces.receive.I2_6_receive;
+import pa.memorymgmt.datatypes.clsPrimaryDataStructureContainer;
 import pa.tools.clsPair;
 
 /**
@@ -31,8 +32,12 @@ import pa.tools.clsPair;
  */
 public class S_ManagementOfRepressedContents_1 extends clsModuleBase implements I2_5_receive {
 
-	public ArrayList<clsPrimaryInformation> moEnvironmentalTP_Input;
-	public ArrayList<clsPair<clsPrimaryInformation, clsPrimaryInformation>> moAttachedRepressed_Output;
+	public ArrayList<clsPrimaryInformation> moEnvironmentalTP_Input_old;
+	public ArrayList<clsPair<clsPrimaryInformation, clsPrimaryInformation>> moAttachedRepressed_Output_old;
+	
+	public ArrayList<clsPrimaryDataStructureContainer> moEnvironmentalTP_Input; 
+	public ArrayList<clsPair<clsPrimaryDataStructureContainer, clsPrimaryDataStructureContainer>> moAttachedRepressed_Output; 
+	
 	private double mrContextSensitivity = 0.8;
 	
 	public static String P_CONTEXT_SENSTITIVITY = "CONTEXT_SENSITIVITY"; 
@@ -68,8 +73,8 @@ public class S_ManagementOfRepressedContents_1 extends clsModuleBase implements 
 	 */
 	@SuppressWarnings("unchecked")
 	@Override
-	public void receive_I2_5(ArrayList<clsPrimaryInformation> poEnvironmentalTP) {
-		moEnvironmentalTP_Input = (ArrayList<clsPrimaryInformation>)deepCopy( poEnvironmentalTP );
+	public void receive_I2_5(ArrayList<clsPrimaryInformation> poEnvironmentalTP_old, ArrayList<clsPrimaryDataStructureContainer> poEnvironmentalTP) {
+		moEnvironmentalTP_Input_old = (ArrayList<clsPrimaryInformation>)deepCopy( poEnvironmentalTP_old );
 	}
 
 	/* (non-Javadoc)
@@ -82,8 +87,8 @@ public class S_ManagementOfRepressedContents_1 extends clsModuleBase implements 
 	@Override
 	protected void process_basic() {
 		
-		cathegorize( moEnvironmentalTP_Input );
-		moAttachedRepressed_Output = matchWithRepressedContent(moEnvironmentalTP_Input);
+		cathegorize( moEnvironmentalTP_Input_old );
+		moAttachedRepressed_Output_old = matchWithRepressedContent(moEnvironmentalTP_Input_old);
 	}
 
 	/**
@@ -134,7 +139,6 @@ public class S_ManagementOfRepressedContents_1 extends clsModuleBase implements 
 		ArrayList<clsPair<clsPrimaryInformation, clsPrimaryInformation>> oRetVal = new ArrayList<clsPair<clsPrimaryInformation,clsPrimaryInformation>>();
 
 		for(clsPrimaryInformation oInput : poCategorizedInput) {
-			
 			clsPrimaryInformation oRep = moEnclosingContainer.moMemory.moRepressedContentsStore.getBestMatch(oInput.moTP.moDriveContentCategory);
 			oRetVal.add(new clsPair<clsPrimaryInformation, clsPrimaryInformation>(oInput, oRep));
 		}
@@ -151,7 +155,7 @@ public class S_ManagementOfRepressedContents_1 extends clsModuleBase implements 
 	 */
 	@Override
 	protected void send() {
-		((I2_6_receive)moEnclosingContainer).receive_I2_6(moAttachedRepressed_Output);
+		((I2_6_receive)moEnclosingContainer).receive_I2_6(moAttachedRepressed_Output_old, moAttachedRepressed_Output);
 		
 	}
 

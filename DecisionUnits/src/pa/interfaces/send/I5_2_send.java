@@ -9,6 +9,7 @@ package pa.interfaces.send;
 import java.util.ArrayList;
 
 import pa.datatypes.clsAffectTension;
+import pa.memorymgmt.datatypes.clsAssociationDriveMesh;
 
 /**
  * DOCUMENT (deutsch) - insert description 
@@ -18,5 +19,6 @@ import pa.datatypes.clsAffectTension;
  * 
  */
 public interface I5_2_send {
-	public void send_I5_2(ArrayList<clsAffectTension> poDeniedAffects);
+	public void send_I5_2(ArrayList<clsAffectTension> poDeniedAffects_old,
+						  ArrayList<clsAssociationDriveMesh> poDeniedAffects);
 }

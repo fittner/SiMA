@@ -15,6 +15,7 @@ import pa.enums.eDriveType;
  * 22.10.2009, 17:19:57
  * 
  */
+@Deprecated
 public class clsDriveMesh extends clsPrimaryInformationMesh {
 
 	public eDriveType meDriveType;

@@ -23,6 +23,7 @@ import java.lang.reflect.Method;
  * 11.08.2009, 15:04:24
  * 
  */
+@Deprecated
 public class clsAssociationContext<TYPE> extends clsAssociationWeighted<TYPE> implements Cloneable {
 
 	public TYPE moAssociationContext;

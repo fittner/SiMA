@@ -9,6 +9,7 @@ package pa.interfaces.send;
 import java.util.ArrayList;
 
 import pa.datatypes.clsAffectTension;
+import pa.memorymgmt.datatypes.clsPrimaryDataStructureContainer;
 
 /**
  * DOCUMENT (deutsch) - insert description 
@@ -18,5 +19,6 @@ import pa.datatypes.clsAffectTension;
  * 
  */
 public interface I5_1_send {
-	public void send_I5_1(ArrayList<clsAffectTension> poAffectOnlyList);
+	public void send_I5_1(ArrayList<clsAffectTension> poAffectOnlyList_old,
+						  ArrayList<clsPrimaryDataStructureContainer> poAffectOnlyList);
 }

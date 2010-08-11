@@ -13,6 +13,7 @@ package pa.enums;
  * 22.10.2009, 17:05:46
  * 
  */
+@Deprecated
 public enum eDriveType {
 
 	LIFE,

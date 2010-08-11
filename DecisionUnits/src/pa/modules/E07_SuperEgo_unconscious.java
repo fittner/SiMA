@@ -17,6 +17,7 @@ import pa.interfaces.receive.I3_1_receive;
 import pa.interfaces.receive.I3_2_receive;
 import pa.interfaces.send.I3_1_send;
 import pa.interfaces.send.I3_2_send;
+import pa.memorymgmt.datatypes.clsPrimaryDataStructureContainer;
 import config.clsBWProperties;
 
 /**
@@ -27,7 +28,8 @@ import config.clsBWProperties;
  * 
  */
 public class E07_SuperEgo_unconscious extends clsModuleBase implements I1_5_receive, I2_9_receive, I3_1_send, I3_2_send {
-	ArrayList<clsPrimaryInformation> moPrimaryInformation;
+	ArrayList<clsPrimaryInformation> moPrimaryInformation_old;
+	ArrayList<clsPrimaryDataStructureContainer> moPrimaryInformation; 
 	
 	/**
 	 * DOCUMENT (deutsch) - insert description 
@@ -93,9 +95,9 @@ public class E07_SuperEgo_unconscious extends clsModuleBase implements I1_5_rece
 	 */
 	@SuppressWarnings("unchecked")
 	@Override
-	public void receive_I1_5(List<clsPrimaryInformation> poData) {
-		moPrimaryInformation = (ArrayList<clsPrimaryInformation>)deepCopy( (ArrayList<clsPrimaryInformation>)poData);
-		
+	public void receive_I1_5(List<clsPrimaryInformation> poData_old, List<clsPrimaryDataStructureContainer> poData) {
+		moPrimaryInformation_old = (ArrayList<clsPrimaryInformation>)deepCopy( (ArrayList<clsPrimaryInformation>)poData_old);
+		moPrimaryInformation = (ArrayList<clsPrimaryDataStructureContainer>)deepCopy( (ArrayList<clsPrimaryDataStructureContainer>)poData);
 	}
 
 	/* (non-Javadoc)
@@ -106,7 +108,8 @@ public class E07_SuperEgo_unconscious extends clsModuleBase implements I1_5_rece
 	 * @see pa.interfaces.I2_9#receive_I2_9(int)
 	 */
 	@Override
-	public void receive_I2_9(ArrayList<clsPrimaryInformation> poMergedPrimaryInformation) {
+	public void receive_I2_9(ArrayList<clsPrimaryInformation> poMergedPrimaryInformation_old,
+			  ArrayList<clsPrimaryDataStructureContainer> poMergedPrimaryInformation) {
 		
 		//DEEPCOPY
 	}

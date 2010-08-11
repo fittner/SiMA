@@ -13,6 +13,7 @@ package pa.datatypes;
  * 17.10.2009, 19:33:26
  * 
  */
+@Deprecated
 public abstract class clsAffect extends clsPsychicRepresentative implements Cloneable { 
 	public abstract double getValue();
 	

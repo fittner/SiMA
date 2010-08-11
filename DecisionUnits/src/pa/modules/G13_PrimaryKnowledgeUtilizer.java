@@ -16,7 +16,8 @@ import pa.interfaces.receive.I2_6_receive;
 import pa.interfaces.receive.I2_7_receive;
 import pa.interfaces.receive.I6_3_receive;
 import pa.memory.clsMemory;
-import pa.memorymgmt.informationrepresentation.clsInformationRepresentationManagement;
+import pa.memorymgmt.clsKnowledgeBaseHandler;
+import pa.memorymgmt.datatypes.clsPrimaryDataStructureContainer;
 import pa.tools.clsPair;
 import pa.tools.clsTripple;
 import config.clsBWProperties;
@@ -52,8 +53,8 @@ public class G13_PrimaryKnowledgeUtilizer extends clsModuleContainer implements
 	 * @param poEnclosingContainer
 	 */
 	public G13_PrimaryKnowledgeUtilizer(String poPrefix, clsBWProperties poProp,
-			clsModuleContainer poEnclosingContainer, clsInterfaceHandler poInterfaceHandler, clsMemory poMemory, clsInformationRepresentationManagement poInformationRepresentationManagement) {
-		super(poPrefix, poProp, poEnclosingContainer, poInterfaceHandler, poMemory, poInformationRepresentationManagement);
+			clsModuleContainer poEnclosingContainer, clsInterfaceHandler poInterfaceHandler, clsMemory poMemory, clsKnowledgeBaseHandler poKnowledgeBase) {
+		super(poPrefix, poProp, poEnclosingContainer, poInterfaceHandler, poMemory, poKnowledgeBase);
 		applyProperties(poPrefix, poProp);
 	}
 	
@@ -83,8 +84,9 @@ public class G13_PrimaryKnowledgeUtilizer extends clsModuleContainer implements
 	 * @see pa.interfaces.I2_6#receive_I2_6(int)
 	 */
 	@Override
-	public void receive_I2_6(ArrayList<clsPair<clsPrimaryInformation, clsPrimaryInformation>> poPerceptPlusRepressed) {
-		moE16ManagementOfMemoryTraces.receive_I2_6(poPerceptPlusRepressed);
+	public void receive_I2_6(ArrayList<clsPair<clsPrimaryInformation, clsPrimaryInformation>> poPerceptPlusRepressed_old,
+			  ArrayList<clsPair<clsPrimaryDataStructureContainer, clsPrimaryDataStructureContainer>> poPerceptPlusRepressed) {
+		moE16ManagementOfMemoryTraces.receive_I2_6(poPerceptPlusRepressed_old, poPerceptPlusRepressed);
 	}
 
 	/* (non-Javadoc)
@@ -95,8 +97,8 @@ public class G13_PrimaryKnowledgeUtilizer extends clsModuleContainer implements
 	 * @see pa.interfaces.I1_5#receive_I1_5(int)
 	 */
 	@Override
-	public void receive_I1_5(List<clsPrimaryInformation> poData) {
-		moE09KnowledgeAboutReality_unconscious.receive_I1_5(poData);
+	public void receive_I1_5(List<clsPrimaryInformation> poData_old, List<clsPrimaryDataStructureContainer> poData) {
+		moE09KnowledgeAboutReality_unconscious.receive_I1_5(poData_old, poData);
 	}
 
 	/* (non-Javadoc)
@@ -107,8 +109,9 @@ public class G13_PrimaryKnowledgeUtilizer extends clsModuleContainer implements
 	 * @see pa.interfaces.I2_7#receive_I2_7(int)
 	 */
 	@Override
-	public void receive_I2_7(ArrayList<clsTripple<clsPrimaryInformation, clsPrimaryInformation, ArrayList<clsPrimaryInformation>>> poPerceptPlusMemories_Output) {
-		((I2_7_receive)moEnclosingContainer).receive_I2_7(poPerceptPlusMemories_Output);
+	public void receive_I2_7(ArrayList<clsTripple<clsPrimaryInformation, clsPrimaryInformation,ArrayList<clsPrimaryInformation>>> poPerceptPlusMemories_Output_old,
+			  				 ArrayList<clsTripple<clsPrimaryDataStructureContainer, clsPrimaryDataStructureContainer,ArrayList<clsPrimaryDataStructureContainer>>> poPerceptPlusMemories_Output) {
+		((I2_7_receive)moEnclosingContainer).receive_I2_7(poPerceptPlusMemories_Output_old, poPerceptPlusMemories_Output);
 	}
 
 	/* (non-Javadoc)

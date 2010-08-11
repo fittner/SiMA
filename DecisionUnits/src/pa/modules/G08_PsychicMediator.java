@@ -35,7 +35,10 @@ import pa.interfaces.receive.I6_3_receive;
 import pa.interfaces.receive.I7_4_receive;
 import pa.loader.plan.clsPlanAction;
 import pa.memory.clsMemory;
-import pa.memorymgmt.informationrepresentation.clsInformationRepresentationManagement;
+import pa.memorymgmt.clsKnowledgeBaseHandler;
+import pa.memorymgmt.datatypes.clsAssociationDriveMesh;
+import pa.memorymgmt.datatypes.clsPrimaryDataStructureContainer;
+import pa.memorymgmt.datatypes.clsSecondaryDataStructureContainer;
 import pa.tools.clsPair;
 import config.clsBWProperties;
 
@@ -87,8 +90,8 @@ public class G08_PsychicMediator extends clsModuleContainer implements
 	 * @param poEnclosingContainer
 	 */
 	public G08_PsychicMediator(String poPrefix, clsBWProperties poProp,
-			clsModuleContainer poEnclosingContainer, clsInterfaceHandler poInterfaceHandler, clsMemory poMemory, clsInformationRepresentationManagement poInformationRepresentationManagement) {
-		super(poPrefix, poProp, poEnclosingContainer, poInterfaceHandler, poMemory, poInformationRepresentationManagement);
+			clsModuleContainer poEnclosingContainer, clsInterfaceHandler poInterfaceHandler, clsMemory poMemory, clsKnowledgeBaseHandler poKnowledgeBase) {
+		super(poPrefix, poProp, poEnclosingContainer, poInterfaceHandler, poMemory, poKnowledgeBase);
 		applyProperties(poPrefix, poProp);
 	}
 	
@@ -107,9 +110,9 @@ public class G08_PsychicMediator extends clsModuleContainer implements
 	private void applyProperties(String poPrefix, clsBWProperties poProp) {
 		String pre = clsBWProperties.addDot(poPrefix);
 	
-		moG09PrimaryProcessor = new G09_PrimaryProcessor(pre+P_G09, poProp, this, moInterfaceHandler, moMemory, moInformationRepresentationManagement);
-		moG10PrimaryToSecondaryInterface1 = new G10_PrimaryToSecondaryInterface(pre+P_G10, poProp, this, moInterfaceHandler, moMemory, moInformationRepresentationManagement);
-		moG11SecondaryProcessor = new G11_SecondaryProcessor(pre+P_G11, poProp, this, moInterfaceHandler, moMemory, moInformationRepresentationManagement);
+		moG09PrimaryProcessor = new G09_PrimaryProcessor(pre+P_G09, poProp, this, moInterfaceHandler, moMemory, moKnowledgeBase);
+		moG10PrimaryToSecondaryInterface1 = new G10_PrimaryToSecondaryInterface(pre+P_G10, poProp, this, moInterfaceHandler, moMemory, moKnowledgeBase);
+		moG11SecondaryProcessor = new G11_SecondaryProcessor(pre+P_G11, poProp, this, moInterfaceHandler, moMemory, moKnowledgeBase);
 	}
 
 	/* (non-Javadoc)
@@ -120,8 +123,9 @@ public class G08_PsychicMediator extends clsModuleContainer implements
 	 * @see pa.interfaces.I2_6#receive_I2_6(int)
 	 */
 	@Override
-	public void receive_I2_6(ArrayList<clsPair<clsPrimaryInformation, clsPrimaryInformation>> poPerceptPlusRepressed) {
-		moG09PrimaryProcessor.receive_I2_6(poPerceptPlusRepressed);
+	public void receive_I2_6(ArrayList<clsPair<clsPrimaryInformation, clsPrimaryInformation>> poPerceptPlusRepressed_old,
+			  ArrayList<clsPair<clsPrimaryDataStructureContainer, clsPrimaryDataStructureContainer>> poPerceptPlusRepressed) {
+		moG09PrimaryProcessor.receive_I2_6(poPerceptPlusRepressed_old, poPerceptPlusRepressed);
 		
 	}
 
@@ -133,8 +137,9 @@ public class G08_PsychicMediator extends clsModuleContainer implements
 	 * @see pa.interfaces.I2_8#receive_I2_8(int)
 	 */
 	@Override
-	public void receive_I2_8(ArrayList<clsPair<clsPrimaryInformation,clsPrimaryInformation>>poMergedPrimaryInformationMesh) {
-		((I2_8_receive)moEnclosingContainer).receive_I2_8(poMergedPrimaryInformationMesh);
+	public void receive_I2_8(ArrayList<clsPair<clsPrimaryInformation, clsPrimaryInformation>> poMergedPrimaryInformation_old,
+			  				ArrayList<clsPair<clsPrimaryDataStructureContainer, clsPrimaryDataStructureContainer>> poMergedPrimaryInformation) {
+		((I2_8_receive)moEnclosingContainer).receive_I2_8(poMergedPrimaryInformation_old, poMergedPrimaryInformation);
 	}
 
 	/* (non-Javadoc)
@@ -158,8 +163,8 @@ public class G08_PsychicMediator extends clsModuleContainer implements
 	 * @see pa.interfaces.I1_5#receive_I1_5(int)
 	 */
 	@Override
-	public void receive_I1_5(List<clsPrimaryInformation> poData) {
-		moG09PrimaryProcessor.receive_I1_5(poData);		
+	public void receive_I1_5(List<clsPrimaryInformation> poData_old, List<clsPrimaryDataStructureContainer> poData) {
+		moG09PrimaryProcessor.receive_I1_5(poData_old, poData);		
 	}
 
 	/* (non-Javadoc)
@@ -170,8 +175,8 @@ public class G08_PsychicMediator extends clsModuleContainer implements
 	 * @see pa.interfaces.I1_6#receive_I1_6(int)
 	 */
 	@Override
-	public void receive_I1_6(ArrayList<clsPrimaryInformation> poDriveList) {
-		moG10PrimaryToSecondaryInterface1.receive_I1_6(poDriveList);
+	public void receive_I1_6(ArrayList<clsPrimaryInformation> poDriveList_old, ArrayList<clsPrimaryDataStructureContainer> poDriveList) {
+		moG10PrimaryToSecondaryInterface1.receive_I1_6(poDriveList_old, poDriveList);
 	}
 
 	/* (non-Javadoc)
@@ -182,8 +187,8 @@ public class G08_PsychicMediator extends clsModuleContainer implements
 	 * @see pa.interfaces.I2_9#receive_I2_9(int)
 	 */
 	@Override
-	public void receive_I2_9(ArrayList<clsPrimaryInformation> poMergedPrimaryInformation) {
-		moG09PrimaryProcessor.receive_I2_9(poMergedPrimaryInformation);
+	public void receive_I2_9(ArrayList<clsPrimaryInformation> poMergedPrimaryInformation_old, ArrayList<clsPrimaryDataStructureContainer> poMergedPrimaryInformation) {
+		moG09PrimaryProcessor.receive_I2_9(poMergedPrimaryInformation_old, poMergedPrimaryInformation);
 	}
 
 	/* (non-Javadoc)
@@ -206,8 +211,9 @@ public class G08_PsychicMediator extends clsModuleContainer implements
 	 * @see pa.interfaces.I4_1#receive_I4_1(int)
 	 */
 	@Override
-	public void receive_I4_1(List<clsPrimaryInformation> poPIs, List<clsThingPresentation> poTPs, List<clsAffectTension> poAffects) {
-		((I4_1_receive)moEnclosingContainer).receive_I4_1(poPIs, poTPs, poAffects);
+	public void receive_I4_1(List<clsPrimaryInformation> poPIs_old, List<clsThingPresentation> poTPs_old, List<clsAffectTension> poAffects_old,
+			  				 List<clsPrimaryDataStructureContainer> poPIs, List<pa.memorymgmt.datatypes.clsThingPresentation> poTPs, List<clsAssociationDriveMesh> poAffects) {
+		((I4_1_receive)moEnclosingContainer).receive_I4_1(poPIs_old, poTPs_old, poAffects_old, poPIs, poTPs, poAffects);
 	}
 
 	/* (non-Javadoc)
@@ -218,8 +224,9 @@ public class G08_PsychicMediator extends clsModuleContainer implements
 	 * @see pa.interfaces.I4_2#receive_I4_2(int)
 	 */
 	@Override
-	public void receive_I4_2(ArrayList<clsPrimaryInformation> poPIs, ArrayList<clsThingPresentation> poTPs, ArrayList<clsAffectTension> poAffects) {
-		((I4_2_receive)moEnclosingContainer).receive_I4_2(poPIs, poTPs, poAffects);
+	public void receive_I4_2(ArrayList<clsPrimaryInformation> poPIs_old, ArrayList<clsThingPresentation> poTPs_old, ArrayList<clsAffectTension> poAffects_old,
+			  			     ArrayList<clsPrimaryDataStructureContainer> poPIs, ArrayList<pa.memorymgmt.datatypes.clsThingPresentation> poTPs, ArrayList<clsAssociationDriveMesh> poAffects) {
+		((I4_2_receive)moEnclosingContainer).receive_I4_2(poPIs_old, poTPs_old, poAffects_old, poPIs, poTPs, poAffects);
 	}
 
 	/* (non-Javadoc)
@@ -230,8 +237,8 @@ public class G08_PsychicMediator extends clsModuleContainer implements
 	 * @see pa.interfaces.I4_3#receive_I4_3(int)
 	 */
 	@Override
-	public void receive_I4_3(List<clsPrimaryInformation> poPIs) {
-		moG09PrimaryProcessor.receive_I4_3(poPIs);
+	public void receive_I4_3(List<clsPrimaryInformation> poPIs_old, List<clsPrimaryDataStructureContainer> poPIs) {
+		moG09PrimaryProcessor.receive_I4_3(poPIs_old, poPIs);
 	}
 
 	/* (non-Javadoc)
@@ -242,8 +249,8 @@ public class G08_PsychicMediator extends clsModuleContainer implements
 	 * @see pa.interfaces.I5_1#receive_I5_1(int)
 	 */
 	@Override
-	public void receive_I5_1(ArrayList<clsAffectTension> poAffectOnlyList) {
-		moG10PrimaryToSecondaryInterface1.receive_I5_1(poAffectOnlyList);
+	public void receive_I5_1(ArrayList<clsAffectTension> poAffectOnlyList_old, ArrayList<clsPrimaryDataStructureContainer> poAffectOnlyList) {
+		moG10PrimaryToSecondaryInterface1.receive_I5_1(poAffectOnlyList_old, poAffectOnlyList);
 	}
 
 	/* (non-Javadoc)
@@ -278,8 +285,8 @@ public class G08_PsychicMediator extends clsModuleContainer implements
 	 * @see pa.interfaces.I5_2#receive_I5_2(int)
 	 */
 	@Override
-	public void receive_I5_2(ArrayList<clsAffectTension> poDeniedAffects) {
-		moG10PrimaryToSecondaryInterface1.receive_I5_2(poDeniedAffects);		
+	public void receive_I5_2(ArrayList<clsAffectTension> poDeniedAffects_old, ArrayList<clsAssociationDriveMesh> poDeniedAffects) {
+		moG10PrimaryToSecondaryInterface1.receive_I5_2(poDeniedAffects_old, poDeniedAffects);		
 	}
 
 	/* (non-Javadoc)
@@ -290,9 +297,9 @@ public class G08_PsychicMediator extends clsModuleContainer implements
 	 * @see pa.interfaces.I1_7#receive_I1_7(int)
 	 */
 	@Override
-	public void receive_I1_7(ArrayList<clsSecondaryInformation> poDriveList) {
-		moG11SecondaryProcessor.receive_I1_7(poDriveList); //e23&e26 (perc & delib)
-		((I1_7_receive)moEnclosingContainer).receive_I1_7(poDriveList); //e22 (super ego)
+	public void receive_I1_7(ArrayList<clsSecondaryInformation> poDriveList_old, ArrayList<clsSecondaryDataStructureContainer> poDriveList) {
+		moG11SecondaryProcessor.receive_I1_7(poDriveList_old, poDriveList); //e23&e26 (perc & delib)
+		((I1_7_receive)moEnclosingContainer).receive_I1_7(poDriveList_old, poDriveList); //e22 (super ego)
 	}
 
 	/* (non-Javadoc)
@@ -303,9 +310,9 @@ public class G08_PsychicMediator extends clsModuleContainer implements
 	 * @see pa.interfaces.I2_11#receive_I2_11(int)
 	 */
 	@Override
-	public void receive_I2_11(ArrayList<clsSecondaryInformation> poPerception) {
-		((I2_11_receive)moEnclosingContainer).receive_I2_11(poPerception); //to e22 (super ego)
-		moG11SecondaryProcessor.receive_I2_11(poPerception);		 //to e23
+	public void receive_I2_11(ArrayList<clsSecondaryInformation> poPerception_old, ArrayList<clsSecondaryDataStructureContainer> poPerception) {
+		((I2_11_receive)moEnclosingContainer).receive_I2_11(poPerception_old, poPerception); //to e22 (super ego)
+		moG11SecondaryProcessor.receive_I2_11(poPerception_old, poPerception);		 //to e23
 	}
 
 	/* (non-Javadoc)
@@ -340,8 +347,8 @@ public class G08_PsychicMediator extends clsModuleContainer implements
 	 * @see pa.interfaces.I2_10#receive_I2_10(int)
 	 */
 	@Override
-	public void receive_I2_10(ArrayList<clsPrimaryInformation> poGrantedPerception) {
-		moG10PrimaryToSecondaryInterface1.receive_I2_10(poGrantedPerception);
+	public void receive_I2_10(ArrayList<clsPrimaryInformation> poGrantedPerception_old, ArrayList<clsPrimaryDataStructureContainer> poGrantedPerception) {
+		moG10PrimaryToSecondaryInterface1.receive_I2_10(poGrantedPerception_old, poGrantedPerception);
 		
 	}
 

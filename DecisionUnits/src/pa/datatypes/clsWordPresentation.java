@@ -15,6 +15,7 @@ import pa.interfaces.itfSecondaryProcessComparableWP;
  * 11.08.2009, 11:16:20
  * 
  */
+@Deprecated
 public class clsWordPresentation extends clsPsychicRepresentative implements itfSecondaryProcessComparableWP, Cloneable {
 
 	public String moContentName;

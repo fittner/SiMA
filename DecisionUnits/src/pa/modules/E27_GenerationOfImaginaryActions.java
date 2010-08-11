@@ -21,6 +21,7 @@ import pa.interfaces.send.I7_3_send;
 import pa.loader.plan.clsPlanAction;
 import pa.loader.plan.clsPlanBaseMesh;
 import pa.loader.plan.clsPlanStateMesh;
+import pa.memorymgmt.datatypes.clsSecondaryDataStructureContainer;
 import pa.tools.clsPair;
 
 /**
@@ -33,7 +34,8 @@ import pa.tools.clsPair;
 public class E27_GenerationOfImaginaryActions extends clsModuleBase implements I6_2_receive, I7_1_receive, I7_3_send, itfTimeChartInformationContainer {
 
 	ArrayList<clsSecondaryInformation> moEnvironmentalPerception;
-	private HashMap<String, clsPair<clsSecondaryInformation, Double>> moTemplateResult_Input;
+	private HashMap<String, clsPair<clsSecondaryInformation, Double>> moTemplateResult_Input_old;
+	private HashMap<String, clsPair<clsSecondaryDataStructureContainer, Double>> moTemplateResult_Input;
 	
 	ArrayList<clsPlanAction> moActions_Output;
 	
@@ -116,9 +118,10 @@ public class E27_GenerationOfImaginaryActions extends clsModuleBase implements I
 	 */
 	@SuppressWarnings("unchecked")
 	@Override
-	public void receive_I7_1(HashMap<String, clsPair<clsSecondaryInformation, Double>> poTemplateResult) {
-		moTemplateResult_Input = ( HashMap<String, clsPair<clsSecondaryInformation, Double>>) deepCopy( poTemplateResult );
-		
+	public void receive_I7_1(HashMap<String, clsPair<clsSecondaryInformation, Double>> poTemplateResult_old, 
+			  				 HashMap<String, clsPair<clsSecondaryDataStructureContainer,Double>> poTemplateResult) {
+		moTemplateResult_Input_old = ( HashMap<String, clsPair<clsSecondaryInformation, Double>>) deepCopy( poTemplateResult_old);
+		moTemplateResult_Input = (HashMap<String, clsPair<clsSecondaryDataStructureContainer,Double>>) deepCopy(poTemplateResult);
 	}
 
 	/* (non-Javadoc)
@@ -132,7 +135,7 @@ public class E27_GenerationOfImaginaryActions extends clsModuleBase implements I
 	protected void process_basic() {
 		
 		// 
-		moActions_Output = this.moEnclosingContainer.moMemory.moTemplatePlanStorage.getReognitionUpdate(moTemplateResult_Input);
+		moActions_Output = this.moEnclosingContainer.moMemory.moTemplatePlanStorage.getReognitionUpdate(moTemplateResult_Input_old);
 		
 	}
 
@@ -147,7 +150,7 @@ public class E27_GenerationOfImaginaryActions extends clsModuleBase implements I
 	public ArrayList<clsPair<String, Double>> getTimeChartData() {
 
 		ArrayList<clsPair<String, Double>> oRetVal = new ArrayList<clsPair<String, Double>>();
-		for( Map.Entry<String,  clsPair<clsSecondaryInformation, Double>> oMatch : moTemplateResult_Input.entrySet()) {
+		for( Map.Entry<String,  clsPair<clsSecondaryInformation, Double>> oMatch : moTemplateResult_Input_old.entrySet()) {
 			oRetVal.add(new clsPair<String, Double>("TI_"+oMatch.getKey(), oMatch.getValue().b));
 		}
 		

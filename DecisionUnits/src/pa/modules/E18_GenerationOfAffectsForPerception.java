@@ -18,6 +18,7 @@ import pa.datatypes.clsPrimaryInformationMesh;
 import pa.interfaces.receive.I2_8_receive;
 import pa.interfaces.receive.I2_9_receive;
 import pa.interfaces.send.I2_9_send;
+import pa.memorymgmt.datatypes.clsPrimaryDataStructureContainer;
 import pa.tools.clsPair;
 
 /**
@@ -39,9 +40,11 @@ public class E18_GenerationOfAffectsForPerception extends clsModuleBase implemen
 	 * @param poProp
 	 * @param poEnclosingContainer
 	 */
+	public ArrayList<clsPair<clsPrimaryInformation,clsPrimaryInformation>> moMergedPrimaryInformation_Input_old; 
+	public ArrayList<clsPrimaryInformation> moNewPrimaryInformation_old; 
 	
-	public ArrayList<clsPair<clsPrimaryInformation,clsPrimaryInformation>> moMergedPrimaryInformation_Input; 
-	public ArrayList<clsPrimaryInformation> moNewPrimaryInformation; 
+	public ArrayList<clsPair<clsPrimaryDataStructureContainer, clsPrimaryDataStructureContainer>> moMergedPrimaryInformation_Input;
+	public ArrayList<clsPrimaryDataStructureContainer> moNewPrimaryInformation; 
 	
 	public E18_GenerationOfAffectsForPerception(String poPrefix,
 			clsBWProperties poProp, clsModuleContainer poEnclosingContainer, clsInterfaceHandler poInterfaceHandler) {
@@ -97,8 +100,10 @@ public class E18_GenerationOfAffectsForPerception extends clsModuleBase implemen
 	 */
 	@SuppressWarnings("unchecked")
 	@Override
-	public void receive_I2_8(ArrayList<clsPair<clsPrimaryInformation, clsPrimaryInformation>> poMergedPrimaryInformationMesh) {
-		moMergedPrimaryInformation_Input = (ArrayList<clsPair<clsPrimaryInformation,clsPrimaryInformation>>)deepCopy(poMergedPrimaryInformationMesh);
+	public void receive_I2_8(ArrayList<clsPair<clsPrimaryInformation, clsPrimaryInformation>> poMergedPrimaryInformation_old,
+			  ArrayList<clsPair<clsPrimaryDataStructureContainer, clsPrimaryDataStructureContainer>> poMergedPrimaryInformation) {
+		moMergedPrimaryInformation_Input_old = (ArrayList<clsPair<clsPrimaryInformation,clsPrimaryInformation>>)deepCopy(poMergedPrimaryInformation_old);
+		moMergedPrimaryInformation_Input = (ArrayList<clsPair<clsPrimaryDataStructureContainer, clsPrimaryDataStructureContainer>>)deepCopy(poMergedPrimaryInformation);
 	}
 
 	/* (non-Javadoc)
@@ -123,14 +128,14 @@ public class E18_GenerationOfAffectsForPerception extends clsModuleBase implemen
 	 * @return
 	 */
 	private void defineOutput() {
-		moNewPrimaryInformation = new ArrayList<clsPrimaryInformation>(); 
+		moNewPrimaryInformation_old = new ArrayList<clsPrimaryInformation>(); 
 		
-		for(clsPair<clsPrimaryInformation, clsPrimaryInformation> oElement : moMergedPrimaryInformation_Input){
+		for(clsPair<clsPrimaryInformation, clsPrimaryInformation> oElement : moMergedPrimaryInformation_Input_old){
 			if(oElement.b != null){
-				moNewPrimaryInformation.add(calculateAffect(oElement));
+				moNewPrimaryInformation_old.add(calculateAffect(oElement));
 			}
 			else{
-				moNewPrimaryInformation.add(oElement.a); 
+				moNewPrimaryInformation_old.add(oElement.a); 
 			}
 		}
 	}
@@ -167,7 +172,8 @@ public class E18_GenerationOfAffectsForPerception extends clsModuleBase implemen
 	 */
 	@Override
 	protected void send() {
-		send_I2_9(moNewPrimaryInformation);
+		//HZ: null is a placeholder for the bjects of the type pa.memorymgmt.datatypes
+		send_I2_9(moNewPrimaryInformation_old,moNewPrimaryInformation);
 		
 	}
 
@@ -180,8 +186,9 @@ public class E18_GenerationOfAffectsForPerception extends clsModuleBase implemen
 	 */
 	@Override
 	public void send_I2_9(
-			ArrayList<clsPrimaryInformation> poMergedPrimaryInformation) {
-		((I2_9_receive)moEnclosingContainer).receive_I2_9(moNewPrimaryInformation);
+				ArrayList<clsPrimaryInformation> poMergedPrimaryInformation_old,
+				ArrayList<clsPrimaryDataStructureContainer> poMergedPrimaryInformation) {
+		((I2_9_receive)moEnclosingContainer).receive_I2_9(moNewPrimaryInformation_old, moNewPrimaryInformation);
 		
 	}
 

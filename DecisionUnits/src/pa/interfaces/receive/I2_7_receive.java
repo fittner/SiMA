@@ -10,6 +10,7 @@ import java.util.ArrayList;
 
 import pa.datatypes.clsPrimaryInformation;
 import pa.interfaces.I_BaseInterface;
+import pa.memorymgmt.datatypes.clsPrimaryDataStructureContainer;
 import pa.tools.clsTripple;
 
 /**
@@ -20,5 +21,6 @@ import pa.tools.clsTripple;
  * 
  */
 public interface I2_7_receive extends I_BaseInterface {
-	public void receive_I2_7(ArrayList<clsTripple<clsPrimaryInformation, clsPrimaryInformation,ArrayList<clsPrimaryInformation>>> poPerceptPlusMemories_Output);
+	public void receive_I2_7(ArrayList<clsTripple<clsPrimaryInformation, clsPrimaryInformation,ArrayList<clsPrimaryInformation>>> poPerceptPlusMemories_Output_old,
+			  ArrayList<clsTripple<clsPrimaryDataStructureContainer, clsPrimaryDataStructureContainer,ArrayList<clsPrimaryDataStructureContainer>>> poPerceptPlusMemories_Output);
 }

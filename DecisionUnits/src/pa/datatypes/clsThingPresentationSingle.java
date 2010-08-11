@@ -15,6 +15,7 @@ import java.lang.reflect.Method;
  * 15.09.2009, 09:09:29
  * 
  */
+@Deprecated
 public class clsThingPresentationSingle extends clsThingPresentation implements Cloneable {
 
 	public String meContentName;

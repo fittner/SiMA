@@ -16,6 +16,7 @@ import pa.interfaces.itfPrimaryProcessComparable;
  * 11.08.2009, 11:48:23
  * 
  */
+@Deprecated
 public class clsPrimaryInformation extends clsPsychicRepresentative implements itfPrimaryProcessComparable, itfPrimaryProcessComparabelTP, Cloneable {
 
 	public clsThingPresentationSingle moTP;

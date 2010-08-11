@@ -13,6 +13,7 @@ package pa.datatypes;
  * 17.10.2009, 19:19:18
  * 
  */
+@Deprecated
 public class clsAffectMemory extends clsAffect implements Cloneable {
 
 	public clsMinus1to1 moValue;

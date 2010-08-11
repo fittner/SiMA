@@ -86,7 +86,7 @@ public class clsE05InspectorOutput extends Inspector{
 		
 		moDataset = new DefaultCategoryDataset();
 
-		for(clsPair<clsPrimaryInformation, clsPrimaryInformation> oDriveTP : moE05AffectsForDrives.moDriveList ) {
+		for(clsPair<clsPrimaryInformation, clsPrimaryInformation> oDriveTP : moE05AffectsForDrives.moDriveList_old) {
 			if(oDriveTP.a instanceof clsDriveMesh && oDriveTP.b instanceof clsDriveMesh) {
 				moDataset.addValue( oDriveTP.a.moAffect.getValue(), "Drive (Live)", ((clsThingPresentationSingle)oDriveTP.a.moTP).moContent.toString());
 				moDataset.addValue( oDriveTP.b.moAffect.getValue(), "Drive (Death)", ((clsThingPresentationSingle)oDriveTP.b.moTP).moContent.toString());
@@ -167,7 +167,7 @@ public class clsE05InspectorOutput extends Inspector{
 		moDataset = new DefaultCategoryDataset();
 
 		
-		for(clsPair<clsPrimaryInformation, clsPrimaryInformation> oDriveTP : moE05AffectsForDrives.moDriveList ) {
+		for(clsPair<clsPrimaryInformation, clsPrimaryInformation> oDriveTP : moE05AffectsForDrives.moDriveList_old) {
 			if(oDriveTP.a instanceof clsDriveMesh && oDriveTP.b instanceof clsDriveMesh) {
 				moDataset.addValue( oDriveTP.a.moAffect.getValue(), "Drive (Live)", ((clsThingPresentationSingle)oDriveTP.a.moTP).moContent.toString());
 				moDataset.addValue( oDriveTP.b.moAffect.getValue(), "Drive (Death)", ((clsThingPresentationSingle)oDriveTP.b.moTP).moContent.toString());

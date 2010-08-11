@@ -21,6 +21,8 @@ import pa.interfaces.receive.I5_2_receive;
 import pa.interfaces.send.I2_10_send;
 import pa.interfaces.send.I4_2_send;
 import pa.interfaces.send.I5_2_send;
+import pa.memorymgmt.datatypes.clsAssociationDriveMesh;
+import pa.memorymgmt.datatypes.clsPrimaryDataStructureContainer;
 
 /**
  * DOCUMENT (deutsch) - insert description 
@@ -31,11 +33,16 @@ import pa.interfaces.send.I5_2_send;
  */
 public class E19_DefenseMechanismsForPerception extends clsModuleBase implements I2_9_receive, I3_2_receive, I4_2_send, I2_10_send, I5_2_send {
 
-	public ArrayList<clsPrimaryInformation> moSubjectivePerception_Input;
-	public ArrayList<clsPrimaryInformation> moFilteredPerception_Output;
+	public ArrayList<clsPrimaryInformation> moSubjectivePerception_Input_old;
+	public ArrayList<clsPrimaryInformation> moFilteredPerception_Output_old;
 	
-	ArrayList<clsThingPresentation> moDeniedThingPresentations; 
-	ArrayList<clsAffectTension> moDeniedAffects;
+	ArrayList<clsThingPresentation> moDeniedThingPresentations_old; 
+	ArrayList<clsAffectTension> moDeniedAffects_old;
+	
+	public ArrayList<clsPrimaryDataStructureContainer> moSubjectivePerception_Input; 
+	public ArrayList<clsPrimaryDataStructureContainer> moFilteredPerception_Output; 
+	ArrayList<pa.memorymgmt.datatypes.clsThingPresentation> moDeniedThingPresentations;
+	ArrayList<clsAssociationDriveMesh> moDeniedAffects; 
 	
 	/**
 	 * DOCUMENT (deutsch) - insert description 
@@ -102,7 +109,7 @@ public class E19_DefenseMechanismsForPerception extends clsModuleBase implements
 	 */
 	@Override
 	protected void process_basic() {
-		moFilteredPerception_Output = moSubjectivePerception_Input;		
+		moFilteredPerception_Output_old = moSubjectivePerception_Input_old;		
 	}
 
 	/* (non-Javadoc)
@@ -127,10 +134,11 @@ public class E19_DefenseMechanismsForPerception extends clsModuleBase implements
 	 */
 	@SuppressWarnings("unchecked")
 	@Override
-	public void receive_I2_9(ArrayList<clsPrimaryInformation> poMergedPrimaryInformation) {
+	public void receive_I2_9(ArrayList<clsPrimaryInformation> poMergedPrimaryInformation_old,
+			  ArrayList<clsPrimaryDataStructureContainer> poMergedPrimaryInformation) {
 
-		moSubjectivePerception_Input = (ArrayList<clsPrimaryInformation>)this.deepCopy(poMergedPrimaryInformation);
-
+		moSubjectivePerception_Input_old = (ArrayList<clsPrimaryInformation>)this.deepCopy(poMergedPrimaryInformation_old);
+		moSubjectivePerception_Input = (ArrayList<clsPrimaryDataStructureContainer> )this.deepCopy(poMergedPrimaryInformation);
 	}
 
 	/* (non-Javadoc)
@@ -142,9 +150,10 @@ public class E19_DefenseMechanismsForPerception extends clsModuleBase implements
 	 */
 	@Override
 	protected void send() {
-		send_I4_2(moFilteredPerception_Output, moDeniedThingPresentations, moDeniedAffects);
-		send_I2_10(moFilteredPerception_Output);
-		send_I5_2(moDeniedAffects);
+		//HZ: null is a placeholder for the bjects of the type pa.memorymgmt.datatypes
+		send_I4_2(moFilteredPerception_Output_old, moDeniedThingPresentations_old, moDeniedAffects_old, moFilteredPerception_Output, moDeniedThingPresentations, moDeniedAffects);
+		send_I2_10(moFilteredPerception_Output_old, moFilteredPerception_Output);
+		send_I5_2(moDeniedAffects_old, moDeniedAffects);
 	}
 	
 	/* (non-Javadoc)
@@ -155,11 +164,9 @@ public class E19_DefenseMechanismsForPerception extends clsModuleBase implements
 	 * @see pa.interfaces.send.I4_2_send#send_I4_2(java.util.ArrayList, java.util.ArrayList, java.util.ArrayList)
 	 */
 	@Override
-	public void send_I4_2(ArrayList<clsPrimaryInformation> poPIs,
-			ArrayList<clsThingPresentation> poTPs,
-			ArrayList<clsAffectTension> poAffects) {
-		((I4_2_receive)moEnclosingContainer).receive_I4_2(moFilteredPerception_Output, moDeniedThingPresentations, moDeniedAffects);
-		
+	public void send_I4_2(ArrayList<clsPrimaryInformation> poPIs_old, ArrayList<clsThingPresentation> poTPs_old, ArrayList<clsAffectTension> poAffects_old,
+			  	ArrayList<clsPrimaryDataStructureContainer> poPIs, ArrayList<pa.memorymgmt.datatypes.clsThingPresentation> poTPs, ArrayList<clsAssociationDriveMesh> poAffects) {
+		((I4_2_receive)moEnclosingContainer).receive_I4_2(moFilteredPerception_Output_old, moDeniedThingPresentations_old, moDeniedAffects_old, moFilteredPerception_Output, moDeniedThingPresentations, moDeniedAffects);
 	}
 
 	/* (non-Javadoc)
@@ -170,8 +177,8 @@ public class E19_DefenseMechanismsForPerception extends clsModuleBase implements
 	 * @see pa.interfaces.send.I2_10_send#send_I2_10(java.util.ArrayList)
 	 */
 	@Override
-	public void send_I2_10(ArrayList<clsPrimaryInformation> poGrantedPerception) {
-		((I2_10_receive)moEnclosingContainer).receive_I2_10(moFilteredPerception_Output);
+	public void send_I2_10(ArrayList<clsPrimaryInformation> poGrantedPerception_old, ArrayList<clsPrimaryDataStructureContainer> poGrantedPerception) {
+		((I2_10_receive)moEnclosingContainer).receive_I2_10(moFilteredPerception_Output_old, moFilteredPerception_Output);
 		
 	}
 
@@ -183,9 +190,8 @@ public class E19_DefenseMechanismsForPerception extends clsModuleBase implements
 	 * @see pa.interfaces.send.I5_2_send#send_I5_2(java.util.ArrayList)
 	 */
 	@Override
-	public void send_I5_2(ArrayList<clsAffectTension> poDeniedAffects) {
-		((I5_2_receive)moEnclosingContainer).receive_I5_2(moDeniedAffects);
-		
+	public void send_I5_2(ArrayList<clsAffectTension> poDeniedAffects_old, ArrayList<clsAssociationDriveMesh> poDeniedAffects) {
+		((I5_2_receive)moEnclosingContainer).receive_I5_2(moDeniedAffects_old, moDeniedAffects);
 	}
 
 	/* (non-Javadoc)

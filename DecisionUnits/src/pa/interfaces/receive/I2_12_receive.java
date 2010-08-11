@@ -10,6 +10,7 @@ import java.util.ArrayList;
 
 import pa.datatypes.clsSecondaryInformation;
 import pa.interfaces.I_BaseInterface;
+import pa.memorymgmt.datatypes.clsSecondaryDataStructureContainer;
 
 /**
  * DOCUMENT (deutsch) - insert description 
@@ -19,5 +20,6 @@ import pa.interfaces.I_BaseInterface;
  * 
  */
 public interface I2_12_receive extends I_BaseInterface {
-	public void receive_I2_12(ArrayList<clsSecondaryInformation> poFocusedPerception);
+	public void receive_I2_12(ArrayList<clsSecondaryInformation> poFocusedPerception_old,
+			   ArrayList<clsSecondaryDataStructureContainer> poFocusedPerception);
 }

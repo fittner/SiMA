@@ -19,6 +19,7 @@ import pa.datatypes.clsPrimaryInformation;
 import pa.interfaces.receive.I2_6_receive;
 import pa.interfaces.receive.I2_7_receive;
 import pa.interfaces.send.I2_7_send;
+import pa.memorymgmt.datatypes.clsPrimaryDataStructureContainer;
 import pa.tools.clsPair;
 import pa.tools.clsTripple;
 
@@ -31,9 +32,11 @@ import pa.tools.clsTripple;
  */
 public class E16_ManagementOfMemoryTraces extends clsModuleBase implements I2_6_receive, I2_7_send {
 
-	public ArrayList<clsPair<clsPrimaryInformation, clsPrimaryInformation>> moPerceptPlusRepressed_Input;
-	public ArrayList<clsTripple<clsPrimaryInformation, clsPrimaryInformation, ArrayList<clsPrimaryInformation>>> moPerceptPlusMemories_Output;
+	public ArrayList<clsPair<clsPrimaryInformation, clsPrimaryInformation>> moPerceptPlusRepressed_Input_old;
+	public ArrayList<clsTripple<clsPrimaryInformation, clsPrimaryInformation, ArrayList<clsPrimaryInformation>>> moPerceptPlusMemories_Output_old;
 	
+	public ArrayList<clsPair<clsPrimaryDataStructureContainer, clsPrimaryDataStructureContainer>> moPerceptPlusRepressed_Input;
+	public ArrayList<clsTripple<clsPrimaryDataStructureContainer, clsPrimaryDataStructureContainer,ArrayList<clsPrimaryDataStructureContainer>>> moPerceptPlusMemories_Output;
 	/**
 	 * DOCUMENT (deutsch) - insert description 
 	 * 
@@ -49,7 +52,8 @@ public class E16_ManagementOfMemoryTraces extends clsModuleBase implements I2_6_
 		super(poPrefix, poProp, poEnclosingContainer, poInterfaceHandler);
 		applyProperties(poPrefix, poProp);	
 		
-		moPerceptPlusMemories_Output = new ArrayList<clsTripple<clsPrimaryInformation, clsPrimaryInformation,ArrayList<clsPrimaryInformation>>>();
+		moPerceptPlusMemories_Output_old = new ArrayList<clsTripple<clsPrimaryInformation, clsPrimaryInformation,ArrayList<clsPrimaryInformation>>>();
+		moPerceptPlusMemories_Output = new ArrayList<clsTripple<clsPrimaryDataStructureContainer, clsPrimaryDataStructureContainer,ArrayList<clsPrimaryDataStructureContainer>>>(); 
 	}
 	
 	public static clsBWProperties getDefaultProperties(String poPrefix) {
@@ -100,8 +104,10 @@ public class E16_ManagementOfMemoryTraces extends clsModuleBase implements I2_6_
 	 */
 	@SuppressWarnings("unchecked")
 	@Override
-	public void receive_I2_6(ArrayList<clsPair<clsPrimaryInformation, clsPrimaryInformation>> poPerceptPlusRepressed) {
-		moPerceptPlusRepressed_Input = (ArrayList<clsPair<clsPrimaryInformation, clsPrimaryInformation>>)deepCopy(poPerceptPlusRepressed);
+	public void receive_I2_6(ArrayList<clsPair<clsPrimaryInformation, clsPrimaryInformation>> poPerceptPlusRepressed_old,
+			  ArrayList<clsPair<clsPrimaryDataStructureContainer, clsPrimaryDataStructureContainer>> poPerceptPlusRepressed) {
+		moPerceptPlusRepressed_Input_old = (ArrayList<clsPair<clsPrimaryInformation, clsPrimaryInformation>>)deepCopy(poPerceptPlusRepressed_old);
+		moPerceptPlusRepressed_Input = (ArrayList<clsPair<clsPrimaryDataStructureContainer, clsPrimaryDataStructureContainer>>)deepCopy(poPerceptPlusRepressed);
 	}
 
 	/* (non-Javadoc)
@@ -113,7 +119,7 @@ public class E16_ManagementOfMemoryTraces extends clsModuleBase implements I2_6_
 	 */
 	@Override
 	protected void process_basic() {
-		moPerceptPlusMemories_Output = getOutput(moPerceptPlusRepressed_Input); 
+		moPerceptPlusMemories_Output_old = getOutput(moPerceptPlusRepressed_Input_old); 
 	}
 
 	/**
@@ -185,7 +191,6 @@ public class E16_ManagementOfMemoryTraces extends clsModuleBase implements I2_6_
 							         oCurrentContextType.toString(),oRepressedContentType.toString()))); 
 		}
 		
-		
 		return oAwareContent; 
 	 }
 	
@@ -198,7 +203,7 @@ public class E16_ManagementOfMemoryTraces extends clsModuleBase implements I2_6_
 	 */
 	@Override
 	protected void send() {
-		send_I2_7(moPerceptPlusMemories_Output);
+		send_I2_7(moPerceptPlusMemories_Output_old, moPerceptPlusMemories_Output);
 	}
 
 	/* (non-Javadoc)
@@ -209,9 +214,9 @@ public class E16_ManagementOfMemoryTraces extends clsModuleBase implements I2_6_
 	 * @see pa.interfaces.send.I2_7_send#send_I2_7(java.util.ArrayList)
 	 */
 	@Override
-	public void send_I2_7(
-			ArrayList<clsTripple<clsPrimaryInformation, clsPrimaryInformation, ArrayList<clsPrimaryInformation>>> poPerceptPlusMemoriesOutput) {
-		((I2_7_receive)moEnclosingContainer).receive_I2_7(moPerceptPlusMemories_Output);
+	public void send_I2_7(ArrayList<clsTripple<clsPrimaryInformation, clsPrimaryInformation,ArrayList<clsPrimaryInformation>>> poPerceptPlusMemories_Output_old,
+			  ArrayList<clsTripple<clsPrimaryDataStructureContainer, clsPrimaryDataStructureContainer,ArrayList<clsPrimaryDataStructureContainer>>> poPerceptPlusMemories_Output) {
+		((I2_7_receive)moEnclosingContainer).receive_I2_7(moPerceptPlusMemories_Output_old, moPerceptPlusMemories_Output);
 		
 	}
 

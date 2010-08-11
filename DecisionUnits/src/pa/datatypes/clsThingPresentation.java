@@ -21,6 +21,7 @@ import pa.interfaces.itfPrimaryProcessComparabelTP;
  * 11.08.2009, 11:16:10
  * 
  */
+@Deprecated
 public class clsThingPresentation extends clsPsychicRepresentative implements itfPrimaryProcessComparabelTP, Cloneable {
 
 	public HashMap<eContext, clsDriveContentCategories> moDriveContentCategory = new HashMap<eContext, clsDriveContentCategories>();

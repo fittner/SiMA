@@ -18,7 +18,8 @@ import pa.interfaces.receive.I7_3_receive;
 import pa.interfaces.receive.I7_5_receive;
 import pa.loader.plan.clsPlanAction;
 import pa.memory.clsMemory;
-import pa.memorymgmt.informationrepresentation.clsInformationRepresentationManagement;
+import pa.memorymgmt.clsKnowledgeBaseHandler;
+import pa.memorymgmt.datatypes.clsSecondaryDataStructureContainer;
 import config.clsBWProperties;
 
 /**
@@ -56,8 +57,8 @@ public class G16_SecondaryKnowledgeUtilizer extends clsModuleContainer implement
 	 * @param poEnclosingContainer
 	 */
 	public G16_SecondaryKnowledgeUtilizer(String poPrefix, clsBWProperties poProp,
-			clsModuleContainer poEnclosingContainer, clsInterfaceHandler poInterfaceHandler, clsMemory poMemory, clsInformationRepresentationManagement poInformationRepresentationManagement) {
-		super(poPrefix, poProp, poEnclosingContainer, poInterfaceHandler, poMemory, poInformationRepresentationManagement);
+			clsModuleContainer poEnclosingContainer, clsInterfaceHandler poInterfaceHandler, clsMemory poMemory, clsKnowledgeBaseHandler poKnowledgeBase) {
+		super(poPrefix, poProp, poEnclosingContainer, poInterfaceHandler, poMemory, poKnowledgeBase);
 		applyProperties(poPrefix, poProp);
 	}
 	
@@ -89,8 +90,9 @@ public class G16_SecondaryKnowledgeUtilizer extends clsModuleContainer implement
 	 * @see pa.interfaces.I2_12#receive_I2_12(int)
 	 */
 	@Override
-	public void receive_I2_12(ArrayList<clsSecondaryInformation> poFocusedPerception) {
-		moE25KnowledgeAboutReality.receive_I2_12(poFocusedPerception);
+	public void receive_I2_12(ArrayList<clsSecondaryInformation> poFocusedPerception_old,
+			   ArrayList<clsSecondaryDataStructureContainer> poFocusedPerception) {
+		moE25KnowledgeAboutReality.receive_I2_12(poFocusedPerception_old, poFocusedPerception);
 	}
 
 	/* (non-Javadoc)

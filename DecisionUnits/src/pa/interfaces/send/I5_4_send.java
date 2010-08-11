@@ -9,6 +9,7 @@ package pa.interfaces.send;
 import java.util.ArrayList;
 
 import pa.datatypes.clsSecondaryInformation;
+import pa.memorymgmt.datatypes.clsSecondaryDataStructureContainer;
 
 /**
  * DOCUMENT (deutsch) - insert description 
@@ -18,5 +19,6 @@ import pa.datatypes.clsSecondaryInformation;
  * 
  */
 public interface I5_4_send {
-	public void send_I5_4(ArrayList<clsSecondaryInformation> poPerception);
+	public void send_I5_4(ArrayList<clsSecondaryInformation> poPerception_old,
+						  ArrayList<clsSecondaryDataStructureContainer> poPerception);
 }

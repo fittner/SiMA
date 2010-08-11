@@ -26,7 +26,7 @@ import java.lang.reflect.Method;
  * 22.10.2009, 11:28:21
  *  
  */
-
+@Deprecated
 public class clsAssociationContent<TYPE> extends clsAssociationWeighted<TYPE> implements Cloneable{
 
 	public TYPE moAssociationContent;

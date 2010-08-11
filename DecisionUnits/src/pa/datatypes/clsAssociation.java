@@ -16,6 +16,7 @@ import java.lang.reflect.Method;
  * 11.08.2009, 15:03:08
  * 
  */
+@Deprecated
 public class clsAssociation<TYPE>  implements Cloneable {
 	static final long mrMaxStackDepth = 5000;
 

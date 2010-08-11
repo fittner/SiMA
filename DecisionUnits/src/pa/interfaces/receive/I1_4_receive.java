@@ -11,6 +11,9 @@ import java.util.ArrayList;
 import pa.datatypes.clsAffectCandidate;
 import pa.datatypes.clsPrimaryInformationMesh;
 import pa.interfaces.I_BaseInterface;
+import pa.memorymgmt.datatypes.clsAssociationDriveMesh;
+import pa.memorymgmt.datatypes.clsPrimaryDataStructureContainer;
+import pa.memorymgmt.datatypes.clsThingPresentationMesh;
 import pa.tools.clsPair;
 
 /**
@@ -21,6 +24,6 @@ import pa.tools.clsPair;
  * 
  */
 public interface I1_4_receive extends I_BaseInterface {
-	public void receive_I1_4(ArrayList<clsPair<clsPair<clsPrimaryInformationMesh, clsAffectCandidate>, 
-	  		  clsPair<clsPrimaryInformationMesh, clsAffectCandidate>>> poDriveCandidate);
+	public void receive_I1_4(ArrayList<clsPair<clsPair<clsPrimaryInformationMesh, clsAffectCandidate>, clsPair<clsPrimaryInformationMesh, clsAffectCandidate>>> poDriveCandidate_old,
+			ArrayList<clsPair<clsPair<clsPrimaryDataStructureContainer, clsAssociationDriveMesh>,clsPair<clsThingPresentationMesh, clsAssociationDriveMesh>>> poDriveCandidate);
 }

@@ -15,6 +15,7 @@ package pa.datatypes;
  * 11.08.2009, 15:03:53
  * 
  */
+@Deprecated
 public class clsAssociationWeighted<TYPE> extends clsAssociation<TYPE> implements Cloneable {
 	
 	public double moWeight;

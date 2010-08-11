@@ -10,6 +10,7 @@ import java.util.List;
 
 import pa.datatypes.clsPrimaryInformation;
 import pa.interfaces.I_BaseInterface;
+import pa.memorymgmt.datatypes.clsPrimaryDataStructureContainer;
 
 /**
  * DOCUMENT (deutsch) - insert description 
@@ -19,5 +20,6 @@ import pa.interfaces.I_BaseInterface;
  * 
  */
 public interface I4_3_receive extends I_BaseInterface {
-	public void receive_I4_3(List<clsPrimaryInformation> poPIs);
+	public void receive_I4_3(List<clsPrimaryInformation> poPIs_old,
+			  List<clsPrimaryDataStructureContainer> poPIs);
 }

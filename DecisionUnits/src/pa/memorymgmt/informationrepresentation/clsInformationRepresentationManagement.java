@@ -90,11 +90,11 @@ public class clsInformationRepresentationManagement extends clsKnowledgeBaseHand
 	 public static clsBWProperties getDefaultProperties(String poPrefix) {
 	    	String pre = clsBWProperties.addDot(poPrefix);
 	    	clsBWProperties oProp = new clsBWProperties();
-			
+	    	oProp.putAll(clsKnowledgeBaseHandler.getDefaultProperties(pre) );
 	    	oProp.setProperty(pre+P_DATABASE_SOURCE, eDataSources.MAINMEMORY.toString());
 	    	oProp.setProperty(pre+P_SEARCH_METHOD, eSearchMethod.LISTSEARCH.toString());
 	    	//TODO HZ: Make the project file-path configurable
-	    	oProp.setProperty(pre+P_SOURCE_NAME, "./config/bw/pa.memory/AGENT_BASIC/BASIC.pprj");
+	    	oProp.setProperty(pre+P_SOURCE_NAME, "/DecisionUnits/config/bw/pa.memory/AGENT_BASIC/BASIC.pprj");
 	    	return oProp;
 	 }
 	 

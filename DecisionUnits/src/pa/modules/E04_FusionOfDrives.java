@@ -14,6 +14,9 @@ import pa.datatypes.clsPrimaryInformationMesh;
 import pa.interfaces.receive.I1_3_receive;
 import pa.interfaces.receive.I1_4_receive;
 import pa.interfaces.send.I1_4_send;
+import pa.memorymgmt.datatypes.clsAssociationDriveMesh;
+import pa.memorymgmt.datatypes.clsPrimaryDataStructureContainer;
+import pa.memorymgmt.datatypes.clsThingPresentationMesh;
 import pa.tools.clsPair;
 import config.clsBWProperties;
 
@@ -27,7 +30,7 @@ import config.clsBWProperties;
 public class E04_FusionOfDrives extends clsModuleBase implements I1_3_receive, I1_4_send {
 
 	ArrayList<clsPair<clsPair<clsPrimaryInformationMesh, clsAffectCandidate>, 
-	  clsPair<clsPrimaryInformationMesh, clsAffectCandidate>>> moDriveCandidate;
+	  clsPair<clsPrimaryInformationMesh, clsAffectCandidate>>> moDriveCandidate_old;
 	
 	/**
 	 * DOCUMENT (deutsch) - insert description 
@@ -93,10 +96,10 @@ public class E04_FusionOfDrives extends clsModuleBase implements I1_3_receive, I
 	 */
 	@SuppressWarnings("unchecked")
 	@Override
-	public void receive_I1_3(ArrayList<clsPair<clsPair<clsPrimaryInformationMesh, clsAffectCandidate>, 
-	  		  clsPair<clsPrimaryInformationMesh, clsAffectCandidate>>> poDriveCandidate) {
-		moDriveCandidate = (ArrayList<clsPair<clsPair<clsPrimaryInformationMesh, clsAffectCandidate>, 
-		  		  clsPair<clsPrimaryInformationMesh, clsAffectCandidate>>>)deepCopy(poDriveCandidate);
+	public void receive_I1_3(ArrayList<clsPair<clsPair<clsPrimaryInformationMesh, clsAffectCandidate>, clsPair<clsPrimaryInformationMesh, clsAffectCandidate>>> poDriveCandidate_old,
+			 				 ArrayList<clsPair<clsPair<clsThingPresentationMesh, clsAssociationDriveMesh>, clsPair<clsThingPresentationMesh, clsAssociationDriveMesh>>> poDriveCandidate) {
+		moDriveCandidate_old = (ArrayList<clsPair<clsPair<clsPrimaryInformationMesh, clsAffectCandidate>, 
+		  		  clsPair<clsPrimaryInformationMesh, clsAffectCandidate>>>)deepCopy(poDriveCandidate_old);
 	}
 
 	/* (non-Javadoc)
@@ -121,7 +124,8 @@ public class E04_FusionOfDrives extends clsModuleBase implements I1_3_receive, I
 	 */
 	@Override
 	protected void send() {
-		send_I1_4(moDriveCandidate);		
+		send_I1_4(moDriveCandidate_old, new ArrayList<clsPair<clsPair<clsPrimaryDataStructureContainer, clsAssociationDriveMesh>,clsPair<clsThingPresentationMesh, clsAssociationDriveMesh>>>());	
+		//HZ: null is a placeholder for the homeostatic information formed out of objects of the type pa.memorymgmt.datatypes 
 	}
 
 	/* (non-Javadoc)
@@ -132,9 +136,9 @@ public class E04_FusionOfDrives extends clsModuleBase implements I1_3_receive, I
 	 * @see pa.interfaces.send.I1_4_send#send_I1_4(java.util.ArrayList)
 	 */
 	@Override
-	public void send_I1_4(
-			ArrayList<clsPair<clsPair<clsPrimaryInformationMesh, clsAffectCandidate>, clsPair<clsPrimaryInformationMesh, clsAffectCandidate>>> poDriveCandidate) {
-		((I1_4_receive)moEnclosingContainer).receive_I1_4(moDriveCandidate);
+	public void send_I1_4(ArrayList<clsPair<clsPair<clsPrimaryInformationMesh, clsAffectCandidate>, clsPair<clsPrimaryInformationMesh, clsAffectCandidate>>> poDriveCandidate_old,
+						  ArrayList<clsPair<clsPair<clsPrimaryDataStructureContainer, clsAssociationDriveMesh>,clsPair<clsThingPresentationMesh, clsAssociationDriveMesh>>> poDriveCandidate) {
+		((I1_4_receive)moEnclosingContainer).receive_I1_4(moDriveCandidate_old, new ArrayList<clsPair<clsPair<clsPrimaryDataStructureContainer, clsAssociationDriveMesh>,clsPair<clsThingPresentationMesh, clsAssociationDriveMesh>>>());
 	}
 
 	/* (non-Javadoc)

@@ -19,6 +19,8 @@ import pa.interfaces.receive.I2_11_receive;
 import pa.interfaces.receive.I5_4_receive;
 import pa.interfaces.send.I2_11_send;
 import pa.interfaces.send.I5_4_send;
+import pa.memorymgmt.datatypes.clsPrimaryDataStructureContainer;
+import pa.memorymgmt.datatypes.clsSecondaryDataStructureContainer;
 
 /**
  * DOCUMENT (deutsch) - insert description 
@@ -29,9 +31,11 @@ import pa.interfaces.send.I5_4_send;
  */
 public class E21_ConversionToSecondaryProcess extends clsModuleBase implements I2_10_receive, I2_11_send, I5_4_send {
 
-	private ArrayList<clsPrimaryInformation> moGrantedPerception_Input;
-	private ArrayList<clsSecondaryInformation> moPerception_Output;
+	private ArrayList<clsPrimaryInformation> moGrantedPerception_Input_old;
+	private ArrayList<clsSecondaryInformation> moPerception_Output_old;
 
+	private ArrayList<clsPrimaryDataStructureContainer> moGrantedPerception_Input; 
+	private ArrayList<clsSecondaryDataStructureContainer> moPerception_Output; 
 	/**
 	 * DOCUMENT (deutsch) - insert description 
 	 * 
@@ -96,9 +100,9 @@ public class E21_ConversionToSecondaryProcess extends clsModuleBase implements I
 	 */
 	@SuppressWarnings("unchecked")
 	@Override
-	public void receive_I2_10(ArrayList<clsPrimaryInformation> poGrantedPerception) {
-		moGrantedPerception_Input = (ArrayList<clsPrimaryInformation>)this.deepCopy(poGrantedPerception);
-		
+	public void receive_I2_10(ArrayList<clsPrimaryInformation> poGrantedPerception_old, ArrayList<clsPrimaryDataStructureContainer> poGrantedPerception) {
+		moGrantedPerception_Input_old = (ArrayList<clsPrimaryInformation>)this.deepCopy(poGrantedPerception_old);
+		moGrantedPerception_Input = (ArrayList<clsPrimaryDataStructureContainer>)this.deepCopy(poGrantedPerception);
 	}
 
 	/* (non-Javadoc)
@@ -110,14 +114,14 @@ public class E21_ConversionToSecondaryProcess extends clsModuleBase implements I
 	 */
 	@Override
 	protected void process_basic() {
-		moPerception_Output = new ArrayList<clsSecondaryInformation>();
-		for( clsPrimaryInformation oPriminfo : moGrantedPerception_Input ) {
+		moPerception_Output_old = new ArrayList<clsSecondaryInformation>();
+		for( clsPrimaryInformation oPriminfo : moGrantedPerception_Input_old ) {
 
 			if(oPriminfo instanceof clsPrimaryInformationMesh) {
-				moPerception_Output.add(new clsSecondaryInformationMesh(oPriminfo));
+				moPerception_Output_old.add(new clsSecondaryInformationMesh(oPriminfo));
 			}
 			else if(oPriminfo instanceof clsPrimaryInformation) {
-				moPerception_Output.add(new clsSecondaryInformation(oPriminfo));
+				moPerception_Output_old.add(new clsSecondaryInformation(oPriminfo));
 			}
 		}
 	}
@@ -131,9 +135,9 @@ public class E21_ConversionToSecondaryProcess extends clsModuleBase implements I
 	 */
 	@Override
 	protected void send() {
-		send_I2_11(moPerception_Output);
-		send_I5_4(moPerception_Output);
-		
+		//HZ: null is a placeholder for the bjects of the type pa.memorymgmt.datatypes
+		send_I2_11(moPerception_Output_old, moPerception_Output);
+		send_I5_4(moPerception_Output_old, moPerception_Output);
 	}
 
 	/* (non-Javadoc)
@@ -144,8 +148,8 @@ public class E21_ConversionToSecondaryProcess extends clsModuleBase implements I
 	 * @see pa.interfaces.send.I2_11_send#send_I2_11(java.util.ArrayList)
 	 */
 	@Override
-	public void send_I2_11(ArrayList<clsSecondaryInformation> poPerception) {
-		((I2_11_receive)moEnclosingContainer).receive_I2_11(moPerception_Output);
+	public void send_I2_11(ArrayList<clsSecondaryInformation> poPerception_old, ArrayList<clsSecondaryDataStructureContainer> poPerception) {
+		((I2_11_receive)moEnclosingContainer).receive_I2_11(moPerception_Output_old, moPerception_Output);
 		
 	}
 
@@ -157,8 +161,9 @@ public class E21_ConversionToSecondaryProcess extends clsModuleBase implements I
 	 * @see pa.interfaces.send.I5_4_send#send_I5_4(java.util.ArrayList)
 	 */
 	@Override
-	public void send_I5_4(ArrayList<clsSecondaryInformation> poPerception) {
-		((I5_4_receive)moEnclosingContainer).receive_I5_4(moPerception_Output);
+	public void send_I5_4(ArrayList<clsSecondaryInformation> poPerception_old,
+			  				ArrayList<clsSecondaryDataStructureContainer> poPerception) {
+		((I5_4_receive)moEnclosingContainer).receive_I5_4(moPerception_Output_old, moPerception_Output);
 		
 	}
 

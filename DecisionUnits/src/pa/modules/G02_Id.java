@@ -27,7 +27,10 @@ import pa.interfaces.receive.I4_1_receive;
 import pa.interfaces.receive.I4_2_receive;
 import pa.interfaces.receive.I4_3_receive;
 import pa.memory.clsMemory;
-import pa.memorymgmt.informationrepresentation.clsInformationRepresentationManagement;
+import pa.memorymgmt.clsKnowledgeBaseHandler;
+import pa.memorymgmt.datatypes.clsAssociationDriveMesh;
+import pa.memorymgmt.datatypes.clsPrimaryDataStructureContainer;
+import pa.memorymgmt.datatypes.clsThingPresentationMesh;
 import pa.tools.clsPair;
 import config.clsBWProperties;
 /**
@@ -68,8 +71,8 @@ public class G02_Id extends clsModuleContainer implements
 	 * @param poEnclosingContainer
 	 */
 	public G02_Id(String poPrefix, clsBWProperties poProp,
-			clsModuleContainer poEnclosingContainer, clsInterfaceHandler poInterfaceHandler, clsMemory poMemory, clsInformationRepresentationManagement poInformationRepresentationManagement) {
-		super(poPrefix, poProp, poEnclosingContainer, poInterfaceHandler, poMemory, poInformationRepresentationManagement);
+			clsModuleContainer poEnclosingContainer, clsInterfaceHandler poInterfaceHandler, clsMemory poMemory, clsKnowledgeBaseHandler poKnowledgeBase) {
+		super(poPrefix, poProp, poEnclosingContainer, poInterfaceHandler, poMemory, poKnowledgeBase);
 		applyProperties(poPrefix, poProp);
 	}
 	
@@ -88,9 +91,9 @@ public class G02_Id extends clsModuleContainer implements
 	private void applyProperties(String poPrefix, clsBWProperties poProp) {
 		String pre = clsBWProperties.addDot(poPrefix);
 	
-		moG05DriveHandling = new G05_DriveHandling(pre+P_G05, poProp, this, moInterfaceHandler, moMemory, moInformationRepresentationManagement);
-		moG06AffectGeneration = new G06_AffectGeneration(pre+P_G06, poProp, this, moInterfaceHandler, moMemory, moInformationRepresentationManagement);
-		moE15ManagementOfRepressedContents = new E15_ManagementOfRepressedContents(pre+P_E15, poProp, this, moInterfaceHandler, moMemory, moInformationRepresentationManagement);
+		moG05DriveHandling = new G05_DriveHandling(pre+P_G05, poProp, this, moInterfaceHandler, moMemory, moKnowledgeBase);
+		moG06AffectGeneration = new G06_AffectGeneration(pre+P_G06, poProp, this, moInterfaceHandler, moMemory, moKnowledgeBase);
+		moE15ManagementOfRepressedContents = new E15_ManagementOfRepressedContents(pre+P_E15, poProp, this, moInterfaceHandler, moMemory, moKnowledgeBase);
 	}
 
 	/* (non-Javadoc)
@@ -114,9 +117,9 @@ public class G02_Id extends clsModuleContainer implements
 	 * @see pa.interfaces.I1_4#receive_I1_4(int)
 	 */
 	@Override
-	public void receive_I1_4(ArrayList<clsPair<clsPair<clsPrimaryInformationMesh, clsAffectCandidate>, 
-	  		  clsPair<clsPrimaryInformationMesh, clsAffectCandidate>>> poDriveCandidate) {
-		moG06AffectGeneration.receive_I1_4(poDriveCandidate);
+	public void receive_I1_4(ArrayList<clsPair<clsPair<clsPrimaryInformationMesh, clsAffectCandidate>,clsPair<clsPrimaryInformationMesh, clsAffectCandidate>>> poDriveCandidate_old, 
+							ArrayList<clsPair<clsPair<clsPrimaryDataStructureContainer, clsAssociationDriveMesh>,clsPair<clsThingPresentationMesh, clsAssociationDriveMesh>>> poDriveCandidate) {
+		moG06AffectGeneration.receive_I1_4(poDriveCandidate_old, poDriveCandidate);
 		
 	}
 
@@ -128,8 +131,8 @@ public class G02_Id extends clsModuleContainer implements
 	 * @see pa.interfaces.I1_5#receive_I1_5(int)
 	 */
 	@Override
-	public void receive_I1_5(List<clsPrimaryInformation> poData) {
-		((I1_5_receive)moEnclosingContainer).receive_I1_5(poData);
+	public void receive_I1_5(List<clsPrimaryInformation> poData_old, List<clsPrimaryDataStructureContainer> poData) {
+		((I1_5_receive)moEnclosingContainer).receive_I1_5(poData_old, poData);
 		
 	}
 
@@ -141,8 +144,8 @@ public class G02_Id extends clsModuleContainer implements
 	 * @see pa.interfaces.I2_8#receive_I2_8(int)
 	 */
 	@Override
-	public void receive_I2_8(ArrayList<clsPair<clsPrimaryInformation,clsPrimaryInformation>> poMergedPrimaryInformationMesh) {
-		moG06AffectGeneration.receive_I2_8(poMergedPrimaryInformationMesh);
+	public void receive_I2_8(ArrayList<clsPair<clsPrimaryInformation, clsPrimaryInformation>> poMergedPrimaryInformation_old, ArrayList<clsPair<clsPrimaryDataStructureContainer, clsPrimaryDataStructureContainer>> poMergedPrimaryInformation) {
+		moG06AffectGeneration.receive_I2_8(poMergedPrimaryInformation_old, poMergedPrimaryInformation);
 		
 	}
 
@@ -154,8 +157,8 @@ public class G02_Id extends clsModuleContainer implements
 	 * @see pa.interfaces.I2_9#receive_I2_9(int)
 	 */
 	@Override
-	public void receive_I2_9(ArrayList<clsPrimaryInformation> poMergedPrimaryInformation) {
-		((I2_9_receive)moEnclosingContainer).receive_I2_9(poMergedPrimaryInformation);
+	public void receive_I2_9(ArrayList<clsPrimaryInformation> poMergedPrimaryInformation_old, ArrayList<clsPrimaryDataStructureContainer> poMergedPrimaryInformation) {
+		((I2_9_receive)moEnclosingContainer).receive_I2_9(poMergedPrimaryInformation_old, poMergedPrimaryInformation);
 		
 	}
 
@@ -167,8 +170,8 @@ public class G02_Id extends clsModuleContainer implements
 	 * @see pa.interfaces.I2_5#receive_I2_5(int)
 	 */
 	@Override
-	public void receive_I2_5(ArrayList<clsPrimaryInformation> poEnvironmentalTP) {
-		moE15ManagementOfRepressedContents.receive_I2_5(poEnvironmentalTP);
+	public void receive_I2_5(ArrayList<clsPrimaryInformation> poEnvironmentalTP_old, ArrayList<clsPrimaryDataStructureContainer> poEnvironmentalTP) {
+		moE15ManagementOfRepressedContents.receive_I2_5(poEnvironmentalTP_old, poEnvironmentalTP);
 		
 	}
 
@@ -180,8 +183,8 @@ public class G02_Id extends clsModuleContainer implements
 	 * @see pa.interfaces.I4_1#receive_I4_1(int)
 	 */
 	@Override
-	public void receive_I4_1(List<clsPrimaryInformation> poPIs, List<clsThingPresentation> poTPs, List<clsAffectTension> poAffects) {
-		moE15ManagementOfRepressedContents.receive_I4_1(poPIs, poTPs, poAffects);
+	public void receive_I4_1(List<clsPrimaryInformation> poPIs_old, List<clsThingPresentation> poTPs_old, List<clsAffectTension> poAffects_old, List<clsPrimaryDataStructureContainer> poPIs, List<pa.memorymgmt.datatypes.clsThingPresentation> poTPs, List<clsAssociationDriveMesh> poAffects) {
+		moE15ManagementOfRepressedContents.receive_I4_1(poPIs_old, poTPs_old, poAffects_old, poPIs, poTPs, poAffects);
 		
 	}
 
@@ -193,8 +196,8 @@ public class G02_Id extends clsModuleContainer implements
 	 * @see pa.interfaces.I4_2#receive_I4_2(int)
 	 */
 	@Override
-	public void receive_I4_2(ArrayList<clsPrimaryInformation> poPIs, ArrayList<clsThingPresentation> poTPs, ArrayList<clsAffectTension> poAffects) {
-		moE15ManagementOfRepressedContents.receive_I4_2(poPIs, poTPs, poAffects);
+	public void receive_I4_2(ArrayList<clsPrimaryInformation> poPIs_old, ArrayList<clsThingPresentation> poTPs_old, ArrayList<clsAffectTension> poAffects_old, ArrayList<clsPrimaryDataStructureContainer> poPIs, ArrayList<pa.memorymgmt.datatypes.clsThingPresentation> poTPs, ArrayList<clsAssociationDriveMesh> poAffects) {
+		moE15ManagementOfRepressedContents.receive_I4_2(poPIs_old, poTPs_old, poAffects_old, poPIs, poTPs, poAffects);
 		
 	}
 
@@ -206,8 +209,8 @@ public class G02_Id extends clsModuleContainer implements
 	 * @see pa.interfaces.I2_6#receive_I2_6(int)
 	 */
 	@Override
-	public void receive_I2_6(ArrayList<clsPair<clsPrimaryInformation, clsPrimaryInformation>> poPerceptPlusRepressed) {
-		((I2_6_receive)moEnclosingContainer).receive_I2_6(poPerceptPlusRepressed);
+	public void receive_I2_6(ArrayList<clsPair<clsPrimaryInformation, clsPrimaryInformation>> poPerceptPlusRepressed_old, ArrayList<clsPair<clsPrimaryDataStructureContainer, clsPrimaryDataStructureContainer>> poPerceptPlusRepressed) {
+		((I2_6_receive)moEnclosingContainer).receive_I2_6(poPerceptPlusRepressed_old, poPerceptPlusRepressed);
 		
 	}
 
@@ -219,8 +222,8 @@ public class G02_Id extends clsModuleContainer implements
 	 * @see pa.interfaces.I4_3#receive_I4_3(int)
 	 */
 	@Override
-	public void receive_I4_3(List<clsPrimaryInformation> poPIs) {
-		((I4_3_receive)moEnclosingContainer).receive_I4_3(poPIs);
+	public void receive_I4_3(List<clsPrimaryInformation> poPIs_old, List<clsPrimaryDataStructureContainer> poPIs) {
+		((I4_3_receive)moEnclosingContainer).receive_I4_3(poPIs_old, poPIs);
 		
 	}
 

@@ -13,7 +13,7 @@ package pa.datatypes;
  * 09.09.2009, 16:59:46
  *@deprecated 
  */
-
+@Deprecated
 public class clsAssoziationSecondary implements Cloneable {
 
 	public clsWordPresentation A;

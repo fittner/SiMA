@@ -14,6 +14,7 @@ import pa.datatypes.clsSecondaryInformation;
 import pa.interfaces.receive.I2_12_receive;
 import pa.interfaces.receive.I6_1_receive;
 import pa.interfaces.send.I6_1_send;
+import pa.memorymgmt.datatypes.clsSecondaryDataStructureContainer;
 
 /**
  * DOCUMENT (deutsch) - insert description 
@@ -24,7 +25,8 @@ import pa.interfaces.send.I6_1_send;
  */
 public class E25_KnowledgeAboutReality extends clsModuleBase implements I2_12_receive, I6_1_send {
 
-	//private ArrayList<clsSecondaryInformation> moFocusedPerception; //never used!
+	//private ArrayList<clsSecondaryInformation> moFocusedPerception_old;
+	//private ArrayList<clsSecondaryDataStructureContainer> moFocusedPerception;
 
 	/**
 	 * DOCUMENT (deutsch) - insert description 
@@ -88,9 +90,12 @@ public class E25_KnowledgeAboutReality extends clsModuleBase implements I2_12_re
 	 * 
 	 * @see pa.interfaces.I2_12#receive_I2_12(int)
 	 */
+	@SuppressWarnings("unchecked")
 	@Override
-	public void receive_I2_12(ArrayList<clsSecondaryInformation> poFocusedPerception) {
-		 //never used!moFocusedPerception = (ArrayList<clsSecondaryInformation>)this.deepCopy(poFocusedPerception); //never used!
+	public void receive_I2_12(ArrayList<clsSecondaryInformation> poFocusedPerception_old,
+			   				ArrayList<clsSecondaryDataStructureContainer> poFocusedPerception) {
+		//never used ! moFocusedPerception_old = (ArrayList<clsSecondaryInformation>)this.deepCopy(poFocusedPerception_old);
+		//never used ! moFocusedPerception = (ArrayList<clsSecondaryDataStructureContainer>) this.deepCopy(poFocusedPerception); 
 	}
 
 	/* (non-Javadoc)

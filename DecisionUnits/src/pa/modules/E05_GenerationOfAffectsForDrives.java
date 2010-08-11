@@ -16,6 +16,9 @@ import pa.datatypes.clsPrimaryInformationMesh;
 import pa.interfaces.itfTimeChartInformationContainer;
 import pa.interfaces.receive.I1_4_receive;
 import pa.interfaces.receive.I1_5_receive;
+import pa.memorymgmt.datatypes.clsAssociationDriveMesh;
+import pa.memorymgmt.datatypes.clsPrimaryDataStructureContainer;
+import pa.memorymgmt.datatypes.clsThingPresentationMesh;
 import pa.tools.clsPair;
 import config.clsBWProperties;
 
@@ -29,9 +32,9 @@ import config.clsBWProperties;
 public class E05_GenerationOfAffectsForDrives extends clsModuleBase implements I1_4_receive, itfTimeChartInformationContainer {
 
 	public ArrayList<clsPair<clsPair<clsPrimaryInformationMesh, clsAffectCandidate>, 
-	clsPair<clsPrimaryInformationMesh, clsAffectCandidate>>> moDriveCandidate;
+	clsPair<clsPrimaryInformationMesh, clsAffectCandidate>>> moDriveCandidate_old;
 	
-	public ArrayList<clsPair<clsPrimaryInformation, clsPrimaryInformation>> moDriveList;
+	public ArrayList<clsPair<clsPrimaryInformation, clsPrimaryInformation>> moDriveList_old;
 	
 	/**
 	 * DOCUMENT (deutsch) - insert description 
@@ -97,10 +100,11 @@ public class E05_GenerationOfAffectsForDrives extends clsModuleBase implements I
 	 */
 	@SuppressWarnings("unchecked")
 	@Override
-	public void receive_I1_4(ArrayList<clsPair<clsPair<clsPrimaryInformationMesh, clsAffectCandidate>, 
-	  		  clsPair<clsPrimaryInformationMesh, clsAffectCandidate>>> poDriveCandidate) {
-		moDriveCandidate = (ArrayList<clsPair<clsPair<clsPrimaryInformationMesh, clsAffectCandidate>, 
-		  		  clsPair<clsPrimaryInformationMesh, clsAffectCandidate>>>) deepCopy( poDriveCandidate);
+	public void receive_I1_4(ArrayList<clsPair<clsPair<clsPrimaryInformationMesh, clsAffectCandidate>,clsPair<clsPrimaryInformationMesh, clsAffectCandidate>>> poDriveCandidate_old,
+			ArrayList<clsPair<clsPair<clsPrimaryDataStructureContainer, clsAssociationDriveMesh>,clsPair<clsThingPresentationMesh, clsAssociationDriveMesh>>> poDriveCandidate) {
+		
+		moDriveCandidate_old = (ArrayList<clsPair<clsPair<clsPrimaryInformationMesh, clsAffectCandidate>, 
+		  		  clsPair<clsPrimaryInformationMesh, clsAffectCandidate>>>) deepCopy( poDriveCandidate_old);
 	}
 
 	/* (non-Javadoc)
@@ -113,10 +117,10 @@ public class E05_GenerationOfAffectsForDrives extends clsModuleBase implements I
 	@Override
 	protected void process_basic() {
 
-		moDriveList = new ArrayList<clsPair<clsPrimaryInformation, clsPrimaryInformation>>();
+		moDriveList_old = new ArrayList<clsPair<clsPrimaryInformation, clsPrimaryInformation>>();
 		
 		for( clsPair<clsPair<clsPrimaryInformationMesh, clsAffectCandidate>, 
-		  		     clsPair<clsPrimaryInformationMesh, clsAffectCandidate>> oDriveCandidate : moDriveCandidate ) {
+		  		     clsPair<clsPrimaryInformationMesh, clsAffectCandidate>> oDriveCandidate : moDriveCandidate_old ) {
 
 			//for a constant increase of the affect values, the following function is implemented:
 			//1.: life-instinct increases faster than death-instinct
@@ -129,7 +133,7 @@ public class E05_GenerationOfAffectsForDrives extends clsModuleBase implements I
 			oDriveCandidate.a.a.moAffect = new clsAffectTension(oLiveAffect);
 			oDriveCandidate.b.a.moAffect = new clsAffectTension(oDeathAffect);
 			
-			moDriveList.add(new clsPair<clsPrimaryInformation, clsPrimaryInformation>(oDriveCandidate.a.a, oDriveCandidate.b.a));
+			moDriveList_old.add(new clsPair<clsPrimaryInformation, clsPrimaryInformation>(oDriveCandidate.a.a, oDriveCandidate.b.a));
 		}
 	}
 
@@ -145,13 +149,13 @@ public class E05_GenerationOfAffectsForDrives extends clsModuleBase implements I
 		
 		//now decoupling drives from list - information still in clsDrive
 		ArrayList<clsPrimaryInformation> oOutput = new ArrayList<clsPrimaryInformation>();
-		for( clsPair<clsPrimaryInformation, clsPrimaryInformation> oPair : moDriveList ) {
+		for( clsPair<clsPrimaryInformation, clsPrimaryInformation> oPair : moDriveList_old) {
 			oOutput.add(oPair.a);
 			oOutput.add(oPair.b);
 		}
 		
-		((I1_5_receive)moEnclosingContainer).receive_I1_5(oOutput);
-		
+		((I1_5_receive)moEnclosingContainer).receive_I1_5(oOutput, new ArrayList<clsPrimaryDataStructureContainer>());
+		//HZ: null is a placeholder for the homeostatic information formed out of objects of the type pa.memorymgmt.datatypes 
 	}
 
 	/* (non-Javadoc)
@@ -168,7 +172,7 @@ public class E05_GenerationOfAffectsForDrives extends clsModuleBase implements I
 
 		//public ArrayList<clsPair<clsPrimaryInformation, clsPrimaryInformation>> moDriveList;
 		ArrayList<clsPair<String, Double>> oTimingValues = new ArrayList<clsPair<String,Double>>();
-		for( clsPair<clsPrimaryInformation, clsPrimaryInformation> oPair : moDriveList ) {
+		for( clsPair<clsPrimaryInformation, clsPrimaryInformation> oPair : moDriveList_old) {
 			
 			clsPair<String, Double> oLibi = new clsPair<String, Double>(oPair.a.moTP.moContent.toString(), oPair.a.moAffect.getValue());
 			clsPair<String, Double> oDeath = new clsPair<String, Double>(oPair.b.moTP.moContent.toString(), oPair.b.moAffect.getValue());

@@ -10,6 +10,7 @@ import java.util.ArrayList;
 
 import pa.datatypes.clsSecondaryInformation;
 import pa.datatypes.clsSecondaryInformationMesh;
+import pa.memorymgmt.datatypes.clsSecondaryDataStructureContainer;
 import pa.tools.clsPair;
 
 /**
@@ -20,5 +21,6 @@ import pa.tools.clsPair;
  * 
  */
 public interface I2_13_send {
-	public void send_I2_13(ArrayList<clsPair<clsSecondaryInformation, clsSecondaryInformationMesh>> poRealityPerception);
+	public void send_I2_13(ArrayList<clsPair<clsSecondaryInformation, clsSecondaryInformationMesh>> poRealityPerception_old,
+						   ArrayList<clsPair<clsSecondaryDataStructureContainer, clsSecondaryDataStructureContainer>> poRealityPerception);
 }

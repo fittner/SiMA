@@ -19,6 +19,7 @@ import pa.interfaces.receive.I2_2_receive;
 import pa.interfaces.receive.I2_4_receive;
 import pa.interfaces.receive.I2_5_receive;
 import pa.interfaces.send.I2_5_send;
+import pa.memorymgmt.datatypes.clsPrimaryDataStructureContainer;
 import pa.symbolization.representationsymbol.itfSymbol;
 import pa.tools.clsTPGenerator;
 
@@ -38,8 +39,10 @@ public class E14_PreliminaryExternalPerception extends clsModuleBase implements
 	HashMap<eSymbolExtType, itfSymbol> moEnvironmentalData;
 	HashMap<eSymbolExtType, itfSymbol> moBodyData;
 	
-	public ArrayList<clsPrimaryInformation> moEnvironmentalTP;
+	public ArrayList<clsPrimaryInformation> moEnvironmentalTP_old;
 	ArrayList<clsAssociationContext<clsPrimaryInformation>> moAssociationContext;  
+	
+	public ArrayList<clsPrimaryDataStructureContainer> moEnvironmentalTP; 
 
 	/**
 	 * DOCUMENT (deutsch) - insert description 
@@ -130,7 +133,7 @@ public class E14_PreliminaryExternalPerception extends clsModuleBase implements
 	 */
 	@Override
 	protected void process_basic() {
-		moEnvironmentalTP = clsTPGenerator.convertSensorToTP(moEnvironmentalData);		
+		moEnvironmentalTP_old = clsTPGenerator.convertSensorToTP(moEnvironmentalData);		
 	}
 
 	/* (non-Javadoc)
@@ -142,7 +145,7 @@ public class E14_PreliminaryExternalPerception extends clsModuleBase implements
 	 */
 	@Override
 	protected void send() {
-		send_I2_5(moEnvironmentalTP);
+		send_I2_5(moEnvironmentalTP_old, moEnvironmentalTP);
 	}
 
 	/* (non-Javadoc)
@@ -153,8 +156,8 @@ public class E14_PreliminaryExternalPerception extends clsModuleBase implements
 	 * @see pa.interfaces.send.I2_5_send#send_I2_5(java.util.ArrayList)
 	 */
 	@Override
-	public void send_I2_5(ArrayList<clsPrimaryInformation> poEnvironmentalTP) {
-		((I2_5_receive)moEnclosingContainer).receive_I2_5(moEnvironmentalTP);
+	public void send_I2_5(ArrayList<clsPrimaryInformation> poEnvironmentalTP_old, ArrayList<clsPrimaryDataStructureContainer> poEnvironmentalTP) {
+		((I2_5_receive)moEnclosingContainer).receive_I2_5(moEnvironmentalTP_old, moEnvironmentalTP);
 		
 	}
 

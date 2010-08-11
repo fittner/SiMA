@@ -39,7 +39,10 @@ import pa.interfaces.receive.I4_3_receive;
 import pa.interfaces.receive.I8_1_receive;
 import pa.loader.plan.clsPlanAction;
 import pa.memory.clsMemory;
-import pa.memorymgmt.informationrepresentation.clsInformationRepresentationManagement;
+import pa.memorymgmt.clsKnowledgeBaseHandlerFactory;
+import pa.memorymgmt.datatypes.clsAssociationDriveMesh;
+import pa.memorymgmt.datatypes.clsPrimaryDataStructureContainer;
+import pa.memorymgmt.datatypes.clsSecondaryDataStructureContainer;
 import pa.symbolization.representationsymbol.itfSymbol;
 import pa.tools.clsPair;
 import config.clsBWProperties;
@@ -155,12 +158,12 @@ public class G00_PsychicApparatus extends clsModuleContainer implements
 		String pre = clsBWProperties.addDot(poPrefix);
 	
 		moMemory = new clsMemory(pre+P_MEMORY, poProp);
-		moInformationRepresentationManagement = new clsInformationRepresentationManagement(pre+P_INFORMATIONREPRESENTATIONMGMT, poProp);
+		moKnowledgeBase = clsKnowledgeBaseHandlerFactory.createInformationRepresentationManagement("ARSI10_MGMT", pre+P_INFORMATIONREPRESENTATIONMGMT, poProp);
 		
-		moG01Body = new G01_Body(pre+P_G01, poProp, this, moInterfaceHandler, moMemory, moInformationRepresentationManagement);
-		moG02Id = new G02_Id(pre+P_G02, poProp, this, moInterfaceHandler, moMemory, moInformationRepresentationManagement);
-		moG03Ego = new G03_Ego(pre+P_G03, poProp, this, moInterfaceHandler, moMemory, moInformationRepresentationManagement);
-		moG04SuperEgo = new G04_SuperEgo(pre+P_G04, poProp, this, moInterfaceHandler, moMemory, moInformationRepresentationManagement);
+		moG01Body = new G01_Body(pre+P_G01, poProp, this, moInterfaceHandler, moMemory, moKnowledgeBase);
+		moG02Id = new G02_Id(pre+P_G02, poProp, this, moInterfaceHandler, moMemory, moKnowledgeBase);
+		moG03Ego = new G03_Ego(pre+P_G03, poProp, this, moInterfaceHandler, moMemory, moKnowledgeBase);
+		moG04SuperEgo = new G04_SuperEgo(pre+P_G04, poProp, this, moInterfaceHandler, moMemory, moKnowledgeBase);
 
 	}
 	
@@ -289,9 +292,10 @@ public class G00_PsychicApparatus extends clsModuleContainer implements
 	 * @see pa.interfaces.I1_5#receive_I1_5(int)
 	 */
 	@Override
-	public void receive_I1_5(List<clsPrimaryInformation> poData) {
-		moG03Ego.receive_I1_5(poData);
-		moG04SuperEgo.receive_I1_5(poData);
+	public void receive_I1_5(List<clsPrimaryInformation> poData_old,
+			  List<clsPrimaryDataStructureContainer> poData) {
+		moG03Ego.receive_I1_5(poData_old, poData);
+		moG04SuperEgo.receive_I1_5(poData_old, poData);
 		
 	}
 
@@ -303,8 +307,9 @@ public class G00_PsychicApparatus extends clsModuleContainer implements
 	 * @see pa.interfaces.I2_8#receive_I2_8(int)
 	 */
 	@Override
-	public void receive_I2_8(ArrayList<clsPair<clsPrimaryInformation,clsPrimaryInformation>> poMergedPrimaryInformationMesh) {
-		moG02Id.receive_I2_8(poMergedPrimaryInformationMesh);
+	public void receive_I2_8(ArrayList<clsPair<clsPrimaryInformation, clsPrimaryInformation>> poMergedPrimaryInformation_old,
+			  ArrayList<clsPair<clsPrimaryDataStructureContainer, clsPrimaryDataStructureContainer>> poMergedPrimaryInformation) {
+		moG02Id.receive_I2_8(poMergedPrimaryInformation_old, poMergedPrimaryInformation);
 		
 	}
 
@@ -316,9 +321,10 @@ public class G00_PsychicApparatus extends clsModuleContainer implements
 	 * @see pa.interfaces.I2_9#receive_I2_9(int)
 	 */
 	@Override
-	public void receive_I2_9(ArrayList<clsPrimaryInformation> poMergedPrimaryInformation) {
-		moG03Ego.receive_I2_9(poMergedPrimaryInformation);
-		moG04SuperEgo.receive_I2_9(poMergedPrimaryInformation);
+	public void receive_I2_9(ArrayList<clsPrimaryInformation> poMergedPrimaryInformation_old,
+			  ArrayList<clsPrimaryDataStructureContainer> poMergedPrimaryInformation) {
+		moG03Ego.receive_I2_9(poMergedPrimaryInformation_old, poMergedPrimaryInformation);
+		moG04SuperEgo.receive_I2_9(poMergedPrimaryInformation_old, poMergedPrimaryInformation);
 		
 	}
 
@@ -330,8 +336,8 @@ public class G00_PsychicApparatus extends clsModuleContainer implements
 	 * @see pa.interfaces.I2_5#receive_I2_5(int)
 	 */
 	@Override
-	public void receive_I2_5(ArrayList<clsPrimaryInformation> poEnvironmentalTP) {
-		moG02Id.receive_I2_5(poEnvironmentalTP);
+	public void receive_I2_5(ArrayList<clsPrimaryInformation> poEnvironmentalTP_old, ArrayList<clsPrimaryDataStructureContainer> poEnvironmentalTP) {
+		moG02Id.receive_I2_5(poEnvironmentalTP_old, poEnvironmentalTP);
 	}
 
 	/* (non-Javadoc)
@@ -342,8 +348,9 @@ public class G00_PsychicApparatus extends clsModuleContainer implements
 	 * @see pa.interfaces.I2_6#receive_I2_6(int)
 	 */
 	@Override
-	public void receive_I2_6(ArrayList<clsPair<clsPrimaryInformation, clsPrimaryInformation>> poPerceptPlusRepressed) {
-		moG03Ego.receive_I2_6(poPerceptPlusRepressed);
+	public void receive_I2_6(ArrayList<clsPair<clsPrimaryInformation, clsPrimaryInformation>> poPerceptPlusRepressed_old,
+			  ArrayList<clsPair<clsPrimaryDataStructureContainer, clsPrimaryDataStructureContainer>> poPerceptPlusRepressed) {
+		moG03Ego.receive_I2_6(poPerceptPlusRepressed_old, poPerceptPlusRepressed);
 		
 	}
 
@@ -355,8 +362,8 @@ public class G00_PsychicApparatus extends clsModuleContainer implements
 	 * @see pa.interfaces.I4_3#receive_I4_3(int)
 	 */
 	@Override
-	public void receive_I4_3(List<clsPrimaryInformation> poPIs) {
-		moG03Ego.receive_I4_3(poPIs);
+	public void receive_I4_3(List<clsPrimaryInformation> poPIs_old, List<clsPrimaryDataStructureContainer> poPIs) {
+		moG03Ego.receive_I4_3(poPIs_old, poPIs);
 		
 	}
 
@@ -393,8 +400,9 @@ public class G00_PsychicApparatus extends clsModuleContainer implements
 	 * @see pa.interfaces.I4_1#receive_I4_1(int)
 	 */
 	@Override
-	public void receive_I4_1(List<clsPrimaryInformation> poPIs, List<clsThingPresentation> poTPs, List<clsAffectTension> poAffects) {
-		moG02Id.receive_I4_1(poPIs, poTPs, poAffects);
+	public void receive_I4_1(List<clsPrimaryInformation> poPIs_old, List<clsThingPresentation> poTPs_old, List<clsAffectTension> poAffects_old,
+			  List<clsPrimaryDataStructureContainer> poPIs, List<pa.memorymgmt.datatypes.clsThingPresentation> poTPs, List<clsAssociationDriveMesh> poAffects) {
+		moG02Id.receive_I4_1(poPIs_old, poTPs_old, poAffects_old, poPIs, poTPs, poAffects);
 	}
 
 	/* (non-Javadoc)
@@ -405,8 +413,9 @@ public class G00_PsychicApparatus extends clsModuleContainer implements
 	 * @see pa.interfaces.I4_2#receive_I4_2(int)
 	 */
 	@Override
-	public void receive_I4_2(ArrayList<clsPrimaryInformation> poPIs, ArrayList<clsThingPresentation> poTPs, ArrayList<clsAffectTension> poAffects) {
-		moG02Id.receive_I4_2(poPIs, poTPs, poAffects);
+	public void receive_I4_2(ArrayList<clsPrimaryInformation> poPIs_old, ArrayList<clsThingPresentation> poTPs_old, ArrayList<clsAffectTension> poAffects_old,
+			  ArrayList<clsPrimaryDataStructureContainer> poPIs, ArrayList<pa.memorymgmt.datatypes.clsThingPresentation> poTPs, ArrayList<clsAssociationDriveMesh> poAffects) {
+		moG02Id.receive_I4_2(poPIs_old, poTPs_old, poAffects_old, poPIs, poTPs, poAffects);
 	}
 
 	/* (non-Javadoc)
@@ -417,8 +426,8 @@ public class G00_PsychicApparatus extends clsModuleContainer implements
 	 * @see pa.interfaces.I1_7#receive_I1_7(int)
 	 */
 	@Override
-	public void receive_I1_7(ArrayList<clsSecondaryInformation> poDriveList) {
-		moG04SuperEgo.receive_I1_7(poDriveList);
+	public void receive_I1_7(ArrayList<clsSecondaryInformation> poDriveList_old, ArrayList<clsSecondaryDataStructureContainer> poDriveList) {
+		moG04SuperEgo.receive_I1_7(poDriveList_old, poDriveList);
 	}
 
 	/* (non-Javadoc)
@@ -429,8 +438,8 @@ public class G00_PsychicApparatus extends clsModuleContainer implements
 	 * @see pa.interfaces.I2_11#receive_I2_11(int)
 	 */
 	@Override
-	public void receive_I2_11(ArrayList<clsSecondaryInformation> poPerception) {
-		moG04SuperEgo.receive_I2_11(poPerception);
+	public void receive_I2_11(ArrayList<clsSecondaryInformation> poPerception_old, ArrayList<clsSecondaryDataStructureContainer> poPerception) {
+		moG04SuperEgo.receive_I2_11(poPerception_old, poPerception);
 		
 	}
 }

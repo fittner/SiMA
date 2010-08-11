@@ -18,6 +18,9 @@ import pa.interfaces.receive.I5_3_receive;
 import pa.interfaces.receive.I5_4_receive;
 import pa.interfaces.receive.I5_5_receive;
 import pa.interfaces.send.I5_5_send;
+import pa.memorymgmt.datatypes.clsAssociationDriveMesh;
+import pa.memorymgmt.datatypes.clsPrimaryDataStructureContainer;
+import pa.memorymgmt.datatypes.clsSecondaryDataStructureContainer;
 
 /**
  * DOCUMENT (deutsch) - insert description 
@@ -28,10 +31,15 @@ import pa.interfaces.send.I5_5_send;
  */
 public class E20_InnerPerception_Affects extends clsModuleBase implements I5_1_receive, I5_2_receive, I5_3_receive, I5_4_receive, I5_5_send {
 
-	// private ArrayList<clsAffectTension> moAffectOnlyList; //never used!
-	//private ArrayList<clsAffectTension> moDeniedAffects_Input; //never used!
-	//private ArrayList<clsSecondaryInformation> moPerception; //never used!
-	//private ArrayList<clsSecondaryInformation> moDriveList_Input; //never used!
+	//private ArrayList<clsAffectTension> moAffectOnlyList_old;
+	//private ArrayList<clsAffectTension> moDeniedAffects_Input_old;
+	//private ArrayList<clsSecondaryInformation> moPerception_old;
+	//private ArrayList<clsSecondaryInformation> moDriveList_Input_old;
+	
+	//private ArrayList<clsPrimaryDataStructureContainer> moAffectOnlyList;
+	//private ArrayList<clsAssociationDriveMesh> moDeniedAffects_Input;
+	//private ArrayList<clsSecondaryDataStructureContainer> moPerception; 
+	//private ArrayList<clsSecondaryDataStructureContainer> moDriveList_Input;
 
 	/**
 	 * DOCUMENT (deutsch) - insert description 
@@ -95,10 +103,11 @@ public class E20_InnerPerception_Affects extends clsModuleBase implements I5_1_r
 	 * 
 	 * @see pa.interfaces.I5_1#receive_I5_1(int)
 	 */
+	@SuppressWarnings("unchecked")
 	@Override
-	public void receive_I5_1(ArrayList<clsAffectTension> poAffectOnlyList) {
-		//moAffectOnlyList = (ArrayList<clsAffectTension>)this.deepCopy(poAffectOnlyList); //never used!
-		
+	public void receive_I5_1(ArrayList<clsAffectTension> poAffectOnlyList_old, ArrayList<clsPrimaryDataStructureContainer> poAffectOnlyList) {
+		//moAffectOnlyList_old = (ArrayList<clsAffectTension>)this.deepCopy(poAffectOnlyList_old);
+		//moAffectOnlyList = (ArrayList<clsPrimaryDataStructureContainer>)this.deepCopy(poAffectOnlyList);		
 	}
 
 	/* (non-Javadoc)
@@ -108,10 +117,11 @@ public class E20_InnerPerception_Affects extends clsModuleBase implements I5_1_r
 	 * 
 	 * @see pa.interfaces.I5_2#receive_I5_2(int)
 	 */
+	@SuppressWarnings("unchecked")
 	@Override
-	public void receive_I5_2(ArrayList<clsAffectTension> poDeniedAffects) {
-		//moDeniedAffects_Input = (ArrayList<clsAffectTension>)this.deepCopy(poDeniedAffects); //never used!
-		
+	public void receive_I5_2(ArrayList<clsAffectTension> poDeniedAffects_old, ArrayList<clsAssociationDriveMesh> poDeniedAffects) {
+		//moDeniedAffects_Input_old  = (ArrayList<clsAffectTension>)this.deepCopy(poDeniedAffects_old);
+		//moDeniedAffects_Input  = (ArrayList<clsAssociationDriveMesh>)this.deepCopy(poDeniedAffects);		
 	}
 
 	/* (non-Javadoc)
@@ -121,10 +131,11 @@ public class E20_InnerPerception_Affects extends clsModuleBase implements I5_1_r
 	 * 
 	 * @see pa.interfaces.I5_3#receive_I5_3(int)
 	 */
+	@SuppressWarnings("unchecked")
 	@Override
-	public void receive_I5_3(ArrayList<clsSecondaryInformation> poDriveList) {
-		//moDriveList_Input = (ArrayList<clsSecondaryInformation>)this.deepCopy(poDriveList); //never used!
-		
+	public void receive_I5_3(ArrayList<clsSecondaryInformation> poDriveList_old, ArrayList<clsSecondaryDataStructureContainer> poDriveList) {
+		//moDriveList_Input_old = (ArrayList<clsSecondaryInformation>)this.deepCopy(poDriveList_old);
+		//moDriveList_Input = (ArrayList<clsSecondaryDataStructureContainer>)this.deepCopy(poDriveList);		
 	}
 
 	/* (non-Javadoc)
@@ -134,9 +145,12 @@ public class E20_InnerPerception_Affects extends clsModuleBase implements I5_1_r
 	 * 
 	 * @see pa.interfaces.I5_4#receive_I5_4(int)
 	 */
+	@SuppressWarnings("unchecked")
 	@Override
-	public void receive_I5_4(ArrayList<clsSecondaryInformation> poPerception) {
-		//moPerception = (ArrayList<clsSecondaryInformation>)this.deepCopy(poPerception); //never used!
+	public void receive_I5_4(ArrayList<clsSecondaryInformation> poPerception_old,
+			  				ArrayList<clsSecondaryDataStructureContainer> poPerception) {
+		//moPerception_old = (ArrayList<clsSecondaryInformation>)this.deepCopy(poPerception_old);
+		//moPerception = (ArrayList<clsSecondaryDataStructureContainer>)this.deepCopy(poPerception);
 	}
 
 	/* (non-Javadoc)

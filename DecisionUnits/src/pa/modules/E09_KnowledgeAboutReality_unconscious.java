@@ -15,6 +15,7 @@ import pa.datatypes.clsPrimaryInformation;
 import pa.interfaces.receive.I1_5_receive;
 import pa.interfaces.receive.I6_3_receive;
 import pa.interfaces.send.I6_3_send;
+import pa.memorymgmt.datatypes.clsPrimaryDataStructureContainer;
 
 /**
  * DOCUMENT (deutsch) - insert description 
@@ -24,7 +25,8 @@ import pa.interfaces.send.I6_3_send;
  * 
  */
 public class E09_KnowledgeAboutReality_unconscious extends clsModuleBase implements I1_5_receive, I6_3_send {
-	ArrayList<clsPrimaryInformation> moPrimaryInformation;
+	ArrayList<clsPrimaryInformation> moPrimaryInformation_old;
+	ArrayList<clsPrimaryDataStructureContainer> moPrimaryInformation; 
 	
 	/**
 	 * DOCUMENT (deutsch) - insert description 
@@ -90,8 +92,9 @@ public class E09_KnowledgeAboutReality_unconscious extends clsModuleBase impleme
 	 */
 	@SuppressWarnings("unchecked")
 	@Override
-	public void receive_I1_5(List<clsPrimaryInformation> poData) {
-		moPrimaryInformation = (ArrayList<clsPrimaryInformation>)deepCopy( (ArrayList<clsPrimaryInformation>)poData);
+	public void receive_I1_5(List<clsPrimaryInformation> poData_old, List<clsPrimaryDataStructureContainer> poData) {
+		moPrimaryInformation_old = (ArrayList<clsPrimaryInformation>)deepCopy( (ArrayList<clsPrimaryInformation>)poData_old);
+		moPrimaryInformation = (ArrayList<clsPrimaryDataStructureContainer>)deepCopy((ArrayList<clsPrimaryDataStructureContainer>)poData);
 	}
 
 	/* (non-Javadoc)

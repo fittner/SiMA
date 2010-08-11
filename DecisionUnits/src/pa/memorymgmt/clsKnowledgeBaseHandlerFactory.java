@@ -17,7 +17,7 @@ import config.clsBWProperties;
  * 30.05.2010, 12:44:07
  * 
  */
-public class clsKnowledgeBaseHandlerFactory implements itfKnowledgeBaseHandlerFactory{
+public class clsKnowledgeBaseHandlerFactory {
 
 	/* (non-Javadoc)
 	 *
@@ -26,12 +26,12 @@ public class clsKnowledgeBaseHandlerFactory implements itfKnowledgeBaseHandlerFa
 	 * 
 	 * @see pa.informationrepresentation.itfInformationRepresentationManagementFactory#createInformationRepresentationManagement(pa.informationrepresentation.enums.eInformationRepresentationManagementType, java.lang.String, config.clsBWProperties)
 	 */
-	@Override
-	public itfKnowledgeBaseHandler createInformationRepresentationManagement(
-			eInformationRepresentationManagementType pnInformationRepresentationManagementType,
+	
+	public static clsKnowledgeBaseHandler createInformationRepresentationManagement(
+			String poInformationRepresentationManagementType,
 			String poPrefix, clsBWProperties poProp)throws IllegalArgumentException {
 		//TODO HZ intitialize the informationrepresentation in G00
-		return createInformationRepresentationManagement_static(pnInformationRepresentationManagementType, poPrefix, poProp);
+		return createInformationRepresentationManagement_static(poInformationRepresentationManagementType, poPrefix, poProp);
 	}
 
 	/**
@@ -45,23 +45,26 @@ public class clsKnowledgeBaseHandlerFactory implements itfKnowledgeBaseHandlerFa
 	 * @param poProp
 	 * @return
 	 */
-	private static itfKnowledgeBaseHandler createInformationRepresentationManagement_static(
-			eInformationRepresentationManagementType pnInformationRepresentationManagementType,
+	private static clsKnowledgeBaseHandler createInformationRepresentationManagement_static(
+			String poInformationRepresentationManagementType,
 			String poPrefix, clsBWProperties poProp) {
 		
 		clsKnowledgeBaseHandler oInformationRepresentationManagement = null; 
 		
-		switch(pnInformationRepresentationManagementType){
+		switch(eInformationRepresentationManagementType.valueOf(poInformationRepresentationManagementType)){
 			case ARSI09_MGMT:
 				//TODO adapt ARSI09 to the actual InformationReprsentation Management 
 				break;
 			case ARSI10_MGMT:
+				String pre = clsBWProperties.addDot(poPrefix);
+		    	clsBWProperties oProp = new clsBWProperties();
+		    	poProp.putAll(clsInformationRepresentationManagement.getDefaultProperties(poPrefix) );
 				oInformationRepresentationManagement = new clsInformationRepresentationManagement(poPrefix, poProp);  
 				break; 
 			default:
-				throw new java.lang.IllegalArgumentException("eInformationRepresentationManagement."+pnInformationRepresentationManagementType.name());
+				throw new java.lang.IllegalArgumentException("eInformationRepresentationManagement." + poInformationRepresentationManagementType);
 		}
-		return (itfKnowledgeBaseHandler) oInformationRepresentationManagement;
+		return oInformationRepresentationManagement;
 	}
 	
 	

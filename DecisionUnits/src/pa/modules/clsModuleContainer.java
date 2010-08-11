@@ -8,7 +8,7 @@ package pa.modules;
 
 import pa.clsInterfaceHandler;
 import pa.memory.clsMemory;
-import pa.memorymgmt.informationrepresentation.clsInformationRepresentationManagement;
+import pa.memorymgmt.clsKnowledgeBaseHandler;
 import config.clsBWProperties;
 
 /**
@@ -21,13 +21,13 @@ import config.clsBWProperties;
 public abstract class clsModuleContainer {
 	protected clsModuleContainer moEnclosingContainer;
 	protected clsMemory moMemory;
-	protected clsInformationRepresentationManagement moInformationRepresentationManagement; 
+	protected clsKnowledgeBaseHandler moKnowledgeBase; 
 	protected clsInterfaceHandler moInterfaceHandler;	
 	
-	public clsModuleContainer(String poPrefix, clsBWProperties poProp, clsModuleContainer poEnclosingContainer, clsInterfaceHandler poInterfaceHandler, clsMemory poMemory, clsInformationRepresentationManagement poInformationRepresentationManagement) {
+	public clsModuleContainer(String poPrefix, clsBWProperties poProp, clsModuleContainer poEnclosingContainer, clsInterfaceHandler poInterfaceHandler, clsMemory poMemory, clsKnowledgeBaseHandler poKnowledgeBase) {
 		moEnclosingContainer = poEnclosingContainer;
 		moMemory = poMemory;
-		moInformationRepresentationManagement = poInformationRepresentationManagement; 
+		moKnowledgeBase = poKnowledgeBase; 
 		moInterfaceHandler = poInterfaceHandler;
 		
 		applyProperties(poPrefix, poProp);

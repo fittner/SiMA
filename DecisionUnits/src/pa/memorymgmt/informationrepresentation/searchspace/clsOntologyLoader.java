@@ -73,7 +73,7 @@ public class clsOntologyLoader {
 	private static void initOntology(Hashtable<eDataType, List<clsDataStructurePA>> poDataStructureList, String poSourceName){
 		//FIXME HZ: Sorry for the "Object" parameter in ArrayList => however, this is a protege problem
 		Collection <?>oErrorList = new ArrayList<Object>(); 
-		Project oOntologyPrj = Project.loadProjectFromFile(poSourceName, oErrorList);
+		Project oOntologyPrj = Project.loadProjectFromFile("../" + poSourceName, oErrorList);
 	    KnowledgeBase oFrameKB = oOntologyPrj.getKnowledgeBase();
 		    
 	  //FIXME HZ: Optimize the initialization process => Builder
@@ -289,7 +289,6 @@ public class clsOntologyLoader {
 	private static void createAssociation(clsDataStructurePA poRootElement, Instance poAssociation,
 			clsPair<KnowledgeBase, Hashtable<eDataType, List<clsDataStructurePA>>> poDataContainer) {
 
-		System.out.println("Association " + poAssociation.getName());
 		clsAssociation oDataStructure = null; 
 	    eDataType eAssociationType = getElementDataType(poAssociation); 
 	    

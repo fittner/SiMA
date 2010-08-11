@@ -18,6 +18,7 @@ import pa.bfg.tools.clsCloneable;
  * 17.10.2009, 19:20:45
  * 
  */
+@Deprecated
 public class clsMinus1to1 extends clsCloneable implements Serializable {
 
 	private static final long serialVersionUID = 4136585154085106000L;

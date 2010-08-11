@@ -21,6 +21,7 @@ import pa.interfaces.receive.I7_1_receive;
 import pa.interfaces.receive.I7_2_receive;
 import pa.interfaces.send.I7_1_send;
 import pa.interfaces.send.I7_2_send;
+import pa.memorymgmt.datatypes.clsSecondaryDataStructureContainer;
 import pa.tools.clsPair;
 
 /**
@@ -32,8 +33,10 @@ import pa.tools.clsPair;
  */
 public class E26_DecisionMaking extends clsModuleBase implements I1_7_receive, I2_13_receive, I3_3_receive, I5_5_receive, I7_1_send, I7_2_send {
 
-	private ArrayList<clsSecondaryInformation> moDriveList;
-	private ArrayList<clsPair<clsSecondaryInformation, clsSecondaryInformationMesh>> moRealityPerception;
+	private ArrayList<clsSecondaryInformation> moDriveList_old;
+	private ArrayList<clsPair<clsSecondaryInformation, clsSecondaryInformationMesh>> moRealityPerception_old;
+	private ArrayList<clsSecondaryDataStructureContainer> moDriveList; 
+	private ArrayList<clsPair<clsSecondaryDataStructureContainer, clsSecondaryDataStructureContainer>> moRealityPerception; 
 	
 	HashMap<String, clsPair<clsSecondaryInformation, Double>> moTemplateImageResult;
 	HashMap<String, clsPair<clsSecondaryInformation, Double>> moTemplateScenarioResult;
@@ -112,8 +115,9 @@ public class E26_DecisionMaking extends clsModuleBase implements I1_7_receive, I
 	 */
 	@SuppressWarnings("unchecked")
 	@Override
-	public void receive_I1_7(ArrayList<clsSecondaryInformation> poDriveList) {
-		moDriveList = (ArrayList<clsSecondaryInformation>)this.deepCopy(poDriveList);
+	public void receive_I1_7(ArrayList<clsSecondaryInformation> poDriveList_old, ArrayList<clsSecondaryDataStructureContainer> poDriveList) {
+		moDriveList_old = (ArrayList<clsSecondaryInformation>)this.deepCopy(poDriveList_old);
+		moDriveList = (ArrayList<clsSecondaryDataStructureContainer>)this.deepCopy(poDriveList); 
 		
 	}
 
@@ -130,8 +134,10 @@ public class E26_DecisionMaking extends clsModuleBase implements I1_7_receive, I
 	 */
 	@SuppressWarnings("unchecked")
 	@Override
-	public void receive_I2_13(ArrayList<clsPair<clsSecondaryInformation, clsSecondaryInformationMesh>> poRealityPerception) {
-		moRealityPerception = (ArrayList<clsPair<clsSecondaryInformation, clsSecondaryInformationMesh>>)deepCopy(poRealityPerception);
+	public void receive_I2_13(ArrayList<clsPair<clsSecondaryInformation, clsSecondaryInformationMesh>> poRealityPerception_old,
+			   				 ArrayList<clsPair<clsSecondaryDataStructureContainer, clsSecondaryDataStructureContainer>> poRealityPerception) {
+		moRealityPerception_old = (ArrayList<clsPair<clsSecondaryInformation, clsSecondaryInformationMesh>>)deepCopy(poRealityPerception_old);
+		moRealityPerception = (ArrayList<clsPair<clsSecondaryDataStructureContainer, clsSecondaryDataStructureContainer>>)deepCopy(poRealityPerception); 
 	}
 
 	/* (non-Javadoc)
@@ -188,10 +194,10 @@ public class E26_DecisionMaking extends clsModuleBase implements I1_7_receive, I
 		// combine wishes and external perception
 		
 		// first wishes
-		oCompletePerception.addAll(moDriveList);
+		oCompletePerception.addAll(moDriveList_old);
 		
 		// dirty hack -> moRealityPerception only contains "a" part of the clsPair
-		for(clsPair<clsSecondaryInformation, clsSecondaryInformationMesh> oReal :moRealityPerception) {
+		for(clsPair<clsSecondaryInformation, clsSecondaryInformationMesh> oReal :moRealityPerception_old) {
 			oCompletePerception.add(oReal.a);
 		}
 		
@@ -217,7 +223,8 @@ public class E26_DecisionMaking extends clsModuleBase implements I1_7_receive, I
 	 */
 	@Override
 	protected void send() {
-		send_I7_1(moTemplateResult_Output);
+		//HZ: null is a placeholder for the bjects of the type pa.memorymgmt.datatypes
+		send_I7_1(moTemplateResult_Output, null);
 		send_I7_2(mnTest);
 	}
 
@@ -229,9 +236,9 @@ public class E26_DecisionMaking extends clsModuleBase implements I1_7_receive, I
 	 * @see pa.interfaces.send.I7_1_send#send_I7_1(java.util.HashMap)
 	 */
 	@Override
-	public void send_I7_1(
-			HashMap<String, clsPair<clsSecondaryInformation, Double>> poTemplateResult) {
-		((I7_1_receive)moEnclosingContainer).receive_I7_1(moTemplateResult_Output);
+	public void send_I7_1(HashMap<String, clsPair<clsSecondaryInformation, Double>> poTemplateResult_old, 
+			  			HashMap<String, clsPair<clsSecondaryDataStructureContainer,Double>> poTemplateResult) {
+		((I7_1_receive)moEnclosingContainer).receive_I7_1(moTemplateResult_Output, null);
 		
 	}
 

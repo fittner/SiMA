@@ -10,6 +10,7 @@ import java.util.ArrayList;
 
 import pa.datatypes.clsPrimaryInformation;
 import pa.interfaces.I_BaseInterface;
+import pa.memorymgmt.datatypes.clsPrimaryDataStructureContainer;
 
 /**
  * DOCUMENT (deutsch) - insert description 
@@ -19,5 +20,6 @@ import pa.interfaces.I_BaseInterface;
  * 
  */
 public interface I2_9_receive extends I_BaseInterface {
-	public void receive_I2_9(ArrayList<clsPrimaryInformation> poMergedPrimaryInformation);
+	public void receive_I2_9(ArrayList<clsPrimaryInformation> poMergedPrimaryInformation_old,
+			  ArrayList<clsPrimaryDataStructureContainer> poMergedPrimaryInformation);
 }

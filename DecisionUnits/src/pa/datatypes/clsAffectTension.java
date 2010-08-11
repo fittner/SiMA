@@ -15,6 +15,7 @@ import pa.bfg.tools.cls0to1;
  * 11.08.2009, 11:16:41
  * 
  */
+@Deprecated
 public class clsAffectTension extends clsAffect implements Cloneable {
 
 	public cls0to1 moValue;

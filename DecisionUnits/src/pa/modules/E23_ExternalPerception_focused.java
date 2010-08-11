@@ -15,6 +15,7 @@ import pa.interfaces.receive.I1_7_receive;
 import pa.interfaces.receive.I2_11_receive;
 import pa.interfaces.receive.I2_12_receive;
 import pa.interfaces.send.I2_12_send;
+import pa.memorymgmt.datatypes.clsSecondaryDataStructureContainer;
 
 /**
  * DOCUMENT (deutsch) - insert description 
@@ -25,10 +26,13 @@ import pa.interfaces.send.I2_12_send;
  */
 public class E23_ExternalPerception_focused extends clsModuleBase implements I2_11_receive, I1_7_receive, I2_12_send {
 
-	private ArrayList<clsSecondaryInformation> moPerception;
-	//private ArrayList<clsSecondaryInformation> moDriveList;  //never used!
-
-	private ArrayList<clsSecondaryInformation> moFocusedPerception_Output;
+	private ArrayList<clsSecondaryInformation> moPerception_old;
+	//private ArrayList<clsSecondaryInformation> moDriveList_old;
+	private ArrayList<clsSecondaryInformation> moFocusedPerception_Output_old;
+	
+	private ArrayList<clsSecondaryDataStructureContainer> moPerception; 
+	//private ArrayList<clsSecondaryDataStructureContainer> moDriveList; 
+	private ArrayList<clsSecondaryDataStructureContainer> moFocusedPerception_Output; 
 	/**
 	 * DOCUMENT (deutsch) - insert description 
 	 * 
@@ -93,8 +97,9 @@ public class E23_ExternalPerception_focused extends clsModuleBase implements I2_
 	 */
 	@SuppressWarnings("unchecked")
 	@Override
-	public void receive_I2_11(ArrayList<clsSecondaryInformation> poPerception) {
-		moPerception = (ArrayList<clsSecondaryInformation>)this.deepCopy(poPerception);
+	public void receive_I2_11(ArrayList<clsSecondaryInformation> poPerception_old, ArrayList<clsSecondaryDataStructureContainer> poPerception) {
+		moPerception_old = (ArrayList<clsSecondaryInformation>)this.deepCopy(poPerception_old);
+		moPerception = (ArrayList<clsSecondaryDataStructureContainer>)this.deepCopy(poPerception);
 		
 	}
 
@@ -105,10 +110,11 @@ public class E23_ExternalPerception_focused extends clsModuleBase implements I2_
 	 * 
 	 * @see pa.interfaces.I1_7#receive_I1_7(int)
 	 */
+	@SuppressWarnings("unchecked")
 	@Override
-	public void receive_I1_7(ArrayList<clsSecondaryInformation> poDriveList) {
-		//moDriveList = (ArrayList<clsSecondaryInformation>)this.deepCopy(poDriveList); //never used!
-		
+	public void receive_I1_7(ArrayList<clsSecondaryInformation> poDriveList_old, ArrayList<clsSecondaryDataStructureContainer> poDriveList) {
+		//moDriveList_old = (ArrayList<clsSecondaryInformation>)this.deepCopy(poDriveList_old);
+		//moDriveList = (ArrayList<clsSecondaryDataStructureContainer>)this.deepCopy(poDriveList);
 	}
 
 	/* (non-Javadoc)
@@ -120,8 +126,8 @@ public class E23_ExternalPerception_focused extends clsModuleBase implements I2_
 	 */
 	@Override
 	protected void process_basic() {
-		moFocusedPerception_Output = moPerception; //simply forward. really? cm
-
+		moFocusedPerception_Output_old = moPerception_old; //simply forward. really? cm
+		moFocusedPerception_Output = moFocusedPerception_Output; 
 	}
 
 	/* (non-Javadoc)
@@ -133,7 +139,8 @@ public class E23_ExternalPerception_focused extends clsModuleBase implements I2_
 	 */
 	@Override
 	protected void send() {
-		send_I2_12(moFocusedPerception_Output);
+		//HZ: null is a placeholder for the bjects of the type pa.memorymgmt.datatypes
+		send_I2_12(moFocusedPerception_Output_old, moFocusedPerception_Output);
 	}
 
 	/* (non-Javadoc)
@@ -144,9 +151,9 @@ public class E23_ExternalPerception_focused extends clsModuleBase implements I2_
 	 * @see pa.interfaces.send.I2_12_send#send_I2_12(java.util.ArrayList)
 	 */
 	@Override
-	public void send_I2_12(
-			ArrayList<clsSecondaryInformation> poFocusedPerception) {
-		((I2_12_receive)moEnclosingContainer).receive_I2_12(moFocusedPerception_Output);
+	public void send_I2_12(ArrayList<clsSecondaryInformation> poFocusedPerception_old,
+			   			ArrayList<clsSecondaryDataStructureContainer> poFocusedPerception) {
+		((I2_12_receive)moEnclosingContainer).receive_I2_12(moFocusedPerception_Output_old, moFocusedPerception_Output);
 		
 	}
 

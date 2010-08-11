@@ -23,6 +23,8 @@ import pa.interfaces.send.I1_3_send;
 import pa.loader.clsAffectCandidateDefinition;
 import pa.loader.clsDriveLoader;
 import pa.loader.clsTemplateDrive;
+import pa.memorymgmt.datatypes.clsAssociationDriveMesh;
+import pa.memorymgmt.datatypes.clsThingPresentationMesh;
 import pa.tools.clsPair;
 import config.clsBWProperties;
 
@@ -251,7 +253,8 @@ public class E03_GenerationOfDrives extends clsModuleBase implements I1_2_receiv
 	 */
 	@Override
 	protected void send() {
-		send_I1_3(moHomeostaticTP);
+		send_I1_3(moHomeostaticTP, null);
+		//HZ: null is a placeholder for the homeostatic information formed out of objects of the type pa.memorymgmt.datatypes 
 	}
 
 	/* (non-Javadoc)
@@ -262,10 +265,10 @@ public class E03_GenerationOfDrives extends clsModuleBase implements I1_2_receiv
 	 * @see pa.interfaces.send.I1_3_send#send_I1_3(java.util.ArrayList)
 	 */
 	@Override
-	public void send_I1_3(
-			ArrayList<clsPair<clsPair<clsPrimaryInformationMesh, clsAffectCandidate>, clsPair<clsPrimaryInformationMesh, clsAffectCandidate>>> poDriveCandidate) {
-		((I1_3_receive)moEnclosingContainer).receive_I1_3(moHomeostaticTP);
-		
+	public void send_I1_3(ArrayList<clsPair<clsPair<clsPrimaryInformationMesh, clsAffectCandidate>, clsPair<clsPrimaryInformationMesh, clsAffectCandidate>>> poDriveCandidate_old,
+			 			  ArrayList<clsPair<clsPair<clsThingPresentationMesh, clsAssociationDriveMesh>, clsPair<clsThingPresentationMesh, clsAssociationDriveMesh>>> poDriveCandidate) {
+		((I1_3_receive)moEnclosingContainer).receive_I1_3(moHomeostaticTP, new ArrayList<clsPair<clsPair<clsThingPresentationMesh, clsAssociationDriveMesh>, clsPair<clsThingPresentationMesh, clsAssociationDriveMesh>>>());
+		//HZ: null is a placeholder for the homeostatic information formed out of objects of the type pa.memorymgmt.datatypes 
 	}
 
 	/* (non-Javadoc)

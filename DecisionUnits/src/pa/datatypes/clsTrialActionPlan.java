@@ -13,6 +13,7 @@ package pa.datatypes;
  * 08.10.2009, 14:59:55
  * 
  */
+@Deprecated
 public class clsTrialActionPlan extends clsSecondaryInformation implements Cloneable {
 
 	/**

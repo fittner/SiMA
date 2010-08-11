@@ -16,6 +16,7 @@ import pa.interfaces.itfSecondaryProcessComparableWP;
  * 11.08.2009, 11:48:35
  * 
  */
+@Deprecated
 public class clsSecondaryInformation extends clsPrimaryInformation implements itfSecondaryProcessComparable, itfSecondaryProcessComparableWP, Cloneable {
 
 	public clsWordPresentation moWP;
