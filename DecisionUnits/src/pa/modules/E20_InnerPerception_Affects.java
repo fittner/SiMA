@@ -28,10 +28,10 @@ import pa.interfaces.send.I5_5_send;
  */
 public class E20_InnerPerception_Affects extends clsModuleBase implements I5_1_receive, I5_2_receive, I5_3_receive, I5_4_receive, I5_5_send {
 
-	private ArrayList<clsAffectTension> moAffectOnlyList;
-	private ArrayList<clsAffectTension> moDeniedAffects_Input;
-	private ArrayList<clsSecondaryInformation> moPerception;
-	private ArrayList<clsSecondaryInformation> moDriveList_Input;
+	// private ArrayList<clsAffectTension> moAffectOnlyList; //never used!
+	//private ArrayList<clsAffectTension> moDeniedAffects_Input; //never used!
+	//private ArrayList<clsSecondaryInformation> moPerception; //never used!
+	//private ArrayList<clsSecondaryInformation> moDriveList_Input; //never used!
 
 	/**
 	 * DOCUMENT (deutsch) - insert description 
@@ -95,10 +95,9 @@ public class E20_InnerPerception_Affects extends clsModuleBase implements I5_1_r
 	 * 
 	 * @see pa.interfaces.I5_1#receive_I5_1(int)
 	 */
-	@SuppressWarnings("unchecked")
 	@Override
 	public void receive_I5_1(ArrayList<clsAffectTension> poAffectOnlyList) {
-		moAffectOnlyList = (ArrayList<clsAffectTension>)this.deepCopy(poAffectOnlyList);
+		//moAffectOnlyList = (ArrayList<clsAffectTension>)this.deepCopy(poAffectOnlyList); //never used!
 		
 	}
 
@@ -109,10 +108,9 @@ public class E20_InnerPerception_Affects extends clsModuleBase implements I5_1_r
 	 * 
 	 * @see pa.interfaces.I5_2#receive_I5_2(int)
 	 */
-	@SuppressWarnings("unchecked")
 	@Override
 	public void receive_I5_2(ArrayList<clsAffectTension> poDeniedAffects) {
-		moDeniedAffects_Input = (ArrayList<clsAffectTension>)this.deepCopy(poDeniedAffects);
+		//moDeniedAffects_Input = (ArrayList<clsAffectTension>)this.deepCopy(poDeniedAffects); //never used!
 		
 	}
 
@@ -123,10 +121,9 @@ public class E20_InnerPerception_Affects extends clsModuleBase implements I5_1_r
 	 * 
 	 * @see pa.interfaces.I5_3#receive_I5_3(int)
 	 */
-	@SuppressWarnings("unchecked")
 	@Override
 	public void receive_I5_3(ArrayList<clsSecondaryInformation> poDriveList) {
-		moDriveList_Input = (ArrayList<clsSecondaryInformation>)this.deepCopy(poDriveList);
+		//moDriveList_Input = (ArrayList<clsSecondaryInformation>)this.deepCopy(poDriveList); //never used!
 		
 	}
 
@@ -137,10 +134,9 @@ public class E20_InnerPerception_Affects extends clsModuleBase implements I5_1_r
 	 * 
 	 * @see pa.interfaces.I5_4#receive_I5_4(int)
 	 */
-	@SuppressWarnings("unchecked")
 	@Override
 	public void receive_I5_4(ArrayList<clsSecondaryInformation> poPerception) {
-		moPerception = (ArrayList<clsSecondaryInformation>)this.deepCopy(poPerception);
+		//moPerception = (ArrayList<clsSecondaryInformation>)this.deepCopy(poPerception); //never used!
 	}
 
 	/* (non-Javadoc)

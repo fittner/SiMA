@@ -7,11 +7,9 @@
 package pa.modules;
 
 import java.util.ArrayList;
-
 import config.clsBWProperties;
 import pa.clsInterfaceHandler;
 import pa.datatypes.clsSecondaryInformation;
-import pa.datatypes.clsSecondaryInformationMesh;
 import pa.interfaces.receive.I1_7_receive;
 import pa.interfaces.receive.I2_11_receive;
 import pa.interfaces.receive.I3_3_receive;
@@ -26,8 +24,8 @@ import pa.interfaces.send.I3_3_send;
  */
 public class E22_SuperEgo_preconscious extends clsModuleBase implements I1_7_receive, I2_11_receive, I3_3_send {
 
-	private ArrayList<clsSecondaryInformationMesh> moPerception;
-	private ArrayList<clsSecondaryInformation> moDriveList;
+	//private ArrayList<clsSecondaryInformationMesh> moPerception; //never used!
+	//private ArrayList<clsSecondaryInformation> moDriveList; //never used!
 
 	/**
 	 * DOCUMENT (deutsch) - insert description 
@@ -91,10 +89,9 @@ public class E22_SuperEgo_preconscious extends clsModuleBase implements I1_7_rec
 	 * 
 	 * @see pa.interfaces.I1_7#receive_I1_7(int)
 	 */
-	@SuppressWarnings("unchecked")
 	@Override
 	public void receive_I1_7(ArrayList<clsSecondaryInformation> poDriveList) {
-		moDriveList = (ArrayList<clsSecondaryInformation>)this.deepCopy(poDriveList);
+		//moDriveList = (ArrayList<clsSecondaryInformation>)this.deepCopy(poDriveList); //never used!
 		
 	}
 
@@ -105,10 +102,9 @@ public class E22_SuperEgo_preconscious extends clsModuleBase implements I1_7_rec
 	 * 
 	 * @see pa.interfaces.I2_11#receive_I2_11(int)
 	 */
-	@SuppressWarnings("unchecked")
 	@Override
 	public void receive_I2_11(ArrayList<clsSecondaryInformation> poPerception) {
-		moPerception = (ArrayList<clsSecondaryInformationMesh>)this.deepCopy(poPerception);	
+		//moPerception = (ArrayList<clsSecondaryInformationMesh>)this.deepCopy(poPerception);	 //never used!
 	}
 
 	/* (non-Javadoc)
