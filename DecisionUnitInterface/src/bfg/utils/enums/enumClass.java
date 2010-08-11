@@ -3,8 +3,7 @@
  * 
  * Copied from the old bubble family game
  * 
- * CHKME (deutsch) - keep this file?
- * @deprecated taken from old BFG
+ *  taken from old BFG
  * 
  * $Rev:: 1825                 $: Revision of last commit
  * $Author:: deutsch           $: Author of last commit
@@ -27,7 +26,7 @@ package bfg.utils.enums;
  * $Revision: 1825 $:  Revision of last commit
  * $Author: deutsch $: Author of last commit
  * $Date: 2009-01-27 19:59:35 +0100 (Di, 27 Jän 2009) $: Date of last commit
- *
+ *@deprecated
  */
 public abstract class enumClass  {
   public final static int TENUM_UNDEFINED    = Integer.MIN_VALUE;

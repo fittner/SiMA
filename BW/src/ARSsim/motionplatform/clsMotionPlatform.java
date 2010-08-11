@@ -17,7 +17,6 @@ public class clsMotionPlatform
         {
     	moMobile = poMobile;
     	
-    	//CHKME RooL: was sind die angles etc und waf�r werden die gebraucht? Verdacht das sie unn�tz sind!
         P_angle = 10;
         D_angle = 500;
                 
