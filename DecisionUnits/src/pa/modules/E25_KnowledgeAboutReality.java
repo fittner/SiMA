@@ -90,7 +90,6 @@ public class E25_KnowledgeAboutReality extends clsModuleBase implements I2_12_re
 	 * 
 	 * @see pa.interfaces.I2_12#receive_I2_12(int)
 	 */
-	@SuppressWarnings("unchecked")
 	@Override
 	public void receive_I2_12(ArrayList<clsSecondaryInformation> poFocusedPerception_old,
 			   				ArrayList<clsSecondaryDataStructureContainer> poFocusedPerception) {

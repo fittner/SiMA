@@ -110,7 +110,6 @@ public class E23_ExternalPerception_focused extends clsModuleBase implements I2_
 	 * 
 	 * @see pa.interfaces.I1_7#receive_I1_7(int)
 	 */
-	@SuppressWarnings("unchecked")
 	@Override
 	public void receive_I1_7(ArrayList<clsSecondaryInformation> poDriveList_old, ArrayList<clsSecondaryDataStructureContainer> poDriveList) {
 		//moDriveList_old = (ArrayList<clsSecondaryInformation>)this.deepCopy(poDriveList_old);

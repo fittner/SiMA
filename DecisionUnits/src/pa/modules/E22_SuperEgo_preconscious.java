@@ -94,7 +94,6 @@ public class E22_SuperEgo_preconscious extends clsModuleBase implements I1_7_rec
 	 * 
 	 * @see pa.interfaces.I1_7#receive_I1_7(int)
 	 */
-	@SuppressWarnings("unchecked")
 	@Override
 	public void receive_I1_7(ArrayList<clsSecondaryInformation> poDriveList_old, ArrayList<clsSecondaryDataStructureContainer> poDriveList) {
 		//moDriveList_old = (ArrayList<clsSecondaryInformation>)this.deepCopy(poDriveList_old);
@@ -108,7 +107,6 @@ public class E22_SuperEgo_preconscious extends clsModuleBase implements I1_7_rec
 	 * 
 	 * @see pa.interfaces.I2_11#receive_I2_11(int)
 	 */
-	@SuppressWarnings("unchecked")
 	@Override
 	public void receive_I2_11(ArrayList<clsSecondaryInformation> poPerception_old, ArrayList<clsSecondaryDataStructureContainer> poPerception) {
 		//moPerception_old = (ArrayList<clsSecondaryInformationMesh>)this.deepCopy(poPerception_old);	

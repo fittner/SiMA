@@ -103,7 +103,6 @@ public class E20_InnerPerception_Affects extends clsModuleBase implements I5_1_r
 	 * 
 	 * @see pa.interfaces.I5_1#receive_I5_1(int)
 	 */
-	@SuppressWarnings("unchecked")
 	@Override
 	public void receive_I5_1(ArrayList<clsAffectTension> poAffectOnlyList_old, ArrayList<clsPrimaryDataStructureContainer> poAffectOnlyList) {
 		//moAffectOnlyList_old = (ArrayList<clsAffectTension>)this.deepCopy(poAffectOnlyList_old);
@@ -117,7 +116,6 @@ public class E20_InnerPerception_Affects extends clsModuleBase implements I5_1_r
 	 * 
 	 * @see pa.interfaces.I5_2#receive_I5_2(int)
 	 */
-	@SuppressWarnings("unchecked")
 	@Override
 	public void receive_I5_2(ArrayList<clsAffectTension> poDeniedAffects_old, ArrayList<clsAssociationDriveMesh> poDeniedAffects) {
 		//moDeniedAffects_Input_old  = (ArrayList<clsAffectTension>)this.deepCopy(poDeniedAffects_old);
@@ -131,7 +129,6 @@ public class E20_InnerPerception_Affects extends clsModuleBase implements I5_1_r
 	 * 
 	 * @see pa.interfaces.I5_3#receive_I5_3(int)
 	 */
-	@SuppressWarnings("unchecked")
 	@Override
 	public void receive_I5_3(ArrayList<clsSecondaryInformation> poDriveList_old, ArrayList<clsSecondaryDataStructureContainer> poDriveList) {
 		//moDriveList_Input_old = (ArrayList<clsSecondaryInformation>)this.deepCopy(poDriveList_old);
@@ -145,7 +142,6 @@ public class E20_InnerPerception_Affects extends clsModuleBase implements I5_1_r
 	 * 
 	 * @see pa.interfaces.I5_4#receive_I5_4(int)
 	 */
-	@SuppressWarnings("unchecked")
 	@Override
 	public void receive_I5_4(ArrayList<clsSecondaryInformation> poPerception_old,
 			  				ArrayList<clsSecondaryDataStructureContainer> poPerception) {
