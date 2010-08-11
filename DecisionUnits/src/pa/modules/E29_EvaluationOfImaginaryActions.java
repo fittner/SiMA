@@ -106,6 +106,7 @@ public class E29_EvaluationOfImaginaryActions extends clsModuleBase implements I
 	 * 
 	 * @see pa.interfaces.I7_3#receive_I7_3(int)
 	 */
+	@SuppressWarnings("unchecked") //deepCopy can only perform an unchecked operation
 	@Override
 	public void receive_I7_3(ArrayList<clsPlanAction> poActionCommands) {
 		moActionCommands_Input = (ArrayList<clsPlanAction>)deepCopy(poActionCommands);

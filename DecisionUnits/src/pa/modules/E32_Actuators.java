@@ -90,6 +90,7 @@ public class E32_Actuators extends clsModuleBase implements I8_2_receive, itfRet
 	 * 
 	 * @see pa.interfaces.I8_2#receive_I8_2(int)
 	 */
+	@SuppressWarnings("unchecked") //deepCopy can only perform an unchecked operation
 	@Override
 	public void receive_I8_2(ArrayList<clsActionCommand> poActionCommandList) {
 		moActionCommandList_Input = (ArrayList<clsActionCommand>) deepCopy(poActionCommandList);

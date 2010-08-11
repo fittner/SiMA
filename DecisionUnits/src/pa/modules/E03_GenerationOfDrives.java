@@ -143,6 +143,7 @@ public class E03_GenerationOfDrives extends clsModuleBase implements I1_2_receiv
 	 * 
 	 * @see pa.modules.clsModuleBase#process()
 	 */
+	@SuppressWarnings({ "unchecked", "rawtypes" }) //this is old code and will be replaced soon. thus, the line moHomeostaticTP.add(new clsPair( oDrive1, oDrive2 )); stays unchanged
 	@Override
 	protected void process_basic() {
 
