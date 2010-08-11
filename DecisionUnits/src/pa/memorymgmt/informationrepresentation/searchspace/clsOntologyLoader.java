@@ -483,7 +483,7 @@ public class clsOntologyLoader {
 				Instance oDataElementB = (Instance)element; 
 				String oAssociationName = "CA:" + poDataElementA.getName() + ":"+ ((Instance)oDataElementB).getName();
 				String oDataElementTypeA = poDataElementA.getOwnSlotValue(poDataContainer.a.getSlot("type")).toString();
-				String oDataElementTypeB = oDataElementB.getOwnSlotValue(poDataContainer.a.getSlot("type")).toString(); 
+				//never used String oDataElementTypeB = oDataElementB.getOwnSlotValue(poDataContainer.a.getSlot("type")).toString(); 
 								
 				if(poDataContainer.a.getInstance(oAssociationName)!=null)break; 
 				

@@ -56,9 +56,7 @@ public class clsKnowledgeBaseHandlerFactory {
 				//TODO adapt ARSI09 to the actual InformationReprsentation Management 
 				break;
 			case ARSI10_MGMT:
-				String pre = clsBWProperties.addDot(poPrefix);
-		    	clsBWProperties oProp = new clsBWProperties();
-		    	poProp.putAll(clsInformationRepresentationManagement.getDefaultProperties(poPrefix) );
+				poProp.putAll(clsInformationRepresentationManagement.getDefaultProperties(poPrefix) );
 				oInformationRepresentationManagement = new clsInformationRepresentationManagement(poPrefix, poProp);  
 				break; 
 			default:

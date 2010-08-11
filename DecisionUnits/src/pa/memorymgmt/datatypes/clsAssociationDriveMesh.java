@@ -18,7 +18,7 @@ import pa.tools.clsTripple;
  * 
  */
 public class clsAssociationDriveMesh extends clsAssociation{
-	private Object moContent = null; 
+	//never usedprivate Object moContent = null; 
 	/**
 	 * DOCUMENT (zeilinger) - insert description 
 	 * 
@@ -36,7 +36,7 @@ public class clsAssociationDriveMesh extends clsAssociation{
 		//HZ moContent defines the association weight => also defines the affect!
 		//It has to be defined if an affect is required and how the affect's minus values
 		//should be represented in case the affect is the same as the clsAssociation's weight 
-		moContent = 1.0; 
+		//moContent = 1.0; 
 	}
 	/* (non-Javadoc)
 	 *

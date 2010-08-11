@@ -6,11 +6,9 @@
  */
 package pa.memorymgmt.informationrepresentation.modules;
 
-import java.lang.reflect.Method;
 import java.util.ArrayList;
 
 import pa.memorymgmt.datatypes.clsDataStructurePA;
-import pa.memorymgmt.enums.eDataType;
 import pa.memorymgmt.informationrepresentation.enums.eDataStructureMatch;
 import pa.memorymgmt.informationrepresentation.searchspace.clsSearchSpaceBase;
 import pa.tools.clsPair;
@@ -100,27 +98,27 @@ public abstract class clsDataStructureComparison {
 	 * @param eDataStructureType
 	 * @return
 	 */
-	private static Method getMethod(String poClassName, String poMethodPrefix,
-			eDataType peDataStructureType) {
-		
-		Class<?> oC = null;
-		//TODO HZ: Fix the representation of the try-catch statements 
-		try {
-			oC = Class.forName(poClassName);
-		} catch (ClassNotFoundException e) {
-			// TODO (zeilinger) - Auto-generated catch block
-			e.printStackTrace();
-		}
-		try {
-			return oC.getDeclaredMethod (poMethodPrefix + peDataStructureType.name());
-		} catch (SecurityException e) {
-			// TODO (zeilinger) - Auto-generated catch block
-			e.printStackTrace();
-		} catch (NoSuchMethodException e) {
-			// TODO (zeilinger) - Auto-generated catch block
-			e.printStackTrace();
-		}
-		
-		throw new UnknownError("Unknown error occured in " + poClassName); 
-	}
+//	not required actually - private static Method getMethod(String poClassName, String poMethodPrefix,
+//			eDataType peDataStructureType) {
+//		
+//		Class<?> oC = null;
+//		//TODO HZ: Fix the representation of the try-catch statements 
+//		try {
+//			oC = Class.forName(poClassName);
+//		} catch (ClassNotFoundException e) {
+//			// TODO (zeilinger) - Auto-generated catch block
+//			e.printStackTrace();
+//		}
+//		try {
+//			return oC.getDeclaredMethod (poMethodPrefix + peDataStructureType.name());
+//		} catch (SecurityException e) {
+//			// TODO (zeilinger) - Auto-generated catch block
+//			e.printStackTrace();
+//		} catch (NoSuchMethodException e) {
+//			// TODO (zeilinger) - Auto-generated catch block
+//			e.printStackTrace();
+//		}
+//		
+//		throw new UnknownError("Unknown error occured in " + poClassName); 
+//	}
 }
