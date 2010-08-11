@@ -82,28 +82,7 @@ public abstract class clsMobileAgent2D extends MobileObject2D
     	super.addFrictionForce();
 	}
 	
-	/**
-	 * A very basic method to reduce the friction of the agent for a given surface. This shall simulate a learning factor.
-	 * The formula is frictionModifier - frictionModifier / 100 * learningFactor.  
-	 */
-	private void learnStaticFriction()
-	{
-		double rModifier = mrAgentFriction[mnCurrentSurface][itfSurface.STATICFRICTION];
-		rModifier /= (100 * mnLearningFactor);
-		mrAgentFriction[mnCurrentSurface][itfSurface.STATICFRICTION] -= rModifier;
-	}
-	
-	/**
-	 * A very basic method to reduce the friction of the agent for a given surface. This shall simulate a learning factor.
-	 * The formula is frictionModifier - frictionModifier / 100 * learningFactor.  
-	 */
-	private void learnKineticFriction()
-	{
-		double rModifier = mrAgentFriction[mnCurrentSurface][itfSurface.KINETICFRICTION];
-		rModifier /= (100 * mnLearningFactor);
-		mrAgentFriction[mnCurrentSurface][itfSurface.KINETICFRICTION] -= rModifier;
-	}
-	
+
 	public void setLearningFactor(int pnFactor)
 	{
 		mnLearningFactor = Math.abs(pnFactor);
