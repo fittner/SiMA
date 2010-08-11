@@ -155,8 +155,6 @@ public class clsSecondaryInformationIspector extends Inspector implements Action
 		GraphLayoutCache cache = new DataGraphLayoutCache(model,
 				new DefaultCellViewFactory() {
 			/**
-					 * DOCUMENT (deutsch) - insert description 
-					 * 
 					 * @author deutsch
 					 * 10.08.2010, 18:00:23
 					 */

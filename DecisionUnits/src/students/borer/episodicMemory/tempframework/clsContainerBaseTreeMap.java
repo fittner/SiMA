@@ -16,8 +16,6 @@ import students.borer.episodicMemory.tempframework.clsMutableInteger;
  */
 abstract public class clsContainerBaseTreeMap extends clsContainerBase {
   /**
-	 * DOCUMENT (deutsch) - insert description 
-	 * 
 	 * @author deutsch
 	 * 10.08.2010, 17:45:02
 	 */

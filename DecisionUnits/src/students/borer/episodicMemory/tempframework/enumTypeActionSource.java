@@ -11,8 +11,6 @@ package students.borer.episodicMemory.tempframework;
 // Class definition
 public class enumTypeActionSource extends enumClass {
   /**
-	 * DOCUMENT (deutsch) - insert description 
-	 * 
 	 * @author deutsch
 	 * 10.08.2010, 17:52:00
 	 */

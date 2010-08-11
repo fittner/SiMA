@@ -20,8 +20,6 @@ import java.io.Serializable;
  */
 public class clsTimestamp extends clsCloneable implements Serializable {
   /**
-	 * DOCUMENT (deutsch) - insert description 
-	 * 
 	 * @author deutsch
 	 * 10.08.2010, 18:01:11
 	 */

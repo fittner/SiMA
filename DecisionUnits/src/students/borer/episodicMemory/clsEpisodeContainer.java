@@ -22,8 +22,6 @@ import students.borer.episodicMemory.tempframework.clsContainerBaseTreeMap;
 public class clsEpisodeContainer  extends clsContainerBaseTreeMap{
 	
 	/**
-	 * DOCUMENT (deutsch) - insert description 
-	 * 
 	 * @author deutsch
 	 * 10.08.2010, 17:44:22
 	 */

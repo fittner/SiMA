@@ -10,8 +10,6 @@ import students.borer.episodicMemory.tempframework.clsContainerBaseVector;
  */
 public class clsContainerMemory extends clsContainerBaseVector {
 	/**
-	 * DOCUMENT (deutsch) - insert description 
-	 * 
 	 * @author deutsch
 	 * 10.08.2010, 17:43:58
 	 */

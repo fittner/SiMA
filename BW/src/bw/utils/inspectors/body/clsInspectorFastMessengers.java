@@ -50,8 +50,6 @@ import bw.utils.enums.eBodyParts;
  */
 public class clsInspectorFastMessengers  extends Inspector{
 	/**
-	 * DOCUMENT (tobias) - insert description 
-	 * 
 	 * @author tobias
 	 * Jul 31, 2009, 10:41:09 AM
 	 */

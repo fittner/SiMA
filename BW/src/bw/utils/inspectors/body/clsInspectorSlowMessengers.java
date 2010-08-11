@@ -39,8 +39,6 @@ import sim.portrayal.LocationWrapper;
  */
 public class clsInspectorSlowMessengers extends Inspector {
 	/**
-	 * DOCUMENT (deutsch) - insert description 
-	 * 
 	 * @author deutsch
 	 * 16.09.2009, 18:30:38
 	 */

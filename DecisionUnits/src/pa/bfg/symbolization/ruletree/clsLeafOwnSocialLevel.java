@@ -21,7 +21,7 @@ import bfg.utils.enumsOld.enumTypeSocialLevel;
 
 /**
  * 
- * DOCUMENT (deutsch) - insert description 
+ * 
  * 
  * @author deutsch
  * 10.08.2010, 17:27:43

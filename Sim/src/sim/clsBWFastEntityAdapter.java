@@ -35,8 +35,6 @@ import config.clsBWProperties;
 public class clsBWFastEntityAdapter extends JDialog {
 
 	/**
-	 * DOCUMENT (deutsch) - insert description 
-	 * 
 	 * @author deutsch
 	 * 23.09.2009, 10:34:02
 	 */
@@ -84,8 +82,6 @@ public class clsBWFastEntityAdapter extends JDialog {
 	class clsEntitySelector extends JPanel implements ActionListener {
 		
 		/**
-		 * DOCUMENT (deutsch) - insert description 
-		 * 
 		 * @author deutsch
 		 * 23.09.2009, 10:20:08
 		 */

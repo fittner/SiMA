@@ -17,7 +17,7 @@ import config.clsBWProperties;
 import du.enums.pa.eContext;
 
 /**
- * DOCUMENT (deutsch) - insert description 
+ * 
  * 
  * @author deutsch
  * 07.10.2009, 12:39:50

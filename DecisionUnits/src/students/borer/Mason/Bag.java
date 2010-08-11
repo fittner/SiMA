@@ -39,8 +39,6 @@ import java.util.*;
 public class Bag implements java.util.Collection, java.io.Serializable, Cloneable, Indexed
     {
     /**
-	 * DOCUMENT (deutsch) - insert description 
-	 * 
 	 * @author deutsch
 	 * 10.08.2010, 17:43:48
 	 */
@@ -477,8 +475,6 @@ public class Bag implements java.util.Collection, java.io.Serializable, Cloneabl
     static class BagIterator implements Iterator, java.io.Serializable
         {
         /**
-		 * DOCUMENT (deutsch) - insert description 
-		 * 
 		 * @author deutsch
 		 * 10.08.2010, 17:43:48
 		 */

@@ -23,8 +23,6 @@ import bw.body.internalSystems.clsFlesh;
 public class clsInspectorFlesh extends Inspector  {
 
 	/**
-	 * DOCUMENT (deutsch) - insert description 
-	 * 
 	 * @author deutsch
 	 * 17.09.2009, 10:00:18
 	 */

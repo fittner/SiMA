@@ -27,8 +27,6 @@ public class Display2D extends sim.display.Display2D {
 	public static final String P_INTERVAL = "interval";
 
 	/**
-	 * DOCUMENT (deutsch) - insert description 
-	 * 
 	 * @author deutsch
 	 * 30.07.2009, 17:41:56
 	 */

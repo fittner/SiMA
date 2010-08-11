@@ -156,8 +156,6 @@ public class clsPrimaryInformationPairInspector extends Inspector implements Act
 		GraphLayoutCache cache = new DataGraphLayoutCache(model,
 				new DefaultCellViewFactory() {
 			/**
-					 * DOCUMENT (deutsch) - insert description 
-					 * 
 					 * @author deutsch
 					 * 10.08.2010, 18:00:15
 					 */

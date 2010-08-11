@@ -13,8 +13,6 @@ import students.borer.episodicMemory.tempframework.clsCloneable;
  */
 public class clsRuleCompareResult extends clsCloneable {
   /**
-	 * DOCUMENT (deutsch) - insert description 
-	 * 
 	 * @author deutsch
 	 * 10.08.2010, 17:51:07
 	 */

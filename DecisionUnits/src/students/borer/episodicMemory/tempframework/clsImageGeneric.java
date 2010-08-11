@@ -16,8 +16,6 @@ import students.borer.episodicMemory.tempframework.clsEmotion;
  */
 abstract class clsImageGeneric extends clsCloneable {
   /**
-	 * DOCUMENT (deutsch) - insert description 
-	 * 
 	 * @author deutsch
 	 * 10.08.2010, 17:51:00
 	 */

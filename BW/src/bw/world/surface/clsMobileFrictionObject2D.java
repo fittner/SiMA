@@ -15,8 +15,6 @@ import sim.physics2D.util.Double2D;
 public abstract class clsMobileFrictionObject2D extends MobileObject2D
 {
 	/**
-	 * DOCUMENT (tobias) - insert description 
-	 * 
 	 * @author tobias
 	 * Jul 24, 2009, 5:47:04 PM
 	 */

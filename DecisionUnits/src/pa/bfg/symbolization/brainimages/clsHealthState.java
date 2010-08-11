@@ -21,8 +21,6 @@ import bfg.utils.enumsOld.enumTypeLevelHealthState;
  */
 public class clsHealthState extends clsCloneable {
   /**
-	 * DOCUMENT (deutsch) - insert description 
-	 * 
 	 * @author deutsch
 	 * 10.08.2010, 18:01:01
 	 */

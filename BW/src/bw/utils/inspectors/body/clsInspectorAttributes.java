@@ -28,8 +28,6 @@ import sim.util.gui.HTMLBrowser;
 public class clsInspectorAttributes extends Inspector  {
 
 	/**
-	 * DOCUMENT (deutsch) - insert description 
-	 * 
 	 * @author deutsch
 	 * 17.09.2009, 10:00:18
 	 */

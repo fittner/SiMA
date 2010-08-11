@@ -20,8 +20,6 @@ import java.util.Iterator;
  */
 abstract public class clsContainerBaseVector extends clsContainerBase {
   /**
-	 * DOCUMENT (deutsch) - insert description 
-	 * 
 	 * @author deutsch
 	 * 10.08.2010, 17:45:19
 	 */

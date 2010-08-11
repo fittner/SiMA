@@ -21,8 +21,6 @@ import java.io.Serializable;
 @SuppressWarnings("rawtypes")
 public class clsId implements Serializable, java.lang.Comparable {
   /**
-	 * DOCUMENT (deutsch) - insert description 
-	 * 
 	 * @author deutsch
 	 * 10.08.2010, 18:01:04
 	 */

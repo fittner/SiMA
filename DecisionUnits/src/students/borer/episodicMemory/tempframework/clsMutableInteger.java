@@ -19,8 +19,6 @@ import java.io.Serializable;
  */
 public class clsMutableInteger extends clsCloneable implements Serializable {
     /**
-	 * DOCUMENT (deutsch) - insert description 
-	 * 
 	 * @author deutsch
 	 * 10.08.2010, 17:51:20
 	 */

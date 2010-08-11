@@ -19,8 +19,6 @@ package students.borer.episodicMemory.tempframework;
  */
 public class enumTypeBrainAction extends enumClass {
   /**
-	 * DOCUMENT (deutsch) - insert description 
-	 * 
 	 * @author deutsch
 	 * 10.08.2010, 17:51:49
 	 */

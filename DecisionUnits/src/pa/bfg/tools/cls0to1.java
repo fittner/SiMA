@@ -19,8 +19,6 @@ import java.io.Serializable;
  */
 public class cls0to1 extends clsCloneable implements Serializable {
   /**
-	 * DOCUMENT (deutsch) - insert description 
-	 * 
 	 * @author deutsch
 	 * 10.08.2010, 18:00:53
 	 */

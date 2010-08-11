@@ -21,8 +21,6 @@ import com.jgraph.components.labels.MultiLineVertexView;
 public class clsRichTextCellViewFactory extends DefaultCellViewFactory {
 
 		/**
-	 * DOCUMENT (deutsch) - insert description 
-	 * 
 	 * @author deutsch
 	 * 10.08.2010, 18:01:08
 	 */

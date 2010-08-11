@@ -19,8 +19,6 @@ import students.borer.episodicMemory.tempframework.clsCloneable;
  */
 abstract class clsContainerBase extends clsCloneable implements Cloneable  {
   /**
-	 * DOCUMENT (deutsch) - insert description 
-	 * 
 	 * @author deutsch
 	 * 10.08.2010, 17:45:11
 	 */

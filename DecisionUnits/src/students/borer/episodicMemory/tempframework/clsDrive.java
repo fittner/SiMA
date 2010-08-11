@@ -26,8 +26,6 @@ import students.borer.episodicMemory.tempframework.enumTypeLevelDrive;
  */
 public class clsDrive extends clsCloneable {
   /**
-	 * DOCUMENT (deutsch) - insert description 
-	 * 
 	 * @author deutsch
 	 * 10.08.2010, 17:50:53
 	 */

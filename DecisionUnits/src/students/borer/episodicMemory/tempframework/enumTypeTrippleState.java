@@ -18,8 +18,6 @@ package students.borer.episodicMemory.tempframework;
  */
 public class enumTypeTrippleState extends enumClass {
   /**
-	 * DOCUMENT (deutsch) - insert description 
-	 * 
 	 * @author deutsch
 	 * 10.08.2010, 17:52:30
 	 */

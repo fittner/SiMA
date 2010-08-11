@@ -23,8 +23,6 @@ import bw.factories.clsSingletonMasonGetter;
 public class clsBotHands extends MobileObject2D implements Steppable
     {
     /**
-	 * DOCUMENT (deutsch) - insert description 
-	 * 
 	 * @author deutsch
 	 * 26.02.2009, 12:36:11
 	 */

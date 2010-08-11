@@ -22,8 +22,6 @@ import students.borer.episodicMemory.tempframework.clsContainerBaseVector;
 public class clsRecognitionProcessContainer extends clsContainerBaseVector
 {
   /**
-	 * DOCUMENT (deutsch) - insert description 
-	 * 
 	 * @author deutsch
 	 * 10.08.2010, 17:51:26
 	 */

@@ -86,8 +86,6 @@ import com.l2fprod.common.swing.JTaskPaneGroup;
 public class clsSemanticInformationIspector extends Inspector implements ActionListener {
 	
 	/**
-	 * DOCUMENT (deutsch) - insert description 
-	 * 
 	 * @author deutsch
 	 * 10.08.2010, 17:54:49
 	 */
@@ -177,8 +175,6 @@ public class clsSemanticInformationIspector extends Inspector implements ActionL
 		});
 		oTaskGroupLayout.add(new AbstractAction("Fast Organic") {
 			/**
-			 * DOCUMENT (deutsch) - insert description 
-			 * 
 			 * @author deutsch
 			 * 10.08.2010, 17:54:49
 			 */
@@ -194,8 +190,6 @@ public class clsSemanticInformationIspector extends Inspector implements ActionL
 		
 		oTaskGroupLayout.add(new AbstractAction("Simple Circle") {
 			/**
-			 * DOCUMENT (deutsch) - insert description 
-			 * 
 			 * @author deutsch
 			 * 10.08.2010, 17:54:49
 			 */
@@ -209,8 +203,6 @@ public class clsSemanticInformationIspector extends Inspector implements ActionL
 		
 		oTaskGroupLayout.add(new AbstractAction("Simple Tilt") {
 			/**
-			 * DOCUMENT (deutsch) - insert description 
-			 * 
 			 * @author deutsch
 			 * 10.08.2010, 17:54:49
 			 */
@@ -224,8 +216,6 @@ public class clsSemanticInformationIspector extends Inspector implements ActionL
 		
 		oTaskGroupLayout.add(new AbstractAction("Compact Tree") {
 			/**
-			 * DOCUMENT (deutsch) - insert description 
-			 * 
 			 * @author deutsch
 			 * 10.08.2010, 17:54:49
 			 */
@@ -238,8 +228,6 @@ public class clsSemanticInformationIspector extends Inspector implements ActionL
 		});
 		oTaskGroupLayout.add(new AbstractAction("Radialtree") {
 			/**
-			 * DOCUMENT (deutsch) - insert description 
-			 * 
 			 * @author deutsch
 			 * 10.08.2010, 17:54:49
 			 */
@@ -252,8 +240,6 @@ public class clsSemanticInformationIspector extends Inspector implements ActionL
 		});
 		oTaskGroupLayout.add(new AbstractAction("Tree") {
 			/**
-			 * DOCUMENT (deutsch) - insert description 
-			 * 
 			 * @author deutsch
 			 * 10.08.2010, 17:54:49
 			 */
@@ -281,8 +267,6 @@ public class clsSemanticInformationIspector extends Inspector implements ActionL
 		
 		oTaskGroupCommands.add(new AbstractAction("Actual Size") {
 			/**
-			 * DOCUMENT (deutsch) - insert description 
-			 * 
 			 * @author deutsch
 			 * 10.08.2010, 17:54:49
 			 */
@@ -295,8 +279,6 @@ public class clsSemanticInformationIspector extends Inspector implements ActionL
 		});
 		oTaskGroupCommands.add(new AbstractAction("Fit Window") {
 			/**
-			 * DOCUMENT (deutsch) - insert description 
-			 * 
 			 * @author deutsch
 			 * 10.08.2010, 17:54:49
 			 */
@@ -310,8 +292,6 @@ public class clsSemanticInformationIspector extends Inspector implements ActionL
 				
 		oTaskGroupCommands.add(new AbstractAction("Reset") {
 			/**
-			 * DOCUMENT (deutsch) - insert description 
-			 * 
 			 * @author deutsch
 			 * 10.08.2010, 17:54:49
 			 */
@@ -325,8 +305,6 @@ public class clsSemanticInformationIspector extends Inspector implements ActionL
 		
 		oTaskGroupCommands.add(new AbstractAction("Insert Test Data") {
 			/**
-			 * DOCUMENT (deutsch) - insert description 
-			 * 
 			 * @author deutsch
 			 * 10.08.2010, 17:54:49
 			 */
@@ -575,8 +553,6 @@ public class clsSemanticInformationIspector extends Inspector implements ActionL
 		GraphLayoutCache cache = new DataGraphLayoutCache(model,
 				new DefaultCellViewFactory() {
 			/**
-					 * DOCUMENT (deutsch) - insert description 
-					 * 
 					 * @author deutsch
 					 * 10.08.2010, 17:54:49
 					 */
