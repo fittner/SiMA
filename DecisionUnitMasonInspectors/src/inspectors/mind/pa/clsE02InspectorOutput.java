@@ -30,7 +30,7 @@ public class clsE02InspectorOutput extends Inspector {
 	private static final long serialVersionUID = 1L;
 	
 	public Inspector moOriginalInspector;
-	private E02_NeurosymbolizationOfNeeds moE02;
+	//private E02_NeurosymbolizationOfNeeds moE02; //never used!
 	JTree moModuleTree;
 	
     public clsE02InspectorOutput(Inspector originalInspector,
@@ -39,7 +39,7 @@ public class clsE02InspectorOutput extends Inspector {
             E02_NeurosymbolizationOfNeeds poNeuroNeeds)
     {
 		moOriginalInspector = originalInspector;
-		moE02= poNeuroNeeds;
+		//moE02= poNeuroNeeds; //never used!
 		
 		Box oBox1 = new Box(BoxLayout.PAGE_AXIS);
 		JLabel myLable = new JLabel("E02Output");

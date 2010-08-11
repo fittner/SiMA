@@ -55,9 +55,9 @@ public class clsE05InspectorOutput extends Inspector{
 	
 	private ChartPanel moChartPanel;
 	private DefaultCategoryDataset moDataset;
-	private DefaultCategoryDataset moDatasetUpperBounds;
-	private DefaultCategoryDataset moDatasetLowerBounds;
-	private DefaultCategoryDataset moDatasetMaxValue;
+	//private DefaultCategoryDataset moDatasetUpperBounds; //never used!
+	//private DefaultCategoryDataset moDatasetLowerBounds; //never used!
+	//private DefaultCategoryDataset moDatasetMaxValue; //never used!
     
     public clsE05InspectorOutput(sim.portrayal.Inspector originalInspector,
             LocationWrapper wrapper,

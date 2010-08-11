@@ -124,7 +124,7 @@ public class clsReactiveInspector extends Inspector implements ItemListener{
 	@Override
 	public void itemStateChanged(ItemEvent e) {
 
-		Object source = e.getItemSelectable();
+		//Object source = e.getItemSelectable(); //never used!
 			
 		moConsole.refresh();
 	}

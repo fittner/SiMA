@@ -101,6 +101,7 @@ public class clsBWProperties extends Properties {
 	 * @author deutsch
 	 * 22.07.2009, 09:56:33
 	 */
+	@SuppressWarnings("unused") //here for future use. 
 	private static final String P_REGEXP_DELIMITER = "(?<=(("+P_REGEXP_ESCAPE+P_REGEXP_ESCAPE+"){0,99}))"+P_DELIMITER;
  
 	private static final long serialVersionUID = 3052402669291342862L;

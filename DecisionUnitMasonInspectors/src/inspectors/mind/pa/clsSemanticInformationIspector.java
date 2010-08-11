@@ -104,7 +104,7 @@ public class clsSemanticInformationIspector extends Inspector implements ActionL
 
 	
 	public Inspector moOriginalInspector;
-	private Object moMeshContainer;
+	//private Object moMeshContainer; //never used!
 	private String moMeshListMemberName;
 	//private ArrayList<clsSecondaryInformation> moSecondary;
 
@@ -129,7 +129,7 @@ public class clsSemanticInformationIspector extends Inspector implements ActionL
     {
  	
 		moOriginalInspector = originalInspector;		//
-		moMeshContainer = poMeshContainer;				//container class	
+		//moMeshContainer = poMeshContainer;				//container class //never used!	
 		moMeshListMemberName = poMeshListMemberName;	//member name of the list within the containing class
 		
 		initializePanel();	//put all components on the panel
@@ -833,7 +833,7 @@ public class clsSemanticInformationIspector extends Inspector implements ActionL
 	 */
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		Object source = e.getSource();
+		//Object source = e.getSource(); //never used!
 		/*
 		if( source == moBtnUpdate) {
 			updateControl();

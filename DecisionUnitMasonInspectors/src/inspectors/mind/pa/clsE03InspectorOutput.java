@@ -23,7 +23,7 @@ public class clsE03InspectorOutput extends Inspector {
 
 	private static final long serialVersionUID = 2188636113077293223L;
 	public Inspector moOriginalInspector;
-	private E03_GenerationOfDrives moGenDrive;
+	//private E03_GenerationOfDrives moGenDrive; //never used!
 	HTMLBrowser moHTMLPane;
 	
     public clsE03InspectorOutput(Inspector originalInspector,
@@ -32,7 +32,7 @@ public class clsE03InspectorOutput extends Inspector {
             E03_GenerationOfDrives poGenDrive)
     {
 		moOriginalInspector = originalInspector;
-		moGenDrive= poGenDrive;
+		//moGenDrive= poGenDrive; //never used!
 		
 		//HashMap<eSensorIntType, clsDataBase> oHomeo = moE02.getHomeostasisData();
 //		

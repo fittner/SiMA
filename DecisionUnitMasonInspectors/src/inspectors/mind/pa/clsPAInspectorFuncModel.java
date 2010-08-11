@@ -31,7 +31,7 @@ public class clsPAInspectorFuncModel extends Inspector {
 	private static final long serialVersionUID = 1L;
 	
 	public Inspector moOriginalInspector;
-	private G00_PsychicApparatus moPsychicApparatus;
+	//private G00_PsychicApparatus moPsychicApparatus; //never used!
 	private JScrollPane moScrollPane;
 
     public clsPAInspectorFuncModel(Inspector originalInspector,
@@ -40,7 +40,7 @@ public class clsPAInspectorFuncModel extends Inspector {
             G00_PsychicApparatus poPsychicApparatus)
     {
 		moOriginalInspector = originalInspector;
-		moPsychicApparatus = poPsychicApparatus;
+		//moPsychicApparatus = poPsychicApparatus; //never used!
 
 		String oStr = clsGetARSPath.getArsPath() + "/DecisionUnits/src/resources/images/model.gif";
 		Icon image = new ImageIcon( oStr );

@@ -34,7 +34,7 @@ public class clsPAInspectorTopDown extends Inspector {
 	private static final long serialVersionUID = 1L;
 	
 	public Inspector moOriginalInspector;
-	private G00_PsychicApparatus moPsychicApparatus;
+	//private G00_PsychicApparatus moPsychicApparatus; //never used!
 	private JScrollPane moScrollPane;
 
     public clsPAInspectorTopDown(Inspector originalInspector,
@@ -43,7 +43,7 @@ public class clsPAInspectorTopDown extends Inspector {
             G00_PsychicApparatus poPsychicApparatus)
     {
 		moOriginalInspector = originalInspector;
-		moPsychicApparatus = poPsychicApparatus;
+		//moPsychicApparatus = poPsychicApparatus; //never used!
 
 		String oStr = clsGetARSPath.getArsPath() + "/DecisionUnits/src/resources/images/top_down.gif";
 		Icon image = new ImageIcon( oStr );
