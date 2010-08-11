@@ -9,7 +9,6 @@ package bw.body.io.sensors.ext;
 import config.clsBWProperties;
 import bw.body.io.clsBaseIO;
 import bw.body.io.clsExternalIO;
-import bw.entities.clsEntity;
 import bw.utils.enums.eBodyParts;
 
 import sim.physics2D.util.Double2D;
@@ -25,7 +24,7 @@ import sim.physics2D.util.Double2D;
 public class clsSensorBump extends clsSensorRingSegment{
 	public static final String P_BUMPED = "bumped"; 
 	private boolean mnBumped;
-	private static clsEntity moHostEntity; 
+	//private static clsEntity moHostEntity;  //never used!
 
 	/**
 	 * DOCUMENT (zeilinger) - insert description 
