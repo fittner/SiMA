@@ -16,9 +16,8 @@ import pa.datatypes.clsPrimaryInformationMesh;
 import pa.interfaces.itfTimeChartInformationContainer;
 import pa.interfaces.receive.I1_4_receive;
 import pa.interfaces.receive.I1_5_receive;
-import pa.memorymgmt.datatypes.clsAssociationDriveMesh;
-import pa.memorymgmt.datatypes.clsPrimaryDataStructureContainer;
-import pa.memorymgmt.datatypes.clsThingPresentationMesh;
+import pa.memorymgmt.datatypes.clsDriveDemand;
+import pa.memorymgmt.datatypes.clsDriveMesh;
 import pa.tools.clsPair;
 import config.clsBWProperties;
 
@@ -33,9 +32,11 @@ public class E05_GenerationOfAffectsForDrives extends clsModuleBase implements I
 
 	public ArrayList<clsPair<clsPair<clsPrimaryInformationMesh, clsAffectCandidate>, 
 	clsPair<clsPrimaryInformationMesh, clsAffectCandidate>>> moDriveCandidate_old;
-	
 	public ArrayList<clsPair<clsPrimaryInformation, clsPrimaryInformation>> moDriveList_old;
 	
+	public ArrayList<clsPair<clsPair<clsDriveMesh, clsDriveDemand>, clsPair<clsDriveMesh, clsDriveDemand>>> moDriveCandidate;
+	public ArrayList<clsDriveMesh> moDriveList; 
+		
 	/**
 	 * DOCUMENT (deutsch) - insert description 
 	 * 
@@ -101,10 +102,11 @@ public class E05_GenerationOfAffectsForDrives extends clsModuleBase implements I
 	@SuppressWarnings("unchecked")
 	@Override
 	public void receive_I1_4(ArrayList<clsPair<clsPair<clsPrimaryInformationMesh, clsAffectCandidate>,clsPair<clsPrimaryInformationMesh, clsAffectCandidate>>> poDriveCandidate_old,
-			ArrayList<clsPair<clsPair<clsPrimaryDataStructureContainer, clsAssociationDriveMesh>,clsPair<clsThingPresentationMesh, clsAssociationDriveMesh>>> poDriveCandidate) {
+							 ArrayList<clsPair<clsPair<clsDriveMesh, clsDriveDemand>, clsPair<clsDriveMesh, clsDriveDemand>>> poDriveCandidate) {
 		
 		moDriveCandidate_old = (ArrayList<clsPair<clsPair<clsPrimaryInformationMesh, clsAffectCandidate>, 
 		  		  clsPair<clsPrimaryInformationMesh, clsAffectCandidate>>>) deepCopy( poDriveCandidate_old);
+		moDriveCandidate = (ArrayList<clsPair<clsPair<clsDriveMesh, clsDriveDemand>, clsPair<clsDriveMesh, clsDriveDemand>>>) deepCopy(poDriveCandidate); 
 	}
 
 	/* (non-Javadoc)
@@ -116,7 +118,33 @@ public class E05_GenerationOfAffectsForDrives extends clsModuleBase implements I
 	 */
 	@Override
 	protected void process_basic() {
-
+		moDriveList = new ArrayList<clsDriveMesh>(); 
+		
+		for(clsPair<clsPair<clsDriveMesh, clsDriveDemand>, clsPair<clsDriveMesh, clsDriveDemand>> oEntry : moDriveCandidate){
+			//RL:
+			//for a constant increase of the affect values, the following function is implemented:
+			//1.: life-instinct increases faster than death-instinct
+			//2.: life-instinct reaches maximum (death-instinct at 50%) and decreases
+			//3.: death-instinct reaches maximum (--> should result in deatch)
+			double oLifeAffect  = Math.sin(Math.PI*oEntry.a.b.getTension());
+			double oDeathAffect = (2-(Math.cos(Math.PI*oEntry.b.b.getTension())+1))/2;
+			oEntry.a.a.setPleasure(oLifeAffect); 
+			oEntry.b.a.setPleasure(oDeathAffect); 
+			moDriveList.add(oEntry.a.a); 
+			moDriveList.add(oEntry.b.a); 
+		}
+		process_oldDT();
+	}
+	
+	/**
+	 * DOCUMENT (zeilinger) - insert description
+	 * This method is used while adapting the model from the old datatypes (pa.datatypes) to the
+	 * new ones (pa.memorymgmt.datatypes) The method has to be deleted afterwards.
+	 * @author zeilinger
+	 * 13.08.2010, 09:56:48
+	 * @deprecated
+	 */
+	private void process_oldDT() {
 		moDriveList_old = new ArrayList<clsPair<clsPrimaryInformation, clsPrimaryInformation>>();
 		
 		for( clsPair<clsPair<clsPrimaryInformationMesh, clsAffectCandidate>, 
@@ -154,8 +182,7 @@ public class E05_GenerationOfAffectsForDrives extends clsModuleBase implements I
 			oOutput.add(oPair.b);
 		}
 		
-		((I1_5_receive)moEnclosingContainer).receive_I1_5(oOutput, new ArrayList<clsPrimaryDataStructureContainer>());
-		//HZ: null is a placeholder for the homeostatic information formed out of objects of the type pa.memorymgmt.datatypes 
+		((I1_5_receive)moEnclosingContainer).receive_I1_5(oOutput, moDriveList);
 	}
 
 	/* (non-Javadoc)

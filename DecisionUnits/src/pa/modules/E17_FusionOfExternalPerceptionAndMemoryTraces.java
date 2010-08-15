@@ -116,11 +116,23 @@ public class E17_FusionOfExternalPerceptionAndMemoryTraces extends clsModuleBase
 	 */
 	@Override
 	protected void process_basic() {
+		process_oldDT();
+	}
+	
+	/**
+	 * DOCUMENT (zeilinger) - insert description
+	 * This method is used while adapting the model from the old datatypes (pa.datatypes) to the
+	 * new ones (pa.memorymgmt.datatypes) The method has to be deleted afterwards.
+	 * @author zeilinger
+	 * 13.08.2010, 09:56:48
+	 * @deprecated
+	 */
+	private void process_oldDT() {
 		moMergedPrimaryInformation_Output_old = new ArrayList<clsPair<clsPrimaryInformation, clsPrimaryInformation>>();
 		moMergedPrimaryInformation_Output = new ArrayList<clsPair<clsPrimaryDataStructureContainer, clsPrimaryDataStructureContainer>>();
 		for(clsTripple<clsPrimaryInformation, clsPrimaryInformation,ArrayList<clsPrimaryInformation>> oElement : moPerceptPlusAwareContent_Input_old){
 			defineOutput(oElement); 
-		}
+		} 	
 	}
 
 	/**

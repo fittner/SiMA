@@ -22,6 +22,7 @@ import pa.interfaces.receive.I7_2_receive;
 import pa.interfaces.send.I7_1_send;
 import pa.interfaces.send.I7_2_send;
 import pa.memorymgmt.datatypes.clsSecondaryDataStructureContainer;
+import pa.memorymgmt.datatypes.clsDriveMesh;
 import pa.tools.clsPair;
 
 /**
@@ -115,7 +116,7 @@ public class E26_DecisionMaking extends clsModuleBase implements I1_7_receive, I
 	 */
 	@SuppressWarnings("unchecked")
 	@Override
-	public void receive_I1_7(ArrayList<clsSecondaryInformation> poDriveList_old, ArrayList<clsSecondaryDataStructureContainer> poDriveList) {
+	public void receive_I1_7(ArrayList<clsSecondaryInformation> poDriveList_old, ArrayList<clsPair<clsSecondaryDataStructureContainer, clsDriveMesh>> poDriveList) {
 		moDriveList_old = (ArrayList<clsSecondaryInformation>)this.deepCopy(poDriveList_old);
 		moDriveList = (ArrayList<clsSecondaryDataStructureContainer>)this.deepCopy(poDriveList); 
 		
@@ -185,6 +186,18 @@ public class E26_DecisionMaking extends clsModuleBase implements I1_7_receive, I
 	 */
 	@Override
 	protected void process_basic() {
+		process_oldDT(); 
+	}
+	
+	/**
+	 * DOCUMENT (zeilinger) - insert description
+	 * This method is used while adapting the model from the old datatypes (pa.datatypes) to the
+	 * new ones (pa.memorymgmt.datatypes) The method has to be deleted afterwards.
+	 * @author zeilinger
+	 * 13.08.2010, 09:56:48
+	 * @deprecated
+	 */
+	private void process_oldDT() {
 
 		// moDriveList -> drives from primary process (wishes)
 		// moRealityPerception -> reality filtered by external perception
@@ -211,8 +224,8 @@ public class E26_DecisionMaking extends clsModuleBase implements I1_7_receive, I
 		moTemplateResult_Output.putAll(	moTemplateImageResult ); 
 		moTemplateResult_Output.putAll(	moTemplateScenarioResult );
 		
-//		int i =0; //never used!
-	}
+//		int i =0; //never used!	
+		}
 
 	/* (non-Javadoc)
 	 *

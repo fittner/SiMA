@@ -17,6 +17,7 @@ import pa.interfaces.receive.I2_7_receive;
 import pa.interfaces.receive.I6_3_receive;
 import pa.memory.clsMemory;
 import pa.memorymgmt.clsKnowledgeBaseHandler;
+import pa.memorymgmt.datatypes.clsDriveMesh;
 import pa.memorymgmt.datatypes.clsPrimaryDataStructureContainer;
 import pa.tools.clsPair;
 import pa.tools.clsTripple;
@@ -97,7 +98,7 @@ public class G13_PrimaryKnowledgeUtilizer extends clsModuleContainer implements
 	 * @see pa.interfaces.I1_5#receive_I1_5(int)
 	 */
 	@Override
-	public void receive_I1_5(List<clsPrimaryInformation> poData_old, List<clsPrimaryDataStructureContainer> poData) {
+	public void receive_I1_5(List<clsPrimaryInformation> poData_old, List<clsDriveMesh> poData) {
 		moE09KnowledgeAboutReality_unconscious.receive_I1_5(poData_old, poData);
 	}
 

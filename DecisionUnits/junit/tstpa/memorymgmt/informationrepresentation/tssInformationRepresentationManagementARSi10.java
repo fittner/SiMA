@@ -22,7 +22,6 @@ import pa.memorymgmt.datatypes.clsAssociationTime;
 import pa.memorymgmt.datatypes.clsDataStructureContainer;
 import pa.memorymgmt.datatypes.clsDataStructurePA;
 import pa.memorymgmt.datatypes.clsDriveMesh;
-import pa.memorymgmt.datatypes.clsPrimaryDataStructureContainer;
 import pa.memorymgmt.datatypes.clsTemplateImage;
 import pa.memorymgmt.datatypes.clsThingPresentation;
 import pa.memorymgmt.datatypes.clsThingPresentationMesh;
@@ -45,7 +44,7 @@ public class tssInformationRepresentationManagementARSi10 {
 	
 	@Test
 	public void tssInitMemorySearch(){
-		ArrayList<clsPair<Integer, clsDataStructureContainer>> oSearchPatternList = null;
+		ArrayList<clsPair<Integer, clsDataStructurePA>> oSearchPatternList = null;
 		List<ArrayList<clsPair<Double,clsDataStructureContainer>>> oResultList = null; 
 		clsBWProperties oProp = new clsBWProperties();
 		oProp.putAll(clsInformationRepresentationManagement.getDefaultProperties(""));
@@ -70,8 +69,8 @@ public class tssInformationRepresentationManagementARSi10 {
 	 *
 	 * @return
 	 */
-	private ArrayList<clsPair<Integer, clsDataStructureContainer>> createSearchPattern() {
-		ArrayList<clsPair<Integer, clsDataStructureContainer>> oList = new ArrayList<clsPair<Integer, clsDataStructureContainer>>(); 
+	private ArrayList<clsPair<Integer, clsDataStructurePA>> createSearchPattern() {
+		ArrayList<clsPair<Integer, clsDataStructurePA>> oList = new ArrayList<clsPair<Integer, clsDataStructurePA>>(); 
 		
 		/*
 		 * 	ACT						(0x000001),
@@ -85,12 +84,12 @@ public class tssInformationRepresentationManagementARSi10 {
 			TPM						(0x010000),
 			WP						(0x100000); 
 		 * */
-		oList.add(new clsPair<Integer, clsDataStructureContainer>(0x101000, new clsPrimaryDataStructureContainer(defineTP(),null)));
-		oList.add(new clsPair<Integer, clsDataStructureContainer>(0x101110, new clsPrimaryDataStructureContainer(defineTPM(),null)));
-		oList.add(new clsPair<Integer, clsDataStructureContainer>(0x111111, new clsPrimaryDataStructureContainer(defineTI(),null)));
-		oList.add(new clsPair<Integer, clsDataStructureContainer>(0x111000, new clsPrimaryDataStructureContainer(defineDM(),null)));
-		oList.add(new clsPair<Integer, clsDataStructureContainer>(0x000000, new clsPrimaryDataStructureContainer(defineWP(),null)));
-		oList.add(new clsPair<Integer, clsDataStructureContainer>(0x111111, new clsPrimaryDataStructureContainer(defineWP(),null)));
+		oList.add(new clsPair<Integer, clsDataStructurePA>(0x101000, defineTP()));
+		oList.add(new clsPair<Integer, clsDataStructurePA>(0x101110, defineTPM()));
+		oList.add(new clsPair<Integer, clsDataStructurePA>(0x111111, defineTI()));
+		oList.add(new clsPair<Integer, clsDataStructurePA>(0x111000, defineDM()));
+		oList.add(new clsPair<Integer, clsDataStructurePA>(0x000000, defineWP()));
+		oList.add(new clsPair<Integer, clsDataStructurePA>(0x111111, defineWP()));
 		return oList;
 	}
 	
@@ -105,7 +104,7 @@ public class tssInformationRepresentationManagementARSi10 {
 	private clsDataStructurePA defineDM() {
 		clsThingPresentation oThingPresentation = new clsThingPresentation(new clsTripple<String, eDataType, String>("drivesource:aggressivity", eDataType.TP, "drivesource"), "aggressivity");
 		ArrayList<clsAssociation> oDriveAssociation2 = new ArrayList<clsAssociation>();
-		clsDriveMesh oDriveMesh2 = new clsDriveMesh(new clsTripple<String, eDataType, String>("drive:hunger", eDataType.DM,""),new double[]{0.0,0.0,0.0,0.0}, oDriveAssociation2);
+		clsDriveMesh oDriveMesh2 = new clsDriveMesh(new clsTripple<String, eDataType, String>("drive:hunger", eDataType.DM,""),0.0,new double[]{0.0,0.0,0.0,0.0}, oDriveAssociation2);
 		clsAssociationAttribute oAssociationAttribute11 = new clsAssociationAttribute(new clsTripple<String, eDataType, String>(null, eDataType.ASSOCIATIONATTRIBUTE,null), oDriveMesh2, oThingPresentation);
 		oDriveAssociation2.add(oAssociationAttribute11);
 		
@@ -222,12 +221,12 @@ public class tssInformationRepresentationManagementARSi10 {
 	 * @param oResultList
 	 */
 	private void toString(
-			ArrayList<clsPair<Integer, clsDataStructureContainer>> oSearchPatternList,
+			ArrayList<clsPair<Integer, clsDataStructurePA>> oSearchPatternList,
 			List<ArrayList<clsPair<Double, clsDataStructureContainer>>> oResultList) {
 		
 		String oOutput = ""; 
 		oOutput += "Search-pattern: \n";
-		for(clsPair<Integer, clsDataStructureContainer> oEntry : oSearchPatternList){
+		for(clsPair<Integer, clsDataStructurePA> oEntry : oSearchPatternList){
 			oOutput += "ReturnValue " + oEntry.a +" DataStructure " + oEntry.b.toString() +"\n"; 
 		}
 		

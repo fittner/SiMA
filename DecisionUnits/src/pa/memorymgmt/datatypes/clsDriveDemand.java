@@ -16,8 +16,8 @@ import pa.tools.clsTripple;
  * 23.05.2010, 21:40:24
  * 
  */
-public class clsDriveDemand extends clsDataStructurePA{
-	public double mnDriveDemandIntensity; 
+public class clsDriveDemand extends clsHomeostaticRepresentation{
+	private double moContent; 
 	
 	/**
 	 * DOCUMENT (zeilinger) - insert description 
@@ -26,9 +26,9 @@ public class clsDriveDemand extends clsDataStructurePA{
 	 * 24.05.2010, 13:24:07
 	 *
 	 */
-	public clsDriveDemand(clsTripple<String, eDataType, String> poDataStructureIdentifier, double pnDriveDemandIntensity) {
+	public clsDriveDemand(clsTripple<String, eDataType, String> poDataStructureIdentifier, double prDemandTension) {
 		super(poDataStructureIdentifier); 
-		mnDriveDemandIntensity = pnDriveDemandIntensity; 
+		moContent = prDemandTension; 
 	}
 
 	/* (non-Javadoc)
@@ -38,18 +38,17 @@ public class clsDriveDemand extends clsDataStructurePA{
 	 * 
 	 * @see java.lang.Comparable#compareTo(java.lang.Object)
 	 */
+	public double getTension(){
+		return moContent; 
+	}
+	
+	public void setTension(double prDemandTension){
+		moContent = prDemandTension; 
+	}
+	
 	@Override
 	public double compareTo(clsDataStructurePA poDataStructure) {
-		//clsDriveDemand oDataStructure = (clsDriveDemand)poDataStructure;
-	
-		//In case the data structure does not have an ID, it has to be compared to a stored 
-		//data structure and replaced by it (the processes base on information that is already
-		//defined
-//			if(this.moContentName.equals(oDataStructure.moContentName)){
-//				if(this.moContent.equals(oDataStructure.moContent)){return 1;}
-//			}
-
-		return 0.0;
+		throw new NoSuchMethodError("Method compareTo should not be invoked for objects of datatype clsDriveDemand");
 	}
 	
 	@Override
@@ -68,5 +67,18 @@ public class clsDriveDemand extends clsDataStructurePA{
 		if(this.moDataStructureID != null){oResult += this.moDataStructureID + ":";}
 		//oResult += moContentName +" " + moContent.toString();
 		return oResult; 
+	}
+
+	/* (non-Javadoc)
+	 *
+	 * @author zeilinger
+	 * 15.08.2010, 12:15:44
+	 * 
+	 * @see pa.memorymgmt.datatypes.clsHomeostaticRepresentation#assignDataStructure(pa.memorymgmt.datatypes.clsAssociation)
+	 */
+	@Override
+	public void assignDataStructure(clsAssociation poDataStructurePA) {
+		// TODO (zeilinger) - Auto-generated method stub
+		
 	}
 }

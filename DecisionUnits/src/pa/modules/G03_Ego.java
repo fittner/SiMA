@@ -19,6 +19,7 @@ import pa.loader.plan.clsPlanAction;
 import pa.memory.clsMemory;
 import pa.memorymgmt.clsKnowledgeBaseHandler;
 import pa.memorymgmt.datatypes.clsAssociationDriveMesh;
+import pa.memorymgmt.datatypes.clsDriveMesh;
 import pa.memorymgmt.datatypes.clsPrimaryDataStructureContainer;
 import pa.memorymgmt.datatypes.clsSecondaryDataStructureContainer;
 import pa.symbolization.representationsymbol.itfSymbol;
@@ -106,8 +107,8 @@ public class G03_Ego extends clsModuleContainer implements
 	private void applyProperties(String poPrefix, clsBWProperties poProp) {
 		String pre = clsBWProperties.addDot(poPrefix);
 	
-		moG07EnvironmentalInterfaceFunctions = new G07_EnvironmentalInterfaceFunctions(pre+P_G07, poProp, this, moInterfaceHandler, moMemory, moKnowledgeBase);
-		moG08PsychicMediator = new G08_PsychicMediator(pre+P_G08, poProp, this, moInterfaceHandler, moMemory, moKnowledgeBase);
+		moG07EnvironmentalInterfaceFunctions = new G07_EnvironmentalInterfaceFunctions(pre+P_G07, poProp, this, moInterfaceHandler, moMemory, moKnowledgeBaseHandler);
+		moG08PsychicMediator = new G08_PsychicMediator(pre+P_G08, poProp, this, moInterfaceHandler, moMemory, moKnowledgeBaseHandler);
 	}
 
 	/* (non-Javadoc)
@@ -142,7 +143,7 @@ public class G03_Ego extends clsModuleContainer implements
 	 * @see pa.interfaces.I1_5#receive_I1_5(int)
 	 */
 	@Override
-	public void receive_I1_5(List<clsPrimaryInformation> poData_old, List<clsPrimaryDataStructureContainer> poData) {
+	public void receive_I1_5(List<clsPrimaryInformation> poData_old, List<clsDriveMesh> poData) {
 		moG08PsychicMediator.receive_I1_5(poData_old, poData);
 	}
 
@@ -278,7 +279,7 @@ public class G03_Ego extends clsModuleContainer implements
 	 * @see pa.interfaces.I1_7#receive_I1_7(int)
 	 */
 	@Override
-	public void receive_I1_7(ArrayList<clsSecondaryInformation> poDriveList_old, ArrayList<clsSecondaryDataStructureContainer> poDriveList) {
+	public void receive_I1_7(ArrayList<clsSecondaryInformation> poDriveList_old, ArrayList<clsPair<clsSecondaryDataStructureContainer, clsDriveMesh>> poDriveList) {
 		((I1_7_receive)moEnclosingContainer).receive_I1_7(poDriveList_old, poDriveList);
 	}
 

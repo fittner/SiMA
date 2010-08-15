@@ -6,8 +6,6 @@
  */
 package pa.memorymgmt.datatypes;
 
-import java.util.ArrayList;
-
 import pa.memorymgmt.enums.eDataType;
 import pa.tools.clsTripple;
 
@@ -20,7 +18,6 @@ import pa.tools.clsTripple;
  */
 public abstract class clsHomeostaticRepresentation extends clsPrimaryDataStructure{
 	protected eDataType moHomeostaticType; 
-	public ArrayList<clsAssociation> moContent; 
 	/**
 	 * DOCUMENT (zeilinger) - insert description 
 	 * 
@@ -41,18 +38,5 @@ public abstract class clsHomeostaticRepresentation extends clsPrimaryDataStructu
 	 * @param poDataStructurePA
 	 */
 	public abstract void assignDataStructure(clsAssociation poDataStructurePA); 
-	
-	/**
-	 * DOCUMENT (zeilinger) - insert description
-	 *
-	 * @author zeilinger
-	 * 24.05.2010, 14:40:45
-	 *
-	 * @param poAssociatedWordPresentations
-	 */
-		
-	protected void applyAssociations(ArrayList<clsAssociation> poAssociatedDataStructures) {
-		moContent.addAll(poAssociatedDataStructures);  
-	}
 	
 }

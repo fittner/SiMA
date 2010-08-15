@@ -14,13 +14,17 @@ import pa.datatypes.clsPrimaryInformation;
 import pa.datatypes.clsPrimaryInformationMesh;
 import pa.datatypes.clsSecondaryInformation;
 import pa.datatypes.clsSecondaryInformationMesh;
+import pa.interfaces.knowledgebase.itfKnowledgeBaseAccess;
 import pa.interfaces.receive.I2_10_receive;
 import pa.interfaces.receive.I2_11_receive;
 import pa.interfaces.receive.I5_4_receive;
 import pa.interfaces.send.I2_11_send;
 import pa.interfaces.send.I5_4_send;
+import pa.memorymgmt.datatypes.clsDataStructureContainer;
+import pa.memorymgmt.datatypes.clsDataStructurePA;
 import pa.memorymgmt.datatypes.clsPrimaryDataStructureContainer;
 import pa.memorymgmt.datatypes.clsSecondaryDataStructureContainer;
+import pa.tools.clsPair;
 
 /**
  * DOCUMENT (deutsch) - insert description 
@@ -29,7 +33,7 @@ import pa.memorymgmt.datatypes.clsSecondaryDataStructureContainer;
  * 11.08.2009, 14:38:29
  * 
  */
-public class E21_ConversionToSecondaryProcess extends clsModuleBase implements I2_10_receive, I2_11_send, I5_4_send {
+public class E21_ConversionToSecondaryProcess extends clsModuleBase implements I2_10_receive, I2_11_send, I5_4_send, itfKnowledgeBaseAccess {
 
 	private ArrayList<clsPrimaryInformation> moGrantedPerception_Input_old;
 	private ArrayList<clsSecondaryInformation> moPerception_Output_old;
@@ -114,6 +118,33 @@ public class E21_ConversionToSecondaryProcess extends clsModuleBase implements I
 	 */
 	@Override
 	protected void process_basic() {
+		process_oldDT(); 
+//		ArrayList<clsPair<Integer, clsDataStructurePA>> oSearchPattern = new ArrayList<clsPair<Integer, clsDataStructurePA>>(); 
+//		List<ArrayList<clsPair<Double, clsDataStructureContainer>>> oSearchResult = null; 
+//		moPerception_Output = new ArrayList<clsSecondaryDataStructureContainer>();  
+//		
+//		for(clsPrimaryDataStructureContainer oPrimContainer : moGrantedPerception_Input) {
+//			oSearchPattern.add(new clsPair<Integer,clsDataStructurePA>(eDataType.WP.nBinaryValue,oPrimContainer.moDataStructure));
+//		}
+//		
+//		oSearchResult = accessKnowledgeBase(oSearchPattern); 
+//
+//		for(ArrayList<clsPair<Double, clsDataStructureContainer>> oSearchResultEntry : oSearchResult){
+//			/*HZ: Up to now the best matching result is taken from the ArrayList and add to the variable
+//			 * moPerception_Output*/
+//			moPerception_Output.add((clsSecondaryDataStructureContainer)oSearchResultEntry.get(0).b); 
+//		}
+	}
+	
+	/**
+	 * DOCUMENT (zeilinger) - insert description
+	 * This method is used while adapting the model from the old datatypes (pa.datatypes) to the
+	 * new ones (pa.memorymgmt.datatypes) The method has to be deleted afterwards.
+	 * @author zeilinger
+	 * 13.08.2010, 09:56:48
+	 * @deprecated
+	 */
+	private void process_oldDT() {
 		moPerception_Output_old = new ArrayList<clsSecondaryInformation>();
 		for( clsPrimaryInformation oPriminfo : moGrantedPerception_Input_old ) {
 
@@ -191,6 +222,19 @@ public class E21_ConversionToSecondaryProcess extends clsModuleBase implements I
 	protected void process_final() {
 		// TODO (deutsch) - Auto-generated method stub
 		throw new java.lang.NoSuchMethodError();
+	}
+
+	/* (non-Javadoc)
+	 *
+	 * @author zeilinger
+	 * 12.08.2010, 20:58:22
+	 * 
+	 * @see pa.interfaces.knowledgebase.itfKnowledgeBaseAccess#accessKnowledgeBase(java.util.ArrayList)
+	 */
+	@Override
+	public ArrayList<ArrayList<clsPair<Double, clsDataStructureContainer>>> accessKnowledgeBase(
+				ArrayList<clsPair<Integer, clsDataStructurePA>> poSearchPatternContainer) {
+		return moEnclosingContainer.moKnowledgeBaseHandler.initMemorySearch(poSearchPatternContainer);
 	}
 
 }

@@ -11,10 +11,14 @@ import java.util.ArrayList;
 import config.clsBWProperties;
 import pa.clsInterfaceHandler;
 import pa.datatypes.clsSecondaryInformation;
+import pa.interfaces.knowledgebase.itfKnowledgeBaseAccess;
 import pa.interfaces.receive.I2_12_receive;
 import pa.interfaces.receive.I6_1_receive;
 import pa.interfaces.send.I6_1_send;
+import pa.memorymgmt.datatypes.clsDataStructureContainer;
+import pa.memorymgmt.datatypes.clsDataStructurePA;
 import pa.memorymgmt.datatypes.clsSecondaryDataStructureContainer;
+import pa.tools.clsPair;
 
 /**
  * DOCUMENT (deutsch) - insert description 
@@ -23,7 +27,7 @@ import pa.memorymgmt.datatypes.clsSecondaryDataStructureContainer;
  * 11.08.2009, 14:50:27
  * 
  */
-public class E25_KnowledgeAboutReality extends clsModuleBase implements I2_12_receive, I6_1_send {
+public class E25_KnowledgeAboutReality extends clsModuleBase implements I2_12_receive, I6_1_send, itfKnowledgeBaseAccess {
 
 	//private ArrayList<clsSecondaryInformation> moFocusedPerception_old;
 	//private ArrayList<clsSecondaryDataStructureContainer> moFocusedPerception;
@@ -160,5 +164,18 @@ public class E25_KnowledgeAboutReality extends clsModuleBase implements I2_12_re
 	protected void process_final() {
 		// TODO (deutsch) - Auto-generated method stub
 		throw new java.lang.NoSuchMethodError();
+	}
+
+	/* (non-Javadoc)
+	 *
+	 * @author zeilinger
+	 * 12.08.2010, 20:59:07
+	 * 
+	 * @see pa.interfaces.knowledgebase.itfKnowledgeBaseAccess#accessKnowledgeBase(java.util.ArrayList)
+	 */
+	@Override
+	public ArrayList<ArrayList<clsPair<Double, clsDataStructureContainer>>> accessKnowledgeBase(
+			ArrayList<clsPair<Integer, clsDataStructurePA>> poSearchPatternContainer) {
+		return moEnclosingContainer.moKnowledgeBaseHandler.initMemorySearch(poSearchPatternContainer);
 	}
 }

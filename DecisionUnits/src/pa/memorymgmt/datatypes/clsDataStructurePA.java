@@ -23,7 +23,7 @@ public abstract class clsDataStructurePA implements Cloneable, itfComparable{
 	public String moDataStructureID;
 	public eDataType moDataStructureType;
 	public String moContentType;
-	
+		
 	/**
 	 * DOCUMENT (zeilinger) - insert description 
 	 * 

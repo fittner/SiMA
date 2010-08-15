@@ -19,6 +19,7 @@ import pa.tools.clsTripple;
  * 
  */
 public class clsDriveMesh extends clsHomeostaticRepresentation{
+	public ArrayList<clsAssociation> moContent = null; 
 	/**
 	 * DOCUMENT (zeilinger) - insert description 
 	 * 
@@ -29,34 +30,60 @@ public class clsDriveMesh extends clsHomeostaticRepresentation{
 	 * @param poAssociationID
 	 * @param peAssociationType
 	 */
+	private double mrPleasure = 0.0; 
 	private double mrCathegoryAnal = 0.0; 
 	private double mrCathegoryGenital = 0.0;
 	private double mrCathegoryOral = 0.0;
 	private double mrCathegoryPhalic = 0.0;
 	
-	public clsDriveMesh(clsTripple<String, eDataType, String> poDataStructureIdentifier, double[] poDriveCathegories, ArrayList<clsAssociation> poAssociatedDriveSource) {
+	public clsDriveMesh(clsTripple<String, eDataType, String> poDataStructureIdentifier, double prPleasure, double[] poDriveCathegories, ArrayList<clsAssociation> poAssociatedDriveSource) {
 		super(poDataStructureIdentifier); 
 		moContent = poAssociatedDriveSource;
+		mrPleasure = prPleasure; 
 		mrCathegoryAnal = poDriveCathegories[0]; 
 		mrCathegoryOral = poDriveCathegories[1]; 
 		mrCathegoryGenital = poDriveCathegories[2];
 		mrCathegoryPhalic = poDriveCathegories[3]; 
 	}
 	
+	public double getPleasure(){
+		return mrPleasure; 
+	}
+	
+	public void setPleasure(double prPleasure){
+		mrPleasure = prPleasure; 
+	}
+	
 	public double getOral() {
 		return mrCathegoryOral;
+	}
+	
+	public void setOral(double prOral){
+		mrCathegoryOral = prOral; 
 	}
 	
 	public double getAnal() {
 		return mrCathegoryAnal;
 	}
 	
+	public void setAnal(double prAnal){
+		mrCathegoryAnal = prAnal; 
+	}
+	
 	public double getGenital() {
 		return mrCathegoryGenital;
 	}
 	
+	public void setGenital(double prGenital){
+		mrCathegoryGenital = prGenital; 
+	}
+	
 	public double getPhallic() {
 		return mrCathegoryPhalic;
+	}
+	
+	public void setPhallic(double prPhallic){
+		mrCathegoryPhalic = prPhallic; 
 	}
 
 	/* (non-Javadoc)
@@ -117,6 +144,19 @@ public class clsDriveMesh extends clsHomeostaticRepresentation{
 	 */
 	private double getNumbAssociations() {
 		return moContent.size();
+	}
+	
+	/**
+	 * DOCUMENT (zeilinger) - insert description
+	 *
+	 * @author zeilinger
+	 * 24.05.2010, 14:40:45
+	 *
+	 * @param poAssociatedWordPresentations
+	 */
+		
+	protected void applyAssociations(ArrayList<clsAssociation> poAssociatedDataStructures) {
+		moContent.addAll(poAssociatedDataStructures);  
 	}
 	
 	@Override

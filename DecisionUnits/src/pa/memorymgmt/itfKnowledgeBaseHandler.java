@@ -7,9 +7,9 @@
 package pa.memorymgmt;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import pa.memorymgmt.datatypes.clsDataStructureContainer;
+import pa.memorymgmt.datatypes.clsDataStructurePA;
 import pa.tools.clsPair;
 
 /**
@@ -20,5 +20,5 @@ import pa.tools.clsPair;
  * 
  */
 public interface itfKnowledgeBaseHandler {
-	public List<ArrayList<clsPair<Double,clsDataStructureContainer>>>  initMemorySearch(ArrayList<clsPair<Integer,clsDataStructureContainer>> poSearchPatternContainer);
+	public ArrayList<ArrayList<clsPair<Double,clsDataStructureContainer>>>  initMemorySearch(ArrayList<clsPair<Integer,clsDataStructurePA>> poSearchPatternContainer);
 }

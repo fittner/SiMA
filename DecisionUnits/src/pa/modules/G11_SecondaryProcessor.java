@@ -26,6 +26,7 @@ import pa.interfaces.receive.I7_5_receive;
 import pa.loader.plan.clsPlanAction;
 import pa.memory.clsMemory;
 import pa.memorymgmt.clsKnowledgeBaseHandler;
+import pa.memorymgmt.datatypes.clsDriveMesh;
 import pa.memorymgmt.datatypes.clsSecondaryDataStructureContainer;
 import pa.tools.clsPair;
 import config.clsBWProperties;
@@ -91,9 +92,9 @@ public class G11_SecondaryProcessor extends clsModuleContainer implements
 	private void applyProperties(String poPrefix, clsBWProperties poProp) {
 		String pre = clsBWProperties.addDot(poPrefix);
 	
-		moG14PerceptualPreprocessing = new G14_PerceptualPreprocessing(pre+P_G14, poProp, this, moInterfaceHandler, moMemory, moKnowledgeBase);
-		moG15Deliberation = new G15_Deliberation(pre+P_G15, poProp, this, moInterfaceHandler, moMemory, moKnowledgeBase);
-		moG16SecondaryKnowledgeUtilizer = new G16_SecondaryKnowledgeUtilizer(pre+P_G16, poProp, this, moInterfaceHandler, moMemory, moKnowledgeBase);
+		moG14PerceptualPreprocessing = new G14_PerceptualPreprocessing(pre+P_G14, poProp, this, moInterfaceHandler, moMemory, moKnowledgeBaseHandler);
+		moG15Deliberation = new G15_Deliberation(pre+P_G15, poProp, this, moInterfaceHandler, moMemory, moKnowledgeBaseHandler);
+		moG16SecondaryKnowledgeUtilizer = new G16_SecondaryKnowledgeUtilizer(pre+P_G16, poProp, this, moInterfaceHandler, moMemory, moKnowledgeBaseHandler);
 	}
 
 	/* (non-Javadoc)
@@ -116,7 +117,7 @@ public class G11_SecondaryProcessor extends clsModuleContainer implements
 	 * @see pa.interfaces.I1_7#receive_I1_7(int)
 	 */
 	@Override
-	public void receive_I1_7(ArrayList<clsSecondaryInformation> poDriveList_old, ArrayList<clsSecondaryDataStructureContainer> poDriveList) {
+	public void receive_I1_7(ArrayList<clsSecondaryInformation> poDriveList_old, ArrayList<clsPair<clsSecondaryDataStructureContainer, clsDriveMesh>> poDriveList) {
 		moG15Deliberation.receive_I1_7(poDriveList_old, poDriveList);
 		moG14PerceptualPreprocessing.receive_I1_7(poDriveList_old, poDriveList);
 	}

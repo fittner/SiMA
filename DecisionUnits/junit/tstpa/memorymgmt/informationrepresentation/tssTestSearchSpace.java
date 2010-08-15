@@ -65,13 +65,13 @@ Hashtable <eDataType, List<clsDataStructurePA>> oDataStructureTable = new Hashta
 		oDataStructureTable.put(eDataType.DM, new ArrayList<clsDataStructurePA>()); 
 		
 		ArrayList<clsAssociation> oDriveAssociation1 = new ArrayList<clsAssociation>();
-		clsDriveMesh oDriveMesh1 = new clsDriveMesh(new clsTripple<String, eDataType, String>("drive:angry", eDataType.DM,""),new double[]{0.0,0.0,0.0,0.0}, oDriveAssociation1); 
+		clsDriveMesh oDriveMesh1 = new clsDriveMesh(new clsTripple<String, eDataType, String>("drive:angry", eDataType.DM,""),0.0,new double[]{0.0,0.0,0.0,0.0}, oDriveAssociation1); 
 		clsAssociationAttribute oAssociationAttribute10 = new clsAssociationAttribute(new clsTripple<String, eDataType, String>(null, eDataType.ASSOCIATIONATTRIBUTE,""), oDriveMesh1, oThingPresentation8);
 		oDriveAssociation1.add(oAssociationAttribute10);
 		oDataStructureTable.get(eDataType.DM).add(oDriveMesh1);
 		
 		ArrayList<clsAssociation> oDriveAssociation2 = new ArrayList<clsAssociation>();
-		clsDriveMesh oDriveMesh2 = new clsDriveMesh(new clsTripple<String, eDataType, String>("drive:hunger", eDataType.DM,""),new double[]{0.0,0.0,0.0,0.0}, oDriveAssociation2);
+		clsDriveMesh oDriveMesh2 = new clsDriveMesh(new clsTripple<String, eDataType, String>("drive:hunger", eDataType.DM,""),0.0,new double[]{0.0,0.0,0.0,0.0}, oDriveAssociation2);
 		clsAssociationAttribute oAssociationAttribute11 = new clsAssociationAttribute(new clsTripple<String, eDataType, String>(null, eDataType.ASSOCIATIONATTRIBUTE,""), oDriveMesh2, oThingPresentation7);
 		oDriveAssociation2.add(oAssociationAttribute11);
 		oDataStructureTable.get(eDataType.DM).add(oDriveMesh2);

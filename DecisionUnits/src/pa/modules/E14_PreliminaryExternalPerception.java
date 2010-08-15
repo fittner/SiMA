@@ -19,6 +19,8 @@ import pa.interfaces.receive.I2_2_receive;
 import pa.interfaces.receive.I2_4_receive;
 import pa.interfaces.receive.I2_5_receive;
 import pa.interfaces.send.I2_5_send;
+import pa.memorymgmt.datahandler.clsDataStructureConverter;
+import pa.memorymgmt.datatypes.clsPrimaryDataStructure;
 import pa.memorymgmt.datatypes.clsPrimaryDataStructureContainer;
 import pa.symbolization.representationsymbol.itfSymbol;
 import pa.tools.clsTPGenerator;
@@ -133,7 +135,28 @@ public class E14_PreliminaryExternalPerception extends clsModuleBase implements
 	 */
 	@Override
 	protected void process_basic() {
-		moEnvironmentalTP_old = clsTPGenerator.convertSensorToTP(moEnvironmentalData);		
+		moEnvironmentalTP = new ArrayList<clsPrimaryDataStructureContainer>(); 
+		for(itfSymbol oSymbol : moEnvironmentalData.values()){
+				if(oSymbol!=null){
+					for(itfSymbol oSymbolObject : oSymbol.getSymbolObjects()) {
+						clsPrimaryDataStructure oDataStructure = (clsPrimaryDataStructure)clsDataStructureConverter.convertExtSymbolsToPsychicDataStructures(oSymbolObject); 
+						moEnvironmentalTP.add(new clsPrimaryDataStructureContainer(oDataStructure,null));
+					}	
+				}
+		}
+		process_oldDT();
+	}
+
+	/**
+	 * DOCUMENT (zeilinger) - insert description
+	 * This method is used while adapting the model from the old datatypes (pa.datatypes) to the
+	 * new ones (pa.memorymgmt.datatypes) The method has to be deleted afterwards.
+	 * @author zeilinger
+	 * 13.08.2010, 09:56:48
+	 * @deprecated
+	 */
+	private void process_oldDT() {
+		moEnvironmentalTP_old = clsTPGenerator.convertSensorToTP(moEnvironmentalData);
 	}
 
 	/* (non-Javadoc)

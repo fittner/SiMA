@@ -11,13 +11,18 @@ import java.util.List;
 
 import pa.clsInterfaceHandler;
 import pa.datatypes.clsPrimaryInformation;
+import pa.interfaces.knowledgebase.itfKnowledgeBaseAccess;
 import pa.interfaces.receive.I1_5_receive;
 import pa.interfaces.receive.I2_9_receive;
 import pa.interfaces.receive.I3_1_receive;
 import pa.interfaces.receive.I3_2_receive;
 import pa.interfaces.send.I3_1_send;
 import pa.interfaces.send.I3_2_send;
+import pa.memorymgmt.datatypes.clsDataStructureContainer;
+import pa.memorymgmt.datatypes.clsDataStructurePA;
+import pa.memorymgmt.datatypes.clsDriveMesh;
 import pa.memorymgmt.datatypes.clsPrimaryDataStructureContainer;
+import pa.tools.clsPair;
 import config.clsBWProperties;
 
 /**
@@ -27,7 +32,7 @@ import config.clsBWProperties;
  * 11.08.2009, 14:03:35
  * 
  */
-public class E07_SuperEgo_unconscious extends clsModuleBase implements I1_5_receive, I2_9_receive, I3_1_send, I3_2_send {
+public class E07_SuperEgo_unconscious extends clsModuleBase implements I1_5_receive, I2_9_receive, I3_1_send, I3_2_send, itfKnowledgeBaseAccess {
 	ArrayList<clsPrimaryInformation> moPrimaryInformation_old;
 	ArrayList<clsPrimaryDataStructureContainer> moPrimaryInformation; 
 	
@@ -95,9 +100,9 @@ public class E07_SuperEgo_unconscious extends clsModuleBase implements I1_5_rece
 	 */
 	@SuppressWarnings("unchecked")
 	@Override
-	public void receive_I1_5(List<clsPrimaryInformation> poData_old, List<clsPrimaryDataStructureContainer> poData) {
+	public void receive_I1_5(List<clsPrimaryInformation> poData_old, List<clsDriveMesh> poData) {
 		moPrimaryInformation_old = (ArrayList<clsPrimaryInformation>)deepCopy( (ArrayList<clsPrimaryInformation>)poData_old);
-		moPrimaryInformation = (ArrayList<clsPrimaryDataStructureContainer>)deepCopy( (ArrayList<clsPrimaryDataStructureContainer>)poData);
+		moPrimaryInformation = (ArrayList<clsPrimaryDataStructureContainer>)deepCopy( (ArrayList<clsDriveMesh>)poData);
 	}
 
 	/* (non-Javadoc)
@@ -188,6 +193,18 @@ public class E07_SuperEgo_unconscious extends clsModuleBase implements I1_5_rece
 	protected void process_final() {
 		// TODO (deutsch) - Auto-generated method stub
 		throw new java.lang.NoSuchMethodError();
+	}
+
+	/* (non-Javadoc)
+	 *
+	 * @author zeilinger
+	 * 12.08.2010, 20:56:44
+	 * 
+	 * @see pa.interfaces.knowledgebase.itfKnowledgeBaseAccess#accessKnowledgeBase(java.util.ArrayList)
+	 */
+	@Override
+	public ArrayList<ArrayList<clsPair<Double, clsDataStructureContainer>>> accessKnowledgeBase(ArrayList<clsPair<Integer, clsDataStructurePA>> poSearchPatternContainer) {
+		return moEnclosingContainer.moKnowledgeBaseHandler.initMemorySearch(poSearchPatternContainer);
 	}
 
 }

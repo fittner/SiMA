@@ -111,16 +111,15 @@ public class clsInformationRepresentationManagement extends clsKnowledgeBaseHand
 		 * @see pa.memorymgmt.itfKnowledgeBaseHandler#searchDataStructure(java.util.ArrayList)
 		 */
 		@Override
-		public List<ArrayList<clsPair<Double,clsDataStructureContainer>>> initMemorySearch(
-				ArrayList<clsPair<Integer, clsDataStructureContainer>> poSearchPatternContainer){
+		public ArrayList<ArrayList<clsPair<Double,clsDataStructureContainer>>> initMemorySearch( ArrayList<clsPair<Integer, clsDataStructurePA>> poSearchPatternList){
 			moSearchResult = new ArrayList<ArrayList<clsPair<Double,clsDataStructureContainer>>>(); 
 			
-			for(clsPair<Integer, clsDataStructureContainer> element:poSearchPatternContainer){
-				triggerModuleSearch((int)element.a, element.b.moDataStructure);
+			for(clsPair<Integer, clsDataStructurePA> element:poSearchPatternList){
+				triggerModuleSearch((int)element.a, element.b);
 			}
 			
 			try {
-				return this.cloneResult(moSearchResult);
+				return (ArrayList<ArrayList<clsPair<Double,clsDataStructureContainer>>>)this.cloneResult(moSearchResult);
 			} catch (CloneNotSupportedException e) {
 				// TODO (zeilinger) - Auto-generated catch block
 				e.printStackTrace();

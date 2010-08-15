@@ -9,7 +9,7 @@ package pa.interfaces.send;
 import java.util.ArrayList;
 
 import pa.datatypes.clsPrimaryInformation;
-import pa.memorymgmt.datatypes.clsPrimaryDataStructureContainer;
+import pa.memorymgmt.datatypes.clsDriveMesh;
 
 /**
  * DOCUMENT (deutsch) - insert description 
@@ -20,5 +20,5 @@ import pa.memorymgmt.datatypes.clsPrimaryDataStructureContainer;
  */
 public interface I1_6_send {
 	public void send_I1_6(ArrayList<clsPrimaryInformation> poDriveList_old,
-						  ArrayList<clsPrimaryDataStructureContainer> poDriveList);
+						  ArrayList<clsDriveMesh> poDriveList);
 }

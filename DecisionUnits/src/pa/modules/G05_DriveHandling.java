@@ -17,9 +17,8 @@ import pa.interfaces.receive.I1_3_receive;
 import pa.interfaces.receive.I1_4_receive;
 import pa.memory.clsMemory;
 import pa.memorymgmt.clsKnowledgeBaseHandler;
-import pa.memorymgmt.datatypes.clsAssociationDriveMesh;
-import pa.memorymgmt.datatypes.clsPrimaryDataStructureContainer;
-import pa.memorymgmt.datatypes.clsThingPresentationMesh;
+import pa.memorymgmt.datatypes.clsDriveDemand;
+import pa.memorymgmt.datatypes.clsDriveMesh;
 import pa.tools.clsPair;
 import config.clsBWProperties;
 
@@ -97,7 +96,7 @@ public class G05_DriveHandling extends clsModuleContainer implements
 	 */
 	@Override
 	public void receive_I1_3(ArrayList<clsPair<clsPair<clsPrimaryInformationMesh, clsAffectCandidate>, clsPair<clsPrimaryInformationMesh, clsAffectCandidate>>> poDriveCandidate_old,
-			 						ArrayList<clsPair<clsPair<clsThingPresentationMesh, clsAssociationDriveMesh>, clsPair<clsThingPresentationMesh, clsAssociationDriveMesh>>> poDriveCandidate) {
+							 ArrayList<clsPair<clsPair<clsDriveMesh, clsDriveDemand>, clsPair<clsDriveMesh, clsDriveDemand>>> poDriveCandidate) {
 		moE04FusionOfDrives.receive_I1_3(poDriveCandidate_old, poDriveCandidate);
 	}
 
@@ -110,7 +109,7 @@ public class G05_DriveHandling extends clsModuleContainer implements
 	 */
 	@Override
 	public void receive_I1_4(ArrayList<clsPair<clsPair<clsPrimaryInformationMesh, clsAffectCandidate>,clsPair<clsPrimaryInformationMesh, clsAffectCandidate>>> poDriveCandidate_old,
-							 ArrayList<clsPair<clsPair<clsPrimaryDataStructureContainer, clsAssociationDriveMesh>,clsPair<clsThingPresentationMesh, clsAssociationDriveMesh>>> poDriveCandidate) {
+							 ArrayList<clsPair<clsPair<clsDriveMesh, clsDriveDemand>, clsPair<clsDriveMesh, clsDriveDemand>>> poDriveCandidate) {
 		((I1_4_receive)moEnclosingContainer).receive_I1_4(poDriveCandidate_old, poDriveCandidate);
 		
 	}

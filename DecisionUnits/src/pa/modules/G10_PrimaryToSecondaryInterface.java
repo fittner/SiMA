@@ -24,8 +24,10 @@ import pa.interfaces.receive.I5_5_receive;
 import pa.memory.clsMemory;
 import pa.memorymgmt.clsKnowledgeBaseHandler;
 import pa.memorymgmt.datatypes.clsAssociationDriveMesh;
+import pa.memorymgmt.datatypes.clsDriveMesh;
 import pa.memorymgmt.datatypes.clsPrimaryDataStructureContainer;
 import pa.memorymgmt.datatypes.clsSecondaryDataStructureContainer;
+import pa.tools.clsPair;
 import config.clsBWProperties;
 
 /**
@@ -99,7 +101,7 @@ public class G10_PrimaryToSecondaryInterface extends clsModuleContainer implemen
 	 * @see pa.interfaces.I1_6#receive_I1_6(int)
 	 */
 	@Override
-	public void receive_I1_6(ArrayList<clsPrimaryInformation> poDriveList_old, ArrayList<clsPrimaryDataStructureContainer> poDriveList) {
+	public void receive_I1_6(ArrayList<clsPrimaryInformation> poDriveList_old, ArrayList<clsDriveMesh> poDriveList) {
 		moE08ConversionToSecondaryProcess.receive_I1_6(poDriveList_old, poDriveList);		
 	}
 
@@ -135,7 +137,7 @@ public class G10_PrimaryToSecondaryInterface extends clsModuleContainer implemen
 	 * @see pa.interfaces.I1_7#receive_I1_7(int)
 	 */
 	@Override
-	public void receive_I1_7(ArrayList<clsSecondaryInformation> poDriveList_old, ArrayList<clsSecondaryDataStructureContainer> poDriveList) {
+	public void receive_I1_7(ArrayList<clsSecondaryInformation> poDriveList_old, ArrayList<clsPair<clsSecondaryDataStructureContainer, clsDriveMesh>> poDriveList) {
 		((I1_7_receive)moEnclosingContainer).receive_I1_7(poDriveList_old, poDriveList); //to e22 (super ego)
 	}
 
@@ -171,7 +173,7 @@ public class G10_PrimaryToSecondaryInterface extends clsModuleContainer implemen
 	 * @see pa.interfaces.I5_3#receive_I5_3(int)
 	 */
 	@Override
-	public void receive_I5_3(ArrayList<clsSecondaryInformation> poDriveList_old, ArrayList<clsSecondaryDataStructureContainer> poDriveList) {
+	public void receive_I5_3(ArrayList<clsSecondaryInformation> poDriveList_old, ArrayList<clsPair<clsSecondaryDataStructureContainer, clsDriveMesh>> poDriveList) {
 		moE20InnerPerception_Affects.receive_I5_3(poDriveList_old, poDriveList);
 	}
 

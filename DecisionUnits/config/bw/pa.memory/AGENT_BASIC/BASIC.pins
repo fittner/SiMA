@@ -1,4 +1,4 @@
-; Tue Aug 10 13:58:48 CEST 2010
+; Sun Aug 15 17:17:30 CEST 2010
 ; 
 ;+ (version "3.4.4")
 ;+ (build "Build 579")
@@ -65,6 +65,41 @@
 		[TPM%3AENTITY%3ACAKE%3ABASIC]
 		[DM%3AREPRESS%3ACAKEBASIC])
 	(weight 1.0 1.0))
+
+([AFFECT%3AHIGH] of  AFFECT
+
+	(value 0.0)
+	(value_max 0.5)
+	(value_min 0.1)
+	(value_type "AFFECT"))
+
+([AFFECT%3ALOW] of  AFFECT
+
+	(value 0.0)
+	(value_max -0.1)
+	(value_min -0.5)
+	(value_type "AFFECT"))
+
+([AFFECT%3AMEDIUM] of  AFFECT
+
+	(value 0.0)
+	(value_max 0.1)
+	(value_min -0.1)
+	(value_type "AFFECT"))
+
+([AFFECT%3AVERY_HIGH] of  AFFECT
+
+	(value 0.0)
+	(value_max 1.0)
+	(value_min 0.5)
+	(value_type "AFFECT"))
+
+([AFFECT%3AVERY_LOW] of  AFFECT
+
+	(value 0.0)
+	(value_max -0.5)
+	(value_min -1.0)
+	(value_type "AFFECT"))
 
 ([after] of  LogicRelations
 )
@@ -224,6 +259,41 @@
 		[TP%3ASENSOR_EXT%3ABUMP%3ATRUE])
 	(weight 1.0 1.0))
 
+([AW%3AAFFECT_HIGH%3AHIGH] of  ASSOCIATIONWP
+
+	(element
+		[AFFECT%3AHIGH]
+		[WP%3AHIGH])
+	(weight 1.0 1.0))
+
+([AW%3AAFFECT_LOW%3ALOW] of  ASSOCIATIONWP
+
+	(element
+		[AFFECT%3ALOW]
+		[WP%3ALOW])
+	(weight 1.0 1.0))
+
+([AW%3AAFFECT_MEDIUM%3AMEDIUM] of  ASSOCIATIONWP
+
+	(element
+		[AFFECT%3AMEDIUM]
+		[WP%3AMEDIUM])
+	(weight 1.0 1.0))
+
+([AW%3AAFFECT_VERY_HIGH%3AVERY_HIGH] of  ASSOCIATIONWP
+
+	(element
+		[AFFECT%3AVERY_HIGH]
+		[WP%3AVERYHIGH])
+	(weight 1.0 1.0))
+
+([AW%3AAFFECT_VERY_LOW%3AVERY_LOW] of  ASSOCIATIONWP
+
+	(element
+		[AFFECT%3AVERY_LOW]
+		[WP%3AVERY_LOW])
+	(weight 1.0 1.0))
+
 ([before] of  LogicRelations
 )
 
@@ -233,6 +303,7 @@
 	(cathegory%3Agenital 0.0)
 	(cathegory%3Aoral 0.7)
 	(cathegory%3Aphalic 0.2)
+	(pleasure 0.0)
 	(value "BITE_CAKEBASIC"))
 
 ([DM%3ADEPOSIT%3ACAKEBASIC] of  DEPOSITE
@@ -241,6 +312,7 @@
 	(cathegory%3Agenital 0.1)
 	(cathegory%3Aoral 0.0)
 	(cathegory%3Aphalic 0.5)
+	(pleasure 0.0)
 	(value "DEPOSIT_CAKEBASIC"))
 
 ([DM%3ANOURISH%3ACAKEBASIC] of  NOURISH
@@ -249,6 +321,7 @@
 	(cathegory%3Agenital 0.0)
 	(cathegory%3Aoral 0.7)
 	(cathegory%3Aphalic 0.0)
+	(pleasure 0.0)
 	(value "NOURISH_CAKEBASIC"))
 
 ([DM%3AREPRESS%3ACAKEBASIC] of  REPRESS
@@ -257,6 +330,7 @@
 	(cathegory%3Agenital 0.1)
 	(cathegory%3Aoral 0.0)
 	(cathegory%3Aphalic 0.0)
+	(pleasure 0.0)
 	(value "REPRESS_CAKEBASIC"))
 
 ([TI%3AINTERACTION%3ABUMPED] of  INTERACTION
@@ -636,6 +710,31 @@
 
 	(value "STONE01"))
 
-([TPM%3AENTITY%3AWALL%3AWALL01] of  WALL
+([TPM%3AENTITY%3AWALL%3AWALL] of  WALL
 
-	(value "WALL01"))
+	(value "WALL"))
+
+([WP%3AHIGH] of  WP
+
+	(value "HIGH")
+	(value_type "WP"))
+
+([WP%3ALOW] of  WP
+
+	(value "LOW")
+	(value_type "WP"))
+
+([WP%3AMEDIUM] of  WP
+
+	(value "MEDIUM")
+	(value_type "WP"))
+
+([WP%3AVERY_LOW] of  WP
+
+	(value "VERY_LOW")
+	(value_type "WP"))
+
+([WP%3AVERYHIGH] of  WP
+
+	(value "VERYHIGH")
+	(value_type "WP"))

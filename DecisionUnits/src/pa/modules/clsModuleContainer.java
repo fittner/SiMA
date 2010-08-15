@@ -21,13 +21,13 @@ import config.clsBWProperties;
 public abstract class clsModuleContainer {
 	protected clsModuleContainer moEnclosingContainer;
 	protected clsMemory moMemory;
-	protected clsKnowledgeBaseHandler moKnowledgeBase; 
+	protected clsKnowledgeBaseHandler moKnowledgeBaseHandler; 
 	protected clsInterfaceHandler moInterfaceHandler;	
 	
-	public clsModuleContainer(String poPrefix, clsBWProperties poProp, clsModuleContainer poEnclosingContainer, clsInterfaceHandler poInterfaceHandler, clsMemory poMemory, clsKnowledgeBaseHandler poKnowledgeBase) {
+	public clsModuleContainer(String poPrefix, clsBWProperties poProp, clsModuleContainer poEnclosingContainer, clsInterfaceHandler poInterfaceHandler, clsMemory poMemory, clsKnowledgeBaseHandler poKnowledgeBaseHandler) {
 		moEnclosingContainer = poEnclosingContainer;
 		moMemory = poMemory;
-		moKnowledgeBase = poKnowledgeBase; 
+		moKnowledgeBaseHandler = poKnowledgeBaseHandler; 
 		moInterfaceHandler = poInterfaceHandler;
 		
 		applyProperties(poPrefix, poProp);

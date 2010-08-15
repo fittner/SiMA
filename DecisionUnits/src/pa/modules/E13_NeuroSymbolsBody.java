@@ -108,7 +108,6 @@ public class E13_NeuroSymbolsBody extends clsModuleBase implements I2_3_receive,
 	@Override
 	protected void process_basic() {
 		moSymbolData = clsSensorToSymbolConverter.convertExtSensorToSymbol(moBodyData);
-		
 	}
 
 	/* (non-Javadoc)

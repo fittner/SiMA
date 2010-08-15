@@ -20,6 +20,7 @@ import pa.tools.clsTripple;
  */
 public class clsHomeostaticMesh extends clsHomeostaticRepresentation{
 	clsDriveDemand moDriveDemand = null;
+	ArrayList<clsAssociation> moContent = null; 
 	/**
 	 * DOCUMENT (zeilinger) - insert description 
 	 * 

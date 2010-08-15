@@ -32,6 +32,7 @@ import pa.interfaces.receive.I6_3_receive;
 import pa.memory.clsMemory;
 import pa.memorymgmt.clsKnowledgeBaseHandler;
 import pa.memorymgmt.datatypes.clsAssociationDriveMesh;
+import pa.memorymgmt.datatypes.clsDriveMesh;
 import pa.memorymgmt.datatypes.clsPrimaryDataStructureContainer;
 import pa.tools.clsPair;
 import pa.tools.clsTripple;
@@ -103,8 +104,8 @@ public class G09_PrimaryProcessor extends clsModuleContainer implements
 		String pre = clsBWProperties.addDot(poPrefix);
 	
 		moE17FusionOfExternalPerceptionAndMemoryTraces = new E17_FusionOfExternalPerceptionAndMemoryTraces(pre+P_E17, poProp, this, moInterfaceHandler);
-		moG12PrimaryDecision = new G12_PrimaryDecision(pre+P_G12, poProp, this, moInterfaceHandler, moMemory, moKnowledgeBase);
-		moG13PrimaryKnowledgeUtilizer = new G13_PrimaryKnowledgeUtilizer(pre+P_G13, poProp, this, moInterfaceHandler, moMemory, moKnowledgeBase);
+		moG12PrimaryDecision = new G12_PrimaryDecision(pre+P_G12, poProp, this, moInterfaceHandler, moMemory, moKnowledgeBaseHandler);
+		moG13PrimaryKnowledgeUtilizer = new G13_PrimaryKnowledgeUtilizer(pre+P_G13, poProp, this, moInterfaceHandler, moMemory, moKnowledgeBaseHandler);
 	}
 
 	/* (non-Javadoc)
@@ -166,7 +167,7 @@ public class G09_PrimaryProcessor extends clsModuleContainer implements
 	 * @see pa.interfaces.I1_6#receive_I1_6(int)
 	 */
 	@Override
-	public void receive_I1_6(ArrayList<clsPrimaryInformation> poDriveList_old, ArrayList<clsPrimaryDataStructureContainer> poDriveList) {
+	public void receive_I1_6(ArrayList<clsPrimaryInformation> poDriveList_old, ArrayList<clsDriveMesh> poDriveList) {
 		((I1_6_receive)moEnclosingContainer).receive_I1_6(poDriveList_old, poDriveList);	
 	}
 
@@ -228,7 +229,7 @@ public class G09_PrimaryProcessor extends clsModuleContainer implements
 	 * @see pa.interfaces.I1_5#receive_I1_5(int)
 	 */
 	@Override
-	public void receive_I1_5(List<clsPrimaryInformation> poData_old, List<clsPrimaryDataStructureContainer> poData) {
+	public void receive_I1_5(List<clsPrimaryInformation> poData_old, List<clsDriveMesh> poData) {
 		moG12PrimaryDecision.receive_I1_5(poData_old, poData);
 		moG13PrimaryKnowledgeUtilizer.receive_I1_5(poData_old, poData);
 		

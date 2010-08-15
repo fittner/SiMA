@@ -123,14 +123,24 @@ public class E24_RealityCheck extends clsModuleBase implements I2_12_receive, I6
 	 */
 	@Override
 	protected void process_basic() {
-
+		process_oldDT();
+	}
+	
+	/**
+	 * DOCUMENT (zeilinger) - insert description
+	 * This method is used while adapting the model from the old datatypes (pa.datatypes) to the
+	 * new ones (pa.memorymgmt.datatypes) The method has to be deleted afterwards.
+	 * @author zeilinger
+	 * 13.08.2010, 09:56:48
+	 * @deprecated
+	 */
+	private void process_oldDT() {
 		moRealityPerception_Output_old = new ArrayList<clsPair<clsSecondaryInformation,clsSecondaryInformationMesh>>();
 		for(clsSecondaryInformation oSec : moFocusedPerception_Input_old) {
 			
 			moRealityPerception_Output_old.add( new clsPair<clsSecondaryInformation, clsSecondaryInformationMesh>(oSec, null));
 			
 		}
-		
 	}
 
 	/* (non-Javadoc)

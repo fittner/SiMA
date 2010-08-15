@@ -41,6 +41,7 @@ import pa.loader.plan.clsPlanAction;
 import pa.memory.clsMemory;
 import pa.memorymgmt.clsKnowledgeBaseHandlerFactory;
 import pa.memorymgmt.datatypes.clsAssociationDriveMesh;
+import pa.memorymgmt.datatypes.clsDriveMesh;
 import pa.memorymgmt.datatypes.clsPrimaryDataStructureContainer;
 import pa.memorymgmt.datatypes.clsSecondaryDataStructureContainer;
 import pa.symbolization.representationsymbol.itfSymbol;
@@ -158,12 +159,12 @@ public class G00_PsychicApparatus extends clsModuleContainer implements
 		String pre = clsBWProperties.addDot(poPrefix);
 	
 		moMemory = new clsMemory(pre+P_MEMORY, poProp);
-		moKnowledgeBase = clsKnowledgeBaseHandlerFactory.createInformationRepresentationManagement("ARSI10_MGMT", pre+P_INFORMATIONREPRESENTATIONMGMT, poProp);
+		moKnowledgeBaseHandler = clsKnowledgeBaseHandlerFactory.createInformationRepresentationManagement("ARSI10_MGMT", pre+P_INFORMATIONREPRESENTATIONMGMT, poProp);
 		
-		moG01Body = new G01_Body(pre+P_G01, poProp, this, moInterfaceHandler, moMemory, moKnowledgeBase);
-		moG02Id = new G02_Id(pre+P_G02, poProp, this, moInterfaceHandler, moMemory, moKnowledgeBase);
-		moG03Ego = new G03_Ego(pre+P_G03, poProp, this, moInterfaceHandler, moMemory, moKnowledgeBase);
-		moG04SuperEgo = new G04_SuperEgo(pre+P_G04, poProp, this, moInterfaceHandler, moMemory, moKnowledgeBase);
+		moG01Body = new G01_Body(pre+P_G01, poProp, this, moInterfaceHandler, moMemory, moKnowledgeBaseHandler);
+		moG02Id = new G02_Id(pre+P_G02, poProp, this, moInterfaceHandler, moMemory, moKnowledgeBaseHandler);
+		moG03Ego = new G03_Ego(pre+P_G03, poProp, this, moInterfaceHandler, moMemory, moKnowledgeBaseHandler);
+		moG04SuperEgo = new G04_SuperEgo(pre+P_G04, poProp, this, moInterfaceHandler, moMemory, moKnowledgeBaseHandler);
 
 	}
 	
@@ -293,7 +294,7 @@ public class G00_PsychicApparatus extends clsModuleContainer implements
 	 */
 	@Override
 	public void receive_I1_5(List<clsPrimaryInformation> poData_old,
-			  List<clsPrimaryDataStructureContainer> poData) {
+							 List<clsDriveMesh> poData) {
 		moG03Ego.receive_I1_5(poData_old, poData);
 		moG04SuperEgo.receive_I1_5(poData_old, poData);
 		
@@ -426,7 +427,7 @@ public class G00_PsychicApparatus extends clsModuleContainer implements
 	 * @see pa.interfaces.I1_7#receive_I1_7(int)
 	 */
 	@Override
-	public void receive_I1_7(ArrayList<clsSecondaryInformation> poDriveList_old, ArrayList<clsSecondaryDataStructureContainer> poDriveList) {
+	public void receive_I1_7(ArrayList<clsSecondaryInformation> poDriveList_old, ArrayList<clsPair<clsSecondaryDataStructureContainer, clsDriveMesh>> poDriveList) {
 		moG04SuperEgo.receive_I1_7(poDriveList_old, poDriveList);
 	}
 

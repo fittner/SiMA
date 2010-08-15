@@ -10,7 +10,7 @@ import java.util.ArrayList;
 
 import pa.datatypes.clsPrimaryInformation;
 import pa.interfaces.I_BaseInterface;
-import pa.memorymgmt.datatypes.clsPrimaryDataStructureContainer;
+import pa.memorymgmt.datatypes.clsDriveMesh;
 
 /**
  * DOCUMENT (deutsch) - insert description 
@@ -21,5 +21,5 @@ import pa.memorymgmt.datatypes.clsPrimaryDataStructureContainer;
  */
 public interface I1_6_receive extends I_BaseInterface {
 	public void receive_I1_6(ArrayList<clsPrimaryInformation> poDriveList_old,
-			  ArrayList<clsPrimaryDataStructureContainer> poDriveList);
+			  ArrayList<clsDriveMesh> poDriveList);
 }

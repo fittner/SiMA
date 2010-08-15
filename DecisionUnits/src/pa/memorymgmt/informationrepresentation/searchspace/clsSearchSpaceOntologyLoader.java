@@ -102,7 +102,8 @@ public class clsSearchSpaceOntologyLoader extends clsSearchSpaceBase{
 		clsDataStructurePA oElementB = ((clsAssociation)poAssociation).moAssociationElementB;
 		
 		moSearchSpaceContent.get(oElementA.moDataStructureType).get(oElementA).add((clsAssociation)poAssociation);
-		moSearchSpaceContent.get(oElementB.moDataStructureType).get(oElementB).add((clsAssociation)poAssociation);	}
+		moSearchSpaceContent.get(oElementB.moDataStructureType).get(oElementB).add((clsAssociation)poAssociation);	
+	}
 
 	/* (non-Javadoc)
 	 *

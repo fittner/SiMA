@@ -26,6 +26,7 @@ import pa.interfaces.receive.I7_6_receive;
 import pa.loader.plan.clsPlanAction;
 import pa.memory.clsMemory;
 import pa.memorymgmt.clsKnowledgeBaseHandler;
+import pa.memorymgmt.datatypes.clsDriveMesh;
 import pa.memorymgmt.datatypes.clsSecondaryDataStructureContainer;
 import pa.tools.clsPair;
 import config.clsBWProperties;
@@ -121,7 +122,7 @@ public class G15_Deliberation extends clsModuleContainer implements
 	 */
 	@Override
 	public void receive_I1_7(ArrayList<clsSecondaryInformation> poDriveList_old,
-			  ArrayList<clsSecondaryDataStructureContainer> poDriveList) {
+							 ArrayList<clsPair<clsSecondaryDataStructureContainer, clsDriveMesh>> poDriveList) {
 		moE26DecisionMaking.receive_I1_7(poDriveList_old, poDriveList);
 	}
 

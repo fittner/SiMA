@@ -6,11 +6,17 @@
  */
 package pa.modules;
 
+import java.util.ArrayList;
+
 import config.clsBWProperties;
 import pa.clsInterfaceHandler;
+import pa.interfaces.knowledgebase.itfKnowledgeBaseAccess;
 import pa.interfaces.receive.I6_2_receive;
 import pa.interfaces.receive.I7_2_receive;
 import pa.interfaces.send.I6_2_send;
+import pa.memorymgmt.datatypes.clsDataStructureContainer;
+import pa.memorymgmt.datatypes.clsDataStructurePA;
+import pa.tools.clsPair;
 
 /**
  * DOCUMENT (deutsch) - insert description 
@@ -19,7 +25,7 @@ import pa.interfaces.send.I6_2_send;
  * 11.08.2009, 14:56:22
  * 
  */
-public class E28_KnowledgeBase_StoredScenarios extends clsModuleBase implements I7_2_receive, I6_2_send {
+public class E28_KnowledgeBase_StoredScenarios extends clsModuleBase implements I7_2_receive, I6_2_send, itfKnowledgeBaseAccess {
 
 	/**
 	 * DOCUMENT (deutsch) - insert description 
@@ -155,6 +161,19 @@ public class E28_KnowledgeBase_StoredScenarios extends clsModuleBase implements 
 	protected void process_final() {
 		// TODO (deutsch) - Auto-generated method stub
 		throw new java.lang.NoSuchMethodError();
+	}
+
+	/* (non-Javadoc)
+	 *
+	 * @author zeilinger
+	 * 12.08.2010, 21:11:20
+	 * 
+	 * @see pa.interfaces.knowledgebase.itfKnowledgeBaseAccess#accessKnowledgeBase(java.util.ArrayList)
+	 */
+	@Override
+	public ArrayList<ArrayList<clsPair<Double, clsDataStructureContainer>>> accessKnowledgeBase(
+			ArrayList<clsPair<Integer, clsDataStructurePA>> poSearchPatternContainer) {
+		return moEnclosingContainer.moKnowledgeBaseHandler.initMemorySearch(poSearchPatternContainer);
 	}
 
 }

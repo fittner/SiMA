@@ -115,8 +115,20 @@ public class E18_GenerationOfAffectsForPerception extends clsModuleBase implemen
 	 */
 	@Override
 	protected void process_basic() {
-		defineOutput(); 
+		process_oldDT();
 		//moMergedPrimaryInformation_Output = moMergedPrimaryInformation_Input; 
+	}
+	
+	/**
+	 * DOCUMENT (zeilinger) - insert description
+	 * This method is used while adapting the model from the old datatypes (pa.datatypes) to the
+	 * new ones (pa.memorymgmt.datatypes) The method has to be deleted afterwards.
+	 * @author zeilinger
+	 * 13.08.2010, 09:56:48
+	 * @deprecated
+	 */
+	private void process_oldDT() {
+		defineOutput(); 	
 	}
 	
 	/**

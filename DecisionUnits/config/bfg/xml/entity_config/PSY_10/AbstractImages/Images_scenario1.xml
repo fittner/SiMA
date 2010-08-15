@@ -25,7 +25,7 @@
 			<leafEatable compare=">=" count="ONE">
 	        	<sensortype>EATABLE_AREA</sensortype>
                 <entitytype>BUBBLE</entitytype>
-			</leafEatable>
+			</leafEatable>ä
 		</TreeRoot>
     </AbstractImage>
 

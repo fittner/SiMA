@@ -15,10 +15,12 @@ package pa.memorymgmt.enums;
  */
 public enum eDataType {
 	ACT						(0x000001),
+	AFFECT					(0x000000),
 	ASSOCIATIONTEMP 		(0x000000),
 	ASSOCIATIONATTRIBUTE	(0x000000),
 	ASSOCIATIONWP			(0x000000),
 	ASSOCIATIONDM			(0x000000),
+	DRIVEDEMAND				(0x000000),
 	DM						(0x000010),
 	TI						(0x000100),
 	TP						(0x001000),

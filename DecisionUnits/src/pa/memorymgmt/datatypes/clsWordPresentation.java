@@ -17,7 +17,7 @@ import pa.tools.clsTripple;
  * 
  */
 public class clsWordPresentation extends clsSecondaryDataStructure{
-	Object moContent = null; 
+	public String moContent = null; 
 	/**
 	 * DOCUMENT (zeilinger) - insert description 
 	 * 
@@ -29,7 +29,7 @@ public class clsWordPresentation extends clsSecondaryDataStructure{
 	 */
 	public clsWordPresentation(clsTripple<String, eDataType, String> poDataStructureIdentifier, Object poContent) {
 		super(poDataStructureIdentifier);
-		moContent = poContent; 
+		moContent = (String)poContent; 
 	}
 
 	/* (non-Javadoc)

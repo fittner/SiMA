@@ -10,10 +10,14 @@ import java.util.ArrayList;
 
 import config.clsBWProperties;
 import pa.clsInterfaceHandler;
+import pa.interfaces.knowledgebase.itfKnowledgeBaseAccess;
 import pa.interfaces.receive.I7_3_receive;
 import pa.interfaces.receive.I7_5_receive;
 import pa.interfaces.send.I7_5_send;
 import pa.loader.plan.clsPlanAction;
+import pa.memorymgmt.datatypes.clsDataStructureContainer;
+import pa.memorymgmt.datatypes.clsDataStructurePA;
+import pa.tools.clsPair;
 
 /**
  * DOCUMENT (deutsch) - insert description 
@@ -22,7 +26,7 @@ import pa.loader.plan.clsPlanAction;
  * 27.04.2010, 10:38:16
  * 
  */
-public class E34_KnowledgeAboutReality2 extends clsModuleBase implements I7_3_receive, I7_5_send {
+public class E34_KnowledgeAboutReality2 extends clsModuleBase implements I7_3_receive, I7_5_send, itfKnowledgeBaseAccess {
 
 	/**
 	 * DOCUMENT (deutsch) - insert description 
@@ -157,6 +161,19 @@ public class E34_KnowledgeAboutReality2 extends clsModuleBase implements I7_3_re
 	protected void process_final() {
 		// TODO (deutsch) - Auto-generated method stub
 		throw new java.lang.NoSuchMethodError();
+	}
+
+	/* (non-Javadoc)
+	 *
+	 * @author zeilinger
+	 * 12.08.2010, 21:10:47
+	 * 
+	 * @see pa.interfaces.knowledgebase.itfKnowledgeBaseAccess#accessKnowledgeBase(java.util.ArrayList)
+	 */
+	@Override
+	public ArrayList<ArrayList<clsPair<Double, clsDataStructureContainer>>> accessKnowledgeBase(
+			ArrayList<clsPair<Integer, clsDataStructurePA>> poSearchPatternContainer) {
+		return moEnclosingContainer.moKnowledgeBaseHandler.initMemorySearch(poSearchPatternContainer);
 	}
 
 }

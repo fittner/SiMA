@@ -10,8 +10,8 @@ import java.util.ArrayList;
 
 import pa.datatypes.clsAffectCandidate;
 import pa.datatypes.clsPrimaryInformationMesh;
-import pa.memorymgmt.datatypes.clsAssociationDriveMesh;
-import pa.memorymgmt.datatypes.clsThingPresentationMesh;
+import pa.memorymgmt.datatypes.clsDriveDemand;
+import pa.memorymgmt.datatypes.clsDriveMesh;
 import pa.tools.clsPair;
 
 /**
@@ -23,5 +23,5 @@ import pa.tools.clsPair;
  */
 public interface I1_3_send {
 	public void send_I1_3(ArrayList<clsPair<clsPair<clsPrimaryInformationMesh, clsAffectCandidate>, clsPair<clsPrimaryInformationMesh, clsAffectCandidate>>> poDriveCandidate_old,
-						 ArrayList<clsPair<clsPair<clsThingPresentationMesh, clsAssociationDriveMesh>, clsPair<clsThingPresentationMesh, clsAssociationDriveMesh>>> poDriveCandidate);
+			ArrayList<clsPair<clsPair<clsDriveMesh, clsDriveDemand>, clsPair<clsDriveMesh, clsDriveDemand>>> poDriveCandidate);
 }

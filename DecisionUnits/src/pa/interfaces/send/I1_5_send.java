@@ -9,7 +9,7 @@ package pa.interfaces.send;
 import java.util.List;
 
 import pa.datatypes.clsPrimaryInformation;
-import pa.memorymgmt.datatypes.clsPrimaryDataStructureContainer;
+import pa.memorymgmt.datatypes.clsDriveMesh;
 
 /**
  * DOCUMENT (deutsch) - insert description 
@@ -20,5 +20,5 @@ import pa.memorymgmt.datatypes.clsPrimaryDataStructureContainer;
  */
 public interface I1_5_send {
 	public void send_I1_5(List<clsPrimaryInformation> poData_old,
-						  List<clsPrimaryDataStructureContainer> poData);
+						  List<clsDriveMesh> poData);
 }

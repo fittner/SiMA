@@ -24,6 +24,7 @@ import pa.interfaces.send.I1_6_send;
 import pa.interfaces.send.I4_1_send;
 import pa.interfaces.send.I5_1_send;
 import pa.memorymgmt.datatypes.clsAssociationDriveMesh;
+import pa.memorymgmt.datatypes.clsDriveMesh;
 import pa.memorymgmt.datatypes.clsPrimaryDataStructureContainer;
 import config.clsBWProperties;
 
@@ -35,8 +36,8 @@ import config.clsBWProperties;
  * 
  */
 public class E06_DefenseMechanismsForDriveContents extends clsModuleBase implements I1_5_receive, I3_1_receive, I4_3_receive, I6_3_receive, I1_6_send, I4_1_send, I5_1_send {
-	ArrayList<clsPrimaryDataStructureContainer> moDriveList_Input;
-	ArrayList<clsPrimaryDataStructureContainer> moDriveList_Output;
+	ArrayList<clsDriveMesh> moDriveList_Input;
+	ArrayList<clsDriveMesh> moDriveList_Output;
 	ArrayList<clsPrimaryDataStructureContainer> moRepressedRetry_Input;
 	
 	ArrayList<clsPrimaryInformation> moRepressedRetry_Input_old; 
@@ -115,9 +116,9 @@ public class E06_DefenseMechanismsForDriveContents extends clsModuleBase impleme
 	 */
 	@SuppressWarnings("unchecked")
 	@Override
-	public void receive_I1_5(List<clsPrimaryInformation> poData_old, List<clsPrimaryDataStructureContainer> poData) {
+	public void receive_I1_5(List<clsPrimaryInformation> poData_old, List<clsDriveMesh> poData) {
 		moDriveList_Input_old = (ArrayList<clsPrimaryInformation>)deepCopy( (ArrayList<clsPrimaryInformation>)poData_old);
-		moDriveList_Input = (ArrayList<clsPrimaryDataStructureContainer>)deepCopy( (ArrayList<clsPrimaryDataStructureContainer>)poData);
+		moDriveList_Input = (ArrayList<clsDriveMesh>)deepCopy( (ArrayList<clsDriveMesh>)poData);
 	}
 
 	/* Input from Super-Ego = E7
@@ -169,8 +170,22 @@ public class E06_DefenseMechanismsForDriveContents extends clsModuleBase impleme
 	 */
 	@Override
 	protected void process_basic() {
+		//TODO HZ: Up to now the driveList is passed through (deepCopy is called in the next module); 
+		//The interfaces send_I4_1 and send_I5_1 are filled with empty Lists. 
+		 moDriveList_Output = moDriveList_Input; 
+		 process_oldDT();
+	}
+	
+	/**
+	 * DOCUMENT (zeilinger) - insert description
+	 * This method is used while adapting the model from the old datatypes (pa.datatypes) to the
+	 * new ones (pa.memorymgmt.datatypes) The method has to be deleted afterwards.
+	 * @author zeilinger
+	 * 13.08.2010, 09:56:48
+	 * @deprecated
+	 */
+	private void process_oldDT() {
 		moDriveList_Output_old = moDriveList_Input_old; //pass everything through (deepCopy is called in the next module)
-		moDriveList_Output = moDriveList_Input; 
 	}
 
 	/* (non-Javadoc)
@@ -200,7 +215,7 @@ public class E06_DefenseMechanismsForDriveContents extends clsModuleBase impleme
 	 * @see pa.interfaces.send.I1_6_send#send_I1_6(java.util.ArrayList)
 	 */
 	@Override
-	public void send_I1_6(ArrayList<clsPrimaryInformation> poDriveList_old, ArrayList<clsPrimaryDataStructureContainer> poDriveList) {
+	public void send_I1_6(ArrayList<clsPrimaryInformation> poDriveList_old, ArrayList<clsDriveMesh> poDriveList) {
 		((I1_6_receive)moEnclosingContainer).receive_I1_6(moDriveList_Output_old, moDriveList_Output);
 	}
 
