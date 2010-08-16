@@ -16,6 +16,7 @@ import pa.interfaces.receive.I7_2_receive;
 import pa.interfaces.send.I6_2_send;
 import pa.memorymgmt.datatypes.clsDataStructureContainer;
 import pa.memorymgmt.datatypes.clsDataStructurePA;
+import pa.memorymgmt.enums.eDataType;
 import pa.tools.clsPair;
 
 /**
@@ -171,9 +172,22 @@ public class E28_KnowledgeBase_StoredScenarios extends clsModuleBase implements 
 	 * @see pa.interfaces.knowledgebase.itfKnowledgeBaseAccess#accessKnowledgeBase(java.util.ArrayList)
 	 */
 	@Override
-	public ArrayList<ArrayList<clsPair<Double, clsDataStructureContainer>>> accessKnowledgeBase(
-			ArrayList<clsPair<Integer, clsDataStructurePA>> poSearchPatternContainer) {
-		return moEnclosingContainer.moKnowledgeBaseHandler.initMemorySearch(poSearchPatternContainer);
+	public ArrayList<ArrayList<clsPair<Double, clsDataStructureContainer>>> accessKnowledgeBase() {
+		return moEnclosingContainer.moKnowledgeBaseHandler.initMemorySearch(moSearchPattern);
+	}
+
+	/* (non-Javadoc)
+	 *
+	 * @author zeilinger
+	 * 16.08.2010, 10:16:09
+	 * 
+	 * @see pa.interfaces.knowledgebase.itfKnowledgeBaseAccess#addToSearchPattern(pa.memorymgmt.enums.eDataType, pa.memorymgmt.datatypes.clsDataStructurePA)
+	 */
+	@Override
+	public void addToSearchPattern(eDataType oReturnType,
+			clsDataStructurePA poSearchPattern) {
+		// TODO (zeilinger) - Auto-generated method stub
+		
 	}
 
 }

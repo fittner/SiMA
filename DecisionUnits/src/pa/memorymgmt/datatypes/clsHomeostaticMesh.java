@@ -20,7 +20,8 @@ import pa.tools.clsTripple;
  */
 public class clsHomeostaticMesh extends clsHomeostaticRepresentation{
 	clsDriveDemand moDriveDemand = null;
-	ArrayList<clsAssociation> moContent = null; 
+	String moContent = "UNDEFINED";
+	ArrayList<clsAssociation> moAssociatedContent = null; 
 	/**
 	 * DOCUMENT (zeilinger) - insert description 
 	 * 
@@ -34,7 +35,7 @@ public class clsHomeostaticMesh extends clsHomeostaticRepresentation{
 		super(poDataStructureIdentifier);
 		
 		moDriveDemand = new clsDriveDemand(null,pnDriveDemandIntensity); 
-		moContent = poAssociatedDriveSource;
+		moAssociatedContent = poAssociatedDriveSource;
 		//FIXME HZ Is clsDrieDemand required? 
 		//moDriveDemand = new clsDriveDemand(pnDriveDemandIntensity, null, null); 
 	}
@@ -56,13 +57,13 @@ public class clsHomeostaticMesh extends clsHomeostaticRepresentation{
         try {
         	clsHomeostaticMesh oClone = (clsHomeostaticMesh)super.clone();
         	
-        	if (moContent != null) {
-        		oClone.moContent = new ArrayList<clsAssociation>(); 
+        	if (moAssociatedContent != null) {
+        		oClone.moAssociatedContent = new ArrayList<clsAssociation>(); 
         		
-        		for(clsAssociation oAssociation : moContent){
+        		for(clsAssociation oAssociation : moAssociatedContent){
         			try { 
     					Object dupl = oAssociation.clone(this, oClone); 
-    					oClone.moContent.add((clsAssociation)dupl); // unchecked warning
+    					oClone.moAssociatedContent.add((clsAssociation)dupl); // unchecked warning
     				} catch (Exception e) {
     					return e;
     				}

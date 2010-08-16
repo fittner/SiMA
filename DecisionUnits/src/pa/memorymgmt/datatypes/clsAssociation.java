@@ -7,6 +7,7 @@
 package pa.memorymgmt.datatypes;
 
 import java.lang.reflect.Method;
+import java.util.NoSuchElementException;
 
 import pa.memorymgmt.enums.eDataType;
 import pa.tools.clsTripple;
@@ -39,6 +40,12 @@ public abstract class clsAssociation extends clsDataStructurePA{
 		mrWeight = 1.0; 
 		moAssociationElementA = poAssociationElementA; 
 		moAssociationElementB = poAssociationElementB; 
+	}
+	
+	public clsDataStructurePA getLeafElement(clsDataStructurePA poRootElement){
+		if(poRootElement.moDataStructureID.equals(moAssociationElementA.moDataStructureID)){return moAssociationElementB;}
+		else if(poRootElement.moDataStructureID.equals(moAssociationElementB.moDataStructureID)){return moAssociationElementA;}
+		else{throw new NoSuchElementException("element not found in association");}
 	}
 	
 	@Override

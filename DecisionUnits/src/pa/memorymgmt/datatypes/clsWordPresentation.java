@@ -17,7 +17,8 @@ import pa.tools.clsTripple;
  * 
  */
 public class clsWordPresentation extends clsSecondaryDataStructure{
-	public String moContent = null; 
+	
+	public String moContent = "UNDEFINED"; 
 	/**
 	 * DOCUMENT (zeilinger) - insert description 
 	 * 

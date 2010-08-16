@@ -1,4 +1,4 @@
-; Sun Aug 15 17:17:30 CEST 2010
+; Mon Aug 16 12:47:11 CEST 2010
 ; 
 ;+ (version "3.4.4")
 ;+ (build "Build 579")
@@ -291,7 +291,7 @@
 
 	(element
 		[AFFECT%3AVERY_LOW]
-		[WP%3AVERY_LOW])
+		[WP%3AVERYLOW])
 	(weight 1.0 1.0))
 
 ([before] of  LogicRelations
@@ -729,12 +729,12 @@
 	(value "MEDIUM")
 	(value_type "WP"))
 
-([WP%3AVERY_LOW] of  WP
-
-	(value "VERY_LOW")
-	(value_type "WP"))
-
 ([WP%3AVERYHIGH] of  WP
 
 	(value "VERYHIGH")
+	(value_type "WP"))
+
+([WP%3AVERYLOW] of  WP
+
+	(value "VERYLOW")
 	(value_type "WP"))

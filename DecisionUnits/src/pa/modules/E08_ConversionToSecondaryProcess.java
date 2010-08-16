@@ -142,8 +142,9 @@ public class E08_ConversionToSecondaryProcess extends clsModuleBase implements I
 	 * @return
 	 */
 	private clsSecondaryDataStructureContainer getSecondaryCounterpart(clsDriveMesh oDriveMesh) {
+		//HZ 16.08.2010: Important! Before a search is initialized, the moSearchPattern ArrayLsit has to be cleaned. 
 		moSearchPattern.clear(); 
-		for(clsAssociation oAssociation : oDriveMesh.moContent){
+		for(clsAssociation oAssociation : oDriveMesh.moAssociatedContent){
 			//HZ: It will be searched for the drive context that is stored as TP in 
 			//the associations that define oDriveMesh => Element A is always the root
 			//element oDriveMesh, while element B is the associated context. 
@@ -151,7 +152,7 @@ public class E08_ConversionToSecondaryProcess extends clsModuleBase implements I
 		}
 		addToSearchPattern(eDataType.WP, clsDataStructureGenerator.generateDataStructure(eDataType.AFFECT, 
 												new clsPair<String, Object>(eDataType.AFFECT.toString(), oDriveMesh.getPleasure())));
-		ArrayList<ArrayList<clsPair<Double, clsDataStructureContainer>>> oSearchResult = accessKnowledgeBase(moSearchPattern);
+		ArrayList<ArrayList<clsPair<Double, clsDataStructureContainer>>> oSearchResult = accessKnowledgeBase();
 		return defineDriveContainer(oSearchResult);
 	}
 
@@ -172,12 +173,7 @@ public class E08_ConversionToSecondaryProcess extends clsModuleBase implements I
 			//HZ: 15.08.2010 Actually the first element is taken out of the list. 
 			clsDataStructureContainer oSelectedMatch = oEntry.get(0).b; 
 			for(clsAssociation oAssociation : oSelectedMatch.moAssociatedDataStructures){
-				if(oAssociation.moAssociationElementA.moDataStructureID != oSelectedMatch.moDataStructure.moDataStructureID){
-					oWordPresentationContent += " " + ((clsWordPresentation)oAssociation.moAssociationElementA).moContent + " "; 
-				}
-				if(oAssociation.moAssociationElementB.moDataStructureID != oSelectedMatch.moDataStructure.moDataStructureID){
-					oWordPresentationContent += " " + ((clsWordPresentation)oAssociation.moAssociationElementB).moContent + " "; 
-				}
+				oWordPresentationContent += " " + ((clsWordPresentation)oAssociation.getLeafElement(oSelectedMatch.moDataStructure)).moContent + " ";
 			}
 		}
 		oSecondaryCounterpart = (clsWordPresentation) clsDataStructureGenerator.generateDataStructure(eDataType.WP, 
@@ -195,8 +191,9 @@ public class E08_ConversionToSecondaryProcess extends clsModuleBase implements I
 	 * @param wp
 	 * @param oDriveMesh
 	 */
-	private void addToSearchPattern(eDataType oReturnType, clsDataStructurePA poSearchPattern) {
-		moSearchPattern.add(new clsPair<Integer, clsDataStructurePA>(oReturnType.nBinaryValue, poSearchPattern)); 
+	@Override
+	public void addToSearchPattern(eDataType poReturnType, clsDataStructurePA poSearchPattern) {
+		moSearchPattern.add(new clsPair<Integer, clsDataStructurePA>(poReturnType.nBinaryValue, poSearchPattern)); 
 	}
 
 	/**
@@ -291,8 +288,7 @@ public class E08_ConversionToSecondaryProcess extends clsModuleBase implements I
 	 * @see pa.interfaces.knowledgebase.itfKnowledgeBaseAccess#accessKnowledgeBase(java.util.ArrayList)
 	 */
 	@Override
-	public ArrayList<ArrayList<clsPair<Double, clsDataStructureContainer>>> accessKnowledgeBase(
-			ArrayList<clsPair<Integer, clsDataStructurePA>> poSearchPatternContainer) {
-		return moEnclosingContainer.moKnowledgeBaseHandler.initMemorySearch(poSearchPatternContainer);
+	public ArrayList<ArrayList<clsPair<Double, clsDataStructureContainer>>> accessKnowledgeBase() {
+		return moEnclosingContainer.moKnowledgeBaseHandler.initMemorySearch(moSearchPattern);
 	}
 }

@@ -20,6 +20,7 @@ import pa.memorymgmt.datatypes.clsDataStructureContainer;
 import pa.memorymgmt.datatypes.clsDataStructurePA;
 import pa.memorymgmt.datatypes.clsDriveMesh;
 import pa.memorymgmt.datatypes.clsSecondaryDataStructureContainer;
+import pa.memorymgmt.enums.eDataType;
 import pa.tools.clsPair;
 
 /**
@@ -191,7 +192,21 @@ public class E22_SuperEgo_preconscious extends clsModuleBase implements I1_7_rec
 	 * @see pa.interfaces.knowledgebase.itfKnowledgeBaseAccess#accessKnowledgeBase(java.util.ArrayList)
 	 */
 	@Override
-	public ArrayList<ArrayList<clsPair<Double, clsDataStructureContainer>>> accessKnowledgeBase(ArrayList<clsPair<Integer, clsDataStructurePA>> poSearchPatternContainer) {
-		return moEnclosingContainer.moKnowledgeBaseHandler.initMemorySearch(poSearchPatternContainer);
+	public ArrayList<ArrayList<clsPair<Double, clsDataStructureContainer>>> accessKnowledgeBase() {
+		return moEnclosingContainer.moKnowledgeBaseHandler.initMemorySearch(moSearchPattern);
+	}
+
+	/* (non-Javadoc)
+	 *
+	 * @author zeilinger
+	 * 16.08.2010, 10:15:54
+	 * 
+	 * @see pa.interfaces.knowledgebase.itfKnowledgeBaseAccess#addToSearchPattern(pa.memorymgmt.enums.eDataType, pa.memorymgmt.datatypes.clsDataStructurePA)
+	 */
+	@Override
+	public void addToSearchPattern(eDataType oReturnType,
+			clsDataStructurePA poSearchPattern) {
+		// TODO (zeilinger) - Auto-generated method stub
+		
 	}
 }

@@ -65,22 +65,22 @@ public class tssDataStructureClone {
 	
 		
 	public tssDataStructureClone(){
-		moThingPresentationMeshTPM1 = new clsThingPresentationMesh(new clsTripple<String, eDataType, String>("TPM:TEST1", eDataType.TPM,""), moAssociatedDataStructureListTPM1);
+		moThingPresentationMeshTPM1 = new clsThingPresentationMesh(new clsTripple<String, eDataType, String>("TPM:TEST1", eDataType.TPM,""), moAssociatedDataStructureListTPM1, "test1");
 		moAssociatedDataStructureListTPM1.add(new clsAssociationAttribute(new clsTripple<String, eDataType, String>(null, eDataType.ASSOCIATIONATTRIBUTE,null), moThingPresentationMeshTPM1, new clsThingPresentation(new clsTripple<String, eDataType, String>("shape:circle", eDataType.TP, "shape"), "circle")));
 		moAssociatedDataStructureListTPM1.add(new clsAssociationAttribute(new clsTripple<String, eDataType, String>(null, eDataType.ASSOCIATIONATTRIBUTE,null), moThingPresentationMeshTPM1, new clsThingPresentation(new clsTripple<String, eDataType, String>("color:red", eDataType.TP, "color"), "red")));
 		moAssociatedDataStructureListTPM1.add(new clsAssociationAttribute(new clsTripple<String, eDataType, String>(null, eDataType.ASSOCIATIONATTRIBUTE,null), moThingPresentationMeshTPM1, new clsThingPresentation(new clsTripple<String, eDataType, String>("taste:sweet", eDataType.TP, "taste"), "sweet")));
 				
-		moThingPresentationMeshTPM2 = new clsThingPresentationMesh(new clsTripple<String, eDataType, String>("TPM:TEST2", eDataType.TPM,""), moAssociatedDataStructureListTPM2);
+		moThingPresentationMeshTPM2 = new clsThingPresentationMesh(new clsTripple<String, eDataType, String>("TPM:TEST2", eDataType.TPM,""), moAssociatedDataStructureListTPM2, "test2");
 		moAssociatedDataStructureListTPM2.add(new clsAssociationAttribute(new clsTripple<String, eDataType, String>(null, eDataType.ASSOCIATIONATTRIBUTE,null), moThingPresentationMeshTPM2, new clsThingPresentation(new clsTripple<String, eDataType, String>("shape:rectangle", eDataType.TP, "shape"), "rectangle")));
 		moAssociatedDataStructureListTPM2.add(new clsAssociationAttribute(new clsTripple<String, eDataType, String>(null, eDataType.ASSOCIATIONATTRIBUTE,null), moThingPresentationMeshTPM2, new clsThingPresentation(new clsTripple<String, eDataType, String>("color:black", eDataType.TP, "color"), "black")));
 		moAssociatedDataStructureListTPM2.add(new clsAssociationAttribute(new clsTripple<String, eDataType, String>(null, eDataType.ASSOCIATIONATTRIBUTE,null), moThingPresentationMeshTPM2, new clsThingPresentation(new clsTripple<String, eDataType, String>("taste:sweet", eDataType.TP, "taste"), "sweet")));
 				
-		moThingPresentationMeshTPM3 = new clsThingPresentationMesh(new clsTripple<String, eDataType, String>("TPM:TEST3", eDataType.TPM,""), moAssociatedDataStructureListTPM3); 
+		moThingPresentationMeshTPM3 = new clsThingPresentationMesh(new clsTripple<String, eDataType, String>("TPM:TEST3", eDataType.TPM,""), moAssociatedDataStructureListTPM3, "test3"); 
 		moAssociatedDataStructureListTPM3.add(new clsAssociationAttribute(new clsTripple<String, eDataType, String>(null, eDataType.ASSOCIATIONATTRIBUTE,null), moThingPresentationMeshTPM3, new clsThingPresentation(new clsTripple<String, eDataType, String>("shape:circle", eDataType.TP, "shape"), "circle")));
 		moAssociatedDataStructureListTPM3.add(new clsAssociationAttribute(new clsTripple<String, eDataType, String>(null, eDataType.ASSOCIATIONATTRIBUTE,null), moThingPresentationMeshTPM3, new clsThingPresentation(new clsTripple<String, eDataType, String>("color:red", eDataType.TP, "color"), "red")));
 		moAssociatedDataStructureListTPM3.add(new clsAssociationAttribute(new clsTripple<String, eDataType, String>(null, eDataType.ASSOCIATIONATTRIBUTE,null), moThingPresentationMeshTPM3, moThingPresentationMeshTPM1));
 		
-		moTemplateImage = new clsTemplateImage(new clsTripple<String, eDataType, String>("TI:TEST1", eDataType.TI,""),  moAssociatedTemporalStructuresTI);
+		moTemplateImage = new clsTemplateImage(new clsTripple<String, eDataType, String>("TI:TEST1", eDataType.TI,""),  moAssociatedTemporalStructuresTI, "test4");
 		moAssociatedTemporalStructuresTI.add(new clsAssociationTime(new clsTripple<String, eDataType, String>(null, eDataType.ASSOCIATIONTEMP,null), moTemplateImage, moThingPresentationMeshTPM1)); 
 		moAssociatedTemporalStructuresTI.add(new clsAssociationTime(new clsTripple<String, eDataType, String>(null, eDataType.ASSOCIATIONTEMP,null), moTemplateImage, moThingPresentationMeshTPM2)); 
 		moAssociatedTemporalStructuresTI.add(new clsAssociationTime(new clsTripple<String, eDataType, String>(null, eDataType.ASSOCIATIONTEMP,null), moTemplateImage, moThingPresentationMeshTPM3));
@@ -113,10 +113,10 @@ public class tssDataStructureClone {
 		clsThingPresentationMesh oClone = (clsThingPresentationMesh)moThingPresentationMeshTPM3.clone();
 		
 		oClone.moDataStructureID = "test_change_ID"; 
-		oClone.moContent.remove(0); 
+		oClone.moAssociatedContent.remove(0); 
 		
 		if(!oClone.moDataStructureID.equals(moThingPresentationMeshTPM3.moDataStructureID) &&
-					oClone.moContent.size()== moThingPresentationMeshTPM3.moContent.size()-1){
+					oClone.moAssociatedContent.size()== moThingPresentationMeshTPM3.moAssociatedContent.size()-1){
 			assertTrue(true);
 		}
 	}
@@ -126,10 +126,10 @@ public class tssDataStructureClone {
 		clsTemplateImage oClone = (clsTemplateImage)moTemplateImage.clone();
 		
 		oClone.moDataStructureID = "test_change_ID"; 
-		oClone.moContent.remove(0); 
+		oClone.moAssociatedContent.remove(0); 
 		
 		if(!oClone.moDataStructureID.equals(moTemplateImage.moDataStructureID) &&
-					oClone.moContent.size()== moTemplateImage.moContent.size()-1){
+					oClone.moAssociatedContent.size()== moTemplateImage.moAssociatedContent.size()-1){
 			assertTrue(true);
 		}
 	}

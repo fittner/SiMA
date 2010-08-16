@@ -194,8 +194,9 @@ public class clsOntologyLoader {
 		eDataType oElementType = eDataType.WP; 
 		String oElementName = poElement.getName();
 		String oElementValueType = (String)poElement.getOwnSlotValue(poDataContainer.a.getSlot("value_type"));
+		String oElementValue = (String)poElement.getOwnSlotValue(poDataContainer.a.getSlot("value"));
 								
-		clsWordPresentation oDataStructure = new clsWordPresentation(new clsTripple<String, eDataType, String>(oElementName,oElementType,oElementValueType),oElementName);
+		clsWordPresentation oDataStructure = new clsWordPresentation(new clsTripple<String, eDataType, String>(oElementName,oElementType,oElementValueType),oElementValue);
 		//HZ Word Presentation does not obey of any associations
 		//TODO HZ: Define other attributes!! 
 		poDataContainer.b.get(oElementType).add(oDataStructure);
@@ -246,6 +247,7 @@ public class clsOntologyLoader {
 		eDataType oElementType = eDataType.DM;
 		String oElementName = poElement.getName(); 
 		String oElementValueType = (String)poElement.getOwnSlotValue(poDataContainer.a.getSlot("value_type"));
+		String oElementValue = (String)poElement.getOwnSlotValue(poDataContainer.a.getSlot("value"));
 		float rPleasure = ((Float)poElement.getOwnSlotValue(poDataContainer.a.getSlot("pleasure")));
 		float rDriveCathegoryAnal = ((Float)poElement.getOwnSlotValue(poDataContainer.a.getSlot("cathegory:anal")));
 		float rDriveCathegoryOral = (Float)poElement.getOwnSlotValue(poDataContainer.a.getSlot("cathegory:oral"));
@@ -253,7 +255,11 @@ public class clsOntologyLoader {
 		float rDriveCathegoryPhalic = (Float)poElement.getOwnSlotValue(poDataContainer.a.getSlot("cathegory:phalic"));
 		double [] oDriveCathegory = {rDriveCathegoryAnal, rDriveCathegoryOral, rDriveCathegoryGenital, rDriveCathegoryPhalic}; 
 				
-		clsDriveMesh oDataStructure = new clsDriveMesh(new clsTripple<String, eDataType, String>(oElementName,oElementType,oElementValueType),rPleasure,oDriveCathegory, new ArrayList<clsAssociation>());
+		clsDriveMesh oDataStructure = new clsDriveMesh(new clsTripple<String, eDataType, String>(oElementName,oElementType,oElementValueType),
+																								rPleasure,
+																								oDriveCathegory, 
+																								new ArrayList<clsAssociation>(), 
+																								oElementValue);
 		ArrayList <clsAssociation> oAssociationList = loadClassAssociations(poElement, oDataStructure, poDataContainer); 
 				
 		for(clsAssociation element : oAssociationList){
@@ -304,8 +310,11 @@ public class clsOntologyLoader {
 		eDataType oElementType = eDataType.TPM;
 		String oElementName = poElement.getName(); 
 		String oElementValueType = (String)poElement.getOwnSlotValue(poDataContainer.a.getSlot("value_type"));
-				
-		clsThingPresentationMesh oDataStructure = new clsThingPresentationMesh(new clsTripple<String, eDataType, String>(oElementName,oElementType,oElementValueType),new ArrayList<clsAssociation>());
+		String oElementValue = (String)poElement.getOwnSlotValue(poDataContainer.a.getSlot("value"));
+		
+		clsThingPresentationMesh oDataStructure = new clsThingPresentationMesh(new clsTripple<String, eDataType, String>(oElementName,oElementType,oElementValueType),
+																														 new ArrayList<clsAssociation>(),
+																														 oElementValue);
 		ArrayList <clsAssociation> oAssociationList = loadInstanceAssociations(poElement, oDataStructure, poDataContainer); 
 		oAssociationList.addAll(loadClassAssociations(poElement, oDataStructure, poDataContainer));
 		
@@ -435,7 +444,11 @@ public class clsOntologyLoader {
 		eDataType oElementType = eDataType.ACT;
 		String oElementName = poElement.getName(); 
 		String oElementValueType = (String)poElement.getOwnSlotValue(poDataContainer.a.getSlot("value_type"));
-		clsAct oDataStructure = new clsAct(new clsTripple<String, eDataType, String>(oElementName,oElementType,oElementValueType),new ArrayList<clsAssociation>());
+		String oElementValue = (String)poElement.getOwnSlotValue(poDataContainer.a.getSlot("value"));
+		
+		clsAct oDataStructure = new clsAct(new clsTripple<String, eDataType, String>(oElementName,oElementType,oElementValueType),
+																					 new ArrayList<clsAssociation>(), 
+																					 oElementValue);
     	ArrayList <clsAssociation> oAssociationList = loadInstanceAssociations(poElement, oDataStructure, poDataContainer);  
 				
 		for(clsAssociation element : oAssociationList){
@@ -459,7 +472,11 @@ public class clsOntologyLoader {
 		eDataType oElementType = eDataType.TI;
 		String oElementName = poElement.getName(); 
 		String oElementValueType = (String)poElement.getOwnSlotValue(poDataContainer.a.getSlot("value_type"));
-		clsTemplateImage oDataStructure = new clsTemplateImage(new clsTripple<String, eDataType, String>(oElementName,oElementType,oElementValueType),new ArrayList<clsAssociation>());
+		String oElementValue = (String)poElement.getOwnSlotValue(poDataContainer.a.getSlot("value"));
+		
+		clsTemplateImage oDataStructure = new clsTemplateImage(new clsTripple<String, eDataType, String>(oElementName,oElementType,oElementValueType),
+															   new ArrayList<clsAssociation>(), 
+															   oElementValue);
 		ArrayList <clsAssociation> oAssociationList = loadInstanceAssociations(poElement, oDataStructure, poDataContainer);  
 		
 		for(clsAssociation element : oAssociationList){

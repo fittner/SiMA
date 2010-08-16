@@ -17,7 +17,6 @@ import pa.tools.clsTripple;
  * 
  */
 public abstract class clsHomeostaticRepresentation extends clsPrimaryDataStructure{
-	protected eDataType moHomeostaticType; 
 	/**
 	 * DOCUMENT (zeilinger) - insert description 
 	 * 

@@ -13,7 +13,7 @@ import org.junit.Test;
 import pa.memorymgmt.datahandler.clsDataStructureGenerator;
 import pa.memorymgmt.datatypes.clsThingPresentation;
 import pa.memorymgmt.enums.eDataType;
-import pa.tools.clsPair;
+import pa.tools.clsTripple;
 
 
 /**
@@ -26,6 +26,6 @@ import pa.tools.clsPair;
 public class tssDataStructureCreator {
 	@Test
 	public void tssCreate(){
-		clsDataStructureGenerator.generateDataStructure(eDataType.DM, new clsPair<String, Object>("TEST", new ArrayList<clsThingPresentation>()));
+		clsDataStructureGenerator.generateDataStructure(eDataType.DM, new clsTripple<String, Object, Object>("TEST", new ArrayList<clsThingPresentation>(), "test1"));
 	}
 }

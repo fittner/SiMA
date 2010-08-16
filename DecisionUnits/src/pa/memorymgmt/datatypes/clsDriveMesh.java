@@ -19,7 +19,9 @@ import pa.tools.clsTripple;
  * 
  */
 public class clsDriveMesh extends clsHomeostaticRepresentation{
-	public ArrayList<clsAssociation> moContent = null; 
+	
+	public String moContent = "UNDEFINED";
+	public ArrayList<clsAssociation> moAssociatedContent = null; 
 	/**
 	 * DOCUMENT (zeilinger) - insert description 
 	 * 
@@ -36,9 +38,13 @@ public class clsDriveMesh extends clsHomeostaticRepresentation{
 	private double mrCathegoryOral = 0.0;
 	private double mrCathegoryPhalic = 0.0;
 	
-	public clsDriveMesh(clsTripple<String, eDataType, String> poDataStructureIdentifier, double prPleasure, double[] poDriveCathegories, ArrayList<clsAssociation> poAssociatedDriveSource) {
-		super(poDataStructureIdentifier); 
-		moContent = poAssociatedDriveSource;
+	public clsDriveMesh(clsTripple<String, eDataType, String> poDataStructureIdentifier, 
+												double prPleasure, double[] poDriveCathegories, 
+												ArrayList<clsAssociation> poAssociatedDriveSources,
+												String poContent) {
+		super(poDataStructureIdentifier);
+		setAssociations(poAssociatedDriveSources); 
+		setContent(poContent); 
 		mrPleasure = prPleasure; 
 		mrCathegoryAnal = poDriveCathegories[0]; 
 		mrCathegoryOral = poDriveCathegories[1]; 
@@ -46,6 +52,33 @@ public class clsDriveMesh extends clsHomeostaticRepresentation{
 		mrCathegoryPhalic = poDriveCathegories[3]; 
 	}
 	
+	/**
+	 * DOCUMENT (zeilinger) - insert description
+	 *
+	 * @author zeilinger
+	 * 16.08.2010, 22:15:00
+	 *
+	 * @param poContent
+	 */
+	private void setContent(String poContent) {
+		if(poContent!=null){
+			moContent = poContent; 
+		}
+	}
+
+	/**
+	 * DOCUMENT (zeilinger) - insert description
+	 *
+	 * @author zeilinger
+	 * 16.08.2010, 22:14:59
+	 *
+	 * @param poAssociatedDriveSources
+	 */
+	private void setAssociations(
+			ArrayList<clsAssociation> poAssociatedDriveSources) {
+		moAssociatedContent = poAssociatedDriveSources;
+	}
+
 	public double getPleasure(){
 		return mrPleasure; 
 	}
@@ -85,7 +118,7 @@ public class clsDriveMesh extends clsHomeostaticRepresentation{
 	public void setPhallic(double prPhallic){
 		mrCathegoryPhalic = prPhallic; 
 	}
-
+	
 	/* (non-Javadoc)
 	 *
 	 * @author zeilinger
@@ -111,8 +144,8 @@ public class clsDriveMesh extends clsHomeostaticRepresentation{
 	@Override
 	public double compareTo(clsDataStructurePA poDataStructure) {
 		clsDriveMesh oDataStructure = (clsDriveMesh)poDataStructure;
-		ArrayList <clsAssociation> oContentListTemplate = this.moContent; 
-		ArrayList <clsAssociation> oContentListUnknown = oDataStructure.moContent;
+		ArrayList <clsAssociation> oContentListTemplate = this.moAssociatedContent; 
+		ArrayList <clsAssociation> oContentListUnknown = oDataStructure.moAssociatedContent;
 		
 		//This if statement proofs if the compared datastructure does already have an ID =>
 		//the ID sepcifies that the data structure has been already compared with a stored
@@ -143,7 +176,7 @@ public class clsDriveMesh extends clsHomeostaticRepresentation{
 	 * @return
 	 */
 	private double getNumbAssociations() {
-		return moContent.size();
+		return moAssociatedContent.size();
 	}
 	
 	/**
@@ -156,20 +189,20 @@ public class clsDriveMesh extends clsHomeostaticRepresentation{
 	 */
 		
 	protected void applyAssociations(ArrayList<clsAssociation> poAssociatedDataStructures) {
-		moContent.addAll(poAssociatedDataStructures);  
+		moAssociatedContent.addAll(poAssociatedDataStructures);  
 	}
 	
 	@Override
 	public Object clone() throws CloneNotSupportedException {
         try {
         	clsDriveMesh oClone = (clsDriveMesh)super.clone();
-        	if (moContent != null) {
-        		oClone.moContent = new ArrayList<clsAssociation>(); 
+        	if (moAssociatedContent != null) {
+        		oClone.moAssociatedContent = new ArrayList<clsAssociation>(); 
         		
-        		for(clsAssociation oAssociation : moContent){
+        		for(clsAssociation oAssociation : moAssociatedContent){
         			try { 
     					Object dupl = oAssociation.clone(this, oClone); 
-    					oClone.moContent.add((clsAssociation)dupl); // unchecked warning
+    					oClone.moAssociatedContent.add((clsAssociation)dupl); // unchecked warning
     				} catch (Exception e) {
     					return e;
     				}
@@ -187,7 +220,7 @@ public class clsDriveMesh extends clsHomeostaticRepresentation{
 		String oResult = "::"+this.moDataStructureType+"::";  
 		if(this.moDataStructureID != null){oResult += this.moDataStructureID + ":";}
 			
-		for (clsAssociation oEntry : moContent) {
+		for (clsAssociation oEntry : moAssociatedContent) {
 			oResult += oEntry.toString() + ":"; 
 		}
 		oResult += " a: " + mrCathegoryAnal; 
@@ -198,4 +231,40 @@ public class clsDriveMesh extends clsHomeostaticRepresentation{
 		return oResult; 
 	}
 
+	/**
+	 * DOCUMENT (zeilinger) - insert description
+	 *
+	 * @author zeilinger
+	 * 16.08.2010, 21:10:20
+	 *
+	 * @param oDMInput
+	 * @return
+	 */
+	public double matchCathegories(clsDriveMesh poDMInput) {
+		double rRetVal = 1.0-(distance(poDMInput) / 4.0);
+		
+		return rRetVal;
+	}
+
+	/**
+	 * DOCUMENT (zeilinger) - insert description
+	 *
+	 * @author zeilinger
+	 * 16.08.2010, 21:11:10
+	 *
+	 * @param poDMInput
+	 * @return
+	 */
+	private double distance(clsDriveMesh poDMInput) {
+		double rResult = 0.0;
+		
+		double rDiOral = Math.abs(mrCathegoryOral - poDMInput.mrCathegoryOral);
+		double rDiAnal = Math.abs(mrCathegoryAnal - poDMInput.mrCathegoryAnal);
+		double rDiGenital = Math.abs(mrCathegoryGenital - poDMInput.mrCathegoryGenital);
+		double rDiPhallic = Math.abs(mrCathegoryPhalic - poDMInput.mrCathegoryPhalic);
+		
+		rResult = rDiOral+rDiAnal+rDiGenital+rDiPhallic;
+		
+		return rResult;
+	}
 }

@@ -60,7 +60,7 @@ public class clsAffect extends clsHomeostaticRepresentation{
 		//the ID sepcifies that the data structure has been already compared with a stored
 		//data structure and replaced by it. Hence they can be compared by their IDs.
 		if(oDataStructure.moDataStructureID!=null){
-			if(this.moDataStructureID.equals(oDataStructure.moDataStructureID)){
+			if(this.moDataStructureID.toLowerCase().equals(oDataStructure.moDataStructureID)){
 				/*In case the DataStructureIDs are equal, the return value is the number 
 				 * of associated data structures and their number of associations. The idendityMatch number
 				 * is not used here as it would distort the result.   

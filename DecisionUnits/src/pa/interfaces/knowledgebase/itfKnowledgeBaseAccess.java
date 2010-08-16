@@ -10,6 +10,7 @@ import java.util.ArrayList;
 
 import pa.memorymgmt.datatypes.clsDataStructureContainer;
 import pa.memorymgmt.datatypes.clsDataStructurePA;
+import pa.memorymgmt.enums.eDataType;
 import pa.tools.clsPair;
 
 /**
@@ -21,5 +22,6 @@ import pa.tools.clsPair;
  */
 public interface itfKnowledgeBaseAccess {
 	public ArrayList<clsPair<Integer, clsDataStructurePA>> moSearchPattern = new ArrayList<clsPair<Integer, clsDataStructurePA>>() ; 
-	public abstract ArrayList<ArrayList<clsPair<Double,clsDataStructureContainer>>> accessKnowledgeBase(ArrayList<clsPair<Integer,clsDataStructurePA>> poSearchPatternContainer);
+	public abstract ArrayList<ArrayList<clsPair<Double,clsDataStructureContainer>>> accessKnowledgeBase();
+	public abstract void addToSearchPattern(eDataType oReturnType, clsDataStructurePA poSearchPattern); 
 }

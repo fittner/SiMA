@@ -132,27 +132,27 @@ public class tssDataStructureComparisonTest {
 		oAssociatedDataStructureList1.add(new clsAssociationAttribute(new clsTripple<String, eDataType, String>(null, eDataType.ASSOCIATIONATTRIBUTE,""), oThingPresentationMesh1, new clsThingPresentation(new clsTripple<String, eDataType, String>(null, eDataType.TP, "shape"), "circle")));
 		oAssociatedDataStructureList1.add(new clsAssociationAttribute(new clsTripple<String, eDataType, String>(null, eDataType.ASSOCIATIONATTRIBUTE,""), oThingPresentationMesh1, new clsThingPresentation(new clsTripple<String, eDataType, String>("color:blue", eDataType.TP, "color"), "blue")));
 		oAssociatedDataStructureList1.add(new clsAssociationAttribute(new clsTripple<String, eDataType, String>(null, eDataType.ASSOCIATIONATTRIBUTE,""), oThingPresentationMesh1, new clsThingPresentation(new clsTripple<String, eDataType, String>(null, eDataType.TP, "taste"), "rodden")));
-		oThingPresentationMesh1 = new clsThingPresentationMesh(new clsTripple<String, eDataType, String>(null, eDataType.TPM,""), oAssociatedDataStructureList1); 
+		oThingPresentationMesh1 = new clsThingPresentationMesh(new clsTripple<String, eDataType, String>(null, eDataType.TPM,""), oAssociatedDataStructureList1, "test1"); 
 				
 		clsThingPresentationMesh oThingPresentationMesh2 = null; 
 		ArrayList<clsAssociation> oAssociatedDataStructureList2 = new ArrayList<clsAssociation>();
 		oAssociatedDataStructureList2.add(new clsAssociationAttribute(new clsTripple<String, eDataType, String>(null, eDataType.ASSOCIATIONATTRIBUTE,""), oThingPresentationMesh2, new clsThingPresentation(new clsTripple<String, eDataType, String>("shape:rectangle", eDataType.TP, "shape"), "rectangle")));
 		oAssociatedDataStructureList2.add(new clsAssociationAttribute(new clsTripple<String, eDataType, String>(null, eDataType.ASSOCIATIONATTRIBUTE,""), oThingPresentationMesh2, new clsThingPresentation(new clsTripple<String, eDataType, String>("color:black", eDataType.TP, "color"), "black")));
 		oAssociatedDataStructureList2.add(new clsAssociationAttribute(new clsTripple<String, eDataType, String>(null, eDataType.ASSOCIATIONATTRIBUTE,""), oThingPresentationMesh2, new clsThingPresentation(new clsTripple<String, eDataType, String>("taste:sweet", eDataType.TP, "taste"), "sweet")));
-		oThingPresentationMesh2 = new clsThingPresentationMesh(new clsTripple<String, eDataType, String>(null, eDataType.TPM,""), oAssociatedDataStructureList2); 
+		oThingPresentationMesh2 = new clsThingPresentationMesh(new clsTripple<String, eDataType, String>(null, eDataType.TPM,""), oAssociatedDataStructureList2, "test2"); 
 				
 		clsThingPresentationMesh oThingPresentationMesh3 = null; 
 		ArrayList<clsAssociation> oAssociatedDataStructureList3 = new ArrayList<clsAssociation>();
 		oAssociatedDataStructureList3.add(new clsAssociationAttribute(new clsTripple<String, eDataType, String>(null, eDataType.ASSOCIATIONATTRIBUTE,""), oThingPresentationMesh3, new clsThingPresentation(new clsTripple<String, eDataType, String>(null, eDataType.TP, "shape"), "circle")));
 		oAssociatedDataStructureList3.add(new clsAssociationAttribute(new clsTripple<String, eDataType, String>(null, eDataType.ASSOCIATIONATTRIBUTE,""), oThingPresentationMesh3, new clsThingPresentation(new clsTripple<String, eDataType, String>("color:red", eDataType.TP, "color"), "red")));
 		oAssociatedDataStructureList3.add(new clsAssociationAttribute(new clsTripple<String, eDataType, String>(null, eDataType.ASSOCIATIONATTRIBUTE,""), oThingPresentationMesh3, oThingPresentationMesh1));
-		oThingPresentationMesh3 = new clsThingPresentationMesh(new clsTripple<String, eDataType, String>(null, eDataType.TPM,""), oAssociatedDataStructureList3); 
+		oThingPresentationMesh3 = new clsThingPresentationMesh(new clsTripple<String, eDataType, String>(null, eDataType.TPM,""), oAssociatedDataStructureList3, "test3"); 
 		
 		oAssociatedTemporalStructures.add(new clsAssociationTime(new clsTripple<String, eDataType, String>(null, eDataType.ASSOCIATIONTEMP,""), oTemplateImage, oThingPresentationMesh1)); 
 		oAssociatedTemporalStructures.add(new clsAssociationTime(new clsTripple<String, eDataType, String>(null, eDataType.ASSOCIATIONTEMP,""), oTemplateImage, oThingPresentationMesh2)); 
 		oAssociatedTemporalStructures.add(new clsAssociationTime(new clsTripple<String, eDataType, String>(null, eDataType.ASSOCIATIONTEMP,""), oTemplateImage, oThingPresentationMesh3)); 
 		
-		oTemplateImage = new clsTemplateImage(new clsTripple<String, eDataType, String>(null, eDataType.TI,""), oAssociatedTemporalStructures); 
+		oTemplateImage = new clsTemplateImage(new clsTripple<String, eDataType, String>(null, eDataType.TI,""), oAssociatedTemporalStructures, "test4"); 
 		
 		return oTemplateImage;
 	}
@@ -178,13 +178,13 @@ public class tssDataStructureComparisonTest {
 		oAssociatedDataStructureList1.add(new clsAssociationAttribute(new clsTripple<String, eDataType, String>(null, eDataType.ASSOCIATIONATTRIBUTE,""), oThingPresentationMesh1, new clsThingPresentation(new clsTripple<String, eDataType, String>("shape:circle", eDataType.TP, "shape"), "circle")));
 		oAssociatedDataStructureList1.add(new clsAssociationAttribute(new clsTripple<String, eDataType, String>(null, eDataType.ASSOCIATIONATTRIBUTE,""), oThingPresentationMesh1, new clsThingPresentation(new clsTripple<String, eDataType, String>("color:red", eDataType.TP, "color"), "red")));
 		oAssociatedDataStructureList1.add(new clsAssociationAttribute(new clsTripple<String, eDataType, String>(null, eDataType.ASSOCIATIONATTRIBUTE,""), oThingPresentationMesh1, new clsThingPresentation(new clsTripple<String, eDataType, String>("taste:sweet", eDataType.TP, "taste"), "sweet")));
-		oThingPresentationMesh1 = new clsThingPresentationMesh(new clsTripple<String, eDataType, String>("TPM:TEST1", eDataType.TPM,""), oAssociatedDataStructureList1);
+		oThingPresentationMesh1 = new clsThingPresentationMesh(new clsTripple<String, eDataType, String>("TPM:TEST1", eDataType.TPM,""), oAssociatedDataStructureList1, "test5");
 	
 		oAssociatedDataStructureList.add(new clsAssociationAttribute(new clsTripple<String, eDataType, String>(null, eDataType.ASSOCIATIONATTRIBUTE,""), oThingPresentationMesh, oThingPresentationMesh1));
 
 		//TPM generation
 		oThingPresentationMesh =
-			new clsThingPresentationMesh(new clsTripple<String, eDataType, String>(null, eDataType.TPM,""), oAssociatedDataStructureList); 
+			new clsThingPresentationMesh(new clsTripple<String, eDataType, String>(null, eDataType.TPM,""), oAssociatedDataStructureList, "test6"); 
 		
 		return oThingPresentationMesh;
 	}

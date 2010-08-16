@@ -25,7 +25,7 @@ import pa.symbolization.representationsymbol.itfSymbol;
  * 
  * @author langr
  * 30.09.2009, 11:30:13
- * 
+ * @deprecated
  */
 public class clsTPGenerator {
 
@@ -80,7 +80,8 @@ public class clsTPGenerator {
 			clsPrimaryInformation oPrimSingle = new clsPrimaryInformation(new clsThingPresentationSingle());
 			
 			oPrimSingle.moTP.meContentName = removePrefix(oM.getName());
-			oPrimSingle.moTP.meContentType = oM.getClass().getName();		
+			oPrimSingle.moTP.meContentType = oM.getClass().getName();
+					
 			try {
 				oPrimSingle.moTP.moContent = oMethods[i].invoke(poDataObject,  new Object[0]);
 			} catch (IllegalArgumentException e) {

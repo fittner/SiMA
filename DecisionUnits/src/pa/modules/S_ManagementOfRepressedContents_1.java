@@ -18,9 +18,15 @@ import du.enums.pa.eContext;
 import pa.clsInterfaceHandler;
 import pa.datatypes.clsDriveContentCategories;
 import pa.datatypes.clsPrimaryInformation;
+import pa.interfaces.knowledgebase.itfKnowledgeBaseAccess;
 import pa.interfaces.receive.I2_5_receive;
 import pa.interfaces.receive.I2_6_receive;
+import pa.memorymgmt.datatypes.clsAssociation;
+import pa.memorymgmt.datatypes.clsDataStructureContainer;
+import pa.memorymgmt.datatypes.clsDataStructurePA;
+import pa.memorymgmt.datatypes.clsDriveMesh;
 import pa.memorymgmt.datatypes.clsPrimaryDataStructureContainer;
+import pa.memorymgmt.enums.eDataType;
 import pa.tools.clsPair;
 
 /**
@@ -30,7 +36,7 @@ import pa.tools.clsPair;
  * 07.10.2009, 11:16:58
  * 
  */
-public class S_ManagementOfRepressedContents_1 extends clsModuleBase implements I2_5_receive {
+public class S_ManagementOfRepressedContents_1 extends clsModuleBase implements I2_5_receive, itfKnowledgeBaseAccess {
 
 	public ArrayList<clsPrimaryInformation> moEnvironmentalTP_Input_old;
 	public ArrayList<clsPair<clsPrimaryInformation, clsPrimaryInformation>> moAttachedRepressed_Output_old;
@@ -75,6 +81,7 @@ public class S_ManagementOfRepressedContents_1 extends clsModuleBase implements 
 	@Override
 	public void receive_I2_5(ArrayList<clsPrimaryInformation> poEnvironmentalTP_old, ArrayList<clsPrimaryDataStructureContainer> poEnvironmentalTP) {
 		moEnvironmentalTP_Input_old = (ArrayList<clsPrimaryInformation>)deepCopy( poEnvironmentalTP_old );
+		moEnvironmentalTP_Input = (ArrayList<clsPrimaryDataStructureContainer>)deepCopy(poEnvironmentalTP); 
 	}
 
 	/* (non-Javadoc)
@@ -86,9 +93,127 @@ public class S_ManagementOfRepressedContents_1 extends clsModuleBase implements 
 	 */
 	@Override
 	protected void process_basic() {
+		//HZ 16.08.2010: this part is programmed to map the functionalities of ARSi09 to the new datastructure model. However, 
+		//it is for sure that the functionalities change in further model revisions. These changes include that 
+		//	- modules of E15 (in case it still exists) will presumably not obey of a memory access (this has to be
+		//	  included here in order to match ARSi09 functionalities)
+		//	- The cathegorization has to be done on the base of memories that are actually retrieved in E16. This will 
+		//	  be changed in the next model revision; 
+		//	- The current context has to be read out of a buffer (like a working memory) that has to be introduced. As some 
+		//	  model changes will turn up, the current implementation uses the old hack that bases on ARSi09 data structures. 
+		//    in the class clsRepressedContentStorage methods are introduced that return the context in terms of new 
+		//	  data structures. However, after the new functionalities are introduced, old and new data structures have to 
+		//    be clearly separated from each other and the use of clsRepressedContentStorage has to be avoided. 
 		
-		cathegorize( moEnvironmentalTP_Input_old );
-		moAttachedRepressed_Output_old = matchWithRepressedContent(moEnvironmentalTP_Input_old);
+ 		ArrayList<clsPrimaryDataStructureContainer> oContainer = assignDriveMeshes(); 
+		adaptCathegories(oContainer);
+		moAttachedRepressed_Output = matchRepressedContent(oContainer); 
+		
+		process_oldDT(); 
+	}
+	
+	/**
+	 * DOCUMENT (zeilinger) - insert description
+	 *
+	 * @author zeilinger
+	 * 16.08.2010, 09:55:48
+	 *
+	 * @return
+	 */
+	private ArrayList<clsPrimaryDataStructureContainer> assignDriveMeshes() {
+		ArrayList<clsPrimaryDataStructureContainer> oRetVal = new ArrayList<clsPrimaryDataStructureContainer>(); 
+		ArrayList<ArrayList<clsPair<Double, clsDataStructureContainer>>> oSearchResult; 
+		
+		moSearchPattern.clear(); 
+		for(clsPrimaryDataStructureContainer oContainer : moEnvironmentalTP_Input){
+			addToSearchPattern(eDataType.DM, oContainer.moDataStructure); 
+		}
+		
+		oSearchResult = accessKnowledgeBase(); 
+		for(ArrayList<clsPair<Double, clsDataStructureContainer>> oContainer : oSearchResult){
+			//HZ: 16.08.2010 Actually the first element is taken out of the list. 
+			oRetVal.add((clsPrimaryDataStructureContainer)oContainer.get(0).b); 
+		}
+		return oRetVal;
+	}
+	
+	/**
+	 * DOCUMENT (zeilinger) - insert description
+	 *
+	 * @author zeilinger
+	 * 16.08.2010, 15:09:42
+	 *
+	 * @param oContainer
+	 */
+	private void adaptCathegories(ArrayList<clsPrimaryDataStructureContainer> oContainerList) {
+		HashMap<clsPrimaryDataStructureContainer, clsMutableDouble> oContextResult = 
+							moEnclosingContainer.moMemory.moCurrentContextStorage.getContextRatiosPrimCONVERTED(mrContextSensitivity);
+		
+		for(clsPrimaryDataStructureContainer oContainer : oContainerList){
+			for( Map.Entry<clsPrimaryDataStructureContainer, clsMutableDouble> oContextPrim : oContextResult.entrySet() ) {
+				eContext oContext = eContext.valueOf(oContextPrim.getKey().moDataStructure.moContentType);
+				clsDataStructurePA oRootElement = oContainer.moDataStructure; 
+				ArrayList<clsAssociation> oAssociationList = oContainer.moAssociatedDataStructures;
+				
+				for(clsAssociation oAssociation : oAssociationList){
+					clsDriveMesh oDM = (clsDriveMesh)oAssociation.getLeafElement(oRootElement); 
+					
+					if(eContext.valueOf(oDM.moContentType).equals(oContext)){
+						setCathegories(oDM, oContextPrim.getValue().doubleValue()); 
+					}
+				}
+			}
+		}
+	}
+	
+	/**
+	 * DOCUMENT (zeilinger) - insert description
+	 *
+	 * @author zeilinger
+	 * 16.08.2010, 18:13:00
+	 *
+	 * @param oDM
+	 * @param doubleValue
+	 */
+	private void setCathegories(clsDriveMesh poDM, double prContextValue) {
+		poDM.setAnal(poDM.getAnal() * prContextValue); 
+		poDM.setGenital(poDM.getGenital() * prContextValue);
+		poDM.setOral(poDM.getOral() * prContextValue); 
+		poDM.setPhallic(poDM.getPhallic() * prContextValue);
+	}
+
+	/**
+	 * DOCUMENT (zeilinger) - insert description
+	 *
+	 * @author zeilinger
+	 * 16.08.2010, 17:15:39
+	 *
+	 * @param oContainer
+	 * @return
+	 */
+	private ArrayList<clsPair<clsPrimaryDataStructureContainer, clsPrimaryDataStructureContainer>> matchRepressedContent(
+			ArrayList<clsPrimaryDataStructureContainer> poCathegorizedInputContainer) {
+		
+		ArrayList<clsPair<clsPrimaryDataStructureContainer, clsPrimaryDataStructureContainer>> oRetVal = new ArrayList<clsPair<clsPrimaryDataStructureContainer,clsPrimaryDataStructureContainer>>();
+
+		for(clsPrimaryDataStructureContainer oInput : poCathegorizedInputContainer){
+				clsPrimaryDataStructureContainer oRep = moEnclosingContainer.moMemory.moRepressedContentsStore.getBestMatchCONVERTED(oInput);
+				oRetVal.add(new clsPair<clsPrimaryDataStructureContainer, clsPrimaryDataStructureContainer>(oInput, oRep));
+		}
+		return oRetVal;
+	}
+
+	/**
+	 * DOCUMENT (zeilinger) - insert description
+	 * This method is used while adapting the model from the old datatypes (pa.datatypes) to the
+	 * new ones (pa.memorymgmt.datatypes) The method has to be deleted afterwards.
+	 * @author zeilinger
+	 * 13.08.2010, 09:56:48
+	 * @deprecated
+	 */
+	private void process_oldDT() {
+		cathegorize_old( moEnvironmentalTP_Input_old );
+		moAttachedRepressed_Output_old = matchWithRepressedContent_old(moEnvironmentalTP_Input_old);
 	}
 
 	/**
@@ -99,8 +224,9 @@ public class S_ManagementOfRepressedContents_1 extends clsModuleBase implements 
 	 *
 	 * @param moEnvironmentalTP_Input2
 	 * @return
+	 * @deprecated
 	 */
-	private void cathegorize(
+	private void cathegorize_old(
 			ArrayList<clsPrimaryInformation> poEnvironmentalTP) {
 
 		HashMap<eEntityType, clsPrimaryInformation> oSemanticWeb = this.moEnclosingContainer.moMemory.moObjectSemanticsStorage.moObjectSemantics;
@@ -132,8 +258,9 @@ public class S_ManagementOfRepressedContents_1 extends clsModuleBase implements 
 	 *
 	 * @param poCategorizedInput
 	 * @return
+	 * @deprecated
 	 */
-	private ArrayList<clsPair<clsPrimaryInformation, clsPrimaryInformation>> matchWithRepressedContent(
+	private ArrayList<clsPair<clsPrimaryInformation, clsPrimaryInformation>> matchWithRepressedContent_old(
 			ArrayList<clsPrimaryInformation> poCategorizedInput) {
 		
 		ArrayList<clsPair<clsPrimaryInformation, clsPrimaryInformation>> oRetVal = new ArrayList<clsPair<clsPrimaryInformation,clsPrimaryInformation>>();
@@ -209,6 +336,33 @@ public class S_ManagementOfRepressedContents_1 extends clsModuleBase implements 
 	protected void process_final() {
 		// TODO (deutsch) - Auto-generated method stub
 		throw new java.lang.NoSuchMethodError();
+	}
+	
+	/**
+	 * DOCUMENT (zeilinger) - insert description
+	 *
+	 * @author zeilinger
+	 * 15.08.2010, 13:41:53
+	 *
+	 * @param wp
+	 * @param oDriveMesh
+	 */
+	@Override
+	public void addToSearchPattern(eDataType oReturnType, clsDataStructurePA poSearchPattern) {
+		moSearchPattern.add(new clsPair<Integer, clsDataStructurePA>(oReturnType.nBinaryValue, poSearchPattern)); 
+	}
+
+	/* (non-Javadoc)
+	 *
+	 * @author zeilinger
+	 * 16.08.2010, 10:11:28
+	 * 
+	 * @see pa.interfaces.knowledgebase.itfKnowledgeBaseAccess#accessKnowledgeBase(java.util.ArrayList)
+	 */
+	@Override
+	public ArrayList<ArrayList<clsPair<Double, clsDataStructureContainer>>> accessKnowledgeBase() {
+		
+		return moEnclosingContainer.moKnowledgeBaseHandler.initMemorySearch(moSearchPattern);
 	}
 
 }

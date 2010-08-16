@@ -17,7 +17,7 @@ import pa.tools.clsTripple;
  * 
  */
 public class clsDriveDemand extends clsHomeostaticRepresentation{
-	private double moContent; 
+	private double moContent = 0.0; 
 	
 	/**
 	 * DOCUMENT (zeilinger) - insert description 

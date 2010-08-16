@@ -23,6 +23,7 @@ import pa.interfaces.send.I2_7_send;
 import pa.memorymgmt.datatypes.clsDataStructureContainer;
 import pa.memorymgmt.datatypes.clsDataStructurePA;
 import pa.memorymgmt.datatypes.clsPrimaryDataStructureContainer;
+import pa.memorymgmt.enums.eDataType;
 import pa.tools.clsPair;
 import pa.tools.clsTripple;
 
@@ -269,8 +270,21 @@ public class E16_ManagementOfMemoryTraces extends clsModuleBase implements I2_6_
 	 * @see pa.interfaces.knowledgebase.itfKnowledgeBaseAccess#accessKnowledgeBase(java.util.ArrayList)
 	 */
 	@Override
-	public ArrayList<ArrayList<clsPair<Double, clsDataStructureContainer>>> accessKnowledgeBase(
-						ArrayList<clsPair<Integer, clsDataStructurePA>> poSearchPatternContainer) {
-		return moEnclosingContainer.moKnowledgeBaseHandler.initMemorySearch(poSearchPatternContainer);
+	public ArrayList<ArrayList<clsPair<Double, clsDataStructureContainer>>> accessKnowledgeBase() {
+		return moEnclosingContainer.moKnowledgeBaseHandler.initMemorySearch(moSearchPattern);
+	}
+
+	/* (non-Javadoc)
+	 *
+	 * @author zeilinger
+	 * 16.08.2010, 10:15:41
+	 * 
+	 * @see pa.interfaces.knowledgebase.itfKnowledgeBaseAccess#addToSearchPattern(pa.memorymgmt.enums.eDataType, pa.memorymgmt.datatypes.clsDataStructurePA)
+	 */
+	@Override
+	public void addToSearchPattern(eDataType oReturnType,
+			clsDataStructurePA poSearchPattern) {
+		// TODO (zeilinger) - Auto-generated method stub
+		
 	}
 }

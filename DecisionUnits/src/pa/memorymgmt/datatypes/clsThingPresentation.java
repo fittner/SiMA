@@ -55,7 +55,11 @@ public class clsThingPresentation extends clsPhysicalRepresentation{
 		//In case the data structure does not have an ID, it has to be compared to a stored 
 		//data structure and replaced by it (the processes base on information that is already
 		//defined
-			if(moContentType.equals(oDataStructure.moContentType)){
+		
+		//HZ 16.08.2010 Be careful - as their are upper-case and lower-case issues within the simulator 
+		//				and in between the simulator and the ontology regarding the current naming 
+		//				of SymbolTypes, the content types are compared without case sensitivity. 
+			if(moContentType.toLowerCase().equals(oDataStructure.moContentType.toLowerCase())){
 				if(this.moContent.equals(oDataStructure.moContent)){return 1;}
 			}
 		return 0;

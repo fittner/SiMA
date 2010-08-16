@@ -29,6 +29,7 @@ import pa.memorymgmt.datatypes.clsPrimaryDataStructureContainer;
  */
 public class S_ManagementOfRepressedContents_2 extends clsModuleBase implements I4_1_receive, I4_2_receive {
 	ArrayList<clsPrimaryInformation> moPrimaryInformation_old;
+	ArrayList<clsPrimaryDataStructureContainer> moPrimaryInformation; 
 	
 	/**
 	 * DOCUMENT (deutsch) - insert description 
@@ -46,6 +47,7 @@ public class S_ManagementOfRepressedContents_2 extends clsModuleBase implements 
 		applyProperties(poPrefix, poProp);	
 		
 		moPrimaryInformation_old = new ArrayList<clsPrimaryInformation>();
+		moPrimaryInformation = new ArrayList<clsPrimaryDataStructureContainer>(); 
 	}
 	
 	
@@ -83,6 +85,7 @@ public class S_ManagementOfRepressedContents_2 extends clsModuleBase implements 
 		}
 		
 		moPrimaryInformation_old.addAll((ArrayList<clsPrimaryInformation>) deepCopy((ArrayList<clsPrimaryInformation>) poPIs_old) );
+		moPrimaryInformation.addAll((ArrayList<clsPrimaryDataStructureContainer>)deepCopy((ArrayList<clsPrimaryDataStructureContainer>)poPIs));
 	}
 
 	/* (non-Javadoc)
@@ -96,7 +99,6 @@ public class S_ManagementOfRepressedContents_2 extends clsModuleBase implements 
 	public void receive_I4_2(ArrayList<clsPrimaryInformation> poPIs_old, ArrayList<clsThingPresentation> poTPs_old, ArrayList<clsAffectTension> poAffects_old,
 			  ArrayList<clsPrimaryDataStructureContainer> poPIs, ArrayList<pa.memorymgmt.datatypes.clsThingPresentation> poTPs, ArrayList<clsAssociationDriveMesh> poAffects) {
 		//mnTest += pnData;
-		
 	}
 
 	/* (non-Javadoc)
@@ -124,6 +126,7 @@ public class S_ManagementOfRepressedContents_2 extends clsModuleBase implements 
 		((I4_3_receive)moEnclosingContainer).receive_I4_3(new ArrayList<clsPrimaryInformation>(), new ArrayList<clsPrimaryDataStructureContainer>());
 		
 		moPrimaryInformation_old.clear();
+		moPrimaryInformation.clear(); 
 	}
 
 	/* (non-Javadoc)

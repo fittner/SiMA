@@ -65,13 +65,13 @@ Hashtable <eDataType, List<clsDataStructurePA>> oDataStructureTable = new Hashta
 		oDataStructureTable.put(eDataType.DM, new ArrayList<clsDataStructurePA>()); 
 		
 		ArrayList<clsAssociation> oDriveAssociation1 = new ArrayList<clsAssociation>();
-		clsDriveMesh oDriveMesh1 = new clsDriveMesh(new clsTripple<String, eDataType, String>("drive:angry", eDataType.DM,""),0.0,new double[]{0.0,0.0,0.0,0.0}, oDriveAssociation1); 
+		clsDriveMesh oDriveMesh1 = new clsDriveMesh(new clsTripple<String, eDataType, String>("drive:angry", eDataType.DM,""),0.0,new double[]{0.0,0.0,0.0,0.0}, oDriveAssociation1, "test1"); 
 		clsAssociationAttribute oAssociationAttribute10 = new clsAssociationAttribute(new clsTripple<String, eDataType, String>(null, eDataType.ASSOCIATIONATTRIBUTE,""), oDriveMesh1, oThingPresentation8);
 		oDriveAssociation1.add(oAssociationAttribute10);
 		oDataStructureTable.get(eDataType.DM).add(oDriveMesh1);
 		
 		ArrayList<clsAssociation> oDriveAssociation2 = new ArrayList<clsAssociation>();
-		clsDriveMesh oDriveMesh2 = new clsDriveMesh(new clsTripple<String, eDataType, String>("drive:hunger", eDataType.DM,""),0.0,new double[]{0.0,0.0,0.0,0.0}, oDriveAssociation2);
+		clsDriveMesh oDriveMesh2 = new clsDriveMesh(new clsTripple<String, eDataType, String>("drive:hunger", eDataType.DM,""),0.0,new double[]{0.0,0.0,0.0,0.0}, oDriveAssociation2, "test2");
 		clsAssociationAttribute oAssociationAttribute11 = new clsAssociationAttribute(new clsTripple<String, eDataType, String>(null, eDataType.ASSOCIATIONATTRIBUTE,""), oDriveMesh2, oThingPresentation7);
 		oDriveAssociation2.add(oAssociationAttribute11);
 		oDataStructureTable.get(eDataType.DM).add(oDriveMesh2);
@@ -81,7 +81,7 @@ Hashtable <eDataType, List<clsDataStructurePA>> oDataStructureTable = new Hashta
 		
 		clsThingPresentationMesh oThingPresentationMesh1 = null; 
 		ArrayList<clsAssociation> oAssociatedDataStructureList1 = new ArrayList<clsAssociation>();
-		oThingPresentationMesh1 = new clsThingPresentationMesh(new clsTripple<String, eDataType, String>("TPM:CAKE", eDataType.TPM,""), oAssociatedDataStructureList1); 
+		oThingPresentationMesh1 = new clsThingPresentationMesh(new clsTripple<String, eDataType, String>("TPM:CAKE", eDataType.TPM,""), oAssociatedDataStructureList1, "test3"); 
 		clsAssociationAttribute oAssociationAttribute1 = new clsAssociationAttribute(new clsTripple<String, eDataType, String>(null, eDataType.ASSOCIATIONATTRIBUTE,""), oThingPresentationMesh1, oThingPresentation5);
 		oAssociatedDataStructureList1.add(oAssociationAttribute1);
 		clsAssociationAttribute oAssociationAttribute2 = new clsAssociationAttribute(new clsTripple<String, eDataType, String>(null, eDataType.ASSOCIATIONATTRIBUTE,""), oThingPresentationMesh1, oThingPresentation3);
@@ -92,7 +92,7 @@ Hashtable <eDataType, List<clsDataStructurePA>> oDataStructureTable = new Hashta
 		
 		clsThingPresentationMesh oThingPresentationMesh2 = null; 
 		ArrayList<clsAssociation> oAssociatedDataStructureList2 = new ArrayList<clsAssociation>();
-		oThingPresentationMesh2 = new clsThingPresentationMesh(new clsTripple<String, eDataType, String>("TPM:BUBBLE", eDataType.TPM,""), oAssociatedDataStructureList2); 
+		oThingPresentationMesh2 = new clsThingPresentationMesh(new clsTripple<String, eDataType, String>("TPM:BUBBLE", eDataType.TPM,""), oAssociatedDataStructureList2, "test4"); 
 		clsAssociationAttribute oAssociationAttribute4 = new clsAssociationAttribute(new clsTripple<String, eDataType, String>(null, eDataType.ASSOCIATIONATTRIBUTE,""), oThingPresentationMesh2, oThingPresentation6); 
 		oAssociatedDataStructureList2.add(oAssociationAttribute4);
 		clsAssociationAttribute oAssociationAttribute5 = new clsAssociationAttribute(new clsTripple<String, eDataType, String>(null, eDataType.ASSOCIATIONATTRIBUTE,""), oThingPresentationMesh2, oThingPresentation2);
@@ -103,7 +103,7 @@ Hashtable <eDataType, List<clsDataStructurePA>> oDataStructureTable = new Hashta
 		
 		clsThingPresentationMesh oThingPresentationMesh3 = null; 
 		ArrayList<clsAssociation> oAssociatedDataStructureList3 = new ArrayList<clsAssociation>();
-		oThingPresentationMesh3 = new clsThingPresentationMesh(new clsTripple<String, eDataType, String>("TPM:TEST3", eDataType.TPM,""), oAssociatedDataStructureList3); 
+		oThingPresentationMesh3 = new clsThingPresentationMesh(new clsTripple<String, eDataType, String>("TPM:TEST3", eDataType.TPM,""), oAssociatedDataStructureList3, "test5"); 
 		clsAssociationAttribute oAssociationAttribute7 = new clsAssociationAttribute(new clsTripple<String, eDataType, String>(null, eDataType.ASSOCIATIONATTRIBUTE,""), oThingPresentationMesh3, oThingPresentation5);
 		oAssociatedDataStructureList3.add(oAssociationAttribute7);
 		clsAssociationAttribute oAssociationAttribute8 = new clsAssociationAttribute(new clsTripple<String, eDataType, String>(null, eDataType.ASSOCIATIONATTRIBUTE,""), oThingPresentationMesh3, oThingPresentation3);
@@ -117,7 +117,7 @@ Hashtable <eDataType, List<clsDataStructurePA>> oDataStructureTable = new Hashta
 		
 		clsTemplateImage oTemplateImage1 = null; 
 		ArrayList<clsAssociation> oAssociatedTemporalStructures = new ArrayList<clsAssociation>();
-		oTemplateImage1 = new clsTemplateImage(new clsTripple<String, eDataType, String>("TI:TEST1", eDataType.TI,""),oAssociatedTemporalStructures);
+		oTemplateImage1 = new clsTemplateImage(new clsTripple<String, eDataType, String>("TI:TEST1", eDataType.TI,""),oAssociatedTemporalStructures, "test6");
 		
 		clsAssociationTime oAssociationTime1 = new clsAssociationTime(new clsTripple<String, eDataType, String>(null, eDataType.ASSOCIATIONTEMP,""), oTemplateImage1, oThingPresentationMesh1);
 		oAssociatedTemporalStructures.add(oAssociationTime1); 

@@ -20,7 +20,7 @@ import pa.tools.clsTripple;
  * 
  */
 public abstract class clsPhysicalStructureComposition extends clsPhysicalRepresentation {
-	public ArrayList<clsAssociation> moContent; 	
+	public ArrayList<clsAssociation> moAssociatedContent; 	
 	/**
 	 * DOCUMENT (zeilinger) - insert description 
 	 * 
@@ -32,7 +32,7 @@ public abstract class clsPhysicalStructureComposition extends clsPhysicalReprese
 	 */
 	public clsPhysicalStructureComposition(clsTripple<String, eDataType, String> poDataStructureIdentifier) {
 		super(poDataStructureIdentifier);
-		moContent = new ArrayList<clsAssociation>(); 
+		moAssociatedContent = new ArrayList<clsAssociation>(); 
 	}
 	
 	/**
@@ -55,6 +55,6 @@ public abstract class clsPhysicalStructureComposition extends clsPhysicalReprese
 	 */
 		
 	protected void applyAssociations(ArrayList<clsAssociation> poAssociatedDataStructures) {
-		moContent.addAll(poAssociatedDataStructures);  
+		moAssociatedContent.addAll(poAssociatedDataStructures);  
 	}
 }

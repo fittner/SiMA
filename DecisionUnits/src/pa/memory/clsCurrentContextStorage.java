@@ -6,6 +6,7 @@
  */
 package pa.memory;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 import bfg.tools.clsMutableDouble;
@@ -14,6 +15,12 @@ import pa.datatypes.clsPrimaryInformation;
 import pa.datatypes.clsSecondaryInformation;
 import pa.datatypes.clsThingPresentationSingle;
 import pa.datatypes.clsWordPresentation;
+import pa.memorymgmt.datahandler.clsDataStructureGenerator;
+import pa.memorymgmt.datatypes.clsDriveMesh;
+import pa.memorymgmt.datatypes.clsPrimaryDataStructureContainer;
+import pa.memorymgmt.datatypes.clsThingPresentation;
+import pa.tools.clsPair;
+import pa.tools.clsTripple;
 import config.clsBWProperties;
 import du.enums.pa.eContext;
 
@@ -160,4 +167,46 @@ public class clsCurrentContextStorage implements itfContextAccessPrimary, itfCon
     		oEntry.getValue().set(0);
     	}
     }
+
+	/**
+	 * DOCUMENT (zeilinger) - insert description
+	 *
+	 * @author zeilinger
+	 * 16.08.2010, 15:12:45
+	 *
+	 * @param mrContextSensitivity
+	 * @return
+	 */
+	public HashMap<clsPrimaryDataStructureContainer, clsMutableDouble> getContextRatiosPrimCONVERTED(double prThreshold) {
+		HashMap<clsPrimaryDataStructureContainer, clsMutableDouble> oRetVal = null;
+		oRetVal = convertPrimInfToPrimCont(this.getContextRatiosPrim(prThreshold)); 
+    	return oRetVal;
+    }
+
+	/**
+	 * DOCUMENT (zeilinger) - insert description
+	 *
+	 * @author zeilinger
+	 * 16.08.2010, 15:19:25
+	 *
+	 * @param contextRatiosPrim
+	 * @return
+	 */
+	private HashMap<clsPrimaryDataStructureContainer, clsMutableDouble> convertPrimInfToPrimCont(HashMap<clsPrimaryInformation, clsMutableDouble> contextRatiosPrim) {
+		HashMap<clsPrimaryDataStructureContainer, clsMutableDouble> oRetVal = new HashMap<clsPrimaryDataStructureContainer, clsMutableDouble>();
+		for(clsPrimaryInformation oKey: contextRatiosPrim.keySet()){
+			if(oKey.moAffect != null && oKey.moTP != null){
+				ArrayList<clsThingPresentation> oAssociationsDM = new ArrayList<clsThingPresentation>(); 
+				String oContentTypeDM = oKey.moTP.moContent.toString();
+				clsThingPresentation oTP = clsDataStructureGenerator.generateTP(new clsPair<String, Object>(oKey.moTP.moContent.toString(), oKey.moTP.moContent.toString())); 
+				oAssociationsDM.add(oTP); 
+				
+				clsDriveMesh oDriveMesh = clsDataStructureGenerator.generateDM(
+								new clsTripple<String, ArrayList<clsThingPresentation>, Object>(oContentTypeDM, oAssociationsDM, oContentTypeDM));
+				oDriveMesh.setPleasure(oKey.moAffect.getValue());
+    			oRetVal.put(new clsPrimaryDataStructureContainer(oDriveMesh, null), contextRatiosPrim.get(oKey)); 
+			}
+		}
+		return oRetVal;
+	}
 }

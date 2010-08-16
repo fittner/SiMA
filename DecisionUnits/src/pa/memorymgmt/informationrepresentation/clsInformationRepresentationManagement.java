@@ -136,16 +136,44 @@ public class clsInformationRepresentationManagement extends clsKnowledgeBaseHand
 	 * @param next
 	 */
 	private void triggerModuleSearch(Integer poReturnType, clsDataStructurePA poDataStructure) {
+			ArrayList<clsPair<Double,clsDataStructureContainer>> oSearchResult = null; 
 			if(poDataStructure instanceof clsSecondaryDataStructure){
-				moSearchResult.add(moM01InformationRepresentationMgmt.moKB01SecondaryDataStructureMgmt.searchDataStructure(poReturnType, poDataStructure));
+				oSearchResult = moM01InformationRepresentationMgmt.moKB01SecondaryDataStructureMgmt.searchDataStructure(poReturnType, poDataStructure);
 			}
 			else if(poDataStructure instanceof clsPhysicalRepresentation){
-				moSearchResult.add(moM01InformationRepresentationMgmt.moM02PrimaryInformationMgmt.moKB02InternalPerceptionMgmt.searchDataStructure(poReturnType, poDataStructure));
+				oSearchResult = moM01InformationRepresentationMgmt.moM02PrimaryInformationMgmt.moKB02InternalPerceptionMgmt.searchDataStructure(poReturnType, poDataStructure);
 			}
 			else if(poDataStructure instanceof clsHomeostaticRepresentation){
-				moSearchResult.add(moM01InformationRepresentationMgmt.moM02PrimaryInformationMgmt.moKB03ExternalPerceptionMgmt.searchDataStructure(poReturnType, poDataStructure));
+				oSearchResult = moM01InformationRepresentationMgmt.moM02PrimaryInformationMgmt.moKB03ExternalPerceptionMgmt.searchDataStructure(poReturnType, poDataStructure);
 			}
 			else{ throw new IllegalArgumentException("DataStructureContainerUnknown unknown ");}
+			
+			if(oSearchResult.size()>0){try {
+				moSearchResult.add(cloneIntermediateResult(oSearchResult));
+			} catch (CloneNotSupportedException e) {
+				// TODO (zeilinger) - Auto-generated catch block
+				e.printStackTrace();
+			}}
+	}
+	
+	/**
+	 * DOCUMENT (zeilinger) - insert description
+	 *
+	 * @author zeilinger
+	 * 20.07.2010, 16:58:22
+	 *
+	 * @param moSearchResult2
+	 * @return
+	 * @throws CloneNotSupportedException 
+	 */
+	@SuppressWarnings("unchecked")
+	private ArrayList<clsPair<Double, clsDataStructureContainer>> cloneIntermediateResult(List<clsPair<Double, clsDataStructureContainer>> poSearchResult) throws CloneNotSupportedException {
+		ArrayList<clsPair<Double, clsDataStructureContainer>> oClone = new ArrayList<clsPair<Double, clsDataStructureContainer>>(); 
+		
+		for(clsPair<Double, clsDataStructureContainer> oPairEntry : poSearchResult){
+				oClone.add((clsPair<Double, clsDataStructureContainer>) oPairEntry.clone()); //suppressed Warning
+		}
+		return oClone;
 	}
 	
 	/**

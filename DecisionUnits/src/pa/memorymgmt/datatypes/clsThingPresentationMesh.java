@@ -19,6 +19,7 @@ import pa.tools.clsTripple;
  * 
  */
 public class clsThingPresentationMesh extends clsPhysicalStructureComposition{
+	public String moContent = "UNDEFINED";
 	/**
 	 * DOCUMENT (zeilinger) - insert description 
 	 * 
@@ -29,12 +30,40 @@ public class clsThingPresentationMesh extends clsPhysicalStructureComposition{
 	 * @param poDriveMeshAssociation
 	 */
 	public clsThingPresentationMesh(clsTripple<String, eDataType, String> poDataStructureIdentifier,
-									ArrayList<clsAssociation> poAssociatedPhysicalRepresentations) {
+									ArrayList<clsAssociation> poAssociatedPhysicalRepresentations,
+									String poContent) {
 		
 		super(poDataStructureIdentifier);
-		moContent = poAssociatedPhysicalRepresentations;  
+		setAssociations(poAssociatedPhysicalRepresentations); 
+		setContent(poContent); 
 	}
 	
+	/**
+	 * DOCUMENT (zeilinger) - insert description
+	 *
+	 * @author zeilinger
+	 * 16.08.2010, 22:10:28
+	 *
+	 * @param poContent
+	 */
+	private void setContent(String poContent) {
+		if(poContent != null){
+			moContent = poContent;
+		}
+	}
+
+	/**
+	 * DOCUMENT (zeilinger) - insert description
+	 *
+	 * @author zeilinger
+	 * 16.08.2010, 22:10:26
+	 *
+	 * @param poAssociatedPhysicalRepresentations
+	 */
+	private void setAssociations(ArrayList<clsAssociation> poAssociatedPhysicalRepresentations) {
+		moAssociatedContent = poAssociatedPhysicalRepresentations; 
+	}
+
 	/**
 	
 	/* (non-Javadoc)
@@ -62,10 +91,11 @@ public class clsThingPresentationMesh extends clsPhysicalStructureComposition{
 	@Override
 	public double compareTo(clsDataStructurePA poDataStructure) {
 		clsThingPresentationMesh oDataStructure = (clsThingPresentationMesh)poDataStructure;
-		ArrayList <clsAssociation> oContentListTemplate = this.moContent; 
-		ArrayList <clsAssociation> oContentListUnknown = oDataStructure.moContent;
+		ArrayList <clsAssociation> oContentListTemplate = this.moAssociatedContent; 
+		ArrayList <clsAssociation> oContentListUnknown = oDataStructure.moAssociatedContent;
 		
-		//This if statement proofs if the compared data structure does already have an ID =>
+		
+    	//This if statement proofs if the compared data structure does already have an ID =>
 		//the ID sepcifies that the data structure has been already compared with a stored
 		//data structure and replaced by it. Hence they can be compared by their IDs.
 		if(oDataStructure.moDataStructureID!=null){
@@ -98,7 +128,7 @@ public class clsThingPresentationMesh extends clsPhysicalStructureComposition{
 	 */
 	public double getNumbAssociations() {
 		double oResult = 0.0;
-			for(clsDataStructurePA oElement1 : moContent){
+			for(clsDataStructurePA oElement1 : moAssociatedContent){
 				if(((clsAssociation)oElement1).moAssociationElementB.moDataStructureType == eDataType.TPM){
 					oResult +=((clsThingPresentationMesh)((clsAssociation)oElement1).moAssociationElementB).getNumbAssociations(); 
 				}
@@ -113,12 +143,12 @@ public class clsThingPresentationMesh extends clsPhysicalStructureComposition{
 	public Object clone() throws CloneNotSupportedException {
         try {
         	clsThingPresentationMesh oClone = (clsThingPresentationMesh)super.clone();
-        	if (moContent != null) {
-        		oClone.moContent = new ArrayList<clsAssociation>(); 
-        		for(clsAssociation oAssociation : moContent){
+        	if (moAssociatedContent != null) {
+        		oClone.moAssociatedContent = new ArrayList<clsAssociation>(); 
+        		for(clsAssociation oAssociation : moAssociatedContent){
         			try { 
     					Object dupl = oAssociation.clone(this, oClone); 
-    					oClone.moContent.add((clsAssociation)dupl); // unchecked warning
+    					oClone.moAssociatedContent.add((clsAssociation)dupl); // unchecked warning
     				} catch (Exception e) {
     					return e;
     				}
@@ -136,7 +166,7 @@ public class clsThingPresentationMesh extends clsPhysicalStructureComposition{
 		String oResult = "::"+this.moDataStructureType+"::";  
 		if(this.moDataStructureID != null){oResult += this.moDataStructureID + ":";}
 			
-		for (clsAssociation oEntry : moContent) {
+		for (clsAssociation oEntry : moAssociatedContent) {
 			oResult += oEntry.toString() + "/"; 
 		}
 		return oResult; 
