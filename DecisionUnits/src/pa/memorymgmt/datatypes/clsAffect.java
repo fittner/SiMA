@@ -54,6 +54,7 @@ public class clsAffect extends clsHomeostaticRepresentation{
 	 */
 	@Override
 	public double compareTo(clsDataStructurePA poDataStructure) {
+		double oRetVal = 0.0; 
 		clsAffect oDataStructure = (clsAffect)poDataStructure;
 				
 		//This if statement proofs if the compared datastructure does already have an ID =>
@@ -65,17 +66,21 @@ public class clsAffect extends clsHomeostaticRepresentation{
 				 * of associated data structures and their number of associations. The idendityMatch number
 				 * is not used here as it would distort the result.   
 				 */
-				return 1.0;
+				oRetVal = 1.0;
 			}
-			else{return 0.0;}
+			
+			return oRetVal; 
 		}
+		
 		if(this.mrMinVal <= oDataStructure.moContent && oDataStructure.moContent < this.mrMaxVal){
-			return 1.0; 
+			oRetVal = 1.0; 
 		}
+		
 		if(this.mrMaxVal == 1.0 && oDataStructure.moContent == 1.0){
-			return 1.0; 
+			oRetVal = 1.0; 
 		}
-		return 0.0; 
+		
+		return oRetVal; 
 	}
 	
 	@Override

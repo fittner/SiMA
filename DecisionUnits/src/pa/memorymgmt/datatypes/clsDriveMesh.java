@@ -143,6 +143,7 @@ public class clsDriveMesh extends clsHomeostaticRepresentation{
 	 */
 	@Override
 	public double compareTo(clsDataStructurePA poDataStructure) {
+		double oRetVal = 0.0; 
 		clsDriveMesh oDataStructure = (clsDriveMesh)poDataStructure;
 		ArrayList <clsAssociation> oContentListTemplate = this.moAssociatedContent; 
 		ArrayList <clsAssociation> oContentListUnknown = oDataStructure.moAssociatedContent;
@@ -158,9 +159,9 @@ public class clsDriveMesh extends clsHomeostaticRepresentation{
 				 * of associated data structures and their number of associations. The idendityMatch number
 				 * is not used here as it would distort the result.   
 				 */
-				return oDataStructure.getNumbAssociations();
+				oRetVal = oDataStructure.getNumbAssociations();
 			}
-			else{return 0.0;}
+			return oRetVal; 
 		}
 		//In case the data structure does not have an ID, it has to be compared to a stored 
 		//data structure and replaced by it (the processes base on information that is already
@@ -169,14 +170,14 @@ public class clsDriveMesh extends clsHomeostaticRepresentation{
 				
 		if(!oContentUnknown.equals("undefined")|| !oContent.equals("undefined")){
 			if(oContent.equals(oContentUnknown)){
-				return getCompareScore(oContentListTemplate, oContentListUnknown);
+				oRetVal = getCompareScore(oContentListTemplate, oContentListUnknown);
 			}
 		}
 		else{
-			return getCompareScore(oContentListTemplate, oContentListUnknown);
+				oRetVal = getCompareScore(oContentListTemplate, oContentListUnknown);
 		}
 		
-		return 0.0; 
+		return oRetVal; 
 	}
 	
 	/**

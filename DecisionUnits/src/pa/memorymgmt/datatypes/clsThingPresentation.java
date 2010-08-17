@@ -6,6 +6,8 @@
  */
 package pa.memorymgmt.datatypes;
 
+import java.awt.Color;
+
 import pa.memorymgmt.enums.eDataType;
 import pa.tools.clsTripple;
 
@@ -43,13 +45,15 @@ public class clsThingPresentation extends clsPhysicalRepresentation{
 	@Override
 	public double compareTo(clsDataStructurePA poDataStructure) {
 		clsThingPresentation oDataStructure = (clsThingPresentation)poDataStructure;
-		
+		double oRetVal = 0.0;
 		//This if statement proofs if the compared datastructure does already have an ID =>
 		//the ID sepcifies that the data structure has been already compared with a stored
 		//data structure and replaced by it. Hence they can be compared by their IDs.
 		if(oDataStructure.moDataStructureID!=null){
-			if(this.moDataStructureID.equals(oDataStructure.moDataStructureID)){return 1.0;}
-			else{return 0.0;}
+			if(this.moDataStructureID.equals(oDataStructure.moDataStructureID)){oRetVal = 1.0;}
+			else{oRetVal = 0.0;}
+			
+			return oRetVal; 
 		}
 			
 		//In case the data structure does not have an ID, it has to be compared to a stored 
@@ -60,9 +64,51 @@ public class clsThingPresentation extends clsPhysicalRepresentation{
 		//				and in between the simulator and the ontology regarding the current naming 
 		//				of SymbolTypes, the content types are compared without case sensitivity. 
 			if(moContentType.toLowerCase().equals(oDataStructure.moContentType.toLowerCase())){
-				if(this.moContent.equals(oDataStructure.moContent)){return 1;}
+							
+				if(this.moContent instanceof Boolean && oDataStructure.moContent instanceof Boolean) {
+					oRetVal = compare((Boolean)this.moContent, (Boolean)oDataStructure.moContent );
+				}
+				else if(this.moContent instanceof String && oDataStructure.moContent instanceof Color ) {
+					oRetVal = compare((String)this.moContent, (String)"#"+Integer.toString(((Color)oDataStructure.moContent).getRGB() & 0xffffff, 16).toUpperCase() );
+				}
+				else if(this.moContent instanceof String && oDataStructure.moContent instanceof Boolean ) {
+					oRetVal = compare((Boolean) Boolean.parseBoolean(this.moContent.toString()), (Boolean)oDataStructure.moContent );
+				}
+				else if(this.moContent instanceof String && oDataStructure.moContent instanceof Enum) {
+					oRetVal = compare((String)this.moContent, ((Enum<?>)oDataStructure.moContent).name());
+				}
 			}
-		return 0;
+		return oRetVal;
+	}
+	
+	/**
+	 * DOCUMENT (zeilinger) - insert description
+	 *
+	 * @author zeilinger
+	 * 17.08.2010, 10:57:28
+	 *
+	 * @param moContent2
+	 * @param string
+	 * @return
+	 */
+	private double compare(String a, String b) {
+		double oRetVal = 0; 
+		
+		if( a.equals(b) ){
+			oRetVal = 1.0;
+		}
+		
+		return oRetVal; 
+	}
+	
+	private double compare (Boolean a, Boolean b){
+		double oRetVal = 0; 
+		
+		if( a.booleanValue() == b.booleanValue() ){
+			oRetVal = 1;
+		}
+		
+		return oRetVal; 
 	}
 	
 	@Override

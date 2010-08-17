@@ -55,19 +55,21 @@ public class clsWordPresentation extends clsSecondaryDataStructure{
 	 */
 	@Override
 	public double compareTo(clsDataStructurePA poDataStructure) {
+		double oRetVal = 0.0; 
 		clsWordPresentation oDataStructure = (clsWordPresentation)poDataStructure;
 		
 		//In case the data structure does not have an ID, it has to be compared to a stored 
 		//data structure and replaced by it (the processes base on information that is already
 		//defined
 		if(oDataStructure.moDataStructureID!=null){
-			if(this.moDataStructureID.equals(oDataStructure.moDataStructureID)){return 1.0;}
-			else{return 0.0;}
+			if(this.moDataStructureID.equals(oDataStructure.moDataStructureID)){oRetVal = 1.0;}
+			else{oRetVal = 0.0;}
+			return oRetVal; 
 		}
 		if(this.moContent.equals(oDataStructure.moContent)){
-			return 1.0; 
+			oRetVal = 1.0; 
 		}
-		return 0.0;
+		return oRetVal;
 	}
 	
 	@Override

@@ -88,6 +88,7 @@ public class clsTemplateImage extends clsPhysicalStructureComposition{
 	 */
 	@Override
 	public double compareTo(clsDataStructurePA poDataStructure) {
+		double oRetVal = 0.0; 
 		clsTemplateImage oDataStructure = (clsTemplateImage)poDataStructure;
 		ArrayList <clsAssociation> oContentListTemplate = this.moAssociatedContent; 
 		ArrayList <clsAssociation> oContentListUnknown = oDataStructure.moAssociatedContent;
@@ -105,9 +106,9 @@ public class clsTemplateImage extends clsPhysicalStructureComposition{
 				 * as TIs can be associated to data structures that can consist of associated
 				 * data structures too (TIs can consist out of TIs).  
 				 */
-				return oDataStructure.getNumbAssociations();
+				oRetVal = oDataStructure.getNumbAssociations();
 			}
-			else{return 0.0;}
+			return oRetVal; 
 		}
 		
 		//In case the data structure does not have an ID, it has to be compared to a stored 
@@ -117,14 +118,14 @@ public class clsTemplateImage extends clsPhysicalStructureComposition{
 	
 		if(!oContentUnknown.equals("undefined")|| !oContent.equals("undefined")){
 			if(oContent.equals(oContentUnknown)){
-				return getCompareScore(oContentListTemplate, oContentListUnknown);
+				oRetVal = getCompareScore(oContentListTemplate, oContentListUnknown);
 			}
 		}
 		else{
-			return getCompareScore(oContentListTemplate, oContentListUnknown);
+			oRetVal = getCompareScore(oContentListTemplate, oContentListUnknown);
 		}
 		
-		return 0.0;  
+		return oRetVal;  
 	}
 	
 	/**

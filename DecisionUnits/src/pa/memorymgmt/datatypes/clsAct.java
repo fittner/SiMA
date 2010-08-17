@@ -101,6 +101,7 @@ public class clsAct extends clsSecondaryDataStructure {
 	 */
 	@Override
 	public double compareTo(clsDataStructurePA poDataStructure) {
+		double oRetVal = 0.0; 
 		clsAct oDataStructure = (clsAct)poDataStructure;
 		ArrayList <clsAssociation> oContentListTemplate = this.moAssociatedContent; 
 		ArrayList <clsAssociation> oContentListUnknown = oDataStructure.moAssociatedContent;
@@ -117,9 +118,10 @@ public class clsAct extends clsSecondaryDataStructure {
 				 * as ACTs can be associated to different types of data structures that can consist of associated
 				 * data structures too (ACTs can consist out of ACTs).  
 				 */
-				return oDataStructure.getNumbAssociations();
+				oRetVal = oDataStructure.getNumbAssociations();
 			}
-			else{return 0.0;}
+
+			return oRetVal; 
 		}
 		
 		//In case the data structure does not have an ID, it has to be compared to a stored 
@@ -128,14 +130,14 @@ public class clsAct extends clsSecondaryDataStructure {
 		//ACT content is represented by a list of attribute associations	
 		if(!oContentUnknown.equals("undefined")|| !oContent.equals("undefined")){
 			if(oContent.equals(oContentUnknown)){
-				return getCompareScore(oContentListTemplate, oContentListUnknown);
+				oRetVal = getCompareScore(oContentListTemplate, oContentListUnknown);
 			}
 		}
 		else{
-			return getCompareScore(oContentListTemplate, oContentListUnknown);
+			oRetVal = getCompareScore(oContentListTemplate, oContentListUnknown);
 		}
 		
-		return 0.0; 
+		return oRetVal; 
 	}
 	
 	
