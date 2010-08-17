@@ -91,6 +91,8 @@ public class clsTemplateImage extends clsPhysicalStructureComposition{
 		clsTemplateImage oDataStructure = (clsTemplateImage)poDataStructure;
 		ArrayList <clsAssociation> oContentListTemplate = this.moAssociatedContent; 
 		ArrayList <clsAssociation> oContentListUnknown = oDataStructure.moAssociatedContent;
+		String oContent = this.moContent.toLowerCase(); 
+		String oContentUnknown = oDataStructure.moContent.toLowerCase();
 		
 		//This if statement proofs if the compared datastructure does already have an ID =>
 		//the ID sepcifies that the data structure has been already compared with a stored
@@ -112,7 +114,17 @@ public class clsTemplateImage extends clsPhysicalStructureComposition{
 		//data structure and replaced by it (the processes base on information that is already
 		//defined
 		//TI content is represented by a list of temporal associations	
-		return getCompareScore(oContentListTemplate, oContentListUnknown); 
+	
+		if(!oContentUnknown.equals("undefined")|| !oContent.equals("undefined")){
+			if(oContent.equals(oContentUnknown)){
+				return getCompareScore(oContentListTemplate, oContentListUnknown);
+			}
+		}
+		else{
+			return getCompareScore(oContentListTemplate, oContentListUnknown);
+		}
+		
+		return 0.0;  
 	}
 	
 	/**

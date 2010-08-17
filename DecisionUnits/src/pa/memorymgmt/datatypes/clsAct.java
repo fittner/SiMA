@@ -104,7 +104,8 @@ public class clsAct extends clsSecondaryDataStructure {
 		clsAct oDataStructure = (clsAct)poDataStructure;
 		ArrayList <clsAssociation> oContentListTemplate = this.moAssociatedContent; 
 		ArrayList <clsAssociation> oContentListUnknown = oDataStructure.moAssociatedContent;
-		
+		String oContent = this.moContent.toLowerCase(); 
+		String oContentUnknown = oDataStructure.moContent.toLowerCase();
 		//This if statement proofs if the compared datastructure does already have an ID =>
 		//the ID sepcifies that the data structure has been already compared with a stored
 		//data structure and replaced by it. Hence they can be compared by their IDs.
@@ -120,11 +121,21 @@ public class clsAct extends clsSecondaryDataStructure {
 			}
 			else{return 0.0;}
 		}
+		
 		//In case the data structure does not have an ID, it has to be compared to a stored 
 		//data structure and replaced by it (the processes base on information that is already
 		//defined
 		//ACT content is represented by a list of attribute associations	
-		return getCompareScore(oContentListTemplate, oContentListUnknown);
+		if(!oContentUnknown.equals("undefined")|| !oContent.equals("undefined")){
+			if(oContent.equals(oContentUnknown)){
+				return getCompareScore(oContentListTemplate, oContentListUnknown);
+			}
+		}
+		else{
+			return getCompareScore(oContentListTemplate, oContentListUnknown);
+		}
+		
+		return 0.0; 
 	}
 	
 	
