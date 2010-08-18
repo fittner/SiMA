@@ -7,7 +7,9 @@
 package pa.memorymgmt.informationrepresentation.modules;
 
 import java.util.ArrayList;
+import java.util.Hashtable;
 
+import pa.memorymgmt.datatypes.clsAssociation;
 import pa.memorymgmt.datatypes.clsDataStructurePA;
 import pa.memorymgmt.informationrepresentation.enums.eDataStructureMatch;
 import pa.memorymgmt.informationrepresentation.searchspace.clsSearchSpaceBase;
@@ -47,19 +49,79 @@ public abstract class clsDataStructureComparison {
 			clsSearchSpaceBase poSearchSpace,
 			clsDataStructurePA poDataStructureUnknown) {
 		
+		if(poDataStructureUnknown.moContentType != null 
+		    && poSearchSpace.returnSearchSpaceTable(poDataStructureUnknown.moDataStructureType)
+		    				.containsKey(poDataStructureUnknown.moContentType)){
+			
+			return getDataStructureByContentType(poSearchSpace, poDataStructureUnknown); 
+		}
+		else {
+			return getDataStructureByDataStructureType (poSearchSpace, poDataStructureUnknown);
+		}
+	}
+	
+	/**
+	 * DOCUMENT (zeilinger) - insert description
+	 *
+	 * @author zeilinger
+	 * 18.08.2010, 14:59:49
+	 *
+	 * @param poSearchSpace
+	 * @param poDataStructureUnknown
+	 * @return
+	 */
+	private static ArrayList<clsPair<Double, clsDataStructurePA>> getDataStructureByContentType(
+			clsSearchSpaceBase poSearchSpace,
+			clsDataStructurePA poDataStructureUnknown) {
+		
 		double rMatchScore = 0.0; 
 		ArrayList<clsPair<Double, clsDataStructurePA>> oMatchingDataStructureList = new ArrayList<clsPair<Double, clsDataStructurePA>>();
-				
-		for(clsDataStructurePA oSearchSpaceElement : poSearchSpace.returnSearchSpaceTable(poDataStructureUnknown.moDataStructureType).keySet()){
-			//System.out.println(" Unknown data structure " + poDataStructureUnknown.toString() + " \n search space element" + oSearchSpaceElement.toString());
+		
+		for(clsDataStructurePA oSearchSpaceElement : poSearchSpace
+															.returnSearchSpaceTable(poDataStructureUnknown.moDataStructureType)
+															.get(poDataStructureUnknown.moContentType)
+															.keySet()){
+
 			rMatchScore = oSearchSpaceElement.compareTo(poDataStructureUnknown);
+		
 			if(rMatchScore > eDataStructureMatch.THRESHOLDMATCH.getMatchFactor()){
 				oMatchingDataStructureList.add(new clsPair<Double, clsDataStructurePA>(rMatchScore, oSearchSpaceElement));
 			}
 		}
-		return oMatchingDataStructureList; 
+		
+		return oMatchingDataStructureList;
 	}
-	
+
+	/**
+	 * DOCUMENT (zeilinger) - insert description
+	 *
+	 * @author zeilinger
+	 * 18.08.2010, 14:59:44
+	 *
+	 * @param poSearchSpace
+	 * @param poDataStructureUnknown
+	 * @return
+	 */
+	private static ArrayList<clsPair<Double, clsDataStructurePA>> getDataStructureByDataStructureType(
+			clsSearchSpaceBase poSearchSpace,
+			clsDataStructurePA poDataStructureUnknown) {
+
+		double rMatchScore = 0.0; 
+		ArrayList<clsPair<Double, clsDataStructurePA>> oMatchingDataStructureList = new ArrayList<clsPair<Double, clsDataStructurePA>>();
+		
+		for(Hashtable<clsDataStructurePA, ArrayList<clsAssociation>> oTableEntry : poSearchSpace.returnSearchSpaceTable(poDataStructureUnknown.moDataStructureType).values()){
+			for(clsDataStructurePA oSearchSpaceElement : oTableEntry.keySet()){
+				rMatchScore = oSearchSpaceElement.compareTo(poDataStructureUnknown);
+
+				if(rMatchScore > eDataStructureMatch.THRESHOLDMATCH.getMatchFactor()){
+					oMatchingDataStructureList.add(new clsPair<Double, clsDataStructurePA>(rMatchScore, oSearchSpaceElement));
+				}
+			}
+		}
+				
+		return oMatchingDataStructureList;
+	}
+
 	/**
 	 * DOCUMENT (zeilinger) - insert description
 	 *
@@ -86,39 +148,4 @@ public abstract class clsDataStructureComparison {
 		}
 		return oSortedList;
 	}
-	
-	/**
-	 * DOCUMENT (zeilinger) - insert description
-	 *
-	 * @author zeilinger
-	 * 12.07.2010, 21:23:09
-	 *
-	 * @param oClassName
-	 * @param oMethodPrefix
-	 * @param eDataStructureType
-	 * @return
-	 */
-//	not required actually - private static Method getMethod(String poClassName, String poMethodPrefix,
-//			eDataType peDataStructureType) {
-//		
-//		Class<?> oC = null;
-//		//TODO HZ: Fix the representation of the try-catch statements 
-//		try {
-//			oC = Class.forName(poClassName);
-//		} catch (ClassNotFoundException e) {
-//			// TODO (zeilinger) - Auto-generated catch block
-//			e.printStackTrace();
-//		}
-//		try {
-//			return oC.getDeclaredMethod (poMethodPrefix + peDataStructureType.name());
-//		} catch (SecurityException e) {
-//			// TODO (zeilinger) - Auto-generated catch block
-//			e.printStackTrace();
-//		} catch (NoSuchMethodException e) {
-//			// TODO (zeilinger) - Auto-generated catch block
-//			e.printStackTrace();
-//		}
-//		
-//		throw new UnknownError("Unknown error occured in " + poClassName); 
-//	}
 }

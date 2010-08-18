@@ -44,7 +44,10 @@ public class clsSearchSpaceHandler {
 	
 	public ArrayList <clsAssociation> readOutSearchSpace(int poReturnType, clsDataStructurePA poDataStructure){
 		ArrayList <clsAssociation> oAssociatedDataStructureList = new ArrayList<clsAssociation>();
-		ArrayList <clsAssociation> oList = moSearchSpace.returnSearchSpaceTable(poDataStructure.moDataStructureType).get(poDataStructure);
+		ArrayList <clsAssociation> oList = moSearchSpace
+		                                        .returnSearchSpaceTable(poDataStructure.moDataStructureType)
+		                                              .get(poDataStructure.moContentType)
+		                                                   .get(poDataStructure);
 		
 		for(clsAssociation oAssociationElement : oList){
 			clsDataStructurePA elementB; 

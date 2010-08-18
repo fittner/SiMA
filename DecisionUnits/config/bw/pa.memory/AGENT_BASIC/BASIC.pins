@@ -1,4 +1,4 @@
-; Wed Aug 18 14:27:15 CEST 2010
+; Wed Aug 18 15:17:41 CEST 2010
 ; 
 ;+ (version "3.4.4")
 ;+ (build "Build 579")
@@ -718,25 +718,20 @@
 
 ([WP%3AHIGH] of  WP
 
-	(value "HIGH")
-	(value_type "WP"))
+	(value "HIGH"))
 
 ([WP%3ALOW] of  WP
 
-	(value "LOW")
-	(value_type "WP"))
+	(value "LOW"))
 
 ([WP%3AMEDIUM] of  WP
 
-	(value "MEDIUM")
-	(value_type "WP"))
+	(value "MEDIUM"))
 
 ([WP%3AVERYHIGH] of  WP
 
-	(value "VERYHIGH")
-	(value_type "WP"))
+	(value "VERYHIGH"))
 
 ([WP%3AVERYLOW] of  WP
 
-	(value "VERYLOW")
-	(value_type "WP"))
+	(value "VERYLOW"))
