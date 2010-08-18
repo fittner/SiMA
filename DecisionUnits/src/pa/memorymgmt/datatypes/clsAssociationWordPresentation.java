@@ -6,6 +6,8 @@
  */
 package pa.memorymgmt.datatypes;
 
+import java.util.NoSuchElementException;
+
 import pa.memorymgmt.enums.eDataType;
 import pa.tools.clsTripple;
 
@@ -46,5 +48,19 @@ public class clsAssociationWordPresentation extends clsAssociation{
 	public double compareTo(clsDataStructurePA o) {
 		// TODO (zeilinger) - Auto-generated method stub
 		return 0;
+	}
+
+	/* (non-Javadoc)
+	 *
+	 * @author zeilinger
+	 * 17.08.2010, 21:07:20
+	 * 
+	 * @see pa.memorymgmt.datatypes.clsAssociation#getLeafElement(pa.memorymgmt.datatypes.clsDataStructurePA)
+	 */
+	@Override
+	public clsDataStructurePA getLeafElement(clsDataStructurePA poRootElement) {
+		if(poRootElement.moDataStructureID.equals(moAssociationElementA.moDataStructureID)){return moAssociationElementB;}
+		else if(poRootElement.moDataStructureID.equals(moAssociationElementB.moDataStructureID)){return moAssociationElementA;}
+		else{throw new NoSuchElementException("element not found in association");}
 	}
 }

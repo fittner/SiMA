@@ -86,7 +86,7 @@ public class G13_PrimaryKnowledgeUtilizer extends clsModuleContainer implements
 	 */
 	@Override
 	public void receive_I2_6(ArrayList<clsPair<clsPrimaryInformation, clsPrimaryInformation>> poPerceptPlusRepressed_old,
-			  ArrayList<clsPair<clsPrimaryDataStructureContainer, clsPrimaryDataStructureContainer>> poPerceptPlusRepressed) {
+			  ArrayList<clsPair<clsPrimaryDataStructureContainer, clsDriveMesh>> poPerceptPlusRepressed) {
 		moE16ManagementOfMemoryTraces.receive_I2_6(poPerceptPlusRepressed_old, poPerceptPlusRepressed);
 	}
 
@@ -111,7 +111,7 @@ public class G13_PrimaryKnowledgeUtilizer extends clsModuleContainer implements
 	 */
 	@Override
 	public void receive_I2_7(ArrayList<clsTripple<clsPrimaryInformation, clsPrimaryInformation,ArrayList<clsPrimaryInformation>>> poPerceptPlusMemories_Output_old,
-			  				 ArrayList<clsTripple<clsPrimaryDataStructureContainer, clsPrimaryDataStructureContainer,ArrayList<clsPrimaryDataStructureContainer>>> poPerceptPlusMemories_Output) {
+			  				 ArrayList<clsTripple<clsPrimaryDataStructureContainer, clsDriveMesh, ArrayList<clsDriveMesh>>> poPerceptPlusMemories_Output) {
 		((I2_7_receive)moEnclosingContainer).receive_I2_7(poPerceptPlusMemories_Output_old, poPerceptPlusMemories_Output);
 	}
 

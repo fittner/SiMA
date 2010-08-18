@@ -56,6 +56,8 @@ public class clsWordPresentation extends clsSecondaryDataStructure{
 	@Override
 	public double compareTo(clsDataStructurePA poDataStructure) {
 		double oRetVal = 0.0; 
+		if(!this.moDataStructureType.equals(poDataStructure.moDataStructureType)){return oRetVal;}
+
 		clsWordPresentation oDataStructure = (clsWordPresentation)poDataStructure;
 		
 		//In case the data structure does not have an ID, it has to be compared to a stored 

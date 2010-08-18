@@ -7,6 +7,7 @@
 package pa.modules;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import config.clsBWProperties;
@@ -175,7 +176,7 @@ public class E09_KnowledgeAboutReality_unconscious extends clsModuleBase impleme
 	 * @see pa.interfaces.knowledgebase.itfKnowledgeBaseAccess#accessKnowledgeBase(java.util.ArrayList)
 	 */
 	@Override
-	public ArrayList<ArrayList<clsPair<Double, clsDataStructureContainer>>> accessKnowledgeBase() {
+	public HashMap<Integer,ArrayList<clsPair<Double,clsDataStructureContainer>>> accessKnowledgeBase() {
 		return moEnclosingContainer.moKnowledgeBaseHandler.initMemorySearch(moSearchPattern);
 	}
 

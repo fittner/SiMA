@@ -20,9 +20,15 @@ import pa.interfaces.knowledgebase.itfKnowledgeBaseAccess;
 import pa.interfaces.receive.I2_6_receive;
 import pa.interfaces.receive.I2_7_receive;
 import pa.interfaces.send.I2_7_send;
+import pa.memorymgmt.datatypes.clsAssociation;
+import pa.memorymgmt.datatypes.clsAssociationAttribute;
+import pa.memorymgmt.datatypes.clsAssociationDriveMesh;
 import pa.memorymgmt.datatypes.clsDataStructureContainer;
 import pa.memorymgmt.datatypes.clsDataStructurePA;
+import pa.memorymgmt.datatypes.clsDriveMesh;
+import pa.memorymgmt.datatypes.clsPrimaryDataStructure;
 import pa.memorymgmt.datatypes.clsPrimaryDataStructureContainer;
+import pa.memorymgmt.datatypes.clsThingPresentationMesh;
 import pa.memorymgmt.enums.eDataType;
 import pa.tools.clsPair;
 import pa.tools.clsTripple;
@@ -39,8 +45,8 @@ public class E16_ManagementOfMemoryTraces extends clsModuleBase implements I2_6_
 	public ArrayList<clsPair<clsPrimaryInformation, clsPrimaryInformation>> moPerceptPlusRepressed_Input_old;
 	public ArrayList<clsTripple<clsPrimaryInformation, clsPrimaryInformation, ArrayList<clsPrimaryInformation>>> moPerceptPlusMemories_Output_old;
 	
-	public ArrayList<clsPair<clsPrimaryDataStructureContainer, clsPrimaryDataStructureContainer>> moPerceptPlusRepressed_Input;
-	public ArrayList<clsTripple<clsPrimaryDataStructureContainer, clsPrimaryDataStructureContainer,ArrayList<clsPrimaryDataStructureContainer>>> moPerceptPlusMemories_Output;
+	public ArrayList<clsPair<clsPrimaryDataStructureContainer, clsDriveMesh>> moPerceptPlusRepressed_Input;
+	public ArrayList<clsTripple<clsPrimaryDataStructureContainer, clsDriveMesh, ArrayList<clsDriveMesh>>> moPerceptPlusMemories_Output;
 	/**
 	 * DOCUMENT (deutsch) - insert description 
 	 * 
@@ -57,7 +63,7 @@ public class E16_ManagementOfMemoryTraces extends clsModuleBase implements I2_6_
 		applyProperties(poPrefix, poProp);	
 		
 		moPerceptPlusMemories_Output_old = new ArrayList<clsTripple<clsPrimaryInformation, clsPrimaryInformation,ArrayList<clsPrimaryInformation>>>();
-		moPerceptPlusMemories_Output = new ArrayList<clsTripple<clsPrimaryDataStructureContainer, clsPrimaryDataStructureContainer,ArrayList<clsPrimaryDataStructureContainer>>>(); 
+		moPerceptPlusMemories_Output = new ArrayList<clsTripple<clsPrimaryDataStructureContainer, clsDriveMesh,ArrayList<clsDriveMesh>>>(); 
 	}
 	
 	public static clsBWProperties getDefaultProperties(String poPrefix) {
@@ -109,9 +115,10 @@ public class E16_ManagementOfMemoryTraces extends clsModuleBase implements I2_6_
 	@SuppressWarnings("unchecked")
 	@Override
 	public void receive_I2_6(ArrayList<clsPair<clsPrimaryInformation, clsPrimaryInformation>> poPerceptPlusRepressed_old,
-			  ArrayList<clsPair<clsPrimaryDataStructureContainer, clsPrimaryDataStructureContainer>> poPerceptPlusRepressed) {
+			  ArrayList<clsPair<clsPrimaryDataStructureContainer, clsDriveMesh>> poPerceptPlusRepressed) {
+		
 		moPerceptPlusRepressed_Input_old = (ArrayList<clsPair<clsPrimaryInformation, clsPrimaryInformation>>)deepCopy(poPerceptPlusRepressed_old);
-		moPerceptPlusRepressed_Input = (ArrayList<clsPair<clsPrimaryDataStructureContainer, clsPrimaryDataStructureContainer>>)deepCopy(poPerceptPlusRepressed);
+		moPerceptPlusRepressed_Input = (ArrayList<clsPair<clsPrimaryDataStructureContainer, clsDriveMesh>>)deepCopy(poPerceptPlusRepressed);
 	}
 
 	/* (non-Javadoc)
@@ -123,9 +130,186 @@ public class E16_ManagementOfMemoryTraces extends clsModuleBase implements I2_6_
 	 */
 	@Override
 	protected void process_basic() {
+		moPerceptPlusMemories_Output = getOutput(); 
 		process_oldDT(); 
 	}
 	
+	/**
+	 * DOCUMENT (zeilinger) - insert description
+	 *
+	 * @author zeilinger
+	 * 17.08.2010, 16:49:37
+	 *
+	 * @return
+	 */
+	private ArrayList<clsTripple<clsPrimaryDataStructureContainer, clsDriveMesh, ArrayList<clsDriveMesh>>> getOutput() {
+		
+		ArrayList<clsTripple<clsPrimaryDataStructureContainer, clsDriveMesh, ArrayList<clsDriveMesh>>> oRetVal 
+							= new ArrayList<clsTripple<clsPrimaryDataStructureContainer, clsDriveMesh, ArrayList<clsDriveMesh>>>(); 
+		
+		for(clsPair<clsPrimaryDataStructureContainer, clsDriveMesh> oEntry : moPerceptPlusRepressed_Input){
+			//The method getEnvironmentalRepresentation retrieves memory matches for
+			//environmental input; objects are identified and exchanged by their 
+			//stored correspondance. oEnvironmentalInput receives them and adds 
+			//former drive meshes as associated data structures to the container. 
+			clsPrimaryDataStructureContainer oEnvironmentalInput = getEnvironmentalRepresentation(oEntry.a); 		
+			
+			if(oEntry.a != null && oEntry.b != null){
+				ArrayList<clsDriveMesh> oDriveContent = getAwareDriveMeshes(oEnvironmentalInput, oEntry.b);
+				oRetVal.add(new clsTripple<clsPrimaryDataStructureContainer, clsDriveMesh, ArrayList<clsDriveMesh>>(oEnvironmentalInput, oEntry.b, oDriveContent));
+			}
+			else{
+				oRetVal.add(new clsTripple<clsPrimaryDataStructureContainer, clsDriveMesh, ArrayList<clsDriveMesh>>(oEnvironmentalInput, null, new ArrayList<clsDriveMesh>()));
+			}
+		}
+		
+		return oRetVal;
+	}
+
+	/**
+	 * DOCUMENT (zeilinger) - insert description
+	 *
+	 * @author zeilinger
+	 * 17.08.2010, 18:20:26
+	 * @param b 
+	 * @param oEnvironmentalInput 
+	 * @return 
+	 *
+	 */
+	private ArrayList<clsDriveMesh> getAwareDriveMeshes(clsPrimaryDataStructureContainer oEnvironmentalInput,
+													    clsDriveMesh oRepressedContent) {
+			
+			//FIXME HZ 18.08.2010: This part is quite a hack in the old version and it is actually 
+			//not possible to verify how the aware content can be implemented in a more
+			//"dynamic" form. This has to be discussed and corrected when it is time to do so. 
+			//
+			//HZ's interpretation:
+			//From E15 a repressedContent is received that has to be associated to a new 
+			//object in order to increase the possibility for passing the defense mechanism.
+			//Hence the associated drives are retrieved from the memory (done in this method)
+			//and are compared with the repressed content. In case the ContentType of a drive mesh
+			//matches the repressed content; a drive mesh that has the chance to get "aware" is found; 
+			//In e17 this aware content will be connected to the object 
+			//Open questions:
+			// 	- is this interpretation right?
+			//	- if so, is "aware content" the right name for these drive meshes
+			//by the way, DO NOT BLAME the programmer; BLAME the orderer
+			 
+			ArrayList<clsDriveMesh> oRetVal = new ArrayList<clsDriveMesh>();
+			clsDataStructureContainer oSearchResult = null; 
+			moSearchPattern.clear(); 
+			addToSearchPattern(eDataType.DM, oEnvironmentalInput.moDataStructure);
+			//It is for sure that the search retrieves a result as the search parameter is 
+			//an already found object => hence the retrieved ArrayList is not empty. 
+			//In addition the search retrieves exactly one result as the search parameter 
+			//obeys of a data-structure identification number. 
+			//=> Hence the container can be read out directly below; 
+			oSearchResult = accessKnowledgeBase().get(0).get(0).b;
+			
+			if(oSearchResult.moAssociatedDataStructures != null){
+				for(clsAssociation oAssociation : oSearchResult.moAssociatedDataStructures){
+						clsDriveMesh oFoundDM = ((clsAssociationDriveMesh)oAssociation).getDM(); 
+						
+						if(oRepressedContent.moContentType.equals(oFoundDM.moContentType)){
+							oRetVal.add(oFoundDM); 
+						}
+				}
+			}
+							
+			return oRetVal; 
+	}
+
+	/**
+	 * DOCUMENT (zeilinger) - insert description
+	 *
+	 * @author zeilinger
+	 * 17.08.2010, 18:20:23
+	 * @param a 
+	 * @return 
+	 *
+	 */
+	private clsPrimaryDataStructureContainer getEnvironmentalRepresentation(clsPrimaryDataStructureContainer poEnvironmentalInput) {
+		
+		clsPrimaryDataStructureContainer oSearchResult = searchContainer(poEnvironmentalInput);
+		mergeEnvironmentalInputWithMemory(oSearchResult, poEnvironmentalInput); 
+		
+		return oSearchResult; 
+	}
+
+	/**
+	 * DOCUMENT (zeilinger) - insert description
+	 *
+	 * @author zeilinger
+	 * 17.08.2010, 23:30:58
+	 *
+	 * @param poEnvironmentalInput
+	 * @return
+	 */
+	private clsPrimaryDataStructureContainer searchContainer(clsPrimaryDataStructureContainer poEnvironmentalInput) {
+		clsPrimaryDataStructureContainer oContainer = poEnvironmentalInput; 
+		ArrayList<clsPair<Double, clsDataStructureContainer>> oSearchResult = search(poEnvironmentalInput.moDataStructure); 
+		
+		if(oSearchResult!=null){
+			//Only the best match is used for the further processing; this explains the 
+			//get(0) in the statement below. 
+			oContainer = (clsPrimaryDataStructureContainer)oSearchResult.get(0).b; 
+			oContainer.moAssociatedDataStructures = poEnvironmentalInput.moAssociatedDataStructures; 
+		}
+		//In case their does not exist a search result, the Environmental INPUT VALUE is assigned to the container.  
+		return oContainer;
+	}
+
+	/**
+	 * DOCUMENT (zeilinger) - insert description
+	 *
+	 * @author zeilinger
+	 * 17.08.2010, 20:22:16
+	 * @param poEnvironmentalInput 
+	 *
+	 * @return
+	 */
+	private ArrayList<clsPair<Double, clsDataStructureContainer>>  search(clsDataStructurePA poDataStructure) {
+		moSearchPattern.clear(); 
+		addToSearchPattern(eDataType.UNDEFINED, poDataStructure);
+		//The search pattern exists out of one entry => the returned hashmap contains only 
+		//ONE entry that has the key 0. 
+		return accessKnowledgeBase().get(0); 
+	}
+	
+	/**
+	 * DOCUMENT (zeilinger) - insert description
+	 *
+	 * @author zeilinger
+	 * 17.08.2010, 20:39:09
+	 *
+	 * @param oSearchResult
+	 * @param poEnvironmentalInput
+	 */
+	private void mergeEnvironmentalInputWithMemory(clsPrimaryDataStructureContainer poStoredContainer,
+												   clsPrimaryDataStructureContainer poEnvironmentalInput) {
+		
+		if(poStoredContainer.moDataStructure instanceof clsThingPresentationMesh && poEnvironmentalInput.moDataStructure instanceof clsThingPresentationMesh){
+
+		 	for(clsAssociation oAAEnvironmentIn : ((clsThingPresentationMesh)poEnvironmentalInput.moDataStructure).moAssociatedContent){
+				
+		 		if( !((clsThingPresentationMesh)poStoredContainer.moDataStructure).contain(oAAEnvironmentIn.moAssociationElementB) ){
+					ArrayList<clsPair<Double, clsDataStructureContainer>> oSearchResult = search(oAAEnvironmentIn.moAssociationElementB);
+					
+					if( oSearchResult != null ){
+						clsAssociation oAssociation = new clsAssociationAttribute(new clsTripple<String, eDataType, String>(
+																								 "", 
+																								 eDataType.ASSOCIATIONATTRIBUTE, 
+																								 eDataType.ASSOCIATIONATTRIBUTE.name()  ), 
+																								 (clsPrimaryDataStructure)poStoredContainer.moDataStructure, 
+																								 (clsPrimaryDataStructure)oSearchResult.get(0).b.moDataStructure); 
+						
+						poStoredContainer.moAssociatedDataStructures.add(oAssociation);  
+					}
+				}
+		 	}
+		}
+	}
+
 	/**
 	 * DOCUMENT (zeilinger) - insert description
 	 * This method is used while adapting the model from the old datatypes (pa.datatypes) to the
@@ -135,7 +319,7 @@ public class E16_ManagementOfMemoryTraces extends clsModuleBase implements I2_6_
 	 * @deprecated
 	 */
 	private void process_oldDT() {
-		moPerceptPlusMemories_Output_old = getOutput(moPerceptPlusRepressed_Input_old); 
+		moPerceptPlusMemories_Output_old = getOutput_old(moPerceptPlusRepressed_Input_old); 
 	}
 
 	/**
@@ -147,7 +331,7 @@ public class E16_ManagementOfMemoryTraces extends clsModuleBase implements I2_6_
 	 * @param moPerceptPlusRepressed_Input2
 	 * @return
 	 */
-	private ArrayList<clsTripple<clsPrimaryInformation, clsPrimaryInformation, ArrayList<clsPrimaryInformation>>> getOutput(
+	private ArrayList<clsTripple<clsPrimaryInformation, clsPrimaryInformation, ArrayList<clsPrimaryInformation>>> getOutput_old(
 			         ArrayList<clsPair<clsPrimaryInformation, clsPrimaryInformation>> poPerceptPlusRepressed_Input) {
 		
 		ArrayList<clsTripple<clsPrimaryInformation, clsPrimaryInformation,ArrayList<clsPrimaryInformation>>> oRetVal
@@ -202,8 +386,7 @@ public class E16_ManagementOfMemoryTraces extends clsModuleBase implements I2_6_
 		for(clsPrimaryInformation oContextName : oCurrentContextMap.keySet()){
 			String oCurrentContextType = oContextName.moTP.moContent.toString();
 			
-			oAwareContent.add(this.moEnclosingContainer.moMemory.moAwareContentsStore
-					    			 .getMappedContent(new clsTripple<String, String, String>(oEntityType.toString(), 
+			oAwareContent.add(this.moEnclosingContainer.moMemory.moAwareContentsStore.getMappedContent(new clsTripple<String, String, String>(oEntityType.toString(), 
 							         oCurrentContextType.toString(),oRepressedContentType.toString()))); 
 		}
 		
@@ -231,7 +414,7 @@ public class E16_ManagementOfMemoryTraces extends clsModuleBase implements I2_6_
 	 */
 	@Override
 	public void send_I2_7(ArrayList<clsTripple<clsPrimaryInformation, clsPrimaryInformation,ArrayList<clsPrimaryInformation>>> poPerceptPlusMemories_Output_old,
-			  ArrayList<clsTripple<clsPrimaryDataStructureContainer, clsPrimaryDataStructureContainer,ArrayList<clsPrimaryDataStructureContainer>>> poPerceptPlusMemories_Output) {
+			  ArrayList<clsTripple<clsPrimaryDataStructureContainer, clsDriveMesh,ArrayList<clsDriveMesh>>> poPerceptPlusMemories_Output) {
 		((I2_7_receive)moEnclosingContainer).receive_I2_7(moPerceptPlusMemories_Output_old, moPerceptPlusMemories_Output);
 		
 	}
@@ -270,7 +453,7 @@ public class E16_ManagementOfMemoryTraces extends clsModuleBase implements I2_6_
 	 * @see pa.interfaces.knowledgebase.itfKnowledgeBaseAccess#accessKnowledgeBase(java.util.ArrayList)
 	 */
 	@Override
-	public ArrayList<ArrayList<clsPair<Double, clsDataStructureContainer>>> accessKnowledgeBase() {
+	public HashMap<Integer,ArrayList<clsPair<Double,clsDataStructureContainer>>> accessKnowledgeBase() {
 		return moEnclosingContainer.moKnowledgeBaseHandler.initMemorySearch(moSearchPattern);
 	}
 
@@ -282,9 +465,7 @@ public class E16_ManagementOfMemoryTraces extends clsModuleBase implements I2_6_
 	 * @see pa.interfaces.knowledgebase.itfKnowledgeBaseAccess#addToSearchPattern(pa.memorymgmt.enums.eDataType, pa.memorymgmt.datatypes.clsDataStructurePA)
 	 */
 	@Override
-	public void addToSearchPattern(eDataType oReturnType,
-			clsDataStructurePA poSearchPattern) {
-		// TODO (zeilinger) - Auto-generated method stub
-		
+	public void addToSearchPattern(eDataType oReturnType, clsDataStructurePA poSearchPattern) {
+		moSearchPattern.add(new clsPair<Integer, clsDataStructurePA>(oReturnType.nBinaryValue, poSearchPattern));
 	}
 }

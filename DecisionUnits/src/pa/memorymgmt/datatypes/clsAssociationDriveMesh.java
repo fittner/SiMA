@@ -6,6 +6,8 @@
  */
 package pa.memorymgmt.datatypes;
 
+import java.util.NoSuchElementException;
+
 import pa.memorymgmt.enums.eDataType;
 import pa.tools.clsTripple;
 
@@ -49,5 +51,23 @@ public class clsAssociationDriveMesh extends clsAssociation{
 	public double compareTo(clsDataStructurePA o) {
 		// TODO (zeilinger) - Auto-generated method stub
 		return 0;
-	}		
+	}
+	/* (non-Javadoc)
+	 *
+	 * @author zeilinger
+	 * 17.08.2010, 21:11:25
+	 * 
+	 * @see pa.memorymgmt.datatypes.clsAssociation#getLeafElement(pa.memorymgmt.datatypes.clsDataStructurePA)
+	 */
+	@Override
+	public clsDataStructurePA getLeafElement(clsDataStructurePA poRootElement) {
+		// TODO (zeilinger) - Auto-generated method stub
+		return null;
+	}
+	
+	public clsDriveMesh getDM(){
+		if(moAssociationElementA instanceof clsDriveMesh){return (clsDriveMesh)moAssociationElementA;}
+		else if(moAssociationElementB instanceof clsDriveMesh) {return (clsDriveMesh)moAssociationElementB;}
+		else{ throw new NoSuchElementException("Element not found");}
+	}
 }

@@ -42,4 +42,18 @@ public class clsAssociationAttribute extends clsAssociation{
 		// TODO (zeilinger) - Auto-generated method stub
 		return 0;
 	}
+
+	/* (non-Javadoc)
+	 *
+	 * @author zeilinger
+	 * 17.08.2010, 21:10:35
+	 * 
+	 * @see pa.memorymgmt.datatypes.clsAssociation#getLeafElement(pa.memorymgmt.datatypes.clsDataStructurePA)
+	 */
+	@Override
+	public clsDataStructurePA getLeafElement(clsDataStructurePA poRootElement) {
+		//TPMs have one element that form the root for associated Attribute Associations
+		//This element is always moAssociationElementA; Hence the B element is returned
+		return moAssociationElementB;
+	}
 }

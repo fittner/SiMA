@@ -49,4 +49,18 @@ public class clsAssociationTime extends clsAssociation{
 		// TODO (zeilinger) - Auto-generated method stub
 		return 0;
 	}
+
+	/* (non-Javadoc)
+	 *
+	 * @author zeilinger
+	 * 17.08.2010, 21:07:47
+	 * 
+	 * @see pa.memorymgmt.datatypes.clsAssociation#getLeafElement(pa.memorymgmt.datatypes.clsDataStructurePA)
+	 */
+	@Override
+	public clsDataStructurePA getLeafElement(clsDataStructurePA poRootElement) {
+		//TIs have one element that form the root for associated Time Associations
+		//This element is always moAssociationElementA; Hence the B element is returned
+		return moAssociationElementB;
+	}
 }

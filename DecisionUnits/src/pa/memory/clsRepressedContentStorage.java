@@ -16,6 +16,7 @@ import pa.datatypes.clsPrimaryInformation;
 import pa.loader.clsRepressedContentLoader;
 import pa.memorymgmt.datahandler.clsDataStructureGenerator;
 import pa.memorymgmt.datatypes.clsAssociation;
+import pa.memorymgmt.datatypes.clsAssociationDriveMesh;
 import pa.memorymgmt.datatypes.clsDriveMesh;
 import pa.memorymgmt.datatypes.clsPrimaryDataStructureContainer;
 import pa.memorymgmt.datatypes.clsThingPresentation;
@@ -35,7 +36,7 @@ import du.enums.pa.eContext;
 public class clsRepressedContentStorage {
 	
 	public ArrayList<clsPrimaryInformation> moRepressedContent;
-	public ArrayList<clsPrimaryDataStructureContainer> moRepressedContentCONVERTED;
+	public ArrayList<clsDriveMesh> moRepressedContentCONVERTED;
 	
 	public clsRepressedContentStorage(String poPrefix, clsBWProperties poProp) {
 		
@@ -105,7 +106,7 @@ public class clsRepressedContentStorage {
 	 *
 	 */
 	private void convertRepressedContent() {
-		moRepressedContentCONVERTED = new ArrayList<clsPrimaryDataStructureContainer>(); 
+		moRepressedContentCONVERTED = new ArrayList<clsDriveMesh>(); 
 		
 		for(clsPrimaryInformation oEntry : moRepressedContent){
 			for(Map.Entry<eContext, clsDriveContentCategories> oContentCat : oEntry.moTP.moDriveContentCategory.entrySet()){
@@ -113,7 +114,7 @@ public class clsRepressedContentStorage {
 				clsDriveMesh oDM = null; 
 								
 				oTP = clsDataStructureGenerator.generateTP(new clsPair<String, Object>(oContentCat.getKey().name(), oContentCat.getKey().name())); 
-				oDM = clsDataStructureGenerator.generateDM(new clsTripple<String, ArrayList<clsThingPresentation>, Object>(oEntry.moTP.moContent.toString(), 
+				oDM = clsDataStructureGenerator.generateDM(new clsTripple<String, ArrayList<clsThingPresentation>, Object>(oContentCat.getKey().toString(), 
 																		   new ArrayList<clsThingPresentation>(Arrays.asList(oTP)),
 																		   oEntry.moTP.moContent.toString()));
 				oDM.setPleasure(oEntry.moAffect.getValue()); 
@@ -121,7 +122,7 @@ public class clsRepressedContentStorage {
 				oDM.setOral(oContentCat.getValue().getOral());
 				oDM.setGenital(oContentCat.getValue().getGenital());
 				oDM.setPhallic(oContentCat.getValue().getPhallic());
-				moRepressedContentCONVERTED.add(new clsPrimaryDataStructureContainer(oDM, null));
+				moRepressedContentCONVERTED.add(oDM);
 			}
 		}
 	}
@@ -134,27 +135,27 @@ public class clsRepressedContentStorage {
 	 * @param oInput
 	 * @return
 	 */
-	public clsPrimaryDataStructureContainer getBestMatchCONVERTED(clsPrimaryDataStructureContainer poInput) {
+	public clsDriveMesh getBestMatchCONVERTED(clsPrimaryDataStructureContainer poInput) {
 		
-		clsPrimaryDataStructureContainer oRetVal = null;
-		double rHighestMatch = 0;
+		clsDriveMesh oRetVal = null;
+		double rHighestMatch = 0.0;
 
-		for( clsPrimaryDataStructureContainer oRep : moRepressedContentCONVERTED ) {
+		for( clsDriveMesh oDMRepressedContent : moRepressedContentCONVERTED ) {
 			for(clsAssociation oAssociation : poInput.moAssociatedDataStructures){
-				if(oAssociation.getLeafElement(poInput.moDataStructure) instanceof clsDriveMesh){
-					clsDriveMesh oDMInput = (clsDriveMesh)oAssociation.getLeafElement(poInput.moDataStructure);
-					clsDriveMesh oDMRepressedContent = (clsDriveMesh)oRep.moDataStructure; 
-					
-					if(oDMRepressedContent.moContentType.equals(oDMInput.moContentType)){
-						double rMatchValue = oDMRepressedContent.matchCathegories(oDMInput); 
+				//HZ 17.08.2010: The method getLeafElement cannot be used here as the search patterns actually
+				// do not have a data structure ID => in a later version when E16 will be placed in front 
+				// of E15, the patterns already have an ID. 
+				clsDriveMesh oDMInput = ((clsAssociationDriveMesh)oAssociation).getDM(); 
+				
+				if(oDMRepressedContent.moContentType.equals(oDMInput.moContentType)){
+					double rMatchValue = oDMRepressedContent.matchCathegories(oDMInput); 
 						
-						if(rMatchValue > rHighestMatch) {
+					if(rMatchValue > rHighestMatch) {
 							rHighestMatch = rMatchValue;
-							oRetVal = oRep;
-						}
+							oRetVal = oDMRepressedContent;
 					}
-						if(rHighestMatch >= 1) { break;	} //do the doublebreak to abort search --> first come first serve
-					}
+				}
+					if(rHighestMatch >= 1) { break;	} //do the doublebreak to abort search --> first come first serve
 				}
 			}
 

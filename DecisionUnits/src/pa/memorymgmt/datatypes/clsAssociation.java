@@ -7,7 +7,6 @@
 package pa.memorymgmt.datatypes;
 
 import java.lang.reflect.Method;
-import java.util.NoSuchElementException;
 
 import pa.memorymgmt.enums.eDataType;
 import pa.tools.clsTripple;
@@ -42,12 +41,12 @@ public abstract class clsAssociation extends clsDataStructurePA{
 		moAssociationElementB = poAssociationElementB; 
 	}
 	
-	public clsDataStructurePA getLeafElement(clsDataStructurePA poRootElement){
-		if(poRootElement.moDataStructureID.equals(moAssociationElementA.moDataStructureID)){return moAssociationElementB;}
-		else if(poRootElement.moDataStructureID.equals(moAssociationElementB.moDataStructureID)){return moAssociationElementA;}
-		else{throw new NoSuchElementException("element not found in association");}
-	}
-	
+	//Abstract method that has to be implemented by every Association object - however
+	//the recall of the leaf element is different for every Association Type
+	//FIXME HZ 17.08.2010: Refactor this method as it is different for every 
+	//					   Association type. 
+	public abstract clsDataStructurePA getLeafElement(clsDataStructurePA poRootElement); 
+		
 	@Override
 	public Object clone() throws CloneNotSupportedException {
 		try {

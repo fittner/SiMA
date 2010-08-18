@@ -89,6 +89,8 @@ public class clsTemplateImage extends clsPhysicalStructureComposition{
 	@Override
 	public double compareTo(clsDataStructurePA poDataStructure) {
 		double oRetVal = 0.0; 
+		if(!this.moDataStructureType.equals(poDataStructure.moDataStructureType)){return oRetVal;}
+
 		clsTemplateImage oDataStructure = (clsTemplateImage)poDataStructure;
 		ArrayList <clsAssociation> oContentListTemplate = this.moAssociatedContent; 
 		ArrayList <clsAssociation> oContentListUnknown = oDataStructure.moAssociatedContent;
@@ -180,5 +182,24 @@ public class clsTemplateImage extends clsPhysicalStructureComposition{
 			oResult += oEntry.toString() + ":"; 
 		}
 		return oResult; 
+	}
+
+	/* (non-Javadoc)
+	 *
+	 * @author zeilinger
+	 * 17.08.2010, 21:59:51
+	 * 
+	 * @see pa.memorymgmt.datatypes.clsPhysicalStructureComposition#contain(pa.memorymgmt.datatypes.clsDataStructurePA)
+	 */
+	@Override
+	public boolean contain(clsDataStructurePA poDataStructure) {
+		
+		for(clsAssociation oAssociation : this.moAssociatedContent){
+			if(oAssociation.moAssociationElementB.compareTo(poDataStructure)> 0.0){
+				return true;
+			}
+		}
+		
+		return false;
 	}
 }

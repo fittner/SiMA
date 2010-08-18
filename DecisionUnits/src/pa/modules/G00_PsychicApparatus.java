@@ -309,7 +309,7 @@ public class G00_PsychicApparatus extends clsModuleContainer implements
 	 */
 	@Override
 	public void receive_I2_8(ArrayList<clsPair<clsPrimaryInformation, clsPrimaryInformation>> poMergedPrimaryInformation_old,
-			  ArrayList<clsPair<clsPrimaryDataStructureContainer, clsPrimaryDataStructureContainer>> poMergedPrimaryInformation) {
+			  ArrayList<clsPair<clsPrimaryDataStructureContainer, clsDriveMesh>> poMergedPrimaryInformation) {
 		moG02Id.receive_I2_8(poMergedPrimaryInformation_old, poMergedPrimaryInformation);
 		
 	}
@@ -350,7 +350,7 @@ public class G00_PsychicApparatus extends clsModuleContainer implements
 	 */
 	@Override
 	public void receive_I2_6(ArrayList<clsPair<clsPrimaryInformation, clsPrimaryInformation>> poPerceptPlusRepressed_old,
-			  ArrayList<clsPair<clsPrimaryDataStructureContainer, clsPrimaryDataStructureContainer>> poPerceptPlusRepressed) {
+			  ArrayList<clsPair<clsPrimaryDataStructureContainer, clsDriveMesh>> poPerceptPlusRepressed) {
 		moG03Ego.receive_I2_6(poPerceptPlusRepressed_old, poPerceptPlusRepressed);
 		
 	}

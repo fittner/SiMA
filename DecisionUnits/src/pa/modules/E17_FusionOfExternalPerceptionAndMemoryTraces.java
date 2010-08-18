@@ -16,7 +16,11 @@ import pa.datatypes.clsPrimaryInformationMesh;
 import pa.interfaces.receive.I2_7_receive;
 import pa.interfaces.receive.I2_8_receive;
 import pa.interfaces.send.I2_8_send;
+import pa.memorymgmt.datatypes.clsAssociationDriveMesh;
+import pa.memorymgmt.datatypes.clsDriveMesh;
+import pa.memorymgmt.datatypes.clsPrimaryDataStructure;
 import pa.memorymgmt.datatypes.clsPrimaryDataStructureContainer;
+import pa.memorymgmt.enums.eDataType;
 import pa.tools.clsPair;
 import pa.tools.clsTripple;
 
@@ -44,8 +48,8 @@ public class E17_FusionOfExternalPerceptionAndMemoryTraces extends clsModuleBase
 	ArrayList<clsTripple<clsPrimaryInformation, clsPrimaryInformation, ArrayList<clsPrimaryInformation>>> moPerceptPlusAwareContent_Input_old;
 	ArrayList<clsPair<clsPrimaryInformation, clsPrimaryInformation>> moMergedPrimaryInformation_Output_old;
 	
-	ArrayList<clsTripple<clsPrimaryDataStructureContainer, clsPrimaryDataStructureContainer,ArrayList<clsPrimaryDataStructureContainer>>> moPerceptPlusAwareContent_Input; 
-	ArrayList<clsPair<clsPrimaryDataStructureContainer, clsPrimaryDataStructureContainer>> moMergedPrimaryInformation_Output; 
+	ArrayList<clsTripple<clsPrimaryDataStructureContainer, clsDriveMesh,ArrayList<clsDriveMesh>>> moPerceptPlusAwareContent_Input; 
+	ArrayList<clsPair<clsPrimaryDataStructureContainer, clsDriveMesh>> moMergedPrimaryInformation_Output; 
 	
 	public E17_FusionOfExternalPerceptionAndMemoryTraces(String poPrefix,
 			clsBWProperties poProp, clsModuleContainer poEnclosingContainer, clsInterfaceHandler poInterfaceHandler) {
@@ -102,9 +106,9 @@ public class E17_FusionOfExternalPerceptionAndMemoryTraces extends clsModuleBase
 	@SuppressWarnings("unchecked")
 	@Override
 	public void receive_I2_7(ArrayList<clsTripple<clsPrimaryInformation, clsPrimaryInformation,ArrayList<clsPrimaryInformation>>> poPerceptPlusMemories_Output_old,
-			  				 ArrayList<clsTripple<clsPrimaryDataStructureContainer, clsPrimaryDataStructureContainer,ArrayList<clsPrimaryDataStructureContainer>>> poPerceptPlusMemories_Output) {
+			  				 ArrayList<clsTripple<clsPrimaryDataStructureContainer, clsDriveMesh,ArrayList<clsDriveMesh>>> poPerceptPlusMemories_Output) {
 		moPerceptPlusAwareContent_Input_old = (ArrayList<clsTripple<clsPrimaryInformation, clsPrimaryInformation, ArrayList<clsPrimaryInformation>>>)deepCopy(poPerceptPlusMemories_Output_old);
-		moPerceptPlusAwareContent_Input = (ArrayList<clsTripple<clsPrimaryDataStructureContainer, clsPrimaryDataStructureContainer,ArrayList<clsPrimaryDataStructureContainer>>>)deepCopy(poPerceptPlusMemories_Output);
+		moPerceptPlusAwareContent_Input = (ArrayList<clsTripple<clsPrimaryDataStructureContainer, clsDriveMesh,ArrayList<clsDriveMesh>>>)deepCopy(poPerceptPlusMemories_Output);
 	}
 
 	/* (non-Javadoc)
@@ -116,9 +120,35 @@ public class E17_FusionOfExternalPerceptionAndMemoryTraces extends clsModuleBase
 	 */
 	@Override
 	protected void process_basic() {
+		moMergedPrimaryInformation_Output = new ArrayList<clsPair<clsPrimaryDataStructureContainer, clsDriveMesh>>();
+		addAwareContentToObject();
 		process_oldDT();
 	}
 	
+	/**
+	 * DOCUMENT (zeilinger) - insert description
+	 *
+	 * @author zeilinger
+	 * 18.08.2010, 11:28:46
+	 *
+	 * @return
+	 */
+	private void addAwareContentToObject() {
+		for(clsTripple<clsPrimaryDataStructureContainer, clsDriveMesh,ArrayList<clsDriveMesh>> oEntry : moPerceptPlusAwareContent_Input){
+				for(clsDriveMesh oDM : oEntry.c){
+						clsAssociationDriveMesh oAssociation = new clsAssociationDriveMesh(
+									new clsTripple <String, eDataType, String>(null, eDataType.ASSOCIATIONDM, eDataType.ASSOCIATIONDM.toString()), 
+									oDM,
+									(clsPrimaryDataStructure)oEntry.a.moDataStructure); 
+						
+						oEntry.a.moAssociatedDataStructures.add(oAssociation); 
+				}
+			
+			moMergedPrimaryInformation_Output.add(new clsPair<clsPrimaryDataStructureContainer, clsDriveMesh>(oEntry.a, oEntry.b)); 
+		}
+	}
+
+
 	/**
 	 * DOCUMENT (zeilinger) - insert description
 	 * This method is used while adapting the model from the old datatypes (pa.datatypes) to the
@@ -129,7 +159,6 @@ public class E17_FusionOfExternalPerceptionAndMemoryTraces extends clsModuleBase
 	 */
 	private void process_oldDT() {
 		moMergedPrimaryInformation_Output_old = new ArrayList<clsPair<clsPrimaryInformation, clsPrimaryInformation>>();
-		moMergedPrimaryInformation_Output = new ArrayList<clsPair<clsPrimaryDataStructureContainer, clsPrimaryDataStructureContainer>>();
 		for(clsTripple<clsPrimaryInformation, clsPrimaryInformation,ArrayList<clsPrimaryInformation>> oElement : moPerceptPlusAwareContent_Input_old){
 			defineOutput(oElement); 
 		} 	
@@ -219,7 +248,7 @@ public class E17_FusionOfExternalPerceptionAndMemoryTraces extends clsModuleBase
 	 */
 	@Override
 	public void send_I2_8(ArrayList<clsPair<clsPrimaryInformation, clsPrimaryInformation>> poMergedPrimaryInformation_old,
-			  			 ArrayList<clsPair<clsPrimaryDataStructureContainer, clsPrimaryDataStructureContainer>> poMergedPrimaryInformation) {
+			  			 ArrayList<clsPair<clsPrimaryDataStructureContainer, clsDriveMesh>> poMergedPrimaryInformation) {
 		((I2_8_receive)moEnclosingContainer).receive_I2_8(moMergedPrimaryInformation_Output_old, moMergedPrimaryInformation_Output);
 		
 	}

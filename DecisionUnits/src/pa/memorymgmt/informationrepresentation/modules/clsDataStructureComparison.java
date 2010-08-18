@@ -73,7 +73,7 @@ public abstract class clsDataStructureComparison {
 		ArrayList<clsPair<Double, clsDataStructurePA>> oSortedList = new ArrayList<clsPair<Double, clsDataStructurePA>>(); 
 		
 		for(clsPair<Double, clsDataStructurePA> oUnsortedElement : poMatchingDataStructureList ){
-			if(oSortedList.size()==0){oSortedList.add(oUnsortedElement);}
+			if(oSortedList.size()==0){ oSortedList.add(oUnsortedElement); }
 			else{
 				for(clsPair<Double, clsDataStructurePA> oElement : oSortedList){
 					if(oElement.a <= oUnsortedElement.a){

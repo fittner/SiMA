@@ -153,5 +153,4 @@ public abstract class clsDataStructureGenerator {
 		oRetVal = new clsAct(new clsTripple<String, eDataType, String>(null, eDataType.ACT, oContentType), oAssociatedContent, oContent);
 		return oRetVal;
 	}
-	
 }

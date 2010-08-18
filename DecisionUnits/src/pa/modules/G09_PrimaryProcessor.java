@@ -129,7 +129,7 @@ public class G09_PrimaryProcessor extends clsModuleContainer implements
 	 */
 	@Override
 	public void receive_I2_7(ArrayList<clsTripple<clsPrimaryInformation, clsPrimaryInformation,ArrayList<clsPrimaryInformation>>> poPerceptPlusMemories_Output_old,
-			  				ArrayList<clsTripple<clsPrimaryDataStructureContainer, clsPrimaryDataStructureContainer,ArrayList<clsPrimaryDataStructureContainer>>> poPerceptPlusMemories_Output) {
+			  				ArrayList<clsTripple<clsPrimaryDataStructureContainer, clsDriveMesh, ArrayList<clsDriveMesh>>> poPerceptPlusMemories_Output) {
 		moE17FusionOfExternalPerceptionAndMemoryTraces.receive_I2_7(poPerceptPlusMemories_Output_old, poPerceptPlusMemories_Output);
 	}
 
@@ -142,7 +142,7 @@ public class G09_PrimaryProcessor extends clsModuleContainer implements
 	 */
 	@Override
 	public void receive_I2_8(ArrayList<clsPair<clsPrimaryInformation, clsPrimaryInformation>> poMergedPrimaryInformation_old,
-			  ArrayList<clsPair<clsPrimaryDataStructureContainer, clsPrimaryDataStructureContainer>> poMergedPrimaryInformation) {
+			  ArrayList<clsPair<clsPrimaryDataStructureContainer, clsDriveMesh>> poMergedPrimaryInformation) {
 		((I2_8_receive)moEnclosingContainer).receive_I2_8(poMergedPrimaryInformation_old, poMergedPrimaryInformation);		
 	}
 
@@ -155,7 +155,7 @@ public class G09_PrimaryProcessor extends clsModuleContainer implements
 	 */
 	@Override
 	public void receive_I2_6(ArrayList<clsPair<clsPrimaryInformation, clsPrimaryInformation>> poPerceptPlusRepressed_old,
-			  ArrayList<clsPair<clsPrimaryDataStructureContainer, clsPrimaryDataStructureContainer>> poPerceptPlusRepressed) {
+			  ArrayList<clsPair<clsPrimaryDataStructureContainer, clsDriveMesh>> poPerceptPlusRepressed) {
 		moG13PrimaryKnowledgeUtilizer.receive_I2_6(poPerceptPlusRepressed_old, poPerceptPlusRepressed);
 	}
 

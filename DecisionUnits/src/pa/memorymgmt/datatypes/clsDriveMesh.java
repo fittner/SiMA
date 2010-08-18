@@ -144,6 +144,8 @@ public class clsDriveMesh extends clsHomeostaticRepresentation{
 	@Override
 	public double compareTo(clsDataStructurePA poDataStructure) {
 		double oRetVal = 0.0; 
+		if(!this.moDataStructureType.equals(poDataStructure.moDataStructureType)){return oRetVal;}
+
 		clsDriveMesh oDataStructure = (clsDriveMesh)poDataStructure;
 		ArrayList <clsAssociation> oContentListTemplate = this.moAssociatedContent; 
 		ArrayList <clsAssociation> oContentListUnknown = oDataStructure.moAssociatedContent;

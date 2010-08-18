@@ -9,7 +9,8 @@ package tstpa.memorymgmt.informationrepresentation;
 import static org.junit.Assert.assertTrue;
 
 import java.util.ArrayList;
-import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
 
 import org.junit.Test;
 
@@ -45,7 +46,7 @@ public class tssInformationRepresentationManagementARSi10 {
 	@Test
 	public void tssInitMemorySearch(){
 		ArrayList<clsPair<Integer, clsDataStructurePA>> oSearchPatternList = null;
-		List<ArrayList<clsPair<Double,clsDataStructureContainer>>> oResultList = null; 
+		HashMap<Integer, ArrayList<clsPair<Double,clsDataStructureContainer>>> oResultList = null; 
 		clsBWProperties oProp = new clsBWProperties();
 		oProp.putAll(clsInformationRepresentationManagement.getDefaultProperties(""));
 		oProp.setProperty(clsKnowledgeBaseHandler.P_SOURCE_NAME, ""); 
@@ -222,7 +223,7 @@ public class tssInformationRepresentationManagementARSi10 {
 	 */
 	private void toString(
 			ArrayList<clsPair<Integer, clsDataStructurePA>> oSearchPatternList,
-			List<ArrayList<clsPair<Double, clsDataStructureContainer>>> oResultList) {
+			HashMap<Integer, ArrayList<clsPair<Double, clsDataStructureContainer>>> oResultList) {
 		
 		String oOutput = ""; 
 		oOutput += "Search-pattern: \n";
@@ -231,8 +232,8 @@ public class tssInformationRepresentationManagementARSi10 {
 		}
 		
 		oOutput += "Result:";
-		for(ArrayList<clsPair<Double, clsDataStructureContainer>> oEntryList : oResultList){
-			for(clsPair<Double, clsDataStructureContainer> oEntry : oEntryList){
+		for(Map.Entry<Integer, ArrayList<clsPair<Double, clsDataStructureContainer>>> oEntryList : oResultList.entrySet()){
+			for(clsPair<Double, clsDataStructureContainer> oEntry : oEntryList.getValue()){
 				oOutput += "\nMatchfactor:"+oEntry.a + "\n:DataStructureContainer:" + oEntry.b.toString(); 
 			}
 		}

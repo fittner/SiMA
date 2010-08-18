@@ -7,6 +7,7 @@
 package pa.interfaces.knowledgebase;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import pa.memorymgmt.datatypes.clsDataStructureContainer;
 import pa.memorymgmt.datatypes.clsDataStructurePA;
@@ -22,6 +23,6 @@ import pa.tools.clsPair;
  */
 public interface itfKnowledgeBaseAccess {
 	public ArrayList<clsPair<Integer, clsDataStructurePA>> moSearchPattern = new ArrayList<clsPair<Integer, clsDataStructurePA>>() ; 
-	public abstract ArrayList<ArrayList<clsPair<Double,clsDataStructureContainer>>> accessKnowledgeBase();
+	public abstract HashMap<Integer,ArrayList<clsPair<Double,clsDataStructureContainer>>> accessKnowledgeBase();
 	public abstract void addToSearchPattern(eDataType oReturnType, clsDataStructurePA poSearchPattern); 
 }

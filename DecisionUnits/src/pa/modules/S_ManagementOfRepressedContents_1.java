@@ -22,6 +22,7 @@ import pa.interfaces.knowledgebase.itfKnowledgeBaseAccess;
 import pa.interfaces.receive.I2_5_receive;
 import pa.interfaces.receive.I2_6_receive;
 import pa.memorymgmt.datatypes.clsAssociation;
+import pa.memorymgmt.datatypes.clsAssociationDriveMesh;
 import pa.memorymgmt.datatypes.clsDataStructureContainer;
 import pa.memorymgmt.datatypes.clsDataStructurePA;
 import pa.memorymgmt.datatypes.clsDriveMesh;
@@ -42,7 +43,7 @@ public class S_ManagementOfRepressedContents_1 extends clsModuleBase implements 
 	public ArrayList<clsPair<clsPrimaryInformation, clsPrimaryInformation>> moAttachedRepressed_Output_old;
 	
 	public ArrayList<clsPrimaryDataStructureContainer> moEnvironmentalTP_Input; 
-	public ArrayList<clsPair<clsPrimaryDataStructureContainer, clsPrimaryDataStructureContainer>> moAttachedRepressed_Output; 
+	public ArrayList<clsPair<clsPrimaryDataStructureContainer, clsDriveMesh>> moAttachedRepressed_Output; 
 	
 	private double mrContextSensitivity = 0.8;
 	
@@ -121,8 +122,9 @@ public class S_ManagementOfRepressedContents_1 extends clsModuleBase implements 
 	 * @return
 	 */
 	private ArrayList<clsPrimaryDataStructureContainer> assignDriveMeshes() {
+		
 		ArrayList<clsPrimaryDataStructureContainer> oRetVal = new ArrayList<clsPrimaryDataStructureContainer>(); 
-		ArrayList<ArrayList<clsPair<Double, clsDataStructureContainer>>> oSearchResult; 
+		HashMap<Integer,ArrayList<clsPair<Double,clsDataStructureContainer>>> oSearchResult; 
 		
 		moSearchPattern.clear(); 
 		for(clsPrimaryDataStructureContainer oContainer : moEnvironmentalTP_Input){
@@ -130,10 +132,21 @@ public class S_ManagementOfRepressedContents_1 extends clsModuleBase implements 
 		}
 		
 		oSearchResult = accessKnowledgeBase(); 
-		for(ArrayList<clsPair<Double, clsDataStructureContainer>> oContainer : oSearchResult){
-			//HZ: 16.08.2010 Actually the first element is taken out of the list. 
-			oRetVal.add((clsPrimaryDataStructureContainer)oContainer.get(0).b); 
+		
+		for(clsPair<Integer, clsDataStructurePA> oEntry: moSearchPattern){
+			//HZ: 16.08.2010 Actually the first element is taken out of the list.
+			//The associated drive meshes are linked to the search pattern; the search pattern is not 
+			//exchanged. 
+			clsDataStructurePA oDataStructure = oEntry.b; 
+			ArrayList<clsAssociation> oAssociatedDataStructures = new ArrayList<clsAssociation>(); 
+			
+			if(oSearchResult.containsKey(moSearchPattern.indexOf(oEntry))){
+				oAssociatedDataStructures = oSearchResult.get(moSearchPattern.indexOf(oEntry)).get(0).b.moAssociatedDataStructures; 
+			}
+			
+			oRetVal.add(new clsPrimaryDataStructureContainer(oDataStructure, oAssociatedDataStructures));
 		}
+		
 		return oRetVal;
 	}
 	
@@ -146,18 +159,20 @@ public class S_ManagementOfRepressedContents_1 extends clsModuleBase implements 
 	 * @param oContainer
 	 */
 	private void adaptCathegories(ArrayList<clsPrimaryDataStructureContainer> oContainerList) {
+		
 		HashMap<clsPrimaryDataStructureContainer, clsMutableDouble> oContextResult = 
 							moEnclosingContainer.moMemory.moCurrentContextStorage.getContextRatiosPrimCONVERTED(mrContextSensitivity);
 		
 		for(clsPrimaryDataStructureContainer oContainer : oContainerList){
 			for( Map.Entry<clsPrimaryDataStructureContainer, clsMutableDouble> oContextPrim : oContextResult.entrySet() ) {
 				eContext oContext = eContext.valueOf(oContextPrim.getKey().moDataStructure.moContentType);
-				clsDataStructurePA oRootElement = oContainer.moDataStructure; 
-				ArrayList<clsAssociation> oAssociationList = oContainer.moAssociatedDataStructures;
-				
-				for(clsAssociation oAssociation : oAssociationList){
-					clsDriveMesh oDM = (clsDriveMesh)oAssociation.getLeafElement(oRootElement); 
-					
+								
+				for(clsAssociation oAssociation : oContainer.moAssociatedDataStructures){
+					//HZ 17.08.2010: The method getLeafElement cannot be used here as the search patterns actually
+					// do not have a data structure ID => in a later version when E16 will be placed in front 
+					// of E15, the patterns already have an ID. 
+					clsDriveMesh oDM = ((clsAssociationDriveMesh)oAssociation).getDM();  
+						
 					if(eContext.valueOf(oDM.moContentType).equals(oContext)){
 						setCathegories(oDM, oContextPrim.getValue().doubleValue()); 
 					}
@@ -191,14 +206,14 @@ public class S_ManagementOfRepressedContents_1 extends clsModuleBase implements 
 	 * @param oContainer
 	 * @return
 	 */
-	private ArrayList<clsPair<clsPrimaryDataStructureContainer, clsPrimaryDataStructureContainer>> matchRepressedContent(
+	private ArrayList<clsPair<clsPrimaryDataStructureContainer, clsDriveMesh>> matchRepressedContent(
 			ArrayList<clsPrimaryDataStructureContainer> poCathegorizedInputContainer) {
 		
-		ArrayList<clsPair<clsPrimaryDataStructureContainer, clsPrimaryDataStructureContainer>> oRetVal = new ArrayList<clsPair<clsPrimaryDataStructureContainer,clsPrimaryDataStructureContainer>>();
-
+		ArrayList<clsPair<clsPrimaryDataStructureContainer, clsDriveMesh>> oRetVal = new ArrayList<clsPair<clsPrimaryDataStructureContainer,clsDriveMesh>>();
+		
 		for(clsPrimaryDataStructureContainer oInput : poCathegorizedInputContainer){
-				clsPrimaryDataStructureContainer oRep = moEnclosingContainer.moMemory.moRepressedContentsStore.getBestMatchCONVERTED(oInput);
-				oRetVal.add(new clsPair<clsPrimaryDataStructureContainer, clsPrimaryDataStructureContainer>(oInput, oRep));
+				clsDriveMesh oRep = moEnclosingContainer.moMemory.moRepressedContentsStore.getBestMatchCONVERTED(oInput);
+				oRetVal.add(new clsPair<clsPrimaryDataStructureContainer, clsDriveMesh>(oInput, oRep));
 		}
 		return oRetVal;
 	}
@@ -360,7 +375,7 @@ public class S_ManagementOfRepressedContents_1 extends clsModuleBase implements 
 	 * @see pa.interfaces.knowledgebase.itfKnowledgeBaseAccess#accessKnowledgeBase(java.util.ArrayList)
 	 */
 	@Override
-	public ArrayList<ArrayList<clsPair<Double, clsDataStructureContainer>>> accessKnowledgeBase() {
+	public HashMap<Integer,ArrayList<clsPair<Double,clsDataStructureContainer>>> accessKnowledgeBase() {
 		
 		return moEnclosingContainer.moKnowledgeBaseHandler.initMemorySearch(moSearchPattern);
 	}

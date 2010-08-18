@@ -91,6 +91,8 @@ public class clsThingPresentationMesh extends clsPhysicalStructureComposition{
 	@Override
 	public double compareTo(clsDataStructurePA poDataStructure) {
 		double oRetVal = 0.0; 
+		if(!this.moDataStructureType.equals(poDataStructure.moDataStructureType)){return oRetVal;}
+		
 		clsThingPresentationMesh oDataStructure = (clsThingPresentationMesh)poDataStructure;
 		ArrayList <clsAssociation> oContentListTemplate = this.moAssociatedContent; 
 		ArrayList <clsAssociation> oContentListUnknown = oDataStructure.moAssociatedContent;
@@ -98,7 +100,7 @@ public class clsThingPresentationMesh extends clsPhysicalStructureComposition{
 		String oContentUnknown = oDataStructure.moContent.toLowerCase();
 		
     	//This if statement proofs if the compared data structure does already have an ID =>
-		//the ID sepcifies that the data structure has been already compared with a stored
+		//the ID specifies that the data structure has been already compared with a stored
 		//data structure and replaced by it. Hence they can be compared by their IDs.
 		if(oDataStructure.moDataStructureID!=null){
 			if(this.moDataStructureID.equals(oDataStructure.moDataStructureID)){
@@ -151,6 +153,21 @@ public class clsThingPresentationMesh extends clsPhysicalStructureComposition{
 		return oResult;
 	}
 	
+	
+	@Override
+	public boolean contain(clsDataStructurePA poDataStructure){
+		
+		for(clsAssociation oAssociation : this.moAssociatedContent){
+			if(((String)oAssociation.moAssociationElementB.moContentType).toLowerCase()
+									.equals(((String)poDataStructure.moContentType).toLowerCase())){
+				return true;
+			}
+		}
+		
+		return false; 
+	}
+	
+		
 	@Override
 	public Object clone() throws CloneNotSupportedException {
         try {
@@ -183,4 +200,5 @@ public class clsThingPresentationMesh extends clsPhysicalStructureComposition{
 		}
 		return oResult; 
 	}
+
 }

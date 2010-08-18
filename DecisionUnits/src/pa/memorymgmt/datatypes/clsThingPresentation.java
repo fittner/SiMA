@@ -44,8 +44,10 @@ public class clsThingPresentation extends clsPhysicalRepresentation{
 	 */
 	@Override
 	public double compareTo(clsDataStructurePA poDataStructure) {
-		clsThingPresentation oDataStructure = (clsThingPresentation)poDataStructure;
 		double oRetVal = 0.0;
+		if(!this.moDataStructureType.equals(poDataStructure.moDataStructureType)){return oRetVal;}
+		
+		clsThingPresentation oDataStructure = (clsThingPresentation)poDataStructure;
 		//This if statement proofs if the compared datastructure does already have an ID =>
 		//the ID sepcifies that the data structure has been already compared with a stored
 		//data structure and replaced by it. Hence they can be compared by their IDs.
@@ -63,7 +65,7 @@ public class clsThingPresentation extends clsPhysicalRepresentation{
 		//HZ 16.08.2010 Be careful - as their are upper-case and lower-case issues within the simulator 
 		//				and in between the simulator and the ontology regarding the current naming 
 		//				of SymbolTypes, the content types are compared without case sensitivity. 
-			if(moContentType.toLowerCase().equals(oDataStructure.moContentType.toLowerCase())){
+		if(moContentType.toLowerCase().equals(oDataStructure.moContentType.toLowerCase())){
 							
 				if(this.moContent instanceof Boolean && oDataStructure.moContent instanceof Boolean) {
 					oRetVal = compare((Boolean)this.moContent, (Boolean)oDataStructure.moContent );
@@ -77,7 +79,7 @@ public class clsThingPresentation extends clsPhysicalRepresentation{
 				else if(this.moContent instanceof String && oDataStructure.moContent instanceof Enum) {
 					oRetVal = compare((String)this.moContent, ((Enum<?>)oDataStructure.moContent).name());
 				}
-			}
+		}
 		return oRetVal;
 	}
 	

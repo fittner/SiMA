@@ -109,6 +109,7 @@ public class E19_DefenseMechanismsForPerception extends clsModuleBase implements
 	 */
 	@Override
 	protected void process_basic() {
+		moFilteredPerception_Output = moSubjectivePerception_Input; 
 		process_oldDT(); 	
 	}
 	
@@ -121,7 +122,7 @@ public class E19_DefenseMechanismsForPerception extends clsModuleBase implements
 	 * @deprecated
 	 */
 	private void process_oldDT() {
-		moFilteredPerception_Output_old = moSubjectivePerception_Input_old;		
+		moFilteredPerception_Output_old = moSubjectivePerception_Input_old;
 	}
 
 	/* (non-Javadoc)

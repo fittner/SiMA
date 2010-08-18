@@ -39,6 +39,17 @@ public abstract class clsPhysicalStructureComposition extends clsPhysicalReprese
 	 * DOCUMENT (zeilinger) - insert description
 	 *
 	 * @author zeilinger
+	 * 17.08.2010, 21:59:35
+	 *
+	 * @param poDataStructure
+	 * @return
+	 */
+	public abstract boolean contain(clsDataStructurePA poDataStructure); 
+	
+	/**
+	 * DOCUMENT (zeilinger) - insert description
+	 *
+	 * @author zeilinger
 	 * 01.07.2010, 22:49:49
 	 *
 	 * @param poDataStructurePA

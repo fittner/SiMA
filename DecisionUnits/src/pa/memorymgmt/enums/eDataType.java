@@ -14,6 +14,8 @@ package pa.memorymgmt.enums;
  * 
  */
 public enum eDataType {
+	
+	UNDEFINED				(0x000000), 
 	ACT						(0x000001),
 	AFFECT					(0x000000),
 	ASSOCIATIONTEMP 		(0x000000),

@@ -125,7 +125,7 @@ public class G08_PsychicMediator extends clsModuleContainer implements
 	 */
 	@Override
 	public void receive_I2_6(ArrayList<clsPair<clsPrimaryInformation, clsPrimaryInformation>> poPerceptPlusRepressed_old,
-			  ArrayList<clsPair<clsPrimaryDataStructureContainer, clsPrimaryDataStructureContainer>> poPerceptPlusRepressed) {
+			  ArrayList<clsPair<clsPrimaryDataStructureContainer, clsDriveMesh>> poPerceptPlusRepressed) {
 		moG09PrimaryProcessor.receive_I2_6(poPerceptPlusRepressed_old, poPerceptPlusRepressed);
 		
 	}
@@ -139,7 +139,7 @@ public class G08_PsychicMediator extends clsModuleContainer implements
 	 */
 	@Override
 	public void receive_I2_8(ArrayList<clsPair<clsPrimaryInformation, clsPrimaryInformation>> poMergedPrimaryInformation_old,
-			  				ArrayList<clsPair<clsPrimaryDataStructureContainer, clsPrimaryDataStructureContainer>> poMergedPrimaryInformation) {
+			  				ArrayList<clsPair<clsPrimaryDataStructureContainer, clsDriveMesh>> poMergedPrimaryInformation) {
 		((I2_8_receive)moEnclosingContainer).receive_I2_8(poMergedPrimaryInformation_old, poMergedPrimaryInformation);
 	}
 

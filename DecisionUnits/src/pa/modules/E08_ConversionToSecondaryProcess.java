@@ -7,6 +7,8 @@
 package pa.modules;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 import config.clsBWProperties;
 import pa.clsInterfaceHandler;
@@ -152,7 +154,7 @@ public class E08_ConversionToSecondaryProcess extends clsModuleBase implements I
 		}
 		addToSearchPattern(eDataType.WP, clsDataStructureGenerator.generateDataStructure(eDataType.AFFECT, 
 												new clsPair<String, Object>(eDataType.AFFECT.toString(), oDriveMesh.getPleasure())));
-		ArrayList<ArrayList<clsPair<Double, clsDataStructureContainer>>> oSearchResult = accessKnowledgeBase();
+		HashMap<Integer,ArrayList<clsPair<Double,clsDataStructureContainer>>> oSearchResult = accessKnowledgeBase();
 		return defineDriveContainer(oSearchResult);
 	}
 
@@ -165,13 +167,14 @@ public class E08_ConversionToSecondaryProcess extends clsModuleBase implements I
 	 * @param oSearchResult
 	 * @return
 	 */
-	private clsSecondaryDataStructureContainer defineDriveContainer(ArrayList<ArrayList<clsPair<Double, clsDataStructureContainer>>> oSearchResult) {
+	private clsSecondaryDataStructureContainer defineDriveContainer(HashMap<Integer,ArrayList<clsPair<Double,clsDataStructureContainer>>> oSearchResult) {
 		clsWordPresentation oSecondaryCounterpart = null; 
 		String oWordPresentationContent = ""; 
 		
-		for(ArrayList<clsPair<Double, clsDataStructureContainer>> oEntry : oSearchResult){
-			//HZ: 15.08.2010 Actually the first element is taken out of the list. 
-			clsDataStructureContainer oSelectedMatch = oEntry.get(0).b; 
+		for(Map.Entry<Integer, ArrayList<clsPair<Double, clsDataStructureContainer>>> oEntry : oSearchResult.entrySet()){
+			//HZ: 15.08.2010 Actually the first element is taken out of the list.
+			// Input values are exchanged by memorized values 1:1 (they are not merged)
+			clsDataStructureContainer oSelectedMatch = oEntry.getValue().get(0).b; 
 			for(clsAssociation oAssociation : oSelectedMatch.moAssociatedDataStructures){
 				oWordPresentationContent += " " + ((clsWordPresentation)oAssociation.getLeafElement(oSelectedMatch.moDataStructure)).moContent + " ";
 			}
@@ -288,7 +291,7 @@ public class E08_ConversionToSecondaryProcess extends clsModuleBase implements I
 	 * @see pa.interfaces.knowledgebase.itfKnowledgeBaseAccess#accessKnowledgeBase(java.util.ArrayList)
 	 */
 	@Override
-	public ArrayList<ArrayList<clsPair<Double, clsDataStructureContainer>>> accessKnowledgeBase() {
+	public HashMap<Integer,ArrayList<clsPair<Double,clsDataStructureContainer>>> accessKnowledgeBase() {
 		return moEnclosingContainer.moKnowledgeBaseHandler.initMemorySearch(moSearchPattern);
 	}
 }

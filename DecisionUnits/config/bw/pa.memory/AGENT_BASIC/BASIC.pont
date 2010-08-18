@@ -1,4 +1,4 @@
-; Mon Aug 16 12:47:11 CEST 2010
+; Wed Aug 18 14:27:15 CEST 2010
 ; 
 ;+ (version "3.4.4")
 ;+ (build "Build 579")
@@ -98,13 +98,13 @@
 		(type INSTANCE)
 ;+		(allowed-classes)
 		(create-accessor read-write))
-	(single-slot value
-;+		(type ANY)
-;+		(cardinality 1 1)
-		(create-accessor read-write))
 	(multislot class_association
 		(type INSTANCE)
 ;+		(allowed-classes)
+		(create-accessor read-write))
+	(single-slot value
+;+		(type ANY)
+;+		(cardinality 1 1)
 		(create-accessor read-write))
 	(single-slot %3ANAME
 		(type STRING)
@@ -131,6 +131,11 @@
 		(type INSTANCE)
 ;+		(allowed-classes)
 ;+		(value [TP%3ASENSOR_EXT%3AVISION%3ASHAPE%3ACIRCLE] [TP%3AINTENSITY%3ASMALL])
+		(create-accessor read-write))
+	(single-slot value
+		(type STRING)
+;+		(value "CAN")
+;+		(cardinality 1 1)
 		(create-accessor read-write)))
 
 (defclass WALL
@@ -140,6 +145,11 @@
 		(type INSTANCE)
 ;+		(allowed-classes)
 ;+		(value [TP%3ASENSOR_EXT%3AVISION%3ACOLOR%3ABLACK])
+		(create-accessor read-write))
+	(single-slot value
+		(type STRING)
+;+		(value "WALL")
+;+		(cardinality 1 1)
 		(create-accessor read-write)))
 
 (defclass STONE
@@ -149,6 +159,11 @@
 		(type INSTANCE)
 ;+		(allowed-classes)
 ;+		(value [TP%3ASENSOR_EXT%3AVISION%3ACOLOR%3AGREEN])
+		(create-accessor read-write))
+	(single-slot value
+		(type STRING)
+;+		(value "STONE")
+;+		(cardinality 1 1)
 		(create-accessor read-write)))
 
 (defclass BUBBLE
@@ -158,6 +173,11 @@
 		(type INSTANCE)
 ;+		(allowed-classes)
 ;+		(value [TP%3ASENSOR_EXT%3AVISION%3ASHAPE%3ACIRCLE] [TPM%3ABODYPARTS%3AAGENT_ANTENNA%3ABASIC] [TPM%3ABODYPARTS%3AAGENT_HANDS_BASIC])
+		(create-accessor read-write))
+	(single-slot value
+		(type STRING)
+;+		(value "BUBBLE")
+;+		(cardinality 1 1)
 		(create-accessor read-write)))
 
 (defclass CAKE
@@ -166,7 +186,12 @@
 	(multislot class_association
 		(type INSTANCE)
 ;+		(allowed-classes)
-;+		(value [TP%3ASENSOR_EXT%3AVISION%3ACOLOR%3ARED] [TP%3ASENSOR_EXT%3AVISION%3ASHAPE%3ACIRCLE] [TP%3AINTENSITY%3AMEDIUM])
+;+		(value [TP%3ASENSOR_EXT%3AVISION%3ASHAPE%3ACIRCLE] [TP%3AINTENSITY%3AMEDIUM])
+		(create-accessor read-write))
+	(single-slot value
+		(type STRING)
+;+		(value "CAKE")
+;+		(cardinality 1 1)
 		(create-accessor read-write)))
 
 (defclass BODYPART
@@ -216,13 +241,13 @@
 		(type INSTANCE)
 ;+		(allowed-classes)
 		(create-accessor read-write))
-	(single-slot value
-		(type STRING)
-;+		(cardinality 1 1)
-		(create-accessor read-write))
 	(multislot class_association
 		(type INSTANCE)
 ;+		(allowed-classes)
+		(create-accessor read-write))
+	(single-slot value
+		(type STRING)
+;+		(cardinality 1 1)
 		(create-accessor read-write))
 	(single-slot %3ANAME
 		(type STRING)
@@ -274,13 +299,13 @@
 		(type INSTANCE)
 ;+		(allowed-classes)
 		(create-accessor read-write))
-	(single-slot value
-;+		(type ANY)
-;+		(cardinality 1 1)
-		(create-accessor read-write))
 	(multislot class_association
 		(type INSTANCE)
 ;+		(allowed-classes)
+		(create-accessor read-write))
+	(single-slot value
+;+		(type ANY)
+;+		(cardinality 1 1)
 		(create-accessor read-write))
 	(single-slot %3ANAME
 		(type STRING)
@@ -447,7 +472,7 @@
 	(role concrete)
 	(single-slot value_type
 		(type STRING)
-;+		(value "SHAPE")
+;+		(value "SHAPETYPE")
 ;+		(cardinality 1 1)
 		(create-accessor read-write))
 	(single-slot value
@@ -519,16 +544,16 @@
 (defclass ASSOCIATION
 	(is-a USER)
 	(role abstract)
+	(multislot element
+		(type INSTANCE)
+;+		(allowed-classes)
+		(cardinality 2 2)
+		(create-accessor read-write))
 	(multislot weight
 		(type FLOAT)
 		(range -1.0 1.0)
 		(default 1.0 1.0)
 		(cardinality 1 2)
-		(create-accessor read-write))
-	(multislot element
-		(type INSTANCE)
-;+		(allowed-classes)
-		(cardinality 2 2)
 		(create-accessor read-write))
 	(single-slot type
 		(type STRING)
@@ -621,13 +646,13 @@
 		(type INSTANCE)
 ;+		(allowed-classes)
 		(create-accessor read-write))
-	(multislot class_association
-		(type INSTANCE)
-;+		(allowed-classes)
-		(create-accessor read-write))
 	(single-slot value
 		(type STRING)
 ;+		(cardinality 1 1)
+		(create-accessor read-write))
+	(multislot class_association
+		(type INSTANCE)
+;+		(allowed-classes)
 		(create-accessor read-write))
 	(single-slot %3ANAME
 		(type STRING)
@@ -725,10 +750,6 @@
 		(default 0.0)
 ;+		(cardinality 1 1)
 		(create-accessor read-write))
-	(single-slot value_type
-		(type STRING)
-;+		(cardinality 1 1)
-		(create-accessor read-write))
 	(single-slot cathegory%3Aphalic
 ;+		(comment "Shortcut: as every DM includes an evaluation of the four drive cathegories anal, oral, genital and phalic, they are introduced as slots and not as TPs that would have to be additionally associated.")
 		(type FLOAT)
@@ -736,17 +757,13 @@
 		(default 0.0)
 ;+		(cardinality 1 1)
 		(create-accessor read-write))
+	(single-slot value_type
+		(type STRING)
+;+		(cardinality 1 1)
+		(create-accessor read-write))
 	(multislot instance_association
 		(type INSTANCE)
 ;+		(allowed-classes)
-		(create-accessor read-write))
-	(multislot class_association
-		(type INSTANCE)
-;+		(allowed-classes)
-		(create-accessor read-write))
-	(single-slot value
-		(type STRING)
-;+		(cardinality 1 1)
 		(create-accessor read-write))
 	(single-slot cathegory%3Aanal
 ;+		(comment "Shortcut: as every DM includes an evaluation of the four drive cathegories anal, oral, genital and phalic, they are introduced as slots and not as TPs that would have to be additionally associated.")
@@ -754,6 +771,14 @@
 		(range 0.0 1.0)
 		(default 0.0)
 ;+		(cardinality 1 1)
+		(create-accessor read-write))
+	(single-slot value
+		(type STRING)
+;+		(cardinality 1 1)
+		(create-accessor read-write))
+	(multislot class_association
+		(type INSTANCE)
+;+		(allowed-classes)
 		(create-accessor read-write))
 	(single-slot %3ANAME
 		(type STRING)
@@ -788,18 +813,18 @@
 ;+		(value [TP%3ADRIVECONTENTTYPE%3ANOURISH])
 		(create-accessor read-write)))
 
-(defclass DEPOSITE
+(defclass DEPOSIT
 	(is-a DM)
 	(role concrete)
 	(single-slot value_type
 		(type STRING)
-;+		(value "DEPOSITE")
+;+		(value "DEPOSIT")
 ;+		(cardinality 1 1)
 		(create-accessor read-write))
 	(multislot class_association
 		(type INSTANCE)
 ;+		(allowed-classes)
-;+		(value [TP%3ADRIVECONTENTTYPE%3ADEPOSITE])
+;+		(value [TP%3ADRIVECONTENTTYPE%3ADEPOSIT])
 		(create-accessor read-write)))
 
 (defclass REPRESS

@@ -18,7 +18,10 @@ import pa.datatypes.clsPrimaryInformationMesh;
 import pa.interfaces.receive.I2_8_receive;
 import pa.interfaces.receive.I2_9_receive;
 import pa.interfaces.send.I2_9_send;
+import pa.memorymgmt.datatypes.clsAssociationDriveMesh;
+import pa.memorymgmt.datatypes.clsDriveMesh;
 import pa.memorymgmt.datatypes.clsPrimaryDataStructureContainer;
+import pa.memorymgmt.datatypes.clsThingPresentationMesh;
 import pa.tools.clsPair;
 
 /**
@@ -43,7 +46,7 @@ public class E18_GenerationOfAffectsForPerception extends clsModuleBase implemen
 	public ArrayList<clsPair<clsPrimaryInformation,clsPrimaryInformation>> moMergedPrimaryInformation_Input_old; 
 	public ArrayList<clsPrimaryInformation> moNewPrimaryInformation_old; 
 	
-	public ArrayList<clsPair<clsPrimaryDataStructureContainer, clsPrimaryDataStructureContainer>> moMergedPrimaryInformation_Input;
+	public ArrayList<clsPair<clsPrimaryDataStructureContainer, clsDriveMesh>> moMergedPrimaryInformation_Input;
 	public ArrayList<clsPrimaryDataStructureContainer> moNewPrimaryInformation; 
 	
 	public E18_GenerationOfAffectsForPerception(String poPrefix,
@@ -101,9 +104,9 @@ public class E18_GenerationOfAffectsForPerception extends clsModuleBase implemen
 	@SuppressWarnings("unchecked")
 	@Override
 	public void receive_I2_8(ArrayList<clsPair<clsPrimaryInformation, clsPrimaryInformation>> poMergedPrimaryInformation_old,
-			  ArrayList<clsPair<clsPrimaryDataStructureContainer, clsPrimaryDataStructureContainer>> poMergedPrimaryInformation) {
+			  ArrayList<clsPair<clsPrimaryDataStructureContainer, clsDriveMesh>> poMergedPrimaryInformation) {
 		moMergedPrimaryInformation_Input_old = (ArrayList<clsPair<clsPrimaryInformation,clsPrimaryInformation>>)deepCopy(poMergedPrimaryInformation_old);
-		moMergedPrimaryInformation_Input = (ArrayList<clsPair<clsPrimaryDataStructureContainer, clsPrimaryDataStructureContainer>>)deepCopy(poMergedPrimaryInformation);
+		moMergedPrimaryInformation_Input = (ArrayList<clsPair<clsPrimaryDataStructureContainer, clsDriveMesh>>)deepCopy(poMergedPrimaryInformation);
 	}
 
 	/* (non-Javadoc)
@@ -115,10 +118,36 @@ public class E18_GenerationOfAffectsForPerception extends clsModuleBase implemen
 	 */
 	@Override
 	protected void process_basic() {
+		adaptPleasureValue(); 
+		
 		process_oldDT();
-		//moMergedPrimaryInformation_Output = moMergedPrimaryInformation_Input; 
 	}
 	
+	/**
+	 * DOCUMENT (zeilinger) - insert description
+	 *
+	 * @author zeilinger
+	 * 18.08.2010, 12:44:36
+	 *
+	 */
+	private void adaptPleasureValue() {
+		moNewPrimaryInformation = new ArrayList<clsPrimaryDataStructureContainer>(); 
+		
+		for(clsPair <clsPrimaryDataStructureContainer, clsDriveMesh> oPair : moMergedPrimaryInformation_Input){
+			if(oPair.a.moDataStructure instanceof clsThingPresentationMesh){
+				for(pa.memorymgmt.datatypes.clsAssociation oAssociation : oPair.a.moAssociatedDataStructures){
+					if(oAssociation instanceof clsAssociationDriveMesh){
+						clsDriveMesh oDMInput = ((clsAssociationDriveMesh)oAssociation).getDM(); 
+						clsDriveMesh oDMRepressed = oPair.b; 
+						oDMInput.setPleasure(oDMInput.getPleasure()+oDMRepressed.getPleasure()/2); 
+					}
+				}
+			}
+			
+			moNewPrimaryInformation.add(oPair.a); 
+		}
+	}
+
 	/**
 	 * DOCUMENT (zeilinger) - insert description
 	 * This method is used while adapting the model from the old datatypes (pa.datatypes) to the
@@ -164,6 +193,7 @@ public class E18_GenerationOfAffectsForPerception extends clsModuleBase implemen
 	 */
 	private clsPrimaryInformationMesh calculateAffect(clsPair<clsPrimaryInformation, clsPrimaryInformation> poElement) {
 		clsPrimaryInformationMesh oPrimaryInfoPlusAffect = (clsPrimaryInformationMesh)poElement.a; 
+		
 		for(clsAssociation<clsPrimaryInformation> oAssociationElement : oPrimaryInfoPlusAffect.moAssociations){
 			if(oAssociationElement instanceof clsAssociationContent){
 				//FIXME HZ - this mechanism has to be reconsidered
@@ -184,9 +214,7 @@ public class E18_GenerationOfAffectsForPerception extends clsModuleBase implemen
 	 */
 	@Override
 	protected void send() {
-		//HZ: null is a placeholder for the bjects of the type pa.memorymgmt.datatypes
 		send_I2_9(moNewPrimaryInformation_old,moNewPrimaryInformation);
-		
 	}
 
 	/* (non-Javadoc)
@@ -201,7 +229,6 @@ public class E18_GenerationOfAffectsForPerception extends clsModuleBase implemen
 				ArrayList<clsPrimaryInformation> poMergedPrimaryInformation_old,
 				ArrayList<clsPrimaryDataStructureContainer> poMergedPrimaryInformation) {
 		((I2_9_receive)moEnclosingContainer).receive_I2_9(moNewPrimaryInformation_old, moNewPrimaryInformation);
-		
 	}
 
 	/* (non-Javadoc)

@@ -7,7 +7,8 @@
 package pa.memorymgmt.informationrepresentation;
 
 import java.util.ArrayList;
-import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.NoSuchElementException;
 
 import config.clsBWProperties;
@@ -36,7 +37,7 @@ public class clsInformationRepresentationManagement extends clsKnowledgeBaseHand
 	public String moSourceName; 
 	public M01_InformationRepresentationMgmt moM01InformationRepresentationMgmt;
 	public clsSearchSpaceHandler moSearchSpaceHandler; 
-	public List<ArrayList<clsPair<Double,clsDataStructureContainer>>> moSearchResult;
+	public HashMap<Integer,ArrayList<clsPair<Double,clsDataStructureContainer>>> moSearchResult;
 	/**
 	 * DOCUMENT (zeilinger) - insert description 
 	 * 
@@ -111,15 +112,19 @@ public class clsInformationRepresentationManagement extends clsKnowledgeBaseHand
 		 * @see pa.memorymgmt.itfKnowledgeBaseHandler#searchDataStructure(java.util.ArrayList)
 		 */
 		@Override
-		public ArrayList<ArrayList<clsPair<Double,clsDataStructureContainer>>> initMemorySearch( ArrayList<clsPair<Integer, clsDataStructurePA>> poSearchPatternList){
-			moSearchResult = new ArrayList<ArrayList<clsPair<Double,clsDataStructureContainer>>>(); 
+		public HashMap<Integer,ArrayList<clsPair<Double,clsDataStructureContainer>>> initMemorySearch( ArrayList<clsPair<Integer, clsDataStructurePA>> poSearchPatternList){
+			moSearchResult = new HashMap<Integer,ArrayList<clsPair<Double,clsDataStructureContainer>>>(); 
 			
 			for(clsPair<Integer, clsDataStructurePA> element:poSearchPatternList){
-				triggerModuleSearch((int)element.a, element.b);
+				ArrayList<clsPair<Double,clsDataStructureContainer>> oSearchPatternMatch = triggerModuleSearch((int)element.a, element.b);
+				
+				if(oSearchPatternMatch.size()>0){
+					moSearchResult.put(poSearchPatternList.indexOf(element), oSearchPatternMatch);
+				}
 			}
 			
 			try {
-				return (ArrayList<ArrayList<clsPair<Double,clsDataStructureContainer>>>)this.cloneResult(moSearchResult);
+				return (HashMap<Integer,ArrayList<clsPair<Double,clsDataStructureContainer>>>) this.cloneResult(moSearchResult);
 			} catch (CloneNotSupportedException e) {
 				// TODO (zeilinger) - Auto-generated catch block
 				e.printStackTrace();
@@ -134,9 +139,12 @@ public class clsInformationRepresentationManagement extends clsKnowledgeBaseHand
 	 * 24.05.2010, 16:51:15
 	 *
 	 * @param next
+	 * @return 
 	 */
-	private void triggerModuleSearch(Integer poReturnType, clsDataStructurePA poDataStructure) {
+	private ArrayList<clsPair<Double, clsDataStructureContainer>> triggerModuleSearch(Integer poReturnType, clsDataStructurePA poDataStructure) {
+			
 			ArrayList<clsPair<Double,clsDataStructureContainer>> oSearchResult = null; 
+			
 			if(poDataStructure instanceof clsSecondaryDataStructure){
 				oSearchResult = moM01InformationRepresentationMgmt.moKB01SecondaryDataStructureMgmt.searchDataStructure(poReturnType, poDataStructure);
 			}
@@ -148,14 +156,10 @@ public class clsInformationRepresentationManagement extends clsKnowledgeBaseHand
 			}
 			else{ throw new IllegalArgumentException("DataStructureContainerUnknown unknown ");}
 			
-			if(oSearchResult.size()>0){try {
-				moSearchResult.add(cloneIntermediateResult(oSearchResult));
-			} catch (CloneNotSupportedException e) {
-				// TODO (zeilinger) - Auto-generated catch block
-				e.printStackTrace();
-			}}
+			return oSearchResult;
 	}
 	
+
 	/**
 	 * DOCUMENT (zeilinger) - insert description
 	 *
@@ -167,36 +171,19 @@ public class clsInformationRepresentationManagement extends clsKnowledgeBaseHand
 	 * @throws CloneNotSupportedException 
 	 */
 	@SuppressWarnings("unchecked")
-	private ArrayList<clsPair<Double, clsDataStructureContainer>> cloneIntermediateResult(List<clsPair<Double, clsDataStructureContainer>> poSearchResult) throws CloneNotSupportedException {
-		ArrayList<clsPair<Double, clsDataStructureContainer>> oClone = new ArrayList<clsPair<Double, clsDataStructureContainer>>(); 
+	private HashMap<Integer,ArrayList<clsPair<Double,clsDataStructureContainer>>> cloneResult(
+				HashMap<Integer,ArrayList<clsPair<Double,clsDataStructureContainer>>> poSearchResult) throws CloneNotSupportedException {
 		
-		for(clsPair<Double, clsDataStructureContainer> oPairEntry : poSearchResult){
-				oClone.add((clsPair<Double, clsDataStructureContainer>) oPairEntry.clone()); //suppressed Warning
-		}
-		return oClone;
-	}
-	
-	/**
-	 * DOCUMENT (zeilinger) - insert description
-	 *
-	 * @author zeilinger
-	 * 20.07.2010, 16:58:22
-	 *
-	 * @param moSearchResult2
-	 * @return
-	 * @throws CloneNotSupportedException 
-	 */
-	@SuppressWarnings("unchecked")
-	private List<ArrayList<clsPair<Double, clsDataStructureContainer>>> cloneResult(
-				List<ArrayList<clsPair<Double, clsDataStructureContainer>>> poSearchResult) throws CloneNotSupportedException {
-		List<ArrayList<clsPair<Double, clsDataStructureContainer>>> oClone = new ArrayList<ArrayList<clsPair<Double, clsDataStructureContainer>>>(); 
+		HashMap<Integer,ArrayList<clsPair<Double,clsDataStructureContainer>>> oClone = new HashMap<Integer,ArrayList<clsPair<Double,clsDataStructureContainer>>>(); 
 		
-		for(List<clsPair<Double, clsDataStructureContainer>> oListEntry : poSearchResult){
+		for(Map.Entry<Integer, ArrayList<clsPair<Double, clsDataStructureContainer>>> oListEntry : poSearchResult.entrySet()){
 			ArrayList<clsPair<Double, clsDataStructureContainer>> oClonedList = new ArrayList<clsPair<Double, clsDataStructureContainer>>();
-			for(clsPair<Double, clsDataStructureContainer> oPairEntry : oListEntry){
+			
+			for(clsPair<Double, clsDataStructureContainer> oPairEntry : oListEntry.getValue()){
 				oClonedList.add((clsPair<Double, clsDataStructureContainer>) oPairEntry.clone()); //suppressed Warning
 			}
-			oClone.add(oClonedList); 
+			
+			oClone.put(oListEntry.getKey(), oClonedList); 
 		}
 		return oClone;
 	}
