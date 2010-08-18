@@ -49,11 +49,10 @@ public abstract class clsDataStructureComparison {
 			clsSearchSpaceBase poSearchSpace,
 			clsDataStructurePA poDataStructureUnknown) {
 		
-		if(poDataStructureUnknown.moContentType != null 
-		    && poSearchSpace.returnSearchSpaceTable(poDataStructureUnknown.moDataStructureType)
-		    				.containsKey(poDataStructureUnknown.moContentType)){
-			
-			return getDataStructureByContentType(poSearchSpace, poDataStructureUnknown); 
+		String oContentType = poDataStructureUnknown.moContentType.toUpperCase(); 
+		
+		if(poSearchSpace.returnSearchSpaceTable(poDataStructureUnknown.moDataStructureType).containsKey(oContentType)){
+			return getDataStructureByContentType(poSearchSpace, poDataStructureUnknown, poDataStructureUnknown.moContentType.toUpperCase()); 
 		}
 		else {
 			return getDataStructureByDataStructureType (poSearchSpace, poDataStructureUnknown);
@@ -68,18 +67,20 @@ public abstract class clsDataStructureComparison {
 	 *
 	 * @param poSearchSpace
 	 * @param poDataStructureUnknown
+	 * @param poDataStructureContentType 
 	 * @return
 	 */
 	private static ArrayList<clsPair<Double, clsDataStructurePA>> getDataStructureByContentType(
 			clsSearchSpaceBase poSearchSpace,
-			clsDataStructurePA poDataStructureUnknown) {
+			clsDataStructurePA poDataStructureUnknown, 
+			String poDataStructureContentType) {
 		
 		double rMatchScore = 0.0; 
 		ArrayList<clsPair<Double, clsDataStructurePA>> oMatchingDataStructureList = new ArrayList<clsPair<Double, clsDataStructurePA>>();
 		
 		for(clsDataStructurePA oSearchSpaceElement : poSearchSpace
 															.returnSearchSpaceTable(poDataStructureUnknown.moDataStructureType)
-															.get(poDataStructureUnknown.moContentType)
+															.get(poDataStructureContentType)
 															.keySet()){
 
 			rMatchScore = oSearchSpaceElement.compareTo(poDataStructureUnknown);

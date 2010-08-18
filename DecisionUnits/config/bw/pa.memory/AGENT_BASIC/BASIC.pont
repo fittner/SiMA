@@ -1,4 +1,4 @@
-; Wed Aug 18 15:17:41 CEST 2010
+; Wed Aug 18 16:23:39 CEST 2010
 ; 
 ;+ (version "3.4.4")
 ;+ (build "Build 579")
@@ -301,7 +301,7 @@
 ;+		(allowed-classes)
 		(create-accessor read-write))
 	(single-slot value
-;+		(type ANY)
+		(type FLOAT)
 ;+		(cardinality 1 1)
 		(create-accessor read-write))
 	(multislot class_association
@@ -376,12 +376,12 @@
 ;+		(cardinality 1 1)
 		(create-accessor read-write)))
 
-(defclass POSITION
+(defclass OBJECTPOSITION
 	(is-a TP)
 	(role concrete)
 	(single-slot value_type
 		(type STRING)
-;+		(value "POSITION")
+;+		(value "OBJECTPOSITION")
 ;+		(cardinality 1 1)
 		(create-accessor read-write))
 	(single-slot value
@@ -501,10 +501,6 @@
 		(type STRING)
 ;+		(value "ACCELERATION")
 ;+		(cardinality 1 1)
-		(create-accessor read-write))
-	(single-slot value
-		(type FLOAT)
-;+		(cardinality 1 1)
 		(create-accessor read-write)))
 
 (defclass RADIATION
@@ -513,10 +509,6 @@
 	(single-slot value_type
 		(type STRING)
 ;+		(value "RADIATION")
-;+		(cardinality 1 1)
-		(create-accessor read-write))
-	(single-slot value
-		(type FLOAT)
 ;+		(cardinality 1 1)
 		(create-accessor read-write)))
 
