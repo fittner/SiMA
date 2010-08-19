@@ -45,20 +45,21 @@ public class clsSearchSpaceHandler {
 	public ArrayList <clsAssociation> readOutSearchSpace(int poReturnType, clsDataStructurePA poDataStructure){
 		ArrayList <clsAssociation> oAssociatedDataStructureList = new ArrayList<clsAssociation>();
 		ArrayList <clsAssociation> oList = moSearchSpace
-		                                        .returnSearchSpaceTable(poDataStructure.moDataStructureType)
+		                                        .returnSearchSpaceTable()
+		                                        	.get(poDataStructure.moDataStructureType)
 		                                              .get(poDataStructure.moContentType)
 		                                                   .get(poDataStructure);
 		
 		for(clsAssociation oAssociationElement : oList){
 			clsDataStructurePA elementB; 
 			
-			if(oAssociationElement.moAssociationElementA.moDataStructureID.equals(poDataStructure.moDataStructureID)){ 
+			if(oAssociationElement.moAssociationElementA.moDS_ID == poDataStructure.moDS_ID){ 
 				elementB = oAssociationElement.moAssociationElementB; 
 			}
-			else if(oAssociationElement.moAssociationElementB.moDataStructureID.equals(poDataStructure.moDataStructureID)){
+			else if(oAssociationElement.moAssociationElementB.moDS_ID  == poDataStructure.moDS_ID){
 				elementB = oAssociationElement.moAssociationElementA;
 			}
-			else {throw new NoSuchFieldError("Association " + oAssociationElement.moDataStructureID + " does not contain data structure " + poDataStructure.moDataStructureID);}
+			else {throw new NoSuchFieldError("Association " + oAssociationElement.moDS_ID + " does not contain data structure " + poDataStructure.moDS_ID);}
 		
 			if((poReturnType & elementB.moDataStructureType.nBinaryValue) != 0x0){
 				oAssociatedDataStructureList.add(oAssociationElement); 

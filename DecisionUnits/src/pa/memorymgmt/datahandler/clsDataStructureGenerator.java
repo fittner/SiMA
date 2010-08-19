@@ -36,7 +36,9 @@ import pa.tools.clsTripple;
  */
 public abstract class clsDataStructureGenerator {
 	public static clsDataStructurePA generateDataStructure(eDataType peDataType, Object poContent){
-		clsDataStructurePA oRetVal = null; 
+		
+		clsDataStructurePA oRetVal = null;
+		
 		try {
 			Class<?> clzz = Class.forName("pa.memorymgmt.datahandler.clsDataStructureGenerator");
 			Method method = clzz.getMethod("generate" + peDataType.name(), poContent.getClass());
@@ -63,8 +65,13 @@ public abstract class clsDataStructureGenerator {
 		return oRetVal; 
 	}
 	
+	public static int setID(){
+		int dummyID = -1; 
+		return dummyID;
+	}
+	
 	public static clsThingPresentation generateTP(clsPair <String, Object> poContent){
-		clsThingPresentation oRetVal = new clsThingPresentation(new clsTripple<String, eDataType, String> (null, eDataType.TP, poContent.a), poContent.b); ;  
+		clsThingPresentation oRetVal = new clsThingPresentation(new clsTripple<Integer, eDataType, String> (setID() , eDataType.TP, poContent.a), poContent.b); ;  
 		return oRetVal;
 	}
 	
@@ -75,11 +82,11 @@ public abstract class clsDataStructureGenerator {
 		ArrayList<clsAssociation> oAssociatedContent = new ArrayList<clsAssociation>();
 		
 		for(clsPhysicalRepresentation oElement : poContent.b){
-			oAssociatedContent.add(new clsAssociationAttribute(new clsTripple<String, eDataType, String> (null, eDataType.ASSOCIATIONATTRIBUTE, eDataType.ASSOCIATIONATTRIBUTE.toString()), 
+			oAssociatedContent.add(new clsAssociationAttribute(new clsTripple<Integer, eDataType, String> (setID(), eDataType.ASSOCIATIONATTRIBUTE, eDataType.ASSOCIATIONATTRIBUTE.toString()), 
 													 oRetVal, 
 													 oElement)); 
 		}
-		oRetVal = new clsThingPresentationMesh(new clsTripple<String, eDataType, String>(null, eDataType.TPM, oContentType),oAssociatedContent, oContent); 
+		oRetVal = new clsThingPresentationMesh(new clsTripple<Integer, eDataType, String>(setID(), eDataType.TPM, oContentType),oAssociatedContent, oContent); 
 		return oRetVal;
 	}
 	
@@ -90,11 +97,11 @@ public abstract class clsDataStructureGenerator {
 		ArrayList<clsAssociation> oAssociatedContent = new ArrayList<clsAssociation>();
 		
 		for(clsPhysicalRepresentation oElement : poContent.b){
-			oAssociatedContent.add(new clsAssociationTime(new clsTripple<String, eDataType, String> (null, eDataType.ASSOCIATIONTEMP, eDataType.ASSOCIATIONTEMP.toString()), 
+			oAssociatedContent.add(new clsAssociationTime(new clsTripple<Integer, eDataType, String> (setID(), eDataType.ASSOCIATIONTEMP, eDataType.ASSOCIATIONTEMP.toString()), 
 													 oRetVal, 
 													 oElement)); 
 		}
-		oRetVal = new clsTemplateImage(new clsTripple<String, eDataType, String>(null, eDataType.TI, oContentType), oAssociatedContent, oContent); 
+		oRetVal = new clsTemplateImage(new clsTripple<Integer, eDataType, String>(setID(), eDataType.TI, oContentType), oAssociatedContent, oContent); 
 		return oRetVal;
 	}
 	
@@ -103,7 +110,7 @@ public abstract class clsDataStructureGenerator {
 		String oContentType = poContent.a;
 		double oContent = (Double)poContent.b;
 		
-		oRetVal = new clsAffect(new clsTripple<String, eDataType, String>(null, eDataType.AFFECT, oContentType), oContent); 
+		oRetVal = new clsAffect(new clsTripple<Integer, eDataType, String>(setID(), eDataType.AFFECT, oContentType), oContent); 
 		return oRetVal;
 	}
 	
@@ -112,7 +119,7 @@ public abstract class clsDataStructureGenerator {
 		String oContentType = poContent.a;
 		double oContent = (Double)poContent.b;
 		
-		oRetVal = new clsDriveDemand(new clsTripple<String, eDataType, String>(null, eDataType.DRIVEDEMAND, oContentType), oContent); 
+		oRetVal = new clsDriveDemand(new clsTripple<Integer, eDataType, String>(setID(), eDataType.DRIVEDEMAND, oContentType), oContent); 
 		return oRetVal;
 	}
 		
@@ -125,18 +132,18 @@ public abstract class clsDataStructureGenerator {
 		ArrayList<clsAssociation> oAssociatedContent = new ArrayList<clsAssociation>();
 		
 		for(clsThingPresentation oElement : poContent.b){
-			oAssociatedContent.add(new clsAssociationAttribute(new clsTripple<String, eDataType, String> (null, eDataType.ASSOCIATIONATTRIBUTE, eDataType.ASSOCIATIONATTRIBUTE.toString()), 
+			oAssociatedContent.add(new clsAssociationAttribute(new clsTripple<Integer, eDataType, String> (setID(), eDataType.ASSOCIATIONATTRIBUTE, eDataType.ASSOCIATIONATTRIBUTE.toString()), 
 													 oRetVal, 
 													 oElement)); 
 		}
-		oRetVal = new clsDriveMesh(new clsTripple<String, eDataType, String>(null, eDataType.DM, oContentType), oPleasure, oCathegories, oAssociatedContent, oContent); 
+		oRetVal = new clsDriveMesh(new clsTripple<Integer, eDataType, String>(setID(), eDataType.DM, oContentType), oPleasure, oCathegories, oAssociatedContent, oContent); 
 		return oRetVal;
 	}
 	
 	public static clsWordPresentation generateWP(clsPair <String, Object> poContent){
 		String oContentType = poContent.a; 
 		String oContent = (String)poContent.b;
-		clsWordPresentation oRetVal = new clsWordPresentation(new clsTripple<String, eDataType, String>(null, eDataType.WP, oContentType), oContent); 
+		clsWordPresentation oRetVal = new clsWordPresentation(new clsTripple<Integer, eDataType, String>(setID(), eDataType.WP, oContentType), oContent); 
 		return oRetVal;
 	}
 	
@@ -150,7 +157,7 @@ public abstract class clsDataStructureGenerator {
 //		for(clsWordPresentation oElement : poContent.b){
 //			//tbd
 //		}
-		oRetVal = new clsAct(new clsTripple<String, eDataType, String>(null, eDataType.ACT, oContentType), oAssociatedContent, oContent);
+		oRetVal = new clsAct(new clsTripple<Integer, eDataType, String>(setID(), eDataType.ACT, oContentType), oAssociatedContent, oContent);
 		return oRetVal;
 	}
 }

@@ -30,7 +30,7 @@ public abstract class clsPhysicalStructureComposition extends clsPhysicalReprese
 	 * @param object 
 	 *
 	 */
-	public clsPhysicalStructureComposition(clsTripple<String, eDataType, String> poDataStructureIdentifier) {
+	public clsPhysicalStructureComposition(clsTripple<Integer, eDataType, String> poDataStructureIdentifier) {
 		super(poDataStructureIdentifier);
 		moAssociatedContent = new ArrayList<clsAssociation>(); 
 	}

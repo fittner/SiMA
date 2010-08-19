@@ -296,8 +296,8 @@ public class E16_ManagementOfMemoryTraces extends clsModuleBase implements I2_6_
 					ArrayList<clsPair<Double, clsDataStructureContainer>> oSearchResult = search(oAAEnvironmentIn.moAssociationElementB);
 					
 					if( oSearchResult != null ){
-						clsAssociation oAssociation = new clsAssociationAttribute(new clsTripple<String, eDataType, String>(
-																								 "", 
+						clsAssociation oAssociation = new clsAssociationAttribute(new clsTripple<Integer, eDataType, String>(
+																								 -1, 
 																								 eDataType.ASSOCIATIONATTRIBUTE, 
 																								 eDataType.ASSOCIATIONATTRIBUTE.name()  ), 
 																								 (clsPrimaryDataStructure)poStoredContainer.moDataStructure, 

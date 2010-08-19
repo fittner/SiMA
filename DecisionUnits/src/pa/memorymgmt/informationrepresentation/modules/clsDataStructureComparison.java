@@ -7,7 +7,7 @@
 package pa.memorymgmt.informationrepresentation.modules;
 
 import java.util.ArrayList;
-import java.util.Hashtable;
+import java.util.HashMap;
 
 import pa.memorymgmt.datatypes.clsAssociation;
 import pa.memorymgmt.datatypes.clsDataStructurePA;
@@ -51,7 +51,7 @@ public abstract class clsDataStructureComparison {
 		
 		String oContentType = poDataStructureUnknown.moContentType.toUpperCase(); 
 		
-		if(poSearchSpace.returnSearchSpaceTable(poDataStructureUnknown.moDataStructureType).containsKey(oContentType)){
+		if(poSearchSpace.returnSearchSpaceTable().get(poDataStructureUnknown.moDataStructureType).containsKey(oContentType)){
 			return getDataStructureByContentType(poSearchSpace, poDataStructureUnknown, poDataStructureUnknown.moContentType.toUpperCase()); 
 		}
 		else {
@@ -79,7 +79,8 @@ public abstract class clsDataStructureComparison {
 		ArrayList<clsPair<Double, clsDataStructurePA>> oMatchingDataStructureList = new ArrayList<clsPair<Double, clsDataStructurePA>>();
 		
 		for(clsDataStructurePA oSearchSpaceElement : poSearchSpace
-															.returnSearchSpaceTable(poDataStructureUnknown.moDataStructureType)
+															.returnSearchSpaceTable()
+															.get(poDataStructureUnknown.moDataStructureType)
 															.get(poDataStructureContentType)
 															.keySet()){
 
@@ -110,7 +111,7 @@ public abstract class clsDataStructureComparison {
 		double rMatchScore = 0.0; 
 		ArrayList<clsPair<Double, clsDataStructurePA>> oMatchingDataStructureList = new ArrayList<clsPair<Double, clsDataStructurePA>>();
 		
-		for(Hashtable<clsDataStructurePA, ArrayList<clsAssociation>> oTableEntry : poSearchSpace.returnSearchSpaceTable(poDataStructureUnknown.moDataStructureType).values()){
+		for(HashMap<clsDataStructurePA, ArrayList<clsAssociation>> oTableEntry : poSearchSpace.returnSearchSpaceTable().get(poDataStructureUnknown.moDataStructureType).values()){
 			for(clsDataStructurePA oSearchSpaceElement : oTableEntry.keySet()){
 				rMatchScore = oSearchSpaceElement.compareTo(poDataStructureUnknown);
 

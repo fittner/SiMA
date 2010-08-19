@@ -6,11 +6,9 @@
  */
 package pa.memorymgmt.informationrepresentation.searchspace;
 
-import java.util.Hashtable;
-import java.util.List;
+import java.util.HashMap;
 
 import pa.memorymgmt.datatypes.clsDataStructurePA;
-import pa.memorymgmt.enums.eDataType;
 
 /**
  * DOCUMENT (zeilinger) - insert description 
@@ -22,9 +20,9 @@ import pa.memorymgmt.enums.eDataType;
 public class clsSearchSpaceCreator {
 		
 	public static clsSearchSpaceBase createSearchSpace(String poSourceName){
-		Hashtable <eDataType, List<clsDataStructurePA>> oDataStructureTable = new Hashtable<eDataType, List<clsDataStructurePA>>(); 
-		
+		HashMap<String, clsDataStructurePA> oDataStructureTable = new HashMap<String, clsDataStructurePA>(); 
 		clsOntologyLoader.loadOntology(oDataStructureTable, poSourceName); 
+		
 		return new clsSearchSpaceOntologyLoader(oDataStructureTable);	
 	}
 }

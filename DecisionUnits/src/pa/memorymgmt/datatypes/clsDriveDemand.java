@@ -26,7 +26,7 @@ public class clsDriveDemand extends clsHomeostaticRepresentation{
 	 * 24.05.2010, 13:24:07
 	 *
 	 */
-	public clsDriveDemand(clsTripple<String, eDataType, String> poDataStructureIdentifier, double prDemandTension) {
+	public clsDriveDemand(clsTripple<Integer, eDataType, String> poDataStructureIdentifier, double prDemandTension) {
 		super(poDataStructureIdentifier); 
 		moContent = prDemandTension; 
 	}
@@ -64,7 +64,7 @@ public class clsDriveDemand extends clsHomeostaticRepresentation{
 	@Override
 	public String toString(){
 		String oResult = "::"+this.moDataStructureType+"::";  
-		if(this.moDataStructureID != null){oResult += this.moDataStructureID + ":";}
+		oResult += this.moDS_ID + ":";
 		//oResult += moContentName +" " + moContent.toString();
 		return oResult; 
 	}

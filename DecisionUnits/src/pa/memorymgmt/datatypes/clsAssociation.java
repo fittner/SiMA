@@ -33,7 +33,7 @@ public abstract class clsAssociation extends clsDataStructurePA{
 	 * 24.05.2010, 15:50:41
 	 *
 	 */
-	public clsAssociation(clsTripple<String, eDataType, String> poDataStructureIdentifier, clsDataStructurePA poAssociationElementA, clsDataStructurePA poAssociationElementB) {
+	public clsAssociation(clsTripple<Integer, eDataType, String> poDataStructureIdentifier, clsDataStructurePA poAssociationElementA, clsDataStructurePA poAssociationElementB) {
 		super(poDataStructureIdentifier);
 		mrImperativeFactor = 1.0; 
 		mrWeight = 1.0; 
@@ -136,18 +136,18 @@ public abstract class clsAssociation extends clsDataStructurePA{
 	@Override
 	public String toString(){
 		String oResult = "::"+this.moDataStructureType+"::";  
-		if(this.moDataStructureID != null){oResult += this.moDataStructureID + ":";}
+		oResult += this.moDS_ID + ":";
 		
 		if(moAssociationElementA!=null){
 			oResult += "elementA:";
 			oResult += moAssociationElementA.moDataStructureType.toString() + ":";
-			if(moAssociationElementA.moDataStructureID != null){oResult += moAssociationElementA.moDataStructureID;}
+			oResult += moAssociationElementA.moDS_ID;
 		}
 		oResult += ":"; 
 		if(moAssociationElementB!=null){
 			oResult += "elementB:";
 			oResult += moAssociationElementB.moDataStructureType.toString() + ":";
-			if(moAssociationElementB.moDataStructureID != null){oResult += moAssociationElementB.moDataStructureID;} 
+			oResult += moAssociationElementB.moDS_ID;
 		}
 		return oResult; 
 	}

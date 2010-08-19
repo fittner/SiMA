@@ -25,7 +25,7 @@ public abstract class clsPrimaryDataStructure extends clsDataStructurePA{
 	 * 22.06.2010, 15:36:00
 	 *
 	 */
-	public clsPrimaryDataStructure(clsTripple<String, eDataType, String> poDataStructureIdentifier) {
+	public clsPrimaryDataStructure(clsTripple<Integer, eDataType, String> poDataStructureIdentifier) {
 		super(poDataStructureIdentifier);  
 	}
 }

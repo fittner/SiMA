@@ -29,7 +29,7 @@ public class clsAssociationTime extends clsAssociation{
 	 * @param poAssociationID
 	 * @param poAssociationType
 	 */
-	public clsAssociationTime(clsTripple<String, eDataType, String> poDataStructureIdentifier,
+	public clsAssociationTime(clsTripple<Integer, eDataType, String> poDataStructureIdentifier,
 			clsPrimaryDataStructure poAssociationElementA,
 			clsPrimaryDataStructure poAssociationElementB) {
 		

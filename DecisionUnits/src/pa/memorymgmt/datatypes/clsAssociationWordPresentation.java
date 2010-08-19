@@ -6,8 +6,6 @@
  */
 package pa.memorymgmt.datatypes;
 
-import java.util.NoSuchElementException;
-
 import pa.memorymgmt.enums.eDataType;
 import pa.tools.clsTripple;
 
@@ -30,7 +28,7 @@ public class clsAssociationWordPresentation extends clsAssociation{
 	 * @param poWordPresentation
 	 */
 	public clsAssociationWordPresentation(
-			clsTripple<String, eDataType, String> poDataStructureIdentifier,
+			clsTripple<Integer, eDataType, String> poDataStructureIdentifier,
 			clsWordPresentation poAssociationElementA,
 			clsDataStructurePA poAssociationElementB) {
 			
@@ -59,8 +57,6 @@ public class clsAssociationWordPresentation extends clsAssociation{
 	 */
 	@Override
 	public clsDataStructurePA getLeafElement(clsDataStructurePA poRootElement) {
-		if(poRootElement.moDataStructureID.equals(moAssociationElementA.moDataStructureID)){return moAssociationElementB;}
-		else if(poRootElement.moDataStructureID.equals(moAssociationElementB.moDataStructureID)){return moAssociationElementA;}
-		else{throw new NoSuchElementException("element not found in association");}
+		return moAssociationElementA; 
 	}
 }

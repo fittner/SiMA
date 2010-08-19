@@ -8,13 +8,10 @@ package tstpa.memorymgmt.informationrepresentation.searchspace;
 
 import static org.junit.Assert.assertTrue;
 
-import java.util.Hashtable;
-import java.util.List;
-
+import java.util.HashMap;
 import org.junit.Test;
 
 import pa.memorymgmt.datatypes.clsDataStructurePA;
-import pa.memorymgmt.enums.eDataType;
 import pa.memorymgmt.informationrepresentation.searchspace.clsOntologyLoader;
 
 
@@ -40,7 +37,7 @@ public class tssOntologyLoader {
 	
 	@Test
 	public void testProtegeDB(){
-		clsOntologyLoader.loadOntology(new Hashtable<eDataType, List<clsDataStructurePA>>(), "/DecisionUnits/config/bw/pa.memory/AGENT_BASIC/BASIC.pprj");   
+		clsOntologyLoader.loadOntology(new HashMap<String, clsDataStructurePA>(), "/DecisionUnits/config/bw/pa.memory/AGENT_BASIC/BASIC.pprj");   
 		assertTrue(true);
 	}
 }

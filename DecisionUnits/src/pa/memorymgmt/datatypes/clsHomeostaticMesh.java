@@ -30,7 +30,7 @@ public class clsHomeostaticMesh extends clsHomeostaticRepresentation{
 	 *
 	 * @param poHomeostaticSource
 	 */
-	public clsHomeostaticMesh(clsTripple<String, eDataType, String> poDataStructureIdentifier, 
+	public clsHomeostaticMesh(clsTripple<Integer, eDataType, String> poDataStructureIdentifier, 
 			ArrayList<clsAssociation> poAssociatedDriveSource, double pnDriveDemandIntensity) {
 		super(poDataStructureIdentifier);
 		

@@ -20,7 +20,7 @@ import pa.tools.clsTripple;
  * 
  */
 public abstract class clsDataStructurePA implements Cloneable, itfComparable{
-	public String moDataStructureID;
+	public int moDS_ID;
 	public eDataType moDataStructureType;
 	public String moContentType;
 		
@@ -31,8 +31,8 @@ public abstract class clsDataStructurePA implements Cloneable, itfComparable{
 	 * 22.06.2010, 15:50:02
 	 *
 	 */
-	public clsDataStructurePA(clsTripple<String, eDataType, String> poDataStructureIdentifier) {
-		moDataStructureID = poDataStructureIdentifier.a; 
+	public clsDataStructurePA(clsTripple<Integer, eDataType, String> poDataStructureIdentifier) {
+		moDS_ID = poDataStructureIdentifier.a; 
 		moDataStructureType = poDataStructureIdentifier.b;
 		moContentType = poDataStructureIdentifier.c; 
 	}

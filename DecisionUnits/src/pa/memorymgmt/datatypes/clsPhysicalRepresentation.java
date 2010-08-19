@@ -26,7 +26,7 @@ public abstract class clsPhysicalRepresentation extends clsPrimaryDataStructure{
 	 * @param poWordPresentationAssociation 
 	 *
 	 */
-	public clsPhysicalRepresentation(clsTripple<String, eDataType, String> poDataStructureIdentifier) {
+	public clsPhysicalRepresentation(clsTripple<Integer, eDataType, String> poDataStructureIdentifier) {
 		super(poDataStructureIdentifier); 
 	}
 }

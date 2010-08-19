@@ -28,7 +28,7 @@ public class clsWordPresentation extends clsSecondaryDataStructure{
 	 * @param poDataStructureName
 	 * @param poDataStructureType
 	 */
-	public clsWordPresentation(clsTripple<String, eDataType, String> poDataStructureIdentifier, Object poContent) {
+	public clsWordPresentation(clsTripple<Integer, eDataType, String> poDataStructureIdentifier, Object poContent) {
 		super(poDataStructureIdentifier);
 		moContent = (String)poContent; 
 	}
@@ -63,11 +63,10 @@ public class clsWordPresentation extends clsSecondaryDataStructure{
 		//In case the data structure does not have an ID, it has to be compared to a stored 
 		//data structure and replaced by it (the processes base on information that is already
 		//defined
-		if(oDataStructure.moDataStructureID!=null){
-			if(this.moDataStructureID.equals(oDataStructure.moDataStructureID)){oRetVal = 1.0;}
-			else{oRetVal = 0.0;}
-			return oRetVal; 
-		}
+		
+		if(this.moDS_ID == oDataStructure.moDS_ID){oRetVal = 1.0;}
+		else if (oDataStructure.moDS_ID > -1) {return oRetVal;}
+		
 		if(this.moContent.equals(oDataStructure.moContent)){
 			oRetVal = 1.0; 
 		}
@@ -87,7 +86,7 @@ public class clsWordPresentation extends clsSecondaryDataStructure{
 	@Override
 	public String toString(){
 		String oResult = "::"+this.moDataStructureType+"::";  
-		if(this.moDataStructureID != null){oResult += this.moDataStructureID + ":";}
+		oResult += this.moDS_ID + ":";
 		oResult += moContent.toString();
 		
 		return oResult; 

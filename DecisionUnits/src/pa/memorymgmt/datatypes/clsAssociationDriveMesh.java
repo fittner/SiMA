@@ -6,8 +6,6 @@
  */
 package pa.memorymgmt.datatypes;
 
-import java.util.NoSuchElementException;
-
 import pa.memorymgmt.enums.eDataType;
 import pa.tools.clsTripple;
 
@@ -30,7 +28,7 @@ public class clsAssociationDriveMesh extends clsAssociation{
 	 * @param clsDataStructurePA
 	 * @param poDriveMesh
 	 */
-	public clsAssociationDriveMesh(clsTripple<String, eDataType, String> poDataStructureIdentifier, 
+	public clsAssociationDriveMesh(clsTripple<Integer, eDataType, String> poDataStructureIdentifier, 
 			clsDriveMesh poAssociationElementA, 
 			clsPrimaryDataStructure poAssociationElementB){
 		
@@ -66,8 +64,7 @@ public class clsAssociationDriveMesh extends clsAssociation{
 	}
 	
 	public clsDriveMesh getDM(){
-		if(moAssociationElementA instanceof clsDriveMesh){return (clsDriveMesh)moAssociationElementA;}
-		else if(moAssociationElementB instanceof clsDriveMesh) {return (clsDriveMesh)moAssociationElementB;}
-		else{ throw new NoSuchElementException("Element not found");}
+		//Element A is always the Drive Mesh 
+		return (clsDriveMesh)moAssociationElementA; 
 	}
 }

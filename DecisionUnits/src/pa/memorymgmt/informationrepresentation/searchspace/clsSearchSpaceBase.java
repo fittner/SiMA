@@ -7,8 +7,7 @@
 package pa.memorymgmt.informationrepresentation.searchspace;
 
 import java.util.ArrayList;
-import java.util.Hashtable;
-import java.util.List;
+import java.util.HashMap;
 
 import pa.memorymgmt.datatypes.clsAssociation;
 import pa.memorymgmt.datatypes.clsDataStructurePA;
@@ -22,9 +21,9 @@ import pa.memorymgmt.enums.eDataType;
  * 
  */
 public abstract class clsSearchSpaceBase {
-	protected Hashtable <eDataType, List<clsDataStructurePA>> moDataStructureTable;
+	protected HashMap<String, clsDataStructurePA> moDataStructureTable;
 	
-	public clsSearchSpaceBase(Hashtable <eDataType, List<clsDataStructurePA>> poDataStructureTable){
+	public clsSearchSpaceBase(HashMap<String, clsDataStructurePA> poDataStructureTable){
 		moDataStructureTable = poDataStructureTable; 
 	}
 	
@@ -35,5 +34,5 @@ public abstract class clsSearchSpaceBase {
 	 * 09.06.2010, 22:04:04
 	 *
 	 */
-	public abstract Hashtable<String, Hashtable<clsDataStructurePA, ArrayList<clsAssociation>>> returnSearchSpaceTable(eDataType poDataStructureType);  
+	public abstract HashMap<eDataType,HashMap<String, HashMap<clsDataStructurePA, ArrayList<clsAssociation>>>> returnSearchSpaceTable();  
 }

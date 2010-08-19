@@ -30,7 +30,7 @@ public class clsThingPresentation extends clsPhysicalRepresentation{
 	 *
 	 * @param poWordPresentationAssociation
 	 */
-	public clsThingPresentation(clsTripple<String, eDataType, String> poDataStructureIdentifier, Object poContent) {
+	public clsThingPresentation(clsTripple<Integer, eDataType, String> poDataStructureIdentifier, Object poContent) {
 		
 		super(poDataStructureIdentifier);
 		moContent = poContent;
@@ -51,12 +51,14 @@ public class clsThingPresentation extends clsPhysicalRepresentation{
 		//This if statement proofs if the compared datastructure does already have an ID =>
 		//the ID sepcifies that the data structure has been already compared with a stored
 		//data structure and replaced by it. Hence they can be compared by their IDs.
-		if(oDataStructure.moDataStructureID!=null){
-			if(this.moDataStructureID.equals(oDataStructure.moDataStructureID)){oRetVal = 1.0;}
-			else{oRetVal = 0.0;}
-			
-			return oRetVal; 
+		if(this.moDS_ID == oDataStructure.moDS_ID){
+				/*In case the DataStructureIDs are equal, the return value is the number 
+				 * of associated data structures and their number of associations. The idendityMatch number
+				 * is not used here as it would distort the result.   
+				 */
+				oRetVal = 1.0;
 		}
+		else if (oDataStructure.moDS_ID > -1) {return oRetVal;}
 			
 		//In case the data structure does not have an ID, it has to be compared to a stored 
 		//data structure and replaced by it (the processes base on information that is already
@@ -127,7 +129,7 @@ public class clsThingPresentation extends clsPhysicalRepresentation{
 	@Override
 	public String toString(){
 		String oResult = "::"+this.moDataStructureType+"::";  
-		if(this.moDataStructureID != null){oResult += this.moDataStructureID + ":";}
+		oResult += this.moDS_ID + ":";
 		oResult += moContentType +":" + moContent.toString();
 		return oResult; 
 	}

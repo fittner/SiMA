@@ -38,7 +38,7 @@ public class clsDriveMesh extends clsHomeostaticRepresentation{
 	private double mrCathegoryOral = 0.0;
 	private double mrCathegoryPhalic = 0.0;
 	
-	public clsDriveMesh(clsTripple<String, eDataType, String> poDataStructureIdentifier, 
+	public clsDriveMesh(clsTripple<Integer, eDataType, String> poDataStructureIdentifier, 
 												double prPleasure, double[] poDriveCathegories, 
 												ArrayList<clsAssociation> poAssociatedDriveSources,
 												String poContent) {
@@ -155,16 +155,15 @@ public class clsDriveMesh extends clsHomeostaticRepresentation{
 		//This if statement proofs if the compared datastructure does already have an ID =>
 		//the ID sepcifies that the data structure has been already compared with a stored
 		//data structure and replaced by it. Hence they can be compared by their IDs.
-		if(oDataStructure.moDataStructureID!=null){
-			if(this.moDataStructureID.equals(oDataStructure.moDataStructureID)){
+		
+			if(this.moDS_ID == oDataStructure.moDS_ID){
 				/*In case the DataStructureIDs are equal, the return value is the number 
 				 * of associated data structures and their number of associations. The idendityMatch number
 				 * is not used here as it would distort the result.   
 				 */
 				oRetVal = oDataStructure.getNumbAssociations();
 			}
-			return oRetVal; 
-		}
+			else if (oDataStructure.moDS_ID > -1) {return oRetVal;}
 		//In case the data structure does not have an ID, it has to be compared to a stored 
 		//data structure and replaced by it (the processes base on information that is already
 		//defined
@@ -233,7 +232,7 @@ public class clsDriveMesh extends clsHomeostaticRepresentation{
 	@Override
 	public String toString(){
 		String oResult = "::"+this.moDataStructureType+"::";  
-		if(this.moDataStructureID != null){oResult += this.moDataStructureID + ":";}
+		oResult += this.moDS_ID + ":";
 			
 		for (clsAssociation oEntry : moAssociatedContent) {
 			oResult += oEntry.toString() + ":"; 

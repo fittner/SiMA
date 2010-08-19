@@ -24,7 +24,7 @@ public class clsAssociationAttribute extends clsAssociation{
 	 * 24.05.2010, 15:53:46
 	 *
 	 */
-	public clsAssociationAttribute(clsTripple<String, eDataType, String> poDataStructureIdentifier,
+	public clsAssociationAttribute(clsTripple<Integer, eDataType, String> poDataStructureIdentifier,
 									clsPrimaryDataStructure poAssociationElementA, 
 								    clsPrimaryDataStructure poAssociationElementB) {
 		super(poDataStructureIdentifier,poAssociationElementA, poAssociationElementB);

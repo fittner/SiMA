@@ -137,7 +137,7 @@ public class E17_FusionOfExternalPerceptionAndMemoryTraces extends clsModuleBase
 		for(clsTripple<clsPrimaryDataStructureContainer, clsDriveMesh,ArrayList<clsDriveMesh>> oEntry : moPerceptPlusAwareContent_Input){
 				for(clsDriveMesh oDM : oEntry.c){
 						clsAssociationDriveMesh oAssociation = new clsAssociationDriveMesh(
-									new clsTripple <String, eDataType, String>(null, eDataType.ASSOCIATIONDM, eDataType.ASSOCIATIONDM.toString()), 
+									new clsTripple <Integer, eDataType, String>(-1, eDataType.ASSOCIATIONDM, eDataType.ASSOCIATIONDM.toString()), 
 									oDM,
 									(clsPrimaryDataStructure)oEntry.a.moDataStructure); 
 						

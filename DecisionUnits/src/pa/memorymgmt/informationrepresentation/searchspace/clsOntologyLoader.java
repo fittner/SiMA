@@ -8,8 +8,7 @@ package pa.memorymgmt.informationrepresentation.searchspace;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.List;
-import java.util.Hashtable;
+import java.util.HashMap;
 
 import edu.stanford.smi.protege.model.Instance;
 import edu.stanford.smi.protege.model.KnowledgeBase;
@@ -43,12 +42,13 @@ import pa.tools.clsTripple;
  * 
  */
 public class clsOntologyLoader {
-	public static void loadOntology(Hashtable<eDataType, List<clsDataStructurePA>> poDataStructureTable, String poSourceName){
-		//TODO HZ: Configure the different ontologyTypes
-		initDataStructureList(poDataStructureTable);
+	static int DS_ID = 0; 
+	
+	public static void loadOntology(HashMap<String, clsDataStructurePA> poDataStructureTable, String poSourceName){
 		//FIXME HZ This if-statement is defined for testing reasons as the Search Space should be set for the 
 		// JUnit tests (e.g. tssInformationRepresentationManagementARSi10) in order to be independent from changes in the ontology. Of cause an unchangeable test-ontology 
 		// is a possiblity to introduce a permanent solution.
+		 
 		if(poSourceName != ""){
 			initOntology(poDataStructureTable, poSourceName); 
 		}
@@ -57,30 +57,16 @@ public class clsOntologyLoader {
 		}
 	}
 	
-	/**
-	 * DOCUMENT (zeilinger) - insert description
-	 *
-	 * @author zeilinger
-	 * 24.06.2010, 13:46:11
-	 *
-	 * @param poDataStructureList
-	 */
-	private static void initDataStructureList(Hashtable<eDataType, List<clsDataStructurePA>> poDataStructureTable) {
-		for(eDataType element : eDataType.values()) {
-			poDataStructureTable.put(element,new ArrayList<clsDataStructurePA>());
-		}
-	}
-	
-	private static void initOntology(Hashtable<eDataType, List<clsDataStructurePA>> poDataStructureList, String poSourceName){
+	private static void initOntology(HashMap<String, clsDataStructurePA> poDataStructureList, String poSourceName){
 		//FIXME HZ: Sorry for the "Object" parameter in ArrayList => however, this is a protege problem
 		Collection <?>oErrorList = new ArrayList<Object>(); 
 		Project oOntologyPrj = Project.loadProjectFromFile("../" + poSourceName, oErrorList);
 	    KnowledgeBase oFrameKB = oOntologyPrj.getKnowledgeBase();
-		    
-	  //FIXME HZ: Optimize the initialization process => Builder
+	  
+	    //FIXME HZ: Optimize the initialization process => Builder
 		for(eDataType oDataType : initValues())	{
 			for(Instance oDataElement : oFrameKB.getCls(oDataType.name()).getInstances()){
-				initDataStructure(null, oDataElement, new clsPair<KnowledgeBase, Hashtable<eDataType, List<clsDataStructurePA>>>(oFrameKB, poDataStructureList)); 
+				initDataStructure(null, oDataElement, new clsPair<KnowledgeBase, HashMap<String,clsDataStructurePA>>(oFrameKB, poDataStructureList)); 
 			}
 		}
 	}
@@ -109,13 +95,14 @@ public class clsOntologyLoader {
 	 * @param poFrameKB
 	 * @param poDataStructurePA
 	 */
-	private static void initDataStructure(clsDataStructurePA poRootElement, Instance poElement,
-			clsPair<KnowledgeBase, Hashtable<eDataType, List<clsDataStructurePA>>> poDataContainer) {
+	private static void initDataStructure(Instance poRootElement, Instance poElement,
+								clsPair<KnowledgeBase, HashMap<String, clsDataStructurePA>> poDataContainer) {
 		
 		eDataType oElementDataType = getElementDataType(poElement); 
-		if(retrieveDataStructure(oElementDataType, poElement.getName(),poDataContainer.b)== null){
+		
+		if(retrieveDataStructure(poElement.getName(), poDataContainer.b)== null){
 			 createDataStructure(oElementDataType, poElement, poRootElement, poDataContainer);
-		 }
+		}
 	}
 	
 	/**
@@ -138,42 +125,21 @@ public class clsOntologyLoader {
 	 * @param frameKB
 	 * @param poDataStructurePA
 	 */
-	private static void createDataStructure(eDataType poDataType, Instance poElement,clsDataStructurePA poRootElement,
-							clsPair<KnowledgeBase, Hashtable<eDataType, List<clsDataStructurePA>>> poDataContainer){
+	private static void createDataStructure(eDataType poDataType, Instance poElement, Instance poRootElement,
+							clsPair<KnowledgeBase, HashMap<String, clsDataStructurePA>> poDataContainer){
 		switch(poDataType){
-			case ACT:
-				createACT(poRootElement, poElement, poDataContainer);
-				break;
-			case AFFECT:
-				createAFFECT(poRootElement, poElement, poDataContainer);
-				break;
-			case ASSOCIATIONDM:
-				createAssociation(poRootElement, poElement, poDataContainer);
-				break;
-			case ASSOCIATIONWP:
-				createAssociation(poRootElement, poElement, poDataContainer);
-				break;
-			case ASSOCIATIONTEMP:
-				createAssociation(poRootElement, poElement, poDataContainer);
-				break;
-			case ASSOCIATIONATTRIBUTE:
-				createAssociation(poRootElement, poElement, poDataContainer);
-				break;
-			case DM:
-				createDM(poRootElement, poElement, poDataContainer);
-				break; 
-			case TI:
-				createTI(poRootElement, poElement, poDataContainer);
-				break; 
-			case TPM:
-				createTPM(poRootElement, poElement, poDataContainer);
-				break; 
-			case TP:
-				createTP(poRootElement, poElement, poDataContainer);
-				break; 
-			case WP:
-				createWP(poRootElement, poElement, poDataContainer);
-				break;
+			case ACT: 	createACT(poRootElement, poElement, poDataContainer); 					break; 
+			case AFFECT:  		createAFFECT(poRootElement, poElement, poDataContainer); 		break; 
+			case ASSOCIATIONDM:	createAssociation(poRootElement, poElement, poDataContainer); 	break; 
+			case ASSOCIATIONWP:  createAssociation(poRootElement, poElement, poDataContainer); 			break; 
+			case ASSOCIATIONTEMP:  createAssociation(poRootElement, poElement, poDataContainer); 		break;
+			case ASSOCIATIONATTRIBUTE:  createAssociation(poRootElement, poElement, poDataContainer); 	break; 
+			case DM:	 createDM(poRootElement, poElement, poDataContainer);	break; 
+			case TI:	 createTI(poRootElement, poElement, poDataContainer);	break; 
+			case TPM:	 createTPM(poRootElement, poElement, poDataContainer);	break; 
+			case TP:	 createTP(poRootElement, poElement, poDataContainer);	break; 
+			case WP:	 createWP(poRootElement, poElement, poDataContainer);	break; 
+				
 			default: throw new NoSuchFieldError(" datatype " + poDataType +" is not handled"); 
 		}
 	}
@@ -188,18 +154,18 @@ public class clsOntologyLoader {
 	 * @param poFrameKB
 	 * @param poDataStructurePA
 	 */
-	private static void createWP(clsDataStructurePA poRootElement, Instance poElement,
-			clsPair<KnowledgeBase, Hashtable<eDataType, List<clsDataStructurePA>>> poDataContainer) {
+	private static void createWP(Instance poRootElement, Instance poElement,
+		clsPair<KnowledgeBase, HashMap<String,clsDataStructurePA>> poDataContainer) {
 		
 		eDataType oElementType = eDataType.WP; 
-		String oElementName = poElement.getName();
+		int oID = DS_ID++;  
 		String oElementValueType = (String)poElement.getOwnSlotValue(poDataContainer.a.getSlot("value_type"));
 		String oElementValue = (String)poElement.getOwnSlotValue(poDataContainer.a.getSlot("value"));
 								
-		clsWordPresentation oDataStructure = new clsWordPresentation(new clsTripple<String, eDataType, String>(oElementName,oElementType,oElementValueType),oElementValue);
+		clsWordPresentation oDataStructure = new clsWordPresentation(new clsTripple<Integer, eDataType, String>(oID ,oElementType,oElementValueType),oElementValue);
 		//HZ Word Presentation does not obey of any associations
 		//TODO HZ: Define other attributes!! 
-		poDataContainer.b.get(oElementType).add(oDataStructure);
+		poDataContainer.b.put(poElement.getName(), oDataStructure);
 	}
 
 	/**
@@ -213,23 +179,23 @@ public class clsOntologyLoader {
 	 * @param poDataContainer
 	 */
 	private static void createAFFECT(
-			clsDataStructurePA poRootElement,
+			Instance poRootElement,
 			Instance poElement,
-			clsPair<KnowledgeBase, Hashtable<eDataType, List<clsDataStructurePA>>> poDataContainer) {
+			clsPair<KnowledgeBase, HashMap<String,clsDataStructurePA>> poDataContainer) {
 		
 		eDataType oElementType = eDataType.AFFECT; 
-		String oElementName = poElement.getName(); 
+		int oID = DS_ID++;   
 		String oElementValueType = (String)poElement.getOwnSlotValue(poDataContainer.a.getSlot("value_type"));
 		float oElementValue = (Float)poElement.getOwnSlotValue(poDataContainer.a.getSlot("value"));
 		float oElementMinVal = (Float)poElement.getOwnSlotValue(poDataContainer.a.getSlot("value_min"));
 		float oElementMaxVal = (Float)poElement.getOwnSlotValue(poDataContainer.a.getSlot("value_max"));
 	
-		clsAffect oDataStructure = new clsAffect(new clsTripple<String, eDataType, String>(oElementName,oElementType,oElementValueType),oElementValue);
+		clsAffect oDataStructure = new clsAffect(new clsTripple<Integer, eDataType, String>(oID,oElementType,oElementValueType),oElementValue);
 		//HZ AFFECT does not obey of any associations
 				 		
 		oDataStructure.setMinVal(oElementMinVal);
 		oDataStructure.setMaxVal(oElementMaxVal);
-		poDataContainer.b.get(oElementType).add(oDataStructure);
+		poDataContainer.b.put(poElement.getName(), oDataStructure);
 	}
 	/**
 	 * DOCUMENT (zeilinger) - insert description
@@ -241,11 +207,11 @@ public class clsOntologyLoader {
 	 * @param poFrameKB
 	 * @param poDataStructurePA
 	 */
-	private static void createDM(clsDataStructurePA poRootElement, Instance poElement,
-			clsPair<KnowledgeBase, Hashtable<eDataType, List<clsDataStructurePA>>> poDataContainer) {
+	private static void createDM(Instance poRootElement, Instance poElement,
+			clsPair<KnowledgeBase, HashMap<String,clsDataStructurePA>> poDataContainer) {
 
 		eDataType oElementType = eDataType.DM;
-		String oElementName = poElement.getName(); 
+		int oID = DS_ID++;   
 		String oElementValueType = (String)poElement.getOwnSlotValue(poDataContainer.a.getSlot("value_type"));
 		String oElementValue = (String)poElement.getOwnSlotValue(poDataContainer.a.getSlot("value"));
 		float rPleasure = ((Float)poElement.getOwnSlotValue(poDataContainer.a.getSlot("pleasure")));
@@ -255,18 +221,19 @@ public class clsOntologyLoader {
 		float rDriveCathegoryPhalic = (Float)poElement.getOwnSlotValue(poDataContainer.a.getSlot("cathegory:phalic"));
 		double [] oDriveCathegory = {rDriveCathegoryAnal, rDriveCathegoryOral, rDriveCathegoryGenital, rDriveCathegoryPhalic}; 
 				
-		clsDriveMesh oDataStructure = new clsDriveMesh(new clsTripple<String, eDataType, String>(oElementName,oElementType,oElementValueType),
+		clsDriveMesh oDataStructure = new clsDriveMesh(new clsTripple<Integer, eDataType, String>(oID,oElementType,oElementValueType),
 																								rPleasure,
 																								oDriveCathegory, 
 																								new ArrayList<clsAssociation>(), 
 																								oElementValue);
+		poDataContainer.b.put(poElement.getName(), oDataStructure);
+		
 		ArrayList <clsAssociation> oAssociationList = loadClassAssociations(poElement, oDataStructure, poDataContainer); 
 				
 		for(clsAssociation element : oAssociationList){
 			if(element instanceof clsAssociationAttribute){oDataStructure.assignDataStructure(element);}
 		}
 		//TODO HZ: Define other attributes!! 
-		poDataContainer.b.get(oElementType).add(oDataStructure);
 	}
 
 	/**
@@ -279,19 +246,19 @@ public class clsOntologyLoader {
 	 * @param poFrameKB
 	 * @param poDataStructurePA
 	 */
-	private static void createTP(clsDataStructurePA poRootElement, Instance poElement,
-			clsPair<KnowledgeBase, Hashtable<eDataType, List<clsDataStructurePA>>> poDataContainer) {
+	private static void createTP(Instance poRootElement, Instance poElement,
+			clsPair<KnowledgeBase, HashMap<String,clsDataStructurePA>> poDataContainer) {
 		
 		eDataType oElementType = eDataType.TP;
-		String oElementName = poElement.getName(); 
+		int oID = DS_ID++;   
 		String oElementValueType = (String)poElement.getOwnSlotValue(poDataContainer.a.getSlot("value_type"));
 		Object oElementValue = poElement.getOwnSlotValue(poDataContainer.a.getSlot("value"));
 	
-		clsThingPresentation oDataStructure = new clsThingPresentation(new clsTripple<String, eDataType, String>(oElementName,oElementType,oElementValueType),oElementValue);
-		loadInstanceAssociations(poElement, oDataStructure, poDataContainer);
+		clsThingPresentation oDataStructure = new clsThingPresentation(new clsTripple<Integer, eDataType, String>(oID,oElementType,oElementValueType),oElementValue);
+		loadInstanceAssociations(poElement, poDataContainer);
 		//HZ TP does not obey of any associations 		
 		//TODO HZ: Define other attributes!! 
-		poDataContainer.b.get(oElementType).add(oDataStructure);
+		poDataContainer.b.put(poElement.getName(), oDataStructure);
 	}
 
 	/**
@@ -304,24 +271,25 @@ public class clsOntologyLoader {
 	 * @param poFrameKB
 	 * @param poDataStructurePA
 	 */
-	private static void createTPM(clsDataStructurePA poRootElement, Instance poElement,
-			clsPair<KnowledgeBase, Hashtable<eDataType, List<clsDataStructurePA>>> poDataContainer) {
+	private static void createTPM(Instance poRootElement, Instance poElement,
+						clsPair<KnowledgeBase, HashMap<String,clsDataStructurePA>> poDataContainer) {
 		
 		eDataType oElementType = eDataType.TPM;
-		String oElementName = poElement.getName(); 
+		int oID = DS_ID++; 
 		String oElementValueType = (String)poElement.getOwnSlotValue(poDataContainer.a.getSlot("value_type"));
 		String oElementValue = (String)poElement.getOwnSlotValue(poDataContainer.a.getSlot("value"));
 		
-		clsThingPresentationMesh oDataStructure = new clsThingPresentationMesh(new clsTripple<String, eDataType, String>(oElementName,oElementType,oElementValueType),
+		clsThingPresentationMesh oDataStructure = new clsThingPresentationMesh(new clsTripple<Integer, eDataType, String>(oID,oElementType,oElementValueType),
 																														 new ArrayList<clsAssociation>(),
 																														 oElementValue);
-		ArrayList <clsAssociation> oAssociationList = loadInstanceAssociations(poElement, oDataStructure, poDataContainer); 
+		poDataContainer.b.put(poElement.getName(), oDataStructure);
+		
+		ArrayList <clsAssociation> oAssociationList = loadInstanceAssociations(poElement, poDataContainer); 
 		oAssociationList.addAll(loadClassAssociations(poElement, oDataStructure, poDataContainer));
 		
 		for(clsAssociation element : oAssociationList){
 			if(element instanceof clsAssociationAttribute){ oDataStructure.assignDataStructure(element);}
 		}
-		poDataContainer.b.get(oElementType).add(oDataStructure);
 	}
 
 	/**
@@ -334,35 +302,39 @@ public class clsOntologyLoader {
 	 * @param poFrameKB
 	 * @param poDataStructurePA
 	 */
-	private static void createAssociation(clsDataStructurePA poRootElement, Instance poAssociation,
-			clsPair<KnowledgeBase, Hashtable<eDataType, List<clsDataStructurePA>>> poDataContainer) {
+	private static void createAssociation(Instance poRootElement, Instance poAssociation,
+									clsPair<KnowledgeBase, HashMap<String,clsDataStructurePA>> poDataContainer) {
 
-		clsAssociation oDataStructure = null; 
+		clsAssociation oDataStructure = null;
+		String oAssName = poAssociation.getName(); 
 	    eDataType eAssociationType = getElementDataType(poAssociation); 
 	    
 	    if(poRootElement == null){
-	    	 for(Object oElement : getSlotValues("element", poAssociation) ){
-	    		 initDataStructure(null, (Instance)oElement, poDataContainer);
-	    	 }
-	    	 Instance oElementA = (Instance)getSlotValues("element", poAssociation).toArray()[0]; 
-	    	 Instance oElementB = (Instance)getSlotValues("element", poAssociation).toArray()[1];
-	    	 clsDataStructurePA oDataStructureA = retrieveDataStructure(getElementDataType((Instance)oElementA), oElementA.getName(), poDataContainer.b);
-	    	 clsDataStructurePA oDataStructureB = retrieveDataStructure(getElementDataType((Instance)oElementB), oElementB.getName(), poDataContainer.b);
-    		 oDataStructure = getNewAssociation(eAssociationType, poAssociation, oDataStructureA, oDataStructureB);  
+	    	 Instance oIns_a = (Instance)getSlotValues("element", poAssociation).toArray()[0]; 
+	    	 Instance oIns_b = (Instance)getSlotValues("element", poAssociation).toArray()[1]; 
+	    	 
+	    	 initDataStructure(null, oIns_a, poDataContainer);
+	    	 initDataStructure(null, oIns_b, poDataContainer);
+	    	 clsDataStructurePA oDS_a = retrieveDataStructure(oIns_a.getName(), poDataContainer.b);
+	    	 clsDataStructurePA oDS_b = retrieveDataStructure(oIns_b.getName(), poDataContainer.b);
+	    	 oDataStructure = getNewAssociation(eAssociationType, poAssociation, oDS_a, oDS_b);  
 	    }
 	    else{
 	    	 for(Object oElement : getSlotValues("element", poAssociation)){
-	    		 String oElementName = ((Instance)oElement).getName();  
-	    		 if(!(oElementName.equals(poRootElement.moDataStructureID))){
+	    		 String oRootName = poRootElement.getName(); 
+	    		 String oElementName = ((Instance) oElement).getName(); 
+	    		 
+	    		  if(!(oElementName.equals(oRootName))){
 	    			 initDataStructure(poRootElement, (Instance)oElement, poDataContainer);
-	    			 clsDataStructurePA oDataStructureB = retrieveDataStructure(getElementDataType((Instance)oElement), ((Instance)oElement).getName(), poDataContainer.b);
-	    			 oDataStructure = getNewAssociation(eAssociationType, poAssociation, poRootElement, oDataStructureB);
+	    			 clsDataStructurePA oDS_a = retrieveDataStructure(oRootName, poDataContainer.b);
+	    			 clsDataStructurePA oDS_b = retrieveDataStructure(oElementName, poDataContainer.b);
+	    			 oDataStructure = getNewAssociation(eAssociationType, poAssociation, oDS_a, oDS_b);
 	    		 }
 	    	 }
 	    }
 	    
     	//TODO HZ: Define other attributes!!
-	    poDataContainer.b.get(eAssociationType).add(oDataStructure);
+	    poDataContainer.b.put(oAssName, oDataStructure);
 	}
 
 	/**
@@ -377,27 +349,27 @@ public class clsOntologyLoader {
 	 */
 	private static clsAssociation getNewAssociation(eDataType peElementType, Instance poAssociation, clsDataStructurePA poElementA, clsDataStructurePA poElementB) {
 		
-		String oElementName = poAssociation.getName(); 
+		int oID = DS_ID++;  
 		String oElementValueType = peElementType.toString();
-		clsPair<clsDataStructurePA, clsDataStructurePA> oAssociationElements; 
+		clsPair<clsDataStructurePA, clsDataStructurePA> oAssociationElements = null; 
 		
 		switch(peElementType){
 			case ASSOCIATIONATTRIBUTE:
-				return new clsAssociationAttribute(new clsTripple<String, eDataType, String>(oElementName,peElementType,oElementValueType),
+				return new clsAssociationAttribute(new clsTripple<Integer, eDataType, String>(oID,peElementType,oElementValueType),
 						(clsPrimaryDataStructure)poElementA,(clsPrimaryDataStructure)poElementB); 
 			case ASSOCIATIONTEMP:
-				return new clsAssociationTime(new clsTripple<String, eDataType, String>(oElementName,peElementType,oElementValueType),
+				return new clsAssociationTime(new clsTripple<Integer, eDataType, String>(oID,peElementType,oElementValueType),
 						(clsPrimaryDataStructure)poElementA,(clsPrimaryDataStructure)poElementB); 
 			
 			case ASSOCIATIONDM:
 				oAssociationElements = evaluateElementOrder(poElementA, poElementB, eDataType.DM);
-				return new clsAssociationDriveMesh(new clsTripple<String, eDataType, String>(oElementName,peElementType,oElementValueType),
+				return new clsAssociationDriveMesh(new clsTripple<Integer, eDataType, String>(oID,peElementType,oElementValueType),
 												   (clsDriveMesh)oAssociationElements.a, 
 												   (clsPrimaryDataStructure)oAssociationElements.b); 
 			
 			case ASSOCIATIONWP:
 				oAssociationElements = evaluateElementOrder(poElementA, poElementB, eDataType.WP);
-				return new clsAssociationWordPresentation(new clsTripple<String, eDataType, String>(oElementName,peElementType,oElementValueType),
+				return new clsAssociationWordPresentation(new clsTripple<Integer, eDataType, String>(oID,peElementType,oElementValueType),
 						   (clsWordPresentation)oAssociationElements.a, 
 						   (clsDataStructurePA)oAssociationElements.b); 
 		}
@@ -438,23 +410,24 @@ public class clsOntologyLoader {
 	 * @param poFrameKB
 	 * @param poDataStructurePA
 	 */
-	private static void createACT(clsDataStructurePA poRootElement, Instance poElement,
-			clsPair<KnowledgeBase, Hashtable<eDataType, List<clsDataStructurePA>>> poDataContainer) {
+	private static void createACT(Instance poRootElement, Instance poElement,
+							clsPair<KnowledgeBase, HashMap<String,clsDataStructurePA>> poDataContainer) {
 
 		eDataType oElementType = eDataType.ACT;
-		String oElementName = poElement.getName(); 
+		int oID = DS_ID++;  
 		String oElementValueType = (String)poElement.getOwnSlotValue(poDataContainer.a.getSlot("value_type"));
 		String oElementValue = (String)poElement.getOwnSlotValue(poDataContainer.a.getSlot("value"));
 		
-		clsAct oDataStructure = new clsAct(new clsTripple<String, eDataType, String>(oElementName,oElementType,oElementValueType),
+		clsAct oDataStructure = new clsAct(new clsTripple<Integer, eDataType, String>(oID,oElementType,oElementValueType),
 																					 new ArrayList<clsAssociation>(), 
 																					 oElementValue);
-    	ArrayList <clsAssociation> oAssociationList = loadInstanceAssociations(poElement, oDataStructure, poDataContainer);  
+		poDataContainer.b.put(poElement.getName(), oDataStructure);
+		
+		ArrayList <clsAssociation> oAssociationList = loadInstanceAssociations(poElement, poDataContainer);  
 				
 		for(clsAssociation element : oAssociationList){
 			oDataStructure.assignDataStructure(element);
 		}
-		poDataContainer.b.get(oElementType).add(oDataStructure); 
 	}
 
 	/**
@@ -466,23 +439,24 @@ public class clsOntologyLoader {
 	 * @param poFrameKB
 	 * @param poDataStructurePA
 	 */
-	private static void createTI(clsDataStructurePA poRootElement, Instance poElement,
-			clsPair<KnowledgeBase, Hashtable<eDataType, List<clsDataStructurePA>>> poDataContainer) {
+	private static void createTI(Instance poRootElement, Instance poElement,
+			clsPair<KnowledgeBase, HashMap<String,clsDataStructurePA>> poDataContainer) {
 		
 		eDataType oElementType = eDataType.TI;
-		String oElementName = poElement.getName(); 
+		int oID = DS_ID++;   
 		String oElementValueType = (String)poElement.getOwnSlotValue(poDataContainer.a.getSlot("value_type"));
 		String oElementValue = (String)poElement.getOwnSlotValue(poDataContainer.a.getSlot("value"));
 		
-		clsTemplateImage oDataStructure = new clsTemplateImage(new clsTripple<String, eDataType, String>(oElementName,oElementType,oElementValueType),
+		clsTemplateImage oDataStructure = new clsTemplateImage(new clsTripple<Integer, eDataType, String>(oID,oElementType,oElementValueType),
 															   new ArrayList<clsAssociation>(), 
 															   oElementValue);
-		ArrayList <clsAssociation> oAssociationList = loadInstanceAssociations(poElement, oDataStructure, poDataContainer);  
+		poDataContainer.b.put(poElement.getName(), oDataStructure);
+		
+		ArrayList <clsAssociation> oAssociationList = loadInstanceAssociations(poElement, poDataContainer);  
 		
 		for(clsAssociation element : oAssociationList){
 			if(element instanceof clsAssociationTime){oDataStructure.assignDataStructure(element);}
 		}
-		poDataContainer.b.get(oElementType).add(oDataStructure); 
 	}
 	
 	/**
@@ -497,15 +471,15 @@ public class clsOntologyLoader {
 	 * @param poDataStructurePA
 	 * @return
 	 */
-	private static ArrayList<clsAssociation> loadInstanceAssociations(Instance poDataElement, clsDataStructurePA poDataStructure, 
-				clsPair<KnowledgeBase, Hashtable<eDataType, List<clsDataStructurePA>>> poDataContainer) {
+	private static ArrayList<clsAssociation> loadInstanceAssociations(Instance poDataElement,  
+												clsPair<KnowledgeBase, HashMap<String,clsDataStructurePA>> poDataContainer) {
 		
 		Collection <?> oInstanceAssociations = getSlotValues("instance_association", poDataElement);
 		ArrayList <clsAssociation> oAssociationList = new ArrayList<clsAssociation>(); 
 		clsAssociation oAssociation = null; 
 		
 		for(Object element : oInstanceAssociations){
-				oAssociation = loadAssociation((Instance) element, poDataStructure,poDataContainer); 
+				oAssociation = loadAssociation(poDataElement, (Instance) element, poDataContainer); 
 				//Below the necessity of the association is defined. Entities are defined by their associations to different 
 				//types of data structures. Depending on their definition in the ontology (class_association or instance association)
 				//the necessity is defined as true (mandatory) or false (optional). E.g. an entity bubble has always the shape "circle"
@@ -530,7 +504,7 @@ public class clsOntologyLoader {
 	 * @return
 	 */
 	private static ArrayList<clsAssociation> loadClassAssociations(Instance poDataElementA, clsDataStructurePA poDataStructureA,
-			clsPair<KnowledgeBase, Hashtable<eDataType, List<clsDataStructurePA>>> poDataContainer) {
+							clsPair<KnowledgeBase, HashMap<String,clsDataStructurePA>> poDataContainer) {
 
 		Collection <?> oClassAssociations = getSlotValues("class_association", poDataElementA);
 		ArrayList <clsAssociation> oAssociationList = new ArrayList<clsAssociation>();
@@ -562,7 +536,7 @@ public class clsOntologyLoader {
 //				}
 				//HZ drive mesh associations are not handled up to now 
 				createClassAssociation(oAssociationElement, poDataElementA, oDataElementB, poDataContainer.a);
-				oAssociation = loadAssociation(oAssociationElement, poDataStructureA, poDataContainer); 
+				oAssociation = loadAssociation(null, oAssociationElement, poDataContainer); 
 				//Below the necessity of the association is defined. Entities are defined by their associations to different 
 				//types of data structures. Depending on their definition in the ontology (class_association or instance association)
 				//the necessity is defined as true (mandatory) or false (optional). E.g. an entity bubble has always the shape "circle"
@@ -603,12 +577,12 @@ public class clsOntologyLoader {
 	 * @param poDataStructurePA
 	 * @return
 	 */
-	private static clsAssociation loadAssociation(Instance poAssociation, clsDataStructurePA poDataStructure, clsPair<KnowledgeBase, Hashtable<eDataType, List<clsDataStructurePA>>> poDataContainer) {
-
-		eDataType eElementType = getElementDataType(poAssociation); 
-		initDataStructure(poDataStructure, poAssociation, poDataContainer);
+	private static clsAssociation loadAssociation(Instance poRootElement, Instance poAssociation, 
+												clsPair<KnowledgeBase, HashMap<String,clsDataStructurePA>> poDataContainer) {
+ 
+		initDataStructure(poRootElement, poAssociation, poDataContainer);
 		
-		return (clsAssociation)retrieveDataStructure(eElementType, poAssociation.getName(),poDataContainer.b);
+		return (clsAssociation)retrieveDataStructure(poAssociation.getName(),poDataContainer.b);
 	}
 	
 	/**
@@ -622,12 +596,10 @@ public class clsOntologyLoader {
 	 *
 	 * @return
 	 */
-	private static clsDataStructurePA retrieveDataStructure(eDataType poDataType, 
-									String poElementName, Hashtable<eDataType, List<clsDataStructurePA>> poDataStructureTable) {
-		if(!poDataStructureTable.containsKey(poDataType)){throw new NoSuchFieldError("datatype " + poDataType + "is not found in the data structure table");}
-		for(clsDataStructurePA element : poDataStructureTable.get(poDataType)){
-			if(element.moDataStructureID.equals(poElementName)) return element; 
-		}
+	private static clsDataStructurePA retrieveDataStructure(String poElNa, HashMap<String,clsDataStructurePA> poDataStructureTable) {
+			if(poDataStructureTable.get(poElNa) != null){
+				return poDataStructureTable.get(poElNa); 
+			}
 		//TODO HZ: Introduce a better return value => null should not be returned
 		return null;
 	}
@@ -644,26 +616,7 @@ public class clsOntologyLoader {
 	private static eDataType getElementDataType(Instance poElement) {
 		String oElementType = (String)getSlotValue("type", poElement); 
 		eDataType oReturnValue = null; 
-		//TODO HZ: This solution is not very nice as every string of the slot-value "type" is mapped to a enum of eDataType
-		//		   by the us of if statements.
-		//         A more generic and from my point of view nicer solution would be to write eDataType.valueOf(oElementType)
-		//		   in order to get the data type. However therefore it has to be guaranteed that types in the onotlogy
-		//		   have the same name es in eDataType. Up to now this cannot be guaranteed but should be changed in the 
-		//		   future. 
-		//FIXME HZ: This has to be definitely changed to a more generic form - see above
-//HZ 03.08.2010 - old version 		
-// 		if(oElementType.equals("thing_presentation")) return eDataType.TP; 
-// 		else if(oElementType.equals("thing_presentation_mesh")) return eDataType.TPM;
-// 		else if(oElementType.equals("word_presentation")) return eDataType.WP;
-// 		else if(oElementType.equals("association_attributes")) return eDataType.ASSOCIATIONATTRIBUTE;
-// 		else if(oElementType.equals("association_drive")) return eDataType.ASSOCIATIONDM;
-// 		else if(oElementType.equals("association_temporal")) return eDataType.ASSOCIATIONTEMP;
-// 		else if(oElementType.equals("association_wp")) return eDataType.ASSOCIATIONWP;
-// 		else if(oElementType.equals("drive_mesh")) return eDataType.DM;
-// 		else if(oElementType.equals("template_image")) return eDataType.TI;
-// 		else if(oElementType.equals("act")) return eDataType.ACT;
-		
-		//HZ 03.08.2010 - new version - more generic one
+	
 		try{
 			oReturnValue = eDataType.valueOf(oElementType);
 		}catch (IllegalArgumentException e){System.out.println(" Element of type " + oElementType + " not handled");}

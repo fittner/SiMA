@@ -28,7 +28,7 @@ public class clsAffect extends clsHomeostaticRepresentation{
 	 *
 	 * @param poDataStructureIdentifier
 	 */
-	public clsAffect(clsTripple<String, eDataType, String> poDataStructureIdentifier, double prPleasure) {
+	public clsAffect(clsTripple<Integer, eDataType, String> poDataStructureIdentifier, double prPleasure) {
 		super(poDataStructureIdentifier);
 		moContent = prPleasure; 
 	}
@@ -60,17 +60,14 @@ public class clsAffect extends clsHomeostaticRepresentation{
 		//This if statement proofs if the compared datastructure does already have an ID =>
 		//the ID sepcifies that the data structure has been already compared with a stored
 		//data structure and replaced by it. Hence they can be compared by their IDs.
-		if(oDataStructure.moDataStructureID!=null){
-			if(this.moDataStructureID.toLowerCase().equals(oDataStructure.moDataStructureID)){
+		if(this.moDS_ID == oDataStructure.moDS_ID){
 				/*In case the DataStructureIDs are equal, the return value is the number 
 				 * of associated data structures and their number of associations. The idendityMatch number
 				 * is not used here as it would distort the result.   
 				 */
 				oRetVal = 1.0;
-			}
-			
-			return oRetVal; 
 		}
+		else if (oDataStructure.moDS_ID > -1) {return oRetVal;} 
 		
 		if(this.mrMinVal <= oDataStructure.moContent && oDataStructure.moContent < this.mrMaxVal){
 			oRetVal = 1.0; 
