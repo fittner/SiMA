@@ -245,18 +245,19 @@ public class E16_ManagementOfMemoryTraces extends clsModuleBase implements I2_6_
 	 * @param poEnvironmentalInput
 	 * @return
 	 */
-	private clsPrimaryDataStructureContainer searchContainer(clsPrimaryDataStructureContainer poEnvironmentalInput) {
-		clsPrimaryDataStructureContainer oContainer = poEnvironmentalInput; 
-		ArrayList<clsPair<Double, clsDataStructureContainer>> oSearchResult = search(poEnvironmentalInput.moDataStructure); 
+	private clsPrimaryDataStructureContainer searchContainer(clsPrimaryDataStructureContainer poEnvInput) {
+		
+		clsPrimaryDataStructureContainer oCon = poEnvInput; 
+		ArrayList<clsPair<Double, clsDataStructureContainer>> oSearchResult = searchDS(poEnvInput.moDataStructure); 
 		
 		if(oSearchResult!=null){
 			//Only the best match is used for the further processing; this explains the 
 			//get(0) in the statement below. 
-			oContainer = (clsPrimaryDataStructureContainer)oSearchResult.get(0).b; 
-			oContainer.moAssociatedDataStructures = poEnvironmentalInput.moAssociatedDataStructures; 
+			oCon = (clsPrimaryDataStructureContainer)oSearchResult.get(0).b; 
+			oCon.moAssociatedDataStructures = poEnvInput.moAssociatedDataStructures; 
 		}
 		//In case their does not exist a search result, the Environmental INPUT VALUE is assigned to the container.  
-		return oContainer;
+		return oCon;
 	}
 
 	/**
@@ -268,9 +269,9 @@ public class E16_ManagementOfMemoryTraces extends clsModuleBase implements I2_6_
 	 *
 	 * @return
 	 */
-	private ArrayList<clsPair<Double, clsDataStructureContainer>>  search(clsDataStructurePA poDataStructure) {
+	private ArrayList<clsPair<Double, clsDataStructureContainer>>  searchDS(clsDataStructurePA poDS) {
 		moSearchPattern.clear(); 
-		addToSearchPattern(eDataType.UNDEFINED, poDataStructure);
+		addToSearchPattern(eDataType.UNDEFINED, poDS);
 		//The search pattern exists out of one entry => the returned hashmap contains only 
 		//ONE entry that has the key 0. 
 		return accessKnowledgeBase().get(0); 
@@ -293,7 +294,7 @@ public class E16_ManagementOfMemoryTraces extends clsModuleBase implements I2_6_
 		 	for(clsAssociation oAAEnvironmentIn : ((clsThingPresentationMesh)poEnvironmentalInput.moDataStructure).moAssociatedContent){
 				
 		 		if( !((clsThingPresentationMesh)poStoredContainer.moDataStructure).contain(oAAEnvironmentIn.moAssociationElementB) ){
-					ArrayList<clsPair<Double, clsDataStructureContainer>> oSearchResult = search(oAAEnvironmentIn.moAssociationElementB);
+					ArrayList<clsPair<Double, clsDataStructureContainer>> oSearchResult = searchDS(oAAEnvironmentIn.moAssociationElementB);
 					
 					if( oSearchResult != null ){
 						clsAssociation oAssociation = new clsAssociationAttribute(new clsTripple<Integer, eDataType, String>(

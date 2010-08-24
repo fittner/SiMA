@@ -133,9 +133,58 @@ public class E27_GenerationOfImaginaryActions extends clsModuleBase implements I
 	 */
 	@Override
 	protected void process_basic() {
-		process_oldDT(); 
+		process_oldDT();
+		
+		//FIXME HZ 23.08.2010: That is where the magic happens
+		it_is_a_kind_of_magic(); 
 	}
 	
+	/**
+	 * DOCUMENT (zeilinger) - insert description
+	 *
+	 * @author zeilinger
+	 * 24.08.2010, 22:51:27
+	 *
+	 */
+	private void it_is_a_kind_of_magic() {
+		/*  HZ the sorcerer
+		 * !++>!;;;:~'.       !>+!~
+   SXYiJccttcYttJi>~+MMMMMMMc
+   'YMYjX56Kc+=+5JYtHMMMMMMMMJc!:~'                       ::'          .
+     'YMMMMtS5YJJSSXQHMMD55555Ytci+!.                  .~::'i    ':t
+       'YMMXjcct6MQMMMM65SKHXXMMMMMQ!                .~'.=!Y'~!!~j:Y
+         .iMMMMMMMMMMMMMMXMKMM=;;=MMM=             =>~:=.ci>:>!Y!jc'
+            !MMMMMMMMMMitMciMM i>::6MM=        '::jM;''!SN:cM>>Wc+
+          'KMMMMHWMMMMJ!!MM'tit>5j;:!~:!     +DMMM5tMMMcYc=6jY!J
+          MMMMMMMMMMMMMS=;j>!5HMMM!~Y':i   .YMMMMMMMMMMMM5!j .:.
+         .MMMMMMMMMMMMMMM6+!tQMMt!~~656Qi:iSMMMMMMMMMMMMM:!
+          XMMMMMMMMMMMMMMMc+~:::;;cMMMMMM5SMMMMMMMMMMMMMMc
+           cMMMMMMMX!MM5t5J!~;iQMMMMMMMQYDMMMMMMKMMMMMMMMY
+             .:!;     MM6jttY65MMMMMMMMMMMMMMMMMKMMMMMMMMS
+                      .XMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMQ
+                          5MMKMMMMMMMMMMMMMMMMMMMMHtMMMMM!
+                          :MMMMMMMMMMMMMMMMMMMMMMY. =56t;
+                            !cJMMMMMMMMMKXDKt ''
+                              DMMMMMKMMMMQDSM!
+                             >MMMMMMMMMMKDSD5S
+                             MMMMMMMMMMMMDXSQc
+                            YMMMMMMMMMMMMMMMM;
+                           jMMMMMMMMMMMMMMMMMMX
+                          ~MMMMMKMMMMMMMMMMMMM!
+                          6MMMMWMMMMMMMMMMMWNY
+                          MMKMMMMMMMMMMMMMMMM>
+                         ;MMMHMMMMMMMMMMMMMMM~
+                        !MMMMMMMMMMMMMMMMMMMM5
+              'i555KMMMMMMMMMMMMMMMMMMMMMMMMMM:
+             jMMMQSHMMMMMMMMMMMMMMMMM6MMMMMMMMM'     :
+       ':;+==MMMHQMMH+iDDXSSKMMMMMMMMMMMMMK6DQMMi>' jMi.
+     '~:!!=tt6MMMMMMMtcXMMMMMMMMMMMMMMMMMMMMMHMMMMM>ttMc
+      ~;!>=ttjjtjtJYQMMMMMMMMMMMMMMMMMMMMMMMMMMMMMM>MM!
+		 * 
+		 * */
+		// TODO (zeilinger) - generate method
+	}
+
 	/**
 	 * DOCUMENT (zeilinger) - insert description
 	 * This method is used while adapting the model from the old datatypes (pa.datatypes) to the
