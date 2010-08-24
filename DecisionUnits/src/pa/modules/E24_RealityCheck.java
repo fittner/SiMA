@@ -30,7 +30,7 @@ public class E24_RealityCheck extends clsModuleBase implements I2_12_receive, I6
 
 	private ArrayList<clsSecondaryInformation> moFocusedPerception_Input_old;
 	private ArrayList<clsPair<clsSecondaryInformation, clsSecondaryInformationMesh>> moRealityPerception_Output_old;
-	private ArrayList<clsPair<clsSecondaryDataStructureContainer, clsSecondaryDataStructureContainer>> moFocusedPerception_Input; 
+	private ArrayList<clsSecondaryDataStructureContainer> moFocusedPerception_Input; 
 	private ArrayList<clsPair<clsSecondaryDataStructureContainer, clsSecondaryDataStructureContainer>> moRealityPerception_Output; 
 
 	/**
@@ -99,6 +99,7 @@ public class E24_RealityCheck extends clsModuleBase implements I2_12_receive, I6
 	@Override
 	public void receive_I2_12(ArrayList<clsSecondaryInformation> poFocusedPerception_old, ArrayList<clsSecondaryDataStructureContainer> poFocusedPerception) {
 		moFocusedPerception_Input_old = (ArrayList<clsSecondaryInformation>)deepCopy( poFocusedPerception_old);
+		moFocusedPerception_Input = (ArrayList<clsSecondaryDataStructureContainer>)deepCopy(poFocusedPerception);
 	}
 
 	/* (non-Javadoc)
@@ -123,6 +124,11 @@ public class E24_RealityCheck extends clsModuleBase implements I2_12_receive, I6
 	 */
 	@Override
 	protected void process_basic() {
+		moRealityPerception_Output = new ArrayList<clsPair<clsSecondaryDataStructureContainer,clsSecondaryDataStructureContainer>>(); 
+		
+		for(clsSecondaryDataStructureContainer oCon : moFocusedPerception_Input){
+			moRealityPerception_Output.add(new clsPair<clsSecondaryDataStructureContainer, clsSecondaryDataStructureContainer>(oCon, null)); 
+		}
 		process_oldDT();
 	}
 	

@@ -12,6 +12,7 @@ import java.util.HashMap;
 import pa.memorymgmt.datatypes.clsAssociation;
 import pa.memorymgmt.datatypes.clsDataStructurePA;
 import pa.memorymgmt.enums.eDataType;
+import pa.tools.clsPair;
 
 /**
  * DOCUMENT (zeilinger) - insert description 
@@ -34,5 +35,5 @@ public abstract class clsSearchSpaceBase {
 	 * 09.06.2010, 22:04:04
 	 *
 	 */
-	public abstract HashMap<eDataType,HashMap<String, HashMap<clsDataStructurePA, ArrayList<clsAssociation>>>> returnSearchSpaceTable();  
+	public abstract HashMap<eDataType,HashMap<String, HashMap<Integer, clsPair<clsDataStructurePA, ArrayList<clsAssociation>>>>> returnSearchSpaceTable();  
 }

@@ -29,11 +29,11 @@ import pa.tools.clsPair;
 public class E23_ExternalPerception_focused extends clsModuleBase implements I2_11_receive, I1_7_receive, I2_12_send {
 
 	private ArrayList<clsSecondaryInformation> moPerception_old;
-	//private ArrayList<clsSecondaryInformation> moDriveList_old;
+	private ArrayList<clsSecondaryInformation> moDriveList_old;
 	private ArrayList<clsSecondaryInformation> moFocusedPerception_Output_old;
 	
 	private ArrayList<clsSecondaryDataStructureContainer> moPerception; 
-	//private ArrayList<clsSecondaryDataStructureContainer> moDriveList; 
+	private ArrayList<clsSecondaryDataStructureContainer> moDriveList; 
 	private ArrayList<clsSecondaryDataStructureContainer> moFocusedPerception_Output; 
 	/**
 	 * DOCUMENT (deutsch) - insert description 
@@ -112,10 +112,11 @@ public class E23_ExternalPerception_focused extends clsModuleBase implements I2_
 	 * 
 	 * @see pa.interfaces.I1_7#receive_I1_7(int)
 	 */
+	@SuppressWarnings("unchecked")
 	@Override
 	public void receive_I1_7(ArrayList<clsSecondaryInformation> poDriveList_old, ArrayList<clsPair<clsSecondaryDataStructureContainer, clsDriveMesh>> poDriveList) {
-		//moDriveList_old = (ArrayList<clsSecondaryInformation>)this.deepCopy(poDriveList_old);
-		//moDriveList = (ArrayList<clsSecondaryDataStructureContainer>)this.deepCopy(poDriveList);
+		moDriveList_old = (ArrayList<clsSecondaryInformation>)this.deepCopy(poDriveList_old);
+		moDriveList = (ArrayList<clsSecondaryDataStructureContainer>)this.deepCopy(poDriveList);
 	}
 
 	/* (non-Javadoc)
@@ -127,6 +128,11 @@ public class E23_ExternalPerception_focused extends clsModuleBase implements I2_
 	 */
 	@Override
 	protected void process_basic() {
+		//TODO HZ 23.08.2010: Normally the perceived information has to be ordered by its priority
+		//that depends on the evaluation of external and internal perception (moDriveList); 
+		//
+		//Actual state: no ordering! 
+		moFocusedPerception_Output = moPerception;
 		process_oldDT();  
 	}
 	
@@ -140,7 +146,6 @@ public class E23_ExternalPerception_focused extends clsModuleBase implements I2_
 	 */
 	private void process_oldDT() {
 		moFocusedPerception_Output_old = moPerception_old; //simply forward. really? cm
-		moFocusedPerception_Output = moPerception;
 	}
 
 	/* (non-Javadoc)

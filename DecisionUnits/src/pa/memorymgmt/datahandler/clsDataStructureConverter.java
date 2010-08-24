@@ -87,6 +87,15 @@ public class clsDataStructureConverter {
 			//received in the form of TPMs), removePrefix is taken from the ARSi09 implementation - however it is a dirty hack
 			//and has to be removed when the symbolization is restructured.
 			String oContentTypeTP = removePrefix(oM.getName());; 
+					
+			//FIXME HZ! For this part a new solution has to be found 
+			//Certain types of content types are mapped together
+			
+			if(oContentTypeTP.toUpperCase().equals("OBJECTPOSITION")|| oContentTypeTP.toUpperCase().equals("DISTANCE")){
+				oContentTypeTP = "LOCATION"; 
+			}
+			//TODO HZ: Define further bindings
+			
 			Object oContentTP = null; 
 			
 			//Method oTest = oM.getClass().getDeclaredMethod("", arg1)

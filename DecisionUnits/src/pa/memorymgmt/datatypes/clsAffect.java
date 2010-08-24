@@ -103,5 +103,4 @@ public class clsAffect extends clsHomeostaticRepresentation{
 		// TODO (zeilinger) - Auto-generated method stub
 		
 	}
-
 }

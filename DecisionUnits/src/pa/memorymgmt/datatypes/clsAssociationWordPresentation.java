@@ -56,7 +56,7 @@ public class clsAssociationWordPresentation extends clsAssociation{
 	 * @see pa.memorymgmt.datatypes.clsAssociation#getLeafElement(pa.memorymgmt.datatypes.clsDataStructurePA)
 	 */
 	@Override
-	public clsDataStructurePA getLeafElement(clsDataStructurePA poRootElement) {
+	public clsDataStructurePA getLeafElement() {
 		return moAssociationElementA; 
 	}
 }

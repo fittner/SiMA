@@ -21,6 +21,7 @@ import pa.interfaces.receive.I5_2_receive;
 import pa.interfaces.send.I2_10_send;
 import pa.interfaces.send.I4_2_send;
 import pa.interfaces.send.I5_2_send;
+import pa.memorymgmt.datatypes.clsAssociation;
 import pa.memorymgmt.datatypes.clsAssociationDriveMesh;
 import pa.memorymgmt.datatypes.clsPrimaryDataStructureContainer;
 
@@ -109,10 +110,37 @@ public class E19_DefenseMechanismsForPerception extends clsModuleBase implements
 	 */
 	@Override
 	protected void process_basic() {
-		moFilteredPerception_Output = moSubjectivePerception_Input; 
+		moFilteredPerception_Output = new ArrayList<clsPrimaryDataStructureContainer>(); 
+		//HZ 20.08.2010 All objects that do not have a drive evaluation attached are filtered in a first step =>
+		//				This makes sense as it is a problem to evaluate objects by the defense mechanisms that do
+		//			    not have drives attached (even this is essential for an evaluation)
+		//	 			The question that has to be discussed is if this filtering takes place in E18 or here.
+		filterInput(); 
 		process_oldDT(); 	
 	}
 	
+	/**
+	 * DOCUMENT (zeilinger) - insert description
+	 *
+	 * @author zeilinger
+	 * 20.08.2010, 12:01:38
+	 *
+	 * @return
+	 */
+	private void filterInput() {
+		
+		for(clsPrimaryDataStructureContainer oContainer : moSubjectivePerception_Input){
+			for(clsAssociation oAssociation : oContainer.moAssociatedDataStructures){
+				
+				//HZ: if statement checks i their exists at least one association to a drive mesh
+				if(oAssociation instanceof clsAssociationDriveMesh){
+					moFilteredPerception_Output.add(oContainer);
+					break; 
+				}
+			}
+		}
+	}
+
 	/**
 	 * DOCUMENT (zeilinger) - insert description
 	 * This method is used while adapting the model from the old datatypes (pa.datatypes) to the

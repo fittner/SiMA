@@ -169,15 +169,10 @@ public class clsDriveMesh extends clsHomeostaticRepresentation{
 		//defined
 		//Drive Mesh content is represented by a list of attribute associations	
 				
-		if(!oContentUnknown.equals("undefined")|| !oContent.equals("undefined")){
-			if(oContent.equals(oContentUnknown)){
-				oRetVal = getCompareScore(oContentListTemplate, oContentListUnknown);
-			}
-		}
-		else{
+		if(oContent.equals(oContentUnknown)){
 				oRetVal = getCompareScore(oContentListTemplate, oContentListUnknown);
 		}
-		
+	
 		return oRetVal; 
 	}
 	

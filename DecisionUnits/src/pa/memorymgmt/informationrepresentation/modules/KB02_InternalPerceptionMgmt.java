@@ -52,8 +52,15 @@ public class KB02_InternalPerceptionMgmt extends clsInformationRepresentationMod
 	public ArrayList<clsPair<Double,clsDataStructureContainer>> listSearch(int poReturnType,clsDataStructurePA poDataStructureUnknown) {
 
 		ArrayList<clsPair<Double,clsDataStructureContainer>> oDataStructureContainerList = new ArrayList<clsPair<Double,clsDataStructureContainer>>(); 
-		ArrayList<clsPair<Double,clsDataStructurePA>> oMatchedDataStructures = compareElements(poDataStructureUnknown); 
+		ArrayList<clsPair<Double,clsDataStructurePA>> oMatchedDataStructures = new ArrayList<clsPair<Double,clsDataStructurePA>>();
 		
+		if(poDataStructureUnknown.moDS_ID > -1 ){
+			oMatchedDataStructures.add(new clsPair<Double, clsDataStructurePA>(1.0,poDataStructureUnknown)); 
+		}
+		else{
+			oMatchedDataStructures = compareElements(poDataStructureUnknown); 
+		}
+				
 		for(clsPair<Double, clsDataStructurePA> oPatternElement : oMatchedDataStructures){
 			clsDataStructureContainer oDataStructureContainer = getDataContainer(poReturnType, (clsPhysicalRepresentation)oPatternElement.b);
 			oDataStructureContainerList.add(new clsPair<Double, clsDataStructureContainer>(oPatternElement.a, oDataStructureContainer));

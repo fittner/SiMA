@@ -48,7 +48,7 @@ public class clsSearchSpaceHandler {
 		                                        .returnSearchSpaceTable()
 		                                        	.get(poDataStructure.moDataStructureType)
 		                                              .get(poDataStructure.moContentType)
-		                                                   .get(poDataStructure);
+		                                              	.get(poDataStructure.moDS_ID).b;
 		
 		for(clsAssociation oAssociationElement : oList){
 			clsDataStructurePA elementB; 

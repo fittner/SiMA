@@ -147,7 +147,7 @@ public class E27_GenerationOfImaginaryActions extends clsModuleBase implements I
 	private void process_oldDT() {
 		moActions_Output = this.moEnclosingContainer.moMemory.moTemplatePlanStorage.getReognitionUpdate(moTemplateResult_Input_old);
 	}
-
+	
 	/* (non-Javadoc)
 	 *
 	 * @author langr

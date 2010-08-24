@@ -128,13 +128,8 @@ public class clsAct extends clsSecondaryDataStructure {
 		//data structure and replaced by it (the processes base on information that is already
 		//defined
 		//ACT content is represented by a list of attribute associations	
-		if(!oContentUnknown.equals("undefined")|| !oContent.equals("undefined")){
-			if(oContent.equals(oContentUnknown)){
+		if(oContent.equals(oContentUnknown)){
 				oRetVal = getCompareScore(oContentListTemplate, oContentListUnknown);
-			}
-		}
-		else{
-			oRetVal = getCompareScore(oContentListTemplate, oContentListUnknown);
 		}
 		
 		return oRetVal; 

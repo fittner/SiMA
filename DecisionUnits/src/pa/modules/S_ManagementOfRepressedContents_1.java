@@ -125,29 +125,39 @@ public class S_ManagementOfRepressedContents_1 extends clsModuleBase implements 
 		
 		ArrayList<clsPrimaryDataStructureContainer> oRetVal = new ArrayList<clsPrimaryDataStructureContainer>(); 
 		HashMap<Integer,ArrayList<clsPair<Double,clsDataStructureContainer>>> oSearchResult; 
-		
-		moSearchPattern.clear(); 
+
 		for(clsPrimaryDataStructureContainer oContainer : moEnvironmentalTP_Input){
-			addToSearchPattern(eDataType.DM, oContainer.moDataStructure); 
+			ArrayList<clsAssociation> oAssDS = getAssociatedDS(eDataType.DM, oContainer.moDataStructure); 
+			oRetVal.add(new clsPrimaryDataStructureContainer(oContainer.moDataStructure, oAssDS));
 		}
-		
-		oSearchResult = accessKnowledgeBase(); 
-		
-		for(clsPair<Integer, clsDataStructurePA> oEntry: moSearchPattern){
-			//HZ: 16.08.2010 Actually the first element is taken out of the list.
-			//The associated drive meshes are linked to the search pattern; the search pattern is not 
-			//exchanged. 
-			clsDataStructurePA oDataStructure = oEntry.b; 
-			ArrayList<clsAssociation> oAssociatedDataStructures = new ArrayList<clsAssociation>(); 
-			
-			if(oSearchResult.containsKey(moSearchPattern.indexOf(oEntry))){
-				oAssociatedDataStructures = oSearchResult.get(moSearchPattern.indexOf(oEntry)).get(0).b.moAssociatedDataStructures; 
-			}
-			
-			oRetVal.add(new clsPrimaryDataStructureContainer(oDataStructure, oAssociatedDataStructures));
-		}
-		
+	
 		return oRetVal;
+	}
+	
+	/**
+	 * DOCUMENT (zeilinger) - insert description
+	 *
+	 * @author zeilinger
+	 * 24.08.2010, 08:21:09
+	 *
+	 * @param poType
+	 * @param poDS
+	 * @return
+	 */
+	private ArrayList<clsAssociation> getAssociatedDS(eDataType poType, clsDataStructurePA poDS){
+		moSearchPattern.clear(); 
+		addToSearchPattern(poType, poDS); 
+		
+		ArrayList<clsAssociation> oAssDS = null; 
+		
+		try{
+			//HZ 23.08.2010 Actually the best match is taken from the search result =>
+			//      		get(0) *2 
+			oAssDS = accessKnowledgeBase().get(0).get(0).b.moAssociatedDataStructures;
+		} catch (IndexOutOfBoundsException ex1){return null;
+		} catch (NullPointerException ex2){return null;}
+			
+		return oAssDS;
 	}
 	
 	/**
@@ -171,7 +181,7 @@ public class S_ManagementOfRepressedContents_1 extends clsModuleBase implements 
 					//HZ 17.08.2010: The method getLeafElement cannot be used here as the search patterns actually
 					// do not have a data structure ID => in a later version when E16 will be placed in front 
 					// of E15, the patterns already have an ID. 
-					clsDriveMesh oDM = ((clsAssociationDriveMesh)oAssociation).getDM();  
+					clsDriveMesh oDM = (clsDriveMesh)((clsAssociationDriveMesh)oAssociation).getLeafElement();  
 						
 					if(eContext.valueOf(oDM.moContentType).equals(oContext)){
 						setCathegories(oDM, oContextPrim.getValue().doubleValue()); 

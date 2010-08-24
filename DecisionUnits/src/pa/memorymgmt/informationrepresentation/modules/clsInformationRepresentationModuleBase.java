@@ -52,7 +52,7 @@ public abstract class clsInformationRepresentationModuleBase {
 	 */
 	public ArrayList<clsPair<Double,clsDataStructureContainer>> searchDataStructure(int poReturnType, clsDataStructurePA poDataStructureUnknown){
 		if(moSearchMethod.equals(eSearchMethod.LISTSEARCH.name())){ return listSearch(poReturnType, poDataStructureUnknown);}
-		/*TODO - zeilinger 	here, additional search algorithms have to be initialized*/
+		/*TODO - HZ 	here, additional search algorithms have to be initialized*/
 		/*TODO - actually the listSearch algorithm is defined in clsModuleBase - hence, there is 
 		 * 		 no difference made between the different modules*/
 	throw new IllegalArgumentException(" defined search method unknown " + moSearchMethod);

@@ -111,22 +111,19 @@ public class clsThingPresentationMesh extends clsPhysicalStructureComposition{
 				 */
 				oRetVal = oDataStructure.getNumbAssociations();
 			}
-			else if (oDataStructure.moDS_ID > -1) {return oRetVal;}
+			else if (oDataStructure.moDS_ID > -1){
+				return oRetVal;
+			}
 		
 		//In case the data structure does not have an ID, it has to be compared to a stored 
 		//data structure and replaced by it (the processes base on information that is already
 		//defined.
 		//TPM content is represented by a list of attribute associations
 		
-		if(!oContentUnknown.equals("undefined")|| !oContent.equals("undefined")){
-			if(oContent.equals(oContentUnknown)){
+		if(oContent.equals(oContentUnknown)){
 				oRetVal = getCompareScore(oContentListTemplate, oContentListUnknown);
-			}
 		}
-		else{
-			oRetVal = getCompareScore(oContentListTemplate, oContentListUnknown);
-		}
-		
+					
 		return oRetVal; 
 	}
 	
@@ -198,5 +195,4 @@ public class clsThingPresentationMesh extends clsPhysicalStructureComposition{
 		}
 		return oResult; 
 	}
-
 }

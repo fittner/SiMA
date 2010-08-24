@@ -58,9 +58,9 @@ public class clsAssociationDriveMesh extends clsAssociation{
 	 * @see pa.memorymgmt.datatypes.clsAssociation#getLeafElement(pa.memorymgmt.datatypes.clsDataStructurePA)
 	 */
 	@Override
-	public clsDataStructurePA getLeafElement(clsDataStructurePA poRootElement) {
-		// TODO (zeilinger) - Auto-generated method stub
-		return null;
+	public clsDataStructurePA getLeafElement() {
+		//FIXME HZ: The DM has to be marked as leaf element! Bad term 
+		return moAssociationElementA; 
 	}
 	
 	public clsDriveMesh getDM(){

@@ -45,7 +45,7 @@ public abstract class clsAssociation extends clsDataStructurePA{
 	//the recall of the leaf element is different for every Association Type
 	//FIXME HZ 17.08.2010: Refactor this method as it is different for every 
 	//					   Association type. 
-	public abstract clsDataStructurePA getLeafElement(clsDataStructurePA poRootElement); 
+	public abstract clsDataStructurePA getLeafElement(); 
 		
 	@Override
 	public Object clone() throws CloneNotSupportedException {

@@ -8,7 +8,6 @@ package pa.modules;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Map;
 
 import config.clsBWProperties;
 import pa.clsInterfaceHandler;
@@ -127,9 +126,8 @@ public class E08_ConversionToSecondaryProcess extends clsModuleBase implements I
 	protected void process_basic() {
 		moDriveList_Output = new ArrayList<clsPair<clsSecondaryDataStructureContainer, clsDriveMesh>>(); 
 		
-		for(clsDriveMesh oDriveMesh : moDriveList_Input){
-			clsSecondaryDataStructureContainer oSecondaryCounterPart = getSecondaryCounterpart(oDriveMesh); 
-			moDriveList_Output.add(new clsPair<clsSecondaryDataStructureContainer, clsDriveMesh>(oSecondaryCounterPart, oDriveMesh)); 
+		for(clsDriveMesh oDM : moDriveList_Input){
+			convertToSecondary(oDM);  
 		}
 		process_oldDT();	
 	}
@@ -143,48 +141,82 @@ public class E08_ConversionToSecondaryProcess extends clsModuleBase implements I
 	 * @param oDriveMesh
 	 * @return
 	 */
-	private clsSecondaryDataStructureContainer getSecondaryCounterpart(clsDriveMesh oDriveMesh) {
+	private void convertToSecondary(clsDriveMesh poDM) throws NullPointerException{
 		//HZ 16.08.2010: Important! Before a search is initialized, the moSearchPattern ArrayLsit has to be cleaned. 
-		moSearchPattern.clear(); 
-		for(clsAssociation oAssociation : oDriveMesh.moAssociatedContent){
-			//HZ: It will be searched for the drive context that is stored as TP in 
-			//the associations that define oDriveMesh => Element A is always the root
-			//element oDriveMesh, while element B is the associated context. 
-			addToSearchPattern(eDataType.WP, oAssociation.moAssociationElementB);
-		}
-		addToSearchPattern(eDataType.WP, clsDataStructureGenerator.generateDataStructure(eDataType.AFFECT, 
-												new clsPair<String, Object>(eDataType.AFFECT.toString(), oDriveMesh.getPleasure())));
-		HashMap<Integer,ArrayList<clsPair<Double,clsDataStructureContainer>>> oSearchResult = accessKnowledgeBase();
-		return defineDriveContainer(oSearchResult);
+		clsWordPresentation oDM_WP = null; 
+		clsWordPresentation oAff_WP = null;
+		clsWordPresentation oResWP = null; 
+		clsSecondaryDataStructureContainer oSec_CON = null; 
+		String oContentWP = ""; 
+		
+		oDM_WP = getDMWP(poDM);  
+		oAff_WP = getAffectWP(poDM); 
+		oContentWP = oDM_WP.moContent + ":" + oAff_WP.moContent; 	
+		oResWP = (clsWordPresentation)clsDataStructureGenerator.generateDataStructure(eDataType.WP, new clsPair<String, Object>(eDataType.WP.name(), oContentWP)); 
+		oSec_CON = new clsSecondaryDataStructureContainer(oResWP, new ArrayList<clsAssociation>());
+		moDriveList_Output.add(new clsPair<clsSecondaryDataStructureContainer, clsDriveMesh>(oSec_CON, poDM)); 
 	}
 
 	/**
 	 * DOCUMENT (zeilinger) - insert description
 	 *
 	 * @author zeilinger
-	 * 15.08.2010, 16:56:45
+	 * 23.08.2010, 21:20:30
 	 *
-	 * @param oSearchResult
+	 * @param oDM
 	 * @return
 	 */
-	private clsSecondaryDataStructureContainer defineDriveContainer(HashMap<Integer,ArrayList<clsPair<Double,clsDataStructureContainer>>> oSearchResult) {
-		clsWordPresentation oSecondaryCounterpart = null; 
-		String oWordPresentationContent = ""; 
+	private clsWordPresentation getDMWP(clsDriveMesh poDM) {
+		clsWordPresentation oWP = null; 
 		
-		for(Map.Entry<Integer, ArrayList<clsPair<Double, clsDataStructureContainer>>> oEntry : oSearchResult.entrySet()){
-			//HZ: 15.08.2010 Actually the first element is taken out of the list.
-			// Input values are exchanged by memorized values 1:1 (they are not merged)
-			clsDataStructureContainer oSelectedMatch = oEntry.getValue().get(0).b; 
-			for(clsAssociation oAssociation : oSelectedMatch.moAssociatedDataStructures){
-				oWordPresentationContent += " " + ((clsWordPresentation)oAssociation.getLeafElement(oSelectedMatch.moDataStructure)).moContent + " ";
-			}
+		for(clsAssociation oAssociation : poDM.moAssociatedContent){
+			//HZ: It will be searched for the drive context that is stored as TP in 
+			//the associations that define oDriveMesh => Element A is always the root
+			//element oDriveMesh, while element B is the associated context. 
+			oWP = (clsWordPresentation)((clsAssociation)getWP(oAssociation.moAssociationElementB)).getLeafElement();
 		}
-		oSecondaryCounterpart = (clsWordPresentation) clsDataStructureGenerator.generateDataStructure(eDataType.WP, 
-														new clsPair<String,Object>(eDataType.WP.toString(),oWordPresentationContent));
 		
-		return new clsSecondaryDataStructureContainer(oSecondaryCounterpart, new ArrayList<clsAssociation>());
+		return oWP;
 	}
 
+	/**
+	 * DOCUMENT (zeilinger) - insert description
+	 *
+	 * @author zeilinger
+	 * 23.08.2010, 21:19:19
+	 *
+	 * @param oDM
+	 * @return
+	 */
+	private clsWordPresentation getAffectWP(clsDriveMesh poDM) {
+		clsDataStructurePA oAffect = null; 
+		oAffect = clsDataStructureGenerator.generateDataStructure(eDataType.AFFECT, new clsPair<String, Object>(eDataType.AFFECT.toString(), poDM.getPleasure()));
+		return (clsWordPresentation)((clsAssociation)getWP(oAffect)).getLeafElement(); 
+	}
+	
+	/**
+	 * DOCUMENT (zeilinger) - insert description
+	 *
+	 * @author zeilinger
+	 * 23.08.2010, 21:24:38
+	 *
+	 * @param poDataStructure
+	 * @return
+	 */
+	private clsAssociation getWP(clsDataStructurePA poDataStructure){
+		moSearchPattern.clear(); 
+		addToSearchPattern(eDataType.WP, poDataStructure); 
+		
+		clsAssociation oAssWP = null; 
+		
+		try{
+			oAssWP = (clsAssociation)accessKnowledgeBase().get(0).get(0).b.moAssociatedDataStructures.get(0);
+		} catch (IndexOutOfBoundsException ex1){return null;
+		} catch (NullPointerException ex2){return null;}
+			
+		return oAssWP;  
+	}
+	
 	/**
 	 * DOCUMENT (zeilinger) - insert description
 	 *

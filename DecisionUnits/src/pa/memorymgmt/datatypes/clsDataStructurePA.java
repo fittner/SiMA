@@ -23,7 +23,7 @@ public abstract class clsDataStructurePA implements Cloneable, itfComparable{
 	public int moDS_ID;
 	public eDataType moDataStructureType;
 	public String moContentType;
-		
+
 	/**
 	 * DOCUMENT (zeilinger) - insert description 
 	 * 
@@ -36,7 +36,7 @@ public abstract class clsDataStructurePA implements Cloneable, itfComparable{
 		moDataStructureType = poDataStructureIdentifier.b;
 		moContentType = poDataStructureIdentifier.c; 
 	}
-	
+		
 	/**
 	 * DOCUMENT (zeilinger) - insert description
 	 *
@@ -48,7 +48,8 @@ public abstract class clsDataStructurePA implements Cloneable, itfComparable{
 	 * @return
 	 */
 	protected double getCompareScore(ArrayList<clsAssociation> poContentListTemplate,ArrayList<clsAssociation> poContentListUnknown) {
-		double oMatchScore	 = 0.0; 
+		double oMatchScore	 = 0.0;
+		double rMatchScoreTemp = 0.0;
 		ArrayList<clsAssociation> oClonedTemplateList = this.cloneList(poContentListTemplate); 
 		
 		for(clsAssociation oAssociationUnknown : poContentListUnknown){
@@ -57,17 +58,14 @@ public abstract class clsDataStructurePA implements Cloneable, itfComparable{
 			 * oClonedTemplateList. After it is selected as best match it is removed from the list in order to admit that the 
 			 * association element of the next association in poContentListUnknown is compared again with the same element.*/
 			clsPair <Double, Integer> oMatch = new clsPair<Double, Integer>(0.0,-1);
+					
 			for(clsAssociation oAssociationTemplate : oClonedTemplateList){
-				
-				double rMatchScoreTemp = 0.0; 
-				if(oAssociationTemplate.moAssociationElementB.getClass().equals(oAssociationUnknown.moAssociationElementB.getClass())){
 					rMatchScoreTemp = oAssociationTemplate.moAssociationElementB.compareTo(oAssociationUnknown.moAssociationElementB); 
 					
 					if(rMatchScoreTemp > oMatch.a){ 
 						oMatch.a = rMatchScoreTemp; 
 						oMatch.b = oClonedTemplateList.indexOf(oAssociationTemplate);
 					}
-				}
 			}
 			//Sums up the match score; Takes always the highest possible score 
 			oMatchScore += oMatch.a;

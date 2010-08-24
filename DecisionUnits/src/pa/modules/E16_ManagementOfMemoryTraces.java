@@ -21,8 +21,8 @@ import pa.interfaces.receive.I2_6_receive;
 import pa.interfaces.receive.I2_7_receive;
 import pa.interfaces.send.I2_7_send;
 import pa.memorymgmt.datatypes.clsAssociation;
-import pa.memorymgmt.datatypes.clsAssociationAttribute;
 import pa.memorymgmt.datatypes.clsAssociationDriveMesh;
+import pa.memorymgmt.datatypes.clsAssociationAttribute;
 import pa.memorymgmt.datatypes.clsDataStructureContainer;
 import pa.memorymgmt.datatypes.clsDataStructurePA;
 import pa.memorymgmt.datatypes.clsDriveMesh;
@@ -148,10 +148,10 @@ public class E16_ManagementOfMemoryTraces extends clsModuleBase implements I2_6_
 							= new ArrayList<clsTripple<clsPrimaryDataStructureContainer, clsDriveMesh, ArrayList<clsDriveMesh>>>(); 
 		
 		for(clsPair<clsPrimaryDataStructureContainer, clsDriveMesh> oEntry : moPerceptPlusRepressed_Input){
-			//The method getEnvironmentalRepresentation retrieves memory matches for
-			//environmental input; objects are identified and exchanged by their 
-			//stored correspondance. oEnvironmentalInput receives them and adds 
-			//former drive meshes as associated data structures to the container. 
+			//HZ: The method getEnvironmentalRepresentation retrieves memory matches for
+			//	environmental input; objects are identified and exchanged by their 
+			//	stored correspondance. oEnvironmentalInput receives them and adds 
+			//	former drive meshes as associated data structures to the container. 
 			clsPrimaryDataStructureContainer oEnvironmentalInput = getEnvironmentalRepresentation(oEntry.a); 		
 			
 			if(oEntry.a != null && oEntry.b != null){

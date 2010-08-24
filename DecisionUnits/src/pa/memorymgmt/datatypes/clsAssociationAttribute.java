@@ -51,7 +51,7 @@ public class clsAssociationAttribute extends clsAssociation{
 	 * @see pa.memorymgmt.datatypes.clsAssociation#getLeafElement(pa.memorymgmt.datatypes.clsDataStructurePA)
 	 */
 	@Override
-	public clsDataStructurePA getLeafElement(clsDataStructurePA poRootElement) {
+	public clsDataStructurePA getLeafElement() {
 		//TPMs have one element that form the root for associated Attribute Associations
 		//This element is always moAssociationElementA; Hence the B element is returned
 		return moAssociationElementB;

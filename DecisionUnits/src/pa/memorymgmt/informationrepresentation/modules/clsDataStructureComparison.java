@@ -8,6 +8,7 @@ package pa.memorymgmt.informationrepresentation.modules;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Map;
 
 import pa.memorymgmt.datatypes.clsAssociation;
 import pa.memorymgmt.datatypes.clsDataStructurePA;
@@ -78,19 +79,18 @@ public abstract class clsDataStructureComparison {
 		double rMatchScore = 0.0; 
 		ArrayList<clsPair<Double, clsDataStructurePA>> oMatchingDataStructureList = new ArrayList<clsPair<Double, clsDataStructurePA>>();
 		
-		for(clsDataStructurePA oSearchSpaceElement : poSearchSpace
-															.returnSearchSpaceTable()
-															.get(poDataStructureUnknown.moDataStructureType)
-															.get(poDataStructureContentType)
-															.keySet()){
-
-			rMatchScore = oSearchSpaceElement.compareTo(poDataStructureUnknown);
-		
-			if(rMatchScore > eDataStructureMatch.THRESHOLDMATCH.getMatchFactor()){
-				oMatchingDataStructureList.add(new clsPair<Double, clsDataStructurePA>(rMatchScore, oSearchSpaceElement));
+		for(Map.Entry<Integer, clsPair<clsDataStructurePA,ArrayList<clsAssociation>>> oEntry : poSearchSpace.returnSearchSpaceTable()
+													 .get(poDataStructureUnknown.moDataStructureType)
+													 .get(poDataStructureContentType)
+													 .entrySet()){
+			
+				clsDataStructurePA oSearchSpaceElement = oEntry.getValue().a; 
+				rMatchScore = oSearchSpaceElement.compareTo(poDataStructureUnknown);
+			
+				if(rMatchScore > eDataStructureMatch.THRESHOLDMATCH.getMatchFactor()){
+					oMatchingDataStructureList.add(new clsPair<Double, clsDataStructurePA>(rMatchScore, oSearchSpaceElement));
+				}
 			}
-		}
-		
 		return oMatchingDataStructureList;
 	}
 
@@ -110,14 +110,18 @@ public abstract class clsDataStructureComparison {
 
 		double rMatchScore = 0.0; 
 		ArrayList<clsPair<Double, clsDataStructurePA>> oMatchingDataStructureList = new ArrayList<clsPair<Double, clsDataStructurePA>>();
-		
-		for(HashMap<clsDataStructurePA, ArrayList<clsAssociation>> oTableEntry : poSearchSpace.returnSearchSpaceTable().get(poDataStructureUnknown.moDataStructureType).values()){
-			for(clsDataStructurePA oSearchSpaceElement : oTableEntry.keySet()){
-				rMatchScore = oSearchSpaceElement.compareTo(poDataStructureUnknown);
 
-				if(rMatchScore > eDataStructureMatch.THRESHOLDMATCH.getMatchFactor()){
-					oMatchingDataStructureList.add(new clsPair<Double, clsDataStructurePA>(rMatchScore, oSearchSpaceElement));
-				}
+		for(Map.Entry<String, HashMap<Integer, clsPair<clsDataStructurePA, ArrayList<clsAssociation>>>> oTableEntry : poSearchSpace
+																						.returnSearchSpaceTable()
+																						.get(poDataStructureUnknown.moDataStructureType)
+																						.entrySet()){
+			for(Map.Entry<Integer, clsPair<clsDataStructurePA,ArrayList<clsAssociation>>> oEntry : oTableEntry.getValue().entrySet()){
+					clsDataStructurePA oSearchSpaceElement = oEntry.getValue().a; 
+					rMatchScore = oSearchSpaceElement.compareTo(poDataStructureUnknown);
+	
+					if(rMatchScore > eDataStructureMatch.THRESHOLDMATCH.getMatchFactor()){
+						oMatchingDataStructureList.add(new clsPair<Double, clsDataStructurePA>(rMatchScore, oSearchSpaceElement));
+					}
 			}
 		}
 				
@@ -137,15 +141,17 @@ public abstract class clsDataStructureComparison {
 		ArrayList<clsPair<Double, clsDataStructurePA>> oSortedList = new ArrayList<clsPair<Double, clsDataStructurePA>>(); 
 		
 		for(clsPair<Double, clsDataStructurePA> oUnsortedElement : poMatchingDataStructureList ){
-			if(oSortedList.size()==0){ oSortedList.add(oUnsortedElement); }
+			if(oSortedList.size() == 0){ oSortedList.add(oUnsortedElement); }
 			else{
 				for(clsPair<Double, clsDataStructurePA> oElement : oSortedList){
 					if(oElement.a <= oUnsortedElement.a){
-						oSortedList.add(poMatchingDataStructureList.lastIndexOf(oElement), oUnsortedElement);
+						oSortedList.add(oSortedList.lastIndexOf(oElement), oUnsortedElement);
 						break; 
 					}
 				}
-				if(!oSortedList.contains(oUnsortedElement)){oSortedList.add(oUnsortedElement);} 
+//			 if(!oSortedList.contains(oUnsortedElement)){
+//					oSortedList.add(oUnsortedElement);
+//			 } 
 			}
 		}
 		return oSortedList;

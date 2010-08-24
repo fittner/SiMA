@@ -452,7 +452,8 @@ public class clsOntologyLoader {
 															   oElementValue);
 		poDataContainer.b.put(poElement.getName(), oDataStructure);
 		
-		ArrayList <clsAssociation> oAssociationList = loadInstanceAssociations(poElement, poDataContainer);  
+		ArrayList <clsAssociation> oAssociationList = loadInstanceAssociations(poElement, poDataContainer); 
+		oAssociationList.addAll(loadClassAssociations(poElement, oDataStructure, poDataContainer));
 		
 		for(clsAssociation element : oAssociationList){
 			if(element instanceof clsAssociationTime){oDataStructure.assignDataStructure(element);}

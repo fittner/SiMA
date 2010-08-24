@@ -116,12 +116,10 @@ public class clsTemplateImage extends clsPhysicalStructureComposition{
 		//defined
 		//TI content is represented by a list of temporal associations	
 	
-		if(!oContentUnknown.equals("undefined")|| !oContent.equals("undefined")){
-			if(oContent.equals(oContentUnknown)){
+		if(oContent.equals(oContentUnknown)){
 				oRetVal = getCompareScore(oContentListTemplate, oContentListUnknown);
-			}
 		}
-		else{
+		else if (this.moContentType.toUpperCase().equals(poDataStructure.moContentType)){
 			oRetVal = getCompareScore(oContentListTemplate, oContentListUnknown);
 		}
 		
@@ -200,4 +198,5 @@ public class clsTemplateImage extends clsPhysicalStructureComposition{
 		
 		return false;
 	}
+
 }

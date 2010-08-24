@@ -81,6 +81,9 @@ public class clsThingPresentation extends clsPhysicalRepresentation{
 				else if(this.moContent instanceof String && oDataStructure.moContent instanceof Enum) {
 					oRetVal = compare((String)this.moContent, ((Enum<?>)oDataStructure.moContent).name());
 				}
+				else if(this.moContent instanceof String && oDataStructure.moContent instanceof String) {
+					oRetVal = compare((String)this.moContent, (String)oDataStructure.moContent);
+				}
 		}
 		return oRetVal;
 	}
