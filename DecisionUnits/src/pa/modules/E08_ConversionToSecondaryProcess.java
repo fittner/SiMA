@@ -149,12 +149,15 @@ public class E08_ConversionToSecondaryProcess extends clsModuleBase implements I
 		clsSecondaryDataStructureContainer oSec_CON = null; 
 		String oContentWP = ""; 
 		
-		oDM_WP = getDMWP(poDM);  
-		oAff_WP = getAffectWP(poDM); 
-		oContentWP = oDM_WP.moContent + ":" + oAff_WP.moContent; 	
-		oResWP = (clsWordPresentation)clsDataStructureGenerator.generateDataStructure(eDataType.WP, new clsPair<String, Object>(eDataType.WP.name(), oContentWP)); 
-		oSec_CON = new clsSecondaryDataStructureContainer(oResWP, new ArrayList<clsAssociation>());
-		moDriveList_Output.add(new clsPair<clsSecondaryDataStructureContainer, clsDriveMesh>(oSec_CON, poDM)); 
+		try{
+			oDM_WP = getDMWP(poDM);  
+			oAff_WP = getAffectWP(poDM); 
+			oContentWP = oDM_WP.moContent + ":" + oAff_WP.moContent; 	
+			oResWP = (clsWordPresentation)clsDataStructureGenerator.generateDataStructure(eDataType.WP, new clsPair<String, Object>(eDataType.WP.name(), oContentWP)); 
+			oSec_CON = new clsSecondaryDataStructureContainer(oResWP, new ArrayList<clsAssociation>());
+			moDriveList_Output.add(new clsPair<clsSecondaryDataStructureContainer, clsDriveMesh>(oSec_CON, poDM));
+		} catch (IndexOutOfBoundsException ex1){ //tbd;
+		} catch (NullPointerException ex2){/*tbd;*/}
 	}
 
 	/**
@@ -173,7 +176,8 @@ public class E08_ConversionToSecondaryProcess extends clsModuleBase implements I
 			//HZ: It will be searched for the drive context that is stored as TP in 
 			//the associations that define oDriveMesh => Element A is always the root
 			//element oDriveMesh, while element B is the associated context. 
-			oWP = (clsWordPresentation)((clsAssociation)getWP(oAssociation.moAssociationElementB)).getLeafElement();
+	
+				oWP = (clsWordPresentation)((clsAssociation)getWP(oAssociation.moAssociationElementB)).getLeafElement();
 		}
 		
 		return oWP;

@@ -354,11 +354,13 @@ public class E21_ConversionToSecondaryProcess extends clsModuleBase implements I
 			ArrayList <clsAssociation> oAssociatedWP = new ArrayList<clsAssociation>();
 			clsWordPresentation oNewWP = (clsWordPresentation)clsDataStructureGenerator.generateDataStructure(eDataType.WP, new clsPair<String, Object>(eDataType.WP.name(), "")); 
 			
-			oAssociatedWP.add(getWPforObject(oNewWP, oTripple.a));
-			oAssociatedWP.addAll(getTItoWP(oNewWP, oTripple.b)); 
-			oAssociatedWP.addAll(getWPforTP(oNewWP, oTripple.c));
-			
-			moPerception_Output.add(new clsSecondaryDataStructureContainer(oNewWP, oAssociatedWP)); 
+			try{
+				oAssociatedWP.add(getWPforObject(oNewWP, oTripple.a));
+				oAssociatedWP.addAll(getTItoWP(oNewWP, oTripple.b)); 
+				oAssociatedWP.addAll(getWPforTP(oNewWP, oTripple.c));
+				
+				moPerception_Output.add(new clsSecondaryDataStructureContainer(oNewWP, oAssociatedWP)); 
+			}catch(NullPointerException e1){/*tbd*/}
 		}
 	}
 	
@@ -375,11 +377,9 @@ public class E21_ConversionToSecondaryProcess extends clsModuleBase implements I
 	private clsAssociation getWPforObject(clsWordPresentation poContentWP, clsDataStructurePA poDS) {
 		clsAssociation oAssWP = getWP(poDS);
 		
-		if(oAssWP != null){
-			clsWordPresentation oWP = (clsWordPresentation)oAssWP.getLeafElement(); 
-			poContentWP.moContent += oWP.moContentType + ":" + oWP.moContent + "|"; 
-		}
-		
+	    clsWordPresentation oWP = (clsWordPresentation)oAssWP.getLeafElement(); 
+		poContentWP.moContent += oWP.moContentType + ":" + oWP.moContent + "|"; 
+			
 		return oAssWP;
 	}
 	
@@ -401,12 +401,9 @@ public class E21_ConversionToSecondaryProcess extends clsModuleBase implements I
 				
 		for(clsTemplateImage oEntry : poListTI){
 			oAssWP = getWP(oEntry); 
-			
-			if(oAssWP != null){
-				oWP = (clsWordPresentation)oAssWP.getLeafElement(); 
-				poContentWP.moContent += oWP.moContentType + ":" + oWP.moContent + "|"; 
-				oTIWP.add(oAssWP); 
-			}
+			oWP = (clsWordPresentation)oAssWP.getLeafElement(); 
+			poContentWP.moContent += oWP.moContentType + ":" + oWP.moContent + "|"; 
+			oTIWP.add(oAssWP); 
 		}
 		
 		return oTIWP;
@@ -429,15 +426,13 @@ public class E21_ConversionToSecondaryProcess extends clsModuleBase implements I
 		
 		for(clsPair<clsDriveMesh, clsAffect> oEntry : poListDM){
 			clsAssociation oAssWP_dm = getWP(oEntry.a);
-			
-			if(oAssWP_dm != null){
-				oWP_dm = (clsWordPresentation)oAssWP_dm.getLeafElement();
-				oWP_affect = (clsWordPresentation)getWP(oEntry.b).getLeafElement(); 
-				oWP_dm.moContent += ":" + oWP_affect.moContent;  
-				oDMWP.add( oAssWP_dm );
+		
+			oWP_dm = (clsWordPresentation)oAssWP_dm.getLeafElement();
+			oWP_affect = (clsWordPresentation)getWP(oEntry.b).getLeafElement(); 
+			oWP_dm.moContent += ":" + oWP_affect.moContent;  
+			oDMWP.add( oAssWP_dm );
 				
-				poContentWP.moContent += oWP_dm.moContent + "|"; 
-			}
+			poContentWP.moContent += oWP_dm.moContent + "|"; 
 		}
 		return oDMWP;
 	}
@@ -459,8 +454,7 @@ public class E21_ConversionToSecondaryProcess extends clsModuleBase implements I
 		
 		try{
 			oAssWP = (clsAssociation)accessKnowledgeBase().get(0).get(0).b.moAssociatedDataStructures.get(0);
-		} catch (IndexOutOfBoundsException ex1){return null;
-		} catch (NullPointerException ex2){return null;}
+		} catch (IndexOutOfBoundsException ex1){/*required to catch if moAssociatedDS = null*/return null;}
 			
 		return oAssWP;  
 	}
