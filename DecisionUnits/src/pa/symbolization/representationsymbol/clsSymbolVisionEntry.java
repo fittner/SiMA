@@ -58,7 +58,7 @@ public class clsSymbolVisionEntry extends du.itf.sensors.clsVisionEntry implemen
 	 */
 	@Override
 	public String getSymbolType() {
-		return "Entity";
+		return "ENTITY";
 	}
 	@Override
 	public Method[] getDataAccessMethods() {

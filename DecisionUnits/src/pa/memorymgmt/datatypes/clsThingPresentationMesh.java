@@ -91,14 +91,12 @@ public class clsThingPresentationMesh extends clsPhysicalStructureComposition{
 	@Override
 	public double compareTo(clsDataStructurePA poDataStructure) {
 		double oRetVal = 0.0; 
-		if(!this.moDataStructureType.equals(poDataStructure.moDataStructureType)){return oRetVal;}
+		if(this.moDataStructureType != poDataStructure.moDataStructureType){return oRetVal;}
 		
 		clsThingPresentationMesh oDataStructure = (clsThingPresentationMesh)poDataStructure;
 		ArrayList <clsAssociation> oContentListTemplate = this.moAssociatedContent; 
 		ArrayList <clsAssociation> oContentListUnknown = oDataStructure.moAssociatedContent;
-		String oContent = this.moContent.toLowerCase(); 
-		String oContentUnknown = oDataStructure.moContent.toLowerCase();
-		
+				
     	//This if statement proofs if the compared data structure does already have an ID =>
 		//the ID specifies that the data structure has been already compared with a stored
 		//data structure and replaced by it. Hence they can be compared by their IDs.
@@ -120,7 +118,7 @@ public class clsThingPresentationMesh extends clsPhysicalStructureComposition{
 		//defined.
 		//TPM content is represented by a list of attribute associations
 		
-		if(oContent.equals(oContentUnknown)){
+		if(this.moContent.intern() == oDataStructure.moContent.intern()){
 				oRetVal = getCompareScore(oContentListTemplate, oContentListUnknown);
 		}
 					
@@ -153,8 +151,7 @@ public class clsThingPresentationMesh extends clsPhysicalStructureComposition{
 	public boolean contain(clsDataStructurePA poDataStructure){
 		
 		for(clsAssociation oAssociation : this.moAssociatedContent){
-			if(((String)oAssociation.moAssociationElementB.moContentType).toLowerCase()
-									.equals(((String)poDataStructure.moContentType).toLowerCase())){
+			if((String)oAssociation.moAssociationElementB.moContentType.intern() == (String)poDataStructure.moContentType){
 				return true;
 			}
 		}

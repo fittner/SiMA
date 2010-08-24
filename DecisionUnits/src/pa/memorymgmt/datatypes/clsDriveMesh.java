@@ -144,14 +144,12 @@ public class clsDriveMesh extends clsHomeostaticRepresentation{
 	@Override
 	public double compareTo(clsDataStructurePA poDataStructure) {
 		double oRetVal = 0.0; 
-		if(!this.moDataStructureType.equals(poDataStructure.moDataStructureType)){return oRetVal;}
+		if(this.moDataStructureType != poDataStructure.moDataStructureType){return oRetVal;}
 
 		clsDriveMesh oDataStructure = (clsDriveMesh)poDataStructure;
 		ArrayList <clsAssociation> oContentListTemplate = this.moAssociatedContent; 
 		ArrayList <clsAssociation> oContentListUnknown = oDataStructure.moAssociatedContent;
-		String oContent = this.moContent.toLowerCase(); 
-		String oContentUnknown = oDataStructure.moContent.toLowerCase();
-		
+				
 		//This if statement proofs if the compared datastructure does already have an ID =>
 		//the ID sepcifies that the data structure has been already compared with a stored
 		//data structure and replaced by it. Hence they can be compared by their IDs.
@@ -169,7 +167,7 @@ public class clsDriveMesh extends clsHomeostaticRepresentation{
 		//defined
 		//Drive Mesh content is represented by a list of attribute associations	
 				
-		if(oContent.equals(oContentUnknown)){
+		if(this.moContent.intern() == oDataStructure.moContent.intern()){
 				oRetVal = getCompareScore(oContentListTemplate, oContentListUnknown);
 		}
 	

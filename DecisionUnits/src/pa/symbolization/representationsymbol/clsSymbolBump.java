@@ -13,12 +13,12 @@ public class clsSymbolBump extends du.itf.sensors.clsBump implements itfGetSymbo
 	
 	@Override
 	public String getSymbolName() {
-		return "Bump"; 
+		return "BUMP"; 
 	}
 	
 	@Override
 	public String getSymbolType() {
-		return "Bump";
+		return "BUMP";
 	}
 
 	@Override

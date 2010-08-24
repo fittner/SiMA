@@ -47,17 +47,18 @@ public abstract class clsDataStructureComparison {
 	 * @param method 
 	 */
 	private static ArrayList<clsPair<Double, clsDataStructurePA>> getMatchingDataStructures(
-			clsSearchSpaceBase poSearchSpace,
-			clsDataStructurePA poDataStructureUnknown) {
+													clsSearchSpaceBase poSearchSpace,
+													clsDataStructurePA poDS_Unknown) {
 		
-		String oContentType = poDataStructureUnknown.moContentType.toUpperCase(); 
+		ArrayList<clsPair<Double, clsDataStructurePA>> oRetVal = new ArrayList<clsPair<Double,clsDataStructurePA>>(); 
+		HashMap<String, HashMap<Integer, clsPair<clsDataStructurePA,ArrayList<clsAssociation>>>> oMap 
+											= poSearchSpace.returnSearchSpaceTable().get(poDS_Unknown.moDataStructureType);
 		
-		if(poSearchSpace.returnSearchSpaceTable().get(poDataStructureUnknown.moDataStructureType).containsKey(oContentType)){
-			return getDataStructureByContentType(poSearchSpace, poDataStructureUnknown, poDataStructureUnknown.moContentType.toUpperCase()); 
+		if(oMap.containsKey(poDS_Unknown.moContentType.intern())){
+			oRetVal = getDataStructureByContentType(oMap.get(poDS_Unknown.moContentType.intern()), poDS_Unknown); 
 		}
-		else {
-			return getDataStructureByDataStructureType (poSearchSpace, poDataStructureUnknown);
-		}
+		
+		return oRetVal; 
 	}
 	
 	/**
@@ -66,67 +67,63 @@ public abstract class clsDataStructureComparison {
 	 * @author zeilinger
 	 * 18.08.2010, 14:59:49
 	 *
-	 * @param poSearchSpace
+	 * @param poMap
 	 * @param poDataStructureUnknown
 	 * @param poDataStructureContentType 
 	 * @return
 	 */
 	private static ArrayList<clsPair<Double, clsDataStructurePA>> getDataStructureByContentType(
-			clsSearchSpaceBase poSearchSpace,
-			clsDataStructurePA poDataStructureUnknown, 
-			String poDataStructureContentType) {
+			HashMap<Integer, clsPair<clsDataStructurePA, ArrayList<clsAssociation>>> poMap,
+			clsDataStructurePA poDS_Unknown) {
 		
-		double rMatchScore = 0.0; 
-		ArrayList<clsPair<Double, clsDataStructurePA>> oMatchingDataStructureList = new ArrayList<clsPair<Double, clsDataStructurePA>>();
-		
-		for(Map.Entry<Integer, clsPair<clsDataStructurePA,ArrayList<clsAssociation>>> oEntry : poSearchSpace.returnSearchSpaceTable()
-													 .get(poDataStructureUnknown.moDataStructureType)
-													 .get(poDataStructureContentType)
-													 .entrySet()){
+			double rMatchScore = 0.0; 
+			ArrayList<clsPair<Double, clsDataStructurePA>> oMatchingDataStructureList = new ArrayList<clsPair<Double, clsDataStructurePA>>();
 			
-				clsDataStructurePA oSearchSpaceElement = oEntry.getValue().a; 
-				rMatchScore = oSearchSpaceElement.compareTo(poDataStructureUnknown);
-			
-				if(rMatchScore > eDataStructureMatch.THRESHOLDMATCH.getMatchFactor()){
-					oMatchingDataStructureList.add(new clsPair<Double, clsDataStructurePA>(rMatchScore, oSearchSpaceElement));
-				}
-			}
-		return oMatchingDataStructureList;
-	}
-
-	/**
-	 * DOCUMENT (zeilinger) - insert description
-	 *
-	 * @author zeilinger
-	 * 18.08.2010, 14:59:44
-	 *
-	 * @param poSearchSpace
-	 * @param poDataStructureUnknown
-	 * @return
-	 */
-	private static ArrayList<clsPair<Double, clsDataStructurePA>> getDataStructureByDataStructureType(
-			clsSearchSpaceBase poSearchSpace,
-			clsDataStructurePA poDataStructureUnknown) {
-
-		double rMatchScore = 0.0; 
-		ArrayList<clsPair<Double, clsDataStructurePA>> oMatchingDataStructureList = new ArrayList<clsPair<Double, clsDataStructurePA>>();
-
-		for(Map.Entry<String, HashMap<Integer, clsPair<clsDataStructurePA, ArrayList<clsAssociation>>>> oTableEntry : poSearchSpace
-																						.returnSearchSpaceTable()
-																						.get(poDataStructureUnknown.moDataStructureType)
-																						.entrySet()){
-			for(Map.Entry<Integer, clsPair<clsDataStructurePA,ArrayList<clsAssociation>>> oEntry : oTableEntry.getValue().entrySet()){
+			for(Map.Entry<Integer, clsPair<clsDataStructurePA,ArrayList<clsAssociation>>> oEntry : poMap.entrySet()){
 					clsDataStructurePA oSearchSpaceElement = oEntry.getValue().a; 
-					rMatchScore = oSearchSpaceElement.compareTo(poDataStructureUnknown);
-	
+					rMatchScore = oSearchSpaceElement.compareTo(poDS_Unknown);
+				
 					if(rMatchScore > eDataStructureMatch.THRESHOLDMATCH.getMatchFactor()){
 						oMatchingDataStructureList.add(new clsPair<Double, clsDataStructurePA>(rMatchScore, oSearchSpaceElement));
 					}
-			}
-		}
-				
-		return oMatchingDataStructureList;
+				}
+		
+			return oMatchingDataStructureList;
 	}
+
+//	/**
+//	 * DOCUMENT (zeilinger) - insert description
+//	 *
+//	 * @author zeilinger
+//	 * 18.08.2010, 14:59:44
+//	 *
+//	 * @param poSearchSpace
+//	 * @param poDataStructureUnknown
+//	 * @return
+//	 */
+//	private static ArrayList<clsPair<Double, clsDataStructurePA>> getDataStructureByDataStructureType(
+//			clsSearchSpaceBase poSearchSpace,
+//			clsDataStructurePA poDataStructureUnknown) {
+//
+//		double rMatchScore = 0.0; 
+//		ArrayList<clsPair<Double, clsDataStructurePA>> oMatchingDataStructureList = new ArrayList<clsPair<Double, clsDataStructurePA>>();
+//
+//		for(Map.Entry<String, HashMap<Integer, clsPair<clsDataStructurePA, ArrayList<clsAssociation>>>> oTableEntry : poSearchSpace
+//																						.returnSearchSpaceTable()
+//																						.get(poDataStructureUnknown.moDataStructureType)
+//																						.entrySet()){
+//			for(Map.Entry<Integer, clsPair<clsDataStructurePA,ArrayList<clsAssociation>>> oEntry : oTableEntry.getValue().entrySet()){
+//					clsDataStructurePA oSearchSpaceElement = oEntry.getValue().a; 
+//					rMatchScore = oSearchSpaceElement.compareTo(poDataStructureUnknown);
+//	
+//					if(rMatchScore > eDataStructureMatch.THRESHOLDMATCH.getMatchFactor()){
+//						oMatchingDataStructureList.add(new clsPair<Double, clsDataStructurePA>(rMatchScore, oSearchSpaceElement));
+//					}
+//			}
+//		}
+//				
+//		return oMatchingDataStructureList;
+//	}
 
 	/**
 	 * DOCUMENT (zeilinger) - insert description
@@ -149,9 +146,6 @@ public abstract class clsDataStructureComparison {
 						break; 
 					}
 				}
-//			 if(!oSortedList.contains(oUnsortedElement)){
-//					oSortedList.add(oUnsortedElement);
-//			 } 
 			}
 		}
 		return oSortedList;

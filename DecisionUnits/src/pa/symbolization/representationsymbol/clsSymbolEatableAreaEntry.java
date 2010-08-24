@@ -86,7 +86,7 @@ public class clsSymbolEatableAreaEntry extends du.itf.sensors.clsEatableAreaEntr
 	 */
 	@Override
 	public String getSymbolType() {
-		return "Entity";
+		return "ENTITY";
 	}
 
 	/* (non-Javadoc)

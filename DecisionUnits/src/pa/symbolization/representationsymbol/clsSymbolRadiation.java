@@ -26,12 +26,12 @@ public class clsSymbolRadiation extends du.itf.sensors.clsRadiation  implements 
 	 */
 	@Override
 	public String getSymbolName() {
-		return "Radiation";
+		return "RADIATION";
 	}
 	
 	@Override
 	public String getSymbolType() {
-		return "Radiation";
+		return "RADIATION";
 	}
 
 	@Override

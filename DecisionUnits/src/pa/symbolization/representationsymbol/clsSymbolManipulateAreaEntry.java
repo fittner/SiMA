@@ -61,7 +61,7 @@ public class clsSymbolManipulateAreaEntry extends du.itf.sensors.clsManipulateAr
 	 */
 	@Override
 	public String getSymbolType() {
-		return "Entity";
+		return "ENTITY";
 	}
 	@Override
 	public Method[] getDataAccessMethods() {

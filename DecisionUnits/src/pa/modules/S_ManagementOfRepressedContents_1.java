@@ -124,8 +124,7 @@ public class S_ManagementOfRepressedContents_1 extends clsModuleBase implements 
 	private ArrayList<clsPrimaryDataStructureContainer> assignDriveMeshes() {
 		
 		ArrayList<clsPrimaryDataStructureContainer> oRetVal = new ArrayList<clsPrimaryDataStructureContainer>(); 
-		HashMap<Integer,ArrayList<clsPair<Double,clsDataStructureContainer>>> oSearchResult; 
-
+	
 		for(clsPrimaryDataStructureContainer oContainer : moEnvironmentalTP_Input){
 			ArrayList<clsAssociation> oAssDS = getAssociatedDS(eDataType.DM, oContainer.moDataStructure); 
 			oRetVal.add(new clsPrimaryDataStructureContainer(oContainer.moDataStructure, oAssDS));

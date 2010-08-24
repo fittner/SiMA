@@ -56,7 +56,7 @@ public class clsWordPresentation extends clsSecondaryDataStructure{
 	@Override
 	public double compareTo(clsDataStructurePA poDataStructure) {
 		double oRetVal = 0.0; 
-		if(!this.moDataStructureType.equals(poDataStructure.moDataStructureType)){return oRetVal;}
+		if(this.moDataStructureType != poDataStructure.moDataStructureType){return oRetVal;}
 
 		clsWordPresentation oDataStructure = (clsWordPresentation)poDataStructure;
 		
@@ -67,7 +67,7 @@ public class clsWordPresentation extends clsSecondaryDataStructure{
 		if(this.moDS_ID == oDataStructure.moDS_ID){oRetVal = 1.0;}
 		else if (oDataStructure.moDS_ID > -1) {return oRetVal;}
 		
-		if(this.moContent.equals(oDataStructure.moContent)){
+		if(this.moContent.intern() == oDataStructure.moContent.intern()){
 			oRetVal = 1.0; 
 		}
 		return oRetVal;

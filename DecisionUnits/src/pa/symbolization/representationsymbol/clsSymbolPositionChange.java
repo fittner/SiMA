@@ -24,12 +24,12 @@ public class clsSymbolPositionChange extends du.itf.sensors.clsPositionChange  i
 	 */
 	@Override
 	public String getSymbolName() {
-		return "PositionChange";
+		return "POSITIONCHANGE";
 	}
 	
 	@Override
 	public String getSymbolType() {
-		return "PositionChange";
+		return "POSITIONCHANGE";
 	}	
 
 	@Override

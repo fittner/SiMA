@@ -122,7 +122,6 @@ public class clsInformationRepresentationManagement extends clsKnowledgeBaseHand
 					moSearchResult.put(poSearchPatternList.indexOf(element), oSearchPatternMatch);
 				}
 			}
-			
 			try {
 				return (HashMap<Integer,ArrayList<clsPair<Double,clsDataStructureContainer>>>) this.cloneResult(moSearchResult);
 			} catch (CloneNotSupportedException e) {

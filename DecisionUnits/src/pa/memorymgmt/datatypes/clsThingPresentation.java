@@ -45,7 +45,7 @@ public class clsThingPresentation extends clsPhysicalRepresentation{
 	@Override
 	public double compareTo(clsDataStructurePA poDataStructure) {
 		double oRetVal = 0.0;
-		if(!this.moDataStructureType.equals(poDataStructure.moDataStructureType)){return oRetVal;}
+		if(this.moDataStructureType != poDataStructure.moDataStructureType){return oRetVal;}
 		
 		clsThingPresentation oDataStructure = (clsThingPresentation)poDataStructure;
 		//This if statement proofs if the compared datastructure does already have an ID =>
@@ -67,7 +67,7 @@ public class clsThingPresentation extends clsPhysicalRepresentation{
 		//HZ 16.08.2010 Be careful - as their are upper-case and lower-case issues within the simulator 
 		//				and in between the simulator and the ontology regarding the current naming 
 		//				of SymbolTypes, the content types are compared without case sensitivity. 
-		if(moContentType.toLowerCase().equals(oDataStructure.moContentType.toLowerCase())){
+		if(moContentType.intern() == oDataStructure.moContentType.intern()){
 							
 				if(this.moContent instanceof Boolean && oDataStructure.moContent instanceof Boolean) {
 					oRetVal = compare((Boolean)this.moContent, (Boolean)oDataStructure.moContent );
@@ -101,7 +101,7 @@ public class clsThingPresentation extends clsPhysicalRepresentation{
 	private double compare(String a, String b) {
 		double oRetVal = 0; 
 		
-		if( a.equals(b) ){
+		if( a.intern() == b.intern() ){
 			oRetVal = 1.0;
 		}
 		
