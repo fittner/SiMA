@@ -89,7 +89,8 @@ public abstract class clsAssociation extends clsDataStructurePA{
 	 * @throws CloneNotSupportedException
 	 */
 	public Object clone(Object obj_orig, Object obj_clon) throws CloneNotSupportedException {
-		checkStackDepth();
+		//FIXME HZ; checkDepth Method lowers performance 
+		//checkStackDepth();
 		
 		clsAssociation oClone = null;
 	    try { 

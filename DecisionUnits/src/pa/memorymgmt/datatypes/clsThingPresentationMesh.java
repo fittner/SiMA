@@ -100,7 +100,7 @@ public class clsThingPresentationMesh extends clsPhysicalStructureComposition{
     	//This if statement proofs if the compared data structure does already have an ID =>
 		//the ID specifies that the data structure has been already compared with a stored
 		//data structure and replaced by it. Hence they can be compared by their IDs.
-			if(this.moDS_ID == oDataStructure.moDS_ID){
+		if(this.moDS_ID == oDataStructure.moDS_ID){
 				/*In case the DataStructureIDs are equal, the return value is the number 
 				 * of associated data structures and their number of associations. The idendityMatch number
 				 * is not used here as it would distort the result. getNumbAssociations has to be introduced
@@ -108,10 +108,10 @@ public class clsThingPresentationMesh extends clsPhysicalStructureComposition{
 				 * data structures too (TPMs can consist out of TPMs).  
 				 */
 				oRetVal = oDataStructure.getNumbAssociations();
-			}
-			else if (oDataStructure.moDS_ID > -1){
-				return oRetVal;
-			}
+		}
+		else if (oDataStructure.moDS_ID > -1){
+			return oRetVal;
+		}
 		
 		//In case the data structure does not have an ID, it has to be compared to a stored 
 		//data structure and replaced by it (the processes base on information that is already

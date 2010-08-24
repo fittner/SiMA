@@ -25,14 +25,9 @@ import pa.tools.clsPair;
  */
 public abstract class clsDataStructureComparison {
 	public static ArrayList<clsPair<Double,clsDataStructurePA>> compareDataStructures
-									(clsDataStructurePA poDataStructureUnknown, clsSearchSpaceBase poSearchSpace){
-				
-		ArrayList <clsPair<Double, clsDataStructurePA>> oMatchingDataStructureList = new ArrayList <clsPair<Double, clsDataStructurePA>>(); 
+									(clsDataStructurePA poDS_Unknown, clsSearchSpaceBase poSearchSpace){
 
-		oMatchingDataStructureList = getMatchingDataStructures(poSearchSpace, poDataStructureUnknown);
-		oMatchingDataStructureList = sortList(oMatchingDataStructureList);
-
-		return oMatchingDataStructureList; 
+		return getMatchingDataStructures(poSearchSpace, poDS_Unknown);
 	}
 		
 	/**
@@ -54,8 +49,8 @@ public abstract class clsDataStructureComparison {
 		HashMap<String, HashMap<Integer, clsPair<clsDataStructurePA,ArrayList<clsAssociation>>>> oMap 
 											= poSearchSpace.returnSearchSpaceTable().get(poDS_Unknown.moDataStructureType);
 		
-		if(oMap.containsKey(poDS_Unknown.moContentType.intern())){
-			oRetVal = getDataStructureByContentType(oMap.get(poDS_Unknown.moContentType.intern()), poDS_Unknown); 
+		if(oMap.containsKey(poDS_Unknown.moContentType)){
+			oRetVal = getDataStructureByContentType(oMap.get(poDS_Unknown.moContentType), poDS_Unknown); 
 		}
 		
 		return oRetVal; 
@@ -77,20 +72,45 @@ public abstract class clsDataStructureComparison {
 			clsDataStructurePA poDS_Unknown) {
 		
 			double rMatchScore = 0.0; 
-			ArrayList<clsPair<Double, clsDataStructurePA>> oMatchingDataStructureList = new ArrayList<clsPair<Double, clsDataStructurePA>>();
+			ArrayList<clsPair<Double, clsDataStructurePA>> oDS_List = new ArrayList<clsPair<Double, clsDataStructurePA>>();
 			
 			for(Map.Entry<Integer, clsPair<clsDataStructurePA,ArrayList<clsAssociation>>> oEntry : poMap.entrySet()){
-					clsDataStructurePA oSearchSpaceElement = oEntry.getValue().a; 
-					rMatchScore = oSearchSpaceElement.compareTo(poDS_Unknown);
+					clsDataStructurePA oCompareElement = oEntry.getValue().a; 
+					rMatchScore = oCompareElement.compareTo(poDS_Unknown);
 				
 					if(rMatchScore > eDataStructureMatch.THRESHOLDMATCH.getMatchFactor()){
-						oMatchingDataStructureList.add(new clsPair<Double, clsDataStructurePA>(rMatchScore, oSearchSpaceElement));
+						int nInsert = sortList(oDS_List, rMatchScore); 
+						oDS_List.add(nInsert,new clsPair<Double, clsDataStructurePA>(rMatchScore, oCompareElement));
 					}
 				}
 		
-			return oMatchingDataStructureList;
+			return oDS_List;
 	}
 
+	/**
+	 * DOCUMENT (zeilinger) - insert description
+	 *
+	 * @author zeilinger
+	 * 02.07.2010, 16:36:54
+	 * @param rMatchScore 
+	 *
+	 * @param matchingDataStructureList
+	 * @return
+	 */
+	private static int sortList(ArrayList<clsPair<Double, clsDataStructurePA>> poDSList, double rMS) {
+		int oRetVal = 0; 
+		
+		if(poDSList.size() == 0){oRetVal = 0;}
+		else{
+			for(clsPair<Double, clsDataStructurePA> oEntry : poDSList){
+				if(oEntry.a <= rMS){
+					oRetVal = poDSList.lastIndexOf(oEntry); 
+				}
+			}
+		}
+		return oRetVal;
+	}
+	
 //	/**
 //	 * DOCUMENT (zeilinger) - insert description
 //	 *
@@ -124,30 +144,4 @@ public abstract class clsDataStructureComparison {
 //				
 //		return oMatchingDataStructureList;
 //	}
-
-	/**
-	 * DOCUMENT (zeilinger) - insert description
-	 *
-	 * @author zeilinger
-	 * 02.07.2010, 16:36:54
-	 *
-	 * @param matchingDataStructureList
-	 * @return
-	 */
-	private static ArrayList<clsPair<Double, clsDataStructurePA>> sortList(ArrayList<clsPair<Double, clsDataStructurePA>> poMatchingDataStructureList) {
-		ArrayList<clsPair<Double, clsDataStructurePA>> oSortedList = new ArrayList<clsPair<Double, clsDataStructurePA>>(); 
-		
-		for(clsPair<Double, clsDataStructurePA> oUnsortedElement : poMatchingDataStructureList ){
-			if(oSortedList.size() == 0){ oSortedList.add(oUnsortedElement); }
-			else{
-				for(clsPair<Double, clsDataStructurePA> oElement : oSortedList){
-					if(oElement.a <= oUnsortedElement.a){
-						oSortedList.add(oSortedList.lastIndexOf(oElement), oUnsortedElement);
-						break; 
-					}
-				}
-			}
-		}
-		return oSortedList;
-	}
 }
