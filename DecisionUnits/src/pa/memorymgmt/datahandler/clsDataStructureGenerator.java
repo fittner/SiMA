@@ -19,6 +19,7 @@ import pa.memorymgmt.datatypes.clsDataStructurePA;
 import pa.memorymgmt.datatypes.clsDriveDemand;
 import pa.memorymgmt.datatypes.clsDriveMesh;
 import pa.memorymgmt.datatypes.clsPhysicalRepresentation;
+import pa.memorymgmt.datatypes.clsSecondaryDataStructure;
 import pa.memorymgmt.datatypes.clsTemplateImage;
 import pa.memorymgmt.datatypes.clsThingPresentation;
 import pa.memorymgmt.datatypes.clsThingPresentationMesh;
@@ -131,12 +132,14 @@ public abstract class clsDataStructureGenerator {
 		double [] oCathegories = {0.0,0.0,0.0,0.0};
 		ArrayList<clsAssociation> oAssociatedContent = new ArrayList<clsAssociation>();
 		
+		oRetVal = new clsDriveMesh(new clsTripple<Integer, eDataType, String>(setID(), eDataType.DM, oContentType), oPleasure, oCathegories, oAssociatedContent, oContent);
+		
 		for(clsThingPresentation oElement : poContent.b){
 			oAssociatedContent.add(new clsAssociationAttribute(new clsTripple<Integer, eDataType, String> (setID(), eDataType.ASSOCIATIONATTRIBUTE, eDataType.ASSOCIATIONATTRIBUTE.toString()), 
 													 oRetVal, 
 													 oElement)); 
 		}
-		oRetVal = new clsDriveMesh(new clsTripple<Integer, eDataType, String>(setID(), eDataType.DM, oContentType), oPleasure, oCathegories, oAssociatedContent, oContent); 
+		
 		return oRetVal;
 	}
 	
@@ -147,11 +150,11 @@ public abstract class clsDataStructureGenerator {
 		return oRetVal;
 	}
 	
-	public static clsAct generateACT(clsTripple <String, ArrayList<clsWordPresentation>, Object> poContent){
+	public static clsAct generateACT(clsTripple <String, ArrayList<clsSecondaryDataStructure>, Object> poContent){
 		clsAct oRetVal = null; 
 		String oContentType = poContent.a;
 		String oContent = (String)poContent.c; 
-		ArrayList<clsAssociation> oAssociatedContent = new ArrayList<clsAssociation>(); 
+		ArrayList<clsSecondaryDataStructure> oAssociatedContent = poContent.b; 
 		//HZ: The content type has to be defined - a decision has to be made between
 		//ArrayList<clsAssociation> and ArrayList<clsWordPresentation>
 //		for(clsWordPresentation oElement : poContent.b){
