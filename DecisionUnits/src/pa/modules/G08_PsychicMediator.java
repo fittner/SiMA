@@ -298,7 +298,7 @@ public class G08_PsychicMediator extends clsModuleContainer implements
 	 * @see pa.interfaces.I1_7#receive_I1_7(int)
 	 */
 	@Override
-	public void receive_I1_7(ArrayList<clsSecondaryInformation> poDriveList_old, ArrayList<clsPair<clsSecondaryDataStructureContainer, clsDriveMesh>> poDriveList) {
+	public void receive_I1_7(ArrayList<clsSecondaryInformation> poDriveList_old, ArrayList<clsSecondaryDataStructureContainer> poDriveList) {
 		moG11SecondaryProcessor.receive_I1_7(poDriveList_old, poDriveList); //e23&e26 (perc & delib)
 		((I1_7_receive)moEnclosingContainer).receive_I1_7(poDriveList_old, poDriveList); //e22 (super ego)
 	}

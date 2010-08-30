@@ -168,7 +168,7 @@ public class clsDriveMesh extends clsHomeostaticRepresentation{
 		//Drive Mesh content is represented by a list of attribute associations	
 				
 		if(this.moContent.intern() == oDataStructure.moContent.intern()){
-				oRetVal = getCompareScore(oContentListTemplate, oContentListUnknown);
+				oRetVal = getMatchScore(oContentListTemplate, oContentListUnknown);
 		}
 	
 		return oRetVal; 

@@ -7,6 +7,7 @@
 package pa.memorymgmt.datatypes;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import pa.memorymgmt.enums.eDataType;
 import pa.tools.clsPair;
@@ -37,6 +38,47 @@ public abstract class clsDataStructurePA implements Cloneable, itfComparable{
 		moContentType = poDataStructureIdentifier.c; 
 	}
 		
+//	/**
+//	 * DOCUMENT (zeilinger) - insert description
+//	 *
+//	 * @author zeilinger
+//	 * 15.07.2010, 08:56:36
+//	 *
+//	 * @param oContentListTemplate
+//	 * @param oContentListUnknown
+//	 * @return
+//	 */
+//	protected double getCompareScorePrimary(ArrayList<clsAssociation> poContentListTemplate,ArrayList<clsAssociation> poContentListUnknown) {
+//		double oMatchScore	 = 0.0;
+//		double rMatchScoreTemp = 0.0;
+//		ArrayList<clsAssociation> oClonedTemplateList = this.cloneList(poContentListTemplate); 
+//		
+//		for(clsAssociation oAssociationUnknown : poContentListUnknown){
+//			/*oMatch defines an object of clsPair that contains the match-score (Double value) between two objects (moAssociationElementB of 
+//			 * oAssociationUnknown and oAssociationTemplate) and the entry number where the best matching element is found in 
+//			 * oClonedTemplateList. After it is selected as best match it is removed from the list in order to admit that the 
+//			 * association element of the next association in poContentListUnknown is compared again with the same element.*/
+//			clsPair <Double, Integer> oMatch = new clsPair<Double, Integer>(0.0,-1);
+//					
+//			for(clsAssociation oAssociationTemplate : oClonedTemplateList){
+//					rMatchScoreTemp = oAssociationTemplate.moAssociationElementB.compareTo(oAssociationUnknown.moAssociationElementB); 
+//					
+//					if(rMatchScoreTemp > oMatch.a){ 
+//						oMatch.a = rMatchScoreTemp; 
+//						oMatch.b = oClonedTemplateList.indexOf(oAssociationTemplate);
+//					}
+//			}
+//			//Sums up the match score; Takes always the highest possible score 
+//			oMatchScore += oMatch.a;
+//			
+//			if(oMatch.a > 0.0){
+//				try{
+//					oClonedTemplateList.remove((int)oMatch.b);
+//				}catch(Exception e){System.out.println("oMatch.b was set to an incorrect value " + e.toString());}} 
+//		}
+//		return oMatchScore;
+//	}
+	
 	/**
 	 * DOCUMENT (zeilinger) - insert description
 	 *
@@ -47,25 +89,34 @@ public abstract class clsDataStructurePA implements Cloneable, itfComparable{
 	 * @param oContentListUnknown
 	 * @return
 	 */
-	protected double getCompareScore(ArrayList<clsAssociation> poContentListTemplate,ArrayList<clsAssociation> poContentListUnknown) {
+	protected <E extends clsDataStructurePA> double getMatchScore(ArrayList<E> poContentListTemplate,ArrayList<E> poContentListUnknown) {
 		double oMatchScore	 = 0.0;
 		double rMatchScoreTemp = 0.0;
-		ArrayList<clsAssociation> oClonedTemplateList = this.cloneList(poContentListTemplate); 
+		List<E> oClonedTemplateList = this.cloneList(poContentListTemplate); 
 		
-		for(clsAssociation oAssociationUnknown : poContentListUnknown){
+		for(E oUnknownDS : poContentListUnknown){
 			/*oMatch defines an object of clsPair that contains the match-score (Double value) between two objects (moAssociationElementB of 
 			 * oAssociationUnknown and oAssociationTemplate) and the entry number where the best matching element is found in 
 			 * oClonedTemplateList. After it is selected as best match it is removed from the list in order to admit that the 
 			 * association element of the next association in poContentListUnknown is compared again with the same element.*/
 			clsPair <Double, Integer> oMatch = new clsPair<Double, Integer>(0.0,-1);
 					
-			for(clsAssociation oAssociationTemplate : oClonedTemplateList){
-					rMatchScoreTemp = oAssociationTemplate.moAssociationElementB.compareTo(oAssociationUnknown.moAssociationElementB); 
-					
-					if(rMatchScoreTemp > oMatch.a){ 
-						oMatch.a = rMatchScoreTemp; 
-						oMatch.b = oClonedTemplateList.indexOf(oAssociationTemplate);
-					}
+			for(E oClonedKnownDS : oClonedTemplateList){
+				
+				if( oClonedKnownDS instanceof clsAssociation ){
+					rMatchScoreTemp = ((clsAssociation)oClonedKnownDS).moAssociationElementB.compareTo(((clsAssociation)oUnknownDS).moAssociationElementB); 
+				}
+				else if (oClonedKnownDS instanceof clsSecondaryDataStructure){
+					rMatchScoreTemp = oClonedKnownDS.compareTo(oUnknownDS);
+				}
+				else {
+					throw new UnknownError( "Data structure type for comparison not useable" ); 
+				}
+				
+				if(rMatchScoreTemp > oMatch.a){ 
+					oMatch.a = rMatchScoreTemp; 
+					oMatch.b = oClonedTemplateList.indexOf(oClonedKnownDS);
+				}
 			}
 			//Sums up the match score; Takes always the highest possible score 
 			oMatchScore += oMatch.a;
@@ -73,7 +124,8 @@ public abstract class clsDataStructurePA implements Cloneable, itfComparable{
 			if(oMatch.a > 0.0){
 				try{
 					oClonedTemplateList.remove((int)oMatch.b);
-				}catch(Exception e){System.out.println("oMatch.b was set to an incorrect value " + e.toString());}} 
+				}catch(Exception e){System.out.println("oMatch.b was set to an incorrect value " + e.toString());}
+			} 
 		}
 		return oMatchScore;
 	}
@@ -85,16 +137,17 @@ public abstract class clsDataStructurePA implements Cloneable, itfComparable{
 	 * 20.07.2010, 16:02:43
 	 *
 	 * @param poContentListTemplate
+	 * @return 
 	 * @return
 	 */
-	private ArrayList<clsAssociation> cloneList(
-			ArrayList<clsAssociation> poContentListTemplate) {
+	@SuppressWarnings("unchecked")
+	private <E extends clsDataStructurePA> List<E> cloneList(List<E> poContentListTemplate) {
 		
-		ArrayList<clsAssociation> oClone = new ArrayList<clsAssociation>(); 
-		for(clsAssociation oAssociation : poContentListTemplate){
+		List<E> oClone = new ArrayList<E>(); 
+		for(E oAssociation : poContentListTemplate){
 			try { 
 				Object dupl = oAssociation.clone(); 
-				oClone.add((clsAssociation)dupl); // unchecked warning
+				oClone.add((E) dupl); // unchecked warning
 			} catch (Exception e) {
 				//.....
 			}

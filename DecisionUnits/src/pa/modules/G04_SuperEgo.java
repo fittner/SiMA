@@ -24,7 +24,6 @@ import pa.memorymgmt.clsKnowledgeBaseHandler;
 import pa.memorymgmt.datatypes.clsDriveMesh;
 import pa.memorymgmt.datatypes.clsPrimaryDataStructureContainer;
 import pa.memorymgmt.datatypes.clsSecondaryDataStructureContainer;
-import pa.tools.clsPair;
 import config.clsBWProperties;
 
 /**
@@ -104,7 +103,7 @@ public class G04_SuperEgo extends clsModuleContainer implements
 	 * @see pa.interfaces.I1_7#receive_I1_7(int)
 	 */
 	@Override
-	public void receive_I1_7(ArrayList<clsSecondaryInformation> poDriveList_old, ArrayList<clsPair<clsSecondaryDataStructureContainer, clsDriveMesh>> poDriveList) {
+	public void receive_I1_7(ArrayList<clsSecondaryInformation> poDriveList_old, ArrayList<clsSecondaryDataStructureContainer> poDriveList) {
 		moE22SuperEgoPreconscious.receive_I1_7(poDriveList_old, poDriveList);
 		
 	}

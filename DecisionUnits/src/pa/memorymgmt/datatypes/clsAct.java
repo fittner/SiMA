@@ -6,6 +6,7 @@
  */
 package pa.memorymgmt.datatypes;
 
+import java.lang.reflect.Method;
 import java.util.ArrayList;
 
 import pa.memorymgmt.enums.eDataType;
@@ -20,7 +21,7 @@ import pa.tools.clsTripple;
  */
 public class clsAct extends clsSecondaryDataStructure {
 	public String moContent = "UNDEFINED"; 
-	public ArrayList<clsAssociation> moAssociatedContent; 
+	public ArrayList<clsSecondaryDataStructure> moAssociatedContent; 
 	/**
 	 * DOCUMENT (zeilinger) - insert description 
 	 * 
@@ -31,10 +32,10 @@ public class clsAct extends clsSecondaryDataStructure {
 	 * @param poDataStructureType
 	 */
 	public clsAct(clsTripple<Integer, eDataType, String> poDataStructureIdentifier, 
-														ArrayList<clsAssociation> poAssociatedWordPresentations,
+														ArrayList<clsSecondaryDataStructure> poAssociatedWordPresentations,
 														String poContent) {
 		super(poDataStructureIdentifier);
-		setAssociations(poAssociatedWordPresentations); 
+		setAssociatedWP(poAssociatedWordPresentations); 
 		setContent(poContent); 
 	}
 
@@ -60,38 +61,10 @@ public class clsAct extends clsSecondaryDataStructure {
 	 *
 	 * @param poAssociatedWordPresentations
 	 */
-	private void setAssociations(
-			ArrayList<clsAssociation> poAssociatedWordPresentations) {
+	private void setAssociatedWP(ArrayList<clsSecondaryDataStructure> poAssociatedWordPresentations) {
 		moAssociatedContent = poAssociatedWordPresentations;
 	}
-
-	/* (non-Javadoc)
-	 *
-	 * @author zeilinger
-	 * 23.06.2010, 22:03:23
-	 * 
-	 * @see pa.memorymgmt.datatypes.clsSecondaryDataStructure#assignDataStructure(pa.memorymgmt.datatypes.clsAssociation)
-	 */
-	@Override
-	public void assignDataStructure(clsAssociation dataStructureAssociation) {
-		// TODO (zeilinger) - Auto-generated method stub
 		
-	}
-	
-	/**
-	 * DOCUMENT (zeilinger) - insert description
-	 *
-	 * @author zeilinger
-	 * 24.05.2010, 14:40:45
-	 *
-	 * @param poAssociatedWordPresentations
-	 */
-		
-	protected void applyAssociations(ArrayList<clsAssociation> poAssociatedDataStructures) {
-		moAssociatedContent.addAll(poAssociatedDataStructures); 
-	}
-
-
 	/* (non-Javadoc)
 	 *
 	 * @author zeilinger
@@ -105,8 +78,8 @@ public class clsAct extends clsSecondaryDataStructure {
 		if(this.moDataStructureType != poDataStructure.moDataStructureType){return oRetVal;}
 
 		clsAct oDataStructure = (clsAct)poDataStructure;
-		ArrayList <clsAssociation> oContentListTemplate = this.moAssociatedContent; 
-		ArrayList <clsAssociation> oContentListUnknown = oDataStructure.moAssociatedContent;
+		ArrayList <clsSecondaryDataStructure> oContentListTemplate = this.moAssociatedContent; 
+		ArrayList <clsSecondaryDataStructure> oContentListUnknown = oDataStructure.moAssociatedContent;
 		
 		//This if statement proofs if the compared datastructure does already have an ID =>
 		//the ID sepcifies that the data structure has been already compared with a stored
@@ -119,18 +92,20 @@ public class clsAct extends clsSecondaryDataStructure {
 				 * as ACTs can be associated to different types of data structures that can consist of associated
 				 * data structures too (ACTs can consist out of ACTs).  
 				 */
-				oRetVal = oDataStructure.getNumbAssociations();
+				oRetVal = oDataStructure.getNumbAssociatedDS();
 			}
-			else if (oDataStructure.moDS_ID > -1) {return oRetVal;}
+		else if (oDataStructure.moDS_ID > -1) {return oRetVal;}
 		
 		//In case the data structure does not have an ID, it has to be compared to a stored 
 		//data structure and replaced by it (the processes base on information that is already
 		//defined
-		//ACT content is represented by a list of attribute associations	
-		if(this.moContent.intern() == oDataStructure.moContent.intern()){
-				oRetVal = getCompareScore(oContentListTemplate, oContentListUnknown);
-		}
+		//ACT content is represented by associated WPs (May be deleted in a future version)and a String
+		//variable that defines PRECONDITIONS, ACTION, and CONSEQUENCE - both Strings are compared to each other
 		
+		//if(this.moContent.intern() == oDataStructure.moContent.intern()){
+		//oRetVal = getMatchScore(oContentListTemplate, oContentListUnknown);
+		//}
+		oRetVal = getMatchScore(this.moContent, oDataStructure.moContent); 
 		return oRetVal; 
 	}
 	
@@ -139,15 +114,56 @@ public class clsAct extends clsSecondaryDataStructure {
 	 * DOCUMENT (zeilinger) - insert description
 	 *
 	 * @author zeilinger
+	 * 29.08.2010, 13:16:17
+	 *
+	 * @param moContent2
+	 * @param moContent3
+	 * @return
+	 */
+	private double getMatchScore(String poContentKnown, String poContentUnknown) {
+		double nMatchScore = 0.0; 
+		String oPreconditionKnown = poContentKnown.substring(poContentKnown.indexOf("|", poContentKnown.indexOf("PRECONDITION")), poContentKnown.indexOf("ACTION")); 
+		String oActionKnown = poContentKnown.substring(poContentKnown.indexOf("|", poContentKnown.indexOf("ACTION")), poContentKnown.indexOf("CONSEQUENCE")); 
+		String oConsequenceKnown = poContentKnown.substring(poContentKnown.indexOf("|", poContentKnown.indexOf("CONSEQUENCE"))); 
+		
+		String [] oPreconditionUnknown = poContentUnknown.substring(poContentUnknown.indexOf("|", poContentUnknown.indexOf("PRECONDITION")), poContentUnknown.indexOf("ACTION")).split("[|]"); 
+		String [] oActionUnknown = poContentUnknown.substring(poContentUnknown.indexOf("|", poContentUnknown.indexOf("ACTION")), poContentUnknown.indexOf("CONSEQUENCE")).split("[|]"); 
+		String [] oConsequenceUnknown = poContentUnknown.substring(poContentUnknown.indexOf("|", poContentUnknown.indexOf("CONSEQUENCE"))).split("[|]");
+		
+		for(String oSubString : oPreconditionUnknown){
+			if(oPreconditionKnown.contains(oSubString) && !oSubString.equals("")){
+				nMatchScore ++; 
+			}
+		}
+		
+		for(String oSubString : oActionUnknown){
+			if(oActionKnown.contains(oSubString) && !oSubString.equals("")){
+				nMatchScore ++; 
+			}
+		}
+		
+		for(String oSubString : oConsequenceUnknown){
+			if(oConsequenceKnown.contains(oSubString) && !oSubString.equals("")){
+				nMatchScore ++; 
+			}
+		}
+		
+		return nMatchScore;
+	}
+
+	/**
+	 * DOCUMENT (zeilinger) - insert description
+	 *
+	 * @author zeilinger
 	 * 18.07.2010, 16:44:40
 	 *
 	 * @return
 	 */
-	private double getNumbAssociations() {
+	private double getNumbAssociatedDS() {
 		double oResult = 0.0;
-		for(clsDataStructurePA oElement1 : moAssociatedContent){
-			if(((clsAssociation)oElement1).moAssociationElementB.moDataStructureType == eDataType.ACT){
-				oResult +=((clsAct)((clsAssociation)oElement1).moAssociationElementB).getNumbAssociations(); 
+		for(clsDataStructurePA oElement : moAssociatedContent){
+			if(oElement instanceof clsAct){
+				oResult +=((clsAct)oElement).getNumbAssociatedDS(); 
 			}
 			else {
 				oResult += 1.0; 
@@ -161,18 +177,21 @@ public class clsAct extends clsSecondaryDataStructure {
         try {
         	clsAct oClone = (clsAct)super.clone();
         	if (moAssociatedContent != null) {
-        		oClone.moAssociatedContent = new ArrayList<clsAssociation>(); 
-        		for(clsAssociation oAssociation : moAssociatedContent){
-        			try { 
-    					Object dupl = oAssociation.clone(this, oClone); 
-    					oClone.moAssociatedContent.add((clsAssociation)dupl); // unchecked warning
+        		oClone.moAssociatedContent = new ArrayList<clsSecondaryDataStructure>(); 
+        		
+        		for(Object oSecondaryDS : moAssociatedContent){
+        			try {
+        				Class<?> clzz = oSecondaryDS.getClass();
+        	    		Method   meth = clzz.getMethod("clone", new Class[0]);
+        				Object   dupl = meth.invoke(oSecondaryDS, new Object[0]);
+        				oClone.moAssociatedContent.add((clsSecondaryDataStructure)dupl); // unchecked warning
     				} catch (Exception e) {
     					return e;
     				}
         		}
         	}
-        	
-          	return oClone;
+        	return oClone;
+        
         } catch (CloneNotSupportedException e) {
            return e;
         }
@@ -180,10 +199,10 @@ public class clsAct extends clsSecondaryDataStructure {
 
 	@Override
 	public String toString(){
-		String oResult = "::"+this.moDataStructureType+"::";  
+		String oResult = "::"+this.moDataStructureType+"::"+this.moContent+"::";  
 		oResult += this.moDS_ID + ":";
 			
-		for (clsAssociation oEntry : moAssociatedContent) {
+		for (clsSecondaryDataStructure oEntry : moAssociatedContent) {
 			oResult += oEntry.toString() + ":"; 
 		}
 //		

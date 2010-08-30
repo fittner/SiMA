@@ -7,7 +7,9 @@
 package pa.modules;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
+import java.util.Map;
 
 import config.clsBWProperties;
 import pa.clsInterfaceHandler;
@@ -15,10 +17,16 @@ import pa.interfaces.knowledgebase.itfKnowledgeBaseAccess;
 import pa.interfaces.receive.I6_2_receive;
 import pa.interfaces.receive.I7_2_receive;
 import pa.interfaces.send.I6_2_send;
+import pa.memorymgmt.datahandler.clsDataStructureGenerator;
+import pa.memorymgmt.datatypes.clsAct;
+import pa.memorymgmt.datatypes.clsAssociation;
 import pa.memorymgmt.datatypes.clsDataStructureContainer;
 import pa.memorymgmt.datatypes.clsDataStructurePA;
+import pa.memorymgmt.datatypes.clsSecondaryDataStructureContainer;
+import pa.memorymgmt.datatypes.clsWordPresentation;
 import pa.memorymgmt.enums.eDataType;
 import pa.tools.clsPair;
+import pa.tools.clsTripple;
 
 /**
  * DOCUMENT (deutsch) - insert description 
@@ -29,6 +37,8 @@ import pa.tools.clsPair;
  */
 public class E28_KnowledgeBase_StoredScenarios extends clsModuleBase implements I7_2_receive, I6_2_send, itfKnowledgeBaseAccess {
 
+	ArrayList<clsSecondaryDataStructureContainer> moGoal_Input; 
+	
 	/**
 	 * DOCUMENT (deutsch) - insert description 
 	 * 
@@ -91,10 +101,11 @@ public class E28_KnowledgeBase_StoredScenarios extends clsModuleBase implements 
 	 * 
 	 * @see pa.interfaces.I7_2#receive_I7_2(int)
 	 */
+	@SuppressWarnings("unchecked")
 	@Override
-	public void receive_I7_2(int pnData) {
+	public void receive_I7_2(int pnData, ArrayList<clsSecondaryDataStructureContainer> poGoal_Input) {
 		mnTest += pnData;
-		
+		moGoal_Input = (ArrayList<clsSecondaryDataStructureContainer>)deepCopy(poGoal_Input);
 	}
 
 	/* (non-Javadoc)
@@ -110,7 +121,181 @@ public class E28_KnowledgeBase_StoredScenarios extends clsModuleBase implements 
 	@Override
 	protected void process_basic() {
 		mnTest++;
+		//HZ It has to be discussed if E28 is required! In case it remains,
+		//a loop between E27 and E28 is required; otherwise it is a problem to construct "plans"
+		//"retrieveActs()" was introduced to retrieve acts from the memory, according to the 
+		//actual situation. As long as the question is not solved if the loop is required,
+		//E28 is not triggered; In the meantime a memory access is introduced in E27 
+		retrieveActsForGoals(); 
+	}
+
+	/**
+	 * DOCUMENT (zeilinger) - insert description
+	 *
+	 * @author zeilinger
+	 * 28.08.2010, 11:23:14
+	 *
+	 */
+	private void retrieveActsForGoals() {
+		//HZ retrieving ACTS from the memory strongly depend on the 
+		//design of Acts => actually it has to be differenciated between 
+		//the preconditions, the action and the consequences; however
+		//this may change with further implementations 
+		ArrayList<clsAct> oActRes = new ArrayList<clsAct>(); 
+
+		for(clsSecondaryDataStructureContainer oCon : moGoal_Input){
+			ArrayList<clsWordPresentation> oListWP = extractWP(oCon.moAssociatedDataStructures);
+			String oActualState = ((clsWordPresentation)oCon.moDataStructure).moContent; 
+						
+			//HZ not sure, but maybe a loop between E28 and E27 is required here; 
+			// TODO: This is also a bit magic; ACTS are retrieved that include the actual object setup, no
+			//	matter if it fits the "precondition" or the "consequence"; normally it is not the 
+			//  task of the memory to introduce a filter that makes a difference between both parts; 
+			// however it can be thought about alternatives and possibilities to retrieve acts
+			// more efficiently. 
+			oActRes = retrieveActs(oActualState.substring(0, oActualState.indexOf("||"))); 
+		}
+	}
+
+	/**
+	 * DOCUMENT (zeilinger) - insert description
+	 *
+	 * @author zeilinger
+	 * 29.08.2010, 15:57:01
+	 *
+	 * @param oActDummy
+	 * @return
+	 */
+	private ArrayList<clsAct> retrieveActs(String poActualState) {
+		clsAct oActDummy = null;
+		boolean oComplete = false; 
+		String oContentDummy = ""; 
+		ArrayList<clsAct> oActResult = new ArrayList<clsAct>(); 
 		
+		oContentDummy = getContent(poActualState); 
+		
+		//HZ ABBRUCHBEDINGUNG! - has to be changed
+		int i = 0; 		
+		
+		while(oComplete != true){
+			oActDummy = (clsAct)clsDataStructureGenerator.generateDataStructure(eDataType.ACT, 
+			           new clsTripple<String, ArrayList<clsWordPresentation>, Object>(eDataType.ACT.name(), new ArrayList<clsWordPresentation>(), oContentDummy));
+			try {
+				clsAct oResult = retrieveActMatch(oActDummy); 
+				oActResult.add(0, oResult); 
+				oComplete = comparePreconditions(oResult.moContent, poActualState);
+				oContentDummy = getContent(oResult.moContent.substring(oResult.moContent.lastIndexOf("CONSEQUENCE"))); 
+			}catch(NullPointerException ex) {/*TODO tbd*/}
+			
+			//TODO HZ Should avoid an endless loop! DIRTY
+			if(i++>10){break;}
+	    }
+				
+		return oActResult;
+	}
+
+	/**
+	 * DOCUMENT (zeilinger) - insert description
+	 *
+	 * @author zeilinger
+	 * 29.08.2010, 16:16:46
+	 *
+	 * @param moContent
+	 * @param poContent
+	 * @return
+	 */
+	private boolean comparePreconditions(String poActContent, String poActualState) {
+		String oTag = "PRECONDITION"; 
+		HashMap<String, ArrayList<String>> oState  = new HashMap<String, ArrayList<String>>(); 
+		String [] oDividedState = poActContent.substring(poActContent.indexOf(oTag) + oTag.length(), poActContent.indexOf("||")).split("[|]");
+		
+		//Divide to OR and AND relations
+		for (String oCondition : oDividedState){
+			if(!oCondition.equals("") && !oCondition.substring(0, oCondition.indexOf(":")).equals("RELATION")){
+				String oContentType = oCondition.substring(0, oCondition.indexOf(":")); 
+				
+				if(oState.containsKey(oContentType)){
+					oState.get(oContentType).add(oCondition); 
+				}
+				else {
+					oState.put(oContentType, new ArrayList<String>(Arrays.asList(oCondition))); 
+				}				
+			}
+		}
+		
+		for(Map.Entry<String, ArrayList<String>> oEntry : oState.entrySet()){
+			for(String oCondition : oEntry.getValue()){
+				if(!poActualState.contains(oCondition) && oEntry.getValue().indexOf(oCondition)==(oEntry.getValue().size()-1)){
+					return false; 
+				}
+			}
+		}
+	
+		return true;
+	}
+
+	/**
+	 * DOCUMENT (zeilinger) - insert description
+	 *
+	 * @author zeilinger
+	 * 29.08.2010, 12:05:33
+	 *
+	 * @param moContent
+	 * @return
+	 */
+	private String getContent(String moContent) {
+		String oContent = ""; 
+		//Acts are retrieved by the consequence they have on the agent - hence the content String of the Act is constructed
+		//here - only the consequence part is filled
+		//The string looks like: "PRECONDITION||ACTION||CONSEQUENCE|NOURISH" or "PRECONDITION||ACTION||CONSEQUENCE|LOCATION:xy|"
+		oContent = "PRECONDITION||ACTION||CONSEQUENCE|" + moContent; 
+		return oContent;
+	}
+
+	/**
+	 * DOCUMENT (zeilinger) - insert description
+	 *
+	 * @author zeilinger
+	 * 28.08.2010, 11:47:38
+	 *
+	 * @param moAssociatedDataStructures
+	 * @return
+	 */
+	private ArrayList<clsWordPresentation> extractWP(ArrayList<clsAssociation> poAssociatedDataStructures) {
+		ArrayList<clsWordPresentation> oListWP = new ArrayList<clsWordPresentation>(); 
+		
+		for(clsAssociation oAss : poAssociatedDataStructures){
+			oListWP.add((clsWordPresentation)oAss.getLeafElement()); 
+		}
+		return oListWP;
+	}
+	
+	/**
+	 * DOCUMENT (zeilinger) - insert description
+	 *
+	 * @author zeilinger
+	 * 28.08.2010, 11:50:46
+	 *
+	 * @param oActDummy
+	 * @return
+	 */
+	private clsAct retrieveActMatch(clsAct oActDummy) {
+		moSearchPattern.clear(); 
+			
+		addToSearchPattern(eDataType.UNDEFINED, oActDummy); 
+		//As only one search pattern was send to the memory, the returning hashmap
+		//has only one entry that has the key 0 => hence this entry can be directly
+		//read out of the Hashmap
+		ArrayList<clsPair<Double,clsDataStructureContainer>> oResult = accessKnowledgeBase().get(0); 
+		//The Double value in clsPair defines the matching score of the retrieved Act and the 
+		//search pattern. This was ok for the primary data structures as there have not been 
+		//any logic relations within the data structures. Now there exist acts with "or" and "and"
+		//relations that may include many possibilities (see the acts for changing locations)
+		//=> actually a lot of acts are retrieved from the memory; E27 will have to sort them out.
+		//It has to be verified if this is a good solution, or if the comparison mode for the clsAct 
+		//datatype has to be changed
+		
+		return (clsAct)oResult.get(0).b.moDataStructure; 
 	}
 
 	/* (non-Javadoc)
@@ -185,10 +370,8 @@ public class E28_KnowledgeBase_StoredScenarios extends clsModuleBase implements 
 	 * @see pa.interfaces.knowledgebase.itfKnowledgeBaseAccess#addToSearchPattern(pa.memorymgmt.enums.eDataType, pa.memorymgmt.datatypes.clsDataStructurePA)
 	 */
 	@Override
-	public void addToSearchPattern(eDataType oReturnType,
-			clsDataStructurePA poSearchPattern) {
-		// TODO (zeilinger) - Auto-generated method stub
-		
+	public void addToSearchPattern(eDataType oReturnType, clsDataStructurePA poSearchPattern) {
+		moSearchPattern.add(new clsPair<Integer, clsDataStructurePA>(oReturnType.nBinaryValue, poSearchPattern)); 		
 	}
 
 }

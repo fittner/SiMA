@@ -126,6 +126,8 @@ public class E24_RealityCheck extends clsModuleBase implements I2_12_receive, I6
 	protected void process_basic() {
 		moRealityPerception_Output = new ArrayList<clsPair<clsSecondaryDataStructureContainer,clsSecondaryDataStructureContainer>>(); 
 		
+		//FIXME HZ 2010.08.24 Functionality of old code is taken; however I am rather sure that it has to be
+		//adapted
 		for(clsSecondaryDataStructureContainer oCon : moFocusedPerception_Input){
 			moRealityPerception_Output.add(new clsPair<clsSecondaryDataStructureContainer, clsSecondaryDataStructureContainer>(oCon, null)); 
 		}

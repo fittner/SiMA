@@ -103,7 +103,6 @@ public abstract class clsModuleBase {
 					clone.add(entry);
 					// no deep copy possible.
 				}
-			
 			}
 		}
 				

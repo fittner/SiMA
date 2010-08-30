@@ -26,7 +26,6 @@ import pa.interfaces.receive.I7_5_receive;
 import pa.loader.plan.clsPlanAction;
 import pa.memory.clsMemory;
 import pa.memorymgmt.clsKnowledgeBaseHandler;
-import pa.memorymgmt.datatypes.clsDriveMesh;
 import pa.memorymgmt.datatypes.clsSecondaryDataStructureContainer;
 import pa.tools.clsPair;
 import config.clsBWProperties;
@@ -117,7 +116,7 @@ public class G11_SecondaryProcessor extends clsModuleContainer implements
 	 * @see pa.interfaces.I1_7#receive_I1_7(int)
 	 */
 	@Override
-	public void receive_I1_7(ArrayList<clsSecondaryInformation> poDriveList_old, ArrayList<clsPair<clsSecondaryDataStructureContainer, clsDriveMesh>> poDriveList) {
+	public void receive_I1_7(ArrayList<clsSecondaryInformation> poDriveList_old, ArrayList<clsSecondaryDataStructureContainer> poDriveList) {
 		moG15Deliberation.receive_I1_7(poDriveList_old, poDriveList);
 		moG14PerceptualPreprocessing.receive_I1_7(poDriveList_old, poDriveList);
 	}
@@ -203,8 +202,8 @@ public class G11_SecondaryProcessor extends clsModuleContainer implements
 	 * @see pa.interfaces.I7_2#receive_I7_2(int)
 	 */
 	@Override
-	public void receive_I7_2(int pnData) {
-		moG16SecondaryKnowledgeUtilizer.receive_I7_2(pnData);
+	public void receive_I7_2(int pnData, ArrayList<clsSecondaryDataStructureContainer> poGoal_Output) {
+		moG16SecondaryKnowledgeUtilizer.receive_I7_2(pnData, poGoal_Output);
 	}
 
 	/* (non-Javadoc)

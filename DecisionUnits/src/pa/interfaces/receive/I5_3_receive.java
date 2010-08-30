@@ -10,9 +10,7 @@ import java.util.ArrayList;
 
 import pa.datatypes.clsSecondaryInformation;
 import pa.interfaces.I_BaseInterface;
-import pa.memorymgmt.datatypes.clsDriveMesh;
 import pa.memorymgmt.datatypes.clsSecondaryDataStructureContainer;
-import pa.tools.clsPair;
 
 /**
  * DOCUMENT (deutsch) - insert description 
@@ -23,5 +21,5 @@ import pa.tools.clsPair;
  */
 public interface I5_3_receive extends I_BaseInterface {
 	public void receive_I5_3(ArrayList<clsSecondaryInformation> poDriveList_old,
-				ArrayList<clsPair<clsSecondaryDataStructureContainer, clsDriveMesh>> poDriveList);
+				ArrayList<clsSecondaryDataStructureContainer> poDriveList);
 }

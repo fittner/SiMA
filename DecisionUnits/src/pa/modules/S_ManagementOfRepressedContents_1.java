@@ -9,6 +9,7 @@ package pa.modules;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Map.Entry;
 
 import bfg.tools.clsMutableDouble;
 
@@ -106,9 +107,12 @@ public class S_ManagementOfRepressedContents_1 extends clsModuleBase implements 
 		//	  data structures. However, after the new functionalities are introduced, old and new data structures have to 
 		//    be clearly separated from each other and the use of clsRepressedContentStorage has to be avoided. 
 		
- 		ArrayList<clsPrimaryDataStructureContainer> oContainer = assignDriveMeshes(); 
+		moAttachedRepressed_Output = new ArrayList<clsPair<clsPrimaryDataStructureContainer,clsDriveMesh>>();
+		ArrayList<clsPrimaryDataStructureContainer> oContainer = new ArrayList<clsPrimaryDataStructureContainer>(); 
+ 		
+		oContainer = assignDriveMeshes(); 
 		adaptCathegories(oContainer);
-		moAttachedRepressed_Output = matchRepressedContent(oContainer); 
+		matchRepressedContent(oContainer); 
 		
 		process_oldDT(); 
 	}
@@ -150,6 +154,7 @@ public class S_ManagementOfRepressedContents_1 extends clsModuleBase implements 
 		ArrayList<clsAssociation> oAssDS = null; 
 		
 		try{
+			//FIXME HZ: IndexOutOfBound + NullpointerException should be avoided
 			//HZ 23.08.2010 Actually the best match is taken from the search result =>
 			//      		get(0) *2 
 			oAssDS = accessKnowledgeBase().get(0).get(0).b.moAssociatedDataStructures;
@@ -169,27 +174,52 @@ public class S_ManagementOfRepressedContents_1 extends clsModuleBase implements 
 	 */
 	private void adaptCathegories(ArrayList<clsPrimaryDataStructureContainer> oContainerList) {
 		
-		HashMap<clsPrimaryDataStructureContainer, clsMutableDouble> oContextResult = 
-							moEnclosingContainer.moMemory.moCurrentContextStorage.getContextRatiosPrimCONVERTED(mrContextSensitivity);
+		HashMap<clsPrimaryDataStructureContainer, clsMutableDouble> oContextResult = getContext(); 
 		
 		for(clsPrimaryDataStructureContainer oContainer : oContainerList){
 			for( Map.Entry<clsPrimaryDataStructureContainer, clsMutableDouble> oContextPrim : oContextResult.entrySet() ) {
-				eContext oContext = eContext.valueOf(oContextPrim.getKey().moDataStructure.moContentType);
-								
-				for(clsAssociation oAssociation : oContainer.moAssociatedDataStructures){
-					//HZ 17.08.2010: The method getLeafElement cannot be used here as the search patterns actually
-					// do not have a data structure ID => in a later version when E16 will be placed in front 
-					// of E15, the patterns already have an ID. 
-					clsDriveMesh oDM = (clsDriveMesh)((clsAssociationDriveMesh)oAssociation).getLeafElement();  
-						
-					if(eContext.valueOf(oDM.moContentType).equals(oContext)){
-						setCathegories(oDM, oContextPrim.getValue().doubleValue()); 
-					}
-				}
+				calculateCath(oContainer, oContextPrim); 
 			}
 		}
 	}
 	
+	/**
+	 * DOCUMENT (zeilinger) - insert description
+	 *
+	 * @author zeilinger
+	 * 26.08.2010, 12:06:22
+	 *
+	 * @param oContainer
+	 * @param oContextPrim
+	 */
+	private void calculateCath(clsPrimaryDataStructureContainer poContainer,Entry<clsPrimaryDataStructureContainer, clsMutableDouble> poContextPrim) {
+		
+		eContext oContext = eContext.valueOf(poContextPrim.getKey().moDataStructure.moContentType);
+		
+		for(clsAssociation oAssociation : poContainer.moAssociatedDataStructures){
+			//HZ 17.08.2010: The method getLeafElement cannot be used here as the search patterns actually
+			// do not have a data structure ID => in a later version when E16 will be placed in front 
+			// of E15, the patterns already have an ID. 
+			clsDriveMesh oDM = (clsDriveMesh)((clsAssociationDriveMesh)oAssociation).getLeafElement();  
+				
+			if(eContext.valueOf(oDM.moContentType).equals(oContext)){
+				setCathegories(oDM, poContextPrim.getValue().doubleValue()); 
+			}
+		}
+	}
+
+	/**
+	 * DOCUMENT (zeilinger) - insert description
+	 *
+	 * @author zeilinger
+	 * 26.08.2010, 12:02:45
+	 *
+	 * @return
+	 */
+	private HashMap<clsPrimaryDataStructureContainer, clsMutableDouble> getContext() {
+		return moEnclosingContainer.moMemory.moCurrentContextStorage.getContextRatiosPrimCONVERTED(mrContextSensitivity);
+	}
+
 	/**
 	 * DOCUMENT (zeilinger) - insert description
 	 *
@@ -215,16 +245,12 @@ public class S_ManagementOfRepressedContents_1 extends clsModuleBase implements 
 	 * @param oContainer
 	 * @return
 	 */
-	private ArrayList<clsPair<clsPrimaryDataStructureContainer, clsDriveMesh>> matchRepressedContent(
-			ArrayList<clsPrimaryDataStructureContainer> poCathegorizedInputContainer) {
-		
-		ArrayList<clsPair<clsPrimaryDataStructureContainer, clsDriveMesh>> oRetVal = new ArrayList<clsPair<clsPrimaryDataStructureContainer,clsDriveMesh>>();
+	private void matchRepressedContent(ArrayList<clsPrimaryDataStructureContainer> poCathegorizedInputContainer) {
 		
 		for(clsPrimaryDataStructureContainer oInput : poCathegorizedInputContainer){
 				clsDriveMesh oRep = moEnclosingContainer.moMemory.moRepressedContentsStore.getBestMatchCONVERTED(oInput);
-				oRetVal.add(new clsPair<clsPrimaryDataStructureContainer, clsDriveMesh>(oInput, oRep));
+				moAttachedRepressed_Output.add(new clsPair<clsPrimaryDataStructureContainer, clsDriveMesh>(oInput, oRep));
 		}
-		return oRetVal;
 	}
 
 	/**

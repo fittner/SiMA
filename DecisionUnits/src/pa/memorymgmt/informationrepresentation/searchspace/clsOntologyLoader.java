@@ -25,6 +25,7 @@ import pa.memorymgmt.datatypes.clsAssociationWordPresentation;
 import pa.memorymgmt.datatypes.clsDataStructurePA;
 import pa.memorymgmt.datatypes.clsDriveMesh;
 import pa.memorymgmt.datatypes.clsPrimaryDataStructure;
+import pa.memorymgmt.datatypes.clsSecondaryDataStructure;
 import pa.memorymgmt.datatypes.clsTemplateImage;
 import pa.memorymgmt.datatypes.clsThingPresentation;
 import pa.memorymgmt.datatypes.clsThingPresentationMesh;
@@ -291,6 +292,91 @@ public class clsOntologyLoader {
 			if(element instanceof clsAssociationAttribute){ oDataStructure.assignDataStructure(element);}
 		}
 	}
+	
+	/**
+	 * DOCUMENT (zeilinger) - insert description
+	 *
+	 * @author zeilinger
+	 * 22.06.2010, 17:11:56
+	 *
+	 * @param poDataElements
+	 * @param poFrameKB
+	 * @param poDataStructurePA
+	 */
+	private static void createACT(Instance poRootElement, Instance poElement,
+							clsPair<KnowledgeBase, HashMap<String,clsDataStructurePA>> poDataContainer) {
+
+		eDataType oElType = eDataType.ACT;
+		int oID = DS_ID++;  
+		String oElValType = (String)poElement.getOwnSlotValue(poDataContainer.a.getSlot("value_type"));
+		String oElVal = (String)poElement.getOwnSlotValue(poDataContainer.a.getSlot("value"));
+		Collection <?> oPreCon = getSlotValues("precondition", poElement);
+		Collection <?> oAction = getSlotValues("action", poElement);
+		Collection <?> oConseq = getSlotValues("consequence", poElement);
+		clsWordPresentation oDS = null;
+		clsAct oAct = new clsAct(new clsTripple<Integer, eDataType, String>(oID,oElType,oElValType),
+																					  new ArrayList<clsSecondaryDataStructure>(), 
+																					  oElVal);
+		
+		poDataContainer.b.put(poElement.getName(), oAct);
+		
+		oAct.moContent += "|PRECONDITION|"; 
+		
+		for(Object oElement : oPreCon){
+			initDataStructure(null, (Instance)oElement, poDataContainer);
+			oDS = (clsWordPresentation)retrieveDataStructure(((Instance)oElement).getName(), poDataContainer.b); 
+			oAct.moAssociatedContent.add(oDS);
+			oAct.moContent += oDS.moContentType + ":" + oDS.moContent + "|";
+		}
+		
+		oAct.moContent += "|ACTION|"; 
+		
+		for(Object oElement : oAction){
+			initDataStructure(null, (Instance)oElement, poDataContainer);
+			oDS = (clsWordPresentation)retrieveDataStructure(((Instance)oElement).getName(), poDataContainer.b); 
+			oAct.moAssociatedContent.add(oDS);
+			oAct.moContent += oDS.moContentType + ":" + oDS.moContent + "|";
+		}
+		
+		oAct.moContent += "|CONSEQUENCE|"; 
+		
+		for(Object oElement : oConseq){
+			initDataStructure(null, (Instance)oElement, poDataContainer);
+			oDS = (clsWordPresentation)retrieveDataStructure(((Instance)oElement).getName(), poDataContainer.b); 
+			oAct.moAssociatedContent.add(oDS);
+			oAct.moContent += oDS.moContentType + ":" + oDS.moContent + "|"; 
+		}
+	}
+
+	/**
+	 * DOCUMENT (zeilinger) - insert description
+	 *
+	 * @author zeilinger
+	 * 21.06.2010, 17:02:33
+	 *
+	 * @param poFrameKB
+	 * @param poDataStructurePA
+	 */
+	private static void createTI(Instance poRootElement, Instance poElement,
+			clsPair<KnowledgeBase, HashMap<String,clsDataStructurePA>> poDataContainer) {
+		
+		eDataType oElementType = eDataType.TI;
+		int oID = DS_ID++;   
+		String oElementValueType = (String)poElement.getOwnSlotValue(poDataContainer.a.getSlot("value_type"));
+		String oElementValue = (String)poElement.getOwnSlotValue(poDataContainer.a.getSlot("value"));
+		
+		clsTemplateImage oDataStructure = new clsTemplateImage(new clsTripple<Integer, eDataType, String>(oID,oElementType,oElementValueType),
+															   new ArrayList<clsAssociation>(), 
+															   oElementValue);
+		poDataContainer.b.put(poElement.getName(), oDataStructure);
+		
+		ArrayList <clsAssociation> oAssociationList = loadInstanceAssociations(poElement, poDataContainer); 
+		oAssociationList.addAll(loadClassAssociations(poElement, oDataStructure, poDataContainer));
+		
+		for(clsAssociation element : oAssociationList){
+			if(element instanceof clsAssociationTime){oDataStructure.assignDataStructure(element);}
+		}
+	}
 
 	/**
 	 * DOCUMENT (zeilinger) - insert description
@@ -392,74 +478,17 @@ public class clsOntologyLoader {
 			clsDataStructurePA poDataElementB,
 			eDataType poDataType) {
 		
-		if(poDataElementA.moDataStructureType==poDataType) 
-				return new clsPair<clsDataStructurePA, clsDataStructurePA>(poDataElementA, poDataElementB);  
-		else if (poDataElementB.moDataStructureType==poDataType) 
+		if(poDataElementA.moDataStructureType==poDataType){ 
+				return new clsPair<clsDataStructurePA, clsDataStructurePA>(poDataElementA, poDataElementB);
+		}
+		else if (poDataElementB.moDataStructureType==poDataType) {
 				return new clsPair<clsDataStructurePA, clsDataStructurePA>(poDataElementB, poDataElementA);
-		
-		throw new NoSuchFieldError("The required datatype "+ poDataType +" does not match the data structures"); 
-	}
-
-	/**
-	 * DOCUMENT (zeilinger) - insert description
-	 *
-	 * @author zeilinger
-	 * 22.06.2010, 17:11:56
-	 *
-	 * @param poDataElements
-	 * @param poFrameKB
-	 * @param poDataStructurePA
-	 */
-	private static void createACT(Instance poRootElement, Instance poElement,
-							clsPair<KnowledgeBase, HashMap<String,clsDataStructurePA>> poDataContainer) {
-
-		eDataType oElementType = eDataType.ACT;
-		int oID = DS_ID++;  
-		String oElementValueType = (String)poElement.getOwnSlotValue(poDataContainer.a.getSlot("value_type"));
-		String oElementValue = (String)poElement.getOwnSlotValue(poDataContainer.a.getSlot("value"));
-		
-		clsAct oDataStructure = new clsAct(new clsTripple<Integer, eDataType, String>(oID,oElementType,oElementValueType),
-																					 new ArrayList<clsAssociation>(), 
-																					 oElementValue);
-		poDataContainer.b.put(poElement.getName(), oDataStructure);
-		
-		ArrayList <clsAssociation> oAssociationList = loadInstanceAssociations(poElement, poDataContainer);  
-				
-		for(clsAssociation element : oAssociationList){
-			oDataStructure.assignDataStructure(element);
+		}
+		else {
+			throw new NoSuchFieldError("The required datatype "+ poDataType +" does not match the data structures"); 
 		}
 	}
 
-	/**
-	 * DOCUMENT (zeilinger) - insert description
-	 *
-	 * @author zeilinger
-	 * 21.06.2010, 17:02:33
-	 *
-	 * @param poFrameKB
-	 * @param poDataStructurePA
-	 */
-	private static void createTI(Instance poRootElement, Instance poElement,
-			clsPair<KnowledgeBase, HashMap<String,clsDataStructurePA>> poDataContainer) {
-		
-		eDataType oElementType = eDataType.TI;
-		int oID = DS_ID++;   
-		String oElementValueType = (String)poElement.getOwnSlotValue(poDataContainer.a.getSlot("value_type"));
-		String oElementValue = (String)poElement.getOwnSlotValue(poDataContainer.a.getSlot("value"));
-		
-		clsTemplateImage oDataStructure = new clsTemplateImage(new clsTripple<Integer, eDataType, String>(oID,oElementType,oElementValueType),
-															   new ArrayList<clsAssociation>(), 
-															   oElementValue);
-		poDataContainer.b.put(poElement.getName(), oDataStructure);
-		
-		ArrayList <clsAssociation> oAssociationList = loadInstanceAssociations(poElement, poDataContainer); 
-		oAssociationList.addAll(loadClassAssociations(poElement, oDataStructure, poDataContainer));
-		
-		for(clsAssociation element : oAssociationList){
-			if(element instanceof clsAssociationTime){oDataStructure.assignDataStructure(element);}
-		}
-	}
-	
 	/**
 	 * DOCUMENT (zeilinger) - insert description
 	 *
@@ -582,7 +611,6 @@ public class clsOntologyLoader {
 												clsPair<KnowledgeBase, HashMap<String,clsDataStructurePA>> poDataContainer) {
  
 		initDataStructure(poRootElement, poAssociation, poDataContainer);
-		
 		return (clsAssociation)retrieveDataStructure(poAssociation.getName(),poDataContainer.b);
 	}
 	

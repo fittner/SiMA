@@ -26,7 +26,6 @@ import pa.interfaces.receive.I7_6_receive;
 import pa.loader.plan.clsPlanAction;
 import pa.memory.clsMemory;
 import pa.memorymgmt.clsKnowledgeBaseHandler;
-import pa.memorymgmt.datatypes.clsDriveMesh;
 import pa.memorymgmt.datatypes.clsSecondaryDataStructureContainer;
 import pa.tools.clsPair;
 import config.clsBWProperties;
@@ -122,7 +121,7 @@ public class G15_Deliberation extends clsModuleContainer implements
 	 */
 	@Override
 	public void receive_I1_7(ArrayList<clsSecondaryInformation> poDriveList_old,
-							 ArrayList<clsPair<clsSecondaryDataStructureContainer, clsDriveMesh>> poDriveList) {
+							 ArrayList<clsSecondaryDataStructureContainer> poDriveList) {
 		moE26DecisionMaking.receive_I1_7(poDriveList_old, poDriveList);
 	}
 
@@ -173,7 +172,7 @@ public class G15_Deliberation extends clsModuleContainer implements
 	 */
 	@Override
 	public void receive_I7_1(HashMap<String, clsPair<clsSecondaryInformation, Double>> poTemplateResult_old, 
-			  HashMap<String, clsPair<clsSecondaryDataStructureContainer,Double>> poTemplateResult) {
+			ArrayList<clsSecondaryDataStructureContainer> poTemplateResult) {
 		moE27GenerationOfImaginaryActions.receive_I7_1(poTemplateResult_old, poTemplateResult);
 	}
 
@@ -185,8 +184,8 @@ public class G15_Deliberation extends clsModuleContainer implements
 	 * @see pa.interfaces.I7_2#receive_I7_2(int)
 	 */
 	@Override
-	public void receive_I7_2(int pnData) {
-		((I7_2_receive)moEnclosingContainer).receive_I7_2(pnData);
+	public void receive_I7_2(int pnData, ArrayList<clsSecondaryDataStructureContainer> poGoal_Output) {
+		((I7_2_receive)moEnclosingContainer).receive_I7_2(pnData, poGoal_Output);
 	}
 
 	/* (non-Javadoc)

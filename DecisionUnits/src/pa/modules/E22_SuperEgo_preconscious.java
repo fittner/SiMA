@@ -19,7 +19,6 @@ import pa.interfaces.receive.I3_3_receive;
 import pa.interfaces.send.I3_3_send;
 import pa.memorymgmt.datatypes.clsDataStructureContainer;
 import pa.memorymgmt.datatypes.clsDataStructurePA;
-import pa.memorymgmt.datatypes.clsDriveMesh;
 import pa.memorymgmt.datatypes.clsSecondaryDataStructureContainer;
 import pa.memorymgmt.enums.eDataType;
 import pa.tools.clsPair;
@@ -102,7 +101,7 @@ public class E22_SuperEgo_preconscious extends clsModuleBase implements I1_7_rec
 	 * @see pa.interfaces.I1_7#receive_I1_7(int)
 	 */
 	@Override
-	public void receive_I1_7(ArrayList<clsSecondaryInformation> poDriveList_old, ArrayList<clsPair<clsSecondaryDataStructureContainer, clsDriveMesh>>poDriveList) {
+	public void receive_I1_7(ArrayList<clsSecondaryInformation> poDriveList_old, ArrayList<clsSecondaryDataStructureContainer>poDriveList) {
 		//moDriveList_old = (ArrayList<clsSecondaryInformation>)this.deepCopy(poDriveList_old);
 		//moDriveList = (ArrayList<clsSecondaryDataStructureContainer>)this.deepCopy(poDriveList);		
 	}

@@ -127,8 +127,8 @@ public class G16_SecondaryKnowledgeUtilizer extends clsModuleContainer implement
 	 * @see pa.interfaces.I7_2#receive_I7_2(int)
 	 */
 	@Override
-	public void receive_I7_2(int pnData) {
-		moE28KnowledgeBase_StoredScenarios.receive_I7_2(pnData);
+	public void receive_I7_2(int pnData, ArrayList<clsSecondaryDataStructureContainer> poGoal_Output) {
+		moE28KnowledgeBase_StoredScenarios.receive_I7_2(pnData, poGoal_Output);
 	}
 
 	/* (non-Javadoc)

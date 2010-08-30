@@ -7,6 +7,7 @@
 package pa.modules;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 
 import config.clsBWProperties;
@@ -44,7 +45,7 @@ public class E08_ConversionToSecondaryProcess extends clsModuleBase implements I
 	public  ArrayList<clsSecondaryInformation> moDriveList_Output_old;
 	
 	public ArrayList<clsDriveMesh> moDriveList_Input; 
-	public ArrayList<clsPair<clsSecondaryDataStructureContainer, clsDriveMesh>> moDriveList_Output; 
+	public ArrayList<clsSecondaryDataStructureContainer> moDriveList_Output; 
 	
 	/**
 	 * DOCUMENT (deutsch) - insert description 
@@ -124,7 +125,7 @@ public class E08_ConversionToSecondaryProcess extends clsModuleBase implements I
 	 */
 	@Override
 	protected void process_basic() {
-		moDriveList_Output = new ArrayList<clsPair<clsSecondaryDataStructureContainer, clsDriveMesh>>(); 
+		moDriveList_Output = new ArrayList<clsSecondaryDataStructureContainer>(); 
 		
 		for(clsDriveMesh oDM : moDriveList_Input){
 			convertToSecondary(oDM);  
@@ -143,19 +144,24 @@ public class E08_ConversionToSecondaryProcess extends clsModuleBase implements I
 	 */
 	private void convertToSecondary(clsDriveMesh poDM) throws NullPointerException{
 		//HZ 16.08.2010: Important! Before a search is initialized, the moSearchPattern ArrayLsit has to be cleaned. 
-		clsWordPresentation oDM_WP = null; 
-		clsWordPresentation oAff_WP = null;
+		clsAssociation oDM_A = null; 
+		clsAssociation oAff_A = null;
 		clsWordPresentation oResWP = null; 
 		clsSecondaryDataStructureContainer oSec_CON = null; 
 		String oContentWP = ""; 
 		
 		try{
-			oDM_WP = getDMWP(poDM);  
-			oAff_WP = getAffectWP(poDM); 
-			oContentWP = oDM_WP.moContent + ":" + oAff_WP.moContent; 	
+			
+			oDM_A = getDMWP(poDM);  
+			oAff_A = getAffectWP(poDM); 
+			oContentWP =   ((clsWordPresentation)oDM_A.getLeafElement()).moContent 
+			             + ":" 
+			             + ((clsWordPresentation)oAff_A.getLeafElement()).moContent; 	
+			
 			oResWP = (clsWordPresentation)clsDataStructureGenerator.generateDataStructure(eDataType.WP, new clsPair<String, Object>(eDataType.WP.name(), oContentWP)); 
-			oSec_CON = new clsSecondaryDataStructureContainer(oResWP, new ArrayList<clsAssociation>());
-			moDriveList_Output.add(new clsPair<clsSecondaryDataStructureContainer, clsDriveMesh>(oSec_CON, poDM));
+			oSec_CON = new clsSecondaryDataStructureContainer(oResWP, new ArrayList<clsAssociation>(Arrays.asList(oDM_A, oAff_A)));
+			moDriveList_Output.add(oSec_CON);
+		
 		} catch (IndexOutOfBoundsException ex1){ //tbd;
 		} catch (NullPointerException ex2){/*tbd;*/}
 	}
@@ -169,18 +175,18 @@ public class E08_ConversionToSecondaryProcess extends clsModuleBase implements I
 	 * @param oDM
 	 * @return
 	 */
-	private clsWordPresentation getDMWP(clsDriveMesh poDM) {
-		clsWordPresentation oWP = null; 
+	private clsAssociation getDMWP(clsDriveMesh poDM) {
+		clsAssociation oAssDM = null; 
 		
 		for(clsAssociation oAssociation : poDM.moAssociatedContent){
 			//HZ: It will be searched for the drive context that is stored as TP in 
 			//the associations that define oDriveMesh => Element A is always the root
 			//element oDriveMesh, while element B is the associated context. 
 	
-				oWP = (clsWordPresentation)((clsAssociation)getWP(oAssociation.moAssociationElementB)).getLeafElement();
+				oAssDM = (clsAssociation)getWP(oAssociation.moAssociationElementB);
 		}
 		
-		return oWP;
+		return oAssDM;
 	}
 
 	/**
@@ -192,10 +198,10 @@ public class E08_ConversionToSecondaryProcess extends clsModuleBase implements I
 	 * @param oDM
 	 * @return
 	 */
-	private clsWordPresentation getAffectWP(clsDriveMesh poDM) {
+	private clsAssociation getAffectWP(clsDriveMesh poDM) {
 		clsDataStructurePA oAffect = null; 
 		oAffect = clsDataStructureGenerator.generateDataStructure(eDataType.AFFECT, new clsPair<String, Object>(eDataType.AFFECT.toString(), poDM.getPleasure()));
-		return (clsWordPresentation)((clsAssociation)getWP(oAffect)).getLeafElement(); 
+		return (clsAssociation)getWP(oAffect); 
 	}
 	
 	/**
@@ -277,7 +283,7 @@ public class E08_ConversionToSecondaryProcess extends clsModuleBase implements I
 	 * @see pa.interfaces.send.I1_7_send#send_I1_7(java.util.ArrayList)
 	 */
 	@Override
-	public void send_I1_7(ArrayList<clsSecondaryInformation> poDriveList_old, ArrayList<clsPair<clsSecondaryDataStructureContainer, clsDriveMesh>> poDriveList) {
+	public void send_I1_7(ArrayList<clsSecondaryInformation> poDriveList_old, ArrayList<clsSecondaryDataStructureContainer> poDriveList) {
 		((I1_7_receive)moEnclosingContainer).receive_I1_7(moDriveList_Output_old, moDriveList_Output);
 	}
 
@@ -289,7 +295,7 @@ public class E08_ConversionToSecondaryProcess extends clsModuleBase implements I
 	 * @see pa.interfaces.send.I5_3_send#send_I5_3(java.util.ArrayList)
 	 */
 	@Override
-	public void send_I5_3(ArrayList<clsSecondaryInformation> poDriveList_old, ArrayList<clsPair<clsSecondaryDataStructureContainer,clsDriveMesh>> poDriveList) {
+	public void send_I5_3(ArrayList<clsSecondaryInformation> poDriveList_old, ArrayList<clsSecondaryDataStructureContainer> poDriveList) {
 		((I5_3_receive)moEnclosingContainer).receive_I5_3(moDriveList_Output_old, moDriveList_Output);	
 	}
 

@@ -29,6 +29,4 @@ public abstract class clsSecondaryDataStructure extends clsDataStructurePA{
 	public clsSecondaryDataStructure(clsTripple<Integer, eDataType, String> poDataStructureIdentifier) {
 		super(poDataStructureIdentifier);
 	}
-	
-	public abstract void assignDataStructure(clsAssociation poDataStructurePA);
 }

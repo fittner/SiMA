@@ -31,11 +31,11 @@ import pa.tools.clsPair;
  * 11.08.2009, 14:55:01
  * 
  */
-public class E27_GenerationOfImaginaryActions extends clsModuleBase implements I6_2_receive, I7_1_receive, I7_3_send, itfTimeChartInformationContainer {
+public class E27_GenerationOfImaginaryActions extends clsModuleBase implements I6_2_receive, I7_1_receive, I7_3_send, itfTimeChartInformationContainer{
 
 	ArrayList<clsSecondaryInformation> moEnvironmentalPerception;
 	private HashMap<String, clsPair<clsSecondaryInformation, Double>> moTemplateResult_Input_old;
-	private HashMap<String, clsPair<clsSecondaryDataStructureContainer, Double>> moTemplateResult_Input;
+	private ArrayList<clsSecondaryDataStructureContainer> moGoal_input;
 	
 	ArrayList<clsPlanAction> moActions_Output;
 	
@@ -119,9 +119,9 @@ public class E27_GenerationOfImaginaryActions extends clsModuleBase implements I
 	@SuppressWarnings("unchecked")
 	@Override
 	public void receive_I7_1(HashMap<String, clsPair<clsSecondaryInformation, Double>> poTemplateResult_old, 
-			  				 HashMap<String, clsPair<clsSecondaryDataStructureContainer,Double>> poTemplateResult) {
+						ArrayList<clsSecondaryDataStructureContainer> poGoalInput) {
 		moTemplateResult_Input_old = ( HashMap<String, clsPair<clsSecondaryInformation, Double>>) deepCopy( poTemplateResult_old);
-		moTemplateResult_Input = (HashMap<String, clsPair<clsSecondaryDataStructureContainer,Double>>) deepCopy(poTemplateResult);
+		moGoal_input = ( ArrayList<clsSecondaryDataStructureContainer> )deepCopy(poGoalInput);
 	}
 
 	/* (non-Javadoc)
@@ -133,8 +133,28 @@ public class E27_GenerationOfImaginaryActions extends clsModuleBase implements I
 	 */
 	@Override
 	protected void process_basic() {
+		//HZ 2010.08.28
+		//E27 should retrieve required acts through E28. However, it can be 
+		//doubted if this works without a loop between E27 and E28. In addition the functionality of 
+		//E28 has to be discussed as it should only access the memory and retrieve acts. 
+		//Reasons for my doubts: Actually E28 receives (like E27) the current goal
+		//that is formed out of a drive that should be satisfied and the object 
+		//that should be used to satisfy it. Now it can be searched in the memory which
+		//actions have to be set to be able to satisfy the drive (e.g. action EAT in 
+		//order to NOURISH a CAKE). However, in general the required object is not 
+		//in the right position in order to use the action on it (A cake can only be eaten
+		//in case it is in the eatable area). Hence other Acts have to be triggered that
+		//help to put the agent into the right position. These acts are not part 
+		//of the act "eat cake". They would be accomplished before the cake can be
+		//eaten. Hence the plan has to be rebuild by single acts that can only be
+		//retrieved from the memory in case there is a loop between E27 and E28 or
+		//E27 has a memory access on its own => E28 woul dbe senseless.
+		//
+		//Until this question has been solved, E28 
+		//is implemented to retrieve and put acts together which means that it takes over
+		//a kind of planning.
+				
 		process_oldDT();
-		
 		//FIXME HZ 23.08.2010: That is where the magic happens
 		it_is_a_kind_of_magic(); 
 	}
@@ -285,5 +305,5 @@ public class E27_GenerationOfImaginaryActions extends clsModuleBase implements I
 	protected void process_final() {
 		// TODO (deutsch) - Auto-generated method stub
 		throw new java.lang.NoSuchMethodError();
-	}	
+	}
 }

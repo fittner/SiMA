@@ -52,6 +52,9 @@ public abstract class clsDataStructureComparison {
 		if(oMap.containsKey(poDS_Unknown.moContentType)){
 			oRetVal = getDataStructureByContentType(oMap.get(poDS_Unknown.moContentType), poDS_Unknown); 
 		}
+		else{
+			oRetVal = getDataStructureByDataStructureType(oMap, poDS_Unknown); 
+		}
 		
 		return oRetVal; 
 	}
@@ -86,6 +89,37 @@ public abstract class clsDataStructureComparison {
 		
 			return oDS_List;
 	}
+	
+//	/**
+//	 * DOCUMENT (zeilinger) - insert description
+//	 *
+//	 * @author zeilinger
+//	 * 18.08.2010, 14:59:44
+//	 *
+//	 * @param poSearchSpace
+//	 * @param poDataStructureUnknown
+//	 * @return
+//	 */
+	private static ArrayList<clsPair<Double, clsDataStructurePA>> getDataStructureByDataStructureType(
+			HashMap<String, HashMap<Integer, clsPair<clsDataStructurePA,ArrayList<clsAssociation>>>> poMap,
+			clsDataStructurePA poDataStructureUnknown) {
+
+		double rMatchScore = 0.0; 
+		ArrayList<clsPair<Double, clsDataStructurePA>> oMatchingDataStructureList = new ArrayList<clsPair<Double, clsDataStructurePA>>();
+
+		for(Map.Entry<String, HashMap<Integer, clsPair<clsDataStructurePA, ArrayList<clsAssociation>>>> oTableEntry : poMap.entrySet()){
+			for(Map.Entry<Integer, clsPair<clsDataStructurePA,ArrayList<clsAssociation>>> oEntry : oTableEntry.getValue().entrySet()){
+					clsDataStructurePA oSearchSpaceElement = oEntry.getValue().a; 
+					rMatchScore = oSearchSpaceElement.compareTo(poDataStructureUnknown);
+	
+					if(rMatchScore > eDataStructureMatch.THRESHOLDMATCH.getMatchFactor()){
+						oMatchingDataStructureList.add(new clsPair<Double, clsDataStructurePA>(rMatchScore, oSearchSpaceElement));
+					}
+			}
+		}
+				
+		return oMatchingDataStructureList;
+	}
 
 	/**
 	 * DOCUMENT (zeilinger) - insert description
@@ -110,38 +144,4 @@ public abstract class clsDataStructureComparison {
 		}
 		return oRetVal;
 	}
-	
-//	/**
-//	 * DOCUMENT (zeilinger) - insert description
-//	 *
-//	 * @author zeilinger
-//	 * 18.08.2010, 14:59:44
-//	 *
-//	 * @param poSearchSpace
-//	 * @param poDataStructureUnknown
-//	 * @return
-//	 */
-//	private static ArrayList<clsPair<Double, clsDataStructurePA>> getDataStructureByDataStructureType(
-//			clsSearchSpaceBase poSearchSpace,
-//			clsDataStructurePA poDataStructureUnknown) {
-//
-//		double rMatchScore = 0.0; 
-//		ArrayList<clsPair<Double, clsDataStructurePA>> oMatchingDataStructureList = new ArrayList<clsPair<Double, clsDataStructurePA>>();
-//
-//		for(Map.Entry<String, HashMap<Integer, clsPair<clsDataStructurePA, ArrayList<clsAssociation>>>> oTableEntry : poSearchSpace
-//																						.returnSearchSpaceTable()
-//																						.get(poDataStructureUnknown.moDataStructureType)
-//																						.entrySet()){
-//			for(Map.Entry<Integer, clsPair<clsDataStructurePA,ArrayList<clsAssociation>>> oEntry : oTableEntry.getValue().entrySet()){
-//					clsDataStructurePA oSearchSpaceElement = oEntry.getValue().a; 
-//					rMatchScore = oSearchSpaceElement.compareTo(poDataStructureUnknown);
-//	
-//					if(rMatchScore > eDataStructureMatch.THRESHOLDMATCH.getMatchFactor()){
-//						oMatchingDataStructureList.add(new clsPair<Double, clsDataStructurePA>(rMatchScore, oSearchSpaceElement));
-//					}
-//			}
-//		}
-//				
-//		return oMatchingDataStructureList;
-//	}
 }

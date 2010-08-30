@@ -7,6 +7,7 @@
 package pa.modules;
 
 import java.util.ArrayList;
+
 import java.util.HashMap;
 
 import config.clsBWProperties;
@@ -21,8 +22,11 @@ import pa.interfaces.receive.I7_1_receive;
 import pa.interfaces.receive.I7_2_receive;
 import pa.interfaces.send.I7_1_send;
 import pa.interfaces.send.I7_2_send;
+import pa.memorymgmt.datahandler.clsDataStructureGenerator;
+import pa.memorymgmt.datatypes.clsAssociation;
 import pa.memorymgmt.datatypes.clsSecondaryDataStructureContainer;
-import pa.memorymgmt.datatypes.clsDriveMesh;
+import pa.memorymgmt.datatypes.clsWordPresentation;
+import pa.memorymgmt.enums.eDataType;
 import pa.tools.clsPair;
 
 /**
@@ -37,7 +41,8 @@ public class E26_DecisionMaking extends clsModuleBase implements I1_7_receive, I
 	private ArrayList<clsSecondaryInformation> moDriveList_old;
 	private ArrayList<clsPair<clsSecondaryInformation, clsSecondaryInformationMesh>> moRealityPerception_old;
 	private ArrayList<clsSecondaryDataStructureContainer> moDriveList; 
-	private ArrayList<clsPair<clsSecondaryDataStructureContainer, clsSecondaryDataStructureContainer>> moRealityPerception; 
+	private ArrayList<clsPair<clsSecondaryDataStructureContainer, clsSecondaryDataStructureContainer>> moRealityPerception;
+	private ArrayList<clsSecondaryDataStructureContainer> moGoal_Output; 
 	
 	HashMap<String, clsPair<clsSecondaryInformation, Double>> moTemplateImageResult;
 	HashMap<String, clsPair<clsSecondaryInformation, Double>> moTemplateScenarioResult;
@@ -62,6 +67,8 @@ public class E26_DecisionMaking extends clsModuleBase implements I1_7_receive, I
 		moTemplateImageResult = new HashMap<String, clsPair<clsSecondaryInformation, Double>>();
 		moTemplateScenarioResult = new HashMap<String, clsPair<clsSecondaryInformation, Double>>();
 		moTemplateResult_Output = new HashMap<String, clsPair<clsSecondaryInformation, Double>>();
+		
+		moGoal_Output = new ArrayList<clsSecondaryDataStructureContainer>(); 
 	}
 	
 	public static clsBWProperties getDefaultProperties(String poPrefix) {
@@ -116,7 +123,7 @@ public class E26_DecisionMaking extends clsModuleBase implements I1_7_receive, I
 	 */
 	@SuppressWarnings("unchecked")
 	@Override
-	public void receive_I1_7(ArrayList<clsSecondaryInformation> poDriveList_old, ArrayList<clsPair<clsSecondaryDataStructureContainer, clsDriveMesh>> poDriveList) {
+	public void receive_I1_7(ArrayList<clsSecondaryInformation> poDriveList_old, ArrayList<clsSecondaryDataStructureContainer> poDriveList) {
 		moDriveList_old = (ArrayList<clsSecondaryInformation>)this.deepCopy(poDriveList_old);
 		moDriveList = (ArrayList<clsSecondaryDataStructureContainer>)this.deepCopy(poDriveList); 
 		
@@ -154,7 +161,6 @@ public class E26_DecisionMaking extends clsModuleBase implements I1_7_receive, I
 	@Override
 	public void receive_I3_3(int pnData) {
 		mnTest += pnData;
-		
 	}
 
 	/* (non-Javadoc)
@@ -170,7 +176,6 @@ public class E26_DecisionMaking extends clsModuleBase implements I1_7_receive, I
 	@Override
 	public void receive_I5_5(int pnData) {
 		mnTest += pnData;
-		
 	}
 
 	/* (non-Javadoc)
@@ -186,9 +191,84 @@ public class E26_DecisionMaking extends clsModuleBase implements I1_7_receive, I
 	 */
 	@Override
 	protected void process_basic() {
+		//HZ Up to now it is possible to define the goal by a clsWordPresentation only; it has to be 
+		//verified if a clsSecondaryDataStructureContainer is required.
+		moGoal_Output = new ArrayList<clsSecondaryDataStructureContainer>(); 
+		selectGoal(); 
 		process_oldDT(); 
 	}
 	
+	/**
+	 * DOCUMENT (zeilinger) -
+	 *
+	 * @author zeilinger
+	 * 27.08.2010, 15:28:53
+	 * @return 
+	 *
+	 */
+	private void selectGoal() {
+		// HZ 2010.08.27: This method selects a goal on the base of input parameters. Up to now
+		// these inputs are restricted to I_2.13 and I_1.7. As I_2.13 gives an image about the
+		// actual situation and I_1.7 retrieves an ordered list of actual "needs" in the form of 
+		// drives. Here it is iterated through the drive list and the need is compared with the 
+		// list of focused external perception. In case a match is found between an external perception
+		// and a drive (both of highest priority), the goal is formed to decrease the drive
+		// by the use of the externally perceived e.g. object. If no match turns up in the 
+		// highest priority, the iteration is going on until a match has been found. 
+		// However if there is no match between the externally perceived objects and the 
+		// received drives, the drive is buffered. In case its priority is the highest one, 
+		// the decision can be done, that exactly this drive has to be satisfied even there
+		// is no object in the area right now that can be used to do this. Hence the goal 
+		// would be to roam around and find an object that can be used to satisfy the drive. 
+		
+		//TODO HZ: Method has to be refactored
+		String oDrive = ""; 
+		String oExt = "";
+		String oContent = ""; 
+		clsWordPresentation oGoal = null; 
+		ArrayList<clsAssociation> oAssociatedDS = new ArrayList<clsAssociation>();
+		
+		for(clsSecondaryDataStructureContainer oDrivePer : moDriveList){
+			for (clsPair<clsSecondaryDataStructureContainer, clsSecondaryDataStructureContainer> oExtPer : moRealityPerception ){
+				oDrive = ((clsWordPresentation)oDrivePer.moDataStructure).moContent; 
+				// dirty hack -> moRealityPerception only contains "a" part of the clsPair - look at E24
+				oExt   = ((clsWordPresentation)oExtPer.a.moDataStructure).moContent; 
+				
+				//FIXME HZ: Here an evaluation of the drive's intensity (very low, low, medium, high, very high) has to be done (like)
+				// in E23. It cannot be matched directly as it has to be compared that e.g. very high is not equal to high
+				// but is bigger than high. E.g. in case eating a cake satisfies the drive NOURISH high but the need Nourish
+				// is very high now, it has to be identified that the cake gets still eaten even high and very high do not match.
+				// actually this is done sloppy. 
+				int nFirstIndex = oExt.indexOf(oDrive.substring(0, oDrive.indexOf(":"))); 
+				String oIntensity = oExt.substring(oExt.indexOf(":", nFirstIndex) + 1, oExt.indexOf("|", nFirstIndex));
+				
+				if (oDrive.contains(oIntensity) || oIntensity.contains(oDrive)){ 
+					//TODO HZ: Here the first match is taken and added as goal to the output list; Actually
+					// only one goal is selected!
+					//Attention: the first part of the string (index 0 until the first string sequence "||" ) defines the drive that has to be
+					// satisfied by the object outside; in case there is no adequate object perceived, the variable oContent is defined
+					// only by the first part.
+					oContent = oDrive.substring(0,oDrive.indexOf(":")) + "||" + oExt; 
+					oGoal = (clsWordPresentation)clsDataStructureGenerator.generateDataStructure(eDataType.WP, new clsPair<String, Object>("GOAL", oContent)); 
+					oAssociatedDS.addAll(oExtPer.a.moAssociatedDataStructures); 
+					oAssociatedDS.addAll(oDrivePer.moAssociatedDataStructures); 
+					
+					moGoal_Output.add(new clsSecondaryDataStructureContainer(oGoal, oAssociatedDS));
+					//HZ take care for this return statement! I do not know if it is 
+					//ok or just another "go to". 
+					return; 
+				}
+			}
+		}
+		
+		// In case moGoal_output was not filled, the drive with the highest priority used as output
+		oDrive =  ((clsWordPresentation)moDriveList.get(0).moDataStructure).moContent; 
+		oContent = oDrive.substring(0, oDrive.indexOf(":")) + "||";
+		oGoal = (clsWordPresentation)clsDataStructureGenerator.generateDataStructure(eDataType.WP, new clsPair<String, Object>("GOAL", oContent));
+		oAssociatedDS.addAll(moDriveList.get(0).moAssociatedDataStructures); 
+		moGoal_Output.add(new clsSecondaryDataStructureContainer(oGoal, oAssociatedDS)); 
+	}
+
 	/**
 	 * DOCUMENT (zeilinger) - insert description
 	 * This method is used while adapting the model from the old datatypes (pa.datatypes) to the
@@ -236,9 +316,9 @@ public class E26_DecisionMaking extends clsModuleBase implements I1_7_receive, I
 	 */
 	@Override
 	protected void send() {
-		//HZ: null is a placeholder for the bjects of the type pa.memorymgmt.datatypes
-		send_I7_1(moTemplateResult_Output, null);
-		send_I7_2(mnTest);
+		int pnData = 1; 
+		send_I7_1(moTemplateResult_Output, moGoal_Output);
+		send_I7_2(pnData , moGoal_Output);
 	}
 
 	/* (non-Javadoc)
@@ -250,8 +330,8 @@ public class E26_DecisionMaking extends clsModuleBase implements I1_7_receive, I
 	 */
 	@Override
 	public void send_I7_1(HashMap<String, clsPair<clsSecondaryInformation, Double>> poTemplateResult_old, 
-			  			HashMap<String, clsPair<clsSecondaryDataStructureContainer,Double>> poTemplateResult) {
-		((I7_1_receive)moEnclosingContainer).receive_I7_1(moTemplateResult_Output, null);
+					ArrayList<clsSecondaryDataStructureContainer> poGoal_Output) {
+		((I7_1_receive)moEnclosingContainer).receive_I7_1(moTemplateResult_Output, moGoal_Output);
 		
 	}
 
@@ -263,8 +343,8 @@ public class E26_DecisionMaking extends clsModuleBase implements I1_7_receive, I
 	 * @see pa.interfaces.send.I7_2_send#send_I7_2(int)
 	 */
 	@Override
-	public void send_I7_2(int pnData) {
-		((I7_2_receive)moEnclosingContainer).receive_I7_2(mnTest);
+	public void send_I7_2(int pnData, ArrayList<clsSecondaryDataStructureContainer> poGoal_Output) {
+		((I7_2_receive)moEnclosingContainer).receive_I7_2(pnData, moGoal_Output);
 		
 	}
 

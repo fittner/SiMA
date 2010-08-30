@@ -36,19 +36,6 @@ public class clsWordPresentation extends clsSecondaryDataStructure{
 	/* (non-Javadoc)
 	 *
 	 * @author zeilinger
-	 * 23.06.2010, 22:03:13
-	 * 
-	 * @see pa.memorymgmt.datatypes.clsSecondaryDataStructure#assignDataStructure(pa.memorymgmt.datatypes.clsAssociation)
-	 */
-	@Override
-	public void assignDataStructure(clsAssociation poDataStructurePA) {
-		// TODO (zeilinger) - Auto-generated method stub
-		
-	}
-
-	/* (non-Javadoc)
-	 *
-	 * @author zeilinger
 	 * 13.07.2010, 20:59:07
 	 * 
 	 * @see java.lang.Comparable#compareTo(java.lang.Object)
@@ -85,9 +72,9 @@ public class clsWordPresentation extends clsSecondaryDataStructure{
 	
 	@Override
 	public String toString(){
-		String oResult = "::"+this.moDataStructureType+"::";  
+		String oResult = this.moDataStructureType+":";  
 		oResult += this.moDS_ID + ":";
-		oResult += moContent.toString();
+		oResult += moContent + "|";
 		
 		return oResult; 
 	}
