@@ -109,7 +109,7 @@ public class E08_ConversionToSecondaryProcess extends clsModuleBase implements I
 	 * 
 	 * @see pa.interfaces.I1_6#receive_I1_6(int)
 	 */
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings("unchecked") //deepcopy can perform unchecked copy only
 	@Override
 	public void receive_I1_6(ArrayList<clsPrimaryInformation> poDriveList_old, ArrayList<clsDriveMesh> poDriveList) {
 		moDriveList_Input_old = (ArrayList<clsPrimaryInformation>)deepCopy(poDriveList_old);
