@@ -38,10 +38,11 @@ import pa.tools.clsTripple;
  * 
  */
 public class E28_KnowledgeBase_StoredScenarios extends clsModuleBase implements I7_2_receive, I6_2_send, itfKnowledgeBaseAccess {
-
-	ArrayList<clsSecondaryDataStructureContainer> moGoal_Input; 
-	private final Integer mnNodeLimit = 100; 
+	private final Integer mnNodeLimit = 100;
 	
+	ArrayList<clsSecondaryDataStructureContainer> moGoal_Input; 
+	ArrayList<clsAct> moPlanOutput; 
+			
 	/**
 	 * DOCUMENT (deutsch) - insert description 
 	 * 
@@ -129,7 +130,7 @@ public class E28_KnowledgeBase_StoredScenarios extends clsModuleBase implements 
 		//"retrieveActs()" was introduced to retrieve acts from the memory, according to the 
 		//actual situation. As long as the question is not solved if the loop is required,
 		//E28 is not triggered; In the meantime a memory access is introduced in E27 
-		retrieveActsForGoals(); 
+		moPlanOutput = retrieveActsForGoals(); 
 	}
 
 	/**
@@ -137,55 +138,34 @@ public class E28_KnowledgeBase_StoredScenarios extends clsModuleBase implements 
 	 *
 	 * @author zeilinger
 	 * 28.08.2010, 11:23:14
+	 * @return 
 	 *
 	 */
-	private void retrieveActsForGoals() {
+	private ArrayList<clsAct> retrieveActsForGoals() {
 		//HZ retrieving ACTS from the memory strongly depend on the 
 		//design of Acts => actually it has to be differenciated between 
 		//the preconditions, the action and the consequences; however
 		//this may change with further implementations 
-		ArrayList<clsAct> oActRes = new ArrayList<clsAct>(); 
+		ArrayList<clsAct> oActResult = new ArrayList<clsAct>(); 
 
 		for(clsSecondaryDataStructureContainer oCon : moGoal_Input){
 			String oActualState = ((clsWordPresentation)oCon.moDataStructure).moContent; 
-						
 			//HZ not sure, but maybe a loop between E28 and E27 is required here; 
 			// TODO: This is also a bit magic; ACTS are retrieved that include the actual object setup, no
 			//	matter if it fits the "precondition" or the "consequence"; normally it is not the 
 			//  task of the memory to introduce a filter that makes a difference between both parts; 
 			// however it can be thought about alternatives and possibilities to retrieve acts
 			// more efficiently. 
-			oActRes = retrieveActs(oActualState); 
-		}
-	}
-
-	/**
-	 * DOCUMENT (zeilinger) - insert description
-	 *
-	 * @author zeilinger
-	 * 29.08.2010, 15:57:01
-	 *
-	 * @param oActDummy
-	 * @return
-	 */
-	private ArrayList<clsAct> retrieveActs(String poActualState) {
-		
-		ArrayList<clsAct> oActResult = new ArrayList<clsAct>(); 
-		String oGoal = poActualState.substring(0, poActualState.indexOf("||"));
-		
-		if(oGoal.length() == poActualState.length() - 2){
-				System.out.println("RANDOMIZED MOVE"); 
-		}
-		else {
-			oGoal = getContent(oGoal); 
-			backwardChaining(oGoal, poActualState); 
-		
-			if(oActResult.size() == 0){
-				System.out.println("RANDOMIZED MOVE"); 
+			oActResult = backwardChaining(oActualState); 
+			
+			System.out.println("plan size " + oActResult.size()); 
+			
+			for(clsAct oresAct : oActResult){
+				System.out.println("Step " + oresAct.moContent.substring(oresAct.moContent.indexOf("ACTION") +  6, oresAct.moContent.indexOf("CONSEQUENCE")) ); 
 			}
 		}
-			
-		return oActResult;
+		
+		return oActResult; 
 	}
 
 	/**
@@ -196,53 +176,70 @@ public class E28_KnowledgeBase_StoredScenarios extends clsModuleBase implements 
 	 *
 	 * @param oGoal
 	 * @param poActualState
+	 * @return 
 	 */
-	private void backwardChaining(String poActualGoal, String poTargetState) {
+	private ArrayList<clsAct> backwardChaining(String poTargetState) {
+		
+		String oActualGoal; 
+		String oDelimiter = "||";
 		boolean oSuccess = false; 
-		String oActualGoal = poActualGoal;
-		ArrayList<clsAct> oTempActs = null; 
-		ArrayList<clsAct> oResult = new ArrayList<clsAct>(); 
-		clsAct oAct = (clsAct)clsDataStructureGenerator.generateDataStructure(eDataType.ACT, new clsTripple<String, ArrayList<clsWordPresentation>, Object>(
-																eDataType.ACT.name(), new ArrayList<clsWordPresentation>(), oActualGoal));
-		oAct = retrieveMatch(oAct).get(0); 
-		Node parentNode = new Node(oAct, null); 
-			
+						
+		clsAct oActTemp; 
+		Node parentNode; 
 		Graph oGraph = new Graph();
+		ArrayList<clsAct> oRetVal = new ArrayList<clsAct>(); 
+		
+		
+		oActualGoal = getContent(poTargetState.substring(0, poTargetState.indexOf(oDelimiter)));
+		oActTemp = generateAct(oActualGoal); 
+		oActTemp = retrieveMatch(oActTemp).get(0); 
+		parentNode = new Node(oActTemp, null); 
 		oGraph.setRootNode(parentNode);
 		oGraph.addNode(parentNode); 
-		
-		
+				
 		while(!oSuccess){
+			
 			ArrayList<Node> oChildLessNode = oGraph.getChildLessNodes(); 
 			
 			for(Node oNode : oChildLessNode){
-					String oPreCon = oNode.label.moContent.substring(oNode.label.moContent.indexOf("|", 
-																     oNode.label.moContent.indexOf(eActState.PRECONDITION.name())) + 1, 
-																     oNode.label.moContent.indexOf(eActState.ACTION.name())); 
-					oActualGoal = getContent(oPreCon); 
-					oAct = (clsAct)clsDataStructureGenerator.generateDataStructure(eDataType.ACT, new clsTripple<String, ArrayList<clsWordPresentation>, Object>(
-																				eDataType.ACT.name(), new ArrayList<clsWordPresentation>(), oActualGoal));
-					oTempActs = retrieveMatch(oAct); 
-					oTempActs = fullMatch(oTempActs, oAct); 
 					
-					for(clsAct oEntry : oTempActs){
-							Node oChildNode = new Node(oEntry, oNode); 
-							oNode.parent = true; 
-							oGraph.addNode(oChildNode); 
-							oGraph.connectNode(oNode, oChildNode); 
-					}
+					ArrayList<clsAct> oActTempList = new ArrayList<clsAct>();
+					String oPreCondition = getPreCondition(oNode.label.moContent);  
+					oActualGoal = getContent(oPreCondition); 
+					oActTemp = generateAct(oActualGoal); 
+					oActTempList = retrieveMatch(oActTemp); 
+					oActTempList = fullMatch(oActTempList, oActTemp); 
 					
-					oResult = bf_Search(poTargetState, oGraph); 
+					oGraph.addChildren(oNode, oActTempList); 
+					oRetVal = bf_Search(poTargetState, oGraph); 
 					
-					if(oResult.size() > 0 ){oSuccess = true;}
+					if(oRetVal.size() > 0 || oActTempList.size() == 0){oSuccess = true;}
 			}
 		}
 		
-		for(clsAct oresAct : oResult){
-			System.out.println("Step " + oresAct.moContent.substring(oresAct.moContent.indexOf("ACTION") +  6, oresAct.moContent.indexOf("CONSEQUENCE")) ); 
+		if(oRetVal.size() == 0){
+			oRetVal.add(generateAct(getContent("ACTION:RANDOMIZED")));
 		}
+		
+		return oRetVal; 
 	}
 		
+	/**
+	 * DOCUMENT (zeilinger) - insert description
+	 *
+	 * @author zeilinger
+	 * 01.09.2010, 16:53:58
+	 *
+	 * @param poActualGoal
+	 * @return
+	 */
+	private clsAct generateAct(String poActualGoal) {
+		clsAct oAct = (clsAct)clsDataStructureGenerator.generateDataStructure(eDataType.ACT, new clsTripple<String, ArrayList<clsWordPresentation>, Object>(
+				eDataType.ACT.name(), new ArrayList<clsWordPresentation>(), poActualGoal));
+		
+		return oAct;
+	}
+
 	/**
 	 * DOCUMENT (zeilinger) - insert description
 	 *
@@ -284,7 +281,7 @@ public class E28_KnowledgeBase_StoredScenarios extends clsModuleBase implements 
 				while((oChild = poGraph.getUnvisitedChildNode(oNode)) != null){
 						oChild.visited = true; 
 						oQueue.add(oChild); 
-						oSuccess = comparePreCon(oChild.label.moContent, poTargetState);
+						oSuccess = comparePreConditions(oChild.label.moContent, poTargetState);
 					   
 						if(oSuccess) {
 								oQueue.clear(); 
@@ -293,7 +290,6 @@ public class E28_KnowledgeBase_StoredScenarios extends clsModuleBase implements 
 						}
 				}
 		} 
-		
 		poGraph.setUnvisited(); 
 		
 		return oPath; 
@@ -311,50 +307,72 @@ public class E28_KnowledgeBase_StoredScenarios extends clsModuleBase implements 
 	 * @param poContent
 	 * @return
 	 */
-	private boolean comparePreCon(String poActContent, String poActualState) {
-		
-		String oTag = eActState.PRECONDITION.name(); 
-		boolean oRetVal = false; 
+	private boolean comparePreConditions(String poActContent, String poActualState) {
 		HashMap<String, ArrayList<String>> oState  = new HashMap<String, ArrayList<String>>(); 
-		String [] oDividedState = poActContent.substring(poActContent.indexOf(oTag) + oTag.length(), poActContent.indexOf("||")).split("[|]");
+				
+		divideState(oState, poActContent); 
+		return checkCondition(oState, poActualState); 
+	}
+
+	/**
+	 * DOCUMENT (zeilinger) - insert description
+	 *
+	 * @author zeilinger
+	 * 01.09.2010, 22:27:34
+	 *
+	 * @param oState
+	 * @param poActualState
+	 */
+	private boolean checkCondition(HashMap<String, ArrayList<String>> poState, String poActualState) {
+		boolean oRetVal = false; 
 		
-		//Divide to OR and AND relations
-		for (String oCondition : oDividedState){
-				if(!oCondition.equals("")){
-						String oContentType = oCondition.substring(0, oCondition.indexOf(":")); 
-						
-						//In case the Act includes a WP that references to a Superclass of TPMs (e. g. Entity for cake, can etc.)
-						if(oContentType.equals(oCondition.substring(oCondition.indexOf(":") + 1))){
-							oCondition = oContentType; 
-						}
-						
-						if(oState.containsKey(oContentType)){
-							oState.get(oContentType).add(oCondition); 
-						}
-						else {
-							oState.put(oContentType, new ArrayList<String>(Arrays.asList(oCondition))); 
-						}				
-				}
-		}
-		
-		for(Map.Entry<String, ArrayList<String>> oEntry : oState.entrySet()){
+		loop:
+		for(Map.Entry<String, ArrayList<String>> oEntry : poState.entrySet()){
+				oRetVal = false; 
+				
 				for(String oCondition : oEntry.getValue()){
-								
 						if(poActualState.contains(oCondition) ){
 							oRetVal = true; 
 							break; 
 						}
-						else {
-							oRetVal = false; 
+						else if(oEntry.getValue().indexOf(oCondition) == oEntry.getValue().size() - 1 ) {
+							break loop; 
 						}
 				}
-				
-				if(!oRetVal) {
-					break; 
-				}
 		}
-	
-		return oRetVal;
+		
+		return oRetVal; 
+	}
+
+	/**
+	 * DOCUMENT (zeilinger) - insert description
+	 *
+	 * @author zeilinger
+	 * 01.09.2010, 21:02:37
+	 *
+	 * @param poState
+	 * @param poActContent
+	 */
+	private void divideState(HashMap<String, ArrayList<String>> poState, String poActContent) {
+		String oTag = getPreCondition(poActContent);
+		String [] oDividedState = oTag.split("[|]"); 
+
+		//Divide to OR and AND relations
+		for (String oCondition : oDividedState){
+					String oContentType = oCondition.substring(0, oCondition.indexOf(":")); 
+							
+					//In case the Act includes a WP that references to a Superclass of TPMs (e. g. Entity for cake, can etc.)
+					if(oContentType.equals(oCondition.substring(oCondition.indexOf(":") + 1))){
+							oCondition = oContentType; 
+					}
+							
+					if(poState.containsKey(oContentType)){
+							poState.get(oContentType).add(oCondition); 
+					}
+					else {
+							poState.put(oContentType, new ArrayList<String>(Arrays.asList(oCondition))); 
+					}				
+			}
 	}
 
 	/**
@@ -376,6 +394,15 @@ public class E28_KnowledgeBase_StoredScenarios extends clsModuleBase implements 
 				   + eActState.CONSEQUENCE.name() + "|" + moContent; 
 	
 		return oContent;
+	}
+	
+	private String getPreCondition(String poContent){
+		
+		String oRetVal = poContent.substring(poContent.indexOf("|", 
+						 poContent.indexOf(eActState.PRECONDITION.name())) + 1, 
+						 poContent.indexOf("||")); 
+
+		return oRetVal;
 	}
 
 	/**
@@ -529,6 +556,25 @@ public class E28_KnowledgeBase_StoredScenarios extends clsModuleBase implements 
 		 		this.rootNode=n;
 		}
 		  	
+		/**
+		 * DOCUMENT (zeilinger) - insert description
+		 *
+		 * @author zeilinger
+		 * 01.09.2010, 20:52:13
+		 *
+		 * @param oNode
+		 * @param oActTempList
+		 */
+		public void addChildren(Node poNode, ArrayList<clsAct> poActTempList) {
+			
+			for(clsAct oEntry : poActTempList){
+				Node oChildNode = new Node(oEntry, poNode); 
+				poNode.parent = true; 
+				this.addNode(oChildNode); 
+				this.connectNode(poNode, oChildNode); 
+			}
+		}
+
 		/**
 		 * DOCUMENT (zeilinger) - insert description
 		 *
