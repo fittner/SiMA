@@ -115,6 +115,17 @@ public class clsInspectorMappingPA {
 		else if(poModuleName.equals("TPM")) {
 			oRetVal.addInspector( new clsSemanticInformationIspector(poSuperInspector, poWrapper, poState, moPA.getMemoryForInspector().moTemplateImageStorage, "moTemplateImages" ), "Memory v2.0 TEST");		
 		}
+ else if (poModuleName.equals("E05GenerationOfAffectsForDrivesMEM")) {
+			oRetVal.addInspector( new clsSemanticInformationIspector(poSuperInspector, poWrapper, poState, moPA.moG02Id.moG06AffectGeneration.moE05GenerationOfAffectsForDrives, "moDriveCandidate" ), "E05 - recieve");
+			oRetVal.addInspector( new clsSemanticInformationIspector(poSuperInspector, poWrapper, poState, moPA.moG02Id.moG06AffectGeneration.moE05GenerationOfAffectsForDrives, "moDriveList" ), "E05 - send");
+		}
+		
+		else if(poModuleName.equals("E14PreliminaryExternalPerceptionMEM")) {
+			oRetVal.addInspector( new clsSemanticInformationIspector(poSuperInspector, poWrapper, poState, moPA.moG03Ego.moG07EnvironmentalInterfaceFunctions.moE14PreliminaryExternalPerception, "moEnvironmentalTP" ), "E14 - rend (I2.5)");
+		}
+		else if(poModuleName.equals("E16ManagementOfMemoryTracesMEM")) {
+			oRetVal.addInspector( new clsSemanticInformationIspector(poSuperInspector, poWrapper, poState, moPA.moG03Ego.moG08PsychicMediator.moG09PrimaryProcessor.moG13PrimaryKnowledgeUtilizer.moE16ManagementOfMemoryTraces, "moPerceptPlusRepressed_Input" ), "E16 - recieve");
+		}
 		//put all memory things here
 		
 		

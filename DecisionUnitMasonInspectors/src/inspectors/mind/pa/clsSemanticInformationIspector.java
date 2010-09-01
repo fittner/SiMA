@@ -34,6 +34,7 @@ import javax.swing.SwingUtilities;
 
 import org.jgraph.JGraph;
 import org.jgraph.graph.DefaultCellViewFactory;
+
 import org.jgraph.graph.DefaultEdge;
 import org.jgraph.graph.DefaultGraphCell;
 import org.jgraph.graph.DefaultGraphModel;
@@ -42,12 +43,22 @@ import org.jgraph.graph.GraphLayoutCache;
 import org.jgraph.graph.GraphModel;
 import org.jgraph.graph.VertexView;
 
-import pa.datatypes.clsAffect;
-import pa.datatypes.clsAssociation;
-import pa.datatypes.clsAssociationContent;
-import pa.datatypes.clsAssociationContext;
-import pa.datatypes.clsSecondaryInformation;
-import pa.datatypes.clsSecondaryInformationMesh;
+
+
+
+import pa.memorymgmt.datatypes.clsAssociation;
+import pa.memorymgmt.datatypes.clsDataStructureContainer;
+import pa.memorymgmt.datatypes.clsDataStructurePA;
+import pa.memorymgmt.datatypes.clsDriveDemand;
+import pa.memorymgmt.datatypes.clsDriveMesh;
+import pa.memorymgmt.datatypes.clsPrimaryDataStructureContainer;
+
+import pa.memorymgmt.datatypes.clsSecondaryDataStructureContainer;
+import pa.memorymgmt.datatypes.clsThingPresentation;
+import pa.memorymgmt.datatypes.clsWordPresentation;
+import pa.tools.clsPair;
+
+
 import sim.display.GUIState;
 import sim.portrayal.Inspector;
 import sim.portrayal.LocationWrapper;
@@ -102,9 +113,12 @@ public class clsSemanticInformationIspector extends Inspector implements ActionL
 
 	
 	public Inspector moOriginalInspector;
-	//private Object moMeshContainer; //never used!
-	private String moMeshListMemberName;
-	//private ArrayList<clsSecondaryInformation> moSecondary;
+	private Object moModuleContainer; //container of the memory. holds the Array list with the memory infos
+	private String moModuleMemoryMemberName;
+	private ArrayList moInspectorData;
+	
+	private ArrayList<DefaultGraphCell> moCellList = new ArrayList<DefaultGraphCell>();
+	
 
 
     /**
@@ -116,19 +130,19 @@ public class clsSemanticInformationIspector extends Inspector implements ActionL
      * @param originalInspector
      * @param wrapper
      * @param guiState
-     * @param poMeshContainer
-     * @param poMeshListMemberName
+     * @param poModuleContainer eg moPA.moG02Id.moG06AffectGeneration.moE05GenerationOfAffectsForDrives
+     * @param poModuleMemoryMemberName 
      */
     public clsSemanticInformationIspector(Inspector originalInspector,
             LocationWrapper wrapper,
             GUIState guiState,
-            Object poMeshContainer,
-            String poMeshListMemberName)
+            Object poModuleContainer,
+            String poModuleMemoryMemberName)
     {
  	
 		moOriginalInspector = originalInspector;		//
-		//moMeshContainer = poMeshContainer;				//container class //never used!	
-		moMeshListMemberName = poMeshListMemberName;	//member name of the list within the containing class
+		moModuleContainer = poModuleContainer;				//container class 	
+		moModuleMemoryMemberName = poModuleMemoryMemberName;	//member name of the list within the containing class
 		
 		initializePanel();	//put all components on the panel
 		
@@ -265,6 +279,14 @@ public class clsSemanticInformationIspector extends Inspector implements ActionL
 		JTaskPaneGroup oTaskGroupCommands = new JTaskPaneGroup();
 		oTaskGroupCommands.setTitle("Commands");
 		
+		oTaskGroupCommands.add(new AbstractAction("Updata Data") {
+			private static final long serialVersionUID = -7683571637499420675L;
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				updateControl();
+			}
+		});
+		
 		oTaskGroupCommands.add(new AbstractAction("Actual Size") {
 			/**
 			 * @author deutsch
@@ -347,12 +369,30 @@ public class clsSemanticInformationIspector extends Inspector implements ActionL
 	 * 13.10.2009, 22:34:11
 	 *
 	 */
-	private void updateSecInfoData() {
+	private void updateinspectorData() {
 		
+		//Object oMeshList = moMeshContainer.getClass().getField(moMeshListMemberName).get(moMeshContainer);
+		//moSecondary = (ArrayList<clsSecondaryInformation>)oMeshList;
 		
-			/*Object oMeshList = moMeshContainer.getClass().getField(moMeshListMemberName).get(moMeshContainer);
-			moSecondary = (ArrayList<clsSecondaryInformation>)oMeshList;
-			*/
+		try {
+			//returns the ArrayList of the wanted member
+			Object oMeshList = moModuleContainer.getClass().getField(moModuleMemoryMemberName).get(moModuleContainer);
+			//moInspectorData = (ArrayList<clsDriveMesh>)oMeshList;
+			
+			moInspectorData = (ArrayList)oMeshList;
+		} catch (IllegalArgumentException e) {
+			e.printStackTrace();
+		} catch (IllegalAccessException e) {
+			e.printStackTrace();
+		} catch (SecurityException e) {
+			e.printStackTrace();
+		} catch (NoSuchFieldException e) {
+			e.printStackTrace();
+		} catch (ClassCastException e) {
+			e.printStackTrace();
+		}
+			
+			
 		
 	}
 	
@@ -538,12 +578,24 @@ public class clsSemanticInformationIspector extends Inspector implements ActionL
 	@Override
 	public void updateInspector() {
 
+		//TODO cm: per hakerl ein/aus ob das tab automatisch upgedatet werden soll, wenn ja dann updateControl() ausführen
+		//updateControl();
 	}
 	
+	/**
+	 * DOCUMENT (muchitsch) - insert description
+	 *
+	 * @author muchitsch
+	 * 25.08.2010, 14:02:45
+	 *
+	 */
 	public void updateControl() {
 
+		//clear the cell list, or u get doubles, tripples, ...
+		moCellList.clear();
+		
 		// fetch the new ArrayList from the containing class
-		updateSecInfoData();
+		updateinspectorData();
 
 		// Construct Model and GraphLayoutCache
 		GraphModel model = new RichTextGraphModel();
@@ -552,31 +604,26 @@ public class clsSemanticInformationIspector extends Inspector implements ActionL
 		// layout cache with a built-in listener
 		GraphLayoutCache cache = new DataGraphLayoutCache(model,
 				new DefaultCellViewFactory() {
-			/**
-					 * @author deutsch
-					 * 10.08.2010, 17:54:49
-					 */
 					private static final long serialVersionUID = 5527702598146461914L;
-
-			@Override
-			protected VertexView createVertexView(Object cell) {
-				return new MultiLineVertexView(cell);
-			}
-		}, true);
+					@Override
+				protected VertexView createVertexView(Object cell) {
+						return new MultiLineVertexView(cell);
+					}
+				}, true);
 		
 		//helper array-list to collect each created cell in the right order for the registration later on
 		//without knowing the total number of elements
-		ArrayList<DefaultGraphCell> oCellList = new ArrayList<DefaultGraphCell>();
+		//ArrayList<DefaultGraphCell> oCellList = new ArrayList<DefaultGraphCell>();
 		//create root node (it's a mesh-list) and add it to the registration list
-		DefaultGraphCell oParent = createVertex(moMeshListMemberName+" (Secondary Informations)", 20, 20, 150, 40);
-		oCellList.add( oParent );
-		//get graph-cells for each sub-thingpresentation of the mesh
-		readSecondaryInfoList(oCellList, oParent, "");
+		DefaultGraphCell oParent = createDefaultGraphVertex(moModuleMemoryMemberName+" (todo)", 20, 20, 150, 40, Color.GRAY);
+		moCellList.add( oParent );
+		//get graph-cells for each object in the of the mesh
+		readInspectorDataAndGenerateGraphCells(oParent);
 		
 		//transfer graph-cells from arraylist to fix-size array (needed for registration)
-		DefaultGraphCell[] cells = new DefaultGraphCell[oCellList.size()];
-		for(int i=0; i<oCellList.size(); i++) {
-			cells[i] = (DefaultGraphCell)oCellList.get(i);
+		DefaultGraphCell[] cells = new DefaultGraphCell[moCellList.size()];
+		for(int i=0; i<moCellList.size(); i++) {
+			cells[i] = (DefaultGraphCell)moCellList.get(i);
 		}
 		// Insert the cells via the cache
 		JGraphGraphFactory.insert(model, cells);
@@ -609,161 +656,344 @@ public class clsSemanticInformationIspector extends Inspector implements ActionL
 		moGraph.updateUI();
 	}
 
-	/**
-	 * for each mesh in list
-	 *
-	 * @author muchitsch
-	 * 14.10.2009, 16:59:24
-	 *
-	 * @param poCellList
-	 * @param poParent
-	 */
-	private void readSecondaryInfoList(ArrayList<DefaultGraphCell> poCellList,
-			DefaultGraphCell poParent, String poAssociationName) {
-		/*
-		for(clsSecondaryInformation oSec : moSecondary) {
-			readSec(poCellList, poParent, oSec, poAssociationName);
-		}
-		*/
-	}	
+	
 	
 	/**
-	 * creates either the graph for a mesh or the singel, but adds the affect too.
+	 * Main entrance point for the JGraph cell genration. Calls the other specialized methods for generating cells
 	 *
 	 * @author muchitsch
-	 * 15.10.2009, 22:56:34
+	 * 30.08.2010, 17:54:57
 	 *
-	 * @param poCellList
 	 * @param poParent
-	 * @param prim
-	 * @param poAssociationName
 	 */
-	private void readSec(ArrayList<DefaultGraphCell> poCellList,
-			DefaultGraphCell poParent, clsSecondaryInformation sec,
-			String poAssociationName) {
-
-		if(sec instanceof clsSecondaryInformationMesh) {
-			DefaultGraphCell oCell = readMesh(poCellList, poParent, (clsSecondaryInformationMesh)sec, poAssociationName);
-			readAffect(poCellList, oCell, (clsAffect)sec.moAffect, "affect_assoc");
-		}
-		else if(sec instanceof clsSecondaryInformation) {
-			DefaultGraphCell oCell = readSingle(poCellList, poParent, (clsSecondaryInformation)sec, poAssociationName);
-			readAffect(poCellList, oCell, (clsAffect)sec.moAffect, "affect_assoc");
-		}
-	}
-
-	/**
-	 * Creates a graph-cell for the mesh, connects the graph-cell with an arrowed edge to the parent and
-	 * recursively does the same for sub-meshes or sub-TPsingles.
-	 *
-	 * @author muchitsch
-	 * 15.10.2009, 22:25:39
-	 *
-	 * @param poCellList
-	 * @param poParent
-	 * @param poPrimMesh
-	 * @param poAssociationName
-	 */
-	private DefaultGraphCell readMesh(ArrayList<DefaultGraphCell> poCellList,
-			DefaultGraphCell poParent, clsSecondaryInformationMesh poSecMesh, String poAssociationName) {
-
-			String oVertexName = poSecMesh.moWP.moContentName + ":\n" + poSecMesh.moWP.moContent;
-			DefaultGraphCell oCurrentVertex = createVertex(oVertexName, 20, 20, 150, 40);
-			poCellList.add( oCurrentVertex );
-			DefaultEdge edge = new DefaultEdge(poAssociationName);
-			edge.setSource(poParent.getChildAt(0));
-			edge.setTarget(oCurrentVertex.getChildAt(0));
-			poCellList.add(edge);
-			
-			GraphConstants.setLineEnd(edge.getAttributes(), GraphConstants.ARROW_CLASSIC);
-			GraphConstants.setEndFill(edge.getAttributes(), true);
-			
-			for( clsAssociation<clsSecondaryInformation> oChildAssoc :  poSecMesh.moAssociations) {
-
-				String oName = ""; //the edge will get the name of the association context
-				if(oChildAssoc instanceof clsAssociationContext 
-								&& ((clsAssociationContext<clsSecondaryInformation>)oChildAssoc).moAssociationContext != null) {
-						oName+=((clsAssociationContext<clsSecondaryInformation>)oChildAssoc).moAssociationContext.toGraphDisplayString();	
-				}
-			    else if(oChildAssoc instanceof clsAssociationContent 
-								&& ((clsAssociationContent<clsSecondaryInformation>)oChildAssoc).moAssociationContent != null){
-						oName+=((clsAssociationContent<clsSecondaryInformation>)oChildAssoc).moAssociationContent.toGraphDisplayString();
-				}
-				
-				if(oChildAssoc.moElementB instanceof clsSecondaryInformationMesh) {
-					readMesh(poCellList, oCurrentVertex, (clsSecondaryInformationMesh)oChildAssoc.moElementB, oName );
-				} 
-				else if( oChildAssoc.moElementB instanceof clsSecondaryInformation ) {
-					readSingle(poCellList, oCurrentVertex, (clsSecondaryInformation)oChildAssoc.moElementB, oName );
-					
-				}
-			}
-			return oCurrentVertex;
-	}
-	
-	/**
-	 * Creates a graph-cell for the clsThingPresentationSingle and connects the graph-cell 
-	 * with an arrowed edge to the parent
-	 *
-	 * @author muchitsch
-	 * 15.10.2009, 22:29:11
-	 *
-	 * @param poCellList
-	 * @param poParent
-	 * @param poPrimSingle
-	 * @param poAssociationName
-	 */
-	private DefaultGraphCell readSingle(ArrayList<DefaultGraphCell> poCellList,
-			DefaultGraphCell poParent, clsSecondaryInformation poSecondary, String poAssociationName) {
-
-		String oVertexName = poSecondary.moWP.moContentName + ": \n " + poSecondary.moWP.moContent;
-		DefaultGraphCell oCurrentVertex = createVertex(oVertexName, 20, 20, 150, 40);
-		poCellList.add( oCurrentVertex );
-		DefaultEdge edge = new DefaultEdge(poAssociationName);
-		edge.setSource(poParent.getChildAt(0));
-		edge.setTarget(oCurrentVertex.getChildAt(0));
-		poCellList.add(edge);
-		GraphConstants.setLineEnd(edge.getAttributes(), GraphConstants.ARROW_CLASSIC);
-		GraphConstants.setEndFill(edge.getAttributes(), true);
-		return oCurrentVertex;
-	}
-	
-	/**
-	 * Creates a graph-cell for the clsAffect and connects the graph-cell 
-	 * with an arrowed edge to the parent
-	 *
-	 * @author muchitsch
-	 * 15.10.2009, 22:29:11
-	 *
-	 * @param poCellList
-	 * @param poParent
-	 * @param poAffecte
-	 * @param poAssociationName
-	 */
-	private DefaultGraphCell readAffect(ArrayList<DefaultGraphCell> poCellList,
-			DefaultGraphCell poParent, clsAffect poAffect, String poAssociationName) {
-
-		DefaultGraphCell oCurrentVertex = null;
+	private void readInspectorDataAndGenerateGraphCells(DefaultGraphCell poParent) 
+	{
 		
-		if(poAffect != null ) {
-			String oVertexName =  "Affect: \n " + poAffect.getValue();
-			oCurrentVertex = createVertex(oVertexName, 20, 20, 150, 40);
-			poCellList.add( oCurrentVertex );
-			DefaultEdge edge = new DefaultEdge(poAssociationName);
-			edge.setSource(poParent.getChildAt(0));
-			edge.setTarget(oCurrentVertex.getChildAt(0));
-			poCellList.add(edge);
-			GraphConstants.setLineEnd(edge.getAttributes(), GraphConstants.ARROW_CLASSIC);
-			GraphConstants.setEndFill(edge.getAttributes(), true);
+		for(int i=0;i<moInspectorData.size();i++){
+		
+			if(moInspectorData.get(i) instanceof clsDataStructurePA)
+			{
+				clsDataStructurePA oNextMemoryObject = (clsDataStructurePA)moInspectorData.get(i);
+				generateGraphCell(poParent, oNextMemoryObject);
+			}
+			else if(moInspectorData.get(i) instanceof clsPair)
+			{
+				clsPair oNextMemoryObject = (clsPair)moInspectorData.get(i);
+				generateGraphCell(poParent, oNextMemoryObject);
+			}
+			else if(moInspectorData.get(i) instanceof clsDataStructureContainer)
+			{
+				clsDataStructureContainer oNextMemoryObject = (clsDataStructureContainer)moInspectorData.get(i);
+				generateGraphCell(poParent, oNextMemoryObject);
+			}
+			
 		}
-		return oCurrentVertex;
 	}
+
+	/**
+	 * Generating cells from clsDataStructurePA
+	 */
+	private DefaultGraphCell generateGraphCell(DefaultGraphCell poParentCell, clsDataStructurePA poMemoryObject)
+	{
+		DefaultGraphCell oRootCell = null;
+		
+		if(poMemoryObject instanceof clsDriveMesh)
+		{
+			clsDriveMesh tmpRootMemoryObject = (clsDriveMesh)poMemoryObject;
+			oRootCell = generateGraphCell(poParentCell, tmpRootMemoryObject);
+		}
+		else if(poMemoryObject instanceof clsThingPresentation)
+		{
+			clsThingPresentation tmpRootMemoryObject = (clsThingPresentation)poMemoryObject;
+			oRootCell = generateGraphCell(poParentCell, tmpRootMemoryObject);
+		}
+		else if(poMemoryObject instanceof clsWordPresentation)
+		{
+			clsWordPresentation tmpRootMemoryObject = (clsWordPresentation)poMemoryObject;
+			oRootCell = generateGraphCell(poParentCell, tmpRootMemoryObject);
+		}
+		else if(poMemoryObject instanceof clsDriveDemand)
+		{
+			clsDriveDemand tmpRootMemoryObject = (clsDriveDemand)poMemoryObject;
+			oRootCell = generateGraphCell(poParentCell, tmpRootMemoryObject);
+		}
+		else
+		{
+			throw new NullPointerException("DefaultGraphCell is NULL, object type clsDataStructurePA not found?");
+		}
+		
+		if(oRootCell == null)
+			throw new NullPointerException("DefaultGraphCell is NULL, object type clsDataStructurePA not found?");
+		
+		//get edge to paretn cell
+		DefaultEdge oEdgeParent = new DefaultEdge("");
+		oEdgeParent.setSource(poParentCell.getChildAt(0));
+		oEdgeParent.setTarget(oRootCell.getChildAt(0));
+		moCellList.add(oEdgeParent);
+		
+		return oRootCell;
+	}
+	
+	/**
+	 * Generating cells from clsPair
+	 */
+	private DefaultGraphCell generateGraphCell(DefaultGraphCell poParentCell, clsPair poMemoryObject)
+	{
+		DefaultGraphCell oPairCellRoot = createDefaultGraphVertex("PAIR", Color.YELLOW);
+		moCellList.add(oPairCellRoot);
+		//edge to the parrent cell
+		DefaultEdge oEdgeParent = new DefaultEdge("pair");
+		oEdgeParent.setSource(poParentCell.getChildAt(0));
+		oEdgeParent.setTarget(oPairCellRoot.getChildAt(0));
+		moCellList.add(oEdgeParent);
+		
+		//generate root of the mesh
+		DefaultGraphCell oPairCellA = createDefaultGraphVertex(poMemoryObject.toString()+"-A", Color.YELLOW);
+		DefaultGraphCell oPairCellB = createDefaultGraphVertex(poMemoryObject.toString()+"-B", Color.YELLOW);
+		this.moCellList.add(oPairCellA);
+		this.moCellList.add(oPairCellB);
+		
+		DefaultEdge oEdgeA = new DefaultEdge("pair A");
+		oEdgeA.setSource(oPairCellRoot.getChildAt(0));
+		oEdgeA.setTarget(oPairCellA.getChildAt(0));
+		moCellList.add(oEdgeA);
+		
+		DefaultEdge oEdgeB = new DefaultEdge("pair B");
+		oEdgeB.setSource(oPairCellRoot.getChildAt(0));
+		oEdgeB.setTarget(oPairCellB.getChildAt(0));
+		moCellList.add(oEdgeB);
+		
+		
+		if(poMemoryObject.a instanceof clsDataStructurePA)
+		{
+			clsDataStructurePA oNextMemoryObject = (clsDataStructurePA)poMemoryObject.a;
+			generateGraphCell(oPairCellA, oNextMemoryObject);
+		}
+		else if(poMemoryObject.a instanceof clsPair)
+		{
+			clsPair oNextMemoryObject = (clsPair)poMemoryObject.a;
+			generateGraphCell(oPairCellA, oNextMemoryObject);
+		}
+		else if(poMemoryObject.a instanceof clsDataStructureContainer)
+		{
+			clsDataStructureContainer oNextMemoryObject = (clsDataStructureContainer)poMemoryObject.a;
+			generateGraphCell(oPairCellA, oNextMemoryObject);
+		}
+		else
+		{
+			throw new java.lang.NoSuchMethodError("Type of pair.a not recognised!!!");
+		}
+		
+		
+		if(poMemoryObject.b instanceof clsDataStructurePA)
+		{
+			clsDataStructurePA oNextMemoryObject = (clsDataStructurePA)poMemoryObject.b;
+			generateGraphCell(oPairCellB, oNextMemoryObject);
+		}
+		else if(poMemoryObject.b instanceof clsPair)
+		{
+			clsPair oNextMemoryObject = (clsPair)poMemoryObject.b;
+			generateGraphCell(oPairCellB, oNextMemoryObject);
+		}
+		else if(poMemoryObject.b instanceof clsDataStructureContainer)
+		{
+			clsDataStructureContainer oNextMemoryObject = (clsDataStructureContainer)poMemoryObject.b;
+			generateGraphCell(oPairCellB, oNextMemoryObject);
+		}
+		else
+		{
+			throw new java.lang.NoSuchMethodError("Type of pair.b not recognised!!!");
+		}
+		
+		
+		//add edge
+		DefaultEdge oEdge = new DefaultEdge("pair");
+		oEdge.setSource(oPairCellA.getChildAt(0));
+		oEdge.setTarget(oPairCellB.getChildAt(0));
+		moCellList.add(oEdge);
+		GraphConstants.setLineEnd(oEdge.getAttributes(), GraphConstants.ARROW_TECHNICAL);
+		GraphConstants.setLineBegin(oEdge.getAttributes(), GraphConstants.ARROW_TECHNICAL);
+		GraphConstants.setLineStyle(oEdge.getAttributes(), GraphConstants.STYLE_BEZIER);
+		GraphConstants.setLineWidth(oEdge.getAttributes(), 2);
+		GraphConstants.setEndFill(oEdge.getAttributes(), true);
+		
+		return oPairCellA;
+	}
+	
+	/**
+	 * Generating cells from clsDataStructureContainer
+	 */
+	private DefaultGraphCell generateGraphCell(DefaultGraphCell poParentCell, clsDataStructureContainer poMemoryObject)
+	{
+		DefaultGraphCell oRootCell = null;
+		
+		if(poMemoryObject instanceof clsPrimaryDataStructureContainer)
+		{
+			clsPrimaryDataStructureContainer tmpRootMemoryObject = (clsPrimaryDataStructureContainer)poMemoryObject;
+			oRootCell = generateGraphCell(poParentCell, tmpRootMemoryObject);
+		}
+		else if(poMemoryObject instanceof clsSecondaryDataStructureContainer)
+		{
+			clsSecondaryDataStructureContainer tmpRootMemoryObject = (clsSecondaryDataStructureContainer)poMemoryObject;
+			oRootCell = generateGraphCell(poParentCell, tmpRootMemoryObject);
+		}
+		else
+		{
+			throw new NullPointerException("DefaultGraphCell is NULL, object type clsPair not found?");
+		}
+		
+		return oRootCell;
+		
+	}
+	
+	/**
+	 * Generating cells from clsPrimaryDataStructureContainer
+	 */
+	private DefaultGraphCell generateGraphCell(DefaultGraphCell poParentCell, clsPrimaryDataStructureContainer poMemoryObject)
+	{
+		clsDataStructurePA oContainerRootDataStructure = poMemoryObject.moDataStructure;
+		ArrayList<clsAssociation> oAssociatedDataStructures =  poMemoryObject.moAssociatedDataStructures;
+		
+		//create container root struct
+		DefaultGraphCell oContainerRootCell = createDefaultGraphVertex(oContainerRootDataStructure.toString(), new Color(0xff99CC33) );
+		this.moCellList.add(oContainerRootCell);
+		//get edge to parent cell
+		DefaultEdge oEdgeParent = new DefaultEdge("");
+		oEdgeParent.setSource(poParentCell.getChildAt(0));
+		oEdgeParent.setTarget(oContainerRootCell.getChildAt(0));
+		moCellList.add(oEdgeParent);
+		
+		//create assosiations
+		for(clsAssociation oContainerAssociations : oAssociatedDataStructures)
+		{
+			if(oContainerRootDataStructure.moDS_ID == oContainerAssociations.moAssociationElementA.moDS_ID)
+			{
+				clsDataStructurePA oMemoryObjectB = oContainerAssociations.moAssociationElementB;
+				DefaultGraphCell oTargetCell = generateGraphCell(oContainerRootCell, oMemoryObjectB);
+				//add edge
+				DefaultEdge oEdge = new DefaultEdge("ContAss");
+				oEdge.setSource(oContainerRootCell.getChildAt(0));
+				oEdge.setTarget(oTargetCell.getChildAt(0));
+				moCellList.add(oEdge);
+				GraphConstants.setLineEnd(oEdge.getAttributes(), GraphConstants.ARROW_DOUBLELINE);
+				GraphConstants.setEndFill(oEdge.getAttributes(), true);
+			}
+			else if(oContainerRootDataStructure.moDS_ID == oContainerAssociations.moAssociationElementB.moDS_ID)
+			{
+				clsDataStructurePA oMemoryObjectA = oContainerAssociations.moAssociationElementA;
+				DefaultGraphCell oTargetCell = generateGraphCell(oContainerRootCell, oMemoryObjectA);
+				//add edge
+				DefaultEdge oEdge = new DefaultEdge("ContAss");
+				oEdge.setSource(oContainerRootCell.getChildAt(0));
+				oEdge.setTarget(oTargetCell.getChildAt(0));
+				moCellList.add(oEdge);
+				GraphConstants.setLineEnd(oEdge.getAttributes(), GraphConstants.ARROW_DOUBLELINE);
+				GraphConstants.setEndFill(oEdge.getAttributes(), true);
+			}
+			else
+			{ //should not be laut heimo!!!
+				throw new UnsupportedOperationException("Neither A nor B are root element. Go ask Heimo about his memory implementation");
+			}
+			
+		}
+		return oContainerRootCell;
+	}
+	
+	/**
+	 * Generating cells from clsSecondaryDataStructureContainer
+	 */
+	private DefaultGraphCell generateGraphCell(DefaultGraphCell poParentCell, clsSecondaryDataStructureContainer poMemoryObject)
+	{
+		//throw new NotImplementedException();
+		
+		//TODO what is in the container?
+		DefaultGraphCell oRootCell = createDefaultGraphVertex(poMemoryObject.toString(), Color.MAGENTA);
+		this.moCellList.add(oRootCell);
+		return oRootCell;
+	}
+	
+	
+	/**
+	 * Generating cells from clsDriveMesh
+	 */
+	private DefaultGraphCell generateGraphCell(DefaultGraphCell poParentCell, clsDriveMesh poMemoryObject)
+	{
+		//generate root of the mesh
+		DefaultGraphCell oDMrootCell = createDefaultGraphVertex(poMemoryObject.toString(), Color.ORANGE);
+		this.moCellList.add(oDMrootCell);
+		
+		for(clsAssociation oDMAssociations : poMemoryObject.moAssociatedContent)
+		{
+			if(poMemoryObject.moDS_ID == oDMAssociations.moAssociationElementA.moDS_ID)
+			{
+				clsDataStructurePA oMemoryObjectB = oDMAssociations.moAssociationElementB;
+				DefaultGraphCell oTargetCell = generateGraphCell(oDMrootCell, oMemoryObjectB);
+				//add edge
+				DefaultEdge oEdge = new DefaultEdge("DM");
+				oEdge.setSource(oDMrootCell.getChildAt(0));
+				oEdge.setTarget(oTargetCell.getChildAt(0));
+				moCellList.add(oEdge);
+				GraphConstants.setLineEnd(oEdge.getAttributes(), GraphConstants.ARROW_CLASSIC);
+				GraphConstants.setEndFill(oEdge.getAttributes(), true);
+			}
+			else if(poMemoryObject.moDS_ID == oDMAssociations.moAssociationElementB.moDS_ID)
+			{
+				clsDataStructurePA oMemoryObjectA = oDMAssociations.moAssociationElementA;
+				DefaultGraphCell oTargetCell = generateGraphCell(oDMrootCell, oMemoryObjectA);
+				//add edge
+				DefaultEdge oEdge = new DefaultEdge("DM");
+				oEdge.setSource(oDMrootCell.getChildAt(0));
+				oEdge.setTarget(oTargetCell.getChildAt(0));
+				moCellList.add(oEdge);
+				GraphConstants.setLineEnd(oEdge.getAttributes(), GraphConstants.ARROW_CLASSIC);
+				GraphConstants.setEndFill(oEdge.getAttributes(), true);
+			}
+			else
+			{ //should not be laut heimo!!!
+				throw new UnsupportedOperationException("Neither A nor B are root element. Go ask Heimo about his memory implementation");
+			}
+			
+		}
+		return oDMrootCell;	
+	}
+	
+	/**
+	 * Generating cells from clsThingPresentation
+	 */
+	private DefaultGraphCell generateGraphCell(DefaultGraphCell poParentCell, clsThingPresentation poMemoryObject)
+	{
+		DefaultGraphCell oCell = createDefaultGraphVertex(poMemoryObject.toString(), Color.RED);
+		this.moCellList.add(oCell);
+		return oCell;
+	}
+	
+	/**
+	 * Generating cells from clsWordPresentation
+	 */
+	private DefaultGraphCell generateGraphCell(DefaultGraphCell poParentCell, clsWordPresentation poMemoryObject)
+	{
+		DefaultGraphCell oCell = createDefaultGraphVertex(poMemoryObject.toString(), Color.BLUE);
+		this.moCellList.add(oCell);
+		return oCell;
+	}
+	
+	/**
+	 * Generating cells from clsWordPresentation
+	 */
+	private DefaultGraphCell generateGraphCell(DefaultGraphCell poParentCell, clsDriveDemand poMemoryObject)
+	{
+		DefaultGraphCell oCell = createDefaultGraphVertex(poMemoryObject.toString(), Color.GRAY);
+		this.moCellList.add(oCell);
+		return oCell;
+	}
+
+
 	
 	/**
 	 * static helper to create a graph-cell and set the default style within this inspector
 	 *
 	 * @author muchitsch
-	 * 15.10.2009, 22:31:41
+	 * 15.10.2010, 22:31:41
 	 *
 	 * @param name
 	 * @param x
@@ -772,8 +1002,8 @@ public class clsSemanticInformationIspector extends Inspector implements ActionL
 	 * @param h
 	 * @return
 	 */
-	public static DefaultGraphCell createVertex(String name, double x,
-			double y, double w, double h) {
+	public static DefaultGraphCell createDefaultGraphVertex(String name, double x,
+			double y, double w, double h, Color poNodeColor) {
 
 		//Richtext to enable linebreaks
 		RichTextBusinessObject userObject = new RichTextBusinessObject();
@@ -785,14 +1015,63 @@ public class clsSemanticInformationIspector extends Inspector implements ActionL
 
 		// Set bounds
 		GraphConstants.setBounds(cell.getAttributes(), new Rectangle2D.Double(x, y, w, h));
-		GraphConstants.setGradientColor( cell.getAttributes(), Color.BLUE);
+		GraphConstants.setBackground(cell.getAttributes(), poNodeColor);
+		//GraphConstants.setGradientColor( cell.getAttributes(), poNodeColor);
+
+		// Make sure the cell is resized on insert
+		GraphConstants.setResize(cell.getAttributes(), true);
+		GraphConstants.setAutoSize(cell.getAttributes(), true);
+		GraphConstants.setOpaque(cell.getAttributes(), true);
+		GraphConstants.setBorderColor(cell.getAttributes(), Color.black);
+		//GraphConstants.setBackground(cell.getAttributes(), new Color(240,240,240));
+		
+		// Add a Port
+		cell.addPort();
+
+		return cell;
+	}
+	
+
+	
+	/**
+	 * DOCUMENT Override of original vertex creation.
+	 *
+	 * @author muchitsch
+	 * 25.08.2010, 14:29:42
+	 *
+	 * @param name
+	 * @param poNodeColor
+	 * @return
+	 */
+	public static DefaultGraphCell createDefaultGraphVertex(String name, Color poNodeColor) {
+		return createDefaultGraphVertex(name, 40, 40, 150, 40, poNodeColor);
+	}
+	
+	public static DefaultGraphCell createCircleGraphVertex(String name, double x,
+			double y, double w, double h, Color poNodeColor) {
+
+		//Richtext to enable linebreaks
+		RichTextBusinessObject userObject = new RichTextBusinessObject();
+		RichTextValue textValue = new RichTextValue(name);
+		userObject.setValue(textValue);
+		
+		// Create vertex with the given name
+		DefaultGraphCell cell = new DefaultGraphCell(userObject);
+
+		//VertexView view = new JGraphEllipseView();
+		//createVertex(20, 20, 60, 30, Color.BLUE, false, new DefaultGraphCell("hello"), "com.jgraph.example.mycellview.JGraphEllipseView");
+		
+		// Set bounds
+		GraphConstants.setBounds(cell.getAttributes(), new Rectangle2D.Double(x, y, w, h));
+		//GraphConstants.setGradientColor( cell.getAttributes(), poNodeColor);
+		GraphConstants.setBackground(cell.getAttributes(), poNodeColor);
 		//GraphConstants.setInset(cell.getAttributes(), 10);
 		// Make sure the cell is resized on insert
 		GraphConstants.setResize(cell.getAttributes(), true);
 		GraphConstants.setAutoSize(cell.getAttributes(), true);
 		GraphConstants.setOpaque(cell.getAttributes(), true);
 		GraphConstants.setBorderColor(cell.getAttributes(), Color.black);
-		GraphConstants.setBackground(cell.getAttributes(), new Color(240,240,240));
+		//GraphConstants.setBackground(cell.getAttributes(), new Color(240,240,240));
 		
 		// Add a Port
 		cell.addPort();

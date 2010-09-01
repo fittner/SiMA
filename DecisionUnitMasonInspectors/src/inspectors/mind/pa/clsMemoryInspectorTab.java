@@ -36,7 +36,7 @@ import sim.portrayal.inspector.TabbedInspector;
  * 03.08.2010, 13:58:44
  * 
  */
-public class clsMemoryInspector extends Inspector implements TreeSelectionListener {
+public class clsMemoryInspectorTab extends Inspector implements TreeSelectionListener {
 
 	/**
 	 * DOCUMENT (muchitsch) - a inspector for the memory. it displays the memory information on a tab in the inspectors.
@@ -59,7 +59,7 @@ public class clsMemoryInspector extends Inspector implements TreeSelectionListen
 	private LocationWrapper moWrapper;
 	private GUIState moGuiState;
 	
-    public clsMemoryInspector(Inspector originalInspector,
+    public clsMemoryInspectorTab(Inspector originalInspector,
             LocationWrapper wrapper,
             GUIState guiState,
             clsPsychoAnalysis poPA)
@@ -74,11 +74,13 @@ public class clsMemoryInspector extends Inspector implements TreeSelectionListen
 		//set root tree manually
 		DefaultMutableTreeNode root = new DefaultMutableTreeNode("Memory");
 		
+		DefaultMutableTreeNode oRootChild = new DefaultMutableTreeNode("Modules");
+		root.add(oRootChild);
 		
 		//grab the top element of the top-down design 
 		G00_PsychicApparatus oPsyApp = poPA.getProcessor().getPsychicApparatus();
 		//build a tree with all members that start either with moC for clsModuleContainer or moE for clsModuleBase
-		getTree( oPsyApp, root );
+		getTree( oPsyApp, oRootChild );
 		
 		//create tree for all memory types
 		addAllMemoryTree(oPsyApp, root);
@@ -113,12 +115,32 @@ public class clsMemoryInspector extends Inspector implements TreeSelectionListen
 	 */
 	private void getTree(Object poPAModule,
 			DefaultMutableTreeNode poParentTreeNode) {
+
 		
+
 		Field[] oFields = poPAModule.getClass().getDeclaredFields(); //get members of class
 		for(Field oField : oFields) { //for each member
 			if(oField.getType().getSuperclass().getName().equals("pa.modules.clsModuleContainer")) { //case clsModuleContainer (C00-C16)
-				//create a new tree-element with the name of the public member variable without mo-prefix 
-				DefaultMutableTreeNode child = new DefaultMutableTreeNode(oField.getName().substring(2) + "MEM");  
+				//create a new tree-element with the name of the public member variable without mo-prefix + MEM, to avoid interference with rools tree
+
+				DefaultMutableTreeNode child = null; 
+				
+				//ich will nur die erste Ebene beim Memory! meine Implementierung
+				//TODO Liste Memory im Tree anders aufbauen & sortieren
+				
+				if( 	(oField.getName().substring(2).startsWith("G01")) || 
+						(oField.getName().substring(2).startsWith("G02")) || 
+						(oField.getName().substring(2).startsWith("G03")) ||
+						(oField.getName().substring(2).startsWith("G04")) )
+				{
+					
+					child = new DefaultMutableTreeNode(oField.getName().substring(2) + "MEM");
+				}
+				else
+				{
+					child = poParentTreeNode;
+				}
+				  
 				
 				//get the content of the member (=the instance of the container module) and get the tree entries for it 
 				Object o = null;
@@ -131,7 +153,9 @@ public class clsMemoryInspector extends Inspector implements TreeSelectionListen
 				}
 				
 				//add the filled treenode for the current clsModuleContainer
-				poParentTreeNode.add(child);
+				if(!child.isNodeAncestor(poParentTreeNode))
+					poParentTreeNode.add(child);
+				
 			}
 			else if(oField.getType().getSuperclass().getName().equals("pa.modules.clsModuleBase")) { //case clsMuduleBase (E01-E32)
 				DefaultMutableTreeNode child = new DefaultMutableTreeNode(oField.getName().substring(2) + "MEM"); //"MEM" is needed to differentiate the tree nodes from RooL's in the inspector mapping
