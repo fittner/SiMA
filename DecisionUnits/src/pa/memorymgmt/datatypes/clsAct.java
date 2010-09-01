@@ -9,6 +9,7 @@ package pa.memorymgmt.datatypes;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 
+import pa.enums.eActState;
 import pa.memorymgmt.enums.eDataType;
 import pa.tools.clsTripple;
 
@@ -122,28 +123,28 @@ public class clsAct extends clsSecondaryDataStructure {
 	 */
 	private double getMatchScore(String poContentKnown, String poContentUnknown) {
 		double nMatchScore = 0.0; 
-		String oPreconditionKnown = poContentKnown.substring(poContentKnown.indexOf("|", poContentKnown.indexOf("PRECONDITION")), poContentKnown.indexOf("ACTION")); 
-		String oActionKnown = poContentKnown.substring(poContentKnown.indexOf("|", poContentKnown.indexOf("ACTION")), poContentKnown.indexOf("CONSEQUENCE")); 
-		String oConsequenceKnown = poContentKnown.substring(poContentKnown.indexOf("|", poContentKnown.indexOf("CONSEQUENCE"))); 
+		String oPreconditionKnown = poContentKnown.substring(poContentKnown.indexOf("|", poContentKnown.indexOf(eActState.PRECONDITION.name())), poContentKnown.indexOf(eActState.ACTION.name())); 
+		String oActionKnown = poContentKnown.substring(poContentKnown.indexOf("|", poContentKnown.indexOf(eActState.ACTION.name())), poContentKnown.indexOf(eActState.CONSEQUENCE.name())); 
+		String oConsequenceKnown = poContentKnown.substring(poContentKnown.indexOf("|", poContentKnown.indexOf(eActState.CONSEQUENCE.name()))); 
 		
-		String [] oPreconditionUnknown = poContentUnknown.substring(poContentUnknown.indexOf("|", poContentUnknown.indexOf("PRECONDITION")), poContentUnknown.indexOf("ACTION")).split("[|]"); 
-		String [] oActionUnknown = poContentUnknown.substring(poContentUnknown.indexOf("|", poContentUnknown.indexOf("ACTION")), poContentUnknown.indexOf("CONSEQUENCE")).split("[|]"); 
-		String [] oConsequenceUnknown = poContentUnknown.substring(poContentUnknown.indexOf("|", poContentUnknown.indexOf("CONSEQUENCE"))).split("[|]");
+		String [] oPreconditionUnknown = poContentUnknown.substring(poContentUnknown.indexOf("|", poContentUnknown.indexOf(eActState.PRECONDITION.name())) + 1, poContentUnknown.indexOf(eActState.ACTION.name())).split("[|]"); 
+		String [] oActionUnknown = poContentUnknown.substring(poContentUnknown.indexOf("|", poContentUnknown.indexOf(eActState.ACTION.name())) + 1, poContentUnknown.indexOf(eActState.CONSEQUENCE.name())).split("[|]"); 
+		String [] oConsequenceUnknown = poContentUnknown.substring(poContentUnknown.indexOf("|", poContentUnknown.indexOf(eActState.CONSEQUENCE.name())) + 1).split("[|]");
 		
 		for(String oSubString : oPreconditionUnknown){
-			if(oPreconditionKnown.contains(oSubString) && !oSubString.equals("")){
+			if(oPreconditionKnown.contains(oSubString)){
 				nMatchScore ++; 
 			}
 		}
-		
+			
 		for(String oSubString : oActionUnknown){
-			if(oActionKnown.contains(oSubString) && !oSubString.equals("")){
+			if(oActionKnown.contains(oSubString)){
 				nMatchScore ++; 
 			}
 		}
-		
+			
 		for(String oSubString : oConsequenceUnknown){
-			if(oConsequenceKnown.contains(oSubString) && !oSubString.equals("")){
+			if(oConsequenceKnown.contains(oSubString)){
 				nMatchScore ++; 
 			}
 		}

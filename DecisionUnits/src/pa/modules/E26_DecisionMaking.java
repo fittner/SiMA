@@ -233,7 +233,6 @@ public class E26_DecisionMaking extends clsModuleBase implements I1_7_receive, I
 				oDrive = ((clsWordPresentation)oDrivePer.moDataStructure).moContent; 
 				// dirty hack -> moRealityPerception only contains "a" part of the clsPair - look at E24
 				oExt   = ((clsWordPresentation)oExtPer.a.moDataStructure).moContent; 
-				
 				//FIXME HZ: Here an evaluation of the drive's intensity (very low, low, medium, high, very high) has to be done (like)
 				// in E23. It cannot be matched directly as it has to be compared that e.g. very high is not equal to high
 				// but is bigger than high. E.g. in case eating a cake satisfies the drive NOURISH high but the need Nourish

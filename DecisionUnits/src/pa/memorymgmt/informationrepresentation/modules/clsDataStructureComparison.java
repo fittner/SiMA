@@ -134,14 +134,21 @@ public abstract class clsDataStructureComparison {
 	private static int sortList(ArrayList<clsPair<Double, clsDataStructurePA>> poDSList, double rMS) {
 		int oRetVal = 0; 
 		
-		if(poDSList.size() == 0){oRetVal = 0;}
-		else{
-			for(clsPair<Double, clsDataStructurePA> oEntry : poDSList){
-				if(oEntry.a <= rMS){
-					oRetVal = poDSList.lastIndexOf(oEntry); 
+		for(clsPair<Double, clsDataStructurePA> oEntry : poDSList){
+				
+				if(rMS > oEntry.a){
+					oRetVal = poDSList.indexOf(oEntry); 
+					break; 
 				}
-			}
+				else if (rMS == oEntry.a){
+					oRetVal = poDSList.indexOf(oEntry); 
+					break;
+				}
+				else {
+					oRetVal = poDSList.size(); 
+				}
 		}
+	
 		return oRetVal;
 	}
 }

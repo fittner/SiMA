@@ -9,17 +9,19 @@ package pa.modules;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.Map;
+import java.util.Queue;
 
 import config.clsBWProperties;
 import pa.clsInterfaceHandler;
+import pa.enums.eActState;
 import pa.interfaces.knowledgebase.itfKnowledgeBaseAccess;
 import pa.interfaces.receive.I6_2_receive;
 import pa.interfaces.receive.I7_2_receive;
 import pa.interfaces.send.I6_2_send;
 import pa.memorymgmt.datahandler.clsDataStructureGenerator;
 import pa.memorymgmt.datatypes.clsAct;
-import pa.memorymgmt.datatypes.clsAssociation;
 import pa.memorymgmt.datatypes.clsDataStructureContainer;
 import pa.memorymgmt.datatypes.clsDataStructurePA;
 import pa.memorymgmt.datatypes.clsSecondaryDataStructureContainer;
@@ -38,6 +40,7 @@ import pa.tools.clsTripple;
 public class E28_KnowledgeBase_StoredScenarios extends clsModuleBase implements I7_2_receive, I6_2_send, itfKnowledgeBaseAccess {
 
 	ArrayList<clsSecondaryDataStructureContainer> moGoal_Input; 
+	private final Integer mnNodeLimit = 100; 
 	
 	/**
 	 * DOCUMENT (deutsch) - insert description 
@@ -144,7 +147,6 @@ public class E28_KnowledgeBase_StoredScenarios extends clsModuleBase implements 
 		ArrayList<clsAct> oActRes = new ArrayList<clsAct>(); 
 
 		for(clsSecondaryDataStructureContainer oCon : moGoal_Input){
-			ArrayList<clsWordPresentation> oListWP = extractWP(oCon.moAssociatedDataStructures);
 			String oActualState = ((clsWordPresentation)oCon.moDataStructure).moContent; 
 						
 			//HZ not sure, but maybe a loop between E28 and E27 is required here; 
@@ -153,7 +155,7 @@ public class E28_KnowledgeBase_StoredScenarios extends clsModuleBase implements 
 			//  task of the memory to introduce a filter that makes a difference between both parts; 
 			// however it can be thought about alternatives and possibilities to retrieve acts
 			// more efficiently. 
-			oActRes = retrieveActs(oActualState.substring(0, oActualState.indexOf("||"))); 
+			oActRes = retrieveActs(oActualState); 
 		}
 	}
 
@@ -167,32 +169,137 @@ public class E28_KnowledgeBase_StoredScenarios extends clsModuleBase implements 
 	 * @return
 	 */
 	private ArrayList<clsAct> retrieveActs(String poActualState) {
-		clsAct oActDummy = null;
-		boolean oComplete = false; 
-		String oContentDummy = ""; 
+		
 		ArrayList<clsAct> oActResult = new ArrayList<clsAct>(); 
+		String oGoal = poActualState.substring(0, poActualState.indexOf("||"));
 		
-		oContentDummy = getContent(poActualState); 
+		if(oGoal.length() == poActualState.length() - 2){
+				System.out.println("RANDOMIZED MOVE"); 
+		}
+		else {
+			oGoal = getContent(oGoal); 
+			backwardChaining(oGoal, poActualState); 
 		
-		//HZ ABBRUCHBEDINGUNG! - has to be changed
-		int i = 0; 		
-		
-		while(oComplete != true){
-			oActDummy = (clsAct)clsDataStructureGenerator.generateDataStructure(eDataType.ACT, 
-			           new clsTripple<String, ArrayList<clsWordPresentation>, Object>(eDataType.ACT.name(), new ArrayList<clsWordPresentation>(), oContentDummy));
-			try {
-				clsAct oResult = retrieveActMatch(oActDummy); 
-				oActResult.add(0, oResult); 
-				oComplete = comparePreconditions(oResult.moContent, poActualState);
-				oContentDummy = getContent(oResult.moContent.substring(oResult.moContent.lastIndexOf("CONSEQUENCE"))); 
-			}catch(NullPointerException ex) {/*TODO tbd*/}
+			if(oActResult.size() == 0){
+				System.out.println("RANDOMIZED MOVE"); 
+			}
+		}
 			
-			//TODO HZ Should avoid an endless loop! DIRTY
-			if(i++>10){break;}
-	    }
-				
 		return oActResult;
 	}
+
+	/**
+	 * DOCUMENT (zeilinger) - insert description
+	 *
+	 * @author zeilinger
+	 * 31.08.2010, 10:06:02
+	 *
+	 * @param oGoal
+	 * @param poActualState
+	 */
+	private void backwardChaining(String poActualGoal, String poTargetState) {
+		boolean oSuccess = false; 
+		String oActualGoal = poActualGoal;
+		ArrayList<clsAct> oTempActs = null; 
+		ArrayList<clsAct> oResult = new ArrayList<clsAct>(); 
+		clsAct oAct = (clsAct)clsDataStructureGenerator.generateDataStructure(eDataType.ACT, new clsTripple<String, ArrayList<clsWordPresentation>, Object>(
+																eDataType.ACT.name(), new ArrayList<clsWordPresentation>(), oActualGoal));
+		oAct = retrieveMatch(oAct).get(0); 
+		Node parentNode = new Node(oAct, null); 
+			
+		Graph oGraph = new Graph();
+		oGraph.setRootNode(parentNode);
+		oGraph.addNode(parentNode); 
+		
+		
+		while(!oSuccess){
+			ArrayList<Node> oChildLessNode = oGraph.getChildLessNodes(); 
+			
+			for(Node oNode : oChildLessNode){
+					String oPreCon = oNode.label.moContent.substring(oNode.label.moContent.indexOf("|", 
+																     oNode.label.moContent.indexOf(eActState.PRECONDITION.name())) + 1, 
+																     oNode.label.moContent.indexOf(eActState.ACTION.name())); 
+					oActualGoal = getContent(oPreCon); 
+					oAct = (clsAct)clsDataStructureGenerator.generateDataStructure(eDataType.ACT, new clsTripple<String, ArrayList<clsWordPresentation>, Object>(
+																				eDataType.ACT.name(), new ArrayList<clsWordPresentation>(), oActualGoal));
+					oTempActs = retrieveMatch(oAct); 
+					oTempActs = fullMatch(oTempActs, oAct); 
+					
+					for(clsAct oEntry : oTempActs){
+							Node oChildNode = new Node(oEntry, oNode); 
+							oNode.parent = true; 
+							oGraph.addNode(oChildNode); 
+							oGraph.connectNode(oNode, oChildNode); 
+					}
+					
+					oResult = bf_Search(poTargetState, oGraph); 
+					
+					if(oResult.size() > 0 ){oSuccess = true;}
+			}
+		}
+		
+		for(clsAct oresAct : oResult){
+			System.out.println("Step " + oresAct.moContent.substring(oresAct.moContent.indexOf("ACTION") +  6, oresAct.moContent.indexOf("CONSEQUENCE")) ); 
+		}
+	}
+		
+	/**
+	 * DOCUMENT (zeilinger) - insert description
+	 *
+	 * @author zeilinger
+	 * 01.09.2010, 10:56:57
+	 *
+	 * @param oTempActs
+	 * @param oAct
+	 * @return
+	 */
+	private ArrayList<clsAct> fullMatch(ArrayList<clsAct> poTempActs, clsAct poAct) {
+			
+			ArrayList<clsAct> oFullMatch = new ArrayList<clsAct>(); 
+			String [] oConsequenceUnknown = poAct.moContent.substring(poAct.moContent.indexOf("|", poAct.moContent.indexOf("CONSEQUENCE")) + 1).split("[|]");
+			
+			for(clsAct oEntry : poTempActs){
+					double nMS = oEntry.compareTo(poAct); 
+					
+					if(nMS == oConsequenceUnknown.length){				
+						oFullMatch.add(oEntry); 
+					}
+			}
+		
+			return oFullMatch;
+	}
+
+	private ArrayList<clsAct> bf_Search(String poTargetState, Graph poGraph){
+		
+		boolean oSuccess = false;
+		ArrayList<clsAct> oPath = new ArrayList<clsAct>(); 
+		Queue <Node> oQueue = new LinkedList<Node>();
+		oQueue.add(poGraph.getRootNode()); 
+		poGraph.getRootNode().visited = true; 
+		
+		while(!oQueue.isEmpty()){
+				Node oNode = (Node) oQueue.remove();
+				Node oChild = null; 
+			
+				while((oChild = poGraph.getUnvisitedChildNode(oNode)) != null){
+						oChild.visited = true; 
+						oQueue.add(oChild); 
+						oSuccess = comparePreCon(oChild.label.moContent, poTargetState);
+					   
+						if(oSuccess) {
+								oQueue.clear(); 
+								oPath = poGraph.getPath(oChild); 
+								break;
+						}
+				}
+		} 
+		
+		poGraph.setUnvisited(); 
+		
+		return oPath; 
+	}
+	
+	
 
 	/**
 	 * DOCUMENT (zeilinger) - insert description
@@ -204,34 +311,50 @@ public class E28_KnowledgeBase_StoredScenarios extends clsModuleBase implements 
 	 * @param poContent
 	 * @return
 	 */
-	private boolean comparePreconditions(String poActContent, String poActualState) {
-		String oTag = "PRECONDITION"; 
+	private boolean comparePreCon(String poActContent, String poActualState) {
+		
+		String oTag = eActState.PRECONDITION.name(); 
+		boolean oRetVal = false; 
 		HashMap<String, ArrayList<String>> oState  = new HashMap<String, ArrayList<String>>(); 
 		String [] oDividedState = poActContent.substring(poActContent.indexOf(oTag) + oTag.length(), poActContent.indexOf("||")).split("[|]");
 		
 		//Divide to OR and AND relations
 		for (String oCondition : oDividedState){
-			if(!oCondition.equals("") && !oCondition.substring(0, oCondition.indexOf(":")).equals("RELATION")){
-				String oContentType = oCondition.substring(0, oCondition.indexOf(":")); 
-				
-				if(oState.containsKey(oContentType)){
-					oState.get(oContentType).add(oCondition); 
+				if(!oCondition.equals("")){
+						String oContentType = oCondition.substring(0, oCondition.indexOf(":")); 
+						
+						//In case the Act includes a WP that references to a Superclass of TPMs (e. g. Entity for cake, can etc.)
+						if(oContentType.equals(oCondition.substring(oCondition.indexOf(":") + 1))){
+							oCondition = oContentType; 
+						}
+						
+						if(oState.containsKey(oContentType)){
+							oState.get(oContentType).add(oCondition); 
+						}
+						else {
+							oState.put(oContentType, new ArrayList<String>(Arrays.asList(oCondition))); 
+						}				
 				}
-				else {
-					oState.put(oContentType, new ArrayList<String>(Arrays.asList(oCondition))); 
-				}				
-			}
 		}
 		
 		for(Map.Entry<String, ArrayList<String>> oEntry : oState.entrySet()){
-			for(String oCondition : oEntry.getValue()){
-				if(!poActualState.contains(oCondition) && oEntry.getValue().indexOf(oCondition)==(oEntry.getValue().size()-1)){
-					return false; 
+				for(String oCondition : oEntry.getValue()){
+								
+						if(poActualState.contains(oCondition) ){
+							oRetVal = true; 
+							break; 
+						}
+						else {
+							oRetVal = false; 
+						}
 				}
-			}
+				
+				if(!oRetVal) {
+					break; 
+				}
 		}
 	
-		return true;
+		return oRetVal;
 	}
 
 	/**
@@ -248,7 +371,10 @@ public class E28_KnowledgeBase_StoredScenarios extends clsModuleBase implements 
 		//Acts are retrieved by the consequence they have on the agent - hence the content String of the Act is constructed
 		//here - only the consequence part is filled
 		//The string looks like: "PRECONDITION||ACTION||CONSEQUENCE|NOURISH" or "PRECONDITION||ACTION||CONSEQUENCE|LOCATION:xy|"
-		oContent = "PRECONDITION||ACTION||CONSEQUENCE|" + moContent; 
+		oContent = eActState.PRECONDITION.name() + "||" 
+				   + eActState.ACTION.name() + "||" 
+				   + eActState.CONSEQUENCE.name() + "|" + moContent; 
+	
 		return oContent;
 	}
 
@@ -256,33 +382,16 @@ public class E28_KnowledgeBase_StoredScenarios extends clsModuleBase implements 
 	 * DOCUMENT (zeilinger) - insert description
 	 *
 	 * @author zeilinger
-	 * 28.08.2010, 11:47:38
-	 *
-	 * @param moAssociatedDataStructures
-	 * @return
-	 */
-	private ArrayList<clsWordPresentation> extractWP(ArrayList<clsAssociation> poAssociatedDataStructures) {
-		ArrayList<clsWordPresentation> oListWP = new ArrayList<clsWordPresentation>(); 
-		
-		for(clsAssociation oAss : poAssociatedDataStructures){
-			oListWP.add((clsWordPresentation)oAss.getLeafElement()); 
-		}
-		return oListWP;
-	}
-	
-	/**
-	 * DOCUMENT (zeilinger) - insert description
-	 *
-	 * @author zeilinger
 	 * 28.08.2010, 11:50:46
 	 *
 	 * @param oActDummy
+	 * @param oDummy 
 	 * @return
 	 */
-	private clsAct retrieveActMatch(clsAct oActDummy) {
+	private ArrayList<clsAct> retrieveMatch(clsAct poDummy) {
 		moSearchPattern.clear(); 
 			
-		addToSearchPattern(eDataType.UNDEFINED, oActDummy); 
+		addToSearchPattern(eDataType.UNDEFINED, poDummy); 
 		//As only one search pattern was send to the memory, the returning hashmap
 		//has only one entry that has the key 0 => hence this entry can be directly
 		//read out of the Hashmap
@@ -294,10 +403,30 @@ public class E28_KnowledgeBase_StoredScenarios extends clsModuleBase implements 
 		//=> actually a lot of acts are retrieved from the memory; E27 will have to sort them out.
 		//It has to be verified if this is a good solution, or if the comparison mode for the clsAct 
 		//datatype has to be changed
-		
-		return (clsAct)oResult.get(0).b.moDataStructure; 
+		return extractSearchResult(oResult);
 	}
 
+	/**
+	 * DOCUMENT (zeilinger) - insert description
+	 *
+	 * @author zeilinger
+	 * 30.08.2010, 15:16:31
+	 * @param poTestAct 
+	 *
+	 * @param oResult
+	 * @return
+	 */
+	private ArrayList<clsAct> extractSearchResult(ArrayList<clsPair<Double, clsDataStructureContainer>> oResult) {
+		
+		ArrayList<clsAct> oActs = new ArrayList<clsAct>();
+		
+		for(clsPair<Double, clsDataStructureContainer> oEntry : oResult){
+				oActs.add((clsAct)oEntry.b.moDataStructure);
+		}
+		
+		return oActs;
+	}
+	
 	/* (non-Javadoc)
 	 *
 	 * @author deutsch
@@ -372,6 +501,115 @@ public class E28_KnowledgeBase_StoredScenarios extends clsModuleBase implements 
 	@Override
 	public void addToSearchPattern(eDataType oReturnType, clsDataStructurePA poSearchPattern) {
 		moSearchPattern.add(new clsPair<Integer, clsDataStructurePA>(oReturnType.nBinaryValue, poSearchPattern)); 		
+	}
+	
+	private class Node 
+	{
+	    	public clsAct label;
+	       	public boolean visited=false;
+	       	public boolean parent = false;
+	       	public Node oParentNode = null; 
+	    	
+	    	public Node(clsAct poAct, Node poNode)
+	    	{
+	    		this.label=poAct;
+	    		this.oParentNode = poNode; 
+	    	}
+	 }
+	
+	private class Graph{
+		private int[][] adjMatrix;//Edges will be represented as adjacency Matrix
+		private Node rootNode;
+		private ArrayList<Node> nodes=new ArrayList<Node>();	
+		private int size; 
+		
+		
+		public void setRootNode(Node n)
+		{
+		 		this.rootNode=n;
+		}
+		  	
+		/**
+		 * DOCUMENT (zeilinger) - insert description
+		 *
+		 * @author zeilinger
+		 * 01.09.2010, 12:24:40
+		 *
+		 */
+		public void setUnvisited() {
+			for(Node oNode : nodes){
+				oNode.visited = false; 
+			}
+		}
+
+		/**
+		 * DOCUMENT (zeilinger) - insert description
+		 *
+		 * @author zeilinger
+		 * 31.08.2010, 17:10:13
+		 *
+		 * @return
+		 */
+		public ArrayList<Node> getChildLessNodes() {
+			ArrayList <Node> oRetVal = new ArrayList<E28_KnowledgeBase_StoredScenarios.Node>(); 
+			
+			for(Node oNode : nodes){
+				if(!oNode.parent){oRetVal.add(oNode);}
+			}
+			
+			return oRetVal; 
+		}
+
+		public Node getRootNode()
+		{
+				return this.rootNode;
+		}
+		
+		public void addNode(Node n)
+		{
+				nodes.add(n);
+		}
+		
+		public Node getUnvisitedChildNode(Node n)
+		{
+		  		int index=nodes.indexOf(n);
+		  		int j=0;
+		  		while(j<size)
+		  		{
+		  			if(adjMatrix[index][j]==1 && ((Node)nodes.get(j)).visited==false)
+		  			{
+		  				return (Node)nodes.get(j);
+		  			}
+		  			j++;
+		  		}
+		  		return null;
+		 }
+		
+		public void connectNode(Node start,Node end)
+		{
+		  		if(adjMatrix==null)
+		   		{
+		   			size= mnNodeLimit;
+		   			adjMatrix=new int[size][size];
+		   		}
+		   
+		   		int startIndex=nodes.indexOf(start);
+		   		int endIndex=nodes.indexOf(end);
+		   		adjMatrix[startIndex][endIndex]=1;
+		   		adjMatrix[endIndex][startIndex]=1;
+		 }
+		
+		public ArrayList <clsAct> getPath(Node poNode){
+			ArrayList<clsAct> oList = new ArrayList<clsAct>(Arrays.asList(poNode.label)); 
+			Node oNode = poNode; 
+			
+			while(oNode.oParentNode != null){
+				oList.add(oNode.oParentNode.label);
+				oNode = oNode.oParentNode; 
+			}
+			
+			return oList; 
+		}
 	}
 
 }
