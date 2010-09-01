@@ -45,15 +45,6 @@ public enum eAffectLevel {
 		return olvls;
 	}
 	
-	public static eAffectLevel stringToAffectLevel(String lvl)
-	{
-		for (eAffectLevel level : eAffectLevel.values())
-			if (level.toString().equals(lvl.toString()))
-				return level;
-		
-		return null;
-	}
-	
 	public static eAffectLevel elementAt(int i)
 	{
 		eAffectLevel lvls[] = eAffectLevel.values();
