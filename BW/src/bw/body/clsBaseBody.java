@@ -29,6 +29,7 @@ public abstract class clsBaseBody implements 	itfStepSensing, itfStepUpdateInter
 	
 	
 	public clsBaseBody(String poPrefix, clsBWProperties poProp, clsEntity poEntity) {
+		setBodyType();
 		applyProperties(poPrefix, poProp, poEntity);	
 	}
 
