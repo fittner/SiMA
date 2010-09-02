@@ -104,7 +104,7 @@ public class E28_KnowledgeBase_StoredScenarios extends clsModuleBase implements 
 	 * 
 	 * @return the moGoal_Input
 	 */
-	public ArrayList<clsSecondaryDataStructureContainer> getMoGoal_Input() {
+	public ArrayList<clsSecondaryDataStructureContainer> getGoal_Input() {
 		return moGoal_Input;
 	}
 
@@ -114,7 +114,7 @@ public class E28_KnowledgeBase_StoredScenarios extends clsModuleBase implements 
 	 * 
 	 * @return the moPlan_Output
 	 */
-	public ArrayList<clsAct> getMoPlan_Output() {
+	public ArrayList<clsAct> getPlan_Output() {
 		return moPlan_Output;
 	}
 
