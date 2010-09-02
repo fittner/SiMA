@@ -226,6 +226,7 @@ public class clsDriveMesh extends clsHomeostaticRepresentation{
 	public String toString(){
 		String oResult = "::"+this.moDataStructureType+"::";  
 		oResult += this.moDS_ID + ":";
+		oResult += this.moContentType + ":";
 			
 		for (clsAssociation oEntry : moAssociatedContent) {
 			oResult += oEntry.toString() + ":"; 
