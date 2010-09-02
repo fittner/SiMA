@@ -21,6 +21,7 @@ import pa.interfaces.send.I7_3_send;
 import pa.loader.plan.clsPlanAction;
 import pa.loader.plan.clsPlanBaseMesh;
 import pa.loader.plan.clsPlanStateMesh;
+import pa.memorymgmt.datatypes.clsAct;
 import pa.memorymgmt.datatypes.clsSecondaryDataStructureContainer;
 import pa.tools.clsPair;
 
@@ -33,9 +34,10 @@ import pa.tools.clsPair;
  */
 public class E27_GenerationOfImaginaryActions extends clsModuleBase implements I6_2_receive, I7_1_receive, I7_3_send, itfTimeChartInformationContainer{
 
-	ArrayList<clsSecondaryInformation> moEnvironmentalPerception;
-	private HashMap<String, clsPair<clsSecondaryInformation, Double>> moTemplateResult_Input_old;
-	private ArrayList<clsSecondaryDataStructureContainer> moGoal_input;
+	public ArrayList<clsSecondaryInformation> moEnvironmentalPerception;
+	public HashMap<String, clsPair<clsSecondaryInformation, Double>> moTemplateResult_Input_old;
+	public ArrayList<clsSecondaryDataStructureContainer> moGoalInput;
+	public ArrayList<clsAct> moPlanInput; 
 	
 	ArrayList<clsPlanAction> moActions_Output;
 	
@@ -104,8 +106,8 @@ public class E27_GenerationOfImaginaryActions extends clsModuleBase implements I
 	 * @see pa.interfaces.I6_2#receive_I6_2(int)
 	 */
 	@Override
-	public void receive_I6_2(int pnData) {
-		mnTest += pnData;
+	public void receive_I6_2(ArrayList<clsAct> poPlanOutput) {
+		moPlanInput = poPlanOutput;
 		
 	}
 
@@ -121,7 +123,7 @@ public class E27_GenerationOfImaginaryActions extends clsModuleBase implements I
 	public void receive_I7_1(HashMap<String, clsPair<clsSecondaryInformation, Double>> poTemplateResult_old, 
 						ArrayList<clsSecondaryDataStructureContainer> poGoalInput) {
 		moTemplateResult_Input_old = ( HashMap<String, clsPair<clsSecondaryInformation, Double>>) deepCopy( poTemplateResult_old);
-		moGoal_input = ( ArrayList<clsSecondaryDataStructureContainer> )deepCopy(poGoalInput);
+		moGoalInput = ( ArrayList<clsSecondaryDataStructureContainer> )deepCopy(poGoalInput);
 	}
 
 	/* (non-Javadoc)

@@ -19,6 +19,7 @@ import pa.interfaces.receive.I7_5_receive;
 import pa.loader.plan.clsPlanAction;
 import pa.memory.clsMemory;
 import pa.memorymgmt.clsKnowledgeBaseHandler;
+import pa.memorymgmt.datatypes.clsAct;
 import pa.memorymgmt.datatypes.clsSecondaryDataStructureContainer;
 import config.clsBWProperties;
 
@@ -115,8 +116,8 @@ public class G16_SecondaryKnowledgeUtilizer extends clsModuleContainer implement
 	 * @see pa.interfaces.I6_2#receive_I6_2(int)
 	 */
 	@Override
-	public void receive_I6_2(int pnData) {
-		((I6_2_receive)moEnclosingContainer).receive_I6_2(pnData);
+	public void receive_I6_2(ArrayList<clsAct> poPlanOutput) {
+		((I6_2_receive)moEnclosingContainer).receive_I6_2(poPlanOutput);
 	}
 
 	/* (non-Javadoc)

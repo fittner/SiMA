@@ -6,6 +6,10 @@
  */
 package pa.interfaces.send;
 
+import java.util.ArrayList;
+
+import pa.memorymgmt.datatypes.clsAct;
+
 /**
  * DOCUMENT (deutsch) - insert description 
  * 
@@ -14,5 +18,5 @@ package pa.interfaces.send;
  * 
  */
 public interface I6_2_send {
-	public void send_I6_2(int pnData);
+	public void send_I6_2(ArrayList<clsAct> poPlanOutput);
 }

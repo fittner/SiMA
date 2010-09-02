@@ -108,7 +108,7 @@ public class E32_Actuators extends clsModuleBase implements I8_2_receive, itfRet
 	public void getActionCommands(itfActionProcessor poActionContainer) {
 
 		for( clsActionCommand oCmd : moActionCommandList_Input ) {
-			poActionContainer.call(oCmd);
+	//		poActionContainer.call(oCmd);
 		}
 		
 	}

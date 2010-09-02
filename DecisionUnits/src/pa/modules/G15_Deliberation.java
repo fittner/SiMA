@@ -26,6 +26,7 @@ import pa.interfaces.receive.I7_6_receive;
 import pa.loader.plan.clsPlanAction;
 import pa.memory.clsMemory;
 import pa.memorymgmt.clsKnowledgeBaseHandler;
+import pa.memorymgmt.datatypes.clsAct;
 import pa.memorymgmt.datatypes.clsSecondaryDataStructureContainer;
 import pa.tools.clsPair;
 import config.clsBWProperties;
@@ -159,8 +160,8 @@ public class G15_Deliberation extends clsModuleContainer implements
 	 * @see pa.interfaces.I6_2#receive_I6_2(int)
 	 */
 	@Override
-	public void receive_I6_2(int pnData) {
-		moE27GenerationOfImaginaryActions.receive_I6_2(pnData);
+	public void receive_I6_2(ArrayList<clsAct> poPlanOutput) {
+		moE27GenerationOfImaginaryActions.receive_I6_2(poPlanOutput);
 	}
 
 	/* (non-Javadoc)

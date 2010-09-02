@@ -42,8 +42,8 @@ public class E19_DefenseMechanismsForPerception extends clsModuleBase implements
 	
 	public ArrayList<clsPrimaryDataStructureContainer> moSubjectivePerception_Input; 
 	public ArrayList<clsPrimaryDataStructureContainer> moFilteredPerception_Output; 
-	ArrayList<pa.memorymgmt.datatypes.clsThingPresentation> moDeniedThingPresentations;
-	ArrayList<clsAssociationDriveMesh> moDeniedAffects; 
+	private ArrayList<pa.memorymgmt.datatypes.clsThingPresentation> moDeniedThingPresentations;
+	private ArrayList<clsAssociationDriveMesh> moDeniedAffects; 
 	
 	/**
 	 * DOCUMENT (deutsch) - insert description 

@@ -40,8 +40,8 @@ import pa.tools.clsTripple;
 public class E28_KnowledgeBase_StoredScenarios extends clsModuleBase implements I7_2_receive, I6_2_send, itfKnowledgeBaseAccess {
 	private final Integer mnNodeLimit = 100;
 	
-	ArrayList<clsSecondaryDataStructureContainer> moGoal_Input; 
-	ArrayList<clsAct> moPlanOutput; 
+	public ArrayList<clsSecondaryDataStructureContainer> moGoal_Input; 
+	public ArrayList<clsAct> moPlan_Output; 
 			
 	/**
 	 * DOCUMENT (deutsch) - insert description 
@@ -130,7 +130,7 @@ public class E28_KnowledgeBase_StoredScenarios extends clsModuleBase implements 
 		//"retrieveActs()" was introduced to retrieve acts from the memory, according to the 
 		//actual situation. As long as the question is not solved if the loop is required,
 		//E28 is not triggered; In the meantime a memory access is introduced in E27 
-		moPlanOutput = retrieveActsForGoals(); 
+		moPlan_Output = retrieveActsForGoals(); 
 	}
 
 	/**
@@ -157,12 +157,6 @@ public class E28_KnowledgeBase_StoredScenarios extends clsModuleBase implements 
 			// however it can be thought about alternatives and possibilities to retrieve acts
 			// more efficiently. 
 			oActResult = backwardChaining(oActualState); 
-			
-			System.out.println("plan size " + oActResult.size()); 
-			
-			for(clsAct oresAct : oActResult){
-				System.out.println("Step " + oresAct.moContent.substring(oresAct.moContent.indexOf("ACTION") +  6, oresAct.moContent.indexOf("CONSEQUENCE")) ); 
-			}
 		}
 		
 		return oActResult; 
@@ -308,8 +302,9 @@ public class E28_KnowledgeBase_StoredScenarios extends clsModuleBase implements 
 	 * @return
 	 */
 	private boolean comparePreConditions(String poActContent, String poActualState) {
+		
 		HashMap<String, ArrayList<String>> oState  = new HashMap<String, ArrayList<String>>(); 
-				
+		
 		divideState(oState, poActContent); 
 		return checkCondition(oState, poActualState); 
 	}
@@ -463,7 +458,7 @@ public class E28_KnowledgeBase_StoredScenarios extends clsModuleBase implements 
 	 */
 	@Override
 	protected void send() {
-		send_I6_2(mnTest);
+		send_I6_2(moPlan_Output);
 		
 	}
 
@@ -475,8 +470,8 @@ public class E28_KnowledgeBase_StoredScenarios extends clsModuleBase implements 
 	 * @see pa.interfaces.send.I6_2_send#send_I6_2(int)
 	 */
 	@Override
-	public void send_I6_2(int pnData) {
-		((I6_2_receive)moEnclosingContainer).receive_I6_2(mnTest);
+	public void send_I6_2(ArrayList<clsAct> poPlanOutput) {
+		((I6_2_receive)moEnclosingContainer).receive_I6_2(moPlan_Output);
 		
 	}
 
