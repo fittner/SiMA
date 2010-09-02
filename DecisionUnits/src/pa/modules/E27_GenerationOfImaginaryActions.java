@@ -105,10 +105,10 @@ public class E27_GenerationOfImaginaryActions extends clsModuleBase implements I
 	 * 
 	 * @see pa.interfaces.I6_2#receive_I6_2(int)
 	 */
+	@SuppressWarnings("unchecked")
 	@Override
 	public void receive_I6_2(ArrayList<clsAct> poPlanOutput) {
-		moPlanInput = poPlanOutput;
-		
+		moPlanInput = (ArrayList<clsAct>) deepCopy(poPlanOutput);
 	}
 
 	/* (non-Javadoc)
