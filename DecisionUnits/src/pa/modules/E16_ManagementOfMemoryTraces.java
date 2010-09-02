@@ -155,7 +155,7 @@ public class E16_ManagementOfMemoryTraces extends clsModuleBase implements I2_6_
 			clsPrimaryDataStructureContainer oEnvironmentalInput = getEnvironmentalRepresentation(oEntry.a); 		
 			
 			if(oEntry.a != null && oEntry.b != null){
-				ArrayList<clsDriveMesh> oDriveContent = getAwareDriveMeshes(oEnvironmentalInput, oEntry.b);
+				ArrayList<clsDriveMesh> oDriveContent = getAssociatedContent(oEnvironmentalInput, oEntry.b);
 				oRetVal.add(new clsTripple<clsPrimaryDataStructureContainer, clsDriveMesh, ArrayList<clsDriveMesh>>(oEnvironmentalInput, oEntry.b, oDriveContent));
 			}
 			else{
@@ -176,7 +176,7 @@ public class E16_ManagementOfMemoryTraces extends clsModuleBase implements I2_6_
 	 * @return 
 	 *
 	 */
-	private ArrayList<clsDriveMesh> getAwareDriveMeshes(clsPrimaryDataStructureContainer oEnvironmentalInput,
+	private ArrayList<clsDriveMesh> getAssociatedContent(clsPrimaryDataStructureContainer oEnvironmentalInput,
 													    clsDriveMesh oRepressedContent) {
 			
 			//FIXME HZ 18.08.2010: This part is quite a hack in the old version and it is actually 

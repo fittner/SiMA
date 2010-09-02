@@ -121,7 +121,7 @@ public class E17_FusionOfExternalPerceptionAndMemoryTraces extends clsModuleBase
 	@Override
 	protected void process_basic() {
 		moMergedPrimaryInformation_Output = new ArrayList<clsPair<clsPrimaryDataStructureContainer, clsDriveMesh>>();
-		addAwareContentToObject();
+		addDriveContentToObject();
 		process_oldDT();
 	}
 	
@@ -133,7 +133,7 @@ public class E17_FusionOfExternalPerceptionAndMemoryTraces extends clsModuleBase
 	 *
 	 * @return
 	 */
-	private void addAwareContentToObject() {
+	private void addDriveContentToObject() {
 		for(clsTripple<clsPrimaryDataStructureContainer, clsDriveMesh,ArrayList<clsDriveMesh>> oEntry : moPerceptPlusAwareContent_Input){
 				for(clsDriveMesh oDM : oEntry.c){
 						clsAssociationDriveMesh oAssociation = new clsAssociationDriveMesh(
