@@ -9,7 +9,7 @@ package pa.memorymgmt.datatypes;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 
-import pa.enums.eActState;
+import pa.memorymgmt.enums.eActState;
 import pa.memorymgmt.enums.eDataType;
 import pa.tools.clsTripple;
 
