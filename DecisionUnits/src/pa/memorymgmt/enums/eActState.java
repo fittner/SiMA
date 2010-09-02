@@ -4,7 +4,7 @@
  * @author zeilinger
  * 01.09.2010, 12:35:15
  */
-package pa.enums;
+package pa.memorymgmt.enums;
 
 /**
  * DOCUMENT (zeilinger) - insert description 
