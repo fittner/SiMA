@@ -156,7 +156,7 @@ public class E23_ExternalPerception_focused extends clsModuleBase implements I2_
 	@Override
 	protected void send() {
 		//HZ: null is a placeholder for the bjects of the type pa.memorymgmt.datatypes
-		send_I2_12(moFocusedPerception_Output_old, moFocusedPerception_Output);
+		send_I2_12(moFocusedPerception_Output_old, moFocusedPerception_Output, moDriveList_old, moDriveList);
 	}
 
 	/* (non-Javadoc)
@@ -168,8 +168,10 @@ public class E23_ExternalPerception_focused extends clsModuleBase implements I2_
 	 */
 	@Override
 	public void send_I2_12(ArrayList<clsSecondaryInformation> poFocusedPerception_old,
-			   			ArrayList<clsSecondaryDataStructureContainer> poFocusedPerception) {
-		((I2_12_receive)moEnclosingContainer).receive_I2_12(moFocusedPerception_Output_old, moFocusedPerception_Output);
+			   			ArrayList<clsSecondaryDataStructureContainer> poFocusedPerception,
+			   			ArrayList<clsSecondaryInformation> poDriveList_old,
+			   			ArrayList<clsSecondaryDataStructureContainer> poDriveList) {
+		((I2_12_receive)moEnclosingContainer).receive_I2_12(moFocusedPerception_Output_old, moFocusedPerception_Output, moDriveList_old, moDriveList);
 		
 	}
 

@@ -98,7 +98,9 @@ public class E25_KnowledgeAboutReality extends clsModuleBase implements I2_12_re
 	 */
 	@Override
 	public void receive_I2_12(ArrayList<clsSecondaryInformation> poFocusedPerception_old,
-			   				ArrayList<clsSecondaryDataStructureContainer> poFocusedPerception) {
+			   				ArrayList<clsSecondaryDataStructureContainer> poFocusedPerception,
+			   				ArrayList<clsSecondaryInformation> poDriveList_old,
+			   				ArrayList<clsSecondaryDataStructureContainer> poDriveList) {
 		//never used ! moFocusedPerception_old = (ArrayList<clsSecondaryInformation>)this.deepCopy(poFocusedPerception_old);
 		//never used ! moFocusedPerception = (ArrayList<clsSecondaryDataStructureContainer>) this.deepCopy(poFocusedPerception); 
 	}

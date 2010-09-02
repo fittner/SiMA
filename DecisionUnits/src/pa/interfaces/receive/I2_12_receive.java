@@ -21,5 +21,7 @@ import pa.memorymgmt.datatypes.clsSecondaryDataStructureContainer;
  */
 public interface I2_12_receive extends I_BaseInterface {
 	public void receive_I2_12(ArrayList<clsSecondaryInformation> poFocusedPerception_old,
-			   ArrayList<clsSecondaryDataStructureContainer> poFocusedPerception);
+			   ArrayList<clsSecondaryDataStructureContainer> poFocusedPerception,
+			   ArrayList<clsSecondaryInformation> poDriveList_old,
+			   ArrayList<clsSecondaryDataStructureContainer> poDriveList);
 }

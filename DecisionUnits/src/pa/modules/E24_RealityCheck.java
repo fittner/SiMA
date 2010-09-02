@@ -32,6 +32,8 @@ public class E24_RealityCheck extends clsModuleBase implements I2_12_receive, I6
 	private ArrayList<clsPair<clsSecondaryInformation, clsSecondaryInformationMesh>> moRealityPerception_Output_old;
 	private ArrayList<clsSecondaryDataStructureContainer> moFocusedPerception_Input; 
 	private ArrayList<clsPair<clsSecondaryDataStructureContainer, clsSecondaryDataStructureContainer>> moRealityPerception_Output; 
+	private ArrayList<clsSecondaryInformation> moDriveList_old;
+	private ArrayList<clsSecondaryDataStructureContainer> moDriveList;
 
 	/**
 	 * DOCUMENT (deutsch) - insert description 
@@ -97,9 +99,11 @@ public class E24_RealityCheck extends clsModuleBase implements I2_12_receive, I6
 	 */
 	@SuppressWarnings("unchecked")
 	@Override
-	public void receive_I2_12(ArrayList<clsSecondaryInformation> poFocusedPerception_old, ArrayList<clsSecondaryDataStructureContainer> poFocusedPerception) {
+	public void receive_I2_12(ArrayList<clsSecondaryInformation> poFocusedPerception_old, ArrayList<clsSecondaryDataStructureContainer> poFocusedPerception, ArrayList<clsSecondaryInformation> poDriveList_old, ArrayList<clsSecondaryDataStructureContainer> poDriveList) {
 		moFocusedPerception_Input_old = (ArrayList<clsSecondaryInformation>)deepCopy( poFocusedPerception_old);
 		moFocusedPerception_Input = (ArrayList<clsSecondaryDataStructureContainer>)deepCopy(poFocusedPerception);
+		moDriveList_old = (ArrayList<clsSecondaryInformation>) deepCopy(poDriveList_old);
+		moDriveList = (ArrayList<clsSecondaryDataStructureContainer>) deepCopy(poDriveList);
 	}
 
 	/* (non-Javadoc)

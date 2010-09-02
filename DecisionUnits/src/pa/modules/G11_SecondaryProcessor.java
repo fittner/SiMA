@@ -154,8 +154,8 @@ public class G11_SecondaryProcessor extends clsModuleContainer implements
 	 * @see pa.interfaces.I2_12#receive_I2_12(int)
 	 */
 	@Override
-	public void receive_I2_12(ArrayList<clsSecondaryInformation> poFocusedPerception_old, ArrayList<clsSecondaryDataStructureContainer> poFocusedPerception) {
-		moG16SecondaryKnowledgeUtilizer.receive_I2_12(poFocusedPerception_old, poFocusedPerception);
+	public void receive_I2_12(ArrayList<clsSecondaryInformation> poFocusedPerception_old, ArrayList<clsSecondaryDataStructureContainer> poFocusedPerception, ArrayList<clsSecondaryInformation> poDriveList_old, ArrayList<clsSecondaryDataStructureContainer> poDriveList) {
+		moG16SecondaryKnowledgeUtilizer.receive_I2_12(poFocusedPerception_old, poFocusedPerception, poDriveList_old, poDriveList);
 	}
 
 	/* (non-Javadoc)
