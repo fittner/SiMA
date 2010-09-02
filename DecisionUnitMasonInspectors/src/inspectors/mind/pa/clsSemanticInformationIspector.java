@@ -15,6 +15,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
+import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.Hashtable;
 import java.util.Map;
@@ -22,6 +23,7 @@ import java.util.Map;
 
 
 import javax.swing.AbstractAction;
+import javax.swing.AbstractButton;
 import javax.swing.BorderFactory;
 import javax.swing.JCheckBox;
 import javax.swing.JLabel;
@@ -46,12 +48,14 @@ import org.jgraph.graph.VertexView;
 
 
 
+import pa.memorymgmt.datatypes.clsAct;
 import pa.memorymgmt.datatypes.clsAssociation;
 import pa.memorymgmt.datatypes.clsDataStructureContainer;
 import pa.memorymgmt.datatypes.clsDataStructurePA;
 import pa.memorymgmt.datatypes.clsDriveDemand;
 import pa.memorymgmt.datatypes.clsDriveMesh;
 import pa.memorymgmt.datatypes.clsPrimaryDataStructureContainer;
+import pa.memorymgmt.datatypes.clsSecondaryDataStructure;
 
 import pa.memorymgmt.datatypes.clsSecondaryDataStructureContainer;
 import pa.memorymgmt.datatypes.clsThingPresentation;
@@ -116,6 +120,8 @@ public class clsSemanticInformationIspector extends Inspector implements ActionL
 	private Object moModuleContainer; //container of the memory. holds the Array list with the memory infos
 	private String moModuleMemoryMemberName;
 	private ArrayList moInspectorData;
+	private boolean moAutoUpdate = false;
+	private int moStepCounter = 0;
 	
 	private ArrayList<DefaultGraphCell> moCellList = new ArrayList<DefaultGraphCell>();
 	
@@ -287,38 +293,50 @@ public class clsSemanticInformationIspector extends Inspector implements ActionL
 			}
 		});
 		
+		//
+		javax.swing.JCheckBox oAutoUpdateCB = new javax.swing.JCheckBox("Auto Update");
+		
+		    ActionListener actionListener = new ActionListener() {
+		        @Override
+				public void actionPerformed(ActionEvent actionEvent) {
+		          AbstractButton abstractButton = (AbstractButton) actionEvent.getSource();
+		          moAutoUpdate = abstractButton.getModel().isSelected();
+		          //oAutoUpdateCB.setText("!Auto Update!");
+		        }
+		      };
+		      oAutoUpdateCB.addActionListener(actionListener);
+		      oTaskGroupCommands.add(oAutoUpdateCB);
+			
 		oTaskGroupCommands.add(new AbstractAction("Actual Size") {
-			/**
-			 * @author deutsch
-			 * 10.08.2010, 17:54:49
-			 */
 			private static final long serialVersionUID = -7683571637499420675L;
-
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				moGraph.setScale(1);
 			}
 		});
 		oTaskGroupCommands.add(new AbstractAction("Fit Window") {
-			/**
-			 * @author deutsch
-			 * 10.08.2010, 17:54:49
-			 */
 			private static final long serialVersionUID = -4236402393050941924L;
-
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				JGraphLayoutMorphingManager.fitViewport(moGraph);
 			}
 		});
-				
+		oTaskGroupCommands.add(new AbstractAction("Zoom In") {
+			private static final long serialVersionUID = 4963188240381232166L;
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				moGraph.setScale(1.5 * moGraph.getScale());
+			}
+		});
+		oTaskGroupCommands.add(new AbstractAction("Zoom Out") {
+			private static final long serialVersionUID = 6518488789619229086L;
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				moGraph.setScale(moGraph.getScale() / 1.5);
+			}
+		});
 		oTaskGroupCommands.add(new AbstractAction("Reset") {
-			/**
-			 * @author deutsch
-			 * 10.08.2010, 17:54:49
-			 */
 			private static final long serialVersionUID = 4769006307236101696L;
-
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				reset();
@@ -326,12 +344,7 @@ public class clsSemanticInformationIspector extends Inspector implements ActionL
 		});
 		
 		oTaskGroupCommands.add(new AbstractAction("Insert Test Data") {
-			/**
-			 * @author deutsch
-			 * 10.08.2010, 17:54:49
-			 */
 			private static final long serialVersionUID = 4963188240381232166L;
-
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				showTestData();
@@ -376,8 +389,12 @@ public class clsSemanticInformationIspector extends Inspector implements ActionL
 		
 		try {
 			//returns the ArrayList of the wanted member
-			Object oMeshList = moModuleContainer.getClass().getField(moModuleMemoryMemberName).get(moModuleContainer);
-			//moInspectorData = (ArrayList<clsDriveMesh>)oMeshList;
+			//Object oMeshList = moModuleContainer.getClass().getField(moModuleMemoryMemberName).get(moModuleContainer);
+			
+			java.lang.Class[] parameterType = null; 
+			java.lang.reflect.Method method = moModuleContainer.getClass().getMethod( moModuleMemoryMemberName, parameterType ); 
+			 java.lang.Object[] argument = null; 
+			 Object oMeshList = method.invoke( moModuleContainer, argument );
 			
 			moInspectorData = (ArrayList)oMeshList;
 		} catch (IllegalArgumentException e) {
@@ -386,9 +403,13 @@ public class clsSemanticInformationIspector extends Inspector implements ActionL
 			e.printStackTrace();
 		} catch (SecurityException e) {
 			e.printStackTrace();
-		} catch (NoSuchFieldException e) {
-			e.printStackTrace();
+//		} catch (NoSuchFieldException e) {
+//			e.printStackTrace();
 		} catch (ClassCastException e) {
+			e.printStackTrace();
+		}catch (NoSuchMethodException e) {
+			e.printStackTrace();
+		} catch (InvocationTargetException e) {
 			e.printStackTrace();
 		}
 			
@@ -578,8 +599,17 @@ public class clsSemanticInformationIspector extends Inspector implements ActionL
 	@Override
 	public void updateInspector() {
 
-		//TODO cm: per hakerl ein/aus ob das tab automatisch upgedatet werden soll, wenn ja dann updateControl() ausführen
-		//updateControl();
+		//per hakerl ein/aus ob das tab automatisch upgedatet werden soll, wenn ja dann updateControl() ausführen
+		if(moAutoUpdate && moStepCounter > 119)
+		{
+			moStepCounter = 0;
+			moCellList.clear();
+			updateControl();
+		}
+		else
+		{
+			moStepCounter++;
+		}
 	}
 	
 	/**
@@ -593,6 +623,7 @@ public class clsSemanticInformationIspector extends Inspector implements ActionL
 
 		//clear the cell list, or u get doubles, tripples, ...
 		moCellList.clear();
+		
 		
 		// fetch the new ArrayList from the containing class
 		updateinspectorData();
@@ -690,7 +721,7 @@ public class clsSemanticInformationIspector extends Inspector implements ActionL
 		}
 	}
 
-	/**
+	/** MAIN...
 	 * Generating cells from clsDataStructurePA
 	 */
 	private DefaultGraphCell generateGraphCell(DefaultGraphCell poParentCell, clsDataStructurePA poMemoryObject)
@@ -717,6 +748,11 @@ public class clsSemanticInformationIspector extends Inspector implements ActionL
 			clsDriveDemand tmpRootMemoryObject = (clsDriveDemand)poMemoryObject;
 			oRootCell = generateGraphCell(poParentCell, tmpRootMemoryObject);
 		}
+		else if(poMemoryObject instanceof clsAct)
+		{
+			clsAct tmpRootMemoryObject = (clsAct)poMemoryObject;
+			oRootCell = generateGraphCell(poParentCell, tmpRootMemoryObject);
+		}
 		else
 		{
 			throw new NullPointerException("DefaultGraphCell is NULL, object type clsDataStructurePA not found?");
@@ -734,7 +770,7 @@ public class clsSemanticInformationIspector extends Inspector implements ActionL
 		return oRootCell;
 	}
 	
-	/**
+	/** PAIR
 	 * Generating cells from clsPair
 	 */
 	private DefaultGraphCell generateGraphCell(DefaultGraphCell poParentCell, clsPair poMemoryObject)
@@ -820,7 +856,7 @@ public class clsSemanticInformationIspector extends Inspector implements ActionL
 		return oPairCellA;
 	}
 	
-	/**
+	/** DC
 	 * Generating cells from clsDataStructureContainer
 	 */
 	private DefaultGraphCell generateGraphCell(DefaultGraphCell poParentCell, clsDataStructureContainer poMemoryObject)
@@ -846,7 +882,7 @@ public class clsSemanticInformationIspector extends Inspector implements ActionL
 		
 	}
 	
-	/**
+	/** PDC
 	 * Generating cells from clsPrimaryDataStructureContainer
 	 */
 	private DefaultGraphCell generateGraphCell(DefaultGraphCell poParentCell, clsPrimaryDataStructureContainer poMemoryObject)
@@ -899,21 +935,62 @@ public class clsSemanticInformationIspector extends Inspector implements ActionL
 		return oContainerRootCell;
 	}
 	
-	/**
+	/** SDC
 	 * Generating cells from clsSecondaryDataStructureContainer
 	 */
 	private DefaultGraphCell generateGraphCell(DefaultGraphCell poParentCell, clsSecondaryDataStructureContainer poMemoryObject)
 	{
-		//throw new NotImplementedException();
+		clsDataStructurePA oContainerRootDataStructure = poMemoryObject.moDataStructure;
+		//TODO WP werden neu erzeugt und können daher nicht zu den associations gefunden werden weil ID = -1, vielleicht kommt da mal eine änderung! CM+HZ
+		ArrayList<clsAssociation> oAssociatedDataStructures = new ArrayList(); // poMemoryObject.moAssociatedDataStructures;
 		
-		//TODO what is in the container?
-		DefaultGraphCell oRootCell = createDefaultGraphVertex(poMemoryObject.toString(), Color.MAGENTA);
-		this.moCellList.add(oRootCell);
-		return oRootCell;
+		//create container root struct
+		DefaultGraphCell oContainerRootCell = createDefaultGraphVertex(oContainerRootDataStructure.toString(), new Color(0xff3366CC) );
+		this.moCellList.add(oContainerRootCell);
+		//get edge to parent cell
+		DefaultEdge oEdgeParent = new DefaultEdge("");
+		oEdgeParent.setSource(poParentCell.getChildAt(0));
+		oEdgeParent.setTarget(oContainerRootCell.getChildAt(0));
+		moCellList.add(oEdgeParent);
+		
+		//create assosiations (siehe weiter oben, wird nicht durchlaufen! da immer leer im SecContainer)
+		for(clsAssociation oContainerAssociations : oAssociatedDataStructures)
+		{
+			if(oContainerRootDataStructure.moDS_ID == oContainerAssociations.moAssociationElementA.moDS_ID)
+			{
+				clsDataStructurePA oMemoryObjectB = oContainerAssociations.moAssociationElementB;
+				DefaultGraphCell oTargetCell = generateGraphCell(oContainerRootCell, oMemoryObjectB);
+				//add edge
+				DefaultEdge oEdge = new DefaultEdge("ContAss");
+				oEdge.setSource(oContainerRootCell.getChildAt(0));
+				oEdge.setTarget(oTargetCell.getChildAt(0));
+				moCellList.add(oEdge);
+				GraphConstants.setLineEnd(oEdge.getAttributes(), GraphConstants.ARROW_DOUBLELINE);
+				GraphConstants.setEndFill(oEdge.getAttributes(), true);
+			}
+			else if(oContainerRootDataStructure.moDS_ID == oContainerAssociations.moAssociationElementB.moDS_ID)
+			{
+				clsDataStructurePA oMemoryObjectA = oContainerAssociations.moAssociationElementA;
+				DefaultGraphCell oTargetCell = generateGraphCell(oContainerRootCell, oMemoryObjectA);
+				//add edge
+				DefaultEdge oEdge = new DefaultEdge("ContAss");
+				oEdge.setSource(oContainerRootCell.getChildAt(0));
+				oEdge.setTarget(oTargetCell.getChildAt(0));
+				moCellList.add(oEdge);
+				GraphConstants.setLineEnd(oEdge.getAttributes(), GraphConstants.ARROW_DOUBLELINE);
+				GraphConstants.setEndFill(oEdge.getAttributes(), true);
+			}
+			else
+			{ //should not be laut heimo!!!
+				throw new UnsupportedOperationException("Neither A nor B are root element. Go ask Heimo about his memory implementation");
+			}
+			
+		}
+		return oContainerRootCell;
 	}
 	
 	
-	/**
+	/** DM
 	 * Generating cells from clsDriveMesh
 	 */
 	private DefaultGraphCell generateGraphCell(DefaultGraphCell poParentCell, clsDriveMesh poMemoryObject)
@@ -957,7 +1034,7 @@ public class clsSemanticInformationIspector extends Inspector implements ActionL
 		return oDMrootCell;	
 	}
 	
-	/**
+	/** TP
 	 * Generating cells from clsThingPresentation
 	 */
 	private DefaultGraphCell generateGraphCell(DefaultGraphCell poParentCell, clsThingPresentation poMemoryObject)
@@ -967,24 +1044,53 @@ public class clsSemanticInformationIspector extends Inspector implements ActionL
 		return oCell;
 	}
 	
-	/**
+	/** WP
 	 * Generating cells from clsWordPresentation
 	 */
 	private DefaultGraphCell generateGraphCell(DefaultGraphCell poParentCell, clsWordPresentation poMemoryObject)
 	{
-		DefaultGraphCell oCell = createDefaultGraphVertex(poMemoryObject.toString(), Color.BLUE);
+		DefaultGraphCell oCell = createDefaultGraphVertex(poMemoryObject.toString(), Color.LIGHT_GRAY);
 		this.moCellList.add(oCell);
 		return oCell;
 	}
 	
-	/**
-	 * Generating cells from clsWordPresentation
+	/** DD
+	 * Generating cells from clsDriveDemand
 	 */
 	private DefaultGraphCell generateGraphCell(DefaultGraphCell poParentCell, clsDriveDemand poMemoryObject)
 	{
 		DefaultGraphCell oCell = createDefaultGraphVertex(poMemoryObject.toString(), Color.GRAY);
 		this.moCellList.add(oCell);
 		return oCell;
+	}
+	
+	/** ACT
+	 * Generating cells from clsAct
+	 */
+	private DefaultGraphCell generateGraphCell(DefaultGraphCell poParentCell, clsAct poMemoryObject)
+	{
+		//generate act root cell
+		DefaultGraphCell oActRootCell = createDefaultGraphVertex(poMemoryObject.toString(), Color.YELLOW);
+		this.moCellList.add(oActRootCell);
+		//get edge to parent cell
+		DefaultEdge oEdgeParent = new DefaultEdge("");
+		oEdgeParent.setSource(poParentCell.getChildAt(0));
+		oEdgeParent.setTarget(oActRootCell.getChildAt(0));
+		moCellList.add(oEdgeParent);
+		
+		//add a cell for every acossiation
+		//TODO could be any data type? now its only to string
+		for(clsSecondaryDataStructure oAssociatedContent : poMemoryObject.moAssociatedContent)
+		{
+			DefaultGraphCell oTargetCell = generateGraphCell(oActRootCell, oAssociatedContent);
+			
+			//get edge to parent cell
+			DefaultEdge oEdgeAssociatedParent = new DefaultEdge("AssContent");
+			oEdgeParent.setSource(oActRootCell.getChildAt(0));
+			oEdgeParent.setTarget(oTargetCell.getChildAt(0));
+			moCellList.add(oEdgeAssociatedParent);
+		}
+		return oActRootCell;
 	}
 
 

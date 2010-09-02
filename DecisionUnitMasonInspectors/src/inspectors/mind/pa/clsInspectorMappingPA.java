@@ -144,7 +144,11 @@ public class clsInspectorMappingPA {
 			//TODO oRetVal.addInspector( new clsSemanticInformationIspector(poSuperInspector, poWrapper, poState, moPA.moG03Ego.moG08PsychicMediator.moG11SecondaryProcessor.moG15Deliberation.moE26DecisionMaking, "TODO"), "E26 - recieve");
 		}
 		else if(poModuleName.equals("E27GenerationOfImaginaryActionsMEM")) {
-			//TODO oRetVal.addInspector( new clsSemanticInformationIspector(poSuperInspector, poWrapper, poState, moPA.moG03Ego.moG08PsychicMediator.moG11SecondaryProcessor.moG15Deliberation.moE27GenerationOfImaginaryActions, "TODO"), "E27 - recieve");
+			//oRetVal.addInspector( new clsSemanticInformationIspector(poSuperInspector, poWrapper, poState, moPA.moG03Ego.moG08PsychicMediator.moG11SecondaryProcessor.moG15Deliberation.moE27GenerationOfImaginaryActions., "TODO"), "E27 - recieve");
+		}
+		else if(poModuleName.equals("E28KnowledgeBase_StoredScenariosMEM")) {
+			oRetVal.addInspector( new clsSemanticInformationIspector(poSuperInspector, poWrapper, poState, moPA.moG03Ego.moG08PsychicMediator.moG11SecondaryProcessor.moG16SecondaryKnowledgeUtilizer.moE28KnowledgeBase_StoredScenarios, "getGoal_Input"), "E28 - recieve");
+			oRetVal.addInspector( new clsSemanticInformationIspector(poSuperInspector, poWrapper, poState, moPA.moG03Ego.moG08PsychicMediator.moG11SecondaryProcessor.moG16SecondaryKnowledgeUtilizer.moE28KnowledgeBase_StoredScenarios, "getPlan_Output"), "E28 - send");
 		}
 		
 		
