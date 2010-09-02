@@ -112,21 +112,47 @@ public class clsInspectorMappingPA {
 			}
 		}
 		//========== MEMORY 2.0 ===========
+		//special memory tree
 		else if(poModuleName.equals("TPM")) {
 			oRetVal.addInspector( new clsSemanticInformationIspector(poSuperInspector, poWrapper, poState, moPA.getMemoryForInspector().moTemplateImageStorage, "moTemplateImages" ), "Memory v2.0 TEST");		
 		}
- else if (poModuleName.equals("E05GenerationOfAffectsForDrivesMEM")) {
+		//inspect the modules memory (all have 'MEM' at end!)
+		
+		else if(poModuleName.equals("E03GenerationOfDrivesMEM")) {
+			//is a hash map! oRetVal.addInspector( new clsSemanticInformationIspector(poSuperInspector, poWrapper, poState, moPA.moG02Id.moG05DriveHandling.moE03GenerationOfDrives, "mo"), "E03 - recieve");
+			oRetVal.addInspector( new clsSemanticInformationIspector(poSuperInspector, poWrapper, poState, moPA.moG02Id.moG05DriveHandling.moE03GenerationOfDrives, "moDriveDefinition"), "E03 - send");
+		}
+		else if (poModuleName.equals("E05GenerationOfAffectsForDrivesMEM")) {
 			oRetVal.addInspector( new clsSemanticInformationIspector(poSuperInspector, poWrapper, poState, moPA.moG02Id.moG06AffectGeneration.moE05GenerationOfAffectsForDrives, "moDriveCandidate" ), "E05 - recieve");
 			oRetVal.addInspector( new clsSemanticInformationIspector(poSuperInspector, poWrapper, poState, moPA.moG02Id.moG06AffectGeneration.moE05GenerationOfAffectsForDrives, "moDriveList" ), "E05 - send");
-		}
-		
+		}		
 		else if(poModuleName.equals("E14PreliminaryExternalPerceptionMEM")) {
 			oRetVal.addInspector( new clsSemanticInformationIspector(poSuperInspector, poWrapper, poState, moPA.moG03Ego.moG07EnvironmentalInterfaceFunctions.moE14PreliminaryExternalPerception, "moEnvironmentalTP" ), "E14 - rend (I2.5)");
+		}
+		else if(poModuleName.equals("E15_1_ManagementOfRepressedContentsMEM")) {
 		}
 		else if(poModuleName.equals("E16ManagementOfMemoryTracesMEM")) {
 			oRetVal.addInspector( new clsSemanticInformationIspector(poSuperInspector, poWrapper, poState, moPA.moG03Ego.moG08PsychicMediator.moG09PrimaryProcessor.moG13PrimaryKnowledgeUtilizer.moE16ManagementOfMemoryTraces, "moPerceptPlusRepressed_Input" ), "E16 - recieve");
 		}
-		//put all memory things here
+		else if(poModuleName.equals("E17FusionOfExternalPerceptionAndMemoryTracesMEM")) {
+		}
+		else if(poModuleName.equals("E18GenerationOfAffectsForPerceptionMEM")) {
+			oRetVal.addInspector( new clsSemanticInformationIspector(poSuperInspector, poWrapper, poState, moPA.moG02Id.moG06AffectGeneration.moE18GenerationOfAffectsForPerception, "moMergedPrimaryInformation_Input"), "E18 - recieve");
+			oRetVal.addInspector( new clsSemanticInformationIspector(poSuperInspector, poWrapper, poState, moPA.moG02Id.moG06AffectGeneration.moE18GenerationOfAffectsForPerception, "moNewPrimaryInformation"), "E18 - send");
+		}
+		else if(poModuleName.equals("E26DecisionMakingMEM")) {
+			//TODO oRetVal.addInspector( new clsSemanticInformationIspector(poSuperInspector, poWrapper, poState, moPA.moG03Ego.moG08PsychicMediator.moG11SecondaryProcessor.moG15Deliberation.moE26DecisionMaking, "TODO"), "E26 - recieve");
+		}
+		else if(poModuleName.equals("E27GenerationOfImaginaryActionsMEM")) {
+			//TODO oRetVal.addInspector( new clsSemanticInformationIspector(poSuperInspector, poWrapper, poState, moPA.moG03Ego.moG08PsychicMediator.moG11SecondaryProcessor.moG15Deliberation.moE27GenerationOfImaginaryActions, "TODO"), "E27 - recieve");
+		}
+		
+		
+		
+		
+
+
+		
 		
 		
 		
