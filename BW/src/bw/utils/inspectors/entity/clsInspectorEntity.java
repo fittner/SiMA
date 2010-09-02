@@ -19,6 +19,8 @@ import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
 
+import du.enums.eDecisionType;
+
 import bw.body.clsBaseBody;
 import bw.body.itfGetBrain;
 import bw.body.itfget.itfGetBody;
@@ -72,7 +74,8 @@ public class clsInspectorEntity extends Inspector implements ActionListener {
 	private PropertyField moProp2;
 	private PropertyField moProp3;
 	private PropertyField moProp4;
-	
+	private PropertyField moPropX;
+	private PropertyField moPropY;
 	
 	/**
 	 * DOCUMENT (langr) - insert description 
@@ -95,10 +98,22 @@ public class clsInspectorEntity extends Inspector implements ActionListener {
 		
 		Box oBox1 = new Box(BoxLayout.Y_AXIS);
 		moProp1 = new  PropertyField("Type", poEntity.getEntityType().toString(), false, null, PropertyField.SHOW_TEXTFIELD);
-		moProp2 = new  PropertyField("ID", ""+poEntity.getId(), false, null, PropertyField.SHOW_TEXTFIELD);
 		
-		moProp3 = new  PropertyField("Position X", ""+moEntity.getPosition().x, false, null, PropertyField.SHOW_TEXTFIELD);
-		moProp4 = new  PropertyField("Position Y", ""+moEntity.getPosition().y, false, null, PropertyField.SHOW_TEXTFIELD);
+		moProp2 = new  PropertyField("Body", poEntity.getBody().getBodyType().toString(), false, null, PropertyField.SHOW_TEXTFIELD);
+		
+		String oMindType = eDecisionType.NONE.toString();
+		try {
+			oMindType = (((itfGetBrain)((itfGetBody)moEntity).getBody()).getBrain().getDecisionUnit()).getDecisionUnitType().toString();
+		} catch (java.lang.ClassCastException ex) {
+			//ignore - no mind present
+		}
+		
+		moProp3 = new  PropertyField("Mind", oMindType, false, null, PropertyField.SHOW_TEXTFIELD);
+		
+		moProp4 = new  PropertyField("ID", ""+poEntity.getId(), false, null, PropertyField.SHOW_TEXTFIELD);
+		
+		moPropX = new  PropertyField("Position X", ""+moEntity.getPosition().x, false, null, PropertyField.SHOW_TEXTFIELD);
+		moPropY = new  PropertyField("Position Y", ""+moEntity.getPosition().y, false, null, PropertyField.SHOW_TEXTFIELD);
 		
 		moBtnEntityInspectors = new JButton("Entity Details...");
 		moBtnBodyInspectors = new JButton("Body Details...");
@@ -108,6 +123,8 @@ public class clsInspectorEntity extends Inspector implements ActionListener {
 		oBox1.add(moProp2, BorderLayout.AFTER_LAST_LINE);
 		oBox1.add(moProp3, BorderLayout.AFTER_LAST_LINE);
 		oBox1.add(moProp4, BorderLayout.AFTER_LAST_LINE);
+		oBox1.add(moPropX, BorderLayout.AFTER_LAST_LINE);
+		oBox1.add(moPropY, BorderLayout.AFTER_LAST_LINE);
 		
 		oBox1.add(moBtnEntityInspectors, BorderLayout.AFTER_LAST_LINE);
 		oBox1.add(moBtnBodyInspectors, BorderLayout.AFTER_LAST_LINE);
@@ -132,9 +149,9 @@ public class clsInspectorEntity extends Inspector implements ActionListener {
 	@Override
 	public void updateInspector() {
 		Formatter oDoubleFormatter = new Formatter();
-		moProp3.setValue( oDoubleFormatter.format("%.2f", moEntity.getPosition().x).toString() );
+		moPropX.setValue( oDoubleFormatter.format("%.2f", moEntity.getPosition().x).toString() );
 		oDoubleFormatter = new Formatter();
-		moProp4.setValue( oDoubleFormatter.format("%.2f", moEntity.getPosition().y).toString() );
+		moPropY.setValue( oDoubleFormatter.format("%.2f", moEntity.getPosition().y).toString() );
 		
 		for (Iterator<clsInspectorFrame> it = moEntityWindows.iterator(); it.hasNext(); ) {
 			clsInspectorFrame oFrame = it.next();
@@ -169,15 +186,23 @@ public class clsInspectorEntity extends Inspector implements ActionListener {
 			moEntityWindows.add( clsInspectorFrame.getInspectorFrame(oMasonInspector, moEntity.getId()  + " - " +  moEntity.getEntityType().toString() + " - Entity Inspector") );
 		}
 		else if( source == moBtnBodyInspectors ) {
-			clsBaseBody iBody = ((itfGetBody)moEntity).getBody();
-			//define the inspector-content for each entity in the responsible InspectorMapping-class
-			TabbedInspector oMasonInspector = clsInspectorMappingEntity.getInspectorBody(moOriginalInspector, moWrapper, moGuiState, iBody);
-			moEntityWindows.add( clsInspectorFrame.getInspectorFrame(oMasonInspector, moEntity.getId()  + " - " +  moEntity.getEntityType().toString() + " - Body Inspector") );
+			try {			
+				clsBaseBody iBody = ((itfGetBody)moEntity).getBody();
+				//	define the inspector-content for each entity in the responsible InspectorMapping-class
+				TabbedInspector oMasonInspector = clsInspectorMappingEntity.getInspectorBody(moOriginalInspector, moWrapper, moGuiState, iBody);
+				moEntityWindows.add( clsInspectorFrame.getInspectorFrame(oMasonInspector, moEntity.getId()  + " - " +  moEntity.getEntityType().toString() + " - Body Inspector") );
+			} catch (java.lang.ClassCastException ex) {
+				System.out.println(ex);
+			}			
 		}
 		else if( source == moBtnBrainInspectors) {
 			//define the inspector-content for each entity in the responsible InspectorMapping-class
-			TabbedInspector oMasonInspector = clsInspectorMappingDecision.getInspector(moOriginalInspector, moWrapper, moGuiState, ((itfGetBrain)((itfGetBody)moEntity).getBody()).getBrain().getDecisionUnit());
-			moEntityWindows.add( clsInspectorFrame.getInspectorFrame(oMasonInspector, moEntity.getId() + " - " + moEntity.getEntityType().toString() + " - Brain Inspector") );
+			try {
+				TabbedInspector oMasonInspector = clsInspectorMappingDecision.getInspector(moOriginalInspector, moWrapper, moGuiState, ((itfGetBrain)((itfGetBody)moEntity).getBody()).getBrain().getDecisionUnit());
+				moEntityWindows.add( clsInspectorFrame.getInspectorFrame(oMasonInspector, moEntity.getId() + " - " + moEntity.getEntityType().toString() + " - Brain Inspector") );
+			} catch (java.lang.ClassCastException ex) {
+				System.out.println(ex);
+			}
 		}
 	}
 }
