@@ -8,6 +8,7 @@ package bw.body;
 
 import bw.body.attributes.clsAttributes;
 import bw.entities.clsEntity;
+import bw.utils.enums.eBodyType;
 import config.clsBWProperties;
 
 /**
@@ -90,6 +91,19 @@ public class clsSimpleBody extends clsBaseBody {
 	public void stepExecution() {
 		// nothing to do
 
+	}
+
+	/* (non-Javadoc)
+	 *
+	 * @author deutsch
+	 * 02.09.2010, 15:42:57
+	 * 
+	 * @see bw.body.clsBaseBody#setBodyType()
+	 */
+	@Override
+	protected void setBodyType() {
+		meBodyType = eBodyType.SIMPLE;
+		
 	}
 
 }

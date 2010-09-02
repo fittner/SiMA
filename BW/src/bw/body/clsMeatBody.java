@@ -12,6 +12,7 @@ import config.clsBWProperties;
 import bw.body.attributes.clsAttributes;
 import bw.body.internalSystems.clsFlesh;
 import bw.entities.clsEntity;
+import bw.utils.enums.eBodyType;
 
 /**
  * DOCUMENT (deutsch) - insert description 
@@ -113,6 +114,19 @@ public class clsMeatBody extends clsBaseBody {
 	@Override
 	public void stepExecution() {
 		// nothing to do
+	}
+
+	/* (non-Javadoc)
+	 *
+	 * @author deutsch
+	 * 02.09.2010, 15:42:43
+	 * 
+	 * @see bw.body.clsBaseBody#setBodyType()
+	 */
+	@Override
+	protected void setBodyType() {
+		meBodyType = eBodyType.MEAT;
+		
 	}
 
 }

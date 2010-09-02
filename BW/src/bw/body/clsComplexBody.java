@@ -18,6 +18,7 @@ import bw.body.io.clsExternalIO;
 import bw.body.io.clsInternalIO;
 import bw.body.itfget.itfGetInternalEnergyConsumption;
 import bw.entities.clsEntity;
+import bw.utils.enums.eBodyType;
 
 
 /**
@@ -165,6 +166,18 @@ public class clsComplexBody extends clsBaseBody implements
 	public void stepExecution() {
 		moExternalIO.stepExecution();
 		moInternalIO.stepExecution();
+	}
+
+	/* (non-Javadoc)
+	 *
+	 * @author deutsch
+	 * 02.09.2010, 15:35:37
+	 * 
+	 * @see bw.body.clsBaseBody#setBodyType()
+	 */
+	@Override
+	protected void setBodyType() {
+		meBodyType = eBodyType.COMPLEX;		
 	}
 	
 }

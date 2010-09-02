@@ -10,6 +10,7 @@ package bw.body;
 
 import bw.body.attributes.clsAttributes;
 import bw.entities.clsEntity;
+import bw.utils.enums.eBodyType;
 import config.clsBWProperties;
 
 /**
@@ -24,6 +25,7 @@ public abstract class clsBaseBody implements 	itfStepSensing, itfStepUpdateInter
 
 	public static final String P_ATTRIBUTES     = "attributes";
     protected clsAttributes  moAttributes;
+    protected eBodyType meBodyType;
 	
 	
 	public clsBaseBody(String poPrefix, clsBWProperties poProp, clsEntity poEntity) {
@@ -49,6 +51,11 @@ public abstract class clsBaseBody implements 	itfStepSensing, itfStepUpdateInter
 	public clsAttributes getAttributes() {
 		   return moAttributes;
 	}
-		
+	
+	public eBodyType getBodyType() {
+		return meBodyType;
+	}
+	
+	protected abstract void setBodyType();
 	
 }
