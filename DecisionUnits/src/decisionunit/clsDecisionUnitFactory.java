@@ -69,6 +69,9 @@ public class clsDecisionUnitFactory implements itfDecisionUnitFactory {
 			case PA:
 				oDecisionUnit = new pa.clsPsychoAnalysis(poPrefix, poProp);
 				break;
+			case ActionlessTestPA:
+				oDecisionUnit = new testbrains.clsActionlessTestPA(poPrefix, poProp);
+				break;
 			default:
 				throw new java.lang.IllegalArgumentException("eDecisionType."+nDecisionType.name());
 		}

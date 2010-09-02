@@ -1,0 +1,47 @@
+/**
+ * clsActionsLessTestDU.java: DecisionUnits - testbrains
+ * 
+ * @author deutsch
+ * 02.09.2010, 10:34:18
+ */
+package testbrains;
+
+import pa.clsPsychoAnalysis;
+import config.clsBWProperties;
+
+/**
+ * TESTBRAIN for Clemens Muchitsch. It is a specialization of pa.clsPsychoAnalysis. What it does, it resets the actionprocessor in each process step. Thus, this decision unit processes incommiung data and performs every step but has no impact on the world or on the body.  
+ * 
+ * @author deutsch
+ * 02.09.2010, 10:34:18
+ * 
+ */
+public class clsActionlessTestPA extends clsPsychoAnalysis {
+	
+	/**
+	 * @author deutsch
+	 * 02.09.2010, 10:42:55
+	 *
+	 * @param poPrefix
+	 * @param poProp
+	 */
+	public clsActionlessTestPA(String poPrefix, clsBWProperties poProp) {
+		super(poPrefix, poProp);
+	}
+
+	/* (non-Javadoc)
+	 *	executes applySensorData and step, but not getActionCommand.
+	 *
+	 * @author deutsch
+	 * 02.09.2010, 10:34:18
+	 * 
+	 * @see decisionunit.clsBaseDecisionUnit#process()
+	 */
+	@Override
+	public void process() {
+		getProcessor().applySensorData( getSensorData() );
+		getProcessor().step();
+		//moProcessor.getActionCommands( getActionProcessor() ); //removed on pupose
+	}
+
+}

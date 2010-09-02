@@ -91,7 +91,7 @@ public class clsBWMain extends SimState{
 					default: oFilename = "testsetup.main.properties"; break;
 				}
 			} catch (NumberFormatException e) {
-				oFilename = "testsetup.main.properties"; // no parameters given - used default config
+				// filename given - no further action necessary
 			}
 		} else {
 			oFilename = "testsetup.main.properties"; // no parameters given - used default config			
@@ -121,6 +121,11 @@ public class clsBWMain extends SimState{
 			//read implementation stages file
 			clsBWProperties oPropImp = clsBWProperties.readProperties(oPath, oImplementationStagesFile);
 			oPropImp.addPrefix(clsSimplePropertyLoader.P_DEFAULTSDECISIONUNIT+"."+eDecisionType.PA);
+			//merge settings - overwrites exsiting entries
+			oProp.putAll(oPropImp);
+			
+			oPropImp = clsBWProperties.readProperties(oPath, oImplementationStagesFile);
+			oPropImp.addPrefix(clsSimplePropertyLoader.P_DEFAULTSDECISIONUNIT+"."+eDecisionType.ActionlessTestPA);
 			//merge settings - overwrites exsiting entries
 			oProp.putAll(oPropImp);
 		}

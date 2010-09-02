@@ -24,6 +24,8 @@ public enum eDecisionType {
 	
 	PA,
 	
+	ActionlessTestPA,
+	
 	STUDENT_BORER,
 	
 	REMOTE,

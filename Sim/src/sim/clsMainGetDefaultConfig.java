@@ -93,6 +93,7 @@ public class clsMainGetDefaultConfig {
 		clsBWProperties.writeProperties(students.lifeCycle.JAM.clsLynxMind.getDefaultProperties(""), oDecisionUnitDir, "jam_lynx"+oSubExt, "");
 		clsBWProperties.writeProperties(students.lifeCycle.IfThenElse.clsLynxMind.getDefaultProperties(""), oDecisionUnitDir, "itthenelse_lynx"+oSubExt, "");
 		clsBWProperties.writeProperties(pa.clsPsychoAnalysis.getDefaultProperties(""), oDecisionUnitDir, "psychoanalysis"+oSubExt, "");
+		clsBWProperties.writeProperties(testbrains.clsActionlessTestPA.getDefaultProperties(""), oDecisionUnitDir, "pa_actionlesstest"+oSubExt, "");
 		
 		clsBWProperties.writeProperties(clsSimplePropertyLoader.getDefaultProperties("", true, true), clsGetARSPath.getConfigPath(), "simplePropertyLoader"+oMainExt, "");
 		
