@@ -15,7 +15,6 @@ import java.util.Queue;
 
 import config.clsBWProperties;
 import pa.clsInterfaceHandler;
-import pa.enums.eActState;
 import pa.interfaces.knowledgebase.itfKnowledgeBaseAccess;
 import pa.interfaces.receive.I6_2_receive;
 import pa.interfaces.receive.I7_2_receive;
@@ -26,6 +25,7 @@ import pa.memorymgmt.datatypes.clsDataStructureContainer;
 import pa.memorymgmt.datatypes.clsDataStructurePA;
 import pa.memorymgmt.datatypes.clsSecondaryDataStructureContainer;
 import pa.memorymgmt.datatypes.clsWordPresentation;
+import pa.memorymgmt.enums.eActState;
 import pa.memorymgmt.enums.eDataType;
 import pa.tools.clsPair;
 import pa.tools.clsTripple;
@@ -40,8 +40,8 @@ import pa.tools.clsTripple;
 public class E28_KnowledgeBase_StoredScenarios extends clsModuleBase implements I7_2_receive, I6_2_send, itfKnowledgeBaseAccess {
 	private final Integer mnNodeLimit = 100;
 	
-	public ArrayList<clsSecondaryDataStructureContainer> moGoal_Input; 
-	public ArrayList<clsAct> moPlan_Output; 
+	private ArrayList<clsSecondaryDataStructureContainer> moGoal_Input; 
+	private ArrayList<clsAct> moPlan_Output; 
 			
 	/**
 	 * DOCUMENT (deutsch) - insert description 
@@ -96,6 +96,26 @@ public class E28_KnowledgeBase_StoredScenarios extends clsModuleBase implements 
 	@Override
 	protected void setPsychicInstances() {
 		mnPsychicInstances = ePsychicInstances.EGO;
+	}
+	
+	/**
+	 * @author zeilinger
+	 * 02.09.2010, 12:32:06
+	 * 
+	 * @return the moGoal_Input
+	 */
+	public ArrayList<clsSecondaryDataStructureContainer> getMoGoal_Input() {
+		return moGoal_Input;
+	}
+
+	/**
+	 * @author zeilinger
+	 * 02.09.2010, 12:32:06
+	 * 
+	 * @return the moPlan_Output
+	 */
+	public ArrayList<clsAct> getMoPlan_Output() {
+		return moPlan_Output;
 	}
 
 	/* (non-Javadoc)
