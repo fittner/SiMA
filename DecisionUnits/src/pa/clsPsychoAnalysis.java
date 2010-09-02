@@ -8,6 +8,7 @@ package pa;
 
 import config.clsBWProperties;
 import decisionunit.clsBaseDecisionUnit;
+import du.enums.eDecisionType;
 
 /**
  * DOCUMENT (deutsch) - insert description 
@@ -71,6 +72,19 @@ public class clsPsychoAnalysis extends clsBaseDecisionUnit {
 	 */
 	public clsProcessor getProcessor() {
 		return moProcessor;
+	}
+
+	/* (non-Javadoc)
+	 *
+	 * @author deutsch
+	 * 02.09.2010, 15:53:45
+	 * 
+	 * @see decisionunit.clsBaseDecisionUnit#setDecisionUnitType()
+	 */
+	@Override
+	protected void setDecisionUnitType() {
+		meDecisionType = eDecisionType.PA;
+		
 	}
 
 }

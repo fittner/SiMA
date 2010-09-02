@@ -9,6 +9,7 @@ import config.clsBWProperties;
 import decisionunit.clsBaseDecisionUnit;
 import du.enums.eActionMoveDirection;
 import du.enums.eActionTurnDirection;
+import du.enums.eDecisionType;
 import du.enums.eEntityType;
 import du.enums.eSensorExtType;
 import du.enums.eSensorIntType;
@@ -216,4 +217,17 @@ public class clsLynxMind extends clsRemoteControl  {
 	protected void killHare(itfActionProcessor poActionProcessor) {
 		super.kill(poActionProcessor, eEntityType.HARE);
 	}
+	
+	/* (non-Javadoc)
+	 *
+	 * @author deutsch
+	 * 02.09.2010, 15:55:49
+	 * 
+	 * @see decisionunit.clsBaseDecisionUnit#setDecisionUnitType()
+	 */
+	@Override
+	protected void setDecisionUnitType() {
+		meDecisionType = eDecisionType.LYNX_IFTHENELSE;
+		
+	}	
 }

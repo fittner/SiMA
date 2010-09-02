@@ -12,6 +12,7 @@ import config.clsBWProperties;
 import decisionunit.clsBaseDecisionUnit;
 import du.enums.eActionMoveDirection;
 import du.enums.eActionTurnDirection;
+import du.enums.eDecisionType;
 import du.enums.eEntityType;
 import du.enums.eSensorExtType;
 import du.enums.eSensorIntType;
@@ -207,6 +208,19 @@ public class clsDumbMindA extends clsBaseDecisionUnit {
 		
 		//clsActionCommandContainer oCommands = new clsActionCommandContainer();
 		//oCommands.addMoveAction( clsMotionAction.creatAction(eActionCommandMotion.MOVE_FORWARD));
+		
+	}
+
+	/* (non-Javadoc)
+	 *
+	 * @author deutsch
+	 * 02.09.2010, 15:54:24
+	 * 
+	 * @see decisionunit.clsBaseDecisionUnit#setDecisionUnitType()
+	 */
+	@Override
+	protected void setDecisionUnitType() {
+		meDecisionType = eDecisionType.DUMB_MIND_A;
 		
 	}
 

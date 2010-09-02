@@ -8,6 +8,7 @@ import config.clsBWProperties;
 import decisionunit.clsBaseDecisionUnit;
 import du.enums.eActionMoveDirection;
 import du.enums.eActionTurnDirection;
+import du.enums.eDecisionType;
 import du.enums.eEntityType;
 import du.enums.eSensorExtType;
 import du.enums.eSensorIntType;
@@ -219,4 +220,16 @@ public class clsHareMind extends clsRemoteControl { //should be derived from cls
 		super.eat(poActionProcessor, eEntityType.CARROT);
 	}
 	
+	/* (non-Javadoc)
+	 *
+	 * @author deutsch
+	 * 02.09.2010, 15:55:49
+	 * 
+	 * @see decisionunit.clsBaseDecisionUnit#setDecisionUnitType()
+	 */
+	@Override
+	protected void setDecisionUnitType() {
+		meDecisionType = eDecisionType.HARE_IFTHENELSE;
+		
+	}	
 }

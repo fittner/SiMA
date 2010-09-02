@@ -1,6 +1,7 @@
 package decisionunit;
 
 import config.clsBWProperties;
+import du.enums.eDecisionType;
 import du.itf.itfDecisionUnit;
 import du.itf.actions.itfActionProcessor;
 import du.itf.sensors.clsSensorData;
@@ -9,8 +10,10 @@ public abstract class clsBaseDecisionUnit implements itfDecisionUnit {
 	private clsSensorData moSensorData;
 	private itfActionProcessor moActionProcessor;
 	private String moActionProcessorToHTML;
+	protected eDecisionType meDecisionType;
 
 	public clsBaseDecisionUnit(String poPrefix, clsBWProperties poProp) {
+		setDecisionUnitType();
 		applyProperties(poPrefix, poProp);
 	}
 	
@@ -66,5 +69,12 @@ public abstract class clsBaseDecisionUnit implements itfDecisionUnit {
 	private void applyProperties(String poPrefix, clsBWProperties poProp) {
 //		String pre = clsBWProperties.addDot(poPrefix);
 
-	}	
+	}
+	
+	@Override
+	public eDecisionType getDecisionUnitType() {
+		return meDecisionType;
+	}
+	
+	protected abstract void setDecisionUnitType();
 }

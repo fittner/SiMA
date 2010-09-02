@@ -2,6 +2,7 @@ package students.lifeCycle.JAM;
 
 import config.clsBWProperties;
 import decisionunit.clsBaseDecisionUnit;
+import du.enums.eDecisionType;
 
 public class clsLynxMind extends clsBaseDecisionUnit  {
 	public clsLynxMind(String poPrefix, clsBWProperties poProp) {
@@ -28,6 +29,19 @@ public class clsLynxMind extends clsBaseDecisionUnit  {
 	@Override
 	public void process() {
 		// TODO (deutsch) - Auto-generated method stub
+	}
+
+	/* (non-Javadoc)
+	 *
+	 * @author deutsch
+	 * 02.09.2010, 15:57:34
+	 * 
+	 * @see decisionunit.clsBaseDecisionUnit#setDecisionUnitType()
+	 */
+	@Override
+	protected void setDecisionUnitType() {
+		meDecisionType = eDecisionType.LYNX_JAM;
+		
 	}
 
 }

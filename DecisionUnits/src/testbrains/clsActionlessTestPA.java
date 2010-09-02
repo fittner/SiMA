@@ -8,6 +8,7 @@ package testbrains;
 
 import pa.clsPsychoAnalysis;
 import config.clsBWProperties;
+import du.enums.eDecisionType;
 
 /**
  * TESTBRAIN for Clemens Muchitsch. It is a specialization of pa.clsPsychoAnalysis. What it does, it resets the actionprocessor in each process step. Thus, this decision unit processes incommiung data and performs every step but has no impact on the world or on the body.  
@@ -44,4 +45,16 @@ public class clsActionlessTestPA extends clsPsychoAnalysis {
 		//moProcessor.getActionCommands( getActionProcessor() ); //removed on pupose
 	}
 
+	/* (non-Javadoc)
+	 *
+	 * @author deutsch
+	 * 02.09.2010, 15:57:34
+	 * 
+	 * @see decisionunit.clsBaseDecisionUnit#setDecisionUnitType()
+	 */
+	@Override
+	protected void setDecisionUnitType() {
+		meDecisionType = eDecisionType.ActionlessTestPA;
+		
+	}	
 }

@@ -14,6 +14,7 @@ import du.enums.eActionKissIntensity;
 import du.enums.eActionMoveDirection;
 import du.enums.eActionSleepIntensity;
 import du.enums.eActionTurnDirection;
+import du.enums.eDecisionType;
 import du.enums.eEntityType;
 import du.enums.eSensorExtType;
 import du.itf.itfProcessKeyPressed;
@@ -315,6 +316,19 @@ public class clsRemoteControl extends clsBaseDecisionUnit implements itfProcessK
 		    }     
 		}
 		mnStepCounter++;
+	}
+
+	/* (non-Javadoc)
+	 *
+	 * @author deutsch
+	 * 02.09.2010, 15:55:20
+	 * 
+	 * @see decisionunit.clsBaseDecisionUnit#setDecisionUnitType()
+	 */
+	@Override
+	protected void setDecisionUnitType() {
+		meDecisionType = eDecisionType.REMOTE;
+		
 	}
 	
 	

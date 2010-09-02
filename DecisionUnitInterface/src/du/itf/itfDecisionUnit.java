@@ -6,6 +6,7 @@
  */
 package du.itf;
 
+import du.enums.eDecisionType;
 import du.itf.actions.itfActionProcessor;
 import du.itf.sensors.clsSensorData;
 
@@ -21,4 +22,5 @@ public interface itfDecisionUnit {
 	public void setActionProcessor(itfActionProcessor poActionProcessor);
 	public void update(clsSensorData poSensorData);
 	public void updateActionProcessorToHTML();
+	public eDecisionType getDecisionUnitType();
 }

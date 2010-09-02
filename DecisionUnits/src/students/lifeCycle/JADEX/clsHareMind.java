@@ -2,6 +2,7 @@ package students.lifeCycle.JADEX;
 
 import config.clsBWProperties;
 import decisionunit.clsBaseDecisionUnit;
+import du.enums.eDecisionType;
 
 public class clsHareMind extends clsBaseDecisionUnit {
 
@@ -29,5 +30,18 @@ public class clsHareMind extends clsBaseDecisionUnit {
 	private void applyProperties(String poPrefix, clsBWProperties poProp) {
 //		String pre = clsBWProperties.addDot(poPrefix);
 
+	}
+
+	/* (non-Javadoc)
+	 *
+	 * @author deutsch
+	 * 02.09.2010, 15:55:49
+	 * 
+	 * @see decisionunit.clsBaseDecisionUnit#setDecisionUnitType()
+	 */
+	@Override
+	protected void setDecisionUnitType() {
+		meDecisionType = eDecisionType.HARE_JADEX;
+		
 	}
 }

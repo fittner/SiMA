@@ -11,6 +11,7 @@ package simple.reactive;
 import decisionunit.clsBaseDecisionUnit;
 import du.enums.eActionMoveDirection;
 import du.enums.eActionTurnDirection;
+import du.enums.eDecisionType;
 import du.enums.eEntityType;
 import du.enums.eSensorExtType;
 import du.enums.eSensorIntType;
@@ -547,5 +548,18 @@ public class clsReactive extends clsBaseDecisionUnit {
 	
 	public Action geActionInProgress(){
 		return moActionInProgress;		
+	}
+
+	/* (non-Javadoc)
+	 *
+	 * @author deutsch
+	 * 02.09.2010, 15:54:37
+	 * 
+	 * @see decisionunit.clsBaseDecisionUnit#setDecisionUnitType()
+	 */
+	@Override
+	protected void setDecisionUnitType() {
+		meDecisionType = eDecisionType.FUNGUS_EATER;
+		
 	}
 }
