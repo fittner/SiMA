@@ -14,6 +14,7 @@ import pa.interfaces.receive.I7_4_receive;
 import pa.interfaces.receive.I8_1_receive;
 import pa.interfaces.send.I8_1_send;
 import pa.loader.plan.clsPlanAction;
+import pa.memorymgmt.datatypes.clsWordPresentation;
 
 /**
  * DOCUMENT (deutsch) - insert description 
@@ -24,8 +25,11 @@ import pa.loader.plan.clsPlanAction;
  */
 public class E30_MotilityControl extends clsModuleBase implements I7_4_receive, I8_1_send {
 
-	private ArrayList<clsPlanAction> moActionCommands_Input;
-	private ArrayList<clsPlanAction> moActionCommands_Output;
+	private ArrayList<clsPlanAction> moActionCommands_Input_old;
+	private ArrayList<clsPlanAction> moActionCommands_Output_old;
+	
+	private ArrayList<clsWordPresentation> moActionCommands_Input;
+	private ArrayList<clsWordPresentation> moActionCommands_Output;
 
 	/**
 	 * DOCUMENT (deutsch) - insert description 
@@ -42,9 +46,30 @@ public class E30_MotilityControl extends clsModuleBase implements I7_4_receive, 
 		super(poPrefix, poProp, poEnclosingContainer, poInterfaceHandler);
 		applyProperties(poPrefix, poProp);	
 		
-		moActionCommands_Output = new ArrayList<clsPlanAction>();
+		moActionCommands_Output_old = new ArrayList<clsPlanAction>();
+		moActionCommands_Output = new ArrayList<clsWordPresentation>(); 
 	}
 	
+	/**
+	 * @author zeilinger
+	 * 02.09.2010, 20:10:34
+	 * 
+	 * @return the moActionCommands_Output
+	 */
+	public ArrayList<clsWordPresentation> getActionCommands_Output() {
+		return moActionCommands_Output;
+	}
+	
+	/**
+	 * @author zeilinger
+	 * 02.09.2010, 20:10:34
+	 * 
+	 * @return the moActionCommands_Input
+	 */
+	public ArrayList<clsWordPresentation> getActionCommands_Input() {
+		return moActionCommands_Input;
+	}
+
 	public static clsBWProperties getDefaultProperties(String poPrefix) {
 		String pre = clsBWProperties.addDot(poPrefix);
 		
@@ -93,8 +118,9 @@ public class E30_MotilityControl extends clsModuleBase implements I7_4_receive, 
 	 */
 	@SuppressWarnings("unchecked")
 	@Override
-	public void receive_I7_4(ArrayList<clsPlanAction> poActionCommands) {
-		moActionCommands_Input = (ArrayList<clsPlanAction>) deepCopy(poActionCommands);
+	public void receive_I7_4(ArrayList<clsPlanAction> poActionCommands_old, ArrayList<clsWordPresentation> poActionCommands) {
+		moActionCommands_Input_old = (ArrayList<clsPlanAction>) deepCopy(poActionCommands_old);
+		moActionCommands_Input = (ArrayList<clsWordPresentation>) deepCopy(poActionCommands); 
 	}
 
 	/* (non-Javadoc)
@@ -106,8 +132,8 @@ public class E30_MotilityControl extends clsModuleBase implements I7_4_receive, 
 	 */
 	@Override
 	protected void process_basic() {
-		moActionCommands_Output = moActionCommands_Input;
-		
+		moActionCommands_Output_old = moActionCommands_Input_old;
+		moActionCommands_Output = moActionCommands_Input; 
 	}
 
 	/* (non-Javadoc)
@@ -119,7 +145,7 @@ public class E30_MotilityControl extends clsModuleBase implements I7_4_receive, 
 	 */
 	@Override
 	protected void send() {
-		send_I8_1(moActionCommands_Output);
+		send_I8_1(moActionCommands_Output_old, moActionCommands_Output);
 		
 	}
 
@@ -131,8 +157,8 @@ public class E30_MotilityControl extends clsModuleBase implements I7_4_receive, 
 	 * @see pa.interfaces.send.I8_1_send#send_I8_1(java.util.ArrayList)
 	 */
 	@Override
-	public void send_I8_1(ArrayList<clsPlanAction> poActionCommands) {
-		((I8_1_receive)moEnclosingContainer).receive_I8_1(moActionCommands_Output);
+	public void send_I8_1(ArrayList<clsPlanAction> poActionCommands_old, ArrayList<clsWordPresentation> poActionCommands) {
+		((I8_1_receive)moEnclosingContainer).receive_I8_1(moActionCommands_Output_old, moActionCommands_Output);
 		
 	}
 

@@ -18,5 +18,5 @@ import pa.memorymgmt.datatypes.clsAct;
  * 
  */
 public interface I6_2_send {
-	public void send_I6_2(ArrayList<clsAct> poPlanOutput);
+	public void send_I6_2(ArrayList<ArrayList<clsAct>> poPlanOutput);
 }

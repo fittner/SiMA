@@ -38,10 +38,11 @@ import pa.tools.clsTripple;
  * 
  */
 public class E28_KnowledgeBase_StoredScenarios extends clsModuleBase implements I7_2_receive, I6_2_send, itfKnowledgeBaseAccess {
-	private final Integer mnNodeLimit = 100;
+	//TODO HZ has to be defined in a config file
+	private final Integer mnNodeLimit = 20;
 	
 	private ArrayList<clsSecondaryDataStructureContainer> moGoal_Input; 
-	private ArrayList<clsAct> moPlan_Output; 
+	private ArrayList<ArrayList<clsAct>> moPlan_Output; 
 			
 	/**
 	 * DOCUMENT (deutsch) - insert description 
@@ -114,7 +115,7 @@ public class E28_KnowledgeBase_StoredScenarios extends clsModuleBase implements 
 	 * 
 	 * @return the moPlan_Output
 	 */
-	public ArrayList<clsAct> getPlan_Output() {
+	public ArrayList<ArrayList<clsAct>> getPlan_Output() {
 		return moPlan_Output;
 	}
 
@@ -161,25 +162,27 @@ public class E28_KnowledgeBase_StoredScenarios extends clsModuleBase implements 
 	 * @return 
 	 *
 	 */
-	private ArrayList<clsAct> retrieveActsForGoals() {
+	private ArrayList<ArrayList<clsAct>> retrieveActsForGoals() {
 		//HZ retrieving ACTS from the memory strongly depend on the 
 		//design of Acts => actually it has to be differenciated between 
 		//the preconditions, the action and the consequences; however
 		//this may change with further implementations 
-		ArrayList<clsAct> oActResult = new ArrayList<clsAct>(); 
+		ArrayList<ArrayList<clsAct>> oResult = new ArrayList<ArrayList<clsAct>>(); 
 
 		for(clsSecondaryDataStructureContainer oCon : moGoal_Input){
 			String oActualState = ((clsWordPresentation)oCon.moDataStructure).moContent; 
-			//HZ not sure, but maybe a loop between E28 and E27 is required here; 
+			ArrayList<clsAct> oActPlan = new ArrayList<clsAct>(); 
+		    //HZ not sure, but maybe a loop between E28 and E27 is required here; 
 			// TODO: This is also a bit magic; ACTS are retrieved that include the actual object setup, no
 			//	matter if it fits the "precondition" or the "consequence"; normally it is not the 
 			//  task of the memory to introduce a filter that makes a difference between both parts; 
 			// however it can be thought about alternatives and possibilities to retrieve acts
 			// more efficiently. 
-			oActResult = backwardChaining(oActualState); 
+			oActPlan = backwardChaining(oActualState); 
+			oResult.add(oActPlan); 
 		}
 		
-		return oActResult; 
+		return oResult; 
 	}
 
 	/**
@@ -194,50 +197,80 @@ public class E28_KnowledgeBase_StoredScenarios extends clsModuleBase implements 
 	 */
 	private ArrayList<clsAct> backwardChaining(String poTargetState) {
 		
-		String oActualGoal; 
+		ArrayList<clsAct> oRetVal = new ArrayList<clsAct>(); 
 		String oDelimiter = "||";
 		boolean oSuccess = false; 
 						
-		clsAct oActTemp; 
-		Node parentNode; 
-		Graph oGraph = new Graph();
-		ArrayList<clsAct> oRetVal = new ArrayList<clsAct>(); 
+		String oPreCondition = poTargetState.substring(0, poTargetState.indexOf(oDelimiter)); 
+		clsAct oAct = getMatchingAct(oPreCondition).get(0); 
+		Graph oGraph = initGraph(oAct); 
 		
+		// In case the final state of the plan is reached,the actual
+		// act will match with the TargetState. This has to be 
+		// controlled before the while loop - otherwise the matching plan
+		// will not be found. The reason for this is the shifting between 
+		// act-precondition and act-consequence when the child nodes are 
+		// read
+		oSuccess = comparePreConditions(oAct.moContent, poTargetState);
+		if(oSuccess){oRetVal = new ArrayList<clsAct>(Arrays.asList(oAct));}
 		
-		oActualGoal = getContent(poTargetState.substring(0, poTargetState.indexOf(oDelimiter)));
-		oActTemp = generateAct(oActualGoal); 
-		oActTemp = retrieveMatch(oActTemp).get(0); 
-		parentNode = new Node(oActTemp, null); 
-		oGraph.setRootNode(parentNode);
-		oGraph.addNode(parentNode); 
-				
+		//If the current act does not match with the targetState => 
+		//search for the child nodes until oSuccess == true or
+		//the graph succeeds the node limit. 
 		while(!oSuccess){
 			
 			ArrayList<Node> oChildLessNode = oGraph.getChildLessNodes(); 
 			
 			for(Node oNode : oChildLessNode){
-					
 					ArrayList<clsAct> oActTempList = new ArrayList<clsAct>();
-					String oPreCondition = getPreCondition(oNode.label.moContent);  
-					oActualGoal = getContent(oPreCondition); 
-					oActTemp = generateAct(oActualGoal); 
-					oActTempList = retrieveMatch(oActTemp); 
-					oActTempList = fullMatch(oActTempList, oActTemp); 
+					oPreCondition = getPreCondition(oNode.label.moContent);  
+				    oActTempList = getMatchingAct(oPreCondition); 
 					
-					oGraph.addChildren(oNode, oActTempList); 
+				    oGraph.addChildren(oNode, oActTempList); 
 					oRetVal = bf_Search(poTargetState, oGraph); 
 					
 					if(oRetVal.size() > 0 || oActTempList.size() == 0){oSuccess = true;}
 			}
 		}
 		
-		if(oRetVal.size() == 0){
-			oRetVal.add(generateAct(getContent("ACTION:RANDOMIZED")));
-		}
-		
 		return oRetVal; 
 	}
 		
+	/**
+	 * DOCUMENT (zeilinger) - insert description
+	 *
+	 * @author zeilinger
+	 * 03.09.2010, 19:26:20
+	 *
+	 * @param oAct
+	 * @return
+	 */
+	private Graph initGraph(clsAct poAct) {
+		Graph oGraph = new Graph();
+		Node parentNode = new Node(poAct, null); 
+		oGraph.setRootNode(parentNode);
+		oGraph.addNode(parentNode);
+		
+		return oGraph;
+	}
+
+	/**
+	 * DOCUMENT (zeilinger) - insert description
+	 *
+	 * @author zeilinger
+	 * 03.09.2010, 18:56:20
+	 *
+	 * @param oActualGoal
+	 * @return
+	 */
+	private ArrayList<clsAct> getMatchingAct(String poPreCondition) {
+		String oActualGoal = getContent(poPreCondition);
+		clsAct oAct = generateAct(oActualGoal); 
+		ArrayList<clsAct> oList = retrieveMatch(oAct); 
+		
+		return fullMatch(oList, oAct); 
+	}
+
 	/**
 	 * DOCUMENT (zeilinger) - insert description
 	 *
@@ -288,7 +321,7 @@ public class E28_KnowledgeBase_StoredScenarios extends clsModuleBase implements 
 		oQueue.add(poGraph.getRootNode()); 
 		poGraph.getRootNode().visited = true; 
 		
-		while(!oQueue.isEmpty()){
+		label: while(!oQueue.isEmpty()){
 				Node oNode = (Node) oQueue.remove();
 				Node oChild = null; 
 			
@@ -302,6 +335,8 @@ public class E28_KnowledgeBase_StoredScenarios extends clsModuleBase implements 
 								oPath = poGraph.getPath(oChild); 
 								break;
 						}
+						
+						if(poGraph.nodes.size() == mnNodeLimit){break label;}
 				}
 		} 
 		poGraph.setUnvisited(); 
@@ -490,7 +525,7 @@ public class E28_KnowledgeBase_StoredScenarios extends clsModuleBase implements 
 	 * @see pa.interfaces.send.I6_2_send#send_I6_2(int)
 	 */
 	@Override
-	public void send_I6_2(ArrayList<clsAct> poPlanOutput) {
+	public void send_I6_2(ArrayList<ArrayList<clsAct>> poPlanOutput) {
 		((I6_2_receive)moEnclosingContainer).receive_I6_2(moPlan_Output);
 		
 	}

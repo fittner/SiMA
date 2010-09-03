@@ -151,7 +151,7 @@ public class clsThingPresentationMesh extends clsPhysicalStructureComposition{
 	public boolean contain(clsDataStructurePA poDataStructure){
 		
 		for(clsAssociation oAssociation : this.moAssociatedContent){
-			if((String)oAssociation.moAssociationElementB.moContentType.intern() == (String)poDataStructure.moContentType){
+			if((String)oAssociation.moAssociationElementB.moContentType.intern() == poDataStructure.moContentType.intern()){
 				return true;
 			}
 		}

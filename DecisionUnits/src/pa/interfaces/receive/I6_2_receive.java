@@ -19,5 +19,5 @@ import pa.memorymgmt.datatypes.clsAct;
  * 
  */
 public interface I6_2_receive extends I_BaseInterface {
-	public void receive_I6_2(ArrayList<clsAct> poPlanOutput);
+	public void receive_I6_2(ArrayList<ArrayList<clsAct>> poPlanOutput);
 }

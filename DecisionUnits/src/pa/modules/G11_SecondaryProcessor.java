@@ -28,6 +28,7 @@ import pa.memory.clsMemory;
 import pa.memorymgmt.clsKnowledgeBaseHandler;
 import pa.memorymgmt.datatypes.clsAct;
 import pa.memorymgmt.datatypes.clsSecondaryDataStructureContainer;
+import pa.memorymgmt.datatypes.clsWordPresentation;
 import pa.tools.clsPair;
 import config.clsBWProperties;
 
@@ -191,7 +192,7 @@ public class G11_SecondaryProcessor extends clsModuleContainer implements
 	 * @see pa.interfaces.I6_2#receive_I6_2(int)
 	 */
 	@Override
-	public void receive_I6_2(ArrayList<clsAct> poPlanOutput) {
+	public void receive_I6_2(ArrayList<ArrayList<clsAct>> poPlanOutput) {
 		moG15Deliberation.receive_I6_2(poPlanOutput);
 	}
 
@@ -215,8 +216,8 @@ public class G11_SecondaryProcessor extends clsModuleContainer implements
 	 * @see pa.interfaces.I7_4#receive_I7_4(int)
 	 */
 	@Override
-	public void receive_I7_4(ArrayList<clsPlanAction> poActionCommands) {
-		((I7_4_receive)moEnclosingContainer).receive_I7_4(poActionCommands);
+	public void receive_I7_4(ArrayList<clsPlanAction> poActionCommands_old, ArrayList<clsWordPresentation> poActionCommands) {
+		((I7_4_receive)moEnclosingContainer).receive_I7_4(poActionCommands_old, poActionCommands);
 	}
 
 	/* (non-Javadoc)
@@ -227,7 +228,7 @@ public class G11_SecondaryProcessor extends clsModuleContainer implements
 	 * @see pa.interfaces.I7_3#receive_I7_3(java.util.ArrayList)
 	 */
 	@Override
-	public void receive_I7_3(ArrayList<clsPlanAction> poActionCommands) {
+	public void receive_I7_3(ArrayList<clsPlanAction> poActionCommands_old, ArrayList<clsWordPresentation> poActionCommands) {
 		// TODO (deutsch) - Auto-generated method stub
 		
 	}

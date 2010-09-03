@@ -21,6 +21,7 @@ import pa.memory.clsMemory;
 import pa.memorymgmt.clsKnowledgeBaseHandler;
 import pa.memorymgmt.datatypes.clsAct;
 import pa.memorymgmt.datatypes.clsSecondaryDataStructureContainer;
+import pa.memorymgmt.datatypes.clsWordPresentation;
 import config.clsBWProperties;
 
 /**
@@ -118,7 +119,7 @@ public class G16_SecondaryKnowledgeUtilizer extends clsModuleContainer implement
 	 * @see pa.interfaces.I6_2#receive_I6_2(int)
 	 */
 	@Override
-	public void receive_I6_2(ArrayList<clsAct> poPlanOutput) {
+	public void receive_I6_2(ArrayList<ArrayList<clsAct>> poPlanOutput) {
 		((I6_2_receive)moEnclosingContainer).receive_I6_2(poPlanOutput);
 	}
 
@@ -142,8 +143,8 @@ public class G16_SecondaryKnowledgeUtilizer extends clsModuleContainer implement
 	 * @see pa.interfaces.I7_3#receive_I7_3(java.util.ArrayList)
 	 */
 	@Override
-	public void receive_I7_3(ArrayList<clsPlanAction> poActionCommands) {
-		moE34KnowledgeAboutReality2.receive_I7_3(poActionCommands);
+	public void receive_I7_3(ArrayList<clsPlanAction> poActionCommands_old, ArrayList<clsWordPresentation> poActionCommands) {
+		moE34KnowledgeAboutReality2.receive_I7_3(poActionCommands_old, poActionCommands);
 		
 	}
 

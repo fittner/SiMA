@@ -44,6 +44,7 @@ import pa.memorymgmt.datatypes.clsAssociationDriveMesh;
 import pa.memorymgmt.datatypes.clsDriveMesh;
 import pa.memorymgmt.datatypes.clsPrimaryDataStructureContainer;
 import pa.memorymgmt.datatypes.clsSecondaryDataStructureContainer;
+import pa.memorymgmt.datatypes.clsWordPresentation;
 import pa.symbolization.representationsymbol.itfSymbol;
 import pa.tools.clsPair;
 import config.clsBWProperties;
@@ -376,8 +377,8 @@ public class G00_PsychicApparatus extends clsModuleContainer implements
 	 * @see pa.interfaces.I8_1#receive_I8_1(int)
 	 */
 	@Override
-	public void receive_I8_1(ArrayList<clsPlanAction> poActionCommands) {
-		moG01Body.receive_I8_1(poActionCommands);
+	public void receive_I8_1(ArrayList<clsPlanAction> poActionCommands_old, ArrayList<clsWordPresentation> poActionCommands) {
+		moG01Body.receive_I8_1(poActionCommands_old, poActionCommands);
 		
 	}
 

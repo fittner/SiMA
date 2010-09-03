@@ -206,15 +206,13 @@ public class E16_ManagementOfMemoryTraces extends clsModuleBase implements I2_6_
 			//=> Hence the container can be read out directly below; 
 			oSearchResult = accessKnowledgeBase().get(0).get(0).b;
 			
-			if(oSearchResult.moAssociatedDataStructures != null){
-				for(clsAssociation oAssociation : oSearchResult.moAssociatedDataStructures){
+			for(clsAssociation oAssociation : oSearchResult.moAssociatedDataStructures){
 						clsDriveMesh oFoundDM = ((clsAssociationDriveMesh)oAssociation).getDM(); 
 						
 						if(oRepressedContent.moContentType.equals(oFoundDM.moContentType)){
 							oRetVal.add(oFoundDM); 
 						}
 				}
-			}
 							
 			return oRetVal; 
 	}

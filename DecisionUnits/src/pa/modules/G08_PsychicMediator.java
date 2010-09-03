@@ -40,6 +40,7 @@ import pa.memorymgmt.datatypes.clsAssociationDriveMesh;
 import pa.memorymgmt.datatypes.clsDriveMesh;
 import pa.memorymgmt.datatypes.clsPrimaryDataStructureContainer;
 import pa.memorymgmt.datatypes.clsSecondaryDataStructureContainer;
+import pa.memorymgmt.datatypes.clsWordPresentation;
 import pa.tools.clsPair;
 import config.clsBWProperties;
 
@@ -336,8 +337,8 @@ public class G08_PsychicMediator extends clsModuleContainer implements
 	 * @see pa.interfaces.I7_4#receive_I7_4(int)
 	 */
 	@Override
-	public void receive_I7_4(ArrayList<clsPlanAction> poActionCommands) {
-		((I7_4_receive)moEnclosingContainer).receive_I7_4(poActionCommands);
+	public void receive_I7_4(ArrayList<clsPlanAction> poActionCommands_old, ArrayList<clsWordPresentation> poActionCommands) {
+		((I7_4_receive)moEnclosingContainer).receive_I7_4(poActionCommands_old, poActionCommands);
 	}
 
 	/* (non-Javadoc)

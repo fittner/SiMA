@@ -6,6 +6,7 @@
  */
 package du.itf.sensors;
 
+import java.lang.reflect.Field;
 import java.util.ArrayList;
 
 import du.enums.eEntityType;
@@ -19,10 +20,37 @@ import du.enums.eTriState;
  * 22.09.2009, 13:09:45
  * 
  */
-public class clsEatableAreaEntry extends clsSensorRingSegmentEntry{
+public class clsEatableAreaEntry extends clsVisionEntry {
 	protected eTriState mnIsAlive = eTriState.UNDEFINED;
 	protected eTriState mnIsConsumeable = eTriState.UNDEFINED;
 	protected String moClassName;
+	
+	
+	public clsEatableAreaEntry(clsVisionEntry poEntry) {
+		super();
+		
+		//ATTENTION: getDeclaredFields ONLY returns the member of the given class - NOT THE SUPERCLASSES!!!!
+		Field[] oFields1 = clsVisionEntry.class.getDeclaredFields();
+		Field[] oFields2 = clsSensorRingSegmentEntry.class.getDeclaredFields();
+		
+		Field[] oFields = new Field[oFields1.length+oFields2.length];
+		for(int i=0; i<oFields1.length; i++) { oFields[i]=oFields1[i]; }
+		for(int i=0; i<oFields2.length; i++) { oFields[i+oFields1.length]=oFields2[i]; }
+		
+		for (Field oF:oFields) {
+			Object value;
+			try {
+				value = oF.get(poEntry);
+				oF.set(this, value);
+			} catch (IllegalArgumentException e) {
+				// TODO (deutsch) - Auto-generated catch block
+				e.printStackTrace();
+			} catch (IllegalAccessException e) {
+				// TODO (deutsch) - Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+	}
 	
 	public eTriState getIsAlive() {
 		return mnIsAlive;

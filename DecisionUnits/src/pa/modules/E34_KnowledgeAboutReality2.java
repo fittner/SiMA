@@ -18,6 +18,7 @@ import pa.interfaces.send.I7_5_send;
 import pa.loader.plan.clsPlanAction;
 import pa.memorymgmt.datatypes.clsDataStructureContainer;
 import pa.memorymgmt.datatypes.clsDataStructurePA;
+import pa.memorymgmt.datatypes.clsWordPresentation;
 import pa.memorymgmt.enums.eDataType;
 import pa.tools.clsPair;
 
@@ -121,7 +122,7 @@ public class E34_KnowledgeAboutReality2 extends clsModuleBase implements I7_3_re
 	 * @see pa.interfaces.I7_3#receive_I7_3(java.util.ArrayList)
 	 */
 	@Override
-	public void receive_I7_3(ArrayList<clsPlanAction> poActionCommands) {
+	public void receive_I7_3(ArrayList<clsPlanAction> poActionCommands_old, ArrayList<clsWordPresentation> poActionCommands) {
 		// TODO (deutsch) - Auto-generated method stub
 		
 	}

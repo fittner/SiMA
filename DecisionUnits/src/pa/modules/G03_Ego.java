@@ -22,6 +22,7 @@ import pa.memorymgmt.datatypes.clsAssociationDriveMesh;
 import pa.memorymgmt.datatypes.clsDriveMesh;
 import pa.memorymgmt.datatypes.clsPrimaryDataStructureContainer;
 import pa.memorymgmt.datatypes.clsSecondaryDataStructureContainer;
+import pa.memorymgmt.datatypes.clsWordPresentation;
 import pa.symbolization.representationsymbol.itfSymbol;
 import pa.tools.clsPair;
 import pa.interfaces.receive.I1_5_receive;
@@ -291,8 +292,8 @@ public class G03_Ego extends clsModuleContainer implements
 	 * @see pa.interfaces.I7_4#receive_I7_4(int)
 	 */
 	@Override
-	public void receive_I7_4(ArrayList<clsPlanAction> poActionCommands) {
-		moG07EnvironmentalInterfaceFunctions.receive_I7_4(poActionCommands);
+	public void receive_I7_4(ArrayList<clsPlanAction> poActionCommands_old, ArrayList<clsWordPresentation> poActionCommands) {
+		moG07EnvironmentalInterfaceFunctions.receive_I7_4(poActionCommands_old, poActionCommands);
 	}
 
 	/* (non-Javadoc)
@@ -316,8 +317,8 @@ public class G03_Ego extends clsModuleContainer implements
 	 * @see pa.interfaces.I8_1#receive_I8_1(int)
 	 */
 	@Override
-	public void receive_I8_1(ArrayList<clsPlanAction> poActionCommands) {
-		((I8_1_receive)moEnclosingContainer).receive_I8_1(poActionCommands);
+	public void receive_I8_1(ArrayList<clsPlanAction> poActionCommands_old, ArrayList<clsWordPresentation> poActionCommands) {
+		((I8_1_receive)moEnclosingContainer).receive_I8_1(poActionCommands_old, poActionCommands);
 		
 	}
 

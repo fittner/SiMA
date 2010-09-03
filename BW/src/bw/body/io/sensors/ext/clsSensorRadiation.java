@@ -10,7 +10,7 @@ package bw.body.io.sensors.ext;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Iterator;
+import java.util.Map;
 
 import config.clsBWProperties;
 import du.enums.eEntityType;
@@ -102,22 +102,19 @@ public class clsSensorRadiation extends clsSensorExt {
 			ArrayList<clsCollidingObject> peDetectedObjInAreaList) {
 		
 		setDetectedObjectsList(pnAreaRange, peDetectedObjInAreaList);
-		//computeDataDeliveredToDU();
-		computeRadiation(); 
+	    computeRadiation(); 
 	}
 	
     public void computeRadiation(){
 		//double rDistance;
 		// clear radiation information before new value calculation
 		mrRadiation = 0;
-		HashMap<Double, ArrayList<clsCollidingObject>> eDetectedObjectList = moSensorData.getMeDetectedObject();
+		HashMap<Double, ArrayList<clsCollidingObject>> oetectedObjectList = moSensorData.getMeDetectedObject();
 		
-		for(ArrayList<clsCollidingObject> element : eDetectedObjectList.values())
+		for(Map.Entry<Double, ArrayList<clsCollidingObject>> oEntry : moSensorData.getMeDetectedObject().entrySet())
 		{
-			Iterator <clsCollidingObject> itr = element.iterator(); 
-			while(itr.hasNext()){
-				clsCollidingObject oCollidingObject = itr.next();  
-				clsEntity oEntity = getEntity(oCollidingObject.moCollider); 
+			for(clsCollidingObject oCollider : oEntry.getValue()){
+				clsEntity oEntity = getEntity(oCollider.moCollider); 
 				
 				if(oEntity.getEntityType() == eEntityType.URANIUM && oEntity.isRegistered()){
 //FIXME  this calculation has to be adapted to the actual Radiation calculation

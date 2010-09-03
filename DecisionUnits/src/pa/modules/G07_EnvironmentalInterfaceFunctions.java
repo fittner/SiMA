@@ -15,6 +15,7 @@ import pa.loader.plan.clsPlanAction;
 import pa.memory.clsMemory;
 import pa.memorymgmt.clsKnowledgeBaseHandler;
 import pa.memorymgmt.datatypes.clsPrimaryDataStructureContainer;
+import pa.memorymgmt.datatypes.clsWordPresentation;
 import pa.symbolization.representationsymbol.itfSymbol;
 import pa.interfaces.receive.I2_2_receive;
 import pa.interfaces.receive.I2_4_receive;
@@ -111,8 +112,8 @@ public class G07_EnvironmentalInterfaceFunctions extends clsModuleContainer impl
 	 * @see pa.interfaces.I7_4#receive_I7_4(int)
 	 */
 	@Override
-	public void receive_I7_4(ArrayList<clsPlanAction> poActionCommands) {
-		moE30MotilityControl.receive_I7_4(poActionCommands);
+	public void receive_I7_4(ArrayList<clsPlanAction> poActionCommands_old, ArrayList<clsWordPresentation> poActionCommands) {
+		moE30MotilityControl.receive_I7_4(poActionCommands_old, poActionCommands);
 	}
 
 	/* (non-Javadoc)
@@ -136,8 +137,8 @@ public class G07_EnvironmentalInterfaceFunctions extends clsModuleContainer impl
 	 * @see pa.interfaces.I8_1#receive_I8_1(int)
 	 */
 	@Override
-	public void receive_I8_1(ArrayList<clsPlanAction> poActionCommands) {
-		((I8_1_receive)moEnclosingContainer).receive_I8_1(poActionCommands);
+	public void receive_I8_1(ArrayList<clsPlanAction> poActionCommands_old, ArrayList<clsWordPresentation> poActionCommands) {
+		((I8_1_receive)moEnclosingContainer).receive_I8_1(poActionCommands_old, poActionCommands);
 		
 	}
 }

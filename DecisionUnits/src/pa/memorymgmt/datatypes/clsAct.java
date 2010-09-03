@@ -79,8 +79,6 @@ public class clsAct extends clsSecondaryDataStructure {
 		if(this.moDataStructureType != poDataStructure.moDataStructureType){return oRetVal;}
 
 		clsAct oDataStructure = (clsAct)poDataStructure;
-		ArrayList <clsSecondaryDataStructure> oContentListTemplate = this.moAssociatedContent; 
-		ArrayList <clsSecondaryDataStructure> oContentListUnknown = oDataStructure.moAssociatedContent;
 		
 		//This if statement proofs if the compared datastructure does already have an ID =>
 		//the ID sepcifies that the data structure has been already compared with a stored

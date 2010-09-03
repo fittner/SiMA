@@ -10,7 +10,6 @@ package bw.body.brainsocket;
 import java.awt.Color;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.Map;
 import config.clsBWProperties;
 import sim.physics2D.physicalObject.PhysicalObject2D;
@@ -50,6 +49,7 @@ import ARSsim.physics2D.util.clsPolarcoordinate;
 import bfg.utils.enums.eCount;
 import bw.body.itfStepProcessing;
 import bw.body.attributes.clsAttributeAlive;
+import bw.body.io.sensors.ext.clsSensorManipulateArea;
 import bw.body.io.sensors.ext.clsSensorVision;
 import bw.body.io.sensors.ext.clsSensorEatableArea;
 import bw.body.io.sensors.ext.clsSensorBump;
@@ -134,11 +134,10 @@ public class clsBrainSocket implements itfStepProcessing {
 		oData.addSensorExt(eSensorExtType.BUMP, convertBumpSensor() );
 		oData.addSensorExt(eSensorExtType.POSITIONCHANGE, convertPositionChangeSensor(eSensorExtType.POSITIONCHANGE) );
 		oData.addSensorExt(eSensorExtType.RADIATION, convertRadiationSensor() );
-		oData.addSensorExt(eSensorExtType.VISION, convertVisionSensor(eSensorExtType.VISION) );
 		oData.addSensorExt(eSensorExtType.VISION_NEAR, convertVisionSensor(eSensorExtType.VISION_NEAR) );
 		oData.addSensorExt(eSensorExtType.VISION_MEDIUM, convertVisionSensor(eSensorExtType.VISION_MEDIUM) );
 		oData.addSensorExt(eSensorExtType.VISION_FAR, convertVisionSensor(eSensorExtType.VISION_FAR) );
-		oData.addSensorExt(eSensorExtType.EATABLE_AREA, convertEatAbleAreaSensor() );
+		oData.addSensorExt(eSensorExtType.EATABLE_AREA, convertEatAbleAreaSensor(eSensorExtType.EATABLE_AREA) );
 		oData.addSensorExt(eSensorExtType.MANIPULATE_AREA, convertManipulateSensor(eSensorExtType.MANIPULATE_AREA) );
 		//ad homeostasis sensor data
 		oData.addSensorInt(eSensorIntType.ENERGY_CONSUMPTION, convertEnergySystem() );
@@ -317,48 +316,88 @@ public class clsBrainSocket implements itfStepProcessing {
 		
 	}
 
+	/**
+	 * DOCUMENT (zeilinger) - insert description
+	 *
+	 * @author zeilinger
+	 * 03.09.2010, 11:21:14
+	 *
+	 * @param poVisionType
+	 * @return
+	 */
 	private clsVision convertVisionSensor(eSensorExtType poVisionType) {
 		clsVision oData = new clsVision();
 		oData.setSensorType(poVisionType);
 		clsSensorVision oVision = (clsSensorVision)(moSensorsExt.get(poVisionType));
-		if(oVision != null) {
-			ArrayList<clsCollidingObject> eDetectedObjectList = oVision.getSensorData();
-	
-			Iterator <clsCollidingObject> i = eDetectedObjectList.iterator(); 
-			while(i.hasNext()){
-				clsVisionEntry oEntry = convertVisionEntry(i.next(), poVisionType);
-				
-				if (oEntry != null) {
-					oEntry.setNumEntitiesPresent( setMeNumber(eDetectedObjectList.size()) );
-					oData.add(oEntry);
-				}	
-			}
+		ArrayList<clsCollidingObject> oDetectedObjectList = oVision.getSensorData();
+		
+		for(clsCollidingObject oCollider : oDetectedObjectList){
+			clsVisionEntry oEntry = convertVisionEntry(oCollider, poVisionType);
+			oEntry.setNumEntitiesPresent(setMeNumber(oDetectedObjectList.size()) );
+			oData.add(oEntry);
 		}
+		
 		return oData;
 	}
 	
+	/**
+	 * DOCUMENT (zeilinger) - insert description
+	 *
+	 * @author zeilinger
+	 * 03.09.2010, 11:21:18
+	 *
+	 * @param poVisionType
+	 * @return
+	 */
 	private clsManipulateArea convertManipulateSensor(eSensorExtType poVisionType) {
 		clsManipulateArea oData = new clsManipulateArea();
 		oData.setSensorType(poVisionType);
-		bw.body.io.sensors.ext.clsSensorManipulateArea oManip = (bw.body.io.sensors.ext.clsSensorManipulateArea)(moSensorsExt.get(poVisionType));
-		if(oManip != null) {
-			ArrayList<clsCollidingObject> eDetectedObjectList = oManip.getSensorData();
+		clsSensorManipulateArea oManip = (clsSensorManipulateArea)(moSensorsExt.get(poVisionType));
+		ArrayList<clsCollidingObject> oDetectedObjectList = oManip.getSensorData();
 	
-			Iterator <clsCollidingObject> i = eDetectedObjectList.iterator(); 
-			while(i.hasNext()){
-				clsVisionEntry oTemp = convertVisionEntry(i.next(), poVisionType);
-				if (oTemp != null) {
-					clsManipulateAreaEntry oEntry = new clsManipulateAreaEntry(oTemp);
-				
-					if (oEntry != null) {
-						oData.add(oEntry);
-					}	
-				}
-			}
+		for(clsCollidingObject oCollider : oDetectedObjectList){
+			clsVisionEntry oTemp = convertVisionEntry(oCollider, poVisionType);
+			clsManipulateAreaEntry oEntry = new clsManipulateAreaEntry(oTemp);
+			oData.add(oEntry);
 		}
+
+		return oData;
+	}
+	
+	/**
+	 * DOCUMENT (zeilinger) - insert description
+	 *
+	 * @author zeilinger
+	 * 03.09.2010, 11:21:22
+	 *
+	 * @param poVisionType
+	 * @return
+	 */
+	private clsEatableArea convertEatAbleAreaSensor(eSensorExtType poVisionType) {
+		clsEatableArea oData = new clsEatableArea();
+		oData.setSensorType(poVisionType); 
+		clsSensorEatableArea oEatableSensor = (clsSensorEatableArea) moSensorsExt.get(poVisionType);
+		
+		ArrayList<clsCollidingObject> oDetectedObjectList = oEatableSensor.getSensorData();
+		
+		for (clsCollidingObject oCollider : oDetectedObjectList) {
+			clsVisionEntry oVisionEntry = convertVisionEntry(oCollider, poVisionType);
+			clsEatableAreaEntry oEntry = new clsEatableAreaEntry(oVisionEntry);
+			convertEatableAreaEntry(oCollider, oEntry); 
+			oData.add(oEntry);
+		}
+		
 		return oData;
 	}
 
+	/**
+	 * DOCUMENT (zeilinger) - insert description
+	 *
+	 * @author zeilinger
+	 * 03.09.2010, 11:21:25
+	 *
+	 * @return
+	 */
 	private clsRadiation convertRadiationSensor() {
 		clsRadiation oData = new clsRadiation();
     	clsSensorRadiation oRadiationSensor = (clsSensorRadiation) moSensorsExt.get(eSensorExtType.RADIATION);
@@ -383,12 +422,19 @@ public class clsBrainSocket implements itfStepProcessing {
 	
 	
 
+	/**
+	 * DOCUMENT (zeilinger) - insert description
+	 *
+	 * @author zeilinger
+	 * 03.09.2010, 11:21:29
+	 *
+	 * @param collidingObj
+	 * @param poSensorType
+	 * @return
+	 */
 	private clsVisionEntry convertVisionEntry(clsCollidingObject collidingObj, eSensorExtType poSensorType) {
 		clsEntity oEntity = getEntity(collidingObj.moCollider);
-		if (oEntity == null) {
-			return null;
-		}
-
+	
 		clsVisionEntry oData = new clsVisionEntry();
 		oData.setEntityType( getEntityType(collidingObj.moCollider));		
 		oData.setShapeType( getShapeType(collidingObj.moCollider));
@@ -404,10 +450,7 @@ public class clsBrainSocket implements itfStepProcessing {
 				
 		oData.setPolarcoordinate( new bfg.tools.shapes.clsPolarcoordinate(oRel.mrLength,oRel.moAzimuth.radians) );
 		
-		if( oEntity instanceof clsAnimal )
-		{
-			oData.setAlive( ((clsAnimal)oEntity).isAlive() );
-		}
+		if( oEntity instanceof clsAnimal ){ oData.setAlive( ((clsAnimal)oEntity).isAlive() ); }
 		
 		/*FIXME HZ actually the antenna positions are undefined*/
 		if (oEntity instanceof clsBubble || oEntity instanceof  clsRemoteBot){
@@ -418,39 +461,21 @@ public class clsBrainSocket implements itfStepProcessing {
 		return oData;
 	}
 
-	private clsEatableArea convertEatAbleAreaSensor() {
-		clsEatableArea oData = new clsEatableArea();
+	/**
+	 * DOCUMENT (zeilinger) - insert description
+	 *
+	 * @author zeilinger
+	 * 03.09.2010, 11:40:25
+	 *
+	 * @param oCollider
+	 * @param oEntry
+	 * @return
+	 */
+	private void convertEatableAreaEntry(clsCollidingObject oCollider, clsEatableAreaEntry oEntry) {
+		clsAttributeAlive oAlive = (clsAttributeAlive)getEntity(oCollider.moCollider).getBody().getAttributes().getAttribute(eBodyAttributes.ALIVE);
 		
-		clsSensorEatableArea oEatableSensor = (clsSensorEatableArea) moSensorsExt.get(eSensorExtType.EATABLE_AREA);
-		ArrayList<clsCollidingObject> eDetectedObjectList = oEatableSensor.getSensorData();
-		
-		Iterator<clsCollidingObject> i = eDetectedObjectList.iterator();
-		
-		while (i.hasNext()) {
-			clsEatableAreaEntry oEntry = convertEatableAreaEntry(i.next(), eSensorExtType.EATABLE_AREA);
-			
-			if (oEntry != null) {
-				oData.getDataObjects().add(oEntry);
-			}	
-		}
-		return oData;
-	}
-	
-	private clsEatableAreaEntry convertEatableAreaEntry(clsCollidingObject collidingObj, eSensorExtType poSensorType) {
-		clsEntity oEntity = getEntity(collidingObj.moCollider);
-		if (oEntity == null) {
-			return null;
-		}
-
-		clsEatableAreaEntry oData = new clsEatableAreaEntry(oEntity.getEntityType());
-		clsAttributeAlive oAlive = (clsAttributeAlive)oEntity.getBody().getAttributes().getAttribute(eBodyAttributes.ALIVE);
-		if (oAlive != null) {
-			oData.setIsAlive( oAlive.isAlive());
-			oData.setIsConsumeable( oAlive.isConsumeable());
-			oData.setSensorType(poSensorType);
-		}
-			
-		return oData;
+		oEntry.setIsAlive( oAlive.isAlive());
+		oEntry.setIsConsumeable( oAlive.isConsumeable());
 	}
 	
 	/**

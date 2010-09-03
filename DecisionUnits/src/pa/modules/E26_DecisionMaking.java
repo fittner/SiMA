@@ -220,52 +220,57 @@ public class E26_DecisionMaking extends clsModuleBase implements I1_7_receive, I
 		// the decision can be done, that exactly this drive has to be satisfied even there
 		// is no object in the area right now that can be used to do this. Hence the goal 
 		// would be to roam around and find an object that can be used to satisfy the drive. 
-		
-		//TODO HZ: Method has to be refactored
-		String oDrive = ""; 
-		String oExt = "";
-		String oContent = ""; 
+		String oGoalContent = ""; 
+		String oDriveContent = ""; 
+		clsSecondaryDataStructureContainer oDriveContainer = null; 
 		clsWordPresentation oGoal = null; 
 		ArrayList<clsAssociation> oAssociatedDS = new ArrayList<clsAssociation>();
 		
-		for(clsSecondaryDataStructureContainer oDrivePer : moDriveList){
-			for (clsPair<clsSecondaryDataStructureContainer, clsSecondaryDataStructureContainer> oExtPer : moRealityPerception ){
-				oDrive = ((clsWordPresentation)oDrivePer.moDataStructure).moContent; 
-				// dirty hack -> moRealityPerception only contains "a" part of the clsPair - look at E24
-				oExt   = ((clsWordPresentation)oExtPer.a.moDataStructure).moContent; 
+		//FIXME HZ Actually the highest rated drive content is taken => this is sloppy and has to be evaluated in a later version! 
+		oDriveContainer = moDriveList.get(0);
+		oDriveContent = ((clsWordPresentation)oDriveContainer.moDataStructure).moContent; 
+		
+		for (clsPair<clsSecondaryDataStructureContainer, clsSecondaryDataStructureContainer> oExtPerception : moRealityPerception ){
+				// dirty hack -> moRealityPerception only contains the "a" part of the clsPair - look at E24
+				String oExtContent   = ((clsWordPresentation)oExtPerception.a.moDataStructure).moContent; 
+				
 				//FIXME HZ: Here an evaluation of the drive's intensity (very low, low, medium, high, very high) has to be done (like)
 				// in E23. It cannot be matched directly as it has to be compared that e.g. very high is not equal to high
 				// but is bigger than high. E.g. in case eating a cake satisfies the drive NOURISH high but the need Nourish
 				// is very high now, it has to be identified that the cake gets still eaten even high and very high do not match.
-				// actually this is done sloppy. 
-				int nFirstIndex = oExt.indexOf(oDrive.substring(0, oDrive.indexOf(":"))); 
-				String oIntensity = oExt.substring(oExt.indexOf(":", nFirstIndex) + 1, oExt.indexOf("|", nFirstIndex));
+				// actually this is done very sloppy. For now it is controlled if the drive intensity is high enough
+				// to get satisfied and if the object is able to satisfy it.
+				// Has to be changed when it is possible to order Strings by their "intensity"
+				int nFirstIndex = oExtContent.indexOf(oDriveContent.substring(0, oDriveContent.indexOf(":"))); 
+				String oIntensity = oExtContent.substring(oExtContent.indexOf(":", nFirstIndex) + 1, oExtContent.indexOf("|", nFirstIndex));
 				
-				if (oDrive.contains(oIntensity) || oIntensity.contains(oDrive)){ 
+				if (oExtContent.contains(oDriveContent.substring(0, oDriveContent.indexOf(":")))
+						&& (oDriveContent.contains("HIGH")
+							||oDriveContent.contains("VERY_HIGH"))
+						&& ((oIntensity.equals("HIGH"))
+						|| (oIntensity.equals("VERY_HIGH")))){ 
 					//TODO HZ: Here the first match is taken and added as goal to the output list; Actually
 					// only one goal is selected!
 					//Attention: the first part of the string (index 0 until the first string sequence "||" ) defines the drive that has to be
 					// satisfied by the object outside; in case there is no adequate object perceived, the variable oContent is defined
 					// only by the first part.
-					oContent = oDrive.substring(0,oDrive.indexOf(":")) + "||" + oExt; 
-					oGoal = (clsWordPresentation)clsDataStructureGenerator.generateDataStructure(eDataType.WP, new clsPair<String, Object>("GOAL", oContent)); 
-					oAssociatedDS.addAll(oExtPer.a.moAssociatedDataStructures); 
-					oAssociatedDS.addAll(oDrivePer.moAssociatedDataStructures); 
+					oGoalContent = oDriveContent.substring(0,oDriveContent.indexOf(":")) + "||" + oExtContent; 
+					oGoal = (clsWordPresentation)clsDataStructureGenerator.generateDataStructure(eDataType.WP, new clsPair<String, Object>("GOAL", oGoalContent)); 
+					oAssociatedDS.addAll(oExtPerception.a.moAssociatedDataStructures); 
+					oAssociatedDS.addAll(oDriveContainer.moAssociatedDataStructures); 
 					
 					moGoal_Output.add(new clsSecondaryDataStructureContainer(oGoal, oAssociatedDS));
-					//HZ take care for this return statement! I do not know if it is 
-					//ok or just another "go to". 
-					return; 
 				}
-			}
 		}
 		
+				
 		// In case moGoal_output was not filled, the drive with the highest priority used as output
-		oDrive =  ((clsWordPresentation)moDriveList.get(0).moDataStructure).moContent; 
-		oContent = oDrive.substring(0, oDrive.indexOf(":")) + "||";
-		oGoal = (clsWordPresentation)clsDataStructureGenerator.generateDataStructure(eDataType.WP, new clsPair<String, Object>("GOAL", oContent));
-		oAssociatedDS.addAll(moDriveList.get(0).moAssociatedDataStructures); 
-		moGoal_Output.add(new clsSecondaryDataStructureContainer(oGoal, oAssociatedDS)); 
+		if(moGoal_Output.size() == 0){
+			oGoalContent = oDriveContent.substring(0,oDriveContent.indexOf(":")) + "||"; 
+			oGoal = (clsWordPresentation)clsDataStructureGenerator.generateDataStructure(eDataType.WP, new clsPair<String, Object>("GOAL", oGoalContent));
+			oAssociatedDS.addAll(moDriveList.get(0).moAssociatedDataStructures); 
+			moGoal_Output.add(new clsSecondaryDataStructureContainer(oGoal, oAssociatedDS));
+		}
 	}
 
 	/**

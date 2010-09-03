@@ -1,9 +1,6 @@
 package du.itf.sensors;
 
-import java.util.ArrayList;
-
 public class clsEatableArea extends clsSensorRingSegment{
-	protected ArrayList<clsEatableAreaEntry> moEntries = new ArrayList<clsEatableAreaEntry>();
 	
 	@Override
 	public String logXML() {
@@ -24,7 +21,7 @@ public class clsEatableArea extends clsSensorRingSegment{
 		
 		int i = 0;
 		
-		for (clsEatableAreaEntry oEntry:moEntries) {
+		for (clsSensorExtern oEntry:moEntries) {
 			oResult += i+". "+oEntry+" >> ";
 
 			i++;
@@ -43,7 +40,7 @@ public class clsEatableArea extends clsSensorRingSegment{
 		String oRetVal = "<tr><td>"+getClassName()+"</td><td></td></tr>";
 		
 		int i = 0;
-		for (clsEatableAreaEntry oEntry:moEntries) {
+		for (clsSensorExtern oEntry:moEntries) {
 			oRetVal += "<tr><td align='right'>"+i+"</td><td>"+oEntry.logHTML()+"</td></tr>";
 			i++;
 		}

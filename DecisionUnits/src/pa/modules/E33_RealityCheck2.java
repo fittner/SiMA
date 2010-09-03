@@ -15,6 +15,7 @@ import pa.interfaces.receive.I7_5_receive;
 import pa.interfaces.receive.I7_6_receive;
 import pa.interfaces.send.I7_6_send;
 import pa.loader.plan.clsPlanAction;
+import pa.memorymgmt.datatypes.clsWordPresentation;
 
 /**
  * DOCUMENT (deutsch) - insert description 
@@ -115,7 +116,7 @@ public class E33_RealityCheck2 extends clsModuleBase implements I7_3_receive, I7
 	 * @see pa.interfaces.I7_3#receive_I7_3(java.util.ArrayList)
 	 */
 	@Override
-	public void receive_I7_3(ArrayList<clsPlanAction> poActionCommands) {
+	public void receive_I7_3(ArrayList<clsPlanAction> poActionCommands_old, ArrayList<clsWordPresentation> poActionCommands) {
 		// TODO (deutsch) - Auto-generated method stub
 		
 	}

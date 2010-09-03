@@ -10,6 +10,7 @@ import java.util.ArrayList;
 
 import pa.interfaces.I_BaseInterface;
 import pa.loader.plan.clsPlanAction;
+import pa.memorymgmt.datatypes.clsWordPresentation;
 
 /**
  * DOCUMENT (deutsch) - insert description 
@@ -19,5 +20,5 @@ import pa.loader.plan.clsPlanAction;
  * 
  */
 public interface I7_4_receive extends I_BaseInterface {
-	public void receive_I7_4(ArrayList<clsPlanAction> poActionCommands);
+	public void receive_I7_4(ArrayList<clsPlanAction> poActionCommands_old, ArrayList<clsWordPresentation> poActionCommands);
 }

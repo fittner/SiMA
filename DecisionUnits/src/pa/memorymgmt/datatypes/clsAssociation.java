@@ -126,14 +126,6 @@ public abstract class clsAssociation extends clsDataStructurePA{
 	    return oClone;
 	}
 	
-	private void checkStackDepth() {
-		long depth = Thread.currentThread().getStackTrace().length;
-		
-		if (depth > mrMaxStackDepth) {
-			throw new StackOverflowError("max. call stack for clsAssociation<TYPE>.clone reached. either increase threshold constant or check code for an infinite clone loop. ("+depth+">"+mrMaxStackDepth+")");
-		}
-	}
-	
 	@Override
 	public String toString(){
 		String oResult = "::"+this.moDataStructureType+"::";  

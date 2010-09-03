@@ -91,7 +91,7 @@ public class clsDataStructureConverter {
 			//FIXME HZ! For this part a new solution has to be found 
 			//Certain types of content types are mapped together
 			
-			if(oContentTypeTP.equals("ObjectPosition")|| oContentTypeTP.equals("Distance")){
+			if(oContentTypeTP.equals("ObjectPosition") || oContentTypeTP.equals("Distance")){
 				oContentTypeTP = "LOCATION"; 
 			}
 			//TODO HZ: Define further bindings

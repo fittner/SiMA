@@ -50,6 +50,7 @@ public abstract class clsSensorExt extends clsSensorActuatorBaseExt implements i
 						clsBaseIO poBaseIO) {
 		super(poPrefix, poProp, poBaseIO);
 		applyProperties(poPrefix, poProp);
+		
 		moSensorEngine = ((clsExternalIO)poBaseIO).moSensorEngine; 			
 	}
 	
@@ -117,6 +118,7 @@ public abstract class clsSensorExt extends clsSensorActuatorBaseExt implements i
 	}
 	
 	private void updateDetectedObjAndCollisionPointList(ArrayList<clsCollidingObject> peDetectedObjectList){
+		
 		if(moSensorData.mnFieldOfView<2*Math.PI){
 			processObjInAreaList(peDetectedObjectList); 
 		}
@@ -135,6 +137,7 @@ public abstract class clsSensorExt extends clsSensorActuatorBaseExt implements i
 	}
 	
 	private boolean evaluateIfObjInFieldOfView(clsCollidingObject poCollidingObject){
+		boolean oRetVal = false; 
 		double nEntityOrientation =  moSensorEngine.getMeSensorAreas().firstEntry().getValue().getOrientation().radians;
 		
 		if(clsSensorDataCalculation.checkIfObjectInView(poCollidingObject, nEntityOrientation, 
@@ -143,9 +146,10 @@ public abstract class clsSensorExt extends clsSensorActuatorBaseExt implements i
 													getRelativePositionOfCollidingObject(
 													poCollidingObject, nEntityOrientation, 
 													moSensorData.mnFieldOfView);  
-				return true;  
+				oRetVal = true;  
 		}
-		return false; 
+		
+		return oRetVal; 
 	}
 	
 	public abstract void setDetectedObjectsList(Double pnAreaRange,ArrayList<clsCollidingObject> peObjInAreaList);  

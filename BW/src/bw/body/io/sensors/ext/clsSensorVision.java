@@ -25,10 +25,10 @@ public class clsSensorVision extends clsSensorRingSegment {
 		}
 
 		public static clsBWProperties getDefaultProperties(String poPrefix) {
-//			String pre = clsBWProperties.addDot(poPrefix);
+			String pre = clsBWProperties.addDot(poPrefix);
 			
 			clsBWProperties oProp = clsSensorRingSegment.getDefaultProperties(poPrefix);
-			
+			oProp.putAll( clsSensorRingSegment.getDefaultProperties(pre));
 			return oProp;
 		}	
 		

@@ -34,7 +34,7 @@ public class clsSensorEatableArea extends clsSensorRingSegment{
 		oProp.putAll( clsSensorRingSegment.getDefaultProperties(pre) );
 		oProp.setProperty(pre+P_SENSOR_FIELD_OF_VIEW, Math.PI/4); 
 
-		oProp.setProperty(pre+P_SENSOR_MIN_DISTANCE, 0);
+		oProp.setProperty(pre+P_SENSOR_MIN_DISTANCE, 10);
 		oProp.setProperty(pre+P_SENSOR_MAX_DISTANCE, 30); //FIXME (zeilinger): range was former set to 15 --> problem: cake will never be in range
 		oProp.setProperty(pre+P_BASEENERGYCONSUMPTION, 0.0);
 		

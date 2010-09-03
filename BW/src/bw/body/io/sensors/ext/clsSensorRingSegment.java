@@ -11,6 +11,7 @@ package bw.body.io.sensors.ext;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.Map;
 
 import config.clsBWProperties;
 import sim.physics2D.shape.Circle;
@@ -33,7 +34,7 @@ public class clsSensorRingSegment extends clsSensorExt {
 	public static final String P_SENSOR_MIN_DISTANCE = "sensor_min_distance";
 	public static final String P_SENSOR_MAX_DISTANCE = "sensor_max_distance";
 	
-   private ArrayList<clsCollidingObject> meSensorDataDeliveredToDU = new ArrayList<clsCollidingObject>();
+   private ArrayList<clsCollidingObject> moSensorDataDeliveredToDU = new ArrayList<clsCollidingObject>();
    private double mrMinDistance;
    private double mrMaxDistance;
    private double mrOffsetX;
@@ -102,12 +103,13 @@ public class clsSensorRingSegment extends clsSensorExt {
 	 * TODO: imply the sensor specific computation  
      */	
 	public ArrayList<clsCollidingObject> getSensorData(){
-		return meSensorDataDeliveredToDU; 
+		return moSensorDataDeliveredToDU; 
 	}
 
 	@Override
 	public void updateSensorData(Double pnAreaRange, 
 										ArrayList<clsCollidingObject> peDetectedObjInAreaList) {
+		
 		setDetectedObjectsList(pnAreaRange, peDetectedObjInAreaList);
 		computeDataDeliveredToDU(); 
     }
@@ -115,6 +117,7 @@ public class clsSensorRingSegment extends clsSensorExt {
 	@Override
 	public void setDetectedObjectsList(Double pnAreaRange,
 								ArrayList<clsCollidingObject> peDetectedObjInAreaList){
+		
 		calculateObjInFieldOfView(pnAreaRange, peDetectedObjInAreaList);
 		calculateObjWithinDistance(peDetectedObjInAreaList);
 		// FIXME (horvath)
@@ -130,8 +133,7 @@ public class clsSensorRingSegment extends clsSensorExt {
 	 *
 	 * @param peDetectedObjInAreaList
 	 */
-	private void calculateObjWithinDistance(
-			ArrayList<clsCollidingObject> peDetectedObjInAreaList) {
+	private void calculateObjWithinDistance(ArrayList<clsCollidingObject> peDetectedObjInAreaList) {
 		
 		for( Iterator<clsCollidingObject> it = peDetectedObjInAreaList.iterator(); it.hasNext(); ) {
 			clsCollidingObject oSensorEntry = it.next();
@@ -148,17 +150,11 @@ public class clsSensorRingSegment extends clsSensorExt {
 	 * TODO: implement the sensor specific computation  
      */	
 	public void computeDataDeliveredToDU(){
-		meSensorDataDeliveredToDU.clear(); 
-		HashMap<Double, ArrayList<clsCollidingObject>> eDetectedObjectList = moSensorData.getMeDetectedObject(); 
-		
-		Iterator <Double>itrRange = eDetectedObjectList.keySet().iterator(); 
-		while(itrRange.hasNext())
-		{
-			Double oKey = itrRange.next();
-			Iterator <clsCollidingObject> itr = eDetectedObjectList.get(oKey).iterator(); 
-			while(itr.hasNext()){
-				meSensorDataDeliveredToDU.add(itr.next()); 
-			}
+		moSensorDataDeliveredToDU.clear(); 
+		HashMap<Double, ArrayList<clsCollidingObject>> oDetectedObjectList = moSensorData.getMeDetectedObject(); 
+			
+		for(Map.Entry<Double, ArrayList<clsCollidingObject>> oEntry : oDetectedObjectList.entrySet()){
+			moSensorDataDeliveredToDU.addAll(oEntry.getValue()); 
 		}
 	}
 	

@@ -11,6 +11,7 @@ package bw.body.io.sensors.ext;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.Map;
 import java.util.TreeMap;
 
 
@@ -50,17 +51,17 @@ public class clsSensorEngine{
 	public static final String P_MAX_RANGE = "maxrange";
 	public static final String P_RANGEDIVISION = "rangedivision";
 	
-	private HashMap <Double,ArrayList<clsCollidingObject>> meDetectedObj;
+	private HashMap <Double,ArrayList<clsCollidingObject>> moDetectedObj;
 	private HashMap<eSensorExtType,clsSensorExt> meRegisteredSensors; 
-	private HashMap<Double,ArrayList<clsSensorExt>> meRegisteredSensorAtRange;
+	private HashMap<Double,ArrayList<clsSensorExt>> moRegisteredSensorAtRange;
 	private TreeMap<Double,clsEntitySensorEngine> meEntities;
 	private double[] mnRange; 
 	private clsEntity moHostEntity; 
 		
 	public clsSensorEngine(String poPrefix, clsBWProperties poProp, clsBaseIO poBaseIO){
 		meRegisteredSensors = new HashMap<eSensorExtType,clsSensorExt>();
-		meRegisteredSensorAtRange = new HashMap<Double,ArrayList<clsSensorExt>>();
-		meDetectedObj = new HashMap <Double,ArrayList<clsCollidingObject>>();
+		moRegisteredSensorAtRange = new HashMap<Double,ArrayList<clsSensorExt>>();
+		moDetectedObj = new HashMap <Double,ArrayList<clsCollidingObject>>();
 		meEntities = new TreeMap<Double, clsEntitySensorEngine>(); 
 		moHostEntity = ((clsExternalIO)poBaseIO).moEntity; 
 		
@@ -125,7 +126,7 @@ public class clsSensorEngine{
 	}
 	
 	public boolean checkRange(double pnRange){
-		for(int index=0; index<mnRange.length;index++ ){
+		for(int index=0; index < mnRange.length;index++ ){
 			if(((Double)mnRange[index]).equals(pnRange)){
 				return true; 
 			}
@@ -161,7 +162,7 @@ public class clsSensorEngine{
 	
 	private void fillMeRegisteredSensor(clsSensorExt poSensor, double pnRange){
 	
-		if(meRegisteredSensorAtRange.containsKey(pnRange)){
+		if(moRegisteredSensorAtRange.containsKey(pnRange)){
 			registerSensorToExistingRange(poSensor, pnRange);
 		}
 		else {
@@ -170,23 +171,19 @@ public class clsSensorEngine{
 	}
 	
 	private void registerSensorToExistingRange(clsSensorExt poSensor, double pnRange){
-		((ArrayList<clsSensorExt>)this.meRegisteredSensorAtRange.get(pnRange)).add(poSensor);
+		((ArrayList<clsSensorExt>)this.moRegisteredSensorAtRange.get(pnRange)).add(poSensor);
 	}
 	
 	public void defineNewRangeAndRegisterSensor(clsSensorExt poSensor, double pnRange){
 		ArrayList <clsSensorExt> meSensor = new ArrayList<clsSensorExt>();
 		meSensor.add(poSensor); 
-		meRegisteredSensorAtRange.put(pnRange,meSensor);
+		moRegisteredSensorAtRange.put(pnRange,meSensor);
 	}
 	
 	public void updateSensorData() {
-		clearActualCollisonAndDetectedObjList();
+		moDetectedObj.clear();
 		requestSensorData(); 
 		updateSensorDataAtRanges(); 
-	}
-	
-	private void clearActualCollisonAndDetectedObjList(){
-		meDetectedObj.clear(); 
 	}
 	
 	public void requestSensorData(){
@@ -197,10 +194,10 @@ public class clsSensorEngine{
 	 * mnRange[0] => List of objects colliding with the entity itself
 	 * */
 	private void getSensorData(){
-		meDetectedObj.put(mnRange[0], ((clsMobile)moHostEntity).getMobileObject2D().moCollisionList);
+		moDetectedObj.put(mnRange[0], ((clsMobile)moHostEntity).getMobileObject2D().moCollisionList);
 		
 		for(int index=1; index < mnRange.length; index++){
-			meDetectedObj.put(mnRange[index],meEntities.get(mnRange[index]).requestDetectedObjList());
+			moDetectedObj.put(mnRange[index],meEntities.get(mnRange[index]).requestDetectedObjList());
 		}
 
 	}
@@ -232,7 +229,7 @@ public class clsSensorEngine{
 		ArrayList <clsCollidingObject> eObjectList; 
 		
 		for(int index=mnRange.length-1; index > 1; index--){
-			eObjectList = meDetectedObj.get(mnRange[index]);
+			eObjectList = moDetectedObj.get(mnRange[index]);
 
 			for( clsCollidingObject oCollision : eObjectList ) {
 				if(oCollision.moCollider.getShape() instanceof Circle) {
@@ -257,9 +254,9 @@ public class clsSensorEngine{
 		ArrayList <clsCollidingObject> eObjectList; 
 		
 		for(int index=mnRange.length-1; index > 1; index--){
-			eObjectList = meDetectedObj.get(mnRange[index]);
-			removeListEntries(eObjectList, meDetectedObj.get(mnRange[index-1])); 
-			meDetectedObj.put(mnRange[index],eObjectList);
+			eObjectList = moDetectedObj.get(mnRange[index]);
+			removeListEntries(eObjectList, moDetectedObj.get(mnRange[index-1])); 
+			moDetectedObj.put(mnRange[index],eObjectList);
 		}
 	}
 	
@@ -267,9 +264,9 @@ public class clsSensorEngine{
 		ArrayList <clsCollidingObject> eObjectList; 
 		
 		for(int index=mnRange.length-1; index > 0; index--){
-			eObjectList = meDetectedObj.get(mnRange[index]);
+			eObjectList = moDetectedObj.get(mnRange[index]);
 			removeNoCollisionListEntries(eObjectList); 
-			meDetectedObj.put(mnRange[index],eObjectList);
+			moDetectedObj.put(mnRange[index],eObjectList);
 		}
 	}
 	
@@ -292,12 +289,14 @@ public class clsSensorEngine{
 	 */
 	private void removeListEntries(ArrayList <clsCollidingObject> poObjectList, 
 														ArrayList <clsCollidingObject> poObjectToRemoveList){
+
 		ArrayList <PhysicalObject2D> oPhysicalObjectList = getPhysicalObjectList(poObjectToRemoveList); 
 		Iterator <clsCollidingObject> itr = poObjectList.iterator(); 
 				
 		while (itr.hasNext()) {
 			PhysicalObject2D collider = itr.next().moCollider; 
-		    if (oPhysicalObjectList.contains(collider)) {
+		   
+			if (oPhysicalObjectList.contains(collider)) {
 		    	itr.remove();
 			}
 		}
@@ -315,27 +314,23 @@ public class clsSensorEngine{
 	}
 	
 	private ArrayList<PhysicalObject2D> getPhysicalObjectList(ArrayList<clsCollidingObject> poObjectToRemoveList){
-		ArrayList<PhysicalObject2D> oList = new ArrayList<PhysicalObject2D>();
-		Iterator <clsCollidingObject> itr = poObjectToRemoveList.iterator(); 
+		ArrayList<PhysicalObject2D> oRetVal = new ArrayList<PhysicalObject2D>();
 		
-		while(itr.hasNext()){
-			oList.add(itr.next().moCollider); 
+		for(clsCollidingObject oCollider : poObjectToRemoveList){
+			oRetVal.add(oCollider.moCollider); 
 		}
-		return oList; 
+		
+		return oRetVal; 
 	}
 	
 	private void updateSensorDataAtRanges(){
-		Iterator <Double> rangeItr = meRegisteredSensorAtRange.keySet().iterator();
-		while(rangeItr.hasNext()){
-			double nRange = rangeItr.next();
-			updateSensorDataAtSpecificRange(nRange);
-		}
-	}
-	
-	private void updateSensorDataAtSpecificRange(double pnRange){
-		Iterator <clsSensorExt> itr = ((ArrayList<clsSensorExt>)meRegisteredSensorAtRange.get(pnRange)).iterator();
-		while(itr.hasNext()){
-			((clsSensorExt)itr.next()).updateSensorData(pnRange, new ArrayList<clsCollidingObject>(meDetectedObj.get(pnRange))); 
+		
+		for(Map.Entry<Double, ArrayList<clsSensorExt>> oEntry : moRegisteredSensorAtRange.entrySet()){
+			double nRange = oEntry.getKey(); 
+			
+			for(clsSensorExt oSensorExt : oEntry.getValue()){
+				oSensorExt.updateSensorData(nRange,new ArrayList<clsCollidingObject>(moDetectedObj.get(nRange)));
+			}
 		}
 	}
 	

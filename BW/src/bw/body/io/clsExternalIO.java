@@ -159,8 +159,8 @@ public class clsExternalIO extends clsBaseIO {
 		oProp.putAll( clsSensorEatableArea.getDefaultProperties( pre+numsensors) );
 		oProp.setProperty(pre+numsensors+"."+P_SENSORACTIVE, true);
 		oProp.setProperty(pre+numsensors+"."+P_SENSORTYPE, eSensorExtType.EATABLE_AREA.name());
-		oProp.setProperty(pre+numsensors+"."+P_SENSORRANGE, oProp.getPropertyDouble(pre+P_SENSORENGINE+"."+clsSensorEngine.P_MAX_RANGE)/
-												  oProp.getPropertyInt(pre+P_SENSORENGINE+"."+clsSensorEngine.P_RANGEDIVISION));
+		oProp.setProperty(pre+numsensors+"."+P_SENSORRANGE, 20.0 ); /*oProp.getPropertyDouble(pre+P_SENSORENGINE+"."+clsSensorEngine.P_MAX_RANGE)/
+												  oProp.getPropertyInt(pre+P_SENSORENGINE+"."+clsSensorEngine.P_RANGEDIVISION));*/
 		numsensors++;
 		
 		oProp.putAll( clsSensorPositionChange.getDefaultProperties( pre+numsensors) );

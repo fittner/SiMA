@@ -22,7 +22,9 @@ import pa.loader.plan.clsPlanAction;
 import pa.loader.plan.clsPlanBaseMesh;
 import pa.loader.plan.clsPlanStateMesh;
 import pa.memorymgmt.datatypes.clsAct;
+import pa.memorymgmt.datatypes.clsSecondaryDataStructure;
 import pa.memorymgmt.datatypes.clsSecondaryDataStructureContainer;
+import pa.memorymgmt.datatypes.clsWordPresentation;
 import pa.tools.clsPair;
 
 /**
@@ -37,9 +39,10 @@ public class E27_GenerationOfImaginaryActions extends clsModuleBase implements I
 	public ArrayList<clsSecondaryInformation> moEnvironmentalPerception;
 	public HashMap<String, clsPair<clsSecondaryInformation, Double>> moTemplateResult_Input_old;
 	public ArrayList<clsSecondaryDataStructureContainer> moGoalInput;
-	public ArrayList<clsAct> moPlanInput; 
+	public ArrayList<ArrayList<clsAct>> moPlanInput; 
 	
-	ArrayList<clsPlanAction> moActions_Output;
+	ArrayList<clsPlanAction> moActions_Output_old;
+	private ArrayList<clsWordPresentation> moActions_Output; 
 	
 	/**
 	 * DOCUMENT (deutsch) - insert description 
@@ -97,6 +100,16 @@ public class E27_GenerationOfImaginaryActions extends clsModuleBase implements I
 	protected void setPsychicInstances() {
 		mnPsychicInstances = ePsychicInstances.EGO;
 	}
+	
+	/**
+	 * @author zeilinger
+	 * 02.09.2010, 19:48:48
+	 * 
+	 * @return the moActions_Output
+	 */
+	public ArrayList<clsWordPresentation> getMoActions_Output() {
+		return moActions_Output;
+	}
 
 	/* (non-Javadoc)
 	 *
@@ -107,8 +120,8 @@ public class E27_GenerationOfImaginaryActions extends clsModuleBase implements I
 	 */
 	@SuppressWarnings("unchecked")
 	@Override
-	public void receive_I6_2(ArrayList<clsAct> poPlanOutput) {
-		moPlanInput = (ArrayList<clsAct>) deepCopy(poPlanOutput);
+	public void receive_I6_2(ArrayList<ArrayList<clsAct>> poPlanOutput) {
+		moPlanInput = (ArrayList<ArrayList<clsAct>>) deepCopy(poPlanOutput);
 	}
 
 	/* (non-Javadoc)
@@ -155,56 +168,57 @@ public class E27_GenerationOfImaginaryActions extends clsModuleBase implements I
 		//Until this question has been solved, E28 
 		//is implemented to retrieve and put acts together which means that it takes over
 		//a kind of planning.
-				
+		moActions_Output = new ArrayList<clsWordPresentation>();
+		moActions_Output = getActions(); 
 		process_oldDT();
-		//FIXME HZ 23.08.2010: That is where the magic happens
-		it_is_a_kind_of_magic(); 
 	}
 	
 	/**
 	 * DOCUMENT (zeilinger) - insert description
 	 *
 	 * @author zeilinger
-	 * 24.08.2010, 22:51:27
+	 * 02.09.2010, 19:46:45
+	 * @return 
 	 *
 	 */
-	private void it_is_a_kind_of_magic() {
-		/*  HZ the sorcerer
-		 * !++>!;;;:~'.       !>+!~
-   SXYiJccttcYttJi>~+MMMMMMMc
-   'YMYjX56Kc+=+5JYtHMMMMMMMMJc!:~'                       ::'          .
-     'YMMMMtS5YJJSSXQHMMD55555Ytci+!.                  .~::'i    ':t
-       'YMMXjcct6MQMMMM65SKHXXMMMMMQ!                .~'.=!Y'~!!~j:Y
-         .iMMMMMMMMMMMMMMXMKMM=;;=MMM=             =>~:=.ci>:>!Y!jc'
-            !MMMMMMMMMMitMciMM i>::6MM=        '::jM;''!SN:cM>>Wc+
-          'KMMMMHWMMMMJ!!MM'tit>5j;:!~:!     +DMMM5tMMMcYc=6jY!J
-          MMMMMMMMMMMMMS=;j>!5HMMM!~Y':i   .YMMMMMMMMMMMM5!j .:.
-         .MMMMMMMMMMMMMMM6+!tQMMt!~~656Qi:iSMMMMMMMMMMMMM:!
-          XMMMMMMMMMMMMMMMc+~:::;;cMMMMMM5SMMMMMMMMMMMMMMc
-           cMMMMMMMX!MM5t5J!~;iQMMMMMMMQYDMMMMMMKMMMMMMMMY
-             .:!;     MM6jttY65MMMMMMMMMMMMMMMMMKMMMMMMMMS
-                      .XMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMQ
-                          5MMKMMMMMMMMMMMMMMMMMMMMHtMMMMM!
-                          :MMMMMMMMMMMMMMMMMMMMMMY. =56t;
-                            !cJMMMMMMMMMKXDKt ''
-                              DMMMMMKMMMMQDSM!
-                             >MMMMMMMMMMKDSD5S
-                             MMMMMMMMMMMMDXSQc
-                            YMMMMMMMMMMMMMMMM;
-                           jMMMMMMMMMMMMMMMMMMX
-                          ~MMMMMKMMMMMMMMMMMMM!
-                          6MMMMWMMMMMMMMMMMWNY
-                          MMKMMMMMMMMMMMMMMMM>
-                         ;MMMHMMMMMMMMMMMMMMM~
-                        !MMMMMMMMMMMMMMMMMMMM5
-              'i555KMMMMMMMMMMMMMMMMMMMMMMMMMM:
-             jMMMQSHMMMMMMMMMMMMMMMMM6MMMMMMMMM'     :
-       ':;+==MMMHQMMH+iDDXSSKMMMMMMMMMMMMMK6DQMMi>' jMi.
-     '~:!!=tt6MMMMMMMtcXMMMMMMMMMMMMMMMMMMMMMHMMMMM>ttMc
-      ~;!>=ttjjtjtJYQMMMMMMMMMMMMMMMMMMMMMMMMMMMMMM>MM!
-		 * 
-		 * */
-		// TODO (zeilinger) - generate method
+	private ArrayList<clsWordPresentation> getActions() {
+		ArrayList <clsWordPresentation> oRetVal = new ArrayList<clsWordPresentation>(); 
+		ArrayList<clsAct> oPlan = evaluatePlans();
+		
+		loop: 
+		for(clsAct oAct : oPlan){
+			for(clsSecondaryDataStructure oSD : oAct.moAssociatedContent){
+				if(oSD instanceof clsWordPresentation && oSD.moContentType.equals("ACTION")){
+					oRetVal.add((clsWordPresentation)oSD); 
+					break loop; 
+				}
+			}			
+		}
+		
+		return oRetVal; 
+	}
+
+	/**
+	 * DOCUMENT (zeilinger) - insert description
+	 *
+	 * @author zeilinger
+	 * 03.09.2010, 17:19:37
+	 *
+	 * @return
+	 */
+	private ArrayList<clsAct> evaluatePlans() {
+		//HZ This method evaluates the retrieved plans. Actually this is rather simple
+		// as only the number of acts that are required to fulfill the plan are used 
+		// for this evaluation (the plan with the fewest number of acts is selected)
+		ArrayList<clsAct> oRetVal = new ArrayList<clsAct>();  
+		
+		for(ArrayList<clsAct> oEntry : moPlanInput){
+			if((oRetVal.size() == 0) || (oRetVal.size() > oEntry.size())){
+				oRetVal = oEntry; 
+			}
+		}
+		
+		return oRetVal;
 	}
 
 	/**
@@ -216,7 +230,7 @@ public class E27_GenerationOfImaginaryActions extends clsModuleBase implements I
 	 * @deprecated
 	 */
 	private void process_oldDT() {
-		moActions_Output = this.moEnclosingContainer.moMemory.moTemplatePlanStorage.getReognitionUpdate(moTemplateResult_Input_old);
+		moActions_Output_old = this.moEnclosingContainer.moMemory.moTemplatePlanStorage.getReognitionUpdate(moTemplateResult_Input_old);
 	}
 	
 	/* (non-Javadoc)
@@ -266,7 +280,7 @@ public class E27_GenerationOfImaginaryActions extends clsModuleBase implements I
 	 */
 	@Override
 	protected void send() {
-		send_I7_3(moActions_Output);
+		send_I7_3(moActions_Output_old, moActions_Output);
 		
 	}
 
@@ -278,8 +292,8 @@ public class E27_GenerationOfImaginaryActions extends clsModuleBase implements I
 	 * @see pa.interfaces.send.I7_3_send#send_I7_3(java.util.ArrayList)
 	 */
 	@Override
-	public void send_I7_3(ArrayList<clsPlanAction> poActionCommands) {
-		((I7_3_receive)moEnclosingContainer).receive_I7_3(moActions_Output);
+	public void send_I7_3(ArrayList<clsPlanAction> poActionCommands_old, ArrayList<clsWordPresentation> poActionCommands) {
+		((I7_3_receive)moEnclosingContainer).receive_I7_3(moActions_Output_old, moActions_Output);
 		
 	}
 

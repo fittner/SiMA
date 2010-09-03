@@ -43,6 +43,7 @@ import pa.tools.clsTripple;
  * 
  */
 public class clsOntologyLoader {
+	static int mrMaxStackDepth = 1000;  
 	static int DS_ID = 0; 
 	
 	public static void loadOntology(HashMap<String, clsDataStructurePA> poDataStructureTable, String poSourceName){
@@ -390,7 +391,11 @@ public class clsOntologyLoader {
 	 */
 	private static void createAssociation(Instance poRootElement, Instance poAssociation,
 									clsPair<KnowledgeBase, HashMap<String,clsDataStructurePA>> poDataContainer) {
-
+		
+		//HZ Checks if the tree depth does not exceed a certain limit => avoids
+		// endless loops
+		checkStackDepth(); 
+		
 		clsAssociation oDataStructure = null;
 		String oAssName = poAssociation.getName(); 
 	    eDataType eAssociationType = getElementDataType(poAssociation); 
@@ -421,6 +426,15 @@ public class clsOntologyLoader {
 	    
     	//TODO HZ: Define other attributes!!
 	    poDataContainer.b.put(oAssName, oDataStructure);
+	}
+	
+
+	private static void checkStackDepth() {
+		long depth = Thread.currentThread().getStackTrace().length;
+		
+		if (depth > mrMaxStackDepth) {
+			throw new StackOverflowError("max. call stack for clsAssociation<TYPE>.clone reached. either increase threshold constant or check code for an infinite clone loop. ("+depth+">"+mrMaxStackDepth+")");
+		}
 	}
 
 	/**
