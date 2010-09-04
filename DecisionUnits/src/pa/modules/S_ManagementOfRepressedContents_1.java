@@ -157,7 +157,8 @@ public class S_ManagementOfRepressedContents_1 extends clsModuleBase implements 
 			//FIXME HZ: IndexOutOfBound + NullpointerException should be avoided
 			//HZ 23.08.2010 Actually the best match is taken from the search result =>
 			//      		get(0) *2 
-			oAssDS = accessKnowledgeBase().get(0).get(0).b.moAssociatedDataStructures;
+			ArrayList<clsPair<Double, clsDataStructureContainer>> oResult = accessKnowledgeBase().get(0); 
+			oAssDS = oResult.get(0).b.moAssociatedDataStructures;
 		} catch (IndexOutOfBoundsException ex1){return null;
 		} catch (NullPointerException ex2){return null;}
 			

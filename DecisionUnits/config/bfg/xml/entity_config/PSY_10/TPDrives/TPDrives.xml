@@ -56,11 +56,11 @@
             </DriveSourceList>
 
             <LifeInstinctList>
-                 <LifeInstinctRatio context="DEFAULT" oral="0" anal="1" phallic="0" genital="0"></LifeInstinctRatio>
+                 <LifeInstinctRatio context="DEFAULT" oral="0.1" anal="1" phallic="0" genital="0"></LifeInstinctRatio>
 			</LifeInstinctList>
 			
 		    <DriveObjectList>
-	        	<DriveObject type="EXCREMENT" context="DEFAULT"></DriveObject>
+	        	<DriveObject type="EXCREMENT" context="REPRESS"></DriveObject>
 	        </DriveObjectList>
         </TPDrive>
 	
@@ -74,11 +74,11 @@
             </DriveSourceList>
 
             <LifeInstinctList>
-                 <LifeInstinctRatio context="DEFAULT" oral="0" anal="1" phallic="0" genital="0" Inverse="true"></LifeInstinctRatio>
+                 <LifeInstinctRatio context="DEFAULT" oral="0.2" anal="1" phallic="0" genital="0" Inverse="true"></LifeInstinctRatio>
 			</LifeInstinctList>
 			
 			<DriveObjectList>
-	        	<DriveObject type="EXCREMENT" context="DEFAULT"></DriveObject>
+	        	<DriveObject type="EXCREMENT" context="DEPOSIT"></DriveObject>
 	        </DriveObjectList>
         </TPDrive>
     </DrivePair-->

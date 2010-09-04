@@ -194,6 +194,7 @@ public class clsCurrentContextStorage implements itfContextAccessPrimary, itfCon
 	 */
 	private HashMap<clsPrimaryDataStructureContainer, clsMutableDouble> convertPrimInfToPrimCont(HashMap<clsPrimaryInformation, clsMutableDouble> contextRatiosPrim) {
 		HashMap<clsPrimaryDataStructureContainer, clsMutableDouble> oRetVal = new HashMap<clsPrimaryDataStructureContainer, clsMutableDouble>();
+		
 		for(clsPrimaryInformation oKey: contextRatiosPrim.keySet()){
 			if(oKey.moAffect != null && oKey.moTP != null){
 				ArrayList<clsThingPresentation> oAssociationsDM = new ArrayList<clsThingPresentation>(); 
@@ -207,6 +208,7 @@ public class clsCurrentContextStorage implements itfContextAccessPrimary, itfCon
     			oRetVal.put(new clsPrimaryDataStructureContainer(oDriveMesh, null), contextRatiosPrim.get(oKey)); 
 			}
 		}
+		
 		return oRetVal;
 	}
 }

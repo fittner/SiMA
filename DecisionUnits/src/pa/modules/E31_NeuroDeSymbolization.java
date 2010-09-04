@@ -39,7 +39,7 @@ public class E31_NeuroDeSymbolization extends clsModuleBase implements I8_1_rece
 
 	private ArrayList<clsWordPresentation> moActionCommands_Input;
 	
-	private int mnCounter = 50;
+	private int mnCounter = 25;
 	
 	/**
 	 * DOCUMENT (deutsch) - insert description 
@@ -129,7 +129,7 @@ public class E31_NeuroDeSymbolization extends clsModuleBase implements I8_1_rece
 				for(clsWordPresentation oWP : moActionCommands_Input) {
 				
 					String oAction = oWP.moContent; 
-					
+				
 					if(oAction.equals("MOVE_FORWARD")){
 						moActionCommandList_Output.add( new clsActionMove(eActionMoveDirection.MOVE_FORWARD,1.0) );
 						//System.out.println("cmd: move_forward");
@@ -165,7 +165,7 @@ public class E31_NeuroDeSymbolization extends clsModuleBase implements I8_1_rece
 				}
 		}
 		else {
-			if( mnCounter > 50) {
+			if( mnCounter > 25) {
 				moActionCommandList_Output.add( clsActionSequenceFactory.getSeekingSequence(1f,2) );
 				mnCounter = 0; 
 			}
@@ -229,7 +229,7 @@ public class E31_NeuroDeSymbolization extends clsModuleBase implements I8_1_rece
 			}
 			}
 			else {
-				if( mnCounter > 50) {
+				if( mnCounter > 25) {
 					moActionCommandList_Output.add( clsActionSequenceFactory.getSeekingSequence(1f,2) );
 					mnCounter = 0;
 				}
