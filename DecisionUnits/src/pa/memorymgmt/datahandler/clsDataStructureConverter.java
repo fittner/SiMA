@@ -30,10 +30,12 @@ import pa.tools.clsTripple;
  * 
  */
 public class clsDataStructureConverter {
-	public static clsDataStructurePA convertHomeostaticSymbolsToPsychicDataStructures(){
-		//tbd - actually not defined and required - may replace the actual conversion of homeostatic input (Bloodsugar, stomachtension, etc.)  
-		return null; 
-	}
+	//tbd - actually not defined and required - may replace the actual conversion of homeostatic input (Bloodsugar, stomachtension, etc.)  
+
+//	public static clsDataStructurePA convertHomeostaticSymbolsToPsychicDataStructures(){
+//		//tbd - actually not defined and required - may replace the actual conversion of homeostatic input (Bloodsugar, stomachtension, etc.)  
+//		return null; 
+//	}
 	
 	public static clsDataStructurePA convertExtSymbolsToPsychicDataStructures(itfSymbol poSymbolObject){
 			if(poSymbolObject instanceof itfIsContainer) {return convertSymbolsToTPM(poSymbolObject);} 

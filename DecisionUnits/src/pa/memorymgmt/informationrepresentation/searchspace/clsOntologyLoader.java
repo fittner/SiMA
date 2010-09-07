@@ -640,11 +640,7 @@ public class clsOntologyLoader {
 	 * @return
 	 */
 	private static clsDataStructurePA retrieveDataStructure(String poElNa, HashMap<String,clsDataStructurePA> poDataStructureTable) {
-			if(poDataStructureTable.get(poElNa) != null){
-				return poDataStructureTable.get(poElNa); 
-			}
-		//TODO HZ: Introduce a better return value => null should not be returned
-		return null;
+			return poDataStructureTable.get(poElNa); 
 	}
 
 	/**
