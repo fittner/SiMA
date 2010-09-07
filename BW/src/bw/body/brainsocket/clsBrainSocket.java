@@ -337,11 +337,8 @@ public class clsBrainSocket implements itfStepProcessing {
 			
 			for(clsCollidingObject oCollider : oDetectedObjectList){
 				clsVisionEntry oEntry = convertVisionEntry(oCollider, poVisionType);
-				
-				if(oEntry != null){
-					oEntry.setNumEntitiesPresent(setMeNumber(oDetectedObjectList.size()) );
-					oData.add(oEntry);
-				}
+				oEntry.setNumEntitiesPresent(setMeNumber(oDetectedObjectList.size()) );
+				oData.add(oEntry);
 			}
 		}
 		
@@ -401,7 +398,7 @@ public class clsBrainSocket implements itfStepProcessing {
 			if(oVisionEntry != null){
 				clsEatableAreaEntry oEntry = new clsEatableAreaEntry(oVisionEntry);
 			
-				if(oEntry != null){
+				if(oEntry != null && oCollider.moCollider != null){
 					convertEatableAreaEntry(oCollider, oEntry);
 					oData.add(oEntry);
 				}
@@ -455,35 +452,32 @@ public class clsBrainSocket implements itfStepProcessing {
 	 */
 	private clsVisionEntry convertVisionEntry(clsCollidingObject collidingObj, eSensorExtType poSensorType) {
 		clsEntity oEntity = getEntity(collidingObj.moCollider);
+		clsVisionEntry oData = new clsVisionEntry();
 		
-		if(oEntity == null){
-			return null; 
-		}
-		
-	    clsVisionEntry oData = new clsVisionEntry();
-	 
-	   oData.setEntityType( getEntityType(collidingObj.moCollider));		
-	   oData.setShapeType( getShapeType(collidingObj.moCollider));
-	   oData.setColor( (Color) oEntity.getShape().getPaint());
-	   oData.setEntityId(oEntity.getId());
-		
-	   oData.setObjectPosition( collidingObj.meColPos);  
-	   oData.setSensorType(poSensorType);
-	    
-				
-		// FIXME: (horvath) - temporary polar coordinates calculation
-		clsSensorPositionChange oSensor = (clsSensorPositionChange)(moSensorsExt.get(eSensorExtType.POSITIONCHANGE));
-		clsPolarcoordinate oRel = collidingObj.mrColPoint;
-		oRel.moAzimuth = new Angle(clsSensorDataCalculation.normalizeRadian(oRel.moAzimuth.radians - oSensor.getLastPosition().getAngle().radians));
-				
-		oData.setPolarcoordinate( new bfg.tools.shapes.clsPolarcoordinate(oRel.mrLength,oRel.moAzimuth.radians) );
-		
-		if( oEntity instanceof clsAnimal ){ oData.setAlive( ((clsAnimal)oEntity).isAlive() ); }
-		
-		/*FIXME HZ actually the antenna positions are undefined*/
-		if (oEntity instanceof clsBubble || oEntity instanceof  clsRemoteBot){
-			oData.setAntennaPositionLeft(eAntennaPositions.UNDEFINED); 
-			oData.setAntennaPositionRight(eAntennaPositions.UNDEFINED);
+		if(oEntity != null){
+		   oData.setEntityType( getEntityType(collidingObj.moCollider));		
+		   oData.setShapeType( getShapeType(collidingObj.moCollider));
+		   oData.setColor( (Color) oEntity.getShape().getPaint());
+		   oData.setEntityId(oEntity.getId());
+			
+		   oData.setObjectPosition( collidingObj.meColPos);  
+		   oData.setSensorType(poSensorType);
+		    
+					
+			// FIXME: (horvath) - temporary polar coordinates calculation
+			clsSensorPositionChange oSensor = (clsSensorPositionChange)(moSensorsExt.get(eSensorExtType.POSITIONCHANGE));
+			clsPolarcoordinate oRel = collidingObj.mrColPoint;
+			oRel.moAzimuth = new Angle(clsSensorDataCalculation.normalizeRadian(oRel.moAzimuth.radians - oSensor.getLastPosition().getAngle().radians));
+					
+			oData.setPolarcoordinate( new bfg.tools.shapes.clsPolarcoordinate(oRel.mrLength,oRel.moAzimuth.radians) );
+			
+			if( oEntity instanceof clsAnimal ){ oData.setAlive( ((clsAnimal)oEntity).isAlive() ); }
+			
+			/*FIXME HZ actually the antenna positions are undefined*/
+			if (oEntity instanceof clsBubble || oEntity instanceof  clsRemoteBot){
+				oData.setAntennaPositionLeft(eAntennaPositions.UNDEFINED); 
+				oData.setAntennaPositionRight(eAntennaPositions.UNDEFINED);
+			}
 		}
 		
 		return oData;
@@ -500,10 +494,14 @@ public class clsBrainSocket implements itfStepProcessing {
 	 * @return
 	 */
 	private void convertEatableAreaEntry(clsCollidingObject oCollider, clsEatableAreaEntry oEntry) {
-		clsAttributeAlive oAlive = (clsAttributeAlive)getEntity(oCollider.moCollider).getBody().getAttributes().getAttribute(eBodyAttributes.ALIVE);
+		clsEntity oEntity= getEntity(oCollider.moCollider); 
 		
-		oEntry.setIsAlive( oAlive.isAlive());
-		oEntry.setIsConsumeable( oAlive.isConsumeable());
+		if(oEntity != null){
+			clsAttributeAlive oAlive = (clsAttributeAlive)oEntity.getBody().getAttributes().getAttribute(eBodyAttributes.ALIVE);
+			
+			oEntry.setIsAlive( oAlive.isAlive());
+			oEntry.setIsConsumeable( oAlive.isConsumeable());
+		}
 	}
 	
 	/**
