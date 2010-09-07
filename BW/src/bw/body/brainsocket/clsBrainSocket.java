@@ -134,6 +134,8 @@ public class clsBrainSocket implements itfStepProcessing {
 		oData.addSensorExt(eSensorExtType.BUMP, convertBumpSensor() );
 		oData.addSensorExt(eSensorExtType.POSITIONCHANGE, convertPositionChangeSensor(eSensorExtType.POSITIONCHANGE) );
 		oData.addSensorExt(eSensorExtType.RADIATION, convertRadiationSensor() );
+		//HZ VISION Sensor is required for lynx and hares setup; 
+		oData.addSensorExt(eSensorExtType.VISION, convertVisionSensor(eSensorExtType.VISION) );
 		oData.addSensorExt(eSensorExtType.VISION_NEAR, convertVisionSensor(eSensorExtType.VISION_NEAR) );
 		oData.addSensorExt(eSensorExtType.VISION_MEDIUM, convertVisionSensor(eSensorExtType.VISION_MEDIUM) );
 		oData.addSensorExt(eSensorExtType.VISION_FAR, convertVisionSensor(eSensorExtType.VISION_FAR) );
@@ -329,12 +331,18 @@ public class clsBrainSocket implements itfStepProcessing {
 		clsVision oData = new clsVision();
 		oData.setSensorType(poVisionType);
 		clsSensorVision oVision = (clsSensorVision)(moSensorsExt.get(poVisionType));
-		ArrayList<clsCollidingObject> oDetectedObjectList = oVision.getSensorData();
 		
-		for(clsCollidingObject oCollider : oDetectedObjectList){
-			clsVisionEntry oEntry = convertVisionEntry(oCollider, poVisionType);
-			oEntry.setNumEntitiesPresent(setMeNumber(oDetectedObjectList.size()) );
-			oData.add(oEntry);
+		if(oVision != null){
+			ArrayList<clsCollidingObject> oDetectedObjectList = oVision.getSensorData();
+			
+			for(clsCollidingObject oCollider : oDetectedObjectList){
+				clsVisionEntry oEntry = convertVisionEntry(oCollider, poVisionType);
+				
+				if(oEntry != null){
+					oEntry.setNumEntitiesPresent(setMeNumber(oDetectedObjectList.size()) );
+					oData.add(oEntry);
+				}
+			}
 		}
 		
 		return oData;
@@ -353,12 +361,19 @@ public class clsBrainSocket implements itfStepProcessing {
 		clsManipulateArea oData = new clsManipulateArea();
 		oData.setSensorType(poVisionType);
 		clsSensorManipulateArea oManip = (clsSensorManipulateArea)(moSensorsExt.get(poVisionType));
-		ArrayList<clsCollidingObject> oDetectedObjectList = oManip.getSensorData();
-	
-		for(clsCollidingObject oCollider : oDetectedObjectList){
-			clsVisionEntry oTemp = convertVisionEntry(oCollider, poVisionType);
-			clsManipulateAreaEntry oEntry = new clsManipulateAreaEntry(oTemp);
-			oData.add(oEntry);
+		
+		if(oManip != null){
+			ArrayList<clsCollidingObject> oDetectedObjectList = oManip.getSensorData();
+		
+			for(clsCollidingObject oCollider : oDetectedObjectList){
+				clsVisionEntry oEntry = convertVisionEntry(oCollider, poVisionType);
+				if(oEntry != null){
+					clsManipulateAreaEntry oManipEntry = new clsManipulateAreaEntry(oEntry);
+					if(oManipEntry != null){
+						oData.add(oManipEntry);
+					}
+				}
+			}
 		}
 
 		return oData;
@@ -382,9 +397,15 @@ public class clsBrainSocket implements itfStepProcessing {
 		
 		for (clsCollidingObject oCollider : oDetectedObjectList) {
 			clsVisionEntry oVisionEntry = convertVisionEntry(oCollider, poVisionType);
-			clsEatableAreaEntry oEntry = new clsEatableAreaEntry(oVisionEntry);
-			convertEatableAreaEntry(oCollider, oEntry); 
-			oData.add(oEntry);
+			
+			if(oVisionEntry != null){
+				clsEatableAreaEntry oEntry = new clsEatableAreaEntry(oVisionEntry);
+			
+				if(oEntry != null){
+					convertEatableAreaEntry(oCollider, oEntry);
+					oData.add(oEntry);
+				}
+			}
 		}
 		
 		return oData;
@@ -434,14 +455,21 @@ public class clsBrainSocket implements itfStepProcessing {
 	 */
 	private clsVisionEntry convertVisionEntry(clsCollidingObject collidingObj, eSensorExtType poSensorType) {
 		clsEntity oEntity = getEntity(collidingObj.moCollider);
-	
-		clsVisionEntry oData = new clsVisionEntry();
-		oData.setEntityType( getEntityType(collidingObj.moCollider));		
-		oData.setShapeType( getShapeType(collidingObj.moCollider));
-		oData.setColor( (Color) oEntity.getShape().getPaint());
-		oData.setEntityId(oEntity.getId());
-		oData.setObjectPosition( collidingObj.meColPos);  
-		oData.setSensorType(poSensorType);
+		
+		if(oEntity == null){
+			return null; 
+		}
+		
+	    clsVisionEntry oData = new clsVisionEntry();
+	 
+	   oData.setEntityType( getEntityType(collidingObj.moCollider));		
+	   oData.setShapeType( getShapeType(collidingObj.moCollider));
+	   oData.setColor( (Color) oEntity.getShape().getPaint());
+	   oData.setEntityId(oEntity.getId());
+		
+	   oData.setObjectPosition( collidingObj.meColPos);  
+	   oData.setSensorType(poSensorType);
+	    
 				
 		// FIXME: (horvath) - temporary polar coordinates calculation
 		clsSensorPositionChange oSensor = (clsSensorPositionChange)(moSensorsExt.get(eSensorExtType.POSITIONCHANGE));
