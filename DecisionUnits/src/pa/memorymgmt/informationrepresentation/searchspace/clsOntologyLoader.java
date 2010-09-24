@@ -430,11 +430,11 @@ public class clsOntologyLoader {
 	
 
 	private static void checkStackDepth() {
-		long depth = Thread.currentThread().getStackTrace().length;
+		/*long depth = Thread.currentThread().getStackTrace().length;
 		
 		if (depth > mrMaxStackDepth) {
 			throw new StackOverflowError("max. call stack for clsAssociation<TYPE>.clone reached. either increase threshold constant or check code for an infinite clone loop. ("+depth+">"+mrMaxStackDepth+")");
-		}
+		}*/
 	}
 
 	/**
