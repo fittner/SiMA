@@ -47,6 +47,8 @@ public class E16_ManagementOfMemoryTraces extends clsModuleBase implements I2_6_
 	
 	public ArrayList<clsPair<clsPrimaryDataStructureContainer, clsDriveMesh>> moPerceptPlusRepressed_Input;
 	public ArrayList<clsTripple<clsPrimaryDataStructureContainer, clsDriveMesh, ArrayList<clsDriveMesh>>> moPerceptPlusMemories_Output;
+	public clsDataStructureContainer moRetrievedAssociatedDataStructures; 
+	public ArrayList<clsPair<Double, clsDataStructureContainer>> moRetrievedEnvironmentalMatches; 
 	/**
 	 * DOCUMENT (deutsch) - insert description 
 	 * 
@@ -196,7 +198,6 @@ public class E16_ManagementOfMemoryTraces extends clsModuleBase implements I2_6_
 			//by the way, DO NOT BLAME the programmer; BLAME the orderer
 			 
 			ArrayList<clsDriveMesh> oRetVal = new ArrayList<clsDriveMesh>();
-			clsDataStructureContainer oSearchResult = null; 
 			moSearchPattern.clear(); 
 			addToSearchPattern(eDataType.DM, oEnvironmentalInput.moDataStructure);
 			//It is for sure that the search retrieves a result as the search parameter is 
@@ -204,9 +205,9 @@ public class E16_ManagementOfMemoryTraces extends clsModuleBase implements I2_6_
 			//In addition the search retrieves exactly one result as the search parameter 
 			//obeys of a data-structure identification number. 
 			//=> Hence the container can be read out directly below; 
-			oSearchResult = accessKnowledgeBase().get(0).get(0).b;
+			moRetrievedAssociatedDataStructures = accessKnowledgeBase().get(0).get(0).b;
 			
-			for(clsAssociation oAssociation : oSearchResult.moAssociatedDataStructures){
+			for(clsAssociation oAssociation : moRetrievedAssociatedDataStructures.moAssociatedDataStructures){
 						clsDriveMesh oFoundDM = ((clsAssociationDriveMesh)oAssociation).getDM(); 
 						
 						if(oRepressedContent.moContentType.equals(oFoundDM.moContentType)){
@@ -246,12 +247,12 @@ public class E16_ManagementOfMemoryTraces extends clsModuleBase implements I2_6_
 	private clsPrimaryDataStructureContainer searchContainer(clsPrimaryDataStructureContainer poEnvInput) {
 		
 		clsPrimaryDataStructureContainer oCon = poEnvInput; 
-		ArrayList<clsPair<Double, clsDataStructureContainer>> oSearchResult = searchDS(poEnvInput.moDataStructure); 
+		moRetrievedEnvironmentalMatches = searchDS(poEnvInput.moDataStructure); 
 		
-		if(oSearchResult!=null){
-			//Only the best match is used for the further processing; this explains the 
-			//get(0) in the statement below. 
-			oCon = (clsPrimaryDataStructureContainer)oSearchResult.get(0).b; 
+		//Only the best match is used for the further processing; this explains the 
+		//get(0) in the statement below.
+		if(moRetrievedEnvironmentalMatches.size() > 0){
+			oCon = (clsPrimaryDataStructureContainer)moRetrievedEnvironmentalMatches.get(0).b; 
 			oCon.moAssociatedDataStructures = poEnvInput.moAssociatedDataStructures; 
 		}
 		//In case their does not exist a search result, the Environmental INPUT VALUE is assigned to the container.  
@@ -268,11 +269,21 @@ public class E16_ManagementOfMemoryTraces extends clsModuleBase implements I2_6_
 	 * @return
 	 */
 	private ArrayList<clsPair<Double, clsDataStructureContainer>>  searchDS(clsDataStructurePA poDS) {
+
+		ArrayList<clsPair<Double, clsDataStructureContainer>> oRetVal = new ArrayList<clsPair<Double,clsDataStructureContainer>>(); 
+		HashMap<Integer,ArrayList<clsPair<Double,clsDataStructureContainer>>> oFoundDS = new HashMap<Integer, ArrayList<clsPair<Double,clsDataStructureContainer>>>(); 
+		
 		moSearchPattern.clear(); 
 		addToSearchPattern(eDataType.UNDEFINED, poDS);
 		//The search pattern exists out of one entry => the returned hashmap contains only 
 		//ONE entry that has the key 0. 
-		return accessKnowledgeBase().get(0); 
+		oFoundDS = accessKnowledgeBase(); 
+		
+		if(oFoundDS.size() > 0){
+			oRetVal = accessKnowledgeBase().get(0); 
+		}
+		
+		return oRetVal; 
 	}
 	
 	/**
@@ -294,7 +305,7 @@ public class E16_ManagementOfMemoryTraces extends clsModuleBase implements I2_6_
 		 		if( !((clsThingPresentationMesh)poStoredContainer.moDataStructure).contain(oAAEnvironmentIn.moAssociationElementB) ){
 					ArrayList<clsPair<Double, clsDataStructureContainer>> oSearchResult = searchDS(oAAEnvironmentIn.moAssociationElementB);
 					
-					if( oSearchResult != null ){
+					if( oSearchResult.size() > 0){
 						clsAssociation oAssociation = new clsAssociationAttribute(new clsTripple<Integer, eDataType, String>(
 																								 -1, 
 																								 eDataType.ASSOCIATIONATTRIBUTE, 
