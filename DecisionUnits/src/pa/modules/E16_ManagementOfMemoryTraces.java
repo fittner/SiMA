@@ -196,8 +196,9 @@ public class E16_ManagementOfMemoryTraces extends clsModuleBase implements I2_6_
 			// 	- is this interpretation right?
 			//	- if so, is "aware content" the right name for these drive meshes
 			//by the way, DO NOT BLAME the programmer; BLAME the orderer
-			 
+			HashMap<Integer,ArrayList<clsPair<Double,clsDataStructureContainer>>> oFoundDS = new HashMap<Integer, ArrayList<clsPair<Double,clsDataStructureContainer>>>();  
 			ArrayList<clsDriveMesh> oRetVal = new ArrayList<clsDriveMesh>();
+			
 			moSearchPattern.clear(); 
 			addToSearchPattern(eDataType.DM, oEnvironmentalInput.moDataStructure);
 			//It is for sure that the search retrieves a result as the search parameter is 
@@ -205,15 +206,19 @@ public class E16_ManagementOfMemoryTraces extends clsModuleBase implements I2_6_
 			//In addition the search retrieves exactly one result as the search parameter 
 			//obeys of a data-structure identification number. 
 			//=> Hence the container can be read out directly below; 
-			moRetrievedAssociatedDataStructures = accessKnowledgeBase().get(0).get(0).b;
+			oFoundDS = accessKnowledgeBase(); 
 			
-			for(clsAssociation oAssociation : moRetrievedAssociatedDataStructures.moAssociatedDataStructures){
-						clsDriveMesh oFoundDM = ((clsAssociationDriveMesh)oAssociation).getDM(); 
-						
-						if(oRepressedContent.moContentType.equals(oFoundDM.moContentType)){
-							oRetVal.add(oFoundDM); 
-						}
-				}
+			if(oFoundDS.size() > 0){
+				moRetrievedAssociatedDataStructures = accessKnowledgeBase().get(0).get(0).b;
+				
+				for(clsAssociation oAssociation : moRetrievedAssociatedDataStructures.moAssociatedDataStructures){
+							clsDriveMesh oFoundDM = ((clsAssociationDriveMesh)oAssociation).getDM(); 
+							
+							if(oRepressedContent.moContentType.equals(oFoundDM.moContentType)){
+								oRetVal.add(oFoundDM); 
+							}
+					}
+			}
 							
 			return oRetVal; 
 	}

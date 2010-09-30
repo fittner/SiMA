@@ -151,16 +151,17 @@ public class S_ManagementOfRepressedContents_1 extends clsModuleBase implements 
 		moSearchPattern.clear(); 
 		addToSearchPattern(poType, poDS); 
 		
-		ArrayList<clsAssociation> oAssDS = null; 
+		HashMap<Integer,ArrayList<clsPair<Double,clsDataStructureContainer>>> oFoundDS = new HashMap<Integer, ArrayList<clsPair<Double,clsDataStructureContainer>>>(); 
+		ArrayList<clsAssociation> oAssDS = new ArrayList<clsAssociation>(); 
 		
-		try{
-			//FIXME HZ: IndexOutOfBound + NullpointerException should be avoided
-			//HZ 23.08.2010 Actually the best match is taken from the search result =>
-			//      		get(0) *2 
-			ArrayList<clsPair<Double, clsDataStructureContainer>> oResult = accessKnowledgeBase().get(0); 
-			oAssDS = oResult.get(0).b.moAssociatedDataStructures;
-		} catch (IndexOutOfBoundsException ex1){return null;
-		} catch (NullPointerException ex2){return null;}
+		//FIXME HZ: IndexOutOfBound + NullpointerException should be avoided
+		//HZ 23.08.2010 Actually the best match is taken from the search result =>
+		//      		get(0) *2 
+		oFoundDS = accessKnowledgeBase();
+				
+		if(oFoundDS.size() > 0){
+			oAssDS = oFoundDS.get(0).get(0).b.moAssociatedDataStructures;
+		}
 			
 		return oAssDS;
 	}

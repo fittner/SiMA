@@ -20,6 +20,7 @@ import pa.memorymgmt.datatypes.clsAssociationDriveMesh;
 import pa.memorymgmt.datatypes.clsDriveMesh;
 import pa.memorymgmt.datatypes.clsPrimaryDataStructureContainer;
 import pa.memorymgmt.datatypes.clsThingPresentation;
+import pa.memorymgmt.enums.eDataType;
 import pa.tools.clsPair;
 import pa.tools.clsTripple;
 import config.clsBWProperties;
@@ -136,8 +137,10 @@ public class clsRepressedContentStorage {
 	 * @return
 	 */
 	public clsDriveMesh getBestMatchCONVERTED(clsPrimaryDataStructureContainer poInput) {
+		clsThingPresentation oTP = (clsThingPresentation) clsDataStructureGenerator.generateDataStructure(eDataType.TP, new clsPair<String, Object>("NULL", "NULL")); 
+		clsTripple <String, ArrayList<clsThingPresentation>, Object> oContent = new clsTripple<String, ArrayList<clsThingPresentation>, Object>("REPRESSED", new ArrayList<clsThingPresentation>(Arrays.asList(oTP)), "DEFAULT"); 
 		
-		clsDriveMesh oRetVal = null;
+		clsDriveMesh oRetVal = (clsDriveMesh) clsDataStructureGenerator.generateDataStructure(eDataType.DM, oContent);
 		double rHighestMatch = 0.0;
 
 		for( clsDriveMesh oDMRepressedContent : moRepressedContentCONVERTED ) {
