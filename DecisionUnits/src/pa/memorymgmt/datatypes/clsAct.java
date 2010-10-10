@@ -198,12 +198,9 @@ public class clsAct extends clsSecondaryDataStructure {
 
 	@Override
 	public String toString(){
-		String oResult = "::"+this.moDataStructureType+"::"+this.moContent+"::";  
-		oResult += this.moDS_ID + ":";
+		String oResult = "::"+this.moDataStructureType+"::";  
+		oResult += this.moDS_ID + ":" + this.moContentType + ":" + this.moContent;
 			
-		for (clsSecondaryDataStructure oEntry : moAssociatedContent) {
-			oResult += oEntry.toString() + ":"; 
-		}
 //		
 //		if (oResult.length() > 4) {
 //			oResult = oResult.substring(0, oResult.length()-3);

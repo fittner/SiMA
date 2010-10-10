@@ -227,10 +227,11 @@ public class clsDriveMesh extends clsHomeostaticRepresentation{
 		String oResult = "::"+this.moDataStructureType+"::";  
 		oResult += this.moDS_ID + ":";
 		oResult += this.moContentType + ":";
+		oResult += this.moContent + ":";
 			
-		for (clsAssociation oEntry : moAssociatedContent) {
-			oResult += oEntry.toString() + ":"; 
-		}
+//		for (clsAssociation oEntry : moAssociatedContent) {
+//			oResult += oEntry.toString() + ":"; 
+//		}
 		oResult += " a: " + mrCathegoryAnal; 
 		oResult += " o: " + mrCathegoryOral;
 		oResult += " g: " + mrCathegoryGenital;

@@ -109,19 +109,20 @@ public class clsThingPresentationMesh extends clsPhysicalStructureComposition{
 				 */
 				oRetVal = oDataStructure.getNumbAssociations();
 		}
-		else if (oDataStructure.moDS_ID > -1){
-			return oRetVal;
-		}
+		else if (oDataStructure.moDS_ID > -1){	return oRetVal;	}
 		
 		//In case the data structure does not have an ID, it has to be compared to a stored 
 		//data structure and replaced by it (the processes base on information that is already
 		//defined.
 		//TPM content is represented by a list of attribute associations
-		
+		//TODO HZ Define why there is no if statement regarding the content!
 		if(this.moContent.intern() == oDataStructure.moContent.intern()){
-				oRetVal = getMatchScore(oContentListTemplate, oContentListUnknown);
+			oRetVal = getMatchScore(oContentListTemplate, oContentListUnknown);
 		}
-					
+		else if (this.moContentType.intern() == poDataStructure.moContentType.intern()){
+			oRetVal = getMatchScore(oContentListTemplate, oContentListUnknown);
+		}
+			
 		return oRetVal; 
 	}
 	
@@ -185,11 +186,12 @@ public class clsThingPresentationMesh extends clsPhysicalStructureComposition{
 	@Override
 	public String toString(){
 		String oResult = "::"+this.moDataStructureType+"::";  
-		oResult += this.moDS_ID + ":";
-			
-		for (clsAssociation oEntry : moAssociatedContent) {
-			oResult += oEntry.toString() + "/"; 
-		}
+		oResult += this.moDS_ID + ":" + this.moContentType + ":" + this.moContent;
+		
+//		for (clsAssociation oEntry : moAssociatedContent) {
+//			oResult += oEntry.toString() + ":"; 
+//		}
+		
 		return oResult; 
 	}
 }

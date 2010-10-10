@@ -129,7 +129,7 @@ public abstract class clsAssociation extends clsDataStructurePA{
 	@Override
 	public String toString(){
 		String oResult = "::"+this.moDataStructureType+"::";  
-		oResult += this.moDS_ID + ":";
+		oResult += this.moDS_ID + ":" + this.moContentType + "|";
 		
 		if(moAssociationElementA!=null){
 			oResult += "elementA:";

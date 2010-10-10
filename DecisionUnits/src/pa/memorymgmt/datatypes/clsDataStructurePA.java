@@ -104,7 +104,7 @@ public abstract class clsDataStructurePA implements Cloneable, itfComparable{
 			for(E oClonedKnownDS : oClonedTemplateList){
 				
 				if( oClonedKnownDS instanceof clsAssociation ){
-					rMatchScoreTemp = ((clsAssociation)oClonedKnownDS).moAssociationElementB.compareTo(((clsAssociation)oUnknownDS).moAssociationElementB); 
+					rMatchScoreTemp = ((clsAssociation)oClonedKnownDS).moAssociationElementB.compareTo(((clsAssociation)oUnknownDS).moAssociationElementB) * ((clsAssociation)oClonedKnownDS).mrImperativeFactor; 
 				}
 				else if (oClonedKnownDS instanceof clsSecondaryDataStructure){
 					rMatchScoreTemp = oClonedKnownDS.compareTo(oUnknownDS);

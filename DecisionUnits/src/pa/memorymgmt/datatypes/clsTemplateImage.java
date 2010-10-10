@@ -170,11 +170,11 @@ public class clsTemplateImage extends clsPhysicalStructureComposition{
 	@Override
 	public String toString(){
 		String oResult = "::"+this.moDataStructureType+"::";  
-		oResult += this.moDS_ID + ":";
+		oResult += this.moDS_ID + ":" + this.moContentType + ":" + this.moContent + "|";
 			
-		for (clsAssociation oEntry : moAssociatedContent) {
-			oResult += oEntry.toString() + ":"; 
-		}
+//		for (clsAssociation oEntry : moAssociatedContent) {
+//			oResult += oEntry.toString() + ":"; 
+//		}
 		return oResult; 
 	}
 

@@ -132,8 +132,8 @@ public class clsThingPresentation extends clsPhysicalRepresentation{
 	@Override
 	public String toString(){
 		String oResult = "::"+this.moDataStructureType+"::";  
-		oResult += this.moDS_ID + ":";
-		oResult += moContentType +":" + moContent.toString();
+		oResult += this.moDS_ID + ":" + this.moContentType + ":" + this.moContent;
+	
 		return oResult; 
 	}
 }

@@ -72,10 +72,9 @@ public class clsWordPresentation extends clsSecondaryDataStructure{
 	
 	@Override
 	public String toString(){
-		String oResult = this.moDataStructureType+":";  
-		oResult += this.moDS_ID + ":";
-		oResult += moContent + "|";
-		
-		return oResult; 
+			String oResult = "::"+this.moDataStructureType+"::";  
+			oResult += this.moDS_ID + ":" + this.moContentType + ":" + this.moContent;
+			
+			return oResult; 
 	}
 }
