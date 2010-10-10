@@ -77,7 +77,7 @@ public abstract class clsDataStructureGenerator {
 	}
 	
 	public static clsThingPresentationMesh generateTPM(clsTripple <String, ArrayList<clsPhysicalRepresentation>, Object> poContent){
-		clsThingPresentationMesh oRetVal = null; 
+		clsThingPresentationMesh oRetVal; 
 		String oContentType = poContent.a;
 		String oContent = (String)poContent.c; 
 		ArrayList<clsAssociation> oAssociatedContent = new ArrayList<clsAssociation>();
@@ -94,7 +94,7 @@ public abstract class clsDataStructureGenerator {
 	}
 	
 	public static clsTemplateImage generateTI(clsTripple <String, ArrayList<clsPhysicalRepresentation>, Object> poContent){
-		clsTemplateImage oRetVal = null; 
+		clsTemplateImage oRetVal; 
 		String oContentType = poContent.a;
 		String oContent = (String)poContent.c;
 		ArrayList<clsAssociation> oAssociatedContent = new ArrayList<clsAssociation>();
@@ -111,7 +111,7 @@ public abstract class clsDataStructureGenerator {
 	}
 	
 	public static clsAffect generateAFFECT(clsPair <String, Object> poContent){
-		clsAffect oRetVal = null; 
+		clsAffect oRetVal; 
 		String oContentType = poContent.a;
 		double oContent = (Double)poContent.b;
 		
@@ -120,7 +120,7 @@ public abstract class clsDataStructureGenerator {
 	}
 	
 	public static clsDriveDemand generateDRIVEDEMAND(clsPair <String, Object> poContent){
-		clsDriveDemand oRetVal = null; 
+		clsDriveDemand oRetVal; 
 		String oContentType = poContent.a;
 		double oContent = (Double)poContent.b;
 		
@@ -129,7 +129,7 @@ public abstract class clsDataStructureGenerator {
 	}
 		
 	public static clsDriveMesh generateDM(clsTripple <String, ArrayList<clsThingPresentation>, Object> poContent){
-		clsDriveMesh oRetVal = null; 
+		clsDriveMesh oRetVal; 
 		String oContentType = poContent.a;
 		String oContent = (String)poContent.c; 
 		double oPleasure = 0.0;
@@ -155,7 +155,7 @@ public abstract class clsDataStructureGenerator {
 	}
 	
 	public static clsAct generateACT(clsTripple <String, ArrayList<clsSecondaryDataStructure>, Object> poContent){
-		clsAct oRetVal = null; 
+		clsAct oRetVal; 
 		String oContentType = poContent.a;
 		String oContent = (String)poContent.c; 
 		ArrayList<clsSecondaryDataStructure> oAssociatedContent = poContent.b; 
