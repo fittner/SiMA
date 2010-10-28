@@ -16,7 +16,10 @@ import java.lang.reflect.Method;
  * 
  * doucmentation by AP:
  * Class Pair is a generic class that can be used to store two datatypes which are connected to each other by the context
- * for example a word and a thing presentation can be stored as a unique data-set
+ * for example a word and a thing presentation can be stored as a unique data-set. constructor checks that left and right 
+ * are not null. this is not checked afterwards. thus, if b is set to null for an already created object, it will not be 
+ * checked. this is a design descision - the class should be as simple as possible without the use of getter and setter
+ * methods.
  * 
  */
 public class clsPair<A, B> implements Cloneable {
@@ -25,6 +28,9 @@ public class clsPair<A, B> implements Cloneable {
 	public B b;
  
     public clsPair(final A left, final B right) {
+    	if (left == null || right == null) {
+    		throw new java.lang.NullPointerException();
+    	}
         this.a = left;
         this.b = right;
     }

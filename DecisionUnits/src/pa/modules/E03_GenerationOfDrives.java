@@ -209,6 +209,7 @@ public class E03_GenerationOfDrives extends clsModuleBase implements I1_2_receiv
 		oContent.add(oDataStructure); 
 		
 		oRetVal = (pa.memorymgmt.datatypes.clsDriveMesh)clsDataStructureGenerator.generateDataStructure(eDataType.DM, new clsTripple<String,Object, Object>(oContentType, oContent, oContext));
+		
 		oRetVal.setAnal(poDriveDef.moDriveContentRatio.get(eContext.DEFAULT).getAnal());
 		oRetVal.setGenital(poDriveDef.moDriveContentRatio.get(eContext.DEFAULT).getGenital());
 		oRetVal.setOral(poDriveDef.moDriveContentRatio.get(eContext.DEFAULT).getOral());
