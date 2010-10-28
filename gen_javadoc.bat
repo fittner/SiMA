@@ -1,6 +1,6 @@
 
-"C:\Program Files\Java\jdk1.6.0_16\bin"\javadoc ^
-	-d W:\javadoc ^
+"C:\Program Files\Java\jdk1.6.0_20\bin"\javadoc ^
+	-d s:\javadoc ^
 	-sourcepath S:\ARS\PA\BWv1\DecisionUnitInterface\src;S:\ARS\PA\BWv1\BW\src;S:\ARS\PA\BWv1\DecisionUnitMasonInspectors\src;S:\ARS\PA\BWv1\DecisionUnits\src; ^
 	-subpackages bw:ARSsim:resources:sim:bfg:config:decisionunit:du:enums:factories:statictools:inspectors:resources:bfg:lifeCycle:LocalizationOrientation:memory:pa:resources:simple:symbolization: ^
         -use ^
