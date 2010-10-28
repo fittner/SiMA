@@ -1,12 +1,25 @@
+AUTHORS
+=======
+
+1. Changelog
+------------
+  - 2010-10-28 ... Initial File (Tobias Deutsch)
+  
+2. Authors
+----------
+
 This project consists of contributions from several people, recognized here for convenience,
 in alphabetical order.
 
 Robert Borer (ICT)
+Rainer Braeuer (ICT)
 Tobias Deutsch (ICT)
 Benjamin Doenz (ICT)
+Roswitha Gartner (ICT)
 Andreas Gruber (ICT)
 Edgar Holleis (ICT)
 Matei Horvath (ICT)
+Rifat Kilic (ICT)
 Stefan Kohlhauser (ICT)
 Roland Lang (ICT)
 Clemens Muchitsch (ICT)
@@ -15,7 +28,14 @@ Andreas Perner (ICT)
 Patrick Puddu (ICT)
 Naumann Qadeer (ICT)
 Charlotte Roesener (ICT)
+Christiane Riedinger (ICT)
+Bernhard Sandler (ICT)
 Stefan Scheiber (ICT)
+Rupert Schneeberger (ICT)
 Heimo Zeilinger (ICT)
 Tehseen Zia (ICT)
+Stefan Zlabinger (ICT)
 Gerhard Zucker ne Pratl (ICT)
+
+
+ICT ... Institute of Computer Technology / Vienna University of Technology

@@ -1,104 +1,76 @@
+Installation Manual
+===================
 
-Info um Mason & Co zu installieren:
+1. Changelog
+------------
+  - 2010-10-28 ... Initial File (Tobias Deutsch)
+  
+2. Directory Structure (first four levels)
+------------------------------------------
+	\ ARS
+		\ PA
+			\ BWv1
+				\ BW 					(1) ... Bubble World / ARSIN-World. the world and the agents within the world
+				\ DecisionUnitInterface (1)  ... interfaces which are needed to decouple control systems stored in DecisionUnits from code in BW
+				\ DecisionUnits 		(1) ... control systems / decision units 
+				\ ExtTools 				(2) ... tools needed for the whole system like world setup editor
+				\ jgraphx 				(3) ... visualization tools like pie charts, block diagrams, etc.
+				\ Mason 				(3')... Multi Agent Simulation of Networks or Neighbors or ...
+				\ MasonPhysics2D 		(3) ... Physics engine addon for MASON
+				\ protegeAPI 			(3) ... the ontolgies for some decision units are written in OWL. this api provides tools to work with them
+				\ Sim 					(1) ... The control loop of the simulation plus the configuration
+				\ TestApps 				(2) ... additional testbeds/simulations
 
-History:
+	(1) core directories. here most of coding for this project is done.
+	(2)	adittionals directories. a place where testing and debugging can be done. also some kind of forking place.
+	(3) third party projects. 
+	(3') some bugfixing which was not included in the official branch.
 
-- 2008-11-13 ... Punkt 8 überarbeitet (CM)
-- 2008-11-11 ... Umgebung einrichten & Subversive Infos hinzugekommen (CM)
-- 2008-11-10 ... Initial File (CM)
+3. Installation
+---------------
+	1. extract the ARSIN_v??.zip to a directory. e.g. SVN
+	2. link the directory to your file system
+		a. LINUX: /home/$user/SVN/ARS/.... 
+		b. S:\ARS\...
+	3. start ECLIPSE and select "S:\ARS\PA\BWv1" or "/SVN/ARS/PA/BWv1" as workspace directory
+	
+	If you want to use another directory, please adapt "ARS/PA/BWv1/DecisionUnitInterface/statictools/clsGetARSPath.java" to meet you requirements.
 
-
-ACHTUNG: für Entwickler die sich alles aus dem Repository holen, beginnt es erst bei Punkt 8.
-
-
-
-1. Aufbau Filesystem:
-
-SVN Rep wird auf ein Verzeichnis auf der Platte gelegt.
-zB C:\Work\SVN\ARS (ARS ist das SVN Root für die Development Dateien!)
-dann mit "subst S: C:\Work\SVN\" LW S: erstellen
-
-damit sollte S: so aussehen...   S:\ARS\PA\BFG30...
-
-
-2. Aufbau Projekte:
-
-S:\ARS\PA\BFG30 ... ist der Eclipse Workspace, der alle Projekte enthällt
-
-S:\ARS\PA\BFG30\BFG ... ist das Development Verzeichnis des BubbleFamilyGames
-
-S:\ARS\PA\BFG30\ExtTools ...Externe Tools wie StateChart-Editor, etc
-
-S:\ARS\PA\BFG30\TestApps ... Spielwiese für Mason-Begeisterte
-
-S:\ARS\PA\BFG30\Mason ... ist das Mason Development Verz.
---> derzeit Version v13
-
-S:\ARS\PA\BFG30\Mason\lib ... enthällt alle optionalen libraries (siehe Mason einrichten)
-
-
-4. Mason Projekt einrichten:
-
-Link zu einem guten SetUp für Mason in Eclipse Dokument: 
-http://www.swarm.org/images/1/10/How-to_set_up_%26_use_Eclipse_with_Mason.pdf
-
-Nachdem das Mason Projekt richtig angelegt ist, die externen libs als external JARs in Eclipse hinzufügen:
-
-Files von der MASOn HP: http://cs.gmu.edu/~eclab/projects/mason/
--jcommon-1.0.0.jar
--jfreechart-1.0.1.jar
--itext-1.2.jar
--jmf.jar
-
-Files der Java 3D 1.5.1 API (wenn es nicht geht, dann einfach die Java3D API installieren von der SUN HP)
--j3dcore.jar
--j3dutils.jar
--vecmath.jar
-
-
-5. Mason Physics einrichten:
-
-von Mason HP runterladen
-in Verzeichnisstruktur importieren (wie zB im Mason Setup Dokument gezeigt)
-
-Mason Projekt als Referenz hinzufügen
-
-
-6. BFG einrichten
-
-Mason Projekt als Referenz hinzufügen
-MasonPhysics2D Projekt als Referenz hinzufügen
-
-
-7. Vorgehensweise bei Änderungen in MASON & MASONPhysics2D
-
-es gibt 2 Projekte:
-ARSMason
-ARSMasonPhysics2D
-
-diese sind derzeit leer, dort sollen Änderungen der Mason Engine vorgenommen werden wenn Bedarf besteht.
-
-
-8. Umgebung einrichten:
-
-Eclipse starten:
-
-Workspace directory = S:\ARS\PA\BFG30
-
-- Subversive installieren:
-
-Subversive installation instructions:
-http://www.eclipse.org/subversive/documentation/gettingStarted/aboutSubversive/install.php
-
-Nur der "Subversive SVN Team Provider" wird gebraucht.
-
-Link zu connectors
-http://www.polarion.org/projects/subversive/download/eclipse/2.0/update-site/
-
-
-SVN Link:
-svn+ssh://vesta.ict.tuwien.ac.at/home/prj/ARS/SVNRoot/SVNRepository/ARS/PA
-
-
-
----EOL---
+4. Run the Simulation
+---------------------
+	The common starting point is "ARS/PA/BWv1/Sim/src/sim/clsBWMainWithUI.java". 
+	
+	Possible arguments are:
+		-config <arg>
+			<arg> int 0-3
+					0: filename = "testsetup.main.properties"
+					1: filename = "funguseater.main.properties"
+					2: filename = "hare_vs_lynx.main.properties"
+					3: filename = "one_bubble.properties"
+			<arg> "filename"
+					filename = "filename"
+			<default>
+					0
+					
+		-adapter <arg>
+			<arg> Boolean	
+					true: show fast config adapter (allows a quick setup change of the config file defined in -config)
+					false: skip fast config adapter
+			<default>
+					false
+					
+		-path <arg>
+			<arg> "directory"
+					selects a different config file directory. 
+			<default>
+				"ARS/PA/BWv1/Sim/config"
+				
+		-impstages <arg>
+			<arg> "filename"
+					defines for decision unit PA (psycho analysis) which implmented versions of each module should be used.
+			<default>
+					as defined in the code
+		
+		
+		
+-- EOF --

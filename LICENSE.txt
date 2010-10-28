@@ -1,3 +1,14 @@
+LICENSE
+=======
+
+1. Changelog
+------------
+  - 2010-10-28 ... Initial File (Tobias Deutsch)
+  
+  
+2. License
+----------
+
 Most of ARSINI-World is licensed under the Academic Free License, version 3.0,
 with the exception of the following files:
 
