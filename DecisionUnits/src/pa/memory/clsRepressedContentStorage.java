@@ -77,7 +77,7 @@ public class clsRepressedContentStorage {
 	public clsPrimaryInformation getBestMatch(
 			HashMap<eContext, clsDriveContentCategories> poDrvContent) {
 
-		clsPrimaryInformation oRetVal = null;
+		clsPrimaryInformation oRetVal = new clsPrimaryInformation();
 		double rHighestMatch = 0;
 
 		for( clsPrimaryInformation oRep : moRepressedContent ) {
