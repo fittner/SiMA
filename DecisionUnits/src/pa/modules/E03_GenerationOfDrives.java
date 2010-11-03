@@ -10,13 +10,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import pa.clsInterfaceHandler;
-import pa.datatypes.clsAffectCandidate;
-import pa.datatypes.clsAssociationContext;
-import pa.datatypes.clsDriveMesh;
-import pa.datatypes.clsDriveObject;
-import pa.datatypes.clsPrimaryInformation;
-import pa.datatypes.clsPrimaryInformationMesh;
-import pa.datatypes.clsThingPresentationSingle;
 import pa.interfaces.receive.I1_2_receive;
 import pa.interfaces.receive.I1_3_receive;
 import pa.interfaces.send.I1_3_send;
@@ -46,8 +39,6 @@ public class E03_GenerationOfDrives extends clsModuleBase implements I1_2_receiv
 	public ArrayList<clsPair<clsTemplateDrive, clsTemplateDrive>> moDriveDefinition = null;
 	public HashMap<String, Double> moHomeostasisSymbols = null;
 	
-	ArrayList<clsPair<clsPair<clsPrimaryInformationMesh, clsAffectCandidate>, 
-			  		  clsPair<clsPrimaryInformationMesh, clsAffectCandidate>>> moHomeostaticTP_old;
 	ArrayList<clsPair<clsPair<pa.memorymgmt.datatypes.clsDriveMesh, clsDriveDemand>, 
 	                  clsPair<pa.memorymgmt.datatypes.clsDriveMesh, clsDriveDemand>>> moHomeostaticTP; 
 	
@@ -151,7 +142,6 @@ public class E03_GenerationOfDrives extends clsModuleBase implements I1_2_receiv
 	 * 
 	 * @see pa.modules.clsModuleBase#process()
 	 */
-	@SuppressWarnings({ "unchecked", "rawtypes" }) //this is old code and will be replaced soon. thus, the line moHomeostaticTP.add(new clsPair( oDrive1, oDrive2 )); stays unchanged
 	@Override
 	protected void process_basic() {
 		moHomeostaticTP = new ArrayList<clsPair<clsPair<pa.memorymgmt.datatypes.clsDriveMesh, clsDriveDemand>, 
@@ -163,8 +153,6 @@ public class E03_GenerationOfDrives extends clsModuleBase implements I1_2_receiv
 			moHomeostaticTP.add(new clsPair<clsPair<pa.memorymgmt.datatypes.clsDriveMesh, clsDriveDemand>, 
 									clsPair<pa.memorymgmt.datatypes.clsDriveMesh, clsDriveDemand>>(oMeshA, oMeshB)); 
 		}
-		
-		process_oldDT();
 	}
 	
 	/**
@@ -241,111 +229,6 @@ public class E03_GenerationOfDrives extends clsModuleBase implements I1_2_receiv
 		return (clsDriveDemand)clsDataStructureGenerator.generateDataStructure(eDataType.DRIVEDEMAND, new clsPair<String,Object>(eDataType.DRIVEDEMAND.toString(),rDemand));  
 	}
 
-	/**
-	 * DOCUMENT (zeilinger) - insert description
-	 * This method is used while adapting the model from the old datatypes (pa.datatypes) to the
-	 * new ones (pa.memorymgmt.datatypes) The method has to be deleted afterwards.
-	 * @author zeilinger
-	 * 13.08.2010, 09:56:48
-	 * @deprecated
-	 */
-	private void process_oldDT() {
-		moHomeostaticTP_old = new ArrayList<clsPair<clsPair<clsPrimaryInformationMesh, clsAffectCandidate>, 
-		  clsPair<clsPrimaryInformationMesh, clsAffectCandidate>>>();
-		
-		for( clsPair<clsTemplateDrive, clsTemplateDrive> oDriveDef : moDriveDefinition ) {
-			
-			clsPair<clsDriveMesh, clsAffectCandidate> oDrive1 = createDrive_old(oDriveDef.a);
-			clsPair<clsDriveMesh, clsAffectCandidate> oDrive2 = createDrive_old(oDriveDef.b);
-			oDrive1.a.moCounterDrive = oDrive2.a;	//marry drive couple
-			oDrive2.a.moCounterDrive = oDrive1.a;
-			
-			moHomeostaticTP_old.add(new clsPair( oDrive1, oDrive2 ));
-		}
-	}
-
-	@Deprecated
-	public clsPair<clsDriveMesh, clsAffectCandidate> createDrive_old(clsTemplateDrive oTPDrive) {
-		
-		clsDriveMesh oDriveMesh = new clsDriveMesh(new clsThingPresentationSingle());
-		clsAffectCandidate oAffectCandidate = null;
-		
-		oDriveMesh.moTP.meContentName = oTPDrive.moName;
-		oDriveMesh.moTP.meContentType = oTPDrive.meDriveContent.getClass().getName();
-		oDriveMesh.moTP.moContent = oTPDrive.meDriveContent;
-		oDriveMesh.moTP.moDriveContentCategory = oTPDrive.moDriveContentRatio;
-		
-		oDriveMesh.meDriveType = oTPDrive.meDriveType;
-		
-		
-		//create drive target
-		clsThingPresentationSingle oDriveTarget = new clsThingPresentationSingle();
-		oDriveTarget.meContentName = "Drivetarget";
-		oDriveTarget.meContentType = "Drivetarget";
-		oDriveTarget.moContent = oTPDrive.meDriveContent;
-		clsPrimaryInformation oPrimaryTarget = new clsPrimaryInformation(oDriveTarget);
-		clsAssociationContext<clsPrimaryInformation> oAssocTarget = new clsAssociationContext<clsPrimaryInformation>();
-		oAssocTarget.moElementA = oDriveMesh;
-		oAssocTarget.moElementB = oPrimaryTarget;
-		oAssocTarget.moAssociationContext = new clsPrimaryInformation(new clsThingPresentationSingle(moDriveObjectType, "target", null)); 
-		//storing the association in the mesh
-		oDriveMesh.moAssociations.add(oAssocTarget);
-		
-		
-		for( clsDriveObject oDriveObject : oTPDrive.moDriveObjects ) {
-			clsThingPresentationSingle oTPSingle = new clsThingPresentationSingle();
-			clsPrimaryInformation oPrimary = new clsPrimaryInformation(oTPSingle);
-			oTPSingle.meContentName = moDriveObjectType;
-			oTPSingle.meContentType = oDriveObject.meType.getClass().getName();
-			oTPSingle.moContent = oDriveObject.meType;
-			
-			//creating the association between the mesh and the attribute
-			clsAssociationContext<clsPrimaryInformation> oAssoc = new clsAssociationContext<clsPrimaryInformation>();
-			oAssoc.moElementA = oDriveMesh;
-			oAssoc.moElementB = oPrimary;
-			oAssoc.moAssociationContext = new clsPrimaryInformation(new clsThingPresentationSingle(moDriveObjectType, oDriveObject.meContext.getClass().getName(), oDriveObject.meContext)); 
-			//storing the association in the mesh
-			oDriveMesh.moAssociations.add(oAssoc);
-		}
-		
-		oAffectCandidate = createAffectCandidate_old( oTPDrive );
-		
-		return new clsPair<clsDriveMesh, clsAffectCandidate>(oDriveMesh, oAffectCandidate);
-	}	
-	
-	/**
-	 * DOCUMENT (langr) - calculates the current value of the drive-tension for one drive. 
-	 * can be originated in several 'organs' = internal-sensor values 
-	 *
-	 * @author langr
-	 * 13.10.2009, 16:33:56
-	 *
-	 * @param driveDef
-	 * @return
-	 * @deprecated
-	 */
-	private clsAffectCandidate createAffectCandidate_old(
-			clsTemplateDrive poDriveDef) {
-
-		clsAffectCandidate oRetVal = new clsAffectCandidate();
-
-		for( clsAffectCandidateDefinition oCandidateDef : poDriveDef.moAffectCandidate ) {
-			
-			if( moHomeostasisSymbols.containsKey(oCandidateDef.moSensorType) ) {
-				double rValue = moHomeostasisSymbols.get( oCandidateDef.moSensorType );
-				
-				if(oCandidateDef.mnInverse) {
-					oRetVal.mrTensionValue += ((oCandidateDef.mrMaxValue-rValue) / oCandidateDef.mrMaxValue)*oCandidateDef.mrRatio;
-				} 
-				else {
-					oRetVal.mrTensionValue += (rValue / oCandidateDef.mrMaxValue) * oCandidateDef.mrRatio;
-				}
-			}
-		}
-
-		return oRetVal;  //null;
-	}
-
 	/* (non-Javadoc)
 	 *
 	 * @author deutsch
@@ -355,7 +238,7 @@ public class E03_GenerationOfDrives extends clsModuleBase implements I1_2_receiv
 	 */
 	@Override
 	protected void send() {
-		send_I1_3(moHomeostaticTP_old,moHomeostaticTP);
+		send_I1_3(moHomeostaticTP);
 	}
 
 	/* (non-Javadoc)
@@ -366,9 +249,8 @@ public class E03_GenerationOfDrives extends clsModuleBase implements I1_2_receiv
 	 * @see pa.interfaces.send.I1_3_send#send_I1_3(java.util.ArrayList)
 	 */
 	@Override
-	public void send_I1_3(ArrayList<clsPair<clsPair<clsPrimaryInformationMesh, clsAffectCandidate>, clsPair<clsPrimaryInformationMesh, clsAffectCandidate>>> poDriveCandidate_old,
-			 			  ArrayList<clsPair<clsPair<pa.memorymgmt.datatypes.clsDriveMesh, clsDriveDemand>, clsPair<pa.memorymgmt.datatypes.clsDriveMesh, clsDriveDemand>>> poDriveCandidate) {
-		((I1_3_receive)moEnclosingContainer).receive_I1_3(moHomeostaticTP_old, moHomeostaticTP); 
+	public void send_I1_3(ArrayList<clsPair<clsPair<pa.memorymgmt.datatypes.clsDriveMesh, clsDriveDemand>, clsPair<pa.memorymgmt.datatypes.clsDriveMesh, clsDriveDemand>>> poDriveCandidate) {
+		((I1_3_receive)moEnclosingContainer).receive_I1_3(moHomeostaticTP); 
 	}
 
 	/* (non-Javadoc)

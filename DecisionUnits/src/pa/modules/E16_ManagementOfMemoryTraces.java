@@ -9,13 +9,8 @@ package pa.modules;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-import bfg.tools.clsMutableDouble;
-
 import config.clsBWProperties;
-import du.enums.eEntityType;
-import du.enums.pa.eRepressedContentType;
 import pa.clsInterfaceHandler;
-import pa.datatypes.clsPrimaryInformation;
 import pa.interfaces.knowledgebase.itfKnowledgeBaseAccess;
 import pa.interfaces.receive.I2_6_receive;
 import pa.interfaces.receive.I2_7_receive;
@@ -42,9 +37,6 @@ import pa.tools.clsTripple;
  */
 public class E16_ManagementOfMemoryTraces extends clsModuleBase implements I2_6_receive, I2_7_send, itfKnowledgeBaseAccess {
 
-	public ArrayList<clsPair<clsPrimaryInformation, clsPrimaryInformation>> moPerceptPlusRepressed_Input_old;
-	public ArrayList<clsTripple<clsPrimaryInformation, clsPrimaryInformation, ArrayList<clsPrimaryInformation>>> moPerceptPlusMemories_Output_old;
-	
 	public ArrayList<clsPair<clsPrimaryDataStructureContainer, clsDriveMesh>> moPerceptPlusRepressed_Input;
 	public ArrayList<clsTripple<clsPrimaryDataStructureContainer, clsDriveMesh, ArrayList<clsDriveMesh>>> moPerceptPlusMemories_Output;
 	public clsDataStructureContainer moRetrievedAssociatedDataStructures; 
@@ -64,7 +56,6 @@ public class E16_ManagementOfMemoryTraces extends clsModuleBase implements I2_6_
 		super(poPrefix, poProp, poEnclosingContainer, poInterfaceHandler);
 		applyProperties(poPrefix, poProp);	
 		
-		moPerceptPlusMemories_Output_old = new ArrayList<clsTripple<clsPrimaryInformation, clsPrimaryInformation,ArrayList<clsPrimaryInformation>>>();
 		moPerceptPlusMemories_Output = new ArrayList<clsTripple<clsPrimaryDataStructureContainer, clsDriveMesh,ArrayList<clsDriveMesh>>>(); 
 	}
 	
@@ -116,10 +107,8 @@ public class E16_ManagementOfMemoryTraces extends clsModuleBase implements I2_6_
 	 */
 	@SuppressWarnings("unchecked")
 	@Override
-	public void receive_I2_6(ArrayList<clsPair<clsPrimaryInformation, clsPrimaryInformation>> poPerceptPlusRepressed_old,
-			  ArrayList<clsPair<clsPrimaryDataStructureContainer, clsDriveMesh>> poPerceptPlusRepressed) {
+	public void receive_I2_6(ArrayList<clsPair<clsPrimaryDataStructureContainer, clsDriveMesh>> poPerceptPlusRepressed) {
 		
-		moPerceptPlusRepressed_Input_old = (ArrayList<clsPair<clsPrimaryInformation, clsPrimaryInformation>>)deepCopy(poPerceptPlusRepressed_old);
 		moPerceptPlusRepressed_Input = (ArrayList<clsPair<clsPrimaryDataStructureContainer, clsDriveMesh>>)deepCopy(poPerceptPlusRepressed);
 	}
 
@@ -133,7 +122,7 @@ public class E16_ManagementOfMemoryTraces extends clsModuleBase implements I2_6_
 	@Override
 	protected void process_basic() {
 		moPerceptPlusMemories_Output = getOutput(); 
-		process_oldDT(); 
+		//process_oldDT(); 
 	}
 	
 	/**
@@ -325,89 +314,6 @@ public class E16_ManagementOfMemoryTraces extends clsModuleBase implements I2_6_
 		}
 	}
 
-	/**
-	 * DOCUMENT (zeilinger) - insert description
-	 * This method is used while adapting the model from the old datatypes (pa.datatypes) to the
-	 * new ones (pa.memorymgmt.datatypes) The method has to be deleted afterwards.
-	 * @author zeilinger
-	 * 13.08.2010, 09:56:48
-	 * @deprecated
-	 */
-	private void process_oldDT() {
-		moPerceptPlusMemories_Output_old = getOutput_old(moPerceptPlusRepressed_Input_old); 
-	}
-
-	/**
-	 * DOCUMENT (zeilinger) - insert description
-	 *
-	 * @author zeilinger
-	 * 20.10.2009, 14:23:35
-	 *
-	 * @param moPerceptPlusRepressed_Input2
-	 * @return
-	 */
-	private ArrayList<clsTripple<clsPrimaryInformation, clsPrimaryInformation, ArrayList<clsPrimaryInformation>>> getOutput_old(
-			         ArrayList<clsPair<clsPrimaryInformation, clsPrimaryInformation>> poPerceptPlusRepressed_Input) {
-		
-		ArrayList<clsTripple<clsPrimaryInformation, clsPrimaryInformation,ArrayList<clsPrimaryInformation>>> oRetVal
-								= new ArrayList<clsTripple<clsPrimaryInformation, clsPrimaryInformation, ArrayList<clsPrimaryInformation>>>(); 
-		
-		for(clsPair<clsPrimaryInformation, clsPrimaryInformation>element : poPerceptPlusRepressed_Input){
-			oRetVal.add(changeRepressedContent(element)); 
-		}
-		return oRetVal;
-	}
-
-	/**
-	 * DOCUMENT (zeilinger) - insert description
-	 *
-	 * @author zeilinger
-	 * 20.10.2009, 14:48:40
-	 *
-	 * @param element
-	 * @return
-	 */
-	private clsTripple<clsPrimaryInformation, clsPrimaryInformation, ArrayList<clsPrimaryInformation>> changeRepressedContent(
-					clsPair<clsPrimaryInformation, clsPrimaryInformation> poInputElement) {
-		
-		ArrayList<clsPrimaryInformation> oAwareContentList = new ArrayList<clsPrimaryInformation>(); 
-		
-		if(poInputElement.a != null && poInputElement.b != null){
-			oAwareContentList = getAwareContentList(poInputElement); 
-			return new clsTripple<clsPrimaryInformation, clsPrimaryInformation, ArrayList<clsPrimaryInformation>>(poInputElement.a, poInputElement.b, oAwareContentList); 
-		}
-		return new clsTripple<clsPrimaryInformation, clsPrimaryInformation, ArrayList<clsPrimaryInformation>>(poInputElement.a, poInputElement.b, oAwareContentList); 
-	}
-
-	/**
-	 * DOCUMENT (zeilinger) - insert description
-	 *
-	 * @author zeilinger
-	 * 20.10.2009, 15:18:01
-	 *
-	 * @param poInputElement
-	 * @return
-	 */
-	
-	//HashMap<clsPrimaryInformation, clsMutableDouble> oContextResult = moEnclosingContainer.moMemory.moCurrentContextStorage.getContextRatiosPrim(mrContextSensitivity);
-	
-	private ArrayList<clsPrimaryInformation> getAwareContentList(clsPair<clsPrimaryInformation, clsPrimaryInformation> poInputElement) {
-
-		HashMap<clsPrimaryInformation, clsMutableDouble> oCurrentContextMap = this.moEnclosingContainer.moMemory.moCurrentContextStorage.getContextRatiosPrim(1); 
-		ArrayList <clsPrimaryInformation> oAwareContent = new ArrayList<clsPrimaryInformation>(); 
-		eEntityType oEntityType = eEntityType.valueOf(poInputElement.a.moTP.moContent.toString()); 
-		eRepressedContentType oRepressedContentType = eRepressedContentType.valueOf(poInputElement.b.moTP.moContent.toString()); 
-		
-		for(clsPrimaryInformation oContextName : oCurrentContextMap.keySet()){
-			String oCurrentContextType = oContextName.moTP.moContent.toString();
-			
-			oAwareContent.add(this.moEnclosingContainer.moMemory.moAwareContentsStore.getMappedContent(new clsTripple<String, String, String>(oEntityType.toString(), 
-							         oCurrentContextType.toString(),oRepressedContentType.toString()))); 
-		}
-		
-		return oAwareContent; 
-	 }
-	
 	/* (non-Javadoc)
 	 *
 	 * @author deutsch
@@ -417,7 +323,7 @@ public class E16_ManagementOfMemoryTraces extends clsModuleBase implements I2_6_
 	 */
 	@Override
 	protected void send() {
-		send_I2_7(moPerceptPlusMemories_Output_old, moPerceptPlusMemories_Output);
+		send_I2_7(moPerceptPlusMemories_Output);
 	}
 
 	/* (non-Javadoc)
@@ -428,9 +334,8 @@ public class E16_ManagementOfMemoryTraces extends clsModuleBase implements I2_6_
 	 * @see pa.interfaces.send.I2_7_send#send_I2_7(java.util.ArrayList)
 	 */
 	@Override
-	public void send_I2_7(ArrayList<clsTripple<clsPrimaryInformation, clsPrimaryInformation,ArrayList<clsPrimaryInformation>>> poPerceptPlusMemories_Output_old,
-			  ArrayList<clsTripple<clsPrimaryDataStructureContainer, clsDriveMesh,ArrayList<clsDriveMesh>>> poPerceptPlusMemories_Output) {
-		((I2_7_receive)moEnclosingContainer).receive_I2_7(moPerceptPlusMemories_Output_old, moPerceptPlusMemories_Output);
+	public void send_I2_7(ArrayList<clsTripple<clsPrimaryDataStructureContainer, clsDriveMesh,ArrayList<clsDriveMesh>>> poPerceptPlusMemories_Output) {
+		((I2_7_receive)moEnclosingContainer).receive_I2_7(moPerceptPlusMemories_Output);
 		
 	}
 

@@ -12,7 +12,6 @@ import java.util.List;
 
 import config.clsBWProperties;
 import pa.clsInterfaceHandler;
-import pa.datatypes.clsPrimaryInformation;
 import pa.interfaces.knowledgebase.itfKnowledgeBaseAccess;
 import pa.interfaces.receive.I1_5_receive;
 import pa.interfaces.receive.I6_3_receive;
@@ -32,7 +31,6 @@ import pa.tools.clsPair;
  * 
  */
 public class E09_KnowledgeAboutReality_unconscious extends clsModuleBase implements I1_5_receive, I6_3_send, itfKnowledgeBaseAccess {
-	ArrayList<clsPrimaryInformation> moPrimaryInformation_old;
 	ArrayList<clsPrimaryDataStructureContainer> moPrimaryInformation; 
 	
 	/**
@@ -99,8 +97,7 @@ public class E09_KnowledgeAboutReality_unconscious extends clsModuleBase impleme
 	 */
 	@SuppressWarnings("unchecked")
 	@Override
-	public void receive_I1_5(List<clsPrimaryInformation> poData_old, List<clsDriveMesh> poData) {
-		moPrimaryInformation_old = (ArrayList<clsPrimaryInformation>)deepCopy( (ArrayList<clsPrimaryInformation>)poData_old);
+	public void receive_I1_5(List<clsDriveMesh> poData) {
 		moPrimaryInformation = (ArrayList<clsPrimaryDataStructureContainer>)deepCopy((ArrayList<clsDriveMesh>)poData);
 	}
 

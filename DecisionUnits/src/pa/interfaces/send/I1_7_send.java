@@ -8,7 +8,6 @@ package pa.interfaces.send;
 
 import java.util.ArrayList;
 
-import pa.datatypes.clsSecondaryInformation;
 import pa.memorymgmt.datatypes.clsSecondaryDataStructureContainer;
 
 /**
@@ -19,6 +18,5 @@ import pa.memorymgmt.datatypes.clsSecondaryDataStructureContainer;
  * 
  */
 public interface I1_7_send {
-	public void send_I1_7(ArrayList<clsSecondaryInformation> poDriveList_old,
-						  ArrayList<clsSecondaryDataStructureContainer> poDriveList);
+	public void send_I1_7(ArrayList<clsSecondaryDataStructureContainer> poDriveList);
 }

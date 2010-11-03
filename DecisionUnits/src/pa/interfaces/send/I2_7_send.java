@@ -8,7 +8,6 @@ package pa.interfaces.send;
 
 import java.util.ArrayList;
 
-import pa.datatypes.clsPrimaryInformation;
 import pa.memorymgmt.datatypes.clsDriveMesh;
 import pa.memorymgmt.datatypes.clsPrimaryDataStructureContainer;
 import pa.tools.clsTripple;
@@ -21,6 +20,5 @@ import pa.tools.clsTripple;
  * 
  */
 public interface I2_7_send {
-	public void send_I2_7(ArrayList<clsTripple<clsPrimaryInformation, clsPrimaryInformation,ArrayList<clsPrimaryInformation>>> poPerceptPlusMemories_Output_old,
-						  ArrayList<clsTripple<clsPrimaryDataStructureContainer, clsDriveMesh,ArrayList<clsDriveMesh>>> poPerceptPlusMemories_Output);
+	public void send_I2_7(ArrayList<clsTripple<clsPrimaryDataStructureContainer, clsDriveMesh,ArrayList<clsDriveMesh>>> poPerceptPlusMemories_Output);
 }

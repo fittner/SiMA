@@ -8,7 +8,6 @@ package pa.interfaces.send;
 
 import java.util.ArrayList;
 
-import pa.datatypes.clsSecondaryInformation;
 import pa.memorymgmt.datatypes.clsSecondaryDataStructureContainer;
 
 /**
@@ -19,8 +18,6 @@ import pa.memorymgmt.datatypes.clsSecondaryDataStructureContainer;
  * 
  */
 public interface I2_12_send {
-	public void send_I2_12(ArrayList<clsSecondaryInformation> poFocusedPerception_old,
-						   ArrayList<clsSecondaryDataStructureContainer> poFocusedPerception,
-						   ArrayList<clsSecondaryInformation> poDriveList_old,
+	public void send_I2_12(ArrayList<clsSecondaryDataStructureContainer> poFocusedPerception,
 						   ArrayList<clsSecondaryDataStructureContainer> poDriveList);
 }

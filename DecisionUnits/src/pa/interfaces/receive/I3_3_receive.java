@@ -6,7 +6,10 @@
  */
 package pa.interfaces.receive;
 
+import java.util.ArrayList;
+
 import pa.interfaces.I_BaseInterface;
+import pa.memorymgmt.datatypes.clsAct;
 
 /**
  * DOCUMENT (deutsch) - insert description 
@@ -16,5 +19,5 @@ import pa.interfaces.I_BaseInterface;
  * 
  */
 public interface I3_3_receive extends I_BaseInterface {
-	public void receive_I3_3(int pnData);
+	public void receive_I3_3(ArrayList<clsAct> poRuleList);
 }

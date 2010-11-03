@@ -7,11 +7,8 @@
 package pa.interfaces.send;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 
-import pa.datatypes.clsSecondaryInformation;
 import pa.memorymgmt.datatypes.clsSecondaryDataStructureContainer;
-import pa.tools.clsPair;
 
 /**
  * DOCUMENT (deutsch) - insert description 
@@ -21,6 +18,5 @@ import pa.tools.clsPair;
  * 
  */
 public interface I7_1_send {
-	public void send_I7_1(HashMap<String, clsPair<clsSecondaryInformation, Double>> poTemplateResult_old, 
-			ArrayList<clsSecondaryDataStructureContainer> poTemplateResult);
+	public void send_I7_1(ArrayList<clsSecondaryDataStructureContainer> poTemplateResult);
 }

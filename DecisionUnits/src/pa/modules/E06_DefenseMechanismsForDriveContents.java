@@ -10,9 +10,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import pa.clsInterfaceHandler;
-import pa.datatypes.clsAffectTension;
-import pa.datatypes.clsPrimaryInformation;
-import pa.datatypes.clsThingPresentation;
 import pa.interfaces.receive.I1_5_receive;
 import pa.interfaces.receive.I1_6_receive;
 import pa.interfaces.receive.I3_1_receive;
@@ -40,12 +37,6 @@ public class E06_DefenseMechanismsForDriveContents extends clsModuleBase impleme
 	ArrayList<clsDriveMesh> moDriveList_Output;
 	ArrayList<clsPrimaryDataStructureContainer> moRepressedRetry_Input;
 	
-	ArrayList<clsPrimaryInformation> moRepressedRetry_Input_old; 
-	ArrayList<clsPrimaryInformation> moDriveList_Input_old;
-	ArrayList<clsPrimaryInformation> moDriveList_Output_old;
-	ArrayList<clsThingPresentation> moDeniedThingPresentations_old; 
-	ArrayList<clsAffectTension> moDeniedAffects_old;
-	
 	/**
 	 * DOCUMENT (deutsch) - insert description 
 	 * 
@@ -59,11 +50,6 @@ public class E06_DefenseMechanismsForDriveContents extends clsModuleBase impleme
 	public E06_DefenseMechanismsForDriveContents(String poPrefix,
 			clsBWProperties poProp, clsModuleContainer poEnclosingContainer, clsInterfaceHandler poInterfaceHandler) {
 		super(poPrefix, poProp, poEnclosingContainer, poInterfaceHandler);
-		
-		moDriveList_Input_old = new ArrayList<clsPrimaryInformation>();
-		moDriveList_Output_old = new ArrayList<clsPrimaryInformation>();
-		moDeniedThingPresentations_old = new ArrayList<clsThingPresentation>();
-		moDeniedAffects_old = new ArrayList<clsAffectTension>();
 		
 		applyProperties(poPrefix, poProp);		
 	}
@@ -116,8 +102,7 @@ public class E06_DefenseMechanismsForDriveContents extends clsModuleBase impleme
 	 */
 	@SuppressWarnings("unchecked")
 	@Override
-	public void receive_I1_5(List<clsPrimaryInformation> poData_old, List<clsDriveMesh> poData) {
-		moDriveList_Input_old = (ArrayList<clsPrimaryInformation>)deepCopy( (ArrayList<clsPrimaryInformation>)poData_old);
+	public void receive_I1_5(List<clsDriveMesh> poData) {
 		moDriveList_Input = (ArrayList<clsDriveMesh>)deepCopy( (ArrayList<clsDriveMesh>)poData);
 	}
 
@@ -143,8 +128,7 @@ public class E06_DefenseMechanismsForDriveContents extends clsModuleBase impleme
 	 */
 	@SuppressWarnings("unchecked")
 	@Override
-	public void receive_I4_3(List<clsPrimaryInformation> poPIs_old, List<clsPrimaryDataStructureContainer> poPIs) {
-		moRepressedRetry_Input_old = (ArrayList<clsPrimaryInformation>)deepCopy( (ArrayList<clsPrimaryInformation>)poPIs_old);
+	public void receive_I4_3(List<clsPrimaryDataStructureContainer> poPIs) {
 		moRepressedRetry_Input = (ArrayList<clsPrimaryDataStructureContainer>)deepCopy( (ArrayList<clsPrimaryDataStructureContainer>)poPIs);
 	}
 
@@ -173,21 +157,8 @@ public class E06_DefenseMechanismsForDriveContents extends clsModuleBase impleme
 		//TODO HZ: Up to now the driveList is passed through (deepCopy is called in the next module); 
 		//The interfaces send_I4_1 and send_I5_1 are filled with empty Lists. 
 		 moDriveList_Output = moDriveList_Input; 
-		 process_oldDT();
 	}
 	
-	/**
-	 * DOCUMENT (zeilinger) - insert description
-	 * This method is used while adapting the model from the old datatypes (pa.datatypes) to the
-	 * new ones (pa.memorymgmt.datatypes) The method has to be deleted afterwards.
-	 * @author zeilinger
-	 * 13.08.2010, 09:56:48
-	 * @deprecated
-	 */
-	private void process_oldDT() {
-		moDriveList_Output_old = moDriveList_Input_old; //pass everything through (deepCopy is called in the next module)
-	}
-
 	/* (non-Javadoc)
 	 *
 	 * @author deutsch
@@ -198,13 +169,9 @@ public class E06_DefenseMechanismsForDriveContents extends clsModuleBase impleme
 	@Override
 	protected void send() {
 		//HZ: null is a placeholder for the homeostatic information formed out of objects of the type pa.memorymgmt.datatypes 
-		send_I1_6(moDriveList_Output_old, moDriveList_Output);
-		send_I4_1(moDriveList_Input_old, moDeniedThingPresentations_old, moDeniedAffects_old, new ArrayList<clsPrimaryDataStructureContainer>(), new ArrayList<pa.memorymgmt.datatypes.clsThingPresentation>(),new ArrayList<clsAssociationDriveMesh>());
-		send_I5_1(moDeniedAffects_old, new ArrayList<clsPrimaryDataStructureContainer>());
-		
-		//FIXME (langr) - moPrimaryInformation.clear();
-		moDeniedThingPresentations_old.clear();
-		moDeniedAffects_old.clear();
+		send_I1_6(moDriveList_Output);
+		send_I4_1(new ArrayList<clsPrimaryDataStructureContainer>(), new ArrayList<pa.memorymgmt.datatypes.clsThingPresentation>(),new ArrayList<clsAssociationDriveMesh>());
+		send_I5_1(new ArrayList<clsPrimaryDataStructureContainer>());
 	}
 
 	/* (non-Javadoc)
@@ -215,8 +182,8 @@ public class E06_DefenseMechanismsForDriveContents extends clsModuleBase impleme
 	 * @see pa.interfaces.send.I1_6_send#send_I1_6(java.util.ArrayList)
 	 */
 	@Override
-	public void send_I1_6(ArrayList<clsPrimaryInformation> poDriveList_old, ArrayList<clsDriveMesh> poDriveList) {
-		((I1_6_receive)moEnclosingContainer).receive_I1_6(moDriveList_Output_old, moDriveList_Output);
+	public void send_I1_6(ArrayList<clsDriveMesh> poDriveList) {
+		((I1_6_receive)moEnclosingContainer).receive_I1_6(moDriveList_Output);
 	}
 
 	/* (non-Javadoc)
@@ -227,9 +194,8 @@ public class E06_DefenseMechanismsForDriveContents extends clsModuleBase impleme
 	 * @see pa.interfaces.send.I4_1_send#send_I4_1(java.util.List, java.util.List, java.util.List)
 	 */
 	@Override
-	public void send_I4_1(List<clsPrimaryInformation> poPIs_old, List<clsThingPresentation> poTPs_old, List<clsAffectTension> poAffects_old,
-			  			List<clsPrimaryDataStructureContainer> poPIs, List<pa.memorymgmt.datatypes.clsThingPresentation> poTPs, List<clsAssociationDriveMesh> poAffects) {
-		((I4_1_receive)moEnclosingContainer).receive_I4_1(moDriveList_Input_old, moDeniedThingPresentations_old, moDeniedAffects_old, new ArrayList<clsPrimaryDataStructureContainer>(), new ArrayList<pa.memorymgmt.datatypes.clsThingPresentation>(),new ArrayList<clsAssociationDriveMesh>());
+	public void send_I4_1(List<clsPrimaryDataStructureContainer> poPIs, List<pa.memorymgmt.datatypes.clsThingPresentation> poTPs, List<clsAssociationDriveMesh> poAffects) {
+		((I4_1_receive)moEnclosingContainer).receive_I4_1(new ArrayList<clsPrimaryDataStructureContainer>(), new ArrayList<pa.memorymgmt.datatypes.clsThingPresentation>(),new ArrayList<clsAssociationDriveMesh>());
 	}
 
 	/* (non-Javadoc)
@@ -240,8 +206,8 @@ public class E06_DefenseMechanismsForDriveContents extends clsModuleBase impleme
 	 * @see pa.interfaces.send.I5_1_send#send_I5_1(java.util.ArrayList)
 	 */
 	@Override
-	public void send_I5_1(ArrayList<clsAffectTension> poAffectOnlyList_old, ArrayList<clsPrimaryDataStructureContainer> poAffectOnlyList) {
-		((I5_1_receive)moEnclosingContainer).receive_I5_1(moDeniedAffects_old, new ArrayList<clsPrimaryDataStructureContainer>());	
+	public void send_I5_1(ArrayList<clsPrimaryDataStructureContainer> poAffectOnlyList) {
+		((I5_1_receive)moEnclosingContainer).receive_I5_1(new ArrayList<clsPrimaryDataStructureContainer>());	
 	}
 
 	/* (non-Javadoc)

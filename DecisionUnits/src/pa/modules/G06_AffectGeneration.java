@@ -10,9 +10,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import pa.clsInterfaceHandler;
-import pa.datatypes.clsAffectCandidate;
-import pa.datatypes.clsPrimaryInformation;
-import pa.datatypes.clsPrimaryInformationMesh;
 import pa.interfaces.receive.I1_4_receive;
 import pa.interfaces.receive.I1_5_receive;
 import pa.interfaces.receive.I2_8_receive;
@@ -86,9 +83,8 @@ public class G06_AffectGeneration extends clsModuleContainer implements
 	 * @see pa.interfaces.I1_4#receive_I1_4(int)
 	 */
 	@Override
-	public void receive_I1_4(ArrayList<clsPair<clsPair<clsPrimaryInformationMesh, clsAffectCandidate>,clsPair<clsPrimaryInformationMesh, clsAffectCandidate>>> poDriveCandidate_old,
-							 ArrayList<clsPair<clsPair<clsDriveMesh, clsDriveDemand>, clsPair<clsDriveMesh, clsDriveDemand>>> poDriveCandidate) {
-		moE05GenerationOfAffectsForDrives.receive_I1_4(poDriveCandidate_old, poDriveCandidate);
+	public void receive_I1_4(ArrayList<clsPair<clsPair<clsDriveMesh, clsDriveDemand>, clsPair<clsDriveMesh, clsDriveDemand>>> poDriveCandidate) {
+		moE05GenerationOfAffectsForDrives.receive_I1_4(poDriveCandidate);
 		
 	}
 
@@ -100,8 +96,8 @@ public class G06_AffectGeneration extends clsModuleContainer implements
 	 * @see pa.interfaces.I1_5#receive_I1_5(int)
 	 */
 	@Override
-	public void receive_I1_5(List<clsPrimaryInformation> poData_old, List<clsDriveMesh> poData) {
-		((I1_5_receive)moEnclosingContainer).receive_I1_5(poData_old, poData);
+	public void receive_I1_5(List<clsDriveMesh> poData) {
+		((I1_5_receive)moEnclosingContainer).receive_I1_5(poData);
 		
 	}
 
@@ -113,9 +109,8 @@ public class G06_AffectGeneration extends clsModuleContainer implements
 	 * @see pa.interfaces.I2_8#receive_I2_8(int)
 	 */
 	@Override
-	public void receive_I2_8(ArrayList<clsPair<clsPrimaryInformation, clsPrimaryInformation>> poMergedPrimaryInformation_old,
-			  ArrayList<clsPair<clsPrimaryDataStructureContainer, clsDriveMesh>> poMergedPrimaryInformation) {
-		moE18GenerationOfAffectsForPerception.receive_I2_8(poMergedPrimaryInformation_old, poMergedPrimaryInformation);
+	public void receive_I2_8(ArrayList<clsPair<clsPrimaryDataStructureContainer, clsDriveMesh>> poMergedPrimaryInformation) {
+		moE18GenerationOfAffectsForPerception.receive_I2_8(poMergedPrimaryInformation);
 		
 	}
 
@@ -127,8 +122,8 @@ public class G06_AffectGeneration extends clsModuleContainer implements
 	 * @see pa.interfaces.I2_9#receive_I2_9(int)
 	 */
 	@Override
-	public void receive_I2_9(ArrayList<clsPrimaryInformation> poMergedPrimaryInformation_old, ArrayList<clsPrimaryDataStructureContainer> poMergedPrimaryInformation) {
-		((I2_9_receive)moEnclosingContainer).receive_I2_9(poMergedPrimaryInformation_old, poMergedPrimaryInformation);
+	public void receive_I2_9(ArrayList<clsPrimaryDataStructureContainer> poMergedPrimaryInformation) {
+		((I2_9_receive)moEnclosingContainer).receive_I2_9(poMergedPrimaryInformation);
 		
 	}
 }

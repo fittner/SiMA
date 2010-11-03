@@ -8,20 +8,25 @@ package pa.modules;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Map;
 
 import config.clsBWProperties;
 import pa.clsInterfaceHandler;
-import pa.datatypes.clsSecondaryInformation;
 import pa.interfaces.knowledgebase.itfKnowledgeBaseAccess;
 import pa.interfaces.receive.I1_7_receive;
 import pa.interfaces.receive.I2_11_receive;
 import pa.interfaces.receive.I3_3_receive;
 import pa.interfaces.send.I3_3_send;
+import pa.memorymgmt.datahandler.clsDataStructureGenerator;
+import pa.memorymgmt.datatypes.clsAct;
 import pa.memorymgmt.datatypes.clsDataStructureContainer;
 import pa.memorymgmt.datatypes.clsDataStructurePA;
 import pa.memorymgmt.datatypes.clsSecondaryDataStructureContainer;
+import pa.memorymgmt.datatypes.clsWordPresentation;
+import pa.memorymgmt.enums.eActState;
 import pa.memorymgmt.enums.eDataType;
 import pa.tools.clsPair;
+import pa.tools.clsTripple;
 
 /**
  * DOCUMENT (deutsch) - insert description 
@@ -32,11 +37,9 @@ import pa.tools.clsPair;
  */
 public class E22_SuperEgo_preconscious extends clsModuleBase implements I1_7_receive, I2_11_receive, I3_3_send, itfKnowledgeBaseAccess {
 
-	//private ArrayList<clsSecondaryInformationMesh> moPerception_old;
-	//private ArrayList<clsSecondaryInformation> moDriveList_old;
-	
-	//private ArrayList<clsSecondaryDataStructureContainer> moPerception; 
-	//private ArrayList<clsSecondaryDataStructureContainer> moDriveList; 
+	private ArrayList<clsSecondaryDataStructureContainer> moPerception; 
+	//private ArrayList<clsSecondaryDataStructureContainer> moDriveList;  HZ - not used up to now
+	private ArrayList<clsAct> moRuleList; 
 	
 	/**
 	 * DOCUMENT (deutsch) - insert description 
@@ -51,7 +54,9 @@ public class E22_SuperEgo_preconscious extends clsModuleBase implements I1_7_rec
 	public E22_SuperEgo_preconscious(String poPrefix, clsBWProperties poProp,
 			clsModuleContainer poEnclosingContainer, clsInterfaceHandler poInterfaceHandler) {
 		super(poPrefix, poProp, poEnclosingContainer, poInterfaceHandler);
-		applyProperties(poPrefix, poProp);		
+		applyProperties(poPrefix, poProp);	
+		
+		moRuleList = new ArrayList<clsAct>();
 	}
 	
 	public static clsBWProperties getDefaultProperties(String poPrefix) {
@@ -100,9 +105,9 @@ public class E22_SuperEgo_preconscious extends clsModuleBase implements I1_7_rec
 	 * 
 	 * @see pa.interfaces.I1_7#receive_I1_7(int)
 	 */
+	//@SuppressWarnings("unchecked")
 	@Override
-	public void receive_I1_7(ArrayList<clsSecondaryInformation> poDriveList_old, ArrayList<clsSecondaryDataStructureContainer>poDriveList) {
-		//moDriveList_old = (ArrayList<clsSecondaryInformation>)this.deepCopy(poDriveList_old);
+	public void receive_I1_7(ArrayList<clsSecondaryDataStructureContainer>poDriveList) {
 		//moDriveList = (ArrayList<clsSecondaryDataStructureContainer>)this.deepCopy(poDriveList);		
 	}
 
@@ -113,10 +118,10 @@ public class E22_SuperEgo_preconscious extends clsModuleBase implements I1_7_rec
 	 * 
 	 * @see pa.interfaces.I2_11#receive_I2_11(int)
 	 */
+	@SuppressWarnings("unchecked")
 	@Override
-	public void receive_I2_11(ArrayList<clsSecondaryInformation> poPerception_old, ArrayList<clsSecondaryDataStructureContainer> poPerception) {
-		//moPerception_old = (ArrayList<clsSecondaryInformationMesh>)this.deepCopy(poPerception_old);	
-		//moPerception = (ArrayList<clsSecondaryDataStructureContainer>) this.deepCopy(poPerception); 
+	public void receive_I2_11(ArrayList<clsSecondaryDataStructureContainer> poPerception) {
+		moPerception = (ArrayList<clsSecondaryDataStructureContainer>) this.deepCopy(poPerception); 
 	}
 
 	/* (non-Javadoc)
@@ -128,9 +133,157 @@ public class E22_SuperEgo_preconscious extends clsModuleBase implements I1_7_rec
 	 */
 	@Override
 	protected void process_basic() {
-		mnTest++;
-		
+		moRuleList.clear(); 
+		getRules(); 
 	}
+
+	/**
+	 * DOCUMENT (zeilinger) - insert description
+	 *
+	 * @author zeilinger
+	 * 24.09.2010, 22:29:26
+	 *
+	 */
+	private void getRules() {
+		for(clsSecondaryDataStructureContainer oCon : moPerception){
+			ArrayList<clsAct> oActList = getMatchingAct(((clsWordPresentation)oCon.moDataStructure).moContent); 
+			moRuleList.addAll(oActList); 
+		}
+		//TODO - do the same for Homeostatic State
+	}
+	
+	/**
+	 * DOCUMENT (zeilinger) - insert description
+	 *
+	 * @author zeilinger
+	 * 03.09.2010, 18:56:20
+	 *
+	 * @param oActualGoal
+	 * @return
+	 */
+	private ArrayList<clsAct> getMatchingAct(String poActualState) {
+		String oActContent = getContent(poActualState);
+		clsAct oAct = generateAct(oActContent); 
+			
+		return retrieveMatch(oAct); 
+	}
+	
+	/**
+	 * DOCUMENT (zeilinger) - insert description
+	 *
+	 * @author zeilinger
+	 * 29.08.2010, 12:05:33
+	 *
+	 * @param moContent
+	 * @return
+	 */
+	private String getContent(String moContent) {
+		String oContent = ""; 
+		//Acts are retrieved by the consequence they have on the agent - hence the content String of the Act is constructed
+		//here - only the consequence part is filled
+		//The string looks like: "PRECONDITION||ACTION||CONSEQUENCE|NOURISH" or "PRECONDITION||ACTION||CONSEQUENCE|LOCATION:xy|"
+		oContent = eActState.PRECONDITION.name()+ "|" + moContent + "||" 
+				   + eActState.ACTION.name() + "||" 
+				   + eActState.CONSEQUENCE.name() + "||"; 
+	
+		return oContent;
+	}
+	
+	/**
+	 * DOCUMENT (zeilinger) - insert description
+	 *
+	 * @author zeilinger
+	 * 01.09.2010, 16:53:58
+	 *
+	 * @param poActualGoal
+	 * @return
+	 */
+	private clsAct generateAct(String poActualGoal) {
+		clsAct oAct = (clsAct)clsDataStructureGenerator.generateDataStructure(eDataType.ACT, new clsTripple<String, ArrayList<clsWordPresentation>, Object>(
+				eDataType.ACT.name(), new ArrayList<clsWordPresentation>(), poActualGoal));
+		
+		return oAct;
+	}
+	
+	/**
+	 * DOCUMENT (zeilinger) - insert description
+	 *
+	 * @author zeilinger
+	 * 28.08.2010, 11:50:46
+	 *
+	 * @param oActDummy
+	 * @param oDummy 
+	 * @return
+	 */
+	private ArrayList<clsAct> retrieveMatch(clsAct poDummy) {
+		moSearchPattern.clear(); 
+			
+		addToSearchPattern(eDataType.UNDEFINED, poDummy); 
+		HashMap<Integer, ArrayList<clsPair<Double,clsDataStructureContainer>>> oResult = accessKnowledgeBase(); 
+		//The Double value in clsPair defines the matching score of the retrieved Act and the 
+		//search pattern. This was ok for the primary data structures as there have not been 
+		//any logic relations within the data structures. Now there exist acts with "or" and "and"
+		//relations that may include many possibilities (see the acts for changing locations)
+		//=> actually a lot of acts are retrieved from the memory; E27 will have to sort them out.
+		//It has to be verified if this is a good solution, or if the comparison mode for the clsAct 
+		//datatype has to be changed
+		return extractSearchResult(oResult);
+	}
+	
+	/**
+	 * DOCUMENT (zeilinger) - insert description
+	 *
+	 * @author zeilinger
+	 * 30.08.2010, 15:16:31
+	 * @param poTestAct 
+	 *
+	 * @param oResult
+	 * @return
+	 */
+	private ArrayList<clsAct> extractSearchResult(HashMap<Integer,ArrayList<clsPair<Double, clsDataStructureContainer>>> oResult) {
+		
+		ArrayList<clsAct> oActs = new ArrayList<clsAct>();
+		
+		//HZ Up to now the match-value is not taken into account of the selection process
+		for(Map.Entry<Integer, ArrayList<clsPair<Double, clsDataStructureContainer>>> oEntry : oResult.entrySet()){
+			for(clsPair<Double, clsDataStructureContainer> oPair : oEntry.getValue()){
+				clsAct oAct = (clsAct)oPair.b.moDataStructure; 
+				
+				//FIXME - again, there has to be a different evaluation of the current Super-Ego Rules
+				if(oAct.moContent.contains("UNPLEASURE")){
+					oActs.add((clsAct)oPair.b.moDataStructure);
+				}
+			}
+		}
+		
+		return oActs;
+	}
+	
+//	/**
+//	 * DOCUMENT (zeilinger) - insert description
+//	 *
+//	 * @author zeilinger
+//	 * 01.09.2010, 10:56:57
+//	 *
+//	 * @param oTempActs
+//	 * @param oAct
+//	 * @return
+//	 */
+//	private ArrayList<clsAct> fullMatch(ArrayList<clsAct> poTempActs, clsAct poAct) {
+//			
+//			ArrayList<clsAct> oFullMatch = new ArrayList<clsAct>(); 
+//			String [] oPreConditionUnknown = poAct.moContent.substring(poAct.moContent.indexOf("|", poAct.moContent.indexOf(eActState.PRECONDITION.name())) + 1 , poAct.moContent.indexOf(eActState.ACTION.name())).split("[|]");
+//			
+//			//FIXME - SHould only be done by the information representation
+//			for(clsAct oEntry : poTempActs){
+//					double nMS = oEntry.compareTo(poAct); 
+//					
+//					if(nMS == oPreConditionUnknown.length){				
+//						oFullMatch.add(oEntry); 
+//					}
+//			}
+//			return oFullMatch;
+//	}
 
 	/* (non-Javadoc)
 	 *
@@ -141,7 +294,7 @@ public class E22_SuperEgo_preconscious extends clsModuleBase implements I1_7_rec
 	 */
 	@Override
 	protected void send() {
-		send_I3_3(mnTest);
+		send_I3_3(mnTest, moRuleList);
 		
 	}
 
@@ -153,9 +306,8 @@ public class E22_SuperEgo_preconscious extends clsModuleBase implements I1_7_rec
 	 * @see pa.interfaces.send.I3_3_send#send_I3_3(int)
 	 */
 	@Override
-	public void send_I3_3(int pnData) {
-		((I3_3_receive)moEnclosingContainer).receive_I3_3(mnTest);
-		
+	public void send_I3_3(int pnData, ArrayList<clsAct> poRuleList) {
+		((I3_3_receive)moEnclosingContainer).receive_I3_3(moRuleList);
 	}
 
 	/* (non-Javadoc)
@@ -204,9 +356,7 @@ public class E22_SuperEgo_preconscious extends clsModuleBase implements I1_7_rec
 	 * @see pa.interfaces.knowledgebase.itfKnowledgeBaseAccess#addToSearchPattern(pa.memorymgmt.enums.eDataType, pa.memorymgmt.datatypes.clsDataStructurePA)
 	 */
 	@Override
-	public void addToSearchPattern(eDataType oReturnType,
-			clsDataStructurePA poSearchPattern) {
-		// TODO (zeilinger) - Auto-generated method stub
-		
+	public void addToSearchPattern(eDataType oReturnType,clsDataStructurePA poSearchPattern) {
+		moSearchPattern.add(new clsPair<Integer, clsDataStructurePA>(oReturnType.nBinaryValue, poSearchPattern));
 	}
 }

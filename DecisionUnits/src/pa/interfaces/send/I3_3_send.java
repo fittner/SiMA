@@ -6,6 +6,10 @@
  */
 package pa.interfaces.send;
 
+import java.util.ArrayList;
+
+import pa.memorymgmt.datatypes.clsAct;
+
 /**
  * DOCUMENT (deutsch) - insert description 
  * 
@@ -14,5 +18,5 @@ package pa.interfaces.send;
  * 
  */
 public interface I3_3_send {
-	public void send_I3_3(int pnData);
+	public void send_I3_3(int pnData, ArrayList<clsAct> poRuleList);
 }

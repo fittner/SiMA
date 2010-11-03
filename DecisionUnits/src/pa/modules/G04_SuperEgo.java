@@ -10,8 +10,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import pa.clsInterfaceHandler;
-import pa.datatypes.clsPrimaryInformation;
-import pa.datatypes.clsSecondaryInformation;
 import pa.interfaces.receive.I1_5_receive;
 import pa.interfaces.receive.I1_7_receive;
 import pa.interfaces.receive.I2_11_receive;
@@ -21,6 +19,7 @@ import pa.interfaces.receive.I3_2_receive;
 import pa.interfaces.receive.I3_3_receive;
 import pa.memory.clsMemory;
 import pa.memorymgmt.clsKnowledgeBaseHandler;
+import pa.memorymgmt.datatypes.clsAct;
 import pa.memorymgmt.datatypes.clsDriveMesh;
 import pa.memorymgmt.datatypes.clsPrimaryDataStructureContainer;
 import pa.memorymgmt.datatypes.clsSecondaryDataStructureContainer;
@@ -90,8 +89,8 @@ public class G04_SuperEgo extends clsModuleContainer implements
 	 * @see pa.interfaces.I1_5#receive_I1_5(int)
 	 */
 	@Override
-	public void receive_I1_5(List<clsPrimaryInformation> poData_old, List<clsDriveMesh> poData) {
-		moE07SuperEgoUnconscious.receive_I1_5(poData_old, poData);
+	public void receive_I1_5(List<clsDriveMesh> poData) {
+		moE07SuperEgoUnconscious.receive_I1_5(poData);
 		
 	}
 
@@ -103,8 +102,8 @@ public class G04_SuperEgo extends clsModuleContainer implements
 	 * @see pa.interfaces.I1_7#receive_I1_7(int)
 	 */
 	@Override
-	public void receive_I1_7(ArrayList<clsSecondaryInformation> poDriveList_old, ArrayList<clsSecondaryDataStructureContainer> poDriveList) {
-		moE22SuperEgoPreconscious.receive_I1_7(poDriveList_old, poDriveList);
+	public void receive_I1_7(ArrayList<clsSecondaryDataStructureContainer> poDriveList) {
+		moE22SuperEgoPreconscious.receive_I1_7(poDriveList);
 		
 	}
 
@@ -129,9 +128,8 @@ public class G04_SuperEgo extends clsModuleContainer implements
 	 * @see pa.interfaces.I2_9#receive_I2_9(int)
 	 */
 	@Override
-	public void receive_I2_9(ArrayList<clsPrimaryInformation> poMergedPrimaryInformation_old,
-			  				 ArrayList<clsPrimaryDataStructureContainer> poMergedPrimaryInformation) {
-		moE07SuperEgoUnconscious.receive_I2_9(poMergedPrimaryInformation_old, poMergedPrimaryInformation);
+	public void receive_I2_9(ArrayList<clsPrimaryDataStructureContainer> poMergedPrimaryInformation) {
+		moE07SuperEgoUnconscious.receive_I2_9(poMergedPrimaryInformation);
 		
 	}
 
@@ -143,8 +141,8 @@ public class G04_SuperEgo extends clsModuleContainer implements
 	 * @see pa.interfaces.I2_11#receive_I2_11(int)
 	 */
 	@Override
-	public void receive_I2_11(ArrayList<clsSecondaryInformation> poPerception_old, ArrayList<clsSecondaryDataStructureContainer> poPerception) {
-		moE22SuperEgoPreconscious.receive_I2_11(poPerception_old, poPerception);
+	public void receive_I2_11(ArrayList<clsSecondaryDataStructureContainer> poPerception) {
+		moE22SuperEgoPreconscious.receive_I2_11(poPerception);
 		
 	}
 
@@ -156,8 +154,8 @@ public class G04_SuperEgo extends clsModuleContainer implements
 	 * @see pa.interfaces.I3_3#receive_I3_3(int)
 	 */
 	@Override
-	public void receive_I3_3(int pnData) {
-		((I3_3_receive)moEnclosingContainer).receive_I3_3(pnData);
+	public void receive_I3_3(ArrayList<clsAct> poRuleList) {
+		((I3_3_receive)moEnclosingContainer).receive_I3_3(poRuleList);
 		
 	}
 

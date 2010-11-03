@@ -8,7 +8,6 @@ package pa.interfaces.receive;
 
 import java.util.ArrayList;
 
-import pa.datatypes.clsPrimaryInformation;
 import pa.interfaces.I_BaseInterface;
 import pa.memorymgmt.datatypes.clsDriveMesh;
 
@@ -20,6 +19,5 @@ import pa.memorymgmt.datatypes.clsDriveMesh;
  * 
  */
 public interface I1_6_receive extends I_BaseInterface {
-	public void receive_I1_6(ArrayList<clsPrimaryInformation> poDriveList_old,
-			  ArrayList<clsDriveMesh> poDriveList);
+	public void receive_I1_6(ArrayList<clsDriveMesh> poDriveList);
 }

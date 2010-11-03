@@ -11,9 +11,6 @@ import java.util.List;
 
 import config.clsBWProperties;
 import pa.clsInterfaceHandler;
-import pa.datatypes.clsAffectTension;
-import pa.datatypes.clsPrimaryInformation;
-import pa.datatypes.clsThingPresentation;
 import pa.interfaces.receive.I4_1_receive;
 import pa.interfaces.receive.I4_2_receive;
 import pa.interfaces.receive.I4_3_receive;
@@ -28,7 +25,6 @@ import pa.memorymgmt.datatypes.clsPrimaryDataStructureContainer;
  * 
  */
 public class S_ManagementOfRepressedContents_2 extends clsModuleBase implements I4_1_receive, I4_2_receive {
-	ArrayList<clsPrimaryInformation> moPrimaryInformation_old;
 	ArrayList<clsPrimaryDataStructureContainer> moPrimaryInformation; 
 	
 	/**
@@ -46,7 +42,6 @@ public class S_ManagementOfRepressedContents_2 extends clsModuleBase implements 
 		super(poPrefix, poProp, poEnclosingContainer, poInterfaceHandler);
 		applyProperties(poPrefix, poProp);	
 		
-		moPrimaryInformation_old = new ArrayList<clsPrimaryInformation>();
 		moPrimaryInformation = new ArrayList<clsPrimaryDataStructureContainer>(); 
 	}
 	
@@ -75,16 +70,7 @@ public class S_ManagementOfRepressedContents_2 extends clsModuleBase implements 
 	 */
 	@SuppressWarnings("unchecked")
 	@Override
-	public void receive_I4_1(List<clsPrimaryInformation> poPIs_old, List<clsThingPresentation> poTPs_old, List<clsAffectTension> poAffects_old,
-			  List<clsPrimaryDataStructureContainer> poPIs, List<pa.memorymgmt.datatypes.clsThingPresentation> poTPs, List<clsAssociationDriveMesh> poAffects) {
-		if (poTPs_old.size() > 0) {
-			throw new java.lang.IllegalArgumentException("thing presentations without attached affect not supported, currently.");
-		}
-		if (poAffects_old.size() > 0) {
-			throw new java.lang.IllegalArgumentException("affects not attached tothing presentations not supported, currently.");
-		}
-		
-		moPrimaryInformation_old.addAll((ArrayList<clsPrimaryInformation>) deepCopy((ArrayList<clsPrimaryInformation>) poPIs_old) );
+	public void receive_I4_1(List<clsPrimaryDataStructureContainer> poPIs, List<pa.memorymgmt.datatypes.clsThingPresentation> poTPs, List<clsAssociationDriveMesh> poAffects) {
 		moPrimaryInformation.addAll((ArrayList<clsPrimaryDataStructureContainer>)deepCopy((ArrayList<clsPrimaryDataStructureContainer>)poPIs));
 	}
 
@@ -96,8 +82,7 @@ public class S_ManagementOfRepressedContents_2 extends clsModuleBase implements 
 	 * @see pa.interfaces.I4_2#receive_I4_2(int)
 	 */
 	@Override
-	public void receive_I4_2(ArrayList<clsPrimaryInformation> poPIs_old, ArrayList<clsThingPresentation> poTPs_old, ArrayList<clsAffectTension> poAffects_old,
-			  ArrayList<clsPrimaryDataStructureContainer> poPIs, ArrayList<pa.memorymgmt.datatypes.clsThingPresentation> poTPs, ArrayList<clsAssociationDriveMesh> poAffects) {
+	public void receive_I4_2(ArrayList<clsPrimaryDataStructureContainer> poPIs, ArrayList<pa.memorymgmt.datatypes.clsThingPresentation> poTPs, ArrayList<clsAssociationDriveMesh> poAffects) {
 		//mnTest += pnData;
 	}
 
@@ -123,9 +108,8 @@ public class S_ManagementOfRepressedContents_2 extends clsModuleBase implements 
 	 */
 	@Override
 	protected void send() {
-		((I4_3_receive)moEnclosingContainer).receive_I4_3(new ArrayList<clsPrimaryInformation>(), new ArrayList<clsPrimaryDataStructureContainer>());
+		((I4_3_receive)moEnclosingContainer).receive_I4_3(new ArrayList<clsPrimaryDataStructureContainer>());
 		
-		moPrimaryInformation_old.clear();
 		moPrimaryInformation.clear(); 
 	}
 

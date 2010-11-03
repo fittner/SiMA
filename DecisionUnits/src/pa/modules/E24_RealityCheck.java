@@ -10,14 +10,11 @@ import java.util.ArrayList;
 
 import config.clsBWProperties;
 import pa.clsInterfaceHandler;
-import pa.datatypes.clsSecondaryInformation;
-import pa.datatypes.clsSecondaryInformationMesh;
 import pa.interfaces.receive.I2_12_receive;
 import pa.interfaces.receive.I2_13_receive;
 import pa.interfaces.receive.I6_1_receive;
 import pa.interfaces.send.I2_13_send;
 import pa.memorymgmt.datatypes.clsSecondaryDataStructureContainer;
-import pa.tools.clsPair;
 
 /**
  * DOCUMENT (deutsch) - insert description 
@@ -28,12 +25,9 @@ import pa.tools.clsPair;
  */
 public class E24_RealityCheck extends clsModuleBase implements I2_12_receive, I6_1_receive, I2_13_send {
 
-	private ArrayList<clsSecondaryInformation> moFocusedPerception_Input_old;
-	private ArrayList<clsPair<clsSecondaryInformation, clsSecondaryInformationMesh>> moRealityPerception_Output_old;
 	private ArrayList<clsSecondaryDataStructureContainer> moFocusedPerception_Input; 
-	private ArrayList<clsPair<clsSecondaryDataStructureContainer, clsSecondaryDataStructureContainer>> moRealityPerception_Output; 
-	private ArrayList<clsSecondaryInformation> moDriveList_old;
-	private ArrayList<clsSecondaryDataStructureContainer> moDriveList;
+	private ArrayList<clsSecondaryDataStructureContainer> moRealityPerception_Output; 
+	//private ArrayList<clsSecondaryDataStructureContainer> moDriveList;  //removed by HZ - not required now
 
 	/**
 	 * DOCUMENT (deutsch) - insert description 
@@ -99,11 +93,9 @@ public class E24_RealityCheck extends clsModuleBase implements I2_12_receive, I6
 	 */
 	@SuppressWarnings("unchecked")
 	@Override
-	public void receive_I2_12(ArrayList<clsSecondaryInformation> poFocusedPerception_old, ArrayList<clsSecondaryDataStructureContainer> poFocusedPerception, ArrayList<clsSecondaryInformation> poDriveList_old, ArrayList<clsSecondaryDataStructureContainer> poDriveList) {
-		moFocusedPerception_Input_old = (ArrayList<clsSecondaryInformation>)deepCopy( poFocusedPerception_old);
+	public void receive_I2_12(ArrayList<clsSecondaryDataStructureContainer> poFocusedPerception, ArrayList<clsSecondaryDataStructureContainer> poDriveList) {
 		moFocusedPerception_Input = (ArrayList<clsSecondaryDataStructureContainer>)deepCopy(poFocusedPerception);
-		moDriveList_old = (ArrayList<clsSecondaryInformation>) deepCopy(poDriveList_old);
-		moDriveList = (ArrayList<clsSecondaryDataStructureContainer>) deepCopy(poDriveList);
+		//moDriveList = (ArrayList<clsSecondaryDataStructureContainer>) deepCopy(poDriveList);
 	}
 
 	/* (non-Javadoc)
@@ -128,33 +120,15 @@ public class E24_RealityCheck extends clsModuleBase implements I2_12_receive, I6
 	 */
 	@Override
 	protected void process_basic() {
-		moRealityPerception_Output = new ArrayList<clsPair<clsSecondaryDataStructureContainer,clsSecondaryDataStructureContainer>>(); 
+		moRealityPerception_Output = new ArrayList<clsSecondaryDataStructureContainer>(); 
 		
 		//FIXME HZ 2010.08.24 Functionality of old code is taken; however I am rather sure that it has to be
 		//adapted
 		for(clsSecondaryDataStructureContainer oCon : moFocusedPerception_Input){
-			moRealityPerception_Output.add(new clsPair<clsSecondaryDataStructureContainer, clsSecondaryDataStructureContainer>(oCon, null)); 
+			moRealityPerception_Output.add(oCon); 
 		}
-		process_oldDT();
 	}
 	
-	/**
-	 * DOCUMENT (zeilinger) - insert description
-	 * This method is used while adapting the model from the old datatypes (pa.datatypes) to the
-	 * new ones (pa.memorymgmt.datatypes) The method has to be deleted afterwards.
-	 * @author zeilinger
-	 * 13.08.2010, 09:56:48
-	 * @deprecated
-	 */
-	private void process_oldDT() {
-		moRealityPerception_Output_old = new ArrayList<clsPair<clsSecondaryInformation,clsSecondaryInformationMesh>>();
-		for(clsSecondaryInformation oSec : moFocusedPerception_Input_old) {
-			
-			moRealityPerception_Output_old.add( new clsPair<clsSecondaryInformation, clsSecondaryInformationMesh>(oSec, null));
-			
-		}
-	}
-
 	/* (non-Javadoc)
 	 *
 	 * @author deutsch
@@ -165,7 +139,7 @@ public class E24_RealityCheck extends clsModuleBase implements I2_12_receive, I6
 	@Override
 	protected void send() {
 		//HZ: null is a placeholder for the bjects of the type pa.memorymgmt.datatypes
-		send_I2_13(moRealityPerception_Output_old, moRealityPerception_Output);
+		send_I2_13(moRealityPerception_Output);
 		
 	}
 
@@ -177,9 +151,8 @@ public class E24_RealityCheck extends clsModuleBase implements I2_12_receive, I6
 	 * @see pa.interfaces.send.I2_13_send#send_I2_13(java.util.ArrayList)
 	 */
 	@Override
-	public void send_I2_13(ArrayList<clsPair<clsSecondaryInformation, clsSecondaryInformationMesh>> poRealityPerception_old,
-			   ArrayList<clsPair<clsSecondaryDataStructureContainer, clsSecondaryDataStructureContainer>> poRealityPerception) {
-		((I2_13_receive)moEnclosingContainer).receive_I2_13(moRealityPerception_Output_old, moRealityPerception_Output);
+	public void send_I2_13(ArrayList<clsSecondaryDataStructureContainer> poRealityPerception) {
+		((I2_13_receive)moEnclosingContainer).receive_I2_13(moRealityPerception_Output);
 		
 	}
 

@@ -8,7 +8,6 @@ package pa.interfaces.send;
 
 import java.util.ArrayList;
 
-import pa.datatypes.clsAffectTension;
 import pa.memorymgmt.datatypes.clsPrimaryDataStructureContainer;
 
 /**
@@ -19,6 +18,5 @@ import pa.memorymgmt.datatypes.clsPrimaryDataStructureContainer;
  * 
  */
 public interface I5_1_send {
-	public void send_I5_1(ArrayList<clsAffectTension> poAffectOnlyList_old,
-						  ArrayList<clsPrimaryDataStructureContainer> poAffectOnlyList);
+	public void send_I5_1(ArrayList<clsPrimaryDataStructureContainer> poAffectOnlyList);
 }

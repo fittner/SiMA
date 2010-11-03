@@ -8,8 +8,6 @@ package pa.interfaces.send;
 
 import java.util.ArrayList;
 
-import pa.datatypes.clsAffectCandidate;
-import pa.datatypes.clsPrimaryInformationMesh;
 import pa.memorymgmt.datatypes.clsDriveDemand;
 import pa.memorymgmt.datatypes.clsDriveMesh;
 import pa.tools.clsPair;
@@ -22,6 +20,5 @@ import pa.tools.clsPair;
  * 
  */
 public interface I1_4_send {
-	public void send_I1_4(ArrayList<clsPair<clsPair<clsPrimaryInformationMesh, clsAffectCandidate>,clsPair<clsPrimaryInformationMesh, clsAffectCandidate>>> poDriveCandidate_old,
-						  ArrayList<clsPair<clsPair<clsDriveMesh, clsDriveDemand>, clsPair<clsDriveMesh, clsDriveDemand>>> poDriveCandidate);
+	public void send_I1_4(ArrayList<clsPair<clsPair<clsDriveMesh, clsDriveDemand>, clsPair<clsDriveMesh, clsDriveDemand>>> poDriveCandidate);
 }

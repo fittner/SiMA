@@ -12,8 +12,6 @@ import java.util.HashMap;
 import config.clsBWProperties;
 
 import pa.clsInterfaceHandler;
-import pa.datatypes.clsAssociationContext;
-import pa.datatypes.clsPrimaryInformation;
 import pa.enums.eSymbolExtType;
 import pa.interfaces.receive.I2_2_receive;
 import pa.interfaces.receive.I2_4_receive;
@@ -23,7 +21,6 @@ import pa.memorymgmt.datahandler.clsDataStructureConverter;
 import pa.memorymgmt.datatypes.clsPrimaryDataStructure;
 import pa.memorymgmt.datatypes.clsPrimaryDataStructureContainer;
 import pa.symbolization.representationsymbol.itfSymbol;
-import pa.tools.clsTPGenerator;
 
 /**
  * DOCUMENT (deutsch) - insert description 
@@ -40,9 +37,6 @@ public class E14_PreliminaryExternalPerception extends clsModuleBase implements
 	
 	HashMap<eSymbolExtType, itfSymbol> moEnvironmentalData;
 	HashMap<eSymbolExtType, itfSymbol> moBodyData;
-	
-	public ArrayList<clsPrimaryInformation> moEnvironmentalTP_old;
-	ArrayList<clsAssociationContext<clsPrimaryInformation>> moAssociationContext;  
 	
 	public ArrayList<clsPrimaryDataStructureContainer> moEnvironmentalTP; 
 
@@ -144,19 +138,6 @@ public class E14_PreliminaryExternalPerception extends clsModuleBase implements
 					}	
 				}
 		}
-		process_oldDT();
-	}
-
-	/**
-	 * DOCUMENT (zeilinger) - insert description
-	 * This method is used while adapting the model from the old datatypes (pa.datatypes) to the
-	 * new ones (pa.memorymgmt.datatypes) The method has to be deleted afterwards.
-	 * @author zeilinger
-	 * 13.08.2010, 09:56:48
-	 * @deprecated
-	 */
-	private void process_oldDT() {
-		moEnvironmentalTP_old = clsTPGenerator.convertSensorToTP(moEnvironmentalData);
 	}
 
 	/* (non-Javadoc)
@@ -168,7 +149,7 @@ public class E14_PreliminaryExternalPerception extends clsModuleBase implements
 	 */
 	@Override
 	protected void send() {
-		send_I2_5(moEnvironmentalTP_old, moEnvironmentalTP);
+		send_I2_5(moEnvironmentalTP);
 	}
 
 	/* (non-Javadoc)
@@ -179,8 +160,8 @@ public class E14_PreliminaryExternalPerception extends clsModuleBase implements
 	 * @see pa.interfaces.send.I2_5_send#send_I2_5(java.util.ArrayList)
 	 */
 	@Override
-	public void send_I2_5(ArrayList<clsPrimaryInformation> poEnvironmentalTP_old, ArrayList<clsPrimaryDataStructureContainer> poEnvironmentalTP) {
-		((I2_5_receive)moEnclosingContainer).receive_I2_5(moEnvironmentalTP_old, moEnvironmentalTP);
+	public void send_I2_5(ArrayList<clsPrimaryDataStructureContainer> poEnvironmentalTP) {
+		((I2_5_receive)moEnclosingContainer).receive_I2_5(moEnvironmentalTP);
 		
 	}
 

@@ -7,11 +7,8 @@
 package pa.modules;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 
 import pa.clsInterfaceHandler;
-import pa.datatypes.clsSecondaryInformation;
-import pa.datatypes.clsSecondaryInformationMesh;
 import pa.interfaces.receive.I1_7_receive;
 import pa.interfaces.receive.I2_13_receive;
 import pa.interfaces.receive.I3_3_receive;
@@ -23,13 +20,11 @@ import pa.interfaces.receive.I7_3_receive;
 import pa.interfaces.receive.I7_4_receive;
 import pa.interfaces.receive.I7_5_receive;
 import pa.interfaces.receive.I7_6_receive;
-import pa.loader.plan.clsPlanAction;
 import pa.memory.clsMemory;
 import pa.memorymgmt.clsKnowledgeBaseHandler;
 import pa.memorymgmt.datatypes.clsAct;
 import pa.memorymgmt.datatypes.clsSecondaryDataStructureContainer;
 import pa.memorymgmt.datatypes.clsWordPresentation;
-import pa.tools.clsPair;
 import config.clsBWProperties;
 
 /**
@@ -109,8 +104,8 @@ public class G15_Deliberation extends clsModuleContainer implements
 	 * @see pa.interfaces.I3_3#receive_I3_3(int)
 	 */
 	@Override
-	public void receive_I3_3(int pnData) {
-		moE26DecisionMaking.receive_I3_3(pnData);
+	public void receive_I3_3(ArrayList<clsAct> poRuleList) {
+		moE26DecisionMaking.receive_I3_3(poRuleList);
 		
 	}
 
@@ -122,9 +117,8 @@ public class G15_Deliberation extends clsModuleContainer implements
 	 * @see pa.interfaces.I1_7#receive_I1_7(int)
 	 */
 	@Override
-	public void receive_I1_7(ArrayList<clsSecondaryInformation> poDriveList_old,
-							 ArrayList<clsSecondaryDataStructureContainer> poDriveList) {
-		moE26DecisionMaking.receive_I1_7(poDriveList_old, poDriveList);
+	public void receive_I1_7(ArrayList<clsSecondaryDataStructureContainer> poDriveList) {
+		moE26DecisionMaking.receive_I1_7(poDriveList);
 	}
 
 	/* (non-Javadoc)
@@ -148,9 +142,8 @@ public class G15_Deliberation extends clsModuleContainer implements
 	 * @see pa.interfaces.I2_13#receive_I2_13(int)
 	 */
 	@Override
-	public void receive_I2_13(ArrayList<clsPair<clsSecondaryInformation, clsSecondaryInformationMesh>> poRealityPerception_old,
-			   ArrayList<clsPair<clsSecondaryDataStructureContainer, clsSecondaryDataStructureContainer>> poRealityPerception) {
-		moE26DecisionMaking.receive_I2_13(poRealityPerception_old, poRealityPerception);
+	public void receive_I2_13(ArrayList<clsSecondaryDataStructureContainer> poRealityPerception) {
+		moE26DecisionMaking.receive_I2_13(poRealityPerception);
 	}
 
 	/* (non-Javadoc)
@@ -173,9 +166,8 @@ public class G15_Deliberation extends clsModuleContainer implements
 	 * @see pa.interfaces.I7_1#receive_I7_1(int)
 	 */
 	@Override
-	public void receive_I7_1(HashMap<String, clsPair<clsSecondaryInformation, Double>> poTemplateResult_old, 
-			ArrayList<clsSecondaryDataStructureContainer> poTemplateResult) {
-		moE27GenerationOfImaginaryActions.receive_I7_1(poTemplateResult_old, poTemplateResult);
+	public void receive_I7_1(ArrayList<clsSecondaryDataStructureContainer> poTemplateResult) {
+		moE27GenerationOfImaginaryActions.receive_I7_1(poTemplateResult);
 	}
 
 	/* (non-Javadoc)
@@ -186,8 +178,8 @@ public class G15_Deliberation extends clsModuleContainer implements
 	 * @see pa.interfaces.I7_2#receive_I7_2(int)
 	 */
 	@Override
-	public void receive_I7_2(int pnData, ArrayList<clsSecondaryDataStructureContainer> poGoal_Output) {
-		((I7_2_receive)moEnclosingContainer).receive_I7_2(pnData, poGoal_Output);
+	public void receive_I7_2(ArrayList<clsSecondaryDataStructureContainer> poGoal_Output) {
+		((I7_2_receive)moEnclosingContainer).receive_I7_2(poGoal_Output);
 	}
 
 	/* (non-Javadoc)
@@ -198,10 +190,10 @@ public class G15_Deliberation extends clsModuleContainer implements
 	 * @see pa.interfaces.I7_3#receive_I7_3(int)
 	 */
 	@Override
-	public void receive_I7_3(ArrayList<clsPlanAction> poActionCommands_old, ArrayList<clsWordPresentation> poActionCommands) {
-		moE29EvaluationOfImaginaryActions.receive_I7_3(poActionCommands_old, poActionCommands);
-		moE33RealityCheck2.receive_I7_3(poActionCommands_old, poActionCommands);
-		((I7_3_receive)moEnclosingContainer).receive_I7_3(poActionCommands_old, poActionCommands);
+	public void receive_I7_3(ArrayList<clsWordPresentation> poActionCommands) {
+		moE29EvaluationOfImaginaryActions.receive_I7_3(poActionCommands);
+		moE33RealityCheck2.receive_I7_3(poActionCommands);
+		((I7_3_receive)moEnclosingContainer).receive_I7_3(poActionCommands);
 	}
 
 	/* (non-Javadoc)
@@ -212,8 +204,8 @@ public class G15_Deliberation extends clsModuleContainer implements
 	 * @see pa.interfaces.I7_4#receive_I7_4(int)
 	 */
 	@Override
-	public void receive_I7_4(ArrayList<clsPlanAction> poActionCommands_old, ArrayList<clsWordPresentation> poActionCommands) {
-		((I7_4_receive)moEnclosingContainer).receive_I7_4(poActionCommands_old, poActionCommands);
+	public void receive_I7_4(ArrayList<clsWordPresentation> poActionCommands) {
+		((I7_4_receive)moEnclosingContainer).receive_I7_4(poActionCommands);
 	}
 
 	/* (non-Javadoc)

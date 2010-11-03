@@ -15,7 +15,6 @@ import pa.interfaces.receive.I7_3_receive;
 import pa.interfaces.receive.I7_4_receive;
 import pa.interfaces.receive.I7_6_receive;
 import pa.interfaces.send.I7_4_send;
-import pa.loader.plan.clsPlanAction;
 import pa.memorymgmt.datatypes.clsWordPresentation;
 
 /**
@@ -27,9 +26,6 @@ import pa.memorymgmt.datatypes.clsWordPresentation;
  */
 public class E29_EvaluationOfImaginaryActions extends clsModuleBase implements I5_5_receive, I7_3_receive, I7_6_receive, I7_4_send {
 
-	private ArrayList<clsPlanAction> moActionCommands_Input_old;
-	private ArrayList<clsPlanAction> moActionCommands_Output_old;
-	
 	private ArrayList<clsWordPresentation> moActionCommands_Input; 
 	private ArrayList<clsWordPresentation> moActionCommands_Output; 
 
@@ -47,8 +43,6 @@ public class E29_EvaluationOfImaginaryActions extends clsModuleBase implements I
 			clsBWProperties poProp, clsModuleContainer poEnclosingContainer, clsInterfaceHandler poInterfaceHandler) {
 		super(poPrefix, poProp, poEnclosingContainer, poInterfaceHandler);
 		applyProperties(poPrefix, poProp);	
-		
-		moActionCommands_Output_old = new ArrayList<clsPlanAction>();
 	}
 	
 	public static clsBWProperties getDefaultProperties(String poPrefix) {
@@ -112,8 +106,7 @@ public class E29_EvaluationOfImaginaryActions extends clsModuleBase implements I
 	 */
 	@SuppressWarnings("unchecked") //deepCopy can only perform an unchecked operation
 	@Override
-	public void receive_I7_3(ArrayList<clsPlanAction> poActionCommands_old, ArrayList<clsWordPresentation> poActionCommands) {
-		moActionCommands_Input_old = (ArrayList<clsPlanAction>)deepCopy(poActionCommands_old);
+	public void receive_I7_3(ArrayList<clsWordPresentation> poActionCommands) {
 		moActionCommands_Input = (ArrayList<clsWordPresentation>)deepCopy(poActionCommands);
 	}
 
@@ -126,7 +119,6 @@ public class E29_EvaluationOfImaginaryActions extends clsModuleBase implements I
 	 */
 	@Override
 	protected void process_basic() {
-		moActionCommands_Output_old = moActionCommands_Input_old;	
 		moActionCommands_Output = moActionCommands_Input; 
 	}
 
@@ -139,7 +131,7 @@ public class E29_EvaluationOfImaginaryActions extends clsModuleBase implements I
 	 */
 	@Override
 	protected void send() {
-		send_I7_4(moActionCommands_Output_old, moActionCommands_Output);
+		send_I7_4(moActionCommands_Output);
 		
 	}
 
@@ -164,8 +156,8 @@ public class E29_EvaluationOfImaginaryActions extends clsModuleBase implements I
 	 * @see pa.interfaces.send.I7_4_send#send_I7_4(java.util.ArrayList)
 	 */
 	@Override
-	public void send_I7_4(ArrayList<clsPlanAction> poActionCommands_old, ArrayList<clsWordPresentation> poActionCommands) {
-		((I7_4_receive)moEnclosingContainer).receive_I7_4(moActionCommands_Output_old, moActionCommands_Output);
+	public void send_I7_4(ArrayList<clsWordPresentation> poActionCommands) {
+		((I7_4_receive)moEnclosingContainer).receive_I7_4(moActionCommands_Output);
 		
 	}
 

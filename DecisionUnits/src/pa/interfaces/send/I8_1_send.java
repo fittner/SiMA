@@ -8,7 +8,6 @@ package pa.interfaces.send;
 
 import java.util.ArrayList;
 
-import pa.loader.plan.clsPlanAction;
 import pa.memorymgmt.datatypes.clsWordPresentation;
 
 /**
@@ -19,5 +18,5 @@ import pa.memorymgmt.datatypes.clsWordPresentation;
  * 
  */
 public interface I8_1_send {
-	public void send_I8_1(ArrayList<clsPlanAction> poActionCommands_old, ArrayList<clsWordPresentation> poActionCommands);
+	public void send_I8_1(ArrayList<clsWordPresentation> poActionCommands);
 }

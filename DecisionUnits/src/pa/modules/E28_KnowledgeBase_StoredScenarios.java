@@ -128,8 +128,7 @@ public class E28_KnowledgeBase_StoredScenarios extends clsModuleBase implements 
 	 */
 	@SuppressWarnings("unchecked")
 	@Override
-	public void receive_I7_2(int pnData, ArrayList<clsSecondaryDataStructureContainer> poGoal_Input) {
-		mnTest += pnData;
+	public void receive_I7_2(ArrayList<clsSecondaryDataStructureContainer> poGoal_Input) {
 		moGoal_Input = (ArrayList<clsSecondaryDataStructureContainer>)deepCopy(poGoal_Input);
 	}
 
@@ -145,7 +144,6 @@ public class E28_KnowledgeBase_StoredScenarios extends clsModuleBase implements 
 	 */
 	@Override
 	protected void process_basic() {
-		mnTest++;
 		//HZ It has to be discussed if E28 is required! In case it remains,
 		//a loop between E27 and E28 is required; otherwise it is a problem to construct "plans"
 		//"retrieveActs()" was introduced to retrieve acts from the memory, according to the 
@@ -171,15 +169,15 @@ public class E28_KnowledgeBase_StoredScenarios extends clsModuleBase implements 
 
 		for(clsSecondaryDataStructureContainer oCon : moGoal_Input){
 			String oActualState = ((clsWordPresentation)oCon.moDataStructure).moContent; 
-			ArrayList<clsAct> oActPlan = new ArrayList<clsAct>(); 
+			ArrayList<ArrayList<clsAct>> oActPlans = new ArrayList<ArrayList<clsAct>>(); 
 		    //HZ not sure, but maybe a loop between E28 and E27 is required here; 
 			// TODO: This is also a bit magic; ACTS are retrieved that include the actual object setup, no
 			//	matter if it fits the "precondition" or the "consequence"; normally it is not the 
 			//  task of the memory to introduce a filter that makes a difference between both parts; 
 			// however it can be thought about alternatives and possibilities to retrieve acts
 			// more efficiently. 
-			oActPlan = backwardChaining(oActualState); 
-			oResult.add(oActPlan); 
+			oActPlans = backwardChaining(oActualState); 
+			oResult.addAll(oActPlans); 
 		}
 		
 		return oResult; 
@@ -195,42 +193,52 @@ public class E28_KnowledgeBase_StoredScenarios extends clsModuleBase implements 
 	 * @param poActualState
 	 * @return 
 	 */
-	private ArrayList<clsAct> backwardChaining(String poTargetState) {
+	private ArrayList<ArrayList<clsAct>> backwardChaining(String poTargetState) {
 		
-		ArrayList<clsAct> oRetVal = new ArrayList<clsAct>(); 
+		ArrayList<ArrayList<clsAct>> oRetVal = new ArrayList<ArrayList<clsAct>>(); 
 		String oDelimiter = "||";
 		boolean oSuccess = false; 
 						
 		String oPreCondition = poTargetState.substring(0, poTargetState.indexOf(oDelimiter)); 
-		clsAct oAct = getMatchingAct(oPreCondition).get(0); 
-		Graph oGraph = initGraph(oAct); 
+		ArrayList<clsAct> oActList = getMatchingAct(oPreCondition); 
 		
-		// In case the final state of the plan is reached,the actual
-		// act will match with the TargetState. This has to be 
-		// controlled before the while loop - otherwise the matching plan
-		// will not be found. The reason for this is the shifting between 
-		// act-precondition and act-consequence when the child nodes are 
-		// read
-		oSuccess = comparePreConditions(oAct.moContent, poTargetState);
-		if(oSuccess){oRetVal = new ArrayList<clsAct>(Arrays.asList(oAct));}
-		
-		//If the current act does not match with the targetState => 
-		//search for the child nodes until oSuccess == true or
-		//the graph succeeds the node limit. 
-		while(!oSuccess){
+		for(clsAct oAct : oActList){
+			ArrayList<clsAct> oSequence; 	
+			Graph oGraph = initGraph(oAct); 
 			
-			ArrayList<Node> oChildLessNode = oGraph.getChildLessNodes(); 
+			// In case the final state of the plan is reached,the actual
+			// act will match with the TargetState. This has to be 
+			// controlled before the while loop - otherwise the matching plan
+			// will not be found. The reason for this is the shifting between 
+			// act-precondition and act-consequence when the child nodes are 
+			// read
+			oSuccess = comparePreConditions(oAct.moContent, poTargetState);
+			if(oSuccess){oRetVal.add(new ArrayList<clsAct>(Arrays.asList(oAct)));}
 			
-			for(Node oNode : oChildLessNode){
-					ArrayList<clsAct> oActTempList = new ArrayList<clsAct>();
-					oPreCondition = getPreCondition(oNode.label.moContent);  
-				    oActTempList = getMatchingAct(oPreCondition); 
-					
-				    oGraph.addChildren(oNode, oActTempList); 
-					oRetVal = bf_Search(poTargetState, oGraph); 
-					
-					if(oRetVal.size() > 0 || oActTempList.size() == 0){oSuccess = true;}
-			}
+			//If the current act does not match with the targetState => 
+			//search for the child nodes until oSuccess == true or
+			//the graph succeeds the node limit. 
+			while(!oSuccess){
+				
+				ArrayList<Node> oChildLessNode = oGraph.getChildLessNodes(); 
+				
+				for(Node oNode : oChildLessNode){
+						ArrayList<clsAct> oActTempList = new ArrayList<clsAct>();
+						oPreCondition = getPreCondition(oNode.label.moContent);  
+					    oActTempList = getMatchingAct(oPreCondition); 
+						
+					    oGraph.addChildren(oNode, oActTempList); 
+					    oSequence = bf_Search(poTargetState, oGraph); 
+						
+						if(oSequence.size() > 0){
+							oSuccess = true;
+							oRetVal.add(oSequence); 
+						}
+						if(oActTempList.size() == 0){
+							oSuccess = true;
+						}
+				}
+			 }
 		}
 		
 		return oRetVal; 
@@ -309,7 +317,6 @@ public class E28_KnowledgeBase_StoredScenarios extends clsModuleBase implements 
 						oFullMatch.add(oEntry); 
 					}
 			}
-		
 			return oFullMatch;
 	}
 
@@ -469,10 +476,7 @@ public class E28_KnowledgeBase_StoredScenarios extends clsModuleBase implements 
 		moSearchPattern.clear(); 
 			
 		addToSearchPattern(eDataType.UNDEFINED, poDummy); 
-		//As only one search pattern was send to the memory, the returning hashmap
-		//has only one entry that has the key 0 => hence this entry can be directly
-		//read out of the Hashmap
-		ArrayList<clsPair<Double,clsDataStructureContainer>> oResult = accessKnowledgeBase().get(0); 
+		HashMap<Integer, ArrayList<clsPair<Double,clsDataStructureContainer>>> oResult = accessKnowledgeBase(); 
 		//The Double value in clsPair defines the matching score of the retrieved Act and the 
 		//search pattern. This was ok for the primary data structures as there have not been 
 		//any logic relations within the data structures. Now there exist acts with "or" and "and"
@@ -493,12 +497,15 @@ public class E28_KnowledgeBase_StoredScenarios extends clsModuleBase implements 
 	 * @param oResult
 	 * @return
 	 */
-	private ArrayList<clsAct> extractSearchResult(ArrayList<clsPair<Double, clsDataStructureContainer>> oResult) {
+	private ArrayList<clsAct> extractSearchResult(HashMap<Integer,ArrayList<clsPair<Double, clsDataStructureContainer>>> oResult) {
 		
 		ArrayList<clsAct> oActs = new ArrayList<clsAct>();
 		
-		for(clsPair<Double, clsDataStructureContainer> oEntry : oResult){
-				oActs.add((clsAct)oEntry.b.moDataStructure);
+		//HZ Up to now the match-value is not taken into account of the selection process
+		for(Map.Entry<Integer, ArrayList<clsPair<Double, clsDataStructureContainer>>> oEntry : oResult.entrySet()){
+			for(clsPair<Double, clsDataStructureContainer> oPair : oEntry.getValue()){
+				oActs.add((clsAct)oPair.b.moDataStructure);
+			}
 		}
 		
 		return oActs;

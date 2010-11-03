@@ -8,7 +8,6 @@ package pa.interfaces.receive;
 
 import java.util.ArrayList;
 
-import pa.datatypes.clsPrimaryInformation;
 import pa.interfaces.I_BaseInterface;
 import pa.memorymgmt.datatypes.clsPrimaryDataStructureContainer;
 
@@ -20,6 +19,5 @@ import pa.memorymgmt.datatypes.clsPrimaryDataStructureContainer;
  * 
  */
 public interface I2_5_receive extends I_BaseInterface {
-	public void receive_I2_5(ArrayList<clsPrimaryInformation> poEnvironmentalTP_old,
-			  ArrayList<clsPrimaryDataStructureContainer> poEnvironmentalTP);
+	public void receive_I2_5(ArrayList<clsPrimaryDataStructureContainer> poEnvironmentalTP);
 }

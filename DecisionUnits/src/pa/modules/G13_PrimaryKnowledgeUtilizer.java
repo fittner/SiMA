@@ -10,7 +10,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import pa.clsInterfaceHandler;
-import pa.datatypes.clsPrimaryInformation;
 import pa.interfaces.receive.I1_5_receive;
 import pa.interfaces.receive.I2_6_receive;
 import pa.interfaces.receive.I2_7_receive;
@@ -85,9 +84,8 @@ public class G13_PrimaryKnowledgeUtilizer extends clsModuleContainer implements
 	 * @see pa.interfaces.I2_6#receive_I2_6(int)
 	 */
 	@Override
-	public void receive_I2_6(ArrayList<clsPair<clsPrimaryInformation, clsPrimaryInformation>> poPerceptPlusRepressed_old,
-			  ArrayList<clsPair<clsPrimaryDataStructureContainer, clsDriveMesh>> poPerceptPlusRepressed) {
-		moE16ManagementOfMemoryTraces.receive_I2_6(poPerceptPlusRepressed_old, poPerceptPlusRepressed);
+	public void receive_I2_6(ArrayList<clsPair<clsPrimaryDataStructureContainer, clsDriveMesh>> poPerceptPlusRepressed) {
+		moE16ManagementOfMemoryTraces.receive_I2_6(poPerceptPlusRepressed);
 	}
 
 	/* (non-Javadoc)
@@ -98,8 +96,8 @@ public class G13_PrimaryKnowledgeUtilizer extends clsModuleContainer implements
 	 * @see pa.interfaces.I1_5#receive_I1_5(int)
 	 */
 	@Override
-	public void receive_I1_5(List<clsPrimaryInformation> poData_old, List<clsDriveMesh> poData) {
-		moE09KnowledgeAboutReality_unconscious.receive_I1_5(poData_old, poData);
+	public void receive_I1_5(List<clsDriveMesh> poData) {
+		moE09KnowledgeAboutReality_unconscious.receive_I1_5(poData);
 	}
 
 	/* (non-Javadoc)
@@ -110,9 +108,8 @@ public class G13_PrimaryKnowledgeUtilizer extends clsModuleContainer implements
 	 * @see pa.interfaces.I2_7#receive_I2_7(int)
 	 */
 	@Override
-	public void receive_I2_7(ArrayList<clsTripple<clsPrimaryInformation, clsPrimaryInformation,ArrayList<clsPrimaryInformation>>> poPerceptPlusMemories_Output_old,
-			  				 ArrayList<clsTripple<clsPrimaryDataStructureContainer, clsDriveMesh, ArrayList<clsDriveMesh>>> poPerceptPlusMemories_Output) {
-		((I2_7_receive)moEnclosingContainer).receive_I2_7(poPerceptPlusMemories_Output_old, poPerceptPlusMemories_Output);
+	public void receive_I2_7(ArrayList<clsTripple<clsPrimaryDataStructureContainer, clsDriveMesh, ArrayList<clsDriveMesh>>> poPerceptPlusMemories_Output) {
+		((I2_7_receive)moEnclosingContainer).receive_I2_7(poPerceptPlusMemories_Output);
 	}
 
 	/* (non-Javadoc)

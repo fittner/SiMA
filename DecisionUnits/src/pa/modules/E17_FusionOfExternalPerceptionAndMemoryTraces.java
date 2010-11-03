@@ -10,12 +10,10 @@ import java.util.ArrayList;
 
 import config.clsBWProperties;
 import pa.clsInterfaceHandler;
-import pa.datatypes.clsAssociationContent;
-import pa.datatypes.clsPrimaryInformation;
-import pa.datatypes.clsPrimaryInformationMesh;
 import pa.interfaces.receive.I2_7_receive;
 import pa.interfaces.receive.I2_8_receive;
 import pa.interfaces.send.I2_8_send;
+import pa.memorymgmt.datatypes.clsAssociation;
 import pa.memorymgmt.datatypes.clsAssociationDriveMesh;
 import pa.memorymgmt.datatypes.clsDriveMesh;
 import pa.memorymgmt.datatypes.clsPrimaryDataStructure;
@@ -45,9 +43,6 @@ public class E17_FusionOfExternalPerceptionAndMemoryTraces extends clsModuleBase
 	 * @param poProp
 	 * @param poEnclosingContainer
 	 */
-	ArrayList<clsTripple<clsPrimaryInformation, clsPrimaryInformation, ArrayList<clsPrimaryInformation>>> moPerceptPlusAwareContent_Input_old;
-	ArrayList<clsPair<clsPrimaryInformation, clsPrimaryInformation>> moMergedPrimaryInformation_Output_old;
-	
 	public ArrayList<clsTripple<clsPrimaryDataStructureContainer, clsDriveMesh,ArrayList<clsDriveMesh>>> moPerceptPlusAwareContent_Input; 
 	public ArrayList<clsPair<clsPrimaryDataStructureContainer, clsDriveMesh>> moMergedPrimaryInformation_Output; 
 	
@@ -105,9 +100,7 @@ public class E17_FusionOfExternalPerceptionAndMemoryTraces extends clsModuleBase
 	 */
 	@SuppressWarnings("unchecked")
 	@Override
-	public void receive_I2_7(ArrayList<clsTripple<clsPrimaryInformation, clsPrimaryInformation,ArrayList<clsPrimaryInformation>>> poPerceptPlusMemories_Output_old,
-			  				 ArrayList<clsTripple<clsPrimaryDataStructureContainer, clsDriveMesh,ArrayList<clsDriveMesh>>> poPerceptPlusMemories_Output) {
-		moPerceptPlusAwareContent_Input_old = (ArrayList<clsTripple<clsPrimaryInformation, clsPrimaryInformation, ArrayList<clsPrimaryInformation>>>)deepCopy(poPerceptPlusMemories_Output_old);
+	public void receive_I2_7(ArrayList<clsTripple<clsPrimaryDataStructureContainer, clsDriveMesh,ArrayList<clsDriveMesh>>> poPerceptPlusMemories_Output) {
 		moPerceptPlusAwareContent_Input = (ArrayList<clsTripple<clsPrimaryDataStructureContainer, clsDriveMesh,ArrayList<clsDriveMesh>>>)deepCopy(poPerceptPlusMemories_Output);
 	}
 
@@ -122,7 +115,6 @@ public class E17_FusionOfExternalPerceptionAndMemoryTraces extends clsModuleBase
 	protected void process_basic() {
 		moMergedPrimaryInformation_Output = new ArrayList<clsPair<clsPrimaryDataStructureContainer, clsDriveMesh>>();
 		addDriveContentToObject();
-		process_oldDT();
 	}
 	
 	/**
@@ -141,8 +133,8 @@ public class E17_FusionOfExternalPerceptionAndMemoryTraces extends clsModuleBase
 									oDM,
 									(clsPrimaryDataStructure)oEntry.a.moDataStructure); 
 						
-						oEntry.a.moAssociatedDataStructures.add(oAssociation); 
-				}
+						mergeDM(oEntry, oAssociation); 
+			}
 			
 			moMergedPrimaryInformation_Output.add(new clsPair<clsPrimaryDataStructureContainer, clsDriveMesh>(oEntry.a, oEntry.b)); 
 		}
@@ -151,81 +143,28 @@ public class E17_FusionOfExternalPerceptionAndMemoryTraces extends clsModuleBase
 
 	/**
 	 * DOCUMENT (zeilinger) - insert description
-	 * This method is used while adapting the model from the old datatypes (pa.datatypes) to the
-	 * new ones (pa.memorymgmt.datatypes) The method has to be deleted afterwards.
-	 * @author zeilinger
-	 * 13.08.2010, 09:56:48
-	 * @deprecated
-	 */
-	private void process_oldDT() {
-		moMergedPrimaryInformation_Output_old = new ArrayList<clsPair<clsPrimaryInformation, clsPrimaryInformation>>();
-		for(clsTripple<clsPrimaryInformation, clsPrimaryInformation,ArrayList<clsPrimaryInformation>> oElement : moPerceptPlusAwareContent_Input_old){
-			defineOutput(oElement); 
-		} 	
-	}
-
-	/**
-	 * DOCUMENT (zeilinger) - insert description
 	 *
 	 * @author zeilinger
-	 * 24.10.2009, 18:23:08
+	 * 24.09.2010, 23:55:39
 	 *
-	 * @param element
+	 * @param oEntry
+	 * @param oDM
 	 */
-	private void defineOutput(
-			clsTripple<clsPrimaryInformation, clsPrimaryInformation, ArrayList<clsPrimaryInformation>> poElement) {
-		if(poElement.b != null){
-			clsPrimaryInformationMesh oMergedMesh = (clsPrimaryInformationMesh)poElement.a; 
-			mergeMesh(oMergedMesh, poElement); 
-			moMergedPrimaryInformation_Output_old.add(new clsPair<clsPrimaryInformation, clsPrimaryInformation>(oMergedMesh, poElement.b)); 
-		}
-		else{
-			moMergedPrimaryInformation_Output_old.add(new clsPair<clsPrimaryInformation, clsPrimaryInformation>(poElement.a, poElement.b)); 
-		}
-	}
-
-	/**
-	 * DOCUMENT (zeilinger) - insert description
-	 *
-	 * @author zeilinger
-	 * 21.10.2009, 14:32:20
-	 * @param poMergedMesh 
-	 *
-	 * @param element
-	 * @return
-	 */
-	private void mergeMesh(clsPrimaryInformationMesh poMergedMesh, clsTripple<clsPrimaryInformation, clsPrimaryInformation,ArrayList<clsPrimaryInformation>> poElement) {
-		getAwareContent(poMergedMesh, poElement.c); 
+	private void mergeDM(
+			clsTripple<clsPrimaryDataStructureContainer, clsDriveMesh, ArrayList<clsDriveMesh>> oEntry,
+			clsAssociationDriveMesh poAssociation) {
+		
+			for(clsAssociation oElement : oEntry.a.moAssociatedDataStructures){
+				if(oElement.getLeafElement().moContentType.intern() == poAssociation.getDM().moContentType.intern()){
+					//TODO Here some calculations of the new pleasure values have to be done
+					return; 
+				}
+			}
+				
+		    oEntry.a.moAssociatedDataStructures.add(poAssociation); 
 	}
 
 	
-	
-	/**
-	 * DOCUMENT (zeilinger) - insert description
-	 *
-	 * @author zeilinger
-	 * 24.10.2009, 09:33:07
-	 *
-	 * @param mergedMesh
-	 * @param c
-	 */
-	private void getAwareContent(clsPrimaryInformationMesh poMergedMesh,
-			ArrayList<clsPrimaryInformation> poAwareContentList) {
-		
-		for(clsPrimaryInformation oAwareContent : poAwareContentList){
-			poMergedMesh.moTP.meContentName = poMergedMesh.moTP.meContentName; // + "_" + oAwareContent.moTP.meContentName;
-			poMergedMesh.moTP.moContent = poMergedMesh.moTP.moContent +"_" + oAwareContent.moTP.moContent; 
-			clsAssociationContent<clsPrimaryInformation> oAssociationContent = new clsAssociationContent<clsPrimaryInformation>(); 
-			 
-			
-			oAssociationContent.moElementA = poMergedMesh; 
-			oAssociationContent.moElementB = oAwareContent; 
-			oAssociationContent.moWeight = 1.0; 
-		
-			poMergedMesh.moAssociations.add(oAssociationContent);
-		}
-	}
-
 	/* (non-Javadoc)
 	 *
 	 * @author deutsch
@@ -236,7 +175,7 @@ public class E17_FusionOfExternalPerceptionAndMemoryTraces extends clsModuleBase
 	@Override
 	protected void send() {
 		//HZ: null is a placeholder for the bjects of the type pa.memorymgmt.datatypes
-		send_I2_8(moMergedPrimaryInformation_Output_old, moMergedPrimaryInformation_Output);
+		send_I2_8(moMergedPrimaryInformation_Output);
 	}
 
 	/* (non-Javadoc)
@@ -247,9 +186,8 @@ public class E17_FusionOfExternalPerceptionAndMemoryTraces extends clsModuleBase
 	 * @see pa.interfaces.send.I2_8_send#send_I2_8(java.util.ArrayList)
 	 */
 	@Override
-	public void send_I2_8(ArrayList<clsPair<clsPrimaryInformation, clsPrimaryInformation>> poMergedPrimaryInformation_old,
-			  			 ArrayList<clsPair<clsPrimaryDataStructureContainer, clsDriveMesh>> poMergedPrimaryInformation) {
-		((I2_8_receive)moEnclosingContainer).receive_I2_8(moMergedPrimaryInformation_Output_old, moMergedPrimaryInformation_Output);
+	public void send_I2_8(ArrayList<clsPair<clsPrimaryDataStructureContainer, clsDriveMesh>> poMergedPrimaryInformation) {
+		((I2_8_receive)moEnclosingContainer).receive_I2_8(moMergedPrimaryInformation_Output);
 		
 	}
 

@@ -8,7 +8,6 @@ package pa.interfaces.receive;
 
 import java.util.ArrayList;
 
-import pa.datatypes.clsPrimaryInformation;
 import pa.interfaces.I_BaseInterface;
 import pa.memorymgmt.datatypes.clsPrimaryDataStructureContainer;
 
@@ -20,6 +19,5 @@ import pa.memorymgmt.datatypes.clsPrimaryDataStructureContainer;
  * 
  */
 public interface I2_10_receive extends I_BaseInterface {
-	public void receive_I2_10(ArrayList<clsPrimaryInformation> poGrantedPerception_old,
-			   ArrayList<clsPrimaryDataStructureContainer> poGrantedPerception);
+	public void receive_I2_10(ArrayList<clsPrimaryDataStructureContainer> poGrantedPerception);
 }

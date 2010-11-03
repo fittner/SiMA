@@ -9,8 +9,6 @@ package pa.modules;
 import java.util.ArrayList;
 
 import pa.clsInterfaceHandler;
-import pa.datatypes.clsSecondaryInformation;
-import pa.datatypes.clsSecondaryInformationMesh;
 import pa.interfaces.receive.I1_7_receive;
 import pa.interfaces.receive.I2_11_receive;
 import pa.interfaces.receive.I2_12_receive;
@@ -23,13 +21,11 @@ import pa.interfaces.receive.I7_2_receive;
 import pa.interfaces.receive.I7_3_receive;
 import pa.interfaces.receive.I7_4_receive;
 import pa.interfaces.receive.I7_5_receive;
-import pa.loader.plan.clsPlanAction;
 import pa.memory.clsMemory;
 import pa.memorymgmt.clsKnowledgeBaseHandler;
 import pa.memorymgmt.datatypes.clsAct;
 import pa.memorymgmt.datatypes.clsSecondaryDataStructureContainer;
 import pa.memorymgmt.datatypes.clsWordPresentation;
-import pa.tools.clsPair;
 import config.clsBWProperties;
 
 /**
@@ -106,8 +102,8 @@ public class G11_SecondaryProcessor extends clsModuleContainer implements
 	 * @see pa.interfaces.I3_3#receive_I3_3(int)
 	 */
 	@Override
-	public void receive_I3_3(int pnData) {
-		moG15Deliberation.receive_I3_3(pnData);
+	public void receive_I3_3(ArrayList<clsAct> poRuleList) {
+		moG15Deliberation.receive_I3_3(poRuleList);
 	}
 
 	/* (non-Javadoc)
@@ -118,9 +114,9 @@ public class G11_SecondaryProcessor extends clsModuleContainer implements
 	 * @see pa.interfaces.I1_7#receive_I1_7(int)
 	 */
 	@Override
-	public void receive_I1_7(ArrayList<clsSecondaryInformation> poDriveList_old, ArrayList<clsSecondaryDataStructureContainer> poDriveList) {
-		moG15Deliberation.receive_I1_7(poDriveList_old, poDriveList);
-		moG14PerceptualPreprocessing.receive_I1_7(poDriveList_old, poDriveList);
+	public void receive_I1_7(ArrayList<clsSecondaryDataStructureContainer> poDriveList) {
+		moG15Deliberation.receive_I1_7(poDriveList);
+		moG14PerceptualPreprocessing.receive_I1_7(poDriveList);
 	}
 
 	/* (non-Javadoc)
@@ -131,8 +127,8 @@ public class G11_SecondaryProcessor extends clsModuleContainer implements
 	 * @see pa.interfaces.I2_11#receive_I2_11(int)
 	 */
 	@Override
-	public void receive_I2_11(ArrayList<clsSecondaryInformation> poPerception_old, ArrayList<clsSecondaryDataStructureContainer> poPerception) {
-		moG14PerceptualPreprocessing.receive_I2_11(poPerception_old, poPerception);
+	public void receive_I2_11(ArrayList<clsSecondaryDataStructureContainer> poPerception) {
+		moG14PerceptualPreprocessing.receive_I2_11(poPerception);
 	}
 
 	/* (non-Javadoc)
@@ -155,8 +151,8 @@ public class G11_SecondaryProcessor extends clsModuleContainer implements
 	 * @see pa.interfaces.I2_12#receive_I2_12(int)
 	 */
 	@Override
-	public void receive_I2_12(ArrayList<clsSecondaryInformation> poFocusedPerception_old, ArrayList<clsSecondaryDataStructureContainer> poFocusedPerception, ArrayList<clsSecondaryInformation> poDriveList_old, ArrayList<clsSecondaryDataStructureContainer> poDriveList) {
-		moG16SecondaryKnowledgeUtilizer.receive_I2_12(poFocusedPerception_old, poFocusedPerception, poDriveList_old, poDriveList);
+	public void receive_I2_12(ArrayList<clsSecondaryDataStructureContainer> poFocusedPerception, ArrayList<clsSecondaryDataStructureContainer> poDriveList) {
+		moG16SecondaryKnowledgeUtilizer.receive_I2_12(poFocusedPerception, poDriveList);
 	}
 
 	/* (non-Javadoc)
@@ -167,9 +163,8 @@ public class G11_SecondaryProcessor extends clsModuleContainer implements
 	 * @see pa.interfaces.I2_13#receive_I2_13(int)
 	 */
 	@Override
-	public void receive_I2_13(ArrayList<clsPair<clsSecondaryInformation, clsSecondaryInformationMesh>> poRealityPerception_old,
-			   				  ArrayList<clsPair<clsSecondaryDataStructureContainer, clsSecondaryDataStructureContainer>> poRealityPerception) {
-		moG15Deliberation.receive_I2_13(poRealityPerception_old, poRealityPerception);
+	public void receive_I2_13(ArrayList<clsSecondaryDataStructureContainer> poRealityPerception) {
+		moG15Deliberation.receive_I2_13(poRealityPerception);
 	}
 
 	/* (non-Javadoc)
@@ -204,8 +199,8 @@ public class G11_SecondaryProcessor extends clsModuleContainer implements
 	 * @see pa.interfaces.I7_2#receive_I7_2(int)
 	 */
 	@Override
-	public void receive_I7_2(int pnData, ArrayList<clsSecondaryDataStructureContainer> poGoal_Output) {
-		moG16SecondaryKnowledgeUtilizer.receive_I7_2(pnData, poGoal_Output);
+	public void receive_I7_2(ArrayList<clsSecondaryDataStructureContainer> poGoal_Output) {
+		moG16SecondaryKnowledgeUtilizer.receive_I7_2(poGoal_Output);
 	}
 
 	/* (non-Javadoc)
@@ -216,8 +211,8 @@ public class G11_SecondaryProcessor extends clsModuleContainer implements
 	 * @see pa.interfaces.I7_4#receive_I7_4(int)
 	 */
 	@Override
-	public void receive_I7_4(ArrayList<clsPlanAction> poActionCommands_old, ArrayList<clsWordPresentation> poActionCommands) {
-		((I7_4_receive)moEnclosingContainer).receive_I7_4(poActionCommands_old, poActionCommands);
+	public void receive_I7_4(ArrayList<clsWordPresentation> poActionCommands) {
+		((I7_4_receive)moEnclosingContainer).receive_I7_4(poActionCommands);
 	}
 
 	/* (non-Javadoc)
@@ -228,7 +223,7 @@ public class G11_SecondaryProcessor extends clsModuleContainer implements
 	 * @see pa.interfaces.I7_3#receive_I7_3(java.util.ArrayList)
 	 */
 	@Override
-	public void receive_I7_3(ArrayList<clsPlanAction> poActionCommands_old, ArrayList<clsWordPresentation> poActionCommands) {
+	public void receive_I7_3(ArrayList<clsWordPresentation> poActionCommands) {
 		// TODO (deutsch) - Auto-generated method stub
 		
 	}

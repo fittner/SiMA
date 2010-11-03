@@ -9,7 +9,6 @@ package pa.interfaces.receive;
 import java.util.ArrayList;
 
 import pa.interfaces.I_BaseInterface;
-import pa.loader.plan.clsPlanAction;
 import pa.memorymgmt.datatypes.clsWordPresentation;
 
 /**
@@ -20,5 +19,5 @@ import pa.memorymgmt.datatypes.clsWordPresentation;
  * 
  */
 public interface I8_1_receive extends I_BaseInterface {
-	public void receive_I8_1(ArrayList<clsPlanAction> poActionCommands_old, ArrayList<clsWordPresentation> poActionCommands);
+	public void receive_I8_1(ArrayList<clsWordPresentation> poActionCommands);
 }

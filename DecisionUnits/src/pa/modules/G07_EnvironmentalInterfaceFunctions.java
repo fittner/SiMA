@@ -10,8 +10,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import pa.clsInterfaceHandler;
-import pa.datatypes.clsPrimaryInformation;
-import pa.loader.plan.clsPlanAction;
 import pa.memory.clsMemory;
 import pa.memorymgmt.clsKnowledgeBaseHandler;
 import pa.memorymgmt.datatypes.clsPrimaryDataStructureContainer;
@@ -112,8 +110,8 @@ public class G07_EnvironmentalInterfaceFunctions extends clsModuleContainer impl
 	 * @see pa.interfaces.I7_4#receive_I7_4(int)
 	 */
 	@Override
-	public void receive_I7_4(ArrayList<clsPlanAction> poActionCommands_old, ArrayList<clsWordPresentation> poActionCommands) {
-		moE30MotilityControl.receive_I7_4(poActionCommands_old, poActionCommands);
+	public void receive_I7_4(ArrayList<clsWordPresentation> poActionCommands) {
+		moE30MotilityControl.receive_I7_4(poActionCommands);
 	}
 
 	/* (non-Javadoc)
@@ -124,8 +122,8 @@ public class G07_EnvironmentalInterfaceFunctions extends clsModuleContainer impl
 	 * @see pa.interfaces.I2_5#receive_I2_5(int)
 	 */
 	@Override
-	public void receive_I2_5(ArrayList<clsPrimaryInformation> poEnvironmentalTP_old, ArrayList<clsPrimaryDataStructureContainer> poEnvironmentalTP) {
-		((I2_5_receive)moEnclosingContainer).receive_I2_5(poEnvironmentalTP_old, poEnvironmentalTP);
+	public void receive_I2_5(ArrayList<clsPrimaryDataStructureContainer> poEnvironmentalTP) {
+		((I2_5_receive)moEnclosingContainer).receive_I2_5(poEnvironmentalTP);
 		
 	}
 
@@ -137,8 +135,8 @@ public class G07_EnvironmentalInterfaceFunctions extends clsModuleContainer impl
 	 * @see pa.interfaces.I8_1#receive_I8_1(int)
 	 */
 	@Override
-	public void receive_I8_1(ArrayList<clsPlanAction> poActionCommands_old, ArrayList<clsWordPresentation> poActionCommands) {
-		((I8_1_receive)moEnclosingContainer).receive_I8_1(poActionCommands_old, poActionCommands);
+	public void receive_I8_1(ArrayList<clsWordPresentation> poActionCommands) {
+		((I8_1_receive)moEnclosingContainer).receive_I8_1(poActionCommands);
 		
 	}
 }

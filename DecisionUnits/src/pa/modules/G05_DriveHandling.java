@@ -10,8 +10,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import pa.clsInterfaceHandler;
-import pa.datatypes.clsAffectCandidate;
-import pa.datatypes.clsPrimaryInformationMesh;
 import pa.interfaces.receive.I1_2_receive;
 import pa.interfaces.receive.I1_3_receive;
 import pa.interfaces.receive.I1_4_receive;
@@ -95,9 +93,8 @@ public class G05_DriveHandling extends clsModuleContainer implements
 	 * @see pa.interfaces.I1_3#receive_I1_3(int)
 	 */
 	@Override
-	public void receive_I1_3(ArrayList<clsPair<clsPair<clsPrimaryInformationMesh, clsAffectCandidate>, clsPair<clsPrimaryInformationMesh, clsAffectCandidate>>> poDriveCandidate_old,
-							 ArrayList<clsPair<clsPair<clsDriveMesh, clsDriveDemand>, clsPair<clsDriveMesh, clsDriveDemand>>> poDriveCandidate) {
-		moE04FusionOfDrives.receive_I1_3(poDriveCandidate_old, poDriveCandidate);
+	public void receive_I1_3(ArrayList<clsPair<clsPair<clsDriveMesh, clsDriveDemand>, clsPair<clsDriveMesh, clsDriveDemand>>> poDriveCandidate) {
+		moE04FusionOfDrives.receive_I1_3(poDriveCandidate);
 	}
 
 	/* (non-Javadoc)
@@ -108,9 +105,8 @@ public class G05_DriveHandling extends clsModuleContainer implements
 	 * @see pa.interfaces.I1_4#receive_I1_4(int)
 	 */
 	@Override
-	public void receive_I1_4(ArrayList<clsPair<clsPair<clsPrimaryInformationMesh, clsAffectCandidate>,clsPair<clsPrimaryInformationMesh, clsAffectCandidate>>> poDriveCandidate_old,
-							 ArrayList<clsPair<clsPair<clsDriveMesh, clsDriveDemand>, clsPair<clsDriveMesh, clsDriveDemand>>> poDriveCandidate) {
-		((I1_4_receive)moEnclosingContainer).receive_I1_4(poDriveCandidate_old, poDriveCandidate);
+	public void receive_I1_4(ArrayList<clsPair<clsPair<clsDriveMesh, clsDriveDemand>, clsPair<clsDriveMesh, clsDriveDemand>>> poDriveCandidate) {
+		((I1_4_receive)moEnclosingContainer).receive_I1_4(poDriveCandidate);
 		
 	}
 

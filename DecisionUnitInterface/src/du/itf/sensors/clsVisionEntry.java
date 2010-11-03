@@ -24,7 +24,7 @@ import bfg.utils.enums.eSide;
  */
 public class clsVisionEntry extends clsSensorRingSegmentEntry {
 	protected boolean mnAlive = false;
-	protected Color moColor = null;
+	protected Color moColor = new Color(0,0,0);
 	protected eSide moObjectPosition = eSide.UNDEFINED; 
 	protected eAntennaPositions moAntennaPositionLeft = eAntennaPositions.UNDEFINED; 
 	protected eAntennaPositions moAntennaPositionRight = eAntennaPositions.UNDEFINED;	

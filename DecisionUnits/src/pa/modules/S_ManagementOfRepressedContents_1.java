@@ -14,11 +14,8 @@ import java.util.Map.Entry;
 import bfg.tools.clsMutableDouble;
 
 import config.clsBWProperties;
-import du.enums.eEntityType;
 import du.enums.pa.eContext;
 import pa.clsInterfaceHandler;
-import pa.datatypes.clsDriveContentCategories;
-import pa.datatypes.clsPrimaryInformation;
 import pa.interfaces.knowledgebase.itfKnowledgeBaseAccess;
 import pa.interfaces.receive.I2_5_receive;
 import pa.interfaces.receive.I2_6_receive;
@@ -40,9 +37,6 @@ import pa.tools.clsPair;
  */
 public class S_ManagementOfRepressedContents_1 extends clsModuleBase implements I2_5_receive, itfKnowledgeBaseAccess {
 
-	public ArrayList<clsPrimaryInformation> moEnvironmentalTP_Input_old;
-	public ArrayList<clsPair<clsPrimaryInformation, clsPrimaryInformation>> moAttachedRepressed_Output_old;
-	
 	public ArrayList<clsPrimaryDataStructureContainer> moEnvironmentalTP_Input; 
 	public ArrayList<clsPair<clsPrimaryDataStructureContainer, clsDriveMesh>> moAttachedRepressed_Output; 
 	
@@ -81,8 +75,7 @@ public class S_ManagementOfRepressedContents_1 extends clsModuleBase implements 
 	 */
 	@SuppressWarnings("unchecked")
 	@Override
-	public void receive_I2_5(ArrayList<clsPrimaryInformation> poEnvironmentalTP_old, ArrayList<clsPrimaryDataStructureContainer> poEnvironmentalTP) {
-		moEnvironmentalTP_Input_old = (ArrayList<clsPrimaryInformation>)deepCopy( poEnvironmentalTP_old );
+	public void receive_I2_5(ArrayList<clsPrimaryDataStructureContainer> poEnvironmentalTP) {
 		moEnvironmentalTP_Input = (ArrayList<clsPrimaryDataStructureContainer>)deepCopy(poEnvironmentalTP); 
 	}
 
@@ -113,8 +106,6 @@ public class S_ManagementOfRepressedContents_1 extends clsModuleBase implements 
 		oContainer = assignDriveMeshes(); 
 		adaptCathegories(oContainer);
 		matchRepressedContent(oContainer); 
-		
-		process_oldDT(); 
 	}
 	
 	/**
@@ -255,76 +246,6 @@ public class S_ManagementOfRepressedContents_1 extends clsModuleBase implements 
 		}
 	}
 
-	/**
-	 * DOCUMENT (zeilinger) - insert description
-	 * This method is used while adapting the model from the old datatypes (pa.datatypes) to the
-	 * new ones (pa.memorymgmt.datatypes) The method has to be deleted afterwards.
-	 * @author zeilinger
-	 * 13.08.2010, 09:56:48
-	 * @deprecated
-	 */
-	private void process_oldDT() {
-		cathegorize_old( moEnvironmentalTP_Input_old );
-		moAttachedRepressed_Output_old = matchWithRepressedContent_old(moEnvironmentalTP_Input_old);
-	}
-
-	/**
-	 * returns the corresponding driveContentCategories in the current context
-	 *
-	 * @author langr
-	 * 17.10.2009, 18:52:32
-	 *
-	 * @param moEnvironmentalTP_Input2
-	 * @return
-	 * @deprecated
-	 */
-	private void cathegorize_old(
-			ArrayList<clsPrimaryInformation> poEnvironmentalTP) {
-
-		HashMap<eEntityType, clsPrimaryInformation> oSemanticWeb = this.moEnclosingContainer.moMemory.moObjectSemanticsStorage.moObjectSemantics;
-		
-		//get current contexts and attach drvContCat to TP of incoming PrimInfo
-		HashMap<clsPrimaryInformation, clsMutableDouble> oContextResult = moEnclosingContainer.moMemory.moCurrentContextStorage.getContextRatiosPrim(mrContextSensitivity); 
-		for(clsPrimaryInformation oInfo : poEnvironmentalTP) {
-			for( Map.Entry<clsPrimaryInformation, clsMutableDouble> oContextPrim : oContextResult.entrySet() ) {
-				eContext oContext = (eContext)oContextPrim.getKey().moTP.moContent;
-				if( oSemanticWeb.containsKey(oInfo.moTP.moContent) ) {
-					clsDriveContentCategories oCath = oSemanticWeb.get(oInfo.moTP.moContent).moTP.moDriveContentCategory.get(oContext);
-					if(oCath != null) { //cathegory does not exist here
-					clsDriveContentCategories oCathegory = new clsDriveContentCategories( oCath );
-					oCathegory.adaptToContextRatio(oContextPrim.getValue().doubleValue());	//lower the category-ratio according to the match of the context
-					oInfo.moTP.moDriveContentCategory.put(oContext, oCathegory);
-					}
-
-				}
-			}
-		}
-		return;
-	}
-
-	/**
-	 * DOCUMENT (langr) - insert description
-	 *
-	 * @author langr
-	 * 17.10.2009, 18:54:27
-	 *
-	 * @param poCategorizedInput
-	 * @return
-	 * @deprecated
-	 */
-	private ArrayList<clsPair<clsPrimaryInformation, clsPrimaryInformation>> matchWithRepressedContent_old(
-			ArrayList<clsPrimaryInformation> poCategorizedInput) {
-		
-		ArrayList<clsPair<clsPrimaryInformation, clsPrimaryInformation>> oRetVal = new ArrayList<clsPair<clsPrimaryInformation,clsPrimaryInformation>>();
-
-		for(clsPrimaryInformation oInput : poCategorizedInput) {
-			clsPrimaryInformation oRep = moEnclosingContainer.moMemory.moRepressedContentsStore.getBestMatch(oInput.moTP.moDriveContentCategory);
-			oRetVal.add(new clsPair<clsPrimaryInformation, clsPrimaryInformation>(oInput, oRep));
-		}
-		
-		return oRetVal;
-	}
-	
 	/* (non-Javadoc)
 	 *
 	 * @author deutsch
@@ -334,7 +255,7 @@ public class S_ManagementOfRepressedContents_1 extends clsModuleBase implements 
 	 */
 	@Override
 	protected void send() {
-		((I2_6_receive)moEnclosingContainer).receive_I2_6(moAttachedRepressed_Output_old, moAttachedRepressed_Output);
+		((I2_6_receive)moEnclosingContainer).receive_I2_6(moAttachedRepressed_Output);
 		
 	}
 

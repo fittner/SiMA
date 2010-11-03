@@ -7,25 +7,19 @@
 package pa.modules;
 
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
 
 import config.clsBWProperties;
 import pa.clsInterfaceHandler;
-import pa.datatypes.clsSecondaryInformation;
-import pa.interfaces.itfTimeChartInformationContainer;
 import pa.interfaces.receive.I6_2_receive;
 import pa.interfaces.receive.I7_1_receive;
 import pa.interfaces.receive.I7_3_receive;
 import pa.interfaces.send.I7_3_send;
 import pa.loader.plan.clsPlanAction;
-import pa.loader.plan.clsPlanBaseMesh;
-import pa.loader.plan.clsPlanStateMesh;
 import pa.memorymgmt.datatypes.clsAct;
 import pa.memorymgmt.datatypes.clsSecondaryDataStructure;
 import pa.memorymgmt.datatypes.clsSecondaryDataStructureContainer;
 import pa.memorymgmt.datatypes.clsWordPresentation;
-import pa.tools.clsPair;
+import pa.memorymgmt.enums.eActState;
 
 /**
  * DOCUMENT (deutsch) - insert description 
@@ -34,10 +28,8 @@ import pa.tools.clsPair;
  * 11.08.2009, 14:55:01
  * 
  */
-public class E27_GenerationOfImaginaryActions extends clsModuleBase implements I6_2_receive, I7_1_receive, I7_3_send, itfTimeChartInformationContainer{
+public class E27_GenerationOfImaginaryActions extends clsModuleBase implements I6_2_receive, I7_1_receive, I7_3_send {
 
-	public ArrayList<clsSecondaryInformation> moEnvironmentalPerception;
-	public HashMap<String, clsPair<clsSecondaryInformation, Double>> moTemplateResult_Input_old;
 	public ArrayList<clsSecondaryDataStructureContainer> moGoalInput;
 	public ArrayList<ArrayList<clsAct>> moPlanInput; 
 	
@@ -133,9 +125,8 @@ public class E27_GenerationOfImaginaryActions extends clsModuleBase implements I
 	 */
 	@SuppressWarnings("unchecked")
 	@Override
-	public void receive_I7_1(HashMap<String, clsPair<clsSecondaryInformation, Double>> poTemplateResult_old, 
-						ArrayList<clsSecondaryDataStructureContainer> poGoalInput) {
-		moTemplateResult_Input_old = ( HashMap<String, clsPair<clsSecondaryInformation, Double>>) deepCopy( poTemplateResult_old);
+	public void receive_I7_1(ArrayList<clsSecondaryDataStructureContainer> poGoalInput) {
+
 		moGoalInput = ( ArrayList<clsSecondaryDataStructureContainer> )deepCopy(poGoalInput);
 	}
 
@@ -170,7 +161,6 @@ public class E27_GenerationOfImaginaryActions extends clsModuleBase implements I
 		//a kind of planning.
 		moActions_Output = new ArrayList<clsWordPresentation>();
 		moActions_Output = getActions(); 
-		process_oldDT();
 	}
 	
 	/**
@@ -185,12 +175,11 @@ public class E27_GenerationOfImaginaryActions extends clsModuleBase implements I
 		ArrayList <clsWordPresentation> oRetVal = new ArrayList<clsWordPresentation>(); 
 		ArrayList<clsAct> oPlan = evaluatePlans();
 		
-		loop: 
 		for(clsAct oAct : oPlan){
 			for(clsSecondaryDataStructure oSD : oAct.moAssociatedContent){
-				if(oSD instanceof clsWordPresentation && oSD.moContentType.equals("ACTION")){
+				if(oSD instanceof clsWordPresentation && oSD.moContentType.equals(eActState.ACTION.name())){
 					oRetVal.add((clsWordPresentation)oSD); 
-					break loop; 
+					return oRetVal; 
 				}
 			}			
 		}
@@ -221,55 +210,6 @@ public class E27_GenerationOfImaginaryActions extends clsModuleBase implements I
 		return oRetVal;
 	}
 
-	/**
-	 * DOCUMENT (zeilinger) - insert description
-	 * This method is used while adapting the model from the old datatypes (pa.datatypes) to the
-	 * new ones (pa.memorymgmt.datatypes) The method has to be deleted afterwards.
-	 * @author zeilinger
-	 * 13.08.2010, 09:56:48
-	 * @deprecated
-	 */
-	private void process_oldDT() {
-		moActions_Output_old = this.moEnclosingContainer.moMemory.moTemplatePlanStorage.getReognitionUpdate(moTemplateResult_Input_old);
-	}
-	
-	/* (non-Javadoc)
-	 *
-	 * @author langr
-	 * 04.11.2009, 19:37:55
-	 * 
-	 * @see pa.interfaces.itfTimeChartInformationContainer#getTimeChartData()
-	 */
-	@Override
-	public ArrayList<clsPair<String, Double>> getTimeChartData() {
-
-		ArrayList<clsPair<String, Double>> oRetVal = new ArrayList<clsPair<String, Double>>();
-		for( Map.Entry<String,  clsPair<clsSecondaryInformation, Double>> oMatch : moTemplateResult_Input_old.entrySet()) {
-			oRetVal.add(new clsPair<String, Double>("TI_"+oMatch.getKey(), oMatch.getValue().b));
-		}
-		
-		for( clsSecondaryInformation oMesh : this.moEnclosingContainer.moMemory.moTemplatePlanStorage.moTemplatePlans) {
-			if(oMesh instanceof clsPlanBaseMesh) {
-				clsPlanBaseMesh oPlan = (clsPlanBaseMesh)oMesh;
-				if(oPlan.moWP.moContent.toString().equals("CAKE_HUNGER") ) { //only display this plan
-
-					for( Map.Entry<Integer, clsPlanStateMesh> oStep : oPlan.moStates.entrySet() ) {
-						
-						clsPlanStateMesh oState = oStep.getValue();
-						
-						double oActive = 0;
-						if( oState.mnId==oPlan.mnCurrentState ) {
-							oActive = 1;
-						}
-						oRetVal.add(new clsPair<String, Double>("PL_"+oState.moWP.moContent, oActive));
-					}
-				}
-			}
-		}
-		
-		return oRetVal;
-	}
-	
 
 	/* (non-Javadoc)
 	 *
@@ -280,7 +220,7 @@ public class E27_GenerationOfImaginaryActions extends clsModuleBase implements I
 	 */
 	@Override
 	protected void send() {
-		send_I7_3(moActions_Output_old, moActions_Output);
+		send_I7_3(moActions_Output);
 		
 	}
 
@@ -292,8 +232,8 @@ public class E27_GenerationOfImaginaryActions extends clsModuleBase implements I
 	 * @see pa.interfaces.send.I7_3_send#send_I7_3(java.util.ArrayList)
 	 */
 	@Override
-	public void send_I7_3(ArrayList<clsPlanAction> poActionCommands_old, ArrayList<clsWordPresentation> poActionCommands) {
-		((I7_3_receive)moEnclosingContainer).receive_I7_3(moActions_Output_old, moActions_Output);
+	public void send_I7_3(ArrayList<clsWordPresentation> poActionCommands) {
+		((I7_3_receive)moEnclosingContainer).receive_I7_3(moActions_Output);
 		
 	}
 

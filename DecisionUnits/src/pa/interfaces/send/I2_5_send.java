@@ -8,7 +8,6 @@ package pa.interfaces.send;
 
 import java.util.ArrayList;
 
-import pa.datatypes.clsPrimaryInformation;
 import pa.memorymgmt.datatypes.clsPrimaryDataStructureContainer;
 
 /**
@@ -19,6 +18,5 @@ import pa.memorymgmt.datatypes.clsPrimaryDataStructureContainer;
  * 
  */
 public interface I2_5_send {
-	public void send_I2_5(ArrayList<clsPrimaryInformation> poEnvironmentalTP_old,
-						  ArrayList<clsPrimaryDataStructureContainer> poEnvironmentalTP);
+	public void send_I2_5(ArrayList<clsPrimaryDataStructureContainer> poEnvironmentalTP);
 }

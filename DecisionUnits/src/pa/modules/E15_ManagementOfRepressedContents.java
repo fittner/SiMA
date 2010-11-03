@@ -11,9 +11,6 @@ import java.util.List;
 
 import config.clsBWProperties;
 import pa.clsInterfaceHandler;
-import pa.datatypes.clsAffectTension;
-import pa.datatypes.clsPrimaryInformation;
-import pa.datatypes.clsThingPresentation;
 import pa.interfaces.receive.I2_5_receive;
 import pa.interfaces.receive.I2_6_receive;
 import pa.interfaces.receive.I4_1_receive;
@@ -87,8 +84,8 @@ public class E15_ManagementOfRepressedContents extends clsModuleContainer implem
 	 * @see pa.interfaces.I2_5#receive_I2_5(int)
 	 */
 	@Override
-	public void receive_I2_5(ArrayList<clsPrimaryInformation> poEnvironmentalTP_old, ArrayList<clsPrimaryDataStructureContainer> poEnvironmentalTP) {
-		moS_ManagementOfRepressedContents_1.receive_I2_5(poEnvironmentalTP_old, poEnvironmentalTP);
+	public void receive_I2_5(ArrayList<clsPrimaryDataStructureContainer> poEnvironmentalTP) {
+		moS_ManagementOfRepressedContents_1.receive_I2_5(poEnvironmentalTP);
 	}
 
 
@@ -100,9 +97,8 @@ public class E15_ManagementOfRepressedContents extends clsModuleContainer implem
 	 * @see pa.interfaces.I4_1#receive_I4_1(int)
 	 */
 	@Override
-	public void receive_I4_1(List<clsPrimaryInformation> poPIs_old, List<clsThingPresentation> poTPs_old, List<clsAffectTension> poAffects_old,
-			  List<clsPrimaryDataStructureContainer> poPIs, List<pa.memorymgmt.datatypes.clsThingPresentation> poTPs, List<clsAssociationDriveMesh> poAffects) {
-		moS_ManagementOfRepressedContents_2.receive_I4_1(poPIs_old, poTPs_old, poAffects_old, poPIs, poTPs, poAffects);
+	public void receive_I4_1(List<clsPrimaryDataStructureContainer> poPIs, List<pa.memorymgmt.datatypes.clsThingPresentation> poTPs, List<clsAssociationDriveMesh> poAffects) {
+		moS_ManagementOfRepressedContents_2.receive_I4_1(poPIs, poTPs, poAffects);
 	}
 
 
@@ -114,9 +110,8 @@ public class E15_ManagementOfRepressedContents extends clsModuleContainer implem
 	 * @see pa.interfaces.I4_2#receive_I4_2(int)
 	 */
 	@Override
-	public void receive_I4_2(ArrayList<clsPrimaryInformation> poPIs_old, ArrayList<clsThingPresentation> poTPs_old, ArrayList<clsAffectTension> poAffects_old,
-			  ArrayList<clsPrimaryDataStructureContainer> poPIs, ArrayList<pa.memorymgmt.datatypes.clsThingPresentation> poTPs, ArrayList<clsAssociationDriveMesh> poAffects) {
-		moS_ManagementOfRepressedContents_2.receive_I4_2(poPIs_old, poTPs_old, poAffects_old, poPIs, poTPs, poAffects);
+	public void receive_I4_2(ArrayList<clsPrimaryDataStructureContainer> poPIs, ArrayList<pa.memorymgmt.datatypes.clsThingPresentation> poTPs, ArrayList<clsAssociationDriveMesh> poAffects) {
+		moS_ManagementOfRepressedContents_2.receive_I4_2(poPIs, poTPs, poAffects);
 	}
 
 
@@ -128,9 +123,8 @@ public class E15_ManagementOfRepressedContents extends clsModuleContainer implem
 	 * @see pa.interfaces.I2_6#receive_I2_6(int)
 	 */
 	@Override
-	public void receive_I2_6(ArrayList<clsPair<clsPrimaryInformation, clsPrimaryInformation>> poPerceptPlusRepressed_old,
-			  				ArrayList<clsPair<clsPrimaryDataStructureContainer, clsDriveMesh>> poPerceptPlusRepressed) {
-		((I2_6_receive)moEnclosingContainer).receive_I2_6(poPerceptPlusRepressed_old, poPerceptPlusRepressed);		
+	public void receive_I2_6(ArrayList<clsPair<clsPrimaryDataStructureContainer, clsDriveMesh>> poPerceptPlusRepressed) {
+		((I2_6_receive)moEnclosingContainer).receive_I2_6(poPerceptPlusRepressed);		
 	}
 
 
@@ -142,8 +136,8 @@ public class E15_ManagementOfRepressedContents extends clsModuleContainer implem
 	 * @see pa.interfaces.I4_3#receive_I4_3(int)
 	 */
 	@Override
-	public void receive_I4_3(List<clsPrimaryInformation> poPIs_old, List<clsPrimaryDataStructureContainer> poPIs) {
-		((I4_3_receive)moEnclosingContainer).receive_I4_3(poPIs_old, poPIs);
+	public void receive_I4_3(List<clsPrimaryDataStructureContainer> poPIs) {
+		((I4_3_receive)moEnclosingContainer).receive_I4_3(poPIs);
 	}
 
 }

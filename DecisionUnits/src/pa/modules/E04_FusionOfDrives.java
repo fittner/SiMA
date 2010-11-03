@@ -9,8 +9,6 @@ package pa.modules;
 import java.util.ArrayList;
 
 import pa.clsInterfaceHandler;
-import pa.datatypes.clsAffectCandidate;
-import pa.datatypes.clsPrimaryInformationMesh;
 import pa.interfaces.receive.I1_3_receive;
 import pa.interfaces.receive.I1_4_receive;
 import pa.interfaces.send.I1_4_send;
@@ -28,8 +26,6 @@ import config.clsBWProperties;
  */
 public class E04_FusionOfDrives extends clsModuleBase implements I1_3_receive, I1_4_send {
 
-	ArrayList<clsPair<clsPair<clsPrimaryInformationMesh, clsAffectCandidate>, 
-	  clsPair<clsPrimaryInformationMesh, clsAffectCandidate>>> moDriveCandidate_old;
 	ArrayList<clsPair<clsPair<clsDriveMesh, clsDriveDemand>, clsPair<clsDriveMesh, clsDriveDemand>>> moDriveCandidate; 
 	
 	/**
@@ -96,10 +92,7 @@ public class E04_FusionOfDrives extends clsModuleBase implements I1_3_receive, I
 	 */
 	@SuppressWarnings("unchecked")
 	@Override
-	public void receive_I1_3(ArrayList<clsPair<clsPair<clsPrimaryInformationMesh, clsAffectCandidate>, clsPair<clsPrimaryInformationMesh, clsAffectCandidate>>> poDriveCandidate_old,
-							 ArrayList<clsPair<clsPair<clsDriveMesh, clsDriveDemand>, clsPair<clsDriveMesh, clsDriveDemand>>> poDriveCandidate) {
-		moDriveCandidate_old = (ArrayList<clsPair<clsPair<clsPrimaryInformationMesh, clsAffectCandidate>, 
-		  		  clsPair<clsPrimaryInformationMesh, clsAffectCandidate>>>)deepCopy(poDriveCandidate_old);
+	public void receive_I1_3(ArrayList<clsPair<clsPair<clsDriveMesh, clsDriveDemand>, clsPair<clsDriveMesh, clsDriveDemand>>> poDriveCandidate) {
 		moDriveCandidate = (ArrayList<clsPair<clsPair<clsDriveMesh, clsDriveDemand>, clsPair<clsDriveMesh, clsDriveDemand>>>) deepCopy(poDriveCandidate); 
 	}
 
@@ -125,7 +118,7 @@ public class E04_FusionOfDrives extends clsModuleBase implements I1_3_receive, I
 	 */
 	@Override
 	protected void send() {
-		send_I1_4(moDriveCandidate_old, moDriveCandidate);	
+		send_I1_4(moDriveCandidate);	
 	}
 
 	/* (non-Javadoc)
@@ -136,9 +129,8 @@ public class E04_FusionOfDrives extends clsModuleBase implements I1_3_receive, I
 	 * @see pa.interfaces.send.I1_4_send#send_I1_4(java.util.ArrayList)
 	 */
 	@Override
-	public void send_I1_4(ArrayList<clsPair<clsPair<clsPrimaryInformationMesh, clsAffectCandidate>, clsPair<clsPrimaryInformationMesh, clsAffectCandidate>>> poDriveCandidate_old,
-						  ArrayList<clsPair<clsPair<clsDriveMesh, clsDriveDemand>, clsPair<clsDriveMesh, clsDriveDemand>>> poDriveCandidate) {
-		((I1_4_receive)moEnclosingContainer).receive_I1_4(moDriveCandidate_old, moDriveCandidate);
+	public void send_I1_4(ArrayList<clsPair<clsPair<clsDriveMesh, clsDriveDemand>, clsPair<clsDriveMesh, clsDriveDemand>>> poDriveCandidate) {
+		((I1_4_receive)moEnclosingContainer).receive_I1_4(moDriveCandidate);
 	}
 
 	/* (non-Javadoc)

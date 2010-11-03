@@ -23,7 +23,6 @@ import pa.interfaces.receive.I2_3_receive;
 import pa.interfaces.receive.I2_4_receive;
 import pa.interfaces.receive.I8_1_receive;
 import pa.interfaces.receive.I8_2_receive;
-import pa.loader.plan.clsPlanAction;
 import pa.memory.clsMemory;
 import pa.memorymgmt.clsKnowledgeBaseHandler;
 import pa.memorymgmt.datatypes.clsWordPresentation;
@@ -203,8 +202,8 @@ public class G01_Body extends clsModuleContainer implements
 	 * @see pa.interfaces.I8_1#receive_I8_1(int)
 	 */
 	@Override
-	public void receive_I8_1(ArrayList<clsPlanAction> poActionCommands_old, ArrayList<clsWordPresentation> poActionCommands) {
-		moE31NeuroDeSymbolization.receive_I8_1(poActionCommands_old, poActionCommands);
+	public void receive_I8_1(ArrayList<clsWordPresentation> poActionCommands) {
+		moE31NeuroDeSymbolization.receive_I8_1(poActionCommands);
 		
 	}
 

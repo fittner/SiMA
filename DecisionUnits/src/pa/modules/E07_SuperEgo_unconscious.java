@@ -11,7 +11,6 @@ import java.util.HashMap;
 import java.util.List;
 
 import pa.clsInterfaceHandler;
-import pa.datatypes.clsPrimaryInformation;
 import pa.interfaces.knowledgebase.itfKnowledgeBaseAccess;
 import pa.interfaces.receive.I1_5_receive;
 import pa.interfaces.receive.I2_9_receive;
@@ -35,7 +34,6 @@ import config.clsBWProperties;
  * 
  */
 public class E07_SuperEgo_unconscious extends clsModuleBase implements I1_5_receive, I2_9_receive, I3_1_send, I3_2_send, itfKnowledgeBaseAccess {
-	ArrayList<clsPrimaryInformation> moPrimaryInformation_old;
 	ArrayList<clsPrimaryDataStructureContainer> moPrimaryInformation; 
 	
 	/**
@@ -102,8 +100,7 @@ public class E07_SuperEgo_unconscious extends clsModuleBase implements I1_5_rece
 	 */
 	@SuppressWarnings("unchecked")
 	@Override
-	public void receive_I1_5(List<clsPrimaryInformation> poData_old, List<clsDriveMesh> poData) {
-		moPrimaryInformation_old = (ArrayList<clsPrimaryInformation>)deepCopy( (ArrayList<clsPrimaryInformation>)poData_old);
+	public void receive_I1_5(List<clsDriveMesh> poData) {
 		moPrimaryInformation = (ArrayList<clsPrimaryDataStructureContainer>)deepCopy( (ArrayList<clsDriveMesh>)poData);
 	}
 
@@ -115,8 +112,7 @@ public class E07_SuperEgo_unconscious extends clsModuleBase implements I1_5_rece
 	 * @see pa.interfaces.I2_9#receive_I2_9(int)
 	 */
 	@Override
-	public void receive_I2_9(ArrayList<clsPrimaryInformation> poMergedPrimaryInformation_old,
-			  ArrayList<clsPrimaryDataStructureContainer> poMergedPrimaryInformation) {
+	public void receive_I2_9(ArrayList<clsPrimaryDataStructureContainer> poMergedPrimaryInformation) {
 		
 		//DEEPCOPY
 	}

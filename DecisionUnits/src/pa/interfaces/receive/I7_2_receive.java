@@ -19,5 +19,5 @@ import pa.memorymgmt.datatypes.clsSecondaryDataStructureContainer;
  * 
  */
 public interface I7_2_receive extends I_BaseInterface {
-	public void receive_I7_2(int pnData, ArrayList<clsSecondaryDataStructureContainer> poGoal_Output);
+	public void receive_I7_2(ArrayList<clsSecondaryDataStructureContainer> poGoal_Output);
 }

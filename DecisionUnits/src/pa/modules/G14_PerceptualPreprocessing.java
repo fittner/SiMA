@@ -9,8 +9,6 @@ package pa.modules;
 import java.util.ArrayList;
 
 import pa.clsInterfaceHandler;
-import pa.datatypes.clsSecondaryInformation;
-import pa.datatypes.clsSecondaryInformationMesh;
 import pa.interfaces.receive.I1_7_receive;
 import pa.interfaces.receive.I2_11_receive;
 import pa.interfaces.receive.I2_12_receive;
@@ -19,7 +17,6 @@ import pa.interfaces.receive.I6_1_receive;
 import pa.memory.clsMemory;
 import pa.memorymgmt.clsKnowledgeBaseHandler;
 import pa.memorymgmt.datatypes.clsSecondaryDataStructureContainer;
-import pa.tools.clsPair;
 import config.clsBWProperties;
 
 /**
@@ -85,8 +82,8 @@ public class G14_PerceptualPreprocessing extends clsModuleContainer implements
 	 * @see pa.interfaces.I1_7#receive_I1_7(int)
 	 */
 	@Override
-	public void receive_I1_7(ArrayList<clsSecondaryInformation> poDriveList_old, ArrayList<clsSecondaryDataStructureContainer> poDriveList) {
-		moE23ExternalPerception_focused.receive_I1_7(poDriveList_old, poDriveList);
+	public void receive_I1_7(ArrayList<clsSecondaryDataStructureContainer> poDriveList) {
+		moE23ExternalPerception_focused.receive_I1_7(poDriveList);
 	}
 
 	/* (non-Javadoc)
@@ -97,8 +94,8 @@ public class G14_PerceptualPreprocessing extends clsModuleContainer implements
 	 * @see pa.interfaces.I2_11#receive_I2_11(int)
 	 */
 	@Override
-	public void receive_I2_11(ArrayList<clsSecondaryInformation> poPerception_old, ArrayList<clsSecondaryDataStructureContainer> poPerception) {
-		moE23ExternalPerception_focused.receive_I2_11(poPerception_old, poPerception);
+	public void receive_I2_11(ArrayList<clsSecondaryDataStructureContainer> poPerception) {
+		moE23ExternalPerception_focused.receive_I2_11(poPerception);
 	}
 
 	/* (non-Javadoc)
@@ -109,9 +106,9 @@ public class G14_PerceptualPreprocessing extends clsModuleContainer implements
 	 * @see pa.interfaces.I2_12#receive_I2_12(int)
 	 */
 	@Override
-	public void receive_I2_12(ArrayList<clsSecondaryInformation> poFocusedPerception_old, ArrayList<clsSecondaryDataStructureContainer> poFocusedPerception, ArrayList<clsSecondaryInformation> poDriveList_old, ArrayList<clsSecondaryDataStructureContainer> poDriveList) {
-		((I2_12_receive)moEnclosingContainer).receive_I2_12(poFocusedPerception_old, poFocusedPerception, poDriveList_old, poDriveList); //to e25 (know. real)
-		moE24RealityCheck.receive_I2_12(poFocusedPerception_old, poFocusedPerception, poDriveList_old, poDriveList);
+	public void receive_I2_12(ArrayList<clsSecondaryDataStructureContainer> poFocusedPerception, ArrayList<clsSecondaryDataStructureContainer> poDriveList) {
+		((I2_12_receive)moEnclosingContainer).receive_I2_12(poFocusedPerception, poDriveList); //to e25 (know. real)
+		moE24RealityCheck.receive_I2_12(poFocusedPerception, poDriveList);
 	}
 
 	/* (non-Javadoc)
@@ -122,9 +119,8 @@ public class G14_PerceptualPreprocessing extends clsModuleContainer implements
 	 * @see pa.interfaces.I2_13#receive_I2_13(int)
 	 */
 	@Override
-	public void receive_I2_13(ArrayList<clsPair<clsSecondaryInformation, clsSecondaryInformationMesh>> poRealityPerception_old,
-			   				  ArrayList<clsPair<clsSecondaryDataStructureContainer, clsSecondaryDataStructureContainer>> poRealityPerception) {
-		((I2_13_receive)moEnclosingContainer).receive_I2_13(poRealityPerception_old, poRealityPerception);
+	public void receive_I2_13(ArrayList<clsSecondaryDataStructureContainer> poRealityPerception) {
+		((I2_13_receive)moEnclosingContainer).receive_I2_13(poRealityPerception);
 	}
 
 	/* (non-Javadoc)

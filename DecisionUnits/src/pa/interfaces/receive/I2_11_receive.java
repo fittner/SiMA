@@ -8,7 +8,6 @@ package pa.interfaces.receive;
 
 import java.util.ArrayList;
 
-import pa.datatypes.clsSecondaryInformation;
 import pa.interfaces.I_BaseInterface;
 import pa.memorymgmt.datatypes.clsSecondaryDataStructureContainer;
 
@@ -20,6 +19,5 @@ import pa.memorymgmt.datatypes.clsSecondaryDataStructureContainer;
  * 
  */
 public interface I2_11_receive extends I_BaseInterface {
-	public void receive_I2_11(ArrayList<clsSecondaryInformation> poPerception_old,
-			   ArrayList<clsSecondaryDataStructureContainer> poPerception);
+	public void receive_I2_11(ArrayList<clsSecondaryDataStructureContainer> poPerception);
 }

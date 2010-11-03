@@ -8,9 +8,6 @@ package pa.interfaces.receive;
 
 import java.util.List;
 
-import pa.datatypes.clsAffectTension;
-import pa.datatypes.clsPrimaryInformation;
-import pa.datatypes.clsThingPresentation;
 import pa.interfaces.I_BaseInterface;
 import pa.memorymgmt.datatypes.clsAssociationDriveMesh;
 import pa.memorymgmt.datatypes.clsPrimaryDataStructureContainer;
@@ -23,6 +20,5 @@ import pa.memorymgmt.datatypes.clsPrimaryDataStructureContainer;
  * 
  */
 public interface I4_1_receive extends I_BaseInterface {
-	public void receive_I4_1(List<clsPrimaryInformation> poPIs_old, List<clsThingPresentation> poTPs_old, List<clsAffectTension> poAffects_old,
-			  List<clsPrimaryDataStructureContainer> poPIs, List<pa.memorymgmt.datatypes.clsThingPresentation> poTPs, List<clsAssociationDriveMesh> poAffects);
+	public void receive_I4_1(List<clsPrimaryDataStructureContainer> poPIs, List<pa.memorymgmt.datatypes.clsThingPresentation> poTPs, List<clsAssociationDriveMesh> poAffects);
 }

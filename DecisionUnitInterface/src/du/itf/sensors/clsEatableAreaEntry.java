@@ -23,7 +23,7 @@ import du.enums.eTriState;
 public class clsEatableAreaEntry extends clsVisionEntry {
 	protected eTriState mnIsAlive = eTriState.UNDEFINED;
 	protected eTriState mnIsConsumeable = eTriState.UNDEFINED;
-	protected String moClassName;
+	protected String moClassName = "UNDEFINED";
 	
 	
 	public clsEatableAreaEntry(clsVisionEntry poEntry) {

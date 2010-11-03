@@ -8,12 +8,8 @@ package pa.modules;
 
 import java.util.ArrayList;
 
-import java.util.HashMap;
-
 import config.clsBWProperties;
 import pa.clsInterfaceHandler;
-import pa.datatypes.clsSecondaryInformation;
-import pa.datatypes.clsSecondaryInformationMesh;
 import pa.interfaces.receive.I1_7_receive;
 import pa.interfaces.receive.I2_13_receive;
 import pa.interfaces.receive.I3_3_receive;
@@ -23,9 +19,11 @@ import pa.interfaces.receive.I7_2_receive;
 import pa.interfaces.send.I7_1_send;
 import pa.interfaces.send.I7_2_send;
 import pa.memorymgmt.datahandler.clsDataStructureGenerator;
+import pa.memorymgmt.datatypes.clsAct;
 import pa.memorymgmt.datatypes.clsAssociation;
 import pa.memorymgmt.datatypes.clsSecondaryDataStructureContainer;
 import pa.memorymgmt.datatypes.clsWordPresentation;
+import pa.memorymgmt.enums.eAffectLevel;
 import pa.memorymgmt.enums.eDataType;
 import pa.tools.clsPair;
 
@@ -38,16 +36,10 @@ import pa.tools.clsPair;
  */
 public class E26_DecisionMaking extends clsModuleBase implements I1_7_receive, I2_13_receive, I3_3_receive, I5_5_receive, I7_1_send, I7_2_send {
 
-	private ArrayList<clsSecondaryInformation> moDriveList_old;
-	private ArrayList<clsPair<clsSecondaryInformation, clsSecondaryInformationMesh>> moRealityPerception_old;
-	private ArrayList<clsSecondaryDataStructureContainer> moDriveList; 
-	private ArrayList<clsPair<clsSecondaryDataStructureContainer, clsSecondaryDataStructureContainer>> moRealityPerception;
+	private ArrayList<clsSecondaryDataStructureContainer> moDriveList;
+	private ArrayList<clsAct> moRuleList; 
+	private ArrayList<clsSecondaryDataStructureContainer> moRealityPerception;
 	private ArrayList<clsSecondaryDataStructureContainer> moGoal_Output; 
-	
-	HashMap<String, clsPair<clsSecondaryInformation, Double>> moTemplateImageResult;
-	HashMap<String, clsPair<clsSecondaryInformation, Double>> moTemplateScenarioResult;
-	
-	HashMap<String, clsPair<clsSecondaryInformation, Double>> moTemplateResult_Output;
 	
 	/**
 	 * DOCUMENT (deutsch) - insert description 
@@ -63,11 +55,7 @@ public class E26_DecisionMaking extends clsModuleBase implements I1_7_receive, I
 			clsModuleContainer poEnclosingContainer, clsInterfaceHandler poInterfaceHandler) {
 		super(poPrefix, poProp, poEnclosingContainer, poInterfaceHandler);
 		applyProperties(poPrefix, poProp);	
-		
-		moTemplateImageResult = new HashMap<String, clsPair<clsSecondaryInformation, Double>>();
-		moTemplateScenarioResult = new HashMap<String, clsPair<clsSecondaryInformation, Double>>();
-		moTemplateResult_Output = new HashMap<String, clsPair<clsSecondaryInformation, Double>>();
-		
+				
 		moGoal_Output = new ArrayList<clsSecondaryDataStructureContainer>(); 
 	}
 	
@@ -123,10 +111,8 @@ public class E26_DecisionMaking extends clsModuleBase implements I1_7_receive, I
 	 */
 	@SuppressWarnings("unchecked")
 	@Override
-	public void receive_I1_7(ArrayList<clsSecondaryInformation> poDriveList_old, ArrayList<clsSecondaryDataStructureContainer> poDriveList) {
-		moDriveList_old = (ArrayList<clsSecondaryInformation>)this.deepCopy(poDriveList_old);
+	public void receive_I1_7(ArrayList<clsSecondaryDataStructureContainer> poDriveList) {
 		moDriveList = (ArrayList<clsSecondaryDataStructureContainer>)this.deepCopy(poDriveList); 
-		
 	}
 
 	/* (non-Javadoc)
@@ -142,10 +128,8 @@ public class E26_DecisionMaking extends clsModuleBase implements I1_7_receive, I
 	 */
 	@SuppressWarnings("unchecked")
 	@Override
-	public void receive_I2_13(ArrayList<clsPair<clsSecondaryInformation, clsSecondaryInformationMesh>> poRealityPerception_old,
-			   				 ArrayList<clsPair<clsSecondaryDataStructureContainer, clsSecondaryDataStructureContainer>> poRealityPerception) {
-		moRealityPerception_old = (ArrayList<clsPair<clsSecondaryInformation, clsSecondaryInformationMesh>>)deepCopy(poRealityPerception_old);
-		moRealityPerception = (ArrayList<clsPair<clsSecondaryDataStructureContainer, clsSecondaryDataStructureContainer>>)deepCopy(poRealityPerception); 
+	public void receive_I2_13(ArrayList<clsSecondaryDataStructureContainer> poRealityPerception) {
+		moRealityPerception = (ArrayList<clsSecondaryDataStructureContainer>)deepCopy(poRealityPerception); 
 	}
 
 	/* (non-Javadoc)
@@ -158,9 +142,10 @@ public class E26_DecisionMaking extends clsModuleBase implements I1_7_receive, I
 	 * TODO cua implement
 	 * 
 	 */
+	@SuppressWarnings("unchecked")
 	@Override
-	public void receive_I3_3(int pnData) {
-		mnTest += pnData;
+	public void receive_I3_3(ArrayList<clsAct> poRuleList) {
+		moRuleList = (ArrayList<clsAct>)deepCopy(poRuleList); 
 	}
 
 	/* (non-Javadoc)
@@ -195,7 +180,6 @@ public class E26_DecisionMaking extends clsModuleBase implements I1_7_receive, I
 		//verified if a clsSecondaryDataStructureContainer is required.
 		moGoal_Output = new ArrayList<clsSecondaryDataStructureContainer>(); 
 		selectGoal(); 
-		process_oldDT(); 
 	}
 	
 	/**
@@ -225,14 +209,14 @@ public class E26_DecisionMaking extends clsModuleBase implements I1_7_receive, I
 		clsSecondaryDataStructureContainer oDriveContainer = null; 
 		clsWordPresentation oGoal = null; 
 		ArrayList<clsAssociation> oAssociatedDS = new ArrayList<clsAssociation>();
-		
+
 		//FIXME HZ Actually the highest rated drive content is taken => this is sloppy and has to be evaluated in a later version! 
-		oDriveContainer = moDriveList.get(0);
+		oDriveContainer = getHighestDriveDemand(moDriveList);
 		oDriveContent = ((clsWordPresentation)oDriveContainer.moDataStructure).moContent; 
 		
-		for (clsPair<clsSecondaryDataStructureContainer, clsSecondaryDataStructureContainer> oExtPerception : moRealityPerception ){
+		for (clsSecondaryDataStructureContainer oExtPerception : moRealityPerception ){
 				// dirty hack -> moRealityPerception only contains the "a" part of the clsPair - look at E24
-				String oExtContent   = ((clsWordPresentation)oExtPerception.a.moDataStructure).moContent; 
+				String oExtContent   = ((clsWordPresentation)oExtPerception.moDataStructure).moContent; 
 				
 				//FIXME HZ: Here an evaluation of the drive's intensity (very low, low, medium, high, very high) has to be done (like)
 				// in E23. It cannot be matched directly as it has to be compared that e.g. very high is not equal to high
@@ -241,14 +225,14 @@ public class E26_DecisionMaking extends clsModuleBase implements I1_7_receive, I
 				// actually this is done very sloppy. For now it is controlled if the drive intensity is high enough
 				// to get satisfied and if the object is able to satisfy it.
 				// Has to be changed when it is possible to order Strings by their "intensity"
-				int nFirstIndex = oExtContent.indexOf(oDriveContent.substring(0, oDriveContent.indexOf(":"))); 
-				String oIntensity = oExtContent.substring(oExtContent.indexOf(":", nFirstIndex) + 1, oExtContent.indexOf("|", nFirstIndex));
+			//	int nFirstIndex = oExtContent.indexOf(oDriveContent.substring(0, oDriveContent.indexOf(":"))); 
+			//	String oIntensity = oExtContent.substring(oExtContent.indexOf(":", nFirstIndex) + 1, oExtContent.indexOf("|", nFirstIndex));
 				
 				if (oExtContent.contains(oDriveContent.substring(0, oDriveContent.indexOf(":")))
-						&& (oDriveContent.contains("HIGH")
-							||oDriveContent.contains("VERY_HIGH"))
-						&& ((oIntensity.equals("HIGH"))
-						|| (oIntensity.equals("VERY_HIGH")))){ 
+						&& (oDriveContent.contains(eAffectLevel.HIGH.name())
+							||oDriveContent.contains(eAffectLevel.VERYHIGH.name()))){
+//						&& ((oIntensity.equals("HIGH"))
+//						|| (oIntensity.equals("VERYHIGH")))){ 
 					//TODO HZ: Here the first match is taken and added as goal to the output list; Actually
 					// only one goal is selected!
 					//Attention: the first part of the string (index 0 until the first string sequence "||" ) defines the drive that has to be
@@ -256,14 +240,48 @@ public class E26_DecisionMaking extends clsModuleBase implements I1_7_receive, I
 					// only by the first part.
 					oGoalContent = oDriveContent.substring(0,oDriveContent.indexOf(":")) + "||" + oExtContent; 
 					oGoal = (clsWordPresentation)clsDataStructureGenerator.generateDataStructure(eDataType.WP, new clsPair<String, Object>("GOAL", oGoalContent)); 
-					oAssociatedDS.addAll(oExtPerception.a.moAssociatedDataStructures); 
+					oAssociatedDS.addAll(oExtPerception.moAssociatedDataStructures); 
 					oAssociatedDS.addAll(oDriveContainer.moAssociatedDataStructures); 
 					
+//					//HZ - MAGIC happens 
+//					if(!(moRuleList.size() > 0 && (oGoal.moContent.contains("ARSINO") || oGoal.moContent.contains("BUBBLE")))){
 					moGoal_Output.add(new clsSecondaryDataStructureContainer(oGoal, oAssociatedDS));
+//					}
 				}
 		}
 		
-				
+		
+//HZ 25.09.2010 - Here, the evaluation of received SUPER-Ego rules must be incorporated to the goal decision
+		for(clsAct oRule : moRuleList){
+			//the rule set has to be introduced
+			oRule.moContent = "TEST"; 
+		}
+//		for(clsAct oRule : moRuleList){
+//			String oDelimiter = "|"; 
+//			String oRuleContent =  oRule.moContent; 
+//			String [] oPrecondition = oRuleContent.substring(oRuleContent.indexOf(oDelimiter, oRuleContent.indexOf(eActState.PRECONDITION.name())), 
+//					                                         oRuleContent.indexOf(eActState.ACTION.name())).split("[" + oDelimiter + "]");
+//			//String oConsequence = oRuleContent.substring(oRuleContent.indexOf(oDelimiter, oRuleContent.indexOf(eActState.CONSEQUENCE.name()))); 
+//			ArrayList<clsSecondaryDataStructureContainer> oRemovedCon = new ArrayList<clsSecondaryDataStructureContainer>(); 
+//			
+//			for(clsSecondaryDataStructureContainer oCon : moGoal_Output){
+//				int oIndex = 0; 
+//				
+//				for (String oCondition : oPrecondition){
+//					if(((clsWordPresentation)oCon.moDataStructure).moContent.contains(oCondition)){
+//						oIndex++; 
+//					}
+//				}
+//				
+//				// -1 is the placeholder for UNPLEASURE - has to be rethought 
+//				if(oIndex == oPrecondition.length - 1){
+//					oRemovedCon.add(oCon); 
+//				}
+//			}
+//			
+//			moGoal_Output.removeAll(oRemovedCon); 
+//		}
+		
 		// In case moGoal_output was not filled, the drive with the highest priority used as output
 		if(moGoal_Output.size() == 0){
 			oGoalContent = oDriveContent.substring(0,oDriveContent.indexOf(":")) + "||"; 
@@ -273,43 +291,31 @@ public class E26_DecisionMaking extends clsModuleBase implements I1_7_receive, I
 		}
 	}
 
+	
 	/**
 	 * DOCUMENT (zeilinger) - insert description
-	 * This method is used while adapting the model from the old datatypes (pa.datatypes) to the
-	 * new ones (pa.memorymgmt.datatypes) The method has to be deleted afterwards.
+	 *
 	 * @author zeilinger
-	 * 13.08.2010, 09:56:48
-	 * @deprecated
+	 * 02.11.2010, 17:04:15
+	 *
+	 * @param moDriveList2
+	 * @return
 	 */
-	private void process_oldDT() {
-
-		// moDriveList -> drives from primary process (wishes)
-		// moRealityPerception -> reality filtered by external perception
-		
-		ArrayList<clsSecondaryInformation> oCompletePerception = new ArrayList<clsSecondaryInformation>();
-		
-		// combine wishes and external perception
-		
-		// first wishes
-		oCompletePerception.addAll(moDriveList_old);
-		
-		// dirty hack -> moRealityPerception only contains "a" part of the clsPair
-		for(clsPair<clsSecondaryInformation, clsSecondaryInformationMesh> oReal :moRealityPerception_old) {
-			oCompletePerception.add(oReal.a);
+	private clsSecondaryDataStructureContainer getHighestDriveDemand(ArrayList<clsSecondaryDataStructureContainer> poDriveList) {
+		int oHighestPriorityIndex = 0; 
+		eAffectLevel oAffectLevel = eAffectLevel.VERYLOW; 
+		 
+		for(clsSecondaryDataStructureContainer oContainer : poDriveList){
+			String [] oContent = ((clsWordPresentation)oContainer.moDataStructure).moContent.split(":"); 
+			
+			if(eAffectLevel.compare(eAffectLevel.valueOf(oContent[1]), oAffectLevel)){
+				oHighestPriorityIndex = poDriveList.indexOf(oContainer); 
+				oAffectLevel = eAffectLevel.valueOf(oContent[1]); 
+			}
 		}
-		
-		// compare perception with template images to map real perceptive input to stored template information 
-		// return value is a set of recognized and compared images weighted by a match-factor  
-		moTemplateImageResult = moEnclosingContainer.moMemory.moTemplateImageStorage.compare(oCompletePerception);
-		
-		// calculates (maybe) the current state of a matched scenario 
-		moTemplateScenarioResult = moEnclosingContainer.moMemory.moTemplateScenarioStorage.getReognitionUpdate(moTemplateImageResult);
-		
-		moTemplateResult_Output.putAll(	moTemplateImageResult ); 
-		moTemplateResult_Output.putAll(	moTemplateScenarioResult );
-		
-//		int i =0; //never used!	
-		}
+		 
+		return poDriveList.get(oHighestPriorityIndex);
+	}
 
 	/* (non-Javadoc)
 	 *
@@ -320,9 +326,8 @@ public class E26_DecisionMaking extends clsModuleBase implements I1_7_receive, I
 	 */
 	@Override
 	protected void send() {
-		int pnData = 1; 
-		send_I7_1(moTemplateResult_Output, moGoal_Output);
-		send_I7_2(pnData , moGoal_Output);
+		send_I7_1(moGoal_Output);
+		send_I7_2(moGoal_Output);
 	}
 
 	/* (non-Javadoc)
@@ -333,9 +338,8 @@ public class E26_DecisionMaking extends clsModuleBase implements I1_7_receive, I
 	 * @see pa.interfaces.send.I7_1_send#send_I7_1(java.util.HashMap)
 	 */
 	@Override
-	public void send_I7_1(HashMap<String, clsPair<clsSecondaryInformation, Double>> poTemplateResult_old, 
-					ArrayList<clsSecondaryDataStructureContainer> poGoal_Output) {
-		((I7_1_receive)moEnclosingContainer).receive_I7_1(moTemplateResult_Output, moGoal_Output);
+	public void send_I7_1(ArrayList<clsSecondaryDataStructureContainer> poGoal_Output) {
+		((I7_1_receive)moEnclosingContainer).receive_I7_1(moGoal_Output);
 		
 	}
 
@@ -347,8 +351,8 @@ public class E26_DecisionMaking extends clsModuleBase implements I1_7_receive, I
 	 * @see pa.interfaces.send.I7_2_send#send_I7_2(int)
 	 */
 	@Override
-	public void send_I7_2(int pnData, ArrayList<clsSecondaryDataStructureContainer> poGoal_Output) {
-		((I7_2_receive)moEnclosingContainer).receive_I7_2(pnData, moGoal_Output);
+	public void send_I7_2(ArrayList<clsSecondaryDataStructureContainer> poGoal_Output) {
+		((I7_2_receive)moEnclosingContainer).receive_I7_2(moGoal_Output);
 		
 	}
 

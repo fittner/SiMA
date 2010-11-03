@@ -9,14 +9,12 @@ package pa.modules;
 import java.util.ArrayList;
 
 import pa.clsInterfaceHandler;
-import pa.datatypes.clsSecondaryInformation;
 import pa.interfaces.receive.I2_12_receive;
 import pa.interfaces.receive.I6_1_receive;
 import pa.interfaces.receive.I6_2_receive;
 import pa.interfaces.receive.I7_2_receive;
 import pa.interfaces.receive.I7_3_receive;
 import pa.interfaces.receive.I7_5_receive;
-import pa.loader.plan.clsPlanAction;
 import pa.memory.clsMemory;
 import pa.memorymgmt.clsKnowledgeBaseHandler;
 import pa.memorymgmt.datatypes.clsAct;
@@ -92,11 +90,9 @@ public class G16_SecondaryKnowledgeUtilizer extends clsModuleContainer implement
 	 * @see pa.interfaces.I2_12#receive_I2_12(int)
 	 */
 	@Override
-	public void receive_I2_12(ArrayList<clsSecondaryInformation> poFocusedPerception_old,
-			   ArrayList<clsSecondaryDataStructureContainer> poFocusedPerception,
-			   ArrayList<clsSecondaryInformation> poDriveList_old,
+	public void receive_I2_12(ArrayList<clsSecondaryDataStructureContainer> poFocusedPerception,
 			   ArrayList<clsSecondaryDataStructureContainer> poDriveList) {
-		moE25KnowledgeAboutReality.receive_I2_12(poFocusedPerception_old, poFocusedPerception, poDriveList_old, poDriveList);
+		moE25KnowledgeAboutReality.receive_I2_12(poFocusedPerception, poDriveList);
 	}
 
 	/* (non-Javadoc)
@@ -131,8 +127,8 @@ public class G16_SecondaryKnowledgeUtilizer extends clsModuleContainer implement
 	 * @see pa.interfaces.I7_2#receive_I7_2(int)
 	 */
 	@Override
-	public void receive_I7_2(int pnData, ArrayList<clsSecondaryDataStructureContainer> poGoal_Output) {
-		moE28KnowledgeBase_StoredScenarios.receive_I7_2(pnData, poGoal_Output);
+	public void receive_I7_2(ArrayList<clsSecondaryDataStructureContainer> poGoal_Output) {
+		moE28KnowledgeBase_StoredScenarios.receive_I7_2(poGoal_Output);
 	}
 
 	/* (non-Javadoc)
@@ -143,8 +139,8 @@ public class G16_SecondaryKnowledgeUtilizer extends clsModuleContainer implement
 	 * @see pa.interfaces.I7_3#receive_I7_3(java.util.ArrayList)
 	 */
 	@Override
-	public void receive_I7_3(ArrayList<clsPlanAction> poActionCommands_old, ArrayList<clsWordPresentation> poActionCommands) {
-		moE34KnowledgeAboutReality2.receive_I7_3(poActionCommands_old, poActionCommands);
+	public void receive_I7_3(ArrayList<clsWordPresentation> poActionCommands) {
+		moE34KnowledgeAboutReality2.receive_I7_3(poActionCommands);
 		
 	}
 

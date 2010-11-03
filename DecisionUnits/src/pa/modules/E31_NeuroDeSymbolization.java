@@ -22,7 +22,6 @@ import pa.clsInterfaceHandler;
 import pa.interfaces.receive.I8_1_receive;
 import pa.interfaces.receive.I8_2_receive;
 import pa.interfaces.send.I8_2_send;
-import pa.loader.plan.clsPlanAction;
 import pa.memorymgmt.datatypes.clsWordPresentation;
 
 /**
@@ -34,12 +33,10 @@ import pa.memorymgmt.datatypes.clsWordPresentation;
  */
 public class E31_NeuroDeSymbolization extends clsModuleBase implements I8_1_receive, I8_2_send {
 
-	private ArrayList<clsPlanAction> moActionCommands_Input_old;
 	private ArrayList<clsActionCommand> moActionCommandList_Output;
-
 	private ArrayList<clsWordPresentation> moActionCommands_Input;
 	
-	private int mnCounter = 25;
+	private int mnCounter = 0;
 	
 	/**
 	 * DOCUMENT (deutsch) - insert description 
@@ -107,8 +104,7 @@ public class E31_NeuroDeSymbolization extends clsModuleBase implements I8_1_rece
 	 */
 	@SuppressWarnings("unchecked")
 	@Override
-	public void receive_I8_1(ArrayList<clsPlanAction> poActionCommands_old, ArrayList<clsWordPresentation> poActionCommands) {
-		moActionCommands_Input_old = (ArrayList<clsPlanAction>)deepCopy(poActionCommands_old);
+	public void receive_I8_1(ArrayList<clsWordPresentation> poActionCommands) {
 		moActionCommands_Input = (ArrayList<clsWordPresentation>)deepCopy(poActionCommands);
 	}
 
@@ -165,77 +161,13 @@ public class E31_NeuroDeSymbolization extends clsModuleBase implements I8_1_rece
 				}
 		}
 		else {
-			if( mnCounter > 25) {
+			if( mnCounter > 50) {
 				moActionCommandList_Output.add( clsActionSequenceFactory.getSeekingSequence(1f,2) );
 				mnCounter = 0; 
 			}
 			mnCounter ++; 
 		}
 			
-	}
-
-	/**
-	 * DOCUMENT (zeilinger) - insert description
-	 *
-	 * @author zeilinger
-	 * 02.09.2010, 20:32:38
-	 * @deprecated
-	 */
-	private void process_oldDT() {
-		if( moActionCommands_Input_old.size() > 0 ) {
-			
-			for(clsPlanAction oAction : moActionCommands_Input_old) {
-				
-				if(oAction.moWP.moContent.equals("MOVE_FORWARD")) {
-					
-					moActionCommandList_Output.add( new clsActionMove(eActionMoveDirection.MOVE_FORWARD,1.0) );
-					//System.out.println("cmd: move_forward");
-				}
-				//added by SK
-				else if (oAction.moWP.moContent.equals("TURN_LEFT"))
-				{
-					moActionCommandList_Output.add(new clsActionTurn(eActionTurnDirection.TURN_LEFT, 1.0));
-					//System.out.println("cmd: turn_left");
-				}
-				else if (oAction.moWP.moContent.equals("TURN_RIGHT"))
-				{
-					moActionCommandList_Output.add(new clsActionTurn(eActionTurnDirection.TURN_RIGHT, 1.0));
-					//System.out.println("cmd: turn_right");
-				}
-				//end add
-				else if(oAction.moWP.moContent.equals("PICKUP")) {
-					
-					moActionCommandList_Output.add( new clsActionPickUp() );
-					//System.out.println("cmd: pickup");
-				}
-				else if(oAction.moWP.moContent.equals("DROP")) {
-					
-					moActionCommandList_Output.add( new clsActionDrop() );
-					//System.out.println("cmd: drop");
-					
-				}
-				else if(oAction.moWP.moContent.equals("EAT")) {
-					
-					moActionCommandList_Output.add( new clsActionEat() );
-					//System.out.println("cmd: eat");
-					
-				}
-				else if(oAction.moWP.moContent.equals("DANCE_1")) {
-					
-					moActionCommandList_Output.add( clsActionSequenceFactory.getWalzSequence(2,2) );
-					//System.out.println("cmd: dance");
-					
-				}
-			}
-			}
-			else {
-				if( mnCounter > 25) {
-					moActionCommandList_Output.add( clsActionSequenceFactory.getSeekingSequence(1f,2) );
-					mnCounter = 0;
-				}
-				mnCounter++;
-				//System.out.println("cmd: seek");
-			}
 	}
 
 	/* (non-Javadoc)

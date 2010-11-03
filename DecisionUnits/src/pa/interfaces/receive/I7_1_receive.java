@@ -7,12 +7,9 @@
 package pa.interfaces.receive;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 
-import pa.datatypes.clsSecondaryInformation;
 import pa.interfaces.I_BaseInterface;
 import pa.memorymgmt.datatypes.clsSecondaryDataStructureContainer;
-import pa.tools.clsPair;
 
 /**
  * DOCUMENT (deutsch) - insert description 
@@ -22,6 +19,5 @@ import pa.tools.clsPair;
  * 
  */
 public interface I7_1_receive extends I_BaseInterface {
-	public void receive_I7_1(HashMap<String, clsPair<clsSecondaryInformation, Double>> poTemplateResult_old, 
-					ArrayList<clsSecondaryDataStructureContainer> poTemplateResult);
+	public void receive_I7_1(ArrayList<clsSecondaryDataStructureContainer> poTemplateResult);
 }

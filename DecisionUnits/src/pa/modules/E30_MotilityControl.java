@@ -13,7 +13,6 @@ import pa.clsInterfaceHandler;
 import pa.interfaces.receive.I7_4_receive;
 import pa.interfaces.receive.I8_1_receive;
 import pa.interfaces.send.I8_1_send;
-import pa.loader.plan.clsPlanAction;
 import pa.memorymgmt.datatypes.clsWordPresentation;
 
 /**
@@ -25,9 +24,6 @@ import pa.memorymgmt.datatypes.clsWordPresentation;
  */
 public class E30_MotilityControl extends clsModuleBase implements I7_4_receive, I8_1_send {
 
-	private ArrayList<clsPlanAction> moActionCommands_Input_old;
-	private ArrayList<clsPlanAction> moActionCommands_Output_old;
-	
 	private ArrayList<clsWordPresentation> moActionCommands_Input;
 	private ArrayList<clsWordPresentation> moActionCommands_Output;
 
@@ -46,7 +42,6 @@ public class E30_MotilityControl extends clsModuleBase implements I7_4_receive, 
 		super(poPrefix, poProp, poEnclosingContainer, poInterfaceHandler);
 		applyProperties(poPrefix, poProp);	
 		
-		moActionCommands_Output_old = new ArrayList<clsPlanAction>();
 		moActionCommands_Output = new ArrayList<clsWordPresentation>(); 
 	}
 	
@@ -118,8 +113,7 @@ public class E30_MotilityControl extends clsModuleBase implements I7_4_receive, 
 	 */
 	@SuppressWarnings("unchecked")
 	@Override
-	public void receive_I7_4(ArrayList<clsPlanAction> poActionCommands_old, ArrayList<clsWordPresentation> poActionCommands) {
-		moActionCommands_Input_old = (ArrayList<clsPlanAction>) deepCopy(poActionCommands_old);
+	public void receive_I7_4(ArrayList<clsWordPresentation> poActionCommands) {
 		moActionCommands_Input = (ArrayList<clsWordPresentation>) deepCopy(poActionCommands); 
 	}
 
@@ -132,7 +126,6 @@ public class E30_MotilityControl extends clsModuleBase implements I7_4_receive, 
 	 */
 	@Override
 	protected void process_basic() {
-		moActionCommands_Output_old = moActionCommands_Input_old;
 		moActionCommands_Output = moActionCommands_Input; 
 	}
 
@@ -145,7 +138,7 @@ public class E30_MotilityControl extends clsModuleBase implements I7_4_receive, 
 	 */
 	@Override
 	protected void send() {
-		send_I8_1(moActionCommands_Output_old, moActionCommands_Output);
+		send_I8_1(moActionCommands_Output);
 		
 	}
 
@@ -157,8 +150,8 @@ public class E30_MotilityControl extends clsModuleBase implements I7_4_receive, 
 	 * @see pa.interfaces.send.I8_1_send#send_I8_1(java.util.ArrayList)
 	 */
 	@Override
-	public void send_I8_1(ArrayList<clsPlanAction> poActionCommands_old, ArrayList<clsWordPresentation> poActionCommands) {
-		((I8_1_receive)moEnclosingContainer).receive_I8_1(moActionCommands_Output_old, moActionCommands_Output);
+	public void send_I8_1(ArrayList<clsWordPresentation> poActionCommands) {
+		((I8_1_receive)moEnclosingContainer).receive_I8_1(moActionCommands_Output);
 		
 	}
 
