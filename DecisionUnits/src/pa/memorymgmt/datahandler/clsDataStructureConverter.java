@@ -47,7 +47,7 @@ public class clsDataStructureConverter {
 		
 		eDataType eDataStructureType = eDataType.TP;
 		String oContentType = ((itfGetSymbolName)poSymbolObject).getSymbolType();
-		Object oContent = null;
+		Object oContent = "DEFAULT";
 						
 		if (oMethods.length != 2) {
 			throw new java.lang.IllegalArgumentException("can only convert symbols with excatly 1 getMethod (except getSymbolObjects()). ("+eDataStructureType.toString()+"; "+oContentType+"; "+oMethods.length+")");
@@ -84,11 +84,13 @@ public class clsDataStructureConverter {
 			}
 			
 			clsThingPresentation oTP = null;
+			String oContentTypeTP = "DEFAULT"; 
+			Object oContentTP = "DEFAULT";
 			//TODO HZ 16.08.2010: The method removePrefix is used in order to read out´the content type of a sub-symbol. 
 			//As this operation is not supported by the provided interfaces (It is presumed that objects are 
 			//received in the form of TPMs), removePrefix is taken from the ARSi09 implementation - however it is a dirty hack
 			//and has to be removed when the symbolization is restructured.
-			String oContentTypeTP = removePrefix(oM.getName());; 
+			oContentTypeTP = removePrefix(oM.getName()); 
 					
 			//FIXME HZ! For this part a new solution has to be found 
 			//Certain types of content types are mapped together
@@ -96,10 +98,7 @@ public class clsDataStructureConverter {
 			if(oContentTypeTP.equals("ObjectPosition") || oContentTypeTP.equals("Distance")){
 				oContentTypeTP = "LOCATION"; 
 			}
-			//TODO HZ: Define further bindings
-			
-			Object oContentTP = null; 
-			
+		
 			//Method oTest = oM.getClass().getDeclaredMethod("", arg1)
 	
 			try {
@@ -111,6 +110,7 @@ public class clsDataStructureConverter {
 			} catch (InvocationTargetException e) {
 				e.printStackTrace();
 			}
+			
 			oTP = (clsThingPresentation) clsDataStructureGenerator.generateDataStructure(eDataType.TP, new clsPair <String, Object>(oContentTypeTP, oContentTP)); 
 			oAssociatedContent.add(oTP); 
 		}
@@ -123,7 +123,7 @@ public class clsDataStructureConverter {
 		if (poName.startsWith("get")) {
 			poName = poName.substring(3);
 		}
-		
+				
 		return poName;
 	}
 }

@@ -237,6 +237,8 @@ public class clsDriveMesh extends clsHomeostaticRepresentation{
 		oResult += " g: " + mrCathegoryGenital;
 		oResult += " p: " + mrCathegoryPhalic;
 		
+		oResult += " pleasure: " + mrPleasure;
+		
 		return oResult; 
 	}
 

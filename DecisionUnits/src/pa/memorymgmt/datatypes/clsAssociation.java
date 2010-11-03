@@ -19,7 +19,7 @@ import pa.tools.clsTripple;
  * 
  */
 public abstract class clsAssociation extends clsDataStructurePA{
-	private static final long mrMaxStackDepth = 5000;
+	//private static final long mrMaxStackDepth = 5000;
 	
 	public double mrImperativeFactor; 
 	public double mrWeight; 
