@@ -88,7 +88,7 @@ public class clsDriveLoader {
 	 */
 	private static clsPair<clsTemplateDrive, clsTemplateDrive> createDrivePair(Node poDriveNode) {
 
-		clsPair<clsTemplateDrive, clsTemplateDrive> oRetVal = new clsPair<clsTemplateDrive, clsTemplateDrive>(null, null);
+		clsPair<clsTemplateDrive, clsTemplateDrive> oRetVal = new clsPair<clsTemplateDrive, clsTemplateDrive>(new clsTemplateDrive(), new clsTemplateDrive());
 		
 		Vector<Node> oNodes  = new Vector<Node>();
 		clsXMLAbstractImageReader.getSubNodesByName(poDriveNode, moNodeName, oNodes);
