@@ -23,11 +23,8 @@ import org.jfree.chart.plot.PlotOrientation;
 import org.jfree.chart.renderer.category.LayeredBarRenderer;
 import org.jfree.data.category.DefaultCategoryDataset;
 
-import pa.datatypes.clsDriveMesh;
-import pa.datatypes.clsPrimaryInformation;
-import pa.datatypes.clsThingPresentationSingle;
+import pa.memorymgmt.datatypes.clsDriveMesh;
 import pa.modules.E05_GenerationOfAffectsForDrives;
-import pa.tools.clsPair;
 
 import sim.display.GUIState;
 import sim.portrayal.Inspector;
@@ -86,11 +83,15 @@ public class clsE05InspectorOutput extends Inspector{
 		
 		moDataset = new DefaultCategoryDataset();
 
-		for(clsPair<clsPrimaryInformation, clsPrimaryInformation> oDriveTP : moE05AffectsForDrives.moDriveList_old) {
-			if(oDriveTP.a instanceof clsDriveMesh && oDriveTP.b instanceof clsDriveMesh) {
-				moDataset.addValue( oDriveTP.a.moAffect.getValue(), "Drive (Live)", ((clsThingPresentationSingle)oDriveTP.a.moTP).moContent.toString());
-				moDataset.addValue( oDriveTP.b.moAffect.getValue(), "Drive (Death)", ((clsThingPresentationSingle)oDriveTP.b.moTP).moContent.toString());
-			}
+		for(clsDriveMesh oDriveTP : moE05AffectsForDrives.moDriveList) {
+				clsDriveMesh oDriveMeshLife = oDriveTP; 
+				clsDriveMesh oDriveMeshDeath = moE05AffectsForDrives.moDriveList.get(moE05AffectsForDrives.moDriveList.indexOf(oDriveTP)+1);
+				moDataset.addValue( oDriveMeshLife.getPleasure(), "Drive (Live)", oDriveMeshLife.moContent);
+				moDataset.addValue( oDriveMeshDeath.getPleasure(), "Drive (Death)", oDriveMeshDeath.moContent);
+				
+				if(moE05AffectsForDrives.moDriveList.indexOf(oDriveTP)+1 == moE05AffectsForDrives.moDriveList.size()-1){
+					break;
+				}
 		}
 		
         JFreeChart oChartPanel = ChartFactory.createBarChart(
@@ -167,10 +168,15 @@ public class clsE05InspectorOutput extends Inspector{
 		moDataset = new DefaultCategoryDataset();
 
 		
-		for(clsPair<clsPrimaryInformation, clsPrimaryInformation> oDriveTP : moE05AffectsForDrives.moDriveList_old) {
-			if(oDriveTP.a instanceof clsDriveMesh && oDriveTP.b instanceof clsDriveMesh) {
-				moDataset.addValue( oDriveTP.a.moAffect.getValue(), "Drive (Live)", ((clsThingPresentationSingle)oDriveTP.a.moTP).moContent.toString());
-				moDataset.addValue( oDriveTP.b.moAffect.getValue(), "Drive (Death)", ((clsThingPresentationSingle)oDriveTP.b.moTP).moContent.toString());
+		for(clsDriveMesh oDriveTP : moE05AffectsForDrives.moDriveList) {
+			clsDriveMesh oDriveMeshLife = oDriveTP; 
+			clsDriveMesh oDriveMeshDeath = moE05AffectsForDrives.moDriveList.get(moE05AffectsForDrives.moDriveList.indexOf(oDriveTP)+1);
+
+			moDataset.addValue( oDriveMeshLife.getPleasure(), "Drive (Live)", oDriveMeshLife.moContent);
+			moDataset.addValue( oDriveMeshDeath.getPleasure(), "Drive (Death)", oDriveMeshDeath.moContent);
+			
+			if(moE05AffectsForDrives.moDriveList.indexOf(oDriveTP)+1 == moE05AffectsForDrives.moDriveList.size()-1){
+				break;
 			}
 		}
 		

@@ -26,13 +26,13 @@ import org.jgraph.graph.GraphLayoutCache;
 import org.jgraph.graph.GraphModel;
 import org.jgraph.graph.VertexView;
 
-import pa.datatypes.clsAffect;
-import pa.datatypes.clsAssociation;
-import pa.datatypes.clsAssociationContent;
-import pa.datatypes.clsAssociationContext;
-import pa.datatypes.clsPrimaryInformation;
-import pa.datatypes.clsPrimaryInformationMesh;
-import pa.tools.clsPair;
+//import pa.datatypes.clsAffect;
+//import pa.datatypes.clsAssociation;
+//import pa.datatypes.clsAssociationContent;
+//import pa.datatypes.clsAssociationContext;
+//import pa.datatypes.clsPrimaryInformation;
+//import pa.datatypes.clsPrimaryInformationMesh;
+import pa.memorymgmt.datatypes.clsDriveMesh;
 import sim.display.GUIState;
 import sim.portrayal.Inspector;
 import sim.portrayal.LocationWrapper;
@@ -60,7 +60,8 @@ public class clsE05DriveInspector extends Inspector implements ActionListener {
 	public Inspector moOriginalInspector;
 	private Object moMeshContainer;
 	private String moMeshListMemberName;
-	private ArrayList<clsPair<clsPrimaryInformation, clsPrimaryInformation>> moPrimaryPair;
+	//private ArrayList<clsPair<clsPrimaryInformation, clsPrimaryInformation>> moPrimaryPair;
+	private ArrayList<clsDriveMesh> moDM;
 	JGraph moGraph = null;
 	
 	private JButton moBtnUpdate;
@@ -117,7 +118,8 @@ public class clsE05DriveInspector extends Inspector implements ActionListener {
 	private void updatePrimInfoData() {
 		try {
 			Object oMeshList = moMeshContainer.getClass().getField(moMeshListMemberName).get(moMeshContainer);
-			moPrimaryPair = (ArrayList<clsPair<clsPrimaryInformation, clsPrimaryInformation>>)oMeshList;
+			//moPrimaryPair = (ArrayList<clsPair<clsPrimaryInformation, clsPrimaryInformation>>)oMeshList;
+			moDM = (ArrayList<clsDriveMesh>)oMeshList;
 		} catch (IllegalArgumentException e) {
 			e.printStackTrace();
 		} catch (IllegalAccessException e) {
@@ -230,16 +232,57 @@ public class clsE05DriveInspector extends Inspector implements ActionListener {
 	 */
 	private void readPrimaryInfoList(ArrayList<DefaultGraphCell> poCellList,
 			DefaultGraphCell poParentLife, DefaultGraphCell poParentDeath, String poAssociationName) {
-		for(clsPair<clsPrimaryInformation, clsPrimaryInformation> oPrimPair : moPrimaryPair) {
+//		for(clsPair<clsPrimaryInformation, clsPrimaryInformation> oPrimPair : moPrimaryPair) {
+//			
+//			DefaultGraphCell oCellLife = readDrive(poCellList, poParentLife, oPrimPair.a, poAssociationName, Color.GREEN);
+//			DefaultGraphCell oCellDeatch = readDrive(poCellList, poParentDeath, oPrimPair.b, poAssociationName, Color.LIGHT_GRAY);
+//			createEdge(poCellList, oCellLife, oCellDeatch, "Pair of opposites"); //forward
+//			createEdge(poCellList, oCellDeatch, oCellLife, ""); //and backward
+//
+//		}
+		
+		for(clsDriveMesh oPrimPair : moDM) {
 			
-			DefaultGraphCell oCellLife = readDrive(poCellList, poParentLife, oPrimPair.a, poAssociationName, Color.GREEN);
-			DefaultGraphCell oCellDeatch = readDrive(poCellList, poParentDeath, oPrimPair.b, poAssociationName, Color.LIGHT_GRAY);
-			createEdge(poCellList, oCellLife, oCellDeatch, "Pair of opposites"); //forward
-			createEdge(poCellList, oCellDeatch, oCellLife, ""); //and backward
-
+			DefaultGraphCell oCellLife = readDrive_new(poCellList, poParentLife, oPrimPair, poAssociationName, Color.GREEN);
+			DefaultGraphCell oCellDeath = readDrive_new(poCellList, poParentDeath, moDM.get(moDM.indexOf(oPrimPair)+1), poAssociationName, Color.LIGHT_GRAY);
+			createEdge(poCellList, oCellLife, oCellDeath, "Pair of opposites"); //forward
+			createEdge(poCellList, oCellDeath, oCellLife, ""); //and backward
+			
+			if(moDM.indexOf(oPrimPair)+ 1 == moDM.size()-1){
+				break; 
+			}
 		}
 	}	
 	
+	/**
+	 * DOCUMENT (zeilinger) - insert description
+	 *
+	 * @author zeilinger
+	 * 02.11.2010, 21:01:56
+	 *
+	 * @param poCellList
+	 * @param poParentLife
+	 * @param oPrimPair
+	 * @param poAssociationName
+	 * @param green
+	 * @return
+	 */
+	private DefaultGraphCell readDrive_new(
+			ArrayList<DefaultGraphCell> poCellList,
+			DefaultGraphCell poParentLife, clsDriveMesh oDM,
+			String poAssociationName, Color poNodeColor) {
+
+		DefaultGraphCell oCell = null;
+		oCell = readSingle_new(poCellList, poParentLife, oDM, poAssociationName, poNodeColor);
+		
+		String oVertexName =  "Affect: \n " + oDM.getPleasure();
+		DefaultGraphCell oCurrentVertex = createVertex(oVertexName, 20, 20, 150, 40, poNodeColor);
+		poCellList.add( oCurrentVertex );
+		createEdge(poCellList, oCell, oCurrentVertex, poAssociationName);
+		
+		return oCell;
+	}
+
 	/**
 	 * creates either the graph for a mesh or the singel, but adds the affect too.
 	 *
@@ -251,21 +294,21 @@ public class clsE05DriveInspector extends Inspector implements ActionListener {
 	 * @param prim
 	 * @param poAssociationName
 	 */
-	private DefaultGraphCell readDrive(ArrayList<DefaultGraphCell> poCellList,
-			DefaultGraphCell poParent, clsPrimaryInformation prim,
-			String poAssociationName, Color poNodeColor) {
-
-		DefaultGraphCell oCell = null;
-		if(prim instanceof clsPrimaryInformationMesh) {
-			oCell = readMesh(poCellList, poParent, (clsPrimaryInformationMesh)prim, poAssociationName, poNodeColor);
-			readAffect(poCellList, oCell, (clsAffect)prim.moAffect, "affect_assoc", Color.RED);
-		}
-		else if(prim instanceof clsPrimaryInformation) {
-			oCell = readSingle(poCellList, poParent, (clsPrimaryInformation)prim, poAssociationName, poNodeColor);
-			readAffect(poCellList, oCell, (clsAffect)prim.moAffect, "affect_assoc", Color.RED);
-		}
-		return oCell;
-	}
+//	private DefaultGraphCell readDrive(ArrayList<DefaultGraphCell> poCellList,
+//			DefaultGraphCell poParent, clsPrimaryInformation prim,
+//			String poAssociationName, Color poNodeColor) {
+//
+//		DefaultGraphCell oCell = null;
+//		if(prim instanceof clsPrimaryInformationMesh) {
+//			oCell = readMesh(poCellList, poParent, (clsPrimaryInformationMesh)prim, poAssociationName, poNodeColor);
+//			readAffect(poCellList, oCell, (clsAffect)prim.moAffect, "affect_assoc", Color.RED);
+//		}
+//		else if(prim instanceof clsPrimaryInformation) {
+//			oCell = readSingle(poCellList, poParent, (clsPrimaryInformation)prim, poAssociationName, poNodeColor);
+//			readAffect(poCellList, oCell, (clsAffect)prim.moAffect, "affect_assoc", Color.RED);
+//		}
+//		return oCell;
+//	}
 
 	/**
 	 * Creates a graph-cell for the mesh, connects the graph-cell with an arrowed edge to the parent and
@@ -279,36 +322,36 @@ public class clsE05DriveInspector extends Inspector implements ActionListener {
 	 * @param poPrimMesh
 	 * @param poAssociationName
 	 */
-	private DefaultGraphCell readMesh(ArrayList<DefaultGraphCell> poCellList,
-			DefaultGraphCell poParent, clsPrimaryInformationMesh poPrimMesh, String poAssociationName, Color poNodeColor) {
-
-			String oVertexName = poPrimMesh.moTP.meContentName + ":\n" + poPrimMesh.moTP.moContent;
-			DefaultGraphCell oCurrentVertex = createVertex(oVertexName, 20, 20, 150, 40, poNodeColor);
-			poCellList.add( oCurrentVertex );
-			createEdge(poCellList, poParent, oCurrentVertex, poAssociationName);
-			
-			for( clsAssociation<clsPrimaryInformation> oChildAssoc :  poPrimMesh.moAssociations) {
-				String oName = ""; //the edge will get the name of the association context
-				
-				if(oChildAssoc instanceof clsAssociationContext 
-						&& ((clsAssociationContext<clsPrimaryInformation>)oChildAssoc).moAssociationContext != null) {
-					oName+=((clsAssociationContext<clsPrimaryInformation>)oChildAssoc).moAssociationContext.toGraphDisplayString();	
-				}
-				else if(oChildAssoc instanceof clsAssociationContent 
-						&& ((clsAssociationContent<clsPrimaryInformation>)oChildAssoc).moAssociationContent != null){
-					oName+=((clsAssociationContent<clsPrimaryInformation>)oChildAssoc).moAssociationContent.toGraphDisplayString();
-				}
-							
-				if(oChildAssoc.moElementB instanceof clsPrimaryInformationMesh) {
-					readMesh(poCellList, oCurrentVertex, (clsPrimaryInformationMesh)oChildAssoc.moElementB, oName, poNodeColor );
-				} 
-				else if( oChildAssoc.moElementB instanceof clsPrimaryInformation ) {
-					readSingle(poCellList, oCurrentVertex, (clsPrimaryInformation)oChildAssoc.moElementB, oName, poNodeColor );
-					
-				}
-			}
-			return oCurrentVertex;
-	}
+//	private DefaultGraphCell readMesh(ArrayList<DefaultGraphCell> poCellList,
+//			DefaultGraphCell poParent, clsPrimaryInformationMesh poPrimMesh, String poAssociationName, Color poNodeColor) {
+//
+//			String oVertexName = poPrimMesh.moTP.meContentName + ":\n" + poPrimMesh.moTP.moContent;
+//			DefaultGraphCell oCurrentVertex = createVertex(oVertexName, 20, 20, 150, 40, poNodeColor);
+//			poCellList.add( oCurrentVertex );
+//			createEdge(poCellList, poParent, oCurrentVertex, poAssociationName);
+//			
+//			for( clsAssociation<clsPrimaryInformation> oChildAssoc :  poPrimMesh.moAssociations) {
+//				String oName = ""; //the edge will get the name of the association context
+//				
+//				if(oChildAssoc instanceof clsAssociationContext 
+//						&& ((clsAssociationContext<clsPrimaryInformation>)oChildAssoc).moAssociationContext != null) {
+//					oName+=((clsAssociationContext<clsPrimaryInformation>)oChildAssoc).moAssociationContext.toGraphDisplayString();	
+//				}
+//				else if(oChildAssoc instanceof clsAssociationContent 
+//						&& ((clsAssociationContent<clsPrimaryInformation>)oChildAssoc).moAssociationContent != null){
+//					oName+=((clsAssociationContent<clsPrimaryInformation>)oChildAssoc).moAssociationContent.toGraphDisplayString();
+//				}
+//							
+//				if(oChildAssoc.moElementB instanceof clsPrimaryInformationMesh) {
+//					readMesh(poCellList, oCurrentVertex, (clsPrimaryInformationMesh)oChildAssoc.moElementB, oName, poNodeColor );
+//				} 
+//				else if( oChildAssoc.moElementB instanceof clsPrimaryInformation ) {
+//					readSingle(poCellList, oCurrentVertex, (clsPrimaryInformation)oChildAssoc.moElementB, oName, poNodeColor );
+//					
+//				}
+//			}
+//			return oCurrentVertex;
+//	}
 
 	/**
 	 * DOCUMENT (langr) - insert description
@@ -344,10 +387,20 @@ public class clsE05DriveInspector extends Inspector implements ActionListener {
 	 * @param poPrimSingle
 	 * @param poAssociationName
 	 */
-	private DefaultGraphCell readSingle(ArrayList<DefaultGraphCell> poCellList,
-			DefaultGraphCell poParent, clsPrimaryInformation poPrimSingle, String poAssociationName, Color poNodeColor) {
+//	private DefaultGraphCell readSingle(ArrayList<DefaultGraphCell> poCellList,
+//			DefaultGraphCell poParent, clsPrimaryInformation poPrimSingle, String poAssociationName, Color poNodeColor) {
+//
+//		String oVertexName = poPrimSingle.moTP.meContentName + ": \n " + poPrimSingle.moTP.moContent;
+//		DefaultGraphCell oCurrentVertex = createVertex(oVertexName, 20, 20, 150, 40, poNodeColor);
+//		poCellList.add( oCurrentVertex );
+//		createEdge(poCellList, poParent, oCurrentVertex, poAssociationName);
+//		return oCurrentVertex;
+//	}
+//	
+	private DefaultGraphCell readSingle_new(ArrayList<DefaultGraphCell> poCellList,
+			DefaultGraphCell poParent, clsDriveMesh oDM, String poAssociationName, Color poNodeColor) {
 
-		String oVertexName = poPrimSingle.moTP.meContentName + ": \n " + poPrimSingle.moTP.moContent;
+		String oVertexName = oDM.moContentType + ": \n " + oDM.moContent;
 		DefaultGraphCell oCurrentVertex = createVertex(oVertexName, 20, 20, 150, 40, poNodeColor);
 		poCellList.add( oCurrentVertex );
 		createEdge(poCellList, poParent, oCurrentVertex, poAssociationName);
@@ -366,19 +419,19 @@ public class clsE05DriveInspector extends Inspector implements ActionListener {
 	 * @param poAffecte
 	 * @param poAssociationName
 	 */
-	private DefaultGraphCell readAffect(ArrayList<DefaultGraphCell> poCellList,
-			DefaultGraphCell poParent, clsAffect poAffect, String poAssociationName, Color poNodeColor) {
-
-		DefaultGraphCell oCurrentVertex = null;
-		
-		if(poAffect != null ) {
-			String oVertexName =  "Affect: \n " + poAffect.getValue();
-			oCurrentVertex = createVertex(oVertexName, 20, 20, 150, 40, poNodeColor);
-			poCellList.add( oCurrentVertex );
-			createEdge(poCellList, poParent, oCurrentVertex, poAssociationName);
-		}
-		return oCurrentVertex;
-	}
+//	private DefaultGraphCell readAffect(ArrayList<DefaultGraphCell> poCellList,
+//			DefaultGraphCell poParent, clsAffect poAffect, String poAssociationName, Color poNodeColor) {
+//
+//		DefaultGraphCell oCurrentVertex = null;
+//		
+//		if(poAffect != null ) {
+//			String oVertexName =  "Affect: \n " + poAffect.getValue();
+//			oCurrentVertex = createVertex(oVertexName, 20, 20, 150, 40, poNodeColor);
+//			poCellList.add( oCurrentVertex );
+//			createEdge(poCellList, poParent, oCurrentVertex, poAssociationName);
+//		}
+//		return oCurrentVertex;
+//	}
 	
 	/**
 	 * static helper to create a graph-cell and set the default style within this inspector
