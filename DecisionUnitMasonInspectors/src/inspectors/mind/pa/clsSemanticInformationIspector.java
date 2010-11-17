@@ -15,7 +15,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
-import java.lang.reflect.InvocationTargetException;
+
 import java.util.ArrayList;
 import java.util.Hashtable;
 import java.util.Map;
@@ -124,6 +124,10 @@ public class clsSemanticInformationIspector extends Inspector implements ActionL
 	private int moStepCounter = 0;
 	
 	private ArrayList<DefaultGraphCell> moCellList = new ArrayList<DefaultGraphCell>();
+	
+	//clors:
+	private static Color moColorTP = Color.RED;
+	private static Color moColorNULL = Color.BLACK;
 	
 
 
@@ -342,6 +346,20 @@ public class clsSemanticInformationIspector extends Inspector implements ActionL
 				reset();
 			}
 		});
+		oTaskGroupCommands.add(new AbstractAction("Group") {
+			private static final long serialVersionUID = 4769006307236101696L;
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				groupCells(moGraph.getSelectionCells());
+			}
+		});
+		oTaskGroupCommands.add(new AbstractAction("UnGroup") {
+			private static final long serialVersionUID = 4769006307236101696L;
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				ungroupCells(moGraph.getSelectionCells());
+			}
+		});
 		
 		oTaskGroupCommands.add(new AbstractAction("Insert Test Data") {
 			private static final long serialVersionUID = 4963188240381232166L;
@@ -352,6 +370,22 @@ public class clsSemanticInformationIspector extends Inspector implements ActionL
 		});
 
 		moTaskPane.add(oTaskGroupCommands);
+		
+		// === SEARCH ===
+		// ADD TaskPaneGroup for Search
+		JTaskPaneGroup oTaskGroupSearch = new JTaskPaneGroup();
+		oTaskGroupSearch.setTitle("Search");
+		moTaskPane.add(oTaskGroupSearch);
+		
+		// === Legend ===
+		// ADD TaskPaneGroup for Legend
+		JTaskPaneGroup oTaskGroupLegend = new JTaskPaneGroup();
+		oTaskGroupLegend.setTitle("Legend");
+		moTaskPane.add(oTaskGroupLegend);
+		
+		javax.swing.JLabel oLabelTP = new javax.swing.JLabel("TP");
+		oLabelTP.setBackground(moColorTP);
+		oTaskGroupCommands.add(oLabelTP);
 		
 		//create the SplitPane and add the two windows
 		JScrollPane oMenuScrollPane = new JScrollPane(moTaskPane);
@@ -389,12 +423,12 @@ public class clsSemanticInformationIspector extends Inspector implements ActionL
 		
 		try {
 			//returns the ArrayList of the wanted member
-			//Object oMeshList = moModuleContainer.getClass().getField(moModuleMemoryMemberName).get(moModuleContainer);
+			Object oMeshList = moModuleContainer.getClass().getField(moModuleMemoryMemberName).get(moModuleContainer);
 			
-			java.lang.Class[] parameterType = null; 
-			java.lang.reflect.Method method = moModuleContainer.getClass().getMethod( moModuleMemoryMemberName, parameterType ); 
-			 java.lang.Object[] argument = null; 
-			 Object oMeshList = method.invoke( moModuleContainer, argument );
+			//java.lang.Class[] parameterType = null; 
+			//java.lang.reflect.Method method = moModuleContainer.getClass().getMethod( moModuleMemoryMemberName, parameterType ); 
+			//java.lang.Object[] argument = null; 
+			//Object oMeshList = method.invoke( moModuleContainer, argument );
 			
 			moInspectorData = (ArrayList)oMeshList;
 		} catch (IllegalArgumentException e) {
@@ -403,14 +437,14 @@ public class clsSemanticInformationIspector extends Inspector implements ActionL
 			e.printStackTrace();
 		} catch (SecurityException e) {
 			e.printStackTrace();
-//		} catch (NoSuchFieldException e) {
-//			e.printStackTrace();
+		} catch (NoSuchFieldException e) {
+			e.printStackTrace();
 		} catch (ClassCastException e) {
 			e.printStackTrace();
-		}catch (NoSuchMethodException e) {
-			e.printStackTrace();
-		} catch (InvocationTargetException e) {
-			e.printStackTrace();
+//		}catch (NoSuchMethodException e) {
+//			e.printStackTrace();
+//		} catch (InvocationTargetException e) {
+//			e.printStackTrace();
 		}
 			
 			
@@ -541,7 +575,7 @@ public class clsSemanticInformationIspector extends Inspector implements ActionL
 		moLabelStatusBar.setText("JGraph reseted to start");
 	}
 	
-	@Deprecated
+	@Deprecated //just for testing purpose of the graph Layout, no bad code, but not needed.
 	public void showTestData() {
 		moGraphFactory.insertConnectedGraphSampleData(moGraph,
 				createCellAttributes(new Point2D.Double(0, 0)),
@@ -613,7 +647,7 @@ public class clsSemanticInformationIspector extends Inspector implements ActionL
 	}
 	
 	/**
-	 * DOCUMENT (muchitsch) - insert description
+	 * DOCUMENT Main method for displaying inspector data. Generates the graph layout and starts the data display...
 	 *
 	 * @author muchitsch
 	 * 25.08.2010, 14:02:45
@@ -690,7 +724,8 @@ public class clsSemanticInformationIspector extends Inspector implements ActionL
 	
 	
 	/**
-	 * Main entrance point for the JGraph cell genration. Calls the other specialized methods for generating cells
+	 * Main entrance point for the JGraph cell genration. Calls the other specialized methods for generating cells.
+	 * Recursion starts here!
 	 *
 	 * @author muchitsch
 	 * 30.08.2010, 17:54:57
@@ -699,7 +734,7 @@ public class clsSemanticInformationIspector extends Inspector implements ActionL
 	 */
 	private void readInspectorDataAndGenerateGraphCells(DefaultGraphCell poParent) 
 	{
-		
+		//check for the 3 main data types possible
 		for(int i=0;i<moInspectorData.size();i++){
 		
 			if(moInspectorData.get(i) instanceof clsDataStructurePA)
@@ -721,13 +756,14 @@ public class clsSemanticInformationIspector extends Inspector implements ActionL
 		}
 	}
 
-	/** MAIN...
+	/** [MAIN]...
 	 * Generating cells from clsDataStructurePA
 	 */
 	private DefaultGraphCell generateGraphCell(DefaultGraphCell poParentCell, clsDataStructurePA poMemoryObject)
 	{
 		DefaultGraphCell oRootCell = null;
 		
+		//check for the  main data types possible for clsDataStructurePA
 		if(poMemoryObject instanceof clsDriveMesh)
 		{
 			clsDriveMesh tmpRootMemoryObject = (clsDriveMesh)poMemoryObject;
@@ -755,11 +791,11 @@ public class clsSemanticInformationIspector extends Inspector implements ActionL
 		}
 		else
 		{
-			throw new NullPointerException("DefaultGraphCell is NULL, object type clsDataStructurePA not found?");
+			throw new NullPointerException("ARS Exeption: DefaultGraphCell is NULL, object type clsDataStructurePA not found?");
 		}
 		
 		if(oRootCell == null)
-			throw new NullPointerException("DefaultGraphCell is NULL, object type clsDataStructurePA not found?");
+			throw new NullPointerException("ARS Exeption: DefaultGraphCell is NULL, object type clsDataStructurePA not found?");
 		
 		//get edge to paretn cell
 		DefaultEdge oEdgeParent = new DefaultEdge("");
@@ -770,37 +806,51 @@ public class clsSemanticInformationIspector extends Inspector implements ActionL
 		return oRootCell;
 	}
 	
-	/** PAIR
+	/** [PAIR]
 	 * Generating cells from clsPair
 	 */
 	private DefaultGraphCell generateGraphCell(DefaultGraphCell poParentCell, clsPair poMemoryObject)
 	{
+		//create root of the pair
 		DefaultGraphCell oPairCellRoot = createDefaultGraphVertex("PAIR", Color.YELLOW);
 		moCellList.add(oPairCellRoot);
-		//edge to the parrent cell
+		//edge to the [parrent cell] <-> [root of pair]
 		DefaultEdge oEdgeParent = new DefaultEdge("pair");
 		oEdgeParent.setSource(poParentCell.getChildAt(0));
 		oEdgeParent.setTarget(oPairCellRoot.getChildAt(0));
 		moCellList.add(oEdgeParent);
 		
-		//generate root of the mesh
+		//generate root of the pair for [A] and [B]
 		DefaultGraphCell oPairCellA = createDefaultGraphVertex(poMemoryObject.toString()+"-A", Color.YELLOW);
 		DefaultGraphCell oPairCellB = createDefaultGraphVertex(poMemoryObject.toString()+"-B", Color.YELLOW);
 		this.moCellList.add(oPairCellA);
 		this.moCellList.add(oPairCellB);
 		
+		//edge [A] <-> [root of pair]
 		DefaultEdge oEdgeA = new DefaultEdge("pair A");
 		oEdgeA.setSource(oPairCellRoot.getChildAt(0));
 		oEdgeA.setTarget(oPairCellA.getChildAt(0));
 		moCellList.add(oEdgeA);
 		
+		//edge [A] <-> [root of pair]
 		DefaultEdge oEdgeB = new DefaultEdge("pair B");
 		oEdgeB.setSource(oPairCellRoot.getChildAt(0));
 		oEdgeB.setTarget(oPairCellB.getChildAt(0));
 		moCellList.add(oEdgeB);
 		
 		
-		if(poMemoryObject.a instanceof clsDataStructurePA)
+		
+		//check if A is type of one of our main datatypes and recursively generate the children
+		if (poMemoryObject.a == null)
+		{
+			generateNULLGraphCell(oPairCellA);
+		}
+		else if(poMemoryObject.a instanceof Double)
+		{
+			Double oNextMemoryObject = (Double)poMemoryObject.a;
+			generateGraphCell(oPairCellA, oNextMemoryObject);
+		}
+		else if(poMemoryObject.a instanceof clsDataStructurePA)
 		{
 			clsDataStructurePA oNextMemoryObject = (clsDataStructurePA)poMemoryObject.a;
 			generateGraphCell(oPairCellA, oNextMemoryObject);
@@ -817,11 +867,20 @@ public class clsSemanticInformationIspector extends Inspector implements ActionL
 		}
 		else
 		{
-			throw new java.lang.NoSuchMethodError("Type of pair.a not recognised!!!");
+			throw new java.lang.NoSuchMethodError("ARS Exeption: Type of pair.a not recognised!!!");
 		}
 		
-		
-		if(poMemoryObject.b instanceof clsDataStructurePA)
+		//check if A is type of one of our main datatypes and recursively generate the children
+		if (poMemoryObject.b == null)
+		{
+			generateNULLGraphCell(oPairCellB);
+		}
+		else if(poMemoryObject.b instanceof Double)
+		{
+			Double oNextMemoryObject = (Double)poMemoryObject.b;
+			generateGraphCell(oPairCellB, oNextMemoryObject);
+		}
+		else if(poMemoryObject.b instanceof clsDataStructurePA)
 		{
 			clsDataStructurePA oNextMemoryObject = (clsDataStructurePA)poMemoryObject.b;
 			generateGraphCell(oPairCellB, oNextMemoryObject);
@@ -838,31 +897,34 @@ public class clsSemanticInformationIspector extends Inspector implements ActionL
 		}
 		else
 		{
-			throw new java.lang.NoSuchMethodError("Type of pair.b not recognised!!!");
+			throw new java.lang.NoSuchMethodError("ARS Exeption: Type of pair.b not recognised!!!");
 		}
 		
 		
-		//add edge
+		//add edge [A] <-> [B], creates a triangle  [A] <-> [root of pair] <-> [B]
 		DefaultEdge oEdge = new DefaultEdge("pair");
 		oEdge.setSource(oPairCellA.getChildAt(0));
 		oEdge.setTarget(oPairCellB.getChildAt(0));
 		moCellList.add(oEdge);
+		
 		GraphConstants.setLineEnd(oEdge.getAttributes(), GraphConstants.ARROW_TECHNICAL);
 		GraphConstants.setLineBegin(oEdge.getAttributes(), GraphConstants.ARROW_TECHNICAL);
 		GraphConstants.setLineStyle(oEdge.getAttributes(), GraphConstants.STYLE_BEZIER);
 		GraphConstants.setLineWidth(oEdge.getAttributes(), 2);
 		GraphConstants.setEndFill(oEdge.getAttributes(), true);
 		
-		return oPairCellA;
+		return oPairCellRoot;
 	}
 	
-	/** DC
+	/** [DC]
 	 * Generating cells from clsDataStructureContainer
+	 * splits in PDC or SDC
 	 */
 	private DefaultGraphCell generateGraphCell(DefaultGraphCell poParentCell, clsDataStructureContainer poMemoryObject)
 	{
 		DefaultGraphCell oRootCell = null;
 		
+		//check what special type of DataContainer we have
 		if(poMemoryObject instanceof clsPrimaryDataStructureContainer)
 		{
 			clsPrimaryDataStructureContainer tmpRootMemoryObject = (clsPrimaryDataStructureContainer)poMemoryObject;
@@ -875,25 +937,26 @@ public class clsSemanticInformationIspector extends Inspector implements ActionL
 		}
 		else
 		{
-			throw new NullPointerException("DefaultGraphCell is NULL, object type clsPair not found?");
+			throw new NullPointerException("ARS Exeption: DefaultGraphCell is NULL, object type clsPair not found?");
 		}
 		
 		return oRootCell;
 		
 	}
 	
-	/** PDC
+	/** [PDC]
 	 * Generating cells from clsPrimaryDataStructureContainer
+	 * [DataStructurePA] - <acossiations>
 	 */
 	private DefaultGraphCell generateGraphCell(DefaultGraphCell poParentCell, clsPrimaryDataStructureContainer poMemoryObject)
 	{
 		clsDataStructurePA oContainerRootDataStructure = poMemoryObject.moDataStructure;
 		ArrayList<clsAssociation> oAssociatedDataStructures =  poMemoryObject.moAssociatedDataStructures;
 		
-		//create container root struct
+		//create container root cell
 		DefaultGraphCell oContainerRootCell = createDefaultGraphVertex(oContainerRootDataStructure.toString(), new Color(0xff99CC33) );
 		this.moCellList.add(oContainerRootCell);
-		//get edge to parent cell
+		//edge to the [parrent cell] <-> [container root cell]
 		DefaultEdge oEdgeParent = new DefaultEdge("");
 		oEdgeParent.setSource(poParentCell.getChildAt(0));
 		oEdgeParent.setTarget(oContainerRootCell.getChildAt(0));
@@ -928,15 +991,16 @@ public class clsSemanticInformationIspector extends Inspector implements ActionL
 			}
 			else
 			{ //should not be laut heimo!!!
-				throw new UnsupportedOperationException("Neither A nor B are root element. Go ask Heimo about his memory implementation");
+				//throw new UnsupportedOperationException("ARS Exeption: Neither A nor B are root element. Go ask Heimo about his memory implementation");
 			}
 			
 		}
 		return oContainerRootCell;
 	}
 	
-	/** SDC
+	/** [SDC]
 	 * Generating cells from clsSecondaryDataStructureContainer
+	 * [DataStructurePA] - <acossiations>
 	 */
 	private DefaultGraphCell generateGraphCell(DefaultGraphCell poParentCell, clsSecondaryDataStructureContainer poMemoryObject)
 	{
@@ -982,9 +1046,8 @@ public class clsSemanticInformationIspector extends Inspector implements ActionL
 			}
 			else
 			{ //should not be laut heimo!!!
-				throw new UnsupportedOperationException("Neither A nor B are root element. Go ask Heimo about his memory implementation");
+				//throw new UnsupportedOperationException("ARS Exeption: Neither A nor B are root element. Go ask Heimo about his memory implementation");
 			}
-			
 		}
 		return oContainerRootCell;
 	}
@@ -1027,44 +1090,99 @@ public class clsSemanticInformationIspector extends Inspector implements ActionL
 			}
 			else
 			{ //should not be laut heimo!!!
-				throw new UnsupportedOperationException("Neither A nor B are root element. Go ask Heimo about his memory implementation");
+				throw new UnsupportedOperationException("ARS Exeption: Neither A nor B are root element. Go ask Heimo about his memory implementation");
 			}
 			
 		}
 		return oDMrootCell;	
 	}
 	
-	/** TP
+	/** [TP]
 	 * Generating cells from clsThingPresentation
 	 */
 	private DefaultGraphCell generateGraphCell(DefaultGraphCell poParentCell, clsThingPresentation poMemoryObject)
 	{
-		DefaultGraphCell oCell = createDefaultGraphVertex(poMemoryObject.toString(), Color.RED);
+		DefaultGraphCell oCell = createDefaultGraphVertex(poMemoryObject.toString(), moColorTP);
 		this.moCellList.add(oCell);
+		
+		//get edge to parent cell
+		DefaultEdge oEdgeParent = new DefaultEdge("");
+		oEdgeParent.setSource(poParentCell.getChildAt(0));
+		oEdgeParent.setTarget(oCell.getChildAt(0));
+		moCellList.add(oEdgeParent);
+		
 		return oCell;
 	}
 	
-	/** WP
+	/** [WP]
 	 * Generating cells from clsWordPresentation
 	 */
 	private DefaultGraphCell generateGraphCell(DefaultGraphCell poParentCell, clsWordPresentation poMemoryObject)
 	{
 		DefaultGraphCell oCell = createDefaultGraphVertex(poMemoryObject.toString(), Color.LIGHT_GRAY);
 		this.moCellList.add(oCell);
+		
+		//get edge to parent cell
+		DefaultEdge oEdgeParent = new DefaultEdge("");
+		oEdgeParent.setSource(poParentCell.getChildAt(0));
+		oEdgeParent.setTarget(oCell.getChildAt(0));
+		moCellList.add(oEdgeParent);
+		
 		return oCell;
 	}
 	
-	/** DD
+	/** [DD]
 	 * Generating cells from clsDriveDemand
 	 */
 	private DefaultGraphCell generateGraphCell(DefaultGraphCell poParentCell, clsDriveDemand poMemoryObject)
 	{
 		DefaultGraphCell oCell = createDefaultGraphVertex(poMemoryObject.toString(), Color.GRAY);
 		this.moCellList.add(oCell);
+		
+		//get edge to parent cell
+		DefaultEdge oEdgeParent = new DefaultEdge("");
+		oEdgeParent.setSource(poParentCell.getChildAt(0));
+		oEdgeParent.setTarget(oCell.getChildAt(0));
+		moCellList.add(oEdgeParent);
+		
 		return oCell;
 	}
 	
-	/** ACT
+	/** [Double]
+	 * Generating cells when a Pair a Double, happens in search
+	 */
+	private DefaultGraphCell generateGraphCell(DefaultGraphCell poParentCell, Double popoMemoryObject)
+	{
+		DefaultGraphCell oCell = createDefaultGraphVertex(popoMemoryObject.toString(), Color.WHITE);
+		this.moCellList.add(oCell);
+		
+		//get edge to parent cell
+		DefaultEdge oEdgeParent = new DefaultEdge("");
+		oEdgeParent.setSource(poParentCell.getChildAt(0));
+		oEdgeParent.setTarget(oCell.getChildAt(0));
+		moCellList.add(oEdgeParent);
+		
+		return oCell;
+	}
+	
+	/** [NULL]
+	 * Generating cells when a Pair is NULL, should not be, but happens
+	 */
+	private DefaultGraphCell generateNULLGraphCell(DefaultGraphCell poParentCell)
+	{
+		DefaultGraphCell oCell = createDefaultGraphVertex("NULL", moColorNULL);
+		this.moCellList.add(oCell);
+		
+		//get edge to parent cell
+		DefaultEdge oEdgeParent = new DefaultEdge("");
+		oEdgeParent.setSource(poParentCell.getChildAt(0));
+		oEdgeParent.setTarget(oCell.getChildAt(0));
+		moCellList.add(oEdgeParent);
+		
+		return oCell;
+	}
+	
+	/** [ACT]
 	 * Generating cells from clsAct
 	 */
 	private DefaultGraphCell generateGraphCell(DefaultGraphCell poParentCell, clsAct poMemoryObject)
@@ -1111,6 +1229,8 @@ public class clsSemanticInformationIspector extends Inspector implements ActionL
 	public static DefaultGraphCell createDefaultGraphVertex(String name, double x,
 			double y, double w, double h, Color poNodeColor) {
 
+		name = name.replace("|", "\n");
+		
 		//Richtext to enable linebreaks
 		RichTextBusinessObject userObject = new RichTextBusinessObject();
 		RichTextValue textValue = new RichTextValue(name);
@@ -1141,6 +1261,7 @@ public class clsSemanticInformationIspector extends Inspector implements ActionL
 	
 	/**
 	 * DOCUMENT Override of original vertex creation.
+	 * To create a default size
 	 *
 	 * @author muchitsch
 	 * 25.08.2010, 14:29:42
@@ -1183,6 +1304,23 @@ public class clsSemanticInformationIspector extends Inspector implements ActionL
 		cell.addPort();
 
 		return cell;
+	}
+	
+	// Create a Group that Contains the Cells
+	public void groupCells(Object[] cells) {
+		// Order Cells by Model Layering
+		cells = moGraph.order(cells);
+		// If Any Cells in View
+		if (cells != null && cells.length > 0) {
+			DefaultGraphCell group = createDefaultGraphVertex("GROUP", 30, 30, 30, 30, Color.CYAN);
+			// Insert into model
+			moGraph.getGraphLayoutCache().insertGroup(group, cells);
+		}
+	}
+	
+	// Ungroup the Groups in Cells and Select the Children
+	public void ungroupCells(Object[] cells) {
+		moGraph.getGraphLayoutCache().ungroup(cells);
 	}
 
 	/* this is the update button - if pressed-->reload & redraw

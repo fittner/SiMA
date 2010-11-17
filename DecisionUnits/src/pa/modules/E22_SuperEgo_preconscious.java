@@ -8,6 +8,7 @@ package pa.modules;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Map;
 
 import config.clsBWProperties;
@@ -28,6 +29,7 @@ import pa.memorymgmt.enums.eDataType;
 import pa.tools.clsPair;
 import pa.tools.clsTripple;
 
+
 /**
  * DOCUMENT (deutsch) - insert description 
  * 
@@ -37,9 +39,11 @@ import pa.tools.clsTripple;
  */
 public class E22_SuperEgo_preconscious extends clsModuleBase implements I1_7_receive, I2_11_receive, I3_3_send, itfKnowledgeBaseAccess {
 
-	private ArrayList<clsSecondaryDataStructureContainer> moPerception; 
+	public ArrayList<clsSecondaryDataStructureContainer> moPerception; 
 	//private ArrayList<clsSecondaryDataStructureContainer> moDriveList;  HZ - not used up to now
-	private ArrayList<clsAct> moRuleList; 
+	public ArrayList<clsAct> moRuleList; 
+	
+	public ArrayList<clsPair<Double,clsDataStructureContainer>> moRetrieveResult4Inspectors;
 	
 	/**
 	 * DOCUMENT (deutsch) - insert description 
@@ -227,6 +231,22 @@ public class E22_SuperEgo_preconscious extends clsModuleBase implements I1_7_rec
 		//=> actually a lot of acts are retrieved from the memory; E27 will have to sort them out.
 		//It has to be verified if this is a good solution, or if the comparison mode for the clsAct 
 		//datatype has to be changed
+		
+		//moRetrieveResult4Inspectors = (ArrayList<clsPair<Double, clsDataStructureContainer>>) oResult.entrySet().iterator().next(); // doing this for showing the results in the inspectors, may change later
+		
+		//TODO dirty hack by clemens, for testing the search result display. change me later!
+		try
+		{
+			Iterator it = oResult.entrySet().iterator();
+			while (it.hasNext()) {
+				Map.Entry entry = (Map.Entry) it.next();
+				moRetrieveResult4Inspectors = (ArrayList<clsPair<Double, clsDataStructureContainer>>)entry.getValue();
+				break;
+		}
+		}catch(Exception ex)
+		{}
+
+		
 		return extractSearchResult(oResult);
 	}
 	
