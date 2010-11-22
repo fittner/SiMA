@@ -19,10 +19,12 @@ import du.itf.actions.clsActionPickUp;
 import du.itf.actions.clsActionSequenceFactory;
 import du.itf.actions.clsActionTurn;
 import pa.clsInterfaceHandler;
+import pa.interfaces.itfTimeChartInformationContainer;
 import pa.interfaces.receive.I8_1_receive;
 import pa.interfaces.receive.I8_2_receive;
 import pa.interfaces.send.I8_2_send;
 import pa.memorymgmt.datatypes.clsWordPresentation;
+import pa.tools.clsPair;
 
 /**
  * DOCUMENT (deutsch) - insert description 
@@ -31,7 +33,7 @@ import pa.memorymgmt.datatypes.clsWordPresentation;
  * 11.08.2009, 14:59:58
  * 
  */
-public class E31_NeuroDeSymbolization extends clsModuleBase implements I8_1_receive, I8_2_send {
+public class E31_NeuroDeSymbolization extends clsModuleBase implements I8_1_receive, I8_2_send, itfTimeChartInformationContainer  {
 
 	private ArrayList<clsActionCommand> moActionCommandList_Output;
 	private ArrayList<clsWordPresentation> moActionCommands_Input;
@@ -120,7 +122,7 @@ public class E31_NeuroDeSymbolization extends clsModuleBase implements I8_1_rece
 		
 		moActionCommandList_Output.clear();
 		//process_oldDT();
-		
+		mnCounter++; 
 		if( moActionCommands_Input.size() > 0 ) {
 				for(clsWordPresentation oWP : moActionCommands_Input) {
 				
@@ -161,11 +163,12 @@ public class E31_NeuroDeSymbolization extends clsModuleBase implements I8_1_rece
 				}
 		}
 		else {
-			if( mnCounter > 50) {
+			if( mnCounter > 150) {
 				moActionCommandList_Output.add( clsActionSequenceFactory.getSeekingSequence(1f,2) );
 				mnCounter = 0; 
 			}
-			mnCounter ++; 
+			
+			mnCounter++; 
 		}
 			
 	}
@@ -222,4 +225,37 @@ public class E31_NeuroDeSymbolization extends clsModuleBase implements I8_1_rece
 		throw new java.lang.NoSuchMethodError();	
 	}
 
+	/* (non-Javadoc)
+	 *
+	 * @author zeilinger
+	 * 07.11.2010, 11:55:48
+	 * 
+	 * @see pa.interfaces.itfTimeChartInformationContainer#getTimeChartData()
+	 */
+	@Override
+	public ArrayList<clsPair<String, Double>> getTimeChartData() {
+	ArrayList<clsPair<String, Double>> oRetVal = new ArrayList<clsPair<String, Double>>();
+		
+		oRetVal.add(new clsPair<String, Double>("TURN_RIGHT", 0.0)); 
+		oRetVal.add(new clsPair<String, Double>("TURN_LEFT", 0.0));
+		oRetVal.add(new clsPair<String, Double>("MOVE_FORWARD", 0.0));
+		oRetVal.add(new clsPair<String, Double>("EAT", 0.0));
+		oRetVal.add(new clsPair<String, Double>("SEEK", 0.0));
+		
+		for(clsPair<String, Double> oPair : oRetVal){
+			if(moActionCommands_Input.size() > 0){
+				
+				if(oPair.a.equals(moActionCommands_Input.get(0).moContent)){
+					oPair.b = 1.0; 
+				}
+			}
+			else {
+				if(oPair.a.equals("SEEK")){
+					oPair.b = 1.0; 
+				}
+			}
+		}
+		
+		return oRetVal; 
+	}
 }
