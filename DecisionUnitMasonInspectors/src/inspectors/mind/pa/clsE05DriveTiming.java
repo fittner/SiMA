@@ -70,8 +70,9 @@ public class clsE05DriveTiming  extends Inspector{
     	setLayout(new FlowLayout(FlowLayout.LEFT));
     	add(moChartPanel);
     }
+    
 
-	private void initChart(String poChartName) {
+    private void initChart(String poChartName) {
 		
 		moDataset = new XYSeriesCollection();
 		
@@ -80,6 +81,19 @@ public class clsE05DriveTiming  extends Inspector{
 		moSeries = new HashMap<String, XYSeries>(oTimingValues.size());
 		int nOffeset=0;
 		String oInputOrder = "";
+		
+		XYSeries oTemp1 = new XYSeries("");
+		oTemp1.setMaximumItemCount(mnHistoryLength);
+		oTemp1.add(moCurrentTime, -0.1);
+		moSeries.put("-0.1", oTemp1);
+		moDataset.addSeries(oTemp1);
+		
+		XYSeries oTemp2 = new XYSeries("");
+		oTemp2.setMaximumItemCount(mnHistoryLength);
+		oTemp2.add(moCurrentTime, 1.1);
+		moSeries.put("1.1", oTemp2);
+		moDataset.addSeries(oTemp2);
+		
 		for (clsPair<String, Double> c : oTimingValues) {
 			XYSeries oTemp = new XYSeries(c.a);
 			oTemp.setMaximumItemCount(mnHistoryLength);
@@ -109,20 +123,21 @@ public class clsE05DriveTiming  extends Inspector{
    
      // get a reference to the plot for further customisation...
         XYPlot plot = (XYPlot) oChartPanel.getPlot();
+        plot.getRenderer().setSeriesPaint(0, Color.white); 
+        plot.getRenderer().setSeriesPaint(1, Color.white); 
         plot.setAxisOffset(new RectangleInsets(5.0, 5.0, 5.0, 5.0));
-        plot.setDomainGridlinePaint(Color.white);
-        plot.setRangeGridlinePaint(Color.white);
+        plot.setDomainGridlinePaint(Color.black);
+        plot.setRangeGridlinePaint(Color.black);
         plot.setBackgroundPaint(Color.white);
-   
-        
+                
      // change the auto tick unit selection to integer units only...
         NumberAxis rangeAxis = (NumberAxis) plot.getRangeAxis();
         rangeAxis.setStandardTickUnits(NumberAxis.createIntegerTickUnits());
         
         moChartPanel = new ChartPanel(oChartPanel);
-        moChartPanel.setFillZoomRectangle(true);
+       // moChartPanel.setFillZoomRectangle(true);
         //chartPanel.setMouseWheelEnabled(true);
-        moChartPanel.setPreferredSize(new Dimension(800, 800));
+        moChartPanel.setPreferredSize(new Dimension(400, 600));
 	}
 
 	/* (non-Javadoc)
@@ -135,9 +150,12 @@ public class clsE05DriveTiming  extends Inspector{
 	@Override
 	public void updateInspector() {
 		moCurrentTime += 1;
-		
+
 		ArrayList<clsPair<String, Double>> oTimingData = moTimeingContainer.getTimeChartData();
 		int nOffeset=0;
+
+		moSeries.get("-0.1").add(moCurrentTime, -0.1 );
+		moSeries.get("1.1").add(moCurrentTime, 1.1 );
 		for (clsPair<String, Double> oProbe : oTimingData) {
 			
 			moSeries.get(oProbe.a).add(moCurrentTime, oProbe.b + nOffeset );
