@@ -125,10 +125,10 @@ public class clsTimingDiagramInspector extends Inspector{
         
         plot.getRenderer().setSeriesPaint(0, Color.white); 
         plot.getRenderer().setSeriesPaint(1, Color.red);
-        plot.getRenderer().setSeriesPaint(2, Color.red);
-        plot.getRenderer().setSeriesPaint(3, Color.red);
-        plot.getRenderer().setSeriesPaint(4, Color.red);
-        plot.getRenderer().setSeriesPaint(5, Color.red);
+        plot.getRenderer().setSeriesPaint(2, Color.orange);
+        plot.getRenderer().setSeriesPaint(3, new Color(204, 51, 102));
+        plot.getRenderer().setSeriesPaint(4, new Color(153, 51, 0));
+        plot.getRenderer().setSeriesPaint(5, new Color(255, 153, 0));
         
         plot.getRenderer().setSeriesStroke(1, new BasicStroke(
                 1.0f, BasicStroke.CAP_SQUARE, BasicStroke.JOIN_BEVEL, 
