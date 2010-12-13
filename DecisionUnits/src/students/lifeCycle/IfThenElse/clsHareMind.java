@@ -3,6 +3,8 @@ package students.lifeCycle.IfThenElse;
 
 import java.awt.Color;
 
+
+import bfg.utils.enums.eSide;
 import config.clsBWProperties;
 
 import decisionunit.clsBaseDecisionUnit;
@@ -12,7 +14,7 @@ import du.enums.eDecisionType;
 import du.enums.eEntityType;
 import du.enums.eSensorExtType;
 import du.enums.eSensorIntType;
-import du.enums.eTriState;
+//import du.enums.eTriState;
 import du.itf.actions.clsActionMove;
 import du.itf.actions.clsActionTurn;
 import du.itf.actions.itfActionProcessor;
@@ -24,6 +26,7 @@ import du.itf.sensors.clsSensorExtern;
 import du.itf.sensors.clsSensorRingSegmentEntry;
 import du.itf.sensors.clsVision;
 import du.itf.sensors.clsVisionEntry;
+import java.util.ArrayList;
 
 import simple.remotecontrol.clsRemoteControl; //for testing purpose only! remove after test
 
@@ -74,34 +77,63 @@ public class clsHareMind extends clsRemoteControl { //should be derived from cls
 	private int mnStepsToRepeatLastAction = 20; //after these steps the next action is considered
 	private  static int mnRepeatRange = 100; //random generator goes from 0 to mnRepeatRange
 	private int mnCurrentActionCode = 0; //default move forward
-	private static double mnHungryThreasholed = 4.5; //energy level, where hare gets hungry
+	private static double mnHungryThreasholed = 1.5; //energy level, where hare gets hungry
+	private int mnCanNotEat = 0;
 	
 	public void doHareThinking(itfActionProcessor poActionProcessor) {
 		
-		clsSensorRingSegmentEntry oVisibleCarrot = checkVision();
-		clsBump oBump = (clsBump) getSensorData().getSensorExt(eSensorExtType.BUMP);
+		
+		ArrayList<clsSensorRingSegmentEntry> oVisionObjects = checkVision();
+		
+		clsSensorRingSegmentEntry oVisibleCarrot = getClosestCarrot(oVisionObjects, eEntityType.CARROT);
+		
+//		clsBump oBump = (clsBump) getSensorData().getSensorExt(eSensorExtType.BUMP);
+		clsBump oBump = null;
+
 		
 		if( checkEatableArea() && isHungry() ) {
+			mnCanNotEat++;
 			eatCarrot(poActionProcessor);
+			
+			if (mnCanNotEat > 10) {
+//				((bw.body.io.actuators.clsActionProcessor) poActionProcessor).clear();
+				poActionProcessor.call(new clsActionMove(eActionMoveDirection.MOVE_FORWARD,2.5f));
+				mnCanNotEat = 0;
+			}
+			
 		} else if( oVisibleCarrot != null && isHungry()) {
 			reachCarrot(poActionProcessor, oVisibleCarrot);
+			mnCanNotEat = 0;
 			//todo: flee when lynx in range!!!
-		} else if( oBump.getBumped() ) {
-			handleColision(poActionProcessor);
-		} else {
+//		} else if( oBump.getBumped() ) {
+//			handleColision(poActionProcessor);
+		} else if(isHungry()) {
+			mnCanNotEat = 0;
 			seekCarrot(poActionProcessor);
 		}
+		
+		clsEnergy oStomach = (clsEnergy) getSensorData().getSensorInt(eSensorIntType.ENERGY);
+
+		System.out.println(oStomach.getEnergy());
+
 	}
 	
-	public boolean checkEatableArea() 	{
+	private boolean checkEatableArea() 	{
 		
 		boolean nRetVal = false;
 
 		clsEatableArea oEatArea = (clsEatableArea) getSensorData().getSensorExt(eSensorExtType.EATABLE_AREA);
 		
 		if (oEatArea.getDataObjects().size() > 0) {
+			
 			clsEatableAreaEntry oEntry = (clsEatableAreaEntry)oEatArea.getDataObjects().get(0);
-			if (oEntry.getEntityType() == eEntityType.CARROT && oEntry.getIsConsumeable() == eTriState.TRUE) {
+//			if (oEntry.getEntityType() == eEntityType.CARROT && oEntry.getIsConsumeable() == eTriState.TRUE) {
+
+			int i = oEntry.getColor().getRGB(); //orange -14336 - grau -8355712
+
+			//if (oEntry.getEntityType() == eEntityType.CARROT && oEntry.getColor().getRGB() != 8355712) {
+			if (isCarrotOrange(oEntry)) {
+				
 				nRetVal = true;
 			}
 		}
@@ -119,14 +151,18 @@ public class clsHareMind extends clsRemoteControl { //should be derived from cls
 		return false;
 	}
 	
-	public clsSensorRingSegmentEntry checkVision() {
-		clsSensorRingSegmentEntry oRetVal = null;
+	public ArrayList<clsSensorRingSegmentEntry> checkVision() {
+		
+		
+		ArrayList<clsSensorRingSegmentEntry> oRetVal = new ArrayList<clsSensorRingSegmentEntry>();
+		
 		clsVision oVision = (clsVision) getSensorData().getSensorExt(eSensorExtType.VISION);
-		for( clsSensorExtern oVisionObj : oVision.getDataObjects() ) {
+		ArrayList<clsSensorExtern> oVisionObjects = oVision.getDataObjects();
+		
+		for( clsSensorExtern oVisionObj : oVisionObjects ) {
 			if( isCarrotOrange((clsSensorRingSegmentEntry)oVisionObj) )
 			{
-				oRetVal = (clsSensorRingSegmentEntry)oVisionObj;
-				break;
+				oRetVal.add((clsSensorRingSegmentEntry)oVisionObj);
 			}
 		}
 		return oRetVal;
@@ -184,6 +220,12 @@ public class clsHareMind extends clsRemoteControl { //should be derived from cls
 	
 	public void reachCarrot(itfActionProcessor poActionProcessor, clsSensorRingSegmentEntry poVisionObj) {
 		
+/*		clsVisionEntry carrot = (clsVisionEntry) poVisionObj;
+		Object direction = carrot.getObjectPosition();
+		
+		String test = poVisionObj.toString();
+		Object test2 = poVisionObj.getPolarcoordinate();
+		
 		double rAngle = poVisionObj.getPolarcoordinate().moAzimuth.mrAlpha;
 		
 		if( rAngle < 0.1 || rAngle > (2*Math.PI - 0.1))
@@ -200,7 +242,23 @@ public class clsHareMind extends clsRemoteControl { //should be derived from cls
 		{
 			//rotate left
 			poActionProcessor.call(new clsActionTurn(eActionTurnDirection.TURN_LEFT));
+		}*/
+		
+		clsVisionEntry oVisionObj = ((clsVisionEntry) poVisionObj);
+		
+		if (oVisionObj.getObjectPosition() == eSide.MIDDLE_LEFT || oVisionObj.getObjectPosition() == eSide.LEFT ) {
+			//rotate left
+			poActionProcessor.call(new clsActionTurn(eActionTurnDirection.TURN_LEFT));
 		}
+		else if (oVisionObj.getObjectPosition() == eSide.MIDDLE_RIGHT || oVisionObj.getObjectPosition() == eSide.RIGHT ) {
+			//rotate right
+			poActionProcessor.call(new clsActionTurn(eActionTurnDirection.TURN_RIGHT));
+		} else {
+			// walk ahead
+			poActionProcessor.call(new clsActionMove(eActionMoveDirection.MOVE_FORWARD,2.5f));
+		}
+
+		
 	}
 	
 	public void handleColision(itfActionProcessor poActionProcessor) {
@@ -217,7 +275,10 @@ public class clsHareMind extends clsRemoteControl { //should be derived from cls
 	 * @param poActionProcessor
 	 */
 	public void eatCarrot(itfActionProcessor poActionProcessor) {
+		clsEnergy oStomach = (clsEnergy) getSensorData().getSensorInt(eSensorIntType.ENERGY);
+
 		super.eat(poActionProcessor, eEntityType.CARROT);
+
 	}
 	
 	/* (non-Javadoc)
@@ -231,5 +292,43 @@ public class clsHareMind extends clsRemoteControl { //should be derived from cls
 	protected void setDecisionUnitType() {
 		meDecisionType = eDecisionType.HARE_IFTHENELSE;
 		
-	}	
+	}
+	
+	/* (non-Javadoc)
+	 *
+	 * @author perner
+	 * 02.10.2010, 15:55:49
+	 * 
+	 * returns the object in the vision area which has the closest angel to the hare 
+	 * 
+	 */
+	private clsSensorRingSegmentEntry getClosestCarrot(ArrayList<clsSensorRingSegmentEntry> oVisionObjects, eEntityType eObjectType) {
+		
+		//double flSmallestAngel = 900; //don't blame me for not thinking about whats the biggest possible angel (i guess 90 but 900 will work for sure without future bugfix) 
+		clsSensorRingSegmentEntry nearestObject = null;
+		eSide eMaxPos = eSide.UNDEFINED;
+		
+		for (clsSensorRingSegmentEntry oVisionObject : oVisionObjects) {
+			
+			eSide eCurrentPosition = ((clsVisionEntry) oVisionObject).getObjectPosition();
+
+			if (eMaxPos == eSide.UNDEFINED) {
+				eMaxPos = eCurrentPosition;
+				nearestObject = oVisionObject;
+			}
+			
+			if ((eMaxPos == eSide.LEFT || eMaxPos == eSide.RIGHT) && (eCurrentPosition == eSide.MIDDLE_LEFT || eCurrentPosition == eSide.MIDDLE_RIGHT || eCurrentPosition == eSide.CENTER)) {
+				eMaxPos = eCurrentPosition;
+				nearestObject = oVisionObject;
+			}
+			
+			if ((eMaxPos == eSide.MIDDLE_LEFT || eMaxPos == eSide.MIDDLE_RIGHT) && (eCurrentPosition == eSide.CENTER)) {
+				eMaxPos = eCurrentPosition;
+				nearestObject = oVisionObject;
+			}
+		}
+		
+		return nearestObject;
+	}
+	
 }

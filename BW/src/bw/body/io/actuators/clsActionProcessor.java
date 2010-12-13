@@ -360,6 +360,9 @@ public class clsActionProcessor implements itfActionProcessor {
 		Iterator<clsProcessorResult> oItStck = opExecutionStack.iterator();
 		while (oItStck.hasNext()) {
 			clsProcessorResult oExRes = oItStck.next();
+			
+			// dirty Andi, Clemens hack
+			// if you want hare and lynx to work, comment the next if-clause
 			if (oExRes.getActive()) {				
 				if (oExRes.getExecutor().execute(oExRes.getCommand())) {
 					oExRes.setResult(eExecutionResult.EXECUTIONRESULT_EXECUTED);
@@ -426,8 +429,12 @@ public class clsActionProcessor implements itfActionProcessor {
 		 
 		 //Returns if the sequence is still active (not disposed and contains commands)
 		 public boolean getActive() {
-			 if (mbDispose) return false;
-			 if (moCommand.isComplete(mnRound)) return false;
+			 if (mbDispose) {
+				 return false;
+			 }
+			 if (moCommand.isComplete(mnRound)) {
+				 return false;
+			 }
 			 return true;
 		 }		 		 
 	 }

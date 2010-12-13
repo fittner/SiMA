@@ -94,7 +94,7 @@ public class clsHare extends clsAnimal implements itfGetFlesh, itfAPEatable, itf
 		oProp.setProperty(stomach_pre+i+"."+clsNutritionLevel.P_MAXCONTENT, 6);
 		oProp.setProperty(stomach_pre+i+"."+clsNutritionLevel.P_UPPERBOUND, 6);
 		oProp.setProperty(stomach_pre+i+"."+clsNutritionLevel.P_LOWERBOUND, 0.5);
-		oProp.setProperty(stomach_pre+i+"."+clsNutritionLevel.P_CONTENT, 3);
+		oProp.setProperty(stomach_pre+i+"."+clsNutritionLevel.P_CONTENT, 6);
 		i++;
 
 		oProp.setProperty(stomach_pre+i+"."+clsStomachSystem.P_NUTRITIONTYPE, eNutritions.WATER.toString());
@@ -104,7 +104,7 @@ public class clsHare extends clsAnimal implements itfGetFlesh, itfAPEatable, itf
 		oProp.setProperty(stomach_pre+i+"."+clsNutritionLevel.P_MAXCONTENT, 6);
 		oProp.setProperty(stomach_pre+i+"."+clsNutritionLevel.P_UPPERBOUND, 6);
 		oProp.setProperty(stomach_pre+i+"."+clsNutritionLevel.P_LOWERBOUND, 0.5);
-		oProp.setProperty(stomach_pre+i+"."+clsNutritionLevel.P_CONTENT, 3);
+		oProp.setProperty(stomach_pre+i+"."+clsNutritionLevel.P_CONTENT, 6);
 		i++;
 		
 		oProp.setProperty(stomach_pre+i+"."+clsStomachSystem.P_NUTRITIONTYPE, eNutritions.UNDIGESTABLE.toString());
