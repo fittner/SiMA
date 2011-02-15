@@ -37,6 +37,7 @@ import javax.swing.SwingUtilities;
 import org.jgraph.JGraph;
 import org.jgraph.graph.DefaultCellViewFactory;
 
+
 import org.jgraph.graph.DefaultEdge;
 import org.jgraph.graph.DefaultGraphCell;
 import org.jgraph.graph.DefaultGraphModel;
@@ -672,7 +673,11 @@ public class clsSemanticInformationIspector extends Inspector implements ActionL
 					private static final long serialVersionUID = 5527702598146461914L;
 					@Override
 				protected VertexView createVertexView(Object cell) {
-						return new MultiLineVertexView(cell);
+						 // Return an EllipseView for EllipseCells
+					   // TODO... if (cell instanceof EllipseCell)
+					   //   return new EllipseView(cell);
+					    // Else Call Superclass
+					    return new MultiLineVertexView(cell);
 					}
 				}, true);
 		
@@ -1153,7 +1158,7 @@ public class clsSemanticInformationIspector extends Inspector implements ActionL
 	 */
 	private DefaultGraphCell generateGraphCell(DefaultGraphCell poParentCell, Double popoMemoryObject)
 	{
-		DefaultGraphCell oCell = createDefaultGraphVertex(popoMemoryObject.toString(), Color.WHITE);
+		DefaultGraphCell oCell = createCircleGraphVertex(popoMemoryObject.toString(), 30, 30, 30, 30, Color.WHITE);
 		this.moCellList.add(oCell);
 		
 		//get edge to parent cell
@@ -1277,6 +1282,7 @@ public class clsSemanticInformationIspector extends Inspector implements ActionL
 	public static DefaultGraphCell createCircleGraphVertex(String name, double x,
 			double y, double w, double h, Color poNodeColor) {
 
+		
 		//Richtext to enable linebreaks
 		RichTextBusinessObject userObject = new RichTextBusinessObject();
 		RichTextValue textValue = new RichTextValue(name);
@@ -1302,6 +1308,9 @@ public class clsSemanticInformationIspector extends Inspector implements ActionL
 		
 		// Add a Port
 		cell.addPort();
+		
+		VertexView vv = new com.jgraph.example.mycellview.JGraphEllipseView();
+		vv.setCell(cell);
 
 		return cell;
 	}
@@ -1339,4 +1348,43 @@ public class clsSemanticInformationIspector extends Inspector implements ActionL
 		}
 		*/
 	}
+	
+	// Define EllipseCell
+	  public class EllipseCell extends DefaultGraphCell {
+	    // Empty Constructor
+	    public EllipseCell() {
+	      this(null);
+	    }
+	    // Construct Cell for Userobject
+	    public EllipseCell(Object userObject) {
+	      super(userObject);
+	    }
+	  }
+	  
+	  
+//	// Define the View for an EllipseCell
+//	  public class EllipseView extends VertexView {
+//	    static EllipseRenderer renderer = new EllipseRenderer();
+//	    // Constructor for Superclass
+//	    public EllipseView(Object cell, GraphModel model,
+//	              CellMapper cm) {
+//	      super(cell, model, cm);
+//	    }
+//	    // Returns Perimeter Point for Ellipses
+//	    public Point getPerimeterPoint(Point source, Point p) { ...
+//	    }
+//	    // Returns the Renderer for this View
+//	    protected CellViewRenderer getRenderer() {
+//	      return renderer;
+//	    }
+//	    // Define the Renderer for an EllipseView
+//	    static class EllipseRenderer extends VertexRenderer {
+//	      public void paint(Graphics g) { ... }
+//	    }
+//	  }
+//
+//	  http://dev.cs.uni-magdeburg.de/java/jgraph/tutorial/t1.html
+
 }
+
+
