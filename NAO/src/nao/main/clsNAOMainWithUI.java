@@ -13,6 +13,10 @@ import java.awt.event.ActionListener;
 
 import javax.swing.*;
 
+import pa.clsPsychoAnalysis;
+
+import nao.body.clsNAOBody;
+
 
 
 
@@ -70,13 +74,15 @@ public class clsNAOMainWithUI extends javax.swing.JFrame implements ActionListen
 			}
 			else if ("run".equals(event.getActionCommand())) {
 				moMainFrame.setName("ARS vs. NAO - running...");
-				//todo run
+				run();
 			}
 			else {
 				//noop
 			}
 			this.repaint();
 		  }
+
+	
 
 	//fuer spaeter wegen den args	
 	 static String argumentForKey(String key, String[] args, int startingAt)
@@ -94,6 +100,13 @@ public class clsNAOMainWithUI extends javax.swing.JFrame implements ActionListen
 	        		return true;
 	    	return false;
 	    }
+	    
+	    private void run() {
+			clsNAOBody nao = new clsNAOBody();
+			clsPsychoAnalysis du = new clsPsychoAnalysis("poPrefix", null);
+			//nao.run();
+						
+		}
 		
 }//end class clsNAOMainWithUI
 
