@@ -27,12 +27,12 @@ class proxiesContainer:
     def __init__(self):
         self.motion = loadProxy("ALMotion")
         
-        self._ALTextToSpeech = False
         try:
             self.speech = loadProxy("ALTextToSpeech")
             self._ALTextToSpeech = True
-        
-            
+        except:
+            self._ALTextToSpeech = False
+            print "proxy ALTextToSpeech not found"    
             
         
         
