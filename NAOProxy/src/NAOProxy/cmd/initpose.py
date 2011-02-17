@@ -7,7 +7,7 @@ def initpose(proxies):
     wideAngle  =  0
     #----------------------------- prepare the angles ----------------------------
     #Get the Number of Joints
-    NumJoints = len(proxies.motion.getJointNames("Body"))
+    NumJoints = len(proxies['motion'].getJointNames("Body"))
 
     # Define The Initial Position
     Head     = [0, 0]
@@ -33,4 +33,4 @@ def initpose(proxies):
     #We set the fraction of max speed
     pMaxSpeedFraction = 0.2
     #Ask motion to do this with a blocking call
-    proxies.motion.angleInterpolationWithSpeed(pNames, pTargetAngles, pMaxSpeedFraction)
+    proxies['motion'].angleInterpolationWithSpeed(pNames, pTargetAngles, pMaxSpeedFraction)

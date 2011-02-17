@@ -23,18 +23,18 @@ def loadProxy(pName):
     print "---------------------"
     return proxy
 
-class proxiesContainer:
-    def __init__(self):
-        self.motion = loadProxy("ALMotion")
-        
-        self.speech = []
-        
-        try:
-            self.speech = loadProxy("ALTextToSpeech")
-            self._ALTextToSpeech = True
-        except:
-            self._ALTextToSpeech = False
-            print "proxy ALTextToSpeech not found"    
+def getProxies():
+    print "getproxies"
+    motion = loadMotionProxy()
+    try:
+        speech = loadSpeechProxy()
+    except:
+        print "proxy ALTextToSpeech not found"    
+        speech = None
+
+    proxies = {'motion':motion, 'speech':speech}
+    print "done get proxies: ", proxies
+    return proxies
             
         
         

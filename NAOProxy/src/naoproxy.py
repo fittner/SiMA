@@ -8,7 +8,7 @@ from NAOProxy.cmd.stiffness import stiffness
 from NAOProxy.cmd.initpose import initpose
 from NAOProxy.proxy import loadMotionProxy
 from NAOProxy.cmd.eCommands import Commands
-from NAOProxy.proxy import proxiesContainer
+from NAOProxy.proxy import getProxies
 
 import config
 import sys
@@ -59,7 +59,7 @@ def process_msg(proxies, msg):     #split the received msg into command id and p
         print 'STIFFNESS ', data[1:]
     else:
         print 'UNKNOWN COMMAND ', id
-    
+
     process(proxies, cmd, data[1:]) 
     return
 
@@ -93,7 +93,7 @@ def disconnectNao(motionproxy):
     
 # ------------------------------------------------------------------------
 # main program
-proxies = proxiesContainer()
+proxies = getProxies()
 s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 s.bind((HOST, PORT))
 s.listen(1)

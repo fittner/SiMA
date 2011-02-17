@@ -1,4 +1,4 @@
 def say(proxies, text):
     #TARGET VELOCITY
-    if proxies._ALTextToSpeech:
-        proxies.speech.say(text)
+    if proxies['speech'] != None:
+        proxies['speech'].say(text)

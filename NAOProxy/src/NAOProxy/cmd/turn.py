@@ -11,4 +11,4 @@ def turn(proxies, turn):
     speed = math.fabs(turn)
     assert 0.0 <= speed and speed <= 1.0
     Frequency = speed #max speed
-    proxies.motion.setWalkTargetVelocity(X, Y, Theta, Frequency)
+    proxies['motion'].setWalkTargetVelocity(X, Y, Theta, Frequency)

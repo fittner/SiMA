@@ -4,4 +4,4 @@ def halt(proxies):
     Y = 0.0
     Theta = 0.0
     Frequency = 1.0 #max speed
-    proxies.motion.setWalkTargetVelocity(X, Y, Theta, Frequency)
+    proxies['motion'].setWalkTargetVelocity(X, Y, Theta, Frequency)

@@ -9,7 +9,7 @@ from say import say
 
 def process(proxies, cmd, params):
     if cmd == Commands.HALT:
-        halt(proxies.motion)
+        halt(proxies)
         
     elif cmd == Commands.INITPOSE:
         initpose(proxies)
