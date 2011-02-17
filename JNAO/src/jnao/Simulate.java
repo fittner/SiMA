@@ -7,7 +7,8 @@ public class Simulate {
 	private static final int _maxwait = 15000;
 	private static final int _minwait = 5000;
 	private static final int _port = 9669;
-	private static final String _url = "localhost";
+//	private static final String _url = "localhost";
+	private static final String _url = "192.168.128.130";
 	private static final int _loops = 50;
 	
 	private static void com(NAOBody nao, Command cmd) throws Exception {

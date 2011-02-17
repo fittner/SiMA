@@ -52,8 +52,10 @@ public class CommandGenerator {
 		return c;
 	}	
 	
-	public static Command sendmessage() {
+	public static Command sendmessage(String msg) {
 		Command c = new Command(eCommands.SENDMESSAGE);
+		c.params.add(msg);
+		
 		return c;
 	}
 	
@@ -64,7 +66,7 @@ public class CommandGenerator {
 		boolean stiffness;
 		Random rand = new Random();
 		
-		int r = rand.nextInt(3);
+		int r = rand.nextInt(4);
 	   
 		switch (r) {
 			case 0:
@@ -81,6 +83,7 @@ public class CommandGenerator {
 				result = CommandGenerator.turn(force);
 				break;
 			case 2: result = CommandGenerator.halt(); break;
+			case 3: result = CommandGenerator.sendmessage("test"); break;
 /* INITPOSE and STIFFNESS are not suitable for a random test run ...
 			case 3: result = CommandGenerator.initpose(); break;
 			case 4:
