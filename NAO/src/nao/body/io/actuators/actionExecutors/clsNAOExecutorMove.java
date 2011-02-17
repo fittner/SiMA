@@ -75,18 +75,7 @@ public class clsNAOExecutorMove extends clsActionExecutor{
 		return moMutEx; 
 	}
 	
-	/*
-	 * Energy and stamina demand 
-	 */
-	@Override
-	public double getEnergyDemand(clsActionCommand poCommand) {
-		return getStaminaDemand(poCommand)*srEnergyRelation;
-	}
-	@Override
-	public double getStaminaDemand(clsActionCommand poCommand) {
-		clsActionMove oCommand =(clsActionMove) poCommand;
-		return srStaminaScalingFactor* Math.pow(srStaminaBase,oCommand.getSpeed()) ;
-	}
+
 	
 	/*
 	 * Executor 

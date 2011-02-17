@@ -13,7 +13,10 @@ import java.awt.event.ActionListener;
 
 import javax.swing.*;
 
+import config.clsBWProperties;
+
 import pa.clsPsychoAnalysis;
+import statictools.clsGetARSPath;
 
 import nao.body.clsNAOBody;
 
@@ -102,10 +105,28 @@ public class clsNAOMainWithUI extends javax.swing.JFrame implements ActionListen
 	    }
 	    
 	    private void run() {
-			clsNAOBody nao = new clsNAOBody();
-			clsPsychoAnalysis du = new clsPsychoAnalysis("poPrefix", null);
-			//nao.run();
-						
+	    	try{
+	    		
+	    		String oFilename = "";
+	    		oFilename = "testsetup.main.properties"; // no parameters given - used default config			
+	
+				String oPath = "";
+				
+				oPath = clsGetARSPath.getConfigPath();
+		    		
+		    	clsBWProperties oProp = clsBWProperties.readProperties(oPath, oFilename);
+	    	
+		    		
+				clsNAOBody nao = new clsNAOBody();
+				clsPsychoAnalysis du = new clsPsychoAnalysis("", oProp );
+				nao.getBrain().setDecisionUnit(du);
+				
+				//nao.run();
+				
+	    	} catch(Exception e) {
+	    	      System.out.println("Error : " + e);
+	    	      System.exit(0);
+	    	    }
 		}
 		
 }//end class clsNAOMainWithUI

@@ -264,16 +264,7 @@ public class clsExternalIO extends clsBaseIO {
 //					 * */
 //					if(eType.name().equals(eSensorExtType.ACCELERATION.name())) sensorExt=new clsSensorAcceleration(tmp_pre, poProp, this); 
 //					if(eType.name().equals(eSensorExtType.BUMP.name()))sensorExt=new clsSensorBump(tmp_pre, poProp, this);
-//					if(eType.name().equals(eSensorExtType.VISION_NEAR.name()))sensorExt=new clsSensorVision(tmp_pre, poProp, this);
-//					if(eType.name().equals(eSensorExtType.VISION_MEDIUM.name()))sensorExt=new clsSensorVision(tmp_pre, poProp, this);
-//					if(eType.name().equals(eSensorExtType.VISION_FAR.name()))sensorExt=new clsSensorVision(tmp_pre, poProp, this);
-//					if(eType.name().equals(eSensorExtType.VISION.name()))sensorExt=new clsSensorVision(tmp_pre, poProp, this); 
-//					if(eType.name().equals(eSensorExtType.RADIATION.name()))sensorExt=new clsSensorRadiation(tmp_pre, poProp, this); 
-//					if(eType.name().equals(eSensorExtType.EATABLE_AREA.name()))sensorExt=new clsSensorEatableArea(tmp_pre, poProp, this); 
-//					if(eType.name().equals(eSensorExtType.MANIPULATE_AREA.name()))sensorExt=new clsSensorManipulateArea(tmp_pre, poProp, this); 
-//					if(eType.name().equals(eSensorExtType.POSITIONCHANGE.name()))sensorExt=new clsSensorPositionChange(tmp_pre, poProp, this); 
-//					
-//					
+					
 //					moSensorEngine.registerSensor(eType, sensorExt);
 //			}
 //		}		

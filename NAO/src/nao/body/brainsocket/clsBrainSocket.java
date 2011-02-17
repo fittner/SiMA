@@ -75,24 +75,11 @@ public class clsBrainSocket implements itfStepProcessing {
 		//ZEILINGER - Integration of the Sensor Engine
 //		oData.addSensorExt(eSensorExtType.BUMP, convertBumpSensor() );
 //		oData.addSensorExt(eSensorExtType.POSITIONCHANGE, convertPositionChangeSensor(eSensorExtType.POSITIONCHANGE) );
-//		oData.addSensorExt(eSensorExtType.RADIATION, convertRadiationSensor() );
+
 //		//HZ VISION Sensor is required for lynx and hares setup; 
 //		oData.addSensorExt(eSensorExtType.VISION, convertVisionSensor(eSensorExtType.VISION) );
 //		oData.addSensorExt(eSensorExtType.VISION_NEAR, convertVisionSensor(eSensorExtType.VISION_NEAR) );
-//		oData.addSensorExt(eSensorExtType.VISION_MEDIUM, convertVisionSensor(eSensorExtType.VISION_MEDIUM) );
-//		oData.addSensorExt(eSensorExtType.VISION_FAR, convertVisionSensor(eSensorExtType.VISION_FAR) );
-//		oData.addSensorExt(eSensorExtType.EATABLE_AREA, convertEatAbleAreaSensor(eSensorExtType.EATABLE_AREA) );
-//		oData.addSensorExt(eSensorExtType.MANIPULATE_AREA, convertManipulateSensor(eSensorExtType.MANIPULATE_AREA) );
-//		//ad homeostasis sensor data
-//		oData.addSensorInt(eSensorIntType.ENERGY_CONSUMPTION, convertEnergySystem() );
-//		oData.addSensorInt(eSensorIntType.HEALTH, convertHealthSystem() );
-//		oData.addSensorInt(eSensorIntType.STAMINA, convertStaminaSystem() );
-//		oData.addSensorInt(eSensorIntType.ENERGY, convertStomachSystem_Energy() );
-//		oData.addSensorInt(eSensorIntType.STOMACHTENSION, convertStomachSystem_Tension() );
-//		oData.addSensorInt(eSensorIntType.TEMPERATURE, convertTemperatureSystem() );
-//		oData.addSensorInt(eSensorIntType.FASTMESSENGER, convertFastMessengerSystem() );
-//		oData.addSensorInt(eSensorIntType.SLOWMESSENGER, convertSlowMessengerSystem() );
-		
+	
 		return oData;
 	}
 

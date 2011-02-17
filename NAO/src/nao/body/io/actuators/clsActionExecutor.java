@@ -9,14 +9,6 @@
 package nao.body.io.actuators;
 
 import java.util.ArrayList;
-
-import config.clsBWProperties;
-
-
-import nao.body.clsNAOBody;
-
-
-import du.enums.eSensorExtType;
 import du.itf.actions.clsActionCommand;
 
 
@@ -30,9 +22,6 @@ import du.itf.actions.clsActionCommand;
  * 
  */
 public abstract class clsActionExecutor  {
-	public static final String P_ENERGYRELATION = "energyrelation";
-	
-	protected double srEnergyRelation;		//Relation energy to stamina
 	
 	/**
 	 * DOCUMENT (deutsch) - insert description 
@@ -48,23 +37,6 @@ public abstract class clsActionExecutor  {
 //		applyProperties(poPrefix, poProp);
 	}
 	
-
-//	public static clsBWProperties getDefaultProperties(String poPrefix) {
-//		String pre = clsBWProperties.addDot(poPrefix);
-//		
-////		clsBWProperties oProp = clsSensorActuatorBaseExt.getDefaultProperties(pre);
-//
-//		oProp.setProperty(pre+P_ENERGYRELATION, 0.01);
-//		
-//		return oProp;
-//	}	
-
-//	private void applyProperties(String poPrefix, clsBWProperties poProp) {
-//		String pre = clsBWProperties.addDot(poPrefix);
-//		
-//		srEnergyRelation = poProp.getPropertyDouble(pre+P_ENERGYRELATION);
-//	}
-
 	
 //	@Override
 //	protected abstract void setBodyPartId();
@@ -83,19 +55,6 @@ public abstract class clsActionExecutor  {
 		return new ArrayList<Class<?>>(); 
 	}
 
-	/*
-	 * Get the amount of stamina needed per round to perform the action. Even 
-	 * if the action can not be performed this amount of stamina will be consumed.
-	 */
-	public abstract double getStaminaDemand(clsActionCommand poCommand);
-	
-	/*
-	 * Get the amount of energy needed per round to perform the action. Even 
-	 * if the action can not be performed this amount of energy will be consumed.
-	 */
-	public double getEnergyDemand(clsActionCommand poCommand) {
-		return getStaminaDemand(poCommand)*srEnergyRelation;
-	}
 
 	/*
 	 * Check if the entity is in a state where the action can be performed, 
@@ -110,78 +69,8 @@ public abstract class clsActionExecutor  {
 		
 	}
 
-
 	protected void setName() {
 		// TODO Auto-generated method stub
 		
 	} 
-
-	/*
-	 * Support function for finding an entity in a given Range (Self-Referenced passed so entities own body can be ignored)
-	 */
-//	protected clsEntity findSingleEntityInRange(clsEntity poSelfReference, clsComplexBody poBody, eSensorExtType peSensor, Class<?> poInterface) {
-//
-//		ArrayList<clsCollidingObject> oSearch=null;
-//		if (peSensor== eSensorExtType.EATABLE_AREA) oSearch = ((clsSensorEatableArea) poBody.getExternalIO().moSensorEngine.getMeRegisteredSensors().get(peSensor)).getSensorData();
-//		if (peSensor== eSensorExtType.MANIPULATE_AREA) oSearch = ((clsSensorManipulateArea) poBody.getExternalIO().moSensorEngine.getMeRegisteredSensors().get(peSensor)).getSensorData();
-//		if (peSensor== eSensorExtType.VISION) oSearch = ((clsSensorVision) poBody.getExternalIO().moSensorEngine.getMeRegisteredSensors().get(peSensor)).getSensorData();
-//		if (oSearch==null) return null;
-//		
-//		clsEntity oEntity=null;
-//
-//		for(int i=0; i<oSearch.size(); i++){
-//			PhysicalObject2D poIntObject = oSearch.get(i).moCollider; 
-//
-//			clsEntity oIntEntity=null;
-//			if (poIntObject instanceof clsMobileObject2D) {
-//				oIntEntity = ((clsMobileObject2D) poIntObject).getEntity();
-//			} else if (poIntObject instanceof clsStationaryObject2D) {
-//				oIntEntity = ((clsStationaryObject2D) poIntObject).getEntity();
-//			}
-//			
-//			if (oIntEntity !=null && oIntEntity != poSelfReference) {
-//				if (poInterface.isAssignableFrom(oIntEntity.getClass())  ) {
-//					if (oEntity !=null) return null;
-//					oEntity=oIntEntity;
-//				}
-//			}
-//		}
-//
-//		return oEntity;
-//	}
-
-	/*
-	 * Support function for finding an entity in a given Range
-	 */
-//	protected clsEntity findNamedEntityInRange(String EntityID, clsComplexBody poBody, eSensorExtType peSensor, Class<?> poInterface) {
-//
-//		ArrayList<clsCollidingObject> oSearch=null;
-//		if (peSensor== eSensorExtType.EATABLE_AREA) oSearch = ((clsSensorEatableArea) poBody.getExternalIO().moSensorEngine.getMeRegisteredSensors().get(peSensor)).getSensorData();
-//		if (peSensor== eSensorExtType.VISION) oSearch = ((clsSensorVision) poBody.getExternalIO().moSensorEngine.getMeRegisteredSensors().get(peSensor)).getSensorData();
-//		if (oSearch==null) return null;
-//		
-//		clsEntity oEntity=null;
-//
-//		for(int i=0; i<oSearch.size(); i++){
-//			clsCollidingObject poObject = oSearch.get(i);
-//			PhysicalObject2D poIntObject = poObject.moCollider; 
-//
-//			clsEntity oIntEntity=null;
-//			if (poIntObject instanceof clsMobileObject2D) {
-//				oIntEntity = ((clsMobileObject2D) poIntObject).getEntity();
-//			} else if (poIntObject instanceof clsStationaryObject2D) {
-//				oIntEntity = ((clsStationaryObject2D) poIntObject).getEntity();
-//			}
-//			
-//			if (oIntEntity !=null) {
-//				if (poInterface.isAssignableFrom(oIntEntity.getClass()) && oIntEntity.getId()==EntityID  ) {
-//					if (oEntity !=null) return null;
-//					oEntity=oIntEntity;
-//				}
-//			}
-//		}
-//
-//		return oEntity;
-//	}
-
 }
