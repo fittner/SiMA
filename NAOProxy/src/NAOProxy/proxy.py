@@ -1,0 +1,21 @@
+from naoqi import ALProxy
+import config
+
+def loadMotionProxy():
+    return loadProxy("ALMotion")
+
+def loadProxy(pName):
+    PORT = config.PORTNAO
+    IP = config.URLNAO
+    if (IP == ""):
+        print "IP address not defined, aborting"
+        print "Please define it in " + __file__
+        exit(1)
+    print "---------------------"
+    print "Loading proxy"
+    print "---------------------"
+    proxy = ALProxy(pName, IP, PORT)
+    print "---------------------"
+    print "Starting " + pName + " Tests"
+    print "---------------------"
+    return proxy
