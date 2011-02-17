@@ -17,8 +17,8 @@ public class clsNAORun implements Runnable{
 	    		oFilename = "testsetup.main.properties"; // no parameters given - used default config			
 				String oPath = "";
 				oPath = clsGetARSPath.getConfigPath();
-				String URL = "127.0.0.1";
-		    	int port = 9669;
+				String URL = "128.131.80.227";
+		    	int port = 9559;
 		    	
 		    	clsBWProperties oProp = pa.clsPsychoAnalysis.getDefaultProperties("");
 		    	//clsBWProperties oProp = clsBWProperties.readProperties(oPath, oFilename);
