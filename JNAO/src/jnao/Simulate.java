@@ -19,7 +19,7 @@ public class Simulate {
 	}
 	
 	private static void testCommands(NAOBody nao) throws Exception {
-		int wait = 2000;
+		int wait = 1000;
 		System.out.println("testCommands ...");
 		
 		com(nao, CommandGenerator.halt());	Thread.sleep(wait);
@@ -30,6 +30,8 @@ public class Simulate {
 		com(nao, CommandGenerator.move(1.0, true));	Thread.sleep(wait);
 		com(nao, CommandGenerator.halt());	Thread.sleep(wait);
 		com(nao, CommandGenerator.move(1.0, false));	Thread.sleep(wait);
+		com(nao, CommandGenerator.halt());	Thread.sleep(wait);
+		com(nao, CommandGenerator.sendmessage("juhuu!"));	Thread.sleep(wait);
 		com(nao, CommandGenerator.halt());	Thread.sleep(wait);
 		
 		System.out.println("... done");
