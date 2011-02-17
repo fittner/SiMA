@@ -1,3 +1,4 @@
+package jnao;
 
 public enum eSensors {
 	VISION(0),
