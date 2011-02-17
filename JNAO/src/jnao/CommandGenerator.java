@@ -52,6 +52,11 @@ public class CommandGenerator {
 		return c;
 	}	
 	
+	public static Command sendmessage() {
+		Command c = new Command(eCommands.SENDMESSAGE);
+		return c;
+	}
+	
 	public static Command getRandom() throws Exception {
 		Command result;
 		double force;

@@ -6,6 +6,7 @@ public enum eCommands {
 	HALT(2),
 	INITPOSE(3),
 	STIFFNESS(4),
+	SENDMESSAGE(5),
 	UNKOWN(999);
 	
 	public final int id;
