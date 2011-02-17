@@ -14,11 +14,15 @@ import java.awt.event.ActionListener;
 import javax.swing.*;
 
 import config.clsBWProperties;
+import decisionunit.clsDecisionUnitFactory;
+import du.itf.itfDecisionUnit;
+import du.itf.actions.itfActionProcessor;
 
 import pa.clsPsychoAnalysis;
 import statictools.clsGetARSPath;
 
 import nao.body.clsNAOBody;
+import nao.body.io.actuators.clsActionProcessor;
 
 
 
@@ -114,20 +118,47 @@ public class clsNAOMainWithUI extends javax.swing.JFrame implements ActionListen
 				
 				oPath = clsGetARSPath.getConfigPath();
 		    		
-		    	clsBWProperties oProp = clsBWProperties.readProperties(oPath, oFilename);
-	    	
+		    	
+		    	
+		    	clsBWProperties oProp = pa.clsPsychoAnalysis.getDefaultProperties("");
+		    	//clsBWProperties oProp = clsBWProperties.readProperties(oPath, oFilename);
+		    	itfDecisionUnit oDU = new pa.clsPsychoAnalysis("", oProp);
+		    	
+		    	clsActionProcessor oActionProcessor = new clsActionProcessor();
+		    	oDU.setActionProcessor(oActionProcessor);
 		    		
 				clsNAOBody nao = new clsNAOBody();
-				clsPsychoAnalysis du = new clsPsychoAnalysis("", oProp );
-				nao.getBrain().setDecisionUnit(du);
 				
-				//nao.run();
+				nao.getBrain().setDecisionUnit(oDU);
 				
+				 while(true)
+		            {
+					 nao.stepProcessing();
+		            }
+
+				 
 	    	} catch(Exception e) {
-	    	      System.out.println("Error : " + e);
-	    	      System.exit(0);
+	    		getCustomStackTrace(e);
+	    	      //System.out.println("Error : " + e + " " +  e.getStackTrace());
+	    	      System.exit(0);	    	      
 	    	    }
 		}
+	    
+	    public static String getCustomStackTrace(Throwable aThrowable) {
+	        //add the class name and any message passed to constructor
+	        final StringBuilder result = new StringBuilder( "BOO-BOO: " );
+	        result.append(aThrowable.toString());
+	        final String NEW_LINE = System.getProperty("line.separator");
+	        result.append(NEW_LINE);
+
+	        //add each element of the stack trace
+	        for (StackTraceElement element : aThrowable.getStackTrace() ){
+	          result.append( element );
+	          result.append( NEW_LINE );
+	        }
+	        return result.toString();
+	      }
+
 		
 }//end class clsNAOMainWithUI
 
