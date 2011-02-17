@@ -8,6 +8,7 @@ from NAOProxy.cmd.stiffness import stiffness
 from NAOProxy.cmd.initpose import initpose
 from NAOProxy.proxy import loadMotionProxy
 from NAOProxy.cmd.eCommands import Commands
+from NAOProxy.proxy import proxiesContainer
 
 import config
 import sys
@@ -36,7 +37,7 @@ def read_line(s):     # read from socket until new line or NULL is read;
     return ret
 
 # ------------------------------------------------------------------------
-def process_msg(motionproxy, msg):     #split the received msg into command id and params
+def process_msg(proxies, msg):     #split the received msg into command id and params
     data = msg.split(';')
     id = data[0]
     cmd = Commands.UNKOWN
@@ -59,7 +60,7 @@ def process_msg(motionproxy, msg):     #split the received msg into command id a
     else:
         print 'UNKNOWN COMMAND ', id
     
-    process(motionproxy, cmd, data[1:]) 
+    process(proxies, cmd, data[1:]) 
     return
 
 # ------------------------------------------------------------------------
@@ -92,7 +93,7 @@ def disconnectNao(motionproxy):
     
 # ------------------------------------------------------------------------
 # main program
-motionproxy = connectNao()
+proxies = proxiesContainer()
 s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 s.bind((HOST, PORT))
 s.listen(1)
@@ -103,8 +104,8 @@ while 1:
     while 1:
         data = read_line(conn)
         if not data: break
-        process_msg(motionproxy, data)
+        process_msg(proxies, data)
         conn.send( generate_sensordata() )
     conn.close()
     print 'Closed server at port ',PORT 
-    process(motionproxy, Commands.HALT, []) 
+    process(proxies.motion, Commands.HALT, []) 

@@ -4,6 +4,9 @@ import config
 def loadMotionProxy():
     return loadProxy("ALMotion")
 
+def loadSpeechProxy():
+    return loadProxy("ALTextToSpeech")
+
 def loadProxy(pName):
     PORT = config.PORTNAO
     IP = config.URLNAO
@@ -19,3 +22,9 @@ def loadProxy(pName):
     print "Starting " + pName + " Tests"
     print "---------------------"
     return proxy
+
+class proxiesContainer:
+    def __init__(self):
+        self.motion = loadProxy("ALMotion")
+        self.speech = loadProxy("ALTextToSpeech")
+        

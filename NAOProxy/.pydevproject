@@ -8,6 +8,6 @@
 <path>/NAOProxy/src</path>
 </pydev_pathproperty>
 <pydev_pathproperty name="org.python.pydev.PROJECT_EXTERNAL_SOURCE_PATH">
-<path>/home/nao/opt/v.1.8.16_robocup/lib</path>
+<path>C:\Program Files (x86)\Aldebaran\naoqi-sdk\lib</path>
 </pydev_pathproperty>
 </pydev_project>
