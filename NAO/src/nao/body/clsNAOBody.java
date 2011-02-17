@@ -2,6 +2,13 @@ package nao.body;
 
 
 
+import jnao.Command;
+import jnao.Sensor;
+import jnao.TCPClient;
+
+import java.util.Arrays;
+import java.util.Vector;
+
 import nao.body.io.clsExternalIO;
 import nao.utils.enums.eBodyType;
 import nao.body.brainsocket.clsBrainSocket;
@@ -13,9 +20,12 @@ public class clsNAOBody extends clsBaseBody implements  itfGetBrain {
 	
 	protected clsBrainSocket moBrain;
     protected clsExternalIO  moExternalIO;
+    private TCPClient client;
 	
-	public clsNAOBody() {
+	public clsNAOBody(String URL, int port) throws Exception {
 		super();
+		
+		client = new TCPClient(URL, port);
 		
 //		moInternalSystem 		= new clsInternalSystem(pre+P_INTERNAL, poProp);
 //		moIntraBodySystem 		= new clsIntraBodySystem(pre+P_INTRABODY, poProp, moInternalSystem, poEntity);
@@ -64,5 +74,40 @@ public class clsNAOBody extends clsBaseBody implements  itfGetBrain {
 		meBodyType = eBodyType.NAO;		
 		
 	}	
+	
+	//nao tcp comm...
+	
+	private Vector<Sensor> splitReturnMsg(String msg) {
+		Vector<Sensor> sensors= new Vector<Sensor>();
+		
+		if (msg!=null && msg.length() > 0) {
+			String[] temp = msg.split(Sensor.outerdelimiter);
+	
+			Vector<String> smsg = new Vector<String>(Arrays.asList(temp));
+			for (String s:smsg) {
+				Sensor sensor = Sensor.stringToSensor(s);
+				sensors.add(sensor);
+			}
+		}
+		
+		return sensors;
+	}
+
+	
+	
+	public Vector<Sensor> communicate(Command cmd) throws Exception {
+		client.send(cmd.toMsg());
+		
+		String received = client.recieve();
+		
+		Vector<Sensor> sensordata = splitReturnMsg(received);
+		
+		return sensordata;
+	}
+
+	
+	public void close() throws Exception  {
+		client.close();
+	}
 
 }

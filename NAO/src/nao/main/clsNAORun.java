@@ -16,6 +16,8 @@ public class clsNAORun implements Runnable{
 	    		oFilename = "testsetup.main.properties"; // no parameters given - used default config			
 				String oPath = "";
 				oPath = clsGetARSPath.getConfigPath();
+				String URL = "";
+		    	int port = 6666;
 		    	
 		    	clsBWProperties oProp = pa.clsPsychoAnalysis.getDefaultProperties("");
 		    	//clsBWProperties oProp = clsBWProperties.readProperties(oPath, oFilename);
@@ -23,8 +25,8 @@ public class clsNAORun implements Runnable{
 		    	
 		    	clsActionProcessor oActionProcessor = new clsActionProcessor();
 		    	oDU.setActionProcessor(oActionProcessor);
-		    		
-				clsNAOBody nao = new clsNAOBody();
+		    	
+				clsNAOBody nao = new clsNAOBody(URL, port);
 				
 				nao.getBrain().setDecisionUnit(oDU);
 				int oStep = 0;
