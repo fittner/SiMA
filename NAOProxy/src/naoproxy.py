@@ -57,6 +57,9 @@ def process_msg(proxies, msg):     #split the received msg into command id and p
     elif id == '4':
         cmd = Commands.STIFFNESS         
         print 'STIFFNESS ', data[1:]
+    elif id == '5':
+        cmd = Commands.SENDMESSAGE
+        print 'SENDMESSAGE ', data[1:]
     else:
         print 'UNKNOWN COMMAND ', id
 
