@@ -11,6 +11,8 @@ package nao.body.io.actuators.actionExecutors;
 import config.clsBWProperties;
 import java.util.ArrayList;
 
+import jnao.CommandGenerator;
+
 import nao.body.io.actuators.clsActionExecutor;
 
 import du.enums.eActionTurnDirection;
@@ -61,8 +63,26 @@ public class clsNAOExecutorTurn extends clsActionExecutor{
 	@Override
 	public boolean execute(clsActionCommand poCommand) {
 		clsActionTurn oCommand = (clsActionTurn) poCommand;
-//    	if (oCommand.getDirection()==eActionTurnDirection.TURN_LEFT) ((clsMobile)moEntity).getMobileObject2D().moMotionPlatform.faceTowardsRelative(new Angle(oCommand.getAngle()/360*Math.PI*(-1.0)));
-//    	if (oCommand.getDirection()==eActionTurnDirection.TURN_RIGHT) ((clsMobile)moEntity).getMobileObject2D().moMotionPlatform.faceTowardsRelative(new Angle(oCommand.getAngle()/360*Math.PI));
+    	if (oCommand.getDirection()==eActionTurnDirection.TURN_LEFT)
+    	{
+			try {
+				CommandGenerator.turn(1.0);
+			} catch (Exception e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+    	}
+
+    	if (oCommand.getDirection()==eActionTurnDirection.TURN_RIGHT)
+    	{
+			try {
+				CommandGenerator.turn(-1.0);
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+    	}
+		
     	return true;
 	}	
 }

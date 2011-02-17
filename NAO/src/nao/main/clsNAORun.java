@@ -8,6 +8,7 @@ import du.itf.itfDecisionUnit;
 
 public class clsNAORun implements Runnable{
 
+	clsNAOBody nao;
 	
 	 public void run() {
 	    	try{
@@ -16,8 +17,8 @@ public class clsNAORun implements Runnable{
 	    		oFilename = "testsetup.main.properties"; // no parameters given - used default config			
 				String oPath = "";
 				oPath = clsGetARSPath.getConfigPath();
-				String URL = "";
-		    	int port = 6666;
+				String URL = "127.0.0.1";
+		    	int port = 9669;
 		    	
 		    	clsBWProperties oProp = pa.clsPsychoAnalysis.getDefaultProperties("");
 		    	//clsBWProperties oProp = clsBWProperties.readProperties(oPath, oFilename);
@@ -26,7 +27,7 @@ public class clsNAORun implements Runnable{
 		    	clsActionProcessor oActionProcessor = new clsActionProcessor();
 		    	oDU.setActionProcessor(oActionProcessor);
 		    	
-				clsNAOBody nao = new clsNAOBody(URL, port);
+				 nao = new clsNAOBody(URL, port);
 				
 				nao.getBrain().setDecisionUnit(oDU);
 				int oStep = 0;
@@ -44,6 +45,16 @@ public class clsNAORun implements Runnable{
 	    		System.out.println(getCustomStackTrace(e));
 	    	      //System.out.println("Error : " + e + " " +  e.getStackTrace());
 	    	      System.exit(0);	    	      
+	    	}
+	    	finally{
+	    		
+	    		try {
+	    			
+					nao.close();
+					
+				} catch (Exception e) {
+					System.out.println(getCustomStackTrace(e));
+				}
 	    	}
 		}
 	    
