@@ -43,6 +43,10 @@ public class clsNAOMainWithUI extends javax.swing.JFrame implements ActionListen
 	private static JButton moCancelButton = null;
 	private static JButton moRunButton = null;
 	private static JFrame moMainFrame = null;
+	private static JLabel moStatusLabel = null;
+	
+	Thread clsNAOThread; 
+	
 	
 	public static void main(String[] args){
 		new clsNAOMainWithUI();
@@ -59,8 +63,8 @@ public class clsNAOMainWithUI extends javax.swing.JFrame implements ActionListen
 	    content.setLayout(new FlowLayout()); 
 	    
 	    //add the freakin buttons
-	    moCancelButton =  new JButton("CANCEL");
-	    moCancelButton.setActionCommand("cancel");
+	    moCancelButton =  new JButton("Stop");
+	    moCancelButton.setActionCommand("stop");
 	    moCancelButton.addActionListener(this);
 	    content.add(moCancelButton);
 	    
@@ -69,19 +73,25 @@ public class clsNAOMainWithUI extends javax.swing.JFrame implements ActionListen
 	    moRunButton.addActionListener(this);
 	    content.add(moRunButton);
 	    
+	    
+	    moStatusLabel = new JLabel("noop");
+	    content.add(moStatusLabel);
+	    
 	    moMainFrame.addWindowListener(new clsExitListener());
 	    moMainFrame.setVisible(true);
 	 }
 	
 	 public void actionPerformed(ActionEvent event) {
 		 
-		 if ("cancel".equals(event.getActionCommand())) {
-			 	moMainFrame.setName("closing...");
-			 	System.exit(0);
+		 if ("stop".equals(event.getActionCommand())) {
+			 	moStatusLabel.setText("stopping...");
+			 	clsSingletonNAOState.setKeeprunning(false);
+			 	moStatusLabel.setText("stopped.");
 			}
 			else if ("run".equals(event.getActionCommand())) {
-				moMainFrame.setName("ARS vs. NAO - running...");
-				run();
+				moStatusLabel.setText("running...");
+				clsSingletonNAOState.setKeeprunning(true);
+				start();
 			}
 			else {
 				//noop
@@ -108,45 +118,24 @@ public class clsNAOMainWithUI extends javax.swing.JFrame implements ActionListen
 	    	return false;
 	    }
 	    
-	    private void run() {
+	    private void start() {
 	    	try{
 	    		
-	    		String oFilename = "";
-	    		oFilename = "testsetup.main.properties"; // no parameters given - used default config			
-	
-				String oPath = "";
-				
-				oPath = clsGetARSPath.getConfigPath();
-		    		
-		    	
-		    	
-		    	clsBWProperties oProp = pa.clsPsychoAnalysis.getDefaultProperties("");
-		    	//clsBWProperties oProp = clsBWProperties.readProperties(oPath, oFilename);
-		    	itfDecisionUnit oDU = new pa.clsPsychoAnalysis("", oProp);
-		    	
-		    	clsActionProcessor oActionProcessor = new clsActionProcessor();
-		    	oDU.setActionProcessor(oActionProcessor);
-		    		
-				clsNAOBody nao = new clsNAOBody();
-				
-				nao.getBrain().setDecisionUnit(oDU);
-				
-				 while(true)
-		            {
-					 nao.stepProcessing();
-		            }
+	    		clsNAORun oNAORun= new clsNAORun();
+	    		clsNAOThread = new Thread( oNAORun );
+	    		clsNAOThread.start();
 
-				 
 	    	} catch(Exception e) {
-	    		getCustomStackTrace(e);
+	    		System.out.println(getCustomStackTrace(e));
 	    	      //System.out.println("Error : " + e + " " +  e.getStackTrace());
 	    	      System.exit(0);	    	      
-	    	    }
+	    	}
 		}
+	    
 	    
 	    public static String getCustomStackTrace(Throwable aThrowable) {
 	        //add the class name and any message passed to constructor
-	        final StringBuilder result = new StringBuilder( "BOO-BOO: " );
+	        final StringBuilder result = new StringBuilder( "ARS-EX: " );
 	        result.append(aThrowable.toString());
 	        final String NEW_LINE = System.getProperty("line.separator");
 	        result.append(NEW_LINE);
