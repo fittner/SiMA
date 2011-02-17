@@ -275,6 +275,8 @@ public class clsExternalIO extends clsBaseIO {
 
 		//test nao
 		moProcessor.addCommand(clsActionMove.class, new clsNAOExecutorMove());
+		moProcessor.addCommand(clsActionTurn.class, new clsNAOExecutorTurn());
+		moProcessor.addCommand(clsActionSendMessage.class, new clsNAOExecutorSendMessage());
 		
 //		//Register actionexecutors
 //		if (poProp.getPropertyInt( pre+P_ACTIONAVAILABLE	+"."+bw.utils.enums.eBodyParts.ACTIONEX_DROP)==1) moProcessor.addCommand(clsActionMove.class, new clsExecutorMove(poPrefix+"." + P_ACTIONEX	+"."+bw.utils.enums.eBodyParts.ACTIONEX_MOVE,poProp,moEntity));
