@@ -1,6 +1,6 @@
 import math
 
-def turn(motionproxy, turn):
+def turn(proxies, turn):
     #TARGET VELOCITY
     X = 0.0 
     Y = 0.0
@@ -11,4 +11,4 @@ def turn(motionproxy, turn):
     speed = math.fabs(turn)
     assert 0.0 <= speed and speed <= 1.0
     Frequency = speed #max speed
-    motionproxy.setWalkTargetVelocity(X, Y, Theta, Frequency)
+    proxies.motion.setWalkTargetVelocity(X, Y, Theta, Frequency)

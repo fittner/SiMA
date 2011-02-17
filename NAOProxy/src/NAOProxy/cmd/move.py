@@ -1,4 +1,4 @@
-def move(motionproxy, forward, speed):
+def move(proxies, forward, speed):
     #TARGET VELOCITY
     if (forward):
         X = 1.0  #forward
@@ -8,4 +8,4 @@ def move(motionproxy, forward, speed):
     Theta = 0.0
     assert 0.0 <= speed and speed <= 1.0
     Frequency = speed #max speed
-    motionproxy.setWalkTargetVelocity(X, Y, Theta, Frequency)
+    proxies.motion.setWalkTargetVelocity(X, Y, Theta, Frequency)

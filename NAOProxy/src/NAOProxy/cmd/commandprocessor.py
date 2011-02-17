@@ -5,26 +5,31 @@ from initpose import initpose
 from move import move
 from turn import turn
 from stiffness import stiffness
+from say import say
 
 def process(proxies, cmd, params):
     if cmd == Commands.HALT:
         halt(proxies.motion)
         
     elif cmd == Commands.INITPOSE:
-        initpose(proxies.motion)
+        initpose(proxies)
         
     elif cmd == Commands.MOVE:
         speed = normalize( params[0] )
         forward = toBoolean( params[1] )
-        move(proxies.motion, forward, speed)
+        move(proxies, forward, speed)
         
     elif cmd == Commands.STIFFNESS:
         on = toBoolean( params[0] )
-        stiffness(proxies.motion, on)
+        stiffness(proxies, on)
         
     elif cmd == Commands.TURN:
         turnforce = normalize( params[0] )
-        turn(proxies.motion, turnforce)
+        turn(proxies, turnforce)
+        
+    elif cmd == Commands.SENDMESSAGE:
+        text = params[0]
+        say(proxies, text)
         
     else:
         print 'unkown command '+cmd

@@ -27,6 +27,8 @@ class proxiesContainer:
     def __init__(self):
         self.motion = loadProxy("ALMotion")
         
+        self.speech = []
+        
         try:
             self.speech = loadProxy("ALTextToSpeech")
             self._ALTextToSpeech = True

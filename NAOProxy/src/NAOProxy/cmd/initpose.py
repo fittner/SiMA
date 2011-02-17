@@ -1,13 +1,13 @@
 from motion import TO_RAD
 
-def initpose(motionproxy):
+def initpose(proxies):
     # Feel free to experiment with these values
     kneeAngle  = 40
     torsoAngle =  0
     wideAngle  =  0
     #----------------------------- prepare the angles ----------------------------
     #Get the Number of Joints
-    NumJoints = len(motionproxy.getJointNames("Body"))
+    NumJoints = len(proxies.motion.getJointNames("Body"))
 
     # Define The Initial Position
     Head     = [0, 0]
@@ -33,4 +33,4 @@ def initpose(motionproxy):
     #We set the fraction of max speed
     pMaxSpeedFraction = 0.2
     #Ask motion to do this with a blocking call
-    motionproxy.angleInterpolationWithSpeed(pNames, pTargetAngles, pMaxSpeedFraction)
+    proxies.motion.angleInterpolationWithSpeed(pNames, pTargetAngles, pMaxSpeedFraction)
