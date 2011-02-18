@@ -6,8 +6,11 @@ public enum eCommands {
 	HALT(2),
 	INITPOSE(3),
 	STIFFNESS(4),
-	SENDMESSAGE(5),
-	UNKOWN(999);
+	SAY(5),
+    HEADMOVE(6),
+    HEADRESET(7),
+    COWER(8),    
+	UNKNOWN(999);
 	
 	public final int id;
 	eCommands(int id) {
@@ -19,7 +22,7 @@ public enum eCommands {
 	}
 	
 	public static eCommands idToEnum(int id)  {
-		eCommands result = UNKOWN;
+		eCommands result = UNKNOWN;
 		
 		for (eCommands p : eCommands.values()) {
 			if (id == p.id) {

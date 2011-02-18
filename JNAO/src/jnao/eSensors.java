@@ -1,10 +1,15 @@
 package jnao;
 
 public enum eSensors {
-	VISION(0),
-	ODOMETRY(1),
-	DISTANCE(2),
-	UNKOWN(999);
+    BUMP(0),
+    BATTERY(1),
+    TEMPERATURE(2),
+    FSR(3),
+    ODOMETRY(4),
+    SONAR(5),
+    POSITION(6),
+    SENTINEL(7),
+    UNKNOWN(999);
 	
 	public final int id;
 	eSensors(int id) {
@@ -16,7 +21,7 @@ public enum eSensors {
 	}
 	
 	public static eSensors idToEnum(int id)  {
-		eSensors result = UNKOWN;
+		eSensors result = UNKNOWN;
 		
 		for (eSensors p : eSensors.values()) {
 			if (id == p.id) {

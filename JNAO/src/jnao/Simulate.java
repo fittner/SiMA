@@ -31,7 +31,7 @@ public class Simulate {
 		com(nao, CommandGenerator.halt());	Thread.sleep(wait);
 		com(nao, CommandGenerator.move(1.0, false));	Thread.sleep(wait);
 		com(nao, CommandGenerator.halt());	Thread.sleep(wait);
-		com(nao, CommandGenerator.sendmessage("juhuu!"));	Thread.sleep(wait);
+		com(nao, CommandGenerator.say("juhuu!"));	Thread.sleep(wait);
 		com(nao, CommandGenerator.halt());	Thread.sleep(wait);
 		
 		System.out.println("... done");
