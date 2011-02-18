@@ -1,3 +1,5 @@
+import config
+
 def stiffness(proxies, on):
     if on:
         stiffnessOn(proxies)
@@ -14,6 +16,6 @@ def stiffnessOff(proxies):
 def stiffnessOn(proxies):
     #We use the "Body" name to signify the collection of all joints
     pNames = "Body"
-    pStiffnessLists = 1.0
+    pStiffnessLists = config.maxstiffness
     pTimeLists = 1.0
     proxies['motion'].stiffnessInterpolation(pNames, pStiffnessLists, pTimeLists)    

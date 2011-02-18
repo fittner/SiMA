@@ -9,10 +9,12 @@ from NAOProxy.cmd.stiffness import stiffness
 from NAOProxy.cmd.initpose import initpose
 from NAOProxy.cmd.eCommands import Commands
 from NAOProxy.proxy import getProxies
+from NAOProxy.cmd.cower import cower
 
 import config
 import sys
 import socket
+import time
 
 HOST = config.URLPROXY   # Symbolic name meaning the local host
 PORT = config.PORTPROXY  # Arbitrary non-privileged port
@@ -66,6 +68,15 @@ def process_msg(proxies, msg):     #split the received msg into command id and p
     elif id == '5':
         cmd = Commands.SENDMESSAGE
         log_msg( proxies,  'SENDMESSAGE '+data[1:] )
+    elif id == '6':
+        cmd = Commands.HEADMOVE
+        log_msg( proxies,  'HEADMOVE '+data[1:] )
+    elif id == '7':
+        cmd = Commands.HEADRESET
+        log_msg( proxies,  'HEADRESET '+data[1:] )
+    elif id == '8':
+        cmd = Commands.COWER
+        log_msg( proxies,   'COWER '+data[1:] )
     else:
         log_msg( proxies,  'UNKNOWN COMMAND '+ id)
 
@@ -92,7 +103,13 @@ def connectNao():
 # ------------------------------------------------------------------------
 def disconnectNao(proxies):
     print 'Shutting NAO down'
+    print '... sitting down'
+    cower(proxies)
+    print '... waiting for everything to settle'
+    time.sleep(1)
+    print '... turning stiffness off'
     stiffness(proxies, False)
+    
     return
     
 # ------------------------------------------------------------------------

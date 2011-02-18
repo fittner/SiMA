@@ -5,3 +5,4 @@ URLPROXY = ""           #should usually be set to localport - can be left empty.
 outerdelimiter = ";"
 innerdelimiter = ","
 namedelimiter  = ":" 
+maxstiffness = 0.8

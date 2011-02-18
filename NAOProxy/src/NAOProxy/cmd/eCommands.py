@@ -5,4 +5,7 @@ class Commands:
     INITPOSE = 3
     STIFFNESS = 4
     SENDMESSAGE = 5
+    HEADMOVE = 6
+    HEADRESET = 7
+    COWER = 8    
     UNKOWN = 999

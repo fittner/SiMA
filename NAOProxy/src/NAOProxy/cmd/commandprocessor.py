@@ -6,6 +6,9 @@ from move import move
 from turn import turn
 from stiffness import stiffness
 from say import say
+from headmove import headmove
+from headreset import headreset
+from cower import cower
 
 def process(proxies, cmd, params):
     if cmd == Commands.HALT:
@@ -30,6 +33,18 @@ def process(proxies, cmd, params):
     elif cmd == Commands.SENDMESSAGE:
         text = params[0]
         say(proxies, text)
+        
+    elif cmd == Commands.HEADMOVE:
+        yaw = normalize( params[0] )
+        pitch = normalize( params[1] )
+        speed = normalize( params[2] )
+        headmove(proxies, yaw, pitch, speed)
+        
+    elif cmd == Commands.HEADRESET:
+        headreset(proxies)
+        
+    elif cmd == Commands.COWER:
+        cower(proxies)
         
     else:
         print 'unkown command '+cmd

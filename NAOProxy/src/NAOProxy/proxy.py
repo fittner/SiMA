@@ -17,6 +17,7 @@ def loadProxy(pName):
         print "Starting " + pName + " Tests"
         print "---------------------"
     except:
+        proxy = None
         print "====================="
         print "Proxy "+pName+" not available"
         print "====================="
@@ -35,7 +36,14 @@ def loadMemoryProxy():
     return loadProxy("ALMemory")
 
 def loadSonarProxy():
-    return loadProxy("ALSonar")
+    proxy = loadProxy("ALSonar")
+    if proxy != None:
+        proxy.subscribe("NAOProxy") 
+    return proxy
+
+def loadLedProxy():
+    proxy = loadProxy("ALLeds")
+    return proxy
 
 def getProxies():
     print ">>> getproxies"
@@ -44,7 +52,8 @@ def getProxies():
                'motion':loadMotionProxy(), 
                'speech':loadSpeechProxy(),
                'log':loadLogProxy(),
-               'sonar':loadSonarProxy()
+               'sonar':loadSonarProxy(),
+               'led':loadLedProxy()
                }
     print "<<< done get proxies: ", proxies
     
