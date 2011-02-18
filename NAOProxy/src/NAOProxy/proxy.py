@@ -1,12 +1,6 @@
 from naoqi import ALProxy
 import config
 
-def loadMotionProxy():
-    return loadProxy("ALMotion")
-
-def loadSpeechProxy():
-    return loadProxy("ALTextToSpeech")
-
 def loadProxy(pName):
     PORT = config.PORTNAO
     IP = config.URLNAO
@@ -17,23 +11,35 @@ def loadProxy(pName):
     print "---------------------"
     print "Loading proxy"
     print "---------------------"
-    proxy = ALProxy(pName, IP, PORT)
-    print "---------------------"
-    print "Starting " + pName + " Tests"
-    print "---------------------"
+    try:
+        proxy = ALProxy(pName, IP, PORT)
+        print "---------------------"
+        print "Starting " + pName + " Tests"
+        print "---------------------"
+    except:
+        print "====================="
+        print "Proxy "+pName+" not available"
+        print "====================="
     return proxy
 
-def getProxies():
-    print "getproxies"
-    motion = loadMotionProxy()
-    try:
-        speech = loadSpeechProxy()
-    except:
-        print "proxy ALTextToSpeech not found"    
-        speech = None
+def loadMotionProxy():
+    return loadProxy("ALMotion")
 
-    proxies = {'motion':motion, 'speech':speech}
-    print "done get proxies: ", proxies
+def loadSpeechProxy():
+    return loadProxy("ALTextToSpeech")
+
+def loadLogProxy():
+    return loadProxy("ALLogger")
+
+def getProxies():
+    print ">>> getproxies"
+
+    proxies = {'motion':loadMotionProxy(), 
+               'speech':loadSpeechProxy(),
+               'log':loadLogProxy()
+               }
+    print "<<< done get proxies: ", proxies
+    
     return proxies
             
         

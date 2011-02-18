@@ -37,6 +37,12 @@ def read_line(s):     # read from socket until new line or NULL is read;
     return ret
 
 # ------------------------------------------------------------------------
+def log_msg(proxies, msg):
+    print msg
+    proxies['log'].info("naoproxy", msg)
+    return
+
+# ------------------------------------------------------------------------
 def process_msg(proxies, msg):     #split the received msg into command id and params
     data = msg.split(';')
     id = data[0]
@@ -44,24 +50,24 @@ def process_msg(proxies, msg):     #split the received msg into command id and p
     
     if id == '0':
         cmd = Commands.MOVE
-        print 'MOVE ', data[1:]
+        log_msg( proxies, 'MOVE '+data[1:] )
     elif id == '1':
         cmd = Commands.TURN
-        print 'TURN ', data[1:]
+        log_msg( proxies,  'TURN '+data[1:] )
     elif id == '2':
         cmd = Commands.HALT
-        print 'HALT ', data[1:]
+        log_msg( proxies,  'HALT '+data[1:] )
     elif id == '3':
         cmd = Commands.INITPOSE     
-        print 'INITPOSE ', data[1:]
+        log_msg( proxies,  'INITPOSE '+data[1:] )
     elif id == '4':
         cmd = Commands.STIFFNESS         
-        print 'STIFFNESS ', data[1:]
+        log_msg( proxies,  'STIFFNESS '+data[1:] )
     elif id == '5':
         cmd = Commands.SENDMESSAGE
-        print 'SENDMESSAGE ', data[1:]
+        log_msg( proxies,  'SENDMESSAGE '+data[1:] )
     else:
-        print 'UNKNOWN COMMAND ', id
+        log_msg( proxies,  'UNKNOWN COMMAND '+ id)
 
     process(proxies, cmd, data[1:]) 
     return
