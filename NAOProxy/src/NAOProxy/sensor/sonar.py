@@ -1,6 +1,5 @@
 from eSensors import Sensor 
-from getdata import getdata
-from config import innerdelimiter
+from getdata import readmemory3
 
 sensorlist = {"US/Left0":"Device/SubDeviceList/US/Left/Sensor/Value", 
             "US/Left1":"Device/SubDeviceList/US/Left/Sensor/Value1", 
@@ -22,16 +21,19 @@ sensorlist = {"US/Left0":"Device/SubDeviceList/US/Left/Sensor/Value",
             "US/Right6":"Device/SubDeviceList/US/Right/Sensor/Value6", 
             "US/Right7":"Device/SubDeviceList/US/Right/Sensor/Value7", 
             "US/Right8":"Device/SubDeviceList/US/Right/Sensor/Value8", 
-            "US/Right9":"Device/SubDeviceList/US/Right/Sensor/Value9"}
+            "US/Right9":"Device/SubDeviceList/US/Right/Sensor/Value9",
+            
+            'SonarLeftDetected':'SonarLeftDetected', 
+            'SonarLeftNothingDetected':'SonarLeftNothingDetected', 
+            'SonarMiddleDetected':'SonarMiddleDetected', 
+            'SonarRightDetected':'SonarRightDetected', 
+            'SonarRightNothingDetected':'SonarRightNothingDetected'
+             }
 
 def sonar(proxies):
     """http://academics.aldebaran-robotics.com/docs/site_en/reddoc/hardware/us_sensor.html"""
     
     memory = proxies['memory']
-    
-    data = str(Sensor.SONAR)+innerdelimiter
-    
-    for k,v in sensorlist.iteritems():
-        data += getdata(memory, k, v)
+    data = readmemory3(memory, Sensor.SONAR, sensorlist)
 
     return data[:-1]

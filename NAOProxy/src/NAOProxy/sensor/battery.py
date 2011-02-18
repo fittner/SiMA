@@ -6,5 +6,6 @@ sensorlist = ["Device/SubDeviceList/Battery/Charge/Sensor/Value",
 
 def battery(proxies):
     memory = proxies['memory']
-    return readmemory(memory, Sensor.BATTERY, sensorlist)
+    data = readmemory(memory, Sensor.BATTERY, sensorlist)
+    return data
     

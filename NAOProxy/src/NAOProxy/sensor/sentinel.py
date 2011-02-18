@@ -1,6 +1,5 @@
 from eSensors import Sensor 
-from getdata import getdata
-from config import innerdelimiter
+from getdata import readmemory2
 
 sensorlist = ["ALSentinel/BatteryLevel",
             "ALSentinel/DoubleClickOccured",
@@ -13,9 +12,6 @@ def sentinel(proxies):
     """http://academics.aldebaran-robotics.com/docs/site_en/bluedoc/ALSentinel.html"""
     
     memory = proxies['memory']
-    data = str(Sensor.SENTINEL)+innerdelimiter
+    data = readmemory2(memory, Sensor.SENTINEL, sensorlist)
     
-    for item in sensorlist:
-        data += getdata(memory, item, item)
-
     return data[:-1]    

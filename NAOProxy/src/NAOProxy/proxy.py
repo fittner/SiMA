@@ -34,13 +34,17 @@ def loadLogProxy():
 def loadMemoryProxy():
     return loadProxy("ALMemory")
 
+def loadSonarProxy():
+    return loadProxy("ALSonar")
+
 def getProxies():
     print ">>> getproxies"
 
     proxies = {'memory':loadMemoryProxy(),
                'motion':loadMotionProxy(), 
                'speech':loadSpeechProxy(),
-               'log':loadLogProxy()
+               'log':loadLogProxy(),
+               'sonar':loadSonarProxy()
                }
     print "<<< done get proxies: ", proxies
     
