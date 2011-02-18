@@ -4,9 +4,9 @@ Created on Feb 16, 2011
 @author: nao
 '''
 from NAOProxy.cmd.commandprocessor import process
+from NAOProxy.sensor.sensorprocessor import readsensors
 from NAOProxy.cmd.stiffness import stiffness
 from NAOProxy.cmd.initpose import initpose
-from NAOProxy.proxy import loadMotionProxy
 from NAOProxy.cmd.eCommands import Commands
 from NAOProxy.proxy import getProxies
 
@@ -73,36 +73,31 @@ def process_msg(proxies, msg):     #split the received msg into command id and p
     return
 
 # ------------------------------------------------------------------------
-def generate_sensordata():   # generate valid formed return msg
-    msg = ''
-
-    msg += '0,VISION,nothing to see;'
-    msg += '1,ODOMETRY,not moved at all;'
-    msg += '2,DISTANCE,1,to infinity and beyond;'
-    msg += '2,DISTANCE,0,nothing to measure available;'
-    msg += '\n'
+def generate_sensordata(proxies):   # generate valid formed return msg
+    msg = readsensors(proxies) + "\n"
 
     return msg
 
 # ------------------------------------------------------------------------
 def connectNao():
     print 'Connecting to NAO ('+config.URLNAO+':'+str(config.PORTNAO)+')'
-    motionproxy = loadMotionProxy()
+    proxies = getProxies()
+    motionproxy = proxies['motion']
     print 'Initializing NAO'
     stiffness(motionproxy, True)
     initpose(motionproxy)
     print ' ... NAO up and operational'
-    return motionproxy
+    return proxies
     
 # ------------------------------------------------------------------------
-def disconnectNao(motionproxy):
+def disconnectNao(proxies):
     print 'Shutting NAO down'
-    stiffness(motionproxy, False)
+    stiffness(proxies, False)
     return
     
 # ------------------------------------------------------------------------
 # main program
-proxies = getProxies()
+proxies = connectNao()
 s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 s.bind((HOST, PORT))
 s.listen(1)
@@ -114,7 +109,7 @@ while 1:
         data = read_line(conn)
         if not data: break
         process_msg(proxies, data)
-        conn.send( generate_sensordata() )
+        conn.send( generate_sensordata(proxies) )
     conn.close()
     print 'Closed server at port ',PORT 
-    process(proxies.motion, Commands.HALT, []) 
+    process(proxies, Commands.HALT, []) 

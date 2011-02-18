@@ -31,10 +31,14 @@ def loadSpeechProxy():
 def loadLogProxy():
     return loadProxy("ALLogger")
 
+def loadMemoryProxy():
+    return loadProxy("ALMemory")
+
 def getProxies():
     print ">>> getproxies"
 
-    proxies = {'motion':loadMotionProxy(), 
+    proxies = {'memory':loadMemoryProxy(),
+               'motion':loadMotionProxy(), 
                'speech':loadSpeechProxy(),
                'log':loadLogProxy()
                }
