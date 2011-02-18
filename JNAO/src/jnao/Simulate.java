@@ -31,6 +31,18 @@ public class Simulate {
 		com(nao, CommandGenerator.halt());	Thread.sleep(wait);
 		com(nao, CommandGenerator.move(1.0, false));	Thread.sleep(wait);
 		com(nao, CommandGenerator.halt());	Thread.sleep(wait);
+		com(nao, CommandGenerator.headyaw(-1.0, 1.0));	Thread.sleep(wait);
+		com(nao, CommandGenerator.halt());	Thread.sleep(wait);		
+		com(nao, CommandGenerator.headyaw(1.0, 1.0));	Thread.sleep(wait);
+		com(nao, CommandGenerator.halt());	Thread.sleep(wait);			
+		com(nao, CommandGenerator.headreset());	Thread.sleep(wait);
+		com(nao, CommandGenerator.halt());	Thread.sleep(wait);
+		com(nao, CommandGenerator.headpitch(-1.0, 1.0));	Thread.sleep(wait);
+		com(nao, CommandGenerator.halt());	Thread.sleep(wait);		
+		com(nao, CommandGenerator.headpitch(1.0, 1.0));	Thread.sleep(wait);
+		com(nao, CommandGenerator.halt());	Thread.sleep(wait);	
+		com(nao, CommandGenerator.headreset());	Thread.sleep(wait);
+		com(nao, CommandGenerator.halt());	Thread.sleep(wait);		
 		com(nao, CommandGenerator.say("juhuu!"));	Thread.sleep(wait);
 		com(nao, CommandGenerator.halt());	Thread.sleep(wait);
 		
