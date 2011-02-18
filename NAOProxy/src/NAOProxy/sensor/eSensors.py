@@ -6,5 +6,7 @@ class Sensor:
     ODOMETRY = 4
     SONAR = 5
     POSITION = 6
-    SENTINEL= 7
+    SENTINEL = 7
+    VISION = 8
+    UNKNOWN = 999
     
