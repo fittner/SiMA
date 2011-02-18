@@ -7,6 +7,7 @@ from temperature import temperature
 from position import position
 from battery import battery
 from sentinel import sentinel
+from vision import vision
 
 def readsensors(proxies):
     data = ""
@@ -19,5 +20,6 @@ def readsensors(proxies):
     data += position(proxies) + outerdelimiter
     data += battery(proxies) + outerdelimiter
     data += sentinel(proxies) + outerdelimiter
+    data += vision(proxies) + outerdelimiter
     
     return data[:-1]
