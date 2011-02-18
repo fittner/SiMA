@@ -52,31 +52,31 @@ def process_msg(proxies, msg):     #split the received msg into command id and p
     
     if id == '0':
         cmd = Commands.MOVE
-        log_msg( proxies, 'MOVE '+data[1:] )
+        log_msg( proxies, 'MOVE '+str(data[1:]) )
     elif id == '1':
         cmd = Commands.TURN
-        log_msg( proxies,  'TURN '+data[1:] )
+        log_msg( proxies,  'TURN '+str(data[1:]) )
     elif id == '2':
         cmd = Commands.HALT
-        log_msg( proxies,  'HALT '+data[1:] )
+        log_msg( proxies,  'HALT '+str(data[1:]) )
     elif id == '3':
         cmd = Commands.INITPOSE     
-        log_msg( proxies,  'INITPOSE '+data[1:] )
+        log_msg( proxies,  'INITPOSE '+str(data[1:]) )
     elif id == '4':
         cmd = Commands.STIFFNESS         
-        log_msg( proxies,  'STIFFNESS '+data[1:] )
+        log_msg( proxies,  'STIFFNESS '+str(data[1:]) )
     elif id == '5':
         cmd = Commands.SENDMESSAGE
-        log_msg( proxies,  'SENDMESSAGE '+data[1:] )
+        log_msg( proxies,  'SENDMESSAGE '+str(data[1:]) )
     elif id == '6':
         cmd = Commands.HEADMOVE
-        log_msg( proxies,  'HEADMOVE '+data[1:] )
+        log_msg( proxies,  'HEADMOVE '+str(data[1:]) )
     elif id == '7':
         cmd = Commands.HEADRESET
-        log_msg( proxies,  'HEADRESET '+data[1:] )
+        log_msg( proxies,  'HEADRESET '+str(data[1:]) )
     elif id == '8':
         cmd = Commands.COWER
-        log_msg( proxies,   'COWER '+data[1:] )
+        log_msg( proxies,   'COWER '+str(data[1:]) )
     else:
         log_msg( proxies,  'UNKNOWN COMMAND '+ id)
 
