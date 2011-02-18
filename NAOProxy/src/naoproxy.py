@@ -93,10 +93,9 @@ def generate_sensordata(proxies):   # generate valid formed return msg
 def connectNao():
     print 'Connecting to NAO ('+config.URLNAO+':'+str(config.PORTNAO)+')'
     proxies = getProxies()
-    motionproxy = proxies['motion']
     print 'Initializing NAO'
-    stiffness(motionproxy, True)
-    initpose(motionproxy)
+    stiffness(proxies, True)
+    initpose(proxies)
     print ' ... NAO up and operational'
     return proxies
     
