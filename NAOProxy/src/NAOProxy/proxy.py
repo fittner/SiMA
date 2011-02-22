@@ -38,7 +38,7 @@ def loadMemoryProxy():
 def loadSonarProxy():
     proxy = loadProxy("ALSonar")
     if proxy != None:
-        proxy.subscribe("NAOProxy") 
+        proxy.subscribe("NAOProxy") # subscribe to the ALSonar proxy to start the sonar system. otherweise, always 0 is returned 
     return proxy
 
 def loadLedProxy():
