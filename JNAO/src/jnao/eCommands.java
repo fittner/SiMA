@@ -10,6 +10,8 @@ public enum eCommands {
     HEADMOVE(6),
     HEADRESET(7),
     COWER(8),    
+    RESET(9),
+    CONSUME(10),
 	UNKNOWN(999);
 	
 	public final int id;

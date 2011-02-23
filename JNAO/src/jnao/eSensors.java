@@ -9,6 +9,8 @@ public enum eSensors {
     SONAR(5),
     POSITION(6),
     SENTINEL(7),
+    VISION(8),
+    CONSUMESUCCESS(9),    
     UNKNOWN(999);
 	
 	public final int id;

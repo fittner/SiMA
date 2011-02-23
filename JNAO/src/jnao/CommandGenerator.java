@@ -59,6 +59,18 @@ public class CommandGenerator {
 		return c;
 	}
 	
+	public static Command reset() {
+		Command c = new Command(eCommands.RESET);
+		return c;
+	}
+	
+	public static Command consume(int id) {
+		Command c = new Command(eCommands.CONSUME);
+		c.params.add(""+id);
+		
+		return c;
+	}
+	
 	private static Command headmove(double yaw, double pitch, double speed) throws Exception {
 		// yaw -- head up and down
 		// pitch -- head left and right
@@ -116,7 +128,7 @@ public class CommandGenerator {
 		boolean stiffness;
 		Random rand = new Random();
 		
-		int r = rand.nextInt(7);
+		int r = rand.nextInt(8);
 	   
 		switch (r) {
 			case 0:
@@ -145,16 +157,18 @@ public class CommandGenerator {
 				result = CommandGenerator.headpitch(pitch, force);
 				break;
 			case 6: result = CommandGenerator.headreset(); break;
+			case 7: result = CommandGenerator.consume( rand.nextInt(10) ); break;
 /* COWER, INITPOSE and STIFFNESS are not suitable for a random test run ...
-			case 3: result = CommandGenerator.initpose(); break;
-			case 4:
+			case ?: result = CommandGenerator.initpose(); break;
+			case ?:
 				if (rand.nextInt(2)==0) {
 					stiffness = true;
 				} else {
 					stiffness = false;
 				}
 				result = CommandGenerator.stiffness(stiffness); break;
-			case 7: result = CommandGenerator.cower(); break;
+			case ?: result = CommandGenerator.cower(); break;
+			case ?: result = CommandGenerator.reset(); break;
 */				
 			default:
 				throw new java.lang.Exception("unkown value "+r+" in switch statement");
