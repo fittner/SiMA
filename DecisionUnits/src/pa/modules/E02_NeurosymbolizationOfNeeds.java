@@ -117,18 +117,30 @@ public class E02_NeurosymbolizationOfNeeds extends clsModuleBase implements I1_1
 		moHomeostaticSymbol = new HashMap<String, Double>();
 		
 		clsSlowMessenger oSlowMessengerSystem = (clsSlowMessenger)moHomeostasis.get(eSensorIntType.SLOWMESSENGER);
-		for(  Map.Entry< eSlowMessenger, Double > oSlowMessenger : oSlowMessengerSystem.getSlowMessengerValues().entrySet() ) {
-			moHomeostaticSymbol.put(oSlowMessenger.getKey().name(), oSlowMessenger.getValue());
+		if(oSlowMessengerSystem!=null)
+		{
+			for(  Map.Entry< eSlowMessenger, Double > oSlowMessenger : oSlowMessengerSystem.getSlowMessengerValues().entrySet() ) {
+				moHomeostaticSymbol.put(oSlowMessenger.getKey().name(), oSlowMessenger.getValue());
+			}
 		}
 		
+		
 		clsFastMessenger oFastMessengerSystem = (clsFastMessenger)moHomeostasis.get(eSensorIntType.FASTMESSENGER);
-		for(  clsFastMessengerEntry oFastMessenger : oFastMessengerSystem.getEntries() ) {
-			moHomeostaticSymbol.put(oFastMessenger.getSource().name(), oFastMessenger.getIntensity());
+		if(oFastMessengerSystem!=null)
+		{
+			for(  clsFastMessengerEntry oFastMessenger : oFastMessengerSystem.getEntries() ) {
+				moHomeostaticSymbol.put(oFastMessenger.getSource().name(), oFastMessenger.getIntensity());
+			}
 		}
 	
-		moHomeostaticSymbol.put(eSensorIntType.STOMACHTENSION.name(), ((clsStomachTension)moHomeostasis.get(eSensorIntType.STOMACHTENSION)).getTension() );
-		moHomeostaticSymbol.put(eSensorIntType.HEALTH.name(), ((clsHealthSystem)moHomeostasis.get(eSensorIntType.HEALTH)).getHealthValue() );
-		moHomeostaticSymbol.put(eSensorIntType.STAMINA.name(), ((clsStaminaSystem)moHomeostasis.get(eSensorIntType.STAMINA)).getStaminaValue() );
+		if(moHomeostasis.get(eSensorIntType.STOMACHTENSION)!=null)
+			moHomeostaticSymbol.put(eSensorIntType.STOMACHTENSION.name(), ((clsStomachTension)moHomeostasis.get(eSensorIntType.STOMACHTENSION)).getTension() );
+		
+		if(moHomeostasis.get(eSensorIntType.HEALTH)!=null)
+			moHomeostaticSymbol.put(eSensorIntType.HEALTH.name(), ((clsHealthSystem)moHomeostasis.get(eSensorIntType.HEALTH)).getHealthValue() );
+		
+		if(moHomeostasis.get(eSensorIntType.STAMINA)!=null)
+			moHomeostaticSymbol.put(eSensorIntType.STAMINA.name(), ((clsStaminaSystem)moHomeostasis.get(eSensorIntType.STAMINA)).getStaminaValue() );
 	}
 
 	/* (non-Javadoc)
