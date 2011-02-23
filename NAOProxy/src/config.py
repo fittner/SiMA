@@ -6,3 +6,4 @@ outerdelimiter = ";"
 innerdelimiter = ","
 namedelimiter  = ":" 
 maxstiffness = 0.8
+consumerange = 0.5      # max range of objects to be consumed. 

@@ -10,6 +10,7 @@ from NAOProxy.cmd.initpose import initpose
 from NAOProxy.cmd.eCommands import Commands
 from NAOProxy.proxy import getProxies
 from NAOProxy.cmd.cower import cower
+from NAOProxy.datastorage import datastorage
 
 import config
 import sys
@@ -45,7 +46,7 @@ def log_msg(proxies, msg):
     return
 
 # ------------------------------------------------------------------------
-def process_msg(proxies, msg):     #split the received msg into command id and params
+def process_msg(proxies, storage, msg):     #split the received msg into command id and params
     data = msg.split(';')
     id = data[0]
     cmd = Commands.UNKOWN
@@ -77,15 +78,21 @@ def process_msg(proxies, msg):     #split the received msg into command id and p
     elif id == '8':
         cmd = Commands.COWER
         log_msg( proxies,   'COWER '+str(data[1:]) )
+    elif id == '9':
+        cmd = Commands.RESET
+        log_msg( proxies,   'RESET '+str(data[1:]) )
+    elif id == '10':
+        cmd = Commands.CONSUME
+        log_msg( proxies,   'CONSUME '+str(data[1:]) )
     else:
         log_msg( proxies,  'UNKNOWN COMMAND '+ id)
 
-    process(proxies, cmd, data[1:]) 
+    process(proxies, storage, cmd, data[1:]) 
     return
 
 # ------------------------------------------------------------------------
-def generate_sensordata(proxies):   # generate valid formed return msg
-    msg = readsensors(proxies) + "\n"
+def generate_sensordata(proxies, storage):   # generate valid formed return msg
+    msg = readsensors(proxies, storage) + "\n"
 
     return msg
 
@@ -113,7 +120,9 @@ def disconnectNao(proxies):
     
 # ------------------------------------------------------------------------
 # main program
+storage = datastorage()
 proxies = connectNao()
+
 s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 s.bind((HOST, PORT))
 s.listen(1)
@@ -124,8 +133,8 @@ while 1:
     while 1:
         data = read_line(conn)
         if not data: break
-        process_msg(proxies, data)
-        conn.send( generate_sensordata(proxies) )
+        process_msg(proxies, storage, data)
+        conn.send( generate_sensordata(proxies, storage) )
     conn.close()
     print 'Closed server at port ',PORT 
     process(proxies, Commands.HALT, []) 

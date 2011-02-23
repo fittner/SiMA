@@ -9,8 +9,10 @@ from say import say
 from headmove import headmove
 from headreset import headreset
 from cower import cower
+from reset import reset
+from consume import consume
 
-def process(proxies, cmd, params):
+def process(proxies, storage, cmd, params):
     if cmd == Commands.HALT:
         halt(proxies)
         
@@ -46,8 +48,14 @@ def process(proxies, cmd, params):
     elif cmd == Commands.COWER:
         cower(proxies)
         
+    elif cmd == Commands.RESET:
+        reset(proxies, storage)
+        
+    elif cmd == Commands.CONSUME:
+        consume(storage, int( params[0] ))
+        
     else:
-        print 'unkown command '+cmd
+        print 'unknown command '+cmd
     return
         
 def toBoolean(param):

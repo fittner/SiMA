@@ -8,8 +8,9 @@ from position import position
 from battery import battery
 from sentinel import sentinel
 from vision import vision
+from consumesuccess import consumesuccess
 
-def readsensors(proxies):
+def readsensors(proxies, storage):
     data = ""
     
     data += bump(proxies) + outerdelimiter
@@ -20,6 +21,7 @@ def readsensors(proxies):
     data += position(proxies) + outerdelimiter
     data += battery(proxies) + outerdelimiter
     data += sentinel(proxies) + outerdelimiter
-    data += vision(proxies) + outerdelimiter
+    data += vision(proxies, storage) + outerdelimiter
+    data += consumesuccess(storage) + outerdelimiter
     
     return data[:-1]

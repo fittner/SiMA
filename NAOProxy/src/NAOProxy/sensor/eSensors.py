@@ -8,5 +8,6 @@ class Sensor:
     POSITION = 6
     SENTINEL = 7
     VISION = 8
+    CONSUMESUCCESS = 9
     UNKNOWN = 999
     
