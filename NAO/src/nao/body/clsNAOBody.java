@@ -25,7 +25,8 @@ public class clsNAOBody extends clsBaseBody implements  itfGetBrain {
 	public clsNAOBody(String URL, int port) throws Exception {
 		super();
 		
-		// test without tcp client = new TCPClient(URL, port);
+		// test without tcp 
+		client = new TCPClient(URL, port);
 		
 //		moInternalSystem 		= new clsInternalSystem(pre+P_INTERNAL, poProp);
 //		moIntraBodySystem 		= new clsIntraBodySystem(pre+P_INTRABODY, poProp, moInternalSystem, poEntity);
