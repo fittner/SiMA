@@ -13,8 +13,10 @@ public class Simulate {
 	
 	private static void com(NAOProxyClient nao, Command cmd) throws Exception {
 		Vector<Sensor> sensors;
+		Vector<Command> commands = new Vector<Command>();
 		System.out.println(">> c:"+cmd);
-		sensors = nao.communicate(cmd);
+		commands.add(cmd);
+		sensors = nao.communicate(commands);
 		System.out.println("<< s:"+sensors);
 	}
 	

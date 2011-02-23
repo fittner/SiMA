@@ -84,8 +84,7 @@ public class clsNAOBody extends clsBaseBody implements  itfGetBrain {
 	}	
 	
 	private void communicate() throws Exception {
-		Command cmd = moCommands.firstElement();
-		moSensordata = moClient.communicate(cmd); 
+		moSensordata = moClient.communicate(moCommands); 
 		moCommands.clear();
 	}
 

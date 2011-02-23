@@ -4,7 +4,8 @@ import java.util.Vector;
 
 
 public class Command {
-	private final static String delimiter = ";"; 
+	private final static String delimiter = ",";
+	
 	public final eCommands id;
 	public Vector<String> params;
 	

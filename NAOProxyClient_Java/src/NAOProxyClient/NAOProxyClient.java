@@ -6,8 +6,10 @@ import java.util.Vector;
 public class NAOProxyClient {
 	private TCPClient client;
 	
-	public Vector<Sensor> communicate(Command cmd) throws Exception {
-		client.send(cmd.toMsg());
+	public Vector<Sensor> communicate(Vector<Command> commands) throws Exception {
+		String msg = "";
+		
+		client.send( CommandGenerator.toMsg(commands) );
 		
 		String received = client.recieve();
 		

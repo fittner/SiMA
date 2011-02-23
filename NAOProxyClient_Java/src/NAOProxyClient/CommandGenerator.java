@@ -1,9 +1,12 @@
 package NAOProxyClient;
 
 import java.util.Random;
+import java.util.Vector;
 
 
 public class CommandGenerator {
+	public final static String outerdelimiter = ";";
+
 	public static Command move(double force, boolean forward) throws Exception {
 		if (force > 1.0 || force < 0.0) {
 			throw new java.lang.Exception("move force out of bounds. 0.0<"+force+"<1.0 violated");
@@ -175,6 +178,18 @@ public class CommandGenerator {
 		}
 		
 		return result;
+	}
+	
+	public static String toMsg(Vector<Command> commands) {
+		String msg = "";
+		
+		for (Command cmd:commands) {
+			msg += cmd.toMsg() + outerdelimiter;
+		}
+		
+		msg = msg.substring(0, msg.length() - outerdelimiter.length());
+		
+		return msg;
 	}
 
 }

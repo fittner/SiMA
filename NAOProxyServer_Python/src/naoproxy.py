@@ -47,7 +47,7 @@ def log_msg(proxies, msg):
 
 # ------------------------------------------------------------------------
 def process_msg(proxies, storage, msg):     #split the received msg into command id and params
-    data = msg.split(';')
+    data = msg.split(',')
     id = data[0]
     cmd = Commands.UNKOWN
     
@@ -90,6 +90,15 @@ def process_msg(proxies, storage, msg):     #split the received msg into command
     process(proxies, storage, cmd, data[1:]) 
     return
 
+# ------------------------------------------------------------------------
+def processes_message(proxies, storage, messages):  # split the recevied message list and process each single msg
+    msgs = messages.split(";");
+    
+    for msg in msgs:
+        process_msg(proxies, storage, msg)
+    
+    return
+    
 # ------------------------------------------------------------------------
 def generate_sensordata(proxies, storage):   # generate valid formed return msg
     msg = readsensors(proxies, storage) + "\n"
