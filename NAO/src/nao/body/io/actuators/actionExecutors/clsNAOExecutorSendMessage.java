@@ -59,9 +59,11 @@ public class clsNAOExecutorSendMessage extends clsActionExecutor{
 	@Override
 	public boolean execute(clsActionCommand poCommand) {
 		try {
+			clsActionSendMessage oCommand = (clsActionSendMessage) poCommand;
 			
-			moNAOBody.communicate(CommandGenerator.say("command say"));
+			moNAOBody.communicate(CommandGenerator.say(oCommand.getMessage()));
 			Thread.sleep(500);
+			
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
