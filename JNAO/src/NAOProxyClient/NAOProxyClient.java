@@ -3,7 +3,7 @@ package NAOProxyClient;
 import java.util.Vector;
 
 
-public class NAOBody {
+public class NAOProxyClient {
 	private TCPClient client;
 	
 	public Vector<Sensor> communicate(Command cmd) throws Exception {
@@ -16,7 +16,7 @@ public class NAOBody {
 		return sensordata;
 	}
 	
-	public NAOBody(String URL, int port) throws Exception {
+	public NAOProxyClient(String URL, int port) throws Exception {
 		client = new TCPClient(URL, port);
 	}	
 	
