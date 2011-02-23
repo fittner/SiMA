@@ -48,6 +48,7 @@ public class clsNAORun implements Runnable{
 					 	oStep++;
 					 	
 		            }
+				nao.close();
 				System.out.println("...stopping thread");
 				
 	    	} catch(Exception e) {

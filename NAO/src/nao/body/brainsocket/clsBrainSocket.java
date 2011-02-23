@@ -11,6 +11,9 @@ import java.awt.Color;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Vector;
+
+import NAOProxyClient.Sensor;
 import config.clsBWProperties;
 
 import du.enums.eAntennaPositions;
@@ -57,14 +60,11 @@ public class clsBrainSocket implements itfStepProcessing {
 
 	private itfDecisionUnit moDecisionUnit; //reference
 	private itfActionProcessor moActionProcessor; //reference
-//	private HashMap<eSensorExtType, clsSensorExt> moSensorsExt; //reference
-//	private HashMap<eSensorIntType, clsSensorInt> moSensorsInt; //reference
-//	private clsSensorDataCalculation moSensorCalculation;
+	private Vector<Sensor> moSensordata;
 	
-	public clsBrainSocket(itfActionProcessor poActionProcessor) {
+	public clsBrainSocket(itfActionProcessor poActionProcessor, Vector<Sensor> poSensordata) {
 		moActionProcessor=poActionProcessor;
-//		moSensorsExt = poSensorsExt;
-//		moSensorsInt = poSensorsInt;
+		moSensordata = poSensordata;
 
 //		applyProperties(poPrefix, poProp);
 	}

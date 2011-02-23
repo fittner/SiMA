@@ -1,11 +1,13 @@
 package nao.body;
 
-import jnao.Command;
-import jnao.CommandGenerator;
-import jnao.Sensor;
-import jnao.TCPClient;
+
 import java.util.Arrays;
 import java.util.Vector;
+
+import NAOProxyClient.Command;
+import NAOProxyClient.NAOProxyClient;
+import NAOProxyClient.Sensor;
+
 import nao.body.io.clsExternalIO;
 import nao.utils.enums.eBodyType;
 import nao.body.brainsocket.clsBrainSocket;
@@ -13,23 +15,18 @@ import nao.body.clsBaseBody;
 import nao.body.itfGetBrain;
 
 
-/**
- * @author muchitsch
- * 
- * This is the body implementation for the NAO connected body.
- * The body connects vis TCP to his real counterpart.
- */
 public class clsNAOBody extends clsBaseBody implements  itfGetBrain {
 	
 	protected clsBrainSocket moBrain;
     protected clsExternalIO  moExternalIO;
-    private TCPClient client;
+    private NAOProxyClient moClient;
+    private Vector<Sensor> moSensordata;
 	
 	public clsNAOBody(String URL, int port) throws Exception {
 		super();
 		
-		// test without tcp 
-		client = new TCPClient(URL, port);
+		moClient = new NAOProxyClient(URL, port);
+		moSensordata = new Vector<Sensor>();
 		
 //		moInternalSystem 		= new clsInternalSystem(pre+P_INTERNAL, poProp);
 //		moIntraBodySystem 		= new clsIntraBodySystem(pre+P_INTRABODY, poProp, moInternalSystem, poEntity);
@@ -37,14 +34,7 @@ public class clsNAOBody extends clsBaseBody implements  itfGetBrain {
 		
 		moExternalIO	= new clsExternalIO(this);
 //		moInternalIO 	= new clsInternalIO(this);
-		moBrain 		= new clsBrainSocket( moExternalIO.getActionProcessor());
-		
-		//send initialize to NAO
-		this.communicate(CommandGenerator.halt());
-		Thread.sleep(1000);
-		this.communicate(CommandGenerator.say("hello"));
-		Thread.sleep(1000);
-		
+		moBrain 		= new clsBrainSocket( moExternalIO.getActionProcessor(), moSensordata);
 	}
 	
 	@Override
@@ -54,13 +44,6 @@ public class clsNAOBody extends clsBaseBody implements  itfGetBrain {
 
 	@Override
 	public void stepSensing() {
-		
-		try {
-	//		this.communicate(CommandGenerator.say("sensing"));
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
 //		moExternalIO.stepSensing();
 //		moInternalIO.stepSensing();
 		
@@ -82,7 +65,7 @@ public class clsNAOBody extends clsBaseBody implements  itfGetBrain {
 
 	@Override
 	public void stepExecution() {
-		moExternalIO.stepExecution();
+//		moExternalIO.stepExecution();
 //		moInternalIO.stepExecution();
 		
 	}
@@ -90,45 +73,15 @@ public class clsNAOBody extends clsBaseBody implements  itfGetBrain {
 	@Override
 	protected void setBodyType() {
 		meBodyType = eBodyType.NAO;		
-		
 	}	
 	
-	//nao tcp comm utilities...
-	
-	private Vector<Sensor> splitReturnMsg(String msg) {
-		Vector<Sensor> sensors= new Vector<Sensor>();
-		
-		if (msg!=null && msg.length() > 0) {
-			String[] temp = msg.split(Sensor.outerdelimiter);
-	
-			Vector<String> smsg = new Vector<String>(Arrays.asList(temp));
-			for (String s:smsg) {
-				Sensor sensor = Sensor.stringToSensor(s);
-				sensors.add(sensor);
-			}
-		}
-		
-		return sensors;
-	}
-
-	
-	
-	public Vector<Sensor> communicate(Command cmd) throws Exception {
-		client.send(cmd.toMsg());
-		
-		String received = client.recieve();
-		
-		Vector<Sensor> sensordata = splitReturnMsg(received);
-		
-		return sensordata;
+	private void communicate(Command cmd) throws Exception {
+		moSensordata = moClient.communicate(cmd); 
 	}
 
 	
 	public void close() throws Exception  {
-		if(client != null)
-		{
-			client.close();
-		}
+		moClient.close();
 	}
 
 }

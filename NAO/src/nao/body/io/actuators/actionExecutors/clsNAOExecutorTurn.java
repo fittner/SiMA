@@ -8,10 +8,10 @@
  */
 package nao.body.io.actuators.actionExecutors;
 
+import NAOProxyClient.CommandGenerator;
 import config.clsBWProperties;
 import java.util.ArrayList;
 
-import jnao.CommandGenerator;
 
 import nao.body.clsNAOBody;
 import nao.body.io.actuators.clsActionExecutor;
