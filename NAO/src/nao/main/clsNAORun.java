@@ -35,7 +35,12 @@ public class clsNAORun implements Runnable{
 				while(clsSingletonNAOState.getKeeprunning())
 		            {
 					 	System.out.println("step: " + oStep);
+					 	
+					 	nao.stepSensing();
+					 	nao.stepUpdateInternalState();
 					 	nao.stepProcessing();
+					 	nao.stepExecution();
+					 	
 					 	oStep++;
 					 	
 		            }

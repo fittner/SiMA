@@ -25,7 +25,7 @@ public class clsNAOBody extends clsBaseBody implements  itfGetBrain {
 	public clsNAOBody(String URL, int port) throws Exception {
 		super();
 		
-		client = new TCPClient(URL, port);
+		// test without tcp client = new TCPClient(URL, port);
 		
 //		moInternalSystem 		= new clsInternalSystem(pre+P_INTERNAL, poProp);
 //		moIntraBodySystem 		= new clsIntraBodySystem(pre+P_INTRABODY, poProp, moInternalSystem, poEntity);
@@ -64,7 +64,7 @@ public class clsNAOBody extends clsBaseBody implements  itfGetBrain {
 
 	@Override
 	public void stepExecution() {
-//		moExternalIO.stepExecution();
+		moExternalIO.stepExecution();
 //		moInternalIO.stepExecution();
 		
 	}
@@ -107,7 +107,10 @@ public class clsNAOBody extends clsBaseBody implements  itfGetBrain {
 
 	
 	public void close() throws Exception  {
-		client.close();
+		if(client != null)
+		{
+			client.close();
+		}
 	}
 
 }
