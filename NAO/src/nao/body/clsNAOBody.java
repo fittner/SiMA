@@ -1,14 +1,11 @@
 package nao.body;
 
-
-
 import jnao.Command;
+import jnao.CommandGenerator;
 import jnao.Sensor;
 import jnao.TCPClient;
-
 import java.util.Arrays;
 import java.util.Vector;
-
 import nao.body.io.clsExternalIO;
 import nao.utils.enums.eBodyType;
 import nao.body.brainsocket.clsBrainSocket;
@@ -41,6 +38,13 @@ public class clsNAOBody extends clsBaseBody implements  itfGetBrain {
 		moExternalIO	= new clsExternalIO(this);
 //		moInternalIO 	= new clsInternalIO(this);
 		moBrain 		= new clsBrainSocket( moExternalIO.getActionProcessor());
+		
+		//send initialize to NAO
+		this.communicate(CommandGenerator.halt());
+		Thread.sleep(1000);
+		this.communicate(CommandGenerator.say("hello"));
+		Thread.sleep(1000);
+		
 	}
 	
 	@Override

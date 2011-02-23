@@ -31,7 +31,7 @@ public class clsNAORun implements Runnable{
 		    	clsActionProcessor oActionProcessor = new clsActionProcessor();
 		    	oDU.setActionProcessor(oActionProcessor);
 		    	
-				 nao = new clsNAOBody(moNAOURL, moNAOPort);
+				nao = new clsNAOBody(moNAOURL, moNAOPort);
 				
 				nao.getBrain().setDecisionUnit(oDU);
 				int oStep = 0;
