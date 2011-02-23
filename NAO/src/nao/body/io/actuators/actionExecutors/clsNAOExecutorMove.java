@@ -8,10 +8,9 @@
  */
 package nao.body.io.actuators.actionExecutors;
 
+import NAOProxyClient.CommandGenerator;
 import config.clsBWProperties;
 import java.util.ArrayList;
-
-import jnao.CommandGenerator;
 
 import nao.body.clsNAOBody;
 import nao.body.io.actuators.clsActionExecutor;
@@ -87,9 +86,9 @@ public class clsNAOExecutorMove extends clsActionExecutor{
     	switch(oCommand.getDirection() )
     	{
     	case MOVE_FORWARD:
-    		moNAOBody.communicate(CommandGenerator.move(oCommand.getSpeed(), true));
+    		moNAOBody.addCommand(CommandGenerator.move(oCommand.getSpeed(), true));
     	case MOVE_BACKWARD:
-    		moNAOBody.communicate(CommandGenerator.move(oCommand.getSpeed(), false));
+    		moNAOBody.addCommand(CommandGenerator.move(oCommand.getSpeed(), false));
     	}
     	
 		} catch (Exception e) {

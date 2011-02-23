@@ -21,12 +21,14 @@ public class clsNAOBody extends clsBaseBody implements  itfGetBrain {
     protected clsExternalIO  moExternalIO;
     private NAOProxyClient moClient;
     private Vector<Sensor> moSensordata;
+    private Vector<Command> moCommands;
 	
 	public clsNAOBody(String URL, int port) throws Exception {
 		super();
 		
 		moClient = new NAOProxyClient(URL, port);
 		moSensordata = new Vector<Sensor>();
+		moCommands = new Vector<Command>();
 		
 //		moInternalSystem 		= new clsInternalSystem(pre+P_INTERNAL, poProp);
 //		moIntraBodySystem 		= new clsIntraBodySystem(pre+P_INTRABODY, poProp, moInternalSystem, poEntity);
@@ -65,6 +67,12 @@ public class clsNAOBody extends clsBaseBody implements  itfGetBrain {
 
 	@Override
 	public void stepExecution() {
+		try {
+			communicate();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 //		moExternalIO.stepExecution();
 //		moInternalIO.stepExecution();
 		
@@ -75,10 +83,15 @@ public class clsNAOBody extends clsBaseBody implements  itfGetBrain {
 		meBodyType = eBodyType.NAO;		
 	}	
 	
-	private void communicate(Command cmd) throws Exception {
+	private void communicate() throws Exception {
+		Command cmd = moCommands.firstElement();
 		moSensordata = moClient.communicate(cmd); 
+		moCommands.clear();
 	}
 
+	public void addCommand(Command cmd) {
+		moCommands.add(cmd);
+	}
 	
 	public void close() throws Exception  {
 		moClient.close();

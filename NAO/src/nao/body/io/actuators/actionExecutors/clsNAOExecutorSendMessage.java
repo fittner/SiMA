@@ -10,7 +10,7 @@ package nao.body.io.actuators.actionExecutors;
 
 import java.util.ArrayList;
 
-import jnao.CommandGenerator;
+import NAOProxyClient.CommandGenerator;
 
 import nao.body.clsNAOBody;
 import nao.body.io.actuators.clsActionExecutor;
@@ -61,7 +61,7 @@ public class clsNAOExecutorSendMessage extends clsActionExecutor{
 		try {
 			clsActionSendMessage oCommand = (clsActionSendMessage) poCommand;
 			
-			moNAOBody.communicate(CommandGenerator.say(oCommand.getMessage()));
+			moNAOBody.addCommand(CommandGenerator.say(oCommand.getMessage()));
 			Thread.sleep(500);
 			
 		} catch (Exception e) {
