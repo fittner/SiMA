@@ -2,9 +2,15 @@ from eSensors import Sensor
 from eVisionEntryTypes import VisionEntryTypes
 from config import innerdelimiter
 from config import namedelimiter
+import math
 #from NAOProxy.datastorage import datastorage
 
 polarcoordelimiter = "@"
+
+def toPolar2D(x, y):
+    r = math.sqrt(x*x + y*y)
+    a = math.atan2(y, x)
+    return (r,a)
 
 def visionentry(id, type, direction, distance, storage):
     assert -1.0 <= direction <= 1.0
