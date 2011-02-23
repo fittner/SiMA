@@ -21,16 +21,11 @@ import nao.utils.enums.eBodyType;
 public abstract class clsBaseBody implements 	itfStepSensing, itfStepUpdateInternalState, 
 												itfStepProcessing, itfStepExecution {
 
-	
     protected eBodyType meBodyType;
-	
 	
 	public clsBaseBody() {
 		setBodyType();
-		
 	}
-
-	
 	
 	public eBodyType getBodyType() {
 		return meBodyType;

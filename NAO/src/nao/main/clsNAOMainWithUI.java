@@ -32,6 +32,7 @@ import nao.body.io.actuators.clsActionProcessor;
 /**
  * This is the main function to start the NAO connection between nao 
  * simulator or real nao and the ARS-PA decision unit.
+ * This is the one we start, and the nao run loop is spawned here
  * 
  * @author muchitsch
  * 15.02.2011, 12:50:50
@@ -44,6 +45,8 @@ public class clsNAOMainWithUI extends javax.swing.JFrame implements ActionListen
 	private static JButton moRunButton = null;
 	private static JFrame moMainFrame = null;
 	private static JLabel moStatusLabel = null;
+	private static JTextField moURLTextField = null;
+	private static JTextField moPortTextField = null;
 	
 	Thread clsNAOThread; 
 	
@@ -62,6 +65,13 @@ public class clsNAOMainWithUI extends javax.swing.JFrame implements ActionListen
 	    content.setBackground(Color.LIGHT_GRAY);
 	    content.setLayout(new FlowLayout()); 
 	    
+	    moURLTextField = new JTextField("128.131.80.227");
+	    content.add(moURLTextField);
+	    
+	    moPortTextField = new JTextField("9559");
+	    content.add(moPortTextField);
+	    
+ 	    
 	    //add the freakin buttons
 	    moCancelButton =  new JButton("Stop");
 	    moCancelButton.setActionCommand("stop");
@@ -73,15 +83,21 @@ public class clsNAOMainWithUI extends javax.swing.JFrame implements ActionListen
 	    moRunButton.addActionListener(this);
 	    content.add(moRunButton);
 	    
-	    
 	    moStatusLabel = new JLabel("noop");
 	    content.add(moStatusLabel);
+
+	   content.add(createInfoPanel());
 	    
-	    moMainFrame.addWindowListener(new clsExitListener());
+	    
+	    moMainFrame.addWindowListener(new clsWindowListener());
 	    moMainFrame.setVisible(true);
 	 }
 	
-	 public void actionPerformed(ActionEvent event) {
+	 /* (non-Javadoc)
+	 * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
+	 * ActionEvent sink for the buttons
+	 */
+	public void actionPerformed(ActionEvent event) {
 		 
 		 if ("stop".equals(event.getActionCommand())) {
 			 	moStatusLabel.setText("stopping...");
@@ -101,7 +117,7 @@ public class clsNAOMainWithUI extends javax.swing.JFrame implements ActionListen
 
 	
 
-	//fuer spaeter wegen den args	
+	//utillities function to read main args	
 	 static String argumentForKey(String key, String[] args, int startingAt)
 	    {
 	    	for(int x=0;x<args.length-1;x++)  // key can't be the last string
@@ -118,21 +134,32 @@ public class clsNAOMainWithUI extends javax.swing.JFrame implements ActionListen
 	    	return false;
 	    }
 	    
+	    /**
+	     * This method starts the main loop in a separate thread. 
+	     * to stop the loop set clsSingletonNAOState.setKeeprunning(false);
+	     */
 	    private void start() {
 	    	try{
 	    		
 	    		clsNAORun oNAORun= new clsNAORun();
+	    		oNAORun.setMoNAOURL(moURLTextField.getText());
+	    		oNAORun.setMoNAOPort(Integer.parseInt(moPortTextField.getText()));
+	    		
 	    		clsNAOThread = new Thread( oNAORun );
 	    		clsNAOThread.start();
 
 	    	} catch(Exception e) {
 	    		System.out.println(getCustomStackTrace(e));
-	    	      //System.out.println("Error : " + e + " " +  e.getStackTrace());
-	    	      System.exit(0);	    	      
+	    	    System.exit(0);	    	      
 	    	}
 		}
 	    
 	    
+	    /**
+	     * Utility to get a well formed stack trace for displaying it in console
+	     * @param aThrowable
+	     * @return
+	     */
 	    public static String getCustomStackTrace(Throwable aThrowable) {
 	        //add the class name and any message passed to constructor
 	        final StringBuilder result = new StringBuilder( "ARS-EX: " );
@@ -147,6 +174,27 @@ public class clsNAOMainWithUI extends javax.swing.JFrame implements ActionListen
 	        }
 	        return result.toString();
 	      }
+	    
+	    
+	    protected JComponent createInfoPanel() {
+	        JPanel panel = new JPanel(new BorderLayout());
+	        JLabel oTitle = new JLabel();
+	        oTitle.setHorizontalAlignment(JLabel.CENTER);
+	       	        //Lay out the panel.
+	        panel.setBorder(BorderFactory.createEmptyBorder(
+	                                15/2, //top
+	                                0,     //left
+	                                15/2, //bottom
+	                                0));   //right
+	        panel.add(new JSeparator(JSeparator.VERTICAL),
+	                  BorderLayout.LINE_START);
+	        panel.add(oTitle,
+	                  BorderLayout.CENTER);
+	        panel.setPreferredSize(new Dimension(80, 80));
+
+	        oTitle.setText("<html><b>ARS vs. NAO</b><br>Where no NAO <br>has gone before...</html>");
+	        return panel;
+	    }
 
 		
 }//end class clsNAOMainWithUI

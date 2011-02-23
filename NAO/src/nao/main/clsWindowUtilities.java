@@ -50,7 +50,7 @@ public class clsWindowUtilities {
     content.setBackground(bgColor);
     frame.setSize(width, height);
     frame.setContentPane(content);
-    frame.addWindowListener(new clsExitListener());
+    frame.addWindowListener(new clsWindowListener());
     frame.setVisible(true);
     return(frame);
   }

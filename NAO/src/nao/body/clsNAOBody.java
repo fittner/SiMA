@@ -16,6 +16,12 @@ import nao.body.clsBaseBody;
 import nao.body.itfGetBrain;
 
 
+/**
+ * @author muchitsch
+ * 
+ * This is the body implementation for the NAO connected body.
+ * The body connects vis TCP to his real counterpart.
+ */
 public class clsNAOBody extends clsBaseBody implements  itfGetBrain {
 	
 	protected clsBrainSocket moBrain;
@@ -76,7 +82,7 @@ public class clsNAOBody extends clsBaseBody implements  itfGetBrain {
 		
 	}	
 	
-	//nao tcp comm...
+	//nao tcp comm utilities...
 	
 	private Vector<Sensor> splitReturnMsg(String msg) {
 		Vector<Sensor> sensors= new Vector<Sensor>();

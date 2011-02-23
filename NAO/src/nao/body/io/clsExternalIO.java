@@ -19,8 +19,6 @@ import du.enums.eSensorExtType;
 import du.itf.actions.*;
 
 
-
-
 /**
  * TODO (langr) - THIS CLASS NEEDS A REFACTORING - reason: not every
  * entity has the same Sensors/Actuators
@@ -275,7 +273,7 @@ public class clsExternalIO extends clsBaseIO {
 	private void applyActionProperties(String poPrefix, clsBWProperties poProp) {
 		String pre = clsBWProperties.addDot(poPrefix);
 
-		//test nao
+		//Here the nao commands are connected to the DU commands. If you add a new command besure to connect them here!
 		moProcessor.addCommand(clsActionMove.class, new clsNAOExecutorMove());
 		moProcessor.addCommand(clsActionTurn.class, new clsNAOExecutorTurn());
 		moProcessor.addCommand(clsActionSendMessage.class, new clsNAOExecutorSendMessage());
