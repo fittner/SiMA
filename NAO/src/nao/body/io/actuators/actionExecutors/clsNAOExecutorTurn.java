@@ -13,6 +13,7 @@ import java.util.ArrayList;
 
 import jnao.CommandGenerator;
 
+import nao.body.clsNAOBody;
 import nao.body.io.actuators.clsActionExecutor;
 
 import du.enums.eActionTurnDirection;
@@ -32,10 +33,12 @@ public class clsNAOExecutorTurn extends clsActionExecutor{
 	static double srStaminaScalingFactor = 0.001f;   
 
 	private ArrayList<Class<?>> moMutEx = new ArrayList<Class<?>>();
+	private clsNAOBody moNAOBody;
 	
-	public clsNAOExecutorTurn() {
+	public clsNAOExecutorTurn(clsNAOBody poNAOBody) {
 		super();
-
+		
+		moNAOBody = poNAOBody;
 	}
 
 	
@@ -66,7 +69,8 @@ public class clsNAOExecutorTurn extends clsActionExecutor{
     	if (oCommand.getDirection()==eActionTurnDirection.TURN_LEFT)
     	{
 			try {
-				CommandGenerator.turn(1.0);
+				//turn left must be negeative
+				moNAOBody.communicate(CommandGenerator.turn( (-1*oCommand.getAngle()) ));
 			} catch (Exception e1) {
 				// TODO Auto-generated catch block
 				e1.printStackTrace();
@@ -76,7 +80,7 @@ public class clsNAOExecutorTurn extends clsActionExecutor{
     	if (oCommand.getDirection()==eActionTurnDirection.TURN_RIGHT)
     	{
 			try {
-				CommandGenerator.turn(-1.0);
+				moNAOBody.communicate(CommandGenerator.turn(oCommand.getAngle()));
 			} catch (Exception e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();

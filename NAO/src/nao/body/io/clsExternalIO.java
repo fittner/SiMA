@@ -12,6 +12,7 @@ import java.util.ArrayList;
 import config.clsBWProperties;
 
 import nao.body.clsBaseBody;
+import nao.body.clsNAOBody;
 import nao.body.io.actuators.clsActionProcessor;
 import nao.body.io.actuators.actionExecutors.*;
 
@@ -67,11 +68,13 @@ public class clsExternalIO extends clsBaseIO {
 
 
 	private clsActionProcessor moProcessor; 
+	private clsNAOBody moNAOBody;
 
-	public clsExternalIO(clsBaseBody poBody) {
+	public clsExternalIO(clsNAOBody poBody) {
 		super(poBody);
 
 		moProcessor = new clsActionProcessor();
+		moNAOBody = poBody;
 	
 		clsBWProperties oProp = clsActionProcessor.getDefaultProperties("");
 		
@@ -274,9 +277,9 @@ public class clsExternalIO extends clsBaseIO {
 		String pre = clsBWProperties.addDot(poPrefix);
 
 		//Here the nao commands are connected to the DU commands. If you add a new command besure to connect them here!
-		moProcessor.addCommand(clsActionMove.class, new clsNAOExecutorMove());
-		moProcessor.addCommand(clsActionTurn.class, new clsNAOExecutorTurn());
-		moProcessor.addCommand(clsActionSendMessage.class, new clsNAOExecutorSendMessage());
+		moProcessor.addCommand(clsActionMove.class, new clsNAOExecutorMove(moNAOBody));
+		moProcessor.addCommand(clsActionTurn.class, new clsNAOExecutorTurn(moNAOBody));
+		moProcessor.addCommand(clsActionSendMessage.class, new clsNAOExecutorSendMessage(moNAOBody));
 		
 //		//Register actionexecutors
 //		if (poProp.getPropertyInt( pre+P_ACTIONAVAILABLE	+"."+bw.utils.enums.eBodyParts.ACTIONEX_DROP)==1) moProcessor.addCommand(clsActionMove.class, new clsExecutorMove(poPrefix+"." + P_ACTIONEX	+"."+bw.utils.enums.eBodyParts.ACTIONEX_MOVE,poProp,moEntity));

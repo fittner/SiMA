@@ -9,6 +9,10 @@
 package nao.body.io.actuators.actionExecutors;
 
 import java.util.ArrayList;
+
+import jnao.CommandGenerator;
+
+import nao.body.clsNAOBody;
 import nao.body.io.actuators.clsActionExecutor;
 import du.itf.actions.*;
 /**
@@ -23,9 +27,12 @@ import du.itf.actions.*;
 public class clsNAOExecutorSendMessage extends clsActionExecutor{
 
 	private ArrayList<Class<?>> moMutEx = new ArrayList<Class<?>>();
+	private clsNAOBody moNAOBody;
 	
-	public clsNAOExecutorSendMessage() {
+	public clsNAOExecutorSendMessage(clsNAOBody poNAOBody) {
 		super();
+		
+		moNAOBody = poNAOBody;
 	}
 
 	
@@ -51,7 +58,15 @@ public class clsNAOExecutorSendMessage extends clsActionExecutor{
 	
 	@Override
 	public boolean execute(clsActionCommand poCommand) {
-		clsActionTurn oCommand = (clsActionTurn) poCommand;
+		try {
+			
+			moNAOBody.communicate(CommandGenerator.say("command say"));
+			Thread.sleep(500);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
 //    	if (oCommand.getDirection()==eActionTurnDirection.TURN_LEFT) ((clsMobile)moEntity).getMobileObject2D().moMotionPlatform.faceTowardsRelative(new Angle(oCommand.getAngle()/360*Math.PI*(-1.0)));
 //    	if (oCommand.getDirection()==eActionTurnDirection.TURN_RIGHT) ((clsMobile)moEntity).getMobileObject2D().moMotionPlatform.faceTowardsRelative(new Angle(oCommand.getAngle()/360*Math.PI));
     	return true;

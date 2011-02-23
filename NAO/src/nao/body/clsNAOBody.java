@@ -54,6 +54,13 @@ public class clsNAOBody extends clsBaseBody implements  itfGetBrain {
 
 	@Override
 	public void stepSensing() {
+		
+		try {
+			this.communicate(CommandGenerator.say("sensing"));
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 //		moExternalIO.stepSensing();
 //		moInternalIO.stepSensing();
 		
