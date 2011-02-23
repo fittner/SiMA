@@ -1,4 +1,4 @@
-package JNAOProxy;
+package NAOProxyClient;
 
 public class SensorTuple {
 	protected String name = "";

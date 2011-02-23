@@ -1,4 +1,4 @@
-package JNAOProxy;
+package NAOProxyClient;
 
 import java.io.BufferedReader;
 import java.io.DataOutputStream;
