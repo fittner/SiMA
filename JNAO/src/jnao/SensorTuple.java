@@ -1,22 +1,22 @@
 package jnao;
 
 public class SensorTuple {
-	private String name = "";
-	private String value = "";
-	private final static String namedelimiter = ":";
+	protected String name = "";
+	protected String value = "";
+	protected final static String namedelimiter = ":";
 	
 	public SensorTuple(String data) {
 		split(data);
 	}
 	
-	private void split(String data) {
+	protected void split(String data) {
 		String[] temp = data.split(namedelimiter);
 		name = temp[0];
 		value = temp[1];
 	}
 	
 	public String toString() {
-		return name+namedelimiter+value;
+		return getName()+namedelimiter+getValue();
 	}
 	
 	public String getName() {

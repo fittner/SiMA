@@ -36,7 +36,14 @@ public class Sensor {
 		
 		Vector<SensorTuple> params = new Vector<SensorTuple>();
 		for (String param:strparams) {
-			params.add( new SensorTuple(param) );
+			switch (id) {
+				case VISION: params.add( new SensorVision(param) );
+					break;
+
+				default:params.add( new SensorTuple(param) );
+					break;
+			}
+			
 		}
 		
 		return new Sensor(id, params);
