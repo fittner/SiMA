@@ -1,4 +1,4 @@
-package jnao;
+package JNAOProxy;
 
 import java.util.Random;
 import java.util.Vector;

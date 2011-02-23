@@ -1,4 +1,4 @@
-package jnao;
+package JNAOProxy;
 
 import java.util.Arrays;
 import java.util.Vector;

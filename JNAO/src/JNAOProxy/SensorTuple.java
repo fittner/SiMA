@@ -1,4 +1,4 @@
-package jnao;
+package JNAOProxy;
 
 public class SensorTuple {
 	protected String name = "";

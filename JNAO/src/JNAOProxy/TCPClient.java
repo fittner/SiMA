@@ -1,4 +1,4 @@
-package jnao;
+package JNAOProxy;
 
 import java.io.BufferedReader;
 import java.io.DataOutputStream;

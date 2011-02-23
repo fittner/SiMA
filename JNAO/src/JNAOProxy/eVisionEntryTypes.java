@@ -1,4 +1,4 @@
-package jnao;
+package JNAOProxy;
 
 public enum eVisionEntryTypes {
 	CAKE(0),

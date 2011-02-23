@@ -1,4 +1,4 @@
-package jnao;
+package JNAOProxy;
 
 public class SensorVision extends SensorTuple {
 	private eVisionEntryTypes type;

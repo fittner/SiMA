@@ -1,4 +1,4 @@
-package jnao;
+package JNAOProxy;
 
 public enum eSensors {
     BUMP(0),
