@@ -1,14 +1,16 @@
 from config import innerdelimiter
 from config import namedelimiter
 
-def removeFromList(list, id):
-    print "ALMemory: '"+id+"' does not exist. Is temporarily removed from list."
-    list.remove(id)
+def removeFromList(list, ids):
+    for id in ids:
+        print "ALMemory: '"+id+"' does not exist. Is temporarily removed from list."
+        list.remove(id)
     return
 
-def removeFromDict(list, id):
-    print "ALMemory: '"+id+"' does not exist. Is temporarily removed from list."
-    del list[id]
+def removeFromDict(list, ids):
+    for id in ids:
+        print "ALMemory: '"+id+"' does not exist. Is temporarily removed from list."
+        del list[id]
     return
 
 def readmemory(memory, id, list):
@@ -16,13 +18,16 @@ def readmemory(memory, id, list):
     
     data = str(id)+innerdelimiter
     elementadded = False
+    removecandidates = []
     
     for item in list:
         try:
             data += getdata2(memory, item)
             elementadded = True
         except:
-            removeFromList(list, item)
+            removecandidates.append(item)
+
+    removeFromList(list, removecandidates)
 
     if elementadded:
         data = data[:-1]
@@ -34,13 +39,16 @@ def readmemory2(memory, id, list):
     
     data = str(id)+innerdelimiter
     elementadded = False
+    removecandidates = []
             
     for item in list:
         try:
             data += getdata(memory, item, item)
             elementadded = True
         except:
-            removeFromList(list, item)
+            removecandidates.append(item)
+
+    removeFromList(list, removecandidates)
 
     if elementadded:
         data = data[:-1]
@@ -62,8 +70,7 @@ def readmemory3(memory, id, list):
         except:
             removecandidates.append(k)
             
-    for item in removecandidates:
-        removeFromDict(list, item)      
+    removeFromDict(list, removecandidates)      
 
     if elementadded:
         data = data[:-1]
