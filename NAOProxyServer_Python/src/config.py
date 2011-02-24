@@ -8,3 +8,4 @@ namedelimiter  = ":"
 polarcoordelimiter = "@"
 maxstiffness = 0.8
 consumerange = 0.5      # max range of objects to be consumed. 
+enableproxies = {'memory':True, 'motion':True, 'speech':True, 'log':True, 'sonar':True,'led':True, 'vision':True}
