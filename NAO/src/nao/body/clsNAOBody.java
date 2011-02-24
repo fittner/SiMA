@@ -5,6 +5,7 @@ import java.util.Arrays;
 import java.util.Vector;
 
 import NAOProxyClient.Command;
+import NAOProxyClient.CommandGenerator;
 import NAOProxyClient.NAOProxyClient;
 import NAOProxyClient.Sensor;
 
@@ -27,6 +28,9 @@ public class clsNAOBody extends clsBaseBody implements  itfGetBrain {
 		super();
 		
 		moClient = new NAOProxyClient(URL, port);
+		
+		initSequence();
+		
 		moSensordata = new Vector<Sensor>();
 		moCommands = new Vector<Command>();
 		
@@ -37,6 +41,16 @@ public class clsNAOBody extends clsBaseBody implements  itfGetBrain {
 		moExternalIO	= new clsExternalIO(this);
 //		moInternalIO 	= new clsInternalIO(this);
 		moBrain 		= new clsBrainSocket( moExternalIO.getActionProcessor(), moSensordata);
+	}
+	
+	private void initSequence() {
+		moCommands.clear();
+
+		moCommands.add(CommandGenerator.reset());
+		moCommands.add(CommandGenerator.say("Hi! I am NAO. Where is my shrink?"));
+		
+		moCommands.clear();
+		
 	}
 	
 	@Override
