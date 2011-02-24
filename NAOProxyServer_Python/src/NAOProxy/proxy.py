@@ -1,5 +1,6 @@
 from naoqi import ALProxy
 import config
+from config import enableproxies
 
 def loadProxy(pName):
     PORT = config.PORTNAO
@@ -22,30 +23,51 @@ def loadProxy(pName):
     return proxy
 
 def loadMotionProxy():
-    return loadProxy("ALMotion")
+    if enableproxies['motion']:
+        return loadProxy("ALMotion")
+    else:
+        return None
 
 def loadSpeechProxy():
-    return loadProxy("ALTextToSpeech")
+    if enableproxies['speech']:
+        return loadProxy("ALTextToSpeech")
+    else:
+        return None
 
 def loadLogProxy():
-    return loadProxy("ALLogger")
+    if enableproxies['log']:
+        return loadProxy("ALLogger")
+    else:
+        return None
 
 def loadMemoryProxy():
-    return loadProxy("ALMemory")
+    if enableproxies['memory']:
+        return loadProxy("ALMemory")
+    else:
+        return None
 
 def loadSonarProxy():
-    proxy = loadProxy("ALSonar")
-    if proxy != None:
-        proxy.subscribe("NAOProxy") # subscribe to the ALSonar proxy to start the sonar system. otherweise, always 0 is returned 
-    return proxy
+    if enableproxies['sonar']:
+        proxy = loadProxy("ALSonar")
+        if proxy != None:
+            proxy.subscribe("NAOProxy") # subscribe to the ALSonar proxy to start the sonar system. otherweise, always 0 is returned 
+        return proxy
+    else:
+        return None
 
 def loadLedProxy():
-    proxy = loadProxy("ALLeds")
-    return proxy
+    if enableproxies['led']:
+        proxy = loadProxy("ALLeds")
+        return proxy
+    else:
+        return None
 
 def loadVisionProxy():
-    proxy = loadProxy("armodule")
-    return proxy
+    if enableproxies['vision']:    
+        proxy = loadProxy("armodule")
+        return proxy
+    else:
+        return None
 
 def getProxies():
     print ">>> getproxies"
