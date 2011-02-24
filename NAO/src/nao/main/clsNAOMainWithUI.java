@@ -68,7 +68,7 @@ public class clsNAOMainWithUI extends javax.swing.JFrame implements ActionListen
 	    moURLTextField = new JTextField("128.131.80.227");
 	    content.add(moURLTextField);
 	    
-	    moPortTextField = new JTextField("9559");
+	    moPortTextField = new JTextField("9669");
 	    content.add(moPortTextField);
 	    
  	    
