@@ -12,7 +12,11 @@ public class SensorTuple {
 	protected void split(String data) {
 		String[] temp = data.split(namedelimiter);
 		name = temp[0];
-		value = temp[1];
+		try {
+			value = temp[1];
+		} catch (Exception e) {
+			value = "";
+		}
 	}
 	
 	public String toString() {

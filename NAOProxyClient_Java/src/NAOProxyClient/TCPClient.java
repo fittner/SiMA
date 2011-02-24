@@ -2,8 +2,10 @@ package NAOProxyClient;
 
 import java.io.BufferedReader;
 import java.io.DataOutputStream;
+import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.Socket;
+import java.net.UnknownHostException;
 
 public class TCPClient
 {
@@ -11,7 +13,7 @@ public class TCPClient
 	private DataOutputStream outToServer;
 	private BufferedReader inFromServer;
 	
-	public TCPClient(String URL, int port) throws Exception  {
+	public TCPClient(String URL, int port) throws UnknownHostException, IOException  {
 		connect(URL, port);
 	}
 	
@@ -24,10 +26,10 @@ public class TCPClient
 	}
 
 	
-	private void connect(String URL, int port) throws Exception {
-		  clientSocket = new Socket(URL, port);
-		  outToServer = new DataOutputStream(clientSocket.getOutputStream());
-		  inFromServer = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));		
+	private void connect(String URL, int port) throws UnknownHostException, IOException {
+		clientSocket = new Socket(URL, port);
+	    outToServer = new DataOutputStream(clientSocket.getOutputStream());
+		inFromServer = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));		
 	}
 	
 	public void close() throws Exception  {
@@ -36,11 +38,11 @@ public class TCPClient
 		clientSocket.close();	
 	}
 	
-	public void send(String msg) throws Exception  {
+	public void send(String msg) throws IOException   {
 		outToServer.writeBytes(msg + '\n');
 	}
 	
-	public String recieve() throws Exception  {
+	public String recieve() throws IOException   {
 		return inFromServer.readLine();
 	}
 	

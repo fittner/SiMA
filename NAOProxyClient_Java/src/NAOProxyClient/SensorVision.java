@@ -4,7 +4,7 @@ public class SensorVision extends SensorTuple {
 	private eVisionEntryTypes type;
 	private double r;
 	private double a;
-	private final String delimiter = "@";
+	private final static String delimiter = "@";
 
 	public SensorVision(String data) {
 		super(data);
@@ -12,17 +12,19 @@ public class SensorVision extends SensorTuple {
 		type = eVisionEntryTypes.UNKNOWN;
 		r = 0;
 		a = 0;
+		
+		valuesplit();
 	}
 	
-	protected void split(String data) {
-		String[] temp = data.split(namedelimiter);
-		name = temp[0];
-		value = temp[1];
-		
-		String[] temp2 = value.split(delimiter);
-		type = eVisionEntryTypes.valueOf( temp2[0] );
-		r = Float.parseFloat( temp[1] );
-		a = Float.parseFloat( temp[2] );
+	private void valuesplit() {
+		try {
+			String[] temp2 = value.split(delimiter);
+			type = eVisionEntryTypes.idToEnum( Integer.parseInt(temp2[0]) );
+			r = Float.parseFloat( temp2[1] );
+			a = Float.parseFloat( temp2[2] );
+		} catch (Exception e) {
+			
+		}
 	}	
 	
 	public String getValue() {
