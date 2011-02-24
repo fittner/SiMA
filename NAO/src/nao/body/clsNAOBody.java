@@ -67,13 +67,15 @@ public class clsNAOBody extends clsBaseBody implements  itfGetBrain {
 
 	@Override
 	public void stepExecution() {
+		moExternalIO.stepExecution();
+		
 		try {
 			communicate();
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-//		moExternalIO.stepExecution();
+//		
 //		moInternalIO.stepExecution();
 		
 	}
