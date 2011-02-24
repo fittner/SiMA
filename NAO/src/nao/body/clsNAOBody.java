@@ -24,7 +24,7 @@ public class clsNAOBody extends clsBaseBody implements  itfGetBrain {
 	protected clsBrainSocket moBrain;
     protected clsExternalIO  moExternalIO;
     private NAOProxyClient moClient;
-    private Vector<Sensor> moSensordata;
+    public Vector<Sensor> moSensordata;
     private Vector<Command> moCommands;
 	
 	public clsNAOBody(String URL, int port) throws UnknownHostException, IOException {

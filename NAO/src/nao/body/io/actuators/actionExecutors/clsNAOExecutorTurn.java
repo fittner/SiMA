@@ -9,7 +9,6 @@
 package nao.body.io.actuators.actionExecutors;
 
 import NAOProxyClient.CommandGenerator;
-import config.clsBWProperties;
 import java.util.ArrayList;
 
 
@@ -39,7 +38,11 @@ public class clsNAOExecutorTurn extends clsActionExecutor{
 		super();
 		
 		moNAOBody = poNAOBody;
-	}
+		
+		
+		moMutEx.add(clsActionMove.class);
+		moMutEx.add(clsActionTurn.class);
+    }
 
 	
 	/*

@@ -9,9 +9,7 @@
 package nao.body.io.actuators.actionExecutors;
 
 import NAOProxyClient.CommandGenerator;
-import config.clsBWProperties;
 import java.util.ArrayList;
-
 import nao.body.clsNAOBody;
 import nao.body.io.actuators.clsActionExecutor;
 import du.itf.actions.*;
@@ -31,9 +29,6 @@ public class clsNAOExecutorMove extends clsActionExecutor{
 	static double srStaminaScalingFactor = 0.01f;  
 	
 	private ArrayList<Class<?>> moMutEx = new ArrayList<Class<?>>();
-
-
-	private double mrSpeedScalingFactor;
 	
 	private clsNAOBody moNAOBody;
 	
@@ -44,13 +39,8 @@ public class clsNAOExecutorMove extends clsActionExecutor{
 		
 		moNAOBody = poNAOBody;
 		
-		//applyProperties();
-	}
-	
-	
-	private void applyProperties(String poPrefix, clsBWProperties poProp) {
-		String pre = clsBWProperties.addDot(poPrefix);
-		mrSpeedScalingFactor=poProp.getPropertyFloat(pre+P_SPEEDCALINGFACTOR);
+		moMutEx.add(clsActionMove.class);
+		moMutEx.add(clsActionTurn.class);
 	}
 	
 	/*
@@ -80,21 +70,18 @@ public class clsNAOExecutorMove extends clsActionExecutor{
 	public boolean execute(clsActionCommand poCommand) {
 		
 		try {
+			clsActionMove oCommand =(clsActionMove) poCommand; 
 			
-		clsActionMove oCommand =(clsActionMove) poCommand; 
-		
-    	switch(oCommand.getDirection() )
-    	{
-    	case MOVE_FORWARD:
-    		moNAOBody.addCommand(CommandGenerator.move(oCommand.getSpeed(), true));
-    	case MOVE_BACKWARD:
-    		moNAOBody.addCommand(CommandGenerator.move(oCommand.getSpeed(), false));
-    	}
-    	
-    	System.out.println("EXCMD: move , dir:" + oCommand.getDirection() + ", speed: " + oCommand.getSpeed());
-    	
+	    	switch( oCommand.getDirection() ) {
+		    	case MOVE_FORWARD:
+		    		moNAOBody.addCommand(CommandGenerator.move(oCommand.getSpeed(), true));
+		    	case MOVE_BACKWARD:
+		    		moNAOBody.addCommand(CommandGenerator.move(oCommand.getSpeed(), false));
+	    	}
+	    	
+	    	System.out.println("EXCMD: move , dir:" + oCommand.getDirection() + ", speed: " + oCommand.getSpeed());
+	    	
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		
