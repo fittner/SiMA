@@ -312,7 +312,7 @@ public class clsBrainSocket implements itfStepProcessing {
 		clsEnergyConsumption oRetVal = new clsEnergyConsumption();
 		clsEnergyConsumptionSensor oEnergySensor = (clsEnergyConsumptionSensor)(moSensorsInt.get(eSensorIntType.ENERGY_CONSUMPTION));
 
-		oRetVal.setEnergy( oEnergySensor.getEnergy() );
+		oRetVal.setEnergyConsumption( oEnergySensor.getEnergy() );
 		
 		return oRetVal;
 		

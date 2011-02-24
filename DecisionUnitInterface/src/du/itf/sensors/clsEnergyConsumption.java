@@ -12,33 +12,33 @@ import java.util.Formatter;
  *
  */
 public class clsEnergyConsumption extends clsSensorIntern implements Cloneable {
-	protected double mrEnergy;
+	protected double mrEnergyConsumption;
 	
-	public double getEnergy() {
-		return mrEnergy;
+	public double getEnergyConsumption() {
+		return mrEnergyConsumption;
 	}
-	public void setEnergy(double prEnergy) {
-		mrEnergy = prEnergy;
+	public void setEnergyConsumption(double prEnergy) {
+		mrEnergyConsumption = prEnergy;
 	}
 	
 	@Override
 	public String logXML() {
 		String logEntry = "";
 		
-		logEntry += addXMLTag("Energy", new Double(mrEnergy).toString()); 
+		logEntry += addXMLTag("Energy", new Double(mrEnergyConsumption).toString()); 
 
 		return addXMLTag(logEntry);
 	}
 	
 	@Override
 	public String toString() {
-		return getClassName()+": Energy "+mrEnergy;
+		return getClassName()+": Energy "+mrEnergyConsumption;
 	}
 
 	@Override
 	public String logHTML() {
 		Formatter oDoubleFormatter = new Formatter();
-		return "<tr><td>"+getClassName()+"</td><td>"+oDoubleFormatter .format("%.5f",mrEnergy)+"</td></tr>";
+		return "<tr><td>"+getClassName()+"</td><td>"+oDoubleFormatter .format("%.5f",mrEnergyConsumption)+"</td></tr>";
 	}
 	
 	@Override
