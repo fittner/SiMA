@@ -1,5 +1,5 @@
 import config
-import time
+#import time
 
 def cower(proxies):
     motionProxy = proxies['motion']

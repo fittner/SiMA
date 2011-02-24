@@ -128,7 +128,7 @@ public class CommandGenerator {
 		double yaw;
 		double pitch;
 		boolean forward;
-		boolean stiffness;
+//		boolean stiffness;
 		Random rand = new Random();
 		
 		int r = rand.nextInt(8);

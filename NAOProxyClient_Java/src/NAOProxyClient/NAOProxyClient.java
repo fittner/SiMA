@@ -7,8 +7,6 @@ public class NAOProxyClient {
 	private TCPClient client;
 	
 	public Vector<Sensor> communicate(Vector<Command> commands) throws Exception {
-		String msg = "";
-		
 		client.send( CommandGenerator.toMsg(commands) );
 		
 		String received = client.recieve();
