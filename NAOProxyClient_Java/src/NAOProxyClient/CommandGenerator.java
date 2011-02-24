@@ -65,6 +65,7 @@ public class CommandGenerator {
 		
 		return text;
 	}
+	
 	public static Command say(String msg) {
 		Command c = new Command(eCommands.SAY);
 		
