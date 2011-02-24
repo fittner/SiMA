@@ -11,7 +11,7 @@ public class Simulate {
 	private static final String _url = "192.168.128.132";
 	private static final int _loops = 50;
 	
-	private static void com(NAOProxyClient nao, Command cmd) throws Exception {
+	public static void com(NAOProxyClient nao, Command cmd) throws Exception {
 		Vector<Sensor> sensors;
 		Vector<Command> commands = new Vector<Command>();
 		System.out.println(">> c:"+cmd);
@@ -20,7 +20,7 @@ public class Simulate {
 		System.out.println("<< s:"+sensors);
 	}
 	
-	private static void testCommands(NAOProxyClient nao) throws Exception {
+	public static void testCommands(NAOProxyClient nao) throws Exception {
 		int wait = 1000;
 		System.out.println("testCommands ...");
 		
@@ -52,7 +52,7 @@ public class Simulate {
 		System.out.println("... done");
 	}
 	
-	private static void randomCommands(NAOProxyClient nao) throws Exception {
+	public static void randomCommands(NAOProxyClient nao) throws Exception {
 		System.out.println("randomCommands ...");
 		Random rand = new Random();
 		
@@ -72,7 +72,7 @@ public class Simulate {
 		System.out.println("... done");
 	}
 	
-	private static void doNothing(NAOProxyClient nao) throws Exception {
+	public static void doNothing(NAOProxyClient nao) throws Exception {
 		int wait = 1000;
 		System.out.println("testCommands ...");
 		
