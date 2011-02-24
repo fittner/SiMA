@@ -45,6 +45,10 @@ def loadLedProxy():
     proxy = loadProxy("ALLeds")
     return proxy
 
+def loadVisionProxy():
+    proxy = loadProxy("armodule")
+    return proxy
+
 def getProxies():
     print ">>> getproxies"
 
@@ -53,8 +57,10 @@ def getProxies():
                'speech':loadSpeechProxy(),
                'log':loadLogProxy(),
                'sonar':loadSonarProxy(),
-               'led':loadLedProxy()
+               'led':loadLedProxy(),
+               'vision':loadVisionProxy()
                }
+    
     print "<<< done get proxies: ", proxies
     
     return proxies

@@ -31,17 +31,52 @@ def visionentry(id, type, direction, distance, storage):
         
     return data
 
+def getId(name):
+    id = -1
+    try:
+        id = int(name[0])
+    except:
+        if name == 'TU':
+            id = 0
+
+    return id
+
+def getType(id):
+    type = VisionEntryTypes.UNKNOWN
+    
+    if id == 0:
+        type = VisionEntryTypes.STONE
+    elif id < 5:
+        type = VisionEntryTypes.CAKE
+    elif id < 9:
+        type = VisionEntryTypes.BUBBLE
+        
+    return type
+
 def vision(proxies, storage):
 #    memory = proxies['memory']
     data = str(Sensor.VISION)+innerdelimiter
-    
     storage.clearVE() # reset list of visible ids - is refilled reach round
-    
-    data += visionentry(1, VisionEntryTypes.BUBBLE, 0, 5, storage)
-    data += visionentry(0, VisionEntryTypes.CAKE, -0.2, 3, storage)
-    data += visionentry(2, VisionEntryTypes.CAN, 0.5, 7, storage)
-    data += visionentry(7, VisionEntryTypes.STONE, -0.5, 0.5, storage)
-    data += visionentry(4, VisionEntryTypes.CAKE, -0.1, 3.5, storage)
-    data += visionentry(11, VisionEntryTypes.BUBBLE, 0.231, 6.32454, storage)
-    
-    return data[:-1]
+
+    if proxies['vision'] != None:
+        cam2ros = proxies['vision'].objects("da") # object= [Name, x, y, z, wx, wy, wz, confidence, time.sec, time.usec ]
+        
+        added = False
+        for object in cam2ros:
+            name = object[0]
+            x = object[1]
+            y = object[2]
+            r,a=toPolar2D(x, y)
+        
+            id = getId(name)
+            type = getType(id)
+        
+            data += visionentry(id, type, r, a, storage)
+            added = True
+        
+        if added:
+            data = data[:-1]
+    else:
+        print "Visionproxy not available!"
+        
+    return data
