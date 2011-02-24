@@ -149,7 +149,7 @@ while 1:
         if not data: break
         processes_message(proxies, storage, data)
         result = generate_sensordata(proxies, storage)
-#        print 'Return message: ',result
+        print 'Return message: ',result
         conn.send( result )
     conn.close()
     print 'Closed server at port ',PORT 
