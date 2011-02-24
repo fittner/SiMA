@@ -1,5 +1,7 @@
 package nao.main;
 
+import java.io.IOException;
+
 import nao.body.clsNAOBody;
 import nao.body.io.actuators.clsActionProcessor;
 import statictools.clsGetARSPath;
@@ -18,53 +20,50 @@ public class clsNAORun implements Runnable{
 	clsNAOBody nao;
 	
 	 public void run() {
-	    	try{
-	    		
-	    		String oFilename = "";
-	    		oFilename = "testsetup.main.properties"; // no parameters given - used default config			
-				String oPath = "";
-				oPath = clsGetARSPath.getConfigPath();
-		    	
-		    	clsBWProperties oProp = pa.clsPsychoAnalysis.getDefaultProperties("");
-		    	itfDecisionUnit oDU = new pa.clsPsychoAnalysis("", oProp);
-		    	
-		    	clsActionProcessor oActionProcessor = new clsActionProcessor();
-		    	oDU.setActionProcessor(oActionProcessor);
-		    	
+//    		String oFilename = oFilename = "testsetup.main.properties"; // no parameters given - used default config			
+//			String oPath = oPath = clsGetARSPath.getConfigPath();
+	    	
+	    	clsBWProperties oProp = pa.clsPsychoAnalysis.getDefaultProperties("");
+	    	itfDecisionUnit oDU = new pa.clsPsychoAnalysis("", oProp);
+	    	
+	    	clsActionProcessor oActionProcessor = new clsActionProcessor();
+	    	oDU.setActionProcessor(oActionProcessor);
+	    	
+			try {
 				nao = new clsNAOBody(moNAOURL, moNAOPort);
-				
-				nao.getBrain().setDecisionUnit(oDU);
-				int oStep = 0;
-				
-				while(clsSingletonNAOState.getKeeprunning())
-		            {
-					 	System.out.println("step: " + oStep);
-					 	
-					 	nao.stepSensing();
-					 	nao.stepUpdateInternalState();
-					 	nao.stepProcessing();
-					 	nao.stepExecution();
-					 	
-					 	oStep++;
-					 	
-		            }
-				nao.close();
-				System.out.println("...stopping thread");
-				
-	    	} catch(Exception e) {
+			} catch (IOException e) {
+				e.printStackTrace();
 	    		System.out.println(getCustomStackTrace(e));
-	    		System.exit(0);	    	      
-	    	}
-	    	finally{
-	    		
-	    		try {
-	    			
-					nao.close();
-					
-				} catch (Exception e) {
-					System.out.println(getCustomStackTrace(e));
-				}
-	    	}
+	    		System.exit(0);	
+			}
+			
+			nao.getBrain().setDecisionUnit(oDU);
+			int oStep = 0;
+			
+			while(clsSingletonNAOState.getKeeprunning())
+            {
+			 	System.out.println("step: " + oStep);
+			 	
+			 	nao.stepSensing();
+			 	nao.stepUpdateInternalState();
+			 	nao.stepProcessing();
+		 		nao.stepExecution();
+			 	
+			 	oStep++;
+			 	
+            }
+			System.out.println("...stopping thread");
+			
+//	    		System.out.println(getCustomStackTrace(e));
+//	    		System.exit(0);	    	      
+  		
+    		try {
+    			
+				nao.close();
+				
+			} catch (Exception e) {
+				System.out.println(getCustomStackTrace(e));
+			}
 		}
 	 
 	 

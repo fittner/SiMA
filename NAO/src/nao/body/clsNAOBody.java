@@ -1,6 +1,8 @@
 package nao.body;
 
 
+import java.io.IOException;
+import java.net.UnknownHostException;
 import java.util.Arrays;
 import java.util.Vector;
 
@@ -10,6 +12,7 @@ import NAOProxyClient.NAOProxyClient;
 import NAOProxyClient.Sensor;
 
 import nao.body.io.clsExternalIO;
+import nao.main.clsSingletonNAOState;
 import nao.utils.enums.eBodyType;
 import nao.body.brainsocket.clsBrainSocket;
 import nao.body.clsBaseBody;
@@ -24,7 +27,7 @@ public class clsNAOBody extends clsBaseBody implements  itfGetBrain {
     private Vector<Sensor> moSensordata;
     private Vector<Command> moCommands;
 	
-	public clsNAOBody(String URL, int port) throws Exception {
+	public clsNAOBody(String URL, int port) throws UnknownHostException, IOException {
 		super();
 		
 		moClient = new NAOProxyClient(URL, port);
@@ -49,12 +52,13 @@ public class clsNAOBody extends clsBaseBody implements  itfGetBrain {
 
 		moCommands.add(CommandGenerator.reset());
 		moCommands.add(CommandGenerator.say("Hi! I am NAO. Where is my shrink?"));
-		try {
-			communicate();
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+			try {
+				communicate();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+
 		moCommands.clear();
 		
 	}
@@ -86,14 +90,15 @@ public class clsNAOBody extends clsBaseBody implements  itfGetBrain {
 	}
 
 	@Override
-	public void stepExecution() {
+	public void stepExecution()  {
 		moExternalIO.stepExecution();
-		
+
 		try {
 			communicate();
-		} catch (Exception e) {
+		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+			clsSingletonNAOState.setKeeprunning(false);
 		}
 //		
 //		moInternalIO.stepExecution();
@@ -105,7 +110,7 @@ public class clsNAOBody extends clsBaseBody implements  itfGetBrain {
 		meBodyType = eBodyType.NAO;		
 	}	
 	
-	private void communicate() throws Exception {
+	private void communicate() throws IOException {
 		moSensordata = moClient.communicate(moCommands); 
 		moCommands.clear();
 	}
