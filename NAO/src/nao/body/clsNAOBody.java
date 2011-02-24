@@ -105,7 +105,8 @@ public class clsNAOBody extends clsBaseBody implements  itfGetBrain {
 	}	
 	
 	private void communicate() throws IOException {
-		moSensordata = moClient.communicate(moCommands); 
+		moSensordata.clear();
+		moSensordata.addAll( moClient.communicate(moCommands) ); 
 		moCommands.clear();
 	}
 

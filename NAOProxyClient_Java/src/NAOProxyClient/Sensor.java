@@ -9,13 +9,13 @@ public class Sensor {
 	public final static String outerdelimiter = ";";
 
 	public final eSensors id;
-	public Vector<SensorTuple> values;	
+	public Vector<SensorValueTuple> values;	
 	
 	public Sensor(eSensors id) {
 		this.id = id;
-		this.values = new Vector<SensorTuple>();
+		this.values = new Vector<SensorValueTuple>();
 	}
-	public Sensor(eSensors id, Vector<SensorTuple> params) {
+	public Sensor(eSensors id, Vector<SensorValueTuple> params) {
 		this.id = id;
 		
 		this.values = params;
@@ -34,17 +34,20 @@ public class Sensor {
 		String[] temp = subdata.split(Sensor.delimiter);
 		Vector<String> strparams = new Vector<String>(Arrays.asList(temp));
 		
-		Vector<SensorTuple> params = new Vector<SensorTuple>();
+		Vector<SensorValueTuple> params = new Vector<SensorValueTuple>();
 		for (String param:strparams) {
 			if (param.length() == 0) {
 				continue;
 			}
 			
 			switch (id) {
-				case VISION: params.add( new SensorVision(param) );
+				case VISION: params.add( new SensorValueVision(param) );
 					break;
+					
+				case BUMP: params.add( new SensorValueBump(param));
+				    break;
 
-				default:params.add( new SensorTuple(param) );
+				default:params.add( new SensorValueTuple(param) );
 					break;
 			}
 			

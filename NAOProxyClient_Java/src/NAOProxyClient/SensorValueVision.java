@@ -1,12 +1,12 @@
 package NAOProxyClient;
 
-public class SensorVision extends SensorTuple {
+public class SensorValueVision extends SensorValueTuple {
 	private eVisionEntryTypes type;
 	private double r;
 	private double a;
 	private final static String delimiter = "@";
 
-	public SensorVision(String data) {
+	public SensorValueVision(String data) {
 		super(data);
 
 		type = eVisionEntryTypes.UNKNOWN;

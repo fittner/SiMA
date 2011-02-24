@@ -1,11 +1,11 @@
 package NAOProxyClient;
 
-public class SensorTuple {
+public class SensorValueTuple {
 	protected String name = "";
 	protected String value = "";
 	protected final static String namedelimiter = ":";
 	
-	public SensorTuple(String data) {
+	public SensorValueTuple(String data) {
 		split(data);
 	}
 	

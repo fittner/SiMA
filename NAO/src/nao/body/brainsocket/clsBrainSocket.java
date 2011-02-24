@@ -11,8 +11,8 @@ import java.awt.Color;
 import java.util.Vector;
 import bfg.utils.enums.eSide;
 import NAOProxyClient.Sensor;
-import NAOProxyClient.SensorTuple;
-import NAOProxyClient.SensorVision;
+import NAOProxyClient.SensorValueTuple;
+import NAOProxyClient.SensorValueVision;
 import NAOProxyClient.eSensors;
 import du.enums.eSensorExtType;
 import du.itf.itfDecisionUnit;
@@ -57,42 +57,19 @@ public class clsBrainSocket implements itfStepProcessing {
 			
 			switch(oSensor.id )
 			{
-				case BATTERY:
-					break;
-				case BUMP:
-					break;
-				case CONSUMESUCCESS:
-					break;
-				case FSR:
-					break;
-				case ODOMETRY:
-					break;
-				case POSITION:
-					break;
-				case SENTINEL:
-					break;
-				case SONAR:
-					break;
-				case TEMPERATURE:
-					break;
-				case UNKNOWN:
-					break;
-				case VISION:
-				{
-					for (SensorTuple data:oSensor.values) {
-						SensorVision oVisionEntry = (SensorVision)data;
-						
-						double oVisionDistance = oVisionEntry.getR();
-						
-						if(oVisionDistance  >= 0 && oVisionDistance <_NAO_NEAR_DISTANCE  )
-							oData.addSensorExt(eSensorExtType.VISION_NEAR, convertNAOVision2DUVision(oVisionEntry, eSensorExtType.VISION_NEAR));
-						if(oVisionDistance  >= _NAO_NEAR_DISTANCE && oVisionDistance <_NAO_MEDIUM_DISTANCE)
-							oData.addSensorExt(eSensorExtType.VISION_MEDIUM, convertNAOVision2DUVision(oVisionEntry, eSensorExtType.VISION_MEDIUM));
-						if(oVisionDistance  >= _NAO_MEDIUM_DISTANCE)
-							oData.addSensorExt(eSensorExtType.VISION_FAR, convertNAOVision2DUVision(oVisionEntry, eSensorExtType.VISION_FAR));
-					}
-					break;
-				}
+				case BATTERY:	processBattery(oSensor, oData); break;
+				case BUMP:      processBump(oSensor, oData); break;
+				case CONSUMESUCCESS:processConsumeSuccess(oSensor, oData); break;
+				case FSR:		processFSR(oSensor, oData); break;
+				case ODOMETRY:  processOdometry(oSensor, oData); break;
+				case POSITION:  processPosition(oSensor, oData); break;
+				case SENTINEL:  processSentinel(oSensor, oData); break;
+				case SONAR:     processSonar(oSensor, oData); break;
+				case TEMPERATURE: processTemperature(oSensor, oData); break;
+				case VISION: 	  processVision(oSensor, oData); break;
+
+//				case UNKNOWN:
+//					break;
 				default:throw new java.lang.NullPointerException("NAO sensor type not implemented");
 			}
 			
@@ -100,10 +77,57 @@ public class clsBrainSocket implements itfStepProcessing {
 
 		return oData;
 	}
+		
+	private void processBattery(Sensor poSensor, clsSensorData poData) {
+		processSENSORNOTIMPLEMENTED(poSensor);
+	}
+	private void processBump(Sensor poSensor, clsSensorData poData) {
+		processSENSORNOTIMPLEMENTED(poSensor);
+	}
+	private void processConsumeSuccess(Sensor poSensor, clsSensorData poData) {
+		processSENSORNOTIMPLEMENTED(poSensor);
+	}
+	private void processFSR(Sensor poSensor, clsSensorData poData) {
+		processSENSORNOTIMPLEMENTED(poSensor);
+	}
+	private void processOdometry(Sensor poSensor, clsSensorData poData) {
+		processSENSORNOTIMPLEMENTED(poSensor);
+	}
+	private void processPosition(Sensor poSensor, clsSensorData poData) {
+		processSENSORNOTIMPLEMENTED(poSensor);
+	}
+	private void processSentinel(Sensor poSensor, clsSensorData poData) {
+		processSENSORNOTIMPLEMENTED(poSensor);
+	}
+	private void processSonar(Sensor poSensor, clsSensorData poData) {
+		processSENSORNOTIMPLEMENTED(poSensor);
+	}
+	private void processTemperature(Sensor poSensor, clsSensorData poData) {
+		processSENSORNOTIMPLEMENTED(poSensor);
+	}
+	
+	private void processSENSORNOTIMPLEMENTED(Sensor poSensor) {
+		System.out.println("processSensor not implemented. "+poSensor);
+	}
+	
+	private void processVision(Sensor poSensor, clsSensorData poData) {
+		for (SensorValueTuple data:poSensor.values) {
+			SensorValueVision oVisionEntry = (SensorValueVision)data;
+			
+			double oVisionDistance = oVisionEntry.getR();
+			
+			if(oVisionDistance  >= 0 && oVisionDistance <_NAO_NEAR_DISTANCE  )
+				poData.addSensorExt(eSensorExtType.VISION_NEAR, convertNAOVision2DUVision(oVisionEntry, eSensorExtType.VISION_NEAR));
+			if(oVisionDistance  >= _NAO_NEAR_DISTANCE && oVisionDistance <_NAO_MEDIUM_DISTANCE)
+				poData.addSensorExt(eSensorExtType.VISION_MEDIUM, convertNAOVision2DUVision(oVisionEntry, eSensorExtType.VISION_MEDIUM));
+			if(oVisionDistance  >= _NAO_MEDIUM_DISTANCE)
+				poData.addSensorExt(eSensorExtType.VISION_FAR, convertNAOVision2DUVision(oVisionEntry, eSensorExtType.VISION_FAR));
+		}		
+	}
 	
 
 	//creates one vision entry transformed to ARS vision types
-	private clsVision convertNAOVision2DUVision(SensorVision poNAOSensorVision, eSensorExtType poVisionType){
+	private clsVision convertNAOVision2DUVision(SensorValueVision poNAOSensorVision, eSensorExtType poVisionType){
 		clsVision oData = new clsVision();
 		oData.setSensorType(poVisionType);
 
@@ -116,7 +140,7 @@ public class clsBrainSocket implements itfStepProcessing {
 	
 	
 	//the real deep transformation to ARS vision data
-	private clsVisionEntry convertVisionEntry(SensorVision poNAOSensorVisionData) {
+	private clsVisionEntry convertVisionEntry(SensorValueVision poNAOSensorVisionData) {
 		clsVisionEntry oData = new clsVisionEntry();
 		
 		//set data, for all objects these are the same
@@ -174,7 +198,7 @@ public class clsBrainSocket implements itfStepProcessing {
 	
 
 	//convert the objects from the nao vision to symbols where the object is
-	private eSide getObjectPosition(SensorVision poNAOSensorVisionData){
+	private eSide getObjectPosition(SensorValueVision poNAOSensorVisionData){
 		eSide oSide = eSide.UNDEFINED;
 		
 		//where is the object
