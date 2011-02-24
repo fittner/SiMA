@@ -46,6 +46,9 @@ public class Sensor {
 					
 				case BUMP: params.add( new SensorValueBump(param));
 				    break;
+				    
+				case SENTINEL: params.add( new SensorValueString(param) );
+					break;
 
 				default:params.add( new SensorValueDouble(param) );
 					break;
