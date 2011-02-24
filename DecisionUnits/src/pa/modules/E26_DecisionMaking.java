@@ -229,7 +229,8 @@ public class E26_DecisionMaking extends clsModuleBase implements I1_7_receive, I
 			//	String oIntensity = oExtContent.substring(oExtContent.indexOf(":", nFirstIndex) + 1, oExtContent.indexOf("|", nFirstIndex));
 				
 				if (oExtContent.contains(oDriveContent.substring(0, oDriveContent.indexOf(":")))
-						&& (oDriveContent.contains(eAffectLevel.HIGH.name())
+						&& (oDriveContent.contains(eAffectLevel.MEDIUM.name())
+							||oDriveContent.contains(eAffectLevel.HIGH.name())
 							||oDriveContent.contains(eAffectLevel.VERYHIGH.name()))){
 //						&& ((oIntensity.equals("HIGH"))
 //						|| (oIntensity.equals("VERYHIGH")))){ 
