@@ -31,7 +31,7 @@ public class CommandGenerator {
 		// force > 0 turn left
 		// force < 0 turn right (or vice versa)
 		if (force > 1.0 || force < -1.0) {
-			throw new java.lang.Exception("move force out of bounds. -1.0<"+force+"<1.0 violated");
+			throw new java.lang.Exception("turn force out of bounds. -1.0<"+force+"<1.0 violated");
 		}
 		
 		Command c = new Command(eCommands.TURN);

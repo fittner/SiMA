@@ -75,11 +75,11 @@ public class clsActionSequenceFactory {
 		
 		for (int i=0;i<piDuration;i++) {
 			oSeq.add(i*90, new clsActionMove(eActionMoveDirection.MOVE_FORWARD, prSpeed),15);
-			oSeq.add(i*90+20, new clsActionTurn(eActionTurnDirection.TURN_RIGHT,50*rRand1),10);
+			oSeq.add(i*90+20, new clsActionTurn(eActionTurnDirection.TURN_RIGHT,prSpeed*rRand1),10);
 			oSeq.add(i*90+30, new clsActionMove(eActionMoveDirection.MOVE_FORWARD, prSpeed),15);
-			oSeq.add(i*90+50, new clsActionTurn(eActionTurnDirection.TURN_RIGHT,50*rRand2),10);
+			oSeq.add(i*90+50, new clsActionTurn(eActionTurnDirection.TURN_RIGHT,prSpeed*rRand2),10);
 			oSeq.add(i*90+60, new clsActionMove(eActionMoveDirection.MOVE_FORWARD, prSpeed),15);
-			oSeq.add(i*90+80, new clsActionTurn(eActionTurnDirection.TURN_RIGHT,50*rRand3),10);
+			oSeq.add(i*90+80, new clsActionTurn(eActionTurnDirection.TURN_RIGHT,prSpeed*rRand3),10);
 		}
 		
 		return oSeq;

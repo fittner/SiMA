@@ -154,7 +154,7 @@ public class E31_NeuroDeSymbolization extends clsModuleBase implements I8_1_rece
 						//System.out.println("cmd: eat");
 					}
 					else if(oAction.equals("DANCE_1")) {
-						moActionCommandList_Output.add( clsActionSequenceFactory.getWalzSequence(2,2) );
+						moActionCommandList_Output.add( clsActionSequenceFactory.getWalzSequence(1, 2) );
 						//System.out.println("cmd: dance");
 					}
 					else {
@@ -164,7 +164,7 @@ public class E31_NeuroDeSymbolization extends clsModuleBase implements I8_1_rece
 		}
 		else {
 			if( mnCounter > 150) {
-				moActionCommandList_Output.add( clsActionSequenceFactory.getSeekingSequence(1f,2) );
+	 			moActionCommandList_Output.add( clsActionSequenceFactory.getSeekingSequence(1.0f, 2) );
 				mnCounter = 0; 
 			}
 			
