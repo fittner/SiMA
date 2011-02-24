@@ -11,6 +11,7 @@ from NAOProxy.cmd.eCommands import Commands
 from NAOProxy.proxy import getProxies
 from NAOProxy.cmd.cower import cower
 from NAOProxy.datastorage import datastorage
+from NAOProxy.sensor.sensorprocessor import initsensors
 
 import config
 import sys
@@ -134,6 +135,7 @@ def disconnectNao(proxies):
 # main program
 storage = datastorage()
 proxies = connectNao()
+initsensors(storage)
 
 s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 s.bind((HOST, PORT))
@@ -147,6 +149,7 @@ while 1:
         if not data: break
         processes_message(proxies, storage, data)
         result = generate_sensordata(proxies, storage)
+        print 'Return message: ',result
         conn.send( result )
     conn.close()
     print 'Closed server at port ',PORT 

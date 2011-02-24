@@ -1,7 +1,8 @@
 from eSensors import Sensor 
 from getdata import readmemory3
 
-sensorlist = {"US/Left0":"Device/SubDeviceList/US/Left/Sensor/Value", 
+def init(storage):
+    storage.sensorlist['sonar'] = {"US/Left0":"Device/SubDeviceList/US/Left/Sensor/Value", 
             "US/Left1":"Device/SubDeviceList/US/Left/Sensor/Value1", 
             "US/Left2":"Device/SubDeviceList/US/Left/Sensor/Value2", 
             "US/Left3":"Device/SubDeviceList/US/Left/Sensor/Value3", 
@@ -30,10 +31,8 @@ sensorlist = {"US/Left0":"Device/SubDeviceList/US/Left/Sensor/Value",
             'SonarRightNothingDetected':'SonarRightNothingDetected'
              }
 
-def sonar(proxies):
+def sonar(proxies, storage):
     """http://academics.aldebaran-robotics.com/docs/site_en/reddoc/hardware/us_sensor.html"""
     
     memory = proxies['memory']
-    data = readmemory3(memory, Sensor.SONAR, sensorlist)
-
-    return data[:-1]
+    return readmemory3(memory, Sensor.SONAR, storage.sensorlist['sonar'])

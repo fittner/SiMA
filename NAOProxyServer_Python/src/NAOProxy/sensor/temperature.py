@@ -1,8 +1,10 @@
 from eSensors import Sensor 
 from getdata import getdata2
 from config import innerdelimiter
+from getdata import readmemory
 
-sensorlist = ["Device/SubDeviceList/Battery/Temperature/Sensor/Value", 
+def init(storage):
+    storage.sensorlist['temperature'] = ["Device/SubDeviceList/Battery/Temperature/Sensor/Value", 
             "Device/SubDeviceList/HeadPitch/Temperature/Sensor/Value", 
             "Device/SubDeviceList/HeadYaw/Temperature/Sensor/Value", 
             "Device/SubDeviceList/LAnklePitch/Temperature/Sensor/Value", 
@@ -29,12 +31,6 @@ sensorlist = ["Device/SubDeviceList/Battery/Temperature/Sensor/Value",
             "Device/SubDeviceList/RShoulderRoll/Temperature/Sensor/Value", 
             "Device/SubDeviceList/RWristYaw/Temperature/Sensor/Value"]
 
-def temperature(proxies):
+def temperature(proxies, storage):
     memory = proxies['memory']
-    
-    data = str(Sensor.TEMPERATURE)+innerdelimiter
-    
-    for item in sensorlist:
-        data += getdata2(memory, item)
-
-    return data[:-1]
+    return readmemory(memory, Sensor.TEMPERATURE, storage.sensorlist['temperature'])

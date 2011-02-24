@@ -1,8 +1,8 @@
 from eSensors import Sensor 
-from getdata import getdata2
-from config import innerdelimiter
+from getdata import readmemory
 
-sensorlist = ["Device/SubDeviceList/HeadPitch/Position/Sensor/Value", 
+def init(storage):
+    storage.sensorlist['position'] = ["Device/SubDeviceList/HeadPitch/Position/Sensor/Value", 
             "Device/SubDeviceList/HeadYaw/Position/Sensor/Value", 
             "Device/SubDeviceList/LAnklePitch/Position/Sensor/Value", 
             "Device/SubDeviceList/LAnkleRoll/Position/Sensor/Value", 
@@ -28,12 +28,6 @@ sensorlist = ["Device/SubDeviceList/HeadPitch/Position/Sensor/Value",
             "Device/SubDeviceList/RShoulderRoll/Position/Sensor/Value", 
             "Device/SubDeviceList/RWristYaw/Position/Sensor/Value"]
 
-def position(proxies):
+def position(proxies, storage):
     memory = proxies['memory']
-    
-    data = str(Sensor.POSITION)+innerdelimiter
-    
-    for item in sensorlist:
-        data += getdata2(memory, item)
-
-    return data[:-1]
+    return readmemory(memory, Sensor.POSITION, storage.sensorlist['position'])

@@ -2,10 +2,12 @@ from eSensors import Sensor
 from eVisionEntryTypes import VisionEntryTypes
 from config import innerdelimiter
 from config import namedelimiter
+from config import polarcoordelimiter
 import math
 #from NAOProxy.datastorage import datastorage
 
-polarcoordelimiter = "@"
+def init(storage):
+    return
 
 def toPolar2D(x, y):
     r = math.sqrt(x*x + y*y)

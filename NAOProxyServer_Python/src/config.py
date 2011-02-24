@@ -5,5 +5,6 @@ URLPROXY = ""           #should usually be set to localport - can be left empty.
 outerdelimiter = ";"
 innerdelimiter = ","
 namedelimiter  = ":" 
+polarcoordelimiter = "@"
 maxstiffness = 0.8
 consumerange = 0.5      # max range of objects to be consumed. 
