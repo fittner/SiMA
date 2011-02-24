@@ -1,6 +1,6 @@
 package NAOProxyClient;
 
-public class SensorValueTuple {
+public abstract class SensorValueTuple {
 	protected String name = "";
 	protected String value = "";
 	protected final static String namedelimiter = ":";
@@ -20,14 +20,10 @@ public class SensorValueTuple {
 	}
 	
 	public String toString() {
-		return getName()+namedelimiter+getValue();
+		return name+namedelimiter+value;
 	}
 	
 	public String getName() {
 		return name;
-	}
-	
-	public String getValue() {
-		return value;
 	}
 }
