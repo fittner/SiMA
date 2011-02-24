@@ -55,8 +55,21 @@ public class CommandGenerator {
 		return c;
 	}	
 	
+	
+	private static String toSafeString(String text) {
+		text = text.replace(":", ".");
+		text = text.replace("\n", ".");
+		text = text.replace(";", ".");
+		text = text.replace("@", ".");
+		text = text.replace(",", ".");
+		
+		return text;
+	}
 	public static Command say(String msg) {
 		Command c = new Command(eCommands.SAY);
+		
+		msg = toSafeString(msg);
+		
 		c.params.add(msg);
 		
 		return c;
