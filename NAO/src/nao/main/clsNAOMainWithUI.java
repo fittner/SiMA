@@ -13,6 +13,8 @@ import java.awt.event.ActionListener;
 
 import javax.swing.*;
 
+import NAOProxyClient.NAOProxyClient;
+
 import config.clsBWProperties;
 import decisionunit.clsDecisionUnitFactory;
 import du.itf.itfDecisionUnit;
@@ -65,10 +67,10 @@ public class clsNAOMainWithUI extends javax.swing.JFrame implements ActionListen
 	    content.setBackground(Color.LIGHT_GRAY);
 	    content.setLayout(new FlowLayout()); 
 	    
-	    moURLTextField = new JTextField("128.131.80.227");
+	    moURLTextField = new JTextField(NAOProxyClient._DEFAULT_URL); 
 	    content.add(moURLTextField);
 	    
-	    moPortTextField = new JTextField("9669");
+	    moPortTextField = new JTextField(String.valueOf(NAOProxyClient._DEFAULT_PORT));
 	    content.add(moPortTextField);
 	    
  	    
