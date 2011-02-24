@@ -8,7 +8,7 @@ public class Simulate {
 	private static final int _minwait = 5000;
 	private static final int _port = 9669;
 //	private static final String _url = "localhost";
-	private static final String _url = "192.168.128.130";
+	private static final String _url = "192.168.128.132";
 	private static final int _loops = 50;
 	
 	private static void com(NAOProxyClient nao, Command cmd) throws Exception {
@@ -24,6 +24,7 @@ public class Simulate {
 		int wait = 1000;
 		System.out.println("testCommands ...");
 		
+		com(nao, CommandGenerator.say("starting test run"));	Thread.sleep(wait);
 		com(nao, CommandGenerator.halt());	Thread.sleep(wait);
 		com(nao, CommandGenerator.turn(1.0));	Thread.sleep(wait);
 		com(nao, CommandGenerator.halt());	Thread.sleep(wait);
@@ -45,7 +46,7 @@ public class Simulate {
 		com(nao, CommandGenerator.halt());	Thread.sleep(wait);	
 		com(nao, CommandGenerator.headreset());	Thread.sleep(wait);
 		com(nao, CommandGenerator.halt());	Thread.sleep(wait);		
-		com(nao, CommandGenerator.say("juhuu!"));	Thread.sleep(wait);
+		com(nao, CommandGenerator.say("juhuu"));	Thread.sleep(wait);
 		com(nao, CommandGenerator.halt());	Thread.sleep(wait);
 		
 		System.out.println("... done");
@@ -71,10 +72,23 @@ public class Simulate {
 		System.out.println("... done");
 	}
 	
+	private static void doNothing(NAOProxyClient nao) throws Exception {
+		int wait = 1000;
+		System.out.println("testCommands ...");
+		
+		com(nao, CommandGenerator.say("do nothing loop"));
+		com(nao, CommandGenerator.headyaw(-1.0, 1.0));
+		
+		while(true) {
+			com(nao, CommandGenerator.halt());	Thread.sleep(wait);		
+		}
+	}
+	
 	public static void main(String argv[]) throws Exception {
 		try {
 			NAOProxyClient nao = new NAOProxyClient(_url, _port);
 			
+//			doNothing(nao);
 			testCommands(nao);
 			randomCommands(nao);
 
