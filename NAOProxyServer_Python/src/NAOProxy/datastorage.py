@@ -14,3 +14,6 @@ class datastorage:
         del self.invisibleEntities[:]
         self.visibleEntities.clear()
         self.consumedId = None
+        
+    def clearVE(self):
+        self.visibleEntities.clear()

@@ -22,7 +22,10 @@ def visionentry(id, type, direction, distance, storage):
     else:  
         # id is in rnage and allowed to be visible - add to return results and to visible enities list
         storage.visibleEntities[id] = (type, direction, distance)
-        data = str(id) + namedelimiter + type + polarcoordelimiter + str(distance) + polarcoordelimiter +str(direction) + innerdelimiter
+        data = str(id) + namedelimiter 
+        data += str(type) + polarcoordelimiter 
+        data += str(distance) + polarcoordelimiter 
+        data += str(direction) + innerdelimiter
         
     return data
 
@@ -30,7 +33,7 @@ def vision(proxies, storage):
 #    memory = proxies['memory']
     data = str(Sensor.ODOMETRY)+innerdelimiter
     
-    del storage.visibleEntities[:] # reset list of visible ids - is refilled reach round
+    storage.clearVE() # reset list of visible ids - is refilled reach round
     
     data += visionentry(1, VisionEntryTypes.BUBBLE, 0, 5, storage)
     data += visionentry(0, VisionEntryTypes.CAKE, -0.2, 3, storage)

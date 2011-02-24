@@ -32,11 +32,15 @@ def readmemory3(memory, id, list):
     return data[:-1]
 
 def getdata(memory, name, device):
-    data = ""
+
+    data = name + namedelimiter
     try:
-        data = name + namedelimiter + str( memory.getData(device, 0) ) + innerdelimiter
+        data += str( memory.getData(device, 0) )
     except:
         print "ALMemory: '"+device+"' does not exist"
+        data += ""
+        
+    data += innerdelimiter
         
     return data
 

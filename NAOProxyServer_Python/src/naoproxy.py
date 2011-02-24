@@ -149,4 +149,4 @@ while 1:
         conn.send( generate_sensordata(proxies, storage) )
     conn.close()
     print 'Closed server at port ',PORT 
-    process(proxies, Commands.HALT, []) 
+    process(proxies, storage, Commands.HALT, []) 

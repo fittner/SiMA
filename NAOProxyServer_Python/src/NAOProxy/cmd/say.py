@@ -3,4 +3,4 @@ def say(proxies, text):
     if proxies['speech'] != None:
         proxies['speech'].say(text)
     elif proxies['log'] != None:
-        proxies['log'].into("say",text)
+        proxies['log'].info("say",text)
