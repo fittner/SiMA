@@ -4,8 +4,8 @@ import java.util.Vector;
 
 
 public class NAOProxyClient {
-	public final String _DEFAULT_URL = "localhost";
-	public final int _DEFAULT_PORT = 9669;
+	public static final String _DEFAULT_URL = "localhost";
+	public static final int _DEFAULT_PORT = 9669;
 	
 	private TCPClient client;
 	
