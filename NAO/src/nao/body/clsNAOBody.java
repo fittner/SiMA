@@ -29,10 +29,10 @@ public class clsNAOBody extends clsBaseBody implements  itfGetBrain {
 		
 		moClient = new NAOProxyClient(URL, port);
 		
-		initSequence();
-		
 		moSensordata = new Vector<Sensor>();
 		moCommands = new Vector<Command>();
+		
+		initSequence();
 		
 //		moInternalSystem 		= new clsInternalSystem(pre+P_INTERNAL, poProp);
 //		moIntraBodySystem 		= new clsIntraBodySystem(pre+P_INTRABODY, poProp, moInternalSystem, poEntity);
@@ -44,11 +44,17 @@ public class clsNAOBody extends clsBaseBody implements  itfGetBrain {
 	}
 	
 	private void initSequence() {
+		
 		moCommands.clear();
 
 		moCommands.add(CommandGenerator.reset());
 		moCommands.add(CommandGenerator.say("Hi! I am NAO. Where is my shrink?"));
-		
+		try {
+			communicate();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		moCommands.clear();
 		
 	}
