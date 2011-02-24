@@ -9,20 +9,20 @@ public class Sensor {
 	public final static String outerdelimiter = ";";
 
 	public final eSensors id;
-	public Vector<SensorTuple> params;	
+	public Vector<SensorTuple> values;	
 	
 	public Sensor(eSensors id) {
 		this.id = id;
-		this.params = new Vector<SensorTuple>();
+		this.values = new Vector<SensorTuple>();
 	}
 	public Sensor(eSensors id, Vector<SensorTuple> params) {
 		this.id = id;
 		
-		this.params = params;
+		this.values = params;
 	}
 	
 	public String toString() {
-		return id+":"+params;
+		return id+":"+values;
 	}
 	
 	public static Sensor stringToSensor(String data) {
