@@ -42,8 +42,11 @@ def read_line(s):     # read from socket until new line or NULL is read;
 
 # ------------------------------------------------------------------------
 def log_msg(proxies, msg):
-    print msg
-    proxies['log'].info("naoproxy", msg)
+    if proxies['log'] == None:
+        print "... no log proxy found"
+    else:
+        print msg
+        proxies['log'].info("naoproxy", msg)
     return
 
 # ------------------------------------------------------------------------

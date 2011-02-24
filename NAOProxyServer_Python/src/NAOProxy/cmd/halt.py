@@ -1,4 +1,8 @@
 def halt(proxies):
+    if proxies['motion'] == None:
+        print "... no motion proxy found"
+        return
+    
     #TARGET VELOCITY
     X = 0.0 
     Y = 0.0

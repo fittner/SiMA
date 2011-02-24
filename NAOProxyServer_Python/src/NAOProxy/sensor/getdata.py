@@ -93,3 +93,6 @@ def getdata2(memory, device):
     pre = len("Device/SubDeviceList/")
     post = len("/Sensor/Value")
     return getdata(memory, device[pre:-post], device)
+
+def emptyentry(id):
+    return str(id)+innerdelimiter

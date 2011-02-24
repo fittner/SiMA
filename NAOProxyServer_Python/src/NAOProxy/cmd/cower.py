@@ -2,6 +2,10 @@ import config
 #import time
 
 def cower(proxies):
+    if proxies['motion'] == None:
+        print "... no motion proxy found"
+        return
+        
     motionProxy = proxies['motion']
     
     time1 = 2

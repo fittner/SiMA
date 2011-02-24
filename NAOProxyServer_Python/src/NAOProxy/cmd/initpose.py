@@ -1,6 +1,11 @@
 from motion import TO_RAD
 
 def initpose(proxies):
+    if proxies['motion'] == None:
+        print "... no motion proxy found"
+        return
+
+    
     # Feel free to experiment with these values
     kneeAngle  = 40
     torsoAngle =  0

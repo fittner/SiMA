@@ -1,4 +1,9 @@
 def move(proxies, forward, speed):
+    if proxies['motion'] == None:
+        print "... no motion proxy found"
+        return
+
+    
     #TARGET VELOCITY
     if (forward):
         X = 1.0  #forward

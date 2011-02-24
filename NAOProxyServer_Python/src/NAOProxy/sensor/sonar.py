@@ -1,5 +1,6 @@
 from eSensors import Sensor 
 from getdata import readmemory3
+from getdata import emptyentry
 
 def init(storage):
     storage.sensorlist['sonar'] = {"US/Left0":"Device/SubDeviceList/US/Left/Sensor/Value", 
@@ -34,5 +35,9 @@ def init(storage):
 def sonar(proxies, storage):
     """http://academics.aldebaran-robotics.com/docs/site_en/reddoc/hardware/us_sensor.html"""
     
-    memory = proxies['memory']
-    return readmemory3(memory, Sensor.SONAR, storage.sensorlist['sonar'])
+    if proxies['sonar'] == None:
+        print "... no sonar proxy found"
+        return emptyentry(Sensor.SONAR)
+    else:    
+        memory = proxies['memory']
+        return readmemory3(memory, Sensor.SONAR, storage.sensorlist['sonar'])

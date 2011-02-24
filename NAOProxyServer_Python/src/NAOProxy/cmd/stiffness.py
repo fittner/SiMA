@@ -7,6 +7,10 @@ def stiffness(proxies, on):
         stiffnessOff(proxies)
 
 def stiffnessOff(proxies):
+    if proxies['motion'] == None:
+        print "... no motion proxy found"
+        return
+    
     #We use the "Body" name to signify the collection of all joints
     pNames = "Body"
     pStiffnessLists = 0.0
@@ -14,6 +18,10 @@ def stiffnessOff(proxies):
     proxies['motion'].stiffnessInterpolation(pNames, pStiffnessLists, pTimeLists)
     
 def stiffnessOn(proxies):
+    if proxies['motion'] == None:
+        print "... no motion proxy found"
+        return
+    
     #We use the "Body" name to signify the collection of all joints
     pNames = "Body"
     pStiffnessLists = config.maxstiffness

@@ -4,7 +4,7 @@ from config import innerdelimiter
 from config import namedelimiter
 from config import polarcoordelimiter
 import math
-#from NAOProxy.datastorage import datastorage
+from getdata import emptyentry
 
 def init(storage):
     return
@@ -54,11 +54,10 @@ def getType(id):
     return type
 
 def vision(proxies, storage):
-#    memory = proxies['memory']
-    data = str(Sensor.VISION)+innerdelimiter
-    storage.clearVE() # reset list of visible ids - is refilled reach round
-
     if proxies['vision'] != None:
+        data = str(Sensor.VISION)+innerdelimiter
+        storage.clearVE() # reset list of visible ids - is refilled reach round
+        
         cam2ros = proxies['vision'].objects("da") # object= [Name, x, y, z, wx, wy, wz, confidence, time.sec, time.usec ]
         
         added = False
@@ -80,7 +79,10 @@ def vision(proxies, storage):
         
         if added:
             data = data[:-1]
+            
+        return data            
     else:
-        print "Visionproxy not available!"
+        print "... no vision proxy found"
+        return emptyentry(Sensor.VISION)
         
-    return data
+    
