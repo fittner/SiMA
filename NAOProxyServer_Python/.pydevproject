@@ -9,5 +9,6 @@
 </pydev_pathproperty>
 <pydev_pathproperty name="org.python.pydev.PROJECT_EXTERNAL_SOURCE_PATH">
 <path>C:\Program Files (x86)\Aldebaran\naoqi-sdk\lib</path>
+<path>/home/nao/opt/naoqi/lib</path>
 </pydev_pathproperty>
 </pydev_project>

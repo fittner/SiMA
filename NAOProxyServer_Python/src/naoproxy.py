@@ -109,6 +109,9 @@ def generate_sensordata(proxies, storage):   # generate valid formed return msg
 def connectNao():
     print 'Connecting to NAO ('+config.URLNAO+':'+str(config.PORTNAO)+')'
     proxies = getProxies()
+    if proxies['memory'] == None:
+        print "No 'ALMemory' proxy found ... assuming no NAO present. aborting."
+        exit(1)
     print 'Initializing NAO'
     stiffness(proxies, True)
     initpose(proxies)
@@ -142,7 +145,7 @@ while 1:
     while 1:
         data = read_line(conn)
         if not data: break
-        process_msg(proxies, storage, data)
+        processes_message(proxies, storage, data)
         conn.send( generate_sensordata(proxies, storage) )
     conn.close()
     print 'Closed server at port ',PORT 
