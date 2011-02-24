@@ -11,13 +11,20 @@ import java.awt.Color;
 import java.util.Vector;
 import bfg.utils.enums.eSide;
 import NAOProxyClient.Sensor;
+import NAOProxyClient.SensorValueBump;
+import NAOProxyClient.SensorValueDouble;
 import NAOProxyClient.SensorValueTuple;
 import NAOProxyClient.SensorValueVision;
 import NAOProxyClient.eSensors;
 import du.enums.eSensorExtType;
+import du.enums.eSensorIntType;
 import du.itf.itfDecisionUnit;
 import du.itf.actions.itfActionProcessor;
+import du.itf.sensors.clsBump;
+import du.itf.sensors.clsEnergy;
+import du.itf.sensors.clsEnergyConsumption;
 import du.itf.sensors.clsSensorData;
+import du.itf.sensors.clsTemperatureSystem;
 import du.itf.sensors.clsVision;
 import du.itf.sensors.clsVisionEntry;
 import nao.body.itfStepProcessing;
@@ -48,7 +55,7 @@ public class clsBrainSocket implements itfStepProcessing {
 		moSensors = poSensordata;
 	}
 
-	private clsSensorData convertSensorData() {
+	private clsSensorData convertSensorData() throws Exception {
 		clsSensorData oData = new clsSensorData();
 		
 		//HIER UMWANDELN von NAO Sensordaten in ARS Sensordaten
@@ -57,16 +64,16 @@ public class clsBrainSocket implements itfStepProcessing {
 			
 			switch(oSensor.id )
 			{
-				case BATTERY:	processBattery(oSensor, oData); break;
-				case BUMP:      processBump(oSensor, oData); break;
+				case BATTERY:		processBattery(oSensor, oData); break;
+				case BUMP:      	processBump(oSensor, oData); break;
 				case CONSUMESUCCESS:processConsumeSuccess(oSensor, oData); break;
-				case FSR:		processFSR(oSensor, oData); break;
-				case ODOMETRY:  processOdometry(oSensor, oData); break;
-				case POSITION:  processPosition(oSensor, oData); break;
-				case SENTINEL:  processSentinel(oSensor, oData); break;
-				case SONAR:     processSonar(oSensor, oData); break;
-				case TEMPERATURE: processTemperature(oSensor, oData); break;
-				case VISION: 	  processVision(oSensor, oData); break;
+				case FSR:			processFSR(oSensor, oData); break;
+				case ODOMETRY:  	processOdometry(oSensor, oData); break;
+				case POSITION:  	processPosition(oSensor, oData); break;
+				case SENTINEL:  	processSentinel(oSensor, oData); break;
+				case SONAR:     	processSonar(oSensor, oData); break;
+				case TEMPERATURE: 	processTemperature(oSensor, oData); break;
+				case VISION: 	  	processVision(oSensor, oData); break;
 
 //				case UNKNOWN:
 //					break;
@@ -78,32 +85,64 @@ public class clsBrainSocket implements itfStepProcessing {
 		return oData;
 	}
 		
-	private void processBattery(Sensor poSensor, clsSensorData poData) {
-		processSENSORNOTIMPLEMENTED(poSensor);
+	private void processBattery(Sensor poSensor, clsSensorData poData) throws Exception {
+		for (SensorValueTuple value:poSensor.values) {
+			SensorValueDouble v = (SensorValueDouble)value;
+			
+			if (v.getName().equals("Battery/Charge")) {
+				clsEnergy oE = new clsEnergy();
+				oE.setEnergy(v.getDouble());
+				poData.addSensorInt(eSensorIntType.ENERGY, oE);
+			} else if (v.getName().equals("Battery/Current")) {
+				clsEnergyConsumption oEC = new clsEnergyConsumption();
+				oEC.setEnergyConsumption(v.getDouble());
+				poData.addSensorInt(eSensorIntType.ENERGY_CONSUMPTION, oEC);
+			} else {
+				throw new java.lang.Exception("unkown battery sensory key '"+v.getName()+"'");
+			}
+		}
 	}
+	
 	private void processBump(Sensor poSensor, clsSensorData poData) {
-		processSENSORNOTIMPLEMENTED(poSensor);
+		clsBump bumped = new clsBump(false);
+		
+		for (SensorValueTuple value:poSensor.values) {
+			if (((SensorValueBump)value).getBumped()) {
+				bumped.setBumped(true);
+			}
+		}
+		poData.addSensorExt(eSensorExtType.BUMP, bumped);
 	}
+	
 	private void processConsumeSuccess(Sensor poSensor, clsSensorData poData) {
 		processSENSORNOTIMPLEMENTED(poSensor);
 	}
 	private void processFSR(Sensor poSensor, clsSensorData poData) {
-		processSENSORNOTIMPLEMENTED(poSensor);
+		// left empty on purpose
 	}
 	private void processOdometry(Sensor poSensor, clsSensorData poData) {
-		processSENSORNOTIMPLEMENTED(poSensor);
+		// left empty on purpose
 	}
 	private void processPosition(Sensor poSensor, clsSensorData poData) {
-		processSENSORNOTIMPLEMENTED(poSensor);
+		// left empty on purpose
 	}
 	private void processSentinel(Sensor poSensor, clsSensorData poData) {
-		processSENSORNOTIMPLEMENTED(poSensor);
+		// left empty on purpose
 	}
 	private void processSonar(Sensor poSensor, clsSensorData poData) {
-		processSENSORNOTIMPLEMENTED(poSensor);
+		// left empty on purpose
 	}
 	private void processTemperature(Sensor poSensor, clsSensorData poData) {
-		processSENSORNOTIMPLEMENTED(poSensor);
+		clsTemperatureSystem temperature = new clsTemperatureSystem();
+		double max = 0;
+		for (SensorValueTuple value:poSensor.values) {
+			double temp = ((SensorValueDouble)value).getDouble();
+			if (temp > max) {
+				max = temp;
+			}
+		}
+		temperature.setTemperatureValue(max);
+		poData.addSensorInt(eSensorIntType.TEMPERATURE, temperature);
 	}
 	
 	private void processSENSORNOTIMPLEMENTED(Sensor poSensor) {
@@ -239,7 +278,12 @@ public class clsBrainSocket implements itfStepProcessing {
 	@Override
 	public void stepProcessing() {
 		if (moDecisionUnit != null) {
-			moDecisionUnit.update(convertSensorData());
+			try {
+				moDecisionUnit.update(convertSensorData());
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 			moDecisionUnit.process();
 			moDecisionUnit.updateActionProcessorToHTML();
 		} 
