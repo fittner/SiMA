@@ -32,7 +32,7 @@ public class clsEnergyConsumption extends clsSensorIntern implements Cloneable {
 	
 	@Override
 	public String toString() {
-		return getClassName()+": Energy "+mrEnergyConsumption;
+		return getClassName()+": EnergyConsumption "+mrEnergyConsumption;
 	}
 
 	@Override
