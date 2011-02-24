@@ -66,13 +66,17 @@ def vision(proxies, storage):
             name = object[0]
             x = object[1]
             y = object[2]
+            z = object[3]
             r,a=toPolar2D(x, y)
         
             id = getId(name)
             type = getType(id)
         
-            data += visionentry(id, type, r, a, storage)
+            print name+", "+str(x)+", "+str(y)+", "+str(z)+" vs. "+str(id)+", "+str(type)+", "+str(r)+"@"+str(a)
+
+            data += visionentry(id, type, a, r, storage)
             added = True
+
         
         if added:
             data = data[:-1]
