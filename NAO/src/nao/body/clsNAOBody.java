@@ -68,19 +68,13 @@ public class clsNAOBody extends clsBaseBody implements  itfGetBrain {
 		return moBrain;
 	}
 
-	@Override
-	public void stepSensing() {
-//		moExternalIO.stepSensing();
-//		moInternalIO.stepSensing();
-		
-	}
+
 
 	@Override
 	public void stepUpdateInternalState() {
 //		moInternalSystem.stepUpdateInternalState(); //call first!
 //		moIntraBodySystem.stepUpdateInternalState();
 //		moInterBodyWorldSystem.stepUpdateInternalState();
-		
 	}
 
 	@Override
@@ -121,6 +115,11 @@ public class clsNAOBody extends clsBaseBody implements  itfGetBrain {
 	
 	public void close() throws Exception  {
 		moClient.close();
+	}
+
+	@Override
+	public void stepSensing() {
+		// not needed for NAO, leave empty
 	}
 
 }

@@ -1,5 +1,5 @@
 /**
- * @author langr
+ * @author mucha
  * 
  * $Rev::                      $: Revision of last commit
  * $Author::                   $: Author of last commit
@@ -8,43 +8,18 @@
 package nao.body.brainsocket;
 
 import java.awt.Color;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
 import java.util.Vector;
-
+import bfg.utils.enums.eSide;
 import NAOProxyClient.Sensor;
-import config.clsBWProperties;
-
-import du.enums.eAntennaPositions;
-import du.enums.eFastMessengerSources;
+import NAOProxyClient.SensorTuple;
+import NAOProxyClient.SensorVision;
+import NAOProxyClient.eSensors;
 import du.enums.eSensorExtType;
-import du.enums.eSensorIntType;
-import du.enums.eSlowMessenger;
 import du.itf.itfDecisionUnit;
-import du.itf.itfProcessKeyPressed;
 import du.itf.actions.itfActionProcessor;
-import du.itf.sensors.clsBump;
-import du.itf.sensors.clsDataBase;
-import du.itf.sensors.clsEatableArea;
-import du.itf.sensors.clsEatableAreaEntry;
-import du.itf.sensors.clsEnergy;
-import du.itf.sensors.clsEnergyConsumption;
-import du.itf.sensors.clsFastMessenger;
-import du.itf.sensors.clsHealthSystem;
-import du.itf.sensors.clsManipulateArea;
-import du.itf.sensors.clsManipulateAreaEntry;
-import du.itf.sensors.clsPositionChange;
-import du.itf.sensors.clsRadiation;
 import du.itf.sensors.clsSensorData;
-import du.itf.sensors.clsSlowMessenger;
-import du.itf.sensors.clsStaminaSystem;
-import du.itf.sensors.clsStomachTension;
-import du.itf.sensors.clsTemperatureSystem;
 import du.itf.sensors.clsVision;
 import du.itf.sensors.clsVisionEntry;
-
-
 import nao.body.itfStepProcessing;
 
 
@@ -53,36 +28,175 @@ import nao.body.itfStepProcessing;
  * Done: re-think if we insert a clsCerebellum for the neuroscientific perception-modules like R. Velik.
  * Answer: moSymbolization -> all done in another project
  * 
- * @author langr
+ * @author muchistch
  * 
  */
 public class clsBrainSocket implements itfStepProcessing {
+	
+	public  final double _NAO_NEAR_DISTANCE = 1;
+	public  final double _NAO_MEDIUM_DISTANCE = 5;
+	public  final double _NAO_FAR_DISTANCE = 20;
+	public  final double _NAO_AREA_OF_VIEW_RADIANS = Math.PI/2;
+	
 
 	private itfDecisionUnit moDecisionUnit; //reference
 	private itfActionProcessor moActionProcessor; //reference
-	private Vector<Sensor> moSensordata;
+	private Vector<Sensor> moSensors;
 	
 	public clsBrainSocket(itfActionProcessor poActionProcessor, Vector<Sensor> poSensordata) {
 		moActionProcessor=poActionProcessor;
-		moSensordata = poSensordata;
-
-//		applyProperties(poPrefix, poProp);
+		moSensors = poSensordata;
 	}
 
 	private clsSensorData convertSensorData() {
 		clsSensorData oData = new clsSensorData();
 		
-		//ZEILINGER - Integration of the Sensor Engine
-//		oData.addSensorExt(eSensorExtType.BUMP, convertBumpSensor() );
-//		oData.addSensorExt(eSensorExtType.POSITIONCHANGE, convertPositionChangeSensor(eSensorExtType.POSITIONCHANGE) );
+		//HIER UMWANDELN von NAO Sensordaten in ARS Sensordaten
+		
+		for(Sensor oSensor : moSensors) {
+			
+			if(oSensor.id ==  eSensors.BATTERY)
+			
+			if(oSensor.id ==  eSensors.BUMP)
+			
+			if(oSensor.id ==  eSensors.CONSUMESUCCESS)
+			
+			if(oSensor.id ==  eSensors.FSR)
+			
+			if(oSensor.id ==  eSensors.ODOMETRY)
+			
+			if(oSensor.id ==  eSensors.POSITION)
+			
+			if(oSensor.id ==  eSensors.SENTINEL)
+			
+			if(oSensor.id ==  eSensors.SONAR)
+			
+			if(oSensor.id ==  eSensors.TEMPERATURE)
+			
+			if(oSensor.id ==  eSensors.UNKNOWN)
+			
+			if(oSensor.id ==  eSensors.VISION) {
+				
+				for (SensorTuple data:oSensor.values) {
+					SensorVision oVisionEntry = (SensorVision)data;
+					
+					double oVisionDistance = oVisionEntry.getR();
+					
+					if(oVisionDistance >= _NAO_NEAR_DISTANCE)
+						oData.addSensorExt(eSensorExtType.VISION_NEAR, convertNAOVision2DUVision(oVisionEntry, eSensorExtType.VISION_NEAR));
+					if(oVisionDistance >= _NAO_MEDIUM_DISTANCE)
+						oData.addSensorExt(eSensorExtType.VISION_MEDIUM, convertNAOVision2DUVision(oVisionEntry, eSensorExtType.VISION_MEDIUM));
+					if(oVisionDistance >= _NAO_FAR_DISTANCE)
+						oData.addSensorExt(eSensorExtType.VISION_FAR, convertNAOVision2DUVision(oVisionEntry, eSensorExtType.VISION_FAR));
+				}
+			}
+		}
 
-//		//HZ VISION Sensor is required for lynx and hares setup; 
-//		oData.addSensorExt(eSensorExtType.VISION, convertVisionSensor(eSensorExtType.VISION) );
-//		oData.addSensorExt(eSensorExtType.VISION_NEAR, convertVisionSensor(eSensorExtType.VISION_NEAR) );
-	
 		return oData;
 	}
+	
 
+	//creates one vision entry transformed to ARS vision types
+	private clsVision convertNAOVision2DUVision(SensorVision poNAOSensorVision, eSensorExtType poVisionType){
+		clsVision oData = new clsVision();
+		oData.setSensorType(poVisionType);
+
+		//the real conversion
+		clsVisionEntry oEntry = convertVisionEntry(poNAOSensorVision);
+		oData.add(oEntry);
+		
+		return oData;
+	}
+	
+	
+	//the real deep transformation to ARS vision data
+	private clsVisionEntry convertVisionEntry(SensorVision poNAOSensorVisionData) {
+		clsVisionEntry oData = new clsVisionEntry();
+		
+		//set data, for all objects these are the same
+		oData.setObjectPosition( getObjectPosition(poNAOSensorVisionData) );
+		oData.setEntityId(poNAOSensorVisionData.getName());
+		
+	
+		switch(poNAOSensorVisionData.getType())
+		{
+			case BUBBLE:
+			{
+				oData.setEntityType(du.enums.eEntityType.BUBBLE);
+				break;
+			}
+			
+			case CAKE:
+			{
+				oData.setAlive(false);
+				oData.setEntityType( du.enums.eEntityType.CAKE );
+				oData.setShapeType( du.enums.eShapeType.CIRCLE );
+				oData.setColor( Color.PINK );
+				//oData.setPolarcoordinate(oRel);
+				break;
+			}
+				
+			case  CAN:
+			{
+				oData.setEntityType(du.enums.eEntityType.CAN);
+				break;
+			}
+				
+			case  STONE:
+			{
+				oData.setAlive(false);
+				oData.setEntityType( du.enums.eEntityType.STONE );
+				oData.setShapeType( du.enums.eShapeType.CIRCLE );
+				oData.setColor( Color.DARK_GRAY );
+				break;
+			}
+				
+			case  UNKNOWN:
+			{
+				oData.setEntityType(du.enums.eEntityType.UNDEFINED);
+				break;
+			}
+				
+			default:throw new java.lang.NullPointerException("NAO vision type not implemented");	
+		}
+
+		return oData;
+	}
+	
+
+	//convert the objects from the nao vision to symbols where the object is
+	private eSide getObjectPosition(SensorVision poNAOSensorVisionData){
+		eSide oSide = eSide.UNDEFINED;
+		
+		//where is the object
+		if (Math.abs(poNAOSensorVisionData.getA()) <= _NAO_AREA_OF_VIEW_RADIANS/18)
+		{
+			oSide = eSide.CENTER;
+		}
+		else if(Math.abs(poNAOSensorVisionData.getA()) <= _NAO_AREA_OF_VIEW_RADIANS/4)
+		{
+			if (poNAOSensorVisionData.getA()<0)
+			{
+				oSide = eSide.MIDDLE_LEFT;
+			}
+			else 
+			{
+				oSide = eSide.MIDDLE_RIGHT;
+			}
+		}
+		else {
+				if(poNAOSensorVisionData.getA()<0){
+					oSide = eSide.LEFT; 
+				}
+				else{
+					oSide = eSide.RIGHT; 
+				}
+		}
+		return oSide;
+	}
+	
+	
+	
 	
 		
 	/* (non-Javadoc)
