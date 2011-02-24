@@ -10,6 +10,13 @@ package nao.main;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
 
 import javax.swing.*;
 
@@ -52,12 +59,57 @@ public class clsNAOMainWithUI extends javax.swing.JFrame implements ActionListen
 	
 	Thread clsNAOThread; 
 	
+	private String url;
+	private String port;
+	private static final String _filename = "last.txt";		
 	
 	public static void main(String[] args){
 		new clsNAOMainWithUI();
 	}
 	
+	private void readUrlPort() {
+		File file = new File(_filename);
+		
+		url = NAOProxyClient._DEFAULT_URL;
+		port = String.valueOf(NAOProxyClient._DEFAULT_PORT);
+		
+		if (file.exists()) {
+			BufferedReader reader;
+			try {
+				reader = new BufferedReader(new FileReader(file));
+				String line;
+				try {
+					if ((line = reader.readLine()) != null) {
+						String[] values = line.split(":");
+						url = values[0];
+						port = values[1];
+					}
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			} catch (FileNotFoundException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+	}	
+	
+	private void writeUrlPort() {
+		File file = new File(_filename);
+		try {
+			BufferedWriter writer = new BufferedWriter(new FileWriter(file));
+			writer.write( url+":"+port );
+			writer.close();
+   	    } catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+	}
+	
 	 public clsNAOMainWithUI(){
+		 readUrlPort();
 		 
 	 	//make me a Frame
 	 	clsWindowUtilities.setNativeLookAndFeel();
@@ -67,10 +119,10 @@ public class clsNAOMainWithUI extends javax.swing.JFrame implements ActionListen
 	    content.setBackground(Color.LIGHT_GRAY);
 	    content.setLayout(new FlowLayout()); 
 	    
-	    moURLTextField = new JTextField(NAOProxyClient._DEFAULT_URL); 
+	    moURLTextField = new JTextField(url); 
 	    content.add(moURLTextField);
 	    
-	    moPortTextField = new JTextField(String.valueOf(NAOProxyClient._DEFAULT_PORT));
+	    moPortTextField = new JTextField(port);
 	    content.add(moPortTextField);
 	    
  	    
@@ -141,11 +193,13 @@ public class clsNAOMainWithUI extends javax.swing.JFrame implements ActionListen
 	     * to stop the loop set clsSingletonNAOState.setKeeprunning(false);
 	     */
 	    private void start() {
+	    	writeUrlPort();
+	    	
 	    	try{
 	    		
 	    		clsNAORun oNAORun= new clsNAORun();
-	    		oNAORun.setMoNAOURL(moURLTextField.getText());
-	    		oNAORun.setMoNAOPort(Integer.parseInt(moPortTextField.getText()));
+	    		oNAORun.setMoNAOURL(url);
+	    		oNAORun.setMoNAOPort(Integer.parseInt(port));
 	    		
 	    		clsNAOThread = new Thread( oNAORun );
 	    		clsNAOThread.start();
