@@ -86,6 +86,8 @@ public class clsNAOExecutorTurn extends clsActionExecutor{
 				e.printStackTrace();
 			}
     	}
+    	
+    	System.out.println("EXCMD: turn , dir:" + oCommand.getDirection() + ", angle: " + oCommand.getAngle());
 		
     	return true;
 	}	

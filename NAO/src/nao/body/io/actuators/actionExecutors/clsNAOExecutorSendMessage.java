@@ -62,7 +62,9 @@ public class clsNAOExecutorSendMessage extends clsActionExecutor{
 			clsActionSendMessage oCommand = (clsActionSendMessage) poCommand;
 			
 			moNAOBody.addCommand(CommandGenerator.say(oCommand.getMessage()));
-			Thread.sleep(500);
+			Thread.sleep(100);
+			
+	    	System.out.println("EXCMD: say:'" + oCommand.getMessage() + "'");
 			
 		} catch (Exception e) {
 			// TODO Auto-generated catch block

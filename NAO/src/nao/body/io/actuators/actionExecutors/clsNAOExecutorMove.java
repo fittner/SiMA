@@ -91,6 +91,8 @@ public class clsNAOExecutorMove extends clsActionExecutor{
     		moNAOBody.addCommand(CommandGenerator.move(oCommand.getSpeed(), false));
     	}
     	
+    	System.out.println("EXCMD: move , dir:" + oCommand.getDirection() + ", speed: " + oCommand.getSpeed());
+    	
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

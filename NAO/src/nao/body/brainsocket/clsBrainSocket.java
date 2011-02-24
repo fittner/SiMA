@@ -55,41 +55,47 @@ public class clsBrainSocket implements itfStepProcessing {
 		
 		for(Sensor oSensor : moSensors) {
 			
-			if(oSensor.id ==  eSensors.BATTERY)
-			
-			if(oSensor.id ==  eSensors.BUMP)
-			
-			if(oSensor.id ==  eSensors.CONSUMESUCCESS)
-			
-			if(oSensor.id ==  eSensors.FSR)
-			
-			if(oSensor.id ==  eSensors.ODOMETRY)
-			
-			if(oSensor.id ==  eSensors.POSITION)
-			
-			if(oSensor.id ==  eSensors.SENTINEL)
-			
-			if(oSensor.id ==  eSensors.SONAR)
-			
-			if(oSensor.id ==  eSensors.TEMPERATURE)
-			
-			if(oSensor.id ==  eSensors.UNKNOWN)
-			
-			if(oSensor.id ==  eSensors.VISION) {
-				
-				for (SensorTuple data:oSensor.values) {
-					SensorVision oVisionEntry = (SensorVision)data;
-					
-					double oVisionDistance = oVisionEntry.getR();
-					
-					if(oVisionDistance >= _NAO_NEAR_DISTANCE)
-						oData.addSensorExt(eSensorExtType.VISION_NEAR, convertNAOVision2DUVision(oVisionEntry, eSensorExtType.VISION_NEAR));
-					if(oVisionDistance >= _NAO_MEDIUM_DISTANCE)
-						oData.addSensorExt(eSensorExtType.VISION_MEDIUM, convertNAOVision2DUVision(oVisionEntry, eSensorExtType.VISION_MEDIUM));
-					if(oVisionDistance >= _NAO_FAR_DISTANCE)
-						oData.addSensorExt(eSensorExtType.VISION_FAR, convertNAOVision2DUVision(oVisionEntry, eSensorExtType.VISION_FAR));
+			switch(oSensor.id )
+			{
+				case BATTERY:
+					break;
+				case BUMP:
+					break;
+				case CONSUMESUCCESS:
+					break;
+				case FSR:
+					break;
+				case ODOMETRY:
+					break;
+				case POSITION:
+					break;
+				case SENTINEL:
+					break;
+				case SONAR:
+					break;
+				case TEMPERATURE:
+					break;
+				case UNKNOWN:
+					break;
+				case VISION:
+				{
+					for (SensorTuple data:oSensor.values) {
+						SensorVision oVisionEntry = (SensorVision)data;
+						
+						double oVisionDistance = oVisionEntry.getR();
+						
+						if(oVisionDistance  >= 0 && oVisionDistance <_NAO_NEAR_DISTANCE  )
+							oData.addSensorExt(eSensorExtType.VISION_NEAR, convertNAOVision2DUVision(oVisionEntry, eSensorExtType.VISION_NEAR));
+						if(oVisionDistance  >= _NAO_NEAR_DISTANCE && oVisionDistance <_NAO_MEDIUM_DISTANCE)
+							oData.addSensorExt(eSensorExtType.VISION_MEDIUM, convertNAOVision2DUVision(oVisionEntry, eSensorExtType.VISION_MEDIUM));
+						if(oVisionDistance  >= _NAO_MEDIUM_DISTANCE)
+							oData.addSensorExt(eSensorExtType.VISION_FAR, convertNAOVision2DUVision(oVisionEntry, eSensorExtType.VISION_FAR));
+					}
+					break;
 				}
+				default:throw new java.lang.NullPointerException("NAO sensor type not implemented");
 			}
+			
 		}
 
 		return oData;
@@ -123,6 +129,9 @@ public class clsBrainSocket implements itfStepProcessing {
 			case BUBBLE:
 			{
 				oData.setEntityType(du.enums.eEntityType.BUBBLE);
+				oData.setAlive(true);
+				oData.setShapeType( du.enums.eShapeType.CIRCLE );
+				oData.setColor( new Color(0,200,0) );
 				break;
 			}
 			
