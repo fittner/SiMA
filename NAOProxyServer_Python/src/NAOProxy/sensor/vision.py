@@ -31,7 +31,7 @@ def visionentry(id, type, direction, distance, storage):
 
 def vision(proxies, storage):
 #    memory = proxies['memory']
-    data = str(Sensor.ODOMETRY)+innerdelimiter
+    data = str(Sensor.VISION)+innerdelimiter
     
     storage.clearVE() # reset list of visible ids - is refilled reach round
     
