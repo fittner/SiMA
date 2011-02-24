@@ -4,6 +4,9 @@ import java.util.Vector;
 
 
 public class NAOProxyClient {
+	public final String _DEFAULT_URL = "localhost";
+	public final int _DEFAULT_PORT = 9669;
+	
 	private TCPClient client;
 	
 	public Vector<Sensor> communicate(Vector<Command> commands) throws Exception {
