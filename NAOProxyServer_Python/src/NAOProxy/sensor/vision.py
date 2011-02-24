@@ -15,7 +15,7 @@ def toPolar2D(x, y):
     return (r,a)
 
 def visionentry(id, type, direction, distance, storage):
-    assert -1.0 <= direction <= 1.0
+    assert -math.pi <= direction <= math.pi
     assert 0 <= distance
     
     if id in storage.invisibleEntities:

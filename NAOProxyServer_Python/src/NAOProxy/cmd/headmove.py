@@ -1,6 +1,6 @@
 import math
 
-headyawmax = 90.0*math.pi/180.0
+headyawmax = 75.0*math.pi/180.0
 headyawmin = -headyawmax
 
 headpitchmax = 25.0*math.pi/180.0

@@ -8,19 +8,17 @@ def loadProxy(pName):
         print "IP address not defined, aborting"
         print "Please define it in " + __file__
         exit(1)
-    print "---------------------"
-    print "Loading proxy"
-    print "---------------------"
+    print "---------------------------------"
+    print "Loading proxy '"+pName+"'"
     try:
         proxy = ALProxy(pName, IP, PORT)
-        print "---------------------"
-        print "Starting " + pName + " Tests"
-        print "---------------------"
+        print " ... done"
     except:
         proxy = None
-        print "====================="
+        print "=============================="
         print "Proxy "+pName+" not available"
-        print "====================="
+        print "=============================="
+    print "---------------------------------"
     return proxy
 
 def loadMotionProxy():
