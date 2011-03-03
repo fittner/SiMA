@@ -7,9 +7,8 @@
 package pa.modules._v30;
 
 import java.util.ArrayList;
-
+import java.util.HashMap;
 import config.clsBWProperties;
-import pa._v30.clsInterfaceHandler;
 import pa.interfaces.receive._v30.I1_7_receive;
 import pa.interfaces.receive._v30.I2_11_receive;
 import pa.interfaces.receive._v30.I2_12_receive;
@@ -24,25 +23,30 @@ import pa.memorymgmt.datatypes.clsSecondaryDataStructureContainer;
  * 
  */
 public class E23_ExternalPerception_focused extends clsModuleBase implements I2_11_receive, I1_7_receive, I2_12_send {
-
-	private ArrayList<clsSecondaryDataStructureContainer> moPerception; 
-	private ArrayList<clsSecondaryDataStructureContainer> moDriveList; 
-	private ArrayList<clsSecondaryDataStructureContainer> moFocusedPerception_Output; 
+	public static final String P_MODULENUMBER = "23";
+	
 	/**
 	 * DOCUMENT (deutsch) - insert description 
 	 * 
 	 * @author deutsch
-	 * 11.08.2009, 14:47:24
+	 * 03.03.2011, 16:50:08
 	 *
 	 * @param poPrefix
 	 * @param poProp
-	 * @param poEnclosingContainer
+	 * @param poModuleList
+	 * @throws Exception
 	 */
 	public E23_ExternalPerception_focused(String poPrefix,
-			clsBWProperties poProp, clsModuleContainer poEnclosingContainer, clsInterfaceHandler poInterfaceHandler) {
-		super(poPrefix, poProp, poEnclosingContainer, poInterfaceHandler);
+			clsBWProperties poProp, HashMap<Integer, clsModuleBase> poModuleList)
+			throws Exception {
+		super(poPrefix, poProp, poModuleList);
 		applyProperties(poPrefix, poProp);		
 	}
+
+	private ArrayList<clsSecondaryDataStructureContainer> moPerception; 
+	private ArrayList<clsSecondaryDataStructureContainer> moDriveList; 
+	private ArrayList<clsSecondaryDataStructureContainer> moFocusedPerception_Output; 
+
 	
 	public static clsBWProperties getDefaultProperties(String poPrefix) {
 		String pre = clsBWProperties.addDot(poPrefix);
@@ -149,8 +153,8 @@ public class E23_ExternalPerception_focused extends clsModuleBase implements I2_
 	@Override
 	public void send_I2_12(ArrayList<clsSecondaryDataStructureContainer> poFocusedPerception,
 			   				ArrayList<clsSecondaryDataStructureContainer> poDriveList) {
-		((I2_12_receive)moEnclosingContainer).receive_I2_12(moFocusedPerception_Output, moDriveList);
-		
+		((I2_12_receive)moModuleList.get(24)).receive_I2_12(moFocusedPerception_Output, moDriveList);
+		((I2_12_receive)moModuleList.get(25)).receive_I2_12(moFocusedPerception_Output, moDriveList);
 	}
 
 	/* (non-Javadoc)
@@ -177,5 +181,18 @@ public class E23_ExternalPerception_focused extends clsModuleBase implements I2_
 	protected void process_final() {
 		// TODO (deutsch) - Auto-generated method stub
 		throw new java.lang.NoSuchMethodError();
+	}
+
+	/* (non-Javadoc)
+	 *
+	 * @author deutsch
+	 * 03.03.2011, 16:50:13
+	 * 
+	 * @see pa.modules._v30.clsModuleBase#setModuleNumber()
+	 */
+	@Override
+	protected void setModuleNumber() {
+		mnModuleNumber = Integer.parseInt(P_MODULENUMBER);
+		
 	}
 }

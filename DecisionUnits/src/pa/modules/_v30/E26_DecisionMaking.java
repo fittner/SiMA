@@ -7,17 +7,14 @@
 package pa.modules._v30;
 
 import java.util.ArrayList;
-
+import java.util.HashMap;
 import config.clsBWProperties;
-import pa._v30.clsInterfaceHandler;
 import pa.interfaces.receive._v30.I1_7_receive;
 import pa.interfaces.receive._v30.I2_13_receive;
 import pa.interfaces.receive._v30.I3_3_receive;
 import pa.interfaces.receive._v30.I5_5_receive;
 import pa.interfaces.receive._v30.I7_1_receive;
-import pa.interfaces.receive._v30.I7_2_receive;
 import pa.interfaces.send._v30.I7_1_send;
-import pa.interfaces.send._v30.I7_2_send;
 import pa.memorymgmt.datahandler.clsDataStructureGenerator;
 import pa.memorymgmt.datatypes.clsAct;
 import pa.memorymgmt.datatypes.clsAssociation;
@@ -34,30 +31,35 @@ import pa.tools.clsPair;
  * 11.08.2009, 14:51:57
  * 
  */
-public class E26_DecisionMaking extends clsModuleBase implements I1_7_receive, I2_13_receive, I3_3_receive, I5_5_receive, I7_1_send, I7_2_send {
+public class E26_DecisionMaking extends clsModuleBase implements 
+						I1_7_receive, I2_13_receive, I3_3_receive, I5_5_receive, I7_1_send {
+	public static final String P_MODULENUMBER = "26";
+	
+	/**
+	 * DOCUMENT (deutsch) - insert description 
+	 * 
+	 * @author deutsch
+	 * 03.03.2011, 16:51:33
+	 *
+	 * @param poPrefix
+	 * @param poProp
+	 * @param poModuleList
+	 * @throws Exception
+	 */
+	public E26_DecisionMaking(String poPrefix, clsBWProperties poProp,
+			HashMap<Integer, clsModuleBase> poModuleList) throws Exception {
+		super(poPrefix, poProp, poModuleList);
+		applyProperties(poPrefix, poProp);	
+		
+		moGoal_Output = new ArrayList<clsSecondaryDataStructureContainer>(); 
+	}
 
 	private ArrayList<clsSecondaryDataStructureContainer> moDriveList;
 	private ArrayList<clsAct> moRuleList; 
 	private ArrayList<clsSecondaryDataStructureContainer> moRealityPerception;
 	private ArrayList<clsSecondaryDataStructureContainer> moGoal_Output; 
 	
-	/**
-	 * DOCUMENT (deutsch) - insert description 
-	 * 
-	 * @author deutsch
-	 * 11.08.2009, 14:52:31
-	 *
-	 * @param poPrefix
-	 * @param poProp
-	 * @param poEnclosingContainer
-	 */
-	public E26_DecisionMaking(String poPrefix, clsBWProperties poProp,
-			clsModuleContainer poEnclosingContainer, clsInterfaceHandler poInterfaceHandler) {
-		super(poPrefix, poProp, poEnclosingContainer, poInterfaceHandler);
-		applyProperties(poPrefix, poProp);	
-				
-		moGoal_Output = new ArrayList<clsSecondaryDataStructureContainer>(); 
-	}
+
 	
 	public static clsBWProperties getDefaultProperties(String poPrefix) {
 		String pre = clsBWProperties.addDot(poPrefix);
@@ -328,7 +330,6 @@ public class E26_DecisionMaking extends clsModuleBase implements I1_7_receive, I
 	@Override
 	protected void send() {
 		send_I7_1(moGoal_Output);
-		send_I7_2(moGoal_Output);
 	}
 
 	/* (non-Javadoc)
@@ -340,21 +341,8 @@ public class E26_DecisionMaking extends clsModuleBase implements I1_7_receive, I
 	 */
 	@Override
 	public void send_I7_1(ArrayList<clsSecondaryDataStructureContainer> poGoal_Output) {
-		((I7_1_receive)moEnclosingContainer).receive_I7_1(moGoal_Output);
-		
-	}
-
-	/* (non-Javadoc)
-	 *
-	 * @author deutsch
-	 * 18.05.2010, 17:55:10
-	 * 
-	 * @see pa.interfaces.send.I7_2_send#send_I7_2(int)
-	 */
-	@Override
-	public void send_I7_2(ArrayList<clsSecondaryDataStructureContainer> poGoal_Output) {
-		((I7_2_receive)moEnclosingContainer).receive_I7_2(moGoal_Output);
-		
+		((I7_1_receive)moModuleList.get(27)).receive_I7_1(moGoal_Output);
+		((I7_1_receive)moModuleList.get(28)).receive_I7_1(moGoal_Output);		
 	}
 
 	/* (non-Javadoc)
@@ -381,6 +369,19 @@ public class E26_DecisionMaking extends clsModuleBase implements I1_7_receive, I
 	protected void process_final() {
 		// TODO (deutsch) - Auto-generated method stub
 		throw new java.lang.NoSuchMethodError();
+	}
+
+	/* (non-Javadoc)
+	 *
+	 * @author deutsch
+	 * 03.03.2011, 16:51:39
+	 * 
+	 * @see pa.modules._v30.clsModuleBase#setModuleNumber()
+	 */
+	@Override
+	protected void setModuleNumber() {
+		mnModuleNumber = Integer.parseInt(P_MODULENUMBER);
+		
 	}
 }
 

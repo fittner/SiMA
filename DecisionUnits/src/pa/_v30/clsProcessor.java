@@ -17,43 +17,10 @@ import du.itf.sensors.clsDataBase;
 import du.itf.sensors.clsSensorData;
 import du.itf.sensors.clsSensorExtern;
 import pa.itfProcessor;
-import pa.modules._v30.E01_Homeostases;
-import pa.modules._v30.E02_NeurosymbolizationOfNeeds;
-import pa.modules._v30.E03_GenerationOfDrives;
-import pa.modules._v30.E04_FusionOfDrives;
-import pa.modules._v30.E05_GenerationOfAffectsForDrives;
-import pa.modules._v30.E06_DefenseMechanismsForDriveContents;
-import pa.modules._v30.E07_SuperEgo_unconscious;
-import pa.modules._v30.E08_ConversionToSecondaryProcess;
-import pa.modules._v30.E09_KnowledgeAboutReality_unconscious;
-import pa.modules._v30.E10_SensorsEnvironment;
-import pa.modules._v30.E11_NeuroSymbolsEnvironment;
-import pa.modules._v30.E12_SensorsBody;
-import pa.modules._v30.E13_NeuroSymbolsBody;
-import pa.modules._v30.E14_PreliminaryExternalPerception;
-import pa.modules._v30.E16_ManagementOfMemoryTraces;
-import pa.modules._v30.E17_FusionOfExternalPerceptionAndMemoryTraces;
-import pa.modules._v30.E18_GenerationOfAffectsForPerception;
-import pa.modules._v30.E19_DefenseMechanismsForPerception;
-import pa.modules._v30.E20_InnerPerception_Affects;
-import pa.modules._v30.E21_ConversionToSecondaryProcess;
-import pa.modules._v30.E22_SuperEgo_preconscious;
-import pa.modules._v30.E23_ExternalPerception_focused;
-import pa.modules._v30.E24_RealityCheck;
-import pa.modules._v30.E25_KnowledgeAboutReality;
-import pa.modules._v30.E26_DecisionMaking;
-import pa.modules._v30.E27_GenerationOfImaginaryActions;
-import pa.modules._v30.E28_KnowledgeBase_StoredScenarios;
-import pa.modules._v30.E29_EvaluationOfImaginaryActions;
-import pa.modules._v30.E30_MotilityControl;
-import pa.modules._v30.E31_NeuroDeSymbolization;
-import pa.modules._v30.E32_Actuators;
-import pa.modules._v30.E33_RealityCheck2;
-import pa.modules._v30.E34_KnowledgeAboutReality2;
-import pa.modules._v30.G00_PsychicApparatus;
-import pa.modules._v30.S_ManagementOfRepressedContents_1;
-import pa.modules._v30.S_ManagementOfRepressedContents_2;
-import pa.modules._v30.clsModuleBase;
+import pa.memory.clsMemory;
+import pa.memorymgmt.clsKnowledgeBaseHandler;
+import pa.memorymgmt.informationrepresentation.clsInformationRepresentationManagement;
+import pa.modules._v30.clsPsychicApperatus;
 
 /**
  * DOCUMENT (deutsch) - insert description 
@@ -64,56 +31,16 @@ import pa.modules._v30.clsModuleBase;
  */
 public class clsProcessor implements itfProcessor  {
 	public static final String P_PSYCHICAPPARATUS = "psychicapparatus";
+	public static final String P_KNOWLEDGEABASE = "knowledgebase";
+	public static final String P_MEMORY = "memory";
 	
-	private G00_PsychicApparatus moPsychicApparatus;
-	
-	private ArrayList<clsModuleBase> moModules;
-	private clsInterfaceHandler moInterfaceHandler;
-	
-	private E01_Homeostases moE01Homeostases;
-	private E02_NeurosymbolizationOfNeeds moE02NeurosymbolizationOfNeeds;
-	private E03_GenerationOfDrives moE03GenerationOfDrives;
-	private E04_FusionOfDrives moE04FusionOfDrives;
-	private E05_GenerationOfAffectsForDrives moE05GenerationOfAffectsForDrives;
-	private E06_DefenseMechanismsForDriveContents moE06DefenseMechanismsForDriveContents;
-	private E07_SuperEgo_unconscious moE07SuperEgoUnconscious;
-	private E08_ConversionToSecondaryProcess moE08ConversionToSecondaryProcess;
-	private E09_KnowledgeAboutReality_unconscious moE09KnowledgeAboutRealityUnconscious;
-	private E10_SensorsEnvironment moE10SensorsEnvironment;
-	private E11_NeuroSymbolsEnvironment moE11NeuroSymbolsEnvironment;
-	private E12_SensorsBody moE12SensorsBody;
-	private E13_NeuroSymbolsBody moE13NeuroSymbolsBody;
-	private E14_PreliminaryExternalPerception moE14PreliminaryExternalPerception;
-	private S_ManagementOfRepressedContents_1 moE15_1_ManagementOfRepressedContents;
-	private S_ManagementOfRepressedContents_2 moE15_2_ManagementOfRepressedContents;	
-	private E16_ManagementOfMemoryTraces moE16ManagementOfMemoryTraces;
-	private E17_FusionOfExternalPerceptionAndMemoryTraces moE17FusionOfExternalPerceptionAndMemoryTraces;
-	private E18_GenerationOfAffectsForPerception moE18GenerationOfAffectsForPerception;
-	private E19_DefenseMechanismsForPerception moE19DefenseMechanismsForPerception;
-	private E20_InnerPerception_Affects moE20InnerPerceptionAffects;
-	private E21_ConversionToSecondaryProcess moE21ConversionToSecondaryProcess;
-	private E22_SuperEgo_preconscious moE22SuperEgoPreconscious;
-	private E23_ExternalPerception_focused moE23ExternalPerceptionFocused;
-	private E24_RealityCheck moE24RealityCheck;
-	private E25_KnowledgeAboutReality moE25KnowledgeAboutReality;
-	private E26_DecisionMaking moE26DecisionMaking;
-	private E27_GenerationOfImaginaryActions moE27GenerationOfImaginaryActions;
-	private E28_KnowledgeBase_StoredScenarios moE28KnowledgeBaseStoredScenarios;
-	private E29_EvaluationOfImaginaryActions moE29EvaluationOfImaginaryActions;
-	private E30_MotilityControl moE30MotilityControl;
-	private E31_NeuroDeSymbolization moE31NeuroDeSymbolization;
-	private E32_Actuators moE32Actuators;
-	private E33_RealityCheck2 moE33RealityCheck2;
-	private E34_KnowledgeAboutReality2 moE34KnowledgeAboutReality2;
-	
+	private clsPsychicApperatus moPsyApp;
+	private clsKnowledgeBaseHandler moKnowledgeBaseHandler;
+	private clsMemory moMemory;
+		
 	public clsProcessor(String poPrefix, clsBWProperties poProp) {
-		moModules = new ArrayList<clsModuleBase>();
-		moInterfaceHandler = new clsInterfaceHandler();
-
 		applyProperties(poPrefix, poProp);
 		
-		assignModules();
-		moInterfaceHandler.setModules(moModules);
 	}
 	
 	public static clsBWProperties getDefaultProperties(String poPrefix) {
@@ -121,7 +48,9 @@ public class clsProcessor implements itfProcessor  {
 		
 		clsBWProperties oProp = new clsBWProperties();
 		
-		oProp.putAll( G00_PsychicApparatus.getDefaultProperties(pre+P_PSYCHICAPPARATUS) );
+		oProp.putAll( clsMemory.getDefaultProperties(pre+P_MEMORY) );
+		oProp.putAll( clsInformationRepresentationManagement.getDefaultProperties(pre+P_KNOWLEDGEABASE) );
+		oProp.putAll( clsPsychicApperatus.getDefaultProperties(pre+P_PSYCHICAPPARATUS) );
 				
 		return oProp;
 	}	
@@ -129,88 +58,20 @@ public class clsProcessor implements itfProcessor  {
 	private void applyProperties(String poPrefix, clsBWProperties poProp) {
 		String pre = clsBWProperties.addDot(poPrefix);
 	
-		moPsychicApparatus = new G00_PsychicApparatus(pre+P_PSYCHICAPPARATUS, poProp, moInterfaceHandler);
+		moKnowledgeBaseHandler = new clsInformationRepresentationManagement(pre + P_KNOWLEDGEABASE, poProp);
+		moMemory = new clsMemory(pre + P_MEMORY, poProp);
+		
+		moPsyApp = new clsPsychicApperatus(pre + P_PSYCHICAPPARATUS, poProp, moMemory, moKnowledgeBaseHandler);
 
 	}
-	
-	private void assignModules() {
-		moE01Homeostases = moPsychicApparatus.moG01Body.moE01Homeostases;
-		moModules.add(moE01Homeostases);
-		moE02NeurosymbolizationOfNeeds = moPsychicApparatus.moG01Body.moE02NeurosymbolizationOfNeeds;
-		moModules.add(moE02NeurosymbolizationOfNeeds);		
-		moE03GenerationOfDrives = moPsychicApparatus.moG02Id.moG05DriveHandling.moE03GenerationOfDrives;
-		moModules.add(moE03GenerationOfDrives);		
-		moE04FusionOfDrives = moPsychicApparatus.moG02Id.moG05DriveHandling.moE04FusionOfDrives;
-		moModules.add(moE04FusionOfDrives);	
-		moE05GenerationOfAffectsForDrives = moPsychicApparatus.moG02Id.moG06AffectGeneration.moE05GenerationOfAffectsForDrives;
-		moModules.add(moE05GenerationOfAffectsForDrives);
-		moE06DefenseMechanismsForDriveContents = moPsychicApparatus.moG03Ego.moG08PsychicMediator.moG09PrimaryProcessor.moG12PrimaryDecision.moE06DefenseMechanismsForDriveContents;
-		moModules.add(moE06DefenseMechanismsForDriveContents);
-		moE07SuperEgoUnconscious = moPsychicApparatus.moG04SuperEgo.moE07SuperEgoUnconscious;
-		moModules.add(moE07SuperEgoUnconscious);
-		moE08ConversionToSecondaryProcess = moPsychicApparatus.moG03Ego.moG08PsychicMediator.moG10PrimaryToSecondaryInterface1.moE08ConversionToSecondaryProcess;
-		moModules.add(moE08ConversionToSecondaryProcess);
-		moE09KnowledgeAboutRealityUnconscious = moPsychicApparatus.moG03Ego.moG08PsychicMediator.moG09PrimaryProcessor.moG13PrimaryKnowledgeUtilizer.moE09KnowledgeAboutReality_unconscious;
-		moModules.add(moE09KnowledgeAboutRealityUnconscious);
-		moE10SensorsEnvironment = moPsychicApparatus.moG01Body.moE10SensorsEnvironment;
-		moModules.add(moE10SensorsEnvironment);
-		moE11NeuroSymbolsEnvironment = moPsychicApparatus.moG01Body.moE11NeuroSymbolsEnvironment;
-		moModules.add(moE11NeuroSymbolsEnvironment);
-		moE12SensorsBody = moPsychicApparatus.moG01Body.moE12SensorsBody;
-		moModules.add(moE12SensorsBody);
-		moE13NeuroSymbolsBody = moPsychicApparatus.moG01Body.moE13NeuroSymbolsBody;
-		moModules.add(moE13NeuroSymbolsBody);
-		moE14PreliminaryExternalPerception = moPsychicApparatus.moG03Ego.moG07EnvironmentalInterfaceFunctions.moE14PreliminaryExternalPerception;
-		moModules.add(moE14PreliminaryExternalPerception);
-		moE15_1_ManagementOfRepressedContents = moPsychicApparatus.moG02Id.moE15ManagementOfRepressedContents.moS_ManagementOfRepressedContents_1;
-		moModules.add(moE15_1_ManagementOfRepressedContents);
-		moE15_2_ManagementOfRepressedContents = moPsychicApparatus.moG02Id.moE15ManagementOfRepressedContents.moS_ManagementOfRepressedContents_2;
-		moModules.add(moE15_2_ManagementOfRepressedContents);
-		moE16ManagementOfMemoryTraces = moPsychicApparatus.moG03Ego.moG08PsychicMediator.moG09PrimaryProcessor.moG13PrimaryKnowledgeUtilizer.moE16ManagementOfMemoryTraces;
-		moModules.add(moE16ManagementOfMemoryTraces);
-		moE17FusionOfExternalPerceptionAndMemoryTraces = moPsychicApparatus.moG03Ego.moG08PsychicMediator.moG09PrimaryProcessor.moE17FusionOfExternalPerceptionAndMemoryTraces;
-		moModules.add(moE17FusionOfExternalPerceptionAndMemoryTraces);
-		moE18GenerationOfAffectsForPerception = moPsychicApparatus.moG02Id.moG06AffectGeneration.moE18GenerationOfAffectsForPerception;
-		moModules.add(moE18GenerationOfAffectsForPerception);
-		moE19DefenseMechanismsForPerception = moPsychicApparatus.moG03Ego.moG08PsychicMediator.moG09PrimaryProcessor.moG12PrimaryDecision.moE19DefenseMechanismsForPerception;
-		moModules.add(moE19DefenseMechanismsForPerception);
-		moE20InnerPerceptionAffects = moPsychicApparatus.moG03Ego.moG08PsychicMediator.moG10PrimaryToSecondaryInterface1.moE20InnerPerception_Affects;
-		moModules.add(moE20InnerPerceptionAffects);
-		moE21ConversionToSecondaryProcess = moPsychicApparatus.moG03Ego.moG08PsychicMediator.moG10PrimaryToSecondaryInterface1.moE21ConversionToSecondaryProcess;
-		moModules.add(moE21ConversionToSecondaryProcess);
-		moE22SuperEgoPreconscious = moPsychicApparatus.moG04SuperEgo.moE22SuperEgoPreconscious;
-		moModules.add(moE22SuperEgoPreconscious);
-		moE23ExternalPerceptionFocused = moPsychicApparatus.moG03Ego.moG08PsychicMediator.moG11SecondaryProcessor.moG14PerceptualPreprocessing.moE23ExternalPerception_focused;
-		moModules.add(moE23ExternalPerceptionFocused);
-		moE24RealityCheck = moPsychicApparatus.moG03Ego.moG08PsychicMediator.moG11SecondaryProcessor.moG14PerceptualPreprocessing.moE24RealityCheck;
-		moModules.add(moE24RealityCheck);
-		moE25KnowledgeAboutReality = moPsychicApparatus.moG03Ego.moG08PsychicMediator.moG11SecondaryProcessor.moG16SecondaryKnowledgeUtilizer.moE25KnowledgeAboutReality;
-		moModules.add(moE25KnowledgeAboutReality);
-		moE26DecisionMaking = moPsychicApparatus.moG03Ego.moG08PsychicMediator.moG11SecondaryProcessor.moG15Deliberation.moE26DecisionMaking;
-		moModules.add(moE26DecisionMaking);
-		moE27GenerationOfImaginaryActions = moPsychicApparatus.moG03Ego.moG08PsychicMediator.moG11SecondaryProcessor.moG15Deliberation.moE27GenerationOfImaginaryActions;
-		moModules.add(moE27GenerationOfImaginaryActions);
-		moE28KnowledgeBaseStoredScenarios = moPsychicApparatus.moG03Ego.moG08PsychicMediator.moG11SecondaryProcessor.moG16SecondaryKnowledgeUtilizer.moE28KnowledgeBase_StoredScenarios;
-		moModules.add(moE28KnowledgeBaseStoredScenarios);
-		moE29EvaluationOfImaginaryActions = moPsychicApparatus.moG03Ego.moG08PsychicMediator.moG11SecondaryProcessor.moG15Deliberation.moE29EvaluationOfImaginaryActions;
-		moModules.add(moE29EvaluationOfImaginaryActions);
-		moE30MotilityControl = moPsychicApparatus.moG03Ego.moG07EnvironmentalInterfaceFunctions.moE30MotilityControl;
-		moModules.add(moE30MotilityControl);
-		moE31NeuroDeSymbolization = moPsychicApparatus.moG01Body.moE31NeuroDeSymbolization;
-		moModules.add(moE31NeuroDeSymbolization);
-		moE32Actuators = moPsychicApparatus.moG01Body.moE32Actuators;
-		moModules.add(moE32Actuators);
-		moE33RealityCheck2 = moPsychicApparatus.moG03Ego.moG08PsychicMediator.moG11SecondaryProcessor.moG15Deliberation.moE33RealityCheck2;
-		moModules.add(moE33RealityCheck2);
-		moE34KnowledgeAboutReality2 = moPsychicApparatus.moG03Ego.moG08PsychicMediator.moG11SecondaryProcessor.moG16SecondaryKnowledgeUtilizer.moE34KnowledgeAboutReality2;
-		moModules.add(moE34KnowledgeAboutReality2);
-	}
-	
+		
 	@Override
 	public void applySensorData(clsSensorData poData) {
-		moPsychicApparatus.receiveBody( separateBodyData(poData) );
-		moPsychicApparatus.receiveEnvironment( separateEnvironmentalData(poData) );
-		moPsychicApparatus.receiveHomeostases( separateHomeostaticData(poData) );		
+		moPsyApp.moE39_SeekingSystem_LibidoSource.receive_I0_1( new ArrayList<Object>() );
+		moPsyApp.moE39_SeekingSystem_LibidoSource.receive_I0_2( new ArrayList<Object>() );
+		moPsyApp.moE01_SensorsMetabolism.receive_I0_3( separateHomeostaticData(poData) );
+		moPsyApp.moE12_SensorsBody.receive_I0_5( separateBodyData(poData) );
+		moPsyApp.moE10_SensorsEnvironment.receive_I0_4( separateEnvironmentalData(poData) );
 	}
 
 	/**
@@ -296,73 +157,84 @@ public class clsProcessor implements itfProcessor  {
 
 	@Override
 	public void getActionCommands(itfActionProcessor poActionContainer) {
-		moPsychicApparatus.getActionCommands(poActionContainer);
+		moPsyApp.moE32_Actuators.getOutput(poActionContainer);
 	}
 	
 	@Override
 	public void step() {
 		//BODY --------------------------------------------- 
 		//data preprocessing
-		moE01Homeostases.step();
-		moE02NeurosymbolizationOfNeeds.step();
+		moPsyApp.moE01_SensorsMetabolism.step();
+		moPsyApp.moE02_NeurosymbolizationOfWants.step();
 
-		moE10SensorsEnvironment.step();
-		moE11NeuroSymbolsEnvironment.step();
+		moPsyApp.moE10_SensorsEnvironment.step();
+		moPsyApp.moE11_NeuroSymbolizationEnvironment.step();
 		
-		moE12SensorsBody.step();
-		moE13NeuroSymbolsBody.step();
+		moPsyApp.moE12_SensorsBody.step();
+		moPsyApp.moE13_NeuroSymbolizationBody.step();
+		
+		moPsyApp.moE39_SeekingSystem_LibidoSource.step();
+		moPsyApp.moE40_NeurosymbolizationOfLibido.step();
 
 		//PRIMARY PROCESSES -------------------------------
-		//Drive generation
-		moE03GenerationOfDrives.step();
-		moE04FusionOfDrives.step();
-		moE05GenerationOfAffectsForDrives.step();
-		moE09KnowledgeAboutRealityUnconscious.step();
-		
+		//Self-PreservationDrive generation
+		moPsyApp.moE03_GenerationOfSelfPreservationDrives.step();
+		moPsyApp.moE04_FusionOfSelfPreservationDrives.step();
+		moPsyApp.moE05_AccumulationOfAffectsForSelfPreservationDrives.step();
+		moPsyApp.moE38_PrimalRepressionForSelfPreservationDrives.step();
+		//Libido generation
+		moPsyApp.moE41_Libidostasis.step();
+		moPsyApp.moE43_SeparationIntoPartialSexualDrives.step();
+		moPsyApp.moE42_AccumulationOfAffectsForSexualDrives.step();
+		moPsyApp.moE44_PrimalRepressionForSexualDrives.step();
 		//perception to memory and repression
-		moE14PreliminaryExternalPerception.step();
-		moE15_1_ManagementOfRepressedContents.step();
-		moE15_2_ManagementOfRepressedContents.step();
-		moE16ManagementOfMemoryTraces.step();
-		moE17FusionOfExternalPerceptionAndMemoryTraces.step();
-		moE18GenerationOfAffectsForPerception.step();
-
+		moPsyApp.moE14_ExternalPerception.step();
+		moPsyApp.moE46_FusionWithMemoryTraces.step();
+		moPsyApp.moE37_PrimalRepressionForPerception.step();
+		moPsyApp.moE35_EmersionOfRepressedContent.step();
+		moPsyApp.moE45_LibidoDischarge.step();
+		moPsyApp.moE18_CompositionOfAffectsForPerception.step();
 		//super-ego
-		moE07SuperEgoUnconscious.step();
+		moPsyApp.moE07_InternalizedRulesHandler.step();
 
 		//defense mechanisms
-		moE06DefenseMechanismsForDriveContents.step();
-		moE19DefenseMechanismsForPerception.step();
+		moPsyApp.moE09_KnowledgeAboutReality_unconscious.step();
+		moPsyApp.moE06_DefenseMechanismsForDrives.step();
+		moPsyApp.moE19_DefenseMechanismsForPerception.step();
+		moPsyApp.moE36_RepressionHandler.step();
 
 		//primary to secondary
-		moE08ConversionToSecondaryProcess.step();
-		moE21ConversionToSecondaryProcess.step();
-		moE20InnerPerceptionAffects.step();
+		moPsyApp.moE08_ConversionToSecondaryProcessForDriveWishes.step();
+		moPsyApp.moE21_ConversionToSecondaryProcessForPerception.step();
+		moPsyApp.moE20_InnerPerception_Affects.step();
 
 		//SECONDARY PROCESSES ----------------------------
 		//super-ego
-		moE22SuperEgoPreconscious.step();
+		moPsyApp.moE22_SocialRulesSelection.step();
 
 		//external perception
-		moE23ExternalPerceptionFocused.step();
-		moE25KnowledgeAboutReality.step();
-		moE24RealityCheck.step();
+		moPsyApp.moE23_ExternalPerception_focused.step();
+		moPsyApp.moE25_KnowledgeAboutReality_1.step();
+		moPsyApp.moE24_RealityCheck_1.step();
 		
 		//decision making
-		moE26DecisionMaking.step();
-		moE28KnowledgeBaseStoredScenarios.step();
-		moE27GenerationOfImaginaryActions.step();
+		moPsyApp.moE26_DecisionMaking.step();
+		moPsyApp.moE28_KnowledgeBase_StoredScenarios.step();
+		moPsyApp.moE27_GenerationOfImaginaryActions.step();
+		
+		//fantasy
+		moPsyApp.moE47_ConversionToPrimaryProcess.step();
 		
 		//evaluation and pre-execution
-		moE34KnowledgeAboutReality2.step();
-		moE33RealityCheck2.step();
-		moE29EvaluationOfImaginaryActions.step();
-		moE30MotilityControl.step();
+		moPsyApp.moE34_KnowledgeAboutReality_2.step();
+		moPsyApp.moE33_RealityCheck_2.step();
+		moPsyApp.moE29_EvaluationOfImaginaryActions.step();
+		moPsyApp.moE30_MotilityControl.step();
 		
 		//BODY --------------------------------------------- 
 		//execution
-		moE31NeuroDeSymbolization.step();
-		moE32Actuators.step();
+		moPsyApp.moE31_NeuroDeSymbolizationActionCommands.step();
+		moPsyApp.moE32_Actuators.step();
 	}
 
 	/**
@@ -373,7 +245,7 @@ public class clsProcessor implements itfProcessor  {
 	 *
 	 * @return
 	 */
-	public G00_PsychicApparatus getPsychicApparatus() {
-		return moPsychicApparatus;
+	public clsPsychicApperatus getPsychicApparatus() {
+		return moPsyApp;
 	}
 }

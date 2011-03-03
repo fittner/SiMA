@@ -7,9 +7,8 @@
 package pa.modules._v30;
 
 import java.lang.reflect.Method;
+import java.util.HashMap;
 import java.util.Iterator;
-
-import pa._v30.clsInterfaceHandler;
 import config.clsBWProperties;
 
 
@@ -23,26 +22,30 @@ import config.clsBWProperties;
 public abstract class clsModuleBase {
 	public static String P_PROCESS_IMPLEMENTATION_STAGE = "IMP_STAGE"; 
 	
-	protected clsModuleContainer moEnclosingContainer;
 	protected eProcessType mnProcessType;
 	protected ePsychicInstances mnPsychicInstances;
+	protected Integer mnModuleNumber;
 	
 	protected int mnTest = 0;
 	
-	protected clsInterfaceHandler moInterfaceHandler;
-	
 	private eImplementationStage mnImplementationStage;
+	protected HashMap<Integer, clsModuleBase> moModuleList;
 	
-	public clsModuleBase(String poPrefix, clsBWProperties poProp, clsModuleContainer poEnclosingContainer, clsInterfaceHandler poInterfaceHandler) {
-		moEnclosingContainer = poEnclosingContainer;
-		moInterfaceHandler = poInterfaceHandler;
-		
+	public clsModuleBase(String poPrefix, clsBWProperties poProp, HashMap<Integer, clsModuleBase> poModuleList) throws Exception {
 		setProcessType();
 		setPsychicInstances();
+		setModuleNumber();
+		
+		if (mnModuleNumber == null || mnModuleNumber == 0) {
+			throw new java.lang.Exception("mnModuleNumber not set.");
+		}
+		
+		moModuleList = poModuleList;
+		moModuleList.put(mnModuleNumber, this);
 		
 		applyProperties(poPrefix, poProp);		
 	}
-	
+
 	public static clsBWProperties getDefaultProperties(String poPrefix) {
 		// String pre = clsBWProperties.addDot(poPrefix);
 		
@@ -82,7 +85,11 @@ public abstract class clsModuleBase {
 	
 	protected abstract void setProcessType();
 	protected abstract void setPsychicInstances();	
+	protected abstract void setModuleNumber();
 
+	public eProcessType getProcessType() {return mnProcessType;}
+	public ePsychicInstances getPsychicInstances() {return mnPsychicInstances;}
+	public Integer getModuleNumber() {return mnModuleNumber;}
 	
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	protected java.util.ArrayList deepCopy(java.util.ArrayList other) {

@@ -1,73 +1,52 @@
 /**
- * E30_MotilityControl.java: DecisionUnits - pa.modules
+ * E24_RealityCheck.java: DecisionUnits - pa.modules
  * 
  * @author deutsch
- * 11.08.2009, 14:58:20
+ * 11.08.2009, 14:49:09
  */
 package pa.modules._v30;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import config.clsBWProperties;
-import pa.interfaces.receive._v30.I7_4_receive;
-import pa.interfaces.receive._v30.I8_1_receive;
-import pa.interfaces.send._v30.I8_1_send;
-import pa.memorymgmt.datatypes.clsWordPresentation;
+import pa.interfaces.receive._v30.I2_12_receive;
+import pa.interfaces.receive._v30.I2_13_receive;
+import pa.interfaces.receive._v30.I6_1_receive;
+import pa.interfaces.send._v30.I2_13_send;
+import pa.memorymgmt.datatypes.clsSecondaryDataStructureContainer;
 
 /**
  * DOCUMENT (deutsch) - insert description 
  * 
  * @author deutsch
- * 11.08.2009, 14:58:20
+ * 11.08.2009, 14:49:09
  * 
  */
-public class E30_MotilityControl extends clsModuleBase implements I7_4_receive, I8_1_send {
-	public static final String P_MODULENUMBER = "30";
+public class E24_RealityCheck_1 extends clsModuleBase implements I2_12_receive, I6_1_receive, I2_13_send {
+	public static final String P_MODULENUMBER = "24";
 	
 	/**
 	 * DOCUMENT (deutsch) - insert description 
 	 * 
 	 * @author deutsch
-	 * 03.03.2011, 17:00:42
+	 * 03.03.2011, 16:50:46
 	 *
 	 * @param poPrefix
 	 * @param poProp
 	 * @param poModuleList
 	 * @throws Exception
 	 */
-	public E30_MotilityControl(String poPrefix, clsBWProperties poProp,
+	public E24_RealityCheck_1(String poPrefix, clsBWProperties poProp,
 			HashMap<Integer, clsModuleBase> poModuleList) throws Exception {
 		super(poPrefix, poProp, poModuleList);
-		applyProperties(poPrefix, poProp);	
-		
-		moActionCommands_Output = new ArrayList<clsWordPresentation>(); 
-
+		applyProperties(poPrefix, poProp);		
 	}
 
-	private ArrayList<clsWordPresentation> moActionCommands_Input;
-	private ArrayList<clsWordPresentation> moActionCommands_Output;
+	private ArrayList<clsSecondaryDataStructureContainer> moFocusedPerception_Input; 
+	private ArrayList<clsSecondaryDataStructureContainer> moRealityPerception_Output; 
+	//private ArrayList<clsSecondaryDataStructureContainer> moDriveList;  //removed by HZ - not required now
 
 	
-	/**
-	 * @author zeilinger
-	 * 02.09.2010, 20:10:34
-	 * 
-	 * @return the moActionCommands_Output
-	 */
-	public ArrayList<clsWordPresentation> getActionCommands_Output() {
-		return moActionCommands_Output;
-	}
-	
-	/**
-	 * @author zeilinger
-	 * 02.09.2010, 20:10:34
-	 * 
-	 * @return the moActionCommands_Input
-	 */
-	public ArrayList<clsWordPresentation> getActionCommands_Input() {
-		return moActionCommands_Input;
-	}
-
 	public static clsBWProperties getDefaultProperties(String poPrefix) {
 		String pre = clsBWProperties.addDot(poPrefix);
 		
@@ -110,58 +89,79 @@ public class E30_MotilityControl extends clsModuleBase implements I7_4_receive, 
 	/* (non-Javadoc)
 	 *
 	 * @author deutsch
-	 * 11.08.2009, 14:58:46
+	 * 11.08.2009, 14:49:45
 	 * 
-	 * @see pa.interfaces.I7_4#receive_I7_4(int)
+	 * @see pa.interfaces.I2_12#receive_I2_12(int)
 	 */
 	@SuppressWarnings("unchecked")
 	@Override
-	public void receive_I7_4(ArrayList<clsWordPresentation> poActionCommands) {
-		moActionCommands_Input = (ArrayList<clsWordPresentation>) deepCopy(poActionCommands); 
+	public void receive_I2_12(ArrayList<clsSecondaryDataStructureContainer> poFocusedPerception, ArrayList<clsSecondaryDataStructureContainer> poDriveList) {
+		moFocusedPerception_Input = (ArrayList<clsSecondaryDataStructureContainer>)deepCopy(poFocusedPerception);
+		//moDriveList = (ArrayList<clsSecondaryDataStructureContainer>) deepCopy(poDriveList);
 	}
 
 	/* (non-Javadoc)
 	 *
 	 * @author deutsch
-	 * 11.08.2009, 16:16:50
+	 * 11.08.2009, 14:49:45
+	 * 
+	 * @see pa.interfaces.I6_1#receive_I6_1(int)
+	 */
+	@Override
+	public void receive_I6_1(int pnData) {
+		mnTest += pnData;
+		
+	}
+
+	/* (non-Javadoc)
+	 *
+	 * @author deutsch
+	 * 11.08.2009, 16:16:25
 	 * 
 	 * @see pa.modules.clsModuleBase#process()
 	 */
 	@Override
 	protected void process_basic() {
-		moActionCommands_Output = moActionCommands_Input; 
+		moRealityPerception_Output = new ArrayList<clsSecondaryDataStructureContainer>(); 
+		
+		//FIXME HZ 2010.08.24 Functionality of old code is taken; however I am rather sure that it has to be
+		//adapted
+		for(clsSecondaryDataStructureContainer oCon : moFocusedPerception_Input){
+			moRealityPerception_Output.add(oCon); 
+		}
 	}
-
+	
 	/* (non-Javadoc)
 	 *
 	 * @author deutsch
-	 * 11.08.2009, 16:16:50
+	 * 11.08.2009, 16:16:25
 	 * 
 	 * @see pa.modules.clsModuleBase#send()
 	 */
 	@Override
 	protected void send() {
-		send_I8_1(moActionCommands_Output);
+		//HZ: null is a placeholder for the bjects of the type pa.memorymgmt.datatypes
+		send_I2_13(moRealityPerception_Output);
 		
 	}
 
 	/* (non-Javadoc)
 	 *
 	 * @author deutsch
-	 * 18.05.2010, 17:59:05
+	 * 18.05.2010, 17:51:11
 	 * 
-	 * @see pa.interfaces.send.I8_1_send#send_I8_1(java.util.ArrayList)
+	 * @see pa.interfaces.send.I2_13_send#send_I2_13(java.util.ArrayList)
 	 */
 	@Override
-	public void send_I8_1(ArrayList<clsWordPresentation> poActionCommands) {
-		((I8_1_receive)moModuleList.get(31)).receive_I8_1(moActionCommands_Output);
+	public void send_I2_13(ArrayList<clsSecondaryDataStructureContainer> poRealityPerception) {
+		((I2_13_receive)moModuleList.get(26)).receive_I2_13(moRealityPerception_Output);
 		
 	}
 
 	/* (non-Javadoc)
 	 *
 	 * @author deutsch
-	 * 12.07.2010, 10:47:57
+	 * 12.07.2010, 10:47:25
 	 * 
 	 * @see pa.modules.clsModuleBase#process_draft()
 	 */
@@ -174,7 +174,7 @@ public class E30_MotilityControl extends clsModuleBase implements I7_4_receive, 
 	/* (non-Javadoc)
 	 *
 	 * @author deutsch
-	 * 12.07.2010, 10:47:57
+	 * 12.07.2010, 10:47:25
 	 * 
 	 * @see pa.modules.clsModuleBase#process_final()
 	 */
@@ -187,7 +187,7 @@ public class E30_MotilityControl extends clsModuleBase implements I7_4_receive, 
 	/* (non-Javadoc)
 	 *
 	 * @author deutsch
-	 * 03.03.2011, 17:00:47
+	 * 03.03.2011, 16:50:53
 	 * 
 	 * @see pa.modules._v30.clsModuleBase#setModuleNumber()
 	 */

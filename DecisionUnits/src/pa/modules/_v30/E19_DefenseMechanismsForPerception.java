@@ -7,9 +7,8 @@
 package pa.modules._v30;
 
 import java.util.ArrayList;
-
+import java.util.HashMap;
 import config.clsBWProperties;
-import pa._v30.clsInterfaceHandler;
 import pa.interfaces.receive._v30.I2_10_receive;
 import pa.interfaces.receive._v30.I2_9_receive;
 import pa.interfaces.receive._v30.I3_2_receive;
@@ -29,28 +28,33 @@ import pa.memorymgmt.datatypes.clsPrimaryDataStructureContainer;
  * 11.08.2009, 14:35:08
  * 
  */
-public class E19_DefenseMechanismsForPerception extends clsModuleBase implements I2_9_receive, I3_2_receive, I4_2_send, I2_10_send, I5_2_send {
-
-	public ArrayList<clsPrimaryDataStructureContainer> moSubjectivePerception_Input; 
-	public ArrayList<clsPrimaryDataStructureContainer> moFilteredPerception_Output; 
-	private ArrayList<pa.memorymgmt.datatypes.clsThingPresentation> moDeniedThingPresentations;
-	private ArrayList<clsAssociationDriveMesh> moDeniedAffects; 
+public class E19_DefenseMechanismsForPerception extends clsModuleBase implements 
+				I2_9_receive, I3_2_receive, I4_2_send, I2_10_send, I5_2_send {
+	public static final String P_MODULENUMBER = "19";
 	
 	/**
 	 * DOCUMENT (deutsch) - insert description 
 	 * 
 	 * @author deutsch
-	 * 11.08.2009, 14:36:00
+	 * 03.03.2011, 16:41:41
 	 *
 	 * @param poPrefix
 	 * @param poProp
-	 * @param poEnclosingContainer
+	 * @param poModuleList
+	 * @throws Exception
 	 */
 	public E19_DefenseMechanismsForPerception(String poPrefix,
-			clsBWProperties poProp, clsModuleContainer poEnclosingContainer, clsInterfaceHandler poInterfaceHandler) {
-		super(poPrefix, poProp, poEnclosingContainer, poInterfaceHandler);
-		applyProperties(poPrefix, poProp);		
+			clsBWProperties poProp, HashMap<Integer, clsModuleBase> poModuleList)
+			throws Exception {
+		super(poPrefix, poProp, poModuleList);
+ 		applyProperties(poPrefix, poProp);		
 	}
+
+	public ArrayList<clsPrimaryDataStructureContainer> moSubjectivePerception_Input; 
+	public ArrayList<clsPrimaryDataStructureContainer> moFilteredPerception_Output; 
+	private ArrayList<pa.memorymgmt.datatypes.clsThingPresentation> moDeniedThingPresentations;
+	private ArrayList<clsAssociationDriveMesh> moDeniedAffects; 
+
 	
 	public static clsBWProperties getDefaultProperties(String poPrefix) {
 		String pre = clsBWProperties.addDot(poPrefix);
@@ -182,7 +186,7 @@ public class E19_DefenseMechanismsForPerception extends clsModuleBase implements
 	 */
 	@Override
 	public void send_I4_2(ArrayList<clsPrimaryDataStructureContainer> poPIs, ArrayList<pa.memorymgmt.datatypes.clsThingPresentation> poTPs, ArrayList<clsAssociationDriveMesh> poAffects) {
-		((I4_2_receive)moEnclosingContainer).receive_I4_2(moFilteredPerception_Output, moDeniedThingPresentations, moDeniedAffects);
+		((I4_2_receive)moModuleList.get(36)).receive_I4_2(moFilteredPerception_Output, moDeniedThingPresentations, moDeniedAffects);
 	}
 
 	/* (non-Javadoc)
@@ -194,7 +198,7 @@ public class E19_DefenseMechanismsForPerception extends clsModuleBase implements
 	 */
 	@Override
 	public void send_I2_10(ArrayList<clsPrimaryDataStructureContainer> poGrantedPerception) {
-		((I2_10_receive)moEnclosingContainer).receive_I2_10(moFilteredPerception_Output);
+		((I2_10_receive)moModuleList.get(21)).receive_I2_10(moFilteredPerception_Output);
 		
 	}
 
@@ -207,7 +211,7 @@ public class E19_DefenseMechanismsForPerception extends clsModuleBase implements
 	 */
 	@Override
 	public void send_I5_2(ArrayList<clsAssociationDriveMesh> poDeniedAffects) {
-		((I5_2_receive)moEnclosingContainer).receive_I5_2(moDeniedAffects);
+		((I5_2_receive)moModuleList.get(20)).receive_I5_2(moDeniedAffects);
 	}
 
 	/* (non-Javadoc)
@@ -234,6 +238,19 @@ public class E19_DefenseMechanismsForPerception extends clsModuleBase implements
 	protected void process_final() {
 		// TODO (deutsch) - Auto-generated method stub
 		throw new java.lang.NoSuchMethodError();
+	}
+
+	/* (non-Javadoc)
+	 *
+	 * @author deutsch
+	 * 03.03.2011, 16:41:48
+	 * 
+	 * @see pa.modules._v30.clsModuleBase#setModuleNumber()
+	 */
+	@Override
+	protected void setModuleNumber() {
+		mnModuleNumber = Integer.parseInt(P_MODULENUMBER);
+		
 	}
 
 }

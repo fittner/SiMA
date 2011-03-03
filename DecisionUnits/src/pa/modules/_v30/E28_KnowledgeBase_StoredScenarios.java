@@ -12,13 +12,12 @@ import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.Map;
 import java.util.Queue;
-
 import config.clsBWProperties;
-import pa._v30.clsInterfaceHandler;
 import pa.interfaces.knowledgebase.itfKnowledgeBaseAccess;
 import pa.interfaces.receive._v30.I6_2_receive;
-import pa.interfaces.receive._v30.I7_2_receive;
+import pa.interfaces.receive._v30.I7_1_receive;
 import pa.interfaces.send._v30.I6_2_send;
+import pa.memorymgmt.clsKnowledgeBaseHandler;
 import pa.memorymgmt.datahandler.clsDataStructureGenerator;
 import pa.memorymgmt.datatypes.clsAct;
 import pa.memorymgmt.datatypes.clsDataStructureContainer;
@@ -37,28 +36,38 @@ import pa.tools.clsTripple;
  * 11.08.2009, 14:56:22
  * 
  */
-public class E28_KnowledgeBase_StoredScenarios extends clsModuleBase implements I7_2_receive, I6_2_send, itfKnowledgeBaseAccess {
+public class E28_KnowledgeBase_StoredScenarios extends clsModuleBase implements I7_1_receive, I6_2_send, itfKnowledgeBaseAccess {
+	private clsKnowledgeBaseHandler moKnowledgeBaseHandler;
+	public static final String P_MODULENUMBER = "28";
+	
+	/**
+	 * DOCUMENT (deutsch) - insert description 
+	 * 
+	 * @author deutsch
+	 * 03.03.2011, 16:53:03
+	 *
+	 * @param poPrefix
+	 * @param poProp
+	 * @param poModuleList
+	 * @throws Exception
+	 */
+	public E28_KnowledgeBase_StoredScenarios(String poPrefix,
+			clsBWProperties poProp, HashMap<Integer, clsModuleBase> poModuleList, clsKnowledgeBaseHandler poKnowledgeBaseHandler)
+			throws Exception {
+		super(poPrefix, poProp, poModuleList);
+		
+		moKnowledgeBaseHandler = poKnowledgeBaseHandler;
+		
+		applyProperties(poPrefix, poProp);		
+	}
+
 	//TODO HZ has to be defined in a config file
 	private final Integer mnNodeLimit = 20;
 	
 	private ArrayList<clsSecondaryDataStructureContainer> moGoal_Input; 
 	private ArrayList<ArrayList<clsAct>> moPlan_Output; 
 			
-	/**
-	 * DOCUMENT (deutsch) - insert description 
-	 * 
-	 * @author deutsch
-	 * 11.08.2009, 14:56:40
-	 *
-	 * @param poPrefix
-	 * @param poProp
-	 * @param poEnclosingContainer
-	 */
-	public E28_KnowledgeBase_StoredScenarios(String poPrefix,
-			clsBWProperties poProp, clsModuleContainer poEnclosingContainer, clsInterfaceHandler poInterfaceHandler) {
-		super(poPrefix, poProp, poEnclosingContainer, poInterfaceHandler);
-		applyProperties(poPrefix, poProp);		
-	}
+
 	
 	public static clsBWProperties getDefaultProperties(String poPrefix) {
 		String pre = clsBWProperties.addDot(poPrefix);
@@ -128,7 +137,7 @@ public class E28_KnowledgeBase_StoredScenarios extends clsModuleBase implements 
 	 */
 	@SuppressWarnings("unchecked")
 	@Override
-	public void receive_I7_2(ArrayList<clsSecondaryDataStructureContainer> poGoal_Input) {
+	public void receive_I7_1(ArrayList<clsSecondaryDataStructureContainer> poGoal_Input) {
 		moGoal_Input = (ArrayList<clsSecondaryDataStructureContainer>)deepCopy(poGoal_Input);
 	}
 
@@ -533,7 +542,7 @@ public class E28_KnowledgeBase_StoredScenarios extends clsModuleBase implements 
 	 */
 	@Override
 	public void send_I6_2(ArrayList<ArrayList<clsAct>> poPlanOutput) {
-		((I6_2_receive)moEnclosingContainer).receive_I6_2(moPlan_Output);
+		((I6_2_receive)moModuleList.get(27)).receive_I6_2(moPlan_Output);
 		
 	}
 
@@ -572,7 +581,7 @@ public class E28_KnowledgeBase_StoredScenarios extends clsModuleBase implements 
 	 */
 	@Override
 	public HashMap<Integer,ArrayList<clsPair<Double,clsDataStructureContainer>>> accessKnowledgeBase() {
-		return moEnclosingContainer.moKnowledgeBaseHandler.initMemorySearch(moSearchPattern);
+		return moKnowledgeBaseHandler.initMemorySearch(moSearchPattern);
 	}
 
 	/* (non-Javadoc)
@@ -713,6 +722,19 @@ public class E28_KnowledgeBase_StoredScenarios extends clsModuleBase implements 
 			
 			return oList; 
 		}
+	}
+
+	/* (non-Javadoc)
+	 *
+	 * @author deutsch
+	 * 03.03.2011, 16:53:08
+	 * 
+	 * @see pa.modules._v30.clsModuleBase#setModuleNumber()
+	 */
+	@Override
+	protected void setModuleNumber() {
+		mnModuleNumber = Integer.parseInt(P_MODULENUMBER);
+		
 	}
 
 }

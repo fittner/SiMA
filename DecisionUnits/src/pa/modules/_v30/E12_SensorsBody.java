@@ -7,12 +7,10 @@
 package pa.modules._v30;
 
 import java.util.HashMap;
-
 import config.clsBWProperties;
 import du.enums.eSensorExtType;
 import du.itf.sensors.clsSensorExtern;
-import pa._v30.clsInterfaceHandler;
-import pa.interfaces.itfProcessSensorBody;
+import pa.interfaces.receive._v30.I0_5_receive;
 import pa.interfaces.receive._v30.I2_3_receive;
 import pa.interfaces.send._v30.I2_3_send;
 
@@ -23,25 +21,28 @@ import pa.interfaces.send._v30.I2_3_send;
  * 11.08.2009, 14:20:47
  * 
  */
-public class E12_SensorsBody extends clsModuleBase implements itfProcessSensorBody, I2_3_send {
-
-	private HashMap<eSensorExtType, clsSensorExtern> moBodyData;
+public class E12_SensorsBody extends clsModuleBase implements I0_5_receive, I2_3_send {
+	public static final String P_MODULENUMBER = "12";
 	
 	/**
 	 * DOCUMENT (deutsch) - insert description 
 	 * 
 	 * @author deutsch
-	 * 11.08.2009, 14:21:28
+	 * 03.03.2011, 16:08:23
 	 *
 	 * @param poPrefix
 	 * @param poProp
-	 * @param poEnclosingContainer
+	 * @param poModuleList
+	 * @throws Exception
 	 */
 	public E12_SensorsBody(String poPrefix, clsBWProperties poProp,
-			clsModuleContainer poEnclosingContainer, clsInterfaceHandler poInterfaceHandler) {
-		super(poPrefix, poProp, poEnclosingContainer, poInterfaceHandler);
-		applyProperties(poPrefix, poProp);		
+			HashMap<Integer, clsModuleBase> poModuleList) throws Exception {
+		super(poPrefix, poProp, poModuleList);
+		applyProperties(poPrefix, poProp);	
 	}
+
+	private HashMap<eSensorExtType, clsSensorExtern> moBodyData;
+
 	
 	public static clsBWProperties getDefaultProperties(String poPrefix) {
 		String pre = clsBWProperties.addDot(poPrefix);
@@ -84,18 +85,6 @@ public class E12_SensorsBody extends clsModuleBase implements itfProcessSensorBo
 
 	/* (non-Javadoc)
 	 *
-	 * @author langr
-	 * 12.08.2009, 20:58:11
-	 * 
-	 * @see pa.interfaces.itfProcessSensorBody#receiveBody(java.util.HashMap)
-	 */
-	@Override
-	public void receiveBody(HashMap<eSensorExtType, clsSensorExtern> poData) {
-		moBodyData = poData;		
-	}
-
-	/* (non-Javadoc)
-	 *
 	 * @author deutsch
 	 * 11.08.2009, 16:15:32
 	 * 
@@ -129,7 +118,7 @@ public class E12_SensorsBody extends clsModuleBase implements itfProcessSensorBo
 	 */
 	@Override
 	public void send_I2_3(HashMap<eSensorExtType, clsSensorExtern> pnData) {
-		((I2_3_receive)moEnclosingContainer).receive_I2_3(moBodyData);
+		((I2_3_receive)moModuleList.get(13)).receive_I2_3(moBodyData);
 		
 	}
 
@@ -158,5 +147,31 @@ public class E12_SensorsBody extends clsModuleBase implements itfProcessSensorBo
 		// TODO (deutsch) - Auto-generated method stub
 		throw new java.lang.NoSuchMethodError();
 	}
+
+	/* (non-Javadoc)
+	 *
+	 * @author deutsch
+	 * 03.03.2011, 16:08:30
+	 * 
+	 * @see pa.modules._v30.clsModuleBase#setModuleNumber()
+	 */
+	@Override
+	protected void setModuleNumber() {
+		mnModuleNumber = Integer.parseInt(P_MODULENUMBER);
+		
+	}
+
+	/* (non-Javadoc)
+	 *
+	 * @author deutsch
+	 * 03.03.2011, 16:09:24
+	 * 
+	 * @see pa.interfaces.receive._v30.I0_5_receive#receive_I0_5(java.util.HashMap)
+	 */
+	@Override
+	public void receive_I0_5(HashMap<eSensorExtType, clsSensorExtern> poData) {
+		moBodyData = poData;
+	}
+
 
 }

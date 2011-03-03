@@ -7,9 +7,8 @@
 package pa.modules._v30;
 
 import java.util.ArrayList;
-
+import java.util.HashMap;
 import config.clsBWProperties;
-import pa._v30.clsInterfaceHandler;
 import pa.interfaces.receive._v30.I5_5_receive;
 import pa.interfaces.receive._v30.I7_3_receive;
 import pa.interfaces.receive._v30.I7_4_receive;
@@ -24,26 +23,31 @@ import pa.memorymgmt.datatypes.clsWordPresentation;
  * 11.08.2009, 14:57:10
  * 
  */
-public class E29_EvaluationOfImaginaryActions extends clsModuleBase implements I5_5_receive, I7_3_receive, I7_6_receive, I7_4_send {
-
-	private ArrayList<clsWordPresentation> moActionCommands_Input; 
-	private ArrayList<clsWordPresentation> moActionCommands_Output; 
-
+public class E29_EvaluationOfImaginaryActions extends clsModuleBase implements 
+					I5_5_receive, I7_3_receive, I7_6_receive, I7_4_send {
+	public static final String P_MODULENUMBER = "29";
+	
 	/**
 	 * DOCUMENT (deutsch) - insert description 
 	 * 
 	 * @author deutsch
-	 * 11.08.2009, 14:57:36
+	 * 03.03.2011, 16:59:54
 	 *
 	 * @param poPrefix
 	 * @param poProp
-	 * @param poEnclosingContainer
+	 * @param poModuleList
+	 * @throws Exception
 	 */
 	public E29_EvaluationOfImaginaryActions(String poPrefix,
-			clsBWProperties poProp, clsModuleContainer poEnclosingContainer, clsInterfaceHandler poInterfaceHandler) {
-		super(poPrefix, poProp, poEnclosingContainer, poInterfaceHandler);
+			clsBWProperties poProp, HashMap<Integer, clsModuleBase> poModuleList)
+			throws Exception {
+		super(poPrefix, poProp, poModuleList);
 		applyProperties(poPrefix, poProp);	
 	}
+
+	private ArrayList<clsWordPresentation> moActionCommands_Input; 
+	private ArrayList<clsWordPresentation> moActionCommands_Output; 
+
 	
 	public static clsBWProperties getDefaultProperties(String poPrefix) {
 		String pre = clsBWProperties.addDot(poPrefix);
@@ -157,7 +161,7 @@ public class E29_EvaluationOfImaginaryActions extends clsModuleBase implements I
 	 */
 	@Override
 	public void send_I7_4(ArrayList<clsWordPresentation> poActionCommands) {
-		((I7_4_receive)moEnclosingContainer).receive_I7_4(moActionCommands_Output);
+		((I7_4_receive)moModuleList.get(30)).receive_I7_4(moActionCommands_Output);
 		
 	}
 
@@ -185,5 +189,18 @@ public class E29_EvaluationOfImaginaryActions extends clsModuleBase implements I
 	protected void process_final() {
 		// TODO (deutsch) - Auto-generated method stub
 		throw new java.lang.NoSuchMethodError();
+	}
+
+	/* (non-Javadoc)
+	 *
+	 * @author deutsch
+	 * 03.03.2011, 17:00:00
+	 * 
+	 * @see pa.modules._v30.clsModuleBase#setModuleNumber()
+	 */
+	@Override
+	protected void setModuleNumber() {
+		mnModuleNumber = Integer.parseInt(P_MODULENUMBER);
+		
 	}
 }

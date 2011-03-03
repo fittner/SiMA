@@ -1,50 +1,47 @@
 /**
- * E10_SensorsEnvironment.java: DecisionUnits - pa.modules
+ * E33_RealityCheck2.java: DecisionUnits - pa.modules
  * 
  * @author deutsch
- * 11.08.2009, 14:13:27
+ * 27.04.2010, 10:18:11
  */
 package pa.modules._v30;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import config.clsBWProperties;
-import du.enums.eSensorExtType;
-import du.itf.sensors.clsSensorExtern;
-import pa.interfaces.receive._v30.I0_4_receive;
-import pa.interfaces.receive._v30.I2_1_receive;
-import pa.interfaces.send._v30.I2_1_send;
+import pa.interfaces.receive._v30.I7_3_receive;
+import pa.interfaces.receive._v30.I7_5_receive;
+import pa.interfaces.receive._v30.I7_6_receive;
+import pa.interfaces.send._v30.I7_6_send;
+import pa.memorymgmt.datatypes.clsWordPresentation;
 
 /**
  * DOCUMENT (deutsch) - insert description 
  * 
  * @author deutsch
- * 11.08.2009, 14:13:27
+ * 27.04.2010, 10:18:11
  * 
  */
-public class E10_SensorsEnvironment extends clsModuleBase implements I0_4_receive, I2_1_send {
-	public static final String P_MODULENUMBER = "10";
+public class E33_RealityCheck_2 extends clsModuleBase implements I7_3_receive, I7_5_receive, I7_6_send {
+	public static final String P_MODULENUMBER = "33";
 	
 	/**
 	 * DOCUMENT (deutsch) - insert description 
 	 * 
 	 * @author deutsch
-	 * 03.03.2011, 16:03:16
+	 * 03.03.2011, 16:59:20
 	 *
 	 * @param poPrefix
 	 * @param poProp
 	 * @param poModuleList
-	 * @throws Exception 
+	 * @throws Exception
 	 */
-	public E10_SensorsEnvironment(String poPrefix, clsBWProperties poProp,
+	public E33_RealityCheck_2(String poPrefix, clsBWProperties poProp,
 			HashMap<Integer, clsModuleBase> poModuleList) throws Exception {
 		super(poPrefix, poProp, poModuleList);
-		applyProperties(poPrefix, poProp);		
+		applyProperties(poPrefix, poProp);	
 	}
 
-	HashMap<eSensorExtType, clsSensorExtern> moEnvironmentalData;
-	
-
-	
 	public static clsBWProperties getDefaultProperties(String poPrefix) {
 		String pre = clsBWProperties.addDot(poPrefix);
 		
@@ -58,75 +55,101 @@ public class E10_SensorsEnvironment extends clsModuleBase implements I0_4_receiv
 		//String pre = clsBWProperties.addDot(poPrefix);
 	
 		//nothing to do
-	}
+	}	
 
 	/* (non-Javadoc)
 	 *
 	 * @author deutsch
-	 * 11.08.2009, 12:09:34
-	 * 
-	 * @see pa.modules.clsModuleBase#setProcessType()
-	 */
-	@Override
-	protected void setProcessType() {
-		mnProcessType = eProcessType.BODY;
-	}
-
-	/* (non-Javadoc)
-	 *
-	 * @author deutsch
-	 * 11.08.2009, 12:09:34
-	 * 
-	 * @see pa.modules.clsModuleBase#setPsychicInstances()
-	 */
-	@Override
-	protected void setPsychicInstances() {
-		mnPsychicInstances = ePsychicInstances.BODY;
-	}
-
-	/* (non-Javadoc)
-	 *
-	 * @author deutsch
-	 * 11.08.2009, 16:15:23
+	 * 27.04.2010, 10:18:11
 	 * 
 	 * @see pa.modules.clsModuleBase#process()
 	 */
 	@Override
 	protected void process_basic() {
-		mnTest++;
-		
+		// TODO (deutsch) - Auto-generated method stub
+
 	}
 
 	/* (non-Javadoc)
 	 *
 	 * @author deutsch
-	 * 11.08.2009, 16:15:23
+	 * 27.04.2010, 10:18:11
 	 * 
 	 * @see pa.modules.clsModuleBase#send()
 	 */
 	@Override
 	protected void send() {
-		send_I2_1(moEnvironmentalData);
-		
+		send_I7_6(1);
+
 	}
 
 	/* (non-Javadoc)
 	 *
 	 * @author deutsch
-	 * 18.05.2010, 16:53:14
+	 * 27.04.2010, 10:18:11
 	 * 
-	 * @see pa.interfaces.send.I2_1_send#send_I2_1(java.util.HashMap)
+	 * @see pa.modules.clsModuleBase#setProcessType()
 	 */
 	@Override
-	public void send_I2_1(HashMap<eSensorExtType, clsSensorExtern> pnData) {
-		((I2_1_receive)moModuleList.get(11)).receive_I2_1(moEnvironmentalData);
+	protected void setProcessType() {
+		mnProcessType = eProcessType.SECONDARY;
+	}
+
+	/* (non-Javadoc)
+	 *
+	 * @author deutsch
+	 * 27.04.2010, 10:18:11
+	 * 
+	 * @see pa.modules.clsModuleBase#setPsychicInstances()
+	 */
+	@Override
+	protected void setPsychicInstances() {
+		mnPsychicInstances = ePsychicInstances.EGO;
+	}
+
+	/* (non-Javadoc)
+	 *
+	 * @author deutsch
+	 * 27.04.2010, 10:36:01
+	 * 
+	 * @see pa.interfaces.I7_3#receive_I7_3(java.util.ArrayList)
+	 */
+	@Override
+	public void receive_I7_3(ArrayList<clsWordPresentation> poActionCommands) {
+		// TODO (deutsch) - Auto-generated method stub
 		
 	}
 
 	/* (non-Javadoc)
 	 *
 	 * @author deutsch
-	 * 12.07.2010, 10:46:09
+	 * 27.04.2010, 10:44:03
+	 * 
+	 * @see pa.interfaces.I7_5#receive_I7_5(java.util.ArrayList)
+	 */
+	@Override
+	public void receive_I7_5(int pnData) {
+		// TODO (deutsch) - Auto-generated method stub
+		
+	}
+
+	/* (non-Javadoc)
+	 *
+	 * @author deutsch
+	 * 18.05.2010, 18:00:41
+	 * 
+	 * @see pa.interfaces.send.I7_6_send#send_I7_6(int)
+	 */
+	@Override
+	public void send_I7_6(int pnData) {
+		((I7_6_receive)moModuleList.get(29)).receive_I7_6(1);
+		
+	}
+
+	/* (non-Javadoc)
+	 *
+	 * @author deutsch
+	 * 12.07.2010, 10:48:18
 	 * 
 	 * @see pa.modules.clsModuleBase#process_draft()
 	 */
@@ -139,7 +162,7 @@ public class E10_SensorsEnvironment extends clsModuleBase implements I0_4_receiv
 	/* (non-Javadoc)
 	 *
 	 * @author deutsch
-	 * 12.07.2010, 10:46:09
+	 * 12.07.2010, 10:48:18
 	 * 
 	 * @see pa.modules.clsModuleBase#process_final()
 	 */
@@ -152,7 +175,7 @@ public class E10_SensorsEnvironment extends clsModuleBase implements I0_4_receiv
 	/* (non-Javadoc)
 	 *
 	 * @author deutsch
-	 * 03.03.2011, 16:03:14
+	 * 03.03.2011, 16:59:26
 	 * 
 	 * @see pa.modules._v30.clsModuleBase#setModuleNumber()
 	 */
@@ -162,16 +185,4 @@ public class E10_SensorsEnvironment extends clsModuleBase implements I0_4_receiv
 		
 	}
 
-	/* (non-Javadoc)
-	 *
-	 * @author deutsch
-	 * 03.03.2011, 16:03:32
-	 * 
-	 * @see pa.interfaces.receive._v30.I0_4_receive#receive_I0_4(java.util.List)
-	 */
-	@Override
-	public void receive_I0_4(HashMap<eSensorExtType, clsSensorExtern> poData) {
-		moEnvironmentalData = poData;
-		
-	}
 }

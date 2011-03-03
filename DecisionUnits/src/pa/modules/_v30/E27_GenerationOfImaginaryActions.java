@@ -7,9 +7,8 @@
 package pa.modules._v30;
 
 import java.util.ArrayList;
-
+import java.util.HashMap;
 import config.clsBWProperties;
-import pa._v30.clsInterfaceHandler;
 import pa.interfaces.receive._v30.I6_2_receive;
 import pa.interfaces.receive._v30.I7_1_receive;
 import pa.interfaces.receive._v30.I7_3_receive;
@@ -29,6 +28,28 @@ import pa.memorymgmt.enums.eActState;
  * 
  */
 public class E27_GenerationOfImaginaryActions extends clsModuleBase implements I6_2_receive, I7_1_receive, I7_3_send {
+	public static final String P_MODULENUMBER = "27";
+	
+	/**
+	 * DOCUMENT (deutsch) - insert description 
+	 * 
+	 * @author deutsch
+	 * 03.03.2011, 16:55:46
+	 *
+	 * @param poPrefix
+	 * @param poProp
+	 * @param poModuleList
+	 * @throws Exception
+	 */
+	public E27_GenerationOfImaginaryActions(String poPrefix,
+			clsBWProperties poProp, HashMap<Integer, clsModuleBase> poModuleList)
+			throws Exception {
+		super(poPrefix, poProp, poModuleList);
+		applyProperties(poPrefix, poProp);	
+		
+		//ArrayList<clsPlanAction> moActions_Output = new ArrayList<clsPlanAction>(); //never used!
+
+	}
 
 	public ArrayList<clsSecondaryDataStructureContainer> moGoalInput;
 	public ArrayList<ArrayList<clsAct>> moPlanInput; 
@@ -36,23 +57,7 @@ public class E27_GenerationOfImaginaryActions extends clsModuleBase implements I
 	ArrayList<clsPlanAction> moActions_Output_old;
 	private ArrayList<clsWordPresentation> moActions_Output; 
 	
-	/**
-	 * DOCUMENT (deutsch) - insert description 
-	 * 
-	 * @author deutsch
-	 * 11.08.2009, 14:55:40
-	 *
-	 * @param poPrefix
-	 * @param poProp
-	 * @param poEnclosingContainer
-	 */
-	public E27_GenerationOfImaginaryActions(String poPrefix,
-			clsBWProperties poProp, clsModuleContainer poEnclosingContainer, clsInterfaceHandler poInterfaceHandler) {
-		super(poPrefix, poProp, poEnclosingContainer, poInterfaceHandler);
-		applyProperties(poPrefix, poProp);	
-		
-		//ArrayList<clsPlanAction> moActions_Output = new ArrayList<clsPlanAction>(); //never used!
-	}
+
 	
 	public static clsBWProperties getDefaultProperties(String poPrefix) {
 		String pre = clsBWProperties.addDot(poPrefix);
@@ -233,7 +238,10 @@ public class E27_GenerationOfImaginaryActions extends clsModuleBase implements I
 	 */
 	@Override
 	public void send_I7_3(ArrayList<clsWordPresentation> poActionCommands) {
-		((I7_3_receive)moEnclosingContainer).receive_I7_3(moActions_Output);
+		((I7_3_receive)moModuleList.get(47)).receive_I7_3(moActions_Output);
+		((I7_3_receive)moModuleList.get(29)).receive_I7_3(moActions_Output);
+		((I7_3_receive)moModuleList.get(33)).receive_I7_3(moActions_Output);
+		((I7_3_receive)moModuleList.get(34)).receive_I7_3(moActions_Output);
 		
 	}
 
@@ -261,5 +269,18 @@ public class E27_GenerationOfImaginaryActions extends clsModuleBase implements I
 	protected void process_final() {
 		// TODO (deutsch) - Auto-generated method stub
 		throw new java.lang.NoSuchMethodError();
+	}
+
+	/* (non-Javadoc)
+	 *
+	 * @author deutsch
+	 * 03.03.2011, 16:55:51
+	 * 
+	 * @see pa.modules._v30.clsModuleBase#setModuleNumber()
+	 */
+	@Override
+	protected void setModuleNumber() {
+		mnModuleNumber = Integer.parseInt(P_MODULENUMBER);
+		
 	}
 }

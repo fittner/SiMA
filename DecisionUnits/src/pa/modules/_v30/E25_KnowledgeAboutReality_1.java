@@ -1,26 +1,22 @@
 /**
- * E9_KnowledgeAboutReality_unconscious.java: DecisionUnits - pa.modules
+ * E25_KnowledgeAboutReality.java: DecisionUnits - pa.modules
  * 
  * @author deutsch
- * 11.08.2009, 14:09:09
+ * 11.08.2009, 14:50:27
  */
 package pa.modules._v30;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import config.clsBWProperties;
-import pa.datatypes.clsPrimaryInformation;
 import pa.interfaces.knowledgebase.itfKnowledgeBaseAccess;
-import pa.interfaces.receive._v30.I1_5_receive;
-import pa.interfaces.receive._v30.I2_19_receive;
-import pa.interfaces.receive._v30.I6_3_receive;
-import pa.interfaces.send._v30.I6_3_send;
+import pa.interfaces.receive._v30.I2_12_receive;
+import pa.interfaces.receive._v30.I6_1_receive;
+import pa.interfaces.send._v30.I6_1_send;
 import pa.memorymgmt.clsKnowledgeBaseHandler;
 import pa.memorymgmt.datatypes.clsDataStructureContainer;
 import pa.memorymgmt.datatypes.clsDataStructurePA;
-import pa.memorymgmt.datatypes.clsDriveMesh;
-import pa.memorymgmt.datatypes.clsPrimaryDataStructureContainer;
+import pa.memorymgmt.datatypes.clsSecondaryDataStructureContainer;
 import pa.memorymgmt.enums.eDataType;
 import pa.tools.clsPair;
 
@@ -28,29 +24,26 @@ import pa.tools.clsPair;
  * DOCUMENT (deutsch) - insert description 
  * 
  * @author deutsch
- * 11.08.2009, 14:09:09
+ * 11.08.2009, 14:50:27
  * 
  */
-public class E09_KnowledgeAboutReality_unconscious extends clsModuleBase implements
-						I1_5_receive, I2_19_receive, I6_3_send, itfKnowledgeBaseAccess {
+public class E25_KnowledgeAboutReality_1 extends clsModuleBase implements I2_12_receive, I6_1_send, itfKnowledgeBaseAccess {
+	public static final String P_MODULENUMBER = "25";
 	
 	private clsKnowledgeBaseHandler moKnowledgeBaseHandler;
-	public static final String P_MODULENUMBER = "09";
-	
 	/**
 	 * DOCUMENT (deutsch) - insert description 
 	 * 
 	 * @author deutsch
-	 * 03.03.2011, 16:37:44
+	 * 03.03.2011, 16:47:07
 	 *
 	 * @param poPrefix
 	 * @param poProp
 	 * @param poModuleList
 	 * @throws Exception
 	 */
-	public E09_KnowledgeAboutReality_unconscious(String poPrefix,
-			clsBWProperties poProp, HashMap<Integer, clsModuleBase> poModuleList, clsKnowledgeBaseHandler poKnowledgeBaseHandler)
-			throws Exception {
+	public E25_KnowledgeAboutReality_1(String poPrefix, clsBWProperties poProp,
+			HashMap<Integer, clsModuleBase> poModuleList, clsKnowledgeBaseHandler poKnowledgeBaseHandler) throws Exception {
 		super(poPrefix, poProp, poModuleList);
 		
 		moKnowledgeBaseHandler = poKnowledgeBaseHandler;
@@ -58,7 +51,8 @@ public class E09_KnowledgeAboutReality_unconscious extends clsModuleBase impleme
 		applyProperties(poPrefix, poProp);		
 	}
 
-	ArrayList<clsPrimaryDataStructureContainer> moPrimaryInformation; 
+	//private ArrayList<clsSecondaryDataStructureContainer> moFocusedPerception;
+
 
 	
 	public static clsBWProperties getDefaultProperties(String poPrefix) {
@@ -85,7 +79,7 @@ public class E09_KnowledgeAboutReality_unconscious extends clsModuleBase impleme
 	 */
 	@Override
 	protected void setProcessType() {
-		mnProcessType = eProcessType.PRIMARY;
+		mnProcessType = eProcessType.SECONDARY;
 	}
 
 	/* (non-Javadoc)
@@ -103,21 +97,21 @@ public class E09_KnowledgeAboutReality_unconscious extends clsModuleBase impleme
 	/* (non-Javadoc)
 	 *
 	 * @author deutsch
-	 * 11.08.2009, 14:10:04
+	 * 11.08.2009, 14:51:09
 	 * 
-	 * @see pa.interfaces.I1_5#receive_I1_5(int)
+	 * @see pa.interfaces.I2_12#receive_I2_12(int)
 	 */
-	@SuppressWarnings("unchecked")
 	@Override
-	public void receive_I1_5(List<clsPrimaryInformation> poData_old,
-			  List<clsDriveMesh> poData) {
-		moPrimaryInformation = (ArrayList<clsPrimaryDataStructureContainer>)deepCopy((ArrayList<clsDriveMesh>)poData);
+	public void receive_I2_12(ArrayList<clsSecondaryDataStructureContainer> poFocusedPerception,
+			   					ArrayList<clsSecondaryDataStructureContainer> poDriveList) {
+		//never used ! moFocusedPerception_old = (ArrayList<clsSecondaryInformation>)this.deepCopy(poFocusedPerception_old);
+		//never used ! moFocusedPerception = (ArrayList<clsSecondaryDataStructureContainer>) this.deepCopy(poFocusedPerception); 
 	}
 
 	/* (non-Javadoc)
 	 *
 	 * @author deutsch
-	 * 11.08.2009, 16:15:18
+	 * 11.08.2009, 16:16:30
 	 * 
 	 * @see pa.modules.clsModuleBase#process()
 	 */
@@ -130,32 +124,33 @@ public class E09_KnowledgeAboutReality_unconscious extends clsModuleBase impleme
 	/* (non-Javadoc)
 	 *
 	 * @author deutsch
-	 * 11.08.2009, 16:15:18
+	 * 11.08.2009, 16:16:30
 	 * 
 	 * @see pa.modules.clsModuleBase#send()
 	 */
 	@Override
 	protected void send() {
-		send_I6_3(mnTest);
-	}
-
-	/* (non-Javadoc)
-	 *
-	 * @author deutsch
-	 * 18.05.2010, 16:52:35
-	 * 
-	 * @see pa.interfaces.send.I6_3_send#send_I6_3(int)
-	 */
-	@Override
-	public void send_I6_3(int pnData) {
-		((I6_3_receive)moModuleList.get(6)).receive_I6_3(mnTest);
+		send_I6_1(mnTest);
 		
 	}
 
 	/* (non-Javadoc)
 	 *
 	 * @author deutsch
-	 * 12.07.2010, 10:45:59
+	 * 18.05.2010, 17:51:50
+	 * 
+	 * @see pa.interfaces.send.I6_1_send#send_I6_1(int)
+	 */
+	@Override
+	public void send_I6_1(int pnData) {
+		((I6_1_receive)moModuleList.get(24)).receive_I6_1(mnTest);
+		
+	}
+
+	/* (non-Javadoc)
+	 *
+	 * @author deutsch
+	 * 12.07.2010, 10:47:31
 	 * 
 	 * @see pa.modules.clsModuleBase#process_draft()
 	 */
@@ -168,7 +163,7 @@ public class E09_KnowledgeAboutReality_unconscious extends clsModuleBase impleme
 	/* (non-Javadoc)
 	 *
 	 * @author deutsch
-	 * 12.07.2010, 10:45:59
+	 * 12.07.2010, 10:47:31
 	 * 
 	 * @see pa.modules.clsModuleBase#process_final()
 	 */
@@ -181,7 +176,7 @@ public class E09_KnowledgeAboutReality_unconscious extends clsModuleBase impleme
 	/* (non-Javadoc)
 	 *
 	 * @author zeilinger
-	 * 12.08.2010, 21:10:19
+	 * 12.08.2010, 20:59:07
 	 * 
 	 * @see pa.interfaces.knowledgebase.itfKnowledgeBaseAccess#accessKnowledgeBase(java.util.ArrayList)
 	 */
@@ -193,7 +188,7 @@ public class E09_KnowledgeAboutReality_unconscious extends clsModuleBase impleme
 	/* (non-Javadoc)
 	 *
 	 * @author zeilinger
-	 * 16.08.2010, 10:15:34
+	 * 16.08.2010, 10:16:04
 	 * 
 	 * @see pa.interfaces.knowledgebase.itfKnowledgeBaseAccess#addToSearchPattern(pa.memorymgmt.enums.eDataType, pa.memorymgmt.datatypes.clsDataStructurePA)
 	 */
@@ -207,26 +202,13 @@ public class E09_KnowledgeAboutReality_unconscious extends clsModuleBase impleme
 	/* (non-Javadoc)
 	 *
 	 * @author deutsch
-	 * 03.03.2011, 16:37:52
+	 * 03.03.2011, 16:47:13
 	 * 
 	 * @see pa.modules._v30.clsModuleBase#setModuleNumber()
 	 */
 	@Override
 	protected void setModuleNumber() {
 		mnModuleNumber = Integer.parseInt(P_MODULENUMBER);
-		
-	}
-
-	/* (non-Javadoc)
-	 *
-	 * @author deutsch
-	 * 03.03.2011, 16:38:24
-	 * 
-	 * @see pa.interfaces.receive._v30.I2_19_receive#receive_I2_19(java.util.List)
-	 */
-	@Override
-	public void receive_I2_19(List<clsDriveMesh> poData) {
-		// TODO (deutsch) - Auto-generated method stub
 		
 	}
 }

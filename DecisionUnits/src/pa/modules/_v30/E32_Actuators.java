@@ -7,13 +7,12 @@
 package pa.modules._v30;
 
 import java.util.ArrayList;
-
+import java.util.HashMap;
 import config.clsBWProperties;
 import du.itf.actions.clsActionCommand;
 import du.itf.actions.itfActionProcessor;
-import pa._v30.clsInterfaceHandler;
-import pa.interfaces.itfReturnActionCommands;
 import pa.interfaces.receive._v30.I8_2_receive;
+import pa.interfaces.send._v30.I0_6_send;
 
 /**
  * DOCUMENT (deutsch) - insert description 
@@ -22,28 +21,32 @@ import pa.interfaces.receive._v30.I8_2_receive;
  * 11.08.2009, 15:00:44
  * 
  */
-public class E32_Actuators extends clsModuleBase implements I8_2_receive, itfReturnActionCommands {
-
+public class E32_Actuators extends clsModuleBase implements I8_2_receive, I0_6_send {
+	public static final String P_MODULENUMBER = "32";
+	
+	private ArrayList<clsActionCommand> moOutputActions;
 	private ArrayList<clsActionCommand> moActionCommandList_Input;
-
+	
 	/**
 	 * DOCUMENT (deutsch) - insert description 
 	 * 
 	 * @author deutsch
-	 * 11.08.2009, 15:01:43
+	 * 03.03.2011, 17:02:05
 	 *
 	 * @param poPrefix
 	 * @param poProp
-	 * @param poEnclosingContainer
+	 * @param poModuleList
+	 * @throws Exception
 	 */
 	public E32_Actuators(String poPrefix, clsBWProperties poProp,
-			clsModuleContainer poEnclosingContainer, clsInterfaceHandler poInterfaceHandler) {
-		super(poPrefix, poProp, poEnclosingContainer, poInterfaceHandler);
-		applyProperties(poPrefix, poProp);		
-		
+			HashMap<Integer, clsModuleBase> poModuleList) throws Exception {
+		super(poPrefix, poProp, poModuleList);
+				
 		moActionCommandList_Input = new ArrayList<clsActionCommand>();
+		
+		applyProperties(poPrefix, poProp);	
 	}
-	
+
 	public static clsBWProperties getDefaultProperties(String poPrefix) {
 		String pre = clsBWProperties.addDot(poPrefix);
 		
@@ -97,21 +100,6 @@ public class E32_Actuators extends clsModuleBase implements I8_2_receive, itfRet
 		
 	}
 
-	/* (non-Javadoc)
-	 *
-	 * @author deutsch
-	 * 11.08.2009, 15:03:00
-	 * 
-	 * @see pa.interfaces.itfReturnActionCommands#getActionCommands()
-	 */
-	@Override
-	public void getActionCommands(itfActionProcessor poActionContainer) {
-
-		for( clsActionCommand oCmd : moActionCommandList_Input ) {
-			poActionContainer.call(oCmd);
-		}
-		
-	}
 
 	/* (non-Javadoc)
 	 *
@@ -135,7 +123,7 @@ public class E32_Actuators extends clsModuleBase implements I8_2_receive, itfRet
 	 */
 	@Override
 	protected void send() {
-		// nothing to do
+		send_I0_6(moActionCommandList_Input);
 		
 	}
 
@@ -164,5 +152,41 @@ public class E32_Actuators extends clsModuleBase implements I8_2_receive, itfRet
 		// TODO (deutsch) - Auto-generated method stub
 		throw new java.lang.NoSuchMethodError();
 	}
+
+	/* (non-Javadoc)
+	 *
+	 * @author deutsch
+	 * 03.03.2011, 17:02:13
+	 * 
+	 * @see pa.modules._v30.clsModuleBase#setModuleNumber()
+	 */
+	@Override
+	protected void setModuleNumber() {
+		mnModuleNumber = Integer.parseInt(P_MODULENUMBER);
+		
+	}
+
+	
+	public void getOutput(itfActionProcessor poActionContainer) {
+		for( clsActionCommand oCmd : moOutputActions ) {
+			poActionContainer.call(oCmd);
+		}
+				
+		
+	}
+
+	/* (non-Javadoc)
+	 *
+	 * @author deutsch
+	 * 03.03.2011, 19:25:36
+	 * 
+	 * @see pa.interfaces.send._v30.I0_6_send#send_I0_6(java.util.ArrayList)
+	 */
+	@Override
+	public void send_I0_6(ArrayList<clsActionCommand> poActionList) {
+		moOutputActions = poActionList;
+		
+	}
+
 
 }

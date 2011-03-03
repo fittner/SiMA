@@ -7,9 +7,8 @@
 package pa.modules._v30;
 
 import java.util.ArrayList;
-
+import java.util.HashMap;
 import config.clsBWProperties;
-import pa._v30.clsInterfaceHandler;
 import pa.interfaces.receive._v30.I5_1_receive;
 import pa.interfaces.receive._v30.I5_2_receive;
 import pa.interfaces.receive._v30.I5_3_receive;
@@ -27,29 +26,33 @@ import pa.memorymgmt.datatypes.clsSecondaryDataStructureContainer;
  * 11.08.2009, 14:40:29
  * 
  */
-public class E20_InnerPerception_Affects extends clsModuleBase implements I5_1_receive, I5_2_receive, I5_3_receive, I5_4_receive, I5_5_send {
+public class E20_InnerPerception_Affects extends clsModuleBase implements 
+					I5_1_receive, I5_2_receive, I5_3_receive, I5_4_receive, I5_5_send {
+	public static final String P_MODULENUMBER = "20";
+	
+	/**
+	 * DOCUMENT (deutsch) - insert description 
+	 * 
+	 * @author deutsch
+	 * 03.03.2011, 16:45:56
+	 *
+	 * @param poPrefix
+	 * @param poProp
+	 * @param poModuleList
+	 * @throws Exception
+	 */
+	public E20_InnerPerception_Affects(String poPrefix, clsBWProperties poProp,
+			HashMap<Integer, clsModuleBase> poModuleList) throws Exception {
+		super(poPrefix, poProp, poModuleList);
+		applyProperties(poPrefix, poProp);
+	}
 
 	//private ArrayList<clsPrimaryDataStructureContainer> moAffectOnlyList;
 	//private ArrayList<clsAssociationDriveMesh> moDeniedAffects_Input;
 	//private ArrayList<clsSecondaryDataStructureContainer> moPerception; 
 	//private ArrayList<clsSecondaryDataStructureContainer> moDriveList_Input;
 
-	/**
-	 * DOCUMENT (deutsch) - insert description 
-	 * 
-	 * @author deutsch
-	 * 11.08.2009, 14:41:04
-	 *
-	 * @param poPrefix
-	 * @param poProp
-	 * @param poEnclosingContainer
-	 */
-	public E20_InnerPerception_Affects(String poPrefix, clsBWProperties poProp,
-			clsModuleContainer poEnclosingContainer, clsInterfaceHandler poInterfaceHandler) {
-		
-		super(poPrefix, poProp, poEnclosingContainer, poInterfaceHandler);
-		applyProperties(poPrefix, poProp);		
-	}
+
 	
 	public static clsBWProperties getDefaultProperties(String poPrefix) {
 		String pre = clsBWProperties.addDot(poPrefix);
@@ -177,7 +180,8 @@ public class E20_InnerPerception_Affects extends clsModuleBase implements I5_1_r
 	 */
 	@Override
 	public void send_I5_5(int pnData) {
-		((I5_5_receive)moEnclosingContainer).receive_I5_5(mnTest);
+		((I5_5_receive)moModuleList.get(29)).receive_I5_5(mnTest);
+		((I5_5_receive)moModuleList.get(26)).receive_I5_5(mnTest);
 		
 	}
 
@@ -205,6 +209,19 @@ public class E20_InnerPerception_Affects extends clsModuleBase implements I5_1_r
 	protected void process_final() {
 		// TODO (deutsch) - Auto-generated method stub
 		throw new java.lang.NoSuchMethodError();
+	}
+
+	/* (non-Javadoc)
+	 *
+	 * @author deutsch
+	 * 03.03.2011, 16:46:02
+	 * 
+	 * @see pa.modules._v30.clsModuleBase#setModuleNumber()
+	 */
+	@Override
+	protected void setModuleNumber() {
+		mnModuleNumber = Integer.parseInt(P_MODULENUMBER);
+		
 	}
 
 }
