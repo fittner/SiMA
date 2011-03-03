@@ -16,6 +16,7 @@ import du.itf.actions.itfActionProcessor;
 import du.itf.sensors.clsDataBase;
 import du.itf.sensors.clsSensorData;
 import du.itf.sensors.clsSensorExtern;
+import pa.itfProcessor;
 import pa.modules._v30.E01_Homeostases;
 import pa.modules._v30.E02_NeurosymbolizationOfNeeds;
 import pa.modules._v30.E03_GenerationOfDrives;
@@ -61,7 +62,7 @@ import pa.modules._v30.clsModuleBase;
  * 12.08.2009, 09:30:54
  * 
  */
-public class clsProcessor {
+public class clsProcessor implements itfProcessor  {
 	public static final String P_PSYCHICAPPARATUS = "psychicapparatus";
 	
 	private G00_PsychicApparatus moPsychicApparatus;
@@ -205,6 +206,7 @@ public class clsProcessor {
 		moModules.add(moE34KnowledgeAboutReality2);
 	}
 	
+	@Override
 	public void applySensorData(clsSensorData poData) {
 		moPsychicApparatus.receiveBody( separateBodyData(poData) );
 		moPsychicApparatus.receiveEnvironment( separateEnvironmentalData(poData) );
@@ -292,10 +294,12 @@ public class clsProcessor {
 		return oResult;
 	}
 
+	@Override
 	public void getActionCommands(itfActionProcessor poActionContainer) {
 		moPsychicApparatus.getActionCommands(poActionContainer);
 	}
 	
+	@Override
 	public void step() {
 		//BODY --------------------------------------------- 
 		//data preprocessing

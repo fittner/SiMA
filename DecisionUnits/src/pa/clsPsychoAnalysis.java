@@ -22,7 +22,7 @@ public class clsPsychoAnalysis extends clsBaseDecisionUnit {
 	public static final String P_PROCESSOR = "processor";
 	public static final String P_VERSION = "version";
 	
-	private clsProcessor moProcessor;
+	private itfProcessor moProcessor;
 	
 	public clsPsychoAnalysis(String poPrefix, clsBWProperties poProp) {
 		super(poPrefix, poProp);
@@ -71,7 +71,7 @@ public class clsPsychoAnalysis extends clsBaseDecisionUnit {
 	 *
 	 * @return
 	 */
-	public clsProcessor getProcessor() {
+	public itfProcessor getProcessor() {
 		return moProcessor;
 	}
 
