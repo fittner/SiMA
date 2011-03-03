@@ -22,7 +22,7 @@ import pa.memorymgmt.enums.eDataType;
 import pa.tools.clsPair;
 
 /**
- * DOCUMENT (deutsch) - insert description 
+ * 
  * 
  * @author deutsch
  * 11.08.2009, 14:50:27
@@ -33,7 +33,7 @@ public class E25_KnowledgeAboutReality extends clsModuleBase implements I2_12_re
 	//private ArrayList<clsSecondaryDataStructureContainer> moFocusedPerception;
 
 	/**
-	 * DOCUMENT (deutsch) - insert description 
+	 * 
 	 * 
 	 * @author deutsch
 	 * 11.08.2009, 14:50:56
@@ -149,7 +149,7 @@ public class E25_KnowledgeAboutReality extends clsModuleBase implements I2_12_re
 	 */
 	@Override
 	protected void process_draft() {
-		// TODO (deutsch) - Auto-generated method stub
+		
 		throw new java.lang.NoSuchMethodError();
 	}
 
@@ -162,7 +162,7 @@ public class E25_KnowledgeAboutReality extends clsModuleBase implements I2_12_re
 	 */
 	@Override
 	protected void process_final() {
-		// TODO (deutsch) - Auto-generated method stub
+		
 		throw new java.lang.NoSuchMethodError();
 	}
 

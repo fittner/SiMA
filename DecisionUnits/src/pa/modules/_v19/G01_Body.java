@@ -36,7 +36,7 @@ import du.itf.sensors.clsDataBase;
 import du.itf.sensors.clsSensorExtern;
 
 /**
- * DOCUMENT (deutsch) - insert description 
+ * 
  * 
  * @author deutsch
  * 11.08.2009, 15:09:50
@@ -75,7 +75,7 @@ public class G01_Body extends clsModuleContainer implements
 	public E32_Actuators 					moE32Actuators;
 
 	/**
-	 * DOCUMENT (deutsch) - insert description 
+	 * 
 	 * 
 	 * @author deutsch
 	 * 11.08.2009, 15:10:04

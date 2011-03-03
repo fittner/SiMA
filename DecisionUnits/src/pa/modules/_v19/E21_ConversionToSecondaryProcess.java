@@ -37,7 +37,7 @@ import pa.tools.clsPair;
 import pa.tools.clsTripple;
 
 /**
- * DOCUMENT (deutsch) - insert description 
+ * 
  * 
  * @author deutsch
  * 11.08.2009, 14:38:29
@@ -53,7 +53,7 @@ public class E21_ConversionToSecondaryProcess extends clsModuleBase implements I
 	private ArrayList<clsTripple<clsDataStructurePA, ArrayList<clsTemplateImage>, ArrayList<clsPair<clsDriveMesh, clsAffect>>>> moOrderedResult; 
 	private HashMap<Integer, clsDriveMesh> moTemporaryDM; 
 	/**
-	 * DOCUMENT (deutsch) - insert description 
+	 * 
 	 * 
 	 * @author deutsch
 	 * 11.08.2009, 14:38:50
@@ -499,7 +499,7 @@ public class E21_ConversionToSecondaryProcess extends clsModuleBase implements I
 	 */
 	@Override
 	protected void process_draft() {
-		// TODO (deutsch) - Auto-generated method stub
+		
 		throw new java.lang.NoSuchMethodError();
 	}
 
@@ -512,7 +512,7 @@ public class E21_ConversionToSecondaryProcess extends clsModuleBase implements I
 	 */
 	@Override
 	protected void process_final() {
-		// TODO (deutsch) - Auto-generated method stub
+		
 		throw new java.lang.NoSuchMethodError();
 	}
 

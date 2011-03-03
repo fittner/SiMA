@@ -45,7 +45,7 @@ public class G07_EnvironmentalInterfaceFunctions extends clsModuleContainer impl
 	public E30_MotilityControl               moE30MotilityControl;
 
 	/**
-	 * DOCUMENT (deutsch) - insert description 
+	 * 
 	 * 
 	 * @author deutsch
 	 * 11.08.2009, 15:36:51

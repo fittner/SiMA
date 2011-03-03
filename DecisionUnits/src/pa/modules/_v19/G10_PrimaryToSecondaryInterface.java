@@ -54,7 +54,7 @@ public class G10_PrimaryToSecondaryInterface extends clsModuleContainer implemen
 	public E21_ConversionToSecondaryProcess moE21ConversionToSecondaryProcess;
 
 	/**
-	 * DOCUMENT (deutsch) - insert description 
+	 * 
 	 * 
 	 * @author deutsch
 	 * 11.08.2009, 15:36:51

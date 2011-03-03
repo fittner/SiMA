@@ -29,7 +29,7 @@ import pa.memorymgmt.enums.eDataType;
 import pa.tools.clsPair;
 
 /**
- * DOCUMENT (deutsch) - insert description 
+ * 
  * 
  * @author deutsch
  * 11.08.2009, 14:11:38
@@ -41,7 +41,7 @@ public class E08_ConversionToSecondaryProcess extends clsModuleBase implements I
 	public ArrayList<clsSecondaryDataStructureContainer> moDriveList_Output; 
 	
 	/**
-	 * DOCUMENT (deutsch) - insert description 
+	 * 
 	 * 
 	 * @author deutsch
 	 * 11.08.2009, 14:11:58
@@ -279,7 +279,7 @@ public class E08_ConversionToSecondaryProcess extends clsModuleBase implements I
 	 */
 	@Override
 	protected void process_draft() {
-		// TODO (deutsch) - Auto-generated method stub
+		
 		throw new java.lang.NoSuchMethodError();
 	}
 
@@ -292,7 +292,7 @@ public class E08_ConversionToSecondaryProcess extends clsModuleBase implements I
 	 */
 	@Override
 	protected void process_final() {
-		// TODO (deutsch) - Auto-generated method stub
+		
 		throw new java.lang.NoSuchMethodError();
 	}
 

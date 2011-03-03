@@ -22,7 +22,7 @@ import pa.memorymgmt.datatypes.clsWordPresentation;
 import pa.memorymgmt.enums.eActState;
 
 /**
- * DOCUMENT (deutsch) - insert description 
+ * 
  * 
  * @author deutsch
  * 11.08.2009, 14:55:01
@@ -37,7 +37,7 @@ public class E27_GenerationOfImaginaryActions extends clsModuleBase implements I
 	private ArrayList<clsWordPresentation> moActions_Output; 
 	
 	/**
-	 * DOCUMENT (deutsch) - insert description 
+	 * 
 	 * 
 	 * @author deutsch
 	 * 11.08.2009, 14:55:40
@@ -246,7 +246,7 @@ public class E27_GenerationOfImaginaryActions extends clsModuleBase implements I
 	 */
 	@Override
 	protected void process_draft() {
-		// TODO (deutsch) - Auto-generated method stub
+		
 		throw new java.lang.NoSuchMethodError();
 	}
 
@@ -259,7 +259,7 @@ public class E27_GenerationOfImaginaryActions extends clsModuleBase implements I
 	 */
 	@Override
 	protected void process_final() {
-		// TODO (deutsch) - Auto-generated method stub
+		
 		throw new java.lang.NoSuchMethodError();
 	}
 }

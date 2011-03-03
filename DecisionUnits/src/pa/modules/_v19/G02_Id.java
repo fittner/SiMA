@@ -30,7 +30,7 @@ import pa.memorymgmt.datatypes.clsPrimaryDataStructureContainer;
 import pa.tools.clsPair;
 import config.clsBWProperties;
 /**
- * DOCUMENT (deutsch) - insert description 
+ * 
  * 
  * @author deutsch
  * 11.08.2009, 15:10:40
@@ -57,7 +57,7 @@ public class G02_Id extends clsModuleContainer implements
 	public E15_ManagementOfRepressedContents moE15ManagementOfRepressedContents;
 
 	/**
-	 * DOCUMENT (deutsch) - insert description 
+	 * 
 	 * 
 	 * @author deutsch
 	 * 11.08.2009, 15:11:47

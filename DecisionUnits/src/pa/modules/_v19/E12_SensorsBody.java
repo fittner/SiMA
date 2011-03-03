@@ -17,7 +17,7 @@ import pa.interfaces.receive._v19.I2_3_receive;
 import pa.interfaces.send._v19.I2_3_send;
 
 /**
- * DOCUMENT (deutsch) - insert description 
+ * 
  * 
  * @author deutsch
  * 11.08.2009, 14:20:47
@@ -28,7 +28,7 @@ public class E12_SensorsBody extends clsModuleBase implements itfProcessSensorBo
 	private HashMap<eSensorExtType, clsSensorExtern> moBodyData;
 	
 	/**
-	 * DOCUMENT (deutsch) - insert description 
+	 * 
 	 * 
 	 * @author deutsch
 	 * 11.08.2009, 14:21:28
@@ -142,7 +142,7 @@ public class E12_SensorsBody extends clsModuleBase implements itfProcessSensorBo
 	 */
 	@Override
 	protected void process_draft() {
-		// TODO (deutsch) - Auto-generated method stub
+		
 		throw new java.lang.NoSuchMethodError();
 	}
 
@@ -155,7 +155,7 @@ public class E12_SensorsBody extends clsModuleBase implements itfProcessSensorBo
 	 */
 	@Override
 	protected void process_final() {
-		// TODO (deutsch) - Auto-generated method stub
+		
 		throw new java.lang.NoSuchMethodError();
 	}
 

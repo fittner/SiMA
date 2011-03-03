@@ -17,7 +17,7 @@ import du.enums.eSensorIntType;
 import du.itf.sensors.clsDataBase;
 
 /**
- * DOCUMENT (deutsch) - insert description 
+ * 
  * 
  * @author deutsch
  * 11.08.2009, 12:09:14
@@ -28,7 +28,7 @@ public class E01_Homeostases extends clsModuleBase implements itfProcessHomeosta
 	private HashMap<eSensorIntType, clsDataBase> moHomeostasis;
 	
 	/**
-	 * DOCUMENT (deutsch) - insert description 
+	 * 
 	 * 
 	 * @author deutsch
 	 * 11.08.2009, 12:09:27
@@ -140,7 +140,7 @@ public class E01_Homeostases extends clsModuleBase implements itfProcessHomeosta
 	 */
 	@Override
 	protected void process_draft() {
-		// TODO (deutsch) - Auto-generated method stub
+		
 		throw new java.lang.NoSuchMethodError();
 	}
 
@@ -153,7 +153,7 @@ public class E01_Homeostases extends clsModuleBase implements itfProcessHomeosta
 	 */
 	@Override
 	protected void process_final() {
-		// TODO (deutsch) - Auto-generated method stub
+		
 		throw new java.lang.NoSuchMethodError();		
 	}
 }

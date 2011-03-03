@@ -18,7 +18,7 @@ import pa.tools.clsPair;
 import config.clsBWProperties;
 
 /**
- * DOCUMENT (deutsch) - insert description 
+ * 
  * 
  * @author deutsch
  * 11.08.2009, 13:58:45
@@ -30,7 +30,7 @@ public class E05_GenerationOfAffectsForDrives extends clsModuleBase implements I
 	public ArrayList<clsDriveMesh> moDriveList; 
 		
 	/**
-	 * DOCUMENT (deutsch) - insert description 
+	 * 
 	 * 
 	 * @author deutsch
 	 * 11.08.2009, 13:59:08
@@ -146,7 +146,7 @@ public class E05_GenerationOfAffectsForDrives extends clsModuleBase implements I
 	 */
 	@Override
 	protected void process_draft() {
-		// TODO (deutsch) - Auto-generated method stub
+		
 		throw new java.lang.NoSuchMethodError();
 	}
 
@@ -159,7 +159,7 @@ public class E05_GenerationOfAffectsForDrives extends clsModuleBase implements I
 	 */
 	@Override
 	protected void process_final() {
-		// TODO (deutsch) - Auto-generated method stub
+		
 		throw new java.lang.NoSuchMethodError();
 	}
 

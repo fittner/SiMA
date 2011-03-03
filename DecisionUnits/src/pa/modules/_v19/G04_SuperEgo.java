@@ -26,7 +26,7 @@ import pa.memorymgmt.datatypes.clsSecondaryDataStructureContainer;
 import config.clsBWProperties;
 
 /**
- * DOCUMENT (deutsch) - insert description 
+ * 
  * 
  * @author deutsch
  * 11.08.2009, 15:11:20
@@ -48,7 +48,7 @@ public class G04_SuperEgo extends clsModuleContainer implements
 	public E22_SuperEgo_preconscious moE22SuperEgoPreconscious;
 
 	/**
-	 * DOCUMENT (deutsch) - insert description 
+	 * 
 	 * 
 	 * @author deutsch
 	 * 11.08.2009, 15:11:51

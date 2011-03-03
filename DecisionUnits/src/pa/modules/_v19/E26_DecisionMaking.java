@@ -28,7 +28,7 @@ import pa.memorymgmt.enums.eDataType;
 import pa.tools.clsPair;
 
 /**
- * DOCUMENT (deutsch) - insert description 
+ * 
  * 
  * @author deutsch
  * 11.08.2009, 14:51:57
@@ -42,7 +42,7 @@ public class E26_DecisionMaking extends clsModuleBase implements I1_7_receive, I
 	private ArrayList<clsSecondaryDataStructureContainer> moGoal_Output; 
 	
 	/**
-	 * DOCUMENT (deutsch) - insert description 
+	 * 
 	 * 
 	 * @author deutsch
 	 * 11.08.2009, 14:52:31
@@ -366,7 +366,7 @@ public class E26_DecisionMaking extends clsModuleBase implements I1_7_receive, I
 	 */
 	@Override
 	protected void process_draft() {
-		// TODO (deutsch) - Auto-generated method stub
+		
 		throw new java.lang.NoSuchMethodError();
 	}
 
@@ -379,7 +379,7 @@ public class E26_DecisionMaking extends clsModuleBase implements I1_7_receive, I
 	 */
 	@Override
 	protected void process_final() {
-		// TODO (deutsch) - Auto-generated method stub
+		
 		throw new java.lang.NoSuchMethodError();
 	}
 }

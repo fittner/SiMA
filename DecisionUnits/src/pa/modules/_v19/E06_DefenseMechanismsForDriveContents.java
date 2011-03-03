@@ -26,7 +26,7 @@ import pa.memorymgmt.datatypes.clsPrimaryDataStructureContainer;
 import config.clsBWProperties;
 
 /**
- * DOCUMENT (deutsch) - insert description 
+ * 
  * 
  * @author deutsch
  * 11.08.2009, 14:01:06
@@ -38,7 +38,7 @@ public class E06_DefenseMechanismsForDriveContents extends clsModuleBase impleme
 	ArrayList<clsPrimaryDataStructureContainer> moRepressedRetry_Input;
 	
 	/**
-	 * DOCUMENT (deutsch) - insert description 
+	 * 
 	 * 
 	 * @author deutsch
 	 * 11.08.2009, 14:01:31
@@ -219,7 +219,7 @@ public class E06_DefenseMechanismsForDriveContents extends clsModuleBase impleme
 	 */
 	@Override
 	protected void process_draft() {
-		// TODO (deutsch) - Auto-generated method stub
+		
 		throw new java.lang.NoSuchMethodError();
 	}
 
@@ -232,7 +232,7 @@ public class E06_DefenseMechanismsForDriveContents extends clsModuleBase impleme
 	 */
 	@Override
 	protected void process_final() {
-		// TODO (deutsch) - Auto-generated method stub
+		
 		throw new java.lang.NoSuchMethodError();
 	}
 }

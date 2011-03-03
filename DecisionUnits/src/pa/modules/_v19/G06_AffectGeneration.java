@@ -23,7 +23,7 @@ import pa.tools.clsPair;
 import config.clsBWProperties;
 
 /**
- * DOCUMENT (deutsch) - insert description 
+ * 
  * 
  * @author deutsch
  * 11.08.2009, 15:28:15
@@ -42,7 +42,7 @@ public class G06_AffectGeneration extends clsModuleContainer implements
 	public E18_GenerationOfAffectsForPerception moE18GenerationOfAffectsForPerception;
 
 	/**
-	 * DOCUMENT (deutsch) - insert description 
+	 * 
 	 * 
 	 * @author deutsch
 	 * 11.08.2009, 15:36:51

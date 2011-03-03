@@ -16,7 +16,7 @@ import pa.interfaces.itfReturnActionCommands;
 import pa.interfaces.receive._v19.I8_2_receive;
 
 /**
- * DOCUMENT (deutsch) - insert description 
+ * 
  * 
  * @author deutsch
  * 11.08.2009, 15:00:44
@@ -27,7 +27,7 @@ public class E32_Actuators extends clsModuleBase implements I8_2_receive, itfRet
 	private ArrayList<clsActionCommand> moActionCommandList_Input;
 
 	/**
-	 * DOCUMENT (deutsch) - insert description 
+	 * 
 	 * 
 	 * @author deutsch
 	 * 11.08.2009, 15:01:43
@@ -148,7 +148,7 @@ public class E32_Actuators extends clsModuleBase implements I8_2_receive, itfRet
 	 */
 	@Override
 	protected void process_draft() {
-		// TODO (deutsch) - Auto-generated method stub
+		
 		throw new java.lang.NoSuchMethodError();
 	}
 
@@ -161,7 +161,7 @@ public class E32_Actuators extends clsModuleBase implements I8_2_receive, itfRet
 	 */
 	@Override
 	protected void process_final() {
-		// TODO (deutsch) - Auto-generated method stub
+		
 		throw new java.lang.NoSuchMethodError();
 	}
 

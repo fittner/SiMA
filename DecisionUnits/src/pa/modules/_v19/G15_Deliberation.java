@@ -59,7 +59,7 @@ public class G15_Deliberation extends clsModuleContainer implements
 	public E33_RealityCheck2                moE33RealityCheck2;
 	
 	/**
-	 * DOCUMENT (deutsch) - insert description 
+	 * 
 	 * 
 	 * @author deutsch
 	 * 11.08.2009, 15:36:51

@@ -23,7 +23,7 @@ import pa.memorymgmt.datatypes.clsPrimaryDataStructureContainer;
 import pa.symbolization.representationsymbol.itfSymbol;
 
 /**
- * DOCUMENT (deutsch) - insert description 
+ * 
  * 
  * @author deutsch
  * 11.08.2009, 14:26:13
@@ -41,7 +41,7 @@ public class E14_PreliminaryExternalPerception extends clsModuleBase implements
 	public ArrayList<clsPrimaryDataStructureContainer> moEnvironmentalTP; 
 
 	/**
-	 * DOCUMENT (deutsch) - insert description 
+	 * 
 	 * 
 	 * @author deutsch
 	 * 11.08.2009, 14:26:43
@@ -174,7 +174,7 @@ public class E14_PreliminaryExternalPerception extends clsModuleBase implements
 	 */
 	@Override
 	protected void process_draft() {
-		// TODO (deutsch) - Auto-generated method stub
+		
 		throw new java.lang.NoSuchMethodError();
 	}
 
@@ -187,7 +187,7 @@ public class E14_PreliminaryExternalPerception extends clsModuleBase implements
 	 */
 	@Override
 	protected void process_final() {
-		// TODO (deutsch) - Auto-generated method stub
+		
 		throw new java.lang.NoSuchMethodError();
 	}
 }

@@ -16,7 +16,7 @@ import pa.interfaces.send._v19.I8_1_send;
 import pa.memorymgmt.datatypes.clsWordPresentation;
 
 /**
- * DOCUMENT (deutsch) - insert description 
+ * 
  * 
  * @author deutsch
  * 11.08.2009, 14:58:20
@@ -28,7 +28,7 @@ public class E30_MotilityControl extends clsModuleBase implements I7_4_receive, 
 	private ArrayList<clsWordPresentation> moActionCommands_Output;
 
 	/**
-	 * DOCUMENT (deutsch) - insert description 
+	 * 
 	 * 
 	 * @author deutsch
 	 * 11.08.2009, 14:58:37
@@ -164,7 +164,7 @@ public class E30_MotilityControl extends clsModuleBase implements I7_4_receive, 
 	 */
 	@Override
 	protected void process_draft() {
-		// TODO (deutsch) - Auto-generated method stub
+		
 		throw new java.lang.NoSuchMethodError();
 	}
 
@@ -177,7 +177,7 @@ public class E30_MotilityControl extends clsModuleBase implements I7_4_receive, 
 	 */
 	@Override
 	protected void process_final() {
-		// TODO (deutsch) - Auto-generated method stub
+		
 		throw new java.lang.NoSuchMethodError();
 	}
 }

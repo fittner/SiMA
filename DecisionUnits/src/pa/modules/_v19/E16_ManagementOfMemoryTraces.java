@@ -29,7 +29,7 @@ import pa.tools.clsPair;
 import pa.tools.clsTripple;
 
 /**
- * DOCUMENT (deutsch) - insert description 
+ * 
  * 
  * @author deutsch
  * 11.08.2009, 14:31:19
@@ -42,7 +42,7 @@ public class E16_ManagementOfMemoryTraces extends clsModuleBase implements I2_6_
 	public clsDataStructureContainer moRetrievedAssociatedDataStructures; 
 	public ArrayList<clsPair<Double, clsDataStructureContainer>> moRetrievedEnvironmentalMatches; 
 	/**
-	 * DOCUMENT (deutsch) - insert description 
+	 * 
 	 * 
 	 * @author deutsch
 	 * 11.08.2009, 14:31:37
@@ -348,7 +348,7 @@ public class E16_ManagementOfMemoryTraces extends clsModuleBase implements I2_6_
 	 */
 	@Override
 	protected void process_draft() {
-		// TODO (deutsch) - Auto-generated method stub
+		
 		throw new java.lang.NoSuchMethodError();
 	}
 
@@ -361,7 +361,7 @@ public class E16_ManagementOfMemoryTraces extends clsModuleBase implements I2_6_
 	 */
 	@Override
 	protected void process_final() {
-		// TODO (deutsch) - Auto-generated method stub
+		
 		throw new java.lang.NoSuchMethodError();
 	}
 

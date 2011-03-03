@@ -17,7 +17,7 @@ import pa.interfaces.send._v19.I2_13_send;
 import pa.memorymgmt.datatypes.clsSecondaryDataStructureContainer;
 
 /**
- * DOCUMENT (deutsch) - insert description 
+ * 
  * 
  * @author deutsch
  * 11.08.2009, 14:49:09
@@ -30,7 +30,7 @@ public class E24_RealityCheck extends clsModuleBase implements I2_12_receive, I6
 	//private ArrayList<clsSecondaryDataStructureContainer> moDriveList;  //removed by HZ - not required now
 
 	/**
-	 * DOCUMENT (deutsch) - insert description 
+	 * 
 	 * 
 	 * @author deutsch
 	 * 11.08.2009, 14:49:30
@@ -165,7 +165,7 @@ public class E24_RealityCheck extends clsModuleBase implements I2_12_receive, I6
 	 */
 	@Override
 	protected void process_draft() {
-		// TODO (deutsch) - Auto-generated method stub
+		
 		throw new java.lang.NoSuchMethodError();
 	}
 
@@ -178,7 +178,7 @@ public class E24_RealityCheck extends clsModuleBase implements I2_12_receive, I6
 	 */
 	@Override
 	protected void process_final() {
-		// TODO (deutsch) - Auto-generated method stub
+		
 		throw new java.lang.NoSuchMethodError();
 	}
 }

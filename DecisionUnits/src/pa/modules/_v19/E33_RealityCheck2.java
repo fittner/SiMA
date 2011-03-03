@@ -17,7 +17,7 @@ import pa.interfaces.send._v19.I7_6_send;
 import pa.memorymgmt.datatypes.clsWordPresentation;
 
 /**
- * DOCUMENT (deutsch) - insert description 
+ * 
  * 
  * @author deutsch
  * 27.04.2010, 10:18:11
@@ -26,7 +26,7 @@ import pa.memorymgmt.datatypes.clsWordPresentation;
 public class E33_RealityCheck2 extends clsModuleBase implements I7_3_receive, I7_5_receive, I7_6_send {
 
 	/**
-	 * DOCUMENT (deutsch) - insert description 
+	 * 
 	 * 
 	 * @author deutsch
 	 * 27.04.2010, 10:24:41
@@ -39,7 +39,7 @@ public class E33_RealityCheck2 extends clsModuleBase implements I7_3_receive, I7
 			clsModuleContainer poEnclosingContainer, clsInterfaceHandler poInterfaceHandler) {
 		super(poPrefix, poProp, poEnclosingContainer, poInterfaceHandler);
 		applyProperties(poPrefix, poProp);	
-		// TODO (deutsch) - Auto-generated constructor stub
+		
 	}
 	
 	public static clsBWProperties getDefaultProperties(String poPrefix) {
@@ -66,7 +66,7 @@ public class E33_RealityCheck2 extends clsModuleBase implements I7_3_receive, I7
 	 */
 	@Override
 	protected void process_basic() {
-		// TODO (deutsch) - Auto-generated method stub
+		
 
 	}
 
@@ -116,7 +116,7 @@ public class E33_RealityCheck2 extends clsModuleBase implements I7_3_receive, I7
 	 */
 	@Override
 	public void receive_I7_3(ArrayList<clsWordPresentation> poActionCommands) {
-		// TODO (deutsch) - Auto-generated method stub
+		
 		
 	}
 
@@ -129,7 +129,7 @@ public class E33_RealityCheck2 extends clsModuleBase implements I7_3_receive, I7
 	 */
 	@Override
 	public void receive_I7_5(int pnData) {
-		// TODO (deutsch) - Auto-generated method stub
+		
 		
 	}
 
@@ -155,7 +155,7 @@ public class E33_RealityCheck2 extends clsModuleBase implements I7_3_receive, I7
 	 */
 	@Override
 	protected void process_draft() {
-		// TODO (deutsch) - Auto-generated method stub
+		
 		throw new java.lang.NoSuchMethodError();
 	}
 
@@ -168,7 +168,7 @@ public class E33_RealityCheck2 extends clsModuleBase implements I7_3_receive, I7
 	 */
 	@Override
 	protected void process_final() {
-		// TODO (deutsch) - Auto-generated method stub
+		
 		throw new java.lang.NoSuchMethodError();
 	}
 

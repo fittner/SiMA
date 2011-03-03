@@ -59,7 +59,7 @@ public class G11_SecondaryProcessor extends clsModuleContainer implements
 	public G16_SecondaryKnowledgeUtilizer moG16SecondaryKnowledgeUtilizer;
 
 	/**
-	 * DOCUMENT (deutsch) - insert description 
+	 * 
 	 * 
 	 * @author deutsch
 	 * 11.08.2009, 15:36:51
@@ -224,7 +224,7 @@ public class G11_SecondaryProcessor extends clsModuleContainer implements
 	 */
 	@Override
 	public void receive_I7_3(ArrayList<clsWordPresentation> poActionCommands) {
-		// TODO (deutsch) - Auto-generated method stub
+		
 		
 	}
 

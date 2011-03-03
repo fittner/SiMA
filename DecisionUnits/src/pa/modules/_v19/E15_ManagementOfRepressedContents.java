@@ -24,7 +24,7 @@ import pa.memorymgmt.datatypes.clsPrimaryDataStructureContainer;
 import pa.tools.clsPair;
 
 /**
- * DOCUMENT (deutsch) - insert description 
+ * 
  * 
  * @author deutsch
  * 11.08.2009, 14:28:49
@@ -39,7 +39,7 @@ public class E15_ManagementOfRepressedContents extends clsModuleContainer implem
 	public S_ManagementOfRepressedContents_2 moS_ManagementOfRepressedContents_2;
 	
 	/**
-	 * DOCUMENT (deutsch) - insert description 
+	 * 
 	 * 
 	 * @author deutsch
 	 * 07.10.2009, 11:28:31

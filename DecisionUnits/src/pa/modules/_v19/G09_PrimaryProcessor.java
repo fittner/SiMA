@@ -70,7 +70,7 @@ public class G09_PrimaryProcessor extends clsModuleContainer implements
 	public G13_PrimaryKnowledgeUtilizer                  moG13PrimaryKnowledgeUtilizer;
 
 	/**
-	 * DOCUMENT (deutsch) - insert description 
+	 * 
 	 * 
 	 * @author deutsch
 	 * 11.08.2009, 15:36:51

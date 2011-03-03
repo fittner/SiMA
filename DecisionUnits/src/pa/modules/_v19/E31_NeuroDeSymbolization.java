@@ -27,7 +27,7 @@ import pa.memorymgmt.datatypes.clsWordPresentation;
 import pa.tools.clsPair;
 
 /**
- * DOCUMENT (deutsch) - insert description 
+ * 
  * 
  * @author deutsch
  * 11.08.2009, 14:59:58
@@ -41,7 +41,7 @@ public class E31_NeuroDeSymbolization extends clsModuleBase implements I8_1_rece
 	private int mnCounter = 0;
 	
 	/**
-	 * DOCUMENT (deutsch) - insert description 
+	 * 
 	 * 
 	 * @author deutsch
 	 * 11.08.2009, 15:00:18
@@ -208,7 +208,7 @@ public class E31_NeuroDeSymbolization extends clsModuleBase implements I8_1_rece
 	 */
 	@Override
 	protected void process_draft() {
-		// TODO (deutsch) - Auto-generated method stub
+		
 		throw new java.lang.NoSuchMethodError();
 	}
 
@@ -221,7 +221,7 @@ public class E31_NeuroDeSymbolization extends clsModuleBase implements I8_1_rece
 	 */
 	@Override
 	protected void process_final() {
-		// TODO (deutsch) - Auto-generated method stub
+		
 		throw new java.lang.NoSuchMethodError();	
 	}
 

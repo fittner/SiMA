@@ -42,7 +42,7 @@ import pa._v19.clsInterfaceHandler;
 import pa.enums.eSymbolExtType;
 
 /**
- * DOCUMENT (deutsch) - insert description 
+ * 
  * 
  * @author deutsch
  * 11.08.2009, 15:11:09
@@ -75,7 +75,7 @@ public class G03_Ego extends clsModuleContainer implements
 	public G08_PsychicMediator 				   moG08PsychicMediator;
 	
 	/**
-	 * DOCUMENT (deutsch) - insert description 
+	 * 
 	 * 
 	 * @author deutsch
 	 * 11.08.2009, 15:11:44

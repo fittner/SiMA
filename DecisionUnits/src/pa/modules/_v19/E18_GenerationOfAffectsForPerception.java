@@ -20,7 +20,7 @@ import pa.memorymgmt.datatypes.clsThingPresentationMesh;
 import pa.tools.clsPair;
 
 /**
- * DOCUMENT (deutsch) - insert description 
+ * 
  * 
  * @author deutsch
  * 11.08.2009, 14:33:54
@@ -29,7 +29,7 @@ import pa.tools.clsPair;
 public class E18_GenerationOfAffectsForPerception extends clsModuleBase implements I2_8_receive, I2_9_send {
 
 	/**
-	 * DOCUMENT (deutsch) - insert description 
+	 * 
 	 * 
 	 * @author deutsch
 	 * 11.08.2009, 14:34:15
@@ -174,7 +174,7 @@ public class E18_GenerationOfAffectsForPerception extends clsModuleBase implemen
 	 */
 	@Override
 	protected void process_draft() {
-		// TODO (deutsch) - Auto-generated method stub
+		
 		throw new java.lang.NoSuchMethodError();
 	}
 
@@ -187,7 +187,7 @@ public class E18_GenerationOfAffectsForPerception extends clsModuleBase implemen
 	 */
 	@Override
 	protected void process_final() {
-		// TODO (deutsch) - Auto-generated method stub
+		
 		throw new java.lang.NoSuchMethodError();
 	}
 }

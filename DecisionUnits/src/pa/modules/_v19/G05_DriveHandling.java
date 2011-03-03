@@ -21,7 +21,7 @@ import pa.tools.clsPair;
 import config.clsBWProperties;
 
 /**
- * DOCUMENT (deutsch) - insert description 
+ * 
  * 
  * @author deutsch
  * 11.08.2009, 15:28:05
@@ -39,7 +39,7 @@ public class G05_DriveHandling extends clsModuleContainer implements
 	public E04_FusionOfDrives     moE04FusionOfDrives;
 
 	/**
-	 * DOCUMENT (deutsch) - insert description 
+	 * 
 	 * 
 	 * @author deutsch
 	 * 11.08.2009, 15:36:39

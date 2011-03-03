@@ -27,7 +27,7 @@ import pa.tools.clsPair;
 import config.clsBWProperties;
 
 /**
- * DOCUMENT (deutsch) - insert description 
+ * 
  * 
  * @author deutsch
  * 11.08.2009, 14:03:35
@@ -37,7 +37,7 @@ public class E07_SuperEgo_unconscious extends clsModuleBase implements I1_5_rece
 	ArrayList<clsPrimaryDataStructureContainer> moPrimaryInformation; 
 	
 	/**
-	 * DOCUMENT (deutsch) - insert description 
+	 * 
 	 * 
 	 * @author deutsch
 	 * 11.08.2009, 14:03:53
@@ -176,7 +176,7 @@ public class E07_SuperEgo_unconscious extends clsModuleBase implements I1_5_rece
 	 */
 	@Override
 	protected void process_draft() {
-		// TODO (deutsch) - Auto-generated method stub
+		
 		throw new java.lang.NoSuchMethodError();
 	}
 
@@ -189,7 +189,7 @@ public class E07_SuperEgo_unconscious extends clsModuleBase implements I1_5_rece
 	 */
 	@Override
 	protected void process_final() {
-		// TODO (deutsch) - Auto-generated method stub
+		
 		throw new java.lang.NoSuchMethodError();
 	}
 

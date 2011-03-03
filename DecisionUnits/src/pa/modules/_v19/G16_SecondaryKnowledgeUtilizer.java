@@ -47,7 +47,7 @@ public class G16_SecondaryKnowledgeUtilizer extends clsModuleContainer implement
 	public E34_KnowledgeAboutReality2        moE34KnowledgeAboutReality2;
 
 	/**
-	 * DOCUMENT (deutsch) - insert description 
+	 * 
 	 * 
 	 * @author deutsch
 	 * 11.08.2009, 15:36:51

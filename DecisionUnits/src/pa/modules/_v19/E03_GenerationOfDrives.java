@@ -26,7 +26,7 @@ import config.clsBWProperties;
 import du.enums.pa.eContext;
 
 /**
- * DOCUMENT (deutsch) - insert description 
+ * 
  * 
  * @author deutsch
  * 11.08.2009, 12:19:04
@@ -53,7 +53,7 @@ public class E03_GenerationOfDrives extends clsModuleBase implements I1_2_receiv
 	}
 
 	/**
-	 * DOCUMENT (deutsch) - insert description 
+	 * 
 	 * 
 	 * @author deutsch
 	 * 11.08.2009, 12:19:24
@@ -262,7 +262,7 @@ public class E03_GenerationOfDrives extends clsModuleBase implements I1_2_receiv
 	 */
 	@Override
 	protected void process_draft() {
-		// TODO (deutsch) - Auto-generated method stub
+		
 		throw new java.lang.NoSuchMethodError();
 	}
 
@@ -275,7 +275,7 @@ public class E03_GenerationOfDrives extends clsModuleBase implements I1_2_receiv
 	 */
 	@Override
 	protected void process_final() {
-		// TODO (deutsch) - Auto-generated method stub
+		
 		throw new java.lang.NoSuchMethodError();
 	}
 

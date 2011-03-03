@@ -51,7 +51,7 @@ import du.itf.sensors.clsDataBase;
 import du.itf.sensors.clsSensorExtern;
 
 /**
- * DOCUMENT (deutsch) - insert description 
+ * 
  * 
  * @author deutsch
  * 11.08.2009, 15:06:02
@@ -123,7 +123,7 @@ public class G00_PsychicApparatus extends clsModuleContainer implements
 	public G04_SuperEgo moG04SuperEgo;
 
 	/**
-	 * DOCUMENT (deutsch) - insert description 
+	 * 
 	 * 
 	 * @author deutsch
 	 * 11.08.2009, 15:06:42

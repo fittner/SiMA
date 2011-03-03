@@ -21,7 +21,7 @@ import pa.memorymgmt.datatypes.clsPrimaryDataStructureContainer;
 import pa.memorymgmt.datatypes.clsSecondaryDataStructureContainer;
 
 /**
- * DOCUMENT (deutsch) - insert description 
+ * 
  * 
  * @author deutsch
  * 11.08.2009, 14:40:29
@@ -35,7 +35,7 @@ public class E20_InnerPerception_Affects extends clsModuleBase implements I5_1_r
 	//private ArrayList<clsSecondaryDataStructureContainer> moDriveList_Input;
 
 	/**
-	 * DOCUMENT (deutsch) - insert description 
+	 * 
 	 * 
 	 * @author deutsch
 	 * 11.08.2009, 14:41:04
@@ -190,7 +190,7 @@ public class E20_InnerPerception_Affects extends clsModuleBase implements I5_1_r
 	 */
 	@Override
 	protected void process_draft() {
-		// TODO (deutsch) - Auto-generated method stub
+		
 		throw new java.lang.NoSuchMethodError();
 	}
 
@@ -203,7 +203,7 @@ public class E20_InnerPerception_Affects extends clsModuleBase implements I5_1_r
 	 */
 	@Override
 	protected void process_final() {
-		// TODO (deutsch) - Auto-generated method stub
+		
 		throw new java.lang.NoSuchMethodError();
 	}
 

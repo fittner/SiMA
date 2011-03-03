@@ -29,7 +29,7 @@ import pa.memorymgmt.enums.eDataType;
 import pa.tools.clsPair;
 
 /**
- * DOCUMENT (deutsch) - insert description 
+ * 
  * 
  * @author deutsch
  * 07.10.2009, 11:16:58
@@ -294,7 +294,7 @@ public class S_ManagementOfRepressedContents_1 extends clsModuleBase implements 
 	 */
 	@Override
 	protected void process_draft() {
-		// TODO (deutsch) - Auto-generated method stub
+		
 		throw new java.lang.NoSuchMethodError();
 	}
 
@@ -307,7 +307,7 @@ public class S_ManagementOfRepressedContents_1 extends clsModuleBase implements 
 	 */
 	@Override
 	protected void process_final() {
-		// TODO (deutsch) - Auto-generated method stub
+		
 		throw new java.lang.NoSuchMethodError();
 	}
 	

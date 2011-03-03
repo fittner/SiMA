@@ -18,7 +18,7 @@ import pa.tools.clsPair;
 import config.clsBWProperties;
 
 /**
- * DOCUMENT (deutsch) - insert description 
+ * 
  * 
  * @author deutsch
  * 11.08.2009, 13:40:06
@@ -29,7 +29,7 @@ public class E04_FusionOfDrives extends clsModuleBase implements I1_3_receive, I
 	ArrayList<clsPair<clsPair<clsDriveMesh, clsDriveDemand>, clsPair<clsDriveMesh, clsDriveDemand>>> moDriveCandidate; 
 	
 	/**
-	 * DOCUMENT (deutsch) - insert description 
+	 * 
 	 * 
 	 * @author deutsch
 	 * 11.08.2009, 13:40:24
@@ -142,7 +142,7 @@ public class E04_FusionOfDrives extends clsModuleBase implements I1_3_receive, I
 	 */
 	@Override
 	protected void process_draft() {
-		// TODO (deutsch) - Auto-generated method stub
+		
 		throw new java.lang.NoSuchMethodError();
 	}
 
@@ -155,7 +155,7 @@ public class E04_FusionOfDrives extends clsModuleBase implements I1_3_receive, I
 	 */
 	@Override
 	protected void process_final() {
-		// TODO (deutsch) - Auto-generated method stub
+		
 		throw new java.lang.NoSuchMethodError();
 	}
 

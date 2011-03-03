@@ -17,7 +17,7 @@ import pa.interfaces.receive._v19.I2_1_receive;
 import pa.interfaces.send._v19.I2_1_send;
 
 /**
- * DOCUMENT (deutsch) - insert description 
+ * 
  * 
  * @author deutsch
  * 11.08.2009, 14:13:27
@@ -28,7 +28,7 @@ public class E10_SensorsEnvironment extends clsModuleBase implements itfProcessS
 	HashMap<eSensorExtType, clsSensorExtern> moEnvironmentalData;
 	
 	/**
-	 * DOCUMENT (deutsch) - insert description 
+	 * 
 	 * 
 	 * @author deutsch
 	 * 11.08.2009, 14:13:49
@@ -143,7 +143,7 @@ public class E10_SensorsEnvironment extends clsModuleBase implements itfProcessS
 	 */
 	@Override
 	protected void process_draft() {
-		// TODO (deutsch) - Auto-generated method stub
+		
 		throw new java.lang.NoSuchMethodError();
 	}
 
@@ -156,7 +156,7 @@ public class E10_SensorsEnvironment extends clsModuleBase implements itfProcessS
 	 */
 	@Override
 	protected void process_final() {
-		// TODO (deutsch) - Auto-generated method stub
+		
 		throw new java.lang.NoSuchMethodError();
 	}
 }

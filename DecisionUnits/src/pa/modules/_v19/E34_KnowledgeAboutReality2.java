@@ -22,7 +22,7 @@ import pa.memorymgmt.enums.eDataType;
 import pa.tools.clsPair;
 
 /**
- * DOCUMENT (deutsch) - insert description 
+ * 
  * 
  * @author deutsch
  * 27.04.2010, 10:38:16
@@ -31,7 +31,7 @@ import pa.tools.clsPair;
 public class E34_KnowledgeAboutReality2 extends clsModuleBase implements I7_3_receive, I7_5_send, itfKnowledgeBaseAccess {
 
 	/**
-	 * DOCUMENT (deutsch) - insert description 
+	 * 
 	 * 
 	 * @author deutsch
 	 * 27.04.2010, 10:38:32
@@ -44,7 +44,7 @@ public class E34_KnowledgeAboutReality2 extends clsModuleBase implements I7_3_re
 			clsModuleContainer poEnclosingContainer, clsInterfaceHandler poInterfaceHandler) {
 		super(poPrefix, poProp, poEnclosingContainer, poInterfaceHandler);
 		applyProperties(poPrefix, poProp);	
-		// TODO (deutsch) - Auto-generated constructor stub
+		
 	}
 
 	public static clsBWProperties getDefaultProperties(String poPrefix) {
@@ -71,7 +71,7 @@ public class E34_KnowledgeAboutReality2 extends clsModuleBase implements I7_3_re
 	 */
 	@Override
 	protected void process_basic() {
-		// TODO (deutsch) - Auto-generated method stub
+		
 		
 	}
 
@@ -122,7 +122,7 @@ public class E34_KnowledgeAboutReality2 extends clsModuleBase implements I7_3_re
 	 */
 	@Override
 	public void receive_I7_3(ArrayList<clsWordPresentation> poActionCommands) {
-		// TODO (deutsch) - Auto-generated method stub
+		
 		
 	}
 
@@ -148,7 +148,7 @@ public class E34_KnowledgeAboutReality2 extends clsModuleBase implements I7_3_re
 	 */
 	@Override
 	protected void process_draft() {
-		// TODO (deutsch) - Auto-generated method stub
+		
 		throw new java.lang.NoSuchMethodError();
 	}
 
@@ -161,7 +161,7 @@ public class E34_KnowledgeAboutReality2 extends clsModuleBase implements I7_3_re
 	 */
 	@Override
 	protected void process_final() {
-		// TODO (deutsch) - Auto-generated method stub
+		
 		throw new java.lang.NoSuchMethodError();
 	}
 

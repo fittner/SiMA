@@ -58,7 +58,7 @@ public class G12_PrimaryDecision extends clsModuleContainer implements
 	public E19_DefenseMechanismsForPerception    moE19DefenseMechanismsForPerception;
 
 	/**
-	 * DOCUMENT (deutsch) - insert description 
+	 * 
 	 * 
 	 * @author deutsch
 	 * 11.08.2009, 15:36:51

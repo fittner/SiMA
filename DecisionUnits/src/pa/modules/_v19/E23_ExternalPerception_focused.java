@@ -17,7 +17,7 @@ import pa.interfaces.send._v19.I2_12_send;
 import pa.memorymgmt.datatypes.clsSecondaryDataStructureContainer;
 
 /**
- * DOCUMENT (deutsch) - insert description 
+ * 
  * 
  * @author deutsch
  * 11.08.2009, 14:46:53
@@ -29,7 +29,7 @@ public class E23_ExternalPerception_focused extends clsModuleBase implements I2_
 	private ArrayList<clsSecondaryDataStructureContainer> moDriveList; 
 	private ArrayList<clsSecondaryDataStructureContainer> moFocusedPerception_Output; 
 	/**
-	 * DOCUMENT (deutsch) - insert description 
+	 * 
 	 * 
 	 * @author deutsch
 	 * 11.08.2009, 14:47:24
@@ -162,7 +162,7 @@ public class E23_ExternalPerception_focused extends clsModuleBase implements I2_
 	 */
 	@Override
 	protected void process_draft() {
-		// TODO (deutsch) - Auto-generated method stub
+		
 		throw new java.lang.NoSuchMethodError();
 	}
 
@@ -175,7 +175,7 @@ public class E23_ExternalPerception_focused extends clsModuleBase implements I2_
 	 */
 	@Override
 	protected void process_final() {
-		// TODO (deutsch) - Auto-generated method stub
+		
 		throw new java.lang.NoSuchMethodError();
 	}
 }

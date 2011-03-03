@@ -20,7 +20,7 @@ import pa.symbolization.clsSensorToSymbolConverter;
 import pa.symbolization.representationsymbol.itfSymbol;
 
 /**
- * DOCUMENT (deutsch) - insert description 
+ * 
  * 
  * @author deutsch
  * 11.08.2009, 14:24:29
@@ -32,7 +32,7 @@ public class E13_NeuroSymbolsBody extends clsModuleBase implements I2_3_receive,
 	private HashMap<eSymbolExtType, itfSymbol> moSymbolData;	
 	
 	/**
-	 * DOCUMENT (deutsch) - insert description 
+	 * 
 	 * 
 	 * @author deutsch
 	 * 11.08.2009, 14:24:59
@@ -145,7 +145,7 @@ public class E13_NeuroSymbolsBody extends clsModuleBase implements I2_3_receive,
 	 */
 	@Override
 	protected void process_draft() {
-		// TODO (deutsch) - Auto-generated method stub
+		
 		throw new java.lang.NoSuchMethodError();
 	}
 
@@ -158,7 +158,7 @@ public class E13_NeuroSymbolsBody extends clsModuleBase implements I2_3_receive,
 	 */
 	@Override
 	protected void process_final() {
-		// TODO (deutsch) - Auto-generated method stub
+		
 		throw new java.lang.NoSuchMethodError();
 	}
 

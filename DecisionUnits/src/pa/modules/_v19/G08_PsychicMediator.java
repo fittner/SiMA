@@ -78,7 +78,7 @@ public class G08_PsychicMediator extends clsModuleContainer implements
 	public G11_SecondaryProcessor          moG11SecondaryProcessor;
 
 	/**
-	 * DOCUMENT (deutsch) - insert description 
+	 * 
 	 * 
 	 * @author deutsch
 	 * 11.08.2009, 15:36:51

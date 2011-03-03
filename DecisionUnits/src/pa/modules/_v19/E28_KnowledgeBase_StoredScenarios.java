@@ -31,7 +31,7 @@ import pa.tools.clsPair;
 import pa.tools.clsTripple;
 
 /**
- * DOCUMENT (deutsch) - insert description 
+ * 
  * 
  * @author deutsch
  * 11.08.2009, 14:56:22
@@ -45,7 +45,7 @@ public class E28_KnowledgeBase_StoredScenarios extends clsModuleBase implements 
 	private ArrayList<ArrayList<clsAct>> moPlan_Output; 
 			
 	/**
-	 * DOCUMENT (deutsch) - insert description 
+	 * 
 	 * 
 	 * @author deutsch
 	 * 11.08.2009, 14:56:40
@@ -546,7 +546,7 @@ public class E28_KnowledgeBase_StoredScenarios extends clsModuleBase implements 
 	 */
 	@Override
 	protected void process_draft() {
-		// TODO (deutsch) - Auto-generated method stub
+		
 		throw new java.lang.NoSuchMethodError();
 	}
 
@@ -559,7 +559,7 @@ public class E28_KnowledgeBase_StoredScenarios extends clsModuleBase implements 
 	 */
 	@Override
 	protected void process_final() {
-		// TODO (deutsch) - Auto-generated method stub
+		
 		throw new java.lang.NoSuchMethodError();
 	}
 

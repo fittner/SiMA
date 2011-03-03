@@ -23,7 +23,7 @@ import pa.tools.clsPair;
 import pa.tools.clsTripple;
 
 /**
- * DOCUMENT (deutsch) - insert description 
+ * 
  * 
  * @author deutsch
  * 11.08.2009, 14:32:41
@@ -34,7 +34,7 @@ public class E17_FusionOfExternalPerceptionAndMemoryTraces extends clsModuleBase
 						{
 
 	/**
-	 * DOCUMENT (deutsch) - insert description 
+	 * 
 	 * 
 	 * @author deutsch
 	 * 11.08.2009, 14:33:08
@@ -200,7 +200,7 @@ public class E17_FusionOfExternalPerceptionAndMemoryTraces extends clsModuleBase
 	 */
 	@Override
 	protected void process_draft() {
-		// TODO (deutsch) - Auto-generated method stub
+		
 		throw new java.lang.NoSuchMethodError();
 	}
 
@@ -213,7 +213,7 @@ public class E17_FusionOfExternalPerceptionAndMemoryTraces extends clsModuleBase
 	 */
 	@Override
 	protected void process_final() {
-		// TODO (deutsch) - Auto-generated method stub
+		
 		throw new java.lang.NoSuchMethodError();	
 	}
 
