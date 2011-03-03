@@ -13,7 +13,7 @@ import du.itf.actions.clsActionCommand;
 import du.itf.actions.itfActionProcessor;
 import pa._v19.clsInterfaceHandler;
 import pa.interfaces.itfReturnActionCommands;
-import pa.interfaces.receive.I8_2_receive;
+import pa.interfaces.receive._v19.I8_2_receive;
 
 /**
  * DOCUMENT (deutsch) - insert description 

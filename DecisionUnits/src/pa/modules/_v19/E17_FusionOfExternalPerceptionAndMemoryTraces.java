@@ -10,9 +10,9 @@ import java.util.ArrayList;
 
 import config.clsBWProperties;
 import pa._v19.clsInterfaceHandler;
-import pa.interfaces.receive.I2_7_receive;
-import pa.interfaces.receive.I2_8_receive;
-import pa.interfaces.send.I2_8_send;
+import pa.interfaces.receive._v19.I2_7_receive;
+import pa.interfaces.receive._v19.I2_8_receive;
+import pa.interfaces.send._v19.I2_8_send;
 import pa.memorymgmt.datatypes.clsAssociation;
 import pa.memorymgmt.datatypes.clsAssociationDriveMesh;
 import pa.memorymgmt.datatypes.clsDriveMesh;

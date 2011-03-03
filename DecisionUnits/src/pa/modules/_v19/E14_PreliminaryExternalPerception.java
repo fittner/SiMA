@@ -13,10 +13,10 @@ import config.clsBWProperties;
 
 import pa._v19.clsInterfaceHandler;
 import pa.enums.eSymbolExtType;
-import pa.interfaces.receive.I2_2_receive;
-import pa.interfaces.receive.I2_4_receive;
-import pa.interfaces.receive.I2_5_receive;
-import pa.interfaces.send.I2_5_send;
+import pa.interfaces.receive._v19.I2_2_receive;
+import pa.interfaces.receive._v19.I2_4_receive;
+import pa.interfaces.receive._v19.I2_5_receive;
+import pa.interfaces.send._v19.I2_5_send;
 import pa.memorymgmt.datahandler.clsDataStructureConverter;
 import pa.memorymgmt.datatypes.clsPrimaryDataStructure;
 import pa.memorymgmt.datatypes.clsPrimaryDataStructureContainer;

@@ -13,9 +13,9 @@ import du.enums.eSensorExtType;
 import du.itf.sensors.clsSensorExtern;
 import pa._v19.clsInterfaceHandler;
 import pa.enums.eSymbolExtType;
-import pa.interfaces.receive.I2_1_receive;
-import pa.interfaces.receive.I2_2_receive;
-import pa.interfaces.send.I2_2_send;
+import pa.interfaces.receive._v19.I2_1_receive;
+import pa.interfaces.receive._v19.I2_2_receive;
+import pa.interfaces.send._v19.I2_2_send;
 import pa.symbolization.clsSensorToSymbolConverter;
 import pa.symbolization.representationsymbol.itfSymbol;
 

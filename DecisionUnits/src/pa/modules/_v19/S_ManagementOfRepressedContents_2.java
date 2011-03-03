@@ -11,9 +11,9 @@ import java.util.List;
 
 import config.clsBWProperties;
 import pa._v19.clsInterfaceHandler;
-import pa.interfaces.receive.I4_1_receive;
-import pa.interfaces.receive.I4_2_receive;
-import pa.interfaces.receive.I4_3_receive;
+import pa.interfaces.receive._v19.I4_1_receive;
+import pa.interfaces.receive._v19.I4_2_receive;
+import pa.interfaces.receive._v19.I4_3_receive;
 import pa.memorymgmt.datatypes.clsAssociationDriveMesh;
 import pa.memorymgmt.datatypes.clsPrimaryDataStructureContainer;
 

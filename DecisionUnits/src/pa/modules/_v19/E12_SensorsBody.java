@@ -13,8 +13,8 @@ import du.enums.eSensorExtType;
 import du.itf.sensors.clsSensorExtern;
 import pa._v19.clsInterfaceHandler;
 import pa.interfaces.itfProcessSensorBody;
-import pa.interfaces.receive.I2_3_receive;
-import pa.interfaces.send.I2_3_send;
+import pa.interfaces.receive._v19.I2_3_receive;
+import pa.interfaces.send._v19.I2_3_send;
 
 /**
  * DOCUMENT (deutsch) - insert description 

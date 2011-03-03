@@ -11,11 +11,11 @@ import java.util.List;
 
 import config.clsBWProperties;
 import pa._v19.clsInterfaceHandler;
-import pa.interfaces.receive.I2_5_receive;
-import pa.interfaces.receive.I2_6_receive;
-import pa.interfaces.receive.I4_1_receive;
-import pa.interfaces.receive.I4_2_receive;
-import pa.interfaces.receive.I4_3_receive;
+import pa.interfaces.receive._v19.I2_5_receive;
+import pa.interfaces.receive._v19.I2_6_receive;
+import pa.interfaces.receive._v19.I4_1_receive;
+import pa.interfaces.receive._v19.I4_2_receive;
+import pa.interfaces.receive._v19.I4_3_receive;
 import pa.memory.clsMemory;
 import pa.memorymgmt.clsKnowledgeBaseHandler;
 import pa.memorymgmt.datatypes.clsAssociationDriveMesh;

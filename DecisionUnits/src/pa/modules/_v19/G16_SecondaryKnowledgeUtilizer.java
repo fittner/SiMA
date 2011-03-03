@@ -9,12 +9,12 @@ package pa.modules._v19;
 import java.util.ArrayList;
 
 import pa._v19.clsInterfaceHandler;
-import pa.interfaces.receive.I2_12_receive;
-import pa.interfaces.receive.I6_1_receive;
-import pa.interfaces.receive.I6_2_receive;
-import pa.interfaces.receive.I7_2_receive;
-import pa.interfaces.receive.I7_3_receive;
-import pa.interfaces.receive.I7_5_receive;
+import pa.interfaces.receive._v19.I2_12_receive;
+import pa.interfaces.receive._v19.I6_1_receive;
+import pa.interfaces.receive._v19.I6_2_receive;
+import pa.interfaces.receive._v19.I7_2_receive;
+import pa.interfaces.receive._v19.I7_3_receive;
+import pa.interfaces.receive._v19.I7_5_receive;
 import pa.memory.clsMemory;
 import pa.memorymgmt.clsKnowledgeBaseHandler;
 import pa.memorymgmt.datatypes.clsAct;

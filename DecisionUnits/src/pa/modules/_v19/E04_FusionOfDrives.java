@@ -9,9 +9,9 @@ package pa.modules._v19;
 import java.util.ArrayList;
 
 import pa._v19.clsInterfaceHandler;
-import pa.interfaces.receive.I1_3_receive;
-import pa.interfaces.receive.I1_4_receive;
-import pa.interfaces.send.I1_4_send;
+import pa.interfaces.receive._v19.I1_3_receive;
+import pa.interfaces.receive._v19.I1_4_receive;
+import pa.interfaces.send._v19.I1_4_send;
 import pa.memorymgmt.datatypes.clsDriveDemand;
 import pa.memorymgmt.datatypes.clsDriveMesh;
 import pa.tools.clsPair;

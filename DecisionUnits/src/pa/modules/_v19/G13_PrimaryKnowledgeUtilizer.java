@@ -10,10 +10,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 import pa._v19.clsInterfaceHandler;
-import pa.interfaces.receive.I1_5_receive;
-import pa.interfaces.receive.I2_6_receive;
-import pa.interfaces.receive.I2_7_receive;
-import pa.interfaces.receive.I6_3_receive;
+import pa.interfaces.receive._v19.I1_5_receive;
+import pa.interfaces.receive._v19.I2_6_receive;
+import pa.interfaces.receive._v19.I2_7_receive;
+import pa.interfaces.receive._v19.I6_3_receive;
 import pa.memory.clsMemory;
 import pa.memorymgmt.clsKnowledgeBaseHandler;
 import pa.memorymgmt.datatypes.clsDriveMesh;

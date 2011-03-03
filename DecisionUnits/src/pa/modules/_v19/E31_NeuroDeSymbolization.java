@@ -20,9 +20,9 @@ import du.itf.actions.clsActionSequenceFactory;
 import du.itf.actions.clsActionTurn;
 import pa._v19.clsInterfaceHandler;
 import pa.interfaces.itfTimeChartInformationContainer;
-import pa.interfaces.receive.I8_1_receive;
-import pa.interfaces.receive.I8_2_receive;
-import pa.interfaces.send.I8_2_send;
+import pa.interfaces.receive._v19.I8_1_receive;
+import pa.interfaces.receive._v19.I8_2_receive;
+import pa.interfaces.send._v19.I8_2_send;
 import pa.memorymgmt.datatypes.clsWordPresentation;
 import pa.tools.clsPair;
 

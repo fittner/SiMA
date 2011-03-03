@@ -10,8 +10,8 @@ import java.util.HashMap;
 
 import pa._v19.clsInterfaceHandler;
 import pa.interfaces.itfProcessHomeostases;
-import pa.interfaces.receive.I1_1_receive;
-import pa.interfaces.send.I1_1_send;
+import pa.interfaces.receive._v19.I1_1_receive;
+import pa.interfaces.send._v19.I1_1_send;
 import config.clsBWProperties;
 import du.enums.eSensorIntType;
 import du.itf.sensors.clsDataBase;

@@ -10,11 +10,11 @@ import java.util.ArrayList;
 
 import config.clsBWProperties;
 import pa._v19.clsInterfaceHandler;
-import pa.interfaces.receive.I5_5_receive;
-import pa.interfaces.receive.I7_3_receive;
-import pa.interfaces.receive.I7_4_receive;
-import pa.interfaces.receive.I7_6_receive;
-import pa.interfaces.send.I7_4_send;
+import pa.interfaces.receive._v19.I5_5_receive;
+import pa.interfaces.receive._v19.I7_3_receive;
+import pa.interfaces.receive._v19.I7_4_receive;
+import pa.interfaces.receive._v19.I7_6_receive;
+import pa.interfaces.send._v19.I7_4_send;
 import pa.memorymgmt.datatypes.clsWordPresentation;
 
 /**

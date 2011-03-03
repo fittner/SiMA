@@ -10,12 +10,12 @@ import java.util.ArrayList;
 
 import config.clsBWProperties;
 import pa._v19.clsInterfaceHandler;
-import pa.interfaces.receive.I5_1_receive;
-import pa.interfaces.receive.I5_2_receive;
-import pa.interfaces.receive.I5_3_receive;
-import pa.interfaces.receive.I5_4_receive;
-import pa.interfaces.receive.I5_5_receive;
-import pa.interfaces.send.I5_5_send;
+import pa.interfaces.receive._v19.I5_1_receive;
+import pa.interfaces.receive._v19.I5_2_receive;
+import pa.interfaces.receive._v19.I5_3_receive;
+import pa.interfaces.receive._v19.I5_4_receive;
+import pa.interfaces.receive._v19.I5_5_receive;
+import pa.interfaces.send._v19.I5_5_send;
 import pa.memorymgmt.datatypes.clsAssociationDriveMesh;
 import pa.memorymgmt.datatypes.clsPrimaryDataStructureContainer;
 import pa.memorymgmt.datatypes.clsSecondaryDataStructureContainer;

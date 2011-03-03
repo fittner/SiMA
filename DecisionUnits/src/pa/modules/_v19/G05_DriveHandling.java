@@ -10,9 +10,9 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import pa._v19.clsInterfaceHandler;
-import pa.interfaces.receive.I1_2_receive;
-import pa.interfaces.receive.I1_3_receive;
-import pa.interfaces.receive.I1_4_receive;
+import pa.interfaces.receive._v19.I1_2_receive;
+import pa.interfaces.receive._v19.I1_3_receive;
+import pa.interfaces.receive._v19.I1_4_receive;
 import pa.memory.clsMemory;
 import pa.memorymgmt.clsKnowledgeBaseHandler;
 import pa.memorymgmt.datatypes.clsDriveDemand;

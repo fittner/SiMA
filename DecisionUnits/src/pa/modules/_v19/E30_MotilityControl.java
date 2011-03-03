@@ -10,9 +10,9 @@ import java.util.ArrayList;
 
 import config.clsBWProperties;
 import pa._v19.clsInterfaceHandler;
-import pa.interfaces.receive.I7_4_receive;
-import pa.interfaces.receive.I8_1_receive;
-import pa.interfaces.send.I8_1_send;
+import pa.interfaces.receive._v19.I7_4_receive;
+import pa.interfaces.receive._v19.I8_1_receive;
+import pa.interfaces.send._v19.I8_1_send;
 import pa.memorymgmt.datatypes.clsWordPresentation;
 
 /**

@@ -12,12 +12,12 @@ import java.util.List;
 
 import pa._v19.clsInterfaceHandler;
 import pa.interfaces.knowledgebase.itfKnowledgeBaseAccess;
-import pa.interfaces.receive.I1_5_receive;
-import pa.interfaces.receive.I2_9_receive;
-import pa.interfaces.receive.I3_1_receive;
-import pa.interfaces.receive.I3_2_receive;
-import pa.interfaces.send.I3_1_send;
-import pa.interfaces.send.I3_2_send;
+import pa.interfaces.receive._v19.I1_5_receive;
+import pa.interfaces.receive._v19.I2_9_receive;
+import pa.interfaces.receive._v19.I3_1_receive;
+import pa.interfaces.receive._v19.I3_2_receive;
+import pa.interfaces.send._v19.I3_1_send;
+import pa.interfaces.send._v19.I3_2_send;
 import pa.memorymgmt.datatypes.clsDataStructureContainer;
 import pa.memorymgmt.datatypes.clsDataStructurePA;
 import pa.memorymgmt.datatypes.clsDriveMesh;

@@ -10,10 +10,10 @@ import java.util.ArrayList;
 
 import config.clsBWProperties;
 import pa._v19.clsInterfaceHandler;
-import pa.interfaces.receive.I6_2_receive;
-import pa.interfaces.receive.I7_1_receive;
-import pa.interfaces.receive.I7_3_receive;
-import pa.interfaces.send.I7_3_send;
+import pa.interfaces.receive._v19.I6_2_receive;
+import pa.interfaces.receive._v19.I7_1_receive;
+import pa.interfaces.receive._v19.I7_3_receive;
+import pa.interfaces.send._v19.I7_3_send;
 import pa.loader.plan.clsPlanAction;
 import pa.memorymgmt.datatypes.clsAct;
 import pa.memorymgmt.datatypes.clsSecondaryDataStructure;
