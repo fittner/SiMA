@@ -2,7 +2,7 @@
  * @author deutsch
  * 
  * $Rev::                      $: Revision of last commit
- * $Author::                   $: Author of last commit
+ * $Author::                   Loch Ness
  * $Date::                     $: Date of last commit
  */
 package bw.utils.tools;
