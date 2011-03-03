@@ -29,7 +29,7 @@ import pa.memorymgmt.enums.eDataType;
 import pa.tools.clsPair;
 
 /**
- * DOCUMENT (deutsch) - insert description 
+ * DOCUMENT (wendt) - insert description 
  * 
  * @author deutsch
  * 07.10.2009, 11:16:58
@@ -42,7 +42,7 @@ public class E35_EmersionOfRepressedContent extends clsModuleBase implements I2_
 	private clsMemory moMemory;
 	
 	/**
-	 * DOCUMENT (deutsch) - insert description 
+	 * DOCUMENT (wendt) - insert description 
 	 * 
 	 * @author deutsch
 	 * 03.03.2011, 16:24:23
@@ -302,7 +302,7 @@ public class E35_EmersionOfRepressedContent extends clsModuleBase implements I2_
 	 */
 	@Override
 	protected void process_draft() {
-		// TODO (deutsch) - Auto-generated method stub
+		// TODO (wendt) - Auto-generated method stub
 		throw new java.lang.NoSuchMethodError();
 	}
 
@@ -315,7 +315,7 @@ public class E35_EmersionOfRepressedContent extends clsModuleBase implements I2_
 	 */
 	@Override
 	protected void process_final() {
-		// TODO (deutsch) - Auto-generated method stub
+		// TODO (wendt) - Auto-generated method stub
 		throw new java.lang.NoSuchMethodError();
 	}
 	

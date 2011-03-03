@@ -19,7 +19,7 @@ import pa.memorymgmt.datatypes.clsAssociationDriveMesh;
 import pa.memorymgmt.datatypes.clsPrimaryDataStructureContainer;
 
 /**
- * DOCUMENT (deutsch) - insert description 
+ * DOCUMENT (GELBARD) - insert description 
  * 
  * @author deutsch
  * 07.10.2009, 11:18:15
@@ -29,7 +29,7 @@ public class E36_RepressionHandler extends clsModuleBase implements I4_1_receive
 	public static final String P_MODULENUMBER = "36";
 	
 	/**
-	 * DOCUMENT (deutsch) - insert description 
+	 * DOCUMENT (GELBARD) - insert description 
 	 * 
 	 * @author deutsch
 	 * 03.03.2011, 16:40:54
@@ -155,7 +155,7 @@ public class E36_RepressionHandler extends clsModuleBase implements I4_1_receive
 	 */
 	@Override
 	protected void process_draft() {
-		// TODO (deutsch) - Auto-generated method stub
+		// TODO (GELBARD) - Auto-generated method stub
 		throw new java.lang.NoSuchMethodError();
 	}
 
@@ -169,7 +169,7 @@ public class E36_RepressionHandler extends clsModuleBase implements I4_1_receive
 	 */
 	@Override
 	protected void process_final() {
-		// TODO (deutsch) - Auto-generated method stub
+		// TODO (GELBARD) - Auto-generated method stub
 		throw new java.lang.NoSuchMethodError();
 	}
 

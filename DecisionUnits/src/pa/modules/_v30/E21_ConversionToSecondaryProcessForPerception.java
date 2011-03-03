@@ -36,7 +36,7 @@ import pa.tools.clsPair;
 import pa.tools.clsTripple;
 
 /**
- * DOCUMENT (deutsch) - insert description 
+ * DOCUMENT (KOHLHAUSER) - insert description 
  * 
  * @author deutsch
  * 11.08.2009, 14:38:29
@@ -49,7 +49,7 @@ public class E21_ConversionToSecondaryProcessForPerception extends clsModuleBase
 	private clsKnowledgeBaseHandler moKnowledgeBaseHandler;
 	
 	/**
-	 * DOCUMENT (deutsch) - insert description 
+	 * DOCUMENT (KOHLHAUSER) - insert description 
 	 * 
 	 * @author deutsch
 	 * 03.03.2011, 16:44:38
@@ -510,7 +510,7 @@ public class E21_ConversionToSecondaryProcessForPerception extends clsModuleBase
 	 */
 	@Override
 	protected void process_draft() {
-		// TODO (deutsch) - Auto-generated method stub
+		// TODO (KOHLHAUSER) - Auto-generated method stub
 		throw new java.lang.NoSuchMethodError();
 	}
 
@@ -523,7 +523,7 @@ public class E21_ConversionToSecondaryProcessForPerception extends clsModuleBase
 	 */
 	@Override
 	protected void process_final() {
-		// TODO (deutsch) - Auto-generated method stub
+		// TODO (KOHLHAUSER) - Auto-generated method stub
 		throw new java.lang.NoSuchMethodError();
 	}
 

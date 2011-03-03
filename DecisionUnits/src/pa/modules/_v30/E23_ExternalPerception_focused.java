@@ -16,7 +16,7 @@ import pa.interfaces.send._v30.I2_12_send;
 import pa.memorymgmt.datatypes.clsSecondaryDataStructureContainer;
 
 /**
- * DOCUMENT (deutsch) - insert description 
+ * DOCUMENT (KOHLHAUSER) - insert description 
  * 
  * @author deutsch
  * 11.08.2009, 14:46:53
@@ -26,7 +26,7 @@ public class E23_ExternalPerception_focused extends clsModuleBase implements I2_
 	public static final String P_MODULENUMBER = "23";
 	
 	/**
-	 * DOCUMENT (deutsch) - insert description 
+	 * DOCUMENT (KOHLHAUSER) - insert description 
 	 * 
 	 * @author deutsch
 	 * 03.03.2011, 16:50:08
@@ -166,7 +166,7 @@ public class E23_ExternalPerception_focused extends clsModuleBase implements I2_
 	 */
 	@Override
 	protected void process_draft() {
-		// TODO (deutsch) - Auto-generated method stub
+		// TODO (KOHLHAUSER) - Auto-generated method stub
 		throw new java.lang.NoSuchMethodError();
 	}
 
@@ -179,7 +179,7 @@ public class E23_ExternalPerception_focused extends clsModuleBase implements I2_
 	 */
 	@Override
 	protected void process_final() {
-		// TODO (deutsch) - Auto-generated method stub
+		// TODO (KOHLHAUSER) - Auto-generated method stub
 		throw new java.lang.NoSuchMethodError();
 	}
 

@@ -17,7 +17,7 @@ import pa.interfaces.send._v30.I7_4_send;
 import pa.memorymgmt.datatypes.clsWordPresentation;
 
 /**
- * DOCUMENT (deutsch) - insert description 
+ * DOCUMENT (perner) - insert description 
  * 
  * @author deutsch
  * 11.08.2009, 14:57:10
@@ -28,7 +28,7 @@ public class E29_EvaluationOfImaginaryActions extends clsModuleBase implements
 	public static final String P_MODULENUMBER = "29";
 	
 	/**
-	 * DOCUMENT (deutsch) - insert description 
+	 * DOCUMENT (perner) - insert description 
 	 * 
 	 * @author deutsch
 	 * 03.03.2011, 16:59:54
@@ -148,7 +148,7 @@ public class E29_EvaluationOfImaginaryActions extends clsModuleBase implements
 	 */
 	@Override
 	public void receive_I7_6(int pnData) {
-		// TODO (deutsch) - Auto-generated method stub
+		// TODO (perner) - Auto-generated method stub
 		
 	}
 
@@ -174,7 +174,7 @@ public class E29_EvaluationOfImaginaryActions extends clsModuleBase implements
 	 */
 	@Override
 	protected void process_draft() {
-		// TODO (deutsch) - Auto-generated method stub
+		// TODO (perner) - Auto-generated method stub
 		throw new java.lang.NoSuchMethodError();
 	}
 
@@ -187,7 +187,7 @@ public class E29_EvaluationOfImaginaryActions extends clsModuleBase implements
 	 */
 	@Override
 	protected void process_final() {
-		// TODO (deutsch) - Auto-generated method stub
+		// TODO (perner) - Auto-generated method stub
 		throw new java.lang.NoSuchMethodError();
 	}
 

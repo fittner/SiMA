@@ -30,7 +30,7 @@ import pa.tools.clsTripple;
 
 
 /**
- * DOCUMENT (deutsch) - insert description 
+ * DOCUMENT (perner) - insert description 
  * 
  * @author deutsch
  * 11.08.2009, 14:45:01
@@ -40,7 +40,7 @@ public class E22_SocialRulesSelection extends clsModuleBase implements I1_7_rece
 	public static final String P_MODULENUMBER = "22";
 	private clsKnowledgeBaseHandler moKnowledgeBaseHandler;
 	/**
-	 * DOCUMENT (deutsch) - insert description 
+	 * DOCUMENT (perner) - insert description 
 	 * 
 	 * @author deutsch
 	 * 03.03.2011, 16:48:45
@@ -344,7 +344,7 @@ public class E22_SocialRulesSelection extends clsModuleBase implements I1_7_rece
 	 */
 	@Override
 	protected void process_draft() {
-		// TODO (deutsch) - Auto-generated method stub
+		// TODO (perner) - Auto-generated method stub
 		throw new java.lang.NoSuchMethodError();
 	}
 
@@ -357,7 +357,7 @@ public class E22_SocialRulesSelection extends clsModuleBase implements I1_7_rece
 	 */
 	@Override
 	protected void process_final() {
-		// TODO (deutsch) - Auto-generated method stub
+		// TODO (perner) - Auto-generated method stub
 		throw new java.lang.NoSuchMethodError();
 	}
 

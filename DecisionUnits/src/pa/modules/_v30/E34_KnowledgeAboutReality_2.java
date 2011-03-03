@@ -21,7 +21,7 @@ import pa.memorymgmt.enums.eDataType;
 import pa.tools.clsPair;
 
 /**
- * DOCUMENT (deutsch) - insert description 
+ * DOCUMENT (KOHLHAUSER) - insert description 
  * 
  * @author deutsch
  * 27.04.2010, 10:38:16
@@ -32,7 +32,7 @@ public class E34_KnowledgeAboutReality_2 extends clsModuleBase implements I7_3_r
 	public static final String P_MODULENUMBER = "34";
 	
 	/**
-	 * DOCUMENT (deutsch) - insert description 
+	 * DOCUMENT (KOHLHAUSER) - insert description 
 	 * 
 	 * @author deutsch
 	 * 03.03.2011, 16:57:48
@@ -75,7 +75,7 @@ public class E34_KnowledgeAboutReality_2 extends clsModuleBase implements I7_3_r
 	 */
 	@Override
 	protected void process_basic() {
-		// TODO (deutsch) - Auto-generated method stub
+		// TODO (KOHLHAUSER) - Auto-generated method stub
 		
 	}
 
@@ -126,7 +126,7 @@ public class E34_KnowledgeAboutReality_2 extends clsModuleBase implements I7_3_r
 	 */
 	@Override
 	public void receive_I7_3(ArrayList<clsWordPresentation> poActionCommands) {
-		// TODO (deutsch) - Auto-generated method stub
+		// TODO (KOHLHAUSER) - Auto-generated method stub
 		
 	}
 
@@ -152,7 +152,7 @@ public class E34_KnowledgeAboutReality_2 extends clsModuleBase implements I7_3_r
 	 */
 	@Override
 	protected void process_draft() {
-		// TODO (deutsch) - Auto-generated method stub
+		// TODO (KOHLHAUSER) - Auto-generated method stub
 		throw new java.lang.NoSuchMethodError();
 	}
 
@@ -165,7 +165,7 @@ public class E34_KnowledgeAboutReality_2 extends clsModuleBase implements I7_3_r
 	 */
 	@Override
 	protected void process_final() {
-		// TODO (deutsch) - Auto-generated method stub
+		// TODO (KOHLHAUSER) - Auto-generated method stub
 		throw new java.lang.NoSuchMethodError();
 	}
 

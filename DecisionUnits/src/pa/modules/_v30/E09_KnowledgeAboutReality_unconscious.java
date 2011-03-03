@@ -25,7 +25,7 @@ import pa.memorymgmt.enums.eDataType;
 import pa.tools.clsPair;
 
 /**
- * DOCUMENT (deutsch) - insert description 
+ * DOCUMENT (GELBARD) - insert description 
  * 
  * @author deutsch
  * 11.08.2009, 14:09:09
@@ -38,7 +38,7 @@ public class E09_KnowledgeAboutReality_unconscious extends clsModuleBase impleme
 	public static final String P_MODULENUMBER = "09";
 	
 	/**
-	 * DOCUMENT (deutsch) - insert description 
+	 * DOCUMENT (GELBARD) - insert description 
 	 * 
 	 * @author deutsch
 	 * 03.03.2011, 16:37:44
@@ -161,7 +161,7 @@ public class E09_KnowledgeAboutReality_unconscious extends clsModuleBase impleme
 	 */
 	@Override
 	protected void process_draft() {
-		// TODO (deutsch) - Auto-generated method stub
+		// TODO (GELBARD) - Auto-generated method stub
 		throw new java.lang.NoSuchMethodError();
 	}
 
@@ -174,7 +174,7 @@ public class E09_KnowledgeAboutReality_unconscious extends clsModuleBase impleme
 	 */
 	@Override
 	protected void process_final() {
-		// TODO (deutsch) - Auto-generated method stub
+		// TODO (GELBARD) - Auto-generated method stub
 		throw new java.lang.NoSuchMethodError();
 	}
 
@@ -226,7 +226,7 @@ public class E09_KnowledgeAboutReality_unconscious extends clsModuleBase impleme
 	 */
 	@Override
 	public void receive_I2_19(List<clsDriveMesh> poData) {
-		// TODO (deutsch) - Auto-generated method stub
+		// TODO (GELBARD) - Auto-generated method stub
 		
 	}
 }

@@ -28,7 +28,7 @@ import pa.memorymgmt.enums.eDataType;
 import pa.tools.clsPair;
 
 /**
- * DOCUMENT (deutsch) - insert description 
+ * DOCUMENT (KOHLHAUSER) - insert description 
  * 
  * @author deutsch
  * 11.08.2009, 14:11:38
@@ -41,7 +41,7 @@ public class E08_ConversionToSecondaryProcessForDriveWishes extends clsModuleBas
     public static final String P_MODULENUMBER = "08";
 	
 	/**
-	 * DOCUMENT (deutsch) - insert description 
+	 * DOCUMENT (KOHLHAUSER) - insert description 
 	 * 
 	 * @author deutsch
 	 * 03.03.2011, 16:42:48
@@ -290,7 +290,7 @@ public class E08_ConversionToSecondaryProcessForDriveWishes extends clsModuleBas
 	 */
 	@Override
 	protected void process_draft() {
-		// TODO (deutsch) - Auto-generated method stub
+		// TODO (KOHLHAUSER) - Auto-generated method stub
 		throw new java.lang.NoSuchMethodError();
 	}
 
@@ -303,7 +303,7 @@ public class E08_ConversionToSecondaryProcessForDriveWishes extends clsModuleBas
 	 */
 	@Override
 	protected void process_final() {
-		// TODO (deutsch) - Auto-generated method stub
+		// TODO (KOHLHAUSER) - Auto-generated method stub
 		throw new java.lang.NoSuchMethodError();
 	}
 

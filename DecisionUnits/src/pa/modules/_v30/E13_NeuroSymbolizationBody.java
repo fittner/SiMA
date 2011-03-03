@@ -18,7 +18,7 @@ import pa.symbolization.clsSensorToSymbolConverter;
 import pa.symbolization.representationsymbol.itfSymbol;
 
 /**
- * DOCUMENT (deutsch) - insert description 
+ * DOCUMENT (muchitsch) - insert description 
  * 
  * @author deutsch
  * 11.08.2009, 14:24:29
@@ -28,7 +28,7 @@ public class E13_NeuroSymbolizationBody extends clsModuleBase implements I2_3_re
 	public static final String P_MODULENUMBER = "13";
 	
 	/**
-	 * DOCUMENT (deutsch) - insert description 
+	 * DOCUMENT (muchitsch) - insert description 
 	 * 
 	 * @author deutsch
 	 * 03.03.2011, 16:14:24
@@ -146,7 +146,7 @@ public class E13_NeuroSymbolizationBody extends clsModuleBase implements I2_3_re
 	 */
 	@Override
 	protected void process_draft() {
-		// TODO (deutsch) - Auto-generated method stub
+		// TODO (muchitsch) - Auto-generated method stub
 		throw new java.lang.NoSuchMethodError();
 	}
 
@@ -159,7 +159,7 @@ public class E13_NeuroSymbolizationBody extends clsModuleBase implements I2_3_re
 	 */
 	@Override
 	protected void process_final() {
-		// TODO (deutsch) - Auto-generated method stub
+		// TODO (muchitsch) - Auto-generated method stub
 		throw new java.lang.NoSuchMethodError();
 	}
 

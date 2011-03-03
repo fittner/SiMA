@@ -20,7 +20,7 @@ import pa.memorymgmt.datatypes.clsThingPresentationMesh;
 import pa.tools.clsPair;
 
 /**
- * DOCUMENT (deutsch) - insert description 
+ * DOCUMENT (wendt) - insert description 
  * 
  * @author deutsch
  * 11.08.2009, 14:33:54
@@ -30,7 +30,7 @@ public class E18_CompositionOfAffectsForPerception extends clsModuleBase impleme
 	public static final String P_MODULENUMBER = "18";
 	
 	/**
-	 * DOCUMENT (deutsch) - insert description 
+	 * DOCUMENT (wendt) - insert description 
 	 * 
 	 * @author deutsch
 	 * 03.03.2011, 16:33:27
@@ -180,7 +180,7 @@ public class E18_CompositionOfAffectsForPerception extends clsModuleBase impleme
 	 */
 	@Override
 	protected void process_draft() {
-		// TODO (deutsch) - Auto-generated method stub
+		// TODO (wendt) - Auto-generated method stub
 		throw new java.lang.NoSuchMethodError();
 	}
 
@@ -193,7 +193,7 @@ public class E18_CompositionOfAffectsForPerception extends clsModuleBase impleme
 	 */
 	@Override
 	protected void process_final() {
-		// TODO (deutsch) - Auto-generated method stub
+		// TODO (wendt) - Auto-generated method stub
 		throw new java.lang.NoSuchMethodError();
 	}
 
@@ -220,7 +220,7 @@ public class E18_CompositionOfAffectsForPerception extends clsModuleBase impleme
 	@Override
 	public void receive_I2_16(
 			ArrayList<clsPair<clsPrimaryDataStructureContainer, clsDriveMesh>> poMergedPrimaryInformation) {
-		// TODO (deutsch) - Auto-generated method stub
+		// TODO (wendt) - Auto-generated method stub
 		
 	}
 }

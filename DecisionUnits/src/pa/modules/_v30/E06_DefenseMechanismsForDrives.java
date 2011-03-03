@@ -27,7 +27,7 @@ import pa.memorymgmt.datatypes.clsPrimaryDataStructureContainer;
 import config.clsBWProperties;
 
 /**
- * DOCUMENT (deutsch) - insert description 
+ * DOCUMENT (GELBARD) - insert description 
  * 
  * @author deutsch
  * 11.08.2009, 14:01:06
@@ -38,7 +38,7 @@ public class E06_DefenseMechanismsForDrives extends clsModuleBase implements
 	public static final String P_MODULENUMBER = "06";
 	
 	/**
-	 * DOCUMENT (deutsch) - insert description 
+	 * DOCUMENT (GELBARD) - insert description 
 	 * 
 	 * @author deutsch
 	 * 03.03.2011, 16:38:57
@@ -228,7 +228,7 @@ public class E06_DefenseMechanismsForDrives extends clsModuleBase implements
 	 */
 	@Override
 	protected void process_draft() {
-		// TODO (deutsch) - Auto-generated method stub
+		// TODO (GELBARD) - Auto-generated method stub
 		throw new java.lang.NoSuchMethodError();
 	}
 
@@ -241,7 +241,7 @@ public class E06_DefenseMechanismsForDrives extends clsModuleBase implements
 	 */
 	@Override
 	protected void process_final() {
-		// TODO (deutsch) - Auto-generated method stub
+		// TODO (GELBARD) - Auto-generated method stub
 		throw new java.lang.NoSuchMethodError();
 	}
 
@@ -267,7 +267,7 @@ public class E06_DefenseMechanismsForDrives extends clsModuleBase implements
 	 */
 	@Override
 	public void receive_I2_19(List<clsDriveMesh> poData) {
-		// TODO (deutsch) - Auto-generated method stub
+		// TODO (GELBARD) - Auto-generated method stub
 		
 	}
 }

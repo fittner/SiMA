@@ -15,7 +15,7 @@ import du.enums.eSensorIntType;
 import du.itf.sensors.clsDataBase;
 
 /**
- * DOCUMENT (deutsch) - insert description 
+ * DOCUMENT (muchitsch) - insert description 
  * 
  * @author deutsch
  * 11.08.2009, 12:09:14
@@ -25,7 +25,7 @@ public class E01_SensorsMetabolism extends clsModuleBase implements I0_3_receive
 	public static final String P_MODULENUMBER = "01";
 
 	/**
-	 * DOCUMENT (deutsch) - insert description 
+	 * DOCUMENT (muchitsch) - insert description 
 	 * 
 	 * @author deutsch
 	 * 03.03.2011, 15:52:11
@@ -131,7 +131,7 @@ public class E01_SensorsMetabolism extends clsModuleBase implements I0_3_receive
 	 */
 	@Override
 	protected void process_draft() {
-		// TODO (deutsch) - Auto-generated method stub
+		// TODO (muchitsch) - Auto-generated method stub
 		throw new java.lang.NoSuchMethodError();
 	}
 
@@ -144,7 +144,7 @@ public class E01_SensorsMetabolism extends clsModuleBase implements I0_3_receive
 	 */
 	@Override
 	protected void process_final() {
-		// TODO (deutsch) - Auto-generated method stub
+		// TODO (muchitsch) - Auto-generated method stub
 		throw new java.lang.NoSuchMethodError();		
 	}
 

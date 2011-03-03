@@ -16,7 +16,7 @@ import pa.interfaces.send._v30.I2_13_send;
 import pa.memorymgmt.datatypes.clsSecondaryDataStructureContainer;
 
 /**
- * DOCUMENT (deutsch) - insert description 
+ * DOCUMENT (KOHLHAUSER) - insert description 
  * 
  * @author deutsch
  * 11.08.2009, 14:49:09
@@ -26,7 +26,7 @@ public class E24_RealityCheck_1 extends clsModuleBase implements I2_12_receive, 
 	public static final String P_MODULENUMBER = "24";
 	
 	/**
-	 * DOCUMENT (deutsch) - insert description 
+	 * DOCUMENT (KOHLHAUSER) - insert description 
 	 * 
 	 * @author deutsch
 	 * 03.03.2011, 16:50:46
@@ -167,7 +167,7 @@ public class E24_RealityCheck_1 extends clsModuleBase implements I2_12_receive, 
 	 */
 	@Override
 	protected void process_draft() {
-		// TODO (deutsch) - Auto-generated method stub
+		// TODO (KOHLHAUSER) - Auto-generated method stub
 		throw new java.lang.NoSuchMethodError();
 	}
 
@@ -180,7 +180,7 @@ public class E24_RealityCheck_1 extends clsModuleBase implements I2_12_receive, 
 	 */
 	@Override
 	protected void process_final() {
-		// TODO (deutsch) - Auto-generated method stub
+		// TODO (KOHLHAUSER) - Auto-generated method stub
 		throw new java.lang.NoSuchMethodError();
 	}
 

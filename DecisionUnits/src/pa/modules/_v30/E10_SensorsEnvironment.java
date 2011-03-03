@@ -15,7 +15,7 @@ import pa.interfaces.receive._v30.I2_1_receive;
 import pa.interfaces.send._v30.I2_1_send;
 
 /**
- * DOCUMENT (deutsch) - insert description 
+ * DOCUMENT (muchitsch) - insert description 
  * 
  * @author deutsch
  * 11.08.2009, 14:13:27
@@ -25,7 +25,7 @@ public class E10_SensorsEnvironment extends clsModuleBase implements I0_4_receiv
 	public static final String P_MODULENUMBER = "10";
 	
 	/**
-	 * DOCUMENT (deutsch) - insert description 
+	 * DOCUMENT (muchitsch) - insert description 
 	 * 
 	 * @author deutsch
 	 * 03.03.2011, 16:03:16
@@ -132,7 +132,7 @@ public class E10_SensorsEnvironment extends clsModuleBase implements I0_4_receiv
 	 */
 	@Override
 	protected void process_draft() {
-		// TODO (deutsch) - Auto-generated method stub
+		// TODO (muchitsch) - Auto-generated method stub
 		throw new java.lang.NoSuchMethodError();
 	}
 
@@ -145,7 +145,7 @@ public class E10_SensorsEnvironment extends clsModuleBase implements I0_4_receiv
 	 */
 	@Override
 	protected void process_final() {
-		// TODO (deutsch) - Auto-generated method stub
+		// TODO (muchitsch) - Auto-generated method stub
 		throw new java.lang.NoSuchMethodError();
 	}
 

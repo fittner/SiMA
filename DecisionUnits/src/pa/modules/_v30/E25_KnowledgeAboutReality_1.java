@@ -21,7 +21,7 @@ import pa.memorymgmt.enums.eDataType;
 import pa.tools.clsPair;
 
 /**
- * DOCUMENT (deutsch) - insert description 
+ * DOCUMENT (KOHLHAUSER) - insert description 
  * 
  * @author deutsch
  * 11.08.2009, 14:50:27
@@ -32,7 +32,7 @@ public class E25_KnowledgeAboutReality_1 extends clsModuleBase implements I2_12_
 	
 	private clsKnowledgeBaseHandler moKnowledgeBaseHandler;
 	/**
-	 * DOCUMENT (deutsch) - insert description 
+	 * DOCUMENT (KOHLHAUSER) - insert description 
 	 * 
 	 * @author deutsch
 	 * 03.03.2011, 16:47:07
@@ -156,7 +156,7 @@ public class E25_KnowledgeAboutReality_1 extends clsModuleBase implements I2_12_
 	 */
 	@Override
 	protected void process_draft() {
-		// TODO (deutsch) - Auto-generated method stub
+		// TODO (KOHLHAUSER) - Auto-generated method stub
 		throw new java.lang.NoSuchMethodError();
 	}
 
@@ -169,7 +169,7 @@ public class E25_KnowledgeAboutReality_1 extends clsModuleBase implements I2_12_
 	 */
 	@Override
 	protected void process_final() {
-		// TODO (deutsch) - Auto-generated method stub
+		// TODO (KOHLHAUSER) - Auto-generated method stub
 		throw new java.lang.NoSuchMethodError();
 	}
 

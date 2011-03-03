@@ -16,7 +16,7 @@ import pa.interfaces.send._v30.I7_6_send;
 import pa.memorymgmt.datatypes.clsWordPresentation;
 
 /**
- * DOCUMENT (deutsch) - insert description 
+ * DOCUMENT (KOHLHAUSER) - insert description 
  * 
  * @author deutsch
  * 27.04.2010, 10:18:11
@@ -26,7 +26,7 @@ public class E33_RealityCheck_2 extends clsModuleBase implements I7_3_receive, I
 	public static final String P_MODULENUMBER = "33";
 	
 	/**
-	 * DOCUMENT (deutsch) - insert description 
+	 * DOCUMENT (KOHLHAUSER) - insert description 
 	 * 
 	 * @author deutsch
 	 * 03.03.2011, 16:59:20
@@ -66,7 +66,7 @@ public class E33_RealityCheck_2 extends clsModuleBase implements I7_3_receive, I
 	 */
 	@Override
 	protected void process_basic() {
-		// TODO (deutsch) - Auto-generated method stub
+		// TODO (KOHLHAUSER) - Auto-generated method stub
 
 	}
 
@@ -116,7 +116,7 @@ public class E33_RealityCheck_2 extends clsModuleBase implements I7_3_receive, I
 	 */
 	@Override
 	public void receive_I7_3(ArrayList<clsWordPresentation> poActionCommands) {
-		// TODO (deutsch) - Auto-generated method stub
+		// TODO (KOHLHAUSER) - Auto-generated method stub
 		
 	}
 
@@ -129,7 +129,7 @@ public class E33_RealityCheck_2 extends clsModuleBase implements I7_3_receive, I
 	 */
 	@Override
 	public void receive_I7_5(int pnData) {
-		// TODO (deutsch) - Auto-generated method stub
+		// TODO (KOHLHAUSER) - Auto-generated method stub
 		
 	}
 
@@ -155,7 +155,7 @@ public class E33_RealityCheck_2 extends clsModuleBase implements I7_3_receive, I
 	 */
 	@Override
 	protected void process_draft() {
-		// TODO (deutsch) - Auto-generated method stub
+		// TODO (KOHLHAUSER) - Auto-generated method stub
 		throw new java.lang.NoSuchMethodError();
 	}
 
@@ -168,7 +168,7 @@ public class E33_RealityCheck_2 extends clsModuleBase implements I7_3_receive, I
 	 */
 	@Override
 	protected void process_final() {
-		// TODO (deutsch) - Auto-generated method stub
+		// TODO (KOHLHAUSER) - Auto-generated method stub
 		throw new java.lang.NoSuchMethodError();
 	}
 

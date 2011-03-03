@@ -26,7 +26,7 @@ import pa.memorymgmt.datatypes.clsWordPresentation;
 import pa.tools.clsPair;
 
 /**
- * DOCUMENT (deutsch) - insert description 
+ * DOCUMENT (brandstaetter) - insert description 
  * 
  * @author deutsch
  * 11.08.2009, 14:59:58
@@ -36,7 +36,7 @@ public class E31_NeuroDeSymbolizationActionCommands extends clsModuleBase implem
 	public static final String P_MODULENUMBER = "31";
 	
 	/**
-	 * DOCUMENT (deutsch) - insert description 
+	 * DOCUMENT (brandstaetter) - insert description 
 	 * 
 	 * @author deutsch
 	 * 03.03.2011, 17:01:32
@@ -211,7 +211,7 @@ public class E31_NeuroDeSymbolizationActionCommands extends clsModuleBase implem
 	 */
 	@Override
 	protected void process_draft() {
-		// TODO (deutsch) - Auto-generated method stub
+		// TODO (branstaetter) - Auto-generated method stub
 		throw new java.lang.NoSuchMethodError();
 	}
 
@@ -224,7 +224,7 @@ public class E31_NeuroDeSymbolizationActionCommands extends clsModuleBase implem
 	 */
 	@Override
 	protected void process_final() {
-		// TODO (deutsch) - Auto-generated method stub
+		// TODO (branstaetter) - Auto-generated method stub
 		throw new java.lang.NoSuchMethodError();	
 	}
 

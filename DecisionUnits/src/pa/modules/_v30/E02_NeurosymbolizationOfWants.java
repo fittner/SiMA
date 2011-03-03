@@ -23,7 +23,7 @@ import du.itf.sensors.clsStaminaSystem;
 import du.itf.sensors.clsStomachTension;
 
 /**
- * DOCUMENT (deutsch) - insert description 
+ * DOCUMENT (muchitsch) - insert description 
  * 
  * @author deutsch
  * 11.08.2009, 12:12:02
@@ -33,7 +33,7 @@ public class E02_NeurosymbolizationOfWants extends clsModuleBase implements I1_1
 	public static final String P_MODULENUMBER = "02";
 	
 	/**
-	 * DOCUMENT (deutsch) - insert description 
+	 * DOCUMENT (muchitsch) - insert description 
 	 * 
 	 * @author deutsch
 	 * 03.03.2011, 15:55:32
@@ -187,7 +187,7 @@ public class E02_NeurosymbolizationOfWants extends clsModuleBase implements I1_1
 	 */
 	@Override
 	protected void process_draft() {
-		// TODO (deutsch) - Auto-generated method stub
+		// TODO (muchitsch) - Auto-generated method stub
 		throw new java.lang.NoSuchMethodError();
 	}
 
@@ -200,7 +200,7 @@ public class E02_NeurosymbolizationOfWants extends clsModuleBase implements I1_1
 	 */
 	@Override
 	protected void process_final() {
-		// TODO (deutsch) - Auto-generated method stub
+		// TODO (muchitsch) - Auto-generated method stub
 		throw new java.lang.NoSuchMethodError();
 	}
 
