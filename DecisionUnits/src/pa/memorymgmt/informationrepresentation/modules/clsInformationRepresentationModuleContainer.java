@@ -7,7 +7,7 @@
 package pa.memorymgmt.informationrepresentation.modules;
 
 import pa.memorymgmt.informationrepresentation.clsSearchSpaceHandler;
-import pa.modules.clsModuleContainer;
+//import pa.modules._v19.clsModuleContainer;
 
 /**
  * DOCUMENT (zeilinger) - insert description 
@@ -17,7 +17,7 @@ import pa.modules.clsModuleContainer;
  * 
  */
 public class clsInformationRepresentationModuleContainer {
-	protected clsModuleContainer moEnclosingContainer;
+	//protected clsModuleContainer moEnclosingContainer;
 	protected clsSearchSpaceHandler moSearchSpaceHandler; 
 	/**
 	 * DOCUMENT (zeilinger) - insert description 
@@ -28,9 +28,9 @@ public class clsInformationRepresentationModuleContainer {
 	 *
 	 * @param object
 	 */
-	public clsInformationRepresentationModuleContainer(clsModuleContainer poModuleContainer, 
+	public clsInformationRepresentationModuleContainer(//clsModuleContainer poModuleContainer, 
 								clsSearchSpaceHandler poSearchSpaceHandler, String poSearchMethod) {
-		moEnclosingContainer = poModuleContainer;
+		//moEnclosingContainer = poModuleContainer;
 		moSearchSpaceHandler = poSearchSpaceHandler; 
 	}
 

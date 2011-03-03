@@ -19,7 +19,8 @@ public class M01_InformationRepresentationMgmt extends clsInformationRepresentat
 	public M02_PrimaryInformationMgmt moM02PrimaryInformationMgmt;
 	
 	public M01_InformationRepresentationMgmt(clsSearchSpaceHandler poSearchSpaceHandler, String poSearchMethod){
-		super(null, poSearchSpaceHandler, poSearchMethod);
+//		super(null, poSearchSpaceHandler, poSearchMethod);
+		super(poSearchSpaceHandler, poSearchMethod);
 		moKB01SecondaryDataStructureMgmt = new KB01_SecondaryDataStructureMgmt(this, poSearchSpaceHandler, poSearchMethod); 
 		moM02PrimaryInformationMgmt = new M02_PrimaryInformationMgmt(this, poSearchSpaceHandler, poSearchMethod); 
 	}

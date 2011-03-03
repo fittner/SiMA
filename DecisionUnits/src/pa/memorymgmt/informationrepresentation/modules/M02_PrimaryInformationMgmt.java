@@ -31,7 +31,8 @@ public class M02_PrimaryInformationMgmt extends clsInformationRepresentationModu
 	 */
 	public M02_PrimaryInformationMgmt(
 			clsInformationRepresentationModuleContainer poInformationRepresentationModulesContainer, clsSearchSpaceHandler poSearchSpaceHandler, String poSearchMethod) {
-		super(null, poSearchSpaceHandler, poSearchMethod);
+//		super(null, poSearchSpaceHandler, poSearchMethod);
+		super(poSearchSpaceHandler, poSearchMethod);
 		moKB02InternalPerceptionMgmt = new KB02_InternalPerceptionMgmt(poInformationRepresentationModulesContainer, poSearchSpaceHandler, poSearchMethod);
 		moKB03ExternalPerceptionMgmt = new KB03_ExternalPerceptionMgmt(poInformationRepresentationModulesContainer, poSearchSpaceHandler, poSearchMethod); 
 	}
