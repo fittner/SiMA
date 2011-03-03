@@ -7,6 +7,7 @@
 package inspectors.mind.pa._v19;
 
 import java.awt.BorderLayout;
+import pa._v19.clsProcessor;
 import java.lang.reflect.Field;
 
 import javax.swing.Box;
@@ -63,7 +64,7 @@ public class clsPsychoAnalysisInspector extends Inspector implements TreeSelecti
 		//set root tree manually
 		DefaultMutableTreeNode root = new DefaultMutableTreeNode("Psychic Apparatus");
 		//grab the top element of the top-down design 
-		G00_PsychicApparatus oPsyApp = poPA.getProcessor().getPsychicApparatus();
+		G00_PsychicApparatus oPsyApp = ((clsProcessor)poPA.getProcessor()).getPsychicApparatus();
 		//build a tree with all members that start either with moC for clsModuleContainer or moE for clsModuleBase
 		getTree( oPsyApp, root );
 		addKnowledge(oPsyApp, root);
@@ -178,7 +179,7 @@ public class clsPsychoAnalysisInspector extends Inspector implements TreeSelecti
 		//if (node.isLeaf()) {
 			moContentPane.remove(moContent);
 			moContent = clsInspectorMappingPA.getPAInspector( moOriginalInspector, moWrapper, moGuiState, 
-											moPA.getProcessor().getPsychicApparatus(), nodeInfo.toString(), moModuleTree);
+											((clsProcessor)moPA.getProcessor()).getPsychicApparatus(), nodeInfo.toString(), moModuleTree);
 			moContentPane.add(moContent);
 			moContentPane.setViewportView(moContent);
 			moContentPane.repaint();

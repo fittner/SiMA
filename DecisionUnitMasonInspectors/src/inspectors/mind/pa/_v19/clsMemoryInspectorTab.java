@@ -23,6 +23,7 @@ import javax.swing.tree.MutableTreeNode;
 import pa.clsPsychoAnalysis;
 
 import pa.modules._v19.G00_PsychicApparatus;
+import pa._v19.clsProcessor;
 
 import sim.display.GUIState;
 import sim.portrayal.Inspector;
@@ -78,7 +79,7 @@ public class clsMemoryInspectorTab extends Inspector implements TreeSelectionLis
 		root.add(oRootChild);
 		
 		//grab the top element of the top-down design 
-		G00_PsychicApparatus oPsyApp = poPA.getProcessor().getPsychicApparatus();
+		G00_PsychicApparatus oPsyApp = ((clsProcessor)poPA.getProcessor()).getPsychicApparatus();
 		//build a tree with all members that start either with moC for clsModuleContainer or moE for clsModuleBase
 		getTree( oPsyApp, oRootChild );
 		
@@ -222,7 +223,7 @@ public class clsMemoryInspectorTab extends Inspector implements TreeSelectionLis
 		
 		moContentPane.remove(moContent);
 		moContent = clsInspectorMappingPA.getPAInspector( moOriginalInspector, moWrapper, moGuiState, 
-										moPA.getProcessor().getPsychicApparatus(), nodeInfo.toString(), moModuleTree);
+										((clsProcessor)moPA.getProcessor()).getPsychicApparatus(), nodeInfo.toString(), moModuleTree);
 		moContentPane.add(moContent);
 		moContentPane.setViewportView(moContent);
 		moContentPane.repaint();
