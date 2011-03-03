@@ -1,11 +1,12 @@
 /**
- * clsE05DriveTiming.java: DecisionUnitMasonInspectors - inspectors.mind.pa
+ * clsMatchController.java: DecisionUnitMasonInspectors - inspectors.mind.pa
  * 
  * @author langr
- * 23.12.2009, 10:42:35
+ * 04.11.2009, 18:54:38
  */
-package inspectors.mind.pa;
+package inspectors.mind.pa._v19;
 
+import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
@@ -24,6 +25,7 @@ import org.jfree.ui.RectangleInsets;
 
 import pa.interfaces.itfTimeChartInformationContainer;
 import pa.tools.clsPair;
+
 import sim.display.GUIState;
 import sim.portrayal.Inspector;
 import sim.portrayal.LocationWrapper;
@@ -32,10 +34,10 @@ import sim.portrayal.LocationWrapper;
  * DOCUMENT (langr) - insert description 
  * 
  * @author langr
- * 23.12.2009, 10:42:35
+ * 04.11.2009, 18:54:38
  * 
  */
-public class clsE05DriveTiming  extends Inspector{
+public class clsTimingDiagramInspector extends Inspector{
 
 	private static final long serialVersionUID = 7987322176593478683L;
 
@@ -47,10 +49,10 @@ public class clsE05DriveTiming  extends Inspector{
 	private HashMap<String, XYSeries> moSeries;
 	private ArrayList<String> moFirstOrder;
 	
-	private long moCurrentTime;
+	private int moCurrentTime;
 	private int mnHistoryLength;
     
-    public clsE05DriveTiming(sim.portrayal.Inspector originalInspector,
+    public clsTimingDiagramInspector(sim.portrayal.Inspector originalInspector,
             LocationWrapper wrapper,
             GUIState guiState,
             itfTimeChartInformationContainer poTimeingContainer,
@@ -70,9 +72,8 @@ public class clsE05DriveTiming  extends Inspector{
     	setLayout(new FlowLayout(FlowLayout.LEFT));
     	add(moChartPanel);
     }
-    
 
-    private void initChart(String poChartName) {
+	private void initChart(String poChartName) {
 		
 		moDataset = new XYSeriesCollection();
 		
@@ -84,16 +85,10 @@ public class clsE05DriveTiming  extends Inspector{
 		
 		XYSeries oTemp1 = new XYSeries("");
 		oTemp1.setMaximumItemCount(mnHistoryLength);
-		oTemp1.add(moCurrentTime, -0.1);
-		moSeries.put("-0.1", oTemp1);
+		oTemp1.add(moCurrentTime, -1);
+		moSeries.put("", oTemp1);
 		moDataset.addSeries(oTemp1);
-		
-		XYSeries oTemp2 = new XYSeries("");
-		oTemp2.setMaximumItemCount(mnHistoryLength);
-		oTemp2.add(moCurrentTime, 1.1);
-		moSeries.put("1.1", oTemp2);
-		moDataset.addSeries(oTemp2);
-		
+			
 		for (clsPair<String, Double> c : oTimingValues) {
 			XYSeries oTemp = new XYSeries(c.a);
 			oTemp.setMaximumItemCount(mnHistoryLength);
@@ -104,13 +99,13 @@ public class clsE05DriveTiming  extends Inspector{
 			
 			oInputOrder += "\n" + nOffeset + ": " + c.a;
 			
-			//nOffeset+=2;
+			nOffeset+=2;
 		}
 		
         JFreeChart oChartPanel = ChartFactory.createXYLineChart(
                 poChartName,     // chart title
                 "Steps",               // domain axis label
-                "Affects",                  // range axis label
+                "Probes",                  // range axis label
                 moDataset,                  // data
                 PlotOrientation.VERTICAL, // orientation
                 true,                     // include legend
@@ -123,21 +118,42 @@ public class clsE05DriveTiming  extends Inspector{
    
      // get a reference to the plot for further customisation...
         XYPlot plot = (XYPlot) oChartPanel.getPlot();
-        plot.getRenderer().setSeriesPaint(0, Color.white); 
-        plot.getRenderer().setSeriesPaint(1, Color.white); 
         plot.setAxisOffset(new RectangleInsets(5.0, 5.0, 5.0, 5.0));
         plot.setDomainGridlinePaint(Color.black);
-        plot.setRangeGridlinePaint(Color.black);
+        plot.setRangeGridlinePaint(Color.white);
         plot.setBackgroundPaint(Color.white);
-                
-     // change the auto tick unit selection to integer units only...
+        
+        plot.getRenderer().setSeriesPaint(0, Color.white); 
+        plot.getRenderer().setSeriesPaint(1, Color.red);
+        plot.getRenderer().setSeriesPaint(2, Color.orange);
+        plot.getRenderer().setSeriesPaint(3, new Color(204, 51, 102));
+        plot.getRenderer().setSeriesPaint(4, new Color(153, 51, 0));
+        plot.getRenderer().setSeriesPaint(5, new Color(255, 153, 0));
+        
+        plot.getRenderer().setSeriesStroke(1, new BasicStroke(
+                1.0f, BasicStroke.CAP_SQUARE, BasicStroke.JOIN_BEVEL, 
+                1.0f, new float[] {1.0f, 1.0f}, 0.0f));
+        plot.getRenderer().setSeriesStroke(2, new BasicStroke(
+        		1.0f, BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND,
+                1.0f, new float[] {2.0f, 2.0f}, 0.0f)); 
+        plot.getRenderer().setSeriesStroke(3, new BasicStroke(
+                1.0f, BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND, 
+                1.0f, new float[] {3.0f, 3.0f}, 0.0f));
+        plot.getRenderer().setSeriesStroke(4, new BasicStroke(
+                1.0f, BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND, 
+                1.0f, new float[] {4.0f, 4.0f}, 0.0f));
+        plot.getRenderer().setSeriesStroke(5, new BasicStroke(
+                1.0f, BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND, 
+                1.0f, new float[] {5.0f, 5.0f}, 0.0f));
+      
+        // change the auto tick unit selection to integer units only...
         NumberAxis rangeAxis = (NumberAxis) plot.getRangeAxis();
         rangeAxis.setStandardTickUnits(NumberAxis.createIntegerTickUnits());
         
         moChartPanel = new ChartPanel(oChartPanel);
-       // moChartPanel.setFillZoomRectangle(true);
+        moChartPanel.setFillZoomRectangle(true);
         //chartPanel.setMouseWheelEnabled(true);
-        moChartPanel.setPreferredSize(new Dimension(400, 600));
+        moChartPanel.setPreferredSize(new Dimension(600, 600));
 	}
 
 	/* (non-Javadoc)
@@ -150,17 +166,17 @@ public class clsE05DriveTiming  extends Inspector{
 	@Override
 	public void updateInspector() {
 		moCurrentTime += 1;
-
+		
 		ArrayList<clsPair<String, Double>> oTimingData = moTimeingContainer.getTimeChartData();
-		int nOffeset=0;
-
-		moSeries.get("-0.1").add(moCurrentTime, -0.1 );
-		moSeries.get("1.1").add(moCurrentTime, 1.1 );
+		
+		moSeries.get("").add(moCurrentTime, -1 );
+		int nOffset=0;
+		
 		for (clsPair<String, Double> oProbe : oTimingData) {
-			
-			moSeries.get(oProbe.a).add(moCurrentTime, oProbe.b + nOffeset );
-			//nOffeset+=2;
+			moSeries.get(oProbe.a).add(moCurrentTime, oProbe.b + nOffset );
+			nOffset+=2;
 		}
+		
 		this.repaint();
 		
 	}

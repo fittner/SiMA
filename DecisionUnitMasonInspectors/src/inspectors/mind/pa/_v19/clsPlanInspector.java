@@ -4,7 +4,7 @@
  * @author langr
  * 25.10.2009, 16:17:03
  */
-package inspectors.mind.pa;
+package inspectors.mind.pa._v19;
 
 import java.awt.BorderLayout;
 import java.awt.Color;

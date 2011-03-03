@@ -4,7 +4,7 @@
  * @author langr
  * 13.10.2009, 20:56:53
  */
-package inspectors.mind.pa;
+package inspectors.mind.pa._v19;
 
 import java.awt.Color;
 import java.awt.Dimension;
@@ -24,7 +24,7 @@ import org.jfree.chart.renderer.category.LayeredBarRenderer;
 import org.jfree.data.category.DefaultCategoryDataset;
 
 import pa.memorymgmt.datatypes.clsDriveMesh;
-import pa.modules.E05_GenerationOfAffectsForDrives;
+import pa.modules._v19.E05_GenerationOfAffectsForDrives;
 
 import sim.display.GUIState;
 import sim.portrayal.Inspector;

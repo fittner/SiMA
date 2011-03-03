@@ -4,7 +4,7 @@
  * @author andi
  * 17.09.2009, 16:48:04
  */
-package inspectors.mind.pa;
+package inspectors.mind.pa._v19;
 
 import java.awt.BorderLayout;
 //import java.awt.GradientPaint;
@@ -17,7 +17,7 @@ import org.jfree.chart.title.TextTitle;
 import org.jfree.data.category.CategoryDataset;
 import org.jfree.chart.plot.SpiderWebPlot;
 
-import pa.modules.E26_DecisionMaking;
+import pa.modules._v19.E26_DecisionMaking;
 import sim.display.GUIState;
 import sim.portrayal.Inspector;
 import sim.portrayal.LocationWrapper;

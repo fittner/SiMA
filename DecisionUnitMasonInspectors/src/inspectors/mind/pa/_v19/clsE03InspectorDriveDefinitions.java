@@ -4,13 +4,13 @@
  * @author langr
  * 28.09.2009, 19:10:55
  */
-package inspectors.mind.pa;
+package inspectors.mind.pa._v19;
 
 import java.awt.BorderLayout;
 import java.util.ArrayList;
 
 import pa.loader.clsTemplateDrive;
-import pa.modules.E03_GenerationOfDrives;
+import pa.modules._v19.E03_GenerationOfDrives;
 import pa.tools.clsPair;
 import sim.display.GUIState;
 import sim.portrayal.Inspector;

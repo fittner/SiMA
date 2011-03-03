@@ -4,9 +4,9 @@
  * @author langr
  * 06.10.2009, 18:36:23
  */
-package inspectors.mind.pa;
+package inspectors.mind.pa._v19;
 
-import pa.modules.E03_GenerationOfDrives;
+import pa.modules._v19.E03_GenerationOfDrives;
 import sim.display.GUIState;
 import sim.portrayal.LocationWrapper;
 import sim.util.gui.HTMLBrowser;

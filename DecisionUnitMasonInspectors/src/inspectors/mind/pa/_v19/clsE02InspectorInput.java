@@ -4,7 +4,7 @@
  * @author langr
  * 13.08.2009, 01:46:21
  */
-package inspectors.mind.pa;
+package inspectors.mind.pa._v19;
 
 import java.awt.BorderLayout;
 import java.util.HashMap;
@@ -12,7 +12,7 @@ import java.util.HashMap;
 import du.enums.eSensorIntType;
 import du.itf.sensors.clsDataBase;
 
-import pa.modules.E02_NeurosymbolizationOfNeeds;
+import pa.modules._v19.E02_NeurosymbolizationOfNeeds;
 import sim.display.GUIState;
 import sim.portrayal.Inspector;
 import sim.portrayal.LocationWrapper;

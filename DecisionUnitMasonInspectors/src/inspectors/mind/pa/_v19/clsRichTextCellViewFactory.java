@@ -4,7 +4,7 @@
  * @author langr
  * 16.10.2009, 00:44:32
  */
-package inspectors.mind.pa;
+package inspectors.mind.pa._v19;
 
 
 import org.jgraph.graph.DefaultCellViewFactory;

@@ -4,15 +4,15 @@
  * @author langr
  * 13.08.2009, 01:36:00
  */
-package inspectors.mind.pa;
+package inspectors.mind.pa._v19;
 
 import javax.swing.JTree;
 
-import inspectors.mind.pa.functionalmodel.clsPAInspectorFunctional;
+import inspectors.mind.pa._v19.functionalmodel.clsPAInspectorFunctional;
 import pa.datatypes.clsSecondaryInformation;
 import pa.loader.plan.clsPlanBaseMesh;
 import pa.loader.scenario.clsScenarioBaseMesh;
-import pa.modules.G00_PsychicApparatus;
+import pa.modules._v19.G00_PsychicApparatus;
 import sim.display.GUIState;
 import sim.portrayal.Inspector;
 import sim.portrayal.LocationWrapper;

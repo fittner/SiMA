@@ -4,7 +4,7 @@
  * @author langr
  * 13.08.2009, 01:47:14
  */
-package inspectors.mind.pa;
+package inspectors.mind.pa._v19;
 
 import java.awt.BorderLayout;
 
@@ -13,7 +13,7 @@ import javax.swing.BoxLayout;
 import javax.swing.JLabel;
 import javax.swing.JTree;
 
-import pa.modules.E02_NeurosymbolizationOfNeeds;
+import pa.modules._v19.E02_NeurosymbolizationOfNeeds;
 import sim.display.GUIState;
 import sim.portrayal.Inspector;
 import sim.portrayal.LocationWrapper;

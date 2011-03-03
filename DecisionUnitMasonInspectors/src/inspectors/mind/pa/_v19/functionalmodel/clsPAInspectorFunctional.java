@@ -4,7 +4,7 @@
  * @author langr
  * 18.10.2009, 15:08:13
  */
-package inspectors.mind.pa.functionalmodel;
+package inspectors.mind.pa._v19.functionalmodel;
 
 import java.awt.BorderLayout;
 import java.awt.Color;

@@ -4,7 +4,7 @@
  * @author deutsch
  * 22.10.2009, 12:13:05
  */
-package inspectors.mind.pa.functionalmodel;
+package inspectors.mind.pa._v19.functionalmodel;
 
 /**
  * DOCUMENT (deutsch) - insert description 

@@ -4,7 +4,7 @@
  * @author deutsch
  * 22.10.2009, 18:52:19
  */
-package inspectors.mind.pa.functionalmodel;
+package inspectors.mind.pa._v19.functionalmodel;
 
 import org.jgraph.graph.DefaultGraphCell;
 

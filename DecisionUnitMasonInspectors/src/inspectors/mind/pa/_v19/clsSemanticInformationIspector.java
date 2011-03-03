@@ -4,7 +4,7 @@
  * @author muchitsch
  * 24.10.2009, 23:58:33
  */
-package inspectors.mind.pa;
+package inspectors.mind.pa._v19;
 
 
 import java.awt.BorderLayout;

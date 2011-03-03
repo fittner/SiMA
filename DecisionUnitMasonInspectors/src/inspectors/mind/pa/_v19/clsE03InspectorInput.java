@@ -4,13 +4,13 @@
  * @author langr
  * 06.10.2009, 18:36:01
  */
-package inspectors.mind.pa;
+package inspectors.mind.pa._v19;
 
 import java.awt.BorderLayout;
 import java.util.HashMap;
 import java.util.Map;
 
-import pa.modules.E03_GenerationOfDrives;
+import pa.modules._v19.E03_GenerationOfDrives;
 import sim.display.GUIState;
 import sim.portrayal.Inspector;
 import sim.portrayal.LocationWrapper;

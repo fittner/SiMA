@@ -4,7 +4,7 @@
  * @author muchitsch
  * 20.07.2010, 14:50:56
  */
-package inspectors.mind.pa;
+package inspectors.mind.pa._v19;
 
 import java.awt.BorderLayout;
 import java.lang.reflect.Field;
@@ -22,7 +22,7 @@ import javax.swing.tree.MutableTreeNode;
 
 import pa.clsPsychoAnalysis;
 
-import pa.modules.G00_PsychicApparatus;
+import pa.modules._v19.G00_PsychicApparatus;
 
 import sim.display.GUIState;
 import sim.portrayal.Inspector;
