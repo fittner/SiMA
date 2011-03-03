@@ -6,7 +6,6 @@
  */
 package pa;
 
-import pa._v19.clsProcessor;
 import config.clsBWProperties;
 import decisionunit.clsBaseDecisionUnit;
 import du.enums.eDecisionType;
@@ -21,7 +20,9 @@ import du.enums.eDecisionType;
 public class clsPsychoAnalysis extends clsBaseDecisionUnit {
 	public static final String P_PROCESSOR = "processor";
 	public static final String P_VERSION = "version";
+	public static final String P_MODELVERSION = "modelversion";
 	
+	private static final boolean mnUseOld = true;
 	private itfProcessor moProcessor;
 	
 	public clsPsychoAnalysis(String poPrefix, clsBWProperties poProp) {
@@ -35,16 +36,31 @@ public class clsPsychoAnalysis extends clsBaseDecisionUnit {
 		
 		clsBWProperties oProp = new clsBWProperties();
 		
-		oProp.putAll( clsProcessor.getDefaultProperties(pre+P_PROCESSOR) );
 		oProp.setProperty( pre+P_VERSION , 1);
-				
+
+		if (mnUseOld) {
+			oProp.putAll( pa._v19.clsProcessor.getDefaultProperties(pre+P_PROCESSOR) );
+			oProp.setProperty( pre+P_MODELVERSION, "v19");
+		} else {
+			oProp.putAll( pa._v30.clsProcessor.getDefaultProperties(pre+P_PROCESSOR) );
+			oProp.setProperty( pre+P_MODELVERSION, "v30");
+		}
+		
 		return oProp;
 	}	
 	
 	private void applyProperties(String poPrefix, clsBWProperties poProp) {
 		String pre = clsBWProperties.addDot(poPrefix);
-	
-		moProcessor = new clsProcessor(pre+P_PROCESSOR, poProp);
+	 
+		String oModelVersion = poProp.getProperty(P_MODELVERSION);
+		
+		if (oModelVersion == "v19") {	
+			moProcessor = new pa._v19.clsProcessor(pre+P_PROCESSOR, poProp);
+		} else if (oModelVersion == "v30") {
+			moProcessor = new pa._v30.clsProcessor(pre+P_PROCESSOR, poProp);
+		} else {
+			
+		}
 
 	}
 		
