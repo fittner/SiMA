@@ -6,6 +6,7 @@
  */
 package pa;
 
+import pa._v19.clsProcessor;
 import config.clsBWProperties;
 import decisionunit.clsBaseDecisionUnit;
 import du.enums.eDecisionType;
