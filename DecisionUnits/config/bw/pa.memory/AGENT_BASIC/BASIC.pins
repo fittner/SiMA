@@ -1,4 +1,4 @@
-; Wed Nov 03 10:51:55 CET 2010
+; Mon Mar 07 20:22:50 CET 2011
 ; 
 ;+ (version "3.4.4")
 ;+ (build "Build 579")
@@ -1114,7 +1114,7 @@
 
 ([TP%3ASENSOR_EXT%3AVISION%3ACOLOR%3ABLACK] of  COLOR
 
-	(value "#000000"))
+	(value "#0"))
 
 ([TP%3ASENSOR_EXT%3AVISION%3ACOLOR%3ABLUE] of  COLOR
 
