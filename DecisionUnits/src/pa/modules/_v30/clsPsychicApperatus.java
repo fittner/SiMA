@@ -22,7 +22,7 @@ import pa.memorymgmt.clsKnowledgeBaseHandler;
  */
 public class clsPsychicApperatus {
 	public E01_SensorsMetabolism moE01_SensorsMetabolism;
-	public E02_NeurosymbolizationOfWants moE02_NeurosymbolizationOfWants;
+	public E02_NeurosymbolizationOfNeeds moE02_NeurosymbolizationOfWants;
 	public E03_GenerationOfSelfPreservationDrives moE03_GenerationOfSelfPreservationDrives;
 	public E04_FusionOfSelfPreservationDrives moE04_FusionOfSelfPreservationDrives;
 	public E05_AccumulationOfAffectsForSelfPreservationDrives moE05_AccumulationOfAffectsForSelfPreservationDrives;
@@ -87,7 +87,7 @@ public class clsPsychicApperatus {
 		clsBWProperties oProp = new clsBWProperties();
 		
 		oProp.putAll( E01_SensorsMetabolism.getDefaultProperties( pre + E01_SensorsMetabolism.P_MODULENUMBER ));
-		oProp.putAll( E02_NeurosymbolizationOfWants.getDefaultProperties( pre + E02_NeurosymbolizationOfWants.P_MODULENUMBER ));
+		oProp.putAll( E02_NeurosymbolizationOfNeeds.getDefaultProperties( pre + E02_NeurosymbolizationOfNeeds.P_MODULENUMBER ));
 		oProp.putAll( E03_GenerationOfSelfPreservationDrives.getDefaultProperties( pre + E03_GenerationOfSelfPreservationDrives.P_MODULENUMBER ));
 		oProp.putAll( E04_FusionOfSelfPreservationDrives.getDefaultProperties( pre + E04_FusionOfSelfPreservationDrives.P_MODULENUMBER ));
 		oProp.putAll( E05_AccumulationOfAffectsForSelfPreservationDrives.getDefaultProperties( pre + E05_AccumulationOfAffectsForSelfPreservationDrives.P_MODULENUMBER ));
@@ -139,7 +139,7 @@ public class clsPsychicApperatus {
 		
 		try {
 			moE01_SensorsMetabolism = new E01_SensorsMetabolism(pre + E01_SensorsMetabolism.P_MODULENUMBER, poProp, moModules);
-			moE02_NeurosymbolizationOfWants = new E02_NeurosymbolizationOfWants(pre + E02_NeurosymbolizationOfWants.P_MODULENUMBER, poProp, moModules);
+			moE02_NeurosymbolizationOfWants = new E02_NeurosymbolizationOfNeeds(pre + E02_NeurosymbolizationOfNeeds.P_MODULENUMBER, poProp, moModules);
 			moE03_GenerationOfSelfPreservationDrives = new E03_GenerationOfSelfPreservationDrives(pre + E03_GenerationOfSelfPreservationDrives.P_MODULENUMBER, poProp, moModules);
 			moE04_FusionOfSelfPreservationDrives = new E04_FusionOfSelfPreservationDrives(pre + E04_FusionOfSelfPreservationDrives.P_MODULENUMBER, poProp, moModules);
 			moE05_AccumulationOfAffectsForSelfPreservationDrives = new E05_AccumulationOfAffectsForSelfPreservationDrives(pre + E05_AccumulationOfAffectsForSelfPreservationDrives.P_MODULENUMBER, poProp, moModules);
