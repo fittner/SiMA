@@ -12,7 +12,7 @@ import pa.datatypes.clsPrimaryInformation;
 import pa.memorymgmt.datatypes.clsDriveMesh;
 
 /**
- * DOCUMENT (deutsch) - insert description 
+ * 
  * 
  * @author deutsch
  * 18.05.2010, 14:02:10

@@ -9,7 +9,7 @@ package pa.interfaces.send._v19;
 import java.util.HashMap;
 
 /**
- * DOCUMENT (deutsch) - insert description 
+ * 
  * 
  * @author deutsch
  * 18.05.2010, 12:19:57

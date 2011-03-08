@@ -7,7 +7,7 @@
 package pa.interfaces.send._v19;
 
 /**
- * DOCUMENT (deutsch) - insert description 
+ * 
  * 
  * @author deutsch
  * 18.05.2010, 14:05:44

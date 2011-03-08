@@ -14,7 +14,7 @@ import pa.memorymgmt.datatypes.clsPrimaryDataStructureContainer;
 import pa.tools.clsTripple;
 
 /**
- * DOCUMENT (deutsch) - insert description 
+ * 
  * 
  * @author deutsch
  * 11.08.2009, 14:18:03

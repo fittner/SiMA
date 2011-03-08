@@ -13,7 +13,7 @@ import pa.interfaces.I_BaseInterface;
 import pa.symbolization.representationsymbol.itfSymbol;
 
 /**
- * DOCUMENT (deutsch) - insert description 
+ * 
  * 
  * @author deutsch
  * 11.08.2009, 14:16:46

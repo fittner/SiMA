@@ -13,7 +13,7 @@ import pa.interfaces.I_BaseInterface;
 import du.itf.actions.clsActionCommand;
 
 /**
- * DOCUMENT (deutsch) - insert description 
+ * 
  * 
  * @author deutsch
  * 11.08.2009, 14:53:33

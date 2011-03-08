@@ -12,7 +12,7 @@ import pa.enums.eSymbolExtType;
 import pa.symbolization.representationsymbol.itfSymbol;
 
 /**
- * DOCUMENT (deutsch) - insert description 
+ * 
  * 
  * @author deutsch
  * 18.05.2010, 14:16:31

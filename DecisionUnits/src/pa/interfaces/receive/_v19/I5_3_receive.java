@@ -12,7 +12,7 @@ import pa.interfaces.I_BaseInterface;
 import pa.memorymgmt.datatypes.clsSecondaryDataStructureContainer;
 
 /**
- * DOCUMENT (deutsch) - insert description 
+ * 
  * 
  * @author deutsch
  * 11.08.2009, 14:37:21

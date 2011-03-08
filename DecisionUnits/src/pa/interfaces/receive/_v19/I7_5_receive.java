@@ -9,7 +9,7 @@ package pa.interfaces.receive._v19;
 import pa.interfaces.I_BaseInterface;
 
 /**
- * DOCUMENT (deutsch) - insert description 
+ * 
  * 
  * @author deutsch
  * 27.04.2010, 10:41:56

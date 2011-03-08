@@ -14,7 +14,7 @@ import pa.memorymgmt.datatypes.clsDriveMesh;
 import pa.tools.clsPair;
 
 /**
- * DOCUMENT (deutsch) - insert description 
+ * 
  * 
  * @author deutsch
  * 11.08.2009, 13:59:39

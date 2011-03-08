@@ -11,7 +11,7 @@ import java.util.ArrayList;
 import du.itf.actions.clsActionCommand;
 
 /**
- * DOCUMENT (deutsch) - insert description 
+ * 
  * 
  * @author deutsch
  * 18.05.2010, 14:53:33
