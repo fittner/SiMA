@@ -206,15 +206,20 @@ public class E26_DecisionMaking extends clsModuleBase implements
 		// the decision can be done, that exactly this drive has to be satisfied even there
 		// is no object in the area right now that can be used to do this. Hence the goal 
 		// would be to roam around and find an object that can be used to satisfy the drive. 
-		String oGoalContent = ""; 
-		String oDriveContent = ""; 
+		String oGoalContent = "\n"; 
+		String oDriveContent = "\n"; 
 		clsSecondaryDataStructureContainer oDriveContainer = null; 
 		clsWordPresentation oGoal = null; 
 		ArrayList<clsAssociation> oAssociatedDS = new ArrayList<clsAssociation>();
-
+		//HZ The integer will be passed on by reference => I require an Integer object
+		Integer oMaxDriveDemand =  -1; 
 		//FIXME HZ Actually the highest rated drive content is taken => this is sloppy and has to be evaluated in a later version! 
-		oDriveContainer = getHighestDriveDemand(moDriveList);
-		oDriveContent = ((clsWordPresentation)oDriveContainer.moDataStructure).moContent; 
+		getHighestDriveDemand(oMaxDriveDemand);
+		
+		if( oMaxDriveDemand > -1 ){
+			oDriveContainer = moDriveList.get(oMaxDriveDemand);  
+			oDriveContent = ((clsWordPresentation)oDriveContainer.moDataStructure).moContent; 
+		}
 		
 		for (clsSecondaryDataStructureContainer oExtPerception : moRealityPerception ){
 				// dirty hack -> moRealityPerception only contains the "a" part of the clsPair - look at E24
@@ -286,7 +291,7 @@ public class E26_DecisionMaking extends clsModuleBase implements
 //		}
 		
 		// In case moGoal_output was not filled, the drive with the highest priority used as output
-		if(moGoal_Output.size() == 0){
+		if(moGoal_Output.size() == 0 && !oDriveContent.equals("\n")){
 			oGoalContent = oDriveContent.substring(0,oDriveContent.indexOf(":")) + "||"; 
 			oGoal = (clsWordPresentation)clsDataStructureGenerator.generateDataStructure(eDataType.WP, new clsPair<String, Object>("GOAL", oGoalContent));
 			oAssociatedDS.addAll(moDriveList.get(0).moAssociatedDataStructures); 
@@ -304,20 +309,17 @@ public class E26_DecisionMaking extends clsModuleBase implements
 	 * @param moDriveList2
 	 * @return
 	 */
-	private clsSecondaryDataStructureContainer getHighestDriveDemand(ArrayList<clsSecondaryDataStructureContainer> poDriveList) {
-		int oHighestPriorityIndex = 0; 
+	private void getHighestDriveDemand(Integer poMaxDriveDemand) {
 		eAffectLevel oAffectLevel = eAffectLevel.VERYLOW; 
-		 
-		for(clsSecondaryDataStructureContainer oContainer : poDriveList){
+				 
+		for(clsSecondaryDataStructureContainer oContainer : moDriveList){
 			String [] oContent = ((clsWordPresentation)oContainer.moDataStructure).moContent.split(":"); 
 			
 			if(eAffectLevel.compare(eAffectLevel.valueOf(oContent[1]), oAffectLevel)){
-				oHighestPriorityIndex = poDriveList.indexOf(oContainer); 
+				poMaxDriveDemand = moDriveList.indexOf(oContainer); 
 				oAffectLevel = eAffectLevel.valueOf(oContent[1]); 
 			}
 		}
-		 
-		return poDriveList.get(oHighestPriorityIndex);
 	}
 
 	/* (non-Javadoc)

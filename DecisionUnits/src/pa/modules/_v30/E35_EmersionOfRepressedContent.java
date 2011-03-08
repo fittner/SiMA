@@ -15,7 +15,7 @@ import config.clsBWProperties;
 import du.enums.pa.eContext;
 import pa.interfaces.knowledgebase.itfKnowledgeBaseAccess;
 import pa.interfaces.receive._v30.I2_14_receive;
-import pa.interfaces.receive._v30.I2_6_receive;
+import pa.interfaces.receive._v30.I2_8_receive;
 import pa.interfaces.send._v30.I2_8_send;
 import pa.memory.clsMemory;
 import pa.memorymgmt.clsKnowledgeBaseHandler;
@@ -369,8 +369,8 @@ public class E35_EmersionOfRepressedContent extends clsModuleBase implements I2_
 	@Override
 	public void send_I2_8(
 			ArrayList<clsPair<clsPrimaryDataStructureContainer, clsDriveMesh>> poMergedPrimaryInformation) {
-		((I2_6_receive)moModuleList.get(45)).receive_I2_6(moAttachedRepressed_Output);
-		((I2_6_receive)moModuleList.get(18)).receive_I2_6(moAttachedRepressed_Output);
+		((I2_8_receive)moModuleList.get(45)).receive_I2_8(moAttachedRepressed_Output);
+		((I2_8_receive)moModuleList.get(18)).receive_I2_8(moAttachedRepressed_Output);
 		
 	}
 
@@ -385,7 +385,6 @@ public class E35_EmersionOfRepressedContent extends clsModuleBase implements I2_
 	public void receive_I2_14(
 			ArrayList<clsPrimaryDataStructureContainer> poEnvironmentalTP) {
 		moEnvironmentalTP_Input = (ArrayList<clsPrimaryDataStructureContainer>)deepCopy(poEnvironmentalTP);
-		
 	}
 
 }
