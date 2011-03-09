@@ -26,6 +26,7 @@ import pa.memorymgmt.datatypes.clsDataStructurePA;
 import pa.memorymgmt.datatypes.clsDriveMesh;
 import pa.memorymgmt.datatypes.clsPrimaryDataStructureContainer;
 import pa.memorymgmt.enums.eDataType;
+import pa.storage.clsBlockedContentStorage;
 import pa.tools.clsPair;
 
 /**
@@ -38,6 +39,7 @@ import pa.tools.clsPair;
 public class E35_EmersionOfRepressedContent extends clsModuleBase implements I2_14_receive, I2_8_send, itfKnowledgeBaseAccess {
 	public static final String P_MODULENUMBER = "35";
 	
+	private clsBlockedContentStorage moBlockedContentStorage;
 	private clsKnowledgeBaseHandler moKnowledgeBaseHandler;
 	private clsMemory moMemory;
 	
@@ -54,13 +56,16 @@ public class E35_EmersionOfRepressedContent extends clsModuleBase implements I2_
 	 */
 	public E35_EmersionOfRepressedContent(String poPrefix,
 			clsBWProperties poProp, HashMap<Integer, clsModuleBase> poModuleList,
-			clsKnowledgeBaseHandler poKnowledgeBaseHandler, clsMemory poMemory)
+			clsKnowledgeBaseHandler poKnowledgeBaseHandler, clsMemory poMemory,
+			clsBlockedContentStorage poBlockedContentStorage)
 			throws Exception {
 		super(poPrefix, poProp, poModuleList);
-		applyProperties(poPrefix, poProp);
 		
 		moKnowledgeBaseHandler = poKnowledgeBaseHandler;
 		moMemory = poMemory;
+		moBlockedContentStorage = poBlockedContentStorage;
+
+		applyProperties(poPrefix, poProp);
 	}
 
 	public ArrayList<clsPrimaryDataStructureContainer> moEnvironmentalTP_Input; 

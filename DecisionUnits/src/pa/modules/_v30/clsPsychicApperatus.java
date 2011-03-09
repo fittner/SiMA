@@ -11,6 +11,7 @@ import java.util.HashMap;
 import config.clsBWProperties;
 import pa.memory.clsMemory;
 import pa.memorymgmt.clsKnowledgeBaseHandler;
+import pa.storage.clsBlockedContentStorage;
 import pa.storage.clsLibidoBuffer;
 
 
@@ -70,6 +71,7 @@ public class clsPsychicApperatus {
 	public clsMemory moMemory;
 	public clsKnowledgeBaseHandler moKnowledgeBaseHandler;
 	public clsLibidoBuffer moLibidoBuffer;
+	public clsBlockedContentStorage moBlockedContentStorage;
 	
 	public HashMap<Integer, clsModuleBase> moModules; // list of the modules defined above. needed for references within them. 
 
@@ -80,6 +82,7 @@ public class clsPsychicApperatus {
 		moKnowledgeBaseHandler = poKnowledgeBaseHandler; 
 		
 		moLibidoBuffer = new clsLibidoBuffer();
+		moBlockedContentStorage = new clsBlockedContentStorage();
 			
 		moModules = new HashMap<Integer, clsModuleBase>();
 		
@@ -174,8 +177,8 @@ public class clsPsychicApperatus {
 			moE32_Actuators = new E32_Actuators(pre + E32_Actuators.P_MODULENUMBER, poProp, moModules);
 			moE33_RealityCheck_2 = new E33_RealityCheck_2(pre + E33_RealityCheck_2.P_MODULENUMBER, poProp, moModules);
 			moE34_KnowledgeAboutReality_2 = new E34_KnowledgeAboutReality_2(pre + E34_KnowledgeAboutReality_2.P_MODULENUMBER, poProp, moModules, moKnowledgeBaseHandler);
-			moE35_EmersionOfRepressedContent = new E35_EmersionOfRepressedContent(pre + E35_EmersionOfRepressedContent.P_MODULENUMBER, poProp, moModules, moKnowledgeBaseHandler, moMemory);
-			moE36_RepressionHandler = new E36_RepressionHandler(pre + E36_RepressionHandler.P_MODULENUMBER, poProp, moModules);
+			moE35_EmersionOfRepressedContent = new E35_EmersionOfRepressedContent(pre + E35_EmersionOfRepressedContent.P_MODULENUMBER, poProp, moModules, moKnowledgeBaseHandler, moMemory, moBlockedContentStorage);
+			moE36_RepressionHandler = new E36_RepressionHandler(pre + E36_RepressionHandler.P_MODULENUMBER, poProp, moModules, moBlockedContentStorage);
 			moE37_PrimalRepressionForPerception = new E37_PrimalRepressionForPerception(pre + E37_PrimalRepressionForPerception.P_MODULENUMBER, poProp, moModules);
 			moE38_PrimalRepressionForSelfPreservationDrives = new E38_PrimalRepressionForSelfPreservationDrives(pre + E38_PrimalRepressionForSelfPreservationDrives.P_MODULENUMBER, poProp, moModules);
 			moE39_SeekingSystem_LibidoSource = new E39_SeekingSystem_LibidoSource(pre + E39_SeekingSystem_LibidoSource.P_MODULENUMBER, poProp, moModules, moLibidoBuffer);

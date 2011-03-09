@@ -17,6 +17,7 @@ import pa.interfaces.receive._v30.I4_3_receive;
 import pa.interfaces.send._v30.I4_3_send;
 import pa.memorymgmt.datatypes.clsAssociationDriveMesh;
 import pa.memorymgmt.datatypes.clsPrimaryDataStructureContainer;
+import pa.storage.clsBlockedContentStorage;
 
 /**
  * DOCUMENT (GELBARD) - insert description 
@@ -27,6 +28,8 @@ import pa.memorymgmt.datatypes.clsPrimaryDataStructureContainer;
  */
 public class E36_RepressionHandler extends clsModuleBase implements I4_1_receive, I4_2_receive, I4_3_send {
 	public static final String P_MODULENUMBER = "36";
+	
+	private clsBlockedContentStorage moBlockedContentStorage;
 	
 	/**
 	 * DOCUMENT (GELBARD) - insert description 
@@ -40,11 +43,13 @@ public class E36_RepressionHandler extends clsModuleBase implements I4_1_receive
 	 * @throws Exception
 	 */
 	public E36_RepressionHandler(String poPrefix, clsBWProperties poProp,
-			HashMap<Integer, clsModuleBase> poModuleList) throws Exception {
+			HashMap<Integer, clsModuleBase> poModuleList, clsBlockedContentStorage poBlockedContentStorage) throws Exception {
 		super(poPrefix, poProp, poModuleList);
-		applyProperties(poPrefix, poProp);	
 		
 		moPrimaryInformation = new ArrayList<clsPrimaryDataStructureContainer>();
+		moBlockedContentStorage = poBlockedContentStorage;
+
+		applyProperties(poPrefix, poProp);	
 	}
 
 	ArrayList<clsPrimaryDataStructureContainer> moPrimaryInformation; 
