@@ -16,5 +16,5 @@ import pa.interfaces.I_BaseInterface;
  * 
  */
 public interface D1_4_send extends I_BaseInterface {
-	public void send_D1_4(double prValue);
+	public double send_D1_4();
 }

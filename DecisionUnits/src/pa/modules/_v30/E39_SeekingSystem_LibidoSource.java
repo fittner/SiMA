@@ -12,23 +12,28 @@ import java.util.List;
 import pa.interfaces.receive._v30.I0_1_receive;
 import pa.interfaces.receive._v30.I0_2_receive;
 import pa.interfaces.receive._v30.I1_8_receive;
+import pa.interfaces.send._v30.D1_3_send;
 import pa.interfaces.send._v30.I1_8_send;
+import pa.storage.clsLibidoBuffer;
 import config.clsBWProperties;
 import du.enums.eSensorIntType;
 import du.itf.sensors.clsDataBase;
 
 /**
- * DOCUMENT (muchitsch) - insert description 
+ * DOCUMENT (wendt) - insert description 
  * 
  * @author deutsch
  * 03.03.2011, 15:16:06
  * 
  */
-public class E39_SeekingSystem_LibidoSource extends clsModuleBase implements I0_1_receive, I0_2_receive, I1_8_send {
+public class E39_SeekingSystem_LibidoSource extends clsModuleBase implements I0_1_receive, I0_2_receive, I1_8_send, D1_3_send {
 	public static final String P_MODULENUMBER = "39";
 	
+	private clsLibidoBuffer moLibidoBuffer;
+	private double mrTempLibido;
+	
 	/**
-	 * DOCUMENT (muchitsch) - insert description 
+	 * DOCUMENT (wendt) - insert description 
 	 * 
 	 * @author deutsch
 	 * 03.03.2011, 15:42:22
@@ -39,8 +44,12 @@ public class E39_SeekingSystem_LibidoSource extends clsModuleBase implements I0_
 	 * @throws Exception 
 	 */
 	public E39_SeekingSystem_LibidoSource(String poPrefix,
-			clsBWProperties poProp, HashMap<Integer, clsModuleBase> poModuleList) throws Exception {
+			clsBWProperties poProp, HashMap<Integer, clsModuleBase> poModuleList, clsLibidoBuffer poLibidoBuffer) throws Exception {
 		super(poPrefix, poProp, poModuleList);
+		
+		moLibidoBuffer = poLibidoBuffer;
+		mrTempLibido = 0;
+		
 		applyProperties(poPrefix, poProp);	
 	}
 	public static clsBWProperties getDefaultProperties(String poPrefix) {
@@ -56,6 +65,11 @@ public class E39_SeekingSystem_LibidoSource extends clsModuleBase implements I0_
 	
 		//nothing to do
 	}	
+	
+	private void updateTempLibido() {
+		mrTempLibido = moLibidoBuffer.send_D1_2();
+	}
+	
 	/* (non-Javadoc)
 	 *
 	 * @author deutsch
@@ -65,8 +79,9 @@ public class E39_SeekingSystem_LibidoSource extends clsModuleBase implements I0_
 	 */
 	@Override
 	protected void process_basic() {
-		// TODO (muchitsch) - Auto-generated method stub
-
+		 updateTempLibido();
+		 mrTempLibido -= 0.01;
+		// TODO (wendt) - Auto-generated method stub
 	}
 
 	/* (non-Javadoc)
@@ -78,7 +93,8 @@ public class E39_SeekingSystem_LibidoSource extends clsModuleBase implements I0_
 	 */
 	@Override
 	protected void process_draft() {
-		// TODO (muchitsch) - Auto-generated method stub
+		 updateTempLibido();		
+		// TODO (wendt) - Auto-generated method stub
 
 	}
 
@@ -91,7 +107,8 @@ public class E39_SeekingSystem_LibidoSource extends clsModuleBase implements I0_
 	 */
 	@Override
 	protected void process_final() {
-		// TODO (muchitsch) - Auto-generated method stub
+		 updateTempLibido();		
+		// TODO (wendt) - Auto-generated method stub
 
 	}
 
@@ -105,7 +122,7 @@ public class E39_SeekingSystem_LibidoSource extends clsModuleBase implements I0_
 	@Override
 	protected void send() {
 		send_I1_8(new HashMap<eSensorIntType, clsDataBase>());
-
+		send_D1_3(mrTempLibido);
 	}
 
 	@Override
@@ -137,7 +154,7 @@ public class E39_SeekingSystem_LibidoSource extends clsModuleBase implements I0_
 	 */
 	@Override
 	public void receive_I0_2(List<Object> poData) {
-		// TODO (muchitsch) - Auto-generated method stub
+		// TODO (wendt) - Auto-generated method stub
 		
 	}
 
@@ -150,7 +167,19 @@ public class E39_SeekingSystem_LibidoSource extends clsModuleBase implements I0_
 	 */
 	@Override
 	public void receive_I0_1(List<Object> poData) {
-		// TODO (muchitsch) - Auto-generated method stub
+		// TODO (wendt) - Auto-generated method stub
+		
+	}
+	/* (non-Javadoc)
+	 *
+	 * @author deutsch
+	 * 09.03.2011, 17:32:35
+	 * 
+	 * @see pa.interfaces.send._v30.D1_3_send#send_D1_3(double)
+	 */
+	@Override
+	public void send_D1_3(double prValue) {
+		moLibidoBuffer.receive_D1_3(prValue);
 		
 	}
 

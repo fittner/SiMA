@@ -10,7 +10,9 @@ import java.util.HashMap;
 
 import pa.interfaces.receive._v30.I1_10_receive;
 import pa.interfaces.receive._v30.I1_9_receive;
+import pa.interfaces.send._v30.D1_1_send;
 import pa.interfaces.send._v30.I1_10_send;
+import pa.storage.clsLibidoBuffer;
 
 import config.clsBWProperties;
 
@@ -21,8 +23,11 @@ import config.clsBWProperties;
  * 03.03.2011, 15:18:57
  * 
  */
-public class E41_Libidostasis extends clsModuleBase implements I1_9_receive, I1_10_send {
+public class E41_Libidostasis extends clsModuleBase implements I1_9_receive, I1_10_send, D1_1_send {
 	public static final String P_MODULENUMBER = "41";
+	
+	private clsLibidoBuffer moLibidoBuffer;
+	private double mrTempLibido;
 	
 	/**
 	 * DOCUMENT (deutsch) - insert description 
@@ -36,8 +41,12 @@ public class E41_Libidostasis extends clsModuleBase implements I1_9_receive, I1_
 	 * @throws Exception 
 	 */
 	public E41_Libidostasis(String poPrefix, clsBWProperties poProp,
-			HashMap<Integer, clsModuleBase> poModuleList) throws Exception {
+			HashMap<Integer, clsModuleBase> poModuleList, clsLibidoBuffer poLibidoBuffer) throws Exception {
 		super(poPrefix, poProp, poModuleList);
+		
+		moLibidoBuffer = poLibidoBuffer;
+		mrTempLibido = 0;
+		
 		applyProperties(poPrefix, poProp);	
 	}
 	public static clsBWProperties getDefaultProperties(String poPrefix) {
@@ -60,6 +69,9 @@ public class E41_Libidostasis extends clsModuleBase implements I1_9_receive, I1_
 	@Override
 	protected void setModuleNumber() {mnModuleNumber = Integer.parseInt(P_MODULENUMBER);}
 
+	private void updateTempLibido() {
+		mrTempLibido = moLibidoBuffer.send_D1_2();
+	}
 	/* (non-Javadoc)
 	 *
 	 * @author deutsch
@@ -69,8 +81,8 @@ public class E41_Libidostasis extends clsModuleBase implements I1_9_receive, I1_
 	 */
 	@Override
 	protected void process_basic() {
-		// TODO (deutsch) - Auto-generated method stub
-		
+		 updateTempLibido();
+		 mrTempLibido += 0.01; 
 	}
 
 	/* (non-Javadoc)
@@ -82,6 +94,7 @@ public class E41_Libidostasis extends clsModuleBase implements I1_9_receive, I1_
 	 */
 	@Override
 	protected void process_draft() {
+		 updateTempLibido();
 		// TODO (deutsch) - Auto-generated method stub
 		
 	}
@@ -95,6 +108,7 @@ public class E41_Libidostasis extends clsModuleBase implements I1_9_receive, I1_
 	 */
 	@Override
 	protected void process_final() {
+		 updateTempLibido();
 		// TODO (deutsch) - Auto-generated method stub
 		
 	}
@@ -109,7 +123,7 @@ public class E41_Libidostasis extends clsModuleBase implements I1_9_receive, I1_
 	@Override
 	protected void send() {
 		send_I1_10(new HashMap<String, Double>());
-		
+		send_D1_1(mrTempLibido);
 	}
 
 	/* (non-Javadoc)
@@ -136,6 +150,17 @@ public class E41_Libidostasis extends clsModuleBase implements I1_9_receive, I1_
 	public void receive_I1_9(HashMap<String, Double> poHomeostasisSymbols) {
 		// TODO (deutsch) - Auto-generated method stub
 		
+	}
+	/* (non-Javadoc)
+	 *
+	 * @author deutsch
+	 * 09.03.2011, 17:25:10
+	 * 
+	 * @see pa.interfaces.send._v30.D1_1_send#send_D1_1(double)
+	 */
+	@Override
+	public void send_D1_1(double prValue) {
+		moLibidoBuffer.receive_D1_1(prValue);
 	}
 
 }

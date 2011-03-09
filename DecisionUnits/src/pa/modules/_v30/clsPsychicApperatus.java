@@ -11,6 +11,7 @@ import java.util.HashMap;
 import config.clsBWProperties;
 import pa.memory.clsMemory;
 import pa.memorymgmt.clsKnowledgeBaseHandler;
+import pa.storage.clsLibidoBuffer;
 
 
 /**
@@ -68,6 +69,7 @@ public class clsPsychicApperatus {
 	
 	public clsMemory moMemory;
 	public clsKnowledgeBaseHandler moKnowledgeBaseHandler;
+	public clsLibidoBuffer moLibidoBuffer;
 	
 	public HashMap<Integer, clsModuleBase> moModules; // list of the modules defined above. needed for references within them. 
 
@@ -76,6 +78,9 @@ public class clsPsychicApperatus {
 		
 		moMemory = poMemory;
 		moKnowledgeBaseHandler = poKnowledgeBaseHandler; 
+		
+		moLibidoBuffer = new clsLibidoBuffer();
+			
 		moModules = new HashMap<Integer, clsModuleBase>();
 		
 		applyProperties(poPrefix, poProp);
@@ -173,9 +178,9 @@ public class clsPsychicApperatus {
 			moE36_RepressionHandler = new E36_RepressionHandler(pre + E36_RepressionHandler.P_MODULENUMBER, poProp, moModules);
 			moE37_PrimalRepressionForPerception = new E37_PrimalRepressionForPerception(pre + E37_PrimalRepressionForPerception.P_MODULENUMBER, poProp, moModules);
 			moE38_PrimalRepressionForSelfPreservationDrives = new E38_PrimalRepressionForSelfPreservationDrives(pre + E38_PrimalRepressionForSelfPreservationDrives.P_MODULENUMBER, poProp, moModules);
-			moE39_SeekingSystem_LibidoSource = new E39_SeekingSystem_LibidoSource(pre + E39_SeekingSystem_LibidoSource.P_MODULENUMBER, poProp, moModules);
+			moE39_SeekingSystem_LibidoSource = new E39_SeekingSystem_LibidoSource(pre + E39_SeekingSystem_LibidoSource.P_MODULENUMBER, poProp, moModules, moLibidoBuffer);
 			moE40_NeurosymbolizationOfLibido = new E40_NeurosymbolizationOfLibido(pre + E40_NeurosymbolizationOfLibido.P_MODULENUMBER, poProp, moModules);
-			moE41_Libidostasis = new E41_Libidostasis(pre + E41_Libidostasis.P_MODULENUMBER, poProp, moModules);
+			moE41_Libidostasis = new E41_Libidostasis(pre + E41_Libidostasis.P_MODULENUMBER, poProp, moModules, moLibidoBuffer);
 			moE42_AccumulationOfAffectsForSexualDrives = new E42_AccumulationOfAffectsForSexualDrives(pre + E42_AccumulationOfAffectsForSexualDrives.P_MODULENUMBER, poProp, moModules);
 			moE43_SeparationIntoPartialSexualDrives = new E43_SeparationIntoPartialSexualDrives(pre + E43_SeparationIntoPartialSexualDrives.P_MODULENUMBER, poProp, moModules);
 			moE44_PrimalRepressionForSexualDrives = new E44_PrimalRepressionForSexualDrives(pre + E44_PrimalRepressionForSexualDrives.P_MODULENUMBER, poProp, moModules);
