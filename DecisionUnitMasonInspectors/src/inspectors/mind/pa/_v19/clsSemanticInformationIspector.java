@@ -955,8 +955,8 @@ public class clsSemanticInformationIspector extends Inspector implements ActionL
 	 */
 	private DefaultGraphCell generateGraphCell(DefaultGraphCell poParentCell, clsPrimaryDataStructureContainer poMemoryObject)
 	{
-		clsDataStructurePA oContainerRootDataStructure = poMemoryObject.moDataStructure;
-		ArrayList<clsAssociation> oAssociatedDataStructures =  poMemoryObject.moAssociatedDataStructures;
+		clsDataStructurePA oContainerRootDataStructure = poMemoryObject.getMoDataStructure();
+		ArrayList<clsAssociation> oAssociatedDataStructures =  poMemoryObject.getMoAssociatedDataStructures();
 		
 		//create container root cell
 		DefaultGraphCell oContainerRootCell = createDefaultGraphVertex(oContainerRootDataStructure.toString(), new Color(0xff99CC33) );
@@ -970,9 +970,9 @@ public class clsSemanticInformationIspector extends Inspector implements ActionL
 		//create assosiations
 		for(clsAssociation oContainerAssociations : oAssociatedDataStructures)
 		{
-			if(oContainerRootDataStructure.moDS_ID == oContainerAssociations.moAssociationElementA.moDS_ID)
+			if(oContainerRootDataStructure.getMoDS_ID() == oContainerAssociations.getMoAssociationElementA().getMoDS_ID())
 			{
-				clsDataStructurePA oMemoryObjectB = oContainerAssociations.moAssociationElementB;
+				clsDataStructurePA oMemoryObjectB = oContainerAssociations.getMoAssociationElementB();
 				DefaultGraphCell oTargetCell = generateGraphCell(oContainerRootCell, oMemoryObjectB);
 				//add edge
 				DefaultEdge oEdge = new DefaultEdge("ContAss");
@@ -982,9 +982,9 @@ public class clsSemanticInformationIspector extends Inspector implements ActionL
 				GraphConstants.setLineEnd(oEdge.getAttributes(), GraphConstants.ARROW_DOUBLELINE);
 				GraphConstants.setEndFill(oEdge.getAttributes(), true);
 			}
-			else if(oContainerRootDataStructure.moDS_ID == oContainerAssociations.moAssociationElementB.moDS_ID)
+			else if(oContainerRootDataStructure.getMoDS_ID() == oContainerAssociations.getMoAssociationElementB().getMoDS_ID())
 			{
-				clsDataStructurePA oMemoryObjectA = oContainerAssociations.moAssociationElementA;
+				clsDataStructurePA oMemoryObjectA = oContainerAssociations.getMoAssociationElementA();
 				DefaultGraphCell oTargetCell = generateGraphCell(oContainerRootCell, oMemoryObjectA);
 				//add edge
 				DefaultEdge oEdge = new DefaultEdge("ContAss");
@@ -1009,7 +1009,7 @@ public class clsSemanticInformationIspector extends Inspector implements ActionL
 	 */
 	private DefaultGraphCell generateGraphCell(DefaultGraphCell poParentCell, clsSecondaryDataStructureContainer poMemoryObject)
 	{
-		clsDataStructurePA oContainerRootDataStructure = poMemoryObject.moDataStructure;
+		clsDataStructurePA oContainerRootDataStructure = poMemoryObject.getMoDataStructure();
 		//TODO WP werden neu erzeugt und können daher nicht zu den associations gefunden werden weil ID = -1, vielleicht kommt da mal eine änderung! CM+HZ
 		ArrayList<clsAssociation> oAssociatedDataStructures = new ArrayList(); // poMemoryObject.moAssociatedDataStructures;
 		
@@ -1025,9 +1025,9 @@ public class clsSemanticInformationIspector extends Inspector implements ActionL
 		//create assosiations (siehe weiter oben, wird nicht durchlaufen! da immer leer im SecContainer)
 		for(clsAssociation oContainerAssociations : oAssociatedDataStructures)
 		{
-			if(oContainerRootDataStructure.moDS_ID == oContainerAssociations.moAssociationElementA.moDS_ID)
+			if(oContainerRootDataStructure.getMoDS_ID() == oContainerAssociations.getMoAssociationElementA().getMoDS_ID())
 			{
-				clsDataStructurePA oMemoryObjectB = oContainerAssociations.moAssociationElementB;
+				clsDataStructurePA oMemoryObjectB = oContainerAssociations.getMoAssociationElementB();
 				DefaultGraphCell oTargetCell = generateGraphCell(oContainerRootCell, oMemoryObjectB);
 				//add edge
 				DefaultEdge oEdge = new DefaultEdge("ContAss");
@@ -1037,9 +1037,9 @@ public class clsSemanticInformationIspector extends Inspector implements ActionL
 				GraphConstants.setLineEnd(oEdge.getAttributes(), GraphConstants.ARROW_DOUBLELINE);
 				GraphConstants.setEndFill(oEdge.getAttributes(), true);
 			}
-			else if(oContainerRootDataStructure.moDS_ID == oContainerAssociations.moAssociationElementB.moDS_ID)
+			else if(oContainerRootDataStructure.getMoDS_ID() == oContainerAssociations.getMoAssociationElementB().getMoDS_ID())
 			{
-				clsDataStructurePA oMemoryObjectA = oContainerAssociations.moAssociationElementA;
+				clsDataStructurePA oMemoryObjectA = oContainerAssociations.getMoAssociationElementA();
 				DefaultGraphCell oTargetCell = generateGraphCell(oContainerRootCell, oMemoryObjectA);
 				//add edge
 				DefaultEdge oEdge = new DefaultEdge("ContAss");
@@ -1067,11 +1067,11 @@ public class clsSemanticInformationIspector extends Inspector implements ActionL
 		DefaultGraphCell oDMrootCell = createDefaultGraphVertex(poMemoryObject.toString(), Color.ORANGE);
 		this.moCellList.add(oDMrootCell);
 		
-		for(clsAssociation oDMAssociations : poMemoryObject.moAssociatedContent)
+		for(clsAssociation oDMAssociations : poMemoryObject.getMoAssociatedContent())
 		{
-			if(poMemoryObject.moDS_ID == oDMAssociations.moAssociationElementA.moDS_ID)
+			if(poMemoryObject.getMoDS_ID() == oDMAssociations.getMoAssociationElementA().getMoDS_ID())
 			{
-				clsDataStructurePA oMemoryObjectB = oDMAssociations.moAssociationElementB;
+				clsDataStructurePA oMemoryObjectB = oDMAssociations.getMoAssociationElementB();
 				DefaultGraphCell oTargetCell = generateGraphCell(oDMrootCell, oMemoryObjectB);
 				//add edge
 				DefaultEdge oEdge = new DefaultEdge("DM");
@@ -1081,9 +1081,9 @@ public class clsSemanticInformationIspector extends Inspector implements ActionL
 				GraphConstants.setLineEnd(oEdge.getAttributes(), GraphConstants.ARROW_CLASSIC);
 				GraphConstants.setEndFill(oEdge.getAttributes(), true);
 			}
-			else if(poMemoryObject.moDS_ID == oDMAssociations.moAssociationElementB.moDS_ID)
+			else if(poMemoryObject.getMoDS_ID() == oDMAssociations.getMoAssociationElementB().getMoDS_ID())
 			{
-				clsDataStructurePA oMemoryObjectA = oDMAssociations.moAssociationElementA;
+				clsDataStructurePA oMemoryObjectA = oDMAssociations.getMoAssociationElementA();
 				DefaultGraphCell oTargetCell = generateGraphCell(oDMrootCell, oMemoryObjectA);
 				//add edge
 				DefaultEdge oEdge = new DefaultEdge("DM");
@@ -1203,7 +1203,7 @@ public class clsSemanticInformationIspector extends Inspector implements ActionL
 		
 		//add a cell for every acossiation
 		//TODO could be any data type? now its only to string
-		for(clsSecondaryDataStructure oAssociatedContent : poMemoryObject.moAssociatedContent)
+		for(clsSecondaryDataStructure oAssociatedContent : poMemoryObject.getMoAssociatedContent())
 		{
 			DefaultGraphCell oTargetCell = generateGraphCell(oActRootCell, oAssociatedContent);
 			

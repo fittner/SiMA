@@ -143,7 +143,7 @@ public class _E17_FusionOfExternalPerceptionAndMemoryTraces extends clsModuleBas
 						clsAssociationDriveMesh oAssociation = new clsAssociationDriveMesh(
 									new clsTripple <Integer, eDataType, String>(-1, eDataType.ASSOCIATIONDM, eDataType.ASSOCIATIONDM.toString()), 
 									oDM,
-									(clsPrimaryDataStructure)oEntry.a.moDataStructure); 
+									(clsPrimaryDataStructure)oEntry.a.getMoDataStructure()); 
 						
 						mergeDM(oEntry, oAssociation); 
 			}
@@ -166,14 +166,14 @@ public class _E17_FusionOfExternalPerceptionAndMemoryTraces extends clsModuleBas
 			clsTripple<clsPrimaryDataStructureContainer, clsDriveMesh, ArrayList<clsDriveMesh>> oEntry,
 			clsAssociationDriveMesh poAssociation) {
 		
-			for(clsAssociation oElement : oEntry.a.moAssociatedDataStructures){
-				if(oElement.getLeafElement().moContentType.intern() == poAssociation.getDM().moContentType.intern()){
+			for(clsAssociation oElement : oEntry.a.getMoAssociatedDataStructures()){
+				if(oElement.getLeafElement().getMoContentType().intern() == poAssociation.getDM().getMoContentType().intern()){
 					//TODO Here some calculations of the new pleasure values have to be done
 					return; 
 				}
 			}
 				
-		    oEntry.a.moAssociatedDataStructures.add(poAssociation); 
+		    oEntry.a.getMoAssociatedDataStructures().add(poAssociation); 
 	}
 
 	

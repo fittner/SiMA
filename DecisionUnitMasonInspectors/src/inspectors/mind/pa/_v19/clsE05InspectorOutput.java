@@ -86,8 +86,8 @@ public class clsE05InspectorOutput extends Inspector{
 		for(clsDriveMesh oDriveTP : moE05AffectsForDrives.moDriveList) {
 				clsDriveMesh oDriveMeshLife = oDriveTP; 
 				clsDriveMesh oDriveMeshDeath = moE05AffectsForDrives.moDriveList.get(moE05AffectsForDrives.moDriveList.indexOf(oDriveTP)+1);
-				moDataset.addValue( oDriveMeshLife.getPleasure(), "Drive (Live)", oDriveMeshLife.moContent);
-				moDataset.addValue( oDriveMeshDeath.getPleasure(), "Drive (Death)", oDriveMeshDeath.moContent);
+				moDataset.addValue( oDriveMeshLife.getPleasure(), "Drive (Live)", oDriveMeshLife.getMoContent());
+				moDataset.addValue( oDriveMeshDeath.getPleasure(), "Drive (Death)", oDriveMeshDeath.getMoContent());
 				
 				if(moE05AffectsForDrives.moDriveList.indexOf(oDriveTP)+1 == moE05AffectsForDrives.moDriveList.size()-1){
 					break;
@@ -172,8 +172,8 @@ public class clsE05InspectorOutput extends Inspector{
 			clsDriveMesh oDriveMeshLife = oDriveTP; 
 			clsDriveMesh oDriveMeshDeath = moE05AffectsForDrives.moDriveList.get(moE05AffectsForDrives.moDriveList.indexOf(oDriveTP)+1);
 
-			moDataset.addValue( oDriveMeshLife.getPleasure(), "Drive (Live)", oDriveMeshLife.moContent);
-			moDataset.addValue( oDriveMeshDeath.getPleasure(), "Drive (Death)", oDriveMeshDeath.moContent);
+			moDataset.addValue( oDriveMeshLife.getPleasure(), "Drive (Live)", oDriveMeshLife.getMoContent());
+			moDataset.addValue( oDriveMeshDeath.getPleasure(), "Drive (Death)", oDriveMeshDeath.getMoContent());
 			
 			if(moE05AffectsForDrives.moDriveList.indexOf(oDriveTP)+1 == moE05AffectsForDrives.moDriveList.size()-1){
 				break;

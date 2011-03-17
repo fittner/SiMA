@@ -38,10 +38,16 @@ import pa.tools.clsPair;
  */
 public class E35_EmersionOfRepressedContent extends clsModuleBase implements I2_14_receive, I2_8_send, itfKnowledgeBaseAccess {
 	public static final String P_MODULENUMBER = "35";
+	public static String P_CONTEXT_SENSTITIVITY = "CONTEXT_SENSITIVITY"; 
 	
 	private clsBlockedContentStorage moBlockedContentStorage;
-	private clsKnowledgeBaseHandler moKnowledgeBaseHandler;
+	private clsKnowledgeBaseHandler moKnowledgeBaseHandler; 
+	private ArrayList<clsPair<Integer, clsDataStructurePA>> moSearchPattern;
 	private clsMemory moMemory;
+	
+	private ArrayList<clsPrimaryDataStructureContainer> moEnvironmentalTP_Input; 
+	private ArrayList<clsPair<clsPrimaryDataStructureContainer, clsDriveMesh>> moAttachedRepressed_Output; 
+	private double mrContextSensitivity = 0.8;
 	
 	/**
 	 * DOCUMENT (wendt) - insert description 
@@ -67,15 +73,6 @@ public class E35_EmersionOfRepressedContent extends clsModuleBase implements I2_
 
 		applyProperties(poPrefix, poProp);
 	}
-
-	public ArrayList<clsPrimaryDataStructureContainer> moEnvironmentalTP_Input; 
-	public ArrayList<clsPair<clsPrimaryDataStructureContainer, clsDriveMesh>> moAttachedRepressed_Output; 
-	
-	private double mrContextSensitivity = 0.8;
-	
-	public static String P_CONTEXT_SENSTITIVITY = "CONTEXT_SENSITIVITY"; 
-	
-	
 
 	public static clsBWProperties getDefaultProperties(String poPrefix) {
 		String pre = clsBWProperties.addDot(poPrefix);
@@ -134,8 +131,8 @@ public class E35_EmersionOfRepressedContent extends clsModuleBase implements I2_
 		ArrayList<clsPrimaryDataStructureContainer> oRetVal = new ArrayList<clsPrimaryDataStructureContainer>(); 
 	
 		for(clsPrimaryDataStructureContainer oContainer : moEnvironmentalTP_Input){
-			ArrayList<clsAssociation> oAssDS = getAssociatedDS(eDataType.DM, oContainer.moDataStructure); 
-			oRetVal.add(new clsPrimaryDataStructureContainer(oContainer.moDataStructure, oAssDS));
+			ArrayList<clsAssociation> oAssDS = getAssociatedDS(eDataType.DM, oContainer.getMoDataStructure()); 
+			oRetVal.add(new clsPrimaryDataStructureContainer(oContainer.getMoDataStructure(), oAssDS));
 		}
 	
 		return oRetVal;
@@ -155,16 +152,17 @@ public class E35_EmersionOfRepressedContent extends clsModuleBase implements I2_
 		moSearchPattern.clear(); 
 		addToSearchPattern(poType, poDS); 
 		
-		HashMap<Integer,ArrayList<clsPair<Double,clsDataStructureContainer>>> oFoundDS = new HashMap<Integer, ArrayList<clsPair<Double,clsDataStructureContainer>>>(); 
+		ArrayList<ArrayList<clsPair<Double,clsDataStructureContainer>>> oSearchResult = 
+							new ArrayList<ArrayList<clsPair<Double,clsDataStructureContainer>>>(); 
 		ArrayList<clsAssociation> oAssDS = new ArrayList<clsAssociation>(); 
 		
 		//FIXME HZ: IndexOutOfBound + NullpointerException should be avoided
 		//HZ 23.08.2010 Actually the best match is taken from the search result =>
 		//      		get(0) *2 
-		oFoundDS = accessKnowledgeBase();
+		accessKnowledgeBase(oSearchResult);
 				
-		if(oFoundDS.size() > 0){
-			oAssDS = oFoundDS.get(0).get(0).b.moAssociatedDataStructures;
+		if(oSearchResult.size() > 0){
+			oAssDS = oSearchResult.get(0).get(0).b.getMoAssociatedDataStructures();
 		}
 			
 		return oAssDS;
@@ -200,15 +198,15 @@ public class E35_EmersionOfRepressedContent extends clsModuleBase implements I2_
 	 */
 	private void calculateCath(clsPrimaryDataStructureContainer poContainer,Entry<clsPrimaryDataStructureContainer, clsMutableDouble> poContextPrim) {
 		
-		eContext oContext = eContext.valueOf(poContextPrim.getKey().moDataStructure.moContentType);
+		eContext oContext = eContext.valueOf(poContextPrim.getKey().getMoDataStructure().getMoContentType());
 		
-		for(clsAssociation oAssociation : poContainer.moAssociatedDataStructures){
+		for(clsAssociation oAssociation : poContainer.getMoAssociatedDataStructures()){
 			//HZ 17.08.2010: The method getLeafElement cannot be used here as the search patterns actually
 			// do not have a data structure ID => in a later version when E16 will be placed in front 
 			// of E15, the patterns already have an ID. 
 			clsDriveMesh oDM = (clsDriveMesh)((clsAssociationDriveMesh)oAssociation).getLeafElement();  
 				
-			if(eContext.valueOf(oDM.moContentType).equals(oContext)){
+			if(eContext.valueOf(oDM.getMoContentType()).equals(oContext)){
 				setCathegories(oDM, poContextPrim.getValue().doubleValue()); 
 			}
 		}
@@ -346,9 +344,8 @@ public class E35_EmersionOfRepressedContent extends clsModuleBase implements I2_
 	 * @see pa.interfaces.knowledgebase.itfKnowledgeBaseAccess#accessKnowledgeBase(java.util.ArrayList)
 	 */
 	@Override
-	public HashMap<Integer,ArrayList<clsPair<Double,clsDataStructureContainer>>> accessKnowledgeBase() {
-		
-		return moKnowledgeBaseHandler.initMemorySearch(moSearchPattern);
+	public void accessKnowledgeBase(ArrayList<ArrayList<clsPair<Double,clsDataStructureContainer>>> poSearchResult) {
+		poSearchResult = moKnowledgeBaseHandler.initMemorySearch(moSearchPattern);
 	}
 
 	/* (non-Javadoc)
@@ -386,6 +383,7 @@ public class E35_EmersionOfRepressedContent extends clsModuleBase implements I2_
 	 * 
 	 * @see pa.interfaces.receive._v30.I2_14_receive#receive_I2_14(java.util.ArrayList)
 	 */
+	@SuppressWarnings("unchecked")
 	@Override
 	public void receive_I2_14(
 			ArrayList<clsPrimaryDataStructureContainer> poEnvironmentalTP) {

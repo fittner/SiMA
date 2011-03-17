@@ -36,9 +36,13 @@ import config.clsBWProperties;
  */
 public class E07_InternalizedRulesHandler extends clsModuleBase implements 
 							I1_5_receive, I2_9_receive, I2_19_receive, I3_1_send, I3_2_send, itfKnowledgeBaseAccess {
-	private clsKnowledgeBaseHandler moKnowledgeBaseHandler;
 	public static final String P_MODULENUMBER = "07";
 	
+	private clsKnowledgeBaseHandler moKnowledgeBaseHandler; 
+	private ArrayList<clsPair<Integer, clsDataStructurePA>> moSearchPattern;
+	
+	private ArrayList<clsPrimaryDataStructureContainer> moPrimaryInformation; 
+
 	/**
 	 * DOCUMENT (GELBARD) - insert description 
 	 * 
@@ -60,9 +64,6 @@ public class E07_InternalizedRulesHandler extends clsModuleBase implements
 		applyProperties(poPrefix, poProp);		
 	}
 
-	ArrayList<clsPrimaryDataStructureContainer> moPrimaryInformation; 
-
-	
 	public static clsBWProperties getDefaultProperties(String poPrefix) {
 		String pre = clsBWProperties.addDot(poPrefix);
 		
@@ -213,8 +214,8 @@ public class E07_InternalizedRulesHandler extends clsModuleBase implements
 	 * @see pa.interfaces.knowledgebase.itfKnowledgeBaseAccess#accessKnowledgeBase(java.util.ArrayList)
 	 */
 	@Override
-	public HashMap<Integer,ArrayList<clsPair<Double,clsDataStructureContainer>>> accessKnowledgeBase() {
-		return moKnowledgeBaseHandler.initMemorySearch(moSearchPattern);
+	public void accessKnowledgeBase(ArrayList<ArrayList<clsPair<Double,clsDataStructureContainer>>> poSearchResult) {
+		poSearchResult.addAll(moKnowledgeBaseHandler.initMemorySearch(moSearchPattern));
 	}
 
 	/* (non-Javadoc)
@@ -228,7 +229,6 @@ public class E07_InternalizedRulesHandler extends clsModuleBase implements
 	public void addToSearchPattern(eDataType oReturnType,
 			clsDataStructurePA poSearchPattern) {
 		// TODO (zeilinger) - Auto-generated method stub
-		
 	}
 
 	/* (non-Javadoc)

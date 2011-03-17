@@ -75,8 +75,8 @@ public class KB01_SecondaryDataStructureMgmt extends clsInformationRepresentatio
 	private clsDataStructureContainer getDataContainer(int poReturnType, clsSecondaryDataStructure poDataStructure) {
 		
 			clsSecondaryDataStructureContainer oDataStructureContainer = new clsSecondaryDataStructureContainer(null, null);
-			oDataStructureContainer.moDataStructure = poDataStructure; 
-			oDataStructureContainer.moAssociatedDataStructures = readOutSearchSpace(poReturnType, poDataStructure); 
+			oDataStructureContainer.setMoDataStructure(poDataStructure); 
+			oDataStructureContainer.setMoAssociatedDataStructures(readOutSearchSpace(poReturnType, poDataStructure)); 
 			
 		return oDataStructureContainer;
 	}

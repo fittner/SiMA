@@ -27,6 +27,9 @@ import pa.symbolization.representationsymbol.itfSymbol;
 public class E11_NeuroSymbolizationEnvironment extends clsModuleBase implements I2_1_receive, I2_2_send {
 	public static final String P_MODULENUMBER = "11";
 	
+	private HashMap<eSensorExtType, clsSensorExtern> moEnvironmentalData;
+	private HashMap<eSymbolExtType, itfSymbol> moSymbolData;
+
 	/**
 	 * DOCUMENT (muchitsch) - insert description 
 	 * 
@@ -44,11 +47,6 @@ public class E11_NeuroSymbolizationEnvironment extends clsModuleBase implements 
 		applyProperties(poPrefix, poProp);
 	}
 
-	HashMap<eSensorExtType, clsSensorExtern> moEnvironmentalData;
-	HashMap<eSymbolExtType, itfSymbol> moSymbolData;
-	
-
-	
 	public static clsBWProperties getDefaultProperties(String poPrefix) {
 		String pre = clsBWProperties.addDot(poPrefix);
 		

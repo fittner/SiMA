@@ -176,12 +176,14 @@ public class E21_ConversionToSecondaryProcess extends clsModuleBase implements I
 		moOrderedResult = new ArrayList<clsTripple<clsDataStructurePA, ArrayList<clsTemplateImage>, ArrayList<clsPair<clsDriveMesh, clsAffect>>>>(); 
 		
 		for(clsPrimaryDataStructureContainer oContainer : moGrantedPerception_Input){
-			HashMap<Integer,ArrayList<clsPair<Double,clsDataStructureContainer>>> oSearchResult = null;
-			HashMap<Integer, clsDataStructurePA> oEvaluatedResult = null; 
+			ArrayList<ArrayList<clsPair<Double,clsDataStructureContainer>>> oSearchResult = 
+						new ArrayList<ArrayList<clsPair<Double,clsDataStructureContainer>>>();
+			ArrayList<clsDataStructurePA> oEvaluatedResult = new ArrayList<clsDataStructurePA>(); 
 			
-			oSearchResult = getSearchResult(oContainer);
-			oEvaluatedResult = evaluateSearchResult(oContainer.moDataStructure, oSearchResult);
-			moOrderedResult.add(orderResult(oContainer.moDataStructure, oEvaluatedResult)); 
+			defineSearchPattern(oContainer);
+			accessKnowledgeBase(oSearchResult);
+			oEvaluatedResult = evaluateSearchResult(oContainer.getMoDataStructure(), oSearchResult);
+			moOrderedResult.add(orderResult(oContainer.getMoDataStructure(), oEvaluatedResult)); 
 		}
 	}
 	
@@ -196,7 +198,7 @@ public class E21_ConversionToSecondaryProcess extends clsModuleBase implements I
 	 */
 	private clsTripple<clsDataStructurePA, ArrayList<clsTemplateImage>, ArrayList<clsPair<clsDriveMesh, clsAffect>>> orderResult(
 			clsDataStructurePA poDataStructure, 
-			HashMap<Integer, clsDataStructurePA> poEvaluatedResult) {
+			ArrayList<clsDataStructurePA> poEvaluatedResult) {
 		/*HZ: 21.08.2010: This method may be merged with the method convertToSecondary() in the future.
 		 * It "orders" the evaluated result to a tripple of 
 		 * - The data structure which the retrieved TIs are associated to
@@ -214,14 +216,13 @@ public class E21_ConversionToSecondaryProcess extends clsModuleBase implements I
 																							new ArrayList<clsTemplateImage>(), 
 																							new ArrayList<clsPair<clsDriveMesh, clsAffect>>()); 
 		
-		for(Map.Entry<Integer, clsDataStructurePA> oEntry : poEvaluatedResult.entrySet()){
-			clsDataStructurePA oDataStructurePA = oEntry.getValue(); 
-			
-			if(oDataStructurePA instanceof clsTemplateImage){
-				oOrderedResult.b.add((clsTemplateImage)oDataStructurePA); 
+		for(clsDataStructurePA oEntry : poEvaluatedResult){
+					
+			if(oEntry instanceof clsTemplateImage){
+				oOrderedResult.b.add((clsTemplateImage)oEntry); 
 			}
-			else if(oDataStructurePA instanceof clsAffect){
-				oOrderedResult.c.add(new clsPair<clsDriveMesh, clsAffect>(moTemporaryDM.get(oEntry.getKey()), (clsAffect)oDataStructurePA));
+			else if(oEntry instanceof clsAffect){
+				oOrderedResult.c.add(new clsPair<clsDriveMesh, clsAffect>(moTemporaryDM.get(poEvaluatedResult.indexOf(oEntry)), (clsAffect)oEntry));
 			}
 		}
 		
@@ -236,15 +237,15 @@ public class E21_ConversionToSecondaryProcess extends clsModuleBase implements I
 	 *
 	 * @return
 	 */
-	private HashMap<Integer, ArrayList<clsPair<Double, clsDataStructureContainer>>> getSearchResult(clsPrimaryDataStructureContainer poContainer) {
+	private void defineSearchPattern(clsPrimaryDataStructureContainer poContainer) {
 		moTemporaryDM.clear();
 		moSearchPattern.clear(); 
 		
 		HashMap <String, ArrayList<clsDataStructurePA>> oTIList = new HashMap <String, ArrayList<clsDataStructurePA>>(); 
 		
-		for(clsAssociation oAssociation : poContainer.moAssociatedDataStructures){
+		for(clsAssociation oAssociation : poContainer.getMoAssociatedDataStructures()){
 			if(oAssociation instanceof clsAssociationAttribute){
-				String oCT = oAssociation.getLeafElement().moContentType; 
+				String oCT = oAssociation.getLeafElement().getMoContentType(); 
 				
 				if(oTIList.containsKey(oCT)){ oTIList.get(oCT).add(oAssociation.getLeafElement());}
 				else {oTIList.put(oCT, new ArrayList<clsDataStructurePA>(Arrays.asList(oAssociation.getLeafElement()))); }
@@ -265,8 +266,6 @@ public class E21_ConversionToSecondaryProcess extends clsModuleBase implements I
 			clsDataStructurePA oTI = clsDataStructureGenerator.generateDataStructure(eDataType.TI, oTIcontent);
 			addToSearchPattern(eDataType.UNDEFINED, oTI); 
 		}
-		
-		return accessKnowledgeBase();	
 	}
 
 	/**
@@ -279,15 +278,15 @@ public class E21_ConversionToSecondaryProcess extends clsModuleBase implements I
 	 * @param poDataStructure
 	 * @return
 	 */
-	private HashMap<Integer, clsDataStructurePA> evaluateSearchResult( 
+	private ArrayList<clsDataStructurePA> evaluateSearchResult( 
 							clsDataStructurePA poDataStructure,
-							HashMap<Integer, ArrayList<clsPair<Double, clsDataStructureContainer>>> poSearchResult) {
+							ArrayList<ArrayList<clsPair<Double, clsDataStructureContainer>>> poSearchResult) {
 		
-		HashMap<Integer, clsDataStructurePA> oEvaluatedResult = new HashMap<Integer, clsDataStructurePA>(); 
+		ArrayList<clsDataStructurePA> oEvaluatedResult = new ArrayList<clsDataStructurePA>(); 
 		
-		for(Map.Entry<Integer, ArrayList<clsPair<Double, clsDataStructureContainer>>> oEntry : poSearchResult.entrySet()){
-			clsDataStructurePA oBestMatch = getBestMatch(poDataStructure, oEntry.getValue()); 
-			oEvaluatedResult.put(oEntry.getKey(), oBestMatch); 
+		for(ArrayList<clsPair<Double, clsDataStructureContainer>> oEntry : poSearchResult){
+			clsDataStructurePA oBestMatch = getBestMatch(poDataStructure, oEntry); 
+			oEvaluatedResult.add(oBestMatch); 
 		}
 		return oEvaluatedResult;
 	}
@@ -310,19 +309,19 @@ public class E21_ConversionToSecondaryProcess extends clsModuleBase implements I
 
 		for(clsPair<Double, clsDataStructureContainer> oPair : poValue){
 			
-			if(oPair.b.moDataStructure instanceof clsAffect){
-					return oPair.b.moDataStructure; 
+			if(oPair.b.getMoDataStructure() instanceof clsAffect){
+					return oPair.b.getMoDataStructure(); 
 			}
 			else{
-				for(clsAssociation oAssociation : ((clsTemplateImage)oPair.b.moDataStructure).moAssociatedContent){
+				for(clsAssociation oAssociation : ((clsTemplateImage)oPair.b.getMoDataStructure()).moAssociatedContent){
 					
 //					//Has to be discussed if this for loop and the if-statement are required: They
 //					//should verify if the retrieved images can be mapped to the object. As there
 //					//are different types of objects like bodyparts or entities I introduced this
 //					//request => e.g. a TI is maybe only mapped to bodyparts but not to 
 //					//entities 
-					if(poDataStructure.moContentType.equals(oAssociation.getLeafElement().moContentType)){
-						return oPair.b.moDataStructure;
+					if(poDataStructure.getMoContentType().equals(oAssociation.getLeafElement().getMoContentType())){
+						return oPair.b.getMoDataStructure();
 					}
 				}
 			}
@@ -369,7 +368,7 @@ public class E21_ConversionToSecondaryProcess extends clsModuleBase implements I
 		clsAssociation oAssWP = getWP(poDS);
 		
 	    clsWordPresentation oWP = (clsWordPresentation)oAssWP.getLeafElement(); 
-		poContentWP.moContent += oWP.moContentType + ":" + oWP.moContent + "|"; 
+		poContentWP.setMoContent(poContentWP.getMoContent() + oWP.getMoContentType() + ":" + oWP.getMoContent() + "|"); 
 			
 		return oAssWP;
 	}
@@ -393,7 +392,7 @@ public class E21_ConversionToSecondaryProcess extends clsModuleBase implements I
 		for(clsTemplateImage oEntry : poListTI){
 			oAssWP = getWP(oEntry); 
 			oWP = (clsWordPresentation)oAssWP.getLeafElement(); 
-			poContentWP.moContent += oWP.moContentType + ":" + oWP.moContent + "|"; 
+			poContentWP.setMoContent( poContentWP.getMoContent() + oWP.getMoContentType() + ":" + oWP.getMoContent() + "|"); 
 			oTIWP.add(oAssWP); 
 		}
 		
@@ -420,10 +419,10 @@ public class E21_ConversionToSecondaryProcess extends clsModuleBase implements I
 		
 			oWP_dm = (clsWordPresentation)oAssWP_dm.getLeafElement();
 			oWP_affect = (clsWordPresentation)getWP(oEntry.b).getLeafElement(); 
-			oWP_dm.moContent += ":" + oWP_affect.moContent;  
+			oWP_dm.setMoContent(oWP_dm.getMoContent() + ":" + oWP_affect.getMoContent());  
 			oDMWP.add( oAssWP_dm );
 				
-			poContentWP.moContent += oWP_dm.moContent + "|"; 
+			poContentWP.setMoContent(poContentWP.getMoContent() + oWP_dm.getMoContent() + "|"); 
 		}
 		return oDMWP;
 	}
@@ -438,13 +437,17 @@ public class E21_ConversionToSecondaryProcess extends clsModuleBase implements I
 	 * @return
 	 */
 	private clsAssociation getWP(clsDataStructurePA poDataStructure){
+		ArrayList<ArrayList<clsPair<Double,clsDataStructureContainer>>> oSearchResult = 
+					new ArrayList<ArrayList<clsPair<Double,clsDataStructureContainer>>>();
+		
 		moSearchPattern.clear(); 
 		addToSearchPattern(eDataType.WP, poDataStructure); 
+		accessKnowledgeBase(oSearchResult);
 		
 		clsAssociation oAssWP = null; 
 		
 		try{
-			oAssWP = (clsAssociation)accessKnowledgeBase().get(0).get(0).b.moAssociatedDataStructures.get(0);
+			oAssWP = (clsAssociation)oSearchResult.get(0).get(0).b.getMoAssociatedDataStructures().get(0);
 		} catch (IndexOutOfBoundsException ex1){/*required to catch if moAssociatedDS = null*/return null;}
 			
 		return oAssWP;  
@@ -524,8 +527,8 @@ public class E21_ConversionToSecondaryProcess extends clsModuleBase implements I
 	 * @see pa.interfaces.knowledgebase.itfKnowledgeBaseAccess#accessKnowledgeBase(java.util.ArrayList)
 	 */
 	@Override
-	public HashMap<Integer,ArrayList<clsPair<Double,clsDataStructureContainer>>> accessKnowledgeBase() {
-		return moEnclosingContainer.moKnowledgeBaseHandler.initMemorySearch(moSearchPattern);
+	public void accessKnowledgeBase(ArrayList<ArrayList<clsPair<Double,clsDataStructureContainer>>> poSearchResult) {
+		poSearchResult.addAll(moEnclosingContainer.moKnowledgeBaseHandler.initMemorySearch(moSearchPattern));
 	}
 
 	/* (non-Javadoc)

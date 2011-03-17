@@ -11,6 +11,7 @@ import java.util.HashMap;
 import config.clsBWProperties;
 import pa.memory.clsMemory;
 import pa.memorymgmt.clsKnowledgeBaseHandler;
+import pa.memorymgmt.clsKnowledgeBaseHandlerFactory;
 import pa.storage.clsBlockedContentStorage;
 import pa.storage.clsLibidoBuffer;
 
@@ -23,6 +24,8 @@ import pa.storage.clsLibidoBuffer;
  * 
  */
 public class clsPsychicApperatus {
+	public static final String P_INFORMATIONREPRESENTATIONMGMT = "INF_REP_MGMT";
+
 	public E01_SensorsMetabolism moE01_SensorsMetabolism;
 	public E02_NeurosymbolizationOfNeeds moE02_NeurosymbolizationOfWants;
 	public E03_GenerationOfSelfPreservationDrives moE03_GenerationOfSelfPreservationDrives;
@@ -78,14 +81,14 @@ public class clsPsychicApperatus {
 	public clsPsychicApperatus(String poPrefix, clsBWProperties poProp, 
 			clsMemory poMemory,	clsKnowledgeBaseHandler poKnowledgeBaseHandler) {
 		
+		moModules = new HashMap<Integer, clsModuleBase>();
+		
 		moMemory = poMemory;
 		moKnowledgeBaseHandler = poKnowledgeBaseHandler; 
 		
 		moLibidoBuffer = new clsLibidoBuffer();
 		moBlockedContentStorage = new clsBlockedContentStorage();
-			
-		moModules = new HashMap<Integer, clsModuleBase>();
-		
+					
 		applyProperties(poPrefix, poProp);
 	}
 	
@@ -146,6 +149,9 @@ public class clsPsychicApperatus {
 		String pre = clsBWProperties.addDot(poPrefix);
 		
 		try {
+			//TODO HZ - Integrate to Properties
+			moKnowledgeBaseHandler = clsKnowledgeBaseHandlerFactory.createInformationRepresentationManagement("ARSI10_MGMT", pre+P_INFORMATIONREPRESENTATIONMGMT, poProp);
+			
 			moE01_SensorsMetabolism = new E01_SensorsMetabolism(pre + E01_SensorsMetabolism.P_MODULENUMBER, poProp, moModules);
 			moE02_NeurosymbolizationOfWants = new E02_NeurosymbolizationOfNeeds(pre + E02_NeurosymbolizationOfNeeds.P_MODULENUMBER, poProp, moModules);
 			moE03_GenerationOfSelfPreservationDrives = new E03_GenerationOfSelfPreservationDrives(pre + E03_GenerationOfSelfPreservationDrives.P_MODULENUMBER, poProp, moModules);
@@ -190,7 +196,6 @@ public class clsPsychicApperatus {
 			moE45_LibidoDischarge = new E45_LibidoDischarge(pre + E45_LibidoDischarge.P_MODULENUMBER, poProp, moModules);
 			moE46_FusionWithMemoryTraces = new E46_FusionWithMemoryTraces(pre + E46_FusionWithMemoryTraces.P_MODULENUMBER, poProp, moModules);
 			moE47_ConversionToPrimaryProcess = new E47_ConversionToPrimaryProcess(pre + E47_ConversionToPrimaryProcess.P_MODULENUMBER, poProp, moModules);
-			
 			
 		} catch (Exception e) {
 			

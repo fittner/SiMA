@@ -212,11 +212,11 @@ public class E26_DecisionMaking extends clsModuleBase implements I1_7_receive, I
 
 		//FIXME HZ Actually the highest rated drive content is taken => this is sloppy and has to be evaluated in a later version! 
 		oDriveContainer = getHighestDriveDemand(moDriveList);
-		oDriveContent = ((clsWordPresentation)oDriveContainer.moDataStructure).moContent; 
+		oDriveContent = ((clsWordPresentation)oDriveContainer.getMoDataStructure()).getMoContent(); 
 		
 		for (clsSecondaryDataStructureContainer oExtPerception : moRealityPerception ){
 				// dirty hack -> moRealityPerception only contains the "a" part of the clsPair - look at E24
-				String oExtContent   = ((clsWordPresentation)oExtPerception.moDataStructure).moContent; 
+				String oExtContent   = ((clsWordPresentation)oExtPerception.getMoDataStructure()).getMoContent(); 
 				
 				//FIXME HZ: Here an evaluation of the drive's intensity (very low, low, medium, high, very high) has to be done (like)
 				// in E23. It cannot be matched directly as it has to be compared that e.g. very high is not equal to high
@@ -241,8 +241,8 @@ public class E26_DecisionMaking extends clsModuleBase implements I1_7_receive, I
 					// only by the first part.
 					oGoalContent = oDriveContent.substring(0,oDriveContent.indexOf(":")) + "||" + oExtContent; 
 					oGoal = (clsWordPresentation)clsDataStructureGenerator.generateDataStructure(eDataType.WP, new clsPair<String, Object>("GOAL", oGoalContent)); 
-					oAssociatedDS.addAll(oExtPerception.moAssociatedDataStructures); 
-					oAssociatedDS.addAll(oDriveContainer.moAssociatedDataStructures); 
+					oAssociatedDS.addAll(oExtPerception.getMoAssociatedDataStructures()); 
+					oAssociatedDS.addAll(oDriveContainer.getMoAssociatedDataStructures()); 
 					
 //					//HZ - MAGIC happens 
 //					if(!(moRuleList.size() > 0 && (oGoal.moContent.contains("ARSINO") || oGoal.moContent.contains("BUBBLE")))){
@@ -255,7 +255,7 @@ public class E26_DecisionMaking extends clsModuleBase implements I1_7_receive, I
 //HZ 25.09.2010 - Here, the evaluation of received SUPER-Ego rules must be incorporated to the goal decision
 		for(clsAct oRule : moRuleList){
 			//the rule set has to be introduced
-			oRule.moContent = "TEST"; 
+			oRule.setMoContent("TEST"); 
 		}
 //		for(clsAct oRule : moRuleList){
 //			String oDelimiter = "|"; 
@@ -287,7 +287,7 @@ public class E26_DecisionMaking extends clsModuleBase implements I1_7_receive, I
 		if(moGoal_Output.size() == 0){
 			oGoalContent = oDriveContent.substring(0,oDriveContent.indexOf(":")) + "||"; 
 			oGoal = (clsWordPresentation)clsDataStructureGenerator.generateDataStructure(eDataType.WP, new clsPair<String, Object>("GOAL", oGoalContent));
-			oAssociatedDS.addAll(moDriveList.get(0).moAssociatedDataStructures); 
+			oAssociatedDS.addAll(moDriveList.get(0).getMoAssociatedDataStructures()); 
 			moGoal_Output.add(new clsSecondaryDataStructureContainer(oGoal, oAssociatedDS));
 		}
 	}
@@ -307,7 +307,7 @@ public class E26_DecisionMaking extends clsModuleBase implements I1_7_receive, I
 		eAffectLevel oAffectLevel = eAffectLevel.VERYLOW; 
 		 
 		for(clsSecondaryDataStructureContainer oContainer : poDriveList){
-			String [] oContent = ((clsWordPresentation)oContainer.moDataStructure).moContent.split(":"); 
+			String [] oContent = ((clsWordPresentation)oContainer.getMoDataStructure()).getMoContent().split(":"); 
 			
 			if(eAffectLevel.compare(eAffectLevel.valueOf(oContent[1]), oAffectLevel)){
 				oHighestPriorityIndex = poDriveList.indexOf(oContainer); 

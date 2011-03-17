@@ -34,9 +34,12 @@ import pa.tools.clsPair;
 public class E09_KnowledgeAboutReality_unconscious extends clsModuleBase implements
 						I1_5_receive, I2_19_receive, I6_3_send, itfKnowledgeBaseAccess {
 	
-	private clsKnowledgeBaseHandler moKnowledgeBaseHandler;
 	public static final String P_MODULENUMBER = "09";
 	
+	private clsKnowledgeBaseHandler moKnowledgeBaseHandler; 
+	private ArrayList<clsPair<Integer, clsDataStructurePA>> moSearchPattern;
+	
+	private ArrayList<clsPrimaryDataStructureContainer> moPrimaryInformation; 
 	/**
 	 * DOCUMENT (GELBARD) - insert description 
 	 * 
@@ -58,9 +61,6 @@ public class E09_KnowledgeAboutReality_unconscious extends clsModuleBase impleme
 		applyProperties(poPrefix, poProp);		
 	}
 
-	ArrayList<clsPrimaryDataStructureContainer> moPrimaryInformation; 
-
-	
 	public static clsBWProperties getDefaultProperties(String poPrefix) {
 		String pre = clsBWProperties.addDot(poPrefix);
 		
@@ -177,19 +177,7 @@ public class E09_KnowledgeAboutReality_unconscious extends clsModuleBase impleme
 		// TODO (GELBARD) - Auto-generated method stub
 		throw new java.lang.NoSuchMethodError();
 	}
-
-	/* (non-Javadoc)
-	 *
-	 * @author zeilinger
-	 * 12.08.2010, 21:10:19
-	 * 
-	 * @see pa.interfaces.knowledgebase.itfKnowledgeBaseAccess#accessKnowledgeBase(java.util.ArrayList)
-	 */
-	@Override
-	public HashMap<Integer,ArrayList<clsPair<Double,clsDataStructureContainer>>> accessKnowledgeBase() {
-		return moKnowledgeBaseHandler.initMemorySearch(moSearchPattern);
-	}
-
+	
 	/* (non-Javadoc)
 	 *
 	 * @author zeilinger
@@ -202,6 +190,18 @@ public class E09_KnowledgeAboutReality_unconscious extends clsModuleBase impleme
 			clsDataStructurePA poSearchPattern) {
 		// TODO (zeilinger) - Auto-generated method stub
 		
+	}
+
+	/* (non-Javadoc)
+	 *
+	 * @author zeilinger
+	 * 12.08.2010, 21:10:19
+	 * 
+	 * @see pa.interfaces.knowledgebase.itfKnowledgeBaseAccess#accessKnowledgeBase(java.util.ArrayList)
+	 */
+	@Override
+	public void accessKnowledgeBase(ArrayList<ArrayList<clsPair<Double,clsDataStructureContainer>>> poSearchResult) {
+		poSearchResult.addAll(moKnowledgeBaseHandler.initMemorySearch(moSearchPattern));
 	}
 
 	/* (non-Javadoc)

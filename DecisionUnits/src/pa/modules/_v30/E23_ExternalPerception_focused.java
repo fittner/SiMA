@@ -25,6 +25,10 @@ import pa.memorymgmt.datatypes.clsSecondaryDataStructureContainer;
 public class E23_ExternalPerception_focused extends clsModuleBase implements I2_11_receive, I1_7_receive, I2_12_send {
 	public static final String P_MODULENUMBER = "23";
 	
+	private ArrayList<clsSecondaryDataStructureContainer> moPerception; 
+	private ArrayList<clsSecondaryDataStructureContainer> moDriveList; 
+	private ArrayList<clsSecondaryDataStructureContainer> moFocusedPerception_Output; 
+
 	/**
 	 * DOCUMENT (KOHLHAUSER) - insert description 
 	 * 
@@ -43,11 +47,6 @@ public class E23_ExternalPerception_focused extends clsModuleBase implements I2_
 		applyProperties(poPrefix, poProp);		
 	}
 
-	private ArrayList<clsSecondaryDataStructureContainer> moPerception; 
-	private ArrayList<clsSecondaryDataStructureContainer> moDriveList; 
-	private ArrayList<clsSecondaryDataStructureContainer> moFocusedPerception_Output; 
-
-	
 	public static clsBWProperties getDefaultProperties(String poPrefix) {
 		String pre = clsBWProperties.addDot(poPrefix);
 		

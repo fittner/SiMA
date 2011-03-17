@@ -23,7 +23,9 @@ import du.itf.sensors.clsDataBase;
  */
 public class E01_SensorsMetabolism extends clsModuleBase implements I0_3_receive, I1_1_send {
 	public static final String P_MODULENUMBER = "01";
-
+	
+	private HashMap<eSensorIntType, clsDataBase> moHomeostasis;
+	
 	/**
 	 * DOCUMENT (muchitsch) - insert description 
 	 * 
@@ -42,10 +44,6 @@ public class E01_SensorsMetabolism extends clsModuleBase implements I0_3_receive
 		applyProperties(poPrefix, poProp);		
 	}
 
-	private HashMap<eSensorIntType, clsDataBase> moHomeostasis;
-	
-
-	
 	public static clsBWProperties getDefaultProperties(String poPrefix) {
 		String pre = clsBWProperties.addDot(poPrefix);
 		

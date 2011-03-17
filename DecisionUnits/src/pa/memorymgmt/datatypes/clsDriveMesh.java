@@ -20,8 +20,148 @@ import pa.tools.clsTripple;
  */
 public class clsDriveMesh extends clsHomeostaticRepresentation{
 	
-	public String moContent = "UNDEFINED";
-	public ArrayList<clsAssociation> moAssociatedContent = null; 
+	private String moContent = "UNDEFINED";
+	private ArrayList<clsAssociation> moAssociatedContent = null; 
+	/**
+	 * @author zeilinger
+	 * 17.03.2011, 00:50:38
+	 * 
+	 * @return the moContent
+	 */
+	public String getMoContent() {
+		return moContent;
+	}
+
+	/**
+	 * @author zeilinger
+	 * 17.03.2011, 00:50:38
+	 * 
+	 * @param moContent the moContent to set
+	 */
+	public void setMoContent(String moContent) {
+		this.moContent = moContent;
+	}
+
+	/**
+	 * @author zeilinger
+	 * 17.03.2011, 00:50:38
+	 * 
+	 * @return the moAssociatedContent
+	 */
+	public ArrayList<clsAssociation> getMoAssociatedContent() {
+		return moAssociatedContent;
+	}
+
+	/**
+	 * @author zeilinger
+	 * 17.03.2011, 00:50:38
+	 * 
+	 * @param moAssociatedContent the moAssociatedContent to set
+	 */
+	public void setMoAssociatedContent(ArrayList<clsAssociation> moAssociatedContent) {
+		this.moAssociatedContent = moAssociatedContent;
+	}
+
+	/**
+	 * @author zeilinger
+	 * 17.03.2011, 00:50:38
+	 * 
+	 * @return the mrPleasure
+	 */
+	public double getMrPleasure() {
+		return mrPleasure;
+	}
+
+	/**
+	 * @author zeilinger
+	 * 17.03.2011, 00:50:38
+	 * 
+	 * @param mrPleasure the mrPleasure to set
+	 */
+	public void setMrPleasure(double mrPleasure) {
+		this.mrPleasure = mrPleasure;
+	}
+
+	/**
+	 * @author zeilinger
+	 * 17.03.2011, 00:50:38
+	 * 
+	 * @return the mrCathegoryAnal
+	 */
+	public double getMrCathegoryAnal() {
+		return mrCathegoryAnal;
+	}
+
+	/**
+	 * @author zeilinger
+	 * 17.03.2011, 00:50:38
+	 * 
+	 * @param mrCathegoryAnal the mrCathegoryAnal to set
+	 */
+	public void setMrCathegoryAnal(double mrCathegoryAnal) {
+		this.mrCathegoryAnal = mrCathegoryAnal;
+	}
+
+	/**
+	 * @author zeilinger
+	 * 17.03.2011, 00:50:38
+	 * 
+	 * @return the mrCathegoryGenital
+	 */
+	public double getMrCathegoryGenital() {
+		return mrCathegoryGenital;
+	}
+
+	/**
+	 * @author zeilinger
+	 * 17.03.2011, 00:50:38
+	 * 
+	 * @param mrCathegoryGenital the mrCathegoryGenital to set
+	 */
+	public void setMrCathegoryGenital(double mrCathegoryGenital) {
+		this.mrCathegoryGenital = mrCathegoryGenital;
+	}
+
+	/**
+	 * @author zeilinger
+	 * 17.03.2011, 00:50:38
+	 * 
+	 * @return the mrCathegoryOral
+	 */
+	public double getMrCathegoryOral() {
+		return mrCathegoryOral;
+	}
+
+	/**
+	 * @author zeilinger
+	 * 17.03.2011, 00:50:38
+	 * 
+	 * @param mrCathegoryOral the mrCathegoryOral to set
+	 */
+	public void setMrCathegoryOral(double mrCathegoryOral) {
+		this.mrCathegoryOral = mrCathegoryOral;
+	}
+
+	/**
+	 * @author zeilinger
+	 * 17.03.2011, 00:50:38
+	 * 
+	 * @return the mrCathegoryPhalic
+	 */
+	public double getMrCathegoryPhalic() {
+		return mrCathegoryPhalic;
+	}
+
+	/**
+	 * @author zeilinger
+	 * 17.03.2011, 00:50:38
+	 * 
+	 * @param mrCathegoryPhalic the mrCathegoryPhalic to set
+	 */
+	public void setMrCathegoryPhalic(double mrCathegoryPhalic) {
+		this.mrCathegoryPhalic = mrCathegoryPhalic;
+	}
+
 	/**
 	 * DOCUMENT (zeilinger) - insert description 
 	 * 

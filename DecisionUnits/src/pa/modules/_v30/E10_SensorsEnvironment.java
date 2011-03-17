@@ -24,6 +24,8 @@ import pa.interfaces.send._v30.I2_1_send;
 public class E10_SensorsEnvironment extends clsModuleBase implements I0_4_receive, I2_1_send {
 	public static final String P_MODULENUMBER = "10";
 	
+	private HashMap<eSensorExtType, clsSensorExtern> moEnvironmentalData;
+
 	/**
 	 * DOCUMENT (muchitsch) - insert description 
 	 * 
@@ -41,10 +43,6 @@ public class E10_SensorsEnvironment extends clsModuleBase implements I0_4_receiv
 		applyProperties(poPrefix, poProp);		
 	}
 
-	HashMap<eSensorExtType, clsSensorExtern> moEnvironmentalData;
-	
-
-	
 	public static clsBWProperties getDefaultProperties(String poPrefix) {
 		String pre = clsBWProperties.addDot(poPrefix);
 		

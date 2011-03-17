@@ -54,7 +54,7 @@ public class KB02_InternalPerceptionMgmt extends clsInformationRepresentationMod
 		ArrayList<clsPair<Double,clsDataStructureContainer>> oDataStructureContainerList = new ArrayList<clsPair<Double,clsDataStructureContainer>>(); 
 		ArrayList<clsPair<Double,clsDataStructurePA>> oMatchedDataStructures = new ArrayList<clsPair<Double,clsDataStructurePA>>();
 		
-		if(poDataStructureUnknown.moDS_ID > -1 ){
+		if(poDataStructureUnknown.getMoDS_ID() > -1 ){
 			oMatchedDataStructures.add(new clsPair<Double, clsDataStructurePA>(1.0,poDataStructureUnknown)); 
 		}
 		else{
@@ -81,8 +81,8 @@ public class KB02_InternalPerceptionMgmt extends clsInformationRepresentationMod
 	private clsDataStructureContainer getDataContainer(int poReturnType, clsPhysicalRepresentation poDataStructure) {
 		
 			clsPrimaryDataStructureContainer oDataStructureContainer = new clsPrimaryDataStructureContainer(null, null);
-			oDataStructureContainer.moDataStructure = poDataStructure; 
-			oDataStructureContainer.moAssociatedDataStructures.addAll(readOutSearchSpace(poReturnType, poDataStructure)); 
+			oDataStructureContainer.setMoDataStructure(poDataStructure); 
+			oDataStructureContainer.setMoAssociatedDataStructures(readOutSearchSpace(poReturnType, poDataStructure)); 
 			
 		return oDataStructureContainer;
 	}

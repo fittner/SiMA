@@ -47,10 +47,10 @@ public abstract class clsDataStructureComparison {
 		
 		ArrayList<clsPair<Double, clsDataStructurePA>> oRetVal = new ArrayList<clsPair<Double,clsDataStructurePA>>(); 
 		HashMap<String, HashMap<Integer, clsPair<clsDataStructurePA,ArrayList<clsAssociation>>>> oMap 
-											= poSearchSpace.returnSearchSpaceTable().get(poDS_Unknown.moDataStructureType);
+											= poSearchSpace.returnSearchSpaceTable().get(poDS_Unknown.getMoDataStructureType());
 		
-		if(oMap.containsKey(poDS_Unknown.moContentType)){
-			oRetVal = getDataStructureByContentType(oMap.get(poDS_Unknown.moContentType), poDS_Unknown); 
+		if(oMap.containsKey(poDS_Unknown.getMoContentType())){
+			oRetVal = getDataStructureByContentType(oMap.get(poDS_Unknown.getMoContentType()), poDS_Unknown); 
 		}
 		else{
 			oRetVal = getDataStructureByDataStructureType(oMap, poDS_Unknown); 

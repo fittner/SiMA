@@ -45,6 +45,7 @@ public class E43_SeparationIntoPartialSexualDrives extends clsModuleBase impleme
 		super(poPrefix, poProp, poModuleList);
 		applyProperties(poPrefix, poProp);	
 	}
+	
 	public static clsBWProperties getDefaultProperties(String poPrefix) {
 		String pre = clsBWProperties.addDot(poPrefix);
 		
@@ -53,11 +54,13 @@ public class E43_SeparationIntoPartialSexualDrives extends clsModuleBase impleme
 				
 		return oProp;
 	}
+	
 	private void applyProperties(String poPrefix, clsBWProperties poProp) {
 		//String pre = clsBWProperties.addDot(poPrefix);
 	
 		//nothing to do
 	}	
+	
 	@Override
 	protected void setProcessType() {mnProcessType = eProcessType.PRIMARY;}
 	@Override

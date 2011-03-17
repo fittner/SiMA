@@ -400,7 +400,7 @@ public class clsE05DriveInspector extends Inspector implements ActionListener {
 	private DefaultGraphCell readSingle_new(ArrayList<DefaultGraphCell> poCellList,
 			DefaultGraphCell poParent, clsDriveMesh oDM, String poAssociationName, Color poNodeColor) {
 
-		String oVertexName = oDM.moContentType + ": \n " + oDM.moContent;
+		String oVertexName = oDM.getMoContentType() + ": \n " + oDM.getMoContent();
 		DefaultGraphCell oCurrentVertex = createVertex(oVertexName, 20, 20, 150, 40, poNodeColor);
 		poCellList.add( oCurrentVertex );
 		createEdge(poCellList, poParent, oCurrentVertex, poAssociationName);

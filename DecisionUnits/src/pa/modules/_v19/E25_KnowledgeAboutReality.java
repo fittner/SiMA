@@ -7,7 +7,6 @@
 package pa.modules._v19;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 
 import config.clsBWProperties;
 import pa._v19.clsInterfaceHandler;
@@ -174,8 +173,8 @@ public class E25_KnowledgeAboutReality extends clsModuleBase implements I2_12_re
 	 * @see pa.interfaces.knowledgebase.itfKnowledgeBaseAccess#accessKnowledgeBase(java.util.ArrayList)
 	 */
 	@Override
-	public HashMap<Integer,ArrayList<clsPair<Double,clsDataStructureContainer>>> accessKnowledgeBase() {
-		return moEnclosingContainer.moKnowledgeBaseHandler.initMemorySearch(moSearchPattern);
+	public void accessKnowledgeBase(ArrayList<ArrayList<clsPair<Double,clsDataStructureContainer>>> poSearchResult) {
+		poSearchResult = moEnclosingContainer.moKnowledgeBaseHandler.initMemorySearch(moSearchPattern);
 	}
 
 	/* (non-Javadoc)

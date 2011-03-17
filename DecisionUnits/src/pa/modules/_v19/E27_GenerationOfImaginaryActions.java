@@ -176,8 +176,8 @@ public class E27_GenerationOfImaginaryActions extends clsModuleBase implements I
 		ArrayList<clsAct> oPlan = evaluatePlans();
 		
 		for(clsAct oAct : oPlan){
-			for(clsSecondaryDataStructure oSD : oAct.moAssociatedContent){
-				if(oSD instanceof clsWordPresentation && oSD.moContentType.equals(eActState.ACTION.name())){
+			for(clsSecondaryDataStructure oSD : oAct.getMoAssociatedContent()){
+				if(oSD instanceof clsWordPresentation && oSD.getMoContentType().equals(eActState.ACTION.name())){
 					oRetVal.add((clsWordPresentation)oSD); 
 					return oRetVal; 
 				}

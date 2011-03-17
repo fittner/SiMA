@@ -27,6 +27,8 @@ import pa.symbolization.representationsymbol.itfSymbol;
 public class E13_NeuroSymbolizationBody extends clsModuleBase implements I2_3_receive, I2_4_send  {
 	public static final String P_MODULENUMBER = "13";
 	
+	private HashMap<eSensorExtType, clsSensorExtern> moBodyData;
+	private HashMap<eSymbolExtType, itfSymbol> moSymbolData;	
 	/**
 	 * DOCUMENT (muchitsch) - insert description 
 	 * 
@@ -43,10 +45,6 @@ public class E13_NeuroSymbolizationBody extends clsModuleBase implements I2_3_re
 		super(poPrefix, poProp, poModuleList);
 		applyProperties(poPrefix, poProp);
 	}
-
-	private HashMap<eSensorExtType, clsSensorExtern> moBodyData;
-	private HashMap<eSymbolExtType, itfSymbol> moSymbolData;	
-	
 	
 	public static clsBWProperties getDefaultProperties(String poPrefix) {
 		String pre = clsBWProperties.addDot(poPrefix);

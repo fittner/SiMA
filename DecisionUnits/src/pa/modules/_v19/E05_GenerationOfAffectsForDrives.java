@@ -177,8 +177,8 @@ public class E05_GenerationOfAffectsForDrives extends clsModuleBase implements I
 		for( clsDriveMesh oDM : moDriveList) {
 			clsDriveMesh oLifeDM = oDM; 
 			clsDriveMesh oDeathDM = moDriveList.get(moDriveList.indexOf(oDM)+1); 
-			clsPair<String, Double> oLibi = new clsPair<String, Double>(oLifeDM.moContent, oLifeDM.getPleasure());
-			clsPair<String, Double> oDeath = new clsPair<String, Double>(oDeathDM.moContent, oDeathDM.getPleasure());
+			clsPair<String, Double> oLibi = new clsPair<String, Double>(oLifeDM.getMoContent(), oLifeDM.getPleasure());
+			clsPair<String, Double> oDeath = new clsPair<String, Double>(oDeathDM.getMoContent(), oDeathDM.getPleasure());
 			
 			oTimingValues.add(oLibi);
 			oTimingValues.add(oDeath);

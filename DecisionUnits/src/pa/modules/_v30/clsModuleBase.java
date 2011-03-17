@@ -9,6 +9,7 @@ package pa.modules._v30;
 import java.lang.reflect.Method;
 import java.util.HashMap;
 import java.util.Iterator;
+
 import config.clsBWProperties;
 
 
@@ -25,7 +26,7 @@ public abstract class clsModuleBase {
 	protected eProcessType mnProcessType;
 	protected ePsychicInstances mnPsychicInstances;
 	protected Integer mnModuleNumber;
-	
+		
 	protected int mnTest = 0;
 	
 	private eImplementationStage mnImplementationStage;

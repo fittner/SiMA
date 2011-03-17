@@ -29,9 +29,13 @@ import pa.memorymgmt.datatypes.clsPrimaryDataStructureContainer;
  * 
  */
 public class E19_DefenseMechanismsForPerception extends clsModuleBase implements 
-				I2_9_receive, I3_2_receive, I4_2_send, I2_10_send, I5_2_send {
+				I2_9_receive, I3_2_receive, I4_2_send, I2_10_send, I5_2_send{
 	public static final String P_MODULENUMBER = "19";
 	
+	private ArrayList<clsPrimaryDataStructureContainer> moSubjectivePerception_Input; 
+	private ArrayList<clsPrimaryDataStructureContainer> moFilteredPerception_Output; 
+	private ArrayList<pa.memorymgmt.datatypes.clsThingPresentation> moDeniedThingPresentations;
+	private ArrayList<clsAssociationDriveMesh> moDeniedAffects; 
 	/**
 	 * DOCUMENT (GELBARD) - insert description 
 	 * 
@@ -50,12 +54,6 @@ public class E19_DefenseMechanismsForPerception extends clsModuleBase implements
  		applyProperties(poPrefix, poProp);		
 	}
 
-	public ArrayList<clsPrimaryDataStructureContainer> moSubjectivePerception_Input; 
-	public ArrayList<clsPrimaryDataStructureContainer> moFilteredPerception_Output; 
-	private ArrayList<pa.memorymgmt.datatypes.clsThingPresentation> moDeniedThingPresentations;
-	private ArrayList<clsAssociationDriveMesh> moDeniedAffects; 
-
-	
 	public static clsBWProperties getDefaultProperties(String poPrefix) {
 		String pre = clsBWProperties.addDot(poPrefix);
 		
@@ -124,7 +122,7 @@ public class E19_DefenseMechanismsForPerception extends clsModuleBase implements
 	private void filterInput() {
 		
 		for(clsPrimaryDataStructureContainer oContainer : moSubjectivePerception_Input){
-			for(clsAssociation oAssociation : oContainer.moAssociatedDataStructures){
+			for(clsAssociation oAssociation : oContainer.getMoAssociatedDataStructures()){
 				
 				//HZ: if statement checks i their exists at least one association to a drive mesh
 				if(oAssociation instanceof clsAssociationDriveMesh){
@@ -252,5 +250,4 @@ public class E19_DefenseMechanismsForPerception extends clsModuleBase implements
 		mnModuleNumber = Integer.parseInt(P_MODULENUMBER);
 		
 	}
-
 }

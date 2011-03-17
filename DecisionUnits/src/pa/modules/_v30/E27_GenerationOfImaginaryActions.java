@@ -13,7 +13,6 @@ import pa.interfaces.receive._v30.I6_2_receive;
 import pa.interfaces.receive._v30.I7_1_receive;
 import pa.interfaces.receive._v30.I7_3_receive;
 import pa.interfaces.send._v30.I7_3_send;
-import pa.loader.plan.clsPlanAction;
 import pa.memorymgmt.datatypes.clsAct;
 import pa.memorymgmt.datatypes.clsSecondaryDataStructure;
 import pa.memorymgmt.datatypes.clsSecondaryDataStructureContainer;
@@ -29,6 +28,11 @@ import pa.memorymgmt.enums.eActState;
  */
 public class E27_GenerationOfImaginaryActions extends clsModuleBase implements I6_2_receive, I7_1_receive, I7_3_send {
 	public static final String P_MODULENUMBER = "27";
+
+	//HZ Not used up to now 16.03.2011
+	//private ArrayList<clsSecondaryDataStructureContainer> moGoalInput;
+	private ArrayList<ArrayList<clsAct>> moPlanInput; 
+	private ArrayList<clsWordPresentation> moActions_Output;
 	
 	/**
 	 * DOCUMENT (perner) - insert description 
@@ -51,14 +55,6 @@ public class E27_GenerationOfImaginaryActions extends clsModuleBase implements I
 
 	}
 
-	public ArrayList<clsSecondaryDataStructureContainer> moGoalInput;
-	public ArrayList<ArrayList<clsAct>> moPlanInput; 
-	
-	ArrayList<clsPlanAction> moActions_Output_old;
-	private ArrayList<clsWordPresentation> moActions_Output; 
-	
-
-	
 	public static clsBWProperties getDefaultProperties(String poPrefix) {
 		String pre = clsBWProperties.addDot(poPrefix);
 		
@@ -128,11 +124,10 @@ public class E27_GenerationOfImaginaryActions extends clsModuleBase implements I
 	 * 
 	 * @see pa.interfaces.I7_1#receive_I7_1(int)
 	 */
-	@SuppressWarnings("unchecked")
 	@Override
 	public void receive_I7_1(ArrayList<clsSecondaryDataStructureContainer> poGoalInput) {
-
-		moGoalInput = ( ArrayList<clsSecondaryDataStructureContainer> )deepCopy(poGoalInput);
+		//HZ Not used up to now 16.03.2011
+		//moGoalInput = ( ArrayList<clsSecondaryDataStructureContainer> )deepCopy(poGoalInput);
 	}
 
 	/* (non-Javadoc)
@@ -181,8 +176,8 @@ public class E27_GenerationOfImaginaryActions extends clsModuleBase implements I
 		ArrayList<clsAct> oPlan = evaluatePlans();
 		
 		for(clsAct oAct : oPlan){
-			for(clsSecondaryDataStructure oSD : oAct.moAssociatedContent){
-				if(oSD instanceof clsWordPresentation && oSD.moContentType.equals(eActState.ACTION.name())){
+			for(clsSecondaryDataStructure oSD : oAct.getMoAssociatedContent()){
+				if(oSD instanceof clsWordPresentation && oSD.getMoContentType().equals(eActState.ACTION.name())){
 					oRetVal.add((clsWordPresentation)oSD); 
 					return oRetVal; 
 				}

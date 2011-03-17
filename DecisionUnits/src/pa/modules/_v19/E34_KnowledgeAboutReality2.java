@@ -7,7 +7,6 @@
 package pa.modules._v19;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 
 import config.clsBWProperties;
 import pa._v19.clsInterfaceHandler;
@@ -30,6 +29,7 @@ import pa.tools.clsPair;
  */
 public class E34_KnowledgeAboutReality2 extends clsModuleBase implements I7_3_receive, I7_5_send, itfKnowledgeBaseAccess {
 
+	private ArrayList<clsPair<Integer, clsDataStructurePA>> moSearchPattern; 
 	/**
 	 * 
 	 * 
@@ -173,8 +173,8 @@ public class E34_KnowledgeAboutReality2 extends clsModuleBase implements I7_3_re
 	 * @see pa.interfaces.knowledgebase.itfKnowledgeBaseAccess#accessKnowledgeBase(java.util.ArrayList)
 	 */
 	@Override
-	public HashMap<Integer,ArrayList<clsPair<Double,clsDataStructureContainer>>> accessKnowledgeBase() {
-		return moEnclosingContainer.moKnowledgeBaseHandler.initMemorySearch(moSearchPattern);
+	public void accessKnowledgeBase(ArrayList<ArrayList<clsPair<Double,clsDataStructureContainer>>> poSearchResult) {
+		poSearchResult = moEnclosingContainer.moKnowledgeBaseHandler.initMemorySearch(moSearchPattern);
 	}
 
 	/* (non-Javadoc)

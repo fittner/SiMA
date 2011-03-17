@@ -33,6 +33,10 @@ public class E14_ExternalPerception extends clsModuleBase implements
 					{
 	public static final String P_MODULENUMBER = "14";
 	
+	private HashMap<eSymbolExtType, itfSymbol> moEnvironmentalData;
+	private HashMap<eSymbolExtType, itfSymbol> moBodyData;
+	private ArrayList<clsPrimaryDataStructureContainer> moEnvironmentalTP; 
+
 	/**
 	 * DOCUMENT (muchitsch) - insert description 
 	 * 
@@ -50,12 +54,6 @@ public class E14_ExternalPerception extends clsModuleBase implements
 		applyProperties(poPrefix, poProp);
 	}
 
-	HashMap<eSymbolExtType, itfSymbol> moEnvironmentalData;
-	HashMap<eSymbolExtType, itfSymbol> moBodyData;
-	
-	public ArrayList<clsPrimaryDataStructureContainer> moEnvironmentalTP; 
-
-	
 	public static clsBWProperties getDefaultProperties(String poPrefix) {
 		String pre = clsBWProperties.addDot(poPrefix);
 		
@@ -117,7 +115,6 @@ public class E14_ExternalPerception extends clsModuleBase implements
 	@Override
 	public void receive_I2_4(HashMap<eSymbolExtType, itfSymbol> poBodyData) {
 		moBodyData = poBodyData;
-		
 	}
 
 	/* (non-Javadoc)

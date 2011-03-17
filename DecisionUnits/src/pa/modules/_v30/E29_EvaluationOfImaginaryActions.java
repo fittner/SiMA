@@ -27,6 +27,8 @@ public class E29_EvaluationOfImaginaryActions extends clsModuleBase implements
 					I5_5_receive, I7_3_receive, I7_6_receive, I7_4_send {
 	public static final String P_MODULENUMBER = "29";
 	
+	private ArrayList<clsWordPresentation> moActionCommands_Input; 
+	private ArrayList<clsWordPresentation> moActionCommands_Output; 
 	/**
 	 * DOCUMENT (perner) - insert description 
 	 * 
@@ -45,10 +47,6 @@ public class E29_EvaluationOfImaginaryActions extends clsModuleBase implements
 		applyProperties(poPrefix, poProp);	
 	}
 
-	private ArrayList<clsWordPresentation> moActionCommands_Input; 
-	private ArrayList<clsWordPresentation> moActionCommands_Output; 
-
-	
 	public static clsBWProperties getDefaultProperties(String poPrefix) {
 		String pre = clsBWProperties.addDot(poPrefix);
 		

@@ -144,13 +144,13 @@ public class clsRepressedContentStorage {
 		double rHighestMatch = 0.0;
 
 		for( clsDriveMesh oDMRepressedContent : moRepressedContentCONVERTED ) {
-			for(clsAssociation oAssociation : poInput.moAssociatedDataStructures){
+			for(clsAssociation oAssociation : poInput.getMoAssociatedDataStructures()){
 				//HZ 17.08.2010: The method getLeafElement cannot be used here as the search patterns actually
 				// do not have a data structure ID => in a later version when E16 will be placed in front 
 				// of E15, the patterns already have an ID. 
 				clsDriveMesh oDMInput = ((clsAssociationDriveMesh)oAssociation).getDM(); 
 				
-				if(oDMRepressedContent.moContentType.equals(oDMInput.moContentType)){
+				if(oDMRepressedContent.getMoContentType().equals(oDMInput.getMoContentType())){
 					double rMatchValue = oDMRepressedContent.matchCathegories(oDMInput); 
 						
 					if(rMatchValue > rHighestMatch) {

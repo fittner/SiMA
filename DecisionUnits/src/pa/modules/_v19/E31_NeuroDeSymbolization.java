@@ -126,7 +126,7 @@ public class E31_NeuroDeSymbolization extends clsModuleBase implements I8_1_rece
 		if( moActionCommands_Input.size() > 0 ) {
 				for(clsWordPresentation oWP : moActionCommands_Input) {
 				
-					String oAction = oWP.moContent; 
+					String oAction = oWP.getMoContent(); 
 				
 					if(oAction.equals("MOVE_FORWARD")){
 						moActionCommandList_Output.add( new clsActionMove(eActionMoveDirection.MOVE_FORWARD,1.0) );
@@ -245,7 +245,7 @@ public class E31_NeuroDeSymbolization extends clsModuleBase implements I8_1_rece
 		for(clsPair<String, Double> oPair : oRetVal){
 			if(moActionCommands_Input.size() > 0){
 				
-				if(oPair.a.equals(moActionCommands_Input.get(0).moContent)){
+				if(oPair.a.equals(moActionCommands_Input.get(0).getMoContent())){
 					oPair.b = 1.0; 
 				}
 			}

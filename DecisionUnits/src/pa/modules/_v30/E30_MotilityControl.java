@@ -24,6 +24,9 @@ import pa.memorymgmt.datatypes.clsWordPresentation;
 public class E30_MotilityControl extends clsModuleBase implements I7_4_receive, I8_1_send {
 	public static final String P_MODULENUMBER = "30";
 	
+	private ArrayList<clsWordPresentation> moActionCommands_Input;
+	private ArrayList<clsWordPresentation> moActionCommands_Output;
+	
 	/**
 	 * DOCUMENT (brandstaetter) - insert description 
 	 * 
@@ -44,10 +47,6 @@ public class E30_MotilityControl extends clsModuleBase implements I7_4_receive, 
 
 	}
 
-	private ArrayList<clsWordPresentation> moActionCommands_Input;
-	private ArrayList<clsWordPresentation> moActionCommands_Output;
-
-	
 	/**
 	 * @author zeilinger
 	 * 02.09.2010, 20:10:34

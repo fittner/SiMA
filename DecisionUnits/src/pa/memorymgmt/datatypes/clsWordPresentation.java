@@ -18,7 +18,27 @@ import pa.tools.clsTripple;
  */
 public class clsWordPresentation extends clsSecondaryDataStructure{
 	
-	public String moContent = "UNDEFINED"; 
+	private String moContent = "UNDEFINED"; 
+	/**
+	 * @author zeilinger
+	 * 17.03.2011, 00:52:49
+	 * 
+	 * @return the moContent
+	 */
+	public String getMoContent() {
+		return moContent;
+	}
+
+	/**
+	 * @author zeilinger
+	 * 17.03.2011, 00:52:49
+	 * 
+	 * @param moContent the moContent to set
+	 */
+	public void setMoContent(String moContent) {
+		this.moContent = moContent;
+	}
+
 	/**
 	 * DOCUMENT (zeilinger) - insert description 
 	 * 

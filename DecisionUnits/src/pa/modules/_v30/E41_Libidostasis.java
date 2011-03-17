@@ -49,6 +49,7 @@ public class E41_Libidostasis extends clsModuleBase implements I1_9_receive, I1_
 		
 		applyProperties(poPrefix, poProp);	
 	}
+	
 	public static clsBWProperties getDefaultProperties(String poPrefix) {
 		String pre = clsBWProperties.addDot(poPrefix);
 		
@@ -57,11 +58,13 @@ public class E41_Libidostasis extends clsModuleBase implements I1_9_receive, I1_
 				
 		return oProp;
 	}
+	
 	private void applyProperties(String poPrefix, clsBWProperties poProp) {
 		//String pre = clsBWProperties.addDot(poPrefix);
 	
 		//nothing to do
 	}	
+	
 	@Override
 	protected void setProcessType() {mnProcessType = eProcessType.PRIMARY;}
 	@Override

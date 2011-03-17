@@ -168,7 +168,7 @@ public class E28_KnowledgeBase_StoredScenarios extends clsModuleBase implements 
 		ArrayList<ArrayList<clsAct>> oResult = new ArrayList<ArrayList<clsAct>>(); 
 
 		for(clsSecondaryDataStructureContainer oCon : moGoal_Input){
-			String oActualState = ((clsWordPresentation)oCon.moDataStructure).moContent; 
+			String oActualState = ((clsWordPresentation)oCon.getMoDataStructure()).getMoContent(); 
 			ArrayList<ArrayList<clsAct>> oActPlans = new ArrayList<ArrayList<clsAct>>(); 
 		    //HZ not sure, but maybe a loop between E28 and E27 is required here; 
 			// TODO: This is also a bit magic; ACTS are retrieved that include the actual object setup, no
@@ -212,7 +212,7 @@ public class E28_KnowledgeBase_StoredScenarios extends clsModuleBase implements 
 			// will not be found. The reason for this is the shifting between 
 			// act-precondition and act-consequence when the child nodes are 
 			// read
-			oSuccess = comparePreConditions(oAct.moContent, poTargetState);
+			oSuccess = comparePreConditions(oAct.getMoContent(), poTargetState);
 			if(oSuccess){oRetVal.add(new ArrayList<clsAct>(Arrays.asList(oAct)));}
 			
 			//If the current act does not match with the targetState => 
@@ -224,7 +224,7 @@ public class E28_KnowledgeBase_StoredScenarios extends clsModuleBase implements 
 				
 				for(Node oNode : oChildLessNode){
 						ArrayList<clsAct> oActTempList = new ArrayList<clsAct>();
-						oPreCondition = getPreCondition(oNode.label.moContent);  
+						oPreCondition = getPreCondition(oNode.label.getMoContent());  
 					    oActTempList = getMatchingAct(oPreCondition); 
 						
 					    oGraph.addChildren(oNode, oActTempList); 
@@ -308,7 +308,7 @@ public class E28_KnowledgeBase_StoredScenarios extends clsModuleBase implements 
 	private ArrayList<clsAct> fullMatch(ArrayList<clsAct> poTempActs, clsAct poAct) {
 			
 			ArrayList<clsAct> oFullMatch = new ArrayList<clsAct>(); 
-			String [] oConsequenceUnknown = poAct.moContent.substring(poAct.moContent.indexOf("|", poAct.moContent.indexOf("CONSEQUENCE")) + 1).split("[|]");
+			String [] oConsequenceUnknown = poAct.getMoContent().substring(poAct.getMoContent().indexOf("|", poAct.getMoContent().indexOf("CONSEQUENCE")) + 1).split("[|]");
 			
 			for(clsAct oEntry : poTempActs){
 					double nMS = oEntry.compareTo(poAct); 
@@ -335,7 +335,7 @@ public class E28_KnowledgeBase_StoredScenarios extends clsModuleBase implements 
 				while((oChild = poGraph.getUnvisitedChildNode(oNode)) != null){
 						oChild.visited = true; 
 						oQueue.add(oChild); 
-						oSuccess = comparePreConditions(oChild.label.moContent, poTargetState);
+						oSuccess = comparePreConditions(oChild.label.getMoContent(), poTargetState);
 					   
 						if(oSuccess) {
 								oQueue.clear(); 
@@ -476,7 +476,9 @@ public class E28_KnowledgeBase_StoredScenarios extends clsModuleBase implements 
 		moSearchPattern.clear(); 
 			
 		addToSearchPattern(eDataType.UNDEFINED, poDummy); 
-		HashMap<Integer, ArrayList<clsPair<Double,clsDataStructureContainer>>> oResult = accessKnowledgeBase(); 
+		ArrayList<ArrayList<clsPair<Double,clsDataStructureContainer>>> oSearchResult = 
+				new ArrayList<ArrayList<clsPair<Double,clsDataStructureContainer>>>();
+		accessKnowledgeBase(oSearchResult); 
 		//The Double value in clsPair defines the matching score of the retrieved Act and the 
 		//search pattern. This was ok for the primary data structures as there have not been 
 		//any logic relations within the data structures. Now there exist acts with "or" and "and"
@@ -484,7 +486,7 @@ public class E28_KnowledgeBase_StoredScenarios extends clsModuleBase implements 
 		//=> actually a lot of acts are retrieved from the memory; E27 will have to sort them out.
 		//It has to be verified if this is a good solution, or if the comparison mode for the clsAct 
 		//datatype has to be changed
-		return extractSearchResult(oResult);
+		return extractSearchResult(oSearchResult);
 	}
 
 	/**
@@ -497,14 +499,14 @@ public class E28_KnowledgeBase_StoredScenarios extends clsModuleBase implements 
 	 * @param oResult
 	 * @return
 	 */
-	private ArrayList<clsAct> extractSearchResult(HashMap<Integer,ArrayList<clsPair<Double, clsDataStructureContainer>>> oResult) {
+	private ArrayList<clsAct> extractSearchResult(ArrayList<ArrayList<clsPair<Double, clsDataStructureContainer>>> oResult) {
 		
 		ArrayList<clsAct> oActs = new ArrayList<clsAct>();
 		
 		//HZ Up to now the match-value is not taken into account of the selection process
-		for(Map.Entry<Integer, ArrayList<clsPair<Double, clsDataStructureContainer>>> oEntry : oResult.entrySet()){
-			for(clsPair<Double, clsDataStructureContainer> oPair : oEntry.getValue()){
-				oActs.add((clsAct)oPair.b.moDataStructure);
+		for(ArrayList<clsPair<Double, clsDataStructureContainer>> oEntry : oResult){
+			for(clsPair<Double, clsDataStructureContainer> oPair : oEntry){
+				oActs.add((clsAct)oPair.b.getMoDataStructure());
 			}
 		}
 		
@@ -571,8 +573,8 @@ public class E28_KnowledgeBase_StoredScenarios extends clsModuleBase implements 
 	 * @see pa.interfaces.knowledgebase.itfKnowledgeBaseAccess#accessKnowledgeBase(java.util.ArrayList)
 	 */
 	@Override
-	public HashMap<Integer,ArrayList<clsPair<Double,clsDataStructureContainer>>> accessKnowledgeBase() {
-		return moEnclosingContainer.moKnowledgeBaseHandler.initMemorySearch(moSearchPattern);
+	public void accessKnowledgeBase(ArrayList<ArrayList<clsPair<Double,clsDataStructureContainer>>> poSearchResult) {
+		poSearchResult.addAll(moEnclosingContainer.moKnowledgeBaseHandler.initMemorySearch(moSearchPattern));
 	}
 
 	/* (non-Javadoc)

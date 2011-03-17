@@ -24,6 +24,8 @@ import pa.interfaces.send._v30.I2_3_send;
 public class E12_SensorsBody extends clsModuleBase implements I0_5_receive, I2_3_send {
 	public static final String P_MODULENUMBER = "12";
 	
+	private HashMap<eSensorExtType, clsSensorExtern> moBodyData;
+
 	/**
 	 * DOCUMENT (muchitsch) - insert description 
 	 * 
@@ -41,9 +43,6 @@ public class E12_SensorsBody extends clsModuleBase implements I0_5_receive, I2_3
 		applyProperties(poPrefix, poProp);	
 	}
 
-	private HashMap<eSensorExtType, clsSensorExtern> moBodyData;
-
-	
 	public static clsBWProperties getDefaultProperties(String poPrefix) {
 		String pre = clsBWProperties.addDot(poPrefix);
 		

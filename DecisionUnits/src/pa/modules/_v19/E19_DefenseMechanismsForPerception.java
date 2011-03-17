@@ -120,7 +120,7 @@ public class E19_DefenseMechanismsForPerception extends clsModuleBase implements
 	private void filterInput() {
 		
 		for(clsPrimaryDataStructureContainer oContainer : moSubjectivePerception_Input){
-			for(clsAssociation oAssociation : oContainer.moAssociatedDataStructures){
+			for(clsAssociation oAssociation : oContainer.getMoAssociatedDataStructures()){
 				
 				//HZ: if statement checks i their exists at least one association to a drive mesh
 				if(oAssociation instanceof clsAssociationDriveMesh){

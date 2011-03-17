@@ -19,9 +19,9 @@ import pa.tools.clsTripple;
  * 
  */
 public class clsHomeostaticMesh extends clsHomeostaticRepresentation{
-	clsDriveDemand moDriveDemand = null;
-	String moContent = "UNDEFINED";
-	ArrayList<clsAssociation> moAssociatedContent = null; 
+	private clsDriveDemand moDriveDemand = null;
+	private String moContent = "UNDEFINED";
+	private ArrayList<clsAssociation> moAssociatedContent = null; 
 	/**
 	 * DOCUMENT (zeilinger) - insert description 
 	 * 

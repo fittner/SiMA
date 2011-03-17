@@ -21,7 +21,25 @@ import pa.tools.clsTripple;
  */
 public class clsThingPresentation extends clsPhysicalRepresentation{
 	
-	public Object moContent = null;
+	private Object moContent = null;
+	/**
+	 * @author zeilinger
+	 * 17.03.2011, 00:52:10
+	 * 
+	 * @return the moContent
+	 */
+	public Object getMoContent() {
+		return moContent;
+	}
+	/**
+	 * @author zeilinger
+	 * 17.03.2011, 00:52:10
+	 * 
+	 * @param moContent the moContent to set
+	 */
+	public void setMoContent(Object moContent) {
+		this.moContent = moContent;
+	}
 	/**
 	 * DOCUMENT (zeilinger) - insert description 
 	 * 

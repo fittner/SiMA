@@ -43,6 +43,7 @@ public class E40_NeurosymbolizationOfLibido extends clsModuleBase implements I1_
 		super(poPrefix, poProp, poModuleList);
 		applyProperties(poPrefix, poProp);	
 	}
+	
 	public static clsBWProperties getDefaultProperties(String poPrefix) {
 		String pre = clsBWProperties.addDot(poPrefix);
 		
@@ -51,6 +52,7 @@ public class E40_NeurosymbolizationOfLibido extends clsModuleBase implements I1_
 				
 		return oProp;
 	}
+	
 	private void applyProperties(String poPrefix, clsBWProperties poProp) {
 		//String pre = clsBWProperties.addDot(poPrefix);
 	

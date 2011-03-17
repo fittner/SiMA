@@ -37,6 +37,10 @@ public class E06_DefenseMechanismsForDrives extends clsModuleBase implements
 					I1_5_receive, I2_19_receive, I3_1_receive, I4_3_receive, I6_3_receive, I1_6_send, I4_1_send, I5_1_send {
 	public static final String P_MODULENUMBER = "06";
 	
+	private ArrayList<clsDriveMesh> moDriveList_Input;
+	private ArrayList<clsDriveMesh> moDriveList_Output;
+	private ArrayList<clsPrimaryDataStructureContainer> moRepressedRetry_Input;
+
 	/**
 	 * DOCUMENT (GELBARD) - insert description 
 	 * 
@@ -55,12 +59,6 @@ public class E06_DefenseMechanismsForDrives extends clsModuleBase implements
 		applyProperties(poPrefix, poProp);	
 	}
 
-	ArrayList<clsDriveMesh> moDriveList_Input;
-	ArrayList<clsDriveMesh> moDriveList_Output;
-	ArrayList<clsPrimaryDataStructureContainer> moRepressedRetry_Input;
-	
-	
-	
 	public static clsBWProperties getDefaultProperties(String poPrefix) {
 		String pre = clsBWProperties.addDot(poPrefix);
 		

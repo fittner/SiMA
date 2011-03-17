@@ -28,6 +28,8 @@ public class E05_AccumulationOfAffectsForSelfPreservationDrives extends clsModul
 						I1_4_receive, I2_15_send, itfTimeChartInformationContainer {
 	public static final String P_MODULENUMBER = "05";
 	
+	private ArrayList<clsPair<clsPair<clsDriveMesh, clsDriveDemand>, clsPair<clsDriveMesh, clsDriveDemand>>> moDriveCandidate;
+	private ArrayList<clsDriveMesh> moDriveList; 
 	/**
 	 * DOCUMENT (deutsch) - insert description 
 	 * 
@@ -44,10 +46,6 @@ public class E05_AccumulationOfAffectsForSelfPreservationDrives extends clsModul
 		super(poPrefix, poProp, poModuleList);
 		applyProperties(poPrefix, poProp);	
 	}
-
-	public ArrayList<clsPair<clsPair<clsDriveMesh, clsDriveDemand>, clsPair<clsDriveMesh, clsDriveDemand>>> moDriveCandidate;
-	public ArrayList<clsDriveMesh> moDriveList; 
-
 	
 	public static clsBWProperties getDefaultProperties(String poPrefix) {
 		String pre = clsBWProperties.addDot(poPrefix);
@@ -181,8 +179,8 @@ public class E05_AccumulationOfAffectsForSelfPreservationDrives extends clsModul
 		for( clsDriveMesh oDM : moDriveList) {
 			clsDriveMesh oLifeDM = oDM; 
 			clsDriveMesh oDeathDM = moDriveList.get(moDriveList.indexOf(oDM)+1); 
-			clsPair<String, Double> oLibi = new clsPair<String, Double>(oLifeDM.moContent, oLifeDM.getPleasure());
-			clsPair<String, Double> oDeath = new clsPair<String, Double>(oDeathDM.moContent, oDeathDM.getPleasure());
+			clsPair<String, Double> oLibi = new clsPair<String, Double>(oLifeDM.getMoContent(), oLifeDM.getPleasure());
+			clsPair<String, Double> oDeath = new clsPair<String, Double>(oDeathDM.getMoContent(), oDeathDM.getPleasure());
 			
 			oTimingValues.add(oLibi);
 			oTimingValues.add(oDeath);

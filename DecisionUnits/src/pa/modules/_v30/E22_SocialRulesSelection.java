@@ -8,8 +8,6 @@ package pa.modules._v30;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Iterator;
-import java.util.Map;
 import config.clsBWProperties;
 import pa.interfaces.knowledgebase.itfKnowledgeBaseAccess;
 import pa.interfaces.receive._v30.I1_7_receive;
@@ -38,7 +36,14 @@ import pa.tools.clsTripple;
  */
 public class E22_SocialRulesSelection extends clsModuleBase implements I1_7_receive, I2_11_receive, I3_3_send, itfKnowledgeBaseAccess {
 	public static final String P_MODULENUMBER = "22";
-	private clsKnowledgeBaseHandler moKnowledgeBaseHandler;
+	
+	private clsKnowledgeBaseHandler moKnowledgeBaseHandler; 
+	private ArrayList<clsPair<Integer, clsDataStructurePA>> moSearchPattern;
+	
+	private ArrayList<clsSecondaryDataStructureContainer> moPerception; 
+	//private ArrayList<clsSecondaryDataStructureContainer> moDriveList;  HZ - not used up to now
+	private ArrayList<clsAct> moRuleList; 
+	private ArrayList<clsPair<Double,clsDataStructureContainer>> moRetrieveResult4Inspectors;
 	/**
 	 * DOCUMENT (perner) - insert description 
 	 * 
@@ -60,14 +65,6 @@ public class E22_SocialRulesSelection extends clsModuleBase implements I1_7_rece
 		moRuleList = new ArrayList<clsAct>();
 	}
 
-	public ArrayList<clsSecondaryDataStructureContainer> moPerception; 
-	//private ArrayList<clsSecondaryDataStructureContainer> moDriveList;  HZ - not used up to now
-	public ArrayList<clsAct> moRuleList; 
-	
-	public ArrayList<clsPair<Double,clsDataStructureContainer>> moRetrieveResult4Inspectors;
-	
-
-	
 	public static clsBWProperties getDefaultProperties(String poPrefix) {
 		String pre = clsBWProperties.addDot(poPrefix);
 		
@@ -155,7 +152,7 @@ public class E22_SocialRulesSelection extends clsModuleBase implements I1_7_rece
 	 */
 	private void getRules() {
 		for(clsSecondaryDataStructureContainer oCon : moPerception){
-			ArrayList<clsAct> oActList = getMatchingAct(((clsWordPresentation)oCon.moDataStructure).moContent); 
+			ArrayList<clsAct> oActList = getMatchingAct(((clsWordPresentation)oCon.getMoDataStructure()).getMoContent()); 
 			moRuleList.addAll(oActList); 
 		}
 		//TODO - do the same for Homeostatic State
@@ -228,7 +225,9 @@ public class E22_SocialRulesSelection extends clsModuleBase implements I1_7_rece
 		moSearchPattern.clear(); 
 			
 		addToSearchPattern(eDataType.UNDEFINED, poDummy); 
-		HashMap<Integer, ArrayList<clsPair<Double,clsDataStructureContainer>>> oResult = accessKnowledgeBase(); 
+		ArrayList<ArrayList<clsPair<Double,clsDataStructureContainer>>> oResult = 
+							new ArrayList<ArrayList<clsPair<Double,clsDataStructureContainer>>>();
+		accessKnowledgeBase(oResult); 
 		//The Double value in clsPair defines the matching score of the retrieved Act and the 
 		//search pattern. This was ok for the primary data structures as there have not been 
 		//any logic relations within the data structures. Now there exist acts with "or" and "and"
@@ -242,16 +241,13 @@ public class E22_SocialRulesSelection extends clsModuleBase implements I1_7_rece
 		//TODO dirty hack by clemens, for testing the search result display. change me later!
 		try
 		{
-			Iterator it = oResult.entrySet().iterator();
-			while (it.hasNext()) {
-				Map.Entry entry = (Map.Entry) it.next();
-				moRetrieveResult4Inspectors = (ArrayList<clsPair<Double, clsDataStructureContainer>>)entry.getValue();
-				break;
-		}
+			for(ArrayList<clsPair<Double,clsDataStructureContainer>> oEntry : oResult){
+				moRetrieveResult4Inspectors = oEntry; 
+				break; 
+			}
 		}catch(Exception ex)
 		{}
 
-		
 		return extractSearchResult(oResult);
 	}
 	
@@ -265,18 +261,18 @@ public class E22_SocialRulesSelection extends clsModuleBase implements I1_7_rece
 	 * @param oResult
 	 * @return
 	 */
-	private ArrayList<clsAct> extractSearchResult(HashMap<Integer,ArrayList<clsPair<Double, clsDataStructureContainer>>> oResult) {
+	private ArrayList<clsAct> extractSearchResult(ArrayList<ArrayList<clsPair<Double, clsDataStructureContainer>>> oResult) {
 		
 		ArrayList<clsAct> oActs = new ArrayList<clsAct>();
 		
 		//HZ Up to now the match-value is not taken into account of the selection process
-		for(Map.Entry<Integer, ArrayList<clsPair<Double, clsDataStructureContainer>>> oEntry : oResult.entrySet()){
-			for(clsPair<Double, clsDataStructureContainer> oPair : oEntry.getValue()){
-				clsAct oAct = (clsAct)oPair.b.moDataStructure; 
+		for(ArrayList<clsPair<Double, clsDataStructureContainer>> oEntry : oResult){
+			for(clsPair<Double, clsDataStructureContainer> oPair : oEntry){
+				clsAct oAct = (clsAct)oPair.b.getMoDataStructure(); 
 				
 				//FIXME - again, there has to be a different evaluation of the current Super-Ego Rules
-				if(oAct.moContent.contains("UNPLEASURE")){
-					oActs.add((clsAct)oPair.b.moDataStructure);
+				if(oAct.getMoContent().contains("UNPLEASURE")){
+					oActs.add((clsAct)oPair.b.getMoDataStructure());
 				}
 			}
 		}
@@ -369,8 +365,8 @@ public class E22_SocialRulesSelection extends clsModuleBase implements I1_7_rece
 	 * @see pa.interfaces.knowledgebase.itfKnowledgeBaseAccess#accessKnowledgeBase(java.util.ArrayList)
 	 */
 	@Override
-	public HashMap<Integer,ArrayList<clsPair<Double,clsDataStructureContainer>>> accessKnowledgeBase() {
-		return moKnowledgeBaseHandler.initMemorySearch(moSearchPattern);
+	public void accessKnowledgeBase(ArrayList<ArrayList<clsPair<Double,clsDataStructureContainer>>> poSearchResult){
+		poSearchResult.addAll(moKnowledgeBaseHandler.initMemorySearch(moSearchPattern));
 	}
 
 	/* (non-Javadoc)

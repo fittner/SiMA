@@ -37,9 +37,14 @@ import pa.tools.clsPair;
 public class E08_ConversionToSecondaryProcessForDriveWishes extends clsModuleBase implements 
                  I1_6_receive, I1_7_send, I5_3_send, itfKnowledgeBaseAccess {
 	
-    private clsKnowledgeBaseHandler moKnowledgeBaseHandler;
-    public static final String P_MODULENUMBER = "08";
+	public static final String P_MODULENUMBER = "08";
 	
+	private clsKnowledgeBaseHandler moKnowledgeBaseHandler; 
+	private ArrayList<clsPair<Integer, clsDataStructurePA>> moSearchPattern;
+	
+    private ArrayList<clsDriveMesh> moDriveList_Input; 
+	private ArrayList<clsSecondaryDataStructureContainer> moDriveList_Output; 
+
 	/**
 	 * DOCUMENT (KOHLHAUSER) - insert description 
 	 * 
@@ -61,10 +66,6 @@ public class E08_ConversionToSecondaryProcessForDriveWishes extends clsModuleBas
 		applyProperties(poPrefix, poProp);
 	}
 
-	public ArrayList<clsDriveMesh> moDriveList_Input; 
-	public ArrayList<clsSecondaryDataStructureContainer> moDriveList_Output; 
-
-	
 	public static clsBWProperties getDefaultProperties(String poPrefix) {
 		String pre = clsBWProperties.addDot(poPrefix);
 		
@@ -154,9 +155,9 @@ public class E08_ConversionToSecondaryProcessForDriveWishes extends clsModuleBas
 			
 			oDM_A = getDMWP(poDM);  
 			oAff_A = getAffectWP(poDM); 
-			oContentWP =   ((clsWordPresentation)oDM_A.getLeafElement()).moContent 
+			oContentWP =   ((clsWordPresentation)oDM_A.getLeafElement()).getMoContent() 
 			             + ":" 
-			             + ((clsWordPresentation)oAff_A.getLeafElement()).moContent; 	
+			             + ((clsWordPresentation)oAff_A.getLeafElement()).getMoContent(); 	
 			
 			oResWP = (clsWordPresentation)clsDataStructureGenerator.generateDataStructure(eDataType.WP, new clsPair<String, Object>(eDataType.WP.name(), oContentWP)); 
 			oSec_CON = new clsSecondaryDataStructureContainer(oResWP, new ArrayList<clsAssociation>(Arrays.asList(oDM_A, oAff_A)));
@@ -178,12 +179,12 @@ public class E08_ConversionToSecondaryProcessForDriveWishes extends clsModuleBas
 	private clsAssociation getDMWP(clsDriveMesh poDM) {
 		clsAssociation oAssDM = null; 
 		
-		for(clsAssociation oAssociation : poDM.moAssociatedContent){
+		for(clsAssociation oAssociation : poDM.getMoAssociatedContent()){
 			//HZ: It will be searched for the drive context that is stored as TP in 
 			//the associations that define oDriveMesh => Element A is always the root
 			//element oDriveMesh, while element B is the associated context. 
 	
-				oAssDM = (clsAssociation)getWP(oAssociation.moAssociationElementB);
+				oAssDM = (clsAssociation)getWP(oAssociation.getMoAssociationElementB());
 		}
 		
 		return oAssDM;
@@ -214,13 +215,17 @@ public class E08_ConversionToSecondaryProcessForDriveWishes extends clsModuleBas
 	 * @return
 	 */
 	private clsAssociation getWP(clsDataStructurePA poDataStructure){
+		ArrayList<ArrayList<clsPair<Double,clsDataStructureContainer>>> oSearchResult = 
+			new ArrayList<ArrayList<clsPair<Double,clsDataStructureContainer>>>();
+		
 		moSearchPattern.clear(); 
 		addToSearchPattern(eDataType.WP, poDataStructure); 
 		
 		clsAssociation oAssWP = null; 
 		
 		try{
-			oAssWP = (clsAssociation)accessKnowledgeBase().get(0).get(0).b.moAssociatedDataStructures.get(0);
+			accessKnowledgeBase(oSearchResult); 
+			oAssWP = (clsAssociation)oSearchResult.get(0).get(0).b.getMoAssociatedDataStructures().get(0);
 		} catch (IndexOutOfBoundsException ex1){return null;
 		} catch (NullPointerException ex2){return null;}
 			
@@ -306,19 +311,7 @@ public class E08_ConversionToSecondaryProcessForDriveWishes extends clsModuleBas
 		// TODO (KOHLHAUSER) - Auto-generated method stub
 		throw new java.lang.NoSuchMethodError();
 	}
-
-	/* (non-Javadoc)
-	 *
-	 * @author zeilinger
-	 * 12.08.2010, 21:12:07
-	 * 
-	 * @see pa.interfaces.knowledgebase.itfKnowledgeBaseAccess#accessKnowledgeBase(java.util.ArrayList)
-	 */
-	@Override
-	public HashMap<Integer,ArrayList<clsPair<Double,clsDataStructureContainer>>> accessKnowledgeBase() {
-		return moKnowledgeBaseHandler.initMemorySearch(moSearchPattern);
-	}
-
+	
 	/* (non-Javadoc)
 	 *
 	 * @author deutsch
@@ -330,5 +323,17 @@ public class E08_ConversionToSecondaryProcessForDriveWishes extends clsModuleBas
 	protected void setModuleNumber() {
 		mnModuleNumber = Integer.parseInt(P_MODULENUMBER);
 		
+	}
+
+	/* (non-Javadoc)
+	 *
+	 * @author zeilinger
+	 * 12.08.2010, 21:12:07
+	 * 
+	 * @see pa.interfaces.knowledgebase.itfKnowledgeBaseAccess#accessKnowledgeBase(java.util.ArrayList)
+	 */
+	@Override
+	public void accessKnowledgeBase(ArrayList<ArrayList<clsPair<Double,clsDataStructureContainer>>> poSearchResult) {
+		poSearchResult.addAll(moKnowledgeBaseHandler.initMemorySearch(moSearchPattern));
 	}
 }

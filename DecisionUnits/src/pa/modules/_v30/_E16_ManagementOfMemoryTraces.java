@@ -13,6 +13,7 @@ import config.clsBWProperties;
 import pa.interfaces.knowledgebase.itfKnowledgeBaseAccess;
 import pa.interfaces.receive._v30.I2_6_receive;
 import pa.interfaces.send._v30.I2_7_send;
+import pa.memorymgmt.clsKnowledgeBaseHandler;
 import pa.memorymgmt.datatypes.clsAssociation;
 import pa.memorymgmt.datatypes.clsAssociationDriveMesh;
 import pa.memorymgmt.datatypes.clsAssociationAttribute;
@@ -35,6 +36,14 @@ import pa.tools.clsTripple;
  */
 public class _E16_ManagementOfMemoryTraces extends clsModuleBase implements I2_6_receive, I2_7_send, itfKnowledgeBaseAccess {
 
+	private clsKnowledgeBaseHandler moKnowledgeBaseHandler; 
+	private ArrayList<clsPair<Integer, clsDataStructurePA>> moSearchPattern; 
+	
+	public ArrayList<clsPair<clsPrimaryDataStructureContainer, clsDriveMesh>> moPerceptPlusRepressed_Input;
+	public ArrayList<clsTripple<clsPrimaryDataStructureContainer, clsDriveMesh, ArrayList<clsDriveMesh>>> moPerceptPlusMemories_Output;
+	public clsDataStructureContainer moRetrievedAssociatedDataStructures; 
+	public ArrayList<clsPair<Double, clsDataStructureContainer>> moRetrievedEnvironmentalMatches; 
+	
 	/**
 	 * DOCUMENT (deutsch) - insert description 
 	 * 
@@ -54,11 +63,6 @@ public class _E16_ManagementOfMemoryTraces extends clsModuleBase implements I2_6
 		
 		moPerceptPlusMemories_Output = new ArrayList<clsTripple<clsPrimaryDataStructureContainer, clsDriveMesh,ArrayList<clsDriveMesh>>>();
 	}
-
-	public ArrayList<clsPair<clsPrimaryDataStructureContainer, clsDriveMesh>> moPerceptPlusRepressed_Input;
-	public ArrayList<clsTripple<clsPrimaryDataStructureContainer, clsDriveMesh, ArrayList<clsDriveMesh>>> moPerceptPlusMemories_Output;
-	public clsDataStructureContainer moRetrievedAssociatedDataStructures; 
-	public ArrayList<clsPair<Double, clsDataStructureContainer>> moRetrievedEnvironmentalMatches; 
 
 	public static clsBWProperties getDefaultProperties(String poPrefix) {
 		String pre = clsBWProperties.addDot(poPrefix);
@@ -186,30 +190,28 @@ public class _E16_ManagementOfMemoryTraces extends clsModuleBase implements I2_6
 			// 	- is this interpretation right?
 			//	- if so, is "aware content" the right name for these drive meshes
 			//by the way, DO NOT BLAME the programmer; BLAME the orderer
-			HashMap<Integer,ArrayList<clsPair<Double,clsDataStructureContainer>>> oFoundDS = new HashMap<Integer, ArrayList<clsPair<Double,clsDataStructureContainer>>>();  
+			ArrayList<ArrayList<clsPair<Double,clsDataStructureContainer>>> oSearchResult = new ArrayList<ArrayList<clsPair<Double,clsDataStructureContainer>>>();  
 			ArrayList<clsDriveMesh> oRetVal = new ArrayList<clsDriveMesh>();
 			
 			moSearchPattern.clear(); 
-			addToSearchPattern(eDataType.DM, oEnvironmentalInput.moDataStructure);
+			addToSearchPattern(eDataType.DM, oEnvironmentalInput.getMoDataStructure());
 			//It is for sure that the search retrieves a result as the search parameter is 
 			//an already found object => hence the retrieved ArrayList is not empty. 
 			//In addition the search retrieves exactly one result as the search parameter 
 			//obeys of a data-structure identification number. 
 			//=> Hence the container can be read out directly below; 
-			oFoundDS = accessKnowledgeBase(); 
+			accessKnowledgeBase(oSearchResult); 
 			
-			if(oFoundDS.size() > 0){
-				moRetrievedAssociatedDataStructures = accessKnowledgeBase().get(0).get(0).b;
+			moRetrievedAssociatedDataStructures = oSearchResult.get(0).get(0).b;
 				
-				for(clsAssociation oAssociation : moRetrievedAssociatedDataStructures.moAssociatedDataStructures){
-							clsDriveMesh oFoundDM = ((clsAssociationDriveMesh)oAssociation).getDM(); 
+			for(clsAssociation oAssociation : moRetrievedAssociatedDataStructures.getMoAssociatedDataStructures()){
+						clsDriveMesh oFoundDM = ((clsAssociationDriveMesh)oAssociation).getDM(); 
 							
-							if(oRepressedContent.moContentType.equals(oFoundDM.moContentType)){
-								oRetVal.add(oFoundDM); 
-							}
-					}
+						if(oRepressedContent.getMoContentType().equals(oFoundDM.getMoContentType())){
+							oRetVal.add(oFoundDM); 
+						}
 			}
-							
+									
 			return oRetVal; 
 	}
 
@@ -242,13 +244,13 @@ public class _E16_ManagementOfMemoryTraces extends clsModuleBase implements I2_6
 	private clsPrimaryDataStructureContainer searchContainer(clsPrimaryDataStructureContainer poEnvInput) {
 		
 		clsPrimaryDataStructureContainer oCon = poEnvInput; 
-		moRetrievedEnvironmentalMatches = searchDS(poEnvInput.moDataStructure); 
+		moRetrievedEnvironmentalMatches = searchDS(poEnvInput.getMoDataStructure()); 
 		
 		//Only the best match is used for the further processing; this explains the 
 		//get(0) in the statement below.
 		if(moRetrievedEnvironmentalMatches.size() > 0){
 			oCon = (clsPrimaryDataStructureContainer)moRetrievedEnvironmentalMatches.get(0).b; 
-			oCon.moAssociatedDataStructures = poEnvInput.moAssociatedDataStructures; 
+			oCon.setMoAssociatedDataStructures(poEnvInput.getMoAssociatedDataStructures()); 
 		}
 		//In case their does not exist a search result, the Environmental INPUT VALUE is assigned to the container.  
 		return oCon;
@@ -266,18 +268,16 @@ public class _E16_ManagementOfMemoryTraces extends clsModuleBase implements I2_6
 	private ArrayList<clsPair<Double, clsDataStructureContainer>>  searchDS(clsDataStructurePA poDS) {
 
 		ArrayList<clsPair<Double, clsDataStructureContainer>> oRetVal = new ArrayList<clsPair<Double,clsDataStructureContainer>>(); 
-		HashMap<Integer,ArrayList<clsPair<Double,clsDataStructureContainer>>> oFoundDS = new HashMap<Integer, ArrayList<clsPair<Double,clsDataStructureContainer>>>(); 
+		ArrayList<ArrayList<clsPair<Double,clsDataStructureContainer>>> oSearchResult = new ArrayList<ArrayList<clsPair<Double,clsDataStructureContainer>>>(); 
 		
 		moSearchPattern.clear(); 
 		addToSearchPattern(eDataType.UNDEFINED, poDS);
 		//The search pattern exists out of one entry => the returned hashmap contains only 
 		//ONE entry that has the key 0. 
-		oFoundDS = accessKnowledgeBase(); 
+		accessKnowledgeBase(oSearchResult); 
 		
-		if(oFoundDS.size() > 0){
-			oRetVal = accessKnowledgeBase().get(0); 
-		}
-		
+		oRetVal = oSearchResult.get(0); 
+				
 		return oRetVal; 
 	}
 	
@@ -293,22 +293,23 @@ public class _E16_ManagementOfMemoryTraces extends clsModuleBase implements I2_6
 	private void mergeEnvironmentalInputWithMemory(clsPrimaryDataStructureContainer poStoredContainer,
 												   clsPrimaryDataStructureContainer poEnvironmentalInput) {
 		
-		if(poStoredContainer.moDataStructure instanceof clsThingPresentationMesh && poEnvironmentalInput.moDataStructure instanceof clsThingPresentationMesh){
+		if(poStoredContainer.getMoDataStructure() instanceof clsThingPresentationMesh 
+				&& poEnvironmentalInput.getMoDataStructure() instanceof clsThingPresentationMesh){
 
-		 	for(clsAssociation oAAEnvironmentIn : ((clsThingPresentationMesh)poEnvironmentalInput.moDataStructure).moAssociatedContent){
+		 	for(clsAssociation oAAEnvironmentIn : ((clsThingPresentationMesh)poEnvironmentalInput.getMoDataStructure()).moAssociatedContent){
 				
-		 		if( !((clsThingPresentationMesh)poStoredContainer.moDataStructure).contain(oAAEnvironmentIn.moAssociationElementB) ){
-					ArrayList<clsPair<Double, clsDataStructureContainer>> oSearchResult = searchDS(oAAEnvironmentIn.moAssociationElementB);
+		 		if( !((clsThingPresentationMesh)poStoredContainer.getMoDataStructure()).contain(oAAEnvironmentIn.getMoAssociationElementB()) ){
+					ArrayList<clsPair<Double, clsDataStructureContainer>> oSearchResult = searchDS(oAAEnvironmentIn.getMoAssociationElementB());
 					
 					if( oSearchResult.size() > 0){
 						clsAssociation oAssociation = new clsAssociationAttribute(new clsTripple<Integer, eDataType, String>(
 																								 -1, 
 																								 eDataType.ASSOCIATIONATTRIBUTE, 
 																								 eDataType.ASSOCIATIONATTRIBUTE.name()  ), 
-																								 (clsPrimaryDataStructure)poStoredContainer.moDataStructure, 
-																								 (clsPrimaryDataStructure)oSearchResult.get(0).b.moDataStructure); 
+																								 (clsPrimaryDataStructure)poStoredContainer.getMoDataStructure(), 
+																								 (clsPrimaryDataStructure)oSearchResult.get(0).b.getMoDataStructure()); 
 						
-						poStoredContainer.moAssociatedDataStructures.add(oAssociation);  
+						poStoredContainer.getMoAssociatedDataStructures().add(oAssociation);  
 					}
 				}
 		 	}
@@ -374,9 +375,8 @@ public class _E16_ManagementOfMemoryTraces extends clsModuleBase implements I2_6
 	 * @see pa.interfaces.knowledgebase.itfKnowledgeBaseAccess#accessKnowledgeBase(java.util.ArrayList)
 	 */
 	@Override
-	public HashMap<Integer,ArrayList<clsPair<Double,clsDataStructureContainer>>> accessKnowledgeBase() {
-		//return moEnclosingContainer.moKnowledgeBaseHandler.initMemorySearch(moSearchPattern);
-		return null;
+	public void accessKnowledgeBase(ArrayList<ArrayList<clsPair<Double,clsDataStructureContainer>>> poSearchResult) {
+			poSearchResult = moKnowledgeBaseHandler.initMemorySearch(moSearchPattern);
 	}
 
 	/* (non-Javadoc)

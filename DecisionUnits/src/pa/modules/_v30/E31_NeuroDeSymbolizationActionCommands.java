@@ -35,6 +35,9 @@ import pa.tools.clsPair;
 public class E31_NeuroDeSymbolizationActionCommands extends clsModuleBase implements I8_1_receive, I8_2_send, itfTimeChartInformationContainer  {
 	public static final String P_MODULENUMBER = "31";
 	
+	private ArrayList<clsActionCommand> moActionCommandList_Output;
+	private ArrayList<clsWordPresentation> moActionCommands_Input;
+	
 	/**
 	 * DOCUMENT (brandstaetter) - insert description 
 	 * 
@@ -55,12 +58,6 @@ public class E31_NeuroDeSymbolizationActionCommands extends clsModuleBase implem
 		moActionCommandList_Output = new ArrayList<clsActionCommand>();
 	}
 
-	private ArrayList<clsActionCommand> moActionCommandList_Output;
-	private ArrayList<clsWordPresentation> moActionCommands_Input;
-	
-	private int mnCounter = 0;
-
-	
 	public static clsBWProperties getDefaultProperties(String poPrefix) {
 		String pre = clsBWProperties.addDot(poPrefix);
 		
@@ -125,11 +122,11 @@ public class E31_NeuroDeSymbolizationActionCommands extends clsModuleBase implem
 		
 		moActionCommandList_Output.clear();
 		//process_oldDT();
-		mnCounter++; 
+	
 		if( moActionCommands_Input.size() > 0 ) {
 				for(clsWordPresentation oWP : moActionCommands_Input) {
 				
-					String oAction = oWP.moContent; 
+					String oAction = oWP.getMoContent(); 
 				
 					if(oAction.equals("MOVE_FORWARD")){
 						moActionCommandList_Output.add( new clsActionMove(eActionMoveDirection.MOVE_FORWARD,1.0) );
@@ -166,12 +163,7 @@ public class E31_NeuroDeSymbolizationActionCommands extends clsModuleBase implem
 				}
 		}
 		else {
-			if( mnCounter > 150) {
-	 			moActionCommandList_Output.add( clsActionSequenceFactory.getSeekingSequence(1.0f, 2) );
-				mnCounter = 0; 
-			}
-			
-			mnCounter++; 
+			moActionCommandList_Output.add( clsActionSequenceFactory.getSeekingSequence(1.0f, 2) );
 		}
 			
 	}
@@ -248,7 +240,7 @@ public class E31_NeuroDeSymbolizationActionCommands extends clsModuleBase implem
 		for(clsPair<String, Double> oPair : oRetVal){
 			if(moActionCommands_Input.size() > 0){
 				
-				if(oPair.a.equals(moActionCommands_Input.get(0).moContent)){
+				if(oPair.a.equals(moActionCommands_Input.get(0).getMoContent())){
 					oPair.b = 1.0; 
 				}
 			}

@@ -103,9 +103,9 @@ public class tssDataStructureClone {
 	@Test
 	public void tssCloneTP() throws CloneNotSupportedException{
 		clsThingPresentation oClone = (clsThingPresentation)moThingPresentationTest.clone();
-		oClone.moContent= "test_change"; 
+		oClone.setMoContent("test_change"); 
 		
-		if(!oClone.moContent.equals(moThingPresentationTest.moContent)){
+		if(!oClone.getMoContent().equals(moThingPresentationTest.getMoContent())){
 			assertTrue(true);
 		}
 	}
@@ -114,10 +114,10 @@ public class tssDataStructureClone {
 	public void tssCloneTPM() throws CloneNotSupportedException{
 		clsThingPresentationMesh oClone = (clsThingPresentationMesh)moThingPresentationMeshTPM3.clone();
 		
-		oClone.moDS_ID = oID++; 
+		oClone.setMoDS_ID(oID++); 
 		oClone.moAssociatedContent.remove(0); 
 		
-		if((oClone.moDS_ID != moThingPresentationMeshTPM3.moDS_ID) &&
+		if((oClone.getMoDS_ID() != moThingPresentationMeshTPM3.getMoDS_ID()) &&
 					oClone.moAssociatedContent.size()== moThingPresentationMeshTPM3.moAssociatedContent.size()-1){
 			assertTrue(true);
 		}
@@ -127,10 +127,10 @@ public class tssDataStructureClone {
 	public void tssCloneTI() throws CloneNotSupportedException{
 		clsTemplateImage oClone = (clsTemplateImage)moTemplateImage.clone();
 		
-		oClone.moDS_ID = oID++;
+		oClone.setMoDS_ID(oID++);
 		oClone.moAssociatedContent.remove(0); 
 		
-		if(oClone.moDS_ID != moTemplateImage.moDS_ID &&
+		if(oClone.getMoDS_ID() != moTemplateImage.getMoDS_ID() &&
 					oClone.moAssociatedContent.size()== moTemplateImage.moAssociatedContent.size()-1){
 			assertTrue(true);
 		}
@@ -146,9 +146,9 @@ public class tssDataStructureClone {
 	@Test
 	public void tssCloneWP() throws CloneNotSupportedException{
 		clsWordPresentation oClone = (clsWordPresentation)moWordPresentation.clone();
-		oClone.moDS_ID= oID++;
+		oClone.setMoDS_ID(oID++);
 		
-		if( oClone.moDS_ID != moWordPresentation.moDS_ID){
+		if( oClone.getMoDS_ID() != moWordPresentation.getMoDS_ID()){
 			assertTrue(true);
 		}
 	}
@@ -163,8 +163,8 @@ public class tssDataStructureClone {
 	@Test
 	public void tssClonePrimaryDataStructureContainer() throws CloneNotSupportedException{
 		clsPrimaryDataStructureContainer oClone = (clsPrimaryDataStructureContainer)oPrimaryDataStructureContainer.clone(); 
-		oClone.moAssociatedDataStructures.clear(); 
-		oClone.moDataStructure.moDS_ID = oID++; 
+		oClone.getMoAssociatedDataStructures().clear(); 
+		oClone.getMoDataStructure().setMoDS_ID(oID++); 
 		
 //		if(oClone.moAssociatedDataStructures.size() < oPrimaryDataStructureContainer.moAssociatedDataStructures.size()&&
 //				oPrimaryDataStructureContainer.moDataStructure.moDS_ID != "test_change_ID")){
@@ -175,8 +175,8 @@ public class tssDataStructureClone {
 	@Test
 	public void tssCloneSecondaryDataStructureContainer() throws CloneNotSupportedException{
 		clsSecondaryDataStructureContainer oClone = (clsSecondaryDataStructureContainer)oSecondaryDataStructureContainer.clone(); 
-		oClone.moAssociatedDataStructures.clear(); 
-		oClone.moDataStructure.moDS_ID = oID++;
+		oClone.getMoAssociatedDataStructures().clear(); 
+		oClone.getMoDataStructure().setMoDS_ID(oID++);
 		
 //		if(oClone.moAssociatedDataStructures.size() < oSecondaryDataStructureContainer.moAssociatedDataStructures.size()&&
 //				!oSecondaryDataStructureContainer.moDataStructure.moDS_ID.equals("test_change_ID")){

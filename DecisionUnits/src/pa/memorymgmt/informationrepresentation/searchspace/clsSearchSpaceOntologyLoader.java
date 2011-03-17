@@ -64,16 +64,16 @@ public class clsSearchSpaceOntologyLoader extends clsSearchSpaceBase{
 		for(Map.Entry<String, clsDataStructurePA> oEntry : moDataStructureTable.entrySet()){
 			clsDataStructurePA oDS = oEntry.getValue();
 			
-			if(!moSearchSpaceContent.containsKey(oDS.moDataStructureType)){
-				moSearchSpaceContent.put(oDS.moDataStructureType, new HashMap<String, HashMap<Integer, clsPair<clsDataStructurePA, ArrayList<clsAssociation>>>>()); 
+			if(!moSearchSpaceContent.containsKey(oDS.getMoDataStructureType())){
+				moSearchSpaceContent.put(oDS.getMoDataStructureType(), new HashMap<String, HashMap<Integer, clsPair<clsDataStructurePA, ArrayList<clsAssociation>>>>()); 
 			}
-			if(!moSearchSpaceContent.get(oDS.moDataStructureType).containsKey(oDS.moContentType)){
-				moSearchSpaceContent.get(oDS.moDataStructureType)
-									.put(oDS.moContentType, new HashMap<Integer, clsPair<clsDataStructurePA, ArrayList<clsAssociation>>>()); 
+			if(!moSearchSpaceContent.get(oDS.getMoDataStructureType()).containsKey(oDS.getMoContentType())){
+				moSearchSpaceContent.get(oDS.getMoDataStructureType())
+									.put(oDS.getMoContentType(), new HashMap<Integer, clsPair<clsDataStructurePA, ArrayList<clsAssociation>>>()); 
 			}
-			if(!moSearchSpaceContent.get(oDS.moDataStructureType).get(oDS.moContentType).containsKey(oDS.moDS_ID)){
-				moSearchSpaceContent.get(oDS.moDataStructureType).get(oDS.moContentType)
-									.put(oDS.moDS_ID, new clsPair<clsDataStructurePA, ArrayList<clsAssociation>>(oDS, new ArrayList<clsAssociation>()));
+			if(!moSearchSpaceContent.get(oDS.getMoDataStructureType()).get(oDS.getMoContentType()).containsKey(oDS.getMoDS_ID())){
+				moSearchSpaceContent.get(oDS.getMoDataStructureType()).get(oDS.getMoContentType())
+									.put(oDS.getMoDS_ID(), new clsPair<clsDataStructurePA, ArrayList<clsAssociation>>(oDS, new ArrayList<clsAssociation>()));
 			}
 		}
 	}
@@ -102,11 +102,11 @@ public class clsSearchSpaceOntologyLoader extends clsSearchSpaceBase{
 	 * @param association
 	 */
 	private void defineElements(clsDataStructurePA poAssociation) {
-		clsDataStructurePA oElementA = ((clsAssociation)poAssociation).moAssociationElementA;
-		clsDataStructurePA oElementB = ((clsAssociation)poAssociation).moAssociationElementB;
+		clsDataStructurePA oElementA = ((clsAssociation)poAssociation).getMoAssociationElementA();
+		clsDataStructurePA oElementB = ((clsAssociation)poAssociation).getMoAssociationElementB();
 		
-		moSearchSpaceContent.get(oElementA.moDataStructureType).get(oElementA.moContentType).get(oElementA.moDS_ID).b.add((clsAssociation)poAssociation);
-		moSearchSpaceContent.get(oElementB.moDataStructureType).get(oElementB.moContentType).get(oElementB.moDS_ID).b.add((clsAssociation)poAssociation);	
+		moSearchSpaceContent.get(oElementA.getMoDataStructureType()).get(oElementA.getMoContentType()).get(oElementA.getMoDS_ID()).b.add((clsAssociation)poAssociation);
+		moSearchSpaceContent.get(oElementB.getMoDataStructureType()).get(oElementB.getMoContentType()).get(oElementB.getMoDS_ID()).b.add((clsAssociation)poAssociation);	
 	}
 
 	/* (non-Javadoc)
@@ -137,9 +137,9 @@ public class clsSearchSpaceOntologyLoader extends clsSearchSpaceBase{
 				oRetVal +="	Content Type:	" + oDataStructureContentType + "\n";
 					for(Integer oDataStructureID : moSearchSpaceContent.get(oDataStructureContentType).get(oDataElement).keySet()){
 						clsDataStructurePA oDataStructure = moSearchSpaceContent.get(oDataStructureContentType).get(oDataElement).get(oDataStructureID).a; 
-						oRetVal +="	Object:	" + oDataStructure.moDS_ID + "\n";
-						for(clsAssociation oAssociation : moSearchSpaceContent.get(oDataStructureContentType).get(oDataElement).get(oDataStructure.moDS_ID).b){
-							oRetVal +="		Association: " + oAssociation.moDS_ID +"\n"; 
+						oRetVal +="	Object:	" + oDataStructure.getMoDS_ID() + "\n";
+						for(clsAssociation oAssociation : moSearchSpaceContent.get(oDataStructureContentType).get(oDataElement).get(oDataStructure.getMoDS_ID()).b){
+							oRetVal +="		Association: " + oAssociation.getMoDS_ID() +"\n"; 
 						}
 					}
 			}

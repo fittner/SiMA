@@ -21,9 +21,10 @@ import pa.tools.clsTripple;
  * 
  */
 public abstract class clsDataStructurePA implements Cloneable, itfComparable{
-	public int moDS_ID;
-	public eDataType moDataStructureType;
-	public String moContentType;
+
+	protected int moDS_ID;
+	protected eDataType moDataStructureType;
+	protected String moContentType;
 
 	/**
 	 * DOCUMENT (zeilinger) - insert description 
@@ -78,6 +79,66 @@ public abstract class clsDataStructurePA implements Cloneable, itfComparable{
 //		}
 //		return oMatchScore;
 //	}
+	
+	/**
+	 * @author zeilinger
+	 * 17.03.2011, 00:55:43
+	 * 
+	 * @return the moDS_ID
+	 */
+	public int getMoDS_ID() {
+		return moDS_ID;
+	}
+
+	/**
+	 * @author zeilinger
+	 * 17.03.2011, 00:55:43
+	 * 
+	 * @param moDS_ID the moDS_ID to set
+	 */
+	public void setMoDS_ID(int moDS_ID) {
+		this.moDS_ID = moDS_ID;
+	}
+
+	/**
+	 * @author zeilinger
+	 * 17.03.2011, 00:55:43
+	 * 
+	 * @return the moDataStructureType
+	 */
+	public eDataType getMoDataStructureType() {
+		return moDataStructureType;
+	}
+
+	/**
+	 * @author zeilinger
+	 * 17.03.2011, 00:55:43
+	 * 
+	 * @param moDataStructureType the moDataStructureType to set
+	 */
+	public void setMoDataStructureType(eDataType moDataStructureType) {
+		this.moDataStructureType = moDataStructureType;
+	}
+
+	/**
+	 * @author zeilinger
+	 * 17.03.2011, 00:55:43
+	 * 
+	 * @return the moContentType
+	 */
+	public String getMoContentType() {
+		return moContentType;
+	}
+
+	/**
+	 * @author zeilinger
+	 * 17.03.2011, 00:55:43
+	 * 
+	 * @param moContentType the moContentType to set
+	 */
+	public void setMoContentType(String moContentType) {
+		this.moContentType = moContentType;
+	}
 	
 	/**
 	 * DOCUMENT (zeilinger) - insert description

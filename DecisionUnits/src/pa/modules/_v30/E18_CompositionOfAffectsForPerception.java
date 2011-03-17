@@ -29,6 +29,9 @@ import pa.tools.clsPair;
 public class E18_CompositionOfAffectsForPerception extends clsModuleBase implements I2_8_receive, I2_16_receive, I2_9_send {
 	public static final String P_MODULENUMBER = "18";
 	
+	private ArrayList<clsPair<clsPrimaryDataStructureContainer, clsDriveMesh>> moMergedPrimaryInformation_Input;
+	private ArrayList<clsPrimaryDataStructureContainer> moNewPrimaryInformation; 
+	
 	/**
 	 * DOCUMENT (wendt) - insert description 
 	 * 
@@ -47,11 +50,6 @@ public class E18_CompositionOfAffectsForPerception extends clsModuleBase impleme
 		applyProperties(poPrefix, poProp);
 	}
 
-	public ArrayList<clsPair<clsPrimaryDataStructureContainer, clsDriveMesh>> moMergedPrimaryInformation_Input;
-	public ArrayList<clsPrimaryDataStructureContainer> moNewPrimaryInformation; 
-	
-
-	
 	public static clsBWProperties getDefaultProperties(String poPrefix) {
 		String pre = clsBWProperties.addDot(poPrefix);
 		
@@ -127,15 +125,15 @@ public class E18_CompositionOfAffectsForPerception extends clsModuleBase impleme
 		moNewPrimaryInformation = new ArrayList<clsPrimaryDataStructureContainer>(); 
 		
 		for(clsPair <clsPrimaryDataStructureContainer, clsDriveMesh> oPair : moMergedPrimaryInformation_Input){
-			if(oPair.a.moDataStructure instanceof clsThingPresentationMesh){
-				for(pa.memorymgmt.datatypes.clsAssociation oAssociation : oPair.a.moAssociatedDataStructures){
+			if(oPair.a.getMoDataStructure() instanceof clsThingPresentationMesh){
+				for(pa.memorymgmt.datatypes.clsAssociation oAssociation : oPair.a.getMoAssociatedDataStructures()){
 					if(oAssociation instanceof clsAssociationDriveMesh){
 						clsDriveMesh oDMInput = ((clsAssociationDriveMesh)oAssociation).getDM(); 
 						clsDriveMesh oDMRepressed = oPair.b; 
 						
-						if(oDMInput.moContent.intern() == oDMRepressed.moContent.intern()){
+						if(oDMInput.getMoContent().intern() == oDMRepressed.getMoContent().intern()){
 							oDMInput.setPleasure((oDMInput.getPleasure()+oDMRepressed.getPleasure())/2); 
-							oDMInput.moContent = oDMRepressed.moContent; 
+							oDMInput.setMoContent(oDMRepressed.getMoContent()); 
 						}
 					}
 				}

@@ -30,6 +30,8 @@ public class E36_RepressionHandler extends clsModuleBase implements I4_1_receive
 	public static final String P_MODULENUMBER = "36";
 	
 	private clsBlockedContentStorage moBlockedContentStorage;
+	private ArrayList<clsPrimaryDataStructureContainer> moPrimaryInformation; 
+
 	
 	/**
 	 * DOCUMENT (GELBARD) - insert description 
@@ -51,10 +53,6 @@ public class E36_RepressionHandler extends clsModuleBase implements I4_1_receive
 
 		applyProperties(poPrefix, poProp);	
 	}
-
-	ArrayList<clsPrimaryDataStructureContainer> moPrimaryInformation; 
-	
-	
 	
 	public static clsBWProperties getDefaultProperties(String poPrefix) {
 		String pre = clsBWProperties.addDot(poPrefix);

@@ -25,6 +25,10 @@ import pa.memorymgmt.datatypes.clsSecondaryDataStructureContainer;
 public class E24_RealityCheck_1 extends clsModuleBase implements I2_12_receive, I6_1_receive, I2_13_send {
 	public static final String P_MODULENUMBER = "24";
 	
+	private ArrayList<clsSecondaryDataStructureContainer> moFocusedPerception_Input; 
+	private ArrayList<clsSecondaryDataStructureContainer> moRealityPerception_Output; 
+	//private ArrayList<clsSecondaryDataStructureContainer> moDriveList;  //removed by HZ - not required now
+
 	/**
 	 * DOCUMENT (KOHLHAUSER) - insert description 
 	 * 
@@ -42,11 +46,6 @@ public class E24_RealityCheck_1 extends clsModuleBase implements I2_12_receive, 
 		applyProperties(poPrefix, poProp);		
 	}
 
-	private ArrayList<clsSecondaryDataStructureContainer> moFocusedPerception_Input; 
-	private ArrayList<clsSecondaryDataStructureContainer> moRealityPerception_Output; 
-	//private ArrayList<clsSecondaryDataStructureContainer> moDriveList;  //removed by HZ - not required now
-
-	
 	public static clsBWProperties getDefaultProperties(String poPrefix) {
 		String pre = clsBWProperties.addDot(poPrefix);
 		

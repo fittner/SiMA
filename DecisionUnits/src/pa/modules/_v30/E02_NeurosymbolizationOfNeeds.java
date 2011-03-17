@@ -32,6 +32,8 @@ import du.itf.sensors.clsStomachTension;
 public class E02_NeurosymbolizationOfNeeds extends clsModuleBase implements I1_1_receive, I1_2_send {
 	public static final String P_MODULENUMBER = "02";
 	
+	private HashMap<eSensorIntType, clsDataBase> moHomeostasis;
+	private HashMap<String, Double> moHomeostaticSymbol;
 	/**
 	 * DOCUMENT (muchitsch) - insert description 
 	 * 
@@ -49,10 +51,6 @@ public class E02_NeurosymbolizationOfNeeds extends clsModuleBase implements I1_1
 		applyProperties(poPrefix, poProp);	
 	}
 
-	private HashMap<eSensorIntType, clsDataBase> moHomeostasis;
-	private HashMap<String, Double> moHomeostaticSymbol;
-	
-	
 	public static clsBWProperties getDefaultProperties(String poPrefix) {
 		String pre = clsBWProperties.addDot(poPrefix);
 		

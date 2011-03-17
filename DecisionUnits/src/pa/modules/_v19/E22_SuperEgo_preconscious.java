@@ -7,9 +7,6 @@
 package pa.modules._v19;
 
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.Map;
 
 import config.clsBWProperties;
 import pa._v19.clsInterfaceHandler;
@@ -150,7 +147,7 @@ public class E22_SuperEgo_preconscious extends clsModuleBase implements I1_7_rec
 	 */
 	private void getRules() {
 		for(clsSecondaryDataStructureContainer oCon : moPerception){
-			ArrayList<clsAct> oActList = getMatchingAct(((clsWordPresentation)oCon.moDataStructure).moContent); 
+			ArrayList<clsAct> oActList = getMatchingAct(((clsWordPresentation)oCon.getMoDataStructure()).getMoContent()); 
 			moRuleList.addAll(oActList); 
 		}
 		//TODO - do the same for Homeostatic State
@@ -223,7 +220,8 @@ public class E22_SuperEgo_preconscious extends clsModuleBase implements I1_7_rec
 		moSearchPattern.clear(); 
 			
 		addToSearchPattern(eDataType.UNDEFINED, poDummy); 
-		HashMap<Integer, ArrayList<clsPair<Double,clsDataStructureContainer>>> oResult = accessKnowledgeBase(); 
+		ArrayList<ArrayList<clsPair<Double,clsDataStructureContainer>>> oResult = new ArrayList<ArrayList<clsPair<Double,clsDataStructureContainer>>>(); 
+		accessKnowledgeBase(oResult); 
 		//The Double value in clsPair defines the matching score of the retrieved Act and the 
 		//search pattern. This was ok for the primary data structures as there have not been 
 		//any logic relations within the data structures. Now there exist acts with "or" and "and"
@@ -237,15 +235,12 @@ public class E22_SuperEgo_preconscious extends clsModuleBase implements I1_7_rec
 		//TODO dirty hack by clemens, for testing the search result display. change me later!
 		try
 		{
-			Iterator it = oResult.entrySet().iterator();
-			while (it.hasNext()) {
-				Map.Entry entry = (Map.Entry) it.next();
-				moRetrieveResult4Inspectors = (ArrayList<clsPair<Double, clsDataStructureContainer>>)entry.getValue();
+			for(ArrayList<clsPair<Double,clsDataStructureContainer>> oEntry : oResult){
+				moRetrieveResult4Inspectors = oEntry;
 				break;
-		}
+			}
 		}catch(Exception ex)
 		{}
-
 		
 		return extractSearchResult(oResult);
 	}
@@ -260,18 +255,18 @@ public class E22_SuperEgo_preconscious extends clsModuleBase implements I1_7_rec
 	 * @param oResult
 	 * @return
 	 */
-	private ArrayList<clsAct> extractSearchResult(HashMap<Integer,ArrayList<clsPair<Double, clsDataStructureContainer>>> oResult) {
+	private ArrayList<clsAct> extractSearchResult(ArrayList<ArrayList<clsPair<Double, clsDataStructureContainer>>> oResult) {
 		
 		ArrayList<clsAct> oActs = new ArrayList<clsAct>();
 		
 		//HZ Up to now the match-value is not taken into account of the selection process
-		for(Map.Entry<Integer, ArrayList<clsPair<Double, clsDataStructureContainer>>> oEntry : oResult.entrySet()){
-			for(clsPair<Double, clsDataStructureContainer> oPair : oEntry.getValue()){
-				clsAct oAct = (clsAct)oPair.b.moDataStructure; 
+		for(ArrayList<clsPair<Double, clsDataStructureContainer>> oEntry : oResult){
+			for(clsPair<Double, clsDataStructureContainer> oPair : oEntry){
+				clsAct oAct = (clsAct)oPair.b.getMoDataStructure(); 
 				
 				//FIXME - again, there has to be a different evaluation of the current Super-Ego Rules
-				if(oAct.moContent.contains("UNPLEASURE")){
-					oActs.add((clsAct)oPair.b.moDataStructure);
+				if(oAct.getMoContent().contains("UNPLEASURE")){
+					oActs.add((clsAct)oPair.b.getMoDataStructure());
 				}
 			}
 		}
@@ -364,8 +359,8 @@ public class E22_SuperEgo_preconscious extends clsModuleBase implements I1_7_rec
 	 * @see pa.interfaces.knowledgebase.itfKnowledgeBaseAccess#accessKnowledgeBase(java.util.ArrayList)
 	 */
 	@Override
-	public HashMap<Integer,ArrayList<clsPair<Double,clsDataStructureContainer>>> accessKnowledgeBase() {
-		return moEnclosingContainer.moKnowledgeBaseHandler.initMemorySearch(moSearchPattern);
+	public void accessKnowledgeBase(ArrayList<ArrayList<clsPair<Double,clsDataStructureContainer>>> poSearchResult) {
+		poSearchResult.addAll(moEnclosingContainer.moKnowledgeBaseHandler.initMemorySearch(moSearchPattern));
 	}
 
 	/* (non-Javadoc)

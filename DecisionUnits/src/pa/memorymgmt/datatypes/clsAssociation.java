@@ -21,10 +21,90 @@ import pa.tools.clsTripple;
 public abstract class clsAssociation extends clsDataStructurePA{
 	//private static final long mrMaxStackDepth = 5000;
 	
-	public double mrImperativeFactor; 
-	public double mrWeight; 
-	public clsDataStructurePA moAssociationElementA;
-	public clsDataStructurePA moAssociationElementB;
+	protected double mrImperativeFactor; 
+	protected double mrWeight; 
+	protected clsDataStructurePA moAssociationElementA;
+	protected clsDataStructurePA moAssociationElementB;
+
+	/**
+	 * @author zeilinger
+	 * 17.03.2011, 00:48:52
+	 * 
+	 * @return the mrImperativeFactor
+	 */
+	public double getMrImperativeFactor() {
+		return mrImperativeFactor;
+	}
+
+	/**
+	 * @author zeilinger
+	 * 17.03.2011, 00:48:52
+	 * 
+	 * @param mrImperativeFactor the mrImperativeFactor to set
+	 */
+	public void setMrImperativeFactor(double mrImperativeFactor) {
+		this.mrImperativeFactor = mrImperativeFactor;
+	}
+
+	/**
+	 * @author zeilinger
+	 * 17.03.2011, 00:48:52
+	 * 
+	 * @return the mrWeight
+	 */
+	public double getMrWeight() {
+		return mrWeight;
+	}
+
+	/**
+	 * @author zeilinger
+	 * 17.03.2011, 00:48:52
+	 * 
+	 * @param mrWeight the mrWeight to set
+	 */
+	public void setMrWeight(double mrWeight) {
+		this.mrWeight = mrWeight;
+	}
+
+	/**
+	 * @author zeilinger
+	 * 17.03.2011, 00:48:52
+	 * 
+	 * @return the moAssociationElementA
+	 */
+	public clsDataStructurePA getMoAssociationElementA() {
+		return moAssociationElementA;
+	}
+
+	/**
+	 * @author zeilinger
+	 * 17.03.2011, 00:48:52
+	 * 
+	 * @param moAssociationElementA the moAssociationElementA to set
+	 */
+	public void setMoAssociationElementA(clsDataStructurePA moAssociationElementA) {
+		this.moAssociationElementA = moAssociationElementA;
+	}
+
+	/**
+	 * @author zeilinger
+	 * 17.03.2011, 00:48:52
+	 * 
+	 * @return the moAssociationElementB
+	 */
+	public clsDataStructurePA getMoAssociationElementB() {
+		return moAssociationElementB;
+	}
+
+	/**
+	 * @author zeilinger
+	 * 17.03.2011, 00:48:52
+	 * 
+	 * @param moAssociationElementB the moAssociationElementB to set
+	 */
+	public void setMoAssociationElementB(clsDataStructurePA moAssociationElementB) {
+		this.moAssociationElementB = moAssociationElementB;
+	}
 
 	/**
 	 * DOCUMENT (zeilinger) - insert description 

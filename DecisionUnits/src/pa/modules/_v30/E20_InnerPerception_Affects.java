@@ -30,6 +30,11 @@ public class E20_InnerPerception_Affects extends clsModuleBase implements
 					I5_1_receive, I5_2_receive, I5_3_receive, I5_4_receive, I5_5_send {
 	public static final String P_MODULENUMBER = "20";
 	
+	//private ArrayList<clsPrimaryDataStructureContainer> moAffectOnlyList;
+	//private ArrayList<clsAssociationDriveMesh> moDeniedAffects_Input;
+	//private ArrayList<clsSecondaryDataStructureContainer> moPerception; 
+	//private ArrayList<clsSecondaryDataStructureContainer> moDriveList_Input;
+
 	/**
 	 * DOCUMENT (deutsch) - insert description 
 	 * 
@@ -47,13 +52,6 @@ public class E20_InnerPerception_Affects extends clsModuleBase implements
 		applyProperties(poPrefix, poProp);
 	}
 
-	//private ArrayList<clsPrimaryDataStructureContainer> moAffectOnlyList;
-	//private ArrayList<clsAssociationDriveMesh> moDeniedAffects_Input;
-	//private ArrayList<clsSecondaryDataStructureContainer> moPerception; 
-	//private ArrayList<clsSecondaryDataStructureContainer> moDriveList_Input;
-
-
-	
 	public static clsBWProperties getDefaultProperties(String poPrefix) {
 		String pre = clsBWProperties.addDot(poPrefix);
 		

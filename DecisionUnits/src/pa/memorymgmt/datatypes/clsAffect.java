@@ -17,9 +17,9 @@ import pa.tools.clsTripple;
  * 
  */
 public class clsAffect extends clsHomeostaticRepresentation{
-	double moContent = 0.0; 
-	double mrMinVal = 0.0; 
-	double mrMaxVal = 0.0; 
+	private double moContent = 0.0; 
+	private double mrMinVal = 0.0; 
+	private double mrMaxVal = 0.0; 
 	/**
 	 * DOCUMENT (zeilinger) - insert description 
 	 * 

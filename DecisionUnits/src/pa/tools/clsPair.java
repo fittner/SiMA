@@ -38,8 +38,8 @@ public class clsPair<A, B> implements Cloneable {
     public static <L, R> clsPair<L, R> create(L left, R right) {
         return new clsPair<L, R>(left, right);
     }
- 
- 	@Override
+    
+   	@Override
 	public final boolean equals(Object o) {
         if (!(o instanceof clsPair))
             return false;

@@ -21,8 +21,8 @@ import pa.tools.clsTripple;
  * 
  */
 public class clsAct extends clsSecondaryDataStructure {
-	public String moContent = "UNDEFINED"; 
-	public ArrayList<clsSecondaryDataStructure> moAssociatedContent; 
+	private String moContent = "UNDEFINED"; 
+	private ArrayList<clsSecondaryDataStructure> moAssociatedContent; 
 	/**
 	 * DOCUMENT (zeilinger) - insert description 
 	 * 
@@ -38,6 +38,47 @@ public class clsAct extends clsSecondaryDataStructure {
 		super(poDataStructureIdentifier);
 		setAssociatedWP(poAssociatedWordPresentations); 
 		setContent(poContent); 
+	}
+
+	/**
+	 * @author zeilinger
+	 * 17.03.2011, 00:47:55
+	 * 
+	 * @return the moContent
+	 */
+	public String getMoContent() {
+		return moContent;
+	}
+
+	/**
+	 * @author zeilinger
+	 * 17.03.2011, 00:47:55
+	 * 
+	 * @param moContent the moContent to set
+	 */
+	public void setMoContent(String moContent) {
+		this.moContent = moContent;
+	}
+
+	/**
+	 * @author zeilinger
+	 * 17.03.2011, 00:47:56
+	 * 
+	 * @return the moAssociatedContent
+	 */
+	public ArrayList<clsSecondaryDataStructure> getMoAssociatedContent() {
+		return moAssociatedContent;
+	}
+
+	/**
+	 * @author zeilinger
+	 * 17.03.2011, 00:47:56
+	 * 
+	 * @param moAssociatedContent the moAssociatedContent to set
+	 */
+	public void setMoAssociatedContent(
+			ArrayList<clsSecondaryDataStructure> moAssociatedContent) {
+		this.moAssociatedContent = moAssociatedContent;
 	}
 
 	/**

@@ -122,15 +122,15 @@ public class E18_GenerationOfAffectsForPerception extends clsModuleBase implemen
 		moNewPrimaryInformation = new ArrayList<clsPrimaryDataStructureContainer>(); 
 		
 		for(clsPair <clsPrimaryDataStructureContainer, clsDriveMesh> oPair : moMergedPrimaryInformation_Input){
-			if(oPair.a.moDataStructure instanceof clsThingPresentationMesh){
-				for(pa.memorymgmt.datatypes.clsAssociation oAssociation : oPair.a.moAssociatedDataStructures){
+			if(oPair.a.getMoDataStructure() instanceof clsThingPresentationMesh){
+				for(pa.memorymgmt.datatypes.clsAssociation oAssociation : oPair.a.getMoAssociatedDataStructures()){
 					if(oAssociation instanceof clsAssociationDriveMesh){
 						clsDriveMesh oDMInput = ((clsAssociationDriveMesh)oAssociation).getDM(); 
 						clsDriveMesh oDMRepressed = oPair.b; 
 						
-						if(oDMInput.moContent.intern() == oDMRepressed.moContent.intern()){
+						if(oDMInput.getMoContent().intern() == oDMRepressed.getMoContent().intern()){
 							oDMInput.setPleasure((oDMInput.getPleasure()+oDMRepressed.getPleasure())/2); 
-							oDMInput.moContent = oDMRepressed.moContent; 
+							oDMInput.setMoContent(oDMRepressed.getMoContent()); 
 						}
 					}
 				}

@@ -44,7 +44,7 @@ public class tssTestSearchSpace {
 		//Thing-Presentation Test
 		
 		clsThingPresentation oThingPresentation1 = new clsThingPresentation(new clsTripple<Integer, eDataType, String>(oID++, eDataType.TP, "color"), "blue");
-		oDataStructureTable.put(oThingPresentation1.moDataStructureType.toString(), oThingPresentation1);
+		oDataStructureTable.put(oThingPresentation1.getMoDataStructureType().toString(), oThingPresentation1);
 		clsThingPresentation oThingPresentation2 = new clsThingPresentation(new clsTripple<Integer, eDataType, String>(oID++, eDataType.TP, "color"), "black");
 		oDataStructureTable.put(Integer.toString(oID), oThingPresentation2);
 		clsThingPresentation oThingPresentation3 = new clsThingPresentation(new clsTripple<Integer, eDataType, String>(oID++, eDataType.TP, "color"), "red");

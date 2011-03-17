@@ -7,7 +7,6 @@
 package pa.modules._v19;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 import pa._v19.clsInterfaceHandler;
@@ -201,8 +200,8 @@ public class E07_SuperEgo_unconscious extends clsModuleBase implements I1_5_rece
 	 * @see pa.interfaces.knowledgebase.itfKnowledgeBaseAccess#accessKnowledgeBase(java.util.ArrayList)
 	 */
 	@Override
-	public HashMap<Integer,ArrayList<clsPair<Double,clsDataStructureContainer>>> accessKnowledgeBase() {
-		return moEnclosingContainer.moKnowledgeBaseHandler.initMemorySearch(moSearchPattern);
+	public void accessKnowledgeBase(ArrayList<ArrayList<clsPair<Double,clsDataStructureContainer>>> poSearchResult) {
+		poSearchResult = moEnclosingContainer.moKnowledgeBaseHandler.initMemorySearch(moSearchPattern);
 	}
 
 	/* (non-Javadoc)

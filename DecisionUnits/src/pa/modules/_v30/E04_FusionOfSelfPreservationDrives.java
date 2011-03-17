@@ -26,6 +26,8 @@ import config.clsBWProperties;
 public class E04_FusionOfSelfPreservationDrives extends clsModuleBase implements I1_3_receive, I1_4_send {
 	public static final String P_MODULENUMBER = "04";
 	
+	private ArrayList<clsPair<clsPair<clsDriveMesh, clsDriveDemand>, clsPair<clsDriveMesh, clsDriveDemand>>> moDriveCandidate; 
+
 	/**
 	 * DOCUMENT (deutsch) - insert description 
 	 * 
@@ -42,10 +44,6 @@ public class E04_FusionOfSelfPreservationDrives extends clsModuleBase implements
 		super(poPrefix, poProp, poModuleList);
 		applyProperties(poPrefix, poProp);	
 	}
-
-	ArrayList<clsPair<clsPair<clsDriveMesh, clsDriveDemand>, clsPair<clsDriveMesh, clsDriveDemand>>> moDriveCandidate; 
-	
-
 	
 	public static clsBWProperties getDefaultProperties(String poPrefix) {
 		String pre = clsBWProperties.addDot(poPrefix);

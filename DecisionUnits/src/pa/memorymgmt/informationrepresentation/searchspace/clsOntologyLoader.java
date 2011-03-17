@@ -321,31 +321,31 @@ public class clsOntologyLoader {
 		
 		poDataContainer.b.put(poElement.getName(), oAct);
 		
-		oAct.moContent += "|PRECONDITION|"; 
+		oAct.setMoContent(oAct.getMoContent() + "|PRECONDITION|") ; 
 		
 		for(Object oElement : oPreCon){
 			initDataStructure(null, (Instance)oElement, poDataContainer);
 			oDS = (clsWordPresentation)retrieveDataStructure(((Instance)oElement).getName(), poDataContainer.b); 
-			oAct.moAssociatedContent.add(oDS);
-			oAct.moContent += oDS.moContentType + ":" + oDS.moContent + "|";
+			oAct.getMoAssociatedContent().add(oDS);
+			oAct.setMoContent(oAct.getMoContent() + oDS.getMoContentType() + ":" + oDS.getMoContent() + "|");
 		}
 		
-		oAct.moContent += "|ACTION|"; 
+		oAct.setMoContent(oAct.getMoContent() + "|ACTION|"); 
 		
 		for(Object oElement : oAction){
 			initDataStructure(null, (Instance)oElement, poDataContainer);
 			oDS = (clsWordPresentation)retrieveDataStructure(((Instance)oElement).getName(), poDataContainer.b); 
-			oAct.moAssociatedContent.add(oDS);
-			oAct.moContent += oDS.moContentType + ":" + oDS.moContent + "|";
+			oAct.getMoAssociatedContent().add(oDS);
+			oAct.setMoContent(oAct.getMoContent() + oDS.getMoContentType() + ":" + oDS.getMoContent() + "|");
 		}
 		
-		oAct.moContent += "|CONSEQUENCE|"; 
+		oAct.setMoContent(oAct.getMoContent() + "|CONSEQUENCE|"); 
 		
 		for(Object oElement : oConseq){
 			initDataStructure(null, (Instance)oElement, poDataContainer);
 			oDS = (clsWordPresentation)retrieveDataStructure(((Instance)oElement).getName(), poDataContainer.b); 
-			oAct.moAssociatedContent.add(oDS);
-			oAct.moContent += oDS.moContentType + ":" + oDS.moContent + "|"; 
+			oAct.getMoAssociatedContent().add(oDS);
+			oAct.setMoContent(oAct.getMoContent() + oDS.getMoContentType() + ":" + oDS.getMoContent() + "|"); 
 		}
 	}
 
@@ -492,10 +492,10 @@ public class clsOntologyLoader {
 			clsDataStructurePA poDataElementB,
 			eDataType poDataType) {
 		
-		if(poDataElementA.moDataStructureType==poDataType){ 
+		if(poDataElementA.getMoDataStructureType() == poDataType){ 
 				return new clsPair<clsDataStructurePA, clsDataStructurePA>(poDataElementA, poDataElementB);
 		}
-		else if (poDataElementB.moDataStructureType==poDataType) {
+		else if (poDataElementB.getMoDataStructureType() == poDataType) {
 				return new clsPair<clsDataStructurePA, clsDataStructurePA>(poDataElementB, poDataElementA);
 		}
 		else {
@@ -529,7 +529,7 @@ public class clsOntologyLoader {
 				//the necessity is defined as true (mandatory) or false (optional). E.g. an entity bubble has always the shape "circle"
 				//but can differ in its color => shape is defined as class association while color is defined as instance association. Here,
 				//the instance associations are defined => moAssociationImperative is set to false => optional.
-				oAssociation.mrImperativeFactor = eDataStructureMatch.OPTIONALMATCH.getMatchFactor(); 
+				oAssociation.setMrImperativeFactor(eDataStructureMatch.OPTIONALMATCH.getMatchFactor()); 
 				oAssociationList.add(oAssociation);
 		}
 		return oAssociationList; 
@@ -586,7 +586,7 @@ public class clsOntologyLoader {
 				//the necessity is defined as true (mandatory) or false (optional). E.g. an entity bubble has always the shape "circle"
 				//but can differ in its color => shape is defined as class association while color is defined as instance association. Here,
 				//the class associations are defined => moAssociationImperative is set to true => mandatory. 
-				oAssociation.mrImperativeFactor = eDataStructureMatch.MANDATORYMATCH.getMatchFactor(); 
+				oAssociation.setMrImperativeFactor(eDataStructureMatch.MANDATORYMATCH.getMatchFactor()); 
 				oAssociationList.add(oAssociation);
 		}
 		return oAssociationList;

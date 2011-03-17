@@ -46,22 +46,22 @@ public class clsSearchSpaceHandler {
 		ArrayList <clsAssociation> oAssociatedDataStructureList = new ArrayList<clsAssociation>();
 		ArrayList <clsAssociation> oList = moSearchSpace
 		                                        .returnSearchSpaceTable()
-		                                        	.get(poDataStructure.moDataStructureType)
-		                                              .get(poDataStructure.moContentType)
-		                                              	.get(poDataStructure.moDS_ID).b;
+		                                        	.get(poDataStructure.getMoDataStructureType())
+		                                              .get(poDataStructure.getMoContentType())
+		                                              	.get(poDataStructure.getMoDS_ID()).b;
 		
 		for(clsAssociation oAssociationElement : oList){
 			clsDataStructurePA elementB; 
 			
-			if(oAssociationElement.moAssociationElementA.moDS_ID == poDataStructure.moDS_ID){ 
-				elementB = oAssociationElement.moAssociationElementB; 
+			if(oAssociationElement.getMoAssociationElementA().getMoDS_ID() == poDataStructure.getMoDS_ID()){ 
+				elementB = oAssociationElement.getMoAssociationElementB(); 
 			}
-			else if(oAssociationElement.moAssociationElementB.moDS_ID  == poDataStructure.moDS_ID){
-				elementB = oAssociationElement.moAssociationElementA;
+			else if(oAssociationElement.getMoAssociationElementB().getMoDS_ID()  == poDataStructure.getMoDS_ID()){
+				elementB = oAssociationElement.getMoAssociationElementA();
 			}
-			else {throw new NoSuchFieldError("Association " + oAssociationElement.moDS_ID + " does not contain data structure " + poDataStructure.moDS_ID);}
+			else {throw new NoSuchFieldError("Association " + oAssociationElement.getMoDS_ID() + " does not contain data structure " + poDataStructure.getMoDS_ID());}
 		
-			if((poReturnType & elementB.moDataStructureType.nBinaryValue) != 0x0){
+			if((poReturnType & elementB.getMoDataStructureType().nBinaryValue) != 0x0){
 				oAssociatedDataStructureList.add(oAssociationElement); 
 			}
 		}

@@ -74,8 +74,8 @@ public class KB03_ExternalPerceptionMgmt extends clsInformationRepresentationMod
 	private clsDataStructureContainer getDataContainer(int poReturnType, clsHomeostaticRepresentation poDataStructure) {
 		
 		clsPrimaryDataStructureContainer oDataStructureContainer = new clsPrimaryDataStructureContainer(null, null);
-		oDataStructureContainer.moDataStructure = poDataStructure; 
-		oDataStructureContainer.moAssociatedDataStructures = readOutSearchSpace(poReturnType, poDataStructure); 
+		oDataStructureContainer.setMoDataStructure(poDataStructure); 
+		oDataStructureContainer.setMoAssociatedDataStructures(readOutSearchSpace(poReturnType, poDataStructure)); 
 				
 		return oDataStructureContainer;
 	}

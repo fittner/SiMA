@@ -28,8 +28,10 @@ import pa.tools.clsPair;
  * 
  */
 public class E34_KnowledgeAboutReality_2 extends clsModuleBase implements I7_3_receive, I7_5_send, itfKnowledgeBaseAccess {
-	private clsKnowledgeBaseHandler moKnowledgeBaseHandler;
 	public static final String P_MODULENUMBER = "34";
+	
+	private clsKnowledgeBaseHandler moKnowledgeBaseHandler; 
+	private ArrayList<clsPair<Integer, clsDataStructurePA>> moSearchPattern;
 	
 	/**
 	 * DOCUMENT (KOHLHAUSER) - insert description 
@@ -168,19 +170,7 @@ public class E34_KnowledgeAboutReality_2 extends clsModuleBase implements I7_3_r
 		// TODO (KOHLHAUSER) - Auto-generated method stub
 		throw new java.lang.NoSuchMethodError();
 	}
-
-	/* (non-Javadoc)
-	 *
-	 * @author zeilinger
-	 * 12.08.2010, 21:10:47
-	 * 
-	 * @see pa.interfaces.knowledgebase.itfKnowledgeBaseAccess#accessKnowledgeBase(java.util.ArrayList)
-	 */
-	@Override
-	public HashMap<Integer,ArrayList<clsPair<Double,clsDataStructureContainer>>> accessKnowledgeBase() {
-		return moKnowledgeBaseHandler.initMemorySearch(moSearchPattern);
-	}
-
+	
 	/* (non-Javadoc)
 	 *
 	 * @author zeilinger
@@ -194,6 +184,20 @@ public class E34_KnowledgeAboutReality_2 extends clsModuleBase implements I7_3_r
 		// TODO (zeilinger) - Auto-generated method stub
 		
 	}
+	
+	/* (non-Javadoc)
+	 *
+	 * @author zeilinger
+	 * 12.08.2010, 21:10:47
+	 * 
+	 * @see pa.interfaces.knowledgebase.itfKnowledgeBaseAccess#accessKnowledgeBase(java.util.ArrayList)
+	 */
+	@Override
+	public void accessKnowledgeBase(ArrayList<ArrayList<clsPair<Double,clsDataStructureContainer>>> poSearchResult){
+		poSearchResult = moKnowledgeBaseHandler.initMemorySearch(moSearchPattern);
+	}
+
+	
 
 	/* (non-Javadoc)
 	 *

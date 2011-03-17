@@ -43,6 +43,7 @@ public class E45_LibidoDischarge extends clsModuleBase implements I2_8_receive, 
 		super(poPrefix, poProp, poModuleList);
 		applyProperties(poPrefix, poProp);	
 	}
+	
 	public static clsBWProperties getDefaultProperties(String poPrefix) {
 		String pre = clsBWProperties.addDot(poPrefix);
 		
@@ -51,6 +52,7 @@ public class E45_LibidoDischarge extends clsModuleBase implements I2_8_receive, 
 				
 		return oProp;
 	}
+	
 	private void applyProperties(String poPrefix, clsBWProperties poProp) {
 		//String pre = clsBWProperties.addDot(poPrefix);
 	

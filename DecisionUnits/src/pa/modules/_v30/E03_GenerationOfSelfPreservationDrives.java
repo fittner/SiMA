@@ -32,7 +32,13 @@ import du.enums.pa.eContext;
  */
 public class E03_GenerationOfSelfPreservationDrives extends clsModuleBase implements I1_2_receive, I1_3_send {
 	public static final String P_MODULENUMBER = "03";
+	public static String moDriveObjectType = "DriveObject";
 	
+	private ArrayList<clsPair<clsTemplateDrive, clsTemplateDrive>> moDriveDefinition;
+	private HashMap<String, Double> moHomeostasisSymbols;
+	private ArrayList<clsPair<clsPair<pa.memorymgmt.datatypes.clsDriveMesh, clsDriveDemand>, 
+	                  clsPair<pa.memorymgmt.datatypes.clsDriveMesh, clsDriveDemand>>> moHomeostaticTP; 
+
 	/**
 	 * DOCUMENT (deutsch) - insert description 
 	 * 
@@ -51,14 +57,6 @@ public class E03_GenerationOfSelfPreservationDrives extends clsModuleBase implem
 		loadDriveDefinition(poPrefix, poProp);
 	}
 
-	public static String moDriveObjectType = "DriveObject";
-	
-	public ArrayList<clsPair<clsTemplateDrive, clsTemplateDrive>> moDriveDefinition = null;
-	public HashMap<String, Double> moHomeostasisSymbols = null;
-	
-	ArrayList<clsPair<clsPair<pa.memorymgmt.datatypes.clsDriveMesh, clsDriveDemand>, 
-	                  clsPair<pa.memorymgmt.datatypes.clsDriveMesh, clsDriveDemand>>> moHomeostaticTP; 
-	
 	/**
 	 * @author langr
 	 * 28.09.2009, 19:21:32
