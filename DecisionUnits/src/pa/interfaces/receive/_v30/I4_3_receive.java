@@ -7,7 +7,6 @@
 package pa.interfaces.receive._v30;
 
 import java.util.ArrayList;
-import pa.datatypes.clsPrimaryInformation;
 import pa.interfaces.I_BaseInterface;
 import pa.memorymgmt.datatypes.clsPrimaryDataStructureContainer;
 
@@ -19,6 +18,5 @@ import pa.memorymgmt.datatypes.clsPrimaryDataStructureContainer;
  * 
  */
 public interface I4_3_receive extends I_BaseInterface {
-	public void receive_I4_3(ArrayList<clsPrimaryInformation> poPIs_old,
-			  ArrayList<clsPrimaryDataStructureContainer> poPIs);
+	public void receive_I4_3( ArrayList<clsPrimaryDataStructureContainer> poPIs);
 }

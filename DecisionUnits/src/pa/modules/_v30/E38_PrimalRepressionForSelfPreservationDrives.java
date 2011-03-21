@@ -9,13 +9,10 @@ package pa.modules._v30;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import pa.datatypes.clsPrimaryInformation;
 import pa.interfaces.receive._v30.I1_5_receive;
 import pa.interfaces.receive._v30.I2_15_receive;
 import pa.interfaces.send._v30.I1_5_send;
-import pa.memorymgmt.datatypes.clsDriveDemand;
 import pa.memorymgmt.datatypes.clsDriveMesh;
-import pa.tools.clsPair;
 
 import config.clsBWProperties;
 
@@ -29,6 +26,8 @@ import config.clsBWProperties;
 public class E38_PrimalRepressionForSelfPreservationDrives extends	clsModuleBase implements I2_15_receive, I1_5_send {
 	public static final String P_MODULENUMBER = "38";
 	
+	private ArrayList<clsDriveMesh> moDriveList_IN;
+		
 	/**
 	 * DOCUMENT (deutsch) - insert description 
 	 * 
@@ -107,7 +106,7 @@ public class E38_PrimalRepressionForSelfPreservationDrives extends	clsModuleBase
 	 */
 	@Override
 	protected void send() {
-		send_I1_5(new ArrayList<clsPrimaryInformation>(), new ArrayList<clsDriveMesh>());
+		send_I1_5(moDriveList_IN);
 
 	}
 
@@ -149,6 +148,16 @@ public class E38_PrimalRepressionForSelfPreservationDrives extends	clsModuleBase
 		mnModuleNumber = Integer.parseInt(P_MODULENUMBER);
 		
 	}
+	
+	/**
+	 * @author zeilinger
+	 * 19.03.2011, 15:50:57
+	 * 
+	 * @return the moDriveCandidate
+	 */
+	public ArrayList<clsDriveMesh> getMoDriveList() {
+		return moDriveList_IN;
+	}
 
 	/* (non-Javadoc)
 	 *
@@ -158,12 +167,11 @@ public class E38_PrimalRepressionForSelfPreservationDrives extends	clsModuleBase
 	 * @see pa.interfaces.send._v30.I1_5_send#send_I1_5(java.util.List, java.util.List)
 	 */
 	@Override
-	public void send_I1_5(List<clsPrimaryInformation> poData_old,
-			List<clsDriveMesh> poData) {
+	public void send_I1_5(List<clsDriveMesh> poData) {
 		
-		((I1_5_receive)moModuleList.get(6)).receive_I1_5(poData_old, poData);
-		((I1_5_receive)moModuleList.get(7)).receive_I1_5(poData_old, poData);
-		((I1_5_receive)moModuleList.get(9)).receive_I1_5(poData_old, poData);
+		((I1_5_receive)moModuleList.get(6)).receive_I1_5(poData);
+		((I1_5_receive)moModuleList.get(7)).receive_I1_5(poData);
+		((I1_5_receive)moModuleList.get(9)).receive_I1_5(poData);
 		
 	}
 
@@ -174,11 +182,11 @@ public class E38_PrimalRepressionForSelfPreservationDrives extends	clsModuleBase
 	 * 
 	 * @see pa.interfaces.receive._v30.I2_15_receive#receive_I2_15(java.util.ArrayList)
 	 */
+	@SuppressWarnings("unchecked")
 	@Override
-	public void receive_I2_15(
-			ArrayList<clsPair<clsPair<clsDriveMesh, clsDriveDemand>, clsPair<clsDriveMesh, clsDriveDemand>>> poDriveCandidate) {
-		// TODO (deutsch) - Auto-generated method stub
+	public void receive_I2_15(ArrayList<clsDriveMesh> poDriveList) {
 		
+		moDriveList_IN = (ArrayList<clsDriveMesh>) deepCopy(poDriveList); 
 	}
 
 }

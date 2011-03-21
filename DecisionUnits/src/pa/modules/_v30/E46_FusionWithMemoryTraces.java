@@ -40,8 +40,7 @@ public class E46_FusionWithMemoryTraces extends clsModuleBase implements
 	public static final String P_MODULENUMBER = "46";
 	
 	private clsKnowledgeBaseHandler moKnowledgeBaseHandler; 
-	private ArrayList<clsPair<Integer, clsDataStructurePA>> moSearchPattern; 
-	
+		
 	//HZ Not used up to now 16.03.2011
 	//private ArrayList<clsPrimaryDataStructureContainer> moGrantedPerception_IN; 
 	private ArrayList<clsPrimaryDataStructureContainer> moEnvironmentalPerception_IN; 
@@ -58,9 +57,12 @@ public class E46_FusionWithMemoryTraces extends clsModuleBase implements
 	 * @param poModuleList
 	 * @throws Exception
 	 */
-	public E46_FusionWithMemoryTraces(String poPrefix, clsBWProperties poProp,
-			HashMap<Integer, clsModuleBase> poModuleList) throws Exception {
+	public E46_FusionWithMemoryTraces(String poPrefix, clsBWProperties poProp, HashMap<Integer, clsModuleBase> poModuleList, 
+								clsKnowledgeBaseHandler poKnowledgeBaseHandler) throws Exception {
 		super(poPrefix, poProp, poModuleList);
+		
+		moKnowledgeBaseHandler = poKnowledgeBaseHandler; 
+		
 		applyProperties(poPrefix, poProp);	
 	}
 	
@@ -87,7 +89,9 @@ public class E46_FusionWithMemoryTraces extends clsModuleBase implements
 	 */
 	@Override
 	protected void process_basic() {
-		// TODO (HINTERLEITNER) - Auto-generated method stub
+		moEnvironmentalPerception_OUT = new ArrayList<clsPrimaryDataStructureContainer>(); 
+		
+		retrieveImages(); 
 	}
 
 	/* (non-Javadoc)
@@ -99,24 +103,7 @@ public class E46_FusionWithMemoryTraces extends clsModuleBase implements
 	 */
 	@Override
 	protected void process_draft() {
-		moEnvironmentalPerception_OUT = new ArrayList<clsPrimaryDataStructureContainer>(); 
-		moSearchPattern = new ArrayList<clsPair<Integer,clsDataStructurePA>>(); 
-		
-		//HZ: The method getEnvironmentalRepresentation retrieves memory matches for
-		//	environmental input; objects are identified and exchanged by their 
-		//	stored correspondance.
-		retrieveImages(); 
-
-//		clsPrimaryDataStructureContainer oEnvironmentalInput = getEnvironmentalRepresentation(oEntry.a); 		
-//		
-//			if(oEntry.a != null && oEntry.b != null){
-//				ArrayList<clsDriveMesh> oDriveContent = getAssociatedContent(oEnvironmentalInput, oEntry.b);
-//				oRetVal.add(new clsTripple<clsPrimaryDataStructureContainer, clsDriveMesh, ArrayList<clsDriveMesh>>(oEnvironmentalInput, oEntry.b, oDriveContent));
-//			}
-//			else{
-//				oRetVal.add(new clsTripple<clsPrimaryDataStructureContainer, clsDriveMesh, ArrayList<clsDriveMesh>>(oEnvironmentalInput, null, new ArrayList<clsDriveMesh>()));
-//			}
-//		}
+		// TODO (HINTERLEITNER) - Auto-generated method stub
 		}
 
 	/* (non-Javadoc)
@@ -133,19 +120,19 @@ public class E46_FusionWithMemoryTraces extends clsModuleBase implements
 	}
 	
 	/**
-	 * DOCUMENT (zeilinger) - insert description
+	 * DOCUMENT (zeilinger) - retrieves memory matches for environmental input; objects are identified and exchanged by their 
+	 * stored correspondance.
 	 *
 	 * @author zeilinger
 	 * 14.03.2011, 14:27:30
 	 *
 	 */
 	private void retrieveImages() {
-		ArrayList<ArrayList<clsPair<Double,clsDataStructureContainer>>> oSearchResult_Image = 
+		ArrayList<ArrayList<clsPair<Double,clsDataStructureContainer>>> oSearchResult = 
 			new ArrayList<ArrayList<clsPair<Double,clsDataStructureContainer>>>(); 
 		
-		createSearchPattern(eDataType.UNDEFINED, moEnvironmentalPerception_IN); 
-		accessKnowledgeBase(oSearchResult_Image);
-		createImage(oSearchResult_Image); 	
+		search(eDataType.UNDEFINED, moEnvironmentalPerception_IN, oSearchResult ); 
+		createImage(oSearchResult); 	
 	}
 	
 	/**
@@ -158,19 +145,19 @@ public class E46_FusionWithMemoryTraces extends clsModuleBase implements
 	private void createImage(ArrayList<ArrayList<clsPair<Double,clsDataStructureContainer>>> poSearchResult) {
 		
 		for(ArrayList<clsPair<Double, clsDataStructureContainer>> oEntry : poSearchResult){
-			
-			if(oEntry.size() > 0){
+		
 				int nEntryIndex = poSearchResult.indexOf(oEntry); 
 				clsPrimaryDataStructureContainer oNewImage;
 				clsPrimaryDataStructureContainer oPerceptionEntry =  moEnvironmentalPerception_IN.get(nEntryIndex); 
-					
-				oNewImage = (clsPrimaryDataStructureContainer)getBestMatch(oEntry); 
-				oNewImage.setMoAssociatedDataStructures(oPerceptionEntry.getMoAssociatedDataStructures()); 
-				mergePerceptionAndKnowledge(oNewImage, oPerceptionEntry);
 				
-				moEnvironmentalPerception_OUT.add(oNewImage); 
+				if(controlSearchResult(oEntry)){
+					oNewImage = (clsPrimaryDataStructureContainer)extractBestMatch(oEntry); 
+					oNewImage.setMoAssociatedDataStructures(oPerceptionEntry.getMoAssociatedDataStructures()); 
+					mergePerceptionAndKnowledge(oNewImage, oPerceptionEntry);
+					
+					moEnvironmentalPerception_OUT.add(oNewImage); 
+				}
 			}
-		}
 	}
 	
 	/**
@@ -185,17 +172,15 @@ public class E46_FusionWithMemoryTraces extends clsModuleBase implements
 	private void mergePerceptionAndKnowledge(clsPrimaryDataStructureContainer poNewImage,
 												   clsPrimaryDataStructureContainer poPerceptionEntry) {
 
+		ArrayList<ArrayList<clsPair<Double,clsDataStructureContainer>>> oSearchResult = new ArrayList<ArrayList<clsPair<Double,clsDataStructureContainer>>>();
+		ArrayList<clsDataStructurePA> oAssociatedElements = new ArrayList<clsDataStructurePA>(); 
+		
 		if(poNewImage.getMoDataStructure() instanceof clsThingPresentationMesh 
 			&& poPerceptionEntry.getMoDataStructure() instanceof clsThingPresentationMesh){
 
-			ArrayList<ArrayList<clsPair<Double,clsDataStructureContainer>>> oSearchResult = 
- 								new ArrayList<ArrayList<clsPair<Double,clsDataStructureContainer>>>();
-			ArrayList<clsDataStructurePA> oUnknownData = new ArrayList<clsDataStructurePA>(); 
-			
-		 	extractUnknownData(oUnknownData, poPerceptionEntry, poNewImage); 
-		 	createSearchPattern(eDataType.UNDEFINED, oUnknownData);
- 			accessKnowledgeBase(oSearchResult);
- 			addAssociations(oSearchResult, poNewImage); 
+			extractUnknownData(oAssociatedElements, poPerceptionEntry, poNewImage); 
+			search(eDataType.UNDEFINED, oAssociatedElements, oSearchResult); 
+		 	addAssociations(oSearchResult, poNewImage); 
 		 }
 	}
 
@@ -213,7 +198,7 @@ public class E46_FusionWithMemoryTraces extends clsModuleBase implements
 			clsPrimaryDataStructureContainer poPerceptionEntry, 
 			clsPrimaryDataStructureContainer poNewImage) {
 		
-		for(clsAssociation oEntry : ((clsThingPresentationMesh)poPerceptionEntry.getMoDataStructure()).moAssociatedContent){
+		for(clsAssociation oEntry : ((clsThingPresentationMesh)poPerceptionEntry.getMoDataStructure()).getMoAssociatedContent()){
 	 		
 	 		if( !((clsThingPresentationMesh)poNewImage.getMoDataStructure()).contain(oEntry.getMoAssociationElementB())){
 	 			poUnknownData.add(oEntry.getMoAssociationElementB()); 
@@ -230,21 +215,17 @@ public class E46_FusionWithMemoryTraces extends clsModuleBase implements
 	 * @param oSearchResult
 	 * @param poNewImage
 	 */
-	private void addAssociations(
-			ArrayList<ArrayList<clsPair<Double, clsDataStructureContainer>>> poSearchResult,
-			clsPrimaryDataStructureContainer poNewImage) {
+	private void addAssociations(ArrayList<ArrayList<clsPair<Double, clsDataStructureContainer>>> poSearchResult,
+						clsPrimaryDataStructureContainer poNewImage) {
 		
 		for(ArrayList<clsPair<Double, clsDataStructureContainer>> oEntry : poSearchResult){
-			if(oEntry.size() > 0){
-				clsDataStructureContainer oBestMatch = getBestMatch(oEntry); 
+			if(controlSearchResult(oEntry)){
+				clsPrimaryDataStructureContainer oBestMatch = (clsPrimaryDataStructureContainer)extractBestMatch(oEntry); 
 				clsAssociation oAssociation = new clsAssociationAttribute(new clsTripple<Integer, eDataType, String>(
-															-1, 
-															eDataType.ASSOCIATIONATTRIBUTE, 
-															eDataType.ASSOCIATIONATTRIBUTE.name()  ), 
-															(clsPrimaryDataStructure)poNewImage.getMoDataStructure(), 
-															(clsPrimaryDataStructure)oBestMatch.getMoDataStructure()); 
-				
-				poNewImage.getMoAssociatedDataStructures().add(oAssociation); 
+							-1, eDataType.ASSOCIATIONATTRIBUTE, eDataType.ASSOCIATIONATTRIBUTE.name()), 
+							(clsPrimaryDataStructure)poNewImage.getMoDataStructure(), 
+							(clsPrimaryDataStructure)oBestMatch.getMoDataStructure());
+				poNewImage.getMoAssociatedDataStructures().add(oAssociation);
 			}
 		}
 	}
@@ -258,10 +239,23 @@ public class E46_FusionWithMemoryTraces extends clsModuleBase implements
 	 * @param oEntry
 	 * @return
 	 */
-	private clsDataStructureContainer getBestMatch(
-			ArrayList<clsPair<Double, clsDataStructureContainer>> oEntry) {
+	private clsDataStructureContainer extractBestMatch(ArrayList<clsPair<Double, clsDataStructureContainer>> oEntry) {
 		
-		return oEntry.get(0).b;
+		clsDataStructureContainer oBestMatch = oEntry.get(0).b;; 
+		
+		return oBestMatch; 
+	}
+	
+	private boolean controlSearchResult(ArrayList<clsPair<Double,clsDataStructureContainer>> oMatches){
+		boolean oRetVal = false; 
+		
+		for (clsPair<Double,clsDataStructureContainer> oPair : oMatches){
+				if(oPair.a != null && oPair.b != null){
+					oRetVal = true; 
+				}
+			}
+			
+		return oRetVal; 
 	}
 
 	/* (non-Javadoc)
@@ -361,34 +355,46 @@ public class E46_FusionWithMemoryTraces extends clsModuleBase implements
 	 * DOCUMENT (zeilinger) - insert description
 	 *
 	 * @author zeilinger
-	 * 14.03.2011, 23:05:28
+	 * 19.03.2011, 08:36:59
 	 *
+	 * @param undefined
+	 * @param poDS
+	 * @param oSearchResult
 	 */
-	private <E> void createSearchPattern(eDataType poDataType, ArrayList<E> poList) {
-		moSearchPattern.clear();
+	@Override
+	public <E> void search(
+			eDataType poDataType,
+			ArrayList<E> poPattern,
+			ArrayList<ArrayList<clsPair<Double, clsDataStructureContainer>>> poSearchResult) {
 		
-		for (E oEntry : poList){
-			if(oEntry instanceof clsDataStructurePA){
-				addToSearchPattern(poDataType, (clsDataStructurePA)oEntry);
-			}
-			else if (oEntry instanceof clsPrimaryDataStructureContainer){
-				addToSearchPattern(poDataType, ((clsPrimaryDataStructureContainer)oEntry).getMoDataStructure());
-			}
-		}
+		ArrayList<clsPair<Integer, clsDataStructurePA>> oSearchPattern = new ArrayList<clsPair<Integer,clsDataStructurePA>>(); 
+
+		createSearchPattern(poDataType, poPattern, oSearchPattern);
+		accessKnowledgeBase(poSearchResult, oSearchPattern); 
 	}
 	
 	/* (non-Javadoc)
 	 *
 	 * @author zeilinger
-	 * 14.03.2011, 22:56:55
+	 * 18.03.2011, 19:04:29
 	 * 
-	 * @see pa.interfaces.knowledgebase.itfKnowledgeBaseAccess#addToSearchPattern(pa.memorymgmt.enums.eDataType, pa.memorymgmt.datatypes.clsDataStructurePA)
+	 * @see pa.interfaces.knowledgebase.itfKnowledgeBaseAccess#createSearchPattern(pa.memorymgmt.enums.eDataType, java.lang.Object, java.util.ArrayList)
 	 */
 	@Override
-	public void addToSearchPattern(eDataType oReturnType, clsDataStructurePA poEntry) {
-		moSearchPattern.add(new clsPair<Integer, clsDataStructurePA>(oReturnType.nBinaryValue, poEntry)); 
+	public <E> void createSearchPattern(eDataType poDataType, ArrayList<E> poList,
+			ArrayList<clsPair<Integer, clsDataStructurePA>> poSearchPattern) {
+		
+		for (E oEntry : poList){
+				if(oEntry instanceof clsDataStructurePA){
+					poSearchPattern.add(new clsPair<Integer, clsDataStructurePA>(poDataType.nBinaryValue, (clsDataStructurePA)oEntry));
+				}
+				else if (oEntry instanceof clsPrimaryDataStructureContainer){
+					poSearchPattern.add(new clsPair<Integer, clsDataStructurePA>(poDataType.nBinaryValue, ((clsPrimaryDataStructureContainer)oEntry).getMoDataStructure()));
+				}
+			}
 	}
-
+	
+	
 	/* (non-Javadoc)
 	 *
 	 * @author zeilinger
@@ -397,7 +403,9 @@ public class E46_FusionWithMemoryTraces extends clsModuleBase implements
 	 * @see pa.interfaces.knowledgebase.itfKnowledgeBaseAccess#accessKnowledgeBase(pa.tools.clsPair)
 	 */
 	@Override
-	public void accessKnowledgeBase(ArrayList<ArrayList<clsPair<Double,clsDataStructureContainer>>> poSearchResult) {
-		poSearchResult.addAll(moKnowledgeBaseHandler.initMemorySearch(moSearchPattern));
+	public void accessKnowledgeBase(ArrayList<ArrayList<clsPair<Double,clsDataStructureContainer>>> poSearchResult,
+									ArrayList<clsPair<Integer, clsDataStructurePA>> poSearchPattern) {
+		
+		poSearchResult.addAll(moKnowledgeBaseHandler.initMemorySearch(poSearchPattern));
 	}
 }

@@ -10,7 +10,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import config.clsBWProperties;
-import pa.datatypes.clsPrimaryInformation;
 import pa.interfaces.receive._v30.I2_5_receive;
 import pa.interfaces.receive._v30.I2_6_receive;
 import pa.interfaces.receive._v30.I4_1_receive;
@@ -155,8 +154,7 @@ public class _E15_ManagementOfRepressedContents extends clsModuleContainer imple
 	 * @see pa.interfaces.receive._v30.I4_3_receive#receive_I4_3(java.util.ArrayList, java.util.ArrayList)
 	 */
 	@Override
-	public void receive_I4_3(ArrayList<clsPrimaryInformation> poPIs_old,
-			ArrayList<clsPrimaryDataStructureContainer> poPIs) {
+	public void receive_I4_3(ArrayList<clsPrimaryDataStructureContainer> poPIs) {
 		// TODO (deutsch) - Auto-generated method stub
 		
 	}

@@ -21,7 +21,11 @@ import pa.tools.clsPair;
  * 
  */
 public interface itfKnowledgeBaseAccess {
-	public ArrayList<clsPair<Integer, clsDataStructurePA>> moSearchPattern = new ArrayList<clsPair<Integer, clsDataStructurePA>>();
-	public abstract void addToSearchPattern(eDataType oReturnType, clsDataStructurePA poEntry); 
-	public abstract void accessKnowledgeBase(ArrayList<ArrayList<clsPair<Double,clsDataStructureContainer>>> poSearchResult);
+	//public ArrayList<clsPair<Integer, clsDataStructurePA>> moSearchPattern = new ArrayList<clsPair<Integer, clsDataStructurePA>>();
+	public abstract <E> void search(eDataType poDataType, ArrayList<E> poPattern,
+			ArrayList<ArrayList<clsPair<Double, clsDataStructureContainer>>> poSearchResult);
+	public abstract <E> void createSearchPattern(eDataType poDataType, ArrayList<E> poList,
+			ArrayList<clsPair<Integer, clsDataStructurePA>> poSearchPattern);
+	public abstract void accessKnowledgeBase(ArrayList<ArrayList<clsPair<Double,clsDataStructureContainer>>> poSearchResult, 
+			ArrayList<clsPair<Integer, clsDataStructurePA>> poSearchPattern);
 }

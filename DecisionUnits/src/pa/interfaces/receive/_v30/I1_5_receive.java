@@ -8,7 +8,6 @@ package pa.interfaces.receive._v30;
 
 import java.util.List;
 
-import pa.datatypes.clsPrimaryInformation;
 import pa.interfaces.I_BaseInterface;
 import pa.memorymgmt.datatypes.clsDriveMesh;
 
@@ -20,6 +19,5 @@ import pa.memorymgmt.datatypes.clsDriveMesh;
  * 
  */
 public interface I1_5_receive extends I_BaseInterface {
-	public void receive_I1_5(List<clsPrimaryInformation> poData_old,
-			  List<clsDriveMesh> poData);
+	public void receive_I1_5( List<clsDriveMesh> poData);
 }

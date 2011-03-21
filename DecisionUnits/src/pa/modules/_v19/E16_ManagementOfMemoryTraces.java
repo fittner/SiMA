@@ -7,6 +7,7 @@
 package pa.modules._v19;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 
 import config.clsBWProperties;
 import pa._v19.clsInterfaceHandler;
@@ -187,14 +188,12 @@ public class E16_ManagementOfMemoryTraces extends clsModuleBase implements I2_6_
 			ArrayList<ArrayList<clsPair<Double,clsDataStructureContainer>>> oSearchResult = new ArrayList<ArrayList<clsPair<Double,clsDataStructureContainer>>>();  
 			ArrayList<clsDriveMesh> oRetVal = new ArrayList<clsDriveMesh>();
 			
-			moSearchPattern.clear(); 
-			addToSearchPattern(eDataType.DM, oEnvironmentalInput.getMoDataStructure());
 			//It is for sure that the search retrieves a result as the search parameter is 
 			//an already found object => hence the retrieved ArrayList is not empty. 
 			//In addition the search retrieves exactly one result as the search parameter 
 			//obeys of a data-structure identification number. 
 			//=> Hence the container can be read out directly below; 
-			accessKnowledgeBase(oSearchResult); 
+			search(eDataType.DM, new ArrayList<clsDataStructurePA>(Arrays.asList(oEnvironmentalInput.getMoDataStructure())), oSearchResult); 
 			
 			try{
 				moRetrievedAssociatedDataStructures = oSearchResult.get(0).get(0).b;
@@ -267,11 +266,10 @@ public class E16_ManagementOfMemoryTraces extends clsModuleBase implements I2_6_
 		ArrayList<clsPair<Double, clsDataStructureContainer>> oRetVal = new ArrayList<clsPair<Double,clsDataStructureContainer>>(); 
 		ArrayList<ArrayList<clsPair<Double,clsDataStructureContainer>>> oSearchResult = new ArrayList<ArrayList<clsPair<Double,clsDataStructureContainer>>>(); 
 		
-		moSearchPattern.clear(); 
-		addToSearchPattern(eDataType.UNDEFINED, poDS);
 		//The search pattern exists out of one entry => the returned hashmap contains only 
 		//ONE entry that has the key 0. 
-		accessKnowledgeBase(oSearchResult); 
+
+		search(eDataType.UNDEFINED, new ArrayList<clsDataStructurePA>(Arrays.asList(poDS)), oSearchResult); 
 		
 		if(oSearchResult.size() > 0){
 			oRetVal = oSearchResult.get(0); 
@@ -294,7 +292,7 @@ public class E16_ManagementOfMemoryTraces extends clsModuleBase implements I2_6_
 		
 		if(poStoredContainer.getMoDataStructure()instanceof clsThingPresentationMesh && poEnvironmentalInput.getMoDataStructure() instanceof clsThingPresentationMesh){
 
-		 	for(clsAssociation oAAEnvironmentIn : ((clsThingPresentationMesh)poEnvironmentalInput.getMoDataStructure()).moAssociatedContent){
+		 	for(clsAssociation oAAEnvironmentIn : ((clsThingPresentationMesh)poEnvironmentalInput.getMoDataStructure()).getMoAssociatedContent()){
 				
 		 		if( !((clsThingPresentationMesh)poStoredContainer.getMoDataStructure()).contain(oAAEnvironmentIn.getMoAssociationElementB()) ){
 					ArrayList<clsPair<Double, clsDataStructureContainer>> oSearchResult = searchDS(oAAEnvironmentIn.getMoAssociationElementB());
@@ -365,27 +363,62 @@ public class E16_ManagementOfMemoryTraces extends clsModuleBase implements I2_6_
 		throw new java.lang.NoSuchMethodError();
 	}
 
-	/* (non-Javadoc)
-	 *
-	 * @author zeilinger
-	 * 12.08.2010, 20:57:42
-	 * 
-	 * @see pa.interfaces.knowledgebase.itfKnowledgeBaseAccess#accessKnowledgeBase(java.util.ArrayList)
-	 */
-	@Override
-	public void accessKnowledgeBase(ArrayList<ArrayList<clsPair<Double,clsDataStructureContainer>>> poSearchResult) {
-		poSearchResult.addAll(moEnclosingContainer.moKnowledgeBaseHandler.initMemorySearch(moSearchPattern));
-	}
 
+	/**
+	 * DOCUMENT (zeilinger) - insert description
+	 *
+	 * @author zeilinger
+	 * 19.03.2011, 08:36:59
+	 *
+	 * @param undefined
+	 * @param poDS
+	 * @param oSearchResult
+	 */
+	@Override
+	public <E> void search(
+			eDataType poDataType,
+			ArrayList<E> poPattern,
+			ArrayList<ArrayList<clsPair<Double, clsDataStructureContainer>>> poSearchResult) {
+		
+		ArrayList<clsPair<Integer, clsDataStructurePA>> oSearchPattern = new ArrayList<clsPair<Integer,clsDataStructurePA>>(); 
+
+		createSearchPattern(poDataType, poPattern, oSearchPattern);
+		accessKnowledgeBase(poSearchResult, oSearchPattern); 
+	}
+	
 	/* (non-Javadoc)
 	 *
 	 * @author zeilinger
-	 * 16.08.2010, 10:15:41
+	 * 18.03.2011, 19:04:29
 	 * 
-	 * @see pa.interfaces.knowledgebase.itfKnowledgeBaseAccess#addToSearchPattern(pa.memorymgmt.enums.eDataType, pa.memorymgmt.datatypes.clsDataStructurePA)
+	 * @see pa.interfaces.knowledgebase.itfKnowledgeBaseAccess#createSearchPattern(pa.memorymgmt.enums.eDataType, java.lang.Object, java.util.ArrayList)
 	 */
 	@Override
-	public void addToSearchPattern(eDataType oReturnType, clsDataStructurePA poSearchPattern) {
-		moSearchPattern.add(new clsPair<Integer, clsDataStructurePA>(oReturnType.nBinaryValue, poSearchPattern));
+	public <E> void createSearchPattern(eDataType poDataType, ArrayList<E> poList,
+			ArrayList<clsPair<Integer, clsDataStructurePA>> poSearchPattern) {
+		
+		for (E oEntry : poList){
+				if(oEntry instanceof clsDataStructurePA){
+					poSearchPattern.add(new clsPair<Integer, clsDataStructurePA>(poDataType.nBinaryValue, (clsDataStructurePA)oEntry));
+				}
+				else if (oEntry instanceof clsPrimaryDataStructureContainer){
+					poSearchPattern.add(new clsPair<Integer, clsDataStructurePA>(poDataType.nBinaryValue, ((clsPrimaryDataStructureContainer)oEntry).getMoDataStructure()));
+				}
+			}
+	}
+	
+	
+	/* (non-Javadoc)
+	 *
+	 * @author zeilinger
+	 * 14.03.2011, 22:34:44
+	 * 
+	 * @see pa.interfaces.knowledgebase.itfKnowledgeBaseAccess#accessKnowledgeBase(pa.tools.clsPair)
+	 */
+	@Override
+	public void accessKnowledgeBase(ArrayList<ArrayList<clsPair<Double,clsDataStructureContainer>>> poSearchResult,
+									ArrayList<clsPair<Integer, clsDataStructurePA>> poSearchPattern) {
+		
+		poSearchResult.addAll(moEnclosingContainer.moKnowledgeBaseHandler.initMemorySearch(poSearchPattern));
 	}
 }

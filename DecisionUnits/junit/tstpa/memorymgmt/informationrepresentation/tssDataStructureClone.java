@@ -115,10 +115,10 @@ public class tssDataStructureClone {
 		clsThingPresentationMesh oClone = (clsThingPresentationMesh)moThingPresentationMeshTPM3.clone();
 		
 		oClone.setMoDS_ID(oID++); 
-		oClone.moAssociatedContent.remove(0); 
+		oClone.getMoAssociatedContent().remove(0); 
 		
 		if((oClone.getMoDS_ID() != moThingPresentationMeshTPM3.getMoDS_ID()) &&
-					oClone.moAssociatedContent.size()== moThingPresentationMeshTPM3.moAssociatedContent.size()-1){
+					oClone.getMoAssociatedContent().size()== moThingPresentationMeshTPM3.getMoAssociatedContent().size()-1){
 			assertTrue(true);
 		}
 	}
@@ -128,10 +128,10 @@ public class tssDataStructureClone {
 		clsTemplateImage oClone = (clsTemplateImage)moTemplateImage.clone();
 		
 		oClone.setMoDS_ID(oID++);
-		oClone.moAssociatedContent.remove(0); 
+		oClone.getMoAssociatedContent().remove(0); 
 		
 		if(oClone.getMoDS_ID() != moTemplateImage.getMoDS_ID() &&
-					oClone.moAssociatedContent.size()== moTemplateImage.moAssociatedContent.size()-1){
+					oClone.getMoAssociatedContent().size()== moTemplateImage.getMoAssociatedContent().size()-1){
 			assertTrue(true);
 		}
 	}

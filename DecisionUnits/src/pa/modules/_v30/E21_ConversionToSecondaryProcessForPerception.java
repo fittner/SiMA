@@ -47,13 +47,10 @@ public class E21_ConversionToSecondaryProcessForPerception extends clsModuleBase
 	public static final String P_MODULENUMBER = "21";
 	
 	private clsKnowledgeBaseHandler moKnowledgeBaseHandler; 
-	private ArrayList<clsPair<Integer, clsDataStructurePA>> moSearchPattern;
-	
 	private ArrayList<clsPrimaryDataStructureContainer> moGrantedPerception_Input; 
 	//FIXME HZ: This would require a change in the interfaces!!! => different to the actual definition
 	//private ArrayList<clsPair<clsSecondaryDataStructureContainer, clsPair<clsWordPresentation, clsWordPresentation>>> moPerception_Output; 
 	private ArrayList<clsSecondaryDataStructureContainer> moPerception_Output; 
-	
 	private ArrayList<clsTripple<clsDataStructurePA, ArrayList<clsTemplateImage>, ArrayList<clsPair<clsDriveMesh, clsAffect>>>> moOrderedResult; 
 	private HashMap<Integer, clsDriveMesh> moTemporaryDM; 
 	/**
@@ -188,9 +185,10 @@ public class E21_ConversionToSecondaryProcessForPerception extends clsModuleBase
 			ArrayList<ArrayList<clsPair<Double,clsDataStructureContainer>>> oSearchResult 
 							= new ArrayList<ArrayList<clsPair<Double,clsDataStructureContainer>>>();
 			ArrayList<clsDataStructurePA> oEvaluatedResult = new ArrayList<clsDataStructurePA>(); 
+					
+			extractPattern(oContainer, oSearchResult);
+			//accessKnowledgeBase(oSearchResult);
 			
-			defineSearchPattern(oContainer);
-			accessKnowledgeBase(oSearchResult);
 			oEvaluatedResult = evaluateSearchResult(oContainer.getMoDataStructure(), oSearchResult);
 			moOrderedResult.add(orderResult(oContainer.getMoDataStructure(), oEvaluatedResult)); 
 		}
@@ -205,9 +203,7 @@ public class E21_ConversionToSecondaryProcessForPerception extends clsModuleBase
 	 * @param oEvaluatedResult
 	 * @return
 	 */
-	private clsTripple<clsDataStructurePA, ArrayList<clsTemplateImage>, ArrayList<clsPair<clsDriveMesh, clsAffect>>> orderResult(
-			clsDataStructurePA poDataStructure, 
-			ArrayList<clsDataStructurePA> poEvaluatedResult) {
+	private clsTripple<clsDataStructurePA, ArrayList<clsTemplateImage>, ArrayList<clsPair<clsDriveMesh, clsAffect>>> orderResult( clsDataStructurePA poDataStructure, ArrayList<clsDataStructurePA> poEvaluatedResult) {
 		/*HZ: 21.08.2010: This method may be merged with the method convertToSecondary() in the future.
 		 * It "orders" the evaluated result to a tripple of 
 		 * - The data structure to which the retrieved TIs are associated
@@ -246,11 +242,13 @@ public class E21_ConversionToSecondaryProcessForPerception extends clsModuleBase
 	 *
 	 * @return
 	 */
-	private void defineSearchPattern(clsPrimaryDataStructureContainer poContainer) {
-		moTemporaryDM.clear();
-		moSearchPattern.clear(); 
+	private void extractPattern(clsPrimaryDataStructureContainer poContainer, 
+			ArrayList<ArrayList<clsPair<Double,clsDataStructureContainer>>> poSearchResult) {
 		
+		moTemporaryDM.clear();
+				
 		HashMap <String, ArrayList<clsDataStructurePA>> oTIList = new HashMap <String, ArrayList<clsDataStructurePA>>(); 
+		ArrayList<clsPair<eDataType, clsDataStructurePA>> oPattern = new ArrayList<clsPair<eDataType,clsDataStructurePA>>(); 
 		
 		for(clsAssociation oAssociation : poContainer.getMoAssociatedDataStructures()){
 			
@@ -265,8 +263,8 @@ public class E21_ConversionToSecondaryProcessForPerception extends clsModuleBase
 			if(oAssociation instanceof clsAssociationDriveMesh){
 				clsDriveMesh oDM = (clsDriveMesh) oAssociation.getLeafElement(); 
 				clsDataStructurePA oAffect = clsDataStructureGenerator.generateDataStructure(eDataType.AFFECT, new clsPair<String, Object>(eDataType.AFFECT.name(), oDM.getPleasure())); 
-				addToSearchPattern(eDataType.AFFECT,  oAffect);
-				moTemporaryDM.put(moSearchPattern.size()-1, oDM); 
+				oPattern.add(new clsPair<eDataType, clsDataStructurePA> (eDataType.AFFECT,  oAffect));
+				moTemporaryDM.put(oPattern.size()-1, oDM);
 			}
 		}
 		
@@ -275,7 +273,11 @@ public class E21_ConversionToSecondaryProcessForPerception extends clsModuleBase
 				new clsTripple<String, ArrayList<clsDataStructurePA>, Object>(oEntry.getKey(), oEntry.getValue(), "undefined"); 
 			
 			clsDataStructurePA oTI = clsDataStructureGenerator.generateDataStructure(eDataType.TI, oTIcontent);
-			addToSearchPattern(eDataType.UNDEFINED, oTI); 
+			oPattern.add(new clsPair<eDataType, clsDataStructurePA>(eDataType.UNDEFINED, oTI)); 
+		}
+		
+		for(clsPair<eDataType, clsDataStructurePA> oEntry : oPattern){
+			search(oEntry.a, new ArrayList<clsDataStructurePA>(Arrays.asList(oEntry.b)),poSearchResult); 
 		}
 	}
 
@@ -324,7 +326,7 @@ public class E21_ConversionToSecondaryProcessForPerception extends clsModuleBase
 					return oPair.b.getMoDataStructure(); 
 			}
 			else{
-				for(clsAssociation oAssociation : ((clsTemplateImage)oPair.b.getMoDataStructure()).moAssociatedContent){
+				for(clsAssociation oAssociation : ((clsTemplateImage)oPair.b.getMoDataStructure()).getMoAssociatedContent()){
 					
 //					//Has to be discussed if this for loop and the if-statement are required: They
 //					//should verify if the retrieved images can be mapped to the object. As there
@@ -448,19 +450,32 @@ public class E21_ConversionToSecondaryProcessForPerception extends clsModuleBase
 	 * @return
 	 */
 	private clsAssociation getWP(clsDataStructurePA poDataStructure){
-		ArrayList<ArrayList<clsPair<Double,clsDataStructureContainer>>> oSearchResult = 
-				new ArrayList<ArrayList<clsPair<Double,clsDataStructureContainer>>>();
-		moSearchPattern.clear(); 
-		addToSearchPattern(eDataType.WP, poDataStructure); 
+		ArrayList<ArrayList<clsPair<Double,clsDataStructureContainer>>> oSearchResult = new ArrayList<ArrayList<clsPair<Double,clsDataStructureContainer>>>();
+		clsAssociation oRetVal = null; 
 		
-		clsAssociation oAssWP = null; 
+		search(eDataType.WP, new ArrayList<clsDataStructurePA>(Arrays.asList(poDataStructure)), oSearchResult); 
 		
-		try{
-			accessKnowledgeBase(oSearchResult); 
-			oAssWP = (clsAssociation)oSearchResult.get(0).get(0).b.getMoAssociatedDataStructures().get(0);
-		} catch (IndexOutOfBoundsException ex1){/*required to catch if moAssociatedDS = null*/return null;}
-			
-		return oAssWP;  
+		if(controlSearchResult(oSearchResult.get(0))){
+			oRetVal = (clsAssociation)oSearchResult.get(0).get(0).b.getMoAssociatedDataStructures().get(0);
+		}
+		else{
+			throw new IndexOutOfBoundsException("index out of bounds "); 
+		}
+	
+		return oRetVal;  
+	}
+	
+	
+	private boolean controlSearchResult(ArrayList<clsPair<Double,clsDataStructureContainer>> oMatches){
+		boolean oRetVal = false; 
+		
+		for (clsPair<Double,clsDataStructureContainer> oPair : oMatches){
+			if(oPair.a != null && oPair.b != null){
+				oRetVal = true; 
+			}
+		}
+		
+		return oRetVal; 
 	}
 
 	/* (non-Javadoc)
@@ -530,30 +545,64 @@ public class E21_ConversionToSecondaryProcessForPerception extends clsModuleBase
 		throw new java.lang.NoSuchMethodError();
 	}
 	
+	
+	/**
+	 * DOCUMENT (zeilinger) - insert description
+	 *
+	 * @author zeilinger
+	 * 19.03.2011, 08:36:59
+	 *
+	 * @param undefined
+	 * @param poDS
+	 * @param oSearchResult
+	 */
+	@Override
+	public <E> void search(
+			eDataType poDataType,
+			ArrayList<E> poPattern,
+			ArrayList<ArrayList<clsPair<Double, clsDataStructureContainer>>> poSearchResult) {
+		
+		ArrayList<clsPair<Integer, clsDataStructurePA>> oSearchPattern = new ArrayList<clsPair<Integer,clsDataStructurePA>>(); 
+
+		createSearchPattern(poDataType, poPattern, oSearchPattern);
+		accessKnowledgeBase(poSearchResult, oSearchPattern); 
+	}
+	
 	/* (non-Javadoc)
 	 *
 	 * @author zeilinger
-	 * 16.08.2010, 10:15:47
+	 * 18.03.2011, 19:04:29
 	 * 
-	 * @see pa.interfaces.knowledgebase.itfKnowledgeBaseAccess#addToSearchPattern(pa.memorymgmt.enums.eDataType, pa.memorymgmt.datatypes.clsDataStructurePA)
+	 * @see pa.interfaces.knowledgebase.itfKnowledgeBaseAccess#createSearchPattern(pa.memorymgmt.enums.eDataType, java.lang.Object, java.util.ArrayList)
 	 */
 	@Override
-	public void addToSearchPattern(eDataType oReturnType, clsDataStructurePA poSearchPattern) {
-		moSearchPattern.add(new clsPair<Integer, clsDataStructurePA>(oReturnType.nBinaryValue, poSearchPattern));
+	public <E> void createSearchPattern(eDataType poDataType, ArrayList<E> poList,
+			ArrayList<clsPair<Integer, clsDataStructurePA>> poSearchPattern) {
+		
+		for (E oEntry : poList){
+				if(oEntry instanceof clsDataStructurePA){
+					poSearchPattern.add(new clsPair<Integer, clsDataStructurePA>(poDataType.nBinaryValue, (clsDataStructurePA)oEntry));
+				}
+				else if (oEntry instanceof clsPrimaryDataStructureContainer){
+					poSearchPattern.add(new clsPair<Integer, clsDataStructurePA>(poDataType.nBinaryValue, ((clsPrimaryDataStructureContainer)oEntry).getMoDataStructure()));
+				}
+			}
 	}
-
+	
+	
 	/* (non-Javadoc)
 	 *
 	 * @author zeilinger
-	 * 12.08.2010, 20:58:22
+	 * 14.03.2011, 22:34:44
 	 * 
-	 * @see pa.interfaces.knowledgebase.itfKnowledgeBaseAccess#accessKnowledgeBase(java.util.ArrayList)
+	 * @see pa.interfaces.knowledgebase.itfKnowledgeBaseAccess#accessKnowledgeBase(pa.tools.clsPair)
 	 */
 	@Override
-	public void accessKnowledgeBase(ArrayList<ArrayList<clsPair<Double,clsDataStructureContainer>>> poSearchResult) {
-		poSearchResult.addAll(moKnowledgeBaseHandler.initMemorySearch(moSearchPattern));
+	public void accessKnowledgeBase(ArrayList<ArrayList<clsPair<Double,clsDataStructureContainer>>> poSearchResult,
+									ArrayList<clsPair<Integer, clsDataStructurePA>> poSearchPattern) {
+		
+		poSearchResult.addAll(moKnowledgeBaseHandler.initMemorySearch(poSearchPattern));
 	}
-
 	/* (non-Javadoc)
 	 *
 	 * @author deutsch

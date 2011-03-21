@@ -44,6 +44,7 @@ public class E47_ConversionToPrimaryProcess extends clsModuleBase implements I7_
 		super(poPrefix, poProp, poModuleList);
 		applyProperties(poPrefix, poProp);	
 	}
+	
 	public static clsBWProperties getDefaultProperties(String poPrefix) {
 		String pre = clsBWProperties.addDot(poPrefix);
 		

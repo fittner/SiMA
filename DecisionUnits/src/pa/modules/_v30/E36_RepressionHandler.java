@@ -10,7 +10,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import config.clsBWProperties;
-import pa.datatypes.clsPrimaryInformation;
 import pa.interfaces.receive._v30.I4_1_receive;
 import pa.interfaces.receive._v30.I4_2_receive;
 import pa.interfaces.receive._v30.I4_3_receive;
@@ -117,7 +116,7 @@ public class E36_RepressionHandler extends clsModuleBase implements I4_1_receive
 	@Override
 	protected void send() {
 		
-		send_I4_3(new ArrayList<clsPrimaryInformation>(), new ArrayList<clsPrimaryDataStructureContainer>());
+		send_I4_3(new ArrayList<clsPrimaryDataStructureContainer>());
 		
 		moPrimaryInformation.clear(); 
 	}
@@ -197,10 +196,9 @@ public class E36_RepressionHandler extends clsModuleBase implements I4_1_receive
 	 * @see pa.interfaces.send._v30.I4_3_send#send_I4_3(java.util.ArrayList, java.util.ArrayList)
 	 */
 	@Override
-	public void send_I4_3(ArrayList<clsPrimaryInformation> poPIs_old,
-			ArrayList<clsPrimaryDataStructureContainer> poPIs) {
+	public void send_I4_3(ArrayList<clsPrimaryDataStructureContainer> poPIs) {
 		// 		((I4_3_receive)moEnclosingContainer).receive_I4_3(new ArrayList<clsPrimaryDataStructureContainer>());
-		((I4_3_receive)moModuleList.get(6)).receive_I4_3(poPIs_old, poPIs);
+		((I4_3_receive)moModuleList.get(6)).receive_I4_3(poPIs);
 		
 	}
 

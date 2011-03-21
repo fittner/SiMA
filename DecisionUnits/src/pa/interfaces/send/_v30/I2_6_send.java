@@ -8,7 +8,6 @@ package pa.interfaces.send._v30;
 
 import java.util.ArrayList;
 
-import pa.datatypes.clsPrimaryInformation;
 import pa.memorymgmt.datatypes.clsDriveMesh;
 import pa.memorymgmt.datatypes.clsPrimaryDataStructureContainer;
 import pa.tools.clsPair;
@@ -23,6 +22,5 @@ import pa.tools.clsPair;
 public interface I2_6_send {
 	//first element: perceived clsPrimaryInformation
 	//second element (optional): attached repressed content 
-	public void send_I2_6(ArrayList<clsPair<clsPrimaryInformation, clsPrimaryInformation>> poPerceptPlusRepressed_old,
-						  ArrayList<clsPair<clsPrimaryDataStructureContainer, clsDriveMesh>> poPerceptPlusRepressed);
+	public void send_I2_6(ArrayList<clsPair<clsPrimaryDataStructureContainer, clsDriveMesh>> poPerceptPlusRepressed);
 }

@@ -8,7 +8,6 @@ package pa.interfaces.send._v30;
 
 import java.util.ArrayList;
 
-import pa.datatypes.clsPrimaryInformation;
 import pa.memorymgmt.datatypes.clsPrimaryDataStructureContainer;
 
 /**
@@ -19,6 +18,5 @@ import pa.memorymgmt.datatypes.clsPrimaryDataStructureContainer;
  * 
  */
 public interface I4_3_send {
-	public void send_I4_3(ArrayList<clsPrimaryInformation> poPIs_old,
-						  ArrayList<clsPrimaryDataStructureContainer> poPIs);
+	public void send_I4_3(ArrayList<clsPrimaryDataStructureContainer> poPIs);
 }

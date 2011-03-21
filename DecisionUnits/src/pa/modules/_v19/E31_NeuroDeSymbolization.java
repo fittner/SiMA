@@ -163,7 +163,8 @@ public class E31_NeuroDeSymbolization extends clsModuleBase implements I8_1_rece
 				}
 		}
 		else {
-			if( mnCounter > 150) {
+			
+			if(mnCounter > 100){
 	 			moActionCommandList_Output.add( clsActionSequenceFactory.getSeekingSequence(1.0f, 2) );
 				mnCounter = 0; 
 			}
