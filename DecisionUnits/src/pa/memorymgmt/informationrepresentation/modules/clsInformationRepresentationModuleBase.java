@@ -55,7 +55,7 @@ public abstract class clsInformationRepresentationModuleBase {
 		/*TODO - HZ 	here, additional search algorithms have to be initialized*/
 		/*TODO - actually the listSearch algorithm is defined in clsModuleBase - hence, there is 
 		 * 		 no difference made between the different modules*/
-	throw new IllegalArgumentException(" defined search method unknown " + moSearchMethod);
+		throw new IllegalArgumentException(" defined search method unknown " + moSearchMethod);
 	}
 	
 	public abstract ArrayList<clsPair<Double,clsDataStructureContainer>> listSearch(int poReturnType, clsDataStructurePA poDataStructureUnknown);

@@ -37,6 +37,7 @@ public class E31_NeuroDeSymbolizationActionCommands extends clsModuleBase implem
 	
 	private ArrayList<clsActionCommand> moActionCommandList_Output;
 	private ArrayList<clsWordPresentation> moActionCommands_Input;
+	int mnCounter;
 	
 	/**
 	 * DOCUMENT (brandstaetter) - insert description 
@@ -55,6 +56,7 @@ public class E31_NeuroDeSymbolizationActionCommands extends clsModuleBase implem
 		super(poPrefix, poProp, poModuleList);
 		applyProperties(poPrefix, poProp);		
 		
+		mnCounter = 0; 
 		moActionCommandList_Output = new ArrayList<clsActionCommand>();
 	}
 
@@ -121,7 +123,6 @@ public class E31_NeuroDeSymbolizationActionCommands extends clsModuleBase implem
 	protected void process_basic() {
 		
 		moActionCommandList_Output.clear();
-		//process_oldDT();
 	
 		if( moActionCommands_Input.size() > 0 ) {
 				for(clsWordPresentation oWP : moActionCommands_Input) {
@@ -163,7 +164,7 @@ public class E31_NeuroDeSymbolizationActionCommands extends clsModuleBase implem
 				}
 		}
 		else {
-			moActionCommandList_Output.add( clsActionSequenceFactory.getSeekingSequence(1.0f, 2) );
+				moActionCommandList_Output.add( clsActionSequenceFactory.getSeekingSequence(1.0f, 2) );
 		}
 			
 	}
@@ -190,7 +191,7 @@ public class E31_NeuroDeSymbolizationActionCommands extends clsModuleBase implem
 	 */
 	@Override
 	public void send_I8_2(ArrayList<clsActionCommand> poActionCommandList) {
-		((I8_2_receive)moModuleList.get(32)).receive_I8_2(moActionCommandList_Output);
+		((I8_2_receive)moModuleList.get(32)).receive_I8_2(poActionCommandList);
 		
 	}
 

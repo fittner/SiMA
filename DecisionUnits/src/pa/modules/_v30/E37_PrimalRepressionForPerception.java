@@ -25,6 +25,9 @@ import config.clsBWProperties;
  */
 public class E37_PrimalRepressionForPerception extends clsModuleBase implements I2_20_receive, I2_14_send  {
 	public static final String P_MODULENUMBER = "37";
+	
+	private ArrayList<clsPrimaryDataStructureContainer> moEnvironmental_IN; 
+	private ArrayList<clsPrimaryDataStructureContainer> moEvaluatedEnvironment_OUT;
 		
 	/**
 	 * DOCUMENT (HINTERLEITNER) - insert description 
@@ -73,7 +76,7 @@ public class E37_PrimalRepressionForPerception extends clsModuleBase implements 
 	@Override
 	protected void process_basic() {
 		// TODO (HINTERLEITNER) - Auto-generated method stub
-
+		moEvaluatedEnvironment_OUT = moEnvironmental_IN; 
 	}
 
 	/* (non-Javadoc)
@@ -111,7 +114,7 @@ public class E37_PrimalRepressionForPerception extends clsModuleBase implements 
 	 */
 	@Override
 	protected void send() {
-		send_I2_14(new ArrayList<clsPrimaryDataStructureContainer>());
+		send_I2_14(moEvaluatedEnvironment_OUT);
 
 	}
 	/* (non-Javadoc)
@@ -135,11 +138,28 @@ public class E37_PrimalRepressionForPerception extends clsModuleBase implements 
 	 * 
 	 * @see pa.interfaces.receive._v30.I2_20_receive#receive_I2_20(java.util.ArrayList)
 	 */
+	@SuppressWarnings("unchecked")
 	@Override
-	public void receive_I2_20(
-			ArrayList<clsPrimaryDataStructureContainer> poEnvironmentalTP) {
-		// TODO (HINTERLEITNER) - Auto-generated method stub
-		
+	public void receive_I2_20(ArrayList<clsPrimaryDataStructureContainer> poEnvironmentalTP) {
+		moEnvironmental_IN = (ArrayList<clsPrimaryDataStructureContainer>)deepCopy(poEnvironmentalTP); 
 	}
 
+	/**
+	 * @author zeilinger
+	 * 18.03.2011, 15:59:16
+	 * 
+	 * @return the moEnvironmental_IN
+	 */
+	public ArrayList<clsPrimaryDataStructureContainer> getMoEnvironmental_IN() {
+		return moEnvironmental_IN;
+	}
+	/**
+	 * @author zeilinger
+	 * 18.03.2011, 15:59:16
+	 * 
+	 * @return the moEvaluatedEnvironment_OUT
+	 */
+	public ArrayList<clsPrimaryDataStructureContainer> getMoEvaluatedEnvironment_OUT() {
+		return moEvaluatedEnvironment_OUT;
+	}
 }

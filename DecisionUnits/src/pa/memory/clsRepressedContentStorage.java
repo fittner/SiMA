@@ -148,17 +148,19 @@ public class clsRepressedContentStorage {
 				//HZ 17.08.2010: The method getLeafElement cannot be used here as the search patterns actually
 				// do not have a data structure ID => in a later version when E16 will be placed in front 
 				// of E15, the patterns already have an ID. 
-				clsDriveMesh oDMInput = ((clsAssociationDriveMesh)oAssociation).getDM(); 
-				
-				if(oDMRepressedContent.getMoContentType().equals(oDMInput.getMoContentType())){
-					double rMatchValue = oDMRepressedContent.matchCathegories(oDMInput); 
-						
-					if(rMatchValue > rHighestMatch) {
-							rHighestMatch = rMatchValue;
-							oRetVal = oDMRepressedContent;
+				if(oAssociation instanceof clsAssociationDriveMesh){
+					clsDriveMesh oData = ((clsAssociationDriveMesh)oAssociation).getDM(); 
+					
+					if(oDMRepressedContent.getMoContentType().equals(oData.getMoContentType())){
+						double rMatchValue = oDMRepressedContent.matchCathegories(oData); 
+							
+						if(rMatchValue > rHighestMatch) {
+								rHighestMatch = rMatchValue;
+								oRetVal = oDMRepressedContent;
+						}
 					}
-				}
 					if(rHighestMatch >= 1) { break;	} //do the doublebreak to abort search --> first come first serve
+				}
 				}
 			}
 

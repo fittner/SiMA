@@ -209,9 +209,8 @@ public class E26_DecisionMaking extends clsModuleBase implements
 		clsWordPresentation oGoal = null; 
 		ArrayList<clsAssociation> oAssociatedDS = new ArrayList<clsAssociation>();
 		//HZ The integer will be passed on by reference => I require an Integer object
-		Integer oMaxDriveDemand =  -1; 
 		//FIXME HZ Actually the highest rated drive content is taken => this is sloppy and has to be evaluated in a later version! 
-		getHighestDriveDemand(oMaxDriveDemand);
+		Integer oMaxDriveDemand = getHighestDriveDemand(); 
 		
 		if( oMaxDriveDemand > -1 ){
 			oDriveContainer = moDriveList.get(oMaxDriveDemand);  
@@ -306,17 +305,20 @@ public class E26_DecisionMaking extends clsModuleBase implements
 	 * @param moDriveList2
 	 * @return
 	 */
-	private void getHighestDriveDemand(Integer poMaxDriveDemand) {
+	private int getHighestDriveDemand() {
 		eAffectLevel oAffectLevel = eAffectLevel.VERYLOW; 
-				 
+		int oRetVal = -1; 
+		
 		for(clsSecondaryDataStructureContainer oContainer : moDriveList){
 			String [] oContent = ((clsWordPresentation)oContainer.getMoDataStructure()).getMoContent().split(":"); 
 			
 			if(eAffectLevel.compare(eAffectLevel.valueOf(oContent[1]), oAffectLevel)){
-				poMaxDriveDemand = moDriveList.indexOf(oContainer); 
+				oRetVal = moDriveList.indexOf(oContainer); 
 				oAffectLevel = eAffectLevel.valueOf(oContent[1]); 
 			}
 		}
+		
+		return oRetVal; 
 	}
 
 	/* (non-Javadoc)

@@ -117,6 +117,11 @@ public class clsInformationRepresentationManagement extends clsKnowledgeBaseHand
 				ArrayList<clsPair<Double,clsDataStructureContainer>> oSearchPatternMatch = triggerModuleSearch((int)element.a, element.b);
 				moSearchResult.add(oSearchPatternMatch);
 			}
+			
+			if(moSearchResult.size() != poSearchPatternList.size()){
+				throw new NullPointerException("Missing search result: search pattern and search result not from the same size"); 
+			}
+			
 			try {
 				return (ArrayList<ArrayList<clsPair<Double,clsDataStructureContainer>>>) this.cloneResult(moSearchResult);
 			} catch (CloneNotSupportedException e) {

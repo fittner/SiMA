@@ -123,8 +123,8 @@ public class E19_DefenseMechanismsForPerception extends clsModuleBase implements
 		
 		for(clsPrimaryDataStructureContainer oContainer : moSubjectivePerception_Input){
 			for(clsAssociation oAssociation : oContainer.getMoAssociatedDataStructures()){
-				
-				//HZ: if statement checks i their exists at least one association to a drive mesh
+				//HZ: if program steps into the if-statement it is known that 
+				//	  a drive mesh is associated with the data structure => it has an affective evaluation
 				if(oAssociation instanceof clsAssociationDriveMesh){
 					moFilteredPerception_Output.add(oContainer);
 					break; 

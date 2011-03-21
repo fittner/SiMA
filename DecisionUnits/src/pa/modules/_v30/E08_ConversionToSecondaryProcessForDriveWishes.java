@@ -22,6 +22,7 @@ import pa.memorymgmt.datatypes.clsAssociation;
 import pa.memorymgmt.datatypes.clsDataStructureContainer;
 import pa.memorymgmt.datatypes.clsDataStructurePA;
 import pa.memorymgmt.datatypes.clsDriveMesh;
+import pa.memorymgmt.datatypes.clsPrimaryDataStructureContainer;
 import pa.memorymgmt.datatypes.clsSecondaryDataStructureContainer;
 import pa.memorymgmt.datatypes.clsWordPresentation;
 import pa.memorymgmt.enums.eDataType;
@@ -40,8 +41,6 @@ public class E08_ConversionToSecondaryProcessForDriveWishes extends clsModuleBas
 	public static final String P_MODULENUMBER = "08";
 	
 	private clsKnowledgeBaseHandler moKnowledgeBaseHandler; 
-	private ArrayList<clsPair<Integer, clsDataStructurePA>> moSearchPattern;
-	
     private ArrayList<clsDriveMesh> moDriveList_Input; 
 	private ArrayList<clsSecondaryDataStructureContainer> moDriveList_Output; 
 
@@ -127,10 +126,71 @@ public class E08_ConversionToSecondaryProcessForDriveWishes extends clsModuleBas
 	 */
 	@Override
 	protected void process_basic() {
+		ArrayList<clsAssociation> oDM_A = new ArrayList<clsAssociation>(); 
+		ArrayList<clsAssociation> oAff_A = new ArrayList<clsAssociation>();
+		
 		moDriveList_Output = new ArrayList<clsSecondaryDataStructureContainer>(); 
+		oDM_A = getDMWP(); 
+		oAff_A = getAffectWP(); 
+		generateSecondaryContainer(oDM_A, oAff_A); 
+	}
+	
+	/**
+	 * DOCUMENT (zeilinger) - insert description
+	 *
+	 * @author zeilinger
+	 * 19.03.2011, 10:01:29
+	 *
+	 * @param oDM_A
+	 * @param oAff_A
+	 */
+	private void generateSecondaryContainer(ArrayList<clsAssociation> oDM_A, ArrayList<clsAssociation> oAff_A) {
 		
-		for(clsDriveMesh oDM : moDriveList_Input){
-			convertToSecondary(oDM);  
+		for(int index = 0; index < moDriveList_Input.size(); index++){
+			String oContentWP = ((clsWordPresentation)oDM_A.get(index).getLeafElement()).getMoContent() 
+									+ ":" 
+									+ ((clsWordPresentation)oAff_A.get(index).getLeafElement()).getMoContent();
+			clsWordPresentation oResWP = (clsWordPresentation)clsDataStructureGenerator.generateDataStructure(eDataType.WP, 
+										 new clsPair<String, Object>(eDataType.WP.name(), oContentWP));
+			clsSecondaryDataStructureContainer oCon =  new clsSecondaryDataStructureContainer(oResWP, 
+										 new ArrayList<clsAssociation>(Arrays.asList(oDM_A.get(index), oAff_A.get(index))));
+			moDriveList_Output.add(oCon);
+		}
+	}
+
+	/**
+	 * DOCUMENT (zeilinger) - insert description
+	 *
+	 * @author zeilinger
+	 * 19.03.2011, 09:17:07
+	 *
+	 * @return
+	 */
+	private ArrayList<clsAssociation> getDMWP() {
+		ArrayList<ArrayList<clsPair<Double,clsDataStructureContainer>>> oSearchResult = new ArrayList<ArrayList<clsPair<Double,clsDataStructureContainer>>>();
+		ArrayList<clsDataStructurePA> oPattern = new ArrayList<clsDataStructurePA>();
+		ArrayList<clsAssociation> oRetVal = new ArrayList<clsAssociation>(); 
+		
+		extractAssociatedElement(oPattern); 
+		search(eDataType.WP, oPattern, oSearchResult);
+		extractAssociations(oRetVal, oSearchResult);
+		
+		return oRetVal;
+	}
+
+	/**
+	 * DOCUMENT (zeilinger) - insert description
+	 *
+	 * @author zeilinger
+	 * 19.03.2011, 09:39:27
+	 *
+	 * @param oPattern
+	 */
+	private void extractAssociatedElement(ArrayList<clsDataStructurePA> poPattern) {
+		for(clsDriveMesh oEntry : moDriveList_Input){
+			for(clsAssociation oAssociation : oEntry.getMoAssociatedContent()){
+				poPattern.add(oAssociation.getMoAssociationElementB()); 
+			}
 		}
 	}
 	
@@ -138,114 +198,73 @@ public class E08_ConversionToSecondaryProcessForDriveWishes extends clsModuleBas
 	 * DOCUMENT (zeilinger) - insert description
 	 *
 	 * @author zeilinger
-	 * 15.08.2010, 13:08:29
+	 * 19.03.2011, 09:40:18
 	 *
-	 * @param oDriveMesh
-	 * @return
+	 * @param oRetVal
+	 * @param oSearchResult
 	 */
-	private void convertToSecondary(clsDriveMesh poDM) throws NullPointerException{
-		//HZ 16.08.2010: Important! Before a search is initialized, the moSearchPattern ArrayLsit has to be cleaned. 
-		clsAssociation oDM_A = null; 
-		clsAssociation oAff_A = null;
-		clsWordPresentation oResWP = null; 
-		clsSecondaryDataStructureContainer oSec_CON = null; 
-		String oContentWP = ""; 
+	private void extractAssociations(ArrayList<clsAssociation> poRetVal,
+			ArrayList<ArrayList<clsPair<Double, clsDataStructureContainer>>> poSearchResult) {
 		
-		try{
-			
-			oDM_A = getDMWP(poDM);  
-			oAff_A = getAffectWP(poDM); 
-			oContentWP =   ((clsWordPresentation)oDM_A.getLeafElement()).getMoContent() 
-			             + ":" 
-			             + ((clsWordPresentation)oAff_A.getLeafElement()).getMoContent(); 	
-			
-			oResWP = (clsWordPresentation)clsDataStructureGenerator.generateDataStructure(eDataType.WP, new clsPair<String, Object>(eDataType.WP.name(), oContentWP)); 
-			oSec_CON = new clsSecondaryDataStructureContainer(oResWP, new ArrayList<clsAssociation>(Arrays.asList(oDM_A, oAff_A)));
-			moDriveList_Output.add(oSec_CON);
-		
-		} catch (IndexOutOfBoundsException ex1){ //tbd;
-		} catch (NullPointerException ex2){/*tbd;*/}
+			for(ArrayList<clsPair<Double,clsDataStructureContainer>> oEntry : poSearchResult){
+				if(controlSearchResult(oEntry)){
+					clsPair <Double,clsDataStructureContainer> oBestMatch = oEntry.get(0);
+					poRetVal.addAll(oBestMatch.b.getMoAssociatedDataStructures()); 
+			}
+		}
 	}
-
+	
 	/**
 	 * DOCUMENT (zeilinger) - insert description
 	 *
 	 * @author zeilinger
-	 * 23.08.2010, 21:20:30
+	 * 19.03.2011, 09:41:39
 	 *
-	 * @param oDM
 	 * @return
 	 */
-	private clsAssociation getDMWP(clsDriveMesh poDM) {
-		clsAssociation oAssDM = null; 
+	private ArrayList<clsAssociation> getAffectWP() {
+		ArrayList<ArrayList<clsPair<Double,clsDataStructureContainer>>> oSearchResult = new ArrayList<ArrayList<clsPair<Double,clsDataStructureContainer>>>();
+		ArrayList<clsDataStructurePA> oPattern = new ArrayList<clsDataStructurePA>();
+		ArrayList<clsAssociation> oRetVal = new ArrayList<clsAssociation>(); 
+
+		extractAffect(oPattern);
+		search(eDataType.WP, oPattern, oSearchResult); 
+		extractAssociations(oRetVal, oSearchResult);
 		
-		for(clsAssociation oAssociation : poDM.getMoAssociatedContent()){
-			//HZ: It will be searched for the drive context that is stored as TP in 
-			//the associations that define oDriveMesh => Element A is always the root
-			//element oDriveMesh, while element B is the associated context. 
+		return oRetVal;
+	}
+
 	
-				oAssDM = (clsAssociation)getWP(oAssociation.getMoAssociationElementB());
+	/**
+	 * DOCUMENT (zeilinger) - insert description
+	 *
+	 * @author zeilinger
+	 * 19.03.2011, 09:59:26
+	 *
+	 * @param oPattern
+	 */
+	private void extractAffect(ArrayList<clsDataStructurePA> poPattern) {
+		for(clsDriveMesh oEntry : moDriveList_Input){
+			clsDataStructurePA oAffect = clsDataStructureGenerator.generateDataStructure(eDataType.AFFECT, 
+					new clsPair<String, Object>(eDataType.AFFECT.toString(), oEntry.getPleasure()));
+			
+			poPattern.add(oAffect);
+		}
+	}
+
+		
+	private boolean controlSearchResult(ArrayList<clsPair<Double,clsDataStructureContainer>> oMatches){
+		boolean oRetVal = false; 
+		
+		for (clsPair<Double,clsDataStructureContainer> oPair : oMatches){
+			if(oPair.a != null && oPair.b != null){
+				oRetVal = true; 
+			}
 		}
 		
-		return oAssDM;
-	}
-
-	/**
-	 * DOCUMENT (zeilinger) - insert description
-	 *
-	 * @author zeilinger
-	 * 23.08.2010, 21:19:19
-	 *
-	 * @param oDM
-	 * @return
-	 */
-	private clsAssociation getAffectWP(clsDriveMesh poDM) {
-		clsDataStructurePA oAffect = null; 
-		oAffect = clsDataStructureGenerator.generateDataStructure(eDataType.AFFECT, new clsPair<String, Object>(eDataType.AFFECT.toString(), poDM.getPleasure()));
-		return (clsAssociation)getWP(oAffect); 
+		return oRetVal; 
 	}
 	
-	/**
-	 * DOCUMENT (zeilinger) - insert description
-	 *
-	 * @author zeilinger
-	 * 23.08.2010, 21:24:38
-	 *
-	 * @param poDataStructure
-	 * @return
-	 */
-	private clsAssociation getWP(clsDataStructurePA poDataStructure){
-		ArrayList<ArrayList<clsPair<Double,clsDataStructureContainer>>> oSearchResult = 
-			new ArrayList<ArrayList<clsPair<Double,clsDataStructureContainer>>>();
-		
-		moSearchPattern.clear(); 
-		addToSearchPattern(eDataType.WP, poDataStructure); 
-		
-		clsAssociation oAssWP = null; 
-		
-		try{
-			accessKnowledgeBase(oSearchResult); 
-			oAssWP = (clsAssociation)oSearchResult.get(0).get(0).b.getMoAssociatedDataStructures().get(0);
-		} catch (IndexOutOfBoundsException ex1){return null;
-		} catch (NullPointerException ex2){return null;}
-			
-		return oAssWP;  
-	}
-	
-	/**
-	 * DOCUMENT (zeilinger) - insert description
-	 *
-	 * @author zeilinger
-	 * 15.08.2010, 13:41:53
-	 *
-	 * @param wp
-	 * @param oDriveMesh
-	 */
-	@Override
-	public void addToSearchPattern(eDataType poReturnType, clsDataStructurePA poSearchPattern) {
-		moSearchPattern.add(new clsPair<Integer, clsDataStructurePA>(poReturnType.nBinaryValue, poSearchPattern)); 
-	}
-
 	/* (non-Javadoc)
 	 *
 	 * @author deutsch
@@ -325,15 +344,62 @@ public class E08_ConversionToSecondaryProcessForDriveWishes extends clsModuleBas
 		
 	}
 
+	
+	/**
+	 * DOCUMENT (zeilinger) - insert description
+	 *
+	 * @author zeilinger
+	 * 19.03.2011, 08:36:59
+	 *
+	 * @param undefined
+	 * @param poDS
+	 * @param oSearchResult
+	 */
+	@Override
+	public <E> void search(
+			eDataType poDataType,
+			ArrayList<E> poPattern,
+			ArrayList<ArrayList<clsPair<Double, clsDataStructureContainer>>> poSearchResult) {
+		
+		ArrayList<clsPair<Integer, clsDataStructurePA>> oSearchPattern = new ArrayList<clsPair<Integer,clsDataStructurePA>>(); 
+
+		createSearchPattern(poDataType, poPattern, oSearchPattern);
+		accessKnowledgeBase(poSearchResult, oSearchPattern); 
+	}
+	
 	/* (non-Javadoc)
 	 *
 	 * @author zeilinger
-	 * 12.08.2010, 21:12:07
+	 * 18.03.2011, 19:04:29
 	 * 
-	 * @see pa.interfaces.knowledgebase.itfKnowledgeBaseAccess#accessKnowledgeBase(java.util.ArrayList)
+	 * @see pa.interfaces.knowledgebase.itfKnowledgeBaseAccess#createSearchPattern(pa.memorymgmt.enums.eDataType, java.lang.Object, java.util.ArrayList)
 	 */
 	@Override
-	public void accessKnowledgeBase(ArrayList<ArrayList<clsPair<Double,clsDataStructureContainer>>> poSearchResult) {
-		poSearchResult.addAll(moKnowledgeBaseHandler.initMemorySearch(moSearchPattern));
+	public <E> void createSearchPattern(eDataType poDataType, ArrayList<E> poList,
+			ArrayList<clsPair<Integer, clsDataStructurePA>> poSearchPattern) {
+		
+		for (E oEntry : poList){
+				if(oEntry instanceof clsDataStructurePA){
+					poSearchPattern.add(new clsPair<Integer, clsDataStructurePA>(poDataType.nBinaryValue, (clsDataStructurePA)oEntry));
+				}
+				else if (oEntry instanceof clsPrimaryDataStructureContainer){
+					poSearchPattern.add(new clsPair<Integer, clsDataStructurePA>(poDataType.nBinaryValue, ((clsPrimaryDataStructureContainer)oEntry).getMoDataStructure()));
+				}
+			}
+	}
+	
+	
+	/* (non-Javadoc)
+	 *
+	 * @author zeilinger
+	 * 14.03.2011, 22:34:44
+	 * 
+	 * @see pa.interfaces.knowledgebase.itfKnowledgeBaseAccess#accessKnowledgeBase(pa.tools.clsPair)
+	 */
+	@Override
+	public void accessKnowledgeBase(ArrayList<ArrayList<clsPair<Double,clsDataStructureContainer>>> poSearchResult,
+									ArrayList<clsPair<Integer, clsDataStructurePA>> poSearchPattern) {
+		
+		poSearchResult.addAll(moKnowledgeBaseHandler.initMemorySearch(poSearchPattern));
 	}
 }

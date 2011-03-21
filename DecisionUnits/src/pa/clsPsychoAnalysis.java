@@ -22,7 +22,7 @@ public class clsPsychoAnalysis extends clsBaseDecisionUnit {
 	public static final String P_VERSION = "version";
 	public static final String P_MODELVERSION = "modelversion";
 	
-	private static final boolean mnUseOld = false;
+	private static final boolean mnUseOld = true;
 	private itfProcessor moProcessor;
 	
 	public clsPsychoAnalysis(String poPrefix, clsBWProperties poProp) {

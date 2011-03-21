@@ -8,6 +8,7 @@ package pa.modules._v30;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+
 import pa.interfaces.itfTimeChartInformationContainer;
 import pa.interfaces.receive._v30.I1_4_receive;
 import pa.interfaces.receive._v30.I2_15_receive;
@@ -135,8 +136,7 @@ public class E05_AccumulationOfAffectsForSelfPreservationDrives extends clsModul
 	 */
 	@Override
 	protected void send() {
-		
-		send_I2_15(null);
+		send_I2_15(moDriveList);
 	}
 
 	/* (non-Javadoc)
@@ -202,7 +202,6 @@ public class E05_AccumulationOfAffectsForSelfPreservationDrives extends clsModul
 	@Override
 	protected void setModuleNumber() {
 		mnModuleNumber = Integer.parseInt(P_MODULENUMBER);
-		
 	}
 
 	/* (non-Javadoc)
@@ -213,11 +212,13 @@ public class E05_AccumulationOfAffectsForSelfPreservationDrives extends clsModul
 	 * @see pa.interfaces.send._v30.I2_15_send#send_I2_15(java.util.ArrayList)
 	 */
 	@Override
-	public void send_I2_15(
-			ArrayList<clsPair<clsPair<clsDriveMesh, clsDriveDemand>, clsPair<clsDriveMesh, clsDriveDemand>>> poDriveCandidate) {
+	public void send_I2_15(ArrayList<clsDriveMesh> poDriveList) {
 
-		((I2_15_receive)moModuleList.get(38)).receive_I2_15(poDriveCandidate);
+		((I2_15_receive)moModuleList.get(38)).receive_I2_15(poDriveList);
 		
 	}
-
 }
+
+
+
+	

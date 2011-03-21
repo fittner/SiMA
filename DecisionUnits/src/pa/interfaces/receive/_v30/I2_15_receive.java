@@ -9,9 +9,7 @@ package pa.interfaces.receive._v30;
 import java.util.ArrayList;
 
 import pa.interfaces.I_BaseInterface;
-import pa.memorymgmt.datatypes.clsDriveDemand;
 import pa.memorymgmt.datatypes.clsDriveMesh;
-import pa.tools.clsPair;
 
 /**
  * DOCUMENT (deutsch) - insert description 
@@ -21,6 +19,6 @@ import pa.tools.clsPair;
  * 
  */
 public interface I2_15_receive extends I_BaseInterface {
-	public void receive_I2_15(ArrayList<clsPair<clsPair<clsDriveMesh, clsDriveDemand>, clsPair<clsDriveMesh, clsDriveDemand>>> poDriveCandidate);
+	public void receive_I2_15(ArrayList<clsDriveMesh> poDriveCandidate);
 }
 

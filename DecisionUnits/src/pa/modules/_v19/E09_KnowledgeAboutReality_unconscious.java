@@ -164,29 +164,62 @@ public class E09_KnowledgeAboutReality_unconscious extends clsModuleBase impleme
 		throw new java.lang.NoSuchMethodError();
 	}
 
-	/* (non-Javadoc)
-	 *
-	 * @author zeilinger
-	 * 12.08.2010, 21:10:19
-	 * 
-	 * @see pa.interfaces.knowledgebase.itfKnowledgeBaseAccess#accessKnowledgeBase(java.util.ArrayList)
-	 */
-	@Override
-	public void accessKnowledgeBase(ArrayList<ArrayList<clsPair<Double,clsDataStructureContainer>>> poSearchResult) {
-		poSearchResult = moEnclosingContainer.moKnowledgeBaseHandler.initMemorySearch(moSearchPattern);
-	}
 
+	/**
+	 * DOCUMENT (zeilinger) - insert description
+	 *
+	 * @author zeilinger
+	 * 19.03.2011, 08:36:59
+	 *
+	 * @param undefined
+	 * @param poDS
+	 * @param oSearchResult
+	 */
+	@Override
+	public <E> void search(
+			eDataType poDataType,
+			ArrayList<E> poPattern,
+			ArrayList<ArrayList<clsPair<Double, clsDataStructureContainer>>> poSearchResult) {
+		
+		ArrayList<clsPair<Integer, clsDataStructurePA>> oSearchPattern = new ArrayList<clsPair<Integer,clsDataStructurePA>>(); 
+
+		createSearchPattern(poDataType, poPattern, oSearchPattern);
+		accessKnowledgeBase(poSearchResult, oSearchPattern); 
+	}
+	
 	/* (non-Javadoc)
 	 *
 	 * @author zeilinger
-	 * 16.08.2010, 10:15:34
+	 * 18.03.2011, 19:04:29
 	 * 
-	 * @see pa.interfaces.knowledgebase.itfKnowledgeBaseAccess#addToSearchPattern(pa.memorymgmt.enums.eDataType, pa.memorymgmt.datatypes.clsDataStructurePA)
+	 * @see pa.interfaces.knowledgebase.itfKnowledgeBaseAccess#createSearchPattern(pa.memorymgmt.enums.eDataType, java.lang.Object, java.util.ArrayList)
 	 */
 	@Override
-	public void addToSearchPattern(eDataType oReturnType,
-			clsDataStructurePA poSearchPattern) {
-		// TODO (zeilinger) - Auto-generated method stub
+	public <E> void createSearchPattern(eDataType poDataType, ArrayList<E> poList,
+			ArrayList<clsPair<Integer, clsDataStructurePA>> poSearchPattern) {
 		
+		for (E oEntry : poList){
+				if(oEntry instanceof clsDataStructurePA){
+					poSearchPattern.add(new clsPair<Integer, clsDataStructurePA>(poDataType.nBinaryValue, (clsDataStructurePA)oEntry));
+				}
+				else if (oEntry instanceof clsPrimaryDataStructureContainer){
+					poSearchPattern.add(new clsPair<Integer, clsDataStructurePA>(poDataType.nBinaryValue, ((clsPrimaryDataStructureContainer)oEntry).getMoDataStructure()));
+				}
+			}
+	}
+	
+	
+	/* (non-Javadoc)
+	 *
+	 * @author zeilinger
+	 * 14.03.2011, 22:34:44
+	 * 
+	 * @see pa.interfaces.knowledgebase.itfKnowledgeBaseAccess#accessKnowledgeBase(pa.tools.clsPair)
+	 */
+	@Override
+	public void accessKnowledgeBase(ArrayList<ArrayList<clsPair<Double,clsDataStructureContainer>>> poSearchResult,
+									ArrayList<clsPair<Integer, clsDataStructurePA>> poSearchPattern) {
+		
+		poSearchResult.addAll(moEnclosingContainer.moKnowledgeBaseHandler.initMemorySearch(poSearchPattern));
 	}
 }

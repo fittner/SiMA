@@ -9,7 +9,6 @@ package pa.modules._v30;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import pa.datatypes.clsPrimaryInformation;
 import pa.interfaces.receive._v30.I1_5_receive;
 import pa.interfaces.receive._v30.I1_6_receive;
 import pa.interfaces.receive._v30.I2_19_receive;
@@ -107,8 +106,7 @@ public class E06_DefenseMechanismsForDrives extends clsModuleBase implements
 	 */
 	@SuppressWarnings("unchecked")
 	@Override
-	public void receive_I1_5(List<clsPrimaryInformation> poData_old,
-			  List<clsDriveMesh> poData) {
+	public void receive_I1_5(List<clsDriveMesh> poData) {
 		moDriveList_Input = (ArrayList<clsDriveMesh>)deepCopy( (ArrayList<clsDriveMesh>)poData);
 	}
 
@@ -134,8 +132,7 @@ public class E06_DefenseMechanismsForDrives extends clsModuleBase implements
 	 */
 	@SuppressWarnings("unchecked")
 	@Override
-	public void receive_I4_3(ArrayList<clsPrimaryInformation> poPIs_old,
-			  ArrayList<clsPrimaryDataStructureContainer> poPIs) {
+	public void receive_I4_3(ArrayList<clsPrimaryDataStructureContainer> poPIs) {
 		moRepressedRetry_Input = (ArrayList<clsPrimaryDataStructureContainer>)deepCopy( (ArrayList<clsPrimaryDataStructureContainer>)poPIs);
 	}
 

@@ -20,7 +20,27 @@ import pa.tools.clsTripple;
  * 
  */
 public abstract class clsPhysicalStructureComposition extends clsPhysicalRepresentation {
-	public ArrayList<clsAssociation> moAssociatedContent; 	
+	protected ArrayList<clsAssociation> moAssociatedContent; 	
+	/**
+	 * @author zeilinger
+	 * 19.03.2011, 08:57:27
+	 * 
+	 * @return the moAssociatedContent
+	 */
+	public ArrayList<clsAssociation> getMoAssociatedContent() {
+		return moAssociatedContent;
+	}
+
+	/**
+	 * @author zeilinger
+	 * 19.03.2011, 08:57:27
+	 * 
+	 * @param moAssociatedContent the moAssociatedContent to set
+	 */
+	public void setMoAssociatedContent(ArrayList<clsAssociation> moAssociatedContent) {
+		this.moAssociatedContent = moAssociatedContent;
+	}
+
 	/**
 	 * DOCUMENT (zeilinger) - insert description 
 	 * 

@@ -8,7 +8,6 @@ package pa.interfaces.send._v30;
 
 import java.util.List;
 
-import pa.datatypes.clsPrimaryInformation;
 import pa.memorymgmt.datatypes.clsDriveMesh;
 
 /**
@@ -19,6 +18,5 @@ import pa.memorymgmt.datatypes.clsDriveMesh;
  * 
  */
 public interface I1_5_send {
-	public void send_I1_5(List<clsPrimaryInformation> poData_old,
-						  List<clsDriveMesh> poData);
+	public void send_I1_5(List<clsDriveMesh> poData);
 }
