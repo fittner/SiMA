@@ -9,6 +9,23 @@ package pa.memorymgmt.enums;
 /**
  * DOCUMENT (kohlhauser) - Enumeration class for the affect levels and conversions to strings.
  * 
+ * For comparisons see java API for Enum class
+ * 
+ * General comparison: compareTo(E)
+ * eAffectLevel.HIGH.compareTo(eAffectLevel.LOW)
+ * returns a negative value
+ * eAffectLevel.HIGH.compareTo(eAffectLevel.HIGH)
+ * returns 0
+ * eAffectLevel.LOW.compareTo(eAffectLevel.HIGH)
+ * returns a postive value
+ * 
+ * If you want to compare two affect levels you can also use the ordinal() method of enums
+ * it returns the integer value of the enum element (the first is 0, the second 1, etc)
+ * eAffectLevel.HIGH.ordinal() > eAffectLevel.LOW.ordinal()
+ * returns "true"
+ * 
+ * For equality you can also use the equals(Object) method. 
+ * 
  * @author kohlhauser
  * 31.08.2010, 13:38:25
  * 
@@ -51,6 +68,7 @@ public enum eAffectLevel {
 		return lvls[i];
 	}
 	
+	@Deprecated
 	public static boolean compare(eAffectLevel poAffectLevel1, eAffectLevel poAffectLevel2){
 		boolean oRetVal = false; 
 		
