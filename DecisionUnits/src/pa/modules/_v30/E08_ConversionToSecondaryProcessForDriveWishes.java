@@ -207,7 +207,7 @@ public class E08_ConversionToSecondaryProcessForDriveWishes extends clsModuleBas
 			ArrayList<ArrayList<clsPair<Double, clsDataStructureContainer>>> poSearchResult) {
 		
 			for(ArrayList<clsPair<Double,clsDataStructureContainer>> oEntry : poSearchResult){
-				if(controlSearchResult(oEntry)){
+				if(oEntry.size() > 0){
 					clsPair <Double,clsDataStructureContainer> oBestMatch = oEntry.get(0);
 					poRetVal.addAll(oBestMatch.b.getMoAssociatedDataStructures()); 
 			}
@@ -253,18 +253,6 @@ public class E08_ConversionToSecondaryProcessForDriveWishes extends clsModuleBas
 	}
 
 		
-	private boolean controlSearchResult(ArrayList<clsPair<Double,clsDataStructureContainer>> oMatches){
-		boolean oRetVal = false; 
-		
-		for (clsPair<Double,clsDataStructureContainer> oPair : oMatches){
-			if(oPair.a != null && oPair.b != null){
-				oRetVal = true; 
-			}
-		}
-		
-		return oRetVal; 
-	}
-	
 	/* (non-Javadoc)
 	 *
 	 * @author deutsch

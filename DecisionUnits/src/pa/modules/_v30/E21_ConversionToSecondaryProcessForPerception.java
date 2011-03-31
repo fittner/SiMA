@@ -138,7 +138,7 @@ public class E21_ConversionToSecondaryProcessForPerception extends clsModuleBase
 		moTemporaryDM = new HashMap<Integer, clsDriveMesh>(); 
 		moPerception_Output = new ArrayList<clsSecondaryDataStructureContainer>(); 
 		
-		mergeInputToTI(); 
+		defineTemplateImage(); 
 		convertToSecondary(); 
 	}
 	
@@ -149,7 +149,7 @@ public class E21_ConversionToSecondaryProcessForPerception extends clsModuleBase
 	 * 19.08.2010, 22:39:28
 	 *
 	 */
-	private void mergeInputToTI() {
+	private void defineTemplateImage() {
 		/*HZ 20.08.2010: There are two possibilities of receiving the matching Template images.
 		 * 	1. create a TI out of received Information and search in the memory for matching 
 		 * 	   TIs
@@ -187,8 +187,6 @@ public class E21_ConversionToSecondaryProcessForPerception extends clsModuleBase
 			ArrayList<clsDataStructurePA> oEvaluatedResult = new ArrayList<clsDataStructurePA>(); 
 					
 			extractPattern(oContainer, oSearchResult);
-			//accessKnowledgeBase(oSearchResult);
-			
 			oEvaluatedResult = evaluateSearchResult(oContainer.getMoDataStructure(), oSearchResult);
 			moOrderedResult.add(orderResult(oContainer.getMoDataStructure(), oEvaluatedResult)); 
 		}
@@ -455,29 +453,14 @@ public class E21_ConversionToSecondaryProcessForPerception extends clsModuleBase
 		
 		search(eDataType.WP, new ArrayList<clsDataStructurePA>(Arrays.asList(poDataStructure)), oSearchResult); 
 		
-		if(controlSearchResult(oSearchResult.get(0))){
+		if(oSearchResult.get(0).size() > 0 && oSearchResult.get(0).get(0).b.getMoAssociatedDataStructures().size() > 0){
 			oRetVal = (clsAssociation)oSearchResult.get(0).get(0).b.getMoAssociatedDataStructures().get(0);
 		}
-		else{
-			throw new IndexOutOfBoundsException("index out of bounds "); 
-		}
-	
+		
 		return oRetVal;  
 	}
 	
 	
-	private boolean controlSearchResult(ArrayList<clsPair<Double,clsDataStructureContainer>> oMatches){
-		boolean oRetVal = false; 
-		
-		for (clsPair<Double,clsDataStructureContainer> oPair : oMatches){
-			if(oPair.a != null && oPair.b != null){
-				oRetVal = true; 
-			}
-		}
-		
-		return oRetVal; 
-	}
-
 	/* (non-Javadoc)
 	 *
 	 * @author deutsch

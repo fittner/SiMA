@@ -147,7 +147,7 @@ public class E35_EmersionOfRepressedContent extends clsModuleBase implements I2_
 	private void addAssociations(ArrayList<clsPrimaryDataStructureContainer> poContainerList, ArrayList<ArrayList<clsPair<Double, clsDataStructureContainer>>> poSearchResult) {
 		
 		for(ArrayList<clsPair<Double, clsDataStructureContainer>> oEntry : poSearchResult){
-			if(controlSearchResult(oEntry)){
+			if(oEntry.size() > 0){
 				ArrayList <clsAssociation> oAssociationList = oEntry.get(0).b.getMoAssociatedDataStructures(); 
 				poContainerList.get(poSearchResult.indexOf(oEntry)).getMoAssociatedDataStructures().addAll(oAssociationList); 
 			}
@@ -310,19 +310,6 @@ public class E35_EmersionOfRepressedContent extends clsModuleBase implements I2_
 		// TODO (wendt) - Auto-generated method stub
 		throw new java.lang.NoSuchMethodError();
 	}
-	
-	private boolean controlSearchResult(ArrayList<clsPair<Double,clsDataStructureContainer>> oMatches){
-		boolean oRetVal = false; 
-		
-		for (clsPair<Double,clsDataStructureContainer> oPair : oMatches){
-				if(oPair.a != null && oPair.b != null){
-					oRetVal = true; 
-				}
-			}
-			
-		return oRetVal; 
-	}
-	
 	
 	/**
 	 * DOCUMENT (zeilinger) - insert description

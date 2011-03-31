@@ -150,7 +150,7 @@ public class E46_FusionWithMemoryTraces extends clsModuleBase implements
 				clsPrimaryDataStructureContainer oNewImage;
 				clsPrimaryDataStructureContainer oPerceptionEntry =  moEnvironmentalPerception_IN.get(nEntryIndex); 
 				
-				if(controlSearchResult(oEntry)){
+				if(oEntry.size() > 0){
 					oNewImage = (clsPrimaryDataStructureContainer)extractBestMatch(oEntry); 
 					oNewImage.setMoAssociatedDataStructures(oPerceptionEntry.getMoAssociatedDataStructures()); 
 					mergePerceptionAndKnowledge(oNewImage, oPerceptionEntry);
@@ -219,7 +219,7 @@ public class E46_FusionWithMemoryTraces extends clsModuleBase implements
 						clsPrimaryDataStructureContainer poNewImage) {
 		
 		for(ArrayList<clsPair<Double, clsDataStructureContainer>> oEntry : poSearchResult){
-			if(controlSearchResult(oEntry)){
+			if(oEntry.size() > 0){
 				clsPrimaryDataStructureContainer oBestMatch = (clsPrimaryDataStructureContainer)extractBestMatch(oEntry); 
 				clsAssociation oAssociation = new clsAssociationAttribute(new clsTripple<Integer, eDataType, String>(
 							-1, eDataType.ASSOCIATIONATTRIBUTE, eDataType.ASSOCIATIONATTRIBUTE.name()), 
@@ -246,18 +246,6 @@ public class E46_FusionWithMemoryTraces extends clsModuleBase implements
 		return oBestMatch; 
 	}
 	
-	private boolean controlSearchResult(ArrayList<clsPair<Double,clsDataStructureContainer>> oMatches){
-		boolean oRetVal = false; 
-		
-		for (clsPair<Double,clsDataStructureContainer> oPair : oMatches){
-				if(oPair.a != null && oPair.b != null){
-					oRetVal = true; 
-				}
-			}
-			
-		return oRetVal; 
-	}
-
 	/* (non-Javadoc)
 	 *
 	 * @author deutsch
