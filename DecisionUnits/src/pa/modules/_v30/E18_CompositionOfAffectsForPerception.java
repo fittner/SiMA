@@ -124,14 +124,26 @@ public class E18_CompositionOfAffectsForPerception extends clsModuleBase impleme
 	private void adaptPleasureValue() {
 		moNewPrimaryInformation = new ArrayList<clsPrimaryDataStructureContainer>(); 
 		
+		//for each pair in the input list...
 		for(clsPair <clsPrimaryDataStructureContainer, clsDriveMesh> oPair : moMergedPrimaryInformation_Input){
+			//If there is an object e. g. CAKE, which is a TPM...
 			if(oPair.a.getMoDataStructure() instanceof clsThingPresentationMesh){
+				//For each associated content in moAssociatedContent...
 				for(pa.memorymgmt.datatypes.clsAssociation oAssociation : oPair.a.getMoAssociatedDataStructures()){
+					//If the Association is a DM...
 					if(oAssociation instanceof clsAssociationDriveMesh){
+						//Get the actual DM from the association
 						clsDriveMesh oDMInput = ((clsAssociationDriveMesh)oAssociation).getDM(); 
+						//Get the DM from the repressed content
 						clsDriveMesh oDMRepressed = oPair.b; 
 						
-						if(oDMInput.getMoContent().intern() == oDMRepressed.getMoContent().intern()){
+						/* If the moContentType is equal (at CAKE, NOURISH), then set new pleasure as the average of 
+						 * the pleasure of repressed content and the object. Then, new moContent is set from the 
+						 * Repressed content (NOURISH GREEDY statt NOURISH_CAKEBASIC).
+						 */
+						
+						if (oDMInput.getMoContentType().intern() == oDMRepressed.getMoContentType().intern()) {
+						//old Fix here if(oDMInput.getMoContent().intern() == oDMRepressed.getMoContent().intern()){
 							oDMInput.setPleasure((oDMInput.getPleasure()+oDMRepressed.getPleasure())/2); 
 							oDMInput.setMoContent(oDMRepressed.getMoContent()); 
 						}

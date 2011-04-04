@@ -108,12 +108,22 @@ public class E35_EmersionOfRepressedContent extends clsModuleBase implements I2_
 		//	  data structures. However, after the new functionalities are introduced, old and new data structures have to 
 		//    be clearly separated from each other and the use of clsRepressedContentStorage has to be avoided. 
 		
+		//FIXME: AW: The output consists of 3 equal pairs of DM and Containers. Why is the same Ref used 3 times?
 		moAttachedRepressed_Output = new ArrayList<clsPair<clsPrimaryDataStructureContainer,clsDriveMesh>>();
 		ArrayList<clsPrimaryDataStructureContainer> oContainerList = new ArrayList<clsPrimaryDataStructureContainer>(); 
  		
 		oContainerList = moEnvironmentalTP_Input; 
-		assignDriveMeshes(oContainerList); 
+		/* Add DM for to object and include them in the TPM through associations. The TPM then contains 
+		 * attributeassociations and drivemeshassociations
+		 */
+		assignDriveMeshes(oContainerList);
+		/* The context of a certain drive or object is loaded, in the case of CAKE, it is NOURISH. If the drive 
+		 * NOURISH is found in the objects the categories (anal, oral...) is multiplied with a category factor <= 1
+		 * In case of a 100% match, the factor is 1.0.
+		 */
 		adaptCathegories(oContainerList);
+		/* DM from the Repressed Content are added to the objects in the oContainerList
+		 */
 		matchRepressedContent(oContainerList); 
 	}
 	
@@ -129,8 +139,14 @@ public class E35_EmersionOfRepressedContent extends clsModuleBase implements I2_
 		ArrayList<ArrayList<clsPair<Double,clsDataStructureContainer>>> oSearchResult = 
 			new ArrayList<ArrayList<clsPair<Double,clsDataStructureContainer>>>(); 
 	
-		
+		/*Search for associated Drive Meshes with the parameter Datatype=DM, poContainerlist with the objects and
+		*their associations and put the result in oSearchResult, which consists of the original objects from 
+		*poContainerlist and for each object all assigned DM. The DM also have a weight, which is always set=1
+		*/
 		search(eDataType.DM, poContainerList, oSearchResult); 
+		/*This function takes the associated DM from oSeachResult and adds them to the corresponding
+		 * poContainerList in the associated Objects (not in the TPM)
+		 */
 		addAssociations(poContainerList, oSearchResult);  
 	}
 	
@@ -146,10 +162,14 @@ public class E35_EmersionOfRepressedContent extends clsModuleBase implements I2_
 	 */
 	private void addAssociations(ArrayList<clsPrimaryDataStructureContainer> poContainerList, ArrayList<ArrayList<clsPair<Double, clsDataStructureContainer>>> poSearchResult) {
 		
+		//oEntry: Data structure with a double association weigth and an object e. g. CAKE with its associated DM.
 		for(ArrayList<clsPair<Double, clsDataStructureContainer>> oEntry : poSearchResult){
 			if(oEntry.size() > 0){
-				ArrayList <clsAssociation> oAssociationList = oEntry.get(0).b.getMoAssociatedDataStructures(); 
+				//get associated DM from a the object e. g. CAKE
+				ArrayList <clsAssociation> oAssociationList = oEntry.get(0).b.getMoAssociatedDataStructures();
+				//Add associated DM to the input list. Now the list moAssociatedDataStructures contains DM and ATTRIBUTES
 				poContainerList.get(poSearchResult.indexOf(oEntry)).getMoAssociatedDataStructures().addAll(oAssociationList); 
+				
 			}
 		}
 	}
@@ -185,16 +205,34 @@ public class E35_EmersionOfRepressedContent extends clsModuleBase implements I2_
 	private void calculateCath(clsPrimaryDataStructureContainer poContainer,
 							   Entry<clsPrimaryDataStructureContainer, clsMutableDouble> poContextPrim) {
 		
+		//Get the drive of the object. In the case of the CAKE, NOURISH
 		eContext oContext = eContext.valueOf(poContextPrim.getKey().getMoDataStructure().getMoContentType());
 		
+		/*For each Associated Content for each object in the clsPrimaryDataStructureContainer, get the associated
+		 * content in oAssociation (Format clsAssociation)
+		 * 
+		 */
 		for(clsAssociation oAssociation : poContainer.getMoAssociatedDataStructures()){
 			//HZ 17.08.2010: The method getLeafElement cannot be used here as the search patterns actually
 			// do not have a data structure ID => in a later version when E16 will be placed in front 
 			// of E15, the patterns already have an ID. 
+			
+			/* In the case of the CAKE, get the Leaf-Element, i. e. the Thing presentation, which describes
+			 * one property 
+			 */
 			clsDataStructurePA oData = oAssociation.getLeafElement();
 			
+			//If the oData is not a Thing Presentation, but a DM ...
 			if(oData instanceof clsDriveMesh){
+				//If the Drive is equal to the drive in the context (e. g. NOURISH) then....
 				if(eContext.valueOf(oData.getMoContentType()).equals(oContext)){
+					/*setCathegories has the following Parameters:
+					 * The DM with their categories anal, oral, phallic and genital and the context value
+					 * For the CAKE with the drive NOURISH, the context value is = 1.0 as the thing can be 
+					 * eaten. The categories are multiplied with the context value.
+					 * This function reduces not 100%-Matching context with the context factor. If the 
+					 * context matches to 100%, then the context factor is = 1.0
+					 */
 					setCathegories((clsDriveMesh)oData, poContextPrim.getValue().doubleValue()); 
 				}
 			}
@@ -240,7 +278,20 @@ public class E35_EmersionOfRepressedContent extends clsModuleBase implements I2_
 	 */
 	private void matchRepressedContent(ArrayList<clsPrimaryDataStructureContainer> poCathegorizedInputContainer) {
 		
+		//For each object (e. g. CAKE) with adapted categories...
+		//oInput is a clsPrimaryDataStructureContainer
 		for(clsPrimaryDataStructureContainer oInput : poCathegorizedInputContainer){
+				/* A DM is loaded, which matches a drive, which is Repressed.
+				 * In the storage of Repressed Content, DM are stored. If the ContentType of the DM attached to
+				 * an object is exactly matched to a content type of a DM in the repressed Content Store, 
+				 * the categories are compared. For each matching DM, the equality of the values in the categories
+				 * are compared and a number <= 1.0 is generated. The DM with the highest category match is returned
+				 * In the case of CAKE, there exists 2 DM: BITE (associated with DEATH) and NOURISH. In the Repressed Content Store, there
+				 * exists 2 Repressed Content DM: BITE (PUNCH) and NOURISH (GREEDY), both with negative mrPleasure
+				 * The match of the BITE DM is 0.5 and the match of the NOURISH DM is 0.9. Therefore, the DM of 
+				 * NOURISH is selected
+				 */
+				//FIXME: mrPleasure = -0.3. This is not allowed. Add mrUnpleasure instead
 				clsDriveMesh oRep = moMemory.moRepressedContentsStore.getBestMatchCONVERTED(oInput);
 				moAttachedRepressed_Output.add(new clsPair<clsPrimaryDataStructureContainer, clsDriveMesh>(oInput, oRep));
 		}
