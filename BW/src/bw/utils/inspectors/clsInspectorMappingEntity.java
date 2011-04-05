@@ -38,7 +38,7 @@ import bw.utils.inspectors.body.clsInspectorFlesh;
 import bw.utils.inspectors.body.clsInspectorInternalEnergyConsumption;
 import bw.utils.inspectors.body.clsInspectorInternalSystems;
 import bw.utils.inspectors.body.clsInspectorSlowMessengers;
-import bw.utils.inspectors.entity.clsInspectorBubble;
+import bw.utils.inspectors.entity.clsInspectorARSin;
 import bw.utils.inspectors.entity.clsInspectorFungusEater;
 import bw.utils.inspectors.entity.clsInspectorDefault;
 import bw.utils.inspectors.entity.clsInspectorFungus;
@@ -85,7 +85,7 @@ public class clsInspectorMappingEntity {
     	if( poEntity instanceof clsMobile )
     	{
 	    	if( poEntity instanceof clsBubble) {
-	    		oRetVal.addInspector( new clsInspectorBubble(poSuperInspector, poWrapper, poState, (clsBubble)poEntity), "Bubble");
+	    		oRetVal.addInspector( new clsInspectorARSin(poSuperInspector, poWrapper, poState, (clsBubble)poEntity), "Bubble");
 	    	}
 	    	else if( poEntity instanceof clsFungusEater) {
 	    		oRetVal.addInspector( new clsInspectorFungusEater(poSuperInspector, poWrapper, poState, (clsFungusEater)poEntity), "Fungus Eater");
