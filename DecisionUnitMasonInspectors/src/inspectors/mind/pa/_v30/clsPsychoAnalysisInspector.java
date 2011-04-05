@@ -6,6 +6,8 @@
  */
 package inspectors.mind.pa._v30;
 
+import inspectors.clsInspectorUtils;
+
 import java.awt.BorderLayout;
 import pa._v19.clsProcessor;
 import java.lang.reflect.Field;
@@ -113,7 +115,7 @@ public class clsPsychoAnalysisInspector extends Inspector implements TreeSelecti
 				getTree(o, child);
 				}
 				catch(Exception e){
-					System.out.println( e.getMessage() );
+					System.out.println( clsInspectorUtils.getCustomStackTrace(e) );
 				}
 				
 				//add the filled treenode for the current clsModuleContainer

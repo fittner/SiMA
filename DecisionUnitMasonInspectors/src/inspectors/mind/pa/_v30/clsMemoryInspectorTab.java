@@ -6,6 +6,8 @@
  */
 package inspectors.mind.pa._v30;
 
+import inspectors.clsInspectorUtils;
+
 import java.awt.BorderLayout;
 import java.lang.reflect.Field;
 
@@ -150,7 +152,7 @@ public class clsMemoryInspectorTab extends Inspector implements TreeSelectionLis
 				getTree(o, child);
 				}
 				catch(Exception e){
-					System.out.println( e.getMessage() );
+					System.out.println( clsInspectorUtils.getCustomStackTrace(e) );
 				}
 				
 				//add the filled treenode for the current clsModuleContainer
