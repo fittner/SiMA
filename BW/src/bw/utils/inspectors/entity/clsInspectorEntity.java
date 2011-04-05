@@ -26,6 +26,7 @@ import bw.body.clsBaseBody;
 import bw.body.itfGetBrain;
 import bw.body.itfget.itfGetBody;
 import bw.entities.clsEntity;
+import bw.exceptions.clsExeptionUtils;
 import bw.utils.inspectors.clsInspectorMappingEntity;
 
 import sim.display.GUIState;
@@ -219,7 +220,7 @@ public class clsInspectorEntity extends Inspector implements ActionListener {
 				moEntityWindows.add(clsInspectorFrame.getInspectorFrame(oMasonInspector, oTabName + " - Body Inspector"));
 				
 			} catch (java.lang.ClassCastException ex) {
-				System.out.println(ex);
+				System.out.println(clsExeptionUtils.getCustomStackTrace(ex));
 			}
 		} else if (source == moBtnBrainInspectors) {
 			// define the inspector-content for each entity in the responsible
@@ -235,7 +236,8 @@ public class clsInspectorEntity extends Inspector implements ActionListener {
 				moEntityWindows.add(clsInspectorFrame.getInspectorFrame(oMasonInspector, oTabName + " - Brain Inspector"));
 				
 			} catch (java.lang.ClassCastException ex) {
-				System.out.println(ex);
+				System.out.println(clsExeptionUtils.getCustomStackTrace(ex));
+
 			}
 		}
 	}

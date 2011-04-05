@@ -127,15 +127,8 @@ public class clsInspectorMappingEntity {
     	{
     		// int i = 1; //unused int - removed by TD
     		if( poEntity instanceof clsBase) {
-	    		oRetVal.addInspector(new clsInspectorFungusBase(poSuperInspector, poWrapper, poState, (clsBase)poEntity), "Base default");
-	    		
+	    		oRetVal.addInspector(new clsInspectorFungusBase(poSuperInspector, poWrapper, poState, (clsBase)poEntity), "FungusBase default");
 	    	}
-//	    	if( poEntity instanceof ) {
-//	    		
-//	    	}
-//	    	else if( poEntity instanceof ) {
-//	    		
-//	    	}
     	}
     	
     	//add standard inspector if nothing happened
@@ -146,6 +139,7 @@ public class clsInspectorMappingEntity {
 	    return oRetVal;
 	}
 
+	
 	public static TabbedInspector getInspectorBody(Inspector poSuperInspector, LocationWrapper poWrapper, GUIState poState, clsBaseBody poBody)
 	{
 		TabbedInspector oRetVal = new TabbedInspector();
@@ -168,7 +162,7 @@ public class clsInspectorMappingEntity {
     	}
     	
 
-    	//add standard inspector if nothing happened
+    	//add standard body inspector if nothing happened
     	if(oRetVal.inspectors.size() == 0)  {
     		oRetVal.addInspector(poSuperInspector, "Values");
     	}
