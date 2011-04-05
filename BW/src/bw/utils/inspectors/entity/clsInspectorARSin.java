@@ -69,7 +69,7 @@ public class clsInspectorARSin extends Inspector {
 		moBubble = poBubble;
 		
 		//get the default things
-		clsInspectorDefault moDefaultInspector = new clsInspectorDefault(poOriginalInspector, poWrapper, poGuiState, (clsEntity)poBubble);
+		clsInspectorBasic moDefaultInspector = new clsInspectorBasic(poOriginalInspector, poWrapper, poGuiState, (clsEntity)poBubble);
 		add(moDefaultInspector,  BorderLayout.AFTER_LAST_LINE);
 		
 		//inspected fields....

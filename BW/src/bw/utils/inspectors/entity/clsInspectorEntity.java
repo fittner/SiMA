@@ -117,8 +117,7 @@ public class clsInspectorEntity extends Inspector implements ActionListener {
 			// ignore - no mind present
 		}
 
-		moPropMindyType = new PropertyField("Mind", oMindType, false, null,
-				PropertyField.SHOW_TEXTFIELD);
+		moPropMindyType = new PropertyField("Mind", oMindType, false, null, PropertyField.SHOW_TEXTFIELD);
 
 		moPropPosX = new PropertyField("Position X", ""
 				+ moEntity.getPosition().x, false, null,
@@ -129,26 +128,20 @@ public class clsInspectorEntity extends Inspector implements ActionListener {
 
 		//add 3 buttons for detailes special inspectors
 		moBtnEntityInspectors = new JButton("Entity Details...");
-		moBtnEntityInspectors.setSize(550, 12);
 		moBtnBodyInspectors = new JButton("Body Details... ");
-		moBtnBodyInspectors.setSize(450, 12);
 		moBtnBrainInspectors = new JButton("Brain Details...");
-		moBtnBrainInspectors.setSize(350, 12);
 
+
+		oPropertyLayoutContainerBox.add(moPropEntityID, BorderLayout.AFTER_LAST_LINE);
 		oPropertyLayoutContainerBox.add(moPropEntityType, BorderLayout.AFTER_LAST_LINE);
 		oPropertyLayoutContainerBox.add(moPropBodyType, BorderLayout.AFTER_LAST_LINE);
 		oPropertyLayoutContainerBox.add(moPropMindyType, BorderLayout.AFTER_LAST_LINE);
-		oPropertyLayoutContainerBox.add(moPropEntityID, BorderLayout.AFTER_LAST_LINE);
 		oPropertyLayoutContainerBox.add(moPropPosX, BorderLayout.AFTER_LAST_LINE);
 		oPropertyLayoutContainerBox.add(moPropPosY, BorderLayout.AFTER_LAST_LINE);
 
 		oPropertyLayoutContainerBox.add(moBtnEntityInspectors, BorderLayout.AFTER_LAST_LINE);
 		oPropertyLayoutContainerBox.add(moBtnBodyInspectors, BorderLayout.AFTER_LAST_LINE);
 		oPropertyLayoutContainerBox.add(moBtnBrainInspectors, BorderLayout.AFTER_LAST_LINE);
-
-		// JToggleButton oToggle =
-		// PropertyInspector.makeInspector(moEntity.getClass(), oProp, 1, this,
-		// guiState);
 
 		add(oPropertyLayoutContainerBox, BorderLayout.AFTER_LAST_LINE);
 
@@ -167,14 +160,12 @@ public class clsInspectorEntity extends Inspector implements ActionListener {
 	@Override
 	public void updateInspector() {
 		Formatter oDoubleFormatter = new Formatter();
-		moPropPosX.setValue(oDoubleFormatter.format("%.2f",
-				moEntity.getPosition().x).toString());
+		moPropPosX.setValue(oDoubleFormatter.format("%.2f",	moEntity.getPosition().x).toString());
 		oDoubleFormatter = new Formatter();
-		moPropPosY.setValue(oDoubleFormatter.format("%.2f",
-				moEntity.getPosition().y).toString());
+		moPropPosY.setValue(oDoubleFormatter.format("%.2f",	moEntity.getPosition().y).toString());
 
-		for (Iterator<clsInspectorFrame> it = moEntityWindows.iterator(); it
-				.hasNext();) {
+		for (Iterator<clsInspectorFrame> it = moEntityWindows.iterator(); it.hasNext();) 
+		{
 			clsInspectorFrame oFrame = it.next();
 			if (oFrame != null) {
 				// oFrame.updateContent();
@@ -191,18 +182,21 @@ public class clsInspectorEntity extends Inspector implements ActionListener {
 		}
 	}
 
-	/*
-	 * (non-Javadoc)
+
+	/* (non-Javadoc)
+	 *
+	 * @author muchitsch
+	 * 05.04.2011, 13:59:48
 	 * 
-	 * @author langr 13.07.2009, 17:44:10
+	 * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
 	 * 
-	 * @see
-	 * java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
+	 * creates the java frames when one of the tree buttons are pressed, and puts the inspectors on them
 	 */
 	@Override
 	public void actionPerformed(ActionEvent e) {
 
 		Object source = e.getSource();
+		String oTabName = moEntity.getId() + " - "	+ moEntity.getEntityType().toString();
 
 		if (source == moBtnEntityInspectors) {
 			// define the inspector-content for each entity in the responsible
@@ -210,10 +204,9 @@ public class clsInspectorEntity extends Inspector implements ActionListener {
 			TabbedInspector oMasonInspector = clsInspectorMappingEntity
 					.getInspectorEntity(moOriginalInspector, moWrapper,
 							moGuiState, moEntity);
-			moEntityWindows.add(clsInspectorFrame.getInspectorFrame(
-					oMasonInspector, moEntity.getId() + " - "
-							+ moEntity.getEntityType().toString()
-							+ " - Entity Inspector"));
+	
+			moEntityWindows.add(clsInspectorFrame.getInspectorFrame(oMasonInspector, oTabName + " - Entity Inspector"));
+			
 		} else if (source == moBtnBodyInspectors) {
 			try {
 				clsBaseBody iBody = ((itfGetBody) moEntity).getBody();
@@ -222,10 +215,9 @@ public class clsInspectorEntity extends Inspector implements ActionListener {
 				TabbedInspector oMasonInspector = clsInspectorMappingEntity
 						.getInspectorBody(moOriginalInspector, moWrapper,
 								moGuiState, iBody);
-				moEntityWindows.add(clsInspectorFrame.getInspectorFrame(
-						oMasonInspector, moEntity.getId() + " - "
-								+ moEntity.getEntityType().toString()
-								+ " - Body Inspector"));
+				
+				moEntityWindows.add(clsInspectorFrame.getInspectorFrame(oMasonInspector, oTabName + " - Body Inspector"));
+				
 			} catch (java.lang.ClassCastException ex) {
 				System.out.println(ex);
 			}
@@ -239,10 +231,9 @@ public class clsInspectorEntity extends Inspector implements ActionListener {
 								((itfGetBrain) ((itfGetBody) moEntity)
 										.getBody()).getBrain()
 										.getDecisionUnit());
-				moEntityWindows.add(clsInspectorFrame.getInspectorFrame(
-						oMasonInspector, moEntity.getId() + " - "
-								+ moEntity.getEntityType().toString()
-								+ " - Brain Inspector"));
+				
+				moEntityWindows.add(clsInspectorFrame.getInspectorFrame(oMasonInspector, oTabName + " - Brain Inspector"));
+				
 			} catch (java.lang.ClassCastException ex) {
 				System.out.println(ex);
 			}

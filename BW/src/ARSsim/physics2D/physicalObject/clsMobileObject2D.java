@@ -374,7 +374,7 @@ public class clsMobileObject2D extends
 			moMasonInspector = new TabbedInspector();
 			Inspector oInspector = new clsInspectorEntity(super.getInspector(
 					wrapper, state), wrapper, state, moEntity);
-			moMasonInspector.addInspector(oInspector, "Entity - Basic Values");
+			moMasonInspector.addInspector(oInspector, "ARS Entity Inspector");
 		}
 
 		return moMasonInspector;

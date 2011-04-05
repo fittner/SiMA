@@ -27,7 +27,7 @@ import sim.util.gui.PropertyField;
  * Jul 15, 2009, 1:20:23 PM
  * 
  */
-public class clsInspectorDefault extends Inspector {
+public class clsInspectorBasic extends Inspector {
 
 	/**
 	 * shows default inspectors, common for all entities
@@ -61,7 +61,7 @@ public class clsInspectorDefault extends Inspector {
 	 * @param GUIState guiState
 	 * @param clsEntity poEntity = is a Bubble
 	 */
-	public clsInspectorDefault(Inspector poOriginalInspector,
+	public clsInspectorBasic(Inspector poOriginalInspector,
             LocationWrapper poWrapper,
             GUIState poGuiState,
             clsEntity poEntity) {

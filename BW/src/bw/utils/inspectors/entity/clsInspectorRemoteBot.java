@@ -66,7 +66,7 @@ public class clsInspectorRemoteBot extends Inspector {
 		moRemoteBot = poRemoteBot;
 		
 		//get the default things
-		clsInspectorDefault moDefaultInspector = new clsInspectorDefault(poOriginalInspector, poWrapper, poGuiState, (clsEntity)poRemoteBot);
+		clsInspectorBasic moDefaultInspector = new clsInspectorBasic(poOriginalInspector, poWrapper, poGuiState, (clsEntity)poRemoteBot);
 		add(moDefaultInspector,  BorderLayout.AFTER_LAST_LINE);
 		
 		//inspected fields....
