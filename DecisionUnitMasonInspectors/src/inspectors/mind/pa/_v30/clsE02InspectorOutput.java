@@ -13,7 +13,7 @@ import javax.swing.BoxLayout;
 import javax.swing.JLabel;
 import javax.swing.JTree;
 
-import pa.modules._v19.E02_NeurosymbolizationOfNeeds;
+import pa.modules._v30.E02_NeurosymbolizationOfNeeds;
 import sim.display.GUIState;
 import sim.portrayal.Inspector;
 import sim.portrayal.LocationWrapper;

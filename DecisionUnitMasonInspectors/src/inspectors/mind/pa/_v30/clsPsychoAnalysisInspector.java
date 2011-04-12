@@ -9,7 +9,7 @@ package inspectors.mind.pa._v30;
 import inspectors.clsInspectorUtils;
 
 import java.awt.BorderLayout;
-import pa._v19.clsProcessor;
+import pa._v30.clsProcessor;
 import java.lang.reflect.Field;
 
 import javax.swing.Box;
@@ -23,7 +23,7 @@ import javax.swing.tree.DefaultMutableTreeNode;
 
 import pa.clsPsychoAnalysis;
 import pa.memory.clsMemory;
-import pa.modules._v19.G00_PsychicApparatus;
+import pa.modules._v30.clsPsychicApparatus;
 
 import sim.display.GUIState;
 import sim.portrayal.Inspector;
@@ -66,7 +66,7 @@ public class clsPsychoAnalysisInspector extends Inspector implements TreeSelecti
 		//set root tree manually
 		DefaultMutableTreeNode root = new DefaultMutableTreeNode("Psychic Apparatus");
 		//grab the top element of the top-down design 
-		G00_PsychicApparatus oPsyApp = ((clsProcessor)poPA.getProcessor()).getPsychicApparatus();
+		clsPsychicApparatus oPsyApp = ((clsProcessor)poPA.getProcessor()).getPsychicApparatus();
 		//build a tree with all members that start either with moC for clsModuleContainer or moE for clsModuleBase
 		getTree( oPsyApp, root );
 		addKnowledge(oPsyApp, root);
@@ -128,12 +128,12 @@ public class clsPsychoAnalysisInspector extends Inspector implements TreeSelecti
 		}
 	}
 
-	private void addKnowledge(G00_PsychicApparatus poPAModule,
+	private void addKnowledge(clsPsychicApparatus poPAModule,
 			DefaultMutableTreeNode poParentTreeNode) {
 		
 		DefaultMutableTreeNode oMemoryNode = new DefaultMutableTreeNode("Knowledge Base");
 		
-		clsMemory oMemory = poPAModule.getMemoryForInspector();
+		clsMemory oMemory = poPAModule.moMemory;
 		
 		Field[] oFields = oMemory.getClass().getFields();
 		for(Field oField : oFields) {

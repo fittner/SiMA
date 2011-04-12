@@ -23,7 +23,7 @@ import pa.storage.clsLibidoBuffer;
  * 03.03.2011, 14:55:59
  * 
  */
-public class clsPsychicApperatus {
+public class clsPsychicApparatus {
 	public static final String P_INFORMATIONREPRESENTATIONMGMT = "INF_REP_MGMT";
 
 	public E01_SensorsMetabolism moE01_SensorsMetabolism;
@@ -78,7 +78,7 @@ public class clsPsychicApperatus {
 	
 	public HashMap<Integer, clsModuleBase> moModules; // list of the modules defined above. needed for references within them. 
 
-	public clsPsychicApperatus(String poPrefix, clsBWProperties poProp, 
+	public clsPsychicApparatus(String poPrefix, clsBWProperties poProp, 
 			clsMemory poMemory,	clsKnowledgeBaseHandler poKnowledgeBaseHandler) {
 		
 		moModules = new HashMap<Integer, clsModuleBase>();
@@ -203,5 +203,9 @@ public class clsPsychicApperatus {
 		}
 	
 		//nothing to do
-	}		
+	}	
+	
+	public clsMemory getMemoryForInspector() {
+		return moMemory;
+	}
 }
