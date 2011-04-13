@@ -110,7 +110,7 @@ public class E32_Actuators extends clsModuleBase implements I8_2_receive, I0_6_s
 	 */
 	@Override
 	protected void process_basic() {
-		mnTest++;
+		//do nothing
 		
 	}
 
