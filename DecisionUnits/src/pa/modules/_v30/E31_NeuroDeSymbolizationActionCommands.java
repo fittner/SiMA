@@ -37,7 +37,7 @@ public class E31_NeuroDeSymbolizationActionCommands extends clsModuleBase implem
 	
 	private ArrayList<clsActionCommand> moActionCommandList_Output;
 	private ArrayList<clsWordPresentation> moActionCommands_Input;
-	int mnCounter;
+	private int mnCounter;
 	
 	/**
 	 * DOCUMENT (brandstaetter) - insert description 
@@ -134,11 +134,11 @@ public class E31_NeuroDeSymbolizationActionCommands extends clsModuleBase implem
 						//System.out.println("cmd: move_forward");
 					}
 					else if(oAction.equals("TURN_LEFT")){
-						moActionCommandList_Output.add(new clsActionTurn(eActionTurnDirection.TURN_LEFT, 1.0));
+						moActionCommandList_Output.add(new clsActionTurn(eActionTurnDirection.TURN_LEFT, 15.0));
 						//System.out.println("cmd: turn_left");
 					}
 					else if(oAction.equals("TURN_RIGHT")){
-						moActionCommandList_Output.add(new clsActionTurn(eActionTurnDirection.TURN_RIGHT, 1.0));
+						moActionCommandList_Output.add(new clsActionTurn(eActionTurnDirection.TURN_RIGHT, 15.0));
 						//System.out.println("cmd: turn_right");
 					}
 					//end add
@@ -164,7 +164,11 @@ public class E31_NeuroDeSymbolizationActionCommands extends clsModuleBase implem
 				}
 		}
 		else {
+			if (mnCounter == 75) {
 				moActionCommandList_Output.add( clsActionSequenceFactory.getSeekingSequence(1.0f, 2) );
+				mnCounter = 0;
+			} 
+			mnCounter++;
 		}
 			
 	}
