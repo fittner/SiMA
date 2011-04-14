@@ -331,7 +331,8 @@ public class E22_SocialRulesSelection extends clsModuleBase implements I1_7_rece
 	 */
 	@Override
 	public void send_I3_3(int pnData, ArrayList<clsAct> poRuleList) {
-		((I3_3_receive)moModuleList.get(26)).receive_I3_3(moRuleList);
+		((I3_3_receive)moModuleList.get(26)).receive_I3_3(poRuleList);
+		putInterfaceData(I3_3_send.class, poRuleList);
 	}
 
 	/* (non-Javadoc)

@@ -343,8 +343,10 @@ public class E26_DecisionMaking extends clsModuleBase implements
 	 */
 	@Override
 	public void send_I7_1(ArrayList<clsSecondaryDataStructureContainer> poGoal_Output) {
-		((I7_1_receive)moModuleList.get(27)).receive_I7_1(moGoal_Output);
-		((I7_1_receive)moModuleList.get(28)).receive_I7_1(moGoal_Output);		
+		((I7_1_receive)moModuleList.get(27)).receive_I7_1(poGoal_Output);
+		((I7_1_receive)moModuleList.get(28)).receive_I7_1(poGoal_Output);	
+		
+		putInterfaceData(I7_1_send.class, poGoal_Output);
 	}
 
 	/* (non-Javadoc)

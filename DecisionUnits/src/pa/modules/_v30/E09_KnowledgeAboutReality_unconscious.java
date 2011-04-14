@@ -146,8 +146,8 @@ public class E09_KnowledgeAboutReality_unconscious extends clsModuleBase impleme
 	 */
 	@Override
 	public void send_I6_3(int pnData) {
-		((I6_3_receive)moModuleList.get(6)).receive_I6_3(mnTest);
-		
+		((I6_3_receive)moModuleList.get(6)).receive_I6_3(pnData);
+		putInterfaceData(I6_3_send.class, pnData);
 	}
 
 	/* (non-Javadoc)

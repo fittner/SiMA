@@ -234,10 +234,12 @@ public class E27_GenerationOfImaginaryActions extends clsModuleBase implements I
 	 */
 	@Override
 	public void send_I7_3(ArrayList<clsWordPresentation> poActionCommands) {
-		((I7_3_receive)moModuleList.get(47)).receive_I7_3(moActions_Output);
-		((I7_3_receive)moModuleList.get(29)).receive_I7_3(moActions_Output);
-		((I7_3_receive)moModuleList.get(33)).receive_I7_3(moActions_Output);
-		((I7_3_receive)moModuleList.get(34)).receive_I7_3(moActions_Output);
+		((I7_3_receive)moModuleList.get(47)).receive_I7_3(poActionCommands);
+		((I7_3_receive)moModuleList.get(29)).receive_I7_3(poActionCommands);
+		((I7_3_receive)moModuleList.get(33)).receive_I7_3(poActionCommands);
+		((I7_3_receive)moModuleList.get(34)).receive_I7_3(poActionCommands);
+		
+		putInterfaceData(I7_3_send.class, poActionCommands);
 		
 	}
 

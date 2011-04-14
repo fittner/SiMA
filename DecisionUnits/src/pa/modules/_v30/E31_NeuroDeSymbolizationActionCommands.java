@@ -197,6 +197,7 @@ public class E31_NeuroDeSymbolizationActionCommands extends clsModuleBase implem
 	@Override
 	public void send_I8_2(ArrayList<clsActionCommand> poActionCommandList) {
 		((I8_2_receive)moModuleList.get(32)).receive_I8_2(poActionCommandList);
+		putInterfaceData(I8_2_send.class, poActionCommandList);
 		
 	}
 

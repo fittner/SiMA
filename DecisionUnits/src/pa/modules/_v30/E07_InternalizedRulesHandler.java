@@ -166,7 +166,8 @@ public class E07_InternalizedRulesHandler extends clsModuleBase implements
 	 */
 	@Override
 	public void send_I3_1(int pnData) {
-		((I3_1_receive)moModuleList.get(6)).receive_I3_1(mnTest);
+		((I3_1_receive)moModuleList.get(6)).receive_I3_1(pnData);
+		putInterfaceData(I3_1_send.class, pnData);
 	}
 
 	/* (non-Javadoc)
@@ -178,7 +179,8 @@ public class E07_InternalizedRulesHandler extends clsModuleBase implements
 	 */
 	@Override
 	public void send_I3_2(int pnData) {
-		((I3_2_receive)moModuleList.get(19)).receive_I3_2(mnTest);
+		((I3_2_receive)moModuleList.get(19)).receive_I3_2(pnData);
+		putInterfaceData(I3_2_send.class, pnData);
 	}
 
 	/* (non-Javadoc)

@@ -154,7 +154,9 @@ public class E30_MotilityControl extends clsModuleBase implements I7_4_receive, 
 	 */
 	@Override
 	public void send_I8_1(ArrayList<clsWordPresentation> poActionCommands) {
-		((I8_1_receive)moModuleList.get(31)).receive_I8_1(moActionCommands_Output);
+		((I8_1_receive)moModuleList.get(31)).receive_I8_1(poActionCommands);
+		
+		putInterfaceData(I8_1_send.class, poActionCommands);
 		
 	}
 

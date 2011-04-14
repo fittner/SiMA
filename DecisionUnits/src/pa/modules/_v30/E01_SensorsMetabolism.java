@@ -119,10 +119,10 @@ public class E01_SensorsMetabolism extends clsModuleBase implements I0_3_receive
 	 * @see pa.interfaces.send.I1_1_send#send_I1_1(java.util.HashMap)
 	 */
 	@Override
-	public void send_I1_1(HashMap<eSensorIntType, clsDataBase> pnData) {
-		((I1_1_receive)moModuleList.get(2)).receive_I1_1(moHomeostasis);
+	public void send_I1_1(HashMap<eSensorIntType, clsDataBase> poData) {
+		((I1_1_receive)moModuleList.get(2)).receive_I1_1(poData);
 		
-		putInterfaceData(I1_1_send.class, moHomeostasis);
+		putInterfaceData(I1_1_send.class, poData);
 	}
 
 	/* (non-Javadoc)

@@ -133,7 +133,8 @@ public class E04_FusionOfSelfPreservationDrives extends clsModuleBase implements
 	 */
 	@Override
 	public void send_I1_4(ArrayList<clsPair<clsPair<clsDriveMesh, clsDriveDemand>, clsPair<clsDriveMesh, clsDriveDemand>>> poDriveCandidate) {
-		((I1_4_receive)moModuleList.get(5)).receive_I1_4(moDriveCandidate);
+		((I1_4_receive)moModuleList.get(5)).receive_I1_4(poDriveCandidate);
+		putInterfaceData(I1_4_send.class, poDriveCandidate);
 	}
 
 	/* (non-Javadoc)

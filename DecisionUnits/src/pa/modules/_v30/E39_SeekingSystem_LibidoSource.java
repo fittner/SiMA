@@ -143,8 +143,9 @@ public class E39_SeekingSystem_LibidoSource extends clsModuleBase implements I0_
 	 * @see pa.interfaces.send._v30.I1_8_send#send_I1_8(java.util.HashMap)
 	 */
 	@Override
-	public void send_I1_8(HashMap<eSensorIntType, clsDataBase> pnData) {
-		((I1_8_receive)moModuleList.get(40)).receive_I1_8(pnData);
+	public void send_I1_8(HashMap<eSensorIntType, clsDataBase> poData) {
+		((I1_8_receive)moModuleList.get(40)).receive_I1_8(poData);
+		putInterfaceData(I1_8_send.class, poData);
 	}
 
 	/* (non-Javadoc)
@@ -183,6 +184,7 @@ public class E39_SeekingSystem_LibidoSource extends clsModuleBase implements I0_
 	public void send_D1_3(double prValue) {
 		moLibidoBuffer.receive_D1_3(prValue);
 		
+		putInterfaceData(D1_3_send.class, prValue);
 	}
 
 

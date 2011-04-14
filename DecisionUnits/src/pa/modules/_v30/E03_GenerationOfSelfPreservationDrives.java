@@ -249,7 +249,8 @@ public class E03_GenerationOfSelfPreservationDrives extends clsModuleBase implem
 	 */
 	@Override
 	public void send_I1_3(ArrayList<clsPair<clsPair<pa.memorymgmt.datatypes.clsDriveMesh, clsDriveDemand>, clsPair<pa.memorymgmt.datatypes.clsDriveMesh, clsDriveDemand>>> poDriveCandidate) {
-		((I1_3_receive)moModuleList.get(4)).receive_I1_3(moHomeostaticTP); 
+		((I1_3_receive)moModuleList.get(4)).receive_I1_3(poDriveCandidate);
+		putInterfaceData(I1_3_send.class, poDriveCandidate);
 	}
 
 	/* (non-Javadoc)

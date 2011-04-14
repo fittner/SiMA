@@ -176,7 +176,7 @@ public class E45_LibidoDischarge extends clsModuleBase implements I2_8_receive, 
 	public void send_I2_16(
 			ArrayList<clsPair<clsPrimaryDataStructureContainer, clsDriveMesh>> poMergedPrimaryInformation) {
 		((I2_16_receive)moModuleList.get(18)).receive_I2_16(poMergedPrimaryInformation);
-		
+		putInterfaceData(I2_16_send.class, poMergedPrimaryInformation);
 	}
 
 }

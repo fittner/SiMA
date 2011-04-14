@@ -443,9 +443,10 @@ public class E35_EmersionOfRepressedContent extends clsModuleBase implements I2_
 	@Override
 	public void send_I2_8(
 			ArrayList<clsPair<clsPrimaryDataStructureContainer, clsDriveMesh>> poMergedPrimaryInformation) {
-		((I2_8_receive)moModuleList.get(45)).receive_I2_8(moAttachedRepressed_Output);
-		((I2_8_receive)moModuleList.get(18)).receive_I2_8(moAttachedRepressed_Output);
+		((I2_8_receive)moModuleList.get(45)).receive_I2_8(poMergedPrimaryInformation);
+		((I2_8_receive)moModuleList.get(18)).receive_I2_8(poMergedPrimaryInformation);
 		
+		putInterfaceData(I2_8_send.class, poMergedPrimaryInformation);
 	}
 
 	/* (non-Javadoc)

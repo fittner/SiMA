@@ -135,7 +135,8 @@ public class E11_NeuroSymbolizationEnvironment extends clsModuleBase implements 
 	 */
 	@Override
 	public void send_I2_2(HashMap<eSymbolExtType, itfSymbol> poEnvironmentalData) {
-		((I2_2_receive)moModuleList.get(14)).receive_I2_2(moSymbolData);
+		((I2_2_receive)moModuleList.get(14)).receive_I2_2(poEnvironmentalData);
+		putInterfaceData(I2_2_send.class, poEnvironmentalData);
 		
 	}
 

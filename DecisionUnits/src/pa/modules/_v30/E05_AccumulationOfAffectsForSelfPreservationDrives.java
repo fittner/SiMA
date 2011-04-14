@@ -214,8 +214,8 @@ public class E05_AccumulationOfAffectsForSelfPreservationDrives extends clsModul
 	 */
 	@Override
 	public void send_I2_15(ArrayList<clsDriveMesh> poDriveList) {
-
 		((I2_15_receive)moModuleList.get(38)).receive_I2_15(poDriveList);
+		putInterfaceData(I2_15_send.class, poDriveList);
 	}
 	
 	public ArrayList<clsDriveMesh> getDriveList() {

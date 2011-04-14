@@ -179,8 +179,10 @@ public class E20_InnerPerception_Affects extends clsModuleBase implements
 	 */
 	@Override
 	public void send_I5_5(int pnData) {
-		((I5_5_receive)moModuleList.get(29)).receive_I5_5(mnTest);
-		((I5_5_receive)moModuleList.get(26)).receive_I5_5(mnTest);
+		((I5_5_receive)moModuleList.get(29)).receive_I5_5(pnData);
+		((I5_5_receive)moModuleList.get(26)).receive_I5_5(pnData);
+		
+		putInterfaceData(I5_5_send.class, pnData);
 		
 	}
 

@@ -277,9 +277,11 @@ public class E08_ConversionToSecondaryProcessForDriveWishes extends clsModuleBas
 	 */
 	@Override
 	public void send_I1_7(ArrayList<clsSecondaryDataStructureContainer> poDriveList) {
-		((I1_7_receive)moModuleList.get(22)).receive_I1_7(moDriveList_Output);
-		((I1_7_receive)moModuleList.get(23)).receive_I1_7(moDriveList_Output);
-		((I1_7_receive)moModuleList.get(26)).receive_I1_7(moDriveList_Output);
+		((I1_7_receive)moModuleList.get(22)).receive_I1_7(poDriveList);
+		((I1_7_receive)moModuleList.get(23)).receive_I1_7(poDriveList);
+		((I1_7_receive)moModuleList.get(26)).receive_I1_7(poDriveList);
+		
+		putInterfaceData(I1_7_send.class, poDriveList);
 	}
 
 	/* (non-Javadoc)
@@ -291,7 +293,9 @@ public class E08_ConversionToSecondaryProcessForDriveWishes extends clsModuleBas
 	 */
 	@Override
 	public void send_I5_3(ArrayList<clsSecondaryDataStructureContainer> poDriveList) {
-		((I5_3_receive)moModuleList.get(20)).receive_I5_3(moDriveList_Output);	
+		((I5_3_receive)moModuleList.get(20)).receive_I5_3(poDriveList);	
+		
+		putInterfaceData(I5_3_send.class, poDriveList);		
 	}
 
 	/* (non-Javadoc)

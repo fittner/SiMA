@@ -160,8 +160,8 @@ public class E29_EvaluationOfImaginaryActions extends clsModuleBase implements
 	 */
 	@Override
 	public void send_I7_4(ArrayList<clsWordPresentation> poActionCommands) {
-		((I7_4_receive)moModuleList.get(30)).receive_I7_4(moActionCommands_Output);
-		
+		((I7_4_receive)moModuleList.get(30)).receive_I7_4(poActionCommands);
+		putInterfaceData(I7_4_send.class, poActionCommands);
 	}
 
 	/* (non-Javadoc)

@@ -485,8 +485,10 @@ public class E21_ConversionToSecondaryProcessForPerception extends clsModuleBase
 	 */
 	@Override
 	public void send_I2_11(ArrayList<clsSecondaryDataStructureContainer> poPerception) {
-		((I2_11_receive)moModuleList.get(22)).receive_I2_11(moPerception_Output);
-		((I2_11_receive)moModuleList.get(23)).receive_I2_11(moPerception_Output);
+		((I2_11_receive)moModuleList.get(22)).receive_I2_11(poPerception);
+		((I2_11_receive)moModuleList.get(23)).receive_I2_11(poPerception);
+		
+		putInterfaceData(I2_11_send.class, poPerception);
 		
 	}
 
@@ -499,8 +501,8 @@ public class E21_ConversionToSecondaryProcessForPerception extends clsModuleBase
 	 */
 	@Override
 	public void send_I5_4(ArrayList<clsSecondaryDataStructureContainer> poPerception) {
-		((I5_4_receive)moModuleList.get(20)).receive_I5_4(moPerception_Output);
-		
+		((I5_4_receive)moModuleList.get(20)).receive_I5_4(poPerception);
+		putInterfaceData(I5_4_send.class, poPerception);
 	}
 
 	/* (non-Javadoc)

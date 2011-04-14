@@ -132,6 +132,7 @@ public class E43_SeparationIntoPartialSexualDrives extends clsModuleBase impleme
 			ArrayList<clsPair<clsPair<clsDriveMesh, clsDriveDemand>, clsPair<clsDriveMesh, clsDriveDemand>>> poDriveCandidate) {
 		
 		((I2_17_receive)moModuleList.get(42)).receive_I2_17(poDriveCandidate);
+		putInterfaceData(I2_17_send.class, poDriveCandidate);
 		
 	}
 	/* (non-Javadoc)

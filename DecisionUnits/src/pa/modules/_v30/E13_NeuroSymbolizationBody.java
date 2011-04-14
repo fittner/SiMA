@@ -133,8 +133,8 @@ public class E13_NeuroSymbolizationBody extends clsModuleBase implements I2_3_re
 	 */
 	@Override
 	public void send_I2_4(HashMap<eSymbolExtType, itfSymbol> poBodyData) {
-		((I2_4_receive)moModuleList.get(14)).receive_I2_4(moSymbolData);
-		
+		((I2_4_receive)moModuleList.get(14)).receive_I2_4(poBodyData);
+		putInterfaceData(I2_4_send.class, poBodyData);
 	}
 
 	/* (non-Javadoc)

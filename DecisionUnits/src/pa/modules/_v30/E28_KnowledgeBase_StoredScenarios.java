@@ -546,8 +546,8 @@ public class E28_KnowledgeBase_StoredScenarios extends clsModuleBase implements 
 	 */
 	@Override
 	public void send_I6_2(ArrayList<ArrayList<clsAct>> poPlanOutput) {
-		((I6_2_receive)moModuleList.get(27)).receive_I6_2(moPlan_Output);
-		
+		((I6_2_receive)moModuleList.get(27)).receive_I6_2(poPlanOutput);
+		putInterfaceData(I6_2_send.class, poPlanOutput);
 	}
 
 	/* (non-Javadoc)

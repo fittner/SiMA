@@ -175,6 +175,8 @@ public class E38_PrimalRepressionForSelfPreservationDrives extends	clsModuleBase
 		((I1_5_receive)moModuleList.get(7)).receive_I1_5(poData);
 		((I1_5_receive)moModuleList.get(9)).receive_I1_5(poData);
 		
+		putInterfaceData(I1_5_send.class, poData);
+		
 	}
 
 	/* (non-Javadoc)

@@ -159,7 +159,8 @@ public class E14_ExternalPerception extends clsModuleBase implements
 	 */
 	@Override
 	public void send_I2_5(ArrayList<clsPrimaryDataStructureContainer> poEnvironmentalTP) {
-		((I2_5_receive)moModuleList.get(46)).receive_I2_5(moEnvironmentalTP);
+		((I2_5_receive)moModuleList.get(46)).receive_I2_5(poEnvironmentalTP);
+		putInterfaceData(I2_5_send.class, poEnvironmentalTP);
 		
 	}
 

@@ -160,7 +160,8 @@ public class E47_ConversionToPrimaryProcess extends clsModuleBase implements I7_
 	@Override
 	public void send_I7_7(
 			ArrayList<clsPrimaryDataStructureContainer> poGrantedPerception) {
-		((I7_7_receive)moModuleList.get(46)).receive_I7_7(poGrantedPerception);		
+		((I7_7_receive)moModuleList.get(46)).receive_I7_7(poGrantedPerception);
+		putInterfaceData(I7_7_send.class, poGrantedPerception);
 	}
 
 	/* (non-Javadoc)

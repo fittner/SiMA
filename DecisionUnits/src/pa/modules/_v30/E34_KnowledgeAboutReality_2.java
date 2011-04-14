@@ -145,7 +145,7 @@ public class E34_KnowledgeAboutReality_2 extends clsModuleBase implements I7_3_r
 	@Override
 	public void send_I7_5(int pnData) {
 		((I7_5_receive)moModuleList.get(33)).receive_I7_5(pnData);
-		
+		putInterfaceData(I7_5_send.class, pnData);
 	}
 
 	/* (non-Javadoc)

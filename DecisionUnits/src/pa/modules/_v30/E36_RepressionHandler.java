@@ -200,6 +200,7 @@ public class E36_RepressionHandler extends clsModuleBase implements I4_1_receive
 	public void send_I4_3(ArrayList<clsPrimaryDataStructureContainer> poPIs) {
 		// 		((I4_3_receive)moEnclosingContainer).receive_I4_3(new ArrayList<clsPrimaryDataStructureContainer>());
 		((I4_3_receive)moModuleList.get(6)).receive_I4_3(poPIs);
+		putInterfaceData(I4_3_send.class, poPIs);
 		
 	}
 

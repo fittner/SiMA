@@ -186,6 +186,7 @@ public class E32_Actuators extends clsModuleBase implements I8_2_receive, I0_6_s
 	@Override
 	public void send_I0_6(ArrayList<clsActionCommand> poActionList) {
 		moOutputActions = poActionList;
+		putInterfaceData(I0_6_send.class, poActionList);
 		
 	}
 

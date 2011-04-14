@@ -118,8 +118,9 @@ public class E12_SensorsBody extends clsModuleBase implements I0_5_receive, I2_3
 	 * @see pa.interfaces.send.I2_3_send#send_I2_3(java.util.HashMap)
 	 */
 	@Override
-	public void send_I2_3(HashMap<eSensorExtType, clsSensorExtern> pnData) {
-		((I2_3_receive)moModuleList.get(13)).receive_I2_3(moBodyData);
+	public void send_I2_3(HashMap<eSensorExtType, clsSensorExtern> poData) {
+		((I2_3_receive)moModuleList.get(13)).receive_I2_3(poData);
+		putInterfaceData(I2_3_send.class, poData);
 		
 	}
 

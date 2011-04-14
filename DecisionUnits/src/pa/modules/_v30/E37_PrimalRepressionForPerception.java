@@ -130,7 +130,7 @@ public class E37_PrimalRepressionForPerception extends clsModuleBase implements 
 			ArrayList<clsPrimaryDataStructureContainer> poEnvironmentalTP) {
 		
 		((I2_14_receive)moModuleList.get(35)).receive_I2_14(poEnvironmentalTP);
-		
+		putInterfaceData(I2_14_send.class, poEnvironmentalTP);
 	}
 	/* (non-Javadoc)
 	 *

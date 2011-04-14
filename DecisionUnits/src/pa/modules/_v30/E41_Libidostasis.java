@@ -141,6 +141,7 @@ public class E41_Libidostasis extends clsModuleBase implements I1_9_receive, I1_
 	@Override
 	public void send_I1_10(HashMap<String, Double> poHomeostasisSymbols) {
 		((I1_10_receive)moModuleList.get(43)).receive_I1_10(poHomeostasisSymbols);
+		putInterfaceData(I1_10_send.class, poHomeostasisSymbols);
 		
 	}
 
@@ -166,6 +167,7 @@ public class E41_Libidostasis extends clsModuleBase implements I1_9_receive, I1_
 	@Override
 	public void send_D1_1(double prValue) {
 		moLibidoBuffer.receive_D1_1(prValue);
+		putInterfaceData(D1_1_send.class, prValue);
 	}
 
 }

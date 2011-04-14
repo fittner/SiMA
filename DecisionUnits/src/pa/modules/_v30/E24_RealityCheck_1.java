@@ -154,7 +154,8 @@ public class E24_RealityCheck_1 extends clsModuleBase implements I2_12_receive, 
 	 */
 	@Override
 	public void send_I2_13(ArrayList<clsSecondaryDataStructureContainer> poRealityPerception) {
-		((I2_13_receive)moModuleList.get(26)).receive_I2_13(moRealityPerception_Output);
+		((I2_13_receive)moModuleList.get(26)).receive_I2_13(poRealityPerception);
+		putInterfaceData(I2_13_send.class, poRealityPerception);
 		
 	}
 

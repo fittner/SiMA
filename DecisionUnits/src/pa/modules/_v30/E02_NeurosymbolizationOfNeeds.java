@@ -176,7 +176,9 @@ public class E02_NeurosymbolizationOfNeeds extends clsModuleBase implements I1_1
 	 */
 	@Override
 	public void send_I1_2(HashMap<String, Double> poHomeostasisSymbols) {
-		((I1_2_receive)moModuleList.get(3)).receive_I1_2(moHomeostaticSymbol);
+		((I1_2_receive)moModuleList.get(3)).receive_I1_2(poHomeostasisSymbols);
+		
+		putInterfaceData(I1_2_send.class, poHomeostasisSymbols);
 	}
 
 	/* (non-Javadoc)

@@ -153,8 +153,10 @@ public class E23_ExternalPerception_focused extends clsModuleBase implements I2_
 	@Override
 	public void send_I2_12(ArrayList<clsSecondaryDataStructureContainer> poFocusedPerception,
 			   				ArrayList<clsSecondaryDataStructureContainer> poDriveList) {
-		((I2_12_receive)moModuleList.get(24)).receive_I2_12(moFocusedPerception_Output, moDriveList);
-		((I2_12_receive)moModuleList.get(25)).receive_I2_12(moFocusedPerception_Output, moDriveList);
+		((I2_12_receive)moModuleList.get(24)).receive_I2_12(poFocusedPerception, poDriveList);
+		((I2_12_receive)moModuleList.get(25)).receive_I2_12(poFocusedPerception, poDriveList);
+		
+		putInterfaceData(I2_12_send.class, poFocusedPerception, poDriveList);
 	}
 
 	/* (non-Javadoc)

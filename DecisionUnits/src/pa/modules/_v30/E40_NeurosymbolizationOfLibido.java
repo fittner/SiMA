@@ -129,6 +129,7 @@ public class E40_NeurosymbolizationOfLibido extends clsModuleBase implements I1_
 	@Override
 	public void send_I1_9(HashMap<String, Double> poHomeostasisSymbols) {
 		((I1_9_receive)moModuleList.get(41)).receive_I1_9(poHomeostasisSymbols);
+		putInterfaceData(I1_9_send.class, poHomeostasisSymbols);
 		
 	}
 

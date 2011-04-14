@@ -133,6 +133,8 @@ public class E44_PrimalRepressionForSexualDrives extends clsModuleBase implement
 		((I2_19_receive)moModuleList.get(6)).receive_I2_19(poData);
 		((I2_19_receive)moModuleList.get(7)).receive_I2_19(poData);
 		((I2_19_receive)moModuleList.get(9)).receive_I2_19(poData);
+		
+		putInterfaceData(I2_19_send.class, poData);
 	}
 	/* (non-Javadoc)
 	 *

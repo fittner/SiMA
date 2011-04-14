@@ -118,9 +118,9 @@ public class E10_SensorsEnvironment extends clsModuleBase implements I0_4_receiv
 	 * @see pa.interfaces.send.I2_1_send#send_I2_1(java.util.HashMap)
 	 */
 	@Override
-	public void send_I2_1(HashMap<eSensorExtType, clsSensorExtern> pnData) {
-		((I2_1_receive)moModuleList.get(11)).receive_I2_1(moEnvironmentalData);
-		
+	public void send_I2_1(HashMap<eSensorExtType, clsSensorExtern> poData) {
+		((I2_1_receive)moModuleList.get(11)).receive_I2_1(poData);
+		putInterfaceData(I2_1_send.class, poData);
 	}
 
 	/* (non-Javadoc)

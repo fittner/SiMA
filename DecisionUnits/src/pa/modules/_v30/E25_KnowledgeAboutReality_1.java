@@ -146,8 +146,8 @@ public class E25_KnowledgeAboutReality_1 extends clsModuleBase implements I2_12_
 	 */
 	@Override
 	public void send_I6_1(int pnData) {
-		((I6_1_receive)moModuleList.get(24)).receive_I6_1(mnTest);
-		
+		((I6_1_receive)moModuleList.get(24)).receive_I6_1(pnData);
+		putInterfaceData(I6_1_send.class, pnData);
 	}
 
 	/* (non-Javadoc)

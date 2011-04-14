@@ -143,8 +143,8 @@ public class E33_RealityCheck_2 extends clsModuleBase implements I7_3_receive, I
 	 */
 	@Override
 	public void send_I7_6(int pnData) {
-		((I7_6_receive)moModuleList.get(29)).receive_I7_6(1);
-		
+		((I7_6_receive)moModuleList.get(29)).receive_I7_6(pnData);
+		putInterfaceData(I7_6_send.class, pnData);
 	}
 
 	/* (non-Javadoc)

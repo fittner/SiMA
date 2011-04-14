@@ -133,6 +133,7 @@ public class E42_AccumulationOfAffectsForSexualDrives extends clsModuleBase impl
 			ArrayList<clsPair<clsPair<clsDriveMesh, clsDriveDemand>, clsPair<clsDriveMesh, clsDriveDemand>>> poDriveCandidate) {
 		((I2_18_receive)moModuleList.get(44)).receive_I2_18(poDriveCandidate);
 		
+		putInterfaceData(I2_18_send.class, poDriveCandidate);
 	}
 	/* (non-Javadoc)
 	 *

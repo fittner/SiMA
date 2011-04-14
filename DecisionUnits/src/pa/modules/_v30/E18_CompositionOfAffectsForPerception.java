@@ -178,8 +178,10 @@ public class E18_CompositionOfAffectsForPerception extends clsModuleBase impleme
 	 */
 	@Override
 	public void send_I2_9(ArrayList<clsPrimaryDataStructureContainer> poMergedPrimaryInformation) {
-		((I2_9_receive)moModuleList.get(7)).receive_I2_9(moNewPrimaryInformation);
-		((I2_9_receive)moModuleList.get(19)).receive_I2_9(moNewPrimaryInformation);
+		((I2_9_receive)moModuleList.get(7)).receive_I2_9(poMergedPrimaryInformation);
+		((I2_9_receive)moModuleList.get(19)).receive_I2_9(poMergedPrimaryInformation);
+		
+		putInterfaceData(I2_9_send.class, poMergedPrimaryInformation);
 	}
 
 	/* (non-Javadoc)

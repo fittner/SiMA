@@ -307,8 +307,8 @@ public class E46_FusionWithMemoryTraces extends clsModuleBase implements
 	@Override
 	public void send_I2_20(
 			ArrayList<clsPrimaryDataStructureContainer> poEnvironmentalTP) {
-		((I2_20_receive)moModuleList.get(37)).receive_I2_20(moEnvironmentalPerception_OUT);
-		
+		((I2_20_receive)moModuleList.get(37)).receive_I2_20(poEnvironmentalTP);
+		putInterfaceData(I2_20_send.class, poEnvironmentalTP);
 	}
 
 	/* (non-Javadoc)
