@@ -72,6 +72,27 @@ public class E35_EmersionOfRepressedContent extends clsModuleBase implements I2_
 
 		applyProperties(poPrefix, poProp);
 	}
+	
+	/* (non-Javadoc)
+	 *
+	 * @author deutsch
+	 * 14.04.2011, 17:36:19
+	 * 
+	 * @see pa.modules._v30.clsModuleBase#stateToHTML()
+	 */
+	@Override
+	public String stateToHTML() {
+		String html ="";
+		
+		html += valueToHTML("moBlockedContentStorage", moBlockedContentStorage);
+		html += listToHTML("moEnvironmentalTP_Input", moEnvironmentalTP_Input);
+		html += listToHTML("moAttachedRepressed_Output", moAttachedRepressed_Output);
+		html += valueToHTML("mrContextSensitivity", mrContextSensitivity);
+		html += valueToHTML("moKnowledgeBaseHandler", moKnowledgeBaseHandler);
+		html += valueToHTML("moMemory", moMemory);
+		
+		return html;
+	}	
 
 	public static clsBWProperties getDefaultProperties(String poPrefix) {
 		String pre = clsBWProperties.addDot(poPrefix);

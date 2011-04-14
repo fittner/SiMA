@@ -55,6 +55,25 @@ public class E19_DefenseMechanismsForPerception extends clsModuleBase implements
  		applyProperties(poPrefix, poProp);		
 	}
 
+	/* (non-Javadoc)
+	 *
+	 * @author deutsch
+	 * 14.04.2011, 17:36:19
+	 * 
+	 * @see pa.modules._v30.clsModuleBase#stateToHTML()
+	 */
+	@Override
+	public String stateToHTML() {		
+		String html = "";
+		
+		html += listToHTML("moSubjectivePerception_Input", moSubjectivePerception_Input);
+		html += listToHTML("moFilteredPerception_Output", moFilteredPerception_Output);
+		html += listToHTML("moDeniedThingPresentations", moDeniedThingPresentations);
+		html += listToHTML("moDeniedAffects", moDeniedAffects);
+
+		return html;
+	}
+	
 	public static clsBWProperties getDefaultProperties(String poPrefix) {
 		String pre = clsBWProperties.addDot(poPrefix);
 		

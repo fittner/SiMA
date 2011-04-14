@@ -48,6 +48,23 @@ public class E23_ExternalPerception_focused extends clsModuleBase implements I2_
 		applyProperties(poPrefix, poProp);		
 	}
 
+	/* (non-Javadoc)
+	 *
+	 * @author deutsch
+	 * 14.04.2011, 17:36:19
+	 * 
+	 * @see pa.modules._v30.clsModuleBase#stateToHTML()
+	 */
+	@Override
+	public String stateToHTML() {		
+		String html = "";
+		
+		html += listToHTML("moPerception", moPerception);
+		html += listToHTML("moDriveList", moDriveList);
+		html += listToHTML("moFocusedPerception_Output", moFocusedPerception_Output);
+
+		return html;
+	}	
 	public static clsBWProperties getDefaultProperties(String poPrefix) {
 		String pre = clsBWProperties.addDot(poPrefix);
 		

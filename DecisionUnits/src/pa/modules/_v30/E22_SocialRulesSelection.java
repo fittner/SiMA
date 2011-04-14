@@ -69,6 +69,26 @@ public class E22_SocialRulesSelection extends clsModuleBase implements I1_7_rece
 		moRuleList = new ArrayList<clsAct>();
 	}
 
+	/* (non-Javadoc)
+	 *
+	 * @author deutsch
+	 * 14.04.2011, 17:36:19
+	 * 
+	 * @see pa.modules._v30.clsModuleBase#stateToHTML()
+	 */
+	@Override
+	public String stateToHTML() {		
+		String html = "";
+		
+		html += listToHTML("moSearchPattern", moSearchPattern);
+		html += listToHTML("moPerception", moPerception);
+		html += listToHTML("moRuleList", moRuleList);
+		html += listToHTML("moRetrieveResult4Inspectors", moRetrieveResult4Inspectors);
+		html += valueToHTML("moKnowledgeBaseHandler", moKnowledgeBaseHandler);
+
+		return html;
+	}
+	
 	public static clsBWProperties getDefaultProperties(String poPrefix) {
 		String pre = clsBWProperties.addDot(poPrefix);
 		

@@ -58,6 +58,25 @@ public class E26_DecisionMaking extends clsModuleBase implements
 		
 		moGoal_Output = new ArrayList<clsSecondaryDataStructureContainer>(); 
 	}
+	
+	/* (non-Javadoc)
+	 *
+	 * @author deutsch
+	 * 14.04.2011, 17:36:19
+	 * 
+	 * @see pa.modules._v30.clsModuleBase#stateToHTML()
+	 */
+	@Override
+	public String stateToHTML() {
+		String html ="";
+		
+		html += listToHTML("moDriveList", moDriveList);
+		html += listToHTML("moRuleList", moRuleList);
+		html += listToHTML("moRealityPerception", moRealityPerception);
+		html += listToHTML("moGoal_Output", moGoal_Output);
+		
+		return html;
+	}		
 
 	public static clsBWProperties getDefaultProperties(String poPrefix) {
 		String pre = clsBWProperties.addDot(poPrefix);

@@ -70,6 +70,27 @@ public class E28_KnowledgeBase_StoredScenarios extends clsModuleBase implements 
 		applyProperties(poPrefix, poProp);		
 	}
 
+	/* (non-Javadoc)
+	 *
+	 * @author deutsch
+	 * 14.04.2011, 17:36:19
+	 * 
+	 * @see pa.modules._v30.clsModuleBase#stateToHTML()
+	 */
+	@Override
+	public String stateToHTML() {
+		String html ="";
+		
+		html += listToHTML("moSearchPattern", moSearchPattern);
+		html += listToHTML("moGoal_Input", moGoal_Input);
+		html += listToHTML("moPlan_Output", moPlan_Output);
+		
+		html += valueToHTML("mnNodeLimit", mnNodeLimit);	
+		html += valueToHTML("moKnowledgeBaseHandler", moKnowledgeBaseHandler);
+		
+		return html;
+	}		
+	
 	public static clsBWProperties getDefaultProperties(String poPrefix) {
 		String pre = clsBWProperties.addDot(poPrefix);
 		

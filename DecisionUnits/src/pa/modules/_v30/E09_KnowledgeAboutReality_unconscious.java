@@ -59,6 +59,23 @@ public class E09_KnowledgeAboutReality_unconscious extends clsModuleBase impleme
 		
 		applyProperties(poPrefix, poProp);		
 	}
+	
+	/* (non-Javadoc)
+	 *
+	 * @author deutsch
+	 * 14.04.2011, 17:36:19
+	 * 
+	 * @see pa.modules._v30.clsModuleBase#stateToHTML()
+	 */
+	@Override
+	public String stateToHTML() {
+		String html ="";
+		
+		html += listToHTML("moPrimaryInformation", moPrimaryInformation);
+		html += valueToHTML("moKnowledgeBaseHandler", moKnowledgeBaseHandler);
+		
+		return html;
+	}	
 
 	public static clsBWProperties getDefaultProperties(String poPrefix) {
 		String pre = clsBWProperties.addDot(poPrefix);

@@ -47,6 +47,23 @@ public class E30_MotilityControl extends clsModuleBase implements I7_4_receive, 
 		moActionCommands_Output = new ArrayList<clsWordPresentation>(); 
 
 	}
+	
+	/* (non-Javadoc)
+	 *
+	 * @author deutsch
+	 * 14.04.2011, 17:36:19
+	 * 
+	 * @see pa.modules._v30.clsModuleBase#stateToHTML()
+	 */
+	@Override
+	public String stateToHTML() {
+		String html ="";
+		
+		html += listToHTML("moActionCommands_Input", moActionCommands_Input);
+		html += listToHTML("moActionCommands_Output", moActionCommands_Output);
+		
+		return html;
+	}	
 
 	/**
 	 * @author zeilinger

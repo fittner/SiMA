@@ -55,6 +55,24 @@ public class E14_ExternalPerception extends clsModuleBase implements
 		applyProperties(poPrefix, poProp);
 	}
 
+	/* (non-Javadoc)
+	 *
+	 * @author deutsch
+	 * 14.04.2011, 17:36:19
+	 * 
+	 * @see pa.modules._v30.clsModuleBase#stateToHTML()
+	 */
+	@Override
+	public String stateToHTML() {		
+		String html = "";
+		
+		html += mapToHTML("moEnvironmentalData", moEnvironmentalData);
+		html += mapToHTML("moBodyData", moBodyData);
+		html += listToHTML("moEnvironmentalTP", moEnvironmentalTP);
+
+		return html;
+	}
+	
 	public static clsBWProperties getDefaultProperties(String poPrefix) {
 		String pre = clsBWProperties.addDot(poPrefix);
 		
