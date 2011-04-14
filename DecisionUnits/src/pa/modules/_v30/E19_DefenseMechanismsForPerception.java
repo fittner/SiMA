@@ -9,6 +9,7 @@ package pa.modules._v30;
 import java.util.ArrayList;
 import java.util.HashMap;
 import config.clsBWProperties;
+import pa.interfaces._v30.eInterfaces;
 import pa.interfaces.receive._v30.I2_10_receive;
 import pa.interfaces.receive._v30.I2_9_receive;
 import pa.interfaces.receive._v30.I3_2_receive;
@@ -48,12 +49,31 @@ public class E19_DefenseMechanismsForPerception extends clsModuleBase implements
 	 * @throws Exception
 	 */
 	public E19_DefenseMechanismsForPerception(String poPrefix,
-			clsBWProperties poProp, HashMap<Integer, clsModuleBase> poModuleList)
+			clsBWProperties poProp, HashMap<Integer, clsModuleBase> poModuleList, HashMap<eInterfaces, ArrayList<Object>> poInterfaceData)
 			throws Exception {
-		super(poPrefix, poProp, poModuleList);
+		super(poPrefix, poProp, poModuleList, poInterfaceData);
  		applyProperties(poPrefix, poProp);		
 	}
 
+	/* (non-Javadoc)
+	 *
+	 * @author deutsch
+	 * 14.04.2011, 17:36:19
+	 * 
+	 * @see pa.modules._v30.clsModuleBase#stateToHTML()
+	 */
+	@Override
+	public String stateToHTML() {		
+		String html = "";
+		
+		html += listToHTML("moSubjectivePerception_Input", moSubjectivePerception_Input);
+		html += listToHTML("moFilteredPerception_Output", moFilteredPerception_Output);
+		html += listToHTML("moDeniedThingPresentations", moDeniedThingPresentations);
+		html += listToHTML("moDeniedAffects", moDeniedAffects);
+
+		return html;
+	}
+	
 	public static clsBWProperties getDefaultProperties(String poPrefix) {
 		String pre = clsBWProperties.addDot(poPrefix);
 		
@@ -184,7 +204,8 @@ public class E19_DefenseMechanismsForPerception extends clsModuleBase implements
 	 */
 	@Override
 	public void send_I4_2(ArrayList<clsPrimaryDataStructureContainer> poPIs, ArrayList<pa.memorymgmt.datatypes.clsThingPresentation> poTPs, ArrayList<clsAssociationDriveMesh> poAffects) {
-		((I4_2_receive)moModuleList.get(36)).receive_I4_2(moFilteredPerception_Output, moDeniedThingPresentations, moDeniedAffects);
+		((I4_2_receive)moModuleList.get(36)).receive_I4_2(poPIs, poTPs, poAffects);
+		putInterfaceData(I4_2_send.class, poPIs, poTPs, poAffects);
 	}
 
 	/* (non-Javadoc)
@@ -196,7 +217,8 @@ public class E19_DefenseMechanismsForPerception extends clsModuleBase implements
 	 */
 	@Override
 	public void send_I2_10(ArrayList<clsPrimaryDataStructureContainer> poGrantedPerception) {
-		((I2_10_receive)moModuleList.get(21)).receive_I2_10(moFilteredPerception_Output);
+		((I2_10_receive)moModuleList.get(21)).receive_I2_10(poGrantedPerception);
+		putInterfaceData(I2_10_send.class, poGrantedPerception);
 		
 	}
 
@@ -209,7 +231,8 @@ public class E19_DefenseMechanismsForPerception extends clsModuleBase implements
 	 */
 	@Override
 	public void send_I5_2(ArrayList<clsAssociationDriveMesh> poDeniedAffects) {
-		((I5_2_receive)moModuleList.get(20)).receive_I5_2(moDeniedAffects);
+		((I5_2_receive)moModuleList.get(20)).receive_I5_2(poDeniedAffects);
+		putInterfaceData(I5_2_send.class, poDeniedAffects);
 	}
 
 	/* (non-Javadoc)

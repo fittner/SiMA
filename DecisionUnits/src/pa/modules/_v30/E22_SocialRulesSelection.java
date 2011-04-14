@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import config.clsBWProperties;
+import pa.interfaces._v30.eInterfaces;
 import pa.interfaces.knowledgebase.itfKnowledgeBaseAccess;
 import pa.interfaces.receive._v30.I1_7_receive;
 import pa.interfaces.receive._v30.I2_11_receive;
@@ -58,8 +59,8 @@ public class E22_SocialRulesSelection extends clsModuleBase implements I1_7_rece
 	 * @throws Exception
 	 */
 	public E22_SocialRulesSelection(String poPrefix, clsBWProperties poProp,
-			HashMap<Integer, clsModuleBase> poModuleList, clsKnowledgeBaseHandler poKnowledgeBaseHandler) throws Exception {
-		super(poPrefix, poProp, poModuleList);
+			HashMap<Integer, clsModuleBase> poModuleList, HashMap<eInterfaces, ArrayList<Object>> poInterfaceData, clsKnowledgeBaseHandler poKnowledgeBaseHandler) throws Exception {
+		super(poPrefix, poProp, poModuleList, poInterfaceData);
 		applyProperties(poPrefix, poProp);	
 		
 		moSearchPattern = new ArrayList<clsPair<Integer,clsDataStructurePA>>();
@@ -68,6 +69,26 @@ public class E22_SocialRulesSelection extends clsModuleBase implements I1_7_rece
 		moRuleList = new ArrayList<clsAct>();
 	}
 
+	/* (non-Javadoc)
+	 *
+	 * @author deutsch
+	 * 14.04.2011, 17:36:19
+	 * 
+	 * @see pa.modules._v30.clsModuleBase#stateToHTML()
+	 */
+	@Override
+	public String stateToHTML() {		
+		String html = "";
+		
+		html += listToHTML("moSearchPattern", moSearchPattern);
+		html += listToHTML("moPerception", moPerception);
+		html += listToHTML("moRuleList", moRuleList);
+		html += listToHTML("moRetrieveResult4Inspectors", moRetrieveResult4Inspectors);
+		html += valueToHTML("moKnowledgeBaseHandler", moKnowledgeBaseHandler);
+
+		return html;
+	}
+	
 	public static clsBWProperties getDefaultProperties(String poPrefix) {
 		String pre = clsBWProperties.addDot(poPrefix);
 		
@@ -330,7 +351,8 @@ public class E22_SocialRulesSelection extends clsModuleBase implements I1_7_rece
 	 */
 	@Override
 	public void send_I3_3(int pnData, ArrayList<clsAct> poRuleList) {
-		((I3_3_receive)moModuleList.get(26)).receive_I3_3(moRuleList);
+		((I3_3_receive)moModuleList.get(26)).receive_I3_3(poRuleList);
+		putInterfaceData(I3_3_send.class, poRuleList);
 	}
 
 	/* (non-Javadoc)

@@ -9,6 +9,7 @@ package pa.modules._v30;
 import java.util.ArrayList;
 import java.util.HashMap;
 import config.clsBWProperties;
+import pa.interfaces._v30.eInterfaces;
 import pa.interfaces.knowledgebase.itfKnowledgeBaseAccess;
 import pa.interfaces.receive._v30.I7_3_receive;
 import pa.interfaces.receive._v30.I7_5_receive;
@@ -46,8 +47,8 @@ public class E34_KnowledgeAboutReality_2 extends clsModuleBase implements I7_3_r
 	 * @throws Exception
 	 */
 	public E34_KnowledgeAboutReality_2(String poPrefix, clsBWProperties poProp,
-			HashMap<Integer, clsModuleBase> poModuleList, clsKnowledgeBaseHandler poKnowledgeBaseHandler) throws Exception {
-		super(poPrefix, poProp, poModuleList);
+			HashMap<Integer, clsModuleBase> poModuleList, HashMap<eInterfaces, ArrayList<Object>> poInterfaceData, clsKnowledgeBaseHandler poKnowledgeBaseHandler) throws Exception {
+		super(poPrefix, poProp, poModuleList, poInterfaceData);
 		
 		moSearchPattern = new ArrayList<clsPair<Integer,clsDataStructurePA>>();
 		moKnowledgeBaseHandler = poKnowledgeBaseHandler;
@@ -55,6 +56,23 @@ public class E34_KnowledgeAboutReality_2 extends clsModuleBase implements I7_3_r
 		applyProperties(poPrefix, poProp);	
 	}
 
+	/* (non-Javadoc)
+	 *
+	 * @author deutsch
+	 * 14.04.2011, 17:36:19
+	 * 
+	 * @see pa.modules._v30.clsModuleBase#stateToHTML()
+	 */
+	@Override
+	public String stateToHTML() {
+		String html ="";
+		
+		html += listToHTML("moSearchPattern", moSearchPattern);
+		html += valueToHTML("moKnowledgeBaseHandler", moKnowledgeBaseHandler);
+		
+		return html;
+	}
+	
 	public static clsBWProperties getDefaultProperties(String poPrefix) {
 		String pre = clsBWProperties.addDot(poPrefix);
 		
@@ -144,7 +162,7 @@ public class E34_KnowledgeAboutReality_2 extends clsModuleBase implements I7_3_r
 	@Override
 	public void send_I7_5(int pnData) {
 		((I7_5_receive)moModuleList.get(33)).receive_I7_5(pnData);
-		
+		putInterfaceData(I7_5_send.class, pnData);
 	}
 
 	/* (non-Javadoc)

@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import pa.interfaces.itfTimeChartInformationContainer;
+import pa.interfaces._v30.eInterfaces;
 import pa.interfaces.receive._v30.I1_4_receive;
 import pa.interfaces.receive._v30.I2_15_receive;
 import pa.interfaces.send._v30.I2_15_send;
@@ -43,9 +44,26 @@ public class E05_AccumulationOfAffectsForSelfPreservationDrives extends clsModul
 	 * @throws Exception 
 	 */
 	public E05_AccumulationOfAffectsForSelfPreservationDrives(String poPrefix,
-			clsBWProperties poProp, HashMap<Integer, clsModuleBase> poModuleList) throws Exception {
-		super(poPrefix, poProp, poModuleList);
+			clsBWProperties poProp, HashMap<Integer, clsModuleBase> poModuleList, HashMap<eInterfaces, ArrayList<Object>> poInterfaceData) throws Exception {
+		super(poPrefix, poProp, poModuleList, poInterfaceData);
 		applyProperties(poPrefix, poProp);	
+	}
+	
+	/* (non-Javadoc)
+	 *
+	 * @author deutsch
+	 * 14.04.2011, 17:36:19
+	 * 
+	 * @see pa.modules._v30.clsModuleBase#stateToHTML()
+	 */
+	@Override
+	public String stateToHTML() {
+		String html ="";
+		
+		html += listToHTML("moDriveCandidate", moDriveCandidate);
+		html += listToHTML("moDriveList", moDriveList);
+		
+		return html;
 	}
 	
 	public static clsBWProperties getDefaultProperties(String poPrefix) {
@@ -213,9 +231,12 @@ public class E05_AccumulationOfAffectsForSelfPreservationDrives extends clsModul
 	 */
 	@Override
 	public void send_I2_15(ArrayList<clsDriveMesh> poDriveList) {
-
 		((I2_15_receive)moModuleList.get(38)).receive_I2_15(poDriveList);
-		
+		putInterfaceData(I2_15_send.class, poDriveList);
+	}
+	
+	public ArrayList<clsDriveMesh> getDriveList() {
+		return moDriveList;
 	}
 }
 

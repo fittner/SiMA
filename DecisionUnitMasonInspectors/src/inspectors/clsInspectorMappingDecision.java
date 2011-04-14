@@ -14,8 +14,6 @@ import du.itf.itfDecisionUnit;
 import inspectors.mind.clsDumbBrainInspector;
 import inspectors.mind.clsRemoteControlInspector;
 import inspectors.mind.clsReactiveInspector;
-import inspectors.mind.pa._v19.clsMemoryInspectorTab;
-import inspectors.mind.pa._v19.clsPsychoAnalysisInspector;
 import sim.display.GUIState;
 import sim.portrayal.Inspector;
 import sim.portrayal.LocationWrapper;
@@ -65,8 +63,18 @@ public class clsInspectorMappingDecision {
         	oRetVal.addInspector( new clsRemoteControlInspector(poSuperInspector, poWrapper, poState, (clsRemoteControl) poDU), "Brain Insp.");
         }
         else if (poDU instanceof clsPsychoAnalysis ) {
-        	oRetVal.addInspector( new clsPsychoAnalysisInspector(poSuperInspector, poWrapper, poState, (clsPsychoAnalysis) poDU), "PA-Decision");
-        	oRetVal.addInspector( new clsMemoryInspectorTab(poSuperInspector, poWrapper, poState, (clsPsychoAnalysis) poDU), "PA-Memory"); //shows a tab with the memory inspector, mapping for the tree etc see clsInspectorMappingPA
+        	
+        	if(clsPsychoAnalysis.isUseOldModel())
+        	{
+           		oRetVal.addInspector( new inspectors.mind.pa._v19.clsPsychoAnalysisInspector(poSuperInspector, poWrapper, poState, (clsPsychoAnalysis) poDU), "PA-Decision");
+            	oRetVal.addInspector( new inspectors.mind.pa._v19.clsMemoryInspectorTab(poSuperInspector, poWrapper, poState, (clsPsychoAnalysis) poDU), "PA-Memory 2.0"); //shows a tab with the memory inspector, mapping for the tree etc see clsInspectorMappingPA
+         	}
+        	else
+        	{
+        		oRetVal.addInspector( new inspectors.mind.pa._v30.clsPsychoAnalysisInspector(poSuperInspector, poWrapper, poState, (clsPsychoAnalysis) poDU), "PA-Decision");
+            	oRetVal.addInspector( new inspectors.mind.pa._v30.clsMemoryInspectorTab(poSuperInspector, poWrapper, poState, (clsPsychoAnalysis) poDU), "PA-Memory 2.0"); //shows a tab with the memory inspector, mapping for the tree etc see clsInspectorMappingPA
+        	}
+        	
         } 
         else if( poDU instanceof clsReactive) {
         	oRetVal.addInspector( new clsReactiveInspector(poSuperInspector, poWrapper, poState, (clsReactive) poDU), "Reactive DU Insp.");

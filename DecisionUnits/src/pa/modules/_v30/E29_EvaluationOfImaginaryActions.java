@@ -9,6 +9,7 @@ package pa.modules._v30;
 import java.util.ArrayList;
 import java.util.HashMap;
 import config.clsBWProperties;
+import pa.interfaces._v30.eInterfaces;
 import pa.interfaces.receive._v30.I5_5_receive;
 import pa.interfaces.receive._v30.I7_3_receive;
 import pa.interfaces.receive._v30.I7_4_receive;
@@ -41,12 +42,29 @@ public class E29_EvaluationOfImaginaryActions extends clsModuleBase implements
 	 * @throws Exception
 	 */
 	public E29_EvaluationOfImaginaryActions(String poPrefix,
-			clsBWProperties poProp, HashMap<Integer, clsModuleBase> poModuleList)
+			clsBWProperties poProp, HashMap<Integer, clsModuleBase> poModuleList, HashMap<eInterfaces, ArrayList<Object>> poInterfaceData)
 			throws Exception {
-		super(poPrefix, poProp, poModuleList);
+		super(poPrefix, poProp, poModuleList, poInterfaceData);
 		applyProperties(poPrefix, poProp);	
 	}
 
+	/* (non-Javadoc)
+	 *
+	 * @author deutsch
+	 * 14.04.2011, 17:36:19
+	 * 
+	 * @see pa.modules._v30.clsModuleBase#stateToHTML()
+	 */
+	@Override
+	public String stateToHTML() {
+		String html ="";
+		
+		html += listToHTML("moActionCommands_Input", moActionCommands_Input);
+		html += listToHTML("moActionCommands_Output", moActionCommands_Output);
+		
+		return html;
+	}
+	
 	public static clsBWProperties getDefaultProperties(String poPrefix) {
 		String pre = clsBWProperties.addDot(poPrefix);
 		
@@ -159,8 +177,8 @@ public class E29_EvaluationOfImaginaryActions extends clsModuleBase implements
 	 */
 	@Override
 	public void send_I7_4(ArrayList<clsWordPresentation> poActionCommands) {
-		((I7_4_receive)moModuleList.get(30)).receive_I7_4(moActionCommands_Output);
-		
+		((I7_4_receive)moModuleList.get(30)).receive_I7_4(poActionCommands);
+		putInterfaceData(I7_4_send.class, poActionCommands);
 	}
 
 	/* (non-Javadoc)

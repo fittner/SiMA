@@ -69,7 +69,7 @@ public class clsInspectorFungusEater extends Inspector {
 		moFungusEater = poFungusEater;
 		
 		//get the default things
-		clsInspectorDefault moDefaultInspector = new clsInspectorDefault(poOriginalInspector, poWrapper, poGuiState, (clsEntity)poFungusEater);
+		clsInspectorBasic moDefaultInspector = new clsInspectorBasic(poOriginalInspector, poWrapper, poGuiState, (clsEntity)poFungusEater);
 		add(moDefaultInspector,  BorderLayout.AFTER_LAST_LINE);
 		
 		//inspected fields....

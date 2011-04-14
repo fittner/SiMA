@@ -9,6 +9,7 @@ package pa.modules._v30;
 import java.util.ArrayList;
 import java.util.HashMap;
 import config.clsBWProperties;
+import pa.interfaces._v30.eInterfaces;
 import pa.interfaces.receive._v30.I2_12_receive;
 import pa.interfaces.receive._v30.I2_13_receive;
 import pa.interfaces.receive._v30.I6_1_receive;
@@ -41,11 +42,28 @@ public class E24_RealityCheck_1 extends clsModuleBase implements I2_12_receive, 
 	 * @throws Exception
 	 */
 	public E24_RealityCheck_1(String poPrefix, clsBWProperties poProp,
-			HashMap<Integer, clsModuleBase> poModuleList) throws Exception {
-		super(poPrefix, poProp, poModuleList);
+			HashMap<Integer, clsModuleBase> poModuleList, HashMap<eInterfaces, ArrayList<Object>> poInterfaceData) throws Exception {
+		super(poPrefix, poProp, poModuleList, poInterfaceData);
 		applyProperties(poPrefix, poProp);		
 	}
 
+	/* (non-Javadoc)
+	 *
+	 * @author deutsch
+	 * 14.04.2011, 17:36:19
+	 * 
+	 * @see pa.modules._v30.clsModuleBase#stateToHTML()
+	 */
+	@Override
+	public String stateToHTML() {
+		String html ="";
+		
+		html += listToHTML("moFocusedPerception_Input", moFocusedPerception_Input);
+		html += listToHTML("moRealityPerception_Output", moRealityPerception_Output);
+		
+		return html;
+	}
+	
 	public static clsBWProperties getDefaultProperties(String poPrefix) {
 		String pre = clsBWProperties.addDot(poPrefix);
 		
@@ -153,7 +171,8 @@ public class E24_RealityCheck_1 extends clsModuleBase implements I2_12_receive, 
 	 */
 	@Override
 	public void send_I2_13(ArrayList<clsSecondaryDataStructureContainer> poRealityPerception) {
-		((I2_13_receive)moModuleList.get(26)).receive_I2_13(moRealityPerception_Output);
+		((I2_13_receive)moModuleList.get(26)).receive_I2_13(poRealityPerception);
+		putInterfaceData(I2_13_send.class, poRealityPerception);
 		
 	}
 
@@ -196,3 +215,4 @@ public class E24_RealityCheck_1 extends clsModuleBase implements I2_12_receive, 
 		
 	}
 }
+

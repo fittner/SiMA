@@ -38,12 +38,12 @@ import bw.utils.inspectors.body.clsInspectorFlesh;
 import bw.utils.inspectors.body.clsInspectorInternalEnergyConsumption;
 import bw.utils.inspectors.body.clsInspectorInternalSystems;
 import bw.utils.inspectors.body.clsInspectorSlowMessengers;
-import bw.utils.inspectors.entity.clsInspectorBubble;
+import bw.utils.inspectors.entity.clsInspectorARSin;
 import bw.utils.inspectors.entity.clsInspectorFungusEater;
-import bw.utils.inspectors.entity.clsInspectorDefault;
+import bw.utils.inspectors.entity.clsInspectorBasic;
 import bw.utils.inspectors.entity.clsInspectorFungus;
 import bw.utils.inspectors.entity.clsInspectorRemoteBot;
-import bw.utils.inspectors.entity.clsInspectorBase;
+import bw.utils.inspectors.entity.clsInspectorFungusBase;
 import bw.utils.inspectors.entity.clsInspectorSensor;
 import sim.display.GUIState;
 import sim.portrayal.Inspector;
@@ -85,19 +85,19 @@ public class clsInspectorMappingEntity {
     	if( poEntity instanceof clsMobile )
     	{
 	    	if( poEntity instanceof clsBubble) {
-	    		oRetVal.addInspector( new clsInspectorBubble(poSuperInspector, poWrapper, poState, (clsBubble)poEntity), "Bubble");
+	    		oRetVal.addInspector( new clsInspectorARSin(poSuperInspector, poWrapper, poState, (clsBubble)poEntity), "Bubble");
 	    	}
 	    	else if( poEntity instanceof clsFungusEater) {
 	    		oRetVal.addInspector( new clsInspectorFungusEater(poSuperInspector, poWrapper, poState, (clsFungusEater)poEntity), "Fungus Eater");
 	    	}
 	    	else if( poEntity instanceof clsCake) {
-	    		oRetVal.addInspector( new clsInspectorDefault(poSuperInspector, poWrapper, poState, poEntity), "Cake");
+	    		oRetVal.addInspector( new clsInspectorBasic(poSuperInspector, poWrapper, poState, poEntity), "Cake");
 	    	}
 	    	else if( poEntity instanceof clsCan) {
-	    		oRetVal.addInspector( new clsInspectorDefault(poSuperInspector, poWrapper, poState, poEntity), "Can");	    		
+	    		oRetVal.addInspector( new clsInspectorBasic(poSuperInspector, poWrapper, poState, poEntity), "Can");	    		
 	    	}
 	    	else if( poEntity instanceof clsCarrot) {
-	    		oRetVal.addInspector( new clsInspectorDefault(poSuperInspector, poWrapper, poState, poEntity), "Carrot");
+	    		oRetVal.addInspector( new clsInspectorBasic(poSuperInspector, poWrapper, poState, poEntity), "Carrot");
 	    	}
 	    	else if( poEntity instanceof clsFungus) {
 	    		oRetVal.addInspector( new clsInspectorFungus(poSuperInspector, poWrapper, poState, (clsFungus)poEntity), "Fungus");
@@ -107,35 +107,28 @@ public class clsInspectorMappingEntity {
 	    		//oRetVal.addInspector( new clsInspectorDefault(poSuperInspector, poWrapper, poState, poEntity), "Hare");
 	    	}
 	    	else if( poEntity instanceof clsLynx) {
-	    		oRetVal.addInspector( new clsInspectorDefault(poSuperInspector, poWrapper, poState, poEntity), "Lynx");
+	    		oRetVal.addInspector( new clsInspectorBasic(poSuperInspector, poWrapper, poState, poEntity), "Lynx");
 	    	}
 	    	else if( poEntity instanceof clsPlant) {
-	    		oRetVal.addInspector( new clsInspectorDefault(poSuperInspector, poWrapper, poState, poEntity), "Plant");	    		
+	    		oRetVal.addInspector( new clsInspectorBasic(poSuperInspector, poWrapper, poState, poEntity), "Plant");	    		
 	    	}
 	    	else if( poEntity instanceof clsRemoteBot) {
 	    		oRetVal.addInspector(new clsInspectorSensor(poSuperInspector, poWrapper,poState,(clsRemoteBot)poEntity), "RemoteBot Sensors");
 	    		oRetVal.addInspector( new clsInspectorRemoteBot(poSuperInspector, poWrapper, poState, (clsRemoteBot)poEntity), "RemoteBot");
 	    	}
 	    	else if( poEntity instanceof clsStone) {
-	    		oRetVal.addInspector( new clsInspectorDefault(poSuperInspector, poWrapper, poState, poEntity), "Stone");
+	    		oRetVal.addInspector( new clsInspectorBasic(poSuperInspector, poWrapper, poState, poEntity), "Stone");
 	    	}
 	    	else if( poEntity instanceof clsUraniumOre) {
-	    		oRetVal.addInspector( new clsInspectorDefault(poSuperInspector, poWrapper, poState, poEntity), "UraniumOre");
+	    		oRetVal.addInspector( new clsInspectorBasic(poSuperInspector, poWrapper, poState, poEntity), "UraniumOre");
 	    	}	    	
     	}
     	else if ( poEntity instanceof clsStationary )
     	{
     		// int i = 1; //unused int - removed by TD
     		if( poEntity instanceof clsBase) {
-	    		oRetVal.addInspector(new clsInspectorBase(poSuperInspector, poWrapper, poState, (clsBase)poEntity), "Base default");
-	    		
+	    		oRetVal.addInspector(new clsInspectorFungusBase(poSuperInspector, poWrapper, poState, (clsBase)poEntity), "FungusBase default");
 	    	}
-//	    	if( poEntity instanceof ) {
-//	    		
-//	    	}
-//	    	else if( poEntity instanceof ) {
-//	    		
-//	    	}
     	}
     	
     	//add standard inspector if nothing happened
@@ -146,6 +139,7 @@ public class clsInspectorMappingEntity {
 	    return oRetVal;
 	}
 
+	
 	public static TabbedInspector getInspectorBody(Inspector poSuperInspector, LocationWrapper poWrapper, GUIState poState, clsBaseBody poBody)
 	{
 		TabbedInspector oRetVal = new TabbedInspector();
@@ -168,7 +162,7 @@ public class clsInspectorMappingEntity {
     	}
     	
 
-    	//add standard inspector if nothing happened
+    	//add standard body inspector if nothing happened
     	if(oRetVal.inspectors.size() == 0)  {
     		oRetVal.addInspector(poSuperInspector, "Values");
     	}

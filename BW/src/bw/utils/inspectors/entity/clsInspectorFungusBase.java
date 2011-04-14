@@ -28,7 +28,7 @@ import sim.util.gui.PropertyField;
  * Jul 22, 2009, 2:08:00 PM
  * 
  */
-public class clsInspectorBase extends Inspector {
+public class clsInspectorFungusBase extends Inspector {
 
 	/**
 	 * DOCUMENT (horvath) - insert description 
@@ -56,7 +56,7 @@ public class clsInspectorBase extends Inspector {
 	 * @param GUIState guiState
 	 * @param clsEntity poEntity = is a Bubble
 	 */
-	public clsInspectorBase(Inspector originalInspector,
+	public clsInspectorFungusBase(Inspector originalInspector,
             LocationWrapper wrapper,
             GUIState guiState,
             clsBase poBase) {

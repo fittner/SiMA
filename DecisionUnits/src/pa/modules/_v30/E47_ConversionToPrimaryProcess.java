@@ -9,6 +9,7 @@ package pa.modules._v30;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import pa.interfaces._v30.eInterfaces;
 import pa.interfaces.receive._v30.I7_3_receive;
 import pa.interfaces.receive._v30.I7_7_receive;
 import pa.interfaces.send._v30.I7_7_send;
@@ -39,11 +40,27 @@ public class E47_ConversionToPrimaryProcess extends clsModuleBase implements I7_
 	 * @throws Exception
 	 */
 	public E47_ConversionToPrimaryProcess(String poPrefix,
-			clsBWProperties poProp, HashMap<Integer, clsModuleBase> poModuleList)
+			clsBWProperties poProp, HashMap<Integer, clsModuleBase> poModuleList, HashMap<eInterfaces, ArrayList<Object>> poInterfaceData)
 			throws Exception {
-		super(poPrefix, poProp, poModuleList);
+		super(poPrefix, poProp, poModuleList, poInterfaceData);
 		applyProperties(poPrefix, poProp);	
 	}
+	
+	/* (non-Javadoc)
+	 *
+	 * @author deutsch
+	 * 14.04.2011, 17:36:19
+	 * 
+	 * @see pa.modules._v30.clsModuleBase#stateToHTML()
+	 */
+	@Override
+	public String stateToHTML() {
+		String html ="";
+		
+		html += "n/a";	
+		
+		return html;
+	}		
 	
 	public static clsBWProperties getDefaultProperties(String poPrefix) {
 		String pre = clsBWProperties.addDot(poPrefix);
@@ -159,7 +176,8 @@ public class E47_ConversionToPrimaryProcess extends clsModuleBase implements I7_
 	@Override
 	public void send_I7_7(
 			ArrayList<clsPrimaryDataStructureContainer> poGrantedPerception) {
-		((I7_7_receive)moModuleList.get(46)).receive_I7_7(poGrantedPerception);		
+		((I7_7_receive)moModuleList.get(46)).receive_I7_7(poGrantedPerception);
+		putInterfaceData(I7_7_send.class, poGrantedPerception);
 	}
 
 	/* (non-Javadoc)

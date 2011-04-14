@@ -6,10 +6,12 @@
  */
 package pa.modules._v30;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import config.clsBWProperties;
 import du.enums.eSensorExtType;
 import du.itf.sensors.clsSensorExtern;
+import pa.interfaces._v30.eInterfaces;
 import pa.interfaces.receive._v30.I0_5_receive;
 import pa.interfaces.receive._v30.I2_3_receive;
 import pa.interfaces.send._v30.I2_3_send;
@@ -38,11 +40,27 @@ public class E12_SensorsBody extends clsModuleBase implements I0_5_receive, I2_3
 	 * @throws Exception
 	 */
 	public E12_SensorsBody(String poPrefix, clsBWProperties poProp,
-			HashMap<Integer, clsModuleBase> poModuleList) throws Exception {
-		super(poPrefix, poProp, poModuleList);
+			HashMap<Integer, clsModuleBase> poModuleList, HashMap<eInterfaces, ArrayList<Object>> poInterfaceData) throws Exception {
+		super(poPrefix, poProp, poModuleList, poInterfaceData);
 		applyProperties(poPrefix, poProp);	
 	}
 
+	/* (non-Javadoc)
+	 *
+	 * @author deutsch
+	 * 14.04.2011, 17:36:19
+	 * 
+	 * @see pa.modules._v30.clsModuleBase#stateToHTML()
+	 */
+	@Override
+	public String stateToHTML() {		
+		String html = "";
+		
+		html += mapToHTML("moBodyData", moBodyData);
+
+		return html;
+	}
+	
 	public static clsBWProperties getDefaultProperties(String poPrefix) {
 		String pre = clsBWProperties.addDot(poPrefix);
 		
@@ -116,8 +134,9 @@ public class E12_SensorsBody extends clsModuleBase implements I0_5_receive, I2_3
 	 * @see pa.interfaces.send.I2_3_send#send_I2_3(java.util.HashMap)
 	 */
 	@Override
-	public void send_I2_3(HashMap<eSensorExtType, clsSensorExtern> pnData) {
-		((I2_3_receive)moModuleList.get(13)).receive_I2_3(moBodyData);
+	public void send_I2_3(HashMap<eSensorExtType, clsSensorExtern> poData) {
+		((I2_3_receive)moModuleList.get(13)).receive_I2_3(poData);
+		putInterfaceData(I2_3_send.class, poData);
 		
 	}
 

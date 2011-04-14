@@ -9,6 +9,7 @@ package pa.modules._v30;
 import java.util.ArrayList;
 import java.util.HashMap;
 import config.clsBWProperties;
+import pa.interfaces._v30.eInterfaces;
 import pa.interfaces.receive._v30.I2_16_receive;
 import pa.interfaces.receive._v30.I2_8_receive;
 import pa.interfaces.receive._v30.I2_9_receive;
@@ -44,12 +45,29 @@ public class E18_CompositionOfAffectsForPerception extends clsModuleBase impleme
 	 * @throws Exception
 	 */
 	public E18_CompositionOfAffectsForPerception(String poPrefix,
-			clsBWProperties poProp, HashMap<Integer, clsModuleBase> poModuleList)
+			clsBWProperties poProp, HashMap<Integer, clsModuleBase> poModuleList, HashMap<eInterfaces, ArrayList<Object>> poInterfaceData)
 			throws Exception {
-		super(poPrefix, poProp, poModuleList);
+		super(poPrefix, poProp, poModuleList, poInterfaceData);
 		applyProperties(poPrefix, poProp);
 	}
 
+	/* (non-Javadoc)
+	 *
+	 * @author deutsch
+	 * 14.04.2011, 17:36:19
+	 * 
+	 * @see pa.modules._v30.clsModuleBase#stateToHTML()
+	 */
+	@Override
+	public String stateToHTML() {		
+		String html = "";
+		
+		html += listToHTML("moMergedPrimaryInformation_Input", moMergedPrimaryInformation_Input);
+		html += listToHTML("moNewPrimaryInformation", moNewPrimaryInformation);
+
+		return html;
+	}
+	
 	public static clsBWProperties getDefaultProperties(String poPrefix) {
 		String pre = clsBWProperties.addDot(poPrefix);
 		
@@ -124,14 +142,26 @@ public class E18_CompositionOfAffectsForPerception extends clsModuleBase impleme
 	private void adaptPleasureValue() {
 		moNewPrimaryInformation = new ArrayList<clsPrimaryDataStructureContainer>(); 
 		
+		//for each pair in the input list...
 		for(clsPair <clsPrimaryDataStructureContainer, clsDriveMesh> oPair : moMergedPrimaryInformation_Input){
+			//If there is an object e. g. CAKE, which is a TPM...
 			if(oPair.a.getMoDataStructure() instanceof clsThingPresentationMesh){
+				//For each associated content in moAssociatedContent...
 				for(pa.memorymgmt.datatypes.clsAssociation oAssociation : oPair.a.getMoAssociatedDataStructures()){
+					//If the Association is a DM...
 					if(oAssociation instanceof clsAssociationDriveMesh){
+						//Get the actual DM from the association
 						clsDriveMesh oDMInput = ((clsAssociationDriveMesh)oAssociation).getDM(); 
+						//Get the DM from the repressed content
 						clsDriveMesh oDMRepressed = oPair.b; 
 						
-						if(oDMInput.getMoContent().intern() == oDMRepressed.getMoContent().intern()){
+						/* If the moContentType is equal (at CAKE, NOURISH), then set new pleasure as the average of 
+						 * the pleasure of repressed content and the object. Then, new moContent is set from the 
+						 * Repressed content (NOURISH GREEDY statt NOURISH_CAKEBASIC).
+						 */
+						
+						if (oDMInput.getMoContentType().intern() == oDMRepressed.getMoContentType().intern()) {
+						//old Fix here if(oDMInput.getMoContent().intern() == oDMRepressed.getMoContent().intern()){
 							oDMInput.setPleasure((oDMInput.getPleasure()+oDMRepressed.getPleasure())/2); 
 							oDMInput.setMoContent(oDMRepressed.getMoContent()); 
 						}
@@ -165,8 +195,10 @@ public class E18_CompositionOfAffectsForPerception extends clsModuleBase impleme
 	 */
 	@Override
 	public void send_I2_9(ArrayList<clsPrimaryDataStructureContainer> poMergedPrimaryInformation) {
-		((I2_9_receive)moModuleList.get(7)).receive_I2_9(moNewPrimaryInformation);
-		((I2_9_receive)moModuleList.get(19)).receive_I2_9(moNewPrimaryInformation);
+		((I2_9_receive)moModuleList.get(7)).receive_I2_9(poMergedPrimaryInformation);
+		((I2_9_receive)moModuleList.get(19)).receive_I2_9(poMergedPrimaryInformation);
+		
+		putInterfaceData(I2_9_send.class, poMergedPrimaryInformation);
 	}
 
 	/* (non-Javadoc)

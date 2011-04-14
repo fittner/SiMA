@@ -6,9 +6,11 @@
  */
 package pa.modules._v30;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import pa.interfaces._v30.eInterfaces;
 import pa.interfaces.receive._v30.I0_1_receive;
 import pa.interfaces.receive._v30.I0_2_receive;
 import pa.interfaces.receive._v30.I1_8_receive;
@@ -44,14 +46,32 @@ public class E39_SeekingSystem_LibidoSource extends clsModuleBase implements I0_
 	 * @throws Exception 
 	 */
 	public E39_SeekingSystem_LibidoSource(String poPrefix,
-			clsBWProperties poProp, HashMap<Integer, clsModuleBase> poModuleList, clsLibidoBuffer poLibidoBuffer) throws Exception {
-		super(poPrefix, poProp, poModuleList);
+			clsBWProperties poProp, HashMap<Integer, clsModuleBase> poModuleList, HashMap<eInterfaces, ArrayList<Object>> poInterfaceData, clsLibidoBuffer poLibidoBuffer) throws Exception {
+		super(poPrefix, poProp, poModuleList, poInterfaceData);
 		
 		moLibidoBuffer = poLibidoBuffer;
 		mrTempLibido = 0;
 		
 		applyProperties(poPrefix, poProp);	
 	}
+	
+	/* (non-Javadoc)
+	 *
+	 * @author deutsch
+	 * 14.04.2011, 17:36:19
+	 * 
+	 * @see pa.modules._v30.clsModuleBase#stateToHTML()
+	 */
+	@Override
+	public String stateToHTML() {
+		String html ="";
+		
+		html += valueToHTML("moLibidoBuffer", moLibidoBuffer);
+		html += valueToHTML("mrTempLibido", mrTempLibido);		
+		
+		return html;
+	}	
+	
 	public static clsBWProperties getDefaultProperties(String poPrefix) {
 		String pre = clsBWProperties.addDot(poPrefix);
 		
@@ -141,8 +161,9 @@ public class E39_SeekingSystem_LibidoSource extends clsModuleBase implements I0_
 	 * @see pa.interfaces.send._v30.I1_8_send#send_I1_8(java.util.HashMap)
 	 */
 	@Override
-	public void send_I1_8(HashMap<eSensorIntType, clsDataBase> pnData) {
-		((I1_8_receive)moModuleList.get(40)).receive_I1_8(pnData);
+	public void send_I1_8(HashMap<eSensorIntType, clsDataBase> poData) {
+		((I1_8_receive)moModuleList.get(40)).receive_I1_8(poData);
+		putInterfaceData(I1_8_send.class, poData);
 	}
 
 	/* (non-Javadoc)
@@ -181,6 +202,7 @@ public class E39_SeekingSystem_LibidoSource extends clsModuleBase implements I0_
 	public void send_D1_3(double prValue) {
 		moLibidoBuffer.receive_D1_3(prValue);
 		
+		putInterfaceData(D1_3_send.class, prValue);
 	}
 
 

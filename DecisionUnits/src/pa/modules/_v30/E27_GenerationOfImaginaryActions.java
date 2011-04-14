@@ -9,6 +9,7 @@ package pa.modules._v30;
 import java.util.ArrayList;
 import java.util.HashMap;
 import config.clsBWProperties;
+import pa.interfaces._v30.eInterfaces;
 import pa.interfaces.receive._v30.I6_2_receive;
 import pa.interfaces.receive._v30.I7_1_receive;
 import pa.interfaces.receive._v30.I7_3_receive;
@@ -46,15 +47,32 @@ public class E27_GenerationOfImaginaryActions extends clsModuleBase implements I
 	 * @throws Exception
 	 */
 	public E27_GenerationOfImaginaryActions(String poPrefix,
-			clsBWProperties poProp, HashMap<Integer, clsModuleBase> poModuleList)
+			clsBWProperties poProp, HashMap<Integer, clsModuleBase> poModuleList, HashMap<eInterfaces, ArrayList<Object>> poInterfaceData)
 			throws Exception {
-		super(poPrefix, poProp, poModuleList);
+		super(poPrefix, poProp, poModuleList, poInterfaceData);
 		applyProperties(poPrefix, poProp);	
 		
 		//ArrayList<clsPlanAction> moActions_Output = new ArrayList<clsPlanAction>(); //never used!
 
 	}
 
+	/* (non-Javadoc)
+	 *
+	 * @author deutsch
+	 * 14.04.2011, 17:36:19
+	 * 
+	 * @see pa.modules._v30.clsModuleBase#stateToHTML()
+	 */
+	@Override
+	public String stateToHTML() {
+		String html ="";
+		
+		html += listToHTML("moPlanInput", moPlanInput);
+		html += listToHTML("moActions_Output", moActions_Output);
+		
+		return html;
+	}		
+	
 	public static clsBWProperties getDefaultProperties(String poPrefix) {
 		String pre = clsBWProperties.addDot(poPrefix);
 		
@@ -233,10 +251,12 @@ public class E27_GenerationOfImaginaryActions extends clsModuleBase implements I
 	 */
 	@Override
 	public void send_I7_3(ArrayList<clsWordPresentation> poActionCommands) {
-		((I7_3_receive)moModuleList.get(47)).receive_I7_3(moActions_Output);
-		((I7_3_receive)moModuleList.get(29)).receive_I7_3(moActions_Output);
-		((I7_3_receive)moModuleList.get(33)).receive_I7_3(moActions_Output);
-		((I7_3_receive)moModuleList.get(34)).receive_I7_3(moActions_Output);
+		((I7_3_receive)moModuleList.get(47)).receive_I7_3(poActionCommands);
+		((I7_3_receive)moModuleList.get(29)).receive_I7_3(poActionCommands);
+		((I7_3_receive)moModuleList.get(33)).receive_I7_3(poActionCommands);
+		((I7_3_receive)moModuleList.get(34)).receive_I7_3(poActionCommands);
+		
+		putInterfaceData(I7_3_send.class, poActionCommands);
 		
 	}
 

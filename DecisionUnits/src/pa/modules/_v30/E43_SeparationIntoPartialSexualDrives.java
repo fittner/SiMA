@@ -9,6 +9,7 @@ package pa.modules._v30;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import pa.interfaces._v30.eInterfaces;
 import pa.interfaces.receive._v30.I1_10_receive;
 import pa.interfaces.receive._v30.I2_17_receive;
 import pa.interfaces.send._v30.I2_17_send;
@@ -40,11 +41,27 @@ public class E43_SeparationIntoPartialSexualDrives extends clsModuleBase impleme
 	 * @throws Exception
 	 */
 	public E43_SeparationIntoPartialSexualDrives(String poPrefix,
-			clsBWProperties poProp, HashMap<Integer, clsModuleBase> poModuleList)
+			clsBWProperties poProp, HashMap<Integer, clsModuleBase> poModuleList, HashMap<eInterfaces, ArrayList<Object>> poInterfaceData)
 			throws Exception {
-		super(poPrefix, poProp, poModuleList);
+		super(poPrefix, poProp, poModuleList, poInterfaceData);
 		applyProperties(poPrefix, poProp);	
 	}
+	
+	/* (non-Javadoc)
+	 *
+	 * @author deutsch
+	 * 14.04.2011, 17:36:19
+	 * 
+	 * @see pa.modules._v30.clsModuleBase#stateToHTML()
+	 */
+	@Override
+	public String stateToHTML() {
+		String html ="";
+		
+		html += "n/a";
+		
+		return html;
+	}	
 	
 	public static clsBWProperties getDefaultProperties(String poPrefix) {
 		String pre = clsBWProperties.addDot(poPrefix);
@@ -131,6 +148,7 @@ public class E43_SeparationIntoPartialSexualDrives extends clsModuleBase impleme
 			ArrayList<clsPair<clsPair<clsDriveMesh, clsDriveDemand>, clsPair<clsDriveMesh, clsDriveDemand>>> poDriveCandidate) {
 		
 		((I2_17_receive)moModuleList.get(42)).receive_I2_17(poDriveCandidate);
+		putInterfaceData(I2_17_send.class, poDriveCandidate);
 		
 	}
 	/* (non-Javadoc)

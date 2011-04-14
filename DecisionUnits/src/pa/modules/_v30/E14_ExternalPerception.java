@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import config.clsBWProperties;
 import pa.enums.eSymbolExtType;
+import pa.interfaces._v30.eInterfaces;
 import pa.interfaces.receive._v30.I2_2_receive;
 import pa.interfaces.receive._v30.I2_4_receive;
 import pa.interfaces.receive._v30.I2_5_receive;
@@ -49,11 +50,29 @@ public class E14_ExternalPerception extends clsModuleBase implements
 	 * @throws Exception
 	 */
 	public E14_ExternalPerception(String poPrefix, clsBWProperties poProp,
-			HashMap<Integer, clsModuleBase> poModuleList) throws Exception {
-		super(poPrefix, poProp, poModuleList);
+			HashMap<Integer, clsModuleBase> poModuleList, HashMap<eInterfaces, ArrayList<Object>> poInterfaceData) throws Exception {
+		super(poPrefix, poProp, poModuleList, poInterfaceData);
 		applyProperties(poPrefix, poProp);
 	}
 
+	/* (non-Javadoc)
+	 *
+	 * @author deutsch
+	 * 14.04.2011, 17:36:19
+	 * 
+	 * @see pa.modules._v30.clsModuleBase#stateToHTML()
+	 */
+	@Override
+	public String stateToHTML() {		
+		String html = "";
+		
+		html += mapToHTML("moEnvironmentalData", moEnvironmentalData);
+		html += mapToHTML("moBodyData", moBodyData);
+		html += listToHTML("moEnvironmentalTP", moEnvironmentalTP);
+
+		return html;
+	}
+	
 	public static clsBWProperties getDefaultProperties(String poPrefix) {
 		String pre = clsBWProperties.addDot(poPrefix);
 		
@@ -158,7 +177,8 @@ public class E14_ExternalPerception extends clsModuleBase implements
 	 */
 	@Override
 	public void send_I2_5(ArrayList<clsPrimaryDataStructureContainer> poEnvironmentalTP) {
-		((I2_5_receive)moModuleList.get(46)).receive_I2_5(moEnvironmentalTP);
+		((I2_5_receive)moModuleList.get(46)).receive_I2_5(poEnvironmentalTP);
+		putInterfaceData(I2_5_send.class, poEnvironmentalTP);
 		
 	}
 

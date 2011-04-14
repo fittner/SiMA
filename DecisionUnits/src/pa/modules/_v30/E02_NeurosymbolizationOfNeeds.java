@@ -6,8 +6,11 @@
  */
 package pa.modules._v30;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+
+import pa.interfaces._v30.eInterfaces;
 import pa.interfaces.receive._v30.I1_1_receive;
 import pa.interfaces.receive._v30.I1_2_receive;
 import pa.interfaces.send._v30.I1_2_send;
@@ -46,8 +49,8 @@ public class E02_NeurosymbolizationOfNeeds extends clsModuleBase implements I1_1
 	 * @throws Exception 
 	 */
 	public E02_NeurosymbolizationOfNeeds(String poPrefix,
-			clsBWProperties poProp, HashMap<Integer, clsModuleBase> poModuleList) throws Exception {
-		super(poPrefix, poProp, poModuleList);
+			clsBWProperties poProp, HashMap<Integer, clsModuleBase> poModuleList, HashMap<eInterfaces, ArrayList<Object>> poInterfaceData) throws Exception {
+		super(poPrefix, poProp, poModuleList, poInterfaceData);
 		applyProperties(poPrefix, poProp);	
 	}
 
@@ -66,6 +69,23 @@ public class E02_NeurosymbolizationOfNeeds extends clsModuleBase implements I1_1
 		//nothing to do
 	}
 
+	/* (non-Javadoc)
+	 *
+	 * @author deutsch
+	 * 14.04.2011, 17:36:19
+	 * 
+	 * @see pa.modules._v30.clsModuleBase#stateToHTML()
+	 */
+	@Override
+	public String stateToHTML() {
+		String html ="";
+		
+		html += mapToHTML("moHomeostasis", moHomeostasis);
+		html += mapToHTML("moHomeostaticSymbol", moHomeostaticSymbol);
+		
+		return html;
+	}
+	
 	/* (non-Javadoc)
 	 *
 	 * @author deutsch
@@ -173,7 +193,9 @@ public class E02_NeurosymbolizationOfNeeds extends clsModuleBase implements I1_1
 	 */
 	@Override
 	public void send_I1_2(HashMap<String, Double> poHomeostasisSymbols) {
-		((I1_2_receive)moModuleList.get(3)).receive_I1_2(moHomeostaticSymbol);
+		((I1_2_receive)moModuleList.get(3)).receive_I1_2(poHomeostasisSymbols);
+		
+		putInterfaceData(I1_2_send.class, poHomeostasisSymbols);
 	}
 
 	/* (non-Javadoc)

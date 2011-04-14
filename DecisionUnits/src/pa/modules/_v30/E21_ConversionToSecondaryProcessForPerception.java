@@ -12,6 +12,7 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 import config.clsBWProperties;
+import pa.interfaces._v30.eInterfaces;
 import pa.interfaces.knowledgebase.itfKnowledgeBaseAccess;
 import pa.interfaces.receive._v30.I2_10_receive;
 import pa.interfaces.receive._v30.I2_11_receive;
@@ -65,15 +66,35 @@ public class E21_ConversionToSecondaryProcessForPerception extends clsModuleBase
 	 * @throws Exception
 	 */
 	public E21_ConversionToSecondaryProcessForPerception(String poPrefix,
-			clsBWProperties poProp, HashMap<Integer, clsModuleBase> poModuleList, clsKnowledgeBaseHandler poKnowledgeBaseHandler)
+			clsBWProperties poProp, HashMap<Integer, clsModuleBase> poModuleList, HashMap<eInterfaces, ArrayList<Object>> poInterfaceData, clsKnowledgeBaseHandler poKnowledgeBaseHandler)
 			throws Exception {
-		super(poPrefix, poProp, poModuleList);
+		super(poPrefix, poProp, poModuleList, poInterfaceData);
 		
 		moKnowledgeBaseHandler = poKnowledgeBaseHandler;
 		
 		applyProperties(poPrefix, poProp);
 	}
 
+	/* (non-Javadoc)
+	 *
+	 * @author deutsch
+	 * 14.04.2011, 17:36:19
+	 * 
+	 * @see pa.modules._v30.clsModuleBase#stateToHTML()
+	 */
+	@Override
+	public String stateToHTML() {		
+		String html = "";
+		
+		html += listToHTML("moGrantedPerception_Input", moGrantedPerception_Input);
+		html += listToHTML("moPerception_Output", moPerception_Output);
+		html += listToHTML("moOrderedResult", moOrderedResult);
+		html += mapToHTML("moTemporaryDM", moTemporaryDM);
+		html += valueToHTML("moKnowledgeBaseHandler", moKnowledgeBaseHandler);
+
+		return html;
+	}
+	
 	public static clsBWProperties getDefaultProperties(String poPrefix) {
 		String pre = clsBWProperties.addDot(poPrefix);
 		
@@ -484,8 +505,10 @@ public class E21_ConversionToSecondaryProcessForPerception extends clsModuleBase
 	 */
 	@Override
 	public void send_I2_11(ArrayList<clsSecondaryDataStructureContainer> poPerception) {
-		((I2_11_receive)moModuleList.get(22)).receive_I2_11(moPerception_Output);
-		((I2_11_receive)moModuleList.get(23)).receive_I2_11(moPerception_Output);
+		((I2_11_receive)moModuleList.get(22)).receive_I2_11(poPerception);
+		((I2_11_receive)moModuleList.get(23)).receive_I2_11(poPerception);
+		
+		putInterfaceData(I2_11_send.class, poPerception);
 		
 	}
 
@@ -498,8 +521,8 @@ public class E21_ConversionToSecondaryProcessForPerception extends clsModuleBase
 	 */
 	@Override
 	public void send_I5_4(ArrayList<clsSecondaryDataStructureContainer> poPerception) {
-		((I5_4_receive)moModuleList.get(20)).receive_I5_4(moPerception_Output);
-		
+		((I5_4_receive)moModuleList.get(20)).receive_I5_4(poPerception);
+		putInterfaceData(I5_4_send.class, poPerception);
 	}
 
 	/* (non-Javadoc)

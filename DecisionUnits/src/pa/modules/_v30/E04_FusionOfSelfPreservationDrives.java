@@ -8,6 +8,8 @@ package pa.modules._v30;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+
+import pa.interfaces._v30.eInterfaces;
 import pa.interfaces.receive._v30.I1_3_receive;
 import pa.interfaces.receive._v30.I1_4_receive;
 import pa.interfaces.send._v30.I1_4_send;
@@ -40,9 +42,25 @@ public class E04_FusionOfSelfPreservationDrives extends clsModuleBase implements
 	 * @throws Exception 
 	 */
 	public E04_FusionOfSelfPreservationDrives(String poPrefix,
-			clsBWProperties poProp, HashMap<Integer, clsModuleBase> poModuleList) throws Exception {
-		super(poPrefix, poProp, poModuleList);
+			clsBWProperties poProp, HashMap<Integer, clsModuleBase> poModuleList, HashMap<eInterfaces, ArrayList<Object>> poInterfaceData) throws Exception {
+		super(poPrefix, poProp, poModuleList, poInterfaceData);
 		applyProperties(poPrefix, poProp);	
+	}
+	
+	/* (non-Javadoc)
+	 *
+	 * @author deutsch
+	 * 14.04.2011, 17:36:19
+	 * 
+	 * @see pa.modules._v30.clsModuleBase#stateToHTML()
+	 */
+	@Override
+	public String stateToHTML() {
+		String html ="";
+		
+		html += listToHTML("moDriveCandidate", moDriveCandidate);
+		
+		return html;
 	}
 	
 	public static clsBWProperties getDefaultProperties(String poPrefix) {
@@ -131,7 +149,8 @@ public class E04_FusionOfSelfPreservationDrives extends clsModuleBase implements
 	 */
 	@Override
 	public void send_I1_4(ArrayList<clsPair<clsPair<clsDriveMesh, clsDriveDemand>, clsPair<clsDriveMesh, clsDriveDemand>>> poDriveCandidate) {
-		((I1_4_receive)moModuleList.get(5)).receive_I1_4(moDriveCandidate);
+		((I1_4_receive)moModuleList.get(5)).receive_I1_4(poDriveCandidate);
+		putInterfaceData(I1_4_send.class, poDriveCandidate);
 	}
 
 	/* (non-Javadoc)

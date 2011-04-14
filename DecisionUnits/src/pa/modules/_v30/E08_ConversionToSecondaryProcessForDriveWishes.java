@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import config.clsBWProperties;
+import pa.interfaces._v30.eInterfaces;
 import pa.interfaces.knowledgebase.itfKnowledgeBaseAccess;
 import pa.interfaces.receive._v30.I1_6_receive;
 import pa.interfaces.receive._v30.I1_7_receive;
@@ -56,15 +57,33 @@ public class E08_ConversionToSecondaryProcessForDriveWishes extends clsModuleBas
 	 * @throws Exception
 	 */
 	public E08_ConversionToSecondaryProcessForDriveWishes(String poPrefix,
-			clsBWProperties poProp, HashMap<Integer, clsModuleBase> poModuleList, clsKnowledgeBaseHandler poKnowledgeBaseHandler)
+			clsBWProperties poProp, HashMap<Integer, clsModuleBase> poModuleList, HashMap<eInterfaces, ArrayList<Object>> poInterfaceData, clsKnowledgeBaseHandler poKnowledgeBaseHandler)
 			throws Exception {
-		super(poPrefix, poProp, poModuleList);
+		super(poPrefix, poProp, poModuleList, poInterfaceData);
 		
 		moKnowledgeBaseHandler = poKnowledgeBaseHandler;
 		
 		applyProperties(poPrefix, poProp);
 	}
 
+	/* (non-Javadoc)
+	 *
+	 * @author deutsch
+	 * 14.04.2011, 17:36:19
+	 * 
+	 * @see pa.modules._v30.clsModuleBase#stateToHTML()
+	 */
+	@Override
+	public String stateToHTML() {
+		String html ="";
+		
+		html += listToHTML("moDriveList_Input", moDriveList_Input);
+		html += listToHTML("moDriveList_Output", moDriveList_Output);		
+		html += valueToHTML("moKnowledgeBaseHandler", moKnowledgeBaseHandler);
+		
+		return html;
+	}
+	
 	public static clsBWProperties getDefaultProperties(String poPrefix) {
 		String pre = clsBWProperties.addDot(poPrefix);
 		
@@ -276,9 +295,11 @@ public class E08_ConversionToSecondaryProcessForDriveWishes extends clsModuleBas
 	 */
 	@Override
 	public void send_I1_7(ArrayList<clsSecondaryDataStructureContainer> poDriveList) {
-		((I1_7_receive)moModuleList.get(22)).receive_I1_7(moDriveList_Output);
-		((I1_7_receive)moModuleList.get(23)).receive_I1_7(moDriveList_Output);
-		((I1_7_receive)moModuleList.get(26)).receive_I1_7(moDriveList_Output);
+		((I1_7_receive)moModuleList.get(22)).receive_I1_7(poDriveList);
+		((I1_7_receive)moModuleList.get(23)).receive_I1_7(poDriveList);
+		((I1_7_receive)moModuleList.get(26)).receive_I1_7(poDriveList);
+		
+		putInterfaceData(I1_7_send.class, poDriveList);
 	}
 
 	/* (non-Javadoc)
@@ -290,7 +311,9 @@ public class E08_ConversionToSecondaryProcessForDriveWishes extends clsModuleBas
 	 */
 	@Override
 	public void send_I5_3(ArrayList<clsSecondaryDataStructureContainer> poDriveList) {
-		((I5_3_receive)moModuleList.get(20)).receive_I5_3(moDriveList_Output);	
+		((I5_3_receive)moModuleList.get(20)).receive_I5_3(poDriveList);	
+		
+		putInterfaceData(I5_3_send.class, poDriveList);		
 	}
 
 	/* (non-Javadoc)

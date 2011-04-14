@@ -7,8 +7,7 @@
 package inspectors.mind.pa._v30;
 
 import java.awt.BorderLayout;
-import java.lang.reflect.Field;
-
+import java.util.Map;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.JScrollPane;
@@ -18,13 +17,10 @@ import javax.swing.event.TreeSelectionEvent;
 import javax.swing.event.TreeSelectionListener;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.MutableTreeNode;
-
-
 import pa.clsPsychoAnalysis;
-
-import pa.modules._v19.G00_PsychicApparatus;
-import pa._v19.clsProcessor;
-
+import pa.modules._v30.clsModuleBase;
+import pa.modules._v30.clsPsychicApparatus;
+import pa._v30.clsProcessor;
 import sim.display.GUIState;
 import sim.portrayal.Inspector;
 import sim.portrayal.LocationWrapper;
@@ -73,25 +69,21 @@ public class clsMemoryInspectorTab extends Inspector implements TreeSelectionLis
 		Box oBox1 = new Box(BoxLayout.PAGE_AXIS);
 		
 		//set root tree manually
-		DefaultMutableTreeNode root = new DefaultMutableTreeNode("Memory");
-		
-		DefaultMutableTreeNode oRootChild = new DefaultMutableTreeNode("Modules");
-		root.add(oRootChild);
-		
+		DefaultMutableTreeNode root = new DefaultMutableTreeNode("Memory 2.0");
+				
 		//grab the top element of the top-down design 
-		G00_PsychicApparatus oPsyApp = ((clsProcessor)poPA.getProcessor()).getPsychicApparatus();
+		clsPsychicApparatus oPsyApp = ((clsProcessor)poPA.getProcessor()).getPsychicApparatus();
 		//build a tree with all members that start either with moC for clsModuleContainer or moE for clsModuleBase
-		getTree( oPsyApp, oRootChild );
+		getTree( oPsyApp, root );
 		
 		//create tree for all memory types
-		addAllMemoryTree(oPsyApp, root);
+		addSpecialMemoryTree(oPsyApp, root);
 
 		moModuleTree = new JTree(root);
 		moModuleTree.addTreeSelectionListener(this);
 		JScrollPane oTreeScroll = new JScrollPane(moModuleTree);
 		moContentPane = new JScrollPane(moContent);
-		
-		
+			
 		moSplitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT,
 				oTreeScroll, moContentPane);
 		moSplitPane.setResizeWeight(0);
@@ -105,7 +97,7 @@ public class clsMemoryInspectorTab extends Inspector implements TreeSelectionLis
         add(oBox1, BorderLayout.CENTER);
     }
     
-	/**
+    /**
 	 * DOCUMENT (muchitsch) - creates a tree for all modules and displays the memory within this modules. some my not have a connection to memory
 	 *
 	 * @author muchitsch
@@ -114,61 +106,31 @@ public class clsMemoryInspectorTab extends Inspector implements TreeSelectionLis
 	 * @param psyApp
 	 * @param poParentTreeNode
 	 */
-	private void getTree(Object poPAModule,
-			DefaultMutableTreeNode poParentTreeNode) {
-
+	private void getTree(clsPsychicApparatus poPA, DefaultMutableTreeNode poParentTreeNode) {
 		
-
-		Field[] oFields = poPAModule.getClass().getDeclaredFields(); //get members of class
-		for(Field oField : oFields) { //for each member
-			if(oField.getType().getSuperclass().getName().equals("pa.modules.clsModuleContainer")) { //case clsModuleContainer (C00-C16)
-				//create a new tree-element with the name of the public member variable without mo-prefix + MEM, to avoid interference with rools tree
-
-				DefaultMutableTreeNode child = null; 
-				
-				//ich will nur die erste Ebene beim Memory! meine Implementierung
-				//TODO Liste Memory im Tree anders aufbauen & sortieren
-				
-				if( 	(oField.getName().substring(2).startsWith("G01")) || 
-						(oField.getName().substring(2).startsWith("G02")) || 
-						(oField.getName().substring(2).startsWith("G03")) ||
-						(oField.getName().substring(2).startsWith("G04")) )
-				{
-					
-					child = new DefaultMutableTreeNode(oField.getName().substring(2) + "MEM");
-				}
-				else
-				{
-					child = poParentTreeNode;
-				}
-				  
-				
-				//get the content of the member (=the instance of the container module) and get the tree entries for it 
-				Object o = null;
-				try {
-				o = oField.get( poPAModule );
-				getTree(o, child);
-				}
-				catch(Exception e){
-					System.out.println( e.getMessage() );
-				}
-				
-				//add the filled treenode for the current clsModuleContainer
-				if(!child.isNodeAncestor(poParentTreeNode))
-					poParentTreeNode.add(child);
-				
-			}
-			else if(oField.getType().getSuperclass().getName().equals("pa.modules.clsModuleBase")) { //case clsMuduleBase (E01-E32)
-				DefaultMutableTreeNode child = new DefaultMutableTreeNode(oField.getName().substring(2) + "MEM"); //"MEM" is needed to differentiate the tree nodes from RooL's in the inspector mapping
-				poParentTreeNode.add(child);
-			}
-		}
+		DefaultMutableTreeNode group = new DefaultMutableTreeNode("Function Modules");
+		poParentTreeNode.add(group);
+		
+        for ( Map.Entry<Integer, clsModuleBase> module : poPA.moModules.entrySet() )	{
+        	String oName = module.getValue().getClass().getSimpleName()  + "MEM";
+        	DefaultMutableTreeNode child = new DefaultMutableTreeNode(oName);
+        	group.add(child);
+        }
 	}
 
-	private void addAllMemoryTree(G00_PsychicApparatus poPAModule,
+	/**
+	 * DOCUMENT (muchitsch) - creates a subtree for special memory inspectors TODO
+	 *
+	 * @author muchitsch
+	 * 14.04.2011, 18:07:49
+	 *
+	 * @param poPAModule
+	 * @param poParentTreeNode
+	 */
+	private void addSpecialMemoryTree(clsPsychicApparatus poPAModule,
 			DefaultMutableTreeNode poParentTreeNode) {
 		
-		DefaultMutableTreeNode oMemorRootNode = new DefaultMutableTreeNode("All Memory");
+		DefaultMutableTreeNode oMemorRootNode = new DefaultMutableTreeNode("Special Memory Inspectors");
 		
 		MutableTreeNode oNodeTPM = new DefaultMutableTreeNode("TPM");
 	    MutableTreeNode cNodeTP = new DefaultMutableTreeNode("TP");

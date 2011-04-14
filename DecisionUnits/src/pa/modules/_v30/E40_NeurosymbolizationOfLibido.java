@@ -6,8 +6,10 @@
  */
 package pa.modules._v30;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 
+import pa.interfaces._v30.eInterfaces;
 import pa.interfaces.receive._v30.I1_8_receive;
 import pa.interfaces.receive._v30.I1_9_receive;
 import pa.interfaces.send._v30.I1_9_send;
@@ -38,11 +40,27 @@ public class E40_NeurosymbolizationOfLibido extends clsModuleBase implements I1_
 	 * @throws Exception
 	 */
 	public E40_NeurosymbolizationOfLibido(String poPrefix,
-			clsBWProperties poProp, HashMap<Integer, clsModuleBase> poModuleList)
+			clsBWProperties poProp, HashMap<Integer, clsModuleBase> poModuleList, HashMap<eInterfaces, ArrayList<Object>> poInterfaceData)
 			throws Exception {
-		super(poPrefix, poProp, poModuleList);
+		super(poPrefix, poProp, poModuleList, poInterfaceData);
 		applyProperties(poPrefix, poProp);	
 	}
+	
+	/* (non-Javadoc)
+	 *
+	 * @author deutsch
+	 * 14.04.2011, 17:36:19
+	 * 
+	 * @see pa.modules._v30.clsModuleBase#stateToHTML()
+	 */
+	@Override
+	public String stateToHTML() {
+		String html ="";
+		
+		html += "n/a";		
+		
+		return html;
+	}	
 	
 	public static clsBWProperties getDefaultProperties(String poPrefix) {
 		String pre = clsBWProperties.addDot(poPrefix);
@@ -127,6 +145,7 @@ public class E40_NeurosymbolizationOfLibido extends clsModuleBase implements I1_
 	@Override
 	public void send_I1_9(HashMap<String, Double> poHomeostasisSymbols) {
 		((I1_9_receive)moModuleList.get(41)).receive_I1_9(poHomeostasisSymbols);
+		putInterfaceData(I1_9_send.class, poHomeostasisSymbols);
 		
 	}
 

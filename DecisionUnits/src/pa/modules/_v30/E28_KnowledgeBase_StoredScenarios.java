@@ -13,6 +13,7 @@ import java.util.LinkedList;
 import java.util.Map;
 import java.util.Queue;
 import config.clsBWProperties;
+import pa.interfaces._v30.eInterfaces;
 import pa.interfaces.knowledgebase.itfKnowledgeBaseAccess;
 import pa.interfaces.receive._v30.I6_2_receive;
 import pa.interfaces.receive._v30.I7_1_receive;
@@ -59,9 +60,9 @@ public class E28_KnowledgeBase_StoredScenarios extends clsModuleBase implements 
 	 * @throws Exception
 	 */
 	public E28_KnowledgeBase_StoredScenarios(String poPrefix,
-			clsBWProperties poProp, HashMap<Integer, clsModuleBase> poModuleList, clsKnowledgeBaseHandler poKnowledgeBaseHandler)
+			clsBWProperties poProp, HashMap<Integer, clsModuleBase> poModuleList, HashMap<eInterfaces, ArrayList<Object>> poInterfaceData, clsKnowledgeBaseHandler poKnowledgeBaseHandler)
 			throws Exception {
-		super(poPrefix, poProp, poModuleList);
+		super(poPrefix, poProp, poModuleList, poInterfaceData);
 		
 		moSearchPattern = new ArrayList<clsPair<Integer,clsDataStructurePA>>();
 		moKnowledgeBaseHandler = poKnowledgeBaseHandler;
@@ -69,6 +70,27 @@ public class E28_KnowledgeBase_StoredScenarios extends clsModuleBase implements 
 		applyProperties(poPrefix, poProp);		
 	}
 
+	/* (non-Javadoc)
+	 *
+	 * @author deutsch
+	 * 14.04.2011, 17:36:19
+	 * 
+	 * @see pa.modules._v30.clsModuleBase#stateToHTML()
+	 */
+	@Override
+	public String stateToHTML() {
+		String html ="";
+		
+		html += listToHTML("moSearchPattern", moSearchPattern);
+		html += listToHTML("moGoal_Input", moGoal_Input);
+		html += listToHTML("moPlan_Output", moPlan_Output);
+		
+		html += valueToHTML("mnNodeLimit", mnNodeLimit);	
+		html += valueToHTML("moKnowledgeBaseHandler", moKnowledgeBaseHandler);
+		
+		return html;
+	}		
+	
 	public static clsBWProperties getDefaultProperties(String poPrefix) {
 		String pre = clsBWProperties.addDot(poPrefix);
 		
@@ -545,8 +567,8 @@ public class E28_KnowledgeBase_StoredScenarios extends clsModuleBase implements 
 	 */
 	@Override
 	public void send_I6_2(ArrayList<ArrayList<clsAct>> poPlanOutput) {
-		((I6_2_receive)moModuleList.get(27)).receive_I6_2(moPlan_Output);
-		
+		((I6_2_receive)moModuleList.get(27)).receive_I6_2(poPlanOutput);
+		putInterfaceData(I6_2_send.class, poPlanOutput);
 	}
 
 	/* (non-Javadoc)

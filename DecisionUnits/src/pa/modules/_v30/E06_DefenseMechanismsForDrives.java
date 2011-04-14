@@ -9,6 +9,8 @@ package pa.modules._v30;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+
+import pa.interfaces._v30.eInterfaces;
 import pa.interfaces.receive._v30.I1_5_receive;
 import pa.interfaces.receive._v30.I1_6_receive;
 import pa.interfaces.receive._v30.I2_19_receive;
@@ -52,12 +54,30 @@ public class E06_DefenseMechanismsForDrives extends clsModuleBase implements
 	 * @throws Exception
 	 */
 	public E06_DefenseMechanismsForDrives(String poPrefix,
-			clsBWProperties poProp, HashMap<Integer, clsModuleBase> poModuleList)
+			clsBWProperties poProp, HashMap<Integer, clsModuleBase> poModuleList, HashMap<eInterfaces, ArrayList<Object>> poInterfaceData)
 			throws Exception {
-		super(poPrefix, poProp, poModuleList);
+		super(poPrefix, poProp, poModuleList, poInterfaceData);
 		applyProperties(poPrefix, poProp);	
 	}
 
+	/* (non-Javadoc)
+	 *
+	 * @author deutsch
+	 * 14.04.2011, 17:36:19
+	 * 
+	 * @see pa.modules._v30.clsModuleBase#stateToHTML()
+	 */
+	@Override
+	public String stateToHTML() {
+		String html ="";
+		
+		html += listToHTML("moDriveList_Input", moDriveList_Input);
+		html += listToHTML("moDriveList_Output", moDriveList_Output);
+		html += listToHTML("moRepressedRetry_Input", moRepressedRetry_Input);		
+		
+		return html;
+	}
+	
 	public static clsBWProperties getDefaultProperties(String poPrefix) {
 		String pre = clsBWProperties.addDot(poPrefix);
 		
@@ -187,7 +207,8 @@ public class E06_DefenseMechanismsForDrives extends clsModuleBase implements
 	 */
 	@Override
 	public void send_I1_6(ArrayList<clsDriveMesh> poDriveList) {
-		((I1_6_receive)moModuleList.get(8)).receive_I1_6(moDriveList_Output);
+		((I1_6_receive)moModuleList.get(8)).receive_I1_6(poDriveList);
+		putInterfaceData(I1_6_send.class, poDriveList);
 	}
 
 	/* (non-Javadoc)
@@ -199,7 +220,8 @@ public class E06_DefenseMechanismsForDrives extends clsModuleBase implements
 	 */
 	@Override
 	public void send_I4_1(List<clsPrimaryDataStructureContainer> poPIs, List<pa.memorymgmt.datatypes.clsThingPresentation> poTPs, List<clsAssociationDriveMesh> poAffects) {
-		((I4_1_receive)moModuleList.get(36)).receive_I4_1(new ArrayList<clsPrimaryDataStructureContainer>(), new ArrayList<pa.memorymgmt.datatypes.clsThingPresentation>(),new ArrayList<clsAssociationDriveMesh>());
+		((I4_1_receive)moModuleList.get(36)).receive_I4_1(poPIs, poTPs, poAffects);
+		putInterfaceData(I4_1_send.class, poPIs, poTPs, poAffects);
 	}
 
 	/* (non-Javadoc)
@@ -211,7 +233,8 @@ public class E06_DefenseMechanismsForDrives extends clsModuleBase implements
 	 */
 	@Override
 	public void send_I5_1(ArrayList<clsPrimaryDataStructureContainer> poAffectOnlyList) {
-		((I5_1_receive)moModuleList.get(20)).receive_I5_1(new ArrayList<clsPrimaryDataStructureContainer>());	
+		((I5_1_receive)moModuleList.get(20)).receive_I5_1(poAffectOnlyList);	
+		putInterfaceData(I5_1_send.class, poAffectOnlyList);		
 	}
 
 	/* (non-Javadoc)

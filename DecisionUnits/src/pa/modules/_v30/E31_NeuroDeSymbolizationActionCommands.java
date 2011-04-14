@@ -19,6 +19,7 @@ import du.itf.actions.clsActionPickUp;
 import du.itf.actions.clsActionSequenceFactory;
 import du.itf.actions.clsActionTurn;
 import pa.interfaces.itfTimeChartInformationContainer;
+import pa.interfaces._v30.eInterfaces;
 import pa.interfaces.receive._v30.I8_1_receive;
 import pa.interfaces.receive._v30.I8_2_receive;
 import pa.interfaces.send._v30.I8_2_send;
@@ -37,7 +38,7 @@ public class E31_NeuroDeSymbolizationActionCommands extends clsModuleBase implem
 	
 	private ArrayList<clsActionCommand> moActionCommandList_Output;
 	private ArrayList<clsWordPresentation> moActionCommands_Input;
-	int mnCounter;
+	private int mnCounter;
 	
 	/**
 	 * DOCUMENT (brandstaetter) - insert description 
@@ -51,13 +52,30 @@ public class E31_NeuroDeSymbolizationActionCommands extends clsModuleBase implem
 	 * @throws Exception
 	 */
 	public E31_NeuroDeSymbolizationActionCommands(String poPrefix,
-			clsBWProperties poProp, HashMap<Integer, clsModuleBase> poModuleList)
+			clsBWProperties poProp, HashMap<Integer, clsModuleBase> poModuleList, HashMap<eInterfaces, ArrayList<Object>> poInterfaceData)
 			throws Exception {
-		super(poPrefix, poProp, poModuleList);
+		super(poPrefix, poProp, poModuleList, poInterfaceData);
 		applyProperties(poPrefix, poProp);		
 		
 		mnCounter = 0; 
 		moActionCommandList_Output = new ArrayList<clsActionCommand>();
+	}
+	
+	/* (non-Javadoc)
+	 *
+	 * @author deutsch
+	 * 14.04.2011, 17:36:19
+	 * 
+	 * @see pa.modules._v30.clsModuleBase#stateToHTML()
+	 */
+	@Override
+	public String stateToHTML() {
+		String html ="";
+		
+		html += listToHTML("moActionCommands_Input", moActionCommands_Input);
+		html += listToHTML("moActionCommandList_Output", moActionCommandList_Output);
+		
+		return html;
 	}
 
 	public static clsBWProperties getDefaultProperties(String poPrefix) {
@@ -134,11 +152,11 @@ public class E31_NeuroDeSymbolizationActionCommands extends clsModuleBase implem
 						//System.out.println("cmd: move_forward");
 					}
 					else if(oAction.equals("TURN_LEFT")){
-						moActionCommandList_Output.add(new clsActionTurn(eActionTurnDirection.TURN_LEFT, 1.0));
+						moActionCommandList_Output.add(new clsActionTurn(eActionTurnDirection.TURN_LEFT, 15.0));
 						//System.out.println("cmd: turn_left");
 					}
 					else if(oAction.equals("TURN_RIGHT")){
-						moActionCommandList_Output.add(new clsActionTurn(eActionTurnDirection.TURN_RIGHT, 1.0));
+						moActionCommandList_Output.add(new clsActionTurn(eActionTurnDirection.TURN_RIGHT, 15.0));
 						//System.out.println("cmd: turn_right");
 					}
 					//end add
@@ -164,7 +182,11 @@ public class E31_NeuroDeSymbolizationActionCommands extends clsModuleBase implem
 				}
 		}
 		else {
+			if (mnCounter == 75) {
 				moActionCommandList_Output.add( clsActionSequenceFactory.getSeekingSequence(1.0f, 2) );
+				mnCounter = 0;
+			} 
+			mnCounter++;
 		}
 			
 	}
@@ -192,6 +214,7 @@ public class E31_NeuroDeSymbolizationActionCommands extends clsModuleBase implem
 	@Override
 	public void send_I8_2(ArrayList<clsActionCommand> poActionCommandList) {
 		((I8_2_receive)moModuleList.get(32)).receive_I8_2(poActionCommandList);
+		putInterfaceData(I8_2_send.class, poActionCommandList);
 		
 	}
 

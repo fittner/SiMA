@@ -29,7 +29,7 @@ import sim.util.gui.PropertyField;
  * Jul 15, 2009, 1:20:23 PM
  * 
  */
-public class clsInspectorBubble extends Inspector {
+public class clsInspectorARSin extends Inspector {
 
 	/**
 	 * Main Inspector for the Bubble, displays all values we want on this
@@ -58,7 +58,7 @@ public class clsInspectorBubble extends Inspector {
 	 * @param GUIState guiState
 	 * @param clsBubble poBubble
 	 */
-	public clsInspectorBubble(Inspector poOriginalInspector,
+	public clsInspectorARSin(Inspector poOriginalInspector,
             LocationWrapper poWrapper,
             GUIState poGuiState,
             clsBubble poBubble) {
@@ -69,7 +69,7 @@ public class clsInspectorBubble extends Inspector {
 		moBubble = poBubble;
 		
 		//get the default things
-		clsInspectorDefault moDefaultInspector = new clsInspectorDefault(poOriginalInspector, poWrapper, poGuiState, (clsEntity)poBubble);
+		clsInspectorBasic moDefaultInspector = new clsInspectorBasic(poOriginalInspector, poWrapper, poGuiState, (clsEntity)poBubble);
 		add(moDefaultInspector,  BorderLayout.AFTER_LAST_LINE);
 		
 		//inspected fields....

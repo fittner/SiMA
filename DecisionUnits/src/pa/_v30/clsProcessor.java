@@ -20,7 +20,7 @@ import pa.itfProcessor;
 import pa.memory.clsMemory;
 import pa.memorymgmt.clsKnowledgeBaseHandler;
 import pa.memorymgmt.informationrepresentation.clsInformationRepresentationManagement;
-import pa.modules._v30.clsPsychicApperatus;
+import pa.modules._v30.clsPsychicApparatus;
 
 /**
  * DOCUMENT (deutsch) - insert description 
@@ -34,7 +34,7 @@ public class clsProcessor implements itfProcessor  {
 	public static final String P_KNOWLEDGEABASE = "knowledgebase";
 	public static final String P_MEMORY = "memory";
 	
-	private clsPsychicApperatus moPsyApp;
+	private clsPsychicApparatus moPsyApp;
 	private clsKnowledgeBaseHandler moKnowledgeBaseHandler;
 	private clsMemory moMemory;
 		
@@ -50,7 +50,7 @@ public class clsProcessor implements itfProcessor  {
 		
 		oProp.putAll( clsMemory.getDefaultProperties(pre+P_MEMORY) );
 		oProp.putAll( clsInformationRepresentationManagement.getDefaultProperties(pre+P_KNOWLEDGEABASE) );
-		oProp.putAll( clsPsychicApperatus.getDefaultProperties(pre+P_PSYCHICAPPARATUS) );
+		oProp.putAll( clsPsychicApparatus.getDefaultProperties(pre+P_PSYCHICAPPARATUS) );
 				
 		return oProp;
 	}	
@@ -61,7 +61,7 @@ public class clsProcessor implements itfProcessor  {
 		moKnowledgeBaseHandler = new clsInformationRepresentationManagement(pre + P_KNOWLEDGEABASE, poProp);
 		moMemory = new clsMemory(pre + P_MEMORY, poProp);
 		
-		moPsyApp = new clsPsychicApperatus(pre + P_PSYCHICAPPARATUS, poProp, moMemory, moKnowledgeBaseHandler);
+		moPsyApp = new clsPsychicApparatus(pre + P_PSYCHICAPPARATUS, poProp, moMemory, moKnowledgeBaseHandler);
 
 	}
 		
@@ -165,7 +165,7 @@ public class clsProcessor implements itfProcessor  {
 		//BODY --------------------------------------------- 
 		//data preprocessing
 		moPsyApp.moE01_SensorsMetabolism.step();
-		moPsyApp.moE02_NeurosymbolizationOfWants.step();
+		moPsyApp.moE02_NeurosymbolizationOfNeeds.step();
 
 		moPsyApp.moE10_SensorsEnvironment.step();
 		moPsyApp.moE11_NeuroSymbolizationEnvironment.step();
@@ -245,7 +245,7 @@ public class clsProcessor implements itfProcessor  {
 	 *
 	 * @return
 	 */
-	public clsPsychicApperatus getPsychicApparatus() {
+	public clsPsychicApparatus getPsychicApparatus() {
 		return moPsyApp;
 	}
 }

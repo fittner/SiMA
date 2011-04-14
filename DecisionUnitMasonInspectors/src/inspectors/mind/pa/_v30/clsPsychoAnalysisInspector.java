@@ -7,8 +7,9 @@
 package inspectors.mind.pa._v30;
 
 import java.awt.BorderLayout;
-import pa._v19.clsProcessor;
+import pa._v30.clsProcessor;
 import java.lang.reflect.Field;
+import java.util.Map;
 
 import javax.swing.Box;
 import javax.swing.BoxLayout;
@@ -21,7 +22,8 @@ import javax.swing.tree.DefaultMutableTreeNode;
 
 import pa.clsPsychoAnalysis;
 import pa.memory.clsMemory;
-import pa.modules._v19.G00_PsychicApparatus;
+import pa.modules._v30.clsModuleBase;
+import pa.modules._v30.clsPsychicApparatus;
 
 import sim.display.GUIState;
 import sim.portrayal.Inspector;
@@ -64,7 +66,7 @@ public class clsPsychoAnalysisInspector extends Inspector implements TreeSelecti
 		//set root tree manually
 		DefaultMutableTreeNode root = new DefaultMutableTreeNode("Psychic Apparatus");
 		//grab the top element of the top-down design 
-		G00_PsychicApparatus oPsyApp = ((clsProcessor)poPA.getProcessor()).getPsychicApparatus();
+		clsPsychicApparatus oPsyApp = ((clsProcessor)poPA.getProcessor()).getPsychicApparatus();
 		//build a tree with all members that start either with moC for clsModuleContainer or moE for clsModuleBase
 		getTree( oPsyApp, root );
 		addKnowledge(oPsyApp, root);
@@ -97,41 +99,25 @@ public class clsPsychoAnalysisInspector extends Inspector implements TreeSelecti
 	 * @param psyApp
 	 * @param poParentTreeNode
 	 */
-	private void getTree(Object poPAModule,
+	private void getTree(clsPsychicApparatus poPA,
 			DefaultMutableTreeNode poParentTreeNode) {
 		
-		Field[] oFields = poPAModule.getClass().getDeclaredFields(); //get members of class
-		for(Field oField : oFields) { //for each member
-			if(oField.getType().getSuperclass().getName().equals("pa.modules.clsModuleContainer")) { //case clsModuleContainer (C00-C16)
-				//create a new tree-element with the name of the public member variable without mo-prefix 
-				DefaultMutableTreeNode child = new DefaultMutableTreeNode(oField.getName().substring(2));  
-				
-				//get the content of the member (=the instance of the container module) and get the tree entries for it 
-				Object o = null;
-				try {
-				o = oField.get( poPAModule );
-				getTree(o, child);
-				}
-				catch(Exception e){
-					System.out.println( e.getMessage() );
-				}
-				
-				//add the filled treenode for the current clsModuleContainer
-				poParentTreeNode.add(child);
-			}
-			else if(oField.getType().getSuperclass().getName().equals("pa.modules.clsModuleBase")) { //case clsMuduleBase (E01-E32)
-				DefaultMutableTreeNode child = new DefaultMutableTreeNode(oField.getName().substring(2));
-				poParentTreeNode.add(child);
-			}
-		}
+		DefaultMutableTreeNode group = new DefaultMutableTreeNode("Function Modules");
+		poParentTreeNode.add(group);
+		
+        for ( Map.Entry<Integer, clsModuleBase> module : poPA.moModules.entrySet() )	{
+        	String oName = module.getValue().getClass().getSimpleName();
+        	DefaultMutableTreeNode child = new DefaultMutableTreeNode(oName);
+        	group.add(child);
+        }
 	}
 
-	private void addKnowledge(G00_PsychicApparatus poPAModule,
+	private void addKnowledge(clsPsychicApparatus poPAModule,
 			DefaultMutableTreeNode poParentTreeNode) {
 		
 		DefaultMutableTreeNode oMemoryNode = new DefaultMutableTreeNode("Knowledge Base");
 		
-		clsMemory oMemory = poPAModule.getMemoryForInspector();
+		clsMemory oMemory = poPAModule.moMemory;
 		
 		Field[] oFields = oMemory.getClass().getFields();
 		for(Field oField : oFields) {

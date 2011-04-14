@@ -9,6 +9,7 @@ package pa.modules._v30;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import pa.interfaces._v30.eInterfaces;
 import pa.interfaces.knowledgebase.itfKnowledgeBaseAccess;
 import pa.interfaces.receive._v30.I2_20_receive;
 import pa.interfaces.receive._v30.I2_5_receive;
@@ -57,14 +58,32 @@ public class E46_FusionWithMemoryTraces extends clsModuleBase implements
 	 * @param poModuleList
 	 * @throws Exception
 	 */
-	public E46_FusionWithMemoryTraces(String poPrefix, clsBWProperties poProp, HashMap<Integer, clsModuleBase> poModuleList, 
+	public E46_FusionWithMemoryTraces(String poPrefix, clsBWProperties poProp, HashMap<Integer, clsModuleBase> poModuleList, HashMap<eInterfaces, ArrayList<Object>> poInterfaceData, 
 								clsKnowledgeBaseHandler poKnowledgeBaseHandler) throws Exception {
-		super(poPrefix, poProp, poModuleList);
+		super(poPrefix, poProp, poModuleList, poInterfaceData);
 		
 		moKnowledgeBaseHandler = poKnowledgeBaseHandler; 
 		
 		applyProperties(poPrefix, poProp);	
 	}
+	
+	/* (non-Javadoc)
+	 *
+	 * @author deutsch
+	 * 14.04.2011, 17:36:19
+	 * 
+	 * @see pa.modules._v30.clsModuleBase#stateToHTML()
+	 */
+	@Override
+	public String stateToHTML() {
+		String html ="";
+		
+		html += listToHTML("moEnvironmentalPerception_IN", moEnvironmentalPerception_IN);
+		html += listToHTML("moEnvironmentalPerception_OUT", moEnvironmentalPerception_OUT);		
+		html += valueToHTML("moKnowledgeBaseHandler", moKnowledgeBaseHandler);		
+		
+		return html;
+	}		
 	
 	public static clsBWProperties getDefaultProperties(String poPrefix) {
 		String pre = clsBWProperties.addDot(poPrefix);
@@ -306,8 +325,8 @@ public class E46_FusionWithMemoryTraces extends clsModuleBase implements
 	@Override
 	public void send_I2_20(
 			ArrayList<clsPrimaryDataStructureContainer> poEnvironmentalTP) {
-		((I2_20_receive)moModuleList.get(37)).receive_I2_20(moEnvironmentalPerception_OUT);
-		
+		((I2_20_receive)moModuleList.get(37)).receive_I2_20(poEnvironmentalTP);
+		putInterfaceData(I2_20_send.class, poEnvironmentalTP);
 	}
 
 	/* (non-Javadoc)
