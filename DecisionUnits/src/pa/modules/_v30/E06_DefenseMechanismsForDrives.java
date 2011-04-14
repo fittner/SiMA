@@ -189,7 +189,7 @@ public class E06_DefenseMechanismsForDrives extends clsModuleBase implements
 	 */
 	@Override
 	public void send_I1_6(ArrayList<clsDriveMesh> poDriveList) {
-		((I1_6_receive)moModuleList.get(8)).receive_I1_6(moDriveList_Output);
+		((I1_6_receive)moModuleList.get(8)).receive_I1_6(poDriveList);
 		putInterfaceData(I1_6_send.class, poDriveList);
 	}
 
