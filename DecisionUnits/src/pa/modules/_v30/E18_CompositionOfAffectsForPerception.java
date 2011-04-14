@@ -9,6 +9,7 @@ package pa.modules._v30;
 import java.util.ArrayList;
 import java.util.HashMap;
 import config.clsBWProperties;
+import pa.interfaces._v30.eInterfaces;
 import pa.interfaces.receive._v30.I2_16_receive;
 import pa.interfaces.receive._v30.I2_8_receive;
 import pa.interfaces.receive._v30.I2_9_receive;
@@ -44,9 +45,9 @@ public class E18_CompositionOfAffectsForPerception extends clsModuleBase impleme
 	 * @throws Exception
 	 */
 	public E18_CompositionOfAffectsForPerception(String poPrefix,
-			clsBWProperties poProp, HashMap<Integer, clsModuleBase> poModuleList)
+			clsBWProperties poProp, HashMap<Integer, clsModuleBase> poModuleList, HashMap<eInterfaces, ArrayList<Object>> poInterfaceData)
 			throws Exception {
-		super(poPrefix, poProp, poModuleList);
+		super(poPrefix, poProp, poModuleList, poInterfaceData);
 		applyProperties(poPrefix, poProp);
 	}
 
@@ -177,8 +178,10 @@ public class E18_CompositionOfAffectsForPerception extends clsModuleBase impleme
 	 */
 	@Override
 	public void send_I2_9(ArrayList<clsPrimaryDataStructureContainer> poMergedPrimaryInformation) {
-		((I2_9_receive)moModuleList.get(7)).receive_I2_9(moNewPrimaryInformation);
-		((I2_9_receive)moModuleList.get(19)).receive_I2_9(moNewPrimaryInformation);
+		((I2_9_receive)moModuleList.get(7)).receive_I2_9(poMergedPrimaryInformation);
+		((I2_9_receive)moModuleList.get(19)).receive_I2_9(poMergedPrimaryInformation);
+		
+		putInterfaceData(I2_9_send.class, poMergedPrimaryInformation);
 	}
 
 	/* (non-Javadoc)

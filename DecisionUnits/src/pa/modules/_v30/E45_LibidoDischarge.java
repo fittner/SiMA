@@ -8,6 +8,8 @@ package pa.modules._v30;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+
+import pa.interfaces._v30.eInterfaces;
 import pa.interfaces.receive._v30.I2_16_receive;
 import pa.interfaces.receive._v30.I2_8_receive;
 import pa.interfaces.send._v30.I2_16_send;
@@ -39,8 +41,8 @@ public class E45_LibidoDischarge extends clsModuleBase implements I2_8_receive, 
 	 * @throws Exception
 	 */
 	public E45_LibidoDischarge(String poPrefix, clsBWProperties poProp,
-			HashMap<Integer, clsModuleBase> poModuleList) throws Exception {
-		super(poPrefix, poProp, poModuleList);
+			HashMap<Integer, clsModuleBase> poModuleList, HashMap<eInterfaces, ArrayList<Object>> poInterfaceData) throws Exception {
+		super(poPrefix, poProp, poModuleList, poInterfaceData);
 		applyProperties(poPrefix, poProp);	
 	}
 	
@@ -174,7 +176,7 @@ public class E45_LibidoDischarge extends clsModuleBase implements I2_8_receive, 
 	public void send_I2_16(
 			ArrayList<clsPair<clsPrimaryDataStructureContainer, clsDriveMesh>> poMergedPrimaryInformation) {
 		((I2_16_receive)moModuleList.get(18)).receive_I2_16(poMergedPrimaryInformation);
-		
+		putInterfaceData(I2_16_send.class, poMergedPrimaryInformation);
 	}
 
 }

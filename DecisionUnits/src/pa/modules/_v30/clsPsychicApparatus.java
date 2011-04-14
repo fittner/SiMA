@@ -6,9 +6,10 @@
  */
 package pa.modules._v30;
 
+import java.util.ArrayList;
 import java.util.HashMap;
-
 import config.clsBWProperties;
+import pa.interfaces._v30.eInterfaces;
 import pa.memory.clsMemory;
 import pa.memorymgmt.clsKnowledgeBaseHandler;
 import pa.memorymgmt.clsKnowledgeBaseHandlerFactory;
@@ -27,7 +28,7 @@ public class clsPsychicApparatus {
 	public static final String P_INFORMATIONREPRESENTATIONMGMT = "INF_REP_MGMT";
 
 	public E01_SensorsMetabolism moE01_SensorsMetabolism;
-	public E02_NeurosymbolizationOfNeeds moE02_NeurosymbolizationOfWants;
+	public E02_NeurosymbolizationOfNeeds moE02_NeurosymbolizationOfNeeds;
 	public E03_GenerationOfSelfPreservationDrives moE03_GenerationOfSelfPreservationDrives;
 	public E04_FusionOfSelfPreservationDrives moE04_FusionOfSelfPreservationDrives;
 	public E05_AccumulationOfAffectsForSelfPreservationDrives moE05_AccumulationOfAffectsForSelfPreservationDrives;
@@ -76,12 +77,14 @@ public class clsPsychicApparatus {
 	public clsLibidoBuffer moLibidoBuffer;
 	public clsBlockedContentStorage moBlockedContentStorage;
 	
-	public HashMap<Integer, clsModuleBase> moModules; // list of the modules defined above. needed for references within them. 
+	public HashMap<Integer, clsModuleBase> moModules; // list of the modules defined above. needed for references within them.
+	public HashMap<eInterfaces, ArrayList<Object>> moInterfaceData; //list of the currently transfered data via the interfaces. has to be refilled each round at each send_I?_? method manually!
 
 	public clsPsychicApparatus(String poPrefix, clsBWProperties poProp, 
 			clsMemory poMemory,	clsKnowledgeBaseHandler poKnowledgeBaseHandler) {
 		
 		moModules = new HashMap<Integer, clsModuleBase>();
+		moInterfaceData = new HashMap<eInterfaces, ArrayList<Object>>();
 		
 		moMemory = poMemory;
 		moKnowledgeBaseHandler = poKnowledgeBaseHandler; 
@@ -152,50 +155,50 @@ public class clsPsychicApparatus {
 			//TODO HZ - Integrate to Properties
 			moKnowledgeBaseHandler = clsKnowledgeBaseHandlerFactory.createInformationRepresentationManagement("ARSI10_MGMT", pre+P_INFORMATIONREPRESENTATIONMGMT, poProp);
 			
-			moE01_SensorsMetabolism = new E01_SensorsMetabolism(pre + E01_SensorsMetabolism.P_MODULENUMBER, poProp, moModules);
-			moE02_NeurosymbolizationOfWants = new E02_NeurosymbolizationOfNeeds(pre + E02_NeurosymbolizationOfNeeds.P_MODULENUMBER, poProp, moModules);
-			moE03_GenerationOfSelfPreservationDrives = new E03_GenerationOfSelfPreservationDrives(pre + E03_GenerationOfSelfPreservationDrives.P_MODULENUMBER, poProp, moModules);
-			moE04_FusionOfSelfPreservationDrives = new E04_FusionOfSelfPreservationDrives(pre + E04_FusionOfSelfPreservationDrives.P_MODULENUMBER, poProp, moModules);
-			moE05_AccumulationOfAffectsForSelfPreservationDrives = new E05_AccumulationOfAffectsForSelfPreservationDrives(pre + E05_AccumulationOfAffectsForSelfPreservationDrives.P_MODULENUMBER, poProp, moModules);
-			moE06_DefenseMechanismsForDrives = new E06_DefenseMechanismsForDrives(pre + E06_DefenseMechanismsForDrives.P_MODULENUMBER, poProp, moModules);
-			moE07_InternalizedRulesHandler = new E07_InternalizedRulesHandler(pre + E07_InternalizedRulesHandler.P_MODULENUMBER, poProp, moModules, moKnowledgeBaseHandler);
-			moE08_ConversionToSecondaryProcessForDriveWishes = new E08_ConversionToSecondaryProcessForDriveWishes(pre + E08_ConversionToSecondaryProcessForDriveWishes.P_MODULENUMBER, poProp, moModules, moKnowledgeBaseHandler);
-			moE09_KnowledgeAboutReality_unconscious = new E09_KnowledgeAboutReality_unconscious(pre + E09_KnowledgeAboutReality_unconscious.P_MODULENUMBER, poProp, moModules, moKnowledgeBaseHandler);
-			moE10_SensorsEnvironment = new E10_SensorsEnvironment(pre + E10_SensorsEnvironment.P_MODULENUMBER, poProp, moModules);
-			moE11_NeuroSymbolizationEnvironment = new E11_NeuroSymbolizationEnvironment(pre + E11_NeuroSymbolizationEnvironment.P_MODULENUMBER, poProp, moModules);
-			moE12_SensorsBody = new E12_SensorsBody(pre + E12_SensorsBody.P_MODULENUMBER, poProp, moModules);
-			moE13_NeuroSymbolizationBody = new E13_NeuroSymbolizationBody(pre + E13_NeuroSymbolizationBody.P_MODULENUMBER, poProp, moModules);
-			moE14_ExternalPerception = new E14_ExternalPerception(pre + E14_ExternalPerception.P_MODULENUMBER, poProp, moModules);
-			moE18_CompositionOfAffectsForPerception = new E18_CompositionOfAffectsForPerception(pre + E18_CompositionOfAffectsForPerception.P_MODULENUMBER, poProp, moModules);
-			moE19_DefenseMechanismsForPerception = new E19_DefenseMechanismsForPerception(pre + E19_DefenseMechanismsForPerception.P_MODULENUMBER, poProp, moModules);
-			moE20_InnerPerception_Affects = new E20_InnerPerception_Affects(pre + E20_InnerPerception_Affects.P_MODULENUMBER, poProp, moModules);
-			moE21_ConversionToSecondaryProcessForPerception = new E21_ConversionToSecondaryProcessForPerception(pre + E21_ConversionToSecondaryProcessForPerception.P_MODULENUMBER, poProp, moModules, moKnowledgeBaseHandler);
-			moE22_SocialRulesSelection = new E22_SocialRulesSelection(pre + E22_SocialRulesSelection.P_MODULENUMBER, poProp, moModules, moKnowledgeBaseHandler);
-			moE23_ExternalPerception_focused = new E23_ExternalPerception_focused(pre + E23_ExternalPerception_focused.P_MODULENUMBER, poProp, moModules);
-			moE24_RealityCheck_1 = new E24_RealityCheck_1(pre + E24_RealityCheck_1.P_MODULENUMBER, poProp, moModules);
-			moE25_KnowledgeAboutReality_1 = new E25_KnowledgeAboutReality_1(pre + E25_KnowledgeAboutReality_1.P_MODULENUMBER, poProp, moModules, moKnowledgeBaseHandler);
-			moE26_DecisionMaking = new E26_DecisionMaking(pre + E26_DecisionMaking.P_MODULENUMBER, poProp, moModules);
-			moE27_GenerationOfImaginaryActions = new E27_GenerationOfImaginaryActions(pre + E27_GenerationOfImaginaryActions.P_MODULENUMBER, poProp, moModules);
-			moE28_KnowledgeBase_StoredScenarios = new E28_KnowledgeBase_StoredScenarios(pre + E28_KnowledgeBase_StoredScenarios.P_MODULENUMBER, poProp, moModules, moKnowledgeBaseHandler);
-			moE29_EvaluationOfImaginaryActions = new E29_EvaluationOfImaginaryActions(pre + E29_EvaluationOfImaginaryActions.P_MODULENUMBER, poProp, moModules);
-			moE30_MotilityControl = new E30_MotilityControl(pre + E30_MotilityControl.P_MODULENUMBER, poProp, moModules);
-			moE31_NeuroDeSymbolizationActionCommands = new E31_NeuroDeSymbolizationActionCommands(pre + E31_NeuroDeSymbolizationActionCommands.P_MODULENUMBER, poProp, moModules);
-			moE32_Actuators = new E32_Actuators(pre + E32_Actuators.P_MODULENUMBER, poProp, moModules);
-			moE33_RealityCheck_2 = new E33_RealityCheck_2(pre + E33_RealityCheck_2.P_MODULENUMBER, poProp, moModules);
-			moE34_KnowledgeAboutReality_2 = new E34_KnowledgeAboutReality_2(pre + E34_KnowledgeAboutReality_2.P_MODULENUMBER, poProp, moModules, moKnowledgeBaseHandler);
-			moE35_EmersionOfRepressedContent = new E35_EmersionOfRepressedContent(pre + E35_EmersionOfRepressedContent.P_MODULENUMBER, poProp, moModules, moKnowledgeBaseHandler, moMemory, moBlockedContentStorage);
-			moE36_RepressionHandler = new E36_RepressionHandler(pre + E36_RepressionHandler.P_MODULENUMBER, poProp, moModules, moBlockedContentStorage);
-			moE37_PrimalRepressionForPerception = new E37_PrimalRepressionForPerception(pre + E37_PrimalRepressionForPerception.P_MODULENUMBER, poProp, moModules);
-			moE38_PrimalRepressionForSelfPreservationDrives = new E38_PrimalRepressionForSelfPreservationDrives(pre + E38_PrimalRepressionForSelfPreservationDrives.P_MODULENUMBER, poProp, moModules);
-			moE39_SeekingSystem_LibidoSource = new E39_SeekingSystem_LibidoSource(pre + E39_SeekingSystem_LibidoSource.P_MODULENUMBER, poProp, moModules, moLibidoBuffer);
-			moE40_NeurosymbolizationOfLibido = new E40_NeurosymbolizationOfLibido(pre + E40_NeurosymbolizationOfLibido.P_MODULENUMBER, poProp, moModules);
-			moE41_Libidostasis = new E41_Libidostasis(pre + E41_Libidostasis.P_MODULENUMBER, poProp, moModules, moLibidoBuffer);
-			moE42_AccumulationOfAffectsForSexualDrives = new E42_AccumulationOfAffectsForSexualDrives(pre + E42_AccumulationOfAffectsForSexualDrives.P_MODULENUMBER, poProp, moModules);
-			moE43_SeparationIntoPartialSexualDrives = new E43_SeparationIntoPartialSexualDrives(pre + E43_SeparationIntoPartialSexualDrives.P_MODULENUMBER, poProp, moModules);
-			moE44_PrimalRepressionForSexualDrives = new E44_PrimalRepressionForSexualDrives(pre + E44_PrimalRepressionForSexualDrives.P_MODULENUMBER, poProp, moModules);
-			moE45_LibidoDischarge = new E45_LibidoDischarge(pre + E45_LibidoDischarge.P_MODULENUMBER, poProp, moModules);
-			moE46_FusionWithMemoryTraces = new E46_FusionWithMemoryTraces(pre + E46_FusionWithMemoryTraces.P_MODULENUMBER, poProp, moModules, moKnowledgeBaseHandler);
-			moE47_ConversionToPrimaryProcess = new E47_ConversionToPrimaryProcess(pre + E47_ConversionToPrimaryProcess.P_MODULENUMBER, poProp, moModules);
+			moE01_SensorsMetabolism = new E01_SensorsMetabolism(pre + E01_SensorsMetabolism.P_MODULENUMBER, poProp, moModules, moInterfaceData);
+			moE02_NeurosymbolizationOfNeeds = new E02_NeurosymbolizationOfNeeds(pre + E02_NeurosymbolizationOfNeeds.P_MODULENUMBER, poProp, moModules, moInterfaceData);
+			moE03_GenerationOfSelfPreservationDrives = new E03_GenerationOfSelfPreservationDrives(pre + E03_GenerationOfSelfPreservationDrives.P_MODULENUMBER, poProp, moModules, moInterfaceData);
+			moE04_FusionOfSelfPreservationDrives = new E04_FusionOfSelfPreservationDrives(pre + E04_FusionOfSelfPreservationDrives.P_MODULENUMBER, poProp, moModules, moInterfaceData);
+			moE05_AccumulationOfAffectsForSelfPreservationDrives = new E05_AccumulationOfAffectsForSelfPreservationDrives(pre + E05_AccumulationOfAffectsForSelfPreservationDrives.P_MODULENUMBER, poProp, moModules, moInterfaceData);
+			moE06_DefenseMechanismsForDrives = new E06_DefenseMechanismsForDrives(pre + E06_DefenseMechanismsForDrives.P_MODULENUMBER, poProp, moModules, moInterfaceData);
+			moE07_InternalizedRulesHandler = new E07_InternalizedRulesHandler(pre + E07_InternalizedRulesHandler.P_MODULENUMBER, poProp, moModules, moInterfaceData, moKnowledgeBaseHandler);
+			moE08_ConversionToSecondaryProcessForDriveWishes = new E08_ConversionToSecondaryProcessForDriveWishes(pre + E08_ConversionToSecondaryProcessForDriveWishes.P_MODULENUMBER, poProp, moModules, moInterfaceData, moKnowledgeBaseHandler);
+			moE09_KnowledgeAboutReality_unconscious = new E09_KnowledgeAboutReality_unconscious(pre + E09_KnowledgeAboutReality_unconscious.P_MODULENUMBER, poProp, moModules, moInterfaceData, moKnowledgeBaseHandler);
+			moE10_SensorsEnvironment = new E10_SensorsEnvironment(pre + E10_SensorsEnvironment.P_MODULENUMBER, poProp, moModules, moInterfaceData);
+			moE11_NeuroSymbolizationEnvironment = new E11_NeuroSymbolizationEnvironment(pre + E11_NeuroSymbolizationEnvironment.P_MODULENUMBER, poProp, moModules, moInterfaceData);
+			moE12_SensorsBody = new E12_SensorsBody(pre + E12_SensorsBody.P_MODULENUMBER, poProp, moModules, moInterfaceData);
+			moE13_NeuroSymbolizationBody = new E13_NeuroSymbolizationBody(pre + E13_NeuroSymbolizationBody.P_MODULENUMBER, poProp, moModules, moInterfaceData);
+			moE14_ExternalPerception = new E14_ExternalPerception(pre + E14_ExternalPerception.P_MODULENUMBER, poProp, moModules, moInterfaceData);
+			moE18_CompositionOfAffectsForPerception = new E18_CompositionOfAffectsForPerception(pre + E18_CompositionOfAffectsForPerception.P_MODULENUMBER, poProp, moModules, moInterfaceData);
+			moE19_DefenseMechanismsForPerception = new E19_DefenseMechanismsForPerception(pre + E19_DefenseMechanismsForPerception.P_MODULENUMBER, poProp, moModules, moInterfaceData);
+			moE20_InnerPerception_Affects = new E20_InnerPerception_Affects(pre + E20_InnerPerception_Affects.P_MODULENUMBER, poProp, moModules, moInterfaceData);
+			moE21_ConversionToSecondaryProcessForPerception = new E21_ConversionToSecondaryProcessForPerception(pre + E21_ConversionToSecondaryProcessForPerception.P_MODULENUMBER, poProp, moModules, moInterfaceData, moKnowledgeBaseHandler);
+			moE22_SocialRulesSelection = new E22_SocialRulesSelection(pre + E22_SocialRulesSelection.P_MODULENUMBER, poProp, moModules, moInterfaceData, moKnowledgeBaseHandler);
+			moE23_ExternalPerception_focused = new E23_ExternalPerception_focused(pre + E23_ExternalPerception_focused.P_MODULENUMBER, poProp, moModules, moInterfaceData);
+			moE24_RealityCheck_1 = new E24_RealityCheck_1(pre + E24_RealityCheck_1.P_MODULENUMBER, poProp, moModules, moInterfaceData);
+			moE25_KnowledgeAboutReality_1 = new E25_KnowledgeAboutReality_1(pre + E25_KnowledgeAboutReality_1.P_MODULENUMBER, poProp, moModules, moInterfaceData, moKnowledgeBaseHandler);
+			moE26_DecisionMaking = new E26_DecisionMaking(pre + E26_DecisionMaking.P_MODULENUMBER, poProp, moModules, moInterfaceData);
+			moE27_GenerationOfImaginaryActions = new E27_GenerationOfImaginaryActions(pre + E27_GenerationOfImaginaryActions.P_MODULENUMBER, poProp, moModules, moInterfaceData);
+			moE28_KnowledgeBase_StoredScenarios = new E28_KnowledgeBase_StoredScenarios(pre + E28_KnowledgeBase_StoredScenarios.P_MODULENUMBER, poProp, moModules, moInterfaceData, moKnowledgeBaseHandler);
+			moE29_EvaluationOfImaginaryActions = new E29_EvaluationOfImaginaryActions(pre + E29_EvaluationOfImaginaryActions.P_MODULENUMBER, poProp, moModules, moInterfaceData);
+			moE30_MotilityControl = new E30_MotilityControl(pre + E30_MotilityControl.P_MODULENUMBER, poProp, moModules, moInterfaceData);
+			moE31_NeuroDeSymbolizationActionCommands = new E31_NeuroDeSymbolizationActionCommands(pre + E31_NeuroDeSymbolizationActionCommands.P_MODULENUMBER, poProp, moModules, moInterfaceData);
+			moE32_Actuators = new E32_Actuators(pre + E32_Actuators.P_MODULENUMBER, poProp, moModules, moInterfaceData);
+			moE33_RealityCheck_2 = new E33_RealityCheck_2(pre + E33_RealityCheck_2.P_MODULENUMBER, poProp, moModules, moInterfaceData);
+			moE34_KnowledgeAboutReality_2 = new E34_KnowledgeAboutReality_2(pre + E34_KnowledgeAboutReality_2.P_MODULENUMBER, poProp, moModules, moInterfaceData, moKnowledgeBaseHandler);
+			moE35_EmersionOfRepressedContent = new E35_EmersionOfRepressedContent(pre + E35_EmersionOfRepressedContent.P_MODULENUMBER, poProp, moModules, moInterfaceData, moKnowledgeBaseHandler, moMemory, moBlockedContentStorage);
+			moE36_RepressionHandler = new E36_RepressionHandler(pre + E36_RepressionHandler.P_MODULENUMBER, poProp, moModules, moInterfaceData, moBlockedContentStorage);
+			moE37_PrimalRepressionForPerception = new E37_PrimalRepressionForPerception(pre + E37_PrimalRepressionForPerception.P_MODULENUMBER, poProp, moModules, moInterfaceData);
+			moE38_PrimalRepressionForSelfPreservationDrives = new E38_PrimalRepressionForSelfPreservationDrives(pre + E38_PrimalRepressionForSelfPreservationDrives.P_MODULENUMBER, poProp, moModules, moInterfaceData);
+			moE39_SeekingSystem_LibidoSource = new E39_SeekingSystem_LibidoSource(pre + E39_SeekingSystem_LibidoSource.P_MODULENUMBER, poProp, moModules, moInterfaceData, moLibidoBuffer);
+			moE40_NeurosymbolizationOfLibido = new E40_NeurosymbolizationOfLibido(pre + E40_NeurosymbolizationOfLibido.P_MODULENUMBER, poProp, moModules, moInterfaceData);
+			moE41_Libidostasis = new E41_Libidostasis(pre + E41_Libidostasis.P_MODULENUMBER, poProp, moModules, moInterfaceData, moLibidoBuffer);
+			moE42_AccumulationOfAffectsForSexualDrives = new E42_AccumulationOfAffectsForSexualDrives(pre + E42_AccumulationOfAffectsForSexualDrives.P_MODULENUMBER, poProp, moModules, moInterfaceData);
+			moE43_SeparationIntoPartialSexualDrives = new E43_SeparationIntoPartialSexualDrives(pre + E43_SeparationIntoPartialSexualDrives.P_MODULENUMBER, poProp, moModules, moInterfaceData);
+			moE44_PrimalRepressionForSexualDrives = new E44_PrimalRepressionForSexualDrives(pre + E44_PrimalRepressionForSexualDrives.P_MODULENUMBER, poProp, moModules, moInterfaceData);
+			moE45_LibidoDischarge = new E45_LibidoDischarge(pre + E45_LibidoDischarge.P_MODULENUMBER, poProp, moModules, moInterfaceData);
+			moE46_FusionWithMemoryTraces = new E46_FusionWithMemoryTraces(pre + E46_FusionWithMemoryTraces.P_MODULENUMBER, poProp, moModules, moInterfaceData, moKnowledgeBaseHandler);
+			moE47_ConversionToPrimaryProcess = new E47_ConversionToPrimaryProcess(pre + E47_ConversionToPrimaryProcess.P_MODULENUMBER, poProp, moModules, moInterfaceData);
 			
 		} catch (Exception e) {
 			

@@ -165,7 +165,7 @@ public class clsProcessor implements itfProcessor  {
 		//BODY --------------------------------------------- 
 		//data preprocessing
 		moPsyApp.moE01_SensorsMetabolism.step();
-		moPsyApp.moE02_NeurosymbolizationOfWants.step();
+		moPsyApp.moE02_NeurosymbolizationOfNeeds.step();
 
 		moPsyApp.moE10_SensorsEnvironment.step();
 		moPsyApp.moE11_NeuroSymbolizationEnvironment.step();

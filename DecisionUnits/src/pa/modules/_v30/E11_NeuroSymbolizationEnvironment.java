@@ -6,11 +6,13 @@
  */
 package pa.modules._v30;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import config.clsBWProperties;
 import du.enums.eSensorExtType;
 import du.itf.sensors.clsSensorExtern;
 import pa.enums.eSymbolExtType;
+import pa.interfaces._v30.eInterfaces;
 import pa.interfaces.receive._v30.I2_1_receive;
 import pa.interfaces.receive._v30.I2_2_receive;
 import pa.interfaces.send._v30.I2_2_send;
@@ -42,8 +44,8 @@ public class E11_NeuroSymbolizationEnvironment extends clsModuleBase implements 
 	 * @throws Exception 
 	 */
 	public E11_NeuroSymbolizationEnvironment(String poPrefix,
-			clsBWProperties poProp, HashMap<Integer, clsModuleBase> poModuleList) throws Exception {
-		super(poPrefix, poProp, poModuleList);
+			clsBWProperties poProp, HashMap<Integer, clsModuleBase> poModuleList, HashMap<eInterfaces, ArrayList<Object>> poInterfaceData) throws Exception {
+		super(poPrefix, poProp, poModuleList, poInterfaceData);
 		applyProperties(poPrefix, poProp);
 	}
 
@@ -133,7 +135,8 @@ public class E11_NeuroSymbolizationEnvironment extends clsModuleBase implements 
 	 */
 	@Override
 	public void send_I2_2(HashMap<eSymbolExtType, itfSymbol> poEnvironmentalData) {
-		((I2_2_receive)moModuleList.get(14)).receive_I2_2(moSymbolData);
+		((I2_2_receive)moModuleList.get(14)).receive_I2_2(poEnvironmentalData);
+		putInterfaceData(I2_2_send.class, poEnvironmentalData);
 		
 	}
 

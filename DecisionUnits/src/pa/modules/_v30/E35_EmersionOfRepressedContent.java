@@ -13,6 +13,7 @@ import java.util.Map.Entry;
 import bfg.tools.clsMutableDouble;
 import config.clsBWProperties;
 import du.enums.pa.eContext;
+import pa.interfaces._v30.eInterfaces;
 import pa.interfaces.knowledgebase.itfKnowledgeBaseAccess;
 import pa.interfaces.receive._v30.I2_14_receive;
 import pa.interfaces.receive._v30.I2_8_receive;
@@ -59,11 +60,11 @@ public class E35_EmersionOfRepressedContent extends clsModuleBase implements I2_
 	 * @throws Exception
 	 */
 	public E35_EmersionOfRepressedContent(String poPrefix,
-			clsBWProperties poProp, HashMap<Integer, clsModuleBase> poModuleList,
+			clsBWProperties poProp, HashMap<Integer, clsModuleBase> poModuleList, HashMap<eInterfaces, ArrayList<Object>> poInterfaceData,
 			clsKnowledgeBaseHandler poKnowledgeBaseHandler, clsMemory poMemory,
 			clsBlockedContentStorage poBlockedContentStorage)
 			throws Exception {
-		super(poPrefix, poProp, poModuleList);
+		super(poPrefix, poProp, poModuleList, poInterfaceData);
 		
 		moKnowledgeBaseHandler = poKnowledgeBaseHandler;
 		moMemory = poMemory;
@@ -442,9 +443,10 @@ public class E35_EmersionOfRepressedContent extends clsModuleBase implements I2_
 	@Override
 	public void send_I2_8(
 			ArrayList<clsPair<clsPrimaryDataStructureContainer, clsDriveMesh>> poMergedPrimaryInformation) {
-		((I2_8_receive)moModuleList.get(45)).receive_I2_8(moAttachedRepressed_Output);
-		((I2_8_receive)moModuleList.get(18)).receive_I2_8(moAttachedRepressed_Output);
+		((I2_8_receive)moModuleList.get(45)).receive_I2_8(poMergedPrimaryInformation);
+		((I2_8_receive)moModuleList.get(18)).receive_I2_8(poMergedPrimaryInformation);
 		
+		putInterfaceData(I2_8_send.class, poMergedPrimaryInformation);
 	}
 
 	/* (non-Javadoc)

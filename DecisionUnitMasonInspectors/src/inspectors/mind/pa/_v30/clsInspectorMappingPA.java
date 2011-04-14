@@ -42,36 +42,36 @@ public class clsInspectorMappingPA {
 													clsPsychicApparatus moPA, String poModuleName, JTree poTree) {
 		TabbedInspector oRetVal = new TabbedInspector();
 		
-		if(poModuleName.equals("E02NeurosymbolizationOfWants")) {
-			oRetVal.addInspector( new clsE02InspectorInput(poSuperInspector, poWrapper, poState, moPA.moE02_NeurosymbolizationOfWants), "Input");
-			oRetVal.addInspector( new clsE02InspectorOutput(poSuperInspector, poWrapper, poState, moPA.moE02_NeurosymbolizationOfWants), "Output (same as Input)");
+		if(poModuleName.equals("E02_NeurosymbolizationOfNeeds")) {
+			oRetVal.addInspector( new clsE02InspectorInput(poSuperInspector, poWrapper, poState, moPA.moE02_NeurosymbolizationOfNeeds), "Input");
+			oRetVal.addInspector( new clsE02InspectorOutput(poSuperInspector, poWrapper, poState, moPA.moE02_NeurosymbolizationOfNeeds), "Output (same as Input)");
 		}
-		else if(poModuleName.equals("E03GenerationOfDrives")) {
+		else if(poModuleName.equals("E03_GenerationOfSelfPreservationDrives")) {
 //			oRetVal.addInspector( new clsE03InspectorInput(poSuperInspector, poWrapper, poState, moPA.moE03_GenerationOfSelfPreservationDrives), "Input");
 			oRetVal.addInspector( new clsE03InspectorDriveDefinitions(poSuperInspector, poWrapper, poState, moPA.moE03_GenerationOfSelfPreservationDrives), "Drive Definitions");
 //			oRetVal.addInspector( new clsE03InspectorOutput(poSuperInspector, poWrapper, poState, moPA.moE03_GenerationOfSelfPreservationDrives), "Output");
 		}
-		else if(poModuleName.equals("E05GenerationOfAffectsForDrives")) {
+		else if(poModuleName.equals("E05_AccumulationOfAffectsForSelfPreservationDrives")) {
 //			oRetVal.addInspector( new clsE05InspectorOutput(poSuperInspector, poWrapper, poState, moPA.moE05_AccumulationOfAffectsForSelfPreservationDrives), "Current Drives");
 			oRetVal.addInspector( new clsE05DriveInspector(poSuperInspector, poWrapper, poState, moPA.moE05_AccumulationOfAffectsForSelfPreservationDrives, "moDriveList"), "Current Drives (Graph)");
 			oRetVal.addInspector( new clsE05DriveTiming(poSuperInspector, poWrapper, poState, moPA.moE05_AccumulationOfAffectsForSelfPreservationDrives, 200, "Drive-Affect Chart"), "Drive-Affect Chart");
 		}		
-		else if(poModuleName.equals("E14PreliminaryExternalPerception")) {
+		else if(poModuleName.equals("E14_ExternalPerception")) {
 			oRetVal.addInspector( new clsPrimaryInformationInspector(poSuperInspector, poWrapper, poState, moPA.moE14_ExternalPerception, "moEnvironmentalTP_old", false ), "Generated Thing Presentations");
 		}
-		else if(poModuleName.equals("E15_1_ManagementOfRepressedContents")) {
-			//oRetVal.addInspector( new clsPrimaryInformationPairInspector(poSuperInspector, poWrapper, poState, moPA.moG02Id.moE15ManagementOfRepressedContents.moS_ManagementOfRepressedContents_1, "moAttachedRepressed_Output_old" ), "Output: TP + Attached Repressed TP");
-			oRetVal.addInspector( new clsPrimaryInformationInspector(poSuperInspector, poWrapper, poState, moPA.getMemoryForInspector().moRepressedContentsStore, "moRepressedContent", false ), "Repressed Content_old");
-		}
-		else if(poModuleName.equals("E16ManagementOfMemoryTraces")) {
-			//oRetVal.addInspector( new clsPrimaryInformationPairInspector(poSuperInspector, poWrapper, poState, moPA.moG03Ego.moG08PsychicMediator.moG09PrimaryProcessor.moG13PrimaryKnowledgeUtilizer.moE16ManagementOfMemoryTraces, "moPerceptPlusRepressed_Input_old" ), "Input: TP + Attached Repressed TP");
-		}
-		else if(poModuleName.equals("E17FusionOfExternalPerceptionAndMemoryTraces")) {
-			// FIXME HZ
-			//oRetVal.addInspector( new clsTPMeshListInspector(poSuperInspector, poWrapper, poState, moPA.moC03Ego.moC07EnvironmentalInterfaceFunctions.moE14PreliminaryExternalPerception, "moEnvironmentalTP" ), "Generated Thing Presentations");
-		}
-		else if(poModuleName.equals("E18GenerationOfAffectsForPerception")) {
-//			oRetVal.addInspector( new clsPrimaryInformationInspector(poSuperInspector, poWrapper, poState, moPA.moG02Id.moG06AffectGeneration.moE18GenerationOfAffectsForPerception, "moNewPrimaryInformation_old", false ), "Output: Final TP+Affect");
+//		else if(poModuleName.equals("E15_1_ManagementOfRepressedContents")) {
+//			//oRetVal.addInspector( new clsPrimaryInformationPairInspector(poSuperInspector, poWrapper, poState, moPA.moG02Id.moE15ManagementOfRepressedContents.moS_ManagementOfRepressedContents_1, "moAttachedRepressed_Output_old" ), "Output: TP + Attached Repressed TP");
+//			oRetVal.addInspector( new clsPrimaryInformationInspector(poSuperInspector, poWrapper, poState, moPA.getMemoryForInspector().moRepressedContentsStore, "moRepressedContent", false ), "Repressed Content_old");
+//		}
+//		else if(poModuleName.equals("E16ManagementOfMemoryTraces")) {
+//			//oRetVal.addInspector( new clsPrimaryInformationPairInspector(poSuperInspector, poWrapper, poState, moPA.moG03Ego.moG08PsychicMediator.moG09PrimaryProcessor.moG13PrimaryKnowledgeUtilizer.moE16ManagementOfMemoryTraces, "moPerceptPlusRepressed_Input_old" ), "Input: TP + Attached Repressed TP");
+//		}
+//		else if(poModuleName.equals("E17FusionOfExternalPerceptionAndMemoryTraces")) {
+//			// FIXME HZ
+//			//oRetVal.addInspector( new clsTPMeshListInspector(poSuperInspector, poWrapper, poState, moPA.moC03Ego.moC07EnvironmentalInterfaceFunctions.moE14PreliminaryExternalPerception, "moEnvironmentalTP" ), "Generated Thing Presentations");
+//		}
+		else if(poModuleName.equals("E18_CompositionOfAffectsForPerception")) {
+			oRetVal.addInspector( new clsPrimaryInformationInspector(poSuperInspector, poWrapper, poState, moPA.moE18_CompositionOfAffectsForPerception, "moNewPrimaryInformation_old", false ), "Output: Final TP+Affect");
 		}
 		else if(poModuleName.equals("Psychic Apparatus")) {
 			oRetVal.addInspector( new clsPAInspectorFunctional(poSuperInspector, poWrapper, poState, poTree, true), "FM Compact");
@@ -79,13 +79,13 @@ public class clsInspectorMappingPA {
 			//oRetVal.addInspector( new clsPAInspectorTopDown(poSuperInspector, poWrapper, poState, moPA), "Top-Down Design");			
 			//oRetVal.addInspector( new clsPAInspectorFuncModel(poSuperInspector, poWrapper, poState, moPA), "Functional View");
 		}
-		else if(poModuleName.equals("E26DecisionMaking")) {
-			//oRetVal.addInspector( new clsE26DecisionCalculation(poSuperInspector, poWrapper, poState, moPA.moG03Ego.moG08PsychicMediator.moG11SecondaryProcessor.moG15Deliberation.moE26DecisionMaking), "Decision Calculation");
+		else if(poModuleName.equals("E26_DecisionMaking")) {
+			oRetVal.addInspector( new clsE26DecisionCalculation(poSuperInspector, poWrapper, poState, moPA.moE26_DecisionMaking), "Decision Calculation");
 		}
-		else if(poModuleName.equals("E27GenerationOfImaginaryActions")) {
-		}
-		else if(poModuleName.equals("E31NeuroDeSymbolization")) {
-				//oRetVal.addInspector( new clsTimingDiagramInspector(poSuperInspector, poWrapper, poState, moPA.moG01Body.moE31NeuroDeSymbolization, 150, "Current Act"), "Current Act");
+//		else if(poModuleName.equals("E27GenerationOfImaginaryActions")) {
+//		}
+		else if(poModuleName.equals("E31_NeuroDeSymbolizationActionCommands")) {
+				oRetVal.addInspector( new clsTimingDiagramInspector(poSuperInspector, poWrapper, poState, moPA.moE31_NeuroDeSymbolizationActionCommands, 150, "Current Act"), "Current Act");
 		}
 		//========== MEMORY ==============
 		else if(poModuleName.equals("RepressedContentsStore")) {

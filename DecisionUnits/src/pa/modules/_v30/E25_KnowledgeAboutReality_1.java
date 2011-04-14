@@ -9,6 +9,7 @@ package pa.modules._v30;
 import java.util.ArrayList;
 import java.util.HashMap;
 import config.clsBWProperties;
+import pa.interfaces._v30.eInterfaces;
 import pa.interfaces.knowledgebase.itfKnowledgeBaseAccess;
 import pa.interfaces.receive._v30.I2_12_receive;
 import pa.interfaces.receive._v30.I6_1_receive;
@@ -45,8 +46,8 @@ public class E25_KnowledgeAboutReality_1 extends clsModuleBase implements I2_12_
 	 * @throws Exception
 	 */
 	public E25_KnowledgeAboutReality_1(String poPrefix, clsBWProperties poProp,
-			HashMap<Integer, clsModuleBase> poModuleList, clsKnowledgeBaseHandler poKnowledgeBaseHandler) throws Exception {
-		super(poPrefix, poProp, poModuleList);
+			HashMap<Integer, clsModuleBase> poModuleList, HashMap<eInterfaces, ArrayList<Object>> poInterfaceData, clsKnowledgeBaseHandler poKnowledgeBaseHandler) throws Exception {
+		super(poPrefix, poProp, poModuleList, poInterfaceData);
 		
 		moKnowledgeBaseHandler = poKnowledgeBaseHandler;
 		
@@ -145,8 +146,8 @@ public class E25_KnowledgeAboutReality_1 extends clsModuleBase implements I2_12_
 	 */
 	@Override
 	public void send_I6_1(int pnData) {
-		((I6_1_receive)moModuleList.get(24)).receive_I6_1(mnTest);
-		
+		((I6_1_receive)moModuleList.get(24)).receive_I6_1(pnData);
+		putInterfaceData(I6_1_send.class, pnData);
 	}
 
 	/* (non-Javadoc)

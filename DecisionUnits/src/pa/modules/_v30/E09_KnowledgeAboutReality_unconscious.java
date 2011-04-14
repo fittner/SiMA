@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import config.clsBWProperties;
+import pa.interfaces._v30.eInterfaces;
 import pa.interfaces.knowledgebase.itfKnowledgeBaseAccess;
 import pa.interfaces.receive._v30.I1_5_receive;
 import pa.interfaces.receive._v30.I2_19_receive;
@@ -50,9 +51,9 @@ public class E09_KnowledgeAboutReality_unconscious extends clsModuleBase impleme
 	 * @throws Exception
 	 */
 	public E09_KnowledgeAboutReality_unconscious(String poPrefix,
-			clsBWProperties poProp, HashMap<Integer, clsModuleBase> poModuleList, clsKnowledgeBaseHandler poKnowledgeBaseHandler)
+			clsBWProperties poProp, HashMap<Integer, clsModuleBase> poModuleList, HashMap<eInterfaces, ArrayList<Object>> poInterfaceData, clsKnowledgeBaseHandler poKnowledgeBaseHandler)
 			throws Exception {
-		super(poPrefix, poProp, poModuleList);
+		super(poPrefix, poProp, poModuleList, poInterfaceData);
 		
 		moKnowledgeBaseHandler = poKnowledgeBaseHandler;
 		
@@ -145,8 +146,8 @@ public class E09_KnowledgeAboutReality_unconscious extends clsModuleBase impleme
 	 */
 	@Override
 	public void send_I6_3(int pnData) {
-		((I6_3_receive)moModuleList.get(6)).receive_I6_3(mnTest);
-		
+		((I6_3_receive)moModuleList.get(6)).receive_I6_3(pnData);
+		putInterfaceData(I6_3_send.class, pnData);
 	}
 
 	/* (non-Javadoc)

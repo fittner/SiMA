@@ -9,6 +9,7 @@ package pa.modules._v30;
 import java.util.ArrayList;
 import java.util.HashMap;
 import config.clsBWProperties;
+import pa.interfaces._v30.eInterfaces;
 import pa.interfaces.receive._v30.I5_1_receive;
 import pa.interfaces.receive._v30.I5_2_receive;
 import pa.interfaces.receive._v30.I5_3_receive;
@@ -47,8 +48,8 @@ public class E20_InnerPerception_Affects extends clsModuleBase implements
 	 * @throws Exception
 	 */
 	public E20_InnerPerception_Affects(String poPrefix, clsBWProperties poProp,
-			HashMap<Integer, clsModuleBase> poModuleList) throws Exception {
-		super(poPrefix, poProp, poModuleList);
+			HashMap<Integer, clsModuleBase> poModuleList, HashMap<eInterfaces, ArrayList<Object>> poInterfaceData) throws Exception {
+		super(poPrefix, poProp, poModuleList, poInterfaceData);
 		applyProperties(poPrefix, poProp);
 	}
 
@@ -178,8 +179,10 @@ public class E20_InnerPerception_Affects extends clsModuleBase implements
 	 */
 	@Override
 	public void send_I5_5(int pnData) {
-		((I5_5_receive)moModuleList.get(29)).receive_I5_5(mnTest);
-		((I5_5_receive)moModuleList.get(26)).receive_I5_5(mnTest);
+		((I5_5_receive)moModuleList.get(29)).receive_I5_5(pnData);
+		((I5_5_receive)moModuleList.get(26)).receive_I5_5(pnData);
+		
+		putInterfaceData(I5_5_send.class, pnData);
 		
 	}
 

@@ -9,6 +9,7 @@ package pa.modules._v30;
 import java.util.ArrayList;
 import java.util.HashMap;
 import config.clsBWProperties;
+import pa.interfaces._v30.eInterfaces;
 import pa.interfaces.receive._v30.I1_7_receive;
 import pa.interfaces.receive._v30.I2_11_receive;
 import pa.interfaces.receive._v30.I2_12_receive;
@@ -41,9 +42,9 @@ public class E23_ExternalPerception_focused extends clsModuleBase implements I2_
 	 * @throws Exception
 	 */
 	public E23_ExternalPerception_focused(String poPrefix,
-			clsBWProperties poProp, HashMap<Integer, clsModuleBase> poModuleList)
+			clsBWProperties poProp, HashMap<Integer, clsModuleBase> poModuleList, HashMap<eInterfaces, ArrayList<Object>> poInterfaceData)
 			throws Exception {
-		super(poPrefix, poProp, poModuleList);
+		super(poPrefix, poProp, poModuleList, poInterfaceData);
 		applyProperties(poPrefix, poProp);		
 	}
 
@@ -152,8 +153,10 @@ public class E23_ExternalPerception_focused extends clsModuleBase implements I2_
 	@Override
 	public void send_I2_12(ArrayList<clsSecondaryDataStructureContainer> poFocusedPerception,
 			   				ArrayList<clsSecondaryDataStructureContainer> poDriveList) {
-		((I2_12_receive)moModuleList.get(24)).receive_I2_12(moFocusedPerception_Output, moDriveList);
-		((I2_12_receive)moModuleList.get(25)).receive_I2_12(moFocusedPerception_Output, moDriveList);
+		((I2_12_receive)moModuleList.get(24)).receive_I2_12(poFocusedPerception, poDriveList);
+		((I2_12_receive)moModuleList.get(25)).receive_I2_12(poFocusedPerception, poDriveList);
+		
+		putInterfaceData(I2_12_send.class, poFocusedPerception, poDriveList);
 	}
 
 	/* (non-Javadoc)

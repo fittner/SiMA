@@ -9,6 +9,7 @@ package pa.modules._v30;
 import java.util.ArrayList;
 import java.util.HashMap;
 import config.clsBWProperties;
+import pa.interfaces._v30.eInterfaces;
 import pa.interfaces.receive._v30.I7_4_receive;
 import pa.interfaces.receive._v30.I8_1_receive;
 import pa.interfaces.send._v30.I8_1_send;
@@ -39,8 +40,8 @@ public class E30_MotilityControl extends clsModuleBase implements I7_4_receive, 
 	 * @throws Exception
 	 */
 	public E30_MotilityControl(String poPrefix, clsBWProperties poProp,
-			HashMap<Integer, clsModuleBase> poModuleList) throws Exception {
-		super(poPrefix, poProp, poModuleList);
+			HashMap<Integer, clsModuleBase> poModuleList, HashMap<eInterfaces, ArrayList<Object>> poInterfaceData) throws Exception {
+		super(poPrefix, poProp, poModuleList, poInterfaceData);
 		applyProperties(poPrefix, poProp);	
 		
 		moActionCommands_Output = new ArrayList<clsWordPresentation>(); 
@@ -153,7 +154,9 @@ public class E30_MotilityControl extends clsModuleBase implements I7_4_receive, 
 	 */
 	@Override
 	public void send_I8_1(ArrayList<clsWordPresentation> poActionCommands) {
-		((I8_1_receive)moModuleList.get(31)).receive_I8_1(moActionCommands_Output);
+		((I8_1_receive)moModuleList.get(31)).receive_I8_1(poActionCommands);
+		
+		putInterfaceData(I8_1_send.class, poActionCommands);
 		
 	}
 

@@ -11,6 +11,7 @@ import java.util.HashMap;
 import config.clsBWProperties;
 import du.itf.actions.clsActionCommand;
 import du.itf.actions.itfActionProcessor;
+import pa.interfaces._v30.eInterfaces;
 import pa.interfaces.receive._v30.I8_2_receive;
 import pa.interfaces.send._v30.I0_6_send;
 
@@ -39,8 +40,8 @@ public class E32_Actuators extends clsModuleBase implements I8_2_receive, I0_6_s
 	 * @throws Exception
 	 */
 	public E32_Actuators(String poPrefix, clsBWProperties poProp,
-			HashMap<Integer, clsModuleBase> poModuleList) throws Exception {
-		super(poPrefix, poProp, poModuleList);
+			HashMap<Integer, clsModuleBase> poModuleList, HashMap<eInterfaces, ArrayList<Object>> poInterfaceData) throws Exception {
+		super(poPrefix, poProp, poModuleList, poInterfaceData);
 				
 		moActionCommandList_Input = new ArrayList<clsActionCommand>();
 		
@@ -110,7 +111,7 @@ public class E32_Actuators extends clsModuleBase implements I8_2_receive, I0_6_s
 	 */
 	@Override
 	protected void process_basic() {
-		mnTest++;
+		//do nothing
 		
 	}
 
@@ -185,6 +186,7 @@ public class E32_Actuators extends clsModuleBase implements I8_2_receive, I0_6_s
 	@Override
 	public void send_I0_6(ArrayList<clsActionCommand> poActionList) {
 		moOutputActions = poActionList;
+		putInterfaceData(I0_6_send.class, poActionList);
 		
 	}
 

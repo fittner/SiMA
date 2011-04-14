@@ -9,6 +9,8 @@ package pa.modules._v30;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+
+import pa.interfaces._v30.eInterfaces;
 import pa.interfaces.knowledgebase.itfKnowledgeBaseAccess;
 import pa.interfaces.receive._v30.I1_5_receive;
 import pa.interfaces.receive._v30.I2_19_receive;
@@ -54,9 +56,9 @@ public class E07_InternalizedRulesHandler extends clsModuleBase implements
 	 * @throws Exception
 	 */
 	public E07_InternalizedRulesHandler(String poPrefix,
-			clsBWProperties poProp, HashMap<Integer, clsModuleBase> poModuleList, clsKnowledgeBaseHandler poKnowledgeBaseHandler)
+			clsBWProperties poProp, HashMap<Integer, clsModuleBase> poModuleList, HashMap<eInterfaces, ArrayList<Object>> poInterfaceData, clsKnowledgeBaseHandler poKnowledgeBaseHandler)
 			throws Exception {
-		super(poPrefix, poProp, poModuleList);
+		super(poPrefix, poProp, poModuleList, poInterfaceData);
 		
 		moSearchPattern = new ArrayList<clsPair<Integer,clsDataStructurePA>>();
 		moKnowledgeBaseHandler = poKnowledgeBaseHandler;
@@ -164,7 +166,8 @@ public class E07_InternalizedRulesHandler extends clsModuleBase implements
 	 */
 	@Override
 	public void send_I3_1(int pnData) {
-		((I3_1_receive)moModuleList.get(6)).receive_I3_1(mnTest);
+		((I3_1_receive)moModuleList.get(6)).receive_I3_1(pnData);
+		putInterfaceData(I3_1_send.class, pnData);
 	}
 
 	/* (non-Javadoc)
@@ -176,7 +179,8 @@ public class E07_InternalizedRulesHandler extends clsModuleBase implements
 	 */
 	@Override
 	public void send_I3_2(int pnData) {
-		((I3_2_receive)moModuleList.get(19)).receive_I3_2(mnTest);
+		((I3_2_receive)moModuleList.get(19)).receive_I3_2(pnData);
+		putInterfaceData(I3_2_send.class, pnData);
 	}
 
 	/* (non-Javadoc)

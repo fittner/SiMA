@@ -6,8 +6,10 @@
  */
 package pa.modules._v30;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 
+import pa.interfaces._v30.eInterfaces;
 import pa.interfaces.receive._v30.I1_10_receive;
 import pa.interfaces.receive._v30.I1_9_receive;
 import pa.interfaces.send._v30.D1_1_send;
@@ -41,8 +43,8 @@ public class E41_Libidostasis extends clsModuleBase implements I1_9_receive, I1_
 	 * @throws Exception 
 	 */
 	public E41_Libidostasis(String poPrefix, clsBWProperties poProp,
-			HashMap<Integer, clsModuleBase> poModuleList, clsLibidoBuffer poLibidoBuffer) throws Exception {
-		super(poPrefix, poProp, poModuleList);
+			HashMap<Integer, clsModuleBase> poModuleList, HashMap<eInterfaces, ArrayList<Object>> poInterfaceData, clsLibidoBuffer poLibidoBuffer) throws Exception {
+		super(poPrefix, poProp, poModuleList, poInterfaceData);
 		
 		moLibidoBuffer = poLibidoBuffer;
 		mrTempLibido = 0;
@@ -139,6 +141,7 @@ public class E41_Libidostasis extends clsModuleBase implements I1_9_receive, I1_
 	@Override
 	public void send_I1_10(HashMap<String, Double> poHomeostasisSymbols) {
 		((I1_10_receive)moModuleList.get(43)).receive_I1_10(poHomeostasisSymbols);
+		putInterfaceData(I1_10_send.class, poHomeostasisSymbols);
 		
 	}
 
@@ -164,6 +167,7 @@ public class E41_Libidostasis extends clsModuleBase implements I1_9_receive, I1_
 	@Override
 	public void send_D1_1(double prValue) {
 		moLibidoBuffer.receive_D1_1(prValue);
+		putInterfaceData(D1_1_send.class, prValue);
 	}
 
 }
