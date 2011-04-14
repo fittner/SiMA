@@ -33,6 +33,7 @@ import org.jgraph.graph.VertexView;
 //import pa.datatypes.clsPrimaryInformation;
 //import pa.datatypes.clsPrimaryInformationMesh;
 import pa.memorymgmt.datatypes.clsDriveMesh;
+import pa.modules._v30.E05_AccumulationOfAffectsForSelfPreservationDrives;
 import sim.display.GUIState;
 import sim.portrayal.Inspector;
 import sim.portrayal.LocationWrapper;
@@ -58,8 +59,7 @@ public class clsE05DriveInspector extends Inspector implements ActionListener {
 
 	private static final long serialVersionUID = 586283139693057158L;
 	public Inspector moOriginalInspector;
-	private Object moMeshContainer;
-	private String moMeshListMemberName;
+	private E05_AccumulationOfAffectsForSelfPreservationDrives moE05;
 	//private ArrayList<clsPair<clsPrimaryInformation, clsPrimaryInformation>> moPrimaryPair;
 	private ArrayList<clsDriveMesh> moDM;
 	JGraph moGraph = null;
@@ -90,12 +90,11 @@ public class clsE05DriveInspector extends Inspector implements ActionListener {
     public clsE05DriveInspector(Inspector originalInspector,
             LocationWrapper wrapper,
             GUIState guiState,
-            Object poMeshContainer,
+            E05_AccumulationOfAffectsForSelfPreservationDrives poE05,
             String poMeshListMemberName)
     {
 		moOriginalInspector = originalInspector;
-		moMeshContainer = poMeshContainer;				//container class	
-		moMeshListMemberName = poMeshListMemberName;	//member name of the list within the containing class
+		moE05 = poE05;				//container class	
 		
 		updateControl();	//loading data into the graph
 	
@@ -114,21 +113,14 @@ public class clsE05DriveInspector extends Inspector implements ActionListener {
 	 * 13.10.2009, 22:34:11
 	 *
 	 */
-	@SuppressWarnings("unchecked")
 	private void updatePrimInfoData() {
 		try {
-			Object oMeshList = moMeshContainer.getClass().getField(moMeshListMemberName).get(moMeshContainer);
-			//moPrimaryPair = (ArrayList<clsPair<clsPrimaryInformation, clsPrimaryInformation>>)oMeshList;
-			moDM = (ArrayList<clsDriveMesh>)oMeshList;
+			moDM = moE05.getDriveList();
 		} catch (IllegalArgumentException e) {
-			e.printStackTrace();
-		} catch (IllegalAccessException e) {
 			e.printStackTrace();
 		} catch (SecurityException e) {
 			e.printStackTrace();
-		} catch (NoSuchFieldException e) {
-			e.printStackTrace();
-		} catch (ClassCastException e) {
+    	} catch (ClassCastException e) {
 			e.printStackTrace();
 		}
 	}
@@ -241,6 +233,7 @@ public class clsE05DriveInspector extends Inspector implements ActionListener {
 //
 //		}
 		
+		if (moDM != null)
 		for(clsDriveMesh oPrimPair : moDM) {
 			
 			DefaultGraphCell oCellLife = readDrive_new(poCellList, poParentLife, oPrimPair, poAssociationName, Color.GREEN);
