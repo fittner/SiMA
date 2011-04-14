@@ -60,6 +60,24 @@ public class E06_DefenseMechanismsForDrives extends clsModuleBase implements
 		applyProperties(poPrefix, poProp);	
 	}
 
+	/* (non-Javadoc)
+	 *
+	 * @author deutsch
+	 * 14.04.2011, 17:36:19
+	 * 
+	 * @see pa.modules._v30.clsModuleBase#stateToHTML()
+	 */
+	@Override
+	public String stateToHTML() {
+		String html ="";
+		
+		html += listToHTML("moDriveList_Input", moDriveList_Input);
+		html += listToHTML("moDriveList_Output", moDriveList_Output);
+		html += listToHTML("moRepressedRetry_Input", moRepressedRetry_Input);		
+		
+		return html;
+	}
+	
 	public static clsBWProperties getDefaultProperties(String poPrefix) {
 		String pre = clsBWProperties.addDot(poPrefix);
 		

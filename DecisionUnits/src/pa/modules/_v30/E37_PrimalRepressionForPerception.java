@@ -47,6 +47,24 @@ public class E37_PrimalRepressionForPerception extends clsModuleBase implements 
 		super(poPrefix, poProp, poModuleList, poInterfaceData);
 		applyProperties(poPrefix, poProp);	
 	}
+	
+	/* (non-Javadoc)
+	 *
+	 * @author deutsch
+	 * 14.04.2011, 17:36:19
+	 * 
+	 * @see pa.modules._v30.clsModuleBase#stateToHTML()
+	 */
+	@Override
+	public String stateToHTML() {
+		String html ="";
+		
+		html += listToHTML("moEnvironmental_IN", moEnvironmental_IN);
+		html += listToHTML("moEvaluatedEnvironment_OUT", moEvaluatedEnvironment_OUT);
+		
+		return html;
+	}	
+	
 	@Override
 	protected void setProcessType() {mnProcessType = eProcessType.PRIMARY;}
 	@Override

@@ -8,7 +8,6 @@ package pa.modules._v30;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-
 import pa.interfaces._v30.eInterfaces;
 import pa.interfaces.receive._v30.I1_2_receive;
 import pa.interfaces.receive._v30.I1_3_receive;
@@ -59,6 +58,24 @@ public class E03_GenerationOfSelfPreservationDrives extends clsModuleBase implem
 		loadDriveDefinition(poPrefix, poProp);
 	}
 
+	/* (non-Javadoc)
+	 *
+	 * @author deutsch
+	 * 14.04.2011, 17:36:19
+	 * 
+	 * @see pa.modules._v30.clsModuleBase#stateToHTML()
+	 */
+	@Override
+	public String stateToHTML() {
+		String html ="";
+		
+		html += mapToHTML("moHomeostasisSymbols",moHomeostasisSymbols);
+		html += listToHTML("moDriveDefinition", moDriveDefinition);
+		html += listToHTML("moHomeostaticTP", moHomeostaticTP);		
+		
+		return html;
+	}
+	
 	/**
 	 * @author langr
 	 * 28.09.2009, 19:21:32

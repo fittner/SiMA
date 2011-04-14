@@ -8,7 +8,6 @@ package pa.modules._v30;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-
 import pa.interfaces._v30.eInterfaces;
 import pa.interfaces.receive._v30.I0_3_receive;
 import pa.interfaces.receive._v30.I1_1_receive;
@@ -176,5 +175,21 @@ public class E01_SensorsMetabolism extends clsModuleBase implements I0_3_receive
 		moHomeostasis = poData;
 		
 		putInterfaceData(I0_3_receive.class, poData);
+	}
+
+	/* (non-Javadoc)
+	 *
+	 * @author deutsch
+	 * 14.04.2011, 17:36:19
+	 * 
+	 * @see pa.modules._v30.clsModuleBase#stateToHTML()
+	 */
+	@Override
+	public String stateToHTML() {		
+		String html = "";
+		
+		html += mapToHTML("moHomeostasis", moHomeostasis);
+
+		return html;
 	}
 }

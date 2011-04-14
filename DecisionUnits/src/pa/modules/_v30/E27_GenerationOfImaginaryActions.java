@@ -56,6 +56,23 @@ public class E27_GenerationOfImaginaryActions extends clsModuleBase implements I
 
 	}
 
+	/* (non-Javadoc)
+	 *
+	 * @author deutsch
+	 * 14.04.2011, 17:36:19
+	 * 
+	 * @see pa.modules._v30.clsModuleBase#stateToHTML()
+	 */
+	@Override
+	public String stateToHTML() {
+		String html ="";
+		
+		html += listToHTML("moPlanInput", moPlanInput);
+		html += listToHTML("moActions_Output", moActions_Output);
+		
+		return html;
+	}		
+	
 	public static clsBWProperties getDefaultProperties(String poPrefix) {
 		String pre = clsBWProperties.addDot(poPrefix);
 		

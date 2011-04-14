@@ -54,6 +54,24 @@ public class E39_SeekingSystem_LibidoSource extends clsModuleBase implements I0_
 		
 		applyProperties(poPrefix, poProp);	
 	}
+	
+	/* (non-Javadoc)
+	 *
+	 * @author deutsch
+	 * 14.04.2011, 17:36:19
+	 * 
+	 * @see pa.modules._v30.clsModuleBase#stateToHTML()
+	 */
+	@Override
+	public String stateToHTML() {
+		String html ="";
+		
+		html += valueToHTML("moLibidoBuffer", moLibidoBuffer);
+		html += valueToHTML("mrTempLibido", mrTempLibido);		
+		
+		return html;
+	}	
+	
 	public static clsBWProperties getDefaultProperties(String poPrefix) {
 		String pre = clsBWProperties.addDot(poPrefix);
 		

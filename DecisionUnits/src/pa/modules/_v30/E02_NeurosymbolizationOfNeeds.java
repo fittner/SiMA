@@ -72,6 +72,23 @@ public class E02_NeurosymbolizationOfNeeds extends clsModuleBase implements I1_1
 	/* (non-Javadoc)
 	 *
 	 * @author deutsch
+	 * 14.04.2011, 17:36:19
+	 * 
+	 * @see pa.modules._v30.clsModuleBase#stateToHTML()
+	 */
+	@Override
+	public String stateToHTML() {
+		String html ="";
+		
+		html += mapToHTML("moHomeostasis", moHomeostasis);
+		html += mapToHTML("moHomeostaticSymbol", moHomeostaticSymbol);
+		
+		return html;
+	}
+	
+	/* (non-Javadoc)
+	 *
+	 * @author deutsch
 	 * 11.08.2009, 12:09:34
 	 * 
 	 * @see pa.modules.clsModuleBase#setProcessType()
