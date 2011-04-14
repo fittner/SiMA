@@ -166,7 +166,7 @@ public abstract class clsModuleBase {
 	}	
 	
 	protected void putInterfaceData(@SuppressWarnings("rawtypes") Class poInterface, Object... poData) {
-		eInterfaces nI = eInterfaces.getEnum(poInterface.getName());
+		eInterfaces nI = eInterfaces.getEnum(poInterface.getSimpleName());
 		
 		putInterfaceData(nI, poData);
 	}
