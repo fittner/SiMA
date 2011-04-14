@@ -61,6 +61,7 @@ public class clsInspectorMappingPA {
 //			oRetVal.addInspector( new clsE05InspectorOutput(poSuperInspector, poWrapper, poState, moPA.moE05_AccumulationOfAffectsForSelfPreservationDrives), "Current Drives");
 			oRetVal.addInspector( new clsE05DriveInspector(poSuperInspector, poWrapper, poState, moPA.moE05_AccumulationOfAffectsForSelfPreservationDrives, "moDriveList"), "Current Drives (Graph)");
 			oRetVal.addInspector( new clsE05DriveTiming(poSuperInspector, poWrapper, poState, moPA.moE05_AccumulationOfAffectsForSelfPreservationDrives, 200, "Drive-Affect Chart"), "Drive-Affect Chart");
+			oRetVal.addInspector( new clsSemanticInformationIspector(poSuperInspector, poWrapper, poState, moPA, eInterfaces.I1_4 ), "rcv I1_4");
 		} else if(poModuleName.equals("E06_DefenseMechanismsForDrives")) {
 			oRetVal.addInspector( new clsE_StateInspector(poSuperInspector, poWrapper, poState, moPA.moE06_DefenseMechanismsForDrives), "State");
 		} else if(poModuleName.equals("E07_InternalizedRulesHandler")) {
@@ -207,7 +208,7 @@ public class clsInspectorMappingPA {
 //			oRetVal.addInspector( new clsSemanticInformationIspector(poSuperInspector, poWrapper, poState, moPA.moG02Id.moG05DriveHandling.moE03GenerationOfDrives, "moDriveDefinition"), "E03 - send");
 		}
 		else if (poModuleName.equals("E05_AccumulationOfAffectsForSelfPreservationDrivesMEM")) {
-			oRetVal.addInspector( new clsSemanticInformationIspector(poSuperInspector, poWrapper, poState, moPA, eInterfaces.I1_4 ), "E05 - recieve");
+			oRetVal.addInspector( new clsSemanticInformationIspector(poSuperInspector, poWrapper, poState, moPA, eInterfaces.I1_4 ), "rcv I1_4");
 //			oRetVal.addInspector( new clsSemanticInformationIspector(poSuperInspector, poWrapper, poState, moPA.moG02Id.moG06AffectGeneration.moE05GenerationOfAffectsForDrives, "moDriveList" ), "E05 - send");
 		}		
 		else if(poModuleName.equals("E14PreliminaryExternalPerceptionMEM")) {
