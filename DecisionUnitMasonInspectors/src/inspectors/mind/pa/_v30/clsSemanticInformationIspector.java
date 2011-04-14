@@ -61,6 +61,8 @@ import pa.memorymgmt.datatypes.clsSecondaryDataStructure;
 import pa.memorymgmt.datatypes.clsSecondaryDataStructureContainer;
 import pa.memorymgmt.datatypes.clsThingPresentation;
 import pa.memorymgmt.datatypes.clsWordPresentation;
+import pa.modules._v30.clsPsychicApparatus;
+import pa.interfaces._v30.eInterfaces;
 import pa.tools.clsPair;
 
 
@@ -118,8 +120,10 @@ public class clsSemanticInformationIspector extends Inspector implements ActionL
 
 	
 	public Inspector moOriginalInspector;
-	private Object moModuleContainer; //container of the memory. holds the Array list with the memory infos
-	private String moModuleMemoryMemberName;
+//	private Object moModuleContainer; //container of the memory. holds the Array list with the memory infos
+//	private String moModuleMemoryMemberName;
+	private clsPsychicApparatus moPAInstance;
+	private eInterfaces moEnumInterface;
 	private ArrayList moInspectorData;
 	private boolean moAutoUpdate = false;
 	private int moStepCounter = 0;
@@ -147,13 +151,14 @@ public class clsSemanticInformationIspector extends Inspector implements ActionL
     public clsSemanticInformationIspector(Inspector originalInspector,
             LocationWrapper wrapper,
             GUIState guiState,
-            Object poModuleContainer,
-            String poModuleMemoryMemberName)
+            clsPsychicApparatus poPAInstance,
+            eInterfaces poEnumInterface)
     {
  	
 		moOriginalInspector = originalInspector;		//
-		moModuleContainer = poModuleContainer;				//container class 	
-		moModuleMemoryMemberName = poModuleMemoryMemberName;	//member name of the list within the containing class
+//		moModuleContainer = poModuleContainer;				//container class 	
+		moEnumInterface = poEnumInterface;	//member name of the list within the containing class
+		moPAInstance = poPAInstance;
 		
 		initializePanel();	//put all components on the panel
 		
@@ -424,7 +429,7 @@ public class clsSemanticInformationIspector extends Inspector implements ActionL
 		
 		try {
 			//returns the ArrayList of the wanted member
-			Object oMeshList = moModuleContainer.getClass().getField(moModuleMemoryMemberName).get(moModuleContainer);
+			Object oMeshList = moPAInstance.moInterfaceData.get(moEnumInterface); //moModuleContainer.getClass().getField(moModuleMemoryMemberName).get(moModuleContainer);
 			
 			//java.lang.Class[] parameterType = null; 
 			//java.lang.reflect.Method method = moModuleContainer.getClass().getMethod( moModuleMemoryMemberName, parameterType ); 
@@ -434,11 +439,7 @@ public class clsSemanticInformationIspector extends Inspector implements ActionL
 			moInspectorData = (ArrayList)oMeshList;
 		} catch (IllegalArgumentException e) {
 			e.printStackTrace();
-		} catch (IllegalAccessException e) {
-			e.printStackTrace();
 		} catch (SecurityException e) {
-			e.printStackTrace();
-		} catch (NoSuchFieldException e) {
 			e.printStackTrace();
 		} catch (ClassCastException e) {
 			e.printStackTrace();
@@ -685,7 +686,7 @@ public class clsSemanticInformationIspector extends Inspector implements ActionL
 		//without knowing the total number of elements
 		//ArrayList<DefaultGraphCell> oCellList = new ArrayList<DefaultGraphCell>();
 		//create root node (it's a mesh-list) and add it to the registration list
-		DefaultGraphCell oParent = createDefaultGraphVertex(moModuleMemoryMemberName+" (todo)", 20, 20, 150, 40, Color.GRAY);
+		DefaultGraphCell oParent = createDefaultGraphVertex(moEnumInterface.toString()+" (todo)", 20, 20, 150, 40, Color.GRAY);
 		moCellList.add( oParent );
 		//get graph-cells for each object in the of the mesh
 		readInspectorDataAndGenerateGraphCells(oParent);

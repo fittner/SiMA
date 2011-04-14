@@ -10,6 +10,7 @@ import javax.swing.JTree;
 
 import inspectors.mind.pa._v19.functionalmodel.clsPAInspectorFunctional;
 import pa.datatypes.clsSecondaryInformation;
+import pa.interfaces._v30.eInterfaces;
 import pa.loader.plan.clsPlanBaseMesh;
 import pa.loader.scenario.clsScenarioBaseMesh;
 import pa.modules._v30.clsPsychicApparatus;
@@ -114,18 +115,21 @@ public class clsInspectorMappingPA {
 			}
 		}
 		//========== MEMORY 2.0 ===========
-		//special memory tree
+		
+		//special memory tree...
 		else if(poModuleName.equals("TPM")) {
-			oRetVal.addInspector( new clsSemanticInformationIspector(poSuperInspector, poWrapper, poState, moPA.getMemoryForInspector().moTemplateImageStorage, "moTemplateImages" ), "Memory v2.0 TEST");		
+//			oRetVal.addInspector( new clsSemanticInformationIspector(poSuperInspector, poWrapper, poState, moPA.getMemoryForInspector().moTemplateImageStorage, "moTemplateImages" ), "Memory v2.0 TEST");		
 		}
+		
+		// Functions Memory Tree...
 		//inspect the modules memory (all have 'MEM' at end!)
 		
 		else if(poModuleName.equals("E03GenerationOfDrivesMEM")) {
 			//is a hash map! oRetVal.addInspector( new clsSemanticInformationIspector(poSuperInspector, poWrapper, poState, moPA.moG02Id.moG05DriveHandling.moE03GenerationOfDrives, "mo"), "E03 - recieve");
 //			oRetVal.addInspector( new clsSemanticInformationIspector(poSuperInspector, poWrapper, poState, moPA.moG02Id.moG05DriveHandling.moE03GenerationOfDrives, "moDriveDefinition"), "E03 - send");
 		}
-		else if (poModuleName.equals("E05GenerationOfAffectsForDrivesMEM")) {
-//			oRetVal.addInspector( new clsSemanticInformationIspector(poSuperInspector, poWrapper, poState, moPA.moG02Id.moG06AffectGeneration.moE05GenerationOfAffectsForDrives, "moDriveCandidate" ), "E05 - recieve");
+		else if (poModuleName.equals("E05_AccumulationOfAffectsForSelfPreservationDrivesMEM")) {
+			oRetVal.addInspector( new clsSemanticInformationIspector(poSuperInspector, poWrapper, poState, moPA, eInterfaces.I1_4 ), "E05 - recieve");
 //			oRetVal.addInspector( new clsSemanticInformationIspector(poSuperInspector, poWrapper, poState, moPA.moG02Id.moG06AffectGeneration.moE05GenerationOfAffectsForDrives, "moDriveList" ), "E05 - send");
 		}		
 		else if(poModuleName.equals("E14PreliminaryExternalPerceptionMEM")) {
