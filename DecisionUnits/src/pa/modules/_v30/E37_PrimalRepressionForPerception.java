@@ -9,6 +9,7 @@ package pa.modules._v30;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import pa.interfaces._v30.eInterfaces;
 import pa.interfaces.receive._v30.I2_14_receive;
 import pa.interfaces.receive._v30.I2_20_receive;
 import pa.interfaces.send._v30.I2_14_send;
@@ -41,9 +42,9 @@ public class E37_PrimalRepressionForPerception extends clsModuleBase implements 
 	 * @throws Exception
 	 */
 	public E37_PrimalRepressionForPerception(String poPrefix,
-			clsBWProperties poProp, HashMap<Integer, clsModuleBase> poModuleList)
+			clsBWProperties poProp, HashMap<Integer, clsModuleBase> poModuleList, HashMap<eInterfaces, ArrayList<Object>> poInterfaceData)
 			throws Exception {
-		super(poPrefix, poProp, poModuleList);
+		super(poPrefix, poProp, poModuleList, poInterfaceData);
 		applyProperties(poPrefix, poProp);	
 	}
 	@Override

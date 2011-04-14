@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import config.clsBWProperties;
+import pa.interfaces._v30.eInterfaces;
 import pa.interfaces.receive._v30.I4_1_receive;
 import pa.interfaces.receive._v30.I4_2_receive;
 import pa.interfaces.receive._v30.I4_3_receive;
@@ -44,8 +45,8 @@ public class E36_RepressionHandler extends clsModuleBase implements I4_1_receive
 	 * @throws Exception
 	 */
 	public E36_RepressionHandler(String poPrefix, clsBWProperties poProp,
-			HashMap<Integer, clsModuleBase> poModuleList, clsBlockedContentStorage poBlockedContentStorage) throws Exception {
-		super(poPrefix, poProp, poModuleList);
+			HashMap<Integer, clsModuleBase> poModuleList, HashMap<eInterfaces, ArrayList<Object>> poInterfaceData, clsBlockedContentStorage poBlockedContentStorage) throws Exception {
+		super(poPrefix, poProp, poModuleList, poInterfaceData);
 		
 		moPrimaryInformation = new ArrayList<clsPrimaryDataStructureContainer>();
 		moBlockedContentStorage = poBlockedContentStorage;

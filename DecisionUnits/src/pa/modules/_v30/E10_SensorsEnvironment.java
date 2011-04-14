@@ -6,10 +6,12 @@
  */
 package pa.modules._v30;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import config.clsBWProperties;
 import du.enums.eSensorExtType;
 import du.itf.sensors.clsSensorExtern;
+import pa.interfaces._v30.eInterfaces;
 import pa.interfaces.receive._v30.I0_4_receive;
 import pa.interfaces.receive._v30.I2_1_receive;
 import pa.interfaces.send._v30.I2_1_send;
@@ -38,8 +40,8 @@ public class E10_SensorsEnvironment extends clsModuleBase implements I0_4_receiv
 	 * @throws Exception 
 	 */
 	public E10_SensorsEnvironment(String poPrefix, clsBWProperties poProp,
-			HashMap<Integer, clsModuleBase> poModuleList) throws Exception {
-		super(poPrefix, poProp, poModuleList);
+			HashMap<Integer, clsModuleBase> poModuleList, HashMap<eInterfaces, ArrayList<Object>> poInterfaceData) throws Exception {
+		super(poPrefix, poProp, poModuleList, poInterfaceData);
 		applyProperties(poPrefix, poProp);		
 	}
 

@@ -19,6 +19,7 @@ import du.itf.actions.clsActionPickUp;
 import du.itf.actions.clsActionSequenceFactory;
 import du.itf.actions.clsActionTurn;
 import pa.interfaces.itfTimeChartInformationContainer;
+import pa.interfaces._v30.eInterfaces;
 import pa.interfaces.receive._v30.I8_1_receive;
 import pa.interfaces.receive._v30.I8_2_receive;
 import pa.interfaces.send._v30.I8_2_send;
@@ -51,9 +52,9 @@ public class E31_NeuroDeSymbolizationActionCommands extends clsModuleBase implem
 	 * @throws Exception
 	 */
 	public E31_NeuroDeSymbolizationActionCommands(String poPrefix,
-			clsBWProperties poProp, HashMap<Integer, clsModuleBase> poModuleList)
+			clsBWProperties poProp, HashMap<Integer, clsModuleBase> poModuleList, HashMap<eInterfaces, ArrayList<Object>> poInterfaceData)
 			throws Exception {
-		super(poPrefix, poProp, poModuleList);
+		super(poPrefix, poProp, poModuleList, poInterfaceData);
 		applyProperties(poPrefix, poProp);		
 		
 		mnCounter = 0; 

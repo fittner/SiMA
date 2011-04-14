@@ -7,8 +7,11 @@
 package pa.modules._v30;
 
 import java.lang.reflect.Method;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
+
+import pa.interfaces._v30.eInterfaces;
 
 import config.clsBWProperties;
 
@@ -31,8 +34,10 @@ public abstract class clsModuleBase {
 	
 	private eImplementationStage mnImplementationStage;
 	protected HashMap<Integer, clsModuleBase> moModuleList;
+	protected HashMap<eInterfaces, ArrayList<Object>> moInterfaceData;
 	
-	public clsModuleBase(String poPrefix, clsBWProperties poProp, HashMap<Integer, clsModuleBase> poModuleList) throws Exception {
+	public clsModuleBase(String poPrefix, clsBWProperties poProp, HashMap<Integer, clsModuleBase> poModuleList, 
+			HashMap<eInterfaces, ArrayList<Object>> poInterfaceData) throws Exception {
 		setProcessType();
 		setPsychicInstances();
 		setModuleNumber();
@@ -44,8 +49,10 @@ public abstract class clsModuleBase {
 		moModuleList = poModuleList;
 		moModuleList.put(mnModuleNumber, this);
 		
+		moInterfaceData = poInterfaceData;
+		
 		applyProperties(poPrefix, poProp);		
-	}
+	}	
 
 	public static clsBWProperties getDefaultProperties(String poPrefix) {
 		// String pre = clsBWProperties.addDot(poPrefix);
@@ -158,4 +165,18 @@ public abstract class clsModuleBase {
 		return clone;
 	}	
 	
+	protected void putInterfaceData(@SuppressWarnings("rawtypes") Class poInterface, Object... poData) {
+		eInterfaces nI = eInterfaces.getEnum(poInterface.getName());
+		
+		putInterfaceData(nI, poData);
+	}
+	
+	protected void putInterfaceData(eInterfaces pnInterface, Object... poData) {
+		ArrayList<Object> oData = new ArrayList<Object>();
+		for (Object d:poData) {
+			oData.add(d);
+		}
+		
+		moInterfaceData.put(pnInterface, oData);
+	}
 }

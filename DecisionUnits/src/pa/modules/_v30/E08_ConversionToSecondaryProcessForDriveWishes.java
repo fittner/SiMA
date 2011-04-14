@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import config.clsBWProperties;
+import pa.interfaces._v30.eInterfaces;
 import pa.interfaces.knowledgebase.itfKnowledgeBaseAccess;
 import pa.interfaces.receive._v30.I1_6_receive;
 import pa.interfaces.receive._v30.I1_7_receive;
@@ -56,9 +57,9 @@ public class E08_ConversionToSecondaryProcessForDriveWishes extends clsModuleBas
 	 * @throws Exception
 	 */
 	public E08_ConversionToSecondaryProcessForDriveWishes(String poPrefix,
-			clsBWProperties poProp, HashMap<Integer, clsModuleBase> poModuleList, clsKnowledgeBaseHandler poKnowledgeBaseHandler)
+			clsBWProperties poProp, HashMap<Integer, clsModuleBase> poModuleList, HashMap<eInterfaces, ArrayList<Object>> poInterfaceData, clsKnowledgeBaseHandler poKnowledgeBaseHandler)
 			throws Exception {
-		super(poPrefix, poProp, poModuleList);
+		super(poPrefix, poProp, poModuleList, poInterfaceData);
 		
 		moKnowledgeBaseHandler = poKnowledgeBaseHandler;
 		

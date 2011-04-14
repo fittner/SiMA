@@ -9,6 +9,8 @@ package pa.modules._v30;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+
+import pa.interfaces._v30.eInterfaces;
 import pa.interfaces.receive._v30.I2_18_receive;
 import pa.interfaces.receive._v30.I2_19_receive;
 import pa.interfaces.send._v30.I2_19_send;
@@ -40,9 +42,9 @@ public class E44_PrimalRepressionForSexualDrives extends clsModuleBase implement
 	 * @throws Exception
 	 */
 	public E44_PrimalRepressionForSexualDrives(String poPrefix,
-			clsBWProperties poProp, HashMap<Integer, clsModuleBase> poModuleList)
+			clsBWProperties poProp, HashMap<Integer, clsModuleBase> poModuleList, HashMap<eInterfaces, ArrayList<Object>> poInterfaceData)
 			throws Exception {
-		super(poPrefix, poProp, poModuleList);
+		super(poPrefix, poProp, poModuleList, poInterfaceData);
 		applyProperties(poPrefix, poProp);	
 	}
 	

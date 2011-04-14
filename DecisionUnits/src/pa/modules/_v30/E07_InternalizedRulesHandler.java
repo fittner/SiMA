@@ -9,6 +9,8 @@ package pa.modules._v30;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+
+import pa.interfaces._v30.eInterfaces;
 import pa.interfaces.knowledgebase.itfKnowledgeBaseAccess;
 import pa.interfaces.receive._v30.I1_5_receive;
 import pa.interfaces.receive._v30.I2_19_receive;
@@ -54,9 +56,9 @@ public class E07_InternalizedRulesHandler extends clsModuleBase implements
 	 * @throws Exception
 	 */
 	public E07_InternalizedRulesHandler(String poPrefix,
-			clsBWProperties poProp, HashMap<Integer, clsModuleBase> poModuleList, clsKnowledgeBaseHandler poKnowledgeBaseHandler)
+			clsBWProperties poProp, HashMap<Integer, clsModuleBase> poModuleList, HashMap<eInterfaces, ArrayList<Object>> poInterfaceData, clsKnowledgeBaseHandler poKnowledgeBaseHandler)
 			throws Exception {
-		super(poPrefix, poProp, poModuleList);
+		super(poPrefix, poProp, poModuleList, poInterfaceData);
 		
 		moSearchPattern = new ArrayList<clsPair<Integer,clsDataStructurePA>>();
 		moKnowledgeBaseHandler = poKnowledgeBaseHandler;

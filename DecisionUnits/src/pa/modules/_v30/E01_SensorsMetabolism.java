@@ -6,7 +6,10 @@
  */
 package pa.modules._v30;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+
+import pa.interfaces._v30.eInterfaces;
 import pa.interfaces.receive._v30.I0_3_receive;
 import pa.interfaces.receive._v30.I1_1_receive;
 import pa.interfaces.send._v30.I1_1_send;
@@ -38,8 +41,8 @@ public class E01_SensorsMetabolism extends clsModuleBase implements I0_3_receive
 	 * @throws Exception 
 	 */
 	public E01_SensorsMetabolism(String poPrefix, clsBWProperties poProp,
-			HashMap<Integer, clsModuleBase> poModuleList) throws Exception {
-		super(poPrefix, poProp, poModuleList);
+			HashMap<Integer, clsModuleBase> poModuleList, HashMap<eInterfaces, ArrayList<Object>> poInterfaceData) throws Exception {
+		super(poPrefix, poProp, poModuleList, poInterfaceData);
 
 		applyProperties(poPrefix, poProp);		
 	}
@@ -117,7 +120,9 @@ public class E01_SensorsMetabolism extends clsModuleBase implements I0_3_receive
 	 */
 	@Override
 	public void send_I1_1(HashMap<eSensorIntType, clsDataBase> pnData) {
-		((I1_1_receive)moModuleList.get(2)).receive_I1_1(moHomeostasis);		
+		((I1_1_receive)moModuleList.get(2)).receive_I1_1(moHomeostasis);
+		
+		putInterfaceData(I1_1_send.class, moHomeostasis);
 	}
 
 	/* (non-Javadoc)
@@ -169,5 +174,7 @@ public class E01_SensorsMetabolism extends clsModuleBase implements I0_3_receive
 	@Override
 	public void receive_I0_3(HashMap<eSensorIntType, clsDataBase> poData) {
 		moHomeostasis = poData;
+		
+		putInterfaceData(I0_3_receive.class, poData);
 	}
 }

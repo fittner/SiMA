@@ -9,6 +9,8 @@ package pa.modules._v30;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+
+import pa.interfaces._v30.eInterfaces;
 import pa.interfaces.receive._v30.I1_5_receive;
 import pa.interfaces.receive._v30.I1_6_receive;
 import pa.interfaces.receive._v30.I2_19_receive;
@@ -52,9 +54,9 @@ public class E06_DefenseMechanismsForDrives extends clsModuleBase implements
 	 * @throws Exception
 	 */
 	public E06_DefenseMechanismsForDrives(String poPrefix,
-			clsBWProperties poProp, HashMap<Integer, clsModuleBase> poModuleList)
+			clsBWProperties poProp, HashMap<Integer, clsModuleBase> poModuleList, HashMap<eInterfaces, ArrayList<Object>> poInterfaceData)
 			throws Exception {
-		super(poPrefix, poProp, poModuleList);
+		super(poPrefix, poProp, poModuleList, poInterfaceData);
 		applyProperties(poPrefix, poProp);	
 	}
 

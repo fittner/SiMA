@@ -9,6 +9,7 @@ package pa.modules._v30;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import pa.interfaces._v30.eInterfaces;
 import pa.interfaces.knowledgebase.itfKnowledgeBaseAccess;
 import pa.interfaces.receive._v30.I2_20_receive;
 import pa.interfaces.receive._v30.I2_5_receive;
@@ -57,9 +58,9 @@ public class E46_FusionWithMemoryTraces extends clsModuleBase implements
 	 * @param poModuleList
 	 * @throws Exception
 	 */
-	public E46_FusionWithMemoryTraces(String poPrefix, clsBWProperties poProp, HashMap<Integer, clsModuleBase> poModuleList, 
+	public E46_FusionWithMemoryTraces(String poPrefix, clsBWProperties poProp, HashMap<Integer, clsModuleBase> poModuleList, HashMap<eInterfaces, ArrayList<Object>> poInterfaceData, 
 								clsKnowledgeBaseHandler poKnowledgeBaseHandler) throws Exception {
-		super(poPrefix, poProp, poModuleList);
+		super(poPrefix, poProp, poModuleList, poInterfaceData);
 		
 		moKnowledgeBaseHandler = poKnowledgeBaseHandler; 
 		
