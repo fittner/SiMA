@@ -8,9 +8,7 @@ package inspectors.mind.pa._v30;
 
 import java.awt.BorderLayout;
 import pa.modules._v30.clsModuleBase;
-import sim.display.GUIState;
 import sim.portrayal.Inspector;
-import sim.portrayal.LocationWrapper;
 import sim.util.gui.HTMLBrowser;
 
 /**
@@ -31,16 +29,10 @@ public abstract class clsE_GenericHTMLInspector extends Inspector {
 	protected clsModuleBase moModule;
 	protected String moTitle;
 	protected String moContent;
-	
-	public Inspector moInspector;
 	HTMLBrowser moHTMLPane;
 	
-    public clsE_GenericHTMLInspector(Inspector originalInspector,
-            LocationWrapper wrapper,
-            GUIState guiState,
-            clsModuleBase poModule)
+    public clsE_GenericHTMLInspector(clsModuleBase poModule)
     {
-    	moInspector  = originalInspector;
     	moModule = poModule;
     	
     	setTitle();

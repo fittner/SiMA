@@ -41,7 +41,7 @@ public class clsE_StateInspector extends clsE_GenericHTMLInspector {
 	 */
 	public clsE_StateInspector(Inspector originalInspector,
 			LocationWrapper wrapper, GUIState guiState, clsModuleBase poModule) {
-		super(originalInspector, wrapper, guiState, poModule);
+		super(poModule);
 	}
 
 	/* (non-Javadoc)

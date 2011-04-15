@@ -8,9 +8,6 @@ package inspectors.mind.pa._v30;
 
 import pa.interfaces._v30.eInterfaces;
 import pa.modules._v30.clsModuleBase;
-import sim.display.GUIState;
-import sim.portrayal.Inspector;
-import sim.portrayal.LocationWrapper;
 
 /**
  * DOCUMENT (deutsch) - insert description 
@@ -40,9 +37,8 @@ public class clsE_DescriptionInspector extends clsE_GenericHTMLInspector {
 	 * @param guiState
 	 * @param poModule
 	 */
-	public clsE_DescriptionInspector(Inspector originalInspector,
-			LocationWrapper wrapper, GUIState guiState, clsModuleBase poModule) {
-		super(originalInspector, wrapper, guiState, poModule);
+	public clsE_DescriptionInspector(clsModuleBase poModule) {
+		super(poModule);
 	}
 
 	/* (non-Javadoc)
