@@ -8,6 +8,8 @@ package pa.modules._v30;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Map;
+
 import config.clsBWProperties;
 import pa.interfaces._v30.eInterfaces;
 import pa.memory.clsMemory;
@@ -15,6 +17,7 @@ import pa.memorymgmt.clsKnowledgeBaseHandler;
 import pa.memorymgmt.clsKnowledgeBaseHandlerFactory;
 import pa.storage.clsBlockedContentStorage;
 import pa.storage.clsLibidoBuffer;
+import pa.tools.clsPair;
 
 
 /**
@@ -79,6 +82,7 @@ public class clsPsychicApparatus {
 	
 	public HashMap<Integer, clsModuleBase> moModules; // list of the modules defined above. needed for references within them.
 	public HashMap<eInterfaces, ArrayList<Object>> moInterfaceData; //list of the currently transfered data via the interfaces. has to be refilled each round at each send_I?_? method manually!
+	public HashMap<Integer, ArrayList<clsPair<eInterfaces, Integer>>> moInterfaceMesh; //the mesh created by all modules and the outgoing interfaces in combination to which module they are connecting to
 
 	public clsPsychicApparatus(String poPrefix, clsBWProperties poProp, 
 			clsMemory poMemory,	clsKnowledgeBaseHandler poKnowledgeBaseHandler) {
@@ -93,6 +97,8 @@ public class clsPsychicApparatus {
 		moBlockedContentStorage = new clsBlockedContentStorage();
 					
 		applyProperties(poPrefix, poProp);
+		
+		fillInterfaceMesh();
 	}
 	
 	public static clsBWProperties getDefaultProperties(String poPrefix) {
@@ -207,6 +213,45 @@ public class clsPsychicApparatus {
 	
 		//nothing to do
 	}	
+	
+	private void fillInterfaceMesh() {
+		moInterfaceMesh = new HashMap<Integer, ArrayList<clsPair<eInterfaces,Integer>>>();
+		
+		HashMap<eInterfaces, ArrayList<Integer>> moTargetList = new HashMap<eInterfaces, ArrayList<Integer>>();
+		//create a complete list of all interfaces. each entry has a corresponding empty list of target modules. 
+		//thus an entry consists of a single interface and a list of modules it points at
+		for (eInterfaces eI:eInterfaces.values()) {
+			moTargetList.put(eI, new ArrayList<Integer>());
+		}
+		
+		//fill the empty list of target modules
+		for (Map.Entry<Integer, clsModuleBase>  e:moModules.entrySet()) {
+			clsModuleBase oMod = e.getValue();
+			Integer oKey = e.getKey();
+			
+			for (eInterfaces eI: oMod.getInterfacesRecv()) {
+				ArrayList<Integer> moTargets = moTargetList.get(eI);
+				moTargets.add(oKey);
+			}
+		}
+		
+		//now we use the created list of target modules to create a list of connection pairs. a pair consists of the interface
+		//and the target. this target list is stored for each module
+		for (Map.Entry<Integer, clsModuleBase>  e:moModules.entrySet()) {
+			clsModuleBase oMod = e.getValue();
+			Integer oKey = e.getKey();
+			
+			ArrayList<clsPair<eInterfaces,Integer>> oList = new ArrayList<clsPair<eInterfaces,Integer>>();
+			for (eInterfaces eI:oMod.getInterfacesSend()) {
+				for (Integer oTarget:moTargetList.get(eI)) {
+					clsPair<eInterfaces,Integer> oPair = new clsPair<eInterfaces, Integer>(eI, oTarget);
+					oList.add(oPair);
+				}
+			}
+			
+			moInterfaceMesh.put(oKey, oList); 
+		}
+	}
 	
 	public clsMemory getMemoryForInspector() {
 		return moMemory;
