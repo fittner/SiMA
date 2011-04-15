@@ -177,12 +177,21 @@ public class clsInspectorMappingPA {
 		} else if(poModuleName.equals("E39_SeekingSystem_LibidoSource")) {
 			oRetVal.addInspector( new clsE_StateInspector(poSuperInspector, poWrapper, poState, moPA.moE39_SeekingSystem_LibidoSource), "State");
 			oRetVal.addInspector( new clsE_DescriptionInspector(moPA.moE39_SeekingSystem_LibidoSource), "Desc");
+			oRetVal.addInspector( new clsE_ChartInspector(
+					moPA.moE39_SeekingSystem_LibidoSource, 
+					"Libido", 
+					-0.05, 
+					1.05, 
+					"Libido Chart"
+					),	
+				"Chart");			
 		} else if(poModuleName.equals("E40_NeurosymbolizationOfLibido")) {
 			oRetVal.addInspector( new clsE_StateInspector(poSuperInspector, poWrapper, poState, moPA.moE40_NeurosymbolizationOfLibido), "State");
 			oRetVal.addInspector( new clsE_DescriptionInspector(moPA.moE40_NeurosymbolizationOfLibido), "Desc");
 		} else if(poModuleName.equals("E41_Libidostasis")) {
 			oRetVal.addInspector( new clsE_StateInspector(poSuperInspector, poWrapper, poState, moPA.moE41_Libidostasis), "State");
 			oRetVal.addInspector( new clsE_DescriptionInspector(moPA.moE41_Libidostasis), "Desc");
+			oRetVal.addInspector(new clsE_ChartInspector(moPA.moE41_Libidostasis, "Libido", -0.05, 1.05, "Libido Chart"),	"Chart");			
 		} else if(poModuleName.equals("E42_AccumulationOfAffectsForSexualDrives")) {
 			oRetVal.addInspector( new clsE_StateInspector(poSuperInspector, poWrapper, poState, moPA.moE42_AccumulationOfAffectsForSexualDrives), "State");
 			oRetVal.addInspector( new clsE_DescriptionInspector(moPA.moE42_AccumulationOfAffectsForSexualDrives), "Desc");
