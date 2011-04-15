@@ -93,4 +93,8 @@ public class clsPair<A, B> implements Cloneable {
 	     return clon;
 	}
 	    
+	@Override
+	public String toString() {
+		return "["+a+", "+b+"]";
+	}
 }

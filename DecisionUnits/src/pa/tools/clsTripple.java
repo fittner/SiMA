@@ -91,4 +91,9 @@ public class clsTripple<A, B, C> implements Cloneable {
 		
 	     return clon;
 	}    
+	
+	@Override
+	public String toString() {
+		return "["+a+", "+b+", "+c+"]";
+	}	
 }
