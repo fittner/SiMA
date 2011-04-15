@@ -202,8 +202,8 @@ public class clsInspectorMappingPA {
 			oRetVal.addInspector( new clsE_DescriptionInspector(poSuperInspector, poWrapper, poState, moPA.moE47_ConversionToPrimaryProcess), "Desc");
 		}		
 		else if(poModuleName.equals("Psychic Apparatus")) {
-			oRetVal.addInspector( new clsPAInspectorFunctional(poSuperInspector, poWrapper, poState, poTree, true, moPA.moModules), "FM Compact");
-			oRetVal.addInspector( new clsPAInspectorFunctional(poSuperInspector, poWrapper, poState, poTree, false, moPA.moModules), "Functional Model");
+			oRetVal.addInspector( new clsPAInspectorFunctional(poSuperInspector, poWrapper, poState, poTree, true, moPA), "FM Compact");
+			oRetVal.addInspector( new clsPAInspectorFunctional(poSuperInspector, poWrapper, poState, poTree, false, moPA), "Functional Model");
 			//oRetVal.addInspector( new clsPAInspectorTopDown(poSuperInspector, poWrapper, poState, moPA), "Top-Down Design");			
 			//oRetVal.addInspector( new clsPAInspectorFuncModel(poSuperInspector, poWrapper, poState, moPA), "Functional View");
 		}

@@ -32,7 +32,7 @@ import org.jgraph.graph.GraphLayoutCache;
 import org.jgraph.graph.GraphModel;
 import org.jgraph.graph.VertexView;
 
-import pa.modules._v30.clsModuleBase;
+import pa.modules._v30.clsPsychicApparatus;
 
 import sim.display.GUIState;
 import sim.portrayal.Inspector;
@@ -73,10 +73,10 @@ public class clsPAInspectorFunctional extends Inspector implements ActionListene
 
     public clsPAInspectorFunctional(Inspector originalInspector,
             LocationWrapper wrapper,
-            GUIState guiState, JTree poTree, boolean pnCompact, HashMap<Integer, clsModuleBase> poModules)
+            GUIState guiState, JTree poTree, boolean pnCompact, clsPsychicApparatus moPA)
     {
 		moOriginalInspector = originalInspector;
-		moRootNodes = clsGenerateFunctionalModel.getRootNodes(poModules);
+		moRootNodes = clsGenerateFunctionalModel.getRootNodes(moPA);
 		mnCompact = pnCompact;
 		
 		setDisplayValues();

@@ -16,4 +16,5 @@ package inspectors.mind.pa._v30.functionalmodel;
 public enum eInformationProcessingType {
 	PRIMARY,
 	SECONDARY,
+	BODY,
 }

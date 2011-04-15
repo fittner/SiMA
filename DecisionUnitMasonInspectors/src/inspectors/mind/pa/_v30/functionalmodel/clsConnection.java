@@ -6,6 +6,8 @@
  */
 package inspectors.mind.pa._v30.functionalmodel;
 
+import pa.interfaces._v30.eInterfaces;
+
 /**
  * DOCUMENT (deutsch) - insert description 
  * 
@@ -14,19 +16,17 @@ package inspectors.mind.pa._v30.functionalmodel;
  * 
  */
 public class clsConnection {
-	public final int mnMainId;
-	public final int mnSubId;
+	public final eInterfaces mnInterface;
 	public final clsNode moTarget;
 	
-	public clsConnection(int pnMainId, int pnSubId, clsNode poTarget) {
-		mnMainId = pnMainId;
-		mnSubId = pnSubId;
+	public clsConnection(eInterfaces pnInterface, clsNode poTarget) {
+		mnInterface = pnInterface;
 		moTarget = poTarget;
 	}
 	
 	@Override
 	public String toString() {
-		return "I"+mnMainId+"."+mnSubId;
+		return mnInterface.toString();
 	}
 	
 	public clsNode getTarget() {
