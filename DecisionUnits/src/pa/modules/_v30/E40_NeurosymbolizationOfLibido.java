@@ -15,8 +15,6 @@ import pa.interfaces.receive._v30.I1_9_receive;
 import pa.interfaces.send._v30.I1_9_send;
 
 import config.clsBWProperties;
-import du.enums.eSensorIntType;
-import du.itf.sensors.clsDataBase;
 
 /**
  * DOCUMENT (muchitsch) - insert description 
@@ -28,6 +26,7 @@ import du.itf.sensors.clsDataBase;
 public class E40_NeurosymbolizationOfLibido extends clsModuleBase implements I1_8_receive, I1_9_send {
 	public static final String P_MODULENUMBER = "40";
 		
+	private double mrLibido;
 	/**
 	 * DOCUMENT (muchitsch) - insert description 
 	 * 
@@ -43,6 +42,7 @@ public class E40_NeurosymbolizationOfLibido extends clsModuleBase implements I1_
 			clsBWProperties poProp, HashMap<Integer, clsModuleBase> poModuleList, HashMap<eInterfaces, ArrayList<Object>> poInterfaceData)
 			throws Exception {
 		super(poPrefix, poProp, poModuleList, poInterfaceData);
+		mrLibido = 0;
 		applyProperties(poPrefix, poProp);	
 	}
 	
@@ -57,7 +57,7 @@ public class E40_NeurosymbolizationOfLibido extends clsModuleBase implements I1_
 	public String stateToHTML() {
 		String html ="";
 		
-		html += "n/a";		
+		html += valueToHTML("mrLibido", mrLibido);	
 		
 		return html;
 	}	
@@ -92,7 +92,7 @@ public class E40_NeurosymbolizationOfLibido extends clsModuleBase implements I1_
 	 */
 	@Override
 	protected void process_basic() {
-		// TODO (muchitsch) - Auto-generated method stub
+		//nothing to do
 
 	}
 
@@ -131,7 +131,7 @@ public class E40_NeurosymbolizationOfLibido extends clsModuleBase implements I1_
 	 */
 	@Override
 	protected void send() {
-		send_I1_9(new HashMap<String, Double>());
+		send_I1_9(mrLibido);
 
 	}
 
@@ -143,9 +143,9 @@ public class E40_NeurosymbolizationOfLibido extends clsModuleBase implements I1_
 	 * @see pa.interfaces.send._v30.I1_9_send#send_I1_9(java.util.HashMap)
 	 */
 	@Override
-	public void send_I1_9(HashMap<String, Double> poHomeostasisSymbols) {
-		((I1_9_receive)moModuleList.get(41)).receive_I1_9(poHomeostasisSymbols);
-		putInterfaceData(I1_9_send.class, poHomeostasisSymbols);
+	public void send_I1_9(Double poLibidoSymbol) {
+		((I1_9_receive)moModuleList.get(41)).receive_I1_9(poLibidoSymbol);
+		putInterfaceData(I1_9_send.class, poLibidoSymbol);
 		
 	}
 
@@ -157,8 +157,8 @@ public class E40_NeurosymbolizationOfLibido extends clsModuleBase implements I1_
 	 * @see pa.interfaces.receive._v30.I1_8_receive#receive_I1_8(java.util.HashMap)
 	 */
 	@Override
-	public void receive_I1_8(HashMap<eSensorIntType, clsDataBase> pnData) {
-		// TODO (muchitsch) - Auto-generated method stub
+	public void receive_I1_8(double prData) {
+		mrLibido = prData;
 		
 	}
 	/* (non-Javadoc)

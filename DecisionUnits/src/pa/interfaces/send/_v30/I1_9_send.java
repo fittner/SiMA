@@ -6,8 +6,6 @@
  */
 package pa.interfaces.send._v30;
 
-import java.util.HashMap;
-
 import pa.interfaces.I_BaseInterface;
 
 /**
@@ -18,5 +16,5 @@ import pa.interfaces.I_BaseInterface;
  * 
  */
 public interface I1_9_send  extends I_BaseInterface {
-	public void send_I1_9(HashMap<String, Double> poHomeostasisSymbols);
+	public void send_I1_9(Double poLibidoSymbol);
 }
