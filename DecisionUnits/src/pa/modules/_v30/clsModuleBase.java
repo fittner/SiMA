@@ -34,14 +34,19 @@ public abstract class clsModuleBase {
 	private eImplementationStage mnImplementationStage;
 	protected HashMap<Integer, clsModuleBase> moModuleList;
 	protected HashMap<eInterfaces, ArrayList<Object>> moInterfaceData;
-	
+		
 	protected String moDescription;
+	private ArrayList<eInterfaces> moInterfacesReceive;
+	private ArrayList<eInterfaces> moInterfacesSend;
+	private ArrayList<eInterfaces> moInterfaces;
 	
 	public clsModuleBase(String poPrefix, clsBWProperties poProp, HashMap<Integer, clsModuleBase> poModuleList, 
 			HashMap<eInterfaces, ArrayList<Object>> poInterfaceData) throws Exception {
 		setProcessType();
 		setPsychicInstances();
 		setModuleNumber();
+		setDescription();
+		setInterfacesList();
 		
 		if (mnModuleNumber == null || mnModuleNumber == 0) {
 			throw new java.lang.Exception("mnModuleNumber not set.");
@@ -238,4 +243,35 @@ public abstract class clsModuleBase {
 	}
 	
 	public abstract void setDescription();
+	
+	protected ArrayList<eInterfaces> getInterfacesFilter(String oSuffix) {
+		ArrayList<eInterfaces> oResult = new ArrayList<eInterfaces>();
+		for (@SuppressWarnings("rawtypes") Class oI:this.getClass().getInterfaces()) {
+			if (oI.getSimpleName().endsWith(oSuffix)) {
+				oResult.add(eInterfaces.getEnum(oI.getSimpleName()));
+			}
+		}
+		return oResult;
+	}
+	
+	protected void setInterfacesList() {
+		moInterfacesSend = getInterfacesFilter("_send");
+		moInterfacesReceive = getInterfacesFilter("_receive");
+		
+		moInterfaces = new ArrayList<eInterfaces>();
+		moInterfaces.addAll(moInterfacesReceive);
+		moInterfaces.addAll(moInterfacesSend);
+	}
+	
+	public ArrayList<eInterfaces> getInterfacesSend() {
+		return moInterfacesSend;
+	}
+	
+	public ArrayList<eInterfaces> getInterfacesRecv() {
+		return moInterfacesReceive;
+	}	
+	
+	public ArrayList<eInterfaces> getInterfaces() {
+		return moInterfaces;
+	}		
 }
