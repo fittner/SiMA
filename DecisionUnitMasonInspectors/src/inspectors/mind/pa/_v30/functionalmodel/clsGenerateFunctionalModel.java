@@ -7,6 +7,9 @@
 package inspectors.mind.pa._v30.functionalmodel;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
+import pa.modules._v30.clsModuleBase;
 
 /**
  * DOCUMENT (deutsch) - insert description 
@@ -16,8 +19,19 @@ import java.util.ArrayList;
  * 
  */
 public class clsGenerateFunctionalModel {
-	public static ArrayList<clsNode> getRootNodes() {
+	public static ArrayList<clsNode> getRootNodes(HashMap<Integer, clsModuleBase> poModules) {
 		ArrayList<clsNode> oRootNodes = new ArrayList<clsNode>();
+		HashMap<Integer, clsNode> oNodes = new HashMap<Integer, clsNode>();
+		
+		Iterator<Integer> i = poModules.keySet().iterator();
+		
+		while (i.hasNext()) {
+			Integer oKey = i.next();
+			clsModuleBase oModule = poModules.get(oKey);
+			
+//			clsNode oNode = new clsNode(oKey, oModule, 0, 0, "");
+//			oNodes.put(oKey, oNode);
+		}
 		
 		clsNode E1 = new clsNode(1, "Homeostases", ePsychicInstance.BODY, eInformationProcessingType.PRIMARY, 0, 1, "");
 		clsNode E2 = new clsNode(2, "Neurosymbolization of needs", ePsychicInstance.BODY, eInformationProcessingType.PRIMARY, 1, 1, "");

@@ -53,7 +53,7 @@ public class clsE_StateInspector extends clsE_GenericInspector {
 	 */
 	@Override
 	protected void setTitle() {
-		moTitle = moModule.getClass().getSimpleName();
+		moTitle = moModule.getClass().getSimpleName()+" - Internal State of Module";
 
 	}
 
