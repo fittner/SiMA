@@ -9,6 +9,8 @@ package inspectors.mind.pa._v30;
 import java.awt.BorderLayout;
 import pa._v30.clsProcessor;
 import java.lang.reflect.Field;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Map;
 
 import javax.swing.Box;
@@ -105,11 +107,18 @@ public class clsPsychoAnalysisInspector extends Inspector implements TreeSelecti
 		DefaultMutableTreeNode group = new DefaultMutableTreeNode("Function Modules");
 		poParentTreeNode.add(group);
 		
+		ArrayList<String> oChilds = new ArrayList<String>();
+		
         for ( Map.Entry<Integer, clsModuleBase> module : poPA.moModules.entrySet() )	{
         	String oName = module.getValue().getClass().getSimpleName();
+        	oChilds.add(oName);
+        }
+        Collections.sort(oChilds);
+        for (String oName:oChilds) {
         	DefaultMutableTreeNode child = new DefaultMutableTreeNode(oName);
         	group.add(child);
         }
+        
 	}
 
 	private void addKnowledge(clsPsychicApparatus poPAModule,
