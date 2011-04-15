@@ -274,7 +274,7 @@ public class E46_FusionWithMemoryTraces extends clsModuleBase implements
 	 */
 	@Override
 	protected void send() {
-		send_I2_20(new ArrayList<clsPrimaryDataStructureContainer>());
+		send_I2_20(moEnvironmentalPerception_OUT);
 	}
 
 	/* (non-Javadoc)
