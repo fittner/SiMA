@@ -190,5 +190,15 @@ public class E04_FusionOfSelfPreservationDrives extends clsModuleBase implements
 	protected void setModuleNumber() {
 		mnModuleNumber = Integer.parseInt(P_MODULENUMBER);
 	}
-
+	/* (non-Javadoc)
+	 *
+	 * @author deutsch
+	 * 15.04.2011, 13:52:57
+	 * 
+	 * @see pa.modules._v30.clsModuleBase#setDescription()
+	 */
+	@Override
+	public void setDescription() {
+		moDescription = "The libidinous and aggressive drives are combined to pair of opposites. For each bodily need, such a pair exists.";
+	}	
 }

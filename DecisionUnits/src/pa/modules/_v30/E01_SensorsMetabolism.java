@@ -192,4 +192,16 @@ public class E01_SensorsMetabolism extends clsModuleBase implements I0_3_receive
 
 		return html;
 	}
+
+	/* (non-Javadoc)
+	 *
+	 * @author deutsch
+	 * 15.04.2011, 13:52:57
+	 * 
+	 * @see pa.modules._v30.clsModuleBase#setDescription()
+	 */
+	@Override
+	public void setDescription() {
+		moDescription = "Sensor of Module {E1} are collecting information on bodily functions like metabolism, blood pressure, heart beat, respiration. Thus the current state of the body and its needs is made available.";
+	}
 }

@@ -290,4 +290,15 @@ public class E31_NeuroDeSymbolizationActionCommands extends clsModuleBase implem
 		mnModuleNumber = Integer.parseInt(P_MODULENUMBER);
 		
 	}
+	/* (non-Javadoc)
+	 *
+	 * @author deutsch
+	 * 15.04.2011, 13:52:57
+	 * 
+	 * @see pa.modules._v30.clsModuleBase#setDescription()
+	 */
+	@Override
+	public void setDescription() {
+		moDescription = "Conversion of neuro-symbols into raw data.";
+	}		
 }

@@ -238,6 +238,17 @@ public class E05_AccumulationOfAffectsForSelfPreservationDrives extends clsModul
 	public ArrayList<clsDriveMesh> getDriveList() {
 		return moDriveList;
 	}
+	/* (non-Javadoc)
+	 *
+	 * @author deutsch
+	 * 15.04.2011, 13:52:57
+	 * 
+	 * @see pa.modules._v30.clsModuleBase#setDescription()
+	 */
+	@Override
+	public void setDescription() {
+		moDescription = "Analogous to E42, E5 attaches quota of affects to the memory traces containing the drive contents. The difference is that the neurosymbols representing the drive tensions have been forwarded from {E2} through {E3} and {E4}. Thus, they are transferred into psychic processable form in this module. ";
+	}	
 }
 
 

@@ -253,4 +253,15 @@ public class E18_CompositionOfAffectsForPerception extends clsModuleBase impleme
 		// TODO (wendt) - Auto-generated method stub
 		
 	}
+	/* (non-Javadoc)
+	 *
+	 * @author deutsch
+	 * 15.04.2011, 13:52:57
+	 * 
+	 * @see pa.modules._v30.clsModuleBase#setDescription()
+	 */
+	@Override
+	public void setDescription() {
+		moDescription = "The value for the quota of affects for perception thing presentations is calculating by looking up all associated unpleasure and pleasure values retrieved from memory in {E46} and {E35}. Pleasure gained in {E45} is considered too. ";
+	}		
 }

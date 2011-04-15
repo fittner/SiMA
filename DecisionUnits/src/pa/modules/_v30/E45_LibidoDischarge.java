@@ -194,5 +194,15 @@ public class E45_LibidoDischarge extends clsModuleBase implements I2_8_receive, 
 		((I2_16_receive)moModuleList.get(18)).receive_I2_16(poMergedPrimaryInformation);
 		putInterfaceData(I2_16_send.class, poMergedPrimaryInformation);
 	}
-
+	/* (non-Javadoc)
+	 *
+	 * @author deutsch
+	 * 15.04.2011, 13:52:57
+	 * 
+	 * @see pa.modules._v30.clsModuleBase#setDescription()
+	 */
+	@Override
+	public void setDescription() {
+		moDescription = "E45 communicates with E41 via the libido buffer. Incoming perceptions are compared with memory to determine whether they qualify for libido discharge and thus for pleasure gain. If so, the value of the libido buffer is reduced (tension reduction is pleasure gain). The pleasure gain is forwarded to E18 as an additional value for the composition of the quota of affect.";
+	}	
 }

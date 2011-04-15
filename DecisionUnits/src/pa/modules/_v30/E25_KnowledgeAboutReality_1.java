@@ -261,4 +261,15 @@ public class E25_KnowledgeAboutReality_1 extends clsModuleBase implements I2_12_
 		mnModuleNumber = Integer.parseInt(P_MODULENUMBER);
 		
 	}
+	/* (non-Javadoc)
+	 *
+	 * @author deutsch
+	 * 15.04.2011, 13:52:57
+	 * 
+	 * @see pa.modules._v30.clsModuleBase#setDescription()
+	 */
+	@Override
+	public void setDescription() {
+		moDescription = "Semantic knowledge is retrieved from memory for all word and thing presentations send to these functions.";
+	}	
 }

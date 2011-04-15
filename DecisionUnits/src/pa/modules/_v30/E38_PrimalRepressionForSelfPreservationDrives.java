@@ -209,5 +209,15 @@ public class E38_PrimalRepressionForSelfPreservationDrives extends	clsModuleBase
 		
 		moDriveList_IN = (ArrayList<clsDriveMesh>) deepCopy(poDriveList); 
 	}
-
+	/* (non-Javadoc)
+	 *
+	 * @author deutsch
+	 * 15.04.2011, 13:52:57
+	 * 
+	 * @see pa.modules._v30.clsModuleBase#setDescription()
+	 */
+	@Override
+	public void setDescription() {
+		moDescription = "This function categorizes the thing presentations according to the four primary drives. The result of it is that thing presentations have an additional value which can be used for further memory lookup to find similar entries.";
+	}	
 }

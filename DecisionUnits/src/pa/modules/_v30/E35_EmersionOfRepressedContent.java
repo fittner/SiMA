@@ -483,5 +483,15 @@ public class E35_EmersionOfRepressedContent extends clsModuleBase implements I2_
 			ArrayList<clsPrimaryDataStructureContainer> poEnvironmentalTP) {
 		moEnvironmentalTP_Input = (ArrayList<clsPrimaryDataStructureContainer>)deepCopy(poEnvironmentalTP);
 	}
-
+	/* (non-Javadoc)
+	 *
+	 * @author deutsch
+	 * 15.04.2011, 13:52:57
+	 * 
+	 * @see pa.modules._v30.clsModuleBase#setDescription()
+	 */
+	@Override
+	public void setDescription() {
+		moDescription = "This module shares the same task as the second part of the tasks of {E36}. It is responsible for changing repressed contents such that they are more likely to pass the defense mechanisms. This is done by searching for fitting incoming thing presentations. If one is found, the repressed content is attached to it. All incoming thing presentations are forwarded to next modules, some of them with additional information attached.";
+	}	
 }

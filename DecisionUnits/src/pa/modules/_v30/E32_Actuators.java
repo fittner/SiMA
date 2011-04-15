@@ -207,5 +207,15 @@ public class E32_Actuators extends clsModuleBase implements I8_2_receive, I0_6_s
 		
 	}
 
-
+	/* (non-Javadoc)
+	 *
+	 * @author deutsch
+	 * 15.04.2011, 13:52:57
+	 * 
+	 * @see pa.modules._v30.clsModuleBase#setDescription()
+	 */
+	@Override
+	public void setDescription() {
+		moDescription = "How the body executes action commands is defined in this module. Various motor controls are operated from here.";
+	}	
 }

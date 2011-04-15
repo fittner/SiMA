@@ -205,5 +205,15 @@ public class E39_SeekingSystem_LibidoSource extends clsModuleBase implements I0_
 		putInterfaceData(D1_3_send.class, prValue);
 	}
 
-
+	/* (non-Javadoc)
+	 *
+	 * @author deutsch
+	 * 15.04.2011, 13:52:57
+	 * 
+	 * @see pa.modules._v30.clsModuleBase#setDescription()
+	 */
+	@Override
+	public void setDescription() {
+		moDescription = "The seeking system is the basic motivational system. {E39} is collecting information on libido produced by various inner somatic sources as well as by erogenous zones.";
+	}	
 }

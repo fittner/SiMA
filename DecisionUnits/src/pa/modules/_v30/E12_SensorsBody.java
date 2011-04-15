@@ -191,5 +191,15 @@ public class E12_SensorsBody extends clsModuleBase implements I0_5_receive, I2_3
 		moBodyData = poData;
 	}
 
-
+	/* (non-Javadoc)
+	 *
+	 * @author deutsch
+	 * 15.04.2011, 13:52:57
+	 * 
+	 * @see pa.modules._v30.clsModuleBase#setDescription()
+	 */
+	@Override
+	public void setDescription() {
+		moDescription = "Although, modules {E39} and {E1} are collecting information on internal body values too, {E12} focuses on sensors comparable to the one from Module {E10} but which are directed inwardly. Thus, the sensors detect painful stimuli, tactile stimuli, balance and acceleration, body temperature and others.";
+	}	
 }

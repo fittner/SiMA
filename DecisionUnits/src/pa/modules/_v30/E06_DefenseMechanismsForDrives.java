@@ -288,4 +288,15 @@ public class E06_DefenseMechanismsForDrives extends clsModuleBase implements
 		// TODO (GELBARD) - Auto-generated method stub
 		
 	}
+	/* (non-Javadoc)
+	 *
+	 * @author deutsch
+	 * 15.04.2011, 13:52:57
+	 * 
+	 * @see pa.modules._v30.clsModuleBase#setDescription()
+	 */
+	@Override
+	public void setDescription() {
+		moDescription = "Based on information provided by {E7} and {E9}, this module decides which drive representations are allowed to become (pre-)conscious and if not which defense mechanism is to be applied. These mechanisms can split the thing presentations from their quota of affect, change the thing presentations, repress the contents until later, attach them to other contents, and more. Examples for these mechanisms are repression, intellectualization, and sublimination ({Schuster1997}). Next to evaluate newly incoming drive representations, the task of these modules is to reevaluate repressed drive representations which are sent back by module {E36}.";
+	}	
 }

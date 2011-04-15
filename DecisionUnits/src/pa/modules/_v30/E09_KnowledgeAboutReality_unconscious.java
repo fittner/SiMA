@@ -276,4 +276,15 @@ public class E09_KnowledgeAboutReality_unconscious extends clsModuleBase impleme
 		// TODO (GELBARD) - Auto-generated method stub
 		
 	}
+	/* (non-Javadoc)
+	 *
+	 * @author deutsch
+	 * 15.04.2011, 13:52:57
+	 * 
+	 * @see pa.modules._v30.clsModuleBase#setDescription()
+	 */
+	@Override
+	public void setDescription() {
+		moDescription = "This module accesses knowledge which can be used to determine if a drive representation forwarded from {E44} or {E38} can be satisfied with a certain object. Not the reality/outer world is used as reference, instead the experiences how a special drive demand can be satisfied is used.";
+	}	
 }

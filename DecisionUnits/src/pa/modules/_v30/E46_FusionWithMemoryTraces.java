@@ -415,4 +415,15 @@ public class E46_FusionWithMemoryTraces extends clsModuleBase implements
 		
 		poSearchResult.addAll(moKnowledgeBaseHandler.initMemorySearch(poSearchPattern));
 	}
+	/* (non-Javadoc)
+	 *
+	 * @author deutsch
+	 * 15.04.2011, 13:52:57
+	 * 
+	 * @see pa.modules._v30.clsModuleBase#setDescription()
+	 */
+	@Override
+	public void setDescription() {
+		moDescription = "The thing presentations which represent the perception are associated with previously experienced and stored memory traces. This has two impacts: more information is added to the current perception and the perception is completed with previously stored information. Thus, if only parts of a well known object are visible, the other parts are added from memory. Next to information stored in memory, memory traces processed in secondary processes from the last step can be used.";
+	}		
 }

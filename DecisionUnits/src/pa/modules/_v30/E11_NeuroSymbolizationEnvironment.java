@@ -195,4 +195,15 @@ public class E11_NeuroSymbolizationEnvironment extends clsModuleBase implements 
 		mnModuleNumber = Integer.parseInt(P_MODULENUMBER);
 		
 	}
+	/* (non-Javadoc)
+	 *
+	 * @author deutsch
+	 * 15.04.2011, 13:52:57
+	 * 
+	 * @see pa.modules._v30.clsModuleBase#setDescription()
+	 */
+	@Override
+	public void setDescription() {
+		moDescription = "Conversion of raw data into neuro-symbols.";
+	}	
 }

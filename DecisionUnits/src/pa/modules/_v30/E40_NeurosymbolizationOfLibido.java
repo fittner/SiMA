@@ -161,4 +161,15 @@ public class E40_NeurosymbolizationOfLibido extends clsModuleBase implements I1_
 		// TODO (muchitsch) - Auto-generated method stub
 		
 	}
+	/* (non-Javadoc)
+	 *
+	 * @author deutsch
+	 * 15.04.2011, 13:52:57
+	 * 
+	 * @see pa.modules._v30.clsModuleBase#setDescription()
+	 */
+	@Override
+	public void setDescription() {
+		moDescription = "Conversion of raw data into neuro-symbols.";
+	}		
 }

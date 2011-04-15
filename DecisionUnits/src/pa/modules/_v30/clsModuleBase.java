@@ -35,6 +35,8 @@ public abstract class clsModuleBase {
 	protected HashMap<Integer, clsModuleBase> moModuleList;
 	protected HashMap<eInterfaces, ArrayList<Object>> moInterfaceData;
 	
+	protected String moDescription;
+	
 	public clsModuleBase(String poPrefix, clsBWProperties poProp, HashMap<Integer, clsModuleBase> poModuleList, 
 			HashMap<eInterfaces, ArrayList<Object>> poInterfaceData) throws Exception {
 		setProcessType();
@@ -230,4 +232,10 @@ public abstract class clsModuleBase {
 		
 		return html;
 	}		
+	
+	public String getDescription() {
+		return moDescription;
+	}
+	
+	public abstract void setDescription();
 }
