@@ -23,7 +23,7 @@ import org.jfree.data.xy.XYSeries;
 import org.jfree.data.xy.XYSeriesCollection;
 import org.jfree.ui.RectangleInsets;
 
-import pa.interfaces.itfTimeChartInformationContainer;
+import pa.interfaces._v19.itfTimeChartInformationContainer;
 import pa.tools.clsPair;
 
 import sim.display.GUIState;
@@ -88,7 +88,7 @@ public class clsTimingDiagramInspector extends Inspector{
 		
 		moDataset = new XYSeriesCollection();
 		
-		ArrayList<clsPair<String, Double>> oTimingValues = convert(moTimeingContainer.getTimeChartCaptions(), moTimeingContainer.getTimeChartData());
+		ArrayList<clsPair<String, Double>> oTimingValues = moTimeingContainer.getTimeChartData();
 		
 		moSeries = new HashMap<String, XYSeries>(oTimingValues.size());
 		int nOffeset=0;
@@ -178,7 +178,7 @@ public class clsTimingDiagramInspector extends Inspector{
 	public void updateInspector() {
 		moCurrentTime += 1;
 		
-		ArrayList<clsPair<String, Double>> oTimingData = convert(moTimeingContainer.getTimeChartCaptions(), moTimeingContainer.getTimeChartData());
+		ArrayList<clsPair<String, Double>> oTimingData = moTimeingContainer.getTimeChartData();
 		
 		moSeries.get("").add(moCurrentTime, -1 );
 		int nOffset=0;

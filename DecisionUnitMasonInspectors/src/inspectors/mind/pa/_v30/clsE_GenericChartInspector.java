@@ -19,7 +19,8 @@ import org.jfree.chart.plot.XYPlot;
 import org.jfree.data.xy.XYSeries;
 import org.jfree.data.xy.XYSeriesCollection;
 import org.jfree.ui.RectangleInsets;
-import pa.interfaces.itfTimeChartInformationContainer;
+
+import pa.interfaces._v30.itfTimeChartInformationContainer;
 import sim.portrayal.Inspector;
 
 /**

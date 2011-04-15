@@ -22,7 +22,7 @@ import org.jfree.data.xy.XYSeries;
 import org.jfree.data.xy.XYSeriesCollection;
 import org.jfree.ui.RectangleInsets;
 
-import pa.interfaces.itfTimeChartInformationContainer;
+import pa.interfaces._v19.itfTimeChartInformationContainer;
 import pa.tools.clsPair;
 import sim.display.GUIState;
 import sim.portrayal.Inspector;
@@ -71,23 +71,11 @@ public class clsE05DriveTiming  extends Inspector{
     	add(moChartPanel);
     }
     
-
-    private ArrayList<clsPair<String, Double>> convert(ArrayList<String> poCaptions, ArrayList<Double> poValues) {
-    	ArrayList<clsPair<String, Double>> oResult = new ArrayList<clsPair<String,Double>>();
-    	
-    	for (int i=0; i<poCaptions.size(); i++) {
-    		clsPair<String, Double> oPair = new clsPair<String, Double>(poCaptions.get(i), poValues.get(i));
-    		oResult.add(oPair);
-    	}
-    	
-    	return oResult;
-    }
-    
     private void initChart(String poChartName) {
 		
 		moDataset = new XYSeriesCollection();
 		
-		ArrayList<clsPair<String, Double>> oTimingValues = convert(moTimeingContainer.getTimeChartCaptions(), moTimeingContainer.getTimeChartData());
+		ArrayList<clsPair<String, Double>> oTimingValues = moTimeingContainer.getTimeChartData();
 		
 		moSeries = new HashMap<String, XYSeries>(oTimingValues.size());
 		int nOffeset=0;
@@ -162,7 +150,7 @@ public class clsE05DriveTiming  extends Inspector{
 	public void updateInspector() {
 		moCurrentTime += 1;
 
-		ArrayList<clsPair<String, Double>> oTimingData = convert(moTimeingContainer.getTimeChartCaptions(), moTimeingContainer.getTimeChartData());
+		ArrayList<clsPair<String, Double>> oTimingData = moTimeingContainer.getTimeChartData();
 		int nOffeset=0;
 
 		moSeries.get("-0.1").add(moCurrentTime, -0.1 );

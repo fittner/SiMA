@@ -4,9 +4,11 @@
  * @author langr
  * 04.11.2009, 19:09:18
  */
-package pa.interfaces;
+package pa.interfaces._v19;
 
 import java.util.ArrayList;
+
+import pa.tools.clsPair;
 
 /**
  * DOCUMENT (langr) - insert description 
@@ -16,6 +18,5 @@ import java.util.ArrayList;
  * 
  */
 public interface itfTimeChartInformationContainer {
-	public ArrayList<Double> getTimeChartData();
-	public ArrayList<String> getTimeChartCaptions();
+	public ArrayList<clsPair<String, Double>> getTimeChartData();
 }
