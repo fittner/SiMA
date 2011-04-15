@@ -25,6 +25,14 @@ public class clsE_DescriptionInspector extends clsE_GenericHTMLInspector {
 	 * DOCUMENT (deutsch) - insert description 
 	 * 
 	 * @author deutsch
+	 * 15.04.2011, 18:07:16
+	 */
+	private static final long serialVersionUID = 9138148242374689745L;
+
+	/**
+	 * DOCUMENT (deutsch) - insert description 
+	 * 
+	 * @author deutsch
 	 * 15.04.2011, 15:03:15
 	 *
 	 * @param originalInspector
