@@ -260,7 +260,13 @@ public class E31_NeuroDeSymbolizationActionCommands extends clsModuleBase implem
 		double rEAT = 0.0;
 		double rSEEK = 0.0;
 		
-		String oCurrentActionCommand = moActionCommands_Input.get(0).getMoContent();
+		String oCurrentActionCommand = "";
+		
+		try {
+			oCurrentActionCommand = moActionCommands_Input.get(0).getMoContent();
+		} catch (java.lang.IndexOutOfBoundsException e) {
+			//do nothing
+		}
 		
 		if (oCurrentActionCommand.equals("TURN_RIGHT")) {
 			rTURN_RIGHT = 1.0;
