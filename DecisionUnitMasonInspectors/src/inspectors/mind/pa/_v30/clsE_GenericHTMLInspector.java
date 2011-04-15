@@ -20,7 +20,7 @@ import sim.util.gui.HTMLBrowser;
  * 14.04.2011, 14:57:39
  * 
  */
-public abstract class clsE_GenericInspector extends Inspector {
+public abstract class clsE_GenericHTMLInspector extends Inspector {
 	/**
 	 * DOCUMENT (deutsch) - insert description 
 	 * 
@@ -35,7 +35,7 @@ public abstract class clsE_GenericInspector extends Inspector {
 	public Inspector moInspector;
 	HTMLBrowser moHTMLPane;
 	
-    public clsE_GenericInspector(Inspector originalInspector,
+    public clsE_GenericHTMLInspector(Inspector originalInspector,
             LocationWrapper wrapper,
             GUIState guiState,
             clsModuleBase poModule)

@@ -18,7 +18,7 @@ import sim.portrayal.LocationWrapper;
  * 14.04.2011, 18:11:46
  * 
  */
-public class clsE_StateInspector extends clsE_GenericInspector {
+public class clsE_StateInspector extends clsE_GenericHTMLInspector {
 
 	/**
 	 * DOCUMENT (deutsch) - insert description 
