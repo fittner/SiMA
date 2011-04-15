@@ -8,8 +8,6 @@ package pa.interfaces;
 
 import java.util.ArrayList;
 
-import pa.tools.clsPair;
-
 /**
  * DOCUMENT (langr) - insert description 
  * 
@@ -18,5 +16,6 @@ import pa.tools.clsPair;
  * 
  */
 public interface itfTimeChartInformationContainer {
-	public ArrayList<clsPair<String, Double>> getTimeChartData();
+	public ArrayList<Double> getTimeChartData();
+	public ArrayList<String> getTimeChartCaptions();
 }

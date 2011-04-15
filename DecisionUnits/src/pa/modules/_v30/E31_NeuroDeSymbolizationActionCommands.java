@@ -24,7 +24,6 @@ import pa.interfaces.receive._v30.I8_1_receive;
 import pa.interfaces.receive._v30.I8_2_receive;
 import pa.interfaces.send._v30.I8_2_send;
 import pa.memorymgmt.datatypes.clsWordPresentation;
-import pa.tools.clsPair;
 
 /**
  * DOCUMENT (brandstaetter) - insert description 
@@ -252,31 +251,57 @@ public class E31_NeuroDeSymbolizationActionCommands extends clsModuleBase implem
 	 * @see pa.interfaces.itfTimeChartInformationContainer#getTimeChartData()
 	 */
 	@Override
-	public ArrayList<clsPair<String, Double>> getTimeChartData() {
-	ArrayList<clsPair<String, Double>> oRetVal = new ArrayList<clsPair<String, Double>>();
+	public ArrayList<Double> getTimeChartData() {
+		ArrayList<Double> oRetVal = new ArrayList<Double>();
 		
-		oRetVal.add(new clsPair<String, Double>("TURN_RIGHT", 0.0)); 
-		oRetVal.add(new clsPair<String, Double>("TURN_LEFT", 0.0));
-		oRetVal.add(new clsPair<String, Double>("MOVE_FORWARD", 0.0));
-		oRetVal.add(new clsPair<String, Double>("EAT", 0.0));
-		oRetVal.add(new clsPair<String, Double>("SEEK", 0.0));
+		double rTURN_RIGHT = 0.0;
+		double rTURN_LEFT = 0.0;
+		double rMOVE_FORWARD = 0.0;
+		double rEAT = 0.0;
+		double rSEEK = 0.0;
 		
-		for(clsPair<String, Double> oPair : oRetVal){
-			if(moActionCommands_Input.size() > 0){
-				
-				if(oPair.a.equals(moActionCommands_Input.get(0).getMoContent())){
-					oPair.b = 1.0; 
-				}
-			}
-			else {
-				if(oPair.a.equals("SEEK")){
-					oPair.b = 1.0; 
-				}
-			}
+		String oCurrentActionCommand = moActionCommands_Input.get(0).getMoContent();
+		
+		if (oCurrentActionCommand.equals("TURN_RIGHT")) {
+			rTURN_RIGHT = 1.0;
+		} else if (oCurrentActionCommand.equals("TURN_LEFT")) {
+			rTURN_LEFT = 1.0;
+		} else if (oCurrentActionCommand.equals("MOVE_FORWARD")) {
+			rMOVE_FORWARD = 1.0;
+		} else if (oCurrentActionCommand.equals("EAT")) {
+			rEAT = 1.0;
+		} else {
+			rSEEK = 1.0;
 		}
 		
+		oRetVal.add(rTURN_RIGHT); 
+		oRetVal.add(rTURN_LEFT); 
+		oRetVal.add(rMOVE_FORWARD); 
+		oRetVal.add(rEAT); 
+		oRetVal.add(rSEEK); 
+
 		return oRetVal; 
 	}
+	
+	/* (non-Javadoc)
+	 *
+	 * @author deutsch
+	 * 15.04.2011, 17:41:33
+	 * 
+	 * @see pa.interfaces.itfTimeChartInformationContainer#getTimeChartCaptions()
+	 */
+	@Override
+	public ArrayList<String> getTimeChartCaptions() {
+		ArrayList<String> oCaptions = new ArrayList<String>();
+		
+		oCaptions.add("TURN_RIGHT");
+		oCaptions.add("TURN_LEFT");
+		oCaptions.add("MOVE_FORWARD");
+		oCaptions.add("EAT");
+		oCaptions.add("SEEK");
+		
+		return oCaptions;
+	}		
 
 	/* (non-Javadoc)
 	 *

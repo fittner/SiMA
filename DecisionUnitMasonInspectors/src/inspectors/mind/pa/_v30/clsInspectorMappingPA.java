@@ -65,7 +65,7 @@ public class clsInspectorMappingPA {
 			oRetVal.addInspector( new clsE_DescriptionInspector(poSuperInspector, poWrapper, poState, moPA.moE05_AccumulationOfAffectsForSelfPreservationDrives), "Desc");
 //			oRetVal.addInspector( new clsE05InspectorOutput(poSuperInspector, poWrapper, poState, moPA.moE05_AccumulationOfAffectsForSelfPreservationDrives), "Current Drives");
 			oRetVal.addInspector( new clsE05DriveInspector(poSuperInspector, poWrapper, poState, moPA.moE05_AccumulationOfAffectsForSelfPreservationDrives, "moDriveList"), "Current Drives (Graph)");
-			oRetVal.addInspector( new clsE05DriveTiming(poSuperInspector, poWrapper, poState, moPA.moE05_AccumulationOfAffectsForSelfPreservationDrives, 200, "Drive-Affect Chart"), "Drive-Affect Chart");
+			oRetVal.addInspector(new clsE_ChartInspector(poSuperInspector, poWrapper, poState, moPA.moE05_AccumulationOfAffectsForSelfPreservationDrives, "Quota of Affects", -0.05, 1.05, "Drive-Affect Chart"),	"Drive-Affect Chart");	
 			oRetVal.addInspector( new clsSemanticInformationIspector(poSuperInspector, poWrapper, poState, moPA, eInterfaces.I1_4 ), "rcv I1_4");
 		} else if(poModuleName.equals("E06_DefenseMechanismsForDrives")) {
 			oRetVal.addInspector( new clsE_StateInspector(poSuperInspector, poWrapper, poState, moPA.moE06_DefenseMechanismsForDrives), "State");

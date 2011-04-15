@@ -183,32 +183,6 @@ public class E05_AccumulationOfAffectsForSelfPreservationDrives extends clsModul
 		throw new java.lang.NoSuchMethodError();
 	}
 
-	/* (non-Javadoc)
-	 *
-	 * @author zeilinger
-	 * 02.11.2010, 23:00:57
-	 * 
-	 * @see pa.interfaces.itfTimeChartInformationContainer#getTimeChartData()
-	 */
-	@Override
-	public ArrayList<clsPair<String, Double>> getTimeChartData() {
-		ArrayList<clsPair<String, Double>> oTimingValues = new ArrayList<clsPair<String,Double>>();
-		
-		for( clsDriveMesh oDM : moDriveList) {
-			clsDriveMesh oLifeDM = oDM; 
-			clsDriveMesh oDeathDM = moDriveList.get(moDriveList.indexOf(oDM)+1); 
-			clsPair<String, Double> oLibi = new clsPair<String, Double>(oLifeDM.getMoContent(), oLifeDM.getPleasure());
-			clsPair<String, Double> oDeath = new clsPair<String, Double>(oDeathDM.getMoContent(), oDeathDM.getPleasure());
-			
-			oTimingValues.add(oLibi);
-			oTimingValues.add(oDeath);
-			
-			if(moDriveList.indexOf(oDeathDM) == moDriveList.size()-1){
-				break; 
-			}
-		}
-		return oTimingValues;
-	}
 
 	/* (non-Javadoc)
 	 *
@@ -248,6 +222,58 @@ public class E05_AccumulationOfAffectsForSelfPreservationDrives extends clsModul
 	@Override
 	public void setDescription() {
 		moDescription = "Analogous to E42, E5 attaches quota of affects to the memory traces containing the drive contents. The difference is that the neurosymbols representing the drive tensions have been forwarded from {E2} through {E3} and {E4}. Thus, they are transferred into psychic processable form in this module. ";
+	}
+
+	/* (non-Javadoc)
+	 *
+	 * @author deutsch
+	 * 15.04.2011, 17:41:33
+	 * 
+	 * @see pa.interfaces.itfTimeChartInformationContainer#getTimeChartCaptions()
+	 */
+	@Override
+	public ArrayList<String> getTimeChartCaptions() {
+		ArrayList<String> oCaptions = new ArrayList<String>();
+		
+		for( clsDriveMesh oDM : moDriveList) {
+			clsDriveMesh oLifeDM = oDM; 
+			clsDriveMesh oDeathDM = moDriveList.get(moDriveList.indexOf(oDM)+1); 
+			
+			oCaptions.add(oLifeDM.getMoContent());
+			oCaptions.add(oDeathDM.getMoContent());
+			
+			if(moDriveList.indexOf(oDeathDM) == moDriveList.size()-1){
+				break; 
+			}
+		}
+		
+		return oCaptions;
+	}	
+	
+
+	/* (non-Javadoc)
+	 *
+	 * @author zeilinger
+	 * 02.11.2010, 23:00:57
+	 * 
+	 * @see pa.interfaces.itfTimeChartInformationContainer#getTimeChartData()
+	 */
+	@Override
+	public ArrayList<Double> getTimeChartData() {
+		ArrayList<Double> oTimingValues = new ArrayList<Double>();
+		
+		for( clsDriveMesh oDM : moDriveList) {
+			clsDriveMesh oLifeDM = oDM; 
+			clsDriveMesh oDeathDM = moDriveList.get(moDriveList.indexOf(oDM)+1); 
+			
+			oTimingValues.add(oLifeDM.getPleasure());
+			oTimingValues.add(oDeathDM.getPleasure());
+			
+			if(moDriveList.indexOf(oDeathDM) == moDriveList.size()-1){
+				break; 
+			}
+		}
+		return oTimingValues;
 	}	
 }
 
