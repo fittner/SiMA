@@ -16,12 +16,16 @@ import pa.interfaces.receive._v30.I2_5_receive;
 import pa.interfaces.receive._v30.I7_7_receive;
 import pa.interfaces.send._v30.I2_20_send;
 import pa.memorymgmt.clsKnowledgeBaseHandler;
+import pa.memorymgmt.datahandler.clsDataStructureConverter;
+import pa.memorymgmt.datahandler.clsDataStructureGenerator;
 import pa.memorymgmt.datatypes.clsAssociation;
 import pa.memorymgmt.datatypes.clsAssociationAttribute;
 import pa.memorymgmt.datatypes.clsDataStructureContainer;
 import pa.memorymgmt.datatypes.clsDataStructurePA;
+import pa.memorymgmt.datatypes.clsPhysicalRepresentation;
 import pa.memorymgmt.datatypes.clsPrimaryDataStructure;
 import pa.memorymgmt.datatypes.clsPrimaryDataStructureContainer;
+import pa.memorymgmt.datatypes.clsTemplateImage;
 import pa.memorymgmt.datatypes.clsThingPresentationMesh;
 import pa.memorymgmt.enums.eDataType;
 import pa.tools.clsPair;
@@ -46,6 +50,11 @@ public class E46_FusionWithMemoryTraces extends clsModuleBase implements
 	//private ArrayList<clsPrimaryDataStructureContainer> moGrantedPerception_IN; 
 	private ArrayList<clsPrimaryDataStructureContainer> moEnvironmentalPerception_IN; 
 	private ArrayList<clsPrimaryDataStructureContainer> moEnvironmentalPerception_OUT; 
+	
+	//New Output
+	private clsTemplateImage moDirectTemplateImage_OUT;
+	private ArrayList<clsTemplateImage> moIndirectTemplateImages_OUT;
+
 	
 	/**
 	 * DOCUMENT (HINTERLEITNER) - insert description 
@@ -108,9 +117,20 @@ public class E46_FusionWithMemoryTraces extends clsModuleBase implements
 	 */
 	@Override
 	protected void process_basic() {
-		moEnvironmentalPerception_OUT = new ArrayList<clsPrimaryDataStructureContainer>(); 
+		//moEnvironmentalPerception_OUT = new ArrayList<clsPrimaryDataStructureContainer>(); 
+		moEnvironmentalPerception_OUT = retrieveImages(moEnvironmentalPerception_IN);
+		//AW: 2011-04-18, new Data structures
+		//Convert Output to a template image
+		moDirectTemplateImage_OUT = createMOTIfromPDSC(moEnvironmentalPerception_OUT);
+		//Load indirect template images
+		moIndirectTemplateImages_OUT = retrieveIndirectTI(moDirectTemplateImage_OUT);
+
 		
-		retrieveImages(); 
+		
+		
+		//moEnvironmentalPerception_OUT = new ArrayList<clsPrimaryDataStructureContainer>(); 
+		
+		//retrieveImages(); 
 	}
 
 	/* (non-Javadoc)
@@ -146,13 +166,18 @@ public class E46_FusionWithMemoryTraces extends clsModuleBase implements
 	 * 14.03.2011, 14:27:30
 	 *
 	 */
-	private void retrieveImages() {
+	private ArrayList<clsPrimaryDataStructureContainer> retrieveImages(ArrayList<clsPrimaryDataStructureContainer> oPerceivedImage_IN) {
+		ArrayList<clsPrimaryDataStructureContainer> oRetVal;
+		
 		ArrayList<ArrayList<clsPair<Double,clsDataStructureContainer>>> oSearchResult = 
 			new ArrayList<ArrayList<clsPair<Double,clsDataStructureContainer>>>(); 
 		
-		search(eDataType.UNDEFINED, moEnvironmentalPerception_IN, oSearchResult ); 
-		createImage(oSearchResult); 	
+		search(eDataType.UNDEFINED, oPerceivedImage_IN, oSearchResult ); 
+		oRetVal = createImage(oSearchResult);	
+		
+		return oRetVal;
 	}
+
 	
 	/**
 	 * DOCUMENT (zeilinger) - insert description
@@ -161,7 +186,9 @@ public class E46_FusionWithMemoryTraces extends clsModuleBase implements
 	 * 14.03.2011, 23:06:52
 	 *
 	 */
-	private void createImage(ArrayList<ArrayList<clsPair<Double,clsDataStructureContainer>>> poSearchResult) {
+	private ArrayList<clsPrimaryDataStructureContainer> createImage(ArrayList<ArrayList<clsPair<Double,clsDataStructureContainer>>> poSearchResult) {
+		
+		ArrayList<clsPrimaryDataStructureContainer> oRetVal = new ArrayList<clsPrimaryDataStructureContainer>();
 		
 		for(ArrayList<clsPair<Double, clsDataStructureContainer>> oEntry : poSearchResult){
 		
@@ -174,9 +201,33 @@ public class E46_FusionWithMemoryTraces extends clsModuleBase implements
 					oNewImage.setMoAssociatedDataStructures(oPerceptionEntry.getMoAssociatedDataStructures()); 
 					mergePerceptionAndKnowledge(oNewImage, oPerceptionEntry);
 					
-					moEnvironmentalPerception_OUT.add(oNewImage); 
+					oRetVal.add(oNewImage);
 				}
 			}
+		return oRetVal;
+	}
+	
+	private clsTemplateImage createMOTIfromPDSC(ArrayList<clsPrimaryDataStructureContainer> oInput) {
+		clsTemplateImage oRetVal = null;
+		ArrayList<clsPhysicalRepresentation> oObjectList = new ArrayList<clsPhysicalRepresentation>();
+		
+		for (clsPrimaryDataStructureContainer oContainer : oInput) {
+			//Convert to TI
+			oObjectList.add(clsDataStructureConverter.convertPDSCtoTI((oContainer)));
+		}
+		
+		clsTripple<String, ArrayList<clsPhysicalRepresentation>, Object> oTIInput = new clsTripple<String, ArrayList<clsPhysicalRepresentation>, Object>(eDataType.TI.toString(), oObjectList, "Perception");
+		oRetVal = clsDataStructureGenerator.generateTI(oTIInput);
+		
+		return oRetVal;
+	}
+	
+	private ArrayList<clsTemplateImage> retrieveIndirectTI(clsTemplateImage oInput) {
+		ArrayList<clsTemplateImage> oRetVal = new ArrayList<clsTemplateImage>();
+		
+		//Spread activation from input
+		
+		return oRetVal;
 	}
 	
 	/**
@@ -274,7 +325,8 @@ public class E46_FusionWithMemoryTraces extends clsModuleBase implements
 	 */
 	@Override
 	protected void send() {
-		send_I2_20(new ArrayList<clsPrimaryDataStructureContainer>());
+		send_I2_20(moEnvironmentalPerception_OUT);
+		//send_I2_20(new ArrayList<clsPrimaryDataStructureContainer>());
 	}
 
 	/* (non-Javadoc)
