@@ -81,10 +81,12 @@ public class clsPsychicApparatus {
 	public clsLibidoBuffer moLibidoBuffer;
 	public clsBlockedContentStorage moBlockedContentStorage;
 	
-	public HashMap<Integer, clsModuleBase> moModules; // list of the modules defined above. needed for references within them.
 	public SortedMap<eInterfaces, ArrayList<Object>> moInterfaceData; //list of the currently transfered data via the interfaces. has to be refilled each round at each send_I?_? method manually!
+	public HashMap<Integer, clsModuleBase> moModules; // list of the modules defined above. needed for references within them.
+
+	//static data!!!
 	public HashMap<Integer, ArrayList<clsPair<eInterfaces, Integer>>> moInterfaceMesh; //the mesh created by all modules and the outgoing interfaces in combination to which module they are connecting to
-	public HashMap<eInterfaces, clsPair<ArrayList<Integer>, ArrayList<Integer>>> moInterfaces_Recv_Send; 
+	public HashMap<eInterfaces, clsPair<ArrayList<Integer>, ArrayList<Integer>>> moInterfaces_Recv_Send; //list of interfaces and the modules it connects to pair(source,target) 
 
 	public clsPsychicApparatus(String poPrefix, clsBWProperties poProp, 
 			clsMemory poMemory,	clsKnowledgeBaseHandler poKnowledgeBaseHandler) {
