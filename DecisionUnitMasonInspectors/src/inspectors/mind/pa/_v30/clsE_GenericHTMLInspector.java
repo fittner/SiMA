@@ -34,7 +34,7 @@ public abstract class clsE_GenericHTMLInspector extends Inspector {
 	
     public clsE_GenericHTMLInspector(clsModuleBase poModule)
     {
-    	moModule = poModule;
+		moModule = poModule;
     	
     	setTitle();
     	updateContent();

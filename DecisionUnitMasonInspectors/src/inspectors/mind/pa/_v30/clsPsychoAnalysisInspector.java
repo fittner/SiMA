@@ -7,6 +7,8 @@
 package inspectors.mind.pa._v30;
 
 import java.awt.BorderLayout;
+import java.awt.Dimension;
+
 import pa._v30.clsProcessor;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -46,8 +48,7 @@ public class clsPsychoAnalysisInspector extends Inspector implements TreeSelecti
 	TabbedInspector moContent = new TabbedInspector();
 	JSplitPane moSplitPane;
 
-    public clsPsychoAnalysisInspector( clsPsychoAnalysis poPA)
-    {
+    public clsPsychoAnalysisInspector(clsPsychoAnalysis poPA) {
 		moPA= poPA;
 		
 		Box oBox1 = new Box(BoxLayout.PAGE_AXIS);
@@ -62,15 +63,13 @@ public class clsPsychoAnalysisInspector extends Inspector implements TreeSelecti
 		moModuleTree = new JTree(root);
 		moModuleTree.addTreeSelectionListener(this);
 		JScrollPane oTreeScroll = new JScrollPane(moModuleTree);
+		
 		moContentPane = new JScrollPane(moContent);
-		
-		
-		moSplitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT,
-				oTreeScroll, moContentPane);
-		moSplitPane.setResizeWeight(0.5);
+	
+		moSplitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, oTreeScroll, moContentPane);
 		moSplitPane.setOneTouchExpandable(true);
 		moSplitPane.setContinuousLayout(true);
-		moSplitPane.setDividerLocation(200);
+		moSplitPane.setDividerLocation(150);
 		
 		oBox1.add(moSplitPane);
 		
@@ -137,7 +136,10 @@ public class clsPsychoAnalysisInspector extends Inspector implements TreeSelecti
 		Object nodeInfo = node.getUserObject();
 		//if (node.isLeaf()) {
 			moContentPane.remove(moContent);
+			
 			moContent = clsInspectorPATabFactory.createInspectorModules( ((clsProcessor)moPA.getProcessor()).getPsychicApparatus(), nodeInfo.toString(), moModuleTree);
+			moContent.setPreferredSize( new Dimension(300,300) );
+			
 			moContentPane.add(moContent);
 			moContentPane.setViewportView(moContent);
 			moContentPane.repaint();

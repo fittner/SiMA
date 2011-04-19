@@ -56,7 +56,6 @@ public abstract class clsE_GenericChartInspector extends Inspector {
             String poChartName,
             int pnOffset)
     {
-    	super();
     	moTimeingContainer= poTimingContainer;
     	moCurrentTime = 0;
     	mnOffset = pnOffset;
