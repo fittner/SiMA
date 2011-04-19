@@ -74,7 +74,8 @@ public class clsInspectorPATabFactory {
 			eInterfaces eI = eInterfaces.valueOf(poModuleName);
 			oRetVal.addInspector(
 					new clsI_SimpleInterfaceDataInspector(eI, moPA.moInterfaceData, moPA.moInterfaces_Recv_Send),
-					"Interface Data");
+					"Simple");
+			oRetVal.addInspector( new clsSemanticInformationIspector(moPA, eI), "Graph");
 		} catch (java.lang.IllegalArgumentException e) {
 			//do nothing
 		}
