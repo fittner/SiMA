@@ -19,7 +19,7 @@ import du.itf.actions.clsActionPickUp;
 import du.itf.actions.clsActionSequenceFactory;
 import du.itf.actions.clsActionTurn;
 import pa.interfaces._v30.eInterfaces;
-import pa.interfaces._v30.itfTimeChartInformationContainer;
+import pa.interfaces._v30.itfInspectorTimeChart;
 import pa.interfaces.receive._v30.I8_1_receive;
 import pa.interfaces.receive._v30.I8_2_receive;
 import pa.interfaces.send._v30.I8_2_send;
@@ -32,7 +32,7 @@ import pa.memorymgmt.datatypes.clsWordPresentation;
  * 11.08.2009, 14:59:58
  * 
  */
-public class E31_NeuroDeSymbolizationActionCommands extends clsModuleBase implements I8_1_receive, I8_2_send, itfTimeChartInformationContainer  {
+public class E31_NeuroDeSymbolizationActionCommands extends clsModuleBase implements I8_1_receive, I8_2_send, itfInspectorTimeChart  {
 	public static final String P_MODULENUMBER = "31";
 	
 	private ArrayList<clsActionCommand> moActionCommandList_Output;

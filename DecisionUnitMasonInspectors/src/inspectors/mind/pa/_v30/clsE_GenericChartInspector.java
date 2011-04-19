@@ -20,7 +20,7 @@ import org.jfree.data.xy.XYSeries;
 import org.jfree.data.xy.XYSeriesCollection;
 import org.jfree.ui.RectangleInsets;
 
-import pa.interfaces._v30.itfTimeChartInformationContainer;
+import pa.interfaces._v30.itfInspectorTimeChart;
 import sim.portrayal.Inspector;
 
 /**
@@ -45,13 +45,13 @@ public abstract class clsE_GenericChartInspector extends Inspector {
 	protected final static int mnHeight = 400;
 	protected final int mnOffset;
 	
-	protected itfTimeChartInformationContainer moTimeingContainer;
+	protected itfInspectorTimeChart moTimeingContainer;
 	protected ArrayList<XYSeries> moValueHistory;
 	protected long moCurrentTime;
 
 	
     public clsE_GenericChartInspector(
-            itfTimeChartInformationContainer poTimingContainer,
+            itfInspectorTimeChart poTimingContainer,
             String poYAxisCaption,
             String poChartName,
             int pnOffset)

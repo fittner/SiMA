@@ -10,7 +10,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import pa.interfaces._v30.eInterfaces;
-import pa.interfaces._v30.itfTimeChartInformationContainer;
+import pa.interfaces._v30.itfInspectorGenericTimeChart;
 import pa.interfaces.receive._v30.I1_4_receive;
 import pa.interfaces.receive._v30.I2_15_receive;
 import pa.interfaces.send._v30.I2_15_send;
@@ -27,7 +27,7 @@ import config.clsBWProperties;
  * 
  */
 public class E05_AccumulationOfAffectsForSelfPreservationDrives extends clsModuleBase implements 
-						I1_4_receive, I2_15_send, itfTimeChartInformationContainer {
+						I1_4_receive, I2_15_send, itfInspectorGenericTimeChart {
 	public static final String P_MODULENUMBER = "05";
 	
 	private ArrayList<clsPair<clsPair<clsDriveMesh, clsDriveDemand>, clsPair<clsDriveMesh, clsDriveDemand>>> moDriveCandidate;
@@ -274,6 +274,54 @@ public class E05_AccumulationOfAffectsForSelfPreservationDrives extends clsModul
 			}
 		}
 		return oTimingValues;
+	}
+
+	/* (non-Javadoc)
+	 *
+	 * @author deutsch
+	 * 19.04.2011, 10:31:35
+	 * 
+	 * @see pa.interfaces._v30.itfInspectorTimeChart#getTimeChartTitle()
+	 */
+	@Override
+	public String getTimeChartTitle() {
+		return "Drive-Affect Chart";
+	}
+
+	/* (non-Javadoc)
+	 *
+	 * @author deutsch
+	 * 19.04.2011, 10:31:35
+	 * 
+	 * @see pa.interfaces._v30.itfInspectorTimeChart#getTimeChartUpperLimit()
+	 */
+	@Override
+	public double getTimeChartUpperLimit() {
+		return 1.05;
+	}
+
+	/* (non-Javadoc)
+	 *
+	 * @author deutsch
+	 * 19.04.2011, 10:31:35
+	 * 
+	 * @see pa.interfaces._v30.itfInspectorTimeChart#getTimeChartLowerLimit()
+	 */
+	@Override
+	public double getTimeChartLowerLimit() {
+		return -0.05;
+	}
+
+	/* (non-Javadoc)
+	 *
+	 * @author deutsch
+	 * 19.04.2011, 10:34:35
+	 * 
+	 * @see pa.interfaces._v30.itfInspectorGenericTimeChart#getTimeChartAxis()
+	 */
+	@Override
+	public String getTimeChartAxis() {
+		return "Quota of Affects";
 	}	
 }
 

@@ -10,7 +10,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import pa.interfaces._v30.eInterfaces;
-import pa.interfaces._v30.itfTimeChartInformationContainer;
+import pa.interfaces._v30.itfInspectorGenericTimeChart;
 import pa.interfaces.receive._v30.I1_10_receive;
 import pa.interfaces.receive._v30.I1_9_receive;
 import pa.interfaces.send._v30.I1_10_send;
@@ -25,7 +25,7 @@ import config.clsBWProperties;
  * 03.03.2011, 15:18:57
  * 
  */
-public class E41_Libidostasis extends clsModuleBase implements I1_9_receive, I1_10_send, itfTimeChartInformationContainer {
+public class E41_Libidostasis extends clsModuleBase implements I1_9_receive, I1_10_send, itfInspectorGenericTimeChart {
 	public static final String P_MODULENUMBER = "41";
 	
 	private clsLibidoBuffer moLibidoBuffer;
@@ -213,5 +213,53 @@ public class E41_Libidostasis extends clsModuleBase implements I1_9_receive, I1_
 		oCaptions.add("Incoming Libido");
 		oCaptions.add("Total Libido");
 		return oCaptions;
+	}
+
+	/* (non-Javadoc)
+	 *
+	 * @author deutsch
+	 * 19.04.2011, 10:42:50
+	 * 
+	 * @see pa.interfaces._v30.itfInspectorGenericTimeChart#getTimeChartAxis()
+	 */
+	@Override
+	public String getTimeChartAxis() {
+		return "Libido";
+	}
+
+	/* (non-Javadoc)
+	 *
+	 * @author deutsch
+	 * 19.04.2011, 10:42:50
+	 * 
+	 * @see pa.interfaces._v30.itfInspectorGenericTimeChart#getTimeChartTitle()
+	 */
+	@Override
+	public String getTimeChartTitle() {
+		return "Libido Chart";
+	}
+
+	/* (non-Javadoc)
+	 *
+	 * @author deutsch
+	 * 19.04.2011, 10:42:50
+	 * 
+	 * @see pa.interfaces._v30.itfInspectorGenericTimeChart#getTimeChartUpperLimit()
+	 */
+	@Override
+	public double getTimeChartUpperLimit() {
+		return 1.05;
+	}
+
+	/* (non-Javadoc)
+	 *
+	 * @author deutsch
+	 * 19.04.2011, 10:42:50
+	 * 
+	 * @see pa.interfaces._v30.itfInspectorGenericTimeChart#getTimeChartLowerLimit()
+	 */
+	@Override
+	public double getTimeChartLowerLimit() {
+		return -0.05;
 	}	
 }

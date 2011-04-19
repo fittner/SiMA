@@ -15,7 +15,7 @@ import java.util.ArrayList;
  * 04.11.2009, 19:09:18
  * 
  */
-public interface itfTimeChartInformationContainer {
+public interface itfInspectorTimeChart {
 	public ArrayList<Double> getTimeChartData();
 	public ArrayList<String> getTimeChartCaptions();
 }

@@ -15,7 +15,7 @@ import org.jfree.data.xy.XYSeries;
 import org.jfree.data.xy.XYSeriesCollection;
 import org.jfree.ui.RectangleInsets;
 
-import pa.interfaces._v30.itfTimeChartInformationContainer;
+import pa.interfaces._v30.itfInspectorTimeChart;
 
 /**
  * DOCUMENT (deutsch) - insert description 
@@ -49,7 +49,7 @@ public class clsE31_ChartInspector extends clsE_GenericChartInspector {
 	 * @param poChartName
 	 */
 	public clsE31_ChartInspector(
-			itfTimeChartInformationContainer poTimingContainer,
+			itfInspectorTimeChart poTimingContainer,
 			String poYAxisCaption, String poChartName) {
 		super(poTimingContainer, poYAxisCaption, poChartName, 2);
 		//nothing to do

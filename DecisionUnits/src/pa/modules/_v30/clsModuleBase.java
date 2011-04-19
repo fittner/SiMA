@@ -13,6 +13,9 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import pa.interfaces._v30.eInterfaces;
+import pa.interfaces._v30.itfInspectorInternalState;
+import pa.interfaces._v30.itfInterfaceDescription;
+import pa.interfaces._v30.itfInterfaceInterfaceData;
 import config.clsBWProperties;
 
 /**
@@ -22,7 +25,7 @@ import config.clsBWProperties;
  * 11.08.2009, 11:16:13
  * 
  */
-public abstract class clsModuleBase {
+public abstract class clsModuleBase implements itfInspectorInternalState, itfInterfaceDescription, itfInterfaceInterfaceData {
 	public static String P_PROCESS_IMPLEMENTATION_STAGE = "IMP_STAGE"; 
 	
 	protected eProcessType mnProcessType;
@@ -186,8 +189,6 @@ public abstract class clsModuleBase {
 		moInterfaceData.put(pnInterface, oData);
 	}
 	
-	public abstract String stateToHTML();
-	
 	@SuppressWarnings("rawtypes")
 	protected <E,V> String mapToHTML(String poName, Map<E,V> poMap) {
 		String html ="<h2>"+poName+"</h2>";
@@ -238,6 +239,7 @@ public abstract class clsModuleBase {
 		return html;
 	}		
 	
+	@Override
 	public String getDescription() {
 		return moDescription;
 	}

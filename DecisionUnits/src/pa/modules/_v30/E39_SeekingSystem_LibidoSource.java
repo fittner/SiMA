@@ -9,7 +9,7 @@ package pa.modules._v30;
 import java.util.ArrayList;
 import java.util.HashMap;
 import pa.interfaces._v30.eInterfaces;
-import pa.interfaces._v30.itfTimeChartInformationContainer;
+import pa.interfaces._v30.itfInspectorGenericTimeChart;
 import pa.interfaces.receive._v30.I0_1_receive;
 import pa.interfaces.receive._v30.I0_2_receive;
 import pa.interfaces.receive._v30.I1_8_receive;
@@ -24,7 +24,8 @@ import config.clsBWProperties;
  * 03.03.2011, 15:16:06
  * 
  */
-public class E39_SeekingSystem_LibidoSource extends clsModuleBase implements I0_1_receive, I0_2_receive, I1_8_send, itfTimeChartInformationContainer {
+public class E39_SeekingSystem_LibidoSource extends clsModuleBase 
+			implements I0_1_receive, I0_2_receive, I1_8_send, itfInspectorGenericTimeChart {
 	public static final String P_MODULENUMBER = "39";
 	
 	private clsLibidoBuffer moLibidoBuffer;
@@ -230,5 +231,54 @@ public class E39_SeekingSystem_LibidoSource extends clsModuleBase implements I0_
 		oCaptions.add(eInterfaces.I1_8.toString());
 		
 		return oCaptions;
+	}
+
+	/* (non-Javadoc)
+	 *
+	 * @author deutsch
+	 * 19.04.2011, 10:39:30
+	 * 
+	 * @see pa.interfaces._v30.itfInspectorGenericTimeChart#getTimeChartAxis()
+	 */
+	@Override
+	public String getTimeChartAxis() {
+		return "Libido";
+	}
+
+	/* (non-Javadoc)
+	 *
+	 * @author deutsch
+	 * 19.04.2011, 10:39:30
+	 * 
+	 * @see pa.interfaces._v30.itfInspectorGenericTimeChart#getTimeChartTitle()
+	 */
+	@Override
+	public String getTimeChartTitle() {
+		return "Libido Chart";
+	}
+
+	/* (non-Javadoc)
+	 *
+	 * @author deutsch
+	 * 19.04.2011, 10:39:30
+	 * 
+	 * @see pa.interfaces._v30.itfInspectorGenericTimeChart#getTimeChartUpperLimit()
+	 */
+	@Override
+	public double getTimeChartUpperLimit() {
+		return 1.05;
+	}
+
+	/* (non-Javadoc)
+	 *
+	 * @author deutsch
+	 * 19.04.2011, 10:39:30
+	 * 
+	 * @see pa.interfaces._v30.itfInspectorGenericTimeChart#getTimeChartLowerLimit()
+	 */
+	@Override
+	public double getTimeChartLowerLimit() {
+		return -0.05;
 	}	
 }
+
