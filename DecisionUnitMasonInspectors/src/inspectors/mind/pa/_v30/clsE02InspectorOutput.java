@@ -14,9 +14,7 @@ import javax.swing.JLabel;
 import javax.swing.JTree;
 
 import pa.modules._v30.E02_NeurosymbolizationOfNeeds;
-import sim.display.GUIState;
 import sim.portrayal.Inspector;
-import sim.portrayal.LocationWrapper;
 
 /**
  * DOCUMENT (langr) - insert description 
@@ -29,16 +27,11 @@ public class clsE02InspectorOutput extends Inspector {
 
 	private static final long serialVersionUID = 1L;
 	
-	public Inspector moOriginalInspector;
 	//private E02_NeurosymbolizationOfNeeds moE02; //never used!
 	JTree moModuleTree;
 	
-    public clsE02InspectorOutput(Inspector originalInspector,
-            LocationWrapper wrapper,
-            GUIState guiState,
-            E02_NeurosymbolizationOfNeeds poNeuroNeeds)
+    public clsE02InspectorOutput(      E02_NeurosymbolizationOfNeeds poNeuroNeeds)
     {
-		moOriginalInspector = originalInspector;
 		//moE02= poNeuroNeeds; //never used!
 		
 		Box oBox1 = new Box(BoxLayout.PAGE_AXIS);

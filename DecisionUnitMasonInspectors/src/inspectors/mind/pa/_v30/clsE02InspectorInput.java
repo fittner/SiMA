@@ -13,9 +13,7 @@ import du.enums.eSensorIntType;
 import du.itf.sensors.clsDataBase;
 
 import pa.modules._v30.E02_NeurosymbolizationOfNeeds;
-import sim.display.GUIState;
 import sim.portrayal.Inspector;
-import sim.portrayal.LocationWrapper;
 import sim.util.gui.HTMLBrowser;
 
 /**
@@ -28,16 +26,11 @@ import sim.util.gui.HTMLBrowser;
 public class clsE02InspectorInput extends Inspector {
 
 	private static final long serialVersionUID = 3331975073925689043L;
-	public Inspector moOriginalInspector;
 	private E02_NeurosymbolizationOfNeeds moE02;
 	HTMLBrowser moHTMLPane;
 	
-    public clsE02InspectorInput(Inspector originalInspector,
-            LocationWrapper wrapper,
-            GUIState guiState,
-            E02_NeurosymbolizationOfNeeds poNeuroNeeds)
+    public clsE02InspectorInput(E02_NeurosymbolizationOfNeeds poNeuroNeeds)
     {
-		moOriginalInspector = originalInspector;
 		moE02= poNeuroNeeds;
 		
 		HashMap<eSensorIntType, clsDataBase> oHomeo = moE02.getHomeostasisData();

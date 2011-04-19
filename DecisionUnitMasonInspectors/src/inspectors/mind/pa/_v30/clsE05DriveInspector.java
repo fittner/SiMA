@@ -34,9 +34,7 @@ import org.jgraph.graph.VertexView;
 //import pa.datatypes.clsPrimaryInformationMesh;
 import pa.memorymgmt.datatypes.clsDriveMesh;
 import pa.modules._v30.E05_AccumulationOfAffectsForSelfPreservationDrives;
-import sim.display.GUIState;
 import sim.portrayal.Inspector;
-import sim.portrayal.LocationWrapper;
 
 import com.jgraph.components.labels.MultiLineVertexView;
 import com.jgraph.components.labels.RichTextBusinessObject;
@@ -87,13 +85,10 @@ public class clsE05DriveInspector extends Inspector implements ActionListener {
      * @param poMeshContainer
      * @param poMeshListMemberName
      */
-    public clsE05DriveInspector(Inspector originalInspector,
-            LocationWrapper wrapper,
-            GUIState guiState,
+    public clsE05DriveInspector(
             E05_AccumulationOfAffectsForSelfPreservationDrives poE05,
             String poMeshListMemberName)
     {
-		moOriginalInspector = originalInspector;
 		moE05 = poE05;				//container class	
 		
 		updateControl();	//loading data into the graph

@@ -66,9 +66,7 @@ import pa.interfaces._v30.eInterfaces;
 import pa.tools.clsPair;
 
 
-import sim.display.GUIState;
 import sim.portrayal.Inspector;
-import sim.portrayal.LocationWrapper;
 
 import com.jgraph.components.labels.MultiLineVertexView;
 import com.jgraph.components.labels.RichTextBusinessObject;
@@ -148,14 +146,10 @@ public class clsSemanticInformationIspector extends Inspector implements ActionL
      * @param poModuleContainer eg moPA.moG02Id.moG06AffectGeneration.moE05GenerationOfAffectsForDrives
      * @param poModuleMemoryMemberName 
      */
-    public clsSemanticInformationIspector(Inspector originalInspector,
-            LocationWrapper wrapper,
-            GUIState guiState,
+    public clsSemanticInformationIspector(
             clsPsychicApparatus poPAInstance,
             eInterfaces poEnumInterface)
     {
- 	
-		moOriginalInspector = originalInspector;		//
 //		moModuleContainer = poModuleContainer;				//container class 	
 		moEnumInterface = poEnumInterface;	//member name of the list within the containing class
 		moPAInstance = poPAInstance;

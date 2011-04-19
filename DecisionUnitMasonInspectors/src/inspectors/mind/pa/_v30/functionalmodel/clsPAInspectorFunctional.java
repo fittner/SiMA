@@ -34,9 +34,7 @@ import org.jgraph.graph.VertexView;
 
 import pa.modules._v30.clsPsychicApparatus;
 
-import sim.display.GUIState;
 import sim.portrayal.Inspector;
-import sim.portrayal.LocationWrapper;
 
 import com.jgraph.components.labels.MultiLineVertexView;
 import com.jgraph.components.labels.RichTextBusinessObject;
@@ -58,7 +56,6 @@ import com.jgraph.layout.JGraphModelFacade;
 public class clsPAInspectorFunctional extends Inspector implements ActionListener {
 
 	private static final long serialVersionUID = -1191073481242249784L;
-	public Inspector moOriginalInspector;
 	private JGraph moGraph;
 	private ArrayList<clsNode> moRootNodes;
 	private JButton moBtnUpdate;
@@ -71,11 +68,8 @@ public class clsPAInspectorFunctional extends Inspector implements ActionListene
 	int y_mult;
 	int y_offset;	
 
-    public clsPAInspectorFunctional(Inspector originalInspector,
-            LocationWrapper wrapper,
-            GUIState guiState, JTree poTree, boolean pnCompact, clsPsychicApparatus moPA)
+    public clsPAInspectorFunctional(JTree poTree, boolean pnCompact, clsPsychicApparatus moPA)
     {
-		moOriginalInspector = originalInspector;
 		moRootNodes = clsGenerateFunctionalModel.getRootNodes(moPA);
 		mnCompact = pnCompact;
 		
