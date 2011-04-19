@@ -87,15 +87,10 @@ public class clsInspectorPATabFactory {
 
 			
 		} else if(poModuleName.equals("E02_NeurosymbolizationOfNeeds")) {
-			oRetVal.addInspector( new clsE02InspectorInput(moPA.moE02_NeurosymbolizationOfNeeds), "Input");
-			oRetVal.addInspector( new clsE02InspectorOutput(moPA.moE02_NeurosymbolizationOfNeeds), "Output (same as Input)");
 		} else if(poModuleName.equals("E03_GenerationOfSelfPreservationDrives")) {
-//			oRetVal.addInspector( new clsE03InspectorInput(poSuperInspector, poWrapper, poState, moPA.moE03_GenerationOfSelfPreservationDrives), "Input");
 			oRetVal.addInspector( new clsE03InspectorDriveDefinitions(moPA.moE03_GenerationOfSelfPreservationDrives), "Drive Definitions");
-//			oRetVal.addInspector( new clsE03InspectorOutput(poSuperInspector, poWrapper, poState, moPA.moE03_GenerationOfSelfPreservationDrives), "Output");
 		} else if(poModuleName.equals("E04_FusionOfSelfPreservationDrives")) {
 		} else if(poModuleName.equals("E05_AccumulationOfAffectsForSelfPreservationDrives")) {
-//			oRetVal.addInspector( new clsE05InspectorOutput(poSuperInspector, poWrapper, poState, moPA.moE05_AccumulationOfAffectsForSelfPreservationDrives), "Current Drives");
 			oRetVal.addInspector( new clsE05DriveInspector(moPA.moE05_AccumulationOfAffectsForSelfPreservationDrives, "moDriveList"), "Current Drives (Graph)");
 			oRetVal.addInspector( new clsSemanticInformationIspector(moPA, eInterfaces.I1_4 ), "rcv I1_4");
 		} else if(poModuleName.equals("E06_DefenseMechanismsForDrives")) {
