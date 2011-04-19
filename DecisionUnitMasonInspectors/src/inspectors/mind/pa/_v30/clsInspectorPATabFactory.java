@@ -7,6 +7,7 @@
 package inspectors.mind.pa._v30;
 
 import java.lang.reflect.Field;
+import java.util.ArrayList;
 
 import javax.swing.JTree;
 
@@ -74,8 +75,19 @@ public class clsInspectorPATabFactory {
 				oRetVal.addInspector(
 						new clsE_SimpleInterfaceDataInspector(oModule, moPA.moInterfaceData),
 						"Interface Data");
-						
-				// TODO MUCHITSCH ADD INSPECTOR CALL
+				
+				//iterating through all receive and send interfaces and creates a graphical inspector tab for each of them
+				ArrayList<eInterfaces> oRecv = oModule.getInterfacesRecv();
+				ArrayList<eInterfaces> oSend = oModule.getInterfacesSend();
+				
+				for (eInterfaces eRcv:oRecv) {
+					oRetVal.addInspector( new clsSemanticInformationIspector(moPA, eRcv), "rcv "+eRcv.toString());
+				}
+				
+				for (eInterfaces eSnd:oSend) {
+					oRetVal.addInspector( new clsSemanticInformationIspector(moPA, eSnd), "snd "+eSnd.toString());
+				}
+			
 			}
 		} catch (java.lang.NoSuchFieldException e) {
 			// do nothing
@@ -92,7 +104,7 @@ public class clsInspectorPATabFactory {
 		} else if(poModuleName.equals("E04_FusionOfSelfPreservationDrives")) {
 		} else if(poModuleName.equals("E05_AccumulationOfAffectsForSelfPreservationDrives")) {
 			oRetVal.addInspector( new clsE05DriveInspector(moPA.moE05_AccumulationOfAffectsForSelfPreservationDrives, "moDriveList"), "Current Drives (Graph)");
-			oRetVal.addInspector( new clsSemanticInformationIspector(moPA, eInterfaces.I1_4 ), "rcv I1_4");
+			//oRetVal.addInspector( new clsSemanticInformationIspector(moPA, eInterfaces.I1_4 ), "rcv I1_4");
 		} else if(poModuleName.equals("E06_DefenseMechanismsForDrives")) {
 		} else if(poModuleName.equals("E07_InternalizedRulesHandler")) {
 		} else if(poModuleName.equals("E08_ConversionToSecondaryProcessForDriveWishes")) {
