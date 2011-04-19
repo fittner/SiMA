@@ -26,7 +26,6 @@ import bw.body.clsBaseBody;
 import bw.body.itfGetBrain;
 import bw.body.itfget.itfGetBody;
 import bw.entities.clsEntity;
-import bw.exceptions.clsExeptionUtils;
 import bw.utils.inspectors.clsInspectorMappingEntity;
 
 import sim.display.GUIState;
@@ -34,6 +33,7 @@ import sim.portrayal.Inspector;
 import sim.portrayal.LocationWrapper;
 import sim.portrayal.inspector.TabbedInspector;
 import sim.util.gui.PropertyField;
+import statictools.clsExeptionUtils;
 
 /**
  * The InspectorEntity is the main entry point for all further entity

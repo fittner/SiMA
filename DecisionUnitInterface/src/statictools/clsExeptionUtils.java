@@ -4,7 +4,7 @@
  * @author muchitsch
  * 05.04.2011, 16:19:01
  */
-package bw.exceptions;
+package statictools;
 
 /**
  * DOCUMENT (muchitsch) - insert description 
