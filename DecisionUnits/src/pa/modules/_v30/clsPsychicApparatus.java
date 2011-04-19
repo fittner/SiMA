@@ -84,6 +84,7 @@ public class clsPsychicApparatus {
 	public HashMap<Integer, clsModuleBase> moModules; // list of the modules defined above. needed for references within them.
 	public SortedMap<eInterfaces, ArrayList<Object>> moInterfaceData; //list of the currently transfered data via the interfaces. has to be refilled each round at each send_I?_? method manually!
 	public HashMap<Integer, ArrayList<clsPair<eInterfaces, Integer>>> moInterfaceMesh; //the mesh created by all modules and the outgoing interfaces in combination to which module they are connecting to
+	public HashMap<eInterfaces, clsPair<ArrayList<Integer>, ArrayList<Integer>>> moInterfaces_Recv_Send; 
 
 	public clsPsychicApparatus(String poPrefix, clsBWProperties poProp, 
 			clsMemory poMemory,	clsKnowledgeBaseHandler poKnowledgeBaseHandler) {
@@ -100,6 +101,7 @@ public class clsPsychicApparatus {
 		applyProperties(poPrefix, poProp);
 		
 		fillInterfaceMesh();
+		fillInterfaces_Recv_Send();
 	}
 	
 	public static clsBWProperties getDefaultProperties(String poPrefix) {
@@ -214,6 +216,27 @@ public class clsPsychicApparatus {
 	
 		//nothing to do
 	}	
+	
+	private void fillInterfaces_Recv_Send() {
+		moInterfaces_Recv_Send = new HashMap<eInterfaces, clsPair<ArrayList<Integer>,ArrayList<Integer>>>();
+		for (eInterfaces eI:eInterfaces.values()) {
+			moInterfaces_Recv_Send.put(eI, new clsPair<ArrayList<Integer>, ArrayList<Integer>>(new ArrayList<Integer>(), new ArrayList<Integer>()));
+		}
+		for (Map.Entry<Integer, clsModuleBase>  e:moModules.entrySet()) {
+			Integer oKey = e.getKey();
+			clsModuleBase oMod = e.getValue();
+			
+			for (eInterfaces eI:oMod.getInterfacesRecv()) {
+				clsPair<ArrayList<Integer>,ArrayList<Integer>> oP = moInterfaces_Recv_Send.get(eI);
+				oP.a.add(oKey);
+			}
+			
+			for (eInterfaces eI:oMod.getInterfacesSend()) {
+				clsPair<ArrayList<Integer>,ArrayList<Integer>> oP = moInterfaces_Recv_Send.get(eI);
+				oP.b.add(oKey);
+			}			
+		}
+	}
 	
 	private void fillInterfaceMesh() {
 		moInterfaceMesh = new HashMap<Integer, ArrayList<clsPair<eInterfaces,Integer>>>();

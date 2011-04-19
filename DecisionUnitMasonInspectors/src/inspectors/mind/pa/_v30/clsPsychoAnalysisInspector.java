@@ -13,6 +13,7 @@ import pa._v30.clsProcessor;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Map;
+import java.util.Map.Entry;
 
 import javax.swing.Box;
 import javax.swing.BoxLayout;
@@ -24,6 +25,7 @@ import javax.swing.event.TreeSelectionListener;
 import javax.swing.tree.DefaultMutableTreeNode;
 
 import pa.clsPsychoAnalysis;
+import pa.interfaces._v30.eInterfaces;
 import pa.modules._v30.clsModuleBase;
 import pa.modules._v30.clsPsychicApparatus;
 
@@ -59,6 +61,7 @@ public class clsPsychoAnalysisInspector extends Inspector implements TreeSelecti
 		clsPsychicApparatus oPsyApp = ((clsProcessor)poPA.getProcessor()).getPsychicApparatus();
 		//build a tree with all members that start either with moC for clsModuleContainer or moE for clsModuleBase
 		addModulesToTree( oPsyApp, root );
+		addInterfacesToTree( oPsyApp, root);
 
 		moModuleTree = new JTree(root);
 		moModuleTree.addTreeSelectionListener(this);
@@ -89,6 +92,8 @@ public class clsPsychoAnalysisInspector extends Inspector implements TreeSelecti
 	private void addModulesToTree(clsPsychicApparatus poPA,
 			DefaultMutableTreeNode poParentTreeNode) {
 		ArrayList<String> oChilds = new ArrayList<String>();
+		DefaultMutableTreeNode oParent = new DefaultMutableTreeNode("Modules");
+		poParentTreeNode.add(oParent);
 		
         for ( Map.Entry<Integer, clsModuleBase> module : poPA.moModules.entrySet() )	{
         	String oName = module.getValue().getClass().getSimpleName();
@@ -97,10 +102,26 @@ public class clsPsychoAnalysisInspector extends Inspector implements TreeSelecti
         Collections.sort(oChilds);
         for (String oName:oChilds) {
         	DefaultMutableTreeNode child = new DefaultMutableTreeNode(oName);
-        	poParentTreeNode.add(child);
+        	oParent.add(child);
         }
-        
 	}
+	
+	private void  addInterfacesToTree(clsPsychicApparatus poPA,
+			DefaultMutableTreeNode poParentTreeNode) {
+		ArrayList<String> oChilds = new ArrayList<String>();
+		DefaultMutableTreeNode oParent = new DefaultMutableTreeNode("Interfaces");
+		poParentTreeNode.add(oParent);
+		
+        for ( Entry<eInterfaces, ArrayList<Object>> e : poPA.moInterfaceData.entrySet() )	{
+        	String oName = e.getKey().toString();
+        	oChilds.add(oName);
+        }
+        Collections.sort(oChilds);
+        for (String oName:oChilds) {
+        	DefaultMutableTreeNode child = new DefaultMutableTreeNode(oName);
+        	oParent.add(child);
+        }
+	}		
 
 	/* (non-Javadoc)
 	 *

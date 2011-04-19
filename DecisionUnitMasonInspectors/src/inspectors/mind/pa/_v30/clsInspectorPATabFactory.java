@@ -45,8 +45,45 @@ public class clsInspectorPATabFactory {
 	 * @param poModuleName
 	 */
 	public static TabbedInspector createInspectorModules(clsPsychicApparatus moPA, String poModuleName, JTree poLeftMenu) {
+		TabbedInspector oRetVal = null;
+		
+		if (poModuleName.charAt(0) == 'E') {
+			oRetVal = createModules(moPA, poModuleName, poLeftMenu);
+			
+		} else if (poModuleName.charAt(0) == 'I' || poModuleName.charAt(0) == 'D') {
+			oRetVal = createInterfaces(moPA, poModuleName, poLeftMenu);
+			
+		} else if(poModuleName.equals("Psychic Apparatus")) {
+			oRetVal = new TabbedInspector(); 
+			
+			oRetVal.addInspector( new clsPAInspectorFunctional(poLeftMenu, true, moPA), "FM Compact");
+			oRetVal.addInspector( new clsPAInspectorFunctional(poLeftMenu, false, moPA), "Functional Model");
+			oRetVal.addInspector( new clsPAInspectorInterfaceData(moPA.moInterfaceData), "Interface Data");
+		} else {
+			oRetVal = new TabbedInspector();
+		}
+		
+		return oRetVal;
+	}
+	
+	private static TabbedInspector createInterfaces(clsPsychicApparatus moPA, String poModuleName, JTree poLeftMenu) {
 		TabbedInspector oRetVal = new TabbedInspector();
 		
+		try {
+			eInterfaces eI = eInterfaces.valueOf(poModuleName);
+			oRetVal.addInspector(
+					new clsI_SimpleInterfaceDataInspector(eI, moPA.moInterfaceData, moPA.moInterfaces_Recv_Send),
+					"Interface Data");
+		} catch (java.lang.IllegalArgumentException e) {
+			//do nothing
+		}
+		
+		return oRetVal;
+	}
+	
+	private static TabbedInspector createModules(clsPsychicApparatus moPA, String poModuleName, JTree poLeftMenu) {
+		TabbedInspector oRetVal = new TabbedInspector();
+	
 		try {
 			String oName = "mo"+poModuleName;
 			Field oField = moPA.getClass().getField(oName);
@@ -84,8 +121,6 @@ public class clsInspectorPATabFactory {
 		}
 		
 		if(poModuleName.equals("E01_SensorsMetabolism")) {
-
-			
 		} else if(poModuleName.equals("E02_NeurosymbolizationOfNeeds")) {
 		} else if(poModuleName.equals("E03_GenerationOfSelfPreservationDrives")) {
 			oRetVal.addInspector( new clsE03InspectorDriveDefinitions(moPA.moE03_GenerationOfSelfPreservationDrives), "Drive Definitions");
@@ -149,11 +184,7 @@ public class clsInspectorPATabFactory {
 		} else if(poModuleName.equals("E45_LibidoDischarge")) {
 		} else if(poModuleName.equals("E46_FusionWithMemoryTraces")) {
 		} else if(poModuleName.equals("E47_ConversionToPrimaryProcess")) {
-		} else if(poModuleName.equals("Psychic Apparatus")) {
-			oRetVal.addInspector( new clsPAInspectorFunctional(poLeftMenu, true, moPA), "FM Compact");
-			oRetVal.addInspector( new clsPAInspectorFunctional(poLeftMenu, false, moPA), "Functional Model");
-			oRetVal.addInspector( new clsPAInspectorInterfaceData(moPA.moInterfaceData), "Interface Data");
-		}
+		} 
 		
 		return oRetVal;
 	}
