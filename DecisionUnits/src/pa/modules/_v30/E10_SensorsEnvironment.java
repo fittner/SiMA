@@ -190,6 +190,7 @@ public class E10_SensorsEnvironment extends clsModuleBase implements I0_4_receiv
 	public void receive_I0_4(HashMap<eSensorExtType, clsSensorExtern> poData) {
 		moEnvironmentalData = poData;
 		
+		putInterfaceData(I0_4_receive.class, poData);
 	}
 	/* (non-Javadoc)
 	 *

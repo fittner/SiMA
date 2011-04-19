@@ -172,6 +172,8 @@ public class E39_SeekingSystem_LibidoSource extends clsModuleBase
 	@Override
 	public void receive_I0_2(Double prLibido) {
 		mrIncomingLibido_I0_2 = prLibido;
+		
+		putInterfaceData(I0_2_receive.class, prLibido);
 	}
 
 	/* (non-Javadoc)
@@ -184,6 +186,8 @@ public class E39_SeekingSystem_LibidoSource extends clsModuleBase
 	@Override
 	public void receive_I0_1(Double prLibido) {
 		mrIncomingLibido_I0_1 = prLibido;
+		
+		putInterfaceData(I0_1_receive.class, prLibido);
 	}
 
 	/* (non-Javadoc)

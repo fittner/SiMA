@@ -190,6 +190,8 @@ public class E12_SensorsBody extends clsModuleBase implements I0_5_receive, I2_3
 	@Override
 	public void receive_I0_5(HashMap<eSensorExtType, clsSensorExtern> poData) {
 		moBodyData = poData;
+		
+		putInterfaceData(I0_5_receive.class, poData);		
 	}
 
 	/* (non-Javadoc)
