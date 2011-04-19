@@ -12,6 +12,8 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.SortedMap;
+
 import pa.interfaces._v30.eInterfaces;
 import pa.interfaces._v30.itfInspectorInternalState;
 import pa.interfaces._v30.itfInterfaceDescription;
@@ -36,7 +38,7 @@ public abstract class clsModuleBase implements itfInspectorInternalState, itfInt
 	
 	private eImplementationStage mnImplementationStage;
 	protected HashMap<Integer, clsModuleBase> moModuleList;
-	protected HashMap<eInterfaces, ArrayList<Object>> moInterfaceData;
+	protected SortedMap<eInterfaces, ArrayList<Object>> moInterfaceData;
 		
 	protected String moDescription;
 	private ArrayList<eInterfaces> moInterfacesReceive;
@@ -44,7 +46,7 @@ public abstract class clsModuleBase implements itfInspectorInternalState, itfInt
 	private ArrayList<eInterfaces> moInterfaces;
 	
 	public clsModuleBase(String poPrefix, clsBWProperties poProp, HashMap<Integer, clsModuleBase> poModuleList, 
-			HashMap<eInterfaces, ArrayList<Object>> poInterfaceData) throws Exception {
+			SortedMap<eInterfaces, ArrayList<Object>> poInterfaceData) throws Exception {
 		setProcessType();
 		setPsychicInstances();
 		setModuleNumber();

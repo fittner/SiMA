@@ -7,8 +7,7 @@
 package inspectors.mind.pa._v30;
 
 import java.util.ArrayList;
-import java.util.HashMap;
-
+import java.util.SortedMap;
 import pa.interfaces._v30.eInterfaces;
 import pa.modules._v30.clsModuleBase;
 
@@ -24,7 +23,7 @@ public class clsE_SimpleInterfaceDataInspector extends
 
 	private ArrayList<eInterfaces> moRecv;
 	private ArrayList<eInterfaces> moSend;	
-	private HashMap<eInterfaces, ArrayList<Object>> moInterfaceData;
+	private SortedMap<eInterfaces, ArrayList<Object>> moInterfaceData;
 	/**
 	 * DOCUMENT (deutsch) - insert description 
 	 * 
@@ -42,7 +41,7 @@ public class clsE_SimpleInterfaceDataInspector extends
 	 * @param poModule
 	 */
 	public clsE_SimpleInterfaceDataInspector(clsModuleBase poModule, 
-			HashMap<eInterfaces, ArrayList<Object>> poInterfaceData) {
+			SortedMap<eInterfaces, ArrayList<Object>> poInterfaceData) {
 		super(poModule);
 		moRecv = moModule.getInterfacesRecv();
 		moSend = moModule.getInterfacesSend();
@@ -58,7 +57,7 @@ public class clsE_SimpleInterfaceDataInspector extends
 	 */
 	@Override
 	protected void setTitle() {
-		moTitle = moModule.getClass().getSimpleName() + " - Description";
+		moTitle = moModule.getClass().getSimpleName() + " - Interface Data";
 	}
 
 	/* (non-Javadoc)

@@ -9,6 +9,8 @@ package pa.modules._v30;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.SortedMap;
+import java.util.TreeMap;
 
 import config.clsBWProperties;
 import pa.interfaces._v30.eInterfaces;
@@ -18,7 +20,6 @@ import pa.memorymgmt.clsKnowledgeBaseHandlerFactory;
 import pa.storage.clsBlockedContentStorage;
 import pa.storage.clsLibidoBuffer;
 import pa.tools.clsPair;
-
 
 /**
  * this class holds all instances of model v30. it is responsible for their creation and configuration.  
@@ -81,14 +82,14 @@ public class clsPsychicApparatus {
 	public clsBlockedContentStorage moBlockedContentStorage;
 	
 	public HashMap<Integer, clsModuleBase> moModules; // list of the modules defined above. needed for references within them.
-	public HashMap<eInterfaces, ArrayList<Object>> moInterfaceData; //list of the currently transfered data via the interfaces. has to be refilled each round at each send_I?_? method manually!
+	public SortedMap<eInterfaces, ArrayList<Object>> moInterfaceData; //list of the currently transfered data via the interfaces. has to be refilled each round at each send_I?_? method manually!
 	public HashMap<Integer, ArrayList<clsPair<eInterfaces, Integer>>> moInterfaceMesh; //the mesh created by all modules and the outgoing interfaces in combination to which module they are connecting to
 
 	public clsPsychicApparatus(String poPrefix, clsBWProperties poProp, 
 			clsMemory poMemory,	clsKnowledgeBaseHandler poKnowledgeBaseHandler) {
 		
 		moModules = new HashMap<Integer, clsModuleBase>();
-		moInterfaceData = new HashMap<eInterfaces, ArrayList<Object>>();
+		moInterfaceData = new TreeMap<eInterfaces, ArrayList<Object>>();
 		
 		moMemory = poMemory;
 		moKnowledgeBaseHandler = poKnowledgeBaseHandler; 

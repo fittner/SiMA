@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.SortedMap;
 import java.util.Map;
 import config.clsBWProperties;
 import pa.interfaces._v30.eInterfaces;
@@ -66,7 +67,7 @@ public class E21_ConversionToSecondaryProcessForPerception extends clsModuleBase
 	 * @throws Exception
 	 */
 	public E21_ConversionToSecondaryProcessForPerception(String poPrefix,
-			clsBWProperties poProp, HashMap<Integer, clsModuleBase> poModuleList, HashMap<eInterfaces, ArrayList<Object>> poInterfaceData, clsKnowledgeBaseHandler poKnowledgeBaseHandler)
+			clsBWProperties poProp, HashMap<Integer, clsModuleBase> poModuleList, SortedMap<eInterfaces, ArrayList<Object>> poInterfaceData, clsKnowledgeBaseHandler poKnowledgeBaseHandler)
 			throws Exception {
 		super(poPrefix, poProp, poModuleList, poInterfaceData);
 		

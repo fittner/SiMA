@@ -149,12 +149,10 @@ public class clsInspectorPATabFactory {
 		} else if(poModuleName.equals("E45_LibidoDischarge")) {
 		} else if(poModuleName.equals("E46_FusionWithMemoryTraces")) {
 		} else if(poModuleName.equals("E47_ConversionToPrimaryProcess")) {
-		}		
-		else if(poModuleName.equals("Psychic Apparatus")) {
+		} else if(poModuleName.equals("Psychic Apparatus")) {
 			oRetVal.addInspector( new clsPAInspectorFunctional(poLeftMenu, true, moPA), "FM Compact");
 			oRetVal.addInspector( new clsPAInspectorFunctional(poLeftMenu, false, moPA), "Functional Model");
-			//oRetVal.addInspector( new clsPAInspectorTopDown(poSuperInspector, poWrapper, poState, moPA), "Top-Down Design");			
-			//oRetVal.addInspector( new clsPAInspectorFuncModel(poSuperInspector, poWrapper, poState, moPA), "Functional View");
+			oRetVal.addInspector( new clsPAInspectorInterfaceData(moPA.moInterfaceData), "Interface Data");
 		}
 		
 		return oRetVal;

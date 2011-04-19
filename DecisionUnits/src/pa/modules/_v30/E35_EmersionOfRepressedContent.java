@@ -8,6 +8,7 @@ package pa.modules._v30;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.SortedMap;
 import java.util.Map;
 import java.util.Map.Entry;
 import bfg.tools.clsMutableDouble;
@@ -60,7 +61,7 @@ public class E35_EmersionOfRepressedContent extends clsModuleBase implements I2_
 	 * @throws Exception
 	 */
 	public E35_EmersionOfRepressedContent(String poPrefix,
-			clsBWProperties poProp, HashMap<Integer, clsModuleBase> poModuleList, HashMap<eInterfaces, ArrayList<Object>> poInterfaceData,
+			clsBWProperties poProp, HashMap<Integer, clsModuleBase> poModuleList, SortedMap<eInterfaces, ArrayList<Object>> poInterfaceData,
 			clsKnowledgeBaseHandler poKnowledgeBaseHandler, clsMemory poMemory,
 			clsBlockedContentStorage poBlockedContentStorage)
 			throws Exception {
