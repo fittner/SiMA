@@ -48,6 +48,7 @@ import bw.utils.enums.eShapeType;
 import sim.creation.clsLoader;
 import sim.creation.eLoader;
 import sim.engine.SimState;
+import statictools.clsSingletonUniqueIdGenerator;
 
 /**
  * DOCUMENT (tobias) - insert description 
@@ -417,7 +418,7 @@ public class clsSimplePropertyLoader extends clsLoader {
     	int num = poProp.getPropertyInt(pre+P_NUMENTITES);
     	for (int i=0; i<num; i++) {
     		clsBWProperties oEntityProperties = getEntityProperties(nEntityType);
-    		oEntityProperties.put( clsEntity.P_ID, nEntityType.name()+"_"+i );
+    		oEntityProperties.put( clsEntity.P_ID, nEntityType.name()+"_"+nDecisionType.name()+"_"+i+" (#"+clsSingletonUniqueIdGenerator.getUniqueId()+")" );
     		if (oRemoveEntityDefaults != null) {
 	    		for (String oRemoveKey:oRemoveEntityDefaults) {
 	    			oEntityProperties.removeKeysStartingWith(oRemoveKey);
