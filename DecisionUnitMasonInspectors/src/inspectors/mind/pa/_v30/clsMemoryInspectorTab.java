@@ -184,7 +184,7 @@ public class clsMemoryInspectorTab extends Inspector implements TreeSelectionLis
 		Object nodeInfo = node.getUserObject();
 		
 		moContentPane.remove(moContent);
-		moContent = clsInspectorMappingPA.getPAInspector( moOriginalInspector, moWrapper, moGuiState, 
+		moContent = clsInspectorPATabFactory.createInspectorMemory( moOriginalInspector, moWrapper, moGuiState, 
 										((clsProcessor)moPA.getProcessor()).getPsychicApparatus(), nodeInfo.toString(), moModuleTree);
 		moContentPane.add(moContent);
 		moContentPane.setViewportView(moContent);

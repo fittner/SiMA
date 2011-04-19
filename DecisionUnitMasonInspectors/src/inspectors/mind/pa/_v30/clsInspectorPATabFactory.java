@@ -33,7 +33,7 @@ import sim.portrayal.inspector.TabbedInspector;
  * 13.08.2009, 01:36:00
  * 
  */
-public class clsInspectorMappingPA {
+public class clsInspectorPATabFactory {
 
 	/**
 	 * In the valueChanged() method of a inspector panel this function is called and creates a inspector (which is a JPanel in the long term) 
@@ -46,7 +46,7 @@ public class clsInspectorMappingPA {
 	 * @param moPA
 	 * @param poModuleName
 	 */
-	public static TabbedInspector getPAInspector(Inspector poSuperInspector, LocationWrapper poWrapper, GUIState poState, 
+	public static TabbedInspector createInspectorModules(Inspector poSuperInspector, LocationWrapper poWrapper, GUIState poState, 
 													clsPsychicApparatus moPA, String poModuleName, JTree poTree) {
 		TabbedInspector oRetVal = new TabbedInspector();
 		
@@ -57,7 +57,7 @@ public class clsInspectorMappingPA {
 			
 			if (oModule instanceof itfInspectorInternalState) {
 				oRetVal.addInspector( 
-						new clsE_StateInspector(poSuperInspector, poWrapper, poState, oModule), 
+						new clsE_StateInspector(oModule), 
 						"State");
 			}
 			
@@ -185,10 +185,21 @@ public class clsInspectorMappingPA {
 				oRetVal.addInspector( new clsPlanInspector(poSuperInspector, poWrapper, poState, (clsPlanBaseMesh)oScenario ), oScenario.moWP.moContent.toString());
 			}
 		}
-		//========== MEMORY 2.0 ===========
 		
+		else {
+			
+		}
+		
+		return oRetVal;
+	}
+		
+	public static TabbedInspector createInspectorMemory(Inspector poSuperInspector, LocationWrapper poWrapper, GUIState poState, 
+				clsPsychicApparatus moPA, String poModuleName, JTree poTree) {
+
+		TabbedInspector oRetVal = new TabbedInspector();
+
 		//special memory tree...
-		else if(poModuleName.equals("TPM")) {
+		if(poModuleName.equals("TPM")) {
 //			oRetVal.addInspector( new clsSemanticInformationIspector(poSuperInspector, poWrapper, poState, moPA.getMemoryForInspector().moTemplateImageStorage, "moTemplateImages" ), "Memory v2.0 TEST");		
 		}
 		

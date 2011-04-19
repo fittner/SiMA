@@ -7,9 +7,6 @@
 package inspectors.mind.pa._v30;
 
 import pa.modules._v30.clsModuleBase;
-import sim.display.GUIState;
-import sim.portrayal.Inspector;
-import sim.portrayal.LocationWrapper;
 
 /**
  * DOCUMENT (deutsch) - insert description 
@@ -39,8 +36,7 @@ public class clsE_StateInspector extends clsE_GenericHTMLInspector {
 	 * @param guiState
 	 * @param poModule
 	 */
-	public clsE_StateInspector(Inspector originalInspector,
-			LocationWrapper wrapper, GUIState guiState, clsModuleBase poModule) {
+	public clsE_StateInspector(clsModuleBase poModule) {
 		super(poModule);
 	}
 
