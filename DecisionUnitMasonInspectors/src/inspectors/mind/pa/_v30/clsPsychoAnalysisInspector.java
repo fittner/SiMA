@@ -49,6 +49,7 @@ public class clsPsychoAnalysisInspector extends Inspector implements TreeSelecti
 	JScrollPane moContentPane;
 	TabbedInspector moContent = new TabbedInspector();
 	JSplitPane moSplitPane;
+	private boolean mnFirstUpdateDone = false;
 
     public clsPsychoAnalysisInspector(clsPsychoAnalysis poPA) {
 		moPA= poPA;
@@ -78,6 +79,7 @@ public class clsPsychoAnalysisInspector extends Inspector implements TreeSelecti
 		
         setLayout(new BorderLayout());
         add(oBox1, BorderLayout.CENTER);
+        createTabs("Psychic Apparatus");
     }
     
 	/**
@@ -139,6 +141,17 @@ public class clsPsychoAnalysisInspector extends Inspector implements TreeSelecti
 		}
 	}
 
+	private void createTabs(String nodeInfo) {
+		moContentPane.remove(moContent);
+		
+		moContent = clsInspectorPATabFactory.createInspectorModules( ((clsProcessor)moPA.getProcessor()).getPsychicApparatus(), nodeInfo, moModuleTree);
+		moContent.setPreferredSize( new Dimension(300,300) );
+		
+		moContentPane.add(moContent);
+		moContentPane.setViewportView(moContent);
+		moContentPane.repaint();		
+	}
+	
 	/* (non-Javadoc)
 	 *
 	 * @author langr
@@ -155,15 +168,6 @@ public class clsPsychoAnalysisInspector extends Inspector implements TreeSelecti
 		return;
 		
 		Object nodeInfo = node.getUserObject();
-		//if (node.isLeaf()) {
-			moContentPane.remove(moContent);
-			
-			moContent = clsInspectorPATabFactory.createInspectorModules( ((clsProcessor)moPA.getProcessor()).getPsychicApparatus(), nodeInfo.toString(), moModuleTree);
-			moContent.setPreferredSize( new Dimension(300,300) );
-			
-			moContentPane.add(moContent);
-			moContentPane.setViewportView(moContent);
-			moContentPane.repaint();
-		//}
+		createTabs(nodeInfo.toString());
 	}
 }
