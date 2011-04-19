@@ -10,6 +10,7 @@ import java.awt.BorderLayout;
 import pa.modules._v30.clsModuleBase;
 import sim.portrayal.Inspector;
 import sim.util.gui.HTMLBrowser;
+import statictools.clsExceptionUtils;
 
 /**
  * DOCUMENT (deutsch) - insert description 
@@ -40,7 +41,12 @@ public abstract class clsE_GenericHTMLInspector extends Inspector {
     	
         setLayout(new BorderLayout());
     	moHTMLPane = new HTMLBrowser(getHTML());
-		add(moHTMLPane, BorderLayout.CENTER);
+    	
+    	try {
+			add(moHTMLPane, BorderLayout.CENTER);
+		} catch (java.lang.Exception e) {
+			System.out.println(clsExceptionUtils.getCustomStackTrace(e));
+		}
     }	
     
     protected abstract void setTitle();
@@ -67,6 +73,11 @@ public abstract class clsE_GenericHTMLInspector extends Inspector {
 	@Override
 	public void updateInspector() {
 		updateContent();
-		moHTMLPane.setText(getHTML());
+		
+		try {
+			moHTMLPane.setText(getHTML());
+		} catch (java.lang.Exception e) {
+			System.out.println(clsExceptionUtils.getCustomStackTrace(e));
+		}
 	}    
 }

@@ -33,7 +33,7 @@ import sim.portrayal.Inspector;
 import sim.portrayal.LocationWrapper;
 import sim.portrayal.inspector.TabbedInspector;
 import sim.util.gui.PropertyField;
-import statictools.clsExeptionUtils;
+import statictools.clsExceptionUtils;
 
 /**
  * The InspectorEntity is the main entry point for all further entity
@@ -220,7 +220,7 @@ public class clsInspectorEntity extends Inspector implements ActionListener {
 				moEntityWindows.add(clsInspectorFrame.getInspectorFrame(oMasonInspector, oTabName + " - Body Inspector"));
 				
 			} catch (java.lang.ClassCastException ex) {
-				System.out.println(clsExeptionUtils.getCustomStackTrace(ex));
+				System.out.println(clsExceptionUtils.getCustomStackTrace(ex));
 			}
 		} else if (source == moBtnBrainInspectors) {
 			// define the inspector-content for each entity in the responsible
@@ -236,7 +236,7 @@ public class clsInspectorEntity extends Inspector implements ActionListener {
 				moEntityWindows.add(clsInspectorFrame.getInspectorFrame(oMasonInspector, oTabName + " - Brain Inspector"));
 				
 			} catch (java.lang.ClassCastException ex) {
-				System.out.println(clsExeptionUtils.getCustomStackTrace(ex));
+				System.out.println(clsExceptionUtils.getCustomStackTrace(ex));
 
 			}
 		}

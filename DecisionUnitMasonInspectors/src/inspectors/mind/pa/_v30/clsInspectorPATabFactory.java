@@ -22,6 +22,7 @@ import sim.display.GUIState;
 import sim.portrayal.Inspector;
 import sim.portrayal.LocationWrapper;
 import sim.portrayal.inspector.TabbedInspector;
+import statictools.clsExceptionUtils;
 
 /**
  * DOCUMENT (langr) - insert description 
@@ -70,10 +71,16 @@ public class clsInspectorPATabFactory {
 			}
 			
 			if (oModule instanceof itfInterfaceInterfaceData) {
+				oRetVal.addInspector(
+						new clsE_SimpleInterfaceDataInspector(oModule, moPA.moInterfaceData),
+						"Interface Data");
+						
 				// TODO MUCHITSCH ADD INSPECTOR CALL
 			}
+		} catch (java.lang.NoSuchFieldException e) {
+			// do nothing
 		} catch (java.lang.Exception e) {
-			//do nothing
+			System.out.println(clsExceptionUtils.getCustomStackTrace(e));
 		}
 		
 		if(poModuleName.equals("E01_SensorsMetabolism")) {
