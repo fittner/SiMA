@@ -8,10 +8,7 @@ package inspectors;
 
 import java.awt.BorderLayout;
 import java.util.ArrayList;
-
-import sim.display.GUIState;
 import sim.portrayal.Inspector;
-import sim.portrayal.LocationWrapper;
 import sim.util.gui.HTMLBrowser;
 import decisionunit.clsBaseDecisionUnit;
 
@@ -23,14 +20,13 @@ import decisionunit.clsBaseDecisionUnit;
  * 
  */
 public class clsInspectorActionCommands  extends Inspector {
-	/**
-	 * DOCUMENT (deutsch) - insert description 
-	 * 
-	 * @author deutsch
-	 * 06.08.2009, 08:21:29
-	 */
 	private static final long serialVersionUID = 7969271764842942368L;
-
+    private ArrayList<Entry> moActionCommandHistory;
+    private int mnMaxHistoryLength = 20;
+    protected int mnTimeCounter;
+	private clsBaseDecisionUnit moDU;
+	HTMLBrowser moHTMLPane;
+	
 	class Entry {
 		public int mnStartTime;
 		public int mnEndTime;
@@ -55,19 +51,7 @@ public class clsInspectorActionCommands  extends Inspector {
 			return oResult;
 		}
 	}
-	
-    private ArrayList<Entry> moActionCommandHistory;
-    private int mnMaxHistoryLength = 20;
-    protected int mnTimeCounter;
 
-	
-	public Inspector moOriginalInspector;
-	private clsBaseDecisionUnit moDU;
-//	private Controller moConsole; // TD - warning free
-//	private JLabel moCaption; // TD - warning free
-	
-	HTMLBrowser moHTMLPane;
-	
 	private String getActionCommands() {
 		String oResult = "";
 		
@@ -100,28 +84,21 @@ public class clsInspectorActionCommands  extends Inspector {
 		return oResult;
 	}
 	
-	public clsInspectorActionCommands(Inspector originalInspector,
-            LocationWrapper wrapper,
-            GUIState guiState,
-            clsBaseDecisionUnit poDU)
-	{
-		moOriginalInspector = originalInspector;
-		moDU= poDU;
-		//final SimState state=guiState.state;
-//		moConsole=guiState.controller; // TD - warning free
-		
-//		moCaption = new JLabel("Layers of Brooks Subsumption Architecture"); // TD - warning free
-        // creating the checkbox to sitch on/off the AI intelligence-levels.
-		
-		moActionCommandHistory = new ArrayList<Entry>();
-		
+	private String getContent() {
         String contentData = "<html><head></head><body>";
         contentData+="<h1>Action Commands History (last "+mnMaxHistoryLength+" entries)</h1>";
         contentData+=getActionCommands();
         contentData+="</body></html>";
         
+        return contentData;
+	}
+	
+	public clsInspectorActionCommands(clsBaseDecisionUnit poDU) {
+		moDU= poDU;
+		moActionCommandHistory = new ArrayList<Entry>();
+       
         setLayout(new BorderLayout());
-    	moHTMLPane = new HTMLBrowser(contentData);
+    	moHTMLPane = new HTMLBrowser( getContent() );
 		add(moHTMLPane, BorderLayout.CENTER);
 	}
 	
@@ -135,12 +112,6 @@ public class clsInspectorActionCommands  extends Inspector {
 	@Override
 	public void updateInspector() {
 		mnTimeCounter++;
-		
-        String contentData = "<html><head><tr.font face='Courier'></head><body>";
-        contentData+="<h1>Action Commands History (last "+mnMaxHistoryLength+" entries)</h1>";
-        contentData+=getActionCommands();
-        contentData+="</body></html>";
-        moHTMLPane.setText(contentData);
+        moHTMLPane.setText(  getContent() );
 	}
-
 }
