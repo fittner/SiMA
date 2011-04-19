@@ -20,5 +20,4 @@ public enum eFastMessengerSources {
 	LIGHTNING,
 	MANIPULATION_AREA,
 	EATABLE_AREA,
-
 }
