@@ -186,25 +186,20 @@ public class clsBrainSocket implements itfStepProcessing {
 		eFastMessengerSources oSource;
 
 		switch(poEntry.getSource()) {
-			case INTRA_DAMAGE_NUTRITION:oSource=eFastMessengerSources.STOMACH;
-				break;
+			case INTER_PAIN_STOMACHTENSION:;
+			case INTRA_DAMAGE_NUTRITION:oSource=eFastMessengerSources.STOMACH;break;
 			
 			case INTER_DAMAGE_BUMP:;
 			case SENSOR_EXT_TACTILE_BUMP:;
-			case SENSOR_EXT_TACTITLE:oSource=eFastMessengerSources.BUMP;
-				break;
+			case SENSOR_EXT_TACTITLE:oSource=eFastMessengerSources.BUMP;break;
 			
-			case INTRA_DAMAGE_TEMPERATURE:oSource=eFastMessengerSources.TEMPERATURE;
-				break;
+			case INTRA_DAMAGE_TEMPERATURE:oSource=eFastMessengerSources.TEMPERATURE;break;
 			
-			case INTER_DAMAGE_LIGHTNING:oSource=eFastMessengerSources.LIGHTNING;
-				break;
+			case INTER_DAMAGE_LIGHTNING:oSource=eFastMessengerSources.LIGHTNING;break;
 			
-			case ACTIONEX_ATTACKBITE:oSource=eFastMessengerSources.MANIPULATION_AREA;
-				break;
+			case ACTIONEX_ATTACKBITE:oSource=eFastMessengerSources.MANIPULATION_AREA;break;
 			
-			case ACTIONEX_EAT:oSource=eFastMessengerSources.EATABLE_AREA;
-				break;
+			case ACTIONEX_EAT:oSource=eFastMessengerSources.EATABLE_AREA;break;
 			
 			default:throw new java.lang.NullPointerException("unkown fast messenger source: "+poEntry.getSource());
 		}
