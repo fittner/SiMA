@@ -2,7 +2,6 @@
 <xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema">
 
     <xsd:include schemaLocation="SimpleTypeDefinitions.xsd"/> 
-    <xsd:include schemaLocation="ComplexTypeDefinitions.xsd"/> 
     
     <!-- ################################## ELEMENTS ############################### -->
 
@@ -76,7 +75,7 @@
             <xsd:extension base="RuleTreeLeaf">
                 <xsd:sequence>
                     <xsd:element name="segmentname" type="xsd:string"/>
-                    <xsd:element name="distancecompare" type="typeCompareOperator">
+                    <xsd:element name="distancecompare" type="typeCompareOperator"/>
                     <xsd:element name="orientation" type="xsd:string"/>
                     <xsd:element name="entitytype" type="xsd:string"/>
                     <xsd:element name="shapetype" type="xsd:string"/>

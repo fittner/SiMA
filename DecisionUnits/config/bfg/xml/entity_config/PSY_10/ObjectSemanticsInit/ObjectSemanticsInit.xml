@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<ObjectSemanticsInit xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xsi:noNamespaceSchemaLocation="">
+<ObjectSemanticsInit xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
 
 		<ObjectSemantics>
                     <PrimaryInfoObject content="CAKE" affect_memory="1">
@@ -13,4 +12,5 @@
                     </PrimaryInfoObject>
                     <!-- add more semantic meaning here-->
         </ObjectSemantics>
+        
 </ObjectSemanticsInit>
