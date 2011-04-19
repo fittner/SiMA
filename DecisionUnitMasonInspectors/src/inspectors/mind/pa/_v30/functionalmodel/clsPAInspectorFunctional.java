@@ -271,16 +271,18 @@ public class clsPAInspectorFunctional extends Inspector implements ActionListene
 		
 		@Override
 		public void mouseReleased(MouseEvent e) {
-            if (e.getSource() instanceof JGraph) {
-            	Object[] selection = moMyGraph.getSelectionModel().getSelectionCells();
-    			if (selection != null) {
-    				for (Object s:selection) {
-    					if (s instanceof NodeCell) {
-    						selectNodeInTree( (NodeCell)s );
-    					}
-    				}
-    			}
-            }
+			if (e.getClickCount() == 2) {
+	            if (e.getSource() instanceof JGraph) {
+	            	Object[] selection = moMyGraph.getSelectionModel().getSelectionCells();
+	    			if (selection != null) {
+	    				for (Object s:selection) {
+	    					if (s instanceof NodeCell) {
+	    						selectNodeInTree( (NodeCell)s );
+	    					}
+	    				}
+	    			}
+	            }
+			}
         }
         
         private void selectNodeInTree(NodeCell poNode) {
