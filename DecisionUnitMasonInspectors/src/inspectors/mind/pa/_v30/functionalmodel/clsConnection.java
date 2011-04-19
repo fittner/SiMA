@@ -18,7 +18,7 @@ import pa.interfaces._v30.eInterfaces;
 public class clsConnection {
 	public final eInterfaces mnInterface;
 	public final clsNode moTarget;
-	
+		
 	public clsConnection(eInterfaces pnInterface, clsNode poTarget) {
 		mnInterface = pnInterface;
 		moTarget = poTarget;

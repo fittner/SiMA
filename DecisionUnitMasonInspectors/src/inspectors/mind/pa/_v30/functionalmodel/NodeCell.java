@@ -17,7 +17,7 @@ import com.jgraph.components.labels.RichTextBusinessObject;
  * 22.10.2009, 18:52:19
  * 
  */
-public class NodeCell extends DefaultGraphCell {
+public class NodeCell extends DefaultGraphCell implements itfMouseClick {
 	private static final long serialVersionUID = -1925166092650759316L;
 	private final String id;
 
@@ -31,6 +31,7 @@ public class NodeCell extends DefaultGraphCell {
 		}
 	}
 	
+	@Override
 	public String getId() {
 		return id;
 	}

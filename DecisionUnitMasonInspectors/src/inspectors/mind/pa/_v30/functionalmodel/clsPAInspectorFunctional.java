@@ -230,7 +230,7 @@ public class clsPAInspectorFunctional extends Inspector implements ActionListene
 		if (!mnCompact) {
 			name = poConnection.toString();
 		}
-		DefaultEdge edge = new DefaultEdge(name);
+		Edge edge = new Edge( name, poConnection.toString() );
 		
 		edge.setSource(poSource.getChildAt(0));
 		edge.setTarget(poTarget.getChildAt(0));
@@ -276,8 +276,8 @@ public class clsPAInspectorFunctional extends Inspector implements ActionListene
 	            	Object[] selection = moMyGraph.getSelectionModel().getSelectionCells();
 	    			if (selection != null) {
 	    				for (Object s:selection) {
-	    					if (s instanceof NodeCell) {
-	    						selectNodeInTree( (NodeCell)s );
+	    					if (s instanceof itfMouseClick ) {
+	    						selectNodeInTree( ((itfMouseClick)s).getId() );
 	    					}
 	    				}
 	    			}
@@ -285,8 +285,8 @@ public class clsPAInspectorFunctional extends Inspector implements ActionListene
 			}
         }
         
-        private void selectNodeInTree(NodeCell poNode) {
-        	TreePath oPath = findNode(poNode.getId());
+        private void selectNodeInTree(String poId) {
+        	TreePath oPath = findNode(poId);
         	moMyTree.setSelectionPath(oPath);  
         	moMyTree.expandPath(oPath);  
         	moMyTree.makeVisible(oPath); 
