@@ -53,7 +53,7 @@ public class clsInspectorMappingPA {
 		try {
 			String oName = "mo"+poModuleName;
 			Field oField = moPA.getClass().getField(oName);
-			clsModuleBase oModule = (clsModuleBase) oField.getGenericType();
+ 			clsModuleBase oModule = (clsModuleBase) oField.get( moPA );
 			
 			if (oModule instanceof itfInspectorInternalState) {
 				oRetVal.addInspector( 
