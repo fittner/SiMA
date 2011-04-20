@@ -23,9 +23,11 @@ import bw.body.attributes.clsAttributeHand;
 import bw.body.attributes.clsAttributes;
 import bw.body.brainsocket.clsBrainSocket;
 import bw.body.io.clsExternalIO;
+import bw.body.itfget.itfGetBody;
 import bw.body.itfget.itfGetBotHand;
 import bw.body.itfget.itfGetRadiation;
 import bw.body.itfget.itfGetSensorEngine;
+import bw.body.itfget.itfIsConsumeable;
 import bw.entities.tools.clsShapeCreator;
 import sim.display.clsKeyListener;
 import sim.physics2D.util.Angle;
@@ -40,7 +42,7 @@ import sim.physics2D.util.Angle;
  * 
  */
 
-public class clsRemoteBot extends clsAnimate implements itfGetSensorEngine, itfGetRadiation, itfGetBotHand  {
+public class clsRemoteBot extends clsAnimate implements itfGetSensorEngine, itfGetRadiation, itfGetBotHand, itfGetBody, itfIsConsumeable  {
 	public static final String P_HANDSIZE = "handsize";
 	public static final String P_HANDOFFSETX = "handoffsetx";
 	public static final String P_HANDOFFSETY = "handoffsety";
@@ -183,5 +185,18 @@ public class clsRemoteBot extends clsAnimate implements itfGetSensorEngine, itfG
 	@Override
 	protected void setEntityType() {
 		meEntityType = eEntityType.REMOTEBOT;
+	}
+
+
+	/* (non-Javadoc)
+	 *
+	 * @author zeilinger
+	 * 18.04.2011, 15:06:56
+	 * 
+	 * @see bw.body.itfget.itfIsConsumeable#isConsumable()
+	 */
+	@Override
+	public boolean isConsumable() {
+		return true;
 	}	
 }
