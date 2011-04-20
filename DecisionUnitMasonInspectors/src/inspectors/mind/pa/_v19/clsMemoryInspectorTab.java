@@ -24,8 +24,8 @@ import javax.swing.tree.MutableTreeNode;
 
 import pa.clsPsychoAnalysis;
 
-import pa.modules._v19.G00_PsychicApparatus;
 import pa._v19.clsProcessor;
+import pa._v19.modules.G00_PsychicApparatus;
 
 import sim.display.GUIState;
 import sim.portrayal.Inspector;

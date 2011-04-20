@@ -27,11 +27,11 @@ import org.jgraph.graph.GraphLayoutCache;
 import org.jgraph.graph.GraphModel;
 import org.jgraph.graph.VertexView;
 
-import pa.datatypes.clsAssociation;
-import pa.datatypes.clsSecondaryInformation;
-import pa.loader.scenario.clsScenarioBaseMesh;
-import pa.loader.scenario.clsScenarioStateMesh;
-import pa.loader.scenario.clsScenarioTransition;
+import pa._v19.datatypes.clsAssociation;
+import pa._v19.datatypes.clsSecondaryInformation;
+import pa._v19.loader.scenario.clsScenarioBaseMesh;
+import pa._v19.loader.scenario.clsScenarioStateMesh;
+import pa._v19.loader.scenario.clsScenarioTransition;
 import sim.display.GUIState;
 import sim.portrayal.Inspector;
 import sim.portrayal.LocationWrapper;

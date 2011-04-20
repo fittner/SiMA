@@ -8,7 +8,7 @@ package inspectors.mind.pa._v30.functionalmodel;
 
 import java.util.ArrayList;
 
-import pa.modules._v30.clsModuleBase;
+import pa._v30.modules.clsModuleBase;
 
 /**
  * DOCUMENT (deutsch) - insert description 

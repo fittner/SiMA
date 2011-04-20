@@ -10,6 +10,10 @@ import java.awt.BorderLayout;
 import java.awt.Dimension;
 
 import pa._v30.clsProcessor;
+import pa._v30.interfaces.eInterfaces;
+import pa._v30.modules.clsModuleBase;
+import pa._v30.modules.clsPsychicApparatus;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Map;
@@ -25,9 +29,6 @@ import javax.swing.event.TreeSelectionListener;
 import javax.swing.tree.DefaultMutableTreeNode;
 
 import pa.clsPsychoAnalysis;
-import pa.interfaces._v30.eInterfaces;
-import pa.modules._v30.clsModuleBase;
-import pa.modules._v30.clsPsychicApparatus;
 
 import sim.portrayal.Inspector;
 import sim.portrayal.inspector.TabbedInspector;

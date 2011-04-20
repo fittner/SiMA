@@ -15,9 +15,9 @@ import du.itf.sensors.clsDataBase;
 import du.itf.sensors.clsSensorData;
 import du.itf.sensors.clsSensorExtern;
 import pa.itfProcessor;
-import pa.memorymgmt.clsKnowledgeBaseHandler;
-import pa.memorymgmt.informationrepresentation.clsInformationRepresentationManagement;
-import pa.modules._v30.clsPsychicApparatus;
+import pa._v30.memorymgmt.clsKnowledgeBaseHandler;
+import pa._v30.memorymgmt.informationrepresentation.clsInformationRepresentationManagement;
+import pa._v30.modules.clsPsychicApparatus;
 
 /**
  * DOCUMENT (deutsch) - insert description 

@@ -6,7 +6,7 @@
  */
 package inspectors.mind.pa._v19;
 
-import pa.modules._v19.E03_GenerationOfDrives;
+import pa._v19.modules.E03_GenerationOfDrives;
 import sim.display.GUIState;
 import sim.portrayal.LocationWrapper;
 import sim.util.gui.HTMLBrowser;

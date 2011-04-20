@@ -10,6 +10,9 @@ import inspectors.clsInspectorUtils;
 
 import java.awt.BorderLayout;
 import pa._v19.clsProcessor;
+import pa._v19.memory.clsMemory;
+import pa._v19.modules.G00_PsychicApparatus;
+
 import java.lang.reflect.Field;
 
 import javax.swing.Box;
@@ -22,8 +25,6 @@ import javax.swing.event.TreeSelectionListener;
 import javax.swing.tree.DefaultMutableTreeNode;
 
 import pa.clsPsychoAnalysis;
-import pa.memory.clsMemory;
-import pa.modules._v19.G00_PsychicApparatus;
 
 import sim.display.GUIState;
 import sim.portrayal.Inspector;

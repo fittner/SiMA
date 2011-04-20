@@ -9,21 +9,21 @@ package tstpa.memorymgmt.informationrepresentation;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-import pa.memorymgmt.datatypes.clsAssociation;
-import pa.memorymgmt.datatypes.clsAssociationAttribute;
-import pa.memorymgmt.datatypes.clsAssociationDriveMesh;
-import pa.memorymgmt.datatypes.clsAssociationTime;
-import pa.memorymgmt.datatypes.clsAssociationWordPresentation;
-import pa.memorymgmt.datatypes.clsDataStructurePA;
-import pa.memorymgmt.datatypes.clsDriveMesh;
-import pa.memorymgmt.datatypes.clsTemplateImage;
-import pa.memorymgmt.datatypes.clsThingPresentation;
-import pa.memorymgmt.datatypes.clsThingPresentationMesh;
-import pa.memorymgmt.datatypes.clsWordPresentation;
-import pa.memorymgmt.enums.eDataType;
-import pa.memorymgmt.informationrepresentation.searchspace.clsSearchSpaceBase;
-import pa.memorymgmt.informationrepresentation.searchspace.clsSearchSpaceOntologyLoader;
-import pa.tools.clsTripple;
+import pa._v30.tools.clsTripple;
+import pa._v30.memorymgmt.datatypes.clsAssociation;
+import pa._v30.memorymgmt.datatypes.clsAssociationAttribute;
+import pa._v30.memorymgmt.datatypes.clsAssociationDriveMesh;
+import pa._v30.memorymgmt.datatypes.clsAssociationTime;
+import pa._v30.memorymgmt.datatypes.clsAssociationWordPresentation;
+import pa._v30.memorymgmt.datatypes.clsDataStructurePA;
+import pa._v30.memorymgmt.datatypes.clsDriveMesh;
+import pa._v30.memorymgmt.datatypes.clsTemplateImage;
+import pa._v30.memorymgmt.datatypes.clsThingPresentation;
+import pa._v30.memorymgmt.datatypes.clsThingPresentationMesh;
+import pa._v30.memorymgmt.datatypes.clsWordPresentation;
+import pa._v30.memorymgmt.enums.eDataType;
+import pa._v30.memorymgmt.informationrepresentation.searchspace.clsSearchSpaceBase;
+import pa._v30.memorymgmt.informationrepresentation.searchspace.clsSearchSpaceOntologyLoader;
 
 /**
  * DOCUMENT (zeilinger) - insert description 

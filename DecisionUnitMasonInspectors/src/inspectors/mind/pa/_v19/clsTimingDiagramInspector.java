@@ -23,8 +23,8 @@ import org.jfree.data.xy.XYSeries;
 import org.jfree.data.xy.XYSeriesCollection;
 import org.jfree.ui.RectangleInsets;
 
-import pa.interfaces._v19.itfTimeChartInformationContainer;
-import pa.tools.clsPair;
+import pa._v19.interfaces.itfTimeChartInformationContainer;
+import pa._v19.tools.clsPair;
 
 import sim.display.GUIState;
 import sim.portrayal.Inspector;

@@ -14,22 +14,22 @@ import org.junit.Test;
 
 import config.clsBWProperties;
 
-import pa.memorymgmt.clsKnowledgeBaseHandler;
-import pa.memorymgmt.datatypes.clsAssociation;
-import pa.memorymgmt.datatypes.clsAssociationAttribute;
-import pa.memorymgmt.datatypes.clsAssociationTime;
-import pa.memorymgmt.datatypes.clsDataStructureContainer;
-import pa.memorymgmt.datatypes.clsDataStructurePA;
-import pa.memorymgmt.datatypes.clsDriveMesh;
-import pa.memorymgmt.datatypes.clsTemplateImage;
-import pa.memorymgmt.datatypes.clsThingPresentation;
-import pa.memorymgmt.datatypes.clsThingPresentationMesh;
-import pa.memorymgmt.datatypes.clsWordPresentation;
-import pa.memorymgmt.enums.eDataType;
-import pa.memorymgmt.informationrepresentation.clsInformationRepresentationManagement;
-import pa.memorymgmt.informationrepresentation.searchspace.clsSearchSpaceOntologyLoader;
-import pa.tools.clsPair;
-import pa.tools.clsTripple;
+import pa._v30.tools.clsPair;
+import pa._v30.tools.clsTripple;
+import pa._v30.memorymgmt.clsKnowledgeBaseHandler;
+import pa._v30.memorymgmt.datatypes.clsAssociation;
+import pa._v30.memorymgmt.datatypes.clsAssociationAttribute;
+import pa._v30.memorymgmt.datatypes.clsAssociationTime;
+import pa._v30.memorymgmt.datatypes.clsDataStructureContainer;
+import pa._v30.memorymgmt.datatypes.clsDataStructurePA;
+import pa._v30.memorymgmt.datatypes.clsDriveMesh;
+import pa._v30.memorymgmt.datatypes.clsTemplateImage;
+import pa._v30.memorymgmt.datatypes.clsThingPresentation;
+import pa._v30.memorymgmt.datatypes.clsThingPresentationMesh;
+import pa._v30.memorymgmt.datatypes.clsWordPresentation;
+import pa._v30.memorymgmt.enums.eDataType;
+import pa._v30.memorymgmt.informationrepresentation.clsInformationRepresentationManagement;
+import pa._v30.memorymgmt.informationrepresentation.searchspace.clsSearchSpaceOntologyLoader;
 
 
 /**

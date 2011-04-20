@@ -12,18 +12,18 @@ import java.util.ArrayList;
 
 import org.junit.Test;
 
-import pa.memorymgmt.datatypes.clsAssociation;
-import pa.memorymgmt.datatypes.clsAssociationAttribute;
-import pa.memorymgmt.datatypes.clsAssociationTime;
-import pa.memorymgmt.datatypes.clsAssociationWordPresentation;
-import pa.memorymgmt.datatypes.clsPrimaryDataStructureContainer;
-import pa.memorymgmt.datatypes.clsSecondaryDataStructureContainer;
-import pa.memorymgmt.datatypes.clsTemplateImage;
-import pa.memorymgmt.datatypes.clsThingPresentation;
-import pa.memorymgmt.datatypes.clsThingPresentationMesh;
-import pa.memorymgmt.datatypes.clsWordPresentation;
-import pa.memorymgmt.enums.eDataType;
-import pa.tools.clsTripple;
+import pa._v30.tools.clsTripple;
+import pa._v30.memorymgmt.datatypes.clsAssociation;
+import pa._v30.memorymgmt.datatypes.clsAssociationAttribute;
+import pa._v30.memorymgmt.datatypes.clsAssociationTime;
+import pa._v30.memorymgmt.datatypes.clsAssociationWordPresentation;
+import pa._v30.memorymgmt.datatypes.clsPrimaryDataStructureContainer;
+import pa._v30.memorymgmt.datatypes.clsSecondaryDataStructureContainer;
+import pa._v30.memorymgmt.datatypes.clsTemplateImage;
+import pa._v30.memorymgmt.datatypes.clsThingPresentation;
+import pa._v30.memorymgmt.datatypes.clsThingPresentationMesh;
+import pa._v30.memorymgmt.datatypes.clsWordPresentation;
+import pa._v30.memorymgmt.enums.eDataType;
 
 
 /**

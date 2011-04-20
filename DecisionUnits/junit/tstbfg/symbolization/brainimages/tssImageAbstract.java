@@ -19,11 +19,11 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-import pa.bfg.symbolization.brainimages.clsContainerAbstractImages;
-import pa.bfg.symbolization.brainimages.clsIdentity;
-import pa.bfg.symbolization.brainimages.clsImageAbstract;
-import pa.bfg.symbolization.ruletree.clsRuleCompareResult;
-import pa.bfg.tools.xmltools.clsXMLConfiguration;
+import pa._v19.bfg.symbolization.brainimages.clsContainerAbstractImages;
+import pa._v19.bfg.symbolization.brainimages.clsIdentity;
+import pa._v19.bfg.symbolization.brainimages.clsImageAbstract;
+import pa._v19.bfg.symbolization.ruletree.clsRuleCompareResult;
+import pa._v19.bfg.tools.xmltools.clsXMLConfiguration;
 
 import du.enums.eEntityType;
 import du.enums.eSensorExtType;
@@ -49,7 +49,7 @@ public class tssImageAbstract {
 
 	
 	/**
-	 * Test method for {@link pa.bfg.symbolization.brainimages.clsImageAbstract#createImageAbstractList(java.util.Vector, int)}.
+	 * Test method for {@link pa._v19.bfg.symbolization.brainimages.clsImageAbstract#createImageAbstractList(java.util.Vector, int)}.
 	 */
 	@Test
 	public void testCreateImageAbstractList() {
@@ -63,7 +63,7 @@ public class tssImageAbstract {
 	}
 	
 	/**
-	 * Test method for {@link pa.bfg.symbolization.brainimages.clsImageAbstract#createImageAbstractList(java.util.Vector, int)}.
+	 * Test method for {@link pa._v19.bfg.symbolization.brainimages.clsImageAbstract#createImageAbstractList(java.util.Vector, int)}.
 	 */
 	@Test
 	public void testEvaluateTreeBump() {
@@ -97,7 +97,7 @@ public class tssImageAbstract {
 }
 	
 	/**
-	 * Test method for {@link pa.bfg.symbolization.brainimages.clsImageAbstract#createImageAbstractList(java.util.Vector, int)}.
+	 * Test method for {@link pa._v19.bfg.symbolization.brainimages.clsImageAbstract#createImageAbstractList(java.util.Vector, int)}.
 	 */
 	@Test
 	public void testEvaluateTreeSegment() {

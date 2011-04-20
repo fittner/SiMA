@@ -9,10 +9,10 @@ package inspectors.mind.pa._v19;
 import javax.swing.JTree;
 
 import inspectors.mind.pa._v19.functionalmodel.clsPAInspectorFunctional;
-import pa.datatypes.clsSecondaryInformation;
-import pa.loader.plan.clsPlanBaseMesh;
-import pa.loader.scenario.clsScenarioBaseMesh;
-import pa.modules._v19.G00_PsychicApparatus;
+import pa._v19.datatypes.clsSecondaryInformation;
+import pa._v19.loader.plan.clsPlanBaseMesh;
+import pa._v19.loader.scenario.clsScenarioBaseMesh;
+import pa._v19.modules.G00_PsychicApparatus;
 import sim.display.GUIState;
 import sim.portrayal.Inspector;
 import sim.portrayal.LocationWrapper;

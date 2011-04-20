@@ -7,7 +7,8 @@
 package inspectors.mind.pa._v30;
 
 import java.awt.BorderLayout;
-import pa.modules._v30.clsModuleBase;
+
+import pa._v30.modules.clsModuleBase;
 import sim.portrayal.Inspector;
 import sim.util.gui.HTMLBrowser;
 import statictools.clsExceptionUtils;

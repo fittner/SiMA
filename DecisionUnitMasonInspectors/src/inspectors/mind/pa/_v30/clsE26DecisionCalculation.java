@@ -17,7 +17,7 @@ import org.jfree.chart.title.TextTitle;
 import org.jfree.data.category.CategoryDataset;
 import org.jfree.chart.plot.SpiderWebPlot;
 
-import pa.modules._v30.E26_DecisionMaking;
+import pa._v30.modules.E26_DecisionMaking;
 import sim.portrayal.Inspector;
 
 import java.awt.Color;

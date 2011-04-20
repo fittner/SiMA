@@ -32,8 +32,8 @@ import org.jgraph.graph.VertexView;
 //import pa.datatypes.clsAssociationContext;
 //import pa.datatypes.clsPrimaryInformation;
 //import pa.datatypes.clsPrimaryInformationMesh;
-import pa.memorymgmt.datatypes.clsDriveMesh;
-import pa.modules._v30.E05_AccumulationOfAffectsForSelfPreservationDrives;
+import pa._v30.memorymgmt.datatypes.clsDriveMesh;
+import pa._v30.modules.E05_AccumulationOfAffectsForSelfPreservationDrives;
 import sim.portrayal.Inspector;
 
 import com.jgraph.components.labels.MultiLineVertexView;

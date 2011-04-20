@@ -8,8 +8,9 @@ package inspectors.mind.pa._v30;
 
 import java.util.ArrayList;
 import java.util.SortedMap;
-import pa.interfaces._v30.eInterfaces;
-import pa.modules._v30.clsModuleBase;
+
+import pa._v30.interfaces.eInterfaces;
+import pa._v30.modules.clsModuleBase;
 
 /**
  * DOCUMENT (deutsch) - insert description 

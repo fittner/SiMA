@@ -10,8 +10,9 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.HashMap;
-import pa.interfaces.I_BaseInterface;
-import pa.modules._v19.clsModuleBase;
+
+import pa._v19.modules.clsModuleBase;
+import pa._v19.interfaces.I_BaseInterface;
 
 /**
  * DOCUMENT (deutsch) - insert description 

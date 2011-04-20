@@ -10,8 +10,9 @@ import java.awt.BorderLayout;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.SortedMap;
-import pa.interfaces._v30.eInterfaces;
-import pa.tools.clsPair;
+
+import pa._v30.tools.clsPair;
+import pa._v30.interfaces.eInterfaces;
 import sim.portrayal.Inspector;
 import sim.util.gui.HTMLBrowser;
 import statictools.clsExceptionUtils;

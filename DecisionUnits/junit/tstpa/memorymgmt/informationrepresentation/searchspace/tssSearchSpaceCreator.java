@@ -10,8 +10,8 @@ import static org.junit.Assert.assertTrue;
 
 import org.junit.Test;
 
-import pa.memorymgmt.informationrepresentation.searchspace.clsSearchSpaceCreator;
-import pa.memorymgmt.informationrepresentation.searchspace.clsSearchSpaceOntologyLoader;
+import pa._v30.memorymgmt.informationrepresentation.searchspace.clsSearchSpaceCreator;
+import pa._v30.memorymgmt.informationrepresentation.searchspace.clsSearchSpaceOntologyLoader;
 
 
 /**

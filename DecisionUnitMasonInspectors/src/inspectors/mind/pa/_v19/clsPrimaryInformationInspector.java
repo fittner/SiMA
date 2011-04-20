@@ -39,13 +39,13 @@ import com.jgraph.layout.tree.JGraphCompactTreeLayout;
 import du.enums.pa.eContext;
 
 
-import pa.datatypes.clsAffect;
-import pa.datatypes.clsAssociation;
-import pa.datatypes.clsAssociationContent;
-import pa.datatypes.clsAssociationContext;
-import pa.datatypes.clsDriveContentCategories;
-import pa.datatypes.clsPrimaryInformation;
-import pa.datatypes.clsPrimaryInformationMesh;
+import pa._v19.datatypes.clsAffect;
+import pa._v19.datatypes.clsAssociation;
+import pa._v19.datatypes.clsAssociationContent;
+import pa._v19.datatypes.clsAssociationContext;
+import pa._v19.datatypes.clsDriveContentCategories;
+import pa._v19.datatypes.clsPrimaryInformation;
+import pa._v19.datatypes.clsPrimaryInformationMesh;
 
 import sim.display.GUIState;
 import sim.portrayal.Inspector;

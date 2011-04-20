@@ -6,7 +6,7 @@
  */
 package inspectors.mind.pa._v30;
 
-import pa.modules._v30.clsModuleBase;
+import pa._v30.modules.clsModuleBase;
 
 /**
  * DOCUMENT (deutsch) - insert description 

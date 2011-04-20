@@ -23,8 +23,8 @@ import org.jfree.chart.plot.PlotOrientation;
 import org.jfree.chart.renderer.category.LayeredBarRenderer;
 import org.jfree.data.category.DefaultCategoryDataset;
 
-import pa.memorymgmt.datatypes.clsDriveMesh;
-import pa.modules._v19.E05_GenerationOfAffectsForDrives;
+import pa._v19.modules.E05_GenerationOfAffectsForDrives;
+import pa._v19.memorymgmt.datatypes.clsDriveMesh;
 
 import sim.display.GUIState;
 import sim.portrayal.Inspector;

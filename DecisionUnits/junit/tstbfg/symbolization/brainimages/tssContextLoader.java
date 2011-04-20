@@ -16,9 +16,9 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-import pa.loader.clsContextLoader;
-import pa.datatypes.clsThingPresentationSingle; 
-import pa.datatypes.clsAssociationContext;
+import pa._v19.datatypes.clsAssociationContext;
+import pa._v19.datatypes.clsThingPresentationSingle;
+import pa._v19.loader.clsContextLoader;
 
 /**
  * DOCUMENT (zeilinger) - insert description 

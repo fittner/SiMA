@@ -11,7 +11,7 @@ import org.jfree.chart.plot.XYPlot;
 import org.jfree.data.xy.XYSeries;
 import org.jfree.data.xy.XYSeriesCollection;
 
-import pa.interfaces._v30.itfInspectorGenericTimeChart;
+import pa._v30.interfaces.itfInspectorGenericTimeChart;
 
 /**
  * DOCUMENT (deutsch) - insert description 

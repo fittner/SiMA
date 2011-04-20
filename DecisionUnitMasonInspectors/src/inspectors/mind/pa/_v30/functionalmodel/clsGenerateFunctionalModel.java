@@ -10,10 +10,10 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-import pa.interfaces._v30.eInterfaces;
-import pa.modules._v30.clsModuleBase;
-import pa.modules._v30.clsPsychicApparatus;
-import pa.tools.clsPair;
+import pa._v30.tools.clsPair;
+import pa._v30.interfaces.eInterfaces;
+import pa._v30.modules.clsModuleBase;
+import pa._v30.modules.clsPsychicApparatus;
 
 /**
  * DOCUMENT (deutsch) - insert description 

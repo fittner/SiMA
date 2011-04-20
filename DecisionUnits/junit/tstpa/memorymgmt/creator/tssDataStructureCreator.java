@@ -10,10 +10,10 @@ import java.util.ArrayList;
 
 import org.junit.Test;
 
-import pa.memorymgmt.datahandler.clsDataStructureGenerator;
-import pa.memorymgmt.datatypes.clsThingPresentation;
-import pa.memorymgmt.enums.eDataType;
-import pa.tools.clsTripple;
+import pa._v19.tools.clsTripple;
+import pa._v30.memorymgmt.datahandler.clsDataStructureGenerator;
+import pa._v30.memorymgmt.datatypes.clsThingPresentation;
+import pa._v30.memorymgmt.enums.eDataType;
 
 
 /**

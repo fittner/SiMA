@@ -32,7 +32,7 @@ import org.jgraph.graph.GraphLayoutCache;
 import org.jgraph.graph.GraphModel;
 import org.jgraph.graph.VertexView;
 
-import pa.modules._v30.clsPsychicApparatus;
+import pa._v30.modules.clsPsychicApparatus;
 
 import sim.portrayal.Inspector;
 

@@ -10,7 +10,7 @@ import java.awt.BorderLayout;
 import java.util.HashMap;
 import java.util.Map;
 
-import pa.modules._v19.E03_GenerationOfDrives;
+import pa._v19.modules.E03_GenerationOfDrives;
 import sim.display.GUIState;
 import sim.portrayal.Inspector;
 import sim.portrayal.LocationWrapper;

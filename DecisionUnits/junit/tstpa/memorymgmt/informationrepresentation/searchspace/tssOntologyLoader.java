@@ -11,8 +11,8 @@ import static org.junit.Assert.assertTrue;
 import java.util.HashMap;
 import org.junit.Test;
 
-import pa.memorymgmt.datatypes.clsDataStructurePA;
-import pa.memorymgmt.informationrepresentation.searchspace.clsOntologyLoader;
+import pa._v30.memorymgmt.datatypes.clsDataStructurePA;
+import pa._v30.memorymgmt.informationrepresentation.searchspace.clsOntologyLoader;
 
 
 /**

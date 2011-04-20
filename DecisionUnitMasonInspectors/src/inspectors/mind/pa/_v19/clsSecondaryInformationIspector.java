@@ -26,12 +26,12 @@ import org.jgraph.graph.GraphLayoutCache;
 import org.jgraph.graph.GraphModel;
 import org.jgraph.graph.VertexView;
 
-import pa.datatypes.clsAffect;
-import pa.datatypes.clsAssociation;
-import pa.datatypes.clsAssociationContent;
-import pa.datatypes.clsAssociationContext;
-import pa.datatypes.clsSecondaryInformation;
-import pa.datatypes.clsSecondaryInformationMesh;
+import pa._v19.datatypes.clsAffect;
+import pa._v19.datatypes.clsAssociation;
+import pa._v19.datatypes.clsAssociationContent;
+import pa._v19.datatypes.clsAssociationContext;
+import pa._v19.datatypes.clsSecondaryInformation;
+import pa._v19.datatypes.clsSecondaryInformationMesh;
 import sim.display.GUIState;
 import sim.portrayal.Inspector;
 import sim.portrayal.LocationWrapper;

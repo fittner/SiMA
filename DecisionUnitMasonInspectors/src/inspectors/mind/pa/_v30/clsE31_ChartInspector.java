@@ -15,7 +15,7 @@ import org.jfree.data.xy.XYSeries;
 import org.jfree.data.xy.XYSeriesCollection;
 import org.jfree.ui.RectangleInsets;
 
-import pa.interfaces._v30.itfInspectorTimeChart;
+import pa._v30.interfaces.itfInspectorTimeChart;
 
 /**
  * DOCUMENT (deutsch) - insert description 

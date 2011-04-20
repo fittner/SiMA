@@ -27,12 +27,12 @@ import org.jgraph.graph.GraphLayoutCache;
 import org.jgraph.graph.GraphModel;
 import org.jgraph.graph.VertexView;
 
-import pa.datatypes.clsAssociation;
-import pa.datatypes.clsSecondaryInformation;
-import pa.loader.plan.clsPlanAction;
-import pa.loader.plan.clsPlanBaseMesh;
-import pa.loader.plan.clsPlanStateMesh;
-import pa.loader.plan.clsPlanTransition;
+import pa._v19.datatypes.clsAssociation;
+import pa._v19.datatypes.clsSecondaryInformation;
+import pa._v19.loader.plan.clsPlanAction;
+import pa._v19.loader.plan.clsPlanBaseMesh;
+import pa._v19.loader.plan.clsPlanStateMesh;
+import pa._v19.loader.plan.clsPlanTransition;
 import sim.display.GUIState;
 import sim.portrayal.Inspector;
 import sim.portrayal.LocationWrapper;
