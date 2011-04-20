@@ -1,4 +1,4 @@
-; Wed Apr 20 07:41:07 CEST 2011
+; Wed Apr 20 08:43:25 CEST 2011
 ; 
 ;+ (version "3.4.4")
 ;+ (build "Build 579")
@@ -72,7 +72,8 @@
 	(consequence
 		[WP%3ABUBBLE01]
 		[WP%3AUNPLEASURE]
-		[WP%3AVERYHIGH])
+		[WP%3AVERYHIGH]
+		[WP%3ANOURISH])
 	(precondition
 		[WP%3ABUBBLE01]
 		[WP%3ALOCATION%3AMANIPULATEABLE])
@@ -104,7 +105,8 @@
 	(consequence
 		[WP%3ARB01]
 		[WP%3AUNPLEASURE]
-		[WP%3AVERYHIGH])
+		[WP%3AVERYHIGH]
+		[WP%3ANOURISH])
 	(precondition
 		[WP%3ARB01]
 		[WP%3ALOCATION%3AMANIPULATEABLE])
