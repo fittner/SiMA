@@ -74,7 +74,8 @@ public class clsTimingDiagramInspector extends Inspector{
     	add(moChartPanel);
     }
 
-    private ArrayList<clsPair<String, Double>> convert(ArrayList<String> poCaptions, ArrayList<Double> poValues) {
+    @SuppressWarnings("unused")
+	private ArrayList<clsPair<String, Double>> convert(ArrayList<String> poCaptions, ArrayList<Double> poValues) {
     	ArrayList<clsPair<String, Double>> oResult = new ArrayList<clsPair<String,Double>>();
     	
     	for (int i=0; i<poCaptions.size(); i++) {

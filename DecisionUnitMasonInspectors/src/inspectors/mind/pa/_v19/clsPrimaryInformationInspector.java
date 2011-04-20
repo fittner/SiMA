@@ -71,6 +71,7 @@ import sim.portrayal.LocationWrapper;
  * 
  */
 @Deprecated
+@SuppressWarnings("rawtypes")
 public class clsPrimaryInformationInspector  extends Inspector implements ActionListener {
 
 	private static final long serialVersionUID = 586283139693057158L;

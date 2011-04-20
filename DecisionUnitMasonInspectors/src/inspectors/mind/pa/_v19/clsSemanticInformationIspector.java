@@ -100,6 +100,7 @@ import com.l2fprod.common.swing.JTaskPaneGroup;
  * 
  */
 @Deprecated
+@SuppressWarnings("rawtypes")
 public class clsSemanticInformationIspector extends Inspector implements ActionListener {
 	
 	/**
@@ -1008,6 +1009,7 @@ public class clsSemanticInformationIspector extends Inspector implements ActionL
 	 * Generating cells from clsSecondaryDataStructureContainer
 	 * [DataStructurePA] - <acossiations>
 	 */
+	@SuppressWarnings("unchecked")
 	private DefaultGraphCell generateGraphCell(DefaultGraphCell poParentCell, clsSecondaryDataStructureContainer poMemoryObject)
 	{
 		clsDataStructurePA oContainerRootDataStructure = poMemoryObject.getMoDataStructure();
@@ -1351,7 +1353,8 @@ public class clsSemanticInformationIspector extends Inspector implements ActionL
 	}
 	
 	// Define EllipseCell
-	  public class EllipseCell extends DefaultGraphCell {
+	  @SuppressWarnings("serial")
+	public class EllipseCell extends DefaultGraphCell {
 	    // Empty Constructor
 	    public EllipseCell() {
 	      this(null);
