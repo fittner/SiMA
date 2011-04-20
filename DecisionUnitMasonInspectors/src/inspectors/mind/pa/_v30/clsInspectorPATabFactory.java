@@ -136,7 +136,6 @@ public class clsInspectorPATabFactory {
 		if(poModuleName.equals("E01_SensorsMetabolism")) {
 		} else if(poModuleName.equals("E02_NeurosymbolizationOfNeeds")) {
 		} else if(poModuleName.equals("E03_GenerationOfSelfPreservationDrives")) {
-			oRetVal.addInspector( new clsE03InspectorDriveDefinitions(moPA.moE03_GenerationOfSelfPreservationDrives), "Drive Definitions");
 		} else if(poModuleName.equals("E04_FusionOfSelfPreservationDrives")) {
 		} else if(poModuleName.equals("E05_AccumulationOfAffectsForSelfPreservationDrives")) {
 			oRetVal.addInspector( new clsE05DriveInspector(moPA.moE05_AccumulationOfAffectsForSelfPreservationDrives, "moDriveList"), "Current Drives (Graph)");

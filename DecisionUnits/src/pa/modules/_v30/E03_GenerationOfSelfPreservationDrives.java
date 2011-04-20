@@ -15,9 +15,6 @@ import pa.interfaces.knowledgebase.itfKnowledgeBaseAccess;
 import pa.interfaces.receive._v30.I1_2_receive;
 import pa.interfaces.receive._v30.I1_3_receive;
 import pa.interfaces.send._v30.I1_3_send;
-import pa.loader.clsAffectCandidateDefinition;
-import pa.loader.clsDriveLoader;
-import pa.loader.clsTemplateDrive;
 import pa.memorymgmt.clsKnowledgeBaseHandler;
 import pa.memorymgmt.datahandler.clsDataStructureGenerator;
 import pa.memorymgmt.datatypes.clsDataStructureContainer;
@@ -30,7 +27,6 @@ import pa.memorymgmt.enums.eDataType;
 import pa.tools.clsPair;
 import pa.tools.clsTripple;
 import config.clsBWProperties;
-import du.enums.pa.eContext;
 
 /**
  * DOCUMENT (deutsch) - insert description 
@@ -43,8 +39,6 @@ public class E03_GenerationOfSelfPreservationDrives extends clsModuleBase implem
 	public static final String P_MODULENUMBER = "03";
 	public static String moDriveObjectType = "DriveObject";
 	
-	@Deprecated
-	private ArrayList<clsPair<clsTemplateDrive, clsTemplateDrive>> moDriveDefinition;
 	private HashMap<String, Double> moHomeostasisSymbols;
 	private ArrayList<clsPair<clsPair<pa.memorymgmt.datatypes.clsDriveMesh, clsDriveDemand>, 
 	                  clsPair<pa.memorymgmt.datatypes.clsDriveMesh, clsDriveDemand>>> moHomeostaticTP; 
@@ -70,7 +64,6 @@ public class E03_GenerationOfSelfPreservationDrives extends clsModuleBase implem
 			clsKnowledgeBaseHandler poKnowledgeBaseHandler) throws Exception {
 		super(poPrefix, poProp, poModuleList, poInterfaceData);
 		applyProperties(poPrefix, poProp);	
-		loadDriveDefinition(poPrefix, poProp);
 		
 		moKnowledgeBaseHandler = poKnowledgeBaseHandler; 
 	}
@@ -102,7 +95,6 @@ public class E03_GenerationOfSelfPreservationDrives extends clsModuleBase implem
 		String html ="";
 		
 		html += mapToHTML("moHomeostasisSymbols",moHomeostasisSymbols);
-		html += listToHTML("moDriveDefinition", moDriveDefinition);
 		html += listToHTML("moHomeostaticTP", moHomeostaticTP);		
 		
 		return html;
@@ -154,34 +146,6 @@ public class E03_GenerationOfSelfPreservationDrives extends clsModuleBase implem
 		
 		return oRetVal;
 	}
-	
-
-	/**
-	 * @author langr
-	 * 28.09.2009, 19:21:32
-	 * 
-	 * @return the moDriveDefinition
-	 */
-	@Deprecated
-	public ArrayList<clsPair<clsTemplateDrive, clsTemplateDrive>> getDriveDefinition() {
-		return moDriveDefinition;
-	}
-	
-	/**
-	 * DOCUMENT (langr) - insert description
-	 *
-	 * @author langr
-	 * 23.09.2009, 14:31:31
-	 *
-	 */
-	@Deprecated
-	private void loadDriveDefinition(String poPrefix, clsBWProperties poProp) {
-	      
-		//TODO - (langr): read team-name from property file!
-		moDriveDefinition = clsDriveLoader.createDriveList("1", "PSY_10");
-	}
-
-
 
 	/* (non-Javadoc)
 	 *
@@ -236,17 +200,6 @@ public class E03_GenerationOfSelfPreservationDrives extends clsModuleBase implem
 			clsDriveDemand oDD = getDriveDemand(oDT);
 			moDrives.add( new clsPair<clsDriveMesh, clsDriveDemand>(oDT.a, oDD) );
 		}
-		
-		
-		moHomeostaticTP = new ArrayList<clsPair<clsPair<pa.memorymgmt.datatypes.clsDriveMesh, clsDriveDemand>, 
-		                                clsPair<pa.memorymgmt.datatypes.clsDriveMesh, clsDriveDemand>>>();
-		
-		for( clsPair<clsTemplateDrive, clsTemplateDrive> oDriveDef : moDriveDefinition ) {
-			clsPair<pa.memorymgmt.datatypes.clsDriveMesh, clsDriveDemand> oMeshA = createDrive(oDriveDef.a); 
-			clsPair<pa.memorymgmt.datatypes.clsDriveMesh, clsDriveDemand> oMeshB = createDrive(oDriveDef.b); 
-			moHomeostaticTP.add(new clsPair<clsPair<pa.memorymgmt.datatypes.clsDriveMesh, clsDriveDemand>, 
-									clsPair<pa.memorymgmt.datatypes.clsDriveMesh, clsDriveDemand>>(oMeshA, oMeshB)); 
-		}
 	}
 	
 	private double calculateNormalizedValue(double rValue, String poSource) {
@@ -274,84 +227,6 @@ public class E03_GenerationOfSelfPreservationDrives extends clsModuleBase implem
 				new clsPair<String,Object>(eDataType.DRIVEDEMAND.toString(), rDemand));
 		
 		return oDemand;
-	}
-	
-	/**
-	 * DOCUMENT (zeilinger) - insert description
-	 *
-	 * @author zeilinger
-	 * 14.08.2010, 16:39:10
-	 *
-	 * @param oDriveDef
-	 * @return
-	 */
-	@Deprecated
-	private clsPair<pa.memorymgmt.datatypes.clsDriveMesh, clsDriveDemand> createDrive(clsTemplateDrive poDriveDef) {
-		pa.memorymgmt.datatypes.clsDriveMesh oDriveMesh = null; 
-		clsDriveDemand oDemand = null; 
-		
-		oDriveMesh = createDriveMesh(poDriveDef); 
-		oDemand = createDemand(poDriveDef); 
-		return new clsPair<pa.memorymgmt.datatypes.clsDriveMesh, clsDriveDemand>(oDriveMesh, oDemand);
-	}
-
-	/**
-	 * DOCUMENT (zeilinger) - insert description
-	 *
-	 * @author zeilinger
-	 * 14.08.2010, 17:57:27
-	 *
-	 * @param poDriveDef
-	 * @return
-	 */
-	@Deprecated
-	private pa.memorymgmt.datatypes.clsDriveMesh createDriveMesh(clsTemplateDrive poDriveDef) {
-		pa.memorymgmt.datatypes.clsDriveMesh oRetVal = null;
-		
-		//String oContentName = poDriveDef.moName; 
-		String oContentType = poDriveDef.meDriveType.toString(); 
-		String oContext = poDriveDef.meDriveContent.toString(); 
-		clsThingPresentation oDataStructure = (clsThingPresentation)clsDataStructureGenerator.generateDataStructure(eDataType.TP, new clsPair<String, Object>(oContentType,oContext));
-
-		//HZ 15.08.2010: In the actual design the ArrayList oContent is not required. Actually every drive mesh has only one associated drive context; This makes 
-		// sense but is not approved completely and may be changed. Maybe a drive mesh has to store the counter drive too; Hence this ArrayList remains here
-		// even it is actually filled with only one entry.  
-		ArrayList<Object> oContent = new ArrayList<Object>(); 
-		oContent.add(oDataStructure); 
-		
-		oRetVal = (pa.memorymgmt.datatypes.clsDriveMesh)clsDataStructureGenerator.generateDataStructure(eDataType.DM, new clsTripple<String,Object, Object>(oContentType, oContent, oContext));
-		
-		oRetVal.setAnal(poDriveDef.moDriveContentRatio.get(eContext.DEFAULT).getAnal());
-		oRetVal.setGenital(poDriveDef.moDriveContentRatio.get(eContext.DEFAULT).getGenital());
-		oRetVal.setOral(poDriveDef.moDriveContentRatio.get(eContext.DEFAULT).getOral());
-		oRetVal.setPhallic(poDriveDef.moDriveContentRatio.get(eContext.DEFAULT).getPhallic());
-		
-		return oRetVal;
-	}
-
-	/**
-	 * DOCUMENT (zeilinger) - insert description
-	 *
-	 * @author zeilinger
-	 * 14.08.2010, 17:45:46
-	 *
-	 * @param poDriveDef
-	 * @return
-	 */
-	@Deprecated
-	private clsDriveDemand createDemand(clsTemplateDrive poDriveDef) {
-		double rDemand = 0.0; 
-		
-		for(clsAffectCandidateDefinition oCandidateDef : poDriveDef.moAffectCandidate) {
-			if( moHomeostasisSymbols.containsKey(oCandidateDef.moSensorType)) {
-				double rValue = moHomeostasisSymbols.get(oCandidateDef.moSensorType);
-				
-				if(oCandidateDef.mnInverse) {rDemand += ((oCandidateDef.mrMaxValue-rValue)/oCandidateDef.mrMaxValue)*oCandidateDef.mrRatio;} 
-				else 						{rDemand += (rValue/oCandidateDef.mrMaxValue)*oCandidateDef.mrRatio;}
-			}
-		}
-		return (clsDriveDemand)clsDataStructureGenerator.generateDataStructure(eDataType.DRIVEDEMAND, 
-				new clsPair<String,Object>(eDataType.DRIVEDEMAND.toString(),rDemand));  
 	}
 
 	/* (non-Javadoc)
