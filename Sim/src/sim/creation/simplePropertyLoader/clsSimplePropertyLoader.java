@@ -417,6 +417,7 @@ public class clsSimplePropertyLoader extends clsLoader {
     	
     	int num = poProp.getPropertyInt(pre+P_NUMENTITES);
     	for (int i=0; i<num; i++) {
+    		System.out.print(".");
     		clsBWProperties oEntityProperties = getEntityProperties(nEntityType);
     		oEntityProperties.put( clsEntity.P_ID, nEntityType.name()+"_"+nDecisionType.name()+"_"+i+" (#"+clsSingletonUniqueIdGenerator.getUniqueId()+")" );
     		if (oRemoveEntityDefaults != null) {
@@ -449,14 +450,18 @@ public class clsSimplePropertyLoader extends clsLoader {
 	@Override
 	public void loadObjects() {
 		String pre = clsBWProperties.addDot( getPrefix() );
-		
+		System.out.print("Create "+numentitygroups+" groups:");
 		for (int i=0;i<numentitygroups; i++) {
+			System.out.print(" "+i);
 			createEntityGroup(pre+P_ENTITYGROUPS+"."+i, getProperties() );
 		}	
+		System.out.print(" done;");
 		
+		System.out.print(" create world boundaries ...");
 		if (getProperties().getPropertyBoolean(pre+P_WORLDBOUNDARYWALLS)) {
 			generateWorldBoundaries();
 		}
+		System.out.println(" done.");
 	}
 
 	/**
