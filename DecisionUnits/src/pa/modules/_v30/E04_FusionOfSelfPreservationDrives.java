@@ -17,6 +17,7 @@ import pa.interfaces.send._v30.I1_4_send;
 import pa.memorymgmt.datatypes.clsDriveDemand;
 import pa.memorymgmt.datatypes.clsDriveMesh;
 import pa.tools.clsPair;
+import pa.tools.clsQuadruppel;
 import config.clsBWProperties;
 
 /**
@@ -29,8 +30,9 @@ import config.clsBWProperties;
 public class E04_FusionOfSelfPreservationDrives extends clsModuleBase implements I1_3_receive, I1_4_send {
 	public static final String P_MODULENUMBER = "04";
 	
-	private ArrayList<clsPair<clsPair<clsDriveMesh, clsDriveDemand>, clsPair<clsDriveMesh, clsDriveDemand>>> moDriveCandidate; 
-
+	private ArrayList< clsPair< clsPair<clsDriveMesh, clsDriveDemand>, clsPair<clsDriveMesh, clsDriveDemand> > > moDriveCandidates; 
+	private ArrayList< clsPair< clsDriveMesh, clsDriveDemand> > moHomeostaticDriveDemands;
+	private ArrayList< clsPair< clsPair<String, String>, clsPair<String, String> > > moDriveOfOppositePairs;
 	/**
 	 * DOCUMENT (deutsch) - insert description 
 	 * 
@@ -46,6 +48,21 @@ public class E04_FusionOfSelfPreservationDrives extends clsModuleBase implements
 			clsBWProperties poProp, HashMap<Integer, clsModuleBase> poModuleList, SortedMap<eInterfaces, ArrayList<Object>> poInterfaceData) throws Exception {
 		super(poPrefix, poProp, poModuleList, poInterfaceData);
 		applyProperties(poPrefix, poProp);	
+		fillOppositePairs();
+	}
+	
+	private void fillOppositePairs() {
+		moDriveOfOppositePairs = new ArrayList<clsPair<clsPair<String,String>,clsPair<String,String>>>();
+		
+		ArrayList<clsQuadruppel<String, String, String, String>> oStaticList = new ArrayList<clsQuadruppel<String,String,String,String>>();
+		oStaticList.add(new clsQuadruppel<String, String, String, String>("LIFE","NOURISH","DEATH","BITE"));
+		
+		for (clsQuadruppel<String, String, String, String> oEntry:oStaticList) {
+			clsPair<String, String> oLeft = new clsPair<String, String>(oEntry.a, oEntry.b);
+			clsPair<String, String> oRight = new clsPair<String, String>(oEntry.c, oEntry.d);
+			clsPair<clsPair<String,String>,clsPair<String,String>> oPair = new clsPair<clsPair<String,String>,clsPair<String,String>>(oLeft, oRight);
+			moDriveOfOppositePairs.add(oPair);
+		}
 	}
 	
 	/* (non-Javadoc)
@@ -59,7 +76,7 @@ public class E04_FusionOfSelfPreservationDrives extends clsModuleBase implements
 	public String stateToHTML() {
 		String html ="";
 		
-		html += listToHTML("moDriveCandidate", moDriveCandidate);
+		html += listToHTML("moDriveCandidate", moDriveCandidates);
 		
 		return html;
 	}
@@ -112,8 +129,8 @@ public class E04_FusionOfSelfPreservationDrives extends clsModuleBase implements
 	 */
 	@SuppressWarnings("unchecked")
 	@Override
-	public void receive_I1_3(ArrayList<clsPair<clsPair<clsDriveMesh, clsDriveDemand>, clsPair<clsDriveMesh, clsDriveDemand>>> poDriveCandidate) {
-		moDriveCandidate = (ArrayList<clsPair<clsPair<clsDriveMesh, clsDriveDemand>, clsPair<clsDriveMesh, clsDriveDemand>>>) deepCopy(poDriveCandidate); 
+	public void receive_I1_3(ArrayList< clsPair<clsDriveMesh, clsDriveDemand> > poHomeostaticDriveDemands) {
+		moHomeostaticDriveDemands = (ArrayList< clsPair<clsDriveMesh, clsDriveDemand> >) deepCopy(poHomeostaticDriveDemands); 
 	}
 
 	/* (non-Javadoc)
@@ -125,8 +142,35 @@ public class E04_FusionOfSelfPreservationDrives extends clsModuleBase implements
 	 */
 	@Override
 	protected void process_basic() {
-		mnTest++;
+		moDriveCandidates = new ArrayList<clsPair<clsPair<clsDriveMesh,clsDriveDemand>,clsPair<clsDriveMesh,clsDriveDemand>>>();
 		
+		for (clsPair< clsPair<String, String>, clsPair<String, String> > oDOOP:moDriveOfOppositePairs) {
+			clsPair<clsDriveMesh, clsDriveDemand> oA = getEntry(oDOOP.a);
+			clsPair<clsDriveMesh, clsDriveDemand> oB = getEntry(oDOOP.b);
+			
+			if (oA != null && oB != null) {
+				clsPair< clsPair<clsDriveMesh, clsDriveDemand>, clsPair<clsDriveMesh, clsDriveDemand> > oEntry = 
+					new clsPair<clsPair<clsDriveMesh,clsDriveDemand>, clsPair<clsDriveMesh,clsDriveDemand>>(oA, oB);
+				
+				moDriveCandidates.add(oEntry); 
+			}
+		}
+	}
+	
+	private clsPair<clsDriveMesh, clsDriveDemand> getEntry(clsPair<String, String> poId) {
+		clsPair<clsDriveMesh, clsDriveDemand> oResult =  null;
+		String oContentType = poId.a; 
+		String oContext = poId.b;
+		
+		for (clsPair<clsDriveMesh, clsDriveDemand> oHDD:moHomeostaticDriveDemands) {
+			clsDriveMesh oTemp = oHDD.a;
+			if ( oTemp.getMoContent().equals(oContext) && oTemp.getMoContentType().equals(oContentType)) {
+				oResult = oHDD;
+				break;
+			}
+		}
+		
+		return oResult;
 	}
 
 	/* (non-Javadoc)
@@ -138,7 +182,7 @@ public class E04_FusionOfSelfPreservationDrives extends clsModuleBase implements
 	 */
 	@Override
 	protected void send() {
-		send_I1_4(moDriveCandidate);	
+		send_I1_4(moDriveCandidates);	
 	}
 
 	/* (non-Javadoc)

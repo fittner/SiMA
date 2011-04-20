@@ -164,7 +164,7 @@ public class clsPsychicApparatus {
 			
 			moE01_SensorsMetabolism = new E01_SensorsMetabolism(pre + E01_SensorsMetabolism.P_MODULENUMBER, poProp, moModules, moInterfaceData);
 			moE02_NeurosymbolizationOfNeeds = new E02_NeurosymbolizationOfNeeds(pre + E02_NeurosymbolizationOfNeeds.P_MODULENUMBER, poProp, moModules, moInterfaceData);
-			moE03_GenerationOfSelfPreservationDrives = new E03_GenerationOfSelfPreservationDrives(pre + E03_GenerationOfSelfPreservationDrives.P_MODULENUMBER, poProp, moModules, moInterfaceData);
+			moE03_GenerationOfSelfPreservationDrives = new E03_GenerationOfSelfPreservationDrives(pre + E03_GenerationOfSelfPreservationDrives.P_MODULENUMBER, poProp, moModules, moInterfaceData, moKnowledgeBaseHandler);
 			moE04_FusionOfSelfPreservationDrives = new E04_FusionOfSelfPreservationDrives(pre + E04_FusionOfSelfPreservationDrives.P_MODULENUMBER, poProp, moModules, moInterfaceData);
 			moE05_AccumulationOfAffectsForSelfPreservationDrives = new E05_AccumulationOfAffectsForSelfPreservationDrives(pre + E05_AccumulationOfAffectsForSelfPreservationDrives.P_MODULENUMBER, poProp, moModules, moInterfaceData);
 			moE06_DefenseMechanismsForDrives = new E06_DefenseMechanismsForDrives(pre + E06_DefenseMechanismsForDrives.P_MODULENUMBER, poProp, moModules, moInterfaceData);

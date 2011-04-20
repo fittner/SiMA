@@ -7,6 +7,7 @@
 package pa.modules._v30;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.SortedMap;
 import java.util.List;
@@ -16,6 +17,7 @@ import pa.interfaces.receive._v30.I1_5_receive;
 import pa.interfaces.receive._v30.I2_15_receive;
 import pa.interfaces.send._v30.I1_5_send;
 import pa.memorymgmt.datatypes.clsDriveMesh;
+import pa.tools.clsTripple;
 
 import config.clsBWProperties;
 
@@ -30,7 +32,7 @@ public class E38_PrimalRepressionForSelfPreservationDrives extends	clsModuleBase
 	public static final String P_MODULENUMBER = "38";
 	
 	private ArrayList<clsDriveMesh> moDriveList_IN;
-		
+	private ArrayList< clsTripple<String, String, ArrayList<Double> >> moPrimalRepressionMemory;
 	/**
 	 * DOCUMENT (deutsch) - insert description 
 	 * 
@@ -46,7 +48,17 @@ public class E38_PrimalRepressionForSelfPreservationDrives extends	clsModuleBase
 			clsBWProperties poProp, HashMap<Integer, clsModuleBase> poModuleList, SortedMap<eInterfaces, ArrayList<Object>> poInterfaceData)
 			throws Exception {
 		super(poPrefix, poProp, poModuleList, poInterfaceData);
-		applyProperties(poPrefix, poProp);	
+		applyProperties(poPrefix, poProp);
+		fillPrimalRepressionMemory();
+	}
+	
+	private void fillPrimalRepressionMemory() {
+		moPrimalRepressionMemory = new ArrayList<clsTripple<String,String,ArrayList<Double>>>();
+		
+		moPrimalRepressionMemory.add( new clsTripple<String,String,ArrayList<Double>>(
+				"LIFE", "NOURISH", new ArrayList<Double>(Arrays.asList(0.9, 0.0, 0.1, 0.0)) ) );
+		moPrimalRepressionMemory.add( new clsTripple<String,String,ArrayList<Double>>(
+				"DEATH", "BITE", new ArrayList<Double>(Arrays.asList(0.9, 0.0, 0.1, 0.0)) ) );
 	}
 	
 	/* (non-Javadoc)
@@ -87,10 +99,25 @@ public class E38_PrimalRepressionForSelfPreservationDrives extends	clsModuleBase
 	 */
 	@Override
 	protected void process_basic() {
-		// TODO (deutsch) - Auto-generated method stub
-
+		for (clsDriveMesh oDM:moDriveList_IN) {
+			categorizeDriveMesh(oDM);
+		}
 	}
 
+	private void categorizeDriveMesh(clsDriveMesh poMD) {
+		for (clsTripple<String,String,ArrayList<Double>> oPRM:moPrimalRepressionMemory) {
+			String oContentType = oPRM.a; 
+			String oContext = oPRM.b;
+			
+			if ( poMD.getMoContent().equals(oContext) && poMD.getMoContentType().equals(oContentType)) {
+				ArrayList<Double> oC = oPRM.c;
+				
+				poMD.setCategories(oC.get(0), oC.get(1), oC.get(2), oC.get(3));
+				break;
+			}
+		}
+	}
+	
 	/* (non-Javadoc)
 	 *
 	 * @author deutsch

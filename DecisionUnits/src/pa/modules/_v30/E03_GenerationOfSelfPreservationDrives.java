@@ -7,6 +7,7 @@
 package pa.modules._v30;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.SortedMap;
 import pa.interfaces._v30.eInterfaces;
@@ -22,6 +23,7 @@ import pa.memorymgmt.datahandler.clsDataStructureGenerator;
 import pa.memorymgmt.datatypes.clsDataStructureContainer;
 import pa.memorymgmt.datatypes.clsDataStructurePA;
 import pa.memorymgmt.datatypes.clsDriveDemand;
+import pa.memorymgmt.datatypes.clsDriveMesh;
 import pa.memorymgmt.datatypes.clsPrimaryDataStructureContainer;
 import pa.memorymgmt.datatypes.clsThingPresentation;
 import pa.memorymgmt.enums.eDataType;
@@ -41,12 +43,16 @@ public class E03_GenerationOfSelfPreservationDrives extends clsModuleBase implem
 	public static final String P_MODULENUMBER = "03";
 	public static String moDriveObjectType = "DriveObject";
 	
+	@Deprecated
 	private ArrayList<clsPair<clsTemplateDrive, clsTemplateDrive>> moDriveDefinition;
 	private HashMap<String, Double> moHomeostasisSymbols;
 	private ArrayList<clsPair<clsPair<pa.memorymgmt.datatypes.clsDriveMesh, clsDriveDemand>, 
 	                  clsPair<pa.memorymgmt.datatypes.clsDriveMesh, clsDriveDemand>>> moHomeostaticTP; 
-
-	private clsKnowledgeBaseHandler moKnowledgeBaseHandler; 
+	
+	private ArrayList< clsTripple<clsDriveMesh, String, ArrayList<String>> > moDriveTemplates;
+	private ArrayList< clsPair<clsDriveMesh, clsDriveDemand> > moDrives;
+	private clsKnowledgeBaseHandler moKnowledgeBaseHandler;
+	
 	/**
 	 * DOCUMENT (deutsch) - insert description 
 	 * 
@@ -59,12 +65,31 @@ public class E03_GenerationOfSelfPreservationDrives extends clsModuleBase implem
 	 * @throws Exception 
 	 */
 	public E03_GenerationOfSelfPreservationDrives(String poPrefix,
-			clsBWProperties poProp, HashMap<Integer, clsModuleBase> poModuleList, SortedMap<eInterfaces, ArrayList<Object>> poInterfaceData) throws Exception {
+			clsBWProperties poProp, HashMap<Integer, clsModuleBase> poModuleList, 
+			SortedMap<eInterfaces, ArrayList<Object>> poInterfaceData,
+			clsKnowledgeBaseHandler poKnowledgeBaseHandler) throws Exception {
 		super(poPrefix, poProp, poModuleList, poInterfaceData);
 		applyProperties(poPrefix, poProp);	
 		loadDriveDefinition(poPrefix, poProp);
+		
+		moKnowledgeBaseHandler = poKnowledgeBaseHandler; 
 	}
-
+	
+	public static clsBWProperties getDefaultProperties(String poPrefix) {
+		String pre = clsBWProperties.addDot(poPrefix);
+		
+		clsBWProperties oProp = new clsBWProperties();
+		oProp.setProperty(pre+P_PROCESS_IMPLEMENTATION_STAGE, eImplementationStage.BASIC.toString());
+				
+		return oProp;
+	}	
+	
+	private void applyProperties(String poPrefix, clsBWProperties poProp) {
+		//String pre = clsBWProperties.addDot(poPrefix);
+	
+		//nothing to do
+	}
+	
 	/* (non-Javadoc)
 	 *
 	 * @author deutsch
@@ -82,13 +107,62 @@ public class E03_GenerationOfSelfPreservationDrives extends clsModuleBase implem
 		
 		return html;
 	}
+		
+	private ArrayList< clsTripple<clsDriveMesh, String, ArrayList<String>> > createDriveMeshes() {
+		ArrayList< clsTripple<clsDriveMesh, String, ArrayList<String>> > oDrives = new ArrayList< clsTripple<clsDriveMesh, String, ArrayList<String>> >();
+		
+		oDrives.add( createDrives("LIFE", "NOURISH", "BLOODSUGAR") );
+		oDrives.add( createDrives("DEATH", "BITE", "BLOODSUGAR") );
+		
+		return oDrives;
+	}
 	
+	private clsTripple<clsDriveMesh, String, ArrayList<String>> createDrives(String poContentType, String poContext, String poSource) {
+		clsDriveMesh oDriveMesh = createDriveMesh(poContentType, poContext);
+		ArrayList<String> oObjects = getDriveSources(poContext, oDriveMesh);
+		
+		return new clsTripple<clsDriveMesh, String, ArrayList<String>>(oDriveMesh, poSource, oObjects);
+	}
+	
+	private ArrayList<String> getDriveSources(String poContext, clsDriveMesh poDriveMesh) {
+		ArrayList<String> oRes = new ArrayList<String>();
+		
+		//TODO (ZEILINGER): make the damn search work!!!
+		ArrayList<ArrayList<clsPair<Double,clsDataStructureContainer>>> oSearchResult = 
+			new ArrayList<ArrayList<clsPair<Double,clsDataStructureContainer>>>(); 
+		search(eDataType.UNDEFINED, new ArrayList<clsDriveMesh>(Arrays.asList(poDriveMesh)), oSearchResult ); 
+		
+		//TD 2011/04/20: workaround for now:
+		if (poDriveMesh.getMoContent().equals("NOURISH")) {
+			oRes.add("CAKE");
+			oRes.add("CARROT");
+		} else if (poDriveMesh.getMoContent().equals("BITE")) {
+			oRes.add("CAKE");
+			oRes.add("CARROT");			
+		}
+		
+		return oRes;
+	}
+	
+	private clsDriveMesh createDriveMesh(String poContentType, String poContext) {
+		clsThingPresentation oDataStructure = (clsThingPresentation)clsDataStructureGenerator.generateDataStructure( eDataType.TP, new clsPair<String, Object>(poContentType, poContext) );
+		ArrayList<Object> oContent = new ArrayList<Object>( Arrays.asList(oDataStructure) );
+		
+		clsDriveMesh oRetVal = (pa.memorymgmt.datatypes.clsDriveMesh)clsDataStructureGenerator.generateDataStructure( 
+				eDataType.DM, new clsTripple<String, Object, Object>(poContentType, oContent, poContext)
+				);
+		
+		return oRetVal;
+	}
+	
+
 	/**
 	 * @author langr
 	 * 28.09.2009, 19:21:32
 	 * 
 	 * @return the moDriveDefinition
 	 */
+	@Deprecated
 	public ArrayList<clsPair<clsTemplateDrive, clsTemplateDrive>> getDriveDefinition() {
 		return moDriveDefinition;
 	}
@@ -100,26 +174,14 @@ public class E03_GenerationOfSelfPreservationDrives extends clsModuleBase implem
 	 * 23.09.2009, 14:31:31
 	 *
 	 */
+	@Deprecated
 	private void loadDriveDefinition(String poPrefix, clsBWProperties poProp) {
 	      
 		//TODO - (langr): read team-name from property file!
 		moDriveDefinition = clsDriveLoader.createDriveList("1", "PSY_10");
 	}
 
-	public static clsBWProperties getDefaultProperties(String poPrefix) {
-		String pre = clsBWProperties.addDot(poPrefix);
-		
-		clsBWProperties oProp = new clsBWProperties();
-		oProp.setProperty(pre+P_PROCESS_IMPLEMENTATION_STAGE, eImplementationStage.BASIC.toString());
-				
-		return oProp;
-	}	
-	
-	private void applyProperties(String poPrefix, clsBWProperties poProp) {
-		//String pre = clsBWProperties.addDot(poPrefix);
-	
-		//nothing to do
-	}
+
 
 	/* (non-Javadoc)
 	 *
@@ -167,6 +229,15 @@ public class E03_GenerationOfSelfPreservationDrives extends clsModuleBase implem
 	 */
 	@Override
 	protected void process_basic() {
+		moDriveTemplates = createDriveMeshes();
+		moDrives = new ArrayList< clsPair<clsDriveMesh,clsDriveDemand> >();
+		
+		for (clsTripple<clsDriveMesh, String, ArrayList<String>> oDT: moDriveTemplates) {
+			clsDriveDemand oDD = getDriveDemand(oDT);
+			moDrives.add( new clsPair<clsDriveMesh, clsDriveDemand>(oDT.a, oDD) );
+		}
+		
+		
 		moHomeostaticTP = new ArrayList<clsPair<clsPair<pa.memorymgmt.datatypes.clsDriveMesh, clsDriveDemand>, 
 		                                clsPair<pa.memorymgmt.datatypes.clsDriveMesh, clsDriveDemand>>>();
 		
@@ -178,6 +249,33 @@ public class E03_GenerationOfSelfPreservationDrives extends clsModuleBase implem
 		}
 	}
 	
+	private double calculateNormalizedValue(double rValue, String poSource) {
+		double rResult = rValue;
+		
+		if (poSource.equals("BLOODSUGAR")) {
+			double rMaxValue = 0.5;
+			rResult = (rMaxValue-rValue)/rMaxValue;
+		}
+		
+		return rResult;
+	}
+	
+	private clsDriveDemand getDriveDemand(clsTripple<clsDriveMesh, String, ArrayList<String>> poDT) {
+		double rDemand = 0.0;
+		
+		String oSource = poDT.b;
+
+		if (moHomeostasisSymbols.containsKey(oSource)) {
+			double rValue = moHomeostasisSymbols.get(oSource);
+			rDemand = calculateNormalizedValue(rValue, oSource);
+		}
+		
+		clsDriveDemand oDemand = (clsDriveDemand)clsDataStructureGenerator.generateDataStructure(eDataType.DRIVEDEMAND, 
+				new clsPair<String,Object>(eDataType.DRIVEDEMAND.toString(), rDemand));
+		
+		return oDemand;
+	}
+	
 	/**
 	 * DOCUMENT (zeilinger) - insert description
 	 *
@@ -187,6 +285,7 @@ public class E03_GenerationOfSelfPreservationDrives extends clsModuleBase implem
 	 * @param oDriveDef
 	 * @return
 	 */
+	@Deprecated
 	private clsPair<pa.memorymgmt.datatypes.clsDriveMesh, clsDriveDemand> createDrive(clsTemplateDrive poDriveDef) {
 		pa.memorymgmt.datatypes.clsDriveMesh oDriveMesh = null; 
 		clsDriveDemand oDemand = null; 
@@ -205,6 +304,7 @@ public class E03_GenerationOfSelfPreservationDrives extends clsModuleBase implem
 	 * @param poDriveDef
 	 * @return
 	 */
+	@Deprecated
 	private pa.memorymgmt.datatypes.clsDriveMesh createDriveMesh(clsTemplateDrive poDriveDef) {
 		pa.memorymgmt.datatypes.clsDriveMesh oRetVal = null;
 		
@@ -238,6 +338,7 @@ public class E03_GenerationOfSelfPreservationDrives extends clsModuleBase implem
 	 * @param poDriveDef
 	 * @return
 	 */
+	@Deprecated
 	private clsDriveDemand createDemand(clsTemplateDrive poDriveDef) {
 		double rDemand = 0.0; 
 		
@@ -249,7 +350,8 @@ public class E03_GenerationOfSelfPreservationDrives extends clsModuleBase implem
 				else 						{rDemand += (rValue/oCandidateDef.mrMaxValue)*oCandidateDef.mrRatio;}
 			}
 		}
-		return (clsDriveDemand)clsDataStructureGenerator.generateDataStructure(eDataType.DRIVEDEMAND, new clsPair<String,Object>(eDataType.DRIVEDEMAND.toString(),rDemand));  
+		return (clsDriveDemand)clsDataStructureGenerator.generateDataStructure(eDataType.DRIVEDEMAND, 
+				new clsPair<String,Object>(eDataType.DRIVEDEMAND.toString(),rDemand));  
 	}
 
 	/* (non-Javadoc)
@@ -261,7 +363,7 @@ public class E03_GenerationOfSelfPreservationDrives extends clsModuleBase implem
 	 */
 	@Override
 	protected void send() {
-		send_I1_3(moHomeostaticTP);
+		send_I1_3(moDrives);
 	}
 
 	/* (non-Javadoc)
@@ -272,9 +374,9 @@ public class E03_GenerationOfSelfPreservationDrives extends clsModuleBase implem
 	 * @see pa.interfaces.send.I1_3_send#send_I1_3(java.util.ArrayList)
 	 */
 	@Override
-	public void send_I1_3(ArrayList<clsPair<clsPair<pa.memorymgmt.datatypes.clsDriveMesh, clsDriveDemand>, clsPair<pa.memorymgmt.datatypes.clsDriveMesh, clsDriveDemand>>> poDriveCandidate) {
-		((I1_3_receive)moModuleList.get(4)).receive_I1_3(poDriveCandidate);
-		putInterfaceData(I1_3_send.class, poDriveCandidate);
+	public void send_I1_3(ArrayList< clsPair<clsDriveMesh, clsDriveDemand> > poHomeostaticDriveDemands) {
+		((I1_3_receive)moModuleList.get(4)).receive_I1_3(poHomeostaticDriveDemands);
+		putInterfaceData(I1_3_send.class, poHomeostaticDriveDemands);
 	}
 
 	/* (non-Javadoc)
@@ -327,12 +429,15 @@ public class E03_GenerationOfSelfPreservationDrives extends clsModuleBase implem
 		moDescription = "The neurosymbolic representation of bodily needs are converted to memory traces representing the corresponding drives. At this stage, such a memory trace contains drive source, aim of drive, and drive object (cp Section ?). The quota of affect will be added later. For each bodily need, two drives are generated: a libidinous and an aggressive one. ";
 	}
 
-	/* (non-Javadoc)
+	/**
+	 * DOCUMENT (zeilinger) - insert description
 	 *
-	 * @author deutsch
-	 * 20.04.2011, 17:25:37
-	 * 
-	 * @see pa.interfaces.knowledgebase.itfKnowledgeBaseAccess#search(pa.memorymgmt.enums.eDataType, java.util.ArrayList, java.util.ArrayList)
+	 * @author zeilinger
+	 * 19.03.2011, 08:36:59
+	 *
+	 * @param undefined
+	 * @param poDS
+	 * @param oSearchResult
 	 */
 	@Override
 	public <E> void search(
@@ -345,40 +450,39 @@ public class E03_GenerationOfSelfPreservationDrives extends clsModuleBase implem
 		createSearchPattern(poDataType, poPattern, oSearchPattern);
 		accessKnowledgeBase(poSearchResult, oSearchPattern); 
 	}
-
+	
 	/* (non-Javadoc)
 	 *
-	 * @author deutsch
-	 * 20.04.2011, 17:25:37
+	 * @author zeilinger
+	 * 18.03.2011, 19:04:29
 	 * 
-	 * @see pa.interfaces.knowledgebase.itfKnowledgeBaseAccess#createSearchPattern(pa.memorymgmt.enums.eDataType, java.util.ArrayList, java.util.ArrayList)
+	 * @see pa.interfaces.knowledgebase.itfKnowledgeBaseAccess#createSearchPattern(pa.memorymgmt.enums.eDataType, java.lang.Object, java.util.ArrayList)
 	 */
 	@Override
-	public <E> void createSearchPattern(eDataType poDataType,
-			ArrayList<E> poList,
+	public <E> void createSearchPattern(eDataType poDataType, ArrayList<E> poList,
 			ArrayList<clsPair<Integer, clsDataStructurePA>> poSearchPattern) {
-
+		
 		for (E oEntry : poList){
-			if(oEntry instanceof clsDataStructurePA){
-				poSearchPattern.add(new clsPair<Integer, clsDataStructurePA>(poDataType.nBinaryValue, (clsDataStructurePA)oEntry));
+				if(oEntry instanceof clsDataStructurePA){
+					poSearchPattern.add(new clsPair<Integer, clsDataStructurePA>(poDataType.nBinaryValue, (clsDataStructurePA)oEntry));
+				}
+				else if (oEntry instanceof clsPrimaryDataStructureContainer){
+					poSearchPattern.add(new clsPair<Integer, clsDataStructurePA>(poDataType.nBinaryValue, ((clsPrimaryDataStructureContainer)oEntry).getMoDataStructure()));
+				}
 			}
-			else if (oEntry instanceof clsPrimaryDataStructureContainer){
-				poSearchPattern.add(new clsPair<Integer, clsDataStructurePA>(poDataType.nBinaryValue, ((clsPrimaryDataStructureContainer)oEntry).getMoDataStructure()));
-			}
-		}
 	}
-
+	
+	
 	/* (non-Javadoc)
 	 *
-	 * @author deutsch
-	 * 20.04.2011, 17:25:37
+	 * @author zeilinger
+	 * 14.03.2011, 22:34:44
 	 * 
-	 * @see pa.interfaces.knowledgebase.itfKnowledgeBaseAccess#accessKnowledgeBase(java.util.ArrayList, java.util.ArrayList)
+	 * @see pa.interfaces.knowledgebase.itfKnowledgeBaseAccess#accessKnowledgeBase(pa.tools.clsPair)
 	 */
 	@Override
-	public void accessKnowledgeBase(
-			ArrayList<ArrayList<clsPair<Double, clsDataStructureContainer>>> poSearchResult,
-			ArrayList<clsPair<Integer, clsDataStructurePA>> poSearchPattern) {
+	public void accessKnowledgeBase(ArrayList<ArrayList<clsPair<Double,clsDataStructureContainer>>> poSearchResult,
+									ArrayList<clsPair<Integer, clsDataStructurePA>> poSearchPattern) {
 		
 		poSearchResult.addAll(moKnowledgeBaseHandler.initMemorySearch(poSearchPattern));
 	}	

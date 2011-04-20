@@ -20,5 +20,5 @@ import pa.tools.clsPair;
  * 
  */
 public interface I1_3_send {
-	public void send_I1_3(ArrayList<clsPair<clsPair<clsDriveMesh, clsDriveDemand>, clsPair<clsDriveMesh, clsDriveDemand>>> poDriveCandidate);
+	public void send_I1_3(ArrayList< clsPair<clsDriveMesh, clsDriveDemand> >poHomeostaticDriveDemands);
 }
