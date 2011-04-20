@@ -8,6 +8,7 @@ package pa.modules._v30;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.SortedMap;
 import config.clsBWProperties;
 import du.enums.eSensorExtType;
 import du.itf.sensors.clsSensorExtern;
@@ -43,7 +44,7 @@ public class E13_NeuroSymbolizationBody extends clsModuleBase implements I2_3_re
 	 * @throws Exception
 	 */
 	public E13_NeuroSymbolizationBody(String poPrefix, clsBWProperties poProp,
-			HashMap<Integer, clsModuleBase> poModuleList, HashMap<eInterfaces, ArrayList<Object>> poInterfaceData) throws Exception {
+			HashMap<Integer, clsModuleBase> poModuleList, SortedMap<eInterfaces, ArrayList<Object>> poInterfaceData) throws Exception {
 		super(poPrefix, poProp, poModuleList, poInterfaceData);
 		applyProperties(poPrefix, poProp);
 	}
@@ -192,5 +193,15 @@ public class E13_NeuroSymbolizationBody extends clsModuleBase implements I2_3_re
 		mnModuleNumber = Integer.parseInt(P_MODULENUMBER);
 		
 	}
-
+	/* (non-Javadoc)
+	 *
+	 * @author deutsch
+	 * 15.04.2011, 13:52:57
+	 * 
+	 * @see pa.modules._v30.clsModuleBase#setDescription()
+	 */
+	@Override
+	public void setDescription() {
+		moDescription = "Conversion of raw data into neuro-symbols.";
+	}	
 }

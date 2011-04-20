@@ -8,6 +8,7 @@ package pa.modules._v30;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.SortedMap;
 import java.util.List;
 
 import pa.interfaces._v30.eInterfaces;
@@ -42,7 +43,7 @@ public class E44_PrimalRepressionForSexualDrives extends clsModuleBase implement
 	 * @throws Exception
 	 */
 	public E44_PrimalRepressionForSexualDrives(String poPrefix,
-			clsBWProperties poProp, HashMap<Integer, clsModuleBase> poModuleList, HashMap<eInterfaces, ArrayList<Object>> poInterfaceData)
+			clsBWProperties poProp, HashMap<Integer, clsModuleBase> poModuleList, SortedMap<eInterfaces, ArrayList<Object>> poInterfaceData)
 			throws Exception {
 		super(poPrefix, poProp, poModuleList, poInterfaceData);
 		applyProperties(poPrefix, poProp);	
@@ -50,7 +51,7 @@ public class E44_PrimalRepressionForSexualDrives extends clsModuleBase implement
 	/* (non-Javadoc)
 	 *
 	 * @author deutsch
-	 * 14.04.2011, 17:36:19
+	 * 14.04.2011, 17:36:
 	 * 
 	 * @see pa.modules._v30.clsModuleBase#stateToHTML()
 	 */
@@ -166,5 +167,15 @@ public class E44_PrimalRepressionForSexualDrives extends clsModuleBase implement
 		
 	}
 
-
+	/* (non-Javadoc)
+	 *
+	 * @author deutsch
+	 * 15.04.2011, 13:52:57
+	 * 
+	 * @see pa.modules._v30.clsModuleBase#setDescription()
+	 */
+	@Override
+	public void setDescription() {
+		moDescription = "This function categorizes the thing presentations according to the four primary drives. The result of it is that thing presentations have an additional value which can be used for further memory lookup to find similar entries.";
+	}	
 }

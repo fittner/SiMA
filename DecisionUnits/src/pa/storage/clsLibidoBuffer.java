@@ -46,7 +46,7 @@ public class clsLibidoBuffer implements D1_2_send, D1_4_send, D1_1_receive, D1_3
 	 */
 	@Override
 	public void receive_D1_1(double prValue) {
-		mrBufferedLibido = prValue;		
+		mrBufferedLibido += prValue;		
 	}
 
 	/* (non-Javadoc)
@@ -73,4 +73,8 @@ public class clsLibidoBuffer implements D1_2_send, D1_4_send, D1_1_receive, D1_3
 		return mrBufferedLibido;
 	}
 
+	@Override
+	public String toString() {
+		return "libido: "+mrBufferedLibido;
+	}
 }

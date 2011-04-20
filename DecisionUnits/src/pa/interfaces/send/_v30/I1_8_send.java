@@ -6,11 +6,7 @@
  */
 package pa.interfaces.send._v30;
 
-import java.util.HashMap;
-
 import pa.interfaces.I_BaseInterface;
-import du.enums.eSensorIntType;
-import du.itf.sensors.clsDataBase;
 
 /**
  * DOCUMENT (deutsch) - insert description 
@@ -20,5 +16,5 @@ import du.itf.sensors.clsDataBase;
  * 
  */
 public interface I1_8_send   extends I_BaseInterface {
-	public void send_I1_8(HashMap<eSensorIntType, clsDataBase> pnData);
+	public void send_I1_8(double prLibido);
 }

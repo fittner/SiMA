@@ -10,8 +10,14 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 
+import pa.memorymgmt.datatypes.clsAssociation;
+import pa.memorymgmt.datatypes.clsAssociationTime;
 import pa.memorymgmt.datatypes.clsDataStructurePA;
+import pa.memorymgmt.datatypes.clsDriveMesh;
 import pa.memorymgmt.datatypes.clsPhysicalRepresentation;
+import pa.memorymgmt.datatypes.clsPrimaryDataStructure;
+import pa.memorymgmt.datatypes.clsPrimaryDataStructureContainer;
+import pa.memorymgmt.datatypes.clsTemplateImage;
 import pa.memorymgmt.datatypes.clsThingPresentation;
 import pa.memorymgmt.datatypes.clsThingPresentationMesh;
 import pa.memorymgmt.enums.eDataType;
@@ -126,4 +132,57 @@ public class clsDataStructureConverter {
 				
 		return poName;
 	}
+	
+	public static clsTemplateImage convertPDSCtoTI(clsPrimaryDataStructureContainer oPDSC){
+		//Convert the data structure in the PDSC to a association time to TPM
+		//Take over the extrinsic properties from that data structure
+		clsTemplateImage oRetVal;
+		
+		//Get the data object
+		clsPrimaryDataStructure oAddTPM = (clsPrimaryDataStructure)oPDSC.getMoDataStructure();
+		
+		String oContentType = eDataType.TI.toString();
+		
+		String oContent = "OBJECT_COMPLETE";
+		if (oAddTPM instanceof clsThingPresentation) {
+			oContent = ((clsThingPresentation)oAddTPM).getMoContent().toString() + "_COMPLETE";
+		} else if (oAddTPM instanceof clsDriveMesh) {
+			oContent = ((clsDriveMesh)oAddTPM).getMoContent().toString() + "_COMPLETE";
+		} else if (oAddTPM instanceof clsThingPresentationMesh) {
+			oContent = ((clsThingPresentationMesh)oAddTPM).getMoContent().toString() + "_COMPLETE";
+		}
+		
+		//Get Data from Container
+		//Create an arraylist with all objects in the PrimaryDataStructureContainer
+		//Get all existing associations
+		ArrayList<clsAssociation> oAssociatedContent = oPDSC.getMoAssociatedDataStructures();	//Get all associations
+		//Create new Template Image and add the existing associations
+		oRetVal = new clsTemplateImage(new clsTripple<Integer, eDataType, String>(clsDataStructureGenerator.setID(), eDataType.TI, oContentType), oAssociatedContent, oContent);
+		
+		//Add a time association to the word object
+		oAssociatedContent.add(new clsAssociationTime(new clsTripple<Integer, eDataType, String> (clsDataStructureGenerator.setID(), eDataType.ASSOCIATIONTEMP, eDataType.ASSOCIATIONTEMP.toString()), 
+				oRetVal, oAddTPM));
+
+		return oRetVal;
+	}
+	
+	/*public static clsPrimaryDataStructureContainer convertTItoPDSC(clsPrimaryDataStructureContainer oPDSC, String oContentType, String oContent){
+		//Convert the data structure in the PDSC to a association time to TPM
+		//Take over the extrinsic properties from that data structure
+		clsTemplateImage oRetVal;
+		
+		//Create an arraylist with all objects in the PrimaryDataStructureContainer
+		//Get all existsing associations
+		ArrayList<clsAssociation> oAssociatedContent = oPDSC.getMoAssociatedDataStructures();	//Get all associations
+		//Create new Template Image and add the existing associations
+		oRetVal = new clsTemplateImage(new clsTripple<Integer, eDataType, String>(clsDataStructureGenerator.setID(), eDataType.TI, oContentType), oAssociatedContent, oContent);
+		//Get the data object
+		clsPrimaryDataStructure oAddTPM = (clsPrimaryDataStructure)oPDSC.getMoDataStructure();
+		//Add a time association to the word object
+		oAssociatedContent.add(new clsAssociationTime(new clsTripple<Integer, eDataType, String> (clsDataStructureGenerator.setID(), eDataType.ASSOCIATIONTEMP, eDataType.ASSOCIATIONTEMP.toString()), 
+				oRetVal, oAddTPM));
+
+		return oRetVal;
+	}*/
+
 }

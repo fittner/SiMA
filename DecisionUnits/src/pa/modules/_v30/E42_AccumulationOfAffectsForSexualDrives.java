@@ -8,6 +8,7 @@ package pa.modules._v30;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.SortedMap;
 
 import pa.interfaces._v30.eInterfaces;
 import pa.interfaces.receive._v30.I2_17_receive;
@@ -42,7 +43,7 @@ public class E42_AccumulationOfAffectsForSexualDrives extends clsModuleBase impl
 	 * @throws Exception
 	 */
 	public E42_AccumulationOfAffectsForSexualDrives(String poPrefix,
-			clsBWProperties poProp, HashMap<Integer, clsModuleBase> poModuleList, HashMap<eInterfaces, ArrayList<Object>> poInterfaceData)
+			clsBWProperties poProp, HashMap<Integer, clsModuleBase> poModuleList, SortedMap<eInterfaces, ArrayList<Object>> poInterfaceData)
 			throws Exception {
 		super(poPrefix, poProp, poModuleList, poInterfaceData);
 		applyProperties(poPrefix, poProp);	
@@ -165,5 +166,15 @@ public class E42_AccumulationOfAffectsForSexualDrives extends clsModuleBase impl
 		
 	}
 
-
+	/* (non-Javadoc)
+	 *
+	 * @author deutsch
+	 * 15.04.2011, 13:52:57
+	 * 
+	 * @see pa.modules._v30.clsModuleBase#setDescription()
+	 */
+	@Override
+	public void setDescription() {
+		moDescription = "The amount of total stored libido which equals the tension of the sexual drives is attached to the memory traces. Now, thing presentations consisting of drive aim, drive source, drive object, and quota of affects exist and can be processed by the next modules.";
+	}	
 }

@@ -8,6 +8,7 @@ package pa.modules._v30;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.SortedMap;
 import config.clsBWProperties;
 import du.enums.eSensorExtType;
 import du.itf.sensors.clsSensorExtern;
@@ -40,7 +41,7 @@ public class E12_SensorsBody extends clsModuleBase implements I0_5_receive, I2_3
 	 * @throws Exception
 	 */
 	public E12_SensorsBody(String poPrefix, clsBWProperties poProp,
-			HashMap<Integer, clsModuleBase> poModuleList, HashMap<eInterfaces, ArrayList<Object>> poInterfaceData) throws Exception {
+			HashMap<Integer, clsModuleBase> poModuleList, SortedMap<eInterfaces, ArrayList<Object>> poInterfaceData) throws Exception {
 		super(poPrefix, poProp, poModuleList, poInterfaceData);
 		applyProperties(poPrefix, poProp);	
 	}
@@ -189,7 +190,19 @@ public class E12_SensorsBody extends clsModuleBase implements I0_5_receive, I2_3
 	@Override
 	public void receive_I0_5(HashMap<eSensorExtType, clsSensorExtern> poData) {
 		moBodyData = poData;
+		
+		putInterfaceData(I0_5_receive.class, poData);		
 	}
 
-
+	/* (non-Javadoc)
+	 *
+	 * @author deutsch
+	 * 15.04.2011, 13:52:57
+	 * 
+	 * @see pa.modules._v30.clsModuleBase#setDescription()
+	 */
+	@Override
+	public void setDescription() {
+		moDescription = "Although, modules {E39} and {E1} are collecting information on internal body values too, {E12} focuses on sensors comparable to the one from Module {E10} but which are directed inwardly. Thus, the sensors detect painful stimuli, tactile stimuli, balance and acceleration, body temperature and others.";
+	}	
 }

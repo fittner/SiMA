@@ -8,10 +8,9 @@ package inspectors.mind.pa._v30;
 
 import java.awt.BorderLayout;
 import pa.modules._v30.clsModuleBase;
-import sim.display.GUIState;
 import sim.portrayal.Inspector;
-import sim.portrayal.LocationWrapper;
 import sim.util.gui.HTMLBrowser;
+import statictools.clsExceptionUtils;
 
 /**
  * DOCUMENT (deutsch) - insert description 
@@ -20,7 +19,7 @@ import sim.util.gui.HTMLBrowser;
  * 14.04.2011, 14:57:39
  * 
  */
-public abstract class clsE_GenericInspector extends Inspector {
+public abstract class clsE_GenericHTMLInspector extends Inspector {
 	/**
 	 * DOCUMENT (deutsch) - insert description 
 	 * 
@@ -31,24 +30,23 @@ public abstract class clsE_GenericInspector extends Inspector {
 	protected clsModuleBase moModule;
 	protected String moTitle;
 	protected String moContent;
-	
-	public Inspector moInspector;
 	HTMLBrowser moHTMLPane;
 	
-    public clsE_GenericInspector(Inspector originalInspector,
-            LocationWrapper wrapper,
-            GUIState guiState,
-            clsModuleBase poModule)
+    public clsE_GenericHTMLInspector(clsModuleBase poModule)
     {
-    	moInspector  = originalInspector;
-    	moModule = poModule;
+		moModule = poModule;
     	
     	setTitle();
     	updateContent();
     	
         setLayout(new BorderLayout());
     	moHTMLPane = new HTMLBrowser(getHTML());
-		add(moHTMLPane, BorderLayout.CENTER);
+    	
+    	try {
+			add(moHTMLPane, BorderLayout.CENTER);
+		} catch (java.lang.Exception e) {
+			System.out.println(clsExceptionUtils.getCustomStackTrace(e));
+		}
     }	
     
     protected abstract void setTitle();
@@ -75,6 +73,11 @@ public abstract class clsE_GenericInspector extends Inspector {
 	@Override
 	public void updateInspector() {
 		updateContent();
-		moHTMLPane.setText(getHTML());
+		
+		try {
+			moHTMLPane.setText(getHTML());
+		} catch (java.lang.Exception e) {
+			System.out.println(clsExceptionUtils.getCustomStackTrace(e));
+		}
 	}    
 }

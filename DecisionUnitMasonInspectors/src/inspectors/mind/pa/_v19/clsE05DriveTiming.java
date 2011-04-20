@@ -22,7 +22,7 @@ import org.jfree.data.xy.XYSeries;
 import org.jfree.data.xy.XYSeriesCollection;
 import org.jfree.ui.RectangleInsets;
 
-import pa.interfaces.itfTimeChartInformationContainer;
+import pa.interfaces._v19.itfTimeChartInformationContainer;
 import pa.tools.clsPair;
 import sim.display.GUIState;
 import sim.portrayal.Inspector;
@@ -71,7 +71,6 @@ public class clsE05DriveTiming  extends Inspector{
     	add(moChartPanel);
     }
     
-
     private void initChart(String poChartName) {
 		
 		moDataset = new XYSeriesCollection();

@@ -12,9 +12,7 @@ import java.util.ArrayList;
 import pa.loader.clsTemplateDrive;
 import pa.modules._v30.E03_GenerationOfSelfPreservationDrives;
 import pa.tools.clsPair;
-import sim.display.GUIState;
 import sim.portrayal.Inspector;
-import sim.portrayal.LocationWrapper;
 import sim.util.gui.HTMLBrowser;
 
 /**
@@ -28,16 +26,11 @@ public class clsE03InspectorDriveDefinitions extends Inspector {
 
 	private static final long serialVersionUID = 1L;
 	
-	public Inspector moOriginalInspector;
 	private E03_GenerationOfSelfPreservationDrives moGenDrive;
 	HTMLBrowser moHTMLPane;
 	
-    public clsE03InspectorDriveDefinitions(Inspector originalInspector,
-            LocationWrapper wrapper,
-            GUIState guiState,
-            E03_GenerationOfSelfPreservationDrives poGenDrive)
+    public clsE03InspectorDriveDefinitions(      E03_GenerationOfSelfPreservationDrives poGenDrive)
     {
-		moOriginalInspector = originalInspector;
 		moGenDrive= poGenDrive;
 		
 		ArrayList<clsPair<clsTemplateDrive, clsTemplateDrive>> oDriveList = moGenDrive.getDriveDefinition();

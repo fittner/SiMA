@@ -6,8 +6,6 @@
  */
 package pa.interfaces.receive._v30;
 
-import java.util.List;
-
 import pa.interfaces.I_BaseInterface;
 
 /**
@@ -18,5 +16,5 @@ import pa.interfaces.I_BaseInterface;
  * 
  */
 public interface I0_1_receive extends I_BaseInterface {
-	public void receive_I0_1(List<Object> poData);
+	public void receive_I0_1(Double prLibido);
 }

@@ -8,6 +8,7 @@ package pa.modules._v30;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.SortedMap;
 import java.util.List;
 import config.clsBWProperties;
 import pa.interfaces._v30.eInterfaces;
@@ -51,7 +52,7 @@ public class E09_KnowledgeAboutReality_unconscious extends clsModuleBase impleme
 	 * @throws Exception
 	 */
 	public E09_KnowledgeAboutReality_unconscious(String poPrefix,
-			clsBWProperties poProp, HashMap<Integer, clsModuleBase> poModuleList, HashMap<eInterfaces, ArrayList<Object>> poInterfaceData, clsKnowledgeBaseHandler poKnowledgeBaseHandler)
+			clsBWProperties poProp, HashMap<Integer, clsModuleBase> poModuleList, SortedMap<eInterfaces, ArrayList<Object>> poInterfaceData, clsKnowledgeBaseHandler poKnowledgeBaseHandler)
 			throws Exception {
 		super(poPrefix, poProp, poModuleList, poInterfaceData);
 		
@@ -276,4 +277,15 @@ public class E09_KnowledgeAboutReality_unconscious extends clsModuleBase impleme
 		// TODO (GELBARD) - Auto-generated method stub
 		
 	}
+	/* (non-Javadoc)
+	 *
+	 * @author deutsch
+	 * 15.04.2011, 13:52:57
+	 * 
+	 * @see pa.modules._v30.clsModuleBase#setDescription()
+	 */
+	@Override
+	public void setDescription() {
+		moDescription = "This module accesses knowledge which can be used to determine if a drive representation forwarded from {E44} or {E38} can be satisfied with a certain object. Not the reality/outer world is used as reference, instead the experiences how a special drive demand can be satisfied is used.";
+	}	
 }

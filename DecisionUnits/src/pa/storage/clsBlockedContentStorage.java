@@ -74,4 +74,8 @@ public class clsBlockedContentStorage implements D2_2_send, D2_4_send, D2_1_rece
 		
 	}
 
+	@Override
+	public String toString() {
+		return "n/a";
+	}
 }

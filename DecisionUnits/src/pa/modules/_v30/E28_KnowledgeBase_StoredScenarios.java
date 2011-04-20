@@ -9,6 +9,7 @@ package pa.modules._v30;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.SortedMap;
 import java.util.LinkedList;
 import java.util.Map;
 import java.util.Queue;
@@ -60,7 +61,7 @@ public class E28_KnowledgeBase_StoredScenarios extends clsModuleBase implements 
 	 * @throws Exception
 	 */
 	public E28_KnowledgeBase_StoredScenarios(String poPrefix,
-			clsBWProperties poProp, HashMap<Integer, clsModuleBase> poModuleList, HashMap<eInterfaces, ArrayList<Object>> poInterfaceData, clsKnowledgeBaseHandler poKnowledgeBaseHandler)
+			clsBWProperties poProp, HashMap<Integer, clsModuleBase> poModuleList, SortedMap<eInterfaces, ArrayList<Object>> poInterfaceData, clsKnowledgeBaseHandler poKnowledgeBaseHandler)
 			throws Exception {
 		super(poPrefix, poProp, poModuleList, poInterfaceData);
 		
@@ -796,5 +797,15 @@ public class E28_KnowledgeBase_StoredScenarios extends clsModuleBase implements 
 		mnModuleNumber = Integer.parseInt(P_MODULENUMBER);
 		
 	}
-
+	/* (non-Javadoc)
+	 *
+	 * @author deutsch
+	 * 15.04.2011, 13:52:57
+	 * 
+	 * @see pa.modules._v30.clsModuleBase#setDescription()
+	 */
+	@Override
+	public void setDescription() {
+		moDescription = "Past experiences can be retrieved from memory by this module. It operates as some kind of episodic memory. The motives produced by {E26} are used as search operator. The retrieved memory contents tell what happened previously when a motive has been tried to be satisfied with the objects currently available.";
+	}	
 }

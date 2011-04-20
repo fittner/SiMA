@@ -8,6 +8,7 @@ package pa.modules._v30;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.SortedMap;
 import config.clsBWProperties;
 import pa.interfaces._v30.eInterfaces;
 import pa.interfaces.receive._v30.I5_5_receive;
@@ -42,7 +43,7 @@ public class E29_EvaluationOfImaginaryActions extends clsModuleBase implements
 	 * @throws Exception
 	 */
 	public E29_EvaluationOfImaginaryActions(String poPrefix,
-			clsBWProperties poProp, HashMap<Integer, clsModuleBase> poModuleList, HashMap<eInterfaces, ArrayList<Object>> poInterfaceData)
+			clsBWProperties poProp, HashMap<Integer, clsModuleBase> poModuleList, SortedMap<eInterfaces, ArrayList<Object>> poInterfaceData)
 			throws Exception {
 		super(poPrefix, poProp, poModuleList, poInterfaceData);
 		applyProperties(poPrefix, poProp);	
@@ -219,4 +220,15 @@ public class E29_EvaluationOfImaginaryActions extends clsModuleBase implements
 		mnModuleNumber = Integer.parseInt(P_MODULENUMBER);
 		
 	}
+	/* (non-Javadoc)
+	 *
+	 * @author deutsch
+	 * 15.04.2011, 13:52:57
+	 * 
+	 * @see pa.modules._v30.clsModuleBase#setDescription()
+	 */
+	@Override
+	public void setDescription() {
+		moDescription = "The imaginary actions are evaluated by this module based on the result of the second reality check. The result of this mental rating is a reduced list with the imaginary actions selected for execution. ";
+	}		
 }

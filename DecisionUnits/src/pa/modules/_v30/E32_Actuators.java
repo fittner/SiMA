@@ -8,6 +8,7 @@ package pa.modules._v30;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.SortedMap;
 import config.clsBWProperties;
 import du.itf.actions.clsActionCommand;
 import du.itf.actions.itfActionProcessor;
@@ -40,7 +41,7 @@ public class E32_Actuators extends clsModuleBase implements I8_2_receive, I0_6_s
 	 * @throws Exception
 	 */
 	public E32_Actuators(String poPrefix, clsBWProperties poProp,
-			HashMap<Integer, clsModuleBase> poModuleList, HashMap<eInterfaces, ArrayList<Object>> poInterfaceData) throws Exception {
+			HashMap<Integer, clsModuleBase> poModuleList, SortedMap<eInterfaces, ArrayList<Object>> poInterfaceData) throws Exception {
 		super(poPrefix, poProp, poModuleList, poInterfaceData);
 				
 		moActionCommandList_Input = new ArrayList<clsActionCommand>();
@@ -207,5 +208,15 @@ public class E32_Actuators extends clsModuleBase implements I8_2_receive, I0_6_s
 		
 	}
 
-
+	/* (non-Javadoc)
+	 *
+	 * @author deutsch
+	 * 15.04.2011, 13:52:57
+	 * 
+	 * @see pa.modules._v30.clsModuleBase#setDescription()
+	 */
+	@Override
+	public void setDescription() {
+		moDescription = "How the body executes action commands is defined in this module. Various motor controls are operated from here.";
+	}	
 }

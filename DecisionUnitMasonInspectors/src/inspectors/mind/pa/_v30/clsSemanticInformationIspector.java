@@ -15,13 +15,11 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
-
 import java.util.ArrayList;
 import java.util.Hashtable;
+import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
-
-
-
 import javax.swing.AbstractAction;
 import javax.swing.AbstractButton;
 import javax.swing.BorderFactory;
@@ -33,11 +31,8 @@ import javax.swing.JSplitPane;
 import javax.swing.ProgressMonitor;
 import javax.swing.SwingConstants;
 import javax.swing.SwingUtilities;
-
 import org.jgraph.JGraph;
 import org.jgraph.graph.DefaultCellViewFactory;
-
-
 import org.jgraph.graph.DefaultEdge;
 import org.jgraph.graph.DefaultGraphCell;
 import org.jgraph.graph.DefaultGraphModel;
@@ -45,10 +40,6 @@ import org.jgraph.graph.GraphConstants;
 import org.jgraph.graph.GraphLayoutCache;
 import org.jgraph.graph.GraphModel;
 import org.jgraph.graph.VertexView;
-
-
-
-
 import pa.memorymgmt.datatypes.clsAct;
 import pa.memorymgmt.datatypes.clsAssociation;
 import pa.memorymgmt.datatypes.clsDataStructureContainer;
@@ -57,19 +48,13 @@ import pa.memorymgmt.datatypes.clsDriveDemand;
 import pa.memorymgmt.datatypes.clsDriveMesh;
 import pa.memorymgmt.datatypes.clsPrimaryDataStructureContainer;
 import pa.memorymgmt.datatypes.clsSecondaryDataStructure;
-
 import pa.memorymgmt.datatypes.clsSecondaryDataStructureContainer;
 import pa.memorymgmt.datatypes.clsThingPresentation;
 import pa.memorymgmt.datatypes.clsWordPresentation;
 import pa.modules._v30.clsPsychicApparatus;
 import pa.interfaces._v30.eInterfaces;
 import pa.tools.clsPair;
-
-
-import sim.display.GUIState;
 import sim.portrayal.Inspector;
-import sim.portrayal.LocationWrapper;
-
 import com.jgraph.components.labels.MultiLineVertexView;
 import com.jgraph.components.labels.RichTextBusinessObject;
 import com.jgraph.components.labels.RichTextGraphModel;
@@ -79,7 +64,6 @@ import com.jgraph.layout.DataGraphLayoutCache;
 import com.jgraph.layout.JGraphFacade;
 import com.jgraph.layout.JGraphLayout;
 import com.jgraph.layout.JGraphModelFacade;
-
 import com.jgraph.layout.demo.JGraphLayoutMorphingManager;
 import com.jgraph.layout.demo.JGraphLayoutProgressMonitor;
 import com.jgraph.layout.graph.JGraphSimpleLayout;
@@ -124,7 +108,7 @@ public class clsSemanticInformationIspector extends Inspector implements ActionL
 //	private String moModuleMemoryMemberName;
 	private clsPsychicApparatus moPAInstance;
 	private eInterfaces moEnumInterface;
-	private ArrayList moInspectorData;
+	private ArrayList<Object> moInspectorData;
 	private boolean moAutoUpdate = false;
 	private int moStepCounter = 0;
 	
@@ -148,14 +132,10 @@ public class clsSemanticInformationIspector extends Inspector implements ActionL
      * @param poModuleContainer eg moPA.moG02Id.moG06AffectGeneration.moE05GenerationOfAffectsForDrives
      * @param poModuleMemoryMemberName 
      */
-    public clsSemanticInformationIspector(Inspector originalInspector,
-            LocationWrapper wrapper,
-            GUIState guiState,
+    public clsSemanticInformationIspector(
             clsPsychicApparatus poPAInstance,
             eInterfaces poEnumInterface)
     {
- 	
-		moOriginalInspector = originalInspector;		//
 //		moModuleContainer = poModuleContainer;				//container class 	
 		moEnumInterface = poEnumInterface;	//member name of the list within the containing class
 		moPAInstance = poPAInstance;
@@ -429,14 +409,14 @@ public class clsSemanticInformationIspector extends Inspector implements ActionL
 		
 		try {
 			//returns the ArrayList of the wanted member
-			Object oMeshList = moPAInstance.moInterfaceData.get(moEnumInterface); //moModuleContainer.getClass().getField(moModuleMemoryMemberName).get(moModuleContainer);
+			ArrayList<Object> oMeshList = moPAInstance.moInterfaceData.get(moEnumInterface); //moModuleContainer.getClass().getField(moModuleMemoryMemberName).get(moModuleContainer);
 			
 			//java.lang.Class[] parameterType = null; 
 			//java.lang.reflect.Method method = moModuleContainer.getClass().getMethod( moModuleMemoryMemberName, parameterType ); 
 			//java.lang.Object[] argument = null; 
 			//Object oMeshList = method.invoke( moModuleContainer, argument );
 			
-			moInspectorData = (ArrayList)oMeshList;
+			moInspectorData = oMeshList;
 		} catch (IllegalArgumentException e) {
 			e.printStackTrace();
 		} catch (SecurityException e) {
@@ -686,7 +666,7 @@ public class clsSemanticInformationIspector extends Inspector implements ActionL
 		//without knowing the total number of elements
 		//ArrayList<DefaultGraphCell> oCellList = new ArrayList<DefaultGraphCell>();
 		//create root node (it's a mesh-list) and add it to the registration list
-		DefaultGraphCell oParent = createDefaultGraphVertex(moEnumInterface.toString()+" (todo)", 20, 20, 150, 40, Color.GRAY);
+		DefaultGraphCell oParent = createDefaultGraphVertex(moEnumInterface.toString(), 20, 20, 150, 40, Color.GRAY);
 		moCellList.add( oParent );
 		//get graph-cells for each object in the of the mesh
 		readInspectorDataAndGenerateGraphCells(oParent);
@@ -738,29 +718,61 @@ public class clsSemanticInformationIspector extends Inspector implements ActionL
 	 *
 	 * @param poParent
 	 */
+	@SuppressWarnings("unchecked")
 	private void readInspectorDataAndGenerateGraphCells(DefaultGraphCell poParent) 
 	{
 		//check for the 3 main data types possible
-		for(int i=0;i<moInspectorData.size();i++){
+		for(int i=0; i<moInspectorData.size(); i++){
+			Object oO = moInspectorData.get(i);
 		
-			if(moInspectorData.get(i) instanceof clsDataStructurePA)
-			{
-				clsDataStructurePA oNextMemoryObject = (clsDataStructurePA)moInspectorData.get(i);
-				generateGraphCell(poParent, oNextMemoryObject);
-			}
-			else if(moInspectorData.get(i) instanceof clsPair)
-			{
-				clsPair oNextMemoryObject = (clsPair)moInspectorData.get(i);
-				generateGraphCell(poParent, oNextMemoryObject);
-			}
-			else if(moInspectorData.get(i) instanceof clsDataStructureContainer)
-			{
-				clsDataStructureContainer oNextMemoryObject = (clsDataStructureContainer)moInspectorData.get(i);
-				generateGraphCell(poParent, oNextMemoryObject);
+			if (oO instanceof List) {
+				for (Object o:(List<Object>)oO) {
+					rIDAGGC(poParent, o);
+				}
+				
+			} else if (oO instanceof Map) {
+				@SuppressWarnings("rawtypes")
+				Map t = (Map)oO;
+				
+				@SuppressWarnings("rawtypes")
+				Iterator oI = t.keySet().iterator();
+				
+				while (oI.hasNext()) {
+					Object oKey = oI.next();
+					Object oValue = t.get(oKey);
+					rIDAGGC(poParent, oValue);
+				}
+				
+			} else if (oO instanceof Double) {
+				generateGraphCell(poParent, (Double)oO);
+				
+			} else {
+				rIDAGGC(poParent, oO);
 			}
 			
 		}
 	}
+	
+	private void rIDAGGC(DefaultGraphCell poParent, Object oO) {
+		if (oO instanceof clsDataStructurePA) {
+			clsDataStructurePA oNextMemoryObject = (clsDataStructurePA)oO;
+			generateGraphCell(poParent, oNextMemoryObject);
+		} else if (oO instanceof clsPair) {
+			@SuppressWarnings("rawtypes")
+			clsPair oNextMemoryObject = (clsPair)oO;
+			generateGraphCell(poParent, oNextMemoryObject);
+		} else if (oO instanceof clsDataStructureContainer)	{
+			clsDataStructureContainer oNextMemoryObject = (clsDataStructureContainer)oO;
+			generateGraphCell(poParent, oNextMemoryObject);
+		} else if (oO == null) {
+			generateNULLGraphCell(poParent);
+			
+		} else {
+			generateGraphCell(poParent, oO.toString());
+			System.out.println("[clsSemanticInformationInspector.rIDAGGC] Unkown data structure: "+oO.getClass());
+		}
+	}
+
 
 	/** [MAIN]...
 	 * Generating cells from clsDataStructurePA
@@ -1170,6 +1182,23 @@ public class clsSemanticInformationIspector extends Inspector implements ActionL
 		
 		return oCell;
 	}
+	
+	/** [String]
+	 * Generating cells when a Pair a Double, happens in search
+	 */
+	private DefaultGraphCell generateGraphCell(DefaultGraphCell poParentCell, String popoMemoryObject)
+	{
+		DefaultGraphCell oCell = createCircleGraphVertex(popoMemoryObject.toString(), 30, 30, 30, 30, Color.MAGENTA);
+		this.moCellList.add(oCell);
+		
+		//get edge to parent cell
+		DefaultEdge oEdgeParent = new DefaultEdge("");
+		oEdgeParent.setSource(poParentCell.getChildAt(0));
+		oEdgeParent.setTarget(oCell.getChildAt(0));
+		moCellList.add(oEdgeParent);
+		
+		return oCell;
+	}	
 	
 	/** [NULL]
 	 * Generating cells when a Pair is NULL, should not be, but happens

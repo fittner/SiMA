@@ -8,9 +8,10 @@ package pa.modules._v30;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.SortedMap;
 
-import pa.interfaces.itfTimeChartInformationContainer;
 import pa.interfaces._v30.eInterfaces;
+import pa.interfaces._v30.itfInspectorGenericTimeChart;
 import pa.interfaces.receive._v30.I1_4_receive;
 import pa.interfaces.receive._v30.I2_15_receive;
 import pa.interfaces.send._v30.I2_15_send;
@@ -27,7 +28,7 @@ import config.clsBWProperties;
  * 
  */
 public class E05_AccumulationOfAffectsForSelfPreservationDrives extends clsModuleBase implements 
-						I1_4_receive, I2_15_send, itfTimeChartInformationContainer {
+						I1_4_receive, I2_15_send, itfInspectorGenericTimeChart {
 	public static final String P_MODULENUMBER = "05";
 	
 	private ArrayList<clsPair<clsPair<clsDriveMesh, clsDriveDemand>, clsPair<clsDriveMesh, clsDriveDemand>>> moDriveCandidate;
@@ -44,7 +45,7 @@ public class E05_AccumulationOfAffectsForSelfPreservationDrives extends clsModul
 	 * @throws Exception 
 	 */
 	public E05_AccumulationOfAffectsForSelfPreservationDrives(String poPrefix,
-			clsBWProperties poProp, HashMap<Integer, clsModuleBase> poModuleList, HashMap<eInterfaces, ArrayList<Object>> poInterfaceData) throws Exception {
+			clsBWProperties poProp, HashMap<Integer, clsModuleBase> poModuleList, SortedMap<eInterfaces, ArrayList<Object>> poInterfaceData) throws Exception {
 		super(poPrefix, poProp, poModuleList, poInterfaceData);
 		applyProperties(poPrefix, poProp);	
 	}
@@ -183,32 +184,6 @@ public class E05_AccumulationOfAffectsForSelfPreservationDrives extends clsModul
 		throw new java.lang.NoSuchMethodError();
 	}
 
-	/* (non-Javadoc)
-	 *
-	 * @author zeilinger
-	 * 02.11.2010, 23:00:57
-	 * 
-	 * @see pa.interfaces.itfTimeChartInformationContainer#getTimeChartData()
-	 */
-	@Override
-	public ArrayList<clsPair<String, Double>> getTimeChartData() {
-		ArrayList<clsPair<String, Double>> oTimingValues = new ArrayList<clsPair<String,Double>>();
-		
-		for( clsDriveMesh oDM : moDriveList) {
-			clsDriveMesh oLifeDM = oDM; 
-			clsDriveMesh oDeathDM = moDriveList.get(moDriveList.indexOf(oDM)+1); 
-			clsPair<String, Double> oLibi = new clsPair<String, Double>(oLifeDM.getMoContent(), oLifeDM.getPleasure());
-			clsPair<String, Double> oDeath = new clsPair<String, Double>(oDeathDM.getMoContent(), oDeathDM.getPleasure());
-			
-			oTimingValues.add(oLibi);
-			oTimingValues.add(oDeath);
-			
-			if(moDriveList.indexOf(oDeathDM) == moDriveList.size()-1){
-				break; 
-			}
-		}
-		return oTimingValues;
-	}
 
 	/* (non-Javadoc)
 	 *
@@ -238,6 +213,117 @@ public class E05_AccumulationOfAffectsForSelfPreservationDrives extends clsModul
 	public ArrayList<clsDriveMesh> getDriveList() {
 		return moDriveList;
 	}
+	/* (non-Javadoc)
+	 *
+	 * @author deutsch
+	 * 15.04.2011, 13:52:57
+	 * 
+	 * @see pa.modules._v30.clsModuleBase#setDescription()
+	 */
+	@Override
+	public void setDescription() {
+		moDescription = "Analogous to E42, E5 attaches quota of affects to the memory traces containing the drive contents. The difference is that the neurosymbols representing the drive tensions have been forwarded from {E2} through {E3} and {E4}. Thus, they are transferred into psychic processable form in this module. ";
+	}
+
+	/* (non-Javadoc)
+	 *
+	 * @author deutsch
+	 * 15.04.2011, 17:41:33
+	 * 
+	 * @see pa.interfaces.itfTimeChartInformationContainer#getTimeChartCaptions()
+	 */
+	@Override
+	public ArrayList<String> getTimeChartCaptions() {
+		ArrayList<String> oCaptions = new ArrayList<String>();
+		
+		for( clsDriveMesh oDM : moDriveList) {
+			clsDriveMesh oLifeDM = oDM; 
+			clsDriveMesh oDeathDM = moDriveList.get(moDriveList.indexOf(oDM)+1); 
+			
+			oCaptions.add(oLifeDM.getMoContent());
+			oCaptions.add(oDeathDM.getMoContent());
+			
+			if(moDriveList.indexOf(oDeathDM) == moDriveList.size()-1){
+				break; 
+			}
+		}
+		
+		return oCaptions;
+	}	
+	
+
+	/* (non-Javadoc)
+	 *
+	 * @author zeilinger
+	 * 02.11.2010, 23:00:57
+	 * 
+	 * @see pa.interfaces.itfTimeChartInformationContainer#getTimeChartData()
+	 */
+	@Override
+	public ArrayList<Double> getTimeChartData() {
+		ArrayList<Double> oTimingValues = new ArrayList<Double>();
+		
+		for( clsDriveMesh oDM : moDriveList) {
+			clsDriveMesh oLifeDM = oDM; 
+			clsDriveMesh oDeathDM = moDriveList.get(moDriveList.indexOf(oDM)+1); 
+			
+			oTimingValues.add(oLifeDM.getPleasure());
+			oTimingValues.add(oDeathDM.getPleasure());
+			
+			if(moDriveList.indexOf(oDeathDM) == moDriveList.size()-1){
+				break; 
+			}
+		}
+		return oTimingValues;
+	}
+
+	/* (non-Javadoc)
+	 *
+	 * @author deutsch
+	 * 19.04.2011, 10:31:35
+	 * 
+	 * @see pa.interfaces._v30.itfInspectorTimeChart#getTimeChartTitle()
+	 */
+	@Override
+	public String getTimeChartTitle() {
+		return "Drive-Affect Chart";
+	}
+
+	/* (non-Javadoc)
+	 *
+	 * @author deutsch
+	 * 19.04.2011, 10:31:35
+	 * 
+	 * @see pa.interfaces._v30.itfInspectorTimeChart#getTimeChartUpperLimit()
+	 */
+	@Override
+	public double getTimeChartUpperLimit() {
+		return 1.05;
+	}
+
+	/* (non-Javadoc)
+	 *
+	 * @author deutsch
+	 * 19.04.2011, 10:31:35
+	 * 
+	 * @see pa.interfaces._v30.itfInspectorTimeChart#getTimeChartLowerLimit()
+	 */
+	@Override
+	public double getTimeChartLowerLimit() {
+		return -0.05;
+	}
+
+	/* (non-Javadoc)
+	 *
+	 * @author deutsch
+	 * 19.04.2011, 10:34:35
+	 * 
+	 * @see pa.interfaces._v30.itfInspectorGenericTimeChart#getTimeChartAxis()
+	 */
+	@Override
+	public String getTimeChartAxis() {
+		return "Quota of Affects";
+	}	
 }
 
 

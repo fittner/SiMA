@@ -8,6 +8,7 @@ package pa.modules._v30;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.SortedMap;
 import config.clsBWProperties;
 import pa.interfaces._v30.eInterfaces;
 import pa.interfaces.receive._v30.I2_12_receive;
@@ -42,7 +43,7 @@ public class E24_RealityCheck_1 extends clsModuleBase implements I2_12_receive, 
 	 * @throws Exception
 	 */
 	public E24_RealityCheck_1(String poPrefix, clsBWProperties poProp,
-			HashMap<Integer, clsModuleBase> poModuleList, HashMap<eInterfaces, ArrayList<Object>> poInterfaceData) throws Exception {
+			HashMap<Integer, clsModuleBase> poModuleList, SortedMap<eInterfaces, ArrayList<Object>> poInterfaceData) throws Exception {
 		super(poPrefix, poProp, poModuleList, poInterfaceData);
 		applyProperties(poPrefix, poProp);		
 	}
@@ -214,5 +215,16 @@ public class E24_RealityCheck_1 extends clsModuleBase implements I2_12_receive, 
 		mnModuleNumber = Integer.parseInt(P_MODULENUMBER);
 		
 	}
+	/* (non-Javadoc)
+	 *
+	 * @author deutsch
+	 * 15.04.2011, 13:52:57
+	 * 
+	 * @see pa.modules._v30.clsModuleBase#setDescription()
+	 */
+	@Override
+	public void setDescription() {
+		moDescription = "The external world is evaluated regarding the available possibilities for drive satisfaction and which requirements arise. This is done by utilization of semantic knowledge provided by {E25} and incoming word and things presentations from {E23}. The result influences the generation of motives in {E26}.";
+	}		
 }
 

@@ -9,6 +9,7 @@ package pa.modules._v30;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.SortedMap;
 import config.clsBWProperties;
 import pa.interfaces._v30.eInterfaces;
 import pa.interfaces.knowledgebase.itfKnowledgeBaseAccess;
@@ -57,7 +58,7 @@ public class E08_ConversionToSecondaryProcessForDriveWishes extends clsModuleBas
 	 * @throws Exception
 	 */
 	public E08_ConversionToSecondaryProcessForDriveWishes(String poPrefix,
-			clsBWProperties poProp, HashMap<Integer, clsModuleBase> poModuleList, HashMap<eInterfaces, ArrayList<Object>> poInterfaceData, clsKnowledgeBaseHandler poKnowledgeBaseHandler)
+			clsBWProperties poProp, HashMap<Integer, clsModuleBase> poModuleList, SortedMap<eInterfaces, ArrayList<Object>> poInterfaceData, clsKnowledgeBaseHandler poKnowledgeBaseHandler)
 			throws Exception {
 		super(poPrefix, poProp, poModuleList, poInterfaceData);
 		
@@ -413,4 +414,15 @@ public class E08_ConversionToSecondaryProcessForDriveWishes extends clsModuleBas
 		
 		poSearchResult.addAll(moKnowledgeBaseHandler.initMemorySearch(poSearchPattern));
 	}
+	/* (non-Javadoc)
+	 *
+	 * @author deutsch
+	 * 15.04.2011, 13:52:57
+	 * 
+	 * @see pa.modules._v30.clsModuleBase#setDescription()
+	 */
+	@Override
+	public void setDescription() {
+		moDescription = "For the incoming thing presentations fitting word presentations are selected from memory. The whole packagething presentations, word presentations, and quota of affectsare now converted into a form which can be used by secondary process modules. The drive contents are now drive wishes. ";
+	}	
 }

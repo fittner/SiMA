@@ -6,9 +6,7 @@
  */
 package pa._v30;
 
-import java.util.ArrayList;
 import java.util.HashMap;
-
 import config.clsBWProperties;
 import du.enums.eSensorExtType;
 import du.enums.eSensorIntType;
@@ -33,10 +31,12 @@ public class clsProcessor implements itfProcessor  {
 	public static final String P_PSYCHICAPPARATUS = "psychicapparatus";
 	public static final String P_KNOWLEDGEABASE = "knowledgebase";
 	public static final String P_MEMORY = "memory";
+	public static final String P_LIBIDOSTREAM = "libidostream";
 	
 	private clsPsychicApparatus moPsyApp;
 	private clsKnowledgeBaseHandler moKnowledgeBaseHandler;
 	private clsMemory moMemory;
+	private double mrLibidostream;
 		
 	public clsProcessor(String poPrefix, clsBWProperties poProp) {
 		applyProperties(poPrefix, poProp);
@@ -52,6 +52,8 @@ public class clsProcessor implements itfProcessor  {
 		oProp.putAll( clsInformationRepresentationManagement.getDefaultProperties(pre+P_KNOWLEDGEABASE) );
 		oProp.putAll( clsPsychicApparatus.getDefaultProperties(pre+P_PSYCHICAPPARATUS) );
 				
+		oProp.setProperty( pre+P_LIBIDOSTREAM, 0.001);
+		
 		return oProp;
 	}	
 	
@@ -60,15 +62,15 @@ public class clsProcessor implements itfProcessor  {
 	
 		moKnowledgeBaseHandler = new clsInformationRepresentationManagement(pre + P_KNOWLEDGEABASE, poProp);
 		moMemory = new clsMemory(pre + P_MEMORY, poProp);
-		
 		moPsyApp = new clsPsychicApparatus(pre + P_PSYCHICAPPARATUS, poProp, moMemory, moKnowledgeBaseHandler);
 
+		mrLibidostream = poProp.getPropertyDouble(pre+P_LIBIDOSTREAM);
 	}
 		
 	@Override
 	public void applySensorData(clsSensorData poData) {
-		moPsyApp.moE39_SeekingSystem_LibidoSource.receive_I0_1( new ArrayList<Object>() );
-		moPsyApp.moE39_SeekingSystem_LibidoSource.receive_I0_2( new ArrayList<Object>() );
+		moPsyApp.moE39_SeekingSystem_LibidoSource.receive_I0_1( mrLibidostream );
+		moPsyApp.moE39_SeekingSystem_LibidoSource.receive_I0_2( 0.0 );
 		moPsyApp.moE01_SensorsMetabolism.receive_I0_3( separateHomeostaticData(poData) );
 		moPsyApp.moE12_SensorsBody.receive_I0_5( separateBodyData(poData) );
 		moPsyApp.moE10_SensorsEnvironment.receive_I0_4( separateEnvironmentalData(poData) );

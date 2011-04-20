@@ -7,9 +7,6 @@
 package inspectors.mind.pa._v30;
 
 import pa.modules._v30.clsModuleBase;
-import sim.display.GUIState;
-import sim.portrayal.Inspector;
-import sim.portrayal.LocationWrapper;
 
 /**
  * DOCUMENT (deutsch) - insert description 
@@ -18,7 +15,7 @@ import sim.portrayal.LocationWrapper;
  * 14.04.2011, 18:11:46
  * 
  */
-public class clsE_StateInspector extends clsE_GenericInspector {
+public class clsE_StateInspector extends clsE_GenericHTMLInspector {
 
 	/**
 	 * DOCUMENT (deutsch) - insert description 
@@ -39,9 +36,8 @@ public class clsE_StateInspector extends clsE_GenericInspector {
 	 * @param guiState
 	 * @param poModule
 	 */
-	public clsE_StateInspector(Inspector originalInspector,
-			LocationWrapper wrapper, GUIState guiState, clsModuleBase poModule) {
-		super(originalInspector, wrapper, guiState, poModule);
+	public clsE_StateInspector(clsModuleBase poModule) {
+		super(poModule);
 	}
 
 	/* (non-Javadoc)
@@ -53,7 +49,7 @@ public class clsE_StateInspector extends clsE_GenericInspector {
 	 */
 	@Override
 	protected void setTitle() {
-		moTitle = moModule.getClass().getSimpleName();
+		moTitle = moModule.getClass().getSimpleName()+" - Internal State of Module";
 
 	}
 

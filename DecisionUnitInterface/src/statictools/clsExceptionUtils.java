@@ -4,7 +4,7 @@
  * @author muchitsch
  * 05.04.2011, 16:19:01
  */
-package bw.exceptions;
+package statictools;
 
 /**
  * DOCUMENT (muchitsch) - insert description 
@@ -13,7 +13,7 @@ package bw.exceptions;
  * 05.04.2011, 16:19:01
  * 
  */
-public class clsExeptionUtils {
+public class clsExceptionUtils {
 	
 	 public static String getCustomStackTrace(Throwable aThrowable) {
 	        //add the class name and any message passed to constructor

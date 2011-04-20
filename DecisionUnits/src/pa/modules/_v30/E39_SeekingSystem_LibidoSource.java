@@ -8,18 +8,15 @@ package pa.modules._v30;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
-
+import java.util.SortedMap;
 import pa.interfaces._v30.eInterfaces;
+import pa.interfaces._v30.itfInspectorGenericTimeChart;
 import pa.interfaces.receive._v30.I0_1_receive;
 import pa.interfaces.receive._v30.I0_2_receive;
 import pa.interfaces.receive._v30.I1_8_receive;
-import pa.interfaces.send._v30.D1_3_send;
 import pa.interfaces.send._v30.I1_8_send;
 import pa.storage.clsLibidoBuffer;
 import config.clsBWProperties;
-import du.enums.eSensorIntType;
-import du.itf.sensors.clsDataBase;
 
 /**
  * DOCUMENT (wendt) - insert description 
@@ -28,11 +25,15 @@ import du.itf.sensors.clsDataBase;
  * 03.03.2011, 15:16:06
  * 
  */
-public class E39_SeekingSystem_LibidoSource extends clsModuleBase implements I0_1_receive, I0_2_receive, I1_8_send, D1_3_send {
+public class E39_SeekingSystem_LibidoSource extends clsModuleBase 
+			implements I0_1_receive, I0_2_receive, I1_8_send, itfInspectorGenericTimeChart {
 	public static final String P_MODULENUMBER = "39";
 	
 	private clsLibidoBuffer moLibidoBuffer;
-	private double mrTempLibido;
+
+	private double mrIncomingLibido_I0_1;
+	private double mrIncomingLibido_I0_2;
+	private double mrOutgoingLibido;
 	
 	/**
 	 * DOCUMENT (wendt) - insert description 
@@ -46,11 +47,10 @@ public class E39_SeekingSystem_LibidoSource extends clsModuleBase implements I0_
 	 * @throws Exception 
 	 */
 	public E39_SeekingSystem_LibidoSource(String poPrefix,
-			clsBWProperties poProp, HashMap<Integer, clsModuleBase> poModuleList, HashMap<eInterfaces, ArrayList<Object>> poInterfaceData, clsLibidoBuffer poLibidoBuffer) throws Exception {
+			clsBWProperties poProp, HashMap<Integer, clsModuleBase> poModuleList, SortedMap<eInterfaces, ArrayList<Object>> poInterfaceData, clsLibidoBuffer poLibidoBuffer) throws Exception {
 		super(poPrefix, poProp, poModuleList, poInterfaceData);
 		
 		moLibidoBuffer = poLibidoBuffer;
-		mrTempLibido = 0;
 		
 		applyProperties(poPrefix, poProp);	
 	}
@@ -67,7 +67,9 @@ public class E39_SeekingSystem_LibidoSource extends clsModuleBase implements I0_
 		String html ="";
 		
 		html += valueToHTML("moLibidoBuffer", moLibidoBuffer);
-		html += valueToHTML("mrTempLibido", mrTempLibido);		
+		html += valueToHTML("mrIncomingLibido_I0_1", mrIncomingLibido_I0_1);		
+		html += valueToHTML("mrIncomingLibido_I0_2", mrIncomingLibido_I0_2);		
+		html += valueToHTML("mrOutgoingLibido", mrOutgoingLibido);		
 		
 		return html;
 	}	
@@ -87,7 +89,7 @@ public class E39_SeekingSystem_LibidoSource extends clsModuleBase implements I0_
 	}	
 	
 	private void updateTempLibido() {
-		mrTempLibido = moLibidoBuffer.send_D1_2();
+		mrOutgoingLibido = mrIncomingLibido_I0_1 + mrIncomingLibido_I0_2;
 	}
 	
 	/* (non-Javadoc)
@@ -100,8 +102,6 @@ public class E39_SeekingSystem_LibidoSource extends clsModuleBase implements I0_
 	@Override
 	protected void process_basic() {
 		 updateTempLibido();
-		 mrTempLibido -= 0.01;
-		// TODO (wendt) - Auto-generated method stub
 	}
 
 	/* (non-Javadoc)
@@ -114,7 +114,6 @@ public class E39_SeekingSystem_LibidoSource extends clsModuleBase implements I0_
 	@Override
 	protected void process_draft() {
 		 updateTempLibido();		
-		// TODO (wendt) - Auto-generated method stub
 
 	}
 
@@ -128,8 +127,6 @@ public class E39_SeekingSystem_LibidoSource extends clsModuleBase implements I0_
 	@Override
 	protected void process_final() {
 		 updateTempLibido();		
-		// TODO (wendt) - Auto-generated method stub
-
 	}
 
 	/* (non-Javadoc)
@@ -141,8 +138,7 @@ public class E39_SeekingSystem_LibidoSource extends clsModuleBase implements I0_
 	 */
 	@Override
 	protected void send() {
-		send_I1_8(new HashMap<eSensorIntType, clsDataBase>());
-		send_D1_3(mrTempLibido);
+		send_I1_8(mrOutgoingLibido);
 	}
 
 	@Override
@@ -161,9 +157,9 @@ public class E39_SeekingSystem_LibidoSource extends clsModuleBase implements I0_
 	 * @see pa.interfaces.send._v30.I1_8_send#send_I1_8(java.util.HashMap)
 	 */
 	@Override
-	public void send_I1_8(HashMap<eSensorIntType, clsDataBase> poData) {
-		((I1_8_receive)moModuleList.get(40)).receive_I1_8(poData);
-		putInterfaceData(I1_8_send.class, poData);
+	public void send_I1_8(double prData) {
+		((I1_8_receive)moModuleList.get(40)).receive_I1_8(prData);
+		putInterfaceData(I1_8_send.class, prData);
 	}
 
 	/* (non-Javadoc)
@@ -174,9 +170,10 @@ public class E39_SeekingSystem_LibidoSource extends clsModuleBase implements I0_
 	 * @see pa.interfaces.receive._v30.I0_2_receive#receive_I0_2(java.util.List)
 	 */
 	@Override
-	public void receive_I0_2(List<Object> poData) {
-		// TODO (wendt) - Auto-generated method stub
+	public void receive_I0_2(Double prLibido) {
+		mrIncomingLibido_I0_2 = prLibido;
 		
+		putInterfaceData(I0_2_receive.class, prLibido);
 	}
 
 	/* (non-Javadoc)
@@ -187,23 +184,106 @@ public class E39_SeekingSystem_LibidoSource extends clsModuleBase implements I0_
 	 * @see pa.interfaces.receive._v30.I0_1_receive#receive_I0_1(java.util.List)
 	 */
 	@Override
-	public void receive_I0_1(List<Object> poData) {
-		// TODO (wendt) - Auto-generated method stub
+	public void receive_I0_1(Double prLibido) {
+		mrIncomingLibido_I0_1 = prLibido;
 		
+		putInterfaceData(I0_1_receive.class, prLibido);
 	}
+
 	/* (non-Javadoc)
 	 *
 	 * @author deutsch
-	 * 09.03.2011, 17:32:35
+	 * 15.04.2011, 13:52:57
 	 * 
-	 * @see pa.interfaces.send._v30.D1_3_send#send_D1_3(double)
+	 * @see pa.modules._v30.clsModuleBase#setDescription()
 	 */
 	@Override
-	public void send_D1_3(double prValue) {
-		moLibidoBuffer.receive_D1_3(prValue);
-		
-		putInterfaceData(D1_3_send.class, prValue);
+	public void setDescription() {
+		moDescription = "The seeking system is the basic motivational system. {E39} is collecting information on libido produced by various inner somatic sources as well as by erogenous zones.";
 	}
 
+	/* (non-Javadoc)
+	 *
+	 * @author deutsch
+	 * 15.04.2011, 20:08:09
+	 * 
+	 * @see pa.interfaces._v30.itfTimeChartInformationContainer#getTimeChartData()
+	 */
+	@Override
+	public ArrayList<Double> getTimeChartData() {
+		ArrayList<Double> oValues = new ArrayList<Double>();
+		
+		oValues.add(mrIncomingLibido_I0_1);
+		oValues.add(mrIncomingLibido_I0_2);
+		oValues.add(mrOutgoingLibido);
+		
+		return oValues;
+	}
 
+	/* (non-Javadoc)
+	 *
+	 * @author deutsch
+	 * 15.04.2011, 20:08:09
+	 * 
+	 * @see pa.interfaces._v30.itfTimeChartInformationContainer#getTimeChartCaptions()
+	 */
+	@Override
+	public ArrayList<String> getTimeChartCaptions() {
+		ArrayList<String> oCaptions = new ArrayList<String>();
+		
+		oCaptions.add(eInterfaces.I0_1.toString());
+		oCaptions.add(eInterfaces.I0_2.toString());
+		oCaptions.add(eInterfaces.I1_8.toString());
+		
+		return oCaptions;
+	}
+
+	/* (non-Javadoc)
+	 *
+	 * @author deutsch
+	 * 19.04.2011, 10:39:30
+	 * 
+	 * @see pa.interfaces._v30.itfInspectorGenericTimeChart#getTimeChartAxis()
+	 */
+	@Override
+	public String getTimeChartAxis() {
+		return "Libido";
+	}
+
+	/* (non-Javadoc)
+	 *
+	 * @author deutsch
+	 * 19.04.2011, 10:39:30
+	 * 
+	 * @see pa.interfaces._v30.itfInspectorGenericTimeChart#getTimeChartTitle()
+	 */
+	@Override
+	public String getTimeChartTitle() {
+		return "Libido Chart";
+	}
+
+	/* (non-Javadoc)
+	 *
+	 * @author deutsch
+	 * 19.04.2011, 10:39:30
+	 * 
+	 * @see pa.interfaces._v30.itfInspectorGenericTimeChart#getTimeChartUpperLimit()
+	 */
+	@Override
+	public double getTimeChartUpperLimit() {
+		return 1.05;
+	}
+
+	/* (non-Javadoc)
+	 *
+	 * @author deutsch
+	 * 19.04.2011, 10:39:30
+	 * 
+	 * @see pa.interfaces._v30.itfInspectorGenericTimeChart#getTimeChartLowerLimit()
+	 */
+	@Override
+	public double getTimeChartLowerLimit() {
+		return -0.05;
+	}	
 }
+

@@ -12,7 +12,12 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.SortedMap;
+
 import pa.interfaces._v30.eInterfaces;
+import pa.interfaces._v30.itfInspectorInternalState;
+import pa.interfaces._v30.itfInterfaceDescription;
+import pa.interfaces._v30.itfInterfaceInterfaceData;
 import config.clsBWProperties;
 
 /**
@@ -22,7 +27,7 @@ import config.clsBWProperties;
  * 11.08.2009, 11:16:13
  * 
  */
-public abstract class clsModuleBase {
+public abstract class clsModuleBase implements itfInspectorInternalState, itfInterfaceDescription, itfInterfaceInterfaceData {
 	public static String P_PROCESS_IMPLEMENTATION_STAGE = "IMP_STAGE"; 
 	
 	protected eProcessType mnProcessType;
@@ -33,13 +38,20 @@ public abstract class clsModuleBase {
 	
 	private eImplementationStage mnImplementationStage;
 	protected HashMap<Integer, clsModuleBase> moModuleList;
-	protected HashMap<eInterfaces, ArrayList<Object>> moInterfaceData;
+	protected SortedMap<eInterfaces, ArrayList<Object>> moInterfaceData;
+		
+	protected String moDescription;
+	private ArrayList<eInterfaces> moInterfacesReceive;
+	private ArrayList<eInterfaces> moInterfacesSend;
+	private ArrayList<eInterfaces> moInterfaces;
 	
 	public clsModuleBase(String poPrefix, clsBWProperties poProp, HashMap<Integer, clsModuleBase> poModuleList, 
-			HashMap<eInterfaces, ArrayList<Object>> poInterfaceData) throws Exception {
+			SortedMap<eInterfaces, ArrayList<Object>> poInterfaceData) throws Exception {
 		setProcessType();
 		setPsychicInstances();
 		setModuleNumber();
+		setDescription();
+		setInterfacesList();
 		
 		if (mnModuleNumber == null || mnModuleNumber == 0) {
 			throw new java.lang.Exception("mnModuleNumber not set.");
@@ -179,8 +191,6 @@ public abstract class clsModuleBase {
 		moInterfaceData.put(pnInterface, oData);
 	}
 	
-	public abstract String stateToHTML();
-	
 	@SuppressWarnings("rawtypes")
 	protected <E,V> String mapToHTML(String poName, Map<E,V> poMap) {
 		String html ="<h2>"+poName+"</h2>";
@@ -229,5 +239,43 @@ public abstract class clsModuleBase {
 		}
 		
 		return html;
+	}		
+	
+	@Override
+	public String getDescription() {
+		return moDescription;
+	}
+	
+	public abstract void setDescription();
+	
+	protected ArrayList<eInterfaces> getInterfacesFilter(String oSuffix) {
+		ArrayList<eInterfaces> oResult = new ArrayList<eInterfaces>();
+		for (@SuppressWarnings("rawtypes") Class oI:this.getClass().getInterfaces()) {
+			if (oI.getSimpleName().endsWith(oSuffix)) {
+				oResult.add(eInterfaces.getEnum(oI.getSimpleName()));
+			}
+		}
+		return oResult;
+	}
+	
+	protected void setInterfacesList() {
+		moInterfacesSend = getInterfacesFilter("_send");
+		moInterfacesReceive = getInterfacesFilter("_receive");
+		
+		moInterfaces = new ArrayList<eInterfaces>();
+		moInterfaces.addAll(moInterfacesReceive);
+		moInterfaces.addAll(moInterfacesSend);
+	}
+	
+	public ArrayList<eInterfaces> getInterfacesSend() {
+		return moInterfacesSend;
+	}
+	
+	public ArrayList<eInterfaces> getInterfacesRecv() {
+		return moInterfacesReceive;
+	}	
+	
+	public ArrayList<eInterfaces> getInterfaces() {
+		return moInterfaces;
 	}		
 }

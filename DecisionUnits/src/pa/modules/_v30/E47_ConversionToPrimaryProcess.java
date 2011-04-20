@@ -8,6 +8,7 @@ package pa.modules._v30;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.SortedMap;
 
 import pa.interfaces._v30.eInterfaces;
 import pa.interfaces.receive._v30.I7_3_receive;
@@ -40,7 +41,7 @@ public class E47_ConversionToPrimaryProcess extends clsModuleBase implements I7_
 	 * @throws Exception
 	 */
 	public E47_ConversionToPrimaryProcess(String poPrefix,
-			clsBWProperties poProp, HashMap<Integer, clsModuleBase> poModuleList, HashMap<eInterfaces, ArrayList<Object>> poInterfaceData)
+			clsBWProperties poProp, HashMap<Integer, clsModuleBase> poModuleList, SortedMap<eInterfaces, ArrayList<Object>> poInterfaceData)
 			throws Exception {
 		super(poPrefix, poProp, poModuleList, poInterfaceData);
 		applyProperties(poPrefix, poProp);	
@@ -192,5 +193,15 @@ public class E47_ConversionToPrimaryProcess extends clsModuleBase implements I7_
 		// TODO (KOHLHAUSER) - Auto-generated method stub
 		
 	}
-
+	/* (non-Javadoc)
+	 *
+	 * @author deutsch
+	 * 15.04.2011, 13:52:57
+	 * 
+	 * @see pa.modules._v30.clsModuleBase#setDescription()
+	 */
+	@Override
+	public void setDescription() {
+		moDescription = "Contents of various action plans can be used to reduce libido tension in E45. Before they can be processed by primary process functions, they have to be converted back again. The preconscious parts of the contents - the word presentations - are removed by this module.";
+	}	
 }

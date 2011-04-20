@@ -18,9 +18,7 @@ import org.jfree.data.category.CategoryDataset;
 import org.jfree.chart.plot.SpiderWebPlot;
 
 import pa.modules._v30.E26_DecisionMaking;
-import sim.display.GUIState;
 import sim.portrayal.Inspector;
-import sim.portrayal.LocationWrapper;
 
 import java.awt.Color;
 
@@ -47,15 +45,12 @@ public class clsE26DecisionCalculation extends Inspector {
 	private double dDummyValue;
 
 	
-    public clsE26DecisionCalculation(Inspector originalInspector,
-            LocationWrapper wrapper,
-            GUIState guiState,
+    public clsE26DecisionCalculation(
             E26_DecisionMaking poNeuroNeeds)
     {
 		super();
 		
-		moOriginalInspector = originalInspector;
-//		moE26= poNeuroNeeds; // todo - add real descion-making values
+		//moE26= poNeuroNeeds; // todo - add real descion-making values
 		
 		initBrainChart();
 		

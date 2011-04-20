@@ -8,6 +8,7 @@ package pa.modules._v30;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.SortedMap;
 import config.clsBWProperties;
 import du.enums.eActionMoveDirection;
 import du.enums.eActionTurnDirection;
@@ -18,13 +19,12 @@ import du.itf.actions.clsActionMove;
 import du.itf.actions.clsActionPickUp;
 import du.itf.actions.clsActionSequenceFactory;
 import du.itf.actions.clsActionTurn;
-import pa.interfaces.itfTimeChartInformationContainer;
 import pa.interfaces._v30.eInterfaces;
+import pa.interfaces._v30.itfInspectorTimeChart;
 import pa.interfaces.receive._v30.I8_1_receive;
 import pa.interfaces.receive._v30.I8_2_receive;
 import pa.interfaces.send._v30.I8_2_send;
 import pa.memorymgmt.datatypes.clsWordPresentation;
-import pa.tools.clsPair;
 
 /**
  * DOCUMENT (brandstaetter) - insert description 
@@ -33,7 +33,7 @@ import pa.tools.clsPair;
  * 11.08.2009, 14:59:58
  * 
  */
-public class E31_NeuroDeSymbolizationActionCommands extends clsModuleBase implements I8_1_receive, I8_2_send, itfTimeChartInformationContainer  {
+public class E31_NeuroDeSymbolizationActionCommands extends clsModuleBase implements I8_1_receive, I8_2_send, itfInspectorTimeChart  {
 	public static final String P_MODULENUMBER = "31";
 	
 	private ArrayList<clsActionCommand> moActionCommandList_Output;
@@ -52,7 +52,7 @@ public class E31_NeuroDeSymbolizationActionCommands extends clsModuleBase implem
 	 * @throws Exception
 	 */
 	public E31_NeuroDeSymbolizationActionCommands(String poPrefix,
-			clsBWProperties poProp, HashMap<Integer, clsModuleBase> poModuleList, HashMap<eInterfaces, ArrayList<Object>> poInterfaceData)
+			clsBWProperties poProp, HashMap<Integer, clsModuleBase> poModuleList, SortedMap<eInterfaces, ArrayList<Object>> poInterfaceData)
 			throws Exception {
 		super(poPrefix, poProp, poModuleList, poInterfaceData);
 		applyProperties(poPrefix, poProp);		
@@ -252,31 +252,63 @@ public class E31_NeuroDeSymbolizationActionCommands extends clsModuleBase implem
 	 * @see pa.interfaces.itfTimeChartInformationContainer#getTimeChartData()
 	 */
 	@Override
-	public ArrayList<clsPair<String, Double>> getTimeChartData() {
-	ArrayList<clsPair<String, Double>> oRetVal = new ArrayList<clsPair<String, Double>>();
+	public ArrayList<Double> getTimeChartData() {
+		ArrayList<Double> oRetVal = new ArrayList<Double>();
 		
-		oRetVal.add(new clsPair<String, Double>("TURN_RIGHT", 0.0)); 
-		oRetVal.add(new clsPair<String, Double>("TURN_LEFT", 0.0));
-		oRetVal.add(new clsPair<String, Double>("MOVE_FORWARD", 0.0));
-		oRetVal.add(new clsPair<String, Double>("EAT", 0.0));
-		oRetVal.add(new clsPair<String, Double>("SEEK", 0.0));
+		double rTURN_RIGHT = 0.0;
+		double rTURN_LEFT = 0.0;
+		double rMOVE_FORWARD = 0.0;
+		double rEAT = 0.0;
+		double rSEEK = 0.0;
 		
-		for(clsPair<String, Double> oPair : oRetVal){
-			if(moActionCommands_Input.size() > 0){
-				
-				if(oPair.a.equals(moActionCommands_Input.get(0).getMoContent())){
-					oPair.b = 1.0; 
-				}
-			}
-			else {
-				if(oPair.a.equals("SEEK")){
-					oPair.b = 1.0; 
-				}
-			}
+		String oCurrentActionCommand = "";
+		
+		try {
+			oCurrentActionCommand = moActionCommands_Input.get(0).getMoContent();
+		} catch (java.lang.IndexOutOfBoundsException e) {
+			//do nothing
 		}
 		
+		if (oCurrentActionCommand.equals("TURN_RIGHT")) {
+			rTURN_RIGHT = 1.0;
+		} else if (oCurrentActionCommand.equals("TURN_LEFT")) {
+			rTURN_LEFT = 1.0;
+		} else if (oCurrentActionCommand.equals("MOVE_FORWARD")) {
+			rMOVE_FORWARD = 1.0;
+		} else if (oCurrentActionCommand.equals("EAT")) {
+			rEAT = 1.0;
+		} else {
+			rSEEK = 1.0;
+		}
+		
+		oRetVal.add(rTURN_RIGHT); 
+		oRetVal.add(rTURN_LEFT); 
+		oRetVal.add(rMOVE_FORWARD); 
+		oRetVal.add(rEAT); 
+		oRetVal.add(rSEEK); 
+
 		return oRetVal; 
 	}
+	
+	/* (non-Javadoc)
+	 *
+	 * @author deutsch
+	 * 15.04.2011, 17:41:33
+	 * 
+	 * @see pa.interfaces.itfTimeChartInformationContainer#getTimeChartCaptions()
+	 */
+	@Override
+	public ArrayList<String> getTimeChartCaptions() {
+		ArrayList<String> oCaptions = new ArrayList<String>();
+		
+		oCaptions.add("TURN_RIGHT");
+		oCaptions.add("TURN_LEFT");
+		oCaptions.add("MOVE_FORWARD");
+		oCaptions.add("EAT");
+		oCaptions.add("SEEK");
+		
+		return oCaptions;
+	}		
 
 	/* (non-Javadoc)
 	 *
@@ -290,4 +322,15 @@ public class E31_NeuroDeSymbolizationActionCommands extends clsModuleBase implem
 		mnModuleNumber = Integer.parseInt(P_MODULENUMBER);
 		
 	}
+	/* (non-Javadoc)
+	 *
+	 * @author deutsch
+	 * 15.04.2011, 13:52:57
+	 * 
+	 * @see pa.modules._v30.clsModuleBase#setDescription()
+	 */
+	@Override
+	public void setDescription() {
+		moDescription = "Conversion of neuro-symbols into raw data.";
+	}		
 }

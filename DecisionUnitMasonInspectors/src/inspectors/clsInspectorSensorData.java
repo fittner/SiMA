@@ -13,9 +13,7 @@ import java.awt.BorderLayout;
 //import javax.swing.JLabel; // TD - warning free
 import decisionunit.clsBaseDecisionUnit;
 //import sim.display.Controller; // TD - warning free
-import sim.display.GUIState;
 import sim.portrayal.Inspector;
-import sim.portrayal.LocationWrapper;
 import sim.util.gui.HTMLBrowser;
 
 /**
@@ -35,19 +33,11 @@ public class clsInspectorSensorData extends Inspector {
 	 */
 	private static final long serialVersionUID = 205969537561647102L;
 	
-	public Inspector moOriginalInspector;
 	private clsBaseDecisionUnit moDU;
-//	private Controller moConsole; // TD - warning free
-//	private JLabel moCaption; // TD - warning free
-	
 	HTMLBrowser moHTMLPane;
 	
-	public clsInspectorSensorData(Inspector originalInspector,
-            LocationWrapper wrapper,
-            GUIState guiState,
-            clsBaseDecisionUnit poDU)
+	public clsInspectorSensorData( clsBaseDecisionUnit poDU)
 	{
-		moOriginalInspector = originalInspector;
 		moDU= poDU;
 		
         String contentData = "<html><head></head><body><p>";

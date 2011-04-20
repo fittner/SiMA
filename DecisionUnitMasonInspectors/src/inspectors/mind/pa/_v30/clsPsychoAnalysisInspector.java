@@ -7,9 +7,13 @@
 package inspectors.mind.pa._v30;
 
 import java.awt.BorderLayout;
+import java.awt.Dimension;
+
 import pa._v30.clsProcessor;
-import java.lang.reflect.Field;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Map;
+import java.util.Map.Entry;
 
 import javax.swing.Box;
 import javax.swing.BoxLayout;
@@ -21,13 +25,11 @@ import javax.swing.event.TreeSelectionListener;
 import javax.swing.tree.DefaultMutableTreeNode;
 
 import pa.clsPsychoAnalysis;
-import pa.memory.clsMemory;
+import pa.interfaces._v30.eInterfaces;
 import pa.modules._v30.clsModuleBase;
 import pa.modules._v30.clsPsychicApparatus;
 
-import sim.display.GUIState;
 import sim.portrayal.Inspector;
-import sim.portrayal.LocationWrapper;
 import sim.portrayal.inspector.TabbedInspector;
 
 /**
@@ -48,17 +50,7 @@ public class clsPsychoAnalysisInspector extends Inspector implements TreeSelecti
 	TabbedInspector moContent = new TabbedInspector();
 	JSplitPane moSplitPane;
 
-	private LocationWrapper moWrapper;
-	private GUIState moGuiState;
-	
-    public clsPsychoAnalysisInspector(Inspector originalInspector,
-            LocationWrapper wrapper,
-            GUIState guiState,
-            clsPsychoAnalysis poPA)
-    {
-		moOriginalInspector = originalInspector;
-		moWrapper = wrapper;
-		moGuiState = guiState;
+    public clsPsychoAnalysisInspector(clsPsychoAnalysis poPA) {
 		moPA= poPA;
 		
 		Box oBox1 = new Box(BoxLayout.PAGE_AXIS);
@@ -68,21 +60,19 @@ public class clsPsychoAnalysisInspector extends Inspector implements TreeSelecti
 		//grab the top element of the top-down design 
 		clsPsychicApparatus oPsyApp = ((clsProcessor)poPA.getProcessor()).getPsychicApparatus();
 		//build a tree with all members that start either with moC for clsModuleContainer or moE for clsModuleBase
-		getTree( oPsyApp, root );
-		addKnowledge(oPsyApp, root);
+		addModulesToTree( oPsyApp, root );
+		addInterfacesToTree( oPsyApp, root);
 
 		moModuleTree = new JTree(root);
 		moModuleTree.addTreeSelectionListener(this);
 		JScrollPane oTreeScroll = new JScrollPane(moModuleTree);
+		
 		moContentPane = new JScrollPane(moContent);
-		
-		
-		moSplitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT,
-				oTreeScroll, moContentPane);
-		moSplitPane.setResizeWeight(0.5);
+	
+		moSplitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, oTreeScroll, moContentPane);
 		moSplitPane.setOneTouchExpandable(true);
 		moSplitPane.setContinuousLayout(true);
-		moSplitPane.setDividerLocation(200);
+		moSplitPane.setDividerLocation(150);
 		
 		oBox1.add(moSplitPane);
 		
@@ -99,36 +89,39 @@ public class clsPsychoAnalysisInspector extends Inspector implements TreeSelecti
 	 * @param psyApp
 	 * @param poParentTreeNode
 	 */
-	private void getTree(clsPsychicApparatus poPA,
+	private void addModulesToTree(clsPsychicApparatus poPA,
 			DefaultMutableTreeNode poParentTreeNode) {
-		
-		DefaultMutableTreeNode group = new DefaultMutableTreeNode("Function Modules");
-		poParentTreeNode.add(group);
+		ArrayList<String> oChilds = new ArrayList<String>();
+		DefaultMutableTreeNode oParent = new DefaultMutableTreeNode("Modules");
+		poParentTreeNode.add(oParent);
 		
         for ( Map.Entry<Integer, clsModuleBase> module : poPA.moModules.entrySet() )	{
         	String oName = module.getValue().getClass().getSimpleName();
+        	oChilds.add(oName);
+        }
+        Collections.sort(oChilds);
+        for (String oName:oChilds) {
         	DefaultMutableTreeNode child = new DefaultMutableTreeNode(oName);
-        	group.add(child);
+        	oParent.add(child);
         }
 	}
-
-	private void addKnowledge(clsPsychicApparatus poPAModule,
+	
+	private void  addInterfacesToTree(clsPsychicApparatus poPA,
 			DefaultMutableTreeNode poParentTreeNode) {
+		ArrayList<String> oChilds = new ArrayList<String>();
+		DefaultMutableTreeNode oParent = new DefaultMutableTreeNode("Interfaces");
+		poParentTreeNode.add(oParent);
 		
-		DefaultMutableTreeNode oMemoryNode = new DefaultMutableTreeNode("Knowledge Base");
-		
-		clsMemory oMemory = poPAModule.moMemory;
-		
-		Field[] oFields = oMemory.getClass().getFields();
-		for(Field oField : oFields) {
-			
-			if(oField.getName().startsWith("mo")) {
-				DefaultMutableTreeNode child = new DefaultMutableTreeNode(oField.getName().substring(2));
-				oMemoryNode.add(child);
-			}
-		}
-		poParentTreeNode.add(oMemoryNode);
-	}
+        for ( Entry<eInterfaces, ArrayList<Object>> e : poPA.moInterfaceData.entrySet() )	{
+        	String oName = e.getKey().toString();
+        	oChilds.add(oName);
+        }
+        Collections.sort(oChilds);
+        for (String oName:oChilds) {
+        	DefaultMutableTreeNode child = new DefaultMutableTreeNode(oName);
+        	oParent.add(child);
+        }
+	}		
 
 	/* (non-Javadoc)
 	 *
@@ -164,8 +157,10 @@ public class clsPsychoAnalysisInspector extends Inspector implements TreeSelecti
 		Object nodeInfo = node.getUserObject();
 		//if (node.isLeaf()) {
 			moContentPane.remove(moContent);
-			moContent = clsInspectorMappingPA.getPAInspector( moOriginalInspector, moWrapper, moGuiState, 
-											((clsProcessor)moPA.getProcessor()).getPsychicApparatus(), nodeInfo.toString(), moModuleTree);
+			
+			moContent = clsInspectorPATabFactory.createInspectorModules( ((clsProcessor)moPA.getProcessor()).getPsychicApparatus(), nodeInfo.toString(), moModuleTree);
+			moContent.setPreferredSize( new Dimension(300,300) );
+			
 			moContentPane.add(moContent);
 			moContentPane.setViewportView(moContent);
 			moContentPane.repaint();

@@ -8,6 +8,7 @@ package pa.modules._v30;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.SortedMap;
 import java.util.Map;
 
 import pa.interfaces._v30.eInterfaces;
@@ -49,7 +50,7 @@ public class E02_NeurosymbolizationOfNeeds extends clsModuleBase implements I1_1
 	 * @throws Exception 
 	 */
 	public E02_NeurosymbolizationOfNeeds(String poPrefix,
-			clsBWProperties poProp, HashMap<Integer, clsModuleBase> poModuleList, HashMap<eInterfaces, ArrayList<Object>> poInterfaceData) throws Exception {
+			clsBWProperties poProp, HashMap<Integer, clsModuleBase> poModuleList, SortedMap<eInterfaces, ArrayList<Object>> poInterfaceData) throws Exception {
 		super(poPrefix, poProp, poModuleList, poInterfaceData);
 		applyProperties(poPrefix, poProp);	
 	}
@@ -237,4 +238,15 @@ public class E02_NeurosymbolizationOfNeeds extends clsModuleBase implements I1_1
 		
 	}
 
+	/* (non-Javadoc)
+	 *
+	 * @author deutsch
+	 * 15.04.2011, 13:52:57
+	 * 
+	 * @see pa.modules._v30.clsModuleBase#setDescription()
+	 */
+	@Override
+	public void setDescription() {
+		moDescription = "Conversion of raw data into neuro-symbols.";
+	}	
 }

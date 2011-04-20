@@ -30,4 +30,9 @@ public abstract class clsActionCommand {
 		oReturnList.add(this);
 		return oReturnList;
 	}
+	
+	@Override
+	public String toString() {
+		return getLog();
+	}
 }

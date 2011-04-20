@@ -8,6 +8,7 @@ package pa.modules._v30;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.SortedMap;
 import config.clsBWProperties;
 import du.enums.eSensorExtType;
 import du.itf.sensors.clsSensorExtern;
@@ -40,7 +41,7 @@ public class E10_SensorsEnvironment extends clsModuleBase implements I0_4_receiv
 	 * @throws Exception 
 	 */
 	public E10_SensorsEnvironment(String poPrefix, clsBWProperties poProp,
-			HashMap<Integer, clsModuleBase> poModuleList, HashMap<eInterfaces, ArrayList<Object>> poInterfaceData) throws Exception {
+			HashMap<Integer, clsModuleBase> poModuleList, SortedMap<eInterfaces, ArrayList<Object>> poInterfaceData) throws Exception {
 		super(poPrefix, poProp, poModuleList, poInterfaceData);
 		applyProperties(poPrefix, poProp);		
 	}
@@ -189,5 +190,17 @@ public class E10_SensorsEnvironment extends clsModuleBase implements I0_4_receiv
 	public void receive_I0_4(HashMap<eSensorExtType, clsSensorExtern> poData) {
 		moEnvironmentalData = poData;
 		
+		putInterfaceData(I0_4_receive.class, poData);
 	}
+	/* (non-Javadoc)
+	 *
+	 * @author deutsch
+	 * 15.04.2011, 13:52:57
+	 * 
+	 * @see pa.modules._v30.clsModuleBase#setDescription()
+	 */
+	@Override
+	public void setDescription() {
+		moDescription = "These sensors collect data of the environment. Typical sensors are the five senses: sight, hearing, smell, touch, and taste. Also non-humanoid sensors like radar are part of this module.";
+	}		
 }

@@ -9,6 +9,7 @@ package pa.modules._v30;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.SortedMap;
 import config.clsBWProperties;
 import pa.interfaces._v30.eInterfaces;
 import pa.interfaces.knowledgebase.itfKnowledgeBaseAccess;
@@ -59,7 +60,7 @@ public class E22_SocialRulesSelection extends clsModuleBase implements I1_7_rece
 	 * @throws Exception
 	 */
 	public E22_SocialRulesSelection(String poPrefix, clsBWProperties poProp,
-			HashMap<Integer, clsModuleBase> poModuleList, HashMap<eInterfaces, ArrayList<Object>> poInterfaceData, clsKnowledgeBaseHandler poKnowledgeBaseHandler) throws Exception {
+			HashMap<Integer, clsModuleBase> poModuleList, SortedMap<eInterfaces, ArrayList<Object>> poInterfaceData, clsKnowledgeBaseHandler poKnowledgeBaseHandler) throws Exception {
 		super(poPrefix, poProp, poModuleList, poInterfaceData);
 		applyProperties(poPrefix, poProp);	
 		
@@ -452,4 +453,15 @@ public class E22_SocialRulesSelection extends clsModuleBase implements I1_7_rece
 		mnModuleNumber = Integer.parseInt(P_MODULENUMBER);
 		
 	}
+	/* (non-Javadoc)
+	 *
+	 * @author deutsch
+	 * 15.04.2011, 13:52:57
+	 * 
+	 * @see pa.modules._v30.clsModuleBase#setDescription()
+	 */
+	@Override
+	public void setDescription() {
+		moDescription = "Next to {E7}, {E22} is the only module which is assigned to the top level module Superego. While the contents processed by {E7} are unconscious and cannot become conscious at all, {E22} processes social rules which are at least preconscious and can become conscious. These rules, commands, and gratifications appear as word and thing presentations and influence decision making. Which rules are selected and forwarded is determined by comparing the drive wishes and the external perception with the stored trigger conditions.";
+	}	
 }

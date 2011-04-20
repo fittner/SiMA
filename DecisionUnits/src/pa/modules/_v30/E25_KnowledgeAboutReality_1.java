@@ -8,6 +8,7 @@ package pa.modules._v30;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.SortedMap;
 import config.clsBWProperties;
 import pa.interfaces._v30.eInterfaces;
 import pa.interfaces.knowledgebase.itfKnowledgeBaseAccess;
@@ -47,7 +48,7 @@ public class E25_KnowledgeAboutReality_1 extends clsModuleBase implements I2_12_
 	 * @throws Exception
 	 */
 	public E25_KnowledgeAboutReality_1(String poPrefix, clsBWProperties poProp,
-			HashMap<Integer, clsModuleBase> poModuleList, HashMap<eInterfaces, ArrayList<Object>> poInterfaceData, clsKnowledgeBaseHandler poKnowledgeBaseHandler) throws Exception {
+			HashMap<Integer, clsModuleBase> poModuleList, SortedMap<eInterfaces, ArrayList<Object>> poInterfaceData, clsKnowledgeBaseHandler poKnowledgeBaseHandler) throws Exception {
 		super(poPrefix, poProp, poModuleList, poInterfaceData);
 		
 		moKnowledgeBaseHandler = poKnowledgeBaseHandler;
@@ -261,4 +262,15 @@ public class E25_KnowledgeAboutReality_1 extends clsModuleBase implements I2_12_
 		mnModuleNumber = Integer.parseInt(P_MODULENUMBER);
 		
 	}
+	/* (non-Javadoc)
+	 *
+	 * @author deutsch
+	 * 15.04.2011, 13:52:57
+	 * 
+	 * @see pa.modules._v30.clsModuleBase#setDescription()
+	 */
+	@Override
+	public void setDescription() {
+		moDescription = "Semantic knowledge is retrieved from memory for all word and thing presentations send to these functions.";
+	}	
 }

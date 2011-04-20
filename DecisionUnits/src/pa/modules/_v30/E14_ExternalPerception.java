@@ -8,6 +8,7 @@ package pa.modules._v30;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.SortedMap;
 import config.clsBWProperties;
 import pa.enums.eSymbolExtType;
 import pa.interfaces._v30.eInterfaces;
@@ -50,7 +51,7 @@ public class E14_ExternalPerception extends clsModuleBase implements
 	 * @throws Exception
 	 */
 	public E14_ExternalPerception(String poPrefix, clsBWProperties poProp,
-			HashMap<Integer, clsModuleBase> poModuleList, HashMap<eInterfaces, ArrayList<Object>> poInterfaceData) throws Exception {
+			HashMap<Integer, clsModuleBase> poModuleList, SortedMap<eInterfaces, ArrayList<Object>> poInterfaceData) throws Exception {
 		super(poPrefix, poProp, poModuleList, poInterfaceData);
 		applyProperties(poPrefix, poProp);
 	}
@@ -219,4 +220,16 @@ public class E14_ExternalPerception extends clsModuleBase implements
 	protected void setModuleNumber() {
 		mnModuleNumber = Integer.parseInt(P_MODULENUMBER);
 	}
+	
+	/* (non-Javadoc)
+	 *
+	 * @author deutsch
+	 * 15.04.2011, 13:52:57
+	 * 
+	 * @see pa.modules._v30.clsModuleBase#setDescription()
+	 */
+	@Override
+	public void setDescription() {
+		moDescription = "Neurosymbolic contents are transformed into thing presentations. Now, sensor sensations originating in body and environment sensors can be processed by the mental functions. The generated thing presentations are associated among each others according to their temporal and spacial vicinity and likeness.";
+	}	
 }
