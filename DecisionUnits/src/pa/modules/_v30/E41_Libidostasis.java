@@ -45,7 +45,8 @@ public class E41_Libidostasis extends clsModuleBase implements I1_9_receive, I1_
 	 * @throws Exception 
 	 */
 	public E41_Libidostasis(String poPrefix, clsBWProperties poProp,
-			HashMap<Integer, clsModuleBase> poModuleList, SortedMap<eInterfaces, ArrayList<Object>> poInterfaceData, clsLibidoBuffer poLibidoBuffer) throws Exception {
+			HashMap<Integer, clsModuleBase> poModuleList, SortedMap<eInterfaces, ArrayList<Object>> poInterfaceData, 
+			clsLibidoBuffer poLibidoBuffer) throws Exception {
 		super(poPrefix, poProp, poModuleList, poInterfaceData);
 		
 		moLibidoBuffer = poLibidoBuffer;
