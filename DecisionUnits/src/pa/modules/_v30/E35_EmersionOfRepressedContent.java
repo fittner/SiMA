@@ -299,7 +299,7 @@ public class E35_EmersionOfRepressedContent extends clsModuleBase implements I2_
 		
 		//For each object (e. g. CAKE) with adapted categories...
 		//oInput is a clsPrimaryDataStructureContainer
-		for(@SuppressWarnings("unused") clsPrimaryDataStructureContainer oInput : poCathegorizedInputContainer){
+		for(clsPrimaryDataStructureContainer oInput : poCathegorizedInputContainer){
 				/* A DM is loaded, which matches a drive, which is Repressed.
 				 * In the storage of Repressed Content, DM are stored. If the ContentType of the DM attached to
 				 * an object is exactly matched to a content type of a DM in the repressed Content Store, 
@@ -315,6 +315,8 @@ public class E35_EmersionOfRepressedContent extends clsModuleBase implements I2_
 //				moAttachedRepressed_Output.add(new clsPair<clsPrimaryDataStructureContainer, clsDriveMesh>(oInput, oRep));
 // TD 2011/04/20: removed above two line due to removal of rolands clsMemory. has to be reimplemented by other means
 // TODO (Wendt): reimplement method matchRepressedContent
+			clsDriveMesh oRep = moBlockedContentStorage.getBestMatchCONVERTED(oInput);
+			moAttachedRepressed_Output.add(new clsPair<clsPrimaryDataStructureContainer, clsDriveMesh>(oInput, oRep));
 		}
 	}
 

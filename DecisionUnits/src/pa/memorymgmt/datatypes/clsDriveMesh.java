@@ -22,6 +22,36 @@ public class clsDriveMesh extends clsHomeostaticRepresentation{
 	
 	private String moContent = "UNDEFINED";
 	private ArrayList<clsAssociation> moAssociatedContent = null; 
+	private double mrPleasure = 0.0; 
+	private double mrCathegoryAnal = 0.0; 
+	private double mrCathegoryGenital = 0.0;
+	private double mrCathegoryOral = 0.0;
+	private double mrCathegoryPhalic = 0.0;
+
+	/**
+	 * DOCUMENT (zeilinger) - insert description 
+	 * 
+	 * @author zeilinger
+	 * 23.06.2010, 20:37:07
+	 *
+	 * @param poHomeostaticSource
+	 * @param poAssociationID
+	 * @param peAssociationType
+	 */	
+	public clsDriveMesh(clsTripple<Integer, eDataType, String> poDataStructureIdentifier, 
+												double prPleasure, double[] poDriveCathegories, 
+												ArrayList<clsAssociation> poAssociatedDriveSources,
+												String poContent) {
+		super(poDataStructureIdentifier);
+		setAssociations(poAssociatedDriveSources); 
+		setContent(poContent); 
+		mrPleasure = prPleasure; 
+		mrCathegoryAnal = poDriveCathegories[0]; 
+		mrCathegoryOral = poDriveCathegories[1]; 
+		mrCathegoryGenital = poDriveCathegories[2];
+		mrCathegoryPhalic = poDriveCathegories[3]; 
+	}
+	
 	/**
 	 * @author zeilinger
 	 * 17.03.2011, 00:50:38
@@ -162,35 +192,7 @@ public class clsDriveMesh extends clsHomeostaticRepresentation{
 		this.mrCathegoryPhalic = mrCathegoryPhalic;
 	}
 
-	/**
-	 * DOCUMENT (zeilinger) - insert description 
-	 * 
-	 * @author zeilinger
-	 * 23.06.2010, 20:37:07
-	 *
-	 * @param poHomeostaticSource
-	 * @param poAssociationID
-	 * @param peAssociationType
-	 */
-	private double mrPleasure = 0.0; 
-	private double mrCathegoryAnal = 0.0; 
-	private double mrCathegoryGenital = 0.0;
-	private double mrCathegoryOral = 0.0;
-	private double mrCathegoryPhalic = 0.0;
-	
-	public clsDriveMesh(clsTripple<Integer, eDataType, String> poDataStructureIdentifier, 
-												double prPleasure, double[] poDriveCathegories, 
-												ArrayList<clsAssociation> poAssociatedDriveSources,
-												String poContent) {
-		super(poDataStructureIdentifier);
-		setAssociations(poAssociatedDriveSources); 
-		setContent(poContent); 
-		mrPleasure = prPleasure; 
-		mrCathegoryAnal = poDriveCathegories[0]; 
-		mrCathegoryOral = poDriveCathegories[1]; 
-		mrCathegoryGenital = poDriveCathegories[2];
-		mrCathegoryPhalic = poDriveCathegories[3]; 
-	}
+
 	
 	/**
 	 * DOCUMENT (zeilinger) - insert description
@@ -229,6 +231,13 @@ public class clsDriveMesh extends clsHomeostaticRepresentation{
 	
 	public double getOral() {
 		return mrCathegoryOral;
+	}
+	
+	public void setCategories(double prOral, double prAnal, double prGential, double prPhallic) {
+		mrCathegoryOral = prOral;
+		mrCathegoryAnal = prAnal;
+		mrCathegoryGenital = prGential;
+		mrCathegoryPhalic = prPhallic;
 	}
 	
 	public void setOral(double prOral){

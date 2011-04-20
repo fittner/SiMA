@@ -138,7 +138,8 @@ public class clsRepressedContentStorage {
 	 */
 	public clsDriveMesh getBestMatchCONVERTED(clsPrimaryDataStructureContainer poInput) {
 		clsThingPresentation oTP = (clsThingPresentation) clsDataStructureGenerator.generateDataStructure(eDataType.TP, new clsPair<String, Object>("NULL", "NULL")); 
-		clsTripple <String, ArrayList<clsThingPresentation>, Object> oContent = new clsTripple<String, ArrayList<clsThingPresentation>, Object>("REPRESSED", new ArrayList<clsThingPresentation>(Arrays.asList(oTP)), "DEFAULT"); 
+		clsTripple <String, ArrayList<clsThingPresentation>, Object> oContent = 
+			new clsTripple<String, ArrayList<clsThingPresentation>, Object>("REPRESSED", new ArrayList<clsThingPresentation>(Arrays.asList(oTP)), "DEFAULT"); 
 		
 		clsDriveMesh oRetVal = (clsDriveMesh) clsDataStructureGenerator.generateDataStructure(eDataType.DM, oContent);
 		double rHighestMatch = 0.0;
