@@ -1,4 +1,4 @@
-; Mon Mar 07 20:22:50 CET 2011
+; Wed Apr 20 07:41:07 CEST 2011
 ; 
 ;+ (version "3.4.4")
 ;+ (build "Build 579")
@@ -139,20 +139,6 @@
 ;+		(cardinality 1 1)
 		(create-accessor read-write)))
 
-(defclass CAN
-	(is-a ENTITY)
-	(role concrete)
-	(single-slot value
-		(type STRING)
-;+		(value "CAN")
-;+		(cardinality 1 1)
-		(create-accessor read-write))
-	(multislot class_association
-		(type INSTANCE)
-;+		(allowed-classes)
-;+		(value [TP%3ASENSOR_EXT%3AVISION%3ASHAPE%3ACIRCLE] [TP%3AINTENSITY%3ASMALL])
-		(create-accessor read-write)))
-
 (defclass WALL
 	(is-a ENTITY)
 	(role concrete)
@@ -192,7 +178,7 @@
 	(multislot class_association
 		(type INSTANCE)
 ;+		(allowed-classes)
-;+		(value [TP%3ASENSOR_EXT%3AVISION%3ASHAPE%3ACIRCLE] [TPM%3ABODYPARTS%3AAGENT_ANTENNA%3ABASIC] [TPM%3ABODYPARTS%3AAGENT_HANDS_BASIC])
+;+		(value [TP%3ASENSOR_EXT%3AVISION%3ASHAPE%3ACIRCLE] [TPM%3ABODYPARTS%3AANTENNA_LEFT%3ABASIC] [TPM%3ABODYPARTS%3AHANDS_BASIC])
 		(create-accessor read-write)))
 
 (defclass CAKE
@@ -209,6 +195,29 @@
 ;+		(value [TP%3ASENSOR_EXT%3AVISION%3ASHAPE%3ACIRCLE] [TP%3AINTENSITY%3AMEDIUM])
 		(create-accessor read-write)))
 
+(defclass CAN
+	(is-a ENTITY)
+	(role concrete)
+	(single-slot value
+		(type STRING)
+;+		(value "CAN")
+;+		(cardinality 1 1)
+		(create-accessor read-write))
+	(multislot class_association
+		(type INSTANCE)
+;+		(allowed-classes)
+;+		(value [TP%3ASENSOR_EXT%3AVISION%3ASHAPE%3ACIRCLE] [TP%3AINTENSITY%3ASMALL])
+		(create-accessor read-write)))
+
+(defclass REMOTEBOT
+	(is-a ENTITY)
+	(role concrete)
+	(single-slot value
+		(type STRING)
+;+		(value "REMOTEBOT")
+;+		(cardinality 1 1)
+		(create-accessor read-write)))
+
 (defclass BODYPART
 	(is-a TPM)
 	(role abstract)
@@ -217,12 +226,12 @@
 ;+		(cardinality 1 1)
 		(create-accessor read-write)))
 
-(defclass AGENT_HANDS
+(defclass HANDS
 	(is-a BODYPART)
 	(role concrete)
 	(single-slot value_type
 		(type STRING)
-;+		(value "AGENT_HANDS")
+;+		(value "HANDS")
 ;+		(cardinality 1 1)
 		(create-accessor read-write))
 	(multislot class_association
@@ -231,12 +240,21 @@
 ;+		(value [TP%3ASENSOR_EXT%3AVISION%3ACOLOR%3ABLUE] [TP%3AINTENSITY%3ASMALL])
 		(create-accessor read-write)))
 
-(defclass AGENT_ANTENNA
+(defclass ANTENNA_LEFT
 	(is-a BODYPART)
 	(role concrete)
 	(single-slot value_type
 		(type STRING)
-;+		(value "AGENT_ANTENNA")
+;+		(value "ANTENNA_LEFT")
+;+		(cardinality 1 1)
+		(create-accessor read-write)))
+
+(defclass ANTENNA_RIGHT
+	(is-a BODYPART)
+	(role concrete)
+	(single-slot value_type
+		(type STRING)
+;+		(value "ANTENNA_RIGHT")
 ;+		(cardinality 1 1)
 		(create-accessor read-write)))
 
@@ -527,6 +545,20 @@
 		(create-accessor read-write))
 	(single-slot value
 		(type STRING)
+;+		(cardinality 1 1)
+		(create-accessor read-write)))
+
+(defclass CONSUMEABLE
+	(is-a SENSOR_EXT)
+	(role concrete)
+	(single-slot value_type
+		(type STRING)
+;+		(value "CONSUMEABLE")
+;+		(cardinality 1 1)
+		(create-accessor read-write))
+	(single-slot value
+		(type SYMBOL)
+		(allowed-values FALSE TRUE)
 ;+		(cardinality 1 1)
 		(create-accessor read-write)))
 
