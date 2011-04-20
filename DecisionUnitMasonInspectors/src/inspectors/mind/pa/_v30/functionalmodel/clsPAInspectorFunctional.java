@@ -151,7 +151,7 @@ public class clsPAInspectorFunctional extends Inspector implements ActionListene
 		JGraphGraphFactory.insert(model, cells);
 		JGraphFacade facade = new JGraphModelFacade(model, roots);
 
-		Map nested = facade.createNestedMap(true, true);
+		Map<?,?> nested = facade.createNestedMap(true, true);
 		cache.edit(nested);
 
 		moGraph.setModel(model);	
