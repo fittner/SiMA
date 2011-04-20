@@ -22,16 +22,6 @@ import javax.swing.*;
 
 import NAOProxyClient.NAOProxyClient;
 
-import config.clsBWProperties;
-import decisionunit.clsDecisionUnitFactory;
-import du.itf.itfDecisionUnit;
-import du.itf.actions.itfActionProcessor;
-
-import pa.clsPsychoAnalysis;
-import statictools.clsGetARSPath;
-
-import nao.body.clsNAOBody;
-import nao.body.io.actuators.clsActionProcessor;
 
 
 

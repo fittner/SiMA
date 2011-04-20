@@ -10,11 +10,14 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.SortedMap;
 
+import pa._v30.tools.clsDriveValueSplitter;
 import pa._v30.tools.clsPair;
+import pa._v30.tools.clsTripple;
+import pa._v30.tools.eDriveValueSplitter;
 import pa._v30.interfaces.eInterfaces;
-import pa._v30.interfaces.receive.I2_17_receive;
-import pa._v30.interfaces.receive.I2_18_receive;
-import pa._v30.interfaces.send.I2_18_send;
+import pa._v30.interfaces.modules.I2_17_receive;
+import pa._v30.interfaces.modules.I2_18_receive;
+import pa._v30.interfaces.modules.I2_18_send;
 import pa._v30.memorymgmt.datatypes.clsDriveDemand;
 import pa._v30.memorymgmt.datatypes.clsDriveMesh;
 
@@ -30,6 +33,9 @@ import config.clsBWProperties;
 public class E42_AccumulationOfAffectsForSexualDrives extends clsModuleBase implements 
 							I2_17_receive, I2_18_send {
 	public static final String P_MODULENUMBER = "42";
+	
+	private ArrayList< clsPair< clsTripple<clsDriveMesh,clsDriveDemand,Double>, clsTripple<clsDriveMesh,clsDriveDemand,Double> > > moDriveCandidates;
+	private ArrayList<clsDriveMesh> moDriveList; 
 	
 	/**
 	 * DOCUMENT (deutsch) - insert description 
@@ -60,7 +66,8 @@ public class E42_AccumulationOfAffectsForSexualDrives extends clsModuleBase impl
 	public String stateToHTML() {
 		String html ="";
 		
-		html += "n/a";	
+		html += listToHTML("moDriveCandidates", moDriveCandidates);
+		html += listToHTML("moDriveList", moDriveList);
 		
 		return html;
 	}		
@@ -96,8 +103,26 @@ public class E42_AccumulationOfAffectsForSexualDrives extends clsModuleBase impl
 	 */
 	@Override
 	protected void process_basic() {
-		// TODO (deutsch) - Auto-generated method stub
+		moDriveList = new ArrayList<clsDriveMesh>(); 
 
+		for (clsPair< clsTripple<clsDriveMesh,clsDriveDemand,Double>, clsTripple<clsDriveMesh,clsDriveDemand,Double> > oEntry:moDriveCandidates) {
+			clsPair<Double, Double> oSplitResult = clsDriveValueSplitter.calc(oEntry.a.b.getTension(), oEntry.b.b.getTension(), 
+					eDriveValueSplitter.SIMPLE, null); 
+			
+			double oLifeAffect  = normalize( oSplitResult.a * oEntry.a.c );
+			double oDeathAffect = normalize( oSplitResult.b * oEntry.b.c );
+			
+			oEntry.a.a.setPleasure(oLifeAffect); 
+			oEntry.b.a.setPleasure(oDeathAffect); 
+			moDriveList.add(oEntry.a.a); 
+			moDriveList.add(oEntry.b.a); 			
+		}
+	}
+	
+	private double normalize(double r) {
+		if (r>1) {return 1;}
+		else if (r<-1) {return -1;}
+		else {return r;}
 	}
 
 	/* (non-Javadoc)
@@ -135,7 +160,7 @@ public class E42_AccumulationOfAffectsForSexualDrives extends clsModuleBase impl
 	 */
 	@Override
 	protected void send() {
-		send_I2_18(new ArrayList<clsPair<clsPair<clsDriveMesh,clsDriveDemand>,clsPair<clsDriveMesh,clsDriveDemand>>>());
+		send_I2_18(moDriveList);
 
 	}
 	/* (non-Javadoc)
@@ -146,11 +171,10 @@ public class E42_AccumulationOfAffectsForSexualDrives extends clsModuleBase impl
 	 * @see pa.interfaces.send._v30.I2_18_send#receive_I2_18(java.util.ArrayList)
 	 */
 	@Override
-	public void send_I2_18(
-			ArrayList<clsPair<clsPair<clsDriveMesh, clsDriveDemand>, clsPair<clsDriveMesh, clsDriveDemand>>> poDriveCandidate) {
-		((I2_18_receive)moModuleList.get(44)).receive_I2_18(poDriveCandidate);
+	public void send_I2_18(ArrayList<clsDriveMesh> poDrives) {
+		((I2_18_receive)moModuleList.get(44)).receive_I2_18(poDrives);
 		
-		putInterfaceData(I2_18_send.class, poDriveCandidate);
+		putInterfaceData(I2_18_send.class, poDrives);
 	}
 	/* (non-Javadoc)
 	 *
@@ -159,11 +183,11 @@ public class E42_AccumulationOfAffectsForSexualDrives extends clsModuleBase impl
 	 * 
 	 * @see pa.interfaces.receive._v30.I2_17_receive#receive_I2_17(java.util.ArrayList)
 	 */
+	@SuppressWarnings("unchecked")
 	@Override
-	public void receive_I2_17(
-			ArrayList<clsPair<clsPair<clsDriveMesh, clsDriveDemand>, clsPair<clsDriveMesh, clsDriveDemand>>> poDriveCandidate) {
-		// TODO (deutsch) - Auto-generated method stub
-		
+	public void receive_I2_17(ArrayList< clsPair< clsTripple<clsDriveMesh,clsDriveDemand,Double>, clsTripple<clsDriveMesh,clsDriveDemand,Double> > > poDriveCandidates) {
+		moDriveCandidates = (ArrayList< clsPair< clsTripple<clsDriveMesh,clsDriveDemand,Double>, clsTripple<clsDriveMesh,clsDriveDemand,Double> > >)deepCopy(poDriveCandidates);
+
 	}
 
 	/* (non-Javadoc)

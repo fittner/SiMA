@@ -13,8 +13,8 @@ import config.clsBWProperties;
 import du.itf.actions.clsActionCommand;
 import du.itf.actions.itfActionProcessor;
 import pa._v30.interfaces.eInterfaces;
-import pa._v30.interfaces.receive.I8_2_receive;
-import pa._v30.interfaces.send.I0_6_send;
+import pa._v30.interfaces.modules.I0_6_send;
+import pa._v30.interfaces.modules.I8_2_receive;
 
 /**
  * DOCUMENT (brandstaetter) - insert description 

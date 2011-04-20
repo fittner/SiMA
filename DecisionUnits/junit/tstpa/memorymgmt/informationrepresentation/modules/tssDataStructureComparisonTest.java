@@ -99,6 +99,7 @@ public class tssDataStructureComparisonTest {
 	 *
 	 * @return
 	 */
+	@SuppressWarnings("unused")
 	private static clsDataStructurePA defineDM() {
 		// TODO (zeilinger) - Auto-generated method stub
 		return null;
@@ -112,6 +113,7 @@ public class tssDataStructureComparisonTest {
 	 *
 	 * @return
 	 */
+	@SuppressWarnings("unused")
 	private static clsDataStructurePA defineWP() {
 		// TODO (zeilinger) - Auto-generated method stub
 		return null;

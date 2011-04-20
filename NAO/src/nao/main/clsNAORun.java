@@ -4,7 +4,6 @@ import java.io.IOException;
 
 import nao.body.clsNAOBody;
 import nao.body.io.actuators.clsActionProcessor;
-import statictools.clsGetARSPath;
 import config.clsBWProperties;
 import du.itf.itfDecisionUnit;
 

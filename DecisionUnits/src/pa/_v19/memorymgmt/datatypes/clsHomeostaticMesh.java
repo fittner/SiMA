@@ -20,6 +20,7 @@ import pa._v19.tools.clsTripple;
  */
 public class clsHomeostaticMesh extends clsHomeostaticRepresentation{
 	private clsDriveDemand moDriveDemand = null;
+	@SuppressWarnings("unused")
 	private String moContent = "UNDEFINED";
 	private ArrayList<clsAssociation> moAssociatedContent = null; 
 	/**

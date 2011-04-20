@@ -7,15 +7,23 @@
 package pa._v30.modules;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.SortedMap;
 
 import pa._v30.interfaces.eInterfaces;
 import pa._v30.interfaces.itfInspectorGenericTimeChart;
-import pa._v30.interfaces.receive.I1_10_receive;
-import pa._v30.interfaces.receive.I1_9_receive;
-import pa._v30.interfaces.send.I1_10_send;
+import pa._v30.interfaces.modules.I1_10_receive;
+import pa._v30.interfaces.modules.I1_10_send;
+import pa._v30.interfaces.modules.I1_9_receive;
+import pa._v30.memorymgmt.datahandler.clsDataStructureGenerator;
+import pa._v30.memorymgmt.datatypes.clsDriveDemand;
+import pa._v30.memorymgmt.datatypes.clsDriveMesh;
+import pa._v30.memorymgmt.datatypes.clsThingPresentation;
+import pa._v30.memorymgmt.enums.eDataType;
 import pa._v30.storage.clsLibidoBuffer;
+import pa._v30.tools.clsPair;
+import pa._v30.tools.clsTripple;
 
 import config.clsBWProperties;
 
@@ -32,6 +40,8 @@ public class E41_Libidostasis extends clsModuleBase implements I1_9_receive, I1_
 	private clsLibidoBuffer moLibidoBuffer;
 	private double mrIncomingLibido;
 	private double mrTotalLibido;
+	
+	private ArrayList< clsPair<clsDriveMesh, clsDriveDemand> > moDrives;
 	
 	/**
 	 * DOCUMENT (deutsch) - insert description 
@@ -56,6 +66,26 @@ public class E41_Libidostasis extends clsModuleBase implements I1_9_receive, I1_
 		applyProperties(poPrefix, poProp);	
 	}
 	
+	private ArrayList< clsDriveMesh > createDriveMeshes() {
+		ArrayList< clsDriveMesh > oDrives = new ArrayList< clsDriveMesh >();
+		
+		oDrives.add( createDriveMesh("LIFE",  "LIBIDINOUS") );
+		oDrives.add( createDriveMesh("DEATH", "AGGRESSIVE") );
+		
+		return oDrives;
+	}
+	
+	private clsDriveMesh createDriveMesh(String poContentType, String poContext) {
+		clsThingPresentation oDataStructure = (clsThingPresentation)clsDataStructureGenerator.generateDataStructure( eDataType.TP, new clsPair<String, Object>(poContentType, poContext) );
+		ArrayList<Object> oContent = new ArrayList<Object>( Arrays.asList(oDataStructure) );
+		
+		clsDriveMesh oRetVal = (pa._v30.memorymgmt.datatypes.clsDriveMesh)clsDataStructureGenerator.generateDataStructure( 
+				eDataType.DM, new clsTripple<String, Object, Object>(poContentType, oContent, poContext)
+				);
+		
+		return oRetVal;
+	}
+	
 	/* (non-Javadoc)
 	 *
 	 * @author deutsch
@@ -67,6 +97,7 @@ public class E41_Libidostasis extends clsModuleBase implements I1_9_receive, I1_
 	public String stateToHTML() {
 		String html ="";
 		
+		html += listToHTML("moDrives", moDrives);
 		html += valueToHTML("moLibidoBuffer", moLibidoBuffer);
 		html += valueToHTML("mrIncomingLibido", mrIncomingLibido);		
 		html += valueToHTML("mrTotalLibido", mrTotalLibido);
@@ -109,7 +140,14 @@ public class E41_Libidostasis extends clsModuleBase implements I1_9_receive, I1_
 	 */
 	@Override
 	protected void process_basic() {
-		 updateTempLibido();
+		moDrives = new ArrayList<clsPair<clsDriveMesh,clsDriveDemand>>();
+		updateTempLibido();
+		ArrayList<clsDriveMesh> oDriveMeshes = createDriveMeshes();
+		clsDriveDemand oDemand = (clsDriveDemand)clsDataStructureGenerator.generateDataStructure(eDataType.DRIVEDEMAND, 
+					new clsPair<String,Object>(eDataType.DRIVEDEMAND.toString(), mrTotalLibido));
+		for (clsDriveMesh oDM:oDriveMeshes) {
+			moDrives.add( new clsPair<clsDriveMesh, clsDriveDemand>(oDM, oDemand));
+		}
 	}
 
 	/* (non-Javadoc)
@@ -145,7 +183,7 @@ public class E41_Libidostasis extends clsModuleBase implements I1_9_receive, I1_
 	 */
 	@Override
 	protected void send() {
-		send_I1_10(new HashMap<String, Double>());
+		send_I1_10(moDrives);
 	}
 
 	/* (non-Javadoc)
@@ -156,9 +194,9 @@ public class E41_Libidostasis extends clsModuleBase implements I1_9_receive, I1_
 	 * @see pa.interfaces.send._v30.I1_10_send#receive_I1_10(java.util.HashMap)
 	 */
 	@Override
-	public void send_I1_10(HashMap<String, Double> poHomeostasisSymbols) {
-		((I1_10_receive)moModuleList.get(43)).receive_I1_10(poHomeostasisSymbols);
-		putInterfaceData(I1_10_send.class, poHomeostasisSymbols);
+	public void send_I1_10(ArrayList< clsPair<clsDriveMesh, clsDriveDemand> > poHomeostaticDriveDemands) {
+		((I1_10_receive)moModuleList.get(43)).receive_I1_10(poHomeostaticDriveDemands);
+		putInterfaceData(I1_10_send.class, poHomeostaticDriveDemands);
 	}
 
 	/* (non-Javadoc)

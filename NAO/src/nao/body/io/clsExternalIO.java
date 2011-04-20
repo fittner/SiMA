@@ -7,16 +7,10 @@
  */
 package nao.body.io;
 
-import java.util.ArrayList;
-
 import config.clsBWProperties;
-
-import nao.body.clsBaseBody;
 import nao.body.clsNAOBody;
 import nao.body.io.actuators.clsActionProcessor;
 import nao.body.io.actuators.actionExecutors.*;
-
-import du.enums.eSensorExtType;
 import du.itf.actions.*;
 
 
@@ -274,6 +268,7 @@ public class clsExternalIO extends clsBaseIO {
 //	}
 	
 	private void applyActionProperties(String poPrefix, clsBWProperties poProp) {
+		@SuppressWarnings("unused")
 		String pre = clsBWProperties.addDot(poPrefix);
 
 		//Here the nao commands are connected to the DU commands. If you add a new command besure to connect them here!

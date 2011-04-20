@@ -75,7 +75,7 @@ public class clsInspectorPATabFactory {
 			oRetVal.addInspector(
 					new clsI_SimpleInterfaceDataInspector(eI, moPA.moInterfaceData, moPA.moInterfaces_Recv_Send),
 					"Simple");
-			oRetVal.addInspector( new clsSemanticInformationIspector(moPA, eI), "Graph");
+			oRetVal.addInspector( new clsSemanticInformationInspector(moPA, eI), "Graph");
 		} catch (java.lang.IllegalArgumentException e) {
 			//do nothing
 		}
@@ -119,11 +119,11 @@ public class clsInspectorPATabFactory {
 				ArrayList<eInterfaces> oSend = oModule.getInterfacesSend();
 				
 				for (eInterfaces eRcv:oRecv) {
-					oRetVal.addInspector( new clsSemanticInformationIspector(moPA, eRcv), "rcv "+eRcv.toString());
+					oRetVal.addInspector( new clsSemanticInformationInspector(moPA, eRcv), "rcv "+eRcv.toString());
 				}
 				
 				for (eInterfaces eSnd:oSend) {
-					oRetVal.addInspector( new clsSemanticInformationIspector(moPA, eSnd), "snd "+eSnd.toString());
+					oRetVal.addInspector( new clsSemanticInformationInspector(moPA, eSnd), "snd "+eSnd.toString());
 				}
 			
 			}
@@ -219,7 +219,7 @@ public class clsInspectorPATabFactory {
 //			oRetVal.addInspector( new clsSemanticInformationIspector(poSuperInspector, poWrapper, poState, moPA.moG02Id.moG05DriveHandling.moE03GenerationOfDrives, "moDriveDefinition"), "E03 - send");
 		}
 		else if (poModuleName.equals("E05_AccumulationOfAffectsForSelfPreservationDrivesMEM")) {
-			oRetVal.addInspector( new clsSemanticInformationIspector(moPA, eInterfaces.I1_4 ), "rcv I1_4");
+			oRetVal.addInspector( new clsSemanticInformationInspector(moPA, eInterfaces.I1_4 ), "rcv I1_4");
 //			oRetVal.addInspector( new clsSemanticInformationIspector(poSuperInspector, poWrapper, poState, moPA.moG02Id.moG06AffectGeneration.moE05GenerationOfAffectsForDrives, "moDriveList" ), "E05 - send");
 		}		
 		else if(poModuleName.equals("E14PreliminaryExternalPerceptionMEM")) {

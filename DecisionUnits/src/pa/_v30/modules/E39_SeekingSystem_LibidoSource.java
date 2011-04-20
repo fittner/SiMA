@@ -12,10 +12,10 @@ import java.util.SortedMap;
 
 import pa._v30.interfaces.eInterfaces;
 import pa._v30.interfaces.itfInspectorGenericTimeChart;
-import pa._v30.interfaces.receive.I0_1_receive;
-import pa._v30.interfaces.receive.I0_2_receive;
-import pa._v30.interfaces.receive.I1_8_receive;
-import pa._v30.interfaces.send.I1_8_send;
+import pa._v30.interfaces.modules.I0_1_receive;
+import pa._v30.interfaces.modules.I0_2_receive;
+import pa._v30.interfaces.modules.I1_8_receive;
+import pa._v30.interfaces.modules.I1_8_send;
 import pa._v30.storage.clsLibidoBuffer;
 import config.clsBWProperties;
 

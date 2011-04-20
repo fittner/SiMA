@@ -11,10 +11,10 @@ import java.util.HashMap;
 import java.util.SortedMap;
 import config.clsBWProperties;
 import pa._v30.interfaces.eInterfaces;
-import pa._v30.interfaces.receive.I1_7_receive;
-import pa._v30.interfaces.receive.I2_11_receive;
-import pa._v30.interfaces.receive.I2_12_receive;
-import pa._v30.interfaces.send.I2_12_send;
+import pa._v30.interfaces.modules.I1_7_receive;
+import pa._v30.interfaces.modules.I2_11_receive;
+import pa._v30.interfaces.modules.I2_12_receive;
+import pa._v30.interfaces.modules.I2_12_send;
 import pa._v30.memorymgmt.datatypes.clsSecondaryDataStructureContainer;
 
 /**

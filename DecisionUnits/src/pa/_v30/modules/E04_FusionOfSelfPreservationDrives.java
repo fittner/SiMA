@@ -13,9 +13,9 @@ import java.util.SortedMap;
 import pa._v30.tools.clsPair;
 import pa._v30.tools.clsQuadruppel;
 import pa._v30.interfaces.eInterfaces;
-import pa._v30.interfaces.receive.I1_3_receive;
-import pa._v30.interfaces.receive.I1_4_receive;
-import pa._v30.interfaces.send.I1_4_send;
+import pa._v30.interfaces.modules.I1_3_receive;
+import pa._v30.interfaces.modules.I1_4_receive;
+import pa._v30.interfaces.modules.I1_4_send;
 import pa._v30.memorymgmt.datatypes.clsDriveDemand;
 import pa._v30.memorymgmt.datatypes.clsDriveMesh;
 import config.clsBWProperties;
@@ -77,6 +77,8 @@ public class E04_FusionOfSelfPreservationDrives extends clsModuleBase implements
 		String html ="";
 		
 		html += listToHTML("moDriveCandidate", moDriveCandidates);
+		html += listToHTML("moHomeostaticDriveDemands",moHomeostaticDriveDemands);
+		html += listToHTML("moDriveOfOppositePairs", moDriveOfOppositePairs);
 		
 		return html;
 	}

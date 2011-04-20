@@ -6,10 +6,10 @@
  */
 package pa._v30.storage;
 
-import pa._v30.interfaces.receive.D1_1_receive;
-import pa._v30.interfaces.receive.D1_3_receive;
-import pa._v30.interfaces.send.D1_2_send;
-import pa._v30.interfaces.send.D1_4_send;
+import pa._v30.interfaces.modules.D1_1_receive;
+import pa._v30.interfaces.modules.D1_2_send;
+import pa._v30.interfaces.modules.D1_3_receive;
+import pa._v30.interfaces.modules.D1_4_send;
 
 /**
  * DOCUMENT (deutsch) - insert description 

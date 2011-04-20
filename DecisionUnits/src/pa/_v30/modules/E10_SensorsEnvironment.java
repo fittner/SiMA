@@ -13,9 +13,9 @@ import config.clsBWProperties;
 import du.enums.eSensorExtType;
 import du.itf.sensors.clsSensorExtern;
 import pa._v30.interfaces.eInterfaces;
-import pa._v30.interfaces.receive.I0_4_receive;
-import pa._v30.interfaces.receive.I2_1_receive;
-import pa._v30.interfaces.send.I2_1_send;
+import pa._v30.interfaces.modules.I0_4_receive;
+import pa._v30.interfaces.modules.I2_1_receive;
+import pa._v30.interfaces.modules.I2_1_send;
 
 /**
  * DOCUMENT (muchitsch) - insert description 

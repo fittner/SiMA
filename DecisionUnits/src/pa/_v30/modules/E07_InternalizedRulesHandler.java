@@ -14,13 +14,13 @@ import java.util.List;
 import pa._v30.tools.clsPair;
 import pa._v30.interfaces.eInterfaces;
 import pa._v30.interfaces.knowledgebase.itfKnowledgeBaseAccess;
-import pa._v30.interfaces.receive.I1_5_receive;
-import pa._v30.interfaces.receive.I2_19_receive;
-import pa._v30.interfaces.receive.I2_9_receive;
-import pa._v30.interfaces.receive.I3_1_receive;
-import pa._v30.interfaces.receive.I3_2_receive;
-import pa._v30.interfaces.send.I3_1_send;
-import pa._v30.interfaces.send.I3_2_send;
+import pa._v30.interfaces.modules.I1_5_receive;
+import pa._v30.interfaces.modules.I2_19_receive;
+import pa._v30.interfaces.modules.I2_9_receive;
+import pa._v30.interfaces.modules.I3_1_receive;
+import pa._v30.interfaces.modules.I3_1_send;
+import pa._v30.interfaces.modules.I3_2_receive;
+import pa._v30.interfaces.modules.I3_2_send;
 import pa._v30.memorymgmt.clsKnowledgeBaseHandler;
 import pa._v30.memorymgmt.datatypes.clsDataStructureContainer;
 import pa._v30.memorymgmt.datatypes.clsDataStructurePA;
@@ -44,6 +44,7 @@ public class E07_InternalizedRulesHandler extends clsModuleBase implements
 	private ArrayList<clsPair<Integer, clsDataStructurePA>> moSearchPattern;
 	
 	private ArrayList<clsPrimaryDataStructureContainer> moPrimaryInformation; 
+	private ArrayList<clsDriveMesh> moSexualDrives;
 
 	/**
 	 * DOCUMENT (GELBARD) - insert description 
@@ -81,6 +82,7 @@ public class E07_InternalizedRulesHandler extends clsModuleBase implements
 		html += listToHTML("moSearchPattern", moSearchPattern);
 		html += listToHTML("moPrimaryInformation", moPrimaryInformation);		
 		html += valueToHTML("moKnowledgeBaseHandler", moKnowledgeBaseHandler);
+		html += valueToHTML("moSexualDrives", moSexualDrives);
 		
 		return html;
 	}
@@ -307,9 +309,10 @@ public class E07_InternalizedRulesHandler extends clsModuleBase implements
 	 * 
 	 * @see pa.interfaces.receive._v30.I2_19_receive#receive_I2_19(java.util.List)
 	 */
+	@SuppressWarnings("unchecked")
 	@Override
-	public void receive_I2_19(List<clsDriveMesh> poData) {
-		// TODO (GELBARD) - Auto-generated method stub
+	public void receive_I2_19(ArrayList<clsDriveMesh> poSexualDrives) {
+		moSexualDrives = (ArrayList<clsDriveMesh>)deepCopy(poSexualDrives);
 		
 	}
 	/* (non-Javadoc)

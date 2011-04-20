@@ -194,7 +194,7 @@ public class clsE05DriveInspector extends Inspector implements ActionListener {
 		// Obtain the output of the layout from the facade. The second
 		// parameter defines whether or not to flush the output to the
 		// origin of the graph
-		Map nested = facade.createNestedMap(true, true);
+		Map<?,?> nested = facade.createNestedMap(true, true);
 		// Apply the result to the graph
 		cache.edit(nested);
 

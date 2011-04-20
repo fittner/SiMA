@@ -88,6 +88,7 @@ public class clsHareMind extends clsRemoteControl { //should be derived from cls
 		clsSensorRingSegmentEntry oVisibleCarrot = getClosestCarrot(oVisionObjects, eEntityType.CARROT);
 		
 //		clsBump oBump = (clsBump) getSensorData().getSensorExt(eSensorExtType.BUMP);
+		@SuppressWarnings("unused")
 		clsBump oBump = null;
 
 		
@@ -129,6 +130,7 @@ public class clsHareMind extends clsRemoteControl { //should be derived from cls
 			clsEatableAreaEntry oEntry = (clsEatableAreaEntry)oEatArea.getDataObjects().get(0);
 //			if (oEntry.getEntityType() == eEntityType.CARROT && oEntry.getIsConsumeable() == eTriState.TRUE) {
 
+			@SuppressWarnings("unused")
 			int i = oEntry.getColor().getRGB(); //orange -14336 - grau -8355712
 
 			//if (oEntry.getEntityType() == eEntityType.CARROT && oEntry.getColor().getRGB() != 8355712) {
@@ -275,6 +277,7 @@ public class clsHareMind extends clsRemoteControl { //should be derived from cls
 	 * @param poActionProcessor
 	 */
 	public void eatCarrot(itfActionProcessor poActionProcessor) {
+		@SuppressWarnings("unused")
 		clsEnergy oStomach = (clsEnergy) getSensorData().getSensorInt(eSensorIntType.ENERGY);
 
 		super.eat(poActionProcessor, eEntityType.CARROT);

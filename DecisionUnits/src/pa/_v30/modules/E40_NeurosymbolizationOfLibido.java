@@ -11,9 +11,9 @@ import java.util.HashMap;
 import java.util.SortedMap;
 
 import pa._v30.interfaces.eInterfaces;
-import pa._v30.interfaces.receive.I1_8_receive;
-import pa._v30.interfaces.receive.I1_9_receive;
-import pa._v30.interfaces.send.I1_9_send;
+import pa._v30.interfaces.modules.I1_8_receive;
+import pa._v30.interfaces.modules.I1_9_receive;
+import pa._v30.interfaces.modules.I1_9_send;
 
 import config.clsBWProperties;
 

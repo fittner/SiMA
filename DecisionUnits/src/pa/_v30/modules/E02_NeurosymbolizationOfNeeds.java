@@ -12,9 +12,9 @@ import java.util.SortedMap;
 import java.util.Map;
 
 import pa._v30.interfaces.eInterfaces;
-import pa._v30.interfaces.receive.I1_1_receive;
-import pa._v30.interfaces.receive.I1_2_receive;
-import pa._v30.interfaces.send.I1_2_send;
+import pa._v30.interfaces.modules.I1_1_receive;
+import pa._v30.interfaces.modules.I1_2_receive;
+import pa._v30.interfaces.modules.I1_2_send;
 import config.clsBWProperties;
 import du.enums.eSensorIntType;
 import du.enums.eSlowMessenger;

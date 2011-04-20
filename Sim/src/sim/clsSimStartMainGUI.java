@@ -34,6 +34,14 @@ import javax.swing.SwingUtilities;
 */
 public class clsSimStartMainGUI extends javax.swing.JFrame {
 
+	/**
+	 * DOCUMENT (deutsch) - insert description 
+	 * 
+	 * @author deutsch
+	 * 21.04.2011, 01:21:54
+	 */
+	private static final long serialVersionUID = -4471548653304423566L;
+
 	{
 		//Set Look & Feel
 		try {
@@ -54,7 +62,7 @@ public class clsSimStartMainGUI extends javax.swing.JFrame {
 	private JLabel oScenarioDescription;
 	private JLabel oScenarioImage;
 	private JLabel oScenarioTitle;
-	private AbstractAction actionCancel;
+//	private AbstractAction actionCancel;
 	private JMenuItem oMenuItemLoad;
 	private JMenu jMenu1;
 	private JMenuBar oMenuBar;
@@ -145,9 +153,18 @@ public class clsSimStartMainGUI extends javax.swing.JFrame {
 		}
 	}
 	
+	@SuppressWarnings("unused")
 	private AbstractAction getAbstractAction1() {
 		if(abstractAction1 == null) {
 			abstractAction1 = new AbstractAction("abstractAction1", null) {
+				/**
+				 * DOCUMENT (deutsch) - insert description 
+				 * 
+				 * @author deutsch
+				 * 21.04.2011, 01:22:04
+				 */
+				private static final long serialVersionUID = -3931139416049510458L;
+
 				@Override
 				public void actionPerformed(ActionEvent evt) {
 					

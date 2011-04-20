@@ -11,10 +11,10 @@ import java.util.Arrays;
 
 import pa._v30.tools.clsPair;
 import pa._v30.tools.clsTripple;
-import pa._v30.interfaces.receive.D2_1_receive;
-import pa._v30.interfaces.receive.D2_3_receive;
-import pa._v30.interfaces.send.D2_2_send;
-import pa._v30.interfaces.send.D2_4_send;
+import pa._v30.interfaces.modules.D2_1_receive;
+import pa._v30.interfaces.modules.D2_2_send;
+import pa._v30.interfaces.modules.D2_3_receive;
+import pa._v30.interfaces.modules.D2_4_send;
 import pa._v30.memorymgmt.datahandler.clsDataStructureGenerator;
 import pa._v30.memorymgmt.datatypes.clsAssociation;
 import pa._v30.memorymgmt.datatypes.clsAssociationDriveMesh;

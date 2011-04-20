@@ -1,6 +1,5 @@
 package nao.main;
 
-import java.awt.*;
 import java.awt.event.*;
 
 /**

@@ -13,13 +13,10 @@ import NAOProxyClient.Sensor;
 import NAOProxyClient.SensorValueTuple;
 import NAOProxyClient.SensorValueVision;
 import NAOProxyClient.eSensors;
-import config.clsBWProperties;
 import java.util.ArrayList;
 import java.util.Vector;
-
 import nao.body.clsNAOBody;
 import nao.body.io.actuators.clsActionExecutor;
-import du.enums.eSensorExtType;
 import du.itf.actions.*;
 
 /**
@@ -38,7 +35,7 @@ public class clsNAOExecutorEat extends clsActionExecutor{
 	static double srStaminaDemand = 0; //0.5f;		//Stamina demand 			
 	
 	private ArrayList<Class<?>> moMutEx = new ArrayList<Class<?>>();
-	private eSensorExtType moRangeSensor;
+	//private eSensorExtType moRangeSensor;
 	
 	private clsNAOBody moNAOBody;	
 

@@ -10,12 +10,14 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.SortedMap;
 
+import pa._v30.tools.clsDriveValueSplitter;
 import pa._v30.tools.clsPair;
+import pa._v30.tools.eDriveValueSplitter;
 import pa._v30.interfaces.eInterfaces;
 import pa._v30.interfaces.itfInspectorGenericTimeChart;
-import pa._v30.interfaces.receive.I1_4_receive;
-import pa._v30.interfaces.receive.I2_15_receive;
-import pa._v30.interfaces.send.I2_15_send;
+import pa._v30.interfaces.modules.I1_4_receive;
+import pa._v30.interfaces.modules.I2_15_receive;
+import pa._v30.interfaces.modules.I2_15_send;
 import pa._v30.memorymgmt.datatypes.clsDriveDemand;
 import pa._v30.memorymgmt.datatypes.clsDriveMesh;
 import config.clsBWProperties;
@@ -137,15 +139,18 @@ public class E05_AccumulationOfAffectsForSelfPreservationDrives extends clsModul
 			//1.: life-instinct increases faster than death-instinct
 			//2.: life-instinct reaches maximum (death-instinct at 50%) and decreases
 			//3.: death-instinct reaches maximum (--> should result in deatch)
-			double oLifeAffect  = Math.sin(Math.PI*oEntry.a.b.getTension());
-			double oDeathAffect = (2-(Math.cos(Math.PI*oEntry.b.b.getTension())+1))/2;
+			clsPair<Double, Double> oSplitResult = clsDriveValueSplitter.calc(oEntry.a.b.getTension(), oEntry.b.b.getTension(), 
+					eDriveValueSplitter.SIMPLE, null); 
+			
+			double oLifeAffect  = oSplitResult.a;
+			double oDeathAffect = oSplitResult.b;
 			oEntry.a.a.setPleasure(oLifeAffect); 
 			oEntry.b.a.setPleasure(oDeathAffect); 
 			moDriveList.add(oEntry.a.a); 
 			moDriveList.add(oEntry.b.a); 
 		}
 	}
-	
+		
 	/* (non-Javadoc)
 	 *
 	 * @author deutsch

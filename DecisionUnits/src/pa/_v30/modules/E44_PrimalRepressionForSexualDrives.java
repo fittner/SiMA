@@ -7,16 +7,14 @@
 package pa._v30.modules;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.SortedMap;
-import java.util.List;
-
-import pa._v30.tools.clsPair;
+import pa._v30.tools.clsTripple;
 import pa._v30.interfaces.eInterfaces;
-import pa._v30.interfaces.receive.I2_18_receive;
-import pa._v30.interfaces.receive.I2_19_receive;
-import pa._v30.interfaces.send.I2_19_send;
-import pa._v30.memorymgmt.datatypes.clsDriveDemand;
+import pa._v30.interfaces.modules.I2_18_receive;
+import pa._v30.interfaces.modules.I2_19_receive;
+import pa._v30.interfaces.modules.I2_19_send;
 import pa._v30.memorymgmt.datatypes.clsDriveMesh;
 
 import config.clsBWProperties;
@@ -30,6 +28,9 @@ import config.clsBWProperties;
  */
 public class E44_PrimalRepressionForSexualDrives extends clsModuleBase implements I2_18_receive, I2_19_send {
 	public static final String P_MODULENUMBER = "44";
+	
+	private ArrayList< clsTripple<String, String, ArrayList<Double> >> moPrimalRepressionMemory;
+	private ArrayList<clsDriveMesh> moDrives;
 	
 	/**
 	 * DOCUMENT (deutsch) - insert description 
@@ -47,7 +48,30 @@ public class E44_PrimalRepressionForSexualDrives extends clsModuleBase implement
 			throws Exception {
 		super(poPrefix, poProp, poModuleList, poInterfaceData);
 		applyProperties(poPrefix, poProp);	
+		fillPrimalRepressionMemory();
 	}
+	
+	private void fillPrimalRepressionMemory() {
+		moPrimalRepressionMemory = new ArrayList<clsTripple<String,String,ArrayList<Double>>>();
+		
+		moPrimalRepressionMemory.add( new clsTripple<String,String,ArrayList<Double>>(
+				"LIFE", "LIBIDINOUS_ORAL", new ArrayList<Double>(Arrays.asList(0.1, 0.2, 0.3, 0.4)) ) );
+		moPrimalRepressionMemory.add( new clsTripple<String,String,ArrayList<Double>>(
+				"LIFE", "LIBIDINOUS_ANAL", new ArrayList<Double>(Arrays.asList(0.4, 0.3, 0.2, 0.1)) ) );
+		moPrimalRepressionMemory.add( new clsTripple<String,String,ArrayList<Double>>(
+				"LIFE", "LIBIDINOUS_PHALLIC", new ArrayList<Double>(Arrays.asList(0.1, 0.1, 0.1, 0.1)) ) );
+		moPrimalRepressionMemory.add( new clsTripple<String,String,ArrayList<Double>>(
+				"LIFE", "LIBIDINOUS_GENITAL", new ArrayList<Double>(Arrays.asList(0.1, 0.5, 0.1, 0.2)) ) );
+		moPrimalRepressionMemory.add( new clsTripple<String,String,ArrayList<Double>>(
+				"DEATH", "AGGRESSIVE_ORAL", new ArrayList<Double>(Arrays.asList(0.8, 0.01, 0.2, 0.1)) ) );
+		moPrimalRepressionMemory.add( new clsTripple<String,String,ArrayList<Double>>(
+				"DEATH", "AGGRESSIVE_ANAL", new ArrayList<Double>(Arrays.asList(0.1, 0.4, 0.1, 0.2)) ) );
+		moPrimalRepressionMemory.add( new clsTripple<String,String,ArrayList<Double>>(
+				"DEATH", "AGGRESSIVE_PHALLIC", new ArrayList<Double>(Arrays.asList(0.01, 0.01, 0.01, 0.6)) ) );
+		moPrimalRepressionMemory.add( new clsTripple<String,String,ArrayList<Double>>(
+				"DEATH", "AGGRESSIVE_GENITAL", new ArrayList<Double>(Arrays.asList(0.7, 0.7, 0.1, 0.9)) ) );
+	}
+	
 	/* (non-Javadoc)
 	 *
 	 * @author deutsch
@@ -59,7 +83,8 @@ public class E44_PrimalRepressionForSexualDrives extends clsModuleBase implement
 	public String stateToHTML() {
 		String html ="";
 		
-		html += "n/a";
+		html += listToHTML("moPrimalRepressionMemory", moPrimalRepressionMemory);
+		html += listToHTML("moDrives", moDrives);		
 		
 		return html;
 	}	
@@ -96,8 +121,23 @@ public class E44_PrimalRepressionForSexualDrives extends clsModuleBase implement
 	 */
 	@Override
 	protected void process_basic() {
-		// TODO (deutsch) - Auto-generated method stub
+		for (clsDriveMesh oDM:moDrives) {
+			categorizeDriveMesh(oDM);
+		}
+	}
 
+	private void categorizeDriveMesh(clsDriveMesh poMD) {
+		for (clsTripple<String,String,ArrayList<Double>> oPRM:moPrimalRepressionMemory) {
+			String oContentType = oPRM.a; 
+			String oContext = oPRM.b;
+			
+			if ( poMD.getMoContent().equals(oContext) && poMD.getMoContentType().equals(oContentType)) {
+				ArrayList<Double> oC = oPRM.c;
+				
+				poMD.setCategories(oC.get(0), oC.get(1), oC.get(2), oC.get(3));
+				break;
+			}
+		}
 	}
 
 	/* (non-Javadoc)
@@ -135,7 +175,7 @@ public class E44_PrimalRepressionForSexualDrives extends clsModuleBase implement
 	 */
 	@Override
 	protected void send() {
-		send_I2_19(new ArrayList<clsDriveMesh>());
+		send_I2_19(moDrives);
 
 	}
 	/* (non-Javadoc)
@@ -146,7 +186,7 @@ public class E44_PrimalRepressionForSexualDrives extends clsModuleBase implement
 	 * @see pa.interfaces.send._v30.I2_19_send#send_I2_19(java.util.List)
 	 */
 	@Override
-	public void send_I2_19(List<clsDriveMesh> poData) {
+	public void send_I2_19(ArrayList<clsDriveMesh> poData) {
 		((I2_19_receive)moModuleList.get(6)).receive_I2_19(poData);
 		((I2_19_receive)moModuleList.get(7)).receive_I2_19(poData);
 		((I2_19_receive)moModuleList.get(9)).receive_I2_19(poData);
@@ -160,11 +200,10 @@ public class E44_PrimalRepressionForSexualDrives extends clsModuleBase implement
 	 * 
 	 * @see pa.interfaces.receive._v30.I2_18_receive#receive_I2_18(java.util.ArrayList)
 	 */
+	@SuppressWarnings("unchecked")
 	@Override
-	public void receive_I2_18(
-			ArrayList<clsPair<clsPair<clsDriveMesh, clsDriveDemand>, clsPair<clsDriveMesh, clsDriveDemand>>> poDriveCandidate) {
-		// TODO (deutsch) - Auto-generated method stub
-		
+	public void receive_I2_18(ArrayList<clsDriveMesh> poDrives) {
+		moDrives = (ArrayList<clsDriveMesh>)deepCopy(poDrives);
 	}
 
 	/* (non-Javadoc)

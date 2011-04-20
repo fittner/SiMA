@@ -11,9 +11,9 @@ import java.util.HashMap;
 import java.util.SortedMap;
 import config.clsBWProperties;
 import pa._v30.interfaces.eInterfaces;
-import pa._v30.interfaces.receive.I7_4_receive;
-import pa._v30.interfaces.receive.I8_1_receive;
-import pa._v30.interfaces.send.I8_1_send;
+import pa._v30.interfaces.modules.I7_4_receive;
+import pa._v30.interfaces.modules.I8_1_receive;
+import pa._v30.interfaces.modules.I8_1_send;
 import pa._v30.memorymgmt.datatypes.clsWordPresentation;
 
 /**

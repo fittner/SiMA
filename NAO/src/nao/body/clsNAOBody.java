@@ -3,7 +3,6 @@ package nao.body;
 
 import java.io.IOException;
 import java.net.UnknownHostException;
-import java.util.Arrays;
 import java.util.Vector;
 
 import NAOProxyClient.Command;

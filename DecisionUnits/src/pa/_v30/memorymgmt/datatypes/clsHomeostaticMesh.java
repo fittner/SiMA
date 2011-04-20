@@ -20,7 +20,7 @@ import pa._v30.memorymgmt.enums.eDataType;
  */
 public class clsHomeostaticMesh extends clsHomeostaticRepresentation{
 	private clsDriveDemand moDriveDemand = null;
-	private String moContent = "UNDEFINED";
+	//private String moContent = "UNDEFINED";
 	private ArrayList<clsAssociation> moAssociatedContent = null; 
 	/**
 	 * DOCUMENT (zeilinger) - insert description 

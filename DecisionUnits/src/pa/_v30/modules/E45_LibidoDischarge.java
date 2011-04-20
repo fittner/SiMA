@@ -12,9 +12,9 @@ import java.util.SortedMap;
 
 import pa._v30.tools.clsPair;
 import pa._v30.interfaces.eInterfaces;
-import pa._v30.interfaces.receive.I2_16_receive;
-import pa._v30.interfaces.receive.I2_8_receive;
-import pa._v30.interfaces.send.I2_16_send;
+import pa._v30.interfaces.modules.I2_16_receive;
+import pa._v30.interfaces.modules.I2_16_send;
+import pa._v30.interfaces.modules.I2_8_receive;
 import pa._v30.memorymgmt.datatypes.clsDriveMesh;
 import pa._v30.memorymgmt.datatypes.clsPrimaryDataStructureContainer;
 

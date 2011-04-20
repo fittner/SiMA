@@ -14,10 +14,10 @@ import config.clsBWProperties;
 import pa._v30.tools.clsPair;
 import pa._v30.interfaces.eInterfaces;
 import pa._v30.interfaces.knowledgebase.itfKnowledgeBaseAccess;
-import pa._v30.interfaces.receive.I1_5_receive;
-import pa._v30.interfaces.receive.I2_19_receive;
-import pa._v30.interfaces.receive.I6_3_receive;
-import pa._v30.interfaces.send.I6_3_send;
+import pa._v30.interfaces.modules.I1_5_receive;
+import pa._v30.interfaces.modules.I2_19_receive;
+import pa._v30.interfaces.modules.I6_3_receive;
+import pa._v30.interfaces.modules.I6_3_send;
 import pa._v30.memorymgmt.clsKnowledgeBaseHandler;
 import pa._v30.memorymgmt.datatypes.clsDataStructureContainer;
 import pa._v30.memorymgmt.datatypes.clsDataStructurePA;
@@ -38,7 +38,7 @@ public class E09_KnowledgeAboutReality_unconscious extends clsModuleBase impleme
 	public static final String P_MODULENUMBER = "09";
 	
 	private clsKnowledgeBaseHandler moKnowledgeBaseHandler; 
-	
+	private ArrayList<clsDriveMesh> moSexualDrives;
 	private ArrayList<clsPrimaryDataStructureContainer> moPrimaryInformation; 
 	/**
 	 * DOCUMENT (GELBARD) - insert description 
@@ -74,6 +74,7 @@ public class E09_KnowledgeAboutReality_unconscious extends clsModuleBase impleme
 		
 		html += listToHTML("moPrimaryInformation", moPrimaryInformation);
 		html += valueToHTML("moKnowledgeBaseHandler", moKnowledgeBaseHandler);
+		html += listToHTML("moSexualDrives", moSexualDrives);
 		
 		return html;
 	}	
@@ -272,9 +273,10 @@ public class E09_KnowledgeAboutReality_unconscious extends clsModuleBase impleme
 	 * 
 	 * @see pa.interfaces.receive._v30.I2_19_receive#receive_I2_19(java.util.List)
 	 */
+	@SuppressWarnings("unchecked")
 	@Override
-	public void receive_I2_19(List<clsDriveMesh> poData) {
-		// TODO (GELBARD) - Auto-generated method stub
+	public void receive_I2_19(ArrayList<clsDriveMesh> poSexualDrives) {
+		moSexualDrives = (ArrayList<clsDriveMesh>)deepCopy(poSexualDrives);
 		
 	}
 	/* (non-Javadoc)

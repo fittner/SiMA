@@ -12,17 +12,17 @@ import java.util.SortedMap;
 import java.util.List;
 
 import pa._v30.interfaces.eInterfaces;
-import pa._v30.interfaces.receive.I1_5_receive;
-import pa._v30.interfaces.receive.I1_6_receive;
-import pa._v30.interfaces.receive.I2_19_receive;
-import pa._v30.interfaces.receive.I3_1_receive;
-import pa._v30.interfaces.receive.I4_1_receive;
-import pa._v30.interfaces.receive.I4_3_receive;
-import pa._v30.interfaces.receive.I5_1_receive;
-import pa._v30.interfaces.receive.I6_3_receive;
-import pa._v30.interfaces.send.I1_6_send;
-import pa._v30.interfaces.send.I4_1_send;
-import pa._v30.interfaces.send.I5_1_send;
+import pa._v30.interfaces.modules.I1_5_receive;
+import pa._v30.interfaces.modules.I1_6_receive;
+import pa._v30.interfaces.modules.I1_6_send;
+import pa._v30.interfaces.modules.I2_19_receive;
+import pa._v30.interfaces.modules.I3_1_receive;
+import pa._v30.interfaces.modules.I4_1_receive;
+import pa._v30.interfaces.modules.I4_1_send;
+import pa._v30.interfaces.modules.I4_3_receive;
+import pa._v30.interfaces.modules.I5_1_receive;
+import pa._v30.interfaces.modules.I5_1_send;
+import pa._v30.interfaces.modules.I6_3_receive;
 import pa._v30.memorymgmt.datatypes.clsAssociationDriveMesh;
 import pa._v30.memorymgmt.datatypes.clsDriveMesh;
 import pa._v30.memorymgmt.datatypes.clsPrimaryDataStructureContainer;
@@ -42,6 +42,7 @@ public class E06_DefenseMechanismsForDrives extends clsModuleBase implements
 	private ArrayList<clsDriveMesh> moDriveList_Input;
 	private ArrayList<clsDriveMesh> moDriveList_Output;
 	private ArrayList<clsPrimaryDataStructureContainer> moRepressedRetry_Input;
+	private ArrayList<clsDriveMesh> moSexualDrives;
 
 	/**
 	 * DOCUMENT (GELBARD) - insert description 
@@ -74,7 +75,10 @@ public class E06_DefenseMechanismsForDrives extends clsModuleBase implements
 		
 		html += listToHTML("moDriveList_Input", moDriveList_Input);
 		html += listToHTML("moDriveList_Output", moDriveList_Output);
-		html += listToHTML("moRepressedRetry_Input", moRepressedRetry_Input);		
+		html += listToHTML("moRepressedRetry_Input", moRepressedRetry_Input);	
+		html += listToHTML("moSexualDrives", moSexualDrives);
+		
+		
 		
 		return html;
 	}
@@ -284,9 +288,10 @@ public class E06_DefenseMechanismsForDrives extends clsModuleBase implements
 	 * 
 	 * @see pa.interfaces.receive._v30.I2_19_receive#receive_I2_19(java.util.List)
 	 */
+	@SuppressWarnings("unchecked")
 	@Override
-	public void receive_I2_19(List<clsDriveMesh> poData) {
-		// TODO (GELBARD) - Auto-generated method stub
+	public void receive_I2_19(ArrayList<clsDriveMesh> poSexualDrives) {
+		moSexualDrives = (ArrayList<clsDriveMesh>)deepCopy(poSexualDrives);
 		
 	}
 	/* (non-Javadoc)

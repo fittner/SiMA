@@ -109,6 +109,7 @@ public class clsSensorRadiation extends clsSensorExt {
 		//double rDistance;
 		// clear radiation information before new value calculation
 		mrRadiation = 0;
+		@SuppressWarnings("unused")
 		HashMap<Double, ArrayList<clsCollidingObject>> oetectedObjectList = moSensorData.getMeDetectedObject();
 		
 		for(Map.Entry<Double, ArrayList<clsCollidingObject>> oEntry : moSensorData.getMeDetectedObject().entrySet())

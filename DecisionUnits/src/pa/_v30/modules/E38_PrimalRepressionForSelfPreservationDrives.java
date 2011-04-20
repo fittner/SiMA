@@ -14,9 +14,9 @@ import java.util.List;
 
 import pa._v30.tools.clsTripple;
 import pa._v30.interfaces.eInterfaces;
-import pa._v30.interfaces.receive.I1_5_receive;
-import pa._v30.interfaces.receive.I2_15_receive;
-import pa._v30.interfaces.send.I1_5_send;
+import pa._v30.interfaces.modules.I1_5_receive;
+import pa._v30.interfaces.modules.I1_5_send;
+import pa._v30.interfaces.modules.I2_15_receive;
 import pa._v30.memorymgmt.datatypes.clsDriveMesh;
 
 import config.clsBWProperties;
@@ -72,6 +72,7 @@ public class E38_PrimalRepressionForSelfPreservationDrives extends	clsModuleBase
 	public String stateToHTML() {
 		String html ="";
 		
+		html += listToHTML("moPrimalRepressionMemory", moPrimalRepressionMemory);
 		html += listToHTML("moDriveList_IN", moDriveList_IN);
 		
 		return html;

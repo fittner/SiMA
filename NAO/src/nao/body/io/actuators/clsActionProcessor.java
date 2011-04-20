@@ -17,7 +17,6 @@ import config.clsBWProperties;
 import statictools.clsSingletonUniqueIdGenerator;
 import du.enums.eCallPriority;
 import du.itf.actions.*;
-import nao.body.clsNAOBody;
 
 import nao.utils.enums.*;
 

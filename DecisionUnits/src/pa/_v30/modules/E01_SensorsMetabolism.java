@@ -11,9 +11,9 @@ import java.util.HashMap;
 import java.util.SortedMap;
 
 import pa._v30.interfaces.eInterfaces;
-import pa._v30.interfaces.receive.I0_3_receive;
-import pa._v30.interfaces.receive.I1_1_receive;
-import pa._v30.interfaces.send.I1_1_send;
+import pa._v30.interfaces.modules.I0_3_receive;
+import pa._v30.interfaces.modules.I1_1_receive;
+import pa._v30.interfaces.modules.I1_1_send;
 import config.clsBWProperties;
 import du.enums.eSensorIntType;
 import du.itf.sensors.clsDataBase;

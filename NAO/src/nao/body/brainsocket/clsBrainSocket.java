@@ -15,7 +15,6 @@ import NAOProxyClient.SensorValueBump;
 import NAOProxyClient.SensorValueDouble;
 import NAOProxyClient.SensorValueTuple;
 import NAOProxyClient.SensorValueVision;
-import NAOProxyClient.eSensors;
 import du.enums.eSensorExtType;
 import du.enums.eSensorIntType;
 import du.itf.itfDecisionUnit;

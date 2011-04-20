@@ -15,9 +15,9 @@ import pa._v30.tools.clsPair;
 import pa._v30.tools.clsTripple;
 import pa._v30.interfaces.eInterfaces;
 import pa._v30.interfaces.knowledgebase.itfKnowledgeBaseAccess;
-import pa._v30.interfaces.receive.I1_2_receive;
-import pa._v30.interfaces.receive.I1_3_receive;
-import pa._v30.interfaces.send.I1_3_send;
+import pa._v30.interfaces.modules.I1_2_receive;
+import pa._v30.interfaces.modules.I1_3_receive;
+import pa._v30.interfaces.modules.I1_3_send;
 import pa._v30.memorymgmt.clsKnowledgeBaseHandler;
 import pa._v30.memorymgmt.datahandler.clsDataStructureGenerator;
 import pa._v30.memorymgmt.datatypes.clsDataStructureContainer;
@@ -41,8 +41,7 @@ public class E03_GenerationOfSelfPreservationDrives extends clsModuleBase implem
 	public static String moDriveObjectType = "DriveObject";
 	
 	private HashMap<String, Double> moHomeostasisSymbols;
-	private ArrayList<clsPair<clsPair<pa._v30.memorymgmt.datatypes.clsDriveMesh, clsDriveDemand>, 
-	                  clsPair<pa._v30.memorymgmt.datatypes.clsDriveMesh, clsDriveDemand>>> moHomeostaticTP; 
+	private ArrayList<clsPair<clsPair<clsDriveMesh, clsDriveDemand>, clsPair<clsDriveMesh, clsDriveDemand>>> moHomeostaticTP; 
 	
 	private ArrayList< clsTripple<clsDriveMesh, String, ArrayList<String>> > moDriveTemplates;
 	private ArrayList< clsPair<clsDriveMesh, clsDriveDemand> > moDrives;
@@ -97,6 +96,9 @@ public class E03_GenerationOfSelfPreservationDrives extends clsModuleBase implem
 		
 		html += mapToHTML("moHomeostasisSymbols",moHomeostasisSymbols);
 		html += listToHTML("moHomeostaticTP", moHomeostaticTP);		
+		html += listToHTML("moDriveTemplates", moDriveTemplates);		
+		html += listToHTML("moDrives", moDrives);		
+		html += valueToHTML("moKnowledgeBaseHandler", moKnowledgeBaseHandler);		
 		
 		return html;
 	}
