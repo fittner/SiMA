@@ -31,6 +31,7 @@ import du.itf.sensors.clsStomachTension;
  * 11.08.2009, 12:12:02
  * 
  */
+@Deprecated
 public class E02_NeurosymbolizationOfNeeds extends clsModuleBase implements I1_1_receive, I1_2_send {
 
 	private HashMap<eSensorIntType, clsDataBase> moHomeostasis;

@@ -18,6 +18,7 @@ import pa.datatypes.clsWordPresentation;
  * 23.10.2009, 12:12:56
  * 
  */
+@Deprecated
 public class clsTemplateSecondaryInfo extends clsSecondaryInformation implements itfSecondaryTemplateCompare {
 
 	public clsCompareOperator moCompareOperator;

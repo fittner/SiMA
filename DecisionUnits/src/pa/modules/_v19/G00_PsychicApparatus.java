@@ -87,6 +87,7 @@ import du.itf.sensors.clsSensorExtern;
                          @@HMMMMMM@@#^``  .jbH@gmg@@@@@@H@HH@M@@@@@gggmH
                         HMMMMMHVWkH3```  .dbkHMgg@@@@HM@HM@gMM@@@@@@@gH@
  */
+@Deprecated
 public class G00_PsychicApparatus extends clsModuleContainer implements 
 							itfProcessSensorEnvironment, 
 							itfProcessHomeostases, 

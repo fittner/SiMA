@@ -29,6 +29,7 @@ import config.clsBWProperties;
  * 11.08.2009, 15:41:11
  * 
  */
+@Deprecated
 public class G13_PrimaryKnowledgeUtilizer extends clsModuleContainer implements
 					I1_5_receive,
 					I2_6_receive,

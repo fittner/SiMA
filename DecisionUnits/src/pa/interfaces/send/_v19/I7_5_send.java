@@ -13,6 +13,7 @@ package pa.interfaces.send._v19;
  * 27.04.2010, 10:41:56
  * 
  */
+@Deprecated
 public interface I7_5_send {
 	public void send_I7_5(int pnData);
 }

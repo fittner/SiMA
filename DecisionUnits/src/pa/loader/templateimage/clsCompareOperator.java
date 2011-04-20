@@ -17,6 +17,7 @@ import bfg.utils.enums.eTrippleState;
  * 23.10.2009, 12:32:59
  * 
  */
+@Deprecated
 public class clsCompareOperator {
 	private String moCompareOperator = new String("NOT_DEFINED"); //default is type NOT_DEFINED
 

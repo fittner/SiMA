@@ -24,6 +24,7 @@ import config.clsBWProperties;
  * 11.08.2009, 13:40:06
  * 
  */
+@Deprecated
 public class E04_FusionOfDrives extends clsModuleBase implements I1_3_receive, I1_4_send {
 
 	ArrayList<clsPair<clsPair<clsDriveMesh, clsDriveDemand>, clsPair<clsDriveMesh, clsDriveDemand>>> moDriveCandidate; 

@@ -48,6 +48,7 @@ import pa.enums.eSymbolExtType;
  * 11.08.2009, 15:11:09
  * 
  */
+@Deprecated
 public class G03_Ego extends clsModuleContainer implements
 				I1_7_receive,
 				I2_2_receive,

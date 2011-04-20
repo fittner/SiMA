@@ -43,6 +43,7 @@ import pa.tools.clsTripple;
  * 11.08.2009, 14:38:29
  * 
  */
+@Deprecated
 public class E21_ConversionToSecondaryProcess extends clsModuleBase implements I2_10_receive, I2_11_send, I5_4_send, itfKnowledgeBaseAccess {
 
 	private ArrayList<clsPrimaryDataStructureContainer> moGrantedPerception_Input; 

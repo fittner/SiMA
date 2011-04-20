@@ -36,6 +36,7 @@ import pa.tools.clsPair;
  * 07.10.2009, 11:16:58
  * 
  */
+@Deprecated
 public class S_ManagementOfRepressedContents_1 extends clsModuleBase implements I2_5_receive, itfKnowledgeBaseAccess {
 
 	public ArrayList<clsPrimaryDataStructureContainer> moEnvironmentalTP_Input; 

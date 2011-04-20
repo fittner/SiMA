@@ -17,6 +17,7 @@ import pa.memorymgmt.datatypes.clsWordPresentation;
  * 18.05.2010, 14:53:08
  * 
  */
+@Deprecated
 public interface I7_3_send {
 	public void send_I7_3(ArrayList<clsWordPresentation> poActionCommands);
 }

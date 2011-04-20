@@ -30,6 +30,7 @@ import pa.tools.clsPair;
  * 11.08.2009, 14:28:49
  * 
  */
+@Deprecated
 public class E15_ManagementOfRepressedContents extends clsModuleContainer implements I2_5_receive, I4_1_receive, I4_2_receive, I2_6_receive, I4_3_receive {
 
 	public static final String P_S_1 = "S_1";

@@ -29,6 +29,7 @@ import pa.symbolization.representationsymbol.itfSymbol;
  * 11.08.2009, 14:26:13
  * 
  */
+@Deprecated
 public class E14_PreliminaryExternalPerception extends clsModuleBase implements 
 					I2_2_receive, 
 					I2_4_receive,

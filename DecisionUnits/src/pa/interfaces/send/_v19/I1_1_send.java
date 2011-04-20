@@ -18,6 +18,7 @@ import du.itf.sensors.clsDataBase;
  * 18.05.2010, 12:13:01
  * 
  */
+@Deprecated
 public interface I1_1_send {
 	public void send_I1_1(HashMap<eSensorIntType, clsDataBase> pnData);
 }

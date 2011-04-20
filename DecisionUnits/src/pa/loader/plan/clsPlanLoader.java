@@ -25,6 +25,7 @@ import pa.datatypes.clsWordPresentation;
  * 25.10.2009, 12:20:14
  * 
  */
+@Deprecated
 public class clsPlanLoader {
 
 	private static String moAttributeName = "TemplatePlans"; //denotes the directory name and the first element name in xml

@@ -23,6 +23,7 @@ import pa.datatypes.clsThingPresentationSingle;
  * 23.10.2009, 12:12:24
  * 
  */
+@Deprecated
 public class clsTemplatePrimaryMesh extends clsPrimaryInformationMesh implements itfPrimaryTemplateComparable{
 
 	public eOptional meOptional;

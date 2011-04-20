@@ -15,7 +15,6 @@ import du.itf.sensors.clsDataBase;
 import du.itf.sensors.clsSensorData;
 import du.itf.sensors.clsSensorExtern;
 import pa.itfProcessor;
-import pa.memory.clsMemory;
 import pa.memorymgmt.clsKnowledgeBaseHandler;
 import pa.memorymgmt.informationrepresentation.clsInformationRepresentationManagement;
 import pa.modules._v30.clsPsychicApparatus;
@@ -30,12 +29,10 @@ import pa.modules._v30.clsPsychicApparatus;
 public class clsProcessor implements itfProcessor  {
 	public static final String P_PSYCHICAPPARATUS = "psychicapparatus";
 	public static final String P_KNOWLEDGEABASE = "knowledgebase";
-	public static final String P_MEMORY = "memory";
 	public static final String P_LIBIDOSTREAM = "libidostream";
 	
 	private clsPsychicApparatus moPsyApp;
 	private clsKnowledgeBaseHandler moKnowledgeBaseHandler;
-	private clsMemory moMemory;
 	private double mrLibidostream;
 		
 	public clsProcessor(String poPrefix, clsBWProperties poProp) {
@@ -48,7 +45,6 @@ public class clsProcessor implements itfProcessor  {
 		
 		clsBWProperties oProp = new clsBWProperties();
 		
-		oProp.putAll( clsMemory.getDefaultProperties(pre+P_MEMORY) );
 		oProp.putAll( clsInformationRepresentationManagement.getDefaultProperties(pre+P_KNOWLEDGEABASE) );
 		oProp.putAll( clsPsychicApparatus.getDefaultProperties(pre+P_PSYCHICAPPARATUS) );
 				
@@ -61,8 +57,7 @@ public class clsProcessor implements itfProcessor  {
 		String pre = clsBWProperties.addDot(poPrefix);
 	
 		moKnowledgeBaseHandler = new clsInformationRepresentationManagement(pre + P_KNOWLEDGEABASE, poProp);
-		moMemory = new clsMemory(pre + P_MEMORY, poProp);
-		moPsyApp = new clsPsychicApparatus(pre + P_PSYCHICAPPARATUS, poProp, moMemory, moKnowledgeBaseHandler);
+		moPsyApp = new clsPsychicApparatus(pre + P_PSYCHICAPPARATUS, poProp, moKnowledgeBaseHandler);
 
 		mrLibidostream = poProp.getPropertyDouble(pre+P_LIBIDOSTREAM);
 	}

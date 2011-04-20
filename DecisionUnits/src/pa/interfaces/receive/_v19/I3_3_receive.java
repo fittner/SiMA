@@ -18,6 +18,7 @@ import pa.memorymgmt.datatypes.clsAct;
  * 11.08.2009, 14:44:02
  * 
  */
+@Deprecated
 public interface I3_3_receive extends I_BaseInterface {
 	public void receive_I3_3(ArrayList<clsAct> poRuleList);
 }

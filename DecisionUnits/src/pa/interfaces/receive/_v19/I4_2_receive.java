@@ -19,6 +19,7 @@ import pa.memorymgmt.datatypes.clsPrimaryDataStructureContainer;
  * 11.08.2009, 14:27:51
  * 
  */
+@Deprecated
 public interface I4_2_receive extends I_BaseInterface {
 	public void receive_I4_2(ArrayList<clsPrimaryDataStructureContainer> poPIs, ArrayList<pa.memorymgmt.datatypes.clsThingPresentation> poTPs, ArrayList<clsAssociationDriveMesh> poAffects);
 }

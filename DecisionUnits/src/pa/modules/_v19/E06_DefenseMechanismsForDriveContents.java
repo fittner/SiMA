@@ -32,6 +32,7 @@ import config.clsBWProperties;
  * 11.08.2009, 14:01:06
  * 
  */
+@Deprecated
 public class E06_DefenseMechanismsForDriveContents extends clsModuleBase implements I1_5_receive, I3_1_receive, I4_3_receive, I6_3_receive, I1_6_send, I4_1_send, I5_1_send {
 	ArrayList<clsDriveMesh> moDriveList_Input;
 	ArrayList<clsDriveMesh> moDriveList_Output;

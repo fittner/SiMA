@@ -54,6 +54,7 @@ import com.jgraph.layout.hierarchical.JGraphHierarchicalLayout;
  * 25.10.2009, 16:17:03
  * 
  */
+@Deprecated
 public class clsPlanInspector extends Inspector implements ActionListener {
 
 	private static final long serialVersionUID = 586283139693057158L;

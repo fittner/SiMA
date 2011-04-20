@@ -26,6 +26,7 @@ import pa.datatypes.clsPrimaryInformation;
  * 17.10.2009, 18:06:51
  * 
  */
+@Deprecated
 public class clsStaticLoaderHelper {
 
 	public static clsPrimaryInformation loadPrimaryInformation(Node primaryNode) {

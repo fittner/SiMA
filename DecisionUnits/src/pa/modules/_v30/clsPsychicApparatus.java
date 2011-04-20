@@ -11,10 +11,8 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.SortedMap;
 import java.util.TreeMap;
-
 import config.clsBWProperties;
 import pa.interfaces._v30.eInterfaces;
-import pa.memory.clsMemory;
 import pa.memorymgmt.clsKnowledgeBaseHandler;
 import pa.memorymgmt.clsKnowledgeBaseHandlerFactory;
 import pa.storage.clsBlockedContentStorage;
@@ -76,7 +74,6 @@ public class clsPsychicApparatus {
 	public E46_FusionWithMemoryTraces moE46_FusionWithMemoryTraces;
 	public E47_ConversionToPrimaryProcess moE47_ConversionToPrimaryProcess;
 	
-	public clsMemory moMemory;
 	public clsKnowledgeBaseHandler moKnowledgeBaseHandler;
 	public clsLibidoBuffer moLibidoBuffer;
 	public clsBlockedContentStorage moBlockedContentStorage;
@@ -89,12 +86,11 @@ public class clsPsychicApparatus {
 	public HashMap<eInterfaces, clsPair<ArrayList<Integer>, ArrayList<Integer>>> moInterfaces_Recv_Send; //list of interfaces and the modules it connects to pair(source,target) 
 
 	public clsPsychicApparatus(String poPrefix, clsBWProperties poProp, 
-			clsMemory poMemory,	clsKnowledgeBaseHandler poKnowledgeBaseHandler) {
+			clsKnowledgeBaseHandler poKnowledgeBaseHandler) {
 		
 		moModules = new HashMap<Integer, clsModuleBase>();
 		moInterfaceData = new TreeMap<eInterfaces, ArrayList<Object>>();
 		
-		moMemory = poMemory;
 		moKnowledgeBaseHandler = poKnowledgeBaseHandler; 
 		
 		moLibidoBuffer = new clsLibidoBuffer();
@@ -197,7 +193,7 @@ public class clsPsychicApparatus {
 			moE32_Actuators = new E32_Actuators(pre + E32_Actuators.P_MODULENUMBER, poProp, moModules, moInterfaceData);
 			moE33_RealityCheck_2 = new E33_RealityCheck_2(pre + E33_RealityCheck_2.P_MODULENUMBER, poProp, moModules, moInterfaceData);
 			moE34_KnowledgeAboutReality_2 = new E34_KnowledgeAboutReality_2(pre + E34_KnowledgeAboutReality_2.P_MODULENUMBER, poProp, moModules, moInterfaceData, moKnowledgeBaseHandler);
-			moE35_EmersionOfRepressedContent = new E35_EmersionOfRepressedContent(pre + E35_EmersionOfRepressedContent.P_MODULENUMBER, poProp, moModules, moInterfaceData, moKnowledgeBaseHandler, moMemory, moBlockedContentStorage);
+			moE35_EmersionOfRepressedContent = new E35_EmersionOfRepressedContent(pre + E35_EmersionOfRepressedContent.P_MODULENUMBER, poProp, moModules, moInterfaceData, moKnowledgeBaseHandler, moBlockedContentStorage);
 			moE36_RepressionHandler = new E36_RepressionHandler(pre + E36_RepressionHandler.P_MODULENUMBER, poProp, moModules, moInterfaceData, moBlockedContentStorage);
 			moE37_PrimalRepressionForPerception = new E37_PrimalRepressionForPerception(pre + E37_PrimalRepressionForPerception.P_MODULENUMBER, poProp, moModules, moInterfaceData);
 			moE38_PrimalRepressionForSelfPreservationDrives = new E38_PrimalRepressionForSelfPreservationDrives(pre + E38_PrimalRepressionForSelfPreservationDrives.P_MODULENUMBER, poProp, moModules, moInterfaceData);
@@ -277,9 +273,5 @@ public class clsPsychicApparatus {
 			
 			moInterfaceMesh.put(oKey, oList); 
 		}
-	}
-	
-	public clsMemory getMemoryForInspector() {
-		return moMemory;
 	}
 }

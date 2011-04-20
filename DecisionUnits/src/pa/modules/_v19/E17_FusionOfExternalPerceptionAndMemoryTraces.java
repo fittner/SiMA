@@ -29,6 +29,7 @@ import pa.tools.clsTripple;
  * 11.08.2009, 14:32:41
  * 
  */
+@Deprecated
 public class E17_FusionOfExternalPerceptionAndMemoryTraces extends clsModuleBase implements 
 						I2_7_receive, I2_8_send
 						{

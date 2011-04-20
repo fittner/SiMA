@@ -19,7 +19,6 @@ import pa.interfaces.knowledgebase.itfKnowledgeBaseAccess;
 import pa.interfaces.receive._v30.I2_14_receive;
 import pa.interfaces.receive._v30.I2_8_receive;
 import pa.interfaces.send._v30.I2_8_send;
-import pa.memory.clsMemory;
 import pa.memorymgmt.clsKnowledgeBaseHandler;
 import pa.memorymgmt.datatypes.clsAssociation;
 import pa.memorymgmt.datatypes.clsDataStructureContainer;
@@ -43,7 +42,6 @@ public class E35_EmersionOfRepressedContent extends clsModuleBase implements I2_
 	
 	private clsBlockedContentStorage moBlockedContentStorage;
 	private clsKnowledgeBaseHandler moKnowledgeBaseHandler; 
-	private clsMemory moMemory;
 	
 	private ArrayList<clsPrimaryDataStructureContainer> moEnvironmentalTP_Input; 
 	private ArrayList<clsPair<clsPrimaryDataStructureContainer, clsDriveMesh>> moAttachedRepressed_Output; 
@@ -62,13 +60,11 @@ public class E35_EmersionOfRepressedContent extends clsModuleBase implements I2_
 	 */
 	public E35_EmersionOfRepressedContent(String poPrefix,
 			clsBWProperties poProp, HashMap<Integer, clsModuleBase> poModuleList, SortedMap<eInterfaces, ArrayList<Object>> poInterfaceData,
-			clsKnowledgeBaseHandler poKnowledgeBaseHandler, clsMemory poMemory,
-			clsBlockedContentStorage poBlockedContentStorage)
+			clsKnowledgeBaseHandler poKnowledgeBaseHandler, clsBlockedContentStorage poBlockedContentStorage)
 			throws Exception {
 		super(poPrefix, poProp, poModuleList, poInterfaceData);
 		
 		moKnowledgeBaseHandler = poKnowledgeBaseHandler;
-		moMemory = poMemory;
 		moBlockedContentStorage = poBlockedContentStorage;
 
 		applyProperties(poPrefix, poProp);
@@ -90,7 +86,6 @@ public class E35_EmersionOfRepressedContent extends clsModuleBase implements I2_
 		html += listToHTML("moAttachedRepressed_Output", moAttachedRepressed_Output);
 		html += valueToHTML("mrContextSensitivity", mrContextSensitivity);
 		html += valueToHTML("moKnowledgeBaseHandler", moKnowledgeBaseHandler);
-		html += valueToHTML("moMemory", moMemory);
 		
 		return html;
 	}	
@@ -271,7 +266,8 @@ public class E35_EmersionOfRepressedContent extends clsModuleBase implements I2_
 	 * @return
 	 */
 	private HashMap<clsPrimaryDataStructureContainer, clsMutableDouble> getContext() {
-		return moMemory.moCurrentContextStorage.getContextRatiosPrimCONVERTED(mrContextSensitivity);
+		//return moMemory.moCurrentContextStorage.getContextRatiosPrimCONVERTED(mrContextSensitivity);
+		return new HashMap<clsPrimaryDataStructureContainer, clsMutableDouble>();
 	}
 
 	/**
@@ -303,7 +299,7 @@ public class E35_EmersionOfRepressedContent extends clsModuleBase implements I2_
 		
 		//For each object (e. g. CAKE) with adapted categories...
 		//oInput is a clsPrimaryDataStructureContainer
-		for(clsPrimaryDataStructureContainer oInput : poCathegorizedInputContainer){
+		for(@SuppressWarnings("unused") clsPrimaryDataStructureContainer oInput : poCathegorizedInputContainer){
 				/* A DM is loaded, which matches a drive, which is Repressed.
 				 * In the storage of Repressed Content, DM are stored. If the ContentType of the DM attached to
 				 * an object is exactly matched to a content type of a DM in the repressed Content Store, 
@@ -315,8 +311,10 @@ public class E35_EmersionOfRepressedContent extends clsModuleBase implements I2_
 				 * NOURISH is selected
 				 */
 				//FIXME: mrPleasure = -0.3. This is not allowed. Add mrUnpleasure instead
-				clsDriveMesh oRep = moMemory.moRepressedContentsStore.getBestMatchCONVERTED(oInput);
-				moAttachedRepressed_Output.add(new clsPair<clsPrimaryDataStructureContainer, clsDriveMesh>(oInput, oRep));
+//				clsDriveMesh oRep = moMemory.moRepressedContentsStore.getBestMatchCONVERTED(oInput);
+//				moAttachedRepressed_Output.add(new clsPair<clsPrimaryDataStructureContainer, clsDriveMesh>(oInput, oRep));
+// TD 2011/04/20: removed above two line due to removal of rolands clsMemory. has to be reimplemented by other means
+// TODO (Wendt): reimplement method matchRepressedContent
 		}
 	}
 

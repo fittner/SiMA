@@ -37,6 +37,7 @@ import sim.portrayal.LocationWrapper;
  * 04.11.2009, 18:54:38
  * 
  */
+@Deprecated
 public class clsTimingDiagramInspector extends Inspector{
 
 	private static final long serialVersionUID = 7987322176593478683L;

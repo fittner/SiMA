@@ -37,6 +37,7 @@ import sim.portrayal.inspector.TabbedInspector;
  * 12.08.2009, 22:50:56
  * 
  */
+@Deprecated
 public class clsPsychoAnalysisInspector extends Inspector implements TreeSelectionListener {
 
 	private static final long serialVersionUID = 1L;

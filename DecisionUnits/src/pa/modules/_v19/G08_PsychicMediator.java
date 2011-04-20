@@ -47,6 +47,7 @@ import config.clsBWProperties;
  * 11.08.2009, 15:33:25
  * 
  */
+@Deprecated
 public class G08_PsychicMediator extends clsModuleContainer implements 
 					I1_5_receive,
 					I1_6_receive,

@@ -18,6 +18,7 @@ import pa.memorymgmt.datatypes.clsWordPresentation;
  * 11.08.2009, 14:53:28
  * 
  */
+@Deprecated
 public interface I8_1_receive extends I_BaseInterface {
 	public void receive_I8_1(ArrayList<clsWordPresentation> poActionCommands);
 }

@@ -17,6 +17,7 @@ import pa.memorymgmt.datatypes.clsSecondaryDataStructureContainer;
  * 18.05.2010, 14:42:59
  * 
  */
+@Deprecated
 public interface I2_12_send {
 	public void send_I2_12(ArrayList<clsSecondaryDataStructureContainer> poFocusedPerception,
 						   ArrayList<clsSecondaryDataStructureContainer> poDriveList);

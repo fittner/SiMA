@@ -18,6 +18,7 @@ import pa.memorymgmt.datatypes.clsSecondaryDataStructureContainer;
  * 11.08.2009, 14:52:56
  * 
  */
+@Deprecated
 public interface I7_1_receive extends I_BaseInterface {
 	public void receive_I7_1(ArrayList<clsSecondaryDataStructureContainer> poTemplateResult);
 }

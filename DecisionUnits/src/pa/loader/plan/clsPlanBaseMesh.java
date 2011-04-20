@@ -22,6 +22,7 @@ import pa.tools.clsPair;
  * 25.10.2009, 13:06:33
  * 
  */
+@Deprecated
 public class clsPlanBaseMesh extends clsSecondaryInformationMesh{
 
 	public HashMap<Integer, clsPlanStateMesh> moStates;

@@ -17,6 +17,7 @@ import pa.memorymgmt.datatypes.clsSecondaryDataStructureContainer;
  * 18.05.2010, 14:53:02
  * 
  */
+@Deprecated
 public interface I7_2_send {
 	public void send_I7_2(ArrayList<clsSecondaryDataStructureContainer> poGoal_Output);
 }

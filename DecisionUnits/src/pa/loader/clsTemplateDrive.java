@@ -25,6 +25,7 @@ import pa.enums.eDriveType;
  * 28.09.2009, 14:32:21
  * 
  */
+@Deprecated
 public class clsTemplateDrive {
 
 	public int mnId;

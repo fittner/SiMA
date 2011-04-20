@@ -25,6 +25,7 @@ import sim.portrayal.inspector.TabbedInspector;
  * 13.08.2009, 01:36:00
  * 
  */
+@Deprecated
 public class clsInspectorMappingPA {
 
 	/**

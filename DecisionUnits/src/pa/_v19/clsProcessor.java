@@ -62,6 +62,7 @@ import pa.modules._v19.clsModuleBase;
  * 12.08.2009, 09:30:54
  * 
  */
+@Deprecated
 public class clsProcessor implements itfProcessor {
 	public static final String P_PSYCHICAPPARATUS = "psychicapparatus";
 	

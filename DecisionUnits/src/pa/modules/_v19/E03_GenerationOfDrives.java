@@ -32,6 +32,7 @@ import du.enums.pa.eContext;
  * 11.08.2009, 12:19:04
  * 
  */
+@Deprecated
 public class E03_GenerationOfDrives extends clsModuleBase implements I1_2_receive, I1_3_send {
 
 	public static String moDriveObjectType = "DriveObject";

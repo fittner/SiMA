@@ -36,6 +36,7 @@ import config.clsBWProperties;
  * 11.08.2009, 15:10:40
  * 
  */
+@Deprecated
 public class G02_Id extends clsModuleContainer implements
 								I1_2_receive,
 								I1_4_receive,

@@ -35,6 +35,7 @@ import pa.tools.clsPair;
  * 11.08.2009, 14:11:38
  * 
  */
+@Deprecated
 public class E08_ConversionToSecondaryProcess extends clsModuleBase implements I1_6_receive, I1_7_send, I5_3_send, itfKnowledgeBaseAccess {
 
 	public ArrayList<clsDriveMesh> moDriveList_Input; 

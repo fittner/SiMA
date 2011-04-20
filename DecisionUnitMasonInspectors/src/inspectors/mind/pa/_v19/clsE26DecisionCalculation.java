@@ -32,6 +32,7 @@ import java.awt.Color;
  * 17.09.2009, 16:48:04
  * 
  */
+@Deprecated
 public class clsE26DecisionCalculation extends Inspector {
 
 	private static final long serialVersionUID = 2391511521426669313L;

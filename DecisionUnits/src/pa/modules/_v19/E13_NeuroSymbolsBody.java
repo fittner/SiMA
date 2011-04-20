@@ -26,6 +26,7 @@ import pa.symbolization.representationsymbol.itfSymbol;
  * 11.08.2009, 14:24:29
  * 
  */
+@Deprecated
 public class E13_NeuroSymbolsBody extends clsModuleBase implements I2_3_receive, I2_4_send  {
 
 	private HashMap<eSensorExtType, clsSensorExtern> moBodyData;

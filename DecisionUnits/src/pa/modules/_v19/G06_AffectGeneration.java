@@ -29,6 +29,7 @@ import config.clsBWProperties;
  * 11.08.2009, 15:28:15
  * 
  */
+@Deprecated
 public class G06_AffectGeneration extends clsModuleContainer implements
                            I1_4_receive,
                            I1_5_receive,

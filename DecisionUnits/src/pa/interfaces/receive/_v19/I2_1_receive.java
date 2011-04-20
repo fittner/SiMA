@@ -20,6 +20,7 @@ import du.itf.sensors.clsSensorExtern;
  * 11.08.2009, 14:16:25
  * 
  */
+@Deprecated
 public interface I2_1_receive extends I_BaseInterface {
 	public void receive_I2_1(HashMap<eSensorExtType, clsSensorExtern> pnData);
 }

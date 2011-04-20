@@ -23,6 +23,7 @@ import pa.interfaces.send._v19.I2_3_send;
  * 11.08.2009, 14:20:47
  * 
  */
+@Deprecated
 public class E12_SensorsBody extends clsModuleBase implements itfProcessSensorBody, I2_3_send {
 
 	private HashMap<eSensorExtType, clsSensorExtern> moBodyData;

@@ -26,6 +26,7 @@ import config.clsBWProperties;
  * 11.08.2009, 15:42:06
  * 
  */
+@Deprecated
 public class G14_PerceptualPreprocessing extends clsModuleContainer implements
 						I1_7_receive,
 						I2_11_receive,

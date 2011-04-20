@@ -53,6 +53,7 @@ import com.jgraph.layout.tree.JGraphCompactTreeLayout;
  * 24.10.2009, 23:58:33
  * 
  */
+@Deprecated
 public class clsSecondaryInformationIspector extends Inspector implements ActionListener {
 
 	private static final long serialVersionUID = 586283139693057158L;

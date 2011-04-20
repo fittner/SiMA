@@ -24,6 +24,7 @@ import sim.util.gui.HTMLBrowser;
  * 28.09.2009, 19:10:55
  * 
  */
+@Deprecated
 public class clsE03InspectorDriveDefinitions extends Inspector {
 
 	private static final long serialVersionUID = 1L;

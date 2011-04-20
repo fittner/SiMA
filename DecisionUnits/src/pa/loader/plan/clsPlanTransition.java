@@ -16,6 +16,7 @@ import pa.datatypes.clsWordPresentation;
  * 25.10.2009, 12:56:58
  * 
  */
+@Deprecated
 public class clsPlanTransition extends clsSecondaryInformation {
 
 	public int mnTargetId;

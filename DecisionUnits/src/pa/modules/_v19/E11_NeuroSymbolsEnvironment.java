@@ -26,6 +26,7 @@ import pa.symbolization.representationsymbol.itfSymbol;
  * 11.08.2009, 14:19:23
  * 
  */
+@Deprecated
 public class E11_NeuroSymbolsEnvironment extends clsModuleBase implements I2_1_receive, I2_2_send {
 
 	HashMap<eSensorExtType, clsSensorExtern> moEnvironmentalData;

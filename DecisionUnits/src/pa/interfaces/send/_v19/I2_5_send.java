@@ -17,6 +17,7 @@ import pa.memorymgmt.datatypes.clsPrimaryDataStructureContainer;
  * 18.05.2010, 14:16:51
  * 
  */
+@Deprecated
 public interface I2_5_send {
 	public void send_I2_5(ArrayList<clsPrimaryDataStructureContainer> poEnvironmentalTP);
 }

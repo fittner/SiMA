@@ -16,6 +16,7 @@ import pa.datatypes.clsWordPresentation;
  * 25.10.2009, 15:51:44
  * 
  */
+@Deprecated
 public class clsPlanAction extends clsSecondaryInformation {
 
 	public boolean mnOnce = false;

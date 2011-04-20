@@ -27,6 +27,7 @@ import pa.memorymgmt.datatypes.clsSecondaryDataStructureContainer;
  * 11.08.2009, 14:40:29
  * 
  */
+@Deprecated
 public class E20_InnerPerception_Affects extends clsModuleBase implements I5_1_receive, I5_2_receive, I5_3_receive, I5_4_receive, I5_5_send {
 
 	//private ArrayList<clsPrimaryDataStructureContainer> moAffectOnlyList;

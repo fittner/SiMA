@@ -39,6 +39,7 @@ import sim.portrayal.inspector.TabbedInspector;
  * 03.08.2010, 13:58:44
  * 
  */
+@Deprecated
 public class clsMemoryInspectorTab extends Inspector implements TreeSelectionListener {
 
 	/**

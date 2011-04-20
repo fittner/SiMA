@@ -29,7 +29,7 @@ import statictools.clsGetARSPath;
  * 20.10.2009, 15:54:49
  * 
  */
-
+@Deprecated
 public class clsAwareContentLoader {
 	
 		public static String moFileName = "TPAwareContent"; //denotes the directory name and the first element name in xml

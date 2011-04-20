@@ -28,6 +28,7 @@ import pa.memorymgmt.enums.eActState;
  * 11.08.2009, 14:55:01
  * 
  */
+@Deprecated
 public class E27_GenerationOfImaginaryActions extends clsModuleBase implements I6_2_receive, I7_1_receive, I7_3_send {
 
 	public ArrayList<clsSecondaryDataStructureContainer> moGoalInput;

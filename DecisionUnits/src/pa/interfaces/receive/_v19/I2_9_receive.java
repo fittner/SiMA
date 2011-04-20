@@ -18,6 +18,7 @@ import pa.memorymgmt.datatypes.clsPrimaryDataStructureContainer;
  * 11.08.2009, 14:04:46
  * 
  */
+@Deprecated
 public interface I2_9_receive extends I_BaseInterface {
 	public void receive_I2_9(ArrayList<clsPrimaryDataStructureContainer> poMergedPrimaryInformation);
 }

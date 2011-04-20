@@ -20,6 +20,7 @@ import config.clsBWProperties;
  * 11.08.2009, 11:16:13
  * 
  */
+@Deprecated
 public abstract class clsModuleBase {
 	public static String P_PROCESS_IMPLEMENTATION_STAGE = "IMP_STAGE"; 
 	

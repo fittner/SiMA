@@ -17,6 +17,7 @@ import pa.memorymgmt.datatypes.clsSecondaryDataStructureContainer;
  * 18.05.2010, 14:43:06
  * 
  */
+@Deprecated
 public interface I2_13_send {
 	public void send_I2_13(ArrayList<clsSecondaryDataStructureContainer> poRealityPerception);
 }

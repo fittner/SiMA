@@ -49,7 +49,6 @@ public class clsPsychoAnalysisInspector extends Inspector implements TreeSelecti
 	JScrollPane moContentPane;
 	TabbedInspector moContent = new TabbedInspector();
 	JSplitPane moSplitPane;
-	private boolean mnFirstUpdateDone = false;
 
     public clsPsychoAnalysisInspector(clsPsychoAnalysis poPA) {
 		moPA= poPA;

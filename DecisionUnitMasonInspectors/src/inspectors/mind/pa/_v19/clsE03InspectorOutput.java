@@ -19,6 +19,7 @@ import sim.portrayal.Inspector;
  * 06.10.2009, 18:36:23
  * 
  */
+@Deprecated
 public class clsE03InspectorOutput extends Inspector {
 
 	private static final long serialVersionUID = 2188636113077293223L;

@@ -23,6 +23,7 @@ import pa.interfaces.send._v19.I2_1_send;
  * 11.08.2009, 14:13:27
  * 
  */
+@Deprecated
 public class E10_SensorsEnvironment extends clsModuleBase implements itfProcessSensorEnvironment, I2_1_send {
 
 	HashMap<eSensorExtType, clsSensorExtern> moEnvironmentalData;

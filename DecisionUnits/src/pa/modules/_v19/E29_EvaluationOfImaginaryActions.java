@@ -24,6 +24,7 @@ import pa.memorymgmt.datatypes.clsWordPresentation;
  * 11.08.2009, 14:57:10
  * 
  */
+@Deprecated
 public class E29_EvaluationOfImaginaryActions extends clsModuleBase implements I5_5_receive, I7_3_receive, I7_6_receive, I7_4_send {
 
 	private ArrayList<clsWordPresentation> moActionCommands_Input; 

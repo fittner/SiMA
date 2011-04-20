@@ -37,6 +37,7 @@ import sim.portrayal.LocationWrapper;
  * 13.10.2009, 20:56:53
  * 
  */
+@Deprecated
 public class clsE05InspectorOutput extends Inspector{
 
 	/**

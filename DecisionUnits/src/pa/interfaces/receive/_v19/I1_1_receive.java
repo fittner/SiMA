@@ -20,6 +20,7 @@ import du.itf.sensors.clsDataBase;
  * 11.08.2009, 12:13:01
  * 
  */
+@Deprecated
 public interface I1_1_receive extends I_BaseInterface {
 	public void receive_I1_1(HashMap<eSensorIntType, clsDataBase> pnData);
 }

@@ -19,6 +19,7 @@ import pa.symbolization.representationsymbol.itfSymbol;
  * 11.08.2009, 14:16:31
  * 
  */
+@Deprecated
 public interface I2_2_receive extends I_BaseInterface {
 	public void receive_I2_2(HashMap<eSymbolExtType, itfSymbol> poEnvironmentalData);
 }

@@ -54,6 +54,7 @@ public class E46_FusionWithMemoryTraces extends clsModuleBase implements
 	
 	//New Output
 	private clsTemplateImage moDirectTemplateImage_OUT;
+	@SuppressWarnings("unused")
 	private ArrayList<clsTemplateImage> moIndirectTemplateImages_OUT;
 
 	

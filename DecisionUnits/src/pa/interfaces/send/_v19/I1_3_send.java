@@ -19,6 +19,7 @@ import pa.tools.clsPair;
  * 18.05.2010, 13:40:52
  * 
  */
+@Deprecated
 public interface I1_3_send {
 	public void send_I1_3(ArrayList<clsPair<clsPair<clsDriveMesh, clsDriveDemand>, clsPair<clsDriveMesh, clsDriveDemand>>> poDriveCandidate);
 }

@@ -17,6 +17,7 @@ import pa.memorymgmt.datatypes.clsAct;
  * 18.05.2010, 14:44:02
  * 
  */
+@Deprecated
 public interface I3_3_send {
 	public void send_I3_3(int pnData, ArrayList<clsAct> poRuleList);
 }

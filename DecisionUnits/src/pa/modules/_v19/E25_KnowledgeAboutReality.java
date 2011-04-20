@@ -28,6 +28,7 @@ import pa.tools.clsPair;
  * 11.08.2009, 14:50:27
  * 
  */
+@Deprecated
 public class E25_KnowledgeAboutReality extends clsModuleBase implements I2_12_receive, I6_1_send, itfKnowledgeBaseAccess {
 
 	//private ArrayList<clsSecondaryDataStructureContainer> moFocusedPerception;

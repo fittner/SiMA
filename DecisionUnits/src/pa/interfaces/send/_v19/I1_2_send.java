@@ -15,6 +15,7 @@ import java.util.HashMap;
  * 18.05.2010, 12:19:57
  * 
  */
+@Deprecated
 public interface I1_2_send {
 	public void send_I1_2(HashMap<String, Double> poHomeostasisSymbols);
 }

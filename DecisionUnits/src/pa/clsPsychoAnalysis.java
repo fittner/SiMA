@@ -42,6 +42,7 @@ public class clsPsychoAnalysis extends clsBaseDecisionUnit {
 		applyProperties(poPrefix, poProp);
 	}
 
+	@SuppressWarnings("deprecation")
 	public static clsBWProperties getDefaultProperties(String poPrefix) {
 		String pre = clsBWProperties.addDot(poPrefix);
 		
@@ -60,6 +61,7 @@ public class clsPsychoAnalysis extends clsBaseDecisionUnit {
 		return oProp;
 	}	
 	
+	@SuppressWarnings("deprecation")
 	private void applyProperties(String poPrefix, clsBWProperties poProp) {
 		String pre = clsBWProperties.addDot(poPrefix);
 	 

@@ -18,6 +18,7 @@ import pa.memorymgmt.datatypes.clsAssociationDriveMesh;
  * 11.08.2009, 14:37:14
  * 
  */
+@Deprecated
 public interface I5_2_receive extends I_BaseInterface {
 	public void receive_I5_2(ArrayList<clsAssociationDriveMesh> poDeniedAffects);
 }

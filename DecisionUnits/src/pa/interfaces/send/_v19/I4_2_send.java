@@ -18,6 +18,7 @@ import pa.memorymgmt.datatypes.clsPrimaryDataStructureContainer;
  * 18.05.2010, 14:27:51
  * 
  */
+@Deprecated
 public interface I4_2_send {
 	public void send_I4_2(ArrayList<clsPrimaryDataStructureContainer> poPIs, ArrayList<pa.memorymgmt.datatypes.clsThingPresentation> poTPs, ArrayList<clsAssociationDriveMesh> poAffects);
 }

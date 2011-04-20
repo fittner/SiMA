@@ -25,6 +25,7 @@ import sim.util.gui.HTMLBrowser;
  * 13.08.2009, 01:46:21
  * 
  */
+@Deprecated
 public class clsE02InspectorInput extends Inspector {
 
 	private static final long serialVersionUID = 3331975073925689043L;

@@ -33,6 +33,7 @@ import pa.tools.clsPair;
  * 11.08.2009, 14:59:58
  * 
  */
+@Deprecated
 public class E31_NeuroDeSymbolization extends clsModuleBase implements I8_1_receive, I8_2_send, itfTimeChartInformationContainer  {
 
 	private ArrayList<clsActionCommand> moActionCommandList_Output;

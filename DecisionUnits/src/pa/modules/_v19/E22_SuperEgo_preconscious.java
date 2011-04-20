@@ -36,6 +36,7 @@ import pa.tools.clsTripple;
  * 11.08.2009, 14:45:01
  * 
  */
+@Deprecated
 public class E22_SuperEgo_preconscious extends clsModuleBase implements I1_7_receive, I2_11_receive, I3_3_send, itfKnowledgeBaseAccess {
 
 	public ArrayList<clsSecondaryDataStructureContainer> moPerception; 

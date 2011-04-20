@@ -17,6 +17,7 @@ import pa.tools.clsPair;
  * 04.11.2009, 19:09:18
  * 
  */
+@Deprecated
 public interface itfTimeChartInformationContainer {
 	public ArrayList<clsPair<String, Double>> getTimeChartData();
 }

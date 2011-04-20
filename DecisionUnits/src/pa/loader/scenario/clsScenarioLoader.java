@@ -25,6 +25,7 @@ import pa.datatypes.clsWordPresentation;
  * 25.10.2009, 12:20:14
  * 
  */
+@Deprecated
 public class clsScenarioLoader {
 
 	private static String moAttributeName = "TemplateScenarios"; //denotes the directory name and the first element name in xml

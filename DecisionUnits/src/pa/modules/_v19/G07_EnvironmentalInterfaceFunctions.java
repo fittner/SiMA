@@ -30,6 +30,7 @@ import pa.enums.eSymbolExtType;
  * 11.08.2009, 15:32:50
  * 
  */
+@Deprecated
 public class G07_EnvironmentalInterfaceFunctions extends clsModuleContainer implements
 						I2_2_receive,
 						I2_4_receive,

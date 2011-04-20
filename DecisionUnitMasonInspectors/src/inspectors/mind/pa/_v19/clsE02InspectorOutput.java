@@ -25,6 +25,7 @@ import sim.portrayal.LocationWrapper;
  * 13.08.2009, 01:47:14
  * 
  */
+@Deprecated
 public class clsE02InspectorOutput extends Inspector {
 
 	private static final long serialVersionUID = 1L;

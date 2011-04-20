@@ -23,6 +23,7 @@ import pa.memorymgmt.datatypes.clsSecondaryDataStructureContainer;
  * 11.08.2009, 14:46:53
  * 
  */
+@Deprecated
 public class E23_ExternalPerception_focused extends clsModuleBase implements I2_11_receive, I1_7_receive, I2_12_send {
 
 	private ArrayList<clsSecondaryDataStructureContainer> moPerception; 

@@ -19,6 +19,7 @@ import pa.tools.clsPair;
  * 18.05.2010, 14:18:09
  * 
  */
+@Deprecated
 public interface I2_8_send {
 	public void send_I2_8(ArrayList<clsPair<clsPrimaryDataStructureContainer, clsDriveMesh>> poMergedPrimaryInformation);
 }

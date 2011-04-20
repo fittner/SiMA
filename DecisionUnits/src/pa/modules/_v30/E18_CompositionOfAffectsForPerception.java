@@ -37,11 +37,15 @@ public class E18_CompositionOfAffectsForPerception extends clsModuleBase impleme
 	private ArrayList<clsPrimaryDataStructureContainer> moNewPrimaryInformation; 
 	
 	//new input
+	@SuppressWarnings("unused")
 	private clsTemplateImage moDirectTemplateImage_IN;
+	@SuppressWarnings("unused")
 	private ArrayList<clsTemplateImage> moIndirectTemplateImages_IN;
 	
 	//new output
+	@SuppressWarnings("unused")
 	private clsTemplateImage moDirectTemplateImage_OUT;
+	@SuppressWarnings("unused")
 	private ArrayList<clsTemplateImage> moIndirectTemplateImages_OUT;
 
 	
@@ -195,6 +199,7 @@ public class E18_CompositionOfAffectsForPerception extends clsModuleBase impleme
 	}
 	
 	//AW 2011-04-18, new adaptpleasurefunction
+	@SuppressWarnings("unused")
 	private void adaptPleasureValue(clsTemplateImage oDirectTI) {
 		// oDirectTI is directly manipulated
 		/* structure of oDirectTI: DM from repressed content are added as associations in the

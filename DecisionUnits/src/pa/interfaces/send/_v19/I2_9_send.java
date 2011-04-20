@@ -17,6 +17,7 @@ import pa.memorymgmt.datatypes.clsPrimaryDataStructureContainer;
  * 18.05.2010, 14:04:46
  * 
  */
+@Deprecated
 public interface I2_9_send {
 	public void send_I2_9(ArrayList<clsPrimaryDataStructureContainer> poMergedPrimaryInformation);
 }

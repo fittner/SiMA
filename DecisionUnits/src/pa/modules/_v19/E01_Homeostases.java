@@ -23,6 +23,7 @@ import du.itf.sensors.clsDataBase;
  * 11.08.2009, 12:09:14
  * 
  */
+@Deprecated
 public class E01_Homeostases extends clsModuleBase implements itfProcessHomeostases, I1_1_send {
 
 	private HashMap<eSensorIntType, clsDataBase> moHomeostasis;

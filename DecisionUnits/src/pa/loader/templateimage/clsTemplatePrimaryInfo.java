@@ -18,6 +18,7 @@ import pa.datatypes.clsThingPresentationSingle;
  * 23.10.2009, 12:12:56
  * 
  */
+@Deprecated
 public class clsTemplatePrimaryInfo extends clsPrimaryInformation implements itfPrimaryTemplateComparable {
 
 	public clsCompareOperator moCompareOperator;

@@ -26,6 +26,7 @@ import pa.datatypes.clsPrimaryInformation;
  * 17.10.2009, 17:05:17
  * 
  */
+@Deprecated
 public class clsRepressedContentLoader {
 
 	public static String moAttributeName = "RepressedContentInit"; //denotes the directory name and the first element name in xml

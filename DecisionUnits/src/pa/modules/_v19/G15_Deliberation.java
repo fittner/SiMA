@@ -34,6 +34,7 @@ import config.clsBWProperties;
  * 11.08.2009, 15:42:32
  * 
  */
+@Deprecated
 public class G15_Deliberation extends clsModuleContainer implements
 					I1_7_receive,
 					I2_13_receive,

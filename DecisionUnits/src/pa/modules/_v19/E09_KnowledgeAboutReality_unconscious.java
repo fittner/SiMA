@@ -29,6 +29,7 @@ import pa.tools.clsPair;
  * 11.08.2009, 14:09:09
  * 
  */
+@Deprecated
 public class E09_KnowledgeAboutReality_unconscious extends clsModuleBase implements I1_5_receive, I6_3_send, itfKnowledgeBaseAccess {
 	ArrayList<clsPrimaryDataStructureContainer> moPrimaryInformation; 
 	

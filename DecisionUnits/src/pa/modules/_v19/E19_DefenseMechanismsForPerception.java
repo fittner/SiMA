@@ -29,6 +29,7 @@ import pa.memorymgmt.datatypes.clsPrimaryDataStructureContainer;
  * 11.08.2009, 14:35:08
  * 
  */
+@Deprecated
 public class E19_DefenseMechanismsForPerception extends clsModuleBase implements I2_9_receive, I3_2_receive, I4_2_send, I2_10_send, I5_2_send {
 
 	public ArrayList<clsPrimaryDataStructureContainer> moSubjectivePerception_Input; 

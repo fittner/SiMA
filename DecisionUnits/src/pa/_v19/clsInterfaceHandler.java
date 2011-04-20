@@ -20,6 +20,7 @@ import pa.modules._v19.clsModuleBase;
  * 18.05.2010, 13:54:22
  * 
  */
+@Deprecated
 public class clsInterfaceHandler {
 	private static String P_METHODPREFIX = "receive_I";
 	

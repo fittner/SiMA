@@ -29,6 +29,7 @@ import statictools.clsGetARSPath;
  * 13.08.2009, 03:13:49
  * 
  */
+@Deprecated
 public class clsPAInspectorTopDown extends Inspector {
 
 	private static final long serialVersionUID = 1L;

@@ -34,6 +34,7 @@ import pa.tools.clsPair;
  * 11.08.2009, 14:51:57
  * 
  */
+@Deprecated
 public class E26_DecisionMaking extends clsModuleBase implements I1_7_receive, I2_13_receive, I3_3_receive, I5_5_receive, I7_1_send, I7_2_send {
 
 	private ArrayList<clsSecondaryDataStructureContainer> moDriveList;

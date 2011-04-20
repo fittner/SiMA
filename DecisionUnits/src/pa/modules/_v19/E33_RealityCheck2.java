@@ -23,6 +23,7 @@ import pa.memorymgmt.datatypes.clsWordPresentation;
  * 27.04.2010, 10:18:11
  * 
  */
+@Deprecated
 public class E33_RealityCheck2 extends clsModuleBase implements I7_3_receive, I7_5_receive, I7_6_send {
 
 	/**

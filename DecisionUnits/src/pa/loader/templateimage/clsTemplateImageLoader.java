@@ -30,6 +30,7 @@ import bfg.utils.enums.eOptional;
  * 23.10.2009, 12:11:14
  * 
  */
+@Deprecated
 public class clsTemplateImageLoader {
 
 	private static String moAttributeName = "TemplateImages"; //denotes the directory name and the first element name in xml

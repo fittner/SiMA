@@ -22,6 +22,7 @@ import pa.interfaces.receive._v19.I8_2_receive;
  * 11.08.2009, 15:00:44
  * 
  */
+@Deprecated
 public class E32_Actuators extends clsModuleBase implements I8_2_receive, itfReturnActionCommands {
 
 	private ArrayList<clsActionCommand> moActionCommandList_Input;

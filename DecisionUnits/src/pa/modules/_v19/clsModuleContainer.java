@@ -18,6 +18,7 @@ import config.clsBWProperties;
  * 11.08.2009, 11:15:58
  * 
  */
+@Deprecated
 public abstract class clsModuleContainer {
 	protected clsModuleContainer moEnclosingContainer;
 	protected clsMemory moMemory;

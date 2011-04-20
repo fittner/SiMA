@@ -28,6 +28,7 @@ import pa.tools.clsPair;
  * 27.04.2010, 10:38:16
  * 
  */
+@Deprecated
 public class E34_KnowledgeAboutReality2 extends clsModuleBase implements I7_3_receive, I7_5_send, itfKnowledgeBaseAccess {
 
 	/**

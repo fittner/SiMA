@@ -15,6 +15,7 @@ import pa.datatypes.clsAffect;
  * 23.10.2009, 13:14:42
  * 
  */
+@Deprecated
 public class clsTemplateAffect extends clsAffect {
 
 	public double moValue;

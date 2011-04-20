@@ -27,6 +27,7 @@ import config.clsBWProperties;
  * 11.08.2009, 15:28:05
  * 
  */
+@Deprecated
 public class G05_DriveHandling extends clsModuleContainer implements
 							I1_2_receive,
 							I1_3_receive,

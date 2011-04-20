@@ -36,6 +36,7 @@ import config.clsBWProperties;
  * 11.08.2009, 15:40:41
  * 
  */
+@Deprecated
 public class G12_PrimaryDecision extends clsModuleContainer implements 
 					I1_5_receive,
 					I1_6_receive,

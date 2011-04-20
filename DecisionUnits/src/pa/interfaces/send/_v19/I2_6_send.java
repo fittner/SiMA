@@ -20,6 +20,7 @@ import pa.tools.clsPair;
  * 18.05.2010, 14:17:57
  * 
  */
+@Deprecated
 public interface I2_6_send {
 	//first element: perceived clsPrimaryInformation
 	//second element (optional): attached repressed content 

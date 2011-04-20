@@ -49,6 +49,7 @@ public class clsInspectorMappingDecision {
 	 * @param poEntity - the agent-object to distinguish between the classes... 
 	 * @return - the new inspector with the defined look and feel
 	 */
+	@SuppressWarnings("deprecation")
 	public static TabbedInspector getInspector(Inspector poSuperInspector, LocationWrapper poWrapper, GUIState poState, itfDecisionUnit poItfDU) {
 		clsBaseDecisionUnit poDU = (clsBaseDecisionUnit) poItfDU;
 		

@@ -24,6 +24,7 @@ import pa.memorymgmt.datatypes.clsPrimaryDataStructureContainer;
  * 07.10.2009, 11:18:15
  * 
  */
+@Deprecated
 public class S_ManagementOfRepressedContents_2 extends clsModuleBase implements I4_1_receive, I4_2_receive {
 	ArrayList<clsPrimaryDataStructureContainer> moPrimaryInformation; 
 	

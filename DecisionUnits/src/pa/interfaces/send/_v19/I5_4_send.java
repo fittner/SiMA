@@ -17,6 +17,7 @@ import pa.memorymgmt.datatypes.clsSecondaryDataStructureContainer;
  * 18.05.2010, 14:37:28
  * 
  */
+@Deprecated
 public interface I5_4_send {
 	public void send_I5_4(ArrayList<clsSecondaryDataStructureContainer> poPerception);
 }

@@ -26,6 +26,7 @@ import pa.tools.clsPair;
  * 11.08.2009, 14:33:54
  * 
  */
+@Deprecated
 public class E18_GenerationOfAffectsForPerception extends clsModuleBase implements I2_8_receive, I2_9_send {
 
 	/**

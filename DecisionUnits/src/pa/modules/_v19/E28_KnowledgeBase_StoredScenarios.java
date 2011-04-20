@@ -38,6 +38,7 @@ import pa.tools.clsTripple;
  * 11.08.2009, 14:56:22
  * 
  */
+@Deprecated
 public class E28_KnowledgeBase_StoredScenarios extends clsModuleBase implements I7_2_receive, I6_2_send, itfKnowledgeBaseAccess {
 	//TODO HZ has to be defined in a config file
 	private final Integer mnNodeLimit = 20;

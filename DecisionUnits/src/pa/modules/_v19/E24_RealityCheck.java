@@ -23,6 +23,7 @@ import pa.memorymgmt.datatypes.clsSecondaryDataStructureContainer;
  * 11.08.2009, 14:49:09
  * 
  */
+@Deprecated
 public class E24_RealityCheck extends clsModuleBase implements I2_12_receive, I6_1_receive, I2_13_send {
 
 	private ArrayList<clsSecondaryDataStructureContainer> moFocusedPerception_Input; 

@@ -20,6 +20,7 @@ import pa.tools.clsPair;
  * 11.08.2009, 14:17:57
  * 
  */
+@Deprecated
 public interface I2_6_receive extends I_BaseInterface {
 	//first element: perceived clsPrimaryInformation
 	//second element (optional): attached repressed content 

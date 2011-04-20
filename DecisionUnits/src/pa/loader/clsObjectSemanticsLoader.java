@@ -26,6 +26,7 @@ import pa.datatypes.clsPrimaryInformation;
  * 17.10.2009, 20:31:27
  * 
  */
+@Deprecated
 public class clsObjectSemanticsLoader {
 
 	public static String moAttributeName = "ObjectSemanticsInit"; //denotes the directory name and the first element name in xml

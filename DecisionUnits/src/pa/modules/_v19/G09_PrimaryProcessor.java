@@ -42,6 +42,7 @@ import config.clsBWProperties;
  * 11.08.2009, 15:35:28
  * 
  */
+@Deprecated
 public class G09_PrimaryProcessor extends clsModuleContainer implements 
 					I1_5_receive,
 					I1_6_receive,

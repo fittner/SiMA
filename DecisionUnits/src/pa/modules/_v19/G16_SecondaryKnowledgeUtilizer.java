@@ -29,6 +29,7 @@ import config.clsBWProperties;
  * 11.08.2009, 15:43:00
  * 
  */
+@Deprecated
 public class G16_SecondaryKnowledgeUtilizer extends clsModuleContainer implements
 					I2_12_receive,
 					I6_1_receive,

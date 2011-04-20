@@ -35,6 +35,7 @@ import config.clsBWProperties;
  * 11.08.2009, 15:37:00
  * 
  */
+@Deprecated
 public class G11_SecondaryProcessor extends clsModuleContainer implements 
 				I1_7_receive,
 				I2_11_receive,

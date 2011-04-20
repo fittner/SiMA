@@ -17,6 +17,7 @@ import pa.memorymgmt.datatypes.clsDriveMesh;
  * 18.05.2010, 14:10:42
  * 
  */
+@Deprecated
 public interface I1_6_send {
 	public void send_I1_6(ArrayList<clsDriveMesh> poDriveList);
 }

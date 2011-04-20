@@ -35,6 +35,7 @@ import pa.tools.clsTripple;
  * 11.08.2009, 14:31:19
  * 
  */
+@Deprecated
 public class E16_ManagementOfMemoryTraces extends clsModuleBase implements I2_6_receive, I2_7_send, itfKnowledgeBaseAccess {
 
 	public ArrayList<clsPair<clsPrimaryDataStructureContainer, clsDriveMesh>> moPerceptPlusRepressed_Input;

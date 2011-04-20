@@ -54,6 +54,7 @@ import com.jgraph.layout.hierarchical.JGraphHierarchicalLayout;
  * 31.10.2009, 23:40:04
  * 
  */
+@Deprecated
 public class clsE05DriveInspector extends Inspector implements ActionListener {
 
 	private static final long serialVersionUID = 586283139693057158L;

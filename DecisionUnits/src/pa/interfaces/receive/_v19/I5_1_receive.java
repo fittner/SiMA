@@ -18,6 +18,7 @@ import pa.memorymgmt.datatypes.clsPrimaryDataStructureContainer;
  * 11.08.2009, 14:37:07
  * 
  */
+@Deprecated
 public interface I5_1_receive extends I_BaseInterface {
 	public void receive_I5_1(ArrayList<clsPrimaryDataStructureContainer> poAffectOnlyList);
 }

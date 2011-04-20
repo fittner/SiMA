@@ -18,6 +18,7 @@ import du.itf.sensors.clsSensorExtern;
  * 18.05.2010, 14:16:25
  * 
  */
+@Deprecated
 public interface I2_1_send {
 	public void send_I2_1(HashMap<eSensorExtType, clsSensorExtern> pnData);
 }

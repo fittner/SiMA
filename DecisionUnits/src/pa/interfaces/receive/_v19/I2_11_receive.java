@@ -18,6 +18,7 @@ import pa.memorymgmt.datatypes.clsSecondaryDataStructureContainer;
  * 11.08.2009, 14:42:23
  * 
  */
+@Deprecated
 public interface I2_11_receive extends I_BaseInterface {
 	public void receive_I2_11(ArrayList<clsSecondaryDataStructureContainer> poPerception);
 }

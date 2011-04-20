@@ -32,6 +32,7 @@ import config.clsBWProperties;
  * 11.08.2009, 14:03:35
  * 
  */
+@Deprecated
 public class E07_SuperEgo_unconscious extends clsModuleBase implements I1_5_receive, I2_9_receive, I3_1_send, I3_2_send, itfKnowledgeBaseAccess {
 	ArrayList<clsPrimaryDataStructureContainer> moPrimaryInformation; 
 	

@@ -20,6 +20,7 @@ import pa.tools.clsPair;
  * 11.08.2009, 13:40:52
  * 
  */
+@Deprecated
 public interface I1_3_receive extends I_BaseInterface {
 	public void receive_I1_3(ArrayList<clsPair<clsPair<clsDriveMesh, clsDriveDemand>, clsPair<clsDriveMesh, clsDriveDemand>>> poDriveCandidate);
 }

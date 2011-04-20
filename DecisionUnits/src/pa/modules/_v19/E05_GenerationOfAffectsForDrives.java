@@ -24,6 +24,7 @@ import config.clsBWProperties;
  * 11.08.2009, 13:58:45
  * 
  */
+@Deprecated
 public class E05_GenerationOfAffectsForDrives extends clsModuleBase implements I1_4_receive, itfTimeChartInformationContainer {
 
 	public ArrayList<clsPair<clsPair<clsDriveMesh, clsDriveDemand>, clsPair<clsDriveMesh, clsDriveDemand>>> moDriveCandidate;

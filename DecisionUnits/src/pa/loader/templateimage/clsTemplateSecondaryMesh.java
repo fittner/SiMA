@@ -23,6 +23,7 @@ import pa.datatypes.clsWordPresentation;
  * 23.10.2009, 12:12:24
  * 
  */
+@Deprecated
 public class clsTemplateSecondaryMesh extends clsSecondaryInformationMesh implements itfSecondaryTemplateCompare{
 
 	public eOptional meOptional;

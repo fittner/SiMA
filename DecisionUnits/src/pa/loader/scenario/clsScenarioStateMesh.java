@@ -16,6 +16,7 @@ import pa.datatypes.clsWordPresentation;
  * 25.10.2009, 12:55:16
  * 
  */
+@Deprecated
 public class clsScenarioStateMesh extends clsSecondaryInformationMesh {
 
 	public int mnId;

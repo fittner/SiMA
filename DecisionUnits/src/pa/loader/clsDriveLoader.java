@@ -32,6 +32,7 @@ import pa.tools.clsPair;
  * 28.09.2009, 10:30:53
  * 
  */
+@Deprecated
 public class clsDriveLoader {
 
 	public static String moAttributeName = "TPDrives"; //denotes the directory name and the first element name in xml

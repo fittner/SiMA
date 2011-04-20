@@ -15,6 +15,7 @@ import pa.datatypes.clsSecondaryInformation;
  * 24.10.2009, 23:47:04
  * 
  */
+@Deprecated
 public interface itfSecondaryTemplateCompare {
 	public void compareTemplateWith(clsSecondaryInformation poCurrentSec, Integer[] pnMatches);
 	public boolean checkType(clsSecondaryInformation poCurrentSec);

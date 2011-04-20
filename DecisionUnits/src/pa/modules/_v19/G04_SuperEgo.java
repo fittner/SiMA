@@ -32,6 +32,7 @@ import config.clsBWProperties;
  * 11.08.2009, 15:11:20
  * 
  */
+@Deprecated
 public class G04_SuperEgo extends clsModuleContainer implements
 						I1_5_receive,
 						I1_7_receive,

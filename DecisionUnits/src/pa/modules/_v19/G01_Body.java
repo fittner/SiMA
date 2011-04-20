@@ -42,6 +42,7 @@ import du.itf.sensors.clsSensorExtern;
  * 11.08.2009, 15:09:50
  * 
  */
+@Deprecated
 public class G01_Body extends clsModuleContainer implements 
 						itfProcessSensorEnvironment, 
 						itfProcessHomeostases, 

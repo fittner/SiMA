@@ -22,6 +22,7 @@ import pa.memorymgmt.datatypes.clsWordPresentation;
  * 11.08.2009, 14:58:20
  * 
  */
+@Deprecated
 public class E30_MotilityControl extends clsModuleBase implements I7_4_receive, I8_1_send {
 
 	private ArrayList<clsWordPresentation> moActionCommands_Input;

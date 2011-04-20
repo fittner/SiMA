@@ -17,6 +17,7 @@ import pa.datatypes.clsPrimaryInformation;
  * 23.10.2009, 12:13:41
  * 
  */
+@Deprecated
 public interface itfPrimaryTemplateComparable {
 
 	public void compareTemplateWith(clsPrimaryInformation poCurrentPrim, ArrayList<Boolean> poMatchList);

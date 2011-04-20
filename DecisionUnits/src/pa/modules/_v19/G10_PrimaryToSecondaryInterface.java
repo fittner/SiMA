@@ -33,6 +33,7 @@ import config.clsBWProperties;
  * 11.08.2009, 15:37:27
  * 
  */
+@Deprecated
 public class G10_PrimaryToSecondaryInterface extends clsModuleContainer implements
 						I1_6_receive,
 						I1_7_receive,

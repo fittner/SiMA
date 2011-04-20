@@ -15,6 +15,7 @@ import pa.interfaces.I_BaseInterface;
  * 11.08.2009, 14:48:25
  * 
  */
+@Deprecated
 public interface I6_1_receive extends I_BaseInterface {
 	public void receive_I6_1(int pnData);
 }

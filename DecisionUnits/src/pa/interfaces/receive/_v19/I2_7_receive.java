@@ -20,6 +20,7 @@ import pa.tools.clsTripple;
  * 11.08.2009, 14:18:03
  * 
  */
+@Deprecated
 public interface I2_7_receive extends I_BaseInterface {
 	public void receive_I2_7(ArrayList<clsTripple<clsPrimaryDataStructureContainer, clsDriveMesh,ArrayList<clsDriveMesh>>> poPerceptPlusMemories_Output);
 }

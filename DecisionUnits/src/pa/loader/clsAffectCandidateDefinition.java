@@ -13,6 +13,7 @@ package pa.loader;
  * 28.09.2009, 16:48:26
  * 
  */
+@Deprecated
 public class clsAffectCandidateDefinition {
 
 	public String moSensorType;

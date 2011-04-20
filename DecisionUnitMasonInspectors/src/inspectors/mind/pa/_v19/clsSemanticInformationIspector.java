@@ -99,6 +99,7 @@ import com.l2fprod.common.swing.JTaskPaneGroup;
  * 24.10.2009, 23:58:33
  * 
  */
+@Deprecated
 public class clsSemanticInformationIspector extends Inspector implements ActionListener {
 	
 	/**
