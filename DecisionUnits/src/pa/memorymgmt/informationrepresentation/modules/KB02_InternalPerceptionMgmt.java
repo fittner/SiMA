@@ -38,6 +38,7 @@ public class KB02_InternalPerceptionMgmt extends clsInformationRepresentationMod
 			clsInformationRepresentationModuleContainer poInformationRepresentationModulesContainer, 
 											clsSearchSpaceHandler poSearchSpaceHandler, String poSearchMethod) {
 		super(poInformationRepresentationModulesContainer, poSearchSpaceHandler, poSearchMethod);
+	
 		// TODO (zeilinger) - Auto-generated constructor stub
 	}
 
@@ -53,7 +54,7 @@ public class KB02_InternalPerceptionMgmt extends clsInformationRepresentationMod
 
 		ArrayList<clsPair<Double,clsDataStructureContainer>> oDataStructureContainerList = new ArrayList<clsPair<Double,clsDataStructureContainer>>(); 
 		ArrayList<clsPair<Double,clsDataStructurePA>> oMatchedDataStructures = new ArrayList<clsPair<Double,clsDataStructurePA>>();
-		
+		System.out.println(moSearchSpaceHandler.toString());
 		if(poDataStructureUnknown.getMoDS_ID() > -1 ){
 			oMatchedDataStructures.add(new clsPair<Double, clsDataStructurePA>(1.0,poDataStructureUnknown)); 
 		}

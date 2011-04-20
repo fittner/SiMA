@@ -50,8 +50,8 @@ public class clsBlockedContentStorage implements D2_2_send, D2_4_send, D2_1_rece
 			clsDriveMesh oDM = clsDataStructureGenerator.generateDM(new clsTripple<String, ArrayList<clsThingPresentation>, Object>((String)oData.get(1), 
 																	   new ArrayList<clsThingPresentation>(Arrays.asList(oTP)),
 																	   oData.get(0)));
-			oDM.setPleasure( (Double)oData.get(6) ); 
 			oDM.setCategories( (Double)oData.get(2), (Double)oData.get(3), (Double)oData.get(4), (Double)oData.get(5) );
+			oDM.setPleasure( (Double)oData.get(6) ); 
 	    	moBlockedContent.add(oDM);    	
     	}
     	

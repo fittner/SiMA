@@ -10,14 +10,19 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.SortedMap;
 import pa.interfaces._v30.eInterfaces;
+import pa.interfaces.knowledgebase.itfKnowledgeBaseAccess;
 import pa.interfaces.receive._v30.I1_2_receive;
 import pa.interfaces.receive._v30.I1_3_receive;
 import pa.interfaces.send._v30.I1_3_send;
 import pa.loader.clsAffectCandidateDefinition;
 import pa.loader.clsDriveLoader;
 import pa.loader.clsTemplateDrive;
+import pa.memorymgmt.clsKnowledgeBaseHandler;
 import pa.memorymgmt.datahandler.clsDataStructureGenerator;
+import pa.memorymgmt.datatypes.clsDataStructureContainer;
+import pa.memorymgmt.datatypes.clsDataStructurePA;
 import pa.memorymgmt.datatypes.clsDriveDemand;
+import pa.memorymgmt.datatypes.clsPrimaryDataStructureContainer;
 import pa.memorymgmt.datatypes.clsThingPresentation;
 import pa.memorymgmt.enums.eDataType;
 import pa.tools.clsPair;
@@ -32,7 +37,7 @@ import du.enums.pa.eContext;
  * 11.08.2009, 12:19:04
  * 
  */
-public class E03_GenerationOfSelfPreservationDrives extends clsModuleBase implements I1_2_receive, I1_3_send {
+public class E03_GenerationOfSelfPreservationDrives extends clsModuleBase implements I1_2_receive, I1_3_send, itfKnowledgeBaseAccess {
 	public static final String P_MODULENUMBER = "03";
 	public static String moDriveObjectType = "DriveObject";
 	
@@ -41,6 +46,7 @@ public class E03_GenerationOfSelfPreservationDrives extends clsModuleBase implem
 	private ArrayList<clsPair<clsPair<pa.memorymgmt.datatypes.clsDriveMesh, clsDriveDemand>, 
 	                  clsPair<pa.memorymgmt.datatypes.clsDriveMesh, clsDriveDemand>>> moHomeostaticTP; 
 
+	private clsKnowledgeBaseHandler moKnowledgeBaseHandler; 
 	/**
 	 * DOCUMENT (deutsch) - insert description 
 	 * 
@@ -319,5 +325,61 @@ public class E03_GenerationOfSelfPreservationDrives extends clsModuleBase implem
 	@Override
 	public void setDescription() {
 		moDescription = "The neurosymbolic representation of bodily needs are converted to memory traces representing the corresponding drives. At this stage, such a memory trace contains drive source, aim of drive, and drive object (cp Section ?). The quota of affect will be added later. For each bodily need, two drives are generated: a libidinous and an aggressive one. ";
+	}
+
+	/* (non-Javadoc)
+	 *
+	 * @author deutsch
+	 * 20.04.2011, 17:25:37
+	 * 
+	 * @see pa.interfaces.knowledgebase.itfKnowledgeBaseAccess#search(pa.memorymgmt.enums.eDataType, java.util.ArrayList, java.util.ArrayList)
+	 */
+	@Override
+	public <E> void search(
+			eDataType poDataType,
+			ArrayList<E> poPattern,
+			ArrayList<ArrayList<clsPair<Double, clsDataStructureContainer>>> poSearchResult) {
+		
+		ArrayList<clsPair<Integer, clsDataStructurePA>> oSearchPattern = new ArrayList<clsPair<Integer,clsDataStructurePA>>(); 
+
+		createSearchPattern(poDataType, poPattern, oSearchPattern);
+		accessKnowledgeBase(poSearchResult, oSearchPattern); 
+	}
+
+	/* (non-Javadoc)
+	 *
+	 * @author deutsch
+	 * 20.04.2011, 17:25:37
+	 * 
+	 * @see pa.interfaces.knowledgebase.itfKnowledgeBaseAccess#createSearchPattern(pa.memorymgmt.enums.eDataType, java.util.ArrayList, java.util.ArrayList)
+	 */
+	@Override
+	public <E> void createSearchPattern(eDataType poDataType,
+			ArrayList<E> poList,
+			ArrayList<clsPair<Integer, clsDataStructurePA>> poSearchPattern) {
+
+		for (E oEntry : poList){
+			if(oEntry instanceof clsDataStructurePA){
+				poSearchPattern.add(new clsPair<Integer, clsDataStructurePA>(poDataType.nBinaryValue, (clsDataStructurePA)oEntry));
+			}
+			else if (oEntry instanceof clsPrimaryDataStructureContainer){
+				poSearchPattern.add(new clsPair<Integer, clsDataStructurePA>(poDataType.nBinaryValue, ((clsPrimaryDataStructureContainer)oEntry).getMoDataStructure()));
+			}
+		}
+	}
+
+	/* (non-Javadoc)
+	 *
+	 * @author deutsch
+	 * 20.04.2011, 17:25:37
+	 * 
+	 * @see pa.interfaces.knowledgebase.itfKnowledgeBaseAccess#accessKnowledgeBase(java.util.ArrayList, java.util.ArrayList)
+	 */
+	@Override
+	public void accessKnowledgeBase(
+			ArrayList<ArrayList<clsPair<Double, clsDataStructureContainer>>> poSearchResult,
+			ArrayList<clsPair<Integer, clsDataStructurePA>> poSearchPattern) {
+		
+		poSearchResult.addAll(moKnowledgeBaseHandler.initMemorySearch(poSearchPattern));
 	}	
 }
