@@ -42,7 +42,11 @@ public class clsLibidoBuffer implements itfInspectorInternalState, itfInterfaceD
 	 */
 	@Override
 	public void receive_D1_3(double prValue) {
-		mrBufferedLibido = prValue;
+		if (mrBufferedLibido-prValue >= 0) { 
+			mrBufferedLibido -= prValue;
+		} else {
+			mrBufferedLibido = 0;
+		}
 	}
 
 	/* (non-Javadoc)
@@ -54,7 +58,11 @@ public class clsLibidoBuffer implements itfInspectorInternalState, itfInterfaceD
 	 */
 	@Override
 	public void receive_D1_1(double prValue) {
-		mrBufferedLibido += prValue;		
+		if (mrBufferedLibido+prValue >= 0) {
+			mrBufferedLibido += prValue;
+		} else {
+			mrBufferedLibido = 0;	
+		}		
 	}
 
 	/* (non-Javadoc)

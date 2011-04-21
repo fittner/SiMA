@@ -206,7 +206,7 @@ public class clsPsychicApparatus {
 			moE42_AccumulationOfAffectsForSexualDrives = new E42_AccumulationOfAffectsForSexualDrives(pre + E42_AccumulationOfAffectsForSexualDrives.P_MODULENUMBER, poProp, moModules, moInterfaceData);
 			moE43_SeparationIntoPartialSexualDrives = new E43_SeparationIntoPartialSexualDrives(pre + E43_SeparationIntoPartialSexualDrives.P_MODULENUMBER, poProp, moModules, moInterfaceData);
 			moE44_PrimalRepressionForSexualDrives = new E44_PrimalRepressionForSexualDrives(pre + E44_PrimalRepressionForSexualDrives.P_MODULENUMBER, poProp, moModules, moInterfaceData);
-			moE45_LibidoDischarge = new E45_LibidoDischarge(pre + E45_LibidoDischarge.P_MODULENUMBER, poProp, moModules, moInterfaceData);
+			moE45_LibidoDischarge = new E45_LibidoDischarge(pre + E45_LibidoDischarge.P_MODULENUMBER, poProp, moModules, moInterfaceData, moLibidoBuffer);
 			moE46_FusionWithMemoryTraces = new E46_FusionWithMemoryTraces(pre + E46_FusionWithMemoryTraces.P_MODULENUMBER, poProp, moModules, moInterfaceData, moKnowledgeBaseHandler);
 			moE47_ConversionToPrimaryProcess = new E47_ConversionToPrimaryProcess(pre + E47_ConversionToPrimaryProcess.P_MODULENUMBER, poProp, moModules, moInterfaceData);
 			

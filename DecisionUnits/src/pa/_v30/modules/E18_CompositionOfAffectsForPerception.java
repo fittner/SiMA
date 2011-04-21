@@ -49,6 +49,7 @@ public class E18_CompositionOfAffectsForPerception extends clsModuleBase impleme
 	@SuppressWarnings("unused")
 	private ArrayList<clsTemplateImage> moIndirectTemplateImages_OUT;
 
+	private ArrayList<clsPair<clsPrimaryDataStructureContainer, clsDriveMesh>> moLibidoPleasureCandidates_IN;
 	
 	/**
 	 * DOCUMENT (wendt) - insert description 
@@ -81,7 +82,8 @@ public class E18_CompositionOfAffectsForPerception extends clsModuleBase impleme
 		
 		html += toHtml.listToHTML("moMergedPrimaryInformation_Input", moMergedPrimaryInformation_Input);
 		html += toHtml.listToHTML("moNewPrimaryInformation", moNewPrimaryInformation);
-
+		html += toHtml.listToHTML("moLibidoPleasureCandidates_IN", moLibidoPleasureCandidates_IN);
+		
 		return html;
 	}
 	
@@ -382,7 +384,7 @@ public class E18_CompositionOfAffectsForPerception extends clsModuleBase impleme
 	@Override
 	public void receive_I2_16(
 			ArrayList<clsPair<clsPrimaryDataStructureContainer, clsDriveMesh>> poMergedPrimaryInformation) {
-		// TODO (wendt) - Auto-generated method stub
+		moLibidoPleasureCandidates_IN = poMergedPrimaryInformation;
 		
 	}
 	/* (non-Javadoc)

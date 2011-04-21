@@ -7,16 +7,24 @@
 package pa._v30.modules;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.SortedMap;
 
+import pa._v30.storage.clsLibidoBuffer;
 import pa._v30.tools.clsPair;
+import pa._v30.tools.clsTripple;
+import pa._v30.tools.toHtml;
 import pa._v30.interfaces.eInterfaces;
+import pa._v30.interfaces.itfInspectorGenericTimeChart;
 import pa._v30.interfaces.modules.I2_16_receive;
 import pa._v30.interfaces.modules.I2_16_send;
 import pa._v30.interfaces.modules.I2_8_receive;
+import pa._v30.memorymgmt.datahandler.clsDataStructureGenerator;
 import pa._v30.memorymgmt.datatypes.clsDriveMesh;
 import pa._v30.memorymgmt.datatypes.clsPrimaryDataStructureContainer;
+import pa._v30.memorymgmt.datatypes.clsThingPresentation;
+import pa._v30.memorymgmt.enums.eDataType;
 
 import config.clsBWProperties;
 
@@ -27,9 +35,16 @@ import config.clsBWProperties;
  * 03.03.2011, 16:29:55
  * 
  */
-public class E45_LibidoDischarge extends clsModuleBase implements I2_8_receive, I2_16_send {
+public class E45_LibidoDischarge extends clsModuleBase implements itfInspectorGenericTimeChart, I2_8_receive, I2_16_send {
 	public static final String P_MODULENUMBER = "45";
 	
+	private ArrayList<clsPair<clsPrimaryDataStructureContainer, clsDriveMesh>> moMergedPrimaryInformation_Rcv;
+	private ArrayList<clsPair<clsPrimaryDataStructureContainer, clsDriveMesh>> moMergedPrimaryInformation_Snd;	
+	private ArrayList<clsPair<String, Double>> moLibidioDischargeCandidates; //pair of IDENTIFIER and qualification from 0 to 1
+	private double mrDischargePiece = 0.1; //amount of the sotred libido which is going to be withtracted max. (see formula below)
+	private double mrAvailableLibido;
+	private double mrLibidoReducedBy;
+	private clsLibidoBuffer moLibidoBuffer;	
 	/**
 	 * DOCUMENT (deutsch) - insert description 
 	 * 
@@ -42,9 +57,24 @@ public class E45_LibidoDischarge extends clsModuleBase implements I2_8_receive, 
 	 * @throws Exception
 	 */
 	public E45_LibidoDischarge(String poPrefix, clsBWProperties poProp,
-			HashMap<Integer, clsModuleBase> poModuleList, SortedMap<eInterfaces, ArrayList<Object>> poInterfaceData) throws Exception {
+			HashMap<Integer, clsModuleBase> poModuleList, 
+			SortedMap<eInterfaces, ArrayList<Object>> poInterfaceData, 
+			clsLibidoBuffer poLibidoBuffer) throws Exception {
 		super(poPrefix, poProp, poModuleList, poInterfaceData);
+		
+		moLibidoBuffer = poLibidoBuffer;
+		
 		applyProperties(poPrefix, poProp);	
+		
+		fillLibidioDischargeCandidates();
+	}
+	
+	private void fillLibidioDischargeCandidates() {
+		//FIXME (Zeilinger): bitte irgendwie aus dem protege auslesen
+		moLibidioDischargeCandidates = new ArrayList<clsPair<String,Double>>();
+		moLibidioDischargeCandidates.add( new clsPair<String, Double>("CAKE", 1.0) );
+		moLibidioDischargeCandidates.add( new clsPair<String, Double>("CARROT", 0.5) );
+		moLibidioDischargeCandidates.add( new clsPair<String, Double>("BUBBLE", 0.1) );
 	}
 	
 	/* (non-Javadoc)
@@ -58,7 +88,13 @@ public class E45_LibidoDischarge extends clsModuleBase implements I2_8_receive, 
 	public String stateToHTML() {
 		String html ="";
 		
-		html += "n/a";	
+		html += toHtml.listToHTML("moMergedPrimaryInformation_Rcv", moMergedPrimaryInformation_Rcv);	
+		html += toHtml.listToHTML("moMergedPrimaryInformation_Snd", moMergedPrimaryInformation_Snd);		
+		html += toHtml.listToHTML("moLibidioDischargeCandidates", moLibidioDischargeCandidates);
+		html += toHtml.valueToHTML("mrDischargePiece", mrDischargePiece);		
+		html += toHtml.valueToHTML("mrAvailableLibido", mrAvailableLibido);
+		html += toHtml.valueToHTML("mrReducedLibido", mrLibidoReducedBy);
+		html += toHtml.valueToHTML("moLibidoBuffer", moLibidoBuffer);
 		
 		return html;
 	}		
@@ -86,10 +122,51 @@ public class E45_LibidoDischarge extends clsModuleBase implements I2_8_receive, 
 	 */
 	@Override
 	protected void process_basic() {
-		// TODO (deutsch) - Auto-generated method stub
+		mrAvailableLibido = moLibidoBuffer.send_D1_4();
+		
+		double rChunk = mrAvailableLibido * mrDischargePiece; //each match can reduce the libido by a maximum of rChunk.
+		//FIXME: if more than ten piece fit 100% ... the last pieces will get nothing ...
+		
+		mrLibidoReducedBy = 0;
+		
+		moMergedPrimaryInformation_Snd = new ArrayList<clsPair<clsPrimaryDataStructureContainer,clsDriveMesh>>();
+		//FIXME (ZEILINGER): das ganze zeug geht noch nicht so ganz .. irgendwie ... plz - wobei. das kann ich morgen auch noch debuggen.
+		for (clsPair<String,Double> oCandidate:moLibidioDischargeCandidates) {
+			String oSearchPattern = oCandidate.a;
+			Double rFactor = oCandidate.b;
+			double rReduction = rChunk * rFactor;
+			
+			for (clsPair<clsPrimaryDataStructureContainer,clsDriveMesh> oData:moMergedPrimaryInformation_Rcv) {
+				clsPrimaryDataStructureContainer oPDSC = oData.a;
+				
+				if (oPDSC.getMoDataStructure().getMoContentType().contains(oSearchPattern)) {
+					clsDriveMesh oDrive = createDriveMesh("LIBIDO", "LIBIDO");
+					oDrive.setPleasure(rReduction);
+					
+					mrLibidoReducedBy += rReduction;
+					
+					clsPair<clsPrimaryDataStructureContainer,clsDriveMesh> oResult = 
+						new clsPair<clsPrimaryDataStructureContainer, clsDriveMesh>(oPDSC, oDrive);
+					moMergedPrimaryInformation_Snd.add(oResult);
+				}
+			}
+		}
+		
+		moLibidoBuffer.receive_D1_3(mrLibidoReducedBy);
 
 	}
 
+	private clsDriveMesh createDriveMesh(String poContentType, String poContext) {
+		clsThingPresentation oDataStructure = (clsThingPresentation)clsDataStructureGenerator.generateDataStructure( eDataType.TP, new clsPair<String, Object>(poContentType, poContext) );
+		ArrayList<Object> oContent = new ArrayList<Object>( Arrays.asList(oDataStructure) );
+		
+		clsDriveMesh oRetVal = (pa._v30.memorymgmt.datatypes.clsDriveMesh)clsDataStructureGenerator.generateDataStructure( 
+				eDataType.DM, new clsTripple<String, Object, Object>(poContentType, oContent, poContext)
+				);
+		
+		return oRetVal;
+	}
+	
 	/* (non-Javadoc)
 	 *
 	 * @author deutsch
@@ -125,7 +202,7 @@ public class E45_LibidoDischarge extends clsModuleBase implements I2_8_receive, 
 	 */
 	@Override
 	protected void send() {
-		send_I2_16(new ArrayList<clsPair<clsPrimaryDataStructureContainer,clsDriveMesh>>());
+		send_I2_16(moMergedPrimaryInformation_Snd);
 
 	}
 
@@ -177,9 +254,8 @@ public class E45_LibidoDischarge extends clsModuleBase implements I2_8_receive, 
 	 */
 	@Override
 	public void receive_I2_8(
-			ArrayList<clsPair<clsPrimaryDataStructureContainer, clsDriveMesh>> poMergedPrimaryInformation) {
-		// TODO (deutsch) - Auto-generated method stub
-		
+		ArrayList<clsPair<clsPrimaryDataStructureContainer, clsDriveMesh>> poMergedPrimaryInformation) {
+		moMergedPrimaryInformation_Rcv = poMergedPrimaryInformation;
 	}
 
 	/* (non-Javadoc)
@@ -205,5 +281,82 @@ public class E45_LibidoDischarge extends clsModuleBase implements I2_8_receive, 
 	@Override
 	public void setDescription() {
 		moDescription = "E45 communicates with E41 via the libido buffer. Incoming perceptions are compared with memory to determine whether they qualify for libido discharge and thus for pleasure gain. If so, the value of the libido buffer is reduced (tension reduction is pleasure gain). The pleasure gain is forwarded to E18 as an additional value for the composition of the quota of affect.";
+	}
+
+	/* (non-Javadoc)
+	 *
+	 * @author deutsch
+	 * 21.04.2011, 20:29:30
+	 * 
+	 * @see pa._v30.interfaces.itfInspectorTimeChart#getTimeChartData()
+	 */
+	@Override
+	public ArrayList<Double> getTimeChartData() {
+		ArrayList<Double> oValues = new ArrayList<Double>();
+		
+		oValues.add(mrAvailableLibido);
+		oValues.add(mrLibidoReducedBy);
+		
+		return oValues;
+	}
+
+	/* (non-Javadoc)
+	 *
+	 * @author deutsch
+	 * 21.04.2011, 20:29:30
+	 * 
+	 * @see pa._v30.interfaces.itfInspectorTimeChart#getTimeChartCaptions()
+	 */
+	@Override
+	public ArrayList<String> getTimeChartCaptions() {
+		return new ArrayList<String>(Arrays.asList("Available","Reduction"));
+	}
+
+	/* (non-Javadoc)
+	 *
+	 * @author deutsch
+	 * 21.04.2011, 20:29:30
+	 * 
+	 * @see pa._v30.interfaces.itfInspectorGenericTimeChart#getTimeChartAxis()
+	 */
+	@Override
+	public String getTimeChartAxis() {
+		return "Libido";
+	}
+
+	/* (non-Javadoc)
+	 *
+	 * @author deutsch
+	 * 21.04.2011, 20:29:30
+	 * 
+	 * @see pa._v30.interfaces.itfInspectorGenericTimeChart#getTimeChartTitle()
+	 */
+	@Override
+	public String getTimeChartTitle() {
+		return "Libido Discharge";
+	}
+
+	/* (non-Javadoc)
+	 *
+	 * @author deutsch
+	 * 21.04.2011, 20:29:30
+	 * 
+	 * @see pa._v30.interfaces.itfInspectorGenericTimeChart#getTimeChartUpperLimit()
+	 */
+	@Override
+	public double getTimeChartUpperLimit() {
+		return 2;
+	}
+
+	/* (non-Javadoc)
+	 *
+	 * @author deutsch
+	 * 21.04.2011, 20:29:30
+	 * 
+	 * @see pa._v30.interfaces.itfInspectorGenericTimeChart#getTimeChartLowerLimit()
+	 */
+	@Override
+	public double getTimeChartLowerLimit() {
+		return -0.5;
 	}	
 }
