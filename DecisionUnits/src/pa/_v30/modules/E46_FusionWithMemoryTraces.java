@@ -122,9 +122,6 @@ public class E46_FusionWithMemoryTraces extends clsModuleBaseKB implements
 		moDirectTemplateImage_OUT = createMOTIfromPDSC(moEnvironmentalPerception_OUT);
 		//Load indirect template images
 		moIndirectTemplateImages_OUT = retrieveIndirectTI(moDirectTemplateImage_OUT);
-
-		
-		
 		
 		//moEnvironmentalPerception_OUT = new ArrayList<clsPrimaryDataStructureContainer>(); 
 		
@@ -170,7 +167,7 @@ public class E46_FusionWithMemoryTraces extends clsModuleBaseKB implements
 		ArrayList<ArrayList<clsPair<Double,clsDataStructureContainer>>> oSearchResult = 
 			new ArrayList<ArrayList<clsPair<Double,clsDataStructureContainer>>>(); 
 		
-		search(eDataType.UNDEFINED, oPerceivedImage_IN, oSearchResult ); 
+		search(eDataType.TP, oPerceivedImage_IN, oSearchResult ); 
 		oRetVal = createImage(oSearchResult);	
 		
 		return oRetVal;
