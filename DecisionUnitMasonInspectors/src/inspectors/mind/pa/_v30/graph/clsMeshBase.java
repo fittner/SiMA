@@ -16,7 +16,6 @@ import org.jgraph.graph.DefaultEdge;
 import org.jgraph.graph.DefaultGraphCell;
 import org.jgraph.graph.GraphConstants;
 import pa._v30.tools.clsPair;
-import pa._v30.interfaces.eInterfaces;
 import pa._v30.memorymgmt.datatypes.clsAct;
 import pa._v30.memorymgmt.datatypes.clsAssociation;
 import pa._v30.memorymgmt.datatypes.clsDataStructureContainer;
@@ -28,7 +27,6 @@ import pa._v30.memorymgmt.datatypes.clsSecondaryDataStructure;
 import pa._v30.memorymgmt.datatypes.clsSecondaryDataStructureContainer;
 import pa._v30.memorymgmt.datatypes.clsThingPresentation;
 import pa._v30.memorymgmt.datatypes.clsWordPresentation;
-import pa._v30.modules.clsPsychicApparatus;
 
 
 /**
@@ -40,7 +38,7 @@ import pa._v30.modules.clsPsychicApparatus;
  * 24.10.2009, 23:58:33
  * 
  */
-public class clsSemanticInformationInspector extends clsGraphBase {
+public abstract class clsMeshBase extends clsGraphBase {
 	/**
 	 * DOCUMENT (deutsch) - insert description 
 	 * 
@@ -49,9 +47,8 @@ public class clsSemanticInformationInspector extends clsGraphBase {
 	 */
 	private static final long serialVersionUID = -6638061388429348390L;
 	
-	private clsPsychicApparatus moPAInstance;
-	private eInterfaces moEnumInterface;
-	private ArrayList<Object> moInspectorData;
+	protected ArrayList<Object> moMesh;
+	private String moRootNodeName = "root";
 	
 	/**
      * Constructor of the class. Creates the panel, buttons etc. 
@@ -65,48 +62,21 @@ public class clsSemanticInformationInspector extends clsGraphBase {
      * @param poModuleContainer eg moPA.moG02Id.moG06AffectGeneration.moE05GenerationOfAffectsForDrives
      * @param poModuleMemoryMemberName 
      */
-    public clsSemanticInformationInspector(clsPsychicApparatus poPAInstance, eInterfaces poEnumInterface) {
+    public clsMeshBase() {
     	super();
+     }
     	
-    	moPAInstance = poPAInstance;
-    	moEnumInterface = poEnumInterface;
-    	
-    	updateControl();	//loading data into the graph
+    protected void setRootNodeName(String poRootNodeName){
+    	moRootNodeName = poRootNodeName;
     }
     
-	/**
-	 * loads the TPMesh-List from the corresponding container
-	 *
-	 * @author muchitsch
-	 * 13.10.2009, 22:34:11
-	 *
-	 */
-	@Override
-	protected void updateinspectorData() {
-		try {
-			//returns the ArrayList of the wanted member
-			ArrayList<Object> oMeshList = moPAInstance.moInterfaceData.get(moEnumInterface);
-			moInspectorData = oMeshList;
-		} catch (IllegalArgumentException e) {
-			e.printStackTrace();
-		} catch (SecurityException e) {
-			e.printStackTrace();
-		} catch (ClassCastException e) {
-			e.printStackTrace();
-//		}catch (NoSuchMethodException e) {
-//			e.printStackTrace();
-//		} catch (InvocationTargetException e) {
-//			e.printStackTrace();
-		}
-	}
-	
 	@Override
 	protected DefaultGraphCell createGraph() {
 		//helper array-list to collect each created cell in the right order for the registration later on
 		//without knowing the total number of elements
 		//ArrayList<DefaultGraphCell> oCellList = new ArrayList<DefaultGraphCell>();
 		//create root node (it's a mesh-list) and add it to the registration list
-		DefaultGraphCell oParent = createDefaultGraphVertex(moEnumInterface.toString(), 20, 20, 150, 40, Color.GRAY);
+		DefaultGraphCell oParent = createDefaultGraphVertex(moRootNodeName, 20, 20, 150, 40, Color.GRAY);
 		//get graph-cells for each object in the of the mesh
 		readInspectorDataAndGenerateGraphCells(oParent);
 		
@@ -126,8 +96,8 @@ public class clsSemanticInformationInspector extends clsGraphBase {
 	private void readInspectorDataAndGenerateGraphCells(DefaultGraphCell poParent) 
 	{
 		//check for the 3 main data types possible
-		for(int i=0; i<moInspectorData.size(); i++){
-			Object oO = moInspectorData.get(i);
+		for(int i=0; i<moMesh.size(); i++){
+			Object oO = moMesh.get(i);
 		
 			if (oO instanceof List) {
 				for (Object o:(List<Object>)oO) {
