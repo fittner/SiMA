@@ -16,6 +16,7 @@ import pa._v30.interfaces.eInterfaces;
 import pa._v30.interfaces.modules.I0_5_receive;
 import pa._v30.interfaces.modules.I2_3_receive;
 import pa._v30.interfaces.modules.I2_3_send;
+import pa._v30.tools.toHtml;
 
 /**
  * DOCUMENT (muchitsch) - insert description 
@@ -57,7 +58,7 @@ public class E12_SensorsBody extends clsModuleBase implements I0_5_receive, I2_3
 	public String stateToHTML() {		
 		String html = "";
 		
-		html += mapToHTML("moBodyData", moBodyData);
+		html += toHtml.mapToHTML("moBodyData", moBodyData);
 
 		return html;
 	}

@@ -12,6 +12,7 @@ import java.util.SortedMap;
 
 import pa._v30.tools.clsPair;
 import pa._v30.tools.clsQuadruppel;
+import pa._v30.tools.toHtml;
 import pa._v30.interfaces.eInterfaces;
 import pa._v30.interfaces.modules.I1_3_receive;
 import pa._v30.interfaces.modules.I1_4_receive;
@@ -76,9 +77,9 @@ public class E04_FusionOfSelfPreservationDrives extends clsModuleBase implements
 	public String stateToHTML() {
 		String html ="";
 		
-		html += listToHTML("moDriveCandidate", moDriveCandidates);
-		html += listToHTML("moHomeostaticDriveDemands",moHomeostaticDriveDemands);
-		html += listToHTML("moDriveOfOppositePairs", moDriveOfOppositePairs);
+		html += toHtml.listToHTML("moDriveCandidate", moDriveCandidates);
+		html += toHtml.listToHTML("moHomeostaticDriveDemands",moHomeostaticDriveDemands);
+		html += toHtml.listToHTML("moDriveOfOppositePairs", moDriveOfOppositePairs);
 		
 		return html;
 	}

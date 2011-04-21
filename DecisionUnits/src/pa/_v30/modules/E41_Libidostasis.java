@@ -24,6 +24,7 @@ import pa._v30.memorymgmt.enums.eDataType;
 import pa._v30.storage.clsLibidoBuffer;
 import pa._v30.tools.clsPair;
 import pa._v30.tools.clsTripple;
+import pa._v30.tools.toHtml;
 
 import config.clsBWProperties;
 
@@ -97,10 +98,10 @@ public class E41_Libidostasis extends clsModuleBase implements I1_9_receive, I1_
 	public String stateToHTML() {
 		String html ="";
 		
-		html += listToHTML("moDrives", moDrives);
-		html += valueToHTML("moLibidoBuffer", moLibidoBuffer);
-		html += valueToHTML("mrIncomingLibido", mrIncomingLibido);		
-		html += valueToHTML("mrTotalLibido", mrTotalLibido);
+		html += toHtml.listToHTML("moDrives", moDrives);
+		html += toHtml.valueToHTML("moLibidoBuffer", moLibidoBuffer);
+		html += toHtml.valueToHTML("mrIncomingLibido", mrIncomingLibido);		
+		html += toHtml.valueToHTML("mrTotalLibido", mrTotalLibido);
 		
 		return html;
 	}		

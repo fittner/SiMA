@@ -11,6 +11,7 @@ import java.util.HashMap;
 import java.util.SortedMap;
 import config.clsBWProperties;
 import pa._v30.tools.clsPair;
+import pa._v30.tools.toHtml;
 import pa._v30.interfaces.eInterfaces;
 import pa._v30.interfaces.modules.I7_3_receive;
 import pa._v30.interfaces.modules.I7_5_receive;
@@ -65,8 +66,8 @@ public class E34_KnowledgeAboutReality_2 extends clsModuleBaseKB implements I7_3
 	public String stateToHTML() {
 		String html ="";
 		
-		html += listToHTML("moSearchPattern", moSearchPattern);
-		html += valueToHTML("moKnowledgeBaseHandler", moKnowledgeBaseHandler);
+		html += toHtml.listToHTML("moSearchPattern", moSearchPattern);
+		html += toHtml.valueToHTML("moKnowledgeBaseHandler", moKnowledgeBaseHandler);
 		
 		return html;
 	}

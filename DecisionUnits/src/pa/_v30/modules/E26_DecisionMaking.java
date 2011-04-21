@@ -12,6 +12,7 @@ import java.util.SortedMap;
 
 import config.clsBWProperties;
 import pa._v30.tools.clsPair;
+import pa._v30.tools.toHtml;
 import pa._v30.interfaces.eInterfaces;
 import pa._v30.interfaces.modules.I1_7_receive;
 import pa._v30.interfaces.modules.I2_13_receive;
@@ -77,10 +78,10 @@ public class E26_DecisionMaking extends clsModuleBase implements
 	public String stateToHTML() {
 		String html ="";
 		
-		html += listToHTML("moDriveList", moDriveList);
-		html += listToHTML("moRuleList", moRuleList);
-		html += listToHTML("moRealityPerception", moRealityPerception);
-		html += listToHTML("moGoal_Output", moGoal_Output);
+		html += toHtml.listToHTML("moDriveList", moDriveList);
+		html += toHtml.listToHTML("moRuleList", moRuleList);
+		html += toHtml.listToHTML("moRealityPerception", moRealityPerception);
+		html += toHtml.listToHTML("moGoal_Output", moGoal_Output);
 		
 		return html;
 	}		

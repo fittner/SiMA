@@ -17,6 +17,7 @@ import pa._v30.interfaces.modules.I0_2_receive;
 import pa._v30.interfaces.modules.I1_8_receive;
 import pa._v30.interfaces.modules.I1_8_send;
 import pa._v30.storage.clsLibidoBuffer;
+import pa._v30.tools.toHtml;
 import config.clsBWProperties;
 
 /**
@@ -67,10 +68,10 @@ public class E39_SeekingSystem_LibidoSource extends clsModuleBase
 	public String stateToHTML() {
 		String html ="";
 		
-		html += valueToHTML("moLibidoBuffer", moLibidoBuffer);
-		html += valueToHTML("mrIncomingLibido_I0_1", mrIncomingLibido_I0_1);		
-		html += valueToHTML("mrIncomingLibido_I0_2", mrIncomingLibido_I0_2);		
-		html += valueToHTML("mrOutgoingLibido", mrOutgoingLibido);		
+		html += toHtml.valueToHTML("moLibidoBuffer", moLibidoBuffer);
+		html += toHtml.valueToHTML("mrIncomingLibido_I0_1", mrIncomingLibido_I0_1);		
+		html += toHtml.valueToHTML("mrIncomingLibido_I0_2", mrIncomingLibido_I0_2);		
+		html += toHtml.valueToHTML("mrOutgoingLibido", mrOutgoingLibido);		
 		
 		return html;
 	}	

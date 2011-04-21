@@ -12,6 +12,7 @@ import java.util.HashMap;
 import java.util.SortedMap;
 import pa._v30.tools.clsPair;
 import pa._v30.tools.clsTripple;
+import pa._v30.tools.toHtml;
 import pa._v30.interfaces.eInterfaces;
 import pa._v30.interfaces.modules.I1_2_receive;
 import pa._v30.interfaces.modules.I1_3_receive;
@@ -90,11 +91,11 @@ public class E03_GenerationOfSelfPreservationDrives extends clsModuleBaseKB impl
 	public String stateToHTML() {
 		String html ="";
 		
-		html += mapToHTML("moHomeostasisSymbols",moHomeostasisSymbols);
-		html += listToHTML("moHomeostaticTP", moHomeostaticTP);		
-		html += listToHTML("moDriveTemplates", moDriveTemplates);		
-		html += listToHTML("moDrives", moDrives);		
-		html += valueToHTML("moKnowledgeBaseHandler", moKnowledgeBaseHandler);		
+		html += toHtml.mapToHTML("moHomeostasisSymbols",moHomeostasisSymbols);
+		html += toHtml.listToHTML("moHomeostaticTP", moHomeostaticTP);		
+		html += toHtml.listToHTML("moDriveTemplates", moDriveTemplates);		
+		html += toHtml.listToHTML("moDrives", moDrives);		
+		html += toHtml.valueToHTML("moKnowledgeBaseHandler", moKnowledgeBaseHandler);		
 		
 		return html;
 	}

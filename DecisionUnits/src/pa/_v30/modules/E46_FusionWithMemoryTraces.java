@@ -12,6 +12,7 @@ import java.util.SortedMap;
 
 import pa._v30.tools.clsPair;
 import pa._v30.tools.clsTripple;
+import pa._v30.tools.toHtml;
 import pa._v30.interfaces.eInterfaces;
 import pa._v30.interfaces.modules.I2_20_receive;
 import pa._v30.interfaces.modules.I2_20_send;
@@ -84,9 +85,9 @@ public class E46_FusionWithMemoryTraces extends clsModuleBaseKB implements
 	public String stateToHTML() {
 		String html ="";
 		
-		html += listToHTML("moEnvironmentalPerception_IN", moEnvironmentalPerception_IN);
-		html += listToHTML("moEnvironmentalPerception_OUT", moEnvironmentalPerception_OUT);		
-		html += valueToHTML("moKnowledgeBaseHandler", moKnowledgeBaseHandler);		
+		html += toHtml.listToHTML("moEnvironmentalPerception_IN", moEnvironmentalPerception_IN);
+		html += toHtml.listToHTML("moEnvironmentalPerception_OUT", moEnvironmentalPerception_OUT);		
+		html += toHtml.valueToHTML("moKnowledgeBaseHandler", moKnowledgeBaseHandler);		
 		
 		return html;
 	}		

@@ -19,6 +19,7 @@ import pa._v30.interfaces.modules.I4_3_send;
 import pa._v30.memorymgmt.datatypes.clsAssociationDriveMesh;
 import pa._v30.memorymgmt.datatypes.clsPrimaryDataStructureContainer;
 import pa._v30.storage.clsBlockedContentStorage;
+import pa._v30.tools.toHtml;
 
 /**
  * DOCUMENT (GELBARD) - insert description 
@@ -66,8 +67,8 @@ public class E36_RepressionHandler extends clsModuleBase implements I4_1_receive
 	public String stateToHTML() {
 		String html ="";
 		
-		html += valueToHTML("moBlockedContentStorage", moBlockedContentStorage);
-		html += listToHTML("moPrimaryInformation", moPrimaryInformation);
+		html += toHtml.valueToHTML("moBlockedContentStorage", moBlockedContentStorage);
+		html += toHtml.listToHTML("moPrimaryInformation", moPrimaryInformation);
 		
 		return html;
 	}	

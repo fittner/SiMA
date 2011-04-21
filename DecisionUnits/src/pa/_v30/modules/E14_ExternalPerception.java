@@ -19,6 +19,7 @@ import pa._v30.memorymgmt.datahandler.clsDataStructureConverter;
 import pa._v30.memorymgmt.datatypes.clsPrimaryDataStructure;
 import pa._v30.memorymgmt.datatypes.clsPrimaryDataStructureContainer;
 import pa._v30.symbolization.representationsymbol.itfSymbol;
+import pa._v30.tools.toHtml;
 import pa._v30.enums.eSymbolExtType;
 
 /**
@@ -67,9 +68,9 @@ public class E14_ExternalPerception extends clsModuleBase implements
 	public String stateToHTML() {		
 		String html = "";
 		
-		html += mapToHTML("moEnvironmentalData", moEnvironmentalData);
-		html += mapToHTML("moBodyData", moBodyData);
-		html += listToHTML("moEnvironmentalTP", moEnvironmentalTP);
+		html += toHtml.mapToHTML("moEnvironmentalData", moEnvironmentalData);
+		html += toHtml.mapToHTML("moBodyData", moBodyData);
+		html += toHtml.listToHTML("moEnvironmentalTP", moEnvironmentalTP);
 
 		return html;
 	}

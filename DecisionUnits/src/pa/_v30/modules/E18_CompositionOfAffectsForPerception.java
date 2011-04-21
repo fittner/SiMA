@@ -11,6 +11,7 @@ import java.util.HashMap;
 import java.util.SortedMap;
 import config.clsBWProperties;
 import pa._v30.tools.clsPair;
+import pa._v30.tools.toHtml;
 import pa._v30.interfaces.eInterfaces;
 import pa._v30.interfaces.modules.I2_16_receive;
 import pa._v30.interfaces.modules.I2_8_receive;
@@ -78,8 +79,8 @@ public class E18_CompositionOfAffectsForPerception extends clsModuleBase impleme
 	public String stateToHTML() {		
 		String html = "";
 		
-		html += listToHTML("moMergedPrimaryInformation_Input", moMergedPrimaryInformation_Input);
-		html += listToHTML("moNewPrimaryInformation", moNewPrimaryInformation);
+		html += toHtml.listToHTML("moMergedPrimaryInformation_Input", moMergedPrimaryInformation_Input);
+		html += toHtml.listToHTML("moNewPrimaryInformation", moNewPrimaryInformation);
 
 		return html;
 	}

@@ -14,6 +14,7 @@ import pa._v30.interfaces.eInterfaces;
 import pa._v30.interfaces.modules.I0_3_receive;
 import pa._v30.interfaces.modules.I1_1_receive;
 import pa._v30.interfaces.modules.I1_1_send;
+import pa._v30.tools.toHtml;
 import config.clsBWProperties;
 import du.enums.eSensorIntType;
 import du.itf.sensors.clsDataBase;
@@ -190,7 +191,7 @@ public class E01_SensorsMetabolism extends clsModuleBase implements I0_3_receive
 	public String stateToHTML() {		
 		String html = "";
 		
-		html += mapToHTML("moHomeostasis", moHomeostasis);
+		html += toHtml.mapToHTML("moHomeostasis", moHomeostasis);
 
 		return html;
 	}

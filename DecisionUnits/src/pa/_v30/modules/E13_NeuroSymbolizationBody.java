@@ -18,6 +18,7 @@ import pa._v30.interfaces.modules.I2_4_receive;
 import pa._v30.interfaces.modules.I2_4_send;
 import pa._v30.symbolization.clsSensorToSymbolConverter;
 import pa._v30.symbolization.representationsymbol.itfSymbol;
+import pa._v30.tools.toHtml;
 import pa._v30.enums.eSymbolExtType;
 
 /**
@@ -60,8 +61,8 @@ public class E13_NeuroSymbolizationBody extends clsModuleBase implements I2_3_re
 	public String stateToHTML() {		
 		String html = "";
 		
-		html += mapToHTML("moBodyData", moBodyData);
-		html += mapToHTML("moSymbolData", moSymbolData);
+		html += toHtml.mapToHTML("moBodyData", moBodyData);
+		html += toHtml.mapToHTML("moSymbolData", moSymbolData);
 
 		return html;
 	}

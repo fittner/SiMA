@@ -15,6 +15,7 @@ import pa._v30.interfaces.eInterfaces;
 import pa._v30.interfaces.modules.I1_1_receive;
 import pa._v30.interfaces.modules.I1_2_receive;
 import pa._v30.interfaces.modules.I1_2_send;
+import pa._v30.tools.toHtml;
 import config.clsBWProperties;
 import du.enums.eSensorIntType;
 import du.enums.eSlowMessenger;
@@ -81,8 +82,8 @@ public class E02_NeurosymbolizationOfNeeds extends clsModuleBase implements I1_1
 	public String stateToHTML() {
 		String html ="";
 		
-		html += mapToHTML("moHomeostasis", moHomeostasis);
-		html += mapToHTML("moHomeostaticSymbol", moHomeostaticSymbol);
+		html += toHtml.mapToHTML("moHomeostasis", moHomeostasis);
+		html += toHtml.mapToHTML("moHomeostaticSymbol", moHomeostaticSymbol);
 		
 		return html;
 	}

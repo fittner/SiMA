@@ -12,6 +12,7 @@ import java.util.SortedMap;
 import java.util.List;
 import config.clsBWProperties;
 import pa._v30.tools.clsPair;
+import pa._v30.tools.toHtml;
 import pa._v30.interfaces.eInterfaces;
 import pa._v30.interfaces.modules.I1_5_receive;
 import pa._v30.interfaces.modules.I2_19_receive;
@@ -68,9 +69,9 @@ public class E09_KnowledgeAboutReality_unconscious extends clsModuleBaseKB imple
 	public String stateToHTML() {
 		String html ="";
 		
-		html += listToHTML("moPrimaryInformation", moPrimaryInformation);
-		html += valueToHTML("moKnowledgeBaseHandler", moKnowledgeBaseHandler);
-		html += listToHTML("moSexualDrives", moSexualDrives);
+		html += toHtml.listToHTML("moPrimaryInformation", moPrimaryInformation);
+		html += toHtml.valueToHTML("moKnowledgeBaseHandler", moKnowledgeBaseHandler);
+		html += toHtml.listToHTML("moSexualDrives", moSexualDrives);
 		
 		return html;
 	}	

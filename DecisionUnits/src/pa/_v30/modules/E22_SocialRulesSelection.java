@@ -13,6 +13,7 @@ import java.util.SortedMap;
 import config.clsBWProperties;
 import pa._v30.tools.clsPair;
 import pa._v30.tools.clsTripple;
+import pa._v30.tools.toHtml;
 import pa._v30.interfaces.eInterfaces;
 import pa._v30.interfaces.modules.I1_7_receive;
 import pa._v30.interfaces.modules.I2_11_receive;
@@ -78,11 +79,11 @@ public class E22_SocialRulesSelection extends clsModuleBaseKB implements I1_7_re
 	public String stateToHTML() {		
 		String html = "";
 		
-		html += listToHTML("moSearchPattern", moSearchPattern);
-		html += listToHTML("moPerception", moPerception);
-		html += listToHTML("moRuleList", moRuleList);
-		html += listToHTML("moRetrieveResult4Inspectors", moRetrieveResult4Inspectors);
-		html += valueToHTML("moKnowledgeBaseHandler", moKnowledgeBaseHandler);
+		html += toHtml.listToHTML("moSearchPattern", moSearchPattern);
+		html += toHtml.listToHTML("moPerception", moPerception);
+		html += toHtml.listToHTML("moRuleList", moRuleList);
+		html += toHtml.listToHTML("moRetrieveResult4Inspectors", moRetrieveResult4Inspectors);
+		html += toHtml.valueToHTML("moKnowledgeBaseHandler", moKnowledgeBaseHandler);
 
 		return html;
 	}

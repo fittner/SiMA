@@ -15,6 +15,7 @@ import du.itf.actions.itfActionProcessor;
 import pa._v30.interfaces.eInterfaces;
 import pa._v30.interfaces.modules.I0_6_send;
 import pa._v30.interfaces.modules.I8_2_receive;
+import pa._v30.tools.toHtml;
 
 /**
  * DOCUMENT (brandstaetter) - insert description 
@@ -60,8 +61,8 @@ public class E32_Actuators extends clsModuleBase implements I8_2_receive, I0_6_s
 	public String stateToHTML() {
 		String html ="";
 		
-		html += listToHTML("moOutputActions", moOutputActions);
-		html += listToHTML("moActionCommandList_Input", moActionCommandList_Input);
+		html += toHtml.listToHTML("moOutputActions", moOutputActions);
+		html += toHtml.listToHTML("moActionCommandList_Input", moActionCommandList_Input);
 		
 		return html;
 	}

@@ -14,6 +14,7 @@ import pa._v30.tools.clsDriveValueSplitter;
 import pa._v30.tools.clsPair;
 import pa._v30.tools.clsTripple;
 import pa._v30.tools.eDriveValueSplitter;
+import pa._v30.tools.toHtml;
 import pa._v30.interfaces.eInterfaces;
 import pa._v30.interfaces.modules.I2_17_receive;
 import pa._v30.interfaces.modules.I2_18_receive;
@@ -66,8 +67,8 @@ public class E42_AccumulationOfAffectsForSexualDrives extends clsModuleBase impl
 	public String stateToHTML() {
 		String html ="";
 		
-		html += listToHTML("moDriveCandidates", moDriveCandidates);
-		html += listToHTML("moDriveList", moDriveList);
+		html += toHtml.listToHTML("moDriveCandidates", moDriveCandidates);
+		html += toHtml.listToHTML("moDriveList", moDriveList);
 		
 		return html;
 	}		

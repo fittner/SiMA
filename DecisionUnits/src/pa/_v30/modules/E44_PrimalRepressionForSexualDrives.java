@@ -11,6 +11,7 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.SortedMap;
 import pa._v30.tools.clsTripple;
+import pa._v30.tools.toHtml;
 import pa._v30.interfaces.eInterfaces;
 import pa._v30.interfaces.modules.I2_18_receive;
 import pa._v30.interfaces.modules.I2_19_receive;
@@ -83,8 +84,8 @@ public class E44_PrimalRepressionForSexualDrives extends clsModuleBase implement
 	public String stateToHTML() {
 		String html ="";
 		
-		html += listToHTML("moPrimalRepressionMemory", moPrimalRepressionMemory);
-		html += listToHTML("moDrives", moDrives);		
+		html += toHtml.listToHTML("moPrimalRepressionMemory", moPrimalRepressionMemory);
+		html += toHtml.listToHTML("moDrives", moDrives);		
 		
 		return html;
 	}	

@@ -10,8 +10,6 @@ import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
 import java.util.SortedMap;
 
 import pa._v30.interfaces.eInterfaces;
@@ -190,56 +188,6 @@ public abstract class clsModuleBase implements itfInspectorInternalState, itfInt
 		
 		moInterfaceData.put(pnInterface, oData);
 	}
-	
-	@SuppressWarnings("rawtypes")
-	protected <E,V> String mapToHTML(String poName, Map<E,V> poMap) {
-		String html ="<h2>"+poName+"</h2>";
-		
-		if (poMap == null) {
-			html += "<p><i>null</i></p>";
-		} else if (poMap.size() == 0) {
-			html += "<p><i>empty</i></p>";
-		} else {
-			html += "<ul>";
-			for (Map.Entry e:poMap.entrySet()) {
-				html +="<li>"+e.getKey()+": "+e.getValue()+"</li>";
-			}
-			html +="</ul>";
-		}
-		
-		return html;
-	}
-	
-	@SuppressWarnings("rawtypes")
-	protected String listToHTML(String poName, List poList) {
-		String html ="<h2>"+poName+"</h2>";
-		
-		if (poList == null) {
-			html += "<p><i>null</i></p>";
-		} else if (poList.size() == 0) {
-			html += "<p><i>empty</i></p>";
-		} else {		
-			html += "<ul>";
-			for (Object e:poList) {
-				html +="<li>"+e+"</li>";
-			}
-			html +="</ul>";
-		}
-		
-		return html;
-	}	
-	
-	protected String valueToHTML(String poName, Object poValue) {
-		String html ="<h2>"+poName+"</h2>";
-		
-		if (poValue == null) {
-			html += "<p><i>null</i></p>";
-		} else {		
-			html +="<p>"+poValue+"</p>";
-		}
-		
-		return html;
-	}		
 	
 	@Override
 	public String getDescription() {

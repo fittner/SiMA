@@ -13,6 +13,7 @@ import java.util.SortedMap;
 import java.util.List;
 
 import pa._v30.tools.clsTripple;
+import pa._v30.tools.toHtml;
 import pa._v30.interfaces.eInterfaces;
 import pa._v30.interfaces.modules.I1_5_receive;
 import pa._v30.interfaces.modules.I1_5_send;
@@ -72,8 +73,8 @@ public class E38_PrimalRepressionForSelfPreservationDrives extends	clsModuleBase
 	public String stateToHTML() {
 		String html ="";
 		
-		html += listToHTML("moPrimalRepressionMemory", moPrimalRepressionMemory);
-		html += listToHTML("moDriveList_IN", moDriveList_IN);
+		html += toHtml.listToHTML("moPrimalRepressionMemory", moPrimalRepressionMemory);
+		html += toHtml.listToHTML("moDriveList_IN", moDriveList_IN);
 		
 		return html;
 	}	

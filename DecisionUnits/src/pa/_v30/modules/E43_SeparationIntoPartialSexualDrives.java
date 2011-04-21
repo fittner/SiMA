@@ -13,6 +13,7 @@ import java.util.SortedMap;
 
 import pa._v30.tools.clsPair;
 import pa._v30.tools.clsTripple;
+import pa._v30.tools.toHtml;
 import pa._v30.interfaces.eInterfaces;
 import pa._v30.interfaces.modules.I1_10_receive;
 import pa._v30.interfaces.modules.I2_17_receive;
@@ -78,9 +79,9 @@ public class E43_SeparationIntoPartialSexualDrives extends clsModuleBase impleme
 	public String stateToHTML() {
 		String html ="";
 		
-		html += listToHTML("moHomeostaticDriveDemands", moHomeostaticDriveDemands);
-		html += listToHTML("moDriveCandidates", moDriveCandidates);
-		html += listToHTML("moPartialSexualDrives", moPartialSexualDrives);
+		html += toHtml.listToHTML("moHomeostaticDriveDemands", moHomeostaticDriveDemands);
+		html += toHtml.listToHTML("moDriveCandidates", moDriveCandidates);
+		html += toHtml.listToHTML("moPartialSexualDrives", moPartialSexualDrives);
 		
 		return html;
 	}	

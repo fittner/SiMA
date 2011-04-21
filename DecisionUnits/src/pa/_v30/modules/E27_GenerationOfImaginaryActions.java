@@ -20,6 +20,7 @@ import pa._v30.memorymgmt.datatypes.clsSecondaryDataStructure;
 import pa._v30.memorymgmt.datatypes.clsSecondaryDataStructureContainer;
 import pa._v30.memorymgmt.datatypes.clsWordPresentation;
 import pa._v30.memorymgmt.enums.eActState;
+import pa._v30.tools.toHtml;
 
 /**
  * DOCUMENT (perner) - insert description 
@@ -68,8 +69,8 @@ public class E27_GenerationOfImaginaryActions extends clsModuleBase implements I
 	public String stateToHTML() {
 		String html ="";
 		
-		html += listToHTML("moPlanInput", moPlanInput);
-		html += listToHTML("moActions_Output", moActions_Output);
+		html += toHtml.listToHTML("moPlanInput", moPlanInput);
+		html += toHtml.listToHTML("moActions_Output", moActions_Output);
 		
 		return html;
 	}		

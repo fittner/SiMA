@@ -25,6 +25,7 @@ import pa._v30.interfaces.modules.I8_1_receive;
 import pa._v30.interfaces.modules.I8_2_receive;
 import pa._v30.interfaces.modules.I8_2_send;
 import pa._v30.memorymgmt.datatypes.clsWordPresentation;
+import pa._v30.tools.toHtml;
 
 /**
  * DOCUMENT (brandstaetter) - insert description 
@@ -72,8 +73,8 @@ public class E31_NeuroDeSymbolizationActionCommands extends clsModuleBase implem
 	public String stateToHTML() {
 		String html ="";
 		
-		html += listToHTML("moActionCommands_Input", moActionCommands_Input);
-		html += listToHTML("moActionCommandList_Output", moActionCommandList_Output);
+		html += toHtml.listToHTML("moActionCommands_Input", moActionCommands_Input);
+		html += toHtml.listToHTML("moActionCommandList_Output", moActionCommandList_Output);
 		
 		return html;
 	}

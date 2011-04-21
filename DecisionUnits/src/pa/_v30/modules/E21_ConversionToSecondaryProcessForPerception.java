@@ -15,6 +15,7 @@ import java.util.Map;
 import config.clsBWProperties;
 import pa._v30.tools.clsPair;
 import pa._v30.tools.clsTripple;
+import pa._v30.tools.toHtml;
 import pa._v30.interfaces.eInterfaces;
 import pa._v30.interfaces.modules.I2_10_receive;
 import pa._v30.interfaces.modules.I2_11_receive;
@@ -83,11 +84,11 @@ public class E21_ConversionToSecondaryProcessForPerception extends clsModuleBase
 	public String stateToHTML() {		
 		String html = "";
 		
-		html += listToHTML("moGrantedPerception_Input", moGrantedPerception_Input);
-		html += listToHTML("moPerception_Output", moPerception_Output);
-		html += listToHTML("moOrderedResult", moOrderedResult);
-		html += mapToHTML("moTemporaryDM", moTemporaryDM);
-		html += valueToHTML("moKnowledgeBaseHandler", moKnowledgeBaseHandler);
+		html += toHtml.listToHTML("moGrantedPerception_Input", moGrantedPerception_Input);
+		html += toHtml.listToHTML("moPerception_Output", moPerception_Output);
+		html += toHtml.listToHTML("moOrderedResult", moOrderedResult);
+		html += toHtml.mapToHTML("moTemporaryDM", moTemporaryDM);
+		html += toHtml.valueToHTML("moKnowledgeBaseHandler", moKnowledgeBaseHandler);
 
 		return html;
 	}

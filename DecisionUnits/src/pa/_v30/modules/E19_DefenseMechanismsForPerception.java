@@ -22,6 +22,7 @@ import pa._v30.interfaces.modules.I5_2_send;
 import pa._v30.memorymgmt.datatypes.clsAssociation;
 import pa._v30.memorymgmt.datatypes.clsAssociationDriveMesh;
 import pa._v30.memorymgmt.datatypes.clsPrimaryDataStructureContainer;
+import pa._v30.tools.toHtml;
 
 /**
  * DOCUMENT (GELBARD) - insert description 
@@ -67,10 +68,10 @@ public class E19_DefenseMechanismsForPerception extends clsModuleBase implements
 	public String stateToHTML() {		
 		String html = "";
 		
-		html += listToHTML("moSubjectivePerception_Input", moSubjectivePerception_Input);
-		html += listToHTML("moFilteredPerception_Output", moFilteredPerception_Output);
-		html += listToHTML("moDeniedThingPresentations", moDeniedThingPresentations);
-		html += listToHTML("moDeniedAffects", moDeniedAffects);
+		html += toHtml.listToHTML("moSubjectivePerception_Input", moSubjectivePerception_Input);
+		html += toHtml.listToHTML("moFilteredPerception_Output", moFilteredPerception_Output);
+		html += toHtml.listToHTML("moDeniedThingPresentations", moDeniedThingPresentations);
+		html += toHtml.listToHTML("moDeniedAffects", moDeniedAffects);
 
 		return html;
 	}

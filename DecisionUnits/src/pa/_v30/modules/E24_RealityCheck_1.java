@@ -16,6 +16,7 @@ import pa._v30.interfaces.modules.I2_13_receive;
 import pa._v30.interfaces.modules.I2_13_send;
 import pa._v30.interfaces.modules.I6_1_receive;
 import pa._v30.memorymgmt.datatypes.clsSecondaryDataStructureContainer;
+import pa._v30.tools.toHtml;
 
 /**
  * DOCUMENT (KOHLHAUSER) - insert description 
@@ -59,8 +60,8 @@ public class E24_RealityCheck_1 extends clsModuleBase implements I2_12_receive, 
 	public String stateToHTML() {
 		String html ="";
 		
-		html += listToHTML("moFocusedPerception_Input", moFocusedPerception_Input);
-		html += listToHTML("moRealityPerception_Output", moRealityPerception_Output);
+		html += toHtml.listToHTML("moFocusedPerception_Input", moFocusedPerception_Input);
+		html += toHtml.listToHTML("moRealityPerception_Output", moRealityPerception_Output);
 		
 		return html;
 	}

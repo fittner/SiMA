@@ -14,6 +14,7 @@ import pa._v30.interfaces.eInterfaces;
 import pa._v30.interfaces.modules.I1_8_receive;
 import pa._v30.interfaces.modules.I1_9_receive;
 import pa._v30.interfaces.modules.I1_9_send;
+import pa._v30.tools.toHtml;
 
 import config.clsBWProperties;
 
@@ -58,7 +59,7 @@ public class E40_NeurosymbolizationOfLibido extends clsModuleBase implements I1_
 	public String stateToHTML() {
 		String html ="";
 		
-		html += valueToHTML("mrLibido", mrLibido);	
+		html += toHtml.valueToHTML("mrLibido", mrLibido);	
 		
 		return html;
 	}	

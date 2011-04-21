@@ -16,6 +16,7 @@ import pa._v30.interfaces.eInterfaces;
 import pa._v30.interfaces.modules.I0_4_receive;
 import pa._v30.interfaces.modules.I2_1_receive;
 import pa._v30.interfaces.modules.I2_1_send;
+import pa._v30.tools.toHtml;
 
 /**
  * DOCUMENT (muchitsch) - insert description 
@@ -57,7 +58,7 @@ public class E10_SensorsEnvironment extends clsModuleBase implements I0_4_receiv
 	public String stateToHTML() {		
 		String html = "";
 		
-		html += mapToHTML("moEnvironmentalData", moEnvironmentalData);
+		html += toHtml.mapToHTML("moEnvironmentalData", moEnvironmentalData);
 
 		return html;
 	}	

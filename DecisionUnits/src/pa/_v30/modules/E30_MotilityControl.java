@@ -15,6 +15,7 @@ import pa._v30.interfaces.modules.I7_4_receive;
 import pa._v30.interfaces.modules.I8_1_receive;
 import pa._v30.interfaces.modules.I8_1_send;
 import pa._v30.memorymgmt.datatypes.clsWordPresentation;
+import pa._v30.tools.toHtml;
 
 /**
  * DOCUMENT (brandstaetter) - insert description 
@@ -60,8 +61,8 @@ public class E30_MotilityControl extends clsModuleBase implements I7_4_receive, 
 	public String stateToHTML() {
 		String html ="";
 		
-		html += listToHTML("moActionCommands_Input", moActionCommands_Input);
-		html += listToHTML("moActionCommands_Output", moActionCommands_Output);
+		html += toHtml.listToHTML("moActionCommands_Input", moActionCommands_Input);
+		html += toHtml.listToHTML("moActionCommands_Output", moActionCommands_Output);
 		
 		return html;
 	}	
