@@ -55,6 +55,7 @@ public class clsInformationRepresentationManagement extends clsKnowledgeBaseHand
 		initModules(); 
 	}
 	
+
 	/**
 	 * DOCUMENT (zeilinger) - insert description
 	 *

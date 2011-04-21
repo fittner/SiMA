@@ -24,6 +24,10 @@ import pa._v30.memorymgmt.informationrepresentation.searchspace.clsSearchSpaceCr
 public class clsSearchSpaceHandler {
 	private clsSearchSpaceBase moSearchSpace; 
 	
+	public clsSearchSpaceBase getSearchSpace() {
+		return moSearchSpace;
+	}
+	
 	public clsSearchSpaceHandler(String poDatabaseSource, String poSourceName){
 		createSearchSpace(poDatabaseSource, poSourceName);
 	}

@@ -28,6 +28,10 @@ public abstract class clsSearchSpaceBase {
 		moDataStructureTable = poDataStructureTable; 
 	}
 	
+	public HashMap<String, clsDataStructurePA> getDataStructureTable() {
+		return moDataStructureTable;
+	}
+	
 	/**
 	 * DOCUMENT (zeilinger) - insert description
 	 *
