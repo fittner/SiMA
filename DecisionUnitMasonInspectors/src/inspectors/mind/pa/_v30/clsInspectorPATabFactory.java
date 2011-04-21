@@ -225,7 +225,8 @@ public class clsInspectorPATabFactory {
 			oRetVal.addInspector(new clsE_DescriptionInspector(moPA.moLibidoBuffer), "Desc");				
 		} else if (poModuleName.equals("Blocked Content Storage")) {
 			oRetVal.addInspector(new clsE_StateInspector(moPA.moBlockedContentStorage), "State");
-			oRetVal.addInspector(new clsE_DescriptionInspector(moPA.moBlockedContentStorage), "Desc");				
+			oRetVal.addInspector(new clsE_DescriptionInspector(moPA.moBlockedContentStorage), "Desc");
+			//TODO (MUCHITSCH): added graphinspector for blocked content storage
 		} 
 		
 		return oRetVal;
