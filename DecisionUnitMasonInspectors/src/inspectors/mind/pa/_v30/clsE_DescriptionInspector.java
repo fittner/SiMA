@@ -7,7 +7,7 @@
 package inspectors.mind.pa._v30;
 
 import pa._v30.interfaces.eInterfaces;
-import pa._v30.modules.clsModuleBase;
+import pa._v30.interfaces.itfInterfaceDescription;
 
 /**
  * DOCUMENT (deutsch) - insert description 
@@ -37,7 +37,7 @@ public class clsE_DescriptionInspector extends clsE_GenericHTMLInspector {
 	 * @param guiState
 	 * @param poModule
 	 */
-	public clsE_DescriptionInspector(clsModuleBase poModule) {
+	public clsE_DescriptionInspector(itfInterfaceDescription poModule) {
 		super(poModule);
 	}
 
@@ -63,17 +63,17 @@ public class clsE_DescriptionInspector extends clsE_GenericHTMLInspector {
 	@Override
 	protected void updateContent() {
 		moContent  = "<h2>Module</h2>";
-		moContent += "<p>"+moModule.getDescription()+"</p>";
+		moContent += "<p>"+((itfInterfaceDescription)moModule).getDescription()+"</p>";
 		moContent += "<h2>Incoming Interfaces</h2>";
 		moContent += "<ul>";
-		for (eInterfaces eI:moModule.getInterfacesRecv()) {
+		for (eInterfaces eI:((itfInterfaceDescription)moModule).getInterfacesRecv()) {
 			moContent += "<li><b>"+eI+"</b>: "+eI.getDescription()+"</li>";
 		}
 		moContent += "</ul>";
 		
 		moContent += "<h2>Outgoing Interfaces</h2>";
 		moContent += "<ul>";
-		for (eInterfaces eI:moModule.getInterfacesSend()) {
+		for (eInterfaces eI:((itfInterfaceDescription)moModule).getInterfacesSend()) {
 			moContent += "<li><b>"+eI+"</b>: "+eI.getDescription()+"</li>";
 		}
 		moContent += "</ul>";

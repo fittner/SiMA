@@ -8,9 +8,8 @@ package inspectors.mind.pa._v30;
 
 import java.util.ArrayList;
 import java.util.SortedMap;
-
 import pa._v30.interfaces.eInterfaces;
-import pa._v30.modules.clsModuleBase;
+import pa._v30.interfaces.itfInterfaceInterfaceData;
 
 /**
  * DOCUMENT (deutsch) - insert description 
@@ -41,11 +40,11 @@ public class clsE_SimpleInterfaceDataInspector extends
 	 *
 	 * @param poModule
 	 */
-	public clsE_SimpleInterfaceDataInspector(clsModuleBase poModule, 
+	public clsE_SimpleInterfaceDataInspector(itfInterfaceInterfaceData poModule, 
 			SortedMap<eInterfaces, ArrayList<Object>> poInterfaceData) {
 		super(poModule);
-		moRecv = moModule.getInterfacesRecv();
-		moSend = moModule.getInterfacesSend();
+		moRecv = ((itfInterfaceInterfaceData)moModule).getInterfacesRecv();
+		moSend = ((itfInterfaceInterfaceData)moModule).getInterfacesSend();
 		moInterfaceData = poInterfaceData;
 	}
 

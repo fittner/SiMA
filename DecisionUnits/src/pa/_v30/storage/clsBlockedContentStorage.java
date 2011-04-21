@@ -12,7 +12,9 @@ import java.util.Arrays;
 import pa._v30.tools.clsPair;
 import pa._v30.tools.clsTripple;
 import pa._v30.tools.toHtml;
+import pa._v30.interfaces.eInterfaces;
 import pa._v30.interfaces.itfInspectorInternalState;
+import pa._v30.interfaces.itfInterfaceDescription;
 import pa._v30.interfaces.modules.D2_1_receive;
 import pa._v30.interfaces.modules.D2_2_send;
 import pa._v30.interfaces.modules.D2_3_receive;
@@ -32,7 +34,7 @@ import pa._v30.memorymgmt.enums.eDataType;
  * 09.03.2011, 17:12:46
  * 
  */
-public class clsBlockedContentStorage implements itfInspectorInternalState, D2_2_send, D2_4_send, D2_1_receive, D2_3_receive {
+public class clsBlockedContentStorage implements itfInspectorInternalState, itfInterfaceDescription, D2_2_send, D2_4_send, D2_1_receive, D2_3_receive {
     private ArrayList<clsDriveMesh> moBlockedContent;
     
     public clsBlockedContentStorage() {
@@ -151,7 +153,7 @@ public class clsBlockedContentStorage implements itfInspectorInternalState, D2_2
 
 	@Override
 	public String toString() {
-		return "n/a";
+		return moBlockedContent.toString();
 	}
 
 	/* (non-Javadoc)
@@ -170,5 +172,41 @@ public class clsBlockedContentStorage implements itfInspectorInternalState, D2_2
 		
 		html += "</body></html>";
 		return html;
+	}
+
+	/* (non-Javadoc)
+	 *
+	 * @author deutsch
+	 * 21.04.2011, 15:47:22
+	 * 
+	 * @see pa._v30.interfaces.itfInterfaceDescription#getDescription()
+	 */
+	@Override
+	public String getDescription() {
+		return "Module {E36} retrieves blocked content from the defense mechanisms. This content tries to be become unblocked again by emerging from {E36} and {E35} into the flow of the functional model. A special storage containing these blocked contents is necessary. The stored data is of type thing presentations with attached quota. Figure \ref{fig:model:functional:repressed_content} shows that the two modules are connected to this special type of storage with a read ({D2.2} and {D2.4}) and a write ({D2.1} and {D2.3}) interface. The two incoming interfaces into module {E36} are {I4.1} and {I4.2}. The first one transports blocked drives in the form of thing presentations plus attached quota of affects. The other one transports blocked thing presentations representing incoming perceptions in the same format. Both incoming information are stored into the memory via interface {D2.3}. Depending on future results of the functions of the module {E36}, drives pushed into this storage try to pass the defense mechanisms. Thus, drives in the form of thing presentations and attached quota of affects are sent via interface {I4.3} back to {E6}. The alternative possibility to reappear for blocked contents is module {E35}. Incoming perceptions in the form of thing presentations (transfered through interface {I2.14}) are compared with stored blocked content. If matching content is found it is attached to the incoming perception. The stored thing presentation plus attached quota of affects can be used as a whole or it can be split and only the thing presentation or the quota of affect are attached. The enriched thing presentation of the perception is forwarded via interface {I2.15} to the next module.";
+	}
+
+	/* (non-Javadoc)
+	 *
+	 * @author deutsch
+	 * 21.04.2011, 15:47:22
+	 * 
+	 * @see pa._v30.interfaces.itfInterfaceDescription#getInterfacesRecv()
+	 */
+	@Override
+	public ArrayList<eInterfaces> getInterfacesRecv() {
+		return new ArrayList<eInterfaces>( Arrays.asList(eInterfaces.D2_1, eInterfaces.D2_3) );
+	}
+
+	/* (non-Javadoc)
+	 *
+	 * @author deutsch
+	 * 21.04.2011, 15:47:22
+	 * 
+	 * @see pa._v30.interfaces.itfInterfaceDescription#getInterfacesSend()
+	 */
+	@Override
+	public ArrayList<eInterfaces> getInterfacesSend() {
+		return new ArrayList<eInterfaces>( Arrays.asList(eInterfaces.D2_2, eInterfaces.D2_4) );
 	}
 }

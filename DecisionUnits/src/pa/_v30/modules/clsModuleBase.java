@@ -215,10 +215,12 @@ public abstract class clsModuleBase implements itfInspectorInternalState, itfInt
 		moInterfaces.addAll(moInterfacesSend);
 	}
 	
+	@Override
 	public ArrayList<eInterfaces> getInterfacesSend() {
 		return moInterfacesSend;
 	}
 	
+	@Override
 	public ArrayList<eInterfaces> getInterfacesRecv() {
 		return moInterfacesReceive;
 	}	

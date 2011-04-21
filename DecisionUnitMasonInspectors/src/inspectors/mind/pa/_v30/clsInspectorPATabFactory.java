@@ -8,9 +8,7 @@ package inspectors.mind.pa._v30;
 
 import java.lang.reflect.Field;
 import java.util.ArrayList;
-
 import javax.swing.JTree;
-
 import inspectors.mind.pa._v30.functionalmodel.clsPAInspectorFunctional;
 import inspectors.mind.pa._v30.graph.clsMeshInterface;
 import pa._v30.interfaces.eInterfaces;
@@ -216,25 +214,19 @@ public class clsInspectorPATabFactory {
 		TabbedInspector oRetVal = new TabbedInspector();
 
 		//special memory tree...
-		if(poModuleName.equals("TPM")) {
-//			oRetVal.addInspector( new clsSemanticInformationIspector(poSuperInspector, poWrapper, poState, moPA.getMemoryForInspector().moTemplateImageStorage, "moTemplateImages" ), "Memory v2.0 TEST");		
-		}
-		
-		
-		
-		
-		
-		
-
-
-		
-		
-		
-		
-		
-		else {
+		if (poModuleName.equals("KB")) {
+		} else if (poModuleName.equals("TPM")) {
 			
-		}
+		} else if (poModuleName.equals("TP")) {
+			
+		} else if (poModuleName.equals("Libido Storage")) {
+			oRetVal.addInspector(new clsE_StateInspector(moPA.moLibidoBuffer), "State");
+			oRetVal.addInspector(new clsE_ChartInspector(moPA.moLibidoBuffer), "Time Chart");
+			oRetVal.addInspector(new clsE_DescriptionInspector(moPA.moLibidoBuffer), "Desc");				
+		} else if (poModuleName.equals("Blocked Content Storage")) {
+			oRetVal.addInspector(new clsE_StateInspector(moPA.moBlockedContentStorage), "State");
+			oRetVal.addInspector(new clsE_DescriptionInspector(moPA.moBlockedContentStorage), "Desc");				
+		} 
 		
 		return oRetVal;
 	}

@@ -6,6 +6,8 @@
  */
 package pa._v30.interfaces;
 
+import java.util.ArrayList;
+
 /**
  * DOCUMENT (deutsch) - insert description 
  * 
@@ -14,5 +16,6 @@ package pa._v30.interfaces;
  * 
  */
 public interface itfInterfaceInterfaceData {
-
+	public ArrayList<eInterfaces> getInterfacesRecv();
+	public ArrayList<eInterfaces> getInterfacesSend();
 }

@@ -8,7 +8,6 @@ package inspectors.mind.pa._v30;
 
 import java.awt.BorderLayout;
 
-import pa._v30.modules.clsModuleBase;
 import sim.portrayal.Inspector;
 import sim.util.gui.HTMLBrowser;
 import statictools.clsExceptionUtils;
@@ -28,12 +27,12 @@ public abstract class clsE_GenericHTMLInspector extends Inspector {
 	 * 14.04.2011, 15:02:15
 	 */
 	private static final long serialVersionUID = -2033800775072753378L;
-	protected clsModuleBase moModule;
+	protected Object moModule;
 	protected String moTitle;
 	protected String moContent;
 	HTMLBrowser moHTMLPane;
 	
-    public clsE_GenericHTMLInspector(clsModuleBase poModule)
+    public clsE_GenericHTMLInspector(Object poModule)
     {
 		moModule = poModule;
     	

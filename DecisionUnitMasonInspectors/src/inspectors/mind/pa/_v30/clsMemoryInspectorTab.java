@@ -7,7 +7,8 @@
 package inspectors.mind.pa._v30;
 
 import java.awt.BorderLayout;
-import java.util.Map;
+import java.awt.Dimension;
+
 import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.JScrollPane;
@@ -16,11 +17,8 @@ import javax.swing.JTree;
 import javax.swing.event.TreeSelectionEvent;
 import javax.swing.event.TreeSelectionListener;
 import javax.swing.tree.DefaultMutableTreeNode;
-import javax.swing.tree.MutableTreeNode;
 import pa.clsPsychoAnalysis;
 import pa._v30.clsProcessor;
-import pa._v30.modules.clsModuleBase;
-import pa._v30.modules.clsPsychicApparatus;
 import sim.display.GUIState;
 import sim.portrayal.Inspector;
 import sim.portrayal.LocationWrapper;
@@ -70,14 +68,12 @@ public class clsMemoryInspectorTab extends Inspector implements TreeSelectionLis
 		
 		//set root tree manually
 		DefaultMutableTreeNode root = new DefaultMutableTreeNode("Memory 2.0");
-				
-		//grab the top element of the top-down design 
-		clsPsychicApparatus oPsyApp = ((clsProcessor)poPA.getProcessor()).getPsychicApparatus();
-		//build a tree with all members that start either with moC for clsModuleContainer or moE for clsModuleBase
-		getTree( oPsyApp, root );
-		
-		//create tree for all memory types
-		addSpecialMemoryTree(oPsyApp, root);
+						
+		root.add(new DefaultMutableTreeNode("KB"));
+		root.add(new DefaultMutableTreeNode("TPM"));
+		root.add(new DefaultMutableTreeNode("TP"));
+		root.add(new DefaultMutableTreeNode("Libido Storage"));
+		root.add(new DefaultMutableTreeNode("Blocked Content Storage"));
 
 		moModuleTree = new JTree(root);
 		moModuleTree.addTreeSelectionListener(this);
@@ -97,59 +93,6 @@ public class clsMemoryInspectorTab extends Inspector implements TreeSelectionLis
         add(oBox1, BorderLayout.CENTER);
     }
     
-    /**
-	 * DOCUMENT (muchitsch) - creates a tree for all modules and displays the memory within this modules. some my not have a connection to memory
-	 *
-	 * @author muchitsch
-	 * 13.08.2010, 00:52:09
-	 *
-	 * @param psyApp
-	 * @param poParentTreeNode
-	 */
-	private void getTree(clsPsychicApparatus poPA, DefaultMutableTreeNode poParentTreeNode) {
-		
-		DefaultMutableTreeNode group = new DefaultMutableTreeNode("Function Modules");
-		poParentTreeNode.add(group);
-		
-        for ( Map.Entry<Integer, clsModuleBase> module : poPA.moModules.entrySet() )	{
-        	String oName = module.getValue().getClass().getSimpleName()  + "MEM";
-        	DefaultMutableTreeNode child = new DefaultMutableTreeNode(oName);
-        	group.add(child);
-        }
-	}
-
-	/**
-	 * DOCUMENT (muchitsch) - creates a subtree for special memory inspectors TODO
-	 *
-	 * @author muchitsch
-	 * 14.04.2011, 18:07:49
-	 *
-	 * @param poPAModule
-	 * @param poParentTreeNode
-	 */
-	private void addSpecialMemoryTree(clsPsychicApparatus poPAModule,
-			DefaultMutableTreeNode poParentTreeNode) {
-		
-		DefaultMutableTreeNode oMemorRootNode = new DefaultMutableTreeNode("Special Memory Inspectors");
-		
-		MutableTreeNode oNodeTPM = new DefaultMutableTreeNode("TPM");
-	    MutableTreeNode cNodeTP = new DefaultMutableTreeNode("TP");
-	    oMemorRootNode.insert(oNodeTPM, 0);
-	    oMemorRootNode.insert(cNodeTP, 1);
-		
-		/*clsMemory oMemory = poPAModule.getMemoryForInspector();
-		
-		Field[] oFields = oMemory.getClass().getFields();
-		for(Field oField : oFields) {
-			
-			if(oField.getName().startsWith("mo")) {
-				DefaultMutableTreeNode child = new DefaultMutableTreeNode(oField.getName().substring(2));
-				oMemoryNode.add(child);
-			}
-		}*/
-		poParentTreeNode.add(oMemorRootNode);
-	}
-
 	/* (non-Javadoc)
 	 *
 	 * @author muchitsch
@@ -186,6 +129,8 @@ public class clsMemoryInspectorTab extends Inspector implements TreeSelectionLis
 		moContentPane.remove(moContent);
 		moContent = clsInspectorPATabFactory.createInspectorMemory( moOriginalInspector, moWrapper, moGuiState, 
 										((clsProcessor)moPA.getProcessor()).getPsychicApparatus(), nodeInfo.toString(), moModuleTree);
+		moContent.setPreferredSize( new Dimension(300,300) );
+		
 		moContentPane.add(moContent);
 		moContentPane.setViewportView(moContent);
 		moContentPane.repaint();

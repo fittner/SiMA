@@ -6,7 +6,7 @@
  */
 package inspectors.mind.pa._v30;
 
-import pa._v30.modules.clsModuleBase;
+import pa._v30.interfaces.itfInspectorInternalState;
 
 /**
  * DOCUMENT (deutsch) - insert description 
@@ -36,7 +36,7 @@ public class clsE_StateInspector extends clsE_GenericHTMLInspector {
 	 * @param guiState
 	 * @param poModule
 	 */
-	public clsE_StateInspector(clsModuleBase poModule) {
+	public clsE_StateInspector(itfInspectorInternalState poModule) {
 		super(poModule);
 	}
 
@@ -62,7 +62,7 @@ public class clsE_StateInspector extends clsE_GenericHTMLInspector {
 	 */
 	@Override
 	protected void updateContent() {
-		moContent = moModule.stateToHTML();
+		moContent = ((itfInspectorInternalState)moModule).stateToHTML();
 	}
 
 }
