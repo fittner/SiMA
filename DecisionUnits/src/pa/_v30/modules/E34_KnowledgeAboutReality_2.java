@@ -12,7 +12,6 @@ import java.util.SortedMap;
 import config.clsBWProperties;
 import pa._v30.tools.clsPair;
 import pa._v30.interfaces.eInterfaces;
-import pa._v30.interfaces.knowledgebase.itfKnowledgeBaseAccess;
 import pa._v30.interfaces.modules.I7_3_receive;
 import pa._v30.interfaces.modules.I7_5_receive;
 import pa._v30.interfaces.modules.I7_5_send;
@@ -30,10 +29,9 @@ import pa._v30.memorymgmt.enums.eDataType;
  * 27.04.2010, 10:38:16
  * 
  */
-public class E34_KnowledgeAboutReality_2 extends clsModuleBase implements I7_3_receive, I7_5_send, itfKnowledgeBaseAccess {
+public class E34_KnowledgeAboutReality_2 extends clsModuleBaseKB implements I7_3_receive, I7_5_send {
 	public static final String P_MODULENUMBER = "34";
 	
-	private clsKnowledgeBaseHandler moKnowledgeBaseHandler; 
 	private ArrayList<clsPair<Integer, clsDataStructurePA>> moSearchPattern;
 	
 	/**
@@ -49,10 +47,9 @@ public class E34_KnowledgeAboutReality_2 extends clsModuleBase implements I7_3_r
 	 */
 	public E34_KnowledgeAboutReality_2(String poPrefix, clsBWProperties poProp,
 			HashMap<Integer, clsModuleBase> poModuleList, SortedMap<eInterfaces, ArrayList<Object>> poInterfaceData, clsKnowledgeBaseHandler poKnowledgeBaseHandler) throws Exception {
-		super(poPrefix, poProp, poModuleList, poInterfaceData);
+		super(poPrefix, poProp, poModuleList, poInterfaceData, poKnowledgeBaseHandler);
 		
 		moSearchPattern = new ArrayList<clsPair<Integer,clsDataStructurePA>>();
-		moKnowledgeBaseHandler = poKnowledgeBaseHandler;
 		
 		applyProperties(poPrefix, poProp);	
 	}

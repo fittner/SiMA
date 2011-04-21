@@ -10,11 +10,9 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.SortedMap;
-
 import pa._v30.tools.clsPair;
 import pa._v30.tools.clsTripple;
 import pa._v30.interfaces.eInterfaces;
-import pa._v30.interfaces.knowledgebase.itfKnowledgeBaseAccess;
 import pa._v30.interfaces.modules.I1_2_receive;
 import pa._v30.interfaces.modules.I1_3_receive;
 import pa._v30.interfaces.modules.I1_3_send;
@@ -36,7 +34,7 @@ import config.clsBWProperties;
  * 11.08.2009, 12:19:04
  * 
  */
-public class E03_GenerationOfSelfPreservationDrives extends clsModuleBase implements I1_2_receive, I1_3_send, itfKnowledgeBaseAccess {
+public class E03_GenerationOfSelfPreservationDrives extends clsModuleBaseKB implements I1_2_receive, I1_3_send {
 	public static final String P_MODULENUMBER = "03";
 	public static String moDriveObjectType = "DriveObject";
 	
@@ -45,7 +43,6 @@ public class E03_GenerationOfSelfPreservationDrives extends clsModuleBase implem
 	
 	private ArrayList< clsTripple<clsDriveMesh, String, ArrayList<String>> > moDriveTemplates;
 	private ArrayList< clsPair<clsDriveMesh, clsDriveDemand> > moDrives;
-	private clsKnowledgeBaseHandler moKnowledgeBaseHandler;
 	
 	/**
 	 * DOCUMENT (deutsch) - insert description 
@@ -62,10 +59,9 @@ public class E03_GenerationOfSelfPreservationDrives extends clsModuleBase implem
 			clsBWProperties poProp, HashMap<Integer, clsModuleBase> poModuleList, 
 			SortedMap<eInterfaces, ArrayList<Object>> poInterfaceData,
 			clsKnowledgeBaseHandler poKnowledgeBaseHandler) throws Exception {
-		super(poPrefix, poProp, poModuleList, poInterfaceData);
+		super(poPrefix, poProp, poModuleList, poInterfaceData, poKnowledgeBaseHandler);
 		applyProperties(poPrefix, poProp);	
 		
-		moKnowledgeBaseHandler = poKnowledgeBaseHandler; 
 	}
 	
 	public static clsBWProperties getDefaultProperties(String poPrefix) {

@@ -13,7 +13,6 @@ import java.util.List;
 
 import pa._v30.tools.clsPair;
 import pa._v30.interfaces.eInterfaces;
-import pa._v30.interfaces.knowledgebase.itfKnowledgeBaseAccess;
 import pa._v30.interfaces.modules.I1_5_receive;
 import pa._v30.interfaces.modules.I2_19_receive;
 import pa._v30.interfaces.modules.I2_9_receive;
@@ -36,11 +35,10 @@ import config.clsBWProperties;
  * 11.08.2009, 14:03:35
  * 
  */
-public class E07_InternalizedRulesHandler extends clsModuleBase implements 
-							I1_5_receive, I2_9_receive, I2_19_receive, I3_1_send, I3_2_send, itfKnowledgeBaseAccess {
+public class E07_InternalizedRulesHandler extends clsModuleBaseKB implements 
+							I1_5_receive, I2_9_receive, I2_19_receive, I3_1_send, I3_2_send {
 	public static final String P_MODULENUMBER = "07";
 	
-	private clsKnowledgeBaseHandler moKnowledgeBaseHandler; 
 	private ArrayList<clsPair<Integer, clsDataStructurePA>> moSearchPattern;
 	
 	private ArrayList<clsPrimaryDataStructureContainer> moPrimaryInformation; 
@@ -60,10 +58,9 @@ public class E07_InternalizedRulesHandler extends clsModuleBase implements
 	public E07_InternalizedRulesHandler(String poPrefix,
 			clsBWProperties poProp, HashMap<Integer, clsModuleBase> poModuleList, SortedMap<eInterfaces, ArrayList<Object>> poInterfaceData, clsKnowledgeBaseHandler poKnowledgeBaseHandler)
 			throws Exception {
-		super(poPrefix, poProp, poModuleList, poInterfaceData);
+		super(poPrefix, poProp, poModuleList, poInterfaceData, poKnowledgeBaseHandler);
 		
 		moSearchPattern = new ArrayList<clsPair<Integer,clsDataStructurePA>>();
-		moKnowledgeBaseHandler = poKnowledgeBaseHandler;
 		
 		applyProperties(poPrefix, poProp);		
 	}

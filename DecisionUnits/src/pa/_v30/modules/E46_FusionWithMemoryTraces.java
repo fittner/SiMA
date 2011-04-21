@@ -13,7 +13,6 @@ import java.util.SortedMap;
 import pa._v30.tools.clsPair;
 import pa._v30.tools.clsTripple;
 import pa._v30.interfaces.eInterfaces;
-import pa._v30.interfaces.knowledgebase.itfKnowledgeBaseAccess;
 import pa._v30.interfaces.modules.I2_20_receive;
 import pa._v30.interfaces.modules.I2_20_send;
 import pa._v30.interfaces.modules.I2_5_receive;
@@ -41,11 +40,9 @@ import config.clsBWProperties;
  * 03.03.2011, 16:16:45
  * 
  */
-public class E46_FusionWithMemoryTraces extends clsModuleBase implements
-					I2_5_receive, I7_7_receive, I2_20_send, itfKnowledgeBaseAccess {
+public class E46_FusionWithMemoryTraces extends clsModuleBaseKB implements
+					I2_5_receive, I7_7_receive, I2_20_send {
 	public static final String P_MODULENUMBER = "46";
-	
-	private clsKnowledgeBaseHandler moKnowledgeBaseHandler; 
 		
 	//HZ Not used up to now 16.03.2011
 	//private ArrayList<clsPrimaryDataStructureContainer> moGrantedPerception_IN; 
@@ -71,9 +68,7 @@ public class E46_FusionWithMemoryTraces extends clsModuleBase implements
 	 */
 	public E46_FusionWithMemoryTraces(String poPrefix, clsBWProperties poProp, HashMap<Integer, clsModuleBase> poModuleList, SortedMap<eInterfaces, ArrayList<Object>> poInterfaceData, 
 								clsKnowledgeBaseHandler poKnowledgeBaseHandler) throws Exception {
-		super(poPrefix, poProp, poModuleList, poInterfaceData);
-		
-		moKnowledgeBaseHandler = poKnowledgeBaseHandler; 
+		super(poPrefix, poProp, poModuleList, poInterfaceData, poKnowledgeBaseHandler);
 		
 		applyProperties(poPrefix, poProp);	
 	}

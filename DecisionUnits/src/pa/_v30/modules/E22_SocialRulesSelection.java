@@ -14,7 +14,6 @@ import config.clsBWProperties;
 import pa._v30.tools.clsPair;
 import pa._v30.tools.clsTripple;
 import pa._v30.interfaces.eInterfaces;
-import pa._v30.interfaces.knowledgebase.itfKnowledgeBaseAccess;
 import pa._v30.interfaces.modules.I1_7_receive;
 import pa._v30.interfaces.modules.I2_11_receive;
 import pa._v30.interfaces.modules.I3_3_receive;
@@ -38,10 +37,9 @@ import pa._v30.memorymgmt.enums.eDataType;
  * 11.08.2009, 14:45:01
  * 
  */
-public class E22_SocialRulesSelection extends clsModuleBase implements I1_7_receive, I2_11_receive, I3_3_send, itfKnowledgeBaseAccess {
+public class E22_SocialRulesSelection extends clsModuleBaseKB implements I1_7_receive, I2_11_receive, I3_3_send {
 	public static final String P_MODULENUMBER = "22";
 	
-	private clsKnowledgeBaseHandler moKnowledgeBaseHandler; 
 	private ArrayList<clsPair<Integer, clsDataStructurePA>> moSearchPattern;
 	
 	private ArrayList<clsSecondaryDataStructureContainer> moPerception; 
@@ -61,11 +59,10 @@ public class E22_SocialRulesSelection extends clsModuleBase implements I1_7_rece
 	 */
 	public E22_SocialRulesSelection(String poPrefix, clsBWProperties poProp,
 			HashMap<Integer, clsModuleBase> poModuleList, SortedMap<eInterfaces, ArrayList<Object>> poInterfaceData, clsKnowledgeBaseHandler poKnowledgeBaseHandler) throws Exception {
-		super(poPrefix, poProp, poModuleList, poInterfaceData);
+		super(poPrefix, poProp, poModuleList, poInterfaceData, poKnowledgeBaseHandler);
 		applyProperties(poPrefix, poProp);	
 		
 		moSearchPattern = new ArrayList<clsPair<Integer,clsDataStructurePA>>();
-		moKnowledgeBaseHandler = poKnowledgeBaseHandler;
 		
 		moRuleList = new ArrayList<clsAct>();
 	}

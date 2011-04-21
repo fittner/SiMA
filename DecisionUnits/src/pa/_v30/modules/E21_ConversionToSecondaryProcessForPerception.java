@@ -16,7 +16,6 @@ import config.clsBWProperties;
 import pa._v30.tools.clsPair;
 import pa._v30.tools.clsTripple;
 import pa._v30.interfaces.eInterfaces;
-import pa._v30.interfaces.knowledgebase.itfKnowledgeBaseAccess;
 import pa._v30.interfaces.modules.I2_10_receive;
 import pa._v30.interfaces.modules.I2_11_receive;
 import pa._v30.interfaces.modules.I2_11_send;
@@ -44,11 +43,10 @@ import pa._v30.memorymgmt.enums.eDataType;
  * 11.08.2009, 14:38:29
  * 
  */
-public class E21_ConversionToSecondaryProcessForPerception extends clsModuleBase implements 
-			I2_10_receive, I2_11_send, I5_4_send, itfKnowledgeBaseAccess {
+public class E21_ConversionToSecondaryProcessForPerception extends clsModuleBaseKB implements 
+			I2_10_receive, I2_11_send, I5_4_send {
 	public static final String P_MODULENUMBER = "21";
 	
-	private clsKnowledgeBaseHandler moKnowledgeBaseHandler; 
 	private ArrayList<clsPrimaryDataStructureContainer> moGrantedPerception_Input; 
 	//FIXME HZ: This would require a change in the interfaces!!! => different to the actual definition
 	//private ArrayList<clsPair<clsSecondaryDataStructureContainer, clsPair<clsWordPresentation, clsWordPresentation>>> moPerception_Output; 
@@ -69,9 +67,7 @@ public class E21_ConversionToSecondaryProcessForPerception extends clsModuleBase
 	public E21_ConversionToSecondaryProcessForPerception(String poPrefix,
 			clsBWProperties poProp, HashMap<Integer, clsModuleBase> poModuleList, SortedMap<eInterfaces, ArrayList<Object>> poInterfaceData, clsKnowledgeBaseHandler poKnowledgeBaseHandler)
 			throws Exception {
-		super(poPrefix, poProp, poModuleList, poInterfaceData);
-		
-		moKnowledgeBaseHandler = poKnowledgeBaseHandler;
+		super(poPrefix, poProp, poModuleList, poInterfaceData, poKnowledgeBaseHandler);
 		
 		applyProperties(poPrefix, poProp);
 	}

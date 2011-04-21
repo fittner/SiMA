@@ -16,7 +16,6 @@ import config.clsBWProperties;
 import du.enums.pa.eContext;
 import pa._v30.tools.clsPair;
 import pa._v30.interfaces.eInterfaces;
-import pa._v30.interfaces.knowledgebase.itfKnowledgeBaseAccess;
 import pa._v30.interfaces.modules.I2_14_receive;
 import pa._v30.interfaces.modules.I2_8_receive;
 import pa._v30.interfaces.modules.I2_8_send;
@@ -36,13 +35,11 @@ import pa._v30.storage.clsBlockedContentStorage;
  * 07.10.2009, 11:16:58
  * 
  */
-public class E35_EmersionOfRepressedContent extends clsModuleBase implements I2_14_receive, I2_8_send, itfKnowledgeBaseAccess {
+public class E35_EmersionOfRepressedContent extends clsModuleBaseKB implements I2_14_receive, I2_8_send {
 	public static final String P_MODULENUMBER = "35";
 	public static String P_CONTEXT_SENSTITIVITY = "CONTEXT_SENSITIVITY"; 
 	
 	private clsBlockedContentStorage moBlockedContentStorage;
-	private clsKnowledgeBaseHandler moKnowledgeBaseHandler; 
-	
 	private ArrayList<clsPrimaryDataStructureContainer> moEnvironmentalTP_Input; 
 	private ArrayList<clsPair<clsPrimaryDataStructureContainer, clsDriveMesh>> moAttachedRepressed_Output; 
 	private double mrContextSensitivity = 0.8;
@@ -62,9 +59,8 @@ public class E35_EmersionOfRepressedContent extends clsModuleBase implements I2_
 			clsBWProperties poProp, HashMap<Integer, clsModuleBase> poModuleList, SortedMap<eInterfaces, ArrayList<Object>> poInterfaceData,
 			clsKnowledgeBaseHandler poKnowledgeBaseHandler, clsBlockedContentStorage poBlockedContentStorage)
 			throws Exception {
-		super(poPrefix, poProp, poModuleList, poInterfaceData);
+		super(poPrefix, poProp, poModuleList, poInterfaceData, poKnowledgeBaseHandler);
 		
-		moKnowledgeBaseHandler = poKnowledgeBaseHandler;
 		moBlockedContentStorage = poBlockedContentStorage;
 
 		applyProperties(poPrefix, poProp);

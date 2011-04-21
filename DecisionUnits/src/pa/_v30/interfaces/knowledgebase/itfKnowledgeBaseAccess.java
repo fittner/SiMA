@@ -20,6 +20,7 @@ import pa._v30.memorymgmt.enums.eDataType;
  * 12.08.2010, 20:45:36
  * 
  */
+@Deprecated //TD 2011/04/21 - deprecated by introduction of clsModuleBaseKB. 
 public interface itfKnowledgeBaseAccess {
 	//public ArrayList<clsPair<Integer, clsDataStructurePA>> moSearchPattern = new ArrayList<clsPair<Integer, clsDataStructurePA>>();
 	public abstract <E> void search(eDataType poDataType, ArrayList<E> poPattern,

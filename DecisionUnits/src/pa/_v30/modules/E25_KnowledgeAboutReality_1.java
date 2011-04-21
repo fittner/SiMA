@@ -12,7 +12,6 @@ import java.util.SortedMap;
 import config.clsBWProperties;
 import pa._v30.tools.clsPair;
 import pa._v30.interfaces.eInterfaces;
-import pa._v30.interfaces.knowledgebase.itfKnowledgeBaseAccess;
 import pa._v30.interfaces.modules.I2_12_receive;
 import pa._v30.interfaces.modules.I6_1_receive;
 import pa._v30.interfaces.modules.I6_1_send;
@@ -30,10 +29,9 @@ import pa._v30.memorymgmt.enums.eDataType;
  * 11.08.2009, 14:50:27
  * 
  */
-public class E25_KnowledgeAboutReality_1 extends clsModuleBase implements I2_12_receive, I6_1_send, itfKnowledgeBaseAccess {
+public class E25_KnowledgeAboutReality_1 extends clsModuleBaseKB implements I2_12_receive, I6_1_send {
 	public static final String P_MODULENUMBER = "25";
 	
-	private clsKnowledgeBaseHandler moKnowledgeBaseHandler; 
 	private ArrayList<clsPair<Integer, clsDataStructurePA>> moSearchPattern;
 	//private ArrayList<clsSecondaryDataStructureContainer> moFocusedPerception;
 	/**
@@ -49,9 +47,7 @@ public class E25_KnowledgeAboutReality_1 extends clsModuleBase implements I2_12_
 	 */
 	public E25_KnowledgeAboutReality_1(String poPrefix, clsBWProperties poProp,
 			HashMap<Integer, clsModuleBase> poModuleList, SortedMap<eInterfaces, ArrayList<Object>> poInterfaceData, clsKnowledgeBaseHandler poKnowledgeBaseHandler) throws Exception {
-		super(poPrefix, poProp, poModuleList, poInterfaceData);
-		
-		moKnowledgeBaseHandler = poKnowledgeBaseHandler;
+		super(poPrefix, poProp, poModuleList, poInterfaceData, poKnowledgeBaseHandler);
 		
 		applyProperties(poPrefix, poProp);		
 	}

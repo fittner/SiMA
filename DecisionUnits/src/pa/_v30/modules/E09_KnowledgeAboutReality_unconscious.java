@@ -13,7 +13,6 @@ import java.util.List;
 import config.clsBWProperties;
 import pa._v30.tools.clsPair;
 import pa._v30.interfaces.eInterfaces;
-import pa._v30.interfaces.knowledgebase.itfKnowledgeBaseAccess;
 import pa._v30.interfaces.modules.I1_5_receive;
 import pa._v30.interfaces.modules.I2_19_receive;
 import pa._v30.interfaces.modules.I6_3_receive;
@@ -32,12 +31,11 @@ import pa._v30.memorymgmt.enums.eDataType;
  * 11.08.2009, 14:09:09
  * 
  */
-public class E09_KnowledgeAboutReality_unconscious extends clsModuleBase implements
-						I1_5_receive, I2_19_receive, I6_3_send, itfKnowledgeBaseAccess {
+public class E09_KnowledgeAboutReality_unconscious extends clsModuleBaseKB implements
+						I1_5_receive, I2_19_receive, I6_3_send {
 	
 	public static final String P_MODULENUMBER = "09";
 	
-	private clsKnowledgeBaseHandler moKnowledgeBaseHandler; 
 	private ArrayList<clsDriveMesh> moSexualDrives;
 	private ArrayList<clsPrimaryDataStructureContainer> moPrimaryInformation; 
 	/**
@@ -54,9 +52,7 @@ public class E09_KnowledgeAboutReality_unconscious extends clsModuleBase impleme
 	public E09_KnowledgeAboutReality_unconscious(String poPrefix,
 			clsBWProperties poProp, HashMap<Integer, clsModuleBase> poModuleList, SortedMap<eInterfaces, ArrayList<Object>> poInterfaceData, clsKnowledgeBaseHandler poKnowledgeBaseHandler)
 			throws Exception {
-		super(poPrefix, poProp, poModuleList, poInterfaceData);
-		
-		moKnowledgeBaseHandler = poKnowledgeBaseHandler;
+		super(poPrefix, poProp, poModuleList, poInterfaceData, poKnowledgeBaseHandler);
 		
 		applyProperties(poPrefix, poProp);		
 	}

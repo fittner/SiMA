@@ -13,7 +13,6 @@ import java.util.SortedMap;
 import config.clsBWProperties;
 import pa._v30.tools.clsPair;
 import pa._v30.interfaces.eInterfaces;
-import pa._v30.interfaces.knowledgebase.itfKnowledgeBaseAccess;
 import pa._v30.interfaces.modules.I1_6_receive;
 import pa._v30.interfaces.modules.I1_7_receive;
 import pa._v30.interfaces.modules.I1_7_send;
@@ -37,13 +36,12 @@ import pa._v30.memorymgmt.enums.eDataType;
  * 11.08.2009, 14:11:38
  * 
  */
-public class E08_ConversionToSecondaryProcessForDriveWishes extends clsModuleBase implements 
-                 I1_6_receive, I1_7_send, I5_3_send, itfKnowledgeBaseAccess {
+public class E08_ConversionToSecondaryProcessForDriveWishes extends clsModuleBaseKB implements 
+                 I1_6_receive, I1_7_send, I5_3_send {
 	
 	public static final String P_MODULENUMBER = "08";
 	
-	private clsKnowledgeBaseHandler moKnowledgeBaseHandler; 
-    private ArrayList<clsDriveMesh> moDriveList_Input; 
+	private ArrayList<clsDriveMesh> moDriveList_Input; 
 	private ArrayList<clsSecondaryDataStructureContainer> moDriveList_Output; 
 
 	/**
@@ -60,9 +58,7 @@ public class E08_ConversionToSecondaryProcessForDriveWishes extends clsModuleBas
 	public E08_ConversionToSecondaryProcessForDriveWishes(String poPrefix,
 			clsBWProperties poProp, HashMap<Integer, clsModuleBase> poModuleList, SortedMap<eInterfaces, ArrayList<Object>> poInterfaceData, clsKnowledgeBaseHandler poKnowledgeBaseHandler)
 			throws Exception {
-		super(poPrefix, poProp, poModuleList, poInterfaceData);
-		
-		moKnowledgeBaseHandler = poKnowledgeBaseHandler;
+		super(poPrefix, poProp, poModuleList, poInterfaceData, poKnowledgeBaseHandler);
 		
 		applyProperties(poPrefix, poProp);
 	}
