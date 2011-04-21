@@ -76,6 +76,7 @@ public class clsOntologyLoader {
 	public static eDataType[] initValues(){
 		eDataType [] oRetVal = {eDataType.ASSOCIATIONWP, 
 								eDataType.ASSOCIATIONDM, 
+								eDataType.ASSOCIATIONATTRIBUTE,
 								eDataType.ACT,
 								eDataType.AFFECT, 
 								eDataType.DM,
