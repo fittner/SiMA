@@ -11,6 +11,8 @@ import java.util.Arrays;
 
 import pa._v30.tools.clsPair;
 import pa._v30.tools.clsTripple;
+import pa._v30.tools.toHtml;
+import pa._v30.interfaces.itfInspectorInternalState;
 import pa._v30.interfaces.modules.D2_1_receive;
 import pa._v30.interfaces.modules.D2_2_send;
 import pa._v30.interfaces.modules.D2_3_receive;
@@ -30,7 +32,7 @@ import pa._v30.memorymgmt.enums.eDataType;
  * 09.03.2011, 17:12:46
  * 
  */
-public class clsBlockedContentStorage implements D2_2_send, D2_4_send, D2_1_receive, D2_3_receive {
+public class clsBlockedContentStorage implements itfInspectorInternalState, D2_2_send, D2_4_send, D2_1_receive, D2_3_receive {
     private ArrayList<clsDriveMesh> moBlockedContent;
     
     public clsBlockedContentStorage() {
@@ -150,5 +152,23 @@ public class clsBlockedContentStorage implements D2_2_send, D2_4_send, D2_1_rece
 	@Override
 	public String toString() {
 		return "n/a";
+	}
+
+	/* (non-Javadoc)
+	 *
+	 * @author deutsch
+	 * 21.04.2011, 15:02:51
+	 * 
+	 * @see pa._v30.interfaces.itfInspectorInternalState#stateToHTML()
+	 */
+	@Override
+	public String stateToHTML() {
+		String html = "<html><head></head><body>";
+		
+		html += "<h1>Blocked Content Storage</h1>";
+		html += toHtml.listToHTML("moBlockedContent", moBlockedContent);
+		
+		html += "</body></html>";
+		return html;
 	}
 }

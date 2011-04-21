@@ -6,10 +6,15 @@
  */
 package pa._v30.storage;
 
+import java.util.ArrayList;
+
+import pa._v30.interfaces.itfInspectorGenericTimeChart;
+import pa._v30.interfaces.itfInspectorInternalState;
 import pa._v30.interfaces.modules.D1_1_receive;
 import pa._v30.interfaces.modules.D1_2_send;
 import pa._v30.interfaces.modules.D1_3_receive;
 import pa._v30.interfaces.modules.D1_4_send;
+import pa._v30.tools.toHtml;
 
 /**
  * DOCUMENT (deutsch) - insert description 
@@ -18,7 +23,7 @@ import pa._v30.interfaces.modules.D1_4_send;
  * 09.03.2011, 17:04:55
  * 
  */
-public class clsLibidoBuffer implements D1_2_send, D1_4_send, D1_1_receive, D1_3_receive  {
+public class clsLibidoBuffer implements itfInspectorInternalState, itfInspectorGenericTimeChart, D1_2_send, D1_4_send, D1_1_receive, D1_3_receive  {
 	private double mrBufferedLibido;
 	
 	public clsLibidoBuffer() {
@@ -77,4 +82,100 @@ public class clsLibidoBuffer implements D1_2_send, D1_4_send, D1_1_receive, D1_3
 	public String toString() {
 		return "libido: "+mrBufferedLibido;
 	}
+
+	/* (non-Javadoc)
+	 *
+	 * @author deutsch
+	 * 21.04.2011, 15:02:51
+	 * 
+	 * @see pa._v30.interfaces.itfInspectorInternalState#stateToHTML()
+	 */
+	@Override
+	public String stateToHTML() {
+		String html = "<html><head></head><body>";
+		
+		html += "<h1>Libido Buffer</h1>";
+		html += toHtml.valueToHTML("mrBufferedLibido", mrBufferedLibido);
+		
+		html += "</body></html>";
+		return html;
+	}
+
+	/* (non-Javadoc)
+	 *
+	 * @author deutsch
+	 * 15.04.2011, 20:16:46
+	 * 
+	 * @see pa.interfaces._v30.itfTimeChartInformationContainer#getTimeChartData()
+	 */
+	@Override
+	public ArrayList<Double> getTimeChartData() {
+		ArrayList<Double> oValues = new ArrayList<Double>();
+		
+		oValues.add(mrBufferedLibido);
+		
+		return oValues;
+	}
+
+	/* (non-Javadoc)
+	 *
+	 * @author deutsch
+	 * 15.04.2011, 20:16:46
+	 * 
+	 * @see pa.interfaces._v30.itfTimeChartInformationContainer#getTimeChartCaptions()
+	 */
+	@Override
+	public ArrayList<String> getTimeChartCaptions() {
+		ArrayList<String> oCaptions = new ArrayList<String>();
+		oCaptions.add("Total Libido");
+		return oCaptions;
+	}
+
+	/* (non-Javadoc)
+	 *
+	 * @author deutsch
+	 * 19.04.2011, 10:42:50
+	 * 
+	 * @see pa.interfaces._v30.itfInspectorGenericTimeChart#getTimeChartAxis()
+	 */
+	@Override
+	public String getTimeChartAxis() {
+		return "Libido";
+	}
+
+	/* (non-Javadoc)
+	 *
+	 * @author deutsch
+	 * 19.04.2011, 10:42:50
+	 * 
+	 * @see pa.interfaces._v30.itfInspectorGenericTimeChart#getTimeChartTitle()
+	 */
+	@Override
+	public String getTimeChartTitle() {
+		return "Libido Chart";
+	}
+
+	/* (non-Javadoc)
+	 *
+	 * @author deutsch
+	 * 19.04.2011, 10:42:50
+	 * 
+	 * @see pa.interfaces._v30.itfInspectorGenericTimeChart#getTimeChartUpperLimit()
+	 */
+	@Override
+	public double getTimeChartUpperLimit() {
+		return 1.05;
+	}
+
+	/* (non-Javadoc)
+	 *
+	 * @author deutsch
+	 * 19.04.2011, 10:42:50
+	 * 
+	 * @see pa.interfaces._v30.itfInspectorGenericTimeChart#getTimeChartLowerLimit()
+	 */
+	@Override
+	public double getTimeChartLowerLimit() {
+		return -0.05;
+	}	
 }
