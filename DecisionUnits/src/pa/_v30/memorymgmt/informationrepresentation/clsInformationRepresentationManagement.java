@@ -11,6 +11,7 @@ import java.util.NoSuchElementException;
 
 import config.clsBWProperties;
 import pa._v30.tools.clsPair;
+import pa._v30.tools.toHtml;
 import pa._v30.memorymgmt.clsKnowledgeBaseHandler;
 import pa._v30.memorymgmt.datatypes.clsDataStructureContainer;
 import pa._v30.memorymgmt.datatypes.clsDataStructurePA;
@@ -55,6 +56,22 @@ public class clsInformationRepresentationManagement extends clsKnowledgeBaseHand
 		initModules(); 
 	}
 	
+	/* (non-Javadoc)
+	 *
+	 * @author deutsch
+	 * 21.04.2011, 16:31:05
+	 * 
+	 * @see pa._v30.interfaces.itfInspectorInternalState#stateToHTML()
+	 */
+	@Override
+	public String stateToHTML() {
+		String html = "";
+		
+		html += "<h1>clsInformationRepresentationManagement</h1>";
+		html += toHtml.removeHTMLWrap(moSearchSpaceHandler.stateToHTML());
+		
+		return toHtml.wrapHTMLContent(html);
+	}	
 
 	/**
 	 * DOCUMENT (zeilinger) - insert description
@@ -94,7 +111,7 @@ public class clsInformationRepresentationManagement extends clsKnowledgeBaseHand
 	    	oProp.setProperty(pre+P_DATABASE_SOURCE, eDataSources.MAINMEMORY.toString());
 	    	oProp.setProperty(pre+P_SEARCH_METHOD, eSearchMethod.LISTSEARCH.toString());
 	    	//TODO HZ: Make the project file-path configurable
-	    	oProp.setProperty(pre+P_SOURCE_NAME, "/DecisionUnits/config/bw/pa.memory/AGENT_BASIC/BASIC.pprj");
+	    	oProp.setProperty(pre+P_SOURCE_NAME, "/DecisionUnits/config/_v30/bw/pa.memory/AGENT_BASIC/BASIC.pprj");
 	    	return oProp;
 	 }
 	 
@@ -187,4 +204,7 @@ public class clsInformationRepresentationManagement extends clsKnowledgeBaseHand
 		}
 		return oClone;
 	}
+
+
+
 }

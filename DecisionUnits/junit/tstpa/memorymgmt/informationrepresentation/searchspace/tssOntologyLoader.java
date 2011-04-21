@@ -37,7 +37,7 @@ public class tssOntologyLoader {
 	
 	@Test
 	public void testProtegeDB(){
-		clsOntologyLoader.loadOntology(new HashMap<String, clsDataStructurePA>(), "/DecisionUnits/config/bw/pa.memory/AGENT_BASIC/BASIC.pprj");   
+		clsOntologyLoader.loadOntology(new HashMap<String, clsDataStructurePA>(), "/DecisionUnits/config/_v30/bw/pa.memory/AGENT_BASIC/BASIC.pprj");   
 		assertTrue(true);
 	}
 }

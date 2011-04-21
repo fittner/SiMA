@@ -8,6 +8,7 @@ package pa._v30.memorymgmt.informationrepresentation;
 
 import java.util.ArrayList;
 
+import pa._v30.interfaces.itfInspectorInternalState;
 import pa._v30.memorymgmt.datatypes.clsAssociation;
 import pa._v30.memorymgmt.datatypes.clsDataStructurePA;
 import pa._v30.memorymgmt.informationrepresentation.enums.eDataSources;
@@ -21,12 +22,25 @@ import pa._v30.memorymgmt.informationrepresentation.searchspace.clsSearchSpaceCr
  * 23.05.2010, 18:21:01
  * 
  */
-public class clsSearchSpaceHandler {
+public class clsSearchSpaceHandler implements itfInspectorInternalState {
 	private clsSearchSpaceBase moSearchSpace; 
 	
 	public clsSearchSpaceBase getSearchSpace() {
 		return moSearchSpace;
 	}
+
+
+	/* (non-Javadoc)
+	 *
+	 * @author deutsch
+	 * 21.04.2011, 16:33:39
+	 * 
+	 * @see pa._v30.interfaces.itfInspectorInternalState#stateToHTML()
+	 */
+	@Override
+	public String stateToHTML() {
+		return moSearchSpace.stateToHTML();
+	}	
 	
 	public clsSearchSpaceHandler(String poDatabaseSource, String poSourceName){
 		createSearchSpace(poDatabaseSource, poSourceName);
@@ -71,4 +85,5 @@ public class clsSearchSpaceHandler {
 		}
 		return oAssociatedDataStructureList; 
 	}
+
 }

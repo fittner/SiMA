@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import pa._v30.tools.clsPair;
+import pa._v30.interfaces.itfInspectorInternalState;
 import pa._v30.memorymgmt.datatypes.clsAssociation;
 import pa._v30.memorymgmt.datatypes.clsDataStructurePA;
 import pa._v30.memorymgmt.enums.eDataType;
@@ -21,7 +22,7 @@ import pa._v30.memorymgmt.enums.eDataType;
  * 23.05.2010, 18:29:05
  * 
  */
-public abstract class clsSearchSpaceBase {
+public abstract class clsSearchSpaceBase implements itfInspectorInternalState {
 	protected HashMap<String, clsDataStructurePA> moDataStructureTable;
 	
 	public clsSearchSpaceBase(HashMap<String, clsDataStructurePA> poDataStructureTable){

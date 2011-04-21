@@ -1,0 +1,183 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+     
+    <!-- ################################## SIMPLE TYPES ######################### -->
+    
+    <xsd:simpleType name="type0to1">
+        <xsd:restriction base="xsd:float">
+            <xsd:minInclusive value="0"/>
+            <xsd:maxInclusive value="1"/>
+        </xsd:restriction>
+    </xsd:simpleType>
+
+	  <xsd:simpleType name="typeNeg1toPos1">
+        <xsd:restriction base="xsd:float">
+            <xsd:minInclusive value="-1"/>
+            <xsd:maxInclusive value="1"/>
+        </xsd:restriction>
+    </xsd:simpleType>
+    
+    <xsd:simpleType name="typeBooleanOperator">
+        <xsd:restriction base="xsd:string">
+            <xsd:enumeration value="AND"/>
+            <xsd:enumeration value="OR"/>
+        </xsd:restriction>
+    </xsd:simpleType>
+    
+    <xsd:simpleType name="typeCompareOperator">
+        <xsd:restriction base="xsd:string">
+            <xsd:enumeration value="=="/>
+            <xsd:enumeration value="!="/>
+            <xsd:enumeration value=">="/>
+            <xsd:enumeration value="&lt;="/>
+            <xsd:enumeration value=">"/>
+            <xsd:enumeration value="&lt;"/>
+        </xsd:restriction>
+    </xsd:simpleType>
+    
+    <xsd:simpleType name="typeLevelEmotion">
+        <xsd:restriction base="xsd:string">
+            <xsd:enumeration value="VeryLow"/>
+            <xsd:enumeration value="Low"/>
+            <xsd:enumeration value="Normal"/>
+            <xsd:enumeration value="High"/>
+            <xsd:enumeration value="VeryHigh"/>
+        </xsd:restriction>
+    </xsd:simpleType>
+
+    
+    <xsd:simpleType name="typeEmotion">
+        <xsd:restriction base="xsd:string">
+            <xsd:enumeration value="Any"/>
+            <xsd:enumeration value="Fear"/>
+            <xsd:enumeration value="Anger"/>
+        </xsd:restriction>
+    </xsd:simpleType>
+
+	 <xsd:simpleType name="typeLevelComplexEmotion">
+        <xsd:restriction base="xsd:string">
+            <xsd:enumeration value="VeryLow"/>
+            <xsd:enumeration value="Low"/>
+            <xsd:enumeration value="Normal"/>
+            <xsd:enumeration value="High"/>
+            <xsd:enumeration value="VeryHigh"/>
+        </xsd:restriction>
+    </xsd:simpleType>
+    
+    <xsd:simpleType name="typeLevelDrive">
+        <xsd:restriction base="xsd:string">
+            <xsd:enumeration value="VeryLow"/>
+            <xsd:enumeration value="Low"/>
+            <xsd:enumeration value="Normal"/>
+            <xsd:enumeration value="High"/>
+            <xsd:enumeration value="VeryHigh"/>
+        </xsd:restriction>
+    </xsd:simpleType>
+    
+    <xsd:simpleType name="typeDrive">
+        <xsd:restriction base="xsd:string">
+            <xsd:enumeration value="Any"/>
+            <xsd:enumeration value="Hunger"/>
+            <xsd:enumeration value="Thirst"/>
+            <xsd:enumeration value="Seek"/>
+            <xsd:enumeration value="Lust"/>
+        </xsd:restriction>
+    </xsd:simpleType>
+   
+    <xsd:simpleType name="typeDistance">
+        <xsd:restriction base="xsd:string">
+            <xsd:enumeration value="Everywhere"/>
+            <xsd:enumeration value="Null"/>
+            <xsd:enumeration value="Above"/>
+            <xsd:enumeration value="Close"/>
+            <xsd:enumeration value="Medium"/>
+            <xsd:enumeration value="Far"/>
+        </xsd:restriction>
+    </xsd:simpleType>
+    
+    <xsd:simpleType name="typeSide">
+        <xsd:restriction base="xsd:string">
+            <xsd:enumeration value="Everywhere"/>
+            <xsd:enumeration value="Left"/>
+            <xsd:enumeration value="Middle"/>
+            <xsd:enumeration value="Right"/>
+        </xsd:restriction>
+    </xsd:simpleType>
+    
+    <xsd:simpleType name="typeCount">
+        <xsd:restriction base="xsd:string">
+            <xsd:enumeration value="None"/>
+            <xsd:enumeration value="1"/>
+            <xsd:enumeration value="2"/>
+            <xsd:enumeration value="Many"/>
+        </xsd:restriction>
+    </xsd:simpleType>
+    
+    <xsd:simpleType name="typeOptional">
+        <xsd:restriction base="xsd:string">
+            <xsd:enumeration value="optional"/>
+            <xsd:enumeration value="mandatory"/>
+        </xsd:restriction>
+    </xsd:simpleType>
+    
+    <xsd:simpleType name="typeTrippleState">
+        <xsd:restriction base="xsd:string">
+            <xsd:enumeration value="true"/>
+            <xsd:enumeration value="false"/>
+            <xsd:enumeration value="undefined"/>
+        </xsd:restriction>
+    </xsd:simpleType>
+    
+    <xsd:simpleType name="typeScentintensity">
+        <xsd:restriction base="xsd:string">
+            <xsd:enumeration value="None"/>
+            <xsd:enumeration value="Low"/>
+            <xsd:enumeration value="Medium"/>
+            <xsd:enumeration value="High"/>
+            <xsd:enumeration value="HeyBubbleGoOnAndTakeAShower!"/>
+        </xsd:restriction>
+    </xsd:simpleType>
+    
+    <xsd:simpleType name="typeAbstractImageRatings">
+        <xsd:restriction base="xsd:string">
+            <xsd:enumeration value="Null"/>
+            <xsd:enumeration value="Low"/>
+            <xsd:enumeration value="Medium"/>
+            <xsd:enumeration value="High"/>
+            <xsd:enumeration value="Full"/>            
+        </xsd:restriction>            
+    </xsd:simpleType>
+
+    <xsd:simpleType name="typeEntityMessages">
+        <xsd:restriction base="xsd:string">
+            <xsd:enumeration value="none"/>
+            <xsd:enumeration value="dancewithme"/>
+            <xsd:enumeration value="idancewithyou"/>           
+            <xsd:enumeration value="helpme_crackfood"/>
+            <xsd:enumeration value="helpme_defend"/>          
+        </xsd:restriction>            
+    </xsd:simpleType>
+
+	 <xsd:simpleType name="typeBrainAction" >
+	 	<xsd:restriction base="xsd:string">
+			<xsd:enumeration value="nothing"/>
+			<xsd:enumeration value="promenade"/>
+			<xsd:enumeration value="promenade_reset"/>
+			<xsd:enumeration value="attack"/>
+			<xsd:enumeration value="flee"/>
+			<xsd:enumeration value="callhelp_defend"/>
+			<xsd:enumeration value="movetofood"/>
+			<xsd:enumeration value="eatfood"/>
+			<xsd:enumeration value="callhelp_crackfood"/>
+			<xsd:enumeration value="movetonextfood"/>
+			<xsd:enumeration value="dance"/>
+			<xsd:enumeration value="dancewith"/>
+			<xsd:enumeration value="callfor_dance"/>
+			<xsd:enumeration value="callfor_answerdance"/>
+			<xsd:enumeration value="social_praise"/>
+			<xsd:enumeration value="social_reproach"/>
+			<xsd:enumeration value="inner_conflict"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+    
+</xsd:schema>

@@ -6,7 +6,9 @@
  */
 package pa._v30.memorymgmt.informationrepresentation.modules;
 
+import pa._v30.interfaces.itfInspectorInternalState;
 import pa._v30.memorymgmt.informationrepresentation.clsSearchSpaceHandler;
+import pa._v30.tools.toHtml;
 
 /**
  * DOCUMENT (zeilinger) - insert description 
@@ -15,7 +17,7 @@ import pa._v30.memorymgmt.informationrepresentation.clsSearchSpaceHandler;
  * 19.05.2010, 07:45:02
  * 
  */
-public class clsInformationRepresentationModuleContainer {
+public class clsInformationRepresentationModuleContainer implements itfInspectorInternalState {
 	//protected clsModuleContainer moEnclosingContainer;
 	protected clsSearchSpaceHandler moSearchSpaceHandler; 
 	/**
@@ -31,6 +33,22 @@ public class clsInformationRepresentationModuleContainer {
 								clsSearchSpaceHandler poSearchSpaceHandler, String poSearchMethod) {
 		//moEnclosingContainer = poModuleContainer;
 		moSearchSpaceHandler = poSearchSpaceHandler; 
+	}
+	/* (non-Javadoc)
+	 *
+	 * @author deutsch
+	 * 21.04.2011, 16:45:04
+	 * 
+	 * @see pa._v30.interfaces.itfInspectorInternalState#stateToHTML()
+	 */
+	@Override
+	public String stateToHTML() {
+		String html = "";
+		
+		html += "<h1>clsInformationRepresentationModuleContainer</h1>";
+		html += toHtml.removeHTMLWrap(moSearchSpaceHandler.stateToHTML());
+		
+		return toHtml.wrapHTMLContent(html);
 	}
 
 }
