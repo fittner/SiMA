@@ -19,12 +19,14 @@ import pa._v30.interfaces.modules.I1_3_receive;
 import pa._v30.interfaces.modules.I1_3_send;
 import pa._v30.memorymgmt.clsKnowledgeBaseHandler;
 import pa._v30.memorymgmt.datahandler.clsDataStructureGenerator;
+import pa._v30.memorymgmt.datatypes.clsAssociation;
 import pa._v30.memorymgmt.datatypes.clsDataStructureContainer;
 import pa._v30.memorymgmt.datatypes.clsDataStructurePA;
 import pa._v30.memorymgmt.datatypes.clsDriveDemand;
 import pa._v30.memorymgmt.datatypes.clsDriveMesh;
 import pa._v30.memorymgmt.datatypes.clsPrimaryDataStructureContainer;
 import pa._v30.memorymgmt.datatypes.clsThingPresentation;
+import pa._v30.memorymgmt.datatypes.clsThingPresentationMesh;
 import pa._v30.memorymgmt.enums.eDataType;
 import config.clsBWProperties;
 
@@ -115,7 +117,7 @@ public class E03_GenerationOfSelfPreservationDrives extends clsModuleBaseKB impl
 		
 		return new clsTripple<clsDriveMesh, String, ArrayList<String>>(oDriveMesh, poSource, oObjects);
 	}
-	
+/*	
 	private ArrayList<String> getDriveSources(String poContext, clsDriveMesh poDriveMesh) {
 		ArrayList<String> oRes = new ArrayList<String>();
 		
@@ -135,6 +137,30 @@ public class E03_GenerationOfSelfPreservationDrives extends clsModuleBaseKB impl
 		
 		return oRes;
 	}
+*/	
+	private ArrayList<String> getDriveSources(String poContext, clsDriveMesh poDriveMesh) {
+        
+        double nIntensity = 0.0; 
+        ArrayList<String> oRes = new ArrayList<String>();
+        ArrayList<ArrayList<clsPair<Double,clsDataStructureContainer>>> oSearchResult = new ArrayList<ArrayList<clsPair<Double,clsDataStructureContainer>>>(); 
+        
+        search(eDataType.TPM, new ArrayList<clsDriveMesh>(Arrays.asList(poDriveMesh)), oSearchResult ); 
+        
+        for(ArrayList<clsPair<Double,clsDataStructureContainer>> oPatternResults : oSearchResult ){
+                 for(clsPair<Double, clsDataStructureContainer> oMatch : oPatternResults ){
+                           for(clsAssociation oAssociation : oMatch.b.getMoAssociatedDataStructures()){
+                                    
+                                    nIntensity = ((clsDriveMesh)oAssociation.getMoAssociationElementA()).getPleasure(); 
+                                    
+                                    if(nIntensity > 0){
+                                             oRes.add(((clsThingPresentationMesh) oAssociation.getMoAssociationElementB()).getMoContent()); 
+                                    }
+                           }
+                 }
+        }
+                           
+        return oRes;
+}
 	
 	private clsDriveMesh createDriveMesh(String poContentType, String poContext) {
 		clsThingPresentation oDataStructure = (clsThingPresentation)clsDataStructureGenerator.generateDataStructure( eDataType.TP, new clsPair<String, Object>(poContentType, poContext) );
