@@ -6,6 +6,7 @@
  */
 package pa._v30.memorymgmt;
 
+import pa._v30.interfaces.itfInspectorInternalState;
 import config.clsBWProperties;
 
 /**
@@ -15,7 +16,7 @@ import config.clsBWProperties;
  * 19.05.2010, 07:56:25
  * 
  */
-public abstract class clsKnowledgeBaseHandler implements itfKnowledgeBaseHandler{
+public abstract class clsKnowledgeBaseHandler implements itfKnowledgeBaseHandler, itfInspectorInternalState {
 	public static final String P_DATABASE_SOURCE = "database_source";
 	public static final String P_SEARCH_METHOD = "database_search";
 	public static final String P_SOURCE_NAME = "source_name";

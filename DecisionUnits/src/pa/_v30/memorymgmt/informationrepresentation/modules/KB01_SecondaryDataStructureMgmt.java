@@ -23,7 +23,7 @@ import pa._v30.memorymgmt.informationrepresentation.clsSearchSpaceHandler;
  * 19.05.2010, 07:47:02
  * 
  */
-public class KB01_SecondaryDataStructureMgmt extends clsInformationRepresentationModuleBase{
+public class KB01_SecondaryDataStructureMgmt extends clsInformationRepresentationModuleBase {
 
 	/**
 	 * DOCUMENT (zeilinger) - insert description 

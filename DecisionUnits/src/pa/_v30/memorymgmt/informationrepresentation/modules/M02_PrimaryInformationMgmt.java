@@ -6,7 +6,9 @@
  */
 package pa._v30.memorymgmt.informationrepresentation.modules;
 
+import pa._v30.interfaces.itfInspectorInternalState;
 import pa._v30.memorymgmt.informationrepresentation.clsSearchSpaceHandler;
+import pa._v30.tools.toHtml;
 
 /**
  * DOCUMENT (zeilinger) - insert description 
@@ -15,7 +17,7 @@ import pa._v30.memorymgmt.informationrepresentation.clsSearchSpaceHandler;
  * 23.05.2010, 21:37:54
  * 
  */
-public class M02_PrimaryInformationMgmt extends clsInformationRepresentationModuleContainer{
+public class M02_PrimaryInformationMgmt extends clsInformationRepresentationModuleContainer  implements itfInspectorInternalState {
 	
 	public KB02_InternalPerceptionMgmt moKB02InternalPerceptionMgmt;
 	public KB03_ExternalPerceptionMgmt moKB03ExternalPerceptionMgmt;
@@ -36,5 +38,24 @@ public class M02_PrimaryInformationMgmt extends clsInformationRepresentationModu
 		moKB02InternalPerceptionMgmt = new KB02_InternalPerceptionMgmt(poInformationRepresentationModulesContainer, poSearchSpaceHandler, poSearchMethod);
 		moKB03ExternalPerceptionMgmt = new KB03_ExternalPerceptionMgmt(poInformationRepresentationModulesContainer, poSearchSpaceHandler, poSearchMethod); 
 	}
+	
+	/* (non-Javadoc)
+	 *
+	 * @author deutsch
+	 * 21.04.2011, 16:45:04
+	 * 
+	 * @see pa._v30.interfaces.itfInspectorInternalState#stateToHTML()
+	 */
+	@Override
+	public String stateToHTML() {
+		String html = "";
+		
+		html += "<h1>clsInformationRepresentationModuleContainer</h1>";
+		html += toHtml.removeHTMLWrap(moSearchSpaceHandler.stateToHTML());
+		html += toHtml.removeHTMLWrap(moKB02InternalPerceptionMgmt.stateToHTML());
+		html += toHtml.removeHTMLWrap(moKB03ExternalPerceptionMgmt.stateToHTML());
+		
+		return toHtml.wrapHTMLContent(html);
+	}	
 		
 }

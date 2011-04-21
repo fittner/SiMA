@@ -17,6 +17,17 @@ import java.util.Map;
  * 
  */
 public class toHtml {
+	public static String wrapHTMLContent(String poContent) {
+		return "<html><head></head><body>"+poContent+"</body></html>";
+	}
+	
+	public static String removeHTMLWrap(String poContent) {
+		if (poContent != null && poContent.length() > "<html><head></head><body></body></html>".length()) {
+			poContent.substring("<html><head></head><body>".length(), poContent.length()-"</body></html>".length());
+		}
+		return poContent;
+	}
+	
 	public static <E,V> String mapToHTML(String poName, Map<E,V> poMap) {
 		String html ="<h2>"+poName+"</h2>";
 		

@@ -1,4 +1,4 @@
-; Wed Apr 20 18:16:18 CEST 2011
+; Thu Apr 21 16:26:11 CEST 2011
 ; 
 ;+ (version "3.4.5")
 ;+ (build "Build 608")
@@ -787,7 +787,7 @@
 	(cathegory%3Aoral 0.7)
 	(cathegory%3Aphalic 0.2)
 	(pleasure 0.5)
-	(value "BITE_CAKEBASIC"))
+	(value "BITE"))
 
 ([DM%3ABITE%3ACANBASIC] of  BITE
 
@@ -796,7 +796,7 @@
 	(cathegory%3Aoral 0.1)
 	(cathegory%3Aphalic 0.3)
 	(pleasure 0.0)
-	(value "BITE_CANBASIC"))
+	(value "BITE"))
 
 ([DM%3ABITE%3AREMOTEBOT] of  BITE
 
@@ -805,7 +805,7 @@
 	(cathegory%3Aoral 0.1)
 	(cathegory%3Aphalic 0.3)
 	(pleasure 0.0)
-	(value "BITE_REMOTEBOT"))
+	(value "BITE"))
 
 ([DM%3ABITE%3ASTONE] of  BITE
 
@@ -814,7 +814,7 @@
 	(cathegory%3Aoral 0.1)
 	(cathegory%3Aphalic 0.3)
 	(pleasure -0.8)
-	(value "BITE_STONE"))
+	(value "BITE"))
 
 ([DM%3ADEPOSIT%3ASTONE] of  DEPOSIT
 
@@ -823,7 +823,7 @@
 	(cathegory%3Aoral 0.0)
 	(cathegory%3Aphalic 0.5)
 	(pleasure -0.2)
-	(value "DEPOSIT_STONE"))
+	(value "DEPOSIT"))
 
 ([DM%3ANOURISH%3ABUBBLE] of  NOURISH
 
@@ -832,7 +832,7 @@
 	(cathegory%3Aoral 0.7)
 	(cathegory%3Aphalic 0.0)
 	(pleasure 0.6)
-	(value "NOURISH_BUBBLE"))
+	(value "NOURISH"))
 
 ([DM%3ANOURISH%3ACAKEBASIC] of  NOURISH
 
@@ -841,7 +841,7 @@
 	(cathegory%3Aoral 0.7)
 	(cathegory%3Aphalic 0.0)
 	(pleasure 0.6)
-	(value "NOURISH_CAKEBASIC"))
+	(value "NOURISH"))
 
 ([DM%3ANOURISH%3ACANBASIC] of  NOURISH
 
@@ -850,7 +850,7 @@
 	(cathegory%3Aoral 0.7)
 	(cathegory%3Aphalic 0.0)
 	(pleasure 0.5)
-	(value "NOURISH_CANBASIC"))
+	(value "NOURISH"))
 
 ([DM%3ANOURISH%3AREMOTEBOT] of  NOURISH
 
@@ -859,7 +859,7 @@
 	(cathegory%3Aoral 0.7)
 	(cathegory%3Aphalic 0.0)
 	(pleasure 0.6)
-	(value "NOURISH_REMOTEBOT"))
+	(value "NOURISH"))
 
 ([DM%3ANOURISH%3ASTONE] of  NOURISH
 
@@ -868,7 +868,7 @@
 	(cathegory%3Aoral 0.1)
 	(cathegory%3Aphalic 0.0)
 	(pleasure -0.4)
-	(value "NOURISH_STONE"))
+	(value "NOURISH"))
 
 ([DM%3AREPRESS%3ASTONE] of  REPRESS
 
@@ -877,7 +877,7 @@
 	(cathegory%3Aoral 0.0)
 	(cathegory%3Aphalic 0.0)
 	(pleasure 0.6)
-	(value "REPRESS_STONE"))
+	(value "REPRESS"))
 
 ([HANDS] of  %3ASTANDARD-CLASS
 
