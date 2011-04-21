@@ -12,12 +12,14 @@ import java.util.ArrayList;
 import javax.swing.JTree;
 
 import inspectors.mind.pa._v30.functionalmodel.clsPAInspectorFunctional;
+import inspectors.mind.pa._v30.graph.clsSemanticInformationInspector;
 import pa._v30.interfaces.eInterfaces;
 import pa._v30.interfaces.itfInspectorGenericTimeChart;
 import pa._v30.interfaces.itfInspectorInternalState;
 import pa._v30.interfaces.itfInterfaceDescription;
 import pa._v30.interfaces.itfInterfaceInterfaceData;
 import pa._v30.modules.clsModuleBase;
+import pa._v30.modules.clsModuleBaseKB;
 import pa._v30.modules.clsPsychicApparatus;
 import sim.display.GUIState;
 import sim.portrayal.Inspector;
@@ -127,6 +129,13 @@ public class clsInspectorPATabFactory {
 				}
 			
 			}
+			
+			if (oModule instanceof clsModuleBaseKB) {
+//				oRetVal.addInspector(
+				//						new clsSemanticInformationInspector(moPA, poEnumInterface),
+				//						"KnowledgeBase");
+			}
+			
 		} catch (java.lang.NoSuchFieldException e) {
 			// do nothing
 		} catch (java.lang.Exception e) {
