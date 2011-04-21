@@ -215,6 +215,7 @@ public class clsInspectorPATabFactory {
 
 		//special memory tree...
 		if (poModuleName.equals("KB")) {
+			oRetVal.addInspector(new clsE_StateInspector(moPA.moKnowledgeBaseHandler), "State");
 		} else if (poModuleName.equals("TPM")) {
 			
 		} else if (poModuleName.equals("TP")) {
