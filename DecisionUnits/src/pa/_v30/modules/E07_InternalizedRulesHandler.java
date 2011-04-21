@@ -14,6 +14,7 @@ import java.util.List;
 import pa._v30.tools.clsPair;
 import pa._v30.tools.toHtml;
 import pa._v30.interfaces.eInterfaces;
+import pa._v30.interfaces.itfMinimalModelMode;
 import pa._v30.interfaces.modules.I1_5_receive;
 import pa._v30.interfaces.modules.I2_19_receive;
 import pa._v30.interfaces.modules.I2_9_receive;
@@ -37,13 +38,15 @@ import config.clsBWProperties;
  * 
  */
 public class E07_InternalizedRulesHandler extends clsModuleBaseKB implements 
-							I1_5_receive, I2_9_receive, I2_19_receive, I3_1_send, I3_2_send {
+								itfMinimalModelMode, I1_5_receive, I2_9_receive, I2_19_receive, I3_1_send, I3_2_send {
 	public static final String P_MODULENUMBER = "07";
 	
 	private ArrayList<clsPair<Integer, clsDataStructurePA>> moSearchPattern;
 	
 	private ArrayList<clsPrimaryDataStructureContainer> moPrimaryInformation; 
 	private ArrayList<clsDriveMesh> moSexualDrives;
+	
+	private boolean mnMinimalModel;
 
 	/**
 	 * DOCUMENT (GELBARD) - insert description 
@@ -77,6 +80,7 @@ public class E07_InternalizedRulesHandler extends clsModuleBaseKB implements
 	public String stateToHTML() {
 		String html ="";
 		
+		html += toHtml.valueToHTML("mnMinimalModel", mnMinimalModel);
 		html += toHtml.listToHTML("moSearchPattern", moSearchPattern);
 		html += toHtml.listToHTML("moPrimaryInformation", moPrimaryInformation);		
 		html += toHtml.valueToHTML("moKnowledgeBaseHandler", moKnowledgeBaseHandler);
@@ -96,7 +100,7 @@ public class E07_InternalizedRulesHandler extends clsModuleBaseKB implements
 	
 	private void applyProperties(String poPrefix, clsBWProperties poProp) {
 		//String pre = clsBWProperties.addDot(poPrefix);
-	
+		mnMinimalModel = false;
 		//nothing to do
 	}
 
@@ -159,7 +163,9 @@ public class E07_InternalizedRulesHandler extends clsModuleBaseKB implements
 	 */
 	@Override
 	protected void process_basic() {
-		mnTest++;
+		if (!mnMinimalModel) {		
+			mnTest++;
+		}
 		
 	}
 
@@ -172,8 +178,13 @@ public class E07_InternalizedRulesHandler extends clsModuleBaseKB implements
 	 */
 	@Override
 	protected void send() {
-		send_I3_1(mnTest);
-		send_I3_2(mnTest);
+		if (mnMinimalModel) {
+			send_I3_1(-1);
+			send_I3_2(-1);
+		} else {
+			send_I3_1(mnTest);
+			send_I3_2(mnTest);			
+		}
 	}
 
 	/* (non-Javadoc)
@@ -323,5 +334,16 @@ public class E07_InternalizedRulesHandler extends clsModuleBaseKB implements
 	@Override
 	public void setDescription() {
 		moDescription = "Rules which are only accessible to functions of the Superego are used to evaluate the incoming drive demands and perceptions. Three possible decisions can be made for each incoming information: they can be passed on without any changes, they can be passed forward but certain changes have to be made, and these contents are not allowed to pass at all. If the evaluated contents qualify for one of the latter two possibilities - a conflict occurs - defense mechanisms have to deal with them.";
+	}
+	
+	@Override
+	public void setMinimalModelMode(boolean pnMinial) {
+		mnMinimalModel = pnMinial;
+	}
+
+	@Override
+	public boolean getMinimalModelMode() {
+		return mnMinimalModel;
 	}	
+	
 }

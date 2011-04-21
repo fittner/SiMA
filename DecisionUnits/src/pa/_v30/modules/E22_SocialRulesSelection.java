@@ -15,6 +15,7 @@ import pa._v30.tools.clsPair;
 import pa._v30.tools.clsTripple;
 import pa._v30.tools.toHtml;
 import pa._v30.interfaces.eInterfaces;
+import pa._v30.interfaces.itfMinimalModelMode;
 import pa._v30.interfaces.modules.I1_7_receive;
 import pa._v30.interfaces.modules.I2_11_receive;
 import pa._v30.interfaces.modules.I3_3_receive;
@@ -38,7 +39,7 @@ import pa._v30.memorymgmt.enums.eDataType;
  * 11.08.2009, 14:45:01
  * 
  */
-public class E22_SocialRulesSelection extends clsModuleBaseKB implements I1_7_receive, I2_11_receive, I3_3_send {
+public class E22_SocialRulesSelection extends clsModuleBaseKB implements itfMinimalModelMode, I1_7_receive, I2_11_receive, I3_3_send {
 	public static final String P_MODULENUMBER = "22";
 	
 	private ArrayList<clsPair<Integer, clsDataStructurePA>> moSearchPattern;
@@ -47,6 +48,7 @@ public class E22_SocialRulesSelection extends clsModuleBaseKB implements I1_7_re
 	//private ArrayList<clsSecondaryDataStructureContainer> moDriveList;  HZ - not used up to now
 	private ArrayList<clsAct> moRuleList; 
 	private ArrayList<clsPair<Double,clsDataStructureContainer>> moRetrieveResult4Inspectors;
+	private boolean mnMinimalModel;
 	/**
 	 * DOCUMENT (perner) - insert description 
 	 * 
@@ -79,6 +81,7 @@ public class E22_SocialRulesSelection extends clsModuleBaseKB implements I1_7_re
 	public String stateToHTML() {		
 		String html = "";
 		
+		html += toHtml.valueToHTML("mnMinimalModel", mnMinimalModel);
 		html += toHtml.listToHTML("moSearchPattern", moSearchPattern);
 		html += toHtml.listToHTML("moPerception", moPerception);
 		html += toHtml.listToHTML("moRuleList", moRuleList);
@@ -99,7 +102,7 @@ public class E22_SocialRulesSelection extends clsModuleBaseKB implements I1_7_re
 	
 	private void applyProperties(String poPrefix, clsBWProperties poProp) {
 		//String pre = clsBWProperties.addDot(poPrefix);
-	
+		mnMinimalModel = false;
 		//nothing to do
 	}
 
@@ -162,8 +165,10 @@ public class E22_SocialRulesSelection extends clsModuleBaseKB implements I1_7_re
 	 */
 	@Override
 	protected void process_basic() {
-		moRuleList.clear(); 
-		getRules(); 
+		if (!mnMinimalModel) {				
+			moRuleList.clear(); 
+			getRules();
+		}
 	}
 
 	/**
@@ -337,8 +342,11 @@ public class E22_SocialRulesSelection extends clsModuleBaseKB implements I1_7_re
 	 */
 	@Override
 	protected void send() {
-		send_I3_3(mnTest, moRuleList);
-		
+		if (mnMinimalModel) {
+			send_I3_3(new ArrayList<clsAct>());
+		} else {
+			send_I3_3(moRuleList);
+		}
 	}
 
 	/* (non-Javadoc)
@@ -349,7 +357,7 @@ public class E22_SocialRulesSelection extends clsModuleBaseKB implements I1_7_re
 	 * @see pa.interfaces.send.I3_3_send#send_I3_3(int)
 	 */
 	@Override
-	public void send_I3_3(int pnData, ArrayList<clsAct> poRuleList) {
+	public void send_I3_3(ArrayList<clsAct> poRuleList) {
 		((I3_3_receive)moModuleList.get(26)).receive_I3_3(poRuleList);
 		putInterfaceData(I3_3_send.class, poRuleList);
 	}
@@ -462,4 +470,15 @@ public class E22_SocialRulesSelection extends clsModuleBaseKB implements I1_7_re
 	public void setDescription() {
 		moDescription = "Next to {E7}, {E22} is the only module which is assigned to the top level module Superego. While the contents processed by {E7} are unconscious and cannot become conscious at all, {E22} processes social rules which are at least preconscious and can become conscious. These rules, commands, and gratifications appear as word and thing presentations and influence decision making. Which rules are selected and forwarded is determined by comparing the drive wishes and the external perception with the stored trigger conditions.";
 	}	
+	
+	@Override
+	public void setMinimalModelMode(boolean pnMinial) {
+		mnMinimalModel = pnMinial;
+	}
+
+	@Override
+	public boolean getMinimalModelMode() {
+		return mnMinimalModel;
+	}	
+	
 }

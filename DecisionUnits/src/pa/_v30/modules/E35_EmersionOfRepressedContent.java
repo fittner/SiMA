@@ -15,8 +15,10 @@ import bfg.tools.clsMutableDouble;
 import config.clsBWProperties;
 import du.enums.pa.eContext;
 import pa._v30.tools.clsPair;
+import pa._v30.tools.clsTripple;
 import pa._v30.tools.toHtml;
 import pa._v30.interfaces.eInterfaces;
+import pa._v30.interfaces.itfMinimalModelMode;
 import pa._v30.interfaces.modules.I2_14_receive;
 import pa._v30.interfaces.modules.I2_8_receive;
 import pa._v30.interfaces.modules.I2_8_send;
@@ -36,7 +38,7 @@ import pa._v30.storage.clsBlockedContentStorage;
  * 07.10.2009, 11:16:58
  * 
  */
-public class E35_EmersionOfRepressedContent extends clsModuleBaseKB implements I2_14_receive, I2_8_send {
+public class E35_EmersionOfRepressedContent extends clsModuleBaseKB implements itfMinimalModelMode, I2_14_receive, I2_8_send {
 	public static final String P_MODULENUMBER = "35";
 	public static String P_CONTEXT_SENSTITIVITY = "CONTEXT_SENSITIVITY"; 
 	
@@ -44,7 +46,7 @@ public class E35_EmersionOfRepressedContent extends clsModuleBaseKB implements I
 	private ArrayList<clsPrimaryDataStructureContainer> moEnvironmentalTP_Input; 
 	private ArrayList<clsPair<clsPrimaryDataStructureContainer, clsDriveMesh>> moAttachedRepressed_Output; 
 	private double mrContextSensitivity = 0.8;
-	
+	private boolean mnMinimalModel;
 	/**
 	 * DOCUMENT (wendt) - insert description 
 	 * 
@@ -78,6 +80,7 @@ public class E35_EmersionOfRepressedContent extends clsModuleBaseKB implements I
 	public String stateToHTML() {
 		String html ="";
 		
+		html += toHtml.valueToHTML("mnMinimalModel", mnMinimalModel);
 		html += toHtml.valueToHTML("moBlockedContentStorage", moBlockedContentStorage);
 		html += toHtml.listToHTML("moEnvironmentalTP_Input", moEnvironmentalTP_Input);
 		html += toHtml.listToHTML("moAttachedRepressed_Output", moAttachedRepressed_Output);
@@ -100,6 +103,7 @@ public class E35_EmersionOfRepressedContent extends clsModuleBaseKB implements I
 	private void applyProperties(String poPrefix, clsBWProperties poProp) {
 		String pre = clsBWProperties.addDot(poPrefix);
 		mrContextSensitivity = poProp.getPropertyDouble(pre+P_CONTEXT_SENSTITIVITY);
+		mnMinimalModel = false;
 	}
 
 	/* (non-Javadoc)
@@ -111,35 +115,54 @@ public class E35_EmersionOfRepressedContent extends clsModuleBaseKB implements I
 	 */
 	@Override
 	protected void process_basic() {
-		//HZ 16.08.2010: this part is programmed to map the functionalities of ARSi09 to the new datastructure model. However, 
-		//it is for sure that the functionalities change in further model revisions. These changes include that 
-		//	- modules of E15 (in case it still exists) will presumably not obey of a memory access (this has to be
-		//	  included here in order to match ARSi09 functionalities)
-		//	- The cathegorization has to be done on the base of memories that are actually retrieved in E16. This will 
-		//	  be changed in the next model revision; 
-		//	- The current context has to be read out of a buffer (like a working memory) that has to be introduced. As some 
-		//	  model changes will turn up, the current implementation uses the old hack that bases on ARSi09 data structures. 
-		//    in the class clsRepressedContentStorage methods are introduced that return the context in terms of new 
-		//	  data structures. However, after the new functionalities are introduced, old and new data structures have to 
-		//    be clearly separated from each other and the use of clsRepressedContentStorage has to be avoided. 
-		
-		//FIXME: AW: The output consists of 3 equal pairs of DM and Containers. Why is the same Ref used 3 times?
-		moAttachedRepressed_Output = new ArrayList<clsPair<clsPrimaryDataStructureContainer,clsDriveMesh>>();
-		ArrayList<clsPrimaryDataStructureContainer> oContainerList = new ArrayList<clsPrimaryDataStructureContainer>(); 
- 		
-		oContainerList = moEnvironmentalTP_Input; 
-		/* Add DM for to object and include them in the TPM through associations. The TPM then contains 
-		 * attributeassociations and drivemeshassociations
-		 */
-		assignDriveMeshes(oContainerList);
-		/* The context of a certain drive or object is loaded, in the case of CAKE, it is NOURISH. If the drive 
-		 * NOURISH is found in the objects the categories (anal, oral...) is multiplied with a category factor <= 1
-		 * In case of a 100% match, the factor is 1.0.
-		 */
-		adaptCathegories(oContainerList);
-		/* DM from the Repressed Content are added to the objects in the oContainerList
-		 */
-		matchRepressedContent(oContainerList); 
+		if (!mnMinimalModel) {
+			//HZ 16.08.2010: this part is programmed to map the functionalities of ARSi09 to the new datastructure model. However, 
+			//it is for sure that the functionalities change in further model revisions. These changes include that 
+			//	- modules of E15 (in case it still exists) will presumably not obey of a memory access (this has to be
+			//	  included here in order to match ARSi09 functionalities)
+			//	- The cathegorization has to be done on the base of memories that are actually retrieved in E16. This will 
+			//	  be changed in the next model revision; 
+			//	- The current context has to be read out of a buffer (like a working memory) that has to be introduced. As some 
+			//	  model changes will turn up, the current implementation uses the old hack that bases on ARSi09 data structures. 
+			//    in the class clsRepressedContentStorage methods are introduced that return the context in terms of new 
+			//	  data structures. However, after the new functionalities are introduced, old and new data structures have to 
+			//    be clearly separated from each other and the use of clsRepressedContentStorage has to be avoided. 
+			
+			//FIXME: AW: The output consists of 3 equal pairs of DM and Containers. Why is the same Ref used 3 times?
+			moAttachedRepressed_Output = new ArrayList<clsPair<clsPrimaryDataStructureContainer,clsDriveMesh>>();
+			ArrayList<clsPrimaryDataStructureContainer> oContainerList = new ArrayList<clsPrimaryDataStructureContainer>(); 
+	 		
+			oContainerList = moEnvironmentalTP_Input; 
+			/* Add DM for to object and include them in the TPM through associations. The TPM then contains 
+			 * attributeassociations and drivemeshassociations
+			 */
+			assignDriveMeshes(oContainerList);
+			/* The context of a certain drive or object is loaded, in the case of CAKE, it is NOURISH. If the drive 
+			 * NOURISH is found in the objects the categories (anal, oral...) is multiplied with a category factor <= 1
+			 * In case of a 100% match, the factor is 1.0.
+			 */
+			adaptCathegories(oContainerList);
+			/* DM from the Repressed Content are added to the objects in the oContainerList
+			 */
+			matchRepressedContent(oContainerList); 
+		} else {
+			//for the minimal model, a minor update of the datastructure is necessary. each clsPrimaryDataStructureContainer has
+			//to be attached with an empty clsDriveMesh
+			moAttachedRepressed_Output = new ArrayList<clsPair<clsPrimaryDataStructureContainer,clsDriveMesh>>();
+			for (clsPrimaryDataStructureContainer oPDSC:moEnvironmentalTP_Input) {
+				clsPair<clsPrimaryDataStructureContainer,clsDriveMesh> oEntry = 
+					new clsPair<clsPrimaryDataStructureContainer, clsDriveMesh>(
+							oPDSC, 
+							new clsDriveMesh(
+									new clsTripple<Integer, eDataType, String>(0, eDataType.UNDEFINED, "c"), 
+									0, 
+									new double[]{0.0,0.0,0.0,0.0}, 
+									null, 
+									null)
+							);
+				moAttachedRepressed_Output.add(oEntry);
+			}
+		}
 	}
 	
 	/**
@@ -326,7 +349,11 @@ public class E35_EmersionOfRepressedContent extends clsModuleBaseKB implements I
 	 */
 	@Override
 	protected void send() {
-		send_I2_8(moAttachedRepressed_Output);
+		if (mnMinimalModel) {
+			send_I2_8(moAttachedRepressed_Output);
+		} else {
+			send_I2_8(moAttachedRepressed_Output);
+		}
 			
 	}
 
@@ -491,5 +518,16 @@ public class E35_EmersionOfRepressedContent extends clsModuleBaseKB implements I
 	@Override
 	public void setDescription() {
 		moDescription = "This module shares the same task as the second part of the tasks of {E36}. It is responsible for changing repressed contents such that they are more likely to pass the defense mechanisms. This is done by searching for fitting incoming thing presentations. If one is found, the repressed content is attached to it. All incoming thing presentations are forwarded to next modules, some of them with additional information attached.";
+	}
+	
+	@Override
+	public void setMinimalModelMode(boolean pnMinial) {
+		mnMinimalModel = pnMinial;
+	}
+
+	@Override
+	public boolean getMinimalModelMode() {
+		return mnMinimalModel;
 	}	
+	
 }

@@ -18,5 +18,5 @@ import pa._v30.memorymgmt.datatypes.clsAct;
  * 
  */
 public interface I3_3_send {
-	public void send_I3_3(int pnData, ArrayList<clsAct> poRuleList);
+	public void send_I3_3(ArrayList<clsAct> poRuleList);
 }

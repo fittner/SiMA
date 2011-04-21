@@ -11,6 +11,7 @@ import java.util.HashMap;
 import java.util.SortedMap;
 import config.clsBWProperties;
 import pa._v30.interfaces.eInterfaces;
+import pa._v30.interfaces.itfMinimalModelMode;
 import pa._v30.interfaces.modules.I2_12_receive;
 import pa._v30.interfaces.modules.I2_13_receive;
 import pa._v30.interfaces.modules.I2_13_send;
@@ -25,12 +26,13 @@ import pa._v30.tools.toHtml;
  * 11.08.2009, 14:49:09
  * 
  */
-public class E24_RealityCheck_1 extends clsModuleBase implements I2_12_receive, I6_1_receive, I2_13_send {
+public class E24_RealityCheck_1 extends clsModuleBase implements itfMinimalModelMode, I2_12_receive, I6_1_receive, I2_13_send {
 	public static final String P_MODULENUMBER = "24";
 	
 	private ArrayList<clsSecondaryDataStructureContainer> moFocusedPerception_Input; 
 	private ArrayList<clsSecondaryDataStructureContainer> moRealityPerception_Output; 
-	//private ArrayList<clsSecondaryDataStructureContainer> moDriveList;  //removed by HZ - not required now
+	private ArrayList<clsSecondaryDataStructureContainer> moDriveList;  //removed by HZ - not required now
+	private boolean mnMinimalModel;
 
 	/**
 	 * DOCUMENT (KOHLHAUSER) - insert description 
@@ -60,8 +62,10 @@ public class E24_RealityCheck_1 extends clsModuleBase implements I2_12_receive, 
 	public String stateToHTML() {
 		String html ="";
 		
+		html += toHtml.valueToHTML("mnMinimalModel", mnMinimalModel);
 		html += toHtml.listToHTML("moFocusedPerception_Input", moFocusedPerception_Input);
 		html += toHtml.listToHTML("moRealityPerception_Output", moRealityPerception_Output);
+		html += toHtml.listToHTML("moDriveList", moDriveList);
 		
 		return html;
 	}
@@ -77,7 +81,7 @@ public class E24_RealityCheck_1 extends clsModuleBase implements I2_12_receive, 
 	
 	private void applyProperties(String poPrefix, clsBWProperties poProp) {
 		//String pre = clsBWProperties.addDot(poPrefix);
-	
+		mnMinimalModel = false;
 		//nothing to do
 	}
 
@@ -116,7 +120,7 @@ public class E24_RealityCheck_1 extends clsModuleBase implements I2_12_receive, 
 	@Override
 	public void receive_I2_12(ArrayList<clsSecondaryDataStructureContainer> poFocusedPerception, ArrayList<clsSecondaryDataStructureContainer> poDriveList) {
 		moFocusedPerception_Input = (ArrayList<clsSecondaryDataStructureContainer>)deepCopy(poFocusedPerception);
-		//moDriveList = (ArrayList<clsSecondaryDataStructureContainer>) deepCopy(poDriveList);
+		moDriveList = (ArrayList<clsSecondaryDataStructureContainer>) deepCopy(poDriveList);
 	}
 
 	/* (non-Javadoc)
@@ -141,12 +145,14 @@ public class E24_RealityCheck_1 extends clsModuleBase implements I2_12_receive, 
 	 */
 	@Override
 	protected void process_basic() {
-		moRealityPerception_Output = new ArrayList<clsSecondaryDataStructureContainer>(); 
-		
-		//FIXME HZ 2010.08.24 Functionality of old code is taken; however I am rather sure that it has to be
-		//adapted
-		for(clsSecondaryDataStructureContainer oCon : moFocusedPerception_Input){
-			moRealityPerception_Output.add(oCon); 
+		if (!mnMinimalModel) {
+			moRealityPerception_Output = new ArrayList<clsSecondaryDataStructureContainer>(); 
+			
+			//FIXME HZ 2010.08.24 Functionality of old code is taken; however I am rather sure that it has to be
+			//adapted
+			for(clsSecondaryDataStructureContainer oCon : moFocusedPerception_Input){
+				moRealityPerception_Output.add(oCon); 
+			}
 		}
 	}
 	
@@ -159,9 +165,12 @@ public class E24_RealityCheck_1 extends clsModuleBase implements I2_12_receive, 
 	 */
 	@Override
 	protected void send() {
-		//HZ: null is a placeholder for the bjects of the type pa._v30.memorymgmt.datatypes
-		send_I2_13(moRealityPerception_Output);
-		
+		if (mnMinimalModel) {
+			send_I2_13(moFocusedPerception_Input);
+		} else {
+			//HZ: null is a placeholder for the bjects of the type pa._v30.memorymgmt.datatypes
+			send_I2_13(moRealityPerception_Output);
+		}
 	}
 
 	/* (non-Javadoc)
@@ -227,5 +236,16 @@ public class E24_RealityCheck_1 extends clsModuleBase implements I2_12_receive, 
 	public void setDescription() {
 		moDescription = "The external world is evaluated regarding the available possibilities for drive satisfaction and which requirements arise. This is done by utilization of semantic knowledge provided by {E25} and incoming word and things presentations from {E23}. The result influences the generation of motives in {E26}.";
 	}		
+	
+	@Override
+	public void setMinimalModelMode(boolean pnMinial) {
+		mnMinimalModel = pnMinial;
+	}
+
+	@Override
+	public boolean getMinimalModelMode() {
+		return mnMinimalModel;
+	}	
+	
 }
 

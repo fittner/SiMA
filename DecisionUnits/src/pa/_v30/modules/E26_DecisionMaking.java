@@ -37,7 +37,7 @@ import pa._v30.memorymgmt.enums.eDataType;
  * 
  */
 public class E26_DecisionMaking extends clsModuleBase implements 
-						I1_7_receive, I2_13_receive, I3_3_receive, I5_5_receive, I7_1_send {
+					I1_7_receive, I2_13_receive, I3_3_receive, I5_5_receive, I7_1_send {
 	public static final String P_MODULENUMBER = "26";
 	
 	private ArrayList<clsSecondaryDataStructureContainer> moDriveList;
@@ -97,7 +97,6 @@ public class E26_DecisionMaking extends clsModuleBase implements
 	
 	private void applyProperties(String poPrefix, clsBWProperties poProp) {
 		//String pre = clsBWProperties.addDot(poPrefix);
-	
 		//nothing to do
 	}
 
@@ -479,5 +478,6 @@ public class E26_DecisionMaking extends clsModuleBase implements
 	public void setDescription() {
 		moDescription = "";
 	}
+	
 }
 

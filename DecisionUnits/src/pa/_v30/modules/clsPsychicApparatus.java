@@ -14,6 +14,7 @@ import java.util.TreeMap;
 import config.clsBWProperties;
 import pa._v30.tools.clsPair;
 import pa._v30.interfaces.eInterfaces;
+import pa._v30.interfaces.itfMinimalModelMode;
 import pa._v30.memorymgmt.clsKnowledgeBaseHandler;
 import pa._v30.memorymgmt.clsKnowledgeBaseHandlerFactory;
 import pa._v30.storage.clsBlockedContentStorage;
@@ -83,7 +84,9 @@ public class clsPsychicApparatus {
 
 	//static data!!!
 	public HashMap<Integer, ArrayList<clsPair<eInterfaces, Integer>>> moInterfaceMesh; //the mesh created by all modules and the outgoing interfaces in combination to which module they are connecting to
-	public HashMap<eInterfaces, clsPair<ArrayList<Integer>, ArrayList<Integer>>> moInterfaces_Recv_Send; //list of interfaces and the modules it connects to pair(source,target) 
+	public HashMap<eInterfaces, clsPair<ArrayList<Integer>, ArrayList<Integer>>> moInterfaces_Recv_Send; //list of interfaces and the modules it connects to pair(source,target)
+	
+	private static final boolean mnMinimalModel = false;
 
 	public clsPsychicApparatus(String poPrefix, clsBWProperties poProp, 
 			clsKnowledgeBaseHandler poKnowledgeBaseHandler) {
@@ -206,6 +209,12 @@ public class clsPsychicApparatus {
 			moE45_LibidoDischarge = new E45_LibidoDischarge(pre + E45_LibidoDischarge.P_MODULENUMBER, poProp, moModules, moInterfaceData);
 			moE46_FusionWithMemoryTraces = new E46_FusionWithMemoryTraces(pre + E46_FusionWithMemoryTraces.P_MODULENUMBER, poProp, moModules, moInterfaceData, moKnowledgeBaseHandler);
 			moE47_ConversionToPrimaryProcess = new E47_ConversionToPrimaryProcess(pre + E47_ConversionToPrimaryProcess.P_MODULENUMBER, poProp, moModules, moInterfaceData);
+			
+			for (clsModuleBase oM:moModules.values()) {
+				if (oM instanceof itfMinimalModelMode) {
+					((itfMinimalModelMode) oM).setMinimalModelMode(mnMinimalModel);
+				}
+			}
 			
 		} catch (Exception e) {
 			

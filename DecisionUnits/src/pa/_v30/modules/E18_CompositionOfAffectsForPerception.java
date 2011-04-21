@@ -181,15 +181,16 @@ public class E18_CompositionOfAffectsForPerception extends clsModuleBase impleme
 						//Get the DM from the repressed content
 						clsDriveMesh oDMRepressed = oPair.b; 
 						
-						/* If the moContentType is equal (at CAKE, NOURISH), then set new pleasure as the average of 
-						 * the pleasure of repressed content and the object. Then, new moContent is set from the 
-						 * Repressed content (NOURISH GREEDY statt NOURISH_CAKEBASIC).
-						 */
-						
-						if (oDMInput.getMoContentType().intern() == oDMRepressed.getMoContentType().intern()) {
-						//old Fix here if(oDMInput.getMoContent().intern() == oDMRepressed.getMoContent().intern()){
-							oDMInput.setPleasure((oDMInput.getPleasure()+oDMRepressed.getPleasure())/2); 
-							oDMInput.setMoContent(oDMRepressed.getMoContent()); 
+						if (oPair.b != null) { //in the minimal model version, no drive meshes are attached! see E35.
+							/* If the moContentType is equal (at CAKE, NOURISH), then set new pleasure as the average of 
+							 * the pleasure of repressed content and the object. Then, new moContent is set from the 
+							 * Repressed content (NOURISH GREEDY statt NOURISH_CAKEBASIC).
+							 */
+							if (oDMInput.getMoContentType().intern() == oDMRepressed.getMoContentType().intern()) {
+							//old Fix here if(oDMInput.getMoContent().intern() == oDMRepressed.getMoContent().intern()){
+								oDMInput.setPleasure((oDMInput.getPleasure()+oDMRepressed.getPleasure())/2); 
+								oDMInput.setMoContent(oDMRepressed.getMoContent()); 
+							}
 						}
 					}
 				}

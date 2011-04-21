@@ -11,11 +11,13 @@ import java.util.HashMap;
 import java.util.SortedMap;
 
 import pa._v30.interfaces.eInterfaces;
+import pa._v30.interfaces.itfMinimalModelMode;
 import pa._v30.interfaces.modules.I7_3_receive;
 import pa._v30.interfaces.modules.I7_7_receive;
 import pa._v30.interfaces.modules.I7_7_send;
 import pa._v30.memorymgmt.datatypes.clsPrimaryDataStructureContainer;
 import pa._v30.memorymgmt.datatypes.clsWordPresentation;
+import pa._v30.tools.toHtml;
 
 import config.clsBWProperties;
 
@@ -26,9 +28,9 @@ import config.clsBWProperties;
  * 03.03.2011, 15:22:59
  * 
  */
-public class E47_ConversionToPrimaryProcess extends clsModuleBase implements I7_3_receive, I7_7_send {
+public class E47_ConversionToPrimaryProcess extends clsModuleBase implements itfMinimalModelMode, I7_3_receive, I7_7_send {
 	public static final String P_MODULENUMBER = "47";
-	
+	private boolean mnMinimalModel;
 	/**
 	 * DOCUMENT (KOHLHAUSER) - insert description 
 	 * 
@@ -58,7 +60,7 @@ public class E47_ConversionToPrimaryProcess extends clsModuleBase implements I7_
 	public String stateToHTML() {
 		String html ="";
 		
-		html += "n/a";	
+		html += toHtml.valueToHTML("mnMinimalModel", mnMinimalModel);
 		
 		return html;
 	}		
@@ -73,7 +75,7 @@ public class E47_ConversionToPrimaryProcess extends clsModuleBase implements I7_
 	}
 	private void applyProperties(String poPrefix, clsBWProperties poProp) {
 		//String pre = clsBWProperties.addDot(poPrefix);
-	
+		mnMinimalModel = false;
 		//nothing to do
 	}	
 	/* (non-Javadoc)
@@ -85,8 +87,9 @@ public class E47_ConversionToPrimaryProcess extends clsModuleBase implements I7_
 	 */
 	@Override
 	protected void process_basic() {
+		if (!mnMinimalModel) {
 		// TODO (KOHLHAUSER) - Auto-generated method stub
-
+		}
 	}
 
 	/* (non-Javadoc)
@@ -124,7 +127,11 @@ public class E47_ConversionToPrimaryProcess extends clsModuleBase implements I7_
 	 */
 	@Override
 	protected void send() {
-		send_I7_7(new ArrayList<clsPrimaryDataStructureContainer>());
+		if (mnMinimalModel) {
+			send_I7_7(new ArrayList<clsPrimaryDataStructureContainer>());
+		} else {
+			send_I7_7(new ArrayList<clsPrimaryDataStructureContainer>());
+		}
 
 	}
 
@@ -204,4 +211,15 @@ public class E47_ConversionToPrimaryProcess extends clsModuleBase implements I7_
 	public void setDescription() {
 		moDescription = "Contents of various action plans can be used to reduce libido tension in E45. Before they can be processed by primary process functions, they have to be converted back again. The preconscious parts of the contents - the word presentations - are removed by this module.";
 	}	
+	
+	@Override
+	public void setMinimalModelMode(boolean pnMinial) {
+		mnMinimalModel = pnMinial;
+	}
+
+	@Override
+	public boolean getMinimalModelMode() {
+		return mnMinimalModel;
+	}	
+	
 }

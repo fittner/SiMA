@@ -11,6 +11,7 @@ import java.util.HashMap;
 import java.util.SortedMap;
 import config.clsBWProperties;
 import pa._v30.interfaces.eInterfaces;
+import pa._v30.interfaces.itfMinimalModelMode;
 import pa._v30.interfaces.modules.I1_7_receive;
 import pa._v30.interfaces.modules.I2_11_receive;
 import pa._v30.interfaces.modules.I2_12_receive;
@@ -25,13 +26,13 @@ import pa._v30.tools.toHtml;
  * 11.08.2009, 14:46:53
  * 
  */
-public class E23_ExternalPerception_focused extends clsModuleBase implements I2_11_receive, I1_7_receive, I2_12_send {
+public class E23_ExternalPerception_focused extends clsModuleBase implements itfMinimalModelMode, I2_11_receive, I1_7_receive, I2_12_send {
 	public static final String P_MODULENUMBER = "23";
 	
 	private ArrayList<clsSecondaryDataStructureContainer> moPerception; 
 	private ArrayList<clsSecondaryDataStructureContainer> moDriveList; 
 	private ArrayList<clsSecondaryDataStructureContainer> moFocusedPerception_Output; 
-
+	private boolean mnMinimalModel;
 	/**
 	 * DOCUMENT (KOHLHAUSER) - insert description 
 	 * 
@@ -61,6 +62,7 @@ public class E23_ExternalPerception_focused extends clsModuleBase implements I2_
 	public String stateToHTML() {		
 		String html = "";
 		
+		html += toHtml.valueToHTML("mnMinimalModel", mnMinimalModel);
 		html += toHtml.listToHTML("moPerception", moPerception);
 		html += toHtml.listToHTML("moDriveList", moDriveList);
 		html += toHtml.listToHTML("moFocusedPerception_Output", moFocusedPerception_Output);
@@ -78,7 +80,7 @@ public class E23_ExternalPerception_focused extends clsModuleBase implements I2_
 	
 	private void applyProperties(String poPrefix, clsBWProperties poProp) {
 		//String pre = clsBWProperties.addDot(poPrefix);
-	
+		mnMinimalModel = false;
 		//nothing to do
 	}
 
@@ -142,11 +144,13 @@ public class E23_ExternalPerception_focused extends clsModuleBase implements I2_
 	 */
 	@Override
 	protected void process_basic() {
-		//TODO HZ 23.08.2010: Normally the perceived information has to be ordered by its priority
-		//that depends on the evaluation of external and internal perception (moDriveList); 
-		//
-		//Actual state: no ordering! 
-		moFocusedPerception_Output = moPerception;
+		if (!mnMinimalModel) {				
+			//TODO HZ 23.08.2010: Normally the perceived information has to be ordered by its priority
+			//that depends on the evaluation of external and internal perception (moDriveList); 
+			//
+			//Actual state: no ordering! 
+			moFocusedPerception_Output = moPerception;
+		}
 	}
 	
 	/* (non-Javadoc)
@@ -158,8 +162,11 @@ public class E23_ExternalPerception_focused extends clsModuleBase implements I2_
 	 */
 	@Override
 	protected void send() {
-		//HZ: null is a placeholder for the bjects of the type pa._v30.memorymgmt.datatypes
-		send_I2_12(moFocusedPerception_Output, moDriveList);
+		if (mnMinimalModel) {		
+			send_I2_12(moPerception, new ArrayList<clsSecondaryDataStructureContainer>());
+		} else {
+			send_I2_12(moFocusedPerception_Output, moDriveList);
+		}
 	}
 
 	/* (non-Javadoc)
@@ -226,5 +233,16 @@ public class E23_ExternalPerception_focused extends clsModuleBase implements I2_
 	@Override
 	public void setDescription() {
 		moDescription = "The task of this module is to focus the external perception on ``important'' things. Thus, the word presentations originating from perception are ordered according to their importance to existing drive wishes. This could mean for example that an object is qualified to satisfy a bodily need. The resulting listthe package of word presentation, thing presentation, and drive whishes for each perception ordered descending by their importanceis forwarded by the interface {I2.12} to {E24} and {E25}. These two modules are part of reality check.";
-	}		
+	}	
+	
+	@Override
+	public void setMinimalModelMode(boolean pnMinial) {
+		mnMinimalModel = pnMinial;
+	}
+
+	@Override
+	public boolean getMinimalModelMode() {
+		return mnMinimalModel;
+	}	
+	
 }

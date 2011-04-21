@@ -13,6 +13,7 @@ import config.clsBWProperties;
 import pa._v30.tools.clsPair;
 import pa._v30.tools.toHtml;
 import pa._v30.interfaces.eInterfaces;
+import pa._v30.interfaces.itfMinimalModelMode;
 import pa._v30.interfaces.modules.I7_3_receive;
 import pa._v30.interfaces.modules.I7_5_receive;
 import pa._v30.interfaces.modules.I7_5_send;
@@ -30,11 +31,11 @@ import pa._v30.memorymgmt.enums.eDataType;
  * 27.04.2010, 10:38:16
  * 
  */
-public class E34_KnowledgeAboutReality_2 extends clsModuleBaseKB implements I7_3_receive, I7_5_send {
+public class E34_KnowledgeAboutReality_2 extends clsModuleBaseKB implements itfMinimalModelMode, I7_3_receive, I7_5_send {
 	public static final String P_MODULENUMBER = "34";
 	
 	private ArrayList<clsPair<Integer, clsDataStructurePA>> moSearchPattern;
-	
+	private boolean mnMinimalModel;
 	/**
 	 * DOCUMENT (KOHLHAUSER) - insert description 
 	 * 
@@ -66,6 +67,7 @@ public class E34_KnowledgeAboutReality_2 extends clsModuleBaseKB implements I7_3
 	public String stateToHTML() {
 		String html ="";
 		
+		html += toHtml.valueToHTML("mnMinimalModel", mnMinimalModel);
 		html += toHtml.listToHTML("moSearchPattern", moSearchPattern);
 		html += toHtml.valueToHTML("moKnowledgeBaseHandler", moKnowledgeBaseHandler);
 		
@@ -83,7 +85,7 @@ public class E34_KnowledgeAboutReality_2 extends clsModuleBaseKB implements I7_3
 	
 	private void applyProperties(String poPrefix, clsBWProperties poProp) {
 		//String pre = clsBWProperties.addDot(poPrefix);
-	
+		mnMinimalModel = false;
 		//nothing to do
 	}
 	
@@ -96,8 +98,10 @@ public class E34_KnowledgeAboutReality_2 extends clsModuleBaseKB implements I7_3
 	 */
 	@Override
 	protected void process_basic() {
-		// TODO (KOHLHAUSER) - Auto-generated method stub
-		
+		if (!mnMinimalModel) {
+			// TODO (KOHLHAUSER) - Auto-generated method stub
+			mnTest++;
+		}
 	}
 
 	/* (non-Javadoc)
@@ -109,8 +113,11 @@ public class E34_KnowledgeAboutReality_2 extends clsModuleBaseKB implements I7_3
 	 */
 	@Override
 	protected void send() {
-		send_I7_5(1);
-		
+		if (mnMinimalModel) {
+			send_I7_5(-1);
+		} else {
+			send_I7_5(mnTest);
+		}
 	}
 
 	/* (non-Javadoc)
@@ -270,5 +277,15 @@ public class E34_KnowledgeAboutReality_2 extends clsModuleBaseKB implements I7_3
 	@Override
 	public void setDescription() {
 		moDescription = "Semantic knowledge is retrieved from memory for all word and thing presentations send to these functions.";
+	}
+
+	@Override
+	public void setMinimalModelMode(boolean pnMinial) {
+		mnMinimalModel = pnMinial;
+	}
+
+	@Override
+	public boolean getMinimalModelMode() {
+		return mnMinimalModel;
 	}	
 }
