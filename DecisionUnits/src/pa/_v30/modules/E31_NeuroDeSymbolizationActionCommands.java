@@ -11,13 +11,16 @@ import java.util.HashMap;
 import java.util.SortedMap;
 import config.clsBWProperties;
 import du.enums.eActionMoveDirection;
+import du.enums.eActionSleepIntensity;
 import du.enums.eActionTurnDirection;
 import du.itf.actions.clsActionCommand;
 import du.itf.actions.clsActionDrop;
 import du.itf.actions.clsActionEat;
+import du.itf.actions.clsActionExcrement;
 import du.itf.actions.clsActionMove;
 import du.itf.actions.clsActionPickUp;
 import du.itf.actions.clsActionSequenceFactory;
+import du.itf.actions.clsActionSleep;
 import du.itf.actions.clsActionTurn;
 import pa._v30.interfaces.eInterfaces;
 import pa._v30.interfaces.itfInspectorTimeChart;
@@ -176,6 +179,10 @@ public class E31_NeuroDeSymbolizationActionCommands extends clsModuleBase implem
 					else if(oAction.equals("DANCE_1")) {
 						moActionCommandList_Output.add( clsActionSequenceFactory.getWalzSequence(1, 2) );
 						//System.out.println("cmd: dance");
+					} else if (oAction.equals("SLEEP")) {
+						moActionCommandList_Output.add( new clsActionSleep(eActionSleepIntensity.DEEP) );
+					} else if (oAction.equals("DEFECATE")) {
+						moActionCommandList_Output.add( new clsActionExcrement(1) );
 					}
 					else {
 						throw new UnknownError("Action " + oAction + " not known");

@@ -106,6 +106,12 @@ public class E03_GenerationOfSelfPreservationDrives extends clsModuleBaseKB impl
 		oDrives.add( createDrives("LIFE", "NOURISH", "BLOODSUGAR") );
 		oDrives.add( createDrives("DEATH", "BITE", "BLOODSUGAR") );
 		
+		oDrives.add( createDrives("LIFE", "RELAX", "STAMINA") );
+		oDrives.add( createDrives("DEATH", "SLEEP", "STAMINA") );
+		
+		oDrives.add( createDrives("LIFE", "REPRESS", "STOMACHTENSION") );
+		oDrives.add( createDrives("DEATH", "DEPOSIT", "STOMACHTENSION") );
+		
 		return oDrives;
 	}
 	
@@ -158,7 +164,7 @@ public class E03_GenerationOfSelfPreservationDrives extends clsModuleBaseKB impl
         }
                            
         return oRes;
-}
+	}
 	
 	private clsDriveMesh createDriveMesh(String poContentType, String poContext) {
 		clsThingPresentation oDataStructure = (clsThingPresentation)clsDataStructureGenerator.generateDataStructure( eDataType.TP, new clsPair<String, Object>(poContentType, poContext) );
@@ -228,11 +234,17 @@ public class E03_GenerationOfSelfPreservationDrives extends clsModuleBaseKB impl
 	
 	private double calculateNormalizedValue(double rValue, String poSource) {
 		double rResult = rValue;
+		double rMaxValue = 1;
 		
 		if (poSource.equals("BLOODSUGAR")) {
-			double rMaxValue = 0.5;
-			rResult = (rMaxValue-rValue)/rMaxValue;
+			rMaxValue = 0.5;
+		} else if (poSource.equals("STAMINA")) {
+			rMaxValue = 1.0;
+		} else if (poSource.equals("STOMACHTENSION")) {
+			rMaxValue = 1.0;
 		}
+		
+		rResult = (rMaxValue-rValue)/rMaxValue;
 		
 		return rResult;
 	}
