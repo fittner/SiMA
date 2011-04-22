@@ -1,4 +1,4 @@
-; Fri Apr 22 18:40:42 CEST 2011
+; Fri Apr 22 19:58:19 CEST 2011
 ; 
 ;+ (version "3.4.4")
 ;+ (build "Build 579")
@@ -265,6 +265,20 @@
 	(element
 		[TPM%3AENTITY%3ACARROT%3ABASIC]
 		[DM%3ALIBIDO%3ACARROT])
+	(weight 1.0 1.0))
+
+([AD%3ACARROTBASIC%3ABITE] of  ASSOCIATIONDM
+
+	(element
+		[TPM%3AENTITY%3ACARROT%3ABASIC]
+		[DM%3ABITE%3ACARROTBASIC])
+	(weight 1.0 1.0))
+
+([AD%3ACARROTBASIC%3ANOURISH] of  ASSOCIATIONDM
+
+	(element
+		[DM%3ANOURISH%3ACARROTBASIC]
+		[TPM%3AENTITY%3ACARROT%3ABASIC])
 	(weight 1.0 1.0))
 
 ([AD%3AREMOTEBOT%3ABITE] of  ASSOCIATIONDM
@@ -563,6 +577,13 @@
 		[DM%3ABITE%3ACAKEBASIC])
 	(weight 1.0 1.0))
 
+([AW%3ADM_BITE%3ABITECARROTBASIC] of  ASSOCIATIONWP
+
+	(element
+		[WP%3ABITE]
+		[DM%3ABITE%3ACARROTBASIC])
+	(weight 1.0 1.0))
+
 ([AW%3ADM_BITE%3ABITEREMOTEBOTRB01] of  ASSOCIATIONWP
 
 	(element
@@ -603,6 +624,13 @@
 	(element
 		[WP%3ANOURISH]
 		[DM%3ANOURISH%3ACAKEBASIC])
+	(weight 1.0 1.0))
+
+([AW%3ADM_NOURISH%3ANOURISHCARROTBASIC] of  ASSOCIATIONWP
+
+	(element
+		[WP%3ANOURISH]
+		[DM%3ANOURISH%3ACARROTBASIC])
 	(weight 1.0 1.0))
 
 ([AW%3ADM_NOURISH%3ANOURISHREMOTEBOTRB01] of  ASSOCIATIONWP
@@ -694,6 +722,13 @@
 	(element
 		[TPM%3AENTITY%3ACAN%3ABASIC]
 		[WP%3ACAN])
+	(weight 1.0 1.0))
+
+([AW%3AENTITY_CARROT%3ACARROT] of  ASSOCIATIONWP
+
+	(element
+		[WP%3ACARROT]
+		[TPM%3AENTITY%3ACARROT%3ABASIC])
 	(weight 1.0 1.0))
 
 ([AW%3AENTITY_REMOTEBOT%3AB01] of  ASSOCIATIONWP
@@ -854,6 +889,15 @@
 	(pleasure 0.0)
 	(value "BITE"))
 
+([DM%3ABITE%3ACARROTBASIC] of  BITE
+
+	(cathegory%3Aanal 0.6)
+	(cathegory%3Agenital 0.1)
+	(cathegory%3Aoral 0.1)
+	(cathegory%3Aphalic 0.3)
+	(pleasure 0.3)
+	(value "BITE"))
+
 ([DM%3ABITE%3AREMOTEBOT] of  BITE
 
 	(cathegory%3Aanal 0.6)
@@ -933,6 +977,15 @@
 	(value "NOURISH"))
 
 ([DM%3ANOURISH%3ACANBASIC] of  NOURISH
+
+	(cathegory%3Aanal 0.3)
+	(cathegory%3Agenital 0.0)
+	(cathegory%3Aoral 0.7)
+	(cathegory%3Aphalic 0.0)
+	(pleasure 0.5)
+	(value "NOURISH"))
+
+([DM%3ANOURISH%3ACARROTBASIC] of  NOURISH
 
 	(cathegory%3Aanal 0.3)
 	(cathegory%3Agenital 0.0)
@@ -1460,6 +1513,10 @@
 ([WP%3ACAN] of  WP%3AENTITY
 
 	(value "CAN"))
+
+([WP%3ACARROT] of  WP%3AENTITY
+
+	(value "CARROT"))
 
 ([WP%3ADEPOSIT] of  WP%3ACONTENT
 

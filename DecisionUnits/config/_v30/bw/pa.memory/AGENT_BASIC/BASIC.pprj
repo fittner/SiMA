@@ -1,4 +1,4 @@
-; Fri Apr 22 18:40:42 CEST 2011
+; Fri Apr 22 19:58:19 CEST 2011
 ; 
 ;+ (version "3.4.4")
 ;+ (build "Build 579")
@@ -45,196 +45,64 @@
 ([ARSi10rv3_ProjectKB_Class10263] of  Property_List
 )
 
-([BASIC_ProjectKB_Class10] of  Property_List
-)
-
-([BASIC_ProjectKB_Class11] of  Widget
-
-	(height 60)
-	(is_hidden FALSE)
-	(name "value_type")
-	(property_list [BASIC_ProjectKB_Class12])
-	(widget_class_name "edu.stanford.smi.protege.widget.TextFieldWidget")
-	(width 200)
-	(x 0)
-	(y 120))
-
-([BASIC_ProjectKB_Class12] of  Property_List
-)
-
-([BASIC_ProjectKB_Class13] of  Widget
-
-	(height 120)
-	(is_hidden FALSE)
-	(name "instance_association")
-	(property_list [BASIC_ProjectKB_Class14])
-	(widget_class_name "edu.stanford.smi.protege.widget.InstanceListWidget")
-	(width 200)
-	(x 200)
-	(y 120))
-
-([BASIC_ProjectKB_Class14] of  Property_List
-
-	(properties
-		[BASIC_ProjectKB_Class15]
-		[BASIC_ProjectKB_Class16]))
-
-([BASIC_ProjectKB_Class15] of  Boolean
-
-	(boolean_value FALSE)
-	(name "ButtonDisplayed-View References to Value"))
-
-([BASIC_ProjectKB_Class16] of  Boolean
-
-	(boolean_value FALSE)
-	(name "ButtonDisplayed-Delete Instance"))
-
-([BASIC_ProjectKB_Class17] of  Widget
-
-	(height 60)
-	(is_hidden FALSE)
-	(name "value")
-	(property_list [BASIC_ProjectKB_Class18])
-	(widget_class_name "edu.stanford.smi.protege.widget.FloatFieldWidget")
-	(width 100)
-	(x 0)
-	(y 180))
-
-([BASIC_ProjectKB_Class18] of  Property_List
-)
-
-([BASIC_ProjectKB_Class183] of  String
-
-	(name ":INSTANCE-ANNOTATION")
-	(string_value "%3AANNOTATION-TEXT"))
-
-([BASIC_ProjectKB_Class184] of  String
+([BASIC_ProjectKB_Class191] of  String
 
 	(name "ANTENNA_LEFT")
 	(string_value "instance_association"))
 
-([BASIC_ProjectKB_Class185] of  String
+([BASIC_ProjectKB_Class192] of  String
 
-	(name ":PAL-CONSTRAINT")
-	(string_value "%3APAL-NAME"))
+	(name ":INSTANCE-ANNOTATION")
+	(string_value "%3AANNOTATION-TEXT"))
 
-([BASIC_ProjectKB_Class186] of  String
+([BASIC_ProjectKB_Class193] of  String
 
 	(name ":META-CLASS")
 	(string_value "%3ANAME"))
 
-([BASIC_ProjectKB_Class187] of  Map_Entry
+([BASIC_ProjectKB_Class194] of  String
+
+	(name ":PAL-CONSTRAINT")
+	(string_value "%3APAL-NAME"))
+
+([BASIC_ProjectKB_Class195] of  Map_Entry
 
 	(key "add_name_on_instance_form")
 	(key_class "java.lang.String")
 	(value "false")
 	(value_class "java.lang.String"))
 
-([BASIC_ProjectKB_Class188] of  Map_Entry
+([BASIC_ProjectKB_Class196] of  Map_Entry
 
 	(key "change_tracking_active")
 	(key_class "java.lang.String")
 	(value "false")
 	(value_class "java.lang.String"))
 
-([BASIC_ProjectKB_Class189] of  Map
+([BASIC_ProjectKB_Class197] of  Map
 )
 
-([BASIC_ProjectKB_Class19] of  Widget
-
-	(height 120)
-	(is_hidden FALSE)
-	(name "class_association")
-	(property_list [BASIC_ProjectKB_Class20])
-	(widget_class_name "edu.stanford.smi.protege.widget.InstanceListWidget")
-	(width 200)
-	(x 200)
-	(y 0))
-
-([BASIC_ProjectKB_Class190] of  Map_Entry
+([BASIC_ProjectKB_Class198] of  Map_Entry
 
 	(key "InstanceDisplay.yellow_stickies")
 	(key_class "java.lang.String")
-	(value "BASIC_ProjectKB_Class189")
+	(value "BASIC_ProjectKB_Class197")
 	(value_class "java.util.Map"))
 
-([BASIC_ProjectKB_Class191] of  Map_Entry
+([BASIC_ProjectKB_Class199] of  Map_Entry
 
 	(key "suppress_instance_counting")
 	(key_class "java.lang.String")
 	(value "false")
 	(value_class "java.lang.String"))
 
-([BASIC_ProjectKB_Class20] of  Property_List
-
-	(properties
-		[BASIC_ProjectKB_Class21]
-		[BASIC_ProjectKB_Class22]))
-
-([BASIC_ProjectKB_Class21] of  Boolean
-
-	(boolean_value FALSE)
-	(name "ButtonDisplayed-View References to Value"))
-
-([BASIC_ProjectKB_Class22] of  Boolean
-
-	(boolean_value FALSE)
-	(name "ButtonDisplayed-Delete Instance"))
-
-([BASIC_ProjectKB_Class23] of  Widget
-
-	(height 60)
-	(is_hidden FALSE)
-	(name ":NAME")
-	(property_list [BASIC_ProjectKB_Class24])
-	(widget_class_name "edu.stanford.smi.protege.widget.InstanceNameWidget")
-	(width 200)
-	(x 0)
-	(y 0))
-
-([BASIC_ProjectKB_Class24] of  Property_List
-)
-
-([BASIC_ProjectKB_Class6] of  Widget
-
-	(is_hidden FALSE)
-	(name "PLEASURE")
-	(property_list [BASIC_ProjectKB_Class7])
-	(widget_class_name "edu.stanford.smi.protege.widget.FormWidget"))
-
-([BASIC_ProjectKB_Class7] of  Property_List
-
-	(properties
-		[BASIC_ProjectKB_Class8]
-		[BASIC_ProjectKB_Class9]
-		[BASIC_ProjectKB_Class11]
-		[BASIC_ProjectKB_Class13]
-		[BASIC_ProjectKB_Class17]
-		[BASIC_ProjectKB_Class19]
-		[BASIC_ProjectKB_Class23]))
-
-([BASIC_ProjectKB_Class8] of  Property_List
-
-	(name "layout properties"))
-
-([BASIC_ProjectKB_Class9] of  Widget
-
-	(height 60)
-	(is_hidden FALSE)
-	(name "type")
-	(property_list [BASIC_ProjectKB_Class10])
-	(widget_class_name "edu.stanford.smi.protege.widget.TextFieldWidget")
-	(width 200)
-	(x 0)
-	(y 60))
-
 ([BROWSER_SLOT_NAMES] of  Property_List
 
 	(properties
-		[BASIC_ProjectKB_Class183]
-		[BASIC_ProjectKB_Class184]
-		[BASIC_ProjectKB_Class185]
-		[BASIC_ProjectKB_Class186]))
+		[BASIC_ProjectKB_Class191]
+		[BASIC_ProjectKB_Class192]
+		[BASIC_ProjectKB_Class193]
+		[BASIC_ProjectKB_Class194]))
 
 ([CLSES_TAB] of  Widget
 
@@ -279,6 +147,9 @@
 	(is_hidden FALSE)
 	(widget_class_name "edu.stanford.smi.protege.widget.InstancesTab"))
 
+([KB_560446_Class5] of  Map
+)
+
 ([KB_610615_Class0] of  String
 
 	(name "factory_class_name")
@@ -287,11 +158,11 @@
 ([KB_610615_Class1] of  Map
 
 	(entries
-		[BASIC_ProjectKB_Class187]
-		[BASIC_ProjectKB_Class188]
-		[BASIC_ProjectKB_Class190]
-		[BASIC_ProjectKB_Class191])
-	(referenced_maps [BASIC_ProjectKB_Class189]))
+		[BASIC_ProjectKB_Class195]
+		[BASIC_ProjectKB_Class196]
+		[BASIC_ProjectKB_Class198]
+		[BASIC_ProjectKB_Class199])
+	(referenced_maps [BASIC_ProjectKB_Class197]))
 
 ([KB_610615_Class10] of  Property_List
 )
@@ -745,9 +616,6 @@
 ([KB_610615_Class99] of  Property_List
 )
 
-([KB_822598_Class5] of  Map
-)
-
 ([LAYOUT_PROPERTIES] of  Property_List
 
 	(name "layout properties")
@@ -837,8 +705,8 @@
 	(browser_slot_names [BROWSER_SLOT_NAMES])
 	(customized_instance_widgets
 		[INSTANCE_ANNOTATION_FORM_WIDGET]
-		[STANDARD_SLOT_FORM_WIDGET]
 		[STANDARD_FACET_FORM_WIDGET]
+		[STANDARD_SLOT_FORM_WIDGET]
 		[PAL_FORM_WIDGET]
 		[STANDARD_CLASS_FORM_WIDGET])
 	(default_cls_metaclass ":STANDARD-CLASS")
