@@ -20,7 +20,7 @@ public class clsActionExcrement extends clsActionCommand {
 	
 	@Override
 	public String getLog() {
-		return "<Excrement>" + mrIntensity + "</Kill>"; 
+		return "<Excrement>" + mrIntensity + "</Excrement>"; 
 	}
 
 	public double getIntensity() {
