@@ -22,9 +22,13 @@ import pa._v30.interfaces.modules.I2_16_send;
 import pa._v30.interfaces.modules.I2_8_receive;
 import pa._v30.memorymgmt.clsKnowledgeBaseHandler;
 import pa._v30.memorymgmt.datahandler.clsDataStructureGenerator;
+import pa._v30.memorymgmt.datatypes.clsAssociation;
+import pa._v30.memorymgmt.datatypes.clsDataStructureContainer;
+import pa._v30.memorymgmt.datatypes.clsDataStructurePA;
 import pa._v30.memorymgmt.datatypes.clsDriveMesh;
 import pa._v30.memorymgmt.datatypes.clsPrimaryDataStructureContainer;
 import pa._v30.memorymgmt.datatypes.clsThingPresentation;
+import pa._v30.memorymgmt.datatypes.clsThingPresentationMesh;
 import pa._v30.memorymgmt.enums.eDataType;
 
 import config.clsBWProperties;
@@ -72,13 +76,81 @@ public class E45_LibidoDischarge extends clsModuleBaseKB implements itfInspector
 	}
 	
 	private void fillLibidioDischargeCandidates() {
-		//FIXME (Zeilinger): bitte irgendwie aus dem protege auslesen
+		ArrayList<ArrayList<clsPair<Double,clsDataStructureContainer>>> oSearchResultDM = new ArrayList<ArrayList<clsPair<Double,clsDataStructureContainer>>>();
+		ArrayList<ArrayList<clsPair<Double,clsDataStructureContainer>>> oSearchResultObjects = new ArrayList<ArrayList<clsPair<Double,clsDataStructureContainer>>>();
+		ArrayList<clsDataStructurePA> oDriveMeshList = new ArrayList<clsDataStructurePA>(); 
+		ArrayList<clsDataStructurePA> oCandidateList = new ArrayList<clsDataStructurePA>();
+
+		clsThingPresentation oDriveContentPattern = clsDataStructureGenerator.generateTP(new clsPair<String, Object>("LIFE", "PLEASURE")); 
+		clsDriveMesh oDriveMeshPattern = clsDataStructureGenerator.generateDM(
+				new clsTripple<String, ArrayList<clsThingPresentation>, Object>
+							("LIBIDO", 
+							 new ArrayList<clsThingPresentation>(Arrays.asList(oDriveContentPattern)), 
+							 "LIBIDO"));
+				
+		search(eDataType.DM, new ArrayList<clsDataStructurePA>(Arrays.asList(oDriveMeshPattern)), oSearchResultDM); 
+		extractDriveMatches(oSearchResultDM, oDriveMeshList); 
+		
+		search(eDataType.TPM, oDriveMeshList, oSearchResultObjects); 
+		extractCandidateMatches(oSearchResultObjects, oCandidateList);
+		
 		moLibidioDischargeCandidates = new ArrayList<clsPair<String,Double>>();
-		moLibidioDischargeCandidates.add( new clsPair<String, Double>("CAKE", 1.0) );
-		moLibidioDischargeCandidates.add( new clsPair<String, Double>("CARROT", 0.5) );
-		moLibidioDischargeCandidates.add( new clsPair<String, Double>("BUBBLE", 0.1) );
+		
+		for (clsDataStructurePA oCandidate : oCandidateList){
+			moLibidioDischargeCandidates.add( new clsPair<String, Double>(
+												((clsThingPresentationMesh)oCandidate).getMoContent(),
+												((clsDriveMesh)oDriveMeshList.get(oCandidateList.indexOf(oCandidate))).getMrPleasure()));
+		}
+		
+		//FIXME (Zeilinger): bitte irgendwie aus dem protege auslesen
+//		moLibidioDischargeCandidates = new ArrayList<clsPair<String,Double>>();
+//		moLibidioDischargeCandidates.add( new clsPair<String, Double>("CAKE", 1.0) );
+//		moLibidioDischargeCandidates.add( new clsPair<String, Double>("CARROT", 0.5) );
+//		moLibidioDischargeCandidates.add( new clsPair<String, Double>("BUBBLE", 0.1) );
 	}
 	
+	/**
+	 * DOCUMENT (zeilinger) - insert description
+	 *
+	 * @author zeilinger
+	 * 22.04.2011, 10:41:34
+	 *
+	 * @param oSearchResultDM
+	 * @param oDriveMeshList 
+	 */
+	private void extractDriveMatches(ArrayList<ArrayList<clsPair<Double, clsDataStructureContainer>>> poSearchResult, 
+									ArrayList<clsDataStructurePA> poDriveMatchList) {
+				
+		for(ArrayList<clsPair<Double, clsDataStructureContainer>> oEntry : poSearchResult){
+				for (clsPair<Double, clsDataStructureContainer> oMatch : oEntry){
+					poDriveMatchList.add(oMatch.b.getMoDataStructure());
+				}
+		}
+	}
+	
+	/**
+	 * DOCUMENT (zeilinger) - insert description
+	 *
+	 * @author zeilinger
+	 * 22.04.2011, 11:29:37
+	 *
+	 * @param oSearchResultObjects
+	 * @param oCandidateList
+	 */
+	private void extractCandidateMatches(
+			ArrayList<ArrayList<clsPair<Double, clsDataStructureContainer>>> poSearchResultObjects,
+			ArrayList<clsDataStructurePA> poCandidateList) {
+		
+		for(ArrayList<clsPair<Double, clsDataStructureContainer>> oEntry : poSearchResultObjects){
+			for (clsPair<Double, clsDataStructureContainer> oMatch : oEntry){
+				for(clsAssociation oAssociation : oMatch.b.getMoAssociatedDataStructures()){
+					poCandidateList.add(oAssociation.getMoAssociationElementB());
+				}
+			}
+		}
+		
+	}
+
 	/* (non-Javadoc)
 	 *
 	 * @author deutsch
@@ -140,8 +212,9 @@ public class E45_LibidoDischarge extends clsModuleBaseKB implements itfInspector
 			
 			for (clsPair<clsPrimaryDataStructureContainer,clsDriveMesh> oData:moMergedPrimaryInformation_Rcv) {
 				clsPrimaryDataStructureContainer oPDSC = oData.a;
+				clsDataStructurePA oDS = oPDSC.getMoDataStructure(); 
 				
-				if (oPDSC.getMoDataStructure().getMoContentType().contains(oSearchPattern)) {
+				if (oDS instanceof clsThingPresentationMesh && ((clsThingPresentationMesh)oDS).getMoContent().contains(oSearchPattern)) {
 					clsDriveMesh oDrive = createDriveMesh("LIBIDO", "LIBIDO");
 					oDrive.setPleasure(rReduction);
 					
