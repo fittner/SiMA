@@ -28,6 +28,7 @@ import pa._v30.memorymgmt.datatypes.clsDriveMesh;
 import pa._v30.memorymgmt.datatypes.clsSecondaryDataStructureContainer;
 import pa._v30.memorymgmt.datatypes.clsWordPresentation;
 import pa._v30.memorymgmt.enums.eDataType;
+import statictools.clsExceptionUtils;
 
 /**
  * DOCUMENT (KOHLHAUSER) - insert description 
@@ -163,6 +164,7 @@ public class E08_ConversionToSecondaryProcessForDriveWishes extends clsModuleBas
 	private void generateSecondaryContainer(ArrayList<clsAssociation> oDM_A, ArrayList<clsAssociation> oAff_A) {
 		
 		for(int index = 0; index < moDriveList_Input.size(); index++){
+			try {
 			String oContentWP = ((clsWordPresentation)oDM_A.get(index).getLeafElement()).getMoContent() 
 									+ ":" 
 									+ ((clsWordPresentation)oAff_A.get(index).getLeafElement()).getMoContent();
@@ -171,6 +173,9 @@ public class E08_ConversionToSecondaryProcessForDriveWishes extends clsModuleBas
 			clsSecondaryDataStructureContainer oCon =  new clsSecondaryDataStructureContainer(oResWP, 
 										 new ArrayList<clsAssociation>(Arrays.asList(oDM_A.get(index), oAff_A.get(index))));
 			moDriveList_Output.add(oCon);
+			} catch (java.lang.IndexOutOfBoundsException e) {
+				System.out.println(clsExceptionUtils.getCustomStackTrace(e)); //FIXME (Zeilinger): protege data structure is not complete. oDM_A is missing entries for sleep and relax. i have tried everything ... pleasse HEL!!! TD 2011/04/22
+			}
 		}
 	}
 

@@ -60,6 +60,16 @@ public class E38_PrimalRepressionForSelfPreservationDrives extends	clsModuleBase
 				"LIFE", "NOURISH", new ArrayList<Double>(Arrays.asList(0.9, 0.0, 0.1, 0.0)) ) );
 		moPrimalRepressionMemory.add( new clsTripple<String,String,ArrayList<Double>>(
 				"DEATH", "BITE", new ArrayList<Double>(Arrays.asList(0.9, 0.0, 0.1, 0.0)) ) );
+		
+		moPrimalRepressionMemory.add( new clsTripple<String,String,ArrayList<Double>>(
+				"LIFE", "RELAX", new ArrayList<Double>(Arrays.asList(0.1, 0.3, 0.1, 0.2)) ) );
+		moPrimalRepressionMemory.add( new clsTripple<String,String,ArrayList<Double>>(
+				"DEATH", "SLEEP", new ArrayList<Double>(Arrays.asList(0.0, 0.0, 0.0, 0.8)) ) );
+		
+		moPrimalRepressionMemory.add( new clsTripple<String,String,ArrayList<Double>>(
+				"LIFE", "REPRESS", new ArrayList<Double>(Arrays.asList(0.2, 0.4, 0.2, 0.0)) ) );
+		moPrimalRepressionMemory.add( new clsTripple<String,String,ArrayList<Double>>(
+				"DEATH", "DEPOSIT", new ArrayList<Double>(Arrays.asList(0.0, 0.7, 0.0, 0.1)) ) );		
 	}
 	
 	/* (non-Javadoc)
