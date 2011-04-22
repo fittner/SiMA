@@ -98,10 +98,10 @@ public class clsBWMainWithUI extends GUIState {
 		clsSingletonMasonGetter.getConsole().setVisible(true);
 		
 		//TODO: (langr) - for testing purpose only
-		oMainWithUI.testTabView();		
+	//oMainWithUI.testTabView();		
 	}
 
-		
+	@Deprecated
 	public void testTabView()
 	{
 		ArrayList<JTabbedPane> oTabView = new ArrayList<JTabbedPane> ();
@@ -302,6 +302,7 @@ public class clsBWMainWithUI extends GUIState {
 	 * @param poController
 	 * @param poMainModelClass
 	 */
+	@Deprecated
 	public void addChartPanel( Controller poController, clsBWMain poMainModelClass ) {
 		
 		// add all charts from clsCharts

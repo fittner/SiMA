@@ -18,6 +18,9 @@ import du.enums.eEntityType;
 import sim.physics2D.physicalObject.PhysicalObject2D;
 import sim.physics2D.shape.Shape;
 import statictools.clsSingletonUniqueIdGenerator;
+import statictools.eventlogger.Event;
+import statictools.eventlogger.clsEventLogger;
+import statictools.eventlogger.eEvent;
 import ARSsim.physics2D.physicalObject.itfSetupFunctions;
 import ARSsim.physics2D.util.clsPose;
 
@@ -74,6 +77,8 @@ public abstract class clsEntity implements itfGetBody {
 		applyProperties(poPrefix, poProp);
 		
 		setRegistered(false);
+		
+		clsEventLogger.add(new Event(this, moId, eEvent.CREATE, ""));
 	}
 	
 	public static clsBWProperties getDefaultProperties(String poPrefix) {
