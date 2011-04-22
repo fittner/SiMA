@@ -1,7 +1,7 @@
-; Fri Apr 22 18:07:40 CEST 2011
+; Fri Apr 22 19:58:19 CEST 2011
 ; 
-;+ (version "3.4.5")
-;+ (build "Build 608")
+;+ (version "3.4.4")
+;+ (build "Build 579")
 
 
 (defclass %3ACLIPS_TOP_LEVEL_SLOT_CLASS "Fake class to save top-level slot information"
@@ -486,20 +486,6 @@
 ;+		(cardinality 1 1)
 		(create-accessor read-write)))
 
-(defclass UNPLEASURE
-	(is-a TP)
-	(role concrete)
-	(single-slot value_type
-		(type STRING)
-;+		(value "UNPLEASURE")
-;+		(cardinality 1 1)
-		(create-accessor read-write))
-	(multislot class_association
-		(type INSTANCE)
-;+		(allowed-classes)
-;+		(value [TP%3ADRIVECONTENTTYPE%3AUNPLEASURE])
-		(create-accessor read-write)))
-
 (defclass DISTANCE
 	(is-a TP)
 	(role concrete)
@@ -657,20 +643,6 @@
 	(single-slot value
 		(type STRING)
 ;+		(cardinality 1 1)
-		(create-accessor read-write)))
-
-(defclass PLEASURE
-	(is-a TP)
-	(role concrete)
-	(single-slot value_type
-		(type STRING)
-;+		(value "PLEASURE")
-;+		(cardinality 1 1)
-		(create-accessor read-write))
-	(multislot class_association
-		(type INSTANCE)
-;+		(allowed-classes)
-;+		(value [TP%3ADRIVECONTENTTYPE%3APLEASURE])
 		(create-accessor read-write)))
 
 (defclass ASSOCIATION
@@ -1028,6 +1000,10 @@
 ;+		(allowed-classes)
 ;+		(value [TP%3ADRIVECONTENTTYPE%3ARELAX])
 		(create-accessor read-write)))
+
+(defclass LIBIDO
+	(is-a DM)
+	(role concrete))
 
 (defclass AFFECT
 	(is-a USER)
