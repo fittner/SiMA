@@ -11,6 +11,7 @@ import java.util.HashMap;
 import java.util.SortedMap;
 import config.clsBWProperties;
 import pa._v30.tools.clsPair;
+import pa._v30.tools.clsTripple;
 import pa._v30.tools.toHtml;
 import pa._v30.interfaces.eInterfaces;
 import pa._v30.interfaces.modules.I2_16_receive;
@@ -34,7 +35,10 @@ import pa._v30.memorymgmt.datatypes.clsThingPresentationMesh;
 public class E18_CompositionOfAffectsForPerception extends clsModuleBase implements I2_8_receive, I2_16_receive, I2_9_send {
 	public static final String P_MODULENUMBER = "18";
 	
-	private ArrayList<clsPair<clsPrimaryDataStructureContainer, clsDriveMesh>> moMergedPrimaryInformation_Input;
+	private ArrayList<clsPair<clsPrimaryDataStructureContainer, clsDriveMesh>> moLibidoPleasureCandidates_IN;
+	private ArrayList<clsPair<clsPrimaryDataStructureContainer, clsDriveMesh>> moPerception_IN;
+	private ArrayList<clsTripple<clsPrimaryDataStructureContainer,clsDriveMesh,clsDriveMesh>> moMergedPrimaryInformation_Input;
+	
 	private ArrayList<clsPrimaryDataStructureContainer> moNewPrimaryInformation; 
 	
 	//new input
@@ -49,7 +53,6 @@ public class E18_CompositionOfAffectsForPerception extends clsModuleBase impleme
 	@SuppressWarnings("unused")
 	private ArrayList<clsTemplateImage> moIndirectTemplateImages_OUT;
 
-	private ArrayList<clsPair<clsPrimaryDataStructureContainer, clsDriveMesh>> moLibidoPleasureCandidates_IN;
 	
 	/**
 	 * DOCUMENT (wendt) - insert description 
@@ -83,6 +86,8 @@ public class E18_CompositionOfAffectsForPerception extends clsModuleBase impleme
 		html += toHtml.listToHTML("moMergedPrimaryInformation_Input", moMergedPrimaryInformation_Input);
 		html += toHtml.listToHTML("moNewPrimaryInformation", moNewPrimaryInformation);
 		html += toHtml.listToHTML("moLibidoPleasureCandidates_IN", moLibidoPleasureCandidates_IN);
+		html += toHtml.listToHTML("moPerception_IN", moPerception_IN);
+		
 		
 		return html;
 	}
@@ -136,7 +141,7 @@ public class E18_CompositionOfAffectsForPerception extends clsModuleBase impleme
 	@SuppressWarnings("unchecked")
 	@Override
 	public void receive_I2_8(ArrayList<clsPair<clsPrimaryDataStructureContainer, clsDriveMesh>> poMergedPrimaryInformation) {
-		moMergedPrimaryInformation_Input = (ArrayList<clsPair<clsPrimaryDataStructureContainer, clsDriveMesh>>)deepCopy(poMergedPrimaryInformation);
+		moPerception_IN = (ArrayList<clsPair<clsPrimaryDataStructureContainer, clsDriveMesh>>)deepCopy(poMergedPrimaryInformation);
 	}
 
 	/* (non-Javadoc)
@@ -148,6 +153,8 @@ public class E18_CompositionOfAffectsForPerception extends clsModuleBase impleme
 	 */
 	@Override
 	protected void process_basic() {
+		mergeLists();
+		
 		//Merge quota of affect values original
 		adaptPleasureValue();
 		
@@ -158,6 +165,29 @@ public class E18_CompositionOfAffectsForPerception extends clsModuleBase impleme
 		
 		//Pass the indirect template images through without processing
 		//moIndirectTemplateImages_OUT = moIndirectTemplateImages_IN; 
+	}
+	
+	//TD 2011/04/22
+	private void mergeLists() {
+		//merge the two lists which are incoming from the two receive interfaces. the clsPrimaryDataStructureContainers entries
+		//are the same. moLibidoPleasureCandidates_IN is a subgroup of moPerception_IN
+		moMergedPrimaryInformation_Input = new ArrayList<clsTripple<clsPrimaryDataStructureContainer,clsDriveMesh,clsDriveMesh>>();
+
+		for (clsPair<clsPrimaryDataStructureContainer,clsDriveMesh> oP:moPerception_IN) {
+			clsPrimaryDataStructureContainer oPDSC = oP.a;
+			clsDriveMesh oDMRepressed = oP.b;
+			clsDriveMesh oDMLibido = null;
+			
+			for (clsPair<clsPrimaryDataStructureContainer,clsDriveMesh> oL:moLibidoPleasureCandidates_IN) {
+				if (oL.a.equals(oPDSC)) { //FIXME (Zeilinger): untested! not sure if this operation can identify identical clsPrimaryDataStructureContainer (TD 2011/04/22)
+					oDMLibido = oL.b;
+				}
+			}			
+			
+			clsTripple<clsPrimaryDataStructureContainer,clsDriveMesh,clsDriveMesh> oEntry = 
+				new clsTripple<clsPrimaryDataStructureContainer, clsDriveMesh, clsDriveMesh>(oPDSC, oDMRepressed, oDMLibido);
+			moMergedPrimaryInformation_Input.add(oEntry);
+		}
 	}
 	
 	/**
@@ -171,34 +201,59 @@ public class E18_CompositionOfAffectsForPerception extends clsModuleBase impleme
 		moNewPrimaryInformation = new ArrayList<clsPrimaryDataStructureContainer>(); 
 		
 		//for each pair in the input list...
-		for(clsPair <clsPrimaryDataStructureContainer, clsDriveMesh> oPair : moMergedPrimaryInformation_Input){
+		for(clsTripple<clsPrimaryDataStructureContainer,clsDriveMesh,clsDriveMesh> oData : moMergedPrimaryInformation_Input){
+			clsPrimaryDataStructureContainer oPDSC = oData.a;
+			
+			clsDriveMesh oDMRepressed = oData.b;
+			clsDriveMesh oDMLibido = oData.c;
+			
 			//If there is an object e. g. CAKE, which is a TPM...
-			if(oPair.a.getMoDataStructure() instanceof clsThingPresentationMesh){
+			if(oPDSC.getMoDataStructure() instanceof clsThingPresentationMesh){
 				//For each associated content in moAssociatedContent...
-				for(pa._v30.memorymgmt.datatypes.clsAssociation oAssociation : oPair.a.getMoAssociatedDataStructures()){
+				for(clsAssociation oAssociation : oPDSC.getMoAssociatedDataStructures()){
 					//If the Association is a DM...
 					if(oAssociation instanceof clsAssociationDriveMesh){
 						//Get the actual DM from the association
 						clsDriveMesh oDMInput = ((clsAssociationDriveMesh)oAssociation).getDM(); 
-						//Get the DM from the repressed content
-						clsDriveMesh oDMRepressed = oPair.b; 
+						//Get the DM from the repressed content		
 						
-						if (oPair.b != null) { //in the minimal model version, no drive meshes are attached! see E35.
-							/* If the moContentType is equal (at CAKE, NOURISH), then set new pleasure as the average of 
-							 * the pleasure of repressed content and the object. Then, new moContent is set from the 
-							 * Repressed content (NOURISH GREEDY statt NOURISH_CAKEBASIC).
-							 */
-							if (oDMInput.getMoContentType().intern() == oDMRepressed.getMoContentType().intern()) {
-							//old Fix here if(oDMInput.getMoContent().intern() == oDMRepressed.getMoContent().intern()){
-								oDMInput.setPleasure((oDMInput.getPleasure()+oDMRepressed.getPleasure())/2); 
-								oDMInput.setMoContent(oDMRepressed.getMoContent()); 
-							}
-						}
+						processRepressedContent(oDMInput, oDMRepressed);
+						processLibidoContent(oDMInput, oDMLibido);
 					}
 				}
-			}
+			}	
+			moNewPrimaryInformation.add(oPDSC); 
+		}
+	}
+	
+    //TD 2011/04/22 - refactored adaptPleasureValue function
+	private void processLibidoContent(clsDriveMesh oDMInput, clsDriveMesh oDMLibido) {
+		//this function processes data received by interface I2.16
+		
+		if (oDMLibido != null) {
+			//this incoming perception has been identified by E45 to qualify for reduction of libido tension
+			//->tension reduction results in pleasure gain->the perceptions pleasure value is increased.
+			double rLibido = oDMLibido.getPleasure();
+			double rPleasure = oDMInput.getPleasure();
 			
-			moNewPrimaryInformation.add(oPair.a); 
+			oDMInput.setPleasure(rPleasure+rLibido);
+		}
+	}
+	
+    //TD 2011/04/22 - refactored adaptPleasureValue function
+	private void processRepressedContent(clsDriveMesh oDMInput, clsDriveMesh oDMRepressed) {
+		//this function processes data received by interface I2.8
+		
+		if (oDMRepressed != null) { //in the minimal model version, no drive meshes are attached! see E35.
+			/* If the moContentType is equal (at CAKE, NOURISH), then set new pleasure as the average of 
+			 * the pleasure of repressed content and the object. Then, new moContent is set from the 
+			 * Repressed content (NOURISH GREEDY statt NOURISH_CAKEBASIC).
+			 */
+			if (oDMInput.getMoContentType().intern() == oDMRepressed.getMoContentType().intern()) {
+			//old Fix here if(oDMInput.getMoContent().intern() == oDMRepressed.getMoContent().intern()){
+				oDMInput.setPleasure((oDMInput.getPleasure()+oDMRepressed.getPleasure())/2); 
+				oDMInput.setMoContent(oDMRepressed.getMoContent()); 
+			}
 		}
 	}
 	

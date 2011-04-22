@@ -1,7 +1,7 @@
-; Fri Apr 22 11:57:28 CEST 2011
+; Fri Apr 22 18:07:40 CEST 2011
 ; 
-;+ (version "3.4.4")
-;+ (build "Build 579")
+;+ (version "3.4.5")
+;+ (build "Build 608")
 
 ([ANNOTATED_INSTANCE_WIDGET] of  Widget
 
@@ -45,486 +45,64 @@
 ([ARSi10rv3_ProjectKB_Class10263] of  Property_List
 )
 
-([BASIC_ProjectKB_Class10] of  Property_List
-)
-
-([BASIC_ProjectKB_Class100] of  Widget
-
-	(height 60)
-	(is_hidden FALSE)
-	(name ":NAME")
-	(property_list [BASIC_ProjectKB_Class101])
-	(widget_class_name "edu.stanford.smi.protege.widget.InstanceNameWidget")
-	(width 200)
-	(x 0)
-	(y 0))
-
-([BASIC_ProjectKB_Class101] of  Property_List
-)
-
-([BASIC_ProjectKB_Class11] of  Widget
-
-	(height 60)
-	(is_hidden FALSE)
-	(name "value_type")
-	(property_list [BASIC_ProjectKB_Class12])
-	(widget_class_name "edu.stanford.smi.protege.widget.TextFieldWidget")
-	(width 200)
-	(x 0)
-	(y 120))
-
-([BASIC_ProjectKB_Class12] of  Property_List
-)
-
-([BASIC_ProjectKB_Class13] of  Widget
-
-	(height 120)
-	(is_hidden FALSE)
-	(name "instance_association")
-	(property_list [BASIC_ProjectKB_Class14])
-	(widget_class_name "edu.stanford.smi.protege.widget.InstanceListWidget")
-	(width 200)
-	(x 200)
-	(y 120))
-
-([BASIC_ProjectKB_Class14] of  Property_List
-
-	(properties
-		[BASIC_ProjectKB_Class15]
-		[BASIC_ProjectKB_Class16]))
-
-([BASIC_ProjectKB_Class15] of  Boolean
-
-	(boolean_value FALSE)
-	(name "ButtonDisplayed-View References to Value"))
-
-([BASIC_ProjectKB_Class16] of  Boolean
-
-	(boolean_value FALSE)
-	(name "ButtonDisplayed-Delete Instance"))
-
-([BASIC_ProjectKB_Class17] of  Widget
-
-	(height 60)
-	(is_hidden FALSE)
-	(name "value")
-	(property_list [BASIC_ProjectKB_Class18])
-	(widget_class_name "edu.stanford.smi.protege.widget.FloatFieldWidget")
-	(width 100)
-	(x 0)
-	(y 180))
-
-([BASIC_ProjectKB_Class177] of  Widget
-
-	(height 60)
-	(is_hidden FALSE)
-	(name "type")
-	(property_list [BASIC_ProjectKB_Class178])
-	(widget_class_name "edu.stanford.smi.protege.widget.TextFieldWidget")
-	(width 200)
-	(x 0)
-	(y 60))
-
-([BASIC_ProjectKB_Class178] of  Property_List
-)
-
-([BASIC_ProjectKB_Class179] of  Widget
-
-	(height 60)
-	(is_hidden FALSE)
-	(name "value_type")
-	(property_list [BASIC_ProjectKB_Class180])
-	(widget_class_name "edu.stanford.smi.protege.widget.TextFieldWidget")
-	(width 200)
-	(x 0)
-	(y 120))
-
-([BASIC_ProjectKB_Class18] of  Property_List
-)
-
-([BASIC_ProjectKB_Class180] of  Property_List
-)
-
-([BASIC_ProjectKB_Class181] of  Widget
-
-	(height 120)
-	(is_hidden FALSE)
-	(name "instance_association")
-	(property_list [BASIC_ProjectKB_Class182])
-	(widget_class_name "edu.stanford.smi.protege.widget.InstanceListWidget")
-	(width 200)
-	(x 200)
-	(y 120))
-
-([BASIC_ProjectKB_Class182] of  Property_List
-
-	(properties
-		[BASIC_ProjectKB_Class183]
-		[BASIC_ProjectKB_Class184]))
-
-([BASIC_ProjectKB_Class183] of  Boolean
-
-	(boolean_value FALSE)
-	(name "ButtonDisplayed-View References to Value"))
-
-([BASIC_ProjectKB_Class184] of  Boolean
-
-	(boolean_value FALSE)
-	(name "ButtonDisplayed-Delete Instance"))
-
-([BASIC_ProjectKB_Class185] of  Widget
-
-	(height 60)
-	(is_hidden FALSE)
-	(name "value")
-	(property_list [BASIC_ProjectKB_Class186])
-	(widget_class_name "edu.stanford.smi.protege.widget.FloatFieldWidget")
-	(width 100)
-	(x 0)
-	(y 180))
-
-([BASIC_ProjectKB_Class186] of  Property_List
-)
-
-([BASIC_ProjectKB_Class187] of  Widget
-
-	(height 120)
-	(is_hidden FALSE)
-	(name "class_association")
-	(property_list [BASIC_ProjectKB_Class188])
-	(widget_class_name "edu.stanford.smi.protege.widget.InstanceListWidget")
-	(width 200)
-	(x 200)
-	(y 0))
-
-([BASIC_ProjectKB_Class188] of  Property_List
-
-	(properties
-		[BASIC_ProjectKB_Class189]
-		[BASIC_ProjectKB_Class190]))
-
-([BASIC_ProjectKB_Class189] of  Boolean
-
-	(boolean_value FALSE)
-	(name "ButtonDisplayed-View References to Value"))
-
-([BASIC_ProjectKB_Class19] of  Widget
-
-	(height 120)
-	(is_hidden FALSE)
-	(name "class_association")
-	(property_list [BASIC_ProjectKB_Class20])
-	(widget_class_name "edu.stanford.smi.protege.widget.InstanceListWidget")
-	(width 200)
-	(x 200)
-	(y 0))
-
-([BASIC_ProjectKB_Class190] of  Boolean
-
-	(boolean_value FALSE)
-	(name "ButtonDisplayed-Delete Instance"))
-
-([BASIC_ProjectKB_Class191] of  Widget
-
-	(height 60)
-	(is_hidden FALSE)
-	(name ":NAME")
-	(property_list [BASIC_ProjectKB_Class192])
-	(widget_class_name "edu.stanford.smi.protege.widget.InstanceNameWidget")
-	(width 200)
-	(x 0)
-	(y 0))
-
-([BASIC_ProjectKB_Class192] of  Property_List
-)
-
-([BASIC_ProjectKB_Class20] of  Property_List
-
-	(properties
-		[BASIC_ProjectKB_Class21]
-		[BASIC_ProjectKB_Class22]))
-
-([BASIC_ProjectKB_Class21] of  Boolean
-
-	(boolean_value FALSE)
-	(name "ButtonDisplayed-View References to Value"))
-
-([BASIC_ProjectKB_Class22] of  Boolean
-
-	(boolean_value FALSE)
-	(name "ButtonDisplayed-Delete Instance"))
-
-([BASIC_ProjectKB_Class23] of  Widget
-
-	(height 60)
-	(is_hidden FALSE)
-	(name ":NAME")
-	(property_list [BASIC_ProjectKB_Class24])
-	(widget_class_name "edu.stanford.smi.protege.widget.InstanceNameWidget")
-	(width 200)
-	(x 0)
-	(y 0))
-
-([BASIC_ProjectKB_Class24] of  Property_List
-)
-
-([BASIC_ProjectKB_Class330] of  String
-
-	(name ":INSTANCE-ANNOTATION")
-	(string_value "%3AANNOTATION-TEXT"))
-
-([BASIC_ProjectKB_Class331] of  String
+([BASIC_ProjectKB_Class424] of  String
 
 	(name "ANTENNA_LEFT")
 	(string_value "instance_association"))
 
-([BASIC_ProjectKB_Class332] of  String
+([BASIC_ProjectKB_Class425] of  String
 
-	(name ":PAL-CONSTRAINT")
-	(string_value "%3APAL-NAME"))
+	(name ":INSTANCE-ANNOTATION")
+	(string_value "%3AANNOTATION-TEXT"))
 
-([BASIC_ProjectKB_Class333] of  String
+([BASIC_ProjectKB_Class426] of  String
 
 	(name ":META-CLASS")
 	(string_value "%3ANAME"))
 
-([BASIC_ProjectKB_Class334] of  Map_Entry
+([BASIC_ProjectKB_Class427] of  String
+
+	(name ":PAL-CONSTRAINT")
+	(string_value "%3APAL-NAME"))
+
+([BASIC_ProjectKB_Class428] of  Map_Entry
 
 	(key "add_name_on_instance_form")
 	(key_class "java.lang.String")
 	(value "false")
 	(value_class "java.lang.String"))
 
-([BASIC_ProjectKB_Class335] of  Map_Entry
+([BASIC_ProjectKB_Class429] of  Map_Entry
 
 	(key "change_tracking_active")
 	(key_class "java.lang.String")
 	(value "false")
 	(value_class "java.lang.String"))
 
-([BASIC_ProjectKB_Class336] of  Map
+([BASIC_ProjectKB_Class430] of  Map
 )
 
-([BASIC_ProjectKB_Class337] of  Map_Entry
+([BASIC_ProjectKB_Class431] of  Map_Entry
 
 	(key "InstanceDisplay.yellow_stickies")
 	(key_class "java.lang.String")
-	(value "BASIC_ProjectKB_Class336")
+	(value "BASIC_ProjectKB_Class430")
 	(value_class "java.util.Map"))
 
-([BASIC_ProjectKB_Class338] of  Map_Entry
+([BASIC_ProjectKB_Class432] of  Map_Entry
 
 	(key "suppress_instance_counting")
 	(key_class "java.lang.String")
 	(value "false")
 	(value_class "java.lang.String"))
 
-([BASIC_ProjectKB_Class6] of  Widget
-
-	(is_hidden FALSE)
-	(name "PLEASURE")
-	(property_list [BASIC_ProjectKB_Class7])
-	(widget_class_name "edu.stanford.smi.protege.widget.FormWidget"))
-
-([BASIC_ProjectKB_Class7] of  Property_List
-
-	(properties
-		[BASIC_ProjectKB_Class8]
-		[BASIC_ProjectKB_Class9]
-		[BASIC_ProjectKB_Class11]
-		[BASIC_ProjectKB_Class13]
-		[BASIC_ProjectKB_Class17]
-		[BASIC_ProjectKB_Class19]
-		[BASIC_ProjectKB_Class23]))
-
-([BASIC_ProjectKB_Class76] of  Widget
-
-	(height 60)
-	(is_hidden FALSE)
-	(name "pleasure")
-	(property_list [BASIC_ProjectKB_Class77])
-	(widget_class_name "edu.stanford.smi.protege.widget.FloatFieldWidget")
-	(width 100)
-	(x 200)
-	(y 120))
-
-([BASIC_ProjectKB_Class77] of  Property_List
-)
-
-([BASIC_ProjectKB_Class78] of  Widget
-
-	(height 60)
-	(is_hidden FALSE)
-	(name "cathegory:genital")
-	(property_list [BASIC_ProjectKB_Class79])
-	(widget_class_name "edu.stanford.smi.protege.widget.FloatFieldWidget")
-	(width 100)
-	(x 300)
-	(y 0))
-
-([BASIC_ProjectKB_Class79] of  Property_List
-)
-
-([BASIC_ProjectKB_Class8] of  Property_List
-
-	(name "layout properties"))
-
-([BASIC_ProjectKB_Class80] of  Widget
-
-	(height 60)
-	(is_hidden FALSE)
-	(name "type")
-	(property_list [BASIC_ProjectKB_Class81])
-	(widget_class_name "edu.stanford.smi.protege.widget.TextFieldWidget")
-	(width 200)
-	(x 0)
-	(y 60))
-
-([BASIC_ProjectKB_Class81] of  Property_List
-)
-
-([BASIC_ProjectKB_Class82] of  Widget
-
-	(height 60)
-	(is_hidden FALSE)
-	(name "cathegory:oral")
-	(property_list [BASIC_ProjectKB_Class83])
-	(widget_class_name "edu.stanford.smi.protege.widget.FloatFieldWidget")
-	(width 100)
-	(x 200)
-	(y 60))
-
-([BASIC_ProjectKB_Class83] of  Property_List
-)
-
-([BASIC_ProjectKB_Class84] of  Widget
-
-	(height 60)
-	(is_hidden FALSE)
-	(name "value_type")
-	(property_list [BASIC_ProjectKB_Class85])
-	(widget_class_name "edu.stanford.smi.protege.widget.TextFieldWidget")
-	(width 200)
-	(x 0)
-	(y 180))
-
-([BASIC_ProjectKB_Class85] of  Property_List
-)
-
-([BASIC_ProjectKB_Class86] of  Widget
-
-	(height 60)
-	(is_hidden FALSE)
-	(name "cathegory:phalic")
-	(property_list [BASIC_ProjectKB_Class87])
-	(widget_class_name "edu.stanford.smi.protege.widget.FloatFieldWidget")
-	(width 100)
-	(x 300)
-	(y 60))
-
-([BASIC_ProjectKB_Class87] of  Property_List
-)
-
-([BASIC_ProjectKB_Class88] of  Widget
-
-	(height 300)
-	(is_hidden FALSE)
-	(name "instance_association")
-	(property_list [BASIC_ProjectKB_Class89])
-	(widget_class_name "edu.stanford.smi.protege.widget.InstanceListWidget")
-	(width 200)
-	(x 400)
-	(y 0))
-
-([BASIC_ProjectKB_Class89] of  Property_List
-
-	(properties
-		[BASIC_ProjectKB_Class90]
-		[BASIC_ProjectKB_Class91]))
-
-([BASIC_ProjectKB_Class9] of  Widget
-
-	(height 60)
-	(is_hidden FALSE)
-	(name "type")
-	(property_list [BASIC_ProjectKB_Class10])
-	(widget_class_name "edu.stanford.smi.protege.widget.TextFieldWidget")
-	(width 200)
-	(x 0)
-	(y 60))
-
-([BASIC_ProjectKB_Class90] of  Boolean
-
-	(boolean_value FALSE)
-	(name "ButtonDisplayed-View References to Value"))
-
-([BASIC_ProjectKB_Class91] of  Boolean
-
-	(boolean_value FALSE)
-	(name "ButtonDisplayed-Delete Instance"))
-
-([BASIC_ProjectKB_Class92] of  Widget
-
-	(height 120)
-	(is_hidden FALSE)
-	(name "class_association")
-	(property_list [BASIC_ProjectKB_Class93])
-	(widget_class_name "edu.stanford.smi.protege.widget.InstanceListWidget")
-	(width 200)
-	(x 200)
-	(y 180))
-
-([BASIC_ProjectKB_Class93] of  Property_List
-
-	(properties
-		[BASIC_ProjectKB_Class94]
-		[BASIC_ProjectKB_Class95]))
-
-([BASIC_ProjectKB_Class94] of  Boolean
-
-	(boolean_value FALSE)
-	(name "ButtonDisplayed-View References to Value"))
-
-([BASIC_ProjectKB_Class95] of  Boolean
-
-	(boolean_value FALSE)
-	(name "ButtonDisplayed-Delete Instance"))
-
-([BASIC_ProjectKB_Class96] of  Widget
-
-	(height 60)
-	(is_hidden FALSE)
-	(name "value")
-	(property_list [BASIC_ProjectKB_Class97])
-	(widget_class_name "edu.stanford.smi.protege.widget.TextFieldWidget")
-	(width 200)
-	(x 0)
-	(y 120))
-
-([BASIC_ProjectKB_Class97] of  Property_List
-)
-
-([BASIC_ProjectKB_Class98] of  Widget
-
-	(height 60)
-	(is_hidden FALSE)
-	(name "cathegory:anal")
-	(property_list [BASIC_ProjectKB_Class99])
-	(widget_class_name "edu.stanford.smi.protege.widget.FloatFieldWidget")
-	(width 100)
-	(x 200)
-	(y 0))
-
-([BASIC_ProjectKB_Class99] of  Property_List
-)
-
 ([BROWSER_SLOT_NAMES] of  Property_List
 
 	(properties
-		[BASIC_ProjectKB_Class330]
-		[BASIC_ProjectKB_Class331]
-		[BASIC_ProjectKB_Class332]
-		[BASIC_ProjectKB_Class333]))
+		[BASIC_ProjectKB_Class424]
+		[BASIC_ProjectKB_Class425]
+		[BASIC_ProjectKB_Class426]
+		[BASIC_ProjectKB_Class427]))
 
 ([CLSES_TAB] of  Widget
 
@@ -569,7 +147,7 @@
 	(is_hidden FALSE)
 	(widget_class_name "edu.stanford.smi.protege.widget.InstancesTab"))
 
-([KB_585009_Class5] of  Map
+([KB_157820_Class5] of  Map
 )
 
 ([KB_610615_Class0] of  String
@@ -580,11 +158,11 @@
 ([KB_610615_Class1] of  Map
 
 	(entries
-		[BASIC_ProjectKB_Class334]
-		[BASIC_ProjectKB_Class335]
-		[BASIC_ProjectKB_Class337]
-		[BASIC_ProjectKB_Class338])
-	(referenced_maps [BASIC_ProjectKB_Class336]))
+		[BASIC_ProjectKB_Class428]
+		[BASIC_ProjectKB_Class429]
+		[BASIC_ProjectKB_Class431]
+		[BASIC_ProjectKB_Class432])
+	(referenced_maps [BASIC_ProjectKB_Class430]))
 
 ([KB_610615_Class10] of  Property_List
 )
@@ -1126,11 +704,11 @@
 
 	(browser_slot_names [BROWSER_SLOT_NAMES])
 	(customized_instance_widgets
-		[INSTANCE_ANNOTATION_FORM_WIDGET]
 		[STANDARD_FACET_FORM_WIDGET]
-		[STANDARD_SLOT_FORM_WIDGET]
 		[PAL_FORM_WIDGET]
-		[STANDARD_CLASS_FORM_WIDGET])
+		[STANDARD_CLASS_FORM_WIDGET]
+		[INSTANCE_ANNOTATION_FORM_WIDGET]
+		[STANDARD_SLOT_FORM_WIDGET])
 	(default_cls_metaclass ":STANDARD-CLASS")
 	(default_facet_metaclass ":STANDARD-FACET")
 	(default_instance_widget_class_name "edu.stanford.smi.protege.widget.FormWidget")

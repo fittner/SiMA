@@ -57,6 +57,8 @@ public class E04_FusionOfSelfPreservationDrives extends clsModuleBase implements
 		
 		ArrayList<clsQuadruppel<String, String, String, String>> oStaticList = new ArrayList<clsQuadruppel<String,String,String,String>>();
 		oStaticList.add(new clsQuadruppel<String, String, String, String>("LIFE","NOURISH","DEATH","BITE"));
+		oStaticList.add(new clsQuadruppel<String, String, String, String>("LIFE","RELAX","DEATH","SLEEP"));
+		oStaticList.add(new clsQuadruppel<String, String, String, String>("LIFE","REPRESS","DEATH","DEPOSIT"));
 		
 		for (clsQuadruppel<String, String, String, String> oEntry:oStaticList) {
 			clsPair<String, String> oLeft = new clsPair<String, String>(oEntry.a, oEntry.b);
