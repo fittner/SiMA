@@ -1,4 +1,4 @@
-; Fri Apr 22 19:58:19 CEST 2011
+; Sat Apr 23 00:00:20 CEST 2011
 ; 
 ;+ (version "3.4.4")
 ;+ (build "Build 579")
@@ -159,7 +159,7 @@
 	(multislot class_association
 		(type INSTANCE)
 ;+		(allowed-classes)
-;+		(value [TP%3ASENSOR_EXT%3AVISION%3ACOLOR%3ABLACK] [TP%3ASENSOR_EXT%3AVISION%3ASHAPE%3ACIRCLE])
+;+		(value [TP%3ASENSOR_EXT%3AVISION%3ASHAPE%3ACIRCLE])
 		(create-accessor read-write))
 	(single-slot value
 		(type STRING)

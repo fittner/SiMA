@@ -1,4 +1,4 @@
-; Fri Apr 22 19:58:19 CEST 2011
+; Sat Apr 23 00:00:20 CEST 2011
 ; 
 ;+ (version "3.4.4")
 ;+ (build "Build 579")
@@ -125,12 +125,45 @@
 	(action [WP%3AACTION%3AEXCREMENT])
 	(consequence
 		[WP%3ADEPOSIT]
+		[WP%3ALOW]
 		[WP%3AREPRESS]
-		[WP%3ASTONE])
-	(precondition
-		[WP%3ALOCATION%3AMANIPULATEABLE]
-		[WP%3AOBJECT])
+		[WP%3ALOW])
+	(precondition [WP%3AOBJECT])
 	(value "EXCREMENT")
+	(value_type "EXCREMENT"))
+
+([ACT%3AEXCREMENT%3ACARROT01] of  ACT
+
+	(action [WP%3AACTION%3AEXCREMENT])
+	(consequence
+		[WP%3ACARROT]
+		[WP%3AUNPLEASURE]
+		[WP%3AVERYHIGH]
+		[WP%3ADEPOSIT]
+		[WP%3ALOW]
+		[WP%3AREPRESS]
+		[WP%3ALOW])
+	(precondition
+		[WP%3ACARROT]
+		[WP%3ALOCATION%3AMANIPULATEABLE])
+	(value "REPRESS")
+	(value_type "EXCREMENT"))
+
+([ACT%3AEXCREMENT%3ACARROT02] of  ACT
+
+	(action [WP%3AACTION%3AEXCREMENT])
+	(consequence
+		[WP%3ACARROT]
+		[WP%3AUNPLEASURE]
+		[WP%3AVERYHIGH]
+		[WP%3ADEPOSIT]
+		[WP%3ALOW]
+		[WP%3AREPRESS]
+		[WP%3ALOW])
+	(precondition
+		[WP%3ACARROT]
+		[WP%3ALOCATION%3AMANIPULATEABLE])
+	(value "DEPOSIT")
 	(value_type "EXCREMENT"))
 
 ([ACT%3AMOVE%3AFORWARD_EATABLE] of  ACT
@@ -205,9 +238,7 @@
 		[WP%3ALOW]
 		[WP%3ARELAX]
 		[WP%3ALOW])
-	(precondition
-		[WP%3ASLEEP]
-		[WP%3AHIGH])
+	(precondition [WP%3AOBJECT])
 	(value "DEEP")
 	(value_type "SLEEP"))
 
@@ -306,7 +337,7 @@
 
 	(element
 		[TPM%3AENTITY%3ASTONE%3ASTONE01]
-		[DM%3ADEPOSIT])
+		[DM%3ADEPOSIT%3ASTONE])
 	(weight 1.0 1.0))
 
 ([AD%3ASTONE%3ANOURISH] of  ASSOCIATIONDM
@@ -320,41 +351,41 @@
 
 	(element
 		[TPM%3AENTITY%3ASTONE%3ASTONE01]
-		[DM%3AREPRESS])
+		[DM%3AREPRESS%3ASTONE])
 	(weight 1.0 1.0))
 
 ([AFFECT%3AHIGH] of  AFFECT
 
 	(value 0.0)
-	(value_max 0.5)
-	(value_min 0.1)
+	(value_max 0.7)
+	(value_min 0.3)
 	(value_type "AFFECT"))
 
 ([AFFECT%3ALOW] of  AFFECT
 
 	(value 0.0)
-	(value_max -0.1)
-	(value_min -0.5)
+	(value_max -0.3)
+	(value_min -0.6)
 	(value_type "AFFECT"))
 
 ([AFFECT%3AMEDIUM] of  AFFECT
 
 	(value 0.0)
-	(value_max 0.1)
-	(value_min -0.1)
+	(value_max 0.3)
+	(value_min -0.3)
 	(value_type "AFFECT"))
 
 ([AFFECT%3AVERYHIGH] of  AFFECT
 
 	(value 0.0)
 	(value_max 1.0)
-	(value_min 0.5)
+	(value_min 0.7)
 	(value_type "AFFECT"))
 
 ([AFFECT%3AVERYLOW] of  AFFECT
 
 	(value 0.0)
-	(value_max -0.5)
+	(value_max -0.6)
 	(value_min -1.0)
 	(value_type "AFFECT"))
 
@@ -601,7 +632,7 @@
 ([AW%3ADM_DEPOSIT%3ADEPOSITSTONE] of  ASSOCIATIONWP
 
 	(element
-		[DM%3ADEPOSIT]
+		[DM%3ADEPOSIT%3ASTONE]
 		[WP%3ADEPOSIT])
 	(weight 1.0 1.0))
 
@@ -650,7 +681,7 @@
 ([AW%3ADM_REPRESS%3AREPRESSSTONE] of  ASSOCIATIONWP
 
 	(element
-		[DM%3AREPRESS]
+		[DM%3AREPRESS%3ASTONE]
 		[WP%3AREPRESS])
 	(weight 1.0 1.0))
 
@@ -913,16 +944,16 @@
 	(cathegory%3Agenital 0.1)
 	(cathegory%3Aoral 0.1)
 	(cathegory%3Aphalic 0.3)
-	(pleasure -0.8)
+	(pleasure 0.0)
 	(value "BITE"))
 
-([DM%3ADEPOSIT] of  DEPOSIT
+([DM%3ADEPOSIT%3ASTONE] of  DEPOSIT
 
 	(cathegory%3Aanal 1.0)
 	(cathegory%3Agenital 0.1)
 	(cathegory%3Aoral 0.0)
 	(cathegory%3Aphalic 0.5)
-	(pleasure -0.2)
+	(pleasure 0.4)
 	(value "DEPOSIT"))
 
 ([DM%3ALIBIDO%3ABUBBLE_BASIC] of  LIBIDO
@@ -1009,7 +1040,7 @@
 	(cathegory%3Agenital 0.0)
 	(cathegory%3Aoral 0.1)
 	(cathegory%3Aphalic 0.0)
-	(pleasure -0.4)
+	(pleasure 0.0)
 	(value "NOURISH"))
 
 ([DM%3ARELAX] of  RELAX
@@ -1021,7 +1052,7 @@
 	(pleasure 0.9)
 	(value "RELAX"))
 
-([DM%3AREPRESS] of  REPRESS
+([DM%3AREPRESS%3ASTONE] of  REPRESS
 
 	(cathegory%3Aanal 1.0)
 	(cathegory%3Agenital 0.1)
@@ -1036,7 +1067,7 @@
 	(cathegory%3Agenital 0.4)
 	(cathegory%3Aoral 0.1)
 	(cathegory%3Aphalic 0.1)
-	(pleasure -0.8)
+	(pleasure 0.0)
 	(value "SLEEP"))
 
 ([HANDS] of  %3ASTANDARD-CLASS
@@ -1381,6 +1412,10 @@
 
 	(value "#00FFFF"))
 
+([TP%3ASENSOR_EXT%3AVISION%3ACOLOR%3ADARKGREY] of  COLOR
+
+	(value "#404040"))
+
 ([TP%3ASENSOR_EXT%3AVISION%3ACOLOR%3AGREEN] of  COLOR
 
 	(value "#33FF33"))
@@ -1460,7 +1495,8 @@
 		[AA%3AREMOTEBOT_RB01%3AALIVE]))
 
 ([TPM%3AENTITY%3ASTONE%3ASTONE01] of  STONE
-)
+
+	(class_association [TP%3ASENSOR_EXT%3AVISION%3ACOLOR%3ADARKGREY]))
 
 ([TPM%3AENTITY%3AWALL%3AWALL] of  WALL
 
