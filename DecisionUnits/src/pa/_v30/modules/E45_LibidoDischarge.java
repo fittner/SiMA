@@ -20,6 +20,7 @@ import pa._v30.interfaces.itfInspectorGenericTimeChart;
 import pa._v30.interfaces.modules.I2_16_receive;
 import pa._v30.interfaces.modules.I2_16_send;
 import pa._v30.interfaces.modules.I2_8_receive;
+import pa._v30.memorymgmt.clsKnowledgeBaseHandler;
 import pa._v30.memorymgmt.datahandler.clsDataStructureGenerator;
 import pa._v30.memorymgmt.datatypes.clsDriveMesh;
 import pa._v30.memorymgmt.datatypes.clsPrimaryDataStructureContainer;
@@ -35,7 +36,7 @@ import config.clsBWProperties;
  * 03.03.2011, 16:29:55
  * 
  */
-public class E45_LibidoDischarge extends clsModuleBase implements itfInspectorGenericTimeChart, I2_8_receive, I2_16_send {
+public class E45_LibidoDischarge extends clsModuleBaseKB implements itfInspectorGenericTimeChart, I2_8_receive, I2_16_send {
 	public static final String P_MODULENUMBER = "45";
 	
 	private ArrayList<clsPair<clsPrimaryDataStructureContainer, clsDriveMesh>> moMergedPrimaryInformation_Rcv;
@@ -59,8 +60,9 @@ public class E45_LibidoDischarge extends clsModuleBase implements itfInspectorGe
 	public E45_LibidoDischarge(String poPrefix, clsBWProperties poProp,
 			HashMap<Integer, clsModuleBase> poModuleList, 
 			SortedMap<eInterfaces, ArrayList<Object>> poInterfaceData, 
-			clsLibidoBuffer poLibidoBuffer) throws Exception {
-		super(poPrefix, poProp, poModuleList, poInterfaceData);
+			clsLibidoBuffer poLibidoBuffer,
+			clsKnowledgeBaseHandler poKnowledgeBaseHandler) throws Exception {
+		super(poPrefix, poProp, poModuleList, poInterfaceData, poKnowledgeBaseHandler);
 		
 		moLibidoBuffer = poLibidoBuffer;
 		
