@@ -235,14 +235,17 @@ public class E03_GenerationOfSelfPreservationDrives extends clsModuleBaseKB impl
 		double rMaxValue = 1;
 		
 		if (poSource.equals("BLOODSUGAR")) {
-			rMaxValue = 0.5;
+			rMaxValue = 1.0;
+			rResult = (rMaxValue-rValue)/rMaxValue;
 		} else if (poSource.equals("STAMINA")) {
 			rMaxValue = 1.0;
+			rResult = (rMaxValue-rValue)/rMaxValue;
 		} else if (poSource.equals("STOMACHTENSION")) {
-			rMaxValue = 1.0;
+			//rValue *= 0.1;
+			rResult = rValue;
 		}
 		
-		rResult = (rMaxValue-rValue)/rMaxValue;
+		
 		
 		return rResult;
 	}
