@@ -1,7 +1,7 @@
-; Fri Apr 22 18:07:40 CEST 2011
+; Fri Apr 22 18:40:42 CEST 2011
 ; 
-;+ (version "3.4.5")
-;+ (build "Build 608")
+;+ (version "3.4.4")
+;+ (build "Build 579")
 
 ([AA%3AAGENT_HANDS_BASIC%3ABLUE] of  ASSOCIATIONATTRIBUTE
 
@@ -36,13 +36,6 @@
 	(element
 		[TPM%3AENTITY%3ACAKE%3ABASIC]
 		[TP%3ASENSOR_EXT%3AVISION%3ACOLOR%3APINK])
-	(weight 1.0 1.0))
-
-([AA%3ACAKE_BASIC%3APLEASURE_HIGH] of  ASSOCIATIONATTRIBUTE
-
-	(element
-		[TPM%3AENTITY%3ACAKE%3ABASIC]
-		[TP%3APLEASURE_HIGH])
 	(weight 1.0 1.0))
 
 ([AA%3ACAKE_BASIC%3ARED] of  ASSOCIATIONATTRIBUTE
@@ -225,6 +218,20 @@
 		[DM%3ANOURISH%3ABUBBLE])
 	(weight 1.0 1.0))
 
+([AD%3ABUBBLEBASIC%3ALIBIDO] of  ASSOCIATIONDM
+
+	(element
+		[TPM%3AENTITY%3ABUBBLE%3ABUBBLE01]
+		[DM%3ALIBIDO%3ABUBBLE_BASIC])
+	(weight 1.0 1.0))
+
+([AD%3ACAKE%3ALIBIDO] of  ASSOCIATIONDM
+
+	(element
+		[DM%3ALIBIDO%3ACAKE_BASIC]
+		[TPM%3AENTITY%3ACAKE%3ABASIC])
+	(weight 1.0 1.0))
+
 ([AD%3ACAKEBASIC%3ABITE] of  ASSOCIATIONDM
 
 	(element
@@ -251,6 +258,13 @@
 	(element
 		[TPM%3AENTITY%3ACAN%3ABASIC]
 		[DM%3ANOURISH%3ACANBASIC])
+	(weight 1.0 1.0))
+
+([AD%3ACARROT%3ALIBIDO] of  ASSOCIATIONDM
+
+	(element
+		[TPM%3AENTITY%3ACARROT%3ABASIC]
+		[DM%3ALIBIDO%3ACARROT])
 	(weight 1.0 1.0))
 
 ([AD%3AREMOTEBOT%3ABITE] of  ASSOCIATIONDM
@@ -867,6 +881,39 @@
 	(pleasure -0.2)
 	(value "DEPOSIT"))
 
+([DM%3ALIBIDO%3ABUBBLE_BASIC] of  LIBIDO
+
+	(cathegory%3Aanal 0.0)
+	(cathegory%3Agenital 0.0)
+	(cathegory%3Aoral 0.0)
+	(cathegory%3Aphalic 0.0)
+	(class_association [TP%3ADRIVECONTENTTYPE%3APLEASURE])
+	(pleasure 0.1)
+	(value "LIBIDO")
+	(value_type "LIBIDO"))
+
+([DM%3ALIBIDO%3ACAKE_BASIC] of  LIBIDO
+
+	(cathegory%3Aanal 0.0)
+	(cathegory%3Agenital 0.0)
+	(cathegory%3Aoral 0.0)
+	(cathegory%3Aphalic 0.0)
+	(class_association [TP%3ADRIVECONTENTTYPE%3APLEASURE])
+	(pleasure 1.0)
+	(value "LIBIDO")
+	(value_type "LIBIDO"))
+
+([DM%3ALIBIDO%3ACARROT] of  LIBIDO
+
+	(cathegory%3Aanal 0.0)
+	(cathegory%3Agenital 0.0)
+	(cathegory%3Aoral 0.0)
+	(cathegory%3Aphalic 0.0)
+	(class_association [TP%3ADRIVECONTENTTYPE%3APLEASURE])
+	(pleasure 0.5)
+	(value "LIBIDO")
+	(value_type "LIBIDO"))
+
 ([DM%3ANOURISH%3ABUBBLE] of  NOURISH
 
 	(cathegory%3Aanal 0.3)
@@ -1188,10 +1235,6 @@
 ([TP%3AINTENSITY%3ASTRONG] of  INTENSITY
 
 	(value "STRONG"))
-
-([TP%3APLEASURE_HIGH] of  PLEASURE
-
-	(value 0.8))
 
 ([TP%3APOSITION%3ACENTER] of  OBJECTPOSITION
 
