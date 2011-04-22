@@ -1,4 +1,4 @@
-; Fri Apr 22 11:22:56 CEST 2011
+; Fri Apr 22 18:07:40 CEST 2011
 ; 
 ;+ (version "3.4.5")
 ;+ (build "Build 608")
@@ -288,25 +288,11 @@
 		[DM%3ANOURISH%3ASTONE])
 	(weight 1.0 1.0))
 
-([AD%3ASTONE%3ARELAX] of  ASSOCIATIONDM
-
-	(element
-		[TPM%3AENTITY%3ASTONE%3ASTONE01]
-		[DM%3ARELAX])
-	(weight 1.0 1.0))
-
 ([AD%3ASTONE%3AREPRESS] of  ASSOCIATIONDM
 
 	(element
 		[TPM%3AENTITY%3ASTONE%3ASTONE01]
 		[DM%3AREPRESS])
-	(weight 1.0 1.0))
-
-([AD%3ASTONE%3ASLEEP] of  ASSOCIATIONDM
-
-	(element
-		[DM%3ASLEEP]
-		[TPM%3AENTITY%3ASTONE%3ASTONE01])
 	(weight 1.0 1.0))
 
 ([AFFECT%3AHIGH] of  AFFECT
@@ -1147,7 +1133,7 @@
 
 	(class_association [TP%3ADRIVECONTENTTYPE%3ASLEEP])
 	(value "RELAX")
-	(value_type "DEATH"))
+	(value_type "LIFE"))
 
 ([TP%3ADRIVECONTENTTYPE%3AREPRESS] of  DRIVECONTENTTYPE
 
@@ -1164,7 +1150,7 @@
 
 	(class_association [TP%3ADRIVECONTENTTYPE%3ARELAX])
 	(value "SLEEP")
-	(value_type "LIFE"))
+	(value_type "DEATH"))
 
 ([TP%3ADRIVECONTENTTYPE%3AUNPLEASURE] of  DRIVECONTENTTYPE
 
