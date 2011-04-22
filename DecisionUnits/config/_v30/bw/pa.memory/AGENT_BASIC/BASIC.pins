@@ -1,4 +1,4 @@
-; Thu Apr 21 16:26:11 CEST 2011
+; Fri Apr 22 11:22:56 CEST 2011
 ; 
 ;+ (version "3.4.5")
 ;+ (build "Build 608")
@@ -204,6 +204,20 @@
 	(value "RIGHT")
 	(value_type "MOVE"))
 
+([ACT%3ASLEEP] of  ACT
+
+	(action [WP%3AACTION%3ASLEEP])
+	(consequence
+		[WP%3ASLEEP]
+		[WP%3ALOW]
+		[WP%3ARELAX]
+		[WP%3ALOW])
+	(precondition
+		[WP%3ASLEEP]
+		[WP%3AHIGH])
+	(value "DEEP")
+	(value_type "SLEEP"))
+
 ([AD%3ABUBBLE%3ANOURISH] of  ASSOCIATIONDM
 
 	(element
@@ -264,7 +278,7 @@
 
 	(element
 		[TPM%3AENTITY%3ASTONE%3ASTONE01]
-		[DM%3ADEPOSIT%3ASTONE])
+		[DM%3ADEPOSIT])
 	(weight 1.0 1.0))
 
 ([AD%3ASTONE%3ANOURISH] of  ASSOCIATIONDM
@@ -274,11 +288,25 @@
 		[DM%3ANOURISH%3ASTONE])
 	(weight 1.0 1.0))
 
+([AD%3ASTONE%3ARELAX] of  ASSOCIATIONDM
+
+	(element
+		[TPM%3AENTITY%3ASTONE%3ASTONE01]
+		[DM%3ARELAX])
+	(weight 1.0 1.0))
+
 ([AD%3ASTONE%3AREPRESS] of  ASSOCIATIONDM
 
 	(element
 		[TPM%3AENTITY%3ASTONE%3ASTONE01]
-		[DM%3AREPRESS%3ASTONE])
+		[DM%3AREPRESS])
+	(weight 1.0 1.0))
+
+([AD%3ASTONE%3ASLEEP] of  ASSOCIATIONDM
+
+	(element
+		[DM%3ASLEEP]
+		[TPM%3AENTITY%3ASTONE%3ASTONE01])
 	(weight 1.0 1.0))
 
 ([AFFECT%3AHIGH] of  AFFECT
@@ -552,7 +580,7 @@
 ([AW%3ADM_DEPOSIT%3ADEPOSITSTONE] of  ASSOCIATIONWP
 
 	(element
-		[DM%3ADEPOSIT%3ASTONE]
+		[DM%3ADEPOSIT]
 		[WP%3ADEPOSIT])
 	(weight 1.0 1.0))
 
@@ -584,11 +612,25 @@
 		[DM%3ANOURISH%3AREMOTEBOT])
 	(weight 1.0 1.0))
 
+([AW%3ADM_RELAX%3ARELAX] of  ASSOCIATIONWP
+
+	(element
+		[DM%3ARELAX]
+		[WP%3ARELAX])
+	(weight 1.0 1.0))
+
 ([AW%3ADM_REPRESS%3AREPRESSSTONE] of  ASSOCIATIONWP
 
 	(element
-		[DM%3AREPRESS%3ASTONE]
+		[DM%3AREPRESS]
 		[WP%3AREPRESS])
+	(weight 1.0 1.0))
+
+([AW%3ADM_SLEEP%3ASLEEP] of  ASSOCIATIONWP
+
+	(element
+		[DM%3ASLEEP]
+		[WP%3ASLEEP])
 	(weight 1.0 1.0))
 
 ([AW%3ADRIVECONTENT_BITE%3ABITE] of  ASSOCIATIONWP
@@ -612,11 +654,25 @@
 		[TP%3ADRIVECONTENTTYPE%3ANOURISH])
 	(weight 1.0 1.0))
 
+([AW%3ADRIVECONTENT_RELAX%3ARELAX] of  ASSOCIATIONWP
+
+	(element
+		[WP%3ARELAX]
+		[TP%3ADRIVECONTENTTYPE%3ARELAX])
+	(weight 1.0 1.0))
+
 ([AW%3ADRIVECONTENT_REPRESS%3AREPRESS] of  ASSOCIATIONWP
 
 	(element
 		[WP%3AREPRESS]
 		[TP%3ADRIVECONTENTTYPE%3AREPRESS])
+	(weight 1.0 1.0))
+
+([AW%3ADRIVECONTENT_SLEEP%3ASLEEP] of  ASSOCIATIONWP
+
+	(element
+		[WP%3ASLEEP]
+		[TP%3ADRIVECONTENTTYPE%3ASLEEP])
 	(weight 1.0 1.0))
 
 ([AW%3AENTITY%3AENTITY] of  ASSOCIATIONWP
@@ -816,7 +872,7 @@
 	(pleasure -0.8)
 	(value "BITE"))
 
-([DM%3ADEPOSIT%3ASTONE] of  DEPOSIT
+([DM%3ADEPOSIT] of  DEPOSIT
 
 	(cathegory%3Aanal 1.0)
 	(cathegory%3Agenital 0.1)
@@ -870,7 +926,16 @@
 	(pleasure -0.4)
 	(value "NOURISH"))
 
-([DM%3AREPRESS%3ASTONE] of  REPRESS
+([DM%3ARELAX] of  RELAX
+
+	(cathegory%3Aanal 0.1)
+	(cathegory%3Agenital 0.1)
+	(cathegory%3Aoral 0.1)
+	(cathegory%3Aphalic 0.1)
+	(pleasure 0.9)
+	(value "RELAX"))
+
+([DM%3AREPRESS] of  REPRESS
 
 	(cathegory%3Aanal 1.0)
 	(cathegory%3Agenital 0.1)
@@ -878,6 +943,15 @@
 	(cathegory%3Aphalic 0.0)
 	(pleasure 0.6)
 	(value "REPRESS"))
+
+([DM%3ASLEEP] of  SLEEP
+
+	(cathegory%3Aanal 0.1)
+	(cathegory%3Agenital 0.4)
+	(cathegory%3Aoral 0.1)
+	(cathegory%3Aphalic 0.1)
+	(pleasure -0.8)
+	(value "SLEEP"))
 
 ([HANDS] of  %3ASTANDARD-CLASS
 
@@ -1058,11 +1132,6 @@
 	(value "DEPOSIT")
 	(value_type "DEATH"))
 
-([TP%3ADRIVECONTENTTYPE%3AEXCRETE] of  DRIVECONTENTTYPE
-
-	(value "EXCRETE")
-	(value_type "DEATH"))
-
 ([TP%3ADRIVECONTENTTYPE%3ANOURISH] of  DRIVECONTENTTYPE
 
 	(class_association [TP%3ADRIVECONTENTTYPE%3ABITE])
@@ -1073,6 +1142,12 @@
 
 	(value "PLEASURE")
 	(value_type "LIFE"))
+
+([TP%3ADRIVECONTENTTYPE%3ARELAX] of  DRIVECONTENTTYPE
+
+	(class_association [TP%3ADRIVECONTENTTYPE%3ASLEEP])
+	(value "RELAX")
+	(value_type "DEATH"))
 
 ([TP%3ADRIVECONTENTTYPE%3AREPRESS] of  DRIVECONTENTTYPE
 
@@ -1087,6 +1162,7 @@
 
 ([TP%3ADRIVECONTENTTYPE%3ASLEEP] of  DRIVECONTENTTYPE
 
+	(class_association [TP%3ADRIVECONTENTTYPE%3ARELAX])
 	(value "SLEEP")
 	(value_type "LIFE"))
 
@@ -1324,6 +1400,10 @@
 
 	(value "PICKUP"))
 
+([WP%3AACTION%3ASLEEP] of  WP%3AACTION
+
+	(value "SLEEP"))
+
 ([WP%3AACTION%3ATURN_LEFT] of  WP%3AACTION
 
 	(value "TURN_LEFT"))
@@ -1464,9 +1544,17 @@
 
 	(value "TO"))
 
+([WP%3ARELAX] of  WP%3ACONTENT
+
+	(value "RELAX"))
+
 ([WP%3AREPRESS] of  WP%3ACONTENT
 
 	(value "REPRESS"))
+
+([WP%3ASLEEP] of  WP%3ACONTENT
+
+	(value "SLEEP"))
 
 ([WP%3ASTONE] of  WP%3AENTITY
 
