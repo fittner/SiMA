@@ -31,12 +31,23 @@ public class clsEventLogger {
     private boolean fillArray = true;
     private final int maxArrayLength = 200;
     private ArrayList<Event> moEvents;
+    private boolean htmldirty = true;
+    private String html = "";
+    private clsEventLoggerInspector moELI;
     
-    private clsEventLogger() {
+    @SuppressWarnings("unused")
+	private clsEventLogger() {
     	if (maxArrayLength > 0) {
     		moEvents = new ArrayList<Event>(maxArrayLength);
+    	} else {
+    		moEvents = new ArrayList<Event>();
     	}
     }
+    
+    public static void setELI(clsEventLoggerInspector poELI) {
+    	clsEventLogger.getInstance().moELI = poELI;
+    }
+    
     private static clsEventLogger getInstance() {
        if (instance == null) {
             instance = new clsEventLogger();
@@ -68,46 +79,55 @@ public class clsEventLogger {
     	return clsEventLogger.getInstance().tohtml();
     }
     
+    public static boolean isHtmlDirty() {
+    	return clsEventLogger.getInstance().htmldirty;
+    }
+    
     private String tohtml() {
-    	String html = "<html><head></head><body>";
-    	
-    	html += "<h1>Event Log</h1>";
-    	
-    	html += "<table><tr><th>Step</th><th>Event</th></tr>";
-    	
-    	long step = Integer.MAX_VALUE;
-    	String temp = "";
-    	for (int i=moEvents.size()-1; i==0; i--) {
-    		Event oE = moEvents.get(i);
-    		
-    		if (oE.step < step) {
-    			step = oE.step;
-    			if (temp.length()!=0) {
-    				temp = temp.substring(0, temp.length()-"<br/>".length());
-    				temp += "</td></tr>";
-    			}
-    			temp += "<tr><td>"+step+"</td><td>";
-    		}
-    		
-    		temp += oE.toHtml();
-    	}
-    	temp += "</td></tr>";
-    	
-    	html += temp+"</table>";
-    	
-    	if (maxArrayLength > 0) {
-    		html += "<p>Displaying last "+maxArrayLength+" events.</p>";
-    	}
-    	
-    	if (writeToFile) {
-    		html += "<p>Writing log to file: "+getFilename()+".</p>";
-    	}
-    	
-    	html  += "</body></html>";
+        if (htmldirty) {
+	    	htmldirty = false;
+	    	
+	    	html = "<html><head></head><body>";
+	    	
+	    	html += "<h1>Event Log</h1>";
+	    	html += "<p>Last event occured at step: "+getSteps()+". Recorded number of events: "+moEvents.size()+".</p>";
+	    	html += "<table><tr><th>Step</th><th>Event</th></tr>";
+	    	
+	    	long step = Integer.MAX_VALUE;
+	    	String temp = "";
+	    	for (int i=moEvents.size()-1; i>=0; i--) {
+	    		Event oE = moEvents.get(i);
+	    		
+	    		if (oE.step < step) {
+	    			step = oE.step;
+	    			if (temp.length()!=0) {
+	    				temp = temp.substring(0, temp.length()-"<br/>".length());
+	    				temp += "</td></tr>";
+	    			}
+	    			temp += "<tr><td>"+step+"</td><td>";
+	    		}
+	    		
+	    		temp += oE.toHtml();
+	    	}
+	    	temp += "</td></tr>";
+	    	
+	    	html += temp+"</table>";
+	    	
+	    	if (maxArrayLength > 0) {
+	    		html += "<p>Displaying last "+maxArrayLength+" events.</p>";
+	    	}
+	    	
+	    	if (writeToFile) {
+	    		html += "<p>Writing log to file: "+getFilename()+".</p>";
+	    	}
+	    	
+	    	html  += "</body></html>";
+        }
     	return html;
     }
     
     private void addEvent(Event poEvent) {
+    	htmldirty = true;
     	poEvent.step = clsEventLogger.getSteps();
     	
     	if (writeToFile) {
@@ -117,6 +137,7 @@ public class clsEventLogger {
     	if (fillArray) {
     		addEntryToArray(poEvent);
     	}
+    	moELI.updateInspector();
     }
 
     private void addEntryToArray(Event poEvent) {
