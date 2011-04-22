@@ -10,6 +10,7 @@ import java.lang.reflect.Field;
 import java.util.ArrayList;
 import javax.swing.JTree;
 import inspectors.mind.pa._v30.functionalmodel.clsPAInspectorFunctional;
+import inspectors.mind.pa._v30.graph.clsDriveInspector;
 import inspectors.mind.pa._v30.graph.clsMeshInterface;
 import pa._v30.interfaces.eInterfaces;
 import pa._v30.interfaces.itfInspectorGenericTimeChart;
@@ -145,7 +146,8 @@ public class clsInspectorPATabFactory {
 		} else if(poModuleName.equals("E03_GenerationOfSelfPreservationDrives")) {
 		} else if(poModuleName.equals("E04_FusionOfSelfPreservationDrives")) {
 		} else if(poModuleName.equals("E05_AccumulationOfAffectsForSelfPreservationDrives")) {
-			oRetVal.addInspector( new clsE05DriveInspector(moPA.moE05_AccumulationOfAffectsForSelfPreservationDrives, "moDriveList"), "Current Drives (Graph)");
+//			oRetVal.addInspector( new clsE05DriveInspector(moPA.moE05_AccumulationOfAffectsForSelfPreservationDrives, "moDriveList"), "Current Drives (Graph)");
+			oRetVal.addInspector( new clsDriveInspector(moPA.moE05_AccumulationOfAffectsForSelfPreservationDrives), "Current Drives (Graph)");
 			//oRetVal.addInspector( new clsSemanticInformationIspector(moPA, eInterfaces.I1_4 ), "rcv I1_4");
 		} else if(poModuleName.equals("E06_DefenseMechanismsForDrives")) {
 		} else if(poModuleName.equals("E07_InternalizedRulesHandler")) {
