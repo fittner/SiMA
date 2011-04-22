@@ -23,6 +23,7 @@ import du.itf.sensors.clsDataBase;
 import du.itf.sensors.clsFastMessenger;
 import du.itf.sensors.clsFastMessengerEntry;
 import du.itf.sensors.clsHealthSystem;
+import du.itf.sensors.clsIntestinePressure;
 import du.itf.sensors.clsSlowMessenger;
 import du.itf.sensors.clsStaminaSystem;
 import du.itf.sensors.clsStomachTension;
@@ -156,6 +157,10 @@ public class E02_NeurosymbolizationOfNeeds extends clsModuleBase implements I1_1
 	
 		if(moHomeostasis.get(eSensorIntType.STOMACHTENSION)!=null)
 			moHomeostaticSymbol.put(eSensorIntType.STOMACHTENSION.name(), ((clsStomachTension)moHomeostasis.get(eSensorIntType.STOMACHTENSION)).getTension() );
+
+		if(moHomeostasis.get(eSensorIntType.INTESTINEPRESSURE)!=null)
+			moHomeostaticSymbol.put(eSensorIntType.INTESTINEPRESSURE.name(), ((clsIntestinePressure)moHomeostasis.get(eSensorIntType.INTESTINEPRESSURE)).getPressure() );
+
 		
 		if(moHomeostasis.get(eSensorIntType.HEALTH)!=null)
 			moHomeostaticSymbol.put(eSensorIntType.HEALTH.name(), ((clsHealthSystem)moHomeostasis.get(eSensorIntType.HEALTH)).getHealthValue() );

@@ -107,8 +107,8 @@ public class E03_GenerationOfSelfPreservationDrives extends clsModuleBaseKB impl
 		oDrives.add( createDrives("LIFE", "RELAX", "STAMINA") );
 		oDrives.add( createDrives("DEATH", "SLEEP", "STAMINA") );
 		
-		oDrives.add( createDrives("LIFE", "REPRESS", "STOMACHTENSION") );
-		oDrives.add( createDrives("DEATH", "DEPOSIT", "STOMACHTENSION") );
+		oDrives.add( createDrives("LIFE", "REPRESS", "INTESTINEPRESSURE") );
+		oDrives.add( createDrives("DEATH", "DEPOSIT", "INTESTINEPRESSURE") );
 		
 		return oDrives;
 	}
@@ -240,7 +240,7 @@ public class E03_GenerationOfSelfPreservationDrives extends clsModuleBaseKB impl
 		} else if (poSource.equals("STAMINA")) {
 			rMaxValue = 1.0;
 			rResult = (rMaxValue-rValue)/rMaxValue;
-		} else if (poSource.equals("STOMACHTENSION")) {
+		} else if (poSource.equals("INTESTINEPRESSURE")) {
 			//rValue *= 0.1;
 			rResult = rValue;
 		}

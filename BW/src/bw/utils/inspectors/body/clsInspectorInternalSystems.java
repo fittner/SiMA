@@ -28,6 +28,7 @@ import org.jfree.chart.renderer.category.CategoryItemRenderer;
 import org.jfree.chart.renderer.category.LevelRenderer;
 import org.jfree.data.category.DefaultCategoryDataset;
 import bw.body.internalSystems.clsInternalSystem;
+import bw.utils.enums.eNutritions;
 import sim.display.GUIState;
 import sim.portrayal.Inspector;
 import sim.portrayal.LocationWrapper;
@@ -96,6 +97,18 @@ public class clsInspectorInternalSystems extends Inspector{
 		moDatasetLowerLimits.addValue(0, "Lower Bound", "Stomach Tension");
 		moDatasetUpperLimits.addValue(1, "Upper Bound", "Stomach Tension");		
 
+		double rPressure = 0;
+		try {
+			rPressure = moInternalSystem.getStomachSystem().getNutritionLevel(eNutritions.UNDIGESTABLE).getContent() / 
+						moInternalSystem.getStomachSystem().getNutritionLevel(eNutritions.UNDIGESTABLE).getMaxContent();
+		} catch (java.lang.ArithmeticException e) {
+			//nothing to do
+		}		
+		moDataset.addValue(rPressure, "Intestine Pressure", "Intestine Pressure");
+		moDatasetLowerLimits.addValue(0, "Lower Bound", "Intestine Pressure");
+		moDatasetUpperLimits.addValue(1, "Upper Bound", "Intestine Pressure");		
+
+		
 		//health value divided by 10 to match with other upper bounds
 		moDataset.addValue(moInternalSystem.getHealthSystem().getHealth().getContent()/10, "Health", "Health");
 		moDatasetLowerLimits.addValue(0, "Lower Bound", "Health");
@@ -192,6 +205,17 @@ public class clsInspectorInternalSystems extends Inspector{
 		moDataset.addValue(rTension, "Stomach Tension", "Stomach Tension");
 		moDatasetLowerLimits.addValue(0, "Lower Bound", "Stomach Tension");
 		moDatasetUpperLimits.addValue(1, "Upper Bound", "Stomach Tension");		
+		
+		double rPressure = 0;
+		try {
+			rPressure = moInternalSystem.getStomachSystem().getNutritionLevel(eNutritions.UNDIGESTABLE).getContent() / 
+						moInternalSystem.getStomachSystem().getNutritionLevel(eNutritions.UNDIGESTABLE).getMaxContent();
+		} catch (java.lang.ArithmeticException e) {
+			//nothing to do
+		}		
+		moDataset.addValue(rPressure, "Intestine Pressure", "Intestine Pressure");
+		moDatasetLowerLimits.addValue(0, "Lower Bound", "Intestine Pressure");
+		moDatasetUpperLimits.addValue(1, "Upper Bound", "Intestine Pressure");	
 		
 		//health value divided by 10 to match with other upper bounds
 		moDataset.addValue(moInternalSystem.getHealthSystem().getHealth().getContent()/10, "Health", "Health");
