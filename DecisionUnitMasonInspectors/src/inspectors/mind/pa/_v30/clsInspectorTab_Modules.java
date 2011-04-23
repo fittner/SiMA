@@ -10,6 +10,7 @@ import inspectors.mind.pa._v30.autocreated.clsE_SimpleInterfaceDataInspector;
 import inspectors.mind.pa._v30.autocreated.clsI_SimpleInterfaceDataInspector;
 import inspectors.mind.pa._v30.autocreated.cls_DescriptionInspector;
 import inspectors.mind.pa._v30.autocreated.cls_GenericActivityTimeChartInspector;
+import inspectors.mind.pa._v30.autocreated.cls_GenericDynamicTimeChartInspector;
 import inspectors.mind.pa._v30.autocreated.cls_GenericTimeChartInspector;
 import inspectors.mind.pa._v30.autocreated.cls_StateInspector;
 import inspectors.mind.pa._v30.functionalmodel.clsPAInspectorFunctional;
@@ -23,6 +24,7 @@ import pa._v30.clsProcessor;
 import pa._v30.interfaces.eInterfaces;
 import pa._v30.interfaces.itfInspectorDrives;
 import pa._v30.interfaces.itfInspectorGenericActivityTimeChart;
+import pa._v30.interfaces.itfInspectorGenericDynamicTimeChart;
 import pa._v30.interfaces.itfInspectorGenericTimeChart;
 import pa._v30.interfaces.itfInspectorInternalState;
 import pa._v30.interfaces.itfInterfaceDescription;
@@ -252,7 +254,11 @@ public class clsInspectorTab_Modules extends Inspector implements TreeSelectionL
 						"Desc");				
 			}
 			
-			if (oModule instanceof itfInspectorGenericTimeChart) {
+			if (oModule instanceof itfInspectorGenericDynamicTimeChart) {
+				poTI.addInspector(
+						new cls_GenericDynamicTimeChartInspector((itfInspectorGenericDynamicTimeChart) oModule),	
+						"Time Chart");				
+			} else if (oModule instanceof itfInspectorGenericTimeChart) { //else if is important! itfInspectorGenericDynamicTimeChart is derived from itfInspectorGenericTimeChart
 				poTI.addInspector(
 						new cls_GenericTimeChartInspector((itfInspectorGenericTimeChart) oModule),	
 						"Time Chart");

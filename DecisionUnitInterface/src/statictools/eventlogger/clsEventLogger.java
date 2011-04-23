@@ -15,6 +15,7 @@ import java.util.Date;
 
 import sim.engine.SimState;
 import statictools.clsGetARSPath;
+import statictools.clsSimState;
 
 /**
  * DOCUMENT (deutsch) - insert description 
@@ -42,6 +43,8 @@ public class clsEventLogger {
     	} else {
     		moEvents = new ArrayList<Event>();
     	}
+    	
+    	sim = clsSimState.getSimState();
     }
     
     public static void setELI(clsEventLoggerInspector poELI) {
@@ -54,11 +57,7 @@ public class clsEventLogger {
        }
        return instance;
     }
-
-	public static void setSimState(SimState poSimState) {
-		clsEventLogger.getInstance().sim = poSimState;
-	}
-
+    
 	public static long getSteps() {
 		long result = -1;
 		if (clsEventLogger.getInstance().sim != null) {

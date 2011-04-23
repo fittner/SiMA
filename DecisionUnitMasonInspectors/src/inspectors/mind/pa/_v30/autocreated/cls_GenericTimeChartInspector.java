@@ -75,7 +75,7 @@ public class cls_GenericTimeChartInspector extends cls_AbstractChartInspector {
 		return poDataset;
     }    
     
-    private void updateLimitLines() {
+    protected void updateLimitLines() {
 		moLowerLimit.add(mnCurrentTime, mrLower );
 		moUpperLimit.add(mnCurrentTime, mrUpper );    	
     }	
