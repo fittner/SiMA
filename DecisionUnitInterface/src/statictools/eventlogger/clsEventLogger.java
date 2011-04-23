@@ -35,15 +35,9 @@ public class clsEventLogger {
     private boolean htmldirty = true;
     private String html = "";
     private clsEventLoggerInspector moELI;
-    
-    @SuppressWarnings("unused")
+
 	private clsEventLogger() {
-    	if (maxArrayLength > 0) {
-    		moEvents = new ArrayList<Event>(maxArrayLength);
-    	} else {
-    		moEvents = new ArrayList<Event>();
-    	}
-    	
+   		moEvents = new ArrayList<Event>();
     	sim = clsSimState.getSimState();
     }
     
@@ -129,14 +123,20 @@ public class clsEventLogger {
     	htmldirty = true;
     	poEvent.step = clsEventLogger.getSteps();
     	
-    	if (writeToFile) {
-    		writeEntryToFile(poEvent);
-    	}
+    	if (writeToFile) {writeEntryToFile(poEvent);}    	
+    	if (fillArray) {addEntryToArray(poEvent);}
     	
-    	if (fillArray) {
-    		addEntryToArray(poEvent);
-    	}
+    	enforceMaxSize();
+    	
     	moELI.updateInspector();
+    }
+    
+    private void enforceMaxSize() {
+    	if (maxArrayLength > 0) {
+    		while (moEvents.size() > maxArrayLength) {
+    			moEvents.remove(0);
+    		}
+    	}
     }
 
     private void addEntryToArray(Event poEvent) {
