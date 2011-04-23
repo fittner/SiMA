@@ -207,9 +207,8 @@ public class E26_DecisionMaking extends clsModuleBase implements
 		moGoal_Output = new ArrayList<clsSecondaryDataStructureContainer>(); 
 		
 		compriseExternalPerception();
-		compriseDrives();
 		compriseRuleList(); 
-		 
+		compriseDrives(); 
 	}
 	
 	
