@@ -92,7 +92,12 @@ public abstract class cls_AbstractChartInspector extends Inspector {
     		oSeries.clear();
     	}
     	
-    	for (int pos=0; pos<oData.size(); pos++) {
+    	int start = oData.size() - mnHistoryLength;
+    	if (start < 0) {
+    		start = 0;
+    	}
+    	
+    	for (int pos=start; pos<oData.size(); pos++) {
 			clsPair <Long, ArrayList<Double>> oLine = oData.get(pos);
     		long x = oLine.a;
     		ArrayList<Double> ys = oLine.b;
