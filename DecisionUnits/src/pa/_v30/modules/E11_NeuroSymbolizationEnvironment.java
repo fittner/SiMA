@@ -7,17 +7,25 @@
 package pa._v30.modules;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.SortedMap;
 import config.clsBWProperties;
 import du.enums.eSensorExtType;
 import du.itf.sensors.clsSensorExtern;
+import pa._v30.symbolization.representationsymbol.clsSymbolVision;
 import pa._v30.interfaces.eInterfaces;
+import pa._v30.interfaces.itfInspectorGenericActivityTimeChart;
 import pa._v30.interfaces.modules.I2_1_receive;
 import pa._v30.interfaces.modules.I2_2_receive;
 import pa._v30.interfaces.modules.I2_2_send;
 import pa._v30.symbolization.clsSensorToSymbolConverter;
+import pa._v30.symbolization.representationsymbol.clsSymbolBump;
+import pa._v30.symbolization.representationsymbol.clsSymbolEatableArea;
+import pa._v30.symbolization.representationsymbol.clsSymbolManipulateArea;
+import pa._v30.symbolization.representationsymbol.clsSymbolVisionEntry;
 import pa._v30.symbolization.representationsymbol.itfSymbol;
+import pa._v30.symbolization.representationsymbol.itfSymbolVisionEntry;
 import pa._v30.tools.toHtml;
 import pa._v30.enums.eSymbolExtType;
 
@@ -28,11 +36,15 @@ import pa._v30.enums.eSymbolExtType;
  * 11.08.2009, 14:19:23
  * 
  */
-public class E11_NeuroSymbolizationEnvironment extends clsModuleBase implements I2_1_receive, I2_2_send {
+public class E11_NeuroSymbolizationEnvironment extends clsModuleBase 
+			implements I2_1_receive, I2_2_send, itfInspectorGenericActivityTimeChart {
 	public static final String P_MODULENUMBER = "11";
 	
 	private HashMap<eSensorExtType, clsSensorExtern> moEnvironmentalData;
 	private HashMap<eSymbolExtType, itfSymbol> moSymbolData;
+
+	private ArrayList<String> moCaptions = new ArrayList<String>(Arrays.asList(
+			"V_CAKE","V_BUBBLE","V_CARROT","V_WALL","V_STONE","V_CAN","V_REMOTEBOT","V_EXCREMENT","MAN_AREA","EAT_AREA","BUMP")); 
 
 	/**
 	 * DOCUMENT (muchitsch) - insert description 
@@ -130,6 +142,7 @@ public class E11_NeuroSymbolizationEnvironment extends clsModuleBase implements 
 	@Override
 	protected void process_basic() {
 		moSymbolData = clsSensorToSymbolConverter.convertExtSensorToSymbol(moEnvironmentalData);
+		
 	}
 
 	/* (non-Javadoc)
@@ -207,5 +220,113 @@ public class E11_NeuroSymbolizationEnvironment extends clsModuleBase implements 
 	@Override
 	public void setDescription() {
 		moDescription = "Conversion of raw data into neuro-symbols.";
+	}
+
+	/* (non-Javadoc)
+	 *
+	 * @author deutsch
+	 * 24.04.2011, 00:33:50
+	 * 
+	 * @see pa._v30.interfaces.itfInspectorTimeChartBase#getTimeChartAxis()
+	 */
+	@Override
+	public String getTimeChartAxis() {
+		return "Active";
+	}
+
+	/* (non-Javadoc)
+	 *
+	 * @author deutsch
+	 * 24.04.2011, 00:33:50
+	 * 
+	 * @see pa._v30.interfaces.itfInspectorTimeChartBase#getTimeChartTitle()
+	 */
+	@Override
+	public String getTimeChartTitle() {
+		return "EXT.Sensors";
+	}
+
+	/* (non-Javadoc)
+	 *
+	 * @author deutsch
+	 * 24.04.2011, 00:33:50
+	 * 
+	 * @see pa._v30.interfaces.itfInspectorTimeChartBase#getTimeChartData()
+	 */
+	@Override
+	public ArrayList<Double> getTimeChartData() {
+		ArrayList<Double> oData = new ArrayList<Double>();
+		
+		for (int i=0; i<moCaptions.size();i++) {oData.add(0.0);}
+		
+		ArrayList<eSymbolExtType> oKeys = new ArrayList<eSymbolExtType>(moSymbolData.keySet());
+		
+		for (int i=0; i<oKeys.size(); i++) {
+			eSymbolExtType oKey = oKeys.get(i);
+			itfSymbol oValue = moSymbolData.get(oKey);
+			
+			switch (oKey) {
+				case BUMP: if (((clsSymbolBump)oValue).getBumped()) {
+							oData.set(10, 1.0);
+						} break;
+				case EATABLE_AREA: if (((clsSymbolEatableArea)oValue).getEntries().size() > 1) {
+							oData.set(9, 0.5);
+						} else if (((clsSymbolEatableArea)oValue).getEntries().size() == 1) {
+							oData.set(9, 1.0);
+						} break;
+				case MANIPULATE_AREA: if (((clsSymbolManipulateArea)oValue).getEntries().size() > 1) {
+							oData.set(8, 0.5);
+						} else if (((clsSymbolManipulateArea)oValue).getEntries().size() == 1) {
+							oData.set(8, 1.0);
+						} break; 
+				case VISION_FAR:
+				case VISION_MEDIUM:
+				case VISION_NEAR:
+						double rValue = 1;
+						if (oKey == eSymbolExtType.VISION_FAR) {rValue = 0.33;}
+						else if (oKey == eSymbolExtType.VISION_MEDIUM) {rValue = 0.66;}
+						
+						ArrayList<itfSymbolVisionEntry> oEntries = ((clsSymbolVision)oValue).getEntries();
+						for (int j=0; j<oEntries.size(); j++) {
+							clsSymbolVisionEntry oE = (clsSymbolVisionEntry) oEntries.get(j);
+							int x = -1;
+							//0:"V_CAKE",1:"V_BUBBLE",2:"V_CARROT",3:"V_WALL",4:"V_STONE",5:"V_CAN",6:"V_REMOTEBOT",
+							switch (oE.getEntityType()) {
+								case CAKE:   x=0; break;
+								case BUBBLE: x=1; break;
+								case CAN:    x=5; break;
+								case CARROT: x=2; break;
+								case WALL:   x=3; break;
+								case STONE:  x=4; break;
+								case REMOTEBOT: x=6; break;
+								case SMARTEXCREMENT: x=7; break;
+								case EXCREMENT: x=7; break;
+							}
+							if (x>=0) {
+								oData.set(x, max(rValue, oData.get(x)));
+							}
+						}
+					break;
+			}
+		}
+		
+		return oData;
+	}
+	
+	private double max(double a, double b) {
+		if (a>b) {return a;} 
+		return b;
+	}
+
+	/* (non-Javadoc)
+	 *
+	 * @author deutsch
+	 * 24.04.2011, 00:33:50
+	 * 
+	 * @see pa._v30.interfaces.itfInspectorTimeChartBase#getTimeChartCaptions()
+	 */
+	@Override
+	public ArrayList<String> getTimeChartCaptions() {
+		return moCaptions;
 	}	
 }
