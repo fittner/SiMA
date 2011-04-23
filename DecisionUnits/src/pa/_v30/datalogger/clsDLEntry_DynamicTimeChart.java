@@ -7,12 +7,9 @@
 package pa._v30.datalogger;
 
 import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.Map;
-import java.util.TreeMap;
-
 import pa._v30.interfaces.itfInspectorGenericDynamicTimeChart;
 import pa._v30.modules.clsModuleBase;
+import pa._v30.tools.clsPair;
 
 /**
  * DOCUMENT (deutsch) - insert description 
@@ -60,43 +57,37 @@ public class clsDLEntry_DynamicTimeChart extends clsDLEntry_Abstract implements 
 	}
 
 	private void updateHistory() {
-		TreeMap<Long, ArrayList<Double>> newValues = new TreeMap<Long, ArrayList<Double>>();
+		ArrayList<clsPair <Long, ArrayList<Double>> > newValues = new ArrayList<clsPair <Long, ArrayList<Double>> >();
 		ArrayList<String> newCaptions = moModule.getTimeChartCaptions();
 		
-		try {	
-			for (Iterator<Map.Entry<Long, ArrayList<Double>>> it = values.entrySet().iterator(); it.hasNext();) {
-
-				Map.Entry<Long, ArrayList<Double>> oLine = it.next();
-				long step = oLine.getKey();
-				ArrayList<Double> oldset = oLine.getValue();
-				ArrayList<Double> newset = new ArrayList<Double>();
+		for (int i=0; i<values.size(); i++) {
+			clsPair <Long, ArrayList<Double>> oLine = values.get(i);
+			long step = oLine.a;
+			ArrayList<Double> oldset = oLine.b;
+			ArrayList<Double> newset = new ArrayList<Double>();
+			
+			int oldPos=0;
+			for (int newPos=0;newPos<newCaptions.size();newPos++) {
+				double rValue = 0;
 				
-				int oldPos=0;
-				for (int newPos=0;newPos<newCaptions.size();newPos++) {
-					double rValue = 0;
-					
-					String newCap = newCaptions.get(newPos);
-					
-					try {
-						String oldCap = captions.get(oldPos);
-						if (oldCap.equals(newCap)) {
-							rValue = oldset.get(oldPos);
-							oldPos++;
-						}
-					} catch (java.lang.Exception e) {
-						// do nothing
+				String newCap = newCaptions.get(newPos);
+				
+				try {
+					String oldCap = captions.get(oldPos);
+					if (oldCap.equals(newCap)) {
+						rValue = oldset.get(oldPos);
+						oldPos++;
 					}
-					
-					newset.add(rValue);
+				} catch (java.lang.Exception e) {
+					// do nothing
 				}
 				
-				newValues.put(step, newset);
+				newset.add(rValue);
 			}
-			} catch (java.util.ConcurrentModificationException e) {
-				//FIXME (Deutsch): very bad! Map.Entry<Long, ArrayList<Double>> oLine = it.next();
-				System.out.println("clsDLEntry_DynamicTimeChart.updateHistory: "+e);
-				
-			}
+			
+			newValues.add( new clsPair<Long, ArrayList<Double>>(step, newset) );
+		}
+
 
 		values = newValues;
 		updateCaptions();

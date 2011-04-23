@@ -9,7 +9,6 @@ package inspectors.mind.pa._v30.autocreated;
 import java.awt.BorderLayout;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.SortedMap;
 
 import pa._v30.tools.clsPair;
@@ -75,14 +74,14 @@ public class clsI_SimpleInterfaceDataInspector extends Inspector {
 		moStaticContent += "<p>"+mnInterface.getDescription()+"</p>";
 		moStaticContent += "<p><b>Receive from modules</b>: ";
 		
-		for (Iterator<Integer> it = moInterfaces_Recv_Send.get(mnInterface).b.iterator(); it.hasNext();) {
-			Integer oI = it.next();
+		for (int i=0; i<moInterfaces_Recv_Send.get(mnInterface).b.size(); i++) {
+			Integer oI = moInterfaces_Recv_Send.get(mnInterface).b.get(i);
 			moStaticContent += "E"+oI+", ";
 		}
 		moStaticContent += "</p>";
 		moStaticContent += "<p><b>Send to modules</b>: ";
-		for (Iterator<Integer> it = moInterfaces_Recv_Send.get(mnInterface).a.iterator(); it.hasNext();) {
-			Integer oI = it.next();
+		for (int i=0; i<moInterfaces_Recv_Send.get(mnInterface).a.size(); i++) {
+			Integer oI = moInterfaces_Recv_Send.get(mnInterface).a.get(i);
 			moStaticContent += "E"+oI+", ";
 		}
 		moStaticContent += "</p>";			
@@ -94,8 +93,8 @@ public class clsI_SimpleInterfaceDataInspector extends Inspector {
 		moContent += "<h2>Data</h2>";
 		moContent += "<ul>";
 
-		for (Iterator<Object> it = moInterfaceData.get(mnInterface).iterator();it.hasNext();) {
-			Object data = it.next();
+		for (int i=0; i<moInterfaceData.get(mnInterface).size();i++) {
+			Object data = moInterfaceData.get(mnInterface).get(i);
 
 			if (data == null) {
 				moContent += "<li><i>n/a</i></li>";

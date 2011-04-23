@@ -7,7 +7,8 @@
 package pa._v30.interfaces;
 
 import java.util.ArrayList;
-import java.util.TreeMap;
+
+import pa._v30.tools.clsPair;
 
 /**
  * DOCUMENT (deutsch) - insert description 
@@ -17,5 +18,5 @@ import java.util.TreeMap;
  * 
  */
 public interface itfInterfaceTimeChartHistory {
-	public TreeMap<Long, ArrayList<Double>> getTimeChartHistory();
+	public ArrayList<clsPair <Long, ArrayList<Double>> > getTimeChartHistory();
 }

@@ -8,7 +8,6 @@ package pa._v30.datalogger;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Iterator;
 
 import pa._v30.interfaces.itfInspectorGenericActivityTimeChart;
 import pa._v30.interfaces.itfInspectorGenericDynamicTimeChart;
@@ -68,8 +67,8 @@ public class clsDataLogger {
 		long min = Integer.MAX_VALUE;
 		long max = -1;
 		
-		for (Iterator<clsDLEntry_Abstract> it = moDataStorage.iterator(); it.hasNext();) {
-			clsDLEntry_Abstract oDS = it.next();
+		for (int i=0; i<moDataStorage.size(); i++) {
+			clsDLEntry_Abstract oDS = moDataStorage.get(i);
 			
 			if (oDS.first < min) {
 				min = oDS.first;
@@ -98,8 +97,8 @@ public class clsDataLogger {
 	public String getColumnsCSV() {
 		String o = "Step"+csvseperator;
 		
-		for (Iterator<clsDLEntry_Abstract> it=moDataStorage.iterator();it.hasNext();) {
-			clsDLEntry_Abstract oDS = it.next();
+		for (int i=0; i<moDataStorage.size(); i++) {
+			clsDLEntry_Abstract oDS = moDataStorage.get(i);		
 			o += oDS.columnsToCSV()+csvseperator;
 		}
 		o = o.substring(0, o.length() - clsDataLogger.csvseperator.length());
@@ -111,8 +110,8 @@ public class clsDataLogger {
 	public String getValuesCSV(long step) {
 		String o = step+csvseperator;
 		
-		for (Iterator<clsDLEntry_Abstract> it=moDataStorage.iterator();it.hasNext();) {
-			clsDLEntry_Abstract oDS = it.next();
+		for (int i=0; i<moDataStorage.size(); i++) {
+			clsDLEntry_Abstract oDS = moDataStorage.get(i);		
 			o += oDS.valuesToCSV(step) + csvseperator;
 		}
 		o = o.substring(0, o.length() - clsDataLogger.csvseperator.length());
@@ -158,8 +157,9 @@ public class clsDataLogger {
 		html += "<p>From: "+first+" to: "+last+"</p>";
 		
 		html += "<ul>";
-		for (Iterator<clsDLEntry_Abstract> it=moDataStorage.iterator();it.hasNext();) {
-			clsDLEntry_Abstract oDL = it.next();
+		
+		for (int i=0; i<moDataStorage.size(); i++) {
+			clsDLEntry_Abstract oDL = moDataStorage.get(i);		
 			html += "<li><b>"+oDL.getName()+":</b> ";
 			for (String oS:oDL.getTimeChartCaptions()) {
 				html += oS+clsDataLogger.csvseperator;

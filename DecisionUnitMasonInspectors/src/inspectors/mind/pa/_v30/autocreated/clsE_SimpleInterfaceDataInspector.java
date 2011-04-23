@@ -7,7 +7,6 @@
 package inspectors.mind.pa._v30.autocreated;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.SortedMap;
 import pa._v30.interfaces.eInterfaces;
 import pa._v30.interfaces.itfInterfaceInterfaceData;
@@ -72,13 +71,13 @@ public class clsE_SimpleInterfaceDataInspector extends
 	protected void updateContent() {
 		moContent  = "<h2>Receive</h2>";
 		if (moRecv != null) {
-			for (Iterator<eInterfaces> it = moRecv.iterator();it.hasNext();) {
-				eInterfaces eRcv = it.next();
+			for (int i=0; i<moRecv.size(); i++) {
+				eInterfaces eRcv = moRecv.get(i);
 				moContent += "<h3>"+eRcv+"</h3>";
 				moContent += "<ul>";
 				try {
-					for (Iterator<Object> it2 = moInterfaceData.get(eRcv).iterator(); it2.hasNext();) {
-						Object data = it2.next();
+					for (int j=0; j<moInterfaceData.get(eRcv).size(); j++) {
+						Object data = moInterfaceData.get(eRcv).get(j);
 						moContent += "<li>"+data+"</li>";
 					}
 				} catch (java.lang.Exception e) {
@@ -90,13 +89,13 @@ public class clsE_SimpleInterfaceDataInspector extends
 		
 		moContent += "<h2>Send</h2>";
 		if (moSend != null) {
-			for (Iterator<eInterfaces> it = moSend.iterator();it.hasNext();) {
-				eInterfaces eSnd = it.next();
+			for (int i=0; i<moSend.size(); i++) {
+				eInterfaces eSnd = moSend.get(i);			
 				moContent += "<h3>"+eSnd+"</h3>";
 				moContent += "<ul>";
 				try {
-					for (Iterator<Object> it2 = moInterfaceData.get(eSnd).iterator(); it2.hasNext();) {
-						Object data = it2.next();
+					for (int j=0; j<moInterfaceData.get(eSnd).size(); j++) {
+						Object data = moInterfaceData.get(eSnd).get(j);
 						moContent += "<li>"+data+"</li>";					
 					}
 				} catch (java.lang.Exception e) {

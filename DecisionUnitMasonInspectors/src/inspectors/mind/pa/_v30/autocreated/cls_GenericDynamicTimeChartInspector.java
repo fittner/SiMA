@@ -8,10 +8,7 @@ package inspectors.mind.pa._v30.autocreated;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
-import java.util.Map;
-
 import org.jfree.data.xy.XYSeries;
 import org.jfree.data.xy.XYSeriesCollection;
 import org.jfree.data.xy.XYDataItem;
@@ -61,18 +58,18 @@ public class cls_GenericDynamicTimeChartInspector extends
     
     private HashMap<String, HashMap<Long, Double>> backupHistory() {
     	HashMap<String, HashMap<Long, Double>> oBackup = new HashMap<String, HashMap<Long, Double>>();
-    	
-    	for (Iterator<XYSeries> it = moValueHistory.iterator();it.hasNext();) {
-    		XYSeries oSeries = it.next();
-    		String oCaption = (String) oSeries.getKey();
+
+    	for (int i=0; i<moValueHistory.size(); i++) {
+    		XYSeries oSeries = moValueHistory.get(i);
+   		String oCaption = (String) oSeries.getKey();
     		HashMap<Long, Double> oValues = new HashMap<Long, Double>();
     		
     		oBackup.put(oCaption, oValues);
     		
     		@SuppressWarnings("unchecked")
 			List<XYDataItem> oItems = oSeries.getItems();
-    		for (Iterator<XYDataItem> it2 = oItems.iterator();it2.hasNext();) {
-    			XYDataItem oItem = it2.next();
+    		for (int j=0; j<oItems.size();j++) {
+    			XYDataItem oItem = oItems.get(j);
     			long timestamp = oItem.getX().longValue();
     			double rValue = oItem.getYValue();
     			    			
@@ -89,20 +86,24 @@ public class cls_GenericDynamicTimeChartInspector extends
     	ArrayList<Integer> oNewRows = new ArrayList<Integer>();
     	int i = 0;
     	
-    	for (Iterator<String> it = poCaptions.iterator();it.hasNext();) {
-    		String oCaption = it.next();
-    		XYSeries oSeries = moValueHistory.get(i);
+    	for (int pos=0; pos<poCaptions.size(); pos++) {
+    		String oCaption = poCaptions.get(pos);
+    		XYSeries oSeries = moValueHistory.get(pos);
   
     		try {
-    			HashMap<Long, Double> oValues = poBackup.get(oCaption);
-    			for (Iterator<Map.Entry<Long, Double>> it2 = oValues.entrySet().iterator(); it2.hasNext();) {
-    				Map.Entry<Long, Double> oValue = it2.next();
-    				oSeries.add(oValue.getKey(), oValue.getValue());
-    				if (oValue.getKey() < minTimestamp) {
-    					minTimestamp = oValue.getKey();
+    			HashMap<Long, Double> oValues = poBackup.get(oCaption);	
+    			ArrayList<Long> oKeys = new ArrayList<Long>(oValues.keySet());
+    			
+    			for (int j=0; j<oKeys.size(); j++) {
+    				Long key = oKeys.get(j);
+    				Double value = oValues.get(key); 
+
+    				oSeries.add(key, value);
+    				if (key < minTimestamp) {
+    					minTimestamp = key;
     				}
-    				if (oValue.getKey() > maxTimestamp) {
-    					maxTimestamp = oValue.getKey();
+    				if (key > maxTimestamp) {
+    					maxTimestamp = key;
     				}
     			}
     		} catch (java.lang.Exception e)  {
@@ -112,8 +113,8 @@ public class cls_GenericDynamicTimeChartInspector extends
     		i++;
     	}
     	
-    	for (Iterator<Integer> it = oNewRows.iterator();it.hasNext();) {
-    		Integer oKey = it.next();
+    	for (int pos=0; pos<oNewRows.size(); pos++) {
+    		Integer oKey = oNewRows.get(pos);
     		XYSeries oSeries = moValueHistory.get(oKey);
     		for (long t = minTimestamp; t<=maxTimestamp; t++) {
     			oSeries.add(t, 0);
