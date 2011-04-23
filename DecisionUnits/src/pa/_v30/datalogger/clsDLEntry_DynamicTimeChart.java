@@ -6,6 +6,11 @@
  */
 package pa._v30.datalogger;
 
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.Map;
+import java.util.TreeMap;
+
 import pa._v30.interfaces.itfInspectorGenericDynamicTimeChart;
 import pa._v30.modules.clsModuleBase;
 
@@ -28,7 +33,6 @@ public class clsDLEntry_DynamicTimeChart extends clsDLEntry_Abstract implements 
 	 */
 	public clsDLEntry_DynamicTimeChart(clsModuleBase poModule) {
 		super(poModule);
-		// TODO (deutsch) - Auto-generated constructor stub
 	}
 
 	/* (non-Javadoc)
@@ -40,8 +44,7 @@ public class clsDLEntry_DynamicTimeChart extends clsDLEntry_Abstract implements 
 	 */
 	@Override
 	public double getTimeChartUpperLimit() {
-		// TODO (deutsch) - Auto-generated method stub
-		return 0;
+		return ((itfInspectorGenericDynamicTimeChart)moModule).getTimeChartUpperLimit();
 	}
 
 	/* (non-Javadoc)
@@ -53,10 +56,57 @@ public class clsDLEntry_DynamicTimeChart extends clsDLEntry_Abstract implements 
 	 */
 	@Override
 	public double getTimeChartLowerLimit() {
-		// TODO (deutsch) - Auto-generated method stub
-		return 0;
+		return ((itfInspectorGenericDynamicTimeChart)moModule).getTimeChartLowerLimit();
 	}
 
+	private void updateHistory() {
+		TreeMap<Long, ArrayList<Double>> newValues = new TreeMap<Long, ArrayList<Double>>();
+		ArrayList<String> newCaptions = moModule.getTimeChartCaptions();
+		
+		for (Iterator<Map.Entry<Long, ArrayList<Double>>> it = values.entrySet().iterator(); it.hasNext();) {
+			try {
+				Map.Entry<Long, ArrayList<Double>> oLine = it.next();
+				long step = oLine.getKey();
+				ArrayList<Double> oldset = oLine.getValue();
+				ArrayList<Double> newset = new ArrayList<Double>();
+				
+				int oldPos=0;
+				for (int newPos=0;newPos<newCaptions.size();newPos++) {
+					double rValue = 0;
+					
+					String newCap = newCaptions.get(newPos);
+					
+					try {
+						String oldCap = captions.get(oldPos);
+						if (oldCap.equals(newCap)) {
+							rValue = oldset.get(oldPos);
+							oldPos++;
+						}
+					} catch (java.lang.Exception e) {
+						// do nothing
+					}
+					
+					newset.add(rValue);
+				}
+				
+				newValues.put(step, newset);
+			} catch (java.util.ConcurrentModificationException e) {
+				System.out.println("clsDLEntry_DynamicTimeChart.updateHistory: "+e);
+				break;
+			}
+		}
+		values = newValues;
+		updateCaptions();
+	}
+	
+	@Override
+	protected void put(long step) {
+		if (captionsChanged()) {
+			updateHistory();
+		}
+		super.put(step);
+	}	
+	
 	/* (non-Javadoc)
 	 *
 	 * @author deutsch
@@ -66,8 +116,19 @@ public class clsDLEntry_DynamicTimeChart extends clsDLEntry_Abstract implements 
 	 */
 	@Override
 	public boolean chartRowsChanged() {
-		// TODO (deutsch) - Auto-generated method stub
-		return false;
+		return ((itfInspectorGenericDynamicTimeChart)moModule).chartRowsChanged();
+	}
+
+	/* (non-Javadoc)
+	 *
+	 * @author deutsch
+	 * 23.04.2011, 19:42:33
+	 * 
+	 * @see pa._v30.interfaces.itfInspectorGenericDynamicTimeChart#chartRowsUpdated()
+	 */
+	@Override
+	public void chartRowsUpdated() {
+		((itfInspectorGenericDynamicTimeChart)moModule).chartRowsUpdated();
 	}
 
 }

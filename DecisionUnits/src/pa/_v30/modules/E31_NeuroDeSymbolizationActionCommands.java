@@ -169,15 +169,12 @@ public class E31_NeuroDeSymbolizationActionCommands extends clsModuleBase
 //TD 2011/04/23: commented the actions PICKUP, DROP, and DANCE. currently, they can never happen - no rules are defined
 /*				else if(oAction.equals("PICKUP")) {
 					moActionCommandList_Output.add( new clsActionPickUp() );
-					//System.out.println("cmd: pickup");
 				}
 				else if(oAction.equals("DROP")) {
 					moActionCommandList_Output.add( new clsActionDrop() );
-					//System.out.println("cmd: drop");
 				}
 					else if(oAction.equals("DANCE_1")) {
 						moActionCommandList_Output.add( clsActionSequenceFactory.getWalzSequence(1, 2) );
-						//System.out.println("cmd: dance");
 				}
 */				else {
 					throw new UnknownError("Action " + oAction + " not known");

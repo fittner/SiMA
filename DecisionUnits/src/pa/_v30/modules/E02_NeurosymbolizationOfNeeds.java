@@ -336,7 +336,6 @@ public class E02_NeurosymbolizationOfNeeds extends clsModuleBase
 	 */
 	@Override
 	public ArrayList<String> getTimeChartCaptions() {
-		mnChartRowsChanged = false;
 		return moChartRowCaptions;
 	}
 
@@ -374,5 +373,17 @@ public class E02_NeurosymbolizationOfNeeds extends clsModuleBase
 	@Override
 	public boolean chartRowsChanged() {
 		return mnChartRowsChanged;
+	}
+
+	/* (non-Javadoc)
+	 *
+	 * @author deutsch
+	 * 23.04.2011, 19:42:18
+	 * 
+	 * @see pa._v30.interfaces.itfInspectorGenericDynamicTimeChart#chartRowsUpdated()
+	 */
+	@Override
+	public void chartRowsUpdated() {
+		mnChartRowsChanged = false;
 	}	
 }

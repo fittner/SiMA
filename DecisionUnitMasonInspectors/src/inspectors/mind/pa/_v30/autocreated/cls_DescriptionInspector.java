@@ -6,6 +6,8 @@
  */
 package inspectors.mind.pa._v30.autocreated;
 
+import java.util.Iterator;
+
 import pa._v30.interfaces.eInterfaces;
 import pa._v30.interfaces.itfInterfaceDescription;
 
@@ -66,14 +68,16 @@ public class cls_DescriptionInspector extends cls_GenericHTMLInspector {
 		moContent += "<p>"+((itfInterfaceDescription)moObject).getDescription()+"</p>";
 		moContent += "<h2>Incoming Interfaces</h2>";
 		moContent += "<ul>";
-		for (eInterfaces eI:((itfInterfaceDescription)moObject).getInterfacesRecv()) {
+		for (Iterator<eInterfaces> it = ((itfInterfaceDescription)moObject).getInterfacesRecv().iterator();it.hasNext();) {
+			eInterfaces eI = it.next();
 			moContent += "<li><b>"+eI+"</b>: "+eI.getDescription()+"</li>";
 		}
 		moContent += "</ul>";
 		
 		moContent += "<h2>Outgoing Interfaces</h2>";
 		moContent += "<ul>";
-		for (eInterfaces eI:((itfInterfaceDescription)moObject).getInterfacesSend()) {
+		for (Iterator<eInterfaces> it = ((itfInterfaceDescription)moObject).getInterfacesSend().iterator();it.hasNext();) {
+			eInterfaces eI = it.next();
 			moContent += "<li><b>"+eI+"</b>: "+eI.getDescription()+"</li>";
 		}
 		moContent += "</ul>";

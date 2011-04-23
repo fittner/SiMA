@@ -8,6 +8,8 @@ package pa._v30.datalogger;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
+
 import pa._v30.interfaces.itfInspectorGenericActivityTimeChart;
 import pa._v30.interfaces.itfInspectorGenericDynamicTimeChart;
 import pa._v30.interfaces.itfInspectorGenericTimeChart;
@@ -21,10 +23,13 @@ import pa._v30.modules.clsModuleBase;
  * 
  */
 public class clsDataLogger {
-	ArrayList<clsDLEntry_Abstract> moDataStorage;
+	public ArrayList<clsDLEntry_Abstract> moDataStorage;
 	public static final long maxentries = 0; // all history sizes of moDataStorage entries drop old entries if their history exceeds this value. if maxentries=0, size of history is set to infinity.
 	public static final String csvseperator = ";";
 	public static final String newline = System.getProperty("line.separator");
+	
+	private long first;
+	private long last;
 	
 	public clsDataLogger(HashMap<Integer, clsModuleBase> poModules) {
 		moDataStorage = new ArrayList<clsDLEntry_Abstract>();
@@ -40,18 +45,32 @@ public class clsDataLogger {
 		}
 	}
 	
+	public clsDLEntry_Abstract getDL(String name) {
+		clsDLEntry_Abstract oResult = null;
+		
+		for (clsDLEntry_Abstract oDL:moDataStorage) {
+			if (oDL.getName().equals(name)) {
+				oResult = oDL;
+				break;
+			}
+		}
+		
+		return oResult;
+	}
+	
 	public void step() {
 		for (clsDLEntry_Abstract oDLE:moDataStorage) {
 			oDLE.step();
 		}
 	}
 
-	public String toCSV() {
-		String o = "";
+	private void updateFirstLast() {
 		long min = Integer.MAX_VALUE;
 		long max = -1;
 		
-		for (clsDLEntry_Abstract oDS:moDataStorage) {
+		for (Iterator<clsDLEntry_Abstract> it = moDataStorage.iterator(); it.hasNext();) {
+			clsDLEntry_Abstract oDS = it.next();
+			
 			if (oDS.first < min) {
 				min = oDS.first;
 			}
@@ -59,10 +78,17 @@ public class clsDataLogger {
 				max = oDS.last;
 			}
 		}
-
-		o = getColumnsCSV();
 		
-		for (long i=min; i<=max; i++) {
+		first = min;
+		last = max;
+	}
+	
+	public String toCSV() {
+		updateFirstLast();
+		
+		String o = "";
+		o = getColumnsCSV();
+		for (long i=first; i<=last; i++) {
 			o += getValuesCSV(i);
 		}
 		
@@ -72,7 +98,8 @@ public class clsDataLogger {
 	public String getColumnsCSV() {
 		String o = "Step"+csvseperator;
 		
-		for (clsDLEntry_Abstract oDS:moDataStorage) {
+		for (Iterator<clsDLEntry_Abstract> it=moDataStorage.iterator();it.hasNext();) {
+			clsDLEntry_Abstract oDS = it.next();
 			o += oDS.columnsToCSV()+csvseperator;
 		}
 		o = o.substring(0, o.length() - clsDataLogger.csvseperator.length());
@@ -82,14 +109,65 @@ public class clsDataLogger {
 	}
 	
 	public String getValuesCSV(long step) {
-		String o = "";
+		String o = step+csvseperator;
 		
-		for (clsDLEntry_Abstract oDS:moDataStorage) {
+		for (Iterator<clsDLEntry_Abstract> it=moDataStorage.iterator();it.hasNext();) {
+			clsDLEntry_Abstract oDS = it.next();
 			o += oDS.valuesToCSV(step) + csvseperator;
 		}
 		o = o.substring(0, o.length() - clsDataLogger.csvseperator.length());
 		o += newline;
 		
 		return o;
+	}
+	
+	public String toHTML() {
+		updateFirstLast();
+		
+		String html = "<html><head></head><body>";
+		
+		html += "<h1>Data Logger - History</h1>";
+		
+		html += "<table><tr>";
+		String[] temp = getColumnsCSV().split(csvseperator);
+		for (String t:temp) {
+			html += "<th>"+t+"</th>";
+		}
+		html +="</tr>";
+		
+		for (long i=first; i<=last; i++) {
+			temp = getValuesCSV(i).split(csvseperator);
+			html += "<tr>";
+			for (String t:temp) {
+				html += "<td>"+t+"</td>";
+			}
+			html += "</tr>";
+		}		
+		
+		html += "</table>";
+		
+		return html+"</body></html>";
+	}
+	
+	public String getDescription() {
+		updateFirstLast();
+		
+		String html = "<html><head></head><body>";
+		
+		html += "<h1>Data Logger Content Description</h1>";
+		html += "<p>From: "+first+" to: "+last+"</p>";
+		
+		html += "<ul>";
+		for (Iterator<clsDLEntry_Abstract> it=moDataStorage.iterator();it.hasNext();) {
+			clsDLEntry_Abstract oDL = it.next();
+			html += "<li><b>"+oDL.getName()+":</b> ";
+			for (String oS:oDL.getTimeChartCaptions()) {
+				html += oS+clsDataLogger.csvseperator;
+			}
+			html += "</li>";
+		}
+		html += "</ul>";
+		
+		return html+"</body></html>";
 	}
 }

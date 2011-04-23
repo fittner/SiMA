@@ -8,6 +8,7 @@ package inspectors.mind.pa._v30.autocreated;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -16,6 +17,7 @@ import org.jfree.data.xy.XYSeriesCollection;
 import org.jfree.data.xy.XYDataItem;
 
 import pa._v30.interfaces.itfInspectorGenericDynamicTimeChart;
+import pa._v30.interfaces.itfInterfaceTimeChartHistory;
 
 /**
  * DOCUMENT (deutsch) - insert description 
@@ -46,7 +48,7 @@ public class cls_GenericDynamicTimeChartInspector extends
 	public cls_GenericDynamicTimeChartInspector(
 			itfInspectorGenericDynamicTimeChart poObject) {
 		super(poObject);
-		// TODO (deutsch) - Auto-generated constructor stub
+		((itfInspectorGenericDynamicTimeChart)moTimeingContainer).chartRowsUpdated();
 	}
 
 
@@ -60,7 +62,8 @@ public class cls_GenericDynamicTimeChartInspector extends
     private HashMap<String, HashMap<Long, Double>> backupHistory() {
     	HashMap<String, HashMap<Long, Double>> oBackup = new HashMap<String, HashMap<Long, Double>>();
     	
-    	for (XYSeries oSeries:moValueHistory) {
+    	for (Iterator<XYSeries> it = moValueHistory.iterator();it.hasNext();) {
+    		XYSeries oSeries = it.next();
     		String oCaption = (String) oSeries.getKey();
     		HashMap<Long, Double> oValues = new HashMap<Long, Double>();
     		
@@ -68,8 +71,8 @@ public class cls_GenericDynamicTimeChartInspector extends
     		
     		@SuppressWarnings("unchecked")
 			List<XYDataItem> oItems = oSeries.getItems();
-
-    		for (XYDataItem oItem:oItems) {
+    		for (Iterator<XYDataItem> it2 = oItems.iterator();it2.hasNext();) {
+    			XYDataItem oItem = it2.next();
     			long timestamp = oItem.getX().longValue();
     			double rValue = oItem.getYValue();
     			    			
@@ -86,12 +89,14 @@ public class cls_GenericDynamicTimeChartInspector extends
     	ArrayList<Integer> oNewRows = new ArrayList<Integer>();
     	int i = 0;
     	
-    	for (String oCaption:poCaptions) {
+    	for (Iterator<String> it = poCaptions.iterator();it.hasNext();) {
+    		String oCaption = it.next();
     		XYSeries oSeries = moValueHistory.get(i);
   
     		try {
     			HashMap<Long, Double> oValues = poBackup.get(oCaption);
-    			for (Map.Entry<Long, Double> oValue:oValues.entrySet()) {
+    			for (Iterator<Map.Entry<Long, Double>> it2 = oValues.entrySet().iterator(); it2.hasNext();) {
+    				Map.Entry<Long, Double> oValue = it2.next();
     				oSeries.add(oValue.getKey(), oValue.getValue());
     				if (oValue.getKey() < minTimestamp) {
     					minTimestamp = oValue.getKey();
@@ -107,7 +112,8 @@ public class cls_GenericDynamicTimeChartInspector extends
     		i++;
     	}
     	
-    	for (Integer oKey:oNewRows) {
+    	for (Iterator<Integer> it = oNewRows.iterator();it.hasNext();) {
+    		Integer oKey = it.next();
     		XYSeries oSeries = moValueHistory.get(oKey);
     		for (long t = minTimestamp; t<=maxTimestamp; t++) {
     			oSeries.add(t, 0);
@@ -116,17 +122,24 @@ public class cls_GenericDynamicTimeChartInspector extends
     }
     
     private void reCreateChart() {
-    	HashMap<String, HashMap<Long, Double>> oBackup = backupHistory();
-    	removeAll();
-    	createPanel();
-    	refillHistory(oBackup, moTimeingContainer.getTimeChartCaptions());
-    	//FIXME (DEUTSCH): after recreation of chart panel, the displayed inspector is grey. A back-and-forth switch between tabs is necessary to enforce display. a function call like repaint() at this position should be able to solve this problem. 
+    	if (moTimeingContainer instanceof itfInterfaceTimeChartHistory) {
+    		removeAll();
+	    	createPanel();
+	    	fetchDataFromHistory();
+    	} else {
+	    	HashMap<String, HashMap<Long, Double>> oBackup = backupHistory();
+	    	removeAll();
+	    	createPanel();
+	    	refillHistory(oBackup, moTimeingContainer.getTimeChartCaptions());
+	    	//FIXME (DEUTSCH): after recreation of chart panel, the displayed inspector is grey. A back-and-forth switch between tabs is necessary to enforce display. a function call like repaint() at this position should be able to solve this problem.
+    	}
     }
     
     @Override
 	protected void updateData() {
     	if (((itfInspectorGenericDynamicTimeChart)moTimeingContainer).chartRowsChanged()) {
     		reCreateChart();
+    		((itfInspectorGenericDynamicTimeChart)moTimeingContainer).chartRowsUpdated();
     	}
     	super.updateData();
 		updateLimitLines();

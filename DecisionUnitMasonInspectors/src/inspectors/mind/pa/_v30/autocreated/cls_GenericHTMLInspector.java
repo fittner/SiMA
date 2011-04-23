@@ -72,12 +72,14 @@ public abstract class cls_GenericHTMLInspector extends Inspector {
 	 */
 	@Override
 	public void updateInspector() {
-		updateContent();
-		
-		try {
-			moHTMLPane.setText(getHTML());
-		} catch (java.lang.Exception e) {
-			System.out.println(clsExceptionUtils.getCustomStackTrace(e));
+		if (isVisible()) {
+			updateContent();
+			
+			try {
+				moHTMLPane.setText(getHTML());
+			} catch (java.lang.Exception e) {
+				System.out.println(clsExceptionUtils.getCustomStackTrace(e));
+			}
 		}
 	}    
 }

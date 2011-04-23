@@ -7,6 +7,8 @@
 package pa._v30.datalogger;
 
 import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.Map;
 import java.util.TreeMap;
 import pa._v30.interfaces.itfInspectorTimeChartBase;
 import pa._v30.interfaces.itfInterfaceTimeChartHistory;
@@ -23,24 +25,75 @@ import statictools.clsSimState;
 public abstract class clsDLEntry_Abstract implements itfInspectorTimeChartBase, itfInterfaceTimeChartHistory {
 	protected itfInspectorTimeChartBase moModule;
 	
-	private TreeMap<Long, ArrayList<Double>> values;
+	protected TreeMap<Long, ArrayList<Double>> values;
+	protected ArrayList<String> captions;
 	public long first = -1;
 	public long last = -1;
-	private boolean mnColumnsChanged = false;
+	private String name = "";
 	
 	public clsDLEntry_Abstract(clsModuleBase poModule) {
 		moModule = (itfInspectorTimeChartBase)poModule;
 		values = new TreeMap<Long, ArrayList<Double>>();
+		captions = new ArrayList<String>();
+		
+		name = moModule.getClass().getSimpleName();
+		if (name.startsWith("mo")) {
+			name = name.substring(2);
+		}
+		
+		captions = null;
 	}
 
+	protected void updateCaptions() {
+		if (captions == null) {
+			captions = new ArrayList<String>();
+		}
+		
+		captions.clear();
+		for (Iterator<String> it = moModule.getTimeChartCaptions().iterator(); it.hasNext();) {
+			String oS = it.next();
+			captions.add(oS);
+		}
+	}
+	
+	protected boolean captionsChanged() {
+		boolean changed = false;
+		
+		if (captions == null) {
+			return false;
+		}
+		
+		if (captions.size() != moModule.getTimeChartCaptions().size()) {
+			changed = true;
+		} else {
+			for (int i=0; i<captions.size(); i++) {
+				if (!captions.get(i).equals(moModule.getTimeChartCaptions().get(i))) {
+					changed = true;
+					break;
+				}
+			}
+		}
+		
+		return changed;
+	}
+	
+	public String getName() {
+		return name;
+	}
+	
 	public void step() {
 		long act = clsSimState.getSteps();
 		if (first==-1) {first = act;}
 		last = act;
-		values.put(act, moModule.getTimeChartData());
+		put(act);
 		enforceMaxSize();
 	}
 	
+	protected void put(long step) {
+		values.put(step, moModule.getTimeChartData());
+	}
+	
+	@SuppressWarnings("unused") // if clsDataLogger.maxentries is set to 0 a warning occurs ...
 	private void enforceMaxSize() {
 		if (clsDataLogger.maxentries > 0) {
 			while (values.size() > clsDataLogger.maxentries) {
@@ -64,7 +117,10 @@ public abstract class clsDLEntry_Abstract implements itfInspectorTimeChartBase, 
 
 	@Override
 	public ArrayList<String> getTimeChartCaptions() {
-		return moModule.getTimeChartCaptions();
+		if (captions == null) {
+			updateCaptions();
+		}
+		return captions;
 	}
 
 	/* (non-Javadoc)
@@ -94,7 +150,8 @@ public abstract class clsDLEntry_Abstract implements itfInspectorTimeChartBase, 
 	public String columnsToCSV() {
 		String o = "";
 		
-		for (String oC:moModule.getTimeChartCaptions()) {
+		for (Iterator<String> it = moModule.getTimeChartCaptions().iterator(); it.hasNext();) {
+			String oC = it.next();		
 			o += oC+clsDataLogger.csvseperator;
 		}
 		
@@ -108,7 +165,8 @@ public abstract class clsDLEntry_Abstract implements itfInspectorTimeChartBase, 
 		
 		try {
 			ArrayList<Double> v = values.get(step);
-			for (Double r:v) {
+			for (Iterator<Double> it =v.iterator();it.hasNext();) {
+				Double r = it.next();
 				o += r+clsDataLogger.csvseperator;
 			}
 		} catch (java.lang.Exception e) {
@@ -121,8 +179,82 @@ public abstract class clsDLEntry_Abstract implements itfInspectorTimeChartBase, 
 		
 		return o;
 	}	
+
+	public String toHTML_CSV() {
+		String html = "";
+		
+		html += "<html><head></head><body>";
+		
+		html += "<h1>"+name+" - History</h1>";
+		
+		html += "<pre>";
+		html += "Step"+clsDataLogger.csvseperator;
+		for (Iterator<String> it = getTimeChartCaptions().iterator(); it.hasNext();) {
+			String oCaption = it.next();
+			html += oCaption+clsDataLogger.csvseperator;
+		}
+		html = html.substring(0, html.length() - clsDataLogger.csvseperator.length());
+		html += clsDataLogger.newline;
+		
+		for (Iterator< Map.Entry<Long, ArrayList<Double>> > it = values.entrySet().iterator(); it.hasNext();) {
+			try {
+				Map.Entry<Long, ArrayList<Double>> oEntry = it.next();
+				html += oEntry.getKey()+clsDataLogger.csvseperator;			
+				for (Double rValue:oEntry.getValue()) {
+					html += rValue+clsDataLogger.csvseperator;
+				}
+				html = html.substring(0, html.length() - clsDataLogger.csvseperator.length());
+				html += clsDataLogger.newline;
+			} catch (java.util.ConcurrentModificationException e) {
+				System.out.println("clsDLEntry_Abstract.toHTML_CSV: "+e);
+				break;
+			}
+		}
+		
+		html += "</pre>";
+		
+		
+		html += "</body></html>";
+		
+		return html;		
+	}
 	
-	public boolean columnsChanged() {
-		return mnColumnsChanged;
+	public String toHTML_TABLE() {
+		String html = "";
+		
+//		html += "<html><head></head><body>";
+		
+//		html += "<h1>"+name+" - History</h1>";
+		
+		html += "<table>";
+		html += "<tr><th>Step</th>";
+		for (Iterator<String> it = getTimeChartCaptions().iterator(); it.hasNext();) {
+			String oCaption = it.next();		
+			html += "<th>"+oCaption+"</th>";
+		}
+		html += "</tr>";
+		
+		for (Iterator< Map.Entry<Long, ArrayList<Double>> > it = values.entrySet().iterator(); it.hasNext();) {
+			try {
+				Map.Entry<Long, ArrayList<Double>> oEntry = it.next();		
+	
+				html += "<tr><td>"+oEntry.getKey()+"</td>";
+				for (Iterator<Double> it2=oEntry.getValue().iterator();it2.hasNext();){
+					Double rValue = it2.next();
+					html += "<td>"+rValue+"</td>";
+				}
+				html += "</tr>";
+			} catch (java.util.ConcurrentModificationException e) {
+				System.out.println("clsDLEntry_Abstract.toHTML_TABLE: "+e);
+				break;
+			}
+		}
+		
+		html += "</table>";
+		
+		
+//		html += "</body></html>";
+		
+		return html;
 	}
 }

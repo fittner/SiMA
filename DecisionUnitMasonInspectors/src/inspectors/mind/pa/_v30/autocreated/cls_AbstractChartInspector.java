@@ -10,6 +10,10 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.Map;
+import java.util.TreeMap;
+
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartPanel;
 import org.jfree.chart.JFreeChart;
@@ -20,7 +24,9 @@ import org.jfree.data.xy.XYSeries;
 import org.jfree.data.xy.XYSeriesCollection;
 import org.jfree.ui.RectangleInsets;
 import pa._v30.interfaces.itfInspectorTimeChartBase;
+import pa._v30.interfaces.itfInterfaceTimeChartHistory;
 import sim.portrayal.Inspector;
+import statictools.clsExceptionUtils;
 import statictools.clsSimState;
 
 /**
@@ -65,7 +71,45 @@ public abstract class cls_AbstractChartInspector extends Inspector {
     	moChartName = poChartName;
     	moYAxisCaption = poYAxisCaption;
     	
+    	create();
+    }
+    
+    private void create()  {
     	createPanel();
+    	
+    	if (moTimeingContainer instanceof itfInterfaceTimeChartHistory) {
+    		fetchDataFromHistory();
+    	}
+    }
+    
+    private void recreate() {
+    	removeAll();
+    	create();
+    }
+    
+    protected void fetchDataFromHistory() {
+    	TreeMap<Long, ArrayList<Double>> oData = ((itfInterfaceTimeChartHistory)moTimeingContainer).getTimeChartHistory();
+    	
+    	for (Iterator<XYSeries> it=moValueHistory.iterator();it.hasNext();) {
+    		XYSeries oSeries = it.next();
+    		oSeries.clear();
+    	}
+    	
+    	for (Iterator<Map.Entry<Long, ArrayList<Double>>> it = oData.entrySet().iterator();it.hasNext();) {
+    		Map.Entry<Long, ArrayList<Double>> oLine = it.next();
+    		long x = oLine.getKey();
+    		ArrayList<Double> ys = oLine.getValue();
+    		int i=0;
+    		int nOffset = 0;
+    		for (Iterator<XYSeries> it2=moValueHistory.iterator();it2.hasNext();) {
+    			XYSeries oS = it2.next();
+        		double r = (ys.get(i) + nOffset);
+        		oS.add(x, r);
+        		nOffset += mnOffset;
+        		i++;
+        	}
+    	}
+    	
     }
   
     protected void createPanel() {
@@ -163,9 +207,15 @@ public abstract class cls_AbstractChartInspector extends Inspector {
 		
 		int nOffset=0;
 		
-		for (int i=0; i<oTimingData.size(); i++) {
-			((XYSeries)moValueHistory.get(i)).add(mnCurrentTime, oTimingData.get(i) + nOffset);
-			nOffset += mnOffset;
+		try {
+			for (int i=0; i<oTimingData.size(); i++) {
+				((XYSeries)moValueHistory.get(i)).add(mnCurrentTime, oTimingData.get(i) + nOffset);
+				nOffset += mnOffset;
+			}
+		} catch (java.lang.IndexOutOfBoundsException e) {
+			System.out.println(clsExceptionUtils.getCustomStackTrace(e));
+			System.out.println("cls_AbstractChartInspector.updateData: RESET CHART PANEL!");
+			recreate();
 		}
 	}
     
