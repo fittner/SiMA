@@ -22,7 +22,7 @@ import pa._v30.modules.clsModuleBase;
  */
 public class clsDataLogger {
 	ArrayList<clsDLEntry_Abstract> moDataStorage;
-	public static final long maxentries = 200; // all history sizes of moDataStorage entries drop old entries if their history exceeds this value. if maxentries=0, size of history is set to infinity.
+	public static final long maxentries = 0; // all history sizes of moDataStorage entries drop old entries if their history exceeds this value. if maxentries=0, size of history is set to infinity.
 	public static final String csvseperator = ";";
 	public static final String newline = System.getProperty("line.separator");
 	
