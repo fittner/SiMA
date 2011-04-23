@@ -4,7 +4,7 @@
  * @author deutsch
  * 19.04.2011, 14:20:12
  */
-package inspectors.mind.pa._v30;
+package inspectors.mind.pa._v30.handcrafted;
 
 import java.awt.BorderLayout;
 import java.util.ArrayList;
@@ -23,7 +23,7 @@ import statictools.clsExceptionUtils;
  * 19.04.2011, 14:20:12
  * 
  */
-public class clsPAInspectorInterfaceData extends Inspector {
+public class clsI_AllInterfaceData extends Inspector {
 	/**
 	 * DOCUMENT (deutsch) - insert description 
 	 * 
@@ -44,7 +44,7 @@ public class clsPAInspectorInterfaceData extends Inspector {
 	 *
 	 * @param poModule
 	 */
-	public clsPAInspectorInterfaceData(SortedMap<eInterfaces, ArrayList<Object>> poInterfaceData) {
+	public clsI_AllInterfaceData(SortedMap<eInterfaces, ArrayList<Object>> poInterfaceData) {
 		moInterfaceData = poInterfaceData;
     	    	
     	setTitle();

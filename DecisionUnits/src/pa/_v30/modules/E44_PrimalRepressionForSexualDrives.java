@@ -13,6 +13,7 @@ import java.util.SortedMap;
 import pa._v30.tools.clsTripple;
 import pa._v30.tools.toHtml;
 import pa._v30.interfaces.eInterfaces;
+import pa._v30.interfaces.itfInspectorDrives;
 import pa._v30.interfaces.modules.I2_18_receive;
 import pa._v30.interfaces.modules.I2_19_receive;
 import pa._v30.interfaces.modules.I2_19_send;
@@ -27,7 +28,8 @@ import config.clsBWProperties;
  * 03.03.2011, 15:20:48
  * 
  */
-public class E44_PrimalRepressionForSexualDrives extends clsModuleBase implements I2_18_receive, I2_19_send {
+public class E44_PrimalRepressionForSexualDrives extends clsModuleBase 
+			implements itfInspectorDrives, I2_18_receive, I2_19_send {
 	public static final String P_MODULENUMBER = "44";
 	
 	private ArrayList< clsTripple<String, String, ArrayList<Double> >> moPrimalRepressionMemory;
@@ -217,5 +219,17 @@ public class E44_PrimalRepressionForSexualDrives extends clsModuleBase implement
 	@Override
 	public void setDescription() {
 		moDescription = "This function categorizes the thing presentations according to the four primary drives. The result of it is that thing presentations have an additional value which can be used for further memory lookup to find similar entries.";
+	}
+
+	/* (non-Javadoc)
+	 *
+	 * @author deutsch
+	 * 23.04.2011, 12:13:03
+	 * 
+	 * @see pa._v30.interfaces.itfInspectorDrives#getDriveList()
+	 */
+	@Override
+	public ArrayList<clsDriveMesh> getDriveList() {
+		return moDrives;
 	}	
 }

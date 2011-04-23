@@ -4,7 +4,7 @@
  * @author deutsch
  * 14.04.2011, 18:11:46
  */
-package inspectors.mind.pa._v30;
+package inspectors.mind.pa._v30.autocreated;
 
 import pa._v30.interfaces.itfInspectorInternalState;
 
@@ -15,7 +15,7 @@ import pa._v30.interfaces.itfInspectorInternalState;
  * 14.04.2011, 18:11:46
  * 
  */
-public class clsE_StateInspector extends clsE_GenericHTMLInspector {
+public class cls_StateInspector extends cls_GenericHTMLInspector {
 
 	/**
 	 * DOCUMENT (deutsch) - insert description 
@@ -34,10 +34,10 @@ public class clsE_StateInspector extends clsE_GenericHTMLInspector {
 	 * @param originalInspector
 	 * @param wrapper
 	 * @param guiState
-	 * @param poModule
+	 * @param poObject
 	 */
-	public clsE_StateInspector(itfInspectorInternalState poModule) {
-		super(poModule);
+	public cls_StateInspector(itfInspectorInternalState poObject) {
+		super(poObject);
 	}
 
 	/* (non-Javadoc)
@@ -49,7 +49,7 @@ public class clsE_StateInspector extends clsE_GenericHTMLInspector {
 	 */
 	@Override
 	protected void setTitle() {
-		moTitle = moModule.getClass().getSimpleName()+" - Internal State of Module";
+		moTitle = moObject.getClass().getSimpleName()+" - Internal State of Module";
 
 	}
 
@@ -62,7 +62,7 @@ public class clsE_StateInspector extends clsE_GenericHTMLInspector {
 	 */
 	@Override
 	protected void updateContent() {
-		moContent = ((itfInspectorInternalState)moModule).stateToHTML();
+		moContent = ((itfInspectorInternalState)moObject).stateToHTML();
 	}
 
 }

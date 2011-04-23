@@ -4,7 +4,7 @@
  * @author deutsch
  * 19.04.2011, 18:12:40
  */
-package inspectors.mind.pa._v30;
+package inspectors.mind.pa._v30.autocreated;
 
 import java.awt.BorderLayout;
 import java.util.ArrayList;

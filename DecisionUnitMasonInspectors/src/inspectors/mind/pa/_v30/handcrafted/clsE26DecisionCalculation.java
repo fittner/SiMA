@@ -4,7 +4,7 @@
  * @author andi
  * 17.09.2009, 16:48:04
  */
-package inspectors.mind.pa._v30;
+package inspectors.mind.pa._v30.handcrafted;
 
 import java.awt.BorderLayout;
 //import java.awt.GradientPaint;

@@ -6,8 +6,6 @@
  */
 package pa._v30.interfaces;
 
-import java.util.ArrayList;
-
 /**
  * DOCUMENT (langr) - insert description 
  * 
@@ -15,7 +13,6 @@ import java.util.ArrayList;
  * 04.11.2009, 19:09:18
  * 
  */
-public interface itfInspectorTimeChart {
-	public ArrayList<Double> getTimeChartData();
-	public ArrayList<String> getTimeChartCaptions();
+public interface itfInspectorGenericActivityTimeChart extends itfInspectorTimeChartBase {
+
 }

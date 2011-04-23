@@ -4,7 +4,7 @@
  * @author deutsch
  * 19.04.2011, 12:17:43
  */
-package inspectors.mind.pa._v30;
+package inspectors.mind.pa._v30.autocreated;
 
 import java.util.ArrayList;
 import java.util.SortedMap;
@@ -19,7 +19,7 @@ import pa._v30.interfaces.itfInterfaceInterfaceData;
  * 
  */
 public class clsE_SimpleInterfaceDataInspector extends
-		clsE_GenericHTMLInspector {
+		cls_GenericHTMLInspector {
 
 	private ArrayList<eInterfaces> moRecv;
 	private ArrayList<eInterfaces> moSend;	
@@ -43,8 +43,8 @@ public class clsE_SimpleInterfaceDataInspector extends
 	public clsE_SimpleInterfaceDataInspector(itfInterfaceInterfaceData poModule, 
 			SortedMap<eInterfaces, ArrayList<Object>> poInterfaceData) {
 		super(poModule);
-		moRecv = ((itfInterfaceInterfaceData)moModule).getInterfacesRecv();
-		moSend = ((itfInterfaceInterfaceData)moModule).getInterfacesSend();
+		moRecv = ((itfInterfaceInterfaceData)moObject).getInterfacesRecv();
+		moSend = ((itfInterfaceInterfaceData)moObject).getInterfacesSend();
 		moInterfaceData = poInterfaceData;
 	}
 
@@ -57,7 +57,7 @@ public class clsE_SimpleInterfaceDataInspector extends
 	 */
 	@Override
 	protected void setTitle() {
-		moTitle = moModule.getClass().getSimpleName() + " - Interface Data";
+		moTitle = moObject.getClass().getSimpleName() + " - Interface Data";
 	}
 
 	/* (non-Javadoc)

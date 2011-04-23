@@ -4,7 +4,7 @@
  * @author deutsch
  * 14.04.2011, 14:57:39
  */
-package inspectors.mind.pa._v30;
+package inspectors.mind.pa._v30.autocreated;
 
 import java.awt.BorderLayout;
 
@@ -19,7 +19,7 @@ import statictools.clsExceptionUtils;
  * 14.04.2011, 14:57:39
  * 
  */
-public abstract class clsE_GenericHTMLInspector extends Inspector {
+public abstract class cls_GenericHTMLInspector extends Inspector {
 	/**
 	 * DOCUMENT (deutsch) - insert description 
 	 * 
@@ -27,14 +27,14 @@ public abstract class clsE_GenericHTMLInspector extends Inspector {
 	 * 14.04.2011, 15:02:15
 	 */
 	private static final long serialVersionUID = -2033800775072753378L;
-	protected Object moModule;
+	protected Object moObject;
 	protected String moTitle;
 	protected String moContent;
 	HTMLBrowser moHTMLPane;
 	
-    public clsE_GenericHTMLInspector(Object poModule)
+    public cls_GenericHTMLInspector(Object poObject)
     {
-		moModule = poModule;
+		moObject = poObject;
     	
     	setTitle();
     	updateContent();

@@ -4,7 +4,7 @@
  * @author deutsch
  * 15.04.2011, 17:25:08
  */
-package inspectors.mind.pa._v30;
+package inspectors.mind.pa._v30.autocreated;
 
 import java.awt.Color;
 import java.awt.Dimension;
@@ -19,8 +19,7 @@ import org.jfree.chart.plot.XYPlot;
 import org.jfree.data.xy.XYSeries;
 import org.jfree.data.xy.XYSeriesCollection;
 import org.jfree.ui.RectangleInsets;
-
-import pa._v30.interfaces.itfInspectorTimeChart;
+import pa._v30.interfaces.itfInspectorTimeChartBase;
 import sim.portrayal.Inspector;
 
 /**
@@ -30,7 +29,7 @@ import sim.portrayal.Inspector;
  * 15.04.2011, 17:25:08
  * 
  */
-public abstract class clsE_GenericChartInspector extends Inspector {
+public abstract class cls_AbstractChartInspector extends Inspector {
 	
 	/**
 	 * DOCUMENT (deutsch) - insert description 
@@ -45,13 +44,13 @@ public abstract class clsE_GenericChartInspector extends Inspector {
 	protected final static int mnHeight = 400;
 	protected final int mnOffset;
 	
-	protected itfInspectorTimeChart moTimeingContainer;
+	protected itfInspectorTimeChartBase moTimeingContainer;
 	protected ArrayList<XYSeries> moValueHistory;
 	protected long moCurrentTime;
 
 	
-    public clsE_GenericChartInspector(
-            itfInspectorTimeChart poTimingContainer,
+    public cls_AbstractChartInspector(
+    		itfInspectorTimeChartBase poTimingContainer,
             String poYAxisCaption,
             String poChartName,
             int pnOffset)

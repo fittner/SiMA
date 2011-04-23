@@ -4,7 +4,7 @@
  * @author deutsch
  * 15.04.2011, 18:54:16
  */
-package inspectors.mind.pa._v30;
+package inspectors.mind.pa._v30.autocreated;
 
 import java.awt.BasicStroke;
 import java.awt.Color;
@@ -15,7 +15,7 @@ import org.jfree.data.xy.XYSeries;
 import org.jfree.data.xy.XYSeriesCollection;
 import org.jfree.ui.RectangleInsets;
 
-import pa._v30.interfaces.itfInspectorTimeChart;
+import pa._v30.interfaces.itfInspectorGenericActivityTimeChart;
 
 /**
  * DOCUMENT (deutsch) - insert description 
@@ -24,7 +24,7 @@ import pa._v30.interfaces.itfInspectorTimeChart;
  * 15.04.2011, 18:54:16
  * 
  */
-public class clsE31_ChartInspector extends clsE_GenericChartInspector {
+public class cls_GenericActivityTimeChartInspector extends cls_AbstractChartInspector {
 
 	/**
 	 * DOCUMENT (deutsch) - insert description 
@@ -34,7 +34,11 @@ public class clsE31_ChartInspector extends clsE_GenericChartInspector {
 	 */
 	private static final long serialVersionUID = -644854858917480906L;
 	protected XYSeries moLowerLimit;
-	private final double mrLower = -1; 
+	protected XYSeries moUpperLimit;
+	private double mrLower;
+	private double mrUpper;
+	
+	private final static int mnDefaultOffset = 2;
 	
 	/**
 	 * DOCUMENT (deutsch) - insert description 
@@ -48,10 +52,8 @@ public class clsE31_ChartInspector extends clsE_GenericChartInspector {
 	 * @param prUpperLimit
 	 * @param poChartName
 	 */
-	public clsE31_ChartInspector(
-			itfInspectorTimeChart poTimingContainer,
-			String poYAxisCaption, String poChartName) {
-		super(poTimingContainer, poYAxisCaption, poChartName, 2);
+	public cls_GenericActivityTimeChartInspector(itfInspectorGenericActivityTimeChart poObject) {
+		super(poObject, poObject.getTimeChartAxis(), poObject.getTimeChartTitle(), mnDefaultOffset);
 		//nothing to do
 	}
 
@@ -69,7 +71,8 @@ public class clsE31_ChartInspector extends clsE_GenericChartInspector {
         	 plot.getRenderer().setSeriesPaint(i, oColors.get(i));
         }  
         
-        plot.getRenderer().setSeriesPaint(moValueHistory.size(), Color.white);     
+        plot.getRenderer().setSeriesPaint(moValueHistory.size(), Color.white); //lower limit line     
+        plot.getRenderer().setSeriesPaint(moValueHistory.size()+1, Color.white); //upper limit line
         
         plot.getRenderer().setSeriesStroke(1, new BasicStroke(
                 1.0f, BasicStroke.CAP_SQUARE, BasicStroke.JOIN_BEVEL, 
@@ -90,10 +93,18 @@ public class clsE31_ChartInspector extends clsE_GenericChartInspector {
     
 	
     private void addLimitLines(XYSeriesCollection poDataset) {
+    	mrLower = -0.1;
     	moLowerLimit = new XYSeries("");
     	moLowerLimit.setMaximumItemCount(mnHistoryLength);
     	moLowerLimit.add(moCurrentTime, mrLower);
     	poDataset.addSeries(moLowerLimit);  
+    	
+    	mrUpper = 0.1;
+    	mrUpper = mrUpper + 2*moValueHistory.size() - 1;
+    	moUpperLimit = new XYSeries("");
+    	moUpperLimit.setMaximumItemCount(mnHistoryLength);
+    	moUpperLimit.add(moCurrentTime, mrUpper);
+    	poDataset.addSeries(moUpperLimit);     	
     }
     
     @Override
@@ -106,7 +117,8 @@ public class clsE31_ChartInspector extends clsE_GenericChartInspector {
     }    
     
     private void updateLimitLines() {
-		moLowerLimit.add(moCurrentTime, mrLower );
+		moLowerLimit.add(moCurrentTime, mrLower);
+		moUpperLimit.add(moCurrentTime, mrUpper);
     }	
     
     @Override

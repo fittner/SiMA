@@ -15,6 +15,7 @@ import java.util.List;
 import pa._v30.tools.clsTripple;
 import pa._v30.tools.toHtml;
 import pa._v30.interfaces.eInterfaces;
+import pa._v30.interfaces.itfInspectorDrives;
 import pa._v30.interfaces.modules.I1_5_receive;
 import pa._v30.interfaces.modules.I1_5_send;
 import pa._v30.interfaces.modules.I2_15_receive;
@@ -29,7 +30,8 @@ import config.clsBWProperties;
  * 03.03.2011, 15:21:18
  * 
  */
-public class E38_PrimalRepressionForSelfPreservationDrives extends	clsModuleBase implements I2_15_receive, I1_5_send {
+public class E38_PrimalRepressionForSelfPreservationDrives extends	clsModuleBase 
+			implements itfInspectorDrives, I2_15_receive, I1_5_send {
 	public static final String P_MODULENUMBER = "38";
 	
 	private ArrayList<clsDriveMesh> moDriveList_IN;
@@ -214,7 +216,8 @@ public class E38_PrimalRepressionForSelfPreservationDrives extends	clsModuleBase
 	 * 
 	 * @return the moDriveCandidate
 	 */
-	public ArrayList<clsDriveMesh> getMoDriveList() {
+	@Override
+	public ArrayList<clsDriveMesh> getDriveList() {
 		return moDriveList_IN;
 	}
 

@@ -9,16 +9,13 @@ package inspectors.mind.pa._v30.graph;
 import java.awt.Color;
 import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
-
 import org.jgraph.graph.DefaultEdge;
 import org.jgraph.graph.DefaultGraphCell;
 import org.jgraph.graph.GraphConstants;
-
 import com.jgraph.components.labels.RichTextBusinessObject;
 import com.jgraph.components.labels.RichTextValue;
-
+import pa._v30.interfaces.itfInspectorDrives;
 import pa._v30.memorymgmt.datatypes.clsDriveMesh;
-import pa._v30.modules.E05_AccumulationOfAffectsForSelfPreservationDrives;
 
 /**
  * DOCUMENT (deutsch) - insert description 
@@ -29,11 +26,11 @@ import pa._v30.modules.E05_AccumulationOfAffectsForSelfPreservationDrives;
  */
 public class clsDriveInspector extends clsGraphBase {
 	private ArrayList<clsDriveMesh> moDriveList; 
-	private E05_AccumulationOfAffectsForSelfPreservationDrives moModule;
+	private itfInspectorDrives moObject;
 	
-	public clsDriveInspector(E05_AccumulationOfAffectsForSelfPreservationDrives poModule) {
+	public clsDriveInspector(itfInspectorDrives poObject) {
 		super();
-		moModule = poModule;
+		moObject = poObject;
 		
 		updateControl();	//loading data into the graph
 	}
@@ -54,7 +51,7 @@ public class clsDriveInspector extends clsGraphBase {
 	 */
 	@Override
 	protected void updateinspectorData() {
-		moDriveList = moModule.getDriveList();
+		moDriveList = moObject.getDriveList();
 	}
 
 	/* (non-Javadoc)
@@ -75,6 +72,7 @@ public class clsDriveInspector extends clsGraphBase {
 		moCellList.add( oDeath );
 		createEdge(moCellList, oRoot, oDeath, "");
 		
+		//FIXME: this method works only iff the pairs-of-opposite are next to each other in the list AND iff life drive is before death drive in the array
 		for (int i=0; i<moDriveList.size(); i+=2) {
 			DefaultGraphCell oL = readDrive_new(moCellList, oLife, moDriveList.get(i), "", Color.GREEN);
 			DefaultGraphCell oD = readDrive_new(moCellList, oDeath, moDriveList.get(i+1), "", Color.LIGHT_GRAY);

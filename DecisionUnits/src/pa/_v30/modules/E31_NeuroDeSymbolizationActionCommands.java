@@ -14,16 +14,14 @@ import du.enums.eActionMoveDirection;
 import du.enums.eActionSleepIntensity;
 import du.enums.eActionTurnDirection;
 import du.itf.actions.clsActionCommand;
-import du.itf.actions.clsActionDrop;
 import du.itf.actions.clsActionEat;
 import du.itf.actions.clsActionExcrement;
 import du.itf.actions.clsActionMove;
-import du.itf.actions.clsActionPickUp;
 import du.itf.actions.clsActionSequenceFactory;
 import du.itf.actions.clsActionSleep;
 import du.itf.actions.clsActionTurn;
 import pa._v30.interfaces.eInterfaces;
-import pa._v30.interfaces.itfInspectorTimeChart;
+import pa._v30.interfaces.itfInspectorGenericActivityTimeChart;
 import pa._v30.interfaces.itfMinimalModelMode;
 import pa._v30.interfaces.modules.I8_1_receive;
 import pa._v30.interfaces.modules.I8_2_receive;
@@ -38,7 +36,8 @@ import pa._v30.tools.toHtml;
  * 11.08.2009, 14:59:58
  * 
  */
-public class E31_NeuroDeSymbolizationActionCommands extends clsModuleBase implements itfMinimalModelMode, I8_1_receive, I8_2_send, itfInspectorTimeChart  {
+public class E31_NeuroDeSymbolizationActionCommands extends clsModuleBase 
+			implements itfMinimalModelMode, I8_1_receive, I8_2_send, itfInspectorGenericActivityTimeChart  {
 	public static final String P_MODULENUMBER = "31";
 	
 	private ArrayList<clsActionCommand> moActionCommandList_Output;
@@ -156,18 +155,19 @@ public class E31_NeuroDeSymbolizationActionCommands extends clsModuleBase implem
 			
 				if(oAction.equals("MOVE_FORWARD")){
 					moActionCommandList_Output.add( new clsActionMove(eActionMoveDirection.MOVE_FORWARD,1.0) );
-					//System.out.println("cmd: move_forward");
-				}
-				else if(oAction.equals("TURN_LEFT")){
+				} else if(oAction.equals("TURN_LEFT")){
 					moActionCommandList_Output.add(new clsActionTurn(eActionTurnDirection.TURN_LEFT, 15.0));
-					//System.out.println("cmd: turn_left");
-				}
-				else if(oAction.equals("TURN_RIGHT")){
+				} else if(oAction.equals("TURN_RIGHT")){
 					moActionCommandList_Output.add(new clsActionTurn(eActionTurnDirection.TURN_RIGHT, 15.0));
-					//System.out.println("cmd: turn_right");
+				} else if(oAction.equals("EAT")) {
+					moActionCommandList_Output.add( new clsActionEat() );
+				} else if (oAction.equals("SLEEP")) {
+					moActionCommandList_Output.add( new clsActionSleep(eActionSleepIntensity.DEEP) );
+				} else if (oAction.equals("EXCREMENT")) {
+					moActionCommandList_Output.add( new clsActionExcrement(1) );
 				}
-				//end add
-				else if(oAction.equals("PICKUP")) {
+//TD 2011/04/23: commented the actions PICKUP, DROP, and DANCE. currently, they can never happen - no rules are defined
+/*				else if(oAction.equals("PICKUP")) {
 					moActionCommandList_Output.add( new clsActionPickUp() );
 					//System.out.println("cmd: pickup");
 				}
@@ -175,19 +175,11 @@ public class E31_NeuroDeSymbolizationActionCommands extends clsModuleBase implem
 					moActionCommandList_Output.add( new clsActionDrop() );
 					//System.out.println("cmd: drop");
 				}
-				else if(oAction.equals("EAT")) {
-					moActionCommandList_Output.add( new clsActionEat() );
-					//System.out.println("cmd: eat");
+					else if(oAction.equals("DANCE_1")) {
+						moActionCommandList_Output.add( clsActionSequenceFactory.getWalzSequence(1, 2) );
+						//System.out.println("cmd: dance");
 				}
-				else if(oAction.equals("DANCE_1")) {
-					moActionCommandList_Output.add( clsActionSequenceFactory.getWalzSequence(1, 2) );
-					//System.out.println("cmd: dance");
-				} else if (oAction.equals("SLEEP")) {
-					moActionCommandList_Output.add( new clsActionSleep(eActionSleepIntensity.DEEP) );
-				} else if (oAction.equals("EXCREMENT")) {
-					moActionCommandList_Output.add( new clsActionExcrement(1) );
-				}
-				else {
+*/				else {
 					throw new UnknownError("Action " + oAction + " not known");
 				}
 			}
@@ -378,5 +370,29 @@ public class E31_NeuroDeSymbolizationActionCommands extends clsModuleBase implem
 	@Override
 	public boolean getMinimalModelMode() {
 		return mnMinimalModel;
+	}
+
+	/* (non-Javadoc)
+	 *
+	 * @author deutsch
+	 * 23.04.2011, 11:15:51
+	 * 
+	 * @see pa._v30.interfaces.itfInspectorTimeChartBase#getTimeChartAxis()
+	 */
+	@Override
+	public String getTimeChartAxis() {
+		return "Action Commands";
+	}
+
+	/* (non-Javadoc)
+	 *
+	 * @author deutsch
+	 * 23.04.2011, 11:15:51
+	 * 
+	 * @see pa._v30.interfaces.itfInspectorTimeChartBase#getTimeChartTitle()
+	 */
+	@Override
+	public String getTimeChartTitle() {
+		return "Action Command Utilization";
 	}		
 }
