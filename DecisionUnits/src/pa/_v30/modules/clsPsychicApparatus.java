@@ -13,6 +13,7 @@ import java.util.SortedMap;
 import java.util.TreeMap;
 import config.clsBWProperties;
 import pa._v30.tools.clsPair;
+import pa._v30.datalogger.clsDataLogger;
 import pa._v30.interfaces.eInterfaces;
 import pa._v30.interfaces.itfMinimalModelMode;
 import pa._v30.memorymgmt.clsKnowledgeBaseHandler;
@@ -85,6 +86,7 @@ public class clsPsychicApparatus {
 	//static data!!!
 	public HashMap<Integer, ArrayList<clsPair<eInterfaces, Integer>>> moInterfaceMesh; //the mesh created by all modules and the outgoing interfaces in combination to which module they are connecting to
 	public HashMap<eInterfaces, clsPair<ArrayList<Integer>, ArrayList<Integer>>> moInterfaces_Recv_Send; //list of interfaces and the modules it connects to pair(source,target)
+	public clsDataLogger moDataLogger;
 	
 	private static final boolean mnMinimalModel = false;
 
@@ -101,6 +103,7 @@ public class clsPsychicApparatus {
 					
 		applyProperties(poPrefix, poProp);
 		
+		moDataLogger = new clsDataLogger(moModules);
 		fillInterfaceMesh();
 		fillInterfaces_Recv_Send();
 	}

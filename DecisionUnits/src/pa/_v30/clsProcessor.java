@@ -15,7 +15,6 @@ import du.itf.sensors.clsDataBase;
 import du.itf.sensors.clsSensorData;
 import du.itf.sensors.clsSensorExtern;
 import pa.itfProcessor;
-import pa._v30.datalogger.clsDataLogger;
 import pa._v30.memorymgmt.clsKnowledgeBaseHandler;
 import pa._v30.memorymgmt.informationrepresentation.clsInformationRepresentationManagement;
 import pa._v30.modules.clsPsychicApparatus;
@@ -35,11 +34,9 @@ public class clsProcessor implements itfProcessor  {
 	private clsPsychicApparatus moPsyApp;
 	private clsKnowledgeBaseHandler moKnowledgeBaseHandler;
 	private double mrLibidostream;
-	private clsDataLogger moDataLogger;
 		
 	public clsProcessor(String poPrefix, clsBWProperties poProp) {
 		applyProperties(poPrefix, poProp);
-		moDataLogger = new clsDataLogger(moPsyApp.moModules);
 	}
 	
 	public static clsBWProperties getDefaultProperties(String poPrefix) {
@@ -237,7 +234,7 @@ public class clsProcessor implements itfProcessor  {
 		moPsyApp.moE32_Actuators.step();
 		
 		//UPDATE DataLogger Entries
-		moDataLogger.step();
+		moPsyApp.moDataLogger.step();
 	}
 
 	/**
