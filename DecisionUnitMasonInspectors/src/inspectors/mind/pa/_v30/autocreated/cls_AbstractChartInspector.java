@@ -49,6 +49,8 @@ public abstract class cls_AbstractChartInspector extends Inspector {
 	protected ArrayList<XYSeries> moValueHistory;
 	protected long mnCurrentTime;
 
+	private String moChartName;
+	private String moYAxisCaption;
 	
     public cls_AbstractChartInspector(
     		itfInspectorTimeChartBase poTimingContainer,
@@ -60,13 +62,19 @@ public abstract class cls_AbstractChartInspector extends Inspector {
     	mnCurrentTime = clsSimState.getSteps();
     	mnOffset = pnOffset;
     	
-    	ChartPanel oChartPanel = initChart(poChartName,  createDataset(), 
-    			"Steps", poYAxisCaption, mnWidth, mnHeight);
+    	moChartName = poChartName;
+    	moYAxisCaption = poYAxisCaption;
+    	
+    	createPanel();
+    }
+  
+    protected void createPanel() {
+    	ChartPanel oChartPanel = initChart(moChartName,  createDataset(), 
+    			"Steps", moYAxisCaption, mnWidth, mnHeight);
     	add(oChartPanel);
     	
 		setLayout(new FlowLayout(FlowLayout.LEFT));
     }
-  
     
     protected XYSeriesCollection createDataset() {
     	XYSeriesCollection poDataset = new XYSeriesCollection();
