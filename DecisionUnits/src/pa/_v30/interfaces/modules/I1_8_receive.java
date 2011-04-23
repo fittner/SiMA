@@ -6,7 +6,7 @@
  */
 package pa._v30.interfaces.modules;
 
-import pa._v30.interfaces.I_BaseInterface;
+
 
 /**
  * DOCUMENT (deutsch) - insert description 
@@ -15,6 +15,6 @@ import pa._v30.interfaces.I_BaseInterface;
  * 03.03.2011, 15:31:20
  * 
  */
-public interface I1_8_receive  extends I_BaseInterface {
+public interface I1_8_receive  {
 	public void receive_I1_8(double prLibido);
 }

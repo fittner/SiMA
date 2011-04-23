@@ -6,7 +6,7 @@
  */
 package pa._v30.interfaces.modules;
 
-import pa._v30.interfaces.I_BaseInterface;
+
 
 /**
  * DOCUMENT (deutsch) - insert description 
@@ -15,6 +15,6 @@ import pa._v30.interfaces.I_BaseInterface;
  * 11.08.2009, 14:05:44
  * 
  */
-public interface I3_1_receive extends I_BaseInterface {
+public interface I3_1_receive {
 	public void receive_I3_1(int pnData);
 }

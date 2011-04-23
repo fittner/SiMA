@@ -9,7 +9,7 @@ package pa._v30.interfaces.modules;
 import java.util.ArrayList;
 
 import pa._v30.tools.clsPair;
-import pa._v30.interfaces.I_BaseInterface;
+
 import pa._v30.memorymgmt.datatypes.clsDriveMesh;
 import pa._v30.memorymgmt.datatypes.clsPrimaryDataStructureContainer;
 
@@ -20,7 +20,7 @@ import pa._v30.memorymgmt.datatypes.clsPrimaryDataStructureContainer;
  * 11.08.2009, 14:17:57
  * 
  */
-public interface I2_6_receive extends I_BaseInterface {
+public interface I2_6_receive {
 	//first element: perceived clsPrimaryInformation
 	//second element (optional): attached repressed content 
 	public void receive_I2_6(ArrayList<clsPair<clsPrimaryDataStructureContainer, clsDriveMesh>> poPerceptPlusRepressed);

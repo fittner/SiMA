@@ -10,7 +10,7 @@ import java.util.HashMap;
 import du.enums.eSensorExtType;
 import du.itf.sensors.clsSensorExtern;
 
-import pa._v30.interfaces.I_BaseInterface;
+
 
 /**
  * DOCUMENT (deutsch) - insert description 
@@ -19,6 +19,6 @@ import pa._v30.interfaces.I_BaseInterface;
  * 03.03.2011, 15:30:03
  * 
  */
-public interface I0_5_receive  extends I_BaseInterface {
+public interface I0_5_receive  {
 	public void receive_I0_5(HashMap<eSensorExtType, clsSensorExtern> poData);
 }

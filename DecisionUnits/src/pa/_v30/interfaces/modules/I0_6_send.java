@@ -10,7 +10,7 @@ import java.util.ArrayList;
 
 import du.itf.actions.clsActionCommand;
 
-import pa._v30.interfaces.I_BaseInterface;
+
 
 /**
  * DOCUMENT (deutsch) - insert description 
@@ -19,6 +19,6 @@ import pa._v30.interfaces.I_BaseInterface;
  * 03.03.2011, 15:30:30
  * 
  */
-public interface I0_6_send  extends I_BaseInterface {
+public interface I0_6_send  {
 	public void send_I0_6(ArrayList<clsActionCommand> poActionList);
 }

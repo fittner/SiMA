@@ -8,7 +8,7 @@ package pa._v30.interfaces.modules;
 
 import java.util.ArrayList;
 
-import pa._v30.interfaces.I_BaseInterface;
+
 import pa._v30.memorymgmt.datatypes.clsWordPresentation;
 
 /**
@@ -18,6 +18,6 @@ import pa._v30.memorymgmt.datatypes.clsWordPresentation;
  * 11.08.2009, 14:53:08
  * 
  */
-public interface I7_3_receive extends I_BaseInterface {
+public interface I7_3_receive {
 	public void receive_I7_3(ArrayList<clsWordPresentation> poActionCommands);
 }

@@ -10,7 +10,7 @@ import java.util.HashMap;
 import du.enums.eSensorIntType;
 import du.itf.sensors.clsDataBase;
 
-import pa._v30.interfaces.I_BaseInterface;
+
 
 /**
  * DOCUMENT (deutsch) - insert description 
@@ -19,6 +19,6 @@ import pa._v30.interfaces.I_BaseInterface;
  * 03.03.2011, 15:28:47
  * 
  */
-public interface I0_3_receive  extends I_BaseInterface {
+public interface I0_3_receive  {
 	public void receive_I0_3(HashMap<eSensorIntType, clsDataBase> poData);
 }

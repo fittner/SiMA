@@ -8,7 +8,7 @@ package pa._v30.interfaces.modules;
 
 import java.util.ArrayList;
 
-import pa._v30.interfaces.I_BaseInterface;
+
 
 /**
  * DOCUMENT (deutsch) - insert description 
@@ -17,6 +17,6 @@ import pa._v30.interfaces.I_BaseInterface;
  * 09.03.2011, 17:06:30
  * 
  */
-public interface D2_1_send extends I_BaseInterface {
+public interface D2_1_send {
 	public void send_D2_1(ArrayList<Object> poData);
 }

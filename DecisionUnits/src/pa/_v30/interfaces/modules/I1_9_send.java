@@ -6,7 +6,7 @@
  */
 package pa._v30.interfaces.modules;
 
-import pa._v30.interfaces.I_BaseInterface;
+
 
 /**
  * DOCUMENT (deutsch) - insert description 
@@ -15,6 +15,6 @@ import pa._v30.interfaces.I_BaseInterface;
  * 03.03.2011, 15:32:33
  * 
  */
-public interface I1_9_send  extends I_BaseInterface {
+public interface I1_9_send  {
 	public void send_I1_9(Double poLibidoSymbol);
 }

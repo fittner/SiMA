@@ -6,7 +6,7 @@
  */
 package pa._v30.interfaces.modules;
 
-import pa._v30.interfaces.I_BaseInterface;
+
 
 /**
  * DOCUMENT (deutsch) - insert description 
@@ -15,6 +15,6 @@ import pa._v30.interfaces.I_BaseInterface;
  * 27.04.2010, 10:42:05
  * 
  */
-public interface I7_6_receive extends I_BaseInterface {
+public interface I7_6_receive {
 	public void receive_I7_6(int pnData);
 }

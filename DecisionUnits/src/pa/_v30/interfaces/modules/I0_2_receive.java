@@ -6,7 +6,7 @@
  */
 package pa._v30.interfaces.modules;
 
-import pa._v30.interfaces.I_BaseInterface;
+
 
 /**
  * DOCUMENT (deutsch) - insert description 
@@ -15,6 +15,6 @@ import pa._v30.interfaces.I_BaseInterface;
  * 03.03.2011, 15:28:33
  * 
  */
-public interface I0_2_receive  extends I_BaseInterface {
+public interface I0_2_receive  {
 	public void receive_I0_2(Double prLibido);
 }
