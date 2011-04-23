@@ -96,14 +96,14 @@ public class cls_GenericActivityTimeChartInspector extends cls_AbstractChartInsp
     	mrLower = -0.1;
     	moLowerLimit = new XYSeries("");
     	moLowerLimit.setMaximumItemCount(mnHistoryLength);
-    	moLowerLimit.add(moCurrentTime, mrLower);
+    	moLowerLimit.add(mnCurrentTime, mrLower);
     	poDataset.addSeries(moLowerLimit);  
     	
     	mrUpper = 0.1;
     	mrUpper = mrUpper + 2*moValueHistory.size() - 1;
     	moUpperLimit = new XYSeries("");
     	moUpperLimit.setMaximumItemCount(mnHistoryLength);
-    	moUpperLimit.add(moCurrentTime, mrUpper);
+    	moUpperLimit.add(mnCurrentTime, mrUpper);
     	poDataset.addSeries(moUpperLimit);     	
     }
     
@@ -117,8 +117,8 @@ public class cls_GenericActivityTimeChartInspector extends cls_AbstractChartInsp
     }    
     
     private void updateLimitLines() {
-		moLowerLimit.add(moCurrentTime, mrLower);
-		moUpperLimit.add(moCurrentTime, mrUpper);
+		moLowerLimit.add(mnCurrentTime, mrLower);
+		moUpperLimit.add(mnCurrentTime, mrUpper);
     }	
     
     @Override

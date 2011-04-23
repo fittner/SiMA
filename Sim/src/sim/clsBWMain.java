@@ -17,7 +17,7 @@ import sim.creation.simplePropertyLoader.clsSimplePropertyLoader;
 import sim.engine.Schedule;
 import sim.engine.SimState;
 import statictools.clsGetARSPath;
-import statictools.eventlogger.clsEventLogger;
+import statictools.clsSimState;
 
 
 /**
@@ -49,11 +49,13 @@ public class clsBWMain extends SimState{
     public clsBWMain(long pnSeed, String[] args) {
     	super(new MersenneTwisterFast(pnSeed), new Schedule());
     	moArgs = args;
+    	clsSimState.setSimState(this);
     }
     
     public clsBWMain(long pnSeed) {
     	super(new MersenneTwisterFast(pnSeed), new Schedule());
     	moArgs = new String[]{};
+    	clsSimState.setSimState(this);
     }    
 	
 	/**
@@ -146,7 +148,6 @@ public class clsBWMain extends SimState{
 		}
 		
 		// process config
-		clsEventLogger.setSimState(this);
 		
 		clsLoader oLoader = new clsSimplePropertyLoader(this, oProp);
 		oLoader.loadObjects();

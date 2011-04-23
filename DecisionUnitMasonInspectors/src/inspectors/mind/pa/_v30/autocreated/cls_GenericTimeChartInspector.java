@@ -57,12 +57,12 @@ public class cls_GenericTimeChartInspector extends cls_AbstractChartInspector {
     	//tweak to have a nice static upper and lower limit 
     	moUpperLimit = new XYSeries("");
     	moUpperLimit.setMaximumItemCount(mnHistoryLength);
-    	moUpperLimit.add(moCurrentTime, mrUpper);
+    	moUpperLimit.add(mnCurrentTime, mrUpper);
     	poDataset.addSeries(moUpperLimit);    
 		
     	moLowerLimit = new XYSeries("");
     	moLowerLimit.setMaximumItemCount(mnHistoryLength);
-    	moLowerLimit.add(moCurrentTime, mrLower);
+    	moLowerLimit.add(mnCurrentTime, mrLower);
     	poDataset.addSeries(moLowerLimit);  
     }
     
@@ -76,8 +76,8 @@ public class cls_GenericTimeChartInspector extends cls_AbstractChartInspector {
     }    
     
     private void updateLimitLines() {
-		moLowerLimit.add(moCurrentTime, mrLower );
-		moUpperLimit.add(moCurrentTime, mrUpper );    	
+		moLowerLimit.add(mnCurrentTime, mrLower );
+		moUpperLimit.add(mnCurrentTime, mrUpper );    	
     }	
     
     @Override

@@ -21,6 +21,7 @@ import org.jfree.data.xy.XYSeriesCollection;
 import org.jfree.ui.RectangleInsets;
 import pa._v30.interfaces.itfInspectorTimeChartBase;
 import sim.portrayal.Inspector;
+import statictools.clsSimState;
 
 /**
  * DOCUMENT (deutsch) - insert description 
@@ -46,7 +47,7 @@ public abstract class cls_AbstractChartInspector extends Inspector {
 	
 	protected itfInspectorTimeChartBase moTimeingContainer;
 	protected ArrayList<XYSeries> moValueHistory;
-	protected long moCurrentTime;
+	protected long mnCurrentTime;
 
 	
     public cls_AbstractChartInspector(
@@ -56,7 +57,7 @@ public abstract class cls_AbstractChartInspector extends Inspector {
             int pnOffset)
     {
     	moTimeingContainer= poTimingContainer;
-    	moCurrentTime = 0;
+    	mnCurrentTime = clsSimState.getSteps();
     	mnOffset = pnOffset;
     	
     	ChartPanel oChartPanel = initChart(poChartName,  createDataset(), 
@@ -79,7 +80,7 @@ public abstract class cls_AbstractChartInspector extends Inspector {
 		for (int i=0; i<oCaptions.size(); i++) {
 			XYSeries oTemp = new XYSeries( oCaptions.get(i) );
 			oTemp.setMaximumItemCount( mnHistoryLength );
-			oTemp.add(moCurrentTime, oValues.get(i) + nOffset );
+			oTemp.add(mnCurrentTime, oValues.get(i) + nOffset );
 			moValueHistory.add(oTemp);
 			poDataset.addSeries(oTemp);			
 			nOffset += mnOffset;
@@ -142,7 +143,7 @@ public abstract class cls_AbstractChartInspector extends Inspector {
 	 */
 	@Override
 	public void updateInspector() {
-		moCurrentTime += 1;
+		mnCurrentTime = clsSimState.getSteps();
 		
 		updateData();
 		
@@ -155,7 +156,7 @@ public abstract class cls_AbstractChartInspector extends Inspector {
 		int nOffset=0;
 		
 		for (int i=0; i<oTimingData.size(); i++) {
-			((XYSeries)moValueHistory.get(i)).add(moCurrentTime, oTimingData.get(i) + nOffset);
+			((XYSeries)moValueHistory.get(i)).add(mnCurrentTime, oTimingData.get(i) + nOffset);
 			nOffset += mnOffset;
 		}
 	}
