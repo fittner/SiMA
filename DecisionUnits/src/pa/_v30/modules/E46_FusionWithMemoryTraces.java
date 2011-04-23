@@ -20,12 +20,10 @@ import pa._v30.interfaces.modules.I2_5_receive;
 import pa._v30.interfaces.modules.I7_7_receive;
 import pa._v30.memorymgmt.clsKnowledgeBaseHandler;
 import pa._v30.memorymgmt.datahandler.clsDataStructureConverter;
-import pa._v30.memorymgmt.datahandler.clsDataStructureGenerator;
 import pa._v30.memorymgmt.datatypes.clsAssociation;
 import pa._v30.memorymgmt.datatypes.clsAssociationAttribute;
 import pa._v30.memorymgmt.datatypes.clsDataStructureContainer;
 import pa._v30.memorymgmt.datatypes.clsDataStructurePA;
-import pa._v30.memorymgmt.datatypes.clsPhysicalRepresentation;
 import pa._v30.memorymgmt.datatypes.clsPrimaryDataStructure;
 import pa._v30.memorymgmt.datatypes.clsPrimaryDataStructureContainer;
 import pa._v30.memorymgmt.datatypes.clsTemplateImage;
@@ -51,9 +49,9 @@ public class E46_FusionWithMemoryTraces extends clsModuleBaseKB implements
 	private ArrayList<clsPrimaryDataStructureContainer> moEnvironmentalPerception_OUT; 
 	
 	//New Output
-	private clsTemplateImage moDirectTemplateImage_OUT;
+	private clsTemplateImage moPerceivedImage_OUT;
 	@SuppressWarnings("unused")
-	private ArrayList<clsTemplateImage> moIndirectTemplateImages_OUT;
+	private ArrayList<clsTemplateImage> moTemplateImages_OUT;
 
 	
 	/**
@@ -117,15 +115,17 @@ public class E46_FusionWithMemoryTraces extends clsModuleBaseKB implements
 	protected void process_basic() {
 		//moEnvironmentalPerception_OUT = new ArrayList<clsPrimaryDataStructureContainer>(); 
 		moEnvironmentalPerception_OUT = retrieveImages(moEnvironmentalPerception_IN);
+		
+		
+		//****** New Data structures Don't delete AW 20110424 *********
 		//AW: 2011-04-18, new Data structures
 		//Convert Output to a template image
-		moDirectTemplateImage_OUT = createMOTIfromPDSC(moEnvironmentalPerception_OUT);
+		/*
+		moPerceivedImage_OUT = tempConvertInput(moEnvironmentalPerception_OUT);
 		//Load indirect template images
-		moIndirectTemplateImages_OUT = retrieveIndirectTI(moDirectTemplateImage_OUT);
+		moTemplateImages_OUT = retrieveIndirectTI(moPerceivedImage_OUT);
 		
-		//moEnvironmentalPerception_OUT = new ArrayList<clsPrimaryDataStructureContainer>(); 
-		
-		//retrieveImages(); 
+		*/
 	}
 
 	/* (non-Javadoc)
@@ -202,20 +202,7 @@ public class E46_FusionWithMemoryTraces extends clsModuleBaseKB implements
 		return oRetVal;
 	}
 	
-	private clsTemplateImage createMOTIfromPDSC(ArrayList<clsPrimaryDataStructureContainer> oInput) {
-		clsTemplateImage oRetVal = null;
-		ArrayList<clsPhysicalRepresentation> oObjectList = new ArrayList<clsPhysicalRepresentation>();
-		
-		for (clsPrimaryDataStructureContainer oContainer : oInput) {
-			//Convert to TI
-			oObjectList.add(clsDataStructureConverter.convertPDSCtoTI((oContainer)));
-		}
-		
-		clsTripple<String, ArrayList<clsPhysicalRepresentation>, Object> oTIInput = new clsTripple<String, ArrayList<clsPhysicalRepresentation>, Object>(eDataType.TI.toString(), oObjectList, "Perception");
-		oRetVal = clsDataStructureGenerator.generateTI(oTIInput);
-		
-		return oRetVal;
-	}
+	
 	
 	private ArrayList<clsTemplateImage> retrieveIndirectTI(clsTemplateImage oInput) {
 		ArrayList<clsTemplateImage> oRetVal = new ArrayList<clsTemplateImage>();
@@ -223,6 +210,10 @@ public class E46_FusionWithMemoryTraces extends clsModuleBaseKB implements
 		//Spread activation from input
 		
 		return oRetVal;
+	}
+	
+	private clsTemplateImage tempConvertInput(ArrayList<clsPrimaryDataStructureContainer> oInput) {
+		return clsDataStructureConverter.convertMultiplePDSCtoTI (oInput);
 	}
 	
 	/**
