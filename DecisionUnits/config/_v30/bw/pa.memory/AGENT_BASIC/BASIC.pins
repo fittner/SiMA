@@ -1,4 +1,4 @@
-; Sat Apr 23 00:00:20 CEST 2011
+; Sat Apr 23 08:25:09 CEST 2011
 ; 
 ;+ (version "3.4.4")
 ;+ (build "Build 579")
@@ -130,6 +130,40 @@
 		[WP%3ALOW])
 	(precondition [WP%3AOBJECT])
 	(value "EXCREMENT")
+	(value_type "EXCREMENT"))
+
+([ACT%3AEXCREMENT%3ACAKE01] of  ACT
+
+	(action [WP%3AACTION%3AEXCREMENT])
+	(consequence
+		[WP%3ACAKEBASIC]
+		[WP%3AUNPLEASURE]
+		[WP%3AVERYHIGH]
+		[WP%3ADEPOSIT]
+		[WP%3ALOW]
+		[WP%3AREPRESS]
+		[WP%3ALOW])
+	(precondition
+		[WP%3ACAKEBASIC]
+		[WP%3ALOCATION%3AMANIPULATEABLE])
+	(value "REPRESS")
+	(value_type "EXCREMENT"))
+
+([ACT%3AEXCREMENT%3ACAKE02] of  ACT
+
+	(action [WP%3AACTION%3AEXCREMENT])
+	(consequence
+		[WP%3ACAKEBASIC]
+		[WP%3AUNPLEASURE]
+		[WP%3AVERYHIGH]
+		[WP%3ADEPOSIT]
+		[WP%3ALOW]
+		[WP%3AREPRESS]
+		[WP%3ALOW])
+	(precondition
+		[WP%3ACAKEBASIC]
+		[WP%3ALOCATION%3AMANIPULATEABLE])
+	(value "DEPOSIT")
 	(value_type "EXCREMENT"))
 
 ([ACT%3AEXCREMENT%3ACARROT01] of  ACT
