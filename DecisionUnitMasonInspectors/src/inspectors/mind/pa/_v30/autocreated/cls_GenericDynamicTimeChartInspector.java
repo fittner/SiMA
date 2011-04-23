@@ -48,7 +48,7 @@ public class cls_GenericDynamicTimeChartInspector extends
 	public cls_GenericDynamicTimeChartInspector(
 			itfInspectorGenericDynamicTimeChart poObject) {
 		super(poObject);
-		((itfInspectorGenericDynamicTimeChart)moTimeingContainer).chartRowsUpdated();
+		((itfInspectorGenericDynamicTimeChart)moTimeingContainer).chartColumnsUpdated();
 	}
 
 
@@ -137,9 +137,9 @@ public class cls_GenericDynamicTimeChartInspector extends
     
     @Override
 	protected void updateData() {
-    	if (((itfInspectorGenericDynamicTimeChart)moTimeingContainer).chartRowsChanged()) {
+    	if (((itfInspectorGenericDynamicTimeChart)moTimeingContainer).chartColumnsChanged()) {
     		reCreateChart();
-    		((itfInspectorGenericDynamicTimeChart)moTimeingContainer).chartRowsUpdated();
+    		((itfInspectorGenericDynamicTimeChart)moTimeingContainer).chartColumnsUpdated();
     	}
     	super.updateData();
 		updateLimitLines();

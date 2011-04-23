@@ -15,6 +15,6 @@ package pa._v30.interfaces;
  */
 public interface itfInspectorGenericDynamicTimeChart extends
 		itfInspectorGenericTimeChart {
-	public boolean chartRowsChanged();
-	public void chartRowsUpdated();
+	public boolean chartColumnsChanged();
+	public void chartColumnsUpdated();
 }

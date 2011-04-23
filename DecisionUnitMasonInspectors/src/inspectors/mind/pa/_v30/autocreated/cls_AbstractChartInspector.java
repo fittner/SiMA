@@ -95,21 +95,25 @@ public abstract class cls_AbstractChartInspector extends Inspector {
     		oSeries.clear();
     	}
     	
-    	for (Iterator<Map.Entry<Long, ArrayList<Double>>> it = oData.entrySet().iterator();it.hasNext();) {
-    		Map.Entry<Long, ArrayList<Double>> oLine = it.next();
-    		long x = oLine.getKey();
-    		ArrayList<Double> ys = oLine.getValue();
-    		int i=0;
-    		int nOffset = 0;
-    		for (Iterator<XYSeries> it2=moValueHistory.iterator();it2.hasNext();) {
-    			XYSeries oS = it2.next();
-        		double r = (ys.get(i) + nOffset);
-        		oS.add(x, r);
-        		nOffset += mnOffset;
-        		i++;
-        	}
+    	try {
+	    	for (Iterator<Map.Entry<Long, ArrayList<Double>>> it = oData.entrySet().iterator();it.hasNext();) {
+	    		Map.Entry<Long, ArrayList<Double>> oLine = it.next();
+	    		long x = oLine.getKey();
+	    		ArrayList<Double> ys = oLine.getValue();
+	    		int i=0;
+	    		int nOffset = 0;
+	    		for (Iterator<XYSeries> it2=moValueHistory.iterator();it2.hasNext();) {
+	    			XYSeries oS = it2.next();
+	        		double r = (ys.get(i) + nOffset);
+	        		oS.add(x, r);
+	        		nOffset += mnOffset;
+	        		i++;
+	        	}
+	    	}
+    	} catch (java.util.ConcurrentModificationException e) {
+    		//FIXME (Deutsch): very bad!!! caused by line Map.Entry<Long, ArrayList<Double>> oLine = it.next();
+    		System.out.println("cls_AbstractChartInspector.fetchDataFromHistory: "+e);
     	}
-    	
     }
   
     protected void createPanel() {
@@ -213,6 +217,7 @@ public abstract class cls_AbstractChartInspector extends Inspector {
 				nOffset += mnOffset;
 			}
 		} catch (java.lang.IndexOutOfBoundsException e) {
+			//FIXME (Deutsch): due to some unknown reason, sometimes oTimingData.size is different to moValueHistory.size. workaround for the time being: recreate chart.
 			System.out.println(clsExceptionUtils.getCustomStackTrace(e));
 			System.out.println("cls_AbstractChartInspector.updateData: RESET CHART PANEL!");
 			recreate();

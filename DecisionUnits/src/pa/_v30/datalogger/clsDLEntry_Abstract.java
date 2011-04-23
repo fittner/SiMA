@@ -180,6 +180,18 @@ public abstract class clsDLEntry_Abstract implements itfInspectorTimeChartBase, 
 		return o;
 	}	
 
+	public String toCSV() {
+		String csv = "";
+		
+		csv += columnsToCSV() + clsDataLogger.newline;
+		
+		for (long i=first; i<=last; i++) {
+			csv += valuesToCSV(i) + clsDataLogger.newline;
+		}
+		
+		return csv;
+	}
+	
 	public String toHTML_CSV() {
 		String html = "";
 		
@@ -196,8 +208,8 @@ public abstract class clsDLEntry_Abstract implements itfInspectorTimeChartBase, 
 		html = html.substring(0, html.length() - clsDataLogger.csvseperator.length());
 		html += clsDataLogger.newline;
 		
-		for (Iterator< Map.Entry<Long, ArrayList<Double>> > it = values.entrySet().iterator(); it.hasNext();) {
-			try {
+		try {
+			for (Iterator< Map.Entry<Long, ArrayList<Double>> > it = values.entrySet().iterator(); it.hasNext();) {
 				Map.Entry<Long, ArrayList<Double>> oEntry = it.next();
 				html += oEntry.getKey()+clsDataLogger.csvseperator;			
 				for (Double rValue:oEntry.getValue()) {
@@ -205,12 +217,12 @@ public abstract class clsDLEntry_Abstract implements itfInspectorTimeChartBase, 
 				}
 				html = html.substring(0, html.length() - clsDataLogger.csvseperator.length());
 				html += clsDataLogger.newline;
-			} catch (java.util.ConcurrentModificationException e) {
-				System.out.println("clsDLEntry_Abstract.toHTML_CSV: "+e);
-				break;
 			}
+		} catch (java.util.ConcurrentModificationException e) {
+			//FIXME (Deutsch): very bad! caused by line Map.Entry<Long, ArrayList<Double>> oEntry = it.next();
+			System.out.println("clsDLEntry_Abstract.toHTML_CSV: "+e);
 		}
-		
+	
 		html += "</pre>";
 		
 		

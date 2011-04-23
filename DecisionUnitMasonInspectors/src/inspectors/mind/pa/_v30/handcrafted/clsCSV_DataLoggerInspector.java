@@ -6,11 +6,10 @@
  */
 package inspectors.mind.pa._v30.handcrafted;
 
+import inspectors.mind.pa._v30.autocreated.TextOutputPanel;
 import java.awt.BorderLayout;
-
 import pa._v30.datalogger.clsDataLogger;
 import sim.portrayal.Inspector;
-import sim.util.gui.HTMLBrowser;
 import statictools.clsExceptionUtils;
 
 /**
@@ -29,23 +28,23 @@ public class clsCSV_DataLoggerInspector extends Inspector {
 	 */
 	private static final long serialVersionUID = -2533270967364006767L;
 	private clsDataLogger moDL;
-	private HTMLBrowser moHTMLPane;
+	private TextOutputPanel moTextPane;
 	
 	public clsCSV_DataLoggerInspector(clsDataLogger poDL) {
 		super();
 		moDL = poDL;
 		
         setLayout(new BorderLayout());
-    	moHTMLPane = new HTMLBrowser(getHTML());
+        moTextPane = new TextOutputPanel(getCSV());
     	
     	try {
-			add(moHTMLPane, BorderLayout.CENTER);
+			add(moTextPane, BorderLayout.CENTER);
 		} catch (java.lang.Exception e) {
 			System.out.println(clsExceptionUtils.getCustomStackTrace(e));
 		}
 	}
 
-	private String getHTML() {
+	private String getCSV() {
 		return moDL.toCSV();
 	}
 	
@@ -61,7 +60,7 @@ public class clsCSV_DataLoggerInspector extends Inspector {
 	public void updateInspector() {
 		try {
 			if (isVisible()) {
-				moHTMLPane.setText(getHTML());
+				moTextPane.setText(getCSV());
 			}
 		} catch (java.lang.Exception e) {
 			System.out.println(clsExceptionUtils.getCustomStackTrace(e));

@@ -6,7 +6,11 @@
  */
 package inspectors.mind.pa._v30.autocreated;
 
+import java.awt.BorderLayout;
+
 import pa._v30.datalogger.clsDLEntry_Abstract;
+import sim.portrayal.Inspector;
+import statictools.clsExceptionUtils;
 
 /**
  * DOCUMENT (deutsch) - insert description 
@@ -15,8 +19,10 @@ import pa._v30.datalogger.clsDLEntry_Abstract;
  * 23.04.2011, 17:17:01
  * 
  */
-public class clsDL_CSVGenericInspector extends cls_GenericHTMLInspector {
-
+public class clsDL_CSVGenericInspector extends Inspector {
+	private clsDLEntry_Abstract moDL; 
+	private TextOutputPanel moTextPane;
+	
 	/**
 	 * DOCUMENT (deutsch) - insert description 
 	 * 
@@ -34,31 +40,41 @@ public class clsDL_CSVGenericInspector extends cls_GenericHTMLInspector {
 	 * @param poObject
 	 */
 	public clsDL_CSVGenericInspector(clsDLEntry_Abstract poObject) {
-		super(poObject);
+		super();
+		
+		moDL = poObject;
+		
+        setLayout(new BorderLayout());
+        moTextPane = new TextOutputPanel(getCSV());
+    	
+    	try {
+			add(moTextPane, BorderLayout.CENTER);
+		} catch (java.lang.Exception e) {
+			System.out.println(clsExceptionUtils.getCustomStackTrace(e));
+		}
 	}
+
+	private String getCSV() {
+		return moDL.toCSV();
+	}
+
 
 	/* (non-Javadoc)
 	 *
 	 * @author deutsch
-	 * 23.04.2011, 17:17:01
+	 * 23.04.2011, 22:15:06
 	 * 
-	 * @see inspectors.mind.pa._v30.autocreated.cls_GenericHTMLInspector#setTitle()
+	 * @see sim.portrayal.Inspector#updateInspector()
 	 */
 	@Override
-	protected void setTitle() {
-		moTitle = ((clsDLEntry_Abstract)moObject).getName()+" - History";
-	}
-
-	/* (non-Javadoc)
-	 *
-	 * @author deutsch
-	 * 23.04.2011, 17:17:01
-	 * 
-	 * @see inspectors.mind.pa._v30.autocreated.cls_GenericHTMLInspector#updateContent()
-	 */
-	@Override
-	protected void updateContent() {
-		moContent  = ((clsDLEntry_Abstract)moObject).toHTML_TABLE();
+	public void updateInspector() {
+		try {
+			if (isVisible()) {
+				moTextPane.setText(getCSV());
+			}
+		} catch (java.lang.Exception e) {
+			System.out.println(clsExceptionUtils.getCustomStackTrace(e));
+		}
 	}
 
 }

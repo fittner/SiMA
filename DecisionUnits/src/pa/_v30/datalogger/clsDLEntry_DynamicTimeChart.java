@@ -63,8 +63,9 @@ public class clsDLEntry_DynamicTimeChart extends clsDLEntry_Abstract implements 
 		TreeMap<Long, ArrayList<Double>> newValues = new TreeMap<Long, ArrayList<Double>>();
 		ArrayList<String> newCaptions = moModule.getTimeChartCaptions();
 		
-		for (Iterator<Map.Entry<Long, ArrayList<Double>>> it = values.entrySet().iterator(); it.hasNext();) {
-			try {
+		try {	
+			for (Iterator<Map.Entry<Long, ArrayList<Double>>> it = values.entrySet().iterator(); it.hasNext();) {
+
 				Map.Entry<Long, ArrayList<Double>> oLine = it.next();
 				long step = oLine.getKey();
 				ArrayList<Double> oldset = oLine.getValue();
@@ -90,11 +91,13 @@ public class clsDLEntry_DynamicTimeChart extends clsDLEntry_Abstract implements 
 				}
 				
 				newValues.put(step, newset);
-			} catch (java.util.ConcurrentModificationException e) {
-				System.out.println("clsDLEntry_DynamicTimeChart.updateHistory: "+e);
-				break;
 			}
-		}
+			} catch (java.util.ConcurrentModificationException e) {
+				//FIXME (Deutsch): very bad! Map.Entry<Long, ArrayList<Double>> oLine = it.next();
+				System.out.println("clsDLEntry_DynamicTimeChart.updateHistory: "+e);
+				
+			}
+
 		values = newValues;
 		updateCaptions();
 	}
@@ -115,8 +118,14 @@ public class clsDLEntry_DynamicTimeChart extends clsDLEntry_Abstract implements 
 	 * @see pa._v30.interfaces.itfInspectorGenericDynamicTimeChart#chartRowsChanged()
 	 */
 	@Override
-	public boolean chartRowsChanged() {
-		return ((itfInspectorGenericDynamicTimeChart)moModule).chartRowsChanged();
+	public boolean chartColumnsChanged() {
+		boolean mnCC = ((itfInspectorGenericDynamicTimeChart)moModule).chartColumnsChanged();
+		
+		if (mnCC && captionsChanged()) {
+			updateHistory();
+		}
+		
+		return mnCC;
 	}
 
 	/* (non-Javadoc)
@@ -127,8 +136,8 @@ public class clsDLEntry_DynamicTimeChart extends clsDLEntry_Abstract implements 
 	 * @see pa._v30.interfaces.itfInspectorGenericDynamicTimeChart#chartRowsUpdated()
 	 */
 	@Override
-	public void chartRowsUpdated() {
-		((itfInspectorGenericDynamicTimeChart)moModule).chartRowsUpdated();
+	public void chartColumnsUpdated() {
+		((itfInspectorGenericDynamicTimeChart)moModule).chartColumnsUpdated();
 	}
 
 }

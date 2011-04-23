@@ -40,8 +40,8 @@ public class E02_NeurosymbolizationOfNeeds extends clsModuleBase
 			implements itfInspectorGenericDynamicTimeChart, I1_1_receive, I1_2_send {
 	public static final String P_MODULENUMBER = "02";
 	
-	private boolean mnChartRowsChanged = true;
-	private ArrayList<String> moChartRowCaptions;
+	private boolean mnChartColumnsChanged = true;
+	private ArrayList<String> moChartColumnsCaptions;
 	
 	private HashMap<eSensorIntType, clsDataBase> moHomeostasis;
 	private HashMap<String, Double> moHomeostaticSymbol;
@@ -60,7 +60,7 @@ public class E02_NeurosymbolizationOfNeeds extends clsModuleBase
 			clsBWProperties poProp, HashMap<Integer, clsModuleBase> poModuleList, SortedMap<eInterfaces, ArrayList<Object>> poInterfaceData) throws Exception {
 		super(poPrefix, poProp, poModuleList, poInterfaceData);
 		applyProperties(poPrefix, poProp);	
-		moChartRowCaptions = new ArrayList<String>();
+		moChartColumnsCaptions = new ArrayList<String>();
 	}
 
 	public static clsBWProperties getDefaultProperties(String poPrefix) {
@@ -181,11 +181,11 @@ public class E02_NeurosymbolizationOfNeeds extends clsModuleBase
 			moHomeostaticSymbol.put(eSensorIntType.STAMINA.name(), ((clsStaminaSystem)moHomeostasis.get(eSensorIntType.STAMINA)).getStaminaValue() );
 		
 		for (String oKey:moHomeostaticSymbol.keySet()) {
-			if (!moChartRowCaptions.contains(oKey)) {
-				mnChartRowsChanged = true;
-				moChartRowCaptions.add(oKey);
+			if (!moChartColumnsCaptions.contains(oKey)) {
+				mnChartColumnsChanged = true;
+				moChartColumnsCaptions.add(oKey);
 				
-				Collections.sort(moChartRowCaptions);
+				Collections.sort(moChartColumnsCaptions);
 			}
 		}
 	}
@@ -312,7 +312,7 @@ public class E02_NeurosymbolizationOfNeeds extends clsModuleBase
 	public ArrayList<Double> getTimeChartData() {
 		ArrayList<Double> oResult = new ArrayList<Double>();
 
-		for (String oKey:moChartRowCaptions) {
+		for (String oKey:moChartColumnsCaptions) {
 			double rValue = 0;
 			
 			try {
@@ -336,7 +336,7 @@ public class E02_NeurosymbolizationOfNeeds extends clsModuleBase
 	 */
 	@Override
 	public ArrayList<String> getTimeChartCaptions() {
-		return moChartRowCaptions;
+		return moChartColumnsCaptions;
 	}
 
 	/* (non-Javadoc)
@@ -371,8 +371,8 @@ public class E02_NeurosymbolizationOfNeeds extends clsModuleBase
 	 * @see pa._v30.interfaces.itfInspectorGenericDynamicTimeChart#chartRowsChanged()
 	 */
 	@Override
-	public boolean chartRowsChanged() {
-		return mnChartRowsChanged;
+	public boolean chartColumnsChanged() {
+		return mnChartColumnsChanged;
 	}
 
 	/* (non-Javadoc)
@@ -383,7 +383,7 @@ public class E02_NeurosymbolizationOfNeeds extends clsModuleBase
 	 * @see pa._v30.interfaces.itfInspectorGenericDynamicTimeChart#chartRowsUpdated()
 	 */
 	@Override
-	public void chartRowsUpdated() {
-		mnChartRowsChanged = false;
+	public void chartColumnsUpdated() {
+		mnChartColumnsChanged = false;
 	}	
 }
