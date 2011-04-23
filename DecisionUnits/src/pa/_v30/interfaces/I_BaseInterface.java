@@ -13,6 +13,7 @@ package pa._v30.interfaces;
  * 18.05.2010, 14:23:10
  * 
  */
+@Deprecated
 public interface I_BaseInterface {
 
 }
