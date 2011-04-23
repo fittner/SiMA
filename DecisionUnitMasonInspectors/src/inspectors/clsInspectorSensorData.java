@@ -6,15 +6,11 @@
  */
 package inspectors;
 
-import java.awt.BorderLayout;
+import inspectors.mind.pa._v30.autocreated.TextOutputPanel;
 
-//import javax.swing.Box;
-//import javax.swing.BoxLayout;
-//import javax.swing.JLabel; // TD - warning free
+import java.awt.BorderLayout;
 import decisionunit.clsBaseDecisionUnit;
-//import sim.display.Controller; // TD - warning free
 import sim.portrayal.Inspector;
-import sim.util.gui.HTMLBrowser;
 
 /**
  * DOCUMENT (langr) - insert description 
@@ -34,19 +30,17 @@ public class clsInspectorSensorData extends Inspector {
 	private static final long serialVersionUID = 205969537561647102L;
 	
 	private clsBaseDecisionUnit moDU;
-	HTMLBrowser moHTMLPane;
+	TextOutputPanel moTextPanel;
 	
 	public clsInspectorSensorData( clsBaseDecisionUnit poDU)
 	{
-		moDU= poDU;
+		moDU = poDU;
 		
-        String contentData = "<html><head></head><body><p>";
-        contentData+=moDU.getSensorData().logHTML();
-        contentData+="</p></body></html>";
+        String contentData = moDU.getSensorData().logText();
         
         setLayout(new BorderLayout());
-    	moHTMLPane = new HTMLBrowser(contentData);
-		add(moHTMLPane, BorderLayout.CENTER);
+    	moTextPanel = new TextOutputPanel(contentData);
+		add(moTextPanel, BorderLayout.CENTER);
 	}
 	
 	/* (non-Javadoc)
@@ -58,11 +52,9 @@ public class clsInspectorSensorData extends Inspector {
 	 */
 	@Override
 	public void updateInspector() {
-        String contentData = "<html><head><tr.font face='Courier'></head><body>";
-        contentData+=moDU.getSensorData().logHTML();
-        contentData+="</body></html>";
-    	moHTMLPane.setText(contentData);
-    	//moHTMLPane.setSize(getWidth(), getHeight());
+        String contentData = "";
+        contentData+=moDU.getSensorData().logText();
+    	moTextPanel.setText(contentData);
 	}
 
 }

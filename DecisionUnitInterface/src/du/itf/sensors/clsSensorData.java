@@ -13,7 +13,7 @@ import du.enums.eSensorIntType;
 public class clsSensorData implements Cloneable {
 	private HashMap<eSensorExtType, clsDataBase> moSensorDataExt;
 	private HashMap<eSensorIntType, clsDataBase> moSensorDataInt;
-	
+	public static final String newline = System.getProperty("line.separator");
 
 	public clsSensorData() {	
 		moSensorDataExt = new HashMap<eSensorExtType, clsDataBase>();
@@ -67,6 +67,24 @@ public class clsSensorData implements Cloneable {
 			logEntry += oDataBase.logHTML();
 		}
 		logEntry+="</table>";
+		
+		return logEntry;
+	}
+	
+	public String logText() {
+		String logEntry = "";
+		
+		logEntry += "** External Data **"+newline;
+		for( clsDataBase oDataBase : moSensorDataExt.values() ) {
+			logEntry += " - "+oDataBase+newline;
+		}
+		logEntry += newline;
+		
+		logEntry += "** Internal Data **"+newline;
+		for( clsDataBase oDataBase : moSensorDataInt.values() ) {
+			logEntry += " - "+oDataBase+newline;
+		}
+		logEntry += newline;		
 		
 		return logEntry;
 	}

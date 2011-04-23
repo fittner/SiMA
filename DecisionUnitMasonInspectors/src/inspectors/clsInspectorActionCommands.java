@@ -6,10 +6,12 @@
  */
 package inspectors;
 
+import inspectors.mind.pa._v30.autocreated.TextOutputPanel;
+
 import java.awt.BorderLayout;
 import java.util.ArrayList;
 import sim.portrayal.Inspector;
-import sim.util.gui.HTMLBrowser;
+import statictools.clsSimState;
 import decisionunit.clsBaseDecisionUnit;
 
 /**
@@ -22,18 +24,19 @@ import decisionunit.clsBaseDecisionUnit;
 public class clsInspectorActionCommands  extends Inspector {
 	private static final long serialVersionUID = 7969271764842942368L;
     private ArrayList<Entry> moActionCommandHistory;
-    private int mnMaxHistoryLength = 20;
-    protected int mnTimeCounter;
+    private long mnMaxHistoryLength = 200;
+    protected long mnTimeCounter;
 	private clsBaseDecisionUnit moDU;
-	HTMLBrowser moHTMLPane;
+	TextOutputPanel moTextPane;
+	public static final String newline = System.getProperty("line.separator");
 	
 	class Entry {
-		public int mnStartTime;
-		public int mnEndTime;
+		public long mnStartTime;
+		public long mnEndTime;
 		public String moActionCommand;
 		
 		public Entry(String poActionCommand) {
-			mnStartTime = mnTimeCounter;
+			mnStartTime = clsSimState.getSteps();
 			mnEndTime = -1;
 			moActionCommand = poActionCommand;
 
@@ -44,18 +47,15 @@ public class clsInspectorActionCommands  extends Inspector {
 		public String toString() {
 			String oResult = "";
 			String oDisplayName = moActionCommand;
-			oDisplayName = oDisplayName.replace("<Actions>", "");
-			oDisplayName = oDisplayName.replace("</Actions>", "");
-			oDisplayName = oDisplayName.replace("<", "&lt;");
 			
 			if (oDisplayName.equals("")) {
 				oDisplayName = "<i>n/a</i>";
 			}
 			
 			if (mnEndTime > 0) {
-				oResult = mnStartTime+" - "+mnEndTime+": "+oDisplayName;
+				oResult = "["+mnStartTime+" - "+mnEndTime+"]: "+oDisplayName;
 			} else {
-				oResult = mnStartTime+" - __: "+oDisplayName;
+				oResult = "["+mnStartTime+" - __]: "+oDisplayName;
 			}
 			
 			return oResult;
@@ -84,23 +84,18 @@ public class clsInspectorActionCommands  extends Inspector {
 			Entry oNewEntry = new Entry(currentAction);
 			moActionCommandHistory.add(oNewEntry);
 		}
-		
-		oResult = "<ul>";
+	
 		for (Entry oEntry:moActionCommandHistory) {
-
-
-			oResult += "<li>"+oEntry+"</li>";
+			oResult += oEntry+newline;
 		}
-		oResult += "</ul>";
 		
 		return oResult;
 	}
 	
 	private String getContent() {
-        String contentData = "<html><head></head><body>";
-        contentData+="<h1>Action Commands History (last "+mnMaxHistoryLength+" entries)</h1>";
+        String contentData = "";
+        contentData+="** Action Commands History (last "+mnMaxHistoryLength+" entries) **"+newline+newline;
         contentData+=getActionCommands();
-        contentData+="</body></html>";
         
         return contentData;
 	}
@@ -110,8 +105,8 @@ public class clsInspectorActionCommands  extends Inspector {
 		moActionCommandHistory = new ArrayList<Entry>();
        
         setLayout(new BorderLayout());
-    	moHTMLPane = new HTMLBrowser( getContent() );
-		add(moHTMLPane, BorderLayout.CENTER);
+    	moTextPane = new TextOutputPanel( getContent() );
+		add(moTextPane, BorderLayout.CENTER);
 	}
 	
 	/* (non-Javadoc)
@@ -123,7 +118,7 @@ public class clsInspectorActionCommands  extends Inspector {
 	 */
 	@Override
 	public void updateInspector() {
-		mnTimeCounter++;
-        moHTMLPane.setText(  getContent() );
+		mnTimeCounter = clsSimState.getSteps();
+        moTextPane.setText(  getContent() );
 	}
 }
