@@ -13,9 +13,7 @@ package pa._v30.interfaces;
  * 19.04.2011, 10:32:39
  * 
  */
-public interface itfInspectorGenericTimeChart extends itfInspectorTimeChart {
-	public String getTimeChartAxis();
-	public String getTimeChartTitle();
+public interface itfInspectorGenericTimeChart extends itfInspectorTimeChartBase {
 	public double getTimeChartUpperLimit();
 	public double getTimeChartLowerLimit();
 

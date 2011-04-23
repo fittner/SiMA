@@ -4,7 +4,7 @@
  * @author deutsch
  * 14.04.2011, 14:57:39
  */
-package inspectors.mind.pa._v30;
+package statictools.eventlogger;
 
 import java.awt.BorderLayout;
 
@@ -19,48 +19,30 @@ import statictools.clsExceptionUtils;
  * 14.04.2011, 14:57:39
  * 
  */
-public abstract class clsE_GenericHTMLInspector extends Inspector {
+public class clsEventLoggerInspector extends Inspector {
+	
 	/**
 	 * DOCUMENT (deutsch) - insert description 
 	 * 
 	 * @author deutsch
-	 * 14.04.2011, 15:02:15
+	 * 22.04.2011, 23:32:57
 	 */
-	private static final long serialVersionUID = -2033800775072753378L;
-	protected Object moModule;
-	protected String moTitle;
-	protected String moContent;
-	HTMLBrowser moHTMLPane;
+	private static final long serialVersionUID = -7402285636384610376L;
 	
-    public clsE_GenericHTMLInspector(Object poModule)
-    {
-		moModule = poModule;
-    	
-    	setTitle();
-    	updateContent();
-    	
+    public clsEventLoggerInspector()    {
+    	setVolatile(true);
         setLayout(new BorderLayout());
-    	moHTMLPane = new HTMLBrowser(getHTML());
     	
     	try {
-			add(moHTMLPane, BorderLayout.CENTER);
+    		add(new HTMLBrowser(getHTML()), BorderLayout.CENTER);
 		} catch (java.lang.Exception e) {
 			System.out.println(clsExceptionUtils.getCustomStackTrace(e));
 		}
+		
     }	
-    
-    protected abstract void setTitle();
-    protected abstract void updateContent();
-    
+   
     private String getHTML() {
-    	String html;
-    	
-    	html  = "<html><head></head><body>";
-    	html += "<h1>"+moTitle+"</h1>";	
-    	html += "<p>"+moContent+"</p>";
-    	html += "</body></html>";
-    	
-    	return html;
+    	return clsEventLogger.toHtml();
     }
     
 	/* (non-Javadoc)
@@ -72,10 +54,11 @@ public abstract class clsE_GenericHTMLInspector extends Inspector {
 	 */
 	@Override
 	public void updateInspector() {
-		updateContent();
-		
 		try {
-			moHTMLPane.setText(getHTML());
+			if (clsEventLogger.isHtmlDirty()) {
+				removeAll();
+				add(new HTMLBrowser(getHTML()), BorderLayout.CENTER);
+			}
 		} catch (java.lang.Exception e) {
 			System.out.println(clsExceptionUtils.getCustomStackTrace(e));
 		}

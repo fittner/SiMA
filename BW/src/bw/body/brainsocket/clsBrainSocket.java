@@ -31,6 +31,7 @@ import du.itf.sensors.clsEnergy;
 import du.itf.sensors.clsEnergyConsumption;
 import du.itf.sensors.clsFastMessenger;
 import du.itf.sensors.clsHealthSystem;
+import du.itf.sensors.clsIntestinePressure;
 import du.itf.sensors.clsManipulateArea;
 import du.itf.sensors.clsManipulateAreaEntry;
 import du.itf.sensors.clsPositionChange;
@@ -61,6 +62,7 @@ import bw.body.io.sensors.internal.clsEnergyConsumptionSensor;
 import bw.body.io.sensors.internal.clsEnergySensor;
 import bw.body.io.sensors.internal.clsFastMessengerSensor;
 import bw.body.io.sensors.internal.clsHealthSensor;
+import bw.body.io.sensors.internal.clsIntestinePressureSensor;
 import bw.body.io.sensors.internal.clsSlowMessengerSensor;
 import bw.body.io.sensors.internal.clsStomachTensionSensor;
 import bw.body.io.sensors.internal.clsTemperatureSensor;
@@ -147,6 +149,7 @@ public class clsBrainSocket implements itfStepProcessing {
 		oData.addSensorInt(eSensorIntType.STAMINA, convertStaminaSystem() );
 		oData.addSensorInt(eSensorIntType.ENERGY, convertStomachSystem_Energy() );
 		oData.addSensorInt(eSensorIntType.STOMACHTENSION, convertStomachSystem_Tension() );
+		oData.addSensorInt(eSensorIntType.INTESTINEPRESSURE, convertStomachSystem_IntestineTension() );
 		oData.addSensorInt(eSensorIntType.TEMPERATURE, convertTemperatureSystem() );
 		oData.addSensorInt(eSensorIntType.FASTMESSENGER, convertFastMessengerSystem() );
 		oData.addSensorInt(eSensorIntType.SLOWMESSENGER, convertSlowMessengerSystem() );
@@ -236,6 +239,16 @@ public class clsBrainSocket implements itfStepProcessing {
 		clsStomachTensionSensor oStomachSensor = (clsStomachTensionSensor)(moSensorsInt.get(eSensorIntType.STOMACHTENSION));
 
 		oRetVal.setTension(oStomachSensor.getTension());
+		
+		return oRetVal;
+	}
+	
+	private clsDataBase convertStomachSystem_IntestineTension() {
+
+		clsIntestinePressure oRetVal = new clsIntestinePressure();
+		clsIntestinePressureSensor oIntestineSensor = (clsIntestinePressureSensor)(moSensorsInt.get(eSensorIntType.INTESTINEPRESSURE));
+
+		oRetVal.setPressure(oIntestineSensor.getTension());
 		
 		return oRetVal;
 	}

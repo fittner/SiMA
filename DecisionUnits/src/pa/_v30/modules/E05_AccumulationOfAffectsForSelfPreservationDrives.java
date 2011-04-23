@@ -243,15 +243,7 @@ public class E05_AccumulationOfAffectsForSelfPreservationDrives extends clsModul
 		ArrayList<String> oCaptions = new ArrayList<String>();
 		
 		for( clsDriveMesh oDM : moDriveList) {
-			clsDriveMesh oLifeDM = oDM; 
-			clsDriveMesh oDeathDM = moDriveList.get(moDriveList.indexOf(oDM)+1); 
-			
-			oCaptions.add(oLifeDM.getMoContent());
-			oCaptions.add(oDeathDM.getMoContent());
-			
-			if(moDriveList.indexOf(oDeathDM) == moDriveList.size()-1){
-				break; 
-			}
+			oCaptions.add(oDM.getMoContent());
 		}
 		
 		return oCaptions;
@@ -270,15 +262,7 @@ public class E05_AccumulationOfAffectsForSelfPreservationDrives extends clsModul
 		ArrayList<Double> oTimingValues = new ArrayList<Double>();
 		
 		for( clsDriveMesh oDM : moDriveList) {
-			clsDriveMesh oLifeDM = oDM; 
-			clsDriveMesh oDeathDM = moDriveList.get(moDriveList.indexOf(oDM)+1); 
-			
-			oTimingValues.add(oLifeDM.getPleasure());
-			oTimingValues.add(oDeathDM.getPleasure());
-			
-			if(moDriveList.indexOf(oDeathDM) == moDriveList.size()-1){
-				break; 
-			}
+			oTimingValues.add(oDM.getPleasure());
 		}
 		return oTimingValues;
 	}

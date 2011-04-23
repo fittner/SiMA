@@ -372,15 +372,16 @@ public class E21_ConversionToSecondaryProcessForPerception extends clsModuleBase
 		
 		for(clsTripple<clsDataStructurePA, ArrayList<clsTemplateImage>, ArrayList<clsPair<clsDriveMesh, clsAffect>>> oTripple : moOrderedResult){
 			ArrayList <clsAssociation> oAssociatedWP = new ArrayList<clsAssociation>();
-			clsWordPresentation oNewWP = (clsWordPresentation)clsDataStructureGenerator.generateDataStructure(eDataType.WP, new clsPair<String, Object>(eDataType.WP.name(), "")); 
+			clsWordPresentation oNewWP = (clsWordPresentation)clsDataStructureGenerator.generateDataStructure(eDataType.WP, new clsPair<String, Object>(eDataType.WP.name(), "DEFAULT")); 
 			
-			try{
-				oAssociatedWP.add(getWPforObject(oNewWP, oTripple.a));
-				oAssociatedWP.addAll(getTItoWP(oNewWP, oTripple.b)); 
-				oAssociatedWP.addAll(getWPforTP(oNewWP, oTripple.c));
-				
+			oAssociatedWP.add(getWPforObject(oNewWP, oTripple.a));
+			oAssociatedWP.addAll(getTItoWP(oNewWP, oTripple.b)); 
+			oAssociatedWP.addAll(getWPforTP(oNewWP, oTripple.c));
+						
+			if(!oNewWP.getMoContent().contains("DEFAULT")){
 				moPerception_Output.add(new clsSecondaryDataStructureContainer(oNewWP, oAssociatedWP)); 
-			}catch(NullPointerException e1){/*tbd*/}
+			}
+			
 		}
 	}
 	
@@ -397,8 +398,10 @@ public class E21_ConversionToSecondaryProcessForPerception extends clsModuleBase
 	private clsAssociation getWPforObject(clsWordPresentation poContentWP, clsDataStructurePA poDS) {
 		clsAssociation oAssWP = getWP(poDS);
 		
-	    clsWordPresentation oWP = (clsWordPresentation)oAssWP.getLeafElement(); 
-		poContentWP.setMoContent(poContentWP.getMoContent() + oWP.getMoContentType() + ":" + oWP.getMoContent() + "|"); 
+		if(oAssWP != null){
+			clsWordPresentation oWP = (clsWordPresentation)oAssWP.getLeafElement(); 
+			poContentWP.setMoContent(oWP.getMoContentType() + ":" + oWP.getMoContent() + "|"); 
+		}
 			
 		return oAssWP;
 	}
@@ -421,9 +424,12 @@ public class E21_ConversionToSecondaryProcessForPerception extends clsModuleBase
 				
 		for(clsTemplateImage oEntry : poListTI){
 			oAssWP = getWP(oEntry); 
-			oWP = (clsWordPresentation)oAssWP.getLeafElement(); 
-			poContentWP.setMoContent(poContentWP.getMoContent() + oWP.getMoContentType() + ":" + oWP.getMoContent() + "|"); 
-			oTIWP.add(oAssWP); 
+			
+			if(oAssWP != null){
+				oWP = (clsWordPresentation)oAssWP.getLeafElement(); 
+				poContentWP.setMoContent(poContentWP.getMoContent() + oWP.getMoContentType() + ":" + oWP.getMoContent() + "|"); 
+				oTIWP.add(oAssWP); 
+			}
 		}
 		
 		return oTIWP;
@@ -447,12 +453,14 @@ public class E21_ConversionToSecondaryProcessForPerception extends clsModuleBase
 		for(clsPair<clsDriveMesh, clsAffect> oEntry : poListDM){
 			clsAssociation oAssWP_dm = getWP(oEntry.a);
 		
-			oWP_dm = (clsWordPresentation)oAssWP_dm.getLeafElement();
-			oWP_affect = (clsWordPresentation)getWP(oEntry.b).getLeafElement(); 
-			oWP_dm.setMoContent(oWP_dm.getMoContent() + ":" + oWP_affect.getMoContent());  
-			oDMWP.add( oAssWP_dm );
+			if(oAssWP_dm != null){
+				oWP_dm = (clsWordPresentation)oAssWP_dm.getLeafElement();
+				oWP_affect = (clsWordPresentation)getWP(oEntry.b).getLeafElement(); 
+				oWP_dm.setMoContent(oWP_dm.getMoContent() + ":" + oWP_affect.getMoContent());  
+				oDMWP.add( oAssWP_dm );
+				poContentWP.setMoContent( poContentWP.getMoContent() + oWP_dm.getMoContent() + "|"); 
+			}
 				
-			poContentWP.setMoContent( poContentWP.getMoContent() + oWP_dm.getMoContent() + "|"); 
 		}
 		return oDMWP;
 	}

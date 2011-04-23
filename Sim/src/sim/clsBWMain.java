@@ -17,6 +17,7 @@ import sim.creation.simplePropertyLoader.clsSimplePropertyLoader;
 import sim.engine.Schedule;
 import sim.engine.SimState;
 import statictools.clsGetARSPath;
+import statictools.clsSimState;
 
 
 /**
@@ -34,8 +35,10 @@ public class clsBWMain extends SimState{
 	/** activates/shows the charting panel
 	 * TODO clemens: deactivated for now, has to set by config.xml later! */
 	//commented by TD
+	@Deprecated
 	private boolean mbChartDisplay = false;
 
+	@Deprecated
 	private XYSeries moTestSeries = new XYSeries("Agents"); //TODO clemens name passt nicht, muss erst schauen wof�r das genau ist!
 	
 //	private JFreeChart  moTestChart;
@@ -46,11 +49,13 @@ public class clsBWMain extends SimState{
     public clsBWMain(long pnSeed, String[] args) {
     	super(new MersenneTwisterFast(pnSeed), new Schedule());
     	moArgs = args;
+    	clsSimState.setSimState(this);
     }
     
     public clsBWMain(long pnSeed) {
     	super(new MersenneTwisterFast(pnSeed), new Schedule());
     	moArgs = new String[]{};
+    	clsSimState.setSimState(this);
     }    
 	
 	/**
@@ -186,6 +191,7 @@ public class clsBWMain extends SimState{
 	
    /**activates/shows the charting panel, default is false
 	 * @return the mbChartDisplay */
+	@Deprecated
 	public boolean getmbChartDisplay() {
 		return mbChartDisplay;
 	}

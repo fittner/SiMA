@@ -7,11 +7,12 @@
 package pa._v30.modules;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.SortedMap;
 import java.util.Map;
-
 import pa._v30.interfaces.eInterfaces;
+import pa._v30.interfaces.itfInspectorGenericDynamicTimeChart;
 import pa._v30.interfaces.modules.I1_1_receive;
 import pa._v30.interfaces.modules.I1_2_receive;
 import pa._v30.interfaces.modules.I1_2_send;
@@ -23,6 +24,7 @@ import du.itf.sensors.clsDataBase;
 import du.itf.sensors.clsFastMessenger;
 import du.itf.sensors.clsFastMessengerEntry;
 import du.itf.sensors.clsHealthSystem;
+import du.itf.sensors.clsIntestinePressure;
 import du.itf.sensors.clsSlowMessenger;
 import du.itf.sensors.clsStaminaSystem;
 import du.itf.sensors.clsStomachTension;
@@ -34,8 +36,12 @@ import du.itf.sensors.clsStomachTension;
  * 11.08.2009, 12:12:02
  * 
  */
-public class E02_NeurosymbolizationOfNeeds extends clsModuleBase implements I1_1_receive, I1_2_send {
+public class E02_NeurosymbolizationOfNeeds extends clsModuleBase 
+			implements itfInspectorGenericDynamicTimeChart, I1_1_receive, I1_2_send {
 	public static final String P_MODULENUMBER = "02";
+	
+	private boolean mnChartRowsChanged = true;
+	private ArrayList<String> moChartRowCaptions;
 	
 	private HashMap<eSensorIntType, clsDataBase> moHomeostasis;
 	private HashMap<String, Double> moHomeostaticSymbol;
@@ -54,6 +60,7 @@ public class E02_NeurosymbolizationOfNeeds extends clsModuleBase implements I1_1
 			clsBWProperties poProp, HashMap<Integer, clsModuleBase> poModuleList, SortedMap<eInterfaces, ArrayList<Object>> poInterfaceData) throws Exception {
 		super(poPrefix, poProp, poModuleList, poInterfaceData);
 		applyProperties(poPrefix, poProp);	
+		moChartRowCaptions = new ArrayList<String>();
 	}
 
 	public static clsBWProperties getDefaultProperties(String poPrefix) {
@@ -150,18 +157,37 @@ public class E02_NeurosymbolizationOfNeeds extends clsModuleBase implements I1_1
 		if(oFastMessengerSystem!=null)
 		{
 			for(  clsFastMessengerEntry oFastMessenger : oFastMessengerSystem.getEntries() ) {
-				moHomeostaticSymbol.put(oFastMessenger.getSource().name(), oFastMessenger.getIntensity());
+				String oName = oFastMessenger.getSource().name();
+				Double rValue = oFastMessenger.getIntensity();
+				if (oName.equals("STOMACH")) {
+					oName += "_PAIN";
+					rValue /= 7;
+				}
+				moHomeostaticSymbol.put(oName, rValue);
 			}
 		}
 	
 		if(moHomeostasis.get(eSensorIntType.STOMACHTENSION)!=null)
 			moHomeostaticSymbol.put(eSensorIntType.STOMACHTENSION.name(), ((clsStomachTension)moHomeostasis.get(eSensorIntType.STOMACHTENSION)).getTension() );
+
+		if(moHomeostasis.get(eSensorIntType.INTESTINEPRESSURE)!=null)
+			moHomeostaticSymbol.put(eSensorIntType.INTESTINEPRESSURE.name(), ((clsIntestinePressure)moHomeostasis.get(eSensorIntType.INTESTINEPRESSURE)).getPressure() );
+
 		
 		if(moHomeostasis.get(eSensorIntType.HEALTH)!=null)
-			moHomeostaticSymbol.put(eSensorIntType.HEALTH.name(), ((clsHealthSystem)moHomeostasis.get(eSensorIntType.HEALTH)).getHealthValue() );
+			moHomeostaticSymbol.put(eSensorIntType.HEALTH.name(), ((clsHealthSystem)moHomeostasis.get(eSensorIntType.HEALTH)).getHealthValue() / 100 );
 		
 		if(moHomeostasis.get(eSensorIntType.STAMINA)!=null)
 			moHomeostaticSymbol.put(eSensorIntType.STAMINA.name(), ((clsStaminaSystem)moHomeostasis.get(eSensorIntType.STAMINA)).getStaminaValue() );
+		
+		for (String oKey:moHomeostaticSymbol.keySet()) {
+			if (!moChartRowCaptions.contains(oKey)) {
+				mnChartRowsChanged = true;
+				moChartRowCaptions.add(oKey);
+				
+				Collections.sort(moChartRowCaptions);
+			}
+		}
 	}
 
 	/* (non-Javadoc)
@@ -249,5 +275,104 @@ public class E02_NeurosymbolizationOfNeeds extends clsModuleBase implements I1_1
 	@Override
 	public void setDescription() {
 		moDescription = "Conversion of raw data into neuro-symbols.";
+	}
+
+	/* (non-Javadoc)
+	 *
+	 * @author deutsch
+	 * 23.04.2011, 12:24:53
+	 * 
+	 * @see pa._v30.interfaces.itfInspectorTimeChartBase#getTimeChartAxis()
+	 */
+	@Override
+	public String getTimeChartAxis() {
+		return "0 to 1";
+	}
+
+	/* (non-Javadoc)
+	 *
+	 * @author deutsch
+	 * 23.04.2011, 12:24:53
+	 * 
+	 * @see pa._v30.interfaces.itfInspectorTimeChartBase#getTimeChartTitle()
+	 */
+	@Override
+	public String getTimeChartTitle() {
+		return "Homeostasis Symbols";
+	}
+
+	/* (non-Javadoc)
+	 *
+	 * @author deutsch
+	 * 23.04.2011, 12:24:53
+	 * 
+	 * @see pa._v30.interfaces.itfInspectorTimeChartBase#getTimeChartData()
+	 */
+	@Override
+	public ArrayList<Double> getTimeChartData() {
+		ArrayList<Double> oResult = new ArrayList<Double>();
+
+		for (String oKey:moChartRowCaptions) {
+			double rValue = 0;
+			
+			try {
+				rValue = moHomeostaticSymbol.get(oKey);
+			} catch (java.lang.Exception e)  {
+				//do nothing
+			}
+			
+			oResult.add(rValue);
+		}
+		
+		return oResult;
+	}
+
+	/* (non-Javadoc)
+	 *
+	 * @author deutsch
+	 * 23.04.2011, 12:24:53
+	 * 
+	 * @see pa._v30.interfaces.itfInspectorTimeChartBase#getTimeChartCaptions()
+	 */
+	@Override
+	public ArrayList<String> getTimeChartCaptions() {
+		mnChartRowsChanged = false;
+		return moChartRowCaptions;
+	}
+
+	/* (non-Javadoc)
+	 *
+	 * @author deutsch
+	 * 23.04.2011, 12:24:53
+	 * 
+	 * @see pa._v30.interfaces.itfInspectorGenericTimeChart#getTimeChartUpperLimit()
+	 */
+	@Override
+	public double getTimeChartUpperLimit() {
+		return 1.1;
+	}
+
+	/* (non-Javadoc)
+	 *
+	 * @author deutsch
+	 * 23.04.2011, 12:24:53
+	 * 
+	 * @see pa._v30.interfaces.itfInspectorGenericTimeChart#getTimeChartLowerLimit()
+	 */
+	@Override
+	public double getTimeChartLowerLimit() {
+		return -0.1;
+	}
+
+	/* (non-Javadoc)
+	 *
+	 * @author deutsch
+	 * 23.04.2011, 12:52:56
+	 * 
+	 * @see pa._v30.interfaces.itfInspectorGenericDynamicTimeChart#chartRowsChanged()
+	 */
+	@Override
+	public boolean chartRowsChanged() {
+		return mnChartRowsChanged;
 	}	
 }

@@ -13,7 +13,11 @@ import sim.display.GUIState;
 import sim.engine.SimState;
 import sim.portrayal.Inspector;
 import sim.portrayal.continuous.ContinuousPortrayal2D;
+
 import statictools.clsGetARSPath;
+import statictools.eventlogger.clsEventLogger;
+import statictools.eventlogger.clsEventLoggerInspector;
+
 import java.awt.Color;
 import java.awt.Container;
 import java.awt.Dimension;
@@ -97,11 +101,14 @@ public class clsBWMainWithUI extends GUIState {
 		clsSingletonMasonGetter.getConsole().setSize(windowSize);
 		clsSingletonMasonGetter.getConsole().setVisible(true);
 		
+		clsEventLoggerInspector oELI = new clsEventLoggerInspector();
+		clsSingletonMasonGetter.getConsole().getTabPane().addTab("Eventlog", oELI);
+		clsEventLogger.setELI(oELI);
 		//TODO: (langr) - for testing purpose only
-		oMainWithUI.testTabView();		
+		//oMainWithUI.testTabView();		
 	}
 
-		
+	@Deprecated
 	public void testTabView()
 	{
 		ArrayList<JTabbedPane> oTabView = new ArrayList<JTabbedPane> ();
@@ -302,6 +309,7 @@ public class clsBWMainWithUI extends GUIState {
 	 * @param poController
 	 * @param poMainModelClass
 	 */
+	@Deprecated
 	public void addChartPanel( Controller poController, clsBWMain poMainModelClass ) {
 		
 		// add all charts from clsCharts

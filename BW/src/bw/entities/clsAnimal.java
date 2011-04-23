@@ -8,6 +8,10 @@
 package bw.entities;
 
 import java.awt.Color;
+
+import statictools.eventlogger.Event;
+import statictools.eventlogger.clsEventLogger;
+import statictools.eventlogger.eEvent;
 import config.clsBWProperties;
 import du.enums.eEntityType;
 import du.itf.itfDecisionUnit;
@@ -76,6 +80,9 @@ public class clsAnimal extends clsAnimate implements itfGetRadiation, itfGetSens
 	 * @param mnAlive the mnAlive to set
 	 */
 	public void setAlive(boolean mnAlive) {
+		if (this.mnAlive != mnAlive) {
+			clsEventLogger.add(new Event(this, getId(), eEvent.ALIVE, ""+mnAlive));
+		}
 		this.mnAlive = mnAlive;
 	}
 

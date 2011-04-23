@@ -36,16 +36,26 @@ public class clsInspectorActionCommands  extends Inspector {
 			mnStartTime = mnTimeCounter;
 			mnEndTime = -1;
 			moActionCommand = poActionCommand;
+
+
 		}
 		
 		@Override
 		public String toString() {
 			String oResult = "";
+			String oDisplayName = moActionCommand;
+			oDisplayName = oDisplayName.replace("<Actions>", "");
+			oDisplayName = oDisplayName.replace("</Actions>", "");
+			oDisplayName = oDisplayName.replace("<", "&lt;");
+			
+			if (oDisplayName.equals("")) {
+				oDisplayName = "<i>n/a</i>";
+			}
 			
 			if (mnEndTime > 0) {
-				oResult = mnStartTime+" - "+mnEndTime+": "+moActionCommand;
+				oResult = mnStartTime+" - "+mnEndTime+": "+oDisplayName;
 			} else {
-				oResult = mnStartTime+" - __: "+moActionCommand;
+				oResult = mnStartTime+" - __: "+oDisplayName;
 			}
 			
 			return oResult;
@@ -77,6 +87,8 @@ public class clsInspectorActionCommands  extends Inspector {
 		
 		oResult = "<ul>";
 		for (Entry oEntry:moActionCommandHistory) {
+
+
 			oResult += "<li>"+oEntry+"</li>";
 		}
 		oResult += "</ul>";

@@ -4,7 +4,7 @@
  * @author deutsch
  * 15.04.2011, 19:01:42
  */
-package inspectors.mind.pa._v30;
+package inspectors.mind.pa._v30.autocreated;
 
 import java.awt.Color;
 import org.jfree.chart.plot.XYPlot;
@@ -20,7 +20,7 @@ import pa._v30.interfaces.itfInspectorGenericTimeChart;
  * 15.04.2011, 19:01:42
  * 
  */
-public class clsE_ChartInspector extends clsE_GenericChartInspector {
+public class cls_GenericTimeChartInspector extends cls_AbstractChartInspector {
 
 	/**
 	 * DOCUMENT (deutsch) - insert description 
@@ -46,23 +46,23 @@ public class clsE_ChartInspector extends clsE_GenericChartInspector {
 	 * @param prUpperLimit
 	 * @param poChartName
 	 */
-	public clsE_ChartInspector(itfInspectorGenericTimeChart poModule) {
-		super(poModule, poModule.getTimeChartAxis(), poModule.getTimeChartTitle(), 0);
+	public cls_GenericTimeChartInspector(itfInspectorGenericTimeChart poObject) {
+		super(poObject, poObject.getTimeChartAxis(), poObject.getTimeChartTitle(), 0);
 		
-		mrLower = poModule.getTimeChartLowerLimit();
-		mrUpper = poModule.getTimeChartUpperLimit();
+		mrLower = poObject.getTimeChartLowerLimit();
+		mrUpper = poObject.getTimeChartUpperLimit();
 	}
 	
     private void addLimitLines(XYSeriesCollection poDataset) {
     	//tweak to have a nice static upper and lower limit 
     	moUpperLimit = new XYSeries("");
     	moUpperLimit.setMaximumItemCount(mnHistoryLength);
-    	moUpperLimit.add(moCurrentTime, mrUpper);
+    	moUpperLimit.add(mnCurrentTime, mrUpper);
     	poDataset.addSeries(moUpperLimit);    
 		
     	moLowerLimit = new XYSeries("");
     	moLowerLimit.setMaximumItemCount(mnHistoryLength);
-    	moLowerLimit.add(moCurrentTime, mrLower);
+    	moLowerLimit.add(mnCurrentTime, mrLower);
     	poDataset.addSeries(moLowerLimit);  
     }
     
@@ -75,9 +75,9 @@ public class clsE_ChartInspector extends clsE_GenericChartInspector {
 		return poDataset;
     }    
     
-    private void updateLimitLines() {
-		moLowerLimit.add(moCurrentTime, mrLower );
-		moUpperLimit.add(moCurrentTime, mrUpper );    	
+    protected void updateLimitLines() {
+		moLowerLimit.add(mnCurrentTime, mrLower );
+		moUpperLimit.add(mnCurrentTime, mrUpper );    	
     }	
     
     @Override

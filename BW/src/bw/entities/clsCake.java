@@ -9,6 +9,10 @@ package bw.entities;
 
 import java.awt.Color;
 
+import statictools.eventlogger.Event;
+import statictools.eventlogger.clsEventLogger;
+import statictools.eventlogger.eEvent;
+
 import config.clsBWProperties;
 import du.enums.eEntityType;
 import bw.body.clsBaseBody;
@@ -36,6 +40,8 @@ import bw.body.io.actuators.actionProxies.*;
  * 
  */
 public class clsCake extends clsInanimate implements itfGetFlesh, itfAPEatable, itfAPCarryable, itfGetBody, itfIsConsumeable {
+	private boolean mnDestroyed = false;
+	
 	public clsCake(String poPrefix, clsBWProperties poProp)
     {
 		super(poPrefix, poProp);		
@@ -106,7 +112,10 @@ public class clsCake extends clsInanimate implements itfGetFlesh, itfAPEatable, 
 	 */
 	@Override
 	public void updateInternalState() {
-		if (getFlesh().getTotallyConsumed()) {
+		if (getFlesh().getTotallyConsumed() && !mnDestroyed) {
+			mnDestroyed = true;
+			clsEventLogger.add(new Event(this, getId(), eEvent.CONSUMED, ""));
+			clsEventLogger.add(new Event(this, getId(), eEvent.DESTROY, ""));
 			//This command removes the cake from the playground
 			clsRegisterEntity.unRegisterPhysicalObject2D(getMobileObject2D());
 		}

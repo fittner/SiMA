@@ -251,12 +251,14 @@ public class E26_DecisionMaking extends clsModuleBase implements
 				//Attention: the first part of the string (index 0 until the first string sequence "||" ) defines the drive that has to be
 				// satisfied by the object outside; in case there is no adequate object perceived, the variable oContent is defined
 				// only by the first part.
-				oGoalContent = oDriveContent.substring(0,oDriveContent.indexOf(_Delimiter01)) + _Delimiter02 + oExternalContent; 
-				oGoal = (clsWordPresentation)clsDataStructureGenerator.generateDataStructure(eDataType.WP, new clsPair<String, Object>("GOAL", oGoalContent)); 
-				oAssociatedDS.addAll(oExternalPerception.getMoAssociatedDataStructures()); 
-				oAssociatedDS.addAll(oDriveContainer.getMoAssociatedDataStructures()); 
-				
-				moGoal_Output.add(new clsSecondaryDataStructureContainer(oGoal, oAssociatedDS));
+				if(oExternalContent.contains(oDriveContent.substring(0,oDriveContent.indexOf(_Delimiter01)))){
+					oGoalContent = oDriveContent.substring(0,oDriveContent.indexOf(_Delimiter01)) + _Delimiter02 + oExternalContent; 
+					oGoal = (clsWordPresentation)clsDataStructureGenerator.generateDataStructure(eDataType.WP, new clsPair<String, Object>("GOAL", oGoalContent)); 
+					oAssociatedDS.addAll(oExternalPerception.getMoAssociatedDataStructures()); 
+					oAssociatedDS.addAll(oDriveContainer.getMoAssociatedDataStructures()); 
+					
+					moGoal_Output.add(new clsSecondaryDataStructureContainer(oGoal, oAssociatedDS));
+				}
 		}
 	}
 
@@ -294,7 +296,11 @@ public class E26_DecisionMaking extends clsModuleBase implements
 			String oGoal = ((clsWordPresentation)oEntry.getMoDataStructure()).getMoContent();
 			String oGoalContent = (String)oGoal.subSequence(0, oGoal.indexOf(_Delimiter02)); 
 			String oRuleContent = poRule.getMoContent().substring(0, poRule.getMoContent().indexOf(_Delimiter03)); 
-							
+			
+			if(oGoal.equals("DEPOSIT")){
+				int i = 0; 
+			}
+			
 			for(clsSecondaryDataStructureContainer oDrive : moDriveList){
 				String oDriveContent = ((clsWordPresentation)oDrive.getMoDataStructure()).getMoContent();
 				String oDriveDemand = oDriveContent.substring(oDriveContent.indexOf(_Delimiter01) + 1); 

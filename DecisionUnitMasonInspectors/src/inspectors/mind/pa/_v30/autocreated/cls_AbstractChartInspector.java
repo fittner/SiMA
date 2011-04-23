@@ -4,7 +4,7 @@
  * @author deutsch
  * 15.04.2011, 17:25:08
  */
-package inspectors.mind.pa._v30;
+package inspectors.mind.pa._v30.autocreated;
 
 import java.awt.Color;
 import java.awt.Dimension;
@@ -19,9 +19,9 @@ import org.jfree.chart.plot.XYPlot;
 import org.jfree.data.xy.XYSeries;
 import org.jfree.data.xy.XYSeriesCollection;
 import org.jfree.ui.RectangleInsets;
-
-import pa._v30.interfaces.itfInspectorTimeChart;
+import pa._v30.interfaces.itfInspectorTimeChartBase;
 import sim.portrayal.Inspector;
+import statictools.clsSimState;
 
 /**
  * DOCUMENT (deutsch) - insert description 
@@ -30,7 +30,7 @@ import sim.portrayal.Inspector;
  * 15.04.2011, 17:25:08
  * 
  */
-public abstract class clsE_GenericChartInspector extends Inspector {
+public abstract class cls_AbstractChartInspector extends Inspector {
 	
 	/**
 	 * DOCUMENT (deutsch) - insert description 
@@ -45,28 +45,36 @@ public abstract class clsE_GenericChartInspector extends Inspector {
 	protected final static int mnHeight = 400;
 	protected final int mnOffset;
 	
-	protected itfInspectorTimeChart moTimeingContainer;
+	protected itfInspectorTimeChartBase moTimeingContainer;
 	protected ArrayList<XYSeries> moValueHistory;
-	protected long moCurrentTime;
+	protected long mnCurrentTime;
 
+	private String moChartName;
+	private String moYAxisCaption;
 	
-    public clsE_GenericChartInspector(
-            itfInspectorTimeChart poTimingContainer,
+    public cls_AbstractChartInspector(
+    		itfInspectorTimeChartBase poTimingContainer,
             String poYAxisCaption,
             String poChartName,
             int pnOffset)
     {
     	moTimeingContainer= poTimingContainer;
-    	moCurrentTime = 0;
+    	mnCurrentTime = clsSimState.getSteps();
     	mnOffset = pnOffset;
     	
-    	ChartPanel oChartPanel = initChart(poChartName,  createDataset(), 
-    			"Steps", poYAxisCaption, mnWidth, mnHeight);
+    	moChartName = poChartName;
+    	moYAxisCaption = poYAxisCaption;
+    	
+    	createPanel();
+    }
+  
+    protected void createPanel() {
+    	ChartPanel oChartPanel = initChart(moChartName,  createDataset(), 
+    			"Steps", moYAxisCaption, mnWidth, mnHeight);
     	add(oChartPanel);
     	
 		setLayout(new FlowLayout(FlowLayout.LEFT));
     }
-  
     
     protected XYSeriesCollection createDataset() {
     	XYSeriesCollection poDataset = new XYSeriesCollection();
@@ -80,7 +88,7 @@ public abstract class clsE_GenericChartInspector extends Inspector {
 		for (int i=0; i<oCaptions.size(); i++) {
 			XYSeries oTemp = new XYSeries( oCaptions.get(i) );
 			oTemp.setMaximumItemCount( mnHistoryLength );
-			oTemp.add(moCurrentTime, oValues.get(i) + nOffset );
+			oTemp.add(mnCurrentTime, oValues.get(i) + nOffset );
 			moValueHistory.add(oTemp);
 			poDataset.addSeries(oTemp);			
 			nOffset += mnOffset;
@@ -143,7 +151,7 @@ public abstract class clsE_GenericChartInspector extends Inspector {
 	 */
 	@Override
 	public void updateInspector() {
-		moCurrentTime += 1;
+		mnCurrentTime = clsSimState.getSteps();
 		
 		updateData();
 		
@@ -156,7 +164,7 @@ public abstract class clsE_GenericChartInspector extends Inspector {
 		int nOffset=0;
 		
 		for (int i=0; i<oTimingData.size(); i++) {
-			((XYSeries)moValueHistory.get(i)).add(moCurrentTime, oTimingData.get(i) + nOffset);
+			((XYSeries)moValueHistory.get(i)).add(mnCurrentTime, oTimingData.get(i) + nOffset);
 			nOffset += mnOffset;
 		}
 	}

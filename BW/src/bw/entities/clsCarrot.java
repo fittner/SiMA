@@ -13,6 +13,9 @@ import java.util.Random;
 import config.clsBWProperties;
 import du.enums.eEntityType;
 import sim.physics2D.shape.Shape;
+import statictools.eventlogger.Event;
+import statictools.eventlogger.clsEventLogger;
+import statictools.eventlogger.eEvent;
 import bw.body.clsMeatBody;
 import bw.body.internalSystems.clsFlesh;
 import bw.body.io.actuators.actionProxies.itfAPCarryable;
@@ -260,11 +263,13 @@ public class clsCarrot extends clsInanimate implements itfGetFlesh, itfAPEatable
 		if (getFlesh().getTotallyConsumed() && !mnShapeUpdated) {
 			// state has changed recently to no_food_left
 			// update shape to the gray carrot
+			clsEventLogger.add(new Event(this, getId(), eEvent.CONSUMED, ""));
 			mnShapeUpdated = true;
 			setShape(moDead, getTotalWeight());		
 		} else if (!getFlesh().getTotallyConsumed() && !mnShapeUpdated) {
 			// state has changed recently to food_available
 			// update shape to the orange carrot
+			clsEventLogger.add(new Event(this, getId(), eEvent.RESPAWN, ""));
 			mnShapeUpdated = true;
 			setShape(moFresh, getTotalWeight());
 		}		

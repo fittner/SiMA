@@ -6,6 +6,10 @@
  */
 package inspectors.mind.pa._v30;
 
+import inspectors.mind.pa._v30.autocreated.cls_DescriptionInspector;
+import inspectors.mind.pa._v30.autocreated.cls_GenericTimeChartInspector;
+import inspectors.mind.pa._v30.autocreated.cls_StateInspector;
+
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 
@@ -19,6 +23,7 @@ import javax.swing.event.TreeSelectionListener;
 import javax.swing.tree.DefaultMutableTreeNode;
 import pa.clsPsychoAnalysis;
 import pa._v30.clsProcessor;
+import pa._v30.modules.clsPsychicApparatus;
 import sim.display.GUIState;
 import sim.portrayal.Inspector;
 import sim.portrayal.LocationWrapper;
@@ -31,7 +36,7 @@ import sim.portrayal.inspector.TabbedInspector;
  * 03.08.2010, 13:58:44
  * 
  */
-public class clsMemoryInspectorTab extends Inspector implements TreeSelectionListener {
+public class clsInspectorTab_Memory extends Inspector implements TreeSelectionListener {
 
 	/**
 	 * DOCUMENT (muchitsch) - a inspector for the memory. it displays the memory information on a tab in the inspectors.
@@ -54,7 +59,7 @@ public class clsMemoryInspectorTab extends Inspector implements TreeSelectionLis
 	private LocationWrapper moWrapper;
 	private GUIState moGuiState;
 	
-    public clsMemoryInspectorTab(Inspector originalInspector,
+    public clsInspectorTab_Memory(Inspector originalInspector,
             LocationWrapper wrapper,
             GUIState guiState,
             clsPsychoAnalysis poPA)
@@ -127,7 +132,7 @@ public class clsMemoryInspectorTab extends Inspector implements TreeSelectionLis
 		Object nodeInfo = node.getUserObject();
 		
 		moContentPane.remove(moContent);
-		moContent = clsInspectorPATabFactory.createInspectorMemory( moOriginalInspector, moWrapper, moGuiState, 
+		moContent = createInspectorMemory( moOriginalInspector, moWrapper, moGuiState, 
 										((clsProcessor)moPA.getProcessor()).getPsychicApparatus(), nodeInfo.toString(), moModuleTree);
 		moContent.setPreferredSize( new Dimension(300,300) );
 		
@@ -136,4 +141,29 @@ public class clsMemoryInspectorTab extends Inspector implements TreeSelectionLis
 		moContentPane.repaint();
 		
 	}
+
+	private TabbedInspector createInspectorMemory(Inspector poSuperInspector, LocationWrapper poWrapper, GUIState poState, 
+				clsPsychicApparatus moPA, String poModuleName, JTree poTree) {
+
+		TabbedInspector oRetVal = new TabbedInspector();
+
+		//special memory tree...
+		if (poModuleName.equals("KB")) {
+			oRetVal.addInspector(new cls_StateInspector(moPA.moKnowledgeBaseHandler), "State");
+		} else if (poModuleName.equals("TPM")) {
+			
+		} else if (poModuleName.equals("TP")) {
+			
+		} else if (poModuleName.equals("Libido Storage")) {
+			oRetVal.addInspector(new cls_StateInspector(moPA.moLibidoBuffer), "State");
+			oRetVal.addInspector(new cls_GenericTimeChartInspector(moPA.moLibidoBuffer), "Time Chart");
+			oRetVal.addInspector(new cls_DescriptionInspector(moPA.moLibidoBuffer), "Desc");				
+		} else if (poModuleName.equals("Blocked Content Storage")) {
+			oRetVal.addInspector(new cls_StateInspector(moPA.moBlockedContentStorage), "State");
+			oRetVal.addInspector(new cls_DescriptionInspector(moPA.moBlockedContentStorage), "Desc");
+			//TODO (MUCHITSCH): added graphinspector for blocked content storage
+		} 
+		
+		return oRetVal;
+	}	
 }

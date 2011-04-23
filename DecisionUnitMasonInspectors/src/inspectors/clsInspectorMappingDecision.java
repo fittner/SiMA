@@ -67,8 +67,8 @@ public class clsInspectorMappingDecision {
            		oRetVal.addInspector( new inspectors.mind.pa._v19.clsPsychoAnalysisInspector(poSuperInspector, poWrapper, poState, (clsPsychoAnalysis) poDU), "PA-Decision");
             	oRetVal.addInspector( new inspectors.mind.pa._v19.clsMemoryInspectorTab(poSuperInspector, poWrapper, poState, (clsPsychoAnalysis) poDU), "PA-Memory 2.0"); //shows a tab with the memory inspector, mapping for the tree etc see clsInspectorMappingPA
          	} else {
-        		oRetVal.addInspector( new inspectors.mind.pa._v30.clsPsychoAnalysisInspector((clsPsychoAnalysis) poDU), "PA-Modules");
-            	oRetVal.addInspector( new inspectors.mind.pa._v30.clsMemoryInspectorTab(poSuperInspector, poWrapper, poState, (clsPsychoAnalysis) poDU), "PA-Memory"); //shows a tab with the memory inspector, mapping for the tree etc see clsInspectorMappingPA
+        		oRetVal.addInspector( new inspectors.mind.pa._v30.clsInspectorTab_Modules((clsPsychoAnalysis) poDU), "PA-Modules");
+            	oRetVal.addInspector( new inspectors.mind.pa._v30.clsInspectorTab_Memory(poSuperInspector, poWrapper, poState, (clsPsychoAnalysis) poDU), "PA-Memory"); //shows a tab with the memory inspector, mapping for the tree etc see clsInspectorMappingPA
         	}
         	
         } else if( poDU instanceof clsReactive) {

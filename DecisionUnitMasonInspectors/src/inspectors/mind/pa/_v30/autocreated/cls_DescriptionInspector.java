@@ -4,7 +4,7 @@
  * @author deutsch
  * 15.04.2011, 15:03:10
  */
-package inspectors.mind.pa._v30;
+package inspectors.mind.pa._v30.autocreated;
 
 import pa._v30.interfaces.eInterfaces;
 import pa._v30.interfaces.itfInterfaceDescription;
@@ -16,7 +16,7 @@ import pa._v30.interfaces.itfInterfaceDescription;
  * 15.04.2011, 15:03:10
  * 
  */
-public class clsE_DescriptionInspector extends clsE_GenericHTMLInspector {
+public class cls_DescriptionInspector extends cls_GenericHTMLInspector {
 
 	/**
 	 * DOCUMENT (deutsch) - insert description 
@@ -37,8 +37,8 @@ public class clsE_DescriptionInspector extends clsE_GenericHTMLInspector {
 	 * @param guiState
 	 * @param poModule
 	 */
-	public clsE_DescriptionInspector(itfInterfaceDescription poModule) {
-		super(poModule);
+	public cls_DescriptionInspector(itfInterfaceDescription poObject) {
+		super(poObject);
 	}
 
 	/* (non-Javadoc)
@@ -50,7 +50,7 @@ public class clsE_DescriptionInspector extends clsE_GenericHTMLInspector {
 	 */
 	@Override
 	protected void setTitle() {
-		moTitle = moModule.getClass().getSimpleName() + " - Description";
+		moTitle = moObject.getClass().getSimpleName() + " - Description";
 	}
 
 	/* (non-Javadoc)
@@ -63,17 +63,17 @@ public class clsE_DescriptionInspector extends clsE_GenericHTMLInspector {
 	@Override
 	protected void updateContent() {
 		moContent  = "<h2>Module</h2>";
-		moContent += "<p>"+((itfInterfaceDescription)moModule).getDescription()+"</p>";
+		moContent += "<p>"+((itfInterfaceDescription)moObject).getDescription()+"</p>";
 		moContent += "<h2>Incoming Interfaces</h2>";
 		moContent += "<ul>";
-		for (eInterfaces eI:((itfInterfaceDescription)moModule).getInterfacesRecv()) {
+		for (eInterfaces eI:((itfInterfaceDescription)moObject).getInterfacesRecv()) {
 			moContent += "<li><b>"+eI+"</b>: "+eI.getDescription()+"</li>";
 		}
 		moContent += "</ul>";
 		
 		moContent += "<h2>Outgoing Interfaces</h2>";
 		moContent += "<ul>";
-		for (eInterfaces eI:((itfInterfaceDescription)moModule).getInterfacesSend()) {
+		for (eInterfaces eI:((itfInterfaceDescription)moObject).getInterfacesSend()) {
 			moContent += "<li><b>"+eI+"</b>: "+eI.getDescription()+"</li>";
 		}
 		moContent += "</ul>";

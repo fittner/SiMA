@@ -12,6 +12,9 @@ import java.awt.Color;
 
 import config.clsBWProperties;
 import sim.physics2D.shape.Shape;
+import statictools.eventlogger.Event;
+import statictools.eventlogger.clsEventLogger;
+import statictools.eventlogger.eEvent;
 import du.enums.eEntityType;
 import du.itf.itfDecisionUnit;
 import bw.body.clsComplexBody;
@@ -264,9 +267,11 @@ public class clsHare extends clsAnimal implements itfGetFlesh, itfAPEatable, itf
 		if ( !isAlive() && getFlesh().getTotallyConsumed() ) {
 			//This command removes the cake from the playground
 			//clsRegisterEntity.unRegisterPhysicalObject2D(getMobileObject2D());
+			clsEventLogger.add(new Event(this, getId(), eEvent.CONSUMED, ""));
 			setShape(moDeadAndEaten, getTotalWeight());
 			((clsComplexBody)moBody).getIntraBodySystem().getColorSystem().setNormColor();
 		} else if (!isAlive()) {
+			clsEventLogger.add(new Event(this, getId(), eEvent.DEAD, ""));
 			setShape(moDead, getTotalWeight());
 			((clsComplexBody)moBody).getIntraBodySystem().getColorSystem().setNormColor();
 		}		
