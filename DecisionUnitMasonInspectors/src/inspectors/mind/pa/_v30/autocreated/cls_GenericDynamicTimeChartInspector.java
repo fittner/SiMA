@@ -118,7 +118,7 @@ public class cls_GenericDynamicTimeChartInspector extends
     private void reCreateChart() {
     	HashMap<String, HashMap<Long, Double>> oBackup = backupHistory();
     	removeAll();
-    	createPanel(); 
+    	createPanel();
     	refillHistory(oBackup, moTimeingContainer.getTimeChartCaptions());
     	//FIXME (DEUTSCH): after recreation of chart panel, the displayed inspector is grey. A back-and-forth switch between tabs is necessary to enforce display. a function call like repaint() at this position should be able to solve this problem. 
     }

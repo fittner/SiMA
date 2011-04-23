@@ -18,12 +18,15 @@ import pa._v30.interfaces.modules.I2_16_receive;
 import pa._v30.interfaces.modules.I2_8_receive;
 import pa._v30.interfaces.modules.I2_9_receive;
 import pa._v30.interfaces.modules.I2_9_send;
+import pa._v30.memorymgmt.datahandler.clsDataStructureConverter;
 import pa._v30.memorymgmt.datatypes.clsAssociation;
 import pa._v30.memorymgmt.datatypes.clsAssociationDriveMesh;
 import pa._v30.memorymgmt.datatypes.clsDriveMesh;
+import pa._v30.memorymgmt.datatypes.clsPrimaryDataStructure;
 import pa._v30.memorymgmt.datatypes.clsPrimaryDataStructureContainer;
 import pa._v30.memorymgmt.datatypes.clsTemplateImage;
 import pa._v30.memorymgmt.datatypes.clsThingPresentationMesh;
+import pa._v30.memorymgmt.enums.eDataType;
 
 /**
  * DOCUMENT (wendt) - insert description 
@@ -43,15 +46,15 @@ public class E18_CompositionOfAffectsForPerception extends clsModuleBase impleme
 	
 	//new input
 	@SuppressWarnings("unused")
-	private clsTemplateImage moDirectTemplateImage_IN;
+	private clsTemplateImage moPerceivedImage_IN;
 	@SuppressWarnings("unused")
-	private ArrayList<clsTemplateImage> moIndirectTemplateImages_IN;
+	private ArrayList<clsTemplateImage> moTemplateImages_IN;
 	
 	//new output
 	@SuppressWarnings("unused")
-	private clsTemplateImage moDirectTemplateImage_OUT;
+	private clsTemplateImage moPerceivedImage_OUT;
 	@SuppressWarnings("unused")
-	private ArrayList<clsTemplateImage> moIndirectTemplateImages_OUT;
+	private ArrayList<clsTemplateImage> moTemplateImages_OUT;
 
 	
 	/**
@@ -153,18 +156,22 @@ public class E18_CompositionOfAffectsForPerception extends clsModuleBase impleme
 	 */
 	@Override
 	protected void process_basic() {
+		//Merge inputs
 		mergeLists();
-		
 		//Merge quota of affect values original
 		adaptPleasureValue();
 		
-		//Merge quota of affect values new
-		//adaptPleasureValue(moDirectTemplateImage_IN);
+		//**** New Data structures Don't delete AW 20110424 ****
+		
+		/*
+		moPerceivedImage_IN = tempMergeDMs(moMergedPrimaryInformation_Input);
+		moPerceivedImage_OUT = adaptPerceivedImageQuotaOfAffect(moPerceivedImage_IN);
 		//Set Output equal to processed input
-		//moDirectTemplateImage_OUT = moDirectTemplateImage_IN;
 		
 		//Pass the indirect template images through without processing
-		//moIndirectTemplateImages_OUT = moIndirectTemplateImages_IN; 
+		moTemplateImages_OUT = moTemplateImages_IN; 
+		
+		*/
 	}
 	
 	//TD 2011/04/22
@@ -258,107 +265,113 @@ public class E18_CompositionOfAffectsForPerception extends clsModuleBase impleme
 	}
 	
 	//AW 2011-04-18, new adaptpleasurefunction
-	@SuppressWarnings("unused")
-	private void adaptPleasureValue(clsTemplateImage oDirectTI) {
+	private clsTemplateImage adaptPerceivedImageQuotaOfAffect(clsTemplateImage oPerceivedImageUnmerged) {
+		clsTemplateImage oPerceivedImageMerged = oPerceivedImageUnmerged;
+		
+		for (clsAssociation oAss : oPerceivedImageMerged.getMoAssociatedContent()) {
+			//direct adaptation in the image without creating new instances
+			adaptObjectQuotaOfAffect((clsTemplateImage)oAss.getLeafElement());
+		}
+		
+		return oPerceivedImageMerged;
+	}
+	
+	private void adaptObjectQuotaOfAffect(clsTemplateImage oObjectUnmerged) {
 		// oDirectTI is directly manipulated
 		/* structure of oDirectTI: DM from repressed content are added as associations in the
 		 * complete template image, i. e. to the extrinsic properties. From E35, DM are 
-		 * added with positive mrPleasure and mrUnpleasure. From E45, mrPleasure and mrUnpleasure
-		 * are negative as libido is reduced.
+		 * added with positive mrPleasure and mrUnpleasure. From E45, mrPleasure is added.
 		 */
 		
+		//Create a new empty List of associations, in which the modified associations are added
+		ArrayList<clsAssociation> oNewAss = new ArrayList<clsAssociation>();
+		
 		//For each association to a template image in the template image
-		for (clsAssociation oAss: oDirectTI.getMoAssociatedContent()) {
-			//AssociationElementA is always the top template image, i. e. this image
-			//AssociationElementB is the associated template image
-			//Set the leaf element of element A and B
-			clsTemplateImage oCompleteObject = null;
-			if ((oAss.getMoAssociationElementB() instanceof clsTemplateImage) && (oDirectTI!=oAss.getMoAssociationElementB())) {
-				oCompleteObject = (clsTemplateImage)oAss.getMoAssociationElementB();
-			} else if ((oAss.getMoAssociationElementA() instanceof clsTemplateImage) && (oDirectTI!=oAss.getMoAssociationElementA())) {
-				oCompleteObject = (clsTemplateImage)oAss.getMoAssociationElementA();
-			}
-			
-			if (oCompleteObject!=null) {
-				//As long as there are any extrinsic associations bound to this object
 				
-				int iIndexPos = 0;
-				ArrayList<clsAssociation> oArrAssFirst = oCompleteObject.getMoAssociatedContent();
-				//ArrayList<clsAssociation> oArrAssSecond = oCompleteObject.getMoAssociatedContent();
-				while (oArrAssFirst.iterator().hasNext()) {
-					clsAssociation oFirstAss = oArrAssFirst.iterator().next();
-					
-					iIndexPos = oCompleteObject.getMoAssociatedContent().indexOf(oFirstAss);
-					
-					if (oFirstAss instanceof clsAssociationDriveMesh) {
-						//Go through all following associations
-						ArrayList<clsAssociation> oArrAssSecond = oArrAssFirst;
-						while (oArrAssSecond.iterator().hasNext()) {
-							clsAssociation oSecondAss = oArrAssSecond.iterator().next();
-							if (oSecondAss instanceof clsAssociationDriveMesh) {
-								clsDriveMesh oFirstDM = (clsDriveMesh)oFirstAss.getLeafElement();
-								clsDriveMesh oSecondDM = (clsDriveMesh)oSecondAss.getLeafElement();
-								//firstAssociation is compared with the secondAssociation
-								//If the content type of the DM are equal then
-								if (oFirstDM.getMoContentType().intern() == oSecondDM.getMoContentType().intern()) {
-									//1. Add Pleasure from second to first
-									double mrNewPleasure = oFirstDM.getMrPleasure() + oSecondDM.getMrPleasure(); //No averaging was made here
-									oFirstDM.setMrPleasure(mrNewPleasure);
-									//2. Add Unpleasure from second to first
-									//double mrNewUnpleasure = oFirstDM.getMrUnpleasure() + oSecondDM.getMrUnpleasure(); //No averaging was made here
-									//oFirstDM.setMrPleasure(mrNewUnpleasure);
-									//3. Set new Content
-									
-									
-								}
-								
-							}
-						}
+		//As long as there are any extrinsic associations bound to this object
+		ArrayList<clsAssociation> oArrAssFirst = oObjectUnmerged.getMoAssociatedContent();
+		while (oArrAssFirst.iterator().hasNext()) {
+			clsAssociation oFirstAss = oArrAssFirst.iterator().next();
+			
+			if (oFirstAss instanceof clsAssociationDriveMesh) {
+				//Set the quota of affect for the content
+				clsDriveMesh oFirstDM = (clsDriveMesh)oFirstAss.getLeafElement();
 						
+				/* Here the new content is set depending on the highest level of total quota of affect
+				 * of all equal drive meshes in the object. If another object has a higher
+				 * Quota of affect, its content is taken.
+				 */
+				double mrMaxTotalQuotaOfAffect = oFirstDM.getMrPleasure();	//FIXME Add Unpleasure too
+				String msMaxContent = oFirstDM.getMoContent();
+						
+				//Go through all following associations of that object
+				ArrayList<clsAssociation> oArrAssSecond = oArrAssFirst;
+				while (oArrAssSecond.iterator().hasNext()) {
+					clsAssociation oSecondAss = oArrAssSecond.iterator().next();
+							
+					if (oSecondAss instanceof clsAssociationDriveMesh) {	
+						clsDriveMesh oSecondDM = (clsDriveMesh)oSecondAss.getLeafElement();
+						//firstAssociation is compared with the secondAssociation
+						//If the content type of the DM are equal then
+						if (oFirstDM.getMoContentType().intern() == oSecondDM.getMoContentType().intern()) {
+							//1. Add Pleasure from second to first DM
+							double mrNewPleasure = oFirstDM.getMrPleasure() + oSecondDM.getMrPleasure(); //No averaging was made here
+							oFirstDM.setMrPleasure(mrNewPleasure);
+							//2. Add Unpleasure from second to first DM
+							//double mrNewUnpleasure = oFirstDM.getMrUnpleasure() + oSecondDM.getMrUnpleasure(); //No averaging was made here
+							//oFirstDM.setMrPleasure(mrNewUnpleasure);
+							//3. Check if the quota of affect is higher for the second DM and exchange content
+							if (oSecondDM.getMrPleasure() > mrMaxTotalQuotaOfAffect) {
+								//FIXME: Corrent the function to consider mrUnpleasure too
+								msMaxContent = oSecondDM.getMoContent();
+								mrMaxTotalQuotaOfAffect = oSecondDM.getMrPleasure();
+							}
+							//4. Delete oSeconDM
+							oArrAssSecond.iterator().remove();
+							
+						}
 					}
 				}
+				//Set new content if different
+				if (oFirstDM.getMoContent().equals(msMaxContent)==false) {
+					oFirstDM.setMoContent(msMaxContent);
+				}
 			}
+			//Add the association to the list
+			oNewAss.add(oFirstAss);
+		}
+	}
+	
+	private clsTemplateImage tempMergeDMs(ArrayList<clsTripple<clsPrimaryDataStructureContainer,clsDriveMesh,clsDriveMesh>> oInput) {
+		//Inputformat: Template Image with all DMs as associated to a certain TPM
+		ArrayList<clsPrimaryDataStructureContainer> oModifiedInputContainerList = new ArrayList<clsPrimaryDataStructureContainer>();
+		
+		for (clsTripple<clsPrimaryDataStructureContainer, clsDriveMesh, clsDriveMesh> oTripple : oInput) {
+			clsPrimaryDataStructureContainer oNewMerge = oTripple.a;
+			
+			ArrayList<clsAssociation> oNewAss = oNewMerge.getMoAssociatedDataStructures();
+			clsDriveMesh oDM1 = oTripple.b;
+			clsDriveMesh oDM2 = oTripple.c;
+			clsPrimaryDataStructure oDS = (clsPrimaryDataStructure) moMergedPrimaryInformation_Input.get(1).a.getMoDataStructure();
+			clsTripple<Integer, eDataType, String> oID = new clsTripple<Integer, eDataType, String> (-1,eDataType.ASSOCIATIONDM,"Test");
+			
+			if (oDM1!=null) {
+				clsAssociation oDMAss1 = new clsAssociationDriveMesh(oID, oDM1, oDS);
+				oNewAss.add(oDMAss1);
+			}
+			
+			if (oDM2!=null) {
+				clsAssociation oDMAss2 = new clsAssociationDriveMesh(oID, oDM2, oDS);
+				oNewAss.add(oDMAss2);
+			}
+			
+			oNewMerge.setMoAssociatedDataStructures(oNewAss);
+			oModifiedInputContainerList.add(oNewMerge);
 		}
 		
+		clsTemplateImage oRetVal = clsDataStructureConverter.convertMultiplePDSCtoTI(oModifiedInputContainerList);
 		
-		//for each pair in the input list...
-		/*for(clsPair <clsPrimaryDataStructureContainer, clsDriveMesh> oPair : moMergedPrimaryInformation_Input){
-			//If there is an object e. g. CAKE, which is a TPM...
-			if(oPair.a.getMoDataStructure() instanceof clsThingPresentationMesh){
-				//For each associated content in moAssociatedContent...
-				for(pa._v30.memorymgmt.datatypes.clsAssociation oAssociation : oPair.a.getMoAssociatedDataStructures()){
-					//If the Association is a DM...
-					if(oAssociation instanceof clsAssociationDriveMesh){
-						//Get the actual DM from the association
-						clsDriveMesh oDMInput = ((clsAssociationDriveMesh)oAssociation).getDM(); 
-						//Get the DM from the repressed content
-						clsDriveMesh oDMRepressed = oPair.b; 
-						
-						/* If the moContentType is equal (at CAKE, NOURISH), then set new pleasure as the average of 
-						 * the pleasure of repressed content and the object. Then, new moContent is set from the 
-						 * Repressed content (NOURISH GREEDY statt NOURISH_CAKEBASIC).
-						 */
-						
-					/*	if (oDMInput.getMoContentType().intern() == oDMRepressed.getMoContentType().intern()) {
-						//old Fix here if(oDMInput.getMoContent().intern() == oDMRepressed.getMoContent().intern()){
-							
-							//TODO: Add Libidodischarge
-							//Merge Pleasure
-							//new oDMInput.setPleasure((oDMInput.getPleasure()+oDMRepressed.getPleasure()));	//addition instead of average => mrPleasure > 1
-							oDMInput.setPleasure((oDMInput.getPleasure()+oDMRepressed.getPleasure())/2); 
-							oDMInput.setMoContent(oDMRepressed.getMoContent());
-							
-							//Merge Unpleasure
-							//new oDMInput.setUnpleasure((oDMInput.getUnpleasure()+oDMRepressed.getUnpleasure()));	//addition instead of average => mrUnpleasure > 1
-							//oDMInput.setMoContent(oDMRepressed.getMoContent());
-							
-						}
-					}
-				}
-			}
-			
-			moNewPrimaryInformation.add(oPair.a);*/
-		
+		return oRetVal;
 	}
 
 
