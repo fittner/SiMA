@@ -8,7 +8,7 @@
 package bw.body.io;
 
 import config.clsBWProperties;
-import statictools.clsSingletonUniqueIdGenerator;
+import statictools.clsUniqueIdGenerator;
 import bw.utils.enums.eBodyParts;
 
 /**
@@ -23,7 +23,7 @@ import bw.utils.enums.eBodyParts;
 public abstract class clsSensorActuatorBase {
 	public static final String P_BASEENERGYCONSUMPTION = "baseenergyconsumption";
 	
-	private static final int mnUniqueId = clsSingletonUniqueIdGenerator.getUniqueId();
+	private static final int mnUniqueId = clsUniqueIdGenerator.getUniqueId();
 	protected eBodyParts mePartId;
 	protected String moName;
 	private clsBaseIO moBaseIO; // reference

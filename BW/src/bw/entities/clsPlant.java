@@ -27,8 +27,8 @@ import bw.utils.enums.eShapeType;
 public class clsPlant extends clsInanimate {
 
 	
-	public clsPlant(String poPrefix, clsBWProperties poProp) {
-		super(poPrefix, poProp);
+	public clsPlant(String poPrefix, clsBWProperties poProp, String uid) {
+		super(poPrefix, poProp, uid);
 		applyProperties(poPrefix, poProp);
     }
     

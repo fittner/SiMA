@@ -29,9 +29,9 @@ import bw.utils.enums.eShapeType;
  * 
  */
 public class clsSmartExcrement extends clsInanimate {
-	public clsSmartExcrement(String poPrefix, clsBWProperties poProp, double prWeight)
+	public clsSmartExcrement(String poPrefix, clsBWProperties poProp, String uid, double prWeight)
     {
-		super(poPrefix, poProp);		
+		super(poPrefix, poProp, uid);		
 		applyProperties(poPrefix, poProp);
 		
 		try {

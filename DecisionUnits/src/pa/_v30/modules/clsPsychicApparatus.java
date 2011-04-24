@@ -13,9 +13,9 @@ import java.util.SortedMap;
 import java.util.TreeMap;
 import config.clsBWProperties;
 import pa._v30.tools.clsPair;
-import pa._v30.datalogger.clsDataLogger;
 import pa._v30.interfaces.eInterfaces;
 import pa._v30.interfaces.itfMinimalModelMode;
+import pa._v30.logger.clsDataLogger;
 import pa._v30.memorymgmt.clsKnowledgeBaseHandler;
 import pa._v30.memorymgmt.clsKnowledgeBaseHandlerFactory;
 import pa._v30.storage.clsBlockedContentStorage;
@@ -89,10 +89,11 @@ public class clsPsychicApparatus {
 	public clsDataLogger moDataLogger;
 	
 	private static final boolean mnMinimalModel = false;
+	private String uid;
 
 	public clsPsychicApparatus(String poPrefix, clsBWProperties poProp, 
-			clsKnowledgeBaseHandler poKnowledgeBaseHandler) {
-		
+			clsKnowledgeBaseHandler poKnowledgeBaseHandler, String uid) {
+		this.uid = uid;
 		moModules = new HashMap<Integer, clsModuleBase>();
 		moInterfaceData = new TreeMap<eInterfaces, ArrayList<Object>>();
 		
@@ -103,7 +104,7 @@ public class clsPsychicApparatus {
 					
 		applyProperties(poPrefix, poProp);
 		
-		moDataLogger = new clsDataLogger(moModules);
+		moDataLogger = new clsDataLogger(moModules, this.uid);
 		fillInterfaceMesh();
 		fillInterfaces_Recv_Send();
 	}

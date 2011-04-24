@@ -33,8 +33,8 @@ public class clsUraniumOre extends clsInanimate implements itfAPCarryable {
 	
 	public double mrRadiationIntensity;
 	
-	public clsUraniumOre(String poPrefix, clsBWProperties poProp) {
-		super(poPrefix, poProp);
+	public clsUraniumOre(String poPrefix, clsBWProperties poProp, String uid) {
+		super(poPrefix, poProp, uid);
 		applyProperties(poPrefix, poProp);
 	}
     

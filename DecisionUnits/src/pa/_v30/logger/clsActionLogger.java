@@ -4,12 +4,12 @@
  * @author deutsch
  * 24.04.2011, 01:18:19
  */
-package pa._v30.datalogger;
+package pa._v30.logger;
 
 import java.util.ArrayList;
-
 import pa._v30.tools.clsPair;
 import pa._v30.tools.clsTripple;
+import statictools.clsGetARSPath;
 import statictools.clsSimState;
 
 /**
@@ -28,7 +28,11 @@ public class clsActionLogger {
 	private long first;
 	private long last;
 	
-	public clsActionLogger() {
+	private String moLogFilename;
+	
+	public clsActionLogger(String uid) {
+		moLogFilename = clsGetARSPath.getLogFilename("action_"+uid);
+		
 		actions = new ArrayList<clsPair<Long,String>>();
 		first = Integer.MAX_VALUE;
 		last = -1;

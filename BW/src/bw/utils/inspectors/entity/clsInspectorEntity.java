@@ -75,6 +75,7 @@ public class clsInspectorEntity extends Inspector implements ActionListener {
 	private PropertyField moPropBodyType;
 	private PropertyField moPropMindyType;
 	private PropertyField moPropEntityID;
+	private PropertyField moPropUID;
 	private PropertyField moPropPosX;
 	private PropertyField moPropPosY;
 
@@ -108,6 +109,7 @@ public class clsInspectorEntity extends Inspector implements ActionListener {
 		moPropBodyType = new PropertyField("Body", poEntity.getBody()
 				.getBodyType().toString(), false, null,
 				PropertyField.SHOW_TEXTFIELD);
+		moPropUID = new PropertyField("UID", poEntity.uid(), false, null, PropertyField.SHOW_TEXTFIELD);
 
 		String oMindType = eDecisionType.NONE.toString();
 		try {
@@ -134,6 +136,7 @@ public class clsInspectorEntity extends Inspector implements ActionListener {
 
 
 		oPropertyLayoutContainerBox.add(moPropEntityID, BorderLayout.AFTER_LAST_LINE);
+		oPropertyLayoutContainerBox.add(moPropUID, BorderLayout.AFTER_LAST_LINE);
 		oPropertyLayoutContainerBox.add(moPropEntityType, BorderLayout.AFTER_LAST_LINE);
 		oPropertyLayoutContainerBox.add(moPropBodyType, BorderLayout.AFTER_LAST_LINE);
 		oPropertyLayoutContainerBox.add(moPropMindyType, BorderLayout.AFTER_LAST_LINE);

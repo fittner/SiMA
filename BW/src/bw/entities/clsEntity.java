@@ -17,7 +17,7 @@ import config.clsBWProperties;
 import du.enums.eEntityType;
 import sim.physics2D.physicalObject.PhysicalObject2D;
 import sim.physics2D.shape.Shape;
-import statictools.clsSingletonUniqueIdGenerator;
+import statictools.clsUniqueIdGenerator;
 import statictools.eventlogger.Event;
 import statictools.eventlogger.clsEventLogger;
 import statictools.eventlogger.eEvent;
@@ -66,11 +66,13 @@ public abstract class clsEntity implements itfGetBody {
 	private String moId;
 	private boolean mnRegistered;
 	
-	private int mnUniqueId = clsSingletonUniqueIdGenerator.getUniqueId();
+	private int mnUniqueId = clsUniqueIdGenerator.getUniqueId();
+	private String uid;
 	
 	protected clsBaseBody moBody; // the instance of a body	
 	
-	public clsEntity(String poPrefix, clsBWProperties poProp) {
+	public clsEntity(String poPrefix, clsBWProperties poProp, String uid) {
+		this.uid = uid;
 		setEntityType();
 		moPhysicalObject2D = null;
 		
@@ -78,7 +80,11 @@ public abstract class clsEntity implements itfGetBody {
 		
 		setRegistered(false);
 		
-		clsEventLogger.add(new Event(this, moId, eEvent.CREATE, ""));
+		clsEventLogger.add(new Event(this, moId, eEvent.CREATE, "uid="+this.uid));
+	}
+	
+	public String uid() {
+		return uid;
 	}
 	
 	public static clsBWProperties getDefaultProperties(String poPrefix) {

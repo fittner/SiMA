@@ -8,6 +8,8 @@ package bw.body.interBodyWorldSystems;
 
 import java.util.Random;
 
+import statictools.clsUniqueIdGenerator;
+
 import ARSsim.physics2D.util.clsPolarcoordinate;
 import ARSsim.physics2D.util.clsPose;
 
@@ -110,7 +112,8 @@ public class clsCreateExcrement {
 		//FIXME!!!
 		rExcrementWeight = 1.0;
 		
-		clsSmartExcrement oSh__t = new clsSmartExcrement("", moSmartExcrementProps, rExcrementWeight);
+		clsSmartExcrement oSh__t = new clsSmartExcrement("", moSmartExcrementProps, 
+				clsUniqueIdGenerator.getUniqueId()+"", rExcrementWeight);
 		
 		
 		oSh__t.setPose( getPose() );

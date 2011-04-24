@@ -31,8 +31,8 @@ import bw.utils.enums.eShapeType;
  */
 public class clsFungusEater extends clsAnimate implements itfGetSensorEngine, itfGetRadiation {
 
-	public clsFungusEater(itfDecisionUnit poDU, String poPrefix, clsBWProperties poProp) {
-		super(poDU, poPrefix, poProp);
+	public clsFungusEater(itfDecisionUnit poDU, String poPrefix, clsBWProperties poProp, String uid) {
+		super(poDU, poPrefix, poProp, uid);
 		applyProperties(poPrefix, poProp);
 	}
 	

@@ -17,8 +17,8 @@ import bw.utils.enums.eShapeType;
 
 public class clsCan extends clsInanimate {
 		
-	public clsCan(String poPrefix, clsBWProperties poProp) {
-		super(poPrefix, poProp); 
+	public clsCan(String poPrefix, clsBWProperties poProp, String uid) {
+		super(poPrefix, poProp, uid); 
 		
 		applyProperties(poPrefix, poProp);
     }

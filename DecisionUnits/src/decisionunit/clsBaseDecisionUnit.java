@@ -1,6 +1,6 @@
 package decisionunit;
 
-import pa._v30.datalogger.clsActionLogger;
+import pa._v30.logger.clsActionLogger;
 import config.clsBWProperties;
 import du.enums.eDecisionType;
 import du.itf.itfDecisionUnit;
@@ -13,10 +13,10 @@ public abstract class clsBaseDecisionUnit implements itfDecisionUnit {
 	protected eDecisionType meDecisionType;
 	public clsActionLogger moActionLogger;
 
-	public clsBaseDecisionUnit(String poPrefix, clsBWProperties poProp) {
+	public clsBaseDecisionUnit(String poPrefix, clsBWProperties poProp, String uid) {
 		setDecisionUnitType();
 		applyProperties(poPrefix, poProp);
-		moActionLogger = new clsActionLogger();
+		moActionLogger = new clsActionLogger(uid);
 	}
 	
 	@Override

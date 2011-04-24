@@ -48,7 +48,7 @@ import bw.utils.enums.eShapeType;
 import sim.creation.clsLoader;
 import sim.creation.eLoader;
 import sim.engine.SimState;
-import statictools.clsSingletonUniqueIdGenerator;
+import statictools.clsUniqueIdGenerator;
 
 /**
  * DOCUMENT (tobias) - insert description 
@@ -318,64 +318,66 @@ public class clsSimplePropertyLoader extends clsLoader {
     private void createEntity(clsBWProperties poPropEntity, clsBWProperties poPropDecisionUnit, eEntityType pnEntityType, eDecisionType pnDecisionType) {
     	String pre = clsBWProperties.addDot("");
 
+    	String uid = clsUniqueIdGenerator.getUniqueId()+"";
+    	
     	itfDecisionUnit oDU = null;
     	if (pnDecisionType != eDecisionType.NONE) {
-    			oDU = clsDecisionUnitFactory.createDecisionUnit_static(pnDecisionType, pre, poPropDecisionUnit);
+    			oDU = clsDecisionUnitFactory.createDecisionUnit_static(pnDecisionType, pre, poPropDecisionUnit, uid);
     	}
     	
     	clsEntity oEntity = null;
     	
     	switch(pnEntityType) {
     		case BUBBLE:
-    			oEntity = new clsBubble(oDU, pre, poPropEntity);
+    			oEntity = new clsBubble(oDU, pre, poPropEntity, uid);
     			clsRegisterEntity.registerEntity((clsBubble)oEntity);		
     			break;
     		case FUNGUS_EATER:
-    			oEntity = new clsFungusEater(oDU, pre, poPropEntity);
+    			oEntity = new clsFungusEater(oDU, pre, poPropEntity, uid);
     			clsRegisterEntity.registerEntity((clsFungusEater)oEntity);		
     			break;
     		case REMOTEBOT:
-    			oEntity = new clsRemoteBot(oDU, pre, poPropEntity);
+    			oEntity = new clsRemoteBot(oDU, pre, poPropEntity, uid);
     			clsRegisterEntity.registerEntity((clsRemoteBot)oEntity);		
     			break;
     		case PLANT:
-    			oEntity = new clsPlant(pre, poPropEntity);
+    			oEntity = new clsPlant(pre, poPropEntity, uid);
     			clsRegisterEntity.registerEntity((clsPlant)oEntity);		
     			break;
     		case HARE:
-    			oEntity = new clsHare(oDU, pre, poPropEntity);
+    			oEntity = new clsHare(oDU, pre, poPropEntity, uid);
     			clsRegisterEntity.registerEntity((clsHare)oEntity);		
     			break;
     		case LYNX:
-    			oEntity = new clsLynx(oDU, pre, poPropEntity);
+    			oEntity = new clsLynx(oDU, pre, poPropEntity, uid);
     			clsRegisterEntity.registerEntity((clsLynx)oEntity);		
     			break;
     		case BASE:
-    			oEntity = new clsBase(pre, poPropEntity);
+    			oEntity = new clsBase(pre, poPropEntity, uid);
     			clsRegisterEntity.registerEntity((clsBase)oEntity);		
     			break;
     		case CAN:
-    			oEntity = new clsCan(pre, poPropEntity);
+    			oEntity = new clsCan(pre, poPropEntity, uid);
     			clsRegisterEntity.registerEntity((clsCan)oEntity);		
     			break;
     		case CAKE:
-    			oEntity = new clsCake(pre, poPropEntity);
+    			oEntity = new clsCake(pre, poPropEntity, uid);
     			clsRegisterEntity.registerEntity((clsCake)oEntity);		
     			break;
     		case STONE:
-    			oEntity = new clsStone(pre, poPropEntity);
+    			oEntity = new clsStone(pre, poPropEntity, uid);
     			clsRegisterEntity.registerEntity((clsStone)oEntity);		
     			break;
     		case FUNGUS:
-    			oEntity = new clsFungus(pre, poPropEntity);
+    			oEntity = new clsFungus(pre, poPropEntity, uid);
     			clsRegisterEntity.registerEntity((clsFungus)oEntity);		
     			break;
     		case URANIUM:
-    			oEntity = new clsUraniumOre(pre, poPropEntity);
+    			oEntity = new clsUraniumOre(pre, poPropEntity, uid);
     			clsRegisterEntity.registerEntity((clsUraniumOre)oEntity);		
     			break;    			
     		case CARROT:
-    			oEntity = new clsCarrot(pre, poPropEntity);
+    			oEntity = new clsCarrot(pre, poPropEntity, uid);
     			clsRegisterEntity.registerEntity((clsCarrot)oEntity);		
     			break;     			
 			default:
@@ -419,7 +421,7 @@ public class clsSimplePropertyLoader extends clsLoader {
     	for (int i=0; i<num; i++) {
     		System.out.print(".");
     		clsBWProperties oEntityProperties = getEntityProperties(nEntityType);
-    		oEntityProperties.put( clsEntity.P_ID, nEntityType.name()+"_"+nDecisionType.name()+"_"+i+" (#"+clsSingletonUniqueIdGenerator.getUniqueId()+")" );
+    		oEntityProperties.put( clsEntity.P_ID, nEntityType.name()+"_"+nDecisionType.name()+"_"+i+" (#"+clsUniqueIdGenerator.getUniqueId()+")" );
     		if (oRemoveEntityDefaults != null) {
 	    		for (String oRemoveKey:oRemoveEntityDefaults) {
 	    			oEntityProperties.removeKeysStartingWith(oRemoveKey);
@@ -491,12 +493,12 @@ public class clsSimplePropertyLoader extends clsLoader {
 		// TODO remove image as long scaling is not implemented ...
 		//oProp.setProperty(clsWallHorizontal.P_SHAPE+"."+clsShapeCreator.P_IMAGE_PATH, "");
 		
-		oWall = new clsWallHorizontal("", oProp);
+		oWall = new clsWallHorizontal("", oProp, clsUniqueIdGenerator.getUniqueId()+"");
 		clsRegisterEntity.registerEntity(oWall);
 		
 		oProp.setProperty(clsPose.P_POS_Y, rHeight-(rWallThickness/2) );		
 
-		oWall = new clsWallHorizontal("", oProp);
+		oWall = new clsWallHorizontal("", oProp, clsUniqueIdGenerator.getUniqueId()+"");
 		clsRegisterEntity.registerEntity(oWall);
 		
 		// add vertical walls
@@ -509,12 +511,12 @@ public class clsSimplePropertyLoader extends clsLoader {
 		// TODO remove image as long scaling is not implemented ...
 		//oProp.setProperty(clsWallVertical.P_SHAPE+"."+clsShapeCreator.P_IMAGE_PATH, "");
 		
-		oWall = new clsWallVertical("", oProp);
+		oWall = new clsWallVertical("", oProp, clsUniqueIdGenerator.getUniqueId()+"");
 		clsRegisterEntity.registerEntity(oWall);
 		
 		oProp.setProperty(clsPose.P_POS_X, rWidth-(rWallThickness/2));		
 
-		oWall = new clsWallVertical("", oProp);
+		oWall = new clsWallVertical("", oProp, clsUniqueIdGenerator.getUniqueId()+"");
 		clsRegisterEntity.registerEntity(oWall);
 	}
 

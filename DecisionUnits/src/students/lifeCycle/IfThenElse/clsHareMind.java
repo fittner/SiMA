@@ -32,8 +32,8 @@ import simple.remotecontrol.clsRemoteControl; //for testing purpose only! remove
 
 public class clsHareMind extends clsRemoteControl { //should be derived from clsBaseDecisionUit
 	
-	public clsHareMind(String poPrefix, clsBWProperties poProp) {
-		super(poPrefix, poProp);
+	public clsHareMind(String poPrefix, clsBWProperties poProp, String uid) {
+		super(poPrefix, poProp, uid);
 		
 		applyProperties(poPrefix, poProp);		
 	}

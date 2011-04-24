@@ -33,8 +33,8 @@ public abstract class clsInanimate extends clsMobile {
 	 * @param pnId
 	 */
 	
-	public clsInanimate(String poPrefix, clsBWProperties poProp) {
-		super(poPrefix, poProp);
+	public clsInanimate(String poPrefix, clsBWProperties poProp, String uid) {
+		super(poPrefix, poProp, uid);
 		
 		applyProperties(poPrefix, poProp);
 	}

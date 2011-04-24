@@ -64,8 +64,8 @@ public class clsCarrot extends clsInanimate implements itfGetFlesh, itfAPEatable
 	 * @param poStartingVelocity
 	 * @param poConfig
 	 */
-	public clsCarrot(String poPrefix, clsBWProperties poProp) {
-		super(poPrefix, poProp);
+	public clsCarrot(String poPrefix, clsBWProperties poProp, String uid) {
+		super(poPrefix, poProp, uid);
 
 		mnShapeUpdated = false;
 		

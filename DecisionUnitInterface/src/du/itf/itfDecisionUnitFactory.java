@@ -17,5 +17,5 @@ import du.enums.eDecisionType;
  * 
  */
 public interface itfDecisionUnitFactory {
-	public itfDecisionUnit createDecisionUnit(eDecisionType nDecisionType, String poPrefix, clsBWProperties poProp) throws java.lang.IllegalArgumentException;
+	public itfDecisionUnit createDecisionUnit(eDecisionType nDecisionType, String poPrefix, clsBWProperties poProp, String uid) throws java.lang.IllegalArgumentException;
 }

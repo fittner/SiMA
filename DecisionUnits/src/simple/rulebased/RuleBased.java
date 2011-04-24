@@ -13,8 +13,8 @@ import decisionunit.clsBaseDecisionUnit;
 import du.enums.eDecisionType;
 
 public class RuleBased extends clsBaseDecisionUnit {
-	public RuleBased(String poPrefix, clsBWProperties poProp) {
-		super(poPrefix, poProp);
+	public RuleBased(String poPrefix, clsBWProperties poProp, String uid) {
+		super(poPrefix, poProp, uid);
 		
 		applyProperties(poPrefix, poProp);		
 	}

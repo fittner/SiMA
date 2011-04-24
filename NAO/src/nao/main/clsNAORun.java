@@ -2,6 +2,8 @@ package nao.main;
 
 import java.io.IOException;
 
+import statictools.clsUniqueIdGenerator;
+
 import nao.body.clsNAOBody;
 import nao.body.io.actuators.clsActionProcessor;
 import config.clsBWProperties;
@@ -23,7 +25,7 @@ public class clsNAORun implements Runnable{
 //			String oPath = oPath = clsGetARSPath.getConfigPath();
 	    	
 	    	clsBWProperties oProp = pa.clsPsychoAnalysis.getDefaultProperties("");
-	    	itfDecisionUnit oDU = new pa.clsPsychoAnalysis("", oProp);
+	    	itfDecisionUnit oDU = new pa.clsPsychoAnalysis("", oProp, clsUniqueIdGenerator.getUniqueId()+"");
 	    	
 	    	clsActionProcessor oActionProcessor = new clsActionProcessor();
 	    	oDU.setActionProcessor(oActionProcessor);

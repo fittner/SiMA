@@ -40,8 +40,8 @@ public class clsDumbMindA extends clsBaseDecisionUnit {
 	private boolean mnRoombaIntelligence = true;
 	private boolean mnCollisionAvoidance = false;
 	
-	public clsDumbMindA(String poPrefix, clsBWProperties poProp) {
-		super(poPrefix, poProp);
+	public clsDumbMindA(String poPrefix, clsBWProperties poProp, String uid) {
+		super(poPrefix, poProp, uid);
 		
 		applyProperties(poPrefix, poProp);		
 	}

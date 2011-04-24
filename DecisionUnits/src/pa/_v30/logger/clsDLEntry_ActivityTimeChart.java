@@ -4,7 +4,7 @@
  * @author deutsch
  * 23.04.2011, 16:13:57
  */
-package pa._v30.datalogger;
+package pa._v30.logger;
 
 import pa._v30.interfaces.itfInspectorGenericActivityTimeChart;
 import pa._v30.modules.clsModuleBase;

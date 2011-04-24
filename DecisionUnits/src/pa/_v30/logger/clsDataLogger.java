@@ -4,7 +4,7 @@
  * @author deutsch
  * 23.04.2011, 14:52:17
  */
-package pa._v30.datalogger;
+package pa._v30.logger;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -13,6 +13,7 @@ import pa._v30.interfaces.itfInspectorGenericActivityTimeChart;
 import pa._v30.interfaces.itfInspectorGenericDynamicTimeChart;
 import pa._v30.interfaces.itfInspectorGenericTimeChart;
 import pa._v30.modules.clsModuleBase;
+import statictools.clsGetARSPath;
 
 /**
  * DOCUMENT (deutsch) - insert description 
@@ -30,7 +31,11 @@ public class clsDataLogger {
 	private long first;
 	private long last;
 	
-	public clsDataLogger(HashMap<Integer, clsModuleBase> poModules) {
+	private String moLogFilename;
+	
+	public clsDataLogger(HashMap<Integer, clsModuleBase> poModules, String uid) {
+		moLogFilename = clsGetARSPath.getLogFilename("data_"+uid);
+		
 		moDataStorage = new ArrayList<clsDLEntry_Abstract>();
 		
 		for (clsModuleBase oMod:poModules.values()) {

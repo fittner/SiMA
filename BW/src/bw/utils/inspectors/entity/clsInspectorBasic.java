@@ -43,6 +43,7 @@ public class clsInspectorBasic extends Inspector {
 	GUIState moGuiState;
 	
 	private PropertyField moProp1;
+	private PropertyField moProp1_1;
 	private PropertyField moProp2;
 	private PropertyField moProp3;
 	private PropertyField moProp4;
@@ -79,6 +80,7 @@ public class clsInspectorBasic extends Inspector {
 		
 		//inspected defalt clsEntity fields, nothing else!....
 		moProp1 = new  PropertyField("ID", ""+moEntity.getId(), false, null, PropertyField.SHOW_TEXTFIELD);
+		moProp1_1 = new  PropertyField("UID", ""+moEntity.uid(), false, null, PropertyField.SHOW_TEXTFIELD);
 		moProp2 = new  PropertyField("Type", ""+moEntity.getEntityType().toString(), false, null, PropertyField.SHOW_TEXTFIELD);
 		moProp3 = new  PropertyField("Position X", clsInspectorUtils.FormatDouble(moEntity.getPosition().x), false, null, PropertyField.SHOW_TEXTFIELD);
 		moProp4 = new  PropertyField("Position Y", clsInspectorUtils.FormatDouble(moEntity.getPosition().y), false, null, PropertyField.SHOW_TEXTFIELD);
@@ -87,6 +89,7 @@ public class clsInspectorBasic extends Inspector {
 		moProp7 = new  PropertyField("Angle", clsInspectorUtils.FormatDouble(moEntity.getPose().getAngle().radians), false, null, PropertyField.SHOW_TEXTFIELD);
 		
 		oBox1.add(moProp1, BorderLayout.AFTER_LAST_LINE);
+		oBox1.add(moProp1_1, BorderLayout.AFTER_LAST_LINE);
 		oBox1.add(moProp2, BorderLayout.AFTER_LAST_LINE);
 		oBox1.add(moProp3, BorderLayout.AFTER_LAST_LINE);
 		oBox1.add(moProp4, BorderLayout.AFTER_LAST_LINE);

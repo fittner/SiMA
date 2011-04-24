@@ -35,8 +35,8 @@ public class clsProcessor implements itfProcessor  {
 	private clsKnowledgeBaseHandler moKnowledgeBaseHandler;
 	private double mrLibidostream;
 		
-	public clsProcessor(String poPrefix, clsBWProperties poProp) {
-		applyProperties(poPrefix, poProp);
+	public clsProcessor(String poPrefix, clsBWProperties poProp, String uid) {
+		applyProperties(poPrefix, poProp, uid);
 	}
 	
 	public static clsBWProperties getDefaultProperties(String poPrefix) {
@@ -52,11 +52,11 @@ public class clsProcessor implements itfProcessor  {
 		return oProp;
 	}	
 	
-	private void applyProperties(String poPrefix, clsBWProperties poProp) {
+	private void applyProperties(String poPrefix, clsBWProperties poProp, String uid) {
 		String pre = clsBWProperties.addDot(poPrefix);
 	
 		moKnowledgeBaseHandler = new clsInformationRepresentationManagement(pre + P_KNOWLEDGEABASE, poProp);
-		moPsyApp = new clsPsychicApparatus(pre + P_PSYCHICAPPARATUS, poProp, moKnowledgeBaseHandler);
+		moPsyApp = new clsPsychicApparatus(pre + P_PSYCHICAPPARATUS, poProp, moKnowledgeBaseHandler, uid);
 
 		mrLibidostream = poProp.getPropertyDouble(pre+P_LIBIDOSTREAM);
 	}

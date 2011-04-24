@@ -4,7 +4,7 @@
  * @author deutsch
  * 23.04.2011, 16:09:48
  */
-package pa._v30.datalogger;
+package pa._v30.logger;
 
 import java.util.ArrayList;
 import pa._v30.interfaces.itfInspectorGenericDynamicTimeChart;

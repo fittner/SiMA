@@ -45,9 +45,9 @@ import bw.body.io.actuators.actionProxies.itfAPCarryable;
 public class clsFungus extends clsInanimate implements itfGetFlesh, itfAPEatable, itfAPCarryable, itfIsConsumeable {
 	private boolean mnDestroyed = false;
 	
-	public clsFungus(String poPrefix, clsBWProperties poProp)
+	public clsFungus(String poPrefix, clsBWProperties poProp, String uid)
     {
-		super(poPrefix, poProp);
+		super(poPrefix, poProp, uid);
 		
 		applyProperties(poPrefix, poProp); 
     } 

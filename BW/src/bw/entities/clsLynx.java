@@ -40,8 +40,8 @@ public class clsLynx extends clsAnimal {
 	//private Shape moAlive; //reactivate in case of resurrection
 	private Shape moDead;
 	
-	public clsLynx(itfDecisionUnit poDU, String poPrefix, clsBWProperties poProp) {
-		super(poDU, poPrefix, poProp );
+	public clsLynx(itfDecisionUnit poDU, String poPrefix, clsBWProperties poProp, String uid) {
+		super(poDU, poPrefix, poProp, uid);
 		applyProperties(poPrefix, poProp);
 	}
 	

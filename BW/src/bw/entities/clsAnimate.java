@@ -27,8 +27,8 @@ import bw.utils.enums.eBodyType;
  */
 public abstract class clsAnimate extends clsMobile {
 
-	public clsAnimate(itfDecisionUnit poDU, String poPrefix, clsBWProperties poProp) {
-		super(poPrefix, poProp);
+	public clsAnimate(itfDecisionUnit poDU, String poPrefix, clsBWProperties poProp, String uid) {
+		super(poPrefix, poProp, uid);
 		
 		applyProperties(poDU, poPrefix, poProp);
 	}

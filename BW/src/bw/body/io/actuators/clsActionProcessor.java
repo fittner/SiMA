@@ -14,7 +14,7 @@ import java.util.Iterator;
 
 import config.clsBWProperties;
 
-import statictools.clsSingletonUniqueIdGenerator;
+import statictools.clsUniqueIdGenerator;
 import du.enums.eCallPriority;
 import du.itf.actions.*;
 import bw.body.clsComplexBody;
@@ -44,7 +44,7 @@ public class clsActionProcessor implements itfActionProcessor {
 	 static double srInventoryStaminaDemand = 0.25f;		//Stamina demand for a full inventory  
 	 static double srInventoryEnergyRelation = 0.2f;		//Relation energy to stamina
 
-	 private static final int mnUniqueId = clsSingletonUniqueIdGenerator.getUniqueId();
+	 private static final int mnUniqueId = clsUniqueIdGenerator.getUniqueId();
 
 	 public String getName() {
 		return "Action processor";

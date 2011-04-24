@@ -29,48 +29,48 @@ public class clsDecisionUnitFactory implements itfDecisionUnitFactory {
 	 */
 	@Override
 	public itfDecisionUnit createDecisionUnit(eDecisionType nDecisionType,
-			String poPrefix, clsBWProperties poProp) throws java.lang.IllegalArgumentException {
-		return createDecisionUnit_static(nDecisionType, poPrefix, poProp);
+			String poPrefix, clsBWProperties poProp, String uid) throws java.lang.IllegalArgumentException {
+		return createDecisionUnit_static(nDecisionType, poPrefix, poProp, uid);
 	}
 
 	public static itfDecisionUnit createDecisionUnit_static(eDecisionType nDecisionType,
-				String poPrefix, clsBWProperties poProp) throws java.lang.IllegalArgumentException {		
+				String poPrefix, clsBWProperties poProp, String uid) throws java.lang.IllegalArgumentException {		
 		clsBaseDecisionUnit oDecisionUnit = null;
 		
 		//create the defined decision unit...
 		switch(nDecisionType) {
 			case DUMB_MIND_A:
-				oDecisionUnit = new simple.dumbmind.clsDumbMindA(poPrefix, poProp);
+				oDecisionUnit = new simple.dumbmind.clsDumbMindA(poPrefix, poProp, uid);
 				break;
 			case FUNGUS_EATER:
-				oDecisionUnit = new simple.reactive.clsReactive(poPrefix, poProp);
+				oDecisionUnit = new simple.reactive.clsReactive(poPrefix, poProp, uid);
 				break;
 			case REMOTE:
-				oDecisionUnit = new simple.remotecontrol.clsRemoteControl(poPrefix, poProp);
+				oDecisionUnit = new simple.remotecontrol.clsRemoteControl(poPrefix, poProp, uid);
 				break;
 			case HARE_JADEX:
-				oDecisionUnit = new students.lifeCycle.JADEX.clsHareMind(poPrefix, poProp);
+				oDecisionUnit = new students.lifeCycle.JADEX.clsHareMind(poPrefix, poProp, uid);
 				break;			
 			case HARE_JAM:
-				oDecisionUnit = new students.lifeCycle.JAM.clsHareMind(poPrefix, poProp);
+				oDecisionUnit = new students.lifeCycle.JAM.clsHareMind(poPrefix, poProp, uid);
 				break;		
 			case HARE_IFTHENELSE:
-				oDecisionUnit = new students.lifeCycle.IfThenElse.clsHareMind(poPrefix, poProp);
+				oDecisionUnit = new students.lifeCycle.IfThenElse.clsHareMind(poPrefix, poProp, uid);
 				break;	
 			case LYNX_JADEX:
-				oDecisionUnit = new students.lifeCycle.JADEX.clsLynxMind(poPrefix, poProp);
+				oDecisionUnit = new students.lifeCycle.JADEX.clsLynxMind(poPrefix, poProp, uid);
 				break;			
 			case LYNX_JAM:
-				oDecisionUnit = new students.lifeCycle.JAM.clsLynxMind(poPrefix, poProp);
+				oDecisionUnit = new students.lifeCycle.JAM.clsLynxMind(poPrefix, poProp, uid);
 				break;	
 			case LYNX_IFTHENELSE:
-				oDecisionUnit = new students.lifeCycle.IfThenElse.clsLynxMind(poPrefix, poProp);
+				oDecisionUnit = new students.lifeCycle.IfThenElse.clsLynxMind(poPrefix, poProp, uid);
 				break;	
 			case PA:
-				oDecisionUnit = new pa.clsPsychoAnalysis(poPrefix, poProp);
+				oDecisionUnit = new pa.clsPsychoAnalysis(poPrefix, poProp, uid);
 				break;
 			case ActionlessTestPA:
-				oDecisionUnit = new testbrains.clsActionlessTestPA(poPrefix, poProp);
+				oDecisionUnit = new testbrains.clsActionlessTestPA(poPrefix, poProp, uid);
 				break;
 			default:
 				throw new java.lang.IllegalArgumentException("eDecisionType."+nDecisionType.name());
