@@ -28,6 +28,7 @@ public abstract class clsDLEntry_Abstract implements itfInspectorTimeChartBase, 
 	public long first = -1;
 	public long last = -1;
 	private String name = "";
+	private boolean captionsUpdated;
 	
 	public clsDLEntry_Abstract(clsModuleBase poModule) {
 		moModule = (itfInspectorTimeChartBase)poModule;
@@ -40,6 +41,7 @@ public abstract class clsDLEntry_Abstract implements itfInspectorTimeChartBase, 
 		}
 		
 		captions = null;
+		captionsUpdated = false;
 	}
 
 	protected void updateCaptions() {
@@ -53,6 +55,16 @@ public abstract class clsDLEntry_Abstract implements itfInspectorTimeChartBase, 
 			String oS = moModule.getTimeChartCaptions().get(i);
 			captions.add(oS);
 		}
+		
+		captionsUpdated = true;
+	}
+	
+	public boolean getCaptionsUpdated() {
+		return captionsUpdated;
+	}
+	
+	public void resetCaptionsUpdated() {
+		captionsUpdated = false;
 	}
 	
 	protected boolean captionsChanged() {

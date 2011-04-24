@@ -7,6 +7,7 @@
 package pa._v30.logger;
 
 import java.io.BufferedWriter;
+import java.io.File;
 import java.io.FileWriter;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -34,10 +35,14 @@ public class clsDataLogger {
 	
 	private String moLogFilename;
     private boolean writeToFile = true;
+    
     private boolean columnsWritten;
+
+    private String uid;
     
 	public clsDataLogger(HashMap<Integer, clsModuleBase> poModules, String uid) {
 		moLogFilename = clsGetARSPath.getLogFilename("data_"+uid);
+		this.uid = uid;
 		
 		moDataStorage = new ArrayList<clsDLEntry_Abstract>();
 		
@@ -69,41 +74,44 @@ public class clsDataLogger {
 	}
 	
 	public void step() {
-		for (clsDLEntry_Abstract oDLE:moDataStorage) {
-			oDLE.step();
-		}
-		if (writeToFile) {
-			updateFirstLast();
-			if (!columnsWritten) {
-				columnsWritten = true;
-				writeLineToFile(getColumnsCSV());
-			}			
-			writeLineToFile(getValuesCSV(last));
-		}
-	}
-
-	private void updateFirstLast() {
 		long min = Integer.MAX_VALUE;
 		long max = -1;
+		boolean columnsDirty = false;
 		
-		for (int i=0; i<moDataStorage.size(); i++) {
-			clsDLEntry_Abstract oDS = moDataStorage.get(i);
+		for (clsDLEntry_Abstract oDLE:moDataStorage) {
+			oDLE.step();
 			
-			if (oDS.first < min) {
-				min = oDS.first;
+			if (oDLE.getCaptionsUpdated()) {
+				columnsDirty = true;
+				oDLE.resetCaptionsUpdated();
 			}
-			if (oDS.last > max) {
-				max = oDS.last;
+			
+			if (oDLE.first < min) {
+				min = oDLE.first;
 			}
+			if (oDLE.last > max) {
+				max = oDLE.last;
+			}			
 		}
 		
 		first = min;
 		last = max;
+		
+		if (writeToFile) {
+			if (columnsDirty) {
+				rewriteLogFile();
+			} else {
+				if (!columnsWritten) {
+					columnsWritten = true;
+					writeLineToFile(getColumnsCSV(), moLogFilename);
+					writeDescription();
+				}			
+				writeLineToFile(getValuesCSV(last), moLogFilename);
+			}
+		}
 	}
 	
 	public String toCSV() {
-		updateFirstLast();
-		
 		String o = "";
 		o = getColumnsCSV();
 		for (long i=first; i<=last; i++) {
@@ -140,8 +148,6 @@ public class clsDataLogger {
 	}
 	
 	public String toHTML() {
-		updateFirstLast();
-		
 		String html = "<html><head></head><body>";
 		
 		html += "<h1>Data Logger - History</h1>";
@@ -167,33 +173,53 @@ public class clsDataLogger {
 		return html+"</body></html>";
 	}
 	
-	public String getDescription() {
-		updateFirstLast();
+	private void writeDescription() {
+		String text = getDescription();
+		String filename = clsGetARSPath.getLogFilename("data_"+uid+"_desc");
 		
-		String html = "<html><head></head><body>";
+		writeLineToFile(text, filename);
+	}
+	
+	public String getDescription() {		
+		String html = "";
 		
-		html += "<h1>Data Logger Content Description</h1>";
-		html += "<p>From: "+first+" to: "+last+"</p>";
+		html += "** Data Logger Content Description **"+newline;
+		html += "Step = "+last+newline;
+		html += newline;
 		
-		html += "<ul>";
 		
 		for (int i=0; i<moDataStorage.size(); i++) {
 			clsDLEntry_Abstract oDL = moDataStorage.get(i);		
-			html += "<li><b>"+oDL.getName()+":</b> ";
+			html += " - ["+oDL.getName()+"]: ";
 			for (String oS:oDL.getTimeChartCaptions()) {
 				html += oS+clsDataLogger.csvseperator;
 			}
-			html += "</li>";
+			html += newline;
 		}
-		html += "</ul>";
 		
-		return html+"</body></html>";
+		return html+newline;
 	}
 	
-	private void writeLineToFile(String poLine) {
+	private void removeFile(String poFilename) {
+		File oF = new File(poFilename);
+		oF.delete();
+	}
+	
+	private void rewriteLogFile() {
+		removeFile(moLogFilename);
+		writeDescription();
+		writeLineToFile(getColumnsCSV(), moLogFilename);
+		
+		for (long i=first; i<=last;i++) {
+			String oL = getValuesCSV(i);
+			writeLineToFile(oL, moLogFilename);
+		}
+	}
+	
+	private void writeLineToFile(String poLine, String poFilename) {
 	    try{
 	   	    // Create file 
-	   	    FileWriter fstream = new FileWriter(moLogFilename,true);
+	   	    FileWriter fstream = new FileWriter(poFilename,true);
 	        BufferedWriter out = new BufferedWriter(fstream);
 	        out.write(poLine);
 	        out.flush();
