@@ -8,11 +8,7 @@ package statictools.eventlogger;
 
 import java.io.BufferedWriter;
 import java.io.FileWriter;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
-
 import sim.engine.SimState;
 import statictools.clsGetARSPath;
 import statictools.clsSimState;
@@ -161,14 +157,9 @@ public class clsEventLogger {
 	
 	private String getFilename() {
 		if (moFilename==null || moFilename.length()==0) {
-			moFilename = clsGetARSPath.getArsPath()+"/events_"+getDateTime()+".log";
+			moFilename = clsGetARSPath.getLogFilename("events");
 		}
 		return moFilename;
 	}
-	
-    private String getDateTime() {
-        DateFormat dateFormat = new SimpleDateFormat("yyyyMMdd_HHmmss");
-        Date date = new Date();
-        return dateFormat.format(date);
-    }	
+
 }
