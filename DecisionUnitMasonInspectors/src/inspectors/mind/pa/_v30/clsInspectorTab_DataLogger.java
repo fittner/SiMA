@@ -27,11 +27,11 @@ import javax.swing.tree.DefaultMutableTreeNode;
 import pa._v30.interfaces.itfInspectorGenericActivityTimeChart;
 import pa._v30.interfaces.itfInspectorGenericDynamicTimeChart;
 import pa._v30.interfaces.itfInspectorGenericTimeChart;
+import pa._v30.logger.clsDLEntry_Abstract;
+import pa._v30.logger.clsDataLogger;
 import pa._v30.modules.clsPsychicApparatus;
 import pa.clsPsychoAnalysis;
 import pa._v30.clsProcessor;
-import pa._v30.datalogger.clsDLEntry_Abstract;
-import pa._v30.datalogger.clsDataLogger;
 import sim.portrayal.Inspector;
 import sim.portrayal.inspector.TabbedInspector;
 

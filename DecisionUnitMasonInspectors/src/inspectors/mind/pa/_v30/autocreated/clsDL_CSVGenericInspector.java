@@ -8,7 +8,7 @@ package inspectors.mind.pa._v30.autocreated;
 
 import java.awt.BorderLayout;
 
-import pa._v30.datalogger.clsDLEntry_Abstract;
+import pa._v30.logger.clsDLEntry_Abstract;
 import sim.portrayal.Inspector;
 import statictools.clsExceptionUtils;
 
