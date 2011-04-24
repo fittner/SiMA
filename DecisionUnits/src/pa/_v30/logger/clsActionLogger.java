@@ -6,6 +6,8 @@
  */
 package pa._v30.logger;
 
+import java.io.BufferedWriter;
+import java.io.FileWriter;
 import java.util.ArrayList;
 import pa._v30.tools.clsPair;
 import pa._v30.tools.clsTripple;
@@ -29,7 +31,8 @@ public class clsActionLogger {
 	private long last;
 	
 	private String moLogFilename;
-	
+    private boolean writeToFile = true;
+    
 	public clsActionLogger(String uid) {
 		moLogFilename = clsGetARSPath.getLogFilename("action_"+uid);
 		
@@ -42,7 +45,12 @@ public class clsActionLogger {
 		long act = clsSimState.getSteps();
 		if (act < first) {first = act;}
 		if (act > last) {last = act;}
-		actions.add(new clsPair<Long, String>(act, poAction));
+		clsPair<Long, String> oEntry =new clsPair<Long, String>(act, poAction); 
+		actions.add(oEntry);
+		
+		if (writeToFile) {
+			writeLineToFile(oEntry);
+		}
 	}
 	
 	@SuppressWarnings("unused")
@@ -80,6 +88,20 @@ public class clsActionLogger {
 		
 		return oResult;
 	}
+	
+	private void writeLineToFile(clsPair<Long, String> poLine) {
+	    try{
+	   	    // Create file 
+	   	    FileWriter fstream = new FileWriter(moLogFilename,true);
+	        BufferedWriter out = new BufferedWriter(fstream);
+	        out.write(poLine.a+";"+poLine.b); out.newLine();
+	        out.flush();
+	   	    //Close the output stream
+	   	    out.close();
+	     }catch (Exception e){//Catch exception if any
+	   	      System.err.println("Error: " + e.getMessage());
+	    }  
+	}	
 	
 	public String toText() {
 		String o = "";

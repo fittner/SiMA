@@ -6,9 +6,10 @@
  */
 package pa._v30.logger;
 
+import java.io.BufferedWriter;
+import java.io.FileWriter;
 import java.util.ArrayList;
 import java.util.HashMap;
-
 import pa._v30.interfaces.itfInspectorGenericActivityTimeChart;
 import pa._v30.interfaces.itfInspectorGenericDynamicTimeChart;
 import pa._v30.interfaces.itfInspectorGenericTimeChart;
@@ -32,7 +33,9 @@ public class clsDataLogger {
 	private long last;
 	
 	private String moLogFilename;
-	
+    private boolean writeToFile = true;
+    private boolean columnsWritten;
+    
 	public clsDataLogger(HashMap<Integer, clsModuleBase> poModules, String uid) {
 		moLogFilename = clsGetARSPath.getLogFilename("data_"+uid);
 		
@@ -47,6 +50,9 @@ public class clsDataLogger {
 				moDataStorage.add(new clsDLEntry_TimeChart( oMod ));
 			}
 		}
+		
+		columnsWritten = false;
+
 	}
 	
 	public clsDLEntry_Abstract getDL(String name) {
@@ -65,6 +71,14 @@ public class clsDataLogger {
 	public void step() {
 		for (clsDLEntry_Abstract oDLE:moDataStorage) {
 			oDLE.step();
+		}
+		if (writeToFile) {
+			updateFirstLast();
+			if (!columnsWritten) {
+				columnsWritten = true;
+				writeLineToFile(getColumnsCSV());
+			}			
+			writeLineToFile(getValuesCSV(last));
 		}
 	}
 
@@ -175,4 +189,19 @@ public class clsDataLogger {
 		
 		return html+"</body></html>";
 	}
+	
+	private void writeLineToFile(String poLine) {
+	    try{
+	   	    // Create file 
+	   	    FileWriter fstream = new FileWriter(moLogFilename,true);
+	        BufferedWriter out = new BufferedWriter(fstream);
+	        out.write(poLine);
+	        out.flush();
+	   	    //Close the output stream
+	   	    out.close();
+	     }catch (Exception e){//Catch exception if any
+	   	      System.err.println("Error: " + e.getMessage());
+	    }  
+	}	
+		
 }
