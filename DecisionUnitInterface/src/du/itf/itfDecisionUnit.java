@@ -21,6 +21,6 @@ public interface itfDecisionUnit {
 	public void process();
 	public void setActionProcessor(itfActionProcessor poActionProcessor);
 	public void update(clsSensorData poSensorData);
-	public void updateActionProcessorToHTML();
+	public void updateActionLogger();
 	public eDecisionType getDecisionUnitType();
 }

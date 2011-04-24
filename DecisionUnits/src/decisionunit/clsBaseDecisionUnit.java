@@ -1,5 +1,6 @@
 package decisionunit;
 
+import pa._v30.datalogger.clsActionLogger;
 import config.clsBWProperties;
 import du.enums.eDecisionType;
 import du.itf.itfDecisionUnit;
@@ -9,12 +10,13 @@ import du.itf.sensors.clsSensorData;
 public abstract class clsBaseDecisionUnit implements itfDecisionUnit {
 	private clsSensorData moSensorData;
 	private itfActionProcessor moActionProcessor;
-	private String moActionProcessorToHTML;
 	protected eDecisionType meDecisionType;
+	public clsActionLogger moActionLogger;
 
 	public clsBaseDecisionUnit(String poPrefix, clsBWProperties poProp) {
 		setDecisionUnitType();
 		applyProperties(poPrefix, poProp);
+		moActionLogger = new clsActionLogger();
 	}
 	
 	@Override
@@ -48,13 +50,9 @@ public abstract class clsBaseDecisionUnit implements itfDecisionUnit {
 		return moSensorData;
 	}
 	
-	public String getActionProcessorToHTML() {
-		return moActionProcessorToHTML;
-	}
-	
 	@Override
-	public void updateActionProcessorToHTML() {
-		moActionProcessorToHTML = moActionProcessor.logXML();
+	public void updateActionLogger() {
+		moActionLogger.add(moActionProcessor.logText());
 	}
 	
 	public static clsBWProperties getDefaultProperties(String poPrefix) {

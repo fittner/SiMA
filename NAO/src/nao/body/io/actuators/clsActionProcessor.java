@@ -164,6 +164,11 @@ public class clsActionProcessor implements itfActionProcessor {
 		return "<Actions>" + msLogXML + "</Actions>";
 	}
 	
+	@Override
+	public String logText() {
+		return msLogXML;
+	}
+	
 	/*
 	 *Start Dispatch Phase 
 	 */

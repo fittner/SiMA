@@ -16,5 +16,6 @@ public interface itfActionProcessor {
 	public void call(clsActionCommand poCommand);
 	
 	public String logXML();
+	public String logText();
 
 }

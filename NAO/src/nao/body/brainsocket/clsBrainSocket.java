@@ -284,7 +284,7 @@ public class clsBrainSocket implements itfStepProcessing {
 				e.printStackTrace();
 			}
 			moDecisionUnit.process();
-			moDecisionUnit.updateActionProcessorToHTML();
+			moDecisionUnit.updateActionLogger();
 		} 
 	}
 	
