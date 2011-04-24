@@ -1,0 +1,1 @@
+this folder is used for local logging. all files which end with .log are ignored by git.
