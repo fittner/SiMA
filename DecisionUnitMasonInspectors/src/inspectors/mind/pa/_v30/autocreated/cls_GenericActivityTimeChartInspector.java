@@ -47,15 +47,16 @@ public class cls_GenericActivityTimeChartInspector extends cls_AbstractChartInsp
 	 * 15.04.2011, 18:54:19
 	 *
 	 * @param poTimingContainer
-	 * @param poYAxisCaption
-	 * @param prLowerLimit
-	 * @param prUpperLimit
-	 * @param poChartName
 	 */
 	public cls_GenericActivityTimeChartInspector(itfInspectorGenericActivityTimeChart poObject) {
 		super(poObject, poObject.getTimeChartAxis(), poObject.getTimeChartTitle(), mnDefaultOffset);
 		//nothing to do
 	}
+	
+	public cls_GenericActivityTimeChartInspector(itfInspectorGenericActivityTimeChart poObject, int pnHistoryLength, int pnWidth, int pnHeight) {
+		super(poObject, poObject.getTimeChartAxis(), poObject.getTimeChartTitle(), mnDefaultOffset, pnHistoryLength, pnWidth, pnHeight);
+		//nothing to do
+	}	
 
     @Override
 	protected void customizePlot(XYPlot plot) {

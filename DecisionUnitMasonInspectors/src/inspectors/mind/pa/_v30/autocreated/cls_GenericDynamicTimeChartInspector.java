@@ -23,8 +23,7 @@ import pa._v30.interfaces.itfInterfaceTimeChartHistory;
  * 23.04.2011, 13:02:24
  * 
  */
-public class cls_GenericDynamicTimeChartInspector extends
-		cls_GenericTimeChartInspector {
+public class cls_GenericDynamicTimeChartInspector extends cls_GenericTimeChartInspector {
 
 	/**
 	 * DOCUMENT (deutsch) - insert description 
@@ -42,13 +41,16 @@ public class cls_GenericDynamicTimeChartInspector extends
 	 *
 	 * @param poObject
 	 */
-	public cls_GenericDynamicTimeChartInspector(
-			itfInspectorGenericDynamicTimeChart poObject) {
+	public cls_GenericDynamicTimeChartInspector(itfInspectorGenericDynamicTimeChart poObject) {
 		super(poObject);
 		((itfInspectorGenericDynamicTimeChart)moTimeingContainer).chartColumnsUpdated();
 	}
 
-
+	public cls_GenericDynamicTimeChartInspector(itfInspectorGenericDynamicTimeChart poObject, int pnHistoryLength, int pnWidth, int pnHeight) {
+		super(poObject, pnHistoryLength, pnWidth, pnHeight);
+		((itfInspectorGenericDynamicTimeChart)moTimeingContainer).chartColumnsUpdated();
+	}	
+	
     @Override
     protected XYSeriesCollection createDataset() {
     	XYSeriesCollection poDataset = super.createDataset();

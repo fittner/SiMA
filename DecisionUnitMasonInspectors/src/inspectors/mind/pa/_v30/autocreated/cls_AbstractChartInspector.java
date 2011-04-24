@@ -43,9 +43,9 @@ public abstract class cls_AbstractChartInspector extends Inspector {
 	 */
 	private static final long serialVersionUID = 3125332229433964204L;
 
-	protected final static int mnHistoryLength = 200;
-	protected final static int mnWidth = 600;
-	protected final static int mnHeight = 400;
+	protected final int mnHistoryLength;
+	protected final int mnWidth;
+	protected final int mnHeight;
 	protected final int mnOffset;
 	
 	protected itfInspectorTimeChartBase moTimeingContainer;
@@ -61,13 +61,35 @@ public abstract class cls_AbstractChartInspector extends Inspector {
             String poChartName,
             int pnOffset)
     {
+    	mnHistoryLength = 200;
+    	mnWidth = 600;
+    	mnHeight = 400;
     	moTimeingContainer= poTimingContainer;
     	mnCurrentTime = clsSimState.getSteps();
     	mnOffset = pnOffset;
     	
     	moChartName = poChartName;
     	moYAxisCaption = poYAxisCaption;
+
+    	create();
+    }
+    
+    public cls_AbstractChartInspector(
+    		itfInspectorTimeChartBase poTimingContainer,
+            String poYAxisCaption,
+            String poChartName,
+            int pnOffset, int pnHistoryLength, int pnWidth, int pnHeight)
+    {
+    	mnHistoryLength = pnHistoryLength;
+    	mnWidth = pnWidth;
+    	mnHeight = pnHeight;
+    	moTimeingContainer= poTimingContainer;
+    	mnCurrentTime = clsSimState.getSteps();
+    	mnOffset = pnOffset;
     	
+    	moChartName = poChartName;
+    	moYAxisCaption = poYAxisCaption;
+
     	create();
     }
     

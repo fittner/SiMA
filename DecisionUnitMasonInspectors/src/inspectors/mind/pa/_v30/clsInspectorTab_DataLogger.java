@@ -166,11 +166,11 @@ public class clsInspectorTab_DataLogger extends Inspector implements TreeSelecti
 			clsDLEntry_Abstract oDL = moPA.moDataLogger.getDL(poModuleName);
 			if (oDL != null) {
 				if (oDL instanceof itfInspectorGenericActivityTimeChart) {
-					oRetVal.addInspector(new cls_GenericActivityTimeChartInspector((itfInspectorGenericActivityTimeChart)oDL), "Chart");
+					oRetVal.addInspector(new cls_GenericActivityTimeChartInspector((itfInspectorGenericActivityTimeChart)oDL, 800, 800, 400), "Chart");
 				} else if (oDL instanceof itfInspectorGenericDynamicTimeChart) {
-					oRetVal.addInspector(new cls_GenericDynamicTimeChartInspector((itfInspectorGenericDynamicTimeChart)oDL), "Chart");					
+					oRetVal.addInspector(new cls_GenericDynamicTimeChartInspector((itfInspectorGenericDynamicTimeChart)oDL, 800, 800, 400), "Chart");					
 				} else if (oDL instanceof itfInspectorGenericTimeChart) {
-					oRetVal.addInspector(new cls_GenericTimeChartInspector((itfInspectorGenericTimeChart)oDL), "Chart");
+					oRetVal.addInspector(new cls_GenericTimeChartInspector((itfInspectorGenericTimeChart)oDL, 800, 800, 400), "Chart");
 				}
 
 				oRetVal.addInspector(new clsDL_CSVGenericInspector(oDL), "CSV");

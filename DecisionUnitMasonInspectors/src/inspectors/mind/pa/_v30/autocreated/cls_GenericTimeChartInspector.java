@@ -53,6 +53,14 @@ public class cls_GenericTimeChartInspector extends cls_AbstractChartInspector {
 		mrUpper = poObject.getTimeChartUpperLimit();
 	}
 	
+	public cls_GenericTimeChartInspector(itfInspectorGenericTimeChart poObject, int pnHistoryLength, int pnWidth, int pnHeight) {
+		super(poObject, poObject.getTimeChartAxis(), poObject.getTimeChartTitle(), 0, pnHistoryLength, pnWidth, pnHeight);
+		
+		mrLower = poObject.getTimeChartLowerLimit();
+		mrUpper = poObject.getTimeChartUpperLimit();
+	}
+	
+	
     private void addLimitLines(XYSeriesCollection poDataset) {
     	//tweak to have a nice static upper and lower limit 
     	moUpperLimit = new XYSeries("");
