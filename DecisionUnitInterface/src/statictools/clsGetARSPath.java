@@ -38,9 +38,12 @@ public class clsGetARSPath {
 		return getXMLPath()+"entity_config"+System.getProperty("file.separator");
 	}
 	
-	public static String getLogPath()
-	{
-		return getArsPath()+System.getProperty("file.separator")+"BW"+System.getProperty("file.separator")+"log";
+	public static String getLogPath() {
+		return getArsPath()+System.getProperty("file.separator")+"log";
+	}
+	
+	public static String getLogFilename(String poLogType) {
+		return clsGetARSPath.getArsPath()+"/"+clsSimState.getSimStartTimestamp()+"_"+poLogType+".log";
 	}
 	
 	public static String getXMLPathMemory()
