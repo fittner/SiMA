@@ -43,7 +43,7 @@ public class clsGetARSPath {
 	}
 	
 	public static String getLogFilename(String poLogType) {
-		return clsGetARSPath.getArsPath()+"/"+clsSimState.getSimStartTimestamp()+"_"+poLogType+".log";
+		return clsGetARSPath.getLogPath()+"/"+clsSimState.getSimStartTimestamp()+"_"+poLogType+".log";
 	}
 	
 	public static String getXMLPathMemory()
