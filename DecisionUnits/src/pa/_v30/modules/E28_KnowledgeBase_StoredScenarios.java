@@ -345,7 +345,7 @@ public class E28_KnowledgeBase_StoredScenarios extends clsModuleBaseKB implement
 			for(clsAct oEntry : poTempActs){
 					double nMS = oEntry.compareTo(poAct); 
 					
-					if(nMS == oConsequenceUnknown.length){				
+					if(nMS == oConsequenceUnknown.length && !oEntry.getMoContent().contains("UNPLEASURE")){				
 						oFullMatch.add(oEntry); 
 					}
 			}
@@ -421,6 +421,10 @@ public class E28_KnowledgeBase_StoredScenarios extends clsModuleBaseKB implement
 				
 				for(String oCondition : oEntry.getValue()){
 						if(poActualState.contains(oCondition) ){
+							oRetVal = true; 
+							break; 
+						}
+						else if(oCondition.contains("UNDEFINED")){
 							oRetVal = true; 
 							break; 
 						}

@@ -208,7 +208,7 @@ public class E26_DecisionMaking extends clsModuleBase implements
 		
 		compriseExternalPerception();
 		compriseRuleList(); 
-		compriseDrives(); 
+		compriseDrives();
 	}
 	
 	
@@ -275,10 +275,57 @@ public class E26_DecisionMaking extends clsModuleBase implements
 			
 			int nUnpleasureIntensity = getUnpleasureIntensity (oRule); 
 			ArrayList<clsSecondaryDataStructureContainer> oObsoleteGoals = getObsoleteGoals (nUnpleasureIntensity, oRule); 
+			ArrayList<clsSecondaryDataStructureContainer> oObsoleteDrives = getObsoleteDrives(oRule); 
 			deleteObsoleteGoals(oObsoleteGoals); 
+			deleteObsoleteDrives(oObsoleteDrives); 
 		}
 	}
 	
+	/**
+	 * DOCUMENT (zeilinger) - insert description
+	 *
+	 * @author zeilinger
+	 * 25.04.2011, 15:02:31
+	 *
+	 * @param oObsoleteDrives
+	 */
+	private void deleteObsoleteDrives(
+			ArrayList<clsSecondaryDataStructureContainer> poObsoleteDrives) {
+		
+		for(clsSecondaryDataStructureContainer oObsoleteDrive : poObsoleteDrives){
+			moDriveList.remove(oObsoleteDrive); 
+		}
+	}
+
+	/**
+	 * DOCUMENT (zeilinger) - insert description
+	 *
+	 * @author zeilinger
+	 * 25.04.2011, 14:54:15
+	 *
+	 * @param oRule
+	 * @return
+	 */
+	private ArrayList<clsSecondaryDataStructureContainer> getObsoleteDrives(clsAct poRule) {
+
+		ArrayList <clsSecondaryDataStructureContainer> oRetVal = new ArrayList<clsSecondaryDataStructureContainer>();
+		String oRuleContent = poRule.getMoContent().substring(0, poRule.getMoContent().indexOf(_Delimiter03)); 
+		
+//		if(oRuleContent.contains("DEPOSIT")){
+//			int i = 0; 
+//		}
+		
+		for(clsSecondaryDataStructureContainer oDrive : moDriveList){
+			String oDriveContent = ((clsWordPresentation)oDrive.getMoDataStructure()).getMoContent();
+						
+			if(oDriveContent.contains(oRuleContent)){
+				oRetVal.add(oDrive); 
+			}
+		}
+		
+		return oRetVal; 
+	}
+
 	/**
 	 * DOCUMENT (zeilinger) - insert description
 	 *
@@ -296,11 +343,7 @@ public class E26_DecisionMaking extends clsModuleBase implements
 			String oGoal = ((clsWordPresentation)oEntry.getMoDataStructure()).getMoContent();
 			String oGoalContent = (String)oGoal.subSequence(0, oGoal.indexOf(_Delimiter02)); 
 			String oRuleContent = poRule.getMoContent().substring(0, poRule.getMoContent().indexOf(_Delimiter03)); 
-			
-			if(oGoal.equals("DEPOSIT")){
-				int i = 0; 
-			}
-			
+						
 			for(clsSecondaryDataStructureContainer oDrive : moDriveList){
 				String oDriveContent = ((clsWordPresentation)oDrive.getMoDataStructure()).getMoContent();
 				String oDriveDemand = oDriveContent.substring(oDriveContent.indexOf(_Delimiter01) + 1); 

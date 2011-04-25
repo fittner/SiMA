@@ -1,4 +1,4 @@
-; Sat Apr 23 08:25:09 CEST 2011
+; Mon Apr 25 15:15:25 CEST 2011
 ; 
 ;+ (version "3.4.4")
 ;+ (build "Build 579")
@@ -120,7 +120,7 @@
 	(value "REMOTEBOT")
 	(value_type "EAT"))
 
-([ACT%3AEXCREMENT] of  ACT
+([ACT%3AEXCREMENT%3A01] of  ACT
 
 	(action [WP%3AACTION%3AEXCREMENT])
 	(consequence
@@ -128,7 +128,19 @@
 		[WP%3ALOW]
 		[WP%3AREPRESS]
 		[WP%3ALOW])
-	(precondition [WP%3AOBJECT])
+	(precondition [WP%3ARELATION%3AUNDEFINED])
+	(value "EXCREMENT")
+	(value_type "EXCREMENT"))
+
+([ACT%3AEXCREMENT%3A02] of  ACT
+
+	(action [WP%3AACTION%3AEXCREMENT])
+	(consequence
+		[WP%3ADEPOSIT]
+		[WP%3ALOW]
+		[WP%3AREPRESS]
+		[WP%3ALOW])
+	(precondition [WP%3ARELATION%3AUNDEFINED])
 	(value "EXCREMENT")
 	(value_type "EXCREMENT"))
 
@@ -272,7 +284,7 @@
 		[WP%3ALOW]
 		[WP%3ARELAX]
 		[WP%3ALOW])
-	(precondition [WP%3AOBJECT])
+	(precondition [WP%3ARELATION%3AUNDEFINED])
 	(value "DEEP")
 	(value_type "SLEEP"))
 
@@ -1699,6 +1711,10 @@
 ([WP%3ARELATION%3ATO] of  WP%3ARELATION
 
 	(value "TO"))
+
+([WP%3ARELATION%3AUNDEFINED] of  WP%3ARELATION
+
+	(value "UNDEFINED"))
 
 ([WP%3ARELAX] of  WP%3ACONTENT
 
