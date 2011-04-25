@@ -7,9 +7,8 @@
 package statictools.eventlogger;
 
 import java.awt.BorderLayout;
-
+import panels.TextOutputPanel;
 import sim.portrayal.Inspector;
-import sim.util.gui.HTMLBrowser;
 import statictools.clsExceptionUtils;
 
 /**
@@ -28,13 +27,16 @@ public class clsEventLoggerInspector extends Inspector {
 	 * 22.04.2011, 23:32:57
 	 */
 	private static final long serialVersionUID = -7402285636384610376L;
+	private TextOutputPanel oPanel;
 	
     public clsEventLoggerInspector()    {
     	setVolatile(true);
         setLayout(new BorderLayout());
     	
+        oPanel = new TextOutputPanel(getHTML());
+        
     	try {
-    		add(new HTMLBrowser(getHTML()), BorderLayout.CENTER);
+    		add(oPanel, BorderLayout.CENTER);
 		} catch (java.lang.Exception e) {
 			System.out.println(clsExceptionUtils.getCustomStackTrace(e));
 		}
@@ -56,8 +58,7 @@ public class clsEventLoggerInspector extends Inspector {
 	public void updateInspector() {
 		try {
 			if (clsEventLogger.isHtmlDirty()) {
-				removeAll();
-				add(new HTMLBrowser(getHTML()), BorderLayout.CENTER);
+				oPanel.setText(getHTML());
 			}
 		} catch (java.lang.Exception e) {
 			System.out.println(clsExceptionUtils.getCustomStackTrace(e));

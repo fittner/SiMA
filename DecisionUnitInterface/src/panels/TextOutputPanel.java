@@ -4,7 +4,7 @@
  * @author deutsch
  * 23.04.2011, 21:56:41
  */
-package inspectors.mind.pa._v30.autocreated;
+package panels;
 
 import java.awt.BorderLayout;
 

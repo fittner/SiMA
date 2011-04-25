@@ -6,8 +6,9 @@
  */
 package inspectors;
 
-import inspectors.mind.pa._v30.autocreated.TextOutputPanel;
 import java.awt.BorderLayout;
+
+import panels.TextOutputPanel;
 import sim.portrayal.Inspector;
 import statictools.clsSimState;
 import decisionunit.clsBaseDecisionUnit;

@@ -6,10 +6,11 @@
  */
 package inspectors.mind.pa._v30.handcrafted;
 
-import inspectors.mind.pa._v30.autocreated.TextOutputPanel;
+
 import java.awt.BorderLayout;
 
 import pa._v30.logger.clsDataLogger;
+import panels.TextOutputPanel;
 import sim.portrayal.Inspector;
 import statictools.clsExceptionUtils;
 

@@ -6,9 +6,11 @@
  */
 package inspectors.mind.pa._v30.autocreated;
 
+
 import java.awt.BorderLayout;
 
 import pa._v30.logger.clsDLEntry_Abstract;
+import panels.TextOutputPanel;
 import sim.portrayal.Inspector;
 import statictools.clsExceptionUtils;
 

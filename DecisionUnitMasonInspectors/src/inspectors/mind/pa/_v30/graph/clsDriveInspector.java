@@ -106,7 +106,7 @@ public class clsDriveInspector extends clsGraphBase {
 		DefaultGraphCell oCell = null;
 		oCell = readSingle_new(poCellList, poParentLife, oDM, poAssociationName, poNodeColor);
 		
-		String oVertexName =  "Affect: \n " + oDM.getPleasure();
+		String oVertexName =  "Quota of affect: \n " + oDM.getPleasure();
 		DefaultGraphCell oCurrentVertex = createVertex(oVertexName, 20, 20, 150, 40, poNodeColor);
 		poCellList.add( oCurrentVertex );
 		createEdge(poCellList, oCell, oCurrentVertex, poAssociationName);
