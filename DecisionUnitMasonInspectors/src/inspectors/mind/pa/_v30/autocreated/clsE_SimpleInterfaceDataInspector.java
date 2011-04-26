@@ -88,7 +88,7 @@ public class clsE_SimpleInterfaceDataInspector extends
 			}
 		}
 		
-		moContent  = toText.h2("Send");
+		moContent += toText.h2("Send");
 		if (moSend != null) {
 			for (int i=0; i<moSend.size(); i++) {
 				eInterfaces eSnd = moSend.get(i);	
