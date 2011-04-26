@@ -109,12 +109,12 @@ public class clsCarrot extends clsInanimate implements itfGetFlesh, itfAPEatable
 
 		oProp.setProperty(pre+P_SHAPE+"."+clsShapeCreator.P_DEFAULT_SHAPE, P_SHAPE_FRESH);
 		oProp.setProperty(pre+P_SHAPE+"."+P_SHAPE_FRESH+"."+clsShapeCreator.P_TYPE, eShapeType.CIRCLE.name());
-		oProp.setProperty(pre+P_SHAPE+"."+P_SHAPE_FRESH+"."+clsShapeCreator.P_RADIUS, "1.5");
+		oProp.setProperty(pre+P_SHAPE+"."+P_SHAPE_FRESH+"."+clsShapeCreator.P_RADIUS, "5");
 		oProp.setProperty(pre+P_SHAPE+"."+P_SHAPE_FRESH+"."+clsShapeCreator.P_COLOR, Color.orange);
 		oProp.setProperty(pre+P_SHAPE+"."+P_SHAPE_FRESH+"."+clsShapeCreator.P_IMAGE_PATH, "/BW/src/resources/images/carrot_clipart.png");
 		oProp.setProperty(pre+P_SHAPE+"."+P_SHAPE_FRESH+"."+clsShapeCreator.P_IMAGE_POSITIONING, eImagePositioning.DEFAULT.name());
 		oProp.setProperty(pre+P_SHAPE+"."+P_SHAPE_DEAD+"."+clsShapeCreator.P_TYPE, eShapeType.CIRCLE.name());
-		oProp.setProperty(pre+P_SHAPE+"."+P_SHAPE_DEAD+"."+clsShapeCreator.P_RADIUS, "1");
+		oProp.setProperty(pre+P_SHAPE+"."+P_SHAPE_DEAD+"."+clsShapeCreator.P_RADIUS, "5");
 		oProp.setProperty(pre+P_SHAPE+"."+P_SHAPE_DEAD+"."+clsShapeCreator.P_COLOR, Color.gray);
 		oProp.setProperty(pre+P_SHAPE+"."+P_SHAPE_DEAD+"."+clsShapeCreator.P_IMAGE_PATH, "/BW/src/resources/images/carrot_grayscale.png");
 		oProp.setProperty(pre+P_SHAPE+"."+P_SHAPE_DEAD+"."+clsShapeCreator.P_IMAGE_POSITIONING, eImagePositioning.DEFAULT.name());
