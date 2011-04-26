@@ -13,7 +13,7 @@ import java.util.SortedMap;
 
 import pa._v30.tools.clsPair;
 import pa._v30.tools.clsTripple;
-import pa._v30.tools.toHtml;
+import pa._v30.tools.toText;
 import pa._v30.interfaces.eInterfaces;
 import pa._v30.interfaces.modules.I1_10_receive;
 import pa._v30.interfaces.modules.I2_17_receive;
@@ -73,17 +73,17 @@ public class E43_SeparationIntoPartialSexualDrives extends clsModuleBase impleme
 	 * @author deutsch
 	 * 14.04.2011, 17:36:19
 	 * 
-	 * @see pa.modules._v30.clsModuleBase#stateToHTML()
+	 * @see pa.modules._v30.clsModuleBase#stateToTEXT()
 	 */
 	@Override
-	public String stateToHTML() {
-		String html ="";
+	public String stateToTEXT() {
+		String text ="";
 		
-		html += toHtml.listToHTML("moHomeostaticDriveDemands", moHomeostaticDriveDemands);
-		html += toHtml.listToHTML("moDriveCandidates", moDriveCandidates);
-		html += toHtml.listToHTML("moPartialSexualDrives", moPartialSexualDrives);
+		text += toText.listToTEXT("moHomeostaticDriveDemands", moHomeostaticDriveDemands);
+		text += toText.listToTEXT("moDriveCandidates", moDriveCandidates);
+		text += toText.listToTEXT("moPartialSexualDrives", moPartialSexualDrives);
 		
-		return html;
+		return text;
 	}	
 	
 	public static clsBWProperties getDefaultProperties(String poPrefix) {

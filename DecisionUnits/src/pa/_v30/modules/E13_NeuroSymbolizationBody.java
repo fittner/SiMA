@@ -18,7 +18,7 @@ import pa._v30.interfaces.modules.I2_4_receive;
 import pa._v30.interfaces.modules.I2_4_send;
 import pa._v30.symbolization.clsSensorToSymbolConverter;
 import pa._v30.symbolization.representationsymbol.itfSymbol;
-import pa._v30.tools.toHtml;
+import pa._v30.tools.toText;
 import pa._v30.enums.eSymbolExtType;
 
 /**
@@ -55,16 +55,16 @@ public class E13_NeuroSymbolizationBody extends clsModuleBase implements I2_3_re
 	 * @author deutsch
 	 * 14.04.2011, 17:36:19
 	 * 
-	 * @see pa.modules._v30.clsModuleBase#stateToHTML()
+	 * @see pa.modules._v30.clsModuleBase#stateToTEXT()
 	 */
 	@Override
-	public String stateToHTML() {		
-		String html = "";
+	public String stateToTEXT() {		
+		String text = "";
 		
-		html += toHtml.mapToHTML("moBodyData", moBodyData);
-		html += toHtml.mapToHTML("moSymbolData", moSymbolData);
+		text += toText.mapToTEXT("moBodyData", moBodyData);
+		text += toText.mapToTEXT("moSymbolData", moSymbolData);
 
-		return html;
+		return text;
 	}
 	
 	public static clsBWProperties getDefaultProperties(String poPrefix) {

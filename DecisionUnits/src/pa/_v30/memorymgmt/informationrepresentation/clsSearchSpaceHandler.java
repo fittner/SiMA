@@ -38,8 +38,8 @@ public class clsSearchSpaceHandler implements itfInspectorInternalState {
 	 * @see pa._v30.interfaces.itfInspectorInternalState#stateToHTML()
 	 */
 	@Override
-	public String stateToHTML() {
-		return moSearchSpace.stateToHTML();
+	public String stateToTEXT() {
+		return moSearchSpace.stateToTEXT();
 	}	
 	
 	public clsSearchSpaceHandler(String poDatabaseSource, String poSourceName){

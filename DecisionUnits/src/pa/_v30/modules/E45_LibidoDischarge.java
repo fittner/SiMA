@@ -14,7 +14,7 @@ import java.util.SortedMap;
 import pa._v30.storage.clsLibidoBuffer;
 import pa._v30.tools.clsPair;
 import pa._v30.tools.clsTripple;
-import pa._v30.tools.toHtml;
+import pa._v30.tools.toText;
 import pa._v30.interfaces.eInterfaces;
 import pa._v30.interfaces.itfInspectorGenericTimeChart;
 import pa._v30.interfaces.modules.I2_16_receive;
@@ -156,21 +156,21 @@ public class E45_LibidoDischarge extends clsModuleBaseKB implements itfInspector
 	 * @author deutsch
 	 * 14.04.2011, 17:36:19
 	 * 
-	 * @see pa.modules._v30.clsModuleBase#stateToHTML()
+	 * @see pa.modules._v30.clsModuleBase#stateToTEXT()
 	 */
 	@Override
-	public String stateToHTML() {
-		String html ="";
+	public String stateToTEXT() {
+		String text ="";
 		
-		html += toHtml.listToHTML("moMergedPrimaryInformation_Rcv", moMergedPrimaryInformation_Rcv);	
-		html += toHtml.listToHTML("moMergedPrimaryInformation_Snd", moMergedPrimaryInformation_Snd);		
-		html += toHtml.listToHTML("moLibidioDischargeCandidates", moLibidioDischargeCandidates);
-		html += toHtml.valueToHTML("mrDischargePiece", mrDischargePiece);		
-		html += toHtml.valueToHTML("mrAvailableLibido", mrAvailableLibido);
-		html += toHtml.valueToHTML("mrReducedLibido", mrLibidoReducedBy);
-		html += toHtml.valueToHTML("moLibidoBuffer", moLibidoBuffer);
+		text += toText.listToTEXT("moMergedPrimaryInformation_Rcv", moMergedPrimaryInformation_Rcv);	
+		text += toText.listToTEXT("moMergedPrimaryInformation_Snd", moMergedPrimaryInformation_Snd);		
+		text += toText.listToTEXT("moLibidioDischargeCandidates", moLibidioDischargeCandidates);
+		text += toText.valueToTEXT("mrDischargePiece", mrDischargePiece);		
+		text += toText.valueToTEXT("mrAvailableLibido", mrAvailableLibido);
+		text += toText.valueToTEXT("mrReducedLibido", mrLibidoReducedBy);
+		text += toText.valueToTEXT("moLibidoBuffer", moLibidoBuffer);
 		
-		return html;
+		return text;
 	}		
 	
 	public static clsBWProperties getDefaultProperties(String poPrefix) {

@@ -147,6 +147,7 @@ public class clsDataLogger {
 		return o;
 	}
 	
+	@Deprecated
 	public String toHTML() {
 		String html = "<html><head></head><body>";
 		
@@ -181,23 +182,23 @@ public class clsDataLogger {
 	}
 	
 	public String getDescription() {		
-		String html = "";
+		String text = "";
 		
-		html += "** Data Logger Content Description **"+newline;
-		html += "Step = "+last+newline;
-		html += newline;
+		text += "** Data Logger Content Description **"+newline;
+		text += "Step = "+last+newline;
+		text += newline;
 		
 		
 		for (int i=0; i<moDataStorage.size(); i++) {
 			clsDLEntry_Abstract oDL = moDataStorage.get(i);		
-			html += " - ["+oDL.getName()+"]: ";
+			text += " - ["+oDL.getName()+"]: ";
 			for (String oS:oDL.getTimeChartCaptions()) {
-				html += oS+clsDataLogger.csvseperator;
+				text += oS+clsDataLogger.csvseperator;
 			}
-			html += newline;
+			text += newline;
 		}
 		
-		return html+newline;
+		return text+newline;
 	}
 	
 	private void removeFile(String poFilename) {

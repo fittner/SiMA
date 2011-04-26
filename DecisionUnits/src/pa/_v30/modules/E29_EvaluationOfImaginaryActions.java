@@ -17,7 +17,7 @@ import pa._v30.interfaces.modules.I7_4_receive;
 import pa._v30.interfaces.modules.I7_4_send;
 import pa._v30.interfaces.modules.I7_6_receive;
 import pa._v30.memorymgmt.datatypes.clsWordPresentation;
-import pa._v30.tools.toHtml;
+import pa._v30.tools.toText;
 
 /**
  * DOCUMENT (perner) - insert description 
@@ -55,16 +55,16 @@ public class E29_EvaluationOfImaginaryActions extends clsModuleBase implements
 	 * @author deutsch
 	 * 14.04.2011, 17:36:19
 	 * 
-	 * @see pa.modules._v30.clsModuleBase#stateToHTML()
+	 * @see pa.modules._v30.clsModuleBase#stateToTEXT()
 	 */
 	@Override
-	public String stateToHTML() {
-		String html ="";
+	public String stateToTEXT() {
+		String text ="";
 		
-		html += toHtml.listToHTML("moActionCommands_Input", moActionCommands_Input);
-		html += toHtml.listToHTML("moActionCommands_Output", moActionCommands_Output);
+		text += toText.listToTEXT("moActionCommands_Input", moActionCommands_Input);
+		text += toText.listToTEXT("moActionCommands_Output", moActionCommands_Output);
 		
-		return html;
+		return text;
 	}
 	
 	public static clsBWProperties getDefaultProperties(String poPrefix) {

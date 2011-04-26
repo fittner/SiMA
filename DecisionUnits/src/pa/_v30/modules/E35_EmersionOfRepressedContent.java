@@ -16,7 +16,7 @@ import config.clsBWProperties;
 import du.enums.pa.eContext;
 import pa._v30.tools.clsPair;
 import pa._v30.tools.clsTripple;
-import pa._v30.tools.toHtml;
+import pa._v30.tools.toText;
 import pa._v30.interfaces.eInterfaces;
 import pa._v30.interfaces.itfMinimalModelMode;
 import pa._v30.interfaces.modules.I2_14_receive;
@@ -74,20 +74,20 @@ public class E35_EmersionOfRepressedContent extends clsModuleBaseKB implements i
 	 * @author deutsch
 	 * 14.04.2011, 17:36:19
 	 * 
-	 * @see pa.modules._v30.clsModuleBase#stateToHTML()
+	 * @see pa.modules._v30.clsModuleBase#stateToTEXT()
 	 */
 	@Override
-	public String stateToHTML() {
-		String html ="";
+	public String stateToTEXT() {
+		String text ="";
 		
-		html += toHtml.valueToHTML("mnMinimalModel", mnMinimalModel);
-		html += toHtml.valueToHTML("moBlockedContentStorage", moBlockedContentStorage);
-		html += toHtml.listToHTML("moEnvironmentalTP_Input", moEnvironmentalTP_Input);
-		html += toHtml.listToHTML("moAttachedRepressed_Output", moAttachedRepressed_Output);
-		html += toHtml.valueToHTML("mrContextSensitivity", mrContextSensitivity);
-		html += toHtml.valueToHTML("moKnowledgeBaseHandler", moKnowledgeBaseHandler);
+		text += toText.valueToTEXT("mnMinimalModel", mnMinimalModel);
+		text += toText.valueToTEXT("moBlockedContentStorage", moBlockedContentStorage);
+		text += toText.listToTEXT("moEnvironmentalTP_Input", moEnvironmentalTP_Input);
+		text += toText.listToTEXT("moAttachedRepressed_Output", moAttachedRepressed_Output);
+		text += toText.valueToTEXT("mrContextSensitivity", mrContextSensitivity);
+		text += toText.valueToTEXT("moKnowledgeBaseHandler", moKnowledgeBaseHandler);
 		
-		return html;
+		return text;
 	}	
 
 	public static clsBWProperties getDefaultProperties(String poPrefix) {

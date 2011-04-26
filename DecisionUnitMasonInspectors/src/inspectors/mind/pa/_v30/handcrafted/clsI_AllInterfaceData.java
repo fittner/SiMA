@@ -10,10 +10,10 @@ import java.awt.BorderLayout;
 import java.util.ArrayList;
 import java.util.Map;
 import java.util.SortedMap;
-
 import pa._v30.interfaces.eInterfaces;
+import pa._v30.tools.toText;
+import panels.TextOutputPanel;
 import sim.portrayal.Inspector;
-import sim.util.gui.HTMLBrowser;
 import statictools.clsExceptionUtils;
 
 /**
@@ -34,7 +34,7 @@ public class clsI_AllInterfaceData extends Inspector {
 	private static final long serialVersionUID = 1042986825561786694L;
 	protected String moTitle;
 	protected String moContent;
-	HTMLBrowser moHTMLPane;
+	TextOutputPanel moTEXTPane;
 	
 	/**
 	 * DOCUMENT (deutsch) - insert description 
@@ -51,24 +51,22 @@ public class clsI_AllInterfaceData extends Inspector {
     	updateContent();
     	
         setLayout(new BorderLayout());
-    	moHTMLPane = new HTMLBrowser(getHTML());
+    	moTEXTPane = new TextOutputPanel(getTEXT());
     	
     	try {
-			add(moHTMLPane, BorderLayout.CENTER);
+			add(moTEXTPane, BorderLayout.CENTER);
 		} catch (java.lang.Exception e) {
 			System.out.println(clsExceptionUtils.getCustomStackTrace(e));
 		}		
 	}
 	
-    private String getHTML() {
-    	String html;
+    private String getTEXT() {
+    	String text="";
     	
-    	html  = "<html><head></head><body>";
-    	html += "<h1>"+moTitle+"</h1>";	
-    	html += "<p>"+moContent+"</p>";
-    	html += "</body></html>";
+    	text += toText.h1(moTitle);	
+    	text += toText.p(moContent);
     	
-    	return html;
+    	return text;
     }
     
 	/* (non-Javadoc)
@@ -83,7 +81,7 @@ public class clsI_AllInterfaceData extends Inspector {
 		updateContent();
 		
 		try {
-			moHTMLPane.setText(getHTML());
+			moTEXTPane.setText(getTEXT());
 		} catch (java.lang.Exception e) {
 			System.out.println(clsExceptionUtils.getCustomStackTrace(e));
 		}
@@ -96,17 +94,17 @@ public class clsI_AllInterfaceData extends Inspector {
 	protected void updateContent() {
 		moContent  = "";
 		for (Map.Entry<eInterfaces, ArrayList<Object>> e:moInterfaceData.entrySet()) {
-			moContent += "<h2>"+e.getKey()+"</h2>";
-			moContent += "<p>"+e.getKey().getDescription()+"</p>";
-			moContent += "<ul>";
+			moContent += toText.h2(e.getKey().toString());
+			moContent += toText.p(e.getKey().getDescription());
+
 			for (Object data:e.getValue()) {
 				if (data == null) {
-					moContent += "<li><i>n/a</i></li>";
+					moContent += toText.li(toText.i("n/a"));
 				} else {
-					moContent += "<li>"+data+"</li>";
+					moContent += toText.li(data.toString());
 				}
 			}
-			moContent += "</ul>";
+			moContent += toText.newline;
 		}
 	}
 

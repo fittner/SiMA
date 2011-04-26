@@ -13,7 +13,7 @@ import java.util.SortedMap;
 import config.clsBWProperties;
 import pa._v30.tools.clsPair;
 import pa._v30.tools.clsTripple;
-import pa._v30.tools.toHtml;
+import pa._v30.tools.toText;
 import pa._v30.interfaces.eInterfaces;
 import pa._v30.interfaces.itfMinimalModelMode;
 import pa._v30.interfaces.modules.I1_7_receive;
@@ -75,20 +75,20 @@ public class E22_SocialRulesSelection extends clsModuleBaseKB implements itfMini
 	 * @author deutsch
 	 * 14.04.2011, 17:36:19
 	 * 
-	 * @see pa.modules._v30.clsModuleBase#stateToHTML()
+	 * @see pa.modules._v30.clsModuleBase#stateToTEXT()
 	 */
 	@Override
-	public String stateToHTML() {		
-		String html = "";
+	public String stateToTEXT() {		
+		String text = "";
 		
-		html += toHtml.valueToHTML("mnMinimalModel", mnMinimalModel);
-		html += toHtml.listToHTML("moSearchPattern", moSearchPattern);
-		html += toHtml.listToHTML("moPerception", moPerception);
-		html += toHtml.listToHTML("moRuleList", moRuleList);
-		html += toHtml.listToHTML("moRetrieveResult4Inspectors", moRetrieveResult4Inspectors);
-		html += toHtml.valueToHTML("moKnowledgeBaseHandler", moKnowledgeBaseHandler);
+		text += toText.valueToTEXT("mnMinimalModel", mnMinimalModel);
+		text += toText.listToTEXT("moSearchPattern", moSearchPattern);
+		text += toText.listToTEXT("moPerception", moPerception);
+		text += toText.listToTEXT("moRuleList", moRuleList);
+		text += toText.listToTEXT("moRetrieveResult4Inspectors", moRetrieveResult4Inspectors);
+		text += toText.valueToTEXT("moKnowledgeBaseHandler", moKnowledgeBaseHandler);
 
-		return html;
+		return text;
 	}
 	
 	public static clsBWProperties getDefaultProperties(String poPrefix) {

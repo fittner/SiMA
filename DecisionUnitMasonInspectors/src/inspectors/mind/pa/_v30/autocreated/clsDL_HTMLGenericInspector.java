@@ -15,7 +15,8 @@ import pa._v30.logger.clsDLEntry_Abstract;
  * 23.04.2011, 17:17:01
  * 
  */
-public class clsDL_HTMLGenericInspector extends cls_GenericHTMLInspector {
+@Deprecated
+public class clsDL_HTMLGenericInspector extends cls_GenericTEXTInspector {
 
 	/**
 	 * DOCUMENT (deutsch) - insert description 

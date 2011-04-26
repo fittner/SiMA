@@ -16,7 +16,7 @@ import pa._v30.interfaces.eInterfaces;
 import pa._v30.interfaces.modules.I0_4_receive;
 import pa._v30.interfaces.modules.I2_1_receive;
 import pa._v30.interfaces.modules.I2_1_send;
-import pa._v30.tools.toHtml;
+import pa._v30.tools.toText;
 
 /**
  * DOCUMENT (muchitsch) - insert description 
@@ -52,15 +52,15 @@ public class E10_SensorsEnvironment extends clsModuleBase implements I0_4_receiv
 	 * @author deutsch
 	 * 14.04.2011, 17:36:19
 	 * 
-	 * @see pa.modules._v30.clsModuleBase#stateToHTML()
+	 * @see pa.modules._v30.clsModuleBase#stateToTEXT()
 	 */
 	@Override
-	public String stateToHTML() {		
-		String html = "";
+	public String stateToTEXT() {		
+		String text = "";
 		
-		html += toHtml.mapToHTML("moEnvironmentalData", moEnvironmentalData);
+		text += toText.mapToTEXT("moEnvironmentalData", moEnvironmentalData);
 
-		return html;
+		return text;
 	}	
 
 	public static clsBWProperties getDefaultProperties(String poPrefix) {

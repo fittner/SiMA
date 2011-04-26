@@ -10,6 +10,7 @@ import java.util.Iterator;
 
 import pa._v30.interfaces.eInterfaces;
 import pa._v30.interfaces.itfInterfaceDescription;
+import pa._v30.tools.toText;
 
 /**
  * DOCUMENT (deutsch) - insert description 
@@ -18,7 +19,7 @@ import pa._v30.interfaces.itfInterfaceDescription;
  * 15.04.2011, 15:03:10
  * 
  */
-public class cls_DescriptionInspector extends cls_GenericHTMLInspector {
+public class cls_DescriptionInspector extends cls_GenericTEXTInspector {
 
 	/**
 	 * DOCUMENT (deutsch) - insert description 
@@ -64,23 +65,22 @@ public class cls_DescriptionInspector extends cls_GenericHTMLInspector {
 	 */
 	@Override
 	protected void updateContent() {
-		moContent  = "<h2>Module</h2>";
-		moContent += "<p>"+((itfInterfaceDescription)moObject).getDescription()+"</p>";
-		moContent += "<h2>Incoming Interfaces</h2>";
-		moContent += "<ul>";
+		moContent  = toText.h2("Module");
+		moContent += toText.p(((itfInterfaceDescription)moObject).getDescription());
+		
+		moContent += toText.h2("Incoming Interfaces");
 		for (Iterator<eInterfaces> it = ((itfInterfaceDescription)moObject).getInterfacesRecv().iterator();it.hasNext();) {
 			eInterfaces eI = it.next();
-			moContent += "<li><b>"+eI+"</b>: "+eI.getDescription()+"</li>";
+			moContent += toText.li(toText.b(eI.toString())+": "+eI.getDescription());
 		}
-		moContent += "</ul>";
+		moContent += toText.newline;
 		
-		moContent += "<h2>Outgoing Interfaces</h2>";
-		moContent += "<ul>";
+		moContent += toText.h2("Outgoing Interfaces");
 		for (Iterator<eInterfaces> it = ((itfInterfaceDescription)moObject).getInterfacesSend().iterator();it.hasNext();) {
 			eInterfaces eI = it.next();
-			moContent += "<li><b>"+eI+"</b>: "+eI.getDescription()+"</li>";
+			moContent += toText.li(toText.b(eI.toString())+": "+eI.getDescription());
 		}
-		moContent += "</ul>";
+		moContent += toText.newline;
 	}
 
 }

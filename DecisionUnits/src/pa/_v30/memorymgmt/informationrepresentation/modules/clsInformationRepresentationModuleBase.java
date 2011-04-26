@@ -9,7 +9,7 @@ package pa._v30.memorymgmt.informationrepresentation.modules;
 import java.util.ArrayList;
 
 import pa._v30.tools.clsPair;
-import pa._v30.tools.toHtml;
+import pa._v30.tools.toText;
 import pa._v30.interfaces.itfInspectorInternalState;
 import pa._v30.memorymgmt.datatypes.clsDataStructureContainer;
 import pa._v30.memorymgmt.datatypes.clsDataStructurePA;
@@ -51,15 +51,15 @@ public abstract class clsInformationRepresentationModuleBase implements itfInspe
 	 * @see pa._v30.interfaces.itfInspectorInternalState#stateToHTML()
 	 */
 	@Override
-	public String stateToHTML() {
+	public String stateToTEXT() {
 		String html = "";
 		
-		html  = "<h1>clsInformationRepresentationModuleBase</h1>";
-		html += toHtml.valueToHTML("moSearchMethod", moSearchMethod);
-		html += toHtml.removeHTMLWrap(moSearchSpaceHandler.stateToHTML());
-		html += toHtml.removeHTMLWrap(moInformationRepresentationModulesContainer.stateToHTML());
+		html  = toText.h1("clsInformationRepresentationModuleBase");
+		html += toText.valueToTEXT("moSearchMethod", moSearchMethod);
+		html += toText.newline+moSearchSpaceHandler.stateToTEXT();
+		html += toText.newline+moInformationRepresentationModulesContainer.stateToTEXT();
 		
-		return toHtml.wrapHTMLContent(html);
+		return html;
 	}
 	
 	/**

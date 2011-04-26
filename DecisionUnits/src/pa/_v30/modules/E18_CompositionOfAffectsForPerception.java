@@ -12,7 +12,7 @@ import java.util.SortedMap;
 import config.clsBWProperties;
 import pa._v30.tools.clsPair;
 import pa._v30.tools.clsTripple;
-import pa._v30.tools.toHtml;
+import pa._v30.tools.toText;
 import pa._v30.interfaces.eInterfaces;
 import pa._v30.interfaces.modules.I2_16_receive;
 import pa._v30.interfaces.modules.I2_8_receive;
@@ -80,19 +80,19 @@ public class E18_CompositionOfAffectsForPerception extends clsModuleBase impleme
 	 * @author deutsch
 	 * 14.04.2011, 17:36:19
 	 * 
-	 * @see pa.modules._v30.clsModuleBase#stateToHTML()
+	 * @see pa.modules._v30.clsModuleBase#stateToTEXT()
 	 */
 	@Override
-	public String stateToHTML() {		
-		String html = "";
+	public String stateToTEXT() {		
+		String text = "";
 		
-		html += toHtml.listToHTML("moMergedPrimaryInformation_Input", moMergedPrimaryInformation_Input);
-		html += toHtml.listToHTML("moNewPrimaryInformation", moNewPrimaryInformation);
-		html += toHtml.listToHTML("moLibidoPleasureCandidates_IN", moLibidoPleasureCandidates_IN);
-		html += toHtml.listToHTML("moPerception_IN", moPerception_IN);
+		text += toText.listToTEXT("moMergedPrimaryInformation_Input", moMergedPrimaryInformation_Input);
+		text += toText.listToTEXT("moNewPrimaryInformation", moNewPrimaryInformation);
+		text += toText.listToTEXT("moLibidoPleasureCandidates_IN", moLibidoPleasureCandidates_IN);
+		text += toText.listToTEXT("moPerception_IN", moPerception_IN);
 		
 		
-		return html;
+		return text;
 	}
 	
 	public static clsBWProperties getDefaultProperties(String poPrefix) {

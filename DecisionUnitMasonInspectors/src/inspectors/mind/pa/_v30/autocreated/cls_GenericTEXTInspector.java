@@ -8,8 +8,10 @@ package inspectors.mind.pa._v30.autocreated;
 
 import java.awt.BorderLayout;
 
+import pa._v30.tools.toText;
+import panels.TextOutputPanel;
+
 import sim.portrayal.Inspector;
-import sim.util.gui.HTMLBrowser;
 import statictools.clsExceptionUtils;
 
 /**
@@ -19,7 +21,7 @@ import statictools.clsExceptionUtils;
  * 14.04.2011, 14:57:39
  * 
  */
-public abstract class cls_GenericHTMLInspector extends Inspector {
+public abstract class cls_GenericTEXTInspector extends Inspector {
 	/**
 	 * DOCUMENT (deutsch) - insert description 
 	 * 
@@ -30,9 +32,9 @@ public abstract class cls_GenericHTMLInspector extends Inspector {
 	protected Object moObject;
 	protected String moTitle;
 	protected String moContent;
-	HTMLBrowser moHTMLPane;
+	TextOutputPanel moTEXTPane;
 	
-    public cls_GenericHTMLInspector(Object poObject)
+    public cls_GenericTEXTInspector(Object poObject)
     {
 		moObject = poObject;
     	
@@ -40,10 +42,10 @@ public abstract class cls_GenericHTMLInspector extends Inspector {
     	updateContent();
     	
         setLayout(new BorderLayout());
-    	moHTMLPane = new HTMLBrowser(getHTML());
+    	moTEXTPane = new TextOutputPanel(getTEXT());
     	
     	try {
-			add(moHTMLPane, BorderLayout.CENTER);
+			add(moTEXTPane, BorderLayout.CENTER);
 		} catch (java.lang.Exception e) {
 			System.out.println(clsExceptionUtils.getCustomStackTrace(e));
 		}
@@ -52,15 +54,14 @@ public abstract class cls_GenericHTMLInspector extends Inspector {
     protected abstract void setTitle();
     protected abstract void updateContent();
     
-    private String getHTML() {
-    	String html;
+    private String getTEXT() {
+    	String text;
     	
-    	html  = "<html><head></head><body>";
-    	html += "<h1>"+moTitle+"</h1>";	
-    	html += "<p>"+moContent+"</p>";
-    	html += "</body></html>";
+    	text  = "";
+    	text += toText.h1(moTitle);	
+    	text += toText.p(moContent);
     	
-    	return html;
+    	return text;
     }
     
 	/* (non-Javadoc)
@@ -76,7 +77,7 @@ public abstract class cls_GenericHTMLInspector extends Inspector {
 			updateContent();
 			
 			try {
-				moHTMLPane.setText(getHTML());
+				moTEXTPane.setText(getTEXT());
 			} catch (java.lang.Exception e) {
 				System.out.println(clsExceptionUtils.getCustomStackTrace(e));
 			}

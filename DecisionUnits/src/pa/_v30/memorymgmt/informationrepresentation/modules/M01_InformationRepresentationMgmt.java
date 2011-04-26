@@ -8,7 +8,7 @@ package pa._v30.memorymgmt.informationrepresentation.modules;
 
 import pa._v30.interfaces.itfInspectorInternalState;
 import pa._v30.memorymgmt.informationrepresentation.clsSearchSpaceHandler;
-import pa._v30.tools.toHtml;
+import pa._v30.tools.toText;
 /**
  * DOCUMENT (zeilinger) - insert description 
  * 
@@ -35,13 +35,13 @@ public class M01_InformationRepresentationMgmt extends clsInformationRepresentat
 	 * @see pa._v30.interfaces.itfInspectorInternalState#stateToHTML()
 	 */
 	@Override
-	public String stateToHTML() {
+	public String stateToTEXT() {
 		String html = "";
 		
-		html += "<h1>M01_InformationRepresentationMgmt</h1>";
-		html += toHtml.removeHTMLWrap(moSearchSpaceHandler.stateToHTML());
-		html += toHtml.removeHTMLWrap(moKB01SecondaryDataStructureMgmt.stateToHTML());
-		html += toHtml.removeHTMLWrap(moM02PrimaryInformationMgmt.stateToHTML());
+		html += toText.h1("M01_InformationRepresentationMgmt");
+		html += toText.newline+moSearchSpaceHandler.stateToTEXT();
+		html += toText.newline+moKB01SecondaryDataStructureMgmt.stateToTEXT();
+		html += toText.newline+moM02PrimaryInformationMgmt.stateToTEXT();
 		
 		return html;
 	}

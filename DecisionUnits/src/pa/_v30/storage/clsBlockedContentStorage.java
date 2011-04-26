@@ -11,7 +11,7 @@ import java.util.Arrays;
 
 import pa._v30.tools.clsPair;
 import pa._v30.tools.clsTripple;
-import pa._v30.tools.toHtml;
+import pa._v30.tools.toText;
 import pa._v30.interfaces.eInterfaces;
 import pa._v30.interfaces.itfInspectorInternalState;
 import pa._v30.interfaces.itfInterfaceDescription;
@@ -164,14 +164,11 @@ public class clsBlockedContentStorage implements itfInspectorInternalState, itfI
 	 * @see pa._v30.interfaces.itfInspectorInternalState#stateToHTML()
 	 */
 	@Override
-	public String stateToHTML() {
-		String html = "<html><head></head><body>";
-		
-		html += "<h1>Blocked Content Storage</h1>";
-		html += toHtml.listToHTML("moBlockedContent", moBlockedContent);
-		
-		html += "</body></html>";
-		return html;
+	public String stateToTEXT() {
+		String text = "";	
+		text += toText.h1("Blocked Content Storage");
+		text += toText.listToTEXT("moBlockedContent", moBlockedContent);
+		return text;
 	}
 
 	/* (non-Javadoc)

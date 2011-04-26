@@ -20,7 +20,7 @@ import pa._v30.memorymgmt.datatypes.clsSecondaryDataStructure;
 import pa._v30.memorymgmt.datatypes.clsSecondaryDataStructureContainer;
 import pa._v30.memorymgmt.datatypes.clsWordPresentation;
 import pa._v30.memorymgmt.enums.eActState;
-import pa._v30.tools.toHtml;
+import pa._v30.tools.toText;
 
 /**
  * DOCUMENT (perner) - insert description 
@@ -63,16 +63,16 @@ public class E27_GenerationOfImaginaryActions extends clsModuleBase implements I
 	 * @author deutsch
 	 * 14.04.2011, 17:36:19
 	 * 
-	 * @see pa.modules._v30.clsModuleBase#stateToHTML()
+	 * @see pa.modules._v30.clsModuleBase#stateToTEXT()
 	 */
 	@Override
-	public String stateToHTML() {
-		String html ="";
+	public String stateToTEXT() {
+		String text ="";
 		
-		html += toHtml.listToHTML("moPlanInput", moPlanInput);
-		html += toHtml.listToHTML("moActions_Output", moActions_Output);
+		text += toText.listToTEXT("moPlanInput", moPlanInput);
+		text += toText.listToTEXT("moActions_Output", moActions_Output);
 		
-		return html;
+		return text;
 	}		
 	
 	public static clsBWProperties getDefaultProperties(String poPrefix) {

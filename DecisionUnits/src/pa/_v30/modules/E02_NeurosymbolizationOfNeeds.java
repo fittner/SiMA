@@ -16,7 +16,7 @@ import pa._v30.interfaces.itfInspectorGenericDynamicTimeChart;
 import pa._v30.interfaces.modules.I1_1_receive;
 import pa._v30.interfaces.modules.I1_2_receive;
 import pa._v30.interfaces.modules.I1_2_send;
-import pa._v30.tools.toHtml;
+import pa._v30.tools.toText;
 import config.clsBWProperties;
 import du.enums.eSensorIntType;
 import du.enums.eSlowMessenger;
@@ -83,16 +83,16 @@ public class E02_NeurosymbolizationOfNeeds extends clsModuleBase
 	 * @author deutsch
 	 * 14.04.2011, 17:36:19
 	 * 
-	 * @see pa.modules._v30.clsModuleBase#stateToHTML()
+	 * @see pa.modules._v30.clsModuleBase#stateToTEXT()
 	 */
 	@Override
-	public String stateToHTML() {
-		String html ="";
+	public String stateToTEXT() {
+		String text ="";
 		
-		html += toHtml.mapToHTML("moHomeostasis", moHomeostasis);
-		html += toHtml.mapToHTML("moHomeostaticSymbol", moHomeostaticSymbol);
+		text += toText.mapToTEXT("moHomeostasis", moHomeostasis);
+		text += toText.mapToTEXT("moHomeostaticSymbol", moHomeostaticSymbol);
 		
-		return html;
+		return text;
 	}
 	
 	/* (non-Javadoc)

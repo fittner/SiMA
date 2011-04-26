@@ -25,7 +25,10 @@ import config.clsBWProperties;
  * 11.08.2009, 11:16:13
  * 
  */
-public abstract class clsModuleBase implements itfInspectorInternalState, itfInterfaceDescription, itfInterfaceInterfaceData {
+public abstract class clsModuleBase implements 
+		itfInspectorInternalState, 
+		itfInterfaceDescription, 
+		itfInterfaceInterfaceData {
 	public static String P_PROCESS_IMPLEMENTATION_STAGE = "IMP_STAGE"; 
 	
 	protected eProcessType mnProcessType;

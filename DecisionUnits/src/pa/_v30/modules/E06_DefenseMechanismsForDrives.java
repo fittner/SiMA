@@ -26,7 +26,7 @@ import pa._v30.interfaces.modules.I6_3_receive;
 import pa._v30.memorymgmt.datatypes.clsAssociationDriveMesh;
 import pa._v30.memorymgmt.datatypes.clsDriveMesh;
 import pa._v30.memorymgmt.datatypes.clsPrimaryDataStructureContainer;
-import pa._v30.tools.toHtml;
+import pa._v30.tools.toText;
 import config.clsBWProperties;
 
 /**
@@ -68,20 +68,20 @@ public class E06_DefenseMechanismsForDrives extends clsModuleBase implements
 	 * @author deutsch
 	 * 14.04.2011, 17:36:19
 	 * 
-	 * @see pa.modules._v30.clsModuleBase#stateToHTML()
+	 * @see pa.modules._v30.clsModuleBase#stateToTEXT()
 	 */
 	@Override
-	public String stateToHTML() {
-		String html ="";
+	public String stateToTEXT() {
+		String text ="";
 		
-		html += toHtml.listToHTML("moDriveList_Input", moDriveList_Input);
-		html += toHtml.listToHTML("moDriveList_Output", moDriveList_Output);
-		html += toHtml.listToHTML("moRepressedRetry_Input", moRepressedRetry_Input);	
-		html += toHtml.listToHTML("moSexualDrives", moSexualDrives);
+		text += toText.listToTEXT("moDriveList_Input", moDriveList_Input);
+		text += toText.listToTEXT("moDriveList_Output", moDriveList_Output);
+		text += toText.listToTEXT("moRepressedRetry_Input", moRepressedRetry_Input);	
+		text += toText.listToTEXT("moSexualDrives", moSexualDrives);
 		
 		
 		
-		return html;
+		return text;
 	}
 	
 	public static clsBWProperties getDefaultProperties(String poPrefix) {

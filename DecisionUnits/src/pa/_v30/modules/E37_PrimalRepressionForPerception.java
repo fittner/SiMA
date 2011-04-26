@@ -15,7 +15,7 @@ import pa._v30.interfaces.modules.I2_14_receive;
 import pa._v30.interfaces.modules.I2_14_send;
 import pa._v30.interfaces.modules.I2_20_receive;
 import pa._v30.memorymgmt.datatypes.clsPrimaryDataStructureContainer;
-import pa._v30.tools.toHtml;
+import pa._v30.tools.toText;
 
 import config.clsBWProperties;
 
@@ -55,16 +55,16 @@ public class E37_PrimalRepressionForPerception extends clsModuleBase implements 
 	 * @author deutsch
 	 * 14.04.2011, 17:36:19
 	 * 
-	 * @see pa.modules._v30.clsModuleBase#stateToHTML()
+	 * @see pa.modules._v30.clsModuleBase#stateToTEXT()
 	 */
 	@Override
-	public String stateToHTML() {
-		String html ="";
+	public String stateToTEXT() {
+		String text ="";
 		
-		html += toHtml.listToHTML("moEnvironmental_IN", moEnvironmental_IN);
-		html += toHtml.listToHTML("moEvaluatedEnvironment_OUT", moEvaluatedEnvironment_OUT);
+		text += toText.listToTEXT("moEnvironmental_IN", moEnvironmental_IN);
+		text += toText.listToTEXT("moEvaluatedEnvironment_OUT", moEvaluatedEnvironment_OUT);
 		
-		return html;
+		return text;
 	}	
 	
 	@Override

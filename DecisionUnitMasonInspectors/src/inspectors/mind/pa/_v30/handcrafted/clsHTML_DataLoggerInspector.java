@@ -20,6 +20,7 @@ import statictools.clsExceptionUtils;
  * 23.04.2011, 17:06:40
  * 
  */
+@Deprecated
 public class clsHTML_DataLoggerInspector extends Inspector {
 	/**
 	 * DOCUMENT (deutsch) - insert description 

@@ -218,6 +218,7 @@ public abstract class clsDLEntry_Abstract implements itfInspectorTimeChartBase, 
 		return csv;
 	}
 	
+	@Deprecated
 	public String toHTML_TABLE() {
 		String html = "";
 		

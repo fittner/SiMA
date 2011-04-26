@@ -11,7 +11,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import pa._v30.tools.clsPair;
-import pa._v30.tools.toHtml;
+import pa._v30.tools.toText;
 import pa._v30.memorymgmt.datatypes.clsAssociation;
 import pa._v30.memorymgmt.datatypes.clsDataStructurePA;
 import pa._v30.memorymgmt.enums.eDataType;
@@ -189,12 +189,12 @@ public class clsSearchSpaceOntologyLoader extends clsSearchSpaceBase{
 	 * @see pa._v30.interfaces.itfInspectorInternalState#stateToHTML()
 	 */
 	@Override
-	public String stateToHTML() {
+	public String stateToTEXT() {
 		String html = "";
 		
-		html += "<h1>clsSearchSpaceOntologyLoader</h1>";
-		html += toHtml.mapToHTML("moSimplifiedSearchSpace", moSimplifiedSearchSpace);
-		return toHtml.wrapHTMLContent(html);
+		html += toText.h1("clsSearchSpaceOntologyLoader");
+		html += toText.mapToTEXT("moSimplifiedSearchSpace", moSimplifiedSearchSpace);
+		return html;
 	}
 
 }

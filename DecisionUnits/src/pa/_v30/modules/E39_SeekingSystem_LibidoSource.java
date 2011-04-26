@@ -17,7 +17,7 @@ import pa._v30.interfaces.modules.I0_2_receive;
 import pa._v30.interfaces.modules.I1_8_receive;
 import pa._v30.interfaces.modules.I1_8_send;
 import pa._v30.storage.clsLibidoBuffer;
-import pa._v30.tools.toHtml;
+import pa._v30.tools.toText;
 import config.clsBWProperties;
 
 /**
@@ -62,18 +62,18 @@ public class E39_SeekingSystem_LibidoSource extends clsModuleBase
 	 * @author deutsch
 	 * 14.04.2011, 17:36:19
 	 * 
-	 * @see pa.modules._v30.clsModuleBase#stateToHTML()
+	 * @see pa.modules._v30.clsModuleBase#stateToTEXT()
 	 */
 	@Override
-	public String stateToHTML() {
-		String html ="";
+	public String stateToTEXT() {
+		String text ="";
 		
-		html += toHtml.valueToHTML("moLibidoBuffer", moLibidoBuffer);
-		html += toHtml.valueToHTML("mrIncomingLibido_I0_1", mrIncomingLibido_I0_1);		
-		html += toHtml.valueToHTML("mrIncomingLibido_I0_2", mrIncomingLibido_I0_2);		
-		html += toHtml.valueToHTML("mrOutgoingLibido", mrOutgoingLibido);		
+		text += toText.valueToTEXT("moLibidoBuffer", moLibidoBuffer);
+		text += toText.valueToTEXT("mrIncomingLibido_I0_1", mrIncomingLibido_I0_1);		
+		text += toText.valueToTEXT("mrIncomingLibido_I0_2", mrIncomingLibido_I0_2);		
+		text += toText.valueToTEXT("mrOutgoingLibido", mrOutgoingLibido);		
 		
-		return html;
+		return text;
 	}	
 	
 	public static clsBWProperties getDefaultProperties(String poPrefix) {

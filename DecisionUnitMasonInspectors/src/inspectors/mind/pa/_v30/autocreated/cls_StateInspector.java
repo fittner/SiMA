@@ -15,7 +15,7 @@ import pa._v30.interfaces.itfInspectorInternalState;
  * 14.04.2011, 18:11:46
  * 
  */
-public class cls_StateInspector extends cls_GenericHTMLInspector {
+public class cls_StateInspector extends cls_GenericTEXTInspector {
 
 	/**
 	 * DOCUMENT (deutsch) - insert description 
@@ -62,7 +62,7 @@ public class cls_StateInspector extends cls_GenericHTMLInspector {
 	 */
 	@Override
 	protected void updateContent() {
-		moContent = ((itfInspectorInternalState)moObject).stateToHTML();
+		moContent = ((itfInspectorInternalState)moObject).stateToTEXT();
 	}
 
 }

@@ -17,7 +17,7 @@ import pa._v30.interfaces.modules.I2_11_receive;
 import pa._v30.interfaces.modules.I2_12_receive;
 import pa._v30.interfaces.modules.I2_12_send;
 import pa._v30.memorymgmt.datatypes.clsSecondaryDataStructureContainer;
-import pa._v30.tools.toHtml;
+import pa._v30.tools.toText;
 
 /**
  * DOCUMENT (KOHLHAUSER) - insert description 
@@ -56,18 +56,18 @@ public class E23_ExternalPerception_focused extends clsModuleBase implements itf
 	 * @author deutsch
 	 * 14.04.2011, 17:36:19
 	 * 
-	 * @see pa.modules._v30.clsModuleBase#stateToHTML()
+	 * @see pa.modules._v30.clsModuleBase#stateToTEXT()
 	 */
 	@Override
-	public String stateToHTML() {		
-		String html = "";
+	public String stateToTEXT() {		
+		String text = "";
 		
-		html += toHtml.valueToHTML("mnMinimalModel", mnMinimalModel);
-		html += toHtml.listToHTML("moPerception", moPerception);
-		html += toHtml.listToHTML("moDriveList", moDriveList);
-		html += toHtml.listToHTML("moFocusedPerception_Output", moFocusedPerception_Output);
+		text += toText.valueToTEXT("mnMinimalModel", mnMinimalModel);
+		text += toText.listToTEXT("moPerception", moPerception);
+		text += toText.listToTEXT("moDriveList", moDriveList);
+		text += toText.listToTEXT("moFocusedPerception_Output", moFocusedPerception_Output);
 
-		return html;
+		return text;
 	}	
 	public static clsBWProperties getDefaultProperties(String poPrefix) {
 		String pre = clsBWProperties.addDot(poPrefix);

@@ -12,9 +12,10 @@ import java.util.HashMap;
 import java.util.SortedMap;
 
 import pa._v30.tools.clsPair;
+import pa._v30.tools.toText;
 import pa._v30.interfaces.eInterfaces;
+import panels.TextOutputPanel;
 import sim.portrayal.Inspector;
-import sim.util.gui.HTMLBrowser;
 import statictools.clsExceptionUtils;
 
 /**
@@ -39,7 +40,7 @@ public class clsI_SimpleInterfaceDataInspector extends Inspector {
 	protected String moTitle;
 	protected String moContent;
 	private String moStaticContent;
-	HTMLBrowser moHTMLPane;
+	TextOutputPanel moTEXTPane;
 	
     public clsI_SimpleInterfaceDataInspector(eInterfaces pnInterface, 
     		SortedMap<eInterfaces, ArrayList<Object>> poInterfaceData,
@@ -54,10 +55,10 @@ public class clsI_SimpleInterfaceDataInspector extends Inspector {
     	updateContent();
     	
         setLayout(new BorderLayout());
-    	moHTMLPane = new HTMLBrowser(getHTML());
+    	moTEXTPane = new TextOutputPanel(getTEXT());
     	
     	try {
-			add(moHTMLPane, BorderLayout.CENTER);
+			add(moTEXTPane, BorderLayout.CENTER);
 		} catch (java.lang.Exception e) {
 			System.out.println(clsExceptionUtils.getCustomStackTrace(e));
 		}
@@ -70,50 +71,48 @@ public class clsI_SimpleInterfaceDataInspector extends Inspector {
 	private void setStaticContent() {
 		moStaticContent = "";
 		
-		moStaticContent += "<h2>Description</h2>";
-		moStaticContent += "<p>"+mnInterface.getDescription()+"</p>";
-		moStaticContent += "<p><b>Receive from modules</b>: ";
+		moStaticContent += toText.h2("Description");
+		moStaticContent += toText.p(mnInterface.getDescription());
+		moStaticContent += toText.b("Receive from modules</b>")+": ";
 		
 		for (int i=0; i<moInterfaces_Recv_Send.get(mnInterface).b.size(); i++) {
 			Integer oI = moInterfaces_Recv_Send.get(mnInterface).b.get(i);
 			moStaticContent += "E"+oI+", ";
 		}
-		moStaticContent += "</p>";
-		moStaticContent += "<p><b>Send to modules</b>: ";
+		moStaticContent += toText.newline;
+		moStaticContent += toText.b("Send to modules</b>")+": ";
 		for (int i=0; i<moInterfaces_Recv_Send.get(mnInterface).a.size(); i++) {
 			Integer oI = moInterfaces_Recv_Send.get(mnInterface).a.get(i);
 			moStaticContent += "E"+oI+", ";
 		}
-		moStaticContent += "</p>";			
+		moStaticContent += toText.newline;			
 	}
 	
     protected void updateContent() {
     	moContent  = moStaticContent;
 		
-		moContent += "<h2>Data</h2>";
-		moContent += "<ul>";
+		moContent += toText.h2("Data");
 
 		for (int i=0; i<moInterfaceData.get(mnInterface).size();i++) {
 			Object data = moInterfaceData.get(mnInterface).get(i);
 
 			if (data == null) {
-				moContent += "<li><i>n/a</i></li>";
+				moContent += toText.li(toText.i("n/a"));
 			} else {
-				moContent += "<li>"+data+"</li>";
+				moContent += toText.li(data.toString());
 			}
 		}
-		moContent += "</ul>";
+		moContent += toText.newline;
     }
     
-    private String getHTML() {
-    	String html;
+    private String getTEXT() {
+    	String text;
     	
-    	html  = "<html><head></head><body>";
-    	html += "<h1>"+moTitle+"</h1>";	
-    	html += moContent;
-    	html += "</body></html>";
+    	text  = "";
+    	text += toText.h1(moTitle);	
+    	text += toText.p(moContent);
     	
-    	return html;
+    	return text;
     }
     
 	/* (non-Javadoc)
@@ -128,7 +127,7 @@ public class clsI_SimpleInterfaceDataInspector extends Inspector {
 		updateContent();
 		
 		try {
-			moHTMLPane.setText(getHTML());
+			moTEXTPane.setText(getTEXT());
 		} catch (java.lang.Exception e) {
 			System.out.println(clsExceptionUtils.getCustomStackTrace(e));
 		}

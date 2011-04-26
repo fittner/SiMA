@@ -17,7 +17,8 @@ import pa._v30.interfaces.modules.D1_1_receive;
 import pa._v30.interfaces.modules.D1_2_send;
 import pa._v30.interfaces.modules.D1_3_receive;
 import pa._v30.interfaces.modules.D1_4_send;
-import pa._v30.tools.toHtml;
+
+import pa._v30.tools.toText;
 
 /**
  * DOCUMENT (deutsch) - insert description 
@@ -102,14 +103,13 @@ public class clsLibidoBuffer implements itfInspectorInternalState, itfInterfaceD
 	 * @see pa._v30.interfaces.itfInspectorInternalState#stateToHTML()
 	 */
 	@Override
-	public String stateToHTML() {
-		String html = "<html><head></head><body>";
+	public String stateToTEXT() {
+		String text = "";
 		
-		html += "<h1>Libido Buffer</h1>";
-		html += toHtml.valueToHTML("mrBufferedLibido", mrBufferedLibido);
+		text += toText.h1("Libido Buffer");
+		text += toText.valueToTEXT("mrBufferedLibido", mrBufferedLibido);
 		
-		html += "</body></html>";
-		return html;
+		return text;
 	}
 
 	/* (non-Javadoc)

@@ -15,7 +15,7 @@ import java.util.Map;
 import config.clsBWProperties;
 import pa._v30.tools.clsPair;
 import pa._v30.tools.clsTripple;
-import pa._v30.tools.toHtml;
+import pa._v30.tools.toText;
 import pa._v30.interfaces.eInterfaces;
 import pa._v30.interfaces.modules.I2_10_receive;
 import pa._v30.interfaces.modules.I2_11_receive;
@@ -78,19 +78,19 @@ public class E21_ConversionToSecondaryProcessForPerception extends clsModuleBase
 	 * @author deutsch
 	 * 14.04.2011, 17:36:19
 	 * 
-	 * @see pa.modules._v30.clsModuleBase#stateToHTML()
+	 * @see pa.modules._v30.clsModuleBase#stateToTEXT()
 	 */
 	@Override
-	public String stateToHTML() {		
-		String html = "";
+	public String stateToTEXT() {		
+		String text = "";
 		
-		html += toHtml.listToHTML("moGrantedPerception_Input", moGrantedPerception_Input);
-		html += toHtml.listToHTML("moPerception_Output", moPerception_Output);
-		html += toHtml.listToHTML("moOrderedResult", moOrderedResult);
-		html += toHtml.mapToHTML("moTemporaryDM", moTemporaryDM);
-		html += toHtml.valueToHTML("moKnowledgeBaseHandler", moKnowledgeBaseHandler);
+		text += toText.listToTEXT("moGrantedPerception_Input", moGrantedPerception_Input);
+		text += toText.listToTEXT("moPerception_Output", moPerception_Output);
+		text += toText.listToTEXT("moOrderedResult", moOrderedResult);
+		text += toText.mapToTEXT("moTemporaryDM", moTemporaryDM);
+		text += toText.valueToTEXT("moKnowledgeBaseHandler", moKnowledgeBaseHandler);
 
-		return html;
+		return text;
 	}
 	
 	public static clsBWProperties getDefaultProperties(String poPrefix) {

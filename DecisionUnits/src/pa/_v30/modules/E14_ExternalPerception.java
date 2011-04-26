@@ -19,7 +19,7 @@ import pa._v30.memorymgmt.datahandler.clsDataStructureConverter;
 import pa._v30.memorymgmt.datatypes.clsPrimaryDataStructure;
 import pa._v30.memorymgmt.datatypes.clsPrimaryDataStructureContainer;
 import pa._v30.symbolization.representationsymbol.itfSymbol;
-import pa._v30.tools.toHtml;
+import pa._v30.tools.toText;
 import pa._v30.enums.eSymbolExtType;
 
 /**
@@ -62,17 +62,17 @@ public class E14_ExternalPerception extends clsModuleBase implements
 	 * @author deutsch
 	 * 14.04.2011, 17:36:19
 	 * 
-	 * @see pa.modules._v30.clsModuleBase#stateToHTML()
+	 * @see pa.modules._v30.clsModuleBase#stateToTEXT()
 	 */
 	@Override
-	public String stateToHTML() {		
-		String html = "";
+	public String stateToTEXT() {		
+		String text = "";
 		
-		html += toHtml.mapToHTML("moEnvironmentalData", moEnvironmentalData);
-		html += toHtml.mapToHTML("moBodyData", moBodyData);
-		html += toHtml.listToHTML("moEnvironmentalTP", moEnvironmentalTP);
+		text += toText.mapToTEXT("moEnvironmentalData", moEnvironmentalData);
+		text += toText.mapToTEXT("moBodyData", moBodyData);
+		text += toText.listToTEXT("moEnvironmentalTP", moEnvironmentalTP);
 
-		return html;
+		return text;
 	}
 	
 	public static clsBWProperties getDefaultProperties(String poPrefix) {

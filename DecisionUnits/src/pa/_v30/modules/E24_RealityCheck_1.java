@@ -17,7 +17,7 @@ import pa._v30.interfaces.modules.I2_13_receive;
 import pa._v30.interfaces.modules.I2_13_send;
 import pa._v30.interfaces.modules.I6_1_receive;
 import pa._v30.memorymgmt.datatypes.clsSecondaryDataStructureContainer;
-import pa._v30.tools.toHtml;
+import pa._v30.tools.toText;
 
 /**
  * DOCUMENT (KOHLHAUSER) - insert description 
@@ -56,18 +56,18 @@ public class E24_RealityCheck_1 extends clsModuleBase implements itfMinimalModel
 	 * @author deutsch
 	 * 14.04.2011, 17:36:19
 	 * 
-	 * @see pa.modules._v30.clsModuleBase#stateToHTML()
+	 * @see pa.modules._v30.clsModuleBase#stateToTEXT()
 	 */
 	@Override
-	public String stateToHTML() {
-		String html ="";
+	public String stateToTEXT() {
+		String text ="";
 		
-		html += toHtml.valueToHTML("mnMinimalModel", mnMinimalModel);
-		html += toHtml.listToHTML("moFocusedPerception_Input", moFocusedPerception_Input);
-		html += toHtml.listToHTML("moRealityPerception_Output", moRealityPerception_Output);
-		html += toHtml.listToHTML("moDriveList", moDriveList);
+		text += toText.valueToTEXT("mnMinimalModel", mnMinimalModel);
+		text += toText.listToTEXT("moFocusedPerception_Input", moFocusedPerception_Input);
+		text += toText.listToTEXT("moRealityPerception_Output", moRealityPerception_Output);
+		text += toText.listToTEXT("moDriveList", moDriveList);
 		
-		return html;
+		return text;
 	}
 	
 	public static clsBWProperties getDefaultProperties(String poPrefix) {

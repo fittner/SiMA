@@ -17,7 +17,7 @@ import pa._v30.interfaces.modules.I7_7_receive;
 import pa._v30.interfaces.modules.I7_7_send;
 import pa._v30.memorymgmt.datatypes.clsPrimaryDataStructureContainer;
 import pa._v30.memorymgmt.datatypes.clsWordPresentation;
-import pa._v30.tools.toHtml;
+import pa._v30.tools.toText;
 
 import config.clsBWProperties;
 
@@ -54,15 +54,15 @@ public class E47_ConversionToPrimaryProcess extends clsModuleBase implements itf
 	 * @author deutsch
 	 * 14.04.2011, 17:36:19
 	 * 
-	 * @see pa.modules._v30.clsModuleBase#stateToHTML()
+	 * @see pa.modules._v30.clsModuleBase#stateToTEXT()
 	 */
 	@Override
-	public String stateToHTML() {
-		String html ="";
+	public String stateToTEXT() {
+		String text ="";
 		
-		html += toHtml.valueToHTML("mnMinimalModel", mnMinimalModel);
+		text += toText.valueToTEXT("mnMinimalModel", mnMinimalModel);
 		
-		return html;
+		return text;
 	}		
 	
 	public static clsBWProperties getDefaultProperties(String poPrefix) {

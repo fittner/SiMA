@@ -19,7 +19,7 @@ import pa._v30.interfaces.modules.I4_3_send;
 import pa._v30.memorymgmt.datatypes.clsAssociationDriveMesh;
 import pa._v30.memorymgmt.datatypes.clsPrimaryDataStructureContainer;
 import pa._v30.storage.clsBlockedContentStorage;
-import pa._v30.tools.toHtml;
+import pa._v30.tools.toText;
 
 /**
  * DOCUMENT (GELBARD) - insert description 
@@ -61,16 +61,16 @@ public class E36_RepressionHandler extends clsModuleBase implements I4_1_receive
 	 * @author deutsch
 	 * 14.04.2011, 17:36:19
 	 * 
-	 * @see pa.modules._v30.clsModuleBase#stateToHTML()
+	 * @see pa.modules._v30.clsModuleBase#stateToTEXT()
 	 */
 	@Override
-	public String stateToHTML() {
-		String html ="";
+	public String stateToTEXT() {
+		String text ="";
 		
-		html += toHtml.valueToHTML("moBlockedContentStorage", moBlockedContentStorage);
-		html += toHtml.listToHTML("moPrimaryInformation", moPrimaryInformation);
+		text += toText.valueToTEXT("moBlockedContentStorage", moBlockedContentStorage);
+		text += toText.listToTEXT("moPrimaryInformation", moPrimaryInformation);
 		
-		return html;
+		return text;
 	}	
 	
 	public static clsBWProperties getDefaultProperties(String poPrefix) {

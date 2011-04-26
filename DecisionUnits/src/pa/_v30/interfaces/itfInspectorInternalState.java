@@ -14,5 +14,5 @@ package pa._v30.interfaces;
  * 
  */
 public interface itfInspectorInternalState {
-	public String stateToHTML();
+	public String stateToTEXT();
 }

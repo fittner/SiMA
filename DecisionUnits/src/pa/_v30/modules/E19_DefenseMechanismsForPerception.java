@@ -22,7 +22,7 @@ import pa._v30.interfaces.modules.I5_2_send;
 import pa._v30.memorymgmt.datatypes.clsAssociation;
 import pa._v30.memorymgmt.datatypes.clsAssociationDriveMesh;
 import pa._v30.memorymgmt.datatypes.clsPrimaryDataStructureContainer;
-import pa._v30.tools.toHtml;
+import pa._v30.tools.toText;
 
 /**
  * DOCUMENT (GELBARD) - insert description 
@@ -62,18 +62,18 @@ public class E19_DefenseMechanismsForPerception extends clsModuleBase implements
 	 * @author deutsch
 	 * 14.04.2011, 17:36:19
 	 * 
-	 * @see pa.modules._v30.clsModuleBase#stateToHTML()
+	 * @see pa.modules._v30.clsModuleBase#stateToTEXT()
 	 */
 	@Override
-	public String stateToHTML() {		
-		String html = "";
+	public String stateToTEXT() {		
+		String text = "";
 		
-		html += toHtml.listToHTML("moSubjectivePerception_Input", moSubjectivePerception_Input);
-		html += toHtml.listToHTML("moFilteredPerception_Output", moFilteredPerception_Output);
-		html += toHtml.listToHTML("moDeniedThingPresentations", moDeniedThingPresentations);
-		html += toHtml.listToHTML("moDeniedAffects", moDeniedAffects);
+		text += toText.listToTEXT("moSubjectivePerception_Input", moSubjectivePerception_Input);
+		text += toText.listToTEXT("moFilteredPerception_Output", moFilteredPerception_Output);
+		text += toText.listToTEXT("moDeniedThingPresentations", moDeniedThingPresentations);
+		text += toText.listToTEXT("moDeniedAffects", moDeniedAffects);
 
-		return html;
+		return text;
 	}
 	
 	public static clsBWProperties getDefaultProperties(String poPrefix) {

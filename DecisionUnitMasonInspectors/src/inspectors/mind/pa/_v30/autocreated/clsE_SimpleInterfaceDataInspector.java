@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.SortedMap;
 import pa._v30.interfaces.eInterfaces;
 import pa._v30.interfaces.itfInterfaceInterfaceData;
+import pa._v30.tools.toText;
 
 /**
  * DOCUMENT (deutsch) - insert description 
@@ -19,7 +20,7 @@ import pa._v30.interfaces.itfInterfaceInterfaceData;
  * 
  */
 public class clsE_SimpleInterfaceDataInspector extends
-		cls_GenericHTMLInspector {
+		cls_GenericTEXTInspector {
 
 	private ArrayList<eInterfaces> moRecv;
 	private ArrayList<eInterfaces> moSend;	
@@ -53,7 +54,7 @@ public class clsE_SimpleInterfaceDataInspector extends
 	 * @author deutsch
 	 * 19.04.2011, 12:17:43
 	 * 
-	 * @see inspectors.mind.pa._v30.clsE_GenericHTMLInspector#setTitle()
+	 * @see inspectors.mind.pa._v30.clsE_GenericTEXTInspector#setTitle()
 	 */
 	@Override
 	protected void setTitle() {
@@ -65,43 +66,43 @@ public class clsE_SimpleInterfaceDataInspector extends
 	 * @author deutsch
 	 * 19.04.2011, 12:17:43
 	 * 
-	 * @see inspectors.mind.pa._v30.clsE_GenericHTMLInspector#updateContent()
+	 * @see inspectors.mind.pa._v30.clsE_GenericTEXTInspector#updateContent()
 	 */
 	@Override
 	protected void updateContent() {
-		moContent  = "<h2>Receive</h2>";
+		moContent  = toText.h2("Receive");
 		if (moRecv != null) {
 			for (int i=0; i<moRecv.size(); i++) {
 				eInterfaces eRcv = moRecv.get(i);
-				moContent += "<h3>"+eRcv+"</h3>";
-				moContent += "<ul>";
+				moContent += toText.h3(eRcv.toString());
+
 				try {
 					for (int j=0; j<moInterfaceData.get(eRcv).size(); j++) {
 						Object data = moInterfaceData.get(eRcv).get(j);
-						moContent += "<li>"+data+"</li>";
+						moContent +=  toText.li(data.toString());
 					}
 				} catch (java.lang.Exception e) {
-					moContent += "<li><i>n/a</li></li>";
+					moContent += toText.li(toText.i("n/a"));
 				}
-				moContent += "</ul>";
+				moContent += toText.newline;
 			}
 		}
 		
-		moContent += "<h2>Send</h2>";
+		moContent  = toText.h2("Send");
 		if (moSend != null) {
 			for (int i=0; i<moSend.size(); i++) {
-				eInterfaces eSnd = moSend.get(i);			
-				moContent += "<h3>"+eSnd+"</h3>";
-				moContent += "<ul>";
+				eInterfaces eSnd = moSend.get(i);	
+				moContent += toText.h3(eSnd.toString());
+
 				try {
 					for (int j=0; j<moInterfaceData.get(eSnd).size(); j++) {
 						Object data = moInterfaceData.get(eSnd).get(j);
-						moContent += "<li>"+data+"</li>";					
+						moContent +=  toText.li(data.toString());
 					}
 				} catch (java.lang.Exception e) {
-					moContent += "<li><i>n/a</li></li>";
+					moContent += toText.li(toText.i("n/a"));
 				}				
-				moContent += "</ul>";
+				moContent += toText.newline;
 			}		
 		}
 	}

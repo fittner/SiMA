@@ -16,6 +16,7 @@ import java.util.Map;
  * 21.04.2011, 14:50:50
  * 
  */
+@Deprecated
 public class toHtml {
 	public static String wrapHTMLContent(String poContent) {
 		return "<html><head></head><body>"+poContent+"</body></html>";
