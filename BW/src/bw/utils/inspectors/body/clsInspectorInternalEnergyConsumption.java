@@ -28,7 +28,7 @@ import bw.utils.datatypes.clsMutableDouble;
  * 
  * @author deutsch
  * 17.09.2009, 17:16:38
- * 
+ * FIXME (MUCHITSCH): exchange html pane with jtable (e.g. http://www.roseindia.net/java/example/java/swing/JTableComponent.shtml)
  */
 public class clsInspectorInternalEnergyConsumption extends Inspector  {
 	private NumberFormat formatter = new DecimalFormat("#0.0000");
