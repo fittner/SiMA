@@ -16,6 +16,7 @@ import pa._v30.tools.clsTripple;
 import pa._v30.tools.eDriveValueSplitter;
 import pa._v30.tools.toText;
 import pa._v30.interfaces.eInterfaces;
+import pa._v30.interfaces.itfInspectorGenericTimeChart;
 import pa._v30.interfaces.modules.I2_17_receive;
 import pa._v30.interfaces.modules.I2_18_receive;
 import pa._v30.interfaces.modules.I2_18_send;
@@ -32,7 +33,7 @@ import config.clsBWProperties;
  * 
  */
 public class E42_AccumulationOfAffectsForSexualDrives extends clsModuleBase implements 
-							I2_17_receive, I2_18_send {
+							I2_17_receive, I2_18_send, itfInspectorGenericTimeChart {
 	public static final String P_MODULENUMBER = "42";
 	
 	private ArrayList< clsPair< clsTripple<clsDriveMesh,clsDriveDemand,Double>, clsTripple<clsDriveMesh,clsDriveDemand,Double> > > moDriveCandidates;
@@ -201,5 +202,88 @@ public class E42_AccumulationOfAffectsForSexualDrives extends clsModuleBase impl
 	@Override
 	public void setDescription() {
 		moDescription = "The amount of total stored libido which equals the tension of the sexual drives is attached to the memory traces. Now, thing presentations consisting of drive aim, drive source, drive object, and quota of affects exist and can be processed by the next modules.";
+	}
+	/* (non-Javadoc)
+	 *
+	 * @author deutsch
+	 * 15.04.2011, 17:41:33
+	 * 
+	 * @see pa.interfaces.itfTimeChartInformationContainer#getTimeChartCaptions()
+	 */
+	@Override
+	public ArrayList<String> getTimeChartCaptions() {
+		ArrayList<String> oCaptions = new ArrayList<String>();
+		
+		for( clsDriveMesh oDM : moDriveList) {
+			oCaptions.add(oDM.getMoContent());
+		}
+		
+		return oCaptions;
 	}	
+	
+
+	/* (non-Javadoc)
+	 *
+	 * @author zeilinger
+	 * 02.11.2010, 23:00:57
+	 * 
+	 * @see pa.interfaces.itfTimeChartInformationContainer#getTimeChartData()
+	 */
+	@Override
+	public ArrayList<Double> getTimeChartData() {
+		ArrayList<Double> oTimingValues = new ArrayList<Double>();
+		
+		for( clsDriveMesh oDM : moDriveList) {
+			oTimingValues.add(oDM.getPleasure());
+		}
+		return oTimingValues;
+	}
+
+	/* (non-Javadoc)
+	 *
+	 * @author deutsch
+	 * 19.04.2011, 10:31:35
+	 * 
+	 * @see pa.interfaces._v30.itfInspectorTimeChart#getTimeChartTitle()
+	 */
+	@Override
+	public String getTimeChartTitle() {
+		return "Sexual Drives: Drive-Quota of Affect Chart";
+	}
+
+	/* (non-Javadoc)
+	 *
+	 * @author deutsch
+	 * 19.04.2011, 10:31:35
+	 * 
+	 * @see pa.interfaces._v30.itfInspectorTimeChart#getTimeChartUpperLimit()
+	 */
+	@Override
+	public double getTimeChartUpperLimit() {
+		return 1.05;
+	}
+
+	/* (non-Javadoc)
+	 *
+	 * @author deutsch
+	 * 19.04.2011, 10:31:35
+	 * 
+	 * @see pa.interfaces._v30.itfInspectorTimeChart#getTimeChartLowerLimit()
+	 */
+	@Override
+	public double getTimeChartLowerLimit() {
+		return -0.05;
+	}
+
+	/* (non-Javadoc)
+	 *
+	 * @author deutsch
+	 * 19.04.2011, 10:34:35
+	 * 
+	 * @see pa.interfaces._v30.itfInspectorGenericTimeChart#getTimeChartAxis()
+	 */
+	@Override
+	public String getTimeChartAxis() {
+		return "Quota of Affects";
+	}		
 }

@@ -276,7 +276,7 @@ public class E05_AccumulationOfAffectsForSelfPreservationDrives extends clsModul
 	 */
 	@Override
 	public String getTimeChartTitle() {
-		return "Drive-Quota of Affect Chart";
+		return "Self-Preservation Drives: Drive-Quota of Affect Chart";
 	}
 
 	/* (non-Javadoc)
