@@ -258,7 +258,7 @@ public abstract class clsMeshBase extends clsGraphBase {
 		}
 		else
 		{
-			throw new java.lang.NoSuchMethodError("ARS Exeption: Type of pair.a not recognised!!!");
+			throw new java.lang.NoSuchMethodError("ARS Exeption: Type of pair.a not recognised!!! "+poMemoryObject.a.getClass());
 		}
 		
 		//check if A is type of one of our main datatypes and recursively generate the children
