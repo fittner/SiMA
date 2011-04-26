@@ -12,6 +12,7 @@ import java.awt.Color;
 import config.clsBWProperties;
 import du.enums.eEntityType;
 import bw.entities.tools.clsShapeCreator;
+import bw.entities.tools.eImagePositioning;
 import bw.utils.enums.eShapeType;
 
 /**
@@ -48,6 +49,9 @@ public class clsPlant extends clsInanimate {
 		oProp.setProperty(pre+P_SHAPE+"."+P_SHAPENAME+"."+clsShapeCreator.P_TYPE, eShapeType.CIRCLE.name());
 		oProp.setProperty(pre+P_SHAPE+"."+P_SHAPENAME+"."+clsShapeCreator.P_RADIUS, 10);
 		oProp.setProperty(pre+P_SHAPE+"."+P_SHAPENAME+"."+clsShapeCreator.P_COLOR, Color.ORANGE);
+		
+		oProp.setProperty(pre+P_SHAPE+"."+P_SHAPENAME+"."+clsShapeCreator.P_IMAGE_PATH, "/BW/src/resources/images/plant01.png");
+		oProp.setProperty(pre+P_SHAPE+"."+P_SHAPENAME+"."+clsShapeCreator.P_IMAGE_POSITIONING, eImagePositioning.DEFAULT.name());
 		
 		return oProp;
 	}	
