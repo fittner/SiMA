@@ -8,6 +8,7 @@ package pa._v30.modules;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Map;
 import java.util.SortedMap;
 
 import pa._v30.tools.clsDriveValueSplitter;
@@ -38,6 +39,7 @@ public class E42_AccumulationOfAffectsForSexualDrives extends clsModuleBase impl
 	
 	private ArrayList< clsPair< clsTripple<clsDriveMesh,clsDriveDemand,Double>, clsTripple<clsDriveMesh,clsDriveDemand,Double> > > moDriveCandidates;
 	private ArrayList<clsDriveMesh> moDriveList; 
+	private HashMap<String, Double> moSplitterFactor;
 	
 	/**
 	 * DOCUMENT (deutsch) - insert description 
@@ -54,7 +56,13 @@ public class E42_AccumulationOfAffectsForSexualDrives extends clsModuleBase impl
 			clsBWProperties poProp, HashMap<Integer, clsModuleBase> poModuleList, SortedMap<eInterfaces, ArrayList<Object>> poInterfaceData)
 			throws Exception {
 		super(poPrefix, poProp, poModuleList, poInterfaceData);
-		applyProperties(poPrefix, poProp);	
+		applyProperties(poPrefix, poProp);
+		
+		moSplitterFactor = new HashMap<String, Double>();
+		moSplitterFactor.put("ORAL", 0.5);
+		moSplitterFactor.put("ANAL", 0.5);
+		moSplitterFactor.put("GENITAL", 0.5);
+		moSplitterFactor.put("PHALLIC", 0.5);
 	}
 	
 	/* (non-Javadoc)
@@ -70,6 +78,7 @@ public class E42_AccumulationOfAffectsForSexualDrives extends clsModuleBase impl
 		
 		text += toText.listToTEXT("moDriveCandidates", moDriveCandidates);
 		text += toText.listToTEXT("moDriveList", moDriveList);
+		text += toText.mapToTEXT("moSplitterFactor", moSplitterFactor);
 		
 		return text;
 	}		
@@ -106,10 +115,21 @@ public class E42_AccumulationOfAffectsForSexualDrives extends clsModuleBase impl
 	@Override
 	protected void process_basic() {
 		moDriveList = new ArrayList<clsDriveMesh>(); 
-
+		
 		for (clsPair< clsTripple<clsDriveMesh,clsDriveDemand,Double>, clsTripple<clsDriveMesh,clsDriveDemand,Double> > oEntry:moDriveCandidates) {
+			double rFactor = 0.5;
+			try {
+				for (Map.Entry<String, Double> oSF:moSplitterFactor.entrySet()) {
+					if (oEntry.a.a.toString().contains(oSF.getKey())) {
+						rFactor = oSF.getValue();
+					}
+				}
+			} catch (java.lang.Exception e) {
+				//do nothing
+			}
+			
 			clsPair<Double, Double> oSplitResult = clsDriveValueSplitter.calc(oEntry.a.b.getTension(), oEntry.b.b.getTension(), 
-					eDriveValueSplitter.SIMPLE, null); 
+					eDriveValueSplitter.ADVANCED, rFactor); 
 			
 			double oLifeAffect  = normalize( oSplitResult.a * oEntry.a.c );
 			double oDeathAffect = normalize( oSplitResult.b * oEntry.b.c );
