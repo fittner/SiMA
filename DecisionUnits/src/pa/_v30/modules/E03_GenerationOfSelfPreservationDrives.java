@@ -44,6 +44,8 @@ public class E03_GenerationOfSelfPreservationDrives extends clsModuleBaseKB impl
 	private ArrayList< clsTripple<clsDriveMesh, String, ArrayList<String>> > moDriveTemplates;
 	private ArrayList< clsPair<clsDriveMesh, clsDriveDemand> > moDrives;
 	
+	private HashMap<String, Double> moHomeostaisImpactFactors;
+	
 	/**
 	 * DOCUMENT (deutsch) - insert description 
 	 * 
@@ -62,6 +64,10 @@ public class E03_GenerationOfSelfPreservationDrives extends clsModuleBaseKB impl
 		super(poPrefix, poProp, poModuleList, poInterfaceData, poKnowledgeBaseHandler);
 		applyProperties(poPrefix, poProp);	
 		
+		moHomeostaisImpactFactors = new HashMap<String, Double>();
+		moHomeostaisImpactFactors.put("BLOODSUGAR", 1.0);
+		moHomeostaisImpactFactors.put("INTESTINEPRESSURE", 1.0);
+		moHomeostaisImpactFactors.put("STAMINA", 1.0);		
 	}
 	
 	public static clsBWProperties getDefaultProperties(String poPrefix) {
@@ -93,7 +99,7 @@ public class E03_GenerationOfSelfPreservationDrives extends clsModuleBaseKB impl
 		text += toText.mapToTEXT("moHomeostasisSymbols",moHomeostasisSymbols);		
 		text += toText.listToTEXT("moDriveTemplates", moDriveTemplates);		
 		text += toText.listToTEXT("moDrives", moDrives);		
-		text += toText.valueToTEXT("moKnowledgeBaseHandler", moKnowledgeBaseHandler);		
+		text += toText.mapToTEXT("moHomeostaisImpactFactors",moHomeostaisImpactFactors);		
 		
 		return text;
 	}
@@ -245,7 +251,18 @@ public class E03_GenerationOfSelfPreservationDrives extends clsModuleBaseKB impl
 			rResult = rValue;
 		}
 		
+		try {
+			double rImpactFactor = moHomeostaisImpactFactors.get(poSource);
+			rResult *= rImpactFactor;
+		} catch (java.lang.Exception e) {
+			// do nothing;
+		}
 		
+		if (rResult > 1.0) {
+			rResult = 1.0;
+		} else if (rResult < 0.0) {
+			rResult = 0.0;
+		}
 		
 		return rResult;
 	}
