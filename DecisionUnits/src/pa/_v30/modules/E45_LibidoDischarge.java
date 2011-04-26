@@ -46,7 +46,7 @@ public class E45_LibidoDischarge extends clsModuleBaseKB implements itfInspector
 	private ArrayList<clsPair<clsPrimaryDataStructureContainer, clsDriveMesh>> moMergedPrimaryInformation_Rcv;
 	private ArrayList<clsPair<clsPrimaryDataStructureContainer, clsDriveMesh>> moMergedPrimaryInformation_Snd;	
 	private ArrayList<clsPair<String, Double>> moLibidioDischargeCandidates; //pair of IDENTIFIER and qualification from 0 to 1
-	private double mrDischargePiece = 0.1; //amount of the sotred libido which is going to be withtracted max. (see formula below)
+	private double mrDischargePiece = 0.2; //amount of the sotred libido which is going to be withtracted max. (see formula below)
 	private double mrAvailableLibido;
 	private double mrLibidoReducedBy;
 	private clsLibidoBuffer moLibidoBuffer;	

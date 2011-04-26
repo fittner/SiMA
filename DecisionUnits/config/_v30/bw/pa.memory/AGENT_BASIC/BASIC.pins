@@ -1,7 +1,7 @@
-; Mon Apr 25 15:15:25 CEST 2011
+; Tue Apr 26 20:58:20 CEST 2011
 ; 
-;+ (version "3.4.4")
-;+ (build "Build 579")
+;+ (version "3.4.5")
+;+ (build "Build 608")
 
 ([AA%3AAGENT_HANDS_BASIC%3ABLUE] of  ASSOCIATIONATTRIBUTE
 
@@ -954,7 +954,7 @@
 	(cathegory%3Agenital 0.0)
 	(cathegory%3Aoral 0.7)
 	(cathegory%3Aphalic 0.2)
-	(pleasure 0.5)
+	(pleasure 0.9)
 	(value "BITE"))
 
 ([DM%3ABITE%3ACANBASIC] of  BITE
@@ -972,7 +972,7 @@
 	(cathegory%3Agenital 0.1)
 	(cathegory%3Aoral 0.1)
 	(cathegory%3Aphalic 0.3)
-	(pleasure 0.3)
+	(pleasure 0.1)
 	(value "BITE"))
 
 ([DM%3ABITE%3AREMOTEBOT] of  BITE
@@ -1009,7 +1009,7 @@
 	(cathegory%3Aoral 0.0)
 	(cathegory%3Aphalic 0.0)
 	(class_association [TP%3ADRIVECONTENTTYPE%3APLEASURE])
-	(pleasure 0.1)
+	(pleasure 0.0010)
 	(value "LIBIDO")
 	(value_type "LIBIDO"))
 
@@ -1020,7 +1020,7 @@
 	(cathegory%3Aoral 0.0)
 	(cathegory%3Aphalic 0.0)
 	(class_association [TP%3ADRIVECONTENTTYPE%3APLEASURE])
-	(pleasure 1.0)
+	(pleasure 0.0010)
 	(value "LIBIDO")
 	(value_type "LIBIDO"))
 
@@ -1031,7 +1031,7 @@
 	(cathegory%3Aoral 0.0)
 	(cathegory%3Aphalic 0.0)
 	(class_association [TP%3ADRIVECONTENTTYPE%3APLEASURE])
-	(pleasure 0.5)
+	(pleasure 0.999)
 	(value "LIBIDO")
 	(value_type "LIBIDO"))
 
@@ -1050,7 +1050,7 @@
 	(cathegory%3Agenital 0.0)
 	(cathegory%3Aoral 0.7)
 	(cathegory%3Aphalic 0.0)
-	(pleasure 0.6)
+	(pleasure 0.9)
 	(value "NOURISH"))
 
 ([DM%3ANOURISH%3ACANBASIC] of  NOURISH
@@ -1068,7 +1068,7 @@
 	(cathegory%3Agenital 0.0)
 	(cathegory%3Aoral 0.7)
 	(cathegory%3Aphalic 0.0)
-	(pleasure 0.5)
+	(pleasure 0.1)
 	(value "NOURISH"))
 
 ([DM%3ANOURISH%3AREMOTEBOT] of  NOURISH
