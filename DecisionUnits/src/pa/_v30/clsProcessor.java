@@ -47,7 +47,7 @@ public class clsProcessor implements itfProcessor  {
 		oProp.putAll( clsInformationRepresentationManagement.getDefaultProperties(pre+P_KNOWLEDGEABASE) );
 		oProp.putAll( clsPsychicApparatus.getDefaultProperties(pre+P_PSYCHICAPPARATUS) );
 				
-		oProp.setProperty( pre+P_LIBIDOSTREAM, 0.001);
+		oProp.setProperty( pre+P_LIBIDOSTREAM, 0.1);
 		
 		return oProp;
 	}	
