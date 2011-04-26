@@ -7,8 +7,10 @@
 package pa._v30.modules;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.SortedMap;
+import java.util.TreeMap;
 
 import config.clsBWProperties;
 import pa._v30.tools.clsPair;
@@ -430,16 +432,56 @@ public class E26_DecisionMaking extends clsModuleBase implements
 	 * @return
 	 */
 	private clsPair<String, clsSecondaryDataStructureContainer> getDriveMaxDemand() {
-		int nIntensity = -1000; 
-		clsPair <String, clsSecondaryDataStructureContainer> oRetVal = null; 
-			
+		clsPair <String, clsSecondaryDataStructureContainer> oRetVal = null;
+		
+		TreeMap<Integer, ArrayList< clsPair<String, clsSecondaryDataStructureContainer> > > oSortedDrives = new TreeMap<Integer, ArrayList<clsPair<String,clsSecondaryDataStructureContainer>>>();	
+		
+		//fill oSortedDrives. the result is the drives grouped by their intensity
 		for(clsSecondaryDataStructureContainer oContainer : moDriveList){
-			String oDriveIntensity = ((clsWordPresentation)oContainer.getMoDataStructure()).getMoContent().split(_Delimiter01)[1]; 
+			String oContent = ((clsWordPresentation)oContainer.getMoDataStructure()).getMoContent(); 
+			clsPair<String, clsSecondaryDataStructureContainer> oVal = new clsPair<String, clsSecondaryDataStructureContainer>(oContent, oContainer);
 			
-			if(eAffectLevel.valueOf(oDriveIntensity).ordinal() > nIntensity){
-				String oContent = ((clsWordPresentation)oContainer.getMoDataStructure()).getMoContent(); 
-				oRetVal = new clsPair<String, clsSecondaryDataStructureContainer>(oContent, oContainer); 
-				nIntensity = eAffectLevel.valueOf(oDriveIntensity).ordinal(); 
+			String oDriveIntensity = ((clsWordPresentation)oContainer.getMoDataStructure()).getMoContent().split(_Delimiter01)[1];
+			int nIntensity = eAffectLevel.valueOf(oDriveIntensity).ordinal();
+			
+			ArrayList< clsPair<String, clsSecondaryDataStructureContainer> > oList;
+			if (oSortedDrives.containsKey(nIntensity)) {
+				oList = oSortedDrives.get(nIntensity);
+			} else {
+				oList = new ArrayList<clsPair<String,clsSecondaryDataStructureContainer>>();
+				oSortedDrives.put(nIntensity, oList);
+			}
+			
+			oList.add(oVal);
+		}
+		
+		//select set with highest intensity - treemap is sorted ascending -> the last entry == highest intensity
+		ArrayList< clsPair<String, clsSecondaryDataStructureContainer> > oList = oSortedDrives.lastEntry().getValue();
+		
+		if (oList.size() == 1) { //case oList.size() == 0 is dealt with throw statement at the end of the method
+			//trivial case
+			oRetVal = oList.get(0);
+		} else if (oList.size() > 1){
+			//priorize sleep. currently, the agent cannot die -> sleeping is more important than eating.
+			ArrayList<String> oPriorityDrives = new ArrayList<String>( Arrays.asList("SLEEP", "RELAX") );
+			
+			oRetVal = null;
+			for (clsPair<String, clsSecondaryDataStructureContainer> oEntry:oList) {
+				String oContent = oEntry.a;
+
+				for (String oP:oPriorityDrives) {
+					if (oContent.contains(oP)) {
+						oRetVal = oEntry;
+						break;
+					}
+				}
+				if (oRetVal != null) {
+					break; //can't break through two loops with a single break statement.
+				}
+			}
+			if (oRetVal == null) {
+				//no entries matching one of the values of oPriorityDrives could be found -> select first entry of list (as good as random) 
+				oRetVal = oList.get(0);
 			}
 		}
 		
