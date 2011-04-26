@@ -44,7 +44,7 @@ public class clsEventLoggerInspector extends Inspector {
     }	
    
     private String getHTML() {
-    	return clsEventLogger.toHtml();
+    	return clsEventLogger.toText();
     }
     
 	/* (non-Javadoc)
@@ -57,7 +57,7 @@ public class clsEventLoggerInspector extends Inspector {
 	@Override
 	public void updateInspector() {
 		try {
-			if (clsEventLogger.isHtmlDirty()) {
+			if (clsEventLogger.isTextDirty()) {
 				oPanel.setText(getHTML());
 			}
 		} catch (java.lang.Exception e) {
