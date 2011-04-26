@@ -44,7 +44,8 @@ public class E11_NeuroSymbolizationEnvironment extends clsModuleBase
 	private HashMap<eSymbolExtType, itfSymbol> moSymbolData;
 
 	private ArrayList<String> moCaptions = new ArrayList<String>(Arrays.asList(
-			"V_CAKE","V_BUBBLE","V_CARROT","V_WALL","V_STONE","V_CAN","V_REMOTEBOT","V_EXCREMENT","MAN_AREA","EAT_AREA","BUMP")); 
+			"V_BUBBLE","V_CAKE","V_CAN","V_CARROT","V_EXCREMENT","V_PLANT","V_REMOTEBOT",
+			"V_STONE","V_WALL","MAN_AREA","EAT_AREA","BUMP")); 
 
 	/**
 	 * DOCUMENT (muchitsch) - insert description 
@@ -290,17 +291,17 @@ public class E11_NeuroSymbolizationEnvironment extends clsModuleBase
 						for (int j=0; j<oEntries.size(); j++) {
 							clsSymbolVisionEntry oE = (clsSymbolVisionEntry) oEntries.get(j);
 							int x = -1;
-							//0:"V_CAKE",1:"V_BUBBLE",2:"V_CARROT",3:"V_WALL",4:"V_STONE",5:"V_CAN",6:"V_REMOTEBOT",
 							switch (oE.getEntityType()) {
-								case CAKE:   x=0; break;
-								case BUBBLE: x=1; break;
-								case CAN:    x=5; break;
-								case CARROT: x=2; break;
-								case WALL:   x=3; break;
-								case STONE:  x=4; break;
+								case BUBBLE: x=0; break;
+								case CAKE:   x=1; break;
+								case CAN:    x=2; break;
+								case CARROT: x=3; break;
+								case EXCREMENT: x=4; break;
+								case PLANT: x=5; break;
 								case REMOTEBOT: x=6; break;
-								case SMARTEXCREMENT: x=7; break;
-								case EXCREMENT: x=7; break;
+								case STONE:  x=7; break;
+								case WALL:   x=8; break;
+								
 							}
 							if (x>=0) {
 								oData.set(x, max(rValue, oData.get(x)));
