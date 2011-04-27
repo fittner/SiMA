@@ -15,6 +15,10 @@ import java.util.Map;
 import org.jgraph.graph.DefaultEdge;
 import org.jgraph.graph.DefaultGraphCell;
 import org.jgraph.graph.GraphConstants;
+
+import com.jgraph.components.labels.RichTextValue;
+
+import pa._v30.symbolization.representationsymbol.clsSymbolVision;
 import pa._v30.tools.clsPair;
 import pa._v30.tools.clsTripple;
 import pa._v30.memorymgmt.datatypes.clsAct;
@@ -155,6 +159,10 @@ public abstract class clsMeshBase extends clsGraphBase {
 			
 		} else if (oO instanceof Integer) {
 			generateGraphCell(poParent, oO.toString()); //mit mir nicht, Integer gibts keine!
+			
+		} else if (oO instanceof clsSymbolVision) {
+			generateGraphCell(poParent, oO.toString()); //TODO MUCHITSCH
+
 
 		} else {
 			generateGraphCell(poParent, oO.toString());
@@ -518,7 +526,13 @@ public abstract class clsMeshBase extends clsGraphBase {
 	 */
 	private DefaultGraphCell generateGraphCell(DefaultGraphCell poParentCell, clsThingPresentation poMemoryObject)
 	{
-		DefaultGraphCell oCell = createDefaultGraphVertex(poMemoryObject.toString(), moColorTP);
+		String oDescription = 	"TP\n" +
+								"DSID: "+ poMemoryObject.getMoDS_ID() + "\n" +
+								"ContentType: "+ poMemoryObject.getMoContentType() + "\n" +
+								"Content: "+ poMemoryObject.getMoContent();
+		
+		RichTextValue oRichText = new RichTextValue(oDescription);
+		DefaultGraphCell oCell = createDefaultGraphVertex(oRichText, moColorTP);
 		this.moCellList.add(oCell);
 		
 		//get edge to parent cell

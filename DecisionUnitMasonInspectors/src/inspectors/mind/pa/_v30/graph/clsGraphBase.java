@@ -30,6 +30,8 @@ import javax.swing.JSplitPane;
 import javax.swing.ProgressMonitor;
 import javax.swing.SwingConstants;
 import javax.swing.SwingUtilities;
+import javax.swing.ToolTipManager;
+
 import org.jgraph.JGraph;
 import org.jgraph.graph.DefaultCellViewFactory;
 import org.jgraph.graph.DefaultGraphCell;
@@ -150,6 +152,7 @@ public abstract class clsGraphBase extends Inspector implements ActionListener {
 		moGraph.setGridEnabled(true);
 		moGraph.setAntiAliased(true);
 		moGraph.setCloneable(true);
+		ToolTipManager.sharedInstance().registerComponent(moGraph);
 		
 		// === LAYOUT ===
 		// ADD TaskPaneGroup for Layout
@@ -668,12 +671,18 @@ public abstract class clsGraphBase extends Inspector implements ActionListener {
 	protected DefaultGraphCell createDefaultGraphVertex(String name, double x,
 			double y, double w, double h, Color poNodeColor) {
 
-		name = name.replace("|", "\n");
-		
+		name = name.replace("|", "\n"); // to enable linebrakes in standard toString()
+		RichTextValue textValue = new RichTextValue(name);
+	
+		return createDefaultGraphVertex(textValue, x, y, w, h, poNodeColor);
+	}
+	
+	protected DefaultGraphCell createDefaultGraphVertex(RichTextValue richText, double x,
+			double y, double w, double h, Color poNodeColor) {
+	
 		//Richtext to enable linebreaks
 		RichTextBusinessObject userObject = new RichTextBusinessObject();
-		RichTextValue textValue = new RichTextValue(name);
-		userObject.setValue(textValue);
+		userObject.setValue(richText);
 		
 		// Create vertex with the given name
 		DefaultGraphCell cell = new DefaultGraphCell(userObject);
@@ -689,6 +698,8 @@ public abstract class clsGraphBase extends Inspector implements ActionListener {
 		GraphConstants.setOpaque(cell.getAttributes(), true);
 		GraphConstants.setBorderColor(cell.getAttributes(), Color.black);
 		//GraphConstants.setBackground(cell.getAttributes(), new Color(240,240,240));
+		
+		GraphConstants.setHorizontalAlignment(cell.getAttributes(),  JLabel.LEFT);  //aligns the text in the cell
 		
 		// Add a Port
 		cell.addPort();
@@ -711,6 +722,10 @@ public abstract class clsGraphBase extends Inspector implements ActionListener {
 	 */
 	protected DefaultGraphCell createDefaultGraphVertex(String name, Color poNodeColor) {
 		return createDefaultGraphVertex(name, 40, 40, 150, 40, poNodeColor);
+	}
+	
+	protected DefaultGraphCell createDefaultGraphVertex(RichTextValue richText, Color poNodeColor) {
+		return createDefaultGraphVertex(richText, 40, 40, 150, 40, poNodeColor);
 	}
 	
 	protected DefaultGraphCell createCircleGraphVertex(String name, double x,
@@ -783,6 +798,7 @@ public abstract class clsGraphBase extends Inspector implements ActionListener {
 		*/
 	}
 	
+		
 	// Define EllipseCell
 	// TODO (MUCHITSCH): create circles!!! and refactor this into a seperate file
 	public class EllipseCell extends DefaultGraphCell {
