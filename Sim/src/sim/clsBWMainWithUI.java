@@ -13,26 +13,18 @@ import sim.display.GUIState;
 import sim.engine.SimState;
 import sim.portrayal.Inspector;
 import sim.portrayal.continuous.ContinuousPortrayal2D;
-
 import statictools.clsGetARSPath;
 import statictools.eventlogger.clsEventLogger;
 import statictools.eventlogger.clsEventLoggerInspector;
-
 import java.awt.Color;
-import java.awt.Container;
 import java.awt.Dimension;
-//import org.jfree.chart.ChartPanel;
 import config.clsBWProperties;
-import du.enums.eEntityType;
 import bw.factories.clsSingletonProperties;
 import bw.factories.clsSingletonMasonGetter;
-//import bw.utils.visualization.clsCharts;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
-import java.util.ArrayList;
-import javax.swing.BoxLayout;
 import javax.swing.JFrame;
-import javax.swing.JTabbedPane;
+
 
 
 /**
@@ -63,8 +55,7 @@ public class clsBWMainWithUI extends GUIState {
 	/** responsible for drawing fields and letting the user manipulate 
 	 * objects stored within them */
 	private ContinuousPortrayal2D moGameGridPortrayal = new ContinuousPortrayal2D();
-	/** holds all charts if charting is activated in startup */
-	//private clsCharts moCharts = null;
+
 	
 	public clsBWMainWithUI(String[] args) { 
 		super(new clsBWMain( System.currentTimeMillis(), args) ); 
@@ -104,35 +95,8 @@ public class clsBWMainWithUI extends GUIState {
 		clsEventLoggerInspector oELI = new clsEventLoggerInspector();
 		clsSingletonMasonGetter.getConsole().getTabPane().addTab("Eventlog", oELI);
 		clsEventLogger.setELI(oELI);
-		//TODO: (langr) - for testing purpose only
-		//oMainWithUI.testTabView();		
 	}
 
-	@Deprecated
-	public void testTabView()
-	{
-		ArrayList<JTabbedPane> oTabView = new ArrayList<JTabbedPane> ();
-		JTabbedPane oTestPaneBub1 = new JTabbedPane();
-		oTestPaneBub1.setName("Bubble Tab 1");
-		JTabbedPane oTestPaneBub2 = new JTabbedPane();
-		oTestPaneBub2.setName("Bubble Tab 2");
-		oTabView.add(oTestPaneBub1);
-		oTabView.add(oTestPaneBub2);
-		((ARSsim.display.Console)(clsSingletonMasonGetter.getConsole())).addTabbSetup(eEntityType.BUBBLE.hashCode(), oTabView);
-		
-		ArrayList<JTabbedPane> oTabView2 = new ArrayList<JTabbedPane> ();
-		JTabbedPane oTestPaneBot1 = new JTabbedPane();
-		oTestPaneBot1.setName("RemoteBot Tab 1");
-		JTabbedPane oTestPaneBot2 = new JTabbedPane();
-		oTestPaneBot2.setName("RemoteBot Tab 2");
-		oTabView2.add(oTestPaneBot1);
-		oTabView2.add(oTestPaneBot2);
-		((ARSsim.display.Console)(clsSingletonMasonGetter.getConsole())).addTabbSetup(eEntityType.REMOTEBOT.hashCode(), oTabView2);
-		
-		
-		((ARSsim.display.Console)(clsSingletonMasonGetter.getConsole())).setView(eEntityType.BUBBLE.hashCode());
-		((ARSsim.display.Console)(clsSingletonMasonGetter.getConsole())).setView(eEntityType.REMOTEBOT.hashCode());
-	}
 	
 	/** returns the title bar of the console
 	 * @return String
@@ -202,12 +166,12 @@ public class clsBWMainWithUI extends GUIState {
     	 clsBWProperties oProp = ARSsim.display.Display2D.getDefaultProperties(pre);
     	 
     	 oProp.setProperty(pre+P_BACKGROUNDCOLOR, Color.white);
-    	 oProp.setProperty(pre+P_TITLE, "BW V1.0 GameGrid");
+    	 oProp.setProperty(pre+P_TITLE, "ARSin V1.0 GameGrid");
     	 oProp.setProperty(pre+P_CLIPPING, false);
-    	 oProp.setProperty(pre+P_PORTRAYALTITLE, "BW GameGrid");
+    	 oProp.setProperty(pre+P_PORTRAYALTITLE, "ARSin GameGrid");
     	 oProp.setProperty(pre+P_DRAWIMAGES, true);
     	 oProp.setProperty(pre+P_GAMEGRIDFRAMEVISIBLE, true);
-    	 oProp.setProperty(pre+P_MAINWINDOWTITLE, "BW V1.0");
+    	 oProp.setProperty(pre+P_MAINWINDOWTITLE, "ARSin V1.0");
     	 oProp.setProperty(pre+P_DRAWSENSORS, true);
     	 
     	 return oProp;
@@ -235,11 +199,6 @@ public class clsBWMainWithUI extends GUIState {
 		moDisplay.attach(moGameGridPortrayal, oProp.getPropertyString(pre+P_PORTRAYALTITLE) ); //attach the Portrayal to the Display2D to display it 
 		
 		clsSingletonMasonGetter.setDisplay2D(moDisplay);
-	
-		//add the charting panel
-		if ( ((clsBWMain)state).getmbChartDisplay()) {
-	        addChartPanel(poController,(clsBWMain)state);
-		}
 	}
 	
     @Override
@@ -280,7 +239,7 @@ public class clsBWMainWithUI extends GUIState {
 		moGameGridPortrayal.setField(clsSingletonMasonGetter.getFieldEnvironment());
 		
 		moDisplay.reset();
-//		
+		
 		// redraw the display
 		moDisplay.repaint();
 	}
@@ -298,46 +257,5 @@ public class clsBWMainWithUI extends GUIState {
 	    return oInspector;
     }
 	
-	
-	
-	
-	/**
-	 * Adds the seperate charting panel if option is set to true in startup.
-	 * Creates the panel, adds the charts.
-	 * When Changes in clsCharts are done, you have to add some lines here too!
-	 *
-	 * @param poController
-	 * @param poMainModelClass
-	 */
-	@Deprecated
-	public void addChartPanel( Controller poController, clsBWMain poMainModelClass ) {
-		
-		// add all charts from clsCharts
-		// FIXME - are these chart panels still needed? clsCharts has been deleted!
-//		moCharts = new clsCharts(poMainModelClass);
-//		ChartPanel oTestPanel = null;
-		
-		//create charts
-		if (true) { // TODO clemens: do we want to ad this chart? maybe read from config file? for testing.. always yes
-			// FIXME - are these chart panels still needed? clsCharts has been deleted!
-//			oTestPanel = new ChartPanel(moCharts.createTestChart());
-        }
-		
-		// create the chart frame
-        moChartFrame = new JFrame();
-        moChartFrame.setResizable(true);
-        Container moContentpanel = moChartFrame.getContentPane();
-        moContentpanel.setLayout(new BoxLayout(moContentpanel, BoxLayout.Y_AXIS));
-	    
-        
-     
-        // register frame and show the window
-        moChartFrame.setTitle("Live Bubble Statistics");
-        moChartFrame.pack();
-        // register the chartFrame so it appears in the "Display" list
-        poController.registerFrame(moChartFrame);
-        // make the frame visible
-        moChartFrame.setVisible(true);
-   }
 	
 }
