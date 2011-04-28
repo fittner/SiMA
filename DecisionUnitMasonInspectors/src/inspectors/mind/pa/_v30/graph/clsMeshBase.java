@@ -35,6 +35,7 @@ import pa._v30.memorymgmt.datatypes.clsPrimaryDataStructureContainer;
 import pa._v30.memorymgmt.datatypes.clsSecondaryDataStructure;
 import pa._v30.memorymgmt.datatypes.clsSecondaryDataStructureContainer;
 import pa._v30.memorymgmt.datatypes.clsThingPresentation;
+import pa._v30.memorymgmt.datatypes.clsThingPresentationMesh;
 import pa._v30.memorymgmt.datatypes.clsWordPresentation;
 
 
@@ -218,13 +219,22 @@ public abstract class clsMeshBase extends clsGraphBase {
 			clsAct tmpRootMemoryObject = (clsAct)poMemoryObject;
 			oRootCell = generateGraphCell(poParentCell, tmpRootMemoryObject);
 		}
+		if(poMemoryObject instanceof clsThingPresentationMesh)
+		{
+			clsThingPresentationMesh tmpRootMemoryObject = (clsThingPresentationMesh)poMemoryObject;
+			oRootCell = generateGraphCell(poParentCell, tmpRootMemoryObject);
+		}
 		else
 		{
-			throw new NullPointerException("ARS Exeption: DefaultGraphCell is NULL, object type clsDataStructurePA not found?");
+			System.out.println("ARS Exeption: DefaultGraphCell(clsDataStructurePA) is NULL, object type not found? class:" + poMemoryObject.getClass());
+			//throw new NullPointerException("ARS Exeption: DefaultGraphCell is NULL, object type clsDataStructurePA not found?");
 		}
 		
 		if(oRootCell == null)
+		{
+			System.out.println("ARS Exeption: DefaultGraphCell is NULL, object type not found?");
 			throw new NullPointerException("ARS Exeption: DefaultGraphCell is NULL, object type clsDataStructurePA not found?");
+		}
 		
 		//get edge to parent cell [parent cell] <-> [rootCell]
 		DefaultEdge oEdgeParent = new DefaultEdge();
@@ -297,6 +307,7 @@ public abstract class clsMeshBase extends clsGraphBase {
 		}
 		else
 		{
+			System.out.println("ARS Exeption: DefaultGraphCell is NULL, object type clsPair not found?");
 			throw new NullPointerException("ARS Exeption: DefaultGraphCell is NULL, object type clsPair not found?");
 		}
 		
@@ -350,9 +361,18 @@ public abstract class clsMeshBase extends clsGraphBase {
 				GraphConstants.setEndFill(oEdge.getAttributes(), true);
 			}
 			else
-			{ //should not be laut heimo!!!
-				System.out.println("[clsMeshBase.generateGraphCell] should not be!!! Neither A nor B are root element. Go ask Heimo about his memory implementation");
-				//throw new UnsupportedOperationException("ARS Exeption: Neither A nor B are root element. Go ask Heimo about his memory implementation");
+			{ 
+				System.out.println("[clsMeshBase.generateGraphCell] [PDC] Neither A nor B are root element. argh");
+				
+				clsDataStructurePA oMemoryObjectB = oContainerAssociations.getMoAssociationElementB();
+				DefaultGraphCell oTargetCell = generateGraphCell(oContainerRootCell, oMemoryObjectB);
+				//add edge
+				DefaultEdge oEdge = new DefaultEdge("ContAss w:" + oContainerAssociations.getMrWeight());
+				oEdge.setSource(oContainerRootCell.getChildAt(0));
+				oEdge.setTarget(oTargetCell.getChildAt(0));
+				moCellList.add(oEdge);
+				GraphConstants.setLineEnd(oEdge.getAttributes(), GraphConstants.ARROW_DOUBLELINE);
+				GraphConstants.setEndFill(oEdge.getAttributes(), true);
 			}
 			
 		}
@@ -407,7 +427,17 @@ public abstract class clsMeshBase extends clsGraphBase {
 			}
 			else
 			{ //should not be laut heimo!!!
-				//throw new UnsupportedOperationException("ARS Exeption: Neither A nor B are root element. Go ask Heimo about his memory implementation");
+				System.out.println("[clsMeshBase.generateGraphCell] [SDC] Neither A nor B are root element. argh");
+
+				clsDataStructurePA oMemoryObjectB = oContainerAssociations.getMoAssociationElementB();
+				DefaultGraphCell oTargetCell = generateGraphCell(oContainerRootCell, oMemoryObjectB);
+				//add edge
+				DefaultEdge oEdge = new DefaultEdge("ContAss w:" + oContainerAssociations.getMrWeight());
+				oEdge.setSource(oContainerRootCell.getChildAt(0));
+				oEdge.setTarget(oTargetCell.getChildAt(0));
+				moCellList.add(oEdge);
+				GraphConstants.setLineEnd(oEdge.getAttributes(), GraphConstants.ARROW_DOUBLELINE);
+				GraphConstants.setEndFill(oEdge.getAttributes(), true);
 			}
 		}
 		return oContainerRootCell;
@@ -458,11 +488,64 @@ public abstract class clsMeshBase extends clsGraphBase {
 			}
 			else
 			{ //should not be laut heimo!!!
-				throw new UnsupportedOperationException("ARS Exeption: Neither A nor B are root element. Go ask Heimo about his memory implementation");
+				System.out.println("ARS Exeption: [DM] Neither A nor B are root element.");
+				throw new UnsupportedOperationException("ARS Exeption: Neither A nor B are root element. argh");
 			}
 			
 		}
 		return oDMrootCell;	
+	}
+	
+	/** TPM
+	 * Generating cells from clsDriveMesh
+	 */
+	private DefaultGraphCell generateGraphCell(DefaultGraphCell poParentCell, clsThingPresentationMesh poMemoryObject)
+	{
+		String oDescription = "TPM";
+
+		if(!UseSimpleView()) 
+		{
+			oDescription = 	poMemoryObject.toString();
+		}
+
+		//generate root of the mesh
+		DefaultGraphCell oTPMrootCell = createDefaultGraphVertex(oDescription, moColorTPMRoot);
+		this.moCellList.add(oTPMrootCell);
+		
+		for(clsAssociation oDMAssociations : poMemoryObject.getMoAssociatedContent())
+		{
+			if(poMemoryObject.getMoDS_ID() == oDMAssociations.getMoAssociationElementA().getMoDS_ID())
+			{
+				clsDataStructurePA oMemoryObjectB = oDMAssociations.getMoAssociationElementB();
+				DefaultGraphCell oTargetCell = generateGraphCell(oTPMrootCell, oMemoryObjectB);
+				//add edge
+				DefaultEdge oEdge = new DefaultEdge("TPM w:" + oDMAssociations.getMrWeight());
+				oEdge.setSource(oTPMrootCell.getChildAt(0));
+				oEdge.setTarget(oTargetCell.getChildAt(0));
+				moCellList.add(oEdge);
+				GraphConstants.setLineEnd(oEdge.getAttributes(), GraphConstants.ARROW_CLASSIC);
+				GraphConstants.setEndFill(oEdge.getAttributes(), true);
+			}
+			else if(poMemoryObject.getMoDS_ID() == oDMAssociations.getMoAssociationElementB().getMoDS_ID())
+			{
+				clsDataStructurePA oMemoryObjectA = oDMAssociations.getMoAssociationElementA();
+				DefaultGraphCell oTargetCell = generateGraphCell(oTPMrootCell, oMemoryObjectA);
+				//add edge
+				DefaultEdge oEdge = new DefaultEdge("TPM w:" + oDMAssociations.getMrWeight());
+				oEdge.setSource(oTPMrootCell.getChildAt(0));
+				oEdge.setTarget(oTargetCell.getChildAt(0));
+				moCellList.add(oEdge);
+				GraphConstants.setLineEnd(oEdge.getAttributes(), GraphConstants.ARROW_CLASSIC);
+				GraphConstants.setEndFill(oEdge.getAttributes(), true);
+			}
+			else
+			{ //should not be laut heimo!!!
+				System.out.println("ARS Exeption: [DM] Neither A nor B are root element.");
+				throw new UnsupportedOperationException("ARS Exeption: Neither A nor B are root element. argh");
+			}
+			
+		}
+		return oTPMrootCell;	
 	}
 	
 	/** [TP]
