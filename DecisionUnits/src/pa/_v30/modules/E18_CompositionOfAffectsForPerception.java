@@ -245,7 +245,11 @@ public class E18_CompositionOfAffectsForPerception extends clsModuleBase impleme
 			double rLibido = oDMLibido.getPleasure();
 			double rPleasure = oDMInput.getPleasure();
 			
-			oDMInput.setPleasure(rPleasure+rLibido);
+			double rResult = rPleasure+rLibido;
+			if (rResult > 1) {rResult = 1;}
+			if (rResult < -1) {rResult = -1;}
+			
+			oDMInput.setPleasure(rResult);
 		}
 	}
 	
