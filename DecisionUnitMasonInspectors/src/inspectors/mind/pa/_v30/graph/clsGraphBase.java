@@ -90,6 +90,7 @@ public abstract class clsGraphBase extends Inspector implements ActionListener {
 	private boolean moAutoUpdate = false;
 	private int moStepCounter = 0; //counter for the automatic interval updating
 	protected static int mnAutomaticUpdateInterval = 100;
+	private boolean moUseSimpleView = false;
 	
 	protected ArrayList<DefaultGraphCell> moCellList = new ArrayList<DefaultGraphCell>();
 		
@@ -110,6 +111,9 @@ public abstract class clsGraphBase extends Inspector implements ActionListener {
 	protected static Color moColorSecondaryDataStructureContainer = new Color(0xff3366CC);
 	protected static Color moColorDMRoot = new Color(0xffff0066); //pinkish red
 
+	public boolean UseSimpleView() {
+		return moUseSimpleView;
+	}
 
     /**
      * Constructor of the class. Creates the panel, buttons etc. 
@@ -312,6 +316,20 @@ public abstract class clsGraphBase extends Inspector implements ActionListener {
 				performGraphLayoutChange(new JGraphTreeLayout());
 			}
 		});
+		
+			javax.swing.JCheckBox oSimpleViewCB = new javax.swing.JCheckBox("Simple View");
+			
+		    ActionListener actionListener = new ActionListener() {
+		        @Override
+				public void actionPerformed(ActionEvent actionEvent) {
+		          AbstractButton abstractButton = (AbstractButton) actionEvent.getSource();
+		          moUseSimpleView = abstractButton.getModel().isSelected();
+		          updateControl();
+		        }
+		      };
+		      oSimpleViewCB.addActionListener(actionListener);
+		      poTaskGroup.add(oSimpleViewCB);
+		      
 	  return poTaskGroup;
 }
     
