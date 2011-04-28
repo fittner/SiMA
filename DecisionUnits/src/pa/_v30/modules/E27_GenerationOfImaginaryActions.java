@@ -33,7 +33,7 @@ public class E27_GenerationOfImaginaryActions extends clsModuleBase implements I
 	public static final String P_MODULENUMBER = "27";
 
 	//HZ Not used up to now 16.03.2011
-	//private ArrayList<clsSecondaryDataStructureContainer> moGoalInput;
+	private ArrayList<clsSecondaryDataStructureContainer> moGoalInput;
 	private ArrayList<ArrayList<clsAct>> moPlanInput; 
 	private ArrayList<clsWordPresentation> moActions_Output;
 	
@@ -67,10 +67,11 @@ public class E27_GenerationOfImaginaryActions extends clsModuleBase implements I
 	 */
 	@Override
 	public String stateToTEXT() {
-		String text ="";
+		String text = "";
 		
 		text += toText.listToTEXT("moPlanInput", moPlanInput);
 		text += toText.listToTEXT("moActions_Output", moActions_Output);
+		text += toText.listToTEXT("moGoalInput", moGoalInput);
 		
 		return text;
 	}		
@@ -147,7 +148,7 @@ public class E27_GenerationOfImaginaryActions extends clsModuleBase implements I
 	@Override
 	public void receive_I7_1(ArrayList<clsSecondaryDataStructureContainer> poGoalInput) {
 		//HZ Not used up to now 16.03.2011
-		//moGoalInput = ( ArrayList<clsSecondaryDataStructureContainer> )deepCopy(poGoalInput);
+		moGoalInput = ( ArrayList<clsSecondaryDataStructureContainer> )deepCopy(poGoalInput);
 	}
 
 	/* (non-Javadoc)

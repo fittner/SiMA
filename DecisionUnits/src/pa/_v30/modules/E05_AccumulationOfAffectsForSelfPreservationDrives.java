@@ -8,6 +8,7 @@ package pa._v30.modules;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Map;
 import java.util.SortedMap;
 
 import pa._v30.tools.clsDriveValueSplitter;
@@ -36,6 +37,7 @@ public class E05_AccumulationOfAffectsForSelfPreservationDrives extends clsModul
 	
 	private ArrayList<clsPair<clsPair<clsDriveMesh, clsDriveDemand>, clsPair<clsDriveMesh, clsDriveDemand>>> moDriveCandidate;
 	private ArrayList<clsDriveMesh> moDriveList; 
+	private HashMap<String, Double> moSplitterFactor;	
 	/**
 	 * DOCUMENT (deutsch) - insert description 
 	 * 
@@ -51,6 +53,11 @@ public class E05_AccumulationOfAffectsForSelfPreservationDrives extends clsModul
 			clsBWProperties poProp, HashMap<Integer, clsModuleBase> poModuleList, SortedMap<eInterfaces, ArrayList<Object>> poInterfaceData) throws Exception {
 		super(poPrefix, poProp, poModuleList, poInterfaceData);
 		applyProperties(poPrefix, poProp);	
+		
+		moSplitterFactor = new HashMap<String, Double>();
+		moSplitterFactor.put("NOURISH", 0.5);moSplitterFactor.put("BITE",    0.5);
+		moSplitterFactor.put("SLEEP",   0.5);moSplitterFactor.put("RELAX",   0.5);		
+		moSplitterFactor.put("REPRESS", 0.5);moSplitterFactor.put("DEPOSIT", 0.5);		
 	}
 	
 	/* (non-Javadoc)
@@ -66,6 +73,7 @@ public class E05_AccumulationOfAffectsForSelfPreservationDrives extends clsModul
 		
 		text += toText.listToTEXT("moDriveCandidate", moDriveCandidate);
 		text += toText.listToTEXT("moDriveList", moDriveList);
+		text += toText.mapToTEXT("moSplitterFactor", moSplitterFactor);
 		
 		return text;
 	}
@@ -135,13 +143,23 @@ public class E05_AccumulationOfAffectsForSelfPreservationDrives extends clsModul
 		moDriveList = new ArrayList<clsDriveMesh>(); 
 		
 		for(clsPair<clsPair<clsDriveMesh, clsDriveDemand>, clsPair<clsDriveMesh, clsDriveDemand>> oEntry : moDriveCandidate){
+			double rFactor = 0.5;
+			try {
+				for (Map.Entry<String, Double> oSF:moSplitterFactor.entrySet()) {
+					if (oEntry.a.a.toString().contains(oSF.getKey())) {
+						rFactor = oSF.getValue();
+					}
+				}
+			} catch (java.lang.Exception e) {
+				//do nothing
+			}			
 			//RL:
 			//for a constant increase of the affect values, the following function is implemented:
 			//1.: life-instinct increases faster than death-instinct
 			//2.: life-instinct reaches maximum (death-instinct at 50%) and decreases
 			//3.: death-instinct reaches maximum (--> should result in deatch)
 			clsPair<Double, Double> oSplitResult = clsDriveValueSplitter.calc(oEntry.a.b.getTension(), oEntry.b.b.getTension(), 
-					eDriveValueSplitter.SIMPLE, null); 
+					eDriveValueSplitter.ADVANCED, rFactor); 
 			
 			double oLifeAffect  = oSplitResult.a;
 			double oDeathAffect = oSplitResult.b;

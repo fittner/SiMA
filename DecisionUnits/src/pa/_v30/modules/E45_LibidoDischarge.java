@@ -46,7 +46,7 @@ public class E45_LibidoDischarge extends clsModuleBaseKB implements itfInspector
 	private ArrayList<clsPair<clsPrimaryDataStructureContainer, clsDriveMesh>> moMergedPrimaryInformation_Rcv;
 	private ArrayList<clsPair<clsPrimaryDataStructureContainer, clsDriveMesh>> moMergedPrimaryInformation_Snd;	
 	private ArrayList<clsPair<String, Double>> moLibidioDischargeCandidates; //pair of IDENTIFIER and qualification from 0 to 1
-	private double mrDischargePiece = 0.1; //amount of the sotred libido which is going to be withtracted max. (see formula below)
+	private double mrDischargePiece = 0.2; //amount of the sotred libido which is going to be withtracted max. (see formula below)
 	private double mrAvailableLibido;
 	private double mrLibidoReducedBy;
 	private clsLibidoBuffer moLibidoBuffer;	
@@ -216,7 +216,19 @@ public class E45_LibidoDischarge extends clsModuleBaseKB implements itfInspector
 				
 				if (oDS instanceof clsThingPresentationMesh && ((clsThingPresentationMesh)oDS).getMoContent().contains(oSearchPattern)) {
 					clsDriveMesh oDrive = createDriveMesh("LIBIDO", "LIBIDO");
-					oDrive.setPleasure(rReduction);
+					
+					double r = rReduction;
+					
+					//FIXME (Zeilinger): dirty hack!!!! by TD : *5 is to be removed!
+					//the problem is that later on, the pleasure value is converted into intervals with steplength 
+					//of about 0.4. usually, libido provide pleasure gain of 0.2 max -> only in rare occasions, libido
+					//gained has influence on decission making!
+					r *= 5;
+					
+					if (rReduction > 1) {rReduction = 1;}
+					if (rReduction < -1) {rReduction = -1;}
+
+					oDrive.setPleasure(r);
 					
 					mrLibidoReducedBy += rReduction;
 					
@@ -227,6 +239,8 @@ public class E45_LibidoDischarge extends clsModuleBaseKB implements itfInspector
 			}
 		}
 		
+		
+				
 		moLibidoBuffer.receive_D1_3(mrLibidoReducedBy);
 
 	}

@@ -14,7 +14,7 @@ package pa._v30.tools;
  * 
  */
 public class clsDriveValueSplitter {
-	public static clsPair<Double, Double> calc(Double prA, Double prB, eDriveValueSplitter peDVS, Object[] poParams) {
+	public static clsPair<Double, Double> calc(Double prA, Double prB, eDriveValueSplitter peDVS, Object... poParams) {
 		clsPair<Double, Double> oRes = null;
 		
 		switch (peDVS) {

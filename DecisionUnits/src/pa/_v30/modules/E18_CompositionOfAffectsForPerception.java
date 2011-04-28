@@ -186,8 +186,9 @@ public class E18_CompositionOfAffectsForPerception extends clsModuleBase impleme
 			clsDriveMesh oDMLibido = null;
 			
 			for (clsPair<clsPrimaryDataStructureContainer,clsDriveMesh> oL:moLibidoPleasureCandidates_IN) {
-				if (oL.a.equals(oPDSC)) { //FIXME (Zeilinger): untested! not sure if this operation can identify identical clsPrimaryDataStructureContainer (TD 2011/04/22)
+				if (oL.a.toString().equals(oPDSC.toString())) { //FIXME (Zeilinger): untested! not sure if this operation can identify identical clsPrimaryDataStructureContainer (TD 2011/04/22)
 					oDMLibido = oL.b;
+					break;
 				}
 			}			
 			
@@ -224,8 +225,9 @@ public class E18_CompositionOfAffectsForPerception extends clsModuleBase impleme
 						clsDriveMesh oDMInput = ((clsAssociationDriveMesh)oAssociation).getDM(); 
 						//Get the DM from the repressed content		
 						
-						processRepressedContent(oDMInput, oDMRepressed);
 						processLibidoContent(oDMInput, oDMLibido);
+						processRepressedContent(oDMInput, oDMRepressed);
+
 					}
 				}
 			}	
@@ -243,7 +245,11 @@ public class E18_CompositionOfAffectsForPerception extends clsModuleBase impleme
 			double rLibido = oDMLibido.getPleasure();
 			double rPleasure = oDMInput.getPleasure();
 			
-			oDMInput.setPleasure(rPleasure+rLibido);
+			double rResult = rPleasure+rLibido;
+			if (rResult > 1) {rResult = 1;}
+			if (rResult < -1) {rResult = -1;}
+			
+			oDMInput.setPleasure(rResult);
 		}
 	}
 	

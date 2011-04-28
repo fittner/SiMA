@@ -48,6 +48,16 @@ public class clsLibidoBuffer implements itfInspectorInternalState, itfInterfaceD
 		} else {
 			mrBufferedLibido = 0;
 		}
+		
+		normalizeBuffer();
+	}
+	
+	private void normalizeBuffer() {
+		if (mrBufferedLibido > 1) {
+			mrBufferedLibido = 1;
+		} else if (mrBufferedLibido < 0) {
+			mrBufferedLibido = 0;
+		}
 	}
 
 	/* (non-Javadoc)
@@ -64,6 +74,8 @@ public class clsLibidoBuffer implements itfInspectorInternalState, itfInterfaceD
 		} else {
 			mrBufferedLibido = 0;	
 		}		
+		
+		normalizeBuffer();
 	}
 
 	/* (non-Javadoc)
