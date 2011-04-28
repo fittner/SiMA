@@ -7,20 +7,21 @@
 package inspectors.mind.pa._v30.graph;
 
 
+
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
+
 import java.util.ArrayList;
-import java.util.Hashtable;
 import java.util.Map;
 import javax.swing.AbstractAction;
 import javax.swing.AbstractButton;
 import javax.swing.BorderFactory;
+import javax.swing.ImageIcon;
 import javax.swing.JCheckBox;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -29,6 +30,8 @@ import javax.swing.JSplitPane;
 import javax.swing.ProgressMonitor;
 import javax.swing.SwingConstants;
 import javax.swing.SwingUtilities;
+import javax.swing.ToolTipManager;
+
 import org.jgraph.JGraph;
 import org.jgraph.graph.DefaultCellViewFactory;
 import org.jgraph.graph.DefaultGraphCell;
@@ -38,6 +41,8 @@ import org.jgraph.graph.GraphLayoutCache;
 import org.jgraph.graph.GraphModel;
 import org.jgraph.graph.VertexView;
 import sim.portrayal.Inspector;
+import statictools.clsGetARSPath;
+
 import com.jgraph.components.labels.MultiLineVertexView;
 import com.jgraph.components.labels.RichTextBusinessObject;
 import com.jgraph.components.labels.RichTextGraphModel;
@@ -60,7 +65,7 @@ import com.l2fprod.common.swing.JTaskPaneGroup;
 
 
 /**
- * The one and only Inspector for Heimos Memory. Can display all memory Infoemation aka eDataType
+ * The one and only Inspector for Heimos Memory in for of Graphs. Can display all memory Infoemation aka eDataType
  * just map the inspector tab with this inspector here: clsInspectorMappingPA
  * and fill it with a hash map containing the information pairs 
  * 
@@ -83,14 +88,27 @@ public abstract class clsGraphBase extends Inspector implements ActionListener {
 	private JCheckBox flushOriginCheckBox = new JCheckBox("Flush", true);
 	private JGraphLayoutMorphingManager moMorpher = new JGraphLayoutMorphingManager();
 	private boolean moAutoUpdate = false;
-	private int moStepCounter = 0;
+	private int moStepCounter = 0; //counter for the automatic interval updating
+	protected static int mnAutomaticUpdateInterval = 100;
 	
 	protected ArrayList<DefaultGraphCell> moCellList = new ArrayList<DefaultGraphCell>();
-	
-	//colors:
-	protected static Color moColorTP = Color.RED;
-	protected static Color moColorNULL = Color.BLACK;
-	
+		
+	//colors for all datatypes, used in clsMeshBase:
+	protected static Color moColorTP = new Color(0xff99FF33); //light green
+	protected static Color moColorNULL = new Color(0xff222222); // dark dark grey
+	protected static Color moColorString = Color.WHITE;
+	protected static Color moColorDouble = Color.WHITE;
+	protected static Color moColorWP = new Color(0xff6699FF); //light blue
+	protected static Color moColorDD = new Color(0xffCC66CC);  //Drive Demand, lavendel
+	protected static Color moColorACT = new Color(0xffFF9933); //brown
+	protected static Color moColorPairRoot = new Color(0xffFFCC00); //light orange
+	protected static Color moColorPair = new Color(0xffFFCC00);
+	protected static Color moColorTrippleRoot = new Color(0xffffFF99); //light yellow
+	protected static Color moColorTripple = new Color(0xffffFF99);
+	protected static Color moColorRoot = Color.GRAY;
+	protected static Color moColorPrimaryDataStructureContainer = new Color(0xff99CC33);
+	protected static Color moColorSecondaryDataStructureContainer = new Color(0xff3366CC);
+	protected static Color moColorDMRoot = new Color(0xffff0066); //pinkish red
 
 
     /**
@@ -134,25 +152,111 @@ public abstract class clsGraphBase extends Inspector implements ActionListener {
 		moGraph.setGridEnabled(true);
 		moGraph.setAntiAliased(true);
 		moGraph.setCloneable(true);
+		ToolTipManager.sharedInstance().registerComponent(moGraph);
 		
 		// === LAYOUT ===
 		// ADD TaskPaneGroup for Layout
 		JTaskPaneGroup oTaskGroupLayout = new JTaskPaneGroup();
-		oTaskGroupLayout.setTitle("Graph Layout");
-		oTaskGroupLayout.add(new AbstractAction("Hierarchical") {
+		moTaskPane.add(addTaskPaneLayout(oTaskGroupLayout));
+		
+		// === COMMAND ===
+		// ADD TaskPaneGroup for Commands
+		JTaskPaneGroup oTaskGroupCommands = new JTaskPaneGroup();
+		moTaskPane.add( addTaskPaneCommands(oTaskGroupCommands) );
+		
+		// === FILTER ===
+		// ADD TaskPaneGroup for Filters
+		JTaskPaneGroup oTaskGroupFilter = new JTaskPaneGroup();
+		moTaskPane.add( addTaskPaneFilter(oTaskGroupFilter) );
+		
+		// === SEARCH ===
+		// ADD TaskPaneGroup for Search
+		JTaskPaneGroup oTaskGroupSearch = new JTaskPaneGroup();
+		moTaskPane.add( addTaskPaneSearch(oTaskGroupSearch ));
+		
+		// === LEGEND ===
+		// ADD TaskPaneGroup for Legend
+		JTaskPaneGroup oTaskGroupLegend = new JTaskPaneGroup();
+		moTaskPane.add( addTaskPaneLegend(oTaskGroupLegend) );
+		
+		//create the SplitPane and add the two windows
+		JScrollPane oMenuScrollPane = new JScrollPane(moTaskPane);
+		JScrollPane oGraphScrollPane = new JScrollPane(moGraph);
+		// Adds the split pane
+		JSplitPane oSplitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, oMenuScrollPane, oGraphScrollPane);
+		oSplitPane.setDividerLocation(150);
+		
+		//Provide minimum sizes for the two components in the split pane
+		Dimension minimumSize = new Dimension(100, 50);
+		oMenuScrollPane.setMinimumSize(minimumSize);
+		oGraphScrollPane.setMinimumSize(minimumSize);
+		
+		//add the SplitPane to the Inspector (final magic)
+    	this.add(oSplitPane, BorderLayout.CENTER);
+    	
+    	// Adds the status bar at bottom (final final)
+		moLabelStatusBar.setText(JGraphLayout.VERSION  +  " - Graph Memory Inspector");
+		moLabelStatusBar.setBorder(BorderFactory.createEmptyBorder(2, 2, 2, 2));
+		moLabelStatusBar.setFont(moLabelStatusBar.getFont().deriveFont(Font.PLAIN));
+		this.add(moLabelStatusBar, BorderLayout.SOUTH);
+    }
+    
+    private JTaskPaneGroup addTaskPaneLegend(JTaskPaneGroup poTaskGroup){
+    	poTaskGroup.setTitle("Legend");
+    	poTaskGroup.setExpanded(false);
+ 
+    	poTaskGroup.add(addLegendItem( "TP", moColorTP, "/BW/src/resources/images/view.png") );
+    	poTaskGroup.add(addLegendItem( "NULL", moColorNULL, "/BW/src/resources/images/view.png") );
+    	poTaskGroup.add(addLegendItem( "String", moColorString, "/BW/src/resources/images/view.png") );
+    	poTaskGroup.add(addLegendItem( "Double", moColorDouble, "/BW/src/resources/images/view.png") );
+    	poTaskGroup.add(addLegendItem( "WP", moColorWP, "/BW/src/resources/images/view.png") );
+    	poTaskGroup.add(addLegendItem( "DD", moColorDD, "/BW/src/resources/images/view.png") );
+    	poTaskGroup.add(addLegendItem( "ACT", moColorACT, "/BW/src/resources/images/view.png") );
+    	poTaskGroup.add(addLegendItem( "Pair", moColorPair, "/BW/src/resources/images/view.png") );
+    	poTaskGroup.add(addLegendItem( "Tripple", moColorTripple, "/BW/src/resources/images/view.png") );
+    	poTaskGroup.add(addLegendItem( "PDSC", moColorPrimaryDataStructureContainer, "/BW/src/resources/images/view.png") );
+    	poTaskGroup.add(addLegendItem( "SDSC", moColorSecondaryDataStructureContainer, "/BW/src/resources/images/view.png") );
+    	poTaskGroup.add(addLegendItem( "DM root", moColorDMRoot, "/BW/src/resources/images/view.png") );
+     	
+    	return poTaskGroup;
+    }
+    
+    private JLabel addLegendItem(String poText, Color poColor, String poImagePath){
+     	String oFullImagePath = clsGetARSPath.getArsPath()+poImagePath;
+    	ImageIcon oIcon = new ImageIcon(oFullImagePath, poText);
+
+     	JLabel oLegendLabel = new JLabel(poText, oIcon, JLabel.LEFT);
+     	oLegendLabel.setBackground(poColor);
+     	oLegendLabel.setOpaque(true);
+     	oLegendLabel.setForeground(Color.BLACK);
+    	return oLegendLabel;
+    }
+    
+    private JTaskPaneGroup addTaskPaneSearch(JTaskPaneGroup poTaskGroup){
+    	poTaskGroup.setTitle("Search");
+    	poTaskGroup.setExpanded(false);
+    	return poTaskGroup;
+    }
+    
+    private JTaskPaneGroup addTaskPaneFilter(JTaskPaneGroup poTaskGroup){
+    	poTaskGroup.setTitle("Filter");
+    	poTaskGroup.setExpanded(false);
+    	return poTaskGroup;
+    }
+   
+    private JTaskPaneGroup addTaskPaneLayout(JTaskPaneGroup poTaskGroup){
+		  poTaskGroup.setTitle("Graph Layout");
+		  poTaskGroup.add(new AbstractAction("Hierarchical") {
 			private static final long serialVersionUID = 1L;
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				performGraphLayoutChange(new JGraphHierarchicalLayout());
 			}
 		});
-		oTaskGroupLayout.add(new AbstractAction("Fast Organic") {
-			/**
-			 * @author deutsch
-			 * 10.08.2010, 17:54:49
-			 */
+		  poTaskGroup.add(new AbstractAction("Fast Organic") {
+	
 			private static final long serialVersionUID = 6447974553914052766L;
-
+	
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				JGraphFastOrganicLayout layout = new JGraphFastOrganicLayout();
@@ -161,84 +265,60 @@ public abstract class clsGraphBase extends Inspector implements ActionListener {
 			}
 		});
 		
-		oTaskGroupLayout.add(new AbstractAction("Simple Circle") {
-			/**
-			 * @author deutsch
-			 * 10.08.2010, 17:54:49
-			 */
+		  poTaskGroup.add(new AbstractAction("Simple Circle") {
+	
 			private static final long serialVersionUID = -1444623169928884258L;
-
+	
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				performGraphLayoutChange(new JGraphSimpleLayout(JGraphSimpleLayout.TYPE_CIRCLE));
 			}
 		});
 		
-		oTaskGroupLayout.add(new AbstractAction("Simple Tilt") {
-			/**
-			 * @author deutsch
-			 * 10.08.2010, 17:54:49
-			 */
+		  poTaskGroup.add(new AbstractAction("Simple Tilt") {
+	
 			private static final long serialVersionUID = -6513607636960953397L;
-
+	
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				performGraphLayoutChange(new JGraphSimpleLayout(JGraphSimpleLayout.TYPE_TILT));
 			}
 		});
 		
-		oTaskGroupLayout.add(new AbstractAction("Compact Tree") {
-			/**
-			 * @author deutsch
-			 * 10.08.2010, 17:54:49
-			 */
+		  poTaskGroup.add(new AbstractAction("Compact Tree") {
+	
 			private static final long serialVersionUID = -2811903925630396473L;
-
+	
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				performGraphLayoutChange(new JGraphCompactTreeLayout());
 			}
 		});
-		oTaskGroupLayout.add(new AbstractAction("Radialtree") {
-			/**
-			 * @author deutsch
-			 * 10.08.2010, 17:54:49
-			 */
+		  poTaskGroup.add(new AbstractAction("Radialtree") {
+	
 			private static final long serialVersionUID = -7537382541569261175L;
-
+	
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				performGraphLayoutChange(new JGraphRadialTreeLayout());
 			}
 		});
-		oTaskGroupLayout.add(new AbstractAction("Tree") {
-			/**
-			 * @author deutsch
-			 * 10.08.2010, 17:54:49
-			 */
+		  poTaskGroup.add(new AbstractAction("Tree") {
+	
 			private static final long serialVersionUID = 1618477318723383606L;
-
+	
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				performGraphLayoutChange(new JGraphTreeLayout());
 			}
 		});
-
-		moTaskPane.add(oTaskGroupLayout);
+	  return poTaskGroup;
+}
+    
+    private JTaskPaneGroup addTaskPaneCommands(JTaskPaneGroup poTaskGroup){
+      	poTaskGroup.setTitle("Commands");
 		
-		
-		// === FILTER ===
-		// ADD TaskPaneGroup for Filters
-		JTaskPaneGroup oTaskGroupFilter = new JTaskPaneGroup();
-		oTaskGroupFilter.setTitle("Filter");
-		moTaskPane.add(oTaskGroupFilter);
-		
-		// === COMMAND ===
-		// ADD TaskPaneGroup for Commands
-		JTaskPaneGroup oTaskGroupCommands = new JTaskPaneGroup();
-		oTaskGroupCommands.setTitle("Commands");
-		
-		oTaskGroupCommands.add(new AbstractAction("Updata Data") {
+    	poTaskGroup.add(new AbstractAction("Updata Data") {
 			private static final long serialVersionUID = -7683571637499420675L;
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -258,51 +338,51 @@ public abstract class clsGraphBase extends Inspector implements ActionListener {
 		        }
 		      };
 		      oAutoUpdateCB.addActionListener(actionListener);
-		      oTaskGroupCommands.add(oAutoUpdateCB);
+		      poTaskGroup.add(oAutoUpdateCB);
 			
-		oTaskGroupCommands.add(new AbstractAction("Actual Size") {
+		      poTaskGroup.add(new AbstractAction("Actual Size") {
 			private static final long serialVersionUID = -7683571637499420675L;
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				moGraph.setScale(1);
 			}
 		});
-		oTaskGroupCommands.add(new AbstractAction("Fit Window") {
+		      poTaskGroup.add(new AbstractAction("Fit Window") {
 			private static final long serialVersionUID = -4236402393050941924L;
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				JGraphLayoutMorphingManager.fitViewport(moGraph);
 			}
 		});
-		oTaskGroupCommands.add(new AbstractAction("Zoom In") {
+		      poTaskGroup.add(new AbstractAction("Zoom In") {
 			private static final long serialVersionUID = 4963188240381232166L;
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				moGraph.setScale(1.5 * moGraph.getScale());
 			}
 		});
-		oTaskGroupCommands.add(new AbstractAction("Zoom Out") {
+		      poTaskGroup.add(new AbstractAction("Zoom Out") {
 			private static final long serialVersionUID = 6518488789619229086L;
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				moGraph.setScale(moGraph.getScale() / 1.5);
 			}
 		});
-		oTaskGroupCommands.add(new AbstractAction("Reset") {
+		      poTaskGroup.add(new AbstractAction("Reset") {
 			private static final long serialVersionUID = 4769006307236101696L;
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				reset();
 			}
 		});
-		oTaskGroupCommands.add(new AbstractAction("Group") {
+		      poTaskGroup.add(new AbstractAction("Group") {
 			private static final long serialVersionUID = 4769006307236101696L;
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				groupCells(moGraph.getSelectionCells());
 			}
 		});
-		oTaskGroupCommands.add(new AbstractAction("UnGroup") {
+		      poTaskGroup.add(new AbstractAction("UnGroup") {
 			private static final long serialVersionUID = 4769006307236101696L;
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -310,40 +390,7 @@ public abstract class clsGraphBase extends Inspector implements ActionListener {
 			}
 		});
 		
-		moTaskPane.add(oTaskGroupCommands);
-		
-		// === SEARCH ===
-		// ADD TaskPaneGroup for Search
-		JTaskPaneGroup oTaskGroupSearch = new JTaskPaneGroup();
-		oTaskGroupSearch.setTitle("Search");
-		moTaskPane.add(oTaskGroupSearch);
-		
-		// === Legend ===
-		// ADD TaskPaneGroup for Legend
-		JTaskPaneGroup oTaskGroupLegend = new JTaskPaneGroup();
-		oTaskGroupLegend.setTitle("Legend");
-		moTaskPane.add(oTaskGroupLegend);
-		
-		//create the SplitPane and add the two windows
-		JScrollPane oMenuScrollPane = new JScrollPane(moTaskPane);
-		JScrollPane oGraphScrollPane = new JScrollPane(moGraph);
-		// Adds the split pane
-		JSplitPane oSplitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, oMenuScrollPane, oGraphScrollPane);
-		oSplitPane.setDividerLocation(150);
-		
-		//Provide minimum sizes for the two components in the split pane
-		Dimension minimumSize = new Dimension(100, 50);
-		oMenuScrollPane.setMinimumSize(minimumSize);
-		oGraphScrollPane.setMinimumSize(minimumSize);
-		
-		//add the SplitPane to the Inspector (final magic)
-    	this.add(oSplitPane, BorderLayout.CENTER);
-    	
-    	// Adds the status bar at bottom (final final)
-		moLabelStatusBar.setText(JGraphLayout.VERSION  +  " - Semantic Memory Inspector");
-		moLabelStatusBar.setBorder(BorderFactory.createEmptyBorder(2, 2, 2, 2));
-		moLabelStatusBar.setFont(moLabelStatusBar.getFont().deriveFont(Font.PLAIN));
-		this.add(moLabelStatusBar, BorderLayout.SOUTH);
+    	return poTaskGroup;
     }
 
 
@@ -389,17 +436,12 @@ public abstract class clsGraphBase extends Inspector implements ActionListener {
 									}
 									if (!ignoreResult) {
 
-										// Processes the result of the layout
-										// algorithm
-										// by creating a nested map based on the
-										// global
-										// settings and passing the map to a
-										// morpher
+										// Processes the result of the layout algorithm
+										// by creating a nested map based on the global
+										// settings and passing the map to a morpher
 										// for the graph that should be changed.
-										// The morpher will animate the change
-										// and then
-										// invoke the edit method on the graph
-										// layout
+										// The morpher will animate the change and then
+										// invoke the edit method on the graph layout
 										// cache.
 										Map<?,?> map = facade.createNestedMap(true,
 												(flushOriginCheckBox
@@ -475,7 +517,8 @@ public abstract class clsGraphBase extends Inspector implements ActionListener {
 	/**
 	 * Hook from GraphEd to set attributes of a new cell
 	 */
-    private Map<?,?> createCellAttributes(Point2D point) {
+// SAVE THIS FOR LATER! CM
+ /*    private Map<?,?> createCellAttributes(Point2D point) {
 		@SuppressWarnings("rawtypes")
 		Map<?,?> map = new Hashtable();
 		// Snap the Point to the Grid
@@ -498,9 +541,9 @@ public abstract class clsGraphBase extends Inspector implements ActionListener {
 		return map;
 	}
 
-	/**
+	*//**
 	 * Hook from GraphEd to set attributes of a new edge
-	 */
+	 *//*
     private Map<?,?> createEdgeAttributes() {
 		@SuppressWarnings("rawtypes")
 		Map<?,?> map = new Hashtable();
@@ -514,6 +557,8 @@ public abstract class clsGraphBase extends Inspector implements ActionListener {
 		return map;
 	}
 	
+*/
+	
 	/* (non-Javadoc)
 	 *
 	 * @author muchitsch
@@ -525,7 +570,8 @@ public abstract class clsGraphBase extends Inspector implements ActionListener {
 	public void updateInspector() {
 
 		//per hakerl ein/aus ob das tab automatisch upgedatet werden soll, wenn ja dann updateControl() ausführen
-		if(moAutoUpdate && moStepCounter > 119)
+		//FIXME (MUCHITSCH) crashes after some iterations, investigate why!
+		if(moAutoUpdate && moStepCounter > mnAutomaticUpdateInterval)
 		{
 			moStepCounter = 0;
 			moCellList.clear();
@@ -625,12 +671,18 @@ public abstract class clsGraphBase extends Inspector implements ActionListener {
 	protected DefaultGraphCell createDefaultGraphVertex(String name, double x,
 			double y, double w, double h, Color poNodeColor) {
 
-		name = name.replace("|", "\n");
-		
+		name = name.replace("|", "\n"); // to enable linebrakes in standard toString()
+		RichTextValue textValue = new RichTextValue(name);
+	
+		return createDefaultGraphVertex(textValue, x, y, w, h, poNodeColor);
+	}
+	
+	protected DefaultGraphCell createDefaultGraphVertex(RichTextValue richText, double x,
+			double y, double w, double h, Color poNodeColor) {
+	
 		//Richtext to enable linebreaks
 		RichTextBusinessObject userObject = new RichTextBusinessObject();
-		RichTextValue textValue = new RichTextValue(name);
-		userObject.setValue(textValue);
+		userObject.setValue(richText);
 		
 		// Create vertex with the given name
 		DefaultGraphCell cell = new DefaultGraphCell(userObject);
@@ -646,6 +698,8 @@ public abstract class clsGraphBase extends Inspector implements ActionListener {
 		GraphConstants.setOpaque(cell.getAttributes(), true);
 		GraphConstants.setBorderColor(cell.getAttributes(), Color.black);
 		//GraphConstants.setBackground(cell.getAttributes(), new Color(240,240,240));
+		
+		GraphConstants.setHorizontalAlignment(cell.getAttributes(),  JLabel.LEFT);  //aligns the text in the cell
 		
 		// Add a Port
 		cell.addPort();
@@ -668,6 +722,10 @@ public abstract class clsGraphBase extends Inspector implements ActionListener {
 	 */
 	protected DefaultGraphCell createDefaultGraphVertex(String name, Color poNodeColor) {
 		return createDefaultGraphVertex(name, 40, 40, 150, 40, poNodeColor);
+	}
+	
+	protected DefaultGraphCell createDefaultGraphVertex(RichTextValue richText, Color poNodeColor) {
+		return createDefaultGraphVertex(richText, 40, 40, 150, 40, poNodeColor);
 	}
 	
 	protected DefaultGraphCell createCircleGraphVertex(String name, double x,
@@ -740,6 +798,7 @@ public abstract class clsGraphBase extends Inspector implements ActionListener {
 		*/
 	}
 	
+		
 	// Define EllipseCell
 	// TODO (MUCHITSCH): create circles!!! and refactor this into a seperate file
 	public class EllipseCell extends DefaultGraphCell {

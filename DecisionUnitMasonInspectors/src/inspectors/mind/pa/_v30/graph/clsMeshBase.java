@@ -7,7 +7,7 @@
 package inspectors.mind.pa._v30.graph;
 
 
-import java.awt.Color;
+
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -15,7 +15,12 @@ import java.util.Map;
 import org.jgraph.graph.DefaultEdge;
 import org.jgraph.graph.DefaultGraphCell;
 import org.jgraph.graph.GraphConstants;
+
+import com.jgraph.components.labels.RichTextValue;
+
+import pa._v30.symbolization.representationsymbol.clsSymbolVision;
 import pa._v30.tools.clsPair;
+import pa._v30.tools.clsTripple;
 import pa._v30.memorymgmt.datatypes.clsAct;
 import pa._v30.memorymgmt.datatypes.clsAssociation;
 import pa._v30.memorymgmt.datatypes.clsDataStructureContainer;
@@ -76,7 +81,7 @@ public abstract class clsMeshBase extends clsGraphBase {
 		//without knowing the total number of elements
 		//ArrayList<DefaultGraphCell> oCellList = new ArrayList<DefaultGraphCell>();
 		//create root node (it's a mesh-list) and add it to the registration list
-		DefaultGraphCell oParent = createDefaultGraphVertex(moRootNodeName, 20, 20, 150, 40, Color.GRAY);
+		DefaultGraphCell oParent = createDefaultGraphVertex(moRootNodeName, 20, 20, 150, 40, moColorRoot);
 		//get graph-cells for each object in the of the mesh
 		readInspectorDataAndGenerateGraphCells(oParent);
 		
@@ -95,7 +100,7 @@ public abstract class clsMeshBase extends clsGraphBase {
 	@SuppressWarnings("unchecked")
 	private void readInspectorDataAndGenerateGraphCells(DefaultGraphCell poParent) 
 	{
-		//check for the 3 main data types possible
+		//check for the main list types possible
 		for(int i=0; i<moMesh.size(); i++){
 			Object oO = moMesh.get(i);
 		
@@ -116,10 +121,7 @@ public abstract class clsMeshBase extends clsGraphBase {
 					Object oValue = t.get(oKey);
 					rIDAGGC(poParent, oValue);
 				}
-				
-			} else if (oO instanceof Double) {
-				generateGraphCell(poParent, (Double)oO);
-				
+	
 			} else {
 				rIDAGGC(poParent, oO);
 			}
@@ -127,23 +129,44 @@ public abstract class clsMeshBase extends clsGraphBase {
 		}
 	}
 	
+	/** 
+	 * check for the main data types possible
+	 */
 	private void rIDAGGC(DefaultGraphCell poParent, Object oO) {
 		if (oO instanceof clsDataStructurePA) {
 			clsDataStructurePA oNextMemoryObject = (clsDataStructurePA)oO;
 			generateGraphCell(poParent, oNextMemoryObject);
+			
 		} else if (oO instanceof clsPair) {
 			@SuppressWarnings("rawtypes")
 			clsPair oNextMemoryObject = (clsPair)oO;
 			generateGraphCell(poParent, oNextMemoryObject);
+			
+		} else if (oO instanceof clsTripple) {
+			@SuppressWarnings("rawtypes")
+			clsTripple oNextMemoryObject = (clsTripple)oO;
+			generateGraphCell(poParent, oNextMemoryObject);
+			
 		} else if (oO instanceof clsDataStructureContainer)	{
 			clsDataStructureContainer oNextMemoryObject = (clsDataStructureContainer)oO;
 			generateGraphCell(poParent, oNextMemoryObject);
+			
 		} else if (oO == null) {
 			generateNULLGraphCell(poParent);
 			
+		} else if (oO instanceof Double) {
+			generateGraphCell(poParent, (Double)oO);
+			
+		} else if (oO instanceof Integer) {
+			generateGraphCell(poParent, oO.toString()); //mit mir nicht, Integer gibts keine!
+			
+		} else if (oO instanceof clsSymbolVision) {
+			generateGraphCell(poParent, oO.toString()); //TODO MUCHITSCH
+
+
 		} else {
 			generateGraphCell(poParent, oO.toString());
-			System.out.println("[clsSemanticInformationInspector.rIDAGGC] Unkown data structure: "+oO.getClass());
+			System.out.println("[clsMeshBase.rIDAGGC] Unkown data structure, displaying toString(): "+oO.getClass());
 		}
 	}
 
@@ -203,7 +226,7 @@ public abstract class clsMeshBase extends clsGraphBase {
 	 */
 	private DefaultGraphCell generateGraphCell(DefaultGraphCell poParentCell, clsPair<?,?> poMemoryObject) {
 		//create root of the pair
-		DefaultGraphCell oPairCellRoot = createDefaultGraphVertex("PAIR", Color.YELLOW);
+		DefaultGraphCell oPairCellRoot = createDefaultGraphVertex("PAIR", moColorPairRoot);
 		moCellList.add(oPairCellRoot);
 		//edge to the [parrent cell] <-> [root of pair]
 		DefaultEdge oEdgeParent = new DefaultEdge("pair");
@@ -212,8 +235,8 @@ public abstract class clsMeshBase extends clsGraphBase {
 		moCellList.add(oEdgeParent);
 		
 		//generate root of the pair for [A] and [B]
-		DefaultGraphCell oPairCellA = createDefaultGraphVertex(poMemoryObject.toString()+"-A", Color.YELLOW);
-		DefaultGraphCell oPairCellB = createDefaultGraphVertex(poMemoryObject.toString()+"-B", Color.YELLOW);
+		DefaultGraphCell oPairCellA = createDefaultGraphVertex(poMemoryObject.toString()+"-A", moColorPair);
+		DefaultGraphCell oPairCellB = createDefaultGraphVertex(poMemoryObject.toString()+"-B", moColorPair);
 		this.moCellList.add(oPairCellA);
 		this.moCellList.add(oPairCellB);
 		
@@ -251,6 +274,11 @@ public abstract class clsMeshBase extends clsGraphBase {
 			clsPair<?,?> oNextMemoryObject = (clsPair<?,?>)poMemoryObject.a;
 			generateGraphCell(oPairCellA, oNextMemoryObject);
 		}
+		else if(poMemoryObject.a instanceof clsTripple)
+		{
+			clsTripple<?,?,?> oNextMemoryObject = (clsTripple<?,?,?>)poMemoryObject.a;
+			generateGraphCell(oPairCellA, oNextMemoryObject);
+		}
 		else if(poMemoryObject.a instanceof clsDataStructureContainer)
 		{
 			clsDataStructureContainer oNextMemoryObject = (clsDataStructureContainer)poMemoryObject.a;
@@ -279,6 +307,11 @@ public abstract class clsMeshBase extends clsGraphBase {
 		else if(poMemoryObject.b instanceof clsPair)
 		{
 			clsPair<?,?> oNextMemoryObject = (clsPair<?,?>)poMemoryObject.b;
+			generateGraphCell(oPairCellB, oNextMemoryObject);
+		}
+		else if(poMemoryObject.b instanceof clsTripple)
+		{
+			clsTripple<?,?,?> oNextMemoryObject = (clsTripple<?,?,?>)poMemoryObject.b;
 			generateGraphCell(oPairCellB, oNextMemoryObject);
 		}
 		else if(poMemoryObject.b instanceof clsDataStructureContainer)
@@ -345,7 +378,7 @@ public abstract class clsMeshBase extends clsGraphBase {
 		ArrayList<clsAssociation> oAssociatedDataStructures =  poMemoryObject.getMoAssociatedDataStructures();
 		
 		//create container root cell
-		DefaultGraphCell oContainerRootCell = createDefaultGraphVertex(oContainerRootDataStructure.toString(), new Color(0xff99CC33) );
+		DefaultGraphCell oContainerRootCell = createDefaultGraphVertex(oContainerRootDataStructure.toString(), moColorPrimaryDataStructureContainer );
 		this.moCellList.add(oContainerRootCell);
 		//edge to the [parrent cell] <-> [container root cell]
 		DefaultEdge oEdgeParent = new DefaultEdge("");
@@ -400,7 +433,7 @@ public abstract class clsMeshBase extends clsGraphBase {
 		ArrayList<clsAssociation> oAssociatedDataStructures = new ArrayList<clsAssociation>(); // poMemoryObject.moAssociatedDataStructures;
 		
 		//create container root struct
-		DefaultGraphCell oContainerRootCell = createDefaultGraphVertex(oContainerRootDataStructure.toString(), new Color(0xff3366CC) );
+		DefaultGraphCell oContainerRootCell = createDefaultGraphVertex(oContainerRootDataStructure.toString(), moColorSecondaryDataStructureContainer );
 		this.moCellList.add(oContainerRootCell);
 		//get edge to parent cell
 		DefaultEdge oEdgeParent = new DefaultEdge("");
@@ -450,7 +483,7 @@ public abstract class clsMeshBase extends clsGraphBase {
 	private DefaultGraphCell generateGraphCell(DefaultGraphCell poParentCell, clsDriveMesh poMemoryObject)
 	{
 		//generate root of the mesh
-		DefaultGraphCell oDMrootCell = createDefaultGraphVertex(poMemoryObject.toString(), Color.ORANGE);
+		DefaultGraphCell oDMrootCell = createDefaultGraphVertex(poMemoryObject.toString(), moColorDMRoot);
 		this.moCellList.add(oDMrootCell);
 		
 		for(clsAssociation oDMAssociations : poMemoryObject.getMoAssociatedContent())
@@ -493,7 +526,13 @@ public abstract class clsMeshBase extends clsGraphBase {
 	 */
 	private DefaultGraphCell generateGraphCell(DefaultGraphCell poParentCell, clsThingPresentation poMemoryObject)
 	{
-		DefaultGraphCell oCell = createDefaultGraphVertex(poMemoryObject.toString(), moColorTP);
+		String oDescription = 	"TP\n" +
+								"DSID: "+ poMemoryObject.getMoDS_ID() + "\n" +
+								"ContentType: "+ poMemoryObject.getMoContentType() + "\n" +
+								"Content: "+ poMemoryObject.getMoContent();
+		
+		RichTextValue oRichText = new RichTextValue(oDescription);
+		DefaultGraphCell oCell = createDefaultGraphVertex(oRichText, moColorTP);
 		this.moCellList.add(oCell);
 		
 		//get edge to parent cell
@@ -510,7 +549,7 @@ public abstract class clsMeshBase extends clsGraphBase {
 	 */
 	private DefaultGraphCell generateGraphCell(DefaultGraphCell poParentCell, clsWordPresentation poMemoryObject)
 	{
-		DefaultGraphCell oCell = createDefaultGraphVertex(poMemoryObject.toString(), Color.LIGHT_GRAY);
+		DefaultGraphCell oCell = createDefaultGraphVertex(poMemoryObject.toString(), moColorWP);
 		this.moCellList.add(oCell);
 		
 		//get edge to parent cell
@@ -527,7 +566,7 @@ public abstract class clsMeshBase extends clsGraphBase {
 	 */
 	private DefaultGraphCell generateGraphCell(DefaultGraphCell poParentCell, clsDriveDemand poMemoryObject)
 	{
-		DefaultGraphCell oCell = createDefaultGraphVertex(poMemoryObject.toString(), Color.GRAY);
+		DefaultGraphCell oCell = createDefaultGraphVertex(poMemoryObject.toString(), moColorDD);
 		this.moCellList.add(oCell);
 		
 		//get edge to parent cell
@@ -544,7 +583,7 @@ public abstract class clsMeshBase extends clsGraphBase {
 	 */
 	private DefaultGraphCell generateGraphCell(DefaultGraphCell poParentCell, Double popoMemoryObject)
 	{
-		DefaultGraphCell oCell = createCircleGraphVertex(popoMemoryObject.toString(), 30, 30, 30, 30, Color.WHITE);
+		DefaultGraphCell oCell = createCircleGraphVertex(popoMemoryObject.toString(), 30, 30, 30, 30, moColorDouble);
 		this.moCellList.add(oCell);
 		
 		//get edge to parent cell
@@ -561,7 +600,7 @@ public abstract class clsMeshBase extends clsGraphBase {
 	 */
 	private DefaultGraphCell generateGraphCell(DefaultGraphCell poParentCell, String popoMemoryObject)
 	{
-		DefaultGraphCell oCell = createCircleGraphVertex(popoMemoryObject.toString(), 30, 30, 30, 30, Color.MAGENTA);
+		DefaultGraphCell oCell = createCircleGraphVertex(popoMemoryObject.toString(), 30, 30, 30, 30, moColorString);
 		this.moCellList.add(oCell);
 		
 		//get edge to parent cell
@@ -596,7 +635,7 @@ public abstract class clsMeshBase extends clsGraphBase {
 	private DefaultGraphCell generateGraphCell(DefaultGraphCell poParentCell, clsAct poMemoryObject)
 	{
 		//generate act root cell
-		DefaultGraphCell oActRootCell = createDefaultGraphVertex(poMemoryObject.toString(), Color.YELLOW);
+		DefaultGraphCell oActRootCell = createDefaultGraphVertex(poMemoryObject.toString(), moColorACT);
 		this.moCellList.add(oActRootCell);
 		//get edge to parent cell
 		DefaultEdge oEdgeParent = new DefaultEdge("");
@@ -618,6 +657,157 @@ public abstract class clsMeshBase extends clsGraphBase {
 		}
 		return oActRootCell;
 	}
+	
+	/** [TRIPPLE]
+	 * Generating cells from clsPair
+	 */
+	private DefaultGraphCell generateGraphCell(DefaultGraphCell poParentCell, clsTripple<?,?,?> poMemoryObject) {
+		//create root of the tripple
+		DefaultGraphCell oTrippleCellRoot = createDefaultGraphVertex("TRIPPLE", moColorTrippleRoot);
+		moCellList.add(oTrippleCellRoot);
+		//edge to the [parrent cell] <-> [root of tripple]
+		DefaultEdge oEdgeParent = new DefaultEdge("tripple");
+		oEdgeParent.setSource(poParentCell.getChildAt(0));
+		oEdgeParent.setTarget(oTrippleCellRoot.getChildAt(0));
+		moCellList.add(oEdgeParent);
+		
+		//generate root of the pair for [A] and [B] and [C]
+		DefaultGraphCell oTrippleCellA = createDefaultGraphVertex(poMemoryObject.toString()+"-A", moColorTripple);
+		DefaultGraphCell oTrippleCellB = createDefaultGraphVertex(poMemoryObject.toString()+"-B", moColorTripple);
+		DefaultGraphCell oTrippleCellC = createDefaultGraphVertex(poMemoryObject.toString()+"-C", moColorTripple);
+		this.moCellList.add(oTrippleCellA);
+		this.moCellList.add(oTrippleCellB);
+		this.moCellList.add(oTrippleCellC);
+		
+		//edge [A] <-> [root of tripple]
+		DefaultEdge oEdgeA = new DefaultEdge("tripple A");
+		oEdgeA.setSource(oTrippleCellRoot.getChildAt(0));
+		oEdgeA.setTarget(oTrippleCellA.getChildAt(0));
+		moCellList.add(oEdgeA);
+		
+		//edge [B] <-> [root of tripple]
+		DefaultEdge oEdgeB = new DefaultEdge("tripple B");
+		oEdgeB.setSource(oTrippleCellRoot.getChildAt(0));
+		oEdgeB.setTarget(oTrippleCellB.getChildAt(0));
+		moCellList.add(oEdgeB);
+		
+		//edge [C] <-> [root of tripple]
+		DefaultEdge oEdgeC = new DefaultEdge("tripple C");
+		oEdgeC.setSource(oTrippleCellRoot.getChildAt(0));
+		oEdgeC.setTarget(oTrippleCellC.getChildAt(0));
+		moCellList.add(oEdgeC);
+		
+		
+		
+		//check if A is type of one of our main datatypes and recursively generate the children
+		if (poMemoryObject.a == null)
+		{
+			generateNULLGraphCell(oTrippleCellA);
+		}
+		else if(poMemoryObject.a instanceof Double)
+		{
+			Double oNextMemoryObject = (Double)poMemoryObject.a;
+			generateGraphCell(oTrippleCellA, oNextMemoryObject);
+		}
+		else if(poMemoryObject.a instanceof clsDataStructurePA)
+		{
+			clsDataStructurePA oNextMemoryObject = (clsDataStructurePA)poMemoryObject.a;
+			generateGraphCell(oTrippleCellA, oNextMemoryObject);
+		}
+		else if(poMemoryObject.a instanceof clsPair)
+		{
+			clsPair<?,?> oNextMemoryObject = (clsPair<?,?>)poMemoryObject.a;
+			generateGraphCell(oTrippleCellA, oNextMemoryObject);
+		}
+		else if(poMemoryObject.a instanceof clsDataStructureContainer)
+		{
+			clsDataStructureContainer oNextMemoryObject = (clsDataStructureContainer)poMemoryObject.a;
+			generateGraphCell(oTrippleCellA, oNextMemoryObject);
+		}
+		else if(poMemoryObject.a instanceof clsTripple)
+		{
+			clsTripple<?,?,?> oNextMemoryObject = (clsTripple<?,?,?>)poMemoryObject.a;
+			generateGraphCell(oTrippleCellA, oNextMemoryObject);
+		}
+		else
+		{
+			throw new java.lang.NoSuchMethodError("ARS Exeption: Type of tripple.a not recognised!!! "+poMemoryObject.a.getClass());
+		}
+		
+		//check if A is type of one of our main datatypes and recursively generate the children
+		if (poMemoryObject.b == null)
+		{
+			generateNULLGraphCell(oTrippleCellB);
+		}
+		else if(poMemoryObject.b instanceof Double)
+		{
+			Double oNextMemoryObject = (Double)poMemoryObject.b;
+			generateGraphCell(oTrippleCellB, oNextMemoryObject);
+		}
+		else if(poMemoryObject.b instanceof clsDataStructurePA)
+		{
+			clsDataStructurePA oNextMemoryObject = (clsDataStructurePA)poMemoryObject.b;
+			generateGraphCell(oTrippleCellB, oNextMemoryObject);
+		}
+		else if(poMemoryObject.b instanceof clsPair)
+		{
+			clsPair<?,?> oNextMemoryObject = (clsPair<?,?>)poMemoryObject.b;
+			generateGraphCell(oTrippleCellB, oNextMemoryObject);
+		}
+		else if(poMemoryObject.b instanceof clsTripple)
+		{
+			clsTripple<?,?,?> oNextMemoryObject = (clsTripple<?,?,?>)poMemoryObject.b;
+			generateGraphCell(oTrippleCellB, oNextMemoryObject);
+		}
+		else if(poMemoryObject.b instanceof clsDataStructureContainer)
+		{
+			clsDataStructureContainer oNextMemoryObject = (clsDataStructureContainer)poMemoryObject.b;
+			generateGraphCell(oTrippleCellB, oNextMemoryObject);
+		}
+		else
+		{
+			throw new java.lang.NoSuchMethodError("ARS Exeption: Type of tripple.b not recognised!!! "+poMemoryObject.b.getClass());
+		}
+		
+		//check if C is type of one of our main datatypes and recursively generate the children
+		if (poMemoryObject.c == null)
+		{
+			generateNULLGraphCell(oTrippleCellB);
+		}
+		else if(poMemoryObject.c instanceof Double)
+		{
+			Double oNextMemoryObject = (Double)poMemoryObject.c;
+			generateGraphCell(oTrippleCellB, oNextMemoryObject);
+		}
+		else if(poMemoryObject.c instanceof clsDataStructurePA)
+		{
+			clsDataStructurePA oNextMemoryObject = (clsDataStructurePA)poMemoryObject.c;
+			generateGraphCell(oTrippleCellB, oNextMemoryObject);
+		}
+		else if(poMemoryObject.c instanceof clsPair)
+		{
+			clsPair<?,?> oNextMemoryObject = (clsPair<?,?>)poMemoryObject.c;
+			generateGraphCell(oTrippleCellB, oNextMemoryObject);
+		}
+		else if(poMemoryObject.c instanceof clsTripple)
+		{
+			clsTripple<?,?,?> oNextMemoryObject = (clsTripple<?,?,?>)poMemoryObject.c;
+			generateGraphCell(oTrippleCellB, oNextMemoryObject);
+		}
+		else if(poMemoryObject.c instanceof clsDataStructureContainer)
+		{
+			clsDataStructureContainer oNextMemoryObject = (clsDataStructureContainer)poMemoryObject.c;
+			generateGraphCell(oTrippleCellB, oNextMemoryObject);
+		}
+		else
+		{
+			throw new java.lang.NoSuchMethodError("ARS Exeption: Type of tripple.c not recognised!!! "+poMemoryObject.c.getClass());
+		}
+		
+		
+		return oTrippleCellRoot;
+	}
+	
 }
 
 
