@@ -18,6 +18,9 @@ import org.jgraph.graph.GraphConstants;
 
 import com.jgraph.components.labels.RichTextValue;
 
+import du.itf.sensors.clsSensorExtern;
+import du.itf.sensors.clsSensorIntern;
+
 import pa._v30.symbolization.representationsymbol.clsSymbolVision;
 import pa._v30.tools.clsPair;
 import pa._v30.tools.clsTripple;
@@ -97,35 +100,13 @@ public abstract class clsMeshBase extends clsGraphBase {
 	 *
 	 * @param poParent
 	 */
-	@SuppressWarnings("unchecked")
 	private void readInspectorDataAndGenerateGraphCells(DefaultGraphCell poParent) 
 	{
 		//check for the main list types possible
 		for(int i=0; i<moMesh.size(); i++){
 			Object oO = moMesh.get(i);
 		
-			if (oO instanceof List) {
-				for (Object o:(List<Object>)oO) {
-					rIDAGGC(poParent, o);
-				}
-				
-			} else if (oO instanceof Map) {
-				@SuppressWarnings("rawtypes")
-				Map t = (Map)oO;
-				
-				@SuppressWarnings("rawtypes")
-				Iterator oI = t.keySet().iterator();
-				
-				while (oI.hasNext()) {
-					Object oKey = oI.next();
-					Object oValue = t.get(oKey);
-					rIDAGGC(poParent, oValue);
-				}
-	
-			} else {
-				rIDAGGC(poParent, oO);
-			}
-			
+			rIDAGGC(poParent, oO);
 		}
 	}
 	
@@ -133,7 +114,27 @@ public abstract class clsMeshBase extends clsGraphBase {
 	 * check for the main data types possible
 	 */
 	private void rIDAGGC(DefaultGraphCell poParent, Object oO) {
-		if (oO instanceof clsDataStructurePA) {
+		
+		if (oO instanceof List) {
+			@SuppressWarnings("rawtypes")
+			List oL = (List)oO;
+			
+			generateGraphCell(poParent, oL);
+			
+		} else if (oO instanceof Map) {
+			@SuppressWarnings("rawtypes")
+			Map t = (Map)oO;
+			
+			@SuppressWarnings("rawtypes")
+			Iterator oI = t.keySet().iterator();
+			
+			while (oI.hasNext()) {
+				Object oKey = oI.next();
+				Object oValue = t.get(oKey);
+				rIDAGGC(poParent, oValue);
+			}
+
+		} else if (oO instanceof clsDataStructurePA) {
 			clsDataStructurePA oNextMemoryObject = (clsDataStructurePA)oO;
 			generateGraphCell(poParent, oNextMemoryObject);
 			
@@ -161,8 +162,13 @@ public abstract class clsMeshBase extends clsGraphBase {
 			generateGraphCell(poParent, oO.toString()); //mit mir nicht, Integer gibts keine!
 			
 		} else if (oO instanceof clsSymbolVision) {
-			generateGraphCell(poParent, oO.toString()); //TODO MUCHITSCH
-
+			generateGraphCell(poParent, oO.toString()); //TODO MUCHITSCH generate specialized functions to display this datatype
+			
+		} else if (oO instanceof clsSensorIntern) {
+			generateGraphCell(poParent, oO.toString()); //TODO MUCHITSCH generate specialized functions to display this datatype
+			
+		} else if (oO instanceof clsSensorExtern) {
+			generateGraphCell(poParent, oO.toString()); //TODO MUCHITSCH generate specialized functions to display this datatype
 
 		} else {
 			generateGraphCell(poParent, oO.toString());
@@ -394,7 +400,7 @@ public abstract class clsMeshBase extends clsGraphBase {
 				clsDataStructurePA oMemoryObjectB = oContainerAssociations.getMoAssociationElementB();
 				DefaultGraphCell oTargetCell = generateGraphCell(oContainerRootCell, oMemoryObjectB);
 				//add edge
-				DefaultEdge oEdge = new DefaultEdge("ContAss");
+				DefaultEdge oEdge = new DefaultEdge("ContAss w:" + oContainerAssociations.getMrWeight());
 				oEdge.setSource(oContainerRootCell.getChildAt(0));
 				oEdge.setTarget(oTargetCell.getChildAt(0));
 				moCellList.add(oEdge);
@@ -406,7 +412,7 @@ public abstract class clsMeshBase extends clsGraphBase {
 				clsDataStructurePA oMemoryObjectA = oContainerAssociations.getMoAssociationElementA();
 				DefaultGraphCell oTargetCell = generateGraphCell(oContainerRootCell, oMemoryObjectA);
 				//add edge
-				DefaultEdge oEdge = new DefaultEdge("ContAss");
+				DefaultEdge oEdge = new DefaultEdge("ContAss w:" + oContainerAssociations.getMrWeight());
 				oEdge.setSource(oContainerRootCell.getChildAt(0));
 				oEdge.setTarget(oTargetCell.getChildAt(0));
 				moCellList.add(oEdge);
@@ -449,7 +455,7 @@ public abstract class clsMeshBase extends clsGraphBase {
 				clsDataStructurePA oMemoryObjectB = oContainerAssociations.getMoAssociationElementB();
 				DefaultGraphCell oTargetCell = generateGraphCell(oContainerRootCell, oMemoryObjectB);
 				//add edge
-				DefaultEdge oEdge = new DefaultEdge("ContAss");
+				DefaultEdge oEdge = new DefaultEdge("ContAss w:" + oContainerAssociations.getMrWeight());
 				oEdge.setSource(oContainerRootCell.getChildAt(0));
 				oEdge.setTarget(oTargetCell.getChildAt(0));
 				moCellList.add(oEdge);
@@ -461,7 +467,7 @@ public abstract class clsMeshBase extends clsGraphBase {
 				clsDataStructurePA oMemoryObjectA = oContainerAssociations.getMoAssociationElementA();
 				DefaultGraphCell oTargetCell = generateGraphCell(oContainerRootCell, oMemoryObjectA);
 				//add edge
-				DefaultEdge oEdge = new DefaultEdge("ContAss");
+				DefaultEdge oEdge = new DefaultEdge("ContAss w:" + oContainerAssociations.getMrWeight());
 				oEdge.setSource(oContainerRootCell.getChildAt(0));
 				oEdge.setTarget(oTargetCell.getChildAt(0));
 				moCellList.add(oEdge);
@@ -493,7 +499,7 @@ public abstract class clsMeshBase extends clsGraphBase {
 				clsDataStructurePA oMemoryObjectB = oDMAssociations.getMoAssociationElementB();
 				DefaultGraphCell oTargetCell = generateGraphCell(oDMrootCell, oMemoryObjectB);
 				//add edge
-				DefaultEdge oEdge = new DefaultEdge("DM");
+				DefaultEdge oEdge = new DefaultEdge("DM w:" + oDMAssociations.getMrWeight());
 				oEdge.setSource(oDMrootCell.getChildAt(0));
 				oEdge.setTarget(oTargetCell.getChildAt(0));
 				moCellList.add(oEdge);
@@ -505,7 +511,7 @@ public abstract class clsMeshBase extends clsGraphBase {
 				clsDataStructurePA oMemoryObjectA = oDMAssociations.getMoAssociationElementA();
 				DefaultGraphCell oTargetCell = generateGraphCell(oDMrootCell, oMemoryObjectA);
 				//add edge
-				DefaultEdge oEdge = new DefaultEdge("DM");
+				DefaultEdge oEdge = new DefaultEdge("DM w:" + oDMAssociations.getMrWeight());
 				oEdge.setSource(oDMrootCell.getChildAt(0));
 				oEdge.setTarget(oTargetCell.getChildAt(0));
 				moCellList.add(oEdge);
@@ -806,6 +812,30 @@ public abstract class clsMeshBase extends clsGraphBase {
 		
 		
 		return oTrippleCellRoot;
+	}
+	
+	
+	/** [LIST]
+	 * Generating cells from clsPair
+	 */
+	@SuppressWarnings("rawtypes")
+	private DefaultGraphCell generateGraphCell(DefaultGraphCell poParentCell, List poMemoryObject) {
+		
+		//create root of the LIST
+		DefaultGraphCell oListCellRoot = createDefaultGraphVertex("LIST", moColorTrippleRoot);
+		moCellList.add(oListCellRoot);
+		//edge to the [parrent cell] <-> [root of list]
+		DefaultEdge oEdgeParent = new DefaultEdge("list");
+		oEdgeParent.setSource(poParentCell.getChildAt(0));
+		oEdgeParent.setTarget(oListCellRoot.getChildAt(0));
+		moCellList.add(oEdgeParent);
+
+		for (int j=0; j<poMemoryObject.size(); j++) {
+			Object o = poMemoryObject.get(j);
+			rIDAGGC(oListCellRoot, o);
+		}
+
+		return poParentCell;
 	}
 	
 }
