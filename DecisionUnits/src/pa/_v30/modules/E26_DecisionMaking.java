@@ -9,9 +9,10 @@ package pa._v30.modules;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.Iterator;
+import java.util.NavigableSet;
 import java.util.SortedMap;
 import java.util.TreeMap;
-
 import config.clsBWProperties;
 import pa._v30.tools.clsPair;
 import pa._v30.tools.toText;
@@ -211,6 +212,80 @@ public class E26_DecisionMaking extends clsModuleBase implements
 		compriseExternalPerception();
 		compriseRuleList(); 
 		compriseDrives();
+		
+		try {
+			sortGoalOutput();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+	
+	private void sortGoalOutput() throws Exception {
+		//TD this function sorts moGoal_Output such that the moset pleasureful goals are listed first. this
+		//is a feature-fix. none of the later modules make a selection of the best plan currently. they just
+		//select what is first in list.
+		
+		if (moGoal_Output.size()<=1) {
+			return; //nothing to do. either list is empty, or it consists of one lement only
+		}
+		
+		//TD everything in here is a bad hack - problem is, i don't understand clsSecondaryDataStructureContainer ...
+		HashMap<String, Double> oValues = new HashMap<String, Double>();
+		oValues.put("VERYLOW", 0.0);oValues.put("LOW", 0.25);oValues.put("MEDIUM", 0.5);oValues.put("HIGH", 0.55);oValues.put("VERYHIGH", 1.0);
+		ArrayList<String> oKeyWords = new ArrayList<String>(Arrays.asList("NOURISH", "BITE", "REPRESS", "SLEEP", "RELAX", "DEPOSIT"));
+		
+		
+		TreeMap<Double, ArrayList<clsSecondaryDataStructureContainer> > oSortedList = new TreeMap<Double, ArrayList<clsSecondaryDataStructureContainer>>();
+		for (int i=0; i<moGoal_Output.size(); i++) {
+			
+			clsSecondaryDataStructureContainer oSDSC = moGoal_Output.get(i);
+			String oDesc = oSDSC.toString();
+			String[] oEntries = oDesc.split("\\|");
+
+			double rPleasure = 0;
+			int found = 0;
+			for (String oE:oEntries) {
+				String[] oParts = oE.split(":");
+				int len = oParts.length;
+				if (len != 2) {
+					continue;
+				}
+				
+				if (oKeyWords.contains(oParts[0])) {
+					double rTemp = oValues.get(oParts[1]);
+					rPleasure += rTemp;
+					found++;
+				}
+			}
+			
+			if (found != 2 && found != 1) {
+				throw new java.lang.Exception("could not find one or two drive demand validations in '"+oDesc+"'. candidates are: "+oKeyWords);
+			}
+			
+			rPleasure /= found;
+			
+			
+			
+			ArrayList<clsSecondaryDataStructureContainer> oAL;
+			if (oSortedList.containsKey(rPleasure)) {
+				oAL = oSortedList.get(rPleasure);
+			} else {
+				oAL = new ArrayList<clsSecondaryDataStructureContainer>();
+				oSortedList.put(rPleasure, oAL);
+			}
+			oAL.add(oSDSC);
+		}
+		
+		moGoal_Output.clear();
+		NavigableSet<Double> oSLdKS = oSortedList.descendingKeySet();
+		Iterator<Double> it = oSLdKS.iterator();
+		while (it.hasNext()) {
+			Double oKey = it.next();
+			ArrayList<clsSecondaryDataStructureContainer> oList = oSortedList.get(oKey);
+			for (clsSecondaryDataStructureContainer oTemp:oList) {
+				moGoal_Output.add(oTemp);
+			}
+		}
 	}
 	
 	
