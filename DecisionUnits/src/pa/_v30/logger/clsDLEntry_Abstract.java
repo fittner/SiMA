@@ -208,7 +208,7 @@ public abstract class clsDLEntry_Abstract implements itfInspectorTimeChartBase, 
 	public String toCSV() {
 		String csv = "";
 		
-		csv += "Step" + clsDataLogger.csvseperator + columnsToCSV() + clsDataLogger.newline;
+		csv += "#Step" + clsDataLogger.csvseperator + columnsToCSV() + clsDataLogger.newline;
 		
 		for (int i=0; i<values.size(); i++) {
 			clsPair <Long, ArrayList<Double>> oLine = values.get(i);
