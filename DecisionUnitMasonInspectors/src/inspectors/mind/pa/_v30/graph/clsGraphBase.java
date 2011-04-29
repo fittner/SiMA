@@ -107,10 +107,10 @@ public abstract class clsGraphBase extends Inspector implements ActionListener {
 	protected static Color moColorTrippleRoot = new Color(0xffffFF99); //light yellow
 	protected static Color moColorTripple = new Color(0xffffFF99);
 	protected static Color moColorRoot = Color.GRAY;
-	protected static Color moColorPrimaryDataStructureContainer = new Color(0xff99CC33);
+	protected static Color moColorPrimaryDataStructureContainer = new Color(0xff99CC33); //dark green
 	protected static Color moColorSecondaryDataStructureContainer = new Color(0xff3366CC);
 	protected static Color moColorDMRoot = new Color(0xffff0066); //pinkish red
-	protected static Color moColorTPMRoot = Color.BLACK; //pinkish red
+	protected static Color moColorTPMRoot = new Color(0xff99CC33); //dark green
 
 	public boolean UseSimpleView() {
 		return moUseSimpleView;
