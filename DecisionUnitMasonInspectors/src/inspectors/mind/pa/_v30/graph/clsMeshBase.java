@@ -219,7 +219,7 @@ public abstract class clsMeshBase extends clsGraphBase {
 			clsAct tmpRootMemoryObject = (clsAct)poMemoryObject;
 			oRootCell = generateGraphCell(poParentCell, tmpRootMemoryObject);
 		}
-		if(poMemoryObject instanceof clsThingPresentationMesh)
+		else if(poMemoryObject instanceof clsThingPresentationMesh)
 		{
 			clsThingPresentationMesh tmpRootMemoryObject = (clsThingPresentationMesh)poMemoryObject;
 			oRootCell = generateGraphCell(poParentCell, tmpRootMemoryObject);
@@ -261,8 +261,8 @@ public abstract class clsMeshBase extends clsGraphBase {
 		moCellList.add(oEdgeToParent);
 		
 		//generate root of the pair for [A] and [B]
-		DefaultGraphCell oPairCellA = generateGraphCell(oPairCellRoot, (Object)poMemoryObject.a);
-		DefaultGraphCell oPairCellB = generateGraphCell(oPairCellRoot, (Object)poMemoryObject.b);
+		DefaultGraphCell oPairCellA = generateGraphCell(oPairCellRoot, poMemoryObject.a);
+		DefaultGraphCell oPairCellB = generateGraphCell(oPairCellRoot, poMemoryObject.b);
 		this.moCellList.add(oPairCellA);
 		this.moCellList.add(oPairCellB);
 		
@@ -362,7 +362,7 @@ public abstract class clsMeshBase extends clsGraphBase {
 			}
 			else
 			{ 
-				System.out.println("[clsMeshBase.generateGraphCell] [PDC] Neither A nor B are root element. argh");
+				System.out.println("[clsMeshBase.generateGraphCell] [PDC] Neither A nor B are root element. using element:" + oContainerAssociations.getMoAssociationElementB().getMoDS_ID());
 				
 				clsDataStructurePA oMemoryObjectB = oContainerAssociations.getMoAssociationElementB();
 				DefaultGraphCell oTargetCell = generateGraphCell(oContainerRootCell, oMemoryObjectB);
@@ -427,7 +427,7 @@ public abstract class clsMeshBase extends clsGraphBase {
 			}
 			else
 			{ //should not be laut heimo!!!
-				System.out.println("[clsMeshBase.generateGraphCell] [SDC] Neither A nor B are root element. argh");
+				System.out.println("[clsMeshBase.generateGraphCell] [SDC] Neither A nor B are root element. using B: " + oContainerAssociations.getMoAssociationElementB().getMoDS_ID());
 
 				clsDataStructurePA oMemoryObjectB = oContainerAssociations.getMoAssociationElementB();
 				DefaultGraphCell oTargetCell = generateGraphCell(oContainerRootCell, oMemoryObjectB);
@@ -725,9 +725,9 @@ public abstract class clsMeshBase extends clsGraphBase {
 		moCellList.add(oEdgeParent);
 		
 		//generate root of the pair for [A] and [B] and [C]
-		DefaultGraphCell oTrippleCellA = generateGraphCell(oTrippleCellRoot, (Object)poMemoryObject.a);
-		DefaultGraphCell oTrippleCellB = generateGraphCell(oTrippleCellRoot, (Object)poMemoryObject.b);
-		DefaultGraphCell oTrippleCellC = generateGraphCell(oTrippleCellRoot, (Object)poMemoryObject.c);
+		DefaultGraphCell oTrippleCellA = generateGraphCell(oTrippleCellRoot, poMemoryObject.a);
+		DefaultGraphCell oTrippleCellB = generateGraphCell(oTrippleCellRoot, poMemoryObject.b);
+		DefaultGraphCell oTrippleCellC = generateGraphCell(oTrippleCellRoot, poMemoryObject.c);
 		
 		this.moCellList.add(oTrippleCellA);
 		this.moCellList.add(oTrippleCellB);
