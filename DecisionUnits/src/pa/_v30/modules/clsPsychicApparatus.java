@@ -30,6 +30,7 @@ import pa._v30.storage.clsLibidoBuffer;
  */
 public class clsPsychicApparatus {
 	public static final String P_INFORMATIONREPRESENTATIONMGMT = "INF_REP_MGMT";
+	public static final String P_MINIMALMODEL = "MINIMALMODEL";
 
 	public E01_SensorsMetabolism moE01_SensorsMetabolism;
 	public E02_NeurosymbolizationOfNeeds moE02_NeurosymbolizationOfNeeds;
@@ -88,7 +89,7 @@ public class clsPsychicApparatus {
 	public HashMap<eInterfaces, clsPair<ArrayList<Integer>, ArrayList<Integer>>> moInterfaces_Recv_Send; //list of interfaces and the modules it connects to pair(source,target)
 	public clsDataLogger moDataLogger;
 	
-	private static final boolean mnMinimalModel = false;
+	private static boolean mnMinimalModel;
 	private String uid;
 
 	public clsPsychicApparatus(String poPrefix, clsBWProperties poProp, 
@@ -113,6 +114,7 @@ public class clsPsychicApparatus {
 		String pre = clsBWProperties.addDot(poPrefix);
 		
 		clsBWProperties oProp = new clsBWProperties();
+		oProp.setProperty( pre + P_MINIMALMODEL, false);
 		
 		oProp.putAll( E01_SensorsMetabolism.getDefaultProperties( pre + E01_SensorsMetabolism.P_MODULENUMBER ));
 		oProp.putAll( E02_NeurosymbolizationOfNeeds.getDefaultProperties( pre + E02_NeurosymbolizationOfNeeds.P_MODULENUMBER ));
@@ -213,6 +215,8 @@ public class clsPsychicApparatus {
 			moE45_LibidoDischarge = new E45_LibidoDischarge(pre + E45_LibidoDischarge.P_MODULENUMBER, poProp, moModules, moInterfaceData, moLibidoBuffer, moKnowledgeBaseHandler);
 			moE46_FusionWithMemoryTraces = new E46_FusionWithMemoryTraces(pre + E46_FusionWithMemoryTraces.P_MODULENUMBER, poProp, moModules, moInterfaceData, moKnowledgeBaseHandler);
 			moE47_ConversionToPrimaryProcess = new E47_ConversionToPrimaryProcess(pre + E47_ConversionToPrimaryProcess.P_MODULENUMBER, poProp, moModules, moInterfaceData);
+			
+			mnMinimalModel = poProp.getPropertyBoolean(pre + P_MINIMALMODEL);
 			
 			for (clsModuleBase oM:moModules.values()) {
 				if (oM instanceof itfMinimalModelMode) {

@@ -10,6 +10,11 @@ package sim.creation.simplePropertyLoader;
 
 import java.awt.Color;
 import java.util.List;
+
+import pa.clsPsychoAnalysis;
+import pa._v30.clsProcessor;
+import pa._v30.memorymgmt.clsKnowledgeBaseHandler;
+import pa._v30.modules.clsPsychicApparatus;
 import config.clsBWProperties;
 import decisionunit.clsDecisionUnitFactory;
 import du.enums.eDecisionType;
@@ -189,6 +194,13 @@ public class clsSimplePropertyLoader extends clsLoader {
 		oProp.setProperty(pre+P_ENTITYGROUPS+"."+i+"."+P_OVERWRITEENTITYDEFAULTS+"."+clsAnimate.P_BODY+"."+clsComplexBody.P_INTERNAL+"."+
 														clsInternalSystem.P_FLESH+"."+clsFlesh.P_WEIGHT, 15);
 		oProp.setProperty(pre+P_ENTITYGROUPS+"."+i+"."+P_OVERWRITEENTITYDEFAULTS+"."+clsShapeCreator.P_COLOR, Color.RED);
+		oProp.setProperty(pre+P_ENTITYGROUPS+"."+i+"."+P_OVERWRITEDECISIONUNITDEFAULTS+"."+
+				clsPsychoAnalysis.P_PROCESSOR+"."+clsProcessor.P_LIBIDOSTREAM, 0.1);
+		oProp.setProperty(pre+P_ENTITYGROUPS+"."+i+"."+P_OVERWRITEDECISIONUNITDEFAULTS+"."+
+				clsPsychoAnalysis.P_PROCESSOR+"."+clsProcessor.P_KNOWLEDGEABASE+"."+
+				clsKnowledgeBaseHandler.P_SOURCE_NAME, "/DecisionUnits/config/_v30/bw/pa.memory/AGENT_BASIC/BASIC.pprj");
+		oProp.setProperty(pre+P_ENTITYGROUPS+"."+i+"."+P_OVERWRITEDECISIONUNITDEFAULTS+"."+
+				clsPsychoAnalysis.P_PROCESSOR+"."+clsProcessor.P_PSYCHICAPPARATUS+"."+clsPsychicApparatus.P_MINIMALMODEL, false);
 		
 		i++;
 		oProp.setProperty(pre+P_ENTITYGROUPS+"."+i+"."+P_GROUPENTITYTYPE, eEntityType.REMOTEBOT.name());
