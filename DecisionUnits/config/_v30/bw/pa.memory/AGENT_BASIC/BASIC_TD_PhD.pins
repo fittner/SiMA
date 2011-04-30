@@ -1,4 +1,4 @@
-; Thu Apr 28 13:29:18 CEST 2011
+; Sat Apr 30 20:26:01 CEST 2011
 ; 
 ;+ (version "3.4.5")
 ;+ (build "Build 608")
@@ -150,7 +150,7 @@
 	(consequence
 		[WP%3ACAKEBASIC]
 		[WP%3AUNPLEASURE]
-		[WP%3AVERYHIGH]
+		[WP%3AHIGH]
 		[WP%3ADEPOSIT]
 		[WP%3ALOW]
 		[WP%3AREPRESS]
@@ -167,7 +167,7 @@
 	(consequence
 		[WP%3ACAKEBASIC]
 		[WP%3AUNPLEASURE]
-		[WP%3AVERYHIGH]
+		[WP%3AHIGH]
 		[WP%3ADEPOSIT]
 		[WP%3ALOW]
 		[WP%3AREPRESS]
@@ -184,7 +184,7 @@
 	(consequence
 		[WP%3ACARROT]
 		[WP%3AUNPLEASURE]
-		[WP%3AVERYHIGH]
+		[WP%3AHIGH]
 		[WP%3ADEPOSIT]
 		[WP%3ALOW]
 		[WP%3AREPRESS]
@@ -201,7 +201,7 @@
 	(consequence
 		[WP%3ACARROT]
 		[WP%3AUNPLEASURE]
-		[WP%3AVERYHIGH]
+		[WP%3AHIGH]
 		[WP%3ADEPOSIT]
 		[WP%3ALOW]
 		[WP%3AREPRESS]
