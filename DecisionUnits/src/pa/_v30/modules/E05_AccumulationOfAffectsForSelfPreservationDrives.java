@@ -34,6 +34,9 @@ import config.clsBWProperties;
 public class E05_AccumulationOfAffectsForSelfPreservationDrives extends clsModuleBase implements 
 						I1_4_receive, I2_15_send, itfInspectorGenericTimeChart {
 	public static final String P_MODULENUMBER = "05";
+	public static final String P_SPLITFACTORLABEL = "label";
+	public static final String P_SPLITFACTORVALUE = "value";
+	public static final String P_NUM_SPLIFACTOR = "num";
 	
 	private ArrayList<clsPair<clsPair<clsDriveMesh, clsDriveDemand>, clsPair<clsDriveMesh, clsDriveDemand>>> moDriveCandidate;
 	private ArrayList<clsDriveMesh> moDriveList; 
@@ -53,11 +56,12 @@ public class E05_AccumulationOfAffectsForSelfPreservationDrives extends clsModul
 			clsBWProperties poProp, HashMap<Integer, clsModuleBase> poModuleList, SortedMap<eInterfaces, ArrayList<Object>> poInterfaceData) throws Exception {
 		super(poPrefix, poProp, poModuleList, poInterfaceData);
 		applyProperties(poPrefix, poProp);	
-		
+/*		
 		moSplitterFactor = new HashMap<String, Double>();
 		moSplitterFactor.put("NOURISH", 0.5);moSplitterFactor.put("BITE",    0.5);
 		moSplitterFactor.put("SLEEP",   0.5);moSplitterFactor.put("RELAX",   0.5);		
-		moSplitterFactor.put("REPRESS", 0.5);moSplitterFactor.put("DEPOSIT", 0.5);		
+		moSplitterFactor.put("REPRESS", 0.5);moSplitterFactor.put("DEPOSIT", 0.5);
+*/				
 	}
 	
 	/* (non-Javadoc)
@@ -84,13 +88,44 @@ public class E05_AccumulationOfAffectsForSelfPreservationDrives extends clsModul
 		clsBWProperties oProp = new clsBWProperties();
 		oProp.setProperty(pre+P_PROCESS_IMPLEMENTATION_STAGE, eImplementationStage.BASIC.toString());
 				
+		int i=0;
+		
+		oProp.setProperty(pre+i+"."+P_SPLITFACTORLABEL, "NOURISH");
+		oProp.setProperty(pre+i+"."+P_SPLITFACTORVALUE, 0.5);
+		i++;
+		oProp.setProperty(pre+i+"."+P_SPLITFACTORLABEL, "BITE");
+		oProp.setProperty(pre+i+"."+P_SPLITFACTORVALUE, 0.5);
+		i++;
+		oProp.setProperty(pre+i+"."+P_SPLITFACTORLABEL, "RELAX");
+		oProp.setProperty(pre+i+"."+P_SPLITFACTORVALUE, 0.5);
+		i++;
+		oProp.setProperty(pre+i+"."+P_SPLITFACTORLABEL, "DEPOSIT");
+		oProp.setProperty(pre+i+"."+P_SPLITFACTORVALUE, 0.5);
+		i++;
+		oProp.setProperty(pre+i+"."+P_SPLITFACTORLABEL, "REPRESS");
+		oProp.setProperty(pre+i+"."+P_SPLITFACTORVALUE, 0.5);
+		i++;
+		oProp.setProperty(pre+i+"."+P_SPLITFACTORLABEL, "SLEEP");
+		oProp.setProperty(pre+i+"."+P_SPLITFACTORVALUE, 0.5);
+		i++;
+
+		
+		oProp.setProperty(pre+P_NUM_SPLIFACTOR, i);
+		
 		return oProp;
 	}	
 	
 	private void applyProperties(String poPrefix, clsBWProperties poProp) {
-		//String pre = clsBWProperties.addDot(poPrefix);
+		String pre = clsBWProperties.addDot(poPrefix);
 	
-		//nothing to do
+		moSplitterFactor = new HashMap<String, Double>();
+		
+		int num = poProp.getPropertyInt(pre+P_NUM_SPLIFACTOR);
+		for (int i=0; i<num; i++) {
+			String oKey = poProp.getProperty(pre+i+"."+P_SPLITFACTORLABEL);
+			Double oValue = poProp.getPropertyDouble(pre+i+"."+P_SPLITFACTORVALUE);
+			moSplitterFactor.put(oKey, oValue);
+		}		
 	}
 
 	/* (non-Javadoc)
