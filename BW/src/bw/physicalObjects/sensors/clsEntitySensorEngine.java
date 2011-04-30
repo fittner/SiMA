@@ -63,6 +63,7 @@ import bw.factories.clsSingletonMasonGetter;
 		   meDetectedObjList = new ArrayList <clsCollidingObject>(); 
 		   moHostEntity = poHostEntity; 
 		   setShape(pnRadius); 
+		   setOrientationAndPosition(); //TD 2011/04/30 - bugfix. sensors are now created at the same position as their host 
 		 }
 	
 		@Override
