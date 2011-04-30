@@ -325,9 +325,21 @@ public abstract class clsMeshBase extends clsGraphBase {
 		ArrayList<clsAssociation> oAssociatedDataStructures =  poMemoryObject.getMoAssociatedDataStructures();
 		
 		//create container root cell
-		DefaultGraphCell oContainerRootCell = createDefaultGraphVertex(oContainerRootDataStructure.toString(), moColorPrimaryDataStructureContainer );
+
+//NEW VERSION		
+//		DefaultGraphCell oContainerRootCell = generateGraphCell(poParentCell, oContainerRootDataStructure);
+		
+//OLD VERSION
+		String oDescription = oContainerRootDataStructure.toString().substring(0, 5);
+
+		if(!UseSimpleView()) 
+		{
+			oDescription = 	oContainerRootDataStructure.toString();
+		}
+		
+		DefaultGraphCell oContainerRootCell = createDefaultGraphVertex(oDescription, moColorPrimaryDataStructureContainer );
 		this.moCellList.add(oContainerRootCell);
-		//edge to the [parrent cell] <-> [container root cell]
+//		edge to the [parrent cell] <-> [container root cell]
 		DefaultEdge oEdgeParent = new DefaultEdge();
 		oEdgeParent.setSource(poParentCell.getChildAt(0));
 		oEdgeParent.setTarget(oContainerRootCell.getChildAt(0));
@@ -385,12 +397,25 @@ public abstract class clsMeshBase extends clsGraphBase {
 	 */
 	private DefaultGraphCell generateGraphCell(DefaultGraphCell poParentCell, clsSecondaryDataStructureContainer poMemoryObject)
 	{
+		
+		
 		clsDataStructurePA oContainerRootDataStructure = poMemoryObject.getMoDataStructure();
 		//TODO WP werden neu erzeugt und können daher nicht zu den associations gefunden werden weil ID = -1, vielleicht kommt da mal eine änderung! CM+HZ
 		ArrayList<clsAssociation> oAssociatedDataStructures = new ArrayList<clsAssociation>(); // poMemoryObject.moAssociatedDataStructures;
 		
+//NEW VERSION		
+//		DefaultGraphCell oContainerRootCell = generateGraphCell(poParentCell, oContainerRootDataStructure);
+		
+//OLD VERSION		
+		String oDescription = oContainerRootDataStructure.toString().substring(0, 5);
+
+		if(!UseSimpleView()) 
+		{
+			oDescription = 	oContainerRootDataStructure.toString();
+		}
+		
 		//create container root struct
-		DefaultGraphCell oContainerRootCell = createDefaultGraphVertex(oContainerRootDataStructure.toString(), moColorSecondaryDataStructureContainer );
+		DefaultGraphCell oContainerRootCell = createDefaultGraphVertex(oDescription, moColorSecondaryDataStructureContainer );
 		this.moCellList.add(oContainerRootCell);
 		//get edge to parent cell
 		DefaultEdge oEdgeParent = new DefaultEdge();
