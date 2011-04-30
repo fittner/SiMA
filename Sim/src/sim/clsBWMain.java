@@ -95,6 +95,7 @@ public class clsBWMain extends SimState{
 					case 6: oFilename = "clemens.own.dont.touch.this.world.main.properties"; break;
 					case 7: oFilename = "aw.own.dont.touch.this.world.main.properties"; break;
 					case 8: oFilename = "one_bubble_one_cake_one_staticbubble.properties"; break;
+					case 9: oFilename = "TD_PhD.main.properties"; break;
 					default: oFilename = "testsetup.main.properties"; break;
 				}
 			} catch (NumberFormatException e) {
