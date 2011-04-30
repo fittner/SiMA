@@ -55,13 +55,7 @@ public class E05_AccumulationOfAffectsForSelfPreservationDrives extends clsModul
 	public E05_AccumulationOfAffectsForSelfPreservationDrives(String poPrefix,
 			clsBWProperties poProp, HashMap<Integer, clsModuleBase> poModuleList, SortedMap<eInterfaces, ArrayList<Object>> poInterfaceData) throws Exception {
 		super(poPrefix, poProp, poModuleList, poInterfaceData);
-		applyProperties(poPrefix, poProp);	
-/*		
-		moSplitterFactor = new HashMap<String, Double>();
-		moSplitterFactor.put("NOURISH", 0.5);moSplitterFactor.put("BITE",    0.5);
-		moSplitterFactor.put("SLEEP",   0.5);moSplitterFactor.put("RELAX",   0.5);		
-		moSplitterFactor.put("REPRESS", 0.5);moSplitterFactor.put("DEPOSIT", 0.5);
-*/				
+		applyProperties(poPrefix, poProp);					
 	}
 	
 	/* (non-Javadoc)

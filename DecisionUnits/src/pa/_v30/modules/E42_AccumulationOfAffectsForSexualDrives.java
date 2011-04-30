@@ -37,6 +37,10 @@ public class E42_AccumulationOfAffectsForSexualDrives extends clsModuleBase impl
 							I2_17_receive, I2_18_send, itfInspectorGenericTimeChart {
 	public static final String P_MODULENUMBER = "42";
 	
+	public static final String P_SPLITFACTORLABEL = "label";
+	public static final String P_SPLITFACTORVALUE = "value";
+	public static final String P_NUM_SPLIFACTOR = "num";
+	
 	private ArrayList< clsPair< clsTripple<clsDriveMesh,clsDriveDemand,Double>, clsTripple<clsDriveMesh,clsDriveDemand,Double> > > moDriveCandidates;
 	private ArrayList<clsDriveMesh> moDriveList; 
 	private HashMap<String, Double> moSplitterFactor;
@@ -57,12 +61,6 @@ public class E42_AccumulationOfAffectsForSexualDrives extends clsModuleBase impl
 			throws Exception {
 		super(poPrefix, poProp, poModuleList, poInterfaceData);
 		applyProperties(poPrefix, poProp);
-		
-		moSplitterFactor = new HashMap<String, Double>();
-		moSplitterFactor.put("ORAL", 0.5);
-		moSplitterFactor.put("ANAL", 0.5);
-		moSplitterFactor.put("GENITAL", 0.5);
-		moSplitterFactor.put("PHALLIC", 0.5);
 	}
 	
 	/* (non-Javadoc)
@@ -89,13 +87,38 @@ public class E42_AccumulationOfAffectsForSexualDrives extends clsModuleBase impl
 		clsBWProperties oProp = new clsBWProperties();
 		oProp.setProperty(pre+P_PROCESS_IMPLEMENTATION_STAGE, eImplementationStage.BASIC.toString());
 				
+		int i=0;
+		
+		oProp.setProperty(pre+i+"."+P_SPLITFACTORLABEL, "ORAL");
+		oProp.setProperty(pre+i+"."+P_SPLITFACTORVALUE, 0.5);
+		i++;
+		oProp.setProperty(pre+i+"."+P_SPLITFACTORLABEL, "ANAL");
+		oProp.setProperty(pre+i+"."+P_SPLITFACTORVALUE, 0.5);
+		i++;
+		oProp.setProperty(pre+i+"."+P_SPLITFACTORLABEL, "GENITAL");
+		oProp.setProperty(pre+i+"."+P_SPLITFACTORVALUE, 0.5);
+		i++;
+		oProp.setProperty(pre+i+"."+P_SPLITFACTORLABEL, "PHALLIC");
+		oProp.setProperty(pre+i+"."+P_SPLITFACTORVALUE, 0.5);
+		i++;
+
+		
+		oProp.setProperty(pre+P_NUM_SPLIFACTOR, i);
+		
 		return oProp;
 	}
 	
 	private void applyProperties(String poPrefix, clsBWProperties poProp) {
-		//String pre = clsBWProperties.addDot(poPrefix);
+		String pre = clsBWProperties.addDot(poPrefix);
 	
-		//nothing to do
+		moSplitterFactor = new HashMap<String, Double>();
+		
+		int num = poProp.getPropertyInt(pre+P_NUM_SPLIFACTOR);
+		for (int i=0; i<num; i++) {
+			String oKey = poProp.getProperty(pre+i+"."+P_SPLITFACTORLABEL);
+			Double oValue = poProp.getPropertyDouble(pre+i+"."+P_SPLITFACTORVALUE);
+			moSplitterFactor.put(oKey, oValue);
+		}	
 	}
 	
 	@Override
