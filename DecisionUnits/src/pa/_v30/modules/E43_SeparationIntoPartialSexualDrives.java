@@ -36,6 +36,11 @@ import config.clsBWProperties;
 public class E43_SeparationIntoPartialSexualDrives extends clsModuleBase implements I1_10_receive, I2_17_send {
 	public static final String P_MODULENUMBER = "43";
 	
+	public static final String P_PARTIAL_ORAL = "oral";
+	public static final String P_PARTIAL_ANAL = "anal";
+	public static final String P_PARTIAL_PHALLIC = "phallic";
+	public static final String P_PARTIAL_GENITAL = "genital";
+	
 	private ArrayList< clsPair<clsDriveMesh, clsDriveDemand> > moHomeostaticDriveDemands;
 	private ArrayList< clsPair< clsTripple<clsDriveMesh,clsDriveDemand,Double>, clsTripple<clsDriveMesh,clsDriveDemand,Double> > > moDriveCandidates;
 	private ArrayList< clsPair<String,Double> > moPartialSexualDrives;
@@ -56,16 +61,6 @@ public class E43_SeparationIntoPartialSexualDrives extends clsModuleBase impleme
 			throws Exception {
 		super(poPrefix, poProp, poModuleList, poInterfaceData);
 		applyProperties(poPrefix, poProp);
-		fillPartialSexualDriver();
-	}
-	
-	private void fillPartialSexualDriver() {
-		moPartialSexualDrives = new ArrayList<clsPair<String,Double>>();
-		
-		moPartialSexualDrives.add( new clsPair<String, Double>("ORAL", 0.1));
-		moPartialSexualDrives.add( new clsPair<String, Double>("ANAL", 0.05));
-		moPartialSexualDrives.add( new clsPair<String, Double>("PHALLIC", 0.2));
-		moPartialSexualDrives.add( new clsPair<String, Double>("GENITAL", 0.6));		
 	}
 	
 	/* (non-Javadoc)
@@ -91,14 +86,24 @@ public class E43_SeparationIntoPartialSexualDrives extends clsModuleBase impleme
 		
 		clsBWProperties oProp = new clsBWProperties();
 		oProp.setProperty(pre+P_PROCESS_IMPLEMENTATION_STAGE, eImplementationStage.BASIC.toString());
-				
+		
+		oProp.setProperty(pre+P_PARTIAL_ORAL, 0.1);
+		oProp.setProperty(pre+P_PARTIAL_ANAL, 0.05);
+		oProp.setProperty(pre+P_PARTIAL_PHALLIC, 0.2);
+		oProp.setProperty(pre+P_PARTIAL_GENITAL, 0.6);
+		
 		return oProp;
 	}
 	
 	private void applyProperties(String poPrefix, clsBWProperties poProp) {
-		//String pre = clsBWProperties.addDot(poPrefix);
+		String pre = clsBWProperties.addDot(poPrefix);
 	
-		//nothing to do
+		moPartialSexualDrives = new ArrayList<clsPair<String,Double>>();
+		
+		moPartialSexualDrives.add( new clsPair<String, Double>("ORAL", poProp.getPropertyDouble(pre+P_PARTIAL_ORAL) ));
+		moPartialSexualDrives.add( new clsPair<String, Double>("ANAL", poProp.getPropertyDouble(pre+P_PARTIAL_ANAL) ));
+		moPartialSexualDrives.add( new clsPair<String, Double>("PHALLIC", poProp.getPropertyDouble(pre+P_PARTIAL_PHALLIC) ));
+		moPartialSexualDrives.add( new clsPair<String, Double>("GENITAL", poProp.getPropertyDouble(pre+P_PARTIAL_GENITAL) ));	
 	}	
 	
 	@Override
