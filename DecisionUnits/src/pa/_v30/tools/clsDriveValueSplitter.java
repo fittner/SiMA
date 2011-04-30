@@ -24,7 +24,19 @@ public class clsDriveValueSplitter {
 				break;
 		}
 		
+		oRes.a = normalize(oRes.a);
+		oRes.b = normalize(oRes.b);
+				
 		return oRes;
+	}
+	
+	private static double normalize(double r) {
+		if (r>1) {
+			r=1;
+		} else if (r<0) {
+			r=0;
+		}
+		return r;
 	}
 
 	private static clsPair<Double, Double> calcSplitValueAdvanced(Double prA, Double prB, Double prFactor) {
