@@ -37,6 +37,10 @@ import config.clsBWProperties;
  */
 public class E03_GenerationOfSelfPreservationDrives extends clsModuleBaseKB implements I1_2_receive, I1_3_send {
 	public static final String P_MODULENUMBER = "03";
+	public static final String P_HOMEOSTASISLABEL = "label";
+	public static final String P_HOMEOSTASISFACTOR = "factor";
+	public static final String P_NUM_HOMEOSTASIS = "num";
+	
 	public static String moDriveObjectType = "DriveObject";
 	
 	private HashMap<String, Double> moHomeostasisSymbols; 
@@ -62,12 +66,7 @@ public class E03_GenerationOfSelfPreservationDrives extends clsModuleBaseKB impl
 			SortedMap<eInterfaces, ArrayList<Object>> poInterfaceData,
 			clsKnowledgeBaseHandler poKnowledgeBaseHandler) throws Exception {
 		super(poPrefix, poProp, poModuleList, poInterfaceData, poKnowledgeBaseHandler);
-		applyProperties(poPrefix, poProp);	
-		
-		moHomeostaisImpactFactors = new HashMap<String, Double>();
-		moHomeostaisImpactFactors.put("BLOODSUGAR", 1.0);
-		moHomeostaisImpactFactors.put("INTESTINEPRESSURE", 1.0);
-		moHomeostaisImpactFactors.put("STAMINA", 1.0);		
+		applyProperties(poPrefix, poProp);			
 	}
 	
 	public static clsBWProperties getDefaultProperties(String poPrefix) {
@@ -76,13 +75,34 @@ public class E03_GenerationOfSelfPreservationDrives extends clsModuleBaseKB impl
 		clsBWProperties oProp = new clsBWProperties();
 		oProp.setProperty(pre+P_PROCESS_IMPLEMENTATION_STAGE, eImplementationStage.BASIC.toString());
 				
+		int i=0;
+		
+		oProp.setProperty(pre+i+"."+P_HOMEOSTASISLABEL, "BLOODSUGAR");
+		oProp.setProperty(pre+i+"."+P_HOMEOSTASISFACTOR, 1.0);
+		i++;
+		oProp.setProperty(pre+i+"."+P_HOMEOSTASISLABEL, "INTESTINEPRESSURE");
+		oProp.setProperty(pre+i+"."+P_HOMEOSTASISFACTOR, 1.0);
+		i++;
+		oProp.setProperty(pre+i+"."+P_HOMEOSTASISLABEL, "STAMINA");
+		oProp.setProperty(pre+i+"."+P_HOMEOSTASISFACTOR, 1.0);
+		i++;
+		
+		oProp.setProperty(pre+P_NUM_HOMEOSTASIS, i);
+		
 		return oProp;
 	}	
 	
 	private void applyProperties(String poPrefix, clsBWProperties poProp) {
-		//String pre = clsBWProperties.addDot(poPrefix);
-	
-		//nothing to do
+		String pre = clsBWProperties.addDot(poPrefix);
+		
+		moHomeostaisImpactFactors = new HashMap<String, Double>();
+		
+		int num = poProp.getPropertyInt(pre+P_NUM_HOMEOSTASIS);
+		for (int i=0; i<num; i++) {
+			String oKey = poProp.getProperty(pre+i+"."+P_HOMEOSTASISLABEL);
+			Double oValue = poProp.getPropertyDouble(pre+i+"."+P_HOMEOSTASISFACTOR);
+			moHomeostaisImpactFactors.put(oKey, oValue);
+		}
 	}
 	
 	/* (non-Javadoc)
