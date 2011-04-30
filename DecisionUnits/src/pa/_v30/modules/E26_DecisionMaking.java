@@ -386,16 +386,27 @@ public class E26_DecisionMaking extends clsModuleBase implements
 	private ArrayList<clsSecondaryDataStructureContainer> getObsoleteDrives(clsAct poRule) {
 
 		ArrayList <clsSecondaryDataStructureContainer> oRetVal = new ArrayList<clsSecondaryDataStructureContainer>();
-		String oRuleContent = poRule.getMoContent().substring(0, poRule.getMoContent().indexOf(_Delimiter03)); 
+		String oRuleContent = poRule.getMoContent().substring(0, poRule.getMoContent().indexOf(_Delimiter03));
 		
-//		if(oRuleContent.contains("DEPOSIT")){
-//			int i = 0; 
-//		}
+		//FIXME (Zeilinger): TD 2011/04/30 bad hack - it seems that a drive demand is removed as soon as there
+		//exists a superego rule for that drive. deposit has been removed regardless of the current drive tension
+		//and the entered unpleasure in the superego rule. 
+		//bugfix: extract unpleasure intesity from string and get nRuleIntensisty. the same is done for each drive
+		//from drivelist. as soon as drive names match AND the drives intensity is larger than the unpleasure of
+		//the superego rule, the drive is NOT added to the obsolete drives list!
+		int pos = poRule.getMoContent().indexOf("CONTENT:UNPLEASURE|INTENSITY:")+"CONTENT:UNPLEASURE|INTENSITY:".length();
+		String oRuleUnpleasure = poRule.getMoContent().substring(pos);
+		oRuleUnpleasure = oRuleUnpleasure.substring(0, oRuleUnpleasure.indexOf("|"));
+		int nRuleIntensity = eAffectLevel.valueOf(oRuleUnpleasure).ordinal();
 		
 		for(clsSecondaryDataStructureContainer oDrive : moDriveList){
-			String oDriveContent = ((clsWordPresentation)oDrive.getMoDataStructure()).getMoContent();
+			String[] oTemp = ((clsWordPresentation)oDrive.getMoDataStructure()).getMoContent().split(":");
+			String oDriveContent = oTemp[0];
+			String oDriveUnpleasure = oTemp[1];
+			int nDriveIntensity = eAffectLevel.valueOf(oDriveUnpleasure).ordinal();
 						
-			if(oDriveContent.contains(oRuleContent)){
+			if(oDriveContent.contains(oRuleContent) && nDriveIntensity<=nRuleIntensity){ 
+				//TD 2011/04/30: remove drive from list iff the drives instensity is eauql or lower than the punishment of the superego rule
 				oRetVal.add(oDrive); 
 			}
 		}
