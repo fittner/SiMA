@@ -39,6 +39,7 @@ public class clsGetARSPath {
 	}
 	
 	public static String getLogPath() {
+		//TODO (Deutsch): create a new subdirectory for each simulation run. even for small settings, a lot of log files are created ...  
 		return getArsPath()+System.getProperty("file.separator")+"log";
 	}
 	

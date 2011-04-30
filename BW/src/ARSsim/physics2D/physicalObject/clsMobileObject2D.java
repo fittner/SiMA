@@ -152,6 +152,7 @@ public class clsMobileObject2D extends
 			@Override
 			public void step(SimState state) {
 				moEntity.sensing();
+				moEntity.updatePositionLogger();
 			}
 		};
 	}

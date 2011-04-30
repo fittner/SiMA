@@ -12,6 +12,7 @@ import bw.body.clsComplexBody;
 import bw.body.clsMeatBody;
 import bw.body.clsSimpleBody;
 import bw.body.itfget.itfGetBody;
+import bw.entities.logger.clsPositionLogger;
 import bw.utils.enums.eBodyType;
 import config.clsBWProperties;
 import du.enums.eEntityType;
@@ -69,7 +70,8 @@ public abstract class clsEntity implements itfGetBody {
 	private int mnUniqueId = clsUniqueIdGenerator.getUniqueId();
 	private String uid;
 	
-	protected clsBaseBody moBody; // the instance of a body	
+	protected clsBaseBody moBody; // the instance of a body
+	protected clsPositionLogger moPositionLogger;
 	
 	public clsEntity(String poPrefix, clsBWProperties poProp, String uid) {
 		this.uid = uid;
@@ -81,10 +83,15 @@ public abstract class clsEntity implements itfGetBody {
 		setRegistered(false);
 		
 		clsEventLogger.add(new Event(this, moId, eEvent.CREATE, "uid="+this.uid));
+		moPositionLogger = new clsPositionLogger(this.uid);
 	}
 	
 	public String uid() {
 		return uid;
+	}
+	
+	public clsPositionLogger getPositionLogger() {
+		return moPositionLogger;
 	}
 	
 	public static clsBWProperties getDefaultProperties(String poPrefix) {
@@ -312,6 +319,11 @@ public abstract class clsEntity implements itfGetBody {
 		if (moPhysicalObject2D != null) {
 			((itfSetupFunctions)moPhysicalObject2D).setMass(getTotalWeight());
 		}
+	}
+	
+	public void updatePositionLogger() {
+		clsPose oPose =  ((itfSetupFunctions)moPhysicalObject2D).getPose();
+		moPositionLogger.add(oPose);
 	}
 	
 	/**

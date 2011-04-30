@@ -42,6 +42,8 @@ import bw.utils.inspectors.entity.clsInspectorARSin;
 import bw.utils.inspectors.entity.clsInspectorFungusEater;
 import bw.utils.inspectors.entity.clsInspectorBasic;
 import bw.utils.inspectors.entity.clsInspectorFungus;
+import bw.utils.inspectors.entity.clsInspectorPositionLogChart;
+import bw.utils.inspectors.entity.clsInspectorPositionLoggerCSV;
 import bw.utils.inspectors.entity.clsInspectorRemoteBot;
 import bw.utils.inspectors.entity.clsInspectorFungusBase;
 import bw.utils.inspectors.entity.clsInspectorSensor;
@@ -131,6 +133,11 @@ public class clsInspectorMappingEntity {
 	    	}
     	}
     	
+    	//add position logger inspector
+    	oRetVal.addInspector( new clsInspectorPositionLoggerCSV(poEntity.getPositionLogger()), "Pos.CSV");
+    	oRetVal.addInspector( new clsInspectorPositionLogChart(poEntity.getPositionLogger()), "Pos.Chart");
+    	
+    	
     	//add standard inspector if nothing happened
     	if(oRetVal.inspectors.size() == 0)  {
     		oRetVal.addInspector(poSuperInspector, "Values");
@@ -170,3 +177,4 @@ public class clsInspectorMappingEntity {
 	    return oRetVal;
 	}
 }
+

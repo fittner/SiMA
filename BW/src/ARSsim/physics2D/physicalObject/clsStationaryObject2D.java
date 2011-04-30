@@ -89,6 +89,7 @@ public class clsStationaryObject2D extends sim.physics2D.physicalObject.Stationa
 	}
 
 	@Override
+	@Deprecated
 	public void step(SimState state) {
 		//this block should be distributed to different steps
 		moEntity.sensing();
@@ -103,6 +104,7 @@ public class clsStationaryObject2D extends sim.physics2D.physicalObject.Stationa
 			@Override
 			public void step(SimState state) {
 				moEntity.sensing();
+				moEntity.updatePositionLogger();
 			}
 		};
 	}
