@@ -13,6 +13,8 @@ import du.enums.eSlowMessenger;
 import bw.body.itfStepUpdateInternalState;
 import bw.body.internalSystems.clsSlowMessengerSystem;
 import bw.body.internalSystems.clsStomachSystem;
+import bw.exceptions.exContentColumnMaxContentExceeded;
+import bw.exceptions.exContentColumnMinContentUnderrun;
 import bw.exceptions.exSlowMessengerDoesNotExist;
 import bw.exceptions.exValueNotWithinRange;
 import bw.utils.enums.eNutritions;
@@ -50,6 +52,19 @@ public class clsStomachToSlowMessenger implements itfStepUpdateInternalState  {
 		//String pre = clsBWProperties.addDot(poPrefix);
 
 		// nothing to do
+		
+		//TD 2011/04/29 - set init value for bloodsugar slow messenger.
+		try {
+			moSlowMessengerSystem.setValue(eSlowMessenger.BLOODSUGAR, calcTargetValue());
+		} catch (exSlowMessengerDoesNotExist e) {
+			// nothing to do
+		} catch (exValueNotWithinRange e) {
+			// nothing to do
+		} catch (exContentColumnMaxContentExceeded e) {
+			// nothing to do
+		} catch (exContentColumnMinContentUnderrun e) {
+			// nothing to do
+		}
 	}
 	
 	private double calcTargetValue() {

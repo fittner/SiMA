@@ -159,6 +159,17 @@ public class clsSlowMessengerSystem implements itfStepUpdateInternalState {
 		oSlowMessenger.setInjectionValue(prValue);		
 	}
 	
+	public void setValue(eSlowMessenger poMessengerId, double prValue) throws exSlowMessengerDoesNotExist, exValueNotWithinRange, exContentColumnMaxContentExceeded, exContentColumnMinContentUnderrun {
+		//TD 2011/04/29 - for init purposes. 
+		if (!moSlowMessengerContainer.containsKey(poMessengerId)) {
+			throw new bw.exceptions.exSlowMessengerDoesNotExist(poMessengerId);
+		}
+		
+		clsDecayColumn oSlowMessenger = moSlowMessengerContainer.get(poMessengerId);
+		
+		oSlowMessenger.setContent(prValue);			
+	}
+	
 	/* (non-Javadoc)
 	 * @see bw.body.itfStep#step()
 	 */

@@ -122,7 +122,7 @@ public class clsDataLogger {
 	}
 	
 	public String getColumnsCSV() {
-		String o = "Step"+csvseperator;
+		String o = "#Step"+csvseperator;
 		
 		for (int i=0; i<moDataStorage.size(); i++) {
 			clsDLEntry_Abstract oDS = moDataStorage.get(i);		
