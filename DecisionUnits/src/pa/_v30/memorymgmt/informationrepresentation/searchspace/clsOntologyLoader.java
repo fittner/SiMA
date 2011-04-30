@@ -63,6 +63,8 @@ public class clsOntologyLoader {
 		//FIXME HZ: Sorry for the "Object" parameter in ArrayList => however, this is a protege problem
 		Collection <?>oErrorList = new ArrayList<Object>(); 
 		Project oOntologyPrj = Project.loadProjectFromFile("../" + poSourceName, oErrorList);
+		System.out.println("Reading ontology: "+"../" + poSourceName);
+		
 	    KnowledgeBase oFrameKB = oOntologyPrj.getKnowledgeBase();
 	  
 	    //FIXME HZ: Optimize the initialization process => Builder
