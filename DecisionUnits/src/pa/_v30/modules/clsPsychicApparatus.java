@@ -17,7 +17,7 @@ import pa._v30.interfaces.eInterfaces;
 import pa._v30.interfaces.itfMinimalModelMode;
 import pa._v30.logger.clsDataLogger;
 import pa._v30.memorymgmt.clsKnowledgeBaseHandler;
-import pa._v30.memorymgmt.clsKnowledgeBaseHandlerFactory;
+//import pa._v30.memorymgmt.clsKnowledgeBaseHandlerFactory;
 import pa._v30.storage.clsBlockedContentStorage;
 import pa._v30.storage.clsLibidoBuffer;
 
@@ -169,7 +169,8 @@ public class clsPsychicApparatus {
 		
 		try {
 			//TODO HZ - Integrate to Properties
-			moKnowledgeBaseHandler = clsKnowledgeBaseHandlerFactory.createInformationRepresentationManagement("ARSI10_MGMT", pre+P_INFORMATIONREPRESENTATIONMGMT, poProp);
+			//FIXME (Zeilinger) - TD 2011/04/11 commented the (recreation) of moKnowledgeBaseHandler. see clsProcessor.applyProperties. knowlegebasehandler is created twice!
+			//moKnowledgeBaseHandler = clsKnowledgeBaseHandlerFactory.createInformationRepresentationManagement("ARSI10_MGMT", pre+P_INFORMATIONREPRESENTATIONMGMT, poProp);
 			
 			moE01_SensorsMetabolism = new E01_SensorsMetabolism(pre + E01_SensorsMetabolism.P_MODULENUMBER, poProp, moModules, moInterfaceData);
 			moE02_NeurosymbolizationOfNeeds = new E02_NeurosymbolizationOfNeeds(pre + E02_NeurosymbolizationOfNeeds.P_MODULENUMBER, poProp, moModules, moInterfaceData);
