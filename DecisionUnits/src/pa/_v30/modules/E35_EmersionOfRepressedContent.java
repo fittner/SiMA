@@ -113,9 +113,11 @@ public class E35_EmersionOfRepressedContent extends clsModuleBaseKB implements i
 	 * 
 	 * @see pa.modules.clsModuleBase#process()
 	 */
+	@SuppressWarnings("unused")
 	@Override
 	protected void process_basic() {
-		if (!mnMinimalModel) {
+		//TD 2011/04/30: quick fix - minimal model does not work in E35. 
+		if (true || !mnMinimalModel) { 
 			//HZ 16.08.2010: this part is programmed to map the functionalities of ARSi09 to the new datastructure model. However, 
 			//it is for sure that the functionalities change in further model revisions. These changes include that 
 			//	- modules of E15 (in case it still exists) will presumably not obey of a memory access (this has to be

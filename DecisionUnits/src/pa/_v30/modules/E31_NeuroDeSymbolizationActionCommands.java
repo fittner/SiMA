@@ -181,7 +181,7 @@ public class E31_NeuroDeSymbolizationActionCommands extends clsModuleBase
 				}
 			}
 		} else {
-			if (!mnMinimalModel) {
+			if (true || !mnMinimalModel) {
 				if (mnCounter == 75) {
 					moActionCommandList_Output.add( clsActionSequenceFactory.getSeekingSequence(1.0f, 2) );
 					mnCounter = 0;
