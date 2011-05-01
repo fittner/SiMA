@@ -276,7 +276,7 @@ public class E26_DecisionMaking extends clsModuleBase implements
 			oAL.add(oSDSC);
 		}
 		
-		badVoodoo(oSortedList); //FIXME : TD 2011/05/01 - bad voodoo!!!
+	//	badVoodoo(oSortedList); //FIXME : TD 2011/05/01 - bad voodoo!!!
 		
 		moGoal_Output.clear();
 		NavigableSet<Double> oSLdKS = oSortedList.descendingKeySet();
@@ -580,7 +580,9 @@ public class E26_DecisionMaking extends clsModuleBase implements
 			oRetVal = oList.get(0);
 		} else if (oList.size() > 1){
 			//priorize sleep. currently, the agent cannot die -> sleeping is more important than eating.
-			ArrayList<String> oPriorityDrives = new ArrayList<String>( Arrays.asList("SLEEP", "RELAX") );
+			//TD 2011/05/01 - added deposit and repress
+			//FIXME - this function is bad voodoo
+			ArrayList<String> oPriorityDrives = new ArrayList<String>( Arrays.asList("SLEEP", "RELAX", "DEPOSIT", "REPRESS") );
 			
 			oRetVal = null;
 			for (clsPair<String, clsSecondaryDataStructureContainer> oEntry:oList) {
