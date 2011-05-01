@@ -40,7 +40,7 @@ import bw.body.io.actuators.actionProxies.itfAPKissable;
  */
 public class clsBubble extends clsAnimate implements itfGetSensorEngine, itfGetRadiation, itfAPKissable {
 
-	public clsBubble(itfDecisionUnit poDU, String poPrefix, clsBWProperties poProp, String uid) {
+	public clsBubble(itfDecisionUnit poDU, String poPrefix, clsBWProperties poProp, int uid) {
 		super(poDU, poPrefix, poProp, uid);
 		applyProperties(poPrefix, poProp);
 	}

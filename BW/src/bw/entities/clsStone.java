@@ -26,7 +26,7 @@ import bw.utils.enums.eShapeType;
 public class clsStone extends clsInanimate {
 	public static final String P_RADIUS_TO_MASS_CONVERSION = "conversion";
 		
-	public clsStone(String poPrefix, clsBWProperties poProp, String uid)
+	public clsStone(String poPrefix, clsBWProperties poProp, int uid)
     {
 		super(poPrefix, poProp, uid); 
 		applyProperties(poPrefix, poProp);

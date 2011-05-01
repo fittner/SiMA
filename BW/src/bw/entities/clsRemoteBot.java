@@ -50,7 +50,7 @@ public class clsRemoteBot extends clsAnimate implements itfGetSensorEngine, itfG
     private clsBotHands moBotHand1;
     private clsBotHands moBotHand2;
 	
-    public clsRemoteBot(itfDecisionUnit poDU, String poPrefix, clsBWProperties poProp, String uid) {
+    public clsRemoteBot(itfDecisionUnit poDU, String poPrefix, clsBWProperties poProp, int uid) {
 		super(poDU, poPrefix, poProp, uid);
 		applyProperties(poPrefix, poProp);
 	}

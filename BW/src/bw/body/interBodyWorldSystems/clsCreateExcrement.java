@@ -113,7 +113,7 @@ public class clsCreateExcrement {
 		rExcrementWeight = 1.0;
 		
 		clsSmartExcrement oSh__t = new clsSmartExcrement("", moSmartExcrementProps, 
-				clsUniqueIdGenerator.getUniqueId()+"", rExcrementWeight);
+				clsUniqueIdGenerator.getUniqueId(), rExcrementWeight);
 		
 		
 		oSh__t.setPose( getPose() );

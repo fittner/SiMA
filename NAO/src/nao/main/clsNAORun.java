@@ -25,7 +25,7 @@ public class clsNAORun implements Runnable{
 //			String oPath = oPath = clsGetARSPath.getConfigPath();
 	    	
 	    	clsBWProperties oProp = pa.clsPsychoAnalysis.getDefaultProperties("");
-	    	itfDecisionUnit oDU = new pa.clsPsychoAnalysis("", oProp, clsUniqueIdGenerator.getUniqueId()+"");
+	    	itfDecisionUnit oDU = new pa.clsPsychoAnalysis("", oProp, clsUniqueIdGenerator.getUniqueId());
 	    	
 	    	clsActionProcessor oActionProcessor = new clsActionProcessor();
 	    	oDU.setActionProcessor(oActionProcessor);

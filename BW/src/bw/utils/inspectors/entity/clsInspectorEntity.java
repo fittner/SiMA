@@ -109,7 +109,7 @@ public class clsInspectorEntity extends Inspector implements ActionListener {
 		moPropBodyType = new PropertyField("Body", poEntity.getBody()
 				.getBodyType().toString(), false, null,
 				PropertyField.SHOW_TEXTFIELD);
-		moPropUID = new PropertyField("UID", poEntity.uid(), false, null, PropertyField.SHOW_TEXTFIELD);
+		moPropUID = new PropertyField("UID", poEntity.uid()+"", false, null, PropertyField.SHOW_TEXTFIELD);
 
 		String oMindType = eDecisionType.NONE.toString();
 		try {

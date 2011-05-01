@@ -8,7 +8,6 @@ import java.util.Date;
 
 import config.clsBWProperties;
 import statictools.clsGetARSPath;
-import statictools.clsUniqueIdGenerator;
 import decisionunit.clsBaseDecisionUnit;
 import du.enums.eActionKissIntensity;
 import du.enums.eActionMoveDirection;
@@ -40,10 +39,10 @@ public class clsRemoteControl extends clsBaseDecisionUnit implements itfProcessK
         return dateFormat.format(date);
     }
     
-	public clsRemoteControl(String poPrefix, clsBWProperties poProp, String uid) {
+	public clsRemoteControl(String poPrefix, clsBWProperties poProp, int uid) {
 		super(poPrefix, poProp, uid);
 		
-		mnUniqueId = clsUniqueIdGenerator.getUniqueId();
+		//mnUniqueId = clsUniqueIdGenerator.getUniqueId(); //TD 2011/04/11 - uid is the new unique id
 		moFileName = clsGetARSPath.getArsPath()+"/remotebotlog_"+getDateTime()+"_"+mnUniqueId+".xml";
 		
 		applyProperties(poPrefix, poProp);

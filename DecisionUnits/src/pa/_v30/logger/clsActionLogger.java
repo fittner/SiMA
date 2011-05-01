@@ -33,7 +33,7 @@ public class clsActionLogger {
 	private String moLogFilename;
     private boolean writeToFile = true;
     
-	public clsActionLogger(String uid) {
+	public clsActionLogger(int uid) {
 		moLogFilename = clsGetARSPath.getLogFilename("action_"+uid);
 		
 		actions = new ArrayList<clsPair<Long,String>>();

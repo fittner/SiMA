@@ -36,7 +36,7 @@ public class clsPsychoAnalysis extends clsBaseDecisionUnit {
 
 	private itfProcessor moProcessor;
 	
-	public clsPsychoAnalysis(String poPrefix, clsBWProperties poProp, String uid) {
+	public clsPsychoAnalysis(String poPrefix, clsBWProperties poProp, int uid) {
 		super(poPrefix, poProp, uid);
 		
 		applyProperties(poPrefix, poProp, uid);
@@ -62,7 +62,7 @@ public class clsPsychoAnalysis extends clsBaseDecisionUnit {
 	}	
 	
 	@SuppressWarnings("deprecation")
-	private void applyProperties(String poPrefix, clsBWProperties poProp, String uid) {
+	private void applyProperties(String poPrefix, clsBWProperties poProp, int uid) {
 		String pre = clsBWProperties.addDot(poPrefix);
 	 
 		String oModelVersion = poProp.getProperty(P_MODELVERSION);

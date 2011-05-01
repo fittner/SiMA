@@ -39,7 +39,7 @@ public abstract class clsMobile extends clsEntity {
 	protected clsInventory moInventory;
 	
 
-	public clsMobile(String poPrefix, clsBWProperties poProp, String uid) {
+	public clsMobile(String poPrefix, clsBWProperties poProp, int uid) {
 		super(poPrefix, poProp, uid);
 		
 		setEntityInventory();

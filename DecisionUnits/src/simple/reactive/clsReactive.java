@@ -99,7 +99,7 @@ public class clsReactive extends clsBaseDecisionUnit {
 	private String moMode;
 	private String moLayer;
 	
-	public clsReactive(String poPrefix, clsBWProperties poProp, String uid) {
+	public clsReactive(String poPrefix, clsBWProperties poProp, int uid) {
 		super(poPrefix, poProp, uid);
 		
 		moRand = new Random(mnSEED);

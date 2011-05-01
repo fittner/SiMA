@@ -42,7 +42,7 @@ import bw.body.io.actuators.actionProxies.*;
 public class clsCake extends clsInanimate implements itfGetFlesh, itfAPEatable, itfAPCarryable, itfGetBody, itfIsConsumeable {
 	private boolean mnDestroyed = false;
 	
-	public clsCake(String poPrefix, clsBWProperties poProp, String uid)
+	public clsCake(String poPrefix, clsBWProperties poProp, int uid)
     {
 		super(poPrefix, poProp, uid);		
 		applyProperties(poPrefix, poProp);

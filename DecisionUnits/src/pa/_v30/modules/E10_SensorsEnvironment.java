@@ -10,8 +10,11 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.SortedMap;
 import config.clsBWProperties;
+import du.enums.eEntityType;
 import du.enums.eSensorExtType;
 import du.itf.sensors.clsSensorExtern;
+import du.itf.sensors.clsSensorRingSegment;
+import du.itf.sensors.clsSensorRingSegmentEntry;
 import pa._v30.interfaces.eInterfaces;
 import pa._v30.interfaces.modules.I0_4_receive;
 import pa._v30.interfaces.modules.I2_1_receive;
@@ -29,7 +32,8 @@ public class E10_SensorsEnvironment extends clsModuleBase implements I0_4_receiv
 	public static final String P_MODULENUMBER = "10";
 	
 	private HashMap<eSensorExtType, clsSensorExtern> moEnvironmentalData;
-
+	private final int uid;
+	
 	/**
 	 * DOCUMENT (muchitsch) - insert description 
 	 * 
@@ -42,8 +46,10 @@ public class E10_SensorsEnvironment extends clsModuleBase implements I0_4_receiv
 	 * @throws Exception 
 	 */
 	public E10_SensorsEnvironment(String poPrefix, clsBWProperties poProp,
-			HashMap<Integer, clsModuleBase> poModuleList, SortedMap<eInterfaces, ArrayList<Object>> poInterfaceData) throws Exception {
+			HashMap<Integer, clsModuleBase> poModuleList, 
+			SortedMap<eInterfaces, ArrayList<Object>> poInterfaceData, int uid) throws Exception {
 		super(poPrefix, poProp, poModuleList, poInterfaceData);
+		this.uid = uid;
 		applyProperties(poPrefix, poProp);		
 	}
 	
@@ -111,8 +117,33 @@ public class E10_SensorsEnvironment extends clsModuleBase implements I0_4_receiv
 	 */
 	@Override
 	protected void process_basic() {
-		mnTest++;
+		badVoodoo();
 		
+	}
+	
+	private void badVoodoo() {
+		//FIXME TD 2011/05/01 - due to some reason, the bubble sees himself in vision near. 
+		//remove this entry manually. should be dealt with in vision sensor in project BW.
+		//it seems that this happens after the bubble has been moved manually. but not always!
+		
+		clsSensorRingSegment oVisionNear = (clsSensorRingSegment)moEnvironmentalData.get(eSensorExtType.VISION_NEAR);
+		ArrayList<clsSensorExtern> oDataObjects = oVisionNear.getDataObjects();
+		ArrayList<clsSensorExtern> oDeleteCandidates = new ArrayList<clsSensorExtern>();
+		for (clsSensorExtern oTemp:oDataObjects) {
+			clsSensorRingSegmentEntry oSRSE = (clsSensorRingSegmentEntry)oTemp;
+			
+			if (oSRSE.getEntityType() == eEntityType.BUBBLE) {
+				//ok its a bubble - now check if this bubble is us!
+				if (oSRSE.getEntityId().endsWith("(#"+uid+")")) {
+					oDeleteCandidates.add(oSRSE);
+				}
+			}
+		}
+		
+		for (int i=0; i<oDeleteCandidates.size();i++) {
+			clsSensorRingSegmentEntry oSRSE = (clsSensorRingSegmentEntry)oDeleteCandidates.get(i);
+			oDataObjects.remove( (clsSensorExtern)oSRSE );
+		}
 	}
 
 	/* (non-Javadoc)

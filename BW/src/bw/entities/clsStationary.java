@@ -27,7 +27,7 @@ public abstract class clsStationary extends clsEntity {
 	private double mrDefaultRestitution; 			 //0.5 
 
 	
-	public clsStationary(String poPrefix, clsBWProperties poProp, String uid) {
+	public clsStationary(String poPrefix, clsBWProperties poProp, int uid) {
 		super(poPrefix, poProp, uid);
 		applyProperties(poPrefix, poProp);
 	}

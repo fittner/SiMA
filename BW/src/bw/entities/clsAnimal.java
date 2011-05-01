@@ -37,7 +37,7 @@ public class clsAnimal extends clsAnimate implements itfGetRadiation, itfGetSens
 
 	private boolean mnAlive;
 	
-	public clsAnimal(itfDecisionUnit poDU, String poPrefix, clsBWProperties poProp, String uid) {
+	public clsAnimal(itfDecisionUnit poDU, String poPrefix, clsBWProperties poProp, int uid) {
 		super(poDU, poPrefix, poProp, uid);
 		applyProperties(poPrefix, poProp);
 		setAlive(true);

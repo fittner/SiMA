@@ -276,6 +276,8 @@ public class E26_DecisionMaking extends clsModuleBase implements
 			oAL.add(oSDSC);
 		}
 		
+		badVoodoo(oSortedList); //FIXME : TD 2011/05/01 - bad voodoo!!!
+		
 		moGoal_Output.clear();
 		NavigableSet<Double> oSLdKS = oSortedList.descendingKeySet();
 		Iterator<Double> it = oSLdKS.iterator();
@@ -287,6 +289,34 @@ public class E26_DecisionMaking extends clsModuleBase implements
 			}
 		}
 	}
+	
+	private void badVoodoo(TreeMap<Double, ArrayList<clsSecondaryDataStructureContainer> > poSortedList) {
+		//FIXME : remove this method!!!
+		//TD 2011/05/01 - remove nourish or bit if sleep, repress, deposit, relax is at the same importance level
+		//but nothing is visible - very bad voodoo! the problem is that if the agent is very hungry he is doing nothing
+		//else any more than search for food!!!!
+		
+		//check first if nothing is in the reality perception list - precondition for this bad voodoo!!!
+		if (moRealityPerception.size() > 0) {
+			return; //nothing to do!
+		}
+		
+		ArrayList<clsSecondaryDataStructureContainer> oList = poSortedList.get( poSortedList.lastKey() );
+		ArrayList<clsSecondaryDataStructureContainer> oDeleteCandidates = new ArrayList<clsSecondaryDataStructureContainer>();
+		
+		if (oList.size() > 1) { // if only one entry present, the other drives are not as important!
+			for (int i=0; i<oList.size(); i++) {
+				clsSecondaryDataStructureContainer oSDSC = oList.get(i);
+				clsWordPresentation oWP = (clsWordPresentation)oSDSC.getMoDataStructure();
+				String oText = oWP.toString();
+				if (oText.contains("GOAL:BITE") || oText.contains("GOAL:NOURISH")) {
+					oDeleteCandidates.add(oSDSC);
+				}
+			}
+		}
+		
+	}
+	
 	
 	
 	/**
@@ -406,6 +436,7 @@ public class E26_DecisionMaking extends clsModuleBase implements
 			int nDriveIntensity = eAffectLevel.valueOf(oDriveUnpleasure).ordinal();
 						
 			if(oDriveContent.contains(oRuleContent) && nDriveIntensity<=nRuleIntensity){ 
+//			if(oDriveContent.contains(oRuleContent)){
 				//TD 2011/04/30: remove drive from list iff the drives instensity is eauql or lower than the punishment of the superego rule
 				oRetVal.add(oDrive); 
 			}

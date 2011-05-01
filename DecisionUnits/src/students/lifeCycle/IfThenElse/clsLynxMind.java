@@ -30,7 +30,7 @@ import simple.remotecontrol.clsRemoteControl; //for testing purpose only! remove
 
 
 public class clsLynxMind extends clsRemoteControl  {
-	public clsLynxMind(String poPrefix, clsBWProperties poProp, String uid) {
+	public clsLynxMind(String poPrefix, clsBWProperties poProp, int uid) {
 		super(poPrefix, poProp, uid);
 		
 		applyProperties(poPrefix, poProp);		

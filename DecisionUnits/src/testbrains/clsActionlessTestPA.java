@@ -26,7 +26,7 @@ public class clsActionlessTestPA extends clsPsychoAnalysis {
 	 * @param poPrefix
 	 * @param poProp
 	 */
-	public clsActionlessTestPA(String poPrefix, clsBWProperties poProp, String uid) {
+	public clsActionlessTestPA(String poPrefix, clsBWProperties poProp, int uid) {
 		super(poPrefix, poProp, uid);
 	}
 

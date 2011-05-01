@@ -327,10 +327,9 @@ public class clsSimplePropertyLoader extends clsLoader {
     	return oPos;
     }
     
-    private void createEntity(clsBWProperties poPropEntity, clsBWProperties poPropDecisionUnit, eEntityType pnEntityType, eDecisionType pnDecisionType) {
+    private void createEntity(clsBWProperties poPropEntity, clsBWProperties poPropDecisionUnit, 
+    		eEntityType pnEntityType, eDecisionType pnDecisionType, int uid) {
     	String pre = clsBWProperties.addDot("");
-
-    	String uid = clsUniqueIdGenerator.getUniqueId()+"";
     	
     	itfDecisionUnit oDU = null;
     	if (pnDecisionType != eDecisionType.NONE) {
@@ -432,8 +431,9 @@ public class clsSimplePropertyLoader extends clsLoader {
     	int num = poProp.getPropertyInt(pre+P_NUMENTITES);
     	for (int i=0; i<num; i++) {
     		System.out.print(".");
+    		int uid = clsUniqueIdGenerator.getUniqueId();
     		clsBWProperties oEntityProperties = getEntityProperties(nEntityType);
-    		oEntityProperties.put( clsEntity.P_ID, nEntityType.name()+"_"+nDecisionType.name()+"_"+i+" (#"+clsUniqueIdGenerator.getUniqueId()+")" );
+    		oEntityProperties.put( clsEntity.P_ID, nEntityType.name()+"_"+nDecisionType.name()+"_"+i+" (#"+uid+")" );
     		if (oRemoveEntityDefaults != null) {
 	    		for (String oRemoveKey:oRemoveEntityDefaults) {
 	    			oEntityProperties.removeKeysStartingWith(oRemoveKey);
@@ -450,7 +450,7 @@ public class clsSimplePropertyLoader extends clsLoader {
     		}    		    		
     		oDecisionUnitProperties.putAll( oOverwriteDecisionUnitDefaults );
     		
-    		createEntity(oEntityProperties, oDecisionUnitProperties, nEntityType, nDecisionType);
+    		createEntity(oEntityProperties, oDecisionUnitProperties, nEntityType, nDecisionType, uid);
     	}
     }
     
@@ -505,12 +505,12 @@ public class clsSimplePropertyLoader extends clsLoader {
 		// TODO remove image as long scaling is not implemented ...
 		//oProp.setProperty(clsWallHorizontal.P_SHAPE+"."+clsShapeCreator.P_IMAGE_PATH, "");
 		
-		oWall = new clsWallHorizontal("", oProp, clsUniqueIdGenerator.getUniqueId()+"");
+		oWall = new clsWallHorizontal("", oProp, clsUniqueIdGenerator.getUniqueId());
 		clsRegisterEntity.registerEntity(oWall);
 		
 		oProp.setProperty(clsPose.P_POS_Y, rHeight-(rWallThickness/2) );		
 
-		oWall = new clsWallHorizontal("", oProp, clsUniqueIdGenerator.getUniqueId()+"");
+		oWall = new clsWallHorizontal("", oProp, clsUniqueIdGenerator.getUniqueId());
 		clsRegisterEntity.registerEntity(oWall);
 		
 		// add vertical walls
@@ -523,12 +523,12 @@ public class clsSimplePropertyLoader extends clsLoader {
 		// TODO remove image as long scaling is not implemented ...
 		//oProp.setProperty(clsWallVertical.P_SHAPE+"."+clsShapeCreator.P_IMAGE_PATH, "");
 		
-		oWall = new clsWallVertical("", oProp, clsUniqueIdGenerator.getUniqueId()+"");
+		oWall = new clsWallVertical("", oProp, clsUniqueIdGenerator.getUniqueId());
 		clsRegisterEntity.registerEntity(oWall);
 		
 		oProp.setProperty(clsPose.P_POS_X, rWidth-(rWallThickness/2));		
 
-		oWall = new clsWallVertical("", oProp, clsUniqueIdGenerator.getUniqueId()+"");
+		oWall = new clsWallVertical("", oProp, clsUniqueIdGenerator.getUniqueId());
 		clsRegisterEntity.registerEntity(oWall);
 	}
 

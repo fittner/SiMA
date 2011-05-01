@@ -13,7 +13,7 @@ public abstract class clsBaseDecisionUnit implements itfDecisionUnit {
 	protected eDecisionType meDecisionType;
 	public clsActionLogger moActionLogger;
 
-	public clsBaseDecisionUnit(String poPrefix, clsBWProperties poProp, String uid) {
+	public clsBaseDecisionUnit(String poPrefix, clsBWProperties poProp, int uid) {
 		setDecisionUnitType();
 		applyProperties(poPrefix, poProp);
 		moActionLogger = new clsActionLogger(uid);

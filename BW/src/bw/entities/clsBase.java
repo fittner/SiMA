@@ -42,7 +42,7 @@ public class clsBase extends clsStationary {
 	private clsSensorEatableArea moSensorEatable;	// 'eatability' sensor
 	
 	
-    public clsBase(String poPrefix, clsBWProperties poProp, String uid) {
+    public clsBase(String poPrefix, clsBWProperties poProp, int uid) {
     	super(poPrefix, poProp, uid);
     	
 		mnStoredOre = 0;

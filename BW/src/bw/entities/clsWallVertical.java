@@ -33,7 +33,7 @@ public class clsWallVertical extends clsWallAxisAlign {
 	 * @param poPrefix
 	 * @param poProp
 	 */
-	public clsWallVertical(String poPrefix, clsBWProperties poProp, String uid) {
+	public clsWallVertical(String poPrefix, clsBWProperties poProp, int uid) {
 		super(poPrefix, poProp, uid);
     	applyProperties(poPrefix, poProp);
 	}

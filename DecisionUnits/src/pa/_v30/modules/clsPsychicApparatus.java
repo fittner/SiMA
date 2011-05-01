@@ -90,10 +90,10 @@ public class clsPsychicApparatus {
 	public clsDataLogger moDataLogger;
 	
 	private static boolean mnMinimalModel;
-	private String uid;
+	private int uid;
 
 	public clsPsychicApparatus(String poPrefix, clsBWProperties poProp, 
-			clsKnowledgeBaseHandler poKnowledgeBaseHandler, String uid) {
+			clsKnowledgeBaseHandler poKnowledgeBaseHandler, int uid) {
 		this.uid = uid;
 		moModules = new HashMap<Integer, clsModuleBase>();
 		moInterfaceData = new TreeMap<eInterfaces, ArrayList<Object>>();
@@ -181,7 +181,7 @@ public class clsPsychicApparatus {
 			moE07_InternalizedRulesHandler = new E07_InternalizedRulesHandler(pre + E07_InternalizedRulesHandler.P_MODULENUMBER, poProp, moModules, moInterfaceData, moKnowledgeBaseHandler);
 			moE08_ConversionToSecondaryProcessForDriveWishes = new E08_ConversionToSecondaryProcessForDriveWishes(pre + E08_ConversionToSecondaryProcessForDriveWishes.P_MODULENUMBER, poProp, moModules, moInterfaceData, moKnowledgeBaseHandler);
 			moE09_KnowledgeAboutReality_unconscious = new E09_KnowledgeAboutReality_unconscious(pre + E09_KnowledgeAboutReality_unconscious.P_MODULENUMBER, poProp, moModules, moInterfaceData, moKnowledgeBaseHandler);
-			moE10_SensorsEnvironment = new E10_SensorsEnvironment(pre + E10_SensorsEnvironment.P_MODULENUMBER, poProp, moModules, moInterfaceData);
+			moE10_SensorsEnvironment = new E10_SensorsEnvironment(pre + E10_SensorsEnvironment.P_MODULENUMBER, poProp, moModules, moInterfaceData, uid);
 			moE11_NeuroSymbolizationEnvironment = new E11_NeuroSymbolizationEnvironment(pre + E11_NeuroSymbolizationEnvironment.P_MODULENUMBER, poProp, moModules, moInterfaceData);
 			moE12_SensorsBody = new E12_SensorsBody(pre + E12_SensorsBody.P_MODULENUMBER, poProp, moModules, moInterfaceData);
 			moE13_NeuroSymbolizationBody = new E13_NeuroSymbolizationBody(pre + E13_NeuroSymbolizationBody.P_MODULENUMBER, poProp, moModules, moInterfaceData);

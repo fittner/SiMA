@@ -50,7 +50,7 @@ public class clsHare extends clsAnimal implements itfGetFlesh, itfAPEatable, itf
 	private Shape moDead;
 	private Shape moDeadAndEaten;
 	
-	public clsHare(itfDecisionUnit poDU, String poPrefix, clsBWProperties poProp, String uid) {
+	public clsHare(itfDecisionUnit poDU, String poPrefix, clsBWProperties poProp, int uid) {
 		super(poDU, poPrefix, poProp, uid);
 		applyProperties(poPrefix, poProp);
 		updateShape();

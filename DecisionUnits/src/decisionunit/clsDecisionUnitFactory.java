@@ -29,12 +29,12 @@ public class clsDecisionUnitFactory implements itfDecisionUnitFactory {
 	 */
 	@Override
 	public itfDecisionUnit createDecisionUnit(eDecisionType nDecisionType,
-			String poPrefix, clsBWProperties poProp, String uid) throws java.lang.IllegalArgumentException {
+			String poPrefix, clsBWProperties poProp, int uid) throws java.lang.IllegalArgumentException {
 		return createDecisionUnit_static(nDecisionType, poPrefix, poProp, uid);
 	}
 
 	public static itfDecisionUnit createDecisionUnit_static(eDecisionType nDecisionType,
-				String poPrefix, clsBWProperties poProp, String uid) throws java.lang.IllegalArgumentException {		
+				String poPrefix, clsBWProperties poProp, int uid) throws java.lang.IllegalArgumentException {		
 		clsBaseDecisionUnit oDecisionUnit = null;
 		
 		//create the defined decision unit...

@@ -11,7 +11,7 @@ public class clsHareMind extends clsBaseDecisionUnit {
 		// TODO (langr) - Auto-generated method stub
 	}
 	
-	public clsHareMind(String poPrefix, clsBWProperties poProp, String uid) {
+	public clsHareMind(String poPrefix, clsBWProperties poProp, int uid) {
 		super(poPrefix, poProp, uid);
 		
 		applyProperties(poPrefix, poProp);		

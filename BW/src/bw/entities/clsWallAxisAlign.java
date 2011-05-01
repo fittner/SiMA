@@ -25,7 +25,7 @@ import bw.utils.enums.eShapeType;
  * 
  */
 public class clsWallAxisAlign extends clsStationary  {	
-    public clsWallAxisAlign(String poPrefix, clsBWProperties poProp, String uid) {
+    public clsWallAxisAlign(String poPrefix, clsBWProperties poProp, int uid) {
     	super(poPrefix, poProp, uid);
     	
     	applyProperties(poPrefix, poProp);

@@ -6,7 +6,7 @@ import du.enums.eDecisionType;
 
 public class clsLynxMind extends clsBaseDecisionUnit  {
 	
-	public clsLynxMind(String poPrefix, clsBWProperties poProp, String uid) {
+	public clsLynxMind(String poPrefix, clsBWProperties poProp, int uid) {
 		super(poPrefix, poProp, uid);
 		
 		applyProperties(poPrefix, poProp);		

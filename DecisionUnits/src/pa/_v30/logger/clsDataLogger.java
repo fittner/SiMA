@@ -38,9 +38,9 @@ public class clsDataLogger {
     
     private boolean columnsWritten;
 
-    private String uid;
+    private int uid;
     
-	public clsDataLogger(HashMap<Integer, clsModuleBase> poModules, String uid) {
+	public clsDataLogger(HashMap<Integer, clsModuleBase> poModules, int uid) {
 		moLogFilename = clsGetARSPath.getLogFilename("data_"+uid);
 		this.uid = uid;
 		

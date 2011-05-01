@@ -22,7 +22,7 @@ import statictools.clsGetARSPath;
  */
 public class clsPositionLogger {
 	public ArrayList<Position> moPositionHistory;
-	private final String uid;
+	private final int uid;
 	private static final String newline = System.getProperty("line.separator");
 	private String moFilename;
 	private final int maxArrayLength = 0;
@@ -35,7 +35,7 @@ public class clsPositionLogger {
 	
 	
 	
-	public clsPositionLogger(String uid) {
+	public clsPositionLogger(int uid) {
 		this.uid = uid;
 		moPositionHistory = new ArrayList<Position>();
 		
