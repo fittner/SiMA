@@ -276,7 +276,7 @@ public class E26_DecisionMaking extends clsModuleBase implements
 			oAL.add(oSDSC);
 		}
 		
-	//	badVoodoo(oSortedList); //FIXME : TD 2011/05/01 - bad voodoo!!!
+	//	badVoodoo(oSortedList); //FIXME (DEUTSCH): TD 2011/05/01 - bad voodoo!!!
 		
 		moGoal_Output.clear();
 		NavigableSet<Double> oSLdKS = oSortedList.descendingKeySet();
@@ -418,7 +418,7 @@ public class E26_DecisionMaking extends clsModuleBase implements
 		ArrayList <clsSecondaryDataStructureContainer> oRetVal = new ArrayList<clsSecondaryDataStructureContainer>();
 		String oRuleContent = poRule.getMoContent().substring(0, poRule.getMoContent().indexOf(_Delimiter03));
 		
-		//FIXME (Zeilinger): TD 2011/04/30 bad hack - it seems that a drive demand is removed as soon as there
+		//FIXME (Deutsch): TD 2011/04/30 bad hack - it seems that a drive demand is removed as soon as there
 		//exists a superego rule for that drive. deposit has been removed regardless of the current drive tension
 		//and the entered unpleasure in the superego rule. 
 		//bugfix: extract unpleasure intesity from string and get nRuleIntensisty. the same is done for each drive
@@ -581,7 +581,7 @@ public class E26_DecisionMaking extends clsModuleBase implements
 		} else if (oList.size() > 1){
 			//priorize sleep. currently, the agent cannot die -> sleeping is more important than eating.
 			//TD 2011/05/01 - added deposit and repress
-			//FIXME - this function is bad voodoo
+			//FIXME (DEUTSCH)- this function is bad voodoo
 			ArrayList<String> oPriorityDrives = new ArrayList<String>( Arrays.asList("SLEEP", "RELAX", "DEPOSIT", "REPRESS") );
 			
 			oRetVal = null;
