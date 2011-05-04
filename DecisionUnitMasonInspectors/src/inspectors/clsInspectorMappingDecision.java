@@ -63,13 +63,18 @@ public class clsInspectorMappingDecision {
         	oRetVal.addInspector( new clsRemoteControlInspector(poSuperInspector, poWrapper, poState, (clsRemoteControl) poDU), "Brain Insp.");
         	
         } else if (poDU instanceof clsPsychoAnalysis ) {
-        	if(clsPsychoAnalysis.isUseOldModel()) {
+        	
+        	if(clsPsychoAnalysis.getModelVersion().equals("v19")) {
            		oRetVal.addInspector( new inspectors.mind.pa._v19.clsPsychoAnalysisInspector(poSuperInspector, poWrapper, poState, (clsPsychoAnalysis) poDU), "PA-Decision");
             	oRetVal.addInspector( new inspectors.mind.pa._v19.clsMemoryInspectorTab(poSuperInspector, poWrapper, poState, (clsPsychoAnalysis) poDU), "PA-Memory 2.0"); //shows a tab with the memory inspector, mapping for the tree etc see clsInspectorMappingPA
-         	} else {
+         	} 
+        	else if (clsPsychoAnalysis.getModelVersion().equals("v30")){
         		oRetVal.addInspector( new inspectors.mind.pa._v30.clsInspectorTab_Modules((clsPsychoAnalysis) poDU), "PA-Modules");
             	oRetVal.addInspector( new inspectors.mind.pa._v30.clsInspectorTab_Memory(poSuperInspector, poWrapper, poState, (clsPsychoAnalysis) poDU), "PA-Memory"); //shows a tab with the memory inspector, mapping for the tree etc see clsInspectorMappingPA
         		oRetVal.addInspector( new inspectors.mind.pa._v30.clsInspectorTab_DataLogger((clsPsychoAnalysis) poDU), "Data Logger");
+        	}
+        	else {
+        		//FIXME (muchitsch) - activate inspectors
         	}
         	
         } else if( poDU instanceof clsReactive) {
