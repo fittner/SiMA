@@ -7,13 +7,18 @@
  */
 package ARSsim.portrayal.simple;
 
+import java.awt.Graphics2D;
+
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import javax.imageio.ImageIO;
 import sim.field.continuous.Continuous2D;
+import sim.portrayal.DrawInfo2D;
 import sim.portrayal.simple.ImagePortrayal2D;
 import sim.util.Double2D;
+
+
 
 
 /**
@@ -25,6 +30,10 @@ import sim.util.Double2D;
  */
 public class clsImagePortrayal extends ImagePortrayal2D{
 
+	BufferedImage moImage = null;
+	double mnMinImageSize = 15;  //minimal Image size to be shown
+	double mnScale = 1;
+	double mrRadius = 15;
 	
 	/**
 	 * 
@@ -36,10 +45,56 @@ public class clsImagePortrayal extends ImagePortrayal2D{
 	 * @param image
 	 * @param scale
 	 */
-	public clsImagePortrayal() {
+	public clsImagePortrayal(double pnScale, String poImageFilePath) {
 		super(null);
 		// just for extending the base
+		
+      
+    	File oFile = new File( poImageFilePath ); 
+
+	   	try
+	   	{
+	   		moImage = ImageIO.read( oFile );
+	   	} catch (IOException e)
+	   	{
+	   		e.printStackTrace();
+	   		throw new NullPointerException("Image URL could not be loaded, file not found in path:" +poImageFilePath);
+	   	}
 	}
+	
+	@Override
+    public void draw(Object object, Graphics2D graphics, DrawInfo2D info)
+        {
+        final double fWidthArc =  info.draw.width * mrRadius * 2;
+        final double fHeightArc =  info.draw.height  * mrRadius * 2;
+       
+        graphics.setPaint(paint);
+
+        final int nxArc = (int)(info.draw.x - fWidthArc / 2.0 );
+        final int nyArc = (int)(info.draw.y - fHeightArc / 2.0 );
+        final int nwArc = (int)(fWidthArc);
+        final int nhArc = (int)(fHeightArc);
+
+        //displays the physical circle
+        //graphics.fillOval(nxArc, nyArc, nwArc, nhArc); //fillOval(x,y,w,h); //scale automatic by mason
+        
+
+       
+    	if(!(fWidthArc < mnMinImageSize || fHeightArc < mnMinImageSize)) //dont show images if scale to small -> perfomance
+    	{
+	        int nScaledWidth = (int) (fWidthArc  ); //here the with of the arc should be used
+	        int nScaledHeight = (int) (fHeightArc );
+
+	   	
+	        //AffineTransform affe = AffineTransform.getRotateInstance(getOrientation().radians);
+	        moImage.getGraphics();
+	        //imgGra.rotate(getOrientation().radians);
+	        
+	        graphics.drawImage(moImage, nxArc , nyArc, nScaledWidth, nScaledHeight, null );
+    	}
+	}
+
+   
 	
 	
 	/**
@@ -52,11 +107,12 @@ public class clsImagePortrayal extends ImagePortrayal2D{
 	 * @param poPosImage
 	 * @param poFieldEnvironment
 	 */
-	public static void PlaceImage(String  psImagePath, double pnScale, Double2D poPosImage, Continuous2D poFieldEnvironment){
+	public static ImagePortrayal2D PlaceImage(String  psImagePath, double pnScale, double pnX, double pnY, Continuous2D poFieldEnvironment){
 		
 		//TODO Clemens load rel path?
 		//URL url = getClass().getClassLoader().getResource("/../resources/images/rock1.jpg");
   
+		Double2D poPosImage = new Double2D(pnX, pnY);
 		
 		File oFile = new File( psImagePath ); 
 		
@@ -73,6 +129,13 @@ public class clsImagePortrayal extends ImagePortrayal2D{
 		sim.portrayal.simple.ImagePortrayal2D oImagePort = new sim.portrayal.simple.ImagePortrayal2D(oImage, pnScale);
 
 		poFieldEnvironment.setObjectLocation(oImagePort, new sim.util.Double2D(poPosImage.x, poPosImage.y));
+		
+		return oImagePort;
+	}
+	
+	
+	public static void RemoveImage(sim.portrayal.simple.ImagePortrayal2D poImagePort, Continuous2D poFieldEnvironment){
+		poFieldEnvironment.remove(poImagePort);
 	}
 
 }

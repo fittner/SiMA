@@ -14,10 +14,12 @@ import bw.body.clsSimpleBody;
 import bw.body.itfget.itfGetBody;
 import bw.entities.logger.clsPositionLogger;
 import bw.utils.enums.eBodyType;
+import bw.utils.enums.eOverlay;
 import config.clsBWProperties;
 import du.enums.eEntityType;
 import sim.physics2D.physicalObject.PhysicalObject2D;
 import sim.physics2D.shape.Shape;
+import statictools.clsSimState;
 import statictools.eventlogger.Event;
 import statictools.eventlogger.clsEventLogger;
 import statictools.eventlogger.eEvent;
@@ -72,8 +74,12 @@ public abstract class clsEntity implements itfGetBody {
 	protected clsBaseBody moBody; // the instance of a body
 	protected clsPositionLogger moPositionLogger;
 	
+	private eOverlay mnCurrentOverlay; //overlay to display currently executed actions and other attributes
+	private long mnLastSetOverlayCall = -1; //sim step of the last call of setOverlay
+	
 	public clsEntity(String poPrefix, clsBWProperties poProp, int uid) {
 		this.uid = uid;
+		mnCurrentOverlay = eOverlay.NONE;
 		setEntityType();
 		moPhysicalObject2D = null;
 		
@@ -278,7 +284,19 @@ public abstract class clsEntity implements itfGetBody {
 	 */
 	public Shape getShape() {
 		return ((itfSetupFunctions)moPhysicalObject2D).getShape();
-	}	
+	}
+	
+	public void setOverlay(eOverlay poOverlay) {
+		mnLastSetOverlayCall = clsSimState.getSteps();
+		mnCurrentOverlay = poOverlay;
+	}
+	
+	private void updateOverlay() {
+		if (clsSimState.getSteps() > mnLastSetOverlayCall+5) {
+			mnCurrentOverlay = eOverlay.NONE;
+		}
+		((itfSetupFunctions)moPhysicalObject2D).setOverlay(mnCurrentOverlay);
+	}
 	
 	/**
 	 * see implementation clsMobileObject2D
@@ -322,7 +340,12 @@ public abstract class clsEntity implements itfGetBody {
 		}
 	}
 	
-	public void updatePositionLogger() {
+	public void updateEntityInternals() { //called each sim step by getSteppableSensing (clsMobileObject2D and clsStationaryObject2D)
+		updatePositionLogger();
+		updateOverlay();
+	}
+	
+	private void updatePositionLogger() {
 		clsPose oPose =  ((itfSetupFunctions)moPhysicalObject2D).getPose();
 		moPositionLogger.add(oPose);
 	}

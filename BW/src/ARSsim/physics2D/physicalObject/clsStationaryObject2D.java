@@ -14,6 +14,7 @@ import sim.portrayal.inspector.TabbedInspector;
 import ARSsim.physics2D.util.clsPose;
 import bw.entities.clsEntity;
 import bw.factories.clsSingletonMasonGetter;
+import bw.utils.enums.eOverlay;
 import bw.utils.inspectors.entity.clsInspectorEntity;
 
 /**
@@ -104,7 +105,7 @@ public class clsStationaryObject2D extends sim.physics2D.physicalObject.Stationa
 			@Override
 			public void step(SimState state) {
 				moEntity.sensing();
-				moEntity.updatePositionLogger();
+				moEntity.updateEntityInternals();
 			}
 		};
 	}
@@ -183,5 +184,18 @@ public class clsStationaryObject2D extends sim.physics2D.physicalObject.Stationa
 	@Override
 	public void setMass(double mass) {
 		//do nothing - stationary objects have infinite mass!
+	}
+
+	/* (non-Javadoc)
+	 *
+	 * @author muchitsch
+	 * 03.05.2011, 14:53:44
+	 * 
+	 * @see ARSsim.physics2D.physicalObject.itfSetupFunctions#setOverlay(bw.utils.enums.eOverlay)
+	 */
+	@Override
+	public void setOverlay(eOverlay poOverlay) {
+		// TODO (muchitsch) - Auto-generated method stub
+		
 	}
 }

@@ -2,12 +2,17 @@ package ARSsim.physics2D.shape;
 
 import sim.physics2D.shape.Circle;
 import sim.portrayal.DrawInfo2D;
+
+
+
 import java.awt.Graphics2D;
 import java.awt.Paint;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import javax.imageio.ImageIO;
+
+import bw.utils.enums.eOverlay;
 
 
 /**
@@ -21,10 +26,17 @@ public class clsCircleImage extends Circle
 	    
 	double mrRadius; 
 	BufferedImage moImage = null;
+	//BufferedImage moImageOverlay = null;
 	private boolean mbShowSimple = false; //can be used for testing, no image is rendered
 	double fMinImageSize = 15;  //minimal Image size to be shown
+	eOverlay moOverlay = eOverlay.NONE;
+
 
 	
+	
+
+
+
 	/**
 	 * creates a circular physical object with the given range and displays a image above.
 	 * image is resized to fit the rectangle around the circle (outer bounds)
@@ -49,6 +61,19 @@ public class clsCircleImage extends Circle
 	   		e.printStackTrace();
 	   		throw new NullPointerException("Image URL could not be loaded, file not found in file");
 	   	}
+	   	
+//	   	String oImagePath = clsGetARSPath.getArsPath() + "/BW/src/resources/images/thought_bubble.png";
+//	   	
+//	   	File oFileOverlay = new File( oImagePath ); 
+//
+//	   	try
+//	   	{
+//	   		moImageOverlay = ImageIO.read( oFileOverlay );
+//	   	} catch (IOException e)
+//	   	{
+//	   		e.printStackTrace();
+//	   		throw new NullPointerException("Image URL could not be loaded, file not found in file");
+//	   	}
     }
 
    
@@ -84,8 +109,53 @@ public class clsCircleImage extends Circle
 			        //imgGra.rotate(getOrientation().radians);
 			        
 			        graphics.drawImage(moImage, nxArc , nyArc, nScaledWidth, nScaledHeight, null );
+			        
+			        //display a overlay Icon
+			        if(moOverlay != eOverlay.NONE) {
+			        	
+			        	String oImagePath = moOverlay.getOverlayImagePath(); //clsGetARSPath.getArsPath() + "/BW/src/resources/images/thought_bubble.png";
+			    	   	
+			    	   	File oFileOverlay = null;  
+			    	   	BufferedImage oImageOverlay = null;
+			    
+			    	   	try
+			    	   	{
+			    	   		oFileOverlay = new File( oImagePath );
+			    	   		oImageOverlay = ImageIO.read( oFileOverlay );
+			    	   	} catch (IOException e)
+			    	   	{
+			    	   		e.printStackTrace();
+			    	   		throw new NullPointerException("Image URL could not be loaded, file not found in file");
+			    	   	}
+			        	
+						oImageOverlay.getGraphics();
+						graphics.drawImage(oImageOverlay, nxArc+10, nyArc-15, 32, 32, null );
+			        }
+	
 	        	}
 	        }
         }
+	
+	/**
+	 * @author muchitsch
+	 * 04.05.2011, 10:11:50
+	 * 
+	 * @return the moOverlay
+	 */
+	public eOverlay getOverlay() {
+		return moOverlay;
+	}
+
+
+
+	/**
+	 * @author muchitsch
+	 * 04.05.2011, 10:11:50
+	 * 
+	 * @param moOverlay the moOverlay to set
+	 */
+	public void setOverlay(eOverlay moOverlay) {
+		this.moOverlay = moOverlay;
+	}
    
     }

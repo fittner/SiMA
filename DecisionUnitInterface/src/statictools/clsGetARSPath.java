@@ -24,6 +24,11 @@ public class clsGetARSPath {
 		return getArsPath()+System.getProperty("file.separator")+"BW"+System.getProperty("file.separator")+"src"+System.getProperty("file.separator")+"resources"+System.getProperty("file.separator")+"images"+System.getProperty("file.separator")+"EntitySelectorIcon"+System.getProperty("file.separator");
 	}
 	
+	public static String getImagePath()
+	{
+		return getArsPath()+System.getProperty("file.separator")+"BW"+System.getProperty("file.separator")+"src"+System.getProperty("file.separator")+"resources"+System.getProperty("file.separator")+"images"+System.getProperty("file.separator");
+	}
+	
 	public static String getXMLPath()
 	{
 		return getArsPath()+System.getProperty("file.separator")+
