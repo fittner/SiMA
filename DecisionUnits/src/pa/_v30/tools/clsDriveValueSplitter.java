@@ -45,7 +45,7 @@ public class clsDriveValueSplitter {
 		double rB = shiftInput(prB, prFactor);
 				
 		rA  = Math.sin(Math.PI*rA);
-		rB = (2-(Math.cos(Math.PI*rB)+1))*0.5;		
+		rB = (1-(Math.cos(Math.PI*rB)))*0.5;		
 		
 		return new clsPair<Double, Double>(rA, rB);
 	} 	
