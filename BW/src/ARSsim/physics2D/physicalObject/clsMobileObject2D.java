@@ -24,7 +24,7 @@ import ARSsim.physics2D.util.clsPose;
 
 import bw.entities.clsEntity;
 import bw.factories.clsSingletonMasonGetter;
-import bw.utils.enums.eOverlay;
+import bw.factories.eImages;
 import bw.utils.inspectors.entity.clsInspectorEntity;
 import bw.world.surface.clsSurfaceHandler;
 
@@ -464,10 +464,10 @@ public class clsMobileObject2D extends
 	 * @see ARSsim.physics2D.physicalObject.itfSetupFunctions#setOverlay(bw.utils.enums.eOverlay)
 	 */
 	@Override
-	public void setOverlay(eOverlay poOverlay) {
+	public void setOverlayImage(eImages poOverlay) {
 		Shape oShape = this.getShape();
 		if(oShape instanceof clsCircleImage){
-			((clsCircleImage) oShape).setOverlay(poOverlay);
+			((clsCircleImage) oShape).setOverlayImage(poOverlay);
 		}
 		
 	}

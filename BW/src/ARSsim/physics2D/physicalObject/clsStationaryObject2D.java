@@ -14,7 +14,7 @@ import sim.portrayal.inspector.TabbedInspector;
 import ARSsim.physics2D.util.clsPose;
 import bw.entities.clsEntity;
 import bw.factories.clsSingletonMasonGetter;
-import bw.utils.enums.eOverlay;
+import bw.factories.eImages;
 import bw.utils.inspectors.entity.clsInspectorEntity;
 
 /**
@@ -194,8 +194,9 @@ public class clsStationaryObject2D extends sim.physics2D.physicalObject.Stationa
 	 * @see ARSsim.physics2D.physicalObject.itfSetupFunctions#setOverlay(bw.utils.enums.eOverlay)
 	 */
 	@Override
-	public void setOverlay(eOverlay poOverlay) {
+	public void setOverlayImage(eImages poOverlay) {
 		// TODO (muchitsch) - Auto-generated method stub
+		// TODO do stationary objects need a overlay? not yet if needed later look at implementation of clsMobileObject
 		
 	}
 }

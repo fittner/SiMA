@@ -2,17 +2,14 @@ package ARSsim.physics2D.shape;
 
 import sim.physics2D.shape.Circle;
 import sim.portrayal.DrawInfo2D;
-
-
-
 import java.awt.Graphics2D;
 import java.awt.Paint;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import javax.imageio.ImageIO;
-
-import bw.utils.enums.eOverlay;
+import bw.factories.clsSingletonImageFactory;
+import bw.factories.eImages;
 
 
 /**
@@ -29,12 +26,7 @@ public class clsCircleImage extends Circle
 	//BufferedImage moImageOverlay = null;
 	private boolean mbShowSimple = false; //can be used for testing, no image is rendered
 	double fMinImageSize = 15;  //minimal Image size to be shown
-	eOverlay moOverlay = eOverlay.NONE;
-
-
-	
-	
-
+	eImages moOverlayImage = eImages.NONE;
 
 
 	/**
@@ -62,18 +54,6 @@ public class clsCircleImage extends Circle
 	   		throw new NullPointerException("Image URL could not be loaded, file not found in file");
 	   	}
 	   	
-//	   	String oImagePath = clsGetARSPath.getArsPath() + "/BW/src/resources/images/thought_bubble.png";
-//	   	
-//	   	File oFileOverlay = new File( oImagePath ); 
-//
-//	   	try
-//	   	{
-//	   		moImageOverlay = ImageIO.read( oFileOverlay );
-//	   	} catch (IOException e)
-//	   	{
-//	   		e.printStackTrace();
-//	   		throw new NullPointerException("Image URL could not be loaded, file not found in file");
-//	   	}
     }
 
    
@@ -103,7 +83,6 @@ public class clsCircleImage extends Circle
 			        int nScaledWidth = (int) (fWidthArc  ); //here the with of the arc should be used
 			        int nScaledHeight = (int) (fHeightArc );
 	
-			   	
 			        //AffineTransform affe = AffineTransform.getRotateInstance(getOrientation().radians);
 			        moImage.getGraphics();
 			        //imgGra.rotate(getOrientation().radians);
@@ -111,25 +90,19 @@ public class clsCircleImage extends Circle
 			        graphics.drawImage(moImage, nxArc , nyArc, nScaledWidth, nScaledHeight, null );
 			        
 			        //display a overlay Icon
-			        if(moOverlay != eOverlay.NONE) {
+			        if(moOverlayImage != eImages.NONE) {
 			        	
-			        	String oImagePath = moOverlay.getOverlayImagePath(); //clsGetARSPath.getArsPath() + "/BW/src/resources/images/thought_bubble.png";
-			    	   	
-			    	   	File oFileOverlay = null;  
 			    	   	BufferedImage oImageOverlay = null;
 			    
-			    	   	try
-			    	   	{
-			    	   		oFileOverlay = new File( oImagePath );
-			    	   		oImageOverlay = ImageIO.read( oFileOverlay );
-			    	   	} catch (IOException e)
-			    	   	{
+			    	   	try {
+			    	   		oImageOverlay = clsSingletonImageFactory.getImage(moOverlayImage);
+			    	   	} catch (IOException e) {
 			    	   		e.printStackTrace();
 			    	   		throw new NullPointerException("Image URL could not be loaded, file not found in file");
 			    	   	}
 			        	
 						oImageOverlay.getGraphics();
-						graphics.drawImage(oImageOverlay, nxArc+10, nyArc-15, 32, 32, null );
+						graphics.drawImage(oImageOverlay, nxArc+10, nyArc-35, 64, 64, null );
 			        }
 	
 	        	}
@@ -142,8 +115,8 @@ public class clsCircleImage extends Circle
 	 * 
 	 * @return the moOverlay
 	 */
-	public eOverlay getOverlay() {
-		return moOverlay;
+	public eImages getOverlayImage() {
+		return moOverlayImage;
 	}
 
 
@@ -154,8 +127,8 @@ public class clsCircleImage extends Circle
 	 * 
 	 * @param moOverlay the moOverlay to set
 	 */
-	public void setOverlay(eOverlay moOverlay) {
-		this.moOverlay = moOverlay;
+	public void setOverlayImage(eImages moOverlay) {
+		this.moOverlayImage = moOverlay;
 	}
    
     }

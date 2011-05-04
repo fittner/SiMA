@@ -7,8 +7,7 @@
  */
 package ARSsim.physics2D.physicalObject;
 
-
-import bw.utils.enums.eOverlay;
+import bw.factories.eImages;
 import ARSsim.physics2D.util.clsPose;
 import sim.physics2D.shape.Shape;
 
@@ -30,7 +29,7 @@ public interface itfSetupFunctions {
 	public void setPose(clsPose poPose);
 	public void setShape(Shape poShape, double poMass);
 	public void setCoefficients(double poFriction, double poStaticFriction, double poRestitution);
-	public void setOverlay(eOverlay poOverlay);
+	public void setOverlayImage(eImages poOverlay);
 	
 	public clsPose getPose();
     public Shape getShape();

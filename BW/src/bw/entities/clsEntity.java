@@ -13,8 +13,8 @@ import bw.body.clsMeatBody;
 import bw.body.clsSimpleBody;
 import bw.body.itfget.itfGetBody;
 import bw.entities.logger.clsPositionLogger;
+import bw.factories.eImages;
 import bw.utils.enums.eBodyType;
-import bw.utils.enums.eOverlay;
 import config.clsBWProperties;
 import du.enums.eEntityType;
 import sim.physics2D.physicalObject.PhysicalObject2D;
@@ -74,12 +74,12 @@ public abstract class clsEntity implements itfGetBody {
 	protected clsBaseBody moBody; // the instance of a body
 	protected clsPositionLogger moPositionLogger;
 	
-	private eOverlay mnCurrentOverlay; //overlay to display currently executed actions and other attributes
+	private eImages mnCurrentOverlay; //overlay to display currently executed actions and other attributes
 	private long mnLastSetOverlayCall = -1; //sim step of the last call of setOverlay
 	
 	public clsEntity(String poPrefix, clsBWProperties poProp, int uid) {
 		this.uid = uid;
-		mnCurrentOverlay = eOverlay.NONE;
+		mnCurrentOverlay = eImages.NONE;
 		setEntityType();
 		moPhysicalObject2D = null;
 		
@@ -286,16 +286,16 @@ public abstract class clsEntity implements itfGetBody {
 		return ((itfSetupFunctions)moPhysicalObject2D).getShape();
 	}
 	
-	public void setOverlay(eOverlay poOverlay) {
+	public void setOverlayImage(eImages poOverlay) {
 		mnLastSetOverlayCall = clsSimState.getSteps();
 		mnCurrentOverlay = poOverlay;
 	}
 	
-	private void updateOverlay() {
-		if (clsSimState.getSteps() > mnLastSetOverlayCall+5) {
-			mnCurrentOverlay = eOverlay.NONE;
+	private void updateOverlayImage() {
+		if (clsSimState.getSteps() > mnLastSetOverlayCall+10) /*10 is the time how long the overlay will be displayed*/ {
+			mnCurrentOverlay = eImages.NONE;
 		}
-		((itfSetupFunctions)moPhysicalObject2D).setOverlay(mnCurrentOverlay);
+		((itfSetupFunctions)moPhysicalObject2D).setOverlayImage(mnCurrentOverlay);
 	}
 	
 	/**
@@ -342,7 +342,7 @@ public abstract class clsEntity implements itfGetBody {
 	
 	public void updateEntityInternals() { //called each sim step by getSteppableSensing (clsMobileObject2D and clsStationaryObject2D)
 		updatePositionLogger();
-		updateOverlay();
+		updateOverlayImage();
 	}
 	
 	private void updatePositionLogger() {

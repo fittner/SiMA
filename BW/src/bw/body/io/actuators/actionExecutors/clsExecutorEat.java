@@ -14,8 +14,8 @@ import bw.body.clsComplexBody;
 import bw.body.internalSystems.clsFastMessengerSystem;
 import bw.body.io.actuators.clsActionExecutor;
 import bw.entities.clsEntity;
+import bw.factories.eImages;
 import bw.utils.enums.eBodyParts;
-import bw.utils.enums.eOverlay;
 import bw.utils.tools.clsFood;
 import bw.body.io.actuators.actionProxies.*;
 import bw.body.itfget.itfGetBody;
@@ -111,7 +111,7 @@ public class clsExecutorEat extends clsActionExecutor{
 		clsComplexBody oBody = (clsComplexBody) ((itfGetBody)moEntity).getBody();
 		
 		//setting a overlay image
-		moEntity.setOverlay(eOverlay.EATING);
+		moEntity.setOverlayImage(eImages.Overlay_Action_Eating);
 		
 		//Is something in range
 		clsEntity oEatenEntity = (clsEntity) findSingleEntityInRange(moEntity, oBody, moRangeSensor ,itfAPEatable.class) ;
