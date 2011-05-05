@@ -14,6 +14,7 @@ import java.util.ArrayList;
 import bw.body.io.actuators.clsActionExecutor;
 import bw.entities.clsEntity;
 import bw.entities.clsMobile;
+import bw.factories.eImages;
 import du.itf.actions.*;
 
 /**
@@ -99,6 +100,7 @@ public class clsExecutorMove extends clsActionExecutor{
     	switch(oCommand.getDirection() )
     	{
     	case MOVE_FORWARD:
+    		moEntity.setOverlayImage(eImages.Overlay_Action_MoveForward);
     		((clsMobile)moEntity).getMobileObject2D().moMotionPlatform.moveForward(mrSpeedScalingFactor*oCommand.getSpeed());
     	case MOVE_BACKWARD:
     		((clsMobile)moEntity).getMobileObject2D().moMotionPlatform.backup();

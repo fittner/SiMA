@@ -1,0 +1,247 @@
+/**
+ * E23_ExternalPerception_focused.java: DecisionUnits - pa.modules
+ * 
+ * @author deutsch
+ * 11.08.2009, 14:46:53
+ */
+package pa._v38.modules;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.SortedMap;
+import config.clsBWProperties;
+import pa._v38.interfaces.eInterfaces;
+import pa._v38.interfaces.itfMinimalModelMode;
+import pa._v38.interfaces.modules.I6_3_receive;
+import pa._v38.interfaces.modules.I6_1_receive;
+import pa._v38.interfaces.modules.I6_6_receive;
+import pa._v38.interfaces.modules.I6_6_send;
+import pa._v38.memorymgmt.datatypes.clsSecondaryDataStructureContainer;
+import pa._v38.tools.toText;
+
+/**
+ * DOCUMENT (KOHLHAUSER) - insert description 
+ * 
+ * @author deutsch
+ * 11.08.2009, 14:46:53
+ * 
+ */
+public class F23_ExternalPerception_focused extends clsModuleBase implements itfMinimalModelMode, I6_1_receive, I6_3_receive, I6_6_send {
+	public static final String P_MODULENUMBER = "23";
+	
+	private ArrayList<clsSecondaryDataStructureContainer> moPerception; 
+	private ArrayList<clsSecondaryDataStructureContainer> moDriveList; 
+	private ArrayList<clsSecondaryDataStructureContainer> moFocusedPerception_Output; 
+	private boolean mnMinimalModel;
+	/**
+	 * DOCUMENT (KOHLHAUSER) - insert description 
+	 * 
+	 * @author deutsch
+	 * 03.03.2011, 16:50:08
+	 *
+	 * @param poPrefix
+	 * @param poProp
+	 * @param poModuleList
+	 * @throws Exception
+	 */
+	public F23_ExternalPerception_focused(String poPrefix,
+			clsBWProperties poProp, HashMap<Integer, clsModuleBase> poModuleList, SortedMap<eInterfaces, ArrayList<Object>> poInterfaceData)
+			throws Exception {
+		super(poPrefix, poProp, poModuleList, poInterfaceData);
+		applyProperties(poPrefix, poProp);		
+	}
+
+	/* (non-Javadoc)
+	 *
+	 * @author deutsch
+	 * 14.04.2011, 17:36:19
+	 * 
+	 * @see pa.modules._v38.clsModuleBase#stateToTEXT()
+	 */
+	@Override
+	public String stateToTEXT() {		
+		String text = "";
+		
+		text += toText.valueToTEXT("mnMinimalModel", mnMinimalModel);
+		text += toText.listToTEXT("moPerception", moPerception);
+		text += toText.listToTEXT("moDriveList", moDriveList);
+		text += toText.listToTEXT("moFocusedPerception_Output", moFocusedPerception_Output);
+
+		return text;
+	}	
+	public static clsBWProperties getDefaultProperties(String poPrefix) {
+		String pre = clsBWProperties.addDot(poPrefix);
+		
+		clsBWProperties oProp = new clsBWProperties();
+		oProp.setProperty(pre+P_PROCESS_IMPLEMENTATION_STAGE, eImplementationStage.BASIC.toString());
+				
+		return oProp;
+	}	
+	
+	private void applyProperties(String poPrefix, clsBWProperties poProp) {
+		//String pre = clsBWProperties.addDot(poPrefix);
+		mnMinimalModel = false;
+		//nothing to do
+	}
+
+	/* (non-Javadoc)
+	 *
+	 * @author deutsch
+	 * 11.08.2009, 12:09:34
+	 * 
+	 * @see pa.modules.clsModuleBase#setProcessType()
+	 */
+	@Override
+	protected void setProcessType() {
+		mnProcessType = eProcessType.SECONDARY;
+	}
+
+	/* (non-Javadoc)
+	 *
+	 * @author deutsch
+	 * 11.08.2009, 12:09:34
+	 * 
+	 * @see pa.modules.clsModuleBase#setPsychicInstances()
+	 */
+	@Override
+	protected void setPsychicInstances() {
+		mnPsychicInstances = ePsychicInstances.EGO;
+	}
+
+	/* (non-Javadoc)
+	 *
+	 * @author deutsch
+	 * 11.08.2009, 14:47:49
+	 * 
+	 * @see pa.interfaces.I2_11#receive_I2_11(int)
+	 */
+	@SuppressWarnings("unchecked")
+	@Override
+	public void receive_I6_1(ArrayList<clsSecondaryDataStructureContainer> poPerception) {
+		moPerception = (ArrayList<clsSecondaryDataStructureContainer>)this.deepCopy(poPerception);
+		
+	}
+
+	/* (non-Javadoc)
+	 *
+	 * @author deutsch
+	 * 11.08.2009, 14:47:49
+	 * 
+	 * @see pa.interfaces.I1_7#receive_I1_7(int)
+	 */
+	@SuppressWarnings("unchecked")
+	@Override
+	public void receive_I6_3(ArrayList<clsSecondaryDataStructureContainer> poDriveList) {
+		moDriveList = (ArrayList<clsSecondaryDataStructureContainer>)this.deepCopy(poDriveList);
+	}
+
+	/* (non-Javadoc)
+	 *
+	 * @author deutsch
+	 * 11.08.2009, 16:16:20
+	 * 
+	 * @see pa.modules.clsModuleBase#process()
+	 */
+	@Override
+	protected void process_basic() {
+		if (!mnMinimalModel) {				
+			//TODO HZ 23.08.2010: Normally the perceived information has to be ordered by its priority
+			//that depends on the evaluation of external and internal perception (moDriveList); 
+			//
+			//Actual state: no ordering! 
+			moFocusedPerception_Output = moPerception;
+		}
+	}
+	
+	/* (non-Javadoc)
+	 *
+	 * @author deutsch
+	 * 11.08.2009, 16:16:20
+	 * 
+	 * @see pa.modules.clsModuleBase#send()
+	 */
+	@Override
+	protected void send() {
+		if (mnMinimalModel) {		
+			send_I6_6(moPerception, new ArrayList<clsSecondaryDataStructureContainer>());
+		} else {
+			send_I6_6(moFocusedPerception_Output, moDriveList);
+		}
+	}
+
+	/* (non-Javadoc)
+	 *
+	 * @author deutsch
+	 * 18.05.2010, 17:50:35
+	 * 
+	 * @see pa.interfaces.send.I2_12_send#send_I2_12(java.util.ArrayList)
+	 */
+	@Override
+	public void send_I6_6(ArrayList<clsSecondaryDataStructureContainer> poFocusedPerception,
+			   				ArrayList<clsSecondaryDataStructureContainer> poDriveList) {
+		((I6_6_receive)moModuleList.get(51)).receive_I6_6(poFocusedPerception, poDriveList);
+		
+		putInterfaceData(I6_6_send.class, poFocusedPerception, poDriveList);
+	}
+
+	/* (non-Javadoc)
+	 *
+	 * @author deutsch
+	 * 12.07.2010, 10:47:20
+	 * 
+	 * @see pa.modules.clsModuleBase#process_draft()
+	 */
+	@Override
+	protected void process_draft() {
+		// TODO (KOHLHAUSER) - Auto-generated method stub
+		throw new java.lang.NoSuchMethodError();
+	}
+
+	/* (non-Javadoc)
+	 *
+	 * @author deutsch
+	 * 12.07.2010, 10:47:20
+	 * 
+	 * @see pa.modules.clsModuleBase#process_final()
+	 */
+	@Override
+	protected void process_final() {
+		// TODO (KOHLHAUSER) - Auto-generated method stub
+		throw new java.lang.NoSuchMethodError();
+	}
+
+	/* (non-Javadoc)
+	 *
+	 * @author deutsch
+	 * 03.03.2011, 16:50:13
+	 * 
+	 * @see pa.modules._v38.clsModuleBase#setModuleNumber()
+	 */
+	@Override
+	protected void setModuleNumber() {
+		mnModuleNumber = Integer.parseInt(P_MODULENUMBER);
+		
+	}
+	/* (non-Javadoc)
+	 *
+	 * @author deutsch
+	 * 15.04.2011, 13:52:57
+	 * 
+	 * @see pa.modules._v38.clsModuleBase#setDescription()
+	 */
+	@Override
+	public void setDescription() {
+		moDescription = "The task of this module is to focus the external perception on ``important'' things. Thus, the word presentations originating from perception are ordered according to their importance to existing drive wishes. This could mean for example that an object is qualified to satisfy a bodily need. The resulting listthe package of word presentation, thing presentation, and drive whishes for each perception ordered descending by their importanceis forwarded by the interface {I2.12} to {E24} and {E25}. These two modules are part of reality check.";
+	}	
+	
+	@Override
+	public void setMinimalModelMode(boolean pnMinial) {
+		mnMinimalModel = pnMinial;
+	}
+
+	@Override
+	public boolean getMinimalModelMode() {
+		return mnMinimalModel;
+	}	
+	
+}

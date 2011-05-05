@@ -5,22 +5,26 @@ package ARSsim.physics2D.physicalObject;
 
 //import inspectors.clsInspectorMapping;
 import java.util.ArrayList;
+
 import sim.display.GUIState;
 import sim.engine.SimState;
 import sim.engine.Steppable;
 
 import sim.physics2D.forceGenerator.ForceGenerator;
 import sim.physics2D.physicalObject.PhysicalObject2D;
+import sim.physics2D.shape.Shape;
 import sim.physics2D.util.Double2D;
 import sim.portrayal.DrawInfo2D;
 import sim.portrayal.Inspector;
 import sim.portrayal.LocationWrapper;
 import sim.portrayal.inspector.TabbedInspector;
 import ARSsim.motionplatform.clsMotionPlatform;
+import ARSsim.physics2D.shape.clsCircleImage;
 import ARSsim.physics2D.util.clsPose;
 
 import bw.entities.clsEntity;
 import bw.factories.clsSingletonMasonGetter;
+import bw.factories.eImages;
 import bw.utils.inspectors.entity.clsInspectorEntity;
 import bw.world.surface.clsSurfaceHandler;
 
@@ -152,7 +156,7 @@ public class clsMobileObject2D extends
 			@Override
 			public void step(SimState state) {
 				moEntity.sensing();
-				moEntity.updatePositionLogger();
+				moEntity.updateEntityInternals();
 			}
 		};
 	}
@@ -450,5 +454,21 @@ public class clsMobileObject2D extends
 	public void setNormalForce(double prMass)
 	{
 		mrNormalForce = prMass * mrGravity; 
+	}
+
+	/* (non-Javadoc)
+	 *
+	 * @author muchitsch
+	 * 03.05.2011, 14:53:24
+	 * 
+	 * @see ARSsim.physics2D.physicalObject.itfSetupFunctions#setOverlay(bw.utils.enums.eOverlay)
+	 */
+	@Override
+	public void setOverlayImage(eImages poOverlay) {
+		Shape oShape = this.getShape();
+		if(oShape instanceof clsCircleImage){
+			((clsCircleImage) oShape).setOverlayImage(poOverlay);
+		}
+		
 	}
 }

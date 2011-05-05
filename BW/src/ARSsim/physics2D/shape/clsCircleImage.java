@@ -8,6 +8,8 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import javax.imageio.ImageIO;
+import bw.factories.clsSingletonImageFactory;
+import bw.factories.eImages;
 
 
 /**
@@ -21,10 +23,12 @@ public class clsCircleImage extends Circle
 	    
 	double mrRadius; 
 	BufferedImage moImage = null;
+	//BufferedImage moImageOverlay = null;
 	private boolean mbShowSimple = false; //can be used for testing, no image is rendered
 	double fMinImageSize = 15;  //minimal Image size to be shown
+	eImages moOverlayImage = eImages.NONE;
 
-	
+
 	/**
 	 * creates a circular physical object with the given range and displays a image above.
 	 * image is resized to fit the rectangle around the circle (outer bounds)
@@ -49,6 +53,7 @@ public class clsCircleImage extends Circle
 	   		e.printStackTrace();
 	   		throw new NullPointerException("Image URL could not be loaded, file not found in file");
 	   	}
+	   	
     }
 
    
@@ -78,14 +83,52 @@ public class clsCircleImage extends Circle
 			        int nScaledWidth = (int) (fWidthArc  ); //here the with of the arc should be used
 			        int nScaledHeight = (int) (fHeightArc );
 	
-			   	
 			        //AffineTransform affe = AffineTransform.getRotateInstance(getOrientation().radians);
 			        moImage.getGraphics();
 			        //imgGra.rotate(getOrientation().radians);
 			        
 			        graphics.drawImage(moImage, nxArc , nyArc, nScaledWidth, nScaledHeight, null );
+			        
+			        //display a overlay Icon
+			        if(moOverlayImage != eImages.NONE) {
+			        	
+			    	   	BufferedImage oImageOverlay = null;
+			    
+			    	   	try {
+			    	   		oImageOverlay = clsSingletonImageFactory.getImage(moOverlayImage);
+			    	   	} catch (IOException e) {
+			    	   		e.printStackTrace();
+			    	   		throw new NullPointerException("Image URL could not be loaded, file not found in file");
+			    	   	}
+			        	
+						oImageOverlay.getGraphics();
+						graphics.drawImage(oImageOverlay, nxArc+40, nyArc-25, 28, 28, null );
+			        }
+	
 	        	}
 	        }
         }
+	
+	/**
+	 * @author muchitsch
+	 * 04.05.2011, 10:11:50
+	 * 
+	 * @return the moOverlay
+	 */
+	public eImages getOverlayImage() {
+		return moOverlayImage;
+	}
+
+
+
+	/**
+	 * @author muchitsch
+	 * 04.05.2011, 10:11:50
+	 * 
+	 * @param moOverlay the moOverlay to set
+	 */
+	public void setOverlayImage(eImages moOverlay) {
+		this.moOverlayImage = moOverlay;
+	}
    
     }
