@@ -11,6 +11,7 @@ import java.util.ArrayList;
 
 import bw.body.io.actuators.clsActionExecutor;
 import bw.entities.clsEntity;
+import bw.factories.eImages;
 import bw.body.io.actuators.actionProxies.*;
 import du.enums.eActionSleepIntensity;
 import du.itf.actions.*;
@@ -32,6 +33,7 @@ public class clsExecutorSleep extends clsActionExecutor{
 	//private clsEntity moEntity;
 	private ArrayList<itfAPSleep> moNotifyLight;
 	private ArrayList<itfAPSleep> moNotifyDeep;
+	private clsEntity moEntity;
 
 	public clsExecutorSleep(String poPrefix, clsBWProperties poProp, clsEntity poEntity, ArrayList<itfAPSleep> poNotifyLight, ArrayList<itfAPSleep> poNotifyDeep ) {
 		super(poPrefix, poProp);
@@ -52,6 +54,7 @@ public class clsExecutorSleep extends clsActionExecutor{
 		moMutEx.add(clsActionPickUp.class);
 		moMutEx.add(clsActionToInventory.class);
 		moMutEx.add(clsActionTurn.class);
+		moEntity=poEntity;
 		
 		applyProperties(poPrefix,poProp);
 	}
@@ -110,6 +113,8 @@ public class clsExecutorSleep extends clsActionExecutor{
 	public boolean execute(clsActionCommand poCommand) {
 		clsActionSleep oCommand =(clsActionSleep) poCommand; 
 
+		moEntity.setOverlayImage(eImages.Overlay_Action_Sleep);
+		
 		ArrayList<itfAPSleep> oNotify = null;
 		
 		if (oCommand.getIntensity()==eActionSleepIntensity.LIGHT) oNotify=moNotifyLight;

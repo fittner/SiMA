@@ -111,7 +111,7 @@ public class clsExecutorEat extends clsActionExecutor{
 		clsComplexBody oBody = (clsComplexBody) ((itfGetBody)moEntity).getBody();
 		
 		//setting a overlay image
-		moEntity.setOverlayImage(eImages.Overlay_Action_Eating);
+		moEntity.setOverlayImage(eImages.Overlay_Action_Eat);
 		
 		//Is something in range
 		clsEntity oEatenEntity = (clsEntity) findSingleEntityInRange(moEntity, oBody, moRangeSensor ,itfAPEatable.class) ;

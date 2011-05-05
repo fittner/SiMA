@@ -15,6 +15,7 @@ import sim.physics2D.util.Angle;
 import bw.body.io.actuators.clsActionExecutor;
 import bw.entities.clsEntity;
 import bw.entities.clsMobile;
+import bw.factories.eImages;
 import du.enums.eActionTurnDirection;
 import du.itf.actions.*;
 /**
@@ -83,8 +84,14 @@ public class clsExecutorTurn extends clsActionExecutor{
 	@Override
 	public boolean execute(clsActionCommand poCommand) {
 		clsActionTurn oCommand = (clsActionTurn) poCommand;
-    	if (oCommand.getDirection()==eActionTurnDirection.TURN_LEFT) ((clsMobile)moEntity).getMobileObject2D().moMotionPlatform.faceTowardsRelative(new Angle(oCommand.getAngle()/360*Math.PI*(-1.0)));
-    	if (oCommand.getDirection()==eActionTurnDirection.TURN_RIGHT) ((clsMobile)moEntity).getMobileObject2D().moMotionPlatform.faceTowardsRelative(new Angle(oCommand.getAngle()/360*Math.PI));
+    	if (oCommand.getDirection()==eActionTurnDirection.TURN_LEFT){
+    		moEntity.setOverlayImage(eImages.Overlay_Action_TurnLeft);
+    		((clsMobile)moEntity).getMobileObject2D().moMotionPlatform.faceTowardsRelative(new Angle(oCommand.getAngle()/360*Math.PI*(-1.0)));
+    	}
+    	if (oCommand.getDirection()==eActionTurnDirection.TURN_RIGHT){
+    		moEntity.setOverlayImage(eImages.Overlay_Action_TurnRight);
+    		((clsMobile)moEntity).getMobileObject2D().moMotionPlatform.faceTowardsRelative(new Angle(oCommand.getAngle()/360*Math.PI));
+    	}
     	return true;
 	}	
 }

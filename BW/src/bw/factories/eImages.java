@@ -21,7 +21,13 @@ public enum eImages {
 	Plant01("plant01.png"),
 	Rock01("rock1.png"),
 	SmartExcrement("smartexcrement.png"),
-	Overlay_Action_Eating("eating.png");
+	Overlay_Action_Eat("Action_Eat.png"),
+	Overlay_Action_Deposit("Action_Deposit.png"),
+	Overlay_Action_MoveForward("Action_MoveForward.png"),
+	Overlay_Action_Sleep("Action_Sleep.png"),
+	Overlay_Action_TurnLeft("Action_TurnLeft.png"),
+	Overlay_Action_TurnRight("Action_TurnRight.png");
+	
 		
 	
 	private String moFilename;

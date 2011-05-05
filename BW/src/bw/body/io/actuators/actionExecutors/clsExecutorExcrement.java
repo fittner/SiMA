@@ -15,6 +15,7 @@ import bw.body.io.actuators.clsActionExecutor;
 import bw.entities.clsEntity;
 import bw.entities.clsSmartExcrement;
 import bw.factories.clsRegisterEntity;
+import bw.factories.eImages;
 import bw.body.itfget.itfGetBody;
 import du.itf.actions.*;
 
@@ -103,6 +104,8 @@ public class clsExecutorExcrement extends clsActionExecutor{
 	public boolean execute(clsActionCommand poCommand) {
 		clsActionExcrement oCommand =(clsActionExcrement) poCommand; 
 		clsComplexBody oBody = (clsComplexBody) ((itfGetBody)moEntity).getBody();
+		
+		moEntity.setOverlayImage(eImages.Overlay_Action_Deposit);
 
 		//Get Smart Excrement
 		clsSmartExcrement oEx = oBody.getInterBodyWorldSystem().getCreateExcrement().getSmartExcrements(oCommand.getIntensity()*mrIntensityScalingFactor );
