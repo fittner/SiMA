@@ -1,7 +1,7 @@
 /**
  * E7_SuperEgo_unconscious.java: DecisionUnits - pa.modules
  * 
- * @author deutsch test
+ * @author deutsch
  * 11.08.2009, 14:03:35
  */
 package pa._v38.modules;
