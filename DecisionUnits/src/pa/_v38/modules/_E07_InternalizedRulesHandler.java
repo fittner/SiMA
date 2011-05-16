@@ -276,7 +276,7 @@ public class _E07_InternalizedRulesHandler extends clsModuleBaseKB implements
 	 */
 	@Override
 	public void setDescription() {
-		moDescription = "Rules which are only accessible to functions of the Superego are used to evaluate the incoming drive demands and perceptions. Three possible decisions can be made for each incoming information: they can be passed on without any changes, they can be passed forward but certain changes have to be made, and these contents are not allowed to pass at all. If the evaluated contents qualify for one of the latter two possibilities - a conflict occurs - defense mechanisms have to deal with them.";
+		moDescription = "Rules which are only accessible to functions of the Superego are used to evaluate the incoming drive demands and perceptions. Three possible decisions can be made for each incoming information: they can be passed on without any changes, they can be passed forward but certain changes have to be made, and these contents are not allowed to pass at all. If the evaluated contents qualify for one of the latter two possibilities - a conflict occurs - defense mechanisms have to deal with them. ";
 	}
 	
 	@Override
