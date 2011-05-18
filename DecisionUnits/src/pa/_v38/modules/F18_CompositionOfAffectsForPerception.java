@@ -456,6 +456,6 @@ public class F18_CompositionOfAffectsForPerception extends clsModuleBase impleme
 	 */
 	@Override
 	public void setDescription() {
-		moDescription = "The value for the quota of affects for perception thing presentations is calculating by looking up all associated unpleasure and pleasure values retrieved from memory in {E46} and {E35}. Pleasure gained in {E45} is considered too. ";
+		moDescription = "The value for the quota of affects for perception thing presentations is calculating by looking up all associated unpleasure and pleasure values retrieved from memory in {F46}, {F37} and {F35}. Pleasure gained in {F45} is considered too. ";
 	}		
 }
