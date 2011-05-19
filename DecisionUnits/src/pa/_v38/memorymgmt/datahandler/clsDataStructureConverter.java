@@ -12,14 +12,8 @@ import java.util.ArrayList;
 
 import pa._v38.tools.clsPair;
 import pa._v38.tools.clsTripple;
-import pa._v38.memorymgmt.datatypes.clsAssociation;
-import pa._v38.memorymgmt.datatypes.clsAssociationTime;
 import pa._v38.memorymgmt.datatypes.clsDataStructurePA;
-import pa._v38.memorymgmt.datatypes.clsDriveMesh;
 import pa._v38.memorymgmt.datatypes.clsPhysicalRepresentation;
-import pa._v38.memorymgmt.datatypes.clsPrimaryDataStructure;
-import pa._v38.memorymgmt.datatypes.clsPrimaryDataStructureContainer;
-import pa._v38.memorymgmt.datatypes.clsTemplateImage;
 import pa._v38.memorymgmt.datatypes.clsThingPresentation;
 import pa._v38.memorymgmt.datatypes.clsThingPresentationMesh;
 import pa._v38.memorymgmt.enums.eDataType;
@@ -133,7 +127,8 @@ public class clsDataStructureConverter {
 		return poName;
 	}
 	
-	public static clsTemplateImage convertPDSCtoTI(clsPrimaryDataStructureContainer oPDSC){
+	//New Function AW 2011-0519
+	/*public static clsTemplateImage convertPDSCtoTI(clsPrimaryDataStructureContainer oPDSC){
 		//Convert the data structure in the PDSC to a association time to TPM
 		//Take over the extrinsic properties from that data structure
 		clsTemplateImage oRetVal;
@@ -176,6 +171,7 @@ public class clsDataStructureConverter {
 		return oRetVal;
 	}
 	
+	//New Function AW 2011-0519
 	public static clsPrimaryDataStructureContainer convertTItoPDSC(clsTemplateImage oTIInput) throws Exception{
 		//Convert the data structure in the PDSC to a association time to TPM
 		//Take over the extrinsic properties from that data structure
@@ -219,6 +215,7 @@ public class clsDataStructureConverter {
 		return oRetVal;
 	}
 	
+	//New Function AW 2011-0519
 	public static clsTemplateImage convertMultiplePDSCtoTI(ArrayList<clsPrimaryDataStructureContainer> oInput) {
 		//Create ONE Template Image from an arraylist of Primary Data Structure Containers
 		clsTemplateImage oRetVal = null;
@@ -235,6 +232,7 @@ public class clsDataStructureConverter {
 		return oRetVal;
 	}
 	
+	//New Function AW 2011-0519
 	public static ArrayList<clsPrimaryDataStructureContainer> convertTItoMultiplePDSC(clsTemplateImage oTIInput) throws Exception {
 		//TODO: This function is only for the purpose to convert template images from the primary process to
 		//PDSC, which is a special case. If the conversation shall be extended, this function has to be generalized
@@ -251,6 +249,6 @@ public class clsDataStructureConverter {
 		}
 		
 		return oRetVal;
-	}
+	}*/
 
 }

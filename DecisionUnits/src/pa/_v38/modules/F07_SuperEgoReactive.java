@@ -217,7 +217,7 @@ public class F07_SuperEgoReactive extends clsModuleBase
 	@Override
 	public void setDescription() {
 		// TODO (zeilinger) - Auto-generated method stub
-		
+		moDescription = "Based on internalized rules, Super-Ego checks incoming perceptions and drives. If the internalized rules are violated Super-Ego requests from F06 and F19 to activate the defense mechanisms.";
 	}
 
 	/* (non-Javadoc)

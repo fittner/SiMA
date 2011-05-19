@@ -19,7 +19,6 @@ import pa._v38.interfaces.modules.I5_6_send;
 import pa._v38.interfaces.modules.I2_6_receive;
 import pa._v38.interfaces.modules.I5_19_receive;
 import pa._v38.memorymgmt.clsKnowledgeBaseHandler;
-import pa._v38.memorymgmt.datahandler.clsDataStructureConverter;
 import pa._v38.memorymgmt.datatypes.clsAssociation;
 import pa._v38.memorymgmt.datatypes.clsAssociationAttribute;
 import pa._v38.memorymgmt.datatypes.clsDataStructureContainer;
@@ -119,12 +118,13 @@ public class F46_FusionWithMemoryTraces extends clsModuleBaseKB implements
 		
 		
 		//****** New Data structures Don't delete AW 20110424 *********
+		/*
 		//AW: 2011-04-18, new Data structures
 		//Convert Output to a template image
-		/*
+		
 		moPerceivedImage_OUT = tempConvertInput(moEnvironmentalPerception_OUT);
 		//Load indirect template images
-		moTemplateImages_OUT = retrieveIndirectTI(moPerceivedImage_OUT);
+		//moTemplateImages_OUT = retrieveIndirectTI(moPerceivedImage_OUT);
 		
 		*/
 	}
@@ -204,9 +204,8 @@ public class F46_FusionWithMemoryTraces extends clsModuleBaseKB implements
 	}
 	
 	
-	
-	@SuppressWarnings("unused")
-	private ArrayList<clsTemplateImage> retrieveIndirectTI(clsTemplateImage oInput) {
+	//AW 2011-05-19 added new function
+	/*private ArrayList<clsTemplateImage> retrieveIndirectTI(clsTemplateImage oInput) {
 		ArrayList<clsTemplateImage> oRetVal = new ArrayList<clsTemplateImage>();
 		
 		//Spread activation from input
@@ -214,10 +213,11 @@ public class F46_FusionWithMemoryTraces extends clsModuleBaseKB implements
 		return oRetVal;
 	}
 	
-	@SuppressWarnings("unused")
+	//AW 2011-05-19 added new function
 	private clsTemplateImage tempConvertInput(ArrayList<clsPrimaryDataStructureContainer> oInput) {
 		return clsDataStructureConverter.convertMultiplePDSCtoTI (oInput);
-	}
+	}*/
+
 	
 	/**
 	 * DOCUMENT (zeilinger) - insert description
