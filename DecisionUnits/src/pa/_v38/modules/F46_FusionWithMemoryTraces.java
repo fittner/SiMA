@@ -118,15 +118,10 @@ public class F46_FusionWithMemoryTraces extends clsModuleBaseKB implements
 		
 		
 		//****** New Data structures Don't delete AW 20110424 *********
-		/*
-		//AW: 2011-04-18, new Data structures
-		//Convert Output to a template image
+		//UNIT-Tests for the converters
+		//clsPrimaryDataStructureContainer oTest = clsDataStructureConverter.convertTPMContToTICont(moEnvironmentalPerception_OUT);
+		//ArrayList<clsPrimaryDataStructureContainer> oTest2 = clsDataStructureConverter.convertTIContToTPMCont(oTest);
 		
-		moPerceivedImage_OUT = tempConvertInput(moEnvironmentalPerception_OUT);
-		//Load indirect template images
-		//moTemplateImages_OUT = retrieveIndirectTI(moPerceivedImage_OUT);
-		
-		*/
 	}
 
 	/* (non-Javadoc)
