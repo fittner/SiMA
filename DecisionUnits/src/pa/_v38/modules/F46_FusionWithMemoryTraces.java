@@ -19,13 +19,13 @@ import pa._v38.interfaces.modules.I5_6_send;
 import pa._v38.interfaces.modules.I2_6_receive;
 import pa._v38.interfaces.modules.I5_19_receive;
 import pa._v38.memorymgmt.clsKnowledgeBaseHandler;
+import pa._v38.memorymgmt.datahandler.clsDataStructureConverter;
 import pa._v38.memorymgmt.datatypes.clsAssociation;
 import pa._v38.memorymgmt.datatypes.clsAssociationAttribute;
 import pa._v38.memorymgmt.datatypes.clsDataStructureContainer;
 import pa._v38.memorymgmt.datatypes.clsDataStructurePA;
 import pa._v38.memorymgmt.datatypes.clsPrimaryDataStructure;
 import pa._v38.memorymgmt.datatypes.clsPrimaryDataStructureContainer;
-import pa._v38.memorymgmt.datatypes.clsTemplateImage;
 import pa._v38.memorymgmt.datatypes.clsThingPresentationMesh;
 import pa._v38.memorymgmt.enums.eDataType;
 
@@ -45,13 +45,8 @@ public class F46_FusionWithMemoryTraces extends clsModuleBaseKB implements
 	//HZ Not used up to now 16.03.2011
 	//private ArrayList<clsPrimaryDataStructureContainer> moGrantedPerception_IN; 
 	private ArrayList<clsPrimaryDataStructureContainer> moEnvironmentalPerception_IN; 
-	private ArrayList<clsPrimaryDataStructureContainer> moEnvironmentalPerception_OUT; 
-	
-	//New Output
-	@SuppressWarnings("unused")
-	private clsTemplateImage moPerceivedImage_OUT;
-	@SuppressWarnings("unused")
-	private ArrayList<clsTemplateImage> moTemplateImages_OUT;
+	private clsPrimaryDataStructureContainer moEnvironmentalPerception_OUT;
+	private ArrayList<clsPrimaryDataStructureContainer> moAssociatedMemories_OUT;
 
 	
 	/**
@@ -84,7 +79,7 @@ public class F46_FusionWithMemoryTraces extends clsModuleBaseKB implements
 		String text ="";
 		
 		text += toText.listToTEXT("moEnvironmentalPerception_IN", moEnvironmentalPerception_IN);
-		text += toText.listToTEXT("moEnvironmentalPerception_OUT", moEnvironmentalPerception_OUT);		
+		text += toText.valueToTEXT("moEnvironmentalPerception_OUT", moEnvironmentalPerception_OUT);		
 		text += toText.valueToTEXT("moKnowledgeBaseHandler", moKnowledgeBaseHandler);		
 		
 		return text;
@@ -113,8 +108,16 @@ public class F46_FusionWithMemoryTraces extends clsModuleBaseKB implements
 	 */
 	@Override
 	protected void process_basic() {
-		//moEnvironmentalPerception_OUT = new ArrayList<clsPrimaryDataStructureContainer>(); 
-		moEnvironmentalPerception_OUT = retrieveImages(moEnvironmentalPerception_IN);
+		//moEnvironmentalPerception_OUT = new ArrayList<clsPrimaryDataStructureContainer>();
+		//clsPrimaryDataStructureContainer oEnvironmentTI = clsDataStructureConverter.convertTPMContToTICont(retrieveImages(moEnvironmentalPerception_IN));
+		moEnvironmentalPerception_OUT = clsDataStructureConverter.convertTPMContToTICont(retrieveImages(moEnvironmentalPerception_IN));
+		//moEnvironmentalPerception_OUT.add(oEnvironmentTI);
+		//moEnvironmentalPerception_OUT = retrieveImages(moEnvironmentalPerception_IN);
+		
+		//Associated memories
+		//AW 20110521: TODO: Add function to load template images here
+		moAssociatedMemories_OUT = new ArrayList<clsPrimaryDataStructureContainer>();
+		
 		
 		
 		//****** New Data structures Don't delete AW 20110424 *********
@@ -358,8 +361,15 @@ public class F46_FusionWithMemoryTraces extends clsModuleBaseKB implements
 	 * @see pa.interfaces.send._v38.I2_20_send#receive_I2_20(java.util.ArrayList)
 	 */
 	@Override
-	public void send_I5_6(
-			ArrayList<clsPrimaryDataStructureContainer> poEnvironmentalTP) {
+	public void send_I5_6(clsPrimaryDataStructureContainer poEnvironmentalTP) {
+		/* The inputs and outputs can be changed if the following parameters are changed:
+		 * clsModuleBase.deepcopy
+		 * this function
+		 * the receive function in the following module
+		 * I5_6_send.java
+		 * I5_6_receive.java
+		 */
+		//Give output to input of F37
 		((I5_6_receive)moModuleList.get(37)).receive_I5_6(poEnvironmentalTP);
 		putInterfaceData(I5_6_send.class, poEnvironmentalTP);
 	}

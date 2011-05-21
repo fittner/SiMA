@@ -149,7 +149,7 @@ public class clsDataStructureConverter {
 				//Test if the associated element is associated with the data structure in the container, else it is not possible to put the association togehter
 				//with the data structure within the template image.
 				try {
-					if ((oContainerAss.getMoAssociationElementA() != oContainer.getMoDataStructure()) && (oContainerAss.getMoAssociationElementB() != oContainer.getMoDataStructure())) {
+					if ((oContainerAss.getMoAssociationElementA().getMoDS_ID() != oContainer.getMoDataStructure().getMoDS_ID()) && (oContainerAss.getMoAssociationElementB().getMoDS_ID() != oContainer.getMoDataStructure().getMoDS_ID())) {
 						throw new Exception("Error in convertTPMContToTICont: The associated element is not associated with the data structure in the container");
 					}
 				} catch (Exception e) {
@@ -176,9 +176,6 @@ public class clsDataStructureConverter {
 		ArrayList<clsAssociation> oAllAss = new ArrayList<clsAssociation>();
 		oAllAss.addAll(oInput.getMoAssociatedDataStructures());
 		
-		ListIterator<clsAssociation> oAllAssLI = oAllAss.listIterator();
-		
-		
 		try {
 			if (oInput.getMoDataStructure() instanceof clsTemplateImage) {
 				clsTemplateImage oInputDataStructure = (clsTemplateImage)oInput.getMoDataStructure();
@@ -186,9 +183,11 @@ public class clsDataStructureConverter {
 					clsPhysicalRepresentation oDS = (clsPhysicalRepresentation)oAss.getLeafElement();
 					ArrayList<clsAssociation> oContainerAss = new ArrayList<clsAssociation>();
 					
+					ListIterator<clsAssociation> oAllAssLI = oAllAss.listIterator();
 					while (oAllAssLI.hasNext()) {
 						clsAssociation oSingleAss = oAllAssLI.next();
-						if ((oSingleAss.getMoAssociationElementA() == oDS) || (oSingleAss.getMoAssociationElementB() == oDS)) {
+						if ((oSingleAss.getMoAssociationElementA().getMoDS_ID()==oDS.getMoDS_ID()) || (oSingleAss.getMoAssociationElementB().getMoDS_ID()==oDS.getMoDS_ID())) {
+						//if ((oSingleAss.getMoAssociationElementA() == oDS) || (oSingleAss.getMoAssociationElementB() == oDS)) {
 							oContainerAss.add(oSingleAss);
 							oAllAssLI.remove();
 						}
@@ -196,7 +195,8 @@ public class clsDataStructureConverter {
 					
 					oRetVal.add(new clsPrimaryDataStructureContainer(oDS, oContainerAss));
 				}
-				if (oAllAssLI.hasNext()==true) {
+				
+				if (oAllAss.isEmpty()==false) {
 					throw new Exception("Error in convertTIContToTPMCont: Not all associations could be assigned a data structure container");
 				}
 				

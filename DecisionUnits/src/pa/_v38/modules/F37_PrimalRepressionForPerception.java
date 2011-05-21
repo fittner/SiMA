@@ -14,6 +14,7 @@ import pa._v38.interfaces.eInterfaces;
 import pa._v38.interfaces.modules.I5_7_receive;
 import pa._v38.interfaces.modules.I5_7_send;
 import pa._v38.interfaces.modules.I5_6_receive;
+import pa._v38.memorymgmt.datahandler.clsDataStructureConverter;
 import pa._v38.memorymgmt.datatypes.clsPrimaryDataStructureContainer;
 import pa._v38.tools.toText;
 
@@ -29,7 +30,7 @@ import config.clsBWProperties;
 public class F37_PrimalRepressionForPerception extends clsModuleBase implements I5_6_receive, I5_7_send  {
 	public static final String P_MODULENUMBER = "37";
 	
-	private ArrayList<clsPrimaryDataStructureContainer> moEnvironmental_IN; 
+	private clsPrimaryDataStructureContainer moEnvironmental_IN; 
 	private ArrayList<clsPrimaryDataStructureContainer> moEvaluatedEnvironment_OUT;
 		
 	/**
@@ -61,7 +62,7 @@ public class F37_PrimalRepressionForPerception extends clsModuleBase implements 
 	public String stateToTEXT() {
 		String text ="";
 		
-		text += toText.listToTEXT("moEnvironmental_IN", moEnvironmental_IN);
+		text += toText.valueToTEXT("moEnvironmental_IN", moEnvironmental_IN);
 		text += toText.listToTEXT("moEvaluatedEnvironment_OUT", moEvaluatedEnvironment_OUT);
 		
 		return text;
@@ -97,7 +98,7 @@ public class F37_PrimalRepressionForPerception extends clsModuleBase implements 
 	@Override
 	protected void process_basic() {
 		// TODO (HINTERLEITNER) - Auto-generated method stub
-		moEvaluatedEnvironment_OUT = moEnvironmental_IN; 
+		moEvaluatedEnvironment_OUT = clsDataStructureConverter.convertTIContToTPMCont(moEnvironmental_IN); 
 	}
 
 	/* (non-Javadoc)
@@ -163,8 +164,8 @@ public class F37_PrimalRepressionForPerception extends clsModuleBase implements 
 	 */
 	@SuppressWarnings("unchecked")
 	@Override
-	public void receive_I5_6(ArrayList<clsPrimaryDataStructureContainer> poEnvironmentalTP) {
-		moEnvironmental_IN = (ArrayList<clsPrimaryDataStructureContainer>)deepCopy(poEnvironmentalTP); 
+	public void receive_I5_6(clsPrimaryDataStructureContainer poEnvironmentalTP) {
+		moEnvironmental_IN = (clsPrimaryDataStructureContainer)deepCopy(poEnvironmentalTP); 
 	}
 
 	/**
@@ -173,7 +174,7 @@ public class F37_PrimalRepressionForPerception extends clsModuleBase implements 
 	 * 
 	 * @return the moEnvironmental_IN
 	 */
-	public ArrayList<clsPrimaryDataStructureContainer> getMoEnvironmental_IN() {
+	public clsPrimaryDataStructureContainer getMoEnvironmental_IN() {
 		return moEnvironmental_IN;
 	}
 	/**
