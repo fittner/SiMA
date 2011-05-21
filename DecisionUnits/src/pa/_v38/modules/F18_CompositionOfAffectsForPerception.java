@@ -17,6 +17,7 @@ import pa._v38.interfaces.eInterfaces;
 import pa._v38.interfaces.modules.I5_9_receive;
 import pa._v38.interfaces.modules.I5_10_receive;
 import pa._v38.interfaces.modules.I5_10_send;
+import pa._v38.memorymgmt.datahandler.clsDataStructureConverter;
 import pa._v38.memorymgmt.datatypes.clsAssociation;
 import pa._v38.memorymgmt.datatypes.clsAssociationDriveMesh;
 import pa._v38.memorymgmt.datatypes.clsDriveMesh;
@@ -33,6 +34,12 @@ import pa._v38.memorymgmt.datatypes.clsThingPresentationMesh;
  */
 public class F18_CompositionOfAffectsForPerception extends clsModuleBase implements I5_9_receive, I5_10_send {
 	public static final String P_MODULENUMBER = "18";
+	
+	private clsPrimaryDataStructureContainer moEnvironmentalPerception_IN;
+	private ArrayList<clsPrimaryDataStructureContainer> moAssociatedMemories_IN;
+	
+	private clsPrimaryDataStructureContainer moEnvironmentalPerception_OUT;
+	private ArrayList<clsPrimaryDataStructureContainer> moAssociatedMemories_OUT;
 	
 	private ArrayList<clsPair<clsPrimaryDataStructureContainer, clsDriveMesh>> moLibidoPleasureCandidates_IN;
 	private ArrayList<clsPair<clsPrimaryDataStructureContainer, clsDriveMesh>> moPerception_IN;
@@ -140,21 +147,15 @@ public class F18_CompositionOfAffectsForPerception extends clsModuleBase impleme
 	@Override
 	protected void process_basic() {
 		//Merge inputs
-		mergeLists();
+		//FIXME: Adapt mergeLists to the new structure
+		//mergeLists();
 		//Merge quota of affect values original
-		adaptPleasureValue();
+		
+		//FIXME: Adapt adaptPleasureValue for the new datastructures
+		//adaptPleasureValue();
+		moNewPrimaryInformation = clsDataStructureConverter.convertTIContToTPMCont(moEnvironmentalPerception_IN);
 		
 		//**** New Data structures Don't delete AW 20110424 ****
-		
-		/*
-		moPerceivedImage_IN = tempMergeDMs(moMergedPrimaryInformation_Input);
-		moPerceivedImage_OUT = adaptPerceivedImageQuotaOfAffect(moPerceivedImage_IN);
-		//Set Output equal to processed input
-		
-		//Pass the indirect template images through without processing
-		moTemplateImages_OUT = moTemplateImages_IN; 
-		
-		*/
 	}
 	
 	//TD 2011/04/22
@@ -472,9 +473,9 @@ public class F18_CompositionOfAffectsForPerception extends clsModuleBase impleme
 	 */
 	@SuppressWarnings("unchecked")
 	@Override
-	public void receive_I5_9(
-			ArrayList<clsPair<clsPrimaryDataStructureContainer, clsDriveMesh>> poMergedPrimaryInformation) {
-		moPerception_IN = (ArrayList<clsPair<clsPrimaryDataStructureContainer, clsDriveMesh>>)deepCopy(poMergedPrimaryInformation);
+	public void receive_I5_9(clsPrimaryDataStructureContainer poMergedPrimaryInformation, ArrayList<clsPrimaryDataStructureContainer> poAssociatedMemories) {
+		moEnvironmentalPerception_IN = (clsPrimaryDataStructureContainer)deepCopy(poMergedPrimaryInformation);
+		moAssociatedMemories_IN = (ArrayList<clsPrimaryDataStructureContainer>)deepCopy(poAssociatedMemories);
 	}
 	/* (non-Javadoc)
 	 *
