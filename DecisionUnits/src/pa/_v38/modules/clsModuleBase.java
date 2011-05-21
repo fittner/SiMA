@@ -122,6 +122,9 @@ public abstract class clsModuleBase implements
 			if (!(other instanceof Cloneable)) {
 				clone = other;	//not cloneable
 			} else {
+				//FIXME: AW 20110521: How are relative references kept? 
+				// Before: Associated Datastructures ElementA = ID123, ElementB = ID122, Datastructre: ID123
+				// After: Associated Datastructures ElementA = ID999, ElementB = ID888, Datastructre: ID777
 				Class<?> clzz = other.getClass();
 				Method   meth = clzz.getMethod("clone", new Class[0]);
 				Object   dupl = meth.invoke(other, new Object[0]);
