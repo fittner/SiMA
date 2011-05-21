@@ -117,6 +117,7 @@ public class F46_FusionWithMemoryTraces extends clsModuleBaseKB implements
 		//Associated memories
 		//AW 20110521: TODO: Add function to load template images here
 		moAssociatedMemories_OUT = new ArrayList<clsPrimaryDataStructureContainer>();
+		moAssociatedMemories_OUT.add(moEnvironmentalPerception_OUT);
 		
 		
 		
@@ -312,7 +313,7 @@ public class F46_FusionWithMemoryTraces extends clsModuleBaseKB implements
 	 */
 	@Override
 	protected void send() {
-		send_I5_6(moEnvironmentalPerception_OUT);
+		send_I5_6(moEnvironmentalPerception_OUT, moAssociatedMemories_OUT);
 	}
 
 	/* (non-Javadoc)
@@ -361,7 +362,7 @@ public class F46_FusionWithMemoryTraces extends clsModuleBaseKB implements
 	 * @see pa.interfaces.send._v38.I2_20_send#receive_I2_20(java.util.ArrayList)
 	 */
 	@Override
-	public void send_I5_6(clsPrimaryDataStructureContainer poEnvironmentalTP) {
+	public void send_I5_6(clsPrimaryDataStructureContainer poEnvironmentalTP, ArrayList<clsPrimaryDataStructureContainer> poAssociatedMemories) {
 		/* The inputs and outputs can be changed if the following parameters are changed:
 		 * clsModuleBase.deepcopy
 		 * this function
@@ -370,8 +371,8 @@ public class F46_FusionWithMemoryTraces extends clsModuleBaseKB implements
 		 * I5_6_receive.java
 		 */
 		//Give output to input of F37
-		((I5_6_receive)moModuleList.get(37)).receive_I5_6(poEnvironmentalTP);
-		putInterfaceData(I5_6_send.class, poEnvironmentalTP);
+		((I5_6_receive)moModuleList.get(37)).receive_I5_6(poEnvironmentalTP, poAssociatedMemories);
+		putInterfaceData(I5_6_send.class, poEnvironmentalTP, poAssociatedMemories);
 	}
 
 	/* (non-Javadoc)

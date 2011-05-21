@@ -14,7 +14,6 @@ import pa._v38.interfaces.eInterfaces;
 import pa._v38.interfaces.modules.I5_7_receive;
 import pa._v38.interfaces.modules.I5_7_send;
 import pa._v38.interfaces.modules.I5_6_receive;
-import pa._v38.memorymgmt.datahandler.clsDataStructureConverter;
 import pa._v38.memorymgmt.datatypes.clsPrimaryDataStructureContainer;
 import pa._v38.tools.toText;
 
@@ -30,8 +29,11 @@ import config.clsBWProperties;
 public class F37_PrimalRepressionForPerception extends clsModuleBase implements I5_6_receive, I5_7_send  {
 	public static final String P_MODULENUMBER = "37";
 	
-	private clsPrimaryDataStructureContainer moEnvironmental_IN; 
-	private ArrayList<clsPrimaryDataStructureContainer> moEvaluatedEnvironment_OUT;
+	private clsPrimaryDataStructureContainer moEnvironmentalPerception_IN;
+	private ArrayList<clsPrimaryDataStructureContainer> moAssociatedMemories_IN;
+	
+	private clsPrimaryDataStructureContainer moEvaluatedEnvironment_OUT;
+	private ArrayList<clsPrimaryDataStructureContainer> moAssociatedMemories_OUT;
 		
 	/**
 	 * DOCUMENT (HINTERLEITNER) - insert description 
@@ -62,8 +64,8 @@ public class F37_PrimalRepressionForPerception extends clsModuleBase implements 
 	public String stateToTEXT() {
 		String text ="";
 		
-		text += toText.valueToTEXT("moEnvironmental_IN", moEnvironmental_IN);
-		text += toText.listToTEXT("moEvaluatedEnvironment_OUT", moEvaluatedEnvironment_OUT);
+		text += toText.valueToTEXT("moEnvironmentalPerception_IN", moEnvironmentalPerception_IN);
+		text += toText.valueToTEXT("moEvaluatedEnvironment_OUT", moEvaluatedEnvironment_OUT);
 		
 		return text;
 	}	
@@ -98,7 +100,11 @@ public class F37_PrimalRepressionForPerception extends clsModuleBase implements 
 	@Override
 	protected void process_basic() {
 		// TODO (HINTERLEITNER) - Auto-generated method stub
-		moEvaluatedEnvironment_OUT = clsDataStructureConverter.convertTIContToTPMCont(moEnvironmental_IN); 
+		//moEvaluatedEnvironment_OUT = clsDataStructureConverter.convertTIContToTPMCont(moEnvironmental_IN);
+		moEvaluatedEnvironment_OUT = moEnvironmentalPerception_IN;
+		
+		//Indirect associated memories are "durchgeschliffen"
+		moAssociatedMemories_OUT = moAssociatedMemories_IN;
 	}
 
 	/* (non-Javadoc)
@@ -136,7 +142,7 @@ public class F37_PrimalRepressionForPerception extends clsModuleBase implements 
 	 */
 	@Override
 	protected void send() {
-		send_I5_7(moEvaluatedEnvironment_OUT);
+		send_I5_7(moEvaluatedEnvironment_OUT, moAssociatedMemories_OUT);
 
 	}
 	/* (non-Javadoc)
@@ -147,13 +153,12 @@ public class F37_PrimalRepressionForPerception extends clsModuleBase implements 
 	 * @see pa.interfaces.send._v38.I2_14_send#send_I2_14(java.util.ArrayList)
 	 */
 	@Override
-	public void send_I5_7(
-			ArrayList<clsPrimaryDataStructureContainer> poEnvironmentalTP) {
+	public void send_I5_7(clsPrimaryDataStructureContainer poEnvironmentalTP, ArrayList<clsPrimaryDataStructureContainer> poAssociatedMemories) {
 		
-		((I5_7_receive)moModuleList.get(35)).receive_I5_7(poEnvironmentalTP);
-		((I5_7_receive)moModuleList.get(57)).receive_I5_7(poEnvironmentalTP);
+		((I5_7_receive)moModuleList.get(35)).receive_I5_7(poEnvironmentalTP, poAssociatedMemories);	//Associated memories only for perception
+		((I5_7_receive)moModuleList.get(57)).receive_I5_7(poEnvironmentalTP, poAssociatedMemories);
 		
-		putInterfaceData(I5_7_send.class, poEnvironmentalTP);
+		putInterfaceData(I5_7_send.class, poEnvironmentalTP, poAssociatedMemories);
 	}
 	/* (non-Javadoc)
 	 *
@@ -164,8 +169,10 @@ public class F37_PrimalRepressionForPerception extends clsModuleBase implements 
 	 */
 	@SuppressWarnings("unchecked")
 	@Override
-	public void receive_I5_6(clsPrimaryDataStructureContainer poEnvironmentalTP) {
-		moEnvironmental_IN = (clsPrimaryDataStructureContainer)deepCopy(poEnvironmentalTP); 
+	public void receive_I5_6(clsPrimaryDataStructureContainer poEnvironmentalTP, ArrayList<clsPrimaryDataStructureContainer> poAssociatedMemories) {
+		moEnvironmentalPerception_IN = (clsPrimaryDataStructureContainer)deepCopy(poEnvironmentalTP);
+		moAssociatedMemories_IN = (ArrayList<clsPrimaryDataStructureContainer>)deepCopy(poAssociatedMemories);
+		
 	}
 
 	/**
@@ -175,7 +182,7 @@ public class F37_PrimalRepressionForPerception extends clsModuleBase implements 
 	 * @return the moEnvironmental_IN
 	 */
 	public clsPrimaryDataStructureContainer getMoEnvironmental_IN() {
-		return moEnvironmental_IN;
+		return moEnvironmentalPerception_IN;
 	}
 	/**
 	 * @author zeilinger
@@ -183,8 +190,12 @@ public class F37_PrimalRepressionForPerception extends clsModuleBase implements 
 	 * 
 	 * @return the moEvaluatedEnvironment_OUT
 	 */
-	public ArrayList<clsPrimaryDataStructureContainer> getMoEvaluatedEnvironment_OUT() {
+	public clsPrimaryDataStructureContainer getMoEvaluatedEnvironment_OUT() {
 		return moEvaluatedEnvironment_OUT;
+	}
+	
+	public ArrayList<clsPrimaryDataStructureContainer> getMoAssociatedMemories_OUT() {
+		return moAssociatedMemories_OUT;
 	}
 	/* (non-Javadoc)
 	 *
