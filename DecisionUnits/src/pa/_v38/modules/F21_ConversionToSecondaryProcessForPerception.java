@@ -24,6 +24,7 @@ import pa._v38.interfaces.modules.I6_4_receive;
 import pa._v38.interfaces.modules.I6_4_send;
 import pa._v38.interfaces.modules.I6_9_receive;
 import pa._v38.memorymgmt.clsKnowledgeBaseHandler;
+import pa._v38.memorymgmt.datahandler.clsDataStructureConverter;
 import pa._v38.memorymgmt.datahandler.clsDataStructureGenerator;
 import pa._v38.memorymgmt.datatypes.clsAffect;
 import pa._v38.memorymgmt.datatypes.clsAssociation;
@@ -49,7 +50,13 @@ public class F21_ConversionToSecondaryProcessForPerception extends clsModuleBase
 			I5_15_receive, I6_9_receive, I6_1_send, I6_4_send {
 	public static final String P_MODULENUMBER = "21";
 	
-	private ArrayList<clsPrimaryDataStructureContainer> moGrantedPerception_Input; 
+	//AW 20110522: New inputs
+	private clsPrimaryDataStructureContainer moEnvironmentalPerception_IN;
+	//AW 20110522: The input below will be used soon, in order to extract expectations.
+	@SuppressWarnings("unused")
+	private ArrayList<clsPrimaryDataStructureContainer> moAssociatedMemories_IN;
+	
+	//private ArrayList<clsPrimaryDataStructureContainer> moGrantedPerception_Input; 
 	//FIXME HZ: This would require a change in the interfaces!!! => different to the actual definition
 	//private ArrayList<clsPair<clsSecondaryDataStructureContainer, clsPair<clsWordPresentation, clsWordPresentation>>> moPerception_Output; 
 	private ArrayList<clsSecondaryDataStructureContainer> moPerception_Output; 
@@ -85,7 +92,7 @@ public class F21_ConversionToSecondaryProcessForPerception extends clsModuleBase
 	public String stateToTEXT() {		
 		String text = "";
 		
-		text += toText.listToTEXT("moGrantedPerception_Input", moGrantedPerception_Input);
+		text += toText.valueToTEXT("moEnvironmentalPerception_IN", moEnvironmentalPerception_IN);
 		text += toText.listToTEXT("moPerception_Output", moPerception_Output);
 		text += toText.listToTEXT("moOrderedResult", moOrderedResult);
 		text += toText.mapToTEXT("moTemporaryDM", moTemporaryDM);
@@ -142,8 +149,9 @@ public class F21_ConversionToSecondaryProcessForPerception extends clsModuleBase
 	 */
 	@SuppressWarnings("unchecked")
 	@Override
-	public void receive_I5_15(ArrayList<clsPrimaryDataStructureContainer> poGrantedPerception) {
-		moGrantedPerception_Input = (ArrayList<clsPrimaryDataStructureContainer>)this.deepCopy(poGrantedPerception);
+	public void receive_I5_15(clsPrimaryDataStructureContainer poEnvironmentalPerception, ArrayList<clsPrimaryDataStructureContainer> poAssociatedMemories) {
+		moEnvironmentalPerception_IN = (clsPrimaryDataStructureContainer)this.deepCopy(poEnvironmentalPerception);
+		moAssociatedMemories_IN = (ArrayList<clsPrimaryDataStructureContainer>)this.deepCopy(poAssociatedMemories);
 	}
 
 	/* (non-Javadoc)
@@ -200,6 +208,9 @@ public class F21_ConversionToSecondaryProcessForPerception extends clsModuleBase
 		 *    talk to the programmer or read the code... read the code first.     
 		 */
 		moOrderedResult = new ArrayList<clsTripple<clsDataStructurePA, ArrayList<clsTemplateImage>, ArrayList<clsPair<clsDriveMesh, clsAffect>>>>(); 
+		
+		//AW 20110522: Convert from new input
+		ArrayList<clsPrimaryDataStructureContainer> moGrantedPerception_Input = clsDataStructureConverter.convertTIContToTPMCont(moEnvironmentalPerception_IN);
 		
 		for(clsPrimaryDataStructureContainer oContainer : moGrantedPerception_Input){
 			ArrayList<ArrayList<clsPair<Double,clsDataStructureContainer>>> oSearchResult 

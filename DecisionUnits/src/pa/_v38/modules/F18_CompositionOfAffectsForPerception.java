@@ -17,12 +17,10 @@ import pa._v38.interfaces.eInterfaces;
 import pa._v38.interfaces.modules.I5_9_receive;
 import pa._v38.interfaces.modules.I5_10_receive;
 import pa._v38.interfaces.modules.I5_10_send;
-import pa._v38.memorymgmt.datahandler.clsDataStructureConverter;
 import pa._v38.memorymgmt.datatypes.clsAssociation;
 import pa._v38.memorymgmt.datatypes.clsAssociationDriveMesh;
 import pa._v38.memorymgmt.datatypes.clsDriveMesh;
 import pa._v38.memorymgmt.datatypes.clsPrimaryDataStructureContainer;
-import pa._v38.memorymgmt.datatypes.clsTemplateImage;
 import pa._v38.memorymgmt.datatypes.clsThingPresentationMesh;
 
 /**
@@ -48,16 +46,16 @@ public class F18_CompositionOfAffectsForPerception extends clsModuleBase impleme
 	private ArrayList<clsPrimaryDataStructureContainer> moNewPrimaryInformation; 
 	
 	//new input
-	@SuppressWarnings("unused")
-	private clsTemplateImage moPerceivedImage_IN;
-	@SuppressWarnings("unused")
-	private ArrayList<clsTemplateImage> moTemplateImages_IN;
+	//@SuppressWarnings("unused")
+	//private clsTemplateImage moPerceivedImage_IN;
+	//@SuppressWarnings("unused")
+	//private ArrayList<clsTemplateImage> moTemplateImages_IN;
 	
 	//new output
-	@SuppressWarnings("unused")
-	private clsTemplateImage moPerceivedImage_OUT;
-	@SuppressWarnings("unused")
-	private ArrayList<clsTemplateImage> moTemplateImages_OUT;
+	//@SuppressWarnings("unused")
+	//private clsTemplateImage moPerceivedImage_OUT;
+	//@SuppressWarnings("unused")
+	//private ArrayList<clsTemplateImage> moTemplateImages_OUT;
 
 	
 	/**
@@ -153,8 +151,11 @@ public class F18_CompositionOfAffectsForPerception extends clsModuleBase impleme
 		
 		//FIXME: Adapt adaptPleasureValue for the new datastructures
 		//adaptPleasureValue();
-		moNewPrimaryInformation = clsDataStructureConverter.convertTIContToTPMCont(moEnvironmentalPerception_IN);
+		//moNewPrimaryInformation = clsDataStructureConverter.convertTIContToTPMCont(moEnvironmentalPerception_IN);
 		
+		//Durchschleifen bis adaptPleasureValue fertig ist
+		moEnvironmentalPerception_OUT = moEnvironmentalPerception_IN;
+		moAssociatedMemories_OUT = moAssociatedMemories_IN;
 		//**** New Data structures Don't delete AW 20110424 ****
 	}
 	
@@ -408,7 +409,7 @@ public class F18_CompositionOfAffectsForPerception extends clsModuleBase impleme
 	 */
 	@Override
 	protected void send() {
-		send_I5_10(moNewPrimaryInformation);
+		send_I5_10(moEnvironmentalPerception_OUT, moAssociatedMemories_OUT);
 	}
 
 	/* (non-Javadoc)
@@ -419,10 +420,10 @@ public class F18_CompositionOfAffectsForPerception extends clsModuleBase impleme
 	 * @see pa.interfaces.send.I2_9_send#send_I2_9(java.util.ArrayList)
 	 */
 	@Override
-	public void send_I5_10(ArrayList<clsPrimaryDataStructureContainer> poMergedPrimaryInformation) {
-		((I5_10_receive)moModuleList.get(7)).receive_I5_10(poMergedPrimaryInformation);
+	public void send_I5_10(clsPrimaryDataStructureContainer poMergedPrimaryInformation, ArrayList<clsPrimaryDataStructureContainer> poAssociatedMemories) {
+		((I5_10_receive)moModuleList.get(7)).receive_I5_10(poMergedPrimaryInformation, poAssociatedMemories);
 		
-		putInterfaceData(I5_10_send.class, poMergedPrimaryInformation);
+		putInterfaceData(I5_10_send.class, poMergedPrimaryInformation, poAssociatedMemories);
 	}
 
 	/* (non-Javadoc)

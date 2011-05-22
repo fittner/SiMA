@@ -20,10 +20,12 @@ import pa._v38.interfaces.modules.I2_6_receive;
 import pa._v38.interfaces.modules.I5_19_receive;
 import pa._v38.memorymgmt.clsKnowledgeBaseHandler;
 import pa._v38.memorymgmt.datahandler.clsDataStructureConverter;
+import pa._v38.memorymgmt.datahandler.clsDataStructureGenerator;
 import pa._v38.memorymgmt.datatypes.clsAssociation;
 import pa._v38.memorymgmt.datatypes.clsAssociationAttribute;
 import pa._v38.memorymgmt.datatypes.clsDataStructureContainer;
 import pa._v38.memorymgmt.datatypes.clsDataStructurePA;
+import pa._v38.memorymgmt.datatypes.clsPhysicalRepresentation;
 import pa._v38.memorymgmt.datatypes.clsPrimaryDataStructure;
 import pa._v38.memorymgmt.datatypes.clsPrimaryDataStructureContainer;
 import pa._v38.memorymgmt.datatypes.clsThingPresentationMesh;
@@ -117,8 +119,8 @@ public class F46_FusionWithMemoryTraces extends clsModuleBaseKB implements
 		//Associated memories
 		//AW 20110521: TODO: Add function to load template images here
 		moAssociatedMemories_OUT = new ArrayList<clsPrimaryDataStructureContainer>();
-		moAssociatedMemories_OUT.add(moEnvironmentalPerception_OUT);
-		
+		clsTripple<String, ArrayList<clsPhysicalRepresentation>, Object> oContent = new clsTripple<String, ArrayList<clsPhysicalRepresentation>, Object>("Dummy", new ArrayList<clsPhysicalRepresentation>(), "Dummy");
+		moAssociatedMemories_OUT.add(new clsPrimaryDataStructureContainer(clsDataStructureGenerator.generateTI(oContent), new ArrayList<clsAssociation>()));
 		
 		
 		//****** New Data structures Don't delete AW 20110424 *********

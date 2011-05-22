@@ -35,8 +35,15 @@ public class F19_DefenseMechanismsForPerception extends clsModuleBase implements
 			I5_14_receive, I5_11_receive, I5_15_send, I5_16_send{
 	public static final String P_MODULENUMBER = "19";
 	
-	private ArrayList<clsPrimaryDataStructureContainer> moSubjectivePerception_Input; 
-	private ArrayList<clsPrimaryDataStructureContainer> moFilteredPerception_Output; 
+	//AW 20110522: New inputs
+	private clsPrimaryDataStructureContainer moEnvironmentalPerception_IN;
+	private ArrayList<clsPrimaryDataStructureContainer> moAssociatedMemories_IN;
+	
+	private clsPrimaryDataStructureContainer moEnvironmentalPerception_OUT;
+	private ArrayList<clsPrimaryDataStructureContainer> moAssociatedMemories_OUT;
+	
+	//private ArrayList<clsPrimaryDataStructureContainer> moSubjectivePerception_Input; 
+	//private ArrayList<clsPrimaryDataStructureContainer> moFilteredPerception_Output; 
 	private ArrayList<pa._v38.memorymgmt.datatypes.clsThingPresentation> moDeniedThingPresentations;
 	private ArrayList<clsAssociationDriveMesh> moDeniedAffects;
 
@@ -71,8 +78,8 @@ public class F19_DefenseMechanismsForPerception extends clsModuleBase implements
 	public String stateToTEXT() {		
 		String text = "";
 		
-		text += toText.listToTEXT("moSubjectivePerception_Input", moSubjectivePerception_Input);
-		text += toText.listToTEXT("moFilteredPerception_Output", moFilteredPerception_Output);
+		text += toText.valueToTEXT("moEnvironmentalPerception_IN", moEnvironmentalPerception_IN);
+		text += toText.valueToTEXT("moEnvironmentalPerception_OUT", moEnvironmentalPerception_OUT);
 		text += toText.listToTEXT("moDeniedThingPresentations", moDeniedThingPresentations);
 		text += toText.listToTEXT("moDeniedAffects", moDeniedAffects);
 
@@ -128,12 +135,14 @@ public class F19_DefenseMechanismsForPerception extends clsModuleBase implements
 	 */
 	@Override
 	protected void process_basic() {
-		moFilteredPerception_Output = new ArrayList<clsPrimaryDataStructureContainer>(); 
+		//moFilteredPerception_Output = new ArrayList<clsPrimaryDataStructureContainer>(); 
 		//HZ 20.08.2010 All objects that do not have a drive evaluation attached are filtered in a first step =>
 		//				This makes sense as it is a problem to evaluate objects by the defense mechanisms that do
 		//			    not have drives attached (even this is essential for an evaluation)
 		//	 			The question that has to be discussed is if this filtering takes place in E18 or here.
-		filterInput(); 
+		filterInput();
+		
+		moAssociatedMemories_OUT = moAssociatedMemories_IN;
 	}
 	
 	/**
@@ -146,7 +155,10 @@ public class F19_DefenseMechanismsForPerception extends clsModuleBase implements
 	 */
 	private void filterInput() {
 		//FIXME (gelbard) - Input changed
-//		for(clsPrimaryDataStructureContainer oContainer : moSubjectivePerception_Input){
+
+		moEnvironmentalPerception_OUT = moEnvironmentalPerception_IN;
+		
+		//		for(clsPrimaryDataStructureContainer oContainer : moSubjectivePerception_Input){
 //			for(clsAssociation oAssociation : oContainer.getMoAssociatedDataStructures()){
 //				//HZ: if program steps into the if-statement it is known that 
 //				//	  a drive mesh is associated with the data structure => it has an affective evaluation
@@ -166,7 +178,12 @@ public class F19_DefenseMechanismsForPerception extends clsModuleBase implements
 	 * @see pa.interfaces.I3_2#receive_I3_2(int)
 	 */
 	@Override
-	public void receive_I5_11(ArrayList<clsPrimaryDataStructureContainer> poData) {
+	public void receive_I5_11(clsPrimaryDataStructureContainer poEnvironmentalPerception, ArrayList<clsPrimaryDataStructureContainer> poAssociatedMemories) {
+		moEnvironmentalPerception_IN = (clsPrimaryDataStructureContainer) deepCopy(poEnvironmentalPerception);
+		//FIXME AW 20110522: Why is this warning present???
+		moAssociatedMemories_IN = (ArrayList<clsPrimaryDataStructureContainer>) deepCopy(poAssociatedMemories);
+		
+		//AW 20110522 What is this?
 		mnTest = 0;
 	}
 	
@@ -195,7 +212,7 @@ public class F19_DefenseMechanismsForPerception extends clsModuleBase implements
 	@Override
 	protected void send() {
 		//HZ: null is a placeholder for the bjects of the type pa._v38.memorymgmt.datatypes
-		send_I5_15(moFilteredPerception_Output);
+		send_I5_15(moEnvironmentalPerception_OUT, moAssociatedMemories_OUT);
 		send_I5_16(moDeniedAffects);
 	}
 	
@@ -207,9 +224,9 @@ public class F19_DefenseMechanismsForPerception extends clsModuleBase implements
 	 * @see pa.interfaces.send.I2_10_send#send_I2_10(java.util.ArrayList)
 	 */
 	@Override
-	public void send_I5_15(ArrayList<clsPrimaryDataStructureContainer> poGrantedPerception) {
-		((I5_15_receive)moModuleList.get(21)).receive_I5_15(poGrantedPerception);
-		putInterfaceData(I5_15_send.class, poGrantedPerception);
+	public void send_I5_15(clsPrimaryDataStructureContainer poEnvironmentalPerception, ArrayList<clsPrimaryDataStructureContainer> poAssociatedMemories) {
+		((I5_15_receive)moModuleList.get(21)).receive_I5_15(poEnvironmentalPerception, poAssociatedMemories);
+		putInterfaceData(I5_15_send.class, poEnvironmentalPerception, poAssociatedMemories);
 		
 	}
 

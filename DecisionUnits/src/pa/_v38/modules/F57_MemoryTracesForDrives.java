@@ -95,7 +95,6 @@ public class F57_MemoryTracesForDrives extends clsModuleBaseKB
 	 * 
 	 * @see pa._v38.interfaces.modules.I5_7_receive#receive_I5_7(java.util.ArrayList)
 	 */
-	@SuppressWarnings("unchecked")
 	@Override
 	public void receive_I5_7(clsPrimaryDataStructureContainer poEnvironmentalTP, ArrayList<clsPrimaryDataStructureContainer> poAssociatedMemories) {
 		moEnvironmentalTP = (clsPrimaryDataStructureContainer)deepCopy(poEnvironmentalTP); 
