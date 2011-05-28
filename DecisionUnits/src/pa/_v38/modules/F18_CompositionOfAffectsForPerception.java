@@ -8,6 +8,7 @@ package pa._v38.modules;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.ListIterator;
 import java.util.SortedMap;
 import config.clsBWProperties;
 import pa._v38.tools.clsPair;
@@ -21,7 +22,6 @@ import pa._v38.memorymgmt.datatypes.clsAssociation;
 import pa._v38.memorymgmt.datatypes.clsAssociationDriveMesh;
 import pa._v38.memorymgmt.datatypes.clsDriveMesh;
 import pa._v38.memorymgmt.datatypes.clsPrimaryDataStructureContainer;
-import pa._v38.memorymgmt.datatypes.clsThingPresentationMesh;
 
 /**
  * DOCUMENT (wendt) - insert description 
@@ -44,20 +44,7 @@ public class F18_CompositionOfAffectsForPerception extends clsModuleBase impleme
 	private ArrayList<clsTripple<clsPrimaryDataStructureContainer,clsDriveMesh,clsDriveMesh>> moMergedPrimaryInformation_Input;
 	
 	private ArrayList<clsPrimaryDataStructureContainer> moNewPrimaryInformation; 
-	
-	//new input
-	//@SuppressWarnings("unused")
-	//private clsTemplateImage moPerceivedImage_IN;
-	//@SuppressWarnings("unused")
-	//private ArrayList<clsTemplateImage> moTemplateImages_IN;
-	
-	//new output
-	//@SuppressWarnings("unused")
-	//private clsTemplateImage moPerceivedImage_OUT;
-	//@SuppressWarnings("unused")
-	//private ArrayList<clsTemplateImage> moTemplateImages_OUT;
 
-	
 	/**
 	 * DOCUMENT (wendt) - insert description 
 	 * 
@@ -145,22 +132,115 @@ public class F18_CompositionOfAffectsForPerception extends clsModuleBase impleme
 	@Override
 	protected void process_basic() {
 		//Merge inputs
-		//FIXME: Adapt mergeLists to the new structure
 		//mergeLists();
 		//Merge quota of affect values original
-		
-		//FIXME: Adapt adaptPleasureValue for the new datastructures
 		//adaptPleasureValue();
 		//moNewPrimaryInformation = clsDataStructureConverter.convertTIContToTPMCont(moEnvironmentalPerception_IN);
 		
-		//Durchschleifen bis adaptPleasureValue fertig ist
-		moEnvironmentalPerception_OUT = moEnvironmentalPerception_IN;
+		moEnvironmentalPerception_OUT = mergeDriveMeshes(moEnvironmentalPerception_IN);
 		moAssociatedMemories_OUT = moAssociatedMemories_IN;
-		//**** New Data structures Don't delete AW 20110424 ****
+	}
+	
+	//AW 20110528 new function
+	private clsPrimaryDataStructureContainer mergeDriveMeshes(clsPrimaryDataStructureContainer oInput) {
+		/* DMs are added from F35 and F45 to the PDSC. In this function, all values, which are from the same
+		 * type are summarized, e. g. moContentType is equal
+		 */
+		
+		//Create a new empty List of associations, in which the modified associations are added
+		ArrayList<clsAssociation> oNewAss = new ArrayList<clsAssociation>();
+		
+		//For each association to a template image in the template image
+				
+		/* Create an Arraylist with booleans in order to only add the elements, which are set true
+		 * This is used for avoiding to add an association twice
+		 */
+		ArrayList<clsPair<clsAssociation, Boolean>> oArrAssFirst = new ArrayList<clsPair<clsAssociation, Boolean>>();
+		for (int i=0;i<oInput.getMoAssociatedDataStructures().size();i++) {
+			oArrAssFirst.add(new clsPair<clsAssociation, Boolean>(oInput.getMoAssociatedDataStructures().get(i),false));
+		}
+		
+		ListIterator<clsPair<clsAssociation, Boolean>> liMainList = oArrAssFirst.listIterator();
+		ListIterator<clsPair<clsAssociation, Boolean>> liSubList;
+		clsAssociation oFirstAss;
+		//Go through each element in the first list
+		while (liMainList.hasNext()) {
+			clsPair<clsAssociation, Boolean> oFirstAssPair = liMainList.next();
+			oFirstAss = oFirstAssPair.a;
+			
+			if ((oFirstAss instanceof clsAssociationDriveMesh) && (oFirstAssPair.b == false)) {
+				//Get a DM from the associated content
+				clsDriveMesh oFirstDM = (clsDriveMesh)oFirstAss.getLeafElement();
+				
+				/* Here the new content is set depending on the highest level of total quota of affect
+				 * of all equal drive mesh types in the object. If another object has a higher
+				 * mrPleasure, its content is taken.
+				 */
+				double rMaxTotalQuotaOfAffect = oFirstDM.getMrPleasure();	//FIXME Add Unpleasure too
+				String sMaxContent = oFirstDM.getMoContent();
+						
+				//Go through all following associations of that object
+				//Iterator<clsAssociation> oArrAssSecond = ;
+				//Go to the position of the first element
+				
+				liSubList = oArrAssFirst.listIterator(liMainList.nextIndex());
+				//for (int i=0;i<=iStartIndex;i++) {
+				//	it2.next();
+				//}
+				
+				while (liSubList.hasNext()) {
+					clsPair<clsAssociation, Boolean> oSecondAssPair = liSubList.next();
+					clsAssociation oSecondAss = oSecondAssPair.a;
+					//Boolean oDelete = oSecondAssPair.b;
+					
+					//If the DM belongs to the same TPM oder TP AND it is a DM and it has not been used yet
+					if ((oFirstAss.getRootElement().getMoDS_ID() == oSecondAss.getRootElement().getMoDS_ID()) && (oSecondAss instanceof clsAssociationDriveMesh)  
+							&& (oSecondAssPair.b == false)) {	
+						clsDriveMesh oSecondDM = (clsDriveMesh)oSecondAss.getLeafElement();
+						//firstAssociation is compared with the secondAssociation
+						//If the content type of the DM are equal then
+						if (oFirstDM.getMoContentType().intern() == oSecondDM.getMoContentType().intern()) {
+							//1. Add mrPleasure from the second to the first DM
+							double mrNewPleasure = oFirstDM.getMrPleasure() + oSecondDM.getMrPleasure(); //No averaging was made here
+							oFirstDM.setMrPleasure(mrNewPleasure);
+							//Set second DM as used (true)
+							oSecondAssPair.b = true;
+							//2. Add Unpleasure from second to first DM
+							//FIXME: AW 20110528: Add unpleasure too?
+							//double mrNewUnpleasure = oFirstDM.getMrUnpleasure() + oSecondDM.getMrUnpleasure(); //No averaging was made here
+							//oFirstDM.setMrPleasure(mrNewUnpleasure);
+							//3. Check if the quota of affect is higher for the second DM and exchange content
+							
+							//FIXME: Why does the import nicht work of java.lang.Math
+							if (java.lang.Math.abs(oSecondDM.getMrPleasure()) > java.lang.Math.abs(rMaxTotalQuotaOfAffect)) {
+								//FIXME: Corrent the function to consider mrUnpleasure too
+								sMaxContent = oSecondDM.getMoContent();
+								rMaxTotalQuotaOfAffect = oSecondDM.getMrPleasure();
+							}
+							//4. Delete oSeconDM
+							//ListIterator<clsAssociation> itr = oArrAssFirst.listIterator(liSubList.previousIndex());
+							//oSecondAss = liSubList.previous();
+							//liSubList.remove();
+						}
+					}
+				}
+				//Set new content if different, in order to set the content to the one with the highest mrPleasure
+				if (oFirstDM.getMoContent().equals(sMaxContent)==false) {
+					oFirstDM.setMoContent(sMaxContent);
+				}
+			}
+			//Add the association to the list if it has not been used yet
+			if (oFirstAssPair.b == false) {
+				oNewAss.add(oFirstAss);
+			}
+		}
+		clsPrimaryDataStructureContainer oMergedResult = new clsPrimaryDataStructureContainer(oInput.getMoDataStructure(), oNewAss);
+		
+		return oMergedResult;
 	}
 	
 	//TD 2011/04/22
-	private void mergeLists() {
+	/*private void mergeLists() {
 		//merge the two lists which are incoming from the two receive interfaces. the clsPrimaryDataStructureContainers entries
 		//are the same. moLibidoPleasureCandidates_IN is a subgroup of moPerception_IN
 		moMergedPrimaryInformation_Input = new ArrayList<clsTripple<clsPrimaryDataStructureContainer,clsDriveMesh,clsDriveMesh>>();
@@ -182,7 +262,7 @@ public class F18_CompositionOfAffectsForPerception extends clsModuleBase impleme
 				new clsTripple<clsPrimaryDataStructureContainer, clsDriveMesh, clsDriveMesh>(oPDSC, oDMRepressed, oDMLibido);
 			moMergedPrimaryInformation_Input.add(oEntry);
 		}
-	}
+	}*/
 	
 	/**
 	 * DOCUMENT (zeilinger) - insert description
@@ -191,7 +271,7 @@ public class F18_CompositionOfAffectsForPerception extends clsModuleBase impleme
 	 * 18.08.2010, 12:44:36
 	 *
 	 */
-	private void adaptPleasureValue() {
+	/*private void adaptPleasureValue() {
 		moNewPrimaryInformation = new ArrayList<clsPrimaryDataStructureContainer>(); 
 		
 		//for each pair in the input list...
@@ -219,10 +299,10 @@ public class F18_CompositionOfAffectsForPerception extends clsModuleBase impleme
 			}	
 			moNewPrimaryInformation.add(oPDSC); 
 		}
-	}
+	}*/
 	
     //TD 2011/04/22 - refactored adaptPleasureValue function
-	private void processLibidoContent(clsDriveMesh oDMInput, clsDriveMesh oDMLibido) {
+	/*private void processLibidoContent(clsDriveMesh oDMInput, clsDriveMesh oDMLibido) {
 		//this function processes data received by interface I2.16
 		
 		if (oDMLibido != null) {
@@ -237,10 +317,10 @@ public class F18_CompositionOfAffectsForPerception extends clsModuleBase impleme
 			
 			oDMInput.setPleasure(rResult);
 		}
-	}
+	}*/
 	
     //TD 2011/04/22 - refactored adaptPleasureValue function
-	private void processRepressedContent(clsDriveMesh oDMInput, clsDriveMesh oDMRepressed) {
+	/*private void processRepressedContent(clsDriveMesh oDMInput, clsDriveMesh oDMRepressed) {
 		//this function processes data received by interface I2.8
 		
 		if (oDMRepressed != null) { //in the minimal model version, no drive meshes are attached! see E35.
@@ -248,28 +328,16 @@ public class F18_CompositionOfAffectsForPerception extends clsModuleBase impleme
 			 * the pleasure of repressed content and the object. Then, new moContent is set from the 
 			 * Repressed content (NOURISH GREEDY statt NOURISH_CAKEBASIC).
 			 */
-			if (oDMInput.getMoContentType().intern() == oDMRepressed.getMoContentType().intern()) {
+			/*if (oDMInput.getMoContentType().intern() == oDMRepressed.getMoContentType().intern()) {
 			//old Fix here if(oDMInput.getMoContent().intern() == oDMRepressed.getMoContent().intern()){
 				oDMInput.setPleasure((oDMInput.getPleasure()+oDMRepressed.getPleasure())/2); 
 				oDMInput.setMoContent(oDMRepressed.getMoContent()); 
 			}
 		}
-	}
+	}*/
 	
 	//AW 2011-04-18, new adaptpleasurefunction
-	/*private clsTemplateImage adaptPerceivedImageQuotaOfAffect(clsTemplateImage oPerceivedImageUnmerged) {
-		clsTemplateImage oPerceivedImageMerged = oPerceivedImageUnmerged;
-		
-		for (clsAssociation oAss : oPerceivedImageMerged.getMoAssociatedContent()) {
-			//direct adaptation in the image without creating new instances
-			adaptObjectQuotaOfAffect((clsTemplateImage)oAss.getLeafElement());
-		}
-		
-		return oPerceivedImageMerged;
-	}
-	
-	//AW 2011-04-18, new adaptpleasurefunction
-	private void adaptObjectQuotaOfAffect(clsTemplateImage oObjectUnmerged) {
+	/*private void adaptObjectQuotaOfAffect(clsTemplateImage oObjectUnmerged) {
 		// oDirectTI is directly manipulated
 		/* structure of oDirectTI: DM from repressed content are added as associations in the
 		 * complete template image, i. e. to the extrinsic properties. From E35, DM are 

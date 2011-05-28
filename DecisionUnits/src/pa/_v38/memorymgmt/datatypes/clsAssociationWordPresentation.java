@@ -59,4 +59,9 @@ public class clsAssociationWordPresentation extends clsAssociation{
 	public clsDataStructurePA getLeafElement() {
 		return moAssociationElementA; 
 	}
+	
+	@Override
+	public clsDataStructurePA getRootElement() {
+		return moAssociationElementB;
+	}
 }
