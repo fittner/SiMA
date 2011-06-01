@@ -20,5 +20,5 @@ import pa._v38.memorymgmt.datatypes.clsPrimaryDataStructureContainer;
  * 
  */
 public interface I5_11_receive {
-	public void receive_I5_11(ArrayList<clsPrimaryDataStructureContainer> poData);
+	public void receive_I5_11(clsPrimaryDataStructureContainer poEnvironmentalPerception, ArrayList<clsPrimaryDataStructureContainer> poAssociatedMemories);
 }

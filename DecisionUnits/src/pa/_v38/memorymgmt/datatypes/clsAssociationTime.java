@@ -63,4 +63,10 @@ public class clsAssociationTime extends clsAssociation{
 		//This element is always moAssociationElementA; Hence the B element is returned
 		return moAssociationElementB;
 	}
+	
+	@Override
+	public clsDataStructurePA getRootElement() {
+		return moAssociationElementA;
+	}
+	
 }

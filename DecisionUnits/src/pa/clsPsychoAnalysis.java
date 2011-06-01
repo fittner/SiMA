@@ -26,7 +26,8 @@ public class clsPsychoAnalysis extends clsBaseDecisionUnit {
 	//obsolete and replaced by enum eModelVersion
 	//private static final boolean mnUseOld = false;
 	
-	private static final eModelVersion P_MODEL = eModelVersion.v30; 
+	//private static final eModelVersion P_MODEL = eModelVersion.v30;
+	private static final eModelVersion P_MODEL = eModelVersion.v38; 	//AW 20110519 Start with V38 now.
 	
 	/**
 	 * @author muchitsch

@@ -19,6 +19,6 @@ import pa._v38.memorymgmt.datatypes.clsPrimaryDataStructureContainer;
  * 
  */
 public interface I5_7_receive {
-	public void receive_I5_7(ArrayList<clsPrimaryDataStructureContainer> poEnvironmentalTP);
+	public void receive_I5_7(clsPrimaryDataStructureContainer poEnvironmentalTP, ArrayList<clsPrimaryDataStructureContainer> poAssociatedMemories);
 }
 

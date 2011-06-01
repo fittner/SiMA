@@ -18,5 +18,5 @@ import pa._v38.memorymgmt.datatypes.clsPrimaryDataStructureContainer;
  * 
  */
 public interface I5_15_send {
-	public void send_I5_15(ArrayList<clsPrimaryDataStructureContainer> poGrantedPerception);
+	public void send_I5_15(clsPrimaryDataStructureContainer poEnvironmentalPerception, ArrayList<clsPrimaryDataStructureContainer> poAssociatedMemories);
 }

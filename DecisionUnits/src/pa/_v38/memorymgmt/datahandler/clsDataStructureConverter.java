@@ -9,15 +9,13 @@ package pa._v38.memorymgmt.datahandler;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
+import java.util.ListIterator;
 
 import pa._v38.tools.clsPair;
 import pa._v38.tools.clsTripple;
 import pa._v38.memorymgmt.datatypes.clsAssociation;
-import pa._v38.memorymgmt.datatypes.clsAssociationTime;
 import pa._v38.memorymgmt.datatypes.clsDataStructurePA;
-import pa._v38.memorymgmt.datatypes.clsDriveMesh;
 import pa._v38.memorymgmt.datatypes.clsPhysicalRepresentation;
-import pa._v38.memorymgmt.datatypes.clsPrimaryDataStructure;
 import pa._v38.memorymgmt.datatypes.clsPrimaryDataStructureContainer;
 import pa._v38.memorymgmt.datatypes.clsTemplateImage;
 import pa._v38.memorymgmt.datatypes.clsThingPresentation;
@@ -133,7 +131,87 @@ public class clsDataStructureConverter {
 		return poName;
 	}
 	
-	public static clsTemplateImage convertPDSCtoTI(clsPrimaryDataStructureContainer oPDSC){
+	//AW 2011-05-19 New function
+	public static clsPrimaryDataStructureContainer convertTPMContToTICont(ArrayList<clsPrimaryDataStructureContainer> oInput) {
+		//Convert ArrayLists-Containers with TP and TPM to one container TI
+		
+		//New data structures for a Template Image
+		ArrayList<clsPhysicalRepresentation> oDataStructures = new ArrayList<clsPhysicalRepresentation>();	//The Datastructures have to be converted to from clsDataStructurePA to clsPhysicalRepresentation to fit the template image
+		//Total List of associations for the container
+		ArrayList<clsAssociation> oNewContainerAssociations = new ArrayList<clsAssociation>();
+		
+		//For each container in the arraylist of containers
+		for (clsPrimaryDataStructureContainer oContainer : oInput) {
+			//Add the Data structure to the list for the template image
+			oDataStructures.add((clsPhysicalRepresentation)oContainer.getMoDataStructure());
+			for (clsAssociation oContainerAss : oContainer.getMoAssociatedDataStructures()) {
+				// FIXME AW 20110519: Getleafelement exists, but not getParentelement. This method should be created
+				//Test if the associated element is associated with the data structure in the container, else it is not possible to put the association togehter
+				//with the data structure within the template image.
+				try {
+					if ((oContainerAss.getMoAssociationElementA().getMoDS_ID() != oContainer.getMoDataStructure().getMoDS_ID()) && (oContainerAss.getMoAssociationElementB().getMoDS_ID() != oContainer.getMoDataStructure().getMoDS_ID())) {
+						throw new Exception("Error in convertTPMContToTICont: The associated element is not associated with the data structure in the container");
+					}
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+				oNewContainerAssociations.add(oContainerAss);
+			}
+			
+		}
+		clsTripple<String, ArrayList<clsPhysicalRepresentation>, Object> oContent = new clsTripple<String, ArrayList<clsPhysicalRepresentation>, Object>(eDataType.TI.toString(), oDataStructures, "CONSTRUCTED_PERCEPTION");
+		clsTemplateImage oConstructedImage = (clsTemplateImage)clsDataStructureGenerator.generateTI(oContent);
+		
+		clsPrimaryDataStructureContainer oRetVal = new clsPrimaryDataStructureContainer(oConstructedImage, oNewContainerAssociations);
+		
+		return oRetVal;
+	}
+	
+	//AW 2011-05-19 New function
+	public static ArrayList<clsPrimaryDataStructureContainer> convertTIContToTPMCont(clsPrimaryDataStructureContainer oInput) {
+		//Convert one container with TI to ArrayLists-Containers with TP and TPM
+		
+		ArrayList<clsPrimaryDataStructureContainer> oRetVal = new ArrayList<clsPrimaryDataStructureContainer>();
+		
+		ArrayList<clsAssociation> oAllAss = new ArrayList<clsAssociation>();
+		oAllAss.addAll(oInput.getMoAssociatedDataStructures());
+		
+		try {
+			if (oInput.getMoDataStructure() instanceof clsTemplateImage) {
+				clsTemplateImage oInputDataStructure = (clsTemplateImage)oInput.getMoDataStructure();
+				for (clsAssociation oAss : oInputDataStructure.getMoAssociatedContent()) {
+					clsPhysicalRepresentation oDS = (clsPhysicalRepresentation)oAss.getLeafElement();
+					ArrayList<clsAssociation> oContainerAss = new ArrayList<clsAssociation>();
+					
+					ListIterator<clsAssociation> oAllAssLI = oAllAss.listIterator();
+					while (oAllAssLI.hasNext()) {
+						clsAssociation oSingleAss = oAllAssLI.next();
+						if ((oSingleAss.getMoAssociationElementA().getMoDS_ID()==oDS.getMoDS_ID()) || (oSingleAss.getMoAssociationElementB().getMoDS_ID()==oDS.getMoDS_ID())) {
+						//if ((oSingleAss.getMoAssociationElementA() == oDS) || (oSingleAss.getMoAssociationElementB() == oDS)) {
+							oContainerAss.add(oSingleAss);
+							oAllAssLI.remove();
+						}
+					}
+					
+					oRetVal.add(new clsPrimaryDataStructureContainer(oDS, oContainerAss));
+				}
+				
+				if (oAllAss.isEmpty()==false) {
+					throw new Exception("Error in convertTIContToTPMCont: Not all associations could be assigned a data structure container");
+				}
+				
+			} else {
+				throw new Exception("Error in convertTIContToTPMCont: The Input data structure is no clsTemplateImage");
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return oRetVal;
+	}
+	
+	
+	//New Function AW 2011-0519
+	/*public static clsTemplateImage convertPDSCtoTI(clsPrimaryDataStructureContainer oPDSC){
 		//Convert the data structure in the PDSC to a association time to TPM
 		//Take over the extrinsic properties from that data structure
 		clsTemplateImage oRetVal;
@@ -176,6 +254,7 @@ public class clsDataStructureConverter {
 		return oRetVal;
 	}
 	
+	//New Function AW 2011-0519
 	public static clsPrimaryDataStructureContainer convertTItoPDSC(clsTemplateImage oTIInput) throws Exception{
 		//Convert the data structure in the PDSC to a association time to TPM
 		//Take over the extrinsic properties from that data structure
@@ -219,6 +298,7 @@ public class clsDataStructureConverter {
 		return oRetVal;
 	}
 	
+	//New Function AW 2011-0519
 	public static clsTemplateImage convertMultiplePDSCtoTI(ArrayList<clsPrimaryDataStructureContainer> oInput) {
 		//Create ONE Template Image from an arraylist of Primary Data Structure Containers
 		clsTemplateImage oRetVal = null;
@@ -235,6 +315,7 @@ public class clsDataStructureConverter {
 		return oRetVal;
 	}
 	
+	//New Function AW 2011-0519
 	public static ArrayList<clsPrimaryDataStructureContainer> convertTItoMultiplePDSC(clsTemplateImage oTIInput) throws Exception {
 		//TODO: This function is only for the purpose to convert template images from the primary process to
 		//PDSC, which is a special case. If the conversation shall be extended, this function has to be generalized
@@ -251,6 +332,6 @@ public class clsDataStructureConverter {
 		}
 		
 		return oRetVal;
-	}
+	}*/
 
 }

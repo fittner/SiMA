@@ -34,6 +34,14 @@ public class F07_SuperEgoReactive extends clsModuleBase
 	implements I5_12_receive, I5_10_receive, I5_11_send, I5_13_send{
 
 	public static final String P_MODULENUMBER = "7";
+	
+	//AW 20110522: New inputs
+	private clsPrimaryDataStructureContainer moEnvironmentalPerception_IN;
+	private ArrayList<clsPrimaryDataStructureContainer> moAssociatedMemories_IN;
+	
+	private clsPrimaryDataStructureContainer moEnvironmentalPerception_OUT;
+	private ArrayList<clsPrimaryDataStructureContainer> moAssociatedMemories_OUT;
+	
 	@SuppressWarnings("unused")
 	private Object moMergedPrimaryInformation;
 	@SuppressWarnings("unused")
@@ -96,10 +104,9 @@ public class F07_SuperEgoReactive extends clsModuleBase
 	 */
 	@SuppressWarnings("unchecked")
 	@Override
-	public void receive_I5_10(
-			ArrayList<clsPrimaryDataStructureContainer> poMergedPrimaryInformation) {
-		
-		moMergedPrimaryInformation = (ArrayList<clsPrimaryDataStructureContainer>) deepCopy(poMergedPrimaryInformation); 
+	public void receive_I5_10(clsPrimaryDataStructureContainer poEnvironmentalPerception, ArrayList<clsPrimaryDataStructureContainer> poAssociatedMemories) {
+		moEnvironmentalPerception_IN = (clsPrimaryDataStructureContainer) deepCopy(poEnvironmentalPerception);
+		moAssociatedMemories_IN = (ArrayList<clsPrimaryDataStructureContainer>) deepCopy(poAssociatedMemories);
 	}
 
 	/* (non-Javadoc)
@@ -127,6 +134,11 @@ public class F07_SuperEgoReactive extends clsModuleBase
 	@Override
 	protected void process_basic() {
 		// TODO (zeilinger) - Auto-generated method stub
+		
+		//AW 20110522: Input from perception
+		moEnvironmentalPerception_OUT = moEnvironmentalPerception_IN;
+		//AW 20110522: Input from associated memories
+		moAssociatedMemories_OUT = moAssociatedMemories_IN;
 		
 	}
 
@@ -165,8 +177,10 @@ public class F07_SuperEgoReactive extends clsModuleBase
 	 */
 	@Override
 	protected void send() {
+		//AW 20110522: Dummy
 		send_I5_13(new ArrayList<clsPrimaryDataStructureContainer>()); 
-		send_I5_11(new ArrayList<clsPrimaryDataStructureContainer>()); 
+		
+		send_I5_11(moEnvironmentalPerception_OUT, moAssociatedMemories_OUT); 
 	}
 
 	/* (non-Javadoc)
@@ -217,7 +231,7 @@ public class F07_SuperEgoReactive extends clsModuleBase
 	@Override
 	public void setDescription() {
 		// TODO (zeilinger) - Auto-generated method stub
-		
+		moDescription = "Based on internalized rules, Super-Ego checks incoming perceptions and drives. If the internalized rules are violated Super-Ego requests from F06 and F19 to activate the defense mechanisms.";
 	}
 
 	/* (non-Javadoc)
@@ -242,9 +256,9 @@ public class F07_SuperEgoReactive extends clsModuleBase
 	 * @see pa._v38.interfaces.modules.I5_11_send#send_I5_11(java.util.ArrayList)
 	 */
 	@Override
-	public void send_I5_11(ArrayList<clsPrimaryDataStructureContainer> poData) {
-		((I5_11_receive)moModuleList.get(19)).receive_I5_11(poData);
+	public void send_I5_11(clsPrimaryDataStructureContainer poEnvironmentalPerception, ArrayList<clsPrimaryDataStructureContainer> poAssociatedMemories) {
+		((I5_11_receive)moModuleList.get(19)).receive_I5_11(poEnvironmentalPerception, poAssociatedMemories);
 		
-		putInterfaceData(I5_13_send.class, poData);
+		putInterfaceData(I5_13_send.class, poEnvironmentalPerception, poAssociatedMemories);
 	}
 }

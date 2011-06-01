@@ -23,10 +23,13 @@ import pa._v38.interfaces.modules.I5_7_receive;
 import pa._v38.interfaces.modules.I5_8_receive;
 import pa._v38.interfaces.modules.I5_8_send;
 import pa._v38.memorymgmt.clsKnowledgeBaseHandler;
+import pa._v38.memorymgmt.datahandler.clsDataStructureConverter;
 import pa._v38.memorymgmt.datatypes.clsAssociation;
+import pa._v38.memorymgmt.datatypes.clsAssociationDriveMesh;
 import pa._v38.memorymgmt.datatypes.clsDataStructureContainer;
 import pa._v38.memorymgmt.datatypes.clsDataStructurePA;
 import pa._v38.memorymgmt.datatypes.clsDriveMesh;
+import pa._v38.memorymgmt.datatypes.clsPrimaryDataStructure;
 import pa._v38.memorymgmt.datatypes.clsPrimaryDataStructureContainer;
 import pa._v38.memorymgmt.enums.eDataType;
 import pa._v38.storage.clsBlockedContentStorage;
@@ -43,8 +46,16 @@ public class F35_EmersionOfBlockedContent extends clsModuleBaseKB implements itf
 	public static String P_CONTEXT_SENSTITIVITY = "CONTEXT_SENSITIVITY"; 
 	
 	private clsBlockedContentStorage moBlockedContentStorage;
-	private ArrayList<clsPrimaryDataStructureContainer> moEnvironmentalTP_Input; 
+	
+	private clsPrimaryDataStructureContainer moEnvironmentalPerception_IN;
+	private ArrayList<clsPrimaryDataStructureContainer> moAssociatedMemories_IN;
+	
+	private clsPrimaryDataStructureContainer moEnvironmentalPerception_OUT;
+	private ArrayList<clsPrimaryDataStructureContainer> moAssociatedMemories_OUT;
+	
+	//AW 20110521: Old Output
 	private ArrayList<clsPair<clsPrimaryDataStructureContainer, clsDriveMesh>> moAttachedRepressed_Output; 
+	
 	private double mrContextSensitivity = 0.8;
 	private boolean mnMinimalModel;
 	/**
@@ -82,7 +93,7 @@ public class F35_EmersionOfBlockedContent extends clsModuleBaseKB implements itf
 		
 		text += toText.valueToTEXT("mnMinimalModel", mnMinimalModel);
 		text += toText.valueToTEXT("moBlockedContentStorage", moBlockedContentStorage);
-		text += toText.listToTEXT("moEnvironmentalTP_Input", moEnvironmentalTP_Input);
+		text += toText.valueToTEXT("moEnvironmentalTP_Input", moEnvironmentalPerception_IN);
 		text += toText.listToTEXT("moAttachedRepressed_Output", moAttachedRepressed_Output);
 		text += toText.valueToTEXT("mrContextSensitivity", mrContextSensitivity);
 		text += toText.valueToTEXT("moKnowledgeBaseHandler", moKnowledgeBaseHandler);
@@ -134,7 +145,7 @@ public class F35_EmersionOfBlockedContent extends clsModuleBaseKB implements itf
 			moAttachedRepressed_Output = new ArrayList<clsPair<clsPrimaryDataStructureContainer,clsDriveMesh>>();
 			ArrayList<clsPrimaryDataStructureContainer> oContainerList = new ArrayList<clsPrimaryDataStructureContainer>(); 
 	 		
-			oContainerList = moEnvironmentalTP_Input; 
+			oContainerList = clsDataStructureConverter.convertTIContToTPMCont(moEnvironmentalPerception_IN); 
 			/* Add DM for to object and include them in the TPM through associations. The TPM then contains 
 			 * attributeassociations and drivemeshassociations
 			 */
@@ -146,12 +157,13 @@ public class F35_EmersionOfBlockedContent extends clsModuleBaseKB implements itf
 			adaptCathegories(oContainerList);
 			/* DM from the Repressed Content are added to the objects in the oContainerList
 			 */
-			matchRepressedContent(oContainerList); 
+			matchRepressedContent(oContainerList);
+			
 		} else {
 			//for the minimal model, a minor update of the datastructure is necessary. each clsPrimaryDataStructureContainer has
 			//to be attached with an empty clsDriveMesh
 			moAttachedRepressed_Output = new ArrayList<clsPair<clsPrimaryDataStructureContainer,clsDriveMesh>>();
-			for (clsPrimaryDataStructureContainer oPDSC:moEnvironmentalTP_Input) {
+			for (clsPrimaryDataStructureContainer oPDSC:clsDataStructureConverter.convertTIContToTPMCont(moEnvironmentalPerception_IN)) {
 				clsPair<clsPrimaryDataStructureContainer,clsDriveMesh> oEntry = 
 					new clsPair<clsPrimaryDataStructureContainer, clsDriveMesh>(
 							oPDSC, 
@@ -165,6 +177,11 @@ public class F35_EmersionOfBlockedContent extends clsModuleBaseKB implements itf
 				moAttachedRepressed_Output.add(oEntry);
 			}
 		}
+		
+		//Convert Output to new format
+		moEnvironmentalPerception_OUT = ConvertToTIContainer(moAttachedRepressed_Output);
+		//Pass the memories forward. Later, they are enriched repressed content
+		moAssociatedMemories_OUT = moAssociatedMemories_IN;
 	}
 	
 	/**
@@ -341,6 +358,26 @@ public class F35_EmersionOfBlockedContent extends clsModuleBaseKB implements itf
 			moAttachedRepressed_Output.add(new clsPair<clsPrimaryDataStructureContainer, clsDriveMesh>(oInput, oRep));
 		}
 	}
+	
+	//AW 20110521 new function, tempfunction, which shall be removed as soon as the main module functions are changed
+	private clsPrimaryDataStructureContainer ConvertToTIContainer(ArrayList<clsPair<clsPrimaryDataStructureContainer, clsDriveMesh>> oInput) {
+		ArrayList<clsPrimaryDataStructureContainer> oMergedArray = new ArrayList<clsPrimaryDataStructureContainer>();
+		for (clsPair<clsPrimaryDataStructureContainer, clsDriveMesh> oPair : oInput) {
+			clsPrimaryDataStructureContainer oNewSingleContainer = new clsPrimaryDataStructureContainer(oPair.a.getMoDataStructure(),oPair.a.getMoAssociatedDataStructures());
+			clsTripple<Integer, eDataType, String> oIdentifyer = new clsTripple<Integer, eDataType, String>(-1, eDataType.ASSOCIATIONDM, eDataType.ASSOCIATIONDM.toString());
+			clsAssociationDriveMesh oDriveAss = new clsAssociationDriveMesh(oIdentifyer, oPair.b, (clsPrimaryDataStructure)oPair.a.getMoDataStructure());
+			
+			ArrayList<clsAssociation> oNewAssList = oNewSingleContainer.getMoAssociatedDataStructures();
+			oNewAssList.add(oDriveAss);
+			
+			oNewSingleContainer.setMoAssociatedDataStructures(oNewAssList);
+			oMergedArray.add(oNewSingleContainer);
+		}
+		
+		clsPrimaryDataStructureContainer oRetVal = clsDataStructureConverter.convertTPMContToTICont(oMergedArray);
+		
+		return oRetVal;
+	}
 
 	/* (non-Javadoc)
 	 *
@@ -352,9 +389,9 @@ public class F35_EmersionOfBlockedContent extends clsModuleBaseKB implements itf
 	@Override
 	protected void send() {
 		if (mnMinimalModel) {
-			send_I5_8(moAttachedRepressed_Output);
+			send_I5_8(moEnvironmentalPerception_OUT, moAssociatedMemories_OUT);
 		} else {
-			send_I5_8(moAttachedRepressed_Output);
+			send_I5_8(moEnvironmentalPerception_OUT, moAssociatedMemories_OUT);
 		}
 			
 	}
@@ -469,6 +506,9 @@ public class F35_EmersionOfBlockedContent extends clsModuleBaseKB implements itf
 		poSearchResult.addAll(moKnowledgeBaseHandler.initMemorySearch(poSearchPattern));
 	}
 	
+	
+	
+	
 	/* (non-Javadoc)
 	 *
 	 * @author deutsch
@@ -489,11 +529,15 @@ public class F35_EmersionOfBlockedContent extends clsModuleBaseKB implements itf
 	 * @see pa.interfaces.send._v38.I2_8_send#send_I2_8(java.util.ArrayList)
 	 */
 	@Override
-	public void send_I5_8(
-			ArrayList<clsPair<clsPrimaryDataStructureContainer, clsDriveMesh>> poMergedPrimaryInformation) {
+	/*public void send_I5_8(ArrayList<clsPair<clsPrimaryDataStructureContainer, clsDriveMesh>> poMergedPrimaryInformation) {
 		((I5_8_receive)moModuleList.get(45)).receive_I5_8(poMergedPrimaryInformation);
 		
 		putInterfaceData(I5_8_send.class, poMergedPrimaryInformation);
+	}*/
+	public void send_I5_8(clsPrimaryDataStructureContainer poMergedPrimaryInformation, ArrayList<clsPrimaryDataStructureContainer> poAssociatedMemories) {
+	((I5_8_receive)moModuleList.get(45)).receive_I5_8(poMergedPrimaryInformation, poAssociatedMemories);
+	
+	putInterfaceData(I5_8_send.class, poMergedPrimaryInformation, poAssociatedMemories);
 	}
 
 	/* (non-Javadoc)
@@ -505,9 +549,9 @@ public class F35_EmersionOfBlockedContent extends clsModuleBaseKB implements itf
 	 */
 	@SuppressWarnings("unchecked")
 	@Override
-	public void receive_I5_7(
-			ArrayList<clsPrimaryDataStructureContainer> poEnvironmentalTP) {
-		moEnvironmentalTP_Input = (ArrayList<clsPrimaryDataStructureContainer>)deepCopy(poEnvironmentalTP);
+	public void receive_I5_7(clsPrimaryDataStructureContainer poEnvironmentalTP, ArrayList<clsPrimaryDataStructureContainer> poAssociatedMemories) {
+		moEnvironmentalPerception_IN = (clsPrimaryDataStructureContainer)deepCopy(poEnvironmentalTP);
+		moAssociatedMemories_IN = (ArrayList<clsPrimaryDataStructureContainer>)deepCopy(poAssociatedMemories);
 	}
 	/* (non-Javadoc)
 	 *
@@ -518,7 +562,7 @@ public class F35_EmersionOfBlockedContent extends clsModuleBaseKB implements itf
 	 */
 	@Override
 	public void setDescription() {
-		moDescription = "This module shares the same task as the second part of the tasks of {E36}. It is responsible for changing repressed contents such that they are more likely to pass the defense mechanisms. This is done by searching for fitting incoming thing presentations. If one is found, the repressed content is attached to it. All incoming thing presentations are forwarded to next modules, some of them with additional information attached.";
+		moDescription = "It is responsible for changing repressed contents such that they are more likely to pass the defense mechanisms. This is done by searching for fitting incoming primary process data structures. If one is found, the repressed content is attached to it. All incoming images are forwarded to next modules, some of them with additional information attached.";
 	}
 	
 	@Override

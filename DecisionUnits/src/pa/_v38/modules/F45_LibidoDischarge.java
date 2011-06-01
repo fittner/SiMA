@@ -23,10 +23,13 @@ import pa._v38.interfaces.modules.I5_8_receive;
 import pa._v38.memorymgmt.clsKnowledgeBaseHandler;
 import pa._v38.memorymgmt.datahandler.clsDataStructureGenerator;
 import pa._v38.memorymgmt.datatypes.clsAssociation;
+import pa._v38.memorymgmt.datatypes.clsAssociationDriveMesh;
 import pa._v38.memorymgmt.datatypes.clsDataStructureContainer;
 import pa._v38.memorymgmt.datatypes.clsDataStructurePA;
 import pa._v38.memorymgmt.datatypes.clsDriveMesh;
+import pa._v38.memorymgmt.datatypes.clsPrimaryDataStructure;
 import pa._v38.memorymgmt.datatypes.clsPrimaryDataStructureContainer;
+import pa._v38.memorymgmt.datatypes.clsTemplateImage;
 import pa._v38.memorymgmt.datatypes.clsThingPresentation;
 import pa._v38.memorymgmt.datatypes.clsThingPresentationMesh;
 import pa._v38.memorymgmt.enums.eDataType;
@@ -43,9 +46,18 @@ import config.clsBWProperties;
 public class F45_LibidoDischarge extends clsModuleBaseKB implements itfInspectorGenericTimeChart, I5_8_receive, I5_9_send {
 	public static final String P_MODULENUMBER = "45";
 	
-	private ArrayList<clsPair<clsPrimaryDataStructureContainer, clsDriveMesh>> moMergedPrimaryInformation_Rcv;
-	private ArrayList<clsPair<clsPrimaryDataStructureContainer, clsDriveMesh>> moMergedPrimaryInformation_Snd;	
+	private clsPrimaryDataStructureContainer moEnvironmentalPerception_IN;
+	private ArrayList<clsPrimaryDataStructureContainer> moAssociatedMemories_IN;
+	
+	private clsPrimaryDataStructureContainer moEnvironmentalPerception_OUT;
+	private ArrayList<clsPrimaryDataStructureContainer> moAssociatedMemories_OUT;
+	
+	//AW 20110521: Old input
+	//private ArrayList<clsPair<clsPrimaryDataStructureContainer, clsDriveMesh>> moMergedPrimaryInformation_Rcv;
+	//AW 20110521: Old output
+	//private ArrayList<clsPair<clsPrimaryDataStructureContainer, clsDriveMesh>> moMergedPrimaryInformation_Snd;	
 	private ArrayList<clsPair<String, Double>> moLibidioDischargeCandidates; //pair of IDENTIFIER and qualification from 0 to 1
+	
 	private double mrDischargePiece = 0.2; //amount of the sotred libido which is going to be withtracted max. (see formula below)
 	private double mrAvailableLibido;
 	private double mrLibidoReducedBy;
@@ -162,8 +174,8 @@ public class F45_LibidoDischarge extends clsModuleBaseKB implements itfInspector
 	public String stateToTEXT() {
 		String text ="";
 		
-		text += toText.listToTEXT("moMergedPrimaryInformation_Rcv", moMergedPrimaryInformation_Rcv);	
-		text += toText.listToTEXT("moMergedPrimaryInformation_Snd", moMergedPrimaryInformation_Snd);		
+		text += toText.valueToTEXT("moEnvironmentalPerception_IN", moEnvironmentalPerception_IN);	
+		text += toText.valueToTEXT("moEnvironmentalPerception_OUT", moEnvironmentalPerception_OUT);		
 		text += toText.listToTEXT("moLibidioDischargeCandidates", moLibidioDischargeCandidates);
 		text += toText.valueToTEXT("mrDischargePiece", mrDischargePiece);		
 		text += toText.valueToTEXT("mrAvailableLibido", mrAvailableLibido);
@@ -203,16 +215,26 @@ public class F45_LibidoDischarge extends clsModuleBaseKB implements itfInspector
 		
 		mrLibidoReducedBy = 0;
 		
-		moMergedPrimaryInformation_Snd = new ArrayList<clsPair<clsPrimaryDataStructureContainer,clsDriveMesh>>();
+		try {
+			moEnvironmentalPerception_OUT = (clsPrimaryDataStructureContainer) moEnvironmentalPerception_IN.clone();
+		} catch (CloneNotSupportedException e) {
+			// TODO (wendt) - Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		//moMergedPrimaryInformation_Snd = new ArrayList<clsPair<clsPrimaryDataStructureContainer,clsDriveMesh>>();
 		//FIXME (ZEILINGER): das ganze zeug geht noch nicht so ganz .. irgendwie ... plz - wobei. das kann ich morgen auch noch debuggen.
 		for (clsPair<String,Double> oCandidate:moLibidioDischargeCandidates) {
 			String oSearchPattern = oCandidate.a;
 			Double rFactor = oCandidate.b;
 			double rReduction = rChunk * rFactor;
 			
-			for (clsPair<clsPrimaryDataStructureContainer,clsDriveMesh> oData:moMergedPrimaryInformation_Rcv) {
-				clsPrimaryDataStructureContainer oPDSC = oData.a;
-				clsDataStructurePA oDS = oPDSC.getMoDataStructure(); 
+			//for (clsPair<clsPrimaryDataStructureContainer,clsDriveMesh> oData:moMergedPrimaryInformation_Rcv) {
+			
+			for (clsAssociation oTIAss : ((clsTemplateImage)moEnvironmentalPerception_IN.getMoDataStructure()).getMoAssociatedContent()) {
+				//clsPrimaryDataStructureContainer oPDSC = oData.a;
+				//clsDataStructurePA oDS = oPDSC.getMoDataStructure(); 
+				clsDataStructurePA oDS = oTIAss.getLeafElement();
 				
 				if (oDS instanceof clsThingPresentationMesh && ((clsThingPresentationMesh)oDS).getMoContent().contains(oSearchPattern)) {
 					clsDriveMesh oDrive = createDriveMesh("LIBIDO", "LIBIDO");
@@ -232,17 +254,22 @@ public class F45_LibidoDischarge extends clsModuleBaseKB implements itfInspector
 					
 					mrLibidoReducedBy += rReduction;
 					
-					clsPair<clsPrimaryDataStructureContainer,clsDriveMesh> oResult = 
-						new clsPair<clsPrimaryDataStructureContainer, clsDriveMesh>(oPDSC, oDrive);
-					moMergedPrimaryInformation_Snd.add(oResult);
+					//clsPair<clsPrimaryDataStructureContainer,clsDriveMesh> oResult = 
+					//	new clsPair<clsPrimaryDataStructureContainer, clsDriveMesh>(oPDSC, oDrive);
+					//moMergedPrimaryInformation_Snd.add(oResult);
+					
+					clsTripple<Integer, eDataType, String> oIdentifyer = new clsTripple<Integer, eDataType, String>(-1, eDataType.ASSOCIATIONDM, eDataType.ASSOCIATIONDM.toString());
+					clsAssociationDriveMesh oDriveAss = new clsAssociationDriveMesh(oIdentifyer, oDrive, (clsPrimaryDataStructure)oDS);
+					
+					moEnvironmentalPerception_OUT.getMoAssociatedDataStructures().add(oDriveAss);
 				}
 			}
 		}
 		
-		
-				
 		moLibidoBuffer.receive_D1_3(mrLibidoReducedBy);
-
+		
+		//Pass the memories forward. Later, they are enriched repressed content
+		moAssociatedMemories_OUT = moAssociatedMemories_IN;
 	}
 
 	private clsDriveMesh createDriveMesh(String poContentType, String poContext) {
@@ -291,7 +318,7 @@ public class F45_LibidoDischarge extends clsModuleBaseKB implements itfInspector
 	 */
 	@Override
 	protected void send() {
-		send_I5_9(moMergedPrimaryInformation_Snd);
+		send_I5_9(moEnvironmentalPerception_OUT, moAssociatedMemories_OUT);
 
 	}
 
@@ -342,9 +369,10 @@ public class F45_LibidoDischarge extends clsModuleBaseKB implements itfInspector
 	 * @see pa.interfaces.receive._v38.I2_8_receive#receive_I2_8(java.util.ArrayList)
 	 */
 	@Override
-	public void receive_I5_8(
-		ArrayList<clsPair<clsPrimaryDataStructureContainer, clsDriveMesh>> poMergedPrimaryInformation) {
-		moMergedPrimaryInformation_Rcv = poMergedPrimaryInformation;
+	public void receive_I5_8(clsPrimaryDataStructureContainer poMergedPrimaryInformation, ArrayList<clsPrimaryDataStructureContainer> poAssociatedMemories) {
+		//moMergedPrimaryInformation_Rcv = poMergedPrimaryInformation;
+		moEnvironmentalPerception_IN = poMergedPrimaryInformation;
+		moAssociatedMemories_IN = poAssociatedMemories;
 	}
 
 	/* (non-Javadoc)
@@ -355,11 +383,10 @@ public class F45_LibidoDischarge extends clsModuleBaseKB implements itfInspector
 	 * @see pa.interfaces.send._v38.I2_16_send#send_I2_16(java.util.ArrayList)
 	 */
 	@Override
-	public void send_I5_9(
-			ArrayList<clsPair<clsPrimaryDataStructureContainer, clsDriveMesh>> poMergedPrimaryInformation) {
-		((I5_9_receive)moModuleList.get(18)).receive_I5_9(poMergedPrimaryInformation);
+	public void send_I5_9(clsPrimaryDataStructureContainer poMergedPrimaryInformation, ArrayList<clsPrimaryDataStructureContainer> poAssociatedMemories) {
+		((I5_9_receive)moModuleList.get(18)).receive_I5_9(poMergedPrimaryInformation, poAssociatedMemories);
 		
-		putInterfaceData(I5_9_send.class, poMergedPrimaryInformation);
+		putInterfaceData(I5_9_send.class, poMergedPrimaryInformation, poAssociatedMemories);
 	}
 	/* (non-Javadoc)
 	 *

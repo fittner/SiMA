@@ -37,9 +37,17 @@ import pa._v38.memorymgmt.enums.eDataType;
 public class clsBlockedContentStorage implements itfInspectorInternalState, itfInterfaceDescription, D2_2_send, D2_4_send, D2_1_receive, D2_3_receive {
     private ArrayList<clsDriveMesh> moBlockedContent;
     
+    //AW 20110430: Static and TI
+	//private static ArrayList<clsTemplateImage> moBlockedContent;
+    
     public clsBlockedContentStorage() {
+    	//The storage consists of an arraylist of clsDriveMesh
+    	
     	moBlockedContent = new ArrayList<clsDriveMesh>();
     	fillWithTestData();
+    	
+    	//AW 20110430: New Template Imagelist
+    	//moBlockedContent = new ArrayList<clsTemplateImage>();
     }
 	
 	@SuppressWarnings("unchecked")
@@ -62,6 +70,10 @@ public class clsBlockedContentStorage implements itfInspectorInternalState, itfI
     }
     
 	public clsDriveMesh getBestMatchCONVERTED(clsPrimaryDataStructureContainer poInput) {
+		return getBestMatchCONVERTED(poInput, false);
+	}
+    
+	public clsDriveMesh getBestMatchCONVERTED(clsPrimaryDataStructureContainer poInput, boolean boRemoveAfterActivate) {
 		clsDriveMesh oRetVal = null;
 		
 		double rHighestMatch = 0.0;
@@ -86,6 +98,13 @@ public class clsBlockedContentStorage implements itfInspectorInternalState, itfI
 				}
 			}
 		}
+		
+		//*************************************************************************************
+		//AW 20110430: Add option to remove the original object from the repressed content list
+		if (boRemoveAfterActivate==true) {
+			moBlockedContent.remove(oRetVal);	//FIXME: Test this one
+		}
+		//*************************************************************************************
 
 		if (oRetVal == null) {
 			//TD 2011/04/20: safety - create empty drive mesh to be returned. should never happen ... but safety first!
@@ -95,10 +114,37 @@ public class clsBlockedContentStorage implements itfInspectorInternalState, itfI
 			oRetVal = (clsDriveMesh) clsDataStructureGenerator.generateDataStructure(eDataType.DM, oContent);
 			
 //			throw new java.lang.NullPointerException();
+		
 		}
 		
 		return oRetVal;
 	}
+	
+	/*
+	//Tempfunktion - löschen wenn nicht verwendet
+	public clsTemplateImage getBestMatchCONVERTED(clsTemplateImage poInput) {
+	// Dummy funktion, die auf template image konvertiert werden soll. Später soll es möglich sein, mehrere 
+	// Images zu aktivieren
+		return null;
+	}
+	
+	//AW 20110430: New Function Add TemplateImage
+	public void AddTemplateImage(clsTemplateImage oInput) {
+	//Content, which is repressed is added with this function
+		//moBlockedContent.add(oInput);
+	}
+	
+	//AW 20110430: New Function ActivateImage, Load in E35 and remove from memory
+	public ArrayList<clsTemplateImage> activateTemplateImages(clsTemplateImage oInput, boolean boRemoveActivated) {
+		ArrayList<clsTemplateImage> oRetVal = new ArrayList<clsTemplateImage>();
+		
+		
+		
+		
+		return oRetVal;
+		
+	}
+	*/
 	/* (non-Javadoc)
 	 *
 	 * @author deutsch
