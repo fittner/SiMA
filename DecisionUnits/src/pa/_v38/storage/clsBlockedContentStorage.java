@@ -35,7 +35,9 @@ import pa._v38.memorymgmt.enums.eDataType;
  * 
  */
 public class clsBlockedContentStorage implements itfInspectorInternalState, itfInterfaceDescription, D2_2_send, D2_4_send, D2_1_receive, D2_3_receive {
-    private ArrayList<clsDriveMesh> moBlockedContent;
+    //private ArrayList<clsDataStructurePA> moBlockedContent;
+	private ArrayList<clsDriveMesh> moBlockedContent;
+    private ArrayList<clsPrimaryDataStructureContainer> moContainerBlockedContent; 
     
     //AW 20110430: Static and TI
 	//private static ArrayList<clsTemplateImage> moBlockedContent;
@@ -44,6 +46,7 @@ public class clsBlockedContentStorage implements itfInspectorInternalState, itfI
     	//The storage consists of an arraylist of clsDriveMesh
     	
     	moBlockedContent = new ArrayList<clsDriveMesh>();
+    	moContainerBlockedContent = new ArrayList<clsPrimaryDataStructureContainer>();
     	fillWithTestData();
     	
     	//AW 20110430: New Template Imagelist
@@ -56,6 +59,7 @@ public class clsBlockedContentStorage implements itfInspectorInternalState, itfI
     	oList.add( new ArrayList<Object>( Arrays.asList("PUNCH", "BITE", 0.0, 0.0, 0.8, 0.2, -0.5) ) );
     	oList.add( new ArrayList<Object>( Arrays.asList("GREEDY", "NOURISH", 0.8, 0.2, 0.0, 0.0, -0.3) ) );
     	oList.add( new ArrayList<Object>( Arrays.asList("DIRTY", "DEPOSIT", 0.0, 0.7, 0.3, 0.0, -0.7) ) );
+    	// TI-TPM(CAKE)-AssociationDM(Nourisch, Value =-100)
 			
     	for (ArrayList<Object> oData:oList) {
 			clsThingPresentation oTP = clsDataStructureGenerator.generateTP(new clsPair<String, Object>((String)oData.get(0), oData.get(0))); 

@@ -15,6 +15,7 @@ import java.util.SortedMap;
 import java.util.TreeMap;
 import config.clsBWProperties;
 import pa._v38.tools.clsPair;
+import pa._v38.tools.clsTripple;
 import pa._v38.tools.toText;
 import pa._v38.interfaces.eInterfaces;
 import pa._v38.interfaces.modules.I6_1_receive;
@@ -46,6 +47,9 @@ public class F26_DecisionMaking extends clsModuleBase implements
 	private ArrayList<clsSecondaryDataStructureContainer> moDriveList;
 	private ArrayList<clsAct> moRuleList; 
 	private ArrayList<clsSecondaryDataStructureContainer> moRealityPerception;
+	//AW 20110602 Added expectations, intentions and the current situation
+	private ArrayList<clsTripple<clsSecondaryDataStructureContainer, ArrayList<clsSecondaryDataStructureContainer>, clsSecondaryDataStructureContainer>> moExtractedPrediction_IN;
+	
 	private ArrayList<clsSecondaryDataStructureContainer> moGoal_Output;
 	
 	private static String _Delimiter01 = ":"; 
@@ -157,8 +161,10 @@ public class F26_DecisionMaking extends clsModuleBase implements
 	 */
 	@SuppressWarnings("unchecked")
 	@Override
-	public void receive_I6_7(ArrayList<clsSecondaryDataStructureContainer> poRealityPerception) {
+	public void receive_I6_7(ArrayList<clsSecondaryDataStructureContainer> poRealityPerception, 
+			ArrayList<clsTripple<clsSecondaryDataStructureContainer, ArrayList<clsSecondaryDataStructureContainer>, clsSecondaryDataStructureContainer>> poExtractedPrediction) {
 		moRealityPerception = (ArrayList<clsSecondaryDataStructureContainer>)deepCopy(poRealityPerception); 
+		moExtractedPrediction_IN = (ArrayList<clsTripple<clsSecondaryDataStructureContainer, ArrayList<clsSecondaryDataStructureContainer>, clsSecondaryDataStructureContainer>>)deepCopy(poExtractedPrediction); 
 	}
 	
 	/* (non-Javadoc)
@@ -693,7 +699,7 @@ public class F26_DecisionMaking extends clsModuleBase implements
 	 */
 	@Override
 	public void receive_I6_1(
-			ArrayList<clsSecondaryDataStructureContainer> poPerception) {
+			ArrayList<clsSecondaryDataStructureContainer> poPerception, ArrayList<clsSecondaryDataStructureContainer> poAssociatedMemoriesSecondary) {
 		// TODO (zeilinger) - Auto-generated method stub
 		
 	}

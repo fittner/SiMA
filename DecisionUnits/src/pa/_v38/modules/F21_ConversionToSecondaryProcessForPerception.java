@@ -53,8 +53,10 @@ public class F21_ConversionToSecondaryProcessForPerception extends clsModuleBase
 	//AW 20110522: New inputs
 	private clsPrimaryDataStructureContainer moEnvironmentalPerception_IN;
 	//AW 20110522: The input below will be used soon, in order to extract expectations.
-	@SuppressWarnings("unused")
 	private ArrayList<clsPrimaryDataStructureContainer> moAssociatedMemories_IN;
+	
+	//AW 20110602 New output of the module
+	private ArrayList<clsSecondaryDataStructureContainer> moAssociatedMemoriesSecondary_OUT;
 	
 	//private ArrayList<clsPrimaryDataStructureContainer> moGrantedPerception_Input; 
 	//FIXME HZ: This would require a change in the interfaces!!! => different to the actual definition
@@ -168,6 +170,10 @@ public class F21_ConversionToSecondaryProcessForPerception extends clsModuleBase
 		
 		defineTemplateImage(); 
 		convertToSecondary(); 
+		
+		//AW 20110602: Added function
+		//Processing of associated images
+		moAssociatedMemoriesSecondary_OUT = assignWPtoImages(moAssociatedMemories_IN);
 	}
 	
 	/**
@@ -499,6 +505,12 @@ public class F21_ConversionToSecondaryProcessForPerception extends clsModuleBase
 		return oRetVal;  
 	}
 	
+	private ArrayList<clsSecondaryDataStructureContainer> assignWPtoImages(ArrayList<clsPrimaryDataStructureContainer> oInput) {
+		ArrayList<clsSecondaryDataStructureContainer> oRetVal = new ArrayList<clsSecondaryDataStructureContainer>();
+		
+		return oRetVal;
+	}
+	
 	
 	/* (non-Javadoc)
 	 *
@@ -510,7 +522,7 @@ public class F21_ConversionToSecondaryProcessForPerception extends clsModuleBase
 	@Override
 	protected void send() {
 		//HZ: null is a placeholder for the bjects of the type pa._v38.memorymgmt.datatypes
-		send_I6_1(moPerception_Output);
+		send_I6_1(moPerception_Output, moAssociatedMemoriesSecondary_OUT);
 		send_I6_4(moPerception_Output);
 	}
 
@@ -522,11 +534,12 @@ public class F21_ConversionToSecondaryProcessForPerception extends clsModuleBase
 	 * @see pa.interfaces.send.I2_11_send#send_I2_11(java.util.ArrayList)
 	 */
 	@Override
-	public void send_I6_1(ArrayList<clsSecondaryDataStructureContainer> poPerception) {
-		((I6_1_receive)moModuleList.get(23)).receive_I6_1(poPerception);
-		((I6_1_receive)moModuleList.get(26)).receive_I6_1(poPerception);
+	public void send_I6_1(ArrayList<clsSecondaryDataStructureContainer> poPerception, ArrayList<clsSecondaryDataStructureContainer> poAssociatedMemoriesSecondary) {
+		//AW 20110602: Attention, the associated memeories contain images and not objects like in the perception
+		((I6_1_receive)moModuleList.get(23)).receive_I6_1(poPerception, poAssociatedMemoriesSecondary);
+		((I6_1_receive)moModuleList.get(26)).receive_I6_1(poPerception, poAssociatedMemoriesSecondary);
 		
-		putInterfaceData(I6_1_send.class, poPerception);
+		putInterfaceData(I6_1_send.class, poPerception, poAssociatedMemoriesSecondary);
 		
 	}
 

@@ -18,5 +18,5 @@ import pa._v38.memorymgmt.datatypes.clsSecondaryDataStructureContainer;
  * 
  */
 public interface I6_1_send {
-	public void send_I6_1(ArrayList<clsSecondaryDataStructureContainer> poPerception);
+	public void send_I6_1(ArrayList<clsSecondaryDataStructureContainer> poPerception, ArrayList<clsSecondaryDataStructureContainer> poAssociatedMemoriesSecondary);
 }
