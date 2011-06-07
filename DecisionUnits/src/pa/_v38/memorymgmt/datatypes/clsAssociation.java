@@ -10,6 +10,7 @@ import java.lang.reflect.Method;
 
 import pa._v38.tools.clsTripple;
 import pa._v38.memorymgmt.enums.eDataType;
+import pa._v38.memorymgmt.datatypes.clsDataStructurePA;
 
 /**
  * DOCUMENT (zeilinger) - insert description 
@@ -125,7 +126,9 @@ public abstract class clsAssociation extends clsDataStructurePA{
 	//the recall of the leaf element is different for every Association Type
 	//FIXME HZ 17.08.2010: Refactor this method as it is different for every 
 	//					   Association type. 
-	public abstract clsDataStructurePA getLeafElement(); 
+	public abstract clsDataStructurePA getLeafElement();
+	
+	public abstract clsDataStructurePA getRootElement();
 		
 	@Override
 	public Object clone() throws CloneNotSupportedException {
@@ -224,4 +227,13 @@ public abstract class clsAssociation extends clsDataStructurePA{
 		}
 		return oResult; 
 	}
+
+	/**
+	 * DOCUMENT (wendt) - insert description
+	 *
+	 * @author wendt
+	 * 28.05.2011, 10:28:09
+	 *
+	 * @return
+	 */
 }

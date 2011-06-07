@@ -16,7 +16,14 @@ import pa._v38.memorymgmt.enums.eDataType;
  * 23.05.2010, 21:50:53
  * 
  */
-public class clsAssociationWordPresentation extends clsAssociation{
+public class clsAssociationSecondary extends clsAssociation{
+	//AW 20110602: This type of association will connect Word Presentations with each other
+	//This association has connection A, connection B, where the direction of the association always is 
+	//from A to B, an association attribute like "hierarchical" or "temporal" and an association weight
+	//This is the basic association in the secondary process for creating acts
+	
+	//Association attribute
+	private String moAttribute;	//This attribute is the predicate in an ontology
 
 	/**
 	 * DOCUMENT (zeilinger) - insert description 
@@ -27,7 +34,7 @@ public class clsAssociationWordPresentation extends clsAssociation{
 	 * @param clsDataStructurePA
 	 * @param poWordPresentation
 	 */
-	public clsAssociationWordPresentation(
+	public clsAssociationSecondary(
 			clsTripple<Integer, eDataType, String> poDataStructureIdentifier,
 			clsWordPresentation poAssociationElementA,
 			clsDataStructurePA poAssociationElementB) {
@@ -63,5 +70,13 @@ public class clsAssociationWordPresentation extends clsAssociation{
 	@Override
 	public clsDataStructurePA getRootElement() {
 		return moAssociationElementB;
+	}
+	
+	public String getMoAttribute() {
+		return moAttribute;
+	}
+	
+	public void setMrImperativeFactor(String oAttribute) {
+		this.moAttribute = oAttribute;
 	}
 }

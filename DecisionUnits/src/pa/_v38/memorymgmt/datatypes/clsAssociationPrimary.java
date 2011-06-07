@@ -16,7 +16,9 @@ import pa._v38.memorymgmt.enums.eDataType;
  * 23.05.2010, 21:52:50
  * 
  */
-public class clsAssociationTime extends clsAssociation{
+public class clsAssociationPrimary extends clsAssociation{
+	//AW 20110602: This type of association will connect TI with each other
+	//This association only has connection A, connection B and an association weight
 
 	/**
 	 * DOCUMENT (zeilinger) - insert description 
@@ -29,7 +31,7 @@ public class clsAssociationTime extends clsAssociation{
 	 * @param poAssociationID
 	 * @param poAssociationType
 	 */
-	public clsAssociationTime(clsTripple<Integer, eDataType, String> poDataStructureIdentifier,
+	public clsAssociationPrimary(clsTripple<Integer, eDataType, String> poDataStructureIdentifier,
 			clsPrimaryDataStructure poAssociationElementA,
 			clsPrimaryDataStructure poAssociationElementB) {
 		
