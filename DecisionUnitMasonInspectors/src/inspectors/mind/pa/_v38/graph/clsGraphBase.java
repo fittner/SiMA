@@ -148,6 +148,13 @@ public abstract class clsGraphBase extends Inspector implements ActionListener {
      * @author muchitsch
      * 05.08.2010, 10:04:58
      */
+    /**
+     * DOCUMENT (muchitsch) - insert description
+     *
+     * @author muchitsch
+     * 07.06.2011, 14:41:35
+     *
+     */
     private void initializePanel()
     {
     	setLayout(new BorderLayout());
@@ -206,6 +213,15 @@ public abstract class clsGraphBase extends Inspector implements ActionListener {
 		this.add(moLabelStatusBar, BorderLayout.SOUTH);
     }
     
+    /**
+     * Adds a Color&Icon legend to the TaskPane. This needs to be altered when new datatypes are added.
+     *
+     * @author muchitsch
+     * 07.06.2011, 14:41:43
+     *
+     * @param poTaskGroup
+     * @return poTaskGroup
+     */
     private JTaskPaneGroup addTaskPaneLegend(JTaskPaneGroup poTaskGroup){
     	poTaskGroup.setTitle("Legend");
     	poTaskGroup.setExpanded(false);
@@ -226,6 +242,17 @@ public abstract class clsGraphBase extends Inspector implements ActionListener {
     	return poTaskGroup;
     }
     
+    /**
+     * adds a single legend item in the form of a JLabel and a Icon is called by @see #method addTaskPaneLegend
+     *
+     * @author muchitsch
+     * 07.06.2011, 14:43:31
+     *
+     * @param poText
+     * @param poColor
+     * @param poImagePath
+     * @return JLabel item
+     */
     private JLabel addLegendItem(String poText, Color poColor, String poImagePath){
      	String oFullImagePath = clsGetARSPath.getArsPath()+poImagePath;
     	ImageIcon oIcon = new ImageIcon(oFullImagePath, poText);
