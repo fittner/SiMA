@@ -73,6 +73,13 @@ import com.l2fprod.common.swing.JTaskPaneGroup;
  * 24.10.2009, 23:58:33
  * 
  */
+/**
+ * DOCUMENT (muchitsch) - insert description 
+ * 
+ * @author muchitsch
+ * 08.06.2011, 10:28:47
+ * 
+ */
 public abstract class clsGraphBase extends Inspector implements ActionListener {
 	
 	/**
@@ -267,12 +274,14 @@ public abstract class clsGraphBase extends Inspector implements ActionListener {
     private JTaskPaneGroup addTaskPaneSearch(JTaskPaneGroup poTaskGroup){
     	poTaskGroup.setTitle("Search");
     	poTaskGroup.setExpanded(false);
+    	//fill me with wisdom
     	return poTaskGroup;
     }
     
     private JTaskPaneGroup addTaskPaneFilter(JTaskPaneGroup poTaskGroup){
     	poTaskGroup.setTitle("Filter");
     	poTaskGroup.setExpanded(false);
+    	//fill me with wisdom
     	return poTaskGroup;
     }
    
@@ -774,6 +783,12 @@ public abstract class clsGraphBase extends Inspector implements ActionListener {
 		return createDefaultGraphVertex(richText, 40, 40, 150, 40, poNodeColor);
 	}
 	
+	/**
+	 * experimental creation of a circular vertex, not working yet (CM 08.06.2011)
+	 *
+	 * @author muchitsch
+	 * 08.06.2011, 10:28:51
+	 */
 	protected DefaultGraphCell createCircleGraphVertex(String name, double x,
 			double y, double w, double h, Color poNodeColor) {
 

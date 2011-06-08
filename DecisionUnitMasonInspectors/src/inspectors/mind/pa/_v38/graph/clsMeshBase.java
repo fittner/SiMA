@@ -325,11 +325,6 @@ public abstract class clsMeshBase extends clsGraphBase {
 		ArrayList<clsAssociation> oAssociatedDataStructures =  poMemoryObject.getMoAssociatedDataStructures();
 		
 		//create container root cell
-
-//NEW VERSION		
-//		DefaultGraphCell oContainerRootCell = generateGraphCell(poParentCell, oContainerRootDataStructure);
-		
-//OLD VERSION
 		String oDescription = oContainerRootDataStructure.toString().substring(0, 5);
 
 		if(!UseSimpleView()) 
@@ -403,10 +398,6 @@ public abstract class clsMeshBase extends clsGraphBase {
 		//TODO WP werden neu erzeugt und können daher nicht zu den associations gefunden werden weil ID = -1, vielleicht kommt da mal eine änderung! CM+HZ
 		ArrayList<clsAssociation> oAssociatedDataStructures = new ArrayList<clsAssociation>(); // poMemoryObject.moAssociatedDataStructures;
 		
-//NEW VERSION		
-//		DefaultGraphCell oContainerRootCell = generateGraphCell(poParentCell, oContainerRootDataStructure);
-		
-//OLD VERSION		
 		String oDescription = oContainerRootDataStructure.toString().substring(0, 5);
 
 		if(!UseSimpleView()) 
@@ -469,7 +460,7 @@ public abstract class clsMeshBase extends clsGraphBase {
 	}
 	
 	
-	/** DM
+	/** [DM]
 	 * Generating cells from clsDriveMesh
 	 */
 	private DefaultGraphCell generateGraphCell(DefaultGraphCell poParentCell, clsDriveMesh poMemoryObject)
@@ -521,7 +512,7 @@ public abstract class clsMeshBase extends clsGraphBase {
 		return oDMrootCell;	
 	}
 	
-	/** TPM
+	/** [TPM]
 	 * Generating cells from clsDriveMesh
 	 */
 	private DefaultGraphCell generateGraphCell(DefaultGraphCell poParentCell, clsThingPresentationMesh poMemoryObject)
