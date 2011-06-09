@@ -120,7 +120,8 @@ public class _E25_KnowledgeAboutReality_1 extends clsModuleBaseKB implements itf
 	 */
 	@Override
 	public void receive_I6_6(ArrayList<clsSecondaryDataStructureContainer> poFocusedPerception,
-			   					ArrayList<clsSecondaryDataStructureContainer> poDriveList) {
+			   					ArrayList<clsSecondaryDataStructureContainer> poDriveList,
+			   					ArrayList<clsSecondaryDataStructureContainer> poAssociatedMemoriesSecondary) {
 		//never used ! moFocusedPerception_old = (ArrayList<clsSecondaryInformation>)this.deepCopy(poFocusedPerception_old);
 		//never used ! moFocusedPerception = (ArrayList<clsSecondaryDataStructureContainer>) this.deepCopy(poFocusedPerception); 
 	}
@@ -238,7 +239,7 @@ public class _E25_KnowledgeAboutReality_1 extends clsModuleBaseKB implements itf
 	 */
 	@Override
 	public void send_I6_1(
-			ArrayList<clsSecondaryDataStructureContainer> poPerception) {
+			ArrayList<clsSecondaryDataStructureContainer> poPerception, ArrayList<clsSecondaryDataStructureContainer> poAssociatedMemoriesSecondary_OUT) {
 		// TODO (zeilinger) - Auto-generated method stub
 		
 	}	

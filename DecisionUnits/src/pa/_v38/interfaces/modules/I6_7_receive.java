@@ -10,6 +10,7 @@ import java.util.ArrayList;
 
 
 import pa._v38.memorymgmt.datatypes.clsSecondaryDataStructureContainer;
+import pa._v38.tools.clsTripple;
 
 /**
  * DOCUMENT (deutsch) - insert description 
@@ -19,5 +20,6 @@ import pa._v38.memorymgmt.datatypes.clsSecondaryDataStructureContainer;
  * 
  */
 public interface I6_7_receive {
-	public void receive_I6_7(ArrayList<clsSecondaryDataStructureContainer> poRealityPerception);
+	public void receive_I6_7(ArrayList<clsSecondaryDataStructureContainer> poRealityPerception,
+			ArrayList<clsTripple<clsSecondaryDataStructureContainer, ArrayList<clsSecondaryDataStructureContainer>, clsSecondaryDataStructureContainer>> poExtractedPrediction);
 }

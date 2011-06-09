@@ -212,7 +212,8 @@ public class F57_MemoryTracesForDrives extends clsModuleBaseKB
 	 */
 	@Override
 	public void setDescription() {
-		// TODO (zeilinger) - Auto-generated method stub
+		moDescription = "Für vorher generierte „Triebkandidaten“ werden Triebobjekte und Handlungen (Triebziele ) erinnert (als Befriedigungsmöglichkeiten)";
+		// TODO (muchitsch) - give a en description
 		
 	}
 
