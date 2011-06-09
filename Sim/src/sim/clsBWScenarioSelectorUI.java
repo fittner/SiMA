@@ -10,14 +10,12 @@
  */
 package sim;
 
+
 import java.awt.Image;
+import java.io.File;
 import java.util.ArrayList;
-
-
 import javax.swing.ImageIcon;
-
 import config.clsBWProperties;
-
 import statictools.clsGetARSPath;
 
 /**
@@ -350,8 +348,15 @@ class ScenarioEntry {
         moLongDescription = oProp.getPropertyString("description");
         moFieldWidth =  oProp.getPropertyString("field_width");
         moFieldHeight = oProp.getPropertyString("field_height");
-                 
-        moScreenshotImage = new ImageIcon(oProp.getPropertyString("image"), "scenario screenshot");
+              
+        String oImagepath = clsGetARSPath.getConfigImagePath()+oProp.getPropertyString("image");
+        
+		File oFile = new File( oImagepath ); 
+		if(!oFile.exists()){
+			System.out.println("Image for scenario not found. Path: "+oImagepath);
+		}
+		
+        moScreenshotImage = new ImageIcon( oImagepath , "scenario screenshot");
         Image oTMPimg = moScreenshotImage.getImage();  
         oTMPimg = oTMPimg.getScaledInstance(125, 125,  java.awt.Image.SCALE_SMOOTH);  
         moScreenshotImage = new ImageIcon(oTMPimg); 
