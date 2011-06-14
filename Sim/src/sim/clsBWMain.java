@@ -22,6 +22,10 @@ import statictools.clsSimState;
 
 /**
  * Main function for simulation
+ * 
+ * Params for main(args[])
+ *  - -config
+ * 
  * @author muchitsch
  * 
  */
