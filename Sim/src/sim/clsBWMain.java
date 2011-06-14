@@ -25,6 +25,9 @@ import statictools.clsSimState;
  * 
  * Params for main(args[])
  *  - -config
+ *  - -impstages
+ *  - -adapter
+ *  - -path
  * blabla
  * @author muchitsch
  * 
