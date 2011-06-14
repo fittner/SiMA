@@ -22,9 +22,15 @@ import statictools.clsSimState;
 
 /**
  * Main function for simulation
+ * 
+ * Params for main(args[])
+ *  - -config
+ * blabla
  * @author muchitsch
  * 
  */
+
+/*HZ - added some documentation for git test*/
 public class clsBWMain extends SimState{
 	/**
 	 * @author tobias
