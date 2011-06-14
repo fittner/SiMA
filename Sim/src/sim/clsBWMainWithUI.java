@@ -86,7 +86,12 @@ public class clsBWMainWithUI extends GUIState {
 		clsSingletonProperties.setSystemProperties(oProp, P_DRAWIMAGES, P_DRAWSENSORS);
 		
 		clsBWMainWithUI oMainWithUI = new clsBWMainWithUI(args);
-		clsSingletonMasonGetter.setConsole( new ARSsim.display.Console(oMainWithUI) );
+		
+		//check if autostarting and pausing the simulation is needed
+		String oAutostart = clsBWMain.argumentForKey("-autostart", args, 0);
+		Boolean nAutostart = new Boolean(oAutostart);
+		
+		clsSingletonMasonGetter.setConsole( new ARSsim.display.Console(oMainWithUI, nAutostart) ); // 2011/06/14 CM+TD: adapted to new ARSsim.display.Console constructor
 		Dimension windowSize = clsSingletonMasonGetter.getConsole().getSize();
 		windowSize.height+=400;
 		clsSingletonMasonGetter.getConsole().setSize(windowSize);
@@ -95,6 +100,8 @@ public class clsBWMainWithUI extends GUIState {
 		clsEventLoggerInspector oELI = new clsEventLoggerInspector();
 		clsSingletonMasonGetter.getConsole().getTabPane().addTab("Eventlog", oELI);
 		clsEventLogger.setELI(oELI);
+		
+		
 	}
 
 	

@@ -120,6 +120,8 @@ public class clsBWMain extends SimState{
 		if (oPath == null) {
 			oPath = clsGetARSPath.getConfigPath();
 		}
+		
+		
 	
 		// read BW properties
 		

@@ -239,7 +239,7 @@ public class clsBWScenarioSelectorUI extends javax.swing.JFrame {
     private void btnStartScenarioActionPerformed(java.awt.event.ActionEvent evt) {
         
         int selectedIndex= lstScenarioList.getSelectedIndex();
-        String[] args = new String[2];
+        String[] args = new String[4];
 
         if(selectedIndex != -1)
         {
@@ -248,6 +248,19 @@ public class clsBWScenarioSelectorUI extends javax.swing.JFrame {
         	String val = oSelectedScenarioEntry.getFileName();
         	args[0] = "-config";
         	args[1] = val;
+        	
+        	if(chkAutostart.isSelected())
+        	{
+	        	args[2] = "-autostart";
+	        	args[3] = "true";
+        	}
+        	else
+        	{
+        		args[2] = "-autostart";
+	        	args[3] = "false";
+        	}
+        	
+        	
     		clsBWMainWithUI.main(args);
     		this.dispose();
         }
@@ -257,7 +270,7 @@ public class clsBWScenarioSelectorUI extends javax.swing.JFrame {
     private void btnStartWithAdaperActionPerformed(java.awt.event.ActionEvent evt) {
     	int selectedIndex= lstScenarioList.getSelectedIndex();
 
-    	String[] args = new String[4];
+    	String[] args = new String[6];
     	
         if(selectedIndex != -1)
         {
@@ -269,6 +282,15 @@ public class clsBWScenarioSelectorUI extends javax.swing.JFrame {
         	args[1] = val;
         	args[2] = "-adapter";
         	args[3] = "true";
+        	
+        	if(chkAutostart.isSelected()) {
+	        	args[4] = "-autostart";
+	        	args[5] = "true";
+        	}
+        	else {
+        		args[4] = "-autostart";
+	        	args[5] = "false";
+        	}
         	
     		clsBWMainWithUI.main(args);
     		this.dispose();
