@@ -23,11 +23,11 @@ import statictools.clsSimState;
 /**
  * Main function for simulation
  * 
- * Params for main(args[])
+ * Params for main(arcs[])
  *  - -config
  *  - -impstages
  *  - -adapter
- *  - -path test test
+ *  - -path test test test
  * blabla
  * @author muchitsch
  * 
