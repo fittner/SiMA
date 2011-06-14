@@ -19,7 +19,7 @@ import config.clsBWProperties;
 import statictools.clsGetARSPath;
 
 /**
- * buuu
+ * buuu huuu
  * @author muchitsch
  */
 public class clsBWScenarioSelectorUI extends javax.swing.JFrame {
