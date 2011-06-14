@@ -29,6 +29,8 @@ import statictools.clsSimState;
  * @author muchitsch
  * 
  */
+
+/*HZ - added some documentation for git test*/
 public class clsBWMain extends SimState{
 	/**
 	 * @author tobias
