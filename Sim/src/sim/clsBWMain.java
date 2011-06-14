@@ -27,7 +27,7 @@ import statictools.clsSimState;
  *  - -config
  *  - -impstages
  *  - -adapter
- *  - -path test
+ *  - -path test test
  * blabla
  * @author muchitsch
  * 
