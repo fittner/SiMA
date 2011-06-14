@@ -1,5 +1,5 @@
 /**
- * 
+ * 2011/06/14: CM+TD - added "pressPause()" to constructor. now the simulation loads everything upon start and is in paused mode afterwards if the corresponding booelan param of the constructor is set to true.
  */
 package ARSsim.display;
 
@@ -13,6 +13,7 @@ import sim.display.GUIState;
 /**
  * @author langr
  *
+ * 
  */
 public class Console extends sim.display.Console {
 
@@ -23,9 +24,11 @@ public class Console extends sim.display.Console {
 	private int mnCurrentSelection = 0;
 	private static int mnStandardTabs = 5; //How many TABS are always present? (0 is really zero)
 	
-	public Console(GUIState simulation) {
+	public Console(GUIState simulation, boolean pnAutoPause) {
 		super(simulation);
-		// TODO (langr) - Auto-generated constructor stub
+		if (pnAutoPause) {
+			this.pressPause(); // TD+CM: autostart as paused
+		}
 	}
 	
 	public void addTabbSetup(Integer pnEntityType, ArrayList<JTabbedPane> poTabbedPanes)

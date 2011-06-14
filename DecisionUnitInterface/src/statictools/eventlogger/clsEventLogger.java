@@ -113,7 +113,9 @@ public class clsEventLogger {
     	
     	enforceMaxSize();
     	
-    	moELI.updateInspector();
+    	if (moELI != null) {
+    		moELI.updateInspector();
+    	}
     }
     
     private void enforceMaxSize() {
