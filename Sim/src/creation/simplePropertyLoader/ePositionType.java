@@ -6,7 +6,7 @@
  * $Author::                   $: Author of last commit
  * $Date::                     $: Date of last commit
  */
-package sim.creation.simplePropertyLoader;
+package creation.simplePropertyLoader;
 
 /**
  * DOCUMENT (tobias) - insert description 

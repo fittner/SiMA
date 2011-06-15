@@ -9,7 +9,7 @@
 package sim;
 
 import config.clsBWProperties;
-import sim.creation.simplePropertyLoader.clsSimplePropertyLoader;
+import creation.simplePropertyLoader.clsSimplePropertyLoader;
 import statictools.clsGetARSPath;
 import bw.entities.clsAnimal;
 import bw.entities.clsAnimate;

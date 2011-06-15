@@ -6,7 +6,7 @@
  * $Author::                   $: Author of last commit
  * $Date::                     $: Date of last commit
  */
-package sim.creation.simplePropertyLoader;
+package creation.simplePropertyLoader;
 
 import java.awt.Color;
 import java.util.List;
@@ -16,6 +16,8 @@ import pa._v30.clsProcessor;
 import pa._v30.memorymgmt.clsKnowledgeBaseHandler;
 import pa._v30.modules.clsPsychicApparatus;
 import config.clsBWProperties;
+import creation.clsLoader;
+import creation.eLoader;
 import decisionunit.clsDecisionUnitFactory;
 import du.enums.eDecisionType;
 import du.enums.eEntityType;
@@ -50,8 +52,6 @@ import bw.factories.clsSingletonMasonGetter;
 import bw.utils.enums.eBodyType;
 import bw.utils.enums.eNutritions;
 import bw.utils.enums.eShapeType;
-import sim.creation.clsLoader;
-import sim.creation.eLoader;
 import sim.engine.SimState;
 import statictools.clsUniqueIdGenerator;
 

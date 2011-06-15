@@ -6,7 +6,7 @@
  * $Author::                   $: Author of last commit
  * $Date::                     $: Date of last commit
  */
-package sim.creation;
+package creation;
 
 /**
  * DOCUMENT (tobias) - insert description 
