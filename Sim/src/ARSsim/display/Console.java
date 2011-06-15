@@ -31,11 +31,13 @@ public class Console extends sim.display.Console {
 		}
 	}
 	
+	@Deprecated
 	public void addTabbSetup(Integer pnEntityType, ArrayList<JTabbedPane> poTabbedPanes)
 	{
 		moTabbedPaneConfig.put(pnEntityType, poTabbedPanes);
 	}
 	
+	@Deprecated
 	public void setView(Integer pnEntityType)
 	{
 		removeView(mnCurrentSelection);
@@ -52,6 +54,7 @@ public class Console extends sim.display.Console {
 		mnCurrentSelection = pnEntityType;
 	}
 	
+	@Deprecated
 	private void removeView(Integer pnEntityType)
 	{
 		ArrayList<JTabbedPane> oRemoveTabSet = moTabbedPaneConfig.get(pnEntityType);
