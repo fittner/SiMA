@@ -19,13 +19,16 @@ import config.clsBWProperties;
 import statictools.clsGetARSPath;
 
 /**
- * buuu huuu Haaa Hoo
+ * This class can act as a Main function for Simulation. This adds the 
+ * functionality to select from different scenarios and then calls
+ * the clsBMMain class.
+ * You don not need to use this. you can also call clsBWMainWithUI directly.
+ * This is just a neat way to start the simulation!
  * @author muchitsch
  */
 public class clsBWScenarioSelectorUI extends javax.swing.JFrame {
 
     /**
-	 * DOCUMENT (muchitsch) - insert description 
 	 * 
 	 * @author muchitsch
 	 * 08.06.2011, 17:26:02
@@ -68,7 +71,9 @@ public class clsBWScenarioSelectorUI extends javax.swing.JFrame {
         pnlScenarios.setBorder(javax.swing.BorderFactory.createTitledBorder("Scenario"));
 
         lstScenarioList.setModel(new javax.swing.AbstractListModel() {
-            String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
+
+			private static final long serialVersionUID = -1008339432610914271L;
+			String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
             @Override
 			public int getSize() { return strings.length; }
             @Override
@@ -171,7 +176,7 @@ public class clsBWScenarioSelectorUI extends javax.swing.JFrame {
             }
         });
 
-        btnStartScenario.setLabel("Start Scenario");
+        btnStartScenario.setText("Start Scenario");
         btnStartScenario.addActionListener(new java.awt.event.ActionListener() {
             @Override
 			public void actionPerformed(java.awt.event.ActionEvent evt) {
