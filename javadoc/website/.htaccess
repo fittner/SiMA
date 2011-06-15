@@ -1,0 +1,5 @@
+AuthName "Restricted Area" 
+AuthType Basic 
+AuthUserFile  /webserver/www.arsini.org/apache/javadoc/.htpasswd 
+AuthGroupFile /dev/null 
+require valid-user
