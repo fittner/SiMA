@@ -9,6 +9,5 @@
     -version ^
     -author ^
     -doctitle "BW - Bubble World" ^
-    -private ^
 	-quiet
 	

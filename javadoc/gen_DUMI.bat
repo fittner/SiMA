@@ -9,6 +9,5 @@
     -version ^
     -author ^
     -doctitle "Decision Unit Inspectors" ^
-    -private ^
 	-quiet		
 	

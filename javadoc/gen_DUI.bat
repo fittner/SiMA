@@ -9,6 +9,5 @@
     -version ^
     -author ^
     -doctitle "Decision Unit Interfaces and Static/Global Tools" ^
-    -private ^
 	-quiet	
 	

@@ -10,6 +10,5 @@
     -version ^
     -author ^
     -doctitle "Decision Unit v38" ^
-    -private ^
 	-quiet		
 	
