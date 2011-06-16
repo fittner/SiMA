@@ -1,17 +1,9 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 
-/*
- * clsBWScenarioSelectorUI.java
- *
- * Created on 08.06.2011, 12:27:43
- */
 package sim;
 
-
 import java.awt.Image;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.io.File;
 import java.util.ArrayList;
 import javax.swing.ImageIcon;
@@ -22,19 +14,16 @@ import statictools.clsGetARSPath;
  * This class can act as a Main function for Simulation. This adds the 
  * functionality to select from different scenarios and then calls
  * the clsBMMain class.
- * You don not need to use this. you can also call clsBWMainWithUI directly.
+ * You do not need to use this. you can also call clsBWMainWithUI directly.
  * This is just a neat way to start the simulation!
  * @author muchitsch
  */
 public class clsBWScenarioSelectorUI extends javax.swing.JFrame {
 
-    /**
-	 * 
-	 * @author muchitsch
-	 * 08.06.2011, 17:26:02
-	 */
 	private static final long serialVersionUID = -1592720371723582306L;
-	/** Creates new form clsBWScenarioSelectorUI */
+	
+	/** Creates new form clsBWScenarioSelectorUI and initializes the JFrame and 
+	 * the other components. it also fills the List with the scenarios (config files)*/
     public clsBWScenarioSelectorUI() {
         initComponents();
         FillScenarioList();
@@ -85,6 +74,14 @@ public class clsBWScenarioSelectorUI extends javax.swing.JFrame {
 			public void valueChanged(javax.swing.event.ListSelectionEvent evt) {
                 lstScenarioListValueChanged(evt);
             }
+        });
+        lstScenarioList.addMouseListener(new MouseAdapter() {
+            @Override
+			public void mouseClicked(MouseEvent evt) {
+            	if (evt.getClickCount() == 2) {          // Double-click
+                    StartScenario();
+                } 
+             }
         });
         jScrollPane1.setViewportView(lstScenarioList);
 
@@ -240,15 +237,30 @@ public class clsBWScenarioSelectorUI extends javax.swing.JFrame {
     private void btnCancelActionPerformed(java.awt.event.ActionEvent evt) {
         System.exit(0);
     }
+    
+    /**
+     * Disables the user input for all buttons etc. so the user is not confused for example after double clicking in the scenario list
+     *
+     * @author muchitsch
+     * 16.06.2011, 11:14:02
+     */
+    private void DisableUserInput(){
+    	lstScenarioList.setEnabled(false);
+    	btnStartScenario.setEnabled(false);
+    	btnStartWithAdaper.setEnabled(false);
+    	chkAutostart.setEnabled(false);
+    }
+    
+    private void StartScenario(){
+    	
+    	DisableUserInput();
+    	
+    	int oSelectedScenarioIndex = lstScenarioList.getSelectedIndex();
+    	String[] args = new String[4];
 
-    private void btnStartScenarioActionPerformed(java.awt.event.ActionEvent evt) {
-        
-        int selectedIndex= lstScenarioList.getSelectedIndex();
-        String[] args = new String[4];
-
-        if(selectedIndex != -1)
+        if(oSelectedScenarioIndex != -1)
         {
-        	ScenarioEntry oSelectedScenarioEntry = (ScenarioEntry) lstScenarioList.getModel().getElementAt(selectedIndex);
+        	ScenarioEntry oSelectedScenarioEntry = (ScenarioEntry) lstScenarioList.getModel().getElementAt(oSelectedScenarioIndex);
         	
         	String val = oSelectedScenarioEntry.getFileName();
         	args[0] = "-config";
@@ -265,14 +277,19 @@ public class clsBWScenarioSelectorUI extends javax.swing.JFrame {
 	        	args[3] = "false";
         	}
         	
-        	
     		clsBWMainWithUI.main(args);
     		this.dispose();
         }
-               
+    }
+
+    private void btnStartScenarioActionPerformed(java.awt.event.ActionEvent evt) {
+    	StartScenario();
     }
     
     private void btnStartWithAdaperActionPerformed(java.awt.event.ActionEvent evt) {
+    	
+    	DisableUserInput();
+    	
     	int selectedIndex= lstScenarioList.getSelectedIndex();
 
     	String[] args = new String[6];
@@ -330,7 +347,6 @@ public class clsBWScenarioSelectorUI extends javax.swing.JFrame {
        java.io.FileFilter fileFilter = new java.io.FileFilter() {
            @Override
 			public boolean accept(java.io.File file) {
-        	  
                return file.isFile();
            }
        };
@@ -363,7 +379,7 @@ public class clsBWScenarioSelectorUI extends javax.swing.JFrame {
        }
    }
     /**
-     * @param args the command line arguments
+     * @param args the command line arguments, not used! if you want argument implement it or use the standard UI classes to start the simulations
      */
     public static void main(String args[]) {
         java.awt.EventQueue.invokeLater(new Runnable() {
@@ -397,7 +413,14 @@ public class clsBWScenarioSelectorUI extends javax.swing.JFrame {
 }
 
 
-//-------------------------------------------
+//------------------------------------------------------------------------
+/**
+ * This is just a small data class for use in clsBWScenarioSelectorUI.java, do not change it! do not use it elsewhere!
+ * It also creates some formats for the Descriptions, change them is needed.
+ * 
+ * @author muchitsch
+ * 16.06.2011, 11:20:41
+ */
 class ScenarioEntry {
 	  private final String moName;
 	  private final String moFilename;
