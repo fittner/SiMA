@@ -9,6 +9,7 @@ package pa._v38.interfaces.modules;
 import java.util.ArrayList;
 
 import pa._v38.memorymgmt.datatypes.clsSecondaryDataStructureContainer;
+import pa._v38.tools.clsTripple;
 
 /**
  * DOCUMENT (deutsch) - insert description 
@@ -18,5 +19,6 @@ import pa._v38.memorymgmt.datatypes.clsSecondaryDataStructureContainer;
  * 
  */
 public interface I6_7_send {
-	public void send_I6_7(ArrayList<clsSecondaryDataStructureContainer> poRealityPerception);
+	public void send_I6_7(ArrayList<clsSecondaryDataStructureContainer> poRealityPerception,
+			ArrayList<clsTripple<clsSecondaryDataStructureContainer, ArrayList<clsSecondaryDataStructureContainer>, clsSecondaryDataStructureContainer>> poExtractedPrediction);
 }

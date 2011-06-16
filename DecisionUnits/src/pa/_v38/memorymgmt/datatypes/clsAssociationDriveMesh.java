@@ -63,6 +63,11 @@ public class clsAssociationDriveMesh extends clsAssociation{
 		return moAssociationElementA; 
 	}
 	
+	@Override
+	public clsDataStructurePA getRootElement() {
+		return moAssociationElementB; 
+	}
+	
 	public clsDriveMesh getDM(){
 		//Element A is always the Drive Mesh 
 		return (clsDriveMesh)moAssociationElementA; 

@@ -150,7 +150,7 @@ public class _E07_InternalizedRulesHandler extends clsModuleBaseKB implements
 	 * @see pa.interfaces.I2_9#receive_I2_9(int)
 	 */
 	@Override
-	public void receive_I5_10(ArrayList<clsPrimaryDataStructureContainer> poMergedPrimaryInformation) {
+	public void receive_I5_10(clsPrimaryDataStructureContainer poMergedPrimaryInformation, ArrayList<clsPrimaryDataStructureContainer> poAssociatedMemories) {
 		
 		//DEEPCOPY
 	}
@@ -297,7 +297,7 @@ public class _E07_InternalizedRulesHandler extends clsModuleBaseKB implements
 	 * @see pa._v38.interfaces.modules.I5_11_send#send_I5_11(java.util.ArrayList)
 	 */
 	@Override
-	public void send_I5_11(ArrayList<clsPrimaryDataStructureContainer> poData) {
+	public void send_I5_11(clsPrimaryDataStructureContainer poEnvironmentalPerception, ArrayList<clsPrimaryDataStructureContainer> poAssociatedMemories) {
 		// TODO (zeilinger) - Auto-generated method stub
 		
 	}

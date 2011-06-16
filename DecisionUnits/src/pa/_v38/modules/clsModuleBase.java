@@ -111,6 +111,34 @@ public abstract class clsModuleBase implements
 	public ePsychicInstances getPsychicInstances() {return mnPsychicInstances;}
 	public Integer getModuleNumber() {return mnModuleNumber;}
 	
+	//AW 20110521: new deepcopy function for single objects
+	protected Object deepCopy(Object other) {
+		Object clone = null;
+		if (other != null) {
+			clone = new Object();
+		}
+		
+		try {
+			if (!(other instanceof Cloneable)) {
+				clone = other;	//not cloneable
+			} else {
+				//FIXME: AW 20110521: How are relative references kept? 
+				// Before: Associated Datastructures ElementA = ID123, ElementB = ID122, Datastructre: ID123
+				// After: Associated Datastructures ElementA = ID999, ElementB = ID888, Datastructre: ID777
+				Class<?> clzz = other.getClass();
+				Method   meth = clzz.getMethod("clone", new Class[0]);
+				Object   dupl = meth.invoke(other, new Object[0]);
+				clone = dupl;
+				//clone.add(dupl);
+			}
+		} catch (Exception e) {
+			//clone.add(entry);
+			clone = other;
+			// no deep copy possible.
+		}
+		return clone;
+	}
+	
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	protected java.util.ArrayList deepCopy(java.util.ArrayList other) {
 		java.util.ArrayList clone = null;

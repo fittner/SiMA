@@ -201,7 +201,7 @@ public class F55_SuperEgoProactive extends clsModuleBase
 	@Override
 	public void setDescription() {
 		// TODO (zeilinger) - Auto-generated method stub
-		
+		moDescription = "Checks periodically and proactiv internalized rules.";
 	}
 
 	/* (non-Javadoc)
@@ -248,5 +248,5 @@ public class F55_SuperEgoProactive extends clsModuleBase
 			ArrayList<clsPair<clsPhysicalRepresentation, clsDriveMesh>> poData) {
 		// TODO (zeilinger) - Auto-generated method stub
 		
-	}
+	}	
 }

@@ -246,6 +246,6 @@ public class F06_DefenseMechanismsForDrives extends clsModuleBase implements
 	 */
 	@Override
 	public void setDescription() {
-		moDescription = "Based on information provided by {E7} and {E9}, this module decides which drive representations are allowed to become (pre-)conscious and if not which defense mechanism is to be applied. These mechanisms can split the thing presentations from their quota of affect, change the thing presentations, repress the contents until later, attach them to other contents, and more. Examples for these mechanisms are repression, intellectualization, and sublimination ({Schuster1997}). Repressed content reappears in {F54}";
+		moDescription = "Based on information provided by {E7} and {E9}, this module decides which drive representations are allowed to become (pre-)conscious and if not which defense mechanism is to be applied. These mechanisms can split the thing presentations from their quota of affect, change the thing presentations, repress the contents until later, attach them to other contents, and more. Examples for these mechanisms are repression, intellectualization, displacement, and sublimination ({Schuster1997}). Repressed content reappears in {F54}";
 	}
 }

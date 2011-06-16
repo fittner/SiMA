@@ -19,5 +19,5 @@ import pa._v38.memorymgmt.datatypes.clsPrimaryDataStructureContainer;
  * 
  */
 public interface I5_10_receive {
-	public void receive_I5_10(ArrayList<clsPrimaryDataStructureContainer> poMergedPrimaryInformation);
+	public void receive_I5_10(clsPrimaryDataStructureContainer poMergedPrimaryInformation, ArrayList<clsPrimaryDataStructureContainer> poAssociatedMemories);
 }

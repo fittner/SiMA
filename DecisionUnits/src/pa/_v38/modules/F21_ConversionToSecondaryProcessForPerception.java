@@ -24,6 +24,7 @@ import pa._v38.interfaces.modules.I6_4_receive;
 import pa._v38.interfaces.modules.I6_4_send;
 import pa._v38.interfaces.modules.I6_9_receive;
 import pa._v38.memorymgmt.clsKnowledgeBaseHandler;
+import pa._v38.memorymgmt.datahandler.clsDataStructureConverter;
 import pa._v38.memorymgmt.datahandler.clsDataStructureGenerator;
 import pa._v38.memorymgmt.datatypes.clsAffect;
 import pa._v38.memorymgmt.datatypes.clsAssociation;
@@ -49,7 +50,15 @@ public class F21_ConversionToSecondaryProcessForPerception extends clsModuleBase
 			I5_15_receive, I6_9_receive, I6_1_send, I6_4_send {
 	public static final String P_MODULENUMBER = "21";
 	
-	private ArrayList<clsPrimaryDataStructureContainer> moGrantedPerception_Input; 
+	//AW 20110522: New inputs
+	private clsPrimaryDataStructureContainer moEnvironmentalPerception_IN;
+	//AW 20110522: The input below will be used soon, in order to extract expectations.
+	private ArrayList<clsPrimaryDataStructureContainer> moAssociatedMemories_IN;
+	
+	//AW 20110602 New output of the module
+	private ArrayList<clsSecondaryDataStructureContainer> moAssociatedMemoriesSecondary_OUT;
+	
+	//private ArrayList<clsPrimaryDataStructureContainer> moGrantedPerception_Input; 
 	//FIXME HZ: This would require a change in the interfaces!!! => different to the actual definition
 	//private ArrayList<clsPair<clsSecondaryDataStructureContainer, clsPair<clsWordPresentation, clsWordPresentation>>> moPerception_Output; 
 	private ArrayList<clsSecondaryDataStructureContainer> moPerception_Output; 
@@ -85,7 +94,7 @@ public class F21_ConversionToSecondaryProcessForPerception extends clsModuleBase
 	public String stateToTEXT() {		
 		String text = "";
 		
-		text += toText.listToTEXT("moGrantedPerception_Input", moGrantedPerception_Input);
+		text += toText.valueToTEXT("moEnvironmentalPerception_IN", moEnvironmentalPerception_IN);
 		text += toText.listToTEXT("moPerception_Output", moPerception_Output);
 		text += toText.listToTEXT("moOrderedResult", moOrderedResult);
 		text += toText.mapToTEXT("moTemporaryDM", moTemporaryDM);
@@ -142,8 +151,9 @@ public class F21_ConversionToSecondaryProcessForPerception extends clsModuleBase
 	 */
 	@SuppressWarnings("unchecked")
 	@Override
-	public void receive_I5_15(ArrayList<clsPrimaryDataStructureContainer> poGrantedPerception) {
-		moGrantedPerception_Input = (ArrayList<clsPrimaryDataStructureContainer>)this.deepCopy(poGrantedPerception);
+	public void receive_I5_15(clsPrimaryDataStructureContainer poEnvironmentalPerception, ArrayList<clsPrimaryDataStructureContainer> poAssociatedMemories) {
+		moEnvironmentalPerception_IN = (clsPrimaryDataStructureContainer)this.deepCopy(poEnvironmentalPerception);
+		moAssociatedMemories_IN = (ArrayList<clsPrimaryDataStructureContainer>)this.deepCopy(poAssociatedMemories);
 	}
 
 	/* (non-Javadoc)
@@ -160,6 +170,10 @@ public class F21_ConversionToSecondaryProcessForPerception extends clsModuleBase
 		
 		defineTemplateImage(); 
 		convertToSecondary(); 
+		
+		//AW 20110602: Added function
+		//Processing of associated images
+		moAssociatedMemoriesSecondary_OUT = assignWPtoImages(moAssociatedMemories_IN);
 	}
 	
 	/**
@@ -200,6 +214,9 @@ public class F21_ConversionToSecondaryProcessForPerception extends clsModuleBase
 		 *    talk to the programmer or read the code... read the code first.     
 		 */
 		moOrderedResult = new ArrayList<clsTripple<clsDataStructurePA, ArrayList<clsTemplateImage>, ArrayList<clsPair<clsDriveMesh, clsAffect>>>>(); 
+		
+		//AW 20110522: Convert from new input
+		ArrayList<clsPrimaryDataStructureContainer> moGrantedPerception_Input = clsDataStructureConverter.convertTIContToTPMCont(moEnvironmentalPerception_IN);
 		
 		for(clsPrimaryDataStructureContainer oContainer : moGrantedPerception_Input){
 			ArrayList<ArrayList<clsPair<Double,clsDataStructureContainer>>> oSearchResult 
@@ -488,6 +505,12 @@ public class F21_ConversionToSecondaryProcessForPerception extends clsModuleBase
 		return oRetVal;  
 	}
 	
+	private ArrayList<clsSecondaryDataStructureContainer> assignWPtoImages(ArrayList<clsPrimaryDataStructureContainer> oInput) {
+		ArrayList<clsSecondaryDataStructureContainer> oRetVal = new ArrayList<clsSecondaryDataStructureContainer>();
+		
+		return oRetVal;
+	}
+	
 	
 	/* (non-Javadoc)
 	 *
@@ -499,7 +522,7 @@ public class F21_ConversionToSecondaryProcessForPerception extends clsModuleBase
 	@Override
 	protected void send() {
 		//HZ: null is a placeholder for the bjects of the type pa._v38.memorymgmt.datatypes
-		send_I6_1(moPerception_Output);
+		send_I6_1(moPerception_Output, moAssociatedMemoriesSecondary_OUT);
 		send_I6_4(moPerception_Output);
 	}
 
@@ -511,11 +534,12 @@ public class F21_ConversionToSecondaryProcessForPerception extends clsModuleBase
 	 * @see pa.interfaces.send.I2_11_send#send_I2_11(java.util.ArrayList)
 	 */
 	@Override
-	public void send_I6_1(ArrayList<clsSecondaryDataStructureContainer> poPerception) {
-		((I6_1_receive)moModuleList.get(23)).receive_I6_1(poPerception);
-		((I6_1_receive)moModuleList.get(26)).receive_I6_1(poPerception);
+	public void send_I6_1(ArrayList<clsSecondaryDataStructureContainer> poPerception, ArrayList<clsSecondaryDataStructureContainer> poAssociatedMemoriesSecondary) {
+		//AW 20110602: Attention, the associated memeories contain images and not objects like in the perception
+		((I6_1_receive)moModuleList.get(23)).receive_I6_1(poPerception, poAssociatedMemoriesSecondary);
+		((I6_1_receive)moModuleList.get(26)).receive_I6_1(poPerception, poAssociatedMemoriesSecondary);
 		
-		putInterfaceData(I6_1_send.class, poPerception);
+		putInterfaceData(I6_1_send.class, poPerception, poAssociatedMemoriesSecondary);
 		
 	}
 

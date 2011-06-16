@@ -1,19 +1,15 @@
 /**
- * @author muchitsch
  * 
- * $Rev::                      $: Revision of last commit
- * $Author::                   $: Author of last commit
- * $Date::                     $: Date of last commit
  */
 package sim;
 
 //import javax.swing.JDialog;
 import org.jfree.data.xy.XYSeries;
 import config.clsBWProperties;
+import creation.clsLoader;
+import creation.simplePropertyLoader.clsSimplePropertyLoader;
 import du.enums.eDecisionType;
 import ec.util.MersenneTwisterFast;
-import sim.creation.clsLoader;
-import sim.creation.simplePropertyLoader.clsSimplePropertyLoader;
 import sim.engine.Schedule;
 import sim.engine.SimState;
 import statictools.clsGetARSPath;
@@ -22,9 +18,18 @@ import statictools.clsSimState;
 
 /**
  * Main function for simulation
+ * 
+ * Params for main(arcs[])
+ *  - -config
+ *  - -impstages
+ *  - -adapter
+ *  - -path test test test
+ * blabla
  * @author muchitsch
  * 
  */
+
+/*HZ - added some documentation for git test*/
 public class clsBWMain extends SimState{
 	/**
 	 * @author tobias
@@ -120,6 +125,8 @@ public class clsBWMain extends SimState{
 		if (oPath == null) {
 			oPath = clsGetARSPath.getConfigPath();
 		}
+		
+		
 	
 		// read BW properties
 		

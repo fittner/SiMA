@@ -16,6 +16,7 @@ import pa._v38.interfaces.modules.I6_6_receive;
 import pa._v38.interfaces.modules.I6_7_receive;
 import pa._v38.interfaces.modules.I6_7_send;
 import pa._v38.memorymgmt.datatypes.clsSecondaryDataStructureContainer;
+import pa._v38.tools.clsTripple;
 import pa._v38.tools.toText;
 
 /**
@@ -29,8 +30,13 @@ public class F51_RealityCheckWishFulfillment extends clsModuleBase implements it
 	public static final String P_MODULENUMBER = "51";
 	
 	private ArrayList<clsSecondaryDataStructureContainer> moFocusedPerception_Input; 
+	//AW 20110602 Added associated memories to the input 
+	private ArrayList<clsSecondaryDataStructureContainer> moAssociatedMemoriesSecondary_IN;
+	
+	
 	private ArrayList<clsSecondaryDataStructureContainer> moRealityPerception_Output; 
 	private ArrayList<clsSecondaryDataStructureContainer> moDriveList;  //removed by HZ - not required now
+	private ArrayList<clsTripple<clsSecondaryDataStructureContainer, ArrayList<clsSecondaryDataStructureContainer>, clsSecondaryDataStructureContainer>> moExtractedPrediction_OUT;
 	private boolean mnMinimalModel;
 
 	/**
@@ -117,9 +123,11 @@ public class F51_RealityCheckWishFulfillment extends clsModuleBase implements it
 	 */
 	@SuppressWarnings("unchecked")
 	@Override
-	public void receive_I6_6(ArrayList<clsSecondaryDataStructureContainer> poFocusedPerception, ArrayList<clsSecondaryDataStructureContainer> poDriveList) {
+	public void receive_I6_6(ArrayList<clsSecondaryDataStructureContainer> poFocusedPerception, ArrayList<clsSecondaryDataStructureContainer> poDriveList, 
+			ArrayList<clsSecondaryDataStructureContainer> poAssociatedMemoriesSecondary) {
 		moFocusedPerception_Input = (ArrayList<clsSecondaryDataStructureContainer>)deepCopy(poFocusedPerception);
 		moDriveList = (ArrayList<clsSecondaryDataStructureContainer>) deepCopy(poDriveList);
+		moAssociatedMemoriesSecondary_IN = (ArrayList<clsSecondaryDataStructureContainer>)deepCopy(poAssociatedMemoriesSecondary);
 	}
 
 	/* (non-Javadoc)
@@ -139,7 +147,15 @@ public class F51_RealityCheckWishFulfillment extends clsModuleBase implements it
 			for(clsSecondaryDataStructureContainer oCon : moFocusedPerception_Input){
 				moRealityPerception_Output.add(oCon); 
 			}
+			
+			moExtractedPrediction_OUT = extractPredictions(moAssociatedMemoriesSecondary_IN);
 		}
+	}
+	
+	private ArrayList<clsTripple<clsSecondaryDataStructureContainer, ArrayList<clsSecondaryDataStructureContainer>, clsSecondaryDataStructureContainer>> extractPredictions(ArrayList<clsSecondaryDataStructureContainer> oInput) {
+		ArrayList<clsTripple<clsSecondaryDataStructureContainer, ArrayList<clsSecondaryDataStructureContainer>, clsSecondaryDataStructureContainer>> oRetVal = new ArrayList<clsTripple<clsSecondaryDataStructureContainer, ArrayList<clsSecondaryDataStructureContainer>, clsSecondaryDataStructureContainer>>();
+		
+		return oRetVal;
 	}
 	
 	/* (non-Javadoc)
@@ -152,10 +168,10 @@ public class F51_RealityCheckWishFulfillment extends clsModuleBase implements it
 	@Override
 	protected void send() {
 		if (mnMinimalModel) {
-			send_I6_7(moFocusedPerception_Input);
+			send_I6_7(moFocusedPerception_Input, new ArrayList<clsTripple<clsSecondaryDataStructureContainer, ArrayList<clsSecondaryDataStructureContainer>, clsSecondaryDataStructureContainer>>());
 		} else {
 			//HZ: null is a placeholder for the bjects of the type pa._v38.memorymgmt.datatypes
-			send_I6_7(moRealityPerception_Output);
+			send_I6_7(moRealityPerception_Output, moExtractedPrediction_OUT);
 		}
 	}
 
@@ -167,10 +183,11 @@ public class F51_RealityCheckWishFulfillment extends clsModuleBase implements it
 	 * @see pa.interfaces.send.I2_13_send#send_I2_13(java.util.ArrayList)
 	 */
 	@Override
-	public void send_I6_7(ArrayList<clsSecondaryDataStructureContainer> poRealityPerception) {
-		((I6_7_receive)moModuleList.get(26)).receive_I6_7(poRealityPerception);
+	public void send_I6_7(ArrayList<clsSecondaryDataStructureContainer> poRealityPerception,
+			ArrayList<clsTripple<clsSecondaryDataStructureContainer, ArrayList<clsSecondaryDataStructureContainer>, clsSecondaryDataStructureContainer>> poExtractedPrediction) {
+		((I6_7_receive)moModuleList.get(26)).receive_I6_7(poRealityPerception, poExtractedPrediction);
 		
-		putInterfaceData(I6_7_send.class, poRealityPerception);
+		putInterfaceData(I6_7_send.class, poRealityPerception, poExtractedPrediction);
 	}
 
 	/* (non-Javadoc)
