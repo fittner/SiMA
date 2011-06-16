@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.SortedMap;
 import config.clsBWProperties;
+import pa._v38.memorymgmt.datatypes.clsDriveMesh;
 import pa._v38.interfaces.eInterfaces;
 import pa._v38.interfaces.itfMinimalModelMode;
 import pa._v38.interfaces.modules.I6_3_receive;
@@ -149,6 +150,30 @@ public class F23_ExternalPerception_focused extends clsModuleBase implements itf
 			//that depends on the evaluation of external and internal perception (moDriveList); 
 			//
 			//Actual state: no ordering! 
+			
+			boolean switched = false;
+			clsSecondaryDataStructureContainer sdsc;
+			
+			if (!moPerception.isEmpty())
+			{
+				//bubblesort; if you want quicksort... have at it 
+				do
+				{
+					switched = false;
+					for (int i = 0; i < moPerception.size() - 1; i++)
+					{
+						if (((clsDriveMesh) moPerception.get(i).getMoAssociatedDataStructures().get(2).getMoAssociationElementB()).getMrPleasure() <
+						((clsDriveMesh) moPerception.get(i + 1).getMoAssociatedDataStructures().get(2).getMoAssociationElementB()).getMrPleasure())
+						{
+							sdsc = moPerception.get(i);
+							moPerception.remove(i);
+							moPerception.add(i + 1, sdsc);
+							switched = true;
+						}
+					}
+				} while (switched == true);
+			}
+			
 			moFocusedPerception_Output = moPerception;
 		}
 	}
