@@ -53,7 +53,7 @@ public class clsBWScenarioSelectorUI extends javax.swing.JFrame {
         btnCancel = new javax.swing.JButton();
         btnStartScenario = new javax.swing.JButton();
         chkAutostart = new javax.swing.JCheckBox();
-        btnStartWithAdaper = new javax.swing.JButton();
+        chkAdaptor = new javax.swing.JCheckBox();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -124,6 +124,8 @@ public class clsBWScenarioSelectorUI extends javax.swing.JFrame {
         lblFieldSize.setText("Field Size:");
 
         lblFilename.setText("Filename:");
+        
+        chkAdaptor.setText("adaptor");
 
         javax.swing.GroupLayout pnlDescriptionLayout = new javax.swing.GroupLayout(pnlDescription);
         pnlDescription.setLayout(pnlDescriptionLayout);
@@ -184,14 +186,6 @@ public class clsBWScenarioSelectorUI extends javax.swing.JFrame {
         chkAutostart.setSelected(true);
         chkAutostart.setText("autostart");
 
-        btnStartWithAdaper.setText("Start with Adaptor");
-        btnStartWithAdaper.addActionListener(new java.awt.event.ActionListener() {
-            @Override
-			public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnStartWithAdaperActionPerformed(evt);
-            }
-        });
-
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -203,7 +197,7 @@ public class clsBWScenarioSelectorUI extends javax.swing.JFrame {
                         .addGap(72, 72, 72)
                         .addComponent(chkAutostart)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(btnStartWithAdaper)
+                        .addComponent(chkAdaptor)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(btnStartScenario, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
@@ -224,8 +218,8 @@ public class clsBWScenarioSelectorUI extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnStartScenario, javax.swing.GroupLayout.DEFAULT_SIZE, 31, Short.MAX_VALUE)
                     .addComponent(btnCancel, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnStartWithAdaper, javax.swing.GroupLayout.DEFAULT_SIZE, 31, Short.MAX_VALUE)
-                    .addComponent(chkAutostart))
+                    .addComponent(chkAutostart)
+                    .addComponent(chkAdaptor))
                 .addGap(22, 22, 22))
         );
 
@@ -247,17 +241,19 @@ public class clsBWScenarioSelectorUI extends javax.swing.JFrame {
     private void DisableUserInput(){
     	lstScenarioList.setEnabled(false);
     	btnStartScenario.setEnabled(false);
-    	btnStartWithAdaper.setEnabled(false);
+    	chkAdaptor.setEnabled(false);
     	chkAutostart.setEnabled(false);
     }
     
     private void StartScenario(){
     	
+    	//disable the buttons
     	DisableUserInput();
     	
     	int oSelectedScenarioIndex = lstScenarioList.getSelectedIndex();
-    	String[] args = new String[4];
+    	String[] args = new String[6];
 
+    	//if there is a scenario selected do something
         if(oSelectedScenarioIndex != -1)
         {
         	ScenarioEntry oSelectedScenarioEntry = (ScenarioEntry) lstScenarioList.getModel().getElementAt(oSelectedScenarioIndex);
@@ -277,7 +273,19 @@ public class clsBWScenarioSelectorUI extends javax.swing.JFrame {
 	        	args[3] = "false";
         	}
         	
+        	if(chkAdaptor.isSelected()) {
+	        	args[4] = "-adapter";
+	        	args[5] = "true";
+        	}
+        	else {
+        		args[4] = "-adapter";
+	        	args[5] = "false";
+        	}
+        	
+        	//load the scenario
     		clsBWMainWithUI.main(args);
+    		
+    		//close this
     		this.dispose();
         }
     }
@@ -285,40 +293,7 @@ public class clsBWScenarioSelectorUI extends javax.swing.JFrame {
     private void btnStartScenarioActionPerformed(java.awt.event.ActionEvent evt) {
     	StartScenario();
     }
-    
-    private void btnStartWithAdaperActionPerformed(java.awt.event.ActionEvent evt) {
-    	
-    	DisableUserInput();
-    	
-    	int selectedIndex= lstScenarioList.getSelectedIndex();
-
-    	String[] args = new String[6];
-    	
-        if(selectedIndex != -1)
-        {
-        	ScenarioEntry oSelectedScenarioEntry = (ScenarioEntry) lstScenarioList.getModel().getElementAt(selectedIndex);
-
-        	String val = oSelectedScenarioEntry.getFileName();
-
-        	args[0] = "-config";
-        	args[1] = val;
-        	args[2] = "-adapter";
-        	args[3] = "true";
-        	
-        	if(chkAutostart.isSelected()) {
-	        	args[4] = "-autostart";
-	        	args[5] = "true";
-        	}
-        	else {
-        		args[4] = "-autostart";
-	        	args[5] = "false";
-        	}
-        	
-    		clsBWMainWithUI.main(args);
-    		this.dispose();
-        }
-    }
-
+ 
     private void lstScenarioListValueChanged(javax.swing.event.ListSelectionEvent evt) {
         
         int selectedIndex= lstScenarioList.getSelectedIndex();
@@ -339,7 +314,14 @@ public class clsBWScenarioSelectorUI extends javax.swing.JFrame {
    }
 
 
-   private void FillScenarioList(){
+   /**
+ * Fill the Scenario List witht the property files in the config folder.
+ * Generate ScenarioEntry items by reading the files and prepare for displaying
+ *
+ * @author muchitsch
+ * 16.06.2011, 13:11:00
+ */
+private void FillScenarioList(){
        String oConfigFilePath = clsGetARSPath.getConfigPath();
 
        java.io.File oDir = new java.io.File(oConfigFilePath);
@@ -390,6 +372,7 @@ public class clsBWScenarioSelectorUI extends javax.swing.JFrame {
             }
         });
     }
+    
     // Variables declaration - do not modify
     private javax.swing.JButton btnCancel;
     private javax.swing.JButton btnStartScenario;
@@ -405,8 +388,8 @@ public class clsBWScenarioSelectorUI extends javax.swing.JFrame {
     private javax.swing.JScrollPane scrLongDescription;
     private javax.swing.JTextArea txaLongDescription;
     private javax.swing.JTextArea txaShortDescription;
-    private javax.swing.JButton btnStartWithAdaper;
     private javax.swing.JCheckBox chkAutostart;
+    private javax.swing.JCheckBox chkAdaptor;
     // End of variables declaration
     
 
