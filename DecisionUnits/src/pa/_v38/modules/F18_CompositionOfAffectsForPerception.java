@@ -137,8 +137,22 @@ public class F18_CompositionOfAffectsForPerception extends clsModuleBase impleme
 		//adaptPleasureValue();
 		//moNewPrimaryInformation = clsDataStructureConverter.convertTIContToTPMCont(moEnvironmentalPerception_IN);
 		
+		//Merge Drive meshes for environmental perception
 		moEnvironmentalPerception_OUT = mergeDriveMeshes(moEnvironmentalPerception_IN);
-		moAssociatedMemories_OUT = moAssociatedMemories_IN;
+		
+		//Merge Drive meshes for all associated content
+		moAssociatedMemories_OUT = mergeAssMemoryDriveMeshes(moAssociatedMemories_IN);
+		//moAssociatedMemories_OUT = moAssociatedMemories_IN;
+	}
+	
+	//AW 20110618 new function
+	private ArrayList<clsPrimaryDataStructureContainer> mergeAssMemoryDriveMeshes(ArrayList<clsPrimaryDataStructureContainer> oInput) {
+		ArrayList<clsPrimaryDataStructureContainer> oRetVal = new ArrayList<clsPrimaryDataStructureContainer>();	//The merged structures
+		
+		for (clsPrimaryDataStructureContainer oMemoryContainer : oInput) {
+			oRetVal.add(mergeDriveMeshes(oMemoryContainer));
+		}
+		return oRetVal;
 	}
 	
 	//AW 20110528 new function
@@ -201,7 +215,8 @@ public class F18_CompositionOfAffectsForPerception extends clsModuleBase impleme
 						//If the content type of the DM are equal then
 						if (oFirstDM.getMoContentType().intern() == oSecondDM.getMoContentType().intern()) {
 							//1. Add mrPleasure from the second to the first DM
-							double mrNewPleasure = oFirstDM.getMrPleasure() + oSecondDM.getMrPleasure(); //No averaging was made here
+							double mrNewPleasure = setNewQuotaOfAffectValue(oFirstDM.getMrPleasure(), oSecondDM.getMrPleasure());
+							//double mrNewPleasure = oFirstDM.getMrPleasure() + oSecondDM.getMrPleasure(); //No averaging was made here
 							oFirstDM.setMrPleasure(mrNewPleasure);
 							//Set second DM as used (true)
 							oSecondAssPair.b = true;
@@ -237,6 +252,15 @@ public class F18_CompositionOfAffectsForPerception extends clsModuleBase impleme
 		clsPrimaryDataStructureContainer oMergedResult = new clsPrimaryDataStructureContainer(oInput.getMoDataStructure(), oNewAss);
 		
 		return oMergedResult;
+	}
+	
+	//AW 20110618 new function
+	private double setNewQuotaOfAffectValue(double rOriginal, double rAddValue) {
+		/** This function was made in order to be able to set the calculation function of the total 
+		 *  quota of affect separately 
+		 */
+		
+		return (rOriginal + rAddValue);
 	}
 	
 	//TD 2011/04/22
