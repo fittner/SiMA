@@ -172,14 +172,21 @@ public class F23_ExternalPerception_focused extends clsModuleBase implements itf
 					switched = false;
 					for (int i = 0; i < moPerception.size() - 1; i++)
 					{
-						if (((clsDriveMesh) moPerception.get(i).getMoAssociatedDataStructures().get(2).getMoAssociationElementB()).getMrPleasure() <
-						((clsDriveMesh) moPerception.get(i + 1).getMoAssociatedDataStructures().get(2).getMoAssociationElementB()).getMrPleasure())
-						{
-							sdsc = moPerception.get(i);
-							moPerception.remove(i);
-							moPerception.add(i + 1, sdsc);
-							switched = true;
+						//AW 20110618 FIXME: Sometimes it crashes on get(i+1) and get(2). i+1 should be checked first and why is get(2) used?
+						//Correct this START
+						if (i+1 < moPerception.size()) {
+							if ((moPerception.get(i).getMoAssociatedDataStructures().size()>2) && (moPerception.get(i + 1).getMoAssociatedDataStructures().size()>2)){
+								if (((clsDriveMesh) moPerception.get(i).getMoAssociatedDataStructures().get(2).getMoAssociationElementB()).getMrPleasure() <
+										((clsDriveMesh) moPerception.get(i + 1).getMoAssociatedDataStructures().get(2).getMoAssociationElementB()).getMrPleasure())
+										{
+											sdsc = moPerception.get(i);
+											moPerception.remove(i);
+											moPerception.add(i + 1, sdsc);
+											switched = true;
+										}
+							}
 						}
+						//Correct this END
 					}
 				} while (switched == true);
 			}
