@@ -1,7 +1,7 @@
 /**
  * clsMutableDouble.java: BW - bw.utils.datatypes
  * 
- * @author tobias
+ * @author deutsch
  * Jul 29, 2009, 6:50:03 PM
  */
 package bfg.tools;
@@ -13,7 +13,7 @@ import java.io.Serializable;
  * The clsMutableDouble class wraps a value of the primitive type double in an object. An object of 
  * type clsMutableDouble contains a single field whose type is double. The value is mutable.
  * 
- * @author tobias
+ * @author deutsch
  * Jul 29, 2009, 7:38:20 PM
  * 
  */
@@ -24,7 +24,7 @@ public class clsMutableDouble implements Serializable, Comparable<clsMutableDoub
     /**
      * Constructs a newly allocated clsMutableDouble object that represents the primitive double argument. 
      * 
-     * @author tobias
+     * @author deutsch
      * Jul 29, 2009, 7:53:36 PM
      *
      * @param value
@@ -34,7 +34,7 @@ public class clsMutableDouble implements Serializable, Comparable<clsMutableDoub
     /**
      * Constructs a newly allocated clsMutableDouble object that represents the primitive double argument. 
      * 
-     * @author tobias
+     * @author deutsch
      * Jul 29, 2009, 7:53:44 PM
      *
      * @param poValue
@@ -44,7 +44,7 @@ public class clsMutableDouble implements Serializable, Comparable<clsMutableDoub
     /**
      * Copy constructor. Constructs a newly allocated clsMutableDouble object that represents the primitive double argument. 
      * 
-     * @author tobias
+     * @author deutsch
      * Jul 29, 2009, 7:53:46 PM
      *
      * @param poValue
@@ -54,7 +54,7 @@ public class clsMutableDouble implements Serializable, Comparable<clsMutableDoub
     /**
      * Returns the double value of this Double object. 
      *
-     * @author tobias
+     * @author deutsch
      * Jul 29, 2009, 7:55:34 PM
      *
      * @return the double value represented by this object
@@ -64,7 +64,7 @@ public class clsMutableDouble implements Serializable, Comparable<clsMutableDoub
     /**
      * Returns a new instance of a Double object containing the double value of this object.
      *
-     * @author tobias
+     * @author deutsch
      * Jul 29, 2009, 7:56:35 PM
      *
      * @return a Double object representing the same double value as this object
@@ -74,7 +74,7 @@ public class clsMutableDouble implements Serializable, Comparable<clsMutableDoub
     /**
      * return m_value += prValue;
      *
-     * @author tobias
+     * @author deutsch
      * Jul 29, 2009, 7:57:09 PM
      *
      * @param prValue
@@ -85,7 +85,7 @@ public class clsMutableDouble implements Serializable, Comparable<clsMutableDoub
     /**
      * return m_value -= prValue;
      *
-     * @author tobias
+     * @author deutsch
      * Jul 29, 2009, 7:57:18 PM
      *
      * @param prValue
@@ -96,7 +96,7 @@ public class clsMutableDouble implements Serializable, Comparable<clsMutableDoub
     /**
      * return m_value /= prValue;
      *
-     * @author tobias
+     * @author deutsch
      * Jul 29, 2009, 7:57:16 PM
      *
      * @param prValue
@@ -107,7 +107,7 @@ public class clsMutableDouble implements Serializable, Comparable<clsMutableDoub
     /**
      * return m_value *= prValue;
      *
-     * @author tobias
+     * @author deutsch
      * Jul 29, 2009, 7:57:14 PM
      *
      * @param prValue
@@ -118,7 +118,7 @@ public class clsMutableDouble implements Serializable, Comparable<clsMutableDoub
     /**
      * return m_value =  prValue;
      *
-     * @author tobias
+     * @author deutsch
      * Jul 29, 2009, 7:57:12 PM
      *
      * @param prValue
@@ -144,7 +144,7 @@ public class clsMutableDouble implements Serializable, Comparable<clsMutableDoub
      * represented by this object is converted to a string exactly as if by the method 
      * toString of one argument. 
      * 
-     * @author tobias
+     * @author deutsch
      * Jul 29, 2009, 7:52:39 PM
      * 
      * @see java.lang.Object#toString()
@@ -160,7 +160,7 @@ public class clsMutableDouble implements Serializable, Comparable<clsMutableDoub
      * are considered to be the same if and only if the method doubleToLongBits(double) returns 
      * the identical long value when applied to each. 
      * 
-     * @author tobias
+     * @author deutsch
      * Jul 29, 2009, 7:51:20 PM
      * 
      * @see java.lang.Object#equals(java.lang.Object)
@@ -186,7 +186,7 @@ public class clsMutableDouble implements Serializable, Comparable<clsMutableDoub
 	 * is the same as that of the integer that would be returned by the call: 
 	 * new Double(d1).compareTo(new Double(d2))
 	 * 
-	 * @author tobias
+	 * @author deutsch
 	 * Jul 29, 2009, 7:39:43 PM
 	 * 
 	 * @see java.lang.Double#compare(double, double)

@@ -33,9 +33,9 @@ import bw.utils.tools.clsFood;
 import bw.body.io.actuators.actionProxies.*;
 
 /**
- * DOCUMENT (tobias) - insert description 
+ * DOCUMENT (deutsch) - insert description 
  * 
- * @author tobias
+ * @author deutsch
  * Jul 24, 2009, 10:15:27 PM
  * 
  */

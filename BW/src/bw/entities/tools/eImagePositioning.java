@@ -1,5 +1,5 @@
 /**
- * @author tobias
+ * @author deutsch
  * Jul 24, 2009, 10:55:43 PM
  * 
  * $Rev::                      $: Revision of last commit
@@ -9,9 +9,9 @@
 package bw.entities.tools;
 
 /**
- * DOCUMENT (tobias) - insert description 
+ * DOCUMENT (deutsch) - insert description 
  * 
- * @author tobias
+ * @author deutsch
  * Jul 24, 2009, 10:55:43 PM
  * 
  */

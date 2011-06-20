@@ -96,7 +96,7 @@ public class clsBWMainWithUI extends GUIState {
  	 *  <li>-autostart true/false - if set to true, the simulation will be started and paused at step 0. the effect is that the whole world has been created. otherwise the simulation is not started. in this case the gui is created only.
  	 *  </ul>
 	 *
-	 * @author tobias
+	 * @author deutsch
 	 * Jul 26, 2009, 5:09:12 PM
 	 *
 	 * @see clsBWMain

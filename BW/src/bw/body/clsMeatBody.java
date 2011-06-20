@@ -82,7 +82,7 @@ public class clsMeatBody extends clsBaseBody {
 
 	/* (non-Javadoc)
 	 *
-	 * @author tobias
+	 * @author deutsch
 	 * Jul 24, 2009, 6:09:06 PM
 	 * 
 	 * @see bw.body.itfStepSensing#stepSensing()
@@ -94,7 +94,7 @@ public class clsMeatBody extends clsBaseBody {
 
 	/* (non-Javadoc)
 	 *
-	 * @author tobias
+	 * @author deutsch
 	 * Jul 24, 2009, 6:09:06 PM
 	 * 
 	 * @see bw.body.itfStepProcessing#stepProcessing()
@@ -106,7 +106,7 @@ public class clsMeatBody extends clsBaseBody {
 
 	/* (non-Javadoc)
 	 *
-	 * @author tobias
+	 * @author deutsch
 	 * Jul 24, 2009, 6:09:06 PM
 	 * 
 	 * @see bw.body.itfStepExecution#stepExecution()

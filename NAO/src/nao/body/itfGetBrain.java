@@ -1,5 +1,5 @@
 /**
- * @author tobias
+ * @author deutsch
  * Jul 24, 2009, 6:11:22 PM
  * 
  * $Rev::                      $: Revision of last commit
@@ -13,7 +13,7 @@ import nao.body.brainsocket.clsBrainSocket;
 /**
  * 
  * 
- * @author tobias
+ * @author deutsch
  * Jul 24, 2009, 6:11:22 PM
  * 
  */

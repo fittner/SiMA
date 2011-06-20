@@ -1,5 +1,5 @@
 /**
- * @author tobias
+ * @author deutsch
  * Jul 24, 2009, 8:39:41 PM
  * 
  * $Rev::                      $: Revision of last commit
@@ -20,9 +20,9 @@ import bw.factories.clsSingletonProperties;
 import bw.utils.enums.eShapeType;
 
 /**
- * DOCUMENT (tobias) - insert description 
+ * DOCUMENT (deutsch) - insert description 
  * 
- * @author tobias
+ * @author deutsch
  * Jul 24, 2009, 8:39:41 PM
  * 
  */

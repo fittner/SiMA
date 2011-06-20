@@ -1,5 +1,5 @@
 /**
- * @author tobias
+ * @author deutsch
  * Jul 24, 2009, 11:00:37 PM
  * 
  * $Rev::                      $: Revision of last commit
@@ -17,17 +17,17 @@ import bw.entities.tools.eImagePositioning;
 import bw.utils.enums.eShapeType;
 
 /**
- * DOCUMENT (tobias) - insert description 
+ * DOCUMENT (deutsch) - insert description 
  * 
- * @author tobias
+ * @author deutsch
  * Jul 24, 2009, 11:00:37 PM
  * 
  */
 public class clsWallVertical extends clsWallAxisAlign {
 	/**
-	 * DOCUMENT (tobias) - insert description 
+	 * DOCUMENT (deutsch) - insert description 
 	 * 
-	 * @author tobias
+	 * @author deutsch
 	 * Jul 24, 2009, 10:51:04 PM
 	 *
 	 * @param poPrefix

@@ -8,7 +8,7 @@ package creation;
 /**
  * Enum to select differen property loaders.
  * 
- * @author tobias
+ * @author deutsch
  * Jul 26, 2009, 3:14:28 PM
  * 
  */

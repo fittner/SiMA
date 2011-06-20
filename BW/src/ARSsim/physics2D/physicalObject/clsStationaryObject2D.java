@@ -164,7 +164,7 @@ public class clsStationaryObject2D extends sim.physics2D.physicalObject.Stationa
 
 	/* (non-Javadoc)
 	 *
-	 * @author tobias
+	 * @author deutsch
 	 * Jul 24, 2009, 10:37:04 PM
 	 * 
 	 * @see ARSsim.physics2D.physicalObject.itfSetupFunctions#getMass()
@@ -176,7 +176,7 @@ public class clsStationaryObject2D extends sim.physics2D.physicalObject.Stationa
 
 	/* (non-Javadoc)
 	 *
-	 * @author tobias
+	 * @author deutsch
 	 * Jul 24, 2009, 10:37:04 PM
 	 * 
 	 * @see ARSsim.physics2D.physicalObject.itfSetupFunctions#setMass(double)

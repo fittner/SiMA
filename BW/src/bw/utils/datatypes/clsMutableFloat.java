@@ -1,7 +1,7 @@
 /**
  * clsMutableFloat.java: BW - bw.utils.datatypes
  * 
- * @author tobias
+ * @author deutsch
  * Jul 29, 2009, 6:50:03 PM
  */
 package bw.utils.datatypes;
@@ -12,7 +12,7 @@ import java.io.Serializable;
  * The Float class wraps a value of primitive type float in an object. An object of type Float 
  * contains a single field whose type is float. The float value is mutable.
  * 
- * @author tobias
+ * @author deutsch
  * Jul 29, 2009, 7:58:45 PM
  * 
  */
@@ -23,7 +23,7 @@ public class clsMutableFloat implements Serializable, Comparable<clsMutableFloat
     /**
      * Constructs a newly clsMutableFloat object that represents the argument converted to type float. 
      * 
-     * @author tobias
+     * @author deutsch
      * Jul 29, 2009, 8:05:28 PM
      *
      * @param the value to be represented by the clsMutableFloat.
@@ -33,7 +33,7 @@ public class clsMutableFloat implements Serializable, Comparable<clsMutableFloat
     /**
      * Constructs a newly clsMutableFloat object that represents the argument converted to type float. 
      * 
-     * @author tobias
+     * @author deutsch
      * Jul 29, 2009, 8:05:28 PM
      *
      * @param the value to be represented by the clsMutableFloat.
@@ -43,7 +43,7 @@ public class clsMutableFloat implements Serializable, Comparable<clsMutableFloat
     /**
      * Copy constructor. Constructs a newly clsMutableFloat object that represents the argument converted to type float. 
      * 
-     * @author tobias
+     * @author deutsch
      * Jul 29, 2009, 8:05:28 PM
      *
      * @param the value to be represented by the clsMutableFloat.
@@ -53,7 +53,7 @@ public class clsMutableFloat implements Serializable, Comparable<clsMutableFloat
     /**
      * Returns the float value of this clsMutableFloat  object. 
      *
-     * @author tobias
+     * @author deutsch
      * Jul 29, 2009, 8:05:35 PM
      *
      * @return the float value represented by this object
@@ -63,7 +63,7 @@ public class clsMutableFloat implements Serializable, Comparable<clsMutableFloat
     /**
      * Returns a new instance of a Float object containing the float value of this object.
      *
-     * @author tobias
+     * @author deutsch
      * Jul 29, 2009, 7:56:35 PM
      *
      * @return a Float object representing the same float value as this object
@@ -73,7 +73,7 @@ public class clsMutableFloat implements Serializable, Comparable<clsMutableFloat
     /**
      * return m_value += prValue;
      *
-     * @author tobias
+     * @author deutsch
      * Jul 29, 2009, 8:05:53 PM
      *
      * @param prValue
@@ -84,7 +84,7 @@ public class clsMutableFloat implements Serializable, Comparable<clsMutableFloat
     /**
      * return m_value -= prValue;
      *
-     * @author tobias
+     * @author deutsch
      * Jul 29, 2009, 8:05:51 PM
      *
      * @param prValue
@@ -95,7 +95,7 @@ public class clsMutableFloat implements Serializable, Comparable<clsMutableFloat
     /**
      * return m_value /= prValue;
      *
-     * @author tobias
+     * @author deutsch
      * Jul 29, 2009, 8:05:49 PM
      *
      * @param prValue
@@ -106,7 +106,7 @@ public class clsMutableFloat implements Serializable, Comparable<clsMutableFloat
     /**
      * return m_value *= prValue;
      *
-     * @author tobias
+     * @author deutsch
      * Jul 29, 2009, 8:05:45 PM
      *
      * @param prValue
@@ -117,7 +117,7 @@ public class clsMutableFloat implements Serializable, Comparable<clsMutableFloat
     /**
      * return m_value =  prValue;
      *
-     * @author tobias
+     * @author deutsch
      * Jul 29, 2009, 8:05:43 PM
      *
      * @param prValue
@@ -142,7 +142,7 @@ public class clsMutableFloat implements Serializable, Comparable<clsMutableFloat
      * Returns a string representation of this Float object. The primitive float value represented 
      * by this object is converted to a String exactly as if by the method toString of one argument. 
      * 
-     * @author tobias
+     * @author deutsch
      * Jul 29, 2009, 8:04:48 PM
      * 
      * @see java.lang.Object#toString()
@@ -152,7 +152,7 @@ public class clsMutableFloat implements Serializable, Comparable<clsMutableFloat
     
 	/* (non-Javadoc)
 	 *
-	 * @author tobias
+	 * @author deutsch
 	 * Jul 29, 2009, 7:40:56 PM
 	 * 
 	 * @see java.lang.Comparable#compareTo(java.lang.Object)
@@ -171,7 +171,7 @@ public class clsMutableFloat implements Serializable, Comparable<clsMutableFloat
      * be the same if and only if the method floatToIntBits(float)  returns the identical int value 
      * when applied to each. 
      * 
-	 * @author tobias
+	 * @author deutsch
 	 * Jul 29, 2009, 7:59:37 PM
 	 * 
 	 * @see java.lang.Object#equals(java.lang.Object)
