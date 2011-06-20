@@ -15,7 +15,8 @@ import sim.physics2D.PhysicsEngine2D;
 import statictools.clsGetARSPath;
 
 /**
- * DOCUMENT (deutsch) - insert description 
+ * Abstract loader definition. Provides the basic framework for the loaders to be called by clsBWMain. Silblings have to
+ * implement the methods loadObjects(), checkVersionCompatiblity, and verifyLoaderType.  
  * 
  * @author deutsch
  * 25.02.2009, 14:00:51
