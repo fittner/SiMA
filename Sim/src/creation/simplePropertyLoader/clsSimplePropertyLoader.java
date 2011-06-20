@@ -1,10 +1,7 @@
 /**
- * @author tobias
- * Jul 25, 2009, 11:54:40 AM
+ * CHANGELOG
  * 
- * $Rev::                      $: Revision of last commit
- * $Author::                   $: Author of last commit
- * $Date::                     $: Date of last commit
+ * 2011/06/20 TD - added some javadoc
  */
 package creation.simplePropertyLoader;
 
@@ -56,42 +53,79 @@ import sim.engine.SimState;
 import statictools.clsUniqueIdGenerator;
 
 /**
- * DOCUMENT (tobias) - insert description 
+ * Creates the world and all of its entities according to a simple property file. This file contains basic world settings
+ * like width and hight. Further a list of different entity groups is provided. Each group creates entities according to 
+ * the default values specified for them and at either a predefined position or at a random position. For an example of 
+ * this property file, take a look at @see clsSimplePropertyLoader#getDefaultProperties(java.lang.String,%20boolean,%20boolean). 
+ * This method creates a small world populated with various entities. 
  * 
- * @author tobias
+ * @author deutsch
  * Jul 25, 2009, 11:54:40 AM
  * 
  */
 public class clsSimplePropertyLoader extends clsLoader {
+	/** create walls at the world boundaries (defined by height and width) */
 	public static final String P_WORLDBOUNDARYWALLS = "worldboundarywalls";
+	/** remove a subtree of the default parameters of the entity defaults */
 	public static final String P_REMOVEENTITYDEFAULTS = "removeentitydefaults";	
+	/** overwrite the values in a subtree of the entity parameters with the following values. */
 	public static final String P_OVERWRITEENTITYDEFAULTS = "overwriteentitydefaults";
+	/** remove a subtree of the default parameters of the decision unit defaults */
 	public static final String P_REMOVEDECISIONUNITDEFAULTS = "removedecisionunitdefaults";	
+	/** overwrite the values in a subtree of the decision unit parameters with the following values. */
 	public static final String P_OVERWRITEDECISIONUNITDEFAULTS = "overwritedecisionunitdefaults";
+	/** prefix for the entitygroups. to be followed by a number. */
 	public static final String P_ENTITYGROUPS = "entitygroups";
+	/** total number of entity groups in this setup. */
 	public static final String P_NUMENTITYGROUPS = "numentitygroups";
+	/** number of entities in this entity group. */
 	public static final String P_NUMENTITES = "numentities";
+	/** entity type for all entities within this group. */
 	public static final String P_GROUPENTITYTYPE = "groupentitytype";
+	/** if applicable, the type of the decision unit for all entities in this group. */
 	public static final String P_GROUPDECISIONUNITTYPE = "groupdecisionunittype";
+	/** Which positioning method to be used. see ePositionType */
 	public static final String P_POSITIONTYPE = "positiontype";
+	/** In case of positiontype list, the list if given with this prefix. */
 	public static final String P_POSITIONS = "positions";
+	/** Contains the defaults for the entity type, if not provided, the default values are extracted in runtime from the classes. */
 	public static final String P_DEFAULTSENTITY  = "defaultsentity";
+	/** Contains the defaults for the decision unit type, if not provided, the default values are extracted in runtime from the classes. */
 	public static final String P_DEFAULTSDECISIONUNIT  = "defaultsdecisionunit";
-	public static final String P_ENTITY = "entity";
-	public static final String P_DECISIONUNIT = "decisionunit";
+//	public static final String P_ENTITY = "entity";
+//	public static final String P_DECISIONUNIT = "decisionunit";
+	/** If usedefaults is set to true, the entity/decision unit defaults are used. otherwise ALL params have to be provided by overwritedecisionunitdefaults and overwriteentitydefaults. */
 	public static final String P_USEDEFAULTS = "usedefaults";
 
 	private int numentitygroups;
 	
+	/** This is the version number of the simpleproperty loader. */
 	public static final int mnVersion = 3;
+	/** This loader can handle old property files down to version number ... */
 	public static final int mnDownCompatibility = 3; // can read 3 and newer
 	
+	/**
+	 * Prepares the MASON simulation environment for the to be loaded entities. 
+	 *
+	 * @since 20.06.2011 19:51:24
+	 *
+	 * @param poSimState
+	 * @param poProperties
+	 */
 	public clsSimplePropertyLoader(SimState poSimState, clsBWProperties poProperties) {
 		super(poSimState, poProperties);
 		applyProperties(getPrefix(), getProperties());
     }
 
 	
+    /**
+     * Applies the provided properties and creates all instances of various member variables.
+     *
+     * @since 20.06.2011 19:51:45
+     *
+     * @param poPrefix
+     * @param poProp
+     */
     private void applyProperties(String poPrefix, clsBWProperties poProp){		
     	String pre = clsBWProperties.addDot(poPrefix);
     	
@@ -111,6 +145,10 @@ public class clsSimplePropertyLoader extends clsLoader {
     	}	
 	}	
 	
+	
+    /**
+     * Provides the default entries for this class. See config.clsBWProperties in project DecisionUnitInterface.
+     */	    
     private static clsBWProperties getEntityDefaults(String poPrefix) {
 		String pre = clsBWProperties.addDot(poPrefix);
 		
@@ -133,6 +171,10 @@ public class clsSimplePropertyLoader extends clsLoader {
 		return oProp;
     }
     
+	
+    /**
+     * Provides the default entries for this class. See config.clsBWProperties in project DecisionUnitInterface.
+     */	    
     private static clsBWProperties getDecisionUnitDefaults(String poPrefix) {
 		String pre = clsBWProperties.addDot(poPrefix);
 		
@@ -153,10 +195,18 @@ public class clsSimplePropertyLoader extends clsLoader {
 		return oProp;
     }
     
+	
+    /**
+     * Provides the default entries for this class. See config.clsBWProperties in project DecisionUnitInterface.
+     */	    
     public static clsBWProperties getDefaultProperties(String poPrefix) {
     	return getDefaultProperties(poPrefix, false, false);
     }
     
+	
+    /**
+     * Provides the default entries for this class. See config.clsBWProperties in project DecisionUnitInterface.
+     */	    
     public static clsBWProperties getDefaultProperties(String poPrefix, boolean pnAddDefaultEntities, boolean pnAddDefaultDecisionUnits) {
 		String pre = clsBWProperties.addDot(poPrefix);
 
@@ -290,6 +340,10 @@ public class clsSimplePropertyLoader extends clsLoader {
 		return oProp;
     }
     
+	
+    /**
+     * Provides the default entries for this class. See config.clsBWProperties in project DecisionUnitInterface.
+     */	
     private clsBWProperties getEntityProperties(eEntityType pnType) {
     	String pre = clsBWProperties.addDot( getPrefix() );    	
     	String oKey = pre+P_DEFAULTSENTITY+"."+pnType.name();
@@ -297,6 +351,10 @@ public class clsSimplePropertyLoader extends clsLoader {
     	return oResult;
     }
     
+	
+    /**
+     * Provides the default entries for this class. See config.clsBWProperties in project DecisionUnitInterface.
+     */	
     private clsBWProperties getDecisionUnitProperties(eDecisionType pnType) {
     	String pre = clsBWProperties.addDot( getPrefix() );    	
     	String oKey = pre+P_DEFAULTSDECISIONUNIT+"."+pnType.name();
@@ -304,6 +362,18 @@ public class clsSimplePropertyLoader extends clsLoader {
     	return oResult;
     }    
     
+    
+    /**
+     * Creates and sets the position in clsBWProperties style.
+     *
+     * @since 20.06.2011 19:53:18
+     *
+     * @param poPrefix
+     * @param poProp
+     * @param poPositionPrefix
+     * @param pnNumber
+     * @return
+     */
     private clsBWProperties getPosition(String poPrefix, clsBWProperties poProp, String poPositionPrefix, int pnNumber) {
     	String pre = clsBWProperties.addDot(poPrefix)+P_POSITIONS+".";
     	poPositionPrefix = clsBWProperties.addDot(poPositionPrefix);
@@ -327,6 +397,17 @@ public class clsSimplePropertyLoader extends clsLoader {
     	return oPos;
     }
     
+    /**
+     * Creates a single entity according to the current property entry. If a decision unit is defined, it is created too.
+     *
+     * @since 20.06.2011 19:54:06
+     *
+     * @param poPropEntity
+     * @param poPropDecisionUnit
+     * @param pnEntityType
+     * @param pnDecisionType
+     * @param uid
+     */
     private void createEntity(clsBWProperties poPropEntity, clsBWProperties poPropDecisionUnit, 
     		eEntityType pnEntityType, eDecisionType pnDecisionType, int uid) {
     	String pre = clsBWProperties.addDot("");
@@ -398,11 +479,23 @@ public class clsSimplePropertyLoader extends clsLoader {
 		
     }
     
+    /**
+     * Creates all entities within a single entity group. The property file is read and parsed. For the entity type and the decision
+     * unit type the default configuration is loaded. If overwrite or remove entries are present in the config, the 
+     * merging or removing of entries is processed.
+     *
+     * @since 20.06.2011 19:54:44
+     *
+     * @param poPrefix
+     * @param poProp
+     */
     private void createEntityGroup(String poPrefix, clsBWProperties poProp) {
     	String pre = clsBWProperties.addDot(poPrefix);
     	
+    	//get enttity type
     	eEntityType nEntityType = eEntityType.valueOf(poProp.getPropertyString(pre+P_GROUPENTITYTYPE));
     	
+    	//get decision unit type
     	eDecisionType nDecisionType = eDecisionType.NONE;
     	try {
     		nDecisionType = eDecisionType.valueOf(poProp.getPropertyString(pre+P_GROUPDECISIONUNITTYPE));
@@ -411,9 +504,11 @@ public class clsSimplePropertyLoader extends clsLoader {
     	}
     		
     	
+    	//get overwritedefault subtrees from teh property file
     	clsBWProperties oOverwriteEntityDefaults = poProp.getSubset(pre+P_OVERWRITEENTITYDEFAULTS);
     	clsBWProperties oOverwriteDecisionUnitDefaults = poProp.getSubset(pre+P_OVERWRITEDECISIONUNITDEFAULTS);
 
+    	//get list for remove specified entity subtrees
     	List<String> oRemoveEntityDefaults = null;
     	try {
     		oRemoveEntityDefaults = poProp.getPropertyList(pre+P_REMOVEENTITYDEFAULTS);
@@ -421,6 +516,7 @@ public class clsSimplePropertyLoader extends clsLoader {
     		// do nothing
     	}
 
+    	//get list for remove specified decisionunit subtrees
     	List<String> oRemoveDecisionUnitDefaults = null;
     	try {
     		oRemoveDecisionUnitDefaults = poProp.getPropertyList(pre+P_REMOVEDECISIONUNITDEFAULTS);
@@ -428,35 +524,47 @@ public class clsSimplePropertyLoader extends clsLoader {
     		// do nothing
     	}
     	
+    	//merge default values with overwrite values and remove selected values for each entity in this entity group.
     	int num = poProp.getPropertyInt(pre+P_NUMENTITES);
     	for (int i=0; i<num; i++) {
     		System.out.print(".");
+    		
+    		//get unique id for this entity (used for entity and for decision unit)
     		int uid = clsUniqueIdGenerator.getUniqueId();
+    		
+    		//get entity default properties
     		clsBWProperties oEntityProperties = getEntityProperties(nEntityType);
-    		oEntityProperties.put( clsEntity.P_ID, nEntityType.name()+"_"+nDecisionType.name()+"_"+i+" (#"+uid+")" );
+    		oEntityProperties.put( clsEntity.P_ID, nEntityType.name()+"_"+nDecisionType.name()+"_"+i+" (#"+uid+")" );    		
+    		//remove entity keys
     		if (oRemoveEntityDefaults != null) {
 	    		for (String oRemoveKey:oRemoveEntityDefaults) {
 	    			oEntityProperties.removeKeysStartingWith(oRemoveKey);
 	    		}
-    		}
+    		}	
+    		//overwrite entity values
     		oEntityProperties.putAll( oOverwriteEntityDefaults );
     		oEntityProperties.putAll( getPosition(pre, poProp, "", i) );    		
     		
+    		//get default decision unit properties (if existing)
     		clsBWProperties oDecisionUnitProperties = getDecisionUnitProperties(nDecisionType);
+    		//remove decision unit keys
     		if (oRemoveDecisionUnitDefaults != null) {
 	    		for (String oRemoveKey:oRemoveDecisionUnitDefaults) {
 	    			oDecisionUnitProperties.removeKeysStartingWith(oRemoveKey);
 	    		}
     		}    		    		
+    		//overwrite decision unit values
     		oDecisionUnitProperties.putAll( oOverwriteDecisionUnitDefaults );
     		
+    		//create entity wiht resulting configuration for entity and decision unit type
     		createEntity(oEntityProperties, oDecisionUnitProperties, nEntityType, nDecisionType, uid);
     	}
     }
     
-	/* (non-Javadoc)
+	/**
+	 * Executes the load and entity creation. First all entites are created; afterwards the world boundary walls.
 	 *
-	 * @author tobias
+	 * @author deutsch
 	 * Jul 25, 2009, 11:56:16 AM
 	 * 
 	 * @see sim.creation.clsLoader#loadObjects()
@@ -464,6 +572,8 @@ public class clsSimplePropertyLoader extends clsLoader {
 	@Override
 	public void loadObjects() {
 		String pre = clsBWProperties.addDot( getPrefix() );
+		
+		//process all entity groups
 		System.out.print("Create "+numentitygroups+" groups:");
 		for (int i=0;i<numentitygroups; i++) {
 			System.out.print(" "+i);
@@ -471,6 +581,7 @@ public class clsSimplePropertyLoader extends clsLoader {
 		}	
 		System.out.print(" done;");
 		
+		//create world boundaries
 		System.out.print(" create world boundaries ...");
 		if (getProperties().getPropertyBoolean(pre+P_WORLDBOUNDARYWALLS)) {
 			generateWorldBoundaries();
@@ -479,9 +590,7 @@ public class clsSimplePropertyLoader extends clsLoader {
 	}
 
 	/**
-	 * This method is the only one to use to create the world boundaries.
-	 * Others are depricated!
-	 * Creates a brick wall around the FieldEnvironment. Remember positioning of shapes is in the centr point of the poligon!
+	 * Creates a brick wall around the FieldEnvironment. Remember positioning of shapes is in the center point of the polygon!
 	 *
 	 * @author muchitsch
 	 * Aug 9, 2009, 12:35:19 PM
@@ -534,7 +643,7 @@ public class clsSimplePropertyLoader extends clsLoader {
 
 	/* (non-Javadoc)
 	 *
-	 * @author tobias
+	 * @author deutsch
 	 * Jul 26, 2009, 3:24:30 PM
 	 * 
 	 * @see sim.creation.clsLoader#checkVersionCompatibility()
@@ -555,7 +664,7 @@ public class clsSimplePropertyLoader extends clsLoader {
 
 	/* (non-Javadoc)
 	 *
-	 * @author tobias
+	 * @author deutsch
 	 * Jul 26, 2009, 3:36:41 PM
 	 * 
 	 * @see sim.creation.clsLoader#verifyLoaderType(java.lang.String, bw.utils.config.clsBWProperties)
