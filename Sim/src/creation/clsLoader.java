@@ -1,10 +1,7 @@
 /**
- * @author deutsch
- * 25.02.2009, 14:00:51
+ * CHANGELOG
  * 
- * $Rev::                      $: Revision of last commit
- * $Author::                   $: Author of last commit
- * $Date::                     $: Date of last commit
+ * 2011/06/20 TD - added some javadoc
  */
 package creation;
 
@@ -24,14 +21,23 @@ import statictools.clsGetARSPath;
  * 
  */
 public abstract class clsLoader {
+	/** the width of the game field */
 	public static final String P_FIELD_WIDTH = "field_width";
+	/** the height of the game field */
 	public static final String P_FIELD_HEIGHT = "field_height";
+	/** the title of the setup */
 	public static final String P_TITLE = "title";
+	/** what is this setup all about */
 	public static final String P_SHORTDESC = "short_description";
+	/** a long version of what is this setup all about */
 	public static final String P_DESCRIPTION = "description";
+	/** url to a website. e.g. http://ars.ict.tuwien.ac.at */
 	public static final String P_LINK = "url";
+	/** icon/picture that represents the setup */
 	public static final String P_IMAGE = "image";
+	/** which loader to use (see eLoader) */
 	public static final String P_LOADER_TYPE = "loader_type";
+	/** the version of the loader */
 	public static final String P_LOADER_VERSION = "loader_version";
 	
 	private clsBWProperties moProperties;
@@ -43,6 +49,14 @@ public abstract class clsLoader {
 	private String moLinkUrl;
 
 	
+    /**
+     * Prepares the MASON simulation environment for the to be loaded entities.
+     *
+     * @since 20.06.2011 18:36:57
+     *
+     * @param poSimState
+     * @param poProperties
+     */
     public clsLoader(SimState poSimState, clsBWProperties poProperties) {
     	moProperties = poProperties;  	
     	clsSingletonProperties.setProperties(moProperties);    
@@ -83,9 +97,30 @@ public abstract class clsLoader {
 		createGrids(pre, poProp);
 	}	
 	
+	/**
+	 * Checks if the version number of the implemented loader is compatible with the version number given in the
+	 * property file.
+	 *
+	 * @since 20.06.2011 18:38:38
+	 *
+	 * @param poPrefix
+	 * @param poProp
+	 */
 	protected abstract void checkVersionCompatibility(String poPrefix, clsBWProperties poProp);
+	
+	/**
+	 * Verifies that this is the correct loader for this property file.
+	 *
+	 * @since 20.06.2011 18:39:11
+	 *
+	 * @param poPrefix
+	 * @param poProp
+	 */
 	protected abstract void verifyLoaderType(String poPrefix, clsBWProperties poProp);
 	
+    /**
+     * Provides the default entries for this class. See config.clsBWProperties in project DecisionUnitInterface.
+     */	
 	public static clsBWProperties getDefaultProperties(String poPrefix) {
 		String pre = clsBWProperties.addDot(poPrefix);
 	
@@ -114,6 +149,12 @@ public abstract class clsLoader {
     	return oProp;
     }
     
+	/**
+	 * Executes the load and entity creation.
+	 *
+	 * @since 20.06.2011 18:39:49
+	 *
+	 */
 	public abstract void loadObjects();
 	
 	private void createPhysicsEngine2D() {
@@ -144,6 +185,17 @@ public abstract class clsLoader {
     	clsSingletonMasonGetter.setFieldEnvironment(new Continuous2D(25, pnWidth, pnHeight));
     }	
     
+	/**
+	 * Creates a random pose (x,y,direction) and sets the value in the property class instance at the given position (P_*).
+	 *
+	 * @since 20.06.2011 18:40:16
+	 *
+	 * @param Prefix
+	 * @param P_POS_X
+	 * @param P_POS_Y
+	 * @param P_POS_ANGLE
+	 * @return
+	 */
 	public static clsBWProperties generateRandomPose(String Prefix, String P_POS_X, String P_POS_Y, String P_POS_ANGLE) {
 		String pre = clsBWProperties.addDot(Prefix);
 		
@@ -162,26 +214,68 @@ public abstract class clsLoader {
         return oProp;		
 	}
 	
+	/**
+	 * Returns the title of the configuration. (see P_TITLE)
+	 *
+	 * @since 20.06.2011 18:41:27
+	 *
+	 * @return
+	 */
 	public String getTitle() {
 		return moTitle;
 	}
 	
+	/**
+	 * Returns the description of the configuration. (see P_DESCRITPION)
+	 *
+	 * @since 20.06.2011 18:41:53
+	 *
+	 * @return
+	 */
 	public String getDescription() {
 		return moDescription;
 	}
 	
+	/**
+	 * Returns the image path+filename. (see P_IMAGE)
+	 *
+	 * @since 20.06.2011 18:42:28
+	 *
+	 * @return
+	 */
 	public String getImageUrl() {
 		return moImageUrl;
 	}
 	
+	/**
+	 * Returns the short description of the configuration. (see P_SHORTDESC)
+	 *
+	 * @since 20.06.2011 18:42:50
+	 *
+	 * @return
+	 */
 	public String getShortDesc() {
 		return moShortDesc;
 	}
 	
+	/**
+	 * Returns the external website url. (see P_LINK)
+	 *
+	 * @since 20.06.2011 18:43:15
+	 *
+	 * @return
+	 */
 	public String getLinkUrl() {
 		return moLinkUrl;
 	}
 	
+	/**
+	 * Creates an html-page with the title, image, shortdesc, description, and url provided in the config file. 
+	 *
+	 * @since 20.06.2011 18:43:33
+	 *
+	 * @return
+	 */
 	public String getIndexHtml() {
 		String html = "";
 		
@@ -233,9 +327,24 @@ public abstract class clsLoader {
 	}
 	
 	
+	/**
+	 * Getter for moProperteries (instance of clsBWProperties).
+	 *
+	 * @since 20.06.2011 18:44:29
+	 *
+	 * @return
+	 */
 	protected clsBWProperties getProperties() {
 		return moProperties;
 	}
+	
+	/**
+	 * Getter for the prefix within the properties.
+	 *
+	 * @since 20.06.2011 18:44:49
+	 *
+	 * @return
+	 */
 	protected String getPrefix() {
 		return moPrefix;
 	}	
