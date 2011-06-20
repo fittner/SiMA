@@ -1,12 +1,12 @@
 /**
  * CHANGELOG
- * 
+ *
+ * 2011/06/20 TD - removed deprecated methods
  * 2011/06/20 TD - added some javadoc
  */
 
 package sim;
 
-import org.jfree.data.xy.XYSeries;
 import config.clsBWProperties;
 import creation.clsLoader;
 import creation.simplePropertyLoader.clsSimplePropertyLoader;
@@ -28,15 +28,6 @@ import statictools.clsSimState;
 public class clsBWMain extends SimState{
 	private static final long serialVersionUID = -1952879483933572186L;
 	
-	/** activates/shows the charting panel
-	 * TODO clemens: deactivated for now, has to set by config.xml later! */
-	//commented by TD
-	@Deprecated
-	private boolean mbChartDisplay = false;
-
-	@Deprecated
-	private XYSeries moTestSeries = new XYSeries("Agents"); //TODO clemens name passt nicht, muss erst schauen wof�r das genau ist!
-
 	/** stores the runtime arguements. set by method main */
 	private String[] moArgs;
      
@@ -137,10 +128,6 @@ public class clsBWMain extends SimState{
 		
 		clsLoader oLoader = new clsSimplePropertyLoader(this, oProp);
 		oLoader.loadObjects();
-		
-		//clear the charts
-		moTestSeries.clear(); //TODO Clemens for charting
-		//TODO clemens: add charts/statistics to schedule here 
 	}
 
     static String argumentForKey(String key, String[] args, int startingAt)
@@ -158,22 +145,4 @@ public class clsBWMain extends SimState{
         		return true;
     	return false;
     }
-    
-   /**activates/shows the charting panel, default is false
-	 * @return the mbChartDisplay */
-	@Deprecated
-	public boolean getmbChartDisplay() {
-		return mbChartDisplay;
-	}
-	
-    /**
-	 * @author deutsch
-	 * 25.02.2009, 15:03:11
-	 * 
-	 * @return the moTestSeries
-	 * @deprecated
-	 */
-	public XYSeries getMoTestSeries() {
-		return moTestSeries;
-	}	
-}
+ }
