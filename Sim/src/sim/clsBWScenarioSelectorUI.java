@@ -1,3 +1,9 @@
+/**
+ * CHANGELOG
+ * 
+ * 2011/06/20 TD - added some javadoc
+ * 2011/06/16 CM - created class
+ */
 
 package sim;
 
@@ -11,9 +17,11 @@ import config.clsBWProperties;
 import statictools.clsGetARSPath;
 
 /**
+ * GUI to select a scenario and start the simulation with the corresponding runtime arguments.
+ * 
  * This class can act as a Main function for Simulation. This adds the 
  * functionality to select from different scenarios and then calls
- * the clsBMMain class.
+ * the clsBWMain class.
  * You do not need to use this. you can also call clsBWMainWithUI directly.
  * This is just a neat way to start the simulation!
  * @author muchitsch
