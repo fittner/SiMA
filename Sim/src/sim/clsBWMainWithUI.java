@@ -1,9 +1,8 @@
 /**
- * @author muchitsch
+ * CHANGELOG
  * 
- * $Rev::                      $: Revision of last commit
- * $Author::                   $: Author of last commit
- * $Date::                     $: Date of last commit
+ * 2011/06/20 TD - added some javadoc
+ * 2011/06/20 TD - removed the gamegrid_visible parameter in the properties file.
  */
 
 package sim;
@@ -29,20 +28,36 @@ import javax.swing.JFrame;
 
 /**
  * Main function for Simulation, UI part
- * 
+ *
+ * Params for main(args[]):<ul>
+ *  <li>-config filename - defines which property file for the simulation config to load. default for filename = "testsetup.main.properties".</li>
+ *  <li>-impstages filename - defines which property file for selecting the different implementation stages of the various modules to be loaded. If nothing provided, the default defined in the class is loaded (usually imp_basic).</li>
+ *  <li>-adapter true/false - if set to true the fast entity adapter (@see clsBWFastEntityAdapter) is loaded. If not present or false, the property file is loaded without changes.</li>
+ *  <li>-path direcotry - sets the directory where the property files are stored to the given path. default is defined by clsGetARSPath.getConfigPath().</li>
+ *  <li>-autostart true/false - if set to true, the simulation will be started and paused at step 0. the effect is that the whole world has been created. otherwise the simulation is not started. in this case the gui is created only.
+ *  </ul>
+ *   
  * @author muchitsch
- * 
+ * @see clsBWMain
  */
 public class clsBWMainWithUI extends GUIState {
+	
+    /** background color of the game window */
     public static final String P_BACKGROUNDCOLOR = "backgroundcolor";
+    /** title of the game window */
     public static final String P_TITLE = "title";
+    /** clipping of objects outside the gamw window */
     public static final String P_CLIPPING = "clipping";
+    /** title of the portrayal. currently not displayed */
     public static final String P_PORTRAYALTITLE = "portrayal_title";
+    /** toggle display of overlay images on/off. */
     public static final String P_DRAWIMAGES = "draw_images";
+    /** draw the range of the external sensors. */
     public static final String P_DRAWSENSORS = "draw_sensors";
-    public static final String P_GAMEGRIDFRAMEVISIBLE = "gamegrid_visible";
+    /** The title to be displayed in the tab/inspector console. */
     public static final String P_MAINWINDOWTITLE = "mainwindowtitle";
     
+    /** filename of the system properties file. contains all the P_* params defined in this class. */
     public static final String  F_CONFIGFILENAME = "system.properties";
     
 	/** GUI widget which holds some number of field portrayals and frames, 
@@ -57,26 +72,48 @@ public class clsBWMainWithUI extends GUIState {
 	private ContinuousPortrayal2D moGameGridPortrayal = new ContinuousPortrayal2D();
 
 	
+	/**
+	 * Creates an instance of clsBWMain with the current time in milliseconds as seed for the random number generator and the provided args as parameters.
+	 *
+	 * @since 20.06.2011 18:06:02
+	 *
+	 * @param args
+	 * @see clsBWMain
+	 * @see clsBWMainWithUI#main(java.lang.String[])
+	 */
 	public clsBWMainWithUI(String[] args) { 
 		super(new clsBWMain( System.currentTimeMillis(), args) ); 
 	}
 	
-	//comment added by TD - do we need this constructor?
-	//public clsBWMainWithUI(SimState poState) { super(poState); }	
-	
 	/**
-	 * main which starts the whole simulation with a gui. takes one to two parameter.
-	 * the first param can either be a number (see clsBWMain.start() to see which number loads
-	 * which configuration. or it can be a filename pointing to the config.
-	 * the second param can change the default config directory. see clsGetARSPath.getConfigPath() 
-	 * for the used default path. 
+	 * This method creates the whole simulation including the GUI. An instance of clsBWMainWithUI is created with the given params. Further, the 
+	 * console with the tabs and inspectors is created.
+	 *
+	 * Params for main(args[]):<ul>
+ 	 *  <li>-config filename - defines which property file for the simulation config to load. default for filename = "testsetup.main.properties".</li>
+ 	 *  <li>-impstages filename - defines which property file for selecting the different implementation stages of the various modules to be loaded. If nothing provided, the default defined in the class is loaded (usually imp_basic).</li>
+ 	 *  <li>-adapter true/false - if set to true the fast entity adapter (@see clsBWFastEntityAdapter) is loaded. If not present or false, the property file is loaded without changes.</li>
+ 	 *  <li>-path direcotry - sets the directory where the property files are stored to the given path. default is defined by clsGetARSPath.getConfigPath().</li>
+ 	 *  <li>-autostart true/false - if set to true, the simulation will be started and paused at step 0. the effect is that the whole world has been created. otherwise the simulation is not started. in this case the gui is created only.
+ 	 *  </ul>
 	 *
 	 * @author tobias
 	 * Jul 26, 2009, 5:09:12 PM
 	 *
+	 * @see clsBWMain
 	 * @param args
 	 */
 	public static void main(String[] args){
+		//IMPORTANT: do not change anything here just to run the configuration
+		//you like! you can change the command line arguments easily:
+		//  1. right click on clsBWMainWithUI.java in the package explorer.
+		//  2. select run as or debug as (they have different configs)
+		//  3. select run or debug config
+		//  4. select the second tab "arguments"
+		//  5. enter either the selected index or the filename into the textbox program arguments
+		//  6. apply
+		//  7. start debuggin / running
+		
 		String oPath = clsBWMain.argumentForKey("-path", args, 0);
 		if (oPath == null) {
 			oPath = clsGetARSPath.getConfigPath();
@@ -100,12 +137,10 @@ public class clsBWMainWithUI extends GUIState {
 		clsEventLoggerInspector oELI = new clsEventLoggerInspector();
 		clsSingletonMasonGetter.getConsole().getTabPane().addTab("Eventlog", oELI);
 		clsEventLogger.setELI(oELI);
-		
-		
 	}
 
 	
-	/** returns the title bar of the console
+	/** returns the title of the console
 	 * @return String
 	 */
 	public static String getName() { 
@@ -167,7 +202,10 @@ public class clsBWMainWithUI extends GUIState {
 	
 
      
-     public static clsBWProperties getDefaultProperties(String poPrefix) {
+     /**
+     * Provides the default entries for this class. See config.clsBWProperties in project DecisionUnitInterface.
+     */
+    public static clsBWProperties getDefaultProperties(String poPrefix) {
     	 String pre = clsBWProperties.addDot(poPrefix);
     	 
     	 clsBWProperties oProp = ARSsim.display.Display2D.getDefaultProperties(pre);
@@ -177,13 +215,15 @@ public class clsBWMainWithUI extends GUIState {
     	 oProp.setProperty(pre+P_CLIPPING, false);
     	 oProp.setProperty(pre+P_PORTRAYALTITLE, "ARSin GameGrid");
     	 oProp.setProperty(pre+P_DRAWIMAGES, true);
-    	 oProp.setProperty(pre+P_GAMEGRIDFRAMEVISIBLE, true);
     	 oProp.setProperty(pre+P_MAINWINDOWTITLE, "ARSin V1.0");
     	 oProp.setProperty(pre+P_DRAWSENSORS, true);
     	 
     	 return oProp;
      }
-      
+    
+    /** Called to initialize (display) windows etc. 
+    You can use this to set up the windows, then register them with the Controller so it can manage
+    hiding, showing, and moving them. */
     @Override
 	public void init(Controller poController){
     	super.init(poController);
@@ -192,7 +232,7 @@ public class clsBWMainWithUI extends GUIState {
     	String pre = "";
     	
 		moDisplay = ARSsim.display.Display2D.createDisplay2d("", oProp, this);
-		moDisplay.setClipping( oProp.getPropertyBoolean(pre+P_CLIPPING) ); //we�d like to see objects outside the width & height box
+		moDisplay.setClipping( oProp.getPropertyBoolean(pre+P_CLIPPING) ); //we'd like to see objects outside the width & height box
 		
 		//let the display generate a frame for you
 		moDisplayGamegridFrame = moDisplay.createFrame();
@@ -202,12 +242,16 @@ public class clsBWMainWithUI extends GUIState {
 		
 		// specify the backdrop color  -- what gets painted behind the displays
 		moDisplay.setBackdrop( oProp.getPropertyColor(pre+P_BACKGROUNDCOLOR) );
-		moDisplayGamegridFrame.setVisible( oProp.getPropertyBoolean(pre+P_GAMEGRIDFRAMEVISIBLE) );
+		moDisplayGamegridFrame.setVisible( true );
 		moDisplay.attach(moGameGridPortrayal, oProp.getPropertyString(pre+P_PORTRAYALTITLE) ); //attach the Portrayal to the Display2D to display it 
 		
 		clsSingletonMasonGetter.setDisplay2D(moDisplay);
 	}
-	
+    
+    /** Called by the Console when the user is quitting the SimState.  A good place
+    to stick stuff that you'd ordinarily put in a finalizer -- finalizers are
+    tenuous at best. So here you'd put things like the code that closes the relevant
+    display windows etc.*/	
     @Override
 	public void quit(){
 		super.quit();
@@ -224,12 +268,21 @@ public class clsBWMainWithUI extends GUIState {
 		moDisplay = null;
 	}
 	
+    /** Called immediately prior to starting the simulation, or in-between
+    simulation runs.  Ordinarily, you wouldn't need to override this hook. */    
     @Override
 	public void start(){
 		super.start();
 		setupPortrayals();
 	}
 	
+    /** Called by the Console when the user is loading in a new state from a checkpoint.  The
+    new state is passed in as an argument.  The default version simply calls finish(),
+    then sets this.state to the new state.  You should override this, calling super.load(state) first, 
+    to reset your portrayals etc. to reflect the new state.
+    state.start() will NOT be called.  Thus anything you handled in start() that needs
+    to be reset to accommodate the new state should be handled here.  We recommend that you 
+    call repaint() on any Display2Ds. */    
     @Override
 	public void load(SimState poState){
 		super.load(poState);
@@ -237,7 +290,7 @@ public class clsBWMainWithUI extends GUIState {
 	}
 	
 	/** Here we tell the Portrayal which field it is portraying and how it�s doing it. 
-	 * We�ll also reset the display so it reregisters itself with the console in 
+	 * We'll also reset the display so it reregisters itself with the console in 
 	 * preparation for being stepped each timestep 
 	 */
 	public void setupPortrayals(){
@@ -251,11 +304,22 @@ public class clsBWMainWithUI extends GUIState {
 		moDisplay.repaint();
 	}
 	
+    /** Returns an object with various property methods (getFoo(...), isFoo(...), setFoo(...)) whose
+    properties will be accessible by the user.  This gives you an easy way to allow the user to
+    set certain global properties of your model from the GUI.   If null is returned (the default),
+    then nothing will be displayed to the user.  One trick you should know about your object:
+    it should be public, as well its property methods, and if it's anonymous, it should not
+    introduce any property methods not defined in its superclass.  Otherwise Java's reflection
+    API can't access those methods -- they're considered private.  GUIState also supports
+    sim.util.Properties's domFoo(...) domain declarations to allow for sliders and pop-up lists.*/	
 	@Override
 	public Object getSimulationInspectedObject(){ 
 		return state; 
 	}
 	
+    /** By default returns a non-volatile Inspector which wraps around
+    getSimulationInspectedObject(); if getSimulationInspectedObject() returns null, then getInspector()
+    will return null also.  Override this to provide a custom inspector as you see fit.  */	
 	@Override
 	public Inspector getInspector(){
 		//Override to get constantly updating inspectors = volatile
