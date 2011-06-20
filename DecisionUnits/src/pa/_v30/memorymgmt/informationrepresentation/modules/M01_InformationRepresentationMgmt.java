@@ -10,7 +10,7 @@ import pa._v30.interfaces.itfInspectorInternalState;
 import pa._v30.memorymgmt.informationrepresentation.clsSearchSpaceHandler;
 import pa._v30.tools.toText;
 /**
- * DOCUMENT (zeilinger) - insert description 
+ *
  * 
  * @author zeilinger
  * 19.05.2010, 07:45:54

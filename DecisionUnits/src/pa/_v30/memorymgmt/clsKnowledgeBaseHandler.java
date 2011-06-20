@@ -10,7 +10,7 @@ import pa._v30.interfaces.itfInspectorInternalState;
 import config.clsBWProperties;
 
 /**
- * DOCUMENT (zeilinger) - insert description 
+ *
  * 
  * @author zeilinger
  * 19.05.2010, 07:56:25
@@ -22,7 +22,7 @@ public abstract class clsKnowledgeBaseHandler implements itfKnowledgeBaseHandler
 	public static final String P_SOURCE_NAME = "source_name";
 	
 	/**
-	 * DOCUMENT (zeilinger) - insert description 
+	 *
 	 * 
 	 * @author zeilinger
 	 * 30.05.2010, 12:33:06

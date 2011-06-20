@@ -30,7 +30,7 @@ import du.itf.sensors.clsStaminaSystem;
 import du.itf.sensors.clsStomachTension;
 
 /**
- * DOCUMENT (muchitsch) - insert description 
+ * 
  * 
  * @author deutsch
  * 11.08.2009, 12:12:02
@@ -46,7 +46,7 @@ public class E02_NeurosymbolizationOfNeeds extends clsModuleBase
 	private HashMap<eSensorIntType, clsDataBase> moHomeostasis;
 	private HashMap<String, Double> moHomeostaticSymbol;
 	/**
-	 * DOCUMENT (muchitsch) - insert description 
+	 * 
 	 * 
 	 * @author deutsch
 	 * 03.03.2011, 15:55:32
@@ -235,7 +235,7 @@ public class E02_NeurosymbolizationOfNeeds extends clsModuleBase
 	 */
 	@Override
 	protected void process_draft() {
-		// TODO (muchitsch) - Auto-generated method stub
+		
 		throw new java.lang.NoSuchMethodError();
 	}
 
@@ -248,7 +248,7 @@ public class E02_NeurosymbolizationOfNeeds extends clsModuleBase
 	 */
 	@Override
 	protected void process_final() {
-		// TODO (muchitsch) - Auto-generated method stub
+		
 		throw new java.lang.NoSuchMethodError();
 	}
 

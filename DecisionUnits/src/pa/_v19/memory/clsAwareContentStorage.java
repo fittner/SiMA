@@ -15,7 +15,6 @@ import pa._v19.tools.clsTripple;
 import config.clsBWProperties;
 
 /**
- * DOCUMENT (zeilinger) - insert description 
  * 
  * @author zeilinger
  * 20.10.2009, 22:40:09
@@ -44,7 +43,6 @@ public class clsAwareContentStorage {
 	    }
 
 		/**
-		 * DOCUMENT (zeilinger) - insert description
 		 *
 		 * @author zeilinger
 		 * 20.10.2009, 23:42:56

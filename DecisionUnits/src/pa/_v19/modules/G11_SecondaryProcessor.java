@@ -29,7 +29,7 @@ import pa._v19.memorymgmt.datatypes.clsWordPresentation;
 import config.clsBWProperties;
 
 /**
- * DOCUMENT (langr) - insert description 
+ *
  * 
  * @author langr
  * 11.08.2009, 15:37:00

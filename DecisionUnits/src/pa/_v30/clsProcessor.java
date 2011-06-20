@@ -20,7 +20,7 @@ import pa._v30.memorymgmt.informationrepresentation.clsInformationRepresentation
 import pa._v30.modules.clsPsychicApparatus;
 
 /**
- * DOCUMENT (deutsch) - insert description 
+ *
  * 
  * @author deutsch
  * 12.08.2009, 09:30:54
@@ -139,7 +139,7 @@ public class clsProcessor implements itfProcessor  {
 	private HashMap<eSensorExtType, clsSensorExtern> separateBodyData(clsSensorData poData) {
 		HashMap<eSensorExtType, clsSensorExtern> oResult = new HashMap<eSensorExtType, clsSensorExtern>();
 		
-//		//TODO: (all) collect (but first generate) bodily data only
+//		//: (all) collect (but first generate) bodily data only
 //		oResult.put(eSensorExtType., poData.getSensorInt(eSensorExtType.));
 //		oResult.put(eSensorExtType., poData.eSensorExtType(eSensorIntType.));
 //		oResult.put(eSensorExtType., poData.getSensorInt(eSensorExtType.));
@@ -238,7 +238,7 @@ public class clsProcessor implements itfProcessor  {
 	}
 
 	/**
-	 * DOCUMENT (langr) - insert description
+	 *
 	 *
 	 * @author langr
 	 * 13.08.2009, 00:08:10

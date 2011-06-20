@@ -33,7 +33,7 @@ import pa._v30.memorymgmt.enums.eAffectLevel;
 import pa._v30.memorymgmt.enums.eDataType;
 
 /**
- * DOCUMENT (perner) - insert description 
+ *
  * 
  * @author deutsch
  * 11.08.2009, 14:51:57
@@ -52,7 +52,7 @@ public class E26_DecisionMaking extends clsModuleBase implements
 	private static String _Delimiter02 = "||";
 	private static String _Delimiter03 = "|";
 	/**
-	 * DOCUMENT (perner) - insert description 
+	 *
 	 * 
 	 * @author deutsch
 	 * 03.03.2011, 16:51:33
@@ -168,7 +168,7 @@ public class E26_DecisionMaking extends clsModuleBase implements
 	 * 
 	 * @see pa.interfaces.I3_3#receive_I3_3(int)
 	 * 
-	 * TODO cua implement
+	 *  cua implement
 	 * 
 	 */
 	@SuppressWarnings("unchecked")
@@ -184,7 +184,7 @@ public class E26_DecisionMaking extends clsModuleBase implements
 	 * 
 	 * @see pa.interfaces.I5_5#receive_I5_5(int)
 	 * 
-	 * TODO cua implement
+	 *  cua implement
 	 * 
 	 */
 	@Override
@@ -276,7 +276,7 @@ public class E26_DecisionMaking extends clsModuleBase implements
 			oAL.add(oSDSC);
 		}
 		
-	//	badVoodoo(oSortedList); //FIXME (DEUTSCH): TD 2011/05/01 - bad voodoo!!!
+	//	badVoodoo(oSortedList); // (DEUTSCH): TD 2011/05/01 - bad voodoo!!!
 		
 		moGoal_Output.clear();
 		NavigableSet<Double> oSLdKS = oSortedList.descendingKeySet();
@@ -291,7 +291,7 @@ public class E26_DecisionMaking extends clsModuleBase implements
 	}
 	
 	private void badVoodoo(TreeMap<Double, ArrayList<clsSecondaryDataStructureContainer> > poSortedList) {
-		//FIXME : remove this method!!!
+		// : remove this method!!!
 		//TD 2011/05/01 - remove nourish or bit if sleep, repress, deposit, relax is at the same importance level
 		//but nothing is visible - very bad voodoo! the problem is that if the agent is very hungry he is doing nothing
 		//else any more than search for food!!!!
@@ -320,7 +320,7 @@ public class E26_DecisionMaking extends clsModuleBase implements
 	
 	
 	/**
-	 * DOCUMENT (zeilinger) -
+	 * 
 	 *
 	 * @author zeilinger
 	 * 27.08.2010, 15:28:53
@@ -345,7 +345,7 @@ public class E26_DecisionMaking extends clsModuleBase implements
 		String oGoalContent; 
 		clsWordPresentation oGoal = null; 
 		
-		//FIXME HZ Actually the highest rated drive content is taken => this is sloppy and has to be evaluated in a later version! 
+		// HZ Actually the highest rated drive content is taken => this is sloppy and has to be evaluated in a later version! 
 		clsPair<String, clsSecondaryDataStructureContainer> oMaxDemand = getDriveMaxDemand(); 
 		String oDriveContent = oMaxDemand.a; 
 		clsSecondaryDataStructureContainer oDriveContainer = oMaxDemand.b; 
@@ -353,7 +353,7 @@ public class E26_DecisionMaking extends clsModuleBase implements
 		for (clsSecondaryDataStructureContainer oExternalPerception : moRealityPerception ){
 				String oExternalContent = ((clsWordPresentation)oExternalPerception.getMoDataStructure()).getMoContent(); 
 							
-				//TODO HZ: Here the first match is taken and added as goal to the output list; Actually
+				// HZ: Here the first match is taken and added as goal to the output list; Actually
 				// only one goal is selected!
 				//Attention: the first part of the string (index 0 until the first string sequence "||" ) defines the drive that has to be
 				// satisfied by the object outside; in case there is no adequate object perceived, the variable oContent is defined
@@ -370,7 +370,7 @@ public class E26_DecisionMaking extends clsModuleBase implements
 	}
 
 	/**
-	 * DOCUMENT (zeilinger) - insert description
+	 *
 	 *
 	 * @author zeilinger
 	 * 18.04.2011, 23:12:13
@@ -389,7 +389,7 @@ public class E26_DecisionMaking extends clsModuleBase implements
 	}
 	
 	/**
-	 * DOCUMENT (zeilinger) - insert description
+	 *
 	 *
 	 * @author zeilinger
 	 * 25.04.2011, 15:02:31
@@ -405,7 +405,7 @@ public class E26_DecisionMaking extends clsModuleBase implements
 	}
 
 	/**
-	 * DOCUMENT (zeilinger) - insert description
+	 *
 	 *
 	 * @author zeilinger
 	 * 25.04.2011, 14:54:15
@@ -418,7 +418,7 @@ public class E26_DecisionMaking extends clsModuleBase implements
 		ArrayList <clsSecondaryDataStructureContainer> oRetVal = new ArrayList<clsSecondaryDataStructureContainer>();
 		String oRuleContent = poRule.getMoContent().substring(0, poRule.getMoContent().indexOf(_Delimiter03));
 		
-		//FIXME (Deutsch): TD 2011/04/30 bad hack - it seems that a drive demand is removed as soon as there
+		// (Deutsch): TD 2011/04/30 bad hack - it seems that a drive demand is removed as soon as there
 		//exists a superego rule for that drive. deposit has been removed regardless of the current drive tension
 		//and the entered unpleasure in the superego rule. 
 		//bugfix: extract unpleasure intesity from string and get nRuleIntensisty. the same is done for each drive
@@ -446,7 +446,7 @@ public class E26_DecisionMaking extends clsModuleBase implements
 	}
 
 	/**
-	 * DOCUMENT (zeilinger) - insert description
+	 *
 	 *
 	 * @author zeilinger
 	 * 19.04.2011, 14:40:54
@@ -479,7 +479,7 @@ public class E26_DecisionMaking extends clsModuleBase implements
 	}
 
 	/**
-	 * DOCUMENT (zeilinger) - insert description
+	 *
 	 *
 	 * @author zeilinger
 	 * 19.04.2011, 14:38:48
@@ -503,7 +503,7 @@ public class E26_DecisionMaking extends clsModuleBase implements
 	}
 
 	/**
-	 * DOCUMENT (zeilinger) - insert description
+	 *
 	 *
 	 * @author zeilinger
 	 * 19.04.2011, 14:44:00
@@ -518,7 +518,7 @@ public class E26_DecisionMaking extends clsModuleBase implements
 	}
 	
 	/**
-	 * DOCUMENT (zeilinger) - insert description
+	 *
 	 *
 	 * @author zeilinger
 	 * 19.04.2011, 07:17:23
@@ -541,7 +541,7 @@ public class E26_DecisionMaking extends clsModuleBase implements
 	
 
 	/**
-	 * DOCUMENT (zeilinger) - insert description
+	 *
 	 *
 	 * @author zeilinger
 	 * 02.11.2010, 17:04:15
@@ -581,7 +581,7 @@ public class E26_DecisionMaking extends clsModuleBase implements
 		} else if (oList.size() > 1){
 			//priorize sleep. currently, the agent cannot die -> sleeping is more important than eating.
 			//TD 2011/05/01 - added deposit and repress
-			//FIXME (DEUTSCH)- this function is bad voodoo
+			// (DEUTSCH)- this function is bad voodoo
 			ArrayList<String> oPriorityDrives = new ArrayList<String>( Arrays.asList("SLEEP", "RELAX", "DEPOSIT", "REPRESS") );
 			
 			oRetVal = null;
@@ -647,7 +647,7 @@ public class E26_DecisionMaking extends clsModuleBase implements
 	 */
 	@Override
 	protected void process_draft() {
-		// TODO (perner) - Auto-generated method stub
+		
 		throw new java.lang.NoSuchMethodError();
 	}
 
@@ -660,7 +660,7 @@ public class E26_DecisionMaking extends clsModuleBase implements
 	 */
 	@Override
 	protected void process_final() {
-		// TODO (perner) - Auto-generated method stub
+		
 		throw new java.lang.NoSuchMethodError();
 	}
 

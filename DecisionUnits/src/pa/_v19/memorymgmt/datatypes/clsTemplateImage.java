@@ -13,7 +13,6 @@ import pa._v19.tools.clsTripple;
 
 
 /**
- * DOCUMENT (zeilinger) - insert description 
  * 
  * @author zeilinger
  * 23.05.2010, 21:49:45
@@ -42,7 +41,6 @@ public class clsTemplateImage extends clsPhysicalStructureComposition{
 	}
 
 	/**
-	 * DOCUMENT (zeilinger) - insert description 
 	 * 
 	 * @author zeilinger
 	 * 24.05.2010, 12:41:23
@@ -58,7 +56,6 @@ public class clsTemplateImage extends clsPhysicalStructureComposition{
 	}
 
 	/**
-	 * DOCUMENT (zeilinger) - insert description
 	 *
 	 * @author zeilinger
 	 * 16.08.2010, 22:12:08
@@ -72,7 +69,6 @@ public class clsTemplateImage extends clsPhysicalStructureComposition{
 	}
 
 	/**
-	 * DOCUMENT (zeilinger) - insert description
 	 *
 	 * @author zeilinger
 	 * 16.08.2010, 22:12:06
@@ -145,7 +141,6 @@ public class clsTemplateImage extends clsPhysicalStructureComposition{
 	}
 	
 	/**
-	 * DOCUMENT (zeilinger) - insert description
 	 *
 	 * @author zeilinger
 	 * 18.07.2010, 16:36:58

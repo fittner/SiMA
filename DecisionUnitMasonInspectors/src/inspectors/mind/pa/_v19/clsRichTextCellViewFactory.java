@@ -12,7 +12,7 @@ import org.jgraph.graph.VertexView;
 import com.jgraph.components.labels.MultiLineVertexView;
 
 /**
- * DOCUMENT (langr) - insert description 
+ *
  * 
  * @author langr
  * 16.10.2009, 00:44:32

@@ -9,7 +9,7 @@ package pa._v30.tools;
 import java.lang.reflect.Method;
 
 /**
- * DOCUMENT (langr) - insert description 
+ *
  * 
  * @author langr
  * 07.10.2009, 12:51:03

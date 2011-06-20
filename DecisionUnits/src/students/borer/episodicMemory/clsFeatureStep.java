@@ -14,13 +14,13 @@ public class clsFeatureStep extends clsFeature {
 	}
 	@Override
 	public boolean checkIfSameType(clsFeature poFeature) {
-		// TODO Auto-generated method stub
+		//  Auto-generated method stub
 		return false;
 	}
 
 	@Override
 	public Object getContainer() {
-		// TODO Auto-generated method stub
+		//  Auto-generated method stub
 		return null;
 	}
 

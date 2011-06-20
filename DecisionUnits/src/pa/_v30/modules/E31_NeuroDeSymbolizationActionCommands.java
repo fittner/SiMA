@@ -30,7 +30,7 @@ import pa._v30.memorymgmt.datatypes.clsWordPresentation;
 import pa._v30.tools.toText;
 
 /**
- * DOCUMENT (brandstaetter) - insert description 
+ *
  * 
  * @author deutsch
  * 11.08.2009, 14:59:58
@@ -46,7 +46,7 @@ public class E31_NeuroDeSymbolizationActionCommands extends clsModuleBase
 	private boolean mnMinimalModel = false;
 	
 	/**
-	 * DOCUMENT (brandstaetter) - insert description 
+	 *
 	 * 
 	 * @author deutsch
 	 * 03.03.2011, 17:01:32
@@ -228,7 +228,7 @@ public class E31_NeuroDeSymbolizationActionCommands extends clsModuleBase
 	 */
 	@Override
 	protected void process_draft() {
-		// TODO (branstaetter) - Auto-generated method stub
+		
 		throw new java.lang.NoSuchMethodError();
 	}
 
@@ -241,7 +241,7 @@ public class E31_NeuroDeSymbolizationActionCommands extends clsModuleBase
 	 */
 	@Override
 	protected void process_final() {
-		// TODO (branstaetter) - Auto-generated method stub
+		
 		throw new java.lang.NoSuchMethodError();	
 	}
 

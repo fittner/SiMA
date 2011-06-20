@@ -244,10 +244,10 @@ public class clsBWPropEditor extends JPanel implements TreeSelectionListener, Ac
 					copyFile(outFile, file);
 					outFile.delete();
 				} catch (FileNotFoundException e1) {
-					// TODO (Boss) - Auto-generated catch block
+					//  (Boss) - Auto-generated catch block
 					e1.printStackTrace();
 				} catch (IOException e2) {
-					// TODO (Boss) - Auto-generated catch block
+					//  (Boss) - Auto-generated catch block
 					e2.printStackTrace();
 				}
 				
@@ -327,7 +327,7 @@ public class clsBWPropEditor extends JPanel implements TreeSelectionListener, Ac
 
 	@Override
 	public void mouseClicked(MouseEvent e) {
-		// TODO (Boss) - Auto-generated method stub
+		// (Boss) - Auto-generated method stub
 		if(e.getComponent() == valuePane){ //If the valuePane was clicked 
 			if(e.getClickCount() == 2) { //If it was a doubleclick
 				String sVal = valuePane.getText();
@@ -343,31 +343,31 @@ public class clsBWPropEditor extends JPanel implements TreeSelectionListener, Ac
 
 	@Override
 	public void mouseEntered(MouseEvent e) {
-		// TODO (Boss) - Auto-generated method stub
+		// (Boss) - Auto-generated method stub
 		
 	}
 
 	@Override
 	public void mouseExited(MouseEvent e) {
-		// TODO (Boss) - Auto-generated method stub
+		// (Boss) - Auto-generated method stub
 		
 	}
 
 	@Override
 	public void mousePressed(MouseEvent e) {
-		// TODO (Boss) - Auto-generated method stub
+		// (Boss) - Auto-generated method stub
 		
 	}
 
 	@Override
 	public void mouseReleased(MouseEvent e) {
-		// TODO (Boss) - Auto-generated method stub
+		// (Boss) - Auto-generated method stub
 		
 	}
 
 	@Override
 	public void run() {
-		// TODO (Boss) - Auto-generated method stub
+		// (Boss) - Auto-generated method stub
 		createAndShowGUI(sFileName);
 	}
 

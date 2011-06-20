@@ -29,7 +29,7 @@ import du.itf.sensors.clsVision;
 import du.itf.sensors.clsVisionEntry;
 
 /**
- * DOCUMENT (langr) - insert description 
+ *  (langr) - insert description 
  * 
  * @author langr
  * 19.03.2009, 15:57:25
@@ -61,7 +61,7 @@ public class clsDumbMindA extends clsBaseDecisionUnit {
 
 	}
 	
-//	//TODO: (langr) new config
+//	//: (langr) new config
 //	public clsDumbMindA(String poPrefix, clsBWProperties poProp) {
 //		applyProperties(poPrefix, poProp);
 //	}

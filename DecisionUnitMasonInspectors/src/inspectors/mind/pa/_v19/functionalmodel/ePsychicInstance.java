@@ -9,7 +9,7 @@ package inspectors.mind.pa._v19.functionalmodel;
 import java.awt.Color;
 
 /**
- * DOCUMENT (deutsch) - insert description 
+ * 
  * 
  * @author deutsch
  * 22.10.2009, 12:09:57

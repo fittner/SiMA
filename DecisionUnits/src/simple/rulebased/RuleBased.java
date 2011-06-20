@@ -53,7 +53,7 @@ public class RuleBased extends clsBaseDecisionUnit {
 */
 	@Override
 	public void process() {
-		// TODO (deutsch) - Auto-generated method stub
+		//  (deutsch) - Auto-generated method stub
 	}
 
 	/* (non-Javadoc)

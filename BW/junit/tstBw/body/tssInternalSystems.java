@@ -9,7 +9,7 @@ package tstBw.body;
 
 
 /**
- * DOCUMENT (deutsch) - insert description 
+ * 
  * 
  * @author deutsch
  * 

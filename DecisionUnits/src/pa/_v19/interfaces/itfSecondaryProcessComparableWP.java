@@ -9,7 +9,6 @@ package pa._v19.interfaces;
 import pa._v19.datatypes.clsWordPresentation;
 
 /**
- * DOCUMENT (langr) - insert description 
  * 
  * @author langr
  * 11.08.2009, 12:41:47

@@ -25,7 +25,7 @@ import bfg.utils.enumsOld.enumTypeTrippleState;
 //import bfg.symbolization.recognition.clsSuperEgoAction;
 //import bfg.symbolization.recognition.clsDesireContainer;
 
-//TODO (langr): are these necessary???
+// (langr): are these necessary???
 //import pkgTools.cls0to1;
 //import pkgBrainAction.clsActionPlan;
 //import pkgBrainEmotion.clsEmotion;

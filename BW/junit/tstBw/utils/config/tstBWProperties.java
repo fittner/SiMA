@@ -16,7 +16,7 @@ import config.clsBWProperties;
 
 
 /**
- * DOCUMENT (deutsch) - insert description 
+ * 
  * 
  * @author deutsch
  * 22.07.2009, 10:32:43

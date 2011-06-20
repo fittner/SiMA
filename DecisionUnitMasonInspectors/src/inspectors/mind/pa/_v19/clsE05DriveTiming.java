@@ -29,7 +29,7 @@ import sim.portrayal.Inspector;
 import sim.portrayal.LocationWrapper;
 
 /**
- * DOCUMENT (langr) - insert description 
+ *
  * 
  * @author langr
  * 23.12.2009, 10:42:35

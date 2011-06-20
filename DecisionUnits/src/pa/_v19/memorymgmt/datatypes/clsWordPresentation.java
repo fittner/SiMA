@@ -10,7 +10,7 @@ import pa._v19.memorymgmt.enums.eDataType;
 import pa._v19.tools.clsTripple;
 
 /**
- * DOCUMENT (zeilinger) - insert description 
+ *
  * 
  * @author zeilinger
  * 23.05.2010, 21:43:40
@@ -40,7 +40,7 @@ public class clsWordPresentation extends clsSecondaryDataStructure{
 	}
 
 	/**
-	 * DOCUMENT (zeilinger) - insert description 
+	 *
 	 * 
 	 * @author zeilinger
 	 * 22.06.2010, 20:00:15

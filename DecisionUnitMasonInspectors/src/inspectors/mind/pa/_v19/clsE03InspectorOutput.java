@@ -13,7 +13,7 @@ import sim.util.gui.HTMLBrowser;
 import sim.portrayal.Inspector;
 
 /**
- * DOCUMENT (langr) - insert description 
+ *
  * 
  * @author langr
  * 06.10.2009, 18:36:23

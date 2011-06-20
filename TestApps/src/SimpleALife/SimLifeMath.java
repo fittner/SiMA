@@ -48,7 +48,7 @@ public class SimLifeMath
     }
 
     // returns four Double2D values from the 4 Rock corners
-    // TODO: in this version only Rocks with angle 0 would be calculated right
+    // : in this version only Rocks with angle 0 would be calculated right
 	private static Double2D[] getRockCorners(Rock rock)
     {
     	Double2D center, point1, point2, point3, point4;
@@ -67,7 +67,7 @@ public class SimLifeMath
     }
 
     // if the target lies outside our arena set a new target inside
-    // not important TODO: make a 2nd method with (pos, target, size) and scale the target vector to don't change the angle
+    // not important : make a 2nd method with (pos, target, size) and scale the target vector to don't change the angle
 	public static Double2D limitToBorders(Double2D target, double objsSize)
 	{
 		double x, y;
@@ -126,7 +126,7 @@ public class SimLifeMath
     {
     	boolean lineCrossing = false;
 
-    	// TODO: Replace names and make a sketch for them
+    	// : Replace names and make a sketch for them
     	Double2D line1 = end.subtract(start);	// global vector from start1 to target1
 		Angle aZ = getAngle(line1);				// global angel to the target1 (from the x-axis)
 		double aZr = aZ.radians;
@@ -225,18 +225,18 @@ public class SimLifeMath
 			}
 
 			// look if the nearest Rock lies in the way to the target
-			// TODO: don't check only the line of sight (LoS), check an object-width corridor and an start to target "trapez" (there for -> getSubTargetPos(start, end, objs, ownSize, targetSize))
+			// : don't check only the line of sight (LoS), check an object-width corridor and an start to target "trapez" (there for -> getSubTargetPos(start, end, objs, ownSize, targetSize))
 			//		 (De: zb. LoS=fals -> isObstacle u. subTarget berechnung wie jetzt,
 			//		  LoS=gut aber LoTrapez=false -> CarT nicht zum ziel sondern 90° auf die "gute" trapez seite eine botSize,
 			//		  LoTrapez=gut aber LoCorridor=false -> ziel ist end+"90° auf trapezlinie" 1/2botSize auf "gute" corridor seite)
-			// -> TODO: find an exact subTarget (not +x°) .. eg. (corner+90°botSizeSteps+1)+"botSizsSteps in new direction"
-			// -> TODO: now we could search a new subTarget every step without corner collision (if() in CarT.goToCollisionFree), good for movable objects, but for performance we do it only every X steps (step counter++)
+			// -> : find an exact subTarget (not +x°) .. eg. (corner+90°botSizeSteps+1)+"botSizsSteps in new direction"
+			// -> : now we could search a new subTarget every step without corner collision (if() in CarT.goToCollisionFree), good for movable objects, but for performance we do it only every X steps (step counter++)
 			if (nearestRock != null)
 			{
 				rockCorner = getRockCorners(nearestRock);
 
 				// check if a line from the rock crosses the way to the target
-				// FIXME: sometimes they find to many obstacles, sometimes they don't see one !!!!
+				// : sometimes they find to many obstacles, sometimes they don't see one !!!!
 				int j;
 				for (int i = 0; i < rockCorner.length; i++)
 				{

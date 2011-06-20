@@ -11,7 +11,6 @@ import java.util.ArrayList;
 import pa._v19.datatypes.clsPrimaryInformation;
 
 /**
- * DOCUMENT (langr) - insert description 
  * 
  * @author langr
  * 23.10.2009, 12:13:41

@@ -61,7 +61,7 @@ public class clsPathPlanning {
 				tempBwPath=(clsPath)bwPaths.get(i);
 			//if path has not finished
 				if ( 	!tempFwPath.isComplete 	){
-					//TODO: add here, that the path ends when it causes too much fear. When implementing Dijkstra, this can be done in the stephistory filtering process within the clsLocalization  
+					//: add here, that the path ends when it causes too much fear. When implementing Dijkstra, this can be done in the stephistory filtering process within the clsLocalization  
 					if((tempFwPath.memposTemp==(StepMemory.numObjs-1))||(((clsStep)StepMemory.get(tempFwPath.memposTemp)).getPathToNext()==null)){
 						tempFwPath.isComplete=true;
 						pathCount--;

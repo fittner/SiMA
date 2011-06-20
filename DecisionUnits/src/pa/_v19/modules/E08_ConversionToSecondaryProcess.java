@@ -126,7 +126,7 @@ public class E08_ConversionToSecondaryProcess extends clsModuleBase implements I
 	}
 	
 	/**
-	 * DOCUMENT (zeilinger) - insert description
+	 *
 	 *
 	 * @author zeilinger
 	 * 15.08.2010, 13:08:29
@@ -159,7 +159,7 @@ public class E08_ConversionToSecondaryProcess extends clsModuleBase implements I
 	}
 
 	/**
-	 * DOCUMENT (zeilinger) - insert description
+	 *
 	 *
 	 * @author zeilinger
 	 * 23.08.2010, 21:20:30
@@ -182,7 +182,7 @@ public class E08_ConversionToSecondaryProcess extends clsModuleBase implements I
 	}
 
 	/**
-	 * DOCUMENT (zeilinger) - insert description
+	 *
 	 *
 	 * @author zeilinger
 	 * 23.08.2010, 21:19:19
@@ -197,7 +197,7 @@ public class E08_ConversionToSecondaryProcess extends clsModuleBase implements I
 	}
 	
 	/**
-	 * DOCUMENT (zeilinger) - insert description
+	 *
 	 *
 	 * @author zeilinger
 	 * 23.08.2010, 21:24:38
@@ -286,7 +286,7 @@ public class E08_ConversionToSecondaryProcess extends clsModuleBase implements I
 
 
 	/**
-	 * DOCUMENT (zeilinger) - insert description
+	 *
 	 *
 	 * @author zeilinger
 	 * 19.03.2011, 08:36:59

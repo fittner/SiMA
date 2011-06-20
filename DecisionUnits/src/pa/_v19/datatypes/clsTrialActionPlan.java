@@ -8,7 +8,6 @@ package pa._v19.datatypes;
 
 
 /**
- * DOCUMENT (langr) - insert description 
  * 
  * @author langr
  * 08.10.2009, 14:59:55
@@ -18,7 +17,6 @@ package pa._v19.datatypes;
 public class clsTrialActionPlan extends clsSecondaryInformation implements Cloneable {
 
 	/**
-	 * DOCUMENT (langr) - insert description 
 	 * 
 	 * @author langr
 	 * 08.10.2009, 14:59:59
@@ -30,7 +28,7 @@ public class clsTrialActionPlan extends clsSecondaryInformation implements Clone
 	public clsTrialActionPlan(clsWordPresentation poWP,
 			clsThingPresentationSingle poTP, clsAffectTension poAffect) {
 		super(poWP, poTP, poAffect);
-		// TODO (langr) - Auto-generated constructor stub
+		
 	}
 	
 	@Override

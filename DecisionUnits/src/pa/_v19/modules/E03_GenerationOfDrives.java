@@ -72,7 +72,7 @@ public class E03_GenerationOfDrives extends clsModuleBase implements I1_2_receiv
 	}
 	
 	/**
-	 * DOCUMENT (langr) - insert description
+	 *
 	 *
 	 * @author langr
 	 * 23.09.2009, 14:31:31
@@ -80,7 +80,7 @@ public class E03_GenerationOfDrives extends clsModuleBase implements I1_2_receiv
 	 */
 	private void loadDriveDefinition(String poPrefix, clsBWProperties poProp) {
 	      
-		//TODO - (langr): read team-name from property file!
+		// - (langr): read team-name from property file!
 		moDriveDefinition = clsDriveLoader.createDriveList("1", "PSY_10");
 	}
 
@@ -157,7 +157,7 @@ public class E03_GenerationOfDrives extends clsModuleBase implements I1_2_receiv
 	}
 	
 	/**
-	 * DOCUMENT (zeilinger) - insert description
+	 *
 	 *
 	 * @author zeilinger
 	 * 14.08.2010, 16:39:10
@@ -175,7 +175,7 @@ public class E03_GenerationOfDrives extends clsModuleBase implements I1_2_receiv
 	}
 
 	/**
-	 * DOCUMENT (zeilinger) - insert description
+	 *
 	 *
 	 * @author zeilinger
 	 * 14.08.2010, 17:57:27
@@ -208,7 +208,7 @@ public class E03_GenerationOfDrives extends clsModuleBase implements I1_2_receiv
 	}
 
 	/**
-	 * DOCUMENT (zeilinger) - insert description
+	 *
 	 *
 	 * @author zeilinger
 	 * 14.08.2010, 17:45:46

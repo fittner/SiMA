@@ -24,7 +24,7 @@ import du.itf.actions.clsActionCommand;
 public abstract class clsActionExecutor  {
 	
 	/**
-	 * DOCUMENT (deutsch) - insert description 
+	 * 
 	 * 
 	 * @author deutsch
 	 * 05.10.2009, 19:28:53
@@ -65,12 +65,12 @@ public abstract class clsActionExecutor  {
 
 
 	protected void setBodyPartId() {
-		// TODO Auto-generated method stub
+		
 		
 	}
 
 	protected void setName() {
-		// TODO Auto-generated method stub
+		
 		
 	} 
 }

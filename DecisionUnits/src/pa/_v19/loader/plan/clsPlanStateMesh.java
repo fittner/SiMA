@@ -10,7 +10,6 @@ import pa._v19.datatypes.clsSecondaryInformationMesh;
 import pa._v19.datatypes.clsWordPresentation;
 
 /**
- * DOCUMENT (langr) - insert description 
  * 
  * @author langr
  * 25.10.2009, 12:55:16

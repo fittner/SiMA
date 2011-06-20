@@ -7,7 +7,7 @@
 package pa._v19.memorymgmt.enums;
 
 /**
- * DOCUMENT (kohlhauser) - Enumeration class for the affect levels and conversions to strings.
+ * Enumeration class for the affect levels and conversions to strings.
  * 
  * For comparisons see java API for Enum class
  * 

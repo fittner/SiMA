@@ -11,7 +11,7 @@ import pa._v30.memorymgmt.informationrepresentation.clsSearchSpaceHandler;
 import pa._v30.tools.toText;
 
 /**
- * DOCUMENT (zeilinger) - insert description 
+ *
  * 
  * @author zeilinger
  * 19.05.2010, 07:45:02
@@ -21,7 +21,7 @@ public class clsInformationRepresentationModuleContainer implements itfInspector
 	//protected clsModuleContainer moEnclosingContainer;
 	protected clsSearchSpaceHandler moSearchSpaceHandler; 
 	/**
-	 * DOCUMENT (zeilinger) - insert description 
+	 *
 	 * 
 	 * @author zeilinger
 	 * 24.05.2010, 12:21:10

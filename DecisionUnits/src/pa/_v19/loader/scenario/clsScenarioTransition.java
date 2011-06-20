@@ -10,7 +10,6 @@ import pa._v19.datatypes.clsSecondaryInformation;
 import pa._v19.datatypes.clsWordPresentation;
 
 /**
- * DOCUMENT (langr) - insert description 
  * 
  * @author langr
  * 25.10.2009, 12:56:58
@@ -24,7 +23,7 @@ public class clsScenarioTransition extends clsSecondaryInformation {
 
 	public clsScenarioTransition(clsWordPresentation poWordPresentation) {
 		super(poWordPresentation);
-		// TODO (langr) - Auto-generated constructor stub
+		
 	}
 
 }

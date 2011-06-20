@@ -650,7 +650,7 @@ public class clsSemanticInformationIspector extends Inspector implements ActionL
 	}
 	
 	/**
-	 * DOCUMENT Main method for displaying inspector data. Generates the graph layout and starts the data display...
+	 * Main method for displaying inspector data. Generates the graph layout and starts the data display...
 	 *
 	 * @author muchitsch
 	 * 25.08.2010, 14:02:45
@@ -676,7 +676,7 @@ public class clsSemanticInformationIspector extends Inspector implements ActionL
 					@Override
 				protected VertexView createVertexView(Object cell) {
 						 // Return an EllipseView for EllipseCells
-					   // TODO... if (cell instanceof EllipseCell)
+					   // ... if (cell instanceof EllipseCell)
 					   //   return new EllipseView(cell);
 					    // Else Call Superclass
 					    return new MultiLineVertexView(cell);
@@ -687,7 +687,7 @@ public class clsSemanticInformationIspector extends Inspector implements ActionL
 		//without knowing the total number of elements
 		//ArrayList<DefaultGraphCell> oCellList = new ArrayList<DefaultGraphCell>();
 		//create root node (it's a mesh-list) and add it to the registration list
-		DefaultGraphCell oParent = createDefaultGraphVertex(moModuleMemoryMemberName+" (todo)", 20, 20, 150, 40, Color.GRAY);
+		DefaultGraphCell oParent = createDefaultGraphVertex(moModuleMemoryMemberName+" (to.do)", 20, 20, 150, 40, Color.GRAY);
 		moCellList.add( oParent );
 		//get graph-cells for each object in the of the mesh
 		readInspectorDataAndGenerateGraphCells(oParent);
@@ -1013,7 +1013,7 @@ public class clsSemanticInformationIspector extends Inspector implements ActionL
 	private DefaultGraphCell generateGraphCell(DefaultGraphCell poParentCell, clsSecondaryDataStructureContainer poMemoryObject)
 	{
 		clsDataStructurePA oContainerRootDataStructure = poMemoryObject.getMoDataStructure();
-		//TODO WP werden neu erzeugt und können daher nicht zu den associations gefunden werden weil ID = -1, vielleicht kommt da mal eine änderung! CM+HZ
+		// WP werden neu erzeugt und können daher nicht zu den associations gefunden werden weil ID = -1, vielleicht kommt da mal eine änderung! CM+HZ
 		ArrayList<clsAssociation> oAssociatedDataStructures = new ArrayList(); // poMemoryObject.moAssociatedDataStructures;
 		
 		//create container root struct
@@ -1205,7 +1205,7 @@ public class clsSemanticInformationIspector extends Inspector implements ActionL
 		moCellList.add(oEdgeParent);
 		
 		//add a cell for every acossiation
-		//TODO could be any data type? now its only to string
+		// could be any data type? now its only to string
 		for(clsSecondaryDataStructure oAssociatedContent : poMemoryObject.getMoAssociatedContent())
 		{
 			DefaultGraphCell oTargetCell = generateGraphCell(oActRootCell, oAssociatedContent);
@@ -1268,7 +1268,7 @@ public class clsSemanticInformationIspector extends Inspector implements ActionL
 
 	
 	/**
-	 * DOCUMENT Override of original vertex creation.
+	 * Override of original vertex creation.
 	 * To create a default size
 	 *
 	 * @author muchitsch

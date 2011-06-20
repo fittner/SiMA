@@ -11,7 +11,6 @@ import java.awt.Color;
 import bfg.utils.enums.eTrippleState;
 
 /**
- * DOCUMENT (langr) - insert description 
  * 
  * @author langr
  * 23.10.2009, 12:32:59

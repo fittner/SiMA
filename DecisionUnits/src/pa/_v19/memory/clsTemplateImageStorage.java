@@ -17,7 +17,6 @@ import pa._v19.tools.clsPair;
 import config.clsBWProperties;
 
 /**
- * DOCUMENT (langr) - insert description 
  * 
  * @author langr
  * 24.10.2009, 12:47:19
@@ -55,7 +54,6 @@ public class clsTemplateImageStorage {
 
 
 	/**
-	 * DOCUMENT (langr) - insert description
 	 *
 	 * @author langr
 	 * 25.10.2009, 00:11:33

@@ -589,7 +589,7 @@ public abstract class clsGraphBase extends Inspector implements ActionListener {
 	public void updateInspector() {
 
 		//per hakerl ein/aus ob das tab automatisch upgedatet werden soll, wenn ja dann updateControl() ausführen
-		//FIXME (MUCHITSCH) crashes after some iterations, investigate why!
+		// (MUCHITSCH) crashes after some iterations, investigate why!
 		if(moAutoUpdate && moStepCounter > mnAutomaticUpdateInterval)
 		{
 			moStepCounter = 0;
@@ -603,7 +603,7 @@ public abstract class clsGraphBase extends Inspector implements ActionListener {
 	}
 	
 	/**
-	 * DOCUMENT Main method for displaying inspector data. Generates the graph layout and starts the data display...
+	 * Main method for displaying inspector data. Generates the graph layout and starts the data display...
 	 *
 	 * @author muchitsch
 	 * 25.08.2010, 14:02:45
@@ -629,7 +629,7 @@ public abstract class clsGraphBase extends Inspector implements ActionListener {
 					@Override
 				protected VertexView createVertexView(Object cell) {
 						 // Return an EllipseView for EllipseCells
-					   // TODO... if (cell instanceof EllipseCell)
+					   // ... if (cell instanceof EllipseCell)
 					   //   return new EllipseView(cell);
 					    // Else Call Superclass
 					    return new MultiLineVertexView(cell);
@@ -729,7 +729,7 @@ public abstract class clsGraphBase extends Inspector implements ActionListener {
 
 	
 	/**
-	 * DOCUMENT Override of original vertex creation.
+	 * Override of original vertex creation.
 	 * To create a default size
 	 *
 	 * @author muchitsch
@@ -819,10 +819,10 @@ public abstract class clsGraphBase extends Inspector implements ActionListener {
 	
 		
 	// Define EllipseCell
-	// TODO (MUCHITSCH): create circles!!! and refactor this into a seperate file
+	//  (MUCHITSCH): create circles!!! and refactor this into a seperate file
 	public class EllipseCell extends DefaultGraphCell {
 	    /**
-		 * DOCUMENT (deutsch) - insert description 
+		 * 
 		 * 
 		 * @author deutsch
 		 * 21.04.2011, 12:35:07

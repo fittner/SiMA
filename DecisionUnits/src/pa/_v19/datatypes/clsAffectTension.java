@@ -9,7 +9,6 @@ package pa._v19.datatypes;
 import pa._v19.bfg.tools.cls0to1;
 
 /**
- * DOCUMENT (langr) - insert description 
  * 
  * @author langr
  * 11.08.2009, 11:16:41
@@ -29,7 +28,6 @@ public class clsAffectTension extends clsAffect implements Cloneable {
 	}
 
 	/**
-	 * DOCUMENT (langr) - insert description 
 	 * 
 	 * @author langr
 	 * 13.10.2009, 17:30:35

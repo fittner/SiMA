@@ -19,7 +19,7 @@ import bw.exceptions.exValueNotWithinRange;
 import bw.utils.tools.clsDecayColumn;
 
 /**
- * DOCUMENT (deutsch) - insert description 
+ * 
  * 
  * @author deutsch
  * 

@@ -113,7 +113,7 @@ public class E18_GenerationOfAffectsForPerception extends clsModuleBase implemen
 	}
 	
 	/**
-	 * DOCUMENT (zeilinger) - insert description
+	 *
 	 *
 	 * @author zeilinger
 	 * 18.08.2010, 12:44:36

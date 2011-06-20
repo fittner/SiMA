@@ -9,7 +9,6 @@ package pa._v19.loader.templateimage;
 import pa._v19.datatypes.clsAffect;
 
 /**
- * DOCUMENT (langr) - insert description 
  * 
  * @author langr
  * 23.10.2009, 13:14:42

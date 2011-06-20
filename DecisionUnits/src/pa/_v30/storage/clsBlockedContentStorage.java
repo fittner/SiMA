@@ -28,7 +28,7 @@ import pa._v30.memorymgmt.datatypes.clsThingPresentation;
 import pa._v30.memorymgmt.enums.eDataType;
 
 /**
- * DOCUMENT (deutsch) - insert description 
+ *
  * 
  * @author deutsch
  * 09.03.2011, 17:12:46
@@ -108,7 +108,7 @@ public class clsBlockedContentStorage implements itfInspectorInternalState, itfI
 	 */
 	@Override
 	public void receive_D2_3(ArrayList<Object> poData) {
-		// TODO (deutsch) - Auto-generated method stub
+		
 		
 	}
 
@@ -121,7 +121,7 @@ public class clsBlockedContentStorage implements itfInspectorInternalState, itfI
 	 */
 	@Override
 	public void receive_D2_1(ArrayList<Object> poData) {
-		// TODO (deutsch) - Auto-generated method stub
+		
 		
 	}
 
@@ -134,7 +134,7 @@ public class clsBlockedContentStorage implements itfInspectorInternalState, itfI
 	 */
 	@Override
 	public void send_D2_4(ArrayList<Object> poData) {
-		// TODO (deutsch) - Auto-generated method stub
+		
 		
 	}
 
@@ -147,7 +147,7 @@ public class clsBlockedContentStorage implements itfInspectorInternalState, itfI
 	 */
 	@Override
 	public void send_D2_2(ArrayList<Object> poData) {
-		// TODO (deutsch) - Auto-generated method stub
+		
 		
 	}
 

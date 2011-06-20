@@ -50,7 +50,7 @@ import sim.portrayal.inspector.TabbedInspector;
 import statictools.clsExceptionUtils;
 
 /**
- * DOCUMENT (langr) - insert description 
+ *
  * 
  * @author langr
  * 12.08.2009, 22:50:56
@@ -99,7 +99,7 @@ public class clsInspectorTab_Modules extends Inspector implements TreeSelectionL
     }
     
 	/**
-	 * DOCUMENT (langr) - insert description
+	 *
 	 *
 	 * @author langr
 	 * 13.08.2009, 00:52:09

@@ -20,7 +20,7 @@ import pa._v30.memorymgmt.datatypes.clsSecondaryDataStructureContainer;
 import pa._v30.tools.toText;
 
 /**
- * DOCUMENT (KOHLHAUSER) - insert description 
+ *
  * 
  * @author deutsch
  * 11.08.2009, 14:49:09
@@ -35,7 +35,7 @@ public class E24_RealityCheck_1 extends clsModuleBase implements itfMinimalModel
 	private boolean mnMinimalModel;
 
 	/**
-	 * DOCUMENT (KOHLHAUSER) - insert description 
+	 *
 	 * 
 	 * @author deutsch
 	 * 03.03.2011, 16:50:46
@@ -148,7 +148,7 @@ public class E24_RealityCheck_1 extends clsModuleBase implements itfMinimalModel
 		if (!mnMinimalModel) {
 			moRealityPerception_Output = new ArrayList<clsSecondaryDataStructureContainer>(); 
 			
-			//FIXME HZ 2010.08.24 Functionality of old code is taken; however I am rather sure that it has to be
+			// HZ 2010.08.24 Functionality of old code is taken; however I am rather sure that it has to be
 			//adapted
 			for(clsSecondaryDataStructureContainer oCon : moFocusedPerception_Input){
 				moRealityPerception_Output.add(oCon); 
@@ -196,7 +196,7 @@ public class E24_RealityCheck_1 extends clsModuleBase implements itfMinimalModel
 	 */
 	@Override
 	protected void process_draft() {
-		// TODO (KOHLHAUSER) - Auto-generated method stub
+		
 		throw new java.lang.NoSuchMethodError();
 	}
 
@@ -209,7 +209,7 @@ public class E24_RealityCheck_1 extends clsModuleBase implements itfMinimalModel
 	 */
 	@Override
 	protected void process_final() {
-		// TODO (KOHLHAUSER) - Auto-generated method stub
+		
 		throw new java.lang.NoSuchMethodError();
 	}
 

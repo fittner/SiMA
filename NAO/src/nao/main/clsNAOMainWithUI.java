@@ -75,11 +75,11 @@ public class clsNAOMainWithUI extends javax.swing.JFrame implements ActionListen
 						port = values[1];
 					}
 				} catch (IOException e) {
-					// TODO Auto-generated catch block
+					
 					e.printStackTrace();
 				}
 			} catch (FileNotFoundException e) {
-				// TODO Auto-generated catch block
+				
 				e.printStackTrace();
 			}
 		}
@@ -92,7 +92,7 @@ public class clsNAOMainWithUI extends javax.swing.JFrame implements ActionListen
 			writer.write( url+":"+port );
 			writer.close();
    	    } catch (IOException e) {
-			// TODO Auto-generated catch block
+			
 			e.printStackTrace();
 		}
 

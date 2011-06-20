@@ -29,7 +29,7 @@ import pa._v30.memorymgmt.enums.eDataType;
 import config.clsBWProperties;
 
 /**
- * DOCUMENT (deutsch) - insert description 
+ *
  * 
  * @author deutsch
  * 11.08.2009, 12:19:04
@@ -51,7 +51,7 @@ public class E03_GenerationOfSelfPreservationDrives extends clsModuleBaseKB impl
 	private HashMap<String, Double> moHomeostaisImpactFactors;
 	
 	/**
-	 * DOCUMENT (deutsch) - insert description 
+	 *
 	 * 
 	 * @author deutsch
 	 * 03.03.2011, 15:56:22
@@ -149,7 +149,7 @@ public class E03_GenerationOfSelfPreservationDrives extends clsModuleBaseKB impl
 	private ArrayList<String> getDriveSources(String poContext, clsDriveMesh poDriveMesh) {
 		ArrayList<String> oRes = new ArrayList<String>();
 		
-		//TODO (ZEILINGER): make the damn search work!!!
+		// (ZEILINGER): make the damn search work!!!
 		ArrayList<ArrayList<clsPair<Double,clsDataStructureContainer>>> oSearchResult = 
 			new ArrayList<ArrayList<clsPair<Double,clsDataStructureContainer>>>(); 
 		search(eDataType.UNDEFINED, new ArrayList<clsDriveMesh>(Arrays.asList(poDriveMesh)), oSearchResult ); 
@@ -337,7 +337,7 @@ public class E03_GenerationOfSelfPreservationDrives extends clsModuleBaseKB impl
 	 */
 	@Override
 	protected void process_draft() {
-		// TODO (deutsch) - Auto-generated method stub
+		
 		throw new java.lang.NoSuchMethodError();
 	}
 
@@ -350,7 +350,7 @@ public class E03_GenerationOfSelfPreservationDrives extends clsModuleBaseKB impl
 	 */
 	@Override
 	protected void process_final() {
-		// TODO (deutsch) - Auto-generated method stub
+		
 		throw new java.lang.NoSuchMethodError();
 	}
 

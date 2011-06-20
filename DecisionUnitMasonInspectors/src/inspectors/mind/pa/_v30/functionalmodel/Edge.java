@@ -9,7 +9,7 @@ package inspectors.mind.pa._v30.functionalmodel;
 import org.jgraph.graph.DefaultEdge;
 
 /**
- * DOCUMENT (deutsch) - insert description 
+ * 
  * 
  * @author deutsch
  * 19.04.2011, 20:31:03
@@ -18,7 +18,7 @@ import org.jgraph.graph.DefaultEdge;
 public class Edge extends DefaultEdge implements itfMouseClick {
 
 	/**
-	 * DOCUMENT (deutsch) - insert description 
+	 * 
 	 * 
 	 * @author deutsch
 	 * 19.04.2011, 20:31:50

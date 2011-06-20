@@ -27,7 +27,7 @@ import pa._v19.memorymgmt.datatypes.clsSecondaryDataStructureContainer;
 import config.clsBWProperties;
 
 /**
- * DOCUMENT (langr) - insert description 
+ *
  * 
  * @author langr
  * 11.08.2009, 15:37:27

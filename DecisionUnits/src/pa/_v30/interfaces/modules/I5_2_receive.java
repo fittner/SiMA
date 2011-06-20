@@ -12,7 +12,7 @@ import java.util.ArrayList;
 import pa._v30.memorymgmt.datatypes.clsAssociationDriveMesh;
 
 /**
- * DOCUMENT (deutsch) - insert description 
+ *
  * 
  * @author deutsch
  * 11.08.2009, 14:37:14

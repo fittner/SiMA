@@ -32,7 +32,7 @@ import sim.portrayal.LocationWrapper;
 import sim.portrayal.inspector.TabbedInspector;
 
 /**
- * DOCUMENT (langr) - insert description 
+ *
  * 
  * @author langr
  * 12.08.2009, 22:50:56
@@ -93,7 +93,7 @@ public class clsPsychoAnalysisInspector extends Inspector implements TreeSelecti
     }
     
 	/**
-	 * DOCUMENT (langr) - insert description
+	 *
 	 *
 	 * @author langr
 	 * 13.08.2009, 00:52:09

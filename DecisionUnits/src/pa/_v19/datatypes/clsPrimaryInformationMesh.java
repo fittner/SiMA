@@ -10,7 +10,6 @@ import java.util.ArrayList;
 
 
 /**
- * DOCUMENT (deutsch) - insert description 
  * 
  * @author deutsch
  * 09.09.2009, 16:50:56

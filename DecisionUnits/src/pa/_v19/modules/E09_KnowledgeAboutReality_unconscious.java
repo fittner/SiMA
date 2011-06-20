@@ -167,7 +167,7 @@ public class E09_KnowledgeAboutReality_unconscious extends clsModuleBase impleme
 
 
 	/**
-	 * DOCUMENT (zeilinger) - insert description
+	 *
 	 *
 	 * @author zeilinger
 	 * 19.03.2011, 08:36:59

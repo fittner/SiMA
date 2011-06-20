@@ -11,7 +11,7 @@ import java.util.HashMap;
 
 
 /**
- * DOCUMENT (deutsch) - insert description 
+ *
  * 
  * @author deutsch
  * 11.08.2009, 12:19:57

@@ -15,7 +15,7 @@ import statictools.clsGetARSPath;
 import statictools.clsSimState;
 
 /**
- * DOCUMENT (deutsch) - insert description 
+ *
  * 
  * @author deutsch
  * 24.04.2011, 01:18:19

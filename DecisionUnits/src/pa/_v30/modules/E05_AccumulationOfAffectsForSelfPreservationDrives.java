@@ -25,7 +25,7 @@ import pa._v30.memorymgmt.datatypes.clsDriveMesh;
 import config.clsBWProperties;
 
 /**
- * DOCUMENT (deutsch) - insert description 
+ *
  * 
  * @author deutsch
  * 11.08.2009, 13:58:45
@@ -42,7 +42,7 @@ public class E05_AccumulationOfAffectsForSelfPreservationDrives extends clsModul
 	private ArrayList<clsDriveMesh> moDriveList; 
 	private HashMap<String, Double> moSplitterFactor;	
 	/**
-	 * DOCUMENT (deutsch) - insert description 
+	 *
 	 * 
 	 * @author deutsch
 	 * 03.03.2011, 15:58:36
@@ -220,7 +220,7 @@ public class E05_AccumulationOfAffectsForSelfPreservationDrives extends clsModul
 	 */
 	@Override
 	protected void process_draft() {
-		// TODO (deutsch) - Auto-generated method stub
+		
 		throw new java.lang.NoSuchMethodError();
 	}
 
@@ -233,7 +233,7 @@ public class E05_AccumulationOfAffectsForSelfPreservationDrives extends clsModul
 	 */
 	@Override
 	protected void process_final() {
-		// TODO (deutsch) - Auto-generated method stub
+		
 		throw new java.lang.NoSuchMethodError();
 	}
 

@@ -142,7 +142,7 @@ public class E22_SuperEgo_preconscious extends clsModuleBase implements I1_7_rec
 	}
 
 	/**
-	 * DOCUMENT (zeilinger) - insert description
+	 *
 	 *
 	 * @author zeilinger
 	 * 24.09.2010, 22:29:26
@@ -153,11 +153,11 @@ public class E22_SuperEgo_preconscious extends clsModuleBase implements I1_7_rec
 			ArrayList<clsAct> oActList = getMatchingAct(((clsWordPresentation)oCon.getMoDataStructure()).getMoContent()); 
 			moRuleList.addAll(oActList); 
 		}
-		//TODO - do the same for Homeostatic State
+		// - do the same for Homeostatic State
 	}
 	
 	/**
-	 * DOCUMENT (zeilinger) - insert description
+	 *
 	 *
 	 * @author zeilinger
 	 * 03.09.2010, 18:56:20
@@ -173,7 +173,7 @@ public class E22_SuperEgo_preconscious extends clsModuleBase implements I1_7_rec
 	}
 	
 	/**
-	 * DOCUMENT (zeilinger) - insert description
+	 *
 	 *
 	 * @author zeilinger
 	 * 29.08.2010, 12:05:33
@@ -194,7 +194,7 @@ public class E22_SuperEgo_preconscious extends clsModuleBase implements I1_7_rec
 	}
 	
 	/**
-	 * DOCUMENT (zeilinger) - insert description
+	 *
 	 *
 	 * @author zeilinger
 	 * 01.09.2010, 16:53:58
@@ -210,7 +210,7 @@ public class E22_SuperEgo_preconscious extends clsModuleBase implements I1_7_rec
 	}
 	
 	/**
-	 * DOCUMENT (zeilinger) - insert description
+	 *
 	 *
 	 * @author zeilinger
 	 * 28.08.2010, 11:50:46
@@ -233,7 +233,7 @@ public class E22_SuperEgo_preconscious extends clsModuleBase implements I1_7_rec
 		
 		//moRetrieveResult4Inspectors = (ArrayList<clsPair<Double, clsDataStructureContainer>>) oResult.entrySet().iterator().next(); // doing this for showing the results in the inspectors, may change later
 		
-		//TODO dirty hack by clemens, for testing the search result display. change me later!
+		// dirty hack by clemens, for testing the search result display. change me later!
 		try
 		{
 			for(ArrayList<clsPair<Double,clsDataStructureContainer>> oEntry : oSearchResult){
@@ -247,7 +247,7 @@ public class E22_SuperEgo_preconscious extends clsModuleBase implements I1_7_rec
 	}
 	
 	/**
-	 * DOCUMENT (zeilinger) - insert description
+	 *
 	 *
 	 * @author zeilinger
 	 * 30.08.2010, 15:16:31
@@ -265,7 +265,7 @@ public class E22_SuperEgo_preconscious extends clsModuleBase implements I1_7_rec
 			for(clsPair<Double, clsDataStructureContainer> oPair : oEntry){
 				clsAct oAct = (clsAct)oPair.b.getMoDataStructure(); 
 				
-				//FIXME - again, there has to be a different evaluation of the current Super-Ego Rules
+				// - again, there has to be a different evaluation of the current Super-Ego Rules
 				if(oAct.getMoContent().contains("UNPLEASURE")){
 					oActs.add((clsAct)oPair.b.getMoDataStructure());
 				}
@@ -276,7 +276,7 @@ public class E22_SuperEgo_preconscious extends clsModuleBase implements I1_7_rec
 	}
 	
 //	/**
-//	 * DOCUMENT (zeilinger) - insert description
+//	 *
 //	 *
 //	 * @author zeilinger
 //	 * 01.09.2010, 10:56:57
@@ -290,7 +290,7 @@ public class E22_SuperEgo_preconscious extends clsModuleBase implements I1_7_rec
 //			ArrayList<clsAct> oFullMatch = new ArrayList<clsAct>(); 
 //			String [] oPreConditionUnknown = poAct.moContent.substring(poAct.moContent.indexOf("|", poAct.moContent.indexOf(eActState.PRECONDITION.name())) + 1 , poAct.moContent.indexOf(eActState.ACTION.name())).split("[|]");
 //			
-//			//FIXME - SHould only be done by the information representation
+//			// - SHould only be done by the information representation
 //			for(clsAct oEntry : poTempActs){
 //					double nMS = oEntry.compareTo(poAct); 
 //					
@@ -354,7 +354,7 @@ public class E22_SuperEgo_preconscious extends clsModuleBase implements I1_7_rec
 
 
 	/**
-	 * DOCUMENT (zeilinger) - insert description
+	 *
 	 *
 	 * @author zeilinger
 	 * 19.03.2011, 08:36:59

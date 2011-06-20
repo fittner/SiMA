@@ -10,7 +10,6 @@ import pa._v19.interfaces.itfSecondaryProcessComparable;
 import pa._v19.interfaces.itfSecondaryProcessComparableWP;
 
 /**
- * DOCUMENT (langr) - insert description 
  * 
  * @author langr
  * 11.08.2009, 11:48:35
@@ -32,7 +31,6 @@ public class clsSecondaryInformation extends clsPrimaryInformation implements it
 	}
 	
 	/**
-	 * DOCUMENT (langr) - insert description 
 	 * 
 	 * @author langr
 	 * 24.10.2009, 23:49:11
@@ -54,7 +52,7 @@ public class clsSecondaryInformation extends clsPrimaryInformation implements it
 	 */
 	@Override
 	public int compareTo(clsSecondaryInformation poSecondaryInformation) {
-		// TODO (langr) - Auto-generated method stub
+		
 		return 0;
 	}
 
@@ -67,7 +65,7 @@ public class clsSecondaryInformation extends clsPrimaryInformation implements it
 	 */
 	@Override
 	public int compareTo(clsWordPresentation poWordPresentation) {
-		// TODO (langr) - Auto-generated method stub
+		
 		return 0;
 	}
 

@@ -19,7 +19,7 @@ import sim.portrayal.LocationWrapper;
 import sim.portrayal.inspector.TabbedInspector;
 
 /**
- * DOCUMENT (langr) - insert description 
+ *
  * 
  * @author langr
  * 13.08.2009, 01:36:00
@@ -71,7 +71,7 @@ public class clsInspectorMappingPA {
 			oRetVal.addInspector( new clsPrimaryInformationPairInspector(poSuperInspector, poWrapper, poState, moPA.moG03Ego.moG08PsychicMediator.moG09PrimaryProcessor.moG13PrimaryKnowledgeUtilizer.moE16ManagementOfMemoryTraces, "moPerceptPlusRepressed_Input_old" ), "Input: TP + Attached Repressed TP");
 		}
 		else if(poModuleName.equals("E17FusionOfExternalPerceptionAndMemoryTraces")) {
-			// FIXME HZ
+			//  HZ
 			//oRetVal.addInspector( new clsTPMeshListInspector(poSuperInspector, poWrapper, poState, moPA.moC03Ego.moC07EnvironmentalInterfaceFunctions.moE14PreliminaryExternalPerception, "moEnvironmentalTP" ), "Generated Thing Presentations");
 		}
 		else if(poModuleName.equals("E18GenerationOfAffectsForPerception")) {
@@ -155,10 +155,10 @@ public class clsInspectorMappingPA {
 			oRetVal.addInspector( new clsSemanticInformationIspector(poSuperInspector, poWrapper, poState, moPA.moG04SuperEgo.moE22SuperEgoPreconscious, "moRetrieveResult4Inspectors"), "E22 - matchretrieval");
 		}
 		else if(poModuleName.equals("E26DecisionMakingMEM")) {
-			//TODO oRetVal.addInspector( new clsSemanticInformationIspector(poSuperInspector, poWrapper, poState, moPA.moG03Ego.moG08PsychicMediator.moG11SecondaryProcessor.moG15Deliberation.moE26DecisionMaking, "TODO"), "E26 - recieve");
+			// oRetVal.addInspector( new clsSemanticInformationIspector(poSuperInspector, poWrapper, poState, moPA.moG03Ego.moG08PsychicMediator.moG11SecondaryProcessor.moG15Deliberation.moE26DecisionMaking, "TO.DO"), "E26 - recieve");
 		}
 		else if(poModuleName.equals("E27GenerationOfImaginaryActionsMEM")) {
-			//oRetVal.addInspector( new clsSemanticInformationIspector(poSuperInspector, poWrapper, poState, moPA.moG03Ego.moG08PsychicMediator.moG11SecondaryProcessor.moG15Deliberation.moE27GenerationOfImaginaryActions., "TODO"), "E27 - recieve");
+			//oRetVal.addInspector( new clsSemanticInformationIspector(poSuperInspector, poWrapper, poState, moPA.moG03Ego.moG08PsychicMediator.moG11SecondaryProcessor.moG15Deliberation.moE27GenerationOfImaginaryActions., "TO.DO"), "E27 - recieve");
 		}
 		else if(poModuleName.equals("E28KnowledgeBase_StoredScenariosMEM")) {
 			oRetVal.addInspector( new clsSemanticInformationIspector(poSuperInspector, poWrapper, poState, moPA.moG03Ego.moG08PsychicMediator.moG11SecondaryProcessor.moG16SecondaryKnowledgeUtilizer.moE28KnowledgeBase_StoredScenarios, "getGoal_Input"), "E28 - recieve");

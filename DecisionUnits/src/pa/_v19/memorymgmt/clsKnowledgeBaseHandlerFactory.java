@@ -11,7 +11,6 @@ import pa._v19.memorymgmt.informationrepresentation.clsInformationRepresentation
 import config.clsBWProperties;
 
 /**
- * DOCUMENT (zeilinger) - insert description 
  * 
  * @author zeilinger
  * 30.05.2010, 12:44:07
@@ -30,12 +29,11 @@ public class clsKnowledgeBaseHandlerFactory {
 	public static clsKnowledgeBaseHandler createInformationRepresentationManagement(
 			String poInformationRepresentationManagementType,
 			String poPrefix, clsBWProperties poProp)throws IllegalArgumentException {
-		//TODO HZ intitialize the informationrepresentation in G00
+		// HZ intitialize the informationrepresentation in G00
 		return createInformationRepresentationManagement_static(poInformationRepresentationManagementType, poPrefix, poProp);
 	}
 
 	/**
-	 * DOCUMENT (zeilinger) - insert description
 	 *
 	 * @author zeilinger
 	 * 30.05.2010, 13:16:58
@@ -53,7 +51,7 @@ public class clsKnowledgeBaseHandlerFactory {
 		
 		switch(eInformationRepresentationManagementType.valueOf(poInformationRepresentationManagementType)){
 			case ARSI09_MGMT:
-				//TODO adapt ARSI09 to the actual InformationReprsentation Management 
+				// adapt ARSI09 to the actual InformationReprsentation Management 
 				break;
 			case ARSI10_MGMT:
 				poProp.putAll(clsInformationRepresentationManagement.getDefaultProperties(poPrefix) );
@@ -68,7 +66,7 @@ public class clsKnowledgeBaseHandlerFactory {
 	
 	public static clsBWProperties getDefaultProperties(eInformationRepresentationManagementType pnInformationRepresentationManagementType, String poPrefix) throws java.lang.IllegalArgumentException {
 		clsBWProperties oProps = null;
-		//TODO (zeilinger) set default properties
+		// (zeilinger) set default properties
 		return oProps; 
 	}
 }

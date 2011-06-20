@@ -9,7 +9,6 @@ package pa._v19.memorymgmt.datatypes;
 import java.util.ArrayList;
 
 /**
- * DOCUMENT (zeilinger) - insert description 
  * 
  * @author zeilinger
  * 24.05.2010, 10:38:31

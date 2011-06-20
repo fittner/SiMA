@@ -24,7 +24,7 @@ import pa._v30.memorymgmt.datatypes.clsDriveMesh;
 import config.clsBWProperties;
 
 /**
- * DOCUMENT (deutsch) - insert description 
+ *
  * 
  * @author deutsch
  * 03.03.2011, 15:21:18
@@ -37,7 +37,7 @@ public class E38_PrimalRepressionForSelfPreservationDrives extends	clsModuleBase
 	private ArrayList<clsDriveMesh> moDriveList_IN;
 	private ArrayList< clsTripple<String, String, ArrayList<Double> >> moPrimalRepressionMemory;
 	/**
-	 * DOCUMENT (deutsch) - insert description 
+	 *
 	 * 
 	 * @author deutsch
 	 * 03.03.2011, 17:44:20
@@ -141,7 +141,7 @@ public class E38_PrimalRepressionForSelfPreservationDrives extends	clsModuleBase
 	 */
 	@Override
 	protected void process_draft() {
-		// TODO (deutsch) - Auto-generated method stub
+		
 
 	}
 
@@ -154,7 +154,7 @@ public class E38_PrimalRepressionForSelfPreservationDrives extends	clsModuleBase
 	 */
 	@Override
 	protected void process_final() {
-		// TODO (deutsch) - Auto-generated method stub
+		
 
 	}
 

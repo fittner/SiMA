@@ -13,7 +13,7 @@ import pa._v30.memorymgmt.datatypes.clsDataStructureContainer;
 import pa._v30.memorymgmt.datatypes.clsDataStructurePA;
 
 /**
- * DOCUMENT (zeilinger) - insert description 
+ *
  * 
  * @author zeilinger
  * 30.05.2010, 12:47:34

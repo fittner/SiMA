@@ -21,7 +21,7 @@ import pa._v19.datatypes.clsThingPresentationSingle;
 import pa._v19.loader.clsContextLoader;
 
 /**
- * DOCUMENT (zeilinger) - insert description 
+ * 
  * 
  * @author zeilinger
  * 08.10.2009, 10:18:13

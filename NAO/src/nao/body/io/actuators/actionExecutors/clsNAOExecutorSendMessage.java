@@ -67,7 +67,7 @@ public class clsNAOExecutorSendMessage extends clsActionExecutor{
 	    	System.out.println("EXCMD: say:'" + oCommand.getMessage() + "'");
 			
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
+			
 			e.printStackTrace();
 		}
 		

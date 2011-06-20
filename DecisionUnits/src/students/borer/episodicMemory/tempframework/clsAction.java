@@ -64,7 +64,7 @@ public class clsAction
 //
 //    oResult.meWaitUntilAccomplished = enumTypeTrippleState.getInteger( clsXMLAbstractImageReader.getTagStringValue(poActionNode, "WaitUntilAccomplished") );
 //
-//    //TODO: map actionId with action
+//    //: map actionId with action
 //
 //    return oResult;
 //  }

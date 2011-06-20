@@ -17,7 +17,6 @@ import pa._v19.loader.scenario.clsScenarioLoader;
 import pa._v19.tools.clsPair;
 
 /**
- * DOCUMENT (langr) - insert description 
  * 
  * @author langr
  * 25.10.2009, 13:26:03
@@ -54,7 +53,6 @@ public class clsTemplateScenarioStorage {
 
 
 	/**
-	 * DOCUMENT (langr) - insert description
 	 *
 	 * @author langr
 	 * 25.10.2009, 15:13:40

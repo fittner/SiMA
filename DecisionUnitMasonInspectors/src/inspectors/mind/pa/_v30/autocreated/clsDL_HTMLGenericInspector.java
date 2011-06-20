@@ -9,7 +9,7 @@ package inspectors.mind.pa._v30.autocreated;
 import pa._v30.logger.clsDLEntry_Abstract;
 
 /**
- * DOCUMENT (deutsch) - insert description 
+ * 
  * 
  * @author deutsch
  * 23.04.2011, 17:17:01
@@ -19,7 +19,7 @@ import pa._v30.logger.clsDLEntry_Abstract;
 public class clsDL_HTMLGenericInspector extends cls_GenericTEXTInspector {
 
 	/**
-	 * DOCUMENT (deutsch) - insert description 
+	 * 
 	 * 
 	 * @author deutsch
 	 * 23.04.2011, 17:17:08
@@ -27,7 +27,7 @@ public class clsDL_HTMLGenericInspector extends cls_GenericTEXTInspector {
 	private static final long serialVersionUID = -6031223024023472087L;
 
 	/**
-	 * DOCUMENT (deutsch) - insert description 
+	 * 
 	 * 
 	 * @author deutsch
 	 * 23.04.2011, 17:17:04

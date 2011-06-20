@@ -71,7 +71,7 @@ class clsLeafDrive extends clsRuleTreeLeaf
       poCompareResult[1]++;
     }
     boolean nResult = false;
-    //TODO langr: no drives imported 
+    // langr: no drives imported 
 //    if( compare( poImage.moDriveList ) )
 //    {
 //      //Engine.log.println( "Match with leaf: " + this.toString() );
@@ -98,7 +98,7 @@ class clsLeafDrive extends clsRuleTreeLeaf
   */
  @Override
  public boolean compare(clsDataBase poData) {
- 	// TODO (langr) - Auto-generated method stub
+ 	
  	return false;
  }
   

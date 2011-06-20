@@ -15,7 +15,7 @@ import org.junit.Test;
 
 
 /**
- * DOCUMENT (langr) - insert description 
+ * 
  * 
  * @author langr
  * 28.09.2009, 17:54:38

@@ -7,7 +7,6 @@
 package pa._v19.memory;
 
 /**
- * DOCUMENT (langr) - insert description 
  * 
  * @author langr
  * 17.10.2009, 10:33:31

@@ -14,7 +14,7 @@ import org.jfree.data.xy.XYSeriesCollection;
 import pa._v30.interfaces.itfInspectorGenericTimeChart;
 
 /**
- * DOCUMENT (deutsch) - insert description 
+ * 
  * 
  * @author deutsch
  * 15.04.2011, 19:01:42
@@ -23,7 +23,7 @@ import pa._v30.interfaces.itfInspectorGenericTimeChart;
 public class cls_GenericTimeChartInspector extends cls_AbstractChartInspector {
 
 	/**
-	 * DOCUMENT (deutsch) - insert description 
+	 * 
 	 * 
 	 * @author deutsch
 	 * 15.04.2011, 19:01:50
@@ -35,7 +35,7 @@ public class cls_GenericTimeChartInspector extends cls_AbstractChartInspector {
 	protected XYSeries moLowerLimit;
 	
 	/**
-	 * DOCUMENT (deutsch) - insert description 
+	 * 
 	 * 
 	 * @author deutsch
 	 * 15.04.2011, 19:01:47

@@ -22,7 +22,7 @@ import pa._v30.tools.toText;
 import pa._v30.enums.eSymbolExtType;
 
 /**
- * DOCUMENT (muchitsch) - insert description 
+ * 
  * 
  * @author deutsch
  * 11.08.2009, 14:24:29
@@ -34,7 +34,7 @@ public class E13_NeuroSymbolizationBody extends clsModuleBase implements I2_3_re
 	private HashMap<eSensorExtType, clsSensorExtern> moBodyData;
 	private HashMap<eSymbolExtType, itfSymbol> moSymbolData;	
 	/**
-	 * DOCUMENT (muchitsch) - insert description 
+	 * 
 	 * 
 	 * @author deutsch
 	 * 03.03.2011, 16:14:24
@@ -165,7 +165,7 @@ public class E13_NeuroSymbolizationBody extends clsModuleBase implements I2_3_re
 	 */
 	@Override
 	protected void process_draft() {
-		// TODO (muchitsch) - Auto-generated method stub
+		
 		throw new java.lang.NoSuchMethodError();
 	}
 
@@ -178,7 +178,7 @@ public class E13_NeuroSymbolizationBody extends clsModuleBase implements I2_3_re
 	 */
 	@Override
 	protected void process_final() {
-		// TODO (muchitsch) - Auto-generated method stub
+		
 		throw new java.lang.NoSuchMethodError();
 	}
 

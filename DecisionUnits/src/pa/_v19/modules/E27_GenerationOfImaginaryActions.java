@@ -165,7 +165,7 @@ public class E27_GenerationOfImaginaryActions extends clsModuleBase implements I
 	}
 	
 	/**
-	 * DOCUMENT (zeilinger) - insert description
+	 *
 	 *
 	 * @author zeilinger
 	 * 02.09.2010, 19:46:45
@@ -189,7 +189,7 @@ public class E27_GenerationOfImaginaryActions extends clsModuleBase implements I
 	}
 
 	/**
-	 * DOCUMENT (zeilinger) - insert description
+	 *
 	 *
 	 * @author zeilinger
 	 * 03.09.2010, 17:19:37

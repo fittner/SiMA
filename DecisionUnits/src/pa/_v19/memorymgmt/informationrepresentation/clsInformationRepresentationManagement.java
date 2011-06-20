@@ -22,7 +22,7 @@ import pa._v19.memorymgmt.informationrepresentation.modules.M01_InformationRepre
 import pa._v19.tools.clsPair;
 
 /**
- * DOCUMENT (zeilinger) - insert description 
+ *
  * 
  * @author zeilinger
  * 30.05.2010, 11:33:35
@@ -37,7 +37,7 @@ public class clsInformationRepresentationManagement extends clsKnowledgeBaseHand
 	public clsSearchSpaceHandler moSearchSpaceHandler; 
 	public ArrayList<ArrayList<clsPair<Double,clsDataStructureContainer>>> moSearchResult;
 	/**
-	 * DOCUMENT (zeilinger) - insert description 
+	 *
 	 * 
 	 * @author zeilinger
 	 * 30.05.2010, 11:34:00
@@ -56,7 +56,7 @@ public class clsInformationRepresentationManagement extends clsKnowledgeBaseHand
 	}
 	
 	/**
-	 * DOCUMENT (zeilinger) - insert description
+	 *
 	 *
 	 * @author zeilinger
 	 * 29.05.2010, 16:40:35
@@ -67,7 +67,7 @@ public class clsInformationRepresentationManagement extends clsKnowledgeBaseHand
 	}
 	
 	/**
-	 * DOCUMENT (zeilinger) - insert description
+	 *
 	 *
 	 * @author zeilinger
 	 * 30.05.2010, 16:59:09
@@ -92,7 +92,7 @@ public class clsInformationRepresentationManagement extends clsKnowledgeBaseHand
 	    	oProp.putAll(clsKnowledgeBaseHandler.getDefaultProperties(pre) );
 	    	oProp.setProperty(pre+P_DATABASE_SOURCE, eDataSources.MAINMEMORY.toString());
 	    	oProp.setProperty(pre+P_SEARCH_METHOD, eSearchMethod.LISTSEARCH.toString());
-	    	//TODO HZ: Make the project file-path configurable
+	    	// HZ: Make the project file-path configurable
 	    	oProp.setProperty(pre+P_SOURCE_NAME, "/DecisionUnits/config/_v19/bw/pa.memory/AGENT_BASIC/BASIC.pprj");
 	    	return oProp;
 	 }
@@ -125,14 +125,14 @@ public class clsInformationRepresentationManagement extends clsKnowledgeBaseHand
 			try {
 				return (ArrayList<ArrayList<clsPair<Double,clsDataStructureContainer>>>) this.cloneResult(moSearchResult);
 			} catch (CloneNotSupportedException e) {
-				// TODO (zeilinger) - Auto-generated catch block
+				
 				e.printStackTrace();
 			}
 			throw new NoSuchElementException("No return value defined"); 
 		}
 	
 	/**
-	 * DOCUMENT (zeilinger) - insert description
+	 *
 	 *
 	 * @author zeilinger
 	 * 24.05.2010, 16:51:15
@@ -160,7 +160,7 @@ public class clsInformationRepresentationManagement extends clsKnowledgeBaseHand
 	
 
 	/**
-	 * DOCUMENT (zeilinger) - insert description
+	 *
 	 *
 	 * @author zeilinger
 	 * 20.07.2010, 16:58:22

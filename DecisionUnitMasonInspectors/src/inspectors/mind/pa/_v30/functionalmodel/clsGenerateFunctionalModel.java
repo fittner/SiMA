@@ -16,7 +16,7 @@ import pa._v30.modules.clsModuleBase;
 import pa._v30.modules.clsPsychicApparatus;
 
 /**
- * DOCUMENT (deutsch) - insert description 
+ * 
  * 
  * @author deutsch
  * 22.10.2009, 15:08:13

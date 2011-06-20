@@ -54,7 +54,7 @@ public class clsNAOBody extends clsBaseBody implements  itfGetBrain {
 			try {
 				communicate();
 			} catch (IOException e) {
-				// TODO Auto-generated catch block
+				
 				e.printStackTrace();
 			}
 
@@ -89,7 +89,7 @@ public class clsNAOBody extends clsBaseBody implements  itfGetBrain {
 		try {
 			communicate();
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
+			
 			e.printStackTrace();
 			clsSingletonNAOState.setKeeprunning(false);
 		}

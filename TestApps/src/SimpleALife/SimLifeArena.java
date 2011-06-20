@@ -61,7 +61,7 @@ public class SimLifeArena extends SimState
 	    {
 	    	if (xmlFile.exists())
 	    	{
-	    		//FIXME: commmented by heimo & roland because of error
+	    		//: commmented by heimo & roland because of error
 	    		//surfaceGrid = clsSurfaceHandler.getInstance().createWorld(xmlFile);
 	    	}
 	    	else
@@ -76,7 +76,7 @@ public class SimLifeArena extends SimState
 	    	surfaceGrid = clsSurfaceHandler.getInstance().createWorld(arenaWidth, arenaHeight);	//mine
 	    }
 
-	    // TODO: make subfunctions for the register stuff to make it possible to create one from outside
+	    // : make subfunctions for the register stuff to make it possible to create one from outside
 		// Arena Walls
 		// Horiz.
 		pos = new Double2D(SimLifeArena.arenaWidth/2, SimLifeArena.arenaWallThickness/2);
@@ -204,7 +204,7 @@ public class SimLifeArena extends SimState
 		schedule.scheduleRepeating(herR);
 
 		// set some randomly
-		// TODO: check if the random set places are free
+		// : check if the random set places are free
 //		for (int i = 0; i < 6; i++)
 //		{
 //			double x = Math.max(Math.min(random.nextDouble() * arenaWidth, arenaWidth*0.9), arenaWidth*0.1);
@@ -282,7 +282,7 @@ public class SimLifeArena extends SimState
     		fieldEnvironment.allObjects.remove(herR);
 
     		// if one dies, create a new one
-    		// TODO: schedule isn't possible outside start() ?? if it is so we can't born animals in runtime ??
+    		// : schedule isn't possible outside start() ?? if it is so we can't born animals in runtime ??
 //    		herR = new HerR(pos, new Double2D(0, 0));
 //    		fieldEnvironment.setObjectLocation(herR, new sim.util.Double2D(pos.x, pos.y));
 //    		objPE.register(herR);

@@ -14,7 +14,6 @@ import pa._v19.tools.clsPair;
 import pa._v19.tools.clsTripple;
 
 /**
- * DOCUMENT (zeilinger) - insert description 
  * 
  * @author zeilinger
  * 23.05.2010, 21:40:06
@@ -27,7 +26,6 @@ public abstract class clsDataStructurePA implements Cloneable, itfComparable{
 	protected String moContentType;
 
 	/**
-	 * DOCUMENT (zeilinger) - insert description 
 	 * 
 	 * @author zeilinger
 	 * 22.06.2010, 15:50:02
@@ -40,7 +38,6 @@ public abstract class clsDataStructurePA implements Cloneable, itfComparable{
 	}
 		
 //	/**
-//	 * DOCUMENT (zeilinger) - insert description
 //	 *
 //	 * @author zeilinger
 //	 * 15.07.2010, 08:56:36
@@ -141,7 +138,6 @@ public abstract class clsDataStructurePA implements Cloneable, itfComparable{
 	}
 	
 	/**
-	 * DOCUMENT (zeilinger) - insert description
 	 *
 	 * @author zeilinger
 	 * 15.07.2010, 08:56:36
@@ -192,7 +188,6 @@ public abstract class clsDataStructurePA implements Cloneable, itfComparable{
 	}
 
 	/**
-	 * DOCUMENT (zeilinger) - insert description
 	 *
 	 * @author zeilinger
 	 * 20.07.2010, 16:02:43

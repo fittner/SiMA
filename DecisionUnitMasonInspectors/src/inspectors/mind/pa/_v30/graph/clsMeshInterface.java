@@ -10,7 +10,7 @@ import pa._v30.interfaces.eInterfaces;
 import pa._v30.modules.clsPsychicApparatus;
 
 /**
- * DOCUMENT (deutsch) - insert description 
+ * 
  * 
  * @author deutsch
  * 21.04.2011, 12:53:46
@@ -30,7 +30,7 @@ public class clsMeshInterface extends clsMeshBase {
 	}
 	
 	/**
-	 * DOCUMENT (deutsch) - insert description 
+	 * 
 	 * 
 	 * @author deutsch
 	 * 21.04.2011, 12:53:50

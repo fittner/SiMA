@@ -9,7 +9,6 @@ package pa._v19.datatypes;
 import pa._v19.enums.eDriveType;
 
 /**
- * DOCUMENT (langr) - insert description 
  * 
  * @author langr
  * 22.10.2009, 17:19:57

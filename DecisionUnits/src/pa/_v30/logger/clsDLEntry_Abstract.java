@@ -14,7 +14,7 @@ import pa._v30.tools.clsPair;
 import statictools.clsSimState;
 
 /**
- * DOCUMENT (deutsch) - insert description 
+ *
  * 
  * @author deutsch
  * 23.04.2011, 15:02:01

@@ -9,7 +9,7 @@ package pa._v19.tools;
 import java.lang.reflect.Method;
 
 /**
- * DOCUMENT (deutsch) - insert description 
+ *
  * 
  * @author deutsch
  * 07.10.2009, 18:52:03

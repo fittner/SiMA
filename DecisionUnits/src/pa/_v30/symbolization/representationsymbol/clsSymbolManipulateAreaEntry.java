@@ -14,7 +14,7 @@ import du.enums.eDistance;
 
 
 /**
- * DOCUMENT (zeilinger) - insert description 
+ *
  * 
  * @author zeilinger
  * 22.09.2009, 13:09:00

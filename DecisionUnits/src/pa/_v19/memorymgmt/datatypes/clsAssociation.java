@@ -12,7 +12,6 @@ import pa._v19.memorymgmt.enums.eDataType;
 import pa._v19.tools.clsTripple;
 
 /**
- * DOCUMENT (zeilinger) - insert description 
  * 
  * @author zeilinger
  * 23.05.2010, 21:44:04
@@ -107,7 +106,6 @@ public abstract class clsAssociation extends clsDataStructurePA{
 	}
 
 	/**
-	 * DOCUMENT (zeilinger) - insert description 
 	 * 
 	 * @author zeilinger
 	 * 24.05.2010, 15:50:41
@@ -123,7 +121,7 @@ public abstract class clsAssociation extends clsDataStructurePA{
 	
 	//Abstract method that has to be implemented by every Association object - however
 	//the recall of the leaf element is different for every Association Type
-	//FIXME HZ 17.08.2010: Refactor this method as it is different for every 
+	// HZ 17.08.2010: Refactor this method as it is different for every 
 	//					   Association type. 
 	public abstract clsDataStructurePA getLeafElement(); 
 		
@@ -169,7 +167,7 @@ public abstract class clsAssociation extends clsDataStructurePA{
 	 * @throws CloneNotSupportedException
 	 */
 	public Object clone(Object obj_orig, Object obj_clon) throws CloneNotSupportedException {
-		//FIXME HZ; checkDepth Method lowers performance 
+		// HZ; checkDepth Method lowers performance 
 		//checkStackDepth();
 		
 		clsAssociation oClone = null;

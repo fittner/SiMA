@@ -119,7 +119,7 @@ public class E17_FusionOfExternalPerceptionAndMemoryTraces extends clsModuleBase
 	}
 	
 	/**
-	 * DOCUMENT (zeilinger) - insert description
+	 *
 	 *
 	 * @author zeilinger
 	 * 18.08.2010, 11:28:46
@@ -143,7 +143,7 @@ public class E17_FusionOfExternalPerceptionAndMemoryTraces extends clsModuleBase
 
 
 	/**
-	 * DOCUMENT (zeilinger) - insert description
+	 *
 	 *
 	 * @author zeilinger
 	 * 24.09.2010, 23:55:39
@@ -157,7 +157,7 @@ public class E17_FusionOfExternalPerceptionAndMemoryTraces extends clsModuleBase
 		
 			for(clsAssociation oElement : oEntry.a.getMoAssociatedDataStructures()){
 				if(oElement.getLeafElement().getMoContentType().intern() == poAssociation.getDM().getMoContentType().intern()){
-					//TODO Here some calculations of the new pleasure values have to be done
+					// Here some calculations of the new pleasure values have to be done
 					return; 
 				}
 			}

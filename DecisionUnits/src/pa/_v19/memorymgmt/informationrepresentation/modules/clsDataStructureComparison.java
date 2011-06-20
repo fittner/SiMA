@@ -17,7 +17,7 @@ import pa._v19.memorymgmt.informationrepresentation.searchspace.clsSearchSpaceBa
 import pa._v19.tools.clsPair;
 
 /**
- * DOCUMENT (zeilinger) - insert description 
+ *
  * 
  * @author zeilinger
  * 02.07.2010, 07:20:48
@@ -31,7 +31,7 @@ public abstract class clsDataStructureComparison {
 	}
 		
 	/**
-	 * DOCUMENT (zeilinger) - insert description
+	 *
 	 *
 	 * @author zeilinger
 	 * 02.07.2010, 20:04:08
@@ -60,7 +60,7 @@ public abstract class clsDataStructureComparison {
 	}
 	
 	/**
-	 * DOCUMENT (zeilinger) - insert description
+	 *
 	 *
 	 * @author zeilinger
 	 * 18.08.2010, 14:59:49
@@ -91,7 +91,7 @@ public abstract class clsDataStructureComparison {
 	}
 	
 //	/**
-//	 * DOCUMENT (zeilinger) - insert description
+//	 *
 //	 *
 //	 * @author zeilinger
 //	 * 18.08.2010, 14:59:44
@@ -122,7 +122,7 @@ public abstract class clsDataStructureComparison {
 	}
 
 	/**
-	 * DOCUMENT (zeilinger) - insert description
+	 *
 	 *
 	 * @author zeilinger
 	 * 02.07.2010, 16:36:54

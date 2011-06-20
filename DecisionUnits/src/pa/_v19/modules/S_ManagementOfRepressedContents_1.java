@@ -111,7 +111,7 @@ public class S_ManagementOfRepressedContents_1 extends clsModuleBase implements 
 	}
 	
 	/**
-	 * DOCUMENT (zeilinger) - insert description
+	 *
 	 *
 	 * @author zeilinger
 	 * 16.08.2010, 09:55:48
@@ -131,7 +131,7 @@ public class S_ManagementOfRepressedContents_1 extends clsModuleBase implements 
 	}
 	
 	/**
-	 * DOCUMENT (zeilinger) - insert description
+	 *
 	 *
 	 * @author zeilinger
 	 * 24.08.2010, 08:21:09
@@ -145,7 +145,7 @@ public class S_ManagementOfRepressedContents_1 extends clsModuleBase implements 
 		ArrayList<ArrayList<clsPair<Double,clsDataStructureContainer>>> oSearchResult = new ArrayList<ArrayList<clsPair<Double,clsDataStructureContainer>>>(); 
 		ArrayList<clsAssociation> oAssDS = new ArrayList<clsAssociation>(); 
 		
-		//FIXME HZ: IndexOutOfBound + NullpointerException should be avoided
+		// HZ: IndexOutOfBound + NullpointerException should be avoided
 		//HZ 23.08.2010 Actually the best match is taken from the search result =>
 		//      		get(0) *2 
 		search(poType, new ArrayList<clsDataStructurePA>(Arrays.asList(poDS)), oSearchResult);
@@ -158,7 +158,7 @@ public class S_ManagementOfRepressedContents_1 extends clsModuleBase implements 
 	}
 	
 	/**
-	 * DOCUMENT (zeilinger) - insert description
+	 *
 	 *
 	 * @author zeilinger
 	 * 16.08.2010, 15:09:42
@@ -177,7 +177,7 @@ public class S_ManagementOfRepressedContents_1 extends clsModuleBase implements 
 	}
 	
 	/**
-	 * DOCUMENT (zeilinger) - insert description
+	 *
 	 *
 	 * @author zeilinger
 	 * 26.08.2010, 12:06:22
@@ -202,7 +202,7 @@ public class S_ManagementOfRepressedContents_1 extends clsModuleBase implements 
 	}
 
 	/**
-	 * DOCUMENT (zeilinger) - insert description
+	 *
 	 *
 	 * @author zeilinger
 	 * 26.08.2010, 12:02:45
@@ -214,7 +214,7 @@ public class S_ManagementOfRepressedContents_1 extends clsModuleBase implements 
 	}
 
 	/**
-	 * DOCUMENT (zeilinger) - insert description
+	 *
 	 *
 	 * @author zeilinger
 	 * 16.08.2010, 18:13:00
@@ -230,7 +230,7 @@ public class S_ManagementOfRepressedContents_1 extends clsModuleBase implements 
 	}
 
 	/**
-	 * DOCUMENT (zeilinger) - insert description
+	 *
 	 *
 	 * @author zeilinger
 	 * 16.08.2010, 17:15:39
@@ -313,7 +313,7 @@ public class S_ManagementOfRepressedContents_1 extends clsModuleBase implements 
 	
 
 	/**
-	 * DOCUMENT (zeilinger) - insert description
+	 *
 	 *
 	 * @author zeilinger
 	 * 19.03.2011, 08:36:59

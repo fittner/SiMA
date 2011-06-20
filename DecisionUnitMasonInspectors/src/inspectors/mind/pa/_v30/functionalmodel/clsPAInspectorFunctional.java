@@ -47,7 +47,7 @@ import com.jgraph.layout.JGraphFacade;
 import com.jgraph.layout.JGraphModelFacade;
 
 /**
- * DOCUMENT (langr) - insert description 
+ *
  * 
  * @author langr
  * 18.10.2009, 15:08:13

@@ -7,7 +7,6 @@
 package pa._v19.interfaces;
 
 /**
- * DOCUMENT (deutsch) - insert description 
  * 
  * @author deutsch
  * 18.05.2010, 14:23:10

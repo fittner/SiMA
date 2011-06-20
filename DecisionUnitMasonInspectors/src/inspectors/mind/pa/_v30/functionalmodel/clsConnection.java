@@ -9,7 +9,7 @@ package inspectors.mind.pa._v30.functionalmodel;
 import pa._v30.interfaces.eInterfaces;
 
 /**
- * DOCUMENT (deutsch) - insert description 
+ * 
  * 
  * @author deutsch
  * 22.10.2009, 12:13:05

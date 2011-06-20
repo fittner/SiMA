@@ -19,7 +19,7 @@ import pa._v30.interfaces.modules.I2_3_send;
 import pa._v30.tools.toText;
 
 /**
- * DOCUMENT (muchitsch) - insert description 
+ * 
  * 
  * @author deutsch
  * 11.08.2009, 14:20:47
@@ -31,7 +31,7 @@ public class E12_SensorsBody extends clsModuleBase implements I0_5_receive, I2_3
 	private HashMap<eSensorExtType, clsSensorExtern> moBodyData;
 
 	/**
-	 * DOCUMENT (muchitsch) - insert description 
+	 * 
 	 * 
 	 * @author deutsch
 	 * 03.03.2011, 16:08:23
@@ -151,7 +151,7 @@ public class E12_SensorsBody extends clsModuleBase implements I0_5_receive, I2_3
 	 */
 	@Override
 	protected void process_draft() {
-		// TODO (muchitsch) - Auto-generated method stub
+		
 		throw new java.lang.NoSuchMethodError();
 	}
 
@@ -164,7 +164,7 @@ public class E12_SensorsBody extends clsModuleBase implements I0_5_receive, I2_3
 	 */
 	@Override
 	protected void process_final() {
-		// TODO (muchitsch) - Auto-generated method stub
+		
 		throw new java.lang.NoSuchMethodError();
 	}
 

@@ -7,7 +7,7 @@
 package pa._v30.memorymgmt.enums;
 
 /**
- * DOCUMENT (zeilinger) - insert description 
+ *
  * 
  * @author zeilinger
  * 01.09.2010, 12:35:15

@@ -16,7 +16,7 @@ import pa._v30.memorymgmt.informationrepresentation.searchspace.clsOntologyLoade
 
 
 /**
- * DOCUMENT (zeilinger) - insert description 
+ * 
  * 
  * @author zeilinger
  * 11.06.2010, 08:08:46

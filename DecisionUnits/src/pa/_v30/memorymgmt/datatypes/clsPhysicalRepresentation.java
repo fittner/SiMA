@@ -10,7 +10,7 @@ import pa._v30.tools.clsTripple;
 import pa._v30.memorymgmt.enums.eDataType;
 
 /**
- * DOCUMENT (zeilinger) - insert description 
+ *
  * 
  * @author zeilinger
  * 23.05.2010, 21:42:44
@@ -19,7 +19,7 @@ import pa._v30.memorymgmt.enums.eDataType;
 public abstract class clsPhysicalRepresentation extends clsPrimaryDataStructure{
 		
 	/**
-	 * DOCUMENT (zeilinger) - insert description 
+	 *
 	 * 
 	 * @author zeilinger
 	 * 24.05.2010, 12:39:08

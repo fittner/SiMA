@@ -17,7 +17,7 @@ import pa._v30.memorymgmt.datatypes.clsPrimaryDataStructureContainer;
 import pa._v30.memorymgmt.informationrepresentation.clsSearchSpaceHandler;
 
 /**
- * DOCUMENT (zeilinger) - insert description 
+ *
  * 
  * @author zeilinger
  * 19.05.2010, 07:49:28
@@ -26,7 +26,7 @@ import pa._v30.memorymgmt.informationrepresentation.clsSearchSpaceHandler;
 public class KB02_InternalPerceptionMgmt extends clsInformationRepresentationModuleBase{
 
 	/**
-	 * DOCUMENT (zeilinger) - insert description 
+	 *
 	 * 
 	 * @author zeilinger
 	 * 23.05.2010, 22:59:15
@@ -39,7 +39,7 @@ public class KB02_InternalPerceptionMgmt extends clsInformationRepresentationMod
 											clsSearchSpaceHandler poSearchSpaceHandler, String poSearchMethod) {
 		super(poInformationRepresentationModulesContainer, poSearchSpaceHandler, poSearchMethod);
 	
-		// TODO (zeilinger) - Auto-generated constructor stub
+		
 	}
 
 	/* (non-Javadoc)
@@ -70,7 +70,7 @@ public class KB02_InternalPerceptionMgmt extends clsInformationRepresentationMod
 	}
 
 	/**
-	 * DOCUMENT (zeilinger) - insert description
+	 *
 	 *
 	 * @author zeilinger
 	 * 12.07.2010, 12:58:02
@@ -89,7 +89,7 @@ public class KB02_InternalPerceptionMgmt extends clsInformationRepresentationMod
 	}
 
 	/**
-	 * DOCUMENT (zeilinger) - insert description
+	 *
 	 *
 	 * @author zeilinger
 	 * 12.07.2010, 13:52:24
@@ -103,7 +103,7 @@ public class KB02_InternalPerceptionMgmt extends clsInformationRepresentationMod
 	}
 
 	/**
-	 * DOCUMENT (zeilinger) - insert description
+	 *
 	 *
 	 * @author zeilinger
 	 * 02.07.2010, 07:12:23

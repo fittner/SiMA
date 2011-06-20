@@ -14,7 +14,6 @@ import pa._v19.memorymgmt.enums.eDataType;
 import pa._v19.tools.clsTripple;
 
 /**
- * DOCUMENT (zeilinger) - insert description 
  * 
  * @author zeilinger
  * 23.05.2010, 21:43:47
@@ -24,7 +23,6 @@ public class clsAct extends clsSecondaryDataStructure {
 	private String moContent = "UNDEFINED"; 
 	private ArrayList<clsSecondaryDataStructure> moAssociatedContent; 
 	/**
-	 * DOCUMENT (zeilinger) - insert description 
 	 * 
 	 * @author zeilinger
 	 * 22.06.2010, 20:01:13
@@ -82,7 +80,6 @@ public class clsAct extends clsSecondaryDataStructure {
 	}
 
 	/**
-	 * DOCUMENT (zeilinger) - insert description
 	 *
 	 * @author zeilinger
 	 * 16.08.2010, 22:16:54
@@ -96,7 +93,6 @@ public class clsAct extends clsSecondaryDataStructure {
 	}
 
 	/**
-	 * DOCUMENT (zeilinger) - insert description
 	 *
 	 * @author zeilinger
 	 * 16.08.2010, 22:16:52
@@ -151,7 +147,6 @@ public class clsAct extends clsSecondaryDataStructure {
 	
 	
 	/**
-	 * DOCUMENT (zeilinger) - insert description
 	 *
 	 * @author zeilinger
 	 * 29.08.2010, 13:16:17
@@ -192,7 +187,6 @@ public class clsAct extends clsSecondaryDataStructure {
 	}
 
 	/**
-	 * DOCUMENT (zeilinger) - insert description
 	 *
 	 * @author zeilinger
 	 * 18.07.2010, 16:44:40

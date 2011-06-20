@@ -268,7 +268,7 @@ public class HerR extends TestApps.Physics2D.BubbleRace.FrictionRobot implements
     	{
     		// limit the endTargetPosition to the arena borders
 			endTargetPosition = SimLifeMath.limitToBorders(endTarget, this.size);
-			// TODO: for robustness .. if endTarPos != endTar -> mark as unreachable and search a new one
+			// : for robustness .. if endTarPos != endTar -> mark as unreachable and search a new one
 
 			// find the next collision free target for the way to the end target
 			subTargetPosition1 = endTargetPosition;
@@ -331,7 +331,7 @@ public class HerR extends TestApps.Physics2D.BubbleRace.FrictionRobot implements
 
 		if (observed > 0)
 		{
-			// TODO: if in the future there are other funktions that can change the status the ISTARGET could get overwrite.
+			// : if in the future there are other funktions that can change the status the ISTARGET could get overwrite.
 			//		 there for a (eq. "isTarget") variable should be set to reset the status if necessary.
 			status = ISTARGET;
 			this.setShape(new sim.physics2D.shape.Circle(size, Color.red), mass);

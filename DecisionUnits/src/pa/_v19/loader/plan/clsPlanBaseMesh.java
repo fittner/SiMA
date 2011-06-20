@@ -16,7 +16,6 @@ import pa._v19.datatypes.clsWordPresentation;
 import pa._v19.tools.clsPair;
 
 /**
- * DOCUMENT (langr) - insert description 
  * 
  * @author langr
  * 25.10.2009, 13:06:33
@@ -36,7 +35,6 @@ public class clsPlanBaseMesh extends clsSecondaryInformationMesh{
 	}
 
 	/**
-	 * DOCUMENT (langr) - insert description
 	 *
 	 * @author langr
 	 * 25.10.2009, 13:08:40
@@ -51,7 +49,6 @@ public class clsPlanBaseMesh extends clsSecondaryInformationMesh{
 	}
 
 	/**
-	 * DOCUMENT (langr) - insert description
 	 *
 	 * @author langr
 	 * 25.10.2009, 15:19:55

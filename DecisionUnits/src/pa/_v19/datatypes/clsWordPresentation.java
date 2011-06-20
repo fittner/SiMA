@@ -9,7 +9,6 @@ package pa._v19.datatypes;
 import pa._v19.interfaces.itfSecondaryProcessComparableWP;
 
 /**
- * DOCUMENT (langr) - insert description 
  * 
  * @author langr
  * 11.08.2009, 11:16:20
@@ -53,7 +52,7 @@ public class clsWordPresentation extends clsPsychicRepresentative implements itf
 	 */
 	@Override
 	public int compareTo(clsWordPresentation poWordPresentation) {
-		// TODO (langr) - Auto-generated method stub
+		
 		return 0;
 	}
 

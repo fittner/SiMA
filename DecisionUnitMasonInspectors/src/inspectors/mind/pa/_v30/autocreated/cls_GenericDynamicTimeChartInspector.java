@@ -17,7 +17,7 @@ import pa._v30.interfaces.itfInspectorGenericDynamicTimeChart;
 import pa._v30.interfaces.itfInterfaceTimeChartHistory;
 
 /**
- * DOCUMENT (deutsch) - insert description 
+ * 
  * 
  * @author deutsch
  * 23.04.2011, 13:02:24
@@ -26,7 +26,7 @@ import pa._v30.interfaces.itfInterfaceTimeChartHistory;
 public class cls_GenericDynamicTimeChartInspector extends cls_GenericTimeChartInspector {
 
 	/**
-	 * DOCUMENT (deutsch) - insert description 
+	 * 
 	 * 
 	 * @author deutsch
 	 * 23.04.2011, 13:02:32
@@ -34,7 +34,7 @@ public class cls_GenericDynamicTimeChartInspector extends cls_GenericTimeChartIn
 	private static final long serialVersionUID = -7046239914602916696L;
 
 	/**
-	 * DOCUMENT (deutsch) - insert description 
+	 * 
 	 * 
 	 * @author deutsch
 	 * 23.04.2011, 13:02:27
@@ -134,7 +134,7 @@ public class cls_GenericDynamicTimeChartInspector extends cls_GenericTimeChartIn
 	    	removeAll();
 	    	createPanel();
 	    	refillHistory(oBackup, moTimeingContainer.getTimeChartCaptions());
-	    	//FIXME (DEUTSCH): after recreation of chart panel, the displayed inspector is grey. A back-and-forth switch between tabs is necessary to enforce display. a function call like repaint() at this position should be able to solve this problem.
+	    	// (DEUTSCH): after recreation of chart panel, the displayed inspector is grey. A back-and-forth switch between tabs is necessary to enforce display. a function call like repaint() at this position should be able to solve this problem.
     	}
     }
     

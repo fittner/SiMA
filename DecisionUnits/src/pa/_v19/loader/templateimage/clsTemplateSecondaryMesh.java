@@ -17,7 +17,6 @@ import pa._v19.datatypes.clsSecondaryInformationMesh;
 import pa._v19.datatypes.clsWordPresentation;
 
 /**
- * DOCUMENT (langr) - insert description 
  * 
  * @author langr
  * 23.10.2009, 12:12:24
@@ -33,7 +32,6 @@ public class clsTemplateSecondaryMesh extends clsSecondaryInformationMesh implem
 	public clsCompareOperator moCompareOperator;
 	
 	/**
-	 * DOCUMENT (langr) - insert description 
 	 * 
 	 * @author langr
 	 * 23.10.2009, 12:13:04
@@ -88,7 +86,6 @@ public class clsTemplateSecondaryMesh extends clsSecondaryInformationMesh implem
 	}
 
 	/**
-	 * DOCUMENT (langr) - insert description
 	 *
 	 * @author langr
 	 * 23.10.2009, 14:12:45
@@ -118,7 +115,6 @@ public class clsTemplateSecondaryMesh extends clsSecondaryInformationMesh implem
 	}
 
 	/**
-	 * DOCUMENT (langr) - insert description
 	 *
 	 * @author langr
 	 * 23.10.2009, 13:45:21
@@ -141,7 +137,6 @@ public class clsTemplateSecondaryMesh extends clsSecondaryInformationMesh implem
 	}
 
 	/**
-	 * DOCUMENT (langr) - insert description
 	 *
 	 * @author langr
 	 * 25.10.2009, 00:34:48

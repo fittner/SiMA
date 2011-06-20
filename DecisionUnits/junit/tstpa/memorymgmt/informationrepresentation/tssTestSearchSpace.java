@@ -26,7 +26,7 @@ import pa._v30.memorymgmt.informationrepresentation.searchspace.clsSearchSpaceBa
 import pa._v30.memorymgmt.informationrepresentation.searchspace.clsSearchSpaceOntologyLoader;
 
 /**
- * DOCUMENT (zeilinger) - insert description 
+ * 
  * 
  * @author zeilinger
  * 20.07.2010, 21:02:11

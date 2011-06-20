@@ -13,7 +13,7 @@ import pa._v30.symbolization.representationsymbol.itfSymbol;
 import pa._v30.enums.eSymbolExtType;
 
 /**
- * DOCUMENT (deutsch) - insert description 
+ *
  * 
  * @author deutsch
  * 11.08.2009, 14:16:46

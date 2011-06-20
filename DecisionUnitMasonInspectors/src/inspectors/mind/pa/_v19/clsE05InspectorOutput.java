@@ -31,7 +31,7 @@ import sim.portrayal.Inspector;
 import sim.portrayal.LocationWrapper;
 
 /**
- * DOCUMENT (langr) - insert description 
+ *
  * 
  * @author langr
  * 13.10.2009, 20:56:53
@@ -41,7 +41,7 @@ import sim.portrayal.LocationWrapper;
 public class clsE05InspectorOutput extends Inspector{
 
 	/**
-	 * DOCUMENT (tobias) - insert description 
+	 * 
 	 * 
 	 * @author tobias
 	 * Jul 31, 2009, 10:41:09 AM
@@ -74,7 +74,7 @@ public class clsE05InspectorOutput extends Inspector{
     }
 
 	/**
-	 * DOCUMENT (langr) - insert description
+	 *
 	 *
 	 * @author langr
 	 * 21.07.2009, 17:25:04

@@ -22,7 +22,7 @@ import pa._v30.tools.toText;
 import config.clsBWProperties;
 
 /**
- * DOCUMENT (KOHLHAUSER) - insert description 
+ *
  * 
  * @author deutsch
  * 03.03.2011, 15:22:59
@@ -32,7 +32,7 @@ public class E47_ConversionToPrimaryProcess extends clsModuleBase implements itf
 	public static final String P_MODULENUMBER = "47";
 	private boolean mnMinimalModel;
 	/**
-	 * DOCUMENT (KOHLHAUSER) - insert description 
+	 *
 	 * 
 	 * @author deutsch
 	 * 03.03.2011, 16:56:27
@@ -88,7 +88,7 @@ public class E47_ConversionToPrimaryProcess extends clsModuleBase implements itf
 	@Override
 	protected void process_basic() {
 		if (!mnMinimalModel) {
-		// TODO (KOHLHAUSER) - Auto-generated method stub
+		
 		}
 	}
 
@@ -101,7 +101,7 @@ public class E47_ConversionToPrimaryProcess extends clsModuleBase implements itf
 	 */
 	@Override
 	protected void process_draft() {
-		// TODO (KOHLHAUSER) - Auto-generated method stub
+		
 
 	}
 
@@ -114,7 +114,7 @@ public class E47_ConversionToPrimaryProcess extends clsModuleBase implements itf
 	 */
 	@Override
 	protected void process_final() {
-		// TODO (KOHLHAUSER) - Auto-generated method stub
+		
 
 	}
 
@@ -197,7 +197,7 @@ public class E47_ConversionToPrimaryProcess extends clsModuleBase implements itf
 	 */
 	@Override
 	public void receive_I7_3(ArrayList<clsWordPresentation> poActionCommands) {
-		// TODO (KOHLHAUSER) - Auto-generated method stub
+		
 		
 	}
 	/* (non-Javadoc)

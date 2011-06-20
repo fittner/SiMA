@@ -9,7 +9,6 @@ package pa._v19.bfg.symbolization.ruletree;
 import bfg.utils.enums.enumClass;
 
 /**
- * DOCUMENT (langr) - insert description 
  * 
  * @author langr
  * 24.10.2009, 12:30:11

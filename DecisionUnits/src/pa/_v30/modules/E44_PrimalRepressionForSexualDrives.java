@@ -22,7 +22,7 @@ import pa._v30.memorymgmt.datatypes.clsDriveMesh;
 import config.clsBWProperties;
 
 /**
- * DOCUMENT (deutsch) - insert description 
+ *
  * 
  * @author deutsch
  * 03.03.2011, 15:20:48
@@ -36,7 +36,7 @@ public class E44_PrimalRepressionForSexualDrives extends clsModuleBase
 	private ArrayList<clsDriveMesh> moDrives;
 	
 	/**
-	 * DOCUMENT (deutsch) - insert description 
+	 *
 	 * 
 	 * @author deutsch
 	 * 03.03.2011, 17:57:51
@@ -152,7 +152,7 @@ public class E44_PrimalRepressionForSexualDrives extends clsModuleBase
 	 */
 	@Override
 	protected void process_draft() {
-		// TODO (deutsch) - Auto-generated method stub
+		
 
 	}
 
@@ -165,7 +165,7 @@ public class E44_PrimalRepressionForSexualDrives extends clsModuleBase
 	 */
 	@Override
 	protected void process_final() {
-		// TODO (deutsch) - Auto-generated method stub
+		
 
 	}
 

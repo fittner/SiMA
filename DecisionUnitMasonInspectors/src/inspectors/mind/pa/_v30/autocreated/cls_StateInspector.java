@@ -9,7 +9,7 @@ package inspectors.mind.pa._v30.autocreated;
 import pa._v30.interfaces.itfInspectorInternalState;
 
 /**
- * DOCUMENT (deutsch) - insert description 
+ * 
  * 
  * @author deutsch
  * 14.04.2011, 18:11:46
@@ -18,7 +18,7 @@ import pa._v30.interfaces.itfInspectorInternalState;
 public class cls_StateInspector extends cls_GenericTEXTInspector {
 
 	/**
-	 * DOCUMENT (deutsch) - insert description 
+	 * 
 	 * 
 	 * @author deutsch
 	 * 14.04.2011, 18:11:56
@@ -26,7 +26,7 @@ public class cls_StateInspector extends cls_GenericTEXTInspector {
 	private static final long serialVersionUID = -1727640620970155658L;
 
 	/**
-	 * DOCUMENT (deutsch) - insert description 
+	 * 
 	 * 
 	 * @author deutsch
 	 * 14.04.2011, 18:11:52

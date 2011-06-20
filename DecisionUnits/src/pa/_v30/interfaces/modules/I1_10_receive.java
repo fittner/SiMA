@@ -13,7 +13,7 @@ import pa._v30.memorymgmt.datatypes.clsDriveMesh;
 import pa._v30.tools.clsPair;
 
 /**
- * DOCUMENT (deutsch) - insert description 
+ *
  * 
  * @author deutsch
  * 03.03.2011, 15:48:36

@@ -47,7 +47,7 @@ import com.jgraph.layout.JGraphModelFacade;
 import com.jgraph.layout.tree.JGraphCompactTreeLayout;
 
 /**
- * DOCUMENT (langr) - insert description 
+ *
  * 
  * @author langr
  * 24.10.2009, 23:58:33

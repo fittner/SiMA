@@ -13,7 +13,7 @@ import pa._v30.interfaces.itfInterfaceDescription;
 import pa._v30.tools.toText;
 
 /**
- * DOCUMENT (deutsch) - insert description 
+ * 
  * 
  * @author deutsch
  * 15.04.2011, 15:03:10
@@ -22,7 +22,7 @@ import pa._v30.tools.toText;
 public class cls_DescriptionInspector extends cls_GenericTEXTInspector {
 
 	/**
-	 * DOCUMENT (deutsch) - insert description 
+	 * 
 	 * 
 	 * @author deutsch
 	 * 15.04.2011, 18:07:16
@@ -30,7 +30,7 @@ public class cls_DescriptionInspector extends cls_GenericTEXTInspector {
 	private static final long serialVersionUID = 9138148242374689745L;
 
 	/**
-	 * DOCUMENT (deutsch) - insert description 
+	 * 
 	 * 
 	 * @author deutsch
 	 * 15.04.2011, 15:03:15

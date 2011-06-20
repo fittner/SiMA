@@ -7,7 +7,6 @@
 package pa._v19.datatypes;
 
 /**
- * DOCUMENT (langr) - insert description 
  * 
  * @author langr
  * 28.09.2009, 16:52:49
@@ -15,7 +14,7 @@ package pa._v19.datatypes;
  */
 @Deprecated
 public class clsDriveContentCategories implements Cloneable {
-	//TODO: (ALL) probably better to change to cls0to1() !!!
+	//: (ALL) probably better to change to cls0to1() !!!
 	private double mrOral;
 	private double mrAnal;
 	private double mrGenital;
@@ -26,7 +25,6 @@ public class clsDriveContentCategories implements Cloneable {
 	}
 	
 	/**
-	 * DOCUMENT (langr) - insert description 
 	 * 
 	 * @author langr
 	 * 18.10.2009, 11:48:11

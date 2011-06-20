@@ -15,7 +15,7 @@ import sim.portrayal.Inspector;
 import statictools.clsExceptionUtils;
 
 /**
- * DOCUMENT (deutsch) - insert description 
+ * 
  * 
  * @author deutsch
  * 14.04.2011, 14:57:39
@@ -23,7 +23,7 @@ import statictools.clsExceptionUtils;
  */
 public abstract class cls_GenericTEXTInspector extends Inspector {
 	/**
-	 * DOCUMENT (deutsch) - insert description 
+	 * 
 	 * 
 	 * @author deutsch
 	 * 14.04.2011, 15:02:15

@@ -10,7 +10,7 @@ import pa._v30.tools.clsTripple;
 import pa._v30.memorymgmt.enums.eDataType;
 
 /**
- * DOCUMENT (zeilinger) - insert description 
+ *
  * 
  * @author zeilinger
  * 23.05.2010, 21:40:24
@@ -20,7 +20,7 @@ public class clsDriveDemand extends clsHomeostaticRepresentation{
 	private double moContent = 0.0; 
 	
 	/**
-	 * DOCUMENT (zeilinger) - insert description 
+	 *
 	 * 
 	 * @author zeilinger
 	 * 24.05.2010, 13:24:07
@@ -78,7 +78,7 @@ public class clsDriveDemand extends clsHomeostaticRepresentation{
 	 */
 	@Override
 	public void assignDataStructure(clsAssociation poDataStructurePA) {
-		// TODO (zeilinger) - Auto-generated method stub
+		
 		
 	}
 }

@@ -17,7 +17,6 @@ import config.clsBWProperties;
 //import pa.datatypes.clsBWProperties;
 
 /**
- * DOCUMENT (langr) - insert description 
  * 
  * @author langr
  * 11.08.2009, 11:17:10
@@ -53,7 +52,6 @@ public class clsMemory implements
 	
 
 	/**
-	 * DOCUMENT (langr) - insert description 
 	 * 
 	 * @author langr
 	 * 11.08.2009, 11:21:16

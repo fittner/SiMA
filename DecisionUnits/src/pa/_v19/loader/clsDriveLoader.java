@@ -26,7 +26,6 @@ import pa._v19.enums.eDriveType;
 import pa._v19.tools.clsPair;
 
 /**
- * DOCUMENT (langr) - insert description 
  * 
  * @author langr
  * 28.09.2009, 10:30:53

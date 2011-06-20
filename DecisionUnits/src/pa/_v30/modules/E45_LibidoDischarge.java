@@ -34,7 +34,7 @@ import pa._v30.memorymgmt.enums.eDataType;
 import config.clsBWProperties;
 
 /**
- * DOCUMENT (deutsch) - insert description 
+ *
  * 
  * @author deutsch
  * 03.03.2011, 16:29:55
@@ -51,7 +51,7 @@ public class E45_LibidoDischarge extends clsModuleBaseKB implements itfInspector
 	private double mrLibidoReducedBy;
 	private clsLibidoBuffer moLibidoBuffer;	
 	/**
-	 * DOCUMENT (deutsch) - insert description 
+	 *
 	 * 
 	 * @author deutsch
 	 * 03.03.2011, 16:30:00
@@ -102,7 +102,7 @@ public class E45_LibidoDischarge extends clsModuleBaseKB implements itfInspector
 												((clsDriveMesh)oDriveMeshList.get(oCandidateList.indexOf(oCandidate))).getMrPleasure()));
 		}
 		
-		//FIXME (Zeilinger): bitte irgendwie aus dem protege auslesen
+		// (Zeilinger): bitte irgendwie aus dem protege auslesen
 //		moLibidioDischargeCandidates = new ArrayList<clsPair<String,Double>>();
 //		moLibidioDischargeCandidates.add( new clsPair<String, Double>("CAKE", 1.0) );
 //		moLibidioDischargeCandidates.add( new clsPair<String, Double>("CARROT", 0.5) );
@@ -110,7 +110,7 @@ public class E45_LibidoDischarge extends clsModuleBaseKB implements itfInspector
 	}
 	
 	/**
-	 * DOCUMENT (zeilinger) - insert description
+	 *
 	 *
 	 * @author zeilinger
 	 * 22.04.2011, 10:41:34
@@ -129,7 +129,7 @@ public class E45_LibidoDischarge extends clsModuleBaseKB implements itfInspector
 	}
 	
 	/**
-	 * DOCUMENT (zeilinger) - insert description
+	 *
 	 *
 	 * @author zeilinger
 	 * 22.04.2011, 11:29:37
@@ -199,12 +199,12 @@ public class E45_LibidoDischarge extends clsModuleBaseKB implements itfInspector
 		mrAvailableLibido = moLibidoBuffer.send_D1_4();
 		
 		double rChunk = mrAvailableLibido * mrDischargePiece; //each match can reduce the libido by a maximum of rChunk.
-		//FIXME: if more than ten piece fit 100% ... the last pieces will get nothing ...
+		//: if more than ten piece fit 100% ... the last pieces will get nothing ...
 		
 		mrLibidoReducedBy = 0;
 		
 		moMergedPrimaryInformation_Snd = new ArrayList<clsPair<clsPrimaryDataStructureContainer,clsDriveMesh>>();
-		//FIXME (ZEILINGER): das ganze zeug geht noch nicht so ganz .. irgendwie ... plz - wobei. das kann ich morgen auch noch debuggen.
+		// (ZEILINGER): das ganze zeug geht noch nicht so ganz .. irgendwie ... plz - wobei. das kann ich morgen auch noch debuggen.
 		for (clsPair<String,Double> oCandidate:moLibidioDischargeCandidates) {
 			String oSearchPattern = oCandidate.a;
 			Double rFactor = oCandidate.b;
@@ -219,7 +219,7 @@ public class E45_LibidoDischarge extends clsModuleBaseKB implements itfInspector
 					
 					double r = rReduction;
 					
-					//FIXME (Zeilinger): dirty hack!!!! by TD : *5 is to be removed!
+					// (Zeilinger): dirty hack!!!! by TD : *5 is to be removed!
 					//the problem is that later on, the pleasure value is converted into intervals with steplength 
 					//of about 0.4. usually, libido provide pleasure gain of 0.2 max -> only in rare occasions, libido
 					//gained has influence on decission making!
@@ -265,7 +265,7 @@ public class E45_LibidoDischarge extends clsModuleBaseKB implements itfInspector
 	 */
 	@Override
 	protected void process_draft() {
-		// TODO (deutsch) - Auto-generated method stub
+		
 
 	}
 
@@ -278,7 +278,7 @@ public class E45_LibidoDischarge extends clsModuleBaseKB implements itfInspector
 	 */
 	@Override
 	protected void process_final() {
-		// TODO (deutsch) - Auto-generated method stub
+		
 
 	}
 

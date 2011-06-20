@@ -9,7 +9,6 @@ package pa._v19.loader.templateimage;
 import pa._v19.datatypes.clsSecondaryInformation;
 
 /**
- * DOCUMENT (langr) - insert description 
  * 
  * @author langr
  * 24.10.2009, 23:47:04

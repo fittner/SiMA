@@ -13,7 +13,7 @@ import du.itf.sensors.clsManipulateAreaEntry;
 import du.itf.sensors.clsSensorExtern;
 
 /**
- * DOCUMENT (langr) - insert description 
+ *
  * 
  * @author langr
  * 09.09.2009, 14:04:06

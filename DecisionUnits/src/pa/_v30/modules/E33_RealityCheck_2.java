@@ -20,7 +20,7 @@ import pa._v30.memorymgmt.datatypes.clsWordPresentation;
 import pa._v30.tools.toText;
 
 /**
- * DOCUMENT (KOHLHAUSER) - insert description 
+ *
  * 
  * @author deutsch
  * 27.04.2010, 10:18:11
@@ -30,7 +30,7 @@ public class E33_RealityCheck_2 extends clsModuleBase implements itfMinimalModel
 	public static final String P_MODULENUMBER = "33";
 	private boolean mnMinimalModel;
 	/**
-	 * DOCUMENT (KOHLHAUSER) - insert description 
+	 *
 	 * 
 	 * @author deutsch
 	 * 03.03.2011, 16:59:20
@@ -88,7 +88,7 @@ public class E33_RealityCheck_2 extends clsModuleBase implements itfMinimalModel
 	protected void process_basic() {
 		if (mnMinimalModel) {
 			mnTest++;
-			// TODO (KOHLHAUSER) - Auto-generated method stub
+			
 		}
 	}
 
@@ -142,7 +142,7 @@ public class E33_RealityCheck_2 extends clsModuleBase implements itfMinimalModel
 	 */
 	@Override
 	public void receive_I7_3(ArrayList<clsWordPresentation> poActionCommands) {
-		// TODO (KOHLHAUSER) - Auto-generated method stub
+		
 		
 	}
 
@@ -155,7 +155,7 @@ public class E33_RealityCheck_2 extends clsModuleBase implements itfMinimalModel
 	 */
 	@Override
 	public void receive_I7_5(int pnData) {
-		// TODO (KOHLHAUSER) - Auto-generated method stub
+		
 		
 	}
 
@@ -181,7 +181,7 @@ public class E33_RealityCheck_2 extends clsModuleBase implements itfMinimalModel
 	 */
 	@Override
 	protected void process_draft() {
-		// TODO (KOHLHAUSER) - Auto-generated method stub
+		
 		throw new java.lang.NoSuchMethodError();
 	}
 
@@ -194,7 +194,7 @@ public class E33_RealityCheck_2 extends clsModuleBase implements itfMinimalModel
 	 */
 	@Override
 	protected void process_final() {
-		// TODO (KOHLHAUSER) - Auto-generated method stub
+		
 		throw new java.lang.NoSuchMethodError();
 	}
 

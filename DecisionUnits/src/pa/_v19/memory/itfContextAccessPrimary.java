@@ -10,7 +10,6 @@ import pa._v19.datatypes.clsThingPresentationSingle;
 import bfg.tools.clsMutableDouble;
 
 /**
- * DOCUMENT (langr) - insert description 
  * 
  * @author langr
  * 17.10.2009, 10:33:14

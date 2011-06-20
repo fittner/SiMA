@@ -10,7 +10,7 @@ import pa._v30.tools.clsTripple;
 import pa._v30.memorymgmt.enums.eDataType;
 
 /**
- * DOCUMENT (zeilinger) - insert description 
+ *
  * 
  * @author zeilinger
  * 31.05.2010, 16:32:42
@@ -19,7 +19,7 @@ import pa._v30.memorymgmt.enums.eDataType;
 public abstract class clsPrimaryDataStructure extends clsDataStructurePA{
 		
 	/**
-	 * DOCUMENT (zeilinger) - insert description 
+	 *
 	 * 
 	 * @author zeilinger
 	 * 22.06.2010, 15:36:00

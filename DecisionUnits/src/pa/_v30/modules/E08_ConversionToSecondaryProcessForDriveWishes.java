@@ -31,7 +31,7 @@ import pa._v30.memorymgmt.enums.eDataType;
 import statictools.clsExceptionUtils;
 
 /**
- * DOCUMENT (KOHLHAUSER) - insert description 
+ *
  * 
  * @author deutsch
  * 11.08.2009, 14:11:38
@@ -46,7 +46,7 @@ public class E08_ConversionToSecondaryProcessForDriveWishes extends clsModuleBas
 	private ArrayList<clsSecondaryDataStructureContainer> moDriveList_Output; 
 
 	/**
-	 * DOCUMENT (KOHLHAUSER) - insert description 
+	 *
 	 * 
 	 * @author deutsch
 	 * 03.03.2011, 16:42:48
@@ -153,7 +153,7 @@ public class E08_ConversionToSecondaryProcessForDriveWishes extends clsModuleBas
 	}
 	
 	/**
-	 * DOCUMENT (zeilinger) - insert description
+	 *
 	 *
 	 * @author zeilinger
 	 * 19.03.2011, 10:01:29
@@ -174,13 +174,13 @@ public class E08_ConversionToSecondaryProcessForDriveWishes extends clsModuleBas
 										 new ArrayList<clsAssociation>(Arrays.asList(oDM_A.get(index), oAff_A.get(index))));
 			moDriveList_Output.add(oCon);
 			} catch (java.lang.IndexOutOfBoundsException e) {
-				System.out.println(clsExceptionUtils.getCustomStackTrace(e)); //FIXME (Zeilinger): protege data structure is not complete. oDM_A is missing entries for sleep and relax. i have tried everything ... pleasse HEL!!! TD 2011/04/22
+				System.out.println(clsExceptionUtils.getCustomStackTrace(e)); // (Zeilinger): protege data structure is not complete. oDM_A is missing entries for sleep and relax. i have tried everything ... pleasse HEL!!! TD 2011/04/22
 			}
 		}
 	}
 
 	/**
-	 * DOCUMENT (zeilinger) - insert description
+	 *
 	 *
 	 * @author zeilinger
 	 * 19.03.2011, 09:17:07
@@ -200,7 +200,7 @@ public class E08_ConversionToSecondaryProcessForDriveWishes extends clsModuleBas
 	}
 
 	/**
-	 * DOCUMENT (zeilinger) - insert description
+	 *
 	 *
 	 * @author zeilinger
 	 * 19.03.2011, 09:39:27
@@ -216,7 +216,7 @@ public class E08_ConversionToSecondaryProcessForDriveWishes extends clsModuleBas
 	}
 	
 	/**
-	 * DOCUMENT (zeilinger) - insert description
+	 *
 	 *
 	 * @author zeilinger
 	 * 19.03.2011, 09:40:18
@@ -236,7 +236,7 @@ public class E08_ConversionToSecondaryProcessForDriveWishes extends clsModuleBas
 	}
 	
 	/**
-	 * DOCUMENT (zeilinger) - insert description
+	 *
 	 *
 	 * @author zeilinger
 	 * 19.03.2011, 09:41:39
@@ -257,7 +257,7 @@ public class E08_ConversionToSecondaryProcessForDriveWishes extends clsModuleBas
 
 	
 	/**
-	 * DOCUMENT (zeilinger) - insert description
+	 *
 	 *
 	 * @author zeilinger
 	 * 19.03.2011, 09:59:26
@@ -327,7 +327,7 @@ public class E08_ConversionToSecondaryProcessForDriveWishes extends clsModuleBas
 	 */
 	@Override
 	protected void process_draft() {
-		// TODO (KOHLHAUSER) - Auto-generated method stub
+		
 		throw new java.lang.NoSuchMethodError();
 	}
 
@@ -340,7 +340,7 @@ public class E08_ConversionToSecondaryProcessForDriveWishes extends clsModuleBas
 	 */
 	@Override
 	protected void process_final() {
-		// TODO (KOHLHAUSER) - Auto-generated method stub
+		
 		throw new java.lang.NoSuchMethodError();
 	}
 	

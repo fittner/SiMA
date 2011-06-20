@@ -47,7 +47,7 @@ import pa._v19.interfaces.knowledgebase.itfKnowledgeBaseAccess;
 public class E21_ConversionToSecondaryProcess extends clsModuleBase implements I2_10_receive, I2_11_send, I5_4_send, itfKnowledgeBaseAccess {
 
 	private ArrayList<clsPrimaryDataStructureContainer> moGrantedPerception_Input; 
-	//FIXME HZ: This would require a change in the interfaces!!! => different to the actual definition
+	// HZ: This would require a change in the interfaces!!! => different to the actual definition
 	//private ArrayList<clsPair<clsSecondaryDataStructureContainer, clsPair<clsWordPresentation, clsWordPresentation>>> moPerception_Output; 
 	private ArrayList<clsSecondaryDataStructureContainer> moPerception_Output; 
 	
@@ -138,7 +138,7 @@ public class E21_ConversionToSecondaryProcess extends clsModuleBase implements I
 	}
 	
 	/**
-	 * DOCUMENT (zeilinger) - insert description
+	 *
 	 *
 	 * @author zeilinger
 	 * 19.08.2010, 22:39:28
@@ -188,7 +188,7 @@ public class E21_ConversionToSecondaryProcess extends clsModuleBase implements I
 	}
 	
 	/**
-	 * DOCUMENT (zeilinger) - insert description
+	 *
 	 *
 	 * @author zeilinger
 	 * 20.08.2010, 17:44:55
@@ -230,7 +230,7 @@ public class E21_ConversionToSecondaryProcess extends clsModuleBase implements I
 	}
 
 	/**
-	 * DOCUMENT (zeilinger) - insert description
+	 *
 	 *
 	 * @author zeilinger
 	 * 20.08.2010, 13:05:45
@@ -277,7 +277,7 @@ public class E21_ConversionToSecondaryProcess extends clsModuleBase implements I
 	}
 
 	/**
-	 * DOCUMENT (zeilinger) - insert description
+	 *
 	 *
 	 * @author zeilinger
 	 * 20.08.2010, 13:15:06
@@ -300,7 +300,7 @@ public class E21_ConversionToSecondaryProcess extends clsModuleBase implements I
 	}
 
 	/**
-	 * DOCUMENT (zeilinger) - insert description
+	 *
 	 *
 	 * @author zeilinger
 	 * 20.08.2010, 16:04:05
@@ -334,12 +334,12 @@ public class E21_ConversionToSecondaryProcess extends clsModuleBase implements I
 				}
 			}
 		}
-		//FIXME HZ: never return null
+		// HZ: never return null
 		return null;
 	}
 
 	/**
-	 * DOCUMENT (zeilinger) - insert description
+	 *
 	 *
 	 * @author zeilinger
 	 * 19.08.2010, 22:39:32
@@ -363,7 +363,7 @@ public class E21_ConversionToSecondaryProcess extends clsModuleBase implements I
 	}
 	
 	/**
-	 * DOCUMENT (zeilinger) - insert description
+	 *
 	 *
 	 * @author zeilinger
 	 * 22.08.2010, 19:53:01
@@ -382,7 +382,7 @@ public class E21_ConversionToSecondaryProcess extends clsModuleBase implements I
 	}
 	
 	/**
-	 * DOCUMENT (zeilinger) - insert description
+	 *
 	 *
 	 * @author zeilinger
 	 * 22.08.2010, 19:53:10
@@ -408,7 +408,7 @@ public class E21_ConversionToSecondaryProcess extends clsModuleBase implements I
 	}
 
 	/**
-	 * DOCUMENT (zeilinger) - insert description
+	 *
 	 *
 	 * @author zeilinger
 	 * 22.08.2010, 19:53:07
@@ -436,7 +436,7 @@ public class E21_ConversionToSecondaryProcess extends clsModuleBase implements I
 	}
 
 	/**
-	 * DOCUMENT (zeilinger) - insert description
+	 *
 	 *
 	 * @author zeilinger
 	 * 23.08.2010, 21:24:28
@@ -526,7 +526,7 @@ public class E21_ConversionToSecondaryProcess extends clsModuleBase implements I
 
 
 	/**
-	 * DOCUMENT (zeilinger) - insert description
+	 *
 	 *
 	 * @author zeilinger
 	 * 19.03.2011, 08:36:59

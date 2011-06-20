@@ -18,7 +18,7 @@ import pa._v30.modules.clsModuleBase;
 import statictools.clsGetARSPath;
 
 /**
- * DOCUMENT (deutsch) - insert description 
+ *
  * 
  * @author deutsch
  * 23.04.2011, 14:52:17

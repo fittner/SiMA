@@ -13,7 +13,7 @@ import pa._v30.memorymgmt.enums.eDataType;
 
 
 /**
- * DOCUMENT (zeilinger) - insert description 
+ *
  * 
  * @author zeilinger
  * 23.05.2010, 21:49:15
@@ -42,7 +42,7 @@ public abstract class clsPhysicalStructureComposition extends clsPhysicalReprese
 	}
 
 	/**
-	 * DOCUMENT (zeilinger) - insert description 
+	 *
 	 * 
 	 * @author zeilinger
 	 * 24.05.2010, 12:40:36
@@ -56,7 +56,7 @@ public abstract class clsPhysicalStructureComposition extends clsPhysicalReprese
 	}
 	
 	/**
-	 * DOCUMENT (zeilinger) - insert description
+	 *
 	 *
 	 * @author zeilinger
 	 * 17.08.2010, 21:59:35
@@ -67,7 +67,7 @@ public abstract class clsPhysicalStructureComposition extends clsPhysicalReprese
 	public abstract boolean contain(clsDataStructurePA poDataStructure); 
 	
 	/**
-	 * DOCUMENT (zeilinger) - insert description
+	 *
 	 *
 	 * @author zeilinger
 	 * 01.07.2010, 22:49:49
@@ -77,7 +77,7 @@ public abstract class clsPhysicalStructureComposition extends clsPhysicalReprese
 	public abstract void assignDataStructure(clsAssociation poDataStructurePA); 
 	
 	/**
-	 * DOCUMENT (zeilinger) - insert description
+	 *
 	 *
 	 * @author zeilinger
 	 * 24.05.2010, 14:40:45

@@ -26,7 +26,7 @@ import java.awt.Color;
 
 
 /**
- * DOCUMENT (andi) - insert description 
+ * 
  * 
  * @author andi
  * 17.09.2009, 16:48:04
@@ -38,7 +38,7 @@ public class clsE26DecisionCalculation extends Inspector {
 	private static final long serialVersionUID = 2391511521426669313L;
 	
 	public Inspector moOriginalInspector;
-//	private E26_DecisionMaking moE26;  // todo - add real descion-making values 
+//	private E26_DecisionMaking moE26;  //  - add real descion-making values 
 	
 	private ChartPanel moChartPanel;
 //	private DefaultCategoryDataset moDatasetNormValue;
@@ -56,7 +56,7 @@ public class clsE26DecisionCalculation extends Inspector {
 		super();
 		
 		moOriginalInspector = originalInspector;
-//		moE26= poNeuroNeeds; // todo - add real descion-making values
+//		moE26= poNeuroNeeds; //  - add real descion-making values
 		
 		initBrainChart();
 		
@@ -71,7 +71,7 @@ public class clsE26DecisionCalculation extends Inspector {
     
     /**
      * 
-     * DOCUMENT (andi) - initializes the plot
+     *  initializes the plot
      *
      * @author andi
      * 24.09.2009, 13:14:41
@@ -96,7 +96,7 @@ public class clsE26DecisionCalculation extends Inspector {
     
     /**
      * 
-     * DOCUMENT (andi) - returns the norm-dataset (value 1 for every axis) for the decision calculation spiderplot-graphic
+     * returns the norm-dataset (value 1 for every axis) for the decision calculation spiderplot-graphic
      *
      * @author andi
      * 24.09.2009, 13:13:25

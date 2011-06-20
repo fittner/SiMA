@@ -33,7 +33,7 @@
 //import decisionunit.itf.sensors.clsVisionEntry;
 //
 ///**
-// * TODO (UNKNOWN) - add name & insert description! 
+// *  (UNKNOWN) - add name & insert description! 
 // * 
 // * HINT: NEVER COMMIT FILES WITH ERRORS INSDE - IT'S PROHIBITED BY ARS-LAW!
 // * 

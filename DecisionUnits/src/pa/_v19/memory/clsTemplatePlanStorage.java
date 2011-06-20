@@ -17,7 +17,6 @@ import pa._v19.tools.clsPair;
 import config.clsBWProperties;
 
 /**
- * DOCUMENT (langr) - insert description 
  * 
  * @author langr
  * 25.10.2009, 16:05:39
@@ -54,7 +53,6 @@ public class clsTemplatePlanStorage {
 
 
 	/**
-	 * DOCUMENT (langr) - insert description
 	 *
 	 * @author langr
 	 * 25.10.2009, 15:13:40
