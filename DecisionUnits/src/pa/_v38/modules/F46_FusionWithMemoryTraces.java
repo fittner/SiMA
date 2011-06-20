@@ -110,11 +110,22 @@ public class F46_FusionWithMemoryTraces extends clsModuleBaseKB implements
 	 */
 	@Override
 	protected void process_basic() {
+		/* Pre-processing */
+		
+		//Function for getting content and settings from "conversation to primary process"
+		
+		//Function for adapting DM quota of affect to the drive tension
+		
+		
+		/* Perception - construction of perceived images */
+		
 		//moEnvironmentalPerception_OUT = new ArrayList<clsPrimaryDataStructureContainer>();
 		//clsPrimaryDataStructureContainer oEnvironmentTI = clsDataStructureConverter.convertTPMContToTICont(retrieveImages(moEnvironmentalPerception_IN));
 		moEnvironmentalPerception_OUT = clsDataStructureConverter.convertTPMContToTICont(retrieveImages(moEnvironmentalPerception_IN));
 		//moEnvironmentalPerception_OUT.add(oEnvironmentTI);
 		//moEnvironmentalPerception_OUT = retrieveImages(moEnvironmentalPerception_IN);
+		
+		/* Perception - Activation of associated memories */
 		
 		//Associated memories
 		//AW 20110521: TODO: Add function to load template images here
@@ -127,6 +138,10 @@ public class F46_FusionWithMemoryTraces extends clsModuleBaseKB implements
 		//UNIT-Tests for the converters
 		//clsPrimaryDataStructureContainer oTest = clsDataStructureConverter.convertTPMContToTICont(moEnvironmentalPerception_OUT);
 		//ArrayList<clsPrimaryDataStructureContainer> oTest2 = clsDataStructureConverter.convertTIContToTPMCont(oTest);
+		
+		/* Post-Processing */
+		
+		//Function: Update association weights after activation (first step to individual mind) 
 		
 	}
 

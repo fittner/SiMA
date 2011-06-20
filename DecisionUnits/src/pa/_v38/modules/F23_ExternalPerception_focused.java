@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.SortedMap;
 import config.clsBWProperties;
+import pa._v38.memorymgmt.datatypes.clsDriveMesh;
 import pa._v38.interfaces.eInterfaces;
 import pa._v38.interfaces.itfMinimalModelMode;
 import pa._v38.interfaces.modules.I6_3_receive;
@@ -159,6 +160,37 @@ public class F23_ExternalPerception_focused extends clsModuleBase implements itf
 			//that depends on the evaluation of external and internal perception (moDriveList); 
 			//
 			//Actual state: no ordering! 
+			
+			boolean switched = false;
+			clsSecondaryDataStructureContainer sdsc;
+			
+			if (!moPerception.isEmpty())
+			{
+				//bubblesort; if you want quicksort... have at it 
+				do
+				{
+					switched = false;
+					for (int i = 0; i < moPerception.size() - 1; i++)
+					{
+						//AW 20110618 FIXME: Sometimes it crashes on get(i+1) and get(2). i+1 should be checked first and why is get(2) used?
+						//Correct this START
+						if (i+1 < moPerception.size()) {
+							if ((moPerception.get(i).getMoAssociatedDataStructures().size()>2) && (moPerception.get(i + 1).getMoAssociatedDataStructures().size()>2)){
+								if (((clsDriveMesh) moPerception.get(i).getMoAssociatedDataStructures().get(2).getMoAssociationElementB()).getMrPleasure() <
+										((clsDriveMesh) moPerception.get(i + 1).getMoAssociatedDataStructures().get(2).getMoAssociationElementB()).getMrPleasure())
+										{
+											sdsc = moPerception.get(i);
+											moPerception.remove(i);
+											moPerception.add(i + 1, sdsc);
+											switched = true;
+										}
+							}
+						}
+						//Correct this END
+					}
+				} while (switched == true);
+			}
+			
 			moFocusedPerception_Output = moPerception;
 			moAssociatedMemoriesSecondary_OUT = moAssociatedMemoriesSecondary_IN;
 		}
