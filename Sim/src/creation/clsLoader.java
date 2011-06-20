@@ -1,6 +1,7 @@
 /**
  * CHANGELOG
  * 
+ * 2011/06/20 TD - removed deprecated methods
  * 2011/06/20 TD - added some javadoc
  */
 package creation;
@@ -71,15 +72,6 @@ public abstract class clsLoader {
 		verifyLoaderType(moPrefix, moProperties);
     }
 
-    @Deprecated
-    public clsLoader(SimState poSimState, String poPropertiesFilename) {
-    	moProperties = loadProperties(poPropertiesFilename);
-    	    	
-    	createPhysicsEngine2D();
-		clsSingletonMasonGetter.setSimState(poSimState);
-		clsSingletonMasonGetter.getSimState().schedule.scheduleRepeating(clsSingletonMasonGetter.getPhysicsEngine2D());		
-    }    
-	
 	private void applyProperties(String poPrefix, clsBWProperties poProp){		
 		String pre = clsBWProperties.addDot(poPrefix);
 		
@@ -142,13 +134,6 @@ public abstract class clsLoader {
 		return oProp;
 	}    
     
-	@Deprecated
-    private clsBWProperties loadProperties(String poPropertiesFilename) {
-    	clsBWProperties oProp = clsBWProperties.readProperties( clsGetARSPath.getConfigPath(), poPropertiesFilename);
-    	clsSingletonProperties.setProperties(oProp);    
-    	return oProp;
-    }
-    
 	/**
 	 * Executes the load and entity creation.
 	 *
@@ -172,17 +157,6 @@ public abstract class clsLoader {
     	double nWidth = poProp.getPropertyDouble(pre+P_FIELD_WIDTH);
     	double nHeight = poProp.getPropertyDouble(pre+P_FIELD_HEIGHT);
     	clsSingletonMasonGetter.setFieldEnvironment(new Continuous2D(25, nWidth, nHeight));
-    }	
-    
-    @Deprecated
-    protected void createGrids(int pnWidth, int pnHeight)
-    {
-    	/**
-    	 * Continuous2D is a Field: a representation of space. In particular, Continuous2D 
-    	 * represents continuous 2-dimensional space it is actually infinite: the width 
-    	 * and height are just for GUI guidelines (starting size of the window). */
-    	
-    	clsSingletonMasonGetter.setFieldEnvironment(new Continuous2D(25, pnWidth, pnHeight));
     }	
     
 	/**
@@ -304,28 +278,7 @@ public abstract class clsLoader {
 		
 		return html;
 	}
-	
-	@Deprecated
-	protected void setTitle(String poTitle) {
-		moTitle = poTitle;
-	}
-	@Deprecated
-	protected void setShortDesc(String poShortDesc) {
-		moShortDesc = poShortDesc;
-	}
-	@Deprecated
-	protected void setDescription(String poDescription) {
-		moDescription = poDescription;
-	}
-	@Deprecated
-	protected void setImageUrl(String poImageUrl) {
-		moImageUrl = poImageUrl;
-	}
-	@Deprecated
-	protected void setLinkUrl(String poLinkUrl) {
-		moLinkUrl = poLinkUrl;
-	}
-	
+		
 	
 	/**
 	 * Getter for moProperteries (instance of clsBWProperties).
