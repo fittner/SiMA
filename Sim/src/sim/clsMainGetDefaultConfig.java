@@ -1,10 +1,7 @@
 /**
- * @author deutsch
- * 23.07.2009, 15:51:57
+ * CHANGELOG
  * 
- * $Rev::                      $: Revision of last commit
- * $Author::                   $: Author of last commit
- * $Date::                     $: Date of last commit
+ * 2011/06/20 TD - added some javadoc
  */
 package sim;
 
@@ -35,16 +32,17 @@ import bw.entities.clsWallHorizontal;
 import bw.entities.clsWallVertical;
 
 /**
- * DOCUMENT (deutsch) - insert description 
+ * extracts the default properties for all different kind of classes and writes them to files. All entities of project BW and the different decision units from project DecisionUnits are processed.
+ * files are created in the default config folder in the subfolders "default/entity" and "default/du".  
  * 
  * @author deutsch
- * 23.07.2009, 15:51:57
+ * @since 23.07.2009, 15:51:57
  * 
  */
 public class clsMainGetDefaultConfig {
 
 	/**
-	 * DOCUMENT (deutsch) - insert description
+	 * Executes the purpose of this class. See class description.
 	 *
 	 * @author deutsch
 	 * 23.07.2009, 15:51:57
