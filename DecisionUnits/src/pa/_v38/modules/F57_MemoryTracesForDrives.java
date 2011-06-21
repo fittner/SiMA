@@ -34,7 +34,9 @@ public class F57_MemoryTracesForDrives extends clsModuleBaseKB
 
 	public static final String P_MODULENUMBER = "57";
 	@SuppressWarnings("unused")
-	private clsPrimaryDataStructureContainer moEnvironmentalTP;	//AW 20110521: New containerstructure. Use clsDataStructureConverter.TPMtoTI to convert to old structure
+	private clsPrimaryDataStructureContainer moEnvironmentalPerception_IN;	//AW 20110521: New containerstructure. Use clsDataStructureConverter.TPMtoTI to convert to old structure
+	@SuppressWarnings("unused")
+	private ArrayList<clsPrimaryDataStructureContainer> moAssociatedMemories_IN;	//AW 20110621: Associated Memories
 	@SuppressWarnings("unused")
 	private ArrayList<clsDriveMesh> moDriveCandidates;
 	
@@ -97,8 +99,8 @@ public class F57_MemoryTracesForDrives extends clsModuleBaseKB
 	 */
 	@Override
 	public void receive_I5_7(clsPrimaryDataStructureContainer poEnvironmentalTP, ArrayList<clsPrimaryDataStructureContainer> poAssociatedMemories) {
-		moEnvironmentalTP = (clsPrimaryDataStructureContainer)deepCopy(poEnvironmentalTP); 
-		//AW 20110521: Associated Memories are not used here
+		moEnvironmentalPerception_IN = (clsPrimaryDataStructureContainer)deepCopy(poEnvironmentalTP);
+		moAssociatedMemories_IN = (ArrayList<clsPrimaryDataStructureContainer>)deepCopy(poAssociatedMemories);
 	}
 
 	/* (non-Javadoc)
