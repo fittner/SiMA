@@ -13,7 +13,7 @@ import nao.body.itfStepSensing;
 
 
 /**
- * DOCUMENT (deutsch) - insert description 
+ * 
  * 
  * @author deutsch
  * 

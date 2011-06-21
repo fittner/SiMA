@@ -225,7 +225,7 @@ public class tstActionProcessor {
 	private class tstTestExecutor extends clsActionExecutor {
 
 		/**
-		 * DOCUMENT (deutsch) - insert description 
+		 * 
 		 * 
 		 * @author deutsch
 		 * 05.10.2009, 19:39:01

@@ -7,7 +7,7 @@
 package pa._v30.tools;
 
 /**
- * DOCUMENT (deutsch) - insert description 
+ *
  * 
  * @author deutsch
  * 21.04.2011, 00:02:02

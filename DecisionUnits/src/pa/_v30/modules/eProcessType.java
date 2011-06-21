@@ -7,7 +7,7 @@
 package pa._v30.modules;
 
 /**
- * DOCUMENT (deutsch) - insert description 
+ *
  * 
  * @author deutsch
  * 11.08.2009, 12:03:37

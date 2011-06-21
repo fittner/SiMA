@@ -10,7 +10,6 @@ import pa._v19.memorymgmt.enums.eDataType;
 import pa._v19.tools.clsTripple;
 
 /**
- * DOCUMENT (zeilinger) - insert description 
  * 
  * @author zeilinger
  * 14.08.2010, 16:11:11
@@ -21,7 +20,6 @@ public class clsAffect extends clsHomeostaticRepresentation{
 	private double mrMinVal = 0.0; 
 	private double mrMaxVal = 0.0; 
 	/**
-	 * DOCUMENT (zeilinger) - insert description 
 	 * 
 	 * @author zeilinger
 	 * 14.08.2010, 16:11:37
@@ -100,7 +98,7 @@ public class clsAffect extends clsHomeostaticRepresentation{
 	 */
 	@Override
 	public void assignDataStructure(clsAssociation poDataStructurePA) {
-		// TODO (zeilinger) - Auto-generated method stub
+		
 		
 	}
 }

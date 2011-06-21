@@ -132,8 +132,8 @@ public class clsImagePerception extends clsImageGeneric {
     moHormonesList.moHormones.add(poHormone);
   }
 
-  public void setOdometry(clsPerceptionOdometry poOdometry) {
-    moOdometry.setOdometry(poOdometry);
+  public void semetry(clsPerceptionOdometry poOdometry) {
+    moOdometry.semetry(poOdometry);
   }
   public void setBumped(boolean pnBumped) {
     moBumped.set(pnBumped);

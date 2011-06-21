@@ -17,7 +17,6 @@ import pa._v19.datatypes.clsPrimaryInformationMesh;
 import pa._v19.datatypes.clsThingPresentationSingle;
 
 /**
- * DOCUMENT (langr) - insert description 
  * 
  * @author langr
  * 23.10.2009, 12:12:24
@@ -33,7 +32,6 @@ public class clsTemplatePrimaryMesh extends clsPrimaryInformationMesh implements
 	public clsCompareOperator moCompareOperator;
 	
 	/**
-	 * DOCUMENT (langr) - insert description 
 	 * 
 	 * @author langr
 	 * 23.10.2009, 12:13:04
@@ -81,7 +79,6 @@ public class clsTemplatePrimaryMesh extends clsPrimaryInformationMesh implements
 	}
 
 	/**
-	 * DOCUMENT (langr) - insert description
 	 *
 	 * @author langr
 	 * 23.10.2009, 14:12:45
@@ -122,7 +119,6 @@ public class clsTemplatePrimaryMesh extends clsPrimaryInformationMesh implements
 	}
 
 	/**
-	 * DOCUMENT (langr) - insert description
 	 *
 	 * @author langr
 	 * 23.10.2009, 13:45:21

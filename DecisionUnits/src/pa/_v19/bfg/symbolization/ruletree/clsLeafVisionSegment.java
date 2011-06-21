@@ -32,7 +32,6 @@ import du.itf.sensors.clsVision;
 import du.itf.sensors.clsVisionEntry;
 
 /**
- * DOCUMENT (zeilinger) - insert description 
  * 
  * @author zeilinger
  * 15.09.2009, 13:23:15
@@ -56,7 +55,7 @@ public class clsLeafVisionSegment extends clsRuleTreeLeaf {
 		  return false;
 	  }
 	  
-	  /*FIXME HZ: Actually there is no team ID defined for agents*/
+	  /* HZ: Actually there is no team ID defined for agents*/
 	  public eTrippleState meOwnTeam = eTrippleState.UNDEFINED; 
 	
 	public static clsRuleTreeElement create(Node poNode) {
@@ -99,7 +98,7 @@ public class clsLeafVisionSegment extends clsRuleTreeLeaf {
 	      poCompareResult[1]++;
 	    }
 	    boolean oResult = false;
-	    //TODO (Zeilinger) - implement the complex compare operator and listen some cool Hip-Hop (the music - not the Bewegung) or Rap...
+	    // (Zeilinger) - implement the complex compare operator and listen some cool Hip-Hop (the music - not the Bewegung) or Rap...
 	    {
 	    	if( compare((clsVision)poPerception.getSensorExt(meSensorType))){
 	          poCompareResult[0]++;
@@ -120,7 +119,7 @@ public class clsLeafVisionSegment extends clsRuleTreeLeaf {
 	@Override
 	public void weight(clsImagePerception poImage,
 			clsImageAbstract poAbstractImage, clsRuleCompareResult compareResult) {
-		// TODO (zeilinger) - Auto-generated method stub
+		
 	}
 		
 	/* (non-Javadoc)
@@ -138,7 +137,7 @@ public class clsLeafVisionSegment extends clsRuleTreeLeaf {
 		if(poData != null){
 			ArrayList<clsSensorExtern>  oVisionEntries = ((clsVision)poData).getDataObjects();
 		
-			/*FIXME HZ Antenna positions have not been implemented yet, as the value is set to undefined
+			/* HZ Antenna positions have not been implemented yet, as the value is set to undefined
 			 * 		The same is for the team ID*/			
 			for (clsSensorExtern element : oVisionEntries){
 				clsVisionEntry oElement = (clsVisionEntry)element; 

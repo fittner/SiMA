@@ -16,7 +16,7 @@ import pa._v30.memorymgmt.datatypes.clsDataStructurePA;
 import pa._v30.memorymgmt.enums.eDataType;
 
 /**
- * DOCUMENT (zeilinger) - insert description 
+ *
  * 
  * @author zeilinger
  * 23.05.2010, 18:29:05
@@ -34,7 +34,7 @@ public abstract class clsSearchSpaceBase implements itfInspectorInternalState {
 	}
 	
 	/**
-	 * DOCUMENT (zeilinger) - insert description
+	 *
 	 *
 	 * @author zeilinger
 	 * 09.06.2010, 22:04:04

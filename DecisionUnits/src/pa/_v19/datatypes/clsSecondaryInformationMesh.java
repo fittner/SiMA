@@ -10,7 +10,6 @@ import java.util.ArrayList;
 
 
 /**
- * DOCUMENT (deutsch) - insert description 
  * 
  * @author deutsch
  * 09.09.2009, 17:00:29
@@ -36,7 +35,6 @@ public class clsSecondaryInformationMesh extends clsSecondaryInformation impleme
 	}
 	
 	/**
-	 * DOCUMENT (langr) - insert description 
 	 * 
 	 * @author langr
 	 * 24.10.2009, 23:48:18

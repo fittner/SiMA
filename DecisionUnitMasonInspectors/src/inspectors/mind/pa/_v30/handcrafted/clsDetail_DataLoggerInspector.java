@@ -14,7 +14,7 @@ import sim.portrayal.Inspector;
 import statictools.clsExceptionUtils;
 
 /**
- * DOCUMENT (deutsch) - insert description 
+ * 
  * 
  * @author deutsch
  * 23.04.2011, 17:06:40
@@ -22,7 +22,7 @@ import statictools.clsExceptionUtils;
  */
 public class clsDetail_DataLoggerInspector extends Inspector {
 	/**
-	 * DOCUMENT (deutsch) - insert description 
+	 * 
 	 * 
 	 * @author deutsch
 	 * 23.04.2011, 17:08:19

@@ -53,11 +53,11 @@ public class clsPerceptionOdometry  { //extends clsCloneable
     setRotation();
   }
 
-  public void setOdometry(clsPerceptionOdometry poOdometry) {
-    setOdometry(poOdometry.moRelativeMovement, poOdometry.moRelativeRotation);
+  public void semetry(clsPerceptionOdometry poOdometry) {
+    semetry(poOdometry.moRelativeMovement, poOdometry.moRelativeRotation);
   }
 
-  public void setOdometry(clsPolarcoordinate poRelativeMovementVector, clsAngle poRelativeRotation) {
+  public void semetry(clsPolarcoordinate poRelativeMovementVector, clsAngle poRelativeRotation) {
     moRelativeMovement.set(poRelativeMovementVector);
     moRelativeRotation.set(poRelativeRotation);
 
@@ -65,7 +65,7 @@ public class clsPerceptionOdometry  { //extends clsCloneable
     setDistance();    
     setRotation();
   }
-  public void setOdometry(clsPoint poRelativeMovement, clsAngle poRelativeRotation) {
+  public void semetry(clsPoint poRelativeMovement, clsAngle poRelativeRotation) {
     moRelativeMovement.set(poRelativeMovement);
     moRelativeRotation.set(poRelativeRotation);
 

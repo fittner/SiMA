@@ -7,7 +7,7 @@
 package pa._v19.memorymgmt.informationrepresentation.enums;
 
 /**
- * DOCUMENT (zeilinger) - insert description 
+ *
  * 
  * @author zeilinger
  * 29.05.2010, 16:31:12

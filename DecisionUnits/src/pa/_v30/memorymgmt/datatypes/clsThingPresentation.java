@@ -13,7 +13,7 @@ import pa._v30.memorymgmt.enums.eDataType;
 
 
 /**
- * DOCUMENT (zeilinger) - insert description 
+ *
  * 
  * @author zeilinger
  * 23.05.2010, 21:48:16
@@ -41,7 +41,7 @@ public class clsThingPresentation extends clsPhysicalRepresentation{
 		this.moContent = moContent;
 	}
 	/**
-	 * DOCUMENT (zeilinger) - insert description 
+	 *
 	 * 
 	 * @author zeilinger
 	 * 24.05.2010, 12:43:50
@@ -107,7 +107,7 @@ public class clsThingPresentation extends clsPhysicalRepresentation{
 	}
 	
 	/**
-	 * DOCUMENT (zeilinger) - insert description
+	 *
 	 *
 	 * @author zeilinger
 	 * 17.08.2010, 10:57:28

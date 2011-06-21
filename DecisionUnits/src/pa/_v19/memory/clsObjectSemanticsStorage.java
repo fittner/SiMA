@@ -16,7 +16,6 @@ import config.clsBWProperties;
 import du.enums.eEntityType;
 
 /**
- * DOCUMENT (langr) - insert description 
  * 
  * @author langr
  * 17.10.2009, 20:29:25

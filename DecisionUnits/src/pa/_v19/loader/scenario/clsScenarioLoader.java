@@ -19,7 +19,6 @@ import pa._v19.datatypes.clsSecondaryInformation;
 import pa._v19.datatypes.clsWordPresentation;
 
 /**
- * DOCUMENT (langr) - insert description 
  * 
  * @author langr
  * 25.10.2009, 12:20:14
@@ -65,7 +64,6 @@ public class clsScenarioLoader {
 
 
 	/**
-	 * DOCUMENT (langr) - insert description
 	 *
 	 * @author langr
 	 * 25.10.2009, 12:45:27

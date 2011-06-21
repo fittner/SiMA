@@ -13,7 +13,7 @@ import pa._v30.interfaces.itfInterfaceInterfaceData;
 import pa._v30.tools.toText;
 
 /**
- * DOCUMENT (deutsch) - insert description 
+ * 
  * 
  * @author deutsch
  * 19.04.2011, 12:17:43
@@ -26,7 +26,7 @@ public class clsE_SimpleInterfaceDataInspector extends
 	private ArrayList<eInterfaces> moSend;	
 	private SortedMap<eInterfaces, ArrayList<Object>> moInterfaceData;
 	/**
-	 * DOCUMENT (deutsch) - insert description 
+	 * 
 	 * 
 	 * @author deutsch
 	 * 19.04.2011, 12:17:51
@@ -34,7 +34,7 @@ public class clsE_SimpleInterfaceDataInspector extends
 	private static final long serialVersionUID = -781003084028878854L;
 
 	/**
-	 * DOCUMENT (deutsch) - insert description 
+	 * 
 	 * 
 	 * @author deutsch
 	 * 19.04.2011, 12:17:47

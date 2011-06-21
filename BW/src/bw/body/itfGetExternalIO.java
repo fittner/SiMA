@@ -1,5 +1,5 @@
 /**
- * @author tobias
+ * @author deutsch
  * Jul 24, 2009, 6:13:23 PM
  * 
  * $Rev::                      $: Revision of last commit
@@ -11,9 +11,9 @@ package bw.body;
 import bw.body.io.clsExternalIO;
 
 /**
- * DOCUMENT (tobias) - insert description 
+ * DOCUMENT (deutsch) - insert description 
  * 
- * @author tobias
+ * @author deutsch
  * Jul 24, 2009, 6:13:23 PM
  * 
  */

@@ -7,7 +7,7 @@
 package pa._v19.memorymgmt.datatypes;
 
 /**
- * DOCUMENT (zeilinger) - insert description 
+ *
  * 
  * @author zeilinger
  * 13.07.2010, 21:01:49

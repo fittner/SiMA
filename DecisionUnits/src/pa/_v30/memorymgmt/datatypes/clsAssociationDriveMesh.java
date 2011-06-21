@@ -11,7 +11,7 @@ import pa._v30.memorymgmt.enums.eDataType;
 
 
 /**
- * DOCUMENT (zeilinger) - insert description 
+ *
  * 
  * @author zeilinger
  * 23.05.2010, 21:54:11
@@ -20,7 +20,7 @@ import pa._v30.memorymgmt.enums.eDataType;
 public class clsAssociationDriveMesh extends clsAssociation{
 	//never usedprivate Object moContent = null; 
 	/**
-	 * DOCUMENT (zeilinger) - insert description 
+	 *
 	 * 
 	 * @author zeilinger
 	 * 24.05.2010, 13:36:37
@@ -47,7 +47,7 @@ public class clsAssociationDriveMesh extends clsAssociation{
 	 */
 	@Override
 	public double compareTo(clsDataStructurePA o) {
-		// TODO (zeilinger) - Auto-generated method stub
+		
 		return 0;
 	}
 	/* (non-Javadoc)
@@ -59,7 +59,7 @@ public class clsAssociationDriveMesh extends clsAssociation{
 	 */
 	@Override
 	public clsDataStructurePA getLeafElement() {
-		//FIXME HZ: The DM has to be marked as leaf element! Bad term 
+		// HZ: The DM has to be marked as leaf element! Bad term 
 		return moAssociationElementA; 
 	}
 	

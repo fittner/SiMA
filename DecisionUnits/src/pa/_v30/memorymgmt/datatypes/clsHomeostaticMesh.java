@@ -12,7 +12,7 @@ import pa._v30.tools.clsTripple;
 import pa._v30.memorymgmt.enums.eDataType;
 
 /**
- * DOCUMENT (zeilinger) - insert description 
+ *
  * 
  * @author zeilinger
  * 23.05.2010, 21:50:26
@@ -23,7 +23,7 @@ public class clsHomeostaticMesh extends clsHomeostaticRepresentation{
 	//private String moContent = "UNDEFINED";
 	private ArrayList<clsAssociation> moAssociatedContent = null; 
 	/**
-	 * DOCUMENT (zeilinger) - insert description 
+	 *
 	 * 
 	 * @author zeilinger
 	 * 24.05.2010, 13:21:21
@@ -36,7 +36,7 @@ public class clsHomeostaticMesh extends clsHomeostaticRepresentation{
 		
 		moDriveDemand = new clsDriveDemand(null,pnDriveDemandIntensity); 
 		moAssociatedContent = poAssociatedDriveSource;
-		//FIXME HZ Is clsDrieDemand required? 
+		// HZ Is clsDrieDemand required? 
 		//moDriveDemand = new clsDriveDemand(pnDriveDemandIntensity, null, null); 
 	}
 	/* (non-Javadoc)
@@ -48,7 +48,7 @@ public class clsHomeostaticMesh extends clsHomeostaticRepresentation{
 	 */
 	@Override
 	public double compareTo(clsDataStructurePA poDataStructure) {
-		// TODO (zeilinger) - Auto-generated method stub
+		
 		return 0;
 	}
 	
@@ -87,7 +87,7 @@ public class clsHomeostaticMesh extends clsHomeostaticRepresentation{
 	 */
 	@Override
 	public void assignDataStructure(clsAssociation poDataStructurePA) {
-		// TODO (zeilinger) - Auto-generated method stub
+		
 		
 	}
 }

@@ -23,7 +23,7 @@ import statictools.clsGetARSPath;
 
 
 /**
- * DOCUMENT (langr) - insert description 
+ *
  * 
  * @author langr
  * 13.08.2009, 03:13:49

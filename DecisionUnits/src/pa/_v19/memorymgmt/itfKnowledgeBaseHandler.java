@@ -13,7 +13,7 @@ import pa._v19.memorymgmt.datatypes.clsDataStructurePA;
 import pa._v19.tools.clsPair;
 
 /**
- * DOCUMENT (zeilinger) - insert description 
+ *
  * 
  * @author zeilinger
  * 30.05.2010, 12:47:34

@@ -9,7 +9,6 @@ package pa._v19.datatypes;
 import java.lang.reflect.Method;
 
 /**
- * DOCUMENT (zeilinger) - insert description 
  * 
  * @author zeilinger
  * 15.09.2009, 09:09:29

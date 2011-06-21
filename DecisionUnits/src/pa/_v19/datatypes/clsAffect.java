@@ -8,7 +8,6 @@ package pa._v19.datatypes;
 
 
 /**
- * DOCUMENT (langr) - insert description 
  * 
  * @author langr
  * 17.10.2009, 19:33:26

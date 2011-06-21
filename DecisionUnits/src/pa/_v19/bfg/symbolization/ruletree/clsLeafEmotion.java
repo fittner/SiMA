@@ -95,7 +95,7 @@ class clsLeafEmotion extends clsRuleTreeLeaf
   */
  @Override
  public boolean compare(clsDataBase poData) {
- 	// TODO (langr) - Auto-generated method stub
+ 	
  	return false;
  }
  

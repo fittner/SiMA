@@ -168,8 +168,8 @@ public class clsPsychicApparatus {
 		String pre = clsBWProperties.addDot(poPrefix);
 		
 		try {
-			//TODO HZ - Integrate to Properties
-			//FIXME (Zeilinger) - TD 2011/04/11 commented the (recreation) of moKnowledgeBaseHandler. see clsProcessor.applyProperties. knowlegebasehandler is created twice!
+			// HZ - Integrate to Properties
+			// (Zeilinger) - TD 2011/04/11 commented the (recreation) of moKnowledgeBaseHandler. see clsProcessor.applyProperties. knowlegebasehandler is created twice!
 			//moKnowledgeBaseHandler = clsKnowledgeBaseHandlerFactory.createInformationRepresentationManagement("ARSI10_MGMT", pre+P_INFORMATIONREPRESENTATIONMGMT, poProp);
 			
 			moE01_SensorsMetabolism = new E01_SensorsMetabolism(pre + E01_SensorsMetabolism.P_MODULENUMBER, poProp, moModules, moInterfaceData);

@@ -11,7 +11,7 @@ import org.jgraph.graph.DefaultGraphCell;
 import com.jgraph.components.labels.RichTextBusinessObject;
 
 /**
- * DOCUMENT (deutsch) - insert description 
+ * 
  * 
  * @author deutsch
  * 22.10.2009, 18:52:19

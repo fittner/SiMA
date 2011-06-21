@@ -169,7 +169,7 @@ public class E25_KnowledgeAboutReality extends clsModuleBase implements I2_12_re
 
 
 	/**
-	 * DOCUMENT (zeilinger) - insert description
+	 *
 	 *
 	 * @author zeilinger
 	 * 19.03.2011, 08:36:59

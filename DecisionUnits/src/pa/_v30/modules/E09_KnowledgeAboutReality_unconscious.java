@@ -22,7 +22,7 @@ import pa._v30.memorymgmt.datatypes.clsDriveMesh;
 import pa._v30.memorymgmt.datatypes.clsPrimaryDataStructureContainer;
 
 /**
- * DOCUMENT (GELBARD) - insert description 
+ *
  * 
  * @author deutsch
  * 11.08.2009, 14:09:09
@@ -36,7 +36,7 @@ public class E09_KnowledgeAboutReality_unconscious extends clsModuleBaseKB imple
 	private ArrayList<clsDriveMesh> moSexualDrives;
 	private ArrayList<clsPrimaryDataStructureContainer> moPrimaryInformation; 
 	/**
-	 * DOCUMENT (GELBARD) - insert description 
+	 *
 	 * 
 	 * @author deutsch
 	 * 03.03.2011, 16:37:44
@@ -171,7 +171,7 @@ public class E09_KnowledgeAboutReality_unconscious extends clsModuleBaseKB imple
 	 */
 	@Override
 	protected void process_draft() {
-		// TODO (GELBARD) - Auto-generated method stub
+		
 		throw new java.lang.NoSuchMethodError();
 	}
 
@@ -184,7 +184,7 @@ public class E09_KnowledgeAboutReality_unconscious extends clsModuleBaseKB imple
 	 */
 	@Override
 	protected void process_final() {
-		// TODO (GELBARD) - Auto-generated method stub
+		
 		throw new java.lang.NoSuchMethodError();
 	}
 	

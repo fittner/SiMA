@@ -140,7 +140,7 @@ public class E26_DecisionMaking extends clsModuleBase implements I1_7_receive, I
 	 * 
 	 * @see pa.interfaces.I3_3#receive_I3_3(int)
 	 * 
-	 * TODO cua implement
+	 *  cua implement
 	 * 
 	 */
 	@SuppressWarnings("unchecked")
@@ -156,7 +156,7 @@ public class E26_DecisionMaking extends clsModuleBase implements I1_7_receive, I
 	 * 
 	 * @see pa.interfaces.I5_5#receive_I5_5(int)
 	 * 
-	 * TODO cua implement
+	 *  cua implement
 	 * 
 	 */
 	@Override
@@ -184,7 +184,7 @@ public class E26_DecisionMaking extends clsModuleBase implements I1_7_receive, I
 	}
 	
 	/**
-	 * DOCUMENT (zeilinger) -
+	 * 
 	 *
 	 * @author zeilinger
 	 * 27.08.2010, 15:28:53
@@ -211,7 +211,7 @@ public class E26_DecisionMaking extends clsModuleBase implements I1_7_receive, I
 		clsWordPresentation oGoal = null; 
 		ArrayList<clsAssociation> oAssociatedDS = new ArrayList<clsAssociation>();
 
-		//FIXME HZ Actually the highest rated drive content is taken => this is sloppy and has to be evaluated in a later version! 
+		// HZ Actually the highest rated drive content is taken => this is sloppy and has to be evaluated in a later version! 
 		oDriveContainer = getHighestDriveDemand(moDriveList);
 		oDriveContent = ((clsWordPresentation)oDriveContainer.getMoDataStructure()).getMoContent(); 
 		
@@ -219,7 +219,7 @@ public class E26_DecisionMaking extends clsModuleBase implements I1_7_receive, I
 				// dirty hack -> moRealityPerception only contains the "a" part of the clsPair - look at E24
 				String oExtContent   = ((clsWordPresentation)oExtPerception.getMoDataStructure()).getMoContent(); 
 				
-				//FIXME HZ: Here an evaluation of the drive's intensity (very low, low, medium, high, very high) has to be done (like)
+				// HZ: Here an evaluation of the drive's intensity (very low, low, medium, high, very high) has to be done (like)
 				// in E23. It cannot be matched directly as it has to be compared that e.g. very high is not equal to high
 				// but is bigger than high. E.g. in case eating a cake satisfies the drive NOURISH high but the need Nourish
 				// is very high now, it has to be identified that the cake gets still eaten even high and very high do not match.
@@ -235,7 +235,7 @@ public class E26_DecisionMaking extends clsModuleBase implements I1_7_receive, I
 							||oDriveContent.contains(eAffectLevel.VERYHIGH.name()))){
 //						&& ((oIntensity.equals("HIGH"))
 //						|| (oIntensity.equals("VERYHIGH")))){ 
-					//TODO HZ: Here the first match is taken and added as goal to the output list; Actually
+					// HZ: Here the first match is taken and added as goal to the output list; Actually
 					// only one goal is selected!
 					//Attention: the first part of the string (index 0 until the first string sequence "||" ) defines the drive that has to be
 					// satisfied by the object outside; in case there is no adequate object perceived, the variable oContent is defined
@@ -295,7 +295,7 @@ public class E26_DecisionMaking extends clsModuleBase implements I1_7_receive, I
 
 	
 	/**
-	 * DOCUMENT (zeilinger) - insert description
+	 *
 	 *
 	 * @author zeilinger
 	 * 02.11.2010, 17:04:15

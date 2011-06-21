@@ -1,7 +1,7 @@
 /**
  * clsMutableBoolean.java: BW - bw.utils.datatypes
  * 
- * @author tobias
+ * @author deutsch
  * Jul 29, 2009, 6:50:03 PM
  */
 
@@ -13,7 +13,7 @@ import java.io.Serializable;
  * The Boolean class wraps a value of the primitive type boolean in an object. An object of 
  * type Boolean contains a single field whose type is boolean. The boolean value is mutable. 
  * 
- * @author tobias
+ * @author deutsch
  * Jul 29, 2009, 6:49:44 PM
  *  @deprecated
  */
@@ -24,7 +24,7 @@ public class clsMutableBoolean implements Serializable {
     /**
      * Allocates a Boolean object representing the value argument. 
      * 
-     * @author tobias
+     * @author deutsch
      * Jul 29, 2009, 6:51:47 PM
      *
      * @param value - the value of the Boolean.
@@ -35,7 +35,7 @@ public class clsMutableBoolean implements Serializable {
     /**
      * Copy constructor. Allocates a Boolean object representing the boolean value of the copied object oValue argument. 
      * 
-     * @author tobias
+     * @author deutsch
      * Jul 29, 2009, 6:51:50 PM
      *
      * @param oValue - the object to be copied.
@@ -48,7 +48,7 @@ public class clsMutableBoolean implements Serializable {
     /**
      * Returns the value of this Boolean object as a boolean primitive. 
      *
-     * @author tobias
+     * @author deutsch
      * Jul 29, 2009, 6:55:48 PM
      *
      * @return the primitive boolean value of this object.
@@ -60,7 +60,7 @@ public class clsMutableBoolean implements Serializable {
     /**
      * Returns an immutable object of type java.lang.Boolean representing the same boolean primitive value as the current object.
      *
-     * @author tobias
+     * @author deutsch
      * Jul 29, 2009, 6:55:56 PM
      *
      * @return immutable object of type java.lang.Boolean
@@ -72,7 +72,7 @@ public class clsMutableBoolean implements Serializable {
     /**
      * Sets the the boolean value of the object to the new value.
      *
-     * @author tobias
+     * @author deutsch
      * Jul 29, 2009, 6:55:54 PM
      *
      * @param pnValue - the new value 
@@ -84,7 +84,7 @@ public class clsMutableBoolean implements Serializable {
 
     /* (non-Javadoc)
      *
-     * @author tobias
+     * @author deutsch
      * Jul 29, 2009, 6:55:52 PM
      * 
      * @see java.lang.Object#toString()
@@ -97,7 +97,7 @@ public class clsMutableBoolean implements Serializable {
     /**
      * Returns true if the internal boolean value equals true. false otherwise.
      *
-     * @author tobias
+     * @author deutsch
      * Jul 29, 2009, 6:55:51 PM
      *
      * @return boolean primitive value 
@@ -110,7 +110,7 @@ public class clsMutableBoolean implements Serializable {
      * Returns true if and only if the argument is not null and is a Boolean or an 
      * clsMutableBoolean object that represents the same boolean value as this object. 
      *
-     * @author tobias
+     * @author deutsch
      * Jul 29, 2009, 7:02:03 PM
      *
      * @param obj - the object to compare with. 

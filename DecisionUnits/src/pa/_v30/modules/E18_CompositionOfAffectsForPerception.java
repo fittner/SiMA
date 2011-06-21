@@ -29,7 +29,7 @@ import pa._v30.memorymgmt.datatypes.clsThingPresentationMesh;
 import pa._v30.memorymgmt.enums.eDataType;
 
 /**
- * DOCUMENT (wendt) - insert description 
+ *
  * 
  * @author deutsch
  * 11.08.2009, 14:33:54
@@ -58,7 +58,7 @@ public class E18_CompositionOfAffectsForPerception extends clsModuleBase impleme
 
 	
 	/**
-	 * DOCUMENT (wendt) - insert description 
+	 *
 	 * 
 	 * @author deutsch
 	 * 03.03.2011, 16:33:27
@@ -186,7 +186,7 @@ public class E18_CompositionOfAffectsForPerception extends clsModuleBase impleme
 			clsDriveMesh oDMLibido = null;
 			
 			for (clsPair<clsPrimaryDataStructureContainer,clsDriveMesh> oL:moLibidoPleasureCandidates_IN) {
-				if (oL.a.toString().equals(oPDSC.toString())) { //FIXME (Zeilinger): untested! not sure if this operation can identify identical clsPrimaryDataStructureContainer (TD 2011/04/22)
+				if (oL.a.toString().equals(oPDSC.toString())) { // (Zeilinger): untested! not sure if this operation can identify identical clsPrimaryDataStructureContainer (TD 2011/04/22)
 					oDMLibido = oL.b;
 					break;
 				}
@@ -199,7 +199,7 @@ public class E18_CompositionOfAffectsForPerception extends clsModuleBase impleme
 	}
 	
 	/**
-	 * DOCUMENT (zeilinger) - insert description
+	 *
 	 *
 	 * @author zeilinger
 	 * 18.08.2010, 12:44:36
@@ -307,7 +307,7 @@ public class E18_CompositionOfAffectsForPerception extends clsModuleBase impleme
 				 * of all equal drive meshes in the object. If another object has a higher
 				 * Quota of affect, its content is taken.
 				 */
-				double mrMaxTotalQuotaOfAffect = oFirstDM.getMrPleasure();	//FIXME Add Unpleasure too
+				double mrMaxTotalQuotaOfAffect = oFirstDM.getMrPleasure();	// Add Unpleasure too
 				String msMaxContent = oFirstDM.getMoContent();
 						
 				//Go through all following associations of that object
@@ -328,7 +328,7 @@ public class E18_CompositionOfAffectsForPerception extends clsModuleBase impleme
 							//oFirstDM.setMrPleasure(mrNewUnpleasure);
 							//3. Check if the quota of affect is higher for the second DM and exchange content
 							if (oSecondDM.getMrPleasure() > mrMaxTotalQuotaOfAffect) {
-								//FIXME: Corrent the function to consider mrUnpleasure too
+								//: Corrent the function to consider mrUnpleasure too
 								msMaxContent = oSecondDM.getMoContent();
 								mrMaxTotalQuotaOfAffect = oSecondDM.getMrPleasure();
 							}
@@ -418,7 +418,7 @@ public class E18_CompositionOfAffectsForPerception extends clsModuleBase impleme
 	 */
 	@Override
 	protected void process_draft() {
-		// TODO (wendt) - Auto-generated method stub
+		
 		throw new java.lang.NoSuchMethodError();
 	}
 
@@ -431,7 +431,7 @@ public class E18_CompositionOfAffectsForPerception extends clsModuleBase impleme
 	 */
 	@Override
 	protected void process_final() {
-		// TODO (wendt) - Auto-generated method stub
+		
 		throw new java.lang.NoSuchMethodError();
 	}
 

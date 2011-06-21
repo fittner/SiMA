@@ -7,7 +7,7 @@
 package pa._v19.memorymgmt.exceptions;
 
 /**
- * DOCUMENT (zeilinger) - insert description 
+ *
  * 
  * @author zeilinger
  * 14.08.2010, 12:39:26
@@ -16,7 +16,7 @@ package pa._v19.memorymgmt.exceptions;
 public class EmptyListException extends Exception{
 
 	/**
-	 * DOCUMENT (zeilinger) - insert description 
+	 *
 	 * 
 	 * @author zeilinger
 	 * 14.08.2010, 12:39:55

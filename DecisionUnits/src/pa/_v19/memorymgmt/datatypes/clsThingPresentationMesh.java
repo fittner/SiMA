@@ -12,7 +12,7 @@ import pa._v19.memorymgmt.enums.eDataType;
 import pa._v19.tools.clsTripple;
 
 /**
- * DOCUMENT (zeilinger) - insert description 
+ *
  * 
  * @author zeilinger
  * 24.05.2010, 12:51:07
@@ -41,7 +41,7 @@ public class clsThingPresentationMesh extends clsPhysicalStructureComposition{
 	}
 
 	/**
-	 * DOCUMENT (zeilinger) - insert description 
+	 *
 	 * 
 	 * @author zeilingere
 	 * 24.05.2010, 12:51:22
@@ -59,7 +59,7 @@ public class clsThingPresentationMesh extends clsPhysicalStructureComposition{
 	}
 	
 	/**
-	 * DOCUMENT (zeilinger) - insert description
+	 *
 	 *
 	 * @author zeilinger
 	 * 16.08.2010, 22:10:28
@@ -73,7 +73,7 @@ public class clsThingPresentationMesh extends clsPhysicalStructureComposition{
 	}
 
 	/**
-	 * DOCUMENT (zeilinger) - insert description
+	 *
 	 *
 	 * @author zeilinger
 	 * 16.08.2010, 22:10:26
@@ -135,7 +135,7 @@ public class clsThingPresentationMesh extends clsPhysicalStructureComposition{
 		//data structure and replaced by it (the processes base on information that is already
 		//defined.
 		//TPM content is represented by a list of attribute associations
-		//TODO HZ Define why there is no if statement regarding the content!
+		// HZ Define why there is no if statement regarding the content!
 		if(this.moContent.intern() == oDataStructure.moContent.intern()){
 			oRetVal = getMatchScore(oContentListTemplate, oContentListUnknown);
 		}
@@ -147,7 +147,7 @@ public class clsThingPresentationMesh extends clsPhysicalStructureComposition{
 	}
 	
 	/**
-	 * DOCUMENT (zeilinger) - insert description
+	 *
 	 *
 	 * @author zeilinger
 	 * 18.07.2010, 16:12:00

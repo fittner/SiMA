@@ -19,7 +19,7 @@ import sim.portrayal.Inspector;
 import sim.portrayal.LocationWrapper;
 
 /**
- * DOCUMENT (langr) - insert description 
+ *
  * 
  * @author langr
  * 13.08.2009, 01:47:14
@@ -58,8 +58,7 @@ public class clsE02InspectorOutput extends Inspector {
 	 */
 	@Override
 	public void updateInspector() {
-		// TODO (langr) - Auto-generated method stub
-		
+				
 	}
 
 }

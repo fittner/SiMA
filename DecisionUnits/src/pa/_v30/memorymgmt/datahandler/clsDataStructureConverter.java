@@ -29,7 +29,7 @@ import pa._v30.symbolization.representationsymbol.itfIsContainer;
 import pa._v30.symbolization.representationsymbol.itfSymbol;
 
 /**
- * DOCUMENT (zeilinger) - insert description 
+ *
  * 
  * @author zeilinger
  * 13.08.2010, 12:07:07
@@ -92,13 +92,13 @@ public class clsDataStructureConverter {
 			clsThingPresentation oTP = null;
 			String oContentTypeTP = "DEFAULT"; 
 			Object oContentTP = "DEFAULT";
-			//TODO HZ 16.08.2010: The method removePrefix is used in order to read out´the content type of a sub-symbol. 
+			// HZ 16.08.2010: The method removePrefix is used in order to read out´the content type of a sub-symbol. 
 			//As this operation is not supported by the provided interfaces (It is presumed that objects are 
 			//received in the form of TPMs), removePrefix is taken from the ARSi09 implementation - however it is a dirty hack
 			//and has to be removed when the symbolization is restructured.
 			oContentTypeTP = removePrefix(oM.getName()); 
 					
-			//FIXME HZ! For this part a new solution has to be found 
+			// HZ! For this part a new solution has to be found 
 			//Certain types of content types are mapped together
 			
 			if(oContentTypeTP.equals("ObjectPosition") || oContentTypeTP.equals("Distance")){
@@ -236,7 +236,7 @@ public class clsDataStructureConverter {
 	}
 	
 	public static ArrayList<clsPrimaryDataStructureContainer> convertTItoMultiplePDSC(clsTemplateImage oTIInput) throws Exception {
-		//TODO: This function is only for the purpose to convert template images from the primary process to
+		//: This function is only for the purpose to convert template images from the primary process to
 		//PDSC, which is a special case. If the conversation shall be extended, this function has to be generalized
 		ArrayList<clsPrimaryDataStructureContainer> oRetVal = new ArrayList<clsPrimaryDataStructureContainer>();
 		

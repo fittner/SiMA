@@ -32,7 +32,7 @@ import pa._v30.memorymgmt.enums.eDataType;
 import pa._v30.storage.clsBlockedContentStorage;
 
 /**
- * DOCUMENT (wendt) - insert description 
+ *
  * 
  * @author deutsch
  * 07.10.2009, 11:16:58
@@ -48,7 +48,7 @@ public class E35_EmersionOfRepressedContent extends clsModuleBaseKB implements i
 	private double mrContextSensitivity = 0.8;
 	private boolean mnMinimalModel;
 	/**
-	 * DOCUMENT (wendt) - insert description 
+	 *
 	 * 
 	 * @author deutsch
 	 * 03.03.2011, 16:24:23
@@ -130,7 +130,7 @@ public class E35_EmersionOfRepressedContent extends clsModuleBaseKB implements i
 			//	  data structures. However, after the new functionalities are introduced, old and new data structures have to 
 			//    be clearly separated from each other and the use of clsRepressedContentStorage has to be avoided. 
 			
-			//FIXME: AW: The output consists of 3 equal pairs of DM and Containers. Why is the same Ref used 3 times?
+			//: AW: The output consists of 3 equal pairs of DM and Containers. Why is the same Ref used 3 times?
 			moAttachedRepressed_Output = new ArrayList<clsPair<clsPrimaryDataStructureContainer,clsDriveMesh>>();
 			ArrayList<clsPrimaryDataStructureContainer> oContainerList = new ArrayList<clsPrimaryDataStructureContainer>(); 
 	 		
@@ -168,7 +168,7 @@ public class E35_EmersionOfRepressedContent extends clsModuleBaseKB implements i
 	}
 	
 	/**
-	 * DOCUMENT (zeilinger) - insert description
+	 *
 	 *
 	 * @author zeilinger
 	 * 16.08.2010, 09:55:48
@@ -191,7 +191,7 @@ public class E35_EmersionOfRepressedContent extends clsModuleBaseKB implements i
 	}
 	
 	/**
-	 * DOCUMENT (zeilinger) - insert description
+	 *
 	 *
 	 * @author zeilinger
 	 * 18.03.2011, 17:03:40
@@ -215,7 +215,7 @@ public class E35_EmersionOfRepressedContent extends clsModuleBaseKB implements i
 	}
 
 	/**
-	 * DOCUMENT (zeilinger) - insert description
+	 *
 	 *
 	 * @author zeilinger
 	 * 16.08.2010, 15:09:42
@@ -234,7 +234,7 @@ public class E35_EmersionOfRepressedContent extends clsModuleBaseKB implements i
 	}
 	
 	/**
-	 * DOCUMENT (zeilinger) - insert description
+	 *
 	 *
 	 * @author zeilinger
 	 * 26.08.2010, 12:06:22
@@ -280,7 +280,7 @@ public class E35_EmersionOfRepressedContent extends clsModuleBaseKB implements i
 	}
 
 	/**
-	 * DOCUMENT (zeilinger) - insert description
+	 *
 	 *
 	 * @author zeilinger
 	 * 26.08.2010, 12:02:45
@@ -293,7 +293,7 @@ public class E35_EmersionOfRepressedContent extends clsModuleBaseKB implements i
 	}
 
 	/**
-	 * DOCUMENT (zeilinger) - insert description
+	 *
 	 *
 	 * @author zeilinger
 	 * 16.08.2010, 18:13:00
@@ -309,7 +309,7 @@ public class E35_EmersionOfRepressedContent extends clsModuleBaseKB implements i
 	}
 
 	/**
-	 * DOCUMENT (zeilinger) - insert description
+	 *
 	 *
 	 * @author zeilinger
 	 * 16.08.2010, 17:15:39
@@ -332,11 +332,11 @@ public class E35_EmersionOfRepressedContent extends clsModuleBaseKB implements i
 				 * The match of the BITE DM is 0.5 and the match of the NOURISH DM is 0.9. Therefore, the DM of 
 				 * NOURISH is selected
 				 */
-				//FIXME: mrPleasure = -0.3. This is not allowed. Add mrUnpleasure instead
+				//: mrPleasure = -0.3. This is not allowed. Add mrUnpleasure instead
 //				clsDriveMesh oRep = moMemory.moRepressedContentsStore.getBestMatchCONVERTED(oInput);
 //				moAttachedRepressed_Output.add(new clsPair<clsPrimaryDataStructureContainer, clsDriveMesh>(oInput, oRep));
 // TD 2011/04/20: removed above two line due to removal of rolands clsMemory. has to be reimplemented by other means
-// TODO (Wendt): reimplement method matchRepressedContent
+//  (Wendt): reimplement method matchRepressedContent
 			clsDriveMesh oRep = moBlockedContentStorage.getBestMatchCONVERTED(oInput);
 			moAttachedRepressed_Output.add(new clsPair<clsPrimaryDataStructureContainer, clsDriveMesh>(oInput, oRep));
 		}
@@ -394,7 +394,7 @@ public class E35_EmersionOfRepressedContent extends clsModuleBaseKB implements i
 	 */
 	@Override
 	protected void process_draft() {
-		// TODO (wendt) - Auto-generated method stub
+		
 		throw new java.lang.NoSuchMethodError();
 	}
 
@@ -407,12 +407,12 @@ public class E35_EmersionOfRepressedContent extends clsModuleBaseKB implements i
 	 */
 	@Override
 	protected void process_final() {
-		// TODO (wendt) - Auto-generated method stub
+		
 		throw new java.lang.NoSuchMethodError();
 	}
 	
 	/**
-	 * DOCUMENT (zeilinger) - insert description
+	 *
 	 *
 	 * @author zeilinger
 	 * 19.03.2011, 08:36:59

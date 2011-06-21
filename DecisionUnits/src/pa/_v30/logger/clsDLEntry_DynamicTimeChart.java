@@ -12,7 +12,7 @@ import pa._v30.modules.clsModuleBase;
 import pa._v30.tools.clsPair;
 
 /**
- * DOCUMENT (deutsch) - insert description 
+ *
  * 
  * @author deutsch
  * 23.04.2011, 16:09:48
@@ -21,7 +21,7 @@ import pa._v30.tools.clsPair;
 public class clsDLEntry_DynamicTimeChart extends clsDLEntry_Abstract implements itfInspectorGenericDynamicTimeChart {
 
 	/**
-	 * DOCUMENT (deutsch) - insert description 
+	 *
 	 * 
 	 * @author deutsch
 	 * 23.04.2011, 16:12:42

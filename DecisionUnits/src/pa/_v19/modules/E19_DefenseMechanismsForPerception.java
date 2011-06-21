@@ -111,7 +111,7 @@ public class E19_DefenseMechanismsForPerception extends clsModuleBase implements
 	}
 	
 	/**
-	 * DOCUMENT (zeilinger) - insert description
+	 *
 	 *
 	 * @author zeilinger
 	 * 20.08.2010, 12:01:38

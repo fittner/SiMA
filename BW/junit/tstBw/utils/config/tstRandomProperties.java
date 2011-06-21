@@ -16,7 +16,7 @@ import config.clsRandomProperties;
 
 
 /**
- * DOCUMENT (deutsch) - insert description 
+ * 
  * 
  * @author deutsch
  * 22.07.2009, 09:02:32

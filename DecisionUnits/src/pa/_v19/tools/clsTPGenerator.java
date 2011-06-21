@@ -22,7 +22,7 @@ import pa._v19.symbolization.representationsymbol.itfSymbol;
 import pa._v19.enums.eSymbolExtType;
 
 /**
- * DOCUMENT (langr) - insert description 
+ *
  * 
  * @author langr
  * 30.09.2009, 11:30:13

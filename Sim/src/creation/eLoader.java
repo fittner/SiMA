@@ -1,21 +1,19 @@
 /**
- * @author tobias
- * Jul 26, 2009, 3:14:28 PM
+ * CHANGELOG
  * 
- * $Rev::                      $: Revision of last commit
- * $Author::                   $: Author of last commit
- * $Date::                     $: Date of last commit
+ * 2011/06/20 TD - added some javadoc
  */
 package creation;
 
 /**
- * DOCUMENT (tobias) - insert description 
+ * Enum to select differen property loaders.
  * 
- * @author tobias
+ * @author deutsch
  * Jul 26, 2009, 3:14:28 PM
  * 
  */
 public enum eLoader {
+	/** refers to creation.simplePropertyLoader.clsSimplePropertyLoader. */
 	SIMPLE_PROPERTY_LOADER,
 	UNDEFINED,
 }

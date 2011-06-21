@@ -97,7 +97,7 @@ public class clsBWProperties extends Properties {
 		if (value.contains(P_DELIMITER)) {
 			throw new java.lang.UnsupportedOperationException("escaping of strings currently buggy - please don't use the delimiter "+P_DELIMITER+" in your strings");
 		}
-		//TODO implement correct escaping and unescaping
+		// implement correct escaping and unescaping
 	//	value = value.replaceAll(P_REGEXP_ESCAPE, P_ESCAPE+P_ESCAPE); // escape the escape sequence - \\ is converted to \\\\
 	//	value = value.replaceAll(P_DELIMITER, P_ESCAPE+P_DELIMITER); // escape the delimiter - ; is converted to \\;
 		// note: "\\;" is converted to "\\\\\\;" - this has to dealt with in unescape Delim und the regexp has to deal with "\\". this is converted
@@ -107,7 +107,7 @@ public class clsBWProperties extends Properties {
 		return value;
 	}
 	private static String unescapeDelim(String value) {
-		//TODO implement correct escaping and unescaping		
+		// implement correct escaping and unescaping		
 		// reverse escapeDelim
 	//	value = value.replaceAll(P_REGEXP_ESCAPE+P_DELIMITER, P_DELIMITER);
 	//	value = value.replaceAll(P_REGEXP_ESCAPE, P_ESCAPE);

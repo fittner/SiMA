@@ -10,7 +10,7 @@ import pa._v30.tools.clsTripple;
 import pa._v30.memorymgmt.enums.eDataType;
 
 /**
- * DOCUMENT (zeilinger) - insert description 
+ *
  * 
  * @author zeilinger
  * 23.05.2010, 21:53:16
@@ -18,7 +18,7 @@ import pa._v30.memorymgmt.enums.eDataType;
  */
 public class clsAssociationAttribute extends clsAssociation{
 	/**
-	 * DOCUMENT (zeilinger) - insert description 
+	 *
 	 * 
 	 * @author zeilinger
 	 * 24.05.2010, 15:53:46
@@ -39,7 +39,7 @@ public class clsAssociationAttribute extends clsAssociation{
 	 */
 	@Override
 	public double compareTo(clsDataStructurePA poDataStructure) {
-		// TODO (zeilinger) - Auto-generated method stub
+		
 		return 0;
 	}
 

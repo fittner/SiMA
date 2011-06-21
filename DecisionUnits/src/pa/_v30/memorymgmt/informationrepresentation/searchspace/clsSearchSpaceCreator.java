@@ -11,7 +11,7 @@ import java.util.HashMap;
 import pa._v30.memorymgmt.datatypes.clsDataStructurePA;
 
 /**
- * DOCUMENT (zeilinger) - insert description 
+ *
  * 
  * @author zeilinger
  * 23.05.2010, 18:42:48

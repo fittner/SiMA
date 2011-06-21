@@ -10,7 +10,7 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * DOCUMENT (deutsch) - insert description 
+ *
  * 
  * @author deutsch
  * 21.04.2011, 14:50:50

@@ -15,7 +15,7 @@ import du.itf.actions.*;
 
 
 /**
- * TODO (langr) - THIS CLASS NEEDS A REFACTORING - reason: not every
+ *  (langr) - THIS CLASS NEEDS A REFACTORING - reason: not every
  * entity has the same Sensors/Actuators
  * Possible Solution without refactor: derivate subclasses that override the ctor
  * 
@@ -26,7 +26,7 @@ import du.itf.actions.*;
  * The method step is automatically called from clsBody and ensures
  * the sensor update for all sensors during the sensing-cycle.
  * 
- * TODO (langr) - the same should be done with the actuators:
+ *  (langr) - the same should be done with the actuators:
  * The method @@@ is automatically called from clsBody and ensures
  * the actuator-execution for all actuators during the execution-cycle.
  * 
@@ -36,7 +36,7 @@ import du.itf.actions.*;
  * 
  */
 public class clsExternalIO extends clsBaseIO {
-	/*TODO: HZ 30.07.2009 The variable sensorvision is set to false if the old sensor system should be 
+	/*: HZ 30.07.2009 The variable sensorvision is set to false if the old sensor system should be 
 	 * used, otherwise it is set to true. This is only an interim solution due to 
 	 * too less testing time. 
 	 * */
@@ -252,7 +252,7 @@ public class clsExternalIO extends clsBaseIO {
 //				eSensorExtType eType = eSensorExtType.valueOf(poProp.getPropertyString(tmp_pre+P_SENSORTYPE));
 //				
 //			
-//					/*TODO: HZ 28.07.2009 - This part serves as interim solution as long as all sensors are implied
+//					/*: HZ 28.07.2009 - This part serves as interim solution as long as all sensors are implied
 //					 * to the sensor engine. For now it has to be done, as the reference would
 //					 * miss in clsBrainSocket - if it will still be here in 6 months, beat up the
 //					 * author and/or remove it by yourself.
@@ -303,7 +303,7 @@ public class clsExternalIO extends clsBaseIO {
 //		if (poProp.getPropertyInt( pre+P_ACTIONAVAILABLE	+"."+bw.utils.enums.eBodyParts.ACTIONEX_FACIALEXPRESSIONS + P_ACTIONEX_FEX_LEFTANT)==1) moProcessor.addCommand(clsActionFacialExLeftAntennaPosition.class, new clsExecutorFacialExpressions(poPrefix+"." + P_ACTIONEX	+"."+bw.utils.enums.eBodyParts.ACTIONEX_FACIALEXPRESSIONS,poProp,(clsMobile) moEntity));
 //		if (poProp.getPropertyInt( pre+P_ACTIONAVAILABLE	+"."+bw.utils.enums.eBodyParts.ACTIONEX_FACIALEXPRESSIONS + P_ACTIONEX_FEX_RIGHTANT)==1) moProcessor.addCommand(clsActionFacialExRightAntennaPosition.class, new clsExecutorFacialExpressions(poPrefix+"." + P_ACTIONEX	+"."+bw.utils.enums.eBodyParts.ACTIONEX_FACIALEXPRESSIONS,poProp,(clsMobile) moEntity));
 //
-//		//TODO: Add itfAPSleep - objects to inform when sleeping!		
+//		//: Add itfAPSleep - objects to inform when sleeping!		
 //		if (poProp.getPropertyInt( pre+P_ACTIONAVAILABLE	+"."+bw.utils.enums.eBodyParts.ACTIONEX_SLEEP)==1) {
 //			ArrayList<itfAPSleep> oNotifyListLight = new ArrayList<itfAPSleep>();
 //			ArrayList<itfAPSleep> oNotifyListDeep = new ArrayList<itfAPSleep>();

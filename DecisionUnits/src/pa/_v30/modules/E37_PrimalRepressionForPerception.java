@@ -20,7 +20,7 @@ import pa._v30.tools.toText;
 import config.clsBWProperties;
 
 /**
- * DOCUMENT (HINTERLEITNER) - insert description 
+ *
  * 
  * @author deutsch
  * 03.03.2011, 15:22:10
@@ -33,7 +33,7 @@ public class E37_PrimalRepressionForPerception extends clsModuleBase implements 
 	private ArrayList<clsPrimaryDataStructureContainer> moEvaluatedEnvironment_OUT;
 		
 	/**
-	 * DOCUMENT (HINTERLEITNER) - insert description 
+	 *
 	 * 
 	 * @author deutsch
 	 * 03.03.2011, 16:20:58
@@ -96,7 +96,7 @@ public class E37_PrimalRepressionForPerception extends clsModuleBase implements 
 	 */
 	@Override
 	protected void process_basic() {
-		// TODO (HINTERLEITNER) - Auto-generated method stub
+		
 		moEvaluatedEnvironment_OUT = moEnvironmental_IN; 
 	}
 
@@ -109,7 +109,7 @@ public class E37_PrimalRepressionForPerception extends clsModuleBase implements 
 	 */
 	@Override
 	protected void process_draft() {
-		// TODO (HINTERLEITNER) - Auto-generated method stub
+		
 
 	}
 
@@ -122,7 +122,7 @@ public class E37_PrimalRepressionForPerception extends clsModuleBase implements 
 	 */
 	@Override
 	protected void process_final() {
-		// TODO (HINTERLEITNER) - Auto-generated method stub
+		
 
 	}
 

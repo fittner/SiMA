@@ -33,7 +33,7 @@ import pa._v30.memorymgmt.enums.eDataType;
 import config.clsBWProperties;
 
 /**
- * DOCUMENT (HINTERLEITNER) - insert description 
+ *
  * 
  * @author deutsch
  * 03.03.2011, 16:16:45
@@ -55,7 +55,7 @@ public class E46_FusionWithMemoryTraces extends clsModuleBaseKB implements
 
 	
 	/**
-	 * DOCUMENT (HINTERLEITNER) - insert description 
+	 *
 	 * 
 	 * @author deutsch
 	 * 03.03.2011, 16:16:50
@@ -137,7 +137,7 @@ public class E46_FusionWithMemoryTraces extends clsModuleBaseKB implements
 	 */
 	@Override
 	protected void process_draft() {
-		// TODO (HINTERLEITNER) - Auto-generated method stub
+		
 		}
 
 	/* (non-Javadoc)
@@ -149,12 +149,12 @@ public class E46_FusionWithMemoryTraces extends clsModuleBaseKB implements
 	 */
 	@Override
 	protected void process_final() {
-		// TODO (HINTERLEITNER) - Auto-generated method stub
+		
 
 	}
 	
 	/**
-	 * DOCUMENT (zeilinger) - retrieves memory matches for environmental input; objects are identified and exchanged by their 
+	 * retrieves memory matches for environmental input; objects are identified and exchanged by their 
 	 * stored correspondance.
 	 *
 	 * @author zeilinger
@@ -175,7 +175,7 @@ public class E46_FusionWithMemoryTraces extends clsModuleBaseKB implements
 
 	
 	/**
-	 * DOCUMENT (zeilinger) - insert description
+	 *
 	 *
 	 * @author zeilinger
 	 * 14.03.2011, 23:06:52
@@ -217,7 +217,7 @@ public class E46_FusionWithMemoryTraces extends clsModuleBaseKB implements
 	}
 	
 	/**
-	 * DOCUMENT (zeilinger) - insert description
+	 *
 	 *
 	 * @author zeilinger
 	 * 17.08.2010, 20:39:09
@@ -241,7 +241,7 @@ public class E46_FusionWithMemoryTraces extends clsModuleBaseKB implements
 	}
 
 	/**
-	 * DOCUMENT (zeilinger) - insert description
+	 *
 	 *
 	 * @author zeilinger
 	 * 15.03.2011, 10:27:04
@@ -263,7 +263,7 @@ public class E46_FusionWithMemoryTraces extends clsModuleBaseKB implements
 	}
 
 	/**
-	 * DOCUMENT (zeilinger) - insert description
+	 *
 	 *
 	 * @author zeilinger
 	 * 15.03.2011, 10:25:24
@@ -287,7 +287,7 @@ public class E46_FusionWithMemoryTraces extends clsModuleBaseKB implements
 	}
 
 	/**
-	 * DOCUMENT (zeilinger) - insert description
+	 *
 	 *
 	 * @author zeilinger
 	 * 14.03.2011, 23:08:28

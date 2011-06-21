@@ -8,7 +8,7 @@
 package nao.utils.enums;
 
 /**
- * DOCUMENT (deutsch) - insert description 
+ * 
  * 
  * @author deutsch
  * 

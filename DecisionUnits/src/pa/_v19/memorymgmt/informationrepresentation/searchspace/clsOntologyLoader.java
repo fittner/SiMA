@@ -36,7 +36,7 @@ import pa._v19.tools.clsPair;
 import pa._v19.tools.clsTripple;
 
 /**
- * DOCUMENT (zeilinger) - insert description 
+ *
  * 
  * @author zeilinger
  * 31.05.2010, 08:21:13
@@ -47,7 +47,7 @@ public class clsOntologyLoader {
 	static int DS_ID = 0; 
 	
 	public static void loadOntology(HashMap<String, clsDataStructurePA> poDataStructureTable, String poSourceName){
-		//FIXME HZ This if-statement is defined for testing reasons as the Search Space should be set for the 
+		// HZ This if-statement is defined for testing reasons as the Search Space should be set for the 
 		// JUnit tests (e.g. tssInformationRepresentationManagementARSi10) in order to be independent from changes in the ontology. Of cause an unchangeable test-ontology 
 		// is a possiblity to introduce a permanent solution.
 		 
@@ -60,12 +60,12 @@ public class clsOntologyLoader {
 	}
 	
 	private static void initOntology(HashMap<String, clsDataStructurePA> poDataStructureList, String poSourceName){
-		//FIXME HZ: Sorry for the "Object" parameter in ArrayList => however, this is a protege problem
+		// HZ: Sorry for the "Object" parameter in ArrayList => however, this is a protege problem
 		Collection <?>oErrorList = new ArrayList<Object>(); 
 		Project oOntologyPrj = Project.loadProjectFromFile("../" + poSourceName, oErrorList);
 	    KnowledgeBase oFrameKB = oOntologyPrj.getKnowledgeBase();
 	  
-	    //FIXME HZ: Optimize the initialization process => Builder
+	    // HZ: Optimize the initialization process => Builder
 		for(eDataType oDataType : initValues())	{
 			for(Instance oDataElement : oFrameKB.getCls(oDataType.name()).getInstances()){
 				initDataStructure(null, oDataElement, new clsPair<KnowledgeBase, HashMap<String,clsDataStructurePA>>(oFrameKB, poDataStructureList)); 
@@ -87,7 +87,7 @@ public class clsOntologyLoader {
 	}
 	
 	/**
-	 * DOCUMENT (zeilinger) - insert description
+	 *
 	 *
 	 * @author zeilinger
 	 * 26.06.2010, 20:33:15
@@ -108,7 +108,7 @@ public class clsOntologyLoader {
 	}
 	
 	/**
-	 * DOCUMENT (zeilinger) - This method loads the different data structures from the ontology and maps it to objects of the
+	 * This method loads the different data structures from the ontology and maps it to objects of the
 	 * package type pa.datatypes. The loading process does not start at the atomic datastructures (thing-presentations
 	 * or word presetnation) but at rich data structures like thing-presentation-meshes (TPM) and template-images (TI).
 	 * As sketched in the figure below, the rich data structures are intialized first and therefore intialize atomic
@@ -147,7 +147,7 @@ public class clsOntologyLoader {
 	}
 	
 	/**
-	 * DOCUMENT (zeilinger) - insert description
+	 *
 	 *
 	 * @author zeilinger
 	 * 24.06.2010, 15:43:06
@@ -166,12 +166,12 @@ public class clsOntologyLoader {
 								
 		clsWordPresentation oDataStructure = new clsWordPresentation(new clsTripple<Integer, eDataType, String>(oID ,oElementType,oElementValueType),oElementValue);
 		//HZ Word Presentation does not obey of any associations
-		//TODO HZ: Define other attributes!! 
+		// HZ: Define other attributes!! 
 		poDataContainer.b.put(poElement.getName(), oDataStructure);
 	}
 
 	/**
-	 * DOCUMENT (zeilinger) - insert description
+	 *
 	 *
 	 * @author zeilinger
 	 * 15.08.2010, 14:38:23
@@ -200,7 +200,7 @@ public class clsOntologyLoader {
 		poDataContainer.b.put(poElement.getName(), oDataStructure);
 	}
 	/**
-	 * DOCUMENT (zeilinger) - insert description
+	 *
 	 *
 	 * @author zeilinger
 	 * 23.06.2010, 21:24:42
@@ -235,11 +235,11 @@ public class clsOntologyLoader {
 		for(clsAssociation element : oAssociationList){
 			if(element instanceof clsAssociationAttribute){oDataStructure.assignDataStructure(element);}
 		}
-		//TODO HZ: Define other attributes!! 
+		// HZ: Define other attributes!! 
 	}
 
 	/**
-	 * DOCUMENT (zeilinger) - insert description
+	 *
 	 *
 	 * @author zeilinger
 	 * 22.06.2010, 17:12:04
@@ -259,12 +259,12 @@ public class clsOntologyLoader {
 		clsThingPresentation oDataStructure = new clsThingPresentation(new clsTripple<Integer, eDataType, String>(oID,oElementType,oElementValueType),oElementValue);
 		loadInstanceAssociations(poElement, poDataContainer);
 		//HZ TP does not obey of any associations 		
-		//TODO HZ: Define other attributes!! 
+		// HZ: Define other attributes!! 
 		poDataContainer.b.put(poElement.getName(), oDataStructure);
 	}
 
 	/**
-	 * DOCUMENT (zeilinger) - insert description
+	 *
 	 *
 	 * @author zeilinger
 	 * 22.06.2010, 17:12:01
@@ -295,7 +295,7 @@ public class clsOntologyLoader {
 	}
 	
 	/**
-	 * DOCUMENT (zeilinger) - insert description
+	 *
 	 *
 	 * @author zeilinger
 	 * 22.06.2010, 17:11:56
@@ -350,7 +350,7 @@ public class clsOntologyLoader {
 	}
 
 	/**
-	 * DOCUMENT (zeilinger) - insert description
+	 *
 	 *
 	 * @author zeilinger
 	 * 21.06.2010, 17:02:33
@@ -380,7 +380,7 @@ public class clsOntologyLoader {
 	}
 
 	/**
-	 * DOCUMENT (zeilinger) - insert description
+	 *
 	 *
 	 * @author zeilinger
 	 * 22.06.2010, 17:11:58
@@ -424,7 +424,7 @@ public class clsOntologyLoader {
 	    	 }
 	    }
 	    
-    	//TODO HZ: Define other attributes!!
+    	// HZ: Define other attributes!!
 	    poDataContainer.b.put(oAssName, oDataStructure);
 	}
 	
@@ -438,7 +438,7 @@ public class clsOntologyLoader {
 	}
 
 	/**
-	 * DOCUMENT (zeilinger) - insert description
+	 *
 	 *
 	 * @author zeilinger
 	 * 23.06.2010, 08:02:09
@@ -477,7 +477,7 @@ public class clsOntologyLoader {
 	}
 
 	/**
-	 * DOCUMENT (zeilinger) - insert description
+	 *
 	 *
 	 * @author zeilinger
 	 * 23.06.2010, 16:39:30
@@ -504,7 +504,7 @@ public class clsOntologyLoader {
 	}
 
 	/**
-	 * DOCUMENT (zeilinger) - insert description
+	 *
 	 *
 	 * @author zeilinger
 	 * 23.06.2010, 23:14:12
@@ -536,7 +536,7 @@ public class clsOntologyLoader {
 	}
 	
 	/**
-	 * DOCUMENT (zeilinger) - insert description
+	 *
 	 *
 	 * @author zeilinger
 	 * 25.06.2010, 22:24:53
@@ -593,7 +593,7 @@ public class clsOntologyLoader {
 	}
 
 	/**
-	 * DOCUMENT (zeilinger) - insert description
+	 *
 	 *
 	 * @author zeilinger
 	 * 26.06.2010, 11:25:25
@@ -610,7 +610,7 @@ public class clsOntologyLoader {
 	}
 
 	/**
-	 * DOCUMENT (zeilinger) - insert description
+	 *
 	 *
 	 * @author zeilinger
 	 * 24.06.2010, 06:35:52
@@ -629,7 +629,7 @@ public class clsOntologyLoader {
 	}
 	
 	/**
-	 * DOCUMENT (zeilinger) - insert description
+	 *
 	 *
 	 * @author zeilinger
 	 * 22.06.2010, 15:46:17
@@ -644,7 +644,7 @@ public class clsOntologyLoader {
 	}
 
 	/**
-	 * DOCUMENT (zeilinger) - insert description
+	 *
 	 *
 	 * @author zeilinger
 	 * 23.06.2010, 06:53:47

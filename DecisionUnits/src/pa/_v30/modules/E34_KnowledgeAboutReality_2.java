@@ -22,7 +22,7 @@ import pa._v30.memorymgmt.datatypes.clsDataStructurePA;
 import pa._v30.memorymgmt.datatypes.clsWordPresentation;
 
 /**
- * DOCUMENT (KOHLHAUSER) - insert description 
+ *
  * 
  * @author deutsch
  * 27.04.2010, 10:38:16
@@ -34,7 +34,7 @@ public class E34_KnowledgeAboutReality_2 extends clsModuleBaseKB implements itfM
 	private ArrayList<clsPair<Integer, clsDataStructurePA>> moSearchPattern;
 	private boolean mnMinimalModel;
 	/**
-	 * DOCUMENT (KOHLHAUSER) - insert description 
+	 *
 	 * 
 	 * @author deutsch
 	 * 03.03.2011, 16:57:48
@@ -96,7 +96,7 @@ public class E34_KnowledgeAboutReality_2 extends clsModuleBaseKB implements itfM
 	@Override
 	protected void process_basic() {
 		if (!mnMinimalModel) {
-			// TODO (KOHLHAUSER) - Auto-generated method stub
+			
 			mnTest++;
 		}
 	}
@@ -151,7 +151,7 @@ public class E34_KnowledgeAboutReality_2 extends clsModuleBaseKB implements itfM
 	 */
 	@Override
 	public void receive_I7_3(ArrayList<clsWordPresentation> poActionCommands) {
-		// TODO (KOHLHAUSER) - Auto-generated method stub
+		
 		
 	}
 
@@ -177,7 +177,7 @@ public class E34_KnowledgeAboutReality_2 extends clsModuleBaseKB implements itfM
 	 */
 	@Override
 	protected void process_draft() {
-		// TODO (KOHLHAUSER) - Auto-generated method stub
+		
 		throw new java.lang.NoSuchMethodError();
 	}
 
@@ -190,7 +190,7 @@ public class E34_KnowledgeAboutReality_2 extends clsModuleBaseKB implements itfM
 	 */
 	@Override
 	protected void process_final() {
-		// TODO (KOHLHAUSER) - Auto-generated method stub
+		
 		throw new java.lang.NoSuchMethodError();
 	}
 	

@@ -12,7 +12,7 @@ package nao.body;
 import nao.utils.enums.eBodyType;
 
 /**
- * DOCUMENT (deutsch) - insert description 
+ * 
  * 
  * @author deutsch
  * 05.05.2009, 16:37:09

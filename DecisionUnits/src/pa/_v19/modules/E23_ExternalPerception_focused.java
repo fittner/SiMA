@@ -120,7 +120,7 @@ public class E23_ExternalPerception_focused extends clsModuleBase implements I2_
 	 */
 	@Override
 	protected void process_basic() {
-		//TODO HZ 23.08.2010: Normally the perceived information has to be ordered by its priority
+		// HZ 23.08.2010: Normally the perceived information has to be ordered by its priority
 		//that depends on the evaluation of external and internal perception (moDriveList); 
 		//
 		//Actual state: no ordering! 

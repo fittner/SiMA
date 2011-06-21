@@ -27,7 +27,7 @@ import pa._v30.memorymgmt.enums.eDataType;
 
 
 /**
- * DOCUMENT (zeilinger) - insert description 
+ * 
  * 
  * @author zeilinger
  * 19.07.2010, 21:46:16

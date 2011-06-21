@@ -27,7 +27,7 @@ import statictools.clsExceptionUtils;
 import statictools.clsSimState;
 
 /**
- * DOCUMENT (deutsch) - insert description 
+ * 
  * 
  * @author deutsch
  * 15.04.2011, 17:25:08
@@ -36,7 +36,7 @@ import statictools.clsSimState;
 public abstract class cls_AbstractChartInspector extends Inspector {
 	
 	/**
-	 * DOCUMENT (deutsch) - insert description 
+	 * 
 	 * 
 	 * @author deutsch
 	 * 15.04.2011, 17:53:49
@@ -236,7 +236,7 @@ public abstract class cls_AbstractChartInspector extends Inspector {
 				nOffset += mnOffset;
 			}
 		} catch (java.lang.IndexOutOfBoundsException e) {
-			//FIXME (Deutsch): due to some unknown reason, sometimes oTimingData.size is different to moValueHistory.size. workaround for the time being: recreate chart.
+			// (Deutsch): due to some unknown reason, sometimes oTimingData.size is different to moValueHistory.size. workaround for the time being: recreate chart.
 			System.out.println(clsExceptionUtils.getCustomStackTrace(e));
 			System.out.println("cls_AbstractChartInspector.updateData: RESET CHART PANEL!");
 			recreate();

@@ -10,7 +10,6 @@ import java.lang.reflect.Method;
 
 
 /**
- * DOCUMENT (zeilinger) - insert description 
  * 
  * *                  moAssociationContent
  *                          |

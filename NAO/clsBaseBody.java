@@ -15,7 +15,7 @@ import bw.utils.enums.eBodyType;
 import config.clsBWProperties;
 
 /**
- * DOCUMENT (deutsch) - insert description 
+ * 
  * 
  * @author deutsch
  * 05.05.2009, 16:37:09

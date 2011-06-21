@@ -9,7 +9,7 @@ package inspectors.mind.pa._v19.functionalmodel;
 import java.util.ArrayList;
 
 /**
- * DOCUMENT (deutsch) - insert description 
+ * 
  * 
  * @author deutsch
  * 22.10.2009, 12:10:26

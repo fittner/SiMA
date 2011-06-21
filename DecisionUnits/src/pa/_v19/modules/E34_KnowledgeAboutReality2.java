@@ -167,7 +167,7 @@ public class E34_KnowledgeAboutReality2 extends clsModuleBase implements I7_3_re
 	}
 
 	/**
-	 * DOCUMENT (zeilinger) - insert description
+	 *
 	 *
 	 * @author zeilinger
 	 * 19.03.2011, 08:36:59

@@ -28,7 +28,6 @@ import du.itf.sensors.clsSensorExtern;
 import du.itf.sensors.clsSensorRingSegment;
 
 /**
- * DOCUMENT (zeilinger) - insert description 
  * 
  * @author zeilinger
  * 22.09.2009, 12:17:02
@@ -74,7 +73,7 @@ public class clsLeafEatableAreaSegment extends clsRuleTreeLeaf {
 	      poCompareResult[1]++;
 	    }
 	    boolean oResult = false;
-	    //TODO (Zeilinger) - implement the complex compare operator and listen some cool Hip-Hop (the music - not the Bewegung) or Rap...
+	    // (Zeilinger) - implement the complex compare operator and listen some cool Hip-Hop (the music - not the Bewegung) or Rap...
 	    {
 	    	if( compare((clsEatableArea)poPerception.getSensorExt(meSensorType))){
 	          poCompareResult[0]++;
@@ -120,7 +119,7 @@ public class clsLeafEatableAreaSegment extends clsRuleTreeLeaf {
 	@Override
 	public void weight(clsImagePerception poImage,
 			clsImageAbstract poAbstractImage, clsRuleCompareResult compareResult) {
-		// TODO (zeilinger) - Auto-generated method stub
+		
 		
 	}
 }

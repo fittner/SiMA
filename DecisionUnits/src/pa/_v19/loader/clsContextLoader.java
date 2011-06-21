@@ -18,7 +18,6 @@ import pa._v19.datatypes.clsThingPresentationSingle;
 import statictools.clsGetARSPath;
 
 /**
- * DOCUMENT (zeilinger) - insert description 
  * 
  * @author zeilinger
  * 07.10.2009, 16:16:22|
@@ -56,7 +55,6 @@ public class clsContextLoader {
 	}
 		
 	/**
-	 * DOCUMENT (zeilinger) - insert description
 	 *
 	 * @author zeilinger
 	 * 08.10.2009, 20:43:12
@@ -77,7 +75,6 @@ public class clsContextLoader {
 	}
 
 	/**
-	 * DOCUMENT (zeilinger) - insert description
 	 *
 	 * @author zeilinger
 	 * 07.10.2009, 20:56:45

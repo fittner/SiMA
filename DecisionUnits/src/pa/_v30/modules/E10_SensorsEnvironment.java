@@ -22,7 +22,7 @@ import pa._v30.interfaces.modules.I2_1_send;
 import pa._v30.tools.toText;
 
 /**
- * DOCUMENT (muchitsch) - insert description 
+ * 
  * 
  * @author deutsch
  * 11.08.2009, 14:13:27
@@ -35,7 +35,7 @@ public class E10_SensorsEnvironment extends clsModuleBase implements I0_4_receiv
 	private final int uid;
 	
 	/**
-	 * DOCUMENT (muchitsch) - insert description 
+	 * 
 	 * 
 	 * @author deutsch
 	 * 03.03.2011, 16:03:16
@@ -122,7 +122,7 @@ public class E10_SensorsEnvironment extends clsModuleBase implements I0_4_receiv
 	}
 	
 	private void removeSelfVision() {
-		//FIXME TD 2011/05/01 - due to some reason, the bubble sees himself in vision near. 
+		// TD 2011/05/01 - due to some reason, the bubble sees himself in vision near. 
 		//remove this entry manually. should be dealt with in vision sensor in project BW.
 		//it seems that this happens after the bubble has been moved manually. but not always!
 		
@@ -181,7 +181,7 @@ public class E10_SensorsEnvironment extends clsModuleBase implements I0_4_receiv
 	 */
 	@Override
 	protected void process_draft() {
-		// TODO (muchitsch) - Auto-generated method stub
+		
 		throw new java.lang.NoSuchMethodError();
 	}
 
@@ -194,7 +194,7 @@ public class E10_SensorsEnvironment extends clsModuleBase implements I0_4_receiv
 	 */
 	@Override
 	protected void process_final() {
-		// TODO (muchitsch) - Auto-generated method stub
+		
 		throw new java.lang.NoSuchMethodError();
 	}
 

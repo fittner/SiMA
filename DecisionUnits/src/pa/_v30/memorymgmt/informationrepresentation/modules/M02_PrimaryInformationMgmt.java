@@ -11,7 +11,7 @@ import pa._v30.memorymgmt.informationrepresentation.clsSearchSpaceHandler;
 import pa._v30.tools.toText;
 
 /**
- * DOCUMENT (zeilinger) - insert description 
+ *
  * 
  * @author zeilinger
  * 23.05.2010, 21:37:54
@@ -23,7 +23,7 @@ public class M02_PrimaryInformationMgmt extends clsInformationRepresentationModu
 	public KB03_ExternalPerceptionMgmt moKB03ExternalPerceptionMgmt;
 	
 	/**
-	 * DOCUMENT (zeilinger) - insert description 
+	 *
 	 * 
 	 * @author zeilinger
 	 * 23.05.2010, 22:58:39

@@ -38,7 +38,7 @@ import pa._v30.memorymgmt.datatypes.clsWordPresentation;
 import pa._v30.memorymgmt.enums.eDataType;
 
 /**
- * DOCUMENT (KOHLHAUSER) - insert description 
+ *
  * 
  * @author deutsch
  * 11.08.2009, 14:38:29
@@ -49,13 +49,13 @@ public class E21_ConversionToSecondaryProcessForPerception extends clsModuleBase
 	public static final String P_MODULENUMBER = "21";
 	
 	private ArrayList<clsPrimaryDataStructureContainer> moGrantedPerception_Input; 
-	//FIXME HZ: This would require a change in the interfaces!!! => different to the actual definition
+	// HZ: This would require a change in the interfaces!!! => different to the actual definition
 	//private ArrayList<clsPair<clsSecondaryDataStructureContainer, clsPair<clsWordPresentation, clsWordPresentation>>> moPerception_Output; 
 	private ArrayList<clsSecondaryDataStructureContainer> moPerception_Output; 
 	private ArrayList<clsTripple<clsDataStructurePA, ArrayList<clsTemplateImage>, ArrayList<clsPair<clsDriveMesh, clsAffect>>>> moOrderedResult; 
 	private HashMap<Integer, clsDriveMesh> moTemporaryDM; 
 	/**
-	 * DOCUMENT (KOHLHAUSER) - insert description 
+	 *
 	 * 
 	 * @author deutsch
 	 * 03.03.2011, 16:44:38
@@ -162,7 +162,7 @@ public class E21_ConversionToSecondaryProcessForPerception extends clsModuleBase
 	}
 	
 	/**
-	 * DOCUMENT (zeilinger) - insert description
+	 *
 	 *
 	 * @author zeilinger
 	 * 19.08.2010, 22:39:28
@@ -212,7 +212,7 @@ public class E21_ConversionToSecondaryProcessForPerception extends clsModuleBase
 	}
 	
 	/**
-	 * DOCUMENT (zeilinger) - insert description
+	 *
 	 *
 	 * @author zeilinger
 	 * 20.08.2010, 17:44:55
@@ -252,7 +252,7 @@ public class E21_ConversionToSecondaryProcessForPerception extends clsModuleBase
 	}
 
 	/**
-	 * DOCUMENT (zeilinger) - insert description
+	 *
 	 *
 	 * @author zeilinger
 	 * 20.08.2010, 13:05:45
@@ -299,7 +299,7 @@ public class E21_ConversionToSecondaryProcessForPerception extends clsModuleBase
 	}
 
 	/**
-	 * DOCUMENT (zeilinger) - insert description
+	 *
 	 *
 	 * @author zeilinger
 	 * 20.08.2010, 13:15:06
@@ -322,7 +322,7 @@ public class E21_ConversionToSecondaryProcessForPerception extends clsModuleBase
 	}
 
 	/**
-	 * DOCUMENT (zeilinger) - insert description
+	 *
 	 *
 	 * @author zeilinger
 	 * 20.08.2010, 16:04:05
@@ -356,12 +356,12 @@ public class E21_ConversionToSecondaryProcessForPerception extends clsModuleBase
 				}
 			}
 		}
-		//FIXME HZ: never return null
+		// HZ: never return null
 		return null;
 	}
 
 	/**
-	 * DOCUMENT (zeilinger) - insert description
+	 *
 	 *
 	 * @author zeilinger
 	 * 19.08.2010, 22:39:32
@@ -386,7 +386,7 @@ public class E21_ConversionToSecondaryProcessForPerception extends clsModuleBase
 	}
 	
 	/**
-	 * DOCUMENT (zeilinger) - insert description
+	 *
 	 *
 	 * @author zeilinger
 	 * 22.08.2010, 19:53:01
@@ -407,7 +407,7 @@ public class E21_ConversionToSecondaryProcessForPerception extends clsModuleBase
 	}
 	
 	/**
-	 * DOCUMENT (zeilinger) - insert description
+	 *
 	 *
 	 * @author zeilinger
 	 * 22.08.2010, 19:53:10
@@ -436,7 +436,7 @@ public class E21_ConversionToSecondaryProcessForPerception extends clsModuleBase
 	}
 
 	/**
-	 * DOCUMENT (zeilinger) - insert description
+	 *
 	 *
 	 * @author zeilinger
 	 * 22.08.2010, 19:53:07
@@ -466,7 +466,7 @@ public class E21_ConversionToSecondaryProcessForPerception extends clsModuleBase
 	}
 
 	/**
-	 * DOCUMENT (zeilinger) - insert description
+	 *
 	 *
 	 * @author zeilinger
 	 * 23.08.2010, 21:24:28
@@ -540,7 +540,7 @@ public class E21_ConversionToSecondaryProcessForPerception extends clsModuleBase
 	 */
 	@Override
 	protected void process_draft() {
-		// TODO (KOHLHAUSER) - Auto-generated method stub
+		
 		throw new java.lang.NoSuchMethodError();
 	}
 
@@ -553,7 +553,7 @@ public class E21_ConversionToSecondaryProcessForPerception extends clsModuleBase
 	 */
 	@Override
 	protected void process_final() {
-		// TODO (KOHLHAUSER) - Auto-generated method stub
+		
 		throw new java.lang.NoSuchMethodError();
 	}
 	

@@ -100,7 +100,6 @@ public class clsRepressedContentStorage {
 	}
 
 	/**
-	 * DOCUMENT (zeilinger) - insert description
 	 *
 	 * @author zeilinger
 	 * 16.08.2010, 20:10:47
@@ -128,7 +127,6 @@ public class clsRepressedContentStorage {
 		}
 	}
 	/**
-	 * DOCUMENT (zeilinger) - insert description
 	 *
 	 * @author zeilinger
 	 * 16.08.2010, 19:30:51

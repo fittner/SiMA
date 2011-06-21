@@ -15,7 +15,6 @@ import du.enums.pa.eContext;
 import pa._v19.interfaces.itfPrimaryProcessComparabelTP;
 
 /**
- * DOCUMENT (langr) - insert description 
  * 
  * @author langr
  * 11.08.2009, 11:16:10
@@ -35,7 +34,7 @@ public class clsThingPresentation extends clsPsychicRepresentative implements it
 	 */
 	@Override
 	public int compareTo(clsThingPresentation poPrimaryInformation) {
-		// TODO (langr) - Auto-generated method stub
+		
 		return 0;
 	}
 	

@@ -12,7 +12,6 @@ import pa._v19.memorymgmt.enums.eDataType;
 import pa._v19.tools.clsTripple;
 
 /**
- * DOCUMENT (zeilinger) - insert description 
  * 
  * @author zeilinger
  * 23.06.2010, 20:36:25
@@ -29,7 +28,6 @@ public class clsDriveMesh extends clsHomeostaticRepresentation{
 	private double mrCathegoryPhalic = 0.0;
 
 	/**
-	 * DOCUMENT (zeilinger) - insert description 
 	 * 
 	 * @author zeilinger
 	 * 23.06.2010, 20:37:07
@@ -195,7 +193,6 @@ public class clsDriveMesh extends clsHomeostaticRepresentation{
 
 	
 	/**
-	 * DOCUMENT (zeilinger) - insert description
 	 *
 	 * @author zeilinger
 	 * 16.08.2010, 22:15:00
@@ -209,7 +206,6 @@ public class clsDriveMesh extends clsHomeostaticRepresentation{
 	}
 
 	/**
-	 * DOCUMENT (zeilinger) - insert description
 	 *
 	 * @author zeilinger
 	 * 16.08.2010, 22:14:59
@@ -324,7 +320,6 @@ public class clsDriveMesh extends clsHomeostaticRepresentation{
 	}
 	
 	/**
-	 * DOCUMENT (zeilinger) - insert description
 	 *
 	 * @author zeilinger
 	 * 18.07.2010, 16:38:20
@@ -336,7 +331,6 @@ public class clsDriveMesh extends clsHomeostaticRepresentation{
 	}
 	
 	/**
-	 * DOCUMENT (zeilinger) - insert description
 	 *
 	 * @author zeilinger
 	 * 24.05.2010, 14:40:45
@@ -392,7 +386,6 @@ public class clsDriveMesh extends clsHomeostaticRepresentation{
 	}
 
 	/**
-	 * DOCUMENT (zeilinger) - insert description
 	 *
 	 * @author zeilinger
 	 * 16.08.2010, 21:10:20
@@ -407,7 +400,6 @@ public class clsDriveMesh extends clsHomeostaticRepresentation{
 	}
 
 	/**
-	 * DOCUMENT (zeilinger) - insert description
 	 *
 	 * @author zeilinger
 	 * 16.08.2010, 21:11:10

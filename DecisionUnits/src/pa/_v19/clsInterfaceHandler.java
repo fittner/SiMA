@@ -15,7 +15,6 @@ import pa._v19.modules.clsModuleBase;
 import pa._v19.interfaces.I_BaseInterface;
 
 /**
- * DOCUMENT (deutsch) - insert description 
  * 
  * @author deutsch
  * 18.05.2010, 13:54:22

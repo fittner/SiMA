@@ -30,7 +30,7 @@ import pa._v30.tools.toText;
 import config.clsBWProperties;
 
 /**
- * DOCUMENT (GELBARD) - insert description 
+ *
  * 
  * @author deutsch
  * 11.08.2009, 14:01:06
@@ -46,7 +46,7 @@ public class E06_DefenseMechanismsForDrives extends clsModuleBase implements
 	private ArrayList<clsDriveMesh> moSexualDrives;
 
 	/**
-	 * DOCUMENT (GELBARD) - insert description 
+	 *
 	 * 
 	 * @author deutsch
 	 * 03.03.2011, 16:38:57
@@ -184,7 +184,7 @@ public class E06_DefenseMechanismsForDrives extends clsModuleBase implements
 	 */
 	@Override
 	protected void process_basic() {
-		//TODO HZ: Up to now the driveList is passed through (deepCopy is called in the next module); 
+		// HZ: Up to now the driveList is passed through (deepCopy is called in the next module); 
 		//The interfaces send_I4_1 and send_I5_1 are filled with empty Lists. 
 		 moDriveList_Output = moDriveList_Input; 
 	}
@@ -252,7 +252,7 @@ public class E06_DefenseMechanismsForDrives extends clsModuleBase implements
 	 */
 	@Override
 	protected void process_draft() {
-		// TODO (GELBARD) - Auto-generated method stub
+		
 		throw new java.lang.NoSuchMethodError();
 	}
 
@@ -265,7 +265,7 @@ public class E06_DefenseMechanismsForDrives extends clsModuleBase implements
 	 */
 	@Override
 	protected void process_final() {
-		// TODO (GELBARD) - Auto-generated method stub
+		
 		throw new java.lang.NoSuchMethodError();
 	}
 

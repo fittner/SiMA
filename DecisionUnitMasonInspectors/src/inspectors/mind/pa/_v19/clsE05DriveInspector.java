@@ -48,7 +48,7 @@ import com.jgraph.layout.JGraphModelFacade;
 import com.jgraph.layout.hierarchical.JGraphHierarchicalLayout;
 
 /**
- * DOCUMENT (langr) - insert description 
+ *
  * 
  * @author langr
  * 31.10.2009, 23:40:04
@@ -257,7 +257,7 @@ public class clsE05DriveInspector extends Inspector implements ActionListener {
 	}	
 	
 	/**
-	 * DOCUMENT (zeilinger) - insert description
+	 *
 	 *
 	 * @author zeilinger
 	 * 02.11.2010, 21:01:56
@@ -356,7 +356,7 @@ public class clsE05DriveInspector extends Inspector implements ActionListener {
 //	}
 
 	/**
-	 * DOCUMENT (langr) - insert description
+	 *
 	 *
 	 * @author langr
 	 * 31.10.2009, 23:48:59

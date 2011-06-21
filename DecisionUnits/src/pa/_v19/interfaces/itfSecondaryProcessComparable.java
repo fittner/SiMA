@@ -9,7 +9,6 @@ package pa._v19.interfaces;
 import pa._v19.datatypes.clsSecondaryInformation;
 
 /**
- * DOCUMENT (langr) - insert description 
  * 
  * @author langr
  * 11.08.2009, 11:36:59

@@ -40,7 +40,7 @@ import pa._v19.interfaces.knowledgebase.itfKnowledgeBaseAccess;
  */
 @Deprecated
 public class E28_KnowledgeBase_StoredScenarios extends clsModuleBase implements I7_2_receive, I6_2_send, itfKnowledgeBaseAccess {
-	//TODO HZ has to be defined in a config file
+	// HZ has to be defined in a config file
 	private final Integer mnNodeLimit = 20;
 	
 	private ArrayList<clsSecondaryDataStructureContainer> moGoal_Input; 
@@ -155,7 +155,7 @@ public class E28_KnowledgeBase_StoredScenarios extends clsModuleBase implements 
 	}
 
 	/**
-	 * DOCUMENT (zeilinger) - insert description
+	 *
 	 *
 	 * @author zeilinger
 	 * 28.08.2010, 11:23:14
@@ -173,7 +173,7 @@ public class E28_KnowledgeBase_StoredScenarios extends clsModuleBase implements 
 			String oActualState = ((clsWordPresentation)oCon.getMoDataStructure()).getMoContent(); 
 			ArrayList<ArrayList<clsAct>> oActPlans = new ArrayList<ArrayList<clsAct>>(); 
 		    //HZ not sure, but maybe a loop between E28 and E27 is required here; 
-			// TODO: This is also a bit magic; ACTS are retrieved that include the actual object setup, no
+			// : This is also a bit magic; ACTS are retrieved that include the actual object setup, no
 			//	matter if it fits the "precondition" or the "consequence"; normally it is not the 
 			//  task of the memory to introduce a filter that makes a difference between both parts; 
 			// however it can be thought about alternatives and possibilities to retrieve acts
@@ -186,7 +186,7 @@ public class E28_KnowledgeBase_StoredScenarios extends clsModuleBase implements 
 	}
 
 	/**
-	 * DOCUMENT (zeilinger) - insert description
+	 *
 	 *
 	 * @author zeilinger
 	 * 31.08.2010, 10:06:02
@@ -247,7 +247,7 @@ public class E28_KnowledgeBase_StoredScenarios extends clsModuleBase implements 
 	}
 		
 	/**
-	 * DOCUMENT (zeilinger) - insert description
+	 *
 	 *
 	 * @author zeilinger
 	 * 03.09.2010, 19:26:20
@@ -265,7 +265,7 @@ public class E28_KnowledgeBase_StoredScenarios extends clsModuleBase implements 
 	}
 
 	/**
-	 * DOCUMENT (zeilinger) - insert description
+	 *
 	 *
 	 * @author zeilinger
 	 * 03.09.2010, 18:56:20
@@ -282,7 +282,7 @@ public class E28_KnowledgeBase_StoredScenarios extends clsModuleBase implements 
 	}
 
 	/**
-	 * DOCUMENT (zeilinger) - insert description
+	 *
 	 *
 	 * @author zeilinger
 	 * 01.09.2010, 16:53:58
@@ -298,7 +298,7 @@ public class E28_KnowledgeBase_StoredScenarios extends clsModuleBase implements 
 	}
 
 	/**
-	 * DOCUMENT (zeilinger) - insert description
+	 *
 	 *
 	 * @author zeilinger
 	 * 01.09.2010, 10:56:57
@@ -356,7 +356,7 @@ public class E28_KnowledgeBase_StoredScenarios extends clsModuleBase implements 
 	
 
 	/**
-	 * DOCUMENT (zeilinger) - insert description
+	 *
 	 *
 	 * @author zeilinger
 	 * 29.08.2010, 16:16:46
@@ -374,7 +374,7 @@ public class E28_KnowledgeBase_StoredScenarios extends clsModuleBase implements 
 	}
 
 	/**
-	 * DOCUMENT (zeilinger) - insert description
+	 *
 	 *
 	 * @author zeilinger
 	 * 01.09.2010, 22:27:34
@@ -404,7 +404,7 @@ public class E28_KnowledgeBase_StoredScenarios extends clsModuleBase implements 
 	}
 
 	/**
-	 * DOCUMENT (zeilinger) - insert description
+	 *
 	 *
 	 * @author zeilinger
 	 * 01.09.2010, 21:02:37
@@ -435,7 +435,7 @@ public class E28_KnowledgeBase_StoredScenarios extends clsModuleBase implements 
 	}
 
 	/**
-	 * DOCUMENT (zeilinger) - insert description
+	 *
 	 *
 	 * @author zeilinger
 	 * 29.08.2010, 12:05:33
@@ -465,7 +465,7 @@ public class E28_KnowledgeBase_StoredScenarios extends clsModuleBase implements 
 	}
 
 	/**
-	 * DOCUMENT (zeilinger) - insert description
+	 *
 	 *
 	 * @author zeilinger
 	 * 28.08.2010, 11:50:46
@@ -491,7 +491,7 @@ public class E28_KnowledgeBase_StoredScenarios extends clsModuleBase implements 
 	}
 
 	/**
-	 * DOCUMENT (zeilinger) - insert description
+	 *
 	 *
 	 * @author zeilinger
 	 * 30.08.2010, 15:16:31
@@ -567,7 +567,7 @@ public class E28_KnowledgeBase_StoredScenarios extends clsModuleBase implements 
 	}
 
 	/**
-	 * DOCUMENT (zeilinger) - insert description
+	 *
 	 *
 	 * @author zeilinger
 	 * 19.03.2011, 08:36:59
@@ -650,7 +650,7 @@ public class E28_KnowledgeBase_StoredScenarios extends clsModuleBase implements 
 		}
 		  	
 		/**
-		 * DOCUMENT (zeilinger) - insert description
+		 *
 		 *
 		 * @author zeilinger
 		 * 01.09.2010, 20:52:13
@@ -669,7 +669,7 @@ public class E28_KnowledgeBase_StoredScenarios extends clsModuleBase implements 
 		}
 
 		/**
-		 * DOCUMENT (zeilinger) - insert description
+		 *
 		 *
 		 * @author zeilinger
 		 * 01.09.2010, 12:24:40
@@ -682,7 +682,7 @@ public class E28_KnowledgeBase_StoredScenarios extends clsModuleBase implements 
 		}
 
 		/**
-		 * DOCUMENT (zeilinger) - insert description
+		 *
 		 *
 		 * @author zeilinger
 		 * 31.08.2010, 17:10:13

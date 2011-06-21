@@ -21,7 +21,7 @@ import pa._v30.interfaces.modules.D1_4_send;
 import pa._v30.tools.toText;
 
 /**
- * DOCUMENT (deutsch) - insert description 
+ *
  * 
  * @author deutsch
  * 09.03.2011, 17:04:55

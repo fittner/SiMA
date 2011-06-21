@@ -20,7 +20,7 @@ import pa._v30.memorymgmt.datatypes.clsSecondaryDataStructureContainer;
 import pa._v30.tools.toText;
 
 /**
- * DOCUMENT (KOHLHAUSER) - insert description 
+ *
  * 
  * @author deutsch
  * 11.08.2009, 14:46:53
@@ -34,7 +34,7 @@ public class E23_ExternalPerception_focused extends clsModuleBase implements itf
 	private ArrayList<clsSecondaryDataStructureContainer> moFocusedPerception_Output; 
 	private boolean mnMinimalModel;
 	/**
-	 * DOCUMENT (KOHLHAUSER) - insert description 
+	 *
 	 * 
 	 * @author deutsch
 	 * 03.03.2011, 16:50:08
@@ -145,7 +145,7 @@ public class E23_ExternalPerception_focused extends clsModuleBase implements itf
 	@Override
 	protected void process_basic() {
 		if (!mnMinimalModel) {				
-			//TODO HZ 23.08.2010: Normally the perceived information has to be ordered by its priority
+			// HZ 23.08.2010: Normally the perceived information has to be ordered by its priority
 			//that depends on the evaluation of external and internal perception (moDriveList); 
 			//
 			//Actual state: no ordering! 
@@ -194,7 +194,7 @@ public class E23_ExternalPerception_focused extends clsModuleBase implements itf
 	 */
 	@Override
 	protected void process_draft() {
-		// TODO (KOHLHAUSER) - Auto-generated method stub
+		
 		throw new java.lang.NoSuchMethodError();
 	}
 
@@ -207,7 +207,7 @@ public class E23_ExternalPerception_focused extends clsModuleBase implements itf
 	 */
 	@Override
 	protected void process_final() {
-		// TODO (KOHLHAUSER) - Auto-generated method stub
+		
 		throw new java.lang.NoSuchMethodError();
 	}
 

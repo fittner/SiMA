@@ -50,7 +50,7 @@ import bw.utils.enums.eBodyParts;
  */
 public class clsInspectorFastMessengers  extends Inspector{
 	/**
-	 * @author tobias
+	 * @author deutsch
 	 * Jul 31, 2009, 10:41:09 AM
 	 */
 	private static final long serialVersionUID = 2381501531626669313L;

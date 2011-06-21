@@ -21,7 +21,7 @@ public class clsSearchSpaceOntologyLoader extends clsSearchSpaceBase{
 	private HashMap<eDataType,HashMap<String, HashMap<Integer, clsPair<clsDataStructurePA, ArrayList<clsAssociation>>>>> moSearchSpaceContent;
 	HashMap<eDataType, ArrayList<clsDataStructurePA>> moSimplifiedSearchSpace; 
 	/**
-	 * DOCUMENT (zeilinger) - insert description 
+	 *
 	 * 
 	 * @author zeilinger
 	 * 25.06.2010, 13:23:09
@@ -49,7 +49,7 @@ public class clsSearchSpaceOntologyLoader extends clsSearchSpaceBase{
 	}
 
 	/**
-	 * DOCUMENT (zeilinger) - insert description
+	 *
 	 *
 	 * @author zeilinger
 	 * 25.06.2010, 14:24:08
@@ -76,7 +76,7 @@ public class clsSearchSpaceOntologyLoader extends clsSearchSpaceBase{
 	}
 	
 	/**
-	 * DOCUMENT (zeilinger) - insert description
+	 *
 	 *
 	 * @author zeilinger
 	 * 25.06.2010, 14:25:12
@@ -91,7 +91,7 @@ public class clsSearchSpaceOntologyLoader extends clsSearchSpaceBase{
 	}
 
 	/**
-	 * DOCUMENT (zeilinger) - insert description
+	 *
 	 *
 	 * @author zeilinger
 	 * 25.06.2010, 20:28:40
@@ -107,7 +107,7 @@ public class clsSearchSpaceOntologyLoader extends clsSearchSpaceBase{
 	}
 	
 	/**
-	 * DOCUMENT (zeilinger) - insert description 
+	 *
 	 * 
 	 * @author zeilinger
 	 * 21.04.2011, 15:16:18
@@ -130,7 +130,7 @@ public class clsSearchSpaceOntologyLoader extends clsSearchSpaceBase{
 	}
 	
 	/**
-	 * DOCUMENT (zeilinger) - insert description 
+	 *
 	 * 
 	 * @author zeilinger
 	 * 21.04.2011, 15:16:18
@@ -156,7 +156,7 @@ public class clsSearchSpaceOntologyLoader extends clsSearchSpaceBase{
 	
 	
 	/**
-	 * DOCUMENT (zeilinger) - insert description
+	 *
 	 *
 	 * @author zeilinger
 	 * 25.06.2010, 22:01:13

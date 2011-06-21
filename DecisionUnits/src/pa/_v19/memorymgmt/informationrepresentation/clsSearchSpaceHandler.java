@@ -15,7 +15,7 @@ import pa._v19.memorymgmt.informationrepresentation.searchspace.clsSearchSpaceBa
 import pa._v19.memorymgmt.informationrepresentation.searchspace.clsSearchSpaceCreator;
 
 /**
- * DOCUMENT (zeilinger) - insert description 
+ *
  * 
  * @author zeilinger
  * 23.05.2010, 18:21:01
@@ -30,7 +30,7 @@ public class clsSearchSpaceHandler {
 	
 	private void createSearchSpace(String poDatabaseSource, String poSourceName){
 		if(poDatabaseSource.equals(eDataSources.MAINMEMORY.name())){moSearchSpace = clsSearchSpaceCreator.createSearchSpace(poSourceName);}
-		else if(poDatabaseSource.equals(eDataSources.DATABASE.name())){/*TODO define database creator access */ ;}
+		else if(poDatabaseSource.equals(eDataSources.DATABASE.name())){/* define database creator access */ ;}
 		else {throw new NullPointerException("database source not found " + poDatabaseSource);}
 	}
 	

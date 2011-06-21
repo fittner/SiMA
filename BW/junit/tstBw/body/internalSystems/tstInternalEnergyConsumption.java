@@ -20,7 +20,7 @@ import bw.utils.datatypes.clsMutableDouble;
 import bw.utils.enums.eBodyParts;
 
 /**
- * DOCUMENT (deutsch) - insert description 
+ * 
  * 
  * @author deutsch
  * 

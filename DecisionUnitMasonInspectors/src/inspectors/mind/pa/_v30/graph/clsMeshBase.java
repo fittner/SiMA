@@ -50,7 +50,7 @@ import pa._v30.memorymgmt.datatypes.clsWordPresentation;
  */
 public abstract class clsMeshBase extends clsGraphBase {
 	/**
-	 * DOCUMENT (deutsch) - insert description 
+	 * 
 	 * 
 	 * @author deutsch
 	 * 21.04.2011, 12:16:33
@@ -166,16 +166,16 @@ public abstract class clsMeshBase extends clsGraphBase {
 			oRootCell = generateGraphCell(poParent, oO.toString()); //mit mir nicht, Integer gibts keine!
 			
 		} else if (oO instanceof clsSymbolVision) {
-			oRootCell = generateGraphCell(poParent, oO.toString()); //TODO MUCHITSCH generate specialized functions to display this datatype
+			oRootCell = generateGraphCell(poParent, oO.toString()); // MUCHITSCH generate specialized functions to display this datatype
 			
 		} else if (oO instanceof clsSensorIntern) {
-			oRootCell = generateGraphCell(poParent, oO.toString()); //TODO MUCHITSCH generate specialized functions to display this datatype
+			oRootCell = generateGraphCell(poParent, oO.toString()); // MUCHITSCH generate specialized functions to display this datatype
 			
 		} else if (oO instanceof clsSensorExtern) {
-			oRootCell = generateGraphCell(poParent, oO.toString()); //TODO MUCHITSCH generate specialized functions to display this datatype
+			oRootCell = generateGraphCell(poParent, oO.toString()); // MUCHITSCH generate specialized functions to display this datatype
 
 		} else if (oO instanceof clsActionCommand) {
-			oRootCell = generateGraphCell(poParent, oO.toString()); //TODO MUCHITSCH generate specialized functions to display this datatype
+			oRootCell = generateGraphCell(poParent, oO.toString()); // MUCHITSCH generate specialized functions to display this datatype
 
 		} else {
 			oRootCell = generateGraphCell(poParent, oO.toString());
@@ -400,7 +400,7 @@ public abstract class clsMeshBase extends clsGraphBase {
 		
 		
 		clsDataStructurePA oContainerRootDataStructure = poMemoryObject.getMoDataStructure();
-		//TODO WP werden neu erzeugt und können daher nicht zu den associations gefunden werden weil ID = -1, vielleicht kommt da mal eine änderung! CM+HZ
+		// WP werden neu erzeugt und können daher nicht zu den associations gefunden werden weil ID = -1, vielleicht kommt da mal eine änderung! CM+HZ
 		ArrayList<clsAssociation> oAssociatedDataStructures = new ArrayList<clsAssociation>(); // poMemoryObject.moAssociatedDataStructures;
 		
 //NEW VERSION		
@@ -722,7 +722,7 @@ public abstract class clsMeshBase extends clsGraphBase {
 		moCellList.add(oEdgeParent);
 		
 		//add a cell for every acossiation
-		//TODO could be any data type? now its only to string
+		// could be any data type? now its only to string
 		for(clsSecondaryDataStructure oAssociatedContent : poMemoryObject.getMoAssociatedContent())
 		{
 			DefaultGraphCell oTargetCell = generateGraphCell(oActRootCell, oAssociatedContent);

@@ -138,7 +138,7 @@ public class CarT extends TestApps.Physics2D.BubbleRace.FrictionRobot implements
 		Angle colAngle = this.getAngle(localPointPos);
 
 		subTargetPosition = null;	// to instantly calculate a new target after COLLISION
-									// TODO: because the CarT can "synergise" with a HerR, the Coll. method in "HerR" should although reset the subTarget
+									// : because the CarT can "synergise" with a HerR, the Coll. method in "HerR" should although reset the subTarget
 
 //		System.out.println("CarT "+this.index+" collide with "+other.getClass()+" "+other.index);	// debug
 
@@ -271,7 +271,7 @@ public class CarT extends TestApps.Physics2D.BubbleRace.FrictionRobot implements
     	{
     		// limit the endTargetPosition to the arena borders
 			endTargetPosition = SimLifeMath.limitToBorders(endTarget, this.size);
-			// TODO: for robustness .. if endTarPos != endTar -> mark as unreachable and search a new one
+			// : for robustness .. if endTarPos != endTar -> mark as unreachable and search a new one
 
 			// find the next collision free target for the way to the end target
 			subTargetPosition1 = endTargetPosition;

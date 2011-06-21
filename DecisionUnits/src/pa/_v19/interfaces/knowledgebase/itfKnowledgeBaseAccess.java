@@ -14,7 +14,6 @@ import pa._v19.memorymgmt.enums.eDataType;
 import pa._v19.tools.clsPair;
 
 /**
- * DOCUMENT (zeilinger) - insert description 
  * 
  * @author zeilinger
  * 12.08.2010, 20:45:36

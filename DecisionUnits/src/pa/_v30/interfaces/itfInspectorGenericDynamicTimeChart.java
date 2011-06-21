@@ -7,7 +7,7 @@
 package pa._v30.interfaces;
 
 /**
- * DOCUMENT (deutsch) - insert description 
+ *
  * 
  * @author deutsch
  * 23.04.2011, 12:51:52

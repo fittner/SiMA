@@ -35,7 +35,7 @@ public class clsImageSymbolization extends clsSymbolization {
 	private clsContainerAbstractImages moTestImages;
 	
 	/**
-	 * DOCUMENT (langr) - insert description 
+	 *
 	 * 
 	 * @author langr
 	 * 21.04.2009, 11:58:35

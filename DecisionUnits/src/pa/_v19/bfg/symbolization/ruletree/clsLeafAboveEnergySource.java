@@ -69,7 +69,7 @@ class clsLeafAboveEnergySource extends clsRuleTreeLeaf
       poCompareResult[1]++;
     }
     boolean oResult = false;
-    //TODO - (langr): make sensor! 
+    // - (langr): make sensor! 
     if( compare( null ) )
     {
       //Engine.log.println( "Match with leaf: " + this.toString() );

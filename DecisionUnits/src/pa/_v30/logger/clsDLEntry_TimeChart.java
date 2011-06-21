@@ -10,7 +10,7 @@ import pa._v30.interfaces.itfInspectorGenericTimeChart;
 import pa._v30.modules.clsModuleBase;
 
 /**
- * DOCUMENT (deutsch) - insert description 
+ *
  * 
  * @author deutsch
  * 23.04.2011, 16:05:33
@@ -19,7 +19,7 @@ import pa._v30.modules.clsModuleBase;
 public class clsDLEntry_TimeChart extends clsDLEntry_Abstract implements itfInspectorGenericTimeChart {
 
 	/**
-	 * DOCUMENT (deutsch) - insert description 
+	 *
 	 * 
 	 * @author deutsch
 	 * 23.04.2011, 16:05:36

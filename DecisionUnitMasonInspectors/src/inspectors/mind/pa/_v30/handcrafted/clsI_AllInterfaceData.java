@@ -17,7 +17,7 @@ import sim.portrayal.Inspector;
 import statictools.clsExceptionUtils;
 
 /**
- * DOCUMENT (deutsch) - insert description 
+ * 
  * 
  * @author deutsch
  * 19.04.2011, 14:20:12
@@ -25,7 +25,7 @@ import statictools.clsExceptionUtils;
  */
 public class clsI_AllInterfaceData extends Inspector {
 	/**
-	 * DOCUMENT (deutsch) - insert description 
+	 * 
 	 * 
 	 * @author deutsch
 	 * 19.04.2011, 14:20:50
@@ -37,7 +37,7 @@ public class clsI_AllInterfaceData extends Inspector {
 	TextOutputPanel moTEXTPane;
 	
 	/**
-	 * DOCUMENT (deutsch) - insert description 
+	 * 
 	 * 
 	 * @author deutsch
 	 * 19.04.2011, 14:20:16

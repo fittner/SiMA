@@ -16,7 +16,7 @@ import du.enums.eSensorExtType;
 import du.itf.sensors.clsSensorExtern;
 
 /**
- * DOCUMENT (langr) - insert description 
+ *
  * 
  * @author langr
  * 01.10.2009, 13:15:58

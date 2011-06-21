@@ -27,7 +27,7 @@ import du.itf.sensors.clsSensorExtern;
 import du.itf.sensors.clsVision;
 
 /**
- * DOCUMENT (deutsch) - insert description 
+ *
  * 
  * @author deutsch
  * 20.10.2009, 10:59:07

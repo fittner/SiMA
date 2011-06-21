@@ -9,7 +9,7 @@ package pa._v30.interfaces;
 import java.util.ArrayList;
 
 /**
- * DOCUMENT (deutsch) - insert description 
+ *
  * 
  * @author deutsch
  * 19.04.2011, 11:13:35

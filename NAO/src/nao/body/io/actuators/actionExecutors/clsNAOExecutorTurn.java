@@ -75,7 +75,7 @@ public class clsNAOExecutorTurn extends clsActionExecutor{
 				//turn left must be negeative
 				moNAOBody.addCommand(CommandGenerator.turn( (-1*oCommand.getAngle()) ));
 			} catch (Exception e1) {
-				// TODO Auto-generated catch block
+				
 				e1.printStackTrace();
 			}
     	}
@@ -85,7 +85,7 @@ public class clsNAOExecutorTurn extends clsActionExecutor{
 			try {
 				moNAOBody.addCommand(CommandGenerator.turn(oCommand.getAngle()));
 			} catch (Exception e) {
-				// TODO Auto-generated catch block
+				
 				e.printStackTrace();
 			}
     	}

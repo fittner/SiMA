@@ -12,7 +12,7 @@ import pa._v30.memorymgmt.datatypes.clsDataStructurePA;
 import pa._v30.memorymgmt.informationrepresentation.clsInformationRepresentationManagement;
 
 /**
- * DOCUMENT (deutsch) - insert description 
+ * 
  * 
  * @author deutsch
  * 21.04.2011, 14:25:28
@@ -22,7 +22,7 @@ public class clsMeshKnowledgebase extends clsMeshBase {
 
 	private clsInformationRepresentationManagement moKnowledgeBaseHandler;
 	/**
-	 * DOCUMENT (deutsch) - insert description 
+	 * 
 	 * 
 	 * @author deutsch
 	 * 21.04.2011, 14:25:41

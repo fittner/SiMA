@@ -24,7 +24,6 @@ import pa._v19.datatypes.clsWordPresentation;
 import bfg.utils.enums.eOptional;
 
 /**
- * DOCUMENT (langr) - insert description 
  * 
  * @author langr
  * 23.10.2009, 12:11:14
@@ -70,7 +69,6 @@ public class clsTemplateImageLoader {
 	}
 
 	/**
-	 * DOCUMENT (langr) - insert description
 	 *
 	 * @author langr
 	 * 23.10.2009, 14:39:17

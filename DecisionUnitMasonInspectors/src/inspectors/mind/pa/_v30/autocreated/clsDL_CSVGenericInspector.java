@@ -15,7 +15,7 @@ import sim.portrayal.Inspector;
 import statictools.clsExceptionUtils;
 
 /**
- * DOCUMENT (deutsch) - insert description 
+ * 
  * 
  * @author deutsch
  * 23.04.2011, 17:17:01
@@ -26,7 +26,7 @@ public class clsDL_CSVGenericInspector extends Inspector {
 	private TextOutputPanel moTextPane;
 	
 	/**
-	 * DOCUMENT (deutsch) - insert description 
+	 * 
 	 * 
 	 * @author deutsch
 	 * 23.04.2011, 17:17:08
@@ -34,7 +34,7 @@ public class clsDL_CSVGenericInspector extends Inspector {
 	private static final long serialVersionUID = -6031223024023472087L;
 
 	/**
-	 * DOCUMENT (deutsch) - insert description 
+	 * 
 	 * 
 	 * @author deutsch
 	 * 23.04.2011, 17:17:04

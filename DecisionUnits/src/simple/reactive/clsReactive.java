@@ -41,7 +41,7 @@ import java.util.Iterator;
 import config.clsBWProperties;
 
 /**
- * DOCUMENT (horvath) - insert description 
+ *  
  * 
  * @author horvath
  * 04.08.2009, 14:40:25
@@ -486,7 +486,7 @@ public class clsReactive extends clsBaseDecisionUnit {
 	 * 
 	 */
 	private void release(itfActionProcessor poActionProcessor){
-		// FIXME (horvath) moActionQueue.add(Action.FROM_INVENTORY);
+		//  (horvath) moActionQueue.add(Action.FROM_INVENTORY);
 		moActionQueue.add(Action.DROP);
 		mnInventorySize = 0;
 	}
@@ -500,7 +500,7 @@ public class clsReactive extends clsBaseDecisionUnit {
 		for(clsSensorExtern oEatAreaObj : oEatArea.getDataObjects() ) {
 				if( ((clsSensorRingSegmentEntry) oEatAreaObj).getEntityType() == eEntityType.URANIUM ){
 					moActionQueue.add(Action.PICKUP);
-					// FIXME (horvath) moActionQueue.add(Action.TO_INVENTORY);
+					//  (horvath) moActionQueue.add(Action.TO_INVENTORY);
 					mnInventorySize++;
 				}
 		}

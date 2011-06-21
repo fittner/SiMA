@@ -12,7 +12,7 @@ import du.enums.eTriState;
 import bfg.utils.enums.eCount;
 
 /**
- * DOCUMENT (deutsch) - insert description 
+ *
  * 
  * @author deutsch
  * 19.10.2009, 19:38:07

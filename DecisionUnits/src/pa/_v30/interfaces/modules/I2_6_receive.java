@@ -14,7 +14,7 @@ import pa._v30.memorymgmt.datatypes.clsDriveMesh;
 import pa._v30.memorymgmt.datatypes.clsPrimaryDataStructureContainer;
 
 /**
- * DOCUMENT (deutsch) - insert description 
+ *
  * 
  * @author deutsch
  * 11.08.2009, 14:17:57

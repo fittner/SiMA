@@ -19,9 +19,9 @@ import sim.physics2D.util.Double2D;
 public abstract class clsMobileAgent2D extends MobileObject2D
 {
 	/**
-	 * DOCUMENT (tobias) - insert description 
+	 * DOCUMENT (deutsch) - insert description 
 	 * 
-	 * @author tobias
+	 * @author deutsch
 	 * Jul 24, 2009, 5:46:40 PM
 	 */
 	private static final long serialVersionUID = 6025374867186032786L;

@@ -29,7 +29,6 @@ import pa._v19.loader.templateimage.eBooleanOperator;
 import bfg.utils.enums.eOptional;
 
 /**
- * DOCUMENT (langr) - insert description 
  * 
  * @author langr
  * 24.10.2009, 23:54:45
@@ -75,7 +74,6 @@ public class clsTemplateImagePrimaryStorage  {
 	}
 
 	/**
-	 * DOCUMENT (langr) - insert description
 	 *
 	 * @author langr
 	 * 23.10.2009, 14:39:17

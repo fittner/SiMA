@@ -33,7 +33,7 @@ import sim.portrayal.LocationWrapper;
 import sim.portrayal.inspector.TabbedInspector;
 
 /**
- * DOCUMENT (muchitsch) - Inspector instertion point to show the actual state of the semantic memory 
+ * (muchitsch) - Inspector instertion point to show the actual state of the semantic memory 
  * 
  * @author muchitsch
  * 03.08.2010, 13:58:44
@@ -43,7 +43,7 @@ import sim.portrayal.inspector.TabbedInspector;
 public class clsMemoryInspectorTab extends Inspector implements TreeSelectionListener {
 
 	/**
-	 * DOCUMENT (muchitsch) - a inspector for the memory. it displays the memory information on a tab in the inspectors.
+	 * (muchitsch) - a inspector for the memory. it displays the memory information on a tab in the inspectors.
 	 * different filters etc to come
 	 * 
 	 * @author muchitsch
@@ -109,7 +109,7 @@ public class clsMemoryInspectorTab extends Inspector implements TreeSelectionLis
     }
     
 	/**
-	 * DOCUMENT (muchitsch) - creates a tree for all modules and displays the memory within this modules. some my not have a connection to memory
+	 * (muchitsch) - creates a tree for all modules and displays the memory within this modules. some my not have a connection to memory
 	 *
 	 * @author muchitsch
 	 * 13.08.2010, 00:52:09
@@ -130,7 +130,7 @@ public class clsMemoryInspectorTab extends Inspector implements TreeSelectionLis
 				DefaultMutableTreeNode child = null; 
 				
 				//ich will nur die erste Ebene beim Memory! meine Implementierung
-				//TODO Liste Memory im Tree anders aufbauen & sortieren
+				// Liste Memory im Tree anders aufbauen & sortieren
 				
 				if( 	(oField.getName().substring(2).startsWith("G01")) || 
 						(oField.getName().substring(2).startsWith("G02")) || 

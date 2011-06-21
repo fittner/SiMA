@@ -16,7 +16,7 @@ import bfg.utils.enums.eCount;
 import bfg.utils.enums.eSide;
 
 /**
- * DOCUMENT (deutsch) - insert description 
+ *
  * 
  * @author deutsch
  * 19.10.2009, 19:40:17

@@ -7,7 +7,6 @@
 package pa._v19.loader;
 
 /**
- * DOCUMENT (langr) - insert description 
  * 
  * @author langr
  * 28.09.2009, 16:48:26

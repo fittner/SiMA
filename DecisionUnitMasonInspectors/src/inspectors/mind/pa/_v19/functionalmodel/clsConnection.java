@@ -7,7 +7,7 @@
 package inspectors.mind.pa._v19.functionalmodel;
 
 /**
- * DOCUMENT (deutsch) - insert description 
+ * 
  * 
  * @author deutsch
  * 22.10.2009, 12:13:05

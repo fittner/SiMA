@@ -10,7 +10,6 @@ import pa._v19.interfaces.itfPrimaryProcessComparabelTP;
 import pa._v19.interfaces.itfPrimaryProcessComparable;
 
 /**
- * DOCUMENT (langr) - insert description 
  * 
  * @author langr
  * 11.08.2009, 11:48:23
@@ -48,7 +47,7 @@ public class clsPrimaryInformation extends clsPsychicRepresentative implements i
 	 */
 	@Override
 	public int compareTo(clsPrimaryInformation poPrimaryInformation) {
-		// TODO (langr) - Auto-generated method stub
+		
 		return 0;
 	}
 	/* (non-Javadoc)
@@ -60,7 +59,7 @@ public class clsPrimaryInformation extends clsPsychicRepresentative implements i
 	 */
 	@Override
 	public int compareTo(clsThingPresentation poPrimaryInformation) {
-		// TODO (langr) - Auto-generated method stub
+		
 		return 0;
 	}
 
@@ -81,7 +80,6 @@ public class clsPrimaryInformation extends clsPsychicRepresentative implements i
 		
 	}
 	/**
-	 * DOCUMENT (langr) - insert description
 	 *
 	 * @author langr
 	 * 16.10.2009, 19:35:07

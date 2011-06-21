@@ -17,7 +17,7 @@ import pa._v19.memorymgmt.informationrepresentation.clsSearchSpaceHandler;
 import pa._v19.tools.clsPair;
 
 /**
- * DOCUMENT (zeilinger) - insert description 
+ *
  * 
  * @author zeilinger
  * 19.05.2010, 07:50:02
@@ -26,7 +26,7 @@ import pa._v19.tools.clsPair;
 public class KB03_ExternalPerceptionMgmt extends clsInformationRepresentationModuleBase{
 
 	/**
-	 * DOCUMENT (zeilinger) - insert description 
+	 *
 	 * 
 	 * @author zeilinger
 	 * 23.05.2010, 22:59:07
@@ -38,7 +38,7 @@ public class KB03_ExternalPerceptionMgmt extends clsInformationRepresentationMod
 			clsInformationRepresentationModuleContainer poInformationRepresentationModulesContainer, 
 											clsSearchSpaceHandler poSearchSpaceHandler, String poSearchMethod) {
 		super(poInformationRepresentationModulesContainer, poSearchSpaceHandler, poSearchMethod);
-		// TODO (zeilinger) - Auto-generated constructor stub
+		
 	}
 
 	/* (non-Javadoc)
@@ -62,7 +62,7 @@ public class KB03_ExternalPerceptionMgmt extends clsInformationRepresentationMod
 	}
 	
 	/**
-	 * DOCUMENT (zeilinger) - insert description
+	 *
 	 *
 	 * @author zeilinger
 	 * 12.07.2010, 12:58:02
@@ -81,7 +81,7 @@ public class KB03_ExternalPerceptionMgmt extends clsInformationRepresentationMod
 	}
 
 	/**
-	 * DOCUMENT (zeilinger) - insert description
+	 *
 	 *
 	 * @author zeilinger
 	 * 12.07.2010, 13:52:24
@@ -95,7 +95,7 @@ public class KB03_ExternalPerceptionMgmt extends clsInformationRepresentationMod
 	}
 
 	/**
-	 * DOCUMENT (zeilinger) - insert description
+	 *
 	 *
 	 * @author zeilinger
 	 * 02.07.2010, 07:12:23

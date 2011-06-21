@@ -58,7 +58,6 @@ public class clsCurrentContextStorage implements itfContextAccessPrimary, itfCon
     }
     
     /**
-	 * DOCUMENT (langr) - insert description
 	 *
 	 * @author langr
 	 * 18.10.2009, 13:38:50
@@ -169,7 +168,6 @@ public class clsCurrentContextStorage implements itfContextAccessPrimary, itfCon
     }
 
 	/**
-	 * DOCUMENT (zeilinger) - insert description
 	 *
 	 * @author zeilinger
 	 * 16.08.2010, 15:12:45
@@ -184,7 +182,6 @@ public class clsCurrentContextStorage implements itfContextAccessPrimary, itfCon
     }
 
 	/**
-	 * DOCUMENT (zeilinger) - insert description
 	 *
 	 * @author zeilinger
 	 * 16.08.2010, 15:19:25

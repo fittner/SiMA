@@ -10,7 +10,7 @@ import pa._v30.tools.clsTripple;
 import pa._v30.memorymgmt.enums.eDataType;
 
 /**
- * DOCUMENT (zeilinger) - insert description 
+ *
  * 
  * @author zeilinger
  * 23.05.2010, 21:52:50
@@ -19,7 +19,7 @@ import pa._v30.memorymgmt.enums.eDataType;
 public class clsAssociationTime extends clsAssociation{
 
 	/**
-	 * DOCUMENT (zeilinger) - insert description 
+	 *
 	 * 
 	 * @author zeilinger
 	 * 24.05.2010, 16:05:04
@@ -34,7 +34,7 @@ public class clsAssociationTime extends clsAssociation{
 			clsPrimaryDataStructure poAssociationElementB) {
 		
 		super(poDataStructureIdentifier, poAssociationElementA, poAssociationElementB);
-		// TODO (zeilinger) - Auto-generated constructor stub
+		
 	}
 
 	/* (non-Javadoc)
@@ -46,7 +46,7 @@ public class clsAssociationTime extends clsAssociation{
 	 */
 	@Override
 	public double compareTo(clsDataStructurePA o) {
-		// TODO (zeilinger) - Auto-generated method stub
+		
 		return 0;
 	}
 

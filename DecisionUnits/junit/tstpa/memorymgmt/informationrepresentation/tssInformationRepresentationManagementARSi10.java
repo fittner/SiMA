@@ -33,7 +33,7 @@ import pa._v30.memorymgmt.informationrepresentation.searchspace.clsSearchSpaceOn
 
 
 /**
- * DOCUMENT (zeilinger) - insert description 
+ * 
  * 
  * @author zeilinger
  * 15.07.2010, 22:32:45
@@ -62,7 +62,7 @@ public class tssInformationRepresentationManagementARSi10 {
 	}
 
 	/**
-	 * DOCUMENT (zeilinger) - insert description
+	 *
 	 *
 	 * @author zeilinger
 	 * 20.07.2010, 22:11:37
@@ -94,7 +94,7 @@ public class tssInformationRepresentationManagementARSi10 {
 	}
 	
 	/**
-	 * DOCUMENT (zeilinger) - insert description
+	 *
 	 *
 	 * @author zeilinger
 	 * 15.07.2010, 22:52:52
@@ -112,7 +112,7 @@ public class tssInformationRepresentationManagementARSi10 {
 	}
 
 	/**
-	 * DOCUMENT (zeilinger) - insert description
+	 *
 	 *
 	 * @author zeilinger
 	 * 15.07.2010, 22:52:37
@@ -124,7 +124,7 @@ public class tssInformationRepresentationManagementARSi10 {
 	}
 
 	/**
-	 * DOCUMENT (zeilinger) - insert description
+	 *
 	 *
 	 * @author zeilinger
 	 * 15.07.2010, 22:52:23
@@ -166,7 +166,7 @@ public class tssInformationRepresentationManagementARSi10 {
 	}
 	
 	/**
-	 * DOCUMENT (zeilinger) - insert description
+	 *
 	 *
 	 * @author zeilinger
 	 * 15.07.2010, 22:52:11
@@ -198,7 +198,7 @@ public class tssInformationRepresentationManagementARSi10 {
 	}
 
 	/**
-	 * DOCUMENT (zeilinger) - insert description
+	 *
 	 *
 	 * @author zeilinger
 	 * 15.07.2010, 22:51:29
@@ -212,7 +212,7 @@ public class tssInformationRepresentationManagementARSi10 {
 	}
 
 	/**
-	 * DOCUMENT (zeilinger) - insert description
+	 *
 	 *
 	 * @author zeilinger
 	 * 21.07.2010, 14:57:55

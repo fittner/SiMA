@@ -24,7 +24,7 @@ import pa._v19.memorymgmt.datatypes.clsWordPresentation;
 import pa._v19.enums.eSymbolExtType;
 
 /**
- * DOCUMENT (langr) - insert description 
+ *
  * 
  * @author langr
  * 11.08.2009, 15:32:50

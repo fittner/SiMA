@@ -16,7 +16,7 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 
 /**
- * DOCUMENT (muchitsch) - insert description 
+ * 
  * 
  * @author muchitsch
  * 
@@ -24,7 +24,7 @@ import org.junit.Test;
 public class tstBWMain {
 
 	/**
-	 * DOCUMENT (muchitsch) - insert description
+	 *
 	 *
 	 * @throws java.lang.Exception
 	 */
@@ -33,7 +33,7 @@ public class tstBWMain {
 	}
 
 	/**
-	 * DOCUMENT (muchitsch) - insert description
+	 *
 	 *
 	 * @throws java.lang.Exception
 	 */
@@ -42,7 +42,7 @@ public class tstBWMain {
 	}
 
 	/**
-	 * DOCUMENT (muchitsch) - insert description
+	 *
 	 *
 	 * @throws java.lang.Exception
 	 */
@@ -51,7 +51,7 @@ public class tstBWMain {
 	}
 
 	/**
-	 * DOCUMENT (muchitsch) - insert description
+	 *
 	 *
 	 * @throws java.lang.Exception
 	 */
@@ -64,7 +64,7 @@ public class tstBWMain {
 	 */
 	@Test
 	public void testClsBWMainLong() {
-		fail("Not yet implemented"); // TODO cm
+		fail("Not yet implemented"); // 
 	}
 
 	/**
@@ -72,7 +72,7 @@ public class tstBWMain {
 	 */
 	@Test
 	public void testClsBWMainLongIntInt() {
-		fail("Not yet implemented"); // TODO cm
+		fail("Not yet implemented"); //
 	}
 
 }

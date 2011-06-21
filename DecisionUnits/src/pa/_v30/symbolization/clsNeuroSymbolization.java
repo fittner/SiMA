@@ -19,14 +19,14 @@ package pa._v30.symbolization;
 public class clsNeuroSymbolization extends clsSymbolization {
 
 	/**
-	 * DOCUMENT (langr) - insert description 
+	 *
 	 * 
 	 * @author langr
 	 * 21.04.2009, 12:00:34
 	 *
 	 */
 	public clsNeuroSymbolization() {
-		// TODO (langr) - Auto-generated constructor stub
+		
 	}
 
 }

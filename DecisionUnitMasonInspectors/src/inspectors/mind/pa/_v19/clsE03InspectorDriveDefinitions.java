@@ -18,7 +18,7 @@ import sim.portrayal.LocationWrapper;
 import sim.util.gui.HTMLBrowser;
 
 /**
- * DOCUMENT (langr) - insert description 
+ *
  * 
  * @author langr
  * 28.09.2009, 19:10:55

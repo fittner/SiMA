@@ -8,7 +8,7 @@ package pa._v19.memorymgmt.informationrepresentation.modules;
 
 import pa._v19.memorymgmt.informationrepresentation.clsSearchSpaceHandler;
 /**
- * DOCUMENT (zeilinger) - insert description 
+ *
  * 
  * @author zeilinger
  * 19.05.2010, 07:45:54

@@ -39,7 +39,7 @@ import bfg.tools.shapes.clsPolarcoordinate;
 import bfg.utils.enums.eSide;
 
 /**
- * DOCUMENT (langr) - insert description 
+ * 
  * 
  * @author langr
  * 22.04.2009, 10:39:13
@@ -166,7 +166,7 @@ public class tssImageAbstract {
 	}
 
 	/**
-	 * DOCUMENT (langr) - insert description
+	 *
 	 *
 	 * @author langr
 	 * 22.04.2009, 10:39:13
@@ -178,7 +178,7 @@ public class tssImageAbstract {
 	}
 
 	/**
-	 * DOCUMENT (langr) - insert description
+	 *
 	 *
 	 * @author langr
 	 * 22.04.2009, 10:39:13
@@ -190,7 +190,7 @@ public class tssImageAbstract {
 	}
 
 	/**
-	 * DOCUMENT (langr) - insert description
+	 *
 	 *
 	 * @author langr
 	 * 22.04.2009, 10:39:13

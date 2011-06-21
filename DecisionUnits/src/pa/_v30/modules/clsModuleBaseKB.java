@@ -19,7 +19,7 @@ import pa._v30.memorymgmt.enums.eDataType;
 import pa._v30.tools.clsPair;
 
 /**
- * DOCUMENT (deutsch) - insert description 
+ *
  * 
  * @author deutsch
  * 21.04.2011, 11:50:00
@@ -29,7 +29,7 @@ public abstract class clsModuleBaseKB extends clsModuleBase {
 	protected clsKnowledgeBaseHandler moKnowledgeBaseHandler;
 	
 	/**
-	 * DOCUMENT (deutsch) - insert description 
+	 *
 	 * 
 	 * @author deutsch
 	 * 21.04.2011, 11:50:32
@@ -50,7 +50,7 @@ public abstract class clsModuleBaseKB extends clsModuleBase {
 	}
 
 	/**
-	 * DOCUMENT (zeilinger) - insert description
+	 *
 	 *
 	 * @author zeilinger
 	 * 19.03.2011, 08:36:59

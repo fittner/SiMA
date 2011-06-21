@@ -9,7 +9,6 @@ package test;
 import java.awt.Color;
 
 /**
- * DOCUMENT (deutsch) - insert description 
  * 
  * @author deutsch
  * 20.04.2011, 17:44:17
@@ -18,7 +17,6 @@ import java.awt.Color;
 public class clsColorTest {
 
 	/**
-	 * DOCUMENT (deutsch) - insert description
 	 *
 	 * @author deutsch
 	 * 20.04.2011, 17:44:17

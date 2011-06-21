@@ -13,7 +13,7 @@ import du.itf.actions.clsActionCommand;
 
 
 /**
- * DOCUMENT (deutsch) - insert description 
+ *
  * 
  * @author deutsch
  * 03.03.2011, 15:30:30

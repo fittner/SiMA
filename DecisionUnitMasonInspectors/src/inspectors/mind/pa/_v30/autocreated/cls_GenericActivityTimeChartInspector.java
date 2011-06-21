@@ -18,7 +18,7 @@ import org.jfree.ui.RectangleInsets;
 import pa._v30.interfaces.itfInspectorGenericActivityTimeChart;
 
 /**
- * DOCUMENT (deutsch) - insert description 
+ * 
  * 
  * @author deutsch
  * 15.04.2011, 18:54:16
@@ -27,7 +27,7 @@ import pa._v30.interfaces.itfInspectorGenericActivityTimeChart;
 public class cls_GenericActivityTimeChartInspector extends cls_AbstractChartInspector {
 
 	/**
-	 * DOCUMENT (deutsch) - insert description 
+	 * 
 	 * 
 	 * @author deutsch
 	 * 15.04.2011, 18:54:35
@@ -41,7 +41,7 @@ public class cls_GenericActivityTimeChartInspector extends cls_AbstractChartInsp
 	private final static int mnDefaultOffset = 2;
 	
 	/**
-	 * DOCUMENT (deutsch) - insert description 
+	 * 
 	 * 
 	 * @author deutsch
 	 * 15.04.2011, 18:54:19

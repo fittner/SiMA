@@ -127,7 +127,7 @@ public class E16_ManagementOfMemoryTraces extends clsModuleBase implements I2_6_
 	}
 	
 	/**
-	 * DOCUMENT (zeilinger) - insert description
+	 *
 	 *
 	 * @author zeilinger
 	 * 17.08.2010, 16:49:37
@@ -159,7 +159,7 @@ public class E16_ManagementOfMemoryTraces extends clsModuleBase implements I2_6_
 	}
 
 	/**
-	 * DOCUMENT (zeilinger) - insert description
+	 *
 	 *
 	 * @author zeilinger
 	 * 17.08.2010, 18:20:26
@@ -171,7 +171,7 @@ public class E16_ManagementOfMemoryTraces extends clsModuleBase implements I2_6_
 	private ArrayList<clsDriveMesh> getAssociatedContent(clsPrimaryDataStructureContainer oEnvironmentalInput,
 													    clsDriveMesh oRepressedContent) {
 			
-			//FIXME HZ 18.08.2010: This part is quite a hack in the old version and it is actually 
+			// HZ 18.08.2010: This part is quite a hack in the old version and it is actually 
 			//not possible to verify how the aware content can be implemented in a more
 			//"dynamic" form. This has to be discussed and corrected when it is time to do so. 
 			//
@@ -213,7 +213,7 @@ public class E16_ManagementOfMemoryTraces extends clsModuleBase implements I2_6_
 	}
 
 	/**
-	 * DOCUMENT (zeilinger) - insert description
+	 *
 	 *
 	 * @author zeilinger
 	 * 17.08.2010, 18:20:23
@@ -230,7 +230,7 @@ public class E16_ManagementOfMemoryTraces extends clsModuleBase implements I2_6_
 	}
 
 	/**
-	 * DOCUMENT (zeilinger) - insert description
+	 *
 	 *
 	 * @author zeilinger
 	 * 17.08.2010, 23:30:58
@@ -254,7 +254,7 @@ public class E16_ManagementOfMemoryTraces extends clsModuleBase implements I2_6_
 	}
 
 	/**
-	 * DOCUMENT (zeilinger) - insert description
+	 *
 	 *
 	 * @author zeilinger
 	 * 17.08.2010, 20:22:16
@@ -280,7 +280,7 @@ public class E16_ManagementOfMemoryTraces extends clsModuleBase implements I2_6_
 	}
 	
 	/**
-	 * DOCUMENT (zeilinger) - insert description
+	 *
 	 *
 	 * @author zeilinger
 	 * 17.08.2010, 20:39:09
@@ -366,7 +366,7 @@ public class E16_ManagementOfMemoryTraces extends clsModuleBase implements I2_6_
 
 
 	/**
-	 * DOCUMENT (zeilinger) - insert description
+	 *
 	 *
 	 * @author zeilinger
 	 * 19.03.2011, 08:36:59

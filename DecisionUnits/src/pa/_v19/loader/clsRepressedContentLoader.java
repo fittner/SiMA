@@ -20,7 +20,6 @@ import pa._v19.datatypes.clsPrimaryInformation;
 
 
 /**
- * DOCUMENT (langr) - insert description 
  * 
  * @author langr
  * 17.10.2009, 17:05:17
@@ -65,7 +64,6 @@ public class clsRepressedContentLoader {
 	}
 
 	/**
-	 * DOCUMENT (langr) - insert description
 	 *
 	 * @author langr
 	 * 17.10.2009, 17:45:04

@@ -41,7 +41,7 @@ import pa._v19.tools.clsPair;
 import config.clsBWProperties;
 
 /**
- * DOCUMENT (langr) - insert description 
+ *
  * 
  * @author langr
  * 11.08.2009, 15:33:25

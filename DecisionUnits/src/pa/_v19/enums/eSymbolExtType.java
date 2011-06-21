@@ -7,7 +7,6 @@
 package pa._v19.enums;
 
 /**
- * DOCUMENT (deutsch) - insert description 
  * 
  * @author deutsch
  * 20.10.2009, 12:26:44

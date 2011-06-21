@@ -13,7 +13,7 @@ import du.itf.sensors.clsDataBase;
 
 
 /**
- * DOCUMENT (deutsch) - insert description 
+ *
  * 
  * @author deutsch
  * 03.03.2011, 15:28:47

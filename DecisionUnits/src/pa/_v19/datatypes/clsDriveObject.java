@@ -10,7 +10,6 @@ import du.enums.eEntityType;
 import du.enums.pa.eContext;
 
 /**
- * DOCUMENT (langr) - insert description 
  * 
  * @author langr
  * 28.09.2009, 17:46:01

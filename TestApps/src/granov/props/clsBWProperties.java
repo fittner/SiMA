@@ -162,7 +162,7 @@ public class clsBWProperties extends Properties {
 	 * @return escaped string
 	 */
 	private static String escapeDelim(String value) {
-		//TODO implement correct escaping and unescaping
+		// implement correct escaping and unescaping
 		value = Matcher.quoteReplacement(value); //
 		//value = value.replaceAll(P_REGEXP_ESCAPE, P_ESCAPE+P_ESCAPE); // escape the escape sequence - \\ is converted to \\\\
 		//value = value.replaceAll(P_DELIMITER, P_ESCAPE+P_DELIMITER); // escape the delimiter - ; is converted to \\;
@@ -256,7 +256,7 @@ public class clsBWProperties extends Properties {
 	}
 	
 	private static String unescapeDelim(String value) {
-		//TODO implement correct escaping and unescaping		
+		// implement correct escaping and unescaping		
 		// reverse escapeDelim
 //		value = value.replaceAll(P_REGEXP_ESCAPE+P_DELIMITER, P_DELIMITER);
 //		value = value.replaceAll(P_REGEXP_ESCAPE, P_ESCAPE);
@@ -854,7 +854,7 @@ public class clsBWProperties extends Properties {
 	 * copies all entries which keys start with poPrefix into a new set. the prefix is removed from the keys
 	 * in the new set.
 	 *
-	 * @author tobias
+	 * @author deutsch
 	 * Jul 26, 2009, 12:26:40 PM
 	 *
 	 * @param poPrefix
@@ -881,7 +881,7 @@ public class clsBWProperties extends Properties {
 	/**
 	 * scans all existing keys and returns true if at least one key starts with the given prefix.
 	 *
-	 * @author tobias
+	 * @author deutsch
 	 * Jul 26, 2009, 3:02:11 PM
 	 *
 	 * @param poPrefix

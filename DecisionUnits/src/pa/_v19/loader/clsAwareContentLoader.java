@@ -23,7 +23,6 @@ import pa._v19.tools.clsTripple;
 import statictools.clsGetARSPath;
 
 /**
- * DOCUMENT (zeilinger) - insert description 
  * 
  * @author zeilinger
  * 20.10.2009, 15:54:49
@@ -62,7 +61,6 @@ public class clsAwareContentLoader {
 		}
 			
 		/**
-		 * DOCUMENT (zeilinger) - insert description
 		 *
 		 * @author zeilinger
 		 * 08.10.2009, 20:43:12
@@ -81,7 +79,6 @@ public class clsAwareContentLoader {
 		}
 
 		/**
-		 * DOCUMENT (zeilinger) - insert description
 		 *
 		 * @author zeilinger
 		 * 07.10.2009, 20:56:45
@@ -107,7 +104,7 @@ public class clsAwareContentLoader {
 						clsPrimaryInformation oAwareContent = clsStaticLoaderHelper.loadPrimaryInformation(element);
 						oAwareContent.moTP.meContentName = "Aware Content";
 						oAwareContent.moTP.meContentType = eRepressedContentType.class.getName();
-						/*FIXME HZ no enumerator defined for awareContent - look at TPAwareContent.xml - AwareContent Names have to 
+						/* HZ no enumerator defined for awareContent - look at TPAwareContent.xml - AwareContent Names have to 
 						 * 		be redefined*/
 						oAwareContent.moTP.moContent = clsXMLAbstractImageReader.getAtributeValue(oAtrib, "content");
 						
@@ -122,7 +119,6 @@ public class clsAwareContentLoader {
 		}
 
 		/**
-		 * DOCUMENT (zeilinger) - insert description
 		 *
 		 * @author zeilinger
 		 * 21.10.2009, 08:56:23
@@ -142,7 +138,6 @@ public class clsAwareContentLoader {
 		}
 
 		/**
-		 * DOCUMENT (zeilinger) - insert description
 		 *
 		 * @author zeilinger
 		 * 21.10.2009, 08:55:07

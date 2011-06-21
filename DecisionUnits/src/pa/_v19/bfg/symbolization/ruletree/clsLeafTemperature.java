@@ -19,7 +19,6 @@ import du.itf.sensors.clsDataBase;
 import du.itf.sensors.clsSensorData;
 
 /**
- * DOCUMENT (langr) - insert description 
  * 
  * @author langr
  * 22.09.2009, 16:13:20

@@ -280,7 +280,7 @@ public class clsBrainSocket implements itfStepProcessing {
 			try {
 				moDecisionUnit.update(convertSensorData());
 			} catch (Exception e) {
-				// TODO Auto-generated catch block
+				
 				e.printStackTrace();
 			}
 			moDecisionUnit.process();

@@ -23,7 +23,7 @@ import pa._v30.tools.toText;
 import pa._v30.enums.eSymbolExtType;
 
 /**
- * DOCUMENT (muchitsch) - insert description 
+ * 
  * 
  * @author deutsch
  * 11.08.2009, 14:26:13
@@ -41,7 +41,7 @@ public class E14_ExternalPerception extends clsModuleBase implements
 	private ArrayList<clsPrimaryDataStructureContainer> moEnvironmentalTP; 
 
 	/**
-	 * DOCUMENT (muchitsch) - insert description 
+	 * 
 	 * 
 	 * @author deutsch
 	 * 03.03.2011, 16:15:27
@@ -193,7 +193,7 @@ public class E14_ExternalPerception extends clsModuleBase implements
 	 */
 	@Override
 	protected void process_draft() {
-		// TODO (muchitsch) - Auto-generated method stub
+		
 		throw new java.lang.NoSuchMethodError();
 	}
 
@@ -206,7 +206,7 @@ public class E14_ExternalPerception extends clsModuleBase implements
 	 */
 	@Override
 	protected void process_final() {
-		// TODO (muchitsch) - Auto-generated method stub
+		
 		throw new java.lang.NoSuchMethodError();
 	}
 

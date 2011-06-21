@@ -8,7 +8,7 @@
 package tstBw;
 
 /**
- * DOCUMENT (deutsch) - insert description 
+ * 
  * 
  * @author deutsch
  * 

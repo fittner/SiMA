@@ -195,7 +195,7 @@ public class E07_SuperEgo_unconscious extends clsModuleBase implements I1_5_rece
 
 
 	/**
-	 * DOCUMENT (zeilinger) - insert description
+	 *
 	 *
 	 * @author zeilinger
 	 * 19.03.2011, 08:36:59

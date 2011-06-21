@@ -18,7 +18,7 @@ import pa._v30.interfaces.itfInspectorDrives;
 import pa._v30.memorymgmt.datatypes.clsDriveMesh;
 
 /**
- * DOCUMENT (deutsch) - insert description 
+ * 
  * 
  * @author deutsch
  * 22.04.2011, 18:26:26
@@ -35,7 +35,7 @@ public class clsDriveInspector extends clsGraphBase {
 		updateControl();	//loading data into the graph
 	}
 	/**
-	 * DOCUMENT (deutsch) - insert description 
+	 * 
 	 * 
 	 * @author deutsch
 	 * 22.04.2011, 18:26:30
@@ -72,7 +72,7 @@ public class clsDriveInspector extends clsGraphBase {
 		moCellList.add( oDeath );
 		createEdge(moCellList, oRoot, oDeath, "");
 		
-		//FIXME: this method works only iff the pairs-of-opposite are next to each other in the list AND iff life drive is before death drive in the array
+		//: this method works only iff the pairs-of-opposite are next to each other in the list AND iff life drive is before death drive in the array
 		for (int i=0; i<moDriveList.size(); i+=2) {
 			DefaultGraphCell oL = readDrive_new(moCellList, oLife, moDriveList.get(i), "", Color.GREEN);
 			DefaultGraphCell oD = readDrive_new(moCellList, oDeath, moDriveList.get(i+1), "", Color.LIGHT_GRAY);
@@ -86,7 +86,7 @@ public class clsDriveInspector extends clsGraphBase {
 	
 
 	/**
-	 * DOCUMENT (zeilinger) - insert description
+	 *
 	 *
 	 * @author zeilinger
 	 * 02.11.2010, 21:01:56
@@ -115,7 +115,7 @@ public class clsDriveInspector extends clsGraphBase {
 	}
 
 	/**
-	 * DOCUMENT (langr) - insert description
+	 *
 	 *
 	 * @author langr
 	 * 31.10.2009, 23:48:59

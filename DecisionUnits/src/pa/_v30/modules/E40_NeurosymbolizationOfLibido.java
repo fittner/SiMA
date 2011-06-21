@@ -19,7 +19,7 @@ import pa._v30.tools.toText;
 import config.clsBWProperties;
 
 /**
- * DOCUMENT (muchitsch) - insert description 
+ * 
  * 
  * @author deutsch
  * 03.03.2011, 15:18:01
@@ -30,7 +30,7 @@ public class E40_NeurosymbolizationOfLibido extends clsModuleBase implements I1_
 		
 	private double mrLibido;
 	/**
-	 * DOCUMENT (muchitsch) - insert description 
+	 * 
 	 * 
 	 * @author deutsch
 	 * 03.03.2011, 17:52:37
@@ -107,7 +107,7 @@ public class E40_NeurosymbolizationOfLibido extends clsModuleBase implements I1_
 	 */
 	@Override
 	protected void process_draft() {
-		// TODO (muchitsch) - Auto-generated method stub
+		
 
 	}
 
@@ -120,7 +120,7 @@ public class E40_NeurosymbolizationOfLibido extends clsModuleBase implements I1_
 	 */
 	@Override
 	protected void process_final() {
-		// TODO (muchitsch) - Auto-generated method stub
+		
 
 	}
 

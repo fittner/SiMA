@@ -54,7 +54,7 @@ public class BubbleRace extends SimState
 	    {
 	    	if (xmlFile.exists())
 	    	{
-	    		//FIXME: commmented by heimo & roland because of error
+	    		//: commmented by heimo & roland because of error
 	    		//surfaceGrid = clsSurfaceHandler.getInstance().createWorld(xmlFile);
 	    	}
 	    	else

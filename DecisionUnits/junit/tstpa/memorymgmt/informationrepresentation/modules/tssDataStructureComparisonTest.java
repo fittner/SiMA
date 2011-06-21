@@ -29,7 +29,7 @@ import tstpa.memorymgmt.informationrepresentation.tssTestSearchSpace;
 
 
 /**
- * DOCUMENT (zeilinger) - insert description 
+ * 
  * 
  * @author zeilinger
  * 15.07.2010, 22:34:20
@@ -92,7 +92,7 @@ public class tssDataStructureComparisonTest {
 	}
 
 	/**
-	 * DOCUMENT (zeilinger) - insert description
+	 *
 	 *
 	 * @author zeilinger
 	 * 15.07.2010, 22:52:52
@@ -106,7 +106,7 @@ public class tssDataStructureComparisonTest {
 	}
 
 	/**
-	 * DOCUMENT (zeilinger) - insert description
+	 *
 	 *
 	 * @author zeilinger
 	 * 15.07.2010, 22:52:37
@@ -120,7 +120,7 @@ public class tssDataStructureComparisonTest {
 	}
 
 	/**
-	 * DOCUMENT (zeilinger) - insert description
+	 *
 	 *
 	 * @author zeilinger
 	 * 15.07.2010, 22:52:23
@@ -162,7 +162,7 @@ public class tssDataStructureComparisonTest {
 	}
 	
 	/**
-	 * DOCUMENT (zeilinger) - insert description
+	 *
 	 *
 	 * @author zeilinger
 	 * 15.07.2010, 22:52:11
@@ -194,7 +194,7 @@ public class tssDataStructureComparisonTest {
 	}
 
 	/**
-	 * DOCUMENT (zeilinger) - insert description
+	 *
 	 *
 	 * @author zeilinger
 	 * 15.07.2010, 22:51:29

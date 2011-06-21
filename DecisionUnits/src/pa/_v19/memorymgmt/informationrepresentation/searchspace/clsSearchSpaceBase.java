@@ -15,7 +15,7 @@ import pa._v19.memorymgmt.enums.eDataType;
 import pa._v19.tools.clsPair;
 
 /**
- * DOCUMENT (zeilinger) - insert description 
+ *
  * 
  * @author zeilinger
  * 23.05.2010, 18:29:05
@@ -29,7 +29,7 @@ public abstract class clsSearchSpaceBase {
 	}
 	
 	/**
-	 * DOCUMENT (zeilinger) - insert description
+	 *
 	 *
 	 * @author zeilinger
 	 * 09.06.2010, 22:04:04

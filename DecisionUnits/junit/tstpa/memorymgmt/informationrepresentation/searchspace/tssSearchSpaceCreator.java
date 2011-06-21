@@ -15,7 +15,7 @@ import pa._v30.memorymgmt.informationrepresentation.searchspace.clsSearchSpaceOn
 
 
 /**
- * DOCUMENT (zeilinger) - insert description 
+ * 
  * 
  * @author zeilinger
  * 25.06.2010, 20:40:02

@@ -1,7 +1,7 @@
 /**
  * tstMutableInteger.java: BW - tstBw.utils.datatypes
  * 
- * @author tobias
+ * @author deutsch
  * Jul 29, 2009, 8:16:01 PM
  */
 package tstBw.utils.datatypes;
@@ -11,9 +11,9 @@ import static org.junit.Assert.*;
 import org.junit.Test;
 
 /**
- * DOCUMENT (tobias) - insert description 
  * 
- * @author tobias
+ * 
+ * @author deutsch
  * Jul 29, 2009, 8:16:01 PM
  * 
  */

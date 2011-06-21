@@ -14,7 +14,7 @@ import pa._v30.memorymgmt.datatypes.clsDriveDemand;
 import pa._v30.memorymgmt.datatypes.clsDriveMesh;
 
 /**
- * DOCUMENT (deutsch) - insert description 
+ *
  * 
  * @author deutsch
  * 11.08.2009, 13:59:39

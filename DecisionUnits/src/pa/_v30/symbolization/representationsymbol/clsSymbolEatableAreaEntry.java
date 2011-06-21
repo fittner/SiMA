@@ -14,7 +14,7 @@ import du.enums.eDistance;
 
 
 /**
- * DOCUMENT (zeilinger) - insert description 
+ *
  * 
  * @author zeilinger
  * 22.09.2009, 13:09:45
@@ -23,7 +23,7 @@ import du.enums.eDistance;
 public class clsSymbolEatableAreaEntry extends du.itf.sensors.clsEatableAreaEntry implements itfIsContainer, itfGetSymbolName, itfGetDataAccessMethods, itfSymbolEatableAreaEntry {
 
 	/**
-	 * DOCUMENT (deutsch) - insert description 
+	 *
 	 * 
 	 * @author deutsch
 	 * 19.10.2009, 19:51:02

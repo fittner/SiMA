@@ -12,7 +12,6 @@ import pa._v19.datatypes.clsPrimaryInformation;
 import pa._v19.datatypes.clsThingPresentationSingle;
 
 /**
- * DOCUMENT (langr) - insert description 
  * 
  * @author langr
  * 23.10.2009, 12:12:56

@@ -12,7 +12,6 @@ import pa._v19.datatypes.clsSecondaryInformation;
 import pa._v19.datatypes.clsWordPresentation;
 
 /**
- * DOCUMENT (langr) - insert description 
  * 
  * @author langr
  * 23.10.2009, 12:12:56
@@ -73,7 +72,6 @@ public class clsTemplateSecondaryInfo extends clsSecondaryInformation implements
 	}
 
 	/**
-	 * DOCUMENT (langr) - insert description
 	 *
 	 * @author langr
 	 * 25.10.2009, 00:27:03
@@ -96,7 +94,6 @@ public class clsTemplateSecondaryInfo extends clsSecondaryInformation implements
 	}
 
 	/**
-	 * DOCUMENT (langr) - insert description
 	 *
 	 * @author langr
 	 * 25.10.2009, 00:31:51

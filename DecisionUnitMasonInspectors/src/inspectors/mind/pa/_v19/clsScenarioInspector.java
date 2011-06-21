@@ -47,7 +47,7 @@ import com.jgraph.layout.JGraphModelFacade;
 import com.jgraph.layout.hierarchical.JGraphHierarchicalLayout;
 
 /**
- * DOCUMENT (langr) - insert description 
+ *
  * 
  * @author langr
  * 25.10.2009, 13:49:59

@@ -1,4 +1,6 @@
 /**
+ * CHANGELOG
+ * 
  * 2011/06/15 TD - extracted clsEntitySelector into a distinct file.
  * 2011/06/15 TD - added javadoc comments. code sanitation.
  */

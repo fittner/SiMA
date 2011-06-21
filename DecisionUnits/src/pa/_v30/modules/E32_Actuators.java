@@ -18,7 +18,7 @@ import pa._v30.interfaces.modules.I8_2_receive;
 import pa._v30.tools.toText;
 
 /**
- * DOCUMENT (brandstaetter) - insert description 
+ *
  * 
  * @author deutsch
  * 11.08.2009, 15:00:44
@@ -31,7 +31,7 @@ public class E32_Actuators extends clsModuleBase implements I8_2_receive, I0_6_s
 	private ArrayList<clsActionCommand> moActionCommandList_Input;
 	
 	/**
-	 * DOCUMENT (brandstaetter) - insert description 
+	 *
 	 * 
 	 * @author deutsch
 	 * 03.03.2011, 17:02:05
@@ -156,7 +156,7 @@ public class E32_Actuators extends clsModuleBase implements I8_2_receive, I0_6_s
 	 */
 	@Override
 	protected void process_draft() {
-		// TODO (branstaetter) - Auto-generated method stub
+		
 		throw new java.lang.NoSuchMethodError();
 	}
 
@@ -169,7 +169,7 @@ public class E32_Actuators extends clsModuleBase implements I8_2_receive, I0_6_s
 	 */
 	@Override
 	protected void process_final() {
-		// TODO (branstaetter) - Auto-generated method stub
+		
 		throw new java.lang.NoSuchMethodError();
 	}
 

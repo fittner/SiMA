@@ -29,7 +29,6 @@ import pa._v19.tools.clsPair;
 import pa._v19.tools.clsTripple;
 
 /**
- * DOCUMENT (zeilinger) - insert description 
  * 
  * @author zeilinger
  * 11.08.2010, 20:50:42
@@ -45,22 +44,22 @@ public abstract class clsDataStructureGenerator {
 			Method method = clzz.getMethod("generate" + peDataType.name(), poContent.getClass());
 			oRetVal = (clsDataStructurePA)method.invoke(null, poContent);
 		} catch (SecurityException e) {
-			// TODO (zeilinger) - Auto-generated catch block
+			
 			e.printStackTrace();
 		} catch (NoSuchMethodException e) {
-			// TODO (zeilinger) - Auto-generated catch block
+			
 			e.printStackTrace();
 		} catch (IllegalArgumentException e) {
-			// TODO (zeilinger) - Auto-generated catch block
+			
 			e.printStackTrace();
 		} catch (IllegalAccessException e) {
-			// TODO (zeilinger) - Auto-generated catch block
+			
 			e.printStackTrace();
 		} catch (InvocationTargetException e) {
-			// TODO (zeilinger) - Auto-generated catch block
+			
 			e.printStackTrace();
 		} catch (ClassNotFoundException e) {
-			// TODO (zeilinger) - Auto-generated catch block
+			
 			e.printStackTrace();
 		}
 		return oRetVal; 
