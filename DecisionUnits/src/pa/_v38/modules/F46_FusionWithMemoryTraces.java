@@ -430,6 +430,6 @@ public class F46_FusionWithMemoryTraces extends clsModuleBaseKB implements
 	 */
 	@Override
 	public void setDescription() {
-		moDescription = "The thing presentations which represent the perception are associated with previously experienced and stored memory traces. This has two impacts: more information is added to the current perception and the perception is completed with previously stored information. Thus, if only parts of a well known object are visible, the other parts are added from memory. Next to information stored in memory, memory traces processed in secondary processes from the last step can be used.";
+		moDescription = " Association of TPMs (TP + Emotion, fantasies) with thing presentations raw data (from external perception). In a first step these are attached with a value to get a meaning. Secondly the fantasies are added from the TPMs to the thing presentations";
 	}		
 }
