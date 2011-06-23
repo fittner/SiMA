@@ -20,7 +20,7 @@ import pa._v38.tools.clsPair;
 import config.clsBWProperties;
 
 /**
- * DOCUMENT (zeilinger) - insert description 
+ * DOCUMENT (zeilinger) - This function reduces the affect values of drives by spliting them according to the attached modules. It controls the amount of the neutralized drive energy and generates lust 
  * 
  * @author zeilinger
  * 02.05.2011, 15:47:42
