@@ -23,7 +23,7 @@ import pa._v38.tools.clsPair;
 import config.clsBWProperties;
 
 /**
- * DOCUMENT (zeilinger) - insert description 
+ * DOCUMENT (zeilinger) - For generated drive candidates (vector affect values), drive objects and actions (drive aims) are remembered (for the satisfaction of needs 
  * 
  * @author zeilinger
  * 02.05.2011, 15:47:23
@@ -214,7 +214,7 @@ public class F57_MemoryTracesForDrives extends clsModuleBaseKB
 	 */
 	@Override
 	public void setDescription() {
-		moDescription = "Für vorher generierte „Triebkandidaten“ werden Triebobjekte und Handlungen (Triebziele ) erinnert (als Befriedigungsmöglichkeiten)";
+		moDescription = "For generated drive candidates (vector affect values), drive objects and actions (drive aims) are remembered (for the satisfaction of needs)";
 		// TODO (muchitsch) - give a en description
 		
 	}
