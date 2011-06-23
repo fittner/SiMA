@@ -206,6 +206,6 @@ public class F37_PrimalRepressionForPerception extends clsModuleBase implements 
 	 */
 	@Override
 	public void setDescription() {
-		moDescription = "This function categorizes the thing presentations according to the four primary drives. The result of it is that thing presentations have an additional value which can be used for further memory lookup to find similar entries.";
+		moDescription = "This function attaches the thing presentations to the repressed content. The result is a constructed perception with associated repressed content.";
 	}		
 }
