@@ -15,6 +15,7 @@ import pa._v38.interfaces.modules.I5_7_receive;
 import pa._v38.interfaces.modules.I5_7_send;
 import pa._v38.interfaces.modules.I5_6_receive;
 import pa._v38.memorymgmt.datatypes.clsPrimaryDataStructureContainer;
+import pa._v38.storage.clsBlockedContentStorage;
 import pa._v38.tools.toText;
 
 import config.clsBWProperties;
@@ -99,12 +100,26 @@ public class F37_PrimalRepressionForPerception extends clsModuleBase implements 
 	 */
 	@Override
 	protected void process_basic() {
+		
+		attachRepressedContent();
 		// TODO (HINTERLEITNER) - Auto-generated method stub
 		//moEvaluatedEnvironment_OUT = clsDataStructureConverter.convertTIContToTPMCont(moEnvironmental_IN);
+		
 		moEvaluatedEnvironment_OUT = moEnvironmentalPerception_IN;
 		
 		//Indirect associated memories are "durchgeschliffen"
 		moAssociatedMemories_OUT = moAssociatedMemories_IN;
+	}
+
+	/**
+	 * DOCUMENT (hinterleitner) - insert description
+	 *
+	 * @since 23.06.2011 11:07:31
+	 *
+	 */
+	private void attachRepressedContent() {
+		// TODO (hinterleitner) - Auto-generated method stub
+		
 	}
 
 	/* (non-Javadoc)
