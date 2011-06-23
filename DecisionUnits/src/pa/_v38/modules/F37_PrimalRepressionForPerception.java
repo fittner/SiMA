@@ -15,7 +15,6 @@ import pa._v38.interfaces.modules.I5_7_receive;
 import pa._v38.interfaces.modules.I5_7_send;
 import pa._v38.interfaces.modules.I5_6_receive;
 import pa._v38.memorymgmt.datatypes.clsPrimaryDataStructureContainer;
-import pa._v38.storage.clsBlockedContentStorage;
 import pa._v38.tools.toText;
 
 import config.clsBWProperties;
