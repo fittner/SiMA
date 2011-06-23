@@ -195,7 +195,7 @@ public class F56_Desexualization_Neutralization extends clsModuleBase
 	 */
 	@Override
 	public void setDescription() {
-		// TODO (zeilinger) - Auto-generated method stub
+		moDescription = "This function reduces the affect values of drives by spliting them according to the attached modules. It controls the amount of the neutralized drive energy and generates lust";
 		
 	}
 
