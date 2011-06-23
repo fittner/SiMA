@@ -36,7 +36,7 @@ public class F37_PrimalRepressionForPerception extends clsModuleBase implements 
 	private ArrayList<clsPrimaryDataStructureContainer> moAssociatedMemories_OUT;
 		
 	/**
-	 * DOCUMENT (HINTERLEITNER) - This function attaches the thing presentations to the repressed content. The result is a constructed perception with associated repressed content.
+	 * DOCUMENT (HINTERLEITNER) - This function attaches the thing presentations to the repressed content and makes an association. The result is a constructed perception with associated repressed content.
 	 * 
 	 * @author deutsch
 	 * 03.03.2011, 16:20:58
@@ -111,7 +111,7 @@ public class F37_PrimalRepressionForPerception extends clsModuleBase implements 
 	}
 
 	/**
-	 * DOCUMENT (hinterleitner) - insert description
+	 * DOCUMENT (hinterleitner) - matching function gets TP + Emotion as Input and splits these in the list of memories and its associated matching strenght 
 	 *
 	 * @since 23.06.2011 11:07:31
 	 *
@@ -220,6 +220,6 @@ public class F37_PrimalRepressionForPerception extends clsModuleBase implements 
 	 */
 	@Override
 	public void setDescription() {
-		moDescription = "This function attaches the thing presentations to the repressed content. The result is a constructed perception with associated repressed content.";
+		moDescription = "This function attaches the thing presentations to the repressed content and makes an association. The result is a constructed perception with associated repressed content.";
 	}		
 }
