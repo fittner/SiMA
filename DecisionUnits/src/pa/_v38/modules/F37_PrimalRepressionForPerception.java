@@ -36,7 +36,7 @@ public class F37_PrimalRepressionForPerception extends clsModuleBase implements 
 	private ArrayList<clsPrimaryDataStructureContainer> moAssociatedMemories_OUT;
 		
 	/**
-	 * DOCUMENT (HINTERLEITNER) - insert description 
+	 * DOCUMENT (HINTERLEITNER) - This function attaches the thing presentations to the repressed content. The result is a constructed perception with associated repressed content.
 	 * 
 	 * @author deutsch
 	 * 03.03.2011, 16:20:58
