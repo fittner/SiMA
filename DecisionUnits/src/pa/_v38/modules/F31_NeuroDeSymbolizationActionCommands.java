@@ -32,6 +32,8 @@ import pa._v38.tools.toText;
 /**
  * DOCUMENT (brandstaetter) - insert description 
  * 
+ * CB: F31_NeuroDeSymbolizationActionCommands should be just an empty function which forwards data to F32
+ * 
  * @author deutsch
  * 11.08.2009, 14:59:58
  * 
