@@ -14,8 +14,12 @@ import pa._v38.interfaces.eInterfaces;
 import pa._v38.interfaces.modules.I5_2_receive;
 import pa._v38.interfaces.modules.I5_3_receive;
 import pa._v38.interfaces.modules.I5_3_send;
+import pa._v38.memorymgmt.datahandler.clsDataStructureGenerator;
 import pa._v38.memorymgmt.datatypes.clsDriveMesh;
 import pa._v38.memorymgmt.datatypes.clsPhysicalRepresentation;
+import pa._v38.memorymgmt.datatypes.clsThingPresentation;
+import pa._v38.memorymgmt.enums.eDataType;
+import pa._v38.storage.clsBlockedContentStorage;
 import pa._v38.tools.clsPair;
 import config.clsBWProperties;
 
@@ -32,6 +36,7 @@ public class F54_EmersionOfBlockedDriveContent extends clsModuleBase
 	public static final String P_MODULENUMBER = "54";
 	private ArrayList<clsPair<clsPhysicalRepresentation, clsDriveMesh>> moDrives;
 	private ArrayList<clsPair<clsPhysicalRepresentation, clsDriveMesh>> moInput;
+	
 	/**
 	 * DOCUMENT (zeilinger) - insert description 
 	 * 
@@ -102,11 +107,25 @@ public class F54_EmersionOfBlockedDriveContent extends clsModuleBase
 	 * @author zeilinger
 	 * 02.05.2011, 15:51:13
 	 * 
+	 * changed by gelbard 24.06.2011
+	 * 
 	 * @see pa._v38.modules.clsModuleBase#process_basic()
 	 */
 	@Override
 	protected void process_basic() {
-		moDrives = moInput; 
+		clsBlockedContentStorage moBlockedContentStorage = new clsBlockedContentStorage();
+
+		// To generate here an empty clsPhysicalRepresentation is total nonsense.
+		// I (FG) think that the module F54 must be placed before the module "F57 memory traces for drives"
+		// otherwise no clsPhysicalRepresentation can be generated for blocked content which emerges in F54.
+		// I (FG) will talk to KD for that.
+		clsThingPresentation oTP = (clsThingPresentation) clsDataStructureGenerator.generateDataStructure(eDataType.TP, new clsPair<String, Object>("NULL", "NULL")); 
+		clsPhysicalRepresentation oPhR = (clsPhysicalRepresentation) oTP;
+		
+		moDrives = moInput;		
+		 
+		clsDriveMesh oRep = moBlockedContentStorage.getBestMatchCONVERTED(moInput);
+		moDrives.add(new clsPair<clsPhysicalRepresentation, clsDriveMesh>(oPhR, oRep));
 	}
 
 	/* (non-Javadoc)
@@ -134,7 +153,7 @@ public class F54_EmersionOfBlockedDriveContent extends clsModuleBase
 		// TODO (zeilinger) - Auto-generated method stub
 		
 	}
-
+	
 	/* (non-Javadoc)
 	 *
 	 * @author zeilinger

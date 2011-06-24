@@ -23,6 +23,7 @@ import pa._v38.memorymgmt.datahandler.clsDataStructureGenerator;
 import pa._v38.memorymgmt.datatypes.clsAssociation;
 import pa._v38.memorymgmt.datatypes.clsAssociationDriveMesh;
 import pa._v38.memorymgmt.datatypes.clsDriveMesh;
+import pa._v38.memorymgmt.datatypes.clsPhysicalRepresentation;
 import pa._v38.memorymgmt.datatypes.clsPrimaryDataStructureContainer;
 import pa._v38.memorymgmt.datatypes.clsThingPresentation;
 import pa._v38.memorymgmt.enums.eDataType;
@@ -149,6 +150,69 @@ public class clsBlockedContentStorage implements itfInspectorInternalState, itfI
 		
 	}
 	*/
+	
+	
+
+	/* (non-Javadoc)
+	 *
+	 * @author gelbard
+	 * 24.06.2011, 12:39:15
+	 * 
+	 * This method is used by "F54: Emersion of blocked drive content"
+	 * 
+	 */
+	public clsDriveMesh getBestMatchCONVERTED(ArrayList<clsPair<clsPhysicalRepresentation, clsDriveMesh>> poInput) {
+		return getBestMatchCONVERTED(poInput, false);
+	}
+
+	// (FG) This method was copied from AW's method: public clsDriveMesh getBestMatchCONVERTED(clsPrimaryDataStructureContainer poInput, boolean boRemoveAfterActivate)	
+	/*
+	 * finds best match in list of clsDriveMeshes of repressed content
+	 */
+	public clsDriveMesh getBestMatchCONVERTED(ArrayList<clsPair<clsPhysicalRepresentation, clsDriveMesh>> poInput, boolean boRemoveAfterActivate) {
+		clsDriveMesh oRetVal = null;
+		
+		double rHighestMatch = 0.0;
+
+		for( clsDriveMesh oDMRepressedContent : moBlockedContent ) {
+			for(clsPair<clsPhysicalRepresentation, clsDriveMesh> oDrivePair : poInput){ 
+				clsDriveMesh oData = oDrivePair.b; 
+
+					
+					if(oDMRepressedContent.getMoContentType().equals(oData.getMoContentType())){
+						double rMatchValue = oDMRepressedContent.matchCathegories(oData); 
+							
+						if(rMatchValue > rHighestMatch) {
+								rHighestMatch = rMatchValue;
+								oRetVal = oDMRepressedContent;
+						}
+					}
+					if(rHighestMatch >= 1) { break;	} //do the doublebreak to abort search --> first come first serve
+				
+			}
+		}
+		
+		//*************************************************************************************
+		//AW 20110430: Add option to remove the original object from the repressed content list
+		if (boRemoveAfterActivate==true) {
+			moBlockedContent.remove(oRetVal);	//FIXME: Test this one
+		}
+		//*************************************************************************************
+
+		if (oRetVal == null) {
+			//TD 2011/04/20: safety - create empty drive mesh to be returned. should never happen ... but safety first!
+			clsThingPresentation oTP = (clsThingPresentation) clsDataStructureGenerator.generateDataStructure(eDataType.TP, new clsPair<String, Object>("NULL", "NULL")); 
+			clsTripple <String, ArrayList<clsThingPresentation>, Object> oContent = 
+				new clsTripple<String, ArrayList<clsThingPresentation>, Object>("REPRESSED", new ArrayList<clsThingPresentation>(Arrays.asList(oTP)), "DEFAULT"); 
+			oRetVal = (clsDriveMesh) clsDataStructureGenerator.generateDataStructure(eDataType.DM, oContent);
+			
+//			throw new java.lang.NullPointerException();
+		
+		}
+		
+		return oRetVal;
+	}
+	
 	/* (non-Javadoc)
 	 *
 	 * @author deutsch
