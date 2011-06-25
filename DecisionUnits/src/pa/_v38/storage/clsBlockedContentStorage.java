@@ -22,6 +22,7 @@ import pa._v38.interfaces.modules.D2_4_send;
 import pa._v38.memorymgmt.datahandler.clsDataStructureGenerator;
 import pa._v38.memorymgmt.datatypes.clsAssociation;
 import pa._v38.memorymgmt.datatypes.clsAssociationDriveMesh;
+import pa._v38.memorymgmt.datatypes.clsDataStructurePA;
 import pa._v38.memorymgmt.datatypes.clsDriveMesh;
 import pa._v38.memorymgmt.datatypes.clsPhysicalRepresentation;
 import pa._v38.memorymgmt.datatypes.clsPrimaryDataStructureContainer;
@@ -38,7 +39,7 @@ import pa._v38.memorymgmt.enums.eDataType;
 public class clsBlockedContentStorage implements itfInspectorInternalState, itfInterfaceDescription, D2_2_send, D2_4_send, D2_1_receive, D2_3_receive {
     //private ArrayList<clsDataStructurePA> moBlockedContent;
 	private ArrayList<clsDriveMesh> moBlockedContent;
-    private ArrayList<clsPrimaryDataStructureContainer> moContainerBlockedContent; 
+    private ArrayList<clsDataStructurePA> moContainerBlockedContent; 
     
     //AW 20110430: Static and TI
 	//private static ArrayList<clsTemplateImage> moBlockedContent;
@@ -47,7 +48,7 @@ public class clsBlockedContentStorage implements itfInspectorInternalState, itfI
     	//The storage consists of an arraylist of clsDriveMesh
     	
     	moBlockedContent = new ArrayList<clsDriveMesh>();
-    	moContainerBlockedContent = new ArrayList<clsPrimaryDataStructureContainer>();
+    	//moContainerBlockedContent = new ArrayList<clsPrimaryDataStructureContainer>();
     	fillWithTestData();
     	
     	//AW 20110430: New Template Imagelist
@@ -223,6 +224,7 @@ public class clsBlockedContentStorage implements itfInspectorInternalState, itfI
 	@Override
 	public void receive_D2_3(ArrayList<Object> poData) {
 		// TODO (deutsch) - Auto-generated method stub
+		//AW: This IF goes to F35
 		
 	}
 
@@ -249,6 +251,7 @@ public class clsBlockedContentStorage implements itfInspectorInternalState, itfI
 	@Override
 	public void send_D2_4(ArrayList<Object> poData) {
 		// TODO (deutsch) - Auto-generated method stub
+		//AW: This IF goes to F35
 		
 	}
 
@@ -262,6 +265,7 @@ public class clsBlockedContentStorage implements itfInspectorInternalState, itfI
 	@Override
 	public void send_D2_2(ArrayList<Object> poData) {
 		// TODO (deutsch) - Auto-generated method stub
+		
 		
 	}
 
