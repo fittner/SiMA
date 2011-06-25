@@ -7,6 +7,7 @@
 package pa._v38.modules;
 
 import java.util.ArrayList;
+
 import java.util.HashMap;
 import java.util.SortedMap;
 
@@ -14,9 +15,13 @@ import pa._v38.interfaces.eInterfaces;
 import pa._v38.interfaces.modules.I5_7_receive;
 import pa._v38.interfaces.modules.I5_7_send;
 import pa._v38.interfaces.modules.I5_6_receive;
-import pa._v38.memorymgmt.datatypes.clsPrimaryDataStructureContainer;
-import pa._v38.tools.toText;
 
+import pa._v38.memorymgmt.datatypes.clsDriveMesh;
+import pa._v38.memorymgmt.datatypes.clsPrimaryDataStructureContainer;
+
+import pa._v38.tools.clsPair;
+import pa._v38.tools.toText;
+import pa._v38.storage.clsBlockedContentStorage;
 import config.clsBWProperties;
 
 /**
@@ -34,6 +39,13 @@ public class F37_PrimalRepressionForPerception extends clsModuleBase implements 
 	
 	private clsPrimaryDataStructureContainer moEvaluatedEnvironment_OUT;
 	private ArrayList<clsPrimaryDataStructureContainer> moAssociatedMemories_OUT;
+
+
+	private clsBlockedContentStorage moBlockedContentStorage;
+	private clsBlockedContentStorage moDataStructure;
+	private ArrayList<clsPair<clsPrimaryDataStructureContainer, clsDriveMesh>> moAttachedRepressed_Output;
+	
+	 
 		
 	/**
 	 * DOCUMENT (HINTERLEITNER) - This function attaches the thing presentations to the repressed content and makes an association. The result is a constructed perception with associated repressed content.
@@ -47,9 +59,11 @@ public class F37_PrimalRepressionForPerception extends clsModuleBase implements 
 	 * @throws Exception
 	 */
 	public F37_PrimalRepressionForPerception(String poPrefix,
-			clsBWProperties poProp, HashMap<Integer, clsModuleBase> poModuleList, SortedMap<eInterfaces, ArrayList<Object>> poInterfaceData)
-			throws Exception {
+			clsBWProperties poProp, HashMap<Integer, clsModuleBase> poModuleList, SortedMap<eInterfaces, 
+			ArrayList<Object>> poInterfaceData, clsBlockedContentStorage poBlockedContentStorage)
+		throws Exception {
 		super(poPrefix, poProp, poModuleList, poInterfaceData);
+		 moBlockedContentStorage = poBlockedContentStorage;
 		applyProperties(poPrefix, poProp);	
 	}
 	
@@ -99,27 +113,46 @@ public class F37_PrimalRepressionForPerception extends clsModuleBase implements 
 	 */
 	@Override
 	protected void process_basic() {
+	
+
+		showRepressedContent(moAssociatedMemories_IN, null, moEvaluatedEnvironment_OUT);
+	// TODO (HINTERLEITNER) - Auto-generated method stub
+	moEvaluatedEnvironment_OUT = moEnvironmentalPerception_IN;
+	
+	//Pass memories forward
+	moAssociatedMemories_OUT = moAssociatedMemories_IN;
+	
+}
+
+/**
+ * DOCUMENT (hinterleitner) - insert description
+
+ * @param poInput 
+
+ *
+ * @since 25.06.2011 14:57:36
+ *
+ */
+private void showRepressedContent(ArrayList<clsPrimaryDataStructureContainer> moEnvironmentalPerception_IN, ArrayList<Object> poData, clsPrimaryDataStructureContainer oInput) {
+	
+	for (@SuppressWarnings("unused") clsPrimaryDataStructureContainer poInput : moEnvironmentalPerception_IN) 
+	
+		//moBlockedContentStorage.getBestMatchCONVERTED(oInput)
 		
-		attachRepressedContent();
-		// TODO (HINTERLEITNER) - Auto-generated method stub
-		//moEvaluatedEnvironment_OUT = clsDataStructureConverter.convertTIContToTPMCont(moEnvironmental_IN);
-		
-		moEvaluatedEnvironment_OUT = moEnvironmentalPerception_IN;
-		
-		//Indirect associated memories are "durchgeschliffen"
-		moAssociatedMemories_OUT = moAssociatedMemories_IN;
+	    System.out.println(moBlockedContentStorage);
+	    System.out.println(moBlockedContentStorage.getInterfacesSend()); //welche Interfaces sind D_2 und D_4?
+	    
+	 
+	   
+	//clsDriveMesh oRep = moBlockedContentStorage.getBestMatchCONVERTED(oInput);
+	//moAttachedRepressed_Output.add(new clsPair<clsPrimaryDataStructureContainer, clsDriveMesh>(moEvaluatedEnvironment_OUT, oRep));
 	}
 
-	/**
-	 * DOCUMENT (hinterleitner) - matching function gets TP + Emotion as Input and splits these in the list of memories and its associated matching strenght 
-	 *
-	 * @since 23.06.2011 11:07:31
-	 *
-	 */
-	private void attachRepressedContent() {
-		// TODO (hinterleitner) - Auto-generated method stub
-		
-	}
+	
+
+
+
+
 
 	/* (non-Javadoc)
 	 *
