@@ -6,8 +6,6 @@
  */
 package pa._v38.interfaces.modules;
 
-import java.util.ArrayList;
-
 import pa._v38.memorymgmt.datatypes.clsPrimaryDataStructureContainer;
 
 /**
@@ -18,5 +16,5 @@ import pa._v38.memorymgmt.datatypes.clsPrimaryDataStructureContainer;
  * 
  */
 public interface I5_19_send {
-	public void send_I5_19(ArrayList<clsPrimaryDataStructureContainer> poGrantedPerception);
+	public void send_I5_19(clsPrimaryDataStructureContainer poReturnedMemory);
 }
