@@ -114,11 +114,10 @@ public class F37_PrimalRepressionForPerception extends clsModuleBase implements 
 	@Override
 	protected void process_basic() {
 	
-
-		showRepressedContent(moAssociatedMemories_IN, null, moEvaluatedEnvironment_OUT);
-	// TODO (HINTERLEITNER) - Auto-generated method stub
 	moEvaluatedEnvironment_OUT = moEnvironmentalPerception_IN;
-	
+   
+	matchRepressedContent(moEnvironmentalPerception_IN, moBlockedContentStorage, moEnvironmentalPerception_IN, moAssociatedMemories_IN);
+
 	//Pass memories forward
 	moAssociatedMemories_OUT = moAssociatedMemories_IN;
 	
@@ -126,24 +125,36 @@ public class F37_PrimalRepressionForPerception extends clsModuleBase implements 
 
 /**
  * DOCUMENT (hinterleitner) - insert description
-
+ * @param moConstrPerc 
+ * @param moBlockCont 
  * @param poInput 
-
- *
+ * @param poData 
  * @since 25.06.2011 14:57:36
  *
  */
-private void showRepressedContent(ArrayList<clsPrimaryDataStructureContainer> moEnvironmentalPerception_IN, ArrayList<Object> poData, clsPrimaryDataStructureContainer oInput) {
+private void matchRepressedContent(clsPrimaryDataStructureContainer moConstrPerc, clsBlockedContentStorage moBlockCont, clsPrimaryDataStructureContainer poInput, ArrayList<clsPrimaryDataStructureContainer> poData) {
 	
-	for (@SuppressWarnings("unused") clsPrimaryDataStructureContainer poInput : moEnvironmentalPerception_IN) 
-	
-		//moBlockedContentStorage.getBestMatchCONVERTED(oInput)
-		
-	    System.out.println(moBlockedContentStorage);
-	    System.out.println(moBlockedContentStorage.getInterfacesSend()); //welche Interfaces sind D_2 und D_4?
-	    
+    moConstrPerc = moEvaluatedEnvironment_OUT; //Constructed Perception
+	moBlockCont = moBlockedContentStorage;  //Urverdrängtes = blocked content 
+    
+    if (moConstrPerc != null)  {
+       
+    	System.out.println(moBlockCont.getBestMatchCONVERTED(poInput));  // a: 0.0 o: 0.0 g: 0.0 p: 0.0 pleasure: 0.0
+    	System.out.println(moEvaluatedEnvironment_OUT.getMoAssociatedDataStructures()); //[::ASSOCIATIONATTRIBUTE::-1:ASSOCIATIONATTRIBUTE|
+    	System.out.println(moEvaluatedEnvironment_OUT.getMoDataStructure()); //:TI::-1:TI:CONSTRUCTED_PERCEPTION
+    	//moBlockCont.send_D2_4();
+    	
+    }
+
+    
+   
 	 
+	
+	   // System.out.println(moBlockedContentStorage.getInterfacesSend()); 
 	   
+		//ConstrPerc.getMoAssociatedDataStructures();
+		//clsPair<clsPrimaryDataStructureContainer, clsBlockedContentStorage> orep =  new clsPair<clsPrimaryDataStructureContainer, clsBlockedContentStorage> (ConstrPerc, BlockCont);
+		
 	//clsDriveMesh oRep = moBlockedContentStorage.getBestMatchCONVERTED(oInput);
 	//moAttachedRepressed_Output.add(new clsPair<clsPrimaryDataStructureContainer, clsDriveMesh>(moEvaluatedEnvironment_OUT, oRep));
 	}

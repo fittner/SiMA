@@ -16,7 +16,10 @@ import pa._v38.interfaces.modules.I5_4_receive;
 import pa._v38.interfaces.modules.I5_4_send;
 import pa._v38.memorymgmt.datatypes.clsDriveMesh;
 import pa._v38.memorymgmt.datatypes.clsPhysicalRepresentation;
+import pa._v38.memorymgmt.datatypes.clsPrimaryDataStructureContainer;
+import pa._v38.storage.clsBlockedContentStorage;
 import pa._v38.tools.clsPair;
+import pa._v38.tools.toText;
 import config.clsBWProperties;
 
 /**
@@ -32,7 +35,9 @@ public class F56_Desexualization_Neutralization extends clsModuleBase
 	public static final String P_MODULENUMBER = "56";
 	private ArrayList<clsPair<clsPhysicalRepresentation, clsDriveMesh>> moDrives_IN;
 	private ArrayList<clsPair<clsPhysicalRepresentation, clsDriveMesh>> moDrives_OUT;
-
+	private clsBlockedContentStorage moBlockedContentStorage;
+	private ArrayList<clsPair<clsPrimaryDataStructureContainer, clsDriveMesh>> moAttachedRepressed_Output; 
+	
 	/**
 	 * DOCUMENT (zeilinger) - insert description 
 	 * 
@@ -48,7 +53,7 @@ public class F56_Desexualization_Neutralization extends clsModuleBase
 	public F56_Desexualization_Neutralization(String poPrefix,
 			clsBWProperties poProp,
 			HashMap<Integer, clsModuleBase> poModuleList,
-			SortedMap<eInterfaces, ArrayList<Object>> poInterfaceData)
+			SortedMap<eInterfaces, ArrayList<Object>> poInterfaceData, clsBlockedContentStorage poBlockedContentStorage)
 			throws Exception {
 		super(poPrefix, poProp, poModuleList, poInterfaceData);
 
@@ -79,7 +84,9 @@ public class F56_Desexualization_Neutralization extends clsModuleBase
 	 */
 	@Override
 	public String stateToTEXT() {
-		// TODO (zeilinger) - Auto-generated method stub
+		String text ="";
+		text += toText.valueToTEXT("moBlockedContentStorage", moBlockedContentStorage);
+		text += toText.listToTEXT("moAttachedRepressed_Output", moAttachedRepressed_Output);
 		return null;
 	}
 	
@@ -108,6 +115,11 @@ public class F56_Desexualization_Neutralization extends clsModuleBase
 	@Override
 	protected void process_basic() {
 		moDrives_OUT = moDrives_IN; 
+		
+	//	ArrayList<clsPrimaryDataStructureContainer> oContainerList = new ArrayList<clsPrimaryDataStructureContainer>(); 
+		
+	//	moBlockedContentStorage.receive_D2_4(oContainerList);
+	//	moAttachedRepressed_Output = moBlockedContentStorage.receive_D2_3(poData);
 	}
 
 	/* (non-Javadoc)
