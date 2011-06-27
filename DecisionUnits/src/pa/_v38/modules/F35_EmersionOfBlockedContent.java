@@ -157,7 +157,11 @@ public class F35_EmersionOfBlockedContent extends clsModuleBaseKB implements itf
 			adaptCathegories(oContainerList);
 			/* DM from the Repressed Content are added to the objects in the oContainerList
 			 */
-			matchRepressedContent(oContainerList);
+			
+			moBlockedContentStorage.receive_D2_4(oContainerList);
+			moAttachedRepressed_Output = moBlockedContentStorage.send_D2_4();
+			
+			//matchRepressedContent(oContainerList);	//This function can be found in the blocked content instead
 			
 		} else {
 			//for the minimal model, a minor update of the datastructure is necessary. each clsPrimaryDataStructureContainer has
@@ -334,7 +338,7 @@ public class F35_EmersionOfBlockedContent extends clsModuleBaseKB implements itf
 	 * @param oContainer
 	 * @return
 	 */
-	private void matchRepressedContent(ArrayList<clsPrimaryDataStructureContainer> poCathegorizedInputContainer) {
+	/*private void matchRepressedContent(ArrayList<clsPrimaryDataStructureContainer> poCathegorizedInputContainer) {
 		
 		//For each object (e. g. CAKE) with adapted categories...
 		//oInput is a clsPrimaryDataStructureContainer
@@ -354,10 +358,10 @@ public class F35_EmersionOfBlockedContent extends clsModuleBaseKB implements itf
 //				moAttachedRepressed_Output.add(new clsPair<clsPrimaryDataStructureContainer, clsDriveMesh>(oInput, oRep));
 // TD 2011/04/20: removed above two line due to removal of rolands clsMemory. has to be reimplemented by other means
 // TODO (Wendt): reimplement method matchRepressedContent
-			clsDriveMesh oRep = moBlockedContentStorage.getBestMatchCONVERTED(oInput);
+	/*		clsDriveMesh oRep = moBlockedContentStorage.getBestMatchCONVERTED(oInput);
 			moAttachedRepressed_Output.add(new clsPair<clsPrimaryDataStructureContainer, clsDriveMesh>(oInput, oRep));
 		}
-	}
+	}*/
 	
 	//AW 20110521 new function, tempfunction, which shall be removed as soon as the main module functions are changed
 	private clsPrimaryDataStructureContainer ConvertToTIContainer(ArrayList<clsPair<clsPrimaryDataStructureContainer, clsDriveMesh>> oInput) {
@@ -573,6 +577,6 @@ public class F35_EmersionOfBlockedContent extends clsModuleBaseKB implements itf
 	@Override
 	public boolean getMinimalModelMode() {
 		return mnMinimalModel;
-	}	
+	}
 	
 }

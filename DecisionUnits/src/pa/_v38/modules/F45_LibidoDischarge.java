@@ -397,7 +397,7 @@ public class F45_LibidoDischarge extends clsModuleBaseKB implements itfInspector
 	 */
 	@Override
 	public void setDescription() {
-		moDescription = "E45 communicates with E41 via the libido buffer. Incoming perceptions are compared with memory to determine whether they qualify for libido discharge and thus for pleasure gain. If so, the value of the libido buffer is reduced (tension reduction is pleasure gain). The pleasure gain is forwarded to E18 as an additional value for the composition of the quota of affect.";
+		moDescription = "F45 communicates with F41 via the libido buffer. Incoming perceptions are compared with memory to determine whether they qualify for libido discharge and thus for pleasure gain. If so, the value of the libido buffer is reduced (tension reduction is pleasure gain). The pleasure gain is forwarded to F18 as an additional value for the composition of the quota of affect.";
 	}
 
 	/* (non-Javadoc)

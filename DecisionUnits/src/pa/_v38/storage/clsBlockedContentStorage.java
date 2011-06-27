@@ -15,14 +15,16 @@ import pa._v38.tools.toText;
 import pa._v38.interfaces.eInterfaces;
 import pa._v38.interfaces.itfInspectorInternalState;
 import pa._v38.interfaces.itfInterfaceDescription;
-import pa._v38.interfaces.modules.D2_1_receive;
 import pa._v38.interfaces.modules.D2_2_send;
 import pa._v38.interfaces.modules.D2_3_receive;
+import pa._v38.interfaces.modules.D2_4_receive;
 import pa._v38.interfaces.modules.D2_4_send;
 import pa._v38.memorymgmt.datahandler.clsDataStructureGenerator;
 import pa._v38.memorymgmt.datatypes.clsAssociation;
 import pa._v38.memorymgmt.datatypes.clsAssociationDriveMesh;
+import pa._v38.memorymgmt.datatypes.clsDataStructurePA;
 import pa._v38.memorymgmt.datatypes.clsDriveMesh;
+import pa._v38.memorymgmt.datatypes.clsPhysicalRepresentation;
 import pa._v38.memorymgmt.datatypes.clsPrimaryDataStructureContainer;
 import pa._v38.memorymgmt.datatypes.clsThingPresentation;
 import pa._v38.memorymgmt.enums.eDataType;
@@ -34,10 +36,16 @@ import pa._v38.memorymgmt.enums.eDataType;
  * 09.03.2011, 17:12:46
  * 
  */
-public class clsBlockedContentStorage implements itfInspectorInternalState, itfInterfaceDescription, D2_2_send, D2_4_send, D2_1_receive, D2_3_receive {
+public class clsBlockedContentStorage implements itfInspectorInternalState, itfInterfaceDescription, D2_2_send, D2_4_send, D2_4_receive, D2_3_receive {
     //private ArrayList<clsDataStructurePA> moBlockedContent;
 	private ArrayList<clsDriveMesh> moBlockedContent;
-    private ArrayList<clsPrimaryDataStructureContainer> moContainerBlockedContent; 
+    private ArrayList<clsDataStructurePA> moContainerBlockedContent; 
+    
+    //Inputcontainer from F35
+    private ArrayList<clsPrimaryDataStructureContainer> moInputPerception;
+    
+    //Outputcontainerlist to F35
+    private ArrayList<clsPair<clsPrimaryDataStructureContainer, clsDriveMesh>> moOutputPerception;
     
     //AW 20110430: Static and TI
 	//private static ArrayList<clsTemplateImage> moBlockedContent;
@@ -46,7 +54,7 @@ public class clsBlockedContentStorage implements itfInspectorInternalState, itfI
     	//The storage consists of an arraylist of clsDriveMesh
     	
     	moBlockedContent = new ArrayList<clsDriveMesh>();
-    	moContainerBlockedContent = new ArrayList<clsPrimaryDataStructureContainer>();
+    	//moContainerBlockedContent = new ArrayList<clsPrimaryDataStructureContainer>();
     	fillWithTestData();
     	
     	//AW 20110430: New Template Imagelist
@@ -149,6 +157,99 @@ public class clsBlockedContentStorage implements itfInspectorInternalState, itfI
 		
 	}
 	*/
+	
+	
+
+	/* (non-Javadoc)
+	 *
+	 * @author gelbard
+	 * 24.06.2011, 12:39:15
+	 * 
+	 * This method is used by "F54: Emersion of blocked drive content"
+	 * 
+	 */
+	public clsDriveMesh getBestMatchCONVERTED(ArrayList<clsPair<clsPhysicalRepresentation, clsDriveMesh>> poInput) {
+		return getBestMatchCONVERTED(poInput, false);
+	}
+
+	// (FG) This method was copied from AW's method: public clsDriveMesh getBestMatchCONVERTED(clsPrimaryDataStructureContainer poInput, boolean boRemoveAfterActivate)	
+	/*
+	 * finds best match in list of clsDriveMeshes of repressed content
+	 */
+	public clsDriveMesh getBestMatchCONVERTED(ArrayList<clsPair<clsPhysicalRepresentation, clsDriveMesh>> poInput, boolean boRemoveAfterActivate) {
+		clsDriveMesh oRetVal = null;
+		
+		double rHighestMatch = 0.0;
+
+		for( clsDriveMesh oDMRepressedContent : moBlockedContent ) {
+			for(clsPair<clsPhysicalRepresentation, clsDriveMesh> oDrivePair : poInput){ 
+				clsDriveMesh oData = oDrivePair.b; 
+
+					
+					if(oDMRepressedContent.getMoContentType().equals(oData.getMoContentType())){
+						double rMatchValue = oDMRepressedContent.matchCathegories(oData); 
+							
+						if(rMatchValue > rHighestMatch) {
+								rHighestMatch = rMatchValue;
+								oRetVal = oDMRepressedContent;
+						}
+					}
+					if(rHighestMatch >= 1) { break;	} //do the doublebreak to abort search --> first come first serve
+				
+			}
+		}
+		
+		//*************************************************************************************
+		//AW 20110430: Add option to remove the original object from the repressed content list
+		if (boRemoveAfterActivate==true) {
+			moBlockedContent.remove(oRetVal);	//FIXME: Test this one
+		}
+		//*************************************************************************************
+
+		if (oRetVal == null) {
+			//TD 2011/04/20: safety - create empty drive mesh to be returned. should never happen ... but safety first!
+			clsThingPresentation oTP = (clsThingPresentation) clsDataStructureGenerator.generateDataStructure(eDataType.TP, new clsPair<String, Object>("NULL", "NULL")); 
+			clsTripple <String, ArrayList<clsThingPresentation>, Object> oContent = 
+				new clsTripple<String, ArrayList<clsThingPresentation>, Object>("REPRESSED", new ArrayList<clsThingPresentation>(Arrays.asList(oTP)), "DEFAULT"); 
+			oRetVal = (clsDriveMesh) clsDataStructureGenerator.generateDataStructure(eDataType.DM, oContent);
+			
+//			throw new java.lang.NullPointerException();
+		
+		}
+		
+		return oRetVal;
+	}
+	
+	//This function is taken from F35
+	private ArrayList<clsPair<clsPrimaryDataStructureContainer, clsDriveMesh>> matchRepressedContent(ArrayList<clsPrimaryDataStructureContainer> poCathegorizedInputContainer) {
+		
+		//For each object (e. g. CAKE) with adapted categories...
+		//oInput is a clsPrimaryDataStructureContainer
+		ArrayList<clsPair<clsPrimaryDataStructureContainer, clsDriveMesh>> oRetVal = new ArrayList<clsPair<clsPrimaryDataStructureContainer, clsDriveMesh>>();
+		
+		for(clsPrimaryDataStructureContainer oInput : poCathegorizedInputContainer){
+				/* A DM is loaded, which matches a drive, which is Repressed.
+				 * In the storage of Repressed Content, DM are stored. If the ContentType of the DM attached to
+				 * an object is exactly matched to a content type of a DM in the repressed Content Store, 
+				 * the categories are compared. For each matching DM, the equality of the values in the categories
+				 * are compared and a number <= 1.0 is generated. The DM with the highest category match is returned
+				 * In the case of CAKE, there exists 2 DM: BITE (associated with DEATH) and NOURISH. In the Repressed Content Store, there
+				 * exists 2 Repressed Content DM: BITE (PUNCH) and NOURISH (GREEDY), both with negative mrPleasure
+				 * The match of the BITE DM is 0.5 and the match of the NOURISH DM is 0.9. Therefore, the DM of 
+				 * NOURISH is selected
+				 */
+				//FIXME: mrPleasure = -0.3. This is not allowed. Add mrUnpleasure instead
+//				clsDriveMesh oRep = moMemory.moRepressedContentsStore.getBestMatchCONVERTED(oInput);
+//				moAttachedRepressed_Output.add(new clsPair<clsPrimaryDataStructureContainer, clsDriveMesh>(oInput, oRep));
+// TD 2011/04/20: removed above two line due to removal of rolands clsMemory. has to be reimplemented by other means
+// TODO (Wendt): reimplement method matchRepressedContent
+			clsDriveMesh oRep = getBestMatchCONVERTED(oInput);
+			oRetVal.add(new clsPair<clsPrimaryDataStructureContainer, clsDriveMesh>(oInput, oRep));
+		}
+		
+		return oRetVal;
+	}
+	
 	/* (non-Javadoc)
 	 *
 	 * @author deutsch
@@ -159,7 +260,7 @@ public class clsBlockedContentStorage implements itfInspectorInternalState, itfI
 	@Override
 	public void receive_D2_3(ArrayList<Object> poData) {
 		// TODO (deutsch) - Auto-generated method stub
-		
+
 	}
 
 	/* (non-Javadoc)
@@ -169,11 +270,11 @@ public class clsBlockedContentStorage implements itfInspectorInternalState, itfI
 	 * 
 	 * @see pa.interfaces.receive._v38.D2_1_receive#receive_D2_1(java.util.ArrayList)
 	 */
-	@Override
+	/*@Override
 	public void receive_D2_1(ArrayList<Object> poData) {
 		// TODO (deutsch) - Auto-generated method stub
 		
-	}
+	}*/
 
 	/* (non-Javadoc)
 	 *
@@ -183,9 +284,19 @@ public class clsBlockedContentStorage implements itfInspectorInternalState, itfI
 	 * @see pa.interfaces.send._v38.D2_4_send#send_D2_4(java.util.ArrayList)
 	 */
 	@Override
-	public void send_D2_4(ArrayList<Object> poData) {
-		// TODO (deutsch) - Auto-generated method stub
+	public ArrayList<clsPair<clsPrimaryDataStructureContainer, clsDriveMesh>> send_D2_4() {
+		//AW: This IF goes to F35
+		return moOutputPerception;
 		
+	}
+	
+	@Override
+	public void receive_D2_4(ArrayList<clsPrimaryDataStructureContainer> poData) {
+		//AW: This IF goes to F35
+		//Here, an input image is received from F35, where matching is performed
+		
+		moInputPerception = poData;
+		moOutputPerception = matchRepressedContent(moInputPerception);
 	}
 
 	/* (non-Javadoc)
@@ -198,6 +309,7 @@ public class clsBlockedContentStorage implements itfInspectorInternalState, itfI
 	@Override
 	public void send_D2_2(ArrayList<Object> poData) {
 		// TODO (deutsch) - Auto-generated method stub
+		
 		
 	}
 
