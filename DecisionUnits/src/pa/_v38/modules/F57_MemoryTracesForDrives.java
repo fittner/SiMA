@@ -97,6 +97,12 @@ public class F57_MemoryTracesForDrives extends clsModuleBaseKB
 	 * 
 	 * @see pa._v38.interfaces.modules.I5_7_receive#receive_I5_7(java.util.ArrayList)
 	 */
+	@SuppressWarnings("unchecked")
+	/* Comment TD from Mail: also deepCopy ist ganz ganz ganz ganz ganz … ganz böses voodoo. 
+	 * In diesem fall ist das problem, dass du 2 cast in einem machst/machen mußt. 
+	 * Und der ist so nicht checkbar (afaik). In diesem fall einfach suppresswarning machen 
+	 * (ist bei deepcopy nicht schlimm – kommt innerhalb der funktion dauernd vor).
+	 */
 	@Override
 	public void receive_I5_7(clsPrimaryDataStructureContainer poEnvironmentalTP, ArrayList<clsPrimaryDataStructureContainer> poAssociatedMemories) {
 		moEnvironmentalPerception_IN = (clsPrimaryDataStructureContainer)deepCopy(poEnvironmentalTP);

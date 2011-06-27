@@ -53,6 +53,7 @@ public class F46_FusionWithMemoryTraces extends clsModuleBaseKB implements
 	private clsPrimaryDataStructureContainer moEnvironmentalPerception_OUT;
 	private ArrayList<clsPrimaryDataStructureContainer> moAssociatedMemories_OUT;
 
+	/* Module-Parameters */
 	
 	/**
 	 * DOCUMENT (HINTERLEITNER) - insert description 

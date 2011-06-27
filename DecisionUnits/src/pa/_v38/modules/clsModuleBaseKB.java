@@ -66,7 +66,7 @@ public abstract class clsModuleBaseKB extends clsModuleBase {
 		
 		ArrayList<clsPair<Integer, clsDataStructurePA>> oSearchPattern = new ArrayList<clsPair<Integer,clsDataStructurePA>>(); 
 
-		createSearchPattern(poDataType, poPattern, oSearchPattern);
+		createSearchPattern(poDataType, poPattern, oSearchPattern);	//Create a pattern, search for type, poDataType 4096=TP, Input-Container
 		accessKnowledgeBase(poSearchResult, oSearchPattern); 
 	}
 	

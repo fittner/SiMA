@@ -52,12 +52,13 @@ public class F45_LibidoDischarge extends clsModuleBaseKB implements itfInspector
 	private clsPrimaryDataStructureContainer moEnvironmentalPerception_OUT;
 	private ArrayList<clsPrimaryDataStructureContainer> moAssociatedMemories_OUT;
 	
-	//AW 20110521: Old input
-	//private ArrayList<clsPair<clsPrimaryDataStructureContainer, clsDriveMesh>> moMergedPrimaryInformation_Rcv;
-	//AW 20110521: Old output
-	//private ArrayList<clsPair<clsPrimaryDataStructureContainer, clsDriveMesh>> moMergedPrimaryInformation_Snd;	
 	private ArrayList<clsPair<String, Double>> moLibidioDischargeCandidates; //pair of IDENTIFIER and qualification from 0 to 1
 	
+	/* Module parameters */
+	private double mrMatchThreshold = 0.6;
+	private double mrAvailablePsychicEnergy = 1.0;
+	
+	// Other variables
 	private double mrDischargePiece = 0.2; //amount of the sotred libido which is going to be withtracted max. (see formula below)
 	private double mrAvailableLibido;
 	private double mrLibidoReducedBy;
@@ -84,9 +85,10 @@ public class F45_LibidoDischarge extends clsModuleBaseKB implements itfInspector
 		
 		applyProperties(poPrefix, poProp);	
 		
-		fillLibidioDischargeCandidates();
+		fillLibidioDischargeCandidates();	//FIXME: REPLACE
 	}
 	
+	//FIXME: REPLACE
 	private void fillLibidioDischargeCandidates() {
 		ArrayList<ArrayList<clsPair<Double,clsDataStructureContainer>>> oSearchResultDM = new ArrayList<ArrayList<clsPair<Double,clsDataStructureContainer>>>();
 		ArrayList<ArrayList<clsPair<Double,clsDataStructureContainer>>> oSearchResultObjects = new ArrayList<ArrayList<clsPair<Double,clsDataStructureContainer>>>();
@@ -208,13 +210,10 @@ public class F45_LibidoDischarge extends clsModuleBaseKB implements itfInspector
 	 */
 	@Override
 	protected void process_basic() {
+		//Get available amount of free libido 
 		mrAvailableLibido = moLibidoBuffer.send_D1_4();
 		
-		double rChunk = mrAvailableLibido * mrDischargePiece; //each match can reduce the libido by a maximum of rChunk.
-		//FIXME: if more than ten piece fit 100% ... the last pieces will get nothing ...
-		
-		mrLibidoReducedBy = 0;
-		
+		//Clone input structure
 		try {
 			moEnvironmentalPerception_OUT = (clsPrimaryDataStructureContainer) moEnvironmentalPerception_IN.clone();
 		} catch (CloneNotSupportedException e) {
@@ -222,6 +221,22 @@ public class F45_LibidoDischarge extends clsModuleBaseKB implements itfInspector
 			e.printStackTrace();
 		}
 		
+		/* Here, spread activation for Libido shall be placed.
+		 * 1. Go through all perception and memories
+		 * 2. In spread activation, only very little psychic energy is available
+		 * 3. if an object match > 60% in an image is found, the libido-DM in the image is added to the input image 
+		 * 
+		 */
+		
+		
+		
+		
+		//FIXME: Hack remove
+		double rChunk = mrAvailableLibido * mrDischargePiece; //each match can reduce the libido by a maximum of rChunk.
+		//FIXME: if more than ten piece fit 100% ... the last pieces will get nothing ...
+		
+		mrLibidoReducedBy = 0;
+				
 		//moMergedPrimaryInformation_Snd = new ArrayList<clsPair<clsPrimaryDataStructureContainer,clsDriveMesh>>();
 		//FIXME (ZEILINGER): das ganze zeug geht noch nicht so ganz .. irgendwie ... plz - wobei. das kann ich morgen auch noch debuggen.
 		for (clsPair<String,Double> oCandidate:moLibidioDischargeCandidates) {
