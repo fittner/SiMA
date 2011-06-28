@@ -201,7 +201,7 @@ public class clsInspectorTab_Modules extends Inspector implements TreeSelectionL
 	private TabbedInspector createInspectorModules(clsPsychicApparatus moPA, String poModuleName, JTree poLeftMenu) {
 		TabbedInspector oRetVal = null;
 		
-		if (poModuleName.charAt(0) == 'E') {
+		if (poModuleName.charAt(0) == 'F') {
 			oRetVal = createModules(moPA, poModuleName);
 			
 		} else if (poModuleName.charAt(0) == 'I' || poModuleName.charAt(0) == 'D') {
