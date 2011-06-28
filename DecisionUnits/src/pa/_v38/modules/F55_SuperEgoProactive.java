@@ -162,7 +162,7 @@ public class F55_SuperEgoProactive extends clsModuleBase
 	 */
 	@Override
 	protected void setProcessType() {
-		// TODO (zeilinger) - Auto-generated method stub
+		mnProcessType = eProcessType.PRIMARY;
 		
 	}
 
@@ -175,7 +175,7 @@ public class F55_SuperEgoProactive extends clsModuleBase
 	 */
 	@Override
 	protected void setPsychicInstances() {
-		// TODO (zeilinger) - Auto-generated method stub
+		mnPsychicInstances = ePsychicInstances.SUPEREGO;
 		
 	}
 

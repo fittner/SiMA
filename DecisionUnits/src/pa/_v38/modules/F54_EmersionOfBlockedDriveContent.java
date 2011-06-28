@@ -175,7 +175,7 @@ public class F54_EmersionOfBlockedDriveContent extends clsModuleBase
 	 */
 	@Override
 	protected void setProcessType() {
-		// TODO (zeilinger) - Auto-generated method stub
+		mnProcessType = eProcessType.PRIMARY;
 		
 	}
 
@@ -188,7 +188,7 @@ public class F54_EmersionOfBlockedDriveContent extends clsModuleBase
 	 */
 	@Override
 	protected void setPsychicInstances() {
-		// TODO (zeilinger) - Auto-generated method stub
+		mnPsychicInstances = ePsychicInstances.ID;
 		
 	}
 

@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.SortedMap;
 
+import pa._v38.modules.ePsychicInstances;
 import pa._v38.interfaces.eInterfaces;
 import pa._v38.interfaces.modules.I5_1_receive;
 import pa._v38.interfaces.modules.I5_2_receive;
@@ -157,7 +158,7 @@ public class F49_PrimalRepressionForDrives extends clsModuleBase
 	 */
 	@Override
 	protected void setProcessType() {
-		// TODO (zeilinger) - Auto-generated method stub
+		mnProcessType = eProcessType.PRIMARY;
 		
 	}
 
@@ -170,8 +171,7 @@ public class F49_PrimalRepressionForDrives extends clsModuleBase
 	 */
 	@Override
 	protected void setPsychicInstances() {
-		// TODO (zeilinger) - Auto-generated method stub
-		
+		mnPsychicInstances = ePsychicInstances.ID;		
 	}
 
 	/* (non-Javadoc)

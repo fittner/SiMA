@@ -157,7 +157,7 @@ public class F56_Desexualization_Neutralization extends clsModuleBase
 	 */
 	@Override
 	protected void setProcessType() {
-		// TODO (zeilinger) - Auto-generated method stub
+		mnProcessType = eProcessType.PRIMARY;
 		
 	}
 
@@ -170,7 +170,7 @@ public class F56_Desexualization_Neutralization extends clsModuleBase
 	 */
 	@Override
 	protected void setPsychicInstances() {
-		// TODO (zeilinger) - Auto-generated method stub
+		mnPsychicInstances = ePsychicInstances.EGO;
 		
 	}
 
