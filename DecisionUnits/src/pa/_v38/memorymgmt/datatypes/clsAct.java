@@ -21,6 +21,9 @@ import pa._v38.memorymgmt.enums.eDataType;
  * 
  */
 public class clsAct extends clsSecondaryDataStructure {
+	
+	private ArrayList<clsWordPresentation> m_alWordpresentations;
+	
 	private String moContent = "UNDEFINED"; 
 	private ArrayList<clsSecondaryDataStructure> moAssociatedContent; 
 	/**
