@@ -72,6 +72,10 @@ public class clsInspectorMappingDecision {
         		oRetVal.addInspector( new inspectors.mind.pa._v30.clsInspectorTab_Modules((clsPsychoAnalysis) poDU), "PA-Modules");
             	oRetVal.addInspector( new inspectors.mind.pa._v30.clsInspectorTab_Memory(poSuperInspector, poWrapper, poState, (clsPsychoAnalysis) poDU), "PA-Memory"); //shows a tab with the memory inspector, mapping for the tree etc see clsInspectorMappingPA
         		oRetVal.addInspector( new inspectors.mind.pa._v30.clsInspectorTab_DataLogger((clsPsychoAnalysis) poDU), "Data Logger");
+        		
+        		//TODO CM these two should also work in V38, but I get a exeption, DEBUG! 28.06.2011
+                oRetVal.addInspector( new clsInspectorSensorData(poDU), "Sensors");
+                oRetVal.addInspector( new clsInspectorActionCommands(poDU), "Actions");
         	}
         	else if (clsPsychoAnalysis.getModelVersion().equals("v38")){
         		oRetVal.addInspector( new inspectors.mind.pa._v38.clsInspectorTab_Modules((clsPsychoAnalysis) poDU), "PA-Modules");
@@ -86,8 +90,8 @@ public class clsInspectorMappingDecision {
         	oRetVal.addInspector( new clsReactiveInspector(poSuperInspector, poWrapper, poState, (clsReactive) poDU), "Reactive DU Insp.");
         }
         
-        oRetVal.addInspector( new clsInspectorSensorData(poDU), "Sensors");
-        oRetVal.addInspector( new clsInspectorActionCommands(poDU), "Actions");        
+        //oRetVal.addInspector( new clsInspectorSensorData(poDU), "Sensors");
+        //oRetVal.addInspector( new clsInspectorActionCommands(poDU), "Actions");        
         
     	//add standard inspector if nothing happened
     	if(oRetVal.inspectors.size() == 0)  {

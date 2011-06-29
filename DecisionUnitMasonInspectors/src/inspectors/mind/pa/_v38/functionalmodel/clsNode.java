@@ -11,7 +11,7 @@ import java.util.ArrayList;
 import pa._v38.modules.clsModuleBase;
 
 /**
- * DOCUMENT (deutsch) - insert description 
+ * The Node object, If we change again from E->F or alike... change the prefix here too!!!
  * 
  * @author deutsch
  * 22.10.2009, 12:10:26
@@ -74,15 +74,15 @@ public class clsNode {
 	
 	public String getName(boolean pnShort) {
 		if (pnShort) {
-			return "E"+moId;
+			return "F"+moId;
 		} else {
-			return "E"+moId+": "+moName;
+			return "F"+moId+": "+moName;
 		}
 	}
 	
 	@Override
 	public String toString() {
-		return "E"+moId+": "+moName;
+		return "F"+moId+": "+moName;
 	}
 	
 	public void resetAdded() {

@@ -20,6 +20,7 @@ import pa._v38.interfaces.modules.I5_5_send;
 import pa._v38.memorymgmt.datatypes.clsDriveMesh;
 import pa._v38.memorymgmt.datatypes.clsPhysicalRepresentation;
 import pa._v38.tools.clsPair;
+import pa._v38.tools.toText;
 import config.clsBWProperties;
 
 /**
@@ -81,8 +82,10 @@ public class F55_SuperEgoProactive extends clsModuleBase
 	 */
 	@Override
 	public String stateToTEXT() {
-		// TODO (zeilinger) - Auto-generated method stub
-		return null;
+		String text ="";
+		text += toText.valueToTEXT("moDrives_IN", moDrives_IN);	
+		text += toText.valueToTEXT("moDrives_OUT", moDrives_OUT);		
+		return text;
 	}
 	
 	/* (non-Javadoc)
@@ -162,7 +165,7 @@ public class F55_SuperEgoProactive extends clsModuleBase
 	 */
 	@Override
 	protected void setProcessType() {
-		// TODO (zeilinger) - Auto-generated method stub
+		mnProcessType = eProcessType.PRIMARY;
 		
 	}
 
@@ -175,7 +178,7 @@ public class F55_SuperEgoProactive extends clsModuleBase
 	 */
 	@Override
 	protected void setPsychicInstances() {
-		// TODO (zeilinger) - Auto-generated method stub
+		mnPsychicInstances = ePsychicInstances.SUPEREGO;
 		
 	}
 
