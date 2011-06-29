@@ -134,7 +134,7 @@ public class F47_ConversionToPrimaryProcess extends clsModuleBase implements itf
 
 	}
 
-	private clsPrimaryDataStructureContainer getMemoryFromWP(ArrayList<clsSecondaryDataStructureContainer> oInput) {
+	private clsPrimaryDataStructureContainer getMemoryFromWP(ArrayList<clsSecondaryDataStructureContainer> poInput) {
 		clsPrimaryDataStructureContainer oRetVal;
 		
 		//TODO: Dummyfunction from SP
@@ -221,6 +221,7 @@ public class F47_ConversionToPrimaryProcess extends clsModuleBase implements itf
 	 * 
 	 * @see pa.interfaces.receive._v38.I7_3_receive#receive_I7_3(java.util.ArrayList)
 	 */
+	@SuppressWarnings("unchecked")
 	@Override
 	public void receive_I6_9(ArrayList<clsSecondaryDataStructureContainer> poActionCommands) {
 		moReturnedWPMemory_IN = (ArrayList<clsSecondaryDataStructureContainer>)deepCopy(poActionCommands);

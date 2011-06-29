@@ -210,6 +210,12 @@ public class F45_LibidoDischarge extends clsModuleBaseKB implements itfInspector
 	 */
 	@Override
 	protected void process_basic() {
+		
+		//AW Test
+		testImage();
+		
+		
+		
 		//Get available amount of free libido 
 		mrAvailableLibido = moLibidoBuffer.send_D1_4();
 		
@@ -287,6 +293,24 @@ public class F45_LibidoDischarge extends clsModuleBaseKB implements itfInspector
 		moAssociatedMemories_OUT = moAssociatedMemories_IN;
 	}
 
+	private void testImage() {
+		/* AW Testsetup for image search
+		 * Use the input image as seach image
+		 */
+		clsPrimaryDataStructureContainer oTestImage=null;
+		try {
+			oTestImage = (clsPrimaryDataStructureContainer) moEnvironmentalPerception_IN.clone();
+		} catch (CloneNotSupportedException e1) {
+			// TODO (wendt) - Auto-generated catch block
+			e1.printStackTrace();
+		}
+		//Get Image in the search function
+		//Create seach pattern
+		clsPrimaryDataStructureContainer oSearchPattern = oTestImage;
+		ArrayList<ArrayList<clsPair<Double,clsPrimaryDataStructureContainer>>> oSearchResultContainer = new ArrayList<ArrayList<clsPair<Double,clsPrimaryDataStructureContainer>>>();
+		//search(new ArrayList<clsPrimaryDataStructureContainer>(Arrays.asList(oSearchPattern)), oSearchResultContainer);
+	}
+	
 	private clsDriveMesh createDriveMesh(String poContentType, String poContext) {
 		clsThingPresentation oDataStructure = (clsThingPresentation)clsDataStructureGenerator.generateDataStructure( eDataType.TP, new clsPair<String, Object>(poContentType, poContext) );
 		ArrayList<Object> oContent = new ArrayList<Object>( Arrays.asList(oDataStructure) );

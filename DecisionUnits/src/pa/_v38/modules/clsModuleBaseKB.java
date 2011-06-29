@@ -25,6 +25,13 @@ import pa._v38.tools.clsPair;
  * 21.04.2011, 11:50:00
  * 
  */
+/**
+ * DOCUMENT (wendt) - insert description 
+ * 
+ * @author wendt
+ * 29.06.2011, 13:40:58
+ * 
+ */
 public abstract class clsModuleBaseKB extends clsModuleBase {
 	protected clsKnowledgeBaseHandler moKnowledgeBaseHandler;
 	
@@ -77,7 +84,12 @@ public abstract class clsModuleBaseKB extends clsModuleBase {
 	 * 
 	 * @see pa.interfaces.knowledgebase.itfKnowledgeBaseAccess#createSearchPattern(pa._v38.memorymgmt.enums.eDataType, java.lang.Object, java.util.ArrayList)
 	 */
-	public <E> void createSearchPattern(eDataType poDataType, ArrayList<E> poList,
+	/*public <E> void createSearchPattern(eDataType poDataType, ArrayList<E> poList,
+			ArrayList<clsPair<Integer, clsDataStructurePA>> poSearchPattern) {
+		createSearchPattern(poDataType, poList, false, poSearchPattern);
+	}*/
+	
+	public <E> void createSearchPattern(eDataType poDataType, ArrayList<E> poList, 
 			ArrayList<clsPair<Integer, clsDataStructurePA>> poSearchPattern) {
 		
 		for (E oEntry : poList){
@@ -91,6 +103,30 @@ public abstract class clsModuleBaseKB extends clsModuleBase {
 	}
 	
 	
+	
+	
+	/**
+	 * DOCUMENT (wendt) - insert description
+	 *
+	 * @since 29.06.2011 13:54:58
+	 *
+	 * @param <E>
+	 * @param poDataType
+	 * @param poPattern
+	 * @param poSearchResult
+	 * 
+	 * Search function for whole containers. It will always return a containerlist. The specialized use is if
+	 * the data structure is a template image.
+	 */
+	public void search(
+			clsDataStructureContainer poPattern,
+			ArrayList<clsPair<Double, clsDataStructureContainer>> poSearchResult) {
+		
+		clsPair<Integer, clsDataStructureContainer> oSearchPattern = new clsPair<Integer, clsDataStructureContainer>(eDataType.UNDEFINED.nBinaryValue, poPattern); 
+		//createSearchPattern(poPattern, oSearchPattern);	//Create a pattern, search for type, poDataType 4096=TP, Input-Container
+		accessKnowledgeBase(poSearchResult, oSearchPattern); 
+	}
+	
 	/* (non-Javadoc)
 	 *
 	 * @author zeilinger
@@ -98,11 +134,17 @@ public abstract class clsModuleBaseKB extends clsModuleBase {
 	 * 
 	 * @see pa.interfaces.knowledgebase.itfKnowledgeBaseAccess#accessKnowledgeBase(pa.tools.clsPair)
 	 */
+	
 	public void accessKnowledgeBase(ArrayList<ArrayList<clsPair<Double,clsDataStructureContainer>>> poSearchResult,
-									ArrayList<clsPair<Integer, clsDataStructurePA>> poSearchPattern) {
-		
+									ArrayList<clsPair<Integer, clsDataStructurePA>> poSearchPattern) {		
 		poSearchResult.addAll(moKnowledgeBaseHandler.initMemorySearch(poSearchPattern));
-	}		
+	}
+	
+	//AW 20110629: New function for searching one total container
+	public void accessKnowledgeBase(ArrayList<clsPair<Double,clsDataStructureContainer>> poSearchResultx,
+			clsPair<Integer, clsDataStructureContainer> poSearchPattern) {		
+		//poSearchResultx.addAll(moKnowledgeBaseHandler.initMemorySearch(poSearchPattern));
+	}
 
 	public clsKnowledgeBaseHandler getKnowledgeBaseHandler() {
 		return moKnowledgeBaseHandler;
