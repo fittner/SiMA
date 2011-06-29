@@ -23,6 +23,7 @@ import pa._v38.memorymgmt.datatypes.clsDriveMesh;
 import pa._v38.memorymgmt.datatypes.clsPhysicalRepresentation;
 import pa._v38.memorymgmt.datatypes.clsPrimaryDataStructureContainer;
 import pa._v38.tools.clsPair;
+import pa._v38.tools.toText;
 import config.clsBWProperties;
 
 /**
@@ -93,8 +94,10 @@ public class F07_SuperEgoReactive extends clsModuleBase
 	 */
 	@Override
 	public String stateToTEXT() {
-		// TODO (zeilinger) - Auto-generated method stub
-		return null;
+		String text ="";
+		text += toText.valueToTEXT("moAssociatedMemories_IN", moAssociatedMemories_IN);	
+		text += toText.valueToTEXT("moAssociatedMemories_OUT", moAssociatedMemories_OUT);		
+		return text;
 	}
 	
 	/* (non-Javadoc)

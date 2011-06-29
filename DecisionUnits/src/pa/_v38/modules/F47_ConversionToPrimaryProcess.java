@@ -70,6 +70,8 @@ public class F47_ConversionToPrimaryProcess extends clsModuleBase implements itf
 		String text ="";
 		
 		text += toText.valueToTEXT("mnMinimalModel", mnMinimalModel);
+		text += toText.valueToTEXT("moReturnedTPMemory_OUT", moReturnedTPMemory_OUT);
+		text += toText.valueToTEXT("moReturnedWPMemory_IN", moReturnedWPMemory_IN);
 		
 		return text;
 	}		

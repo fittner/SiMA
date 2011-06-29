@@ -20,6 +20,7 @@ import pa._v38.memorymgmt.datatypes.clsDriveMesh;
 import pa._v38.memorymgmt.datatypes.clsPhysicalRepresentation;
 import pa._v38.memorymgmt.datatypes.clsPrimaryDataStructureContainer;
 import pa._v38.tools.clsPair;
+import pa._v38.tools.toText;
 import config.clsBWProperties;
 
 /**
@@ -39,6 +40,8 @@ public class F57_MemoryTracesForDrives extends clsModuleBaseKB
 	private ArrayList<clsPrimaryDataStructureContainer> moAssociatedMemories_IN;	//AW 20110621: Associated Memories
 	@SuppressWarnings("unused")
 	private ArrayList<clsDriveMesh> moDriveCandidates;
+	
+	private  ArrayList<clsPair<clsPhysicalRepresentation,clsDriveMesh>> moDrivesAndTraces_OUT;
 	
 	/**
 	 * DOCUMENT (zeilinger) - insert description 
@@ -86,8 +89,11 @@ public class F57_MemoryTracesForDrives extends clsModuleBaseKB
 	 */
 	@Override
 	public String stateToTEXT() {
-		// TODO (zeilinger) - Auto-generated method stub
-		return null;
+		String text ="";
+		text += toText.valueToTEXT("moAssociatedMemories_IN", moAssociatedMemories_IN);	
+		text += toText.valueToTEXT("moEnvironmentalPerception_IN", moEnvironmentalPerception_IN);
+		text += toText.valueToTEXT("moDriveCandidates", moDriveCandidates);
+		return text;
 	}
 	
 	/* (non-Javadoc)
@@ -125,7 +131,9 @@ public class F57_MemoryTracesForDrives extends clsModuleBaseKB
 	 */
 	@Override
 	protected void process_basic() {
-		// TODO (zeilinger) - Auto-generated method stub
+		// TODO (implement me with the real functionality
+		moDrivesAndTraces_OUT =  deepCopy(moDriveCandidates); 
+		
 		
 	}
 
@@ -164,7 +172,7 @@ public class F57_MemoryTracesForDrives extends clsModuleBaseKB
 	 */
 	@Override
 	protected void send() {
-		send_I5_1(new ArrayList<clsPair<clsPhysicalRepresentation,clsDriveMesh>>());
+		send_I5_1(moDrivesAndTraces_OUT);
 	}
 
 	/* (non-Javadoc)
