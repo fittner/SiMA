@@ -16,6 +16,7 @@ import pa._v38.interfaces.modules.I6_9_receive;
 import pa._v38.interfaces.modules.I6_11_receive;
 import pa._v38.interfaces.modules.I6_11_send;
 import pa._v38.interfaces.modules.I6_10_receive;
+import pa._v38.memorymgmt.datatypes.clsSecondaryDataStructureContainer;
 import pa._v38.memorymgmt.datatypes.clsWordPresentation;
 import pa._v38.tools.toText;
 
@@ -30,7 +31,7 @@ public class F29_EvaluationOfImaginaryActions extends clsModuleBase implements
 					I6_2_receive, I6_9_receive, I6_10_receive, I6_11_send {
 	public static final String P_MODULENUMBER = "29";
 	
-	private ArrayList<clsWordPresentation> moActionCommands_Input; 
+	private ArrayList<clsSecondaryDataStructureContainer> moActionCommands_Input; 
 	private ArrayList<clsWordPresentation> moActionCommands_Output; 
 	/**
 	 * DOCUMENT (perner) - insert description 
@@ -128,8 +129,8 @@ public class F29_EvaluationOfImaginaryActions extends clsModuleBase implements
 	 */
 	@SuppressWarnings("unchecked") //deepCopy can only perform an unchecked operation
 	@Override
-	public void receive_I6_9(ArrayList<clsWordPresentation> poActionCommands) {
-		moActionCommands_Input = (ArrayList<clsWordPresentation>)deepCopy(poActionCommands);
+	public void receive_I6_9(ArrayList<clsSecondaryDataStructureContainer> poActionCommands) {
+		moActionCommands_Input = (ArrayList<clsSecondaryDataStructureContainer>)deepCopy(poActionCommands);
 	}
 	
 	/* (non-Javadoc)
@@ -154,7 +155,18 @@ public class F29_EvaluationOfImaginaryActions extends clsModuleBase implements
 	 */
 	@Override
 	protected void process_basic() {
-		moActionCommands_Output = moActionCommands_Input; 
+		moActionCommands_Output = getWordPresentations(moActionCommands_Input); 
+	}
+	
+	//AW 20110629 New function, which converts clsSecondaryDataStructureContainer to clsWordpresentation
+	private ArrayList<clsWordPresentation> getWordPresentations(ArrayList<clsSecondaryDataStructureContainer> poInput) {
+		ArrayList<clsWordPresentation> oRetVal = new ArrayList<clsWordPresentation>();
+		
+		for (clsSecondaryDataStructureContainer oCont: poInput) {
+			oRetVal.add((clsWordPresentation)oCont.getMoDataStructure());
+		}
+		
+		return oRetVal;
 	}
 
 	/* (non-Javadoc)

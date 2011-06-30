@@ -43,6 +43,7 @@ public class clsLibidoBuffer implements itfInspectorInternalState, itfInterfaceD
 	 */
 	@Override
 	public void receive_D1_3(double prValue) {
+		//Min value = 0. A bigger value causes = 0
 		if (mrBufferedLibido-prValue >= 0) { 
 			mrBufferedLibido -= prValue;
 		} else {
@@ -53,6 +54,7 @@ public class clsLibidoBuffer implements itfInspectorInternalState, itfInterfaceD
 	}
 	
 	private void normalizeBuffer() {
+		//Max value = 1, min value = 0.
 		if (mrBufferedLibido > 1) {
 			mrBufferedLibido = 1;
 		} else if (mrBufferedLibido < 0) {
@@ -69,6 +71,7 @@ public class clsLibidoBuffer implements itfInspectorInternalState, itfInterfaceD
 	 */
 	@Override
 	public void receive_D1_1(double prValue) {
+		//Only values < are allowed. Total value > 1 is cut of
 		if (mrBufferedLibido+prValue >= 0) {
 			mrBufferedLibido += prValue;
 		} else {

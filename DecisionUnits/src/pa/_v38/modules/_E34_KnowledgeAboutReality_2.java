@@ -19,7 +19,7 @@ import pa._v38.interfaces.modules.I6_9_receive;
 //import pa._v38.interfaces.modules.I7_5_send;
 import pa._v38.memorymgmt.clsKnowledgeBaseHandler;
 import pa._v38.memorymgmt.datatypes.clsDataStructurePA;
-import pa._v38.memorymgmt.datatypes.clsWordPresentation;
+import pa._v38.memorymgmt.datatypes.clsSecondaryDataStructureContainer;
 
 /**
  * DOCUMENT (KOHLHAUSER) - insert description 
@@ -152,7 +152,7 @@ public class _E34_KnowledgeAboutReality_2 extends clsModuleBaseKB implements itf
 	 * @see pa.interfaces.I7_3#receive_I7_3(java.util.ArrayList)
 	 */
 	@Override
-	public void receive_I6_9(ArrayList<clsWordPresentation> poActionCommands) {
+	public void receive_I6_9(ArrayList<clsSecondaryDataStructureContainer> poActionCommands) {
 		// TODO (KOHLHAUSER) - Auto-generated method stub
 		
 	}

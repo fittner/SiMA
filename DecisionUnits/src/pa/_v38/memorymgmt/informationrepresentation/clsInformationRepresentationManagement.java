@@ -149,6 +149,40 @@ public class clsInformationRepresentationManagement extends clsKnowledgeBaseHand
 			}
 			throw new NoSuchElementException("No return value defined"); 
 		}
+		
+		
+		//AW 20110629: New function
+		/**
+		 * DOCUMENT (wendt) - insert description
+		 *
+		 * @since 29.06.2011 15:03:32
+		 *
+		 * @param poSearchPatternList
+		 * @return
+		 * 
+		 * Function overloading for searching in memories with one single complete container
+		 * 
+		 */
+		public ArrayList<clsPair<Double,clsDataStructureContainer>> initMemorySearch(clsPair<Integer, clsDataStructurePA> poSearchPatternList){
+			moSearchResult = new ArrayList<ArrayList<clsPair<Double,clsDataStructureContainer>>>(); 
+			
+			//Search for all template images in the store
+			/*ArrayList<clsPair<Double,clsDataStructureContainer>> oSearchPatternMatch = triggerModuleSearch((int)element.a, element.b);
+			moSearchResult.add(oSearchPatternMatch);
+			
+			if(moSearchResult.size() != poSearchPatternList.size()){
+				throw new NullPointerException("Missing search result: search pattern and search result not from the same size"); 
+			}
+			
+			try {
+				return (ArrayList<ArrayList<clsPair<Double,clsDataStructureContainer>>>) this.cloneResult(moSearchResult);
+			} catch (CloneNotSupportedException e) {
+				// TODO (zeilinger) - Auto-generated catch block
+				e.printStackTrace();
+			}
+			throw new NoSuchElementException("No return value defined");*/ 
+			return null;
+		}
 	
 	/**
 	 * DOCUMENT (zeilinger) - insert description

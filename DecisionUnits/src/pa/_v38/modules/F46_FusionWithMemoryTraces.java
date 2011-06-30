@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.SortedMap;
 
+import pa._v38.tools.clsGlobalFunctions;
 import pa._v38.tools.clsPair;
 import pa._v38.tools.clsTripple;
 import pa._v38.tools.toText;
@@ -43,13 +44,16 @@ import config.clsBWProperties;
 public class F46_FusionWithMemoryTraces extends clsModuleBaseKB implements
 					I2_6_receive, I5_19_receive, I5_6_send {
 	public static final String P_MODULENUMBER = "46";
-		
-	//HZ Not used up to now 16.03.2011
-	//private ArrayList<clsPrimaryDataStructureContainer> moGrantedPerception_IN; 
-	private ArrayList<clsPrimaryDataStructureContainer> moEnvironmentalPerception_IN; 
+	
+	/* Inputs */
+	private clsPrimaryDataStructureContainer moReturnedTPMemory_IN; 
+	private ArrayList<clsPrimaryDataStructureContainer> moEnvironmentalPerception_IN;
+	
+	/* Output */
 	private clsPrimaryDataStructureContainer moEnvironmentalPerception_OUT;
 	private ArrayList<clsPrimaryDataStructureContainer> moAssociatedMemories_OUT;
 
+	/* Module-Parameters */
 	
 	/**
 	 * DOCUMENT (HINTERLEITNER) - insert description 
@@ -110,35 +114,33 @@ public class F46_FusionWithMemoryTraces extends clsModuleBaseKB implements
 	 */
 	@Override
 	protected void process_basic() {
-		/* Pre-processing */
+		/**
+		 * DOCUMENT (WENDT) - insert description
+		 *
+		 * @since 20110625
+		 *
+		 * ${tags}
+		 * 
+		 * 
+		 */
 		
-		//Function for getting content and settings from "conversation to primary process"
+		//Variables
+		clsPrimaryDataStructureContainer oEnvPerceptionNoDM;
 		
-		//Function for adapting DM quota of affect to the drive tension
-		
-		
-		/* Perception - construction of perceived images */
-		
-		//moEnvironmentalPerception_OUT = new ArrayList<clsPrimaryDataStructureContainer>();
-		//clsPrimaryDataStructureContainer oEnvironmentTI = clsDataStructureConverter.convertTPMContToTICont(retrieveImages(moEnvironmentalPerception_IN));
-		moEnvironmentalPerception_OUT = clsDataStructureConverter.convertTPMContToTICont(retrieveImages(moEnvironmentalPerception_IN));
-		//moEnvironmentalPerception_OUT.add(oEnvironmentTI);
-		//moEnvironmentalPerception_OUT = retrieveImages(moEnvironmentalPerception_IN);
+		/* Construction of perceived images*/
+		/* Assign objects from storage to perception */
+		oEnvPerceptionNoDM = clsDataStructureConverter.convertTPMContToTICont(retrieveImages(moEnvironmentalPerception_IN));
+		/* Assign drive meshes and adapt categories */
+		moEnvironmentalPerception_OUT = oEnvPerceptionNoDM;	//The output is a perceived image
 		
 		/* Perception - Activation of associated memories */
-		
-		//Associated memories
-		//AW 20110521: TODO: Add function to load template images here
-		moAssociatedMemories_OUT = new ArrayList<clsPrimaryDataStructureContainer>();
-		clsTripple<String, ArrayList<clsPhysicalRepresentation>, Object> oContent = new clsTripple<String, ArrayList<clsPhysicalRepresentation>, Object>("Dummy", new ArrayList<clsPhysicalRepresentation>(), "Dummy");
-		moAssociatedMemories_OUT.add(new clsPrimaryDataStructureContainer(clsDataStructureGenerator.generateTI(oContent), new ArrayList<clsAssociation>()));
+		moAssociatedMemories_OUT = retrieveActivatedMemories(moEnvironmentalPerception_OUT, moReturnedTPMemory_IN);
 		
 		
 		//****** New Data structures Don't delete AW 20110424 *********
 		//UNIT-Tests for the converters
 		//clsPrimaryDataStructureContainer oTest = clsDataStructureConverter.convertTPMContToTICont(moEnvironmentalPerception_OUT);
 		//ArrayList<clsPrimaryDataStructureContainer> oTest2 = clsDataStructureConverter.convertTIContToTPMCont(oTest);
-		
 		/* Post-Processing */
 		
 		//Function: Update association weights after activation (first step to individual mind) 
@@ -186,6 +188,35 @@ public class F46_FusionWithMemoryTraces extends clsModuleBaseKB implements
 		
 		search(eDataType.TP, oPerceivedImage_IN, oSearchResult ); 
 		oRetVal = createImage(oSearchResult);	
+		
+		return oRetVal;
+	}
+	
+	private ArrayList<clsPrimaryDataStructureContainer> retrieveActivatedMemories(clsPrimaryDataStructureContainer oPerceptionInput, 
+			clsPrimaryDataStructureContainer oReturnedMemory) {
+		
+		ArrayList<clsPrimaryDataStructureContainer> oRetVal = new ArrayList<clsPrimaryDataStructureContainer>();
+		boolean blUsePerception = true;
+		
+		//Associated memories
+		//Decide which image will be the input for spread activation
+		if (oReturnedMemory!=null) {
+			if (clsGlobalFunctions.calculateAbsoluteAffect(oPerceptionInput) < clsGlobalFunctions.calculateAbsoluteAffect(oReturnedMemory)) {
+				blUsePerception = false;
+			}
+		}
+			
+		if (blUsePerception==true) {
+			//Use perceived image as input of spread activation
+			//TODO: Dummy for spread activation
+			clsTripple<String, ArrayList<clsPhysicalRepresentation>, Object> oContent = new clsTripple<String, ArrayList<clsPhysicalRepresentation>, Object>("DummyPerceived", new ArrayList<clsPhysicalRepresentation>(), "DummyPerceived");
+			oRetVal.add(new clsPrimaryDataStructureContainer(clsDataStructureGenerator.generateTI(oContent), new ArrayList<clsAssociation>()));
+		} else {
+			//Use action-plan image as input of spread activation
+			//TODO: Dummy for spread activation
+			clsTripple<String, ArrayList<clsPhysicalRepresentation>, Object> oContent = new clsTripple<String, ArrayList<clsPhysicalRepresentation>, Object>("DummyMemory", new ArrayList<clsPhysicalRepresentation>(), "DummyMemory");
+			oRetVal.add(new clsPrimaryDataStructureContainer(clsDataStructureGenerator.generateTI(oContent), new ArrayList<clsAssociation>()));
+		}
 		
 		return oRetVal;
 	}
@@ -400,10 +431,8 @@ public class F46_FusionWithMemoryTraces extends clsModuleBaseKB implements
 	 * @see pa.interfaces.receive._v38.I7_7_receive#receive_I7_7(java.util.ArrayList)
 	 */
 	@Override
-	public void receive_I5_19(
-		ArrayList<clsPrimaryDataStructureContainer> poGrantedPerception) {
-		//HZ Not used up to now 16.03.2011 
-		//moGrantedPerception_IN = poGrantedPerception; 
+	public void receive_I5_19(clsPrimaryDataStructureContainer poReturnedMemory) {
+		moReturnedTPMemory_IN = (clsPrimaryDataStructureContainer)deepCopy(poReturnedMemory);
 	}
 
 	/* (non-Javadoc)

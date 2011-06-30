@@ -8,6 +8,10 @@ package pa._v38.interfaces.modules;
 
 import java.util.ArrayList;
 
+import pa._v38.memorymgmt.datatypes.clsDriveMesh;
+import pa._v38.memorymgmt.datatypes.clsPrimaryDataStructureContainer;
+import pa._v38.tools.clsPair;
+
 
 
 /**
@@ -18,5 +22,5 @@ import java.util.ArrayList;
  * 
  */
 public interface D2_4_send {
-	public void send_D2_4(ArrayList<Object> poData);
+	public ArrayList<clsPair<clsPrimaryDataStructureContainer, clsDriveMesh>> send_D2_4();
 }

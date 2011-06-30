@@ -55,7 +55,7 @@ public class KB02_InternalPerceptionMgmt extends clsInformationRepresentationMod
 		ArrayList<clsPair<Double,clsDataStructureContainer>> oDataStructureContainerList = new ArrayList<clsPair<Double,clsDataStructureContainer>>(); 
 		ArrayList<clsPair<Double,clsDataStructurePA>> oMatchedDataStructures = new ArrayList<clsPair<Double,clsDataStructurePA>>();
 //		System.out.println(moSearchSpaceHandler.toString());
-		if(poDataStructureUnknown.getMoDS_ID() > -1 ){
+		if(poDataStructureUnknown.getMoDS_ID() > -1 ){	//If the data structure already has an ID, no matching is necessary and it has found itself
 			oMatchedDataStructures.add(new clsPair<Double, clsDataStructurePA>(1.0,poDataStructureUnknown)); 
 		}
 		else{
@@ -63,7 +63,7 @@ public class KB02_InternalPerceptionMgmt extends clsInformationRepresentationMod
 		}
 				
 		for(clsPair<Double, clsDataStructurePA> oPatternElement : oMatchedDataStructures){
-			clsDataStructureContainer oDataStructureContainer = getDataContainer(poReturnType, (clsPhysicalRepresentation)oPatternElement.b);
+			clsDataStructureContainer oDataStructureContainer = getDataContainer(poReturnType, (clsPhysicalRepresentation)oPatternElement.b);	//Get container from a certain data value
 			oDataStructureContainerList.add(new clsPair<Double, clsDataStructureContainer>(oPatternElement.a, oDataStructureContainer));
 		}
 		return oDataStructureContainerList;
