@@ -20,6 +20,7 @@ import pa._v38.interfaces.modules.I5_5_receive;
 import pa._v38.memorymgmt.datatypes.clsDriveMesh;
 import pa._v38.memorymgmt.datatypes.clsPhysicalRepresentation;
 import pa._v38.memorymgmt.datatypes.clsPrimaryDataStructureContainer;
+import pa._v38.storage.clsBlockedContentStorage;
 import pa._v38.tools.clsPair;
 import pa._v38.tools.toText;
 import config.clsBWProperties;
@@ -155,8 +156,35 @@ public class F06_DefenseMechanismsForDrives extends clsModuleBase implements
 	protected void process_basic() {
 		//TODO HZ: Up to now the driveList is passed through (deepCopy is called in the next module); 
 		//The interfaces send_I4_1 and send_I5_1 are filled with empty Lists. 
-		 moDriveList_Output = moDriveList_Input; 
+		 moDriveList_Output = moDriveList_Input;
+		 
+		 // Well - this is just a test for the defense mechanism "repression"
+		 repress_drive(9);
 	}
+	
+	/* (non-Javadoc)
+	 *
+	 * @author gelbard
+	 * 30.06.2011, 14:43:00
+	 * 
+	 * This method represents the defense mechanism "repression"
+	 * 
+	 * ToDo (FG): For now the whole DriveMesh and the PhysicalRepresentation are repressed.
+	 *            Later it could be possible to only repress the DriveMesh or only repress the PhysicalRepresentation.
+	 */
+    private void repress_drive(int i) {
+		clsBlockedContentStorage moBlockedContentStorage = new clsBlockedContentStorage();
+		if (i < moDriveList_Output.size()) {
+			
+			// insert DriveMesh i into BlockedContentStorage
+			moBlockedContentStorage.add(moDriveList_Output.get(i).b);
+			
+			// remove DriveMesh i from output list
+		    moDriveList_Output.remove(i);
+		}
+		else
+			;//ToDo (FG): write error message to log-file: "Index i is greater than size of list of drives. Was not able to repress drive."
+    }
 	
 	/* (non-Javadoc)
 	 *
