@@ -20,6 +20,7 @@ import pa._v38.memorymgmt.datatypes.clsDriveMesh;
 import pa._v38.memorymgmt.datatypes.clsPhysicalRepresentation;
 import pa._v38.memorymgmt.datatypes.clsPrimaryDataStructureContainer;
 import pa._v38.tools.clsPair;
+import pa._v38.tools.toText;
 import config.clsBWProperties;
 
 /**
@@ -33,12 +34,11 @@ public class F57_MemoryTracesForDrives extends clsModuleBaseKB
 		implements I4_1_receive, I5_7_receive, I5_1_send{
 
 	public static final String P_MODULENUMBER = "57";
-	@SuppressWarnings("unused")
 	private clsPrimaryDataStructureContainer moEnvironmentalPerception_IN;	//AW 20110521: New containerstructure. Use clsDataStructureConverter.TPMtoTI to convert to old structure
 	@SuppressWarnings("unused")
 	private ArrayList<clsPrimaryDataStructureContainer> moAssociatedMemories_IN;	//AW 20110621: Associated Memories
-	@SuppressWarnings("unused")
 	private ArrayList<clsDriveMesh> moDriveCandidates;
+	private ArrayList<clsPair<clsPrimaryDataStructureContainer,ArrayList<clsDriveMesh>>> moInput; //Clemens fragen
 	
 	/**
 	 * DOCUMENT (zeilinger) - insert description 
@@ -86,8 +86,13 @@ public class F57_MemoryTracesForDrives extends clsModuleBaseKB
 	 */
 	@Override
 	public String stateToTEXT() {
-		// TODO (zeilinger) - Auto-generated method stub
-		return null;
+		
+		String text = "";
+		
+		text += toText.valueToTEXT("moKnowledgeBaseHandler", moKnowledgeBaseHandler);
+		
+		return text;
+		
 	}
 	
 	/* (non-Javadoc)
@@ -97,9 +102,10 @@ public class F57_MemoryTracesForDrives extends clsModuleBaseKB
 	 * 
 	 * @see pa._v38.interfaces.modules.I5_7_receive#receive_I5_7(java.util.ArrayList)
 	 */
+	@SuppressWarnings("unchecked")
 	@Override
 	public void receive_I5_7(clsPrimaryDataStructureContainer poEnvironmentalTP, ArrayList<clsPrimaryDataStructureContainer> poAssociatedMemories) {
-		moEnvironmentalPerception_IN = (clsPrimaryDataStructureContainer)deepCopy(poEnvironmentalTP);
+		moEnvironmentalPerception_IN = (clsPrimaryDataStructureContainer)deepCopy(poEnvironmentalTP); //die Wahrnehmung muss auch weitergesendet werden 
 		moAssociatedMemories_IN = (ArrayList<clsPrimaryDataStructureContainer>)deepCopy(poAssociatedMemories);
 	}
 
@@ -125,8 +131,32 @@ public class F57_MemoryTracesForDrives extends clsModuleBaseKB
 	 */
 	@Override
 	protected void process_basic() {
-		// TODO (zeilinger) - Auto-generated method stub
 		
+		//ArrayList<clsPair<clsPrimaryDataStructureContainer, ArrayList<clsDriveMesh>>>;
+		
+		attachDriveCandidatesToEnvironPerception();
+		
+	}
+
+	/**
+	 * DOCUMENT (hinterleitner) - insert description
+	 *
+	 * @since 01.07.2011 10:24:34
+	 *
+	 */
+	private void attachDriveCandidatesToEnvironPerception() {
+		
+		if (moEnvironmentalPerception_IN != null)
+			
+			//moInput = new ArrayList<clsPair<clsPhysicalRepresentation, clsDriveMesh>>) deepCopy(poData);
+			moInput = new ArrayList<clsPair<clsPrimaryDataStructureContainer, ArrayList<clsDriveMesh>>> (); 
+			
+
+			moInput.add(new clsPair<clsPrimaryDataStructureContainer, ArrayList<clsDriveMesh>> (moEnvironmentalPerception_IN, moDriveCandidates)); //Triebkandidaten = clsDriveMesh 
+			
+			System.out.println(moKnowledgeBaseHandler);
+			System.out.println(moDriveCandidates);
+			System.out.println(moEnvironmentalPerception_IN); //constructed perception
 	}
 
 	/* (non-Javadoc)
@@ -230,7 +260,8 @@ public class F57_MemoryTracesForDrives extends clsModuleBaseKB
 	public void send_I5_1(
 			ArrayList<clsPair<clsPhysicalRepresentation, clsDriveMesh>> poData) {
 		
-		((I5_1_receive)moModuleList.get(49)).receive_I5_1(poData);
+	
+		((I5_1_receive)moModuleList.get(49)).receive_I5_1(poData); 
 		
 		putInterfaceData(I5_1_send.class, poData);
 	}
