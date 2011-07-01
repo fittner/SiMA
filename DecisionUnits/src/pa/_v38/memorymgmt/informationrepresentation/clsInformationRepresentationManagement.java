@@ -17,7 +17,9 @@ import pa._v38.memorymgmt.datatypes.clsDataStructureContainer;
 import pa._v38.memorymgmt.datatypes.clsDataStructurePA;
 import pa._v38.memorymgmt.datatypes.clsHomeostaticRepresentation;
 import pa._v38.memorymgmt.datatypes.clsPhysicalRepresentation;
+import pa._v38.memorymgmt.datatypes.clsPrimaryDataStructureContainer;
 import pa._v38.memorymgmt.datatypes.clsSecondaryDataStructure;
+import pa._v38.memorymgmt.datatypes.clsSecondaryDataStructureContainer;
 import pa._v38.memorymgmt.informationrepresentation.enums.eDataSources;
 import pa._v38.memorymgmt.informationrepresentation.enums.eSearchMethod;
 import pa._v38.memorymgmt.informationrepresentation.modules.M01_InformationRepresentationMgmt;
@@ -163,25 +165,16 @@ public class clsInformationRepresentationManagement extends clsKnowledgeBaseHand
 		 * Function overloading for searching in memories with one single complete container
 		 * 
 		 */
-		public ArrayList<clsPair<Double,clsDataStructureContainer>> initMemorySearch(clsPair<Integer, clsDataStructurePA> poSearchPatternList){
+		@Override
+		public ArrayList<clsPair<Double,clsDataStructureContainer>> initMemorySearch(clsPair<Integer, clsDataStructureContainer> poSearchPattern){
 			moSearchResult = new ArrayList<ArrayList<clsPair<Double,clsDataStructureContainer>>>(); 
+			ArrayList<clsPair<Double,clsDataStructureContainer>> oSearchPatternMatch = new ArrayList<clsPair<Double,clsDataStructureContainer>>();
 			
 			//Search for all template images in the store
-			/*ArrayList<clsPair<Double,clsDataStructureContainer>> oSearchPatternMatch = triggerModuleSearch((int)element.a, element.b);
+			oSearchPatternMatch = triggerModuleSearch((int)poSearchPattern.a, poSearchPattern.b);
 			moSearchResult.add(oSearchPatternMatch);
 			
-			if(moSearchResult.size() != poSearchPatternList.size()){
-				throw new NullPointerException("Missing search result: search pattern and search result not from the same size"); 
-			}
-			
-			try {
-				return (ArrayList<ArrayList<clsPair<Double,clsDataStructureContainer>>>) this.cloneResult(moSearchResult);
-			} catch (CloneNotSupportedException e) {
-				// TODO (zeilinger) - Auto-generated catch block
-				e.printStackTrace();
-			}
-			throw new NoSuchElementException("No return value defined");*/ 
-			return null;
+			return oSearchPatternMatch;
 		}
 	
 	/**
@@ -209,6 +202,33 @@ public class clsInformationRepresentationManagement extends clsKnowledgeBaseHand
 			else{ throw new IllegalArgumentException("DataStructureContainerUnknown unknown ");}
 			
 			return oSearchResult;
+	}
+	
+	/**
+	 * DOCUMENT (wendt) - insert description
+	 *
+	 * @since 30.06.2011 22:36:54
+	 *
+	 * @param poReturnType
+	 * @param poDataStructure
+	 * @return
+	 * 
+	 * This function overload only accepts containers
+	 */
+	private ArrayList<clsPair<Double, clsDataStructureContainer>> triggerModuleSearch(Integer poReturnType, clsDataStructureContainer poDataContainer) {
+		
+		ArrayList<clsPair<Double,clsDataStructureContainer>> oSearchResult = new ArrayList<clsPair<Double,clsDataStructureContainer>>(); 
+		
+		if(poDataContainer instanceof clsSecondaryDataStructureContainer){
+			//TODO: AW If a secondaryinformationmanagement is used, it shall be placed here for the containercomparison
+		}
+		else if(poDataContainer instanceof clsPrimaryDataStructureContainer){
+			oSearchResult = moM01InformationRepresentationMgmt.moM02PrimaryInformationMgmt.moKB02InternalPerceptionMgmt.searchDataContainer(poReturnType, poDataContainer);
+		}
+		
+		else{ throw new IllegalArgumentException("DataStructureContainerUnknown unknown ");}
+		
+		return oSearchResult;
 	}
 	
 

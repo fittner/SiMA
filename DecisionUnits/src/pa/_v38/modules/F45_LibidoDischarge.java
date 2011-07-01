@@ -306,9 +306,11 @@ public class F45_LibidoDischarge extends clsModuleBaseKB implements itfInspector
 		}
 		//Get Image in the search function
 		//Create seach pattern
-		clsPrimaryDataStructureContainer oSearchPattern = oTestImage;
-		ArrayList<ArrayList<clsPair<Double,clsPrimaryDataStructureContainer>>> oSearchResultContainer = new ArrayList<ArrayList<clsPair<Double,clsPrimaryDataStructureContainer>>>();
+		clsDataStructureContainer oSearchPattern = oTestImage;
+		ArrayList<clsPair<Double,clsDataStructureContainer>> oSearchResultContainer = new ArrayList<clsPair<Double,clsDataStructureContainer>>();
+		//String oPattern = oSearchPattern.toString();
 		//search(new ArrayList<clsPrimaryDataStructureContainer>(Arrays.asList(oSearchPattern)), oSearchResultContainer);
+		search(oSearchPattern, oSearchResultContainer);
 	}
 	
 	private clsDriveMesh createDriveMesh(String poContentType, String poContext) {

@@ -107,4 +107,10 @@ public class KB01_SecondaryDataStructureMgmt extends clsInformationRepresentatio
 	private ArrayList<clsPair<Double,clsDataStructurePA>> compareElements(clsDataStructurePA poDataStructureUnknown) {
 		return clsDataStructureComparison.compareDataStructures(poDataStructureUnknown, moSearchSpaceHandler.returnSearchSpace());
 	}
+	
+	@Override
+	public ArrayList<clsPair<Double,clsDataStructureContainer>> listSearch(int poReturnType,clsDataStructureContainer poDataStructureUnknown) {
+		//TODO: AW Add something here, or else the function will not be used
+		return null;
+	}
 }
