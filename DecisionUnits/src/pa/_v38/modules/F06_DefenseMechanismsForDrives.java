@@ -172,7 +172,7 @@ public class F06_DefenseMechanismsForDrives extends clsModuleBase implements
 	 * ToDo (FG): For now the whole DriveMesh and the PhysicalRepresentation are repressed.
 	 *            Later it could be possible to only repress the DriveMesh or only repress the PhysicalRepresentation.
 	 */
-    private void repress_drive(int i) {
+    protected void repress_drive(int i) {
 		clsBlockedContentStorage moBlockedContentStorage = new clsBlockedContentStorage();
 		if (i < moDriveList_Output.size()) {
 			
