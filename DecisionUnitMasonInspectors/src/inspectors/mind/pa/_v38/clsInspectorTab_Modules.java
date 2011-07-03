@@ -311,7 +311,7 @@ public class clsInspectorTab_Modules extends Inspector implements TreeSelectionL
 	}
 	
 	private void addHandCraftedInspectors(TabbedInspector poTI, clsPsychicApparatus poPA, String poModuleName) {		
-		if(poModuleName.equals("E01_SensorsMetabolism")) {
+		if(poModuleName.equals("F01_SensorsMetabolism")) {
 		} else if(poModuleName.equals("E02_NeurosymbolizationOfNeeds")) {
 		} else if(poModuleName.equals("E03_GenerationOfSelfPreservationDrives")) {
 		} else if(poModuleName.equals("E04_FusionOfSelfPreservationDrives")) {

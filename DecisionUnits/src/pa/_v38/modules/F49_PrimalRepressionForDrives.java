@@ -18,6 +18,7 @@ import pa._v38.interfaces.modules.I5_2_send;
 import pa._v38.memorymgmt.datatypes.clsDriveMesh;
 import pa._v38.memorymgmt.datatypes.clsPhysicalRepresentation;
 import pa._v38.tools.clsPair;
+import pa._v38.tools.toText;
 import config.clsBWProperties;
 
 /**
@@ -33,6 +34,8 @@ public class F49_PrimalRepressionForDrives extends clsModuleBase
 	public static final String P_MODULENUMBER = "49";
 	@SuppressWarnings("unused")
 	private ArrayList<clsPair<clsPhysicalRepresentation, clsDriveMesh>> moInput;
+	
+	private ArrayList<clsPair<clsPhysicalRepresentation, clsDriveMesh>> moOutput;
 	/**
 	 * DOCUMENT (zeilinger) - insert description 
 	 * 
@@ -79,8 +82,12 @@ public class F49_PrimalRepressionForDrives extends clsModuleBase
 	 */
 	@Override
 	public String stateToTEXT() {
-		// TODO (zeilinger) - Auto-generated method stub
-		return null;
+		String text ="";
+		
+		text += toText.valueToTEXT("moInput", moInput);	
+		text += toText.valueToTEXT("moOutput", moOutput);		
+				
+		return text;
 	}
 	
 	/* (non-Javadoc)
@@ -107,7 +114,8 @@ public class F49_PrimalRepressionForDrives extends clsModuleBase
 	 */
 	@Override
 	protected void process_basic() {
-		// TODO (zeilinger) - Auto-generated method stub
+		//moOutput =  deepCopy(moInput); 
+		moOutput = new ArrayList<clsPair<clsPhysicalRepresentation, clsDriveMesh>>();
 		
 	}
 
@@ -146,7 +154,7 @@ public class F49_PrimalRepressionForDrives extends clsModuleBase
 	 */
 	@Override
 	protected void send() {
-		send_I5_2(new ArrayList<clsPair<clsPhysicalRepresentation,clsDriveMesh>>());
+		send_I5_2(moOutput);
 	}
 
 	/* (non-Javadoc)

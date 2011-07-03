@@ -20,6 +20,7 @@ import pa._v38.memorymgmt.datatypes.clsDriveMesh;
 import pa._v38.memorymgmt.datatypes.clsPhysicalRepresentation;
 import pa._v38.memorymgmt.datatypes.clsPrimaryDataStructureContainer;
 import pa._v38.tools.clsPair;
+import pa._v38.tools.toText;
 import config.clsBWProperties;
 
 /**
@@ -39,6 +40,8 @@ public class F57_MemoryTracesForDrives extends clsModuleBaseKB
 	private ArrayList<clsPrimaryDataStructureContainer> moAssociatedMemories_IN;	//AW 20110621: Associated Memories
 	@SuppressWarnings("unused")
 	private ArrayList<clsDriveMesh> moDriveCandidates;
+	
+	private  ArrayList<clsPair<clsPhysicalRepresentation,clsDriveMesh>> moDrivesAndTraces_OUT;
 	
 	/**
 	 * DOCUMENT (zeilinger) - insert description 
@@ -86,8 +89,11 @@ public class F57_MemoryTracesForDrives extends clsModuleBaseKB
 	 */
 	@Override
 	public String stateToTEXT() {
-		// TODO (zeilinger) - Auto-generated method stub
-		return null;
+		String text ="";
+		text += toText.valueToTEXT("moAssociatedMemories_IN", moAssociatedMemories_IN);	
+		text += toText.valueToTEXT("moEnvironmentalPerception_IN", moEnvironmentalPerception_IN);
+		text += toText.valueToTEXT("moDriveCandidates", moDriveCandidates);
+		return text;
 	}
 	
 	/* (non-Javadoc)
@@ -96,6 +102,12 @@ public class F57_MemoryTracesForDrives extends clsModuleBaseKB
 	 * 04.05.2011, 09:07:36
 	 * 
 	 * @see pa._v38.interfaces.modules.I5_7_receive#receive_I5_7(java.util.ArrayList)
+	 */
+	@SuppressWarnings("unchecked")
+	/* Comment TD from Mail: also deepCopy ist ganz ganz ganz ganz ganz … ganz böses voodoo. 
+	 * In diesem fall ist das problem, dass du 2 cast in einem machst/machen mußt. 
+	 * Und der ist so nicht checkbar (afaik). In diesem fall einfach suppresswarning machen 
+	 * (ist bei deepcopy nicht schlimm – kommt innerhalb der funktion dauernd vor).
 	 */
 	@Override
 	public void receive_I5_7(clsPrimaryDataStructureContainer poEnvironmentalTP, ArrayList<clsPrimaryDataStructureContainer> poAssociatedMemories) {
@@ -125,7 +137,9 @@ public class F57_MemoryTracesForDrives extends clsModuleBaseKB
 	 */
 	@Override
 	protected void process_basic() {
-		// TODO (zeilinger) - Auto-generated method stub
+		// TODO (implement me with the real functionality
+		moDrivesAndTraces_OUT =  deepCopy(moDriveCandidates); 
+		
 		
 	}
 
@@ -164,7 +178,7 @@ public class F57_MemoryTracesForDrives extends clsModuleBaseKB
 	 */
 	@Override
 	protected void send() {
-		send_I5_1(new ArrayList<clsPair<clsPhysicalRepresentation,clsDriveMesh>>());
+		send_I5_1(moDrivesAndTraces_OUT);
 	}
 
 	/* (non-Javadoc)

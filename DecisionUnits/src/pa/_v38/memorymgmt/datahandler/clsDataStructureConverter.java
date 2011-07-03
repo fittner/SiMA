@@ -159,7 +159,7 @@ public class clsDataStructureConverter {
 			}
 			
 		}
-		clsTripple<String, ArrayList<clsPhysicalRepresentation>, Object> oContent = new clsTripple<String, ArrayList<clsPhysicalRepresentation>, Object>(eDataType.TI.toString(), oDataStructures, "CONSTRUCTED_PERCEPTION");
+		clsTripple<String, ArrayList<clsPhysicalRepresentation>, Object> oContent = new clsTripple<String, ArrayList<clsPhysicalRepresentation>, Object>("PERCEIVEDIMAGE", oDataStructures, "PERCEPTION");
 		clsTemplateImage oConstructedImage = (clsTemplateImage)clsDataStructureGenerator.generateTI(oContent);
 		
 		clsPrimaryDataStructureContainer oRetVal = new clsPrimaryDataStructureContainer(oConstructedImage, oNewContainerAssociations);

@@ -21,6 +21,7 @@ import pa._v38.memorymgmt.datatypes.clsThingPresentation;
 import pa._v38.memorymgmt.enums.eDataType;
 import pa._v38.storage.clsBlockedContentStorage;
 import pa._v38.tools.clsPair;
+import pa._v38.tools.toText;
 import config.clsBWProperties;
 
 /**
@@ -83,8 +84,10 @@ public class F54_EmersionOfBlockedDriveContent extends clsModuleBase
 	 */
 	@Override
 	public String stateToTEXT() {
-		// TODO (zeilinger) - Auto-generated method stub
-		return null;
+		String text ="";
+		text += toText.valueToTEXT("moInput", moInput);
+		text += toText.valueToTEXT("moDrives", moDrives);
+		return text;
 	}
 	
 	/* (non-Javadoc)

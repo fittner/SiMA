@@ -21,7 +21,6 @@ import pa._v38.interfaces.modules.I6_9_receive;
 import pa._v38.memorymgmt.datatypes.clsAssociationDriveMesh;
 import pa._v38.memorymgmt.datatypes.clsPrimaryDataStructureContainer;
 import pa._v38.memorymgmt.datatypes.clsSecondaryDataStructureContainer;
-import pa._v38.memorymgmt.datatypes.clsWordPresentation;
 
 /**
  * DOCUMENT (deutsch) - insert description 
@@ -262,7 +261,7 @@ public class F20_InnerPerception_Affects extends clsModuleBase implements
 	 * @see pa._v38.interfaces.modules.I6_9_receive#receive_I6_9(java.util.ArrayList)
 	 */
 	@Override
-	public void receive_I6_9(ArrayList<clsWordPresentation> poActionCommands) {
+	public void receive_I6_9(ArrayList<clsSecondaryDataStructureContainer> poActionCommands) {
 		// TODO (zeilinger) - Auto-generated method stub
 		
 	}	
