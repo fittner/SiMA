@@ -6,6 +6,8 @@
  */
 package pa._v38.memorymgmt.datatypes;
 
+import java.util.ArrayList;
+
 /**
  * DOCUMENT (perner) - representation of an action plan <BR> 
  * holds several PlanFragments 
@@ -16,6 +18,8 @@ package pa._v38.memorymgmt.datatypes;
  */
 public class clsActionPlan {
 	
+	private ArrayList<clsPlanFragment> m_listPlanFragments;
+	
 	/**
 	 * DOCUMENT (perner) - insert description 
 	 *
@@ -24,6 +28,10 @@ public class clsActionPlan {
 	 */
 	public clsActionPlan() {
 		// TODO (perner) - Auto-generated constructor stub
+	}
+
+	public clsActionPlan(ArrayList<clsPlanFragment> planFr) {
+		m_listPlanFragments = planFr;
 	}
 
 }
