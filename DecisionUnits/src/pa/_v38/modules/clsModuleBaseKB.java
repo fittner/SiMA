@@ -102,9 +102,6 @@ public abstract class clsModuleBaseKB extends clsModuleBase {
 			}
 	}
 	
-	
-	
-	
 	/**
 	 * DOCUMENT (wendt) - insert description
 	 *
@@ -121,10 +118,15 @@ public abstract class clsModuleBaseKB extends clsModuleBase {
 	public void search(
 			clsDataStructureContainer poPattern,
 			ArrayList<clsPair<Double, clsDataStructureContainer>> poSearchResult) {
-		
-		clsPair<Integer, clsDataStructureContainer> oSearchPattern = new clsPair<Integer, clsDataStructureContainer>(eDataType.UNDEFINED.nBinaryValue, poPattern); 
+
 		//createSearchPattern(poPattern, oSearchPattern);	//Create a pattern, search for type, poDataType 4096=TP, Input-Container
-		accessKnowledgeBase(poSearchResult, oSearchPattern); 
+		if (poPattern!=null)  {
+			clsPair<Integer, clsDataStructureContainer> oSearchPattern = new clsPair<Integer, clsDataStructureContainer>(eDataType.UNDEFINED.nBinaryValue, poPattern); 
+			accessKnowledgeBase(poSearchResult, oSearchPattern); 
+		} else {
+			poSearchResult = new ArrayList<clsPair<Double, clsDataStructureContainer>>();
+		}
+			
 	}
 	
 	/* (non-Javadoc)
@@ -141,9 +143,9 @@ public abstract class clsModuleBaseKB extends clsModuleBase {
 	}
 	
 	//AW 20110629: New function for searching one total container
-	public void accessKnowledgeBase(ArrayList<clsPair<Double,clsDataStructureContainer>> poSearchResultx,
+	public void accessKnowledgeBase(ArrayList<clsPair<Double,clsDataStructureContainer>> poSearchResult,
 			clsPair<Integer, clsDataStructureContainer> poSearchPattern) {		
-		//poSearchResultx.addAll(moKnowledgeBaseHandler.initMemorySearch(poSearchPattern));
+		poSearchResult.addAll(moKnowledgeBaseHandler.initMemorySearch(poSearchPattern));
 	}
 
 	public clsKnowledgeBaseHandler getKnowledgeBaseHandler() {
