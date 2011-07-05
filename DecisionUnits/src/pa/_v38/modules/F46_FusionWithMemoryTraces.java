@@ -9,7 +9,6 @@ package pa._v38.modules;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.SortedMap;
-
 import pa._v38.tools.clsGlobalFunctions;
 import pa._v38.tools.clsPair;
 import pa._v38.tools.clsTripple;
@@ -135,15 +134,91 @@ public class F46_FusionWithMemoryTraces extends clsModuleBaseKB implements
 		/* Perception - Activation of associated memories */
 		moAssociatedMemories_OUT = retrieveActivatedMemories(moEnvironmentalPerception_OUT, moReturnedTPMemory_IN);
 		
+
+		ArrayList<clsPrimaryDataStructureContainer> oContainerList = new ArrayList<clsPrimaryDataStructureContainer>(); 
+ 		//oContainerList = clsDataStructureConverter.convertTIContToTPMCont(moEnvironmentalPerception_IN); 
 		
+		assignDriveMeshes(oContainerList);
+		/* The context of a certain drive or object is loaded, in the case of CAKE, it is NOURISH. If the drive 
+		 * NOURISH is found in the objects the categories (anal, oral...) is multiplied with a category factor <= 1
+		 * In case of a 100% match, the factor is 1.0.
+		 */
+		
+	    addValues(oContainerList);	
 		//****** New Data structures Don't delete AW 20110424 *********
 		//UNIT-Tests for the converters
 		//clsPrimaryDataStructureContainer oTest = clsDataStructureConverter.convertTPMContToTICont(moEnvironmentalPerception_OUT);
 		//ArrayList<clsPrimaryDataStructureContainer> oTest2 = clsDataStructureConverter.convertTIContToTPMCont(oTest);
 		/* Post-Processing */
-		
 		//Function: Update association weights after activation (first step to individual mind) 
 		
+		attachFantasies(oContainerList);
+		//Fantasiertes wird an die TP (Sachvorstellungen) angehängt
+		
+	}
+	
+	
+
+	/**
+	 * DOCUMENT (hinterleitner) - insert description
+	 *
+	 * @since 28.06.2011 14:32:48
+	 *
+	 * @param oContainerList
+	 */
+	private void attachFantasies(
+			ArrayList<clsPrimaryDataStructureContainer> oContainerList) {
+		// TODO (hinterleitner) - Auto-generated method stub
+		
+	}
+
+	/**
+	 * DOCUMENT (hinterleitner) - insert description
+	 *
+	 * @since 28.06.2011 14:32:45
+	 *
+	 * @param oContainerList
+	 */
+	private void addValues(
+			ArrayList<clsPrimaryDataStructureContainer> oContainerList) {
+		// TODO (hinterleitner) - Auto-generated method stub
+		
+	}
+	
+	/**
+	 * DOCUMENT (hinterleitner) - insert description
+	 *
+	 * @since 28.06.2011 14:18:54
+	 *
+	 * @param oContainerList
+	 */
+	private void assignDriveMeshes(ArrayList<clsPrimaryDataStructureContainer> poContainerList) {
+		ArrayList<ArrayList<clsPair<Double,clsDataStructureContainer>>> oSearchResult = 
+			new ArrayList<ArrayList<clsPair<Double,clsDataStructureContainer>>>(); 
+	
+		/*Search for associated Drive Meshes with the parameter Datatype=DM, poContainerlist with the objects and
+		*their associations and put the result in oSearchResult, which consists of the original objects from 
+		*poContainerlist and for each object all assigned DM. The DM also have a weight, which is always set=1
+		*/
+		search(eDataType.DM, poContainerList, oSearchResult); 
+		/*This function takes the associated DM from oSeachResult and adds them to the corresponding
+		 * poContainerList in the associated Objects (not in the TPM)
+		 */
+		addAssociations(poContainerList, oSearchResult);  
+	}
+	
+	private void addAssociations(ArrayList<clsPrimaryDataStructureContainer> poContainerList, ArrayList<ArrayList<clsPair<Double, clsDataStructureContainer>>> poSearchResult) {
+		
+		//oEntry: Data structure with a double association weigth and an object e. g. CAKE with its associated DM.
+		for(ArrayList<clsPair<Double, clsDataStructureContainer>> oEntry : poSearchResult){
+			if(oEntry.size() > 0){
+				//get associated DM from a the object e. g. CAKE
+				ArrayList <clsAssociation> oAssociationList = oEntry.get(0).b.getMoAssociatedDataStructures();
+				//Add associated DM to the input list. Now the list moAssociatedDataStructures contains DM and ATTRIBUTES
+				poContainerList.get(poSearchResult.indexOf(oEntry)).getMoAssociatedDataStructures().addAll(oAssociationList); 
+				
+			}
+		}
 	}
 
 	/* (non-Javadoc)

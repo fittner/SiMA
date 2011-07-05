@@ -19,7 +19,7 @@ import pa._v38.memorymgmt.datatypes.clsPhysicalRepresentation;
 import pa._v38.memorymgmt.datatypes.clsPrimaryDataStructureContainer;
 import pa._v38.storage.clsBlockedContentStorage;
 import pa._v38.tools.clsPair;
-import pa._v38.tools.toText;
+//import pa._v38.tools.toText;
 import config.clsBWProperties;
 
 /**
@@ -85,8 +85,6 @@ public class F56_Desexualization_Neutralization extends clsModuleBase
 	@Override
 	public String stateToTEXT() {
 		String text ="";
-		text += toText.valueToTEXT("moBlockedContentStorage", moBlockedContentStorage);
-		text += toText.listToTEXT("moAttachedRepressed_Output", moAttachedRepressed_Output);
 		return null;
 	}
 	
@@ -114,7 +112,11 @@ public class F56_Desexualization_Neutralization extends clsModuleBase
 	 */
 	@Override
 	protected void process_basic() {
-		moDrives_OUT = moDrives_IN; 
+		moDrives_OUT = moDrives_IN;
+		moDrives_IN.get(mnTest);
+		//System.out.println(moBlockedContentStorage);
+		//System.out.println(moAttachedRepressed_Output);
+		//System.out.println(mnTest);
 		
 	//	ArrayList<clsPrimaryDataStructureContainer> oContainerList = new ArrayList<clsPrimaryDataStructureContainer>(); 
 		
