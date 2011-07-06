@@ -148,7 +148,12 @@ public class clsSimplePropertyLoader extends clsLoader {
 	
     /**
      * Provides the default entries for this class. See config.clsBWProperties in project DecisionUnitInterface.
-     */	    
+     *
+     * @since 06.07.2011 13:01:59
+     *
+     * @param poPrefix
+     * @return
+     */
     private static clsBWProperties getEntityDefaults(String poPrefix) {
 		String pre = clsBWProperties.addDot(poPrefix);
 		

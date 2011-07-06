@@ -1,16 +1,14 @@
+/**
+ * CHANGELOG
+ * 
+ * 2011/07/06 TD - added javadoc comments. code sanitation.
+ */
 package decisionunit;
 import config.clsBWProperties;
 import du.enums.eDecisionType;
 import du.itf.itfDecisionUnit;
 import du.itf.itfDecisionUnitFactory;
 import decisionunit.clsBaseDecisionUnit;
-
-/**
- * DecisionUnitFactory.java: DecisionUnits - 
- * 
- * @author deutsch
- * 06.05.2010, 16:53:19
- */
 
 /**
  * DOCUMENT (deutsch) - insert description 
@@ -20,12 +18,17 @@ import decisionunit.clsBaseDecisionUnit;
  * 
  */
 public class clsDecisionUnitFactory implements itfDecisionUnitFactory {
-	/* (non-Javadoc)
+	/**
+	 * Create a decision unit according to the provided params.
 	 *
-	 * @author deutsch
-	 * 10.05.2010, 16:46:19
-	 * 
-	 * @see decisionunit.itfDecisionUnitFactory#createDecisionUnit(du.utils.enums.eDecisionType, java.lang.String, config.clsBWProperties)
+	 * @since 06.07.2011 13:11:04
+	 *
+	 * @param nDecisionType the type of the decision unit. @see eDecisionType
+	 * @param poPrefix prefix of the entries in the property object.
+	 * @param poProp the property object.
+	 * @param uid the unique identifier for the agent. is provided to the body and the decision unit to ease debugging and logging.
+	 * @return a fresh instance of the selected decision unit.
+	 * @throws java.lang.IllegalArgumentException
 	 */
 	@Override
 	public itfDecisionUnit createDecisionUnit(eDecisionType nDecisionType,
@@ -33,6 +36,18 @@ public class clsDecisionUnitFactory implements itfDecisionUnitFactory {
 		return createDecisionUnit_static(nDecisionType, poPrefix, poProp, uid);
 	}
 
+	/**
+	 * Does the work for createDecisionUnit. 
+	 *
+	 * @since 06.07.2011 13:15:01
+	 *
+	 * @param nDecisionType the type of the decision unit. @see eDecisionType
+	 * @param poPrefix prefix of the entries in the property object.
+	 * @param poProp the property object.
+	 * @param uid the unique identifier for the agent. is provided to the body and the decision unit to ease debugging and logging.
+	 * @return a fresh instance of the selected decision unit.
+	 * @throws java.lang.IllegalArgumentException
+	 */
 	public static itfDecisionUnit createDecisionUnit_static(eDecisionType nDecisionType,
 				String poPrefix, clsBWProperties poProp, int uid) throws java.lang.IllegalArgumentException {		
 		clsBaseDecisionUnit oDecisionUnit = null;
@@ -79,6 +94,16 @@ public class clsDecisionUnitFactory implements itfDecisionUnitFactory {
 		return (itfDecisionUnit) oDecisionUnit;
 	}
 
+	/**
+	 * Provides the default entries for the selected decision unit type. See config.clsBWProperties in project DecisionUnitInterface.
+	 *
+	 * @since 06.07.2011 13:15:54
+	 *
+	 * @param nDecisionType
+	 * @param poPrefix
+	 * @return
+	 * @throws java.lang.IllegalArgumentException
+	 */
 	public static clsBWProperties getDefaultProperties(eDecisionType nDecisionType, String poPrefix) throws java.lang.IllegalArgumentException {
 		clsBWProperties oProps = null;
 		

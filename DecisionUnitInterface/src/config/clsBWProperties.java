@@ -27,7 +27,7 @@ import java.util.regex.Matcher;
  * clsBWProperties is a specialization of the java.util.Properties class. 
  * 
  * Next to the regular functionalities, include of other property files and generation of random numbers for values is supported. In the bw project 
- * exists a singleton �bw.factories.clsPropertiesGetter�. It provides access to the properties and should be filled with an instance of 
+ * exists a singleton bw.factories.clsPropertiesGetter. It provides access to the properties and should be filled with an instance of 
  * clsBWProperties as soon as possible. Currently, this is done in the constructor sim.creation.clsLoader. 
  * 
  * Currently, the following list of values is supported by clsBWProperties: String, boolean, int, float, double, semicolon 
