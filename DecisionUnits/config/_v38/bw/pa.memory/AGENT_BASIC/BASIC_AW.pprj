@@ -1,4 +1,4 @@
-; Fri Jul 01 13:38:09 GMT 2011
+; Sun Jul 03 17:57:06 GMT 2011
 ; 
 ;+ (version "3.4.4")
 ;+ (build "Build 579")
@@ -45,64 +45,196 @@
 ([ARSi10rv3_ProjectKB_Class10263] of  Property_List
 )
 
-([BASIC_AW_ProjectKB_Class25] of  String
+([BASIC_AW_ProjectKB_Class10] of  Property_List
+)
+
+([BASIC_AW_ProjectKB_Class10189] of  String
 
 	(name ":INSTANCE-ANNOTATION")
 	(string_value "%3AANNOTATION-TEXT"))
 
-([BASIC_AW_ProjectKB_Class26] of  String
+([BASIC_AW_ProjectKB_Class10190] of  String
 
 	(name ":META-CLASS")
 	(string_value "%3ANAME"))
 
-([BASIC_AW_ProjectKB_Class27] of  String
+([BASIC_AW_ProjectKB_Class10191] of  String
 
 	(name "ANTENNA_LEFT")
 	(string_value "instance_association"))
 
-([BASIC_AW_ProjectKB_Class28] of  String
+([BASIC_AW_ProjectKB_Class10192] of  String
 
 	(name ":PAL-CONSTRAINT")
 	(string_value "%3APAL-NAME"))
 
-([BASIC_AW_ProjectKB_Class29] of  Map_Entry
+([BASIC_AW_ProjectKB_Class10193] of  Map_Entry
 
 	(key "suppress_instance_counting")
 	(key_class "java.lang.String")
 	(value "false")
 	(value_class "java.lang.String"))
 
-([BASIC_AW_ProjectKB_Class30] of  Map_Entry
+([BASIC_AW_ProjectKB_Class10194] of  Map_Entry
 
 	(key "change_tracking_active")
 	(key_class "java.lang.String")
 	(value "false")
 	(value_class "java.lang.String"))
 
-([BASIC_AW_ProjectKB_Class31] of  Map_Entry
+([BASIC_AW_ProjectKB_Class10195] of  Map_Entry
 
 	(key "add_name_on_instance_form")
 	(key_class "java.lang.String")
 	(value "false")
 	(value_class "java.lang.String"))
 
-([BASIC_AW_ProjectKB_Class32] of  Map
+([BASIC_AW_ProjectKB_Class10196] of  Map
 )
 
-([BASIC_AW_ProjectKB_Class33] of  Map_Entry
+([BASIC_AW_ProjectKB_Class10197] of  Map_Entry
 
 	(key "InstanceDisplay.yellow_stickies")
 	(key_class "java.lang.String")
-	(value "BASIC_AW_ProjectKB_Class32")
+	(value "BASIC_AW_ProjectKB_Class10196")
 	(value_class "java.util.Map"))
+
+([BASIC_AW_ProjectKB_Class11] of  Widget
+
+	(height 60)
+	(is_hidden FALSE)
+	(name ":NAME")
+	(property_list [BASIC_AW_ProjectKB_Class12])
+	(widget_class_name "edu.stanford.smi.protege.widget.InstanceNameWidget")
+	(width 200)
+	(x 0)
+	(y 0))
+
+([BASIC_AW_ProjectKB_Class12] of  Property_List
+)
+
+([BASIC_AW_ProjectKB_Class13] of  Widget
+
+	(height 120)
+	(is_hidden FALSE)
+	(name "instance_association")
+	(property_list [BASIC_AW_ProjectKB_Class14])
+	(widget_class_name "edu.stanford.smi.protege.widget.InstanceListWidget")
+	(width 200)
+	(x 200)
+	(y 120))
+
+([BASIC_AW_ProjectKB_Class14] of  Property_List
+
+	(properties
+		[BASIC_AW_ProjectKB_Class15]
+		[BASIC_AW_ProjectKB_Class16]))
+
+([BASIC_AW_ProjectKB_Class15] of  Boolean
+
+	(boolean_value FALSE)
+	(name "ButtonDisplayed-View References to Value"))
+
+([BASIC_AW_ProjectKB_Class16] of  Boolean
+
+	(boolean_value FALSE)
+	(name "ButtonDisplayed-Delete Instance"))
+
+([BASIC_AW_ProjectKB_Class17] of  Widget
+
+	(height 120)
+	(is_hidden FALSE)
+	(name "class_association")
+	(property_list [BASIC_AW_ProjectKB_Class18])
+	(widget_class_name "edu.stanford.smi.protege.widget.InstanceListWidget")
+	(width 200)
+	(x 200)
+	(y 0))
+
+([BASIC_AW_ProjectKB_Class18] of  Property_List
+
+	(properties
+		[BASIC_AW_ProjectKB_Class19]
+		[BASIC_AW_ProjectKB_Class20]))
+
+([BASIC_AW_ProjectKB_Class19] of  Boolean
+
+	(boolean_value FALSE)
+	(name "ButtonDisplayed-View References to Value"))
+
+([BASIC_AW_ProjectKB_Class20] of  Boolean
+
+	(boolean_value FALSE)
+	(name "ButtonDisplayed-Delete Instance"))
+
+([BASIC_AW_ProjectKB_Class21] of  Widget
+
+	(height 60)
+	(is_hidden FALSE)
+	(name "type")
+	(property_list [BASIC_AW_ProjectKB_Class22])
+	(widget_class_name "edu.stanford.smi.protege.widget.TextFieldWidget")
+	(width 200)
+	(x 0)
+	(y 60))
+
+([BASIC_AW_ProjectKB_Class22] of  Property_List
+)
+
+([BASIC_AW_ProjectKB_Class23] of  Widget
+
+	(height 60)
+	(is_hidden FALSE)
+	(name "value_type")
+	(property_list [BASIC_AW_ProjectKB_Class24])
+	(widget_class_name "edu.stanford.smi.protege.widget.TextFieldWidget")
+	(width 200)
+	(x 0)
+	(y 180))
+
+([BASIC_AW_ProjectKB_Class24] of  Property_List
+)
+
+([BASIC_AW_ProjectKB_Class6] of  Widget
+
+	(is_hidden FALSE)
+	(name "MEMORY")
+	(property_list [BASIC_AW_ProjectKB_Class7])
+	(widget_class_name "edu.stanford.smi.protege.widget.FormWidget"))
+
+([BASIC_AW_ProjectKB_Class7] of  Property_List
+
+	(properties
+		[BASIC_AW_ProjectKB_Class8]
+		[BASIC_AW_ProjectKB_Class9]
+		[BASIC_AW_ProjectKB_Class11]
+		[BASIC_AW_ProjectKB_Class13]
+		[BASIC_AW_ProjectKB_Class17]
+		[BASIC_AW_ProjectKB_Class21]
+		[BASIC_AW_ProjectKB_Class23]))
+
+([BASIC_AW_ProjectKB_Class8] of  Property_List
+
+	(name "layout properties"))
+
+([BASIC_AW_ProjectKB_Class9] of  Widget
+
+	(height 60)
+	(is_hidden FALSE)
+	(name "value")
+	(property_list [BASIC_AW_ProjectKB_Class10])
+	(widget_class_name "edu.stanford.smi.protege.widget.TextFieldWidget")
+	(width 200)
+	(x 0)
+	(y 120))
 
 ([BROWSER_SLOT_NAMES] of  Property_List
 
 	(properties
-		[BASIC_AW_ProjectKB_Class25]
-		[BASIC_AW_ProjectKB_Class26]
-		[BASIC_AW_ProjectKB_Class27]
-		[BASIC_AW_ProjectKB_Class28]))
+		[BASIC_AW_ProjectKB_Class10189]
+		[BASIC_AW_ProjectKB_Class10190]
+		[BASIC_AW_ProjectKB_Class10191]
+		[BASIC_AW_ProjectKB_Class10192]))
 
 ([CLSES_TAB] of  Widget
 
@@ -147,9 +279,6 @@
 	(is_hidden FALSE)
 	(widget_class_name "edu.stanford.smi.protege.widget.InstancesTab"))
 
-([KB_528404_Class5] of  Map
-)
-
 ([KB_610615_Class0] of  String
 
 	(name "factory_class_name")
@@ -158,11 +287,11 @@
 ([KB_610615_Class1] of  Map
 
 	(entries
-		[BASIC_AW_ProjectKB_Class29]
-		[BASIC_AW_ProjectKB_Class30]
-		[BASIC_AW_ProjectKB_Class31]
-		[BASIC_AW_ProjectKB_Class33])
-	(referenced_maps [BASIC_AW_ProjectKB_Class32]))
+		[BASIC_AW_ProjectKB_Class10193]
+		[BASIC_AW_ProjectKB_Class10194]
+		[BASIC_AW_ProjectKB_Class10195]
+		[BASIC_AW_ProjectKB_Class10197])
+	(referenced_maps [BASIC_AW_ProjectKB_Class10196]))
 
 ([KB_610615_Class10] of  Property_List
 )
@@ -614,6 +743,9 @@
 )
 
 ([KB_610615_Class99] of  Property_List
+)
+
+([KB_734889_Class5] of  Map
 )
 
 ([LAYOUT_PROPERTIES] of  Property_List
