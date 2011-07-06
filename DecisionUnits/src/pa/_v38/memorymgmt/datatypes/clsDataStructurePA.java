@@ -20,11 +20,27 @@ import pa._v38.memorymgmt.enums.eDataType;
  * 23.05.2010, 21:40:06
  * 
  */
+/**
+ * DOCUMENT (wendt) - insert description 
+ * 
+ * @author wendt
+ * 06.07.2011, 10:59:56
+ * 
+ */
 public abstract class clsDataStructurePA implements Cloneable, itfComparable{
 
 	protected int moDS_ID;
 	protected eDataType moDataStructureType;
 	protected String moContentType;
+	//AW 20110706: New Identifier for instances
+	/*As there are no possibility to identify a root element with a unique key, an instance ID have to be used
+	 * in order to be able to assign the root elements in the associated data structures in the containers with
+	 * the elements within a data structure within a container. A normal object comparison with "equal" does not
+	 * work as deepcopy does not keep instance relations in the associations
+	 * 
+	 * A more efficient alternative would be to dispose the containers and to use real PA structures instead...
+	 */
+	protected int moDSInstance_ID;
 
 	/**
 	 * DOCUMENT (zeilinger) - insert description 
@@ -37,6 +53,9 @@ public abstract class clsDataStructurePA implements Cloneable, itfComparable{
 		moDS_ID = poDataStructureIdentifier.a; 
 		moDataStructureType = poDataStructureIdentifier.b;
 		moContentType = poDataStructureIdentifier.c; 
+		
+		//All new structures are initialized with 0
+		moDSInstance_ID = 0;
 	}
 		
 //	/**
@@ -140,6 +159,20 @@ public abstract class clsDataStructurePA implements Cloneable, itfComparable{
 		this.moContentType = moContentType;
 	}
 	
+	public int getMoDSInstance_ID() {
+		return moDSInstance_ID;
+	}
+
+	/**
+	 * @author zeilinger
+	 * 17.03.2011, 00:55:43
+	 * 
+	 * @param moDS_ID the moDS_ID to set
+	 */
+	public void setMoDSInstance_ID(int moDSInstance_ID) {
+		this.moDSInstance_ID = moDSInstance_ID;
+	}
+	
 	/**
 	 * DOCUMENT (zeilinger) - insert description
 	 *
@@ -150,45 +183,85 @@ public abstract class clsDataStructurePA implements Cloneable, itfComparable{
 	 * @param oContentListUnknown
 	 * @return
 	 */
-	protected <E extends clsDataStructurePA> double getMatchScore(ArrayList<E> poContentListTemplate,ArrayList<E> poContentListUnknown) {
-		double oMatchScore	 = 0.0;
+	//AW 20110703: The previous function
+	protected <E extends clsDataStructurePA> double getMatchScore(ArrayList<E> poContentListTemplate, ArrayList<E> poContentListUnknown) {
+		return getMatchScore(poContentListTemplate, poContentListUnknown, false); 
+	}
+	
+	//AW 20110703: Function extended, in order to compare specializations with generalizations
+	
+	//Vergleiche CONTENT UND CONTENT TYPE und wenn sie gleich sind ist Spezialisierungsvergleich erlaubt.
+	protected <E extends clsDataStructurePA> double getMatchScore(ArrayList<E> poContentListTemplate, ArrayList<E> poContentListUnknown, boolean bMatchSpecialization) {
+		double oMatchScore = 0.0;
+		double oMatchScoreNorm = 0.0;
 		double rMatchScoreTemp = 0.0;
 		List<E> oClonedTemplateList = this.cloneList(poContentListTemplate); 
+		int nAssociationCount = poContentListUnknown.size(); 
 		
-		for(E oUnknownDS : poContentListUnknown){
-			/*oMatch defines an object of clsPair that contains the match-score (Double value) between two objects (moAssociationElementB of 
-			 * oAssociationUnknown and oAssociationTemplate) and the entry number where the best matching element is found in 
-			 * oClonedTemplateList. After it is selected as best match it is removed from the list in order to admit that the 
-			 * association element of the next association in poContentListUnknown is compared again with the same element.*/
-			clsPair <Double, Integer> oMatch = new clsPair<Double, Integer>(0.0,-1);
+		//The unknown data structures are searched in the known data structures.
+		//If an unknown data structure is not found in the known data structures, the match is 0, i. e. if the 
+		//more specialized data structure is not found in the generalized data structure, the return value is 0.
+		//Example: CAKE is compared with ENTITY: CAKE is an ENTITY -> Match 1.0.
+		//Function CAKE.getMatchScore(ENTITY) = 1.0
+		//Function ENTITY.getMatchScore(CAKE) = 0.0, i.e. the attributes of the CAKE shall be found in ENTITY
+		
+		//An attribute is considered as found, if they share the same CONTENTTYPE
+		//oProp.setProperty(pre+P_SOURCE_NAME, "/DecisionUnits/config/_v38/bw/pa.memory/AGENT_BASIC/BASIC_AW.pprj"); in clsInformationRepresentationManager.java
+		
+			for(E oUnknownDS : poContentListUnknown){
+				/*oMatch defines an object of clsPair that contains the match-score (Double value) between two objects (moAssociationElementB of 
+				 * oAssociationUnknown and oAssociationTemplate) and the entry number where the best matching element is found in 
+				 * oClonedTemplateList. After it is selected as best match it is removed from the list in order to admit that the 
+				 * association element of the next association in poContentListUnknown is compared again with the same element.*/
+				clsPair <Double, Integer> oMatch = new clsPair<Double, Integer>(0.0,-1);
+				boolean bAttributeFound = false;	//Default is false. At first find, it is true
 					
-			for(E oClonedKnownDS : oClonedTemplateList){
+				for(E oClonedKnownDS : oClonedTemplateList){
+					//Check if data attribute was found 
+					if (oUnknownDS.moContentType.equals(oClonedKnownDS.moContentType)) {
+						bAttributeFound = true;
+					}
 				
-				if( oClonedKnownDS instanceof clsAssociation ){
-					rMatchScoreTemp = ((clsAssociation)oClonedKnownDS).moAssociationElementB.compareTo(((clsAssociation)oUnknownDS).moAssociationElementB) * ((clsAssociation)oClonedKnownDS).mrImperativeFactor; 
+					//Check data types
+					if( oClonedKnownDS instanceof clsAssociation ){
+						rMatchScoreTemp = ((clsAssociation)oClonedKnownDS).moAssociationElementB.compareTo(((clsAssociation)oUnknownDS).moAssociationElementB) * ((clsAssociation)oClonedKnownDS).mrImperativeFactor; 
+					}
+					else if (oClonedKnownDS instanceof clsSecondaryDataStructure){
+						rMatchScoreTemp = oClonedKnownDS.compareTo(oUnknownDS);
+					}
+					else {
+						throw new UnknownError( "Data structure type for comparison not useable" ); 
+					}
+				
+					if(rMatchScoreTemp > oMatch.a){ 
+						oMatch.a = rMatchScoreTemp; 
+						oMatch.b = oClonedTemplateList.indexOf(oClonedKnownDS);
+					}
 				}
-				else if (oClonedKnownDS instanceof clsSecondaryDataStructure){
-					rMatchScoreTemp = oClonedKnownDS.compareTo(oUnknownDS);
-				}
-				else {
-					throw new UnknownError( "Data structure type for comparison not useable" ); 
+				//If the searched attribute was not found, the association counts as fulfilled, here option is added
+				if (bAttributeFound==false && bMatchSpecialization==true) {
+					oMatch.a = 1.0;
 				}
 				
-				if(rMatchScoreTemp > oMatch.a){ 
-					oMatch.a = rMatchScoreTemp; 
-					oMatch.b = oClonedTemplateList.indexOf(oClonedKnownDS);
-				}
-			}
-			//Sums up the match score; Takes always the highest possible score 
-			oMatchScore += oMatch.a;
+				//Sums up the match score; Takes always the highest possible score 
+				oMatchScore += oMatch.a;
 			
-			if(oMatch.a > 0.0){
-				try{
-					oClonedTemplateList.remove((int)oMatch.b);
-				}catch(Exception e){System.out.println("oMatch.b was set to an incorrect value " + e.toString());}
-			} 
+				if(oMatch.a > 0.0){
+					try{
+						oClonedTemplateList.remove((int)oMatch.b);
+					}catch(Exception e){System.out.println("oMatch.b was set to an incorrect value " + e.toString());}
+				}
+			
+			//Norm the output
+			if (nAssociationCount>0) {
+				oMatchScoreNorm = oMatchScore/nAssociationCount;
+			} else {
+				oMatchScoreNorm = 0;
+			}
 		}
-		return oMatchScore;
+		
+		//return oMatchScore;
+		return oMatchScoreNorm;
 	}
 
 	/**

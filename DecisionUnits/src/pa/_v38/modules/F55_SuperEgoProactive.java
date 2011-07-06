@@ -34,7 +34,6 @@ public class F55_SuperEgoProactive extends clsModuleBase
 		implements I5_4_receive, I5_5_send, I5_12_send, I5_14_send{
 
 	public static final String P_MODULENUMBER = "55";
-	@SuppressWarnings("unused")
 	private ArrayList<clsPair<clsPhysicalRepresentation, clsDriveMesh>> moDrives_IN;
 	private ArrayList<clsPair<clsPhysicalRepresentation, clsDriveMesh>> moDrives_OUT;
 	/**
@@ -113,6 +112,7 @@ public class F55_SuperEgoProactive extends clsModuleBase
 	@Override
 	protected void process_basic() {
 		// TODO (zeilinger) - Auto-generated method stub
+		moDrives_OUT = moDrives_IN;
 		
 	}
 

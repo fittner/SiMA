@@ -108,9 +108,18 @@ public class clsTemplateImage extends clsPhysicalStructureComposition{
 	 */
 	@Override
 	public double compareTo(clsDataStructurePA poDataStructure) {
-		double oRetVal = 0.0; 
+		/* Comparisons
+		 * 1. Unequal DataStructureType return 0
+		 * 2. Equal ID, return number of associations. If the data structure is equal the return value >= 1
+		 * ** DISABLED ** 3. If ID exists and is unequal -> return 0
+		 * 4. Equal content return match score of the associations
+		 * 5. Equal content type return match score of the associations
+		 */
+		double oRetVal = 0.0; // equal to no match at all
+		//1.
 		if(this.moDataStructureType != poDataStructure.moDataStructureType){return oRetVal;}
 
+		//2. 
 		clsTemplateImage oDataStructure = (clsTemplateImage)poDataStructure;
 		ArrayList <clsAssociation> oContentListTemplate = this.moAssociatedContent; 
 		ArrayList <clsAssociation> oContentListUnknown = oDataStructure.moAssociatedContent;
@@ -119,7 +128,7 @@ public class clsTemplateImage extends clsPhysicalStructureComposition{
 		//the ID sepcifies that the data structure has been already compared with a stored
 		//data structure and replaced by it. Hence they can be compared by their IDs.
 		if(this.moDS_ID == oDataStructure.moDS_ID){
-				/*In case the DataStructureIDs are equal, the return value is the number 
+				/* In case the DataStructureIDs are equal, the return value is the number 
 				 * of associated data structures and their number of associations. The idendityMatch number
 				 * is not used here as it would distort the result. getNumbAssociations has to be introduced
 				 * as TIs can be associated to data structures that can consist of associated
@@ -127,16 +136,27 @@ public class clsTemplateImage extends clsPhysicalStructureComposition{
 				 */
 				oRetVal = oDataStructure.getNumbAssociations();
 		}
-		else if (oDataStructure.moDS_ID > -1) {return oRetVal;}
+		//3.
+		/*else if (oDataStructure.moDS_ID > -1) {
+			/*Each saved CAKE or other individual shall have an own ID. Here, the ID is treated as a type ID, which makes it
+			 *impossible to compare individuals */
+			/*return oRetVal;
+		}*/
 		
 		//In case the data structure does not have an ID, it has to be compared to a stored 
 		//data structure and replaced by it (the processes base on information that is already
 		//defined
 		//TI content is represented by a list of temporal associations	
 	
-		if(this.moContent.intern() == oDataStructure.moContent.intern()){
+		//x.
+		if (this.moContent.intern() == oDataStructure.moContent.intern() && this.moContentType.intern() == poDataStructure.moContentType.intern()) {
+				oRetVal = getMatchScore(oContentListTemplate, oContentListUnknown, true);
+		}
+		//4.
+		else if(this.moContent.intern() == oDataStructure.moContent.intern()){
 				oRetVal = getMatchScore(oContentListTemplate, oContentListUnknown);
 		}
+		//5.
 		else if (this.moContentType.intern() == poDataStructure.moContentType.intern()){
 				oRetVal = getMatchScore(oContentListTemplate, oContentListUnknown);
 		}
