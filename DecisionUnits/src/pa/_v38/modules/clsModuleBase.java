@@ -207,6 +207,22 @@ public abstract class clsModuleBase implements
 		return clone;
 	}
 	
+	/**
+	 * DOCUMENT (wendt) - insert description
+	 *
+	 * @since 06.07.2011 15:03:52
+	 *
+	 * @param <E>
+	 * @param poInput
+	 * @return
+	 * 
+	 * For each container, where the associations are not bound, the hashcode from the data structure was taken as id and
+	 * all associations in the associated data structures root elements were set with the instance ID of the container
+	 * data structures.
+	 * 
+	 * This function shall be executed as soon as more TPMs are used in one container and every time something is loaded 
+	 * from the memeory
+	 */
 	@SuppressWarnings("unchecked")
 	public <E extends clsDataStructureContainer> ArrayList<E> createInstanceFromType(ArrayList<E> poInput) {
 		ArrayList<E> oRetVal = (ArrayList<E>)deepCopy(poInput);

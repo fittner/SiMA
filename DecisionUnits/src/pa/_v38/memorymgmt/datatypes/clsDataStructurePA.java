@@ -38,7 +38,7 @@ public abstract class clsDataStructurePA implements Cloneable, itfComparable{
 	 * the elements within a data structure within a container. A normal object comparison with "equal" does not
 	 * work as deepcopy does not keep instance relations in the associations
 	 * 
-	 * A more efficient alternative would be to dispose the containers and to use real PA structures instead.
+	 * A more efficient alternative would be to dispose the containers and to use real PA structures instead...
 	 */
 	protected int moDSInstance_ID;
 
@@ -54,6 +54,7 @@ public abstract class clsDataStructurePA implements Cloneable, itfComparable{
 		moDataStructureType = poDataStructureIdentifier.b;
 		moContentType = poDataStructureIdentifier.c; 
 		
+		//All new structures are initialized with 0
 		moDSInstance_ID = 0;
 	}
 		
