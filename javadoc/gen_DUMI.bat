@@ -4,6 +4,7 @@
 	-sourcepath S:\ARSIN_V01\DecisionUnitMasonInspectors\src ^
 	-overview S:\ARSIN_V01\DecisionUnitMasonInspectors\src\overview.html ^
 	-subpackages inspectors:resources: ^
+	-exclude inspectors.mind.pa._v19:inspectors.mind.pa._v30: ^
     -use ^
     -splitIndex ^
     -version ^
