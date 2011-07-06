@@ -160,10 +160,12 @@ public class F57_MemoryTracesForDrives extends clsModuleBaseKB
 			
 
 			moInput.add(new clsPair<clsPrimaryDataStructureContainer, ArrayList<clsDriveMesh>> (moEnvironmentalPerception_IN, moDriveCandidates)); //Triebkandidaten = clsDriveMesh 
-			
-			System.out.println(moKnowledgeBaseHandler);
-			System.out.println(moDriveCandidates);
-			System.out.println(moEnvironmentalPerception_IN); //constructed perception
+		
+			/* Commented out by HZ - 6.7.2011
+				System.out.println(moKnowledgeBaseHandler);
+				System.out.println(moDriveCandidates);
+				System.out.println(moEnvironmentalPerception_IN); //constructed perception
+			*/
 	}
 
 	/* (non-Javadoc)
