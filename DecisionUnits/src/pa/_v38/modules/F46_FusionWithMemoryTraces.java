@@ -126,10 +126,15 @@ public class F46_FusionWithMemoryTraces extends clsModuleBaseKB implements
 		
 		//Variables
 		clsPrimaryDataStructureContainer oEnvPerceptionNoDM;
+		ArrayList<clsPrimaryDataStructureContainer> oContainerWithTypes;
+		ArrayList<clsPrimaryDataStructureContainer> oNewInstancesFromType;
 		
 		/* Construction of perceived images*/
 		/* Assign objects from storage to perception */
-		oEnvPerceptionNoDM = clsDataStructureConverter.convertTPMContToTICont(retrieveImages(moEnvironmentalPerception_IN));
+		
+		oContainerWithTypes = retrieveImages(moEnvironmentalPerception_IN);
+		oNewInstancesFromType = createInstanceFromType(oContainerWithTypes);
+		oEnvPerceptionNoDM = clsDataStructureConverter.convertTPMContToTICont(oNewInstancesFromType);
 		/* Assign drive meshes and adapt categories */
 		moEnvironmentalPerception_OUT = oEnvPerceptionNoDM;	//The output is a perceived image
 		

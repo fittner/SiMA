@@ -20,11 +20,27 @@ import pa._v38.memorymgmt.enums.eDataType;
  * 23.05.2010, 21:40:06
  * 
  */
+/**
+ * DOCUMENT (wendt) - insert description 
+ * 
+ * @author wendt
+ * 06.07.2011, 10:59:56
+ * 
+ */
 public abstract class clsDataStructurePA implements Cloneable, itfComparable{
 
 	protected int moDS_ID;
 	protected eDataType moDataStructureType;
 	protected String moContentType;
+	//AW 20110706: New Identifier for instances
+	/*As there are no possibility to identify a root element with a unique key, an instance ID have to be used
+	 * in order to be able to assign the root elements in the associated data structures in the containers with
+	 * the elements within a data structure within a container. A normal object comparison with "equal" does not
+	 * work as deepcopy does not keep instance relations in the associations
+	 * 
+	 * A more efficient alternative would be to dispose the containers and to use real PA structures instead.
+	 */
+	protected int moDSInstance_ID;
 
 	/**
 	 * DOCUMENT (zeilinger) - insert description 
@@ -37,6 +53,8 @@ public abstract class clsDataStructurePA implements Cloneable, itfComparable{
 		moDS_ID = poDataStructureIdentifier.a; 
 		moDataStructureType = poDataStructureIdentifier.b;
 		moContentType = poDataStructureIdentifier.c; 
+		
+		moDSInstance_ID = 0;
 	}
 		
 //	/**
@@ -138,6 +156,20 @@ public abstract class clsDataStructurePA implements Cloneable, itfComparable{
 	 */
 	public void setMoContentType(String moContentType) {
 		this.moContentType = moContentType;
+	}
+	
+	public int getMoDSInstance_ID() {
+		return moDSInstance_ID;
+	}
+
+	/**
+	 * @author zeilinger
+	 * 17.03.2011, 00:55:43
+	 * 
+	 * @param moDS_ID the moDS_ID to set
+	 */
+	public void setMoDSInstance_ID(int moDSInstance_ID) {
+		this.moDSInstance_ID = moDSInstance_ID;
 	}
 	
 	/**

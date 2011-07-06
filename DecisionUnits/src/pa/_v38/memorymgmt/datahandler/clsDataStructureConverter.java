@@ -132,6 +132,17 @@ public class clsDataStructureConverter {
 	}
 	
 	//AW 2011-05-19 New function
+	
+	/**
+	 * DOCUMENT (wendt) - insert description
+	 *
+	 * @since 06.07.2011 09:55:25
+	 *
+	 * @param oInput
+	 * @return
+	 * 
+	 * Convert an ArrayList with TPM-Containers to a TI-Container
+	 */
 	public static clsPrimaryDataStructureContainer convertTPMContToTICont(ArrayList<clsPrimaryDataStructureContainer> oInput) {
 		//Convert ArrayLists-Containers with TP and TPM to one container TI
 		
@@ -145,11 +156,8 @@ public class clsDataStructureConverter {
 			//Add the Data structure to the list for the template image
 			oDataStructures.add((clsPhysicalRepresentation)oContainer.getMoDataStructure());
 			for (clsAssociation oContainerAss : oContainer.getMoAssociatedDataStructures()) {
-				// FIXME AW 20110519: Getleafelement exists, but not getParentelement. This method should be created
-				//Test if the associated element is associated with the data structure in the container, else it is not possible to put the association togehter
-				//with the data structure within the template image.
 				try {
-					if ((oContainerAss.getMoAssociationElementA().getMoDS_ID() != oContainer.getMoDataStructure().getMoDS_ID()) && (oContainerAss.getMoAssociationElementB().getMoDS_ID() != oContainer.getMoDataStructure().getMoDS_ID())) {
+					if ((oContainerAss.getRootElement().getMoDSInstance_ID() != oContainer.getMoDataStructure().getMoDSInstance_ID())) {
 						throw new Exception("Error in convertTPMContToTICont: The associated element is not associated with the data structure in the container");
 					}
 				} catch (Exception e) {
@@ -168,6 +176,17 @@ public class clsDataStructureConverter {
 	}
 	
 	//AW 2011-05-19 New function
+	
+	/**
+	 * DOCUMENT (wendt) - insert description
+	 *
+	 * @since 06.07.2011 09:54:41
+	 *
+	 * @param oInput
+	 * @return
+	 * 
+	 * Convert an container with a TI to an ArrayList with TPM-containers
+	 */
 	public static ArrayList<clsPrimaryDataStructureContainer> convertTIContToTPMCont(clsPrimaryDataStructureContainer oInput) {
 		//Convert one container with TI to ArrayLists-Containers with TP and TPM
 		
@@ -184,13 +203,11 @@ public class clsDataStructureConverter {
 					ArrayList<clsAssociation> oContainerAss = new ArrayList<clsAssociation>();
 					
 					ListIterator<clsAssociation> oAllAssLI = oAllAss.listIterator();
+					
 					while (oAllAssLI.hasNext()) {
 						clsAssociation oSingleAss = oAllAssLI.next();
-						if ((oSingleAss.getMoAssociationElementA().getMoDS_ID()==oDS.getMoDS_ID()) || (oSingleAss.getMoAssociationElementB().getMoDS_ID()==oDS.getMoDS_ID())) {
-							//As there are no possibility to identify a root element with a unique key, a dirty hack is used: If the 
-							//moID is equal, then all elements with the moID have the same intrinsic properties and type. The first instance ID found
-							//in a root element is used as identifier for all other associations
-							
+						if (oSingleAss.getRootElement().getMoDSInstance_ID()==oDS.getMoDSInstance_ID()) {	//Compare ID of the structure in the TI and the root element in the association
+
 							oContainerAss.add(oSingleAss);
 							oAllAssLI.remove();
 						}

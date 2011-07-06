@@ -378,7 +378,7 @@ public class F35_EmersionOfBlockedContent extends clsModuleBaseKB implements itf
 			oMergedArray.add(oNewSingleContainer);
 		}
 		
-		clsPrimaryDataStructureContainer oRetVal = clsDataStructureConverter.convertTPMContToTICont(oMergedArray);
+		clsPrimaryDataStructureContainer oRetVal = clsDataStructureConverter.convertTPMContToTICont(createInstanceFromType(oMergedArray));
 		
 		return oRetVal;
 	}

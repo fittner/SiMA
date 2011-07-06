@@ -16,6 +16,8 @@ import pa._v38.interfaces.eInterfaces;
 import pa._v38.interfaces.itfInspectorInternalState;
 import pa._v38.interfaces.itfInterfaceDescription;
 import pa._v38.interfaces.itfInterfaceInterfaceData;
+import pa._v38.memorymgmt.datatypes.clsAssociation;
+import pa._v38.memorymgmt.datatypes.clsDataStructureContainer;
 import config.clsBWProperties;
 
 /**
@@ -123,8 +125,8 @@ public abstract class clsModuleBase implements
 				clone = other;	//not cloneable
 			} else {
 				//FIXME: AW 20110521: How are relative references kept? 
-				// Before: Associated Datastructures ElementA = ID123, ElementB = ID122, Datastructre: ID123
-				// After: Associated Datastructures ElementA = ID999, ElementB = ID888, Datastructre: ID777
+				// Before: Associated Datastructures ElementA = ID123, ElementB = ID122, Datastructure: ID123
+				// After: Associated Datastructures ElementA = ID999, ElementB = ID888, Datastructure: ID777
 				Class<?> clzz = other.getClass();
 				Method   meth = clzz.getMethod("clone", new Class[0]);
 				Object   dupl = meth.invoke(other, new Object[0]);
@@ -203,7 +205,34 @@ public abstract class clsModuleBase implements
 		}
 				
 		return clone;
-	}	
+	}
+	
+	@SuppressWarnings("unchecked")
+	public <E extends clsDataStructureContainer> ArrayList<E> createInstanceFromType(ArrayList<E> poInput) {
+		ArrayList<E> oRetVal = (ArrayList<E>)deepCopy(poInput);
+		
+		//Set Unique IDs for all root elements
+		for (E oElement : oRetVal) {
+			int oInstanceID;	//
+			//Check if the root element already have an unique ID
+			if (oElement.getMoDataStructure().getMoDSInstance_ID() == 0) {
+				oInstanceID = oElement.getMoDataStructure().hashCode();
+				oElement.getMoDataStructure().setMoDSInstance_ID(oInstanceID);
+			} else {
+				oInstanceID = oElement.getMoDataStructure().getMoDSInstance_ID();
+			}
+			
+			//Go through all associations in the container and complete the ones, which are missing or different from the root element
+			for (clsAssociation oAssStructure : oElement.getMoAssociatedDataStructures()) {
+				//Change ID only if the association root element is the same type (ID) as the data structure
+				if ((oAssStructure.getRootElement().getMoDSInstance_ID()!=oInstanceID) && (oElement.getMoDataStructure().getMoDS_ID()==oAssStructure.getRootElement().getMoDS_ID())) {
+					oAssStructure.getRootElement().setMoDSInstance_ID(oInstanceID);
+				}
+			}
+		}
+		
+		return oRetVal;
+	}
 	
 	protected void putInterfaceData(@SuppressWarnings("rawtypes") Class poInterface, Object... poData) {
 		eInterfaces nI = eInterfaces.getEnum(poInterface.getSimpleName());
@@ -258,5 +287,5 @@ public abstract class clsModuleBase implements
 	
 	public ArrayList<eInterfaces> getInterfaces() {
 		return moInterfaces;
-	}		
+	}
 }

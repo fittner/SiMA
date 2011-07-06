@@ -1,4 +1,4 @@
-; Sun Jul 03 17:57:06 GMT 2011
+; Wed Jul 06 13:01:36 GMT 2011
 ; 
 ;+ (version "3.4.4")
 ;+ (build "Build 579")
@@ -56,16 +56,16 @@
 		(type INSTANCE)
 ;+		(allowed-classes)
 		(create-accessor read-write))
+	(multislot element
+		(type INSTANCE)
+;+		(allowed-classes)
+		(create-accessor read-write))
 	(single-slot cathegory%3Aphalic
 ;+		(comment "Shortcut: as every DM includes an evaluation of the four drive cathegories anal, oral, genital and phalic, they are introduced as slots and not as TPs that would have to be additionally associated.")
 		(type FLOAT)
 		(range 0.0 1.0)
 		(default 0.0)
 ;+		(cardinality 1 1)
-		(create-accessor read-write))
-	(multislot element
-		(type INSTANCE)
-;+		(allowed-classes)
 		(create-accessor read-write))
 	(multislot weight
 		(type FLOAT)
@@ -348,28 +348,28 @@
 (defclass ACT
 	(is-a USER)
 	(role concrete)
+	(single-slot value
+		(type STRING)
+;+		(cardinality 1 1)
+		(create-accessor read-write))
 	(multislot precondition
 		(type INSTANCE)
 ;+		(allowed-classes WP ACT)
 		(cardinality 1 ?VARIABLE)
-		(create-accessor read-write))
-	(single-slot value
-		(type STRING)
-;+		(cardinality 1 1)
 		(create-accessor read-write))
 	(multislot consequence
 		(type INSTANCE)
 ;+		(allowed-classes WP ACT)
 		(cardinality 1 ?VARIABLE)
 		(create-accessor read-write))
+	(single-slot %3ANAME
+		(type STRING)
+;+		(cardinality 0 1)
+		(create-accessor read-write))
 	(single-slot action
 		(type INSTANCE)
 ;+		(allowed-classes WP)
 ;+		(cardinality 1 1)
-		(create-accessor read-write))
-	(single-slot %3ANAME
-		(type STRING)
-;+		(cardinality 0 1)
 		(create-accessor read-write))
 	(single-slot type
 		(type STRING)
@@ -826,6 +826,10 @@
 	(is-a TI)
 	(role concrete))
 
+(defclass EXPERIENCE
+	(is-a TI)
+	(role concrete))
+
 (defclass DM
 	(is-a USER)
 	(role abstract)
@@ -866,15 +870,15 @@
 		(type INSTANCE)
 ;+		(allowed-classes)
 		(create-accessor read-write))
+	(single-slot type
+		(type STRING)
+;+		(value "DM")
+;+		(cardinality 1 1)
+		(create-accessor read-write))
 	(single-slot pleasure
 		(type FLOAT)
 		(range -1.0 1.0)
 		(default 0.0)
-;+		(cardinality 1 1)
-		(create-accessor read-write))
-	(single-slot type
-		(type STRING)
-;+		(value "DM")
 ;+		(cardinality 1 1)
 		(create-accessor read-write))
 	(single-slot value_type
@@ -1027,13 +1031,13 @@
 ;+		(value "AFFECT")
 ;+		(cardinality 1 1)
 		(create-accessor read-write))
-	(single-slot value_max
-		(type FLOAT)
-;+		(cardinality 0 1)
-		(create-accessor read-write))
 	(single-slot value_type
 		(type STRING)
 ;+		(cardinality 1 1)
+		(create-accessor read-write))
+	(single-slot value_max
+		(type FLOAT)
+;+		(cardinality 0 1)
 		(create-accessor read-write)))
 
 (defclass %3AUNDEFINED
