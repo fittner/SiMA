@@ -19,7 +19,7 @@ import pa._v38.memorymgmt.datatypes.clsPhysicalRepresentation;
 import pa._v38.memorymgmt.datatypes.clsPrimaryDataStructureContainer;
 import pa._v38.storage.clsBlockedContentStorage;
 import pa._v38.tools.clsPair;
-//import pa._v38.tools.toText;
+import pa._v38.tools.toText;
 import config.clsBWProperties;
 
 /**
@@ -85,7 +85,9 @@ public class F56_Desexualization_Neutralization extends clsModuleBase
 	@Override
 	public String stateToTEXT() {
 		String text ="";
-		return null;
+		text += toText.valueToTEXT("moDrives_IN", moDrives_IN);	
+		text += toText.valueToTEXT("moDrives_OUT", moDrives_OUT);		
+		return text;
 	}
 	
 	/* (non-Javadoc)
@@ -171,7 +173,7 @@ public class F56_Desexualization_Neutralization extends clsModuleBase
 	 */
 	@Override
 	protected void setProcessType() {
-		// TODO (zeilinger) - Auto-generated method stub
+		mnProcessType = eProcessType.PRIMARY;
 		
 	}
 
@@ -184,7 +186,7 @@ public class F56_Desexualization_Neutralization extends clsModuleBase
 	 */
 	@Override
 	protected void setPsychicInstances() {
-		// TODO (zeilinger) - Auto-generated method stub
+		mnPsychicInstances = ePsychicInstances.EGO;
 		
 	}
 

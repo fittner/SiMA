@@ -16,6 +16,7 @@ import pa._v38.interfaces.modules.I6_9_receive;
 import pa._v38.interfaces.modules.I6_9_send;
 import pa._v38.memorymgmt.clsKnowledgeBaseHandler;
 import pa._v38.memorymgmt.datatypes.clsAct;
+import pa._v38.memorymgmt.datatypes.clsAssociation;
 import pa._v38.memorymgmt.datatypes.clsSecondaryDataStructure;
 import pa._v38.memorymgmt.datatypes.clsSecondaryDataStructureContainer;
 import pa._v38.memorymgmt.datatypes.clsWordPresentation;
@@ -35,7 +36,7 @@ public class F52_GenerationOfImaginaryActions extends clsModuleBaseKB implements
 	//HZ Not used up to now 16.03.2011
 	private ArrayList<clsSecondaryDataStructureContainer> moGoalInput;
 	private ArrayList<ArrayList<clsAct>> moPlanInput; 
-	private ArrayList<clsWordPresentation> moActions_Output;
+	private ArrayList<clsSecondaryDataStructureContainer> moActions_Output;
 	
 	/**
 	 * DOCUMENT (perner) - insert description 
@@ -121,7 +122,7 @@ public class F52_GenerationOfImaginaryActions extends clsModuleBaseKB implements
 	 * 
 	 * @return the moActions_Output
 	 */
-	public ArrayList<clsWordPresentation> getMoActions_Output() {
+	public ArrayList<clsSecondaryDataStructureContainer> getMoActions_Output() {
 		return moActions_Output;
 	}
 	/* (non-Javadoc)
@@ -167,7 +168,7 @@ public class F52_GenerationOfImaginaryActions extends clsModuleBaseKB implements
 		//Until this question has been solved, E28 
 		//is implemented to retrieve and put acts together which means that it takes over
 		//a kind of planning.
-		moActions_Output = new ArrayList<clsWordPresentation>();
+		moActions_Output = new ArrayList<clsSecondaryDataStructureContainer>();
 		moActions_Output = getActions(); 
 	}
 	
@@ -179,14 +180,18 @@ public class F52_GenerationOfImaginaryActions extends clsModuleBaseKB implements
 	 * @return 
 	 *
 	 */
-	private ArrayList<clsWordPresentation> getActions() {
-		ArrayList <clsWordPresentation> oRetVal = new ArrayList<clsWordPresentation>(); 
+	private ArrayList<clsSecondaryDataStructureContainer> getActions() {
+		ArrayList <clsSecondaryDataStructureContainer> oRetVal = new ArrayList<clsSecondaryDataStructureContainer>(); 
 		ArrayList<clsAct> oPlan = evaluatePlans();
 		
 		for(clsAct oAct : oPlan){
 			for(clsSecondaryDataStructure oSD : oAct.getMoAssociatedContent()){
 				if(oSD instanceof clsWordPresentation && oSD.getMoContentType().equals(eActState.ACTION.name())){
-					oRetVal.add((clsWordPresentation)oSD); 
+					//AW 20110629: Changed ArrayList<clsWordPresentation> to ArrayList<clsSecondaryDataStructureContainer> in order to fulfill 
+					//requirements of the interfaces
+					clsSecondaryDataStructureContainer oPlanContainer = new clsSecondaryDataStructureContainer((clsWordPresentation)oSD, new ArrayList<clsAssociation>());
+					oRetVal.add(oPlanContainer); 
+					
 					return oRetVal; 
 				}
 			}			
@@ -241,7 +246,7 @@ public class F52_GenerationOfImaginaryActions extends clsModuleBaseKB implements
 	 * @see pa.interfaces.send.I7_3_send#send_I7_3(java.util.ArrayList)
 	 */
 	@Override
-	public void send_I6_9(ArrayList<clsWordPresentation> poActionCommands) {
+	public void send_I6_9(ArrayList<clsSecondaryDataStructureContainer> poActionCommands) {
 		((I6_9_receive)moModuleList.get(8)).receive_I6_9(poActionCommands);
 		((I6_9_receive)moModuleList.get(20)).receive_I6_9(poActionCommands);
 		((I6_9_receive)moModuleList.get(21)).receive_I6_9(poActionCommands);

@@ -12,6 +12,7 @@ import com.jgraph.components.labels.RichTextBusinessObject;
 
 /**
  * DOCUMENT (deutsch) - insert description 
+ * When we change from E->F or alike again dont forget to change it here!!!
  * 
  * @author deutsch
  * 22.10.2009, 18:52:19
@@ -25,9 +26,9 @@ public class NodeCell extends DefaultGraphCell implements itfMouseClick {
 		super(userObject);
 		
 		if (idnumber<10) {
-			id = "E0"+idnumber;
+			id = "F0"+idnumber;
 		} else {
-			id = "E"+idnumber;
+			id = "F"+idnumber;
 		}
 	}
 	

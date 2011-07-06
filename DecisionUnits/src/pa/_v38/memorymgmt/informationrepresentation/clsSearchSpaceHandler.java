@@ -59,7 +59,7 @@ public class clsSearchSpaceHandler implements itfInspectorInternalState {
 	public void setSearchSpace(clsSearchSpaceBase poSearchSpaceBase){
 		moSearchSpace = poSearchSpaceBase;
 	}
-	
+	//This function returns all associations of the input of a certain type and a certain data structure
 	public ArrayList <clsAssociation> readOutSearchSpace(int poReturnType, clsDataStructurePA poDataStructure){
 		ArrayList <clsAssociation> oAssociatedDataStructureList = new ArrayList<clsAssociation>();
 		ArrayList <clsAssociation> oList = moSearchSpace

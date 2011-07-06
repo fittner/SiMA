@@ -60,6 +60,18 @@ public class clsBlockedContentStorage implements itfInspectorInternalState, itfI
     	//AW 20110430: New Template Imagelist
     	//moBlockedContent = new ArrayList<clsTemplateImage>();
     }
+    
+	/* (non-Javadoc)
+	 *
+	 * @author gelbard
+	 * 30.06.2011, 14:40:39
+	 * 
+	 * This method is used by "F06: defense mechanisms for drives"
+	 * 
+	 */ 
+    public void add(clsDriveMesh oDM){
+    	moBlockedContent.add(oDM);
+    }
 	
 	@SuppressWarnings("unchecked")
 	private void fillWithTestData() {

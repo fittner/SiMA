@@ -52,6 +52,7 @@ public class F46_FusionWithMemoryTraces extends clsModuleBaseKB implements
 	private clsPrimaryDataStructureContainer moEnvironmentalPerception_OUT;
 	private ArrayList<clsPrimaryDataStructureContainer> moAssociatedMemories_OUT;
 
+	/* Module-Parameters */
 	
 	/**
 	 * DOCUMENT (HINTERLEITNER) - Association of TPMs (TP + Emotion, fantasies) with thing presentations raw data (from external perception). In a first step these are attached with a value to get a meaning. Secondly the fantasies are added from the TPMs to the thing presentations

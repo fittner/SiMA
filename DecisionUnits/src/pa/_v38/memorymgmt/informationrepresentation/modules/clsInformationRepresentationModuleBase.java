@@ -79,6 +79,16 @@ public abstract class clsInformationRepresentationModuleBase implements itfInspe
 		throw new IllegalArgumentException(" defined search method unknown " + moSearchMethod);
 	}
 	
+	
+	
+	public ArrayList<clsPair<Double,clsDataStructureContainer>> searchDataContainer(int poReturnType, clsDataStructureContainer poDataContainerUnknown){
+		//Use Listsearch for containers
+		
+		if(moSearchMethod.equals(eSearchMethod.LISTSEARCH.name())){ return listSearch(poReturnType, poDataContainerUnknown);}
+		
+		throw new IllegalArgumentException(" defined search method unknown " + moSearchMethod);
+	}
+	
 	public abstract ArrayList<clsPair<Double,clsDataStructureContainer>> listSearch(int poReturnType, clsDataStructurePA poDataStructureUnknown);
-
+	public abstract ArrayList<clsPair<Double,clsDataStructureContainer>> listSearch(int poReturnType, clsDataStructureContainer poDataContainerUnknown);
 }

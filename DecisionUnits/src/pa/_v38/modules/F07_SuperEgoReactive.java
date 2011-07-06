@@ -10,6 +10,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.SortedMap;
 
+import pa._v38.modules.eProcessType;
+import pa._v38.modules.ePsychicInstances;
 import pa._v38.interfaces.eInterfaces;
 import pa._v38.interfaces.modules.I5_10_receive;
 import pa._v38.interfaces.modules.I5_11_receive;
@@ -20,7 +22,10 @@ import pa._v38.interfaces.modules.I5_13_send;
 import pa._v38.memorymgmt.datatypes.clsDriveMesh;
 import pa._v38.memorymgmt.datatypes.clsPhysicalRepresentation;
 import pa._v38.memorymgmt.datatypes.clsPrimaryDataStructureContainer;
+import pa._v38.memorymgmt.datatypes.clsThingPresentation;
+import pa._v38.memorymgmt.datatypes.clsThingPresentationMesh;
 import pa._v38.tools.clsPair;
+import pa._v38.tools.toText;
 import config.clsBWProperties;
 
 /**
@@ -44,7 +49,6 @@ public class F07_SuperEgoReactive extends clsModuleBase
 	
 	@SuppressWarnings("unused")
 	private Object moMergedPrimaryInformation;
-	@SuppressWarnings("unused")
 	private ArrayList<clsPair<clsPhysicalRepresentation, clsDriveMesh>> moDrives;
 	/**
 	 * DOCUMENT (zeilinger) - insert description 
@@ -91,8 +95,10 @@ public class F07_SuperEgoReactive extends clsModuleBase
 	 */
 	@Override
 	public String stateToTEXT() {
-		// TODO (zeilinger) - Auto-generated method stub
-		return null;
+		String text ="";
+		text += toText.valueToTEXT("moAssociatedMemories_IN", moAssociatedMemories_IN);	
+		text += toText.valueToTEXT("moAssociatedMemories_OUT", moAssociatedMemories_OUT);		
+		return text;
 	}
 	
 	/* (non-Javadoc)
@@ -140,6 +146,9 @@ public class F07_SuperEgoReactive extends clsModuleBase
 		//AW 20110522: Input from associated memories
 		moAssociatedMemories_OUT = moAssociatedMemories_IN;
 		
+		// check perception and drives
+		// apply internalized rules
+		checkInternalizedRules();		
 	}
 
 	/* (non-Javadoc)
@@ -167,6 +176,105 @@ public class F07_SuperEgoReactive extends clsModuleBase
 		// TODO (zeilinger) - Auto-generated method stub
 		
 	}
+	
+	
+	/* (non-Javadoc)
+	 *
+	 * @author gelbard
+	 * 03.07.2011, 17:06:12
+	 * 
+	 * Super-Ego checks perception and drives
+	 * 
+	 */
+	private void checkInternalizedRules() {
+		// ToDo FG: This is just one internalized rule.
+		//          All the internalized rules must be stored in an (XML-)file and proceeded one after another
+		if (searchInTP ("color", "Farbe eine feindlichen ARSin") &&
+			searchInTPM("ENTITY", "BUBBLE") &&
+			searchInTPM("ENTITY", "CAKE") &&
+			searchInDM ("NOURISH")) {
+			// If all the conditions above are true then Super-Ego can fire.
+			// An internalized rule was detected to be true.
+			// So the Super-Ego conflicts now with Ego and Super-Ego requests from Ego to activate defense.
+			
+			// ToDo FG: Naja - so kann das nicht funktionieren:
+			//((F06_DefenseMechanismsForDrives) moModuleList.get(6)).repress_drive("NOURISH");
+		}
+	}
+	
+	/* (non-Javadoc)
+	 *
+	 * @author gelbard
+	 * 03.07.2011, 17:06:48
+	 * 
+	 * searches in the input-perception for example for a color red
+	 * 
+	 */
+	private boolean searchInTP (String oContentType, String oContent) {
+		// search in perceptions
+		for(clsPrimaryDataStructureContainer oContainer : moAssociatedMemories_OUT){
+			
+			// check a TP
+			if(oContainer.getMoDataStructure() instanceof clsThingPresentation){
+				
+				// check the color
+				if(oContainer.getMoDataStructure().getMoContentType() == oContentType){
+					if(((clsThingPresentation)oContainer.getMoDataStructure()).getMoContent() == oContent){
+						return true; 
+					}	
+				}	
+			}
+		}
+		return false;
+	}
+	
+	/* (non-Javadoc)
+	 *
+	 * @author gelbard
+	 * 03.07.2011, 17:06:49
+	 * 
+	 * searches in the input-perception for example for an ENTITY like a BUBBLE
+	 * 
+	 */
+	private boolean searchInTPM (String oContentType, String oContent) {
+		// search in perceptions
+		for(clsPrimaryDataStructureContainer oContainer : moAssociatedMemories_OUT){
+			
+			// check a TPM
+			if(oContainer.getMoDataStructure() instanceof clsThingPresentationMesh){
+				
+				// check if it is for example an ARSin
+				if(oContainer.getMoDataStructure().getMoContentType() == oContentType){
+					if(((clsThingPresentationMesh)oContainer.getMoDataStructure()).getMoContent() == oContent){
+						// ToDo FG: Man könnte jetzt auch noch die Assoziationen des TPM auf bestimmte Werte durchsuchen.
+						return true;
+					}	
+				}					
+			}
+		}
+		return false;
+	}
+	
+	/* (non-Javadoc)
+	 *
+	 * @author gelbard
+	 * 03.07.2011, 17:06:50
+	 * 
+	 * searches in the input-DriveMesh for example for NOURISH
+	 * 
+	 */
+	private boolean searchInDM (String oContentType) {
+		// search in drives
+		for(clsPair<clsPhysicalRepresentation, clsDriveMesh> oDrives : moDrives){
+		
+			// check DriveMesh
+			if (oDrives.b.getMoContentType() == oContentType){
+				return true;
+			}
+		}
+		return false;
+	}
+	
 
 	/* (non-Javadoc)
 	 *
@@ -192,7 +300,7 @@ public class F07_SuperEgoReactive extends clsModuleBase
 	 */
 	@Override
 	protected void setProcessType() {
-		// TODO (zeilinger) - Auto-generated method stub
+		mnProcessType = eProcessType.PRIMARY;
 		
 	}
 
@@ -205,7 +313,7 @@ public class F07_SuperEgoReactive extends clsModuleBase
 	 */
 	@Override
 	protected void setPsychicInstances() {
-		// TODO (zeilinger) - Auto-generated method stub
+		mnPsychicInstances = ePsychicInstances.SUPEREGO;
 		
 	}
 

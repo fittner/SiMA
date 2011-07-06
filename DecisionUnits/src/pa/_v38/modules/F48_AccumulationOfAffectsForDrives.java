@@ -19,6 +19,7 @@ import pa._v38.memorymgmt.datatypes.clsDriveDemand;
 import pa._v38.memorymgmt.datatypes.clsDriveMesh;
 import pa._v38.tools.clsPair;
 import pa._v38.tools.clsTripple;
+import pa._v38.tools.toText;
 import config.clsBWProperties;
 
 /**
@@ -37,6 +38,8 @@ public class F48_AccumulationOfAffectsForDrives extends clsModuleBase
 	private ArrayList<clsDriveMesh> moDriveCandidateHomeostasis;
 	@SuppressWarnings("unused")
 	private ArrayList<clsDriveMesh> moDriveCandidateLibido;
+	
+	private ArrayList<clsDriveMesh> moDriveCandidates;
 	/**
 	 * DOCUMENT (zeilinger) - insert description 
 	 * 
@@ -83,8 +86,12 @@ public class F48_AccumulationOfAffectsForDrives extends clsModuleBase
 	 */
 	@Override
 	public String stateToTEXT() {
-		// TODO (zeilinger) - Auto-generated method stub
-		return null;
+		String text ="";
+		
+		text += toText.valueToTEXT("moDriveCandidateHomeostasis", moDriveCandidateHomeostasis);	
+		text += toText.valueToTEXT("moDriveCandidateLibido", moDriveCandidateLibido);		
+				
+		return text;
 	}
 
 	/* (non-Javadoc)
@@ -96,7 +103,11 @@ public class F48_AccumulationOfAffectsForDrives extends clsModuleBase
 	 */
 	@Override
 	protected void process_basic() {
-		// TODO (zeilinger) - Auto-generated method stub
+
+		//TODO CM dummy implementation!!!
+		moDriveCandidates =  deepCopy(moDriveCandidateHomeostasis); 
+		
+		//throw new java.lang.NoSuchMethodError();
 		
 	}
 
@@ -110,6 +121,7 @@ public class F48_AccumulationOfAffectsForDrives extends clsModuleBase
 	@Override
 	protected void process_draft() {
 		// TODO (zeilinger) - Auto-generated method stub
+		throw new java.lang.NoSuchMethodError();
 		
 	}
 
@@ -123,6 +135,7 @@ public class F48_AccumulationOfAffectsForDrives extends clsModuleBase
 	@Override
 	protected void process_final() {
 		// TODO (zeilinger) - Auto-generated method stub
+		throw new java.lang.NoSuchMethodError();
 		
 	}
 
@@ -135,7 +148,7 @@ public class F48_AccumulationOfAffectsForDrives extends clsModuleBase
 	 */
 	@Override
 	protected void send() {
-		send_I4_1(new ArrayList<clsDriveMesh>());
+		send_I4_1(moDriveCandidates);
 	}
 
 	/* (non-Javadoc)
@@ -147,7 +160,7 @@ public class F48_AccumulationOfAffectsForDrives extends clsModuleBase
 	 */
 	@Override
 	protected void setProcessType() {
-		// TODO (zeilinger) - Auto-generated method stub
+		mnProcessType = eProcessType.PRIMARY;
 		
 	}
 
@@ -160,7 +173,7 @@ public class F48_AccumulationOfAffectsForDrives extends clsModuleBase
 	 */
 	@Override
 	protected void setPsychicInstances() {
-		// TODO (zeilinger) - Auto-generated method stub
+		mnPsychicInstances = ePsychicInstances.ID;
 		
 	}
 
@@ -186,8 +199,8 @@ public class F48_AccumulationOfAffectsForDrives extends clsModuleBase
 	 */
 	@Override
 	public void setDescription() {
-		// TODO (zeilinger) - Auto-generated method stub
-		
+		moDescription = "Zuerst werden die Affektbeträge der Selbsterhaltungstriebe mit der Libidospannung aus den libidinösen trieben vereint. Das geschieht für jeden Partialtrieb einzeln und für die beiden teile und wird dann in eine Liste zusammengefasst.";
+		//TODO CM give me a english text
 	}
 
 	/* (non-Javadoc)

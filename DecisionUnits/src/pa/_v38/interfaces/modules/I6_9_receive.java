@@ -9,7 +9,7 @@ package pa._v38.interfaces.modules;
 import java.util.ArrayList;
 
 
-import pa._v38.memorymgmt.datatypes.clsWordPresentation;
+import pa._v38.memorymgmt.datatypes.clsSecondaryDataStructureContainer;
 
 /**
  * DOCUMENT (deutsch) - insert description 
@@ -19,5 +19,5 @@ import pa._v38.memorymgmt.datatypes.clsWordPresentation;
  * 
  */
 public interface I6_9_receive {
-	public void receive_I6_9(ArrayList<clsWordPresentation> poActionCommands);
+	public void receive_I6_9(ArrayList<clsSecondaryDataStructureContainer> poActionCommands);
 }

@@ -20,7 +20,6 @@ import pa._v38.memorymgmt.datatypes.clsAssociation;
 import pa._v38.memorymgmt.datatypes.clsPhysicalRepresentation;
 import pa._v38.memorymgmt.datatypes.clsPrimaryDataStructureContainer;
 import pa._v38.memorymgmt.datatypes.clsSecondaryDataStructureContainer;
-import pa._v38.memorymgmt.datatypes.clsWordPresentation;
 import pa._v38.tools.clsTripple;
 import pa._v38.tools.toText;
 
@@ -49,7 +48,7 @@ public class F47_ConversionToPrimaryProcess extends clsModuleBase implements itf
 	
 	private boolean mnMinimalModel;
 	private clsPrimaryDataStructureContainer moReturnedTPMemory_OUT;
-	private clsSecondaryDataStructureContainer moReturnedWPMemory_IN;
+	private ArrayList<clsSecondaryDataStructureContainer> moReturnedWPMemory_IN;
 	
 	public F47_ConversionToPrimaryProcess(String poPrefix,
 			clsBWProperties poProp, HashMap<Integer, clsModuleBase> poModuleList, SortedMap<eInterfaces, ArrayList<Object>> poInterfaceData)
@@ -70,6 +69,8 @@ public class F47_ConversionToPrimaryProcess extends clsModuleBase implements itf
 		String text ="";
 		
 		text += toText.valueToTEXT("mnMinimalModel", mnMinimalModel);
+		text += toText.valueToTEXT("moReturnedTPMemory_OUT", moReturnedTPMemory_OUT);
+		text += toText.valueToTEXT("moReturnedWPMemory_IN", moReturnedWPMemory_IN);
 		
 		return text;
 	}		
@@ -135,7 +136,7 @@ public class F47_ConversionToPrimaryProcess extends clsModuleBase implements itf
 
 	}
 
-	private clsPrimaryDataStructureContainer getMemoryFromWP(clsSecondaryDataStructureContainer oInput) {
+	private clsPrimaryDataStructureContainer getMemoryFromWP(ArrayList<clsSecondaryDataStructureContainer> poInput) {
 		clsPrimaryDataStructureContainer oRetVal;
 		
 		//TODO: Dummyfunction from SP
@@ -222,8 +223,10 @@ public class F47_ConversionToPrimaryProcess extends clsModuleBase implements itf
 	 * 
 	 * @see pa.interfaces.receive._v38.I7_3_receive#receive_I7_3(java.util.ArrayList)
 	 */
+	@SuppressWarnings("unchecked")
 	@Override
-	public void receive_I6_9(ArrayList<clsWordPresentation> poActionCommands) {
+	public void receive_I6_9(ArrayList<clsSecondaryDataStructureContainer> poActionCommands) {
+		moReturnedWPMemory_IN = (ArrayList<clsSecondaryDataStructureContainer>)deepCopy(poActionCommands);
 		// TODO (KOHLHAUSER) - Auto-generated method stub
 		
 	}
