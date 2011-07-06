@@ -66,6 +66,7 @@ public class clsAStarPathFinder implements clsPathFinder {
 	/**
 	 * @see clsPathFinder#findPath(clsMover, int, int, int, int)
 	 */
+	@Override
 	public clsPath findPath(clsMover mover, int sx, int sy, int tx, int ty) {
 		// easy first check, if the destination is blocked, we can't get there
 		if (map.blocked(mover, tx, ty)) {
@@ -395,6 +396,7 @@ public class clsAStarPathFinder implements clsPathFinder {
 		/**
 		 * @see Comparable#compareTo(Object)
 		 */
+		@Override
 		public int compareTo(Object other) {
 			Node o = (Node) other;
 			

@@ -26,6 +26,7 @@ public class clsManhattanHeuristic implements clsAStarHeuristic {
 	/**
 	 * @see clsAStarHeuristic#getCost(clsTileBasedMap, clsMover, int, int, int, int)
 	 */
+	@Override
 	public float getCost(clsTileBasedMap map, clsMover mover, int x, int y, int tx,
 			int ty) {
 		return minimumCost * (Math.abs(x-tx) + Math.abs(y-ty));
