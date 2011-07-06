@@ -14,6 +14,7 @@ public class clsClosestHeuristic implements clsAStarHeuristic {
 	/**
 	 * @see clsAStarHeuristic#getCost(clsTileBasedMap, clsMover, int, int, int, int)
 	 */
+	@Override
 	public float getCost(clsTileBasedMap map, clsMover mover, int x, int y, int tx, int ty) {		
 		float dx = tx - x;
 		float dy = ty - y;

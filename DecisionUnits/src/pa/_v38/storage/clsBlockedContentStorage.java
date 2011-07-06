@@ -37,7 +37,10 @@ import pa._v38.memorymgmt.enums.eDataType;
  * 
  */
 public class clsBlockedContentStorage implements itfInspectorInternalState, itfInterfaceDescription, D2_2_send, D2_4_send, D2_4_receive, D2_3_receive {
-    //private ArrayList<clsDataStructurePA> moBlockedContent;
+	//Blocked content buffer
+	//private ArrayList<clsPair<clsDataStructurePA, ArrayList<clsAssociation>>> moBlockedContent;
+	
+	
 	private ArrayList<clsDriveMesh> moBlockedContent;
     private ArrayList<clsDataStructurePA> moContainerBlockedContent; 
     
