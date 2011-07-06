@@ -49,7 +49,7 @@ public abstract class clsDataStructureComparison {
 		HashMap<String, HashMap<Integer, clsPair<clsDataStructurePA,ArrayList<clsAssociation>>>> oMap 
 											= poSearchSpace.returnSearchSpaceTable().get(poDS_Unknown.getMoDataStructureType());
 		
-		if(oMap.containsKey(poDS_Unknown.getMoContentType())){
+		if(oMap.containsKey(poDS_Unknown.getMoContentType())){	//If the input content type already exists in the memory
 			oRetVal = getDataStructureByContentType(oMap.get(poDS_Unknown.getMoContentType()), poDS_Unknown); 
 		}
 		else{

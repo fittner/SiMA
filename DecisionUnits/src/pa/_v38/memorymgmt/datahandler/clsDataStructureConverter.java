@@ -187,7 +187,10 @@ public class clsDataStructureConverter {
 					while (oAllAssLI.hasNext()) {
 						clsAssociation oSingleAss = oAllAssLI.next();
 						if ((oSingleAss.getMoAssociationElementA().getMoDS_ID()==oDS.getMoDS_ID()) || (oSingleAss.getMoAssociationElementB().getMoDS_ID()==oDS.getMoDS_ID())) {
-						//if ((oSingleAss.getMoAssociationElementA() == oDS) || (oSingleAss.getMoAssociationElementB() == oDS)) {
+							//As there are no possibility to identify a root element with a unique key, a dirty hack is used: If the 
+							//moID is equal, then all elements with the moID have the same intrinsic properties and type. The first instance ID found
+							//in a root element is used as identifier for all other associations
+							
 							oContainerAss.add(oSingleAss);
 							oAllAssLI.remove();
 						}
