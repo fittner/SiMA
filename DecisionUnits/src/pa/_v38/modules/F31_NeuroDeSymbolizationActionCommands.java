@@ -1,7 +1,7 @@
 /**
  * E31_NeuroDeSymbolization.java: DecisionUnits - pa.modules
  * 
- * @author deutsch
+ * @author brandstaetter
  * 11.08.2009, 14:59:58
  */
 package pa._v38.modules;
@@ -17,7 +17,7 @@ import du.itf.actions.clsActionCommand;
 import du.itf.actions.clsActionEat;
 import du.itf.actions.clsActionExcrement;
 import du.itf.actions.clsActionMove;
-import du.itf.actions.clsActionSequenceFactory;
+//import du.itf.actions.clsActionSequenceFactory;
 import du.itf.actions.clsActionSleep;
 import du.itf.actions.clsActionTurn;
 import pa._v38.interfaces.eInterfaces;
@@ -34,7 +34,7 @@ import pa._v38.tools.toText;
  * 
  * CB: F31_NeuroDeSymbolizationActionCommands should be just an empty function which forwards data to F32
  * 
- * @author deutsch
+ * @author brandstaetter
  * 11.08.2009, 14:59:58
  * 
  */
@@ -45,12 +45,15 @@ public class F31_NeuroDeSymbolizationActionCommands extends clsModuleBase
 	private ArrayList<clsActionCommand> moActionCommandList_Output;
 	private ArrayList<clsWordPresentation> moActionCommands_Input;
 	private int mnCounter;
-	private boolean mnMinimalModel = false;
+	//private boolean mnMinimalModel = false;
+	private boolean mnMinimalModel; 
+	// CB 2011-07-06: bisher war hier mnMinimalModel = false gesetzt, wenn ich es hier aendere
+	//                hat es aber keinen Effekt, also brauch ich es auch nicht setzen.
 	
 	/**
 	 * DOCUMENT (brandstaetter) - insert description 
 	 * 
-	 * @author deutsch
+	 * @author brandstaetter
 	 * 03.03.2011, 17:01:32
 	 *
 	 * @param poPrefix
@@ -70,7 +73,7 @@ public class F31_NeuroDeSymbolizationActionCommands extends clsModuleBase
 	
 	/* (non-Javadoc)
 	 *
-	 * @author deutsch
+	 * @author brandstaetter
 	 * 14.04.2011, 17:36:19
 	 * 
 	 * @see pa.modules._v38.clsModuleBase#stateToTEXT()
@@ -103,7 +106,7 @@ public class F31_NeuroDeSymbolizationActionCommands extends clsModuleBase
 
 	/* (non-Javadoc)
 	 *
-	 * @author deutsch
+	 * @author brandstaetter
 	 * 11.08.2009, 12:09:34
 	 * 
 	 * @see pa.modules.clsModuleBase#setProcessType()
@@ -115,7 +118,7 @@ public class F31_NeuroDeSymbolizationActionCommands extends clsModuleBase
 
 	/* (non-Javadoc)
 	 *
-	 * @author deutsch
+	 * @author brandstaetter
 	 * 11.08.2009, 12:09:34
 	 * 
 	 * @see pa.modules.clsModuleBase#setPsychicInstances()
@@ -127,7 +130,7 @@ public class F31_NeuroDeSymbolizationActionCommands extends clsModuleBase
 
 	/* (non-Javadoc)
 	 *
-	 * @author deutsch
+	 * @author brandstaetter
 	 * 11.08.2009, 15:00:27
 	 * 
 	 * @see pa.interfaces.I8_1#receive_I8_1(int)
@@ -140,7 +143,7 @@ public class F31_NeuroDeSymbolizationActionCommands extends clsModuleBase
 
 	/* (non-Javadoc)
 	 *
-	 * @author deutsch
+	 * @author brandstaetter
 	 * 11.08.2009, 16:16:54
 	 * 
 	 * @see pa.modules.clsModuleBase#process()
@@ -183,6 +186,7 @@ public class F31_NeuroDeSymbolizationActionCommands extends clsModuleBase
 				}
 			}
 		} else {
+			/*
 			if (true || !mnMinimalModel) {
 				if (mnCounter == 75) {
 					moActionCommandList_Output.add( clsActionSequenceFactory.getSeekingSequence(1.0f, 2) );
@@ -190,13 +194,14 @@ public class F31_NeuroDeSymbolizationActionCommands extends clsModuleBase
 				} 
 				mnCounter++;
 			}
+			*/
 		}
 			
 	}
 
 	/* (non-Javadoc)
 	 *
-	 * @author deutsch
+	 * @author brandstaetter
 	 * 11.08.2009, 16:16:54
 	 * 
 	 * @see pa.modules.clsModuleBase#send()
@@ -209,7 +214,7 @@ public class F31_NeuroDeSymbolizationActionCommands extends clsModuleBase
 
 	/* (non-Javadoc)
 	 *
-	 * @author deutsch
+	 * @author brandstaetter
 	 * 18.05.2010, 17:59:41
 	 * 
 	 * @see pa.interfaces.send.I8_2_send#send_I8_2(java.util.ArrayList)
@@ -223,7 +228,7 @@ public class F31_NeuroDeSymbolizationActionCommands extends clsModuleBase
 
 	/* (non-Javadoc)
 	 *
-	 * @author deutsch
+	 * @author brandstaetter
 	 * 12.07.2010, 10:48:02
 	 * 
 	 * @see pa.modules.clsModuleBase#process_draft()
@@ -236,7 +241,7 @@ public class F31_NeuroDeSymbolizationActionCommands extends clsModuleBase
 
 	/* (non-Javadoc)
 	 *
-	 * @author deutsch
+	 * @author brandstaetter
 	 * 12.07.2010, 10:48:02
 	 * 
 	 * @see pa.modules.clsModuleBase#process_final()
@@ -249,7 +254,7 @@ public class F31_NeuroDeSymbolizationActionCommands extends clsModuleBase
 
 	/* (non-Javadoc)
 	 *
-	 * @author zeilinger
+	 * @author brandstaetter
 	 * 07.11.2010, 11:55:48
 	 * 
 	 * @see pa.interfaces.itfTimeChartInformationContainer#getTimeChartData()
@@ -303,7 +308,7 @@ public class F31_NeuroDeSymbolizationActionCommands extends clsModuleBase
 	
 	/* (non-Javadoc)
 	 *
-	 * @author deutsch
+	 * @author brandstaetter
 	 * 15.04.2011, 17:41:33
 	 * 
 	 * @see pa.interfaces.itfTimeChartInformationContainer#getTimeChartCaptions()
@@ -325,7 +330,7 @@ public class F31_NeuroDeSymbolizationActionCommands extends clsModuleBase
 
 	/* (non-Javadoc)
 	 *
-	 * @author deutsch
+	 * @author brandstaetter
 	 * 03.03.2011, 17:01:28
 	 * 
 	 * @see pa.modules._v38.clsModuleBase#setModuleNumber()
@@ -337,7 +342,7 @@ public class F31_NeuroDeSymbolizationActionCommands extends clsModuleBase
 	}
 	/* (non-Javadoc)
 	 *
-	 * @author deutsch
+	 * @author brandstaetter
 	 * 15.04.2011, 13:52:57
 	 * 
 	 * @see pa.modules._v38.clsModuleBase#setDescription()
@@ -349,7 +354,7 @@ public class F31_NeuroDeSymbolizationActionCommands extends clsModuleBase
 
 	/* (non-Javadoc)
 	 *
-	 * @author deutsch
+	 * @author brandstaetter
 	 * 22.04.2011, 16:43:35
 	 * 
 	 * @see pa._v38.interfaces.itfMinimalModelMode#setMinimalModelMode(boolean)
@@ -361,7 +366,7 @@ public class F31_NeuroDeSymbolizationActionCommands extends clsModuleBase
 
 	/* (non-Javadoc)
 	 *
-	 * @author deutsch
+	 * @author brandstaetter
 	 * 22.04.2011, 16:43:35
 	 * 
 	 * @see pa._v38.interfaces.itfMinimalModelMode#getMinimalModelMode()
@@ -373,7 +378,7 @@ public class F31_NeuroDeSymbolizationActionCommands extends clsModuleBase
 
 	/* (non-Javadoc)
 	 *
-	 * @author deutsch
+	 * @author brandstaetter
 	 * 23.04.2011, 11:15:51
 	 * 
 	 * @see pa._v38.interfaces.itfInspectorTimeChartBase#getTimeChartAxis()
@@ -385,7 +390,7 @@ public class F31_NeuroDeSymbolizationActionCommands extends clsModuleBase
 
 	/* (non-Javadoc)
 	 *
-	 * @author deutsch
+	 * @author brandstaetter
 	 * 23.04.2011, 11:15:51
 	 * 
 	 * @see pa._v38.interfaces.itfInspectorTimeChartBase#getTimeChartTitle()
