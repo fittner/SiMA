@@ -21,6 +21,7 @@ import pa._v38.memorymgmt.datatypes.clsThingPresentation;
 import pa._v38.memorymgmt.enums.eDataType;
 import pa._v38.storage.clsBlockedContentStorage;
 import pa._v38.tools.clsPair;
+import pa._v38.tools.clsTripple;
 import pa._v38.tools.toText;
 import config.clsBWProperties;
 
@@ -125,10 +126,18 @@ public class F54_EmersionOfBlockedDriveContent extends clsModuleBase
 		clsThingPresentation oTP = (clsThingPresentation) clsDataStructureGenerator.generateDataStructure(eDataType.TP, new clsPair<String, Object>("NULL", "NULL")); 
 		clsPhysicalRepresentation oPhR = (clsPhysicalRepresentation) oTP;
 		
+		
 		moDrives = moInput;		
-		 
-		clsDriveMesh oRep = moBlockedContentStorage.getBestMatchCONVERTED(moInput);
+				
+		clsDriveMesh oRep = moBlockedContentStorage.matchBlockedContentDrives(moInput);
+		if (oRep==null) {
+			//FIXME: AW 20110707: It has to be initialized with something here
+			oRep = clsDataStructureGenerator.generateDM(new clsTripple<String, ArrayList<clsThingPresentation>, Object>("DUMMY", new ArrayList<clsThingPresentation>(),"DUMMYDM"));
+		}
 		moDrives.add(new clsPair<clsPhysicalRepresentation, clsDriveMesh>(oPhR, oRep));
+		
+
+		
 	}
 
 	/* (non-Javadoc)
