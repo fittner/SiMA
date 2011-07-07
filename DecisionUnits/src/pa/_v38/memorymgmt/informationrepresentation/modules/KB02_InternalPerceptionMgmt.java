@@ -104,7 +104,7 @@ public class KB02_InternalPerceptionMgmt extends clsInformationRepresentationMod
 		//2. Search for all DataStructures (without containers), which matches this one
 		ArrayList<clsPair<Double, clsDataStructurePA>> oMatchedDataStructures = new ArrayList<clsPair<Double, clsDataStructurePA>>();
 		//2b. Set the Content type of oDS
-		oDS.setMoContentType("MEMORY");	
+		oDS.setMoContentType("LOCATION");	
 		oMatchedDataStructures = compareElements(oDS);	//Get a List of all matching structures in the memory
 		//The internal comparison is made in compareElements
 		

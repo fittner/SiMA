@@ -8,8 +8,11 @@ package pa._v38.modules;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Map;
 import java.util.SortedMap;
+import java.util.Map.Entry;
 
+import bfg.tools.clsMutableDouble;
 import pa._v38.tools.clsGlobalFunctions;
 import pa._v38.tools.clsPair;
 import pa._v38.tools.clsTripple;
@@ -26,13 +29,16 @@ import pa._v38.memorymgmt.datatypes.clsAssociation;
 import pa._v38.memorymgmt.datatypes.clsAssociationAttribute;
 import pa._v38.memorymgmt.datatypes.clsDataStructureContainer;
 import pa._v38.memorymgmt.datatypes.clsDataStructurePA;
+import pa._v38.memorymgmt.datatypes.clsDriveMesh;
 import pa._v38.memorymgmt.datatypes.clsPhysicalRepresentation;
 import pa._v38.memorymgmt.datatypes.clsPrimaryDataStructure;
 import pa._v38.memorymgmt.datatypes.clsPrimaryDataStructureContainer;
+import pa._v38.memorymgmt.datatypes.clsTemplateImage;
 import pa._v38.memorymgmt.datatypes.clsThingPresentationMesh;
 import pa._v38.memorymgmt.enums.eDataType;
 
 import config.clsBWProperties;
+import du.enums.pa.eContext;
 
 /**
  * DOCUMENT (HINTERLEITNER) - insert description 
@@ -56,7 +62,7 @@ public class F46_FusionWithMemoryTraces extends clsModuleBaseKB implements
 	/* Module-Parameters */
 	
 	/**
-	 * DOCUMENT (HINTERLEITNER) - insert description 
+	 * DOCUMENT (HINTERLEITNER) - Association of TPMs (TP + Emotion, fantasies) with thing presentations raw data (from external perception). In a first step these are attached with a value to get a meaning. Secondly the fantasies are added from the TPMs to the thing presentations
 	 * 
 	 * @author deutsch
 	 * 03.03.2011, 16:16:50
@@ -126,24 +132,73 @@ public class F46_FusionWithMemoryTraces extends clsModuleBaseKB implements
 		
 		//Variables
 		clsPrimaryDataStructureContainer oEnvPerceptionNoDM;
+		ArrayList<clsPrimaryDataStructureContainer> oContainerWithTypes;
 		
 		/* Construction of perceived images*/
 		/* Assign objects from storage to perception */
-		oEnvPerceptionNoDM = clsDataStructureConverter.convertTPMContToTICont(retrieveImages(moEnvironmentalPerception_IN));
+		
+		oContainerWithTypes = retrieveImages(moEnvironmentalPerception_IN);
+		oEnvPerceptionNoDM = clsDataStructureConverter.convertTPMContToTICont(createInstanceFromType(oContainerWithTypes));
 		/* Assign drive meshes and adapt categories */
+		//Assign drivemeshes to the loaded images
+		assignDriveMeshes(oEnvPerceptionNoDM);
+		adaptCategories(oEnvPerceptionNoDM);
+		
+		
 		moEnvironmentalPerception_OUT = oEnvPerceptionNoDM;	//The output is a perceived image
 		
 		/* Perception - Activation of associated memories */
 		moAssociatedMemories_OUT = retrieveActivatedMemories(moEnvironmentalPerception_OUT, moReturnedTPMemory_IN);
 		
+
+		ArrayList<clsPrimaryDataStructureContainer> oContainerList = new ArrayList<clsPrimaryDataStructureContainer>(); 
+ 		//oContainerList = clsDataStructureConverter.convertTIContToTPMCont(moEnvironmentalPerception_IN); 
 		
+		//assignDriveMeshes(oContainerList);
+		/* The context of a certain drive or object is loaded, in the case of CAKE, it is NOURISH. If the drive 
+		 * NOURISH is found in the objects the categories (anal, oral...) is multiplied with a category factor <= 1
+		 * In case of a 100% match, the factor is 1.0.
+		 */
+		
+	    addValues(oContainerList);	
 		//****** New Data structures Don't delete AW 20110424 *********
 		//UNIT-Tests for the converters
 		//clsPrimaryDataStructureContainer oTest = clsDataStructureConverter.convertTPMContToTICont(moEnvironmentalPerception_OUT);
 		//ArrayList<clsPrimaryDataStructureContainer> oTest2 = clsDataStructureConverter.convertTIContToTPMCont(oTest);
 		/* Post-Processing */
-		
 		//Function: Update association weights after activation (first step to individual mind) 
+		
+		attachFantasies(oContainerList);	//Siehe retrieveActivatedMemories
+		//Fantasiertes wird an die TP (Sachvorstellungen) angehängt
+		
+	}
+	
+	
+
+	/**
+	 * DOCUMENT (hinterleitner) - insert description
+	 *
+	 * @since 28.06.2011 14:32:48
+	 *
+	 * @param oContainerList
+	 */
+	private void attachFantasies(
+			ArrayList<clsPrimaryDataStructureContainer> oContainerList) {
+		//Diese Funktion könnte in retrieveActivatedMemories umgesetzt werden
+		// TODO (hinterleitner) - Auto-generated method stub
+		
+	}
+
+	/**
+	 * DOCUMENT (hinterleitner) - insert description
+	 *
+	 * @since 28.06.2011 14:32:45
+	 *
+	 * @param oContainerList
+	 */
+	private void addValues(
+			ArrayList<clsPrimaryDataStructureContainer> oContainerList) {
+		// TODO (hinterleitner) - Auto-generated method stub
 		
 	}
 
@@ -187,10 +242,224 @@ public class F46_FusionWithMemoryTraces extends clsModuleBaseKB implements
 			new ArrayList<ArrayList<clsPair<Double,clsDataStructureContainer>>>(); 
 		
 		search(eDataType.TP, oPerceivedImage_IN, oSearchResult ); 
-		oRetVal = createImage(oSearchResult);	
+		oRetVal = createImage(oSearchResult);
 		
 		return oRetVal;
 	}
+	
+	/**
+	 * DOCUMENT (hinterleitner) - insert description
+	 *
+	 * @since 28.06.2011 14:18:54
+	 *
+	 * @param oContainerList
+	 */
+	/**
+	 * Find DMs for objects in perception and assign them through associations.
+	 * The elements in the perception then have AttributeAssociations and
+	 * DriveMeshAssociations.
+	 *
+	 * @author Marcus Zottl (e0226304),
+	 * 22.06.2011, 18:28:52
+	 *
+	 * @param poPerception - the perception to which DMs should be assigned
+	 * 
+	 * @see F35_EmersionOfBlockedContent#search(eDataType, clsPrimaryDataStructureContainer)
+	 * @see F35_EmersionOfBlockedContent#addAssociations(ArrayList, clsPrimaryDataStructureContainer)
+	 */
+	private void assignDriveMeshes(clsPrimaryDataStructureContainer poPerception) {
+		
+		ArrayList<ArrayList<clsPair<Double,clsDataStructureContainer>>> oSearchResult = 
+			new ArrayList<ArrayList<clsPair<Double,clsDataStructureContainer>>>(); 
+	
+		oSearchResult = search(eDataType.DM, poPerception);
+
+		addAssociations(oSearchResult, poPerception);
+	}
+	
+	/**
+	 * Searches the KnowledgeBase for associated elements of DataType
+	 * for the perception.
+	 *
+	 * @author Marcus Zottl (e0226304)
+	 * 15.06.2011, 18:49:27
+	 *
+	 * @param poDataType		- the DataType you are looking for
+	 * @param poPerception	- the perception for which you want to find something 
+	 * @return							- the result of a MemorySearch in the KnowledgeBase
+	 */
+	public ArrayList<ArrayList<clsPair<Double, clsDataStructureContainer>>> search(
+			eDataType poDataType, 
+			clsPrimaryDataStructureContainer poPerception) {
+		
+		ArrayList<ArrayList<clsPair<Double, clsDataStructureContainer>>> poSearchResult =
+			new ArrayList<ArrayList<clsPair<Double, clsDataStructureContainer>>>();
+		ArrayList<clsPair<Integer, clsDataStructurePA>> oSearchPattern =
+			new ArrayList<clsPair<Integer,clsDataStructurePA>>(); 
+
+		oSearchPattern = createSearchPattern(poDataType, poPerception);
+		poSearchResult.addAll(
+				moKnowledgeBaseHandler.initMemorySearch(oSearchPattern));
+		
+		//Set Instance values
+		for (ArrayList<clsPair<Double, clsDataStructureContainer>> oStructure : poSearchResult) {
+			for (clsPair<Double, clsDataStructureContainer> oMatchingData : oStructure) {
+				int iInstID = oMatchingData.b.getMoDataStructure().getMoDSInstance_ID();
+				if (iInstID != 0) {
+					for (clsAssociation oAss : oMatchingData.b.getMoAssociatedDataStructures()) {
+						oAss.getRootElement().setMoDSInstance_ID(iInstID);
+					}
+				}
+			}
+		}
+		
+		return poSearchResult;
+	}
+	
+	/**
+	 * Creates a search pattern for a perception and a DataType that is used to
+	 * access the KnowledgeBase to find content.
+	 *
+	 * @author Marcus Zottl (e0226304)
+	 * 15.06.2011, 16:54:48
+	 *
+	 * @param poDataType		- the DataType you are looking for
+	 * @param poPerception	- the perception for which you need a search pattern
+	 * @return							- a search pattern to access the KnowledgeBase
+	 */
+	public ArrayList<clsPair<Integer, clsDataStructurePA>> createSearchPattern(
+			eDataType poDataType,
+			clsPrimaryDataStructureContainer poPerception) {
+		
+		ArrayList<clsPair<Integer, clsDataStructurePA>> oSearchPattern =
+			new ArrayList<clsPair<Integer, clsDataStructurePA>>();
+		
+		// if the moDataStructure of the Container is not a TI there is something really wrong!
+		clsTemplateImage oDS = (clsTemplateImage) poPerception.getMoDataStructure();
+		// add each element of the TI to the searchPattern
+			for (clsAssociation oEntry : oDS.getMoAssociatedContent()) {
+				oSearchPattern.add(
+						new clsPair<Integer, clsDataStructurePA>(
+						poDataType.nBinaryValue, oEntry.getLeafElement()));								
+			}
+		return oSearchPattern;
+	}
+	
+	/**
+	 * This method adds the associated items from the search result to the
+	 * associatedDataStructures of the (perception) container.
+	 *
+	 * @author Marcus Zottl (e0226304)
+	 * 22.06.2011, 18:29:38
+	 *
+	 * @param poSearchResult	- the result of a MemorySearch in the KnowledgeBase 
+	 * @param poPerception		- the perception to which the items in the search
+	 * result should be added.
+	 */
+	private void addAssociations(
+			ArrayList<ArrayList<clsPair<Double, clsDataStructureContainer>>> poSearchResult,
+			clsPrimaryDataStructureContainer poPerception) {
+
+		//oEntry: Data structure with a double association weight and an object e. g. CAKE with its associated DM.
+		for(ArrayList<clsPair<Double, clsDataStructureContainer>> oEntry : poSearchResult) {
+			if(oEntry.size() > 0){
+				//get associated DM from a the object e. g. CAKE
+				ArrayList<clsAssociation> oAssociationList = oEntry.get(0).b.getMoAssociatedDataStructures();
+				//Add associated DM to the input list. Now the list moAssociatedDataStructures contains DM and ATTRIBUTES
+				poPerception.getMoAssociatedDataStructures().addAll(oAssociationList);
+			}
+		}
+	}
+	
+	/**
+	 * Adapts the categories of DriveMeshes in the perception according to a
+	 * context.
+	 *
+	 * @author Marcus Zottl (e0226304)
+	 * 17.06.2011, 19:00:31
+	 *
+	 * @param poPerception_IN	- the perception that needs its DriveMesh categories
+	 * adjusted
+	 */
+	private void adaptCategories(clsPrimaryDataStructureContainer poPerception_IN) {
+		HashMap<clsPrimaryDataStructureContainer, clsMutableDouble> oContextResult;
+
+		oContextResult = getContext();
+		for(Map.Entry<clsPrimaryDataStructureContainer, clsMutableDouble> oContextPrim : oContextResult.entrySet()) {
+				calculateNewCategories(oContextPrim, poPerception_IN); 
+		}
+	}
+	
+	/**
+	 * The context of a certain drive or object is loaded.<br>
+	 * <br>
+	 * In the case of CAKE it is NOURISH. If the drive NOURISH is found in the
+	 * objects, the categories (anal, oral...) are multiplied with a category
+	 * factor <= 1.
+	 *
+	 * @author Marcus Zottl (e0226304)
+	 * 17.06.2011, 19:03:27
+	 *
+	 * @param poContextPrim
+	 */
+	private void calculateNewCategories(
+			Entry<clsPrimaryDataStructureContainer, clsMutableDouble> poContextPrim,
+			clsPrimaryDataStructureContainer poPerception) {
+
+		//Get the context of the object. In the case of the CAKE, NOURISH
+		eContext oContext =
+			eContext.valueOf(
+					poContextPrim.getKey().getMoDataStructure().getMoContentType());
+
+		for(clsAssociation oAssociation : poPerception.getMoAssociatedDataStructures()) {
+			clsDataStructurePA oData = oAssociation.getLeafElement();
+			//only process DMs
+			if(oData instanceof clsDriveMesh){
+				//If the drive is equal to the drive in the context then...
+				if(eContext.valueOf(oData.getMoContentType()).equals(oContext)){
+					/*setCathegories has the following Parameters:
+					 * The DM with their categories anal, oral, phallic and genital and the context value
+					 * For the CAKE with the drive NOURISH, the context value is = 1.0 as the thing can be 
+					 * eaten. The categories are multiplied with the context value.
+					 * This function reduces not 100%-Matching context with the context factor. If the 
+					 * context matches to 100%, then the context factor is = 1.0
+					 */
+					setCategories((clsDriveMesh)oData, poContextPrim.getValue().doubleValue()); 
+				}
+			}
+		}
+	}
+	
+	/**
+	 * DOCUMENT (zeilinger) - insert description
+	 *
+	 * @author zeilinger
+	 * 16.08.2010, 18:13:00
+	 *
+	 * @param oDM
+	 * @param doubleValue
+	 */
+	private void setCategories(clsDriveMesh poDM, double prContextValue) {
+		poDM.setAnal(poDM.getAnal() * prContextValue); 
+		poDM.setGenital(poDM.getGenital() * prContextValue);
+		poDM.setOral(poDM.getOral() * prContextValue); 
+		poDM.setPhallic(poDM.getPhallic() * prContextValue);
+	}
+
+	/**
+	 * DOCUMENT (zeilinger) - insert description
+	 *
+	 * @author zeilinger
+	 * 26.08.2010, 12:02:45
+	 *
+	 * @return
+	 */
+	private HashMap<clsPrimaryDataStructureContainer, clsMutableDouble> getContext() {
+		//return moMemory.moCurrentContextStorage.getContextRatiosPrimCONVERTED(mrContextSensitivity);
+		return new HashMap<clsPrimaryDataStructureContainer, clsMutableDouble>();
+	}
+	
+	
 	
 	private ArrayList<clsPrimaryDataStructureContainer> retrieveActivatedMemories(clsPrimaryDataStructureContainer oPerceptionInput, 
 			clsPrimaryDataStructureContainer oReturnedMemory) {
@@ -250,22 +519,6 @@ public class F46_FusionWithMemoryTraces extends clsModuleBaseKB implements
 		return oRetVal;
 	}
 	
-	
-	//AW 2011-05-19 added new function
-	/*private ArrayList<clsTemplateImage> retrieveIndirectTI(clsTemplateImage oInput) {
-		ArrayList<clsTemplateImage> oRetVal = new ArrayList<clsTemplateImage>();
-		
-		//Spread activation from input
-		
-		return oRetVal;
-	}
-	
-	//AW 2011-05-19 added new function
-	private clsTemplateImage tempConvertInput(ArrayList<clsPrimaryDataStructureContainer> oInput) {
-		return clsDataStructureConverter.convertMultiplePDSCtoTI (oInput);
-	}*/
-
-	
 	/**
 	 * DOCUMENT (zeilinger) - insert description
 	 *
@@ -286,7 +539,7 @@ public class F46_FusionWithMemoryTraces extends clsModuleBaseKB implements
 
 			extractUnknownData(oAssociatedElements, poPerceptionEntry, poNewImage); 
 			search(eDataType.UNDEFINED, oAssociatedElements, oSearchResult); 
-		 	addAssociations(oSearchResult, poNewImage); 
+		 	addAttributeAssociations(oSearchResult, poNewImage); 
 		 }
 	}
 
@@ -321,7 +574,7 @@ public class F46_FusionWithMemoryTraces extends clsModuleBaseKB implements
 	 * @param oSearchResult
 	 * @param poNewImage
 	 */
-	private void addAssociations(ArrayList<ArrayList<clsPair<Double, clsDataStructureContainer>>> poSearchResult,
+	private void addAttributeAssociations(ArrayList<ArrayList<clsPair<Double, clsDataStructureContainer>>> poSearchResult,
 						clsPrimaryDataStructureContainer poNewImage) {
 		
 		for(ArrayList<clsPair<Double, clsDataStructureContainer>> oEntry : poSearchResult){
@@ -459,6 +712,6 @@ public class F46_FusionWithMemoryTraces extends clsModuleBaseKB implements
 	 */
 	@Override
 	public void setDescription() {
-		moDescription = "The thing presentations which represent the perception are associated with previously experienced and stored memory traces. This has two impacts: more information is added to the current perception and the perception is completed with previously stored information. Thus, if only parts of a well known object are visible, the other parts are added from memory. Next to information stored in memory, memory traces processed in secondary processes from the last step can be used.";
+		moDescription = " Association of TPMs (TP + Emotion, fantasies) with thing presentations raw data (from external perception). In a first step these are attached with a value to get a meaning. Secondly the fantasies are added from the TPMs to the thing presentations";
 	}		
 }

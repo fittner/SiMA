@@ -7,6 +7,8 @@
 package pa._v38.modules;
 
 import java.util.ArrayList;
+
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.SortedMap;
 
@@ -14,9 +16,17 @@ import pa._v38.interfaces.eInterfaces;
 import pa._v38.interfaces.modules.I5_7_receive;
 import pa._v38.interfaces.modules.I5_7_send;
 import pa._v38.interfaces.modules.I5_6_receive;
-import pa._v38.memorymgmt.datatypes.clsPrimaryDataStructureContainer;
-import pa._v38.tools.toText;
 
+import pa._v38.memorymgmt.datahandler.clsDataStructureConverter;
+import pa._v38.memorymgmt.datatypes.clsDriveMesh;
+import pa._v38.memorymgmt.datatypes.clsPrimaryDataStructureContainer;
+import pa._v38.memorymgmt.enums.eDataType;
+
+
+import pa._v38.tools.clsPair;
+import pa._v38.tools.clsTripple;
+import pa._v38.tools.toText;
+import pa._v38.storage.clsBlockedContentStorage;
 import config.clsBWProperties;
 
 /**
@@ -34,9 +44,15 @@ public class F37_PrimalRepressionForPerception extends clsModuleBase implements 
 	
 	private clsPrimaryDataStructureContainer moEvaluatedEnvironment_OUT;
 	private ArrayList<clsPrimaryDataStructureContainer> moAssociatedMemories_OUT;
+
+
+	private ArrayList<clsPair<clsPrimaryDataStructureContainer, clsDriveMesh>> moAttachedRepressed_Output;
+	private ArrayList< clsTripple<String, String, ArrayList<Double> >> moPrimalRepressionMemory;
+	
+	 
 		
 	/**
-	 * DOCUMENT (HINTERLEITNER) - insert description 
+	 * DOCUMENT (HINTERLEITNER) - This function attaches the thing presentations to the repressed content and makes an association. The result is a constructed perception with associated repressed content.
 	 * 
 	 * @author deutsch
 	 * 03.03.2011, 16:20:58
@@ -47,10 +63,33 @@ public class F37_PrimalRepressionForPerception extends clsModuleBase implements 
 	 * @throws Exception
 	 */
 	public F37_PrimalRepressionForPerception(String poPrefix,
-			clsBWProperties poProp, HashMap<Integer, clsModuleBase> poModuleList, SortedMap<eInterfaces, ArrayList<Object>> poInterfaceData)
-			throws Exception {
+			clsBWProperties poProp, HashMap<Integer, clsModuleBase> poModuleList, SortedMap<eInterfaces, 
+			ArrayList<Object>> poInterfaceData, clsBlockedContentStorage poBlockedContentStorage)
+		throws Exception {
 		super(poPrefix, poProp, poModuleList, poInterfaceData);
 		applyProperties(poPrefix, poProp);	
+		fillPrimalRepressionMemory();
+	}
+	
+	private void fillPrimalRepressionMemory() {
+		moPrimalRepressionMemory = new ArrayList<clsTripple<String,String,ArrayList<Double>>>();
+		
+		moPrimalRepressionMemory.add( new clsTripple<String,String,ArrayList<Double>>(
+				"LIFE", "LIBIDINOUS_ORAL", new ArrayList<Double>(Arrays.asList(0.1, 0.2, 0.3, 0.4)) ) );
+		moPrimalRepressionMemory.add( new clsTripple<String,String,ArrayList<Double>>(
+				"LIFE", "LIBIDINOUS_ANAL", new ArrayList<Double>(Arrays.asList(0.4, 0.3, 0.2, 0.1)) ) );
+		moPrimalRepressionMemory.add( new clsTripple<String,String,ArrayList<Double>>(
+				"LIFE", "LIBIDINOUS_PHALLIC", new ArrayList<Double>(Arrays.asList(0.1, 0.1, 0.1, 0.1)) ) );
+		moPrimalRepressionMemory.add( new clsTripple<String,String,ArrayList<Double>>(
+				"LIFE", "LIBIDINOUS_GENITAL", new ArrayList<Double>(Arrays.asList(0.1, 0.5, 0.1, 0.2)) ) );
+		moPrimalRepressionMemory.add( new clsTripple<String,String,ArrayList<Double>>(
+				"DEATH", "AGGRESSIVE_ORAL", new ArrayList<Double>(Arrays.asList(0.8, 0.01, 0.2, 0.1)) ) );
+		moPrimalRepressionMemory.add( new clsTripple<String,String,ArrayList<Double>>(
+				"DEATH", "AGGRESSIVE_ANAL", new ArrayList<Double>(Arrays.asList(0.1, 0.4, 0.1, 0.2)) ) );
+		moPrimalRepressionMemory.add( new clsTripple<String,String,ArrayList<Double>>(
+				"DEATH", "AGGRESSIVE_PHALLIC", new ArrayList<Double>(Arrays.asList(0.01, 0.01, 0.01, 0.6)) ) );
+		moPrimalRepressionMemory.add( new clsTripple<String,String,ArrayList<Double>>(
+				"DEATH", "AGGRESSIVE_GENITAL", new ArrayList<Double>(Arrays.asList(0.7, 0.7, 0.1, 0.9)) ) );
 	}
 	
 	/* (non-Javadoc)
@@ -66,6 +105,7 @@ public class F37_PrimalRepressionForPerception extends clsModuleBase implements 
 		
 		text += toText.valueToTEXT("moEnvironmentalPerception_IN", moEnvironmentalPerception_IN);
 		text += toText.valueToTEXT("moEvaluatedEnvironment_OUT", moEvaluatedEnvironment_OUT);
+		text += toText.listToTEXT("moPrimalRepressionMemory", moPrimalRepressionMemory);
 		
 		return text;
 	}	
@@ -99,13 +139,93 @@ public class F37_PrimalRepressionForPerception extends clsModuleBase implements 
 	 */
 	@Override
 	protected void process_basic() {
-		// TODO (HINTERLEITNER) - Auto-generated method stub
-		//moEvaluatedEnvironment_OUT = clsDataStructureConverter.convertTIContToTPMCont(moEnvironmental_IN);
-		moEvaluatedEnvironment_OUT = moEnvironmentalPerception_IN;
+	
+	moEvaluatedEnvironment_OUT = moEnvironmentalPerception_IN;
+   
+	matchRepressedContent(moEnvironmentalPerception_IN, moAttachedRepressed_Output);
+
+	//Pass memories forward
+	moAssociatedMemories_OUT = moAssociatedMemories_IN;
+	
+}
+
+/**
+ * DOCUMENT (hinterleitner) - function adds a triple of primal repressions (oEntryPrimRep) to each incoming environmental repression 
+ * 
+ * @since 25.06.2011 14:57:36
+ *
+ */
+private void matchRepressedContent(clsPrimaryDataStructureContainer moConstrPerc, ArrayList<clsPair<clsPrimaryDataStructureContainer, clsDriveMesh>> moAttachedRepressed_Output) 
+{
+    moConstrPerc = moEnvironmentalPerception_IN; //Constructed Perception enters from the Interface
+    
+    if (moConstrPerc != null)  
+    {
+       
+	//System.out.println(moPrimalRepressionMemory);  // Urverdrängtes
+    //moEvaluatedEnvironment_OUT; //:TI::-1:TI:CONSTRUCTED_PERCEPTION
+    	
+		moAttachedRepressed_Output = new ArrayList<clsPair<clsPrimaryDataStructureContainer,clsDriveMesh>>();
 		
-		//Indirect associated memories are "durchgeschliffen"
-		moAssociatedMemories_OUT = moAssociatedMemories_IN;
+		for (clsPrimaryDataStructureContainer oPDSC:clsDataStructureConverter.convertTIContToTPMCont(moEnvironmentalPerception_IN)) 
+		{
+	
+			clsPair<clsPrimaryDataStructureContainer,clsDriveMesh> oEntryPrimRep = 
+				new clsPair<clsPrimaryDataStructureContainer, clsDriveMesh>(
+						oPDSC, 
+						new clsDriveMesh(
+								new clsTripple<Integer, eDataType, String>(0, eDataType.UNDEFINED, "c"), 
+								0, 
+								new double[]{0.1,0.5,0.6,0.3}, 
+								null, null)
+						);
+
+			moAttachedRepressed_Output.add(oEntryPrimRep);
+			//System.out.println(moAttachedRepressed_Output);
+			//moEvaluatedEnvironment_OUT = ConvertToTIContainer(moAttachedRepressed_Output);
+		
+		}    			
+	
+    }		
+}	
+	/**
+ * DOCUMENT (hinterleitner) - insert description
+ *
+ * @since 29.06.2011 14:26:30
+ *
+ * @param moAttachedRepressed_Output2
+ * @return
+ */
+private clsPrimaryDataStructureContainer ConvertToTIContainer(
+		ArrayList<clsPair<clsPrimaryDataStructureContainer, clsDriveMesh>> moAttachedRepressed_Output2) {
+	// TODO (hinterleitner) - Auto-generated method stub
+	return null;
+}
+
+	/*private clsPrimaryDataStructureContainer ConvertToTIContainer(ArrayList<clsPair<clsPrimaryDataStructureContainer, clsDriveMesh>> oInput) {
+	ArrayList<clsPrimaryDataStructureContainer> oMergedArray = new ArrayList<clsPrimaryDataStructureContainer>();
+	for (clsPair<clsPrimaryDataStructureContainer, clsDriveMesh> oPair : oInput) {
+		clsPrimaryDataStructureContainer oNewSingleContainer = new clsPrimaryDataStructureContainer(oPair.a.getMoDataStructure(),oPair.a.getMoAssociatedDataStructures());
+		clsTripple<Integer, eDataType, String> oIdentifyer = new clsTripple<Integer, eDataType, String>(-1, eDataType.ASSOCIATIONDM, eDataType.ASSOCIATIONDM.toString());
+		clsAssociationDriveMesh oDriveAss = new clsAssociationDriveMesh(oIdentifyer, oPair.b, (clsPrimaryDataStructure)oPair.a.getMoDataStructure());
+		
+		ArrayList<clsAssociation> oNewAssList = oNewSingleContainer.getMoAssociatedDataStructures();
+		oNewAssList.add(oDriveAss);
+		
+		oNewSingleContainer.setMoAssociatedDataStructures(oNewAssList);
+		oMergedArray.add(oNewSingleContainer);
 	}
+	
+	clsPrimaryDataStructureContainer oRetVal = clsDataStructureConverter.convertTPMContToTICont(oMergedArray);
+	
+	return oRetVal;
+}*/
+
+	//check whether the format is equal to output format moEvaluatedEnvironment_OUT
+
+
+
+
 
 	/* (non-Javadoc)
 	 *
@@ -206,6 +326,6 @@ public class F37_PrimalRepressionForPerception extends clsModuleBase implements 
 	 */
 	@Override
 	public void setDescription() {
-		moDescription = "This function categorizes the thing presentations according to the four primary drives. The result of it is that thing presentations have an additional value which can be used for further memory lookup to find similar entries.";
+		moDescription = "This function attaches the thing presentations to the repressed content and makes an association. The result is a constructed perception with associated repressed content.";
 	}		
 }

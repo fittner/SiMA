@@ -24,7 +24,7 @@ import pa._v38.tools.toText;
 import config.clsBWProperties;
 
 /**
- * DOCUMENT (zeilinger) - insert description 
+ * DOCUMENT (zeilinger) - For generated drive candidates (vector affect values), drive objects and actions (drive aims) are remembered (for the satisfaction of needs 
  * 
  * @author zeilinger
  * 02.05.2011, 15:47:23
@@ -34,13 +34,11 @@ public class F57_MemoryTracesForDrives extends clsModuleBaseKB
 		implements I4_1_receive, I5_7_receive, I5_1_send{
 
 	public static final String P_MODULENUMBER = "57";
-	@SuppressWarnings("unused")
 	private clsPrimaryDataStructureContainer moEnvironmentalPerception_IN;	//AW 20110521: New containerstructure. Use clsDataStructureConverter.TPMtoTI to convert to old structure
 	@SuppressWarnings("unused")
 	private ArrayList<clsPrimaryDataStructureContainer> moAssociatedMemories_IN;	//AW 20110621: Associated Memories
-	@SuppressWarnings("unused")
 	private ArrayList<clsDriveMesh> moDriveCandidates;
-	
+	private ArrayList<clsPair<clsPrimaryDataStructureContainer,ArrayList<clsDriveMesh>>> moInput; //Clemens fragen
 	private  ArrayList<clsPair<clsPhysicalRepresentation,clsDriveMesh>> moDrivesAndTraces_OUT;
 	
 	/**
@@ -103,15 +101,15 @@ public class F57_MemoryTracesForDrives extends clsModuleBaseKB
 	 * 
 	 * @see pa._v38.interfaces.modules.I5_7_receive#receive_I5_7(java.util.ArrayList)
 	 */
-	@SuppressWarnings("unchecked")
 	/* Comment TD from Mail: also deepCopy ist ganz ganz ganz ganz ganz … ganz böses voodoo. 
 	 * In diesem fall ist das problem, dass du 2 cast in einem machst/machen mußt. 
 	 * Und der ist so nicht checkbar (afaik). In diesem fall einfach suppresswarning machen 
 	 * (ist bei deepcopy nicht schlimm – kommt innerhalb der funktion dauernd vor).
 	 */
+	@SuppressWarnings("unchecked")
 	@Override
 	public void receive_I5_7(clsPrimaryDataStructureContainer poEnvironmentalTP, ArrayList<clsPrimaryDataStructureContainer> poAssociatedMemories) {
-		moEnvironmentalPerception_IN = (clsPrimaryDataStructureContainer)deepCopy(poEnvironmentalTP);
+		moEnvironmentalPerception_IN = (clsPrimaryDataStructureContainer)deepCopy(poEnvironmentalTP); //die Wahrnehmung muss auch weitergesendet werden 
 		moAssociatedMemories_IN = (ArrayList<clsPrimaryDataStructureContainer>)deepCopy(poAssociatedMemories);
 	}
 
@@ -141,6 +139,33 @@ public class F57_MemoryTracesForDrives extends clsModuleBaseKB
 		moDrivesAndTraces_OUT =  deepCopy(moDriveCandidates); 
 		
 		
+		//ArrayList<clsPair<clsPrimaryDataStructureContainer, ArrayList<clsDriveMesh>>>;
+		
+		attachDriveCandidatesToEnvironPerception();
+		
+	}
+
+	/**
+	 * DOCUMENT (hinterleitner) - insert description
+	 *
+	 * @since 01.07.2011 10:24:34
+	 *
+	 */
+	private void attachDriveCandidatesToEnvironPerception() {
+		
+		if (moEnvironmentalPerception_IN != null)
+			
+			//moInput = new ArrayList<clsPair<clsPhysicalRepresentation, clsDriveMesh>>) deepCopy(poData);
+			moInput = new ArrayList<clsPair<clsPrimaryDataStructureContainer, ArrayList<clsDriveMesh>>> (); 
+			
+
+			moInput.add(new clsPair<clsPrimaryDataStructureContainer, ArrayList<clsDriveMesh>> (moEnvironmentalPerception_IN, moDriveCandidates)); //Triebkandidaten = clsDriveMesh 
+		
+			/* Commented out by HZ - 6.7.2011
+				System.out.println(moKnowledgeBaseHandler);
+				System.out.println(moDriveCandidates);
+				System.out.println(moEnvironmentalPerception_IN); //constructed perception
+			*/
 	}
 
 	/* (non-Javadoc)
@@ -228,7 +253,7 @@ public class F57_MemoryTracesForDrives extends clsModuleBaseKB
 	 */
 	@Override
 	public void setDescription() {
-		moDescription = "Für vorher generierte „Triebkandidaten“ werden Triebobjekte und Handlungen (Triebziele ) erinnert (als Befriedigungsmöglichkeiten)";
+		moDescription = "For generated drive candidates (vector affect values), drive objects and actions (drive aims) are remembered (for the satisfaction of needs)";
 		// TODO (muchitsch) - give a en description
 		
 	}
@@ -244,7 +269,8 @@ public class F57_MemoryTracesForDrives extends clsModuleBaseKB
 	public void send_I5_1(
 			ArrayList<clsPair<clsPhysicalRepresentation, clsDriveMesh>> poData) {
 		
-		((I5_1_receive)moModuleList.get(49)).receive_I5_1(poData);
+	
+		((I5_1_receive)moModuleList.get(49)).receive_I5_1(poData); 
 		
 		putInterfaceData(I5_1_send.class, poData);
 	}

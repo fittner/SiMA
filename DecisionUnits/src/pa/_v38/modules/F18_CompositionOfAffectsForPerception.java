@@ -208,7 +208,7 @@ public class F18_CompositionOfAffectsForPerception extends clsModuleBase impleme
 					//Boolean oDelete = oSecondAssPair.b;
 					
 					//If the DM belongs to the same TPM oder TP AND it is a DM and it has not been used yet
-					if ((oFirstAss.getRootElement().getMoDS_ID() == oSecondAss.getRootElement().getMoDS_ID()) && (oSecondAss instanceof clsAssociationDriveMesh)  
+					if ((oFirstAss.getRootElement().getMoDSInstance_ID() == oSecondAss.getRootElement().getMoDSInstance_ID()) && (oSecondAss instanceof clsAssociationDriveMesh)  
 							&& (oSecondAssPair.b == false)) {	
 						clsDriveMesh oSecondDM = (clsDriveMesh)oSecondAss.getLeafElement();
 						//firstAssociation is compared with the secondAssociation

@@ -1,4 +1,4 @@
-; Fri Jul 01 13:38:09 GMT 2011
+; Wed Jul 06 13:01:36 GMT 2011
 ; 
 ;+ (version "3.4.4")
 ;+ (build "Build 579")
@@ -734,14 +734,6 @@
 ;+		(cardinality 1 1)
 		(create-accessor read-write)))
 
-(defclass ASSOCIATIONPRIMARY
-	(is-a ASSOCIATION)
-	(role concrete))
-
-(defclass ASSOCIATIONSECONDARY
-	(is-a ASSOCIATION)
-	(role concrete))
-
 (defclass TI
 	(is-a USER)
 	(role concrete)
@@ -834,7 +826,7 @@
 	(is-a TI)
 	(role concrete))
 
-(defclass MEMORY
+(defclass EXPERIENCE
 	(is-a TI)
 	(role concrete))
 

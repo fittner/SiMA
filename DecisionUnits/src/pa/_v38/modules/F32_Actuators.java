@@ -1,7 +1,7 @@
 /**
  * E32_Actuators.java: DecisionUnits - pa.modules
  * 
- * @author deutsch
+ * @author brandstaetter
  * 11.08.2009, 15:00:44
  */
 package pa._v38.modules;
@@ -20,7 +20,7 @@ import pa._v38.tools.toText;
 /**
  * DOCUMENT (brandstaetter) - insert description 
  * 
- * @author deutsch
+ * @author brandstaetter
  * 11.08.2009, 15:00:44
  * 
  */
@@ -33,7 +33,7 @@ public class F32_Actuators extends clsModuleBase implements I1_5_receive, I0_6_s
 	/**
 	 * DOCUMENT (brandstaetter) - insert description 
 	 * 
-	 * @author deutsch
+	 * @author brandstaetter
 	 * 03.03.2011, 17:02:05
 	 *
 	 * @param poPrefix
@@ -52,7 +52,7 @@ public class F32_Actuators extends clsModuleBase implements I1_5_receive, I0_6_s
 
 	/* (non-Javadoc)
 	 *
-	 * @author deutsch
+	 * @author brandstaetter
 	 * 14.04.2011, 17:36:19
 	 * 
 	 * @see pa.modules._v38.clsModuleBase#stateToTEXT()
@@ -84,7 +84,7 @@ public class F32_Actuators extends clsModuleBase implements I1_5_receive, I0_6_s
 
 	/* (non-Javadoc)
 	 *
-	 * @author deutsch
+	 * @author brandstaetter
 	 * 11.08.2009, 12:09:34
 	 * 
 	 * @see pa.modules.clsModuleBase#setProcessType()
@@ -96,7 +96,7 @@ public class F32_Actuators extends clsModuleBase implements I1_5_receive, I0_6_s
 
 	/* (non-Javadoc)
 	 *
-	 * @author deutsch
+	 * @author brandstaetter
 	 * 11.08.2009, 12:09:34
 	 * 
 	 * @see pa.modules.clsModuleBase#setPsychicInstances()
@@ -108,7 +108,7 @@ public class F32_Actuators extends clsModuleBase implements I1_5_receive, I0_6_s
 
 	/* (non-Javadoc)
 	 *
-	 * @author deutsch
+	 * @author brandstaetter
 	 * 11.08.2009, 15:01:51
 	 * 
 	 * @see pa.interfaces.I8_2#receive_I8_2(int)
@@ -123,7 +123,7 @@ public class F32_Actuators extends clsModuleBase implements I1_5_receive, I0_6_s
 
 	/* (non-Javadoc)
 	 *
-	 * @author deutsch
+	 * @author brandstaetter
 	 * 11.08.2009, 16:16:59
 	 * 
 	 * @see pa.modules.clsModuleBase#process()
@@ -136,7 +136,7 @@ public class F32_Actuators extends clsModuleBase implements I1_5_receive, I0_6_s
 
 	/* (non-Javadoc)
 	 *
-	 * @author deutsch
+	 * @author brandstaetter
 	 * 11.08.2009, 16:16:59
 	 * 
 	 * @see pa.modules.clsModuleBase#send()
@@ -149,7 +149,7 @@ public class F32_Actuators extends clsModuleBase implements I1_5_receive, I0_6_s
 
 	/* (non-Javadoc)
 	 *
-	 * @author deutsch
+	 * @author brandstaetter
 	 * 12.07.2010, 10:48:12
 	 * 
 	 * @see pa.modules.clsModuleBase#process_draft()
@@ -162,7 +162,7 @@ public class F32_Actuators extends clsModuleBase implements I1_5_receive, I0_6_s
 
 	/* (non-Javadoc)
 	 *
-	 * @author deutsch
+	 * @author brandstaetter
 	 * 12.07.2010, 10:48:12
 	 * 
 	 * @see pa.modules.clsModuleBase#process_final()
@@ -175,7 +175,7 @@ public class F32_Actuators extends clsModuleBase implements I1_5_receive, I0_6_s
 
 	/* (non-Javadoc)
 	 *
-	 * @author deutsch
+	 * @author brandstaetter
 	 * 03.03.2011, 17:02:13
 	 * 
 	 * @see pa.modules._v38.clsModuleBase#setModuleNumber()
@@ -197,7 +197,7 @@ public class F32_Actuators extends clsModuleBase implements I1_5_receive, I0_6_s
 
 	/* (non-Javadoc)
 	 *
-	 * @author deutsch
+	 * @author brandstaetter
 	 * 03.03.2011, 19:25:36
 	 * 
 	 * @see pa.interfaces.send._v38.I0_6_send#send_I0_6(java.util.ArrayList)
@@ -211,7 +211,7 @@ public class F32_Actuators extends clsModuleBase implements I1_5_receive, I0_6_s
 
 	/* (non-Javadoc)
 	 *
-	 * @author deutsch
+	 * @author brandstaetter
 	 * 15.04.2011, 13:52:57
 	 * 
 	 * @see pa.modules._v38.clsModuleBase#setDescription()

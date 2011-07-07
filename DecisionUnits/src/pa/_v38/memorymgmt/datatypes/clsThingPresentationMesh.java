@@ -129,7 +129,9 @@ public class clsThingPresentationMesh extends clsPhysicalStructureComposition{
 				 */
 				oRetVal = oDataStructure.getNumbAssociations();
 		}
-		else if (oDataStructure.moDS_ID > -1){	return oRetVal;	}
+		/*Each saved CAKE or other individual shall have an own ID. Here, the ID is treated as a type ID, which makes it
+		 *impossible to compare individuals */
+		//else if (oDataStructure.moDS_ID > -1){	return oRetVal;	}
 		
 		//In case the data structure does not have an ID, it has to be compared to a stored 
 		//data structure and replaced by it (the processes base on information that is already

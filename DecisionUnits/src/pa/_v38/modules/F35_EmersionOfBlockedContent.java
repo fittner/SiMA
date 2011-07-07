@@ -9,13 +9,8 @@ package pa._v38.modules;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.SortedMap;
-import java.util.Map;
-import java.util.Map.Entry;
-import bfg.tools.clsMutableDouble;
 import config.clsBWProperties;
-import du.enums.pa.eContext;
 import pa._v38.tools.clsPair;
-import pa._v38.tools.clsTripple;
 import pa._v38.tools.toText;
 import pa._v38.interfaces.eInterfaces;
 import pa._v38.interfaces.itfMinimalModelMode;
@@ -23,13 +18,9 @@ import pa._v38.interfaces.modules.I5_7_receive;
 import pa._v38.interfaces.modules.I5_8_receive;
 import pa._v38.interfaces.modules.I5_8_send;
 import pa._v38.memorymgmt.clsKnowledgeBaseHandler;
-import pa._v38.memorymgmt.datahandler.clsDataStructureConverter;
-import pa._v38.memorymgmt.datatypes.clsAssociation;
-import pa._v38.memorymgmt.datatypes.clsAssociationDriveMesh;
 import pa._v38.memorymgmt.datatypes.clsDataStructureContainer;
 import pa._v38.memorymgmt.datatypes.clsDataStructurePA;
 import pa._v38.memorymgmt.datatypes.clsDriveMesh;
-import pa._v38.memorymgmt.datatypes.clsPrimaryDataStructure;
 import pa._v38.memorymgmt.datatypes.clsPrimaryDataStructureContainer;
 import pa._v38.memorymgmt.enums.eDataType;
 import pa._v38.storage.clsBlockedContentStorage;
@@ -58,6 +49,8 @@ public class F35_EmersionOfBlockedContent extends clsModuleBaseKB implements itf
 	
 	private double mrContextSensitivity = 0.8;
 	private boolean mnMinimalModel;
+	
+
 	/**
 	 * DOCUMENT (wendt) - insert description 
 	 * 
@@ -91,7 +84,7 @@ public class F35_EmersionOfBlockedContent extends clsModuleBaseKB implements itf
 	public String stateToTEXT() {
 		String text ="";
 		
-		text += toText.valueToTEXT("mnMinimalModel", mnMinimalModel);
+		//text += toText.valueToTEXT("mnMinimalModel", mnMinimalModel);
 		text += toText.valueToTEXT("moBlockedContentStorage", moBlockedContentStorage);
 		text += toText.valueToTEXT("moEnvironmentalTP_Input", moEnvironmentalPerception_IN);
 		text += toText.listToTEXT("moAttachedRepressed_Output", moAttachedRepressed_Output);
@@ -114,7 +107,7 @@ public class F35_EmersionOfBlockedContent extends clsModuleBaseKB implements itf
 	private void applyProperties(String poPrefix, clsBWProperties poProp) {
 		String pre = clsBWProperties.addDot(poPrefix);
 		mrContextSensitivity = poProp.getPropertyDouble(pre+P_CONTEXT_SENSTITIVITY);
-		mnMinimalModel = false;
+		//mnMinimalModel = false;
 	}
 
 	/* (non-Javadoc)
@@ -124,263 +117,40 @@ public class F35_EmersionOfBlockedContent extends clsModuleBaseKB implements itf
 	 * 
 	 * @see pa.modules.clsModuleBase#process()
 	 */
-	@SuppressWarnings("unused")
+	@SuppressWarnings("unchecked")
 	@Override
 	protected void process_basic() {
-		//TD 2011/04/30: quick fix - minimal model does not work in E35. 
-		if (true || !mnMinimalModel) { 
-			//HZ 16.08.2010: this part is programmed to map the functionalities of ARSi09 to the new datastructure model. However, 
-			//it is for sure that the functionalities change in further model revisions. These changes include that 
-			//	- modules of E15 (in case it still exists) will presumably not obey of a memory access (this has to be
-			//	  included here in order to match ARSi09 functionalities)
-			//	- The cathegorization has to be done on the base of memories that are actually retrieved in E16. This will 
-			//	  be changed in the next model revision; 
-			//	- The current context has to be read out of a buffer (like a working memory) that has to be introduced. As some 
-			//	  model changes will turn up, the current implementation uses the old hack that bases on ARSi09 data structures. 
-			//    in the class clsRepressedContentStorage methods are introduced that return the context in terms of new 
-			//	  data structures. However, after the new functionalities are introduced, old and new data structures have to 
-			//    be clearly separated from each other and the use of clsRepressedContentStorage has to be avoided. 
-			
-			//FIXME: AW: The output consists of 3 equal pairs of DM and Containers. Why is the same Ref used 3 times?
-			moAttachedRepressed_Output = new ArrayList<clsPair<clsPrimaryDataStructureContainer,clsDriveMesh>>();
-			ArrayList<clsPrimaryDataStructureContainer> oContainerList = new ArrayList<clsPrimaryDataStructureContainer>(); 
-	 		
-			oContainerList = clsDataStructureConverter.convertTIContToTPMCont(moEnvironmentalPerception_IN); 
-			/* Add DM for to object and include them in the TPM through associations. The TPM then contains 
-			 * attributeassociations and drivemeshassociations
-			 */
-			assignDriveMeshes(oContainerList);
-			/* The context of a certain drive or object is loaded, in the case of CAKE, it is NOURISH. If the drive 
-			 * NOURISH is found in the objects the categories (anal, oral...) is multiplied with a category factor <= 1
-			 * In case of a 100% match, the factor is 1.0.
-			 */
-			adaptCathegories(oContainerList);
-			/* DM from the Repressed Content are added to the objects in the oContainerList
-			 */
-			
-			moBlockedContentStorage.receive_D2_4(oContainerList);
-			moAttachedRepressed_Output = moBlockedContentStorage.send_D2_4();
-			
-			//matchRepressedContent(oContainerList);	//This function can be found in the blocked content instead
-			
-		} else {
-			//for the minimal model, a minor update of the datastructure is necessary. each clsPrimaryDataStructureContainer has
-			//to be attached with an empty clsDriveMesh
-			moAttachedRepressed_Output = new ArrayList<clsPair<clsPrimaryDataStructureContainer,clsDriveMesh>>();
-			for (clsPrimaryDataStructureContainer oPDSC:clsDataStructureConverter.convertTIContToTPMCont(moEnvironmentalPerception_IN)) {
-				clsPair<clsPrimaryDataStructureContainer,clsDriveMesh> oEntry = 
-					new clsPair<clsPrimaryDataStructureContainer, clsDriveMesh>(
-							oPDSC, 
-							new clsDriveMesh(
-									new clsTripple<Integer, eDataType, String>(0, eDataType.UNDEFINED, "c"), 
-									0, 
-									new double[]{0.0,0.0,0.0,0.0}, 
-									null, 
-									null)
-							);
-				moAttachedRepressed_Output.add(oEntry);
-			}
-		}
-		
-		//Convert Output to new format
-		moEnvironmentalPerception_OUT = ConvertToTIContainer(moAttachedRepressed_Output);
-		//Pass the memories forward. Later, they are enriched repressed content
-		moAssociatedMemories_OUT = moAssociatedMemories_IN;
-	}
-	
-	/**
-	 * DOCUMENT (zeilinger) - insert description
-	 *
-	 * @author zeilinger
-	 * 16.08.2010, 09:55:48
-	 *
-	 * @return
-	 */
-	private void assignDriveMeshes(ArrayList<clsPrimaryDataStructureContainer> poContainerList) {
-		ArrayList<ArrayList<clsPair<Double,clsDataStructureContainer>>> oSearchResult = 
-			new ArrayList<ArrayList<clsPair<Double,clsDataStructureContainer>>>(); 
-	
-		/*Search for associated Drive Meshes with the parameter Datatype=DM, poContainerlist with the objects and
-		*their associations and put the result in oSearchResult, which consists of the original objects from 
-		*poContainerlist and for each object all assigned DM. The DM also have a weight, which is always set=1
-		*/
-		search(eDataType.DM, poContainerList, oSearchResult); 
-		/*This function takes the associated DM from oSeachResult and adds them to the corresponding
-		 * poContainerList in the associated Objects (not in the TPM)
+		moEnvironmentalPerception_OUT = (clsPrimaryDataStructureContainer)deepCopy(moEnvironmentalPerception_IN);
+		moAssociatedMemories_OUT = (ArrayList<clsPrimaryDataStructureContainer>)deepCopy(moAssociatedMemories_IN);
+		/* MZ 2011/07/05: everything that is done with the input is now happening
+		 * inside enrichWithBlockedContent. This was done so that in the future
+		 * the items in moAssociatedMemories_IN can also be processed in the same
+		 * manner.
 		 */
-		addAssociations(poContainerList, oSearchResult);  
-	}
-	
-	/**
-	 * DOCUMENT (zeilinger) - insert description
-	 *
-	 * @author zeilinger
-	 * 18.03.2011, 17:03:40
-	 * @param oSearchPattern 
-	 *
-	 * @param poContainer
-	 * @param oSearchResult
-	 */
-	private void addAssociations(ArrayList<clsPrimaryDataStructureContainer> poContainerList, ArrayList<ArrayList<clsPair<Double, clsDataStructureContainer>>> poSearchResult) {
-		
-		//oEntry: Data structure with a double association weigth and an object e. g. CAKE with its associated DM.
-		for(ArrayList<clsPair<Double, clsDataStructureContainer>> oEntry : poSearchResult){
-			if(oEntry.size() > 0){
-				//get associated DM from a the object e. g. CAKE
-				ArrayList <clsAssociation> oAssociationList = oEntry.get(0).b.getMoAssociatedDataStructures();
-				//Add associated DM to the input list. Now the list moAssociatedDataStructures contains DM and ATTRIBUTES
-				poContainerList.get(poSearchResult.indexOf(oEntry)).getMoAssociatedDataStructures().addAll(oAssociationList); 
-				
-			}
-		}
+		enrichWithBlockedContent(moEnvironmentalPerception_OUT, moAssociatedMemories_OUT);
 	}
 
 	/**
-	 * DOCUMENT (zeilinger) - insert description
+	 * looks for matching blocked content to enrich the
+	 * perception.
 	 *
-	 * @author zeilinger
-	 * 16.08.2010, 15:09:42
+	 * @author Marcus Zottl (e0226304)
+	 * 26.06.2011, 17:18:03
 	 *
-	 * @param oContainer
+	 * @param poPerception - the perception that is to be processed.
+	 * 
+	 * @see F35_EmersionOfBlockedContent#assignDriveMeshes(clsPrimaryDataStructureContainer)
+	 * @see F35_EmersionOfBlockedContent#adaptCategories(clsPrimaryDataStructureContainer)
+	 * @see F35_EmersionOfBlockedContent#matchBlockedContent(clsPrimaryDataStructureContainer)
 	 */
-	private void adaptCathegories(ArrayList<clsPrimaryDataStructureContainer> poContainerList) {
-		
-		HashMap<clsPrimaryDataStructureContainer, clsMutableDouble> oContextResult = getContext(); 
-		
-		for(clsPrimaryDataStructureContainer oContainer : poContainerList){
-			for( Map.Entry<clsPrimaryDataStructureContainer, clsMutableDouble> oContextPrim : oContextResult.entrySet() ) {
-				calculateCath(oContainer, oContextPrim); 
-			}
-		}
-	}
-	
-	/**
-	 * DOCUMENT (zeilinger) - insert description
-	 *
-	 * @author zeilinger
-	 * 26.08.2010, 12:06:22
-	 *
-	 * @param oContainer
-	 * @param oContextPrim
-	 */
-	private void calculateCath(clsPrimaryDataStructureContainer poContainer,
-							   Entry<clsPrimaryDataStructureContainer, clsMutableDouble> poContextPrim) {
-		
-		//Get the drive of the object. In the case of the CAKE, NOURISH
-		eContext oContext = eContext.valueOf(poContextPrim.getKey().getMoDataStructure().getMoContentType());
-		
-		/*For each Associated Content for each object in the clsPrimaryDataStructureContainer, get the associated
-		 * content in oAssociation (Format clsAssociation)
-		 * 
-		 */
-		for(clsAssociation oAssociation : poContainer.getMoAssociatedDataStructures()){
-			//HZ 17.08.2010: The method getLeafElement cannot be used here as the search patterns actually
-			// do not have a data structure ID => in a later version when E16 will be placed in front 
-			// of E15, the patterns already have an ID. 
-			
-			/* In the case of the CAKE, get the Leaf-Element, i. e. the Thing presentation, which describes
-			 * one property 
-			 */
-			clsDataStructurePA oData = oAssociation.getLeafElement();
-			
-			//If the oData is not a Thing Presentation, but a DM ...
-			if(oData instanceof clsDriveMesh){
-				//If the Drive is equal to the drive in the context (e. g. NOURISH) then....
-				if(eContext.valueOf(oData.getMoContentType()).equals(oContext)){
-					/*setCathegories has the following Parameters:
-					 * The DM with their categories anal, oral, phallic and genital and the context value
-					 * For the CAKE with the drive NOURISH, the context value is = 1.0 as the thing can be 
-					 * eaten. The categories are multiplied with the context value.
-					 * This function reduces not 100%-Matching context with the context factor. If the 
-					 * context matches to 100%, then the context factor is = 1.0
-					 */
-					setCathegories((clsDriveMesh)oData, poContextPrim.getValue().doubleValue()); 
-				}
-			}
-		}
-	}
-
-	/**
-	 * DOCUMENT (zeilinger) - insert description
-	 *
-	 * @author zeilinger
-	 * 26.08.2010, 12:02:45
-	 *
-	 * @return
-	 */
-	private HashMap<clsPrimaryDataStructureContainer, clsMutableDouble> getContext() {
-		//return moMemory.moCurrentContextStorage.getContextRatiosPrimCONVERTED(mrContextSensitivity);
-		return new HashMap<clsPrimaryDataStructureContainer, clsMutableDouble>();
-	}
-
-	/**
-	 * DOCUMENT (zeilinger) - insert description
-	 *
-	 * @author zeilinger
-	 * 16.08.2010, 18:13:00
-	 *
-	 * @param oDM
-	 * @param doubleValue
-	 */
-	private void setCathegories(clsDriveMesh poDM, double prContextValue) {
-		poDM.setAnal(poDM.getAnal() * prContextValue); 
-		poDM.setGenital(poDM.getGenital() * prContextValue);
-		poDM.setOral(poDM.getOral() * prContextValue); 
-		poDM.setPhallic(poDM.getPhallic() * prContextValue);
-	}
-
-	/**
-	 * DOCUMENT (zeilinger) - insert description
-	 *
-	 * @author zeilinger
-	 * 16.08.2010, 17:15:39
-	 *
-	 * @param oContainer
-	 * @return
-	 */
-	/*private void matchRepressedContent(ArrayList<clsPrimaryDataStructureContainer> poCathegorizedInputContainer) {
-		
-		//For each object (e. g. CAKE) with adapted categories...
-		//oInput is a clsPrimaryDataStructureContainer
-		for(clsPrimaryDataStructureContainer oInput : poCathegorizedInputContainer){
-				/* A DM is loaded, which matches a drive, which is Repressed.
-				 * In the storage of Repressed Content, DM are stored. If the ContentType of the DM attached to
-				 * an object is exactly matched to a content type of a DM in the repressed Content Store, 
-				 * the categories are compared. For each matching DM, the equality of the values in the categories
-				 * are compared and a number <= 1.0 is generated. The DM with the highest category match is returned
-				 * In the case of CAKE, there exists 2 DM: BITE (associated with DEATH) and NOURISH. In the Repressed Content Store, there
-				 * exists 2 Repressed Content DM: BITE (PUNCH) and NOURISH (GREEDY), both with negative mrPleasure
-				 * The match of the BITE DM is 0.5 and the match of the NOURISH DM is 0.9. Therefore, the DM of 
-				 * NOURISH is selected
-				 */
-				//FIXME: mrPleasure = -0.3. This is not allowed. Add mrUnpleasure instead
-//				clsDriveMesh oRep = moMemory.moRepressedContentsStore.getBestMatchCONVERTED(oInput);
-//				moAttachedRepressed_Output.add(new clsPair<clsPrimaryDataStructureContainer, clsDriveMesh>(oInput, oRep));
-// TD 2011/04/20: removed above two line due to removal of rolands clsMemory. has to be reimplemented by other means
-// TODO (Wendt): reimplement method matchRepressedContent
-	/*		clsDriveMesh oRep = moBlockedContentStorage.getBestMatchCONVERTED(oInput);
-			moAttachedRepressed_Output.add(new clsPair<clsPrimaryDataStructureContainer, clsDriveMesh>(oInput, oRep));
-		}
-	}*/
-	
-	//AW 20110521 new function, tempfunction, which shall be removed as soon as the main module functions are changed
-	private clsPrimaryDataStructureContainer ConvertToTIContainer(ArrayList<clsPair<clsPrimaryDataStructureContainer, clsDriveMesh>> oInput) {
-		ArrayList<clsPrimaryDataStructureContainer> oMergedArray = new ArrayList<clsPrimaryDataStructureContainer>();
-		for (clsPair<clsPrimaryDataStructureContainer, clsDriveMesh> oPair : oInput) {
-			clsPrimaryDataStructureContainer oNewSingleContainer = new clsPrimaryDataStructureContainer(oPair.a.getMoDataStructure(),oPair.a.getMoAssociatedDataStructures());
-			clsTripple<Integer, eDataType, String> oIdentifyer = new clsTripple<Integer, eDataType, String>(-1, eDataType.ASSOCIATIONDM, eDataType.ASSOCIATIONDM.toString());
-			clsAssociationDriveMesh oDriveAss = new clsAssociationDriveMesh(oIdentifyer, oPair.b, (clsPrimaryDataStructure)oPair.a.getMoDataStructure());
-			
-			ArrayList<clsAssociation> oNewAssList = oNewSingleContainer.getMoAssociatedDataStructures();
-			oNewAssList.add(oDriveAss);
-			
-			oNewSingleContainer.setMoAssociatedDataStructures(oNewAssList);
-			oMergedArray.add(oNewSingleContainer);
-		}
-		
-		clsPrimaryDataStructureContainer oRetVal = clsDataStructureConverter.convertTPMContToTICont(oMergedArray);
-		
-		return oRetVal;
+	private void enrichWithBlockedContent(clsPrimaryDataStructureContainer poPerception, ArrayList<clsPrimaryDataStructureContainer> poAssociatedMemories) {
+		//Send inputs to the memeory
+		moBlockedContentStorage.receive_D2_4(poPerception, poAssociatedMemories);
+		clsPair<clsPrimaryDataStructureContainer, ArrayList<clsPrimaryDataStructureContainer>> oGetVal;
+		oGetVal = moBlockedContentStorage.send_D2_4();
+		//modify inputs
+		poPerception = oGetVal.a;
+		poAssociatedMemories = oGetVal.b;
 	}
 
 	/* (non-Javadoc)
@@ -392,11 +162,7 @@ public class F35_EmersionOfBlockedContent extends clsModuleBaseKB implements itf
 	 */
 	@Override
 	protected void send() {
-		if (mnMinimalModel) {
-			send_I5_8(moEnvironmentalPerception_OUT, moAssociatedMemories_OUT);
-		} else {
-			send_I5_8(moEnvironmentalPerception_OUT, moAssociatedMemories_OUT);
-		}
+		send_I5_8(moEnvironmentalPerception_OUT, moAssociatedMemories_OUT);
 			
 	}
 
@@ -509,9 +275,6 @@ public class F35_EmersionOfBlockedContent extends clsModuleBaseKB implements itf
 		
 		poSearchResult.addAll(moKnowledgeBaseHandler.initMemorySearch(poSearchPattern));
 	}
-	
-	
-	
 	
 	/* (non-Javadoc)
 	 *
