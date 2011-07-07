@@ -8,7 +8,9 @@ package pa._v38.interfaces.modules;
 
 import java.util.ArrayList;
 
-import pa._v38.memorymgmt.datatypes.clsPrimaryDataStructureContainer;
+import pa._v38.memorymgmt.datatypes.clsDriveMesh;
+import pa._v38.memorymgmt.datatypes.clsPhysicalRepresentation;
+import pa._v38.tools.clsPair;
 
 /**
  * DOCUMENT (deutsch) - insert description 
@@ -18,5 +20,5 @@ import pa._v38.memorymgmt.datatypes.clsPrimaryDataStructureContainer;
  * 
  */
 public interface I5_13_send {
-	public void send_I5_13(ArrayList<clsPrimaryDataStructureContainer> poData);
+	public void send_I5_13(int[] poForbiddenDrive, ArrayList<clsPair<clsPhysicalRepresentation, clsDriveMesh>> poData);
 }

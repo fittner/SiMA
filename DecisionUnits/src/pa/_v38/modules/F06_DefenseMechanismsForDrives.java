@@ -140,7 +140,7 @@ public class F06_DefenseMechanismsForDrives extends clsModuleBase implements
 	 * @see pa.interfaces.I3_1#receive_I3_1(int)
 	 */
 	@Override
-	public void receive_I5_13(ArrayList<clsPrimaryDataStructureContainer> poData) {
+	public void receive_I5_13(int[] poForbiddenDrive, ArrayList<clsPair<clsPhysicalRepresentation, clsDriveMesh>> poData) {
 		mnTest += 1;
 		
 	}

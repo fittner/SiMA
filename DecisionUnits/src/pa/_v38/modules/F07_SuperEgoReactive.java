@@ -41,15 +41,16 @@ public class F07_SuperEgoReactive extends clsModuleBase
 	public static final String P_MODULENUMBER = "7";
 	
 	//AW 20110522: New inputs
-	private clsPrimaryDataStructureContainer moEnvironmentalPerception_IN;
-	private ArrayList<clsPrimaryDataStructureContainer> moAssociatedMemories_IN;
+	private clsPrimaryDataStructureContainer moEnvironmentalPerception_Input;
+	private ArrayList<clsPrimaryDataStructureContainer> moAssociatedMemories_Input;
 	
-	private clsPrimaryDataStructureContainer moEnvironmentalPerception_OUT;
-	private ArrayList<clsPrimaryDataStructureContainer> moAssociatedMemories_OUT;
+	private clsPrimaryDataStructureContainer moEnvironmentalPerception_Output;
+	private ArrayList<clsPrimaryDataStructureContainer> moAssociatedMemories_Output;
 	
 	@SuppressWarnings("unused")
 	private Object moMergedPrimaryInformation;
 	private ArrayList<clsPair<clsPhysicalRepresentation, clsDriveMesh>> moDrives;
+	private int[] poForbiddenDrives;
 	/**
 	 * DOCUMENT (zeilinger) - insert description 
 	 * 
@@ -96,8 +97,8 @@ public class F07_SuperEgoReactive extends clsModuleBase
 	@Override
 	public String stateToTEXT() {
 		String text ="";
-		text += toText.valueToTEXT("moAssociatedMemories_IN", moAssociatedMemories_IN);	
-		text += toText.valueToTEXT("moAssociatedMemories_OUT", moAssociatedMemories_OUT);		
+		text += toText.valueToTEXT("moAssociatedMemories_Input", moAssociatedMemories_Input);	
+		text += toText.valueToTEXT("moAssociatedMemories_Output", moAssociatedMemories_Output);		
 		return text;
 	}
 	
@@ -111,8 +112,8 @@ public class F07_SuperEgoReactive extends clsModuleBase
 	@SuppressWarnings("unchecked")
 	@Override
 	public void receive_I5_10(clsPrimaryDataStructureContainer poEnvironmentalPerception, ArrayList<clsPrimaryDataStructureContainer> poAssociatedMemories) {
-		moEnvironmentalPerception_IN = (clsPrimaryDataStructureContainer) deepCopy(poEnvironmentalPerception);
-		moAssociatedMemories_IN = (ArrayList<clsPrimaryDataStructureContainer>) deepCopy(poAssociatedMemories);
+		moEnvironmentalPerception_Input = (clsPrimaryDataStructureContainer) deepCopy(poEnvironmentalPerception);
+		moAssociatedMemories_Input = (ArrayList<clsPrimaryDataStructureContainer>) deepCopy(poAssociatedMemories);
 	}
 
 	/* (non-Javadoc)
@@ -124,9 +125,8 @@ public class F07_SuperEgoReactive extends clsModuleBase
 	 */
 	@SuppressWarnings("unchecked")
 	@Override
-	public void receive_I5_12(
-			ArrayList<clsPair<clsPhysicalRepresentation, clsDriveMesh>> poDrives) {
-
+	public void receive_I5_12(ArrayList<clsPair<clsPhysicalRepresentation, clsDriveMesh>> poDrives) {
+		
 		moDrives = (ArrayList<clsPair<clsPhysicalRepresentation, clsDriveMesh>>) deepCopy(poDrives); 
 	}
 
@@ -142,9 +142,9 @@ public class F07_SuperEgoReactive extends clsModuleBase
 		// TODO (zeilinger) - Auto-generated method stub
 		
 		//AW 20110522: Input from perception
-		moEnvironmentalPerception_OUT = moEnvironmentalPerception_IN;
+		moEnvironmentalPerception_Output = moEnvironmentalPerception_Input;
 		//AW 20110522: Input from associated memories
-		moAssociatedMemories_OUT = moAssociatedMemories_IN;
+		moAssociatedMemories_Output = moAssociatedMemories_Input;
 		
 		// check perception and drives
 		// apply internalized rules
@@ -199,6 +199,10 @@ public class F07_SuperEgoReactive extends clsModuleBase
 			
 			// ToDo FG: Naja - so kann das nicht funktionieren:
 			//((F06_DefenseMechanismsForDrives) moModuleList.get(6)).repress_drive("NOURISH");
+			
+			// The following drive was found by Super-Ego as inappropriate of forbidden.
+			// Therefore the Super-Ego marks the drive as forbidden and sends the mark to the Ego.
+			poForbiddenDrives[0] = 1;
 		}
 	}
 	
@@ -212,7 +216,7 @@ public class F07_SuperEgoReactive extends clsModuleBase
 	 */
 	private boolean searchInTP (String oContentType, String oContent) {
 		// search in perceptions
-		for(clsPrimaryDataStructureContainer oContainer : moAssociatedMemories_OUT){
+		for(clsPrimaryDataStructureContainer oContainer : moAssociatedMemories_Output){
 			
 			// check a TP
 			if(oContainer.getMoDataStructure() instanceof clsThingPresentation){
@@ -238,7 +242,7 @@ public class F07_SuperEgoReactive extends clsModuleBase
 	 */
 	private boolean searchInTPM (String oContentType, String oContent) {
 		// search in perceptions
-		for(clsPrimaryDataStructureContainer oContainer : moAssociatedMemories_OUT){
+		for(clsPrimaryDataStructureContainer oContainer : moAssociatedMemories_Output){
 			
 			// check a TPM
 			if(oContainer.getMoDataStructure() instanceof clsThingPresentationMesh){
@@ -285,10 +289,8 @@ public class F07_SuperEgoReactive extends clsModuleBase
 	 */
 	@Override
 	protected void send() {
-		//AW 20110522: Dummy
-		send_I5_13(new ArrayList<clsPrimaryDataStructureContainer>()); 
-		
-		send_I5_11(moEnvironmentalPerception_OUT, moAssociatedMemories_OUT); 
+		send_I5_13(poForbiddenDrives, moDrives); 
+		send_I5_11(moEnvironmentalPerception_Output, moAssociatedMemories_Output); 
 	}
 
 	/* (non-Javadoc)
@@ -350,10 +352,10 @@ public class F07_SuperEgoReactive extends clsModuleBase
 	 * @see pa._v38.interfaces.modules.I5_13_send#send_I5_13(java.util.ArrayList)
 	 */
 	@Override
-	public void send_I5_13(ArrayList<clsPrimaryDataStructureContainer> poData) {
-		((I5_13_receive)moModuleList.get(6)).receive_I5_13(poData);
+	public void send_I5_13(int[] poForbiddenDrives, ArrayList<clsPair<clsPhysicalRepresentation, clsDriveMesh>> poData) {
+		((I5_13_receive)moModuleList.get(6)).receive_I5_13(poForbiddenDrives, poData);
 		
-		putInterfaceData(I5_13_send.class, poData);
+		putInterfaceData(I5_13_send.class, poForbiddenDrives, poData);
 	}
 
 	/* (non-Javadoc)
