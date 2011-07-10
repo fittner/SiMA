@@ -12,6 +12,7 @@ import java.util.Map;
 
 import pa._v38.tools.clsPair;
 import pa._v38.memorymgmt.datatypes.clsAssociation;
+import pa._v38.memorymgmt.datatypes.clsDataStructureContainer;
 import pa._v38.memorymgmt.datatypes.clsDataStructurePA;
 import pa._v38.memorymgmt.informationrepresentation.enums.eDataStructureMatch;
 import pa._v38.memorymgmt.informationrepresentation.searchspace.clsSearchSpaceBase;
@@ -26,6 +27,12 @@ import pa._v38.memorymgmt.informationrepresentation.searchspace.clsSearchSpaceBa
 public abstract class clsDataStructureComparison {
 	public static ArrayList<clsPair<Double,clsDataStructurePA>> compareDataStructures
 									(clsDataStructurePA poDS_Unknown, clsSearchSpaceBase poSearchSpace){
+
+		return getMatchingDataStructures(poSearchSpace, poDS_Unknown);
+	}
+	
+	public static ArrayList<clsPair<Double,clsDataStructureContainer>> compareDataStructures
+		(clsDataStructureContainer poDS_Unknown, clsSearchSpaceBase poSearchSpace){
 
 		return getMatchingDataStructures(poSearchSpace, poDS_Unknown);
 	}
@@ -57,6 +64,33 @@ public abstract class clsDataStructureComparison {
 		}
 		
 		return oRetVal; 
+	}
+	
+	/**
+	 * DOCUMENT (wendt) - Compare a whole container with the structures in the memeory, function overloading
+	 *
+	 * @since 08.07.2011 11:55:44
+	 *
+	 * @param poSearchSpace
+	 * @param poDS_Unknown
+	 * @return
+	 */
+	private static ArrayList<clsPair<Double, clsDataStructureContainer>> getMatchingDataStructures(
+			clsSearchSpaceBase poSearchSpace,
+			clsDataStructureContainer poDS_Unknown) {
+		
+		ArrayList<clsPair<Double, clsDataStructureContainer>> oRetVal = new ArrayList<clsPair<Double,clsDataStructureContainer>>(); 
+		HashMap<String, HashMap<Integer, clsPair<clsDataStructurePA,ArrayList<clsAssociation>>>> oMap 
+											= poSearchSpace.returnSearchSpaceTable().get(poDS_Unknown.getMoDataStructure().getMoDataStructureType());
+		
+		//FIXME AW: Funktion hier
+		
+		
+		
+		
+		
+		return oRetVal;
+		
 	}
 	
 	/**
