@@ -20,6 +20,7 @@ import pa._v38.interfaces.modules.I2_3_receive;
 import pa._v38.interfaces.modules.I2_3_send;
 import pa._v38.interfaces.modules.eInterfaces;
 import pa._v38.symbolization.clsSensorToSymbolConverter;
+import pa._v38.symbolization.eSymbolExtType;
 import pa._v38.symbolization.representationsymbol.clsSymbolBump;
 import pa._v38.symbolization.representationsymbol.clsSymbolEatableArea;
 import pa._v38.symbolization.representationsymbol.clsSymbolManipulateArea;
@@ -27,7 +28,6 @@ import pa._v38.symbolization.representationsymbol.clsSymbolVisionEntry;
 import pa._v38.symbolization.representationsymbol.itfSymbol;
 import pa._v38.symbolization.representationsymbol.itfSymbolVisionEntry;
 import pa._v38.tools.toText;
-import pa._v38.enums.eSymbolExtType;
 
 /**
  * DOCUMENT (muchitsch) - insert description 

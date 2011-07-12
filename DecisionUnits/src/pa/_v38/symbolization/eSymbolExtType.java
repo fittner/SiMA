@@ -4,7 +4,7 @@
  * @author deutsch
  * 20.10.2009, 12:26:44
  */
-package pa._v38.enums;
+package pa._v38.symbolization;
 
 /**
  * DOCUMENT (deutsch) - insert description 
