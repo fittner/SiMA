@@ -12,6 +12,9 @@ package pa._v38.tools.planningHelpers;
  * 
  * @author Kevin Glass / modified Andreas Perner
  */
+
+//FIXME(PERNER) - Implement something
+
 public interface clsMover {
 
 }
