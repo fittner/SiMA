@@ -12,16 +12,20 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.SortedMap;
 
-import pa._v38.interfaces.eInterfaces;
 import pa._v38.interfaces.itfInspectorInternalState;
 import pa._v38.interfaces.itfInterfaceDescription;
 import pa._v38.interfaces.itfInterfaceInterfaceData;
+import pa._v38.interfaces.modules.eInterfaces;
 import pa._v38.memorymgmt.datatypes.clsAssociation;
 import pa._v38.memorymgmt.datatypes.clsDataStructureContainer;
 import config.clsBWProperties;
 
 /**
- * DOCUMENT (deutsch) - insert description 
+ * The base class for all functional module implementations. Provides functionality like three different implementation stages for the 
+ * process method that can be selected individually (per user and per module). The three stages are: basic, draft, and final. Basic is a first 
+ * implementation that provides minimum functionality. Especially it guarantees the modules that are called after this module have at least some
+ * data to process. Draft is the implementation stage where alpha and beta stage implementations should be done. If everything is done and fits the 
+ * specs, the implementation is moved to final. Further tools like deepcopy are provided. 
  * 
  * @author deutsch
  * 11.08.2009, 11:16:13
@@ -31,23 +35,50 @@ public abstract class clsModuleBase implements
 		itfInspectorInternalState, 
 		itfInterfaceDescription, 
 		itfInterfaceInterfaceData {
+	
+	/** property key where the selected implemenation stage is stored.; @since 12.07.2011 14:54:42 */
 	public static String P_PROCESS_IMPLEMENTATION_STAGE = "IMP_STAGE"; 
 	
+	/** Primary or secondary function; @since 12.07.2011 14:57:12 */
 	protected eProcessType mnProcessType;
+	/** Id, Ego, Superego, or Body; @since 12.07.2011 14:57:27 */
 	protected ePsychicInstances mnPsychicInstances;
+	/** Module ID - unique among all modules of the model v38; @since 12.07.2011 14:57:40 */
 	protected Integer mnModuleNumber;
 		
+	/** Variable for testing purposes.; @since 12.07.2011 14:58:06 */
+	@Deprecated
 	protected int mnTest = 0;
 	
+	/** The selected implementation stage; @since 12.07.2011 14:58:42 */
 	private eImplementationStage mnImplementationStage;
+	/** A map that contains an instance of each functional module. The integer is equivalent to mnModuleNumber and thus unique.; @since 12.07.2011 14:58:54 */
 	protected HashMap<Integer, clsModuleBase> moModuleList;
+	/** The data transmitted via the interfaces in the last round.; @since 12.07.2011 14:59:37 */
 	protected SortedMap<eInterfaces, ArrayList<Object>> moInterfaceData;
 		
+	/** The description of the functional module; @since 12.07.2011 15:00:04 */
 	protected String moDescription;
+	
+	/** List of incoming interfaces. Filled at startup by introspection.; @since 12.07.2011 15:01:47 */
 	private ArrayList<eInterfaces> moInterfacesReceive;
+	/** List of outgoing interfaces. Filled at startup by introspection.; @since 12.07.2011 15:01:58 */
 	private ArrayList<eInterfaces> moInterfacesSend;
+	/** List of all interfaces. Filled at startup by introspection.; @since 12.07.2011 15:02:08 */
 	private ArrayList<eInterfaces> moInterfaces;
 	
+	/**
+	 * This constructor creates all functional modules with the provided properties. Further, all attributes of the module like process type, 
+	 * psychic instance, module naumber, description, and interfaces list are set.
+	 *
+	 * @since 12.07.2011 15:11:07
+	 *
+	 * @param poPrefix Prefix for the property-entries in the property file.
+	 * @param poProp The property file in form of an instance of clsBWProperties.
+	 * @param poModuleList A reference to an empty map that is filled with references to the created modules. Needed by the clsProcessor.
+	 * @param poInterfaceData A reference to an empty map that is filled with data that is transmitted via the interfaces each step.
+	 * @throws Exception
+	 */
 	public clsModuleBase(String poPrefix, clsBWProperties poProp, HashMap<Integer, clsModuleBase> poModuleList, 
 			SortedMap<eInterfaces, ArrayList<Object>> poInterfaceData) throws Exception {
 		setProcessType();
@@ -68,6 +99,14 @@ public abstract class clsModuleBase implements
 		applyProperties(poPrefix, poProp);		
 	}	
 
+	/**
+	 * Provides the default entries for this class. See config.clsBWProperties in project DecisionUnitInterface. 
+	 *
+	 * @since 12.07.2011 15:14:56
+	 *
+	 * @param poPrefix Prefix for the property-entries in the property file.
+	 * @return
+	 */
 	public static clsBWProperties getDefaultProperties(String poPrefix) {
 		// String pre = clsBWProperties.addDot(poPrefix);
 		
@@ -77,13 +116,27 @@ public abstract class clsModuleBase implements
 				
 		return oProp;
 	}	
-	
+
+	/**
+	 * Applies the provided properties to the class and sets the selected implementation stage.
+	 *
+	 * @since 12.07.2011 15:15:03
+	 *
+	 * @param poPrefix Prefix for the property-entries in the property file.
+	 * @param poProp The property file in form of an instance of clsBWProperties.
+	 */
 	private void applyProperties(String poPrefix, clsBWProperties poProp) {
 		String pre = clsBWProperties.addDot(poPrefix);
 		
 		mnImplementationStage = eImplementationStage.valueOf(poProp.getPropertyString(pre+P_PROCESS_IMPLEMENTATION_STAGE));	
 	}
 	
+	/**
+	 * Execute the main functionality of the module according to the selected implementation stage (basic, draf, final).
+	 *
+	 * @since 12.07.2011 15:16:34
+	 *
+	 */
 	private void process() {
 		if (mnImplementationStage == eImplementationStage.BASIC) {
 			process_basic();
@@ -93,13 +146,44 @@ public abstract class clsModuleBase implements
 			process_final();
 		}
 	}
-	
+	 
+	/**
+	 * Basic implementation stage of the process. It is a first implementation that provides minimum functionality. Especially it guarantees 
+	 * that the modules that are called after this module have at least some data to process. 
+	 *
+	 * @since 12.07.2011 15:20:09
+	 *
+	 */
 	protected abstract void process_basic();
+	/**
+	 * Draft implementation stage of the process. This is the implementation stage where alpha and beta stage implementations should be done.
+	 *
+	 * @since 12.07.2011 15:21:29
+	 *
+	 */
 	protected abstract void process_draft();
+	/**
+	 * If everything is done and fits the specs, the implementation is moved to final.
+	 *
+	 * @since 12.07.2011 15:22:00
+	 *
+	 */
 	protected abstract void process_final();
 	
+	/**
+	 * All outgoing interfaces should be called within this method.
+	 *
+	 * @since 12.07.2011 15:22:27
+	 *
+	 */
 	protected abstract void send();
 	
+	/**
+	 * Execution of the main functionality. First, the algorithm is processed, then the results are forwarded to the successor modules.
+	 *
+	 * @since 12.07.2011 15:22:50
+	 *
+	 */
 	public final void step() {
 		process();
 		send();
@@ -208,21 +292,19 @@ public abstract class clsModuleBase implements
 	}
 	
 	/**
-	 * DOCUMENT (wendt) - insert description
-	 *
+	 * For each container, where the associations are not bound, the hash-code from the data structure was taken as id and
+	 * all associations in the associated data structures root elements were set with the instance ID of the container
+	 * data structures.
+	 * 
+	 * This function shall be executed as soon as more TPMs are used in one container and every time something is loaded 
+	 * from the memory
+	 * 
 	 * @since 06.07.2011 15:03:52
 	 *
 	 * @param <E>
 	 * @param poInput
 	 * @return
-	 * 
-	 * For each container, where the associations are not bound, the hashcode from the data structure was taken as id and
-	 * all associations in the associated data structures root elements were set with the instance ID of the container
-	 * data structures.
-	 * 
-	 * This function shall be executed as soon as more TPMs are used in one container and every time something is loaded 
-	 * from the memeory
-	 */
+	 **/
 	@SuppressWarnings("unchecked")
 	public <E extends clsDataStructureContainer> ArrayList<E> createInstanceFromType(ArrayList<E> poInput) {
 		ArrayList<E> oRetVal = (ArrayList<E>)deepCopy(poInput);

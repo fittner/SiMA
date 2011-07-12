@@ -20,12 +20,12 @@ import du.itf.actions.clsActionMove;
 //import du.itf.actions.clsActionSequenceFactory;
 import du.itf.actions.clsActionSleep;
 import du.itf.actions.clsActionTurn;
-import pa._v38.interfaces.eInterfaces;
 import pa._v38.interfaces.itfInspectorGenericActivityTimeChart;
 import pa._v38.interfaces.itfMinimalModelMode;
 import pa._v38.interfaces.modules.I2_5_receive;
 import pa._v38.interfaces.modules.I1_5_receive;
 import pa._v38.interfaces.modules.I1_5_send;
+import pa._v38.interfaces.modules.eInterfaces;
 import pa._v38.memorymgmt.datatypes.clsWordPresentation;
 import pa._v38.tools.toText;
 

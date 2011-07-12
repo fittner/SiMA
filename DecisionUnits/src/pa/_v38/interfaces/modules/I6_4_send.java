@@ -11,7 +11,7 @@ import java.util.ArrayList;
 import pa._v38.memorymgmt.datatypes.clsSecondaryDataStructureContainer;
 
 /**
- * DOCUMENT (deutsch) - insert description 
+ * Analogous to 6.5, this interface transports the perceptions in the form of word presentations, thing presentations, and affects from F21 to F20.
  * 
  * @author deutsch
  * 18.05.2010, 14:37:28

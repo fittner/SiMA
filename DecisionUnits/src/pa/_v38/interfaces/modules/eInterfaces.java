@@ -4,12 +4,12 @@
  * @author deutsch
  * 14.04.2011, 16:00:09
  */
-package pa._v38.interfaces;
+package pa._v38.interfaces.modules;
 
 import java.util.ArrayList;
 
 /**
- * DOCUMENT (deutsch) - insert description 
+ * Contains the list of all interfaces of the functional model. Additionally the purpose of the interface is stored. 
  * 
  * @author deutsch
  * 14.04.2011, 16:00:09
@@ -41,9 +41,9 @@ public enum eInterfaces {
 	I2_4("Similar to I2.2, I2.4 transports neurosymbols to F14. This time, they originate from F12."),
 	I2_5("Connects the last psychic module in the chain F30 to the neurodesymbolization of the actions F31.	"),
 	I2_6("Memory traces representing perceived environment and body information are forwarded to F46."),
-	I2_15("Self-preservation drives represented by thing presentations and their quota of affects are sent from F5 to F38."),
-	I2_18("Sexual drives in the form of thing presentations and their quota of affects is sent from F42 to F44."),
-	I2_19("Thing presentations and their quota of affects are transported from F44 to F6, F7, and F9."),
+//	I2_15("Self-preservation drives represented by thing presentations and their quota of affects are sent from F5 to F38."), //TD 2011/07/12 - deprecated and unused
+//	I2_18("Sexual drives in the form of thing presentations and their quota of affects is sent from F42 to F44."), //TD 2011/07/12 - deprecated and unused
+//	I2_19("Thing presentations and their quota of affects are transported from F44 to F6, F7, and F9."), //TD 2011/07/12 - deprecated and unused
 	I3_1("The total amount of libido tension as well as the pair of opposites are transmitted from F41 to F43."),
 	I3_2("Libidinous and aggressive drives represented by more or less complex associated thing presentations containing at least drive source, aim of drive, and drive object together with the tensions at the various drive sources are forwarded from F3 to F4."),
 	I3_3("The eight drives - the four partial sexual drives divided into libidinous and aggressive components - as well as the total amount of libido tension are transmitted from F43 to F42."),
@@ -80,19 +80,44 @@ public enum eInterfaces {
 	I6_10("Reality checked action plans are passed on from F53 to F29."),
 	I6_11("The final action plan is transported from F29 to F30.");
 	
+	/** Description of the purpose of the interface; @since 12.07.2011 13:16:00 */
 	private String moDescription;
 	
+    /**
+     * Creates an enum entry together with the provided description attached.
+     *
+     * @since 12.07.2011 13:16:13
+     *
+     * @param poDescription
+     */
     private eInterfaces(String poDescription) {
     	this.moDescription = poDescription;
     }
 
 
+	/**
+	 * Extract the interface enum entry from the provided interface name in form of a string.
+	 *
+	 * @since 12.07.2011 13:16:36
+	 *
+	 * @param poName
+	 * @return
+	 * @throws java.lang.IllegalArgumentException
+	 */
 	public static eInterfaces getEnum(String poName) throws java.lang.IllegalArgumentException {
 		String[] temp = poName.split("_");
 		poName = temp[0]+"_"+temp[1];
 		return eInterfaces.valueOf(poName);
 	}
 	
+	/**
+	 * Convert an array of classes of interfaces into an array that contains the corresponding enums.
+	 *
+	 * @since 12.07.2011 13:19:36
+	 *
+	 * @param poInterfaces
+	 * @return
+	 */
 	public static ArrayList<eInterfaces> getInterfaces(@SuppressWarnings("rawtypes") Class[] poInterfaces) {
 		ArrayList<eInterfaces> oResult = new ArrayList<eInterfaces>();
 		
@@ -109,10 +134,11 @@ public enum eInterfaces {
 	}
 
 	/**
-	 * @author deutsch
-	 * 15.04.2011, 14:28:15
-	 * 
-	 * @return the moDescription
+	 * Return the description of this enum.
+	 *
+	 * @since 12.07.2011 13:20:28
+	 *
+	 * @return
 	 */
 	public String getDescription() {
 		return moDescription;

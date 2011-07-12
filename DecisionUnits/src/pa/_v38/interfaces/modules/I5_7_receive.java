@@ -12,7 +12,7 @@ import java.util.ArrayList;
 import pa._v38.memorymgmt.datatypes.clsPrimaryDataStructureContainer;
 
 /**
- * DOCUMENT (deutsch) - insert description 
+ * Thing presentations and their quota of affects are transported from F37 to F35 and F57.
  * 
  * @author deutsch
  * 03.03.2011, 16:21:20

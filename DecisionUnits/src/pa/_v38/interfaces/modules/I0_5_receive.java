@@ -13,7 +13,7 @@ import du.itf.sensors.clsSensorExtern;
 
 
 /**
- * DOCUMENT (deutsch) - insert description 
+ * The body sensors (see above) provide their information to F12 via this interface.
  * 
  * @author deutsch
  * 03.03.2011, 15:30:03

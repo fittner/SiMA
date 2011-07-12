@@ -14,12 +14,13 @@ import config.clsBWProperties;
 import du.enums.eSensorExtType;
 import du.itf.sensors.clsSensorExtern;
 import pa._v38.symbolization.representationsymbol.clsSymbolVision;
-import pa._v38.interfaces.eInterfaces;
 import pa._v38.interfaces.itfInspectorGenericActivityTimeChart;
 import pa._v38.interfaces.modules.I1_3_receive;
 import pa._v38.interfaces.modules.I2_3_receive;
 import pa._v38.interfaces.modules.I2_3_send;
+import pa._v38.interfaces.modules.eInterfaces;
 import pa._v38.symbolization.clsSensorToSymbolConverter;
+import pa._v38.symbolization.eSymbolExtType;
 import pa._v38.symbolization.representationsymbol.clsSymbolBump;
 import pa._v38.symbolization.representationsymbol.clsSymbolEatableArea;
 import pa._v38.symbolization.representationsymbol.clsSymbolManipulateArea;
@@ -27,7 +28,6 @@ import pa._v38.symbolization.representationsymbol.clsSymbolVisionEntry;
 import pa._v38.symbolization.representationsymbol.itfSymbol;
 import pa._v38.symbolization.representationsymbol.itfSymbolVisionEntry;
 import pa._v38.tools.toText;
-import pa._v38.enums.eSymbolExtType;
 
 /**
  * DOCUMENT (muchitsch) - insert description 
@@ -127,10 +127,10 @@ public class F11_NeuroSymbolizationEnvironment extends clsModuleBase
 	 * 
 	 * @see pa.interfaces.I2_1#receive_I2_1(HashMap<eSensorExtType, clsDataBase>)
 	 */
+	@SuppressWarnings("unchecked")
 	@Override
 	public void receive_I1_3(HashMap<eSensorExtType, clsSensorExtern> poData) {
-		moEnvironmentalData = poData;
-		
+		moEnvironmentalData = (HashMap<eSensorExtType, clsSensorExtern>) deepCopy(poData); 
 	}
 
 	/* (non-Javadoc)

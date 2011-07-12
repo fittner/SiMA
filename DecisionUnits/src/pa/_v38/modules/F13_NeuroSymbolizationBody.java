@@ -12,14 +12,14 @@ import java.util.SortedMap;
 import config.clsBWProperties;
 import du.enums.eSensorExtType;
 import du.itf.sensors.clsSensorExtern;
-import pa._v38.interfaces.eInterfaces;
 import pa._v38.interfaces.modules.I1_4_receive;
 import pa._v38.interfaces.modules.I2_4_receive;
 import pa._v38.interfaces.modules.I2_4_send;
+import pa._v38.interfaces.modules.eInterfaces;
 import pa._v38.symbolization.clsSensorToSymbolConverter;
+import pa._v38.symbolization.eSymbolExtType;
 import pa._v38.symbolization.representationsymbol.itfSymbol;
 import pa._v38.tools.toText;
-import pa._v38.enums.eSymbolExtType;
 
 /**
  * DOCUMENT (muchitsch) - insert description 

@@ -12,7 +12,7 @@ import java.util.ArrayList;
 import pa._v38.memorymgmt.datatypes.clsSecondaryDataStructureContainer;
 
 /**
- * DOCUMENT (deutsch) - insert description 
+ * The list - the package of word presentation, thing presentation, and drive whishes for each perception ordered descending by their importance - is forwarded by the interface I6.6 to F51.
  * 
  * @author deutsch
  * 11.08.2009, 14:42:59

@@ -9,7 +9,7 @@ package pa._v38.interfaces.modules;
 
 
 /**
- * DOCUMENT (deutsch) - insert description 
+ * Neurosymbols representing libido are transmitted from F40 to F41.
  * 
  * @author deutsch
  * 03.03.2011, 15:32:33

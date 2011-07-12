@@ -8,8 +8,8 @@ package inspectors.mind.pa._v38.autocreated;
 
 import java.util.Iterator;
 
-import pa._v38.interfaces.eInterfaces;
 import pa._v38.interfaces.itfInterfaceDescription;
+import pa._v38.interfaces.modules.eInterfaces;
 import pa._v38.tools.toText;
 
 /**

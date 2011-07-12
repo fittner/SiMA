@@ -4,7 +4,7 @@
  * @author deutsch
  * 11.08.2009, 14:56:22
  */
-package pa._v38.modules;
+package pa._v38.modules.legacycode;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -17,10 +17,10 @@ import config.clsBWProperties;
 import pa._v38.tools.clsPair;
 import pa._v38.tools.clsTripple;
 import pa._v38.tools.toText;
-import pa._v38.interfaces.eInterfaces;
 //import pa._v38.interfaces.modules.I6_2_receive;
 import pa._v38.interfaces.modules.I6_2_send;
 import pa._v38.interfaces.modules.I6_8_receive;
+import pa._v38.interfaces.modules.eInterfaces;
 import pa._v38.memorymgmt.clsKnowledgeBaseHandler;
 import pa._v38.memorymgmt.datahandler.clsDataStructureGenerator;
 import pa._v38.memorymgmt.datatypes.clsAct;
@@ -30,6 +30,11 @@ import pa._v38.memorymgmt.datatypes.clsSecondaryDataStructureContainer;
 import pa._v38.memorymgmt.datatypes.clsWordPresentation;
 import pa._v38.memorymgmt.enums.eActState;
 import pa._v38.memorymgmt.enums.eDataType;
+import pa._v38.modules.clsModuleBase;
+import pa._v38.modules.clsModuleBaseKB;
+import pa._v38.modules.eImplementationStage;
+import pa._v38.modules.eProcessType;
+import pa._v38.modules.ePsychicInstances;
 
 /**
  * DOCUMENT (perner) - insert description 

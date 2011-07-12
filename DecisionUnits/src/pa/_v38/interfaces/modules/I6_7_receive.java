@@ -13,7 +13,7 @@ import pa._v38.memorymgmt.datatypes.clsSecondaryDataStructureContainer;
 import pa._v38.tools.clsTripple;
 
 /**
- * DOCUMENT (deutsch) - insert description 
+ * The results of the first reality check performed by module F51 is forwarded to F26.
  * 
  * @author deutsch
  * 11.08.2009, 14:43:06

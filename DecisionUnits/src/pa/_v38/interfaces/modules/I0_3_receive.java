@@ -13,7 +13,7 @@ import du.itf.sensors.clsDataBase;
 
 
 /**
- * DOCUMENT (deutsch) - insert description 
+ * This input connected to Module F1 represents the outputs of the sensors which measure the homeostasis.
  * 
  * @author deutsch
  * 03.03.2011, 15:28:47

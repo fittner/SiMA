@@ -4,7 +4,7 @@
  * @author deutsch
  * 03.03.2011, 15:21:18
  */
-package pa._v38.modules;
+package pa._v38.modules.legacycode;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -14,12 +14,16 @@ import java.util.SortedMap;
 
 import pa._v38.tools.clsTripple;
 import pa._v38.tools.toText;
-import pa._v38.interfaces.eInterfaces;
 import pa._v38.interfaces.itfInspectorDrives;
 //import pa._v38.interfaces.modules.I1_5_receive;
 import pa._v38.interfaces.modules.I1_5_send;
+import pa._v38.interfaces.modules.eInterfaces;
 //import pa._v38.interfaces.modules.I2_15_receive;
 import pa._v38.memorymgmt.datatypes.clsDriveMesh;
+import pa._v38.modules.clsModuleBase;
+import pa._v38.modules.eImplementationStage;
+import pa._v38.modules.eProcessType;
+import pa._v38.modules.ePsychicInstances;
 
 import config.clsBWProperties;
 import du.itf.actions.clsActionCommand;

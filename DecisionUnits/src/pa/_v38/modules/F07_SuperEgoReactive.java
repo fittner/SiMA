@@ -12,13 +12,13 @@ import java.util.SortedMap;
 
 import pa._v38.modules.eProcessType;
 import pa._v38.modules.ePsychicInstances;
-import pa._v38.interfaces.eInterfaces;
 import pa._v38.interfaces.modules.I5_10_receive;
 import pa._v38.interfaces.modules.I5_11_receive;
 import pa._v38.interfaces.modules.I5_11_send;
 import pa._v38.interfaces.modules.I5_12_receive;
 import pa._v38.interfaces.modules.I5_13_receive;
 import pa._v38.interfaces.modules.I5_13_send;
+import pa._v38.interfaces.modules.eInterfaces;
 import pa._v38.memorymgmt.datatypes.clsDriveMesh;
 import pa._v38.memorymgmt.datatypes.clsPhysicalRepresentation;
 import pa._v38.memorymgmt.datatypes.clsPrimaryDataStructureContainer;
@@ -50,7 +50,8 @@ public class F07_SuperEgoReactive extends clsModuleBase
 	@SuppressWarnings("unused")
 	private Object moMergedPrimaryInformation;
 	private ArrayList<clsPair<clsPhysicalRepresentation, clsDriveMesh>> moDrives;
-	private int[] poForbiddenDrives;
+	private ArrayList<String> moForbiddenDrives;
+	private ArrayList<clsPair<String, String>> moForbiddenPerceptions;
 	/**
 	 * DOCUMENT (zeilinger) - insert description 
 	 * 
@@ -98,7 +99,9 @@ public class F07_SuperEgoReactive extends clsModuleBase
 	public String stateToTEXT() {
 		String text ="";
 		text += toText.valueToTEXT("moAssociatedMemories_Input", moAssociatedMemories_Input);	
-		text += toText.valueToTEXT("moAssociatedMemories_Output", moAssociatedMemories_Output);		
+		text += toText.valueToTEXT("moAssociatedMemories_Output", moAssociatedMemories_Output);
+		text += toText.valueToTEXT("moForbiddenDrives", moForbiddenDrives);		
+		text += toText.valueToTEXT("moForbiddenPerceptions", moForbiddenPerceptions);		
 		return text;
 	}
 	
@@ -187,22 +190,37 @@ public class F07_SuperEgoReactive extends clsModuleBase
 	 * 
 	 */
 	private void checkInternalizedRules() {
-		// ToDo FG: This is just one internalized rule.
-		//          All the internalized rules must be stored in an (XML-)file and proceeded one after another
-		if (searchInTP ("color", "Farbe eine feindlichen ARSin") &&
+		// ToDo FG: These are just samples for internalized rules.
+		//          All the internalized rules must be stored in an (XML-)file and processed one after another
+		
+		// sample rule for repression of drives
+		if (searchInDM ("NOURISH") &&
+			searchInTP ("color", "Farbe eine feindlichen ARSin") &&
 			searchInTPM("ENTITY", "BUBBLE") &&
-			searchInTPM("ENTITY", "CAKE") &&
-			searchInDM ("NOURISH")) {
+			searchInTPM("ENTITY", "CAKE")) {
 			// If all the conditions above are true then Super-Ego can fire.
 			// An internalized rule was detected to be true.
 			// So the Super-Ego conflicts now with Ego and Super-Ego requests from Ego to activate defense.
 			
-			// ToDo FG: Naja - so kann das nicht funktionieren:
-			//((F06_DefenseMechanismsForDrives) moModuleList.get(6)).repress_drive("NOURISH");
 			
-			// The following drive was found by Super-Ego as inappropriate of forbidden.
+			// The following drive was found by Super-Ego as inappropriate or forbidden.
 			// Therefore the Super-Ego marks the drive as forbidden and sends the mark to the Ego.
-			poForbiddenDrives[0] = 1;
+			moForbiddenDrives.add("NOURISH");
+		}
+		
+		// sample rule for denial of perceptions
+		if (searchInDM ("NOURISH") &&
+			searchInTP ("color", "Farbe eine feindlichen ARSin") &&
+			searchInTPM("ENTITY", "BUBBLE") &&
+			searchInTPM("ENTITY", "CAKE")) {
+			// If all the conditions above are true then Super-Ego can fire.
+			// An internalized rule was detected to be true.
+			// So the Super-Ego conflicts now with Ego and Super-Ego requests from Ego to activate defense.
+		
+			
+			// The following perception was found by Super-Ego as inappropriate or forbidden.
+			// Therefore the Super-Ego marks the perception as forbidden and sends the mark to the Ego.
+			moForbiddenPerceptions.add(new clsPair<String, String> ("ENTITY", "CAKE"));
 		}
 	}
 	
@@ -267,10 +285,9 @@ public class F07_SuperEgoReactive extends clsModuleBase
 	 * searches in the input-DriveMesh for example for NOURISH
 	 * 
 	 */
-	private boolean searchInDM (String oContentType) {
+	private boolean searchInDM (String oContentType) {		
 		// search in drives
 		for(clsPair<clsPhysicalRepresentation, clsDriveMesh> oDrives : moDrives){
-		
 			// check DriveMesh
 			if (oDrives.b.getMoContentType() == oContentType){
 				return true;
@@ -289,8 +306,8 @@ public class F07_SuperEgoReactive extends clsModuleBase
 	 */
 	@Override
 	protected void send() {
-		send_I5_13(poForbiddenDrives, moDrives); 
-		send_I5_11(moEnvironmentalPerception_Output, moAssociatedMemories_Output); 
+		send_I5_13(moForbiddenDrives, moDrives); 
+		send_I5_11(moForbiddenPerceptions, moEnvironmentalPerception_Output, moAssociatedMemories_Output); 
 	}
 
 	/* (non-Javadoc)
@@ -352,7 +369,7 @@ public class F07_SuperEgoReactive extends clsModuleBase
 	 * @see pa._v38.interfaces.modules.I5_13_send#send_I5_13(java.util.ArrayList)
 	 */
 	@Override
-	public void send_I5_13(int[] poForbiddenDrives, ArrayList<clsPair<clsPhysicalRepresentation, clsDriveMesh>> poData) {
+	public void send_I5_13(ArrayList<String> poForbiddenDrives, ArrayList<clsPair<clsPhysicalRepresentation, clsDriveMesh>> poData) {
 		((I5_13_receive)moModuleList.get(6)).receive_I5_13(poForbiddenDrives, poData);
 		
 		putInterfaceData(I5_13_send.class, poForbiddenDrives, poData);
@@ -366,9 +383,9 @@ public class F07_SuperEgoReactive extends clsModuleBase
 	 * @see pa._v38.interfaces.modules.I5_11_send#send_I5_11(java.util.ArrayList)
 	 */
 	@Override
-	public void send_I5_11(clsPrimaryDataStructureContainer poEnvironmentalPerception, ArrayList<clsPrimaryDataStructureContainer> poAssociatedMemories) {
-		((I5_11_receive)moModuleList.get(19)).receive_I5_11(poEnvironmentalPerception, poAssociatedMemories);
+	public void send_I5_11(ArrayList<clsPair<String, String>> poForbiddenPerceptions, clsPrimaryDataStructureContainer poEnvironmentalPerception, ArrayList<clsPrimaryDataStructureContainer> poAssociatedMemories) {
+		((I5_11_receive)moModuleList.get(19)).receive_I5_11(poForbiddenPerceptions, poEnvironmentalPerception, poAssociatedMemories);
 		
-		putInterfaceData(I5_13_send.class, poEnvironmentalPerception, poAssociatedMemories);
+		putInterfaceData(I5_13_send.class, poForbiddenPerceptions, poEnvironmentalPerception, poAssociatedMemories);
 	}
 }

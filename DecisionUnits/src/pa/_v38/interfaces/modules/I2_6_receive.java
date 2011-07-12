@@ -12,7 +12,7 @@ import java.util.ArrayList;
 import pa._v38.memorymgmt.datatypes.clsPrimaryDataStructureContainer;
 
 /**
- * DOCUMENT (deutsch) - insert description 
+ * Memory traces representing perceived environment and body information are forwarded to F46.
  * 
  * @author deutsch
  * 11.08.2009, 14:16:51

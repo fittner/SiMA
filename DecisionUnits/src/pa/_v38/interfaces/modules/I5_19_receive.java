@@ -9,7 +9,7 @@ package pa._v38.interfaces.modules;
 import pa._v38.memorymgmt.datatypes.clsPrimaryDataStructureContainer;
 
 /**
- * DOCUMENT (deutsch) - insert description 
+ * Word presentations originating in F27 are reduced to thing presentations in F47. These are forwarded together with their attached quota of affects to F46.
  * 
  * @author deutsch
  * 03.03.2011, 16:18:25

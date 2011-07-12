@@ -13,7 +13,7 @@ import pa._v38.memorymgmt.datatypes.clsPhysicalRepresentation;
 import pa._v38.tools.clsPair;
 
 /**
- * DOCUMENT (deutsch) - insert description 
+ * Selected drive content is forwarded from F55 to F6
  * 
  * @author deutsch
  * 18.05.2010, 14:35:43

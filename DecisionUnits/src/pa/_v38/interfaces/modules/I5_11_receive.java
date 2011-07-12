@@ -9,16 +9,17 @@ package pa._v38.interfaces.modules;
 import java.util.ArrayList;
 
 import pa._v38.memorymgmt.datatypes.clsPrimaryDataStructureContainer;
+import pa._v38.tools.clsPair;
 
 
 
 /**
- * DOCUMENT (deutsch) - insert description 
+ * Superego bans and rules are transported from F7 to F19.
  * 
  * @author deutsch
  * 11.08.2009, 14:35:43
  * 
  */
 public interface I5_11_receive {
-	public void receive_I5_11(clsPrimaryDataStructureContainer poEnvironmentalPerception, ArrayList<clsPrimaryDataStructureContainer> poAssociatedMemories);
+	public void receive_I5_11(ArrayList<clsPair<String, String>> poForbiddenPerceptions, clsPrimaryDataStructureContainer poEnvironmentalPerception, ArrayList<clsPrimaryDataStructureContainer> poAssociatedMemories);
 }

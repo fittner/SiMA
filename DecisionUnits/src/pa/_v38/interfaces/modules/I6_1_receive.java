@@ -12,7 +12,7 @@ import java.util.ArrayList;
 import pa._v38.memorymgmt.datatypes.clsSecondaryDataStructureContainer;
 
 /**
- * DOCUMENT (deutsch) - insert description 
+ * The perception contents consisting of word presentations, thing presentations, and affects are sent from F21 to F26 and F23 for further processing.
  * 
  * @author deutsch
  * 11.08.2009, 14:42:23
