@@ -13,7 +13,7 @@ import du.itf.actions.clsActionCommand;
 
 
 /**
- * DOCUMENT (deutsch) - insert description 
+ * Electrophysical signals are transmitted from F32 to the actuators.
  * 
  * @author deutsch
  * 03.03.2011, 15:30:30

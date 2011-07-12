@@ -13,7 +13,7 @@ import pa._v38.memorymgmt.datatypes.clsPhysicalRepresentation;
 import pa._v38.tools.clsPair;
 
 /**
- * DOCUMENT (deutsch) - insert description 
+ * Drives (emotions + quota of affects) are forwarded from F56 to F55 
  * 
  * @author deutsch
  * 03.03.2011, 15:34:04

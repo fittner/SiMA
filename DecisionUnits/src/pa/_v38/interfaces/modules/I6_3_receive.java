@@ -12,7 +12,7 @@ import java.util.ArrayList;
 import pa._v38.memorymgmt.datatypes.clsSecondaryDataStructureContainer;
 
 /**
- * DOCUMENT (deutsch) - insert description 
+ * This interface distributes the drive wishes produced by module F8 to the modules F23 and F26.
  * 
  * @author deutsch
  * 11.08.2009, 14:42:01

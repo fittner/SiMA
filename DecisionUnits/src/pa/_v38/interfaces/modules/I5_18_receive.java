@@ -14,7 +14,7 @@ import pa._v38.memorymgmt.datatypes.clsPhysicalRepresentation;
 import pa._v38.tools.clsPair;
 
 /**
- * DOCUMENT (deutsch) - insert description 
+ * Transports (unchanged or adapted) drive contents which passed the defense mechanisms from F6 to the conversion module F8.
  * 
  * @author deutsch
  * 11.08.2009, 14:10:42

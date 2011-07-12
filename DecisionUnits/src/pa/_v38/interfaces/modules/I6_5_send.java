@@ -11,7 +11,7 @@ import java.util.ArrayList;
 import pa._v38.memorymgmt.datatypes.clsSecondaryDataStructureContainer;
 
 /**
- * DOCUMENT (deutsch) - insert description 
+ * Drive wishes are transported from F8 to F20. The contents are in the form of word presentations, thing presentations, and affects.
  * 
  * @author deutsch
  * 18.05.2010, 14:37:21

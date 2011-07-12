@@ -13,7 +13,7 @@ import pa._v38.memorymgmt.datatypes.clsPrimaryDataStructureContainer;
 
 
 /**
- * DOCUMENT (deutsch) - insert description 
+ * Superego bans and rules are transported from F7 to F19.
  * 
  * @author deutsch
  * 11.08.2009, 14:35:43

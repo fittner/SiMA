@@ -9,7 +9,7 @@ package pa._v38.interfaces.modules;
 
 
 /**
- * DOCUMENT (deutsch) - insert description 
+ * Connection of a bodily module to its neurosymbolization module. F39->F40
  * 
  * @author deutsch
  * 03.03.2011, 15:31:20

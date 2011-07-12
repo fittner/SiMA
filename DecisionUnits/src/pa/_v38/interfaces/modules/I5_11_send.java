@@ -11,7 +11,7 @@ import java.util.ArrayList;
 import pa._v38.memorymgmt.datatypes.clsPrimaryDataStructureContainer;
 
 /**
- * DOCUMENT (deutsch) - insert description 
+ * Superego bans and rules are transported from F7 to F19.
  * 
  * @author deutsch
  * 18.05.2010, 14:35:43

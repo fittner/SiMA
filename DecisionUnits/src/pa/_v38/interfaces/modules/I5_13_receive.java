@@ -15,7 +15,7 @@ import pa._v38.tools.clsPair;
 
 
 /**
- * DOCUMENT (deutsch) - insert description 
+ * Superego bans and rules are transported from F7 to F6.
  * 
  * @author deutsch
  * 11.08.2009, 14:05:44

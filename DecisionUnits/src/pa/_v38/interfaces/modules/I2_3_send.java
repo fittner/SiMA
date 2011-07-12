@@ -12,7 +12,7 @@ import pa._v38.symbolization.eSymbolExtType;
 import pa._v38.symbolization.representationsymbol.itfSymbol;
 
 /**
- * DOCUMENT (deutsch) - insert description 
+ * Neurosymbols derived from external sensors are transmitted from F11 to F14.
  * 
  * @author deutsch
  * 18.05.2010, 14:16:31

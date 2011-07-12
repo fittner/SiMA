@@ -13,7 +13,7 @@ import pa._v38.symbolization.eSymbolExtType;
 import pa._v38.symbolization.representationsymbol.itfSymbol;
 
 /**
- * DOCUMENT (deutsch) - insert description 
+ * Similar to I2.2, I2.4 transports neurosymbols to F14. This time, they originate from F12.
  * 
  * @author deutsch
  * 11.08.2009, 14:16:46

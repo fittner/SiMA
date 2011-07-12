@@ -9,7 +9,7 @@ package pa._v38.interfaces.modules;
 
 
 /**
- * DOCUMENT (deutsch) - insert description 
+ * Reality checked action plans are passed on from F53 to F29.
  * 
  * @author deutsch
  * 27.04.2010, 10:42:05

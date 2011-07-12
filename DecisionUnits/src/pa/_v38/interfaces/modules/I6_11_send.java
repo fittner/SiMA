@@ -11,7 +11,7 @@ import java.util.ArrayList;
 import pa._v38.memorymgmt.datatypes.clsWordPresentation;
 
 /**
- * DOCUMENT (deutsch) - insert description 
+ * The final action plan is transported from F29 to F30.
  * 
  * @author deutsch
  * 18.05.2010, 14:53:12

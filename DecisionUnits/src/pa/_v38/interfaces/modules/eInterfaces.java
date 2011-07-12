@@ -9,7 +9,7 @@ package pa._v38.interfaces.modules;
 import java.util.ArrayList;
 
 /**
- * DOCUMENT (deutsch) - insert description 
+ * Contains the list of all interfaces of the functional model. Additionally the purpose of the interface is stored. 
  * 
  * @author deutsch
  * 14.04.2011, 16:00:09
@@ -80,19 +80,44 @@ public enum eInterfaces {
 	I6_10("Reality checked action plans are passed on from F53 to F29."),
 	I6_11("The final action plan is transported from F29 to F30.");
 	
+	/** Description of the purpose of the interface; @since 12.07.2011 13:16:00 */
 	private String moDescription;
 	
+    /**
+     * Creates an enum entry together with the provided description attached.
+     *
+     * @since 12.07.2011 13:16:13
+     *
+     * @param poDescription
+     */
     private eInterfaces(String poDescription) {
     	this.moDescription = poDescription;
     }
 
 
+	/**
+	 * Extract the interface enum entry from the provided interface name in form of a string.
+	 *
+	 * @since 12.07.2011 13:16:36
+	 *
+	 * @param poName
+	 * @return
+	 * @throws java.lang.IllegalArgumentException
+	 */
 	public static eInterfaces getEnum(String poName) throws java.lang.IllegalArgumentException {
 		String[] temp = poName.split("_");
 		poName = temp[0]+"_"+temp[1];
 		return eInterfaces.valueOf(poName);
 	}
 	
+	/**
+	 * Convert an array of classes of interfaces into an array that contains the corresponding enums.
+	 *
+	 * @since 12.07.2011 13:19:36
+	 *
+	 * @param poInterfaces
+	 * @return
+	 */
 	public static ArrayList<eInterfaces> getInterfaces(@SuppressWarnings("rawtypes") Class[] poInterfaces) {
 		ArrayList<eInterfaces> oResult = new ArrayList<eInterfaces>();
 		
@@ -109,10 +134,11 @@ public enum eInterfaces {
 	}
 
 	/**
-	 * @author deutsch
-	 * 15.04.2011, 14:28:15
-	 * 
-	 * @return the moDescription
+	 * Return the description of this enum.
+	 *
+	 * @since 12.07.2011 13:20:28
+	 *
+	 * @return
 	 */
 	public String getDescription() {
 		return moDescription;
