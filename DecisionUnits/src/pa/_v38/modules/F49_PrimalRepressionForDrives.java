@@ -129,6 +129,7 @@ public class F49_PrimalRepressionForDrives extends clsModuleBase
 	@Override
 	protected void process_draft() {
 		// TODO (zeilinger) - Auto-generated method stub
+		throw new java.lang.NoSuchMethodError();
 		
 	}
 
@@ -142,6 +143,7 @@ public class F49_PrimalRepressionForDrives extends clsModuleBase
 	@Override
 	protected void process_final() {
 		// TODO (zeilinger) - Auto-generated method stub
+		throw new java.lang.NoSuchMethodError();
 		
 	}
 
@@ -203,7 +205,8 @@ public class F49_PrimalRepressionForDrives extends clsModuleBase
 	 */
 	@Override
 	public void setDescription() {
-		// TODO (zeilinger) - Auto-generated method stub
+		//FIXME CM english descriptiopn
+		moDescription = "Anhängen von urverdrängten Inhalte an die erinnerten Triebinhalte, wenn einen Assoziation möglich ist => 'Erinnerte Triebinhalte mit assoziierten Urverdrängungen'";
 		
 	}
 

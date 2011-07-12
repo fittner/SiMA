@@ -28,7 +28,8 @@ import pa._v38.tools.toText;
 public class F12_SensorsBody extends clsModuleBase implements I0_5_receive, I1_4_send {
 	public static final String P_MODULENUMBER = "12";
 	
-	private HashMap<eSensorExtType, clsSensorExtern> moBodyData;
+	private HashMap<eSensorExtType, clsSensorExtern> moBodyData_IN;
+	private HashMap<eSensorExtType, clsSensorExtern> moBodyData_OUT;
 
 	/**
 	 * DOCUMENT (muchitsch) - insert description 
@@ -58,7 +59,8 @@ public class F12_SensorsBody extends clsModuleBase implements I0_5_receive, I1_4
 	public String stateToTEXT() {		
 		String text = "";
 		
-		text += toText.mapToTEXT("moBodyData", moBodyData);
+		text += toText.mapToTEXT("moBodyData_IN", moBodyData_IN);
+		text += toText.mapToTEXT("moBodyData_OUT", moBodyData_OUT);
 
 		return text;
 	}
@@ -111,8 +113,9 @@ public class F12_SensorsBody extends clsModuleBase implements I0_5_receive, I1_4
 	 */
 	@Override
 	protected void process_basic() {
-		mnTest++;
 		
+		moBodyData_OUT = moBodyData_IN;
+		putInterfaceData(I0_5_receive.class, moBodyData_OUT);		
 	}
 
 	/* (non-Javadoc)
@@ -124,7 +127,7 @@ public class F12_SensorsBody extends clsModuleBase implements I0_5_receive, I1_4
 	 */
 	@Override
 	protected void send() {
-		send_I1_4(moBodyData);
+		send_I1_4(moBodyData_OUT);
 		
 	}
 
@@ -188,11 +191,13 @@ public class F12_SensorsBody extends clsModuleBase implements I0_5_receive, I1_4
 	 * 
 	 * @see pa.interfaces.receive._v38.I0_5_receive#receive_I0_5(java.util.HashMap)
 	 */
+	@SuppressWarnings("unchecked")
 	@Override
 	public void receive_I0_5(HashMap<eSensorExtType, clsSensorExtern> poData) {
-		moBodyData = poData;
 		
-		putInterfaceData(I0_5_receive.class, poData);		
+		moBodyData_IN = (HashMap<eSensorExtType, clsSensorExtern>) deepCopy(poData); 
+		
+		//putInterfaceData(I0_5_receive.class, poData);		
 	}
 
 	/* (non-Javadoc)
