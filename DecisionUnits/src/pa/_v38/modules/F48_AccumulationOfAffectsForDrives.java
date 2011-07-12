@@ -23,7 +23,7 @@ import pa._v38.tools.toText;
 import config.clsBWProperties;
 
 /**
- * DOCUMENT (zeilinger) - insert description 
+ * F48 combines the quota of effect and thing presentation candidates to a list of drive candidates
  * 
  * @author zeilinger
  * 02.05.2011, 15:47:11
@@ -34,11 +34,8 @@ public class F48_AccumulationOfAffectsForDrives extends clsModuleBase
 
 	public static final String P_MODULENUMBER = "48";
 	
-	@SuppressWarnings("unused")
 	private ArrayList<clsDriveMesh> moDriveCandidateHomeostasis;
-	@SuppressWarnings("unused")
 	private ArrayList<clsDriveMesh> moDriveCandidateLibido;
-	
 	private ArrayList<clsDriveMesh> moDriveCandidates;
 	/**
 	 * DOCUMENT (zeilinger) - insert description 
@@ -135,9 +132,7 @@ public class F48_AccumulationOfAffectsForDrives extends clsModuleBase
 	 */
 	@Override
 	protected void process_final() {
-		// TODO (zeilinger) - Auto-generated method stub
 		throw new java.lang.NoSuchMethodError();
-		
 	}
 
 	/* (non-Javadoc)
