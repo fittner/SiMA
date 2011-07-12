@@ -11,12 +11,13 @@ import java.util.ArrayList;
 import pa._v38.memorymgmt.datatypes.clsDriveMesh;
 
 /**
- * DOCUMENT (deutsch) - insert description 
+ * Displays the provided drives in an inspector tab.
  * 
  * @author deutsch
  * 23.04.2011, 12:09:10
  * 
  */
+@Deprecated
 public interface itfInspectorDrives {
 	public ArrayList<clsDriveMesh> getDriveList();
 }
