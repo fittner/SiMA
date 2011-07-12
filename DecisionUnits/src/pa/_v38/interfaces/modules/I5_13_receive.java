@@ -22,5 +22,5 @@ import pa._v38.tools.clsPair;
  * 
  */
 public interface I5_13_receive {
-	public void receive_I5_13(int[] poForbiddenDrive, ArrayList<clsPair<clsPhysicalRepresentation, clsDriveMesh>> poData);
+	public void receive_I5_13(ArrayList<String> poForbiddenDrive, ArrayList<clsPair<clsPhysicalRepresentation, clsDriveMesh>> poData);
 }
