@@ -8,8 +8,8 @@ package inspectors.mind.pa._v38.autocreated;
 
 import java.util.ArrayList;
 import java.util.SortedMap;
-import pa._v38.interfaces.eInterfaces;
 import pa._v38.interfaces.itfInterfaceInterfaceData;
+import pa._v38.interfaces.modules.eInterfaces;
 import pa._v38.tools.toText;
 
 /**

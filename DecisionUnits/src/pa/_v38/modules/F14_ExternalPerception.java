@@ -10,17 +10,17 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.SortedMap;
 import config.clsBWProperties;
-import pa._v38.interfaces.eInterfaces;
 import pa._v38.interfaces.modules.I2_3_receive;
 import pa._v38.interfaces.modules.I2_4_receive;
 import pa._v38.interfaces.modules.I2_6_receive;
 import pa._v38.interfaces.modules.I2_6_send;
+import pa._v38.interfaces.modules.eInterfaces;
 import pa._v38.memorymgmt.datahandler.clsDataStructureConverter;
 import pa._v38.memorymgmt.datatypes.clsPrimaryDataStructure;
 import pa._v38.memorymgmt.datatypes.clsPrimaryDataStructureContainer;
+import pa._v38.symbolization.eSymbolExtType;
 import pa._v38.symbolization.representationsymbol.itfSymbol;
 import pa._v38.tools.toText;
-import pa._v38.enums.eSymbolExtType;
 
 /**
  * DOCUMENT (muchitsch) - insert description 
@@ -121,9 +121,10 @@ public class F14_ExternalPerception extends clsModuleBase implements
 	 * 
 	 * @see pa.interfaces.I2_2#receive_I2_2(int)
 	 */
+	@SuppressWarnings("unchecked")
 	@Override
 	public void receive_I2_3(HashMap<eSymbolExtType, itfSymbol> poEnvironmentalData) {
-		moEnvironmentalData = poEnvironmentalData;
+		moEnvironmentalData = (HashMap<eSymbolExtType, itfSymbol>) deepCopy(poEnvironmentalData); 
 	}
 
 	/* (non-Javadoc)
@@ -133,9 +134,10 @@ public class F14_ExternalPerception extends clsModuleBase implements
 	 * 
 	 * @see pa.interfaces.I2_4#receive_I2_4(int)
 	 */
+	@SuppressWarnings("unchecked")
 	@Override
 	public void receive_I2_4(HashMap<eSymbolExtType, itfSymbol> poBodyData) {
-		moBodyData = poBodyData;
+		moBodyData = (HashMap<eSymbolExtType, itfSymbol>) deepCopy(poBodyData); 
 	}
 
 	/* (non-Javadoc)

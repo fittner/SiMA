@@ -144,6 +144,9 @@ public class clsOntologyLoader {
 			case TPM:	 createTPM(poRootElement, poElement, poDataContainer);	break; 
 			case TP:	 createTP(poRootElement, poElement, poDataContainer);	break; 
 			case WP:	 createWP(poRootElement, poElement, poDataContainer);	break; 
+			
+			//Special case in order to be able to create images
+			case PRIINSTANCE: createPRIINSTANCE(poRootElement, poElement, poDataContainer); break;
 				
 			default: throw new NoSuchFieldError(" datatype " + poDataType +" is not handled"); 
 		}
@@ -296,6 +299,77 @@ public class clsOntologyLoader {
 			if(element instanceof clsAssociationAttribute){ oDataStructure.assignDataStructure(element);}
 		}
 	}
+	
+	
+	private static void createPRIINSTANCE(Instance poRootElement, Instance poElement,
+			clsPair<KnowledgeBase, HashMap<String,clsDataStructurePA>> poDataContainer) {
+		
+		//Get the instance of the container structure
+		Instance oInstanceOfType = (Instance)poElement.getOwnSlotValue(poDataContainer.a.getSlot("instance_type"));
+		//If the data structure does not exist, create it
+		initDataStructure(null, oInstanceOfType, poDataContainer);
+		//Get the element of the data structure
+		clsDataStructurePA oDS = (clsDataStructurePA)retrieveDataStructure(oInstanceOfType.getName(),poDataContainer.b);
+		
+		//make a deepcopy of the data structure in order to get new association ids
+		
+		clsDataStructurePA oNewInstanceDS = null;
+		if (oDS != null) {
+			if (oDS instanceof clsThingPresentationMesh) {
+				//TODO AW: Only TPM is covered here
+				//oNewInstanceDS = (clsThingPresentationMesh)deepCopy(oDS);
+				clsThingPresentationMesh oNewInstanceTPMDS = null;
+				try {
+					oNewInstanceTPMDS = (clsThingPresentationMesh) ((clsThingPresentationMesh) oDS).clone();
+				} catch (CloneNotSupportedException e) {
+					// TODO (wendt) - Auto-generated catch block
+					e.printStackTrace();
+				}
+				oNewInstanceDS = oNewInstanceTPMDS;
+				
+				poDataContainer.b.put(poElement.getName(), oNewInstanceDS);	//Use the containername as identifier
+
+				//ArrayList <clsAssociation> oAssociationList = loadInstanceAssociations(oInstanceOfType, poDataContainer); 
+				//oAssociationList.addAll(loadClassAssociations(oInstanceOfType, oNewInstanceDS, poDataContainer));
+
+				//for(clsAssociation element : oAssociationList){
+				//	if(element instanceof clsAssociationAttribute){ ((clsThingPresentationMesh)oNewInstanceDS).assignDataStructure(element);}
+				//}
+			}
+		}
+		
+		
+	}
+	
+	//FIXME AW: This function already exists in clsModuleBase
+	//AW 20110521: new deepcopy function for single objects
+	/*private static Object deepCopy(Object other) {
+		Object clone = null;
+		if (other != null) {
+			clone = new Object();
+		}
+		
+		try {
+			if (!(other instanceof Cloneable)) {
+				clone = other;	//not cloneable
+			} else {
+				//FIXME: AW 20110521: How are relative references kept? 
+				// Before: Associated Datastructures ElementA = ID123, ElementB = ID122, Datastructure: ID123
+				// After: Associated Datastructures ElementA = ID999, ElementB = ID888, Datastructure: ID777
+				Class<?> clzz = other.getClass();
+				Method   meth = clzz.getMethod("clone", new Class[0]);
+				Object   dupl = meth.invoke(other, new Object[0]);
+				clone = dupl;
+				//clone.add(dupl);
+			}
+		} catch (Exception e) {
+			//clone.add(entry);
+			clone = other;
+			// no deep copy possible.
+		}
+		return clone;
+	}*/
+	
 	
 	/**
 	 * DOCUMENT (zeilinger) - insert description

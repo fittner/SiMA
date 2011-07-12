@@ -155,15 +155,13 @@ public class clsInformationRepresentationManagement extends clsKnowledgeBaseHand
 		
 		//AW 20110629: New function
 		/**
-		 * DOCUMENT (wendt) - insert description
+		 * Function overloading for searching in memories with one single complete container
 		 *
 		 * @since 29.06.2011 15:03:32
 		 *
 		 * @param poSearchPatternList
 		 * @return
-		 * 
-		 * Function overloading for searching in memories with one single complete container
-		 * 
+		 *  
 		 */
 		@Override
 		public ArrayList<clsPair<Double,clsDataStructureContainer>> initMemorySearch(clsPair<Integer, clsDataStructureContainer> poSearchPattern){
@@ -205,7 +203,7 @@ public class clsInformationRepresentationManagement extends clsKnowledgeBaseHand
 	}
 	
 	/**
-	 * DOCUMENT (wendt) - insert description
+	 * This function overload only accepts containers
 	 *
 	 * @since 30.06.2011 22:36:54
 	 *
@@ -213,7 +211,6 @@ public class clsInformationRepresentationManagement extends clsKnowledgeBaseHand
 	 * @param poDataStructure
 	 * @return
 	 * 
-	 * This function overload only accepts containers
 	 */
 	private ArrayList<clsPair<Double, clsDataStructureContainer>> triggerModuleSearch(Integer poReturnType, clsDataStructureContainer poDataContainer) {
 		

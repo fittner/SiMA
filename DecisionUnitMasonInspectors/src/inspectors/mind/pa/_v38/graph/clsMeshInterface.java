@@ -6,7 +6,7 @@
  */
 package inspectors.mind.pa._v38.graph;
 
-import pa._v38.interfaces.eInterfaces;
+import pa._v38.interfaces.modules.eInterfaces;
 import pa._v38.modules.clsPsychicApparatus;
 
 /**

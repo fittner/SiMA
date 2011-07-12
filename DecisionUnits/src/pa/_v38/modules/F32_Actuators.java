@@ -12,9 +12,9 @@ import java.util.SortedMap;
 import config.clsBWProperties;
 import du.itf.actions.clsActionCommand;
 import du.itf.actions.itfActionProcessor;
-import pa._v38.interfaces.eInterfaces;
 import pa._v38.interfaces.modules.I0_6_send;
 import pa._v38.interfaces.modules.I1_5_receive;
+import pa._v38.interfaces.modules.eInterfaces;
 import pa._v38.tools.toText;
 
 /**
