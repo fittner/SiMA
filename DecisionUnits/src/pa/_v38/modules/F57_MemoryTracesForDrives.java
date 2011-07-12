@@ -10,15 +10,17 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.SortedMap;
 
-import pa._v38.interfaces.eInterfaces;
 import pa._v38.interfaces.modules.I4_1_receive;
 import pa._v38.interfaces.modules.I5_1_receive;
 import pa._v38.interfaces.modules.I5_1_send;
 import pa._v38.interfaces.modules.I5_7_receive;
+import pa._v38.interfaces.modules.eInterfaces;
 import pa._v38.memorymgmt.clsKnowledgeBaseHandler;
+import pa._v38.memorymgmt.datatypes.clsDataStructureContainer;
 import pa._v38.memorymgmt.datatypes.clsDriveMesh;
 import pa._v38.memorymgmt.datatypes.clsPhysicalRepresentation;
 import pa._v38.memorymgmt.datatypes.clsPrimaryDataStructureContainer;
+import pa._v38.memorymgmt.enums.eDataType;
 import pa._v38.tools.clsPair;
 import pa._v38.tools.toText;
 import config.clsBWProperties;
@@ -35,11 +37,9 @@ public class F57_MemoryTracesForDrives extends clsModuleBaseKB
 
 	public static final String P_MODULENUMBER = "57";
 	private clsPrimaryDataStructureContainer moEnvironmentalPerception_IN;	//AW 20110521: New containerstructure. Use clsDataStructureConverter.TPMtoTI to convert to old structure
-	@SuppressWarnings("unused")
 	private ArrayList<clsPrimaryDataStructureContainer> moAssociatedMemories_IN;	//AW 20110621: Associated Memories
 	private ArrayList<clsDriveMesh> moDriveCandidates;
-	private ArrayList<clsPair<clsPrimaryDataStructureContainer,ArrayList<clsDriveMesh>>> moInput; //Clemens fragen
-	private  ArrayList<clsPair<clsPhysicalRepresentation,clsDriveMesh>> moDrivesAndTraces_OUT;
+	private  ArrayList<clsPair<clsPhysicalRepresentation, clsDriveMesh>> moDrivesAndTraces_OUT;
 	
 	/**
 	 * DOCUMENT (zeilinger) - insert description 
@@ -120,10 +120,10 @@ public class F57_MemoryTracesForDrives extends clsModuleBaseKB
 	 * 
 	 * @see pa._v38.interfaces.modules.I4_1_receive#receive_I4_1(java.util.ArrayList)
 	 */
-	@SuppressWarnings("unchecked")
 	@Override
 	public void receive_I4_1(ArrayList<clsDriveMesh> poDriveCandidates) {
-		moDriveCandidates = (ArrayList<clsDriveMesh>) deepCopy(poDriveCandidates); 
+		moDriveCandidates = poDriveCandidates; 
+	
 	}
 
 	/* (non-Javadoc)
@@ -134,10 +134,7 @@ public class F57_MemoryTracesForDrives extends clsModuleBaseKB
 	 * @see pa._v38.modules.clsModuleBase#process_basic()
 	 */
 	@Override
-	protected void process_basic() {
-		// TODO (implement me with the real functionality
-		moDrivesAndTraces_OUT =  deepCopy(moDriveCandidates); 
-		
+protected void process_basic() {
 		
 		//ArrayList<clsPair<clsPrimaryDataStructureContainer, ArrayList<clsDriveMesh>>>;
 		
@@ -147,27 +144,44 @@ public class F57_MemoryTracesForDrives extends clsModuleBaseKB
 
 	/**
 	 * DOCUMENT (hinterleitner) - insert description
+	 * @param <clsPhysicalDataStructure>
 	 *
 	 * @since 01.07.2011 10:24:34
 	 *
 	 */
-	private void attachDriveCandidatesToEnvironPerception() {
+	@SuppressWarnings({ "static-access", "unchecked" })
+	private <clsPhysicalDataStructure> void attachDriveCandidatesToEnvironPerception() 
+	{
+		//im Speicher suchen nachen nach TPMs die mit den verschiedenen Triebkandidaten assoziiert sind = Triebobjekte
 		
-		if (moEnvironmentalPerception_IN != null)
+		{
 			
-			//moInput = new ArrayList<clsPair<clsPhysicalRepresentation, clsDriveMesh>>) deepCopy(poData);
-			moInput = new ArrayList<clsPair<clsPrimaryDataStructureContainer, ArrayList<clsDriveMesh>>> (); 
+			    //System.out.println(eDataType.TPM.ASSOCIATIONDM.values()); //TD 2011/07/12 - commented out. useless output to console. please try to make more meaningfull outputs and use the inspectors.
 			
+				
+				ArrayList<clsPrimaryDataStructureContainer> oContainerList = new ArrayList<clsPrimaryDataStructureContainer>(); 
+			
+				ArrayList<ArrayList<clsPair<Double,clsDataStructureContainer>>> oSearchResult = 
+				new ArrayList<ArrayList<clsPair<Double,clsDataStructureContainer>>>(); 
+				
+		    	search(eDataType.TPM.ASSOCIATIONDM, oContainerList, oSearchResult); //Suche nach TPMs, die mit Trieben assoziiert sind
+		    	
+				
+		    	//oSearchResult muss umgewandelt werden in clsPair<clsPhysicalRepresentation, clsDriveMesh>
+				
+		       
+		    //	moDrivesAndTraces_OUT = ArrayList.class.cast(clsPair.create(clsPhysicalRepresentation.class.cast(oSearchResult), clsDriveMesh.class.cast(moDriveCandidates)));
+		    	
+		    	
+			//}
 
-			moInput.add(new clsPair<clsPrimaryDataStructureContainer, ArrayList<clsDriveMesh>> (moEnvironmentalPerception_IN, moDriveCandidates)); //Triebkandidaten = clsDriveMesh 
-		
-			/* Commented out by HZ - 6.7.2011
-				System.out.println(moKnowledgeBaseHandler);
-				System.out.println(moDriveCandidates);
-				System.out.println(moEnvironmentalPerception_IN); //constructed perception
-			*/
+			
+		  //  System.out.println(moEnvironmentalPerception_IN);
+			//System.out.println(oContainerList); //constructed perception
+
+	     }
+				
 	}
-
 	/* (non-Javadoc)
 	 *
 	 * @author zeilinger

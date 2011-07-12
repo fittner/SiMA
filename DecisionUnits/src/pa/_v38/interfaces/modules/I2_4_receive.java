@@ -9,8 +9,8 @@ package pa._v38.interfaces.modules;
 import java.util.HashMap;
 
 
+import pa._v38.symbolization.eSymbolExtType;
 import pa._v38.symbolization.representationsymbol.itfSymbol;
-import pa._v38.enums.eSymbolExtType;
 
 /**
  * DOCUMENT (deutsch) - insert description 

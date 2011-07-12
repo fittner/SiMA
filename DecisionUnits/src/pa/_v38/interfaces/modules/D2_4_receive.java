@@ -20,5 +20,5 @@ import pa._v38.memorymgmt.datatypes.clsPrimaryDataStructureContainer;
  * 
  */
 public interface D2_4_receive {
-	public void receive_D2_4(ArrayList<clsPrimaryDataStructureContainer> poData);
+	public void receive_D2_4(clsPrimaryDataStructureContainer poData, ArrayList<clsPrimaryDataStructureContainer> poAssociatedMemories);
 }

@@ -11,10 +11,10 @@ import java.util.HashMap;
 import java.util.SortedMap;
 
 import pa._v38.modules.ePsychicInstances;
-import pa._v38.interfaces.eInterfaces;
 import pa._v38.interfaces.modules.I5_1_receive;
 import pa._v38.interfaces.modules.I5_2_receive;
 import pa._v38.interfaces.modules.I5_2_send;
+import pa._v38.interfaces.modules.eInterfaces;
 import pa._v38.memorymgmt.datatypes.clsDriveMesh;
 import pa._v38.memorymgmt.datatypes.clsPhysicalRepresentation;
 import pa._v38.tools.clsPair;
@@ -129,6 +129,7 @@ public class F49_PrimalRepressionForDrives extends clsModuleBase
 	@Override
 	protected void process_draft() {
 		// TODO (zeilinger) - Auto-generated method stub
+		throw new java.lang.NoSuchMethodError();
 		
 	}
 
@@ -142,6 +143,7 @@ public class F49_PrimalRepressionForDrives extends clsModuleBase
 	@Override
 	protected void process_final() {
 		// TODO (zeilinger) - Auto-generated method stub
+		throw new java.lang.NoSuchMethodError();
 		
 	}
 
@@ -203,7 +205,8 @@ public class F49_PrimalRepressionForDrives extends clsModuleBase
 	 */
 	@Override
 	public void setDescription() {
-		// TODO (zeilinger) - Auto-generated method stub
+		//FIXME CM english descriptiopn
+		moDescription = "Anhängen von urverdrängten Inhalte an die erinnerten Triebinhalte, wenn einen Assoziation möglich ist => 'Erinnerte Triebinhalte mit assoziierten Urverdrängungen'";
 		
 	}
 

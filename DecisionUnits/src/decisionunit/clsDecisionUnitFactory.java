@@ -11,7 +11,7 @@ import du.itf.itfDecisionUnitFactory;
 import decisionunit.clsBaseDecisionUnit;
 
 /**
- * DOCUMENT (deutsch) - insert description 
+ * Creates an instance of the selected decision unit type. Can be called either via static call or via regular public method.
  * 
  * @author deutsch
  * 06.05.2010, 16:53:19

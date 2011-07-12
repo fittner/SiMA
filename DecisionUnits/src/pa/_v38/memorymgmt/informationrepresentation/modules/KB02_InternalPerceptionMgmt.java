@@ -104,7 +104,7 @@ public class KB02_InternalPerceptionMgmt extends clsInformationRepresentationMod
 		//2. Search for all DataStructures (without containers), which matches this one
 		ArrayList<clsPair<Double, clsDataStructurePA>> oMatchedDataStructures = new ArrayList<clsPair<Double, clsDataStructurePA>>();
 		//2b. Set the Content type of oDS
-		oDS.setMoContentType("LOCATION");	
+		oDS.setMoContentType("IMAGE");	
 		oMatchedDataStructures = compareElements(oDS);	//Get a List of all matching structures in the memory
 		//The internal comparison is made in compareElements
 		
@@ -183,5 +183,18 @@ public class KB02_InternalPerceptionMgmt extends clsInformationRepresentationMod
 	 */
 	private ArrayList<clsPair<Double,clsDataStructurePA>> compareElements(clsDataStructurePA poDataStructureUnknown) {
 		return clsDataStructureComparison.compareDataStructures(poDataStructureUnknown, moSearchSpaceHandler.returnSearchSpace());
+	}
+	
+	
+	/**
+	 * DOCUMENT (wendt) - Function overloading, search for the whole content of a container in the memeory
+	 *
+	 * @since 08.07.2011 11:53:35
+	 *
+	 * @param poContainerUnknown
+	 * @return
+	 */
+	private ArrayList<clsPair<Double,clsDataStructureContainer>> compareElements(clsDataStructureContainer poContainerUnknown) {
+		return clsDataStructureComparison.compareDataStructures(poContainerUnknown, moSearchSpaceHandler.returnSearchSpace());
 	}
 }

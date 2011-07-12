@@ -6,7 +6,7 @@
  */
 package inspectors.mind.pa._v38.functionalmodel;
 
-import pa._v38.interfaces.eInterfaces;
+import pa._v38.interfaces.modules.eInterfaces;
 
 /**
  * DOCUMENT (deutsch) - insert description 

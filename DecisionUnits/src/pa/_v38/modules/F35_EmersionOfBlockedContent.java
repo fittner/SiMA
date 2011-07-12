@@ -11,20 +11,17 @@ import java.util.HashMap;
 import java.util.SortedMap;
 import config.clsBWProperties;
 import pa._v38.tools.clsPair;
-import pa._v38.tools.clsTripple;
 import pa._v38.tools.toText;
-import pa._v38.interfaces.eInterfaces;
 import pa._v38.interfaces.itfMinimalModelMode;
 import pa._v38.interfaces.modules.I5_7_receive;
 import pa._v38.interfaces.modules.I5_8_receive;
 import pa._v38.interfaces.modules.I5_8_send;
+import pa._v38.interfaces.modules.eInterfaces;
 import pa._v38.memorymgmt.clsKnowledgeBaseHandler;
-import pa._v38.memorymgmt.datatypes.clsAssociationDriveMesh;
 import pa._v38.memorymgmt.datatypes.clsDataStructureContainer;
 import pa._v38.memorymgmt.datatypes.clsDataStructurePA;
 import pa._v38.memorymgmt.datatypes.clsDriveMesh;
 import pa._v38.memorymgmt.datatypes.clsPrimaryDataStructureContainer;
-import pa._v38.memorymgmt.datatypes.clsTemplateImage;
 import pa._v38.memorymgmt.enums.eDataType;
 import pa._v38.storage.clsBlockedContentStorage;
 
@@ -53,20 +50,6 @@ public class F35_EmersionOfBlockedContent extends clsModuleBaseKB implements itf
 	private double mrContextSensitivity = 0.8;
 	private boolean mnMinimalModel;
 	
-	/**
-	 * Minimum match factor a blocked content must achieve to be activated. 
-	 * 
-	 * @author Marcus Zottl (e0226304)
-	 * 28.06.2011, 20:22:42
-	 */
-	private double mrActivationThreshold = 0.5;
-	/**
-	 * Limit to adjust the number of activated blocked contents. 
-	 * 
-	 * @author Marcus Zottl (e0226304)
-	 * 28.06.2011, 20:21:28
-	 */
-	private int mnActivationLimit = 3;
 
 	/**
 	 * DOCUMENT (wendt) - insert description 
@@ -101,7 +84,7 @@ public class F35_EmersionOfBlockedContent extends clsModuleBaseKB implements itf
 	public String stateToTEXT() {
 		String text ="";
 		
-		text += toText.valueToTEXT("mnMinimalModel", mnMinimalModel);
+		//text += toText.valueToTEXT("mnMinimalModel", mnMinimalModel);
 		text += toText.valueToTEXT("moBlockedContentStorage", moBlockedContentStorage);
 		text += toText.valueToTEXT("moEnvironmentalTP_Input", moEnvironmentalPerception_IN);
 		text += toText.listToTEXT("moAttachedRepressed_Output", moAttachedRepressed_Output);
@@ -124,7 +107,7 @@ public class F35_EmersionOfBlockedContent extends clsModuleBaseKB implements itf
 	private void applyProperties(String poPrefix, clsBWProperties poProp) {
 		String pre = clsBWProperties.addDot(poPrefix);
 		mrContextSensitivity = poProp.getPropertyDouble(pre+P_CONTEXT_SENSTITIVITY);
-		mnMinimalModel = false;
+		//mnMinimalModel = false;
 	}
 
 	/* (non-Javadoc)
@@ -134,10 +117,9 @@ public class F35_EmersionOfBlockedContent extends clsModuleBaseKB implements itf
 	 * 
 	 * @see pa.modules.clsModuleBase#process()
 	 */
-	@SuppressWarnings("unused")
+	@SuppressWarnings("unchecked")
 	@Override
 	protected void process_basic() {
-			
 		moEnvironmentalPerception_OUT = (clsPrimaryDataStructureContainer)deepCopy(moEnvironmentalPerception_IN);
 		moAssociatedMemories_OUT = (ArrayList<clsPrimaryDataStructureContainer>)deepCopy(moAssociatedMemories_IN);
 		/* MZ 2011/07/05: everything that is done with the input is now happening
@@ -145,45 +127,11 @@ public class F35_EmersionOfBlockedContent extends clsModuleBaseKB implements itf
 		 * the items in moAssociatedMemories_IN can also be processed in the same
 		 * manner.
 		 */
-		//enrichWithBlockedContent(moEnvironmentalPerception_OUT);
-		
-		/* ALT BEGIN */
-		
-		//FIXME: AW: The output consists of 3 equal pairs of DM and Containers. Why is the same Ref used 3 times?
-		//moAttachedRepressed_Output = new ArrayList<clsPair<clsPrimaryDataStructureContainer,clsDriveMesh>>();
-		//ArrayList<clsPrimaryDataStructureContainer> oContainerList = new ArrayList<clsPrimaryDataStructureContainer>(); 
-	 		
-		//oContainerList = clsDataStructureConverter.convertTIContToTPMCont(moEnvironmentalPerception_IN); 
-			/* Add DM for to object and include them in the TPM through associations. The TPM then contains 
-			 * attributeassociations and drivemeshassociations
-			 */
-		//assignDriveMeshes(oContainerList);
-			/* The context of a certain drive or object is loaded, in the case of CAKE, it is NOURISH. If the drive 
-			 * NOURISH is found in the objects the categories (anal, oral...) is multiplied with a category factor <= 1
-			 * In case of a 100% match, the factor is 1.0.
-			 */
-		//adaptCathegories(oContainerList);
-			/* DM from the Repressed Content are added to the objects in the oContainerList
-			 */
-		
-		/* ALT END */
-		
-		//moBlockedContentStorage.receive_D2_4(oContainerList);
-		//moAttachedRepressed_Output = moBlockedContentStorage.send_D2_4();
-			
-			//matchRepressedContent(oContainerList);	//This function can be found in the blocked content instead
-			
-	
-		
-		//Convert Output to new format
-		//moEnvironmentalPerception_OUT = ConvertToTIContainer(moAttachedRepressed_Output);
-		//Pass the memories forward. Later, they are enriched repressed content
-		//moAssociatedMemories_OUT = moAssociatedMemories_IN;
+		enrichWithBlockedContent(moEnvironmentalPerception_OUT, moAssociatedMemories_OUT);
 	}
 
 	/**
-	 * Assigns DriveMeshes, adapts the categories of the DriveMeshes according to
-	 * the context and then looks for matching blocked content to enrich the
+	 * looks for matching blocked content to enrich the
 	 * perception.
 	 *
 	 * @author Marcus Zottl (e0226304)
@@ -195,71 +143,14 @@ public class F35_EmersionOfBlockedContent extends clsModuleBaseKB implements itf
 	 * @see F35_EmersionOfBlockedContent#adaptCategories(clsPrimaryDataStructureContainer)
 	 * @see F35_EmersionOfBlockedContent#matchBlockedContent(clsPrimaryDataStructureContainer)
 	 */
-	private void enrichWithBlockedContent(clsPrimaryDataStructureContainer poPerception) {
-		matchBlockedContent(poPerception);
-	}
-
-	/**
-	 * Acquires a list of matching items from the blocked content storage and enriches the incoming
-	 * perception according to the following rules:
-	 * <ul>
-	 * <li>If the match contains a TemplateImage and is a full match (match value = 1) then all the
-	 * DriveMeshes associated with elements in the TemplateImage are added to the perception by
-	 * associating them with their matching "partner"-elements in the perceived TemplateImage.</li>
-	 * <li>If the match contains a TemplateImage and is a partial match (match value < 1) then
-	 * the whole TemplateImage is added to the moAssociatedMemories.</li>
-	 * <li>If the match contains an "independent" DriveMesh, it is added to the perceived TemplateImage
-	 * by associating it with the element that it matched with.</li>
-	 * </ul>
-	 * 
-	 * <b>Variables read by this method:</b><br>
-	 * {@link #mrActivationThreshold}	- defines a minimum quality for matches<br>
-	 * {@link #mnActivationLimit}		- limits the number of considered matches<br> 
-	 * <br>
-	 * <b>Variables modified by this method:</b><br>
-	 * {@link #moAssociatedMemories_OUT}	- partially matching TIs are added to this list<br>
-	 * <br>
-	 *
-	 * @author Zottl Marcus
-	 * 22.06.2011, 18:47:30
-	 *
-	 * @param poPerception - the perceived input with attached DriveMeshes and adapted categories for
-	 * which you want to find matches in the blocked content storage. 
-	 */
-	private void matchBlockedContent(clsPrimaryDataStructureContainer poPerception) {
-		ArrayList<clsTripple<clsPrimaryDataStructureContainer, Double, ArrayList<clsAssociationDriveMesh>>> oMatchedContent;
-		
-		// look up matching content
-		oMatchedContent = null; //XXXmoBlockedContentStorage.getMatchesForPerception(poPerception, mrActivationThreshold);
-		// now pick the topmost matches and process them accordingly
-		int i = 0;
-		for (clsTripple<clsPrimaryDataStructureContainer, Double, ArrayList<clsAssociationDriveMesh>> matchedItem : oMatchedContent) {
-			i++;
-			if (i > mnActivationLimit) break;
-			
-			//case 1: the item is a TemplateImage
-			if (matchedItem.a.getMoDataStructure() instanceof clsTemplateImage) {
-				// case 1a: full match (matchValue = 1)
-				if (matchedItem.b == 1) {
-					// attach all DMs in result to the input TI
-					poPerception.getMoAssociatedDataStructures().addAll(matchedItem.c);
-				}
-				// case 1b: partial match (matchValue < 1)
-				else {
-					// add complete result to associated memories
-					moAssociatedMemories_OUT.add(matchedItem.a);
-				}
-				// activated content has to be deleted from the blocked content storage
-				//XXXmoBlockedContentStorage.removeBlockedContent(matchedItem.a.getMoDataStructure());
-			}
-			// case 2: the item is a DriveMesh
-			else if (matchedItem.a.getMoDataStructure() instanceof clsDriveMesh) {
-				// attach all DMs in result to the input TI
-				poPerception.getMoAssociatedDataStructures().addAll(matchedItem.c);
-				// activated content has to be deleted from the blocked content storage
-				// XXXmoBlockedContentStorage.removeBlockedContent(matchedItem.a.getMoDataStructure());
-			}
-		}
+	private void enrichWithBlockedContent(clsPrimaryDataStructureContainer poPerception, ArrayList<clsPrimaryDataStructureContainer> poAssociatedMemories) {
+		//Send inputs to the memeory
+		moBlockedContentStorage.receive_D2_4(poPerception, poAssociatedMemories);
+		clsPair<clsPrimaryDataStructureContainer, ArrayList<clsPrimaryDataStructureContainer>> oGetVal;
+		oGetVal = moBlockedContentStorage.send_D2_4();
+		//modify inputs
+		poPerception = oGetVal.a;
+		poAssociatedMemories = oGetVal.b;
 	}
 
 	/* (non-Javadoc)
@@ -384,9 +275,6 @@ public class F35_EmersionOfBlockedContent extends clsModuleBaseKB implements itf
 		
 		poSearchResult.addAll(moKnowledgeBaseHandler.initMemorySearch(poSearchPattern));
 	}
-	
-	
-	
 	
 	/* (non-Javadoc)
 	 *

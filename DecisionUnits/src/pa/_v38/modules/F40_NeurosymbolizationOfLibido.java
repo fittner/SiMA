@@ -10,10 +10,10 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.SortedMap;
 
-import pa._v38.interfaces.eInterfaces;
 import pa._v38.interfaces.modules.I1_1_receive;
 import pa._v38.interfaces.modules.I2_1_receive;
 import pa._v38.interfaces.modules.I2_1_send;
+import pa._v38.interfaces.modules.eInterfaces;
 import pa._v38.tools.toText;
 
 import config.clsBWProperties;
@@ -94,8 +94,7 @@ public class F40_NeurosymbolizationOfLibido extends clsModuleBase implements I1_
 	 */
 	@Override
 	protected void process_basic() {
-		//nothing to do
-
+		//nothing to do, because only one double value is forwarded to the next module. This is done in the send method.
 	}
 
 	/* (non-Javadoc)
@@ -107,8 +106,7 @@ public class F40_NeurosymbolizationOfLibido extends clsModuleBase implements I1_
 	 */
 	@Override
 	protected void process_draft() {
-		// TODO (muchitsch) - Auto-generated method stub
-
+		throw new java.lang.NoSuchMethodError();
 	}
 
 	/* (non-Javadoc)
@@ -120,8 +118,7 @@ public class F40_NeurosymbolizationOfLibido extends clsModuleBase implements I1_
 	 */
 	@Override
 	protected void process_final() {
-		// TODO (muchitsch) - Auto-generated method stub
-
+		throw new java.lang.NoSuchMethodError();
 	}
 
 	/* (non-Javadoc)
@@ -134,7 +131,6 @@ public class F40_NeurosymbolizationOfLibido extends clsModuleBase implements I1_
 	@Override
 	protected void send() {
 		send_I2_1(mrLibido);
-
 	}
 
 	/* (non-Javadoc)
@@ -161,8 +157,8 @@ public class F40_NeurosymbolizationOfLibido extends clsModuleBase implements I1_
 	@Override
 	public void receive_I1_1(double prData) {
 		mrLibido = prData;
-		
 	}
+	
 	/* (non-Javadoc)
 	 *
 	 * @author deutsch

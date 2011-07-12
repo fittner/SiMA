@@ -29,7 +29,8 @@ public enum eDataType {
 	TI						(0x000100),
 	TP						(0x001000),
 	TPM						(0x010000),
-	WP						(0x100000); 
+	WP						(0x100000), 
+	PRIINSTANCE				(0x000000); 	//This datatype is necessary in order to store actual experiences
 	
 	
 	public int nBinaryValue; 

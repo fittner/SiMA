@@ -1,4 +1,4 @@
-; Wed Jul 06 13:01:36 GMT 2011
+; Sun Jul 10 08:12:52 GMT 2011
 ; 
 ;+ (version "3.4.4")
 ;+ (build "Build 579")
@@ -7,10 +7,20 @@
 (defclass %3ACLIPS_TOP_LEVEL_SLOT_CLASS "Fake class to save top-level slot information"
 	(is-a USER)
 	(role abstract)
+	(single-slot elementA
+		(type INSTANCE)
+;+		(allowed-classes WP)
+;+		(cardinality 0 1)
+		(create-accessor read-write))
 	(single-slot action
 		(type INSTANCE)
 ;+		(allowed-classes WP)
 ;+		(cardinality 1 1)
+		(create-accessor read-write))
+	(single-slot elementB
+		(type INSTANCE)
+;+		(allowed-classes WP)
+;+		(cardinality 0 1)
 		(create-accessor read-write))
 	(single-slot type
 		(type STRING)
@@ -42,6 +52,10 @@
 		(default 0.0)
 ;+		(cardinality 0 1)
 		(create-accessor read-write))
+	(single-slot predicate
+		(type STRING)
+;+		(cardinality 1 1)
+		(create-accessor read-write))
 	(multislot precondition
 		(type INSTANCE)
 ;+		(allowed-classes WP ACT)
@@ -51,6 +65,10 @@
 		(type FLOAT)
 		(default 0.0)
 ;+		(cardinality 1 1)
+		(create-accessor read-write))
+	(multislot ext_assdatastructure
+		(type INSTANCE)
+;+		(allowed-classes)
 		(create-accessor read-write))
 	(multislot instance_association
 		(type INSTANCE)
@@ -77,6 +95,11 @@
 	(multislot class_association
 		(type INSTANCE)
 ;+		(allowed-classes)
+		(create-accessor read-write))
+	(single-slot instance_type
+		(type INSTANCE)
+;+		(allowed-classes TPM TP)
+;+		(cardinality 1 1)
 		(create-accessor read-write))
 	(single-slot cathegory%3Agenital
 ;+		(comment "Shortcut: as every DM includes an evaluation of the four drive cathegories anal, oral, genital and phalic, they are introduced as slots and not as TPs that would have to be additionally associated.")
@@ -344,6 +367,10 @@
 ;+		(value "CONTENT")
 ;+		(cardinality 1 1)
 		(create-accessor read-write)))
+
+(defclass WP%3AIMAGE
+	(is-a WP)
+	(role concrete))
 
 (defclass ACT
 	(is-a USER)
@@ -734,6 +761,20 @@
 ;+		(cardinality 1 1)
 		(create-accessor read-write)))
 
+(defclass ASSOCIATIONPRIMARY
+	(is-a ASSOCIATION)
+	(role concrete)
+	(single-slot type
+		(type STRING)
+;+		(value "ASSOCIATIONPRIMARY")
+;+		(cardinality 1 1)
+		(create-accessor read-write))
+	(single-slot value_type
+		(type STRING)
+;+		(value "ASSOCIATIONPRIMARY")
+;+		(cardinality 1 1)
+		(create-accessor read-write)))
+
 (defclass TI
 	(is-a USER)
 	(role concrete)
@@ -826,9 +867,18 @@
 	(is-a TI)
 	(role concrete))
 
-(defclass EXPERIENCE
+(defclass IMAGE
 	(is-a TI)
-	(role concrete))
+	(role concrete)
+	(multislot instance_association
+		(type INSTANCE)
+;+		(allowed-classes ASSOCIATIONTEMP)
+		(create-accessor read-write))
+	(single-slot value_type
+		(type STRING)
+;+		(value "IMAGE")
+;+		(cardinality 1 1)
+		(create-accessor read-write)))
 
 (defclass DM
 	(is-a USER)
@@ -1043,3 +1093,57 @@
 (defclass %3AUNDEFINED
 	(is-a USER)
 	(role concrete))
+
+(defclass PRIMARYINSTANCE "all instances of all types with intrinsic values"
+	(is-a USER)
+	(role concrete)
+	(single-slot %3ANAME
+		(type STRING)
+;+		(cardinality 0 1)
+		(create-accessor read-write))
+	(single-slot type
+		(type STRING)
+;+		(cardinality 1 1)
+		(create-accessor read-write))
+	(single-slot instance_type
+		(type INSTANCE)
+;+		(allowed-classes TPM TP)
+;+		(cardinality 1 1)
+		(create-accessor read-write)))
+
+(defclass ASSOCIATIONSECONDARY
+	(is-a USER)
+	(role concrete)
+	(multislot weight
+		(type FLOAT)
+		(range -1.0 1.0)
+		(default 1.0 1.0)
+		(create-accessor read-write))
+	(single-slot predicate
+		(type STRING)
+;+		(cardinality 1 1)
+		(create-accessor read-write))
+	(single-slot elementA
+		(type INSTANCE)
+;+		(allowed-classes WP)
+;+		(cardinality 0 1)
+		(create-accessor read-write))
+	(single-slot %3ANAME
+		(type STRING)
+;+		(cardinality 0 1)
+		(create-accessor read-write))
+	(single-slot elementB
+		(type INSTANCE)
+;+		(allowed-classes WP)
+;+		(cardinality 0 1)
+		(create-accessor read-write))
+	(single-slot type
+		(type STRING)
+;+		(value "ASSOCIATIONSECONDARY")
+;+		(cardinality 1 1)
+		(create-accessor read-write))
+	(single-slot value_type
+		(type STRING)
+;+		(value "ASSOCIATIONSECONDARY")
+;+		(cardinality 1 1)
+		(create-accessor read-write)))

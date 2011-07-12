@@ -10,7 +10,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.SortedMap;
 import config.clsBWProperties;
-import pa._v38.interfaces.eInterfaces;
+import pa._v38.interfaces.modules.eInterfaces;
 import pa._v38.memorymgmt.clsKnowledgeBaseHandler;
 import pa._v38.memorymgmt.datatypes.clsDataStructureContainer;
 import pa._v38.memorymgmt.datatypes.clsDataStructurePA;
@@ -103,7 +103,8 @@ public abstract class clsModuleBaseKB extends clsModuleBase {
 	}
 	
 	/**
-	 * DOCUMENT (wendt) - insert description
+	 * Search function for whole containers. It will always return a containerlist. The specialized use is if
+	 * the data structure is a template image.
 	 *
 	 * @since 29.06.2011 13:54:58
 	 *
@@ -112,8 +113,6 @@ public abstract class clsModuleBaseKB extends clsModuleBase {
 	 * @param poPattern
 	 * @param poSearchResult
 	 * 
-	 * Search function for whole containers. It will always return a containerlist. The specialized use is if
-	 * the data structure is a template image.
 	 */
 	public void search(
 			clsDataStructureContainer poPattern,

@@ -15,10 +15,10 @@ import du.enums.eSensorExtType;
 import du.itf.sensors.clsSensorExtern;
 import du.itf.sensors.clsSensorRingSegment;
 import du.itf.sensors.clsSensorRingSegmentEntry;
-import pa._v38.interfaces.eInterfaces;
 import pa._v38.interfaces.modules.I0_4_receive;
 import pa._v38.interfaces.modules.I1_3_receive;
 import pa._v38.interfaces.modules.I1_3_send;
+import pa._v38.interfaces.modules.eInterfaces;
 import pa._v38.tools.toText;
 
 /**
@@ -121,6 +121,13 @@ public class F10_SensorsEnvironment extends clsModuleBase implements I0_4_receiv
 		
 	}
 	
+	/**
+	 * due to some reason, the bubble sees himself in vision near. 
+	 * remove this entry manually. should be dealt with in vision sensor in project BW.
+	 * it seems that this happens after the bubble has been moved manually. but not always!
+	 *
+	 * @since 12.07.2011 10:33:44
+	 */
 	private void removeSelfVision() {
 		//FIXME TD 2011/05/01 - due to some reason, the bubble sees himself in vision near. 
 		//remove this entry manually. should be dealt with in vision sensor in project BW.

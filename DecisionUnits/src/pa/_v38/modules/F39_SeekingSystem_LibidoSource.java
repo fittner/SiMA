@@ -10,12 +10,12 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.SortedMap;
 
-import pa._v38.interfaces.eInterfaces;
 import pa._v38.interfaces.itfInspectorGenericTimeChart;
 import pa._v38.interfaces.modules.I0_1_receive;
 import pa._v38.interfaces.modules.I0_2_receive;
 import pa._v38.interfaces.modules.I1_1_receive;
 import pa._v38.interfaces.modules.I1_1_send;
+import pa._v38.interfaces.modules.eInterfaces;
 import pa._v38.storage.clsLibidoBuffer;
 import pa._v38.tools.toText;
 import config.clsBWProperties;
