@@ -156,7 +156,7 @@ protected void process_basic() {
 		
 		{
 			
-			    System.out.println(eDataType.TPM.ASSOCIATIONDM.values());
+			    //System.out.println(eDataType.TPM.ASSOCIATIONDM.values()); //TD 2011/07/12 - commented out. useless output to console. please try to make more meaningfull outputs and use the inspectors.
 			
 				
 				ArrayList<clsPrimaryDataStructureContainer> oContainerList = new ArrayList<clsPrimaryDataStructureContainer>(); 
