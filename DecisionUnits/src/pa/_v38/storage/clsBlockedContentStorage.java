@@ -741,13 +741,26 @@ public class clsBlockedContentStorage implements itfInspectorInternalState, itfI
 	 * This method is used by "F06: defense mechanisms for drives"
 	 * 
 	 */ 
-    //FIXME: Add template images and drivemeshes
+	/**
+	 * Add DMs to repressed content storage
+	 *
+	 * @since 12.07.2011 16:09:03
+	 *
+	 * @param poDM
+	 */
 	public void add(clsDriveMesh poDM){
 		//Input könnte dann ein Container sein
 		clsPair<clsDataStructurePA, ArrayList<clsAssociation>> oAddDM = new clsPair<clsDataStructurePA, ArrayList<clsAssociation>>(poDM, new ArrayList<clsAssociation>());
 		moBlockedContent.add(oAddDM);
     }
 	
+	/**
+	 * Add TPMs, TI and TPs to the repressed content storage
+	 *
+	 * @since 12.07.2011 16:08:32
+	 *
+	 * @param poDS
+	 */
 	public void add(clsPhysicalRepresentation poDS) {
 		
 		if ((poDS instanceof clsTemplateImage) == false) {
