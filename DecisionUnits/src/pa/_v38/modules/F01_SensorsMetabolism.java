@@ -19,6 +19,7 @@ import config.clsBWProperties;
 import du.enums.eSensorIntType;
 import du.itf.sensors.clsDataBase;
 
+
 /**
  * DOCUMENT (muchitsch) - insert description 
  * 
@@ -29,7 +30,8 @@ import du.itf.sensors.clsDataBase;
 public class F01_SensorsMetabolism extends clsModuleBase implements I0_3_receive, I1_2_send {
 	public static final String P_MODULENUMBER = "01";
 	
-	private HashMap<eSensorIntType, clsDataBase> moHomeostasis;
+	private HashMap<eSensorIntType, clsDataBase> moHomeostasis_IN;
+	private HashMap<eSensorIntType, clsDataBase> moHomeostasis_OUT;
 	
 	/**
 	 * DOCUMENT (muchitsch) - insert description 
@@ -98,7 +100,9 @@ public class F01_SensorsMetabolism extends clsModuleBase implements I0_3_receive
 	 */
 	@Override
 	protected void process_basic() {
-		//add necessary preprocessing here
+		moHomeostasis_OUT = moHomeostasis_IN;
+		
+		putInterfaceData(I0_3_receive.class, moHomeostasis_OUT);
 	}
 
 	/* (non-Javadoc)
@@ -110,7 +114,7 @@ public class F01_SensorsMetabolism extends clsModuleBase implements I0_3_receive
 	 */
 	@Override
 	protected void send() {
-		send_I1_2(moHomeostasis);
+		send_I1_2(moHomeostasis_OUT);
 	}
 
 	/* (non-Javadoc)
@@ -173,11 +177,10 @@ public class F01_SensorsMetabolism extends clsModuleBase implements I0_3_receive
 	 * 
 	 * @see pa.interfaces.receive._v38.I0_3_receive#receive_I0_3(java.util.List)
 	 */
+	@SuppressWarnings("unchecked")
 	@Override
 	public void receive_I0_3(HashMap<eSensorIntType, clsDataBase> poData) {
-		moHomeostasis = poData;
-		
-		putInterfaceData(I0_3_receive.class, poData);
+		moHomeostasis_IN = (HashMap<eSensorIntType, clsDataBase>) deepCopy(poData); 
 	}
 
 	/* (non-Javadoc)
@@ -191,7 +194,7 @@ public class F01_SensorsMetabolism extends clsModuleBase implements I0_3_receive
 	public String stateToTEXT() {		
 		String html = "";
 		
-		html += toText.mapToTEXT("moHomeostasis", moHomeostasis);
+		html += toText.mapToTEXT("moHomeostasis_OUT", moHomeostasis_OUT);
 
 		return html;
 	}
