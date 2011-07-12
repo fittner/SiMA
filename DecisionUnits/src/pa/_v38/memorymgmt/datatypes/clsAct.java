@@ -23,6 +23,7 @@ import pa._v38.memorymgmt.enums.eDataType;
 public class clsAct extends clsSecondaryDataStructure {
 	
 	private ArrayList<clsWordPresentation> m_alWordpresentations;
+	String m_strTestDummy;
 	
 	private String moContent = "UNDEFINED"; 
 	private ArrayList<clsSecondaryDataStructure> moAssociatedContent; 
@@ -43,6 +44,17 @@ public class clsAct extends clsSecondaryDataStructure {
 		setContent(poContent); 
 	}
 
+	public clsAct (ArrayList<clsWordPresentation> wp) {
+		super(null);
+		m_alWordpresentations = wp;
+	}
+	
+	public clsAct (String str) {
+		super(null);
+		m_strTestDummy = str;
+	}
+	
+	
 	/**
 	 * @author zeilinger
 	 * 17.03.2011, 00:47:55
