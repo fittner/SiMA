@@ -137,21 +137,17 @@ public class clsTemplateImage extends clsPhysicalStructureComposition{
 				oRetVal = oDataStructure.getNumbAssociations();
 		}
 		//3.
-		/*else if (oDataStructure.moDS_ID > -1) {
+		else if (oDataStructure.moDS_ID > -1) {
 			/*Each saved CAKE or other individual shall have an own ID. Here, the ID is treated as a type ID, which makes it
 			 *impossible to compare individuals */
-			/*return oRetVal;
-		}*/
+			return oRetVal;
+		}
 		
 		//In case the data structure does not have an ID, it has to be compared to a stored 
 		//data structure and replaced by it (the processes base on information that is already
 		//defined
 		//TI content is represented by a list of temporal associations	
 	
-		//x.
-		if (this.moContent.intern() == oDataStructure.moContent.intern() && this.moContentType.intern() == poDataStructure.moContentType.intern()) {
-				oRetVal = getMatchScore(oContentListTemplate, oContentListUnknown, true);
-		}
 		//4.
 		else if(this.moContent.intern() == oDataStructure.moContent.intern()){
 				oRetVal = getMatchScore(oContentListTemplate, oContentListUnknown);

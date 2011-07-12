@@ -88,6 +88,32 @@ public class F45_LibidoDischarge extends clsModuleBaseKB implements itfInspector
 		fillLibidioDischargeCandidates();	//FIXME: REPLACE
 	}
 	
+
+	/* (non-Javadoc)
+	 *
+	 * @author deutsch
+	 * 14.04.2011, 17:36:19
+	 * 
+	 * @see pa.modules._v38.clsModuleBase#stateToTEXT()
+	 */
+	@Override
+	public String stateToTEXT() {
+		String text ="";
+		
+		text += toText.valueToTEXT("moEnvironmentalPerception_IN", moEnvironmentalPerception_IN);
+		text += toText.valueToTEXT("moAssociatedMemories_IN", moAssociatedMemories_IN);
+		text += toText.valueToTEXT("moEnvironmentalPerception_OUT", moEnvironmentalPerception_OUT);
+		text += toText.valueToTEXT("moAssociatedMemories_OUT", moAssociatedMemories_OUT);
+		
+		text += toText.listToTEXT("moLibidioDischargeCandidates", moLibidioDischargeCandidates);
+		text += toText.valueToTEXT("mrDischargePiece", mrDischargePiece);		
+		text += toText.valueToTEXT("mrAvailableLibido", mrAvailableLibido);
+		text += toText.valueToTEXT("mrReducedLibido", mrLibidoReducedBy);
+		text += toText.valueToTEXT("moLibidoBuffer", moLibidoBuffer);
+		
+		return text;
+	}	
+	
 	//FIXME: REPLACE
 	private void fillLibidioDischargeCandidates() {
 		ArrayList<ArrayList<clsPair<Double,clsDataStructureContainer>>> oSearchResultDM = new ArrayList<ArrayList<clsPair<Double,clsDataStructureContainer>>>();
@@ -164,28 +190,6 @@ public class F45_LibidoDischarge extends clsModuleBaseKB implements itfInspector
 		}
 		
 	}
-
-	/* (non-Javadoc)
-	 *
-	 * @author deutsch
-	 * 14.04.2011, 17:36:19
-	 * 
-	 * @see pa.modules._v38.clsModuleBase#stateToTEXT()
-	 */
-	@Override
-	public String stateToTEXT() {
-		String text ="";
-		
-		text += toText.valueToTEXT("moEnvironmentalPerception_IN", moEnvironmentalPerception_IN);	
-		text += toText.valueToTEXT("moEnvironmentalPerception_OUT", moEnvironmentalPerception_OUT);		
-		text += toText.listToTEXT("moLibidioDischargeCandidates", moLibidioDischargeCandidates);
-		text += toText.valueToTEXT("mrDischargePiece", mrDischargePiece);		
-		text += toText.valueToTEXT("mrAvailableLibido", mrAvailableLibido);
-		text += toText.valueToTEXT("mrReducedLibido", mrLibidoReducedBy);
-		text += toText.valueToTEXT("moLibidoBuffer", moLibidoBuffer);
-		
-		return text;
-	}		
 	
 	public static clsBWProperties getDefaultProperties(String poPrefix) {
 		String pre = clsBWProperties.addDot(poPrefix);

@@ -83,10 +83,18 @@ public abstract class clsDataStructureComparison {
 		HashMap<String, HashMap<Integer, clsPair<clsDataStructurePA,ArrayList<clsAssociation>>>> oMap 
 											= poSearchSpace.returnSearchSpaceTable().get(poDS_Unknown.getMoDataStructure().getMoDataStructureType());
 		
+		double rMatchScore = 0.0;
+		
 		//FIXME AW: Funktion hier
+		/*for(Map.Entry<Integer, clsPair<clsDataStructurePA,ArrayList<clsAssociation>>> oEntry : poMap.entrySet()){
+			clsDataStructurePA oCompareElement = oEntry.getValue().a; 
+			rMatchScore = oCompareElement.compareTo(poDS_Unknown);
 		
-		
-		
+			if(rMatchScore > eDataStructureMatch.THRESHOLDMATCH.getMatchFactor()){
+				int nInsert = sortList(oDS_List, rMatchScore); 
+				oRetVal.add(nInsert, new clsPair<Double, clsDataStructureContainer>(rMatchScore, oCompareElement));
+			}
+		}*/
 		
 		
 		return oRetVal;
