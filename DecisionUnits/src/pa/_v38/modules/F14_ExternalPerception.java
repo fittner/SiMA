@@ -121,9 +121,10 @@ public class F14_ExternalPerception extends clsModuleBase implements
 	 * 
 	 * @see pa.interfaces.I2_2#receive_I2_2(int)
 	 */
+	@SuppressWarnings("unchecked")
 	@Override
 	public void receive_I2_3(HashMap<eSymbolExtType, itfSymbol> poEnvironmentalData) {
-		moEnvironmentalData = poEnvironmentalData;
+		moEnvironmentalData = (HashMap<eSymbolExtType, itfSymbol>) deepCopy(poEnvironmentalData); 
 	}
 
 	/* (non-Javadoc)
@@ -133,9 +134,10 @@ public class F14_ExternalPerception extends clsModuleBase implements
 	 * 
 	 * @see pa.interfaces.I2_4#receive_I2_4(int)
 	 */
+	@SuppressWarnings("unchecked")
 	@Override
 	public void receive_I2_4(HashMap<eSymbolExtType, itfSymbol> poBodyData) {
-		moBodyData = poBodyData;
+		moBodyData = (HashMap<eSymbolExtType, itfSymbol>) deepCopy(poBodyData); 
 	}
 
 	/* (non-Javadoc)
