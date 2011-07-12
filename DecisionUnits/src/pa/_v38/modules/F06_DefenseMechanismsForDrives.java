@@ -38,6 +38,7 @@ public class F06_DefenseMechanismsForDrives extends clsModuleBase implements
 	
 	private ArrayList<clsPair<clsPhysicalRepresentation, clsDriveMesh>> moDriveList_Input;
 	private ArrayList<clsPair<clsPhysicalRepresentation, clsDriveMesh>> moDriveList_Output;
+	private ArrayList<String> moForbiddenDrives_Input;
 	private ArrayList<clsPrimaryDataStructureContainer> moRepressedRetry_Input;
 	private ArrayList<clsDriveMesh> moSexualDrives;
 
@@ -73,8 +74,8 @@ public class F06_DefenseMechanismsForDrives extends clsModuleBase implements
 		text += toText.listToTEXT("moDriveList_Input", moDriveList_Input);
 		text += toText.listToTEXT("moDriveList_Output", moDriveList_Output);
 		text += toText.listToTEXT("moRepressedRetry_Input", moRepressedRetry_Input);	
+		text += toText.listToTEXT("moForbiddenDrives_Input", moForbiddenDrives_Input);
 		text += toText.listToTEXT("moSexualDrives", moSexualDrives);
-		
 		
 		
 		return text;
@@ -126,10 +127,9 @@ public class F06_DefenseMechanismsForDrives extends clsModuleBase implements
 	 * 
 	 * @see pa.interfaces.I1_3#receive_I1_3(int)
 	 */
-	@SuppressWarnings("unchecked")
 	@Override
 	public void receive_I5_5(ArrayList<clsPair<clsPhysicalRepresentation, clsDriveMesh>> poData) {
-		moDriveList_Input = (ArrayList<clsPair<clsPhysicalRepresentation, clsDriveMesh>>)deepCopy( (ArrayList<clsPair<clsPhysicalRepresentation, clsDriveMesh>>)poData);
+		mnTest += 1;
 	}
 
 	/* Input from Super-Ego = E7
@@ -139,10 +139,11 @@ public class F06_DefenseMechanismsForDrives extends clsModuleBase implements
 	 * 
 	 * @see pa.interfaces.I3_1#receive_I3_1(int)
 	 */
+	@SuppressWarnings("unchecked")
 	@Override
-	public void receive_I5_13(int[] poForbiddenDrive, ArrayList<clsPair<clsPhysicalRepresentation, clsDriveMesh>> poData) {
-		mnTest += 1;
-		
+	public void receive_I5_13(ArrayList<String> poForbiddenDrives, ArrayList<clsPair<clsPhysicalRepresentation, clsDriveMesh>> poData) {
+		moDriveList_Input = (ArrayList<clsPair<clsPhysicalRepresentation, clsDriveMesh>>)deepCopy( (ArrayList<clsPair<clsPhysicalRepresentation, clsDriveMesh>>)poData);
+		moForbiddenDrives_Input = poForbiddenDrives;
 	}
 
 	/* (non-Javadoc)
@@ -158,8 +159,11 @@ public class F06_DefenseMechanismsForDrives extends clsModuleBase implements
 		//The interfaces send_I4_1 and send_I5_1 are filled with empty Lists. 
 		 moDriveList_Output = moDriveList_Input;
 		 
-		 // Well - this is just a test for the defense mechanism "repression"
-		 repress_drive(9);
+		 // Super-Ego requests to defend the drives moForbiddenDrives_Input
+		 // For now all the drives in moForbiddenDrives_Input are repressed.
+		 // ToDo FG: Implement other defense mechanisms beside repression
+		 repress_drive(moForbiddenDrives_Input);
+		 
 	}
 	
 	/* (non-Javadoc)
@@ -172,20 +176,33 @@ public class F06_DefenseMechanismsForDrives extends clsModuleBase implements
 	 * ToDo (FG): For now the whole DriveMesh and the PhysicalRepresentation are repressed.
 	 *            Later it could be possible to only repress the DriveMesh or only repress the PhysicalRepresentation.
 	 */
-    protected void repress_drive(int i) {
+    protected void repress_drive(ArrayList<String> oForbiddenDrives_Input) {
+    	
+    	// If nothing to repress return immediately (otherwise NullPointerException)
+    	if (oForbiddenDrives_Input == null ) return;
+    	
 		clsBlockedContentStorage moBlockedContentStorage = new clsBlockedContentStorage();
-		if (i < moDriveList_Output.size()) {
-			
-			// insert DriveMesh i into BlockedContentStorage
-			moBlockedContentStorage.add(moDriveList_Output.get(i).b);
-			
-			// remove DriveMesh i from output list
-		    moDriveList_Output.remove(i);
+		
+		// Iterate over all forbidden drives
+		for (String oContentType : oForbiddenDrives_Input) {
+				
+			int i = 0;
+			// search in list of incoming drives
+			for(clsPair<clsPhysicalRepresentation, clsDriveMesh> oDrives : moDriveList_Output){
+				// check DriveMesh
+				if (oDrives.b.getMoContentType() == oContentType){
+					// insert DriveMesh i into BlockedContentStorage
+					moBlockedContentStorage.add(moDriveList_Output.get(i).b);
+					
+					// remove DriveMesh i from output list
+				    moDriveList_Output.remove(i);
+				}
+				
+				i++;
+			}
 		}
-		else
-			;//ToDo (FG): write error message to log-file: "Index i is greater than size of list of drives. Was not able to repress drive."
-    }
-	
+    }	
+    
 	/* (non-Javadoc)
 	 *
 	 * @author deutsch

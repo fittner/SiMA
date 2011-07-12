@@ -21,6 +21,8 @@ import pa._v38.memorymgmt.datatypes.clsAssociationDriveMesh;
 import pa._v38.memorymgmt.datatypes.clsDriveMesh;
 import pa._v38.memorymgmt.datatypes.clsPhysicalRepresentation;
 import pa._v38.memorymgmt.datatypes.clsPrimaryDataStructureContainer;
+import pa._v38.memorymgmt.datatypes.clsThingPresentation;
+import pa._v38.memorymgmt.datatypes.clsThingPresentationMesh;
 import pa._v38.tools.clsPair;
 import pa._v38.tools.toText;
 
@@ -36,11 +38,13 @@ public class F19_DefenseMechanismsForPerception extends clsModuleBase implements
 	public static final String P_MODULENUMBER = "19";
 	
 	//AW 20110522: New inputs
-	private clsPrimaryDataStructureContainer moEnvironmentalPerception_IN;
-	private ArrayList<clsPrimaryDataStructureContainer> moAssociatedMemories_IN;
+	private clsPrimaryDataStructureContainer moEnvironmentalPerception_Input;
+	private ArrayList<clsPrimaryDataStructureContainer> moAssociatedMemories_Input;
 	
-	private clsPrimaryDataStructureContainer moEnvironmentalPerception_OUT;
-	private ArrayList<clsPrimaryDataStructureContainer> moAssociatedMemories_OUT;
+	private clsPrimaryDataStructureContainer moEnvironmentalPerception_Output;
+	private ArrayList<clsPrimaryDataStructureContainer> moAssociatedMemories_Output;
+	
+	private ArrayList<clsPair<String, String>> moForbiddenPerceptions_Input;
 	
 	//private ArrayList<clsPrimaryDataStructureContainer> moSubjectivePerception_Input; 
 	//private ArrayList<clsPrimaryDataStructureContainer> moFilteredPerception_Output; 
@@ -78,8 +82,9 @@ public class F19_DefenseMechanismsForPerception extends clsModuleBase implements
 	public String stateToTEXT() {		
 		String text = "";
 		
-		text += toText.valueToTEXT("moEnvironmentalPerception_IN", moEnvironmentalPerception_IN);
-		text += toText.valueToTEXT("moEnvironmentalPerception_OUT", moEnvironmentalPerception_OUT);
+		text += toText.valueToTEXT("moEnvironmentalPerception_Input", moEnvironmentalPerception_Input);
+		text += toText.valueToTEXT("moEnvironmentalPerception_Output", moEnvironmentalPerception_Output);
+		text += toText.listToTEXT("moForbiddenPerceptions_Input", moForbiddenPerceptions_Input);
 		text += toText.listToTEXT("moDeniedThingPresentations", moDeniedThingPresentations);
 		text += toText.listToTEXT("moDeniedAffects", moDeniedAffects);
 
@@ -124,52 +129,7 @@ public class F19_DefenseMechanismsForPerception extends clsModuleBase implements
 	protected void setPsychicInstances() {
 		mnPsychicInstances = ePsychicInstances.EGO;
 	}
-
-
-	/* (non-Javadoc)
-	 *
-	 * @author deutsch
-	 * 11.08.2009, 16:16:03
-	 * 
-	 * @see pa.modules.clsModuleBase#process()
-	 */
-	@Override
-	protected void process_basic() {
-		//moFilteredPerception_Output = new ArrayList<clsPrimaryDataStructureContainer>(); 
-		//HZ 20.08.2010 All objects that do not have a drive evaluation attached are filtered in a first step =>
-		//				This makes sense as it is a problem to evaluate objects by the defense mechanisms that do
-		//			    not have drives attached (even this is essential for an evaluation)
-		//	 			The question that has to be discussed is if this filtering takes place in E18 or here.
-		filterInput();
-		
-		moAssociatedMemories_OUT = moAssociatedMemories_IN;
-	}
 	
-	/**
-	 * DOCUMENT (zeilinger) - insert description
-	 *
-	 * @author zeilinger
-	 * 20.08.2010, 12:01:38
-	 *
-	 * @return
-	 */
-	private void filterInput() {
-		//FIXME (gelbard) - Input changed
-
-		moEnvironmentalPerception_OUT = moEnvironmentalPerception_IN;
-		
-		//		for(clsPrimaryDataStructureContainer oContainer : moSubjectivePerception_Input){
-//			for(clsAssociation oAssociation : oContainer.getMoAssociatedDataStructures()){
-//				//HZ: if program steps into the if-statement it is known that 
-//				//	  a drive mesh is associated with the data structure => it has an affective evaluation
-//				if(oAssociation instanceof clsAssociationDriveMesh){
-//					moFilteredPerception_Output.add(oContainer);
-//					break; 
-//				}
-//			}
-//		}
-	}
-
 	/* (non-Javadoc)
 	 *
 	 * @author deutsch
@@ -184,13 +144,16 @@ public class F19_DefenseMechanismsForPerception extends clsModuleBase implements
 	 * (ist bei deepcopy nicht schlimm – kommt innerhalb der funktion dauernd vor).
 	 */
 	@Override
-	public void receive_I5_11(clsPrimaryDataStructureContainer poEnvironmentalPerception, ArrayList<clsPrimaryDataStructureContainer> poAssociatedMemories) {
-		moEnvironmentalPerception_IN = (clsPrimaryDataStructureContainer) deepCopy(poEnvironmentalPerception);
+	public void receive_I5_11(ArrayList<clsPair<String, String>> poForbiddenPerceptions, clsPrimaryDataStructureContainer poEnvironmentalPerception, ArrayList<clsPrimaryDataStructureContainer> poAssociatedMemories) {
+		moEnvironmentalPerception_Input = (clsPrimaryDataStructureContainer) deepCopy(poEnvironmentalPerception);
 		//FIXME AW 20110522: Why is this warning present???
-		moAssociatedMemories_IN = (ArrayList<clsPrimaryDataStructureContainer>) deepCopy(poAssociatedMemories);
+		moAssociatedMemories_Input = (ArrayList<clsPrimaryDataStructureContainer>) deepCopy(poAssociatedMemories);
+		
+		// das muss man löschen. Es sollten eigentlich 2 Strings übergeben werden.
+		moForbiddenPerceptions_Input = poForbiddenPerceptions;
 		
 		//AW 20110522 What is this?
-		mnTest = 0;
+		//mnTest = 0;
 	}
 	
 	/* (non-Javadoc)
@@ -213,12 +176,119 @@ public class F19_DefenseMechanismsForPerception extends clsModuleBase implements
 	 * @author deutsch
 	 * 11.08.2009, 16:16:03
 	 * 
+	 * @see pa.modules.clsModuleBase#process()
+	 */
+	@Override
+	protected void process_basic() {
+		//moFilteredPerception_Output = new ArrayList<clsPrimaryDataStructureContainer>(); 
+		//HZ 20.08.2010 All objects that do not have a drive evaluation attached are filtered in a first step =>
+		//				This makes sense as it is a problem to evaluate objects by the defense mechanisms that do
+		//			    not have drives attached (even this is essential for an evaluation)
+		//	 			The question that has to be discussed is if this filtering takes place in E18 or here.
+		filterInput();
+		
+		moAssociatedMemories_Output = moAssociatedMemories_Input;
+		
+		deny_perception (moForbiddenPerceptions_Input);
+		
+	}
+	
+	/**
+	 * DOCUMENT (zeilinger) - insert description
+	 *
+	 * @author zeilinger
+	 * 20.08.2010, 12:01:38
+	 *
+	 * @return
+	 */
+	private void filterInput() {
+		//FIXME (gelbard) - Input changed
+
+		moEnvironmentalPerception_Output = moEnvironmentalPerception_Input;
+		
+		//		for(clsPrimaryDataStructureContainer oContainer : moSubjectivePerception_Input){
+//			for(clsAssociation oAssociation : oContainer.getMoAssociatedDataStructures()){
+//				//HZ: if program steps into the if-statement it is known that 
+//				//	  a drive mesh is associated with the data structure => it has an affective evaluation
+//				if(oAssociation instanceof clsAssociationDriveMesh){
+//					moFilteredPerception_Output.add(oContainer);
+//					break; 
+//				}
+//			}
+//		}
+	}
+	
+	
+		
+	/* (non-Javadoc)
+	 *
+	 * @author gelbard
+	 * 03.07.2011, 17:06:49
+	 * 
+	 * searches in the input-perception for example for an ENTITY like a BUBBLE
+	 * 
+	 */
+	private void deny_perception (ArrayList<clsPair<String, String>> oForbiddenPerceptions) {
+
+    	// If nothing to deny return immediately (otherwise NullPointerException)
+    	if (oForbiddenPerceptions == null) return;
+		
+		// check list of forbidden perceptions
+		for(clsPair<String, String> oOneForbiddenPerception : oForbiddenPerceptions) {	    	
+			String oContentType = oOneForbiddenPerception.a;
+			String oContent     = oOneForbiddenPerception.b;
+			
+			int i = 0;
+			
+			// search in perceptions
+			for(clsPrimaryDataStructureContainer oContainer : moAssociatedMemories_Output){
+				
+				// check a TPM
+				if(oContainer.getMoDataStructure() instanceof clsThingPresentationMesh){
+					
+					// check if it is for example an ARSin
+					if(oContainer.getMoDataStructure().getMoContentType() == oContentType){
+						if(((clsThingPresentationMesh)oContainer.getMoDataStructure()).getMoContent() == oContent){
+							
+							// remove thing-presentation mesh from list of associations
+							moAssociatedMemories_Output.remove(i);
+						}	
+					}					
+				}
+				
+				// or oContainer can contain a thing-presentation
+				// in this case
+				// check a TP
+				else if(oContainer.getMoDataStructure() instanceof clsThingPresentation){
+					
+					// check if it is for example an ARSin
+					if(oContainer.getMoDataStructure().getMoContentType() == oContentType){
+						if(((clsThingPresentation)oContainer.getMoDataStructure()).getMoContent() == oContent){
+							
+							// remove thing-presentation mesh from list of associations
+							moAssociatedMemories_Output.remove(i);
+						}	
+					}					
+				}
+				
+				i++;
+				
+			}
+		}
+	}
+
+
+	/* (non-Javadoc)
+	 *
+	 * @author deutsch
+	 * 11.08.2009, 16:16:03
+	 * 
 	 * @see pa.modules.clsModuleBase#send()
 	 */
 	@Override
 	protected void send() {
 		//HZ: null is a placeholder for the bjects of the type pa._v38.memorymgmt.datatypes
-		send_I5_15(moEnvironmentalPerception_OUT, moAssociatedMemories_OUT);
+		send_I5_15(moEnvironmentalPerception_Output, moAssociatedMemories_Output);
 		send_I5_16(moDeniedAffects);
 	}
 	
