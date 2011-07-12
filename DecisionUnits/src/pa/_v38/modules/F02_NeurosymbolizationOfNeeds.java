@@ -128,8 +128,8 @@ public class F02_NeurosymbolizationOfNeeds extends clsModuleBase
 	 */
 	@Override
 	public void receive_I1_2(HashMap<eSensorIntType, clsDataBase> pnData) {
-		moHomeostasis = pnData;
 		
+		moHomeostasis = (HashMap<eSensorIntType, clsDataBase>) deepCopy(pnData);
 	}
 
 	/* (non-Javadoc)
@@ -141,6 +141,8 @@ public class F02_NeurosymbolizationOfNeeds extends clsModuleBase
 	 */
 	@Override
 	protected void process_basic() {
+		
+		//DOCUMENT CM process basic dokumentieren for F02
 		
 		moHomeostaticSymbol = new HashMap<String, Double>();
 		
@@ -203,12 +205,14 @@ public class F02_NeurosymbolizationOfNeeds extends clsModuleBase
 	}
 
 	/**
+	 * //FIXME CM delete this method is not used (2011.07.12)
 	 * @author langr
 	 * 13.08.2009, 02:14:56
 	 * 
 	 * @return the moHomeostasis
 	 */
-	public HashMap<eSensorIntType, clsDataBase> getHomeostasisData() {
+	@Deprecated
+	private HashMap<eSensorIntType, clsDataBase> getHomeostasisData() {
 		return moHomeostasis;
 	}
 

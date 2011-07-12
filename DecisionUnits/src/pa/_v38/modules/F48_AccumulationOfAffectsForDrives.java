@@ -89,7 +89,8 @@ public class F48_AccumulationOfAffectsForDrives extends clsModuleBase
 		String text ="";
 		
 		text += toText.valueToTEXT("moDriveCandidateHomeostasis", moDriveCandidateHomeostasis);	
-		text += toText.valueToTEXT("moDriveCandidateLibido", moDriveCandidateLibido);		
+		text += toText.valueToTEXT("moDriveCandidateLibido", moDriveCandidateLibido);	
+		text += toText.valueToTEXT("moDriveCandidates", moDriveCandidates);
 				
 		return text;
 	}
