@@ -133,7 +133,14 @@ public class F43_SeparationIntoPartialSexualDrives extends clsModuleBase impleme
 		}
 	}
 	
-	//generate pairs of opposites. should be only one life and one death instinct available -> straight forward
+	/**
+	 * generate pairs of opposites. should be only one life and one death instinct available -> straight forward
+	 *
+	 * @since 12.07.2011 10:49:22
+	 *
+	 * @param oPSD
+	 * @return
+	 */
 	private clsPair< clsTripple<clsDriveMesh,clsDriveDemand,Double>, clsTripple<clsDriveMesh,clsDriveDemand,Double> > createDMT_Double(clsPair<String, Double> oPSD) {
 		String oContentType;
 		String oContext;
@@ -178,8 +185,7 @@ public class F43_SeparationIntoPartialSexualDrives extends clsModuleBase impleme
 	 */
 	@Override
 	protected void process_draft() {
-		// TODO (deutsch) - Auto-generated method stub
-
+		throw new java.lang.NoSuchMethodError();
 	}
 
 	/* (non-Javadoc)
@@ -189,10 +195,15 @@ public class F43_SeparationIntoPartialSexualDrives extends clsModuleBase impleme
 	 * 
 	 * @see pa.modules._v38.clsModuleBase#process_final()
 	 */
+	/* (non-Javadoc)
+	 *
+	 * @since 12.07.2011 10:49:10
+	 * 
+	 * @see pa._v38.modules.clsModuleBase#process_final()
+	 */
 	@Override
 	protected void process_final() {
-		// TODO (deutsch) - Auto-generated method stub
-
+		throw new java.lang.NoSuchMethodError();
 	}
 
 	/* (non-Javadoc)
