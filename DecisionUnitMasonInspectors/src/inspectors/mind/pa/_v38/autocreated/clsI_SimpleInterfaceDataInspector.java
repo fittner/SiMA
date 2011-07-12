@@ -13,7 +13,7 @@ import java.util.SortedMap;
 
 import pa._v38.tools.clsPair;
 import pa._v38.tools.toText;
-import pa._v38.interfaces.eInterfaces;
+import pa._v38.interfaces.modules.eInterfaces;
 import panels.TextOutputPanel;
 import sim.portrayal.Inspector;
 import statictools.clsExceptionUtils;

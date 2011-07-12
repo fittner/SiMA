@@ -14,10 +14,10 @@ import java.util.SortedMap;
 
 import pa._v38.tools.clsTripple;
 import pa._v38.tools.toText;
-import pa._v38.interfaces.eInterfaces;
 import pa._v38.interfaces.itfInspectorDrives;
 //import pa._v38.interfaces.modules.I1_5_receive;
 import pa._v38.interfaces.modules.I1_5_send;
+import pa._v38.interfaces.modules.eInterfaces;
 //import pa._v38.interfaces.modules.I2_15_receive;
 import pa._v38.memorymgmt.datatypes.clsDriveMesh;
 

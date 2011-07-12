@@ -10,10 +10,10 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.SortedMap;
 
-import pa._v38.interfaces.eInterfaces;
 import pa._v38.interfaces.modules.I0_3_receive;
 import pa._v38.interfaces.modules.I1_2_receive;
 import pa._v38.interfaces.modules.I1_2_send;
+import pa._v38.interfaces.modules.eInterfaces;
 import pa._v38.tools.toText;
 import config.clsBWProperties;
 import du.enums.eSensorIntType;

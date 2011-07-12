@@ -4,7 +4,7 @@
  * @author deutsch
  * 14.04.2011, 16:00:09
  */
-package pa._v38.interfaces;
+package pa._v38.interfaces.modules;
 
 import java.util.ArrayList;
 
