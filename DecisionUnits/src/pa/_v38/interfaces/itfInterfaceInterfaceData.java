@@ -8,6 +8,8 @@ package pa._v38.interfaces;
 
 import java.util.ArrayList;
 
+import pa._v38.interfaces.modules.eInterfaces;
+
 /**
  * DOCUMENT (deutsch) - insert description 
  * 

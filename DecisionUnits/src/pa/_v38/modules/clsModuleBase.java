@@ -12,10 +12,10 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.SortedMap;
 
-import pa._v38.interfaces.eInterfaces;
 import pa._v38.interfaces.itfInspectorInternalState;
 import pa._v38.interfaces.itfInterfaceDescription;
 import pa._v38.interfaces.itfInterfaceInterfaceData;
+import pa._v38.interfaces.modules.eInterfaces;
 import pa._v38.memorymgmt.datatypes.clsAssociation;
 import pa._v38.memorymgmt.datatypes.clsDataStructureContainer;
 import config.clsBWProperties;

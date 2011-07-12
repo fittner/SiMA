@@ -12,10 +12,10 @@ import java.util.SortedMap;
 import config.clsBWProperties;
 import du.enums.eSensorExtType;
 import du.itf.sensors.clsSensorExtern;
-import pa._v38.interfaces.eInterfaces;
 import pa._v38.interfaces.modules.I0_5_receive;
 import pa._v38.interfaces.modules.I1_4_receive;
 import pa._v38.interfaces.modules.I1_4_send;
+import pa._v38.interfaces.modules.eInterfaces;
 import pa._v38.tools.toText;
 
 /**

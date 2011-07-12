@@ -9,7 +9,6 @@ package pa._v38.storage;
 import java.util.ArrayList;
 import java.util.Arrays;
 
-import pa._v38.interfaces.eInterfaces;
 import pa._v38.interfaces.itfInspectorGenericTimeChart;
 import pa._v38.interfaces.itfInspectorInternalState;
 import pa._v38.interfaces.itfInterfaceDescription;
@@ -17,6 +16,7 @@ import pa._v38.interfaces.modules.D1_1_receive;
 import pa._v38.interfaces.modules.D1_2_send;
 import pa._v38.interfaces.modules.D1_3_receive;
 import pa._v38.interfaces.modules.D1_4_send;
+import pa._v38.interfaces.modules.eInterfaces;
 
 import pa._v38.tools.toText;
 

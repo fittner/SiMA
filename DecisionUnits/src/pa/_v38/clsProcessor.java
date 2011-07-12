@@ -1,8 +1,7 @@
 /**
- * clsProcessor.java: DecisionUnits - pa
+ * CHANGELOG
  * 
- * @author deutsch
- * 12.08.2009, 09:30:54
+ * 2011/07/12 TD - added javadoc comments. code sanitation.
  */
 package pa._v38;
 

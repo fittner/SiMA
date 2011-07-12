@@ -11,7 +11,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import pa._v38.tools.clsPair;
-import pa._v38.interfaces.eInterfaces;
+import pa._v38.interfaces.modules.eInterfaces;
 import pa._v38.modules.clsModuleBase;
 import pa._v38.modules.clsPsychicApparatus;
 

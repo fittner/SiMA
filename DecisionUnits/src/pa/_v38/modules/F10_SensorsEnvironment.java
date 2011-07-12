@@ -15,10 +15,10 @@ import du.enums.eSensorExtType;
 import du.itf.sensors.clsSensorExtern;
 import du.itf.sensors.clsSensorRingSegment;
 import du.itf.sensors.clsSensorRingSegmentEntry;
-import pa._v38.interfaces.eInterfaces;
 import pa._v38.interfaces.modules.I0_4_receive;
 import pa._v38.interfaces.modules.I1_3_receive;
 import pa._v38.interfaces.modules.I1_3_send;
+import pa._v38.interfaces.modules.eInterfaces;
 import pa._v38.tools.toText;
 
 /**
