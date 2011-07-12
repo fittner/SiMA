@@ -4,7 +4,7 @@
  * @author deutsch
  * 11.08.2009, 13:58:45
  */
-package pa._v38.modules;
+package pa._v38.modules.legacycode;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -22,6 +22,10 @@ import pa._v38.interfaces.modules.eInterfaces;
 //import pa._v38.interfaces.modules.I2_15_send;
 import pa._v38.memorymgmt.datatypes.clsDriveDemand;
 import pa._v38.memorymgmt.datatypes.clsDriveMesh;
+import pa._v38.modules.clsModuleBase;
+import pa._v38.modules.eImplementationStage;
+import pa._v38.modules.eProcessType;
+import pa._v38.modules.ePsychicInstances;
 import config.clsBWProperties;
 
 /**

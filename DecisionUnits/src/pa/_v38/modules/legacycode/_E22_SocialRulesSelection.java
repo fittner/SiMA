@@ -4,7 +4,7 @@
  * @author deutsch
  * 11.08.2009, 14:45:01
  */
-package pa._v38.modules;
+package pa._v38.modules.legacycode;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -32,6 +32,11 @@ import pa._v38.memorymgmt.datatypes.clsSecondaryDataStructureContainer;
 import pa._v38.memorymgmt.datatypes.clsWordPresentation;
 import pa._v38.memorymgmt.enums.eActState;
 import pa._v38.memorymgmt.enums.eDataType;
+import pa._v38.modules.clsModuleBase;
+import pa._v38.modules.clsModuleBaseKB;
+import pa._v38.modules.eImplementationStage;
+import pa._v38.modules.eProcessType;
+import pa._v38.modules.ePsychicInstances;
 
 
 /**

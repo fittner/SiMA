@@ -4,7 +4,7 @@
  * @author deutsch
  * 11.08.2009, 14:03:35
  */
-package pa._v38.modules;
+package pa._v38.modules.legacycode;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -27,6 +27,11 @@ import pa._v38.memorymgmt.datatypes.clsDataStructurePA;
 import pa._v38.memorymgmt.datatypes.clsDriveMesh;
 import pa._v38.memorymgmt.datatypes.clsPhysicalRepresentation;
 import pa._v38.memorymgmt.datatypes.clsPrimaryDataStructureContainer;
+import pa._v38.modules.clsModuleBase;
+import pa._v38.modules.clsModuleBaseKB;
+import pa._v38.modules.eImplementationStage;
+import pa._v38.modules.eProcessType;
+import pa._v38.modules.ePsychicInstances;
 import config.clsBWProperties;
 
 /**
