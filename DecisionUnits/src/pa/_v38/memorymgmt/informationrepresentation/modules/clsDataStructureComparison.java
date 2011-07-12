@@ -67,7 +67,7 @@ public abstract class clsDataStructureComparison {
 	}
 	
 	/**
-	 * DOCUMENT (wendt) - Compare a whole container with the structures in the memeory, function overloading
+	 * Compare a whole container with the structures in the memeory, function overloading
 	 *
 	 * @since 08.07.2011 11:55:44
 	 *

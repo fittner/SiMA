@@ -103,7 +103,8 @@ public abstract class clsModuleBaseKB extends clsModuleBase {
 	}
 	
 	/**
-	 * DOCUMENT (wendt) - insert description
+	 * Search function for whole containers. It will always return a containerlist. The specialized use is if
+	 * the data structure is a template image.
 	 *
 	 * @since 29.06.2011 13:54:58
 	 *
@@ -112,8 +113,6 @@ public abstract class clsModuleBaseKB extends clsModuleBase {
 	 * @param poPattern
 	 * @param poSearchResult
 	 * 
-	 * Search function for whole containers. It will always return a containerlist. The specialized use is if
-	 * the data structure is a template image.
 	 */
 	public void search(
 			clsDataStructureContainer poPattern,
