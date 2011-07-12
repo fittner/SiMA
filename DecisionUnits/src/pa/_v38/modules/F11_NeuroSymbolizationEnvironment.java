@@ -127,10 +127,10 @@ public class F11_NeuroSymbolizationEnvironment extends clsModuleBase
 	 * 
 	 * @see pa.interfaces.I2_1#receive_I2_1(HashMap<eSensorExtType, clsDataBase>)
 	 */
+	@SuppressWarnings("unchecked")
 	@Override
 	public void receive_I1_3(HashMap<eSensorExtType, clsSensorExtern> poData) {
-		moEnvironmentalData = poData;
-		
+		moEnvironmentalData = (HashMap<eSensorExtType, clsSensorExtern>) deepCopy(poData); 
 	}
 
 	/* (non-Javadoc)
