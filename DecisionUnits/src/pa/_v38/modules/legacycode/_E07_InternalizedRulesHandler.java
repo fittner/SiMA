@@ -294,31 +294,6 @@ public class _E07_InternalizedRulesHandler extends clsModuleBaseKB implements
 		return mnMinimalModel;
 	}
 
-	/* (non-Javadoc)
-	 *
-	 * @author zeilinger
-	 * 04.05.2011, 08:27:54
-	 * 
-	 * @see pa._v38.interfaces.modules.I5_11_send#send_I5_11(java.util.ArrayList)
-	 */
-	@Override
-	public void send_I5_11(clsPrimaryDataStructureContainer poEnvironmentalPerception, ArrayList<clsPrimaryDataStructureContainer> poAssociatedMemories) {
-		// TODO (zeilinger) - Auto-generated method stub
-		
-	}
-
-	/* (non-Javadoc)
-	 *
-	 * @author zeilinger
-	 * 04.05.2011, 08:27:54
-	 * 
-	 * @see pa._v38.interfaces.modules.I5_13_send#send_I5_13(java.util.ArrayList)
-	 */
-	@Override
-	public void send_I5_13(int[] poForbiddenDrives, ArrayList<clsPair<clsPhysicalRepresentation, clsDriveMesh>> poData) {
-		// TODO (zeilinger) - Auto-generated method stub
-		
-	}
 
 	/* (non-Javadoc)
 	 *
@@ -331,6 +306,34 @@ public class _E07_InternalizedRulesHandler extends clsModuleBaseKB implements
 	public void receive_I5_1(
 			ArrayList<clsPair<clsPhysicalRepresentation, clsDriveMesh>> poData) {
 		// TODO (zeilinger) - Auto-generated method stub
+		
+	}
+
+	/* (non-Javadoc)
+	 *
+	 * @since 12.07.2011 17:11:41
+	 * 
+	 * @see pa._v38.interfaces.modules.I5_11_send#send_I5_11(java.util.ArrayList, pa._v38.memorymgmt.datatypes.clsPrimaryDataStructureContainer, java.util.ArrayList)
+	 */
+	@Override
+	public void send_I5_11(
+			ArrayList<clsPair<String, String>> poForbiddenPerceptions,
+			clsPrimaryDataStructureContainer poEnvironmentalPerception,
+			ArrayList<clsPrimaryDataStructureContainer> poAssociatedMemories) {
+		// TODO (deutsch) - Auto-generated method stub
+		
+	}
+
+	/* (non-Javadoc)
+	 *
+	 * @since 12.07.2011 17:11:41
+	 * 
+	 * @see pa._v38.interfaces.modules.I5_13_send#send_I5_13(java.util.ArrayList, java.util.ArrayList)
+	 */
+	@Override
+	public void send_I5_13(ArrayList<String> poForbiddenDrive,
+			ArrayList<clsPair<clsPhysicalRepresentation, clsDriveMesh>> poData) {
+		// TODO (deutsch) - Auto-generated method stub
 		
 	}	
 	
