@@ -743,10 +743,24 @@ public class clsBlockedContentStorage implements itfInspectorInternalState, itfI
 	 */ 
     //FIXME: Add template images and drivemeshes
 	public void add(clsDriveMesh poDM){
-    	//Input könnte dann ein Container sein
+		//Input könnte dann ein Container sein
 		clsPair<clsDataStructurePA, ArrayList<clsAssociation>> oAddDM = new clsPair<clsDataStructurePA, ArrayList<clsAssociation>>(poDM, new ArrayList<clsAssociation>());
 		moBlockedContent.add(oAddDM);
     }
+	
+	public void add(clsPhysicalRepresentation poDS) {
+		
+		if ((poDS instanceof clsTemplateImage) == false) {
+			clsTemplateImage newTI = new clsTemplateImage(new clsTripple<Integer, eDataType, String>(-1, eDataType.TI, "TI"), new ArrayList<clsAssociation>(), "REPRESSEDDRIVEOBJECT");
+			newTI.assignDataStructure(new clsAssociationTime(new clsTripple<Integer, eDataType, String>(-1, eDataType.ASSOCIATIONTEMP, "ASSOCIATIONTEMP"), newTI, poDS));
+			
+			clsPair<clsDataStructurePA, ArrayList<clsAssociation>> oAddDS = new clsPair<clsDataStructurePA, ArrayList<clsAssociation>>(newTI, new ArrayList<clsAssociation>());
+			moBlockedContent.add(oAddDS);
+		} else {
+			clsPair<clsDataStructurePA, ArrayList<clsAssociation>> oAddDS = new clsPair<clsDataStructurePA, ArrayList<clsAssociation>>(poDS, new ArrayList<clsAssociation>());
+			moBlockedContent.add(oAddDS);
+		}
+	}
 	
 
 
