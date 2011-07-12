@@ -56,7 +56,7 @@ public class clsSingletonImageFactory {
 	private void loadImage(eImages pnImage){
 		String oFilename = clsGetARSPath.getImagePath() + pnImage.getFilename();
 		
-		System.out.println("loading image "+oFilename);
+		System.out.println("loading image into image buffer "+oFilename);
 		BufferedImage oBI = null;	
 
 		try {
