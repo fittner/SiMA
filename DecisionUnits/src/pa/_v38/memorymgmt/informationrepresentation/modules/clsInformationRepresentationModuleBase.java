@@ -9,8 +9,10 @@ package pa._v38.memorymgmt.informationrepresentation.modules;
 import java.util.ArrayList;
 
 import pa._v38.tools.clsPair;
+import pa._v38.tools.clsTripple;
 import pa._v38.tools.toText;
 import pa._v38.interfaces.itfInspectorInternalState;
+import pa._v38.memorymgmt.datatypes.clsAssociationDriveMesh;
 import pa._v38.memorymgmt.datatypes.clsDataStructureContainer;
 import pa._v38.memorymgmt.datatypes.clsDataStructurePA;
 import pa._v38.memorymgmt.informationrepresentation.clsSearchSpaceHandler;
@@ -81,7 +83,7 @@ public abstract class clsInformationRepresentationModuleBase implements itfInspe
 	
 	
 	
-	public ArrayList<clsPair<Double,clsDataStructureContainer>> searchDataContainer(int poReturnType, clsDataStructureContainer poDataContainerUnknown){
+	public ArrayList<clsTripple<Double, clsDataStructureContainer, ArrayList<clsAssociationDriveMesh>>> searchDataContainer(int poReturnType, clsDataStructureContainer poDataContainerUnknown){
 		//Use Listsearch for containers
 		
 		if(moSearchMethod.equals(eSearchMethod.LISTSEARCH.name())){ return listSearch(poReturnType, poDataContainerUnknown);}
@@ -90,5 +92,5 @@ public abstract class clsInformationRepresentationModuleBase implements itfInspe
 	}
 	
 	public abstract ArrayList<clsPair<Double,clsDataStructureContainer>> listSearch(int poReturnType, clsDataStructurePA poDataStructureUnknown);
-	public abstract ArrayList<clsPair<Double,clsDataStructureContainer>> listSearch(int poReturnType, clsDataStructureContainer poDataContainerUnknown);
+	public abstract ArrayList<clsTripple<Double, clsDataStructureContainer, ArrayList<clsAssociationDriveMesh>>> listSearch(int poReturnType, clsDataStructureContainer poDataContainerUnknown);
 }

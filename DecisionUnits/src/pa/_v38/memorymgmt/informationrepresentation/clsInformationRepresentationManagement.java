@@ -11,8 +11,10 @@ import java.util.NoSuchElementException;
 
 import config.clsBWProperties;
 import pa._v38.tools.clsPair;
+import pa._v38.tools.clsTripple;
 import pa._v38.tools.toText;
 import pa._v38.memorymgmt.clsKnowledgeBaseHandler;
+import pa._v38.memorymgmt.datatypes.clsAssociationDriveMesh;
 import pa._v38.memorymgmt.datatypes.clsDataStructureContainer;
 import pa._v38.memorymgmt.datatypes.clsDataStructurePA;
 import pa._v38.memorymgmt.datatypes.clsHomeostaticRepresentation;
@@ -212,20 +214,26 @@ public class clsInformationRepresentationManagement extends clsKnowledgeBaseHand
 	 * @return
 	 * 
 	 */
-	private ArrayList<clsPair<Double, clsDataStructureContainer>> triggerModuleSearch(Integer poReturnType, clsDataStructureContainer poDataContainer) {
+	private ArrayList<clsPair<Double,clsDataStructureContainer>> triggerModuleSearch(Integer poReturnType, clsDataStructureContainer poDataContainer) {
 		
-		ArrayList<clsPair<Double,clsDataStructureContainer>> oSearchResult = new ArrayList<clsPair<Double,clsDataStructureContainer>>(); 
+		ArrayList<clsTripple<Double, clsDataStructureContainer, ArrayList<clsAssociationDriveMesh>>> oSearchResult = new ArrayList<clsTripple<Double, clsDataStructureContainer, ArrayList<clsAssociationDriveMesh>>>(); 
+		ArrayList<clsPair<Double,clsDataStructureContainer>> oReturnResult = new ArrayList<clsPair<Double,clsDataStructureContainer>>();
 		
 		if(poDataContainer instanceof clsSecondaryDataStructureContainer){
 			//TODO: AW If a secondaryinformationmanagement is used, it shall be placed here for the containercomparison
 		}
 		else if(poDataContainer instanceof clsPrimaryDataStructureContainer){
 			oSearchResult = moM01InformationRepresentationMgmt.moM02PrimaryInformationMgmt.moKB02InternalPerceptionMgmt.searchDataContainer(poReturnType, poDataContainer);
+			
+			//TODO AW: Here, the assigned drive meshes are removed from the structure. This may have to be changed.
+			for (clsTripple<Double, clsDataStructureContainer, ArrayList<clsAssociationDriveMesh>> oElement : oSearchResult) {
+				oReturnResult.add(new clsPair<Double,clsDataStructureContainer>(oElement.a, oElement.b));
+			}
 		}
 		
 		else{ throw new IllegalArgumentException("DataStructureContainerUnknown unknown ");}
 		
-		return oSearchResult;
+		return oReturnResult;
 	}
 	
 
