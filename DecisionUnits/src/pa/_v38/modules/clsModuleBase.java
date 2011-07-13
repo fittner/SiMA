@@ -236,6 +236,14 @@ public abstract class clsModuleBase implements
 	 */
 	public Integer getModuleNumber() {return mnModuleNumber;}
 
+	/**
+	 * Deepcopy for arraylist objects. Clones not only the arraylist but also all elements that are stored within the arraylist.
+	 *
+	 * @since 13.07.2011 13:27:48
+	 *
+	 * @param other
+	 * @return
+	 */
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	protected java.util.ArrayList deepCopy(java.util.ArrayList other) {
 		java.util.ArrayList clone = null;
@@ -262,6 +270,14 @@ public abstract class clsModuleBase implements
 		return clone;
 	}	
 	
+	/**
+	 * Deepcopy for hashmap objects. Clones not only the hashmap but also all keys and entries.
+	 *
+	 * @since 13.07.2011 13:28:26
+	 *
+	 * @param other
+	 * @return
+	 */
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	protected java.util.HashMap deepCopy(java.util.HashMap other) {
 		java.util.HashMap clone = null;
@@ -343,12 +359,28 @@ public abstract class clsModuleBase implements
 		return oRetVal;
 	}
 	
+	/**
+	 * Adds the data that is transmitted via an interface to a list that can be used for logging and debugging purposes.
+	 *
+	 * @since 13.07.2011 13:31:05
+	 *
+	 * @param poInterface
+	 * @param poData
+	 */
 	protected void putInterfaceData(@SuppressWarnings("rawtypes") Class poInterface, Object... poData) {
 		eInterfaces nI = eInterfaces.getEnum(poInterface.getSimpleName());
 		
 		putInterfaceData(nI, poData);
 	}
 	
+	/**
+	 * Adds the data that is transmitted via an interface to a list that can be used for logging and debugging purposes.
+	 *
+	 * @since 13.07.2011 13:31:48
+	 *
+	 * @param pnInterface
+	 * @param poData
+	 */
 	protected void putInterfaceData(eInterfaces pnInterface, Object... poData) {
 		ArrayList<Object> oData = new ArrayList<Object>();
 		for (Object d:poData) {
@@ -358,13 +390,34 @@ public abstract class clsModuleBase implements
 		moInterfaceData.put(pnInterface, oData);
 	}
 	
+	/* (non-Javadoc)
+	 *
+	 * @since 13.07.2011 13:32:08
+	 * 
+	 * @see pa._v38.interfaces.itfInterfaceDescription#getDescription()
+	 */
 	@Override
 	public String getDescription() {
 		return moDescription;
 	}
 	
+	/**
+	 * Setter for moDescription.
+	 *
+	 * @since 13.07.2011 13:32:12
+	 *
+	 */
 	public abstract void setDescription();
 	
+	/**
+	 * Provides a list of all interfaces that are implemented in this class that end with the provided suffix. Typical usage is 
+	 * to extract the list of all outgoing interfaces by using the param "_send".
+	 *
+	 * @since 13.07.2011 13:34:42
+	 *
+	 * @param oSuffix
+	 * @return
+	 */
 	protected ArrayList<eInterfaces> getInterfacesFilter(String oSuffix) {
 		ArrayList<eInterfaces> oResult = new ArrayList<eInterfaces>();
 		for (@SuppressWarnings("rawtypes") Class oI:this.getClass().getInterfaces()) {
@@ -375,6 +428,14 @@ public abstract class clsModuleBase implements
 		return oResult;
 	}
 	
+	/**
+	 * Creates and fills the list that contains all outgoing and incoming interfaces of this functional module. Three lists are filled: outgoing 
+	 * (moInterfacesSend), incoming (moInterfacesReceive), and both (moInterfaces). They do not contain the data that is transmitted. For this see moIntefaceData.
+	 * 
+	 *
+	 * @since 13.07.2011 13:37:40
+	 *
+	 */
 	protected void setInterfacesList() {
 		moInterfacesSend = getInterfacesFilter("_send");
 		moInterfacesReceive = getInterfacesFilter("_receive");
@@ -384,16 +445,35 @@ public abstract class clsModuleBase implements
 		moInterfaces.addAll(moInterfacesSend);
 	}
 	
+	/* (non-Javadoc)
+	 *
+	 * @since 13.07.2011 13:42:45
+	 * 
+	 * @see pa._v38.interfaces.itfInterfaceDescription#getInterfacesSend()
+	 */
 	@Override
 	public ArrayList<eInterfaces> getInterfacesSend() {
 		return moInterfacesSend;
 	}
 	
+	/* (non-Javadoc)
+	 *
+	 * @since 13.07.2011 13:42:49
+	 * 
+	 * @see pa._v38.interfaces.itfInterfaceDescription#getInterfacesRecv()
+	 */
 	@Override
 	public ArrayList<eInterfaces> getInterfacesRecv() {
 		return moInterfacesReceive;
 	}	
 	
+	/**
+	 * Getter for moInterfaces.
+	 *
+	 * @since 13.07.2011 13:42:51
+	 *
+	 * @return
+	 */
 	public ArrayList<eInterfaces> getInterfaces() {
 		return moInterfaces;
 	}
