@@ -74,7 +74,7 @@ public class F43_SeparationIntoPartialSexualDrives extends clsModuleBase impleme
 	public String stateToTEXT() {
 		String text ="";
 		
-		text += toText.listToTEXT("moHomeostaticDriveDemands", moLibidoDriveDemands);
+		text += toText.listToTEXT("moLibidoDriveDemands", moLibidoDriveDemands);
 		text += toText.listToTEXT("moDriveCandidates", moDriveCandidates);
 		text += toText.listToTEXT("moPartialSexualDrives", moPartialSexualDrives);
 		
