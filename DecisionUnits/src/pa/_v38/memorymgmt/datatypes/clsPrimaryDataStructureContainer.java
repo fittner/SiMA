@@ -23,7 +23,7 @@ public class clsPrimaryDataStructureContainer extends clsDataStructureContainer 
 	}
 	
 	@Override
-	public Object clone() throws CloneNotSupportedException {
+	public Object clone() {
         try {
         	clsPrimaryDataStructureContainer oClone = (clsPrimaryDataStructureContainer)super.clone();
         	if (moAssociatedDataStructures != null) {
@@ -50,7 +50,8 @@ public class clsPrimaryDataStructureContainer extends clsDataStructureContainer 
         	}
         	return oClone;
         } catch (CloneNotSupportedException e) {
-           return e;
+        	System.err.println("clsPrimaryDataStructureContainer.clone() - CloneNotSupportedException:"+e);
+        	return null;
         }
 	}
 	
