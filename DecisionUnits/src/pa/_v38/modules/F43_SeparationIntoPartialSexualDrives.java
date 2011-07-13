@@ -41,7 +41,7 @@ public class F43_SeparationIntoPartialSexualDrives extends clsModuleBase impleme
 	public static final String P_PARTIAL_PHALLIC = "phallic";
 	public static final String P_PARTIAL_GENITAL = "genital";
 	
-	private ArrayList< clsPair<clsDriveMesh, clsDriveDemand> > moHomeostaticDriveDemands;
+	private ArrayList< clsPair<clsDriveMesh, clsDriveDemand> > moLibidoDriveDemands;
 	private ArrayList< clsPair< clsTripple<clsDriveMesh,clsDriveDemand,Double>, clsTripple<clsDriveMesh,clsDriveDemand,Double> > > moDriveCandidates;
 	private ArrayList< clsPair<String,Double> > moPartialSexualDrives;
 	
@@ -74,7 +74,7 @@ public class F43_SeparationIntoPartialSexualDrives extends clsModuleBase impleme
 	public String stateToTEXT() {
 		String text ="";
 		
-		text += toText.listToTEXT("moHomeostaticDriveDemands", moHomeostaticDriveDemands);
+		text += toText.listToTEXT("moLibidoDriveDemands", moLibidoDriveDemands);
 		text += toText.listToTEXT("moDriveCandidates", moDriveCandidates);
 		text += toText.listToTEXT("moPartialSexualDrives", moPartialSexualDrives);
 		
@@ -124,7 +124,7 @@ public class F43_SeparationIntoPartialSexualDrives extends clsModuleBase impleme
 	protected void process_basic()  {
 		moDriveCandidates = new ArrayList<clsPair<clsTripple<clsDriveMesh,clsDriveDemand,Double>,clsTripple<clsDriveMesh,clsDriveDemand,Double>>>();
 		for (clsPair<String, Double> oPSD:moPartialSexualDrives) {
-			if (moHomeostaticDriveDemands.size() == 2) {
+			if (moLibidoDriveDemands.size() == 2) {
 				moDriveCandidates.add( createDMT_Double(oPSD) );
 			} else {
 				throw new java.lang.NoSuchMethodError();
@@ -146,12 +146,12 @@ public class F43_SeparationIntoPartialSexualDrives extends clsModuleBase impleme
 		String oContext;
 		clsPair<clsDriveMesh, clsDriveDemand> oHDD;
 		
-		oHDD = moHomeostaticDriveDemands.get(0);
+		oHDD = moLibidoDriveDemands.get(0);
 		oContentType = oHDD.a.getMoContentType();
 		oContext = oHDD.a.getMoContent()+"_"+oPSD.a;
 		clsTripple<clsDriveMesh,clsDriveDemand,Double> oT_A =	createDriveMeshTripple(oContentType, oContext, oHDD.b, oPSD.b);
 
-		oHDD = moHomeostaticDriveDemands.get(1);
+		oHDD = moLibidoDriveDemands.get(1);
 		oContentType = oHDD.a.getMoContentType();
 		oContext = oHDD.a.getMoContent()+"_"+oPSD.a;
 		clsTripple<clsDriveMesh,clsDriveDemand,Double> oT_B =	createDriveMeshTripple(oContentType, oContext, oHDD.b, oPSD.b);
@@ -242,7 +242,7 @@ public class F43_SeparationIntoPartialSexualDrives extends clsModuleBase impleme
 	@SuppressWarnings("unchecked")
 	@Override
 	public void receive_I3_1(ArrayList< clsPair<clsDriveMesh, clsDriveDemand> > poHomeostaticDriveDemands) {
-		moHomeostaticDriveDemands = (ArrayList< clsPair<clsDriveMesh, clsDriveDemand> >)deepCopy(poHomeostaticDriveDemands);
+		moLibidoDriveDemands = (ArrayList< clsPair<clsDriveMesh, clsDriveDemand> >)deepCopy(poHomeostaticDriveDemands);
 	}
 
 
