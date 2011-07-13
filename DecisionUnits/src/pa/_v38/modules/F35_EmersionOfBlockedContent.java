@@ -118,7 +118,7 @@ public class F35_EmersionOfBlockedContent extends clsModuleBaseKB implements itf
 	@SuppressWarnings("unchecked")
 	@Override
 	protected void process_basic() {
-		moEnvironmentalPerception_OUT = (clsPrimaryDataStructureContainer)deepCopy(moEnvironmentalPerception_IN);
+		moEnvironmentalPerception_OUT = (clsPrimaryDataStructureContainer)moEnvironmentalPerception_IN.clone();
 		moAssociatedMemories_OUT = (ArrayList<clsPrimaryDataStructureContainer>)deepCopy(moAssociatedMemories_IN);
 		/* MZ 2011/07/05: everything that is done with the input is now happening
 		 * inside enrichWithBlockedContent. This was done so that in the future
@@ -315,7 +315,7 @@ public class F35_EmersionOfBlockedContent extends clsModuleBaseKB implements itf
 	@SuppressWarnings("unchecked")
 	@Override
 	public void receive_I5_7(clsPrimaryDataStructureContainer poEnvironmentalTP, ArrayList<clsPrimaryDataStructureContainer> poAssociatedMemories) {
-		moEnvironmentalPerception_IN = (clsPrimaryDataStructureContainer)deepCopy(poEnvironmentalTP);
+		moEnvironmentalPerception_IN = (clsPrimaryDataStructureContainer)poEnvironmentalTP.clone();
 		moAssociatedMemories_IN = (ArrayList<clsPrimaryDataStructureContainer>)deepCopy(poAssociatedMemories);
 	}
 	/* (non-Javadoc)

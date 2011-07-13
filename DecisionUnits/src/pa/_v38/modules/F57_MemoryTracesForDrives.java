@@ -109,7 +109,7 @@ public class F57_MemoryTracesForDrives extends clsModuleBaseKB
 	@SuppressWarnings("unchecked")
 	@Override
 	public void receive_I5_7(clsPrimaryDataStructureContainer poEnvironmentalTP, ArrayList<clsPrimaryDataStructureContainer> poAssociatedMemories) {
-		moEnvironmentalPerception_IN = (clsPrimaryDataStructureContainer)deepCopy(poEnvironmentalTP); //die Wahrnehmung muss auch weitergesendet werden 
+		moEnvironmentalPerception_IN = (clsPrimaryDataStructureContainer)poEnvironmentalTP.clone();
 		moAssociatedMemories_IN = (ArrayList<clsPrimaryDataStructureContainer>)deepCopy(poAssociatedMemories);
 	}
 
@@ -149,7 +149,7 @@ protected void process_basic() {
 	 * @since 01.07.2011 10:24:34
 	 *
 	 */
-	@SuppressWarnings({ "static-access", "unchecked" })
+	@SuppressWarnings({ "static-access" })
 	private <clsPhysicalDataStructure> void attachDriveCandidatesToEnvironPerception() 
 	{
 		//im Speicher suchen nachen nach TPMs die mit den verschiedenen Triebkandidaten assoziiert sind = Triebobjekte

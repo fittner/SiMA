@@ -37,6 +37,9 @@ public class F48_AccumulationOfAffectsForDrives extends clsModuleBase
 	private ArrayList<clsDriveMesh> moDriveCandidateHomeostasis;
 	private ArrayList<clsDriveMesh> moDriveCandidateLibido;
 	private ArrayList<clsDriveMesh> moDriveCandidates;
+	
+	private ArrayList<clsPair<clsTripple<clsDriveMesh, clsDriveDemand, Double>, clsTripple<clsDriveMesh, clsDriveDemand, Double>>> moLibidoCandidates_IN;
+	private ArrayList<clsPair<clsPair<clsDriveMesh, clsDriveDemand>, clsPair<clsDriveMesh, clsDriveDemand>>> moHomoestasisCandidates_IN;
 	/**
 	 * DOCUMENT (zeilinger) - insert description 
 	 * 
@@ -105,6 +108,8 @@ public class F48_AccumulationOfAffectsForDrives extends clsModuleBase
 		//TODO CM dummy implementation!!!
 		moDriveCandidates =  deepCopy(moDriveCandidateHomeostasis); 
 		
+		
+		
 		//throw new java.lang.NoSuchMethodError();
 		
 	}
@@ -120,7 +125,6 @@ public class F48_AccumulationOfAffectsForDrives extends clsModuleBase
 	protected void process_draft() {
 		// TODO (zeilinger) - Auto-generated method stub
 		throw new java.lang.NoSuchMethodError();
-		
 	}
 
 	/* (non-Javadoc)
@@ -157,7 +161,6 @@ public class F48_AccumulationOfAffectsForDrives extends clsModuleBase
 	@Override
 	protected void setProcessType() {
 		mnProcessType = eProcessType.PRIMARY;
-		
 	}
 
 	/* (non-Javadoc)
@@ -170,7 +173,6 @@ public class F48_AccumulationOfAffectsForDrives extends clsModuleBase
 	@Override
 	protected void setPsychicInstances() {
 		mnPsychicInstances = ePsychicInstances.ID;
-		
 	}
 
 	/* (non-Javadoc)
@@ -182,7 +184,6 @@ public class F48_AccumulationOfAffectsForDrives extends clsModuleBase
 	 */
 	@Override
 	protected void setModuleNumber() {
-		
 		mnModuleNumber = Integer.parseInt(P_MODULENUMBER);
 	}
 
@@ -225,8 +226,8 @@ public class F48_AccumulationOfAffectsForDrives extends clsModuleBase
 	@Override
 	public void receive_I3_4(
 			ArrayList<clsPair<clsPair<clsDriveMesh, clsDriveDemand>, clsPair<clsDriveMesh, clsDriveDemand>>> poDriveCandidates) {
-	
-			moDriveCandidateHomeostasis = (ArrayList<clsDriveMesh>) deepCopy(poDriveCandidates); 
+		moHomoestasisCandidates_IN = (ArrayList<clsPair<clsPair<clsDriveMesh, clsDriveDemand>, clsPair<clsDriveMesh, clsDriveDemand>>>) deepCopy(poDriveCandidates);
+			//moDriveCandidateHomeostasis = (ArrayList<clsDriveMesh>) deepCopy(poDriveCandidates); 
 	}
 
 	/* (non-Javadoc)
@@ -241,7 +242,8 @@ public class F48_AccumulationOfAffectsForDrives extends clsModuleBase
 	public void receive_I3_3(
 			ArrayList<clsPair<clsTripple<clsDriveMesh, clsDriveDemand, Double>, clsTripple<clsDriveMesh, clsDriveDemand, Double>>> poDriveCandidates) {
 		
-		moDriveCandidateLibido = (ArrayList<clsDriveMesh>) deepCopy(poDriveCandidates); 
+		moLibidoCandidates_IN = (ArrayList<clsPair<clsTripple<clsDriveMesh, clsDriveDemand, Double>, clsTripple<clsDriveMesh, clsDriveDemand, Double>>>) deepCopy(poDriveCandidates);
+		//moDriveCandidateLibido = (ArrayList<clsDriveMesh>) deepCopy(poDriveCandidates); 
 	}
 
 }

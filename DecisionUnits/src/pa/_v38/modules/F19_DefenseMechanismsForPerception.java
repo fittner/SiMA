@@ -145,7 +145,7 @@ public class F19_DefenseMechanismsForPerception extends clsModuleBase implements
 	 */
 	@Override
 	public void receive_I5_11(ArrayList<clsPair<String, String>> poForbiddenPerceptions, clsPrimaryDataStructureContainer poEnvironmentalPerception, ArrayList<clsPrimaryDataStructureContainer> poAssociatedMemories) {
-		moEnvironmentalPerception_Input = (clsPrimaryDataStructureContainer) deepCopy(poEnvironmentalPerception);
+		moEnvironmentalPerception_Input = (clsPrimaryDataStructureContainer) poEnvironmentalPerception.clone();
 		//FIXME AW 20110522: Why is this warning present???
 		moAssociatedMemories_Input = (ArrayList<clsPrimaryDataStructureContainer>) deepCopy(poAssociatedMemories);
 		
