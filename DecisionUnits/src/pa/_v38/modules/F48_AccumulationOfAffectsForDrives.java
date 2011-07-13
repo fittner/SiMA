@@ -38,8 +38,13 @@ public class F48_AccumulationOfAffectsForDrives extends clsModuleBase
 	private ArrayList<clsDriveMesh> moDriveCandidateLibido;
 	private ArrayList<clsDriveMesh> moDriveCandidates;
 	
+	/** c part of the Tripple is the factor read from the propety files. no calculation is done! 
+	 * just added to pass the factor down to module F54 @since 13.07.2011 14:05:14 */
 	private ArrayList<clsPair<clsTripple<clsDriveMesh, clsDriveDemand, Double>, clsTripple<clsDriveMesh, clsDriveDemand, Double>>> moLibidoCandidates_IN;
+	
 	private ArrayList<clsPair<clsPair<clsDriveMesh, clsDriveDemand>, clsPair<clsDriveMesh, clsDriveDemand>>> moHomoestasisCandidates_IN;
+	
+	private ArrayList<clsDriveMesh> moDriveCandidates_OUT;
 	/**
 	 * DOCUMENT (zeilinger) - insert description 
 	 * 
@@ -72,8 +77,6 @@ public class F48_AccumulationOfAffectsForDrives extends clsModuleBase
 	}	
 	
 	private void applyProperties(String poPrefix, clsBWProperties poProp) {
-		//String pre = clsBWProperties.addDot(poPrefix);
-	
 		//nothing to do
 	}
 
@@ -108,7 +111,14 @@ public class F48_AccumulationOfAffectsForDrives extends clsModuleBase
 		//TODO CM dummy implementation!!!
 		moDriveCandidates =  deepCopy(moDriveCandidateHomeostasis); 
 		
+		//prepare the return value list
+		moDriveCandidates_OUT = new ArrayList<clsDriveMesh>();
 		
+		
+		//precreate members for the DM
+		//oDataStructureIdentifier = new clsTripple<Integer, eDataType, String>(a, b, c);
+		
+		//clsDriveMesh tmpDM = new clsDriveMesh(oDataStructureIdentifier, rPleasure, oDriveCathegories, oAssociatedDriveSources, oContent)
 		
 		//throw new java.lang.NoSuchMethodError();
 		

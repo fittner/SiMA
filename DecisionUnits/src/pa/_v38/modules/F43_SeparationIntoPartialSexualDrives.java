@@ -150,6 +150,8 @@ public class F43_SeparationIntoPartialSexualDrives extends clsModuleBase impleme
 		oContentType = oHDD.a.getMoContentType();
 		oContext = oHDD.a.getMoContent()+"_"+oPSD.a;
 		clsTripple<clsDriveMesh,clsDriveDemand,Double> oT_A =	createDriveMeshTripple(oContentType, oContext, oHDD.b, oPSD.b);
+		//oPSD.b  for the c part of the Tripple is the factor read from the propety files. no calculation is done! just added 
+		//to pass the factor down to module F54
 
 		oHDD = moLibidoDriveDemands.get(1);
 		oContentType = oHDD.a.getMoContentType();
