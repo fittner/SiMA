@@ -88,8 +88,11 @@ public abstract class clsDataStructureComparison {
 			clsDataStructurePA oCompareElement = oEntry.getValue().a;
 			//Create a container,
 			//FIXME: Only the primary Datastructurecontainer is used  //External Associations of FIXME AW: are NOT inside the containers
-			clsDataStructureContainer oCompareContainer = new clsPrimaryDataStructureContainer((clsPhysicalRepresentation)oCompareElement, poSearchSpaceHandler.readOutSearchSpace(0, (clsPhysicalRepresentation)oCompareElement));
-			clsPair<Double, ArrayList<clsAssociationDriveMesh>> oMatch = compareTIContainer((clsPrimaryDataStructureContainer)oCompareContainer, (clsPrimaryDataStructureContainer)oCompareContainer);
+			ArrayList<Integer> iReturnTypes = new ArrayList<Integer>();
+			iReturnTypes.add(eDataType.DM.nBinaryValue);
+			iReturnTypes.add(eDataType.TP.nBinaryValue);
+			clsDataStructureContainer oCompareContainer = getCompleteContainer((clsTemplateImage)oCompareElement, poSearchSpaceHandler, iReturnTypes);
+			clsPair<Double, ArrayList<clsAssociationDriveMesh>> oMatch = compareTIContainer((clsPrimaryDataStructureContainer)oCompareContainer, (clsPrimaryDataStructureContainer)poContainerUnknown);
 		
 			if (oMatch.a < oThreshold)
 				continue;
@@ -103,6 +106,24 @@ public abstract class clsDataStructureComparison {
 		}
 			
 		return oRetVal;
+	}
+	
+	private static clsDataStructureContainer getCompleteContainer(clsTemplateImage poInput, clsSearchSpaceHandler poSearchSpaceHandler, ArrayList<Integer> iReturnTypes) {
+		//Readoutsearchspace searches everything with a certain moDSID
+		
+		//Create Container for the TI
+		clsDataStructureContainer oCompareContainer = new clsPrimaryDataStructureContainer(poInput, poSearchSpaceHandler.readOutSearchSpace(0, (clsPhysicalRepresentation)poInput));
+		
+		//Add all associations from the intrinsic associated elements
+		ArrayList<clsAssociation> oAssList = oCompareContainer.getMoAssociatedDataStructures();
+		for (clsAssociation oAss: poInput.getMoAssociatedContent()) {
+			for (Integer iType : iReturnTypes) {
+				oAssList.addAll(poSearchSpaceHandler.readOutSearchSpace(iType, ((clsPhysicalRepresentation)oAss.getLeafElement()), true));
+			}	
+		}
+		
+		oCompareContainer.setMoAssociatedDataStructures(oAssList);
+		return oCompareContainer;
 	}
 	
 	private static clsPair<Double, ArrayList<clsAssociationDriveMesh>> compareTIContainer(
@@ -274,7 +295,7 @@ public abstract class clsDataStructureComparison {
 			for(Map.Entry<Integer, clsPair<clsDataStructurePA,ArrayList<clsAssociation>>> oEntry : poMap.entrySet()){
 					clsDataStructurePA oCompareElement = oEntry.getValue().a; 
 					rMatchScore = oCompareElement.compareTo(poDS_Unknown);
-				
+					
 					if(rMatchScore > eDataStructureMatch.THRESHOLDMATCH.getMatchFactor()){
 						int nInsert = sortList(oDS_List, rMatchScore); 
 						oDS_List.add(nInsert,new clsPair<Double, clsDataStructurePA>(rMatchScore, oCompareElement));
@@ -305,10 +326,11 @@ public abstract class clsDataStructureComparison {
 			for(Map.Entry<Integer, clsPair<clsDataStructurePA,ArrayList<clsAssociation>>> oEntry : oTableEntry.getValue().entrySet()){
 					clsDataStructurePA oSearchSpaceElement = oEntry.getValue().a; 
 					rMatchScore = oSearchSpaceElement.compareTo(poDataStructureUnknown);
-	
+						
 					if(rMatchScore > eDataStructureMatch.THRESHOLDMATCH.getMatchFactor()){
 						oMatchingDataStructureList.add(new clsPair<Double, clsDataStructurePA>(rMatchScore, oSearchSpaceElement));
 					}
+	
 			}
 		}
 				
