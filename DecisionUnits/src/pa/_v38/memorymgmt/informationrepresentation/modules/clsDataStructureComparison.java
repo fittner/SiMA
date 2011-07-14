@@ -70,10 +70,10 @@ public abstract class clsDataStructureComparison {
 		return oRetVal; 
 	}
 	
-	public static ArrayList<clsTripple<Double, clsDataStructureContainer, ArrayList<clsAssociationDriveMesh>>> compareDataStructures(
+	public static ArrayList<clsPair<Double, clsDataStructureContainer>> compareDataStructures(
 			clsSearchSpaceHandler poSearchSpaceHandler,
 			clsDataStructureContainer poContainerUnknown) {
-		ArrayList<clsTripple<Double, clsDataStructureContainer, ArrayList<clsAssociationDriveMesh>>> oRetVal = new ArrayList<clsTripple<Double, clsDataStructureContainer, ArrayList<clsAssociationDriveMesh>>>();
+		ArrayList<clsPair<Double, clsDataStructureContainer>> oRetVal = new ArrayList<clsPair<Double, clsDataStructureContainer>>();
 		
 		double oThreshold = 0.5;
 		
@@ -92,17 +92,17 @@ public abstract class clsDataStructureComparison {
 			iReturnTypes.add(eDataType.DM.nBinaryValue);
 			iReturnTypes.add(eDataType.TP.nBinaryValue);
 			clsDataStructureContainer oCompareContainer = getCompleteContainer((clsTemplateImage)oCompareElement, poSearchSpaceHandler, iReturnTypes);
-			clsPair<Double, ArrayList<clsAssociationDriveMesh>> oMatch = compareTIContainer((clsPrimaryDataStructureContainer)oCompareContainer, (clsPrimaryDataStructureContainer)poContainerUnknown);
+			double oMatch = compareTIContainer((clsPrimaryDataStructureContainer)oCompareContainer, (clsPrimaryDataStructureContainer)poContainerUnknown);
 		
-			if (oMatch.a < oThreshold)
+			if (oMatch < oThreshold)
 				continue;
 			// ensure that the list of results is sorted by the matchValues, with the highest matchValues on top of the list.
 			int i = 0;
-			while ((i + 1 < oRetVal.size()) && oMatch.a < oRetVal.get(i).a) {
+			while ((i + 1 < oRetVal.size()) && oMatch < oRetVal.get(i).a) {
 				i++;
 			}
 			//Add results
-			oRetVal.add(i, new clsTripple<Double, clsDataStructureContainer, ArrayList<clsAssociationDriveMesh>>(oMatch.a, oCompareContainer, oMatch.b));
+			oRetVal.add(i, new clsPair<Double, clsDataStructureContainer>(oMatch, oCompareContainer));
 		}
 			
 		return oRetVal;
@@ -126,7 +126,17 @@ public abstract class clsDataStructureComparison {
 		return oCompareContainer;
 	}
 	
-	private static clsPair<Double, ArrayList<clsAssociationDriveMesh>> compareTIContainer(
+	private static double compareTIContainer(clsPrimaryDataStructureContainer poBlockedContent,
+			clsPrimaryDataStructureContainer poPerceivedContent) {
+		double rRetVal = 0;
+		clsPair<Double, ArrayList<clsAssociationDriveMesh>> oPair = compareTIContainerInclDM(poBlockedContent, poPerceivedContent);
+		rRetVal = oPair.a;
+		
+		return rRetVal;
+		
+	}
+	
+	private static clsPair<Double, ArrayList<clsAssociationDriveMesh>> compareTIContainerInclDM(
 			clsPrimaryDataStructureContainer poBlockedContent,
 			clsPrimaryDataStructureContainer poPerceivedContent) {
 

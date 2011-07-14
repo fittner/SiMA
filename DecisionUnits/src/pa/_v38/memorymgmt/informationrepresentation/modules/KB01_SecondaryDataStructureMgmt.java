@@ -9,9 +9,7 @@ package pa._v38.memorymgmt.informationrepresentation.modules;
 import java.util.ArrayList;
 
 import pa._v38.tools.clsPair;
-import pa._v38.tools.clsTripple;
 import pa._v38.memorymgmt.datatypes.clsAssociation;
-import pa._v38.memorymgmt.datatypes.clsAssociationDriveMesh;
 import pa._v38.memorymgmt.datatypes.clsDataStructureContainer;
 import pa._v38.memorymgmt.datatypes.clsDataStructurePA;
 import pa._v38.memorymgmt.datatypes.clsSecondaryDataStructure;
@@ -111,7 +109,7 @@ public class KB01_SecondaryDataStructureMgmt extends clsInformationRepresentatio
 	}
 	
 	@Override
-	public ArrayList<clsTripple<Double, clsDataStructureContainer, ArrayList<clsAssociationDriveMesh>>> listSearch(int poReturnType,clsDataStructureContainer poDataStructureUnknown) {
+	public ArrayList<clsPair<Double, clsDataStructureContainer>> listSearch(int poReturnType,clsDataStructureContainer poDataStructureUnknown) {
 		//TODO: AW Add something here, or else the function will not be used
 		return null;
 	}

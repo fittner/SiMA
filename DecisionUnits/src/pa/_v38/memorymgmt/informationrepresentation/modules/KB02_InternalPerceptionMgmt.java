@@ -8,9 +8,7 @@ package pa._v38.memorymgmt.informationrepresentation.modules;
 
 import java.util.ArrayList;
 import pa._v38.tools.clsPair;
-import pa._v38.tools.clsTripple;
 import pa._v38.memorymgmt.datatypes.clsAssociation;
-import pa._v38.memorymgmt.datatypes.clsAssociationDriveMesh;
 import pa._v38.memorymgmt.datatypes.clsDataStructureContainer;
 import pa._v38.memorymgmt.datatypes.clsDataStructurePA;
 import pa._v38.memorymgmt.datatypes.clsPhysicalRepresentation;
@@ -84,7 +82,7 @@ public class KB02_InternalPerceptionMgmt extends clsInformationRepresentationMod
 	 * A listsearch, which uses the whole container to search the memory with.
 	 */
 	@Override
-	public ArrayList<clsTripple<Double, clsDataStructureContainer, ArrayList<clsAssociationDriveMesh>>> listSearch(int poReturnType,clsDataStructureContainer poDataContainerInput) {
+	public ArrayList<clsPair<Double, clsDataStructureContainer>> listSearch(int poReturnType,clsDataStructureContainer poDataContainerInput) {
 		//In this function, the container content is compared with saved template images, which are the data structure in generated containers
 		//ArrayList<clsPair<Double,clsDataStructureContainer>> oDataStructureContainerList = new ArrayList<clsPair<Double,clsDataStructureContainer>>(); 	//Result
 		
@@ -97,7 +95,7 @@ public class KB02_InternalPerceptionMgmt extends clsInformationRepresentationMod
 		 */
 		
 		//Steps
-		ArrayList<clsTripple<Double, clsDataStructureContainer, ArrayList<clsAssociationDriveMesh>>> oMatchedDataStructures = new ArrayList<clsTripple<Double, clsDataStructureContainer, ArrayList<clsAssociationDriveMesh>>>();
+		ArrayList<clsPair<Double, clsDataStructureContainer>> oMatchedDataStructures = new ArrayList<clsPair<Double, clsDataStructureContainer>>();
 		//2b. Set the Content type of oDS
 		poDataContainerInput.getMoDataStructure().setMoContentType("IMAGE");	
 		oMatchedDataStructures = compareElements(poDataContainerInput);	//Get a List of all matching structures in the memory
@@ -159,8 +157,8 @@ public class KB02_InternalPerceptionMgmt extends clsInformationRepresentationMod
 	 * @param poContainerUnknown
 	 * @return
 	 */
-	private ArrayList<clsTripple<Double,clsDataStructureContainer,ArrayList<clsAssociationDriveMesh>>> compareElements(clsDataStructureContainer poContainerUnknown) {
-		ArrayList<clsTripple<Double,clsDataStructureContainer,ArrayList<clsAssociationDriveMesh>>> oRetVal = new ArrayList<clsTripple<Double,clsDataStructureContainer,ArrayList<clsAssociationDriveMesh>>>();
+	private ArrayList<clsPair<Double, clsDataStructureContainer>> compareElements(clsDataStructureContainer poContainerUnknown) {
+		ArrayList<clsPair<Double, clsDataStructureContainer>> oRetVal = new ArrayList<clsPair<Double, clsDataStructureContainer>>();
 		
 		oRetVal = clsDataStructureComparison.compareDataStructures(moSearchSpaceHandler, poContainerUnknown);	
 		

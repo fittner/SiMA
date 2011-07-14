@@ -37,7 +37,7 @@ import pa._v38.modules.eProcessType;
 import pa._v38.modules.ePsychicInstances;
 
 /**
- * DOCUMENT (perner) - insert description 
+ * (perner) - insert description 
  * 
  * @author deutsch
  * 11.08.2009, 14:56:22
@@ -49,12 +49,12 @@ public class _E28_KnowledgeBase_StoredScenarios extends clsModuleBaseKB implemen
 	
 	private ArrayList<clsPair<Integer, clsDataStructurePA>> moSearchPattern;
 	
-	//TODO HZ has to be defined in a config file
+	//
 	private final Integer mnNodeLimit = 20;
 	private ArrayList<clsSecondaryDataStructureContainer> moGoal_Input; 
 	private ArrayList<ArrayList<clsAct>> moPlan_Output; 
 	/**
-	 * DOCUMENT (perner) - insert description 
+	 * (perner) - insert description 
 	 * 
 	 * @author deutsch
 	 * 03.03.2011, 16:53:03
@@ -188,7 +188,7 @@ public class _E28_KnowledgeBase_StoredScenarios extends clsModuleBaseKB implemen
 	}
 
 	/**
-	 * DOCUMENT (zeilinger) - insert description
+	 * (zeilinger) - insert description
 	 *
 	 * @author zeilinger
 	 * 28.08.2010, 11:23:14
@@ -206,7 +206,7 @@ public class _E28_KnowledgeBase_StoredScenarios extends clsModuleBaseKB implemen
 			String oActualState = ((clsWordPresentation)oCon.getMoDataStructure()).getMoContent(); 
 			ArrayList<ArrayList<clsAct>> oActPlans = new ArrayList<ArrayList<clsAct>>(); 
 		    //HZ not sure, but maybe a loop between E28 and E27 is required here; 
-			// TODO: This is also a bit magic; ACTS are retrieved that include the actual object setup, no
+			// 
 			//	matter if it fits the "precondition" or the "consequence"; normally it is not the 
 			//  task of the memory to introduce a filter that makes a difference between both parts; 
 			// however it can be thought about alternatives and possibilities to retrieve acts
@@ -219,7 +219,7 @@ public class _E28_KnowledgeBase_StoredScenarios extends clsModuleBaseKB implemen
 	}
 
 	/**
-	 * DOCUMENT (zeilinger) - insert description
+	 * (zeilinger) - insert description
 	 *
 	 * @author zeilinger
 	 * 31.08.2010, 10:06:02
@@ -283,7 +283,7 @@ public class _E28_KnowledgeBase_StoredScenarios extends clsModuleBaseKB implemen
 	}
 		
 	/**
-	 * DOCUMENT (zeilinger) - insert description
+	 * (zeilinger) - insert description
 	 *
 	 * @author zeilinger
 	 * 03.09.2010, 19:26:20
@@ -301,7 +301,7 @@ public class _E28_KnowledgeBase_StoredScenarios extends clsModuleBaseKB implemen
 	}
 
 	/**
-	 * DOCUMENT (zeilinger) - insert description
+	 * (zeilinger) - insert description
 	 *
 	 * @author zeilinger
 	 * 03.09.2010, 18:56:20
@@ -318,7 +318,7 @@ public class _E28_KnowledgeBase_StoredScenarios extends clsModuleBaseKB implemen
 	}
 
 	/**
-	 * DOCUMENT (zeilinger) - insert description
+	 * (zeilinger) - insert description
 	 *
 	 * @author zeilinger
 	 * 01.09.2010, 16:53:58
@@ -334,7 +334,7 @@ public class _E28_KnowledgeBase_StoredScenarios extends clsModuleBaseKB implemen
 	}
 
 	/**
-	 * DOCUMENT (zeilinger) - insert description
+	 * (zeilinger) - insert description
 	 *
 	 * @author zeilinger
 	 * 01.09.2010, 10:56:57
@@ -392,7 +392,7 @@ public class _E28_KnowledgeBase_StoredScenarios extends clsModuleBaseKB implemen
 	
 
 	/**
-	 * DOCUMENT (zeilinger) - insert description
+	 * (zeilinger) - insert description
 	 *
 	 * @author zeilinger
 	 * 29.08.2010, 16:16:46
@@ -410,7 +410,7 @@ public class _E28_KnowledgeBase_StoredScenarios extends clsModuleBaseKB implemen
 	}
 
 	/**
-	 * DOCUMENT (zeilinger) - insert description
+	 * (zeilinger) - insert description
 	 *
 	 * @author zeilinger
 	 * 01.09.2010, 22:27:34
@@ -444,7 +444,7 @@ public class _E28_KnowledgeBase_StoredScenarios extends clsModuleBaseKB implemen
 	}
 
 	/**
-	 * DOCUMENT (zeilinger) - insert description
+	 * (zeilinger) - insert description
 	 *
 	 * @author zeilinger
 	 * 01.09.2010, 21:02:37
@@ -475,7 +475,7 @@ public class _E28_KnowledgeBase_StoredScenarios extends clsModuleBaseKB implemen
 	}
 
 	/**
-	 * DOCUMENT (zeilinger) - insert description
+	 * (zeilinger) - insert description
 	 *
 	 * @author zeilinger
 	 * 29.08.2010, 12:05:33
@@ -505,7 +505,7 @@ public class _E28_KnowledgeBase_StoredScenarios extends clsModuleBaseKB implemen
 	}
 
 	/**
-	 * DOCUMENT (zeilinger) - insert description
+	 * (zeilinger) - insert description
 	 *
 	 * @author zeilinger
 	 * 28.08.2010, 11:50:46
@@ -530,7 +530,7 @@ public class _E28_KnowledgeBase_StoredScenarios extends clsModuleBaseKB implemen
 	}
 
 	/**
-	 * DOCUMENT (zeilinger) - insert description
+	 * (zeilinger) - insert description
 	 *
 	 * @author zeilinger
 	 * 30.08.2010, 15:16:31
@@ -587,7 +587,7 @@ public class _E28_KnowledgeBase_StoredScenarios extends clsModuleBaseKB implemen
 	 */
 	@Override
 	protected void process_draft() {
-		// TODO (perner) - Auto-generated method stub
+		// 
 		throw new java.lang.NoSuchMethodError();
 	}
 
@@ -600,7 +600,7 @@ public class _E28_KnowledgeBase_StoredScenarios extends clsModuleBaseKB implemen
 	 */
 	@Override
 	protected void process_final() {
-		// TODO (perner) - Auto-generated method stub
+		// 
 		throw new java.lang.NoSuchMethodError();
 	}
 
@@ -632,7 +632,7 @@ public class _E28_KnowledgeBase_StoredScenarios extends clsModuleBaseKB implemen
 		}
 		  	
 		/**
-		 * DOCUMENT (zeilinger) - insert description
+		 * (zeilinger) - insert description
 		 *
 		 * @author zeilinger
 		 * 01.09.2010, 20:52:13
@@ -651,7 +651,7 @@ public class _E28_KnowledgeBase_StoredScenarios extends clsModuleBaseKB implemen
 		}
 
 		/**
-		 * DOCUMENT (zeilinger) - insert description
+		 * (zeilinger) - insert description
 		 *
 		 * @author zeilinger
 		 * 01.09.2010, 12:24:40
@@ -664,7 +664,7 @@ public class _E28_KnowledgeBase_StoredScenarios extends clsModuleBaseKB implemen
 		}
 
 		/**
-		 * DOCUMENT (zeilinger) - insert description
+		 * (zeilinger) - insert description
 		 *
 		 * @author zeilinger
 		 * 31.08.2010, 17:10:13
@@ -766,7 +766,7 @@ public class _E28_KnowledgeBase_StoredScenarios extends clsModuleBaseKB implemen
 	 */
 	@Override
 	public void send_I6_2(int pnData) {
-		// TODO (zeilinger) - Auto-generated method stub
+		// 
 		
 	}	
 }

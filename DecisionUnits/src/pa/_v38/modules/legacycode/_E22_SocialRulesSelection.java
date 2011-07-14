@@ -40,7 +40,7 @@ import pa._v38.modules.ePsychicInstances;
 
 
 /**
- * DOCUMENT (perner) - insert description 
+ * (perner) - insert description 
  * 
  * @author deutsch
  * 11.08.2009, 14:45:01
@@ -59,7 +59,7 @@ public class _E22_SocialRulesSelection extends clsModuleBaseKB implements itfMin
 	private ArrayList<clsPair<Double,clsDataStructureContainer>> moRetrieveResult4Inspectors;
 	private boolean mnMinimalModel;
 	/**
-	 * DOCUMENT (perner) - insert description 
+	 * (perner) - insert description 
 	 * 
 	 * @author deutsch
 	 * 03.03.2011, 16:48:45
@@ -182,7 +182,7 @@ public class _E22_SocialRulesSelection extends clsModuleBaseKB implements itfMin
 	}
 
 	/**
-	 * DOCUMENT (zeilinger) - insert description
+	 * (zeilinger) - insert description
 	 *
 	 * @author zeilinger
 	 * 24.09.2010, 22:29:26
@@ -193,11 +193,11 @@ public class _E22_SocialRulesSelection extends clsModuleBaseKB implements itfMin
 			ArrayList<clsAct> oActList = getMatchingAct(((clsWordPresentation)oCon.getMoDataStructure()).getMoContent()); 
 			moRuleList.addAll(oActList); 
 		}
-		//TODO - do the same for Homeostatic State
+		//
 	}
 	
 	/**
-	 * DOCUMENT (zeilinger) - insert description
+	 * (zeilinger) - insert description
 	 *
 	 * @author zeilinger
 	 * 03.09.2010, 18:56:20
@@ -213,7 +213,7 @@ public class _E22_SocialRulesSelection extends clsModuleBaseKB implements itfMin
 	}
 	
 	/**
-	 * DOCUMENT (zeilinger) - insert description
+	 * (zeilinger) - insert description
 	 *
 	 * @author zeilinger
 	 * 29.08.2010, 12:05:33
@@ -234,7 +234,7 @@ public class _E22_SocialRulesSelection extends clsModuleBaseKB implements itfMin
 	}
 	
 	/**
-	 * DOCUMENT (zeilinger) - insert description
+	 * (zeilinger) - insert description
 	 *
 	 * @author zeilinger
 	 * 01.09.2010, 16:53:58
@@ -250,7 +250,7 @@ public class _E22_SocialRulesSelection extends clsModuleBaseKB implements itfMin
 	}
 	
 	/**
-	 * DOCUMENT (zeilinger) - insert description
+	 * (zeilinger) - insert description
 	 *
 	 * @author zeilinger
 	 * 28.08.2010, 11:50:46
@@ -275,7 +275,7 @@ public class _E22_SocialRulesSelection extends clsModuleBaseKB implements itfMin
 		
 		//moRetrieveResult4Inspectors = (ArrayList<clsPair<Double, clsDataStructureContainer>>) oResult.entrySet().iterator().next(); // doing this for showing the results in the inspectors, may change later
 		
-		//TODO dirty hack by clemens, for testing the search result display. change me later!
+		//
 		try
 		{
 			for(ArrayList<clsPair<Double,clsDataStructureContainer>> oEntry : oSearchResult){
@@ -289,7 +289,7 @@ public class _E22_SocialRulesSelection extends clsModuleBaseKB implements itfMin
 	}
 	
 	/**
-	 * DOCUMENT (zeilinger) - insert description
+	 * (zeilinger) - insert description
 	 *
 	 * @author zeilinger
 	 * 30.08.2010, 15:16:31
@@ -307,7 +307,7 @@ public class _E22_SocialRulesSelection extends clsModuleBaseKB implements itfMin
 			for(clsPair<Double, clsDataStructureContainer> oPair : oEntry){
 				clsAct oAct = (clsAct)oPair.b.getMoDataStructure(); 
 				
-				//FIXME - again, there has to be a different evaluation of the current Super-Ego Rules
+				//
 				if(oAct.getMoContent().contains("UNPLEASURE")){
 					oActs.add((clsAct)oPair.b.getMoDataStructure());
 				}
@@ -318,7 +318,7 @@ public class _E22_SocialRulesSelection extends clsModuleBaseKB implements itfMin
 	}
 	
 //	/**
-//	 * DOCUMENT (zeilinger) - insert description
+//	 * (zeilinger) - insert description
 //	 *
 //	 * @author zeilinger
 //	 * 01.09.2010, 10:56:57
@@ -332,7 +332,7 @@ public class _E22_SocialRulesSelection extends clsModuleBaseKB implements itfMin
 //			ArrayList<clsAct> oFullMatch = new ArrayList<clsAct>(); 
 //			String [] oPreConditionUnknown = poAct.moContent.substring(poAct.moContent.indexOf("|", poAct.moContent.indexOf(eActState.PRECONDITION.name())) + 1 , poAct.moContent.indexOf(eActState.ACTION.name())).split("[|]");
 //			
-//			//FIXME - SHould only be done by the information representation
+//			//
 //			for(clsAct oEntry : poTempActs){
 //					double nMS = oEntry.compareTo(poAct); 
 //					
@@ -381,7 +381,7 @@ public class _E22_SocialRulesSelection extends clsModuleBaseKB implements itfMin
 	 */
 	@Override
 	protected void process_draft() {
-		// TODO (perner) - Auto-generated method stub
+		// 
 		throw new java.lang.NoSuchMethodError();
 	}
 
@@ -394,13 +394,13 @@ public class _E22_SocialRulesSelection extends clsModuleBaseKB implements itfMin
 	 */
 	@Override
 	protected void process_final() {
-		// TODO (perner) - Auto-generated method stub
+		// 
 		throw new java.lang.NoSuchMethodError();
 	}
 
 	
 	/**
-	 * DOCUMENT (zeilinger) - insert description
+	 * (zeilinger) - insert description
 	 *
 	 * @author zeilinger
 	 * 19.03.2011, 08:36:59
@@ -501,7 +501,7 @@ public class _E22_SocialRulesSelection extends clsModuleBaseKB implements itfMin
 	@Override
 	public void send_I3_3(
 			ArrayList<clsPair<clsTripple<clsDriveMesh, clsDriveDemand, Double>, clsTripple<clsDriveMesh, clsDriveDemand, Double>>> poDriveCandidates) {
-		// TODO (zeilinger) - Auto-generated method stub
+		// 
 		
 	}	
 	

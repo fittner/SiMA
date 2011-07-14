@@ -27,7 +27,7 @@ import pa._v38.modules.eProcessType;
 import pa._v38.modules.ePsychicInstances;
 
 /**
- * DOCUMENT (KOHLHAUSER) - insert description 
+ * (KOHLHAUSER) - insert description 
  * 
  * @author deutsch
  * 11.08.2009, 14:50:27
@@ -42,7 +42,7 @@ public class _E25_KnowledgeAboutReality_1 extends clsModuleBaseKB implements itf
 	//private ArrayList<clsSecondaryDataStructureContainer> moFocusedPerception;
 	private boolean mnMinimalModel;
 	/**
-	 * DOCUMENT (KOHLHAUSER) - insert description 
+	 * (KOHLHAUSER) - insert description 
 	 * 
 	 * @author deutsch
 	 * 03.03.2011, 16:47:07
@@ -183,7 +183,7 @@ public class _E25_KnowledgeAboutReality_1 extends clsModuleBaseKB implements itf
 	 */
 	@Override
 	protected void process_draft() {
-		// TODO (KOHLHAUSER) - Auto-generated method stub
+		// 
 		throw new java.lang.NoSuchMethodError();
 	}
 
@@ -196,7 +196,7 @@ public class _E25_KnowledgeAboutReality_1 extends clsModuleBaseKB implements itf
 	 */
 	@Override
 	protected void process_final() {
-		// TODO (KOHLHAUSER) - Auto-generated method stub
+		// 
 		throw new java.lang.NoSuchMethodError();
 	}
 	
@@ -245,7 +245,7 @@ public class _E25_KnowledgeAboutReality_1 extends clsModuleBaseKB implements itf
 	@Override
 	public void send_I6_1(
 			ArrayList<clsSecondaryDataStructureContainer> poPerception, ArrayList<clsSecondaryDataStructureContainer> poAssociatedMemoriesSecondary_OUT) {
-		// TODO (zeilinger) - Auto-generated method stub
+		// 
 		
 	}	
 	
