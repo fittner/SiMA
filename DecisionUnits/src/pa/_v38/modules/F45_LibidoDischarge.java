@@ -306,6 +306,7 @@ public class F45_LibidoDischarge extends clsModuleBaseKB implements itfInspector
 		//String oPattern = oSearchPattern.toString();
 		//search(new ArrayList<clsPrimaryDataStructureContainer>(Arrays.asList(oSearchPattern)), oSearchResultContainer);
 		search(oSearchPattern, oSearchResultContainer);
+		
 	}
 	
 	private clsDriveMesh createDriveMesh(String poContentType, String poContext) {
