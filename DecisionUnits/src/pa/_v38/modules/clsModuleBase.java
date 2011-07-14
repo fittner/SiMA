@@ -16,8 +16,6 @@ import pa._v38.interfaces.itfInspectorInternalState;
 import pa._v38.interfaces.itfInterfaceDescription;
 import pa._v38.interfaces.itfInterfaceInterfaceData;
 import pa._v38.interfaces.modules.eInterfaces;
-import pa._v38.memorymgmt.datatypes.clsAssociation;
-import pa._v38.memorymgmt.datatypes.clsDataStructureContainer;
 import config.clsBWProperties;
 
 /**
@@ -316,47 +314,6 @@ public abstract class clsModuleBase implements
 		}
 				
 		return clone;
-	}
-	
-	/**
-	 * For each container, where the associations are not bound, the hash-code from the data structure was taken as id and
-	 * all associations in the associated data structures root elements were set with the instance ID of the container
-	 * data structures.
-	 * 
-	 * This function shall be executed as soon as more TPMs are used in one container and every time something is loaded 
-	 * from the memory
-	 * 
-	 * @since 06.07.2011 15:03:52
-	 *
-	 * @param <E>
-	 * @param poInput
-	 * @return
-	 **/
-	@SuppressWarnings("unchecked")
-	public <E extends clsDataStructureContainer> ArrayList<E> createInstanceFromType(ArrayList<E> poInput) {
-		ArrayList<E> oRetVal = (ArrayList<E>)deepCopy(poInput);
-		
-		//Set Unique IDs for all root elements
-		for (E oElement : oRetVal) {
-			int oInstanceID;	//
-			//Check if the root element already have an unique ID
-			if (oElement.getMoDataStructure().getMoDSInstance_ID() == 0) {
-				oInstanceID = oElement.getMoDataStructure().hashCode();
-				oElement.getMoDataStructure().setMoDSInstance_ID(oInstanceID);
-			} else {
-				oInstanceID = oElement.getMoDataStructure().getMoDSInstance_ID();
-			}
-			
-			//Go through all associations in the container and complete the ones, which are missing or different from the root element
-			for (clsAssociation oAssStructure : oElement.getMoAssociatedDataStructures()) {
-				//Change ID only if the association root element is the same type (ID) as the data structure
-				if ((oAssStructure.getRootElement().getMoDSInstance_ID()!=oInstanceID) && (oElement.getMoDataStructure().getMoDS_ID()==oAssStructure.getRootElement().getMoDS_ID())) {
-					oAssStructure.getRootElement().setMoDSInstance_ID(oInstanceID);
-				}
-			}
-		}
-		
-		return oRetVal;
 	}
 	
 	/**

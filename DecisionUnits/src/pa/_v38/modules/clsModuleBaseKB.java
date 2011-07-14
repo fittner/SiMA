@@ -122,14 +122,14 @@ public abstract class clsModuleBaseKB extends clsModuleBase {
 	 * @param poSearchResult
 	 * 
 	 */
-	public void search(
+	public void searchContainer(
 			clsDataStructureContainer poPattern,
 			ArrayList<clsPair<Double, clsDataStructureContainer>> poSearchResult) {
 
 		//createSearchPattern(poPattern, oSearchPattern);	//Create a pattern, search for type, poDataType 4096=TP, Input-Container
 		if (poPattern!=null)  {
 			clsPair<Integer, clsDataStructureContainer> oSearchPattern = new clsPair<Integer, clsDataStructureContainer>(eDataType.UNDEFINED.nBinaryValue, poPattern); 
-			accessKnowledgeBase(poSearchResult, oSearchPattern); 
+			accessKnowledgeBaseContainer(poSearchResult, oSearchPattern); 
 		} else {
 			poSearchResult = new ArrayList<clsPair<Double, clsDataStructureContainer>>();
 		}
@@ -159,7 +159,7 @@ public abstract class clsModuleBaseKB extends clsModuleBase {
 	 * @param poSearchResult
 	 * @param poSearchPattern
 	 */
-	public void accessKnowledgeBase(ArrayList<clsPair<Double,clsDataStructureContainer>> poSearchResult,
+	public void accessKnowledgeBaseContainer(ArrayList<clsPair<Double,clsDataStructureContainer>> poSearchResult,
 			clsPair<Integer, clsDataStructureContainer> poSearchPattern) {
 		//AW 20110629: New function for searching one total container
 		
