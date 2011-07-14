@@ -4,7 +4,7 @@
  * @author zeilinger
  * 04.05.2011, 10:10:40
  */
-package pa.enums;
+package pa;
 
 /**
  * DOCUMENT (zeilinger) - insert description 
