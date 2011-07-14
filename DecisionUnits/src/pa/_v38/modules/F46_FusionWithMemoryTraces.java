@@ -685,7 +685,7 @@ public class F46_FusionWithMemoryTraces extends clsModuleBaseKB implements
 	 */
 	@Override
 	public void receive_I5_19(clsPrimaryDataStructureContainer poReturnedMemory) {
-		moReturnedTPMemory_IN = (clsPrimaryDataStructureContainer)deepCopy(poReturnedMemory);
+		moReturnedTPMemory_IN = (clsPrimaryDataStructureContainer)poReturnedMemory.clone();
 	}
 
 	/* (non-Javadoc)

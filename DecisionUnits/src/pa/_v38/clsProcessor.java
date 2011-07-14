@@ -23,6 +23,8 @@ import pa._v38.modules.clsPsychicApparatus;
  * in the correct order, and to extract the produced action command from the decision unit. The modules themselves are created within the class clsPsychicApparatus.
  * Further the knowledgebasehandler is created in this class.
  * 
+ * @see pa._v38.modules.clsPsychicApparatus
+ * 
  * @author deutsch
  * 12.08.2009, 09:30:54
  * 

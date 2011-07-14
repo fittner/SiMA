@@ -342,7 +342,7 @@ public class F18_CompositionOfAffectsForPerception extends clsModuleBase impleme
 	@SuppressWarnings("unchecked")
 	@Override
 	public void receive_I5_9(clsPrimaryDataStructureContainer poMergedPrimaryInformation, ArrayList<clsPrimaryDataStructureContainer> poAssociatedMemories) {
-		moEnvironmentalPerception_IN = (clsPrimaryDataStructureContainer)deepCopy(poMergedPrimaryInformation);
+		moEnvironmentalPerception_IN = (clsPrimaryDataStructureContainer)poMergedPrimaryInformation.clone();
 		moAssociatedMemories_IN = (ArrayList<clsPrimaryDataStructureContainer>)deepCopy(poAssociatedMemories);
 	}
 	/* (non-Javadoc)

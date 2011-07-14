@@ -224,12 +224,7 @@ public class F45_LibidoDischarge extends clsModuleBaseKB implements itfInspector
 		mrAvailableLibido = moLibidoBuffer.send_D1_4();
 		
 		//Clone input structure
-		try {
-			moEnvironmentalPerception_OUT = (clsPrimaryDataStructureContainer) moEnvironmentalPerception_IN.clone();
-		} catch (CloneNotSupportedException e) {
-			// TODO (wendt) - Auto-generated catch block
-			e.printStackTrace();
-		}
+		moEnvironmentalPerception_OUT = (clsPrimaryDataStructureContainer) moEnvironmentalPerception_IN.clone();
 		
 		/* Here, spread activation for Libido shall be placed.
 		 * 1. Go through all perception and memories
@@ -302,12 +297,8 @@ public class F45_LibidoDischarge extends clsModuleBaseKB implements itfInspector
 		 * Use the input image as seach image
 		 */
 		clsPrimaryDataStructureContainer oTestImage=null;
-		try {
-			oTestImage = (clsPrimaryDataStructureContainer) moEnvironmentalPerception_IN.clone();
-		} catch (CloneNotSupportedException e1) {
-			// TODO (wendt) - Auto-generated catch block
-			e1.printStackTrace();
-		}
+		oTestImage = (clsPrimaryDataStructureContainer) moEnvironmentalPerception_IN.clone();
+
 		//Get Image in the search function
 		//Create seach pattern
 		clsDataStructureContainer oSearchPattern = oTestImage;

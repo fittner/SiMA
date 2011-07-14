@@ -146,6 +146,7 @@ public class clsOntologyLoader {
 			case WP:	 createWP(poRootElement, poElement, poDataContainer);	break; 
 			
 			//Special case in order to be able to create images
+			//FIXME AW: This is not a real datatype and should not be here.
 			case PRIINSTANCE: createPRIINSTANCE(poRootElement, poElement, poDataContainer); break;
 				
 			default: throw new NoSuchFieldError(" datatype " + poDataType +" is not handled"); 
@@ -322,54 +323,52 @@ public class clsOntologyLoader {
 				try {
 					oNewInstanceTPMDS = (clsThingPresentationMesh) ((clsThingPresentationMesh) oDS).clone();
 				} catch (CloneNotSupportedException e) {
-					// TODO (wendt) - Auto-generated catch block
+					System.out.print("Error in clsOntologyLoader.java in createPRIINSTANCE: oDS could not be cloned");
 					e.printStackTrace();
 				}
+				oNewInstanceTPMDS.setMoDSInstance_ID(oNewInstanceTPMDS.hashCode());
 				oNewInstanceDS = oNewInstanceTPMDS;
 				
 				poDataContainer.b.put(poElement.getName(), oNewInstanceDS);	//Use the containername as identifier
+				//TODO: IMPORTANT NOTE TO DOCUMENT: In associationAttribute, the rootelement must be the first element
+				
+				//Get associated drive meshes
+				ArrayList<clsAssociationDriveMesh> oDMAssList = new ArrayList<clsAssociationDriveMesh>();
+				Collection<clsDataStructurePA> oValueList = poDataContainer.b.values();	//Get all values from the hashtable
+				//FIXME AW: To get all values from the hashtable is no very nice solution, in order to extract the fitting associations for an element. 
+				//A memory-PhD should make this part more efficient
+				for (clsDataStructurePA oStructure : oValueList) {
+					if ((oStructure instanceof clsAssociationDriveMesh)) {
+						clsAssociationDriveMesh oOriginalAssDM = (clsAssociationDriveMesh) oStructure;
+						if (oOriginalAssDM.getRootElement() == oDS) {
+							//For each found AssociationDriveMesh for that structure, create a clone and change the root element
+							try {
+								clsAssociationDriveMesh oNewAssDM = (clsAssociationDriveMesh)oOriginalAssDM.clone();
+								oNewAssDM.setMoAssociationElementB(oNewInstanceDS);
+								oDMAssList.add(oNewAssDM);
+							} catch (CloneNotSupportedException e) {
+								System.out.print("Error in clsOntologyLoader.java in createPRIINSTANCE: oNewAssDM could not be cloned");
+								e.printStackTrace();
+							}
 
-				//ArrayList <clsAssociation> oAssociationList = loadInstanceAssociations(oInstanceOfType, poDataContainer); 
-				//oAssociationList.addAll(loadClassAssociations(oInstanceOfType, oNewInstanceDS, poDataContainer));
-
-				//for(clsAssociation element : oAssociationList){
-				//	if(element instanceof clsAssociationAttribute){ ((clsThingPresentationMesh)oNewInstanceDS).assignDataStructure(element);}
-				//}
+						}
+					}
+				}
+				int i=0;
+				for (clsAssociationDriveMesh oAssDM : oDMAssList) {
+					//It would be better to create a real name as hash key.
+					String oName = poElement.getName() + ":DM:NO" + i;
+					poDataContainer.b.put(oName, oAssDM);	//Add the new association
+					i++;
+					//if (i==3) {
+					//	break;
+					//}
+				}
 			}
 		}
 		
 		
 	}
-	
-	//FIXME AW: This function already exists in clsModuleBase
-	//AW 20110521: new deepcopy function for single objects
-	/*private static Object deepCopy(Object other) {
-		Object clone = null;
-		if (other != null) {
-			clone = new Object();
-		}
-		
-		try {
-			if (!(other instanceof Cloneable)) {
-				clone = other;	//not cloneable
-			} else {
-				//FIXME: AW 20110521: How are relative references kept? 
-				// Before: Associated Datastructures ElementA = ID123, ElementB = ID122, Datastructure: ID123
-				// After: Associated Datastructures ElementA = ID999, ElementB = ID888, Datastructure: ID777
-				Class<?> clzz = other.getClass();
-				Method   meth = clzz.getMethod("clone", new Class[0]);
-				Object   dupl = meth.invoke(other, new Object[0]);
-				clone = dupl;
-				//clone.add(dupl);
-			}
-		} catch (Exception e) {
-			//clone.add(entry);
-			clone = other;
-			// no deep copy possible.
-		}
-		return clone;
-	}*/
-	
 	
 	/**
 	 * DOCUMENT (zeilinger) - insert description

@@ -115,7 +115,7 @@ public class F07_SuperEgoReactive extends clsModuleBase
 	@SuppressWarnings("unchecked")
 	@Override
 	public void receive_I5_10(clsPrimaryDataStructureContainer poEnvironmentalPerception, ArrayList<clsPrimaryDataStructureContainer> poAssociatedMemories) {
-		moEnvironmentalPerception_Input = (clsPrimaryDataStructureContainer) deepCopy(poEnvironmentalPerception);
+		moEnvironmentalPerception_Input = (clsPrimaryDataStructureContainer)poEnvironmentalPerception.clone();
 		moAssociatedMemories_Input = (ArrayList<clsPrimaryDataStructureContainer>) deepCopy(poAssociatedMemories);
 	}
 

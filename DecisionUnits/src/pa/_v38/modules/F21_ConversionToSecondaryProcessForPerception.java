@@ -152,8 +152,8 @@ public class F21_ConversionToSecondaryProcessForPerception extends clsModuleBase
 	@SuppressWarnings("unchecked")
 	@Override
 	public void receive_I5_15(clsPrimaryDataStructureContainer poEnvironmentalPerception, ArrayList<clsPrimaryDataStructureContainer> poAssociatedMemories) {
-		moEnvironmentalPerception_IN = (clsPrimaryDataStructureContainer)this.deepCopy(poEnvironmentalPerception);
-		moAssociatedMemories_IN = (ArrayList<clsPrimaryDataStructureContainer>)this.deepCopy(poAssociatedMemories);
+		moEnvironmentalPerception_IN = (clsPrimaryDataStructureContainer)poEnvironmentalPerception.clone();
+		moAssociatedMemories_IN = (ArrayList<clsPrimaryDataStructureContainer>)deepCopy(poAssociatedMemories);
 	}
 
 	/* (non-Javadoc)
