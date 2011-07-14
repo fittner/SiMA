@@ -1,15 +1,18 @@
 /**
  * F48_AccumulationOfAffectsForDrives.java: DecisionUnits - pa._v38.modules
  * 
- * @author zeilinger
+ * @author muchitsch
  * 02.05.2011, 15:47:11
  */
 package pa._v38.modules;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Map;
 import java.util.SortedMap;
-
+import pa._v38.modules.eImplementationStage;
+import pa._v38.tools.clsDriveValueSplitter;
+import pa._v38.tools.eDriveValueSplitter;
 import pa._v38.interfaces.modules.I3_3_receive;
 import pa._v38.interfaces.modules.I3_4_receive;
 import pa._v38.interfaces.modules.I4_1_receive;
@@ -23,32 +26,35 @@ import pa._v38.tools.toText;
 import config.clsBWProperties;
 
 /**
- * F48 combines the quota of effect and thing presentation candidates to a list of drive candidates
+ * F48 combines Libido and homeostatic drive candidates, calculates the first quota of effect based 
+ * on a splitter mechanism and outputs the result to a list of drive candidates.
  * 
- * @author zeilinger
+ * @author muchitsch
  * 02.05.2011, 15:47:11
- * 
  */
 public class F48_AccumulationOfAffectsForDrives extends clsModuleBase 
 					implements I3_3_receive, I3_4_receive, I4_1_send {
 
 	public static final String P_MODULENUMBER = "48";
-	
-	private ArrayList<clsDriveMesh> moDriveCandidateHomeostasis;
-	private ArrayList<clsDriveMesh> moDriveCandidateLibido;
-	private ArrayList<clsDriveMesh> moDriveCandidates;
-	
+
 	/** c part of the Tripple is the factor read from the propety files. no calculation is done! 
 	 * just added to pass the factor down to module F54 @since 13.07.2011 14:05:14 */
 	private ArrayList<clsPair<clsTripple<clsDriveMesh, clsDriveDemand, Double>, clsTripple<clsDriveMesh, clsDriveDemand, Double>>> moLibidoCandidates_IN;
-	
 	private ArrayList<clsPair<clsPair<clsDriveMesh, clsDriveDemand>, clsPair<clsDriveMesh, clsDriveDemand>>> moHomoestasisCandidates_IN;
-	
+
+	/** This private member is the output of the module, it contains the combined list of homeostatic and libidonues drives @since 14.07.2011 11:23:16 */
 	private ArrayList<clsDriveMesh> moDriveCandidates_OUT;
+	
+	public static final String P_SPLITFACTORLABEL = "label";
+	public static final String P_SPLITFACTORVALUE = "value";
+	public static final String P_NUM_SPLIFACTOR = "num";
+	private HashMap<String, Double> moSplitterFactor;	
+	
 	/**
-	 * DOCUMENT (zeilinger) - insert description 
+	 *F48 combines Libido and homeostatic drive candidates, calculates the first quota of effect based 
+	 * on a splitter mechanism and outputs the result to a list of drive candidates.
 	 * 
-	 * @author zeilinger
+	 * @author muchitsch
 	 * 02.05.2011, 15:48:57
 	 *
 	 * @param poPrefix
@@ -72,12 +78,44 @@ public class F48_AccumulationOfAffectsForDrives extends clsModuleBase
 		
 		clsBWProperties oProp = new clsBWProperties();
 		oProp.setProperty(pre+P_PROCESS_IMPLEMENTATION_STAGE, eImplementationStage.BASIC.toString());
-				
+		
+		// see PhD Deutsch2011 p82 for what this is used for		
+		int i=0;
+		
+		oProp.setProperty(pre+i+"."+P_SPLITFACTORLABEL, "NOURISH");
+		oProp.setProperty(pre+i+"."+P_SPLITFACTORVALUE, 0.5);
+		i++;
+		oProp.setProperty(pre+i+"."+P_SPLITFACTORLABEL, "BITE");
+		oProp.setProperty(pre+i+"."+P_SPLITFACTORVALUE, 0.5);
+		i++;
+		oProp.setProperty(pre+i+"."+P_SPLITFACTORLABEL, "RELAX");
+		oProp.setProperty(pre+i+"."+P_SPLITFACTORVALUE, 0.5);
+		i++;
+		oProp.setProperty(pre+i+"."+P_SPLITFACTORLABEL, "DEPOSIT");
+		oProp.setProperty(pre+i+"."+P_SPLITFACTORVALUE, 0.5);
+		i++;
+		oProp.setProperty(pre+i+"."+P_SPLITFACTORLABEL, "REPRESS");
+		oProp.setProperty(pre+i+"."+P_SPLITFACTORVALUE, 0.5);
+		i++;
+		oProp.setProperty(pre+i+"."+P_SPLITFACTORLABEL, "SLEEP");
+		oProp.setProperty(pre+i+"."+P_SPLITFACTORVALUE, 0.5);
+		i++;
+
+		oProp.setProperty(pre+P_NUM_SPLIFACTOR, i);
+		
 		return oProp;
 	}	
 	
 	private void applyProperties(String poPrefix, clsBWProperties poProp) {
-		//nothing to do
+		String pre = clsBWProperties.addDot(poPrefix);
+		moSplitterFactor = new HashMap<String, Double>();
+		
+		int num = poProp.getPropertyInt(pre+P_NUM_SPLIFACTOR);
+		for (int i=0; i<num; i++) {
+			String oKey = poProp.getProperty(pre+i+"."+P_SPLITFACTORLABEL);
+			Double oValue = poProp.getPropertyDouble(pre+i+"."+P_SPLITFACTORVALUE);
+			moSplitterFactor.put(oKey, oValue);
+		}		
 	}
 
 	/* (non-Javadoc)
@@ -91,9 +129,9 @@ public class F48_AccumulationOfAffectsForDrives extends clsModuleBase
 	public String stateToTEXT() {
 		String text ="";
 		
-		text += toText.valueToTEXT("moDriveCandidateHomeostasis", moDriveCandidateHomeostasis);	
-		text += toText.valueToTEXT("moDriveCandidateLibido", moDriveCandidateLibido);	
-		text += toText.valueToTEXT("moDriveCandidates", moDriveCandidates);
+		text += toText.valueToTEXT("moLibidoCandidates_IN", moLibidoCandidates_IN);	
+		text += toText.valueToTEXT("moHomoestasisCandidates_IN", moHomoestasisCandidates_IN);	
+		text += toText.valueToTEXT("moDriveCandidates_OUT", moDriveCandidates_OUT);
 				
 		return text;
 	}
@@ -108,20 +146,74 @@ public class F48_AccumulationOfAffectsForDrives extends clsModuleBase
 	@Override
 	protected void process_basic() {
 
-		//TODO CM dummy implementation!!!
-		moDriveCandidates =  deepCopy(moDriveCandidateHomeostasis); 
+		moDriveCandidates_OUT = new ArrayList<clsDriveMesh>(); 
+
+		// first we do some magic to the homeostatic drives
+		for(clsPair<clsPair<clsDriveMesh, clsDriveDemand>, clsPair<clsDriveMesh, clsDriveDemand>> oEntry : moHomoestasisCandidates_IN){
+			double rFactor = 0.5; //default value, the real values are taken from the config in the next loop
+			try {
+				for (Map.Entry<String, Double> oSF:moSplitterFactor.entrySet()) {
+					if (oEntry.a.a.toString().contains(oSF.getKey())) {
+						rFactor = oSF.getValue();
+						break;
+					}
+				}
+			} catch (java.lang.Exception e) {
+				//do nothing
+			}			
+			//RL:
+			//for a constant increase of the affect values, the following function is implemented:
+			//1.: life-instinct increases faster than death-instinct
+			//2.: life-instinct reaches maximum (death-instinct at 50%) and decreases
+			//3.: death-instinct reaches maximum (--> should result in deatch)
+			clsPair<Double, Double> oSplitResult = clsDriveValueSplitter.calc(oEntry.a.b.getTension(), oEntry.b.b.getTension(), 
+					eDriveValueSplitter.ADVANCED, rFactor); 
+			
+			double oLifeAffect  = oSplitResult.a;
+			double oDeathAffect = oSplitResult.b;
+			oEntry.a.a.setPleasure(oLifeAffect); 
+			oEntry.b.a.setPleasure(oDeathAffect); 
+			
+			//and add it to the outgoing list
+			moDriveCandidates_OUT.add(oEntry.a.a); 
+			moDriveCandidates_OUT.add(oEntry.b.a); 
+		}
 		
-		//prepare the return value list
-		moDriveCandidates_OUT = new ArrayList<clsDriveMesh>();
-		
-		
-		//precreate members for the DM
-		//oDataStructureIdentifier = new clsTripple<Integer, eDataType, String>(a, b, c);
-		
-		//clsDriveMesh tmpDM = new clsDriveMesh(oDataStructureIdentifier, rPleasure, oDriveCathegories, oAssociatedDriveSources, oContent)
-		
-		//throw new java.lang.NoSuchMethodError();
-		
+		//now some love for the libido drives
+		for (clsPair< clsTripple<clsDriveMesh,clsDriveDemand,Double>, clsTripple<clsDriveMesh,clsDriveDemand,Double> > oEntry:moLibidoCandidates_IN) {
+			double rFactor = 0.5; //default value, the real values are taken from the config
+			try {
+				for (Map.Entry<String, Double> oSF:moSplitterFactor.entrySet()) {
+					if (oEntry.a.a.toString().contains(oSF.getKey())) {
+						rFactor = oSF.getValue();
+						break;
+					}
+				}
+			} catch (java.lang.Exception e) {
+				//do nothing
+			}
+			
+			//do the splitting math
+			clsPair<Double, Double> oSplitResult = clsDriveValueSplitter.calc(oEntry.a.b.getTension(), oEntry.b.b.getTension(), 
+					eDriveValueSplitter.ADVANCED, rFactor); 
+			
+			//normalize the resultign values
+			double oLifeAffect  = normalize( oSplitResult.a * oEntry.a.c );
+			double oDeathAffect = normalize( oSplitResult.b * oEntry.b.c );
+			
+			oEntry.a.a.setPleasure(oLifeAffect); 
+			oEntry.b.a.setPleasure(oDeathAffect); 
+			
+			//add the two pairs to the final list, this mixes the libido to the homeostatic ones
+			moDriveCandidates_OUT.add(oEntry.a.a); 
+			moDriveCandidates_OUT.add(oEntry.b.a); 			
+		}
+	}
+	
+	private double normalize(double r) {
+		if (r>1) {return 1;}
+		else if (r<-1) {return -1;}
+		else {return r;}
 	}
 
 	/* (non-Javadoc)
@@ -158,7 +250,7 @@ public class F48_AccumulationOfAffectsForDrives extends clsModuleBase
 	 */
 	@Override
 	protected void send() {
-		send_I4_1(moDriveCandidates);
+		send_I4_1(moDriveCandidates_OUT);
 	}
 
 	/* (non-Javadoc)
@@ -206,8 +298,7 @@ public class F48_AccumulationOfAffectsForDrives extends clsModuleBase
 	 */
 	@Override
 	public void setDescription() {
-		moDescription = "Zuerst werden die Affektbeträge der Selbsterhaltungstriebe mit der Libidospannung aus den libidinösen trieben vereint. Das geschieht für jeden Partialtrieb einzeln und für die beiden teile und wird dann in eine Liste zusammengefasst.";
-		//TODO CM give me a english text
+		moDescription = "F48 combines Libido and homeostatic drive candidates, calculates the first quota of effect based on a splitter mechanism and outputs the result to a list of drive candidates.";
 	}
 
 	/* (non-Javadoc)
@@ -219,9 +310,7 @@ public class F48_AccumulationOfAffectsForDrives extends clsModuleBase
 	 */
 	@Override
 	public void send_I4_1(ArrayList<clsDriveMesh> poDriveCandidates) {
-		
 		((I4_1_receive)moModuleList.get(57)).receive_I4_1(poDriveCandidates);
-		
 		putInterfaceData(I4_1_send.class, poDriveCandidates);
 	}
 
@@ -237,7 +326,6 @@ public class F48_AccumulationOfAffectsForDrives extends clsModuleBase
 	public void receive_I3_4(
 			ArrayList<clsPair<clsPair<clsDriveMesh, clsDriveDemand>, clsPair<clsDriveMesh, clsDriveDemand>>> poDriveCandidates) {
 		moHomoestasisCandidates_IN = (ArrayList<clsPair<clsPair<clsDriveMesh, clsDriveDemand>, clsPair<clsDriveMesh, clsDriveDemand>>>) deepCopy(poDriveCandidates);
-			//moDriveCandidateHomeostasis = (ArrayList<clsDriveMesh>) deepCopy(poDriveCandidates); 
 	}
 
 	/* (non-Javadoc)
@@ -251,9 +339,7 @@ public class F48_AccumulationOfAffectsForDrives extends clsModuleBase
 	@Override
 	public void receive_I3_3(
 			ArrayList<clsPair<clsTripple<clsDriveMesh, clsDriveDemand, Double>, clsTripple<clsDriveMesh, clsDriveDemand, Double>>> poDriveCandidates) {
-		
 		moLibidoCandidates_IN = (ArrayList<clsPair<clsTripple<clsDriveMesh, clsDriveDemand, Double>, clsTripple<clsDriveMesh, clsDriveDemand, Double>>>) deepCopy(poDriveCandidates);
-		//moDriveCandidateLibido = (ArrayList<clsDriveMesh>) deepCopy(poDriveCandidates); 
 	}
 
 }

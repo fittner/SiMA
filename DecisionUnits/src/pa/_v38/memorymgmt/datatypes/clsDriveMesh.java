@@ -225,6 +225,14 @@ public class clsDriveMesh extends clsHomeostaticRepresentation{
 		return mrPleasure; 
 	}
 	
+
+	/**
+	 * TODO CM maybe refactor the naming here. because it is actually quota of affect not pleasure
+	 *
+	 * @since 14.07.2011 11:42:35
+	 *
+	 * @param prPleasure
+	 */
 	public void setPleasure(double prPleasure){
 		mrPleasure = prPleasure; 
 	}
