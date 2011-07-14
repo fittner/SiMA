@@ -29,7 +29,7 @@ import config.clsBWProperties;
 import du.itf.actions.clsActionCommand;
 
 /**
- * DOCUMENT (deutsch) - insert description 
+ * (deutsch) - insert description 
  * 
  * @author deutsch
  * 03.03.2011, 15:21:18
@@ -44,7 +44,7 @@ public class _F38_PrimalRepressionForSelfPreservationDrives extends	clsModuleBas
 	private ArrayList<clsDriveMesh> moDriveList_IN;
 	private ArrayList< clsTripple<String, String, ArrayList<Double> >> moPrimalRepressionMemory;
 	/**
-	 * DOCUMENT (deutsch) - insert description 
+	 * (deutsch) - insert description 
 	 * 
 	 * @author deutsch
 	 * 03.03.2011, 17:44:20
@@ -148,7 +148,7 @@ public class _F38_PrimalRepressionForSelfPreservationDrives extends	clsModuleBas
 	 */
 	@Override
 	protected void process_draft() {
-		// TODO (deutsch) - Auto-generated method stub
+		// 
 
 	}
 
@@ -161,7 +161,7 @@ public class _F38_PrimalRepressionForSelfPreservationDrives extends	clsModuleBas
 	 */
 	@Override
 	protected void process_final() {
-		// TODO (deutsch) - Auto-generated method stub
+		// 
 
 	}
 
@@ -280,7 +280,7 @@ public class _F38_PrimalRepressionForSelfPreservationDrives extends	clsModuleBas
 	 */
 	@Override
 	public void send_I1_5(ArrayList<clsActionCommand> poActionCommandList) {
-		// TODO (zeilinger) - Auto-generated method stub
+		// 
 		
 	}	
 }

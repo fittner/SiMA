@@ -31,7 +31,7 @@ import pa._v38.modules.ePsychicInstances;
 import config.clsBWProperties;
 
 /**
- * DOCUMENT (deutsch) - insert description 
+ * (deutsch) - insert description 
  * 
  * @author deutsch
  * 03.03.2011, 15:20:18
@@ -52,7 +52,7 @@ public class _E42_AccumulationOfAffectsForSexualDrives extends clsModuleBase imp
 	private HashMap<String, Double> moSplitterFactor;
 	
 	/**
-	 * DOCUMENT (deutsch) - insert description 
+	 * (deutsch) - insert description 
 	 * 
 	 * @author deutsch
 	 * 03.03.2011, 17:55:15
@@ -185,7 +185,7 @@ public class _E42_AccumulationOfAffectsForSexualDrives extends clsModuleBase imp
 	 */
 	@Override
 	protected void process_draft() {
-		// TODO (deutsch) - Auto-generated method stub
+		// 
 
 	}
 
@@ -198,7 +198,7 @@ public class _E42_AccumulationOfAffectsForSexualDrives extends clsModuleBase imp
 	 */
 	@Override
 	protected void process_final() {
-		// TODO (deutsch) - Auto-generated method stub
+		// 
 
 	}
 
@@ -345,7 +345,7 @@ public class _E42_AccumulationOfAffectsForSexualDrives extends clsModuleBase imp
 	 */
 	@Override
 	public void send_I4_1(ArrayList<clsDriveMesh> poDriveCandidates) {
-		// TODO (zeilinger) - Auto-generated method stub
+		// 
 		
 	}
 
@@ -359,7 +359,7 @@ public class _E42_AccumulationOfAffectsForSexualDrives extends clsModuleBase imp
 	@Override
 	public void receive_I3_3(
 			ArrayList<clsPair<clsTripple<clsDriveMesh, clsDriveDemand, Double>, clsTripple<clsDriveMesh, clsDriveDemand, Double>>> poDriveCandidates) {
-		// TODO (zeilinger) - Auto-generated method stub
+		// 
 		
 	}		
 }

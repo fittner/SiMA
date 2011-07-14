@@ -29,7 +29,7 @@ import pa._v38.modules.ePsychicInstances;
 import config.clsBWProperties;
 
 /**
- * DOCUMENT (deutsch) - insert description 
+ * (deutsch) - insert description 
  * 
  * @author deutsch
  * 03.03.2011, 15:20:48
@@ -45,7 +45,7 @@ public class _E44_PrimalRepressionForSexualDrives extends clsModuleBase
 	private ArrayList<clsDriveMesh> moDrives;
 	
 	/**
-	 * DOCUMENT (deutsch) - insert description 
+	 * (deutsch) - insert description 
 	 * 
 	 * @author deutsch
 	 * 03.03.2011, 17:57:51
@@ -161,7 +161,7 @@ public class _E44_PrimalRepressionForSexualDrives extends clsModuleBase
 	 */
 	@Override
 	protected void process_draft() {
-		// TODO (deutsch) - Auto-generated method stub
+		// 
 
 	}
 
@@ -174,7 +174,7 @@ public class _E44_PrimalRepressionForSexualDrives extends clsModuleBase
 	 */
 	@Override
 	protected void process_final() {
-		// TODO (deutsch) - Auto-generated method stub
+		// 
 
 	}
 
@@ -252,7 +252,7 @@ public class _E44_PrimalRepressionForSexualDrives extends clsModuleBase
 	@Override
 	public void send_I5_1(
 			ArrayList<clsPair<clsPhysicalRepresentation, clsDriveMesh>> poData) {
-		// TODO (zeilinger) - Auto-generated method stub
+		// 
 		
 	}
 
@@ -265,7 +265,7 @@ public class _E44_PrimalRepressionForSexualDrives extends clsModuleBase
 	 */
 	@Override
 	public void receive_I4_1(ArrayList<clsDriveMesh> poDriveCandidates) {
-		// TODO (zeilinger) - Auto-generated method stub
+		// 
 		
 	}	
 }

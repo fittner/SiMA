@@ -35,7 +35,7 @@ import pa._v38.modules.ePsychicInstances;
 import config.clsBWProperties;
 
 /**
- * DOCUMENT (GELBARD) - insert description 
+ * (GELBARD) - insert description 
  * 
  * @author deutsch
  * 11.08.2009, 14:03:35
@@ -55,7 +55,7 @@ public class _E07_InternalizedRulesHandler extends clsModuleBaseKB implements
 	private boolean mnMinimalModel;
 
 	/**
-	 * DOCUMENT (GELBARD) - insert description 
+	 * (GELBARD) - insert description 
 	 * 
 	 * @author deutsch
 	 * 03.03.2011, 16:34:55
@@ -228,7 +228,7 @@ public class _E07_InternalizedRulesHandler extends clsModuleBaseKB implements
 	 */
 	@Override
 	protected void process_draft() {
-		// TODO (GELBARD) - Auto-generated method stub
+		// 
 		throw new java.lang.NoSuchMethodError();
 	}
 
@@ -241,7 +241,7 @@ public class _E07_InternalizedRulesHandler extends clsModuleBaseKB implements
 	 */
 	@Override
 	protected void process_final() {
-		// TODO (GELBARD) - Auto-generated method stub
+		// 
 		throw new java.lang.NoSuchMethodError();
 	}
 
@@ -305,7 +305,7 @@ public class _E07_InternalizedRulesHandler extends clsModuleBaseKB implements
 	@Override
 	public void receive_I5_1(
 			ArrayList<clsPair<clsPhysicalRepresentation, clsDriveMesh>> poData) {
-		// TODO (zeilinger) - Auto-generated method stub
+		// 
 		
 	}
 
@@ -320,7 +320,7 @@ public class _E07_InternalizedRulesHandler extends clsModuleBaseKB implements
 			ArrayList<clsPair<String, String>> poForbiddenPerceptions,
 			clsPrimaryDataStructureContainer poEnvironmentalPerception,
 			ArrayList<clsPrimaryDataStructureContainer> poAssociatedMemories) {
-		// TODO (deutsch) - Auto-generated method stub
+		// 
 		
 	}
 
@@ -333,7 +333,7 @@ public class _E07_InternalizedRulesHandler extends clsModuleBaseKB implements
 	@Override
 	public void send_I5_13(ArrayList<String> poForbiddenDrive,
 			ArrayList<clsPair<clsPhysicalRepresentation, clsDriveMesh>> poData) {
-		// TODO (deutsch) - Auto-generated method stub
+		// 
 		
 	}	
 	
