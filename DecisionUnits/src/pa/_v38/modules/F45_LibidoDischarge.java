@@ -37,7 +37,10 @@ import pa._v38.memorymgmt.enums.eDataType;
 import config.clsBWProperties;
 
 /**
- * DOCUMENT (deutsch) - insert description 
+ * F45 communicates with F41 via the libido buffer. Incoming perceptions are compared with memory to determine 
+ * whether they qualify for libido discharge and thus for pleasure gain. If so, the value of the libido buffer 
+ * is reduced (tension reduction is pleasure gain). The pleasure gain is forwarded to F18 as an additional value 
+ * for the composition of the quota of affect. 
  * 
  * @author deutsch
  * 03.03.2011, 16:29:55
@@ -46,16 +49,22 @@ import config.clsBWProperties;
 public class F45_LibidoDischarge extends clsModuleBaseKB implements itfInspectorGenericTimeChart, I5_8_receive, I5_9_send {
 	public static final String P_MODULENUMBER = "45";
 	
+	/** Perceived Image in; @since 14.07.2011 14:02:10 */
 	private clsPrimaryDataStructureContainer moEnvironmentalPerception_IN;
+	/** Associated memories in; @since 14.07.2011 14:02:10 */
 	private ArrayList<clsPrimaryDataStructureContainer> moAssociatedMemories_IN;
 	
+	/** Perceived Image in, enriched with LIBIDO DMs; @since 14.07.2011 14:02:10 */
 	private clsPrimaryDataStructureContainer moEnvironmentalPerception_OUT;
+	/** Associated memories out, which are enriched with LIBIDO DM; @since 14.07.2011 14:02:10 */
 	private ArrayList<clsPrimaryDataStructureContainer> moAssociatedMemories_OUT;
 	
 	private ArrayList<clsPair<String, Double>> moLibidioDischargeCandidates; //pair of IDENTIFIER and qualification from 0 to 1
 	
 	/* Module parameters */
+	/** DOCUMENT (wendt) - insert description; @since 14.07.2011 14:22:14 */
 	private double mrMatchThreshold = 0.6;
+	/** DOCUMENT (wendt) - insert description; @since 14.07.2011 14:22:39 */
 	private double mrAvailablePsychicEnergy = 1.0;
 	
 	// Other variables
@@ -236,6 +245,22 @@ public class F45_LibidoDischarge extends clsModuleBaseKB implements itfInspector
 		
 		
 		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
 		//FIXME: Hack remove
 		double rChunk = mrAvailableLibido * mrDischargePiece; //each match can reduce the libido by a maximum of rChunk.
 		//FIXME: if more than ten piece fit 100% ... the last pieces will get nothing ...
@@ -303,9 +328,9 @@ public class F45_LibidoDischarge extends clsModuleBaseKB implements itfInspector
 		//Create seach pattern
 		clsDataStructureContainer oSearchPattern = oTestImage;
 		ArrayList<clsPair<Double,clsDataStructureContainer>> oSearchResultContainer = new ArrayList<clsPair<Double,clsDataStructureContainer>>();
-		//String oPattern = oSearchPattern.toString();
-		//search(new ArrayList<clsPrimaryDataStructureContainer>(Arrays.asList(oSearchPattern)), oSearchResultContainer);
-		search(oSearchPattern, oSearchResultContainer);
+		searchContainer(oSearchPattern, oSearchResultContainer);
+		
+		ArrayList<clsPair<Double,clsDataStructureContainer>> oSearchResultContainerx = oSearchResultContainer;
 		
 	}
 	

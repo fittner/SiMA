@@ -24,13 +24,11 @@ import pa._v38.interfaces.modules.I5_19_receive;
 import pa._v38.interfaces.modules.eInterfaces;
 import pa._v38.memorymgmt.clsKnowledgeBaseHandler;
 import pa._v38.memorymgmt.datahandler.clsDataStructureConverter;
-import pa._v38.memorymgmt.datahandler.clsDataStructureGenerator;
 import pa._v38.memorymgmt.datatypes.clsAssociation;
 import pa._v38.memorymgmt.datatypes.clsAssociationAttribute;
 import pa._v38.memorymgmt.datatypes.clsDataStructureContainer;
 import pa._v38.memorymgmt.datatypes.clsDataStructurePA;
 import pa._v38.memorymgmt.datatypes.clsDriveMesh;
-import pa._v38.memorymgmt.datatypes.clsPhysicalRepresentation;
 import pa._v38.memorymgmt.datatypes.clsPrimaryDataStructure;
 import pa._v38.memorymgmt.datatypes.clsPrimaryDataStructureContainer;
 import pa._v38.memorymgmt.datatypes.clsTemplateImage;
@@ -41,7 +39,9 @@ import config.clsBWProperties;
 import du.enums.pa.eContext;
 
 /**
- * DOCUMENT (HINTERLEITNER) - insert description 
+ * Association of TPMs (TP + Emotion, fantasies) with thing presentations raw data (from external perception). 
+ * In a first step these are attached with a value to get a meaning. Secondly the fantasies are added from 
+ * the TPMs to the thing presentations 
  * 
  * @author deutsch
  * 03.03.2011, 16:16:45
@@ -52,17 +52,23 @@ public class F46_FusionWithMemoryTraces extends clsModuleBaseKB implements
 	public static final String P_MODULENUMBER = "46";
 	
 	/* Inputs */
+	/** Here the associated memory from the planning is put on the input to this module */
 	private clsPrimaryDataStructureContainer moReturnedTPMemory_IN; 
+	/** Input from perception */
 	private ArrayList<clsPrimaryDataStructureContainer> moEnvironmentalPerception_IN;
 	
 	/* Output */
+	/** A Perceived image incl. DMs */
 	private clsPrimaryDataStructureContainer moEnvironmentalPerception_OUT;
+	/** Activated memories together with their DMs */
 	private ArrayList<clsPrimaryDataStructureContainer> moAssociatedMemories_OUT;
 
 	/* Module-Parameters */
 	
 	/**
-	 * DOCUMENT (HINTERLEITNER) - Association of TPMs (TP + Emotion, fantasies) with thing presentations raw data (from external perception). In a first step these are attached with a value to get a meaning. Secondly the fantasies are added from the TPMs to the thing presentations
+	 * DOCUMENT (HINTERLEITNER) - Association of TPMs (TP + Emotion, fantasies) with thing presentations 
+	 * raw data (from external perception). In a first step these are attached with a value to get a meaning. 
+	 * Secondly the fantasies are added from the TPMs to the thing presentations
 	 * 
 	 * @author deutsch
 	 * 03.03.2011, 16:16:50
@@ -120,15 +126,6 @@ public class F46_FusionWithMemoryTraces extends clsModuleBaseKB implements
 	 */
 	@Override
 	protected void process_basic() {
-		/**
-		 * DOCUMENT (WENDT) - insert description
-		 *
-		 * @since 20110625
-		 *
-		 * ${tags}
-		 * 
-		 * 
-		 */
 		
 		//Variables
 		clsPrimaryDataStructureContainer oEnvPerceptionNoDM;
@@ -138,7 +135,7 @@ public class F46_FusionWithMemoryTraces extends clsModuleBaseKB implements
 		/* Assign objects from storage to perception */
 		
 		oContainerWithTypes = retrieveImages(moEnvironmentalPerception_IN);
-		oEnvPerceptionNoDM = clsDataStructureConverter.convertTPMContToTICont(createInstanceFromType(oContainerWithTypes));
+		oEnvPerceptionNoDM = clsDataStructureConverter.convertTPMContToTICont(clsGlobalFunctions.createInstanceFromType(oContainerWithTypes));
 		/* Assign drive meshes and adapt categories */
 		//Assign drivemeshes to the loaded images
 		assignDriveMeshes(oEnvPerceptionNoDM);
@@ -154,20 +151,7 @@ public class F46_FusionWithMemoryTraces extends clsModuleBaseKB implements
 		ArrayList<clsPrimaryDataStructureContainer> oContainerList = new ArrayList<clsPrimaryDataStructureContainer>(); 
  		//oContainerList = clsDataStructureConverter.convertTIContToTPMCont(moEnvironmentalPerception_IN); 
 		
-		//assignDriveMeshes(oContainerList);
-		/* The context of a certain drive or object is loaded, in the case of CAKE, it is NOURISH. If the drive 
-		 * NOURISH is found in the objects the categories (anal, oral...) is multiplied with a category factor <= 1
-		 * In case of a 100% match, the factor is 1.0.
-		 */
-		
-	    addValues(oContainerList);	
-		//****** New Data structures Don't delete AW 20110424 *********
-		//UNIT-Tests for the converters
-		//clsPrimaryDataStructureContainer oTest = clsDataStructureConverter.convertTPMContToTICont(moEnvironmentalPerception_OUT);
-		//ArrayList<clsPrimaryDataStructureContainer> oTest2 = clsDataStructureConverter.convertTIContToTPMCont(oTest);
-		/* Post-Processing */
-		//Function: Update association weights after activation (first step to individual mind) 
-		
+	    addValues(oContainerList);			
 		attachFantasies(oContainerList);	//Siehe retrieveActivatedMemories
 		//Fantasiertes wird an die TP (Sachvorstellungen) angehängt
 		
@@ -184,7 +168,7 @@ public class F46_FusionWithMemoryTraces extends clsModuleBaseKB implements
 	 */
 	private void attachFantasies(
 			ArrayList<clsPrimaryDataStructureContainer> oContainerList) {
-		//Diese Funktion könnte in retrieveActivatedMemories umgesetzt werden
+		//This function is alread done in retrieveActivatedMemories
 		// TODO (hinterleitner) - Auto-generated method stub
 		
 	}
@@ -461,6 +445,15 @@ public class F46_FusionWithMemoryTraces extends clsModuleBaseKB implements
 	
 	
 	
+	/**
+	 * DOCUMENT (wendt) - insert description
+	 *
+	 * @since 14.07.2011 15:15:31
+	 *
+	 * @param oPerceptionInput
+	 * @param oReturnedMemory
+	 * @return
+	 */
 	private ArrayList<clsPrimaryDataStructureContainer> retrieveActivatedMemories(clsPrimaryDataStructureContainer oPerceptionInput, 
 			clsPrimaryDataStructureContainer oReturnedMemory) {
 		
@@ -474,17 +467,27 @@ public class F46_FusionWithMemoryTraces extends clsModuleBaseKB implements
 				blUsePerception = false;
 			}
 		}
-			
+		
+		ArrayList<clsPair<Double,clsDataStructureContainer>> oSearchResultContainer = new ArrayList<clsPair<Double,clsDataStructureContainer>>();
 		if (blUsePerception==true) {
 			//Use perceived image as input of spread activation
-			//TODO: Dummy for spread activation
-			clsTripple<String, ArrayList<clsPhysicalRepresentation>, Object> oContent = new clsTripple<String, ArrayList<clsPhysicalRepresentation>, Object>("DummyPerceived", new ArrayList<clsPhysicalRepresentation>(), "DummyPerceived");
-			oRetVal.add(new clsPrimaryDataStructureContainer(clsDataStructureGenerator.generateTI(oContent), new ArrayList<clsAssociation>()));
+			//TODO AW: Only the first
+			searchContainer(oPerceptionInput, oSearchResultContainer);
+			//
+			//oRetVal.add(new clsPrimaryDataStructureContainer(clsDataStructureGenerator.generateTI(oContent), new ArrayList<clsAssociation>()));
+			//TODO AW: All activated matches are added to the list. Here, spread activation shall be used
 		} else {
 			//Use action-plan image as input of spread activation
-			//TODO: Dummy for spread activation
-			clsTripple<String, ArrayList<clsPhysicalRepresentation>, Object> oContent = new clsTripple<String, ArrayList<clsPhysicalRepresentation>, Object>("DummyMemory", new ArrayList<clsPhysicalRepresentation>(), "DummyMemory");
-			oRetVal.add(new clsPrimaryDataStructureContainer(clsDataStructureGenerator.generateTI(oContent), new ArrayList<clsAssociation>()));
+			//TODO: This is only the first basic implementation of activation of phantsies
+			
+			searchContainer(oReturnedMemory, oSearchResultContainer);
+			
+			//clsTripple<String, ArrayList<clsPhysicalRepresentation>, Object> oContent = new clsTripple<String, ArrayList<clsPhysicalRepresentation>, Object>("DummyMemory", new ArrayList<clsPhysicalRepresentation>(), "DummyMemory");
+			//oRetVal.add(new clsPrimaryDataStructureContainer(clsDataStructureGenerator.generateTI(oContent), new ArrayList<clsAssociation>()));
+		}
+		
+		for (clsPair<Double,clsDataStructureContainer> oAss : oSearchResultContainer) {
+			oRetVal.add((clsPrimaryDataStructureContainer)oAss.b);
 		}
 		
 		return oRetVal;
@@ -712,6 +715,6 @@ public class F46_FusionWithMemoryTraces extends clsModuleBaseKB implements
 	 */
 	@Override
 	public void setDescription() {
-		moDescription = " Association of TPMs (TP + Emotion, fantasies) with thing presentations raw data (from external perception). In a first step these are attached with a value to get a meaning. Secondly the fantasies are added from the TPMs to the thing presentations";
+		moDescription = "Association of TPMs (TP + Emotion, fantasies) with thing presentations raw data (from external perception). In a first step these are attached with a value to get a meaning. Secondly the fantasies are added from the TPMs to the thing presentations";
 	}		
 }

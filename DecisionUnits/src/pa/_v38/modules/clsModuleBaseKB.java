@@ -111,7 +111,7 @@ public abstract class clsModuleBaseKB extends clsModuleBase {
 	}
 	
 	/**
-	 * Search function for whole containers. It will always return a containerlist. The specialized use is if
+	 * Search function for whole containers. It will always return a container list and a match factor. The specialized use is if
 	 * the data structure is a template image.
 	 *
 	 * @since 29.06.2011 13:54:58
@@ -122,14 +122,14 @@ public abstract class clsModuleBaseKB extends clsModuleBase {
 	 * @param poSearchResult
 	 * 
 	 */
-	public void search(
+	public void searchContainer(
 			clsDataStructureContainer poPattern,
 			ArrayList<clsPair<Double, clsDataStructureContainer>> poSearchResult) {
 
 		//createSearchPattern(poPattern, oSearchPattern);	//Create a pattern, search for type, poDataType 4096=TP, Input-Container
 		if (poPattern!=null)  {
 			clsPair<Integer, clsDataStructureContainer> oSearchPattern = new clsPair<Integer, clsDataStructureContainer>(eDataType.UNDEFINED.nBinaryValue, poPattern); 
-			accessKnowledgeBase(poSearchResult, oSearchPattern); 
+			accessKnowledgeBaseContainer(poSearchResult, oSearchPattern); 
 		} else {
 			poSearchResult = new ArrayList<clsPair<Double, clsDataStructureContainer>>();
 		}
@@ -151,19 +151,17 @@ public abstract class clsModuleBaseKB extends clsModuleBase {
 	}
 	
 	/**
-	 * DOCUMENT (zeilinger) - insert description
-	 * FIXME - remove the overloaded function from itfKnowledgeBaseHandler and add a (new ArraList(poSearchPattern)) instead ...
+	 * Access knowledgebase with a container and not a clsDataStructurePA
 	 * 
 	 * @since 13.07.2011 13:47:08
 	 *
 	 * @param poSearchResult
 	 * @param poSearchPattern
 	 */
-	public void accessKnowledgeBase(ArrayList<clsPair<Double,clsDataStructureContainer>> poSearchResult,
+	public void accessKnowledgeBaseContainer(ArrayList<clsPair<Double,clsDataStructureContainer>> poSearchResult,
 			clsPair<Integer, clsDataStructureContainer> poSearchPattern) {
 		//AW 20110629: New function for searching one total container
-		
-		poSearchResult.addAll(moKnowledgeBaseHandler.initMemorySearch(poSearchPattern));
+		poSearchResult.addAll(moKnowledgeBaseHandler.initMemorySearchContainer(poSearchPattern));
 	}
 
 	/**
