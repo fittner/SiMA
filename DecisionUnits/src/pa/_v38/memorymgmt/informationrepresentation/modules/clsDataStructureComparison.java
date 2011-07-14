@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
+import pa._v38.storage.clsBlockedContentStorage;
 import pa._v38.tools.clsPair;
 import pa._v38.tools.clsTripple;
 import pa._v38.memorymgmt.datatypes.clsAssociation;
@@ -70,7 +71,17 @@ public abstract class clsDataStructureComparison {
 		return oRetVal; 
 	}
 	
-	public static ArrayList<clsPair<Double, clsDataStructureContainer>> compareDataStructures(
+	/**
+	 * Get matches for one input datastructure container. A list with the activated containers and their match 
+	 * factors are returned
+	 *
+	 * @since 14.07.2011 16:06:16
+	 *
+	 * @param poSearchSpaceHandler
+	 * @param poContainerUnknown
+	 * @return
+	 */
+	public static ArrayList<clsPair<Double, clsDataStructureContainer>> compareDataStructuresContainer(
 			clsSearchSpaceHandler poSearchSpaceHandler,
 			clsDataStructureContainer poContainerUnknown) {
 		ArrayList<clsPair<Double, clsDataStructureContainer>> oRetVal = new ArrayList<clsPair<Double, clsDataStructureContainer>>();
@@ -108,6 +119,16 @@ public abstract class clsDataStructureComparison {
 		return oRetVal;
 	}
 	
+	/**
+	 * Get a whole container including all associated structures of its sub elements
+	 *
+	 * @since 14.07.2011 16:14:38
+	 *
+	 * @param poInput
+	 * @param poSearchSpaceHandler
+	 * @param iReturnTypes
+	 * @return
+	 */
 	private static clsDataStructureContainer getCompleteContainer(clsTemplateImage poInput, clsSearchSpaceHandler poSearchSpaceHandler, ArrayList<Integer> iReturnTypes) {
 		//Readoutsearchspace searches everything with a certain moDSID
 		
@@ -126,6 +147,15 @@ public abstract class clsDataStructureComparison {
 		return oCompareContainer;
 	}
 	
+	/**
+	 * Start the compareTIContainerInclDM and return only the data structures and not the matched DM associations
+	 *
+	 * @since 14.07.2011 16:16:47
+	 *
+	 * @param poBlockedContent
+	 * @param poPerceivedContent
+	 * @return
+	 */
 	private static double compareTIContainer(clsPrimaryDataStructureContainer poBlockedContent,
 			clsPrimaryDataStructureContainer poPerceivedContent) {
 		double rRetVal = 0;
@@ -135,6 +165,41 @@ public abstract class clsDataStructureComparison {
 		return rRetVal;
 		
 	}
+	
+	/**
+	 * Calculates the match between two containers containing TemplateImages.<br>
+	 * <br>
+	 * Returns the quality of the match and a list that contains associations
+	 * between any DMs in the blockedContent and the matching items in the
+	 * perceivedContent. The second part of the result is done here because it is
+	 * way more efficient to create those associations "on the fly" while
+	 * comparing the items than to later extract the DMs from a matching content
+	 * and find their correct "targets" in the perception - which would
+	 * essentially require a second match algorithm.<br>
+	 * <br>
+	 * - Quality of the match is the sum of the quality of the matches of the items
+	 * in the (blocked) TI divided by the total number of items.<br>
+	 * - Quality of the match of ThingPresentationMeshes is determined by comparing
+	 * the moContent (20%), intrinsic properties (moAssociatedData of the items)
+	 * (40%) and extrinsic properties (moAssociatedDataStructures in the
+	 * container) (40%).<br>
+	 * - Quality of the match of ThingPresentations is either 1 or 0.
+	 *
+	 * @author Zottl Marcus (e0226304),
+	 * 22.06.2011, 20:08:11
+	 *
+	 * @param poBlockedContent		- the item from the blockedContentStorage for
+	 * which the match quality should be calculated.
+	 * @param poPerceivedContent	- the perception to compare the
+	 * <i>blockedContent</i> to
+	 * @return									- a clsPair with A the quality of the match 
+	 * (double) and B = a list of Associations between DMs in <i>blockedContent</i>
+	 * and their matching "partners" in the perception 
+	 * (ArrayList&lt;clsAssociationDriveMesh&gt;)
+	 * 
+	 * @see clsBlockedContentStorage#getAssocAttributeMatch(ArrayList, ArrayList, double)
+	 * @see clsBlockedContentStorage#createNewDMAssociations(clsPrimaryDataStructure, ArrayList)
+	 */
 	
 	private static clsPair<Double, ArrayList<clsAssociationDriveMesh>> compareTIContainerInclDM(
 			clsPrimaryDataStructureContainer poBlockedContent,
@@ -175,7 +240,7 @@ public abstract class clsDataStructureComparison {
 										poPerceivedContent.getMoAssociatedDataStructures(perceivedTPM), matchValContent);	
 						}
 						// combine values to calculate overall match of a TPM. Weights are arbitrary!
-						double matchValCombined = ((0.2 * matchValContent) + (0.4 * matchValIntrinsic) + (0.4 * matchValExtrinsic));
+						double matchValCombined = ((0.2 * matchValContent) + (0.2 * matchValIntrinsic) + (0.6 * matchValExtrinsic));
 						// store best element match so far, because we need to find the highest matching element
 						if (matchValCombined > bestMatchValue) {
 							bestMatchValue = matchValCombined;
@@ -225,6 +290,20 @@ public abstract class clsDataStructureComparison {
 		return new clsPair<Double, ArrayList<clsAssociationDriveMesh>>(oMatchValueTI, oNewDriveMeshAssociations);
 	}
 	
+	/**
+	 * Creates new AssociationDriveMeshes from the inputs.<br>
+	 * <br>
+	 * A list of new AssociationDriveMeshes with the argument newRoot as
+	 * rootElement and the DMs found in oldAssociations as leafElements. 
+	 *
+	 * @author Zottl Marcus (e0226304),
+	 * 28.06.2011, 20:08:58
+	 *
+	 * @param poNewRoot					- the root element for the new associations
+	 * @param poOldAssociations -	the old associations from which the DMs are taken
+	 * @return								- a list of new associations between newRoot and the
+	 * DMs found in oldAssociations
+	 */
 	private static ArrayList<clsAssociationDriveMesh> createNewDMAssociations(
 			clsPrimaryDataStructure poNewRoot,
 			ArrayList<clsAssociation> poOldAssociations) {
@@ -244,7 +323,29 @@ public abstract class clsDataStructureComparison {
 		return oReturnlist;
 	}
 	
-	
+	/**
+	 * Calculates the match between two lists of properties (of two items).<br>
+	 * <br>
+	 * The quality of the match is the number of matching properties divided by
+	 * the total number of properties.<br>
+	 * If there are no blocked associations, then the result depends on whether
+	 * the roots of the associations match.<br> 
+	 * Example: a cake with no specified attributes matches any other cake,
+	 * therefore the result is a full match, but a stone without properties does
+	 * NOT match any cake, therefore the match is zero.
+	 *
+	 * @author Zottl Marcus (e0226304),
+	 * 22.06.2011, 23:41:36
+	 *
+	 * @param poBlockedAssocs		- list of associated properties of the blocked
+	 * content item.
+	 * @param poPerceivedAssocs	- list of associated properties of the perceived
+	 * content item.
+	 * @param poRootMatch				- a number indicating whether the root elements of
+	 * the associations are considered a match (1.0) or not (0.0).
+	 * @return									- the quality of the match between the to lists of
+	 * properties.
+	 */
 	private static double getAssocAttributeMatch(
 			ArrayList<clsAssociation> poBlockedAssocs,
 			ArrayList<clsAssociation> poPerceivedAssocs,

@@ -11,7 +11,6 @@ import java.util.ArrayList;
 import pa._v38.interfaces.itfInspectorInternalState;
 import pa._v38.memorymgmt.datatypes.clsAssociation;
 import pa._v38.memorymgmt.datatypes.clsDataStructurePA;
-import pa._v38.memorymgmt.enums.eDataType;
 import pa._v38.memorymgmt.informationrepresentation.enums.eDataSources;
 import pa._v38.memorymgmt.informationrepresentation.searchspace.clsSearchSpaceBase;
 import pa._v38.memorymgmt.informationrepresentation.searchspace.clsSearchSpaceCreator;
@@ -92,9 +91,9 @@ public class clsSearchSpaceHandler implements itfInspectorInternalState {
 					elementB = oAssociationElement.getLeafElement(); 
 				} else if (oAssociationElement.getLeafElement().getMoDSInstance_ID() == poDataStructure.getMoDSInstance_ID()) {
 					elementB = oAssociationElement.getRootElement();
-				} else if ((oAssociationElement.getLeafElement().getMoDataStructureType() == eDataType.DM) && (oAssociationElement.getRootElement().getMoDSInstance_ID() == 0)) {
-					elementB = oAssociationElement.getLeafElement();
-				}
+				} //else if ((oAssociationElement.getLeafElement().getMoDataStructureType() == eDataType.DM) && (oAssociationElement.getRootElement().getMoDSInstance_ID() == 0)) {
+				//	elementB = oAssociationElement.getLeafElement();
+				//}
 			}
 			
 			if (elementB != null) {
