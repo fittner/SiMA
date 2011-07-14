@@ -29,9 +29,9 @@ import pa._v38.tools.toText;
 import config.clsBWProperties;
 
 /**
- * DOCUMENT (deutsch) - insert description 
+ * DOCUMENT (muchitsch) - insert description 
  * 
- * @author deutsch
+ * @author muchitsch
  * 03.03.2011, 15:18:57
  * 
  */
@@ -45,9 +45,9 @@ public class F41_Libidostasis extends clsModuleBase implements I2_1_receive, I3_
 	private ArrayList< clsPair<clsDriveMesh, clsDriveDemand> > moDrives;
 	
 	/**
-	 * DOCUMENT (deutsch) - insert description 
+	 * DOCUMENT (muchitsch) - insert description 
 	 * 
-	 * @author deutsch
+	 * @author muchitsch
 	 * 03.03.2011, 15:47:47
 	 *
 	 * @param poPrefix

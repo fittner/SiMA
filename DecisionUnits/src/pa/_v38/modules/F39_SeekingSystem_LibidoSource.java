@@ -21,7 +21,7 @@ import pa._v38.tools.toText;
 import config.clsBWProperties;
 
 /**
- * DOCUMENT (wendt) - insert description 
+ * DOCUMENT (muchitsch) - insert description 
  * 
  * @author deutsch
  * 03.03.2011, 15:16:06
@@ -38,7 +38,7 @@ public class F39_SeekingSystem_LibidoSource extends clsModuleBase
 	private double mrOutgoingLibido;
 	
 	/**
-	 * DOCUMENT (wendt) - insert description 
+	 * DOCUMENT (muchitsch) - insert description 
 	 * 
 	 * @author deutsch
 	 * 03.03.2011, 15:42:22

@@ -29,9 +29,9 @@ import pa._v38.memorymgmt.enums.eDataType;
 import config.clsBWProperties;
 
 /**
- * DOCUMENT (deutsch) - insert description 
+ * DOCUMENT (muchitsch) - insert description 
  * 
- * @author deutsch
+ * @author muchitsch
  * 11.08.2009, 12:19:04
  * 
  */
@@ -51,9 +51,9 @@ public class F03_GenerationOfSelfPreservationDrives extends clsModuleBaseKB impl
 	private HashMap<String, Double> moHomeostaisImpactFactors;
 	
 	/**
-	 * DOCUMENT (deutsch) - insert description 
+	 * DOCUMENT (muchitsch) - insert description 
 	 * 
-	 * @author deutsch
+	 * @author muchitsch
 	 * 03.03.2011, 15:56:22
 	 *
 	 * @param poPrefix

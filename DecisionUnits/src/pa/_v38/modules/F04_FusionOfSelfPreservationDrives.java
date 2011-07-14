@@ -22,9 +22,9 @@ import pa._v38.memorymgmt.datatypes.clsDriveMesh;
 import config.clsBWProperties;
 
 /**
- * DOCUMENT (deutsch) - insert description 
+ * DOCUMENT (muchitsch) - insert description 
  * 
- * @author deutsch
+ * @author muchitsch
  * 11.08.2009, 13:40:06
  * 
  */
@@ -35,9 +35,9 @@ public class F04_FusionOfSelfPreservationDrives extends clsModuleBase implements
 	private ArrayList< clsPair< clsDriveMesh, clsDriveDemand> > moHomeostaticDriveDemands;
 	private ArrayList< clsPair< clsPair<String, String>, clsPair<String, String> > > moDriveOfOppositePairs;
 	/**
-	 * DOCUMENT (deutsch) - insert description 
+	 * DOCUMENT (muchitsch) - insert description 
 	 * 
-	 * @author deutsch
+	 * @author muchitsch
 	 * 03.03.2011, 15:57:33
 	 *
 	 * @param poPrefix

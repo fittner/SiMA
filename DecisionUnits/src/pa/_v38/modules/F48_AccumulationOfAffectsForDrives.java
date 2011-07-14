@@ -210,6 +210,14 @@ public class F48_AccumulationOfAffectsForDrives extends clsModuleBase
 		}
 	}
 	
+	/**
+	 * Guarantees that the provided scalar value r is within the range -1<r<1.
+	 *
+	 * @since 14.07.2011 11:53:36
+	 *
+	 * @param r
+	 * @return r
+	 */
 	private double normalize(double r) {
 		if (r>1) {return 1;}
 		else if (r<-1) {return -1;}

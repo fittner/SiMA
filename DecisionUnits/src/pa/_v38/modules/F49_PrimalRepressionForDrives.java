@@ -22,9 +22,9 @@ import pa._v38.tools.toText;
 import config.clsBWProperties;
 
 /**
- * DOCUMENT (zeilinger) - insert description 
+ * DOCUMENT (muchitsch) - insert description 
  * 
- * @author zeilinger
+ * @author muchitsch
  * 02.05.2011, 15:47:30
  * 
  */
@@ -37,9 +37,9 @@ public class F49_PrimalRepressionForDrives extends clsModuleBase
 	
 	private ArrayList<clsPair<clsPhysicalRepresentation, clsDriveMesh>> moOutput;
 	/**
-	 * DOCUMENT (zeilinger) - insert description 
+	 * DOCUMENT (muchitsch) - insert description 
 	 * 
-	 * @author zeilinger
+	 * @author muchitsch
 	 * 02.05.2011, 15:51:29
 	 *
 	 * @param poPrefix
