@@ -124,12 +124,22 @@ public abstract class clsModuleBaseKB extends clsModuleBase {
 	 */
 	public void searchContainer(
 			clsDataStructureContainer poPattern,
-			ArrayList<clsPair<Double, clsDataStructureContainer>> poSearchResult) {
+			ArrayList<clsPair<Double, clsDataStructureContainer>> poSearchResult, String poSearchContentType) {
 
 		//createSearchPattern(poPattern, oSearchPattern);	//Create a pattern, search for type, poDataType 4096=TP, Input-Container
 		if (poPattern!=null)  {
+			
+			//FIXME AW: Make a better solution than renaming the content types at the search
+			String oInputContentType = poPattern.getMoDataStructure().getMoContentType();
+			//Set the new content type, in order to get matches from it, e. g. IMAGE or LIBIDOIMAGE. This content type is the first filter
+			//in the search
+			poPattern.getMoDataStructure().setMoContentType(poSearchContentType);
+			
 			clsPair<Integer, clsDataStructureContainer> oSearchPattern = new clsPair<Integer, clsDataStructureContainer>(eDataType.UNDEFINED.nBinaryValue, poPattern); 
 			accessKnowledgeBaseContainer(poSearchResult, oSearchPattern); 
+			
+			//Set the old content type again...this is hack dirty bastard shit
+			poPattern.getMoDataStructure().setMoContentType(oInputContentType);
 		} else {
 			poSearchResult = new ArrayList<clsPair<Double, clsDataStructureContainer>>();
 		}

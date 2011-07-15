@@ -472,18 +472,13 @@ public class F46_FusionWithMemoryTraces extends clsModuleBaseKB implements
 		if (blUsePerception==true) {
 			//Use perceived image as input of spread activation
 			//TODO AW: Only the first
-			searchContainer(oPerceptionInput, oSearchResultContainer);
-			//
-			//oRetVal.add(new clsPrimaryDataStructureContainer(clsDataStructureGenerator.generateTI(oContent), new ArrayList<clsAssociation>()));
+			searchContainer(oPerceptionInput, oSearchResultContainer, "IMAGE");
 			//TODO AW: All activated matches are added to the list. Here, spread activation shall be used
 		} else {
 			//Use action-plan image as input of spread activation
 			//TODO: This is only the first basic implementation of activation of phantsies
 			
-			searchContainer(oReturnedMemory, oSearchResultContainer);
-			
-			//clsTripple<String, ArrayList<clsPhysicalRepresentation>, Object> oContent = new clsTripple<String, ArrayList<clsPhysicalRepresentation>, Object>("DummyMemory", new ArrayList<clsPhysicalRepresentation>(), "DummyMemory");
-			//oRetVal.add(new clsPrimaryDataStructureContainer(clsDataStructureGenerator.generateTI(oContent), new ArrayList<clsAssociation>()));
+			searchContainer(oReturnedMemory, oSearchResultContainer, "IMAGE");
 		}
 		
 		for (clsPair<Double,clsDataStructureContainer> oAss : oSearchResultContainer) {

@@ -97,7 +97,7 @@ public class KB02_InternalPerceptionMgmt extends clsInformationRepresentationMod
 		//Steps
 		ArrayList<clsPair<Double, clsDataStructureContainer>> oMatchedDataStructures = new ArrayList<clsPair<Double, clsDataStructureContainer>>();
 		//2b. Set the Content type of oDS
-		poDataContainerInput.getMoDataStructure().setMoContentType("IMAGE");	
+		//poDataContainerInput.getMoDataStructure().setMoContentType("IMAGE");	
 		oMatchedDataStructures = compareElementsContainer(poDataContainerInput);	//Get a List of all matching structures in the memory
 	
 		return oMatchedDataStructures;

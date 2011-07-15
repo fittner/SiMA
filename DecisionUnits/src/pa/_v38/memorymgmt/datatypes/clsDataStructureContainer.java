@@ -74,6 +74,10 @@ public abstract class clsDataStructureContainer implements Cloneable{
 			ArrayList<clsAssociation> poAssociatedDataStructures) {
 		this.moAssociatedDataStructures = poAssociatedDataStructures;
 	}
+	
+	public void addMoAssociatedDataStructure (clsAssociation poAssociatedDataStructure) {
+		this.moAssociatedDataStructures.add(poAssociatedDataStructure);
+	}
 
 
 
