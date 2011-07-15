@@ -23,6 +23,8 @@ import pa._v38.tools.toText;
 /**
  * DOCUMENT (KOHLHAUSER) - insert description 
  * 
+ * TODO (deutsch) - freie energie irgendwie einarbeiten
+ * 
  * @author deutsch
  * 11.08.2009, 14:46:53
  * 
