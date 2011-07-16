@@ -22,15 +22,14 @@ import pa._v38.interfaces.modules.I5_8_receive;
 import pa._v38.interfaces.modules.eInterfaces;
 import pa._v38.memorymgmt.clsKnowledgeBaseHandler;
 import pa._v38.memorymgmt.datatypes.clsAssociation;
-import pa._v38.memorymgmt.datatypes.clsAssociationAttribute;
 import pa._v38.memorymgmt.datatypes.clsAssociationDriveMesh;
 import pa._v38.memorymgmt.datatypes.clsDataStructureContainer;
 import pa._v38.memorymgmt.datatypes.clsDataStructurePA;
 import pa._v38.memorymgmt.datatypes.clsDriveMesh;
 import pa._v38.memorymgmt.datatypes.clsPrimaryDataStructure;
 import pa._v38.memorymgmt.datatypes.clsPrimaryDataStructureContainer;
-import pa._v38.memorymgmt.datatypes.clsTemplateImage;
 import pa._v38.memorymgmt.enums.eDataType;
+import pa._v38.memorymgmt.informationrepresentation.modules.clsDataStructureComparison;
 
 import config.clsBWProperties;
 
@@ -57,21 +56,23 @@ public class F45_LibidoDischarge extends clsModuleBaseKB implements itfInspector
 	/** Associated memories out, which are enriched with LIBIDO DM; @since 14.07.2011 14:02:10 */
 	private ArrayList<clsPrimaryDataStructureContainer> moAssociatedMemories_OUT;
 	
-	private ArrayList<clsPair<String, Double>> moLibidioDischargeCandidates; //pair of IDENTIFIER and qualification from 0 to 1
+	//private ArrayList<clsPair<String, Double>> moLibidioDischargeCandidates; //pair of IDENTIFIER and qualification from 0 to 1
 	
 	/* Module parameters */
-	/** DOCUMENT (wendt) - insert description; @since 14.07.2011 14:22:14 */
+	/** Threshold for the matching process of images */
+	// TODO AW: This function is not in use yet, but will be very soon
 	private double mrMatchThreshold = 0.6;
-	/** DOCUMENT (wendt) - insert description; @since 14.07.2011 14:22:39 */
-	private double mrAvailablePsychicEnergy = 1.0;
 	
 	// Other variables
-	private double mrDischargePiece = 0.2; //amount of the sotred libido which is going to be withtracted max. (see formula below)
+	//private double mrDischargePiece = 0.2; //amount of the sotred libido which is going to be withtracted max. (see formula below)
+	/** Available Libido, double */
 	private double mrAvailableLibido;
+	/** The amount of libido, of which the libido buffer is reduced by */
 	private double mrLibidoReducedBy;
+	/** instance of libidobuffer */
 	private clsLibidoBuffer moLibidoBuffer;	
 	/**
-	 * DOCUMENT (deutsch) - insert description 
+	 * Constructor of the libido buffer. Here the libido buffer is assigned 
 	 * 
 	 * @author deutsch
 	 * 03.03.2011, 16:30:00
@@ -92,7 +93,7 @@ public class F45_LibidoDischarge extends clsModuleBaseKB implements itfInspector
 		
 		applyProperties(poPrefix, poProp);	
 		
-		//fillLibidioDischargeCandidates();	//FIXME AW: REPLACE
+		//fillLibidioDischargeCandidates();
 	}
 	
 
@@ -112,8 +113,8 @@ public class F45_LibidoDischarge extends clsModuleBaseKB implements itfInspector
 		text += toText.valueToTEXT("moEnvironmentalPerception_OUT", moEnvironmentalPerception_OUT);
 		text += toText.valueToTEXT("moAssociatedMemories_OUT", moAssociatedMemories_OUT);
 		
-		text += toText.listToTEXT("moLibidioDischargeCandidates", moLibidioDischargeCandidates);
-		text += toText.valueToTEXT("mrDischargePiece", mrDischargePiece);		
+		text += toText.valueToTEXT("mrMatchThreshold", mrMatchThreshold);
+		
 		text += toText.valueToTEXT("mrAvailableLibido", mrAvailableLibido);
 		text += toText.valueToTEXT("mrReducedLibido", mrLibidoReducedBy);
 		text += toText.valueToTEXT("moLibidoBuffer", moLibidoBuffer);
@@ -121,7 +122,7 @@ public class F45_LibidoDischarge extends clsModuleBaseKB implements itfInspector
 		return text;
 	}	
 	
-	//FIXME: REPLACE
+	//TODO AW: Remove outcommented code as soon as the functionality is confirmed
 	/*private void fillLibidioDischargeCandidates() {
 		ArrayList<ArrayList<clsPair<Double,clsDataStructureContainer>>> oSearchResultDM = new ArrayList<ArrayList<clsPair<Double,clsDataStructureContainer>>>();
 		ArrayList<ArrayList<clsPair<Double,clsDataStructureContainer>>> oSearchResultObjects = new ArrayList<ArrayList<clsPair<Double,clsDataStructureContainer>>>();
@@ -149,22 +150,9 @@ public class F45_LibidoDischarge extends clsModuleBaseKB implements itfInspector
 												((clsDriveMesh)oDriveMeshList.get(oCandidateList.indexOf(oCandidate))).getMrPleasure()));
 		}
 		
-		//FIXME (Zeilinger): bitte irgendwie aus dem protege auslesen
-//		moLibidioDischargeCandidates = new ArrayList<clsPair<String,Double>>();
-//		moLibidioDischargeCandidates.add( new clsPair<String, Double>("CAKE", 1.0) );
-//		moLibidioDischargeCandidates.add( new clsPair<String, Double>("CARROT", 0.5) );
-//		moLibidioDischargeCandidates.add( new clsPair<String, Double>("BUBBLE", 0.1) );
 	}*/
 	
-	/**
-	 * DOCUMENT (zeilinger) - insert description
-	 *
-	 * @author zeilinger
-	 * 22.04.2011, 10:41:34
-	 *
-	 * @param oSearchResultDM
-	 * @param oDriveMeshList 
-	 */
+	//TODO AW: Remove outcommented code as soon as the functionality is confirmed
 	/*private void extractDriveMatches(ArrayList<ArrayList<clsPair<Double, clsDataStructureContainer>>> poSearchResult, 
 									ArrayList<clsDataStructurePA> poDriveMatchList) {
 				
@@ -175,15 +163,7 @@ public class F45_LibidoDischarge extends clsModuleBaseKB implements itfInspector
 		}
 	}*/
 	
-	/**
-	 * DOCUMENT (zeilinger) - insert description
-	 *
-	 * @author zeilinger
-	 * 22.04.2011, 11:29:37
-	 *
-	 * @param oSearchResultObjects
-	 * @param oCandidateList
-	 */
+	//TODO AW: Remove outcommented code as soon as the functionality is confirmed
 	/*private void extractCandidateMatches(
 			ArrayList<ArrayList<clsPair<Double, clsDataStructureContainer>>> poSearchResultObjects,
 			ArrayList<clsDataStructurePA> poCandidateList) {
@@ -235,15 +215,10 @@ public class F45_LibidoDischarge extends clsModuleBaseKB implements itfInspector
 		moLibidoBuffer.receive_D1_3(mrLibidoReducedBy);
 
 		
-		//FIXME: Hack remove
-		//double rChunk = mrAvailableLibido * mrDischargePiece; //each match can reduce the libido by a maximum of rChunk.
-		//FIXME: if more than ten piece fit 100% ... the last pieces will get nothing ...
-		
-		/*mrLibidoReducedBy = 0;
-				
+		//TODO AW: Remove outcommented code as soon as the functionality is confirmed	
 		//moMergedPrimaryInformation_Snd = new ArrayList<clsPair<clsPrimaryDataStructureContainer,clsDriveMesh>>();
-		//FIXME (ZEILINGER): das ganze zeug geht noch nicht so ganz .. irgendwie ... plz - wobei. das kann ich morgen auch noch debuggen.
-		for (clsPair<String,Double> oCandidate:moLibidioDischargeCandidates) {
+		//ZEILINGER): das ganze zeug geht noch nicht so ganz .. irgendwie ... plz - wobei. das kann ich morgen auch noch debuggen.
+		/*for (clsPair<String,Double> oCandidate:moLibidioDischargeCandidates) {
 			String oSearchPattern = oCandidate.a;
 			Double rFactor = oCandidate.b;
 			double rReduction = rChunk * rFactor;
@@ -289,6 +264,7 @@ public class F45_LibidoDischarge extends clsModuleBaseKB implements itfInspector
 	
 	}
 	
+	//TODO AW: Remove outcommented code as soon as the functionality is confirmed
 	/*private clsDriveMesh createDriveMesh(String poContentType, String poContext) {
 		clsThingPresentation oDataStructure = (clsThingPresentation)clsDataStructureGenerator.generateDataStructure( eDataType.TP, new clsPair<String, Object>(poContentType, poContext) );
 		ArrayList<Object> oContent = new ArrayList<Object>( Arrays.asList(oDataStructure) );
@@ -300,6 +276,17 @@ public class F45_LibidoDischarge extends clsModuleBaseKB implements itfInspector
 		return oRetVal;
 	}*/
 	
+	
+	/**
+	 * Search matches for the input image. Assign the libido drive meshes from the best match with the objects (TPM) 
+	 * in the input image. Return the reduced amount of libido
+	 *
+	 * @since 16.07.2011 10:19:10
+	 *
+	 * @param poInput
+	 * @param prLibidoReduceRate
+	 * @return
+	 */
 	private double setImageLibido(clsPrimaryDataStructureContainer poInput, double prLibidoReduceRate) {
 		//Search for matches for the input image
 		double rReducedValue = 0.0;
@@ -319,13 +306,25 @@ public class F45_LibidoDischarge extends clsModuleBaseKB implements itfInspector
 		//FIXME AW: Check if the result is correctly sorted
 		clsPrimaryDataStructureContainer oBestCompareContainer = getBestMatch(oSearchResultContainer);
 		//Get a list of corresponding objects for the libido DMs in the input image
-		ArrayList<clsPair<clsDataStructurePA, clsAssociation>> oLibidoDM = getSpecificAssociatedContent(oBestCompareContainer, poInput, eDataType.DM, "LIBIDO");
+		ArrayList<clsPair<clsDataStructurePA, clsAssociation>> oLibidoDM = clsDataStructureComparison.getSpecificAssociatedContent(oBestCompareContainer, poInput, eDataType.DM, "LIBIDO");
 		
 		rReducedValue = addDriveMeshes(new clsPair<clsPrimaryDataStructureContainer, ArrayList<clsPair<clsDataStructurePA, clsAssociation>>>(poInput, oLibidoDM), prLibidoReduceRate);
 		
 		return rReducedValue;
 	}
 	
+	/**
+	 * With a match pair, which consist of the target container as element a and a list of the objects within that container and the fitting
+	 * drivemesh association as element b. This function copies the drive assignments to the objects in the target container. The 
+	 * libido reduce rate sets how much of the mrPleasure in the drive mesh shall be "transferred" to the new drive mesh. The sum of all
+	 * mrPleasure of all created drive meshes forms the output, which is the total reduction of libido within this turn.
+	 *
+	 * @since 16.07.2011 10:21:08
+	 *
+	 * @param poAssignment
+	 * @param prLibidoReduceRate
+	 * @return
+	 */
 	private double addDriveMeshes (clsPair<clsPrimaryDataStructureContainer, ArrayList<clsPair<clsDataStructurePA, clsAssociation>>> poAssignment, double prLibidoReduceRate) {
 		//For each Pair, assign the drive meshes
 		double rTotalReduce = 0.0;
@@ -356,6 +355,15 @@ public class F45_LibidoDischarge extends clsModuleBaseKB implements itfInspector
 		return rTotalReduce;
 	}
 	
+	/**
+	 * Equal to the function in F46. It extracts the first element in the arraylist. Precondition: The arrayList is sorted.
+	 * This funtion is only a temporary function and shall be replaced by a more flexible one.
+	 *
+	 * @since 16.07.2011 10:25:21
+	 *
+	 * @param poInput
+	 * @return
+	 */
 	private clsPrimaryDataStructureContainer getBestMatch (ArrayList<clsPair<Double,clsDataStructureContainer>> poInput) {
 		//Get the first structure from the sorted list
 		clsPrimaryDataStructureContainer oRetVal;
@@ -367,88 +375,6 @@ public class F45_LibidoDischarge extends clsModuleBaseKB implements itfInspector
 		
 		return oRetVal;
 	}
-	
-	private ArrayList<clsPair<clsDataStructurePA, clsAssociation>> getSpecificAssociatedContent(clsPrimaryDataStructureContainer poFromImage, clsPrimaryDataStructureContainer poToImage, eDataType poDataType, String poContentType) {
-		ArrayList<clsPair<clsDataStructurePA, clsAssociation>> oRetVal = new ArrayList<clsPair<clsDataStructurePA, clsAssociation>>();
-		clsPair<clsDataStructurePA, clsAssociation> oMatch = null;
-		//Get the data structure, which could also have DMs
-		//Only DM and TP can be copied
-		
-		if ((poFromImage != null) && (poToImage != null)) {	//Catch the problem if the data structure would be null
-			//Get Target structures
-			if ((poToImage.getMoDataStructure() instanceof clsTemplateImage)==false) {
-				try {
-					throw new Exception("Error in copySpecificAssociatedContent in F45_LibidoDischarge: Only data structures consisting of clsTemplateImage canbbe used.");
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-			clsTemplateImage oToImageObject = (clsTemplateImage)poToImage.getMoDataStructure();
-			//TODO AW: Only Template Images, which contain TPMs are concerned, expand to other data types and nested template images
-			
-			//For each DM or TP in the associated structures in the SourceContainer
-			for (clsAssociation oAssInFromImage : poFromImage.getMoAssociatedDataStructures()) {	//The association in the source file. The root element shall be found in that target file
-				if (poDataType == eDataType.DM) {
-					if (oAssInFromImage instanceof clsAssociationDriveMesh) {
-						if (poContentType != null) {	//Add only that content type of that structure type
-							if (oAssInFromImage.getLeafElement().getMoContentType() == poContentType) {
-								oMatch = getMatchInDataStructure(oAssInFromImage, oToImageObject);
-							}
-						} else {	//Add all
-							oMatch = getMatchInDataStructure(oAssInFromImage, oToImageObject);
-						}
-					}
-				} else if (poDataType == eDataType.TP) {
-					if (oAssInFromImage instanceof clsAssociationAttribute) {
-						if (poContentType != null) {	//Add only that content type of that structure type
-							if (oAssInFromImage.getLeafElement().getMoContentType().toString() == "poContentType") {
-								oMatch = getMatchInDataStructure(oAssInFromImage, oToImageObject);
-							}
-						} else {	//Add all
-							oMatch = getMatchInDataStructure(oAssInFromImage, oToImageObject);
-						}
-					}
-				} else {
-					try {
-						throw new Exception("Error in copySpecificAssociatedContent in F45_LibidoDischarge: A not allowed datatype was used");
-					} catch (Exception e) {
-						e.printStackTrace();
-					}
-				}
-				
-				if (oMatch != null) {
-					oRetVal.add(oMatch);
-				}
-			}
-		}
-		
-		return oRetVal;
-	}
-	
-	private clsPair<clsDataStructurePA, clsAssociation> getMatchInDataStructure (clsAssociation poSourceAssociation, clsTemplateImage poTargetDataStructure) {
-		clsPair<clsDataStructurePA, clsAssociation> oRetVal = null;
-		
-		//Get root element
-		clsDataStructurePA oCompareRootElement = poSourceAssociation.getRootElement();
-		//Find the root element in the target image. Only an exact match is count
-		//1. Check if the root element is the same as the data structure in the target container
-		if ((oCompareRootElement.getMoDS_ID() == poTargetDataStructure.getMoDS_ID() && (oCompareRootElement.getMoDS_ID() > 0))) {
-			oRetVal = new clsPair<clsDataStructurePA, clsAssociation>(poTargetDataStructure, poSourceAssociation);
-		} else {
-			//2. Check if the root element can be found in the associated data structures
-			for (clsAssociation oAssToImage : poTargetDataStructure.getMoAssociatedContent()) {
-				if ((oCompareRootElement.getMoDS_ID() == oAssToImage.getLeafElement().getMoDS_ID() && (oCompareRootElement.getMoDS_ID() > 0))) {
-					oRetVal = new clsPair<clsDataStructurePA, clsAssociation>(oAssToImage.getLeafElement(), poSourceAssociation);
-					break;
-				}
-			}
-		}
-		
-		return oRetVal;
-	}
-	
-
-	
 	
 	/* (non-Javadoc)
 	 *
