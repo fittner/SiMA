@@ -209,8 +209,12 @@ public class F45_LibidoDischarge extends clsModuleBaseKB implements itfInspector
 		
 		mrLibidoReducedBy = setImageLibido(moEnvironmentalPerception_OUT, 1.0);
 		
-		//Pass the memories forward. Later, they are enriched with repressed content
-		moAssociatedMemories_OUT = moAssociatedMemories_IN;
+		//Go through all associated memories
+		moAssociatedMemories_OUT = (ArrayList<clsPrimaryDataStructureContainer>)deepCopy(moAssociatedMemories_IN);
+		for (clsPrimaryDataStructureContainer oContainer : moAssociatedMemories_OUT) {
+			mrLibidoReducedBy += setImageLibido(oContainer, 0.5);
+		}
+		
 		
 		moLibidoBuffer.receive_D1_3(mrLibidoReducedBy);
 
