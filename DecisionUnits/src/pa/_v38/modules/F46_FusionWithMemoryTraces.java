@@ -97,8 +97,10 @@ public class F46_FusionWithMemoryTraces extends clsModuleBaseKB implements
 		String text ="";
 		
 		text += toText.listToTEXT("moEnvironmentalPerception_IN", moEnvironmentalPerception_IN);
-		text += toText.valueToTEXT("moEnvironmentalPerception_OUT", moEnvironmentalPerception_OUT);		
-		text += toText.valueToTEXT("moKnowledgeBaseHandler", moKnowledgeBaseHandler);		
+		text += toText.valueToTEXT("moReturnedTPMemory_IN", moReturnedTPMemory_IN);
+		text += toText.valueToTEXT("moEnvironmentalPerception_OUT", moEnvironmentalPerception_OUT);	
+		text += toText.valueToTEXT("moAssociatedMemories_OUT", moAssociatedMemories_OUT);
+		//text += toText.valueToTEXT("moKnowledgeBaseHandler", moKnowledgeBaseHandler);		//Is not necessary to list here	
 		
 		return text;
 	}		
@@ -154,6 +156,7 @@ public class F46_FusionWithMemoryTraces extends clsModuleBaseKB implements
 	    addValues(oContainerList);			
 		attachFantasies(oContainerList);	//Siehe retrieveActivatedMemories
 		//Fantasiertes wird an die TP (Sachvorstellungen) angehängt
+		//AW: Is already done in retrieveActivatedMemories with the input moReturnedTPMemory_IN
 		
 	}
 	
@@ -231,13 +234,6 @@ public class F46_FusionWithMemoryTraces extends clsModuleBaseKB implements
 		return oRetVal;
 	}
 	
-	/**
-	 * DOCUMENT (hinterleitner) - insert description
-	 *
-	 * @since 28.06.2011 14:18:54
-	 *
-	 * @param oContainerList
-	 */
 	/**
 	 * Find DMs for objects in perception and assign them through associations.
 	 * The elements in the perception then have AttributeAssociations and
@@ -415,7 +411,7 @@ public class F46_FusionWithMemoryTraces extends clsModuleBaseKB implements
 	}
 	
 	/**
-	 * DOCUMENT (zeilinger) - insert description
+	 * Set categories, where the categories of the input DM are multiplicated with a factor context value
 	 *
 	 * @author zeilinger
 	 * 16.08.2010, 18:13:00
@@ -431,7 +427,7 @@ public class F46_FusionWithMemoryTraces extends clsModuleBaseKB implements
 	}
 
 	/**
-	 * DOCUMENT (zeilinger) - insert description
+	 * TODO HZ or IH: This function does nothing
 	 *
 	 * @author zeilinger
 	 * 26.08.2010, 12:02:45
@@ -446,7 +442,10 @@ public class F46_FusionWithMemoryTraces extends clsModuleBaseKB implements
 	
 	
 	/**
-	 * DOCUMENT (wendt) - insert description
+	 * Either the perceived image or the input image from the secondary process are put on the input for searching for experiences (type IMAGE)
+	 * in the storage. The total amount of mrPleasure decides which image is put on the input. In that way content from the secondary process
+	 * can activate phantasies, if the perception is not so important (subjective). The function returns a list of activated images, which are
+	 * not perception.
 	 *
 	 * @since 14.07.2011 15:15:31
 	 *
@@ -564,7 +563,7 @@ public class F46_FusionWithMemoryTraces extends clsModuleBaseKB implements
 	}
 
 	/**
-	 * DOCUMENT (zeilinger) - insert description
+	 * Add corresponding attribute associations to a container
 	 *
 	 * @author zeilinger
 	 * 15.03.2011, 10:25:24
@@ -588,7 +587,7 @@ public class F46_FusionWithMemoryTraces extends clsModuleBaseKB implements
 	}
 
 	/**
-	 * DOCUMENT (zeilinger) - insert description
+	 * Get the first element of the input arraylist
 	 *
 	 * @author zeilinger
 	 * 14.03.2011, 23:08:28
